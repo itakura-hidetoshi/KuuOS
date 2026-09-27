@@ -12,16 +12,15 @@ Its central mathematical question is:
 
 Philosophical interpretation, mathematical presentation, formal proof, runtime validation, and operational authority are related but deliberately kept as distinct evidence classes.
 
-## Canonical theorem snapshot — 2026-09-26 JST
+## Canonical theorem snapshot — 2026-09-27 JST
 
 | Item | Current reference |
 | --- | --- |
 | Canonical branch | **main** |
-| Current theorem-bearing baseline | **c16b0f105cfb5df45ac2044e51b9744d59a3982d** |
-| Canonical theorem frontier | **v4.40 — exact Stage-II geometric fractal certificate** |
-| Latest theorem-bearing merge | **PR #1834**, Bundle exact Stage-II geometric fractal certificate v4.40 |
-| v4.40 validated PR head | **bc86cf1d5e734d8117577c9cb5fed56e364f12ca** |
-| v4.40 exact-head governance run | **36236264821**, completed / success |
+| Current theorem-bearing baseline | **5b55a205baeba7c3f8dfbb09ade21fa5e5b5304c** |
+| Canonical theorem frontier | **v4.50 — exact higher dependent-origination positive sector** |
+| Latest theorem-bearing merge | **PR #1847**, exact higher presentation sector v4.50 |
+| Companion v4.50 merge | **PR #1846**, exact higher admissible sector v4.50 |
 | Lean | **leanprover/lean4:v4.30.0-rc2** |
 | Mathlib | **5450b53e5ddc75d46418fabb605edbf36bd0beb6** |
 
@@ -31,11 +30,11 @@ The theorem authority order is fixed:
 fresh exact canonical GitHub SHA
   > formal Lean theorem artifacts at that SHA
   > README / ROADMAP
-  > exact-head CI receipts
+  > CI/runtime receipts
   > history / memory
 ~~~
 
-A documentation-only merge may advance `main` beyond the theorem-bearing baseline without changing mathematical authority. The theorem-bearing baseline above therefore remains the reference even if README / ROADMAP are subsequently merged by a docs-only PR.
+A code-changing head requires fresh validation. A byte-identical theorem replay onto an independent newer base may reuse the already validated theorem content after explicit blob and diff verification.
 
 The separate Lean 4.31 validation-only PR **#1558** remains:
 
@@ -64,13 +63,21 @@ model generation != theorem authority
 
 The bridge from 空 to 縁起 keeps context, relations, admissible transport, higher coherence, descent, obstruction, correction, recursive presentation, and authority explicit.
 
-## Current mathematical status
+# Current mathematical status
 
-The current theorem spine is now closed from the finite octahedral obstruction through an exact-dimension Stage-II Cantor fractal certificate.
+The theorem spine now has a closed concrete verification program and an active general universality program:
 
-### v4.00–v4.12 — abstract nonfactorization and exact obstruction
+~~~text
+finite obstruction truth test
+  -> recursive / geometric carrier verification
+  -> presentation descent abstraction
+  -> Cat-valued exact positive sector
+  -> next: presentation-change invariance and essential uniqueness
+~~~
 
-KuuOS proves for the concrete finite octahedral C2 countermodel:
+## v4.00–v4.12 — abstract nonfactorization and exact Stage-II obstruction
+
+For the concrete finite octahedral C2 countermodel, KuuOS proves:
 
 ~~~lean
 IsEmpty
@@ -81,54 +88,44 @@ IsEmpty
 The exact operational picture is:
 
 ~~~text
-weak admissibility                         EXISTS
-coherent quotient transport               EXISTS
-quotient three-face coboundary             SOLVABLE
-comparison / presentation lift             IMPOSSIBLE
-full generated correction                  IMPOSSIBLE
-HigherLocalizationFactorization            IMPOSSIBLE
+weak W-admissibility                     EXISTS
+coherent quotient transport              EXISTS
+quotient coboundary solution             EXISTS
+comparison / presentation lift           IMPOSSIBLE
+full generated correction                IMPOSSIBLE
+HigherLocalizationFactorization          IMPOSSIBLE
 ~~~
 
-v4.12 extracts the transport-independent Stage-II scalar class
+v4.12 extracts the transport-independent class
 
 ~~~text
 omega(T) = 1 in ZMod 2
 ~~~
 
-for every coherent quotient transport `T). Any successful comparison would force `omega(T)=0`.
+for every coherent quotient transport T. Any successful comparison would force the incompatible value 0.
 
-### v4.13–v4.22 — finite carrier, incidence geometry, and orientation lift
+This is the core obstruction boundary used by the later general theory.
 
-The obstruction is placed on an explicit eight-label Stage-II carrier and transported through an incidence-compatible truncated-icosahedral placement.
+## v4.13–v4.27 — finite carrier, incidence geometry, recursion, inverse limit
 
-Proved highlights:
+The Stage-II class is placed on an explicit eight-label carrier and transported through incidence-compatible truncated-icosahedral geometry.
+
+The development proves:
 
 - pentagram/hexagram parity contrast;
 - global uniform cancellation versus local odd parity;
-- eight-label global capacity and one-star local-capacity obstruction;
-- middle-switch mates placed on adjacent opposite-kind seed faces;
-- actual Stage-II scalar values pushed with source provenance;
-- orientation signs collapse mod 2;
-- an integer lift records forward (+1) and reverse (-1) while reducing mod 2 to the original class.
+- an eight-label global capacity theorem;
+- a one-star local-capacity obstruction;
+- middle-switch mates on adjacent pentagon/hexagon seed faces;
+- scalar pushforward with source provenance;
+- mod-2 orientation collapse;
+- an integer orientation lift with forward +1 and reverse -1;
+- preservation through every finite recursive central-cell depth;
+- a coherent restriction tower;
+- a set-theoretic inverse limit;
+- a fixed-point-free middle-switch involution on that inverse limit.
 
-### v4.23–v4.27 — recursive transport and inverse limit
-
-The Stage-II representative is transported through recursive central-cell refinements.
-
-At every finite depth:
-
-~~~text
-source provenance stable
-face kind stable
-boundary arity stable
-orientation stable
-integer representative stable
-total stable
-mismatch stable
-mod-2 mismatch = omega(T) = 1
-~~~
-
-The depth-indexed cells form a coherent restriction tower. Its supported set-theoretic inverse limit satisfies:
+The supported inverse limit satisfies:
 
 ~~~text
 OctahedralStageIIParityFace
@@ -136,273 +133,64 @@ OctahedralStageIIParityFace
 StageIIFiniteDepthInverseLimit
 ~~~
 
-Hence every compatible inverse-limit point has a unique source label. The middle-switch involution transports to the inverse limit and remains involutive, injective, fixed-point-free, opposite-kind, and opposite-orientation.
+so every compatible point has one unique source label.
 
-## v4.28–v4.32 — metric and geometric phase
+## v4.28–v4.40 — metric and exact Cantor geometry
 
-### v4.28 — rigid inverse-limit carrier has dimension zero
-
-The current inverse-limit carrier has exactly eight points, so for every extended metric structure:
+The rigid inverse-limit carrier has exactly eight points, hence:
 
 ~~~text
 dimH XInfinityCurrent = 0
 ~~~
 
-This is an intrinsic finiteness result, not a metric artifact.
+for every extended metric structure.
 
-### v4.29 — ambient branching carrier has dimension one
-
-Each of the eight current points is thickened by a nondegenerate real interval:
+Positive dimension appears only after genuine new branch freedom is added:
 
 ~~~text
 dimH XInfinityBranch = 1
-0 < dimH XInfinityBranch
 ~~~
 
-Positive Hausdorff dimension appears only after genuine branch freedom is added.
-
-### v4.30 — translated ternary Cantor geometry
-
-Each Stage-II branch carries a translated copy of the classical ternary Cantor set.
-
-The global geometric carrier is:
+Each branch then carries a translated ternary Cantor fiber. The global geometric carrier is:
 
 ~~~text
 XInfinityGeometricFractal
   = ⋃ x, stageIIGeometricCantorFiber x
 ~~~
 
-Proved:
+Proved properties include:
 
-- compactness of every translated fiber;
-- compactness, closedness, and nonemptiness of the global carrier;
-- exact two-child ternary self-similarity branchwise;
-- inclusion in the dimension-one ambient branch carrier.
+- compactness, closedness, nonemptiness;
+- branchwise exact ternary two-child self-similarity;
+- inclusion in the dimension-one ambient branch carrier;
+- explicit Hausdorff-distance rate <= 3^(-n);
+- Hausdorff convergence of finite approximants;
+- exact classical ternary Cantor dimension;
+- exact translated Stage-II fiber dimension;
+- exact global geometric dimension.
 
-### v4.31 — Hausdorff metric convergence
-
-Finite ternary approximants satisfy:
-
-~~~text
-dist(approx_n, limit) <= 3^(-n)
-hausdorffDist(X_n, X_infinity) <= 3^(-n)
-hausdorffDist(X_n, X_infinity) -> 0
-~~~
-
-This is genuine set convergence in Hausdorff distance.
-
-### v4.32 — original geometric fractal-limit certificate
-
-v4.32 packages:
-
-- ambient branch dimension (1);
-- compact / closed / nonempty topology;
-- inclusion in the ambient branch carrier;
-- exact branchwise ternary self-similarity;
-- explicit Hausdorff-distance rate;
-- Hausdorff metric convergence.
-
-At v4.32 the exact Cantor dimension was intentionally *not* inferred from self-similarity alone.
-
-## v4.33–v4.40 — exact Cantor dimension and exact Stage-II fractal certificate
-
-### v4.33 — normalized binary Cantor source has exact dimension one
-
-Using mathlib's `PiNat` metric on `Nat → Bool`:
-
-~~~text
-dimH (Set.univ : Set (Nat -> Bool)) = 1
-~~~
-
-The lower bound is obtained from a 1-Lipschitz binary expansion onto the real unit interval. The upper bound uses the canonical length-(n) binary-cylinder cover.
-
-### v4.34 — critical Cantor exponent algebra
-
-Define:
+The exact value is formally proved by quantitative forward and inverse Hölder transport:
 
 ~~~text
 s = logb 3 2 = log 2 / log 3
-~~~
 
-Proved:
-
-~~~text
-0 < s < 1
-3^s = 2
-s * logb 2 3 = 1
-(logb 2 3)^(-1) = s
-1 < logb 2 3
-~~~
-
-### v4.35 — canonical binary-to-ternary coding and prefix estimate
-
-The explicit (0/2)-digit ternary code is identified with mathlib's canonical Cantor equivalence.
-
-Proved:
-
-~~~text
-binaryToTernaryCantor is injective
-range binaryToTernaryCantor = cantorSet
-common binary prefix of length n
-  -> dist(real Cantor images) <= 3^(-n)
-~~~
-
-### v4.36 — forward Hölder transport
-
-For the forward exponent
-
-~~~text
-alpha = logb 2 3
-~~~
-
-the exact scale identity is formalized:
-
-~~~text
-((1/2)^n)^alpha = (1/3)^n
-~~~
-
-and the canonical code is proved:
-
-~~~text
-HolderWith 1 alpha binaryToTernaryCantor
-~~~
-
-Hence:
-
-~~~text
-dimH cantorSet <= s
-~~~
-
-### v4.37 — inverse Hölder transport and lower dimension bound
-
-The first differing binary digit gives a genuine ternary separation estimate:
-
-~~~text
-first difference at n
-  -> 3^(-(n+1)) <= dist(real Cantor images)
-~~~
-
-The inverse code on the Cantor-set subtype is then proved Hölder with coefficient (2) and exponent (s):
-
-~~~text
-HolderWith 2 s cantorSetToBinary
-~~~
-
-Hence:
-
-~~~text
-s <= dimH cantorSet
-~~~
-
-### v4.38 — exact classical ternary Cantor dimension
-
-The matching inequalities close the exact theorem:
-
-~~~text
 dimH cantorSet = s
-dimH cantorSet = ENNReal.ofReal (log 2 / log 3)
-(dimH cantorSet).toReal = log 2 / log 3
-~~~
 
-Thus the classical value is formally proved, not imported from self-similarity.
+forall x,
+  dimH (stageIIGeometricCantorFiber x) = s
 
-### v4.39 — exact dimension of every Stage-II Cantor fiber and the global union
-
-Translation by the Stage-II branch offset is proved to be an isometry. Therefore every translated fiber has the classical exact dimension:
-
-~~~text
-dimH (stageIIGeometricCantorFiber x) = s
-~~~
-
-Using `dimH_iUnion` over the finite eight-branch index type:
-
-~~~text
 dimH XInfinityGeometricFractal = s
-(dimH XInfinityGeometricFractal).toReal = log 2 / log 3
-~~~
 
-The geometric carrier is strictly lower-dimensional than its ambient branch carrier:
-
-~~~text
 dimH XInfinityGeometricFractal
   < dimH XInfinityBranch
   = 1
 ~~~
 
-### v4.40 — additive exact geometric fractal certificate
+The v4.40 certificate preserves the earlier v4.32 topology/metric certificate as a legacy field and adds the exact dimensions.
 
-The original v4.32 certificate is preserved unchanged as a `legacy` field.
+## v4.41–v4.42 — finite approximants and Hausdorff-limit dimension jump
 
-The v4.40 certificate adds:
-
-- exact dimension of every translated Cantor fiber;
-- exact dimension of the full geometric carrier;
-- the real value (log 2 / log 3);
-- strict dimension drop below the ambient branch carrier.
-
-Thus one authority-bearing object now carries both the original topology/metric convergence package and the exact Cantor dimension.
-
-## Current exact frontier
-
-Canonically proved through v4.40:
-
-~~~text
-octahedral C2 truth test:
-  no HigherLocalizationFactorization
-
-Stage-II obstruction:
-  transport-independent omega(T) = 1 in ZMod 2
-
-recursive carrier:
-  one-step preservation
-  every finite-depth preservation
-  coherent restriction tower
-  set-theoretic inverse limit
-  fixed-point-free middle-switch involution
-
-current inverse-limit carrier:
-  exactly 8 points
-  Hausdorff dimension 0 for every extended metric structure
-
-ambient branch carrier:
-  Hausdorff dimension exactly 1
-
-classical ternary Cantor set:
-  dimH = logb 3 2 = log 2 / log 3
-
-geometric Stage-II Cantor carrier:
-  compact
-  closed
-  nonempty
-  exact branchwise ternary self-similarity
-  Hausdorff-distance rate <= 3^(-n)
-  Hausdorff convergence
-  every translated branch fiber has exact dimension log 2 / log 3
-  global eight-branch union has exact dimension log 2 / log 3
-  strict dimension drop below ambient dimension 1
-
-exact v4.40 certificate:
-  preserves the v4.32 certificate as legacy
-  adds exact fiber/global dimension
-  adds real logarithmic value
-  adds strict ambient dimension gap
-~~~
-
-## Immediate next theorem sequence
-
-The exact Cantor-dimension program is complete. The natural next quantitative question concerns the **finite-depth approximants themselves**.
-
-### v4.41 — finite-depth approximants are finite and zero-dimensional
-
-The definition
-
-~~~text
-stageIICantorPartial n t
-~~~
-
-uses only the first (n) ternary digits. The next theorem unit should factor this construction through a finite prefix type such as `Fin n → Fin 3` (or the corresponding allowed (0/2)-digit subtype).
-
-Target facts:
+v4.41 factors finite approximants through finite prefix data and proves:
 
 ~~~text
 (stageIIGeometricApproxFiber n x).Finite
@@ -412,140 +200,379 @@ dimH (stageIIGeometricApproxFiber n x) = 0
 dimH (XInfinityGeometricApprox n) = 0
 ~~~
 
-The proof should use finiteness of prefix codes plus `Set.Finite.dimH_zero`, not a cardinality argument external to Lean.
-
-### v4.42 — Hausdorff-limit dimension jump
-
-Combine v4.31, v4.39, and v4.41 into a single theorem:
+v4.42 combines this with the v4.31 convergence and v4.39 exact limit dimension:
 
 ~~~text
 forall n,
   dimH (XInfinityGeometricApprox n) = 0
 
-hausdorffDist (XInfinityGeometricApprox n)
-  XInfinityGeometricFractal <= 3^(-n)
+hausdorffDist
+  (XInfinityGeometricApprox n)
+  XInfinityGeometricFractal
+    <= 3^(-n)
 
 hausdorffDist (...) -> 0
 
+0 < dimH XInfinityGeometricFractal
 dimH XInfinityGeometricFractal
   = log 2 / log 3
-  > 0
 ~~~
 
-This records explicitly that Hausdorff dimension need not be continuous under Hausdorff convergence in this concrete Stage-II construction.
+This is a concrete internal example in which Hausdorff dimension is not continuous under Hausdorff convergence.
 
-### After v4.42
+## v4.43–v4.48 — geometric middle-switch, quotient, and descent
 
-Possible theorem-sized continuations include:
+### v4.43 — tagged geometric symmetry
 
-1. quantitative critical Hausdorff-measure information for the Cantor limit;
-2. extension of the middle-switch involution to the Cantor branch geometry;
-3. interaction between the integer orientation lift and geometric symmetries;
-4. a cocycle or obstruction class on the metric limit;
-5. presentation invariance of the metric/fractal data;
-6. integration of the recursive/fractal carrier into the long-range dependent-origination universal-property program.
-
-These are open directions, not current theorems.
-
-## Long-range Dependent Origination Universality Program
-
-The long-range target remains an explicitly constructed carrier with a genuine mapping property:
+For each branch, the map
 
 ~~~text
-eta : C ⟶ DO(C, W, J, H)
-
-AdmissibleContextualSystems(C, X)
-  ≃ Fun(DO(C, W, J, H), X)
+y |-> y + (offset(mate x) - offset x)
 ~~~
 
-with correct higher variance, coherent factorization, essential uniqueness, naturality, descent compatibility, presentation invariance, and explicit obstruction/correction semantics.
+is an isometry and continuous, sends the complete Cantor fiber exactly to its mate fiber, and composes with the mate translation to the identity.
 
-The current recursive/fractal construction is a formally validated carrier program. It is not yet the final universal object.
+A provenance-preserving tagged carrier receives a global involutive, injective, fixed-point-free middle-switch retaining finite-depth orientation data.
 
-## Proof-engineering rules retained
+### v4.44 — descent to the bare real carrier
 
-Recent v4.x work reinforces these rules:
+Distinct branch offsets are separated by at least two while Cantor coordinates lie in [0,1]. Therefore:
+
+~~~text
+distinct branch fibers are disjoint
+every bare geometric point has one unique branch
+~~~
+
+The tagged and bare geometric carriers are equivalent, and the middle-switch descends to an actual involution of the bare carrier.
+
+### v4.45 — self-homeomorphism
+
+Different branch fibers are quantitatively separated by distance at least one.
+
+The branch selector is locally constant, so the descended map is locally one fixed translation. Hence the bare middle-switch is continuous and packages as a fixed-point-free self-homeomorphism.
+
+### v4.46 — orientation semantics on the homeomorphism
+
+For every point p and finite depth n:
+
+~~~text
+O(M p,n) = flip(O(p,n))
+
+epsilon(M p,n) = -epsilon(p,n)
+~~~
+
+while modulo two:
+
+~~~text
+[epsilon(M p,n)]_2
+  = [epsilon(p,n)]_2
+  = 1
+~~~
+
+The same homeomorphism retains opposite inner kind and pentagon-hexagon parent adjacency.
+
+### v4.47 — exact two-point orbit quotient
+
+The free involution defines a setoid and quotient. Every orbit is exactly:
+
+~~~text
+{p, M p}
+~~~
+
+with distinct representatives, and:
+
+~~~text
+[p] = [q]
+  <-> q = p or q = M p
+~~~
+
+A semantic map factors uniquely through the orbit quotient exactly when it is middle-switch invariant.
+
+### v4.48 — obstruction and orientation descent
+
+Two complementary v4.48 theorem units are integrated.
+
+The existing Stage-II obstruction descends to the geometric orbit quotient and remains:
+
+~~~text
+omega_geo(T,q) = 1 != 0
+~~~
+
+independent of coherent transport and representative.
+
+The integer orientation semantic does not descend:
+
+~~~text
+epsilon(M p,n) = -epsilon(p,n)
+epsilon(p,n) != 0
+~~~
+
+whereas the mod-2 orientation semantic descends uniquely and is identically one.
+
+Thus the orbit quotient separates sign-sensitive integral information from the sign-blind mod-2 obstruction class.
+
+# Return to the general dependent-origination program
+
+The geometric development is now a validated instance and stress test, not the definition of the general theory.
+
+## v4.49 — abstract presentation descent
+
+For arbitrary presentation type P, setoid S, target Y, and semantic map
+
+~~~text
+semantic : P -> Y
+~~~
+
+define presentation invariance, quotient factorization, and explicit descent obstruction.
+
+KuuOS proves:
+
+~~~text
+HasPresentationQuotientFactorization S semantic
+  <->
+IsPresentationInvariant S semantic
+~~~
+
+with a unique descended semantic, and:
+
+~~~text
+not HasPresentationQuotientFactorization S semantic
+  <->
+HasPresentationDescentObstruction S semantic
+~~~
+
+where an obstruction is an identified pair of presentations receiving unequal values.
+
+The Stage-II integer/mod-2 dichotomy is recovered as a specialization.
+
+## v4.50 — exact higher dependent-origination positive sector
+
+v4.50 lifts the v4.49 pattern back to the Cat-valued higher theory.
+
+Two complementary carrier-first interfaces are now integrated.
+
+### Exact higher admissible sector
+
+A raw higher contextual system is exactly dependent-origination admissible when it is represented by:
+
+~~~text
+X : HigherStackObject
+comparison : restrict(X) -> R
+comparison components are equivalences
+~~~
+
+Existence is equivalent to:
+
+~~~text
+HasHigherStackLocalizationFactorization
+~~~
+
+and therefore implies both:
+
+~~~text
+HasHigherLocalizationFactorization
+IsHigherWAdmissible
+~~~
+
+### Exact higher presentation sector
+
+The same positive sector is expressed directly with an object of the higher carrier:
+
+~~~text
+X in DO₂(C,W,A)
+restrict(X) -> R
+pointwise-equivalence comparison
+~~~
+
+This is again equivalent to:
+
+~~~text
+HigherStackLocalizationFactorization
+~~~
+
+or equivalently:
+
+~~~text
+HigherLocalizationFactorization
+  + actual stack descent of the chosen lift
+~~~
+
+The hierarchy is now explicit:
+
+~~~text
+exact DO₂ presentation
+  => higher stack-localization factorization
+  => higher localization factorization
+  => weak W-admissibility
+~~~
+
+The reverse implication from weak admissibility is false in general.
+
+For every refinement atlas, the octahedral countermodel is weakly admissible but has no exact DO₂ presentation.
+
+# Current exact frontier
+
+Canonically integrated through v4.50:
+
+~~~text
+A. obstruction truth test
+   no HigherLocalizationFactorization for counterSystem
+   omega(T) = 1 in ZMod 2
+
+B. recursive and geometric verification
+   finite carrier
+   recursive tower
+   inverse limit
+   exact Cantor geometry
+   dimH = log 2 / log 3
+   zero-dimensional approximants
+   Hausdorff-limit dimension jump
+   geometric middle-switch homeomorphism
+   exact free two-point orbit quotient
+
+C. descent semantics
+   integral orientation does not descend
+   mod-2 orientation descends uniquely
+   Stage-II obstruction descends and remains nonzero
+
+D. presentation-general theorem
+   quotient factorization
+     <-> presentation invariance
+   no factorization
+     <-> explicit descent obstruction
+
+E. Cat-valued exact positive sector
+   exact DO₂ presentation
+     <-> HigherStackLocalizationFactorization
+     <-> HigherLocalizationFactorization + stack descent
+   exact sector -> weak W-admissibility
+   counterSystem excluded from exact sector
+~~~
+
+# Immediate next theorem sequence
+
+The formal spine has deliberately returned to general dependent origination.
+
+## v4.51 — presentation-change closure of the exact sector
+
+Use the existing HigherPointwiseEquivalenceComparison from v2.17.
+
+Target:
+
+~~~text
+R --pointwise equivalence--> S
+
+R has exact DO₂ presentation
+  ->
+S has exact DO₂ presentation
+~~~
+
+The localized stack carrier should remain fixed while the comparison back to the raw system is composed.
+
+This is the Cat-valued analogue of v4.49 presentation invariance.
+
+## v4.52 — comparison between two exact presentations
+
+For two exact presentations of the same raw system, construct comparison data expressing their essential agreement.
+
+Do not assert uniqueness before the required higher comparison/coherence theorem is present.
+
+## v4.53+ — essential uniqueness and naturality
+
+The next genuine universal-property obligations are:
+
+1. essential uniqueness of exact presentations;
+2. naturality in the raw contextual system;
+3. compatibility with stack descent;
+4. presentation invariance at the higher level;
+5. integration of explicit obstruction/correction semantics;
+6. eventual classification/mapping-property statement.
+
+The target remains:
+
+~~~text
+eta : C -> DO(C,W,J,H)
+
+AdmissibleContextualSystems(C,X)
+  ≃
+Fun(DO(C,W,J,H),X)
+~~~
+
+with correct higher variance and coherent uniqueness.
+
+# Proof-engineering rules
 
 - **Fresh GitHub authority first.**
-- **Every code change invalidates old-head CI receipts.**
-- **Merge only the validated current head SHA.**
-- **Import is not open.**
+- **A code-changing head requires fresh validation.**
+- **A byte-identical replay onto an independent base may reuse validated theorem content after explicit blob/diff verification.**
+- **Import does not open a namespace.**
+- **Scoped notation and scoped instances do not propagate through imports.**
+- **Strong-transformation hom notation requires the StrongTrans scope to be opened explicitly.**
 - **Module/file names are not namespace names.**
-- **Local attributes remain local.**
-- **Keep `autoImplicit false`.**
-- **Give tactic terms expected types when elaboration is delicate.**
+- **Keep autoImplicit false.**
+- **Use term-style structure construction deliberately.**
+- **Inside tactic mode, prefer let x : T := { ... } rather than declaration-style where.**
 - **Definitional equality is narrower than mathematical equality.**
-- **Prefer typed local equalities, `calc`, `congrArg`, `funext`, and `simpa only` when rewrite targets matter.**
-- **Do not rely on broad `simp` to choose the direction of commutative rewrites.** For function equality, prove the function equality explicitly with `funext`.
-- **Use semantic lemmas for semantic facts.** For example, real-`rpow` nonnegativity should use the corresponding theorem rather than expecting `simp` to derive it.
-- **Use standard equality composition.** Lean 4 provides `Eq.trans` / `h₁.trans h₂`; do not assume non-existent variants such as `Eq.trans'`.
-- **Nat scalar action is not definitionally multiplication.** Normalize with `nsmul_eq_mul` where appropriate.
-- **Do not shadow existing measurable-space instances.** Instance diamonds can change theorem types.
-- **Use `eqToIso` / `eqToHom` for dependent transport.**
-- **Keep categorical composition until the dependent carrier is fixed.**
+- **Use theorem-level conversions instead of forcing change.**
+- **Prefer typed local equalities, calc, congrArg, funext, and simpa only when rewrite targets matter.**
+- **Do not shadow important typeclass instances.**
+- **Use eqToIso / eqToHom for dependent transport.**
+- **Runtime success and docs-only CI are not theorem authority.**
 
-## No-go implications
+# No-go implications
 
 Do not promote these implications without theorem support:
 
 ~~~text
-weak admissibility -> HigherLocalizationFactorization
-one bad gauge -> every gauge fails
-local pentagram odd parity -> global obstruction
-capacity embedding -> canonical semantic transport
+weak W-admissibility
+  -> HigherLocalizationFactorization
 
-finite recursive combinatorics -> metric fractal theorem
+weak W-admissibility
+  -> exact DO₂ presentation
 
-eight-point inverse limit + new metric
+one bad gauge
+  -> every gauge fails
+
+local odd parity
+  -> global obstruction
+
+capacity embedding
+  -> canonical semantic transport
+
+finite combinatorial recursion
+  -> metric fractal theorem
+
+finite inverse limit + new metric
   -> positive Hausdorff dimension
-  [false: the set remains finite]
-
-positive-dimensional segment branch carrier
-  -> exact Cantor dimension
 
 Cantor self-similarity alone
-  -> dimH = log 2 / log 3
+  -> exact Cantor dimension
 
 Hausdorff convergence alone
-  -> preservation or continuity of Hausdorff dimension
+  -> continuity of Hausdorff dimension
 
-runtime success -> theorem authority
-docs-only CI -> theorem validation
-history / memory -> fresh GitHub authority
+existence of two exact presentations
+  -> essential uniqueness
+
+runtime success
+  -> theorem authority
 ~~~
 
-The exact Cantor dimension is now proved by quantitative forward and inverse Hölder transport; it is not an exception to these no-go rules.
-
-## Reproduction
+# Reproduction
 
 Focused theorem targets:
 
 ~~~bash
 lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.DependentOriginationAbstractNonfactorizationV4_00
-
 lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.DependentOriginationStageIIObstructionClassV4_12
-
-lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.DependentOriginationStageIISetTheoreticInverseLimitV4_26
-
-lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.DependentOriginationStageIICurrentHausdorffDimensionZeroV4_28
-
-lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.DependentOriginationStageIIGeometricFractalLimitV4_32
-
-lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.DependentOriginationBinaryCantorHausdorffDimensionV4_33
-
-lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.DependentOriginationCantorCriticalExponentV4_34
-
-lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.DependentOriginationCantorCodingPrefixV4_35
-
-lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.DependentOriginationCantorForwardHolderV4_36
-
-lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.DependentOriginationCantorInverseHolderV4_37
-
-lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.DependentOriginationCantorExactDimensionV4_38
-
-lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.DependentOriginationStageIIExactCantorDimensionV4_39
-
 lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.DependentOriginationStageIIExactFractalCertificateV4_40
+lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.DependentOriginationStageIIFiniteApproxDimensionV4_41
+lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.DependentOriginationStageIIHausdorffDimensionJumpV4_42
+lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.DependentOriginationStageIIBareMiddleSwitchHomeomorphV4_45
+lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.DependentOriginationStageIIGeometricOrbitQuotientV4_47
+lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.DependentOriginationAbstractPresentationDescentV4_49
+lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.DependentOriginationExactHigherAdmissibleV4_50
+lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.DependentOriginationExactHigherPresentationSectorV4_50
 ~~~
 
 Aggregate formal target:
@@ -560,8 +587,6 @@ Runtime validation remains separate:
 PYTHONPATH=. python3 runtime/kuuos_current_check.py
 ~~~
 
-A runtime result is not a theorem. A docs-only gate is not theorem validation. A CI receipt applies only to its recorded exact head.
+# Current research sentence
 
-## Current research sentence
-
-**KuuOS now carries the proved transport-independent Stage-II obstruction from the finite octahedral countermodel through an incidence-compatible carrier, every finite recursive refinement depth, and a rigid eight-point inverse limit. Genuine branch freedom produces a dimension-one ambient carrier. Inside it, eight translated ternary Cantor fibers form a compact, closed, exactly self-similar Hausdorff-metric limit. The binary/ternary coding has now been quantitatively formalized in both directions, proving the classical and Stage-II geometric Cantor dimension exactly as `log 2 / log 3`. v4.40 bundles this exact value together with the earlier topology, self-similarity, inclusion, convergence rate, and Hausdorff convergence while preserving the v4.32 certificate unchanged. The next formal frontier is the finite-depth side of the same geometry: prove each approximant is finite and zero-dimensional, then formalize the concrete jump from zero-dimensional approximants to a positive-dimensional Hausdorff limit.**
+**KuuOS has returned from the concrete Stage-II geometric program to the general dependent-origination universality program. The finite octahedral countermodel supplies a proved transport-independent obstruction; the recursive/Cantor development supplies a validated geometric stress test through an exact free orbit quotient; v4.49 abstracts descent to arbitrary presentation quotients; and v4.50 identifies the exact Cat-valued positive sector with actual DO₂ stack presentations equipped with pointwise-equivalence comparison. The immediate frontier is higher presentation invariance, comparison between exact presentations, and ultimately essential uniqueness and naturality of the dependent-origination universal object.**
