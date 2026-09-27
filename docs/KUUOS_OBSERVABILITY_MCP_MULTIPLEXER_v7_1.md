@@ -163,6 +163,32 @@ raw_result_source_request_digest_mismatch
 
 These are local obstructions. They do not imply that another provider is unavailable.
 
+## 8. Transient log materialization
+
+A provider may expose the run or job before the backing log object is materialized.
+
+This was directly observed for an in-progress GitHub Actions job: the run/job state was readable while the log download endpoint returned a 404 BlobNotFound response.
+
+v7.1 therefore distinguishes:
+
+```text
+CI failure
+!=
+log blob not yet materialized
+```
+
+A raw connector error matching that state is normalized to:
+
+```text
+status = KUUOS_OBSERVABILITY_MCP_TRANSIENT_OBSTRUCTION
+connector_obstruction = log_not_yet_materialized
+connector_retryable = true
+```
+
+No normalized log observation is emitted from that failed read. A later observation may retry within the external scheduler's bounded policy.
+
+The same boundary classifies provider rate limiting and provider 5xx responses as transient. Neon `telemetry_not_enabled` is provider-local unavailability rather than a global KuuOS failure.
+
 ## 8. Relationship to v7.0
 
 v7.0 is specialized and stronger for GitHub Actions temporal CI observation:
