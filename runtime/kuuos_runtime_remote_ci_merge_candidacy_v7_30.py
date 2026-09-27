@@ -400,25 +400,10 @@ def build_remote_ci_merge_candidacy(
         )
     )
 
-    # Evidence-binding errors for supplied CI packets are true obstructions.
-    ci_binding_errors = [
-        item
-        for item in blockers
-        if item.startswith("ci_")
-        and not item.startswith("ci_evidence_digest_")
-    ]
-
-    if blockers and any(
-        item
-        for item in blockers
-        if item
-        not in {
-            # these are handled as reconciliation states below
-        }
-    ):
-        # Do not short-circuit yet; state classification below gives more specific
-        # non-rejecting routes for head/base/PR/CI incompleteness.
-        pass
+    # Any malformed or mismatched supplied CI evidence is a true evidence
+    # obstruction. Ordinary missing workflows are represented as warnings and
+    # route to re-observation instead of entering blockers.
+    ci_binding_errors = [item for item in blockers if item.startswith("ci_")]
 
     if candidate_head != source_candidate_head:
         state = HEAD_RECONCILIATION_REQUIRED
@@ -469,26 +454,17 @@ def build_remote_ci_merge_candidacy(
     merge_authority_granted = False
 
     # Binding/path errors unrelated to live reconciliation remain hard evidence obstructions.
-    structural_blockers = [
-        item
-        for item in blockers
-        if item
-        in {
-            "materialization_packet_version_invalid",
-            "observation_version_invalid",
-            "source_materialization_packet_digest_invalid",
-            "source_materialization_packet_digest_mismatch",
-            "repository_full_name_invalid",
-            "candidate_branch_source_binding_mismatch",
-            "base_branch_source_binding_mismatch",
-            "candidate_branch_invalid",
-            "base_branch_invalid",
-        }
-    ]
-    if structural_blockers:
+    # No blocker is silently tolerated. Live head/base/PR evolution is
+    # represented by explicit reconciliation states above and does not add a
+    # blocker; blockers are reserved for malformed or contradictory evidence.
+    if blockers:
         state = CI_BINDING_OBSTRUCTION
         status = OBSTRUCTED
-        next_route = "repair_remote_ci_candidacy_source_binding"
+        next_route = (
+            "discard_stale_ci_binding_and_freshly_reobserve_exact_candidate_head"
+            if ci_binding_errors
+            else "repair_remote_ci_candidacy_source_binding"
+        )
         merge_candidate = False
 
     evidence = {
