@@ -535,16 +535,19 @@ def route_development_mcp_task(
     authority_required = [
         r for r in routes if r.get("activation_state") == "authority_required"
     ]
-    degraded = bool(
-        unavailable_required
-        or authority_required
-        or any(
-            r.get("role") == "fallback" and r.get("activation_state") == "ready"
-            for r in routes
-        )
+    fallback_ready = any(
+        r.get("role") == "fallback" and r.get("activation_state") == "ready"
+        for r in routes
     )
+    degraded = bool(authority_required)
+    if unavailable_required and fallback_ready:
+        degraded = True
 
-    if blockers or unavailable_required:
+    if blockers:
+        status = BLOCKED
+    elif unavailable_required and fallback_ready:
+        status = PARTIAL
+    elif unavailable_required:
         status = BLOCKED
     elif authority_required:
         status = PARTIAL
