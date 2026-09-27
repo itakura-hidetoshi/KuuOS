@@ -22,7 +22,7 @@ DOCS_ENDPOINT = "https://modelcontextprotocol.io/mcp"
 DOCS_REPOSITORY_SHA = "ab3a39c13bd23be691c2760e1c6c5c15a64582e1"
 MODERN_PROTOCOL_VERSION = "2026-07-28"
 LEGACY_PROTOCOL_VERSION = "2025-11-25"
-DOCS_TOOL = "SearchModelContextProtocol"
+DOCS_TOOL = "search_model_context_protocol"
 FETCH_PROBE_URL = (
     "https://raw.githubusercontent.com/modelcontextprotocol/modelcontextprotocol/"
     + DOCS_REPOSITORY_SHA
