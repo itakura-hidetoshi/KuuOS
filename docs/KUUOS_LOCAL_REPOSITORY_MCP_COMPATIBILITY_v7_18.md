@@ -37,6 +37,7 @@ Packages:
 
 ```text
 mcp-server-git == 0.6.2
+  with upstream lock mcp == 1.29.0
 @modelcontextprotocol/server-filesystem == 0.6.3
 ```
 
