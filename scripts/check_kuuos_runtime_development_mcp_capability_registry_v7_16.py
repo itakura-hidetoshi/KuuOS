@@ -200,7 +200,11 @@ def test_lean_lsp_is_verified_but_still_explicit_opt_in() -> None:
     assert "lean_project_built" in lean["runtime_requirements"]
     assert "lean_diagnostics" in lean["capability_families"]
     assert "loogle" in lean["capability_families"]
-    assert "lean_hammer_premise_search" in lean["capability_families"]\n    evidence = lean["compatibility_evidence"]\n    assert evidence["package_version"] == "0.30.0"\n    assert evidence["lean_toolchain"] == "leanprover/lean4:v4.30.0-rc2"\n    assert evidence["mathlib_sha"] == "5450b53e5ddc75d46418fabb605edbf36bd0beb6"
+    assert "lean_hammer_premise_search" in lean["capability_families"]
+    evidence = lean["compatibility_evidence"]
+    assert evidence["package_version"] == "0.30.0"
+    assert evidence["lean_toolchain"] == "leanprover/lean4:v4.30.0-rc2"
+    assert evidence["mathlib_sha"] == "5450b53e5ddc75d46418fabb605edbf36bd0beb6"
 
 
 def test_browser_servers_are_complementary_and_isolated() -> None:
