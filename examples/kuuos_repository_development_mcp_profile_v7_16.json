@@ -35,7 +35,7 @@
         "LEAN_PROJECT_PATH": "<KUUOS_REPOSITORY_ROOT>",
         "LEAN_LOG_LEVEL": "WARNING"
       },
-      "activation": "explicit_until_pinned_lean_compatibility_verified"
+      "activation": "verified_compatible_explicit_project_opt_in"
     },
     {
       "server_id": "context7",
@@ -112,6 +112,6 @@
     "profile_auto_starts_servers": false,
     "write_authority_inferred_from_profile": false,
     "github_writes_reuse_existing_verified_path": true,
-    "lean_lsp_is_stable_for_pinned_kuuos_toolchain": false
+    "lean_lsp_verified_compatible_with_pinned_kuuos_toolchain": true
   }
 }
