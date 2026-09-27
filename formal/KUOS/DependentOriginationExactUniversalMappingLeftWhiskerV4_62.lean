@@ -102,7 +102,7 @@ private theorem leftWhiskerCompositeSquare
 Keeping this expansion behind a small theorem avoids asking later proofs to
 weak-head-normalize the whole dependent structure `ExactUniversalRawMorphism.comp`
 inside a large `change` target. -/
-@[simp] theorem ExactUniversalRawMorphism.comp_comparison_square_hom
+@[simp, reassoc] theorem ExactUniversalRawMorphism.comp_comparison_square_hom
     {X Y Z : ExactUniversalRawObject (W := W) A}
     (f : ExactUniversalRawMorphism (W := W) A X Y)
     (g : ExactUniversalRawMorphism (W := W) A Y Z) :
@@ -140,9 +140,7 @@ private theorem whiskerLeftCompatibility
   rw [restrictHigherLocalizedModification_whiskerLeft]
   rw [
     ExactUniversalRawMorphism.comp_comparison_square_hom
-      (W := W) A f h,
-    ExactUniversalRawMorphism.comp_comparison_square_hom
-      (W := W) A f g
+      (W := W) A f h
   ]
   calc
     _ =
@@ -173,7 +171,10 @@ private theorem whiskerLeftCompatibility
           (fsq := f.comparison_square.hom)
           eta.compatibility
     _ = _ := by
-      simp only [← Category.assoc]
+      exact
+        (ExactUniversalRawMorphism.comp_comparison_square_hom_assoc
+          (W := W) A f g
+          (X.presentation.comparison ◁ (f.raw ◁ eta.raw))).symm
 
 /-- Left whiskering of a compatible mapping-property 2-cell by a
 mapping-property 1-cell. -/
