@@ -194,7 +194,7 @@
         "lean_finder",
         "lean_hammer_premise_search"
       ],
-      "runtime_requirements": ["uv", "git", "lake", "lean_project_built"],
+      "runtime_requirements": ["uv", "git", "lake", "lean_project_built", "local_repository"],
       "isolation": "project_and_mathlib_dependency_roots",
       "notes": "High value for KuuOS formalization. Keep experimental until pinned Lean 4.30.0-rc2/mathlib compatibility is verified on the exact KuuOS head."
     },
