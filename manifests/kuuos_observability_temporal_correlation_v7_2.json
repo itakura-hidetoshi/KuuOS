@@ -1,0 +1,55 @@
+{
+  "version": "kuuos_observability_temporal_correlation_manifest_v7_2",
+  "purpose": "Compare provider-normalized observation time windows without inferring causation.",
+  "inputs": {
+    "minimum_observations": 2,
+    "maximum_observations": 128,
+    "accepted_time_forms": [
+      "ISO 8601 with explicit timezone",
+      "Unix epoch seconds"
+    ],
+    "source_digest_required_when_present": "sha256 lowercase hex",
+    "raw_provider_payloads_required": false
+  },
+  "relations": {
+    "overlap": {
+      "temporally_compatible": true,
+      "meaning": "Closed observation windows intersect."
+    },
+    "within_tolerance": {
+      "temporally_compatible": true,
+      "meaning": "Disjoint windows are separated by no more than the configured tolerance."
+    },
+    "disjoint": {
+      "temporally_compatible": false,
+      "meaning": "Observed windows are separated beyond tolerance."
+    },
+    "insufficient_time_metadata": {
+      "temporally_compatible": false,
+      "meaning": "The pair cannot be temporally compared from the available metadata."
+    },
+    "source_obstruction": {
+      "temporally_compatible": false,
+      "meaning": "At least one source is transient or unavailable."
+    }
+  },
+  "boundaries": {
+    "read_only": true,
+    "causal_inference_performed": false,
+    "causal_claim_permitted": false,
+    "temporal_compatibility_is_not_causation": true,
+    "source_authority_transferred": false,
+    "raw_provider_payloads_present": false,
+    "missing_time_metadata_does_not_imply_disjointness": true,
+    "transient_source_does_not_imply_negative_correlation": true
+  },
+  "status_semantics": {
+    "KUUOS_OBSERVABILITY_TEMPORAL_CORRELATION_READY": "All pairs have current comparable time metadata.",
+    "KUUOS_OBSERVABILITY_TEMPORAL_CORRELATION_PARTIAL": "At least one pair lacks time metadata or contains a provider-local obstruction.",
+    "KUUOS_OBSERVABILITY_TEMPORAL_CORRELATION_BLOCKED": "Input, authority, schema, digest, or time-window invariant failed."
+  },
+  "descent": {
+    "predecessor": "KuuOS Observability MCP Multiplexer v7.1",
+    "next": "evidence-weighted but non-causal cross-provider event alignment"
+  }
+}
