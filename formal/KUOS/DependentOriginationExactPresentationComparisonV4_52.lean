@@ -293,10 +293,10 @@ theorem exactPresentationCoherentComparison_restrictedPointwiseEquivalence
       (coherentComparisonTriangleNatIso (W := W) alpha X)
   have hFG : (F ⋙ G).IsEquivalence :=
     (Functor.isEquivalence_iff_of_iso htriangle).2 hH
-  letI : G.IsEquivalence := hG
-  letI : (F ⋙ G).IsEquivalence := hFG
   change F.IsEquivalence
-  exact Functor.isEquivalence_of_comp_right F G
+  exact
+    @Functor.isEquivalence_of_comp_right
+      _ _ _ _ _ _ F G hG hFG
 
 /-- Therefore every coherent exact-presentation comparison restricts to the
 v2.17 notion of directed pointwise-equivalence comparison between the two raw
