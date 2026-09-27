@@ -22,7 +22,7 @@ The pinned target is:
 
 ```text
 reference source metadata: mcp-server-fetch 0.6.3
-published package: discovered from the live package index, then pinned after the first GREEN
+published package: mcp-server-fetch 2026.8.18
 mcp SDK: exact upstream lock 1.29.0
 reference servers SHA f46d9578...
 ```
@@ -34,7 +34,7 @@ The live probe:
 ```text
 initialize
 -> tools/list
--> fetch(https://example.com/)
+-> fetch(raw README at exact modelcontextprotocol/modelcontextprotocol commit)
 ```
 
 and requires the deterministic `Example Domain` marker.
@@ -158,4 +158,4 @@ Neither promotion grants write or source authority.
 
 The first v7.23 run found that the current reference-tree version `0.6.3` is not published as `mcp-server-fetch==0.6.3`.
 
-KuuOS therefore does not pretend the source-tree version is installable. The probe first resolves the actually published package version with the upstream SDK lock, records it, and then starts that exact release. After the first complete GREEN run, that observed release is pinned in the registry evidence.
+KuuOS therefore does not pretend the source-tree version is installable. The live package index exposed `mcp-server-fetch 2026.8.18`. KuuOS pins that exact published release with the upstream SDK lock `mcp==1.29.0`.
