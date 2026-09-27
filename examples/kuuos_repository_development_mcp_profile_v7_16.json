@@ -47,13 +47,13 @@
       "server_id": "playwright",
       "type": "stdio",
       "command": "npx",
-      "args": ["-y", "@playwright/mcp@latest", "--isolated", "--headless"]
+      "args": ["-y", "@playwright/mcp@0.0.82", "--browser", "chrome", "--isolated", "--headless", "--no-webmcp", "--block-service-workers"]
     },
     {
       "server_id": "chrome_devtools",
       "type": "stdio",
       "command": "npx",
-      "args": ["-y", "chrome-devtools-mcp@latest", "--isolated"]
+      "args": ["-y", "chrome-devtools-mcp@1.10.1", "--headless=true", "--isolated=true", "--usage-statistics=false", "--performance-crux=false"]
     },
     {
       "server_id": "docker_mcp_gateway",
