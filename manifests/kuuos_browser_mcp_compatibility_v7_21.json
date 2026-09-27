@@ -1,0 +1,66 @@
+{
+  "version": "kuuos_browser_mcp_compatibility_manifest_v7_21",
+  "purpose": "Verify Playwright MCP and Chrome DevTools MCP against one deterministic localhost fixture while preserving their distinct browser roles and separate effect authority.",
+  "playwright": {
+    "repository": "microsoft/playwright-mcp",
+    "upstream_main_sha": "e87bb897e15a6f2af402afb0f10b45eced9e1f9b",
+    "package": "@playwright/mcp",
+    "version": "0.0.82",
+    "node_requirement": ">=18",
+    "probe_tools": ["browser_navigate", "browser_snapshot"],
+    "launch": [
+      "--browser chrome",
+      "--headless",
+      "--isolated",
+      "--no-webmcp",
+      "--block-service-workers"
+    ]
+  },
+  "chrome_devtools": {
+    "repository": "ChromeDevTools/chrome-devtools-mcp",
+    "upstream_main_sha": "ae0aaef884c41445d83f86f099ef211f4584b791",
+    "package": "chrome-devtools-mcp",
+    "version": "1.10.1",
+    "node_requirement": "^20.19.0 || ^22.12.0 || >=23",
+    "probe_tools": [
+      "new_page",
+      "list_pages",
+      "take_snapshot",
+      "list_console_messages"
+    ],
+    "launch": [
+      "--headless=true",
+      "--isolated=true",
+      "--usage-statistics=false",
+      "--performance-crux=false"
+    ]
+  },
+  "fixture": {
+    "binding": "127.0.0.1 ephemeral port",
+    "external_navigation": false,
+    "contains_accessibility_marker": true,
+    "contains_console_marker": true
+  },
+  "promotion_rule": {
+    "playwright_from": "recommended_sandboxed",
+    "chrome_devtools_from": "recommended_sandboxed",
+    "to": "verified_compatible",
+    "requires_exact_head_ci_success": true,
+    "requires_live_mcp_handshake": true,
+    "requires_same_local_fixture": true,
+    "requires_playwright_snapshot_marker": true,
+    "requires_chrome_snapshot_marker": true,
+    "requires_chrome_console_marker": true
+  },
+  "boundaries": {
+    "playwright_and_chrome_are_same_presentation": false,
+    "playwright_role": "functional_browser_verification",
+    "chrome_devtools_role": "console_network_performance_diagnostics",
+    "compatibility_receipt_is_browser_effect_authority": false,
+    "browser_effects_are_localhost_only": true,
+    "persistent_browser_profile_used": false,
+    "usage_statistics_enabled": false,
+    "crux_lookup_enabled": false,
+    "source_authority_transferred": false
+  }
+}
