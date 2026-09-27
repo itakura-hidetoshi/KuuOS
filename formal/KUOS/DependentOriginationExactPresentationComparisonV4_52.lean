@@ -237,6 +237,9 @@ noncomputable def exactPresentationCoherentComparisonToCompletion2Hom
     (alpha : ExactPresentationCoherentComparison (W := W) A P Q) :
     P.carrier ⟶ Q.carrier := by
   apply completion2MkHom (W := W) A
+  change
+    (exactPresentationFactorization (W := W) A P).lift ⟶
+      (exactPresentationFactorization (W := W) A Q).lift
   exact alpha.hom
 
 /-!
@@ -275,13 +278,18 @@ theorem exactPresentationCoherentComparison_restrictedPointwiseEquivalence
     P.comparison_isEquivalence X
   letI : (Q.comparison.app (.mk X)).toFunctor.IsEquivalence :=
     Q.comparison_isEquivalence X
+  have htriangle :
+      (alpha.hom.app
+          (.mk ((higherPresentationUnitFunctor W).obj X))).toFunctor ⋙
+          (Q.comparison.app (.mk X)).toFunctor ≅
+        (P.comparison.app (.mk X)).toFunctor := by
+    simpa [exactPresentationFactorization] using
+      (coherentComparisonTriangleNatIso (W := W) alpha X)
   have hcomp :
       ((alpha.hom.app
           (.mk ((higherPresentationUnitFunctor W).obj X))).toFunctor ⋙
         (Q.comparison.app (.mk X)).toFunctor).IsEquivalence := by
-    exact
-      Functor.isEquivalence_of_iso
-        (coherentComparisonTriangleNatIso (W := W) alpha X).symm
+    exact Functor.isEquivalence_of_iso htriangle.symm
   letI :
       ((alpha.hom.app
           (.mk ((higherPresentationUnitFunctor W).obj X))).toFunctor ⋙
