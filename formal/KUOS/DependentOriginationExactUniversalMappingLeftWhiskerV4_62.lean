@@ -102,16 +102,26 @@ noncomputable def ExactUniversalRawMorphismTwoCell.whiskerLeft
           (W := W) A f g).comparison_square.hom ≫
           (X.presentation.comparison ◁ (f.raw ◁ eta.raw))
     rw [restrictHigherLocalizedModification_whiskerLeft]
-    rw [ExactUniversalRawMorphism.comp_comparison_square_hom]
     rw [
-      Bicategory.associator_naturality_middle_assoc,
-      ← Bicategory.whiskerLeft_comp_assoc,
-      eta.compatibility,
-      Bicategory.whiskerLeft_comp_assoc,
-      Bicategory.associator_inv_naturality_right_assoc,
-      Bicategory.whisker_exchange_assoc,
-      Bicategory.associator_naturality_right_assoc
+      ExactUniversalRawMorphism.comp_comparison_square_hom
+        (W := W) A f h,
+      ExactUniversalRawMorphism.comp_comparison_square_hom
+        (W := W) A f g
     ]
+    slice_lhs 1 2 =>
+      rw [Bicategory.associator_naturality_middle]
+    slice_lhs 2 3 =>
+      rw [← Bicategory.whiskerLeft_comp]
+    slice_lhs 2 2 =>
+      rw [eta.compatibility]
+    slice_lhs 2 2 =>
+      rw [Bicategory.whiskerLeft_comp]
+    slice_lhs 3 4 =>
+      rw [Bicategory.associator_inv_naturality_right]
+    slice_lhs 4 5 =>
+      rw [Bicategory.whisker_exchange]
+    slice_lhs 5 6 =>
+      rw [Bicategory.associator_naturality_right]
 
 @[simp] theorem ExactUniversalRawMorphismTwoCell.whiskerLeft_raw
     {X Y Z : ExactUniversalRawObject (W := W) A}
