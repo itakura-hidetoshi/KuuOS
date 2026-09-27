@@ -173,21 +173,7 @@ private theorem whiskerLeftCompatibility
           (fsq := f.comparison_square.hom)
           eta.compatibility
     _ = _ := by
-      exact
-        Category.assoc'
-          (X.presentation.comparison ◁ (f.raw ◁ eta.raw))
-          ((Bicategory.associator
-            X.presentation.comparison f.raw g.raw).hom)
-          ((Bicategory.associator
-              (restrictHigherLocalizedStrongTrans (W := W) f.lift.hom)
-              (restrictHigherLocalizedStrongTrans (W := W) g.lift.hom)
-              Z.presentation.comparison).hom ≫
-            (restrictHigherLocalizedStrongTrans (W := W) f.lift.hom ◁
-              g.comparison_square.hom) ≫
-            (Bicategory.associator
-              (restrictHigherLocalizedStrongTrans (W := W) f.lift.hom)
-              Y.presentation.comparison g.raw).inv ≫
-            (f.comparison_square.hom ▷ g.raw))
+      simp only [← Category.assoc]
 
 /-- Left whiskering of a compatible mapping-property 2-cell by a
 mapping-property 1-cell. -/
