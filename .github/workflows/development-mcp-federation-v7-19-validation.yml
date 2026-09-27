@@ -1,0 +1,44 @@
+name: Development MCP federation v7.19 validation
+
+on:
+  pull_request:
+    paths:
+      - 'runtime/kuuos_runtime_development_mcp_federation_v7_19.py'
+      - 'scripts/check_kuuos_runtime_development_mcp_federation_v7_19.py'
+      - 'manifests/kuuos_development_mcp_federation_v7_19.json'
+      - 'docs/KUUOS_DEVELOPMENT_MCP_FEDERATION_v7_19.md'
+      - '.github/workflows/development-mcp-federation-v7-19-validation.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Compile development MCP federation
+        run: |
+          python -m py_compile             runtime/kuuos_runtime_development_mcp_federation_v7_19.py             scripts/check_kuuos_runtime_development_mcp_federation_v7_19.py
+
+      - name: Run focused federation checks
+        run: |
+          PYTHONPATH=. python             scripts/check_kuuos_runtime_development_mcp_federation_v7_19.py
+
+      - name: Verify non-collapse development boundaries
+        run: |
+          grep -Fq '"dirty_worktree_is_error": false' manifests/kuuos_development_mcp_federation_v7_19.json
+          grep -Fq '"dirty_worktree_may_continue_local_semantic_work": true' manifests/kuuos_development_mcp_federation_v7_19.json
+          grep -Fq '"remote_revision_mismatch_blocks_local_read_analysis": false' manifests/kuuos_development_mcp_federation_v7_19.json
+          grep -Fq '"remote_revision_mismatch_blocks_remote_mutation_without_reconciliation": true' manifests/kuuos_development_mcp_federation_v7_19.json
+          grep -Fq '"lean_semantic_freshness_grants_git_write_authority": false' manifests/kuuos_development_mcp_federation_v7_19.json
+
+      - name: Confirm Strict Lean is not invoked
+        run: |
+          echo "Runtime-only MCP federation validation: Strict Lean intentionally not invoked."
