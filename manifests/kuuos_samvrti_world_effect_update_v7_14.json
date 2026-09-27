@@ -1,0 +1,46 @@
+{
+  "version": "kuuos_samvrti_world_effect_update_manifest_v7_14",
+  "purpose": "Return verified external effects into append-only samvrti world versions without changing the paramartha carrier or promoting effect confirmation to mission success or truth.",
+  "predecessor": "KuuOS Action-Effect Lineage Binding v7.13",
+  "core_rules": {
+    "effect_confirmed_may_update_samvrti_world": true,
+    "nonconfirmed_effect_may_fabricate_world_update": false,
+    "world_update_may_change_paramartha_class": false,
+    "paramartha_carrier_preserved_across_samvrti_transition": true,
+    "effect_confirmed_implies_mission_success": false,
+    "reconciliation_is_truth": false,
+    "world_update_overwrites_history": false,
+    "samvrti_world_versions_are_append_only": true
+  },
+  "confirmed_transition": {
+    "requires_transaction_route": "EFFECT_CONFIRMED",
+    "requires_verification_route": "VERIFICATION_PASSED",
+    "uses_reconciliation_fields": [
+      "prior_world_state_digest",
+      "observed_world_state_digest",
+      "observed_effect_digest",
+      "independent_world_evidence_digests",
+      "reconciliation_receipt_digest"
+    ],
+    "materializes": "samvrti_world_version"
+  },
+  "nonconfirmed_residues": {
+    "REOBSERVATION_REQUIRED": "samvrti_reobservation_open",
+    "COMPENSATION_PROPOSED": "samvrti_compensation_open",
+    "HANDOVER_REQUIRED": "samvrti_handover_open",
+    "NO_EFFECT_RECORDED": "samvrti_no_effect"
+  },
+  "noncollapse": {
+    "observed_world_transition_is_conventional_not_ultimate": true,
+    "compensation_proposal_is_not_world_rollback": true,
+    "mission_success_remains_separate": true,
+    "truth_authority_not_granted": true
+  },
+  "references": [
+    "runtime/kuuos_transactional_effect_reconciliation_kernel_v0_24.py",
+    "runtime/kuuos_transactional_effect_scenarios_v0_24.py",
+    "runtime/kuuos_runtime_action_effect_lineage_binding_v7_13.py",
+    "runtime/kuuos_runtime_two_truths_noncollapse_v7_11.py"
+  ],
+  "next": "compare successive samvrti world versions within one paramartha fiber, distinguish reversible local change from structural world drift, and feed only verified conventional deltas back into planning and belief revision"
+}
