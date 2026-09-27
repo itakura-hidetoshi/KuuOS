@@ -314,11 +314,16 @@ noncomputable def
     HigherPointwiseEquivalenceComparison
       (exactPresentationRestrictedCarrier (W := W) A P)
       (exactPresentationRestrictedCarrier (W := W) A Q) where
-  comparison :=
-    restrictHigherLocalizedStrongTrans (W := W) alpha.hom
+  comparison := by
+    change
+      restrictHigherLocalizedSystem W
+          (exactPresentationFactorization (W := W) A P).lift ⟶
+        restrictHigherLocalizedSystem W
+          (exactPresentationFactorization (W := W) A Q).lift
+    exact restrictHigherLocalizedStrongTrans (W := W) alpha.hom
   comparison_isEquivalence := by
     intro X
-    simpa [exactPresentationRestrictedCarrier] using
+    simpa [exactPresentationRestrictedCarrier, exactPresentationFactorization] using
       exactPresentationCoherentComparison_restrictedPointwiseEquivalence
         (W := W) A alpha X
 
