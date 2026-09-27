@@ -359,6 +359,7 @@ def probe_chrome_devtools(
         "--isolated=true",
         "--usage-statistics=false",
         "--performance-crux=false",
+        "--no-page-id-routing",
     ]
     client = MCPClient(
         command,
@@ -385,17 +386,12 @@ def probe_chrome_devtools(
             "new_page",
             {"url": fixture_url, "timeout": 15000},
         )
-        page_id = extract_page_id(created, fixture_url)
         pages = call_tool(client, "list_pages", {})
-        if page_id is None:
-            page_id = extract_page_id(pages, fixture_url)
-        if page_id is None:
-            raise RuntimeError("chrome_fixture_page_id_missing")
 
         snapshot = call_tool(
             client,
             "take_snapshot",
-            {"pageId": page_id, "verbose": False},
+            {"verbose": False},
         )
         snapshot_text = textual_payload(snapshot)
         if FIXTURE_MARKER not in snapshot_text:
@@ -404,7 +400,7 @@ def probe_chrome_devtools(
         console = call_tool(
             client,
             "list_console_messages",
-            {"pageId": page_id},
+            {},
         )
         console_text = textual_payload(console)
         if CONSOLE_MARKER not in console_text:
@@ -426,7 +422,7 @@ def probe_chrome_devtools(
             "console_result_digest": digest(console.get("result", {})),
             "fixture_marker_observed": True,
             "console_marker_observed": True,
-            "page_id_digest": digest(page_id),
+            "page_id_routing": False,
             "headless": True,
             "isolated_profile": True,
             "usage_statistics_disabled": True,
