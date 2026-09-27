@@ -1,0 +1,44 @@
+name: Git admission post-commit coherence v7.28 validation
+
+on:
+  pull_request:
+    paths:
+      - 'runtime/kuuos_runtime_git_admission_post_commit_coherence_v7_28.py'
+      - 'scripts/check_kuuos_runtime_git_admission_post_commit_coherence_v7_28.py'
+      - 'manifests/kuuos_git_admission_post_commit_coherence_v7_28.json'
+      - 'docs/KUUOS_GIT_ADMISSION_POST_COMMIT_COHERENCE_v7_28.md'
+      - '.github/workflows/git-admission-post-commit-coherence-v7-28-validation.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Compile v7.28 runtime
+        run: |
+          python -m py_compile             runtime/kuuos_runtime_git_admission_post_commit_coherence_v7_28.py             scripts/check_kuuos_runtime_git_admission_post_commit_coherence_v7_28.py
+
+      - name: Run focused v7.28 checks
+        run: |
+          PYTHONPATH=. python             scripts/check_kuuos_runtime_git_admission_post_commit_coherence_v7_28.py
+
+      - name: Verify non-collapse boundaries
+        run: |
+          grep -Fq '"local_commit_admission_is_remote_publish": false' manifests/kuuos_git_admission_post_commit_coherence_v7_28.json
+          grep -Fq '"missing_authority_rejects_candidate": false' manifests/kuuos_git_admission_post_commit_coherence_v7_28.json
+          grep -Fq '"remote_head_move_rejects_local_commit": false' manifests/kuuos_git_admission_post_commit_coherence_v7_28.json
+          grep -Fq '"dirty_elsewhere_is_automatic_failure": false' manifests/kuuos_git_admission_post_commit_coherence_v7_28.json
+          grep -Fq '"remote_publish_ready_executes_publish": false' manifests/kuuos_git_admission_post_commit_coherence_v7_28.json
+
+      - name: Confirm Strict Lean is not invoked
+        run: |
+          echo "Runtime-only Git-admission/post-commit evidence layer: Strict Lean intentionally not invoked."
