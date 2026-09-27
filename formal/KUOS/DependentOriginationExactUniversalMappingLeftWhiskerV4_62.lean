@@ -5,6 +5,7 @@ import Mathlib
 namespace KUOS.DependentOriginationExactUniversalMappingLeftWhiskerV4_62
 
 open CategoryTheory
+open KUOS.DependentOriginationGeneratedRefinementTopologyV2_4
 open KUOS.DependentOriginationHigherLocalizationInterfaceV2_10
 open KUOS.DependentOriginationCoherentWeakHigherLocalizationV2_19
 open KUOS.DependentOriginationExactUniversalMappingMorphismV4_57
