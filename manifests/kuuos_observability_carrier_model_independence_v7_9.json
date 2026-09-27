@@ -1,0 +1,34 @@
+{
+  "version": "kuuos_observability_carrier_model_independence_manifest_v7_9",
+  "purpose": "Show that alternative finite runtime carrier models encode the same presentation-independent invariant meaning when they faithfully represent the same canonical invariant carrier.",
+  "predecessor": "KuuOS Observability Invariant Carrier v7.8",
+  "formal_reference": {
+    "presentation_universality": "formal/KUOS/DependentOriginationPresentationUniversalityV2_0.lean",
+    "runtime_is_formal_universality_authority": false,
+    "runtime_replaces_v2_0": false
+  },
+  "semantic_identity": {
+    "defined_by": "canonical invariant carrier",
+    "semantic_carrier_signature_depends_only_on_invariant_carrier": true,
+    "model_id_defines_semantic_identity": false,
+    "model_token_equality_required": false,
+    "presentation_data_used_for_model_equivalence": false
+  },
+  "model_semantics": {
+    "complete_faithful_carrier_model": "Every canonical carrier element has exactly one model image and distinct canonical carrier elements remain distinct inside the model.",
+    "partial_carrier_model": "At least one canonical carrier element has no model image; model equivalence remains held open.",
+    "carrier_model_obstructed": "The model collapses distinct invariant carrier elements or violates the finite carrier representation contract."
+  },
+  "pair_semantics": {
+    "same_invariant_carrier_meaning": "Two complete faithful models are in finite runtime bijection through the same canonical invariant carrier.",
+    "carrier_model_equivalence_held": "At least one model is partial.",
+    "carrier_model_equivalence_obstructed": "At least one model fails to preserve distinct canonical invariant meanings."
+  },
+  "non_reification": {
+    "carrier_model_is_substance": false,
+    "canonical_invariant_carrier_is_ultimate_truth": false,
+    "finite_runtime_bijection_is_formal_category_equivalence": false,
+    "global_collapse_performed": false
+  },
+  "next": "carry runtime semantics only on the invariant carrier, and treat all complete faithful carrier models as replaceable presentations of that carrier"
+}

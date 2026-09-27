@@ -1,0 +1,44 @@
+name: Invariant projection choice independence v7.10 validation
+
+on:
+  pull_request:
+    paths:
+      - 'runtime/kuuos_runtime_invariant_projection_choice_independence_v7_10.py'
+      - 'scripts/check_kuuos_runtime_invariant_projection_choice_independence_v7_10.py'
+      - 'manifests/kuuos_invariant_projection_choice_independence_v7_10.json'
+      - 'docs/KUUOS_INVARIANT_PROJECTION_CHOICE_INDEPENDENCE_v7_10.md'
+      - '.github/workflows/invariant-projection-choice-independence-v7-10-validation.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Compile projection choice independence layer
+        run: |
+          python -m py_compile             runtime/kuuos_runtime_invariant_projection_choice_independence_v7_10.py             scripts/check_kuuos_runtime_invariant_projection_choice_independence_v7_10.py
+
+      - name: Run focused projection choice independence checks
+        run: |
+          python scripts/check_kuuos_runtime_invariant_projection_choice_independence_v7_10.py
+
+      - name: Verify projection choice is presentation, not semantic identity
+        run: |
+          grep -Fq '"projection_choice_is_presentation": true' manifests/kuuos_invariant_projection_choice_independence_v7_10.json
+          grep -Fq '"projection_id_defines_semantic_identity": false' manifests/kuuos_invariant_projection_choice_independence_v7_10.json
+          grep -Fq '"local_invariant_equality_required": false' manifests/kuuos_invariant_projection_choice_independence_v7_10.json
+          grep -Fq '"different_local_invariants_may_share_normalized_meaning": true' manifests/kuuos_invariant_projection_choice_independence_v7_10.json
+          grep -Fq '"runtime_replaces_v1_28": false' manifests/kuuos_invariant_projection_choice_independence_v7_10.json
+
+      - name: Confirm Strict Lean is not invoked
+        run: |
+          echo "Runtime-only invariant-projection-choice validation: Strict Lean intentionally not invoked."

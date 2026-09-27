@@ -1,0 +1,49 @@
+{
+  "version": "kuuos_two_truths_noncollapse_manifest_v7_11",
+  "purpose": "Preserve the non-collapse boundary between paramartha equivalence and samvrti operational distinction.",
+  "predecessor": "KuuOS Invariant Projection Choice Independence v7.10",
+  "core_rule": {
+    "paramartha_and_samvrti_are_separate_surfaces": true,
+    "same_paramartha_does_not_imply_conventional_substitutability": true,
+    "paramartha_equivalence_may_erase_samvrti_difference": false,
+    "samvrti_difference_is_error": false,
+    "samvrti_difference_can_be_operationally_required": true,
+    "conventional_substitution_requires_samvrti_equivalence": true
+  },
+  "paramartha": {
+    "role": "non-reifying choice-independent semantic equivalence surface",
+    "carrier_is_ultimate_substance": false,
+    "world_id_defines_paramartha_identity": false
+  },
+  "samvrti": {
+    "role": "conditioned operational world surface",
+    "signature_inputs": [
+      "conventional_operational_value",
+      "scope",
+      "conditions",
+      "governance_boundary",
+      "action_constraints",
+      "visible_residuals",
+      "lineage_digest"
+    ],
+    "world_label_alone_defines_operational_difference": false,
+    "world_is_ultimate_substance": false
+  },
+  "relations": {
+    "same_paramartha_same_samvrti_operation": "Ultimate-equivalent subjects also have the same conventional operational signature; conventional substitution is permitted.",
+    "same_paramartha_distinct_samvrti_worlds": "Ultimate-equivalent subjects inhabit conventionally distinct operational worlds; distinction must be preserved and substitution is forbidden.",
+    "same_paramartha_samvrti_unresolved": "Ultimate equivalence is known while at least one conventional world surface is unresolved.",
+    "distinct_paramartha_meaning": "The subjects do not share the same stable paramartha carrier."
+  },
+  "middle_way": {
+    "reification_failure_blocked": true,
+    "nihilistic_collapse_blocked": true,
+    "responsible_conventional_operation_preserved": true
+  },
+  "references": [
+    "docs/KUOS_CORE_CHARTER_v0_1.md",
+    "docs/PARAMARTHA_SAMVRTI_MIDDLE_WAY_BRIDGE_v0_1.md",
+    "docs/SAMVRTI_QI_LAYER_v0_1.md"
+  ],
+  "next": "lift action, policy, responsibility and local intervention through samvrti worlds while keeping paramartha equivalence non-authorizing"
+}
