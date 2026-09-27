@@ -11,6 +11,7 @@ open KUOS.DependentOriginationExactUniversalMappingTwoCellVerticalV4_59
 open KUOS.DependentOriginationExactUniversalMappingHomCategoryV4_60
 
 open scoped CategoryTheory.Pseudofunctor.StrongTrans
+open scoped CategoryTheory.Bicategory
 
 set_option autoImplicit false
 
