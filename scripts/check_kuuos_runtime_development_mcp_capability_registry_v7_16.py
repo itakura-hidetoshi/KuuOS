@@ -87,7 +87,7 @@ def test_registry_valid_and_broad() -> None:
     assert required.issubset(maximal)
 
 
-def test_core_repo_profile_ready_with_lean_experimental() -> None:
+def test_core_repo_profile_ready_with_verified_lean_lsp() -> None:
     registry = load_registry()
     result = build_development_mcp_profile(
         registry=registry,
@@ -100,7 +100,7 @@ def test_core_repo_profile_ready_with_lean_experimental() -> None:
     assert states["github_official"]["activation_state"] == "ready"
     assert states["git_reference"]["activation_state"] == "ready"
     assert states["filesystem_reference"]["activation_state"] == "ready"
-    assert states["lean_lsp"]["activation_state"] == "experimental_ready"
+    assert states["lean_lsp"]["activation_state"] == "ready"
     assert states["context7"]["activation_state"] == "ready"
     assert states["lean_lsp"]["effective_mode"] == "read_only"
 
@@ -187,20 +187,24 @@ def test_github_toolsets_cover_current_repo_development() -> None:
     assert {"code_quality", "governance"}.issubset(ALLOWED_TOOLSETS)
 
 
-def test_lean_lsp_is_high_value_but_not_auto_enabled_as_stable() -> None:
+def test_lean_lsp_is_verified_but_still_explicit_opt_in() -> None:
     registry = load_registry()
     lean = next(
         server
         for server in registry["servers"]
         if server["server_id"] == "lean_lsp"
     )
-    assert lean["status"] == "experimental_high_value"
+    assert lean["status"] == "verified_compatible"
     assert lean["activation"] == "explicit_project_opt_in"
     assert "lake" in lean["runtime_requirements"]
     assert "lean_project_built" in lean["runtime_requirements"]
     assert "lean_diagnostics" in lean["capability_families"]
     assert "loogle" in lean["capability_families"]
     assert "lean_hammer_premise_search" in lean["capability_families"]
+    evidence = lean["compatibility_evidence"]
+    assert evidence["package_version"] == "0.30.0"
+    assert evidence["lean_toolchain"] == "leanprover/lean4:v4.30.0-rc2"
+    assert evidence["mathlib_sha"] == "5450b53e5ddc75d46418fabb605edbf36bd0beb6"
 
 
 def test_browser_servers_are_complementary_and_isolated() -> None:
@@ -248,11 +252,11 @@ def test_unknown_profile_blocks_without_launching_anything() -> None:
 
 def main() -> int:
     test_registry_valid_and_broad()
-    test_core_repo_profile_ready_with_lean_experimental()
+    test_core_repo_profile_ready_with_verified_lean_lsp()
     test_write_request_routes_to_independent_authorities()
     test_maximal_profile_degrades_locally_when_optional_provider_missing()
     test_github_toolsets_cover_current_repo_development()
-    test_lean_lsp_is_high_value_but_not_auto_enabled_as_stable()
+    test_lean_lsp_is_verified_but_still_explicit_opt_in()
     test_browser_servers_are_complementary_and_isolated()
     test_plaintext_credentials_are_rejected()
     test_unknown_profile_blocks_without_launching_anything()
