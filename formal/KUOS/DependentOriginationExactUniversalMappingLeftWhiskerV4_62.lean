@@ -76,6 +76,44 @@ noncomputable def ExactUniversalRawMorphismTwoCell.whiskerLeft
           (W := W) A f g).comparison_square.hom ≫
           (X.presentation.comparison ◁ (f.raw ◁ eta.raw))
     rw [restrictHigherLocalizedModification_whiskerLeft]
+
+    /- `⊗≫` only inserts structural bicategorical coherence.  The source
+    and target below also contain KuuOS wrapper definitions.  Expose their
+    definitional equalities first, then register only the remaining
+    associator coherence for Mathlib's bicategorical composition. -/
+    letI : BicategoricalCoherence
+        (restrictHigherLocalizedStrongTrans
+            (W := W) (f.lift.hom ≫ g.lift.hom) ≫
+          Z.presentation.comparison)
+        (restrictHigherLocalizedStrongTrans (W := W) f.lift.hom ≫
+          restrictHigherLocalizedStrongTrans (W := W) g.lift.hom ≫
+            Z.presentation.comparison) :=
+      ⟨by
+        change
+          ((restrictHigherLocalizedStrongTrans (W := W) f.lift.hom ≫
+              restrictHigherLocalizedStrongTrans (W := W) g.lift.hom) ≫
+            Z.presentation.comparison) ≅
+          (restrictHigherLocalizedStrongTrans (W := W) f.lift.hom ≫
+            restrictHigherLocalizedStrongTrans (W := W) g.lift.hom ≫
+              Z.presentation.comparison)
+        exact
+          Bicategory.associator
+            (restrictHigherLocalizedStrongTrans (W := W) f.lift.hom)
+            (restrictHigherLocalizedStrongTrans (W := W) g.lift.hom)
+            Z.presentation.comparison⟩
+
+    letI : BicategoricalCoherence
+        ((X.presentation.comparison ≫ f.raw) ≫ h.raw)
+        (X.presentation.comparison ≫
+          (ExactUniversalRawMorphism.comp (W := W) A f h).raw) :=
+      ⟨by
+        change
+          ((X.presentation.comparison ≫ f.raw) ≫ h.raw) ≅
+            (X.presentation.comparison ≫ (f.raw ≫ h.raw))
+        exact
+          Bicategory.associator
+            X.presentation.comparison f.raw h.raw⟩
+
     calc
       _ =
           𝟙 _ ⊗≫
