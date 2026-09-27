@@ -38,7 +38,7 @@ Packages:
 ```text
 mcp-server-git == 0.6.2
   with upstream lock mcp == 1.29.0
-@modelcontextprotocol/server-filesystem == 0.6.3
+@modelcontextprotocol/server-filesystem == 2026.8.31
 ```
 
 The upstream repository explicitly describes these as reference implementations, not production guarantees. KuuOS therefore verifies interoperability but keeps its own authority and scoping rules.
@@ -206,3 +206,10 @@ It does not make the reference servers theorem authority or GitHub authority.
 The current upstream source at `f46d9578...` contains a `git_show` implementation, while the live PyPI `mcp-server-git==0.6.2` tool listing observed by the first v7.18 probe did not expose it.
 
 KuuOS therefore treats the released package's live `tools/list` as the compatibility authority for this probe and uses `git_log(max_count=1)` to bind the exact local HEAD. The discrepancy is preserved as provenance rather than filled by assumption.
+
+
+## Published Filesystem MCP version note
+
+The current upstream main `src/filesystem/package.json` reports `0.6.3`, but that exact version is not published on npm. The official npm package currently publishes `2026.8.31`.
+
+KuuOS therefore uses the actually installable official release `@modelcontextprotocol/server-filesystem@2026.8.31` for the live compatibility probe and records the source/package-version discrepancy explicitly.
