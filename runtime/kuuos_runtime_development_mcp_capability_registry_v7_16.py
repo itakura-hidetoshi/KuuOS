@@ -36,6 +36,7 @@ VALID_PRIVILEGES = {
     "analysis_plus_optional_local_execution",
     "browser_effect",
     "orchestrator",
+    "diagnostic_read_mostly",
 }
 
 
