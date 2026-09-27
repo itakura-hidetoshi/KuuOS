@@ -1,0 +1,43 @@
+name: Observability temporal correlation v7.2 validation
+
+on:
+  pull_request:
+    paths:
+      - 'runtime/kuuos_runtime_observability_temporal_correlation_v7_2.py'
+      - 'scripts/check_kuuos_runtime_observability_temporal_correlation_v7_2.py'
+      - 'manifests/kuuos_observability_temporal_correlation_v7_2.json'
+      - 'docs/KUUOS_OBSERVABILITY_TEMPORAL_CORRELATION_v7_2.md'
+      - '.github/workflows/observability-temporal-correlation-v7-2-validation.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Compile temporal correlation layer
+        run: |
+          python -m py_compile             runtime/kuuos_runtime_observability_temporal_correlation_v7_2.py             scripts/check_kuuos_runtime_observability_temporal_correlation_v7_2.py
+
+      - name: Run focused temporal correlation checks
+        run: |
+          python scripts/check_kuuos_runtime_observability_temporal_correlation_v7_2.py
+
+      - name: Verify non-causal boundary
+        run: |
+          grep -Fq '"causal_inference_performed": false' manifests/kuuos_observability_temporal_correlation_v7_2.json
+          grep -Fq '"causal_claim_permitted": false' manifests/kuuos_observability_temporal_correlation_v7_2.json
+          grep -Fq '"temporal_compatibility_is_not_causation": true' manifests/kuuos_observability_temporal_correlation_v7_2.json
+          grep -Fq '"source_authority_transferred": false' manifests/kuuos_observability_temporal_correlation_v7_2.json
+
+      - name: Confirm Strict Lean is not invoked
+        run: |
+          echo "Runtime-only temporal correlation validation: Strict Lean intentionally not invoked."
