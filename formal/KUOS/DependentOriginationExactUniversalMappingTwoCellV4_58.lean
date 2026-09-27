@@ -15,6 +15,7 @@ open KUOS.DependentOriginationCoherentWeakHigherLocalizationV2_19
 open KUOS.DependentOriginationExactUniversalMappingMorphismV4_57
 
 open scoped CategoryTheory.Pseudofunctor.StrongTrans
+open scoped CategoryTheory.Bicategory
 
 set_option autoImplicit false
 
