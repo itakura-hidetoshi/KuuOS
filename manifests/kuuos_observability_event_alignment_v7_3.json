@@ -1,0 +1,41 @@
+{
+  "version": "kuuos_observability_event_alignment_manifest_v7_3",
+  "purpose": "Bind temporal compatibility to exact shared-context evidence without inferring causation.",
+  "predecessor": "KuuOS Observability Temporal Correlation v7.2",
+  "allowed_identifier_types": [
+    "commit_sha",
+    "workflow_run_id",
+    "workflow_job_id",
+    "deployment_id",
+    "request_id",
+    "trace_id",
+    "correlation_id",
+    "artifact_digest"
+  ],
+  "alignment_states": {
+    "exact_context_temporally_compatible": "At least one exact identifier is shared and the v7.2 pair is temporally compatible.",
+    "exact_context_temporally_disjoint": "At least one exact identifier is shared but the v7.2 windows are disjoint beyond tolerance.",
+    "exact_context_time_unresolved": "At least one exact identifier is shared but the time relation is unresolved.",
+    "temporal_only": "No exact identifier is shared; temporal compatibility is the only positive alignment evidence.",
+    "no_alignment_evidence": "No shared exact identifier and no temporal compatibility evidence.",
+    "source_obstruction": "At least one provider-local observation is transient or unavailable."
+  },
+  "privacy": {
+    "raw_identifier_values_emitted": false,
+    "shared_identifier_value_digest_emitted": true,
+    "digest_algorithm": "sha256",
+    "raw_provider_payloads_emitted": false
+  },
+  "boundaries": {
+    "read_only": true,
+    "causal_inference_performed": false,
+    "causal_direction_inferred": false,
+    "causal_claim_permitted": false,
+    "shared_identifier_is_context_evidence_not_causation": true,
+    "same_type_distinct_values_are_not_automatic_negative_causation": true,
+    "source_authority_transferred": false
+  },
+  "descent": {
+    "next": "explicit provenance graph over exact-context and temporal evidence"
+  }
+}

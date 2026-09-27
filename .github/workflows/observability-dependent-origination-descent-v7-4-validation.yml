@@ -1,0 +1,44 @@
+name: Observability dependent-origination descent v7.4 validation
+
+on:
+  pull_request:
+    paths:
+      - 'runtime/kuuos_runtime_observability_dependent_origination_descent_v7_4.py'
+      - 'scripts/check_kuuos_runtime_observability_dependent_origination_descent_v7_4.py'
+      - 'manifests/kuuos_observability_dependent_origination_descent_v7_4.json'
+      - 'docs/KUUOS_OBSERVABILITY_DEPENDENT_ORIGINATION_DESCENT_v7_4.md'
+      - '.github/workflows/observability-dependent-origination-descent-v7-4-validation.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Compile dependent-origination descent layer
+        run: |
+          python -m py_compile             runtime/kuuos_runtime_observability_dependent_origination_descent_v7_4.py             scripts/check_kuuos_runtime_observability_dependent_origination_descent_v7_4.py
+
+      - name: Run focused dependent-origination descent checks
+        run: |
+          python scripts/check_kuuos_runtime_observability_dependent_origination_descent_v7_4.py
+
+      - name: Verify KuuOS dependent-origination boundaries
+        run: |
+          grep -Fq '"many_presentations_preserved": true' manifests/kuuos_observability_dependent_origination_descent_v7_4.json
+          grep -Fq '"global_collapse_performed": false' manifests/kuuos_observability_dependent_origination_descent_v7_4.json
+          grep -Fq '"causal_inference_performed": false' manifests/kuuos_observability_dependent_origination_descent_v7_4.json
+          grep -Fq '"runtime_is_formal_theorem_authority": false' manifests/kuuos_observability_dependent_origination_descent_v7_4.json
+          grep -Fq '"provenance_graph"' manifests/kuuos_observability_dependent_origination_descent_v7_4.json
+
+      - name: Confirm Strict Lean is not invoked
+        run: |
+          echo "Runtime-only dependent-origination validation: Strict Lean intentionally not invoked."

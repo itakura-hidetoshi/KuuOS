@@ -1,0 +1,43 @@
+name: Observability event alignment v7.3 validation
+
+on:
+  pull_request:
+    paths:
+      - 'runtime/kuuos_runtime_observability_event_alignment_v7_3.py'
+      - 'scripts/check_kuuos_runtime_observability_event_alignment_v7_3.py'
+      - 'manifests/kuuos_observability_event_alignment_v7_3.json'
+      - 'docs/KUUOS_OBSERVABILITY_EVENT_ALIGNMENT_v7_3.md'
+      - '.github/workflows/observability-event-alignment-v7-3-validation.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Compile event alignment layer
+        run: |
+          python -m py_compile             runtime/kuuos_runtime_observability_event_alignment_v7_3.py             scripts/check_kuuos_runtime_observability_event_alignment_v7_3.py
+
+      - name: Run focused event alignment checks
+        run: |
+          python scripts/check_kuuos_runtime_observability_event_alignment_v7_3.py
+
+      - name: Verify privacy and non-causal boundary
+        run: |
+          grep -Fq '"raw_identifier_values_emitted": false' manifests/kuuos_observability_event_alignment_v7_3.json
+          grep -Fq '"causal_inference_performed": false' manifests/kuuos_observability_event_alignment_v7_3.json
+          grep -Fq '"causal_direction_inferred": false' manifests/kuuos_observability_event_alignment_v7_3.json
+          grep -Fq '"source_authority_transferred": false' manifests/kuuos_observability_event_alignment_v7_3.json
+
+      - name: Confirm Strict Lean is not invoked
+        run: |
+          echo "Runtime-only event alignment validation: Strict Lean intentionally not invoked."

@@ -1,0 +1,46 @@
+name: Observability MCP multiplexer v7.1 validation
+
+on:
+  pull_request:
+    paths:
+      - 'runtime/kuuos_runtime_observability_mcp_multiplexer_v7_1.py'
+      - 'scripts/check_kuuos_runtime_observability_mcp_multiplexer_v7_1.py'
+      - 'manifests/kuuos_observability_mcp_multiplexer_v7_1.json'
+      - 'docs/KUUOS_OBSERVABILITY_MCP_MULTIPLEXER_v7_1.md'
+      - '.github/workflows/observability-mcp-multiplexer-v7-1-validation.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Compile multiplexer
+        run: |
+          python -m py_compile             runtime/kuuos_runtime_observability_mcp_multiplexer_v7_1.py             scripts/check_kuuos_runtime_observability_mcp_multiplexer_v7_1.py
+
+      - name: Run focused multiplexer checks
+        run: |
+          python scripts/check_kuuos_runtime_observability_mcp_multiplexer_v7_1.py
+
+      - name: Verify provider registry remains read-only
+        run: |
+          grep -Fq '"read_only": true' manifests/kuuos_observability_mcp_multiplexer_v7_1.json
+          grep -Fq '"kernel_calls_connector_directly": false' manifests/kuuos_observability_mcp_multiplexer_v7_1.json
+          grep -Fq '"source_authority_transferred": false' manifests/kuuos_observability_mcp_multiplexer_v7_1.json
+          grep -Fq 'GitHub.fetch_workflow_job_logs' manifests/kuuos_observability_mcp_multiplexer_v7_1.json
+          grep -Fq 'Vercel.get_runtime_logs' manifests/kuuos_observability_mcp_multiplexer_v7_1.json
+          grep -Fq 'Supabase.query_logs' manifests/kuuos_observability_mcp_multiplexer_v7_1.json
+          grep -Fq 'Neon.query_logs' manifests/kuuos_observability_mcp_multiplexer_v7_1.json
+
+      - name: Confirm focused validation does not invoke Strict Lean
+        run: |
+          echo "Runtime-only observability validation: Strict Lean intentionally not invoked."
