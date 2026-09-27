@@ -3,8 +3,13 @@ from __future__ import annotations
 
 import json
 import pathlib
+import sys
 import tempfile
 from typing import Any, Mapping
+
+REPOSITORY_ROOT = pathlib.Path(__file__).resolve().parents[1]
+if str(REPOSITORY_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPOSITORY_ROOT))
 
 from runtime.kuuos_runtime_daemon_qi_github_actions_bounded_live_log_observer_v7_0 import (
     AUTHORITY_READY,
