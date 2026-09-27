@@ -13,7 +13,8 @@ import urllib.error
 import urllib.request
 from typing import Any, Mapping, Sequence
 
-FETCH_SOURCE_VERSION = "0.6.3"\nFETCH_PUBLISHED_VERSION = "2026.8.18"\nFETCH_PROBE_URL = (\n    "https://raw.githubusercontent.com/modelcontextprotocol/modelcontextprotocol/"\n    + DOCS_REPOSITORY_SHA\n    + "/README.md"\n)
+FETCH_SOURCE_VERSION = "0.6.3"
+FETCH_PUBLISHED_VERSION = "2026.8.18"
 FETCH_MCP_SDK_VERSION = "1.29.0"
 REFERENCE_SERVERS_SHA = "f46d9578190b476b3501923ea8977d899e8db2cb"
 
@@ -22,7 +23,11 @@ DOCS_REPOSITORY_SHA = "ab3a39c13bd23be691c2760e1c6c5c15a64582e1"
 MODERN_PROTOCOL_VERSION = "2026-07-28"
 LEGACY_PROTOCOL_VERSION = "2025-11-25"
 DOCS_TOOL = "SearchModelContextProtocol"
-
+FETCH_PROBE_URL = (
+    "https://raw.githubusercontent.com/modelcontextprotocol/modelcontextprotocol/"
+    + DOCS_REPOSITORY_SHA
+    + "/README.md"
+)
 
 def digest(value: Any) -> str:
     return hashlib.sha256(
@@ -267,7 +272,8 @@ def probe_fetch(root: pathlib.Path) -> dict[str, Any]:
             "listed_tools_digest": digest(sorted(names)),
             "fetch_tool_present": True,
             "fetch_result_digest": digest(response.get("result", {})),
-            "fetch_expected_marker_present": True,\n            "fetch_probe_url_digest": digest(FETCH_PROBE_URL),
+            "fetch_expected_marker_present": True,
+            "fetch_probe_url_digest": digest(FETCH_PROBE_URL),
             "internal_network_target_used": False,
             "write_tools_called": False,
         }
