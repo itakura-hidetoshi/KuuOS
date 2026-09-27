@@ -4,6 +4,7 @@ import Mathlib
 namespace KUOS.DependentOriginationExactUniversalRestrictionWhiskeringV4_61
 
 open CategoryTheory
+open KUOS.DependentOriginationHigherStackDescentV2_8
 open KUOS.DependentOriginationHigherLocalizationInterfaceV2_10
 open KUOS.DependentOriginationCoherentWeakHigherLocalizationV2_19
 open KUOS.DependentOriginationExactUniversalMappingTwoCellV4_58
