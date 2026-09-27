@@ -16,6 +16,7 @@ from runtime.kuuos_runtime_observability_mcp_multiplexer_v7_1 import (
     BLOCKED,
     INGESTED,
     PREPARED,
+    TRANSIENT,
     UNAVAILABLE,
     build_observability_mcp_multiplexer,
 )
@@ -229,6 +230,47 @@ def test_datadog_optional_unavailable() -> None:
         assert "optional_provider_requires_runtime_connection_and_region_compatibility" in result.warnings
 
 
+def test_transient_github_log_blob_not_ready() -> None:
+    with tempfile.TemporaryDirectory() as td:
+        root = pathlib.Path(td)
+        write_plan(
+            root,
+            base_plan(
+                "github_actions",
+                "workflow_job_logs",
+                {"repo_full_name": "itakura-hidetoshi/KuuOS", "job_id": 123},
+            ),
+        )
+        prepared = build_observability_mcp_multiplexer(
+            runtime_context=ctx(root, "prepare"),
+            authority_packet=auth(),
+        )
+        assert prepared.status == PREPARED
+        request = json.loads((root / REQUEST).read_text())
+        raw = {
+            "provider": "github_actions",
+            "operation": "workflow_job_logs",
+            "source_request_digest": sha(request),
+            "connector_error": {
+                "status_code": 404,
+                "code": "BlobNotFound",
+                "message": "The specified log blob does not exist yet",
+            },
+        }
+        (root / RAW).write_text(json.dumps(raw), encoding="utf-8")
+        result = build_observability_mcp_multiplexer(
+            runtime_context=ctx(root, "ingest"),
+            authority_packet=auth(),
+        )
+        assert result.status == TRANSIENT, result.to_dict()
+        assert result.blockers == []
+        assert "log_not_yet_materialized" in result.warnings
+        assert not (root / NORMALIZED).exists()
+        receipt = json.loads((root / RECEIPT).read_text())
+        assert receipt["connector_obstruction"] == "log_not_yet_materialized"
+        assert receipt["connector_retryable"] is True
+
+
 def test_stale_result_rejected() -> None:
     with tempfile.TemporaryDirectory() as td:
         root = pathlib.Path(td)
@@ -267,6 +309,7 @@ def main() -> int:
     test_supabase_read_only_sql()
     test_neon_query_shape()
     test_datadog_optional_unavailable()
+    test_transient_github_log_blob_not_ready()
     test_stale_result_rejected()
     print("PASS: KuuOS Observability MCP Multiplexer v7.1")
     return 0
