@@ -195,6 +195,39 @@ def test_context7_is_verified_compatible_and_advisory() -> None:
     assert context7["activation"] == "on_demand_documentation"
 
 
+def test_fetch_and_official_docs_are_verified_compatible() -> None:
+    registry = load_registry()
+    by_id = {server["server_id"]: server for server in registry["servers"]}
+
+    fetch = by_id["mcp_fetch"]
+    docs = by_id["mcp_docs"]
+
+    assert fetch["status"] == "verified_compatible"
+    assert fetch["privilege_class"] == "read_only_network"
+    fetch_evidence = fetch["compatibility_evidence"]
+    assert fetch_evidence["source_tree_version"] == "0.6.3"
+    assert fetch_evidence["published_package_version"] == "2026.8.18"
+    assert fetch_evidence["mcp_sdk_pin"] == "1.29.0"
+    assert fetch_evidence["upstream_main_sha"] == "f46d9578190b476b3501923ea8977d899e8db2cb"
+    assert fetch_evidence["internal_network_target_used"] is False
+    assert fetch["launch_template"]["args"] == [
+        "--from",
+        "mcp-server-fetch==2026.8.18",
+        "--with",
+        "mcp==1.29.0",
+        "mcp-server-fetch",
+    ]
+
+    assert docs["status"] == "verified_compatible"
+    assert docs["privilege_class"] == "read_only"
+    docs_evidence = docs["compatibility_evidence"]
+    assert docs_evidence["endpoint"] == "https://modelcontextprotocol.io/mcp"
+    assert docs_evidence["protocol_version"] == "2026-07-28"
+    assert docs_evidence["upstream_main_sha"] == "ab3a39c13bd23be691c2760e1c6c5c15a64582e1"
+    assert docs_evidence["live_search_tool"] == "search_model_context_protocol"
+    assert docs_evidence["stateless_http"] is True
+
+
 def test_github_toolsets_cover_current_repo_development() -> None:
     registry = load_registry()
     github = next(
@@ -334,6 +367,7 @@ def main() -> int:
     test_maximal_profile_degrades_locally_when_optional_provider_missing()
     test_git_and_filesystem_are_verified_compatible()
     test_context7_is_verified_compatible_and_advisory()
+    test_fetch_and_official_docs_are_verified_compatible()
     test_github_toolsets_cover_current_repo_development()
     test_lean_lsp_is_verified_but_still_explicit_opt_in()
     test_browser_servers_are_complementary_and_isolated()

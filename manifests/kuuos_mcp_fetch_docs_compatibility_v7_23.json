@@ -1,0 +1,57 @@
+{
+  "version": "kuuos_mcp_fetch_docs_compatibility_manifest_v7_23",
+  "purpose": "Verify the MCP reference Fetch server and official Model Context Protocol documentation MCP endpoint as read-only development surfaces for KuuOS.",
+  "fetch": {
+    "repository": "modelcontextprotocol/servers",
+    "upstream_main_sha": "f46d9578190b476b3501923ea8977d899e8db2cb",
+    "package": "mcp-server-fetch",
+    "source_tree_version": "0.6.3",
+    "published_package_version": "2026.8.18",
+    "mcp_sdk_pin": "1.29.0",
+    "tool": "fetch",
+    "probe_url": "https://raw.githubusercontent.com/modelcontextprotocol/modelcontextprotocol/ab3a39c13bd23be691c2760e1c6c5c15a64582e1/README.md",
+    "internal_network_access_used": false
+  },
+  "official_docs": {
+    "repository": "modelcontextprotocol/modelcontextprotocol",
+    "upstream_main_sha": "ab3a39c13bd23be691c2760e1c6c5c15a64582e1",
+    "endpoint": "https://modelcontextprotocol.io/mcp",
+    "protocol_version": "2026-07-28",
+    "transport": "stateless_streamable_http",
+    "tool": "search_model_context_protocol",
+    "repository_skill_name": "SearchModelContextProtocol",
+    "live_tool_name_differs_from_repository_skill_spelling": true,
+    "initialize_handshake_expected": false,
+    "mcp_session_id_expected": false
+  },
+  "promotion_rule": {
+    "mcp_fetch_from": "recommended_read_only",
+    "mcp_docs_from": "recommended_read_only",
+    "to": "verified_compatible",
+    "requires_exact_head_ci_success": true,
+    "requires_fetch_live_call": true,
+    "requires_official_docs_tools_list": true,
+    "requires_official_docs_search_call": true
+  },
+  "boundaries": {
+    "both_surfaces_are_read_only": true,
+    "fetch_server_can_access_internal_networks_in_general": true,
+    "kuuos_probe_accesses_internal_network": false,
+    "official_docs_is_current_spec_reference_plane": true,
+    "official_docs_is_kuuos_repository_authority": false,
+    "fetch_content_is_kuuos_repository_authority": false,
+    "external_content_may_replace_exact_local_evidence": false,
+    "credentials_persisted": false,
+    "source_authority_transferred": false
+  },
+  "promotion_evidence": {
+    "initial_green_probe_head": "204561fca066ec3c22c18d28825328702855eacc",
+    "initial_green_probe_run_id": 36352723631,
+    "fetch_live_call_succeeded": true,
+    "fetch_published_package_version": "2026.8.18",
+    "official_docs_tools_list_succeeded": true,
+    "official_docs_search_call_succeeded": true,
+    "live_official_docs_search_tool": "search_model_context_protocol",
+    "final_promoted_head_must_revalidate": true
+  }
+}

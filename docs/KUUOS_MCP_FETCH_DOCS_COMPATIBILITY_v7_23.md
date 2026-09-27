@@ -1,0 +1,185 @@
+# KuuOS Fetch + Official MCP Docs Compatibility v7.23
+
+## Purpose
+
+KuuOS development now has verified repository, semantic, documentation, browser, and orchestration MCP surfaces.
+
+v7.23 adds two more read-only planes:
+
+```text
+MCP Fetch
+-> generic external web content retrieval
+
+Official MCP Docs
+-> current Model Context Protocol specification search
+```
+
+These are useful for different reasons and are not collapsed into one source.
+
+## Fetch MCP
+
+The pinned target is:
+
+```text
+reference source metadata: mcp-server-fetch 0.6.3
+published package: mcp-server-fetch 2026.8.18
+mcp SDK: exact upstream lock 1.29.0
+reference servers SHA f46d9578...
+```
+
+The exact SDK pin follows the upstream `src/fetch/uv.lock`, not only the looser `mcp>=1.29,<2` package constraint.
+
+The live probe:
+
+```text
+initialize
+-> tools/list
+-> fetch(raw README at exact modelcontextprotocol/modelcontextprotocol commit)
+```
+
+and requires the deterministic `Model Context Protocol` marker from that exact committed README.
+
+### Fetch network boundary
+
+The reference Fetch server explicitly warns that it can access local/internal IP addresses.
+
+KuuOS therefore records:
+
+```text
+fetch_server_can_access_internal_networks_in_general = true
+```
+
+but the compatibility probe itself uses only a public external URL and does not grant internal-network authority.
+
+## Official MCP Docs
+
+The current MCP specification repository explicitly configures:
+
+```text
+https://modelcontextprotocol.io/mcp
+```
+
+as its `mcp-docs` server and identifies:
+
+```text
+search_model_context_protocol
+```
+
+as the preferred authoritative tool for current specification content.
+
+The pinned reference repository head is:
+
+```text
+modelcontextprotocol/modelcontextprotocol
+ab3a39c13bd23be691c2760e1c6c5c15a64582e1
+```
+
+## Modern protocol path
+
+The current MCP specification is `2026-07-28`.
+
+That version is stateless:
+
+- no initialize/initialized handshake;
+- no MCP session ID;
+- protocol metadata is carried per request;
+- HTTP requests carry `MCP-Protocol-Version`;
+- method/tool routing is mirrored in `Mcp-Method` / `Mcp-Name`.
+
+v7.23 therefore tests the official docs server using that modern request model rather than forcing it through the older v1 SDK/session model used by the reference Fetch server.
+
+This is an important compatibility distinction:
+
+```text
+Fetch reference server
+-> MCP SDK 1.x / legacy initialization
+
+Official docs endpoint
+-> MCP 2026-07-28 stateless HTTP
+```
+
+Both remain valid conditioned surfaces.
+
+## Live docs probe
+
+The probe performs:
+
+```text
+tools/list
+-> require search_model_context_protocol
+-> tools/call(search_model_context_protocol)
+```
+
+with the required per-request metadata and modern HTTP headers.
+
+The search asks for current `tools/list` protocol metadata.
+
+A non-empty result is required.
+
+## Authority
+
+The official MCP Docs server is authoritative for current MCP specification content.
+
+It is not authoritative for:
+
+- KuuOS repository state;
+- KuuOS Lean theorems;
+- exact KuuOS GitHub HEAD;
+- local KuuOS working bytes.
+
+Likewise, generic Fetch content is only external evidence.
+
+The authority relationship is:
+
+```text
+for MCP specification:
+  official MCP Docs > generic external pages
+
+for exact KuuOS behavior:
+  repository-local evidence > external docs/fetch
+```
+
+## Promotion
+
+The first complete live probe succeeded at:
+
+```text
+head: 204561fca066ec3c22c18d28825328702855eacc
+run:  36352723631
+```
+
+That run verified both the published Fetch release and the modern official Docs endpoint.
+
+The registry is therefore promoted in this PR:
+
+```text
+mcp_fetch:
+  recommended_read_only -> verified_compatible
+
+mcp_docs:
+  recommended_read_only -> verified_compatible
+```
+
+The promoted final head must rerun the same live probes before merge. Neither promotion grants write or KuuOS source authority.
+
+
+## Fetch release/source discrepancy
+
+The first v7.23 run found that the current reference-tree version `0.6.3` is not published as `mcp-server-fetch==0.6.3`.
+
+KuuOS therefore does not pretend the source-tree version is installable. The live package index exposed `mcp-server-fetch 2026.8.18`. KuuOS pins that exact published release with the upstream SDK lock `mcp==1.29.0`.
+
+
+## Official Docs live tool naming
+
+The spec repository's MCP skill documentation refers to the search tool as `SearchModelContextProtocol`.
+
+The live official endpoint returned:
+
+```text
+search_model_context_protocol
+query_docs_filesystem_model_context_protocol
+submit_feedback
+```
+
+KuuOS therefore uses the live `tools/list` spelling `search_model_context_protocol` for compatibility calls and preserves the documentation/live naming difference as provenance.
