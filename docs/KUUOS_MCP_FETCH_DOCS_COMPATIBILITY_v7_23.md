@@ -21,8 +21,9 @@ These are useful for different reasons and are not collapsed into one source.
 The pinned target is:
 
 ```text
-mcp-server-fetch 0.6.3
-mcp SDK 1.29.0
+reference source metadata: mcp-server-fetch 0.6.3
+published package: discovered from the live package index, then pinned after the first GREEN
+mcp SDK: exact upstream lock 1.29.0
 reference servers SHA f46d9578...
 ```
 
@@ -151,3 +152,10 @@ mcp_docs:
 ```
 
 Neither promotion grants write or source authority.
+
+
+## Fetch release/source discrepancy
+
+The first v7.23 run found that the current reference-tree version `0.6.3` is not published as `mcp-server-fetch==0.6.3`.
+
+KuuOS therefore does not pretend the source-tree version is installable. The probe first resolves the actually published package version with the upstream SDK lock, records it, and then starts that exact release. After the first complete GREEN run, that observed release is pinned in the registry evidence.
