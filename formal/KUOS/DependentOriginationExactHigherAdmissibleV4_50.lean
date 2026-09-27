@@ -1,5 +1,7 @@
 import KUOS.DependentOriginationAbstractPresentationDescentV4_49
+import KUOS.DependentOriginationGeneratedRefinementTopologyV2_4
 import KUOS.DependentOriginationLocalizedSheafUniversalityV2_6
+import KUOS.DependentOriginationHigherStackCarrierV2_9
 import KUOS.DependentOriginationHigherLocalizationInterfaceV2_10
 import KUOS.DependentOriginationHigherLocalizationNecessityV2_16
 import KUOS.DependentOriginationAdmissibleNonfactorizationV4_01
@@ -154,15 +156,15 @@ theorem isHigherDependentOriginationAdmissible_iff_factorization_and_stack
         IsHigherGrothendieckDescentComplete W A H.lift := by
   constructor
   · rintro ⟨D⟩
-    let H : HigherLocalizationFactorization (W := W) R where
-      lift := D.carrier.1
-      comparison := D.comparison
-      comparison_isEquivalence := D.comparison_isEquivalence
+    let H : HigherLocalizationFactorization (W := W) R :=
+      { lift := D.carrier.1,
+        comparison := D.comparison,
+        comparison_isEquivalence := D.comparison_isEquivalence }
     exact ⟨H, D.carrier.2⟩
   · rintro ⟨H, hStack⟩
-    let HS : HigherStackLocalizationFactorization (W := W) A R where
-      toHigherLocalizationFactorization := H
-      isStack := hStack
+    let HS : HigherStackLocalizationFactorization (W := W) A R :=
+      { toHigherLocalizationFactorization := H,
+        isStack := hStack }
     exact
       ⟨higherDependentOriginationRealizationOfStackFactorization
         (W := W) A HS⟩
