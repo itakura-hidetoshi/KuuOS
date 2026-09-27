@@ -213,3 +213,17 @@ KuuOS therefore treats the released package's live `tools/list` as the compatibi
 The current upstream main `src/filesystem/package.json` reports `0.6.3`, but that exact version is not published on npm. The official npm package currently publishes `2026.8.31`.
 
 KuuOS therefore uses the actually installable official release `@modelcontextprotocol/server-filesystem@2026.8.31` for the live compatibility probe and records the source/package-version discrepancy explicitly.
+
+
+## Initial successful compatibility receipt
+
+The first complete live compatibility run succeeded at:
+
+```text
+head: a8b2baa62c78846647a075996b230e8201c924e2
+run:  36331468514
+```
+
+That run verified exact GitHub/local HEAD alignment, live Git MCP status/log calls, Filesystem MCP repository-root confinement, real KuuOS file read/search calls, and zero write-tool invocation.
+
+The registry is therefore promoted in this PR to `verified_compatible` for both local repository MCPs. The promoted final head must repeat the same live probe before merge.
