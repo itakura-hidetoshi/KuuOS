@@ -1,0 +1,44 @@
+name: Remote CI merge candidacy v7.30 validation
+
+on:
+  pull_request:
+    paths:
+      - 'runtime/kuuos_runtime_remote_ci_merge_candidacy_v7_30.py'
+      - 'scripts/check_kuuos_runtime_remote_ci_merge_candidacy_v7_30.py'
+      - 'manifests/kuuos_remote_ci_merge_candidacy_v7_30.json'
+      - 'docs/KUUOS_REMOTE_CI_MERGE_CANDIDACY_v7_30.md'
+      - '.github/workflows/remote-ci-merge-candidacy-v7-30-validation.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Compile v7.30 runtime
+        run: |
+          python -m py_compile             runtime/kuuos_runtime_remote_ci_merge_candidacy_v7_30.py             scripts/check_kuuos_runtime_remote_ci_merge_candidacy_v7_30.py
+
+      - name: Run focused v7.30 checks
+        run: |
+          PYTHONPATH=. python             scripts/check_kuuos_runtime_remote_ci_merge_candidacy_v7_30.py
+
+      - name: Verify CI and merge-authority boundaries
+        run: |
+          grep -Fq '"github_workflow_event_is_ci_success_evidence": false' manifests/kuuos_remote_ci_merge_candidacy_v7_30.json
+          grep -Fq '"ci_verified_non_success_rejects_remote_candidate": false' manifests/kuuos_remote_ci_merge_candidacy_v7_30.json
+          grep -Fq '"ci_success_grants_merge_authority": false' manifests/kuuos_remote_ci_merge_candidacy_v7_30.json
+          grep -Fq '"merge_candidate_executes_merge": false' manifests/kuuos_remote_ci_merge_candidacy_v7_30.json
+          grep -Fq '"merge_authority_granted": false' manifests/kuuos_remote_ci_merge_candidacy_v7_30.json
+
+      - name: Confirm Strict Lean is not invoked
+        run: |
+          echo "Runtime-only remote-CI/merge-candidacy evidence layer: Strict Lean intentionally not invoked."
