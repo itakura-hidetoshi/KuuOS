@@ -1,0 +1,44 @@
+name: Development MCP capability routing v7.24 validation
+
+on:
+  pull_request:
+    paths:
+      - 'runtime/kuuos_runtime_development_mcp_capability_routing_v7_24.py'
+      - 'scripts/check_kuuos_runtime_development_mcp_capability_routing_v7_24.py'
+      - 'manifests/kuuos_development_mcp_capability_routing_v7_24.json'
+      - 'docs/KUUOS_DEVELOPMENT_MCP_CAPABILITY_ROUTING_v7_24.md'
+      - '.github/workflows/development-mcp-capability-routing-v7-24-validation.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Compile routing layer
+        run: |
+          python -m py_compile             runtime/kuuos_runtime_development_mcp_capability_routing_v7_24.py             scripts/check_kuuos_runtime_development_mcp_capability_routing_v7_24.py
+
+      - name: Run focused routing checks
+        run: |
+          PYTHONPATH=. python scripts/check_kuuos_runtime_development_mcp_capability_routing_v7_24.py
+
+      - name: Verify routing boundaries
+        run: |
+          grep -Fq '"maximal_profile_is_default": false' manifests/kuuos_development_mcp_capability_routing_v7_24.json
+          grep -Fq '"route_by_fact_plane_not_server_popularity": true' manifests/kuuos_development_mcp_capability_routing_v7_24.json
+          grep -Fq '"external_docs_may_replace_exact_local_evidence": false' manifests/kuuos_development_mcp_capability_routing_v7_24.json
+          grep -Fq '"write_request_without_authority_is_rejection": false' manifests/kuuos_development_mcp_capability_routing_v7_24.json
+          grep -Fq '"source_authority_transferred": false' manifests/kuuos_development_mcp_capability_routing_v7_24.json
+
+      - name: Confirm Strict Lean is not invoked
+        run: |
+          echo "Runtime-only MCP routing layer: Strict Lean intentionally not invoked."
