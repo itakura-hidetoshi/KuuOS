@@ -1,0 +1,44 @@
+name: Two truths non-collapse v7.11 validation
+
+on:
+  pull_request:
+    paths:
+      - 'runtime/kuuos_runtime_two_truths_noncollapse_v7_11.py'
+      - 'scripts/check_kuuos_runtime_two_truths_noncollapse_v7_11.py'
+      - 'manifests/kuuos_two_truths_noncollapse_v7_11.json'
+      - 'docs/KUUOS_TWO_TRUTHS_NONCOLLAPSE_v7_11.md'
+      - '.github/workflows/two-truths-noncollapse-v7-11-validation.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Compile two-truths non-collapse layer
+        run: |
+          python -m py_compile             runtime/kuuos_runtime_two_truths_noncollapse_v7_11.py             scripts/check_kuuos_runtime_two_truths_noncollapse_v7_11.py
+
+      - name: Run focused two-truths non-collapse checks
+        run: |
+          python scripts/check_kuuos_runtime_two_truths_noncollapse_v7_11.py
+
+      - name: Verify paramartha does not erase samvrti
+        run: |
+          grep -Fq '"same_paramartha_does_not_imply_conventional_substitutability": true' manifests/kuuos_two_truths_noncollapse_v7_11.json
+          grep -Fq '"paramartha_equivalence_may_erase_samvrti_difference": false' manifests/kuuos_two_truths_noncollapse_v7_11.json
+          grep -Fq '"samvrti_difference_is_error": false' manifests/kuuos_two_truths_noncollapse_v7_11.json
+          grep -Fq '"samvrti_difference_can_be_operationally_required": true' manifests/kuuos_two_truths_noncollapse_v7_11.json
+          grep -Fq '"conventional_substitution_requires_samvrti_equivalence": true' manifests/kuuos_two_truths_noncollapse_v7_11.json
+
+      - name: Confirm Strict Lean is not invoked
+        run: |
+          echo "Runtime-only two-truths validation: Strict Lean intentionally not invoked."
