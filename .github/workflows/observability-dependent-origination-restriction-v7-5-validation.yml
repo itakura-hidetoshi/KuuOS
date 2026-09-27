@@ -1,0 +1,43 @@
+name: Observability dependent-origination restriction v7.5 validation
+
+on:
+  pull_request:
+    paths:
+      - 'runtime/kuuos_runtime_observability_dependent_origination_restriction_v7_5.py'
+      - 'scripts/check_kuuos_runtime_observability_dependent_origination_restriction_v7_5.py'
+      - 'manifests/kuuos_observability_dependent_origination_restriction_v7_5.json'
+      - 'docs/KUUOS_OBSERVABILITY_DEPENDENT_ORIGINATION_RESTRICTION_v7_5.md'
+      - '.github/workflows/observability-dependent-origination-restriction-v7-5-validation.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Compile dependent-origination restriction layer
+        run: |
+          python -m py_compile             runtime/kuuos_runtime_observability_dependent_origination_restriction_v7_5.py             scripts/check_kuuos_runtime_observability_dependent_origination_restriction_v7_5.py
+
+      - name: Run focused restriction checks
+        run: |
+          python scripts/check_kuuos_runtime_observability_dependent_origination_restriction_v7_5.py
+
+      - name: Verify dependent-origination restriction boundary
+        run: |
+          grep -Fq '"primary_model_is_graph": false' manifests/kuuos_observability_dependent_origination_restriction_v7_5.json
+          grep -Fq '"higher_gluing_obstruction_is_not_graph_connectivity_failure": true' manifests/kuuos_observability_dependent_origination_restriction_v7_5.json
+          grep -Fq '"higher_coherence_claimed": false' manifests/kuuos_observability_dependent_origination_restriction_v7_5.json
+          grep -Fq '"runtime_replaces_v4_61": false' manifests/kuuos_observability_dependent_origination_restriction_v7_5.json
+
+      - name: Confirm Strict Lean is not invoked
+        run: |
+          echo "Runtime-only dependent-origination restriction validation: Strict Lean intentionally not invoked."
