@@ -77,66 +77,44 @@ noncomputable def ExactUniversalRawMorphismTwoCell.whiskerLeft
           (W := W) A f g).comparison_square.hom ≫
           (X.presentation.comparison ◁ (f.raw ◁ eta.raw))
     rw [restrictHigherLocalizedModification_whiskerLeft]
-
-    /- `⊗≫` only inserts structural bicategorical coherence.  The source
-    and target below also contain KuuOS wrapper definitions.  Expose their
-    definitional equalities first, then register only the remaining
-    associator coherence for Mathlib's bicategorical composition. -/
-    letI : BicategoricalCoherence
-        (restrictHigherLocalizedStrongTrans
-            (W := W) (f.lift.hom ≫ g.lift.hom) ≫
-          Z.presentation.comparison)
-        (restrictHigherLocalizedStrongTrans (W := W) f.lift.hom ≫
-          restrictHigherLocalizedStrongTrans (W := W) g.lift.hom ≫
-            Z.presentation.comparison) :=
-      ⟨by
-        change
-          ((restrictHigherLocalizedStrongTrans (W := W) f.lift.hom ≫
-              restrictHigherLocalizedStrongTrans (W := W) g.lift.hom) ≫
-            Z.presentation.comparison) ≅
-          (restrictHigherLocalizedStrongTrans (W := W) f.lift.hom ≫
-            restrictHigherLocalizedStrongTrans (W := W) g.lift.hom ≫
-              Z.presentation.comparison)
-        exact
-          Bicategory.associator
-            (restrictHigherLocalizedStrongTrans (W := W) f.lift.hom)
-            (restrictHigherLocalizedStrongTrans (W := W) g.lift.hom)
-            Z.presentation.comparison⟩
-
-    letI : BicategoricalCoherence
-        ((X.presentation.comparison ≫ f.raw) ≫ h.raw)
-        (X.presentation.comparison ≫
-          (ExactUniversalRawMorphism.comp (W := W) A f h).raw) :=
-      ⟨by
-        change
-          ((X.presentation.comparison ≫ f.raw) ≫ h.raw) ≅
-            (X.presentation.comparison ≫ (f.raw ≫ h.raw))
-        exact
-          Bicategory.associator
-            X.presentation.comparison f.raw h.raw⟩
-
-    calc
-      _ =
-          𝟙 _ ⊗≫
-            (restrictHigherLocalizedStrongTrans (W := W) f.lift.hom) ◁
-              ((restrictHigherLocalizedModification
-                  (W := W) eta.lift.hom ▷
-                    Z.presentation.comparison) ≫
-                h.comparison_square.hom) ⊗≫
-            f.comparison_square.hom ▷ h.raw ⊗≫
-          𝟙 _ := by
-            bicategory
-      _ =
-          𝟙 _ ⊗≫
-            (restrictHigherLocalizedStrongTrans (W := W) f.lift.hom) ◁
-              (g.comparison_square.hom ≫
-                (Y.presentation.comparison ◁ eta.raw)) ⊗≫
-            f.comparison_square.hom ▷ h.raw ⊗≫
-          𝟙 _ := by
-            rw [eta.compatibility]
-            bicategory
-      _ = _ := by
-            bicategory
+    change
+      ((restrictHigherLocalizedStrongTrans (W := W) f.lift.hom ◁
+          restrictHigherLocalizedModification (W := W) eta.lift.hom) ▷
+          Z.presentation.comparison) ≫
+        (Bicategory.associator
+          (restrictHigherLocalizedStrongTrans (W := W) f.lift.hom)
+          (restrictHigherLocalizedStrongTrans (W := W) h.lift.hom)
+          Z.presentation.comparison).hom ≫
+        (restrictHigherLocalizedStrongTrans (W := W) f.lift.hom ◁
+          h.comparison_square.hom) ≫
+        (Bicategory.associator
+          (restrictHigherLocalizedStrongTrans (W := W) f.lift.hom)
+          Y.presentation.comparison h.raw).inv ≫
+        (f.comparison_square.hom ▷ h.raw) ≫
+        (Bicategory.associator
+          X.presentation.comparison f.raw h.raw).hom =
+      (Bicategory.associator
+        (restrictHigherLocalizedStrongTrans (W := W) f.lift.hom)
+        (restrictHigherLocalizedStrongTrans (W := W) g.lift.hom)
+        Z.presentation.comparison).hom ≫
+        (restrictHigherLocalizedStrongTrans (W := W) f.lift.hom ◁
+          g.comparison_square.hom) ≫
+        (Bicategory.associator
+          (restrictHigherLocalizedStrongTrans (W := W) f.lift.hom)
+          Y.presentation.comparison g.raw).inv ≫
+        (f.comparison_square.hom ▷ g.raw) ≫
+        (Bicategory.associator
+          X.presentation.comparison f.raw g.raw).hom ≫
+        (X.presentation.comparison ◁ (f.raw ◁ eta.raw))
+    rw [
+      Bicategory.associator_naturality_middle_assoc,
+      ← Bicategory.whiskerLeft_comp_assoc,
+      eta.compatibility,
+      Bicategory.whiskerLeft_comp_assoc,
+      Bicategory.associator_inv_naturality_right_assoc,
+      Bicategory.whisker_exchange_assoc,
+      Bicategory.associator_naturality_right_assoc
+    ]
 
 @[simp] theorem ExactUniversalRawMorphismTwoCell.whiskerLeft_raw
     {X Y Z : ExactUniversalRawObject (W := W) A}
