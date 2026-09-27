@@ -1,0 +1,64 @@
+{
+  "version": "kuuos_semantic_first_repair_loop_manifest_v7_20",
+  "purpose": "Connect fresh Lean-LSP semantic evidence and verified MCP workspace state to existing CodeAI candidate/preflight/repair contracts before any local or remote write authority.",
+  "predecessors": [
+    "KuuOS Development MCP Federation v7.19",
+    "CodeAI Candidate Patch Envelope v0.1",
+    "CodeAI Typed Structured Edit IR v0.1",
+    "CodeAI Candidate Static Admissibility Preflight v0.1",
+    "CodeAI Verification-Guided Candidate Repair and Regeneration v0.1",
+    "CodeAI Bounded Repair Cycle Orchestration v0.1"
+  ],
+  "core_rules": {
+    "dirty_worktree_may_continue_semantic_repair": true,
+    "lean_observation_bound_to_source_digest": true,
+    "stale_diagnostic_may_apply_patch": false,
+    "candidate_patch_bound_to_before_digest": true,
+    "candidate_receipt_is_current_byte_binding": false,
+    "candidate_result_requires_fresh_shadow_semantics": true,
+    "semantic_improvement_grants_local_write_authority": false,
+    "semantic_improvement_grants_remote_write_authority": false,
+    "static_preflight_is_correctness_proof": false,
+    "candidate_rejection_erases_local_worktree": false,
+    "remote_revision_mismatch_blocks_local_repair": false,
+    "remote_submission_requires_git_diff_review": true,
+    "remote_submission_requires_revision_alignment": true,
+    "remote_submission_requires_separate_authority_after_this_layer": true,
+    "source_authority_transferred": false
+  },
+  "routes": [
+    "no_semantic_repair_needed",
+    "workspace_binding_repair_required",
+    "lean_semantic_reobservation_required",
+    "repair_candidate_generation_ready",
+    "repair_candidate_stale_for_current_bytes",
+    "candidate_static_preflight_ready",
+    "candidate_repair_feedback_ready",
+    "candidate_hold_preserved",
+    "candidate_rejected_preserved",
+    "candidate_shadow_semantic_reobservation_required",
+    "candidate_semantic_regression",
+    "candidate_no_semantic_improvement",
+    "local_application_candidate",
+    "git_diff_review_ready",
+    "local_git_admission_required",
+    "remote_revision_reconciliation_required",
+    "remote_submission_candidate",
+    "repair_lineage_obstruction"
+  ],
+  "semantic_improvement": {
+    "measure": "candidate shadow Lean error count is strictly lower than candidate before-error count",
+    "is_correctness_proof": false,
+    "is_patch_application_authority": false,
+    "is_git_authority": false
+  },
+  "lineage": {
+    "current_bytes": "v7.19 Filesystem content digest",
+    "current_semantics": "Lean-LSP source content digest must equal current bytes",
+    "candidate_source": "explicit before_content_digest",
+    "candidate_provenance": "CodeAI Candidate Patch canonical receipt",
+    "candidate_static_shape": "CodeAI Static Admissibility canonical receipt",
+    "candidate_result_semantics": "shadow Lean source digest must equal result_content_digest",
+    "remote_submission": "Git diff reviewed + remote/local revision aligned + existing explicit authority after this layer"
+  }
+}
