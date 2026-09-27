@@ -1,0 +1,53 @@
+{
+  "version": "qi_github_actions_bounded_live_log_observer_manifest_v7_0",
+  "capability": "github_actions_bounded_live_log_observation",
+  "upstream": {
+    "repository": "github/github-mcp-server",
+    "verified_release": "v1.12.2",
+    "verified_release_published_at": "2026-09-16T10:58:24Z",
+    "required_toolset": "actions",
+    "required_tools": [
+      "actions_get",
+      "actions_list",
+      "get_job_logs"
+    ],
+    "required_get_job_logs_parameters": [
+      "owner",
+      "repo",
+      "job_id",
+      "return_content",
+      "tail_lines"
+    ]
+  },
+  "semantics": {
+    "claim_true_streaming": false,
+    "observation_model": "bounded_polling_tail",
+    "exact_head_sha_required": true,
+    "run_reobservation_required": true,
+    "job_reselection_allowed": true,
+    "terminal_full_log_digest_supported": true,
+    "raw_logs_persisted": false,
+    "delta_excerpt_bounded": true
+  },
+  "authority": {
+    "read_only": true,
+    "lockdown_mode": true,
+    "immutable_server_image_required": true,
+    "tool_discovery_required": true,
+    "all_required_tools_must_be_read_only": true,
+    "write_tools_allowed": []
+  },
+  "integration": {
+    "predecessor_observer": "kuuos_runtime_daemon_qi_github_actions_status_reobserver_v5_8",
+    "existing_connector_log_surface": "GitHub.fetch_workflow_job_logs",
+    "new_official_mcp_surface": "get_job_logs",
+    "handoff_family": "kuuos_runtime_daemon_qi_github_actions_*"
+  },
+  "failure_modes": [
+    "observed_run_head_sha_mismatch",
+    "required_tool_not_discovered",
+    "read_only_tool_classification_failed",
+    "official_server_image_not_immutable",
+    "bounded_polling_exhausted_without_terminal_state"
+  ]
+}
