@@ -13,7 +13,7 @@ import urllib.error
 import urllib.request
 from typing import Any, Mapping, Sequence
 
-FETCH_SOURCE_VERSION = "0.6.3"
+FETCH_SOURCE_VERSION = "0.6.3"\nFETCH_PUBLISHED_VERSION = "2026.8.18"\nFETCH_PROBE_URL = (\n    "https://raw.githubusercontent.com/modelcontextprotocol/modelcontextprotocol/"\n    + DOCS_REPOSITORY_SHA\n    + "/README.md"\n)
 FETCH_MCP_SDK_VERSION = "1.29.0"
 REFERENCE_SERVERS_SHA = "f46d9578190b476b3501923ea8977d899e8db2cb"
 
@@ -173,14 +173,14 @@ def result_text(response: Mapping[str, Any]) -> str:
     return "\n".join(parts)
 
 
-def detect_fetch_published_version(root: pathlib.Path) -> str:
+def verify_fetch_published_version(root: pathlib.Path) -> str:
     completed = subprocess.run(
         [
             "uv",
             "run",
             "--no-project",
             "--with",
-            "mcp-server-fetch",
+            f"mcp-server-fetch=={FETCH_PUBLISHED_VERSION}",
             "--with",
             f"mcp=={FETCH_MCP_SDK_VERSION}",
             "python",
@@ -197,14 +197,18 @@ def detect_fetch_published_version(root: pathlib.Path) -> str:
         timeout=120,
     )
     version = completed.stdout.strip().splitlines()[-1].strip()
-    if not version:
-        raise RuntimeError("fetch_published_version_empty")
-    print("FETCH_PUBLISHED_VERSION=" + version, flush=True)
+    if version != FETCH_PUBLISHED_VERSION:
+        raise RuntimeError(
+            "fetch_published_version_mismatch:"
+            + version
+            + ":"
+            + FETCH_PUBLISHED_VERSION
+        )
     return version
 
 
 def probe_fetch(root: pathlib.Path) -> dict[str, Any]:
-    published_version = detect_fetch_published_version(root)
+    published_version = verify_fetch_published_version(root)
     command = [
         "uvx",
         "--from",
@@ -237,7 +241,7 @@ def probe_fetch(root: pathlib.Path) -> dict[str, Any]:
             {
                 "name": "fetch",
                 "arguments": {
-                    "url": "https://example.com/",
+                    "url": FETCH_PROBE_URL,
                     "max_length": 2000,
                     "start_index": 0,
                     "raw": False,
@@ -245,7 +249,7 @@ def probe_fetch(root: pathlib.Path) -> dict[str, Any]:
             },
         )
         text = result_text(response)
-        if "Example Domain" not in text:
+        if "Model Context Protocol" not in text:
             raise RuntimeError("fetch_result_missing_expected_marker")
 
         init_result = initialized.get("result", {})
@@ -263,7 +267,7 @@ def probe_fetch(root: pathlib.Path) -> dict[str, Any]:
             "listed_tools_digest": digest(sorted(names)),
             "fetch_tool_present": True,
             "fetch_result_digest": digest(response.get("result", {})),
-            "fetch_expected_marker_present": True,
+            "fetch_expected_marker_present": True,\n            "fetch_probe_url_digest": digest(FETCH_PROBE_URL),
             "internal_network_target_used": False,
             "write_tools_called": False,
         }
