@@ -122,6 +122,42 @@ inside a large `change` target. -/
         X.presentation.comparison f.raw g.raw).hom :=
   rfl
 
+/-- Compatibility equation for left whiskering, proved independently of
+the dependent structure constructor. -/
+private theorem whiskerLeftCompatibility
+    {X Y Z : ExactUniversalRawObject (W := W) A}
+    (f : ExactUniversalRawMorphism (W := W) A X Y)
+    {g h : ExactUniversalRawMorphism (W := W) A Y Z}
+    (eta : ExactUniversalRawMorphismTwoCell (W := W) A g h) :
+    (restrictHigherLocalizedModification
+        (W := W) (f.lift.hom ◁ eta.lift.hom) ▷
+      Z.presentation.comparison) ≫
+        (ExactUniversalRawMorphism.comp
+          (W := W) A f h).comparison_square.hom =
+      (ExactUniversalRawMorphism.comp
+        (W := W) A f g).comparison_square.hom ≫
+        (X.presentation.comparison ◁ (f.raw ◁ eta.raw)) := by
+  rw [restrictHigherLocalizedModification_whiskerLeft]
+  rw [
+    ExactUniversalRawMorphism.comp_comparison_square_hom
+      (W := W) A f h,
+    ExactUniversalRawMorphism.comp_comparison_square_hom
+      (W := W) A f g
+  ]
+  exact
+    leftWhiskerCompositeSquare
+      (rf := restrictHigherLocalizedStrongTrans (W := W) f.lift.hom)
+      (etaL := restrictHigherLocalizedModification (W := W) eta.lift.hom)
+      (cZ := Z.presentation.comparison)
+      (cY := Y.presentation.comparison)
+      (cX := X.presentation.comparison)
+      (fraw := f.raw)
+      (etaR := eta.raw)
+      (gsq := g.comparison_square.hom)
+      (hsq := h.comparison_square.hom)
+      (fsq := f.comparison_square.hom)
+      eta.compatibility
+
 /-- Left whiskering of a compatible mapping-property 2-cell by a
 mapping-property 1-cell. -/
 noncomputable def ExactUniversalRawMorphismTwoCell.whiskerLeft
@@ -135,36 +171,8 @@ noncomputable def ExactUniversalRawMorphismTwoCell.whiskerLeft
       (ExactUniversalRawMorphism.comp (W := W) A f h) where
   raw := f.raw ◁ eta.raw
   lift := f.lift ◁ eta.lift
-  compatibility := by
-    change
-      (restrictHigherLocalizedModification
-          (W := W) (f.lift.hom ◁ eta.lift.hom) ▷
-        Z.presentation.comparison) ≫
-          (ExactUniversalRawMorphism.comp
-            (W := W) A f h).comparison_square.hom =
-        (ExactUniversalRawMorphism.comp
-          (W := W) A f g).comparison_square.hom ≫
-          (X.presentation.comparison ◁ (f.raw ◁ eta.raw))
-    rw [restrictHigherLocalizedModification_whiskerLeft]
-    rw [
-      ExactUniversalRawMorphism.comp_comparison_square_hom
-        (W := W) A f h,
-      ExactUniversalRawMorphism.comp_comparison_square_hom
-        (W := W) A f g
-    ]
-    exact
-      leftWhiskerCompositeSquare
-        (rf := restrictHigherLocalizedStrongTrans (W := W) f.lift.hom)
-        (etaL := restrictHigherLocalizedModification (W := W) eta.lift.hom)
-        (cZ := Z.presentation.comparison)
-        (cY := Y.presentation.comparison)
-        (cX := X.presentation.comparison)
-        (fraw := f.raw)
-        (etaR := eta.raw)
-        (gsq := g.comparison_square.hom)
-        (hsq := h.comparison_square.hom)
-        (fsq := f.comparison_square.hom)
-        eta.compatibility
+  compatibility :=
+    whiskerLeftCompatibility (W := W) A f eta
 
 @[simp] theorem ExactUniversalRawMorphismTwoCell.whiskerLeft_raw
     {X Y Z : ExactUniversalRawObject (W := W) A}
