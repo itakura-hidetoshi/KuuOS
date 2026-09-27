@@ -21,6 +21,8 @@ open KUOS.DependentOriginationAbstractNonfactorizationV4_00
 open KUOS.DependentOriginationAdmissibleNonfactorizationV4_01
 open KUOS.DependentOriginationAbstractPresentationDescentV4_49
 
+open scoped CategoryTheory.Pseudofunctor.StrongTrans
+
 set_option autoImplicit false
 
 noncomputable section
