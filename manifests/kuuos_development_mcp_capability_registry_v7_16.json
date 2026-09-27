@@ -258,14 +258,22 @@
       "publisher": "Microsoft",
       "source_repository": "microsoft/playwright-mcp",
       "source_kind": "official_vendor",
-      "status": "recommended_sandboxed",
+      "status": "verified_compatible",
+      "compatibility_evidence": {
+        "manifest": "manifests/kuuos_browser_mcp_compatibility_v7_21.json",
+        "package_version": "0.0.82",
+        "upstream_main_sha": "e87bb897e15a6f2af402afb0f10b45eced9e1f9b",
+        "initial_green_probe_head": "5a23e39508f6efb7683583d3b375fb9f262450fc",
+        "initial_green_probe_run_id": 36337090848,
+        "localhost_only": true
+      },
       "transport": ["stdio", "http"],
       "activation": "on_demand_browser_verification",
       "privilege_class": "browser_effect",
       "write_authority_path": "browser_session_effect_authority",
       "launch_template": {
         "command": "npx",
-        "args": ["-y", "@playwright/mcp@latest", "--isolated", "--headless"]
+        "args": ["-y", "@playwright/mcp@0.0.82", "--browser", "chrome", "--isolated", "--headless", "--no-webmcp", "--block-service-workers"]
       },
       "capability_families": [
         "browser_navigation",
@@ -276,7 +284,7 @@
       ],
       "runtime_requirements": ["node", "browser_runtime"],
       "isolation": "isolated_browser_context",
-      "notes": "Preferred for deterministic end-to-end web interactions and verification."
+      "notes": "Verified by v7.21 against a deterministic localhost fixture using navigation plus accessibility snapshot. Preferred for functional end-to-end browser verification; browser effects still require separate session authority."
     },
     {
       "server_id": "chrome_devtools",
@@ -284,14 +292,24 @@
       "publisher": "Google Chrome",
       "source_repository": "ChromeDevTools/chrome-devtools-mcp",
       "source_kind": "official_vendor",
-      "status": "recommended_sandboxed",
+      "status": "verified_compatible",
+      "compatibility_evidence": {
+        "manifest": "manifests/kuuos_browser_mcp_compatibility_v7_21.json",
+        "package_version": "1.10.1",
+        "upstream_main_sha": "ae0aaef884c41445d83f86f099ef211f4584b791",
+        "initial_green_probe_head": "5a23e39508f6efb7683583d3b375fb9f262450fc",
+        "initial_green_probe_run_id": 36337090848,
+        "localhost_only": true,
+        "usage_statistics_disabled": true,
+        "performance_crux_disabled": true
+      },
       "transport": ["stdio"],
       "activation": "on_demand_browser_debugging",
       "privilege_class": "browser_effect",
       "write_authority_path": "browser_session_effect_authority",
       "launch_template": {
         "command": "npx",
-        "args": ["-y", "chrome-devtools-mcp@latest", "--isolated"]
+        "args": ["-y", "chrome-devtools-mcp@1.10.1", "--headless=true", "--isolated=true", "--usage-statistics=false", "--performance-crux=false"]
       },
       "capability_families": [
         "browser_console_debugging",
@@ -302,7 +320,7 @@
       ],
       "runtime_requirements": ["node", "chrome"],
       "isolation": "isolated_browser_profile_and_workspace_roots",
-      "notes": "Complement Playwright: use for console/network/performance diagnosis rather than ordinary deterministic functional flows."
+      "notes": "Verified by v7.21 against the same localhost fixture with page snapshot and console diagnostics. Complement Playwright: use for console/network/performance diagnosis; browser effects remain separately authorized."
     },
     {
       "server_id": "docker_mcp_gateway",

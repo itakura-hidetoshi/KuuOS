@@ -249,10 +249,24 @@ def test_browser_servers_are_complementary_and_isolated() -> None:
     playwright = by_id["playwright"]
     chrome = by_id["chrome_devtools"]
 
+    assert playwright["status"] == "verified_compatible"
+    assert chrome["status"] == "verified_compatible"
     assert "functional_web_verification" in playwright["capability_families"]
     assert "performance_trace_analysis" in chrome["capability_families"]
     assert "isolated" in playwright["isolation"]
     assert "isolated" in chrome["isolation"]
+
+    pw_evidence = playwright["compatibility_evidence"]
+    assert pw_evidence["package_version"] == "0.0.82"
+    assert pw_evidence["upstream_main_sha"] == "e87bb897e15a6f2af402afb0f10b45eced9e1f9b"
+    assert pw_evidence["localhost_only"] is True
+
+    chrome_evidence = chrome["compatibility_evidence"]
+    assert chrome_evidence["package_version"] == "1.10.1"
+    assert chrome_evidence["upstream_main_sha"] == "ae0aaef884c41445d83f86f099ef211f4584b791"
+    assert chrome_evidence["localhost_only"] is True
+    assert chrome_evidence["usage_statistics_disabled"] is True
+    assert chrome_evidence["performance_crux_disabled"] is True
 
     result = build_development_mcp_profile(
         registry=registry,

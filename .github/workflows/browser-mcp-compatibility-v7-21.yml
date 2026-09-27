@@ -1,0 +1,67 @@
+name: Browser MCP compatibility v7.21
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/check_kuuos_browser_mcp_compatibility_v7_21.py'
+      - 'manifests/kuuos_browser_mcp_compatibility_v7_21.json'
+      - 'docs/KUUOS_BROWSER_MCP_COMPATIBILITY_v7_21.md'
+      - 'manifests/kuuos_development_mcp_capability_registry_v7_16.json'
+      - 'runtime/kuuos_runtime_development_mcp_capability_registry_v7_16.py'
+      - 'scripts/check_kuuos_runtime_development_mcp_capability_registry_v7_16.py'
+      - '.github/workflows/browser-mcp-compatibility-v7-21.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  compatibility:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Verify Chrome is available
+        run: |
+          set -euo pipefail
+          command -v google-chrome || command -v google-chrome-stable
+          (google-chrome --version || google-chrome-stable --version)
+
+      - name: Run live browser MCP compatibility probe
+        env:
+          CI: 'true'
+        run: |
+          set -euo pipefail
+          PYTHONPATH=. python             scripts/check_kuuos_browser_mcp_compatibility_v7_21.py             --repository-root .             --receipt browser_mcp_compatibility_receipt_v7_21.json
+
+      - name: Verify compatibility receipt
+        run: |
+          python - <<'PY'
+          import json
+          r = json.load(open("browser_mcp_compatibility_receipt_v7_21.json"))
+          assert r["status"] == "KUUOS_BROWSER_MCP_COMPATIBILITY_VERIFIED"
+          assert r["playwright"]["probe"]["fixture_marker_observed"] is True
+          assert r["chrome_devtools"]["probe"]["fixture_marker_observed"] is True
+          assert r["chrome_devtools"]["probe"]["console_marker_observed"] is True
+          assert r["shared_fixture"]["external_network_target"] is False
+          assert r["boundary"]["playwright_and_chrome_are_same_presentation"] is False
+          assert r["boundary"]["compatibility_receipt_is_browser_effect_authority"] is False
+          PY
+
+      - name: Upload compatibility receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-browser-mcp-compatibility-${{ github.run_id }}-${{ github.run_attempt }}
+          path: browser_mcp_compatibility_receipt_v7_21.json
+          if-no-files-found: error
+          retention-days: 14

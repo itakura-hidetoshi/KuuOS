@@ -276,6 +276,35 @@ def validate_registry(registry: Mapping[str, Any]) -> list[str]:
         if server_id in {"playwright", "chrome_devtools"}:
             if "isolated" not in str(raw.get("isolation", "")):
                 errors.append("browser_isolation_missing:" + server_id)
+            if raw.get("status") == "verified_compatible":
+                evidence = _m(raw.get("compatibility_evidence"))
+                expected = (
+                    {
+                        "manifest": "manifests/kuuos_browser_mcp_compatibility_v7_21.json",
+                        "package_version": "0.0.82",
+                        "upstream_main_sha": "e87bb897e15a6f2af402afb0f10b45eced9e1f9b",
+                    }
+                    if server_id == "playwright"
+                    else {
+                        "manifest": "manifests/kuuos_browser_mcp_compatibility_v7_21.json",
+                        "package_version": "1.10.1",
+                        "upstream_main_sha": "ae0aaef884c41445d83f86f099ef211f4584b791",
+                    }
+                )
+                for key, value in expected.items():
+                    if str(evidence.get(key, "")) != value:
+                        errors.append(server_id + "_compatibility_evidence_invalid:" + key)
+                if evidence.get("localhost_only") is not True:
+                    errors.append(server_id + "_compatibility_scope_invalid")
+                if not str(evidence.get("initial_green_probe_head", "")).strip():
+                    errors.append(server_id + "_green_probe_head_missing")
+                if not isinstance(evidence.get("initial_green_probe_run_id"), int):
+                    errors.append(server_id + "_green_probe_run_id_missing")
+                if server_id == "chrome_devtools":
+                    if evidence.get("usage_statistics_disabled") is not True:
+                        errors.append("chrome_usage_statistics_boundary_invalid")
+                    if evidence.get("performance_crux_disabled") is not True:
+                        errors.append("chrome_crux_boundary_invalid")
 
     for profile_name, members in profiles.items():
         if not isinstance(members, list) or not members:
