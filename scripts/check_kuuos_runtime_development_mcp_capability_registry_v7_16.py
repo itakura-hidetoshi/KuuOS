@@ -179,6 +179,22 @@ def test_git_and_filesystem_are_verified_compatible() -> None:
     assert fs_evidence["upstream_main_sha"] == "f46d9578190b476b3501923ea8977d899e8db2cb"
 
 
+def test_context7_is_verified_compatible_and_advisory() -> None:
+    registry = load_registry()
+    context7 = next(
+        server
+        for server in registry["servers"]
+        if server["server_id"] == "context7"
+    )
+    assert context7["status"] == "verified_compatible"
+    assert context7["privilege_class"] == "read_only"
+    evidence = context7["compatibility_evidence"]
+    assert evidence["package_version"] == "4.1.1"
+    assert evidence["upstream_master_sha"] == "e275a848a420e0d11c2822f61201ee005bfd1133"
+    assert evidence["api_key_used"] is False
+    assert context7["activation"] == "on_demand_documentation"
+
+
 def test_github_toolsets_cover_current_repo_development() -> None:
     registry = load_registry()
     github = next(
@@ -276,6 +292,7 @@ def main() -> int:
     test_write_request_routes_to_independent_authorities()
     test_maximal_profile_degrades_locally_when_optional_provider_missing()
     test_git_and_filesystem_are_verified_compatible()
+    test_context7_is_verified_compatible_and_advisory()
     test_github_toolsets_cover_current_repo_development()
     test_lean_lsp_is_verified_but_still_explicit_opt_in()
     test_browser_servers_are_complementary_and_isolated()

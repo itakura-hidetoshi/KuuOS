@@ -164,7 +164,7 @@ This makes local file search/edit capabilities available without turning Filesys
 
 ## Context7
 
-Context7 supplies current library/framework/API documentation.
+Context7 supplies current library/framework/API documentation. v7.20 has live-verified `@upstash/context7-mcp 4.1.1` through `resolve-library-id` and `query-docs` without an API key, so its registry status is now `verified_compatible`.
 
 It is useful when KuuOS development depends on changing external interfaces, especially:
 

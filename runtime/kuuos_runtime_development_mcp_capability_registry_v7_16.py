@@ -231,6 +231,23 @@ def validate_registry(registry: Mapping[str, Any]) -> list[str]:
             if not isinstance(evidence.get("initial_green_probe_run_id"), int):
                 errors.append("git_green_probe_run_id_missing")
 
+        if server_id == "context7" and raw.get("status") == "verified_compatible":
+            evidence = _m(raw.get("compatibility_evidence"))
+            expected = {
+                "manifest": "manifests/kuuos_context7_mcp_compatibility_v7_20.json",
+                "package_version": "4.1.1",
+                "upstream_master_sha": "e275a848a420e0d11c2822f61201ee005bfd1133",
+            }
+            for key, value in expected.items():
+                if str(evidence.get(key, "")) != value:
+                    errors.append("context7_compatibility_evidence_invalid:" + key)
+            if evidence.get("api_key_used") is not False:
+                errors.append("context7_probe_api_key_boundary_invalid")
+            if not str(evidence.get("initial_green_probe_head", "")).strip():
+                errors.append("context7_green_probe_head_missing")
+            if not isinstance(evidence.get("initial_green_probe_run_id"), int):
+                errors.append("context7_green_probe_run_id_missing")
+
         if server_id == "lean_lsp":
             lean_status = str(raw.get("status", ""))
             if lean_status not in {"experimental_high_value", "verified_compatible"}:
