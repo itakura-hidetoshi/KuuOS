@@ -1,0 +1,57 @@
+{
+  "version": "kuuos_remote_ci_merge_candidacy_manifest_v7_30",
+  "purpose": "Bind a v7.29 published candidate branch to a fresh exact PR/head/base observation and verified CI Completion Reentry v1.1 packets before merge candidacy may be formed.",
+  "predecessors": [
+    "KuuOS GitHub Remote Candidate Materialization v7.29",
+    "KuuOS GitHub CI Completion Reentry v1.1",
+    "KuuOS PR Governance Gate"
+  ],
+  "core_rules": {
+    "candidate_branch_head_must_equal_v7_29_remote_commit": true,
+    "base_head_must_equal_v7_29_reobserved_base": true,
+    "pull_request_head_must_equal_candidate_head": true,
+    "pull_request_base_must_equal_current_base": true,
+    "draft_pull_request_is_merge_candidate": false,
+    "github_workflow_event_is_ci_success_evidence": false,
+    "fresh_mcp_ci_reobservation_required": true,
+    "required_ci_workflows_must_all_be_present": true,
+    "required_ci_workflows_must_all_bind_exact_candidate_head": true,
+    "required_ci_workflows_must_all_be_verified_success_for_merge_candidate": true,
+    "ci_verified_non_success_rejects_remote_candidate": false,
+    "candidate_head_move_rejects_remote_candidate": false,
+    "base_head_move_rejects_remote_candidate": false,
+    "ci_success_grants_merge_authority": false,
+    "ci_success_grants_write_authority": false,
+    "merge_candidate_executes_merge": false,
+    "source_authority_transferred": false
+  },
+  "states": [
+    "remote_candidate_head_reobservation_required",
+    "remote_candidate_head_reconciliation_required",
+    "remote_base_reconciliation_required",
+    "pull_request_required",
+    "pull_request_binding_reconciliation_required",
+    "pull_request_review_state_required",
+    "candidate_ci_reobservation_required",
+    "candidate_ci_non_success_repair_reentry",
+    "candidate_ci_binding_obstruction",
+    "merge_candidate_ready_explicit_merge_authority_required"
+  ],
+  "ci_verification_contract": {
+    "version": "kuuos_github_ci_completion_reentry_v1_1",
+    "required_status": "KUUOS_GITHUB_CI_COMPLETION_REENTRY_VERIFIED",
+    "required_route_for_merge_candidate": "verified_success",
+    "fresh_mcp_reobservation": true,
+    "merge_authority_granted": false,
+    "write_authority_granted": false
+  },
+  "merge_candidate_boundary": {
+    "exact_candidate_head": true,
+    "exact_current_base": true,
+    "open_non_draft_pr_bound": true,
+    "required_ci_complete": true,
+    "required_ci_success": true,
+    "merge_authority_granted": false,
+    "next": "acquire explicit merge authority and use expected-head merge, followed by fresh post-merge exact-head re-observation"
+  }
+}
