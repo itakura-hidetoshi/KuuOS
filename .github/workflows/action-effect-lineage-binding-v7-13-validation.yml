@@ -1,0 +1,44 @@
+name: Action-effect lineage binding v7.13 validation
+
+on:
+  pull_request:
+    paths:
+      - 'runtime/kuuos_runtime_action_effect_lineage_binding_v7_13.py'
+      - 'scripts/check_kuuos_runtime_action_effect_lineage_binding_v7_13.py'
+      - 'manifests/kuuos_action_effect_lineage_binding_v7_13.json'
+      - 'docs/KUUOS_ACTION_EFFECT_LINEAGE_BINDING_v7_13.md'
+      - '.github/workflows/action-effect-lineage-binding-v7-13-validation.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Compile action-effect lineage layer
+        run: |
+          python -m py_compile             runtime/kuuos_runtime_action_effect_lineage_binding_v7_13.py             scripts/check_kuuos_runtime_action_effect_lineage_binding_v7_13.py
+
+      - name: Run focused action-effect lineage checks
+        run: |
+          PYTHONPATH=. python scripts/check_kuuos_runtime_action_effect_lineage_binding_v7_13.py
+
+      - name: Verify semantic routes do not become authority
+        run: |
+          grep -Fq '"semantic_route_is_execution_authority": false' manifests/kuuos_action_effect_lineage_binding_v7_13.json
+          grep -Fq '"binding_layer_executes_effect": false' manifests/kuuos_action_effect_lineage_binding_v7_13.json
+          grep -Fq '"lower_authority_can_resolve_prior_authority_pending": true' manifests/kuuos_action_effect_lineage_binding_v7_13.json
+          grep -Fq '"transaction_outcome_may_refine_action_status": true' manifests/kuuos_action_effect_lineage_binding_v7_13.json
+          grep -Fq '"execution_success_implies_mission_success": false' manifests/kuuos_action_effect_lineage_binding_v7_13.json
+
+      - name: Confirm Strict Lean is not invoked
+        run: |
+          echo "Runtime-only action-effect-lineage validation: Strict Lean intentionally not invoked."
