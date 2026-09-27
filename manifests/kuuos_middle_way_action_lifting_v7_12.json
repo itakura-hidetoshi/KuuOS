@@ -1,0 +1,46 @@
+{
+  "version": "kuuos_middle_way_action_lifting_manifest_v7_12",
+  "purpose": "Lift action candidates through the Two Truths boundary without blanket rejection of paramartha-only bases, samvrti world mismatch, or direct-execution requests.",
+  "predecessor": "KuuOS Two Truths Non-collapse v7.11",
+  "core_rules": {
+    "direct_execution_request_is_block_reason": false,
+    "paramartha_only_action_is_automatically_blocked": false,
+    "world_binding_mismatch_is_automatically_blocked": false,
+    "fresh_external_authority_required_for_effect": true,
+    "paramartha_meaning_does_not_grant_execution_authority": true,
+    "world_transfer_witness_can_support_cross_world_lifting": true,
+    "world_invariant_action_can_cross_samvrti_presentations": true,
+    "bounded_reversible_probe_can_resolve_world_uncertainty": true,
+    "direct_execution_request_can_become_licensed_candidate": true,
+    "runtime_assessment_executes_action": false
+  },
+  "action_routes": {
+    "licensed_execution_candidate_exact_world": "Fresh authority, evidence, execution fitness and exact samvrti world binding are present.",
+    "licensed_execution_candidate_transferred_world": "Cross-world lifting is supported by a certified transfer or action-invariance witness and fresh target-world authority.",
+    "licensed_execution_candidate_world_independent": "The action is genuinely world-independent and fresh authority covers the world-independent effect surface.",
+    "bounded_probe_candidate": "World binding is unresolved or mismatched, but a low-impact, high-reversibility, high-recoverability probe is separately authorized.",
+    "execution_eligible_not_requested": "Execution conditions are satisfied, but direct execution was not requested.",
+    "fresh_authority_required": "The action remains a candidate; fresh lower effect authority is the missing condition.",
+    "authority_renewal_or_replan_required": "Prior authority is expired or revoked; the action is retained but cannot reuse stale authority.",
+    "evidence_required": "Required evidence is missing.",
+    "review_required": "The action explicitly requires human review.",
+    "world_transfer_or_reconciliation_required": "A world-dependent action lacks sufficient cross-world support.",
+    "review_or_replan_required": "Concrete risk, irreversibility, recoverability, impact, or compensation conditions are insufficient.",
+    "advisory_or_plan_candidate": "The action remains usable at proposal level without current effect eligibility.",
+    "explicitly_prohibited": "The action is explicitly prohibited by its own conventional contract."
+  },
+  "middle_way": {
+    "request_is_not_authority": true,
+    "authority_absence_is_not_semantic_rejection": true,
+    "world_difference_is_not_automatic_failure": true,
+    "risk_specific_reasons_replace_blanket_blocking": true,
+    "reversible_bounded_exploration_is_first_class": true
+  },
+  "references": [
+    "runtime/kuuos_decision_os_phase_v0_1.py",
+    "runtime/kuuos_runtime_two_truths_noncollapse_v7_11.py",
+    "docs/KUUOS_TRANSACTIONAL_EFFECT_RECONCILIATION_KERNEL_v0_24.md",
+    "docs/KUUOS_AUTONOMOUS_AGENT_COMPLETION_ARCHITECTURE_v0_19.md"
+  ],
+  "next": "bind execution candidates to actual ActOS authorization and post-effect ObserveOS/VerifyOS receipts without turning semantic equivalence into execution authority"
+}

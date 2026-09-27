@@ -1,0 +1,45 @@
+name: Middle-way action lifting v7.12 validation
+
+on:
+  pull_request:
+    paths:
+      - 'runtime/kuuos_runtime_middle_way_action_lifting_v7_12.py'
+      - 'scripts/check_kuuos_runtime_middle_way_action_lifting_v7_12.py'
+      - 'manifests/kuuos_middle_way_action_lifting_v7_12.json'
+      - 'docs/KUUOS_MIDDLE_WAY_ACTION_LIFTING_v7_12.md'
+      - '.github/workflows/middle-way-action-lifting-v7-12-validation.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Compile middle-way action lifting layer
+        run: |
+          python -m py_compile             runtime/kuuos_runtime_middle_way_action_lifting_v7_12.py             scripts/check_kuuos_runtime_middle_way_action_lifting_v7_12.py
+
+      - name: Run focused middle-way action checks
+        run: |
+          python scripts/check_kuuos_runtime_middle_way_action_lifting_v7_12.py
+
+      - name: Verify action requests and world mismatch are not blanket blockers
+        run: |
+          grep -Fq '"direct_execution_request_is_block_reason": false' manifests/kuuos_middle_way_action_lifting_v7_12.json
+          grep -Fq '"paramartha_only_action_is_automatically_blocked": false' manifests/kuuos_middle_way_action_lifting_v7_12.json
+          grep -Fq '"world_binding_mismatch_is_automatically_blocked": false' manifests/kuuos_middle_way_action_lifting_v7_12.json
+          grep -Fq '"world_transfer_witness_can_support_cross_world_lifting": true' manifests/kuuos_middle_way_action_lifting_v7_12.json
+          grep -Fq '"bounded_reversible_probe_can_resolve_world_uncertainty": true' manifests/kuuos_middle_way_action_lifting_v7_12.json
+          grep -Fq '"runtime_assessment_executes_action": false' manifests/kuuos_middle_way_action_lifting_v7_12.json
+
+      - name: Confirm Strict Lean is not invoked
+        run: |
+          echo "Runtime-only action-lifting validation: Strict Lean intentionally not invoked."
