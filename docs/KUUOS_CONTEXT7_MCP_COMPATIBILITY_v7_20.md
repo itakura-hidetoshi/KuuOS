@@ -111,3 +111,17 @@ context7:
 This means the pinned Context7 package demonstrated live interoperability with the KuuOS development environment.
 
 It does not transfer source authority.
+
+
+## Initial successful compatibility receipt
+
+The first complete live compatibility run succeeded at:
+
+```text
+head: b3d6e10b9358f9a15a7cd893fff8467274234642
+run:  36336280623
+```
+
+That run completed MCP initialization, tool discovery, `resolve-library-id`, and a non-empty `query-docs` response without an API key.
+
+The registry is therefore promoted in this PR to `verified_compatible` for Context7. The promoted final head must repeat the same live probe before merge.
