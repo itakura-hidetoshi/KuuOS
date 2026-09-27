@@ -1,0 +1,42 @@
+{
+  "version": "kuuos_samvrti_world_version_dynamics_manifest_v7_15",
+  "purpose": "Classify successive verified samvrti world versions inside one paramartha fiber as reversible local dynamics, cumulative drift, structural drift, or disconnected history without reclassifying paramartha automatically.",
+  "predecessor": "KuuOS Samvrti World Effect Update v7.14",
+  "core_rules": {
+    "history_composition_required": true,
+    "world_digest_change_alone_is_structural_drift": false,
+    "policy_thresholds_are_semantic_truth": false,
+    "structural_drift_changes_paramartha_class": false,
+    "structural_drift_requires_world_dependent_binding_recheck": true,
+    "structural_drift_blocks_world_independent_action": false,
+    "cumulative_drift_preserves_paramartha_fiber": true,
+    "reversible_local_change_is_first_class": true,
+    "history_discontinuity_is_not_filled_by_fabrication": true,
+    "world_history_remains_append_only": true
+  },
+  "dynamics_classes": {
+    "reversible_local_samvrti_dynamics": "Continuous history, stable binding/context, bounded local change, high reversibility/recoverability and bounded impact.",
+    "cumulative_samvrti_drift": "Continuous same-fiber history with repeated directional change or accumulated local change, while binding and structural context remain stable.",
+    "structural_world_drift_rebind_required": "World binding signature, structural context, or an explicit revalidation request changed; world-dependent bindings must be rechecked.",
+    "single_world_transition_observed": "One verified transition exists but there is not yet enough history for drift classification.",
+    "samvrti_dynamics_indeterminate": "History is continuous but the evidence does not justify the other classifications.",
+    "samvrti_world_history_disconnected": "Successive versions do not compose by prior/observed world-state digest.",
+    "paramartha_fiber_obstructed": "Versions do not remain in one paramartha fiber."
+  },
+  "structural_drift_scope": {
+    "world_dependent_binding_recheck_required": true,
+    "world_independent_action_reuse_allowed": true,
+    "paramartha_reclassification_required": false,
+    "global_action_block": false
+  },
+  "policy": {
+    "numeric_thresholds_are_runtime_operational_policy_only": true,
+    "formal_semantics_are_not_numeric_thresholds": true
+  },
+  "formal_reference": {
+    "relational_feedback": "formal/KUOS/DependentOriginationRelationalFeedbackSemanticsV0_1.lean",
+    "history_transport": "formal/KUOS/DependentOriginationMemoryLiftedHistoryTransportV0_7.lean",
+    "runtime_claims_formal_theorem": false
+  },
+  "next": "feed verified samvrti dynamics into belief and planning revision so local reversible changes update context cheaply while structural drift selectively invalidates world-dependent assumptions"
+}

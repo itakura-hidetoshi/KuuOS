@@ -1,0 +1,44 @@
+name: Samvrti world-version dynamics v7.15 validation
+
+on:
+  pull_request:
+    paths:
+      - 'runtime/kuuos_runtime_samvrti_world_version_dynamics_v7_15.py'
+      - 'scripts/check_kuuos_runtime_samvrti_world_version_dynamics_v7_15.py'
+      - 'manifests/kuuos_samvrti_world_version_dynamics_v7_15.json'
+      - 'docs/KUUOS_SAMVRTI_WORLD_VERSION_DYNAMICS_v7_15.md'
+      - '.github/workflows/samvrti-world-version-dynamics-v7-15-validation.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Compile samvrti world-version dynamics layer
+        run: |
+          python -m py_compile             runtime/kuuos_runtime_samvrti_world_version_dynamics_v7_15.py             scripts/check_kuuos_runtime_samvrti_world_version_dynamics_v7_15.py
+
+      - name: Run focused samvrti world-version dynamics checks
+        run: |
+          PYTHONPATH=. python scripts/check_kuuos_runtime_samvrti_world_version_dynamics_v7_15.py
+
+      - name: Verify scoped structural-drift semantics
+        run: |
+          grep -Fq '"world_digest_change_alone_is_structural_drift": false' manifests/kuuos_samvrti_world_version_dynamics_v7_15.json
+          grep -Fq '"policy_thresholds_are_semantic_truth": false' manifests/kuuos_samvrti_world_version_dynamics_v7_15.json
+          grep -Fq '"structural_drift_changes_paramartha_class": false' manifests/kuuos_samvrti_world_version_dynamics_v7_15.json
+          grep -Fq '"structural_drift_blocks_world_independent_action": false' manifests/kuuos_samvrti_world_version_dynamics_v7_15.json
+          grep -Fq '"history_discontinuity_is_not_filled_by_fabrication": true' manifests/kuuos_samvrti_world_version_dynamics_v7_15.json
+
+      - name: Confirm Strict Lean is not invoked
+        run: |
+          echo "Runtime-only samvrti-world-version-dynamics validation: Strict Lean intentionally not invoked."
