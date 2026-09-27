@@ -80,7 +80,15 @@ noncomputable def ExactUniversalRawMorphismTwoCell.id
   raw := 𝟙 f.raw
   lift := 𝟙 f.lift
   compatibility := by
-    rw [show (𝟙 f.lift).hom = 𝟙 f.lift.hom by rfl]
+    change
+      (Bicategory.whiskerRight
+          (restrictHigherLocalizedModification
+            (W := W) (𝟙 (f.lift.hom)))
+          Y.presentation.comparison) ≫
+        f.comparison_square.hom =
+      f.comparison_square.hom ≫
+        Bicategory.whiskerLeft
+          X.presentation.comparison (𝟙 f.raw)
     rw [restrictHigherLocalizedModification_id]
     simp
 
@@ -94,8 +102,15 @@ noncomputable def ExactUniversalRawMorphismTwoCell.vcomp
   raw := eta.raw ≫ theta.raw
   lift := eta.lift ≫ theta.lift
   compatibility := by
-    rw [show (eta.lift ≫ theta.lift).hom =
-      eta.lift.hom ≫ theta.lift.hom by rfl]
+    change
+      (Bicategory.whiskerRight
+          (restrictHigherLocalizedModification
+            (W := W) (eta.lift.hom ≫ theta.lift.hom))
+          Y.presentation.comparison) ≫
+        h.comparison_square.hom =
+      f.comparison_square.hom ≫
+        Bicategory.whiskerLeft
+          X.presentation.comparison (eta.raw ≫ theta.raw)
     rw [restrictHigherLocalizedModification_comp]
     rw [Bicategory.comp_whiskerRight]
     rw [Category.assoc]
