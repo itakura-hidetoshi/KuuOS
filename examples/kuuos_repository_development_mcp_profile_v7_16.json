@@ -1,0 +1,117 @@
+{
+  "version": "kuuos_repository_development_mcp_profile_v7_16",
+  "profile": "kuuos_maximal_repository_development",
+  "repository": "itakura-hidetoshi/KuuOS",
+  "usage": "Host-neutral project profile. Resolve placeholders and authorities at runtime; do not commit credentials.",
+  "servers": [
+    {
+      "server_id": "github_official",
+      "mode": "reuse_existing_kuuos_github_mcp_bridge",
+      "recommended_toolsets": "context,repos,git,issues,labels,pull_requests,actions,code_quality,code_security,dependabot,secret_protection,security_advisories,notifications,discussions,governance"
+    },
+    {
+      "server_id": "git_reference",
+      "type": "stdio",
+      "command": "uvx",
+      "args": ["mcp-server-git"],
+      "workspace": "<KUUOS_REPOSITORY_ROOT>"
+    },
+    {
+      "server_id": "filesystem_reference",
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "<KUUOS_REPOSITORY_ROOT>"
+      ]
+    },
+    {
+      "server_id": "lean_lsp",
+      "type": "stdio",
+      "command": "uvx",
+      "args": ["lean-lsp-mcp"],
+      "env": {
+        "LEAN_PROJECT_PATH": "<KUUOS_REPOSITORY_ROOT>",
+        "LEAN_LOG_LEVEL": "WARNING"
+      },
+      "activation": "explicit_until_pinned_lean_compatibility_verified"
+    },
+    {
+      "server_id": "context7",
+      "type": "http",
+      "url": "https://mcp.context7.com/mcp",
+      "credentials": "optional_host_managed_api_key"
+    },
+    {
+      "server_id": "playwright",
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@playwright/mcp@latest", "--isolated", "--headless"]
+    },
+    {
+      "server_id": "chrome_devtools",
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "chrome-devtools-mcp@latest", "--isolated"]
+    },
+    {
+      "server_id": "docker_mcp_gateway",
+      "type": "stdio",
+      "command": "docker",
+      "args": ["mcp", "gateway", "run"]
+    },
+    {
+      "server_id": "sentry",
+      "type": "http",
+      "url": "https://mcp.sentry.dev",
+      "activation": "only_when_sentry_project_exists"
+    },
+    {
+      "server_id": "mcp_fetch",
+      "type": "stdio",
+      "command": "uvx",
+      "args": ["mcp-server-fetch"]
+    },
+    {
+      "server_id": "mcp_docs",
+      "type": "http",
+      "url": "https://modelcontextprotocol.io/mcp"
+    },
+    {
+      "server_id": "vercel_existing",
+      "mode": "reuse_existing_host_connector"
+    },
+    {
+      "server_id": "supabase_existing",
+      "mode": "reuse_existing_host_connector"
+    },
+    {
+      "server_id": "neon_existing",
+      "mode": "reuse_existing_host_connector"
+    }
+  ],
+  "recommended_usage_order": [
+    "github_official",
+    "lean_lsp",
+    "git_reference",
+    "filesystem_reference",
+    "context7",
+    "docker_mcp_gateway",
+    "playwright",
+    "chrome_devtools",
+    "vercel_existing",
+    "supabase_existing",
+    "neon_existing",
+    "sentry",
+    "mcp_fetch",
+    "mcp_docs"
+  ],
+  "boundaries": {
+    "credentials_in_profile": false,
+    "profile_auto_starts_servers": false,
+    "write_authority_inferred_from_profile": false,
+    "github_writes_reuse_existing_verified_path": true,
+    "lean_lsp_is_stable_for_pinned_kuuos_toolchain": false
+  }
+}
