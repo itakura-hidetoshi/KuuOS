@@ -82,6 +82,7 @@ Chrome DevTools MCP is started:
 --isolated=true
 --usage-statistics=false
 --performance-crux=false
+--no-page-id-routing
 ```
 
 The probe calls:
@@ -156,3 +157,6 @@ verified_compatible
 ```
 
 while retaining separate browser-session effect authority.
+
+
+The compatibility probe uses Chrome DevTools' documented `--no-page-id-routing` mode because it intentionally maintains one selected localhost page. This avoids treating page-ID serialization as part of browser semantic compatibility; multi-page production sessions may keep the default page-ID routing.
