@@ -197,6 +197,8 @@ def probe_git(root: pathlib.Path, expected_head: str) -> dict[str, Any]:
         "uvx",
         "--from",
         f"mcp-server-git=={GIT_PACKAGE_VERSION}",
+        "--with",
+        "mcp==1.29.0",
         "mcp-server-git",
         "--repository",
         str(root),
