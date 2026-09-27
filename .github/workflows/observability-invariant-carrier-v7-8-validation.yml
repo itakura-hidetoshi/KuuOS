@@ -1,0 +1,44 @@
+name: Observability invariant carrier v7.8 validation
+
+on:
+  pull_request:
+    paths:
+      - 'runtime/kuuos_runtime_observability_invariant_carrier_v7_8.py'
+      - 'scripts/check_kuuos_runtime_observability_invariant_carrier_v7_8.py'
+      - 'manifests/kuuos_observability_invariant_carrier_v7_8.json'
+      - 'docs/KUUOS_OBSERVABILITY_INVARIANT_CARRIER_v7_8.md'
+      - '.github/workflows/observability-invariant-carrier-v7-8-validation.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Compile invariant carrier layer
+        run: |
+          python -m py_compile             runtime/kuuos_runtime_observability_invariant_carrier_v7_8.py             scripts/check_kuuos_runtime_observability_invariant_carrier_v7_8.py
+
+      - name: Run focused invariant carrier checks
+        run: |
+          python scripts/check_kuuos_runtime_observability_invariant_carrier_v7_8.py
+
+      - name: Verify carrier identity is presentation-independent
+        run: |
+          grep -Fq '"same_invariant_same_carrier_element": true' manifests/kuuos_observability_invariant_carrier_v7_8.json
+          grep -Fq '"presentation_id_affects_carrier_identity": false' manifests/kuuos_observability_invariant_carrier_v7_8.json
+          grep -Fq '"sector_id_affects_carrier_identity": false' manifests/kuuos_observability_invariant_carrier_v7_8.json
+          grep -Fq '"provider_affects_carrier_identity": false' manifests/kuuos_observability_invariant_carrier_v7_8.json
+          grep -Fq '"runtime_replaces_v2_0": false' manifests/kuuos_observability_invariant_carrier_v7_8.json
+
+      - name: Confirm Strict Lean is not invoked
+        run: |
+          echo "Runtime-only invariant carrier validation: Strict Lean intentionally not invoked."

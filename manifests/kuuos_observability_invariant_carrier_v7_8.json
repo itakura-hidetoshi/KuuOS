@@ -1,0 +1,31 @@
+{
+  "version": "kuuos_observability_invariant_carrier_manifest_v7_8",
+  "purpose": "Construct a presentation-independent runtime carrier whose element identity depends only on the chosen invariant projection and invariant value.",
+  "predecessor": "KuuOS Observability Presentation Invariance v7.7",
+  "formal_reference": {
+    "presentation_universality": "formal/KUOS/DependentOriginationPresentationUniversalityV2_0.lean",
+    "runtime_is_formal_universality_authority": false,
+    "runtime_replaces_v2_0": false
+  },
+  "canonical_map": {
+    "formula": "CarrierId(p) = H(invariant_projection_id, invariant_schema_digest, invariant_digest(p))",
+    "same_invariant_same_carrier_element": true,
+    "presentation_id_affects_carrier_identity": false,
+    "sector_id_affects_carrier_identity": false,
+    "provider_affects_carrier_identity": false,
+    "presentation_local_differences_erased_after_invariance": true
+  },
+  "factorization_semantics": {
+    "factors_through_invariant_carrier": "Every presentation in an invariant sector has the same canonical carrier image.",
+    "carrier_factorization_held": "At least one presentation lacks an observed invariant image.",
+    "carrier_factorization_obstructed": "The related sector contains more than one invariant carrier image.",
+    "local_presentation_canonical_image": "A singleton presentation has a canonical carrier image but no nontrivial quotient claim."
+  },
+  "non_reification": {
+    "carrier_element_is_substance": false,
+    "invariant_projection_is_ultimate_truth": false,
+    "canonical_map_is_formal_universal_property_proof": false,
+    "global_collapse_performed": false
+  },
+  "next": "factor later runtime semantics through carrier elements instead of provider presentations, then compare alternative carrier models only by invariant-preserving equivalence"
+}
