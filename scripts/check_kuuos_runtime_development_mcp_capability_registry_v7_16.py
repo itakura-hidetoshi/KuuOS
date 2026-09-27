@@ -10,6 +10,7 @@ REPOSITORY_ROOT = pathlib.Path(__file__).resolve().parents[1]
 if str(REPOSITORY_ROOT) not in sys.path:
     sys.path.insert(0, str(REPOSITORY_ROOT))
 
+from runtime.kuuos_github_mcp_server_bridge_v0_1 import ALLOWED_TOOLSETS
 from runtime.kuuos_runtime_development_mcp_capability_registry_v7_16 import (
     BLOCKED,
     PARTIAL,
@@ -183,6 +184,7 @@ def test_github_toolsets_cover_current_repo_development() -> None:
         github["activation"]
         == "reuse_existing_kuuos_github_mcp_bridge"
     )
+    assert {"code_quality", "governance"}.issubset(ALLOWED_TOOLSETS)
 
 
 def test_lean_lsp_is_high_value_but_not_auto_enabled_as_stable() -> None:
