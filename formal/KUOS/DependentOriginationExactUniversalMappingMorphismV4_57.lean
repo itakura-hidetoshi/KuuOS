@@ -86,7 +86,7 @@ theorem ExactUniversalRawObject.isHigherWAdmissible
     (X : ExactUniversalRawObject (W := W) A) :
     IsHigherWAdmissible W X.raw :=
   exactPresentation_isHigherWAdmissible
-    (W := W) A X.raw X.presentation
+    (W := W) A X.raw ⟨X.presentation⟩
 
 /-- A mapping-property 1-cell between exact universal raw objects.
 
