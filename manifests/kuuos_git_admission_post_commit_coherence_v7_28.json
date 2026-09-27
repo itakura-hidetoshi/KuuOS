@@ -1,0 +1,59 @@
+{
+  "version": "kuuos_git_admission_post_commit_coherence_manifest_v7_28",
+  "purpose": "Bind v7.27 git_admission_ready evidence to a local Git commit receipt, then require post-commit Git/Filesystem/Lean coherence and remote-base freshness before a remote publish candidate may be formed.",
+  "predecessors": [
+    "KuuOS Bounded Lean Repair Loop v7.27",
+    "KuuOS Development MCP Federation v7.19",
+    "KuuOS Local Repository MCP Compatibility v7.18",
+    "KuuOS Repository Git Revision Adapter v0.83"
+  ],
+  "core_rules": {
+    "git_admission_ready_is_local_commit_authority": false,
+    "workspace_write_authority_required_for_local_commit": true,
+    "local_commit_admission_is_remote_publish": false,
+    "commit_preimage_must_equal_v7_27_post_edit_digest": true,
+    "committed_target_must_equal_v7_27_verified_target_digest": true,
+    "post_commit_git_head_must_equal_commit_sha": true,
+    "post_commit_filesystem_target_must_equal_committed_target": true,
+    "post_commit_lean_source_must_equal_filesystem_target": true,
+    "post_commit_lean_errors_must_be_zero_for_publish_candidate": true,
+    "remote_base_must_still_equal_commit_parent_for_publish_candidate": true,
+    "github_write_authority_required_for_remote_publish_ready": true,
+    "missing_authority_rejects_candidate": false,
+    "remote_head_move_rejects_local_commit": false,
+    "dirty_elsewhere_is_automatic_failure": false,
+    "source_authority_transferred": false
+  },
+  "states": [
+    "git_admission_workspace_authority_required",
+    "git_commit_receipt_required",
+    "git_commit_lineage_obstruction",
+    "post_commit_cross_surface_reobservation_required",
+    "post_commit_lean_semantic_regression",
+    "remote_revision_reconciliation_required_after_local_commit",
+    "remote_publish_candidate_github_authority_required",
+    "remote_publish_candidate_ready"
+  ],
+  "evidence_chain": [
+    "v7.27 git_admission_ready",
+    "workspace Git authority",
+    "local Git admission receipt",
+    "commit parent and commit SHA",
+    "committed target content digest",
+    "post-commit local Git HEAD observation",
+    "post-commit Filesystem target observation",
+    "post-commit Lean-LSP observation on exact Filesystem bytes",
+    "remote GitHub head re-observation",
+    "remote publish candidate",
+    "separate GitHub write authority for remote publish ready"
+  ],
+  "boundaries": {
+    "raw_source_bytes_persisted": false,
+    "raw_git_diff_persisted": false,
+    "commit_receipt_is_theorem_authority": false,
+    "post_commit_semantic_success_grants_github_authority": false,
+    "remote_publish_candidate_grants_github_authority": false,
+    "remote_publish_ready_executes_publish": false
+  },
+  "next": "bind remote_publish_ready to an explicit GitHub MCP branch/ref mutation receipt, then require fresh remote exact-head and CI re-observation before merge candidacy"
+}
