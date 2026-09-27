@@ -71,7 +71,11 @@
       "source_repository": "github/github-mcp-server",
       "source_kind": "official",
       "status": "integrated_existing",
-      "transport": ["remote_http", "stdio_container", "stdio_binary"],
+      "transport": [
+        "remote_http",
+        "stdio_container",
+        "stdio_binary"
+      ],
       "activation": "reuse_existing_kuuos_github_mcp_bridge",
       "privilege_class": "mixed_read_write",
       "write_authority_path": "existing_github_mcp_authority_and_exact_head_receipts",
@@ -107,7 +111,9 @@
         "repository_governance",
         "notifications"
       ],
-      "runtime_requirements": ["github_connection"],
+      "runtime_requirements": [
+        "github_connection"
+      ],
       "isolation": "provider_remote_or_container",
       "notes": "Use the already verified KuuOS GitHub MCP write-canary/workflow-dispatch/re-observation path instead of inventing a second write authority."
     },
@@ -127,13 +133,17 @@
         "initial_green_probe_head": "a8b2baa62c78846647a075996b230e8201c924e2",
         "initial_green_probe_run_id": 36331468514
       },
-      "transport": ["stdio"],
+      "transport": [
+        "stdio"
+      ],
       "activation": "local_project_scoped",
       "privilege_class": "mixed_read_write",
       "write_authority_path": "workspace_git_write_authority",
       "launch_template": {
         "command": "uvx",
-        "args": ["mcp-server-git"]
+        "args": [
+          "mcp-server-git"
+        ]
       },
       "capability_families": [
         "local_git_status",
@@ -142,7 +152,11 @@
         "local_git_search",
         "local_git_manipulation"
       ],
-      "runtime_requirements": ["uv", "git", "local_repository"],
+      "runtime_requirements": [
+        "uv",
+        "git",
+        "local_repository"
+      ],
       "isolation": "repository_root_only",
       "notes": "Reference implementation; keep local writes separately authorized from GitHub remote writes."
     },
@@ -161,13 +175,19 @@
         "initial_green_probe_head": "a8b2baa62c78846647a075996b230e8201c924e2",
         "initial_green_probe_run_id": 36331468514
       },
-      "transport": ["stdio"],
+      "transport": [
+        "stdio"
+      ],
       "activation": "local_project_scoped",
       "privilege_class": "mixed_read_write",
       "write_authority_path": "workspace_filesystem_write_authority",
       "launch_template": {
         "command": "npx",
-        "args": ["-y", "@modelcontextprotocol/server-filesystem", "<KUUOS_REPOSITORY_ROOT>"]
+        "args": [
+          "-y",
+          "@modelcontextprotocol/server-filesystem",
+          "<KUUOS_REPOSITORY_ROOT>"
+        ]
       },
       "capability_families": [
         "workspace_file_read",
@@ -175,7 +195,10 @@
         "workspace_file_write",
         "workspace_directory_operations"
       ],
-      "runtime_requirements": ["node", "local_repository"],
+      "runtime_requirements": [
+        "node",
+        "local_repository"
+      ],
       "isolation": "explicit_allowed_repository_root",
       "notes": "Use an explicit KuuOS repository root; do not grant home-directory or filesystem-wide access."
     },
@@ -195,13 +218,18 @@
         "initial_green_probe_head": "a5f16cbcafd3f698051a0afa51b7c8df5f2a2c9e",
         "initial_green_probe_run_id": 36328215047
       },
-      "transport": ["stdio", "streamable_http"],
+      "transport": [
+        "stdio",
+        "streamable_http"
+      ],
       "activation": "explicit_project_opt_in",
       "privilege_class": "analysis_plus_optional_local_execution",
       "write_authority_path": "lean_project_workspace_authority",
       "launch_template": {
         "command": "uvx",
-        "args": ["lean-lsp-mcp"],
+        "args": [
+          "lean-lsp-mcp"
+        ],
         "environment": {
           "LEAN_PROJECT_PATH": "<KUUOS_REPOSITORY_ROOT>",
           "LEAN_LOG_LEVEL": "WARNING"
@@ -218,7 +246,13 @@
         "lean_finder",
         "lean_hammer_premise_search"
       ],
-      "runtime_requirements": ["uv", "git", "lake", "lean_project_built", "local_repository"],
+      "runtime_requirements": [
+        "uv",
+        "git",
+        "lake",
+        "lean_project_built",
+        "local_repository"
+      ],
       "isolation": "project_and_mathlib_dependency_roots",
       "notes": "Verified by v7.17 against pinned Lean 4.30.0-rc2 and mathlib 5450b53... using a live MCP handshake plus LSP outline/diagnostic calls on an existing KuuOS file. Explicit project opt-in remains required."
     },
@@ -237,7 +271,10 @@
         "initial_green_probe_run_id": 36336280623,
         "api_key_used": false
       },
-      "transport": ["remote_http", "stdio"],
+      "transport": [
+        "remote_http",
+        "stdio"
+      ],
       "activation": "on_demand_documentation",
       "privilege_class": "read_only",
       "launch_template": {
@@ -248,7 +285,9 @@
         "version_specific_api_examples",
         "sdk_and_cli_reference"
       ],
-      "runtime_requirements": ["network"],
+      "runtime_requirements": [
+        "network"
+      ],
       "isolation": "remote_read_only",
       "notes": "Verified by v7.20 with live resolve-library-id and query-docs calls using Context7 MCP 4.1.1 without an API key. External documentation remains advisory and does not replace repository-local or pinned-toolchain evidence."
     },
@@ -267,13 +306,25 @@
         "initial_green_probe_run_id": 36337090848,
         "localhost_only": true
       },
-      "transport": ["stdio", "http"],
+      "transport": [
+        "stdio",
+        "http"
+      ],
       "activation": "on_demand_browser_verification",
       "privilege_class": "browser_effect",
       "write_authority_path": "browser_session_effect_authority",
       "launch_template": {
         "command": "npx",
-        "args": ["-y", "@playwright/mcp@0.0.82", "--browser", "chrome", "--isolated", "--headless", "--no-webmcp", "--block-service-workers"]
+        "args": [
+          "-y",
+          "@playwright/mcp@0.0.82",
+          "--browser",
+          "chrome",
+          "--isolated",
+          "--headless",
+          "--no-webmcp",
+          "--block-service-workers"
+        ]
       },
       "capability_families": [
         "browser_navigation",
@@ -282,7 +333,10 @@
         "functional_web_verification",
         "network_and_storage_testing"
       ],
-      "runtime_requirements": ["node", "browser_runtime"],
+      "runtime_requirements": [
+        "node",
+        "browser_runtime"
+      ],
       "isolation": "isolated_browser_context",
       "notes": "Verified by v7.21 against a deterministic localhost fixture using navigation plus accessibility snapshot. Preferred for functional end-to-end browser verification; browser effects still require separate session authority."
     },
@@ -303,13 +357,22 @@
         "usage_statistics_disabled": true,
         "performance_crux_disabled": true
       },
-      "transport": ["stdio"],
+      "transport": [
+        "stdio"
+      ],
       "activation": "on_demand_browser_debugging",
       "privilege_class": "browser_effect",
       "write_authority_path": "browser_session_effect_authority",
       "launch_template": {
         "command": "npx",
-        "args": ["-y", "chrome-devtools-mcp@1.10.1", "--headless=true", "--isolated=true", "--usage-statistics=false", "--performance-crux=false"]
+        "args": [
+          "-y",
+          "chrome-devtools-mcp@1.10.1",
+          "--headless=true",
+          "--isolated=true",
+          "--usage-statistics=false",
+          "--performance-crux=false"
+        ]
       },
       "capability_families": [
         "browser_console_debugging",
@@ -318,7 +381,10 @@
         "screenshots",
         "live_chrome_inspection"
       ],
-      "runtime_requirements": ["node", "chrome"],
+      "runtime_requirements": [
+        "node",
+        "chrome"
+      ],
       "isolation": "isolated_browser_profile_and_workspace_roots",
       "notes": "Verified by v7.21 against the same localhost fixture with page snapshot and console diagnostics. Complement Playwright: use for console/network/performance diagnosis; browser effects remain separately authorized."
     },
@@ -338,13 +404,19 @@
         "real_gateway_tool_forwarding": true,
         "network_disabled_fixture": true
       },
-      "transport": ["stdio_gateway"],
+      "transport": [
+        "stdio_gateway"
+      ],
       "activation": "local_orchestration",
       "privilege_class": "orchestrator",
       "write_authority_path": "per_downstream_server_authority",
       "launch_template": {
         "command": "docker",
-        "args": ["mcp", "gateway", "run"]
+        "args": [
+          "mcp",
+          "gateway",
+          "run"
+        ]
       },
       "capability_families": [
         "mcp_server_lifecycle",
@@ -353,7 +425,9 @@
         "server_profiles",
         "centralized_mcp_tool_routing"
       ],
-      "runtime_requirements": ["docker"],
+      "runtime_requirements": [
+        "docker"
+      ],
       "isolation": "containerized_downstream_servers",
       "notes": "Verified by v7.22 with a real profile, network-disabled containerized MCP fixture, Gateway tool discovery, and forwarded tool call. Orchestration remains non-authoritative; downstream writes still require their own authority."
     },
@@ -364,7 +438,9 @@
       "source_repository": "getsentry/sentry-mcp",
       "source_kind": "official_vendor",
       "status": "optional_when_instrumented",
-      "transport": ["remote_http"],
+      "transport": [
+        "remote_http"
+      ],
       "activation": "only_when_sentry_project_exists",
       "privilege_class": "diagnostic_read_mostly",
       "launch_template": {
@@ -376,7 +452,10 @@
         "trace_analysis",
         "performance_debugging"
       ],
-      "runtime_requirements": ["network", "sentry_project"],
+      "runtime_requirements": [
+        "network",
+        "sentry_project"
+      ],
       "isolation": "remote_provider_scoped",
       "notes": "Useful after KuuOS services are instrumented with Sentry; do not make it a structural dependency."
     },
@@ -387,21 +466,42 @@
       "source_repository": "modelcontextprotocol/servers",
       "source_subpath": "src/fetch",
       "source_kind": "official_reference",
-      "status": "recommended_read_only",
-      "transport": ["stdio"],
+      "status": "verified_compatible",
+      "transport": [
+        "stdio"
+      ],
       "activation": "on_demand_external_document_fetch",
       "privilege_class": "read_only_network",
       "launch_template": {
         "command": "uvx",
-        "args": ["mcp-server-fetch"]
+        "args": [
+          "--from",
+          "mcp-server-fetch==2026.8.18",
+          "--with",
+          "mcp==1.29.0",
+          "mcp-server-fetch"
+        ]
       },
       "capability_families": [
         "web_document_fetch",
         "html_to_model_friendly_content"
       ],
-      "runtime_requirements": ["uv", "network"],
+      "runtime_requirements": [
+        "uv",
+        "network"
+      ],
       "isolation": "network_read_only",
-      "notes": "Fallback fetch layer for development agents that do not have a native web retrieval surface."
+      "notes": "Verified by v7.23 using the published mcp-server-fetch 2026.8.18 with the upstream-locked mcp 1.29.0, fetching public content pinned to an exact MCP repository commit. The server can access internal networks in general, but KuuOS grants no internal-network authority.",
+      "compatibility_evidence": {
+        "manifest": "manifests/kuuos_mcp_fetch_docs_compatibility_v7_23.json",
+        "source_tree_version": "0.6.3",
+        "published_package_version": "2026.8.18",
+        "upstream_main_sha": "f46d9578190b476b3501923ea8977d899e8db2cb",
+        "mcp_sdk_pin": "1.29.0",
+        "initial_green_probe_head": "204561fca066ec3c22c18d28825328702855eacc",
+        "initial_green_probe_run_id": 36352723631,
+        "internal_network_target_used": false
+      }
     },
     {
       "server_id": "mcp_docs",
@@ -409,8 +509,10 @@
       "publisher": "Model Context Protocol",
       "source_repository": "modelcontextprotocol/modelcontextprotocol",
       "source_kind": "official",
-      "status": "recommended_read_only",
-      "transport": ["remote_http"],
+      "status": "verified_compatible",
+      "transport": [
+        "remote_http"
+      ],
       "activation": "on_demand_mcp_protocol_docs",
       "privilege_class": "read_only",
       "launch_template": {
@@ -421,9 +523,21 @@
         "mcp_schema_reference",
         "mcp_transport_reference"
       ],
-      "runtime_requirements": ["network"],
+      "runtime_requirements": [
+        "network"
+      ],
       "isolation": "remote_read_only",
-      "notes": "Use when modifying KuuOS MCP bridges or adapting to newer MCP protocol revisions."
+      "notes": "Verified by v7.23 against the official MCP Docs endpoint using MCP 2026-07-28 stateless HTTP, live tools/list, and search_model_context_protocol. It is the current MCP-spec reference plane, not KuuOS repository or theorem authority.",
+      "compatibility_evidence": {
+        "manifest": "manifests/kuuos_mcp_fetch_docs_compatibility_v7_23.json",
+        "endpoint": "https://modelcontextprotocol.io/mcp",
+        "protocol_version": "2026-07-28",
+        "upstream_main_sha": "ab3a39c13bd23be691c2760e1c6c5c15a64582e1",
+        "live_search_tool": "search_model_context_protocol",
+        "initial_green_probe_head": "204561fca066ec3c22c18d28825328702855eacc",
+        "initial_green_probe_run_id": 36352723631,
+        "stateless_http": true
+      }
     },
     {
       "server_id": "vercel_existing",
@@ -431,7 +545,9 @@
       "publisher": "Vercel",
       "source_kind": "existing_kuuos_connector",
       "status": "integrated_existing",
-      "transport": ["host_connector"],
+      "transport": [
+        "host_connector"
+      ],
       "activation": "reuse_observability_mcp_v7_1_and_vercel_connector",
       "privilege_class": "mixed_read_write",
       "write_authority_path": "vercel_connector_authority",
@@ -442,7 +558,9 @@
         "build_logs",
         "deployment_operations"
       ],
-      "runtime_requirements": ["vercel_connection"],
+      "runtime_requirements": [
+        "vercel_connection"
+      ],
       "isolation": "provider_scoped"
     },
     {
@@ -451,7 +569,9 @@
       "publisher": "Supabase",
       "source_kind": "existing_kuuos_connector",
       "status": "integrated_existing",
-      "transport": ["host_connector"],
+      "transport": [
+        "host_connector"
+      ],
       "activation": "reuse_observability_mcp_v7_1_and_supabase_connector",
       "privilege_class": "mixed_read_write",
       "write_authority_path": "supabase_connector_authority",
@@ -463,7 +583,9 @@
         "edge_functions",
         "logs"
       ],
-      "runtime_requirements": ["supabase_connection"],
+      "runtime_requirements": [
+        "supabase_connection"
+      ],
       "isolation": "provider_project_scoped"
     },
     {
@@ -472,7 +594,9 @@
       "publisher": "Neon",
       "source_kind": "existing_kuuos_connector",
       "status": "integrated_existing",
-      "transport": ["host_connector"],
+      "transport": [
+        "host_connector"
+      ],
       "activation": "reuse_observability_mcp_v7_1_and_neon_connector",
       "privilege_class": "mixed_read_write",
       "write_authority_path": "neon_connector_authority",
@@ -483,7 +607,9 @@
         "compute_management",
         "logs"
       ],
-      "runtime_requirements": ["neon_connection"],
+      "runtime_requirements": [
+        "neon_connection"
+      ],
       "isolation": "provider_project_scoped"
     }
   ],
