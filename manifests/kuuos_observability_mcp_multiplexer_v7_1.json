@@ -1,0 +1,95 @@
+{
+  "version": "kuuos_observability_mcp_multiplexer_manifest_v7_1",
+  "purpose": "Normalize multiple read-only observability providers behind one typed KuuOS boundary.",
+  "providers": {
+    "github_actions": {
+      "active": true,
+      "operations": {
+        "workflow_job_logs": {
+          "connector_action": "GitHub.fetch_workflow_job_logs",
+          "polling_policy": "bounded_polling_allowed",
+          "data_class": "ci_logs"
+        }
+      }
+    },
+    "vercel": {
+      "active": true,
+      "operations": {
+        "runtime_logs": {
+          "connector_action": "Vercel.get_runtime_logs",
+          "polling_policy": "bounded_polling_allowed",
+          "data_class": "runtime_logs"
+        },
+        "runtime_errors": {
+          "connector_action": "Vercel.get_runtime_errors",
+          "polling_policy": "one_shot_preferred",
+          "data_class": "error_clusters"
+        },
+        "deployment_build_logs": {
+          "connector_action": "Vercel.get_deployment_build_logs",
+          "polling_policy": "bounded_polling_allowed",
+          "data_class": "build_logs"
+        }
+      }
+    },
+    "supabase": {
+      "active": true,
+      "operations": {
+        "query_logs": {
+          "connector_action": "Supabase.query_logs",
+          "polling_policy": "one_shot_only",
+          "data_class": "unified_logs"
+        }
+      }
+    },
+    "neon": {
+      "active": true,
+      "operations": {
+        "query_logs": {
+          "connector_action": "Neon.query_logs",
+          "polling_policy": "bounded_polling_allowed",
+          "data_class": "branch_logs"
+        }
+      }
+    },
+    "datadog": {
+      "active": false,
+      "optional": true,
+      "reason": "Connection and region compatibility are runtime facts; Datadog is not a prerequisite for v7.1."
+    }
+  },
+  "boundaries": {
+    "read_only": true,
+    "kernel_calls_connector_directly": false,
+    "raw_provider_payload_persisted_in_normalized_observation": false,
+    "source_authority_transferred": false,
+    "stale_result_digest_rejected": true,
+    "provider_failure_blocks_other_providers": false
+  },
+  "normalization": {
+    "persist": [
+      "provider",
+      "operation",
+      "connector_action",
+      "polling_policy",
+      "data_class",
+      "source_request_digest",
+      "source_raw_result_digest",
+      "observed_value_digest",
+      "result_shape",
+      "item_count",
+      "error_signal_count",
+      "timestamp_hints"
+    ],
+    "do_not_persist": [
+      "raw log message bodies",
+      "raw provider result payloads",
+      "provider credentials",
+      "provider tokens"
+    ]
+  },
+  "descent": {
+    "predecessor": "Qi GitHub Actions bounded live-log observer v7.0",
+    "next": "provider execution receipts and cross-provider temporal correlation"
+  }
+}
