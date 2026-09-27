@@ -1,0 +1,63 @@
+{
+  "version": "kuuos_action_effect_lineage_binding_manifest_v7_13",
+  "purpose": "Bind v7.12 semantic action routes to real ActOS authorization, capability leases, host projections, and transactional effect receipts without treating semantic eligibility as execution authority.",
+  "predecessor": "KuuOS Middle-Way Action Lifting v7.12",
+  "core_rules": {
+    "semantic_route_is_execution_authority": false,
+    "binding_layer_executes_effect": false,
+    "lower_authority_can_resolve_prior_authority_pending": true,
+    "new_world_witness_can_resolve_prior_world_pending": true,
+    "transaction_outcome_may_refine_action_status": true,
+    "execution_success_implies_mission_success": false,
+    "lower_receipts_remain_canonical": true
+  },
+  "exact_bindings": [
+    "action_digest",
+    "semantic_subject_id",
+    "paramartha_carrier_element_id",
+    "target_samvrti_world_id",
+    "world_binding_evidence_digest",
+    "mapped_operation_id",
+    "mapped_operation_input_digest",
+    "intended_effect_digest",
+    "act_state_digest",
+    "step_authorization_digest",
+    "capability_lease_digest",
+    "host_projection_digest",
+    "transaction_intent_digest",
+    "transaction_state_digest",
+    "transaction_final_receipt_digest"
+  ],
+  "lineage_states": [
+    "authorized_prepared",
+    "transaction_in_progress",
+    "effect_confirmed",
+    "reobservation_required",
+    "compensation_proposed",
+    "handover_required",
+    "no_effect_recorded",
+    "awaiting_lower_authority",
+    "awaiting_world_resolution",
+    "proposal_only",
+    "binding_obstructed"
+  ],
+  "dynamic_resolution": {
+    "fresh_authority_required_can_later_bind_to_valid_actos_authority": true,
+    "world_transfer_or_reconciliation_required_can_later_bind_to_new_world_witness": true,
+    "historical_source_route_is_rewritten": false
+  },
+  "transaction_semantics": {
+    "effect_confirmed_requires_committed_transaction": true,
+    "reconciliation_and_verification_are_required": true,
+    "compensation_is_proposal_only": true,
+    "compensation_requires_new_authorized_transaction": true,
+    "no_effect_recorded_is_distinct_from_failed_effect": true
+  },
+  "references": [
+    "runtime/kuuos_act_os_kernel_v0_1.py",
+    "runtime/kuuos_transactional_effect_reconciliation_kernel_v0_24.py",
+    "runtime/kuuos_transactional_effect_scenarios_v0_24.py",
+    "runtime/kuuos_runtime_middle_way_action_lifting_v7_12.py"
+  ],
+  "next": "lift verified effect outcomes back into samvrti world updates while preserving the original paramartha class and distinguishing effect-confirmed world change from mission success"
+}
