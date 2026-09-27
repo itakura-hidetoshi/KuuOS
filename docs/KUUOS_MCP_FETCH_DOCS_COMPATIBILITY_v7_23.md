@@ -62,7 +62,7 @@ https://modelcontextprotocol.io/mcp
 as its `mcp-docs` server and identifies:
 
 ```text
-SearchModelContextProtocol
+search_model_context_protocol
 ```
 
 as the preferred authoritative tool for current specification content.
@@ -106,8 +106,8 @@ The probe performs:
 
 ```text
 tools/list
--> require SearchModelContextProtocol
--> tools/call(SearchModelContextProtocol)
+-> require search_model_context_protocol
+-> tools/call(search_model_context_protocol)
 ```
 
 with the required per-request metadata and modern HTTP headers.
@@ -159,3 +159,18 @@ Neither promotion grants write or source authority.
 The first v7.23 run found that the current reference-tree version `0.6.3` is not published as `mcp-server-fetch==0.6.3`.
 
 KuuOS therefore does not pretend the source-tree version is installable. The live package index exposed `mcp-server-fetch 2026.8.18`. KuuOS pins that exact published release with the upstream SDK lock `mcp==1.29.0`.
+
+
+## Official Docs live tool naming
+
+The spec repository's MCP skill documentation refers to the search tool as `search_model_context_protocol`.
+
+The live official endpoint returned:
+
+```text
+search_model_context_protocol
+query_docs_filesystem_model_context_protocol
+submit_feedback
+```
+
+KuuOS therefore uses the live `tools/list` spelling `search_model_context_protocol` for compatibility calls and preserves the documentation/live naming difference as provenance.
