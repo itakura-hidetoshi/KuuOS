@@ -1,0 +1,58 @@
+name: Fetch and official MCP docs compatibility v7.23
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/check_kuuos_mcp_fetch_docs_compatibility_v7_23.py'
+      - 'manifests/kuuos_mcp_fetch_docs_compatibility_v7_23.json'
+      - 'docs/KUUOS_MCP_FETCH_DOCS_COMPATIBILITY_v7_23.md'
+      - 'manifests/kuuos_development_mcp_capability_registry_v7_16.json'
+      - 'runtime/kuuos_runtime_development_mcp_capability_registry_v7_16.py'
+      - 'scripts/check_kuuos_runtime_development_mcp_capability_registry_v7_16.py'
+      - '.github/workflows/mcp-fetch-docs-compatibility-v7-23.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  compatibility:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install uv
+        run: python -m pip install --disable-pip-version-check uv
+
+      - name: Run live Fetch and official MCP Docs probes
+        run: |
+          set -euo pipefail
+          PYTHONPATH=. python             scripts/check_kuuos_mcp_fetch_docs_compatibility_v7_23.py             --repository-root .             --receipt mcp_fetch_docs_compatibility_receipt_v7_23.json
+
+      - name: Verify compatibility receipt
+        run: |
+          python - <<'PY'
+          import json
+          r = json.load(open("mcp_fetch_docs_compatibility_receipt_v7_23.json"))
+          assert r["status"] == "KUUOS_MCP_FETCH_DOCS_COMPATIBILITY_VERIFIED"
+          assert r["fetch"]["fetch_tool_present"] is True
+          assert r["fetch"]["fetch_expected_marker_present"] is True
+          assert r["official_docs"]["search_tool_present"] is True
+          assert r["official_docs"]["search_result_nonempty"] is True
+          assert r["official_docs"]["initialize_handshake_used"] is False
+          assert r["boundary"]["both_surfaces_are_read_only"] is True
+          PY
+
+      - name: Upload compatibility receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-mcp-fetch-docs-compatibility-${{ github.run_id }}-${{ github.run_attempt }}
+          path: mcp_fetch_docs_compatibility_receipt_v7_23.json
+          if-no-files-found: error
+          retention-days: 14
