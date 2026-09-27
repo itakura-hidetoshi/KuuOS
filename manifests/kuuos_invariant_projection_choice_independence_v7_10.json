@@ -1,0 +1,34 @@
+{
+  "version": "kuuos_invariant_projection_choice_independence_manifest_v7_10",
+  "purpose": "Treat invariant projections themselves as presentations and identify their meanings only after a shared normalized observable agrees.",
+  "formal_reference": {
+    "normalization_choice_invariance": "formal/KUOS/DependentOriginationNormalizationChoiceInvariantV1_28.lean",
+    "presentation_universality": "formal/KUOS/DependentOriginationPresentationUniversalityV2_0.lean",
+    "runtime_is_formal_theorem_authority": false,
+    "runtime_replaces_v1_28": false
+  },
+  "core_structure": {
+    "projection_choice_is_presentation": true,
+    "projection_id_defines_semantic_identity": false,
+    "local_invariant_equality_required": false,
+    "different_local_invariants_may_share_normalized_meaning": true,
+    "normalized_observable_defines_choice_independent_meaning": true,
+    "choice_independent_carrier_identity_ignores_projection_id": true
+  },
+  "choice_semantics": {
+    "projection_choice_invariant": "All observed invariant projections for one semantic subject map to one common normalized observable digest.",
+    "projection_choice_invariance_held": "At least one projection presentation is missing, held, or unavailable, with no observed normalized contradiction.",
+    "projection_choice_invariance_obstructed": "Observed projection presentations disagree after mapping to the same normalized observable."
+  },
+  "non_reification": {
+    "normalization_choice_is_substance": false,
+    "normalized_observable_is_ultimate_truth": false,
+    "choice_independent_carrier_is_substance": false
+  },
+  "privacy": {
+    "raw_local_invariant_values_persisted": false,
+    "raw_normalized_observable_values_persisted": false,
+    "digests_persisted": true
+  },
+  "next": "factor several valid normalized observables through an even more intrinsic invariant only when explicit comparison data justify that further descent"
+}
