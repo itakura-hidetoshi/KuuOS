@@ -83,7 +83,7 @@ noncomputable def ExactUniversalRawMorphismTwoCell.id
     change
       (Bicategory.whiskerRight
           (restrictHigherLocalizedModification
-            (W := W) (𝟙 f.lift.hom))
+            (W := W) (𝟙 (f.lift.hom)))
           Y.presentation.comparison) ≫
         f.comparison_square.hom =
       f.comparison_square.hom ≫
