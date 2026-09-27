@@ -1,0 +1,73 @@
+{
+  "version": "kuuos_lean_lsp_mcp_compatibility_manifest_v7_17",
+  "purpose": "Verify that lean-lsp-mcp 0.30.0 can operate against the exact pinned KuuOS Lean/mathlib project without a full duplicate Strict Lean run.",
+  "upstream": {
+    "repository": "oOo0oOo/lean-lsp-mcp",
+    "main_sha": "bb176c58a4f895061561685318e92b8db446f1b5",
+    "package_version": "0.30.0",
+    "python_requirement": ">=3.10",
+    "mcp_sdk": "mcp[cli]==2.0.0",
+    "leanclient_requirement": ">=0.13.2"
+  },
+  "kuuos_pins": {
+    "lean_toolchain": "leanprover/lean4:v4.30.0-rc2",
+    "mathlib_sha": "5450b53e5ddc75d46418fabb605edbf36bd0beb6"
+  },
+  "probe": {
+    "representative_file": "formal/KUOS/DependentOriginationFunctorialTransportV0_1.lean",
+    "representative_file_imports_local_kuuos_modules": false,
+    "representative_file_imports_mathlib": true,
+    "transport": "stdio",
+    "protocol_version": "2025-11-25",
+    "steps": [
+      "verify lean-toolchain and mathlib SHA",
+      "install/setup pinned Lean with leanprover/lean-action",
+      "restore/fetch Mathlib cache",
+      "compile representative existing KuuOS file with pinned Lean",
+      "verify lean-lsp-mcp package version",
+      "MCP initialize",
+      "MCP tools/list",
+      "lean_file_outline on representative KuuOS file",
+      "lean_diagnostic_messages(severity=error) on representative KuuOS file"
+    ]
+  },
+  "required_tools": [
+    "lean_file_outline",
+    "lean_diagnostic_messages",
+    "lean_goal",
+    "lean_hover_info",
+    "lean_declaration_file",
+    "lean_references",
+    "lean_completions",
+    "lean_code_actions",
+    "lean_verify"
+  ],
+  "disabled_during_probe": [
+    "lean_run_code",
+    "lean_build",
+    "lean_profile_proof",
+    "lean_minimal_hypotheses",
+    "lean_multi_attempt",
+    "lean_leansearch",
+    "lean_loogle",
+    "lean_leanfinder",
+    "lean_state_search",
+    "lean_hammer_premise"
+  ],
+  "promotion_rule": {
+    "from": "experimental_high_value",
+    "to": "verified_compatible",
+    "requires_exact_head_ci_success": true,
+    "requires_live_mcp_handshake": true,
+    "requires_real_kuuos_file_lsp_call": true,
+    "does_not_require_full_strict_lean_rerun": true
+  },
+  "boundaries": {
+    "compatibility_receipt_is_theorem_authority": false,
+    "compatibility_receipt_is_write_authority": false,
+    "probe_mutates_repository": false,
+    "external_search_tools_used_during_probe": false,
+    "full_strict_lean_rerun_required": false,
+    "source_authority_transferred": false
+  }
+}
