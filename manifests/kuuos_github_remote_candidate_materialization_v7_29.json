@@ -1,0 +1,68 @@
+{
+  "version": "kuuos_github_remote_candidate_materialization_manifest_v7_29",
+  "purpose": "Bind a v7.28 remote_publish_ready local commit to GitHub remote Git-object materialization and a candidate-branch publication receipt without collapsing local and remote Git commit identities.",
+  "predecessors": [
+    "KuuOS Git Admission and Post-Commit Coherence v7.28",
+    "KuuOS Repository Object Materialization Receipt v0.95",
+    "KuuOS Repository Reference Update Authorization v0.96",
+    "KuuOS Repository Atomic Reference Update v0.97",
+    "KuuOS GitHub MCP Server Bridge v0.2"
+  ],
+  "core_rules": {
+    "github_write_authority_required_for_remote_materialization": true,
+    "local_commit_sha_must_equal_remote_commit_sha": false,
+    "distinct_git_commit_identity_may_preserve_publish_invariant": true,
+    "remote_blob_content_digests_must_match_local_verified_content": true,
+    "remote_tree_content_digest_must_match_local_verified_tree_digest": true,
+    "remote_commit_parent_must_match_local_commit_parent": true,
+    "remote_commit_message_digest_must_match_local_commit_message_digest": true,
+    "candidate_branch_must_not_be_base_branch": true,
+    "new_candidate_branch_preferred_over_mutating_base_branch": true,
+    "branch_name_conflict_rejects_materialized_objects": false,
+    "base_head_move_after_publication_rejects_published_candidate": false,
+    "remote_publish_receipt_is_merge_authority": false,
+    "remote_publish_receipt_is_ci_success": false,
+    "raw_source_bytes_persisted": false,
+    "source_authority_transferred": false
+  },
+  "states": [
+    "remote_materialization_github_authority_required",
+    "remote_object_materialization_receipt_required",
+    "remote_object_materialization_obstruction",
+    "remote_candidate_branch_publication_required",
+    "remote_candidate_branch_reselection_required",
+    "remote_candidate_published_base_reconciliation_required",
+    "remote_candidate_published_ci_reobservation_required",
+    "remote_candidate_already_published_ci_reobservation_required"
+  ],
+  "git_data_execution_model": [
+    "fresh remote base observation",
+    "create changed blobs through bounded Git Data API executor",
+    "create tree over exact base tree",
+    "create remote commit with exact parent and message surface available to executor",
+    "reobserve remote Git objects",
+    "create fresh candidate branch pointing to materialized remote commit",
+    "reobserve candidate branch head",
+    "reobserve base branch head"
+  ],
+  "identity_boundary": {
+    "local_commit_identity": "local Git commit SHA",
+    "remote_materialized_commit_identity": "GitHub-created commit SHA",
+    "equivalence_invariant": [
+      "verified changed-path content digests",
+      "tree content digest",
+      "parent commit SHA",
+      "commit message digest"
+    ],
+    "reason_exact_sha_may_differ": "current GitHub connector create_commit surface does not expose the full author/committer metadata needed to guarantee reproduction of an arbitrary local Git commit OID"
+  },
+  "api_boundary": {
+    "official_github_mcp_server_low_level_git_data_tools_observed": false,
+    "exact_git_data_materialization_uses_existing_bounded_rest_delegate_domain": true,
+    "create_blob_connector_available": true,
+    "create_tree_connector_available": true,
+    "create_commit_connector_available": true,
+    "new_candidate_branch_creation_connector_available": true
+  },
+  "next": "consume a published candidate branch through fresh GitHub exact-head and CI observation, bind successful CI to the remote materialized commit SHA, and only then form merge candidacy"
+}

@@ -1,0 +1,44 @@
+name: GitHub remote candidate materialization v7.29 validation
+
+on:
+  pull_request:
+    paths:
+      - 'runtime/kuuos_runtime_github_remote_candidate_materialization_v7_29.py'
+      - 'scripts/check_kuuos_runtime_github_remote_candidate_materialization_v7_29.py'
+      - 'manifests/kuuos_github_remote_candidate_materialization_v7_29.json'
+      - 'docs/KUUOS_GITHUB_REMOTE_CANDIDATE_MATERIALIZATION_v7_29.md'
+      - '.github/workflows/github-remote-candidate-materialization-v7-29-validation.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Compile v7.29 runtime
+        run: |
+          python -m py_compile             runtime/kuuos_runtime_github_remote_candidate_materialization_v7_29.py             scripts/check_kuuos_runtime_github_remote_candidate_materialization_v7_29.py
+
+      - name: Run focused v7.29 checks
+        run: |
+          PYTHONPATH=. python             scripts/check_kuuos_runtime_github_remote_candidate_materialization_v7_29.py
+
+      - name: Verify identity and authority boundaries
+        run: |
+          grep -Fq '"local_commit_sha_must_equal_remote_commit_sha": false' manifests/kuuos_github_remote_candidate_materialization_v7_29.json
+          grep -Fq '"branch_name_conflict_rejects_materialized_objects": false' manifests/kuuos_github_remote_candidate_materialization_v7_29.json
+          grep -Fq '"base_head_move_after_publication_rejects_published_candidate": false' manifests/kuuos_github_remote_candidate_materialization_v7_29.json
+          grep -Fq '"remote_publish_receipt_is_ci_success": false' manifests/kuuos_github_remote_candidate_materialization_v7_29.json
+          grep -Fq '"raw_source_bytes_persisted": false' manifests/kuuos_github_remote_candidate_materialization_v7_29.json
+
+      - name: Confirm Strict Lean is not invoked
+        run: |
+          echo "Runtime-only GitHub remote-materialization evidence layer: Strict Lean intentionally not invoked."
