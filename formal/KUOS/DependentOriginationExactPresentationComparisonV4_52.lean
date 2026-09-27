@@ -1,5 +1,8 @@
 import KUOS.DependentOriginationExactHigherPresentationInvarianceV4_51
 import KUOS.DependentOriginationPointwiseEquivalenceTransportV2_17
+import KUOS.DependentOriginationCoherentWeakHigherLocalizationV2_19
+import KUOS.DependentOriginationCoherentFactorForgetfulBridgeV2_20
+import KUOS.DependentOriginationForwardFactorCoherenceSelectionV2_40
 import KUOS.DependentOriginationHigherStackCarrierV2_9
 import KUOS.DependentOriginationHigherStackDescentV2_8
 import KUOS.DependentOriginationLocalizedSheafUniversalityV2_6
@@ -15,6 +18,10 @@ open KUOS.DependentOriginationHigherStackDescentV2_8
 open KUOS.DependentOriginationHigherStackCarrierV2_9
 open KUOS.DependentOriginationHigherLocalizationInterfaceV2_10
 open KUOS.DependentOriginationPointwiseEquivalenceTransportV2_17
+open KUOS.DependentOriginationWeakHigherLocalizationUniversalPropertyV2_18
+open KUOS.DependentOriginationCoherentWeakHigherLocalizationV2_19
+open KUOS.DependentOriginationCoherentFactorForgetfulBridgeV2_20
+open KUOS.DependentOriginationForwardFactorCoherenceSelectionV2_40
 open KUOS.DependentOriginationExactHigherPresentationSectorV4_50
 open KUOS.DependentOriginationExactHigherPresentationInvarianceV4_51
 
@@ -33,31 +40,35 @@ Let
 
 be two exact presentations of the same raw Cat-valued contextual system.
 
-It is essential not to collapse several different notions of comparison.
-From the exact-presentation data alone we canonically have the cospan
+The purpose of v4.52 is to separate comparison levels rather than silently
+identify them.
+
+From P and Q alone one canonically has the common-target cospan
 
   restrict(P.carrier) --> R <-- restrict(Q.carrier),
 
-and both legs are pointwise equivalences.  This is already genuine comparison
-information, but it is not yet a directed strong transformation between the two
-localized carriers, a pseudonatural equivalence, an equivalence in DO₂, or a
-uniqueness statement up to modification.
+whose two legs are pointwise equivalences.
 
-This file records that exact boundary in the types.
+The older v2.19 interface already gives the correct stronger notion of a
+coherent directed factor comparison: a StrongTrans between localized lifts
+together with an invertible modification witnessing compatibility with the raw
+comparison maps.  We reuse that interface here instead of inventing a second
+notion.
 
-First we package the canonical pointwise-equivalence cospan.  Then we show that
-if a coherent reverse pointwise-equivalence comparison from R to one restricted
-carrier is supplied, the v2.17 composition operation produces a directed
-comparison between the restricted carriers.
+For exact presentations, a coherent directed factor comparison has two
+unconditional consequences:
 
-Separately, we define the stronger localized-carrier comparison interface.  Any
-ambient strong transformation between two stack carriers lifts to a 1-morphism
-in DO₂ because the carrier is a full induced bicategory.  Pointwise equivalence
-of such a localized transformation is recorded as an additional property rather
-than inferred from the raw cospan.
+* its StrongTrans is a genuine directed 1-morphism between the DO₂ carriers,
+  because DO₂ is full on 1-morphisms;
+* after restriction to the raw context, its components are equivalences of
+  categories.  This follows by two-out-of-three from the coherent comparison
+  triangle and the two exact-presentation comparison equivalences.
 
-Thus v4.52 proves exactly the comparison data currently available and exposes
-the coherence still required for essential uniqueness.
+What is *not* asserted is equally important.  The canonical cospan does not by
+itself produce a coherent directed factor map.  A coherent directed comparison
+is not automatically bundled here as a pseudonatural equivalence or an
+equivalence in DO₂, and no essential uniqueness up to modification is inferred
+without the corresponding universal-property hypothesis.
 -/
 
 universe u v uH vH
@@ -97,11 +108,9 @@ structure ExactPresentationComparisonCospan
       (Context := Context)}
     (P Q : ExactHigherDependentOriginationPresentation
       (W := W) A R) where
-  /-- Left presentation leg into the common raw target. -/
   leftLeg :
     HigherPointwiseEquivalenceComparison
       (exactPresentationRestrictedCarrier (W := W) A P) R
-  /-- Right presentation leg into the common raw target. -/
   rightLeg :
     HigherPointwiseEquivalenceComparison
       (exactPresentationRestrictedCarrier (W := W) A Q) R
@@ -117,8 +126,6 @@ def exactPresentationComparisonCospan
   leftLeg := exactPresentationToRawComparison (W := W) A P
   rightLeg := exactPresentationToRawComparison (W := W) A Q
 
-/-- The left leg of the canonical cospan is literally the comparison stored in
-the first exact presentation. -/
 @[simp] theorem exactPresentationComparisonCospan_left_comparison
     {R : RawHigherContextualSystem.{u, v, uH, vH}
       (Context := Context)}
@@ -128,8 +135,6 @@ the first exact presentation. -/
       P.comparison :=
   rfl
 
-/-- The right leg of the canonical cospan is literally the comparison stored in
-the second exact presentation. -/
 @[simp] theorem exactPresentationComparisonCospan_right_comparison
     {R : RawHigherContextualSystem.{u, v, uH, vH}
       (Context := Context)}
@@ -139,180 +144,227 @@ the second exact presentation. -/
       Q.comparison :=
   rfl
 
-/-- Existence of a directed pointwise-equivalence comparison between the two
-restricted carriers.  This is deliberately stronger than the canonical cospan. -/
-def HasDirectedRestrictedCarrierComparison
-    {R : RawHigherContextualSystem.{u, v, uH, vH}
-      (Context := Context)}
-    (P Q : ExactHigherDependentOriginationPresentation
-      (W := W) A R) : Prop :=
-  Nonempty
-    (HigherPointwiseEquivalenceComparison
-      (exactPresentationRestrictedCarrier (W := W) A P)
-      (exactPresentationRestrictedCarrier (W := W) A Q))
-
-/-- A supplied coherent reverse comparison from the common raw target to the
-second restricted carrier converts the canonical cospan into a directed
-comparison from the first restricted carrier to the second. -/
-noncomputable def directedRestrictedCarrierComparisonOfRightReverse
-    {R : RawHigherContextualSystem.{u, v, uH, vH}
-      (Context := Context)}
-    (P Q : ExactHigherDependentOriginationPresentation
-      (W := W) A R)
-    (ERQ :
-      HigherPointwiseEquivalenceComparison R
-        (exactPresentationRestrictedCarrier (W := W) A Q)) :
-    HigherPointwiseEquivalenceComparison
-      (exactPresentationRestrictedCarrier (W := W) A P)
-      (exactPresentationRestrictedCarrier (W := W) A Q) :=
-  HigherPointwiseEquivalenceComparison.comp
-    (exactPresentationToRawComparison (W := W) A P) ERQ
-
-/-- Existence-level form of the preceding construction. -/
-theorem hasDirectedRestrictedCarrierComparison_of_rightReverse
-    {R : RawHigherContextualSystem.{u, v, uH, vH}
-      (Context := Context)}
-    (P Q : ExactHigherDependentOriginationPresentation
-      (W := W) A R)
-    (hERQ :
-      Nonempty
-        (HigherPointwiseEquivalenceComparison R
-          (exactPresentationRestrictedCarrier (W := W) A Q))) :
-    HasDirectedRestrictedCarrierComparison (W := W) A P Q := by
-  rcases hERQ with ⟨ERQ⟩
-  exact
-    ⟨directedRestrictedCarrierComparisonOfRightReverse
-      (W := W) A P Q ERQ⟩
-
-/-- With coherent reverse comparisons from the common raw target to both
-restricted carriers, one gets directed pointwise-equivalence comparisons in
-both directions. -/
-structure BidirectionalRestrictedCarrierComparison
-    {R : RawHigherContextualSystem.{u, v, uH, vH}
-      (Context := Context)}
-    (P Q : ExactHigherDependentOriginationPresentation
-      (W := W) A R) where
-  forward :
-    HigherPointwiseEquivalenceComparison
-      (exactPresentationRestrictedCarrier (W := W) A P)
-      (exactPresentationRestrictedCarrier (W := W) A Q)
-  backward :
-    HigherPointwiseEquivalenceComparison
-      (exactPresentationRestrictedCarrier (W := W) A Q)
-      (exactPresentationRestrictedCarrier (W := W) A P)
-
-/-- Construct bidirectional restricted-carrier comparison data from reverse
-pointwise-equivalence comparisons to both presentations. -/
-noncomputable def bidirectionalRestrictedCarrierComparisonOfRawReverses
-    {R : RawHigherContextualSystem.{u, v, uH, vH}
-      (Context := Context)}
-    (P Q : ExactHigherDependentOriginationPresentation
-      (W := W) A R)
-    (ERP :
-      HigherPointwiseEquivalenceComparison R
-        (exactPresentationRestrictedCarrier (W := W) A P))
-    (ERQ :
-      HigherPointwiseEquivalenceComparison R
-        (exactPresentationRestrictedCarrier (W := W) A Q)) :
-    BidirectionalRestrictedCarrierComparison (W := W) A P Q where
-  forward :=
-    directedRestrictedCarrierComparisonOfRightReverse
-      (W := W) A P Q ERQ
-  backward :=
-    directedRestrictedCarrierComparisonOfRightReverse
-      (W := W) A Q P ERP
-
 /-!
-## Stronger localized-carrier comparison level
-
-A strong transformation between the localized stack carriers is strictly more
-data than the canonical raw cospan.  We therefore name it separately.
+## Exact presentations as v2.10 factorizations
 -/
 
-/-- A directed ambient strong transformation between the actual localized
-stack carriers of two exact presentations. -/
-abbrev LocalizedCarrierStrongComparison
+/-- Forget only the stack witness of an exact presentation, retaining the
+localized lift and its pointwise-equivalence comparison to the raw system. -/
+def exactPresentationFactorization
+    {R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context)}
+    (P : ExactHigherDependentOriginationPresentation
+      (W := W) A R) :
+    HigherLocalizationFactorization (W := W) R :=
+  (higherStackLocalizationFactorizationOfExactPresentation
+    (W := W) A P).toHigherLocalizationFactorization
+
+@[simp] theorem exactPresentationFactorization_lift
+    {R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context)}
+    (P : ExactHigherDependentOriginationPresentation
+      (W := W) A R) :
+    (exactPresentationFactorization (W := W) A P).lift =
+      higherStackObjectVal (W := W) A P.carrier :=
+  rfl
+
+@[simp] theorem exactPresentationFactorization_comparison
+    {R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context)}
+    (P : ExactHigherDependentOriginationPresentation
+      (W := W) A R) :
+    (exactPresentationFactorization (W := W) A P).comparison =
+      P.comparison :=
+  rfl
+
+/-!
+## Coherent directed comparison level
+
+This is the existing v2.19 notion specialized to exact presentations.  Its
+comparison triangle is an invertible modification, not merely an objectwise
+family of unrelated natural isomorphisms.
+-/
+
+/-- A coherent directed comparison from exact presentation P to exact
+presentation Q. -/
+abbrev ExactPresentationCoherentComparison
     {R : RawHigherContextualSystem.{u, v, uH, vH}
       (Context := Context)}
     (P Q : ExactHigherDependentOriginationPresentation
       (W := W) A R) :=
-  higherStackObjectVal (W := W) A P.carrier ⟶
-    higherStackObjectVal (W := W) A Q.carrier
+  CoherentHigherLocalizationFactorMorphism
+    (W := W)
+    (exactPresentationFactorization (W := W) A P)
+    (exactPresentationFactorization (W := W) A Q)
 
-/-- Pointwise equivalence is an additional property of a localized-carrier
-strong comparison; it is not identified with mere existence of that
-transformation. -/
-def IsLocalizedCarrierPointwiseEquivalence
-    {R : RawHigherContextualSystem.{u, v, uH, vH}
-      (Context := Context)}
-    {P Q : ExactHigherDependentOriginationPresentation
-      (W := W) A R}
-    (η : LocalizedCarrierStrongComparison (W := W) A P Q) : Prop :=
-  ∀ S : HigherLocalizedSite W,
-    (η.app S).toFunctor.IsEquivalence
-
-/-- Bundled directed localized comparison together with the stronger
-pointwise-equivalence property. -/
-structure ExactPresentationLocalizedPointwiseEquivalenceComparison
+/-- Existence of a coherent directed comparison is deliberately kept separate
+from the canonical pointwise-equivalence cospan. -/
+def HasExactPresentationCoherentComparison
     {R : RawHigherContextualSystem.{u, v, uH, vH}
       (Context := Context)}
     (P Q : ExactHigherDependentOriginationPresentation
-      (W := W) A R) where
-  comparison : LocalizedCarrierStrongComparison (W := W) A P Q
-  comparison_isEquivalence :
-    IsLocalizedCarrierPointwiseEquivalence (W := W) A comparison
+      (W := W) A R) : Prop :=
+  Nonempty (ExactPresentationCoherentComparison (W := W) A P Q)
 
-/-- Since DO₂ is the full induced bicategory on stack objects, every ambient
-localized strong comparison canonically becomes a 1-morphism in DO₂. -/
-noncomputable def completion2HomOfLocalizedCarrierStrongComparison
+/-- Coherent comparison is reflexive. -/
+noncomputable def exactPresentationCoherentComparisonId
+    {R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context)}
+    (P : ExactHigherDependentOriginationPresentation
+      (W := W) A R) :
+    ExactPresentationCoherentComparison (W := W) A P P :=
+  coherentHigherLocalizationFactorMorphismId
+    (W := W) (exactPresentationFactorization (W := W) A P)
+
+/-- Coherent directed comparisons compose. -/
+noncomputable def exactPresentationCoherentComparisonComp
+    {R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context)}
+    {P Q T : ExactHigherDependentOriginationPresentation
+      (W := W) A R}
+    (alpha : ExactPresentationCoherentComparison (W := W) A P Q)
+    (beta : ExactPresentationCoherentComparison (W := W) A Q T) :
+    ExactPresentationCoherentComparison (W := W) A P T :=
+  coherentHigherLocalizationFactorMorphismComp (W := W) alpha beta
+
+/-- Any coherent directed exact-presentation comparison gives a genuine
+1-morphism between the corresponding objects of DO₂. -/
+noncomputable def exactPresentationCoherentComparisonToCompletion2Hom
     {R : RawHigherContextualSystem.{u, v, uH, vH}
       (Context := Context)}
     {P Q : ExactHigherDependentOriginationPresentation
       (W := W) A R}
-    (η : LocalizedCarrierStrongComparison (W := W) A P Q) :
-    P.carrier ⟶ Q.carrier :=
-  completion2MkHom W A η
+    (alpha : ExactPresentationCoherentComparison (W := W) A P Q) :
+    P.carrier ⟶ Q.carrier := by
+  apply completion2MkHom (W := W) A
+  exact alpha.hom
 
-/-- The bundled pointwise-equivalence localized comparison therefore supplies a
-directed 1-morphism in DO₂, while equivalence *inside* DO₂ remains a separate
-stronger obligation. -/
+/-!
+## Pointwise-equivalence consequence on the raw restriction
+
+A coherent factor map between exact presentations is automatically pointwise an
+equivalence after restriction to every raw context object.  This is not assumed:
+it follows from the modification triangle and the exactness of the two
+presentation legs.
+-/
+
+/-- Componentwise equivalence of the coherent localized factor at every object
+hit by the presentation unit. -/
+def IsExactPresentationCoherentComparisonRestrictedPointwiseEquivalence
+    {R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context)}
+    {P Q : ExactHigherDependentOriginationPresentation
+      (W := W) A R}
+    (alpha : ExactPresentationCoherentComparison (W := W) A P Q) : Prop :=
+  ∀ X : Context,
+    (alpha.hom.app
+      (.mk ((higherPresentationUnitFunctor W).obj X))).toFunctor.IsEquivalence
+
+/-- Two-out-of-three proves restricted pointwise equivalence for every coherent
+comparison between exact presentations. -/
+theorem exactPresentationCoherentComparison_restrictedPointwiseEquivalence
+    {R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context)}
+    {P Q : ExactHigherDependentOriginationPresentation
+      (W := W) A R}
+    (alpha : ExactPresentationCoherentComparison (W := W) A P Q) :
+    IsExactPresentationCoherentComparisonRestrictedPointwiseEquivalence
+      (W := W) A alpha := by
+  intro X
+  letI : (P.comparison.app (.mk X)).toFunctor.IsEquivalence :=
+    P.comparison_isEquivalence X
+  letI : (Q.comparison.app (.mk X)).toFunctor.IsEquivalence :=
+    Q.comparison_isEquivalence X
+  have hcomp :
+      ((alpha.hom.app
+          (.mk ((higherPresentationUnitFunctor W).obj X))).toFunctor ⋙
+        (Q.comparison.app (.mk X)).toFunctor).IsEquivalence := by
+    exact
+      Functor.isEquivalence_of_iso
+        (coherentComparisonTriangleNatIso (W := W) alpha X).symm
+  letI :
+      ((alpha.hom.app
+          (.mk ((higherPresentationUnitFunctor W).obj X))).toFunctor ⋙
+        (Q.comparison.app (.mk X)).toFunctor).IsEquivalence :=
+    hcomp
+  exact
+    Functor.isEquivalence_of_comp_right
+      (alpha.hom.app
+        (.mk ((higherPresentationUnitFunctor W).obj X))).toFunctor
+      (Q.comparison.app (.mk X)).toFunctor
+
+/-- Therefore every coherent exact-presentation comparison restricts to the
+v2.17 notion of directed pointwise-equivalence comparison between the two raw
+restricted carriers. -/
 noncomputable def
-    ExactPresentationLocalizedPointwiseEquivalenceComparison.toCompletion2Hom
+    restrictedPointwiseEquivalenceComparisonOfExactCoherentComparison
     {R : RawHigherContextualSystem.{u, v, uH, vH}
       (Context := Context)}
     {P Q : ExactHigherDependentOriginationPresentation
       (W := W) A R}
-    (E :
-      ExactPresentationLocalizedPointwiseEquivalenceComparison
-        (W := W) A P Q) :
-    P.carrier ⟶ Q.carrier :=
-  completion2HomOfLocalizedCarrierStrongComparison
-    (W := W) A E.comparison
+    (alpha : ExactPresentationCoherentComparison (W := W) A P Q) :
+    HigherPointwiseEquivalenceComparison
+      (exactPresentationRestrictedCarrier (W := W) A P)
+      (exactPresentationRestrictedCarrier (W := W) A Q) where
+  comparison :=
+    restrictHigherLocalizedStrongTrans (W := W) alpha.hom
+  comparison_isEquivalence := by
+    intro X
+    simpa [exactPresentationRestrictedCarrier] using
+      exactPresentationCoherentComparison_restrictedPointwiseEquivalence
+        (W := W) A alpha X
+
+/-- Existence of a coherent comparison implies existence of a directed
+pointwise-equivalence comparison between the restricted carriers. -/
+theorem hasDirectedRestrictedPointwiseComparison_of_coherentComparison
+    {R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context)}
+    {P Q : ExactHigherDependentOriginationPresentation
+      (W := W) A R}
+    (h :
+      HasExactPresentationCoherentComparison (W := W) A P Q) :
+    Nonempty
+      (HigherPointwiseEquivalenceComparison
+        (exactPresentationRestrictedCarrier (W := W) A P)
+        (exactPresentationRestrictedCarrier (W := W) A Q)) := by
+  rcases h with ⟨alpha⟩
+  exact
+    ⟨restrictedPointwiseEquivalenceComparisonOfExactCoherentComparison
+      (W := W) A alpha⟩
 
 /-!
 ## Boundary after v4.52
 
-For two exact presentations P and Q of the same raw system R, the theorem-level
-data now established without extra hypotheses is exactly
+The proven hierarchy is now explicit:
 
-  restrict(P.carrier) --> R <-- restrict(Q.carrier),
+  two exact presentations P,Q
+        |
+        | unconditional
+        v
+  restrict(P) --> R <-- restrict(Q)
+  both legs pointwise equivalences
 
-with both legs pointwise equivalences.
+  coherent directed factor P --> Q
+        |
+        +--> directed DO₂ 1-morphism
+        |
+        +--> restricted pointwise-equivalence comparison
+             restrict(P) --> restrict(Q).
 
-A directed comparison between the two restricted carriers follows once a
-coherent reverse pointwise-equivalence comparison from R to one leg is supplied.
-A strong transformation between the *localized* carriers is separately packaged;
-because DO₂ is full, such a transformation yields a directed DO₂ 1-morphism.
-Pointwise equivalence of that localized transformation is another explicit
-property.
+Identity and composition of coherent directed factors are inherited from the
+already-proved v2.40 constructions.
 
-No theorem here identifies any of these with:
+The missing implications are intentionally not asserted:
 
-* a pseudonatural equivalence;
-* an equivalence object/1-cell in DO₂;
-* uniqueness up to modification.
+* the canonical cospan does not yet produce a coherent directed factor P --> Q;
+* restricted pointwise equivalence is not promoted here to a chosen
+  pseudonatural inverse/equivalence;
+* a directed DO₂ 1-morphism is not identified with an equivalence in DO₂;
+* essential uniqueness up to modification requires a genuine universal-property
+  hypothesis.
 
-Those are precisely the essential-uniqueness/coherence obligations for v4.53+.
+This is the exact comparison frontier required before v4.53 essential
+uniqueness and naturality.
 -/
 
 end
