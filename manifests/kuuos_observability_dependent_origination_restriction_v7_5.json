@@ -1,0 +1,38 @@
+{
+  "version": "kuuos_observability_dependent_origination_restriction_manifest_v7_5",
+  "purpose": "Classify local restriction compatibility and distinguish generator-local from higher gluing obstructions inside KuuOS dependent-origination descent sectors.",
+  "predecessor": "KuuOS Observability Dependent-Origination Descent v7.4",
+  "formal_reference": {
+    "presentation_descent": "formal/KUOS/DependentOriginationAbstractPresentationDescentV4_49.lean",
+    "restriction_whiskering_frontier": "formal/KUOS/DependentOriginationExactUniversalRestrictionWhiskeringV4_61.lean",
+    "runtime_is_formal_theorem_authority": false,
+    "runtime_replaces_v4_61": false
+  },
+  "restriction_semantics": {
+    "restriction_compatible": "Every bounded comparison inside one conditioning family is locally compatible.",
+    "restriction_held": "At least one bounded comparison inside one conditioning family is unresolved.",
+    "restriction_obstructed": "A bounded comparison inside one conditioning family is explicitly incompatible.",
+    "restriction_trivial": "The restricted presentation has fewer than two representatives."
+  },
+  "sector_diagnoses": {
+    "restriction_stable_descent": "A descended v7.4 sector remains locally compatible on every conditioning-family restriction.",
+    "generator_local_obstruction": "At least one generating conditioning family is already locally obstructed.",
+    "higher_gluing_obstruction": "All generating conditioning-family restrictions are locally compatible, yet the generated presentation class is globally obstructed.",
+    "local_restriction_unresolved": "At least one generating conditioning-family restriction is unresolved.",
+    "higher_gluing_unresolved": "All generator restrictions are resolved locally, but the transitive presentation class remains unresolved.",
+    "local_only_no_restriction": "An isolated local presentation has no nontrivial conditioning-family restriction."
+  },
+  "boundaries": {
+    "primary_model_is_graph": false,
+    "restriction_checked_before_higher_gluing": true,
+    "higher_gluing_obstruction_is_not_graph_connectivity_failure": true,
+    "global_collapse_performed": false,
+    "causal_inference_performed": false,
+    "causal_direction_inferred": false,
+    "higher_coherence_claimed": false,
+    "source_authority_transferred": false
+  },
+  "descent": {
+    "next": "higher local coherence candidates over overlapping conditioning families, still without replacing Lean theorem authority"
+  }
+}
