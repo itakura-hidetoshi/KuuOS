@@ -1,0 +1,68 @@
+{
+  "version": "kuuos_development_mcp_capability_routing_manifest_v7_24",
+  "purpose": "Route KuuOS repository-development tasks to the smallest authoritative set of verified MCP planes instead of activating the maximal MCP profile by default.",
+  "predecessors": [
+    "KuuOS Development MCP Capability Registry v7.16",
+    "KuuOS Development MCP Federation v7.19",
+    "KuuOS Context7 MCP Compatibility v7.20",
+    "KuuOS Browser MCP Compatibility v7.21",
+    "KuuOS Docker MCP Gateway Compatibility v7.22",
+    "KuuOS Fetch + Official MCP Docs Compatibility v7.23"
+  ],
+  "core_rules": {
+    "maximal_profile_is_default": false,
+    "route_by_fact_plane_not_server_popularity": true,
+    "one_task_may_require_multiple_nonidentical_authority_planes": true,
+    "provider_overlap_implies_semantic_identity": false,
+    "external_docs_may_replace_exact_local_evidence": false,
+    "write_capability_is_write_authority": false,
+    "write_request_without_authority_is_rejection": false,
+    "optional_provider_failure_blocks_unrelated_planes": false,
+    "source_authority_transferred": false
+  },
+  "fact_planes": {
+    "remote_repository_and_ci_state": "github_official",
+    "local_revision_and_diff_state": "git_reference",
+    "current_working_bytes": "filesystem_reference",
+    "lean_semantic_state_for_bound_bytes": "lean_lsp",
+    "current_external_library_documentation": "context7",
+    "current_mcp_specification": "mcp_docs",
+    "generic_external_content": "mcp_fetch",
+    "functional_browser_observation": "playwright",
+    "browser_console_network_performance_observation": "chrome_devtools",
+    "mcp_orchestration_surface": "docker_mcp_gateway",
+    "vercel_deployment_state": "vercel_existing",
+    "supabase_project_state": "supabase_existing",
+    "neon_project_state": "neon_existing"
+  },
+  "task_routes": {
+    "lean_ci_repair": [
+      "github_official",
+      "filesystem_reference",
+      "lean_lsp",
+      "git_reference"
+    ],
+    "mcp_spec_research": [
+      "mcp_docs",
+      "context7",
+      "mcp_fetch"
+    ],
+    "browser_functional_validation": [
+      "playwright",
+      "chrome_devtools when diagnostics requested"
+    ],
+    "browser_debugging": [
+      "chrome_devtools",
+      "playwright as reproduction plane"
+    ],
+    "multi_mcp_orchestration": [
+      "docker_mcp_gateway"
+    ]
+  },
+  "authority_behavior": {
+    "read_only_task_can_use_write_capable_server_in_nonwrite_mode": true,
+    "write_request_with_missing_authority": "authority_required",
+    "write_candidate_requires_existing_independent_authority": true
+  },
+  "next": "bind the router to actual development observations so CI failures can automatically select the minimal MCP route while preserving the existing exact-head and source-authority order"
+}
