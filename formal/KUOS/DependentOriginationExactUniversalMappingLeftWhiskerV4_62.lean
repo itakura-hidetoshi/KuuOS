@@ -134,6 +134,7 @@ noncomputable def ExactUniversalRawMorphismTwoCell.whiskerLeft
             f.comparison_square.hom ▷ h.raw ⊗≫
           𝟙 _ := by
             rw [eta.compatibility]
+            bicategory
       _ = _ := by
             bicategory
 
