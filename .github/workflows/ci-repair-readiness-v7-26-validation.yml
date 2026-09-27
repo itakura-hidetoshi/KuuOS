@@ -1,0 +1,44 @@
+name: CI repair readiness v7.26 validation
+
+on:
+  pull_request:
+    paths:
+      - 'runtime/kuuos_runtime_ci_repair_readiness_v7_26.py'
+      - 'scripts/check_kuuos_runtime_ci_repair_readiness_v7_26.py'
+      - 'manifests/kuuos_ci_repair_readiness_v7_26.json'
+      - 'docs/KUUOS_CI_REPAIR_READINESS_v7_26.md'
+      - '.github/workflows/ci-repair-readiness-v7-26-validation.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Compile CI repair readiness layer
+        run: |
+          python -m py_compile             runtime/kuuos_runtime_ci_repair_readiness_v7_26.py             scripts/check_kuuos_runtime_ci_repair_readiness_v7_26.py
+
+      - name: Run focused repair readiness checks
+        run: |
+          PYTHONPATH=. python scripts/check_kuuos_runtime_ci_repair_readiness_v7_26.py
+
+      - name: Verify readiness boundaries
+        run: |
+          grep -Fq '"repair_scope_is_entire_target_file": true' manifests/kuuos_ci_repair_readiness_v7_26.json
+          grep -Fq '"remote_local_revision_mismatch_blocks_local_repair": false' manifests/kuuos_ci_repair_readiness_v7_26.json
+          grep -Fq '"missing_workspace_authority_is_rejection": false' manifests/kuuos_ci_repair_readiness_v7_26.json
+          grep -Fq '"remote_publish_requires_separate_github_authority": true' manifests/kuuos_ci_repair_readiness_v7_26.json
+          grep -Fq '"readiness_layer_executes_repairs": false' manifests/kuuos_ci_repair_readiness_v7_26.json
+
+      - name: Confirm Strict Lean is not invoked
+        run: |
+          echo "Runtime-only repair-readiness layer: Strict Lean intentionally not invoked."
