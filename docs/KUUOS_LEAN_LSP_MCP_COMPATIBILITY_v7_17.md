@@ -139,7 +139,16 @@ It only makes the compatibility test itself narrow and reproducible.
 
 ## Promotion
 
-If exact-head CI proves the live probe succeeds, the v7.16 registry may change:
+The initial exact-head live probe succeeded at:
+
+```text
+head: a5f16cbcafd3f698051a0afa51b7c8df5f2a2c9e
+run:  36328215047
+```
+
+That run passed the representative compile, MCP initialize/tools-list, `lean_file_outline`, and `lean_diagnostic_messages` calls.
+
+The v7.16 registry is therefore promoted in this PR:
 
 ```text
 lean_lsp:
@@ -147,6 +156,8 @@ lean_lsp:
 ->
   verified_compatible
 ```
+
+The promoted final head must run the same live probe again before merge.
 
 That status means:
 
