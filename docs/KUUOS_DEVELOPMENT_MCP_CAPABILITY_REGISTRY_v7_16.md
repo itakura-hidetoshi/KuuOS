@@ -177,7 +177,7 @@ Repository-local code and pinned toolchain files still outrank fetched documenta
 
 ## Playwright MCP
 
-Playwright MCP is registered for deterministic functional browser verification.
+Playwright MCP is registered for deterministic functional browser verification. v7.21 has live-verified `@playwright/mcp 0.0.82` against a deterministic localhost fixture, so its registry status is now `verified_compatible`.
 
 Recommended KuuOS mode:
 
@@ -196,7 +196,7 @@ Use it for:
 
 ## Chrome DevTools MCP
 
-Chrome DevTools MCP overlaps with Playwright but has a different role.
+Chrome DevTools MCP overlaps with Playwright but has a different role. v7.21 has live-verified `chrome-devtools-mcp 1.10.1` against the same localhost fixture, including snapshot and console diagnostics, so its registry status is now `verified_compatible`.
 
 Use it mainly for:
 
