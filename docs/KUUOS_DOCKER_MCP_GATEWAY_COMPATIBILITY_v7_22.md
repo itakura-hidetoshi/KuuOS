@@ -160,3 +160,17 @@ docker_mcp_gateway:
 That status means Docker Gateway has demonstrated real tool discovery and forwarding in the KuuOS development environment.
 
 It does not mean every downstream server is automatically verified or authorized.
+
+
+## Initial successful compatibility receipt
+
+The first complete live Gateway run succeeded at:
+
+```text
+head: 335feda17b05b682e7398a374bcb209950d5d849
+run:  36350581916
+```
+
+That run built the exact upstream plugin, created the local profile, discovered the network-disabled KuuOS probe tool through the Gateway, forwarded the call, and observed the deterministic response marker.
+
+The development registry is therefore promoted in this PR to `verified_compatible` for Docker MCP Gateway. The promoted final head must repeat the same live forwarding probe before merge.
