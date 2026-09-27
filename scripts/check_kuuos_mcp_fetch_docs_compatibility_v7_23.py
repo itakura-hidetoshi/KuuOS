@@ -13,7 +13,7 @@ import urllib.error
 import urllib.request
 from typing import Any, Mapping, Sequence
 
-FETCH_VERSION = "0.6.3"
+FETCH_SOURCE_VERSION = "0.6.3"
 FETCH_MCP_SDK_VERSION = "1.29.0"
 REFERENCE_SERVERS_SHA = "f46d9578190b476b3501923ea8977d899e8db2cb"
 
@@ -173,11 +173,42 @@ def result_text(response: Mapping[str, Any]) -> str:
     return "\n".join(parts)
 
 
+def detect_fetch_published_version(root: pathlib.Path) -> str:
+    completed = subprocess.run(
+        [
+            "uv",
+            "run",
+            "--no-project",
+            "--with",
+            "mcp-server-fetch",
+            "--with",
+            f"mcp=={FETCH_MCP_SDK_VERSION}",
+            "python",
+            "-c",
+            (
+                "import importlib.metadata as m; "
+                "print(m.version('mcp-server-fetch'))"
+            ),
+        ],
+        cwd=str(root),
+        capture_output=True,
+        text=True,
+        check=True,
+        timeout=120,
+    )
+    version = completed.stdout.strip().splitlines()[-1].strip()
+    if not version:
+        raise RuntimeError("fetch_published_version_empty")
+    print("FETCH_PUBLISHED_VERSION=" + version, flush=True)
+    return version
+
+
 def probe_fetch(root: pathlib.Path) -> dict[str, Any]:
+    published_version = detect_fetch_published_version(root)
     command = [
         "uvx",
         "--from",
-        f"mcp-server-fetch=={FETCH_VERSION}",
+        f"mcp-server-fetch=={published_version}",
         "--with",
         f"mcp=={FETCH_MCP_SDK_VERSION}",
         "mcp-server-fetch",
@@ -224,7 +255,7 @@ def probe_fetch(root: pathlib.Path) -> dict[str, Any]:
             else ""
         )
         return {
-            "package_version": FETCH_VERSION,
+            "source_tree_version": FETCH_SOURCE_VERSION,\n            "published_package_version": published_version,
             "mcp_sdk_pin": FETCH_MCP_SDK_VERSION,
             "protocol_version": protocol_version,
             "listed_tool_count": len(names),
