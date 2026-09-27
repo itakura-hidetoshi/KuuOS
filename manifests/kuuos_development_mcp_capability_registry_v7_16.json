@@ -118,7 +118,15 @@
       "source_repository": "modelcontextprotocol/servers",
       "source_subpath": "src/git",
       "source_kind": "official_reference",
-      "status": "recommended_sandboxed",
+      "status": "verified_compatible",
+      "compatibility_evidence": {
+        "manifest": "manifests/kuuos_local_repository_mcp_compatibility_v7_18.json",
+        "package_version": "0.6.2",
+        "upstream_main_sha": "f46d9578190b476b3501923ea8977d899e8db2cb",
+        "mcp_sdk_pin": "1.29.0",
+        "initial_green_probe_head": "a8b2baa62c78846647a075996b230e8201c924e2",
+        "initial_green_probe_run_id": 36331468514
+      },
       "transport": ["stdio"],
       "activation": "local_project_scoped",
       "privilege_class": "mixed_read_write",
@@ -145,7 +153,14 @@
       "source_repository": "modelcontextprotocol/servers",
       "source_subpath": "src/filesystem",
       "source_kind": "official_reference",
-      "status": "recommended_sandboxed",
+      "status": "verified_compatible",
+      "compatibility_evidence": {
+        "manifest": "manifests/kuuos_local_repository_mcp_compatibility_v7_18.json",
+        "package_version": "2026.8.31",
+        "upstream_main_sha": "f46d9578190b476b3501923ea8977d899e8db2cb",
+        "initial_green_probe_head": "a8b2baa62c78846647a075996b230e8201c924e2",
+        "initial_green_probe_run_id": 36331468514
+      },
       "transport": ["stdio"],
       "activation": "local_project_scoped",
       "privilege_class": "mixed_read_write",

@@ -1,0 +1,76 @@
+name: Local repository MCP compatibility v7.18
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/check_kuuos_local_repository_mcp_compatibility_v7_18.py'
+      - 'manifests/kuuos_local_repository_mcp_compatibility_v7_18.json'
+      - 'docs/KUUOS_LOCAL_REPOSITORY_MCP_COMPATIBILITY_v7_18.md'
+      - 'manifests/kuuos_development_mcp_capability_registry_v7_16.json'
+      - 'scripts/check_kuuos_runtime_development_mcp_capability_registry_v7_16.py'
+      - '.github/workflows/local-repository-mcp-compatibility-v7-18.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  compatibility:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Check out exact source head
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 2
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install uv
+        run: python -m pip install --disable-pip-version-check uv
+
+      - name: Verify exact local head
+        env:
+          EXPECTED_HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$EXPECTED_HEAD"
+          test -z "$(git status --porcelain)"
+
+      - name: Run live Git and Filesystem MCP probes
+        env:
+          EXPECTED_HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: |
+          set -euo pipefail
+          PYTHONPATH=. python             scripts/check_kuuos_local_repository_mcp_compatibility_v7_18.py             --repository-root .             --expected-head "$EXPECTED_HEAD"             --receipt local_repository_mcp_compatibility_receipt_v7_18.json
+
+      - name: Verify compatibility receipt
+        run: |
+          python - <<'PY'
+          import json
+          r = json.load(open("local_repository_mcp_compatibility_receipt_v7_18.json"))
+          assert r["status"] == "KUUOS_LOCAL_REPOSITORY_MCP_COMPATIBILITY_VERIFIED"
+          assert r["git_mcp"]["required_tools_present"] is True
+          assert r["git_mcp"]["exact_head_observed"] is True
+          assert r["git_mcp"]["write_tools_called"] is False
+          assert r["filesystem_mcp"]["required_tools_present"] is True
+          assert r["filesystem_mcp"]["write_tools_called"] is False
+          assert r["boundary"]["filesystem_scope_is_exact_repository_root"] is True
+          assert r["boundary"]["local_git_head_equals_github_exact_head"] is True
+          PY
+
+      - name: Upload compatibility receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-local-repository-mcp-compatibility-${{ github.run_id }}-${{ github.run_attempt }}
+          path: local_repository_mcp_compatibility_receipt_v7_18.json
+          if-no-files-found: error
+          retention-days: 14

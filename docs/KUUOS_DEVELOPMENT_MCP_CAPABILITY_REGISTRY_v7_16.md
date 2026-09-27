@@ -125,7 +125,7 @@ The server should use the KuuOS repository root as `LEAN_PROJECT_PATH` so `lake 
 
 ## Git MCP
 
-The MCP reference Git server complements GitHub MCP.
+The MCP reference Git server complements GitHub MCP. v7.18 has live-verified `mcp-server-git 0.6.2` against the exact KuuOS source head, with the upstream-locked `mcp==1.29.0`; its registry status is now `verified_compatible`.
 
 Use GitHub MCP for:
 
@@ -150,7 +150,7 @@ These are different presentations and neither replaces the other.
 
 ## Filesystem MCP
 
-The MCP reference filesystem server gives project-local file access.
+The MCP reference filesystem server gives project-local file access. v7.18 has live-verified the published `@modelcontextprotocol/server-filesystem@2026.8.31` release against the exact KuuOS repository root; its registry status is now `verified_compatible`.
 
 For KuuOS it must be rooted explicitly at:
 

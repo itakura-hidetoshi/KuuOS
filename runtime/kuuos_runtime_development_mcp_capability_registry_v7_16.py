@@ -200,6 +200,36 @@ def validate_registry(registry: Mapping[str, Any]) -> list[str]:
         if server_id == "filesystem_reference":
             if raw.get("isolation") != "explicit_allowed_repository_root":
                 errors.append("filesystem_repository_root_isolation_missing")
+            if raw.get("status") == "verified_compatible":
+                evidence = _m(raw.get("compatibility_evidence"))
+                expected = {
+                    "manifest": "manifests/kuuos_local_repository_mcp_compatibility_v7_18.json",
+                    "package_version": "2026.8.31",
+                    "upstream_main_sha": "f46d9578190b476b3501923ea8977d899e8db2cb",
+                }
+                for key, value in expected.items():
+                    if str(evidence.get(key, "")) != value:
+                        errors.append("filesystem_compatibility_evidence_invalid:" + key)
+                if not str(evidence.get("initial_green_probe_head", "")).strip():
+                    errors.append("filesystem_green_probe_head_missing")
+                if not isinstance(evidence.get("initial_green_probe_run_id"), int):
+                    errors.append("filesystem_green_probe_run_id_missing")
+
+        if server_id == "git_reference" and raw.get("status") == "verified_compatible":
+            evidence = _m(raw.get("compatibility_evidence"))
+            expected = {
+                "manifest": "manifests/kuuos_local_repository_mcp_compatibility_v7_18.json",
+                "package_version": "0.6.2",
+                "upstream_main_sha": "f46d9578190b476b3501923ea8977d899e8db2cb",
+                "mcp_sdk_pin": "1.29.0",
+            }
+            for key, value in expected.items():
+                if str(evidence.get(key, "")) != value:
+                    errors.append("git_compatibility_evidence_invalid:" + key)
+            if not str(evidence.get("initial_green_probe_head", "")).strip():
+                errors.append("git_green_probe_head_missing")
+            if not isinstance(evidence.get("initial_green_probe_run_id"), int):
+                errors.append("git_green_probe_run_id_missing")
 
         if server_id == "lean_lsp":
             lean_status = str(raw.get("status", ""))

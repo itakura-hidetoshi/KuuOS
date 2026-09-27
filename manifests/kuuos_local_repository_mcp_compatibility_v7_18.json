@@ -1,0 +1,71 @@
+{
+  "version": "kuuos_local_repository_mcp_compatibility_manifest_v7_18",
+  "purpose": "Verify the MCP reference Git and Filesystem servers against the exact KuuOS repository root and exact GitHub source head.",
+  "upstream": {
+    "repository": "modelcontextprotocol/servers",
+    "main_sha": "f46d9578190b476b3501923ea8977d899e8db2cb",
+    "git": {
+      "package": "mcp-server-git",
+      "version": "0.6.2",
+      "sdk_constraint": "mcp>=1.29.0,<2",
+      "upstream_locked_sdk": "mcp==1.29.0"
+    },
+    "filesystem": {
+      "package": "@modelcontextprotocol/server-filesystem",
+      "version": "2026.8.31",
+      "sdk_constraint": "published package dependency surface",
+      "current_upstream_main_package_json_version": "0.6.3",
+      "published_release_differs_from_main_package_json": true
+    }
+  },
+  "probe": {
+    "transport": "stdio",
+    "protocol_version": "2025-06-18",
+    "checkout_source_head_exactly": true,
+    "git_read_tools": ["git_status", "git_log"],
+    "git_show_in_current_upstream_source_but_not_required_from_released_0_6_2": true,
+    "filesystem_read_tools": [
+      "list_allowed_directories",
+      "read_text_file",
+      "search_files"
+    ],
+    "filesystem_write_tools_discovered_but_not_called": [
+      "create_directory",
+      "write_file",
+      "edit_file",
+      "move_file"
+    ]
+  },
+  "alignment": {
+    "github_remote_exact_head": "workflow pull_request.head.sha",
+    "local_git_exact_head": "git rev-parse HEAD",
+    "git_mcp_exact_head": "git_log/git_show HEAD",
+    "filesystem_scope": "exact checked-out KuuOS repository root",
+    "lean_lsp_scope": "same KuuOS repository root from v7.17"
+  },
+  "promotion_rule": {
+    "git_reference_from": "recommended_sandboxed",
+    "filesystem_reference_from": "recommended_sandboxed",
+    "to": "verified_compatible",
+    "requires_exact_head_ci_success": true,
+    "requires_live_mcp_handshake": true,
+    "requires_real_kuuos_repository_calls": true,
+    "requires_no_write_tool_calls": true
+  },
+  "promotion_evidence": {
+    "initial_green_probe_head": "a8b2baa62c78846647a075996b230e8201c924e2",
+    "initial_green_probe_run_id": 36331468514,
+    "git_mcp_live_probe_succeeded": true,
+    "filesystem_mcp_live_probe_succeeded": true,
+    "exact_local_head_alignment_succeeded": true,
+    "final_promoted_head_must_revalidate": true
+  },
+  "boundaries": {
+    "reference_implementation_is_production_guarantee": false,
+    "local_git_is_github_remote_authority": false,
+    "filesystem_scope_exceeds_repository_root": false,
+    "probe_mutates_repository": false,
+    "write_authority_granted": false,
+    "source_authority_transferred": false
+  }
+}

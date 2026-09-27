@@ -159,6 +159,26 @@ def test_maximal_profile_degrades_locally_when_optional_provider_missing() -> No
     assert states["neon_existing"]["activation_state"] == "ready"
 
 
+def test_git_and_filesystem_are_verified_compatible() -> None:
+    registry = load_registry()
+    by_id = {server["server_id"]: server for server in registry["servers"]}
+
+    git = by_id["git_reference"]
+    fs = by_id["filesystem_reference"]
+
+    assert git["status"] == "verified_compatible"
+    assert fs["status"] == "verified_compatible"
+
+    git_evidence = git["compatibility_evidence"]
+    assert git_evidence["package_version"] == "0.6.2"
+    assert git_evidence["mcp_sdk_pin"] == "1.29.0"
+    assert git_evidence["upstream_main_sha"] == "f46d9578190b476b3501923ea8977d899e8db2cb"
+
+    fs_evidence = fs["compatibility_evidence"]
+    assert fs_evidence["package_version"] == "2026.8.31"
+    assert fs_evidence["upstream_main_sha"] == "f46d9578190b476b3501923ea8977d899e8db2cb"
+
+
 def test_github_toolsets_cover_current_repo_development() -> None:
     registry = load_registry()
     github = next(
@@ -255,6 +275,7 @@ def main() -> int:
     test_core_repo_profile_ready_with_verified_lean_lsp()
     test_write_request_routes_to_independent_authorities()
     test_maximal_profile_degrades_locally_when_optional_provider_missing()
+    test_git_and_filesystem_are_verified_compatible()
     test_github_toolsets_cover_current_repo_development()
     test_lean_lsp_is_verified_but_still_explicit_opt_in()
     test_browser_servers_are_complementary_and_isolated()
