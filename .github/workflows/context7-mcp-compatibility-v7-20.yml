@@ -1,0 +1,58 @@
+name: Context7 MCP compatibility v7.20
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/check_kuuos_context7_mcp_compatibility_v7_20.py'
+      - 'manifests/kuuos_context7_mcp_compatibility_v7_20.json'
+      - 'docs/KUUOS_CONTEXT7_MCP_COMPATIBILITY_v7_20.md'
+      - 'manifests/kuuos_development_mcp_capability_registry_v7_16.json'
+      - 'runtime/kuuos_runtime_development_mcp_capability_registry_v7_16.py'
+      - 'scripts/check_kuuos_runtime_development_mcp_capability_registry_v7_16.py'
+      - '.github/workflows/context7-mcp-compatibility-v7-20.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  compatibility:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Run live Context7 MCP compatibility probe
+        run: |
+          set -euo pipefail
+          PYTHONPATH=. python             scripts/check_kuuos_context7_mcp_compatibility_v7_20.py             --repository-root .             --receipt context7_mcp_compatibility_receipt_v7_20.json
+
+      - name: Verify compatibility receipt
+        run: |
+          python - <<'PY'
+          import json
+          r = json.load(open("context7_mcp_compatibility_receipt_v7_20.json"))
+          assert r["status"] == "KUUOS_CONTEXT7_MCP_COMPATIBILITY_VERIFIED"
+          assert r["probe"]["required_tools_present"] is True
+          assert r["probe"]["query_docs_nonempty"] is True
+          assert r["probe"]["api_key_used"] is False
+          assert r["boundary"]["context7_is_repository_authority"] is False
+          assert r["boundary"]["documentation_may_replace_exact_local_evidence"] is False
+          PY
+
+      - name: Upload compatibility receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-context7-mcp-compatibility-${{ github.run_id }}-${{ github.run_attempt }}
+          path: context7_mcp_compatibility_receipt_v7_20.json
+          if-no-files-found: error
+          retention-days: 14

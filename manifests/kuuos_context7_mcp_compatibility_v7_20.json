@@ -1,0 +1,51 @@
+{
+  "version": "kuuos_context7_mcp_compatibility_manifest_v7_20",
+  "purpose": "Verify Context7 MCP as a current external documentation plane for KuuOS repository development without promoting external documentation to repository, Lean theorem, or exact-head authority.",
+  "upstream": {
+    "repository": "upstash/context7",
+    "master_sha": "e275a848a420e0d11c2822f61201ee005bfd1133",
+    "package": "@upstash/context7-mcp",
+    "version": "4.1.1",
+    "node_requirement": ">=20.18.1",
+    "mcp_packages": [
+      "@modelcontextprotocol/node 2.0.0",
+      "@modelcontextprotocol/server 2.0.0"
+    ]
+  },
+  "probe": {
+    "transport": "stdio",
+    "protocol_version": "2025-11-25",
+    "api_key_required_for_probe": false,
+    "tools": [
+      "resolve-library-id",
+      "query-docs"
+    ],
+    "query_subject": "Model Context Protocol current SDK/documentation",
+    "network_access_required": true
+  },
+  "promotion_rule": {
+    "from": "recommended_read_only",
+    "to": "verified_compatible",
+    "requires_exact_head_ci_success": true,
+    "requires_live_mcp_handshake": true,
+    "requires_resolve_library_id_call": true,
+    "requires_query_docs_call": true
+  },
+  "promotion_evidence": {
+    "initial_green_probe_head": "b3d6e10b9358f9a15a7cd893fff8467274234642",
+    "initial_green_probe_run_id": 36336280623,
+    "resolve_library_id_succeeded": true,
+    "query_docs_succeeded": true,
+    "api_key_used": false,
+    "final_promoted_head_must_revalidate": true
+  },
+  "boundaries": {
+    "context7_is_repository_authority": false,
+    "context7_is_lean_theorem_authority": false,
+    "context7_is_exact_head_authority": false,
+    "repository_local_code_outranks_context7_for_kuuos_behavior": true,
+    "pinned_toolchain_outranks_context7_for_exact_lean_behavior": true,
+    "credentials_persisted": false,
+    "source_authority_transferred": false
+  }
+}

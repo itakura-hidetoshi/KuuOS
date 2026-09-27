@@ -228,7 +228,15 @@
       "publisher": "Upstash",
       "source_repository": "upstash/context7",
       "source_kind": "vendor_open_source",
-      "status": "recommended_read_only",
+      "status": "verified_compatible",
+      "compatibility_evidence": {
+        "manifest": "manifests/kuuos_context7_mcp_compatibility_v7_20.json",
+        "package_version": "4.1.1",
+        "upstream_master_sha": "e275a848a420e0d11c2822f61201ee005bfd1133",
+        "initial_green_probe_head": "b3d6e10b9358f9a15a7cd893fff8467274234642",
+        "initial_green_probe_run_id": 36336280623,
+        "api_key_used": false
+      },
       "transport": ["remote_http", "stdio"],
       "activation": "on_demand_documentation",
       "privilege_class": "read_only",
@@ -242,7 +250,7 @@
       ],
       "runtime_requirements": ["network"],
       "isolation": "remote_read_only",
-      "notes": "Use for current external library/API documentation; it does not replace repository-local code evidence."
+      "notes": "Verified by v7.20 with live resolve-library-id and query-docs calls using Context7 MCP 4.1.1 without an API key. External documentation remains advisory and does not replace repository-local or pinned-toolchain evidence."
     },
     {
       "server_id": "playwright",
