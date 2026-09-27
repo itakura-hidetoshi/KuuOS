@@ -248,6 +248,44 @@ def validate_registry(registry: Mapping[str, Any]) -> list[str]:
             if not isinstance(evidence.get("initial_green_probe_run_id"), int):
                 errors.append("context7_green_probe_run_id_missing")
 
+        if server_id == "mcp_fetch" and raw.get("status") == "verified_compatible":
+            evidence = _m(raw.get("compatibility_evidence"))
+            expected = {
+                "manifest": "manifests/kuuos_mcp_fetch_docs_compatibility_v7_23.json",
+                "source_tree_version": "0.6.3",
+                "published_package_version": "2026.8.18",
+                "upstream_main_sha": "f46d9578190b476b3501923ea8977d899e8db2cb",
+                "mcp_sdk_pin": "1.29.0",
+            }
+            for key, value in expected.items():
+                if str(evidence.get(key, "")) != value:
+                    errors.append("mcp_fetch_compatibility_evidence_invalid:" + key)
+            if evidence.get("internal_network_target_used") is not False:
+                errors.append("mcp_fetch_internal_network_probe_boundary_invalid")
+            if not str(evidence.get("initial_green_probe_head", "")).strip():
+                errors.append("mcp_fetch_green_probe_head_missing")
+            if not isinstance(evidence.get("initial_green_probe_run_id"), int):
+                errors.append("mcp_fetch_green_probe_run_id_missing")
+
+        if server_id == "mcp_docs" and raw.get("status") == "verified_compatible":
+            evidence = _m(raw.get("compatibility_evidence"))
+            expected = {
+                "manifest": "manifests/kuuos_mcp_fetch_docs_compatibility_v7_23.json",
+                "endpoint": "https://modelcontextprotocol.io/mcp",
+                "protocol_version": "2026-07-28",
+                "upstream_main_sha": "ab3a39c13bd23be691c2760e1c6c5c15a64582e1",
+                "live_search_tool": "search_model_context_protocol",
+            }
+            for key, value in expected.items():
+                if str(evidence.get(key, "")) != value:
+                    errors.append("mcp_docs_compatibility_evidence_invalid:" + key)
+            if evidence.get("stateless_http") is not True:
+                errors.append("mcp_docs_stateless_http_boundary_invalid")
+            if not str(evidence.get("initial_green_probe_head", "")).strip():
+                errors.append("mcp_docs_green_probe_head_missing")
+            if not isinstance(evidence.get("initial_green_probe_run_id"), int):
+                errors.append("mcp_docs_green_probe_run_id_missing")
+
         if server_id == "lean_lsp":
             lean_status = str(raw.get("status", ""))
             if lean_status not in {"experimental_high_value", "verified_compatible"}:
