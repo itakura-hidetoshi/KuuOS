@@ -1,0 +1,53 @@
+{
+  "version": "kuuos_observability_dependent_origination_descent_manifest_v7_4",
+  "purpose": "Structure multi-provider observability as KuuOS dependent-origination presentation/descent rather than as a provenance graph.",
+  "formal_reference": {
+    "abstract_presentation_descent": "formal/KUOS/DependentOriginationAbstractPresentationDescentV4_49.lean",
+    "current_higher_coherence_frontier": "formal/KUOS/DependentOriginationExactUniversalRestrictionWhiskeringV4_61.lean",
+    "runtime_is_formal_theorem_authority": false,
+    "runtime_replaces_formal_proof": false
+  },
+  "dependent_origination_structure": {
+    "presentations": "Provider-local bounded observations are presentations, not substances.",
+    "conditioning_families": "Shared exact-context evidence generates local conditioning relations.",
+    "presentation_relation": "The equivalence closure of exact conditioning witnesses forms quotient-like presentation classes.",
+    "local_compatibility": "Every pair inside a generated class must be rechecked against bounded temporal semantics.",
+    "descent": "A class descends only when all local comparisons are compatible.",
+    "obstruction": "A related pair with incompatible local semantics is retained as an explicit descent obstruction.",
+    "held_descent": "Missing or transient local semantics hold descent open rather than forcing success or failure.",
+    "local_only": "An isolated presentation remains local and is not treated as a global failure."
+  },
+  "output_surfaces": [
+    "presentations",
+    "conditioning_families",
+    "descent_sectors",
+    "obstruction_witnesses"
+  ],
+  "explicitly_not_used_as_primary_model": [
+    "nodes",
+    "edges",
+    "provenance_graph",
+    "knowledge_graph"
+  ],
+  "boundaries": {
+    "many_presentations_preserved": true,
+    "single_provider_privileged": false,
+    "conditioning_relation_is_substance": false,
+    "descended_presentation_is_substance": false,
+    "global_collapse_performed": false,
+    "causal_inference_performed": false,
+    "causal_direction_inferred": false,
+    "source_authority_transferred": false,
+    "raw_provider_payloads_required": false
+  },
+  "status_semantics": {
+    "KUUOS_OBSERVABILITY_DEPENDENT_ORIGINATION_DESCENT_READY": "All generated multi-presentation sectors either descend or remain isolated local presentations.",
+    "KUUOS_OBSERVABILITY_DEPENDENT_ORIGINATION_DESCENT_PARTIAL": "At least one generated sector has unresolved local semantics, so descent is held open.",
+    "KUUOS_OBSERVABILITY_DEPENDENT_ORIGINATION_DESCENT_OBSTRUCTED": "At least one generated sector contains an explicit local incompatibility obstruction.",
+    "KUUOS_OBSERVABILITY_DEPENDENT_ORIGINATION_DESCENT_BLOCKED": "Schema, authority, digest, or input-binding invariant failed."
+  },
+  "descent": {
+    "predecessor": "KuuOS Observability Event Alignment v7.3",
+    "next": "higher compatibility of descended sectors without reifying a global object"
+  }
+}
