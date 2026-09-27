@@ -160,3 +160,17 @@ while retaining separate browser-session effect authority.
 
 
 The compatibility probe uses Chrome DevTools' documented `--no-page-id-routing` mode because it intentionally maintains one selected localhost page. This avoids treating page-ID serialization as part of browser semantic compatibility; multi-page production sessions may keep the default page-ID routing.
+
+
+## Initial successful compatibility receipt
+
+The first complete live browser compatibility run succeeded at:
+
+```text
+head: 5a23e39508f6efb7683583d3b375fb9f262450fc
+run:  36337090848
+```
+
+That run verified the Playwright accessibility marker and the Chrome DevTools accessibility plus console markers on the same localhost fixture.
+
+The registry is therefore promoted in this PR to `verified_compatible` for both browser MCPs. The promoted final head must repeat the same live probe before merge.
