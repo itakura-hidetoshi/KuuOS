@@ -20,7 +20,8 @@
     "transport": "stdio",
     "protocol_version": "2025-06-18",
     "checkout_source_head_exactly": true,
-    "git_read_tools": ["git_status", "git_log", "git_show"],
+    "git_read_tools": ["git_status", "git_log"],
+    "git_show_in_current_upstream_source_but_not_required_from_released_0_6_2": true,
     "filesystem_read_tools": [
       "list_allowed_directories",
       "read_text_file",
