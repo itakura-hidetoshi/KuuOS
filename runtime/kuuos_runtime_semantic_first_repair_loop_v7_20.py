@@ -51,6 +51,7 @@ LOCAL_APPLICATION_CANDIDATE = "local_application_candidate"
 GIT_DIFF_REVIEW_READY = "git_diff_review_ready"
 REMOTE_RECONCILIATION_REQUIRED = "remote_revision_reconciliation_required"
 REMOTE_SUBMISSION_CANDIDATE = "remote_submission_candidate"
+LOCAL_GIT_ADMISSION_REQUIRED = "local_git_admission_required"
 LINEAGE_OBSTRUCTION = "repair_lineage_obstruction"
 
 SHA64 = re.compile(r"^[0-9a-f]{64}$")
@@ -441,10 +442,10 @@ def _classify(
                 route = CANDIDATE_GENERATION_READY
                 status = READY
                 reasons.append("candidate_receipt_absent")
-            elif before_digest not in {current_digest, str(candidate.get("source_workspace_digest", ""))}:
+            elif current_digest not in {before_digest, result_digest}:
                 route = CANDIDATE_STALE
                 status = PARTIAL
-                reasons.append("candidate_before_digest_not_bound_to_current_or_declared_source")
+                reasons.append("workspace_bytes_are_neither_candidate_source_nor_result")
             elif lineage_issues:
                 route = LINEAGE_OBSTRUCTION
                 status = OBSTRUCTED
@@ -515,12 +516,17 @@ def _classify(
                                         "candidate_git_diff_digest",
                                         blockers,
                                     )
-                                    if remote_aligned:
-                                        route = REMOTE_SUBMISSION_CANDIDATE
-                                        status = READY
-                                    else:
+                                    if not remote_aligned:
                                         route = REMOTE_RECONCILIATION_REQUIRED
                                         status = PARTIAL
+                                    elif workspace.get(
+                                        "remote_mutation_eligible_before_authority_check"
+                                    ) is not True:
+                                        route = LOCAL_GIT_ADMISSION_REQUIRED
+                                        status = PARTIAL
+                                    else:
+                                        route = REMOTE_SUBMISSION_CANDIDATE
+                                        status = READY
                             else:
                                 route = CANDIDATE_STALE
                                 status = PARTIAL
