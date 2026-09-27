@@ -1,0 +1,48 @@
+{
+  "version": "kuuos_observability_dependent_origination_overlap_manifest_v7_6",
+  "purpose": "Check overlap compatibility of conditioning-family restrictions without promoting pairwise compatibility to global descent.",
+  "predecessors": [
+    "KuuOS Observability Dependent-Origination Descent v7.4",
+    "KuuOS Observability Dependent-Origination Restriction v7.5"
+  ],
+  "formal_reference": {
+    "pairwise_overlap": "formal/KUOS/DependentOriginationQuotientGaugeFootprintOverlapV3_13.lean",
+    "global_gluing": "formal/KUOS/DependentOriginationGlobalFootprintGluingV3_16.lean",
+    "higher_restriction_frontier": "formal/KUOS/DependentOriginationExactUniversalRestrictionWhiskeringV4_61.lean",
+    "runtime_is_formal_theorem_authority": false,
+    "runtime_replaces_formal_results": false
+  },
+  "overlap_semantics": {
+    "overlap_compatible": "Two conditioning-family restrictions agree on every shared presentation and every bounded local comparison inside a nontrivial overlap.",
+    "overlap_trivial_single_presentation": "The common restriction consists of exactly one shared presentation.",
+    "no_shared_presentation": "The two conditioning families do not overlap.",
+    "overlap_held": "At least one local restriction is unresolved.",
+    "overlap_restriction_obstructed": "At least one local restriction is already obstructed.",
+    "overlap_restriction_mismatch": "The two local restriction presentations disagree on their common bounded semantics or fail to match the canonical v7.4 sector semantics."
+  },
+  "sector_semantics": {
+    "pairwise_overlap_coherent_stable_descent": "All available overlaps are compatible and the source v7.5 sector is restriction-stable.",
+    "pairwise_overlap_compatible_but_global_descent_obstructed": "All generating overlap restrictions are compatible, yet the source sector remains globally obstructed.",
+    "pairwise_overlap_compatible_but_global_descent_unresolved": "All available overlap restrictions are compatible, yet global descent remains unresolved.",
+    "overlap_compatibility_obstruction": "A common restriction itself is obstructed or mismatched.",
+    "overlap_compatibility_held": "A common restriction remains unresolved.",
+    "generator_local_obstruction_precedes_overlap": "The source obstruction is already visible within one conditioning family.",
+    "local_only_no_overlap": "The sector is an isolated local presentation."
+  },
+  "boundaries": {
+    "primary_model_is_graph": false,
+    "many_presentations_preserved": true,
+    "condition_families_preserved": true,
+    "pairwise_overlap_checked_on_common_restrictions": true,
+    "pairwise_overlap_compatibility_sufficient_for_global_descent": false,
+    "pairwise_overlap_does_not_imply_global_amalgamation": true,
+    "global_collapse_performed": false,
+    "causal_inference_performed": false,
+    "causal_direction_inferred": false,
+    "higher_coherence_claimed": false,
+    "source_authority_transferred": false
+  },
+  "descent": {
+    "next": "one simultaneously selected compatible local family versus merely pairwise-compatible overlap witnesses"
+  }
+}
