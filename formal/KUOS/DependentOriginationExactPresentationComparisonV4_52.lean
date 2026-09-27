@@ -72,6 +72,25 @@ without the corresponding universal-property hypothesis.
 -/
 
 universe u v uH vH
+universe u₁ u₂ u₃ v₁ v₂ v₃
+
+/-- Explicit two-out-of-three wrapper for category equivalences.
+
+The Mathlib cancellation theorem takes its two equivalence witnesses as
+instance-implicit arguments.  Keeping those witnesses as ordinary arguments at
+this boundary prevents local `let` unfolding from changing the instance-search
+key before the cancellation theorem is applied. -/
+private theorem isEquivalenceOfCompRightExplicit
+    {C : Type u₁} [Category.{v₁} C]
+    {D : Type u₂} [Category.{v₂} D]
+    {E : Type u₃} [Category.{v₃} E]
+    (F : C ⥤ D) (G : D ⥤ E)
+    (hG : G.IsEquivalence)
+    (hFG : (F ⋙ G).IsEquivalence) :
+    F.IsEquivalence := by
+  let _ : G.IsEquivalence := hG
+  let _ : (F ⋙ G).IsEquivalence := hFG
+  exact Functor.isEquivalence_of_comp_right F G
 
 variable {Context : Type u} [Category.{v} Context]
 variable (W : MorphismProperty Context)
@@ -293,10 +312,8 @@ theorem exactPresentationCoherentComparison_restrictedPointwiseEquivalence
       (coherentComparisonTriangleNatIso (W := W) alpha X)
   have hFG : (F ⋙ G).IsEquivalence :=
     (Functor.isEquivalence_iff_of_iso htriangle).2 hH
-  have hF : F.IsEquivalence := by
-    let _ : G.IsEquivalence := hG
-    let _ : (F ⋙ G).IsEquivalence := hFG
-    exact Functor.isEquivalence_of_comp_right F G
+  have hF : F.IsEquivalence :=
+    isEquivalenceOfCompRightExplicit F G hG hFG
   simpa [F] using hF
 
 /-- Therefore every coherent exact-presentation comparison restricts to the
