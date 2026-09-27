@@ -12,7 +12,7 @@ from typing import Any, Mapping
 
 VERSION = "kuuos_runtime_observability_presentation_invariance_v7_7"
 PLAN_VERSION = "kuuos_observability_presentation_invariance_plan_v7_7"
-SEMANTICS_VERSION = "kuuos_observability_presentation_semantics_input_v7_7"
+INVARIANT_INPUT_VERSION = "kuuos_observability_presentation_invariant_input_v7_7"
 DESCENT_VERSION = "kuuos_runtime_observability_dependent_origination_descent_v7_4"
 
 READY = "KUUOS_OBSERVABILITY_PRESENTATION_INVARIANCE_READY"
@@ -25,12 +25,12 @@ INVARIANCE_HELD = "presentation_invariance_held"
 INVARIANCE_OBSTRUCTED = "presentation_invariance_obstructed"
 LOCAL_ONLY = "local_presentation_only"
 
-DESCENT_AUTHORIZED = "presentation_invariant_descent"
-DESCENT_HELD = "descent_held_for_missing_semantics"
-DESCENT_DENIED = "descent_denied_by_presentation_variance"
-LOCAL_SEMANTIC = "local_semantic_presentation_only"
+DESCENT_AUTHORIZED = "presentation_independent_descent"
+DESCENT_HELD = "descent_held_for_missing_invariant"
+DESCENT_DENIED = "descent_denied_by_invariant_variance"
+LOCAL_INVARIANT = "local_invariant_presentation_only"
 
-ALLOWED_SEMANTIC_STATES = {"observed", "held", "unavailable"}
+ALLOWED_INVARIANT_STATES = {"observed", "held", "unavailable"}
 
 
 @dataclass(frozen=True)
@@ -45,7 +45,7 @@ class ObservabilityPresentationInvarianceResult:
     held_sector_count: int
     obstructed_sector_count: int
     local_only_sector_count: int
-    quotient_semantic_witness_count: int
+    quotient_invariant_witness_count: int
     obstruction_witness_count: int
     output_path: str
     receipt_path: str
@@ -136,6 +136,10 @@ def _validate_plan(plan: Mapping[str, Any], blockers: list[str]) -> tuple[int, i
         blockers.append("read_only_not_true")
     if plan.get("presentation_invariance_required_for_descent") is not True:
         blockers.append("presentation_invariance_required_for_descent_not_true")
+    if plan.get("invariant_match_erases_presentation_dependence") is not True:
+        blockers.append("invariant_match_erases_presentation_dependence_not_true")
+    if plan.get("presentation_local_equality_required") is not False:
+        blockers.append("presentation_local_equality_required_must_be_false")
     if plan.get("compatibility_may_substitute_for_invariance") is not False:
         blockers.append("compatibility_substitution_must_be_false")
     if plan.get("global_collapse_allowed") is not False:
@@ -151,11 +155,11 @@ def _validate_plan(plan: Mapping[str, Any], blockers: list[str]) -> tuple[int, i
     if max_presentations < 1 or max_presentations > 512:
         blockers.append("max_presentations_out_of_bounds")
 
-    max_semantic_bytes = _i(plan.get("max_semantic_value_bytes"), 8192)
-    if max_semantic_bytes < 64 or max_semantic_bytes > 65536:
-        blockers.append("max_semantic_value_bytes_out_of_bounds")
+    max_invariant_bytes = _i(plan.get("max_invariant_value_bytes"), 8192)
+    if max_invariant_bytes < 64 or max_invariant_bytes > 65536:
+        blockers.append("max_invariant_value_bytes_out_of_bounds")
 
-    return max_presentations, max_semantic_bytes
+    return max_presentations, max_invariant_bytes
 
 
 def _presentation_ids(
@@ -183,77 +187,77 @@ def _presentation_ids(
     return result
 
 
-def _semantic_table(
-    semantics_packet: Mapping[str, Any],
+def _invariant_table(
+    invariant_packet: Mapping[str, Any],
     presentation_ids: set[str],
     *,
-    max_semantic_bytes: int,
+    max_invariant_bytes: int,
     blockers: list[str],
 ) -> tuple[str, str, dict[str, dict[str, Any]]]:
-    projection_id = str(semantics_packet.get("semantic_projection_id", "")).strip()
-    schema_digest = str(semantics_packet.get("semantic_schema_digest", "")).strip()
+    projection_id = str(invariant_packet.get("invariant_projection_id", "")).strip()
+    schema_digest = str(invariant_packet.get("invariant_schema_digest", "")).strip()
     if not projection_id:
-        blockers.append("semantic_projection_id_missing")
+        blockers.append("invariant_projection_id_missing")
     if not schema_digest:
-        blockers.append("semantic_schema_digest_missing")
+        blockers.append("invariant_schema_digest_missing")
 
-    raw = semantics_packet.get("presentation_semantics", [])
+    raw = invariant_packet.get("presentation_invariants", [])
     if not isinstance(raw, list):
-        blockers.append("presentation_semantics_not_list")
+        blockers.append("presentation_invariants_not_list")
         return projection_id, schema_digest, {}
 
     result: dict[str, dict[str, Any]] = {}
     for index, item in enumerate(raw):
         if not isinstance(item, Mapping):
-            blockers.append(f"semantic_{index}_not_object")
+            blockers.append(f"invariant_{index}_not_object")
             continue
 
         presentation_id = str(item.get("presentation_id", "")).strip()
         if not presentation_id:
-            blockers.append(f"semantic_{index}_presentation_id_missing")
+            blockers.append(f"invariant_{index}_presentation_id_missing")
             continue
         if presentation_id not in presentation_ids:
-            blockers.append(f"semantic_{index}_unknown_presentation_id")
+            blockers.append(f"invariant_{index}_unknown_presentation_id")
         if presentation_id in result:
-            blockers.append("duplicate_semantic_presentation_id")
+            blockers.append("duplicate_invariant_presentation_id")
             continue
 
-        state = str(item.get("semantic_state", "")).strip()
-        if state not in ALLOWED_SEMANTIC_STATES:
-            blockers.append(f"semantic_{index}_state_invalid")
+        state = str(item.get("invariant_state", "")).strip()
+        if state not in ALLOWED_INVARIANT_STATES:
+            blockers.append(f"invariant_{index}_state_invalid")
 
-        semantic_value_present = "semantic_value" in item
-        semantic_value = item.get("semantic_value")
+        invariant_value_present = "invariant_value" in item
+        invariant_value = item.get("invariant_value")
 
         if state == "observed":
-            if not semantic_value_present:
-                blockers.append(f"semantic_{index}_observed_value_missing")
-            elif _serialized_size(semantic_value) > max_semantic_bytes:
-                blockers.append(f"semantic_{index}_value_too_large")
-        elif semantic_value_present and semantic_value is not None:
-            blockers.append(f"semantic_{index}_nonobserved_value_must_be_null")
+            if not invariant_value_present:
+                blockers.append(f"invariant_{index}_observed_value_missing")
+            elif _serialized_size(invariant_value) > max_invariant_bytes:
+                blockers.append(f"invariant_{index}_value_too_large")
+        elif invariant_value_present and invariant_value is not None:
+            blockers.append(f"invariant_{index}_nonobserved_value_must_be_null")
 
-        semantic_digest = (
+        invariant_digest = (
             _sha(
                 {
-                    "semantic_projection_id": projection_id,
-                    "semantic_schema_digest": schema_digest,
-                    "semantic_value": semantic_value,
+                    "invariant_projection_id": projection_id,
+                    "invariant_schema_digest": schema_digest,
+                    "invariant_value": invariant_value,
                 }
             )
-            if state == "observed" and semantic_value_present
+            if state == "observed" and invariant_value_present
             else ""
         )
 
         result[presentation_id] = {
             "presentation_id": presentation_id,
-            "semantic_state": state,
-            "semantic_digest": semantic_digest,
+            "invariant_state": state,
+            "invariant_digest": invariant_digest,
         }
 
     missing = sorted(presentation_ids.difference(result))
     if missing:
-        blockers.append("presentation_semantics_incomplete")
+        blockers.append("presentation_invariants_incomplete")
 
     return projection_id, schema_digest, result
 
@@ -287,28 +291,28 @@ def _sector_list(
 
 def _pair_obstruction_witnesses(
     members: list[str],
-    semantic_table: Mapping[str, Mapping[str, Any]],
+    invariant_table: Mapping[str, Mapping[str, Any]],
 ) -> list[dict[str, Any]]:
     witnesses: list[dict[str, Any]] = []
     for left, right in itertools.combinations(sorted(members), 2):
-        left_sem = semantic_table.get(left, {})
-        right_sem = semantic_table.get(right, {})
+        left_inv = invariant_table.get(left, {})
+        right_inv = invariant_table.get(right, {})
         if (
-            left_sem.get("semantic_state") == "observed"
-            and right_sem.get("semantic_state") == "observed"
-            and left_sem.get("semantic_digest")
-            != right_sem.get("semantic_digest")
+            left_inv.get("invariant_state") == "observed"
+            and right_inv.get("invariant_state") == "observed"
+            and left_inv.get("invariant_digest")
+            != right_inv.get("invariant_digest")
         ):
             witnesses.append(
                 {
-                    "obstruction_kind": "related_presentations_have_unequal_semantics",
+                    "obstruction_kind": "related_presentations_have_unequal_invariants",
                     "left_presentation_id": left,
                     "right_presentation_id": right,
-                    "left_semantic_digest": str(
-                        left_sem.get("semantic_digest", "")
+                    "left_invariant_digest": str(
+                        left_inv.get("invariant_digest", "")
                     ),
-                    "right_semantic_digest": str(
-                        right_sem.get("semantic_digest", "")
+                    "right_invariant_digest": str(
+                        right_inv.get("invariant_digest", "")
                     ),
                 }
             )
@@ -317,7 +321,7 @@ def _pair_obstruction_witnesses(
 
 def _diagnose_sector(
     sector: Mapping[str, Any],
-    semantic_table: Mapping[str, Mapping[str, Any]],
+    invariant_table: Mapping[str, Mapping[str, Any]],
     blockers: list[str],
     index: int,
 ) -> tuple[dict[str, Any], list[dict[str, Any]], dict[str, Any] | None]:
@@ -332,20 +336,20 @@ def _diagnose_sector(
     missing_members = [
         presentation_id
         for presentation_id in members
-        if presentation_id not in semantic_table
+        if presentation_id not in invariant_table
     ]
     if missing_members:
-        blockers.append(f"sector_{index}_semantic_member_missing")
+        blockers.append(f"sector_{index}_invariant_member_missing")
 
     preinvariant_status = str(sector.get("descent_status", ""))
 
     if len(members) <= 1:
         state = LOCAL_ONLY
-        descent_conclusion = LOCAL_SEMANTIC
+        descent_conclusion = LOCAL_INVARIANT
         common_digest = (
             str(
-                semantic_table.get(members[0], {}).get(
-                    "semantic_digest",
+                invariant_table.get(members[0], {}).get(
+                    "invariant_digest",
                     "",
                 )
             )
@@ -360,19 +364,9 @@ def _diagnose_sector(
                 "preinvariant_v7_4_status": preinvariant_status,
                 "presentation_invariance_status": state,
                 "presentation_invariant": True,
-                "all_related_presentations_semantically_equal": True,
                 "runtime_descent_conclusion": descent_conclusion,
-                "common_semantic_digest": common_digest,
-                "semantic_state_counts": {
-                    "observed": sum(
-                        1
-                        for member in members
-                        if semantic_table.get(member, {}).get("semantic_state")
-                        == "observed"
-                    ),
-                    "held": 0,
-                    "unavailable": 0,
-                },
+                "common_invariant_digest": common_digest,
+                "presentation_local_differences_ignored_by_invariant_projection": True,
                 "compatibility_promoted_to_invariance": False,
                 "formal_factorization_claimed": False,
             },
@@ -381,20 +375,18 @@ def _diagnose_sector(
         )
 
     states = [
-        str(semantic_table.get(member, {}).get("semantic_state", ""))
+        str(invariant_table.get(member, {}).get("invariant_state", ""))
         for member in members
     ]
-
+    observed_digests = {
+        str(invariant_table.get(member, {}).get("invariant_digest", ""))
+        for member in members
+        if invariant_table.get(member, {}).get("invariant_state") == "observed"
+    }
     obstruction_witnesses = _pair_obstruction_witnesses(
         members,
-        semantic_table,
+        invariant_table,
     )
-
-    observed_digests = {
-        str(semantic_table.get(member, {}).get("semantic_digest", ""))
-        for member in members
-        if semantic_table.get(member, {}).get("semantic_state") == "observed"
-    }
 
     if obstruction_witnesses:
         invariance_status = INVARIANCE_OBSTRUCTED
@@ -418,18 +410,19 @@ def _diagnose_sector(
         descent_conclusion = DESCENT_AUTHORIZED
         common_digest = next(iter(observed_digests))
         quotient_witness = {
-            "quotient_semantic_witness_id": "quotient-semantic-"
+            "quotient_invariant_witness_id": "quotient-invariant-"
             + _sha(
                 {
                     "sector_id": sector_id,
                     "presentation_ids": members,
-                    "semantic_digest": common_digest,
+                    "invariant_digest": common_digest,
                 }
             )[:16],
             "sector_id": sector_id,
             "representative_presentation_ids": members,
-            "semantic_digest": common_digest,
+            "invariant_digest": common_digest,
             "representative_count": len(members),
+            "presentation_local_equality_required": False,
             "finite_runtime_factorization_witness": True,
             "formal_quotient_factorization_proof": False,
         }
@@ -439,7 +432,7 @@ def _diagnose_sector(
         descent_conclusion = DESCENT_DENIED
         common_digest = ""
         quotient_witness = None
-        blockers.append(f"sector_{index}_unexpected_semantic_partition")
+        blockers.append(f"sector_{index}_unexpected_invariant_partition")
 
     return (
         {
@@ -449,15 +442,15 @@ def _diagnose_sector(
             "preinvariant_v7_4_status": preinvariant_status,
             "presentation_invariance_status": invariance_status,
             "presentation_invariant": invariant,
-            "all_related_presentations_semantically_equal": invariant,
             "runtime_descent_conclusion": descent_conclusion,
-            "common_semantic_digest": common_digest,
-            "semantic_state_counts": {
+            "common_invariant_digest": common_digest,
+            "invariant_state_counts": {
                 "observed": states.count("observed"),
                 "held": states.count("held"),
                 "unavailable": states.count("unavailable"),
             },
             "obstruction_witness_count": len(obstruction_witnesses),
+            "presentation_local_differences_ignored_by_invariant_projection": True,
             "compatibility_promoted_to_invariance": False,
             "formal_factorization_claimed": False,
         },
@@ -479,7 +472,7 @@ def build_observability_presentation_invariance(
     root = _root(ctx.get("runtime_root"), blockers)
     plan_path = root / "observability_presentation_invariance_plan_v7_7.json"
     descent_path = root / "observability_dependent_origination_descent_packet_v7_4.json"
-    semantics_path = root / "observability_presentation_semantics_input_v7_7.json"
+    invariant_path = root / "observability_presentation_invariant_input_v7_7.json"
     output_path = root / "observability_presentation_invariance_packet_v7_7.json"
     receipt_path = root / "observability_presentation_invariance_receipt_v7_7.json"
     audit_path = root / "observability_presentation_invariance_audit_v7_7.jsonl"
@@ -493,7 +486,7 @@ def build_observability_presentation_invariance(
     for field in (
         "plan_read_allowed",
         "descent_packet_read_allowed",
-        "semantics_input_read_allowed",
+        "invariant_input_read_allowed",
         "output_write_allowed",
         "receipt_write_allowed",
         "audit_append_allowed",
@@ -503,24 +496,24 @@ def build_observability_presentation_invariance(
 
     plan = _read_json(plan_path)
     descent = _read_json(descent_path)
-    semantics_packet = _read_json(semantics_path)
+    invariant_packet = _read_json(invariant_path)
 
     max_presentations = 128
-    max_semantic_bytes = 8192
+    max_invariant_bytes = 8192
     if not plan:
         blockers.append("presentation_invariance_plan_missing_or_invalid")
     else:
-        max_presentations, max_semantic_bytes = _validate_plan(plan, blockers)
+        max_presentations, max_invariant_bytes = _validate_plan(plan, blockers)
 
     if not descent:
         blockers.append("dependent_origination_descent_packet_missing_or_invalid")
     elif descent.get("version") != DESCENT_VERSION:
         blockers.append("dependent_origination_descent_packet_version_invalid")
 
-    if not semantics_packet:
-        blockers.append("presentation_semantics_input_missing_or_invalid")
-    elif semantics_packet.get("version") != SEMANTICS_VERSION:
-        blockers.append("presentation_semantics_input_version_invalid")
+    if not invariant_packet:
+        blockers.append("presentation_invariant_input_missing_or_invalid")
+    elif invariant_packet.get("version") != INVARIANT_INPUT_VERSION:
+        blockers.append("presentation_invariant_input_version_invalid")
 
     presentation_ids = _presentation_ids(descent, blockers) if descent else set()
     if len(presentation_ids) > max_presentations:
@@ -528,32 +521,32 @@ def build_observability_presentation_invariance(
 
     projection_id = ""
     schema_digest = ""
-    semantic_table: dict[str, dict[str, Any]] = {}
+    invariant_table: dict[str, dict[str, Any]] = {}
 
-    if plan and descent and semantics_packet:
+    if plan and descent and invariant_packet:
         descent_digest = _sha(descent)
         if str(plan.get("source_descent_packet_digest", "")) != descent_digest:
             blockers.append("plan_source_descent_packet_digest_mismatch")
         if (
-            str(semantics_packet.get("source_descent_packet_digest", ""))
+            str(invariant_packet.get("source_descent_packet_digest", ""))
             != descent_digest
         ):
-            blockers.append("semantics_source_descent_packet_digest_mismatch")
+            blockers.append("invariant_source_descent_packet_digest_mismatch")
         if (
-            str(plan.get("semantic_projection_id", ""))
-            != str(semantics_packet.get("semantic_projection_id", ""))
+            str(plan.get("invariant_projection_id", ""))
+            != str(invariant_packet.get("invariant_projection_id", ""))
         ):
-            blockers.append("semantic_projection_id_mismatch")
+            blockers.append("invariant_projection_id_mismatch")
         if (
-            str(plan.get("semantic_schema_digest", ""))
-            != str(semantics_packet.get("semantic_schema_digest", ""))
+            str(plan.get("invariant_schema_digest", ""))
+            != str(invariant_packet.get("invariant_schema_digest", ""))
         ):
-            blockers.append("semantic_schema_digest_mismatch")
+            blockers.append("invariant_schema_digest_mismatch")
 
-        projection_id, schema_digest, semantic_table = _semantic_table(
-            semantics_packet,
+        projection_id, schema_digest, invariant_table = _invariant_table(
+            invariant_packet,
             presentation_ids,
-            max_semantic_bytes=max_semantic_bytes,
+            max_invariant_bytes=max_invariant_bytes,
             blockers=blockers,
         )
 
@@ -561,20 +554,20 @@ def build_observability_presentation_invariance(
 
     diagnosed_sectors: list[dict[str, Any]] = []
     obstruction_witnesses: list[dict[str, Any]] = []
-    quotient_semantic_witnesses: list[dict[str, Any]] = []
+    quotient_invariant_witnesses: list[dict[str, Any]] = []
 
     if not blockers:
         for index, sector in enumerate(sectors):
             diagnosed, obstructions, quotient_witness = _diagnose_sector(
                 sector,
-                semantic_table,
+                invariant_table,
                 blockers,
                 index,
             )
             diagnosed_sectors.append(diagnosed)
             obstruction_witnesses.extend(obstructions)
             if quotient_witness is not None:
-                quotient_semantic_witnesses.append(quotient_witness)
+                quotient_invariant_witnesses.append(quotient_witness)
 
     counts = {
         "invariant": sum(
@@ -615,14 +608,14 @@ def build_observability_presentation_invariance(
             "version": VERSION,
             "status": status,
             "source_descent_packet_digest": _sha(descent),
-            "semantic_projection_id": projection_id,
-            "semantic_schema_digest": schema_digest,
-            "presentation_semantics": [
-                semantic_table[presentation_id]
-                for presentation_id in sorted(semantic_table)
+            "invariant_projection_id": projection_id,
+            "invariant_schema_digest": schema_digest,
+            "presentation_invariants": [
+                invariant_table[presentation_id]
+                for presentation_id in sorted(invariant_table)
             ],
             "presentation_invariance_sectors": diagnosed_sectors,
-            "quotient_semantic_witnesses": quotient_semantic_witnesses,
+            "quotient_invariant_witnesses": quotient_invariant_witnesses,
             "obstruction_witnesses": obstruction_witnesses,
             "summary": {
                 "presentation_count": len(presentation_ids),
@@ -631,22 +624,24 @@ def build_observability_presentation_invariance(
                 "held_sector_count": counts["held"],
                 "obstructed_sector_count": counts["obstructed"],
                 "local_only_sector_count": counts["local_only"],
-                "quotient_semantic_witness_count": len(
-                    quotient_semantic_witnesses
+                "quotient_invariant_witness_count": len(
+                    quotient_invariant_witnesses
                 ),
                 "obstruction_witness_count": len(obstruction_witnesses),
             },
             "dependent_origination_boundary": {
                 "presentation_invariance_required_for_descent": True,
-                "related_presentations_must_have_equal_semantics": True,
-                "compatibility_is_not_presentation_invariance": True,
-                "temporal_compatibility_is_not_semantic_equality": True,
-                "overlap_compatibility_is_not_semantic_equality": True,
-                "shared_context_is_not_semantic_equality": True,
+                "invariant_match_erases_presentation_dependence": True,
+                "presentation_local_equality_required": False,
+                "provider_equality_required": False,
+                "raw_observation_equality_required": False,
+                "shared_context_is_not_invariance": True,
+                "temporal_compatibility_is_not_invariance": True,
+                "overlap_compatibility_is_not_invariance": True,
                 "v7_4_descent_status_is_preinvariance_candidate_only": True,
                 "runtime_descent_authorized_only_after_invariance": True,
-                "semantic_projection_is_not_ultimate_truth": True,
-                "semantic_projection_is_not_substance": True,
+                "invariant_projection_is_not_ultimate_truth": True,
+                "invariant_projection_is_not_substance": True,
                 "global_collapse_performed": False,
                 "causal_inference_performed": False,
                 "source_authority_transferred": False,
@@ -656,10 +651,10 @@ def build_observability_presentation_invariance(
             "formal_correspondence_note": {
                 "structural_mirror_only": True,
                 "runtime_presentation_relation": "v7.4 generated presentation sectors",
-                "runtime_semantic_map": "one explicit bounded semantic projection applied to every presentation",
-                "runtime_invariance_predicate": "all representatives in each related sector have equal canonical semantic digests",
-                "runtime_obstruction": "a related pair with unequal canonical semantic digests",
-                "finite_runtime_factorization_witness": "one common semantic digest assigned to an invariant finite presentation sector",
+                "runtime_semantic_map": "one explicit invariant projection applied uniformly to every presentation",
+                "runtime_invariance_predicate": "related presentations have equal invariant values under that common projection",
+                "runtime_obstruction": "a related pair has unequal invariant values under the same projection",
+                "finite_runtime_factorization_witness": "one common invariant digest assigned to an invariant finite presentation sector",
                 "lean_theorem_authority": "formal/KUOS/DependentOriginationAbstractPresentationDescentV4_49.lean",
             },
             "epoch": int(time.time()),
@@ -673,7 +668,7 @@ def build_observability_presentation_invariance(
         {
             "plan": plan,
             "descent_digest": _sha(descent),
-            "semantics_digest": _sha(semantics_packet),
+            "invariant_input_digest": _sha(invariant_packet),
             "output": output,
             "blockers": sorted(set(blockers)),
         }
@@ -689,13 +684,15 @@ def build_observability_presentation_invariance(
         "held_sector_count": counts["held"],
         "obstructed_sector_count": counts["obstructed"],
         "local_only_sector_count": counts["local_only"],
-        "quotient_semantic_witness_count": len(quotient_semantic_witnesses),
+        "quotient_invariant_witness_count": len(quotient_invariant_witnesses),
         "obstruction_witness_count": len(obstruction_witnesses),
         "output_written": output_written,
         "output_digest": _sha(output),
         "presentation_invariance_required_for_descent": True,
+        "invariant_match_erases_presentation_dependence": True,
+        "presentation_local_equality_required": False,
         "compatibility_may_substitute_for_invariance": False,
-        "raw_semantic_values_persisted": False,
+        "raw_invariant_values_persisted": False,
         "global_collapse_performed": False,
         "causal_inference_performed": False,
         "source_authority_transferred": False,
@@ -721,7 +718,7 @@ def build_observability_presentation_invariance(
         counts["held"],
         counts["obstructed"],
         counts["local_only"],
-        len(quotient_semantic_witnesses),
+        len(quotient_invariant_witnesses),
         len(obstruction_witnesses),
         str(output_path),
         str(receipt_path),
