@@ -610,7 +610,13 @@ def build_samvrti_world_effect_update(
     if not blockers:
         if counts["obstructed"] > 0:
             status = OBSTRUCTED
-        elif counts["pending"] > 0 or counts["proposal"] > 0 or counts["reobserve"] > 0:
+        elif (
+            counts["pending"] > 0
+            or counts["proposal"] > 0
+            or counts["reobserve"] > 0
+            or counts["compensation"] > 0
+            or counts["handover"] > 0
+        ):
             status = PARTIAL
         else:
             status = READY
