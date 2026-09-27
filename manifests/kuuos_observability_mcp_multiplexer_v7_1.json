@@ -91,5 +91,25 @@
   "descent": {
     "predecessor": "Qi GitHub Actions bounded live-log observer v7.0",
     "next": "provider execution receipts and cross-provider temporal correlation"
+  },
+  "transient_obstructions": {
+    "github_log_blob_not_yet_materialized": {
+      "classification": "log_not_yet_materialized",
+      "retryable": true,
+      "does_not_imply_ci_failure": true
+    },
+    "provider_rate_limited": {
+      "classification": "provider_rate_limited",
+      "retryable": true
+    },
+    "provider_server_unavailable": {
+      "classification": "provider_server_unavailable",
+      "retryable": true
+    },
+    "neon_telemetry_not_enabled": {
+      "classification": "provider_unavailable",
+      "retryable": false,
+      "does_not_block_other_providers": true
+    }
   }
 }
