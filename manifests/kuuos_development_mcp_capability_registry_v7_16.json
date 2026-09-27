@@ -1,0 +1,442 @@
+{
+  "version": "kuuos_development_mcp_capability_registry_manifest_v7_16",
+  "repository": "itakura-hidetoshi/KuuOS",
+  "observed_date": "2026-09-27",
+  "purpose": "Expand KuuOS repository-development MCP coverage while preserving existing GitHub MCP authority paths and allowing provider-local degradation.",
+  "boundaries": {
+    "registry_entry_is_authority": false,
+    "registry_entry_auto_starts_server": false,
+    "source_authority_transferred": false,
+    "credentials_persisted": false,
+    "provider_failure_blocks_other_servers": false,
+    "multiple_mcp_servers_may_present_overlapping_capabilities": true,
+    "capability_overlap_implies_semantic_identity": false,
+    "write_capability_requires_independent_authority": true,
+    "experimental_server_auto_enabled": false
+  },
+  "profiles": {
+    "kuuos_core_repo_development": [
+      "github_official",
+      "git_reference",
+      "filesystem_reference",
+      "lean_lsp",
+      "context7"
+    ],
+    "kuuos_ci_and_release_debugging": [
+      "github_official",
+      "git_reference",
+      "lean_lsp",
+      "context7",
+      "vercel_existing",
+      "supabase_existing",
+      "neon_existing",
+      "sentry"
+    ],
+    "kuuos_browser_validation": [
+      "playwright",
+      "chrome_devtools",
+      "context7"
+    ],
+    "kuuos_mcp_development": [
+      "github_official",
+      "git_reference",
+      "filesystem_reference",
+      "context7",
+      "mcp_fetch",
+      "mcp_docs",
+      "docker_mcp_gateway"
+    ],
+    "kuuos_maximal_repository_development": [
+      "github_official",
+      "git_reference",
+      "filesystem_reference",
+      "lean_lsp",
+      "context7",
+      "playwright",
+      "chrome_devtools",
+      "docker_mcp_gateway",
+      "sentry",
+      "mcp_fetch",
+      "mcp_docs",
+      "vercel_existing",
+      "supabase_existing",
+      "neon_existing"
+    ]
+  },
+  "servers": [
+    {
+      "server_id": "github_official",
+      "display_name": "GitHub MCP Server",
+      "publisher": "GitHub",
+      "source_repository": "github/github-mcp-server",
+      "source_kind": "official",
+      "status": "integrated_existing",
+      "transport": ["remote_http", "stdio_container", "stdio_binary"],
+      "activation": "reuse_existing_kuuos_github_mcp_bridge",
+      "privilege_class": "mixed_read_write",
+      "write_authority_path": "existing_github_mcp_authority_and_exact_head_receipts",
+      "recommended_toolsets": [
+        "context",
+        "repos",
+        "git",
+        "issues",
+        "labels",
+        "pull_requests",
+        "actions",
+        "code_quality",
+        "code_security",
+        "dependabot",
+        "secret_protection",
+        "security_advisories",
+        "notifications",
+        "discussions",
+        "governance"
+      ],
+      "capability_families": [
+        "repository_read",
+        "repository_write",
+        "code_search",
+        "git_object_operations",
+        "issues",
+        "pull_requests",
+        "actions_ci",
+        "code_quality",
+        "code_security",
+        "dependency_security",
+        "secret_scanning",
+        "repository_governance",
+        "notifications"
+      ],
+      "runtime_requirements": ["github_connection"],
+      "isolation": "provider_remote_or_container",
+      "notes": "Use the already verified KuuOS GitHub MCP write-canary/workflow-dispatch/re-observation path instead of inventing a second write authority."
+    },
+    {
+      "server_id": "git_reference",
+      "display_name": "MCP Reference Git Server",
+      "publisher": "Model Context Protocol",
+      "source_repository": "modelcontextprotocol/servers",
+      "source_subpath": "src/git",
+      "source_kind": "official_reference",
+      "status": "recommended_sandboxed",
+      "transport": ["stdio"],
+      "activation": "local_project_scoped",
+      "privilege_class": "mixed_read_write",
+      "write_authority_path": "workspace_git_write_authority",
+      "launch_template": {
+        "command": "uvx",
+        "args": ["mcp-server-git"]
+      },
+      "capability_families": [
+        "local_git_status",
+        "local_git_diff",
+        "local_git_history",
+        "local_git_search",
+        "local_git_manipulation"
+      ],
+      "runtime_requirements": ["uv", "git", "local_repository"],
+      "isolation": "repository_root_only",
+      "notes": "Reference implementation; keep local writes separately authorized from GitHub remote writes."
+    },
+    {
+      "server_id": "filesystem_reference",
+      "display_name": "MCP Reference Filesystem Server",
+      "publisher": "Model Context Protocol",
+      "source_repository": "modelcontextprotocol/servers",
+      "source_subpath": "src/filesystem",
+      "source_kind": "official_reference",
+      "status": "recommended_sandboxed",
+      "transport": ["stdio"],
+      "activation": "local_project_scoped",
+      "privilege_class": "mixed_read_write",
+      "write_authority_path": "workspace_filesystem_write_authority",
+      "launch_template": {
+        "command": "npx",
+        "args": ["-y", "@modelcontextprotocol/server-filesystem", "<KUUOS_REPOSITORY_ROOT>"]
+      },
+      "capability_families": [
+        "workspace_file_read",
+        "workspace_file_search",
+        "workspace_file_write",
+        "workspace_directory_operations"
+      ],
+      "runtime_requirements": ["node", "local_repository"],
+      "isolation": "explicit_allowed_repository_root",
+      "notes": "Use an explicit KuuOS repository root; do not grant home-directory or filesystem-wide access."
+    },
+    {
+      "server_id": "lean_lsp",
+      "display_name": "Lean LSP MCP",
+      "publisher": "Oliver Dressler / community",
+      "source_repository": "oOo0oOo/lean-lsp-mcp",
+      "source_kind": "community_research",
+      "status": "experimental_high_value",
+      "transport": ["stdio", "streamable_http"],
+      "activation": "explicit_project_opt_in",
+      "privilege_class": "analysis_plus_optional_local_execution",
+      "write_authority_path": "lean_project_workspace_authority",
+      "launch_template": {
+        "command": "uvx",
+        "args": ["lean-lsp-mcp"],
+        "environment": {
+          "LEAN_PROJECT_PATH": "<KUUOS_REPOSITORY_ROOT>",
+          "LEAN_LOG_LEVEL": "WARNING"
+        }
+      },
+      "capability_families": [
+        "lean_diagnostics",
+        "lean_goal_state",
+        "lean_hover_and_symbols",
+        "lean_local_search",
+        "lean_verify",
+        "leansearch",
+        "loogle",
+        "lean_finder",
+        "lean_hammer_premise_search"
+      ],
+      "runtime_requirements": ["uv", "git", "lake", "lean_project_built", "local_repository"],
+      "isolation": "project_and_mathlib_dependency_roots",
+      "notes": "High value for KuuOS formalization. Keep experimental until pinned Lean 4.30.0-rc2/mathlib compatibility is verified on the exact KuuOS head."
+    },
+    {
+      "server_id": "context7",
+      "display_name": "Context7 MCP",
+      "publisher": "Upstash",
+      "source_repository": "upstash/context7",
+      "source_kind": "vendor_open_source",
+      "status": "recommended_read_only",
+      "transport": ["remote_http", "stdio"],
+      "activation": "on_demand_documentation",
+      "privilege_class": "read_only",
+      "launch_template": {
+        "remote_url": "https://mcp.context7.com/mcp"
+      },
+      "capability_families": [
+        "current_library_documentation",
+        "version_specific_api_examples",
+        "sdk_and_cli_reference"
+      ],
+      "runtime_requirements": ["network"],
+      "isolation": "remote_read_only",
+      "notes": "Use for current external library/API documentation; it does not replace repository-local code evidence."
+    },
+    {
+      "server_id": "playwright",
+      "display_name": "Playwright MCP",
+      "publisher": "Microsoft",
+      "source_repository": "microsoft/playwright-mcp",
+      "source_kind": "official_vendor",
+      "status": "recommended_sandboxed",
+      "transport": ["stdio", "http"],
+      "activation": "on_demand_browser_verification",
+      "privilege_class": "browser_effect",
+      "write_authority_path": "browser_session_effect_authority",
+      "launch_template": {
+        "command": "npx",
+        "args": ["-y", "@playwright/mcp@latest", "--isolated", "--headless"]
+      },
+      "capability_families": [
+        "browser_navigation",
+        "browser_accessibility_snapshot",
+        "form_interaction",
+        "functional_web_verification",
+        "network_and_storage_testing"
+      ],
+      "runtime_requirements": ["node", "browser_runtime"],
+      "isolation": "isolated_browser_context",
+      "notes": "Preferred for deterministic end-to-end web interactions and verification."
+    },
+    {
+      "server_id": "chrome_devtools",
+      "display_name": "Chrome DevTools MCP",
+      "publisher": "Google Chrome",
+      "source_repository": "ChromeDevTools/chrome-devtools-mcp",
+      "source_kind": "official_vendor",
+      "status": "recommended_sandboxed",
+      "transport": ["stdio"],
+      "activation": "on_demand_browser_debugging",
+      "privilege_class": "browser_effect",
+      "write_authority_path": "browser_session_effect_authority",
+      "launch_template": {
+        "command": "npx",
+        "args": ["-y", "chrome-devtools-mcp@latest", "--isolated"]
+      },
+      "capability_families": [
+        "browser_console_debugging",
+        "network_request_debugging",
+        "performance_trace_analysis",
+        "screenshots",
+        "live_chrome_inspection"
+      ],
+      "runtime_requirements": ["node", "chrome"],
+      "isolation": "isolated_browser_profile_and_workspace_roots",
+      "notes": "Complement Playwright: use for console/network/performance diagnosis rather than ordinary deterministic functional flows."
+    },
+    {
+      "server_id": "docker_mcp_gateway",
+      "display_name": "Docker MCP Gateway",
+      "publisher": "Docker",
+      "source_repository": "docker/mcp-gateway",
+      "source_kind": "official_vendor",
+      "status": "recommended_orchestration",
+      "transport": ["stdio_gateway"],
+      "activation": "local_orchestration",
+      "privilege_class": "orchestrator",
+      "write_authority_path": "per_downstream_server_authority",
+      "launch_template": {
+        "command": "docker",
+        "args": ["mcp", "gateway", "run"]
+      },
+      "capability_families": [
+        "mcp_server_lifecycle",
+        "container_isolation",
+        "credential_routing",
+        "server_profiles",
+        "centralized_mcp_tool_routing"
+      ],
+      "runtime_requirements": ["docker"],
+      "isolation": "containerized_downstream_servers",
+      "notes": "Use as an isolation/orchestration substrate; it does not make downstream MCP tools authoritative."
+    },
+    {
+      "server_id": "sentry",
+      "display_name": "Sentry MCP",
+      "publisher": "Sentry",
+      "source_repository": "getsentry/sentry-mcp",
+      "source_kind": "official_vendor",
+      "status": "optional_when_instrumented",
+      "transport": ["remote_http"],
+      "activation": "only_when_sentry_project_exists",
+      "privilege_class": "diagnostic_read_mostly",
+      "launch_template": {
+        "remote_url": "https://mcp.sentry.dev"
+      },
+      "capability_families": [
+        "runtime_error_triage",
+        "issue_analysis",
+        "trace_analysis",
+        "performance_debugging"
+      ],
+      "runtime_requirements": ["network", "sentry_project"],
+      "isolation": "remote_provider_scoped",
+      "notes": "Useful after KuuOS services are instrumented with Sentry; do not make it a structural dependency."
+    },
+    {
+      "server_id": "mcp_fetch",
+      "display_name": "MCP Reference Fetch Server",
+      "publisher": "Model Context Protocol",
+      "source_repository": "modelcontextprotocol/servers",
+      "source_subpath": "src/fetch",
+      "source_kind": "official_reference",
+      "status": "recommended_read_only",
+      "transport": ["stdio"],
+      "activation": "on_demand_external_document_fetch",
+      "privilege_class": "read_only_network",
+      "launch_template": {
+        "command": "uvx",
+        "args": ["mcp-server-fetch"]
+      },
+      "capability_families": [
+        "web_document_fetch",
+        "html_to_model_friendly_content"
+      ],
+      "runtime_requirements": ["uv", "network"],
+      "isolation": "network_read_only",
+      "notes": "Fallback fetch layer for development agents that do not have a native web retrieval surface."
+    },
+    {
+      "server_id": "mcp_docs",
+      "display_name": "Official MCP Documentation Server",
+      "publisher": "Model Context Protocol",
+      "source_repository": "modelcontextprotocol/modelcontextprotocol",
+      "source_kind": "official",
+      "status": "recommended_read_only",
+      "transport": ["remote_http"],
+      "activation": "on_demand_mcp_protocol_docs",
+      "privilege_class": "read_only",
+      "launch_template": {
+        "remote_url": "https://modelcontextprotocol.io/mcp"
+      },
+      "capability_families": [
+        "mcp_protocol_documentation",
+        "mcp_schema_reference",
+        "mcp_transport_reference"
+      ],
+      "runtime_requirements": ["network"],
+      "isolation": "remote_read_only",
+      "notes": "Use when modifying KuuOS MCP bridges or adapting to newer MCP protocol revisions."
+    },
+    {
+      "server_id": "vercel_existing",
+      "display_name": "Vercel existing connector",
+      "publisher": "Vercel",
+      "source_kind": "existing_kuuos_connector",
+      "status": "integrated_existing",
+      "transport": ["host_connector"],
+      "activation": "reuse_observability_mcp_v7_1_and_vercel_connector",
+      "privilege_class": "mixed_read_write",
+      "write_authority_path": "vercel_connector_authority",
+      "capability_families": [
+        "deployment_inspection",
+        "runtime_logs",
+        "runtime_errors",
+        "build_logs",
+        "deployment_operations"
+      ],
+      "runtime_requirements": ["vercel_connection"],
+      "isolation": "provider_scoped"
+    },
+    {
+      "server_id": "supabase_existing",
+      "display_name": "Supabase existing connector",
+      "publisher": "Supabase",
+      "source_kind": "existing_kuuos_connector",
+      "status": "integrated_existing",
+      "transport": ["host_connector"],
+      "activation": "reuse_observability_mcp_v7_1_and_supabase_connector",
+      "privilege_class": "mixed_read_write",
+      "write_authority_path": "supabase_connector_authority",
+      "capability_families": [
+        "database_schema",
+        "database_query",
+        "database_change",
+        "auth_configuration",
+        "edge_functions",
+        "logs"
+      ],
+      "runtime_requirements": ["supabase_connection"],
+      "isolation": "provider_project_scoped"
+    },
+    {
+      "server_id": "neon_existing",
+      "display_name": "Neon existing connector",
+      "publisher": "Neon",
+      "source_kind": "existing_kuuos_connector",
+      "status": "integrated_existing",
+      "transport": ["host_connector"],
+      "activation": "reuse_observability_mcp_v7_1_and_neon_connector",
+      "privilege_class": "mixed_read_write",
+      "write_authority_path": "neon_connector_authority",
+      "capability_families": [
+        "postgres_project_management",
+        "branch_management",
+        "database_query",
+        "compute_management",
+        "logs"
+      ],
+      "runtime_requirements": ["neon_connection"],
+      "isolation": "provider_project_scoped"
+    }
+  ],
+  "selection_policy": {
+    "prefer_official_or_vendor_server_when_equivalent": true,
+    "prefer_existing_verified_kuuos_connector_when_already_integrated": true,
+    "prefer_lean_lsp_for_lean_semantic_diagnostics": true,
+    "prefer_git_reference_for_local_worktree_state": true,
+    "prefer_github_official_for_remote_repository_state": true,
+    "prefer_playwright_for_functional_browser_verification": true,
+    "prefer_chrome_devtools_for_console_network_performance_debugging": true,
+    "prefer_context7_for_current_external_library_docs": true,
+    "prefer_docker_gateway_when_running_multiple_local_mcp_servers": true
+  }
+}

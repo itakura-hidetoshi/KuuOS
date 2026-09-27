@@ -1,0 +1,58 @@
+name: Development MCP capability registry v7.16 validation
+
+on:
+  pull_request:
+    paths:
+      - 'runtime/kuuos_runtime_development_mcp_capability_registry_v7_16.py'
+      - 'runtime/kuuos_github_mcp_server_bridge_v0_1.py'
+      - 'scripts/check_kuuos_runtime_development_mcp_capability_registry_v7_16.py'
+      - 'manifests/kuuos_development_mcp_capability_registry_v7_16.json'
+      - 'examples/kuuos_repository_development_mcp_profile_v7_16.json'
+      - 'docs/KUUOS_DEVELOPMENT_MCP_CAPABILITY_REGISTRY_v7_16.md'
+      - '.github/workflows/development-mcp-capability-registry-v7-16-validation.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Compile development MCP capability registry
+        run: |
+          python -m py_compile             runtime/kuuos_runtime_development_mcp_capability_registry_v7_16.py             scripts/check_kuuos_runtime_development_mcp_capability_registry_v7_16.py
+
+      - name: Run focused development MCP checks
+        run: |
+          PYTHONPATH=. python scripts/check_kuuos_runtime_development_mcp_capability_registry_v7_16.py
+
+      - name: Verify high-value repository MCP surfaces
+        run: |
+          grep -Fq '"server_id": "github_official"' manifests/kuuos_development_mcp_capability_registry_v7_16.json
+          grep -Fq '"server_id": "lean_lsp"' manifests/kuuos_development_mcp_capability_registry_v7_16.json
+          grep -Fq '"server_id": "git_reference"' manifests/kuuos_development_mcp_capability_registry_v7_16.json
+          grep -Fq '"server_id": "filesystem_reference"' manifests/kuuos_development_mcp_capability_registry_v7_16.json
+          grep -Fq '"server_id": "playwright"' manifests/kuuos_development_mcp_capability_registry_v7_16.json
+          grep -Fq '"server_id": "chrome_devtools"' manifests/kuuos_development_mcp_capability_registry_v7_16.json
+          grep -Fq '"server_id": "docker_mcp_gateway"' manifests/kuuos_development_mcp_capability_registry_v7_16.json
+          grep -Fq '"server_id": "context7"' manifests/kuuos_development_mcp_capability_registry_v7_16.json
+          grep -Fq '"code_quality"' runtime/kuuos_github_mcp_server_bridge_v0_1.py
+          grep -Fq '"governance"' runtime/kuuos_github_mcp_server_bridge_v0_1.py
+
+      - name: Verify authority and credential boundaries
+        run: |
+          grep -Fq '"registry_entry_is_authority": false' manifests/kuuos_development_mcp_capability_registry_v7_16.json
+          grep -Fq '"write_capability_requires_independent_authority": true' manifests/kuuos_development_mcp_capability_registry_v7_16.json
+          grep -Fq '"credentials_persisted": false' manifests/kuuos_development_mcp_capability_registry_v7_16.json
+          grep -Fq '"experimental_server_auto_enabled": false' manifests/kuuos_development_mcp_capability_registry_v7_16.json
+
+      - name: Confirm Strict Lean is not invoked
+        run: |
+          echo "Runtime/config-only development-MCP registry: Strict Lean intentionally not invoked."
