@@ -1,0 +1,44 @@
+name: Samvrti world effect update v7.14 validation
+
+on:
+  pull_request:
+    paths:
+      - 'runtime/kuuos_runtime_samvrti_world_effect_update_v7_14.py'
+      - 'scripts/check_kuuos_runtime_samvrti_world_effect_update_v7_14.py'
+      - 'manifests/kuuos_samvrti_world_effect_update_v7_14.json'
+      - 'docs/KUUOS_SAMVRTI_WORLD_EFFECT_UPDATE_v7_14.md'
+      - '.github/workflows/samvrti-world-effect-update-v7-14-validation.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Compile samvrti world effect update layer
+        run: |
+          python -m py_compile             runtime/kuuos_runtime_samvrti_world_effect_update_v7_14.py             scripts/check_kuuos_runtime_samvrti_world_effect_update_v7_14.py
+
+      - name: Run focused samvrti world effect checks
+        run: |
+          PYTHONPATH=. python scripts/check_kuuos_runtime_samvrti_world_effect_update_v7_14.py
+
+      - name: Verify two-truths return boundary
+        run: |
+          grep -Fq '"effect_confirmed_may_update_samvrti_world": true' manifests/kuuos_samvrti_world_effect_update_v7_14.json
+          grep -Fq '"nonconfirmed_effect_may_fabricate_world_update": false' manifests/kuuos_samvrti_world_effect_update_v7_14.json
+          grep -Fq '"world_update_may_change_paramartha_class": false' manifests/kuuos_samvrti_world_effect_update_v7_14.json
+          grep -Fq '"effect_confirmed_implies_mission_success": false' manifests/kuuos_samvrti_world_effect_update_v7_14.json
+          grep -Fq '"world_update_overwrites_history": false' manifests/kuuos_samvrti_world_effect_update_v7_14.json
+
+      - name: Confirm Strict Lean is not invoked
+        run: |
+          echo "Runtime-only samvrti-world-effect validation: Strict Lean intentionally not invoked."
