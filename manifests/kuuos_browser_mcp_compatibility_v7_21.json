@@ -53,6 +53,14 @@
     "requires_chrome_snapshot_marker": true,
     "requires_chrome_console_marker": true
   },
+  "promotion_evidence": {
+    "initial_green_probe_head": "5a23e39508f6efb7683583d3b375fb9f262450fc",
+    "initial_green_probe_run_id": 36337090848,
+    "playwright_live_probe_succeeded": true,
+    "chrome_devtools_live_probe_succeeded": true,
+    "shared_localhost_fixture_succeeded": true,
+    "final_promoted_head_must_revalidate": true
+  },
   "boundaries": {
     "playwright_and_chrome_are_same_presentation": false,
     "playwright_role": "functional_browser_verification",
