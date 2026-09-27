@@ -43,5 +43,15 @@
     "external_content_may_replace_exact_local_evidence": false,
     "credentials_persisted": false,
     "source_authority_transferred": false
+  },
+  "promotion_evidence": {
+    "initial_green_probe_head": "204561fca066ec3c22c18d28825328702855eacc",
+    "initial_green_probe_run_id": 36352723631,
+    "fetch_live_call_succeeded": true,
+    "fetch_published_package_version": "2026.8.18",
+    "official_docs_tools_list_succeeded": true,
+    "official_docs_search_call_succeeded": true,
+    "live_official_docs_search_tool": "search_model_context_protocol",
+    "final_promoted_head_must_revalidate": true
   }
 }
