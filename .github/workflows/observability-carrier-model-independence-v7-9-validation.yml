@@ -1,0 +1,43 @@
+name: Observability carrier model independence v7.9 validation
+
+on:
+  pull_request:
+    paths:
+      - 'runtime/kuuos_runtime_observability_carrier_model_independence_v7_9.py'
+      - 'scripts/check_kuuos_runtime_observability_carrier_model_independence_v7_9.py'
+      - 'manifests/kuuos_observability_carrier_model_independence_v7_9.json'
+      - 'docs/KUUOS_OBSERVABILITY_CARRIER_MODEL_INDEPENDENCE_v7_9.md'
+      - '.github/workflows/observability-carrier-model-independence-v7-9-validation.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Compile carrier model independence layer
+        run: |
+          python -m py_compile             runtime/kuuos_runtime_observability_carrier_model_independence_v7_9.py             scripts/check_kuuos_runtime_observability_carrier_model_independence_v7_9.py
+
+      - name: Run focused carrier model independence checks
+        run: |
+          python scripts/check_kuuos_runtime_observability_carrier_model_independence_v7_9.py
+
+      - name: Verify semantic identity ignores carrier model presentation
+        run: |
+          grep -Fq '"model_token_equality_required": false' manifests/kuuos_observability_carrier_model_independence_v7_9.json
+          grep -Fq '"model_id_defines_semantic_identity": false' manifests/kuuos_observability_carrier_model_independence_v7_9.json
+          grep -Fq '"presentation_data_used_for_model_equivalence": false' manifests/kuuos_observability_carrier_model_independence_v7_9.json
+          grep -Fq '"runtime_replaces_v2_0": false' manifests/kuuos_observability_carrier_model_independence_v7_9.json
+
+      - name: Confirm Strict Lean is not invoked
+        run: |
+          echo "Runtime-only carrier-model-independence validation: Strict Lean intentionally not invoked."
