@@ -25,6 +25,7 @@ VALID_STATUSES = {
     "integrated_existing",
     "recommended_sandboxed",
     "experimental_high_value",
+    "verified_compatible",
     "recommended_read_only",
     "recommended_orchestration",
     "optional_when_instrumented",
@@ -201,8 +202,25 @@ def validate_registry(registry: Mapping[str, Any]) -> list[str]:
                 errors.append("filesystem_repository_root_isolation_missing")
 
         if server_id == "lean_lsp":
-            if raw.get("status") != "experimental_high_value":
-                errors.append("lean_lsp_must_remain_experimental_until_verified")
+            lean_status = str(raw.get("status", ""))
+            if lean_status not in {"experimental_high_value", "verified_compatible"}:
+                errors.append("lean_lsp_status_invalid")
+            if lean_status == "verified_compatible":
+                evidence = _m(raw.get("compatibility_evidence"))
+                expected = {
+                    "manifest": "manifests/kuuos_lean_lsp_mcp_compatibility_v7_17.json",
+                    "package_version": "0.30.0",
+                    "upstream_main_sha": "bb176c58a4f895061561685318e92b8db446f1b5",
+                    "lean_toolchain": "leanprover/lean4:v4.30.0-rc2",
+                    "mathlib_sha": "5450b53e5ddc75d46418fabb605edbf36bd0beb6",
+                }
+                for key, value in expected.items():
+                    if str(evidence.get(key, "")) != value:
+                        errors.append("lean_lsp_compatibility_evidence_invalid:" + key)
+                if not str(evidence.get("initial_green_probe_head", "")).strip():
+                    errors.append("lean_lsp_green_probe_head_missing")
+                if not isinstance(evidence.get("initial_green_probe_run_id"), int):
+                    errors.append("lean_lsp_green_probe_run_id_missing")
             requirements = set(_strings(raw.get("runtime_requirements")))
             for required in ("lake", "lean_project_built", "local_repository"):
                 if required not in requirements:
