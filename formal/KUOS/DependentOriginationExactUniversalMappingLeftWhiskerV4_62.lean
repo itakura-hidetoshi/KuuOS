@@ -47,11 +47,55 @@ Right whiskering remains separate so that each pasting direction is validated
 independently.
 -/
 
-universe u v uH vH
+universe u v uH vH uB vB wB
 
 variable {Context : Type u} [Category.{v} Context]
 variable (W : MorphismProperty Context)
 variable (A : RefinementAtlas (LocalizedContext W))
+
+/-- Pure bicategorical pasting lemma underlying left whiskering.
+
+This lemma contains no KuuOS dependent structures.  It isolates the string
+diagram from the expensive elaboration of the mapping-property wrappers. -/
+private theorem leftWhiskerCompositeSquare
+    {B : Type uB} [Bicategory.{wB, vB} B]
+    {P Q R X₀ Y₀ Z₀ : B}
+    (rf : P ⟶ Q)
+    {rg rh : Q ⟶ R}
+    (etaL : rg ⟶ rh)
+    (cZ : R ⟶ Z₀)
+    (cY : Q ⟶ Y₀)
+    (cX : P ⟶ X₀)
+    (fraw : X₀ ⟶ Y₀)
+    {graw hraw : Y₀ ⟶ Z₀}
+    (etaR : graw ⟶ hraw)
+    (gsq : rg ≫ cZ ⟶ cY ≫ graw)
+    (hsq : rh ≫ cZ ⟶ cY ≫ hraw)
+    (fsq : rf ≫ cY ⟶ cX ≫ fraw)
+    (compat :
+      (etaL ▷ cZ) ≫ hsq =
+        gsq ≫ (cY ◁ etaR)) :
+    ((rf ◁ etaL) ▷ cZ) ≫
+        (Bicategory.associator rf rh cZ).hom ≫
+        (rf ◁ hsq) ≫
+        (Bicategory.associator rf cY hraw).inv ≫
+        (fsq ▷ hraw) ≫
+        (Bicategory.associator cX fraw hraw).hom =
+      (Bicategory.associator rf rg cZ).hom ≫
+        (rf ◁ gsq) ≫
+        (Bicategory.associator rf cY graw).inv ≫
+        (fsq ▷ graw) ≫
+        (Bicategory.associator cX fraw graw).hom ≫
+        (cX ◁ (fraw ◁ etaR)) := by
+  rw [
+    Bicategory.associator_naturality_middle_assoc,
+    ← Bicategory.whiskerLeft_comp_assoc,
+    compat,
+    Bicategory.whiskerLeft_comp_assoc,
+    Bicategory.associator_inv_naturality_right_assoc,
+    Bicategory.whisker_exchange_assoc,
+    Bicategory.associator_naturality_right_assoc
+  ]
 
 /-- The hom component of the v4.57 composite comparison square.
 
@@ -108,20 +152,19 @@ noncomputable def ExactUniversalRawMorphismTwoCell.whiskerLeft
       ExactUniversalRawMorphism.comp_comparison_square_hom
         (W := W) A f g
     ]
-    slice_lhs 1 2 =>
-      rw [Bicategory.associator_naturality_middle]
-    slice_lhs 2 3 =>
-      rw [← Bicategory.whiskerLeft_comp]
-    slice_lhs 2 2 =>
-      rw [eta.compatibility]
-    slice_lhs 2 2 =>
-      rw [Bicategory.whiskerLeft_comp]
-    slice_lhs 3 4 =>
-      rw [Bicategory.associator_inv_naturality_right]
-    slice_lhs 4 5 =>
-      rw [Bicategory.whisker_exchange]
-    slice_lhs 5 6 =>
-      rw [Bicategory.associator_naturality_right]
+    exact
+      leftWhiskerCompositeSquare
+        (rf := restrictHigherLocalizedStrongTrans (W := W) f.lift.hom)
+        (etaL := restrictHigherLocalizedModification (W := W) eta.lift.hom)
+        (cZ := Z.presentation.comparison)
+        (cY := Y.presentation.comparison)
+        (cX := X.presentation.comparison)
+        (fraw := f.raw)
+        (etaR := eta.raw)
+        (gsq := g.comparison_square.hom)
+        (hsq := h.comparison_square.hom)
+        (fsq := f.comparison_square.hom)
+        eta.compatibility
 
 @[simp] theorem ExactUniversalRawMorphismTwoCell.whiskerLeft_raw
     {X Y Z : ExactUniversalRawObject (W := W) A}
