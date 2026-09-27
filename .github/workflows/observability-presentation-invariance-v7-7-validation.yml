@@ -1,0 +1,44 @@
+name: Observability presentation invariance v7.7 validation
+
+on:
+  pull_request:
+    paths:
+      - 'runtime/kuuos_runtime_observability_presentation_invariance_v7_7.py'
+      - 'scripts/check_kuuos_runtime_observability_presentation_invariance_v7_7.py'
+      - 'manifests/kuuos_observability_presentation_invariance_v7_7.json'
+      - 'docs/KUUOS_OBSERVABILITY_PRESENTATION_INVARIANCE_v7_7.md'
+      - '.github/workflows/observability-presentation-invariance-v7-7-validation.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Compile presentation invariance layer
+        run: |
+          python -m py_compile             runtime/kuuos_runtime_observability_presentation_invariance_v7_7.py             scripts/check_kuuos_runtime_observability_presentation_invariance_v7_7.py
+
+      - name: Run focused presentation invariance checks
+        run: |
+          python scripts/check_kuuos_runtime_observability_presentation_invariance_v7_7.py
+
+      - name: Verify invariance, not stricter presentation equality
+        run: |
+          grep -Fq '"presentation_local_equality_required": false' manifests/kuuos_observability_presentation_invariance_v7_7.json
+          grep -Fq '"provider_equality_required": false' manifests/kuuos_observability_presentation_invariance_v7_7.json
+          grep -Fq '"raw_observation_equality_required": false' manifests/kuuos_observability_presentation_invariance_v7_7.json
+          grep -Fq '"compatibility_may_substitute_for_invariance": false' manifests/kuuos_observability_presentation_invariance_v7_7.json
+          grep -Fq '"invariant_match_erases_presentation_dependence": true' manifests/kuuos_observability_presentation_invariance_v7_7.json
+
+      - name: Confirm Strict Lean is not invoked
+        run: |
+          echo "Runtime-only presentation invariance validation: Strict Lean intentionally not invoked."
