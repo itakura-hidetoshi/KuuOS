@@ -118,7 +118,15 @@
       "source_repository": "modelcontextprotocol/servers",
       "source_subpath": "src/git",
       "source_kind": "official_reference",
-      "status": "recommended_sandboxed",
+      "status": "verified_compatible",
+      "compatibility_evidence": {
+        "manifest": "manifests/kuuos_local_repository_mcp_compatibility_v7_18.json",
+        "package_version": "0.6.2",
+        "upstream_main_sha": "f46d9578190b476b3501923ea8977d899e8db2cb",
+        "mcp_sdk_pin": "1.29.0",
+        "initial_green_probe_head": "a8b2baa62c78846647a075996b230e8201c924e2",
+        "initial_green_probe_run_id": 36331468514
+      },
       "transport": ["stdio"],
       "activation": "local_project_scoped",
       "privilege_class": "mixed_read_write",
@@ -145,7 +153,14 @@
       "source_repository": "modelcontextprotocol/servers",
       "source_subpath": "src/filesystem",
       "source_kind": "official_reference",
-      "status": "recommended_sandboxed",
+      "status": "verified_compatible",
+      "compatibility_evidence": {
+        "manifest": "manifests/kuuos_local_repository_mcp_compatibility_v7_18.json",
+        "package_version": "2026.8.31",
+        "upstream_main_sha": "f46d9578190b476b3501923ea8977d899e8db2cb",
+        "initial_green_probe_head": "a8b2baa62c78846647a075996b230e8201c924e2",
+        "initial_green_probe_run_id": 36331468514
+      },
       "transport": ["stdio"],
       "activation": "local_project_scoped",
       "privilege_class": "mixed_read_write",
@@ -170,7 +185,16 @@
       "publisher": "Oliver Dressler / community",
       "source_repository": "oOo0oOo/lean-lsp-mcp",
       "source_kind": "community_research",
-      "status": "experimental_high_value",
+      "status": "verified_compatible",
+      "compatibility_evidence": {
+        "manifest": "manifests/kuuos_lean_lsp_mcp_compatibility_v7_17.json",
+        "package_version": "0.30.0",
+        "upstream_main_sha": "bb176c58a4f895061561685318e92b8db446f1b5",
+        "lean_toolchain": "leanprover/lean4:v4.30.0-rc2",
+        "mathlib_sha": "5450b53e5ddc75d46418fabb605edbf36bd0beb6",
+        "initial_green_probe_head": "a5f16cbcafd3f698051a0afa51b7c8df5f2a2c9e",
+        "initial_green_probe_run_id": 36328215047
+      },
       "transport": ["stdio", "streamable_http"],
       "activation": "explicit_project_opt_in",
       "privilege_class": "analysis_plus_optional_local_execution",
@@ -196,7 +220,7 @@
       ],
       "runtime_requirements": ["uv", "git", "lake", "lean_project_built", "local_repository"],
       "isolation": "project_and_mathlib_dependency_roots",
-      "notes": "High value for KuuOS formalization. Keep experimental until pinned Lean 4.30.0-rc2/mathlib compatibility is verified on the exact KuuOS head."
+      "notes": "Verified by v7.17 against pinned Lean 4.30.0-rc2 and mathlib 5450b53... using a live MCP handshake plus LSP outline/diagnostic calls on an existing KuuOS file. Explicit project opt-in remains required."
     },
     {
       "server_id": "context7",

@@ -113,19 +113,19 @@ Lean v4.30.0-rc2
 mathlib 5450b53e5ddc75d46418fabb605edbf36bd0beb6
 ```
 
-so v7.16 deliberately marks Lean-LSP MCP:
+v7.17 has now demonstrated exact compatibility with that pinned environment. The registry therefore marks Lean-LSP MCP:
 
 ```text
-experimental_high_value
+verified_compatible
 ```
 
-until exact compatibility with that pinned environment has been demonstrated.
+The compatibility evidence is a live MCP handshake plus `lean_file_outline` and `lean_diagnostic_messages` on an existing KuuOS Lean file under the pinned Lean/mathlib pair. Explicit project opt-in remains required.
 
 The server should use the KuuOS repository root as `LEAN_PROJECT_PATH` so `lake serve` uses the project toolchain rather than a global Lean installation.
 
 ## Git MCP
 
-The MCP reference Git server complements GitHub MCP.
+The MCP reference Git server complements GitHub MCP. v7.18 has live-verified `mcp-server-git 0.6.2` against the exact KuuOS source head, with the upstream-locked `mcp==1.29.0`; its registry status is now `verified_compatible`.
 
 Use GitHub MCP for:
 
@@ -150,7 +150,7 @@ These are different presentations and neither replaces the other.
 
 ## Filesystem MCP
 
-The MCP reference filesystem server gives project-local file access.
+The MCP reference filesystem server gives project-local file access. v7.18 has live-verified the published `@modelcontextprotocol/server-filesystem@2026.8.31` release against the exact KuuOS repository root; its registry status is now `verified_compatible`.
 
 For KuuOS it must be rooted explicitly at:
 
@@ -372,7 +372,7 @@ The focused checker verifies:
 4. write requests route to independent authorities instead of becoming blanket rejection;
 5. one optional provider can be absent without disabling the others;
 6. GitHub toolsets cover current KuuOS repository development;
-7. Lean-LSP remains experimental until pinned-toolchain compatibility is verified;
+7. Lean-LSP carries exact v7.17 pinned-toolchain compatibility evidence;
 8. browser MCPs remain isolated and role-separated;
 9. plaintext credential material is rejected from the registry;
 10. an unknown profile produces no activation plan.

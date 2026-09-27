@@ -1,0 +1,56 @@
+{
+  "version": "kuuos_development_mcp_federation_manifest_v7_19",
+  "purpose": "Federate verified GitHub, Git, Filesystem, and Lean-LSP development surfaces without collapsing remote commit authority, local revision state, working bytes, or Lean semantic state.",
+  "predecessors": [
+    "KuuOS Development MCP Capability Registry v7.16",
+    "KuuOS Lean-LSP MCP Compatibility v7.17",
+    "KuuOS Local Repository MCP Compatibility v7.18",
+    "KuuOS Repository Git Revision Adapter v0.83"
+  ],
+  "planes": {
+    "github_remote": "remote repository, PR, Actions and collaboration state",
+    "local_git": "local revision, worktree and diff state",
+    "filesystem": "current working bytes inside the bounded repository root",
+    "lean_lsp": "Lean semantic observation bound to current file bytes"
+  },
+  "core_rules": {
+    "dirty_worktree_is_error": false,
+    "dirty_worktree_may_continue_local_semantic_work": true,
+    "remote_revision_mismatch_blocks_local_read_analysis": false,
+    "remote_revision_mismatch_blocks_remote_mutation_without_reconciliation": true,
+    "filesystem_observation_is_git_commit_authority": false,
+    "lean_diagnostics_bound_to_file_bytes_digest": true,
+    "lean_semantic_freshness_grants_git_write_authority": false,
+    "git_commit_tree_excludes_uncommitted_bytes": true,
+    "remote_mutation_requires_explicit_authority": true,
+    "verified_compatible_mcp_transfers_source_authority": false
+  },
+  "workspace_states": [
+    "aligned_committed_workspace",
+    "dirty_local_candidate_semantically_fresh",
+    "dirty_local_candidate_semantic_reobservation_required",
+    "workspace_dirty_elsewhere_selected_file_committed",
+    "untracked_local_candidate_semantically_fresh",
+    "untracked_local_candidate_semantic_reobservation_required",
+    "remote_local_revision_reconciliation_required",
+    "clean_worktree_filesystem_git_baseline_obstruction",
+    "filesystem_lean_target_binding_obstruction",
+    "workspace_observation_incomplete"
+  ],
+  "authority_order": {
+    "remote_commit_identity": "fresh GitHub exact head",
+    "committed_file_baseline": "Git commit tree/blob",
+    "working_candidate_bytes": "Filesystem MCP observation",
+    "lean_semantic_state": "Lean-LSP observation bound to filesystem content digest"
+  },
+  "development_loop": [
+    "observe remote exact head",
+    "observe local Git head/worktree",
+    "observe current file bytes",
+    "bind Lean diagnostics to current file digest",
+    "continue local repair even when dirty if semantics are fresh",
+    "review Git diff",
+    "reconcile remote/local revision before remote mutation",
+    "use existing explicit GitHub/workspace authority for mutation"
+  ]
+}
