@@ -18,7 +18,9 @@
     "endpoint": "https://modelcontextprotocol.io/mcp",
     "protocol_version": "2026-07-28",
     "transport": "stateless_streamable_http",
-    "tool": "SearchModelContextProtocol",
+    "tool": "search_model_context_protocol",
+    "repository_skill_name": "SearchModelContextProtocol",
+    "live_tool_name_differs_from_repository_skill_spelling": true,
     "initialize_handshake_expected": false,
     "mcp_session_id_expected": false
   },
