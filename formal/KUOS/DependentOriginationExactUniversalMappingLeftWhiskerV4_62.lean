@@ -171,7 +171,7 @@ private theorem whiskerLeftCompatibility
           (fsq := f.comparison_square.hom)
           eta.compatibility
     _ = _ := by
-      exact
+      simpa only [Category.assoc] using
         (ExactUniversalRawMorphism.comp_comparison_square_hom_assoc
           (W := W) A f g
           (X.presentation.comparison ◁ (f.raw ◁ eta.raw))).symm
