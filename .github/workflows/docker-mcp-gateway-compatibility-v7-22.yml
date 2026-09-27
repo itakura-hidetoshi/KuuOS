@@ -1,0 +1,78 @@
+name: Docker MCP Gateway compatibility v7.22
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/fixtures/kuuos_docker_mcp_gateway_probe_server_v7_22.py'
+      - 'scripts/check_kuuos_docker_mcp_gateway_compatibility_v7_22.py'
+      - 'manifests/kuuos_docker_mcp_gateway_compatibility_v7_22.json'
+      - 'docs/KUUOS_DOCKER_MCP_GATEWAY_COMPATIBILITY_v7_22.md'
+      - 'manifests/kuuos_development_mcp_capability_registry_v7_16.json'
+      - 'runtime/kuuos_runtime_development_mcp_capability_registry_v7_16.py'
+      - 'scripts/check_kuuos_runtime_development_mcp_capability_registry_v7_16.py'
+      - '.github/workflows/docker-mcp-gateway-compatibility-v7-22.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  compatibility:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - uses: actions/setup-go@v6
+        with:
+          go-version: '1.25.12'
+          cache: false
+
+      - name: Verify Docker daemon
+        run: |
+          set -euo pipefail
+          docker version
+          docker info
+
+      - name: Build exact Docker MCP Gateway plugin
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/docker-mcp-gateway
+          git clone --filter=blob:none https://github.com/docker/mcp-gateway.git /tmp/docker-mcp-gateway
+          git -C /tmp/docker-mcp-gateway checkout a34df45d4ec0e941a9853ad768c4f6cd818966b3
+          test "$(git -C /tmp/docker-mcp-gateway rev-parse HEAD)" = "a34df45d4ec0e941a9853ad768c4f6cd818966b3"
+          mkdir -p "$HOME/.docker/cli-plugins"
+          make -C /tmp/docker-mcp-gateway docker-mcp
+          DOCKER_MCP_IN_CONTAINER=1 DOCKER_MCP_USE_CE=1 docker mcp --help
+          DOCKER_MCP_IN_CONTAINER=1 DOCKER_MCP_USE_CE=1 docker mcp gateway run --help
+
+      - name: Run live Docker MCP Gateway forwarding probe
+        run: |
+          set -euo pipefail
+          PYTHONPATH=. python             scripts/check_kuuos_docker_mcp_gateway_compatibility_v7_22.py             --repository-root .             --receipt docker_mcp_gateway_compatibility_receipt_v7_22.json
+
+      - name: Verify compatibility receipt
+        run: |
+          python - <<'PY'
+          import json
+          r = json.load(open("docker_mcp_gateway_compatibility_receipt_v7_22.json"))
+          assert r["status"] == "KUUOS_DOCKER_MCP_GATEWAY_COMPATIBILITY_VERIFIED"
+          assert r["gateway_probe"]["tool_forwarding_succeeded"] is True
+          assert r["gateway_probe"]["marker_observed"] is True
+          assert r["boundary"]["fixture_network_disabled"] is True
+          assert r["boundary"]["gateway_grants_downstream_authority"] is False
+          assert r["boundary"]["external_catalog_required"] is False
+          PY
+
+      - name: Upload compatibility receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-docker-mcp-gateway-compatibility-${{ github.run_id }}-${{ github.run_attempt }}
+          path: docker_mcp_gateway_compatibility_receipt_v7_22.json
+          if-no-files-found: error
+          retention-days: 14
