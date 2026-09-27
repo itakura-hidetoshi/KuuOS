@@ -37,7 +37,7 @@ initialize
 -> fetch(raw README at exact modelcontextprotocol/modelcontextprotocol commit)
 ```
 
-and requires the deterministic `Example Domain` marker.
+and requires the deterministic `Model Context Protocol` marker from that exact committed README.
 
 ### Fetch network boundary
 
@@ -141,7 +141,16 @@ for exact KuuOS behavior:
 
 ## Promotion
 
-If the final exact-head CI is GREEN:
+The first complete live probe succeeded at:
+
+```text
+head: 204561fca066ec3c22c18d28825328702855eacc
+run:  36352723631
+```
+
+That run verified both the published Fetch release and the modern official Docs endpoint.
+
+The registry is therefore promoted in this PR:
 
 ```text
 mcp_fetch:
@@ -151,7 +160,7 @@ mcp_docs:
   recommended_read_only -> verified_compatible
 ```
 
-Neither promotion grants write or source authority.
+The promoted final head must rerun the same live probes before merge. Neither promotion grants write or KuuOS source authority.
 
 
 ## Fetch release/source discrepancy
@@ -163,7 +172,7 @@ KuuOS therefore does not pretend the source-tree version is installable. The liv
 
 ## Official Docs live tool naming
 
-The spec repository's MCP skill documentation refers to the search tool as `search_model_context_protocol`.
+The spec repository's MCP skill documentation refers to the search tool as `SearchModelContextProtocol`.
 
 The live official endpoint returned:
 
