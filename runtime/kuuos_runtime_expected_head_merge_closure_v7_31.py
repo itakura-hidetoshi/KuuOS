@@ -386,11 +386,14 @@ def build_expected_head_merge_closure(
         blockers,
         optional=not merge_applied,
     )
-    post_pr_merged = _bool(
-        obs.get("post_merge_pr_merged"),
-        "post_merge_pr_merged",
-        blockers,
-    )
+    if merge_applied:
+        post_pr_merged = _bool(
+            obs.get("post_merge_pr_merged"),
+            "post_merge_pr_merged",
+            blockers,
+        )
+    else:
+        post_pr_merged = bool(obs.get("post_merge_pr_merged", False))
     post_pr_merge_sha = _commit(
         obs.get("post_merge_pr_merge_commit_sha"),
         "post_merge_pr_merge_commit_sha",
@@ -416,21 +419,28 @@ def build_expected_head_merge_closure(
         and post_pr_observation_digest
     )
 
-    required_names = _names(
-        obs.get("post_merge_required_workflow_names"),
-        blockers,
-    )
-    ci_packets, ci_blockers, ci_warnings = _post_merge_ci(
-        obs.get("post_merge_ci_verifications"),
-        repository=repository,
-        merge_commit_sha=merge_commit_sha,
-        required_names=required_names,
-    )
-    blockers.extend(ci_blockers)
-    warnings.extend(ci_warnings)
+    if merge_applied:
+        required_names = _names(
+            obs.get("post_merge_required_workflow_names"),
+            blockers,
+        )
+        ci_packets, ci_blockers, ci_warnings = _post_merge_ci(
+            obs.get("post_merge_ci_verifications"),
+            repository=repository,
+            merge_commit_sha=merge_commit_sha,
+            required_names=required_names,
+        )
+        blockers.extend(ci_blockers)
+        warnings.extend(ci_warnings)
+    else:
+        required_names = []
+        ci_packets = {}
+        ci_blockers = []
+        ci_warnings = []
 
     post_ci_complete = bool(
-        merge_commit_sha
+        merge_applied
+        and merge_commit_sha
         and required_names
         and all(name in ci_packets for name in required_names)
     )
