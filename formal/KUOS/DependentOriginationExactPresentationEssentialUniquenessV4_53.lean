@@ -174,11 +174,13 @@ theorem coherentUniversalProperty_hasExactPresentationFactor
         (W := W) A P
         (exactPresentationOfCoherentUniversalProperty
           (W := W) A U hStack)) := by
-  simpa [ExactPresentationCoherentComparison,
-    exactPresentationOfCoherentUniversalProperty,
-    coherentUniversalPropertyStackFactorization,
-    exactPresentationFactorization] using
-      U.factor (exactPresentationFactorization (W := W) A P)
+  change
+    Nonempty
+      (CoherentHigherLocalizationFactorMorphism
+        (W := W)
+        (exactPresentationFactorization (W := W) A P)
+        U.chosen)
+  exact U.factor (exactPresentationFactorization (W := W) A P)
 
 /-- The v2.19 essential-uniqueness field becomes modification-level essential
 uniqueness of coherent comparisons into the chosen exact presentation. -/
@@ -197,13 +199,15 @@ theorem coherentUniversalProperty_exactPresentation_essential_unique
         (exactPresentationOfCoherentUniversalProperty
           (W := W) A U hStack)) :
     Nonempty (alpha.hom ≅ beta.hom) := by
-  simpa [ExactPresentationCoherentComparison,
-    exactPresentationOfCoherentUniversalProperty,
-    coherentUniversalPropertyStackFactorization,
-    exactPresentationFactorization] using
-      U.essential_unique
-        (exactPresentationFactorization (W := W) A P)
-        alpha beta
+  change
+    CoherentHigherLocalizationFactorMorphism
+      (W := W)
+      (exactPresentationFactorization (W := W) A P)
+      U.chosen at alpha beta
+  exact
+    U.essential_unique
+      (exactPresentationFactorization (W := W) A P)
+      alpha beta
 
 /-- A coherent weak higher-localization universal property whose chosen lift is
 a stack therefore canonically determines a coherent universal target in the
