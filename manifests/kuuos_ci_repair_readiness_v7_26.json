@@ -1,0 +1,43 @@
+{
+  "version": "kuuos_ci_repair_readiness_manifest_v7_26",
+  "purpose": "Bind a v7.25 Lean CI repair route to the v7.19 current workspace and Lean semantic observations, making local repair ready only when the full target bytes and semantics are fresh.",
+  "predecessors": [
+    "KuuOS Development MCP Federation v7.19",
+    "KuuOS Development MCP Capability Routing v7.24",
+    "KuuOS CI Observation MCP Routing v7.25"
+  ],
+  "core_rules": {
+    "ci_error_line_is_locator_not_scope": true,
+    "repair_scope_is_entire_target_file": true,
+    "current_target_bytes_required": true,
+    "lean_semantics_must_match_current_filesystem_digest": true,
+    "stale_ci_head_may_auto_patch_current_workspace": false,
+    "remote_local_revision_mismatch_blocks_local_repair": false,
+    "remote_local_revision_mismatch_blocks_remote_publish": true,
+    "local_repair_requires_workspace_authority": true,
+    "missing_workspace_authority_is_rejection": false,
+    "remote_publish_requires_separate_github_authority": true,
+    "readiness_layer_executes_repairs": false,
+    "source_authority_transferred": false
+  },
+  "readiness_levels": {
+    "analysis_ready": "exact CI head is still current, full bytes exist, Lean semantics are fresh for those bytes, and the federation allows local semantic work",
+    "local_repair_ready": "analysis_ready plus workspace write authority",
+    "remote_publish_ready": "local_repair_ready plus aligned committed workspace, remote/local alignment, remote mutation eligibility, and GitHub write authority"
+  },
+  "partial_routes": {
+    "stale CI head": "reobserve_ci_on_current_remote_head",
+    "missing current bytes": "observe_full_target_file_bytes",
+    "stale Lean semantics": "reobserve_lean_semantics_on_current_bytes",
+    "missing workspace authority": "retain_repair_candidate_and_acquire_workspace_authority",
+    "remote/local divergence": "local_repair_allowed_reconcile_revision_before_publish"
+  },
+  "boundaries": {
+    "raw_source_bytes_persisted_by_readiness_layer": false,
+    "raw_ci_logs_persisted_by_readiness_layer": false,
+    "lean_semantic_freshness_grants_git_write_authority": false,
+    "workspace_write_authority_grants_github_write_authority": false,
+    "full_file_audit_required_before_structural_repair": true
+  },
+  "next": "bind repair-ready packets to a bounded edit/re-observe/diff loop so a candidate becomes publish-ready only after post-edit Lean semantics and Git diff are fresh"
+}
