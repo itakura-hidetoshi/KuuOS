@@ -1,0 +1,43 @@
+{
+  "version": "kuuos_ci_observation_mcp_routing_manifest_v7_25",
+  "purpose": "Convert bounded exact-head GitHub Actions observations into the minimal v7.24 MCP development route while treating CI error lines as locators rather than the scope of repair.",
+  "predecessors": [
+    "KuuOS Qi GitHub Actions Bounded Live-Log Observer v7.0",
+    "KuuOS Development MCP Capability Routing v7.24"
+  ],
+  "core_rules": {
+    "raw_ci_logs_persisted": false,
+    "bounded_excerpt_used_for_classification_only": true,
+    "ci_error_line_is_locator_not_scope": true,
+    "lean_ci_repair_requires_full_target_file_audit": true,
+    "heuristic_signal_is_source_authority": false,
+    "heuristic_signal_may_select_mcp_route": true,
+    "ambiguous_failure_is_automatically_mutated": false,
+    "write_request_without_authority_is_rejection": false,
+    "exact_head_binding_preserved": true,
+    "source_authority_transferred": false
+  },
+  "classification": {
+    "Lean file or Lean error signal": "lean_ci_repair",
+    "browser/Playwright/Chrome signal": "browser_debugging",
+    "MCP protocol signal without Lean signal": "mcp_spec_research",
+    "unclassified failure": "remote_repository_observation + partial",
+    "nonfailure": "remote_repository_observation"
+  },
+  "lean_repair_route": [
+    "GitHub MCP: exact remote CI evidence",
+    "Filesystem MCP: full current target file",
+    "Lean-LSP MCP: semantic diagnostics/goals over current bytes",
+    "Git MCP: local diff/revision review",
+    "Context7 only when explicitly requested for current external APIs",
+    "Official MCP Docs when MCP protocol signals are also present"
+  ],
+  "boundaries": {
+    "ci_excerpt_is_complete_source_file": false,
+    "ci_excerpt_may_define_repair_scope": false,
+    "target_file_content_must_be_observed_separately": true,
+    "lean_lsp_observation_must_bind_to_current_bytes": true,
+    "github_ci_evidence_grants_workspace_write_authority": false
+  },
+  "next": "bind routed CI observations to actual Filesystem and Lean-LSP re-observations, producing a repair-ready packet only when current bytes and semantics are fresh"
+}

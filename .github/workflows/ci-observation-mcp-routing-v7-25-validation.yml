@@ -1,0 +1,44 @@
+name: CI observation MCP routing v7.25 validation
+
+on:
+  pull_request:
+    paths:
+      - 'runtime/kuuos_runtime_ci_observation_mcp_routing_v7_25.py'
+      - 'scripts/check_kuuos_runtime_ci_observation_mcp_routing_v7_25.py'
+      - 'manifests/kuuos_ci_observation_mcp_routing_v7_25.json'
+      - 'docs/KUUOS_CI_OBSERVATION_MCP_ROUTING_v7_25.md'
+      - '.github/workflows/ci-observation-mcp-routing-v7-25-validation.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Compile CI observation routing layer
+        run: |
+          python -m py_compile             runtime/kuuos_runtime_ci_observation_mcp_routing_v7_25.py             scripts/check_kuuos_runtime_ci_observation_mcp_routing_v7_25.py
+
+      - name: Run focused CI observation routing checks
+        run: |
+          PYTHONPATH=. python scripts/check_kuuos_runtime_ci_observation_mcp_routing_v7_25.py
+
+      - name: Verify repair-scope boundaries
+        run: |
+          grep -Fq '"ci_error_line_is_locator_not_scope": true' manifests/kuuos_ci_observation_mcp_routing_v7_25.json
+          grep -Fq '"lean_ci_repair_requires_full_target_file_audit": true' manifests/kuuos_ci_observation_mcp_routing_v7_25.json
+          grep -Fq '"heuristic_signal_is_source_authority": false' manifests/kuuos_ci_observation_mcp_routing_v7_25.json
+          grep -Fq '"write_request_without_authority_is_rejection": false' manifests/kuuos_ci_observation_mcp_routing_v7_25.json
+          grep -Fq '"source_authority_transferred": false' manifests/kuuos_ci_observation_mcp_routing_v7_25.json
+
+      - name: Confirm Strict Lean is not invoked
+        run: |
+          echo "Runtime-only CI-to-MCP routing layer: Strict Lean intentionally not invoked."
