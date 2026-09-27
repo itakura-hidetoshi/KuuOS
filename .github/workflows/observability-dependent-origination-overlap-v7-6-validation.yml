@@ -1,0 +1,43 @@
+name: Observability dependent-origination overlap v7.6 validation
+
+on:
+  pull_request:
+    paths:
+      - 'runtime/kuuos_runtime_observability_dependent_origination_overlap_v7_6.py'
+      - 'scripts/check_kuuos_runtime_observability_dependent_origination_overlap_v7_6.py'
+      - 'manifests/kuuos_observability_dependent_origination_overlap_v7_6.json'
+      - 'docs/KUUOS_OBSERVABILITY_DEPENDENT_ORIGINATION_OVERLAP_v7_6.md'
+      - '.github/workflows/observability-dependent-origination-overlap-v7-6-validation.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Compile dependent-origination overlap layer
+        run: |
+          python -m py_compile             runtime/kuuos_runtime_observability_dependent_origination_overlap_v7_6.py             scripts/check_kuuos_runtime_observability_dependent_origination_overlap_v7_6.py
+
+      - name: Run focused overlap checks
+        run: |
+          python scripts/check_kuuos_runtime_observability_dependent_origination_overlap_v7_6.py
+
+      - name: Verify overlap and authority boundaries
+        run: |
+          grep -Fq '"primary_model_is_graph": false' manifests/kuuos_observability_dependent_origination_overlap_v7_6.json
+          grep -Fq '"pairwise_overlap_compatibility_sufficient_for_global_descent": false' manifests/kuuos_observability_dependent_origination_overlap_v7_6.json
+          grep -Fq '"pairwise_overlap_does_not_imply_global_amalgamation": true' manifests/kuuos_observability_dependent_origination_overlap_v7_6.json
+          grep -Fq '"runtime_replaces_formal_results": false' manifests/kuuos_observability_dependent_origination_overlap_v7_6.json
+
+      - name: Confirm Strict Lean is not invoked
+        run: |
+          echo "Runtime-only dependent-origination overlap validation: Strict Lean intentionally not invoked."
