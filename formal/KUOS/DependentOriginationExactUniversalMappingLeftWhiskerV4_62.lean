@@ -173,7 +173,7 @@ private theorem whiskerLeftCompatibility
           (fsq := f.comparison_square.hom)
           eta.compatibility
     _ = _ := by
-      exact (Category.assoc _ _ _).symm
+      rw [Category.assoc, Category.assoc, Category.assoc, Category.assoc]
 
 /-- Left whiskering of a compatible mapping-property 2-cell by a
 mapping-property 1-cell. -/
