@@ -1,0 +1,108 @@
+name: Lean-LSP MCP compatibility v7.17
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/check_kuuos_lean_lsp_mcp_compatibility_v7_17.py'
+      - 'manifests/kuuos_lean_lsp_mcp_compatibility_v7_17.json'
+      - 'docs/KUUOS_LEAN_LSP_MCP_COMPATIBILITY_v7_17.md'
+      - 'manifests/kuuos_development_mcp_capability_registry_v7_16.json'
+      - 'runtime/kuuos_runtime_development_mcp_capability_registry_v7_16.py'
+      - 'scripts/check_kuuos_runtime_development_mcp_capability_registry_v7_16.py'
+      - '.github/workflows/lean-lsp-mcp-compatibility-v7-17.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+
+jobs:
+  compatibility:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install uv and ripgrep
+        run: |
+          python -m pip install --disable-pip-version-check uv
+          sudo apt-get update
+          sudo apt-get install -y ripgrep
+
+      - name: Set up pinned Lean and Lake
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+
+      - name: Restore Lake workspace cache
+        uses: actions/cache@v5
+        with:
+          path: .lake
+          key: kuuos-lean-lsp-mcp-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}
+          restore-keys: |
+            kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-
+
+      - name: Fetch Mathlib cache
+        run: |
+          set -euo pipefail
+          lake exe cache get
+
+      - name: Verify exact KuuOS pins
+        run: |
+          set -euo pipefail
+          test "$(cat lean-toolchain)" = "leanprover/lean4:v4.30.0-rc2"
+          python - <<'PY'
+          import json
+          m = json.load(open("lake-manifest.json"))
+          mathlib = next(x for x in m["packages"] if x["name"] == "mathlib")
+          assert mathlib["rev"] == "5450b53e5ddc75d46418fabb605edbf36bd0beb6"
+          print(mathlib["rev"])
+          PY
+          lake env lean --version
+
+      - name: Compile representative KuuOS module only
+        run: |
+          set -euo pipefail
+          lake env lean             -o /tmp/kuuos-lean-lsp-probe.olean             formal/KUOS/DependentOriginationFunctorialTransportV0_1.lean
+
+      - name: Verify pinned lean-lsp-mcp package
+        run: |
+          set -euo pipefail
+          uvx --from lean-lsp-mcp==0.30.0 lean-lsp-mcp --version
+
+      - name: Run live MCP and LSP compatibility probe
+        run: |
+          set -euo pipefail
+          PYTHONPATH=. python             scripts/check_kuuos_lean_lsp_mcp_compatibility_v7_17.py             --repository-root .             --live-probe             --receipt lean_lsp_mcp_compatibility_receipt_v7_17.json
+
+      - name: Verify compatibility receipt
+        run: |
+          python - <<'PY'
+          import json
+          r = json.load(open("lean_lsp_mcp_compatibility_receipt_v7_17.json"))
+          assert r["status"] == "KUUOS_LEAN_LSP_MCP_COMPATIBILITY_VERIFIED"
+          assert r["probe"]["required_tools_present"] is True
+          assert r["probe"]["disabled_tools_absent"] is True
+          assert r["probe"]["diagnostics_call_succeeded"] is True
+          assert r["boundary"]["full_strict_lean_rerun_required"] is False
+          PY
+
+      - name: Upload compatibility receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-lean-lsp-mcp-compatibility-${{ github.run_id }}-${{ github.run_attempt }}
+          path: lean_lsp_mcp_compatibility_receipt_v7_17.json
+          if-no-files-found: error
+          retention-days: 14
