@@ -419,6 +419,35 @@ def _prepare_request(
     }
 
 
+def _connector_error_classification(
+    raw: Mapping[str, Any],
+    provider: str,
+) -> tuple[str, str, bool]:
+    error = _m(raw.get("connector_error"))
+    if not error:
+        return "", "", False
+
+    status_code = _i(error.get("status_code"), _i(error.get("status"), 0))
+    code = str(error.get("code", "")).lower()
+    reason = str(error.get("reason", "")).lower()
+    message = str(error.get("message", "")).lower()
+    combined = " ".join((code, reason, message))
+
+    if provider == "neon" and "telemetry_not_enabled" in combined:
+        return "neon_telemetry_not_enabled", UNAVAILABLE, False
+    if status_code == 404 and (
+        "blobnotfound" in combined
+        or "blob not found" in combined
+        or "log blob" in combined
+    ):
+        return "log_not_yet_materialized", TRANSIENT, True
+    if status_code == 429:
+        return "provider_rate_limited", TRANSIENT, True
+    if status_code >= 500:
+        return "provider_server_unavailable", TRANSIENT, True
+    return "connector_error_unclassified", BLOCKED, False
+
+
 def _normalize_result(
     request: Mapping[str, Any],
     raw: Mapping[str, Any],
@@ -500,6 +529,8 @@ def build_observability_mcp_multiplexer(
     normalized_written = False
     request: dict[str, Any] = {}
     normalized: dict[str, Any] = {}
+    connector_obstruction = ""
+    connector_retryable = False
 
     if provider in OPTIONAL_UNROUTED_PROVIDERS:
         warnings.append(str(OPTIONAL_UNROUTED_PROVIDERS[provider]["reason"]))
@@ -549,14 +580,27 @@ def build_observability_mcp_multiplexer(
                 if str(raw.get("operation", "")) != operation:
                     blockers.append("raw_result_operation_mismatch")
             if not blockers:
-                normalized = _normalize_result(
-                    request,
-                    raw,
-                    max_fields=max_fields,
-                )
-                _write_json(normalized_path, normalized)
-                normalized_written = True
-                status = INGESTED
+                (
+                    connector_obstruction,
+                    connector_error_status,
+                    connector_retryable,
+                ) = _connector_error_classification(raw, provider)
+                if connector_obstruction:
+                    if connector_error_status == BLOCKED:
+                        blockers.append(connector_obstruction)
+                        status = BLOCKED
+                    else:
+                        warnings.append(connector_obstruction)
+                        status = connector_error_status
+                else:
+                    normalized = _normalize_result(
+                        request,
+                        raw,
+                        max_fields=max_fields,
+                    )
+                    _write_json(normalized_path, normalized)
+                    normalized_written = True
+                    status = INGESTED
             else:
                 status = BLOCKED
         else:
@@ -585,6 +629,8 @@ def build_observability_mcp_multiplexer(
         "request_digest": _sha(request),
         "normalized_observation_written": normalized_written,
         "normalized_observation_digest": _sha(normalized),
+        "connector_obstruction": connector_obstruction,
+        "connector_retryable": connector_retryable,
         "raw_result_persisted_by_multiplexer": False,
         "source_authority_transferred": False,
         "blockers": sorted(set(blockers)),
