@@ -92,6 +92,15 @@ noncomputable def ExactUniversalRawMorphismTwoCell.whiskerLeft
   raw := f.raw ◁ eta.raw
   lift := f.lift ◁ eta.lift
   compatibility := by
+    change
+      (restrictHigherLocalizedModification
+          (W := W) (f.lift.hom ◁ eta.lift.hom) ▷
+        Z.presentation.comparison) ≫
+          (ExactUniversalRawMorphism.comp
+            (W := W) A f h).comparison_square.hom =
+        (ExactUniversalRawMorphism.comp
+          (W := W) A f g).comparison_square.hom ≫
+          (X.presentation.comparison ◁ (f.raw ◁ eta.raw))
     rw [restrictHigherLocalizedModification_whiskerLeft]
     rw [ExactUniversalRawMorphism.comp_comparison_square_hom]
     rw [
