@@ -1,0 +1,47 @@
+{
+  "version": "kuuos_observability_presentation_invariance_manifest_v7_7",
+  "purpose": "Make presentation invariance, rather than stricter auditing, the decisive runtime descent condition for KuuOS observability dependent origination.",
+  "formal_reference": {
+    "presentation_descent": "formal/KUOS/DependentOriginationAbstractPresentationDescentV4_49.lean",
+    "runtime_is_formal_theorem_authority": false,
+    "runtime_replaces_v4_49": false
+  },
+  "core_law": {
+    "presentation_relation": "v7.4 generated presentation sector",
+    "semantic_map": "one explicitly named invariant projection applied uniformly to every presentation",
+    "invariance_condition": "related presentations have equal invariant values under the same projection",
+    "descent_condition": "only invariant multi-presentation sectors receive a presentation-independent runtime descent witness",
+    "obstruction_condition": "a related pair with unequal invariant values is an explicit presentation-descent obstruction"
+  },
+  "important_nonrequirements": {
+    "provider_equality_required": false,
+    "raw_observation_equality_required": false,
+    "presentation_local_equality_required": false,
+    "timestamp_equality_required": false,
+    "source_digest_equality_required": false
+  },
+  "compatibility_boundary": {
+    "shared_context_is_invariance": false,
+    "temporal_compatibility_is_invariance": false,
+    "overlap_compatibility_is_invariance": false,
+    "compatibility_data_role": "precondition/context for selecting related presentations; it does not replace invariant equality"
+  },
+  "descent_semantics": {
+    "presentation_invariant_descent": "Different presentations are semantically identified because their invariant projections agree.",
+    "descent_held_for_missing_invariant": "The relation is known but one or more invariant values are not yet observed.",
+    "descent_denied_by_invariant_variance": "Related presentations disagree on the chosen invariant.",
+    "local_invariant_presentation_only": "A singleton presentation remains local."
+  },
+  "non_reification": {
+    "invariant_projection_is_ultimate_truth": false,
+    "invariant_projection_is_substance": false,
+    "quotient_invariant_witness_is_substance": false,
+    "global_collapse_performed": false
+  },
+  "privacy": {
+    "raw_invariant_values_persisted": false,
+    "invariant_digest_persisted": true,
+    "digest_algorithm": "sha256"
+  },
+  "next": "derive or register domain-specific invariant projections for GitHub/CI and other MCP presentations, then carry only invariant quotient semantics into later descent layers"
+}
