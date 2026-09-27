@@ -160,35 +160,36 @@ theorem hasCompletion2AdjointEquivalence_of_universalTargets
     exactPresentationCoherentComparisonId (W := W) A Q₂
   rcases T₂.essential_unique Q₂ composite₂ identity₂ with ⟨e₂⟩
 
-  have h₁ :
-      forward.hom ≫ backward.hom ≅
-        𝟙 (higherStackObjectVal (W := W) A Q₁.carrier) := by
-    simpa [composite₁, identity₁] using e₁
-  have h₂ :
-      backward.hom ≫ forward.hom ≅
-        𝟙 (higherStackObjectVal (W := W) A Q₂.carrier) := by
-    simpa [composite₂, identity₂] using e₂
+  change
+    forward.hom ≫ backward.hom ≅
+      𝟙 (higherStackObjectVal (W := W) A Q₁.carrier) at e₁
+  change
+    backward.hom ≫ forward.hom ≅
+      𝟙 (higherStackObjectVal (W := W) A Q₂.carrier) at e₂
 
-  let f : Q₁.carrier ⟶ Q₂.carrier :=
-    exactPresentationCoherentComparisonToCompletion2Hom
-      (W := W) A forward
-  let g : Q₂.carrier ⟶ Q₁.carrier :=
-    exactPresentationCoherentComparisonToCompletion2Hom
-      (W := W) A backward
-
-  have unit : 𝟙 Q₁.carrier ≅ f ≫ g := by
+  have unit :
+      𝟙 Q₁.carrier ≅
+        exactPresentationCoherentComparisonToCompletion2Hom
+            (W := W) A forward ≫
+          exactPresentationCoherentComparisonToCompletion2Hom
+            (W := W) A backward := by
     apply CategoryTheory.Bicategory.InducedBicategory.isoMk
     change
       𝟙 (higherStackObjectVal (W := W) A Q₁.carrier) ≅
         forward.hom ≫ backward.hom
-    exact h₁.symm
+    exact e₁.symm
 
-  have counit : g ≫ f ≅ 𝟙 Q₂.carrier := by
+  have counit :
+      exactPresentationCoherentComparisonToCompletion2Hom
+          (W := W) A backward ≫
+        exactPresentationCoherentComparisonToCompletion2Hom
+          (W := W) A forward ≅
+      𝟙 Q₂.carrier := by
     apply CategoryTheory.Bicategory.InducedBicategory.isoMk
     change
       backward.hom ≫ forward.hom ≅
         𝟙 (higherStackObjectVal (W := W) A Q₂.carrier)
-    exact h₂
+    exact e₂
 
   exact ⟨Bicategory.Equivalence.mkOfAdjointifyCounit unit counit⟩
 
