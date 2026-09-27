@@ -44,6 +44,16 @@
     "requires_real_gateway_tool_forwarding": true,
     "requires_network_disabled_fixture": true
   },
+  "promotion_evidence": {
+    "initial_green_probe_head": "335feda17b05b682e7398a374bcb209950d5d849",
+    "initial_green_probe_run_id": 36350581916,
+    "plugin_build_succeeded": true,
+    "profile_creation_succeeded": true,
+    "gateway_tool_discovery_succeeded": true,
+    "gateway_tool_forwarding_succeeded": true,
+    "network_disabled_fixture": true,
+    "final_promoted_head_must_revalidate": true
+  },
   "boundaries": {
     "fixture_network_disabled": true,
     "fixture_write_effect": false,
