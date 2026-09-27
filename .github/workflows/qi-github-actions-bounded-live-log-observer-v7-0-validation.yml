@@ -1,0 +1,44 @@
+name: Qi GitHub Actions bounded live-log observer v7.0 validation
+
+on:
+  pull_request:
+    paths:
+      - 'runtime/kuuos_runtime_daemon_qi_github_actions_bounded_live_log_observer_v7_0.py'
+      - 'scripts/check_kuuos_runtime_daemon_qi_github_actions_bounded_live_log_observer_v7_0.py'
+      - 'manifests/qi_github_actions_bounded_live_log_observer_v7_0.json'
+      - 'docs/KUUOS_QI_GITHUB_ACTIONS_BOUNDED_LIVE_LOG_OBSERVER_v7_0.md'
+      - '.github/workflows/qi-github-actions-bounded-live-log-observer-v7-0-validation.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Compile bounded live-log observer
+        run: |
+          python -m py_compile             runtime/kuuos_runtime_daemon_qi_github_actions_bounded_live_log_observer_v7_0.py             scripts/check_kuuos_runtime_daemon_qi_github_actions_bounded_live_log_observer_v7_0.py
+
+      - name: Run focused structural checks
+        run: |
+          python scripts/check_kuuos_runtime_daemon_qi_github_actions_bounded_live_log_observer_v7_0.py
+
+      - name: Verify read-only GitHub MCP surface
+        run: |
+          grep -Fq '"actions_get"' manifests/qi_github_actions_bounded_live_log_observer_v7_0.json
+          grep -Fq '"actions_list"' manifests/qi_github_actions_bounded_live_log_observer_v7_0.json
+          grep -Fq '"get_job_logs"' manifests/qi_github_actions_bounded_live_log_observer_v7_0.json
+          grep -Fq '"write_tools_allowed": []' manifests/qi_github_actions_bounded_live_log_observer_v7_0.json
+          ! grep -Eq 'actions_run_trigger|rerun_workflow_job|merge_pull_request'             runtime/kuuos_runtime_daemon_qi_github_actions_bounded_live_log_observer_v7_0.py
+
+      - name: Verify no Lean theorem surface changed by this validation
+        run: |
+          echo "Runtime-only validation: Strict Lean intentionally not invoked."
