@@ -60,7 +60,6 @@ and then asks Git MCP for:
 ```text
 git_status
 git_log(max_count=1)
-git_show(HEAD)
 ```
 
 The Git MCP result must refer to that same exact head.
@@ -200,3 +199,10 @@ filesystem_reference:
 This means only that the pinned server versions were shown to interoperate with the KuuOS repository.
 
 It does not make the reference servers theorem authority or GitHub authority.
+
+
+## Released Git MCP surface note
+
+The current upstream source at `f46d9578...` contains a `git_show` implementation, while the live PyPI `mcp-server-git==0.6.2` tool listing observed by the first v7.18 probe did not expose it.
+
+KuuOS therefore treats the released package's live `tools/list` as the compatibility authority for this probe and uses `git_log(max_count=1)` to bind the exact local HEAD. The discrepancy is preserved as provenance rather than filled by assumption.
