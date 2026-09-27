@@ -32,7 +32,8 @@
       "--headless=true",
       "--isolated=true",
       "--usage-statistics=false",
-      "--performance-crux=false"
+      "--performance-crux=false",
+      "--no-page-id-routing"
     ]
   },
   "fixture": {
