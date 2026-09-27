@@ -274,32 +274,29 @@ theorem exactPresentationCoherentComparison_restrictedPointwiseEquivalence
     IsExactPresentationCoherentComparisonRestrictedPointwiseEquivalence
       (W := W) A alpha := by
   intro X
-  letI : (P.comparison.app (.mk X)).toFunctor.IsEquivalence :=
-    P.comparison_isEquivalence X
-  letI : (Q.comparison.app (.mk X)).toFunctor.IsEquivalence :=
-    Q.comparison_isEquivalence X
-  have htriangle :
-      (alpha.hom.app
-          (.mk ((higherPresentationUnitFunctor W).obj X))).toFunctor ⋙
-          (Q.comparison.app (.mk X)).toFunctor ≅
-        (P.comparison.app (.mk X)).toFunctor := by
+  let F :=
+    (alpha.hom.app
+      (.mk ((higherPresentationUnitFunctor W).obj X))).toFunctor
+  let G :=
+    (Q.comparison.app (.mk X)).toFunctor
+  let H :=
+    (P.comparison.app (.mk X)).toFunctor
+  have hG : G.IsEquivalence := by
+    change (Q.comparison.app (.mk X)).toFunctor.IsEquivalence
+    exact Q.comparison_isEquivalence X
+  have hH : H.IsEquivalence := by
+    change (P.comparison.app (.mk X)).toFunctor.IsEquivalence
+    exact P.comparison_isEquivalence X
+  have htriangle : F ⋙ G ≅ H := by
+    dsimp [F, G, H]
     simpa [exactPresentationFactorization] using
       (coherentComparisonTriangleNatIso (W := W) alpha X)
-  have hcomp :
-      ((alpha.hom.app
-          (.mk ((higherPresentationUnitFunctor W).obj X))).toFunctor ⋙
-        (Q.comparison.app (.mk X)).toFunctor).IsEquivalence := by
-    exact Functor.isEquivalence_of_iso htriangle.symm
-  letI :
-      ((alpha.hom.app
-          (.mk ((higherPresentationUnitFunctor W).obj X))).toFunctor ⋙
-        (Q.comparison.app (.mk X)).toFunctor).IsEquivalence :=
-    hcomp
-  exact
-    Functor.isEquivalence_of_comp_right
-      (alpha.hom.app
-        (.mk ((higherPresentationUnitFunctor W).obj X))).toFunctor
-      (Q.comparison.app (.mk X)).toFunctor
+  have hFG : (F ⋙ G).IsEquivalence :=
+    (Functor.isEquivalence_iff_of_iso htriangle).2 hH
+  letI : G.IsEquivalence := hG
+  letI : (F ⋙ G).IsEquivalence := hFG
+  change F.IsEquivalence
+  exact Functor.isEquivalence_of_comp_right F G
 
 /-- Therefore every coherent exact-presentation comparison restricts to the
 v2.17 notion of directed pointwise-equivalence comparison between the two raw
