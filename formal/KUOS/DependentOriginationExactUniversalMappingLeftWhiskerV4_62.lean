@@ -94,7 +94,7 @@ private theorem leftWhiskerCompositeSquare
     Bicategory.whiskerLeft_comp_assoc,
     Bicategory.associator_inv_naturality_right_assoc,
     Bicategory.whisker_exchange_assoc,
-    Bicategory.associator_naturality_right_assoc
+    Bicategory.associator_naturality_right
   ]
 
 /-- The hom component of the v4.57 composite comparison square.
@@ -144,8 +144,8 @@ private theorem whiskerLeftCompatibility
     ExactUniversalRawMorphism.comp_comparison_square_hom
       (W := W) A f g
   ]
-  exact
-    leftWhiskerCompositeSquare
+  simpa only [Category.assoc] using
+    (leftWhiskerCompositeSquare
       (rf := restrictHigherLocalizedStrongTrans (W := W) f.lift.hom)
       (etaL := restrictHigherLocalizedModification (W := W) eta.lift.hom)
       (cZ := Z.presentation.comparison)
@@ -156,7 +156,7 @@ private theorem whiskerLeftCompatibility
       (gsq := g.comparison_square.hom)
       (hsq := h.comparison_square.hom)
       (fsq := f.comparison_square.hom)
-      eta.compatibility
+      eta.compatibility)
 
 /-- Left whiskering of a compatible mapping-property 2-cell by a
 mapping-property 1-cell. -/
