@@ -16,7 +16,7 @@ EXPECTED_REFERENCE_SHA = "f46d9578190b476b3501923ea8977d899e8db2cb"
 GIT_PACKAGE_VERSION = "0.6.2"
 FILESYSTEM_PACKAGE_VERSION = "0.6.3"
 
-GIT_REQUIRED_TOOLS = {"git_status", "git_log", "git_show"}
+GIT_REQUIRED_TOOLS = {"git_status", "git_log"}
 FILESYSTEM_REQUIRED_TOOLS = {
     "list_allowed_directories",
     "read_text_file",
@@ -217,24 +217,15 @@ def probe_git(root: pathlib.Path, expected_head: str) -> dict[str, Any]:
             "git_log",
             {"repo_path": str(root), "max_count": 1},
         )
-        shown = call(
-            client,
-            "git_show",
-            {"repo_path": str(root), "revision": "HEAD"},
-        )
-
         status_text = text_content(status)
         if "nothing to commit" not in status_text.lower() and "clean" not in status_text.lower():
             # Server wording may vary; verify directly as the exact fallback.
             ensure_clean(root)
 
         log_text = text_content(log)
-        show_text = text_content(shown)
         short = expected_head[:7]
         if expected_head not in log_text and short not in log_text:
             raise RuntimeError("git_mcp_log_does_not_reference_exact_head")
-        if expected_head not in show_text and short not in show_text:
-            raise RuntimeError("git_mcp_show_does_not_reference_exact_head")
 
         init_result = initialized.get("result", {})
         return {
@@ -248,7 +239,8 @@ def probe_git(root: pathlib.Path, expected_head: str) -> dict[str, Any]:
             "required_tools_present": True,
             "git_status_digest": digest(status.get("result", {})),
             "git_log_digest": digest(log.get("result", {})),
-            "git_show_digest": digest(shown.get("result", {})),
+            "git_show_available_in_released_package": "git_show" in listed,
+            "released_tool_surface_differs_from_current_upstream_source": "git_show" not in listed,
             "exact_head_observed": True,
             "write_tools_called": False,
         }
