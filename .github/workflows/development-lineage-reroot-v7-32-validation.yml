@@ -1,0 +1,44 @@
+name: Development lineage re-rooting v7.32 validation
+
+on:
+  pull_request:
+    paths:
+      - 'runtime/kuuos_runtime_development_lineage_reroot_v7_32.py'
+      - 'scripts/check_kuuos_runtime_development_lineage_reroot_v7_32.py'
+      - 'manifests/kuuos_development_lineage_reroot_v7_32.json'
+      - 'docs/KUUOS_DEVELOPMENT_LINEAGE_REROOT_v7_32.md'
+      - '.github/workflows/development-lineage-reroot-v7-32-validation.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Compile development lineage re-rooting
+        run: |
+          python -m py_compile             runtime/kuuos_runtime_development_lineage_reroot_v7_32.py             scripts/check_kuuos_runtime_development_lineage_reroot_v7_32.py
+
+      - name: Run focused re-rooting checks
+        run: |
+          PYTHONPATH=. python scripts/check_kuuos_runtime_development_lineage_reroot_v7_32.py
+
+      - name: Verify non-authority and ancestry boundaries
+        run: |
+          grep -Fq '"closed_lineage_receipt_is_successor_authority": false' manifests/kuuos_development_lineage_reroot_v7_32.json
+          grep -Fq '"predecessor_merge_authority_may_be_reused": false' manifests/kuuos_development_lineage_reroot_v7_32.json
+          grep -Fq '"reroot_grants_successor_authority": false' manifests/kuuos_development_lineage_reroot_v7_32.json
+          grep -Fq '"current_main_may_advance_beyond_closed_merge": true' manifests/kuuos_development_lineage_reroot_v7_32.json
+          grep -Fq '"stale_local_git_blocks_remote_reroot": false' manifests/kuuos_development_lineage_reroot_v7_32.json
+
+      - name: Confirm Strict Lean is not invoked
+        run: |
+          echo "Runtime-only lineage re-rooting validation: Strict Lean intentionally not invoked."
