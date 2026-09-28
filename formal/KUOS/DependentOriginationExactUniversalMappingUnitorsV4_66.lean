@@ -283,7 +283,7 @@ private theorem rightUnitorCompatibility
     CategoryTheory.Bicategory.InducedBicategory.bicategory_comp_hom,
     Pseudofunctor.StrongTrans.categoryStruct_id_app,
     Pseudofunctor.StrongTrans.comp_app,
-    restrictHigherLocalizedStrongTrans_app
+    restrictHigherLocalizedStrongTrans_id_app
   ]
   simpa using
     rightUnitorCompositeSquare
