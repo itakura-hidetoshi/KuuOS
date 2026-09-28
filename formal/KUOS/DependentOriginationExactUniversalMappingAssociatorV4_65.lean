@@ -267,7 +267,7 @@ noncomputable def ExactUniversalRawMorphismTwoCell.associator
     (h : ExactUniversalRawMorphism (W := W) A Z T) :
     (ExactUniversalRawMorphismTwoCell.associator
       (W := W) A f g h).lift.hom =
-      (Bicategory.associator
+      (Pseudofunctor.StrongTrans.associator
         f.lift.hom g.lift.hom h.lift.hom).hom :=
   rfl
 
