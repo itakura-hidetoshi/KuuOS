@@ -244,10 +244,6 @@ private theorem leftUnitorCompatibility
     Pseudofunctor.StrongTrans.categoryStruct_id_app,
     Pseudofunctor.StrongTrans.comp_app
   ]
-  simp only [
-    ExactUniversalRawMorphism.id_restricted_lift_hom_app,
-    Pseudofunctor.StrongTrans.leftUnitor_hom_as_app
-  ]
   exact
     leftUnitorCompositeSquare
       (rf :=
@@ -288,10 +284,6 @@ private theorem rightUnitorCompatibility
     CategoryTheory.Bicategory.InducedBicategory.bicategory_comp_hom,
     Pseudofunctor.StrongTrans.categoryStruct_id_app,
     Pseudofunctor.StrongTrans.comp_app
-  ]
-  simp only [
-    ExactUniversalRawMorphism.id_restricted_lift_hom_app,
-    Pseudofunctor.StrongTrans.rightUnitor_hom_as_app
   ]
   exact
     rightUnitorCompositeSquare
