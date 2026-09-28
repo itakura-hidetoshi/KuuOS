@@ -239,10 +239,10 @@ private theorem leftUnitorCompatibility
     CategoryTheory.Bicategory.InducedBicategory.bicategory_id_hom,
     CategoryTheory.Bicategory.InducedBicategory.bicategory_comp_hom,
     Pseudofunctor.StrongTrans.categoryStruct_id_app,
-    Pseudofunctor.StrongTrans.comp_app,
-    restrictHigherLocalizedStrongTrans_id_app
+    Pseudofunctor.StrongTrans.comp_app
   ]
-  simpa using
+  simp only [restrictHigherLocalizedStrongTrans_id_app]
+  exact
     leftUnitorCompositeSquare
       (rf :=
         (restrictHigherLocalizedStrongTrans (W := W) f.lift.hom).app
@@ -283,10 +283,10 @@ private theorem rightUnitorCompatibility
     CategoryTheory.Bicategory.InducedBicategory.bicategory_id_hom,
     CategoryTheory.Bicategory.InducedBicategory.bicategory_comp_hom,
     Pseudofunctor.StrongTrans.categoryStruct_id_app,
-    Pseudofunctor.StrongTrans.comp_app,
-    restrictHigherLocalizedStrongTrans_id_app
+    Pseudofunctor.StrongTrans.comp_app
   ]
-  simpa using
+  simp only [restrictHigherLocalizedStrongTrans_id_app]
+  exact
     rightUnitorCompositeSquare
       (rf :=
         (restrictHigherLocalizedStrongTrans (W := W) f.lift.hom).app
