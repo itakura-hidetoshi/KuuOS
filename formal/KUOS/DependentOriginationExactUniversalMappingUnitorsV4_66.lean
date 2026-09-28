@@ -172,6 +172,25 @@ goal. -/
   ] using h
 
 
+/-- Pure pasting obtained by composing an identity comparison square on
+the left with a comparison square.  Naming this pasting keeps the wrapper proof
+from re-elaborating the same long dependent expression. -/
+private def leftUnitorCompositePasting
+    {B : Type uB} [Bicategory.{wB, vB} B]
+    {P Q X₀ Y₀ : B}
+    (rf : P ⟶ Q)
+    (cQ : Q ⟶ Y₀)
+    (cP : P ⟶ X₀)
+    (fraw : X₀ ⟶ Y₀)
+    (fsq : rf ≫ cQ ⟶ cP ≫ fraw) :
+    ((𝟙 P ≫ rf) ≫ cQ) ⟶ cP ≫ ((𝟙 X₀) ≫ fraw) :=
+  (Bicategory.associator (𝟙 P) rf cQ).hom ≫
+    ((𝟙 P) ◁ fsq) ≫
+    (Bicategory.associator (𝟙 P) cP fraw).inv ≫
+    (((Bicategory.leftUnitor cP).hom ≫
+        (Bicategory.rightUnitor cP).inv) ▷ fraw) ≫
+    (Bicategory.associator cP (𝟙 X₀) fraw).hom
+
 /-- Pure comparison-square law underlying the source left unitor. -/
 private theorem leftUnitorCompositeSquare
     {B : Type uB} [Bicategory.{wB, vB} B]
@@ -181,16 +200,29 @@ private theorem leftUnitorCompositeSquare
     (cP : P ⟶ X₀)
     (fraw : X₀ ⟶ Y₀)
     (fsq : rf ≫ cQ ⟶ cP ≫ fraw) :
-    ((Bicategory.leftUnitor rf).hom ▷ cQ) ≫
-        fsq =
-      (Bicategory.associator (𝟙 P) rf cQ).hom ≫
-        ((𝟙 P) ◁ fsq) ≫
-        (Bicategory.associator (𝟙 P) cP fraw).inv ≫
-        (((Bicategory.leftUnitor cP).hom ≫
-            (Bicategory.rightUnitor cP).inv) ▷ fraw) ≫
-        (Bicategory.associator cP (𝟙 X₀) fraw).hom ≫
+    ((Bicategory.leftUnitor rf).hom ▷ cQ) ≫ fsq =
+      leftUnitorCompositePasting rf cQ cP fraw fsq ≫
         (cP ◁ (Bicategory.leftUnitor fraw).hom) := by
-  simp
+  simp [leftUnitorCompositePasting]
+
+/-- Pure pasting obtained by composing a comparison square with an identity
+comparison square on the right. -/
+private def rightUnitorCompositePasting
+    {B : Type uB} [Bicategory.{wB, vB} B]
+    {P Q X₀ Y₀ : B}
+    (rf : P ⟶ Q)
+    (cQ : Q ⟶ Y₀)
+    (cP : P ⟶ X₀)
+    (fraw : X₀ ⟶ Y₀)
+    (fsq : rf ≫ cQ ⟶ cP ≫ fraw) :
+    ((rf ≫ 𝟙 Q) ≫ cQ) ⟶ cP ≫ (fraw ≫ 𝟙 Y₀) :=
+  (Bicategory.associator rf (𝟙 Q) cQ).hom ≫
+    (rf ◁
+      ((Bicategory.leftUnitor cQ).hom ≫
+        (Bicategory.rightUnitor cQ).inv)) ≫
+    (Bicategory.associator rf cQ (𝟙 Y₀)).inv ≫
+    (fsq ▷ (𝟙 Y₀)) ≫
+    (Bicategory.associator cP fraw (𝟙 Y₀)).hom
 
 /-- Pure comparison-square law underlying the source right unitor. -/
 private theorem rightUnitorCompositeSquare
@@ -201,22 +233,15 @@ private theorem rightUnitorCompositeSquare
     (cP : P ⟶ X₀)
     (fraw : X₀ ⟶ Y₀)
     (fsq : rf ≫ cQ ⟶ cP ≫ fraw) :
-    ((Bicategory.rightUnitor rf).hom ▷ cQ) ≫
-        fsq =
-      (Bicategory.associator rf (𝟙 Q) cQ).hom ≫
-        (rf ◁
-          ((Bicategory.leftUnitor cQ).hom ≫
-            (Bicategory.rightUnitor cQ).inv)) ≫
-        (Bicategory.associator rf cQ (𝟙 Y₀)).inv ≫
-        (fsq ▷ (𝟙 Y₀)) ≫
-        (Bicategory.associator cP fraw (𝟙 Y₀)).hom ≫
+    ((Bicategory.rightUnitor rf).hom ▷ cQ) ≫ fsq =
+      rightUnitorCompositePasting rf cQ cP fraw fsq ≫
         (cP ◁ (Bicategory.rightUnitor fraw).hom) := by
-  simp
-
+  simp [rightUnitorCompositePasting]
 
 /-- Component normal form for composing the mapping-property identity on the
-left.  Identity wrappers are eliminated here, before entering the dependent
-compatibility goal. -/
+left.  This follows the v4.65 pattern: start from the already-proved component
+expansion and normalize only the identity projections into a named pure
+pasting. -/
 @[simp] theorem ExactUniversalRawMorphism.comp_id_left_comparison_square_hom_app
     {X Y : ExactUniversalRawObject (W := W) A}
     (f : ExactUniversalRawMorphism (W := W) A X Y)
@@ -225,41 +250,24 @@ compatibility goal. -/
       (W := W) A
       (ExactUniversalRawMorphism.id (W := W) A X)
       f).comparison_square.hom.as.app (LocallyDiscrete.mk U) =
-      (Bicategory.associator
-        (𝟙 ((restrictHigherLocalizedSystem W
-          (higherStackObjectVal (W := W) A X.carrier)).obj
-            (LocallyDiscrete.mk U)))
+      leftUnitorCompositePasting
         ((restrictHigherLocalizedStrongTrans (W := W) f.lift.hom).app
           (LocallyDiscrete.mk U))
-        (Y.presentation.comparison.app (LocallyDiscrete.mk U))).hom ≫
-      (𝟙 ((restrictHigherLocalizedSystem W
-          (higherStackObjectVal (W := W) A X.carrier)).obj
-            (LocallyDiscrete.mk U)) ◁
-        f.comparison_square.hom.as.app (LocallyDiscrete.mk U)) ≫
-      (Bicategory.associator
-        (𝟙 ((restrictHigherLocalizedSystem W
-          (higherStackObjectVal (W := W) A X.carrier)).obj
-            (LocallyDiscrete.mk U)))
+        (Y.presentation.comparison.app (LocallyDiscrete.mk U))
         (X.presentation.comparison.app (LocallyDiscrete.mk U))
-        (f.raw.app (LocallyDiscrete.mk U))).inv ≫
-      (((Bicategory.leftUnitor
-          (X.presentation.comparison.app (LocallyDiscrete.mk U))).hom ≫
-        (Bicategory.rightUnitor
-          (X.presentation.comparison.app (LocallyDiscrete.mk U))).inv) ▷
-        f.raw.app (LocallyDiscrete.mk U)) ≫
-      (Bicategory.associator
-        (X.presentation.comparison.app (LocallyDiscrete.mk U))
-        (𝟙 (X.raw.obj (LocallyDiscrete.mk U)))
-        (f.raw.app (LocallyDiscrete.mk U))).hom := by
-  rw [ExactUniversalRawMorphism.comp_comparison_square_hom_app]
-  simp only [
+        (f.raw.app (LocallyDiscrete.mk U))
+        (f.comparison_square.hom.as.app (LocallyDiscrete.mk U)) := by
+  simpa only [
+    leftUnitorCompositePasting,
     ExactUniversalRawMorphism.id_comparison_square_hom_app,
     ExactUniversalRawMorphism.id_raw,
     ExactUniversalRawMorphism.id_lift_hom,
     restrictHigherLocalizedStrongTrans_id_app,
     Pseudofunctor.StrongTrans.categoryStruct_id_app
-  ]
-  simp only [Category.assoc]
+  ] using
+    ExactUniversalRawMorphism.comp_comparison_square_hom_app
+      (W := W) A
+      (ExactUniversalRawMorphism.id (W := W) A X) f U
 
 /-- Component normal form for composing the mapping-property identity on the
 right. -/
@@ -271,39 +279,24 @@ right. -/
       (W := W) A f
       (ExactUniversalRawMorphism.id (W := W) A Y)).comparison_square.hom.as.app
         (LocallyDiscrete.mk U) =
-      (Bicategory.associator
-        ((restrictHigherLocalizedStrongTrans (W := W) f.lift.hom).app
-          (LocallyDiscrete.mk U))
-        (𝟙 ((restrictHigherLocalizedSystem W
-          (higherStackObjectVal (W := W) A Y.carrier)).obj
-            (LocallyDiscrete.mk U)))
-        (Y.presentation.comparison.app (LocallyDiscrete.mk U))).hom ≫
-      ((restrictHigherLocalizedStrongTrans (W := W) f.lift.hom).app
-          (LocallyDiscrete.mk U) ◁
-        ((Bicategory.leftUnitor
-          (Y.presentation.comparison.app (LocallyDiscrete.mk U))).hom ≫
-        (Bicategory.rightUnitor
-          (Y.presentation.comparison.app (LocallyDiscrete.mk U))).inv)) ≫
-      (Bicategory.associator
+      rightUnitorCompositePasting
         ((restrictHigherLocalizedStrongTrans (W := W) f.lift.hom).app
           (LocallyDiscrete.mk U))
         (Y.presentation.comparison.app (LocallyDiscrete.mk U))
-        (𝟙 (Y.raw.obj (LocallyDiscrete.mk U)))).inv ≫
-      (f.comparison_square.hom.as.app (LocallyDiscrete.mk U) ▷
-        𝟙 (Y.raw.obj (LocallyDiscrete.mk U))) ≫
-      (Bicategory.associator
         (X.presentation.comparison.app (LocallyDiscrete.mk U))
         (f.raw.app (LocallyDiscrete.mk U))
-        (𝟙 (Y.raw.obj (LocallyDiscrete.mk U)))).hom := by
-  rw [ExactUniversalRawMorphism.comp_comparison_square_hom_app]
-  simp only [
+        (f.comparison_square.hom.as.app (LocallyDiscrete.mk U)) := by
+  simpa only [
+    rightUnitorCompositePasting,
     ExactUniversalRawMorphism.id_comparison_square_hom_app,
     ExactUniversalRawMorphism.id_raw,
     ExactUniversalRawMorphism.id_lift_hom,
     restrictHigherLocalizedStrongTrans_id_app,
     Pseudofunctor.StrongTrans.categoryStruct_id_app
-  ]
-  simp only [Category.assoc]
+  ] using
+    ExactUniversalRawMorphism.comp_comparison_square_hom_app
+      (W := W) A f
+      (ExactUniversalRawMorphism.id (W := W) A Y) U
 
 /-- Exact component of the raw StrongTrans left unitor. -/
 @[simp] theorem ExactUniversalRawMorphism.raw_leftUnitor_hom_app
