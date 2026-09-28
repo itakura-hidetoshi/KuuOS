@@ -242,7 +242,7 @@ private theorem rightUnitorCompositeSquare
 left.  This follows the v4.65 pattern: start from the already-proved component
 expansion and normalize only the identity projections into a named pure
 pasting. -/
-@[simp] theorem ExactUniversalRawMorphism.comp_id_left_comparison_square_hom_app
+@[simp] private theorem compIdLeftComparisonSquareHomApp
     {X Y : ExactUniversalRawObject (W := W) A}
     (f : ExactUniversalRawMorphism (W := W) A X Y)
     (U : Context) :
@@ -271,7 +271,7 @@ pasting. -/
 
 /-- Component normal form for composing the mapping-property identity on the
 right. -/
-@[simp] theorem ExactUniversalRawMorphism.comp_id_right_comparison_square_hom_app
+@[simp] private theorem compIdRightComparisonSquareHomApp
     {X Y : ExactUniversalRawObject (W := W) A}
     (f : ExactUniversalRawMorphism (W := W) A X Y)
     (U : Context) :
@@ -341,7 +341,7 @@ private theorem leftUnitorCompatibility
     Pseudofunctor.StrongTrans.whiskerLeft_as_app,
     Pseudofunctor.StrongTrans.whiskerRight_as_app,
     restrictHigherLocalizedModification_strongTransLeftUnitor_app,
-    ExactUniversalRawMorphism.comp_id_left_comparison_square_hom_app,
+    compIdLeftComparisonSquareHomApp,
     ExactUniversalRawMorphism.raw_leftUnitor_hom_app
   ]
   exact
@@ -376,7 +376,7 @@ private theorem rightUnitorCompatibility
     Pseudofunctor.StrongTrans.whiskerLeft_as_app,
     Pseudofunctor.StrongTrans.whiskerRight_as_app,
     restrictHigherLocalizedModification_strongTransRightUnitor_app,
-    ExactUniversalRawMorphism.comp_id_right_comparison_square_hom_app,
+    compIdRightComparisonSquareHomApp,
     ExactUniversalRawMorphism.raw_rightUnitor_hom_app
   ]
   exact
