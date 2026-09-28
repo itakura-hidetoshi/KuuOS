@@ -293,6 +293,7 @@ private theorem rightUnitorCompatibility
     restrictHigherLocalizedModification_strongTransRightUnitor_app,
     ExactUniversalRawMorphism.comp_comparison_square_hom_app,
     ExactUniversalRawMorphism.id_comparison_square_hom_app,
+    ExactUniversalRawMorphism.id_restricted_lift_hom_app,
     ExactUniversalRawMorphism.id_raw,
     ExactUniversalRawMorphism.comp_raw,
     ExactUniversalRawMorphism.comp_lift,
