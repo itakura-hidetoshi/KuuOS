@@ -1,6 +1,6 @@
 # KuuOS / 空OS Roadmap
 
-**Theorem baseline: 2026-09-27 JST · integrated through v4.50**
+**Theorem baseline: 2026-09-29 JST · integrated through v4.66**
 
 This roadmap records proved results, authority boundaries, theorem-sized exit criteria, and the next formal steps. It is subordinate to fresh GitHub theorem authority.
 
@@ -21,22 +21,14 @@ main
 Current theorem-bearing baseline:
 
 ~~~text
-5b55a205baeba7c3f8dfbb09ade21fa5e5b5304c
+ef3edcfcb4a15b89eff1f87f5007d11111659f50
 ~~~
 
 Latest theorem-bearing merge:
 
 ~~~text
-PR #1847
-Define exact higher dependent-origination presentation sector v4.50
-~~~
-
-Companion v4.50 merge:
-
-~~~text
-PR #1846
-Define exact higher dependent-origination admissible sector v4.50
-merge commit = 9b60b3ec2835f99896da07439f08d4c06752f1ed
+PR #1900
+Prove compatible source unitors v4.66
 ~~~
 
 Authority order:
@@ -45,7 +37,7 @@ Authority order:
 1. fresh exact GitHub canonical SHA
 2. formal Lean theorem artifacts at that SHA
 3. README / ROADMAP
-4. CI/runtime receipts
+4. exact-head CI/runtime receipts
 5. history / memory
 ~~~
 
@@ -56,7 +48,7 @@ Lean    leanprover/lean4:v4.30.0-rc2
 Mathlib 5450b53e5ddc75d46418fabb605edbf36bd0beb6
 ~~~
 
-A code-changing head requires fresh validation. A byte-identical theorem replay onto an independent newer base may reuse already validated theorem content after explicit blob/diff verification.
+A code-changing head requires fresh validation. Runtime success, docs-only CI, stale receipts, and history are not theorem authority.
 
 Protected Lean 4.31 validation-only PR:
 
@@ -65,16 +57,13 @@ Protected Lean 4.31 validation-only PR:
 open
 Draft = true
 merged = false
-head = 3a09839782ea82661ddbf8e13a0fd08e893079b4
-base = validation/lean431-v131-explicit-E-v6
-base SHA = 624f04110390bb97b187f212ac1dfd55b1f24077
 ~~~
 
-#1558 remains outside theorem authority and must not be merged, marked Ready for review, or auto-merged.
+It remains outside theorem authority and must not be merged, marked Ready for review, or auto-merged.
 
 # 1. Long-range target
 
-The long-range target remains a dependent-origination carrier with a genuine mapping property:
+The long-range target remains a dependent-origination carrier with a genuine higher mapping property:
 
 ~~~text
 eta : C -> DO(C,W,J,H)
@@ -93,346 +82,96 @@ Required ingredients include:
 - presentation invariance;
 - essential uniqueness;
 - naturality;
+- a source bicategory encoding mapping-compatible raw and DO₂ data;
+- a realization pseudofunctor;
 - explicit obstruction/correction semantics;
 - explicit authority separation.
 
-A quotient, recursive carrier, inverse limit, metric fractal, or obstruction witness is not promoted to the final universal object without this mapping property.
+A quotient, recursive carrier, inverse limit, metric fractal, obstruction witness, or local bicategory fragment is not promoted to the final universal object without the required mapping property.
 
 # 2. Closed obstruction spine — v4.00 through v4.12
 
-## v4.00 — arbitrary higher nonfactorization
-
-The concrete finite octahedral C2 countermodel satisfies:
-
-~~~lean
-IsEmpty
-  (HigherLocalizationFactorization
-    (W := allMorphisms) counterSystem)
-~~~
-
-This is arbitrary nonfactorization, not merely failure of one gauge or one canonical correction.
-
-## v4.01 — weak admissibility is insufficient
-
-The same countermodel satisfies:
+The finite octahedral C2 countermodel proves that weak admissibility alone is not enough.
 
 ~~~text
-IsHigherWAdmissible allMorphisms counterSystem
+weak W-admissibility                     EXISTS
+coherent quotient transport              EXISTS
+quotient coboundary solution             EXISTS
+comparison / presentation lift           IMPOSSIBLE
+HigherLocalizationFactorization          IMPOSSIBLE
 ~~~
 
-but has no HigherLocalizationFactorization.
-
-Therefore:
-
-~~~text
-weak W-admissibility
-  !=>
-higher localization factorization
-~~~
-
-This remains a permanent no-go boundary for the general theory.
-
-## v4.02–v4.11 — exact location of the comparison obstruction
-
-The development separates:
-
-~~~text
-coherent quotient transport       EXISTS
-quotient coboundary solution       EXISTS
-comparison lift                    FAILS
-full correction                    FAILS
-~~~
-
-The obstruction is transport/gauge independent.
-
-## v4.12 — exact Stage-II class
-
-For every coherent quotient transport:
+v4.12 extracts the transport-independent class
 
 ~~~text
 omega(T) = 1 in ZMod 2
 ~~~
 
-Any successful comparison would force omega(T)=0.
+for every coherent quotient transport T.
 
-This class becomes the invariant tracked through the later concrete carrier program.
-
-# 3. Finite carrier and recursive transport — v4.13 through v4.27
-
-Proved:
-
-- explicit eight-label Stage-II parity carrier;
-- incidence-compatible truncated-icosahedral placement;
-- global capacity and local one-star obstruction;
-- adjacent opposite-kind middle-switch mates;
-- scalar pushforward with source provenance;
-- integer orientation lift;
-- recursive central-cell preservation at every finite depth;
-- coherent restriction tower;
-- set-theoretic inverse limit;
-- source-label equivalence;
-- fixed-point-free middle-switch involution.
-
-The supported inverse limit satisfies:
+Permanent no-go boundary:
 
 ~~~text
-OctahedralStageIIParityFace
-  ≃
-StageIIFiniteDepthInverseLimit
+weak W-admissibility
+  !=>
+HigherLocalizationFactorization
 ~~~
 
-# 4. Metric and exact Cantor program — v4.28 through v4.42
+# 3. Closed concrete verification spine — v4.13 through v4.48
 
-This program is closed.
+The finite obstruction is transported through:
 
-## v4.28 — rigid carrier dimension zero
+- an explicit eight-label carrier;
+- truncated-icosahedral incidence geometry;
+- recursive finite-depth carriers;
+- a coherent inverse limit;
+- a fixed-point-free middle-switch;
+- translated ternary Cantor fibers;
+- exact Hausdorff dimension;
+- finite zero-dimensional approximants;
+- a Hausdorff-limit dimension jump;
+- a bare-carrier self-homeomorphism;
+- exact two-point orbit quotients;
+- integer-orientation non-descent;
+- mod-2 unique descent;
+- descent of the nonzero Stage-II obstruction.
 
-The current inverse-limit carrier has exactly eight points:
-
-~~~text
-dimH XInfinityCurrent = 0
-~~~
-
-for every extended metric structure.
-
-## v4.29 — genuine branch freedom gives dimension one
-
-~~~text
-dimH XInfinityBranch = 1
-~~~
-
-Positive dimension comes from new branch freedom, not from re-metrizing a finite set.
-
-## v4.30–v4.32 — geometric Cantor carrier and Hausdorff convergence
-
-Each branch carries a translated ternary Cantor set.
-
-Proved:
-
-- compactness;
-- closedness;
-- nonemptiness;
-- exact branchwise self-similarity;
-- ambient inclusion;
-- explicit Hausdorff-distance rate;
-- Hausdorff convergence.
-
-## v4.33–v4.40 — exact dimension
-
-The critical exponent is:
+The exact geometric dimension is:
 
 ~~~text
-s = logb 3 2
+dimH XInfinityGeometricFractal
   = log 2 / log 3
 ~~~
 
-Forward and inverse Hölder transport prove:
+This program is a validated stress test for the general theory, not the general definition of dependent origination.
+
+# 4. Presentation-general descent — v4.49
+
+For arbitrary presentation data:
 
 ~~~text
-dimH cantorSet = s
-
-forall x,
-  dimH (stageIIGeometricCantorFiber x) = s
-
-dimH XInfinityGeometricFractal = s
-
-dimH XInfinityGeometricFractal
-  < dimH XInfinityBranch
-  = 1
-~~~
-
-v4.40 packages this exact dimension together with the earlier v4.32 topology/metric certificate.
-
-## v4.41 — finite approximants are zero-dimensional
-
-Finite-prefix factorization yields:
-
-~~~text
-(stageIIGeometricApproxFiber n x).Finite
-(XInfinityGeometricApprox n).Finite
-
-dimH (stageIIGeometricApproxFiber n x) = 0
-dimH (XInfinityGeometricApprox n) = 0
-~~~
-
-## v4.42 — concrete dimension jump
-
-The finite approximants converge in Hausdorff distance to a positive-dimensional limit:
-
-~~~text
-forall n,
-  dimH X_n = 0
-
-d_H(X_n, X_infinity) <= 3^(-n)
-
-d_H(X_n, X_infinity) -> 0
-
-dimH X_infinity = log 2 / log 3 > 0
-~~~
-
-This closes the finite-approximant side of the geometric program.
-
-# 5. Geometric middle-switch and orbit descent — v4.43 through v4.48
-
-This program is also closed as a concrete verification spine.
-
-## v4.43 — tagged geometric lift
-
-The branchwise middle-switch is an explicit real translation, an isometry, continuous, fiber-preserving, involutive in mate pairs, and fixed-point-free.
-
-A tagged geometric carrier retains branch provenance and finite-depth orientation data.
-
-## v4.44 — bare-carrier descent
-
-Offset separation plus Cantor coordinates in [0,1] imply:
-
-~~~text
-distinct branch fibers are disjoint
-every bare point has one unique branch
-~~~
-
-Therefore tagged and bare carriers are equivalent and the middle-switch descends.
-
-## v4.45 — homeomorphism
-
-Distinct fibers are at real distance at least one. Hence the branch selector is locally constant and the descended middle-switch is a fixed-point-free self-homeomorphism.
-
-## v4.46 — orientation transport
-
-For every p and depth n:
-
-~~~text
-O(M p,n) = flip(O(p,n))
-epsilon(M p,n) = -epsilon(p,n)
-~~~
-
-but modulo two:
-
-~~~text
-[epsilon(M p,n)]_2 = [epsilon(p,n)]_2 = 1
-~~~
-
-## v4.47 — exact orbit quotient
-
-Every orbit is exactly:
-
-~~~text
-{p, M p}
-~~~
-
-and:
-
-~~~text
-[p] = [q]
-  <-> q = p or q = M p
-~~~
-
-The quotient has the exact invariant-semantic factorization property.
-
-## v4.48 — obstruction and orientation descent
-
-The existing Stage-II obstruction descends to the orbit quotient and remains:
-
-~~~text
-omega_geo(T,q) = 1 != 0
-~~~
-
-The integer orientation semantic does not descend, while its mod-2 reduction descends uniquely.
-
-This is the concrete prototype for the later presentation-general theorem.
-
-# 6. Return to general dependent origination — v4.49
-
-v4.49 removes Stage-II and geometry from the primary theorem.
-
-For arbitrary presentation type P, setoid S, semantic target Y, and map:
-
-~~~text
-semantic : P -> Y
-~~~
-
-define:
-
-~~~text
-IsPresentationInvariant
 HasPresentationQuotientFactorization
-HasPresentationDescentObstruction
+  <-> IsPresentationInvariant
+
+not HasPresentationQuotientFactorization
+  <-> HasPresentationDescentObstruction
 ~~~
 
-Then prove:
+The Stage-II integer/mod-2 dichotomy is recovered as a specialization.
+
+This closes the 0-level presentation-descent abstraction.
+
+# 5. Exact Cat-valued positive sector — v4.50
+
+An exact higher presentation consists of:
 
 ~~~text
-HasPresentationQuotientFactorization S semantic
-  <->
-IsPresentationInvariant S semantic
-~~~
-
-with unique descended semantic, and:
-
-~~~text
-not HasPresentationQuotientFactorization S semantic
-  <->
-HasPresentationDescentObstruction S semantic
-~~~
-
-This is the current 0-level universal descent theorem.
-
-The Stage-II integer/mod-2 dichotomy appears only as a specialization.
-
-# 7. Exact Cat-valued positive sector — v4.50
-
-v4.50 is the current theorem frontier.
-
-The objective is to identify the systems for which a genuine localized stack presentation actually exists.
-
-## v4.50A — exact higher admissible sector
-
-A raw higher contextual system R is represented by:
-
-~~~text
-X : HigherStackObject
+X in DO₂(C,W,A)
 comparison : restrict(X) -> R
 comparison components are equivalences
 ~~~
 
-Existence is equivalent to:
-
-~~~text
-HasHigherStackLocalizationFactorization
-~~~
-
-Therefore exact higher admissibility implies:
-
-~~~text
-HasHigherLocalizationFactorization
-IsHigherWAdmissible
-~~~
-
-## v4.50B — exact higher presentation sector
-
-The same positive sector is presented directly with the higher carrier:
-
-~~~text
-X in DO₂(C,W,A)
-
-restrict(X) -> R
-pointwise-equivalence comparison
-~~~
-
-Existence is equivalent to:
-
-~~~text
-HigherStackLocalizationFactorization
-~~~
-
-and to:
-
-~~~text
-HigherLocalizationFactorization
-  + actual stack descent of the chosen lift
-~~~
-
-The resulting hierarchy is:
+The exact sector is equivalent to the existence of a higher stack-localization factorization and satisfies:
 
 ~~~text
 exact DO₂ presentation
@@ -441,88 +180,377 @@ exact DO₂ presentation
   => weak W-admissibility
 ~~~
 
-The reverse direction from weak W-admissibility fails in general.
+The reverse implication from weak W-admissibility is false in general.
 
-For every refinement atlas, counterSystem is weakly admissible but excluded from the exact positive sector.
+# 6. Presentation invariance and universal-target layer — v4.51 through v4.56
 
-# 8. Immediate frontier — v4.51
+## v4.51 — exact presentation invariance
 
-The next theorem unit should be **presentation-change closure of the exact sector**.
-
-Use the existing directed structure:
+Given:
 
 ~~~text
-HigherPointwiseEquivalenceComparison R S
-~~~
-
-from v2.17.
-
-Target theorem:
-
-~~~text
-R has exact DO₂ presentation
+R has an exact DO₂ presentation
 R --pointwise-equivalence comparison--> S
------------------------------------------
-S has exact DO₂ presentation
 ~~~
 
-Preferred construction:
+the same DO₂ carrier gives an exact presentation of S after postcomposition of the comparison.
 
-1. keep the localized stack carrier fixed;
-2. compose its comparison to R with the comparison R -> S;
-3. use pointwise composition of equivalences;
-4. retain the original stack witness unchanged.
+Two directed comparisons in opposite directions imply equivalence of exact-presentability propositions.
+
+## v4.52 — exact-presentation comparison hierarchy
+
+For two exact presentations P and Q of the same raw system, the canonical datum is a common-target cospan with pointwise-equivalence legs.
+
+The formal development distinguishes:
+
+~~~text
+canonical cospan
+< coherent directed comparison
+< pseudonatural equivalence
+< equivalence in DO₂
+< uniqueness up to modification
+~~~
+
+No stronger level is inferred without the relevant hypotheses.
+
+## v4.53 — chosen exact universal target
+
+Under:
+
+~~~text
+U : coherent weak higher-localization universal property
+hStack : chosen lift satisfies stack descent
+~~~
+
+the chosen exact presentation is a coherent universal target among exact presentations.
+
+Exit theorem already proved:
+
+~~~text
+every exact presentation factors coherently into Q
+any two such factors are invertibly modification-isomorphic
+~~~
+
+This is conditional essential uniqueness; the hypotheses are explicit.
+
+## v4.54 — mutual coherent uniqueness
+
+Two exact coherent universal targets Q₁ and Q₂ of the same raw system admit:
+
+~~~text
+Q₁ -> Q₂
+Q₂ -> Q₁
+~~~
+
+with both composites modification-isomorphic to the corresponding coherent identities.
+
+The theorem intentionally stops short of a DO₂ equivalence.
+
+## v4.55 — naturality under coherent raw equivalence
+
+A coherent two-sided equivalence of raw higher contextual systems transports exact coherent universal targets while preserving their DO₂ carrier.
+
+This closes the naturality layer required by the roadmap before equivalence-level promotion.
+
+## v4.56 — DO₂ adjoint equivalence
+
+Mutual coherent uniqueness is promoted to a genuine Mathlib Bicategory.Equivalence in DO₂.
+
+Proved scope:
+
+~~~text
+exact coherent universal target
+  -> unique up to DO₂ adjoint equivalence
+~~~
+
+Not proved:
+
+~~~text
+arbitrary exact presentation
+  -> arbitrary exact presentation equivalence
+~~~
+
+# 7. Exact universal mapping source — v4.57 through v4.66
+
+This is the active theorem program.
+
+The objective is to construct a genuine source bicategory whose objects, 1-cells, and 2-cells remember exactly the compatibility required for realization into DO₂.
+
+## v4.57 — source objects and 1-cells
+
+A source object records:
+
+~~~text
+raw higher contextual system R
+exact DO₂ presentation Q_R
+coherent universal-target witness for Q_R
+~~~
+
+A mapping 1-cell X -> Y records:
+
+~~~text
+raw StrongTrans eta
+DO₂ 1-cell F
+invertible comparison square
+
+restrict(F) ; c_Y  ≅  c_X ; eta
+~~~
+
+Identity and composition are formalized.
+
+## v4.58 — compatible 2-cells
+
+A 2-cell f ==> g records:
+
+~~~text
+raw modification
+DO₂ modification
+comparison-square compatibility equation
+~~~
+
+This is the exact 2-cell interface required by the eventual source bicategory.
+
+## v4.59 — identity and vertical composition
+
+Restriction preserves identity modifications and vertical composition.
+
+Compatible source 2-cells are closed under identity and vertical composition.
+
+## v4.60 — hom categories
+
+For every pair of source objects, mapping 1-cells and compatible 2-cells form a genuine category.
+
+The raw and DO₂ projections become functors on each hom category.
+
+## v4.61 — restriction preserves whiskering
+
+Restriction along the presentation unit preserves native Mathlib left and right whiskering of modifications.
+
+This supplies the remaining presentation-boundary API needed for horizontal structure.
+
+## v4.62 — left whiskering
+
+Construct:
+
+~~~text
+f ◁ eta
+~~~
+
+for source 1-cell f and compatible 2-cell eta.
+
+The raw and DO₂ components are the native Mathlib left whiskerings.
+
+## v4.63 — right whiskering
+
+Construct:
+
+~~~text
+eta ▷ k
+~~~
+
+with an independently validated right-whiskering pasting law.
+
+## v4.64 — horizontal composition and interchange
+
+Construct horizontal composition of compatible 2-cells and prove:
+
+- equality of the two canonical whiskering presentations;
+- horizontal identity;
+- horizontal compatibility with vertical composition;
+- the full horizontal/vertical interchange law.
+
+At this point the local 2-cell calculus is functorial.
+
+## v4.65 — source associator
+
+Construct the compatible associator for mapping-property 1-cell composition.
+
+Stable proof architecture:
+
+~~~text
+pure bicategory pasting
+  -> component expansion
+  -> dependent wrapper
+~~~
+
+The raw and DO₂ components are native Mathlib associators.
+
+## v4.66 — source left and right unitors
+
+Construct:
+
+~~~text
+lambda_f : id ; f ==> f
+rho_f    : f ; id ==> f
+~~~
+
+with raw and DO₂ components equal to the native Mathlib unitors.
+
+The final GREEN proof again uses:
+
+~~~text
+private pure pasting
+  -> private component normal form
+  -> small dependent wrapper
+~~~
+
+The v4.66 exact-head validation completed successfully before PR #1900 was merged.
+
+# 8. Current completion boundary
+
+Canonically proved through v4.66:
+
+~~~text
+obstruction:
+  arbitrary nonfactorization for the octahedral countermodel
+  weak-admissibility insufficiency
+  transport-independent omega(T)=1
+
+geometry:
+  finite carrier
+  recursive tower
+  inverse limit
+  exact Cantor geometry
+  Hausdorff-dimension jump
+  middle-switch homeomorphism
+  exact orbit quotient
+  obstruction / orientation descent
+
+general presentation semantics:
+  quotient factorization iff invariance
+  nonfactorization iff explicit obstruction
+
+exact Cat-valued universality:
+  exact DO₂ positive sector
+  directed presentation invariance
+  comparison hierarchy
+  conditional essential uniqueness
+  mutual coherent uniqueness
+  naturality under coherent raw equivalence
+  DO₂ adjoint equivalence of exact universal targets
+
+mapping source:
+  1-cells
+  compatible 2-cells
+  vertical composition
+  hom categories
+  left/right whiskering
+  horizontal composition
+  interchange
+  associator hom
+  left/right unitor homs
+~~~
+
+What is not yet installed is the full source Bicategory instance.
+
+# 9. Immediate frontier — structural isomorphisms
+
+The next theorem-sized obligation is to internalize inverse structural 2-cells and package the existing hom-level structure as isomorphisms.
+
+## Proposed v4.67
+
+Targets:
+
+~~~text
+associatorInv
+leftUnitorInv
+rightUnitorInv
+
+associatorIso
+leftUnitorIso
+rightUnitorIso
+~~~
+
+Exit criteria:
+
+1. inverse 2-cells satisfy the same mapping-source compatibility interface;
+2. vertical composites with the existing hom cells equal identity 2-cells;
+3. raw projection is the native Mathlib structural inverse;
+4. DO₂ projection is the native Mathlib structural inverse;
+5. isomorphisms are packaged in the v4.60 hom categories.
+
+Do not install a Bicategory instance before these inverse laws are closed.
+
+# 10. Next frontier — pentagon and triangle
+
+## Proposed v4.68
+
+Prove the coherence laws componentwise.
+
+Preferred proof architecture:
+
+~~~text
+source 2-cell equality
+  -> v4.60 extensionality
+  -> raw component equality
+  -> DO₂ component equality
+  -> native Mathlib pentagon / triangle
+~~~
 
 Exit criteria:
 
 ~~~text
-ExactPresentation R
-  ->
-HigherPointwiseEquivalenceComparison R S
-  ->
-ExactPresentation S
+pentagon law
+triangle law
 ~~~
 
-and an existence-level theorem for membership in the exact positive sector.
+No new presentation-level hypotheses should be needed.
 
-This is the Cat-valued analogue of v4.49 presentation invariance.
+# 11. Source bicategory assembly
 
-# 9. v4.52 — comparison between exact presentations
+## Proposed v4.69
 
-Given two exact presentations of the same raw system:
+Assemble:
+
+- objects;
+- 1-cells;
+- hom categories;
+- horizontal composition;
+- left/right whiskering;
+- associator Iso;
+- left/right unitor Iso;
+- pentagon;
+- triangle;
+
+into a genuine Mathlib Bicategory instance.
+
+The source bicategory must remain in the exact universal sector; weakly admissible systems without exact presentation data are not silently admitted.
+
+# 12. Realization pseudofunctor
+
+## Proposed v4.70+
+
+The evident projection
 
 ~~~text
-P : ExactPresentation R
-Q : ExactPresentation R
+source object     |-> chosen DO₂ carrier
+mapping 1-cell    |-> lift
+mapping 2-cell    |-> lift modification
 ~~~
 
-construct the available comparison data between their localized stack carriers.
+should be promoted to a pseudofunctor.
 
-The theorem must distinguish carefully between:
+Required coherence:
 
-- existence of a directed comparison;
-- pointwise equivalence;
-- pseudonatural equivalence;
-- equivalence inside DO₂;
-- uniqueness up to modification.
+- preservation of identities;
+- preservation of composition;
+- compatibility with source associator and unitors;
+- exact agreement with the already formalized hom-category projection functors.
 
-Do not collapse these levels.
+This is the realization layer needed before a final mapping/classification theorem can be stated cleanly.
 
-Exit criterion: one explicit comparison interface whose hypotheses are actually proved.
+# 13. Final universality obligations
 
-# 10. v4.53+ — essential uniqueness and naturality
+After the source bicategory and realization pseudofunctor are installed, the remaining high-level obligations are:
 
-The genuine universality obligations after comparison existence are:
+1. formulate the exact mapping-property statement with correct variance;
+2. prove existence of realization/factor maps from the universal-target data;
+3. prove coherent essential uniqueness at the mapping level;
+4. prove naturality;
+5. integrate the explicit obstruction/correction semantics;
+6. state the strongest justified classification theorem.
 
-1. essential uniqueness of exact presentations;
-2. coherence of comparison composition;
-3. naturality in R;
-4. compatibility with descent;
-5. presentation invariance;
-6. compatibility with obstruction/correction semantics;
-7. final classification/mapping property.
-
-The target remains:
+Target shape remains schematic:
 
 ~~~text
 eta : C -> DO(C,W,J,H)
@@ -532,9 +560,9 @@ AdmissibleContextualSystems(C,X)
 Fun(DO(C,W,J,H),X)
 ~~~
 
-No equivalence is to be asserted before essential uniqueness and naturality are formalized.
+No final equivalence is to be asserted before the mapping-level coherence is formalized.
 
-# 11. Positive sufficient-condition program
+# 14. Positive sufficient-condition program
 
 The octahedral counterexample does not invalidate positive results under stronger hypotheses.
 
@@ -548,13 +576,13 @@ Known sufficient routes include:
 - canonical five-defect gauge trivialization;
 - generated correction reachability;
 - strict presentation models;
-- other explicit coherence/separation/descent hypotheses.
+- explicit coherence/separation/descent hypotheses.
 
 The general question remains:
 
 > Which minimal additional hypotheses characterize the largest useful exact positive sector while excluding the octahedral obstruction?
 
-# 12. Proof-engineering constraints
+# 15. Proof-engineering constraints
 
 ## P1 — fresh authority
 
@@ -564,13 +592,7 @@ Re-observe exact current branch and SHA before theorem work, writes, merge judgm
 
 A code-changing head requires fresh validation.
 
-A byte-identical replay onto an independent newer base may reuse already validated theorem content after checking:
-
-~~~text
-old blob = new blob
-ahead/behind relation understood
-no conflicting theorem changes
-~~~
+A byte-identical theorem replay onto an independent newer base may reuse already validated theorem content only after explicit blob/diff verification.
 
 ## P3 — import is not open
 
@@ -580,29 +602,9 @@ Importing a module makes declarations available but does not open its namespace.
 
 Scoped notation and scoped instances do not propagate through imports.
 
-In particular, strong-transformation hom notation requires:
+StrongTrans notation must be opened explicitly where used.
 
-~~~lean
-open scoped CategoryTheory.Pseudofunctor.StrongTrans
-~~~
-
-in the file that uses it.
-
-## P5 — structure syntax
-
-Prefer explicit term-style structure construction.
-
-Inside tactic mode:
-
-~~~lean
-let x : T :=
-  { field1 := ...
-    field2 := ... }
-~~~
-
-Do not use declaration-style where syntax as though tactic let accepted it.
-
-## P6 — autoImplicit
+## P5 — autoImplicit
 
 Keep:
 
@@ -610,27 +612,64 @@ Keep:
 set_option autoImplicit false
 ~~~
 
-Name-resolution failures should not silently become implicit variables.
+## P6 — pure algebra before dependent wrappers
 
-## P7 — definitional equality
+Structural bicategory algebra should be proved in a pure ambient bicategory before dependent presentation data is introduced.
 
-Do not force change across merely theorem-level equalities.
+This is now the preferred architecture after v4.62–v4.66.
 
-Use theorem-level conversion, typed local equalities, calc, congrArg, funext, and simpa only.
+## P7 — component-first dependent proofs
 
-## P8 — typeclass discipline
+When a global equality of StrongTrans or induced-bicategory wrappers causes expensive elaboration or hidden transport, descend to components first.
+
+Prefer:
+
+~~~text
+pure theorem
+  -> component theorem
+  -> wrapper constructor
+~~~
+
+## P8 — simplifier discipline
+
+Use targeted simp only for non-terminal normalization.
+
+Do not rely on broad non-terminal simp when the surrounding goal contains dependent categorical structure.
+
+If a rewrite target occurs inside a type that depends on that term, ordinary rw may produce an ill-typed motive; use component APIs, congrArg/extensionality, or an appropriate dependent rewriting strategy instead.
+
+## P9 — definitional equality
+
+Do not force change across theorem-level equalities.
+
+Prefer:
+
+- typed local equalities;
+- congrArg;
+- extensionality;
+- calc;
+- targeted simpa only;
+- small constructor-level projection lemmas.
+
+## P10 — private/public boundary
+
+Do not expose private helper definitions through public theorem types.
+
+Pure implementation pastings and their normal forms should remain private unless they are intended as stable repository API.
+
+## P11 — typeclass discipline
 
 Do not shadow imported canonical instances or create avoidable diamonds.
 
-## P9 — dependent transport
+## P12 — dependent transport
 
-Prefer eqToIso / eqToHom for dependent categorical transport.
+Use eqToIso / eqToHom when genuine dependent transport is required.
 
-## P10 — authority boundary
+## P13 — authority boundary
 
-Runtime success, docs-only CI, stale receipts, and history are not theorem authority.
+Runtime success, docs-only CI, stale receipts, and historical summaries are not theorem authority.
 
-# 13. No-go rules
+# 16. No-go rules
 
 Do not promote these implications without theorem support:
 
@@ -653,46 +692,52 @@ finite combinatorial recursion
 finite inverse limit + new metric
   -> positive Hausdorff dimension
 
-Cantor self-similarity alone
-  -> exact Cantor dimension
-
-Hausdorff convergence alone
-  -> continuity of Hausdorff dimension
-
-two exact presentations
-  -> essential uniqueness
-
-pointwise equivalence
+two arbitrary exact presentations
   -> equivalence in DO₂
+
+mutual coherent comparison
+  -> final natural mapping property
+
+mapping-source hom categories
+  -> source bicategory
+
+associator hom + unitor homs
+  -> structural isomorphisms
+
+structural isomorphisms
+  -> bicategory
+  without pentagon and triangle
 
 runtime success
   -> theorem authority
 ~~~
 
-# 14. Verification commands
+# 17. Verification commands
 
-Focused current theorem targets:
+Focused theorem targets:
 
 ~~~bash
 lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.DependentOriginationAbstractNonfactorizationV4_00
 
 lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.DependentOriginationStageIIObstructionClassV4_12
 
-lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.DependentOriginationStageIIExactFractalCertificateV4_40
-
-lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.DependentOriginationStageIIFiniteApproxDimensionV4_41
-
-lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.DependentOriginationStageIIHausdorffDimensionJumpV4_42
-
-lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.DependentOriginationStageIIBareMiddleSwitchHomeomorphV4_45
-
-lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.DependentOriginationStageIIGeometricOrbitQuotientV4_47
-
 lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.DependentOriginationAbstractPresentationDescentV4_49
 
-lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.DependentOriginationExactHigherAdmissibleV4_50
-
 lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.DependentOriginationExactHigherPresentationSectorV4_50
+
+lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.DependentOriginationExactHigherPresentationInvarianceV4_51
+
+lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.DependentOriginationExactUniversalTargetDO2EquivalenceV4_56
+
+lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.DependentOriginationExactUniversalMappingMorphismV4_57
+
+lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.DependentOriginationExactUniversalMappingHomCategoryV4_60
+
+lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.DependentOriginationExactUniversalMappingHorizontalV4_64
+
+lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.DependentOriginationExactUniversalMappingAssociatorV4_65
+
+lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.DependentOriginationExactUniversalMappingUnitorsV4_66
 ~~~
 
 Aggregate formal target:
@@ -707,68 +752,28 @@ Runtime validation remains separate:
 PYTHONPATH=. python3 runtime/kuuos_current_check.py
 ~~~
 
-# 15. Current completion boundary
+# 18. Current research boundary
 
-Canonically proved:
+The repository has moved beyond object-level exact presentation existence.
 
-~~~text
-v4.00-v4.12
-  abstract nonfactorization
-  weak-admissibility insufficiency
-  exact Stage-II obstruction omega(T)=1
-
-v4.13-v4.27
-  finite carrier
-  incidence geometry
-  recursive transport
-  inverse limit
-  middle-switch involution
-
-v4.28-v4.40
-  metric carrier
-  exact Cantor geometry
-  dimH = log 2 / log 3
-
-v4.41-v4.42
-  finite zero-dimensional approximants
-  Hausdorff-limit dimension jump
-
-v4.43-v4.48
-  geometric middle-switch
-  bare homeomorphism
-  orientation transport
-  free two-point orbit quotient
-  obstruction descent
-  integer non-descent / mod-2 unique descent
-
-v4.49
-  abstract presentation descent
-  quotient factorization iff invariance
-  no factorization iff explicit obstruction
-
-v4.50
-  exact higher admissible sector
-  exact DO₂ presentation sector
-  equivalence with stack-localization factorization
-  exact sector implies weak W-admissibility
-  octahedral countermodel excluded
-~~~
-
-Immediate open theorem:
+The current frontier is:
 
 ~~~text
-prove exact positive-sector closure under
-HigherPointwiseEquivalenceComparison
-~~~
-
-Then:
-
-~~~text
-construct comparison between two exact presentations
-  ->
-prove essential uniqueness
-  ->
-prove naturality
-  ->
-assemble the final dependent-origination universality theorem
+exact universal objects
+  -> presentation invariance
+  -> essential uniqueness
+  -> naturality
+  -> DO₂ equivalence
+  -> mapping-compatible 1-cells
+  -> mapping-compatible 2-cells
+  -> hom categories
+  -> whiskering
+  -> horizontal interchange
+  -> associator
+  -> left/right unitors
+  -> NEXT: structural inverses and Iso packaging
+  -> pentagon / triangle
+  -> source bicategory
+  -> realization pseudofunctor
+  -> final dependent-origination mapping property
 ~~~
