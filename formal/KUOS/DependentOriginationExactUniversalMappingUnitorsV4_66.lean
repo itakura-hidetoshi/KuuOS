@@ -234,17 +234,20 @@ private theorem leftUnitorCompatibility
     Pseudofunctor.StrongTrans.homCategory_comp_as_app,
     Pseudofunctor.StrongTrans.whiskerLeft_as_app,
     Pseudofunctor.StrongTrans.whiskerRight_as_app,
-    Pseudofunctor.StrongTrans.leftUnitor_hom_as_app,
     restrictHigherLocalizedModification_strongTransLeftUnitor_app,
     ExactUniversalRawMorphism.comp_comparison_square_hom_app,
     ExactUniversalRawMorphism.id_comparison_square_hom_app,
-    ExactUniversalRawMorphism.id_restricted_lift_hom_app,
     ExactUniversalRawMorphism.id_raw,
     ExactUniversalRawMorphism.comp_raw,
     ExactUniversalRawMorphism.comp_lift,
     CategoryTheory.Bicategory.InducedBicategory.bicategory_comp_hom,
     Pseudofunctor.StrongTrans.categoryStruct_id_app,
     Pseudofunctor.StrongTrans.comp_app
+  ]
+  rw [
+    ExactUniversalRawMorphism.id_restricted_lift_hom_app
+      (W := W) A X U,
+    Pseudofunctor.StrongTrans.leftUnitor_hom_as_app
   ]
   exact
     leftUnitorCompositeSquare
@@ -277,17 +280,20 @@ private theorem rightUnitorCompatibility
     Pseudofunctor.StrongTrans.homCategory_comp_as_app,
     Pseudofunctor.StrongTrans.whiskerLeft_as_app,
     Pseudofunctor.StrongTrans.whiskerRight_as_app,
-    Pseudofunctor.StrongTrans.rightUnitor_hom_as_app,
     restrictHigherLocalizedModification_strongTransRightUnitor_app,
     ExactUniversalRawMorphism.comp_comparison_square_hom_app,
     ExactUniversalRawMorphism.id_comparison_square_hom_app,
-    ExactUniversalRawMorphism.id_restricted_lift_hom_app,
     ExactUniversalRawMorphism.id_raw,
     ExactUniversalRawMorphism.comp_raw,
     ExactUniversalRawMorphism.comp_lift,
     CategoryTheory.Bicategory.InducedBicategory.bicategory_comp_hom,
     Pseudofunctor.StrongTrans.categoryStruct_id_app,
     Pseudofunctor.StrongTrans.comp_app
+  ]
+  rw [
+    ExactUniversalRawMorphism.id_restricted_lift_hom_app
+      (W := W) A Y U,
+    Pseudofunctor.StrongTrans.rightUnitor_hom_as_app
   ]
   exact
     rightUnitorCompositeSquare
