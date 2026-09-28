@@ -1,0 +1,43 @@
+name: Root-bound analysis repair readiness v7.35 validation
+
+on:
+  pull_request:
+    paths:
+      - 'runtime/kuuos_runtime_root_bound_analysis_repair_readiness_v7_35.py'
+      - 'scripts/check_kuuos_runtime_root_bound_analysis_repair_readiness_v7_35.py'
+      - 'manifests/kuuos_root_bound_analysis_repair_readiness_v7_35.json'
+      - 'docs/KUUOS_ROOT_BOUND_ANALYSIS_REPAIR_READINESS_v7_35.md'
+      - '.github/workflows/root-bound-analysis-repair-readiness-v7-35-validation.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Compile v7.35 runtime
+        run: |
+          python -m py_compile             runtime/kuuos_runtime_root_bound_analysis_repair_readiness_v7_35.py             scripts/check_kuuos_runtime_root_bound_analysis_repair_readiness_v7_35.py
+
+      - name: Run focused v7.35 checks
+        run: |
+          PYTHONPATH=. python scripts/check_kuuos_runtime_root_bound_analysis_repair_readiness_v7_35.py
+
+      - name: Verify authority boundaries
+        run: |
+          grep -Fq '"mutation_intent_alone_requests_authority": false' manifests/kuuos_root_bound_analysis_repair_readiness_v7_35.json
+          grep -Fq '"repair_readiness_grants_write_authority": false' manifests/kuuos_root_bound_analysis_repair_readiness_v7_35.json
+          grep -Fq '"readiness_executes_mutation": false' manifests/kuuos_root_bound_analysis_repair_readiness_v7_35.json
+          grep -Fq '"source_authority_transferred": false' manifests/kuuos_root_bound_analysis_repair_readiness_v7_35.json
+
+      - name: Confirm Strict Lean is not invoked
+        run: |
+          echo "Runtime-only readiness validation: Strict Lean intentionally not invoked."
