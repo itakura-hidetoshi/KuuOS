@@ -259,6 +259,7 @@ compatibility goal. -/
     restrictHigherLocalizedStrongTrans_id_app,
     Pseudofunctor.StrongTrans.categoryStruct_id_app
   ]
+  simp only [Category.assoc]
 
 /-- Component normal form for composing the mapping-property identity on the
 right. -/
@@ -302,6 +303,7 @@ right. -/
     restrictHigherLocalizedStrongTrans_id_app,
     Pseudofunctor.StrongTrans.categoryStruct_id_app
   ]
+  simp only [Category.assoc]
 
 /-- Exact component of the raw StrongTrans left unitor. -/
 @[simp] theorem ExactUniversalRawMorphism.raw_leftUnitor_hom_app
@@ -349,7 +351,7 @@ private theorem leftUnitorCompatibility
     ExactUniversalRawMorphism.comp_id_left_comparison_square_hom_app,
     ExactUniversalRawMorphism.raw_leftUnitor_hom_app
   ]
-  exact
+  simpa only [Category.assoc] using
     leftUnitorCompositeSquare
       (rf :=
         (restrictHigherLocalizedStrongTrans (W := W) f.lift.hom).app
@@ -384,7 +386,7 @@ private theorem rightUnitorCompatibility
     ExactUniversalRawMorphism.comp_id_right_comparison_square_hom_app,
     ExactUniversalRawMorphism.raw_rightUnitor_hom_app
   ]
-  exact
+  simpa only [Category.assoc] using
     rightUnitorCompositeSquare
       (rf :=
         (restrictHigherLocalizedStrongTrans (W := W) f.lift.hom).app
