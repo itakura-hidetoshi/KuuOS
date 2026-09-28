@@ -344,7 +344,7 @@ private theorem leftUnitorCompatibility
     ExactUniversalRawMorphism.comp_id_left_comparison_square_hom_app,
     ExactUniversalRawMorphism.raw_leftUnitor_hom_app
   ]
-  simpa only [Category.assoc] using
+  exact
     leftUnitorCompositeSquare
       (rf :=
         (restrictHigherLocalizedStrongTrans (W := W) f.lift.hom).app
@@ -379,7 +379,7 @@ private theorem rightUnitorCompatibility
     ExactUniversalRawMorphism.comp_id_right_comparison_square_hom_app,
     ExactUniversalRawMorphism.raw_rightUnitor_hom_app
   ]
-  simpa only [Category.assoc] using
+  exact
     rightUnitorCompositeSquare
       (rf :=
         (restrictHigherLocalizedStrongTrans (W := W) f.lift.hom).app
