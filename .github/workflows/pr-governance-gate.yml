@@ -222,6 +222,29 @@ jobs:
           name: audit-selection-${{ github.run_id }}-${{ github.run_attempt }}
           path: artifacts/selection
 
+      # Restore the trusted default-branch Lake workspace before Lean setup.
+      # The main-branch lean-formal workflow owns the matching kuuos-lake-* cache
+      # and saves it only after strict compilation. Pull-request runs restore it
+      # read-only, so unchanged KuuOS .olean files do not need to be rebuilt.
+      - name: Restore trusted main Lake workspace cache
+        id: lean-workspace-cache
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-${{ github.event.pull_request.head.sha || github.sha }}
+          restore-keys: |
+            kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-
+
+      - name: Report Lake workspace cache restore
+        shell: bash
+        env:
+          CACHE_HIT: ${{ steps.lean-workspace-cache.outputs.cache-hit }}
+          CACHE_MATCHED_KEY: ${{ steps.lean-workspace-cache.outputs.cache-matched-key }}
+        run: |
+          set -euo pipefail
+          echo "Lake cache exact hit: ${CACHE_HIT:-false}"
+          echo "Lake cache matched key: ${CACHE_MATCHED_KEY:-none}"
+
       - name: Set up pinned Lean and Mathlib cache
         uses: leanprover/lean-action@v1
         with:
