@@ -1,0 +1,44 @@
+name: Expected-head merge closure v7.31 validation
+
+on:
+  pull_request:
+    paths:
+      - 'runtime/kuuos_runtime_expected_head_merge_closure_v7_31.py'
+      - 'scripts/check_kuuos_runtime_expected_head_merge_closure_v7_31.py'
+      - 'manifests/kuuos_expected_head_merge_closure_v7_31.json'
+      - 'docs/KUUOS_EXPECTED_HEAD_MERGE_CLOSURE_v7_31.md'
+      - '.github/workflows/expected-head-merge-closure-v7-31-validation.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Compile expected-head merge closure
+        run: |
+          python -m py_compile             runtime/kuuos_runtime_expected_head_merge_closure_v7_31.py             scripts/check_kuuos_runtime_expected_head_merge_closure_v7_31.py
+
+      - name: Run focused merge closure checks
+        run: |
+          PYTHONPATH=. python scripts/check_kuuos_runtime_expected_head_merge_closure_v7_31.py
+
+      - name: Verify authority and post-merge boundaries
+        run: |
+          grep -Fq '"ci_may_grant_merge_authority": false' manifests/kuuos_expected_head_merge_closure_v7_31.json
+          grep -Fq '"merge_candidacy_may_grant_merge_authority": false' manifests/kuuos_expected_head_merge_closure_v7_31.json
+          grep -Fq '"direct_unbounded_mcp_merge_used": false' manifests/kuuos_expected_head_merge_closure_v7_31.json
+          grep -Fq '"post_merge_ci_failure_triggers_automatic_rollback": false' manifests/kuuos_expected_head_merge_closure_v7_31.json
+          grep -Fq '"receipt_is_successor_authority": false' manifests/kuuos_expected_head_merge_closure_v7_31.json
+
+      - name: Confirm Strict Lean is not invoked
+        run: |
+          echo "Runtime-only merge-closure validation: Strict Lean intentionally not invoked."

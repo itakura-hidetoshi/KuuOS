@@ -1,0 +1,68 @@
+{
+  "version": "kuuos_expected_head_merge_closure_manifest_v7_31",
+  "purpose": "Close the repository-development lineage only after a v7.30 merge candidate receives independently supplied exact merge authority, traverses the existing expected-head GitHub MCP merge path, and is freshly re-observed on merged main with post-merge CI.",
+  "predecessors": [
+    "KuuOS Remote CI Merge Candidacy v7.30",
+    "KuuOS GitHub MCP Server Bridge v0.2",
+    "KuuOS GitHub CI Completion Reentry v1.1"
+  ],
+  "authority_contract": {
+    "version": "kuuos_expected_head_merge_authority_v7_31",
+    "status": "KUUOS_EXPECTED_HEAD_MERGE_AUTHORITY_READY",
+    "must_bind": [
+      "source merge-candidate packet digest",
+      "repository_full_name",
+      "pull_request_number",
+      "expected_head_sha",
+      "expected_base_sha",
+      "merge_method",
+      "authority_scope_digest"
+    ],
+    "missing_authority_rejects_candidate": false,
+    "mismatched_authority_is_binding_obstruction": true,
+    "ci_may_grant_merge_authority": false,
+    "merge_candidacy_may_grant_merge_authority": false
+  },
+  "merge_execution": {
+    "existing_bridge": "KuuOS GitHub MCP Server Bridge v0.2",
+    "operation_kind": "exact_git_action",
+    "delegated_action_kind": "merge_pr",
+    "expected_head_sha_required": true,
+    "expected_base_sha_required_before_delegation": true,
+    "direct_unbounded_mcp_merge_used": false
+  },
+  "post_merge_contract": {
+    "fresh_main_head_observation_required": true,
+    "fresh_merged_pr_observation_required": true,
+    "main_head_must_equal_merge_commit_before_closure": true,
+    "pr_merge_commit_must_equal_merge_commit_before_closure": true,
+    "fresh_mcp_post_merge_ci_reobservation_required": true,
+    "required_post_merge_ci_must_all_bind_merge_commit": true,
+    "required_post_merge_ci_must_all_succeed_before_closure": true,
+    "post_merge_ci_failure_triggers_automatic_rollback": false,
+    "main_advancing_after_merge_erases_merge_fact": false
+  },
+  "states": [
+    "merge_authority_required",
+    "merge_authority_binding_obstruction",
+    "pre_merge_revision_reconciliation_required",
+    "expected_head_merge_receipt_required",
+    "expected_head_merge_not_applied_reobservation_required",
+    "expected_head_merge_receipt_obstruction",
+    "post_merge_main_pr_reobservation_required",
+    "post_merge_main_advanced_reconciliation_required",
+    "post_merge_ci_reobservation_required",
+    "post_merge_ci_non_success_followup_required",
+    "post_merge_ci_binding_obstruction",
+    "development_lineage_closed"
+  ],
+  "noncollapse_boundaries": {
+    "merge_candidate_is_merge_authority": false,
+    "ci_success_is_merge_authority": false,
+    "merge_success_is_post_merge_ci_success": false,
+    "post_merge_ci_failure_is_automatic_rollback": false,
+    "receipt_is_successor_authority": false,
+    "source_authority_transferred": false
+  },
+  "next": "Use the closed lineage as a durable development completion witness while keeping future repository changes as new lineages rather than mutating the completed history."
+}
