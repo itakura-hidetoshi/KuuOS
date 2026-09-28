@@ -60,9 +60,9 @@ noncomputable instance ExactUniversalRawObject.bicategory :
     ExactUniversalRawMorphism.comp (W := W) A f g
   homCategory X Y :=
     ExactUniversalRawMorphism.homCategory (W := W) A X Y
-  whiskerLeft f _ _ eta :=
+  whiskerLeft {_ _ _} f {_ _} eta :=
     ExactUniversalRawMorphismTwoCell.whiskerLeft (W := W) A f eta
-  whiskerRight _ _ eta h :=
+  whiskerRight {_ _ _} {_ _} eta h :=
     ExactUniversalRawMorphismTwoCell.whiskerRight (W := W) A eta h
   associator f g h :=
     ExactUniversalRawMorphismTwoCell.associatorIso (W := W) A f g h
