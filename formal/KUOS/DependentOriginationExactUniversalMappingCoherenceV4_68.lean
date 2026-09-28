@@ -59,26 +59,32 @@ theorem ExactUniversalRawMorphismTwoCell.pentagon
     (g : ExactUniversalRawMorphism (W := W) A X Y)
     (h : ExactUniversalRawMorphism (W := W) A Y Z)
     (i : ExactUniversalRawMorphism (W := W) A Z T) :
-    ExactUniversalRawMorphismTwoCell.whiskerRight
+    ExactUniversalRawMorphismTwoCell.vcomp
+      (W := W) A
+      (ExactUniversalRawMorphismTwoCell.vcomp
         (W := W) A
+        (ExactUniversalRawMorphismTwoCell.whiskerRight
+          (W := W) A
+          (ExactUniversalRawMorphismTwoCell.associator
+            (W := W) A f g h)
+          i)
         (ExactUniversalRawMorphismTwoCell.associator
-          (W := W) A f g h)
-        i ≫
-      ExactUniversalRawMorphismTwoCell.associator
-        (W := W) A f
-        (ExactUniversalRawMorphism.comp (W := W) A g h)
-        i ≫
-      ExactUniversalRawMorphismTwoCell.whiskerLeft
+          (W := W) A f
+          (ExactUniversalRawMorphism.comp (W := W) A g h)
+          i))
+      (ExactUniversalRawMorphismTwoCell.whiskerLeft
         (W := W) A f
         (ExactUniversalRawMorphismTwoCell.associator
-          (W := W) A g h i) =
-    ExactUniversalRawMorphismTwoCell.associator
+          (W := W) A g h i)) =
+    ExactUniversalRawMorphismTwoCell.vcomp
+      (W := W) A
+      (ExactUniversalRawMorphismTwoCell.associator
         (W := W) A
         (ExactUniversalRawMorphism.comp (W := W) A f g)
-        h i ≫
-      ExactUniversalRawMorphismTwoCell.associator
+        h i)
+      (ExactUniversalRawMorphismTwoCell.associator
         (W := W) A f g
-        (ExactUniversalRawMorphism.comp (W := W) A h i) := by
+        (ExactUniversalRawMorphism.comp (W := W) A h i)) := by
   apply ExactUniversalRawMorphismTwoCell.ext
   · simpa only [
       ExactUniversalRawMorphismTwoCell.vcomp_raw,
@@ -104,14 +110,16 @@ theorem ExactUniversalRawMorphismTwoCell.triangle
     {X Y Z : ExactUniversalRawObject (W := W) A}
     (f : ExactUniversalRawMorphism (W := W) A X Y)
     (g : ExactUniversalRawMorphism (W := W) A Y Z) :
-    ExactUniversalRawMorphismTwoCell.associator
+    ExactUniversalRawMorphismTwoCell.vcomp
+      (W := W) A
+      (ExactUniversalRawMorphismTwoCell.associator
         (W := W) A f
         (ExactUniversalRawMorphism.id (W := W) A Y)
-        g ≫
-      ExactUniversalRawMorphismTwoCell.whiskerLeft
+        g)
+      (ExactUniversalRawMorphismTwoCell.whiskerLeft
         (W := W) A f
         (ExactUniversalRawMorphismTwoCell.leftUnitor
-          (W := W) A g) =
+          (W := W) A g)) =
     ExactUniversalRawMorphismTwoCell.whiskerRight
       (W := W) A
       (ExactUniversalRawMorphismTwoCell.rightUnitor
