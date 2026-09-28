@@ -92,14 +92,14 @@ theorem ExactUniversalRawMorphismTwoCell.pentagon
       ExactUniversalRawMorphismTwoCell.whiskerLeft_raw,
       ExactUniversalRawMorphismTwoCell.associator_raw,
       ExactUniversalRawMorphism.comp_raw
-    ] using
+    ] using!
       (Bicategory.pentagon f.raw g.raw h.raw i.raw)
   · simpa only [
       ExactUniversalRawMorphismTwoCell.vcomp_lift,
       ExactUniversalRawMorphismTwoCell.whiskerRight_lift,
       ExactUniversalRawMorphismTwoCell.whiskerLeft_lift,
       ExactUniversalRawMorphism.comp_lift
-    ] using
+    ] using!
       (Bicategory.pentagon f.lift g.lift h.lift i.lift)
 
 /-- The exact universal mapping source satisfies the bicategory triangle law.
@@ -134,14 +134,14 @@ theorem ExactUniversalRawMorphismTwoCell.triangle
       ExactUniversalRawMorphismTwoCell.whiskerRight_raw,
       ExactUniversalRawMorphismTwoCell.rightUnitor_raw,
       ExactUniversalRawMorphism.id_raw
-    ] using
+    ] using!
       (Bicategory.triangle f.raw g.raw)
   · simpa only [
       ExactUniversalRawMorphismTwoCell.vcomp_lift,
       ExactUniversalRawMorphismTwoCell.whiskerLeft_lift,
       ExactUniversalRawMorphismTwoCell.whiskerRight_lift,
       ExactUniversalRawMorphism.id_lift
-    ] using
+    ] using!
       (Bicategory.triangle f.lift g.lift)
 
 /-!
