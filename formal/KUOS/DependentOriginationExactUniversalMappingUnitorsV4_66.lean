@@ -118,20 +118,6 @@ context object. -/
   rfl
 
 
-/-- Restriction of an identity localized StrongTrans is pointwise the identity.
-
-This is intentionally a component lemma rather than a global StrongTrans
-equality: it is exactly the normalization needed by the unitor comparison
-squares and avoids forcing Lean to compare the full restricted pseudonatural
-structures. -/
-@[simp] theorem restrictHigherLocalizedStrongTrans_id_app
-    {F : HigherLocalizedDescentSystem (W := W)}
-    (X : Context) :
-    (restrictHigherLocalizedStrongTrans (W := W) (𝟙 F)).app
-        (LocallyDiscrete.mk X) =
-      𝟙 ((restrictHigherLocalizedSystem W F).obj (LocallyDiscrete.mk X)) := by
-  rfl
-
 /-- The hom of the v4.57 identity comparison square. -/
 @[simp, reassoc] theorem ExactUniversalRawMorphism.id_comparison_square_hom
     (X : ExactUniversalRawObject (W := W) A) :
@@ -241,7 +227,6 @@ private theorem leftUnitorCompatibility
     Pseudofunctor.StrongTrans.categoryStruct_id_app,
     Pseudofunctor.StrongTrans.comp_app
   ]
-  simp only [restrictHigherLocalizedStrongTrans_id_app]
   exact
     leftUnitorCompositeSquare
       (rf :=
@@ -285,7 +270,6 @@ private theorem rightUnitorCompatibility
     Pseudofunctor.StrongTrans.categoryStruct_id_app,
     Pseudofunctor.StrongTrans.comp_app
   ]
-  simp only [restrictHigherLocalizedStrongTrans_id_app]
   exact
     rightUnitorCompositeSquare
       (rf :=
