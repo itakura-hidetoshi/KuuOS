@@ -1,0 +1,1860 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Boundary-aware governance architecture for relational AI systems">
+      
+      
+        <meta name="author" content="Hidetoshi Itakura">
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>MemoryOS v0.80 — all-root charts and defect-aware free-word transport - KuuOS / 空OS Public Core</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#memoryos-v080-all-root-charts-and-defect-aware-free-word-transport" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="KuuOS / 空OS Public Core" class="md-header__button md-logo" aria-label="KuuOS / 空OS Public Core" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            KuuOS / 空OS Public Core
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              MemoryOS v0.80 — all-root charts and defect-aware free-word transport
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/itakura-hidetoshi/KuuOS" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    itakura-hidetoshi/KuuOS
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="KuuOS / 空OS Public Core" class="md-nav__button md-logo" aria-label="KuuOS / 空OS Public Core" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    KuuOS / 空OS Public Core
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/itakura-hidetoshi/KuuOS" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    itakura-hidetoshi/KuuOS
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Start Here
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Start Here
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PUBLIC_DOCS_INDEX_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Public Docs Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../QUICKSTART_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quickstart
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../EXTERNAL_REVIEW_GUIDE_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    External Review Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../WHY_KUUOS_EXISTS_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Why KuuOS Exists
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Architecture
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ARCHITECTURE_OVERVIEW_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ARCHITECTURE_DIAGRAM_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture Diagram
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../GOVERNANCE_FLOW_OVERVIEW_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Governance Flow Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../GOVERNANCE_DIAGRAM_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Governance Diagram
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../VALIDATOR_GRAPH_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Validator Graph
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Governance
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Governance
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../KUUOS_GOVERNANCE_MANIFESTO_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Governance Manifesto
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../BOUNDARY_AND_NONAUTHORITY_POLICY_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Boundary and Non-Authority Policy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../BOUNDARY_RISK_MODEL_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Boundary Risk Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../CLAIM_LEVEL_TAXONOMY_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Claim Level Taxonomy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../CONTRIBUTOR_REVIEW_WORKFLOW_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributor Review Workflow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Validation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Validation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../VALIDATION_COVERAGE_MATRIX_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Validation Coverage Matrix
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../REPRODUCIBILITY_MATRIX_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reproducibility Matrix
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PUBLIC_AUDIT_CHECKLIST_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Public Audit Checklist
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../VALIDATOR_DEPENDENCY_OVERVIEW_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Validator Dependency Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../LEAN_COVERAGE_MAP_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lean Coverage Map
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Terminology
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Terminology
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../FORMAL_TERMINOLOGY_GLOSSARY_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Formal Terminology Glossary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../TERMINOLOGY_CROSS_REFERENCE_INDEX_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Terminology Cross Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Release
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Release
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PUBLIC_RELEASE_PACKAGE_MANIFEST_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Public Release Package Manifest
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../V0_1_RELEASE_READINESS_CHECKLIST/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v0.1 Release Readiness Checklist
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Core
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../KUOS_CORE_GOVERNANCE_INDEX_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core Governance Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../KUOS_FOURFOLD_CORE_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fourfold Core
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../GOVERNANCE_RELEASE_GATE_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Governance Release Gate
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="memoryos-v080-all-root-charts-and-defect-aware-free-word-transport">MemoryOS v0.80 — all-root charts and defect-aware free-word transport<a class="headerlink" href="#memoryos-v080-all-root-charts-and-defect-aware-free-word-transport" title="Permanent link">&para;</a></h1>
+<h2 id="scope">Scope<a class="headerlink" href="#scope" title="Permanent link">&para;</a></h2>
+<p>MemoryOS v0.80 extends the v0.79 rooted free-group word layer from one distinguished route-0 chart to all four route charts of the finite dual atlas. Each chart retains:</p>
+<ul>
+<li>four exact route-comparison coordinates,</li>
+<li>the target defect localized at the selected root route,</li>
+<li>a five-generator free-group evaluation map,</li>
+<li>exact word transport to every other root chart,</li>
+<li>gauge-covariant representatives and class-function invariants.</li>
+</ul>
+<p>The layer remains finite, exact, future-only, read-only, and advisory. It does not rank, prune, select, commit, activate, execute, mutate, verify, or grant truth authority.</p>
+<p>The implementation does not claim a universal character-variety classification, a universally separating Wilson-word family, a continuum gauge groupoid theorem, or physical gauge-field inference.</p>
+<h2 id="source-binding">Source binding<a class="headerlink" href="#source-binding" title="Permanent link">&para;</a></h2>
+<p>The runtime validates the accepted MemoryOS v0.79 certificate before deriving v0.80. It binds:</p>
+<ul>
+<li>the complete v0.79 certificate digest,</li>
+<li>every v0.79 collection digest and record count,</li>
+<li>all source true and false authority flags,</li>
+<li>the four canonical profile order,</li>
+<li>the v0.79 mixed-word signatures,</li>
+<li>the canonical ordered-AB / ordered-BA separator values,</li>
+<li>exact source confidence values,</li>
+<li>candidate, history, probe, review, dissent, and minority-retention sets.</li>
+</ul>
+<p>Any source digest edit, source collection edit, mixed-signature edit, separator edit, confidence edit, retention edit, or authority-boundary reversal is rejected fail-closed.</p>
+<h2 id="four-route-labels">Four route labels<a class="headerlink" href="#four-route-labels" title="Permanent link">&para;</a></h2>
+<p>Lean introduces the finite route type</p>
+<p>[
+\mathcal R={0,1,2,3}.
+]</p>
+<p>For a four-route atlas with path transports (P_i), <code>routePath</code> selects the exact path attached to route (i).</p>
+<p>Every path obeys the same endpoint-covariant transformation law:</p>
+<p>[
+P_i\longmapsto g_0^{-1}P_i g_5.
+]</p>
+<p>Lean theorem:</p>
+<ul>
+<li><code>route_path_gauge_covariant</code>.</li>
+</ul>
+<h2 id="root-charts">Root charts<a class="headerlink" href="#root-charts" title="Permanent link">&para;</a></h2>
+<p>The chart based at route (i) is</p>
+<p>[
+\mathcal C_i=(C_{i0},C_{i1},C_{i2},C_{i3},D_i),
+]</p>
+<p>where</p>
+<p>[
+C_{ij}=P_iP_j^{-1},
+\qquad
+D_i=P_iD_{\mathrm{target}}P_i^{-1}.
+]</p>
+<p>Lean definitions:</p>
+<ul>
+<li><code>RouteLabel</code>,</li>
+<li><code>RootChart</code>,</li>
+<li><code>atlasRootChart</code>,</li>
+<li><code>RootChart.NormalizedAt</code>.</li>
+</ul>
+<p>Every chart is normalized at its own root:</p>
+<p>[
+C_{ii}=1.
+]</p>
+<p>Lean theorem:</p>
+<ul>
+<li><code>atlas_root_chart_normalized</code>.</li>
+</ul>
+<h2 id="defect-aware-root-transition">Defect-aware root transition<a class="headerlink" href="#defect-aware-root-transition" title="Permanent link">&para;</a></h2>
+<p>Given a chart (\mathcal C_i=(C_{ik},D_i)), rebasing to route (j) is</p>
+<p>[
+C'<em>{jk}=C</em>{ij}^{-1}C_{ik},
+]</p>
+<p>and the root-localized defect changes by</p>
+<p>[
+D_j=C_{ij}^{-1}D_iC_{ij}.
+]</p>
+<p>This corrects the purely coordinate-only viewpoint: the defect generator is not held fixed when the geometric root route changes.</p>
+<p>Lean definition:</p>
+<ul>
+<li><code>rebaseRootChart</code>.</li>
+</ul>
+<p>Lean theorems:</p>
+<ul>
+<li><code>atlas_root_chart_rebase_exact</code>,</li>
+<li><code>atlas_root_defect_transition</code>.</li>
+</ul>
+<h2 id="transition-composition-and-round-trip">Transition composition and round trip<a class="headerlink" href="#transition-composition-and-round-trip" title="Permanent link">&para;</a></h2>
+<p>For any intermediate root (j) and target root (k),</p>
+<p>[
+T_k(T_j(\mathcal C))=T_k(\mathcal C).
+]</p>
+<p>Thus the direct target chart and the chart obtained through any intermediate root are exactly equal, including the defect field.</p>
+<p>For a chart normalized at route (i),</p>
+<p>[
+T_i(\mathcal C)=\mathcal C,
+]</p>
+<p>and therefore</p>
+<p>[
+T_i(T_j(\mathcal C))=\mathcal C.
+]</p>
+<p>Lean theorems:</p>
+<ul>
+<li><code>rebase_root_chart_composition</code>,</li>
+<li><code>rebase_root_chart_self_of_normalized</code>,</li>
+<li><code>rebase_root_chart_round_trip</code>.</li>
+</ul>
+<h2 id="gauge-covariance-of-the-full-chart">Gauge covariance of the full chart<a class="headerlink" href="#gauge-covariance-of-the-full-chart" title="Permanent link">&para;</a></h2>
+<p>Simultaneous conjugation by the common root frame is</p>
+<p>[
+C_{ij}\mapsto g_0^{-1}C_{ij}g_0,
+\qquad
+D_i\mapsto g_0^{-1}D_ig_0.
+]</p>
+<p>Root transition commutes with this conjugation:</p>
+<p>[
+T_j(g_0^{-1}\mathcal Cg_0)
+=
+g_0^{-1}T_j(\mathcal C)g_0.
+]</p>
+<p>Lean definitions and theorems:</p>
+<ul>
+<li><code>conjugateRootChart</code>,</li>
+<li><code>rebase_root_chart_conjugation_covariant</code>,</li>
+<li><code>atlas_root_chart_gauge_covariant</code>.</li>
+</ul>
+<h2 id="five-generator-free-group">Five-generator free group<a class="headerlink" href="#five-generator-free-group" title="Permanent link">&para;</a></h2>
+<p>Each root chart assigns five generators:</p>
+<p>[
+X_0=C_{i0},\quad
+X_1=C_{i1},\quad
+X_2=C_{i2},\quad
+X_3=C_{i3},\quad
+D=D_i.
+]</p>
+<p>Lean defines the universal homomorphism</p>
+<p>[
+\operatorname{ev}_{\mathcal C_i}:
+F(X_0,X_1,X_2,X_3,D)\longrightarrow G.
+]</p>
+<p>Lean definitions:</p>
+<ul>
+<li><code>RootChartWordGenerator</code>,</li>
+<li><code>rootChartWordAssignment</code>,</li>
+<li><code>evalRootChartWord</code>.</li>
+</ul>
+<p>Lean theorem:</p>
+<ul>
+<li><code>eval_root_chart_word_generator</code>.</li>
+</ul>
+<h2 id="defect-aware-word-transition">Defect-aware word transition<a class="headerlink" href="#defect-aware-word-transition" title="Permanent link">&para;</a></h2>
+<p>Transition to target root (j) substitutes</p>
+<p>[
+X_k\longmapsto X_j^{-1}X_k,
+]</p>
+<p>for every route generator, and</p>
+<p>[
+D\longmapsto X_j^{-1}DX_j.
+]</p>
+<p>The substitution extends uniquely to a free-group homomorphism (N_j).</p>
+<p>Lean definitions:</p>
+<ul>
+<li><code>rootTransitionGenerator</code>,</li>
+<li><code>rootTransitionHom</code>.</li>
+</ul>
+<p>Lean theorem:</p>
+<ul>
+<li><code>root_transition_hom_generator</code>.</li>
+</ul>
+<h2 id="absorption-law">Absorption law<a class="headerlink" href="#absorption-law" title="Permanent link">&para;</a></h2>
+<p>For every pair of roots (i,j),</p>
+<p>[
+N_i\circ N_j=N_j.
+]</p>
+<p>This is proved on the complete free group by extensionality on the five generators. The defect case uses the full conjugating substitution.</p>
+<p>Lean theorems:</p>
+<ul>
+<li><code>root_transition_hom_absorbing</code>,</li>
+<li><code>root_transition_word_absorbing</code>.</li>
+</ul>
+<h2 id="evaluation-compatibility">Evaluation compatibility<a class="headerlink" href="#evaluation-compatibility" title="Permanent link">&para;</a></h2>
+<p>For every chart, target root, and free-group word (w),</p>
+<p>[
+\boxed{
+\operatorname{ev}<em>{\mathcal C}(N_jw)
+=
+\operatorname{ev}</em>{T_j(\mathcal C)}(w).
+}
+]</p>
+<p>Evaluation through an intermediate root is therefore identical to direct target-root evaluation:</p>
+<p>[
+\operatorname{ev}<em>{T_i(\mathcal C)}(N_jw)
+=
+\operatorname{ev}</em>{T_j(\mathcal C)}(w).
+]</p>
+<p>Lean theorems:</p>
+<ul>
+<li><code>root_transition_evaluation_compatibility</code>,</li>
+<li><code>root_transition_evaluation_via_intermediate</code>.</li>
+</ul>
+<p>The runtime checks this relation for ten retained words, four source roots, four target roots, and four canonical profiles, producing 640 exact compatibility records.</p>
+<h2 id="arbitrary-word-gauge-covariance">Arbitrary-word gauge covariance<a class="headerlink" href="#arbitrary-word-gauge-covariance" title="Permanent link">&para;</a></h2>
+<p>For every root-chart word (w),</p>
+<p>[
+\operatorname{ev}<em>{g^{-1}\mathcal Cg}(w)
+=
+g^{-1}\operatorname{ev}</em>{\mathcal C}(w)g.
+]</p>
+<p>Hence every class-function Wilson observable</p>
+<p>[
+W_{\chi,w}(\mathcal C)
+=
+\chi(\operatorname{ev}_{\mathcal C}(w))
+]</p>
+<p>is gauge invariant.</p>
+<p>Lean definitions and theorems:</p>
+<ul>
+<li><code>rootChartWordWilson</code>,</li>
+<li><code>root_chart_word_evaluation_conjugation_covariant</code>,</li>
+<li><code>root_chart_word_wilson_gauge_invariant</code>.</li>
+</ul>
+<h2 id="root-independent-transported-comparison">Root-independent transported comparison<a class="headerlink" href="#root-independent-transported-comparison" title="Permanent link">&para;</a></h2>
+<p>For actual atlas charts,</p>
+<p>[
+\operatorname{ev}<em>{\mathcal C_i}(N_jw)
+=
+\operatorname{ev}</em>{\mathcal C_j}(w).
+]</p>
+<p>The same equality holds after applying any class function. A reference word may therefore be evaluated from any available source root chart after exact transport, without privileging that source root as an authority.</p>
+<p>Lean theorems:</p>
+<ul>
+<li><code>transported_atlas_root_word_exact</code>,</li>
+<li><code>transported_atlas_root_word_wilson_exact</code>.</li>
+</ul>
+<h2 id="canonical-mixed-separator-across-all-roots">Canonical mixed separator across all roots<a class="headerlink" href="#canonical-mixed-separator-across-all-roots" title="Permanent link">&para;</a></h2>
+<p>The v0.79 separator is represented in the route-0 chart by</p>
+<p>[
+M=X_3D.
+]</p>
+<p>v0.80 proves that its transported version gives the same exact values from every source root chart.</p>
+<p>For ordered AB:</p>
+<p>[
+W_{\mathrm{perm},N_0M}(\mathcal C_i^{AB})=3
+]</p>
+<p>for every (i\in\mathcal R).</p>
+<p>For ordered BA:</p>
+<p>[
+W_{\mathrm{perm},N_0M}(\mathcal C_i^{BA})=0
+]</p>
+<p>for every (i\in\mathcal R).</p>
+<p>Therefore</p>
+<p>[
+\boxed{
+W_{\mathrm{perm},N_0M}(\mathcal C_i^{AB})
+\ne
+W_{\mathrm{perm},N_0M}(\mathcal C_i^{BA})
+}
+]</p>
+<p>for all source roots.</p>
+<p>Lean definitions and theorems:</p>
+<ul>
+<li><code>routeDefectWord</code>,</li>
+<li><code>eval_route_defect_word</code>,</li>
+<li><code>route0_chart_cycle03_defect_matches_v079</code>,</li>
+<li><code>canonical_ordered_ab_all_root_mixed_wilson</code>,</li>
+<li><code>canonical_ordered_ba_all_root_mixed_wilson</code>,</li>
+<li><code>canonical_all_root_mixed_wilson_separates</code>.</li>
+</ul>
+<p>This is a finite exact canonical result. It does not assert universal separation of arbitrary representations.</p>
+<h2 id="canonical-all-root-mixed-trace-rows">Canonical all-root mixed-trace rows<a class="headerlink" href="#canonical-all-root-mixed-trace-rows" title="Permanent link">&para;</a></h2>
+<p>Each row is ordered as</p>
+<p>[
+(\chi(X_0D),\chi(X_1D),\chi(X_2D),\chi(X_3D)).
+]</p>
+<h3 id="flat-profile">Flat profile<a class="headerlink" href="#flat-profile" title="Permanent link">&para;</a></h3>
+<p>All four root rows are</p>
+<p>[
+(0,0,0,0).
+]</p>
+<h3 id="single-support-profile">Single-support profile<a class="headerlink" href="#single-support-profile" title="Permanent link">&para;</a></h3>
+<ul>
+<li>route 0: ((0,1,0,0)),</li>
+<li>route 1: ((1,0,1,1)),</li>
+<li>route 2: ((0,1,0,0)),</li>
+<li>route 3: ((0,1,0,0)).</li>
+</ul>
+<h3 id="ordered-ab-profile">Ordered AB profile<a class="headerlink" href="#ordered-ab-profile" title="Permanent link">&para;</a></h3>
+<ul>
+<li>route 0: ((0,1,1,3)),</li>
+<li>route 1: ((1,0,3,1)),</li>
+<li>route 2: ((1,0,0,1)),</li>
+<li>route 3: ((0,1,1,0)).</li>
+</ul>
+<h3 id="ordered-ba-profile">Ordered BA profile<a class="headerlink" href="#ordered-ba-profile" title="Permanent link">&para;</a></h3>
+<ul>
+<li>route 0: ((0,1,1,0)),</li>
+<li>route 1: ((1,0,0,1)),</li>
+<li>route 2: ((1,3,0,1)),</li>
+<li>route 3: ((3,1,1,0)).</li>
+</ul>
+<p>These rows are chart-dependent exact representatives. The transported reference separator is the root-independent comparison object.</p>
+<h2 id="confidence-policy">Confidence policy<a class="headerlink" href="#confidence-policy" title="Permanent link">&para;</a></h2>
+<p>v0.80 introduces no new confidence penalty:</p>
+<p>[
+P_{\mathrm{chart}}=0.
+]</p>
+<p>For every canonical profile,</p>
+<p>[
+C_{v0.80}=C_{v0.79}.
+]</p>
+<p>The retained exact values are:</p>
+<ul>
+<li>flat: (1/3),</li>
+<li>single-support: (5/18),</li>
+<li>ordered AB: (11/54),</li>
+<li>ordered BA: (11/54).</li>
+</ul>
+<p>The chart and word-transport data are diagnostic and review-oriented. They are not posterior probabilities, decision rules, ranking scores, physical actions, universal optima, or truth authorities.</p>
+<h2 id="exact-runtime-ledger">Exact runtime ledger<a class="headerlink" href="#exact-runtime-ledger" title="Permanent link">&para;</a></h2>
+<p>The certificate contains:</p>
+<ul>
+<li>6 inherited literature records,</li>
+<li>4 route-label records,</li>
+<li>16 all-root chart records,</li>
+<li>64 root-coordinate records,</li>
+<li>16 root-defect records,</li>
+<li>64 direct chart-transition records,</li>
+<li>256 transition-composition records,</li>
+<li>5 free-group generator records,</li>
+<li>10 canonical word records,</li>
+<li>20 generator-substitution records,</li>
+<li>16 transition-absorption records,</li>
+<li>640 transition/evaluation compatibility records,</li>
+<li>160 word gauge-covariance records,</li>
+<li>4 transported separator records,</li>
+<li>4 source-confidence preservation records,</li>
+<li>4 memory-fusion records,</li>
+<li>8 full-rank transport records,</li>
+<li>4 singular atomic records,</li>
+<li>3 rank-one source boundaries.</li>
+</ul>
+<p>All group values are exact permutation triples. All confidence values are exact rationals. All words are explicit signed-generator lists with deterministic free reduction.</p>
+<h2 id="fail-closed-checks">Fail-closed checks<a class="headerlink" href="#fail-closed-checks" title="Permanent link">&para;</a></h2>
+<p>The checker rejects:</p>
+<ul>
+<li>edited v0.79 source certificates,</li>
+<li>source schema, digest, collection, or count changes,</li>
+<li>source mixed-signature or separator changes,</li>
+<li>root-coordinate edits,</li>
+<li>root-defect transition edits,</li>
+<li>chart-composition edits,</li>
+<li>generator-substitution edits,</li>
+<li>absorption-law edits,</li>
+<li>word/evaluation compatibility edits,</li>
+<li>gauge-covariance edits,</li>
+<li>transported separator edits,</li>
+<li>confidence edits,</li>
+<li>authority-boundary reversals,</li>
+<li>unexpected truth claims,</li>
+<li>collection digest or record-count mismatches.</li>
+</ul>
+<h2 id="retention-behavior">Retention behavior<a class="headerlink" href="#retention-behavior" title="Permanent link">&para;</a></h2>
+<p>All v0.79 decision candidates, histories, quotient-coordinate probes, review sets, dissent records, and minority-protection records are retained.</p>
+<p>For full-rank transport records, v0.80 records that all-root chart construction, defect-aware word transition, and root-independent Wilson comparison commute with the existing transport layer.</p>
+<p>For singular atomic records, v0.80 retains atomic chart and defect-word signatures without emitting a two-dimensional target density or reconstructing a lost coordinate.</p>
+<h2 id="authority-boundary">Authority boundary<a class="headerlink" href="#authority-boundary" title="Permanent link">&para;</a></h2>
+<p>MemoryOS v0.80 remains:</p>
+<ul>
+<li>future-only,</li>
+<li>read-only,</li>
+<li>advisory,</li>
+<li>non-ranking,</li>
+<li>non-pruning,</li>
+<li>non-selecting,</li>
+<li>non-committing,</li>
+<li>non-activating,</li>
+<li>non-executing,</li>
+<li>non-mutating,</li>
+<li>non-verifying,</li>
+<li>non-truth-authoritative.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.expand", "navigation.top", "toc.integrate"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

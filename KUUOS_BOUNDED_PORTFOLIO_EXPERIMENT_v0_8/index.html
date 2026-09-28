@@ -1,0 +1,1782 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Boundary-aware governance architecture for relational AI systems">
+      
+      
+        <meta name="author" content="Hidetoshi Itakura">
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>KuuOS Bounded Portfolio Experiment Scheduler v0.8 - KuuOS / 空OS Public Core</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#kuuos-bounded-portfolio-experiment-scheduler-v08" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="KuuOS / 空OS Public Core" class="md-header__button md-logo" aria-label="KuuOS / 空OS Public Core" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            KuuOS / 空OS Public Core
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              KuuOS Bounded Portfolio Experiment Scheduler v0.8
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/itakura-hidetoshi/KuuOS" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    itakura-hidetoshi/KuuOS
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="KuuOS / 空OS Public Core" class="md-nav__button md-logo" aria-label="KuuOS / 空OS Public Core" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    KuuOS / 空OS Public Core
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/itakura-hidetoshi/KuuOS" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    itakura-hidetoshi/KuuOS
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Start Here
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Start Here
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PUBLIC_DOCS_INDEX_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Public Docs Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../QUICKSTART_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quickstart
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../EXTERNAL_REVIEW_GUIDE_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    External Review Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../WHY_KUUOS_EXISTS_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Why KuuOS Exists
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Architecture
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ARCHITECTURE_OVERVIEW_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ARCHITECTURE_DIAGRAM_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture Diagram
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../GOVERNANCE_FLOW_OVERVIEW_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Governance Flow Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../GOVERNANCE_DIAGRAM_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Governance Diagram
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../VALIDATOR_GRAPH_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Validator Graph
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Governance
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Governance
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../KUUOS_GOVERNANCE_MANIFESTO_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Governance Manifesto
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../BOUNDARY_AND_NONAUTHORITY_POLICY_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Boundary and Non-Authority Policy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../BOUNDARY_RISK_MODEL_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Boundary Risk Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../CLAIM_LEVEL_TAXONOMY_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Claim Level Taxonomy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../CONTRIBUTOR_REVIEW_WORKFLOW_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributor Review Workflow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Validation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Validation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../VALIDATION_COVERAGE_MATRIX_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Validation Coverage Matrix
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../REPRODUCIBILITY_MATRIX_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reproducibility Matrix
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PUBLIC_AUDIT_CHECKLIST_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Public Audit Checklist
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../VALIDATOR_DEPENDENCY_OVERVIEW_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Validator Dependency Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../LEAN_COVERAGE_MAP_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lean Coverage Map
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Terminology
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Terminology
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../FORMAL_TERMINOLOGY_GLOSSARY_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Formal Terminology Glossary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../TERMINOLOGY_CROSS_REFERENCE_INDEX_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Terminology Cross Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Release
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Release
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PUBLIC_RELEASE_PACKAGE_MANIFEST_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Public Release Package Manifest
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../V0_1_RELEASE_READINESS_CHECKLIST/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v0.1 Release Readiness Checklist
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Core
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../KUOS_CORE_GOVERNANCE_INDEX_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core Governance Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../KUOS_FOURFOLD_CORE_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fourfold Core
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../GOVERNANCE_RELEASE_GATE_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Governance Release Gate
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="kuuos-bounded-portfolio-experiment-scheduler-v08">KuuOS Bounded Portfolio Experiment Scheduler v0.8<a class="headerlink" href="#kuuos-bounded-portfolio-experiment-scheduler-v08" title="Permanent link">&para;</a></h1>
+<h2 id="purpose">Purpose<a class="headerlink" href="#purpose" title="Permanent link">&para;</a></h2>
+<p>v0.8 adds licensed live experimentation above Adapter Portfolio and Shadow Comparison
+v0.7. It converts unresolved portfolio uncertainty into at most one bounded live trial.</p>
+<div class="highlight"><pre><span></span><code>v0.6 capability field
+  + v0.7 portfolio/shadow evidence
+  -&gt; baseline adapter
+  -&gt; expected information gain for non-baseline candidates
+  -&gt; finite license, budget, risk, recoverability, cooldown, count gates
+  -&gt; one live adapter
+  -&gt; one actual effect
+  -&gt; capability update + compatible shadow resolution + experiment record
+</code></pre></div>
+<p>The layer does not make every uncertain adapter live. It allows one candidate to replace
+the baseline only when the expected epistemic benefit justifies a licensed, recoverable,
+resource-bounded trial.</p>
+<h2 id="upstream-stack">Upstream stack<a class="headerlink" href="#upstream-stack" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>v0.1  Open-Horizon Telos Genesis
+v0.2  Open-Horizon Commitment Gauge
+v0.3  Active Gauge Intervention Loop
+v0.4  Renewable Gauge Supervisor
+v0.5  Event Source and Adapter Federation
+v0.6  Adapter Capability Gauge
+v0.7  Adapter Portfolio and Shadow Comparison
+v0.8  Bounded Portfolio Experiment Scheduler
+</code></pre></div>
+<h2 id="isolation-from-v07">Isolation from v0.7<a class="headerlink" href="#isolation-from-v07" title="Permanent link">&para;</a></h2>
+<p>The existing v0.7 portfolio bundle is a read-only seed.</p>
+<div class="highlight"><pre><span></span><code>kuuos_adapter_portfolio_bundle_v0_7.json
+  -&gt; exact seed digest
+  -&gt; copied into v0.8 working portfolio
+  -&gt; never mutated by v0.8
+</code></pre></div>
+<p>v0.8 then advances an isolated working portfolio inside:</p>
+<div class="highlight"><pre><span></span><code>kuuos_bounded_portfolio_experiment_bundle_v0_8.json
+</code></pre></div>
+<p>This prevents a trial scheduler from silently changing the semantics of the frozen
+v0.7 runtime. An upstream v0.7 bundle change after v0.8 activation requires a new
+v0.8 seed and an explicitly rebound plan.</p>
+<h2 id="baseline-selection">Baseline selection<a class="headerlink" href="#baseline-selection" title="Permanent link">&para;</a></h2>
+<p>v0.8 first computes the ordinary v0.7 selection from:</p>
+<ul>
+<li>context-local v0.6 capability sections;</li>
+<li>bounded v0.6 exploration bonus;</li>
+<li>v0.6 curvature penalty;</li>
+<li>resolved v0.7 portfolio bias;</li>
+<li>v0.7 reliability.</li>
+</ul>
+<p>That result is preserved as <code>baseline_adapter_id</code> even when an experiment is selected.</p>
+<h2 id="expected-information-gain">Expected information gain<a class="headerlink" href="#expected-information-gain" title="Permanent link">&para;</a></h2>
+<p>Every non-baseline candidate is evaluated by:</p>
+<div class="highlight"><pre><span></span><code>observation_uncertainty = 1 / sqrt(observation_count + 1)
+prediction_uncertainty  = 1 - portfolio_reliability
+combined_uncertainty    = mean(observation_uncertainty,
+                               prediction_uncertainty)
+
+unresolved_shadow_signal =
+  clamp(pending_shadow_count / max(1, resolved_shadow_count + 1))
+
+trial_novelty = 1 / sqrt(prior_trial_count + 1)
+
+baseline_score_gap =
+  max(0, baseline_adjusted_score - candidate_adjusted_score)
+</code></pre></div>
+<p>The estimated gain is:</p>
+<div class="highlight"><pre><span></span><code>expected_information_gain = clamp(
+    uncertainty_weight       * combined_uncertainty
+  + unresolved_shadow_weight * unresolved_shadow_signal
+  + trial_novelty_weight     * trial_novelty
+  - opportunity_cost_weight  * baseline_score_gap
+)
+</code></pre></div>
+<p>The score is an experiment-ranking estimate, not truth, proof, or execution authority.</p>
+<h2 id="trial-eligibility">Trial eligibility<a class="headerlink" href="#trial-eligibility" title="Permanent link">&para;</a></h2>
+<p>A candidate may replace the baseline only when every condition is satisfied:</p>
+<div class="highlight"><pre><span></span><code>expected_information_gain &gt;= minimum_information_gain
+trial_cost                 &lt;= maximum_trial_cost
+trial_cost                 &lt;= remaining_trial_budget
+trial_risk                 &lt;= maximum_trial_risk
+trial_recoverability       &gt;= minimum_trial_recoverability
+global_trial_count         &lt;  max_live_trials_total
+adapter_context_trial_count &lt; max_live_trials_per_adapter_context
+cooldown expired
+adapter external network effect boundary remains false
+exact licensed_live_trial_allowed is true
+</code></pre></div>
+<p>If no candidate satisfies the full conjunction, v0.8 executes the baseline adapter.
+There is no ambiguous partial permission state.</p>
+<h2 id="singular-live-execution">Singular live execution<a class="headerlink" href="#singular-live-execution" title="Permanent link">&para;</a></h2>
+<p>Both decision modes preserve the same execution shape.</p>
+<div class="highlight"><pre><span></span><code>licensed_experiment
+  -&gt; selected non-baseline adapter is the one live adapter
+  -&gt; one v0.6 capability cycle
+
+exploit_baseline
+  -&gt; v0.7 baseline adapter is the one live adapter
+  -&gt; one v0.6 capability cycle
+</code></pre></div>
+<p>All other candidates remain non-actuating shadow candidates. A trial is not an
+additional action beside the baseline; it is a licensed replacement for that cycle.</p>
+<h2 id="budget-semantics">Budget semantics<a class="headerlink" href="#budget-semantics" title="Permanent link">&para;</a></h2>
+<p>The experiment budget is persistent and monotone.</p>
+<div class="highlight"><pre><span></span><code>remaining_budget = total_trial_budget - trial_budget_spent
+</code></pre></div>
+<p>A cost is debited only after an exact, validated live-effect receipt exists.</p>
+<div class="highlight"><pre><span></span><code>trial selected but no live effect
+  -&gt; no debit
+
+validated live trial effect
+  -&gt; debit trial_cost exactly once
+
+replay or pending recovery
+  -&gt; no duplicate debit
+
+baseline exploitation
+  -&gt; zero trial debit
+</code></pre></div>
+<p>The bundle stores total spent budget, per-adapter/context trial counts, cumulative
+cost, mean realized trial utility, and the last exact effect digest.</p>
+<h2 id="risk-and-recoverability">Risk and recoverability<a class="headerlink" href="#risk-and-recoverability" title="Permanent link">&para;</a></h2>
+<p>Each adapter may supply:</p>
+<div class="highlight"><pre><span></span><code>experiment_cost
+experiment_risk_prior
+experiment_recoverability_prior
+</code></pre></div>
+<p>Absent values use plan-bound defaults. The plan then applies hard maximum/floor gates.
+These priors do not replace observed effect evidence. They only determine whether a
+candidate may enter one bounded experiment.</p>
+<h2 id="shadow-resolution">Shadow resolution<a class="headerlink" href="#shadow-resolution" title="Permanent link">&para;</a></h2>
+<p>After the live effect, v0.8 reuses the v0.7 epistemic separation:</p>
+<div class="highlight"><pre><span></span><code>actual live effect
+  -&gt; updates v0.6 capability connection
+
+compatible earlier shadow prediction
+  -&gt; same adapter + same context + same covariant step
+  -&gt; realization error
+  -&gt; updates isolated working portfolio bias
+
+step-incompatible earlier shadow prediction
+  -&gt; remains pending
+  -&gt; is not force-fitted to the new live result
+
+new non-live candidates
+  -&gt; new non-actuating shadow projections
+</code></pre></div>
+<p>A trial is therefore useful in two ways:</p>
+<ol>
+<li>it always directly calibrates the chosen adapter's v0.6 capability from the actual
+   live effect;</li>
+<li>when an exact compatible pending prediction exists, it additionally resolves that
+   counterfactual estimate against reality.</li>
+</ol>
+<p>The second outcome is conditional. Gauge progression may move the next cycle to a new
+covariant step, in which case the older prediction remains pending rather than being
+incorrectly treated as comparable evidence.</p>
+<h2 id="experiment-record">Experiment record<a class="headerlink" href="#experiment-record" title="Permanent link">&para;</a></h2>
+<p>Each completed cycle emits a record containing:</p>
+<div class="highlight"><pre><span></span><code>decision mode
+baseline adapter
+live adapter
+experiment adapter, when present
+expected information gain
+trial cost, risk, recoverability
+budget before and after
+observed live utility
+effect outcome
+resolved-shadow flag
+exact live-effect digest
+exact decision digest
+zero shadow execution count
+</code></pre></div>
+<p>Experiment and exploitation cycles are both recorded so that the absence of a trial is
+also auditable.</p>
+<h2 id="recovery-and-replay">Recovery and replay<a class="headerlink" href="#recovery-and-replay" title="Permanent link">&para;</a></h2>
+<p>The v0.8 ledger has pending and committed phases.</p>
+<ol>
+<li>decision and realized-live selection are persisted;</li>
+<li>a pending row binds the previous v0.6 and v0.8 digests;</li>
+<li>one deterministic child run <code>&lt;experiment_run_id&gt;:capability</code> is invoked;</li>
+<li>the exact effect is validated;</li>
+<li>compatible shadow resolution, new projections, working portfolio, and trial record
+   are written;</li>
+<li>budget and counters are committed;</li>
+<li>state, committed ledger row, receipt, and audit are appended.</li>
+</ol>
+<p>Recovery rules:</p>
+<ul>
+<li>committed replay returns without a new action or debit;</li>
+<li>pending recovery reuses the exact persisted decision;</li>
+<li>the v0.6 child replays using the deterministic child run ID;</li>
+<li>processed experiment-effect digests prevent duplicate bundle updates;</li>
+<li>processed live-effect digests prevent duplicate portfolio updates;</li>
+<li>the source v0.7 bundle remains byte-identical.</li>
+</ul>
+<h2 id="outputs">Outputs<a class="headerlink" href="#outputs" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>kuuos_bounded_portfolio_experiment_bundle_v0_8.json
+kuuos_bounded_portfolio_experiment_decision_v0_8.json
+kuuos_bounded_portfolio_experiment_selection_v0_8.json
+kuuos_bounded_portfolio_experiment_shadow_projection_v0_8.json
+kuuos_bounded_portfolio_experiment_shadow_resolution_v0_8.json
+kuuos_bounded_portfolio_trial_record_v0_8.json
+kuuos_bounded_portfolio_experiment_state_v0_8.json
+kuuos_bounded_portfolio_experiment_receipt_v0_8.json
+kuuos_bounded_portfolio_experiment_ledger_v0_8.jsonl
+kuuos_bounded_portfolio_experiment_audit_v0_8.jsonl
+</code></pre></div>
+<h2 id="demonstrated-sequence">Demonstrated sequence<a class="headerlink" href="#demonstrated-sequence" title="Permanent link">&para;</a></h2>
+<p>The integration fixture uses:</p>
+<div class="highlight"><pre><span></span><code>adapter A
+  prior capability 0.82
+  route -&gt; advance_tick
+  normal baseline
+
+adapter B
+  prior capability 0.42
+  route -&gt; advance_tick
+  high uncertainty
+  one pending shadow prediction from the v0.7 seed
+</code></pre></div>
+<p>First, one v0.7 seed cycle executes A and creates a B shadow prediction.</p>
+<p>Then v0.8 runs:</p>
+<div class="highlight"><pre><span></span><code>cycle 1
+  baseline A
+  B selected as licensed experiment
+  B live
+  B capability updated from actual effect
+  prior B shadow resolves only if covariant step is exactly compatible;
+  otherwise it remains pending
+  trial cost 0.2 debited
+
+cycle 2
+  global trial limit reached
+  baseline A executed
+  compatible pending A prediction may resolve;
+  step-incompatible predictions remain pending
+  no new trial debit
+
+cycle 3
+  baseline A executed again
+  no new trial debit
+</code></pre></div>
+<p>Across the three v0.8 cycles:</p>
+<div class="highlight"><pre><span></span><code>experiment cycles       = 1
+baseline exploit cycles = 2
+live effects             = 3
+shadow executions       = 0
+trial budget spent       = 0.2
+</code></pre></div>
+<p>Including the v0.7 seed, the local execution ledger contains four effects and the
+runtime tick reaches four. The test also verifies that each reported
+<code>resolved_shadow_count</code> exactly matches the resolution packet, whether the compatible
+prediction exists or remains pending.</p>
+<h2 id="formal-surface">Formal surface<a class="headerlink" href="#formal-surface" title="Permanent link">&para;</a></h2>
+<p><code>formal/KUOS/OpenHorizon/BoundedPortfolioExperimentV0_8.lean</code> defines:</p>
+<div class="highlight"><pre><span></span><code><span class="n">expectedInformationGain</span>
+<span class="n">eligibleTrial</span>
+<span class="n">ExperimentBudget</span>
+<span class="n">debitBudget</span>
+<span class="n">ExperimentSelection</span>
+<span class="n">ExperimentHistory</span>
+</code></pre></div>
+<p>It proves:</p>
+<ul>
+<li>zero-weight information gain is zero;</li>
+<li>eligibility implies the information-gain floor;</li>
+<li>budget debit is monotone;</li>
+<li>remaining budget decreases exactly by the debit;</li>
+<li>live adapter count is zero or one;</li>
+<li>shadow actuation remains zero;</li>
+<li>experiment and exploit cycles increase history monotonically;</li>
+<li>trial history remains within its finite trial limit.</li>
+</ul>
+<h2 id="authority-boundary">Authority boundary<a class="headerlink" href="#authority-boundary" title="Permanent link">&para;</a></h2>
+<p>v0.8 does not grant:</p>
+<ul>
+<li>multiple simultaneous live adapters;</li>
+<li>unbudgeted experiments;</li>
+<li>experiments without exact license binding;</li>
+<li>experiments beyond trial count or cooldown limits;</li>
+<li>experiments outside risk/recoverability bounds;</li>
+<li>shadow execution;</li>
+<li>network or arbitrary shell authority;</li>
+<li>WORLD update authority;</li>
+<li>MemoryOS overwrite authority;</li>
+<li>truth authority to information-gain estimates;</li>
+<li>permanent replacement of baseline exploitation;</li>
+<li>permission to collapse step-incompatible predictions into false evidence.</li>
+</ul>
+<p>The scheduler expands real learning while retaining singular, recoverable, finite
+intervention.</p>
+<h2 id="next-layer">Next layer<a class="headerlink" href="#next-layer" title="Permanent link">&para;</a></h2>
+<p>A natural v0.9 is an Experiment Outcome and Policy Scheduler:</p>
+<div class="highlight"><pre><span></span><code>trial utility + compatible realization error + cost + risk + recoverability
+  -&gt; experiment policy posterior
+  -&gt; context-local trial cadence
+  -&gt; exploit / experiment / reobserve recommendation
+  -&gt; one licensed live cycle
+</code></pre></div>
+<p>The next layer should learn when experimentation is useful, without learning authority
+to bypass the v0.8 hard gates.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.expand", "navigation.top", "toc.integrate"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

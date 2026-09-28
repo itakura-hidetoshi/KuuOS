@@ -1,0 +1,1706 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Boundary-aware governance architecture for relational AI systems">
+      
+      
+        <meta name="author" content="Hidetoshi Itakura">
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>KuuOS OpenClaw Gateway Event Subscriber v0.4 - KuuOS / 空OS Public Core</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#kuuos-openclaw-gateway-event-subscriber-v04" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="KuuOS / 空OS Public Core" class="md-header__button md-logo" aria-label="KuuOS / 空OS Public Core" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            KuuOS / 空OS Public Core
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              KuuOS OpenClaw Gateway Event Subscriber v0.4
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/itakura-hidetoshi/KuuOS" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    itakura-hidetoshi/KuuOS
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="KuuOS / 空OS Public Core" class="md-nav__button md-logo" aria-label="KuuOS / 空OS Public Core" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    KuuOS / 空OS Public Core
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/itakura-hidetoshi/KuuOS" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    itakura-hidetoshi/KuuOS
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Start Here
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Start Here
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PUBLIC_DOCS_INDEX_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Public Docs Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../QUICKSTART_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quickstart
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../EXTERNAL_REVIEW_GUIDE_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    External Review Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../WHY_KUUOS_EXISTS_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Why KuuOS Exists
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Architecture
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ARCHITECTURE_OVERVIEW_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ARCHITECTURE_DIAGRAM_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture Diagram
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../GOVERNANCE_FLOW_OVERVIEW_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Governance Flow Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../GOVERNANCE_DIAGRAM_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Governance Diagram
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../VALIDATOR_GRAPH_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Validator Graph
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Governance
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Governance
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../KUUOS_GOVERNANCE_MANIFESTO_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Governance Manifesto
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../BOUNDARY_AND_NONAUTHORITY_POLICY_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Boundary and Non-Authority Policy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../BOUNDARY_RISK_MODEL_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Boundary Risk Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../CLAIM_LEVEL_TAXONOMY_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Claim Level Taxonomy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../CONTRIBUTOR_REVIEW_WORKFLOW_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributor Review Workflow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Validation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Validation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../VALIDATION_COVERAGE_MATRIX_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Validation Coverage Matrix
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../REPRODUCIBILITY_MATRIX_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reproducibility Matrix
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PUBLIC_AUDIT_CHECKLIST_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Public Audit Checklist
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../VALIDATOR_DEPENDENCY_OVERVIEW_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Validator Dependency Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../LEAN_COVERAGE_MAP_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lean Coverage Map
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Terminology
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Terminology
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../FORMAL_TERMINOLOGY_GLOSSARY_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Formal Terminology Glossary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../TERMINOLOGY_CROSS_REFERENCE_INDEX_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Terminology Cross Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Release
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Release
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PUBLIC_RELEASE_PACKAGE_MANIFEST_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Public Release Package Manifest
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../V0_1_RELEASE_READINESS_CHECKLIST/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v0.1 Release Readiness Checklist
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Core
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../KUOS_CORE_GOVERNANCE_INDEX_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core Governance Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../KUOS_FOURFOLD_CORE_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fourfold Core
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../GOVERNANCE_RELEASE_GATE_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Governance Release Gate
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="kuuos-openclaw-gateway-event-subscriber-v04">KuuOS OpenClaw Gateway Event Subscriber v0.4<a class="headerlink" href="#kuuos-openclaw-gateway-event-subscriber-v04" title="Permanent link">&para;</a></h1>
+<h2 id="_1">位置づけ<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<p>v0.3 は <code>audit.activity.list</code> を pull し、OpenClaw の metadata-only audit activity を KuuOS の
+append-only observation candidate として取り込む durable reconciliation path を作った。</p>
+<p>v0.4 は、その上に低遅延 WebSocket observation hint 層を追加する。</p>
+<div class="highlight"><pre><span></span><code>OpenClaw Gateway v4 WebSocket
+  |  sessions.changed / session.message / session.operation / session.tool / agent
+  v
+KuuOS Gateway Event Subscriber v0.4
+  |  privacy-reduced append-only live hints
+  v
+ObserveOS owner review
+  |  gap / reconnect / bounded uncertainty
+  v
+v0.3 audit.activity.list reconciliation
+  v
+verification debt remains explicit
+</code></pre></div>
+<p>最重要の非同値:</p>
+<div class="highlight"><pre><span></span><code>live event != durable history
+live event != ObserveOS commit
+live event != verification
+live event != WORLD truth
+live event != PlanOS completion
+live event != rollback proof
+WebSocket silence != non-occurrence proof
+</code></pre></div>
+<h2 id="version-pin">Version pin<a class="headerlink" href="#version-pin" title="Permanent link">&para;</a></h2>
+<p>subscriber は OpenClaw の公開 package を exact pin する。</p>
+<div class="highlight"><pre><span></span><code>@openclaw/gateway-client = 2026.8.1
+@openclaw/gateway-protocol = 2026.8.1
+wire protocol = 4
+Node.js &gt;= 22.19.0
+</code></pre></div>
+<p>一般 operator client は current wire version を exact negotiate するため、runtime は package-exported
+<code>PROTOCOL_VERSION</code> を <code>minProtocol</code> と <code>maxProtocol</code> の両方に使う。</p>
+<h2 id="capability-boundary">Capability boundary<a class="headerlink" href="#capability-boundary" title="Permanent link">&para;</a></h2>
+<p>実装する capability だけを宣言する。</p>
+<div class="highlight"><pre><span></span><code>SESSION_SCOPED_EVENTS
+TOOL_EVENTS
+</code></pre></div>
+<p>capability は authorization ではない。
+scope は読み取り専用の</p>
+<div class="highlight"><pre><span></span><code>operator.read
+</code></pre></div>
+<p>だけを要求する。</p>
+<p>v0.4 は approval resolution、chat send、session mutation、admin operation を行わない。</p>
+<h2 id="pairing-and-credential-ownership">Pairing and credential ownership<a class="headerlink" href="#pairing-and-credential-ownership" title="Permanent link">&para;</a></h2>
+<p>公開 Gateway client の host-owned device auth contract を使う。</p>
+<p>KuuOS subscriber は独立 Ed25519 device identity を生成・保存する。</p>
+<div class="highlight"><pre><span></span><code>~/.kuuos/openclaw/gateway-event-device-identity.json
+~/.kuuos/openclaw/gateway-event-device-token.json
+</code></pre></div>
+<p>POSIX platform では directory を 0700、identity/token files を 0600 にする。</p>
+<p>bootstrap credential は command line に載せない。
+必要な場合のみ環境変数を使う。</p>
+<div class="highlight"><pre><span></span><code>OPENCLAW_GATEWAY_BOOTSTRAP_TOKEN
+OPENCLAW_GATEWAY_PASSWORD
+</code></pre></div>
+<p>初回 pairing が必要な場合は OpenClaw host で</p>
+<div class="highlight"><pre><span></span><code>openclaw devices list
+openclaw devices approve &lt;requestId&gt;
+</code></pre></div>
+<p>により current request を承認する。Gateway が mint した device token は host callback 経由で KuuOS の
+private token file に保存され、scope upgrade は自動では行わない。</p>
+<h2 id="gateway-url-policy">Gateway URL policy<a class="headerlink" href="#gateway-url-policy" title="Permanent link">&para;</a></h2>
+<p>既定:</p>
+<div class="highlight"><pre><span></span><code>ws://127.0.0.1:18789
+</code></pre></div>
+<p>URL に userinfo、query、fragment を許さない。
+remote Gateway は <code>--allow-remote-gateway</code> が明示されたときだけ許可し、その場合も <code>wss://</code> を必須にする。
+credential を URL に埋め込まない。</p>
+<h2 id="subscription-lifecycle">Subscription lifecycle<a class="headerlink" href="#subscription-lifecycle" title="Permanent link">&para;</a></h2>
+<p><code>onEvent</code> listener は connection construction 時点で先に設置される。
+各 <code>hello-ok</code> ごとに connection epoch を 1 増やし、毎回</p>
+<div class="highlight"><pre><span></span><code>sessions.subscribe
+</code></pre></div>
+<p>を再発行する。これは reconnect 後に subscription が失われる OpenClaw contract に対応する。</p>
+<p>明示された <code>--session-key</code> についてのみ</p>
+<div class="highlight"><pre><span></span><code>sessions.messages.subscribe { key }
+</code></pre></div>
+<p>を再発行する。</p>
+<p>任意 session の transcript subscription は自動発見・自動拡大しない。
+<code>includeApprovals</code> も要求しない。</p>
+<p><code>sessions.subscribe</code> の snapshot 内容は保存せず row count だけを receipt に残す。
+subscription activation と snapshot read の race では live event の方が新しい可能性があるため、snapshot を
+live event に対する truth replacement として扱わない。</p>
+<h2 id="privacy-projection">Privacy projection<a class="headerlink" href="#privacy-projection" title="Permanent link">&para;</a></h2>
+<p>live events は audit ledger と異なり transcript content を含み得る。
+したがって raw payload を一切 persist しない。</p>
+<p>保存するのは allowlisted scalar metadata と identity digest のみ。</p>
+<div class="highlight"><pre><span></span><code>runId
+agentId
+toolCallId
+toolName
+status
+phase
+action
+kind
+operationId
+operation
+reasonCode
+errorCode
+channel
+direction
+hasActiveRun
+run seq / source timestamp
+sessionKeyDigest
+sessionIdDigest
+activeRunIdDigests
+payload top-level key names
+content-field-presence flags
+</code></pre></div>
+<p>以下の値は保存しない。</p>
+<div class="highlight"><pre><span></span><code>message body
+messages
+text / deltaText
+content
+prompt
+tool args
+result / output
+raw error text
+raw sessionKey / sessionId
+raw hello snapshot
+bootstrap token / password / device token
+</code></pre></div>
+<h2 id="live-hint-ledger">Live hint ledger<a class="headerlink" href="#live-hint-ledger" title="Permanent link">&para;</a></h2>
+<p>既定:</p>
+<div class="highlight"><pre><span></span><code>~/.kuuos/openclaw/gateway-event-hints.jsonl
+</code></pre></div>
+<p>record は append-only SHA-256 receipt を持つ。
+主な record type:</p>
+<div class="highlight"><pre><span></span><code>openclaw_gateway_event_hint
+openclaw_gateway_connection_hello
+openclaw_gateway_session_roster_subscribed
+openclaw_gateway_session_messages_subscribed
+openclaw_gateway_connection_sequence_gap
+openclaw_gateway_run_sequence_gap
+openclaw_gateway_connection_closed
+openclaw_gateway_connect_error
+openclaw_gateway_reconnect_paused
+openclaw_gateway_subscription_error
+</code></pre></div>
+<p>全 live hint は</p>
+<div class="highlight"><pre><span></span><code>lowLatencyHint = true
+durableHistoryAuthority = false
+auditReconciliationRequired = true
+observeCommitPerformed = false
+verificationCreated = false
+worldCommitAuthority = false
+truthPromotionAuthority = false
+automaticPlanCompletion = false
+automaticRollback = false
+memoryOverwriteAuthority = false
+</code></pre></div>
+<p>を保持する。</p>
+<h2 id="sequence-semantics">Sequence semantics<a class="headerlink" href="#sequence-semantics" title="Permanent link">&para;</a></h2>
+<h3 id="outer-websocket-seq">outer WebSocket seq<a class="headerlink" href="#outer-websocket-seq" title="Permanent link">&para;</a></h3>
+<p>outer event frame の <code>seq</code> は current connection 内だけの ordering であり reconnect で reset する。
+subscriber は OpenClaw reference client の <code>onGap</code> callback を使い、gap を検出すると</p>
+<div class="highlight"><pre><span></span><code>openclaw_gateway_connection_sequence_gap
++ auditReconciliationRequired = true
+</code></pre></div>
+<p>を記録する。</p>
+<p>connection epoch を跨いで outer seq を比較しない。</p>
+<h3 id="agent-per-run-seq">agent per-run seq<a class="headerlink" href="#agent-per-run-seq" title="Permanent link">&para;</a></h3>
+<p><code>agent</code> event payload の <code>seq</code> は run ごとの ordering である。
+subscriber は run ごとの最高 seq を保持する。</p>
+<div class="highlight"><pre><span></span><code>seq &lt;= previous
+  -&gt; duplicate / stale hint として無視
+
+seq &gt; previous + 1
+  -&gt; run sequence gap receipt
+  -&gt; audit reconciliation required
+</code></pre></div>
+<p>run gap は WORLD divergence の証明ではない。</p>
+<h2 id="sessionschanged-semantics">sessions.changed semantics<a class="headerlink" href="#sessionschanged-semantics" title="Permanent link">&para;</a></h2>
+<p><code>sessions.changed</code> の omission を field deletion と解釈しない。
+OpenClaw contract 上、一部 event は invalidation signal にすぎないため、v0.4 は payload の complete session row を
+構築しない。</p>
+<p><code>hasActiveRun</code> や exact active run ids が存在する場合だけ、その存在を hint として保存する。</p>
+<h2 id="v03-reconciliation-ownership">v0.3 reconciliation ownership<a class="headerlink" href="#v03-reconciliation-ownership" title="Permanent link">&para;</a></h2>
+<p>v0.4 は audit intake を置き換えない。</p>
+<div class="highlight"><pre><span></span><code>WebSocket event = low-latency hint
+v0.3 audit.activity.list = bounded reconciliation source
+ObserveOS review = observation ownership
+VerifyOS = verification ownership
+WORLD = truth/update ownership
+</code></pre></div>
+<p>outer gap、run gap、reconnect、subscription error がなくても、live hint 自体は durable history authority を持たないため
+<code>auditReconciliationRequired = true</code> を維持する。</p>
+<h2 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">&para;</a></h2>
+<p>依存を exact install:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>integrations/openclaw/event-stream
+npm<span class="w"> </span>install
+</code></pre></div>
+<p>local Gateway:</p>
+<div class="highlight"><pre><span></span><code>node<span class="w"> </span>subscriber.mjs
+</code></pre></div>
+<p>特定 session の message / operation / tool hints も購読:</p>
+<div class="highlight"><pre><span></span><code>node<span class="w"> </span>subscriber.mjs<span class="w"> </span>--session-key<span class="w"> </span>agent:main:main
+</code></pre></div>
+<p>複数 session:</p>
+<div class="highlight"><pre><span></span><code>node<span class="w"> </span>subscriber.mjs<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--session-key<span class="w"> </span>agent:main:main<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--session-key<span class="w"> </span>agent:research:main
+</code></pre></div>
+<p>remote Gateway は明示かつ TLS 必須:</p>
+<div class="highlight"><pre><span></span><code><span class="nv">OPENCLAW_GATEWAY_URL</span><span class="o">=</span>wss://gateway.example<span class="w"> </span><span class="se">\</span>
+node<span class="w"> </span>subscriber.mjs<span class="w"> </span>--allow-remote-gateway
+</code></pre></div>
+<h2 id="validation">Validation<a class="headerlink" href="#validation" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>python3 scripts/check_openclaw_gateway_event_subscriber_v0_4.py
+node integrations/openclaw/event-stream/test_projection.mjs
+</code></pre></div>
+<p>Lean boundary:</p>
+<div class="highlight"><pre><span></span><code>formal/KUOS/ObserveOS/OpenClawGatewayEventHintV0_4.lean
+</code></pre></div>
+<h2 id="honest-classification">Honest classification<a class="headerlink" href="#honest-classification" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>low-latency, privacy-reduced, reconnect-aware OpenClaw Gateway event hint layer,
+with exact package/wire pins and explicit audit reconciliation debt,
+but with no durable-history, ObserveOS-commit, verification, WORLD-truth,
+PlanOS-completion, rollback-proof, memory-overwrite, or silence/non-occurrence authority
+</code></pre></div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.expand", "navigation.top", "toc.integrate"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>
