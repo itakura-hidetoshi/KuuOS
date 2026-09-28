@@ -154,9 +154,9 @@ the equality is definitional and cheap. -/
     (restrictHigherLocalizedModification
       (W := W) (Pseudofunctor.StrongTrans.associator f g h).hom).as.app (LocallyDiscrete.mk X) =
       (Bicategory.associator
-        (restrictHigherLocalizedStrongTrans (W := W) f).app (LocallyDiscrete.mk X)
-        (restrictHigherLocalizedStrongTrans (W := W) g).app (LocallyDiscrete.mk X)
-        (restrictHigherLocalizedStrongTrans (W := W) h).app (LocallyDiscrete.mk X)).hom := by
+        ((restrictHigherLocalizedStrongTrans (W := W) f).app (LocallyDiscrete.mk X))
+        ((restrictHigherLocalizedStrongTrans (W := W) g).app (LocallyDiscrete.mk X))
+        ((restrictHigherLocalizedStrongTrans (W := W) h).app (LocallyDiscrete.mk X))).hom := by
   rfl
 
 /-- Componentwise expansion of the v4.57 composite comparison square.
@@ -172,20 +172,20 @@ before bicategorical associativity is invoked. -/
     (ExactUniversalRawMorphism.comp
       (W := W) A f g).comparison_square.hom.as.app (LocallyDiscrete.mk U) =
       (Bicategory.associator
-        (restrictHigherLocalizedStrongTrans (W := W) f.lift.hom).app (LocallyDiscrete.mk U)
-        (restrictHigherLocalizedStrongTrans (W := W) g.lift.hom).app (LocallyDiscrete.mk U)
-        Z.presentation.comparison.app (LocallyDiscrete.mk U)).hom ≫
+        ((restrictHigherLocalizedStrongTrans (W := W) f.lift.hom).app (LocallyDiscrete.mk U))
+        ((restrictHigherLocalizedStrongTrans (W := W) g.lift.hom).app (LocallyDiscrete.mk U))
+        (Z.presentation.comparison.app (LocallyDiscrete.mk U))).hom ≫
       ((restrictHigherLocalizedStrongTrans (W := W) f.lift.hom).app (LocallyDiscrete.mk U) ◁
         g.comparison_square.hom.as.app (LocallyDiscrete.mk U)) ≫
       (Bicategory.associator
-        (restrictHigherLocalizedStrongTrans (W := W) f.lift.hom).app (LocallyDiscrete.mk U)
-        Y.presentation.comparison.app (LocallyDiscrete.mk U)
-        g.raw.app (LocallyDiscrete.mk U)).inv ≫
+        ((restrictHigherLocalizedStrongTrans (W := W) f.lift.hom).app (LocallyDiscrete.mk U))
+        (Y.presentation.comparison.app (LocallyDiscrete.mk U))
+        (g.raw.app (LocallyDiscrete.mk U))).inv ≫
       (f.comparison_square.hom.as.app (LocallyDiscrete.mk U) ▷ g.raw.app (LocallyDiscrete.mk U)) ≫
       (Bicategory.associator
-        X.presentation.comparison.app (LocallyDiscrete.mk U)
-        f.raw.app (LocallyDiscrete.mk U)
-        g.raw.app (LocallyDiscrete.mk U)).hom := by
+        (X.presentation.comparison.app (LocallyDiscrete.mk U))
+        (f.raw.app (LocallyDiscrete.mk U))
+        (g.raw.app (LocallyDiscrete.mk U))).hom := by
   have hcomp :=
     congrArg
       (fun m => m.as.app (LocallyDiscrete.mk U))
@@ -230,7 +230,6 @@ private theorem associatorCompatibility
     ExactUniversalRawMorphism.comp_raw,
     ExactUniversalRawMorphism.comp_lift,
     CategoryTheory.Bicategory.InducedBicategory.bicategory_comp_hom,
-    restrictHigherLocalizedStrongTrans_app,
     Pseudofunctor.StrongTrans.comp_app
   ]
   simpa only [compositeSquare] using
