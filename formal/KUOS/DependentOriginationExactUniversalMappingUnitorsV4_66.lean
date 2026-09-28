@@ -152,6 +152,25 @@ context object. -/
   ] using h
 
 
+/-- The restricted DO₂ lift of the mapping-property identity, evaluated at
+one presentation object.
+
+This theorem is intentionally specialized to the exact syntactic form produced
+by the composite comparison-square expansion.  It lets the simplifier remove
+the induced-bicategory identity wrapper before touching the surrounding
+bicategorical pasting. -/
+@[simp] theorem ExactUniversalRawMorphism.id_restricted_lift_hom_app
+    (X : ExactUniversalRawObject (W := W) A)
+    (U : Context) :
+    (restrictHigherLocalizedStrongTrans
+      (W := W)
+      (ExactUniversalRawMorphism.id (W := W) A X).lift.hom).app
+        (LocallyDiscrete.mk U) =
+      𝟙 ((restrictHigherLocalizedSystem W
+        (higherStackObjectVal (W := W) A X.carrier)).obj
+          (LocallyDiscrete.mk U)) := by
+  rfl
+
 /-- Pure comparison-square law underlying the source left unitor. -/
 private theorem leftUnitorCompositeSquare
     {B : Type uB} [Bicategory.{wB, vB} B]
@@ -215,14 +234,14 @@ private theorem leftUnitorCompatibility
     Pseudofunctor.StrongTrans.homCategory_comp_as_app,
     Pseudofunctor.StrongTrans.whiskerLeft_as_app,
     Pseudofunctor.StrongTrans.whiskerRight_as_app,
+    Pseudofunctor.StrongTrans.leftUnitor_hom_as_app,
     restrictHigherLocalizedModification_strongTransLeftUnitor_app,
     ExactUniversalRawMorphism.comp_comparison_square_hom_app,
     ExactUniversalRawMorphism.id_comparison_square_hom_app,
+    ExactUniversalRawMorphism.id_restricted_lift_hom_app,
     ExactUniversalRawMorphism.id_raw,
-    ExactUniversalRawMorphism.id_lift,
     ExactUniversalRawMorphism.comp_raw,
     ExactUniversalRawMorphism.comp_lift,
-    CategoryTheory.Bicategory.InducedBicategory.bicategory_id_hom,
     CategoryTheory.Bicategory.InducedBicategory.bicategory_comp_hom,
     Pseudofunctor.StrongTrans.categoryStruct_id_app,
     Pseudofunctor.StrongTrans.comp_app
@@ -258,6 +277,7 @@ private theorem rightUnitorCompatibility
     Pseudofunctor.StrongTrans.homCategory_comp_as_app,
     Pseudofunctor.StrongTrans.whiskerLeft_as_app,
     Pseudofunctor.StrongTrans.whiskerRight_as_app,
+    Pseudofunctor.StrongTrans.rightUnitor_hom_as_app,
     restrictHigherLocalizedModification_strongTransRightUnitor_app,
     ExactUniversalRawMorphism.comp_comparison_square_hom_app,
     ExactUniversalRawMorphism.id_comparison_square_hom_app,
