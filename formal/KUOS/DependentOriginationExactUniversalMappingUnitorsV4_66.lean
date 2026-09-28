@@ -281,11 +281,10 @@ private theorem rightUnitorCompatibility
     restrictHigherLocalizedModification_strongTransRightUnitor_app,
     ExactUniversalRawMorphism.comp_comparison_square_hom_app,
     ExactUniversalRawMorphism.id_comparison_square_hom_app,
+    ExactUniversalRawMorphism.id_restricted_lift_hom_app,
     ExactUniversalRawMorphism.id_raw,
-    ExactUniversalRawMorphism.id_lift,
     ExactUniversalRawMorphism.comp_raw,
     ExactUniversalRawMorphism.comp_lift,
-    CategoryTheory.Bicategory.InducedBicategory.bicategory_id_hom,
     CategoryTheory.Bicategory.InducedBicategory.bicategory_comp_hom,
     Pseudofunctor.StrongTrans.categoryStruct_id_app,
     Pseudofunctor.StrongTrans.comp_app
