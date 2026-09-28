@@ -13,6 +13,8 @@ OBSERVATION_VERSION = "kuuos_expected_head_merge_closure_observation_v7_31"
 CI_VERSION = "kuuos_github_ci_completion_reentry_v1_1"
 CI_VERIFIED = "KUUOS_GITHUB_CI_COMPLETION_REENTRY_VERIFIED"
 BRIDGE_APPLIED = "KUUOS_GITHUB_MCP_WRITE_BRIDGE_APPLIED"
+AUTHORITY_VERSION = "kuuos_expected_head_merge_authority_v7_31"
+AUTHORITY_READY = "KUUOS_EXPECTED_HEAD_MERGE_AUTHORITY_READY"
 
 READY = "KUUOS_EXPECTED_HEAD_MERGE_CLOSURE_READY"
 PARTIAL = "KUUOS_EXPECTED_HEAD_MERGE_CLOSURE_PARTIAL"
@@ -20,6 +22,7 @@ OBSTRUCTED = "KUUOS_EXPECTED_HEAD_MERGE_CLOSURE_OBSTRUCTED"
 NOT_APPLICABLE = "KUUOS_EXPECTED_HEAD_MERGE_CLOSURE_NOT_APPLICABLE"
 
 MERGE_AUTHORITY_REQUIRED = "merge_authority_required"
+MERGE_AUTHORITY_BINDING_OBSTRUCTION = "merge_authority_binding_obstruction"
 PRE_MERGE_RECONCILIATION = "pre_merge_revision_reconciliation_required"
 MERGE_RECEIPT_REQUIRED = "expected_head_merge_receipt_required"
 MERGE_NOT_APPLIED = "expected_head_merge_not_applied_reobservation_required"
@@ -185,9 +188,11 @@ def _post_merge_ci(
 def build_expected_head_merge_closure(
     *,
     merge_candidate_packet: Mapping[str, Any],
+    merge_authority_packet: Mapping[str, Any] | None = None,
     observation: Mapping[str, Any],
 ) -> ExpectedHeadMergeClosureResult:
     source = _m(merge_candidate_packet)
+    authority = _m(merge_authority_packet)
     obs = _m(observation)
     blockers: list[str] = []
     warnings: list[str] = []
@@ -271,11 +276,53 @@ def build_expected_head_merge_closure(
             warnings,
         )
 
-    merge_authority_ready = _bool(
-        obs.get("merge_authority_ready"),
-        "merge_authority_ready",
-        blockers,
-    )
+    authority_present = bool(authority)
+    authority_blockers: list[str] = []
+    authority_scope_digest = ""
+    if authority_present:
+        if authority.get("version") != AUTHORITY_VERSION:
+            authority_blockers.append("merge_authority_version_invalid")
+        if authority.get("status") != AUTHORITY_READY:
+            authority_blockers.append("merge_authority_status_invalid")
+        if authority.get("merge_authority_granted") is not True:
+            authority_blockers.append("merge_authority_not_granted")
+        if str(authority.get("repository_full_name", "")).strip() != repository:
+            authority_blockers.append("merge_authority_repository_mismatch")
+        if _positive_int(
+            authority.get("pull_request_number"),
+            "merge_authority_pull_request_number",
+            authority_blockers,
+        ) != pr_number:
+            authority_blockers.append("merge_authority_pull_request_mismatch")
+        if _commit(
+            authority.get("expected_head_sha"),
+            "merge_authority_expected_head_sha",
+            authority_blockers,
+        ) != expected_head:
+            authority_blockers.append("merge_authority_expected_head_mismatch")
+        if _commit(
+            authority.get("expected_base_sha"),
+            "merge_authority_expected_base_sha",
+            authority_blockers,
+        ) != expected_base:
+            authority_blockers.append("merge_authority_expected_base_mismatch")
+        if str(authority.get("merge_method", "")).strip() not in {"merge", "squash", "rebase"}:
+            authority_blockers.append("merge_authority_method_invalid")
+        authority_scope_digest = _digest(
+            authority.get("authority_scope_digest"),
+            "merge_authority_scope_digest",
+            authority_blockers,
+        )
+        if _digest(
+            authority.get("source_merge_candidate_packet_digest"),
+            "merge_authority_source_packet_digest",
+            authority_blockers,
+        ) != source_digest:
+            authority_blockers.append("merge_authority_source_packet_digest_mismatch")
+
+    merge_authority_ready = bool(authority_present and not authority_blockers)
+    blockers.extend(authority_blockers)
+
     pre_merge_head = _commit(
         obs.get("pre_merge_pr_head_sha"),
         "pre_merge_pr_head_sha",
@@ -475,7 +522,11 @@ def build_expected_head_merge_closure(
         item for item in blockers if item.startswith("post_merge_ci_")
     ]
 
-    if not merge_authority_ready:
+    if authority_blockers:
+        state = MERGE_AUTHORITY_BINDING_OBSTRUCTION
+        status = OBSTRUCTED
+        next_route = "repair_or_replace_merge_authority_binding"
+    elif not merge_authority_ready:
         state = MERGE_AUTHORITY_REQUIRED
         status = PARTIAL
         next_route = "retain_merge_candidate_and_acquire_explicit_merge_authority"
@@ -534,6 +585,7 @@ def build_expected_head_merge_closure(
 
     # Malformed source/receipt evidence always overrides partial live-state routes.
     if blockers and state not in {
+        MERGE_AUTHORITY_BINDING_OBSTRUCTION,
         POST_MERGE_CI_BINDING_OBSTRUCTION,
         MERGE_RECEIPT_OBSTRUCTION,
     }:
@@ -545,6 +597,11 @@ def build_expected_head_merge_closure(
 
     evidence = {
         "source_merge_candidate_packet_digest": source_digest,
+        "merge_authority_packet_digest": _sha(authority) if authority_present else "",
+        "merge_authority_scope_digest": authority_scope_digest,
+        "merge_authority_independently_supplied": authority_present,
+        "merge_authority_derived_from_ci": False,
+        "merge_authority_derived_from_candidacy": False,
         "pull_request_number": pr_number,
         "expected_head_sha": expected_head,
         "expected_base_sha": expected_base,
