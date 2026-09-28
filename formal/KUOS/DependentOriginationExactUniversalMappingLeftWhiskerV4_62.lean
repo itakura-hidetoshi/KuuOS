@@ -144,23 +144,6 @@ private theorem whiskerLeftCompatibility
   ]
   calc
     _ =
-        (restrictHigherLocalizedStrongTrans (W := W) f.lift.hom ◁
-            restrictHigherLocalizedModification (W := W) eta.lift.hom) ▷
-          Z.presentation.comparison ≫
-        (Bicategory.associator
-          (restrictHigherLocalizedStrongTrans (W := W) f.lift.hom)
-          (restrictHigherLocalizedStrongTrans (W := W) h.lift.hom)
-          Z.presentation.comparison).hom ≫
-        (restrictHigherLocalizedStrongTrans (W := W) f.lift.hom ◁
-          h.comparison_square.hom) ≫
-        (Bicategory.associator
-          (restrictHigherLocalizedStrongTrans (W := W) f.lift.hom)
-          Y.presentation.comparison h.raw).inv ≫
-        (f.comparison_square.hom ▷ h.raw) ≫
-        (Bicategory.associator
-          X.presentation.comparison f.raw h.raw).hom := by
-      simp only [Category.assoc]
-    _ =
         (Bicategory.associator
           (restrictHigherLocalizedStrongTrans (W := W) f.lift.hom)
           (restrictHigherLocalizedStrongTrans (W := W) g.lift.hom)
