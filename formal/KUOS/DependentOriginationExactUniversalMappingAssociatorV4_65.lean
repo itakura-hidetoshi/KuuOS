@@ -126,7 +126,7 @@ noncomputable def completion2AssociatorHom
     (h : H ⟶ I) :
     ((f ≫ g) ≫ h) ⟶ (f ≫ (g ≫ h)) :=
   CategoryTheory.Bicategory.InducedBicategory.mkHom₂
-    (Bicategory.associator f.hom g.hom h.hom).hom
+    (Pseudofunctor.StrongTrans.associator f.hom g.hom h.hom).hom
 
 @[simp] theorem completion2AssociatorHom_hom
     {F G H I : DependentOriginationCompletion2 (W := W) A}
@@ -134,7 +134,7 @@ noncomputable def completion2AssociatorHom
     (g : G ⟶ H)
     (h : H ⟶ I) :
     (completion2AssociatorHom (W := W) A f g h).hom =
-      (Bicategory.associator f.hom g.hom h.hom).hom :=
+      (Pseudofunctor.StrongTrans.associator f.hom g.hom h.hom).hom :=
   rfl
 
 /-- Restriction preserves the native associator for localized strong
@@ -149,8 +149,8 @@ before restriction is invoked. -/
     (g : G ⟶ H)
     (h : H ⟶ I) :
     restrictHigherLocalizedModification
-        (W := W) (Bicategory.associator f g h).hom =
-      (Bicategory.associator
+        (W := W) (Pseudofunctor.StrongTrans.associator f g h).hom =
+      (Pseudofunctor.StrongTrans.associator
         (restrictHigherLocalizedStrongTrans (W := W) f)
         (restrictHigherLocalizedStrongTrans (W := W) g)
         (restrictHigherLocalizedStrongTrans (W := W) h)).hom := by
@@ -199,7 +199,7 @@ private theorem associatorCompatibility
         (ExactUniversalRawMorphism.comp (W := W) A f g)
         h).comparison_square.hom ≫
         (X.presentation.comparison ◁
-          (Bicategory.associator f.raw g.raw h.raw).hom) := by
+          (Pseudofunctor.StrongTrans.associator f.raw g.raw h.raw).hom) := by
   rw [completion2AssociatorHom_hom]
   rw [restrictHigherLocalizedModification_strongTransAssociator]
   rw [
@@ -245,7 +245,7 @@ noncomputable def ExactUniversalRawMorphismTwoCell.associator
       (ExactUniversalRawMorphism.comp
         (W := W) A f
         (ExactUniversalRawMorphism.comp (W := W) A g h)) where
-  raw := (Bicategory.associator f.raw g.raw h.raw).hom
+  raw := (Pseudofunctor.StrongTrans.associator f.raw g.raw h.raw).hom
   lift := completion2AssociatorHom (W := W) A f.lift g.lift h.lift
   compatibility :=
     associatorCompatibility (W := W) A f g h
@@ -257,7 +257,7 @@ noncomputable def ExactUniversalRawMorphismTwoCell.associator
     (h : ExactUniversalRawMorphism (W := W) A Z T) :
     (ExactUniversalRawMorphismTwoCell.associator
       (W := W) A f g h).raw =
-      (Bicategory.associator f.raw g.raw h.raw).hom :=
+      (Pseudofunctor.StrongTrans.associator f.raw g.raw h.raw).hom :=
   rfl
 
 @[simp] theorem ExactUniversalRawMorphismTwoCell.associator_lift_hom
