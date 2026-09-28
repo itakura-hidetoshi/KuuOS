@@ -117,6 +117,21 @@ context object. -/
           (LocallyDiscrete.mk X))).hom := by
   rfl
 
+
+/-- Restriction of an identity localized StrongTrans is pointwise the identity.
+
+This is intentionally a component lemma rather than a global StrongTrans
+equality: it is exactly the normalization needed by the unitor comparison
+squares and avoids forcing Lean to compare the full restricted pseudonatural
+structures. -/
+@[simp] theorem restrictHigherLocalizedStrongTrans_id_app
+    {F : HigherLocalizedDescentSystem (W := W)}
+    (X : Context) :
+    (restrictHigherLocalizedStrongTrans (W := W) (𝟙 F)).app
+        (LocallyDiscrete.mk X) =
+      𝟙 ((restrictHigherLocalizedSystem W F).obj (LocallyDiscrete.mk X)) := by
+  rfl
+
 /-- The hom of the v4.57 identity comparison square. -/
 @[simp, reassoc] theorem ExactUniversalRawMorphism.id_comparison_square_hom
     (X : ExactUniversalRawObject (W := W) A) :
@@ -213,7 +228,6 @@ private theorem leftUnitorCompatibility
     Pseudofunctor.StrongTrans.homCategory_comp_as_app,
     Pseudofunctor.StrongTrans.whiskerLeft_as_app,
     Pseudofunctor.StrongTrans.whiskerRight_as_app,
-    Pseudofunctor.StrongTrans.leftUnitor_hom_as_app,
     restrictHigherLocalizedModification_strongTransLeftUnitor_app,
     ExactUniversalRawMorphism.comp_comparison_square_hom_app,
     ExactUniversalRawMorphism.id_comparison_square_hom_app,
@@ -225,7 +239,7 @@ private theorem leftUnitorCompatibility
     CategoryTheory.Bicategory.InducedBicategory.bicategory_comp_hom,
     Pseudofunctor.StrongTrans.categoryStruct_id_app,
     Pseudofunctor.StrongTrans.comp_app,
-    restrictHigherLocalizedStrongTrans_app
+    restrictHigherLocalizedStrongTrans_id_app
   ]
   simpa using
     leftUnitorCompositeSquare
@@ -258,7 +272,6 @@ private theorem rightUnitorCompatibility
     Pseudofunctor.StrongTrans.homCategory_comp_as_app,
     Pseudofunctor.StrongTrans.whiskerLeft_as_app,
     Pseudofunctor.StrongTrans.whiskerRight_as_app,
-    Pseudofunctor.StrongTrans.rightUnitor_hom_as_app,
     restrictHigherLocalizedModification_strongTransRightUnitor_app,
     ExactUniversalRawMorphism.comp_comparison_square_hom_app,
     ExactUniversalRawMorphism.id_comparison_square_hom_app,
