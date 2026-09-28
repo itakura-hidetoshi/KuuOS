@@ -152,11 +152,11 @@ the equality is definitional and cheap. -/
     (h : H ⟶ I)
     (X : Context) :
     (restrictHigherLocalizedModification
-      (W := W) (Pseudofunctor.StrongTrans.associator f g h).hom).as.app (.mk X) =
+      (W := W) (Pseudofunctor.StrongTrans.associator f g h).hom).as.app (LocallyDiscrete.mk X) =
       (Bicategory.associator
-        (restrictHigherLocalizedStrongTrans (W := W) f).app (.mk X)
-        (restrictHigherLocalizedStrongTrans (W := W) g).app (.mk X)
-        (restrictHigherLocalizedStrongTrans (W := W) h).app (.mk X)).hom := by
+        (restrictHigherLocalizedStrongTrans (W := W) f).app (LocallyDiscrete.mk X)
+        (restrictHigherLocalizedStrongTrans (W := W) g).app (LocallyDiscrete.mk X)
+        (restrictHigherLocalizedStrongTrans (W := W) h).app (LocallyDiscrete.mk X)).hom := by
   rfl
 
 /-- Componentwise expansion of the v4.57 composite comparison square.
@@ -170,25 +170,25 @@ before bicategorical associativity is invoked. -/
     (g : ExactUniversalRawMorphism (W := W) A Y Z)
     (U : Context) :
     (ExactUniversalRawMorphism.comp
-      (W := W) A f g).comparison_square.hom.as.app (.mk U) =
+      (W := W) A f g).comparison_square.hom.as.app (LocallyDiscrete.mk U) =
       (Bicategory.associator
-        (restrictHigherLocalizedStrongTrans (W := W) f.lift.hom).app (.mk U)
-        (restrictHigherLocalizedStrongTrans (W := W) g.lift.hom).app (.mk U)
-        Z.presentation.comparison.app (.mk U)).hom ≫
-      ((restrictHigherLocalizedStrongTrans (W := W) f.lift.hom).app (.mk U) ◁
-        g.comparison_square.hom.as.app (.mk U)) ≫
+        (restrictHigherLocalizedStrongTrans (W := W) f.lift.hom).app (LocallyDiscrete.mk U)
+        (restrictHigherLocalizedStrongTrans (W := W) g.lift.hom).app (LocallyDiscrete.mk U)
+        Z.presentation.comparison.app (LocallyDiscrete.mk U)).hom ≫
+      ((restrictHigherLocalizedStrongTrans (W := W) f.lift.hom).app (LocallyDiscrete.mk U) ◁
+        g.comparison_square.hom.as.app (LocallyDiscrete.mk U)) ≫
       (Bicategory.associator
-        (restrictHigherLocalizedStrongTrans (W := W) f.lift.hom).app (.mk U)
-        Y.presentation.comparison.app (.mk U)
-        g.raw.app (.mk U)).inv ≫
-      (f.comparison_square.hom.as.app (.mk U) ▷ g.raw.app (.mk U)) ≫
+        (restrictHigherLocalizedStrongTrans (W := W) f.lift.hom).app (LocallyDiscrete.mk U)
+        Y.presentation.comparison.app (LocallyDiscrete.mk U)
+        g.raw.app (LocallyDiscrete.mk U)).inv ≫
+      (f.comparison_square.hom.as.app (LocallyDiscrete.mk U) ▷ g.raw.app (LocallyDiscrete.mk U)) ≫
       (Bicategory.associator
-        X.presentation.comparison.app (.mk U)
-        f.raw.app (.mk U)
-        g.raw.app (.mk U)).hom := by
+        X.presentation.comparison.app (LocallyDiscrete.mk U)
+        f.raw.app (LocallyDiscrete.mk U)
+        g.raw.app (LocallyDiscrete.mk U)).hom := by
   have hcomp :=
     congrArg
-      (fun m => m.as.app (.mk U))
+      (fun m => m.as.app (LocallyDiscrete.mk U))
       (ExactUniversalRawMorphism.comp_comparison_square_hom
         (W := W) A f g)
   simpa only [
@@ -225,28 +225,27 @@ private theorem associatorCompatibility
     Pseudofunctor.StrongTrans.homCategory_comp_as_app,
     Pseudofunctor.StrongTrans.whiskerLeft_as_app,
     Pseudofunctor.StrongTrans.whiskerRight_as_app,
-    Pseudofunctor.StrongTrans.associator_hom_as_app,
     restrictHigherLocalizedModification_strongTransAssociator_app,
     ExactUniversalRawMorphism.comp_comparison_square_hom_app
   ]
   simpa [compositeSquare] using
     compositeSquare_associator
       (rf :=
-        (restrictHigherLocalizedStrongTrans (W := W) f.lift.hom).app (.mk U))
+        (restrictHigherLocalizedStrongTrans (W := W) f.lift.hom).app (LocallyDiscrete.mk U))
       (rg :=
-        (restrictHigherLocalizedStrongTrans (W := W) g.lift.hom).app (.mk U))
+        (restrictHigherLocalizedStrongTrans (W := W) g.lift.hom).app (LocallyDiscrete.mk U))
       (rh :=
-        (restrictHigherLocalizedStrongTrans (W := W) h.lift.hom).app (.mk U))
-      (cS := T.presentation.comparison.app (.mk U))
-      (cR := Z.presentation.comparison.app (.mk U))
-      (cQ := Y.presentation.comparison.app (.mk U))
-      (cP := X.presentation.comparison.app (.mk U))
-      (fraw := f.raw.app (.mk U))
-      (graw := g.raw.app (.mk U))
-      (hraw := h.raw.app (.mk U))
-      (fsq := f.comparison_square.hom.as.app (.mk U))
-      (gsq := g.comparison_square.hom.as.app (.mk U))
-      (hsq := h.comparison_square.hom.as.app (.mk U))
+        (restrictHigherLocalizedStrongTrans (W := W) h.lift.hom).app (LocallyDiscrete.mk U))
+      (cS := T.presentation.comparison.app (LocallyDiscrete.mk U))
+      (cR := Z.presentation.comparison.app (LocallyDiscrete.mk U))
+      (cQ := Y.presentation.comparison.app (LocallyDiscrete.mk U))
+      (cP := X.presentation.comparison.app (LocallyDiscrete.mk U))
+      (fraw := f.raw.app (LocallyDiscrete.mk U))
+      (graw := g.raw.app (LocallyDiscrete.mk U))
+      (hraw := h.raw.app (LocallyDiscrete.mk U))
+      (fsq := f.comparison_square.hom.as.app (LocallyDiscrete.mk U))
+      (gsq := g.comparison_square.hom.as.app (LocallyDiscrete.mk U))
+      (hsq := h.comparison_square.hom.as.app (LocallyDiscrete.mk U))
 
 /-- The compatible associator 2-cell for mapping-property 1-cell composition. -/
 noncomputable def ExactUniversalRawMorphismTwoCell.associator
