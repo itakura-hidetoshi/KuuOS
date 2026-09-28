@@ -165,6 +165,26 @@ structures. -/
     Pseudofunctor.StrongTrans.rightUnitor_inv_as_app
   ] using h
 
+
+/-- The restricted DO₂ lift of the mapping-property identity is pointwise the
+identity.
+
+This theorem is deliberately specialized to `ExactUniversalRawMorphism.id`.
+In the unitor compatibility goals this is the syntactic form produced by the
+composite-comparison expansion, so it rewrites before any dependent projection
+has to be normalized through the induced bicategory. -/
+@[simp] theorem ExactUniversalRawMorphism.id_restricted_lift_hom_app
+    (X : ExactUniversalRawObject (W := W) A)
+    (U : Context) :
+    (restrictHigherLocalizedStrongTrans
+      (W := W)
+      (ExactUniversalRawMorphism.id (W := W) A X).lift.hom).app
+        (LocallyDiscrete.mk U) =
+      𝟙 ((restrictHigherLocalizedSystem W
+        (higherStackObjectVal (W := W) A X.carrier)).obj
+          (LocallyDiscrete.mk U)) := by
+  rfl
+
 /-- Pure comparison-square law underlying the source left unitor. -/
 private theorem leftUnitorCompositeSquare
     {B : Type uB} [Bicategory.{wB, vB} B]
@@ -231,15 +251,13 @@ private theorem leftUnitorCompatibility
     restrictHigherLocalizedModification_strongTransLeftUnitor_app,
     ExactUniversalRawMorphism.comp_comparison_square_hom_app,
     ExactUniversalRawMorphism.id_comparison_square_hom_app,
+    ExactUniversalRawMorphism.id_restricted_lift_hom_app,
     ExactUniversalRawMorphism.id_raw,
-    ExactUniversalRawMorphism.id_lift,
     ExactUniversalRawMorphism.comp_raw,
     ExactUniversalRawMorphism.comp_lift,
-    CategoryTheory.Bicategory.InducedBicategory.bicategory_id_hom,
     CategoryTheory.Bicategory.InducedBicategory.bicategory_comp_hom,
     Pseudofunctor.StrongTrans.categoryStruct_id_app,
     Pseudofunctor.StrongTrans.comp_app,
-    restrictHigherLocalizedStrongTrans_id_app
   ]
   simpa using
     leftUnitorCompositeSquare
@@ -276,14 +294,11 @@ private theorem rightUnitorCompatibility
     ExactUniversalRawMorphism.comp_comparison_square_hom_app,
     ExactUniversalRawMorphism.id_comparison_square_hom_app,
     ExactUniversalRawMorphism.id_raw,
-    ExactUniversalRawMorphism.id_lift,
     ExactUniversalRawMorphism.comp_raw,
     ExactUniversalRawMorphism.comp_lift,
-    CategoryTheory.Bicategory.InducedBicategory.bicategory_id_hom,
     CategoryTheory.Bicategory.InducedBicategory.bicategory_comp_hom,
     Pseudofunctor.StrongTrans.categoryStruct_id_app,
     Pseudofunctor.StrongTrans.comp_app,
-    restrictHigherLocalizedStrongTrans_id_app
   ]
   simpa using
     rightUnitorCompositeSquare
