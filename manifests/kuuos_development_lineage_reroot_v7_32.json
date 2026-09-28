@@ -1,0 +1,51 @@
+{
+  "version": "kuuos_development_lineage_reroot_manifest_v7_32",
+  "purpose": "Create a fresh development-lineage root from current main after a v7.31 closed lineage, preserving the prior closure as immutable history and transferring no merge/write authority.",
+  "predecessor": "KuuOS Expected-Head Merge Closure v7.31",
+  "core_rules": {
+    "closed_lineage_receipt_is_successor_authority": false,
+    "predecessor_merge_authority_may_be_reused": false,
+    "predecessor_write_authority_may_be_reused": false,
+    "reroot_grants_successor_authority": false,
+    "current_main_must_be_freshly_observed": true,
+    "current_main_may_advance_beyond_closed_merge": true,
+    "advanced_main_requires_verified_closed_merge_ancestry": true,
+    "stale_local_git_blocks_remote_reroot": false,
+    "missing_local_git_observation_blocks_remote_reroot": false,
+    "prior_closure_ci_certifies_advanced_main": false,
+    "closed_lineage_history_overwritten": false
+  },
+  "states": [
+    "new_lineage_root_ready_exact_closed_merge",
+    "new_lineage_root_ready_descendant_main",
+    "new_lineage_root_ready_local_revision_reconciliation_required",
+    "fresh_main_reobservation_required",
+    "closed_merge_ancestry_reobservation_required",
+    "closed_merge_not_ancestor_of_current_main_obstruction",
+    "predecessor_authority_carryover_obstruction"
+  ],
+  "root_identity": {
+    "inputs": [
+      "repository_full_name",
+      "predecessor closure packet digest",
+      "predecessor merge commit SHA",
+      "fresh current main SHA",
+      "fresh current main observation digest"
+    ],
+    "authority_fields_in_identity": false
+  },
+  "ancestry_contract": {
+    "exact_main_equals_closed_merge_needs_compare": false,
+    "advanced_main_compare_base": "predecessor merge commit SHA",
+    "advanced_main_compare_head": "fresh current main SHA",
+    "required_status": "ahead",
+    "required_behind_by": 0,
+    "diverged_or_behind_is_obstruction": true
+  },
+  "local_workspace_contract": {
+    "local_git_is_optional_for_remote_reroot": true,
+    "local_head_mismatch_requires_local_reconciliation": true,
+    "local_head_mismatch_rejects_new_remote_root": false
+  },
+  "next": "Start the next edit/repair lineage from the new root while requiring fresh authority for any future mutation."
+}
