@@ -118,6 +118,26 @@ context object. -/
   rfl
 
 
+/-- Underlying StrongTrans of the DO₂ identity lift.
+
+This exposes exactly the projection needed by the component comparison-square
+normal forms, without unfolding the induced bicategory instance inside a large
+goal. -/
+@[simp] theorem ExactUniversalRawMorphism.id_lift_hom
+    (X : ExactUniversalRawObject (W := W) A) :
+    (ExactUniversalRawMorphism.id (W := W) A X).lift.hom =
+      𝟙 (higherStackObjectVal (W := W) A X.carrier) :=
+  rfl
+
+/-- Restriction of an identity StrongTrans is pointwise the identity. -/
+@[simp] theorem restrictHigherLocalizedStrongTrans_id_app
+    {F : HigherLocalizedDescentSystem (W := W)}
+    (U : Context) :
+    (restrictHigherLocalizedStrongTrans (W := W) (𝟙 F)).app
+        (LocallyDiscrete.mk U) =
+      𝟙 ((restrictHigherLocalizedSystem W F).obj (LocallyDiscrete.mk U)) :=
+  rfl
+
 /-- The hom of the v4.57 identity comparison square. -/
 @[simp, reassoc] theorem ExactUniversalRawMorphism.id_comparison_square_hom
     (X : ExactUniversalRawObject (W := W) A) :
@@ -234,14 +254,10 @@ compatibility goal. -/
   rw [ExactUniversalRawMorphism.comp_comparison_square_hom_app]
   simp only [
     ExactUniversalRawMorphism.id_comparison_square_hom_app,
-    ExactUniversalRawMorphism.id_raw
-  ]
-  dsimp [
-    ExactUniversalRawMorphism.id,
-    CategoryTheory.Bicategory.InducedBicategory.categoryStruct,
-    Pseudofunctor.StrongTrans.categoryStruct,
-    Pseudofunctor.StrongTrans.id,
-    restrictHigherLocalizedStrongTrans
+    ExactUniversalRawMorphism.id_raw,
+    ExactUniversalRawMorphism.id_lift_hom,
+    restrictHigherLocalizedStrongTrans_id_app,
+    Pseudofunctor.StrongTrans.categoryStruct_id_app
   ]
 
 /-- Component normal form for composing the mapping-property identity on the
@@ -281,14 +297,10 @@ right. -/
   rw [ExactUniversalRawMorphism.comp_comparison_square_hom_app]
   simp only [
     ExactUniversalRawMorphism.id_comparison_square_hom_app,
-    ExactUniversalRawMorphism.id_raw
-  ]
-  dsimp [
-    ExactUniversalRawMorphism.id,
-    CategoryTheory.Bicategory.InducedBicategory.categoryStruct,
-    Pseudofunctor.StrongTrans.categoryStruct,
-    Pseudofunctor.StrongTrans.id,
-    restrictHigherLocalizedStrongTrans
+    ExactUniversalRawMorphism.id_raw,
+    ExactUniversalRawMorphism.id_lift_hom,
+    restrictHigherLocalizedStrongTrans_id_app,
+    Pseudofunctor.StrongTrans.categoryStruct_id_app
   ]
 
 /-- Exact component of the raw StrongTrans left unitor. -/
