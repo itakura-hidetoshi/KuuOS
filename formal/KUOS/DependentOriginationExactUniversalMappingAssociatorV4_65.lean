@@ -226,9 +226,14 @@ private theorem associatorCompatibility
     Pseudofunctor.StrongTrans.whiskerLeft_as_app,
     Pseudofunctor.StrongTrans.whiskerRight_as_app,
     restrictHigherLocalizedModification_strongTransAssociator_app,
-    ExactUniversalRawMorphism.comp_comparison_square_hom_app
+    ExactUniversalRawMorphism.comp_comparison_square_hom_app,
+    ExactUniversalRawMorphism.comp_raw,
+    ExactUniversalRawMorphism.comp_lift,
+    CategoryTheory.Bicategory.InducedBicategory.bicategory_comp_hom,
+    restrictHigherLocalizedStrongTrans_app,
+    Pseudofunctor.StrongTrans.comp_app
   ]
-  simpa [compositeSquare] using
+  simpa only [compositeSquare] using
     compositeSquare_associator
       (rf :=
         (restrictHigherLocalizedStrongTrans (W := W) f.lift.hom).app (LocallyDiscrete.mk U))
