@@ -1,0 +1,47 @@
+{
+  "version": "kuuos_root_bound_fact_observation_bundle_manifest_v7_34",
+  "purpose": "Materialize the fact planes selected by a v7.33 root-bound development task into one fresh root/task-bound observation bundle without executing mutations or transferring provider authority.",
+  "predecessors": [
+    "KuuOS Root-Bound Development Intake v7.33",
+    "KuuOS Development MCP Federation v7.19",
+    "KuuOS Development MCP Capability Routing v7.24"
+  ],
+  "core_rules": {
+    "observations_must_bind_source_intake_packet": true,
+    "observations_must_bind_task_id": true,
+    "observations_must_bind_lineage_root": true,
+    "observations_must_bind_task_scope": true,
+    "current_main_move_returns_to_reroot": true,
+    "missing_observation_rejects_task": false,
+    "stale_observation_rejects_task": false,
+    "stale_observation_may_be_retained_for_provenance": true,
+    "claimed_fresh_wrong_head_is_binding_obstruction": true,
+    "filesystem_lean_source_digest_must_match": true,
+    "unselected_fact_plane_may_be_silently_substituted": false,
+    "raw_provider_payloads_persisted": false,
+    "observation_bundle_executes_mutation": false,
+    "observation_bundle_grants_write_authority": false,
+    "observation_bundle_grants_merge_authority": false
+  },
+  "states": [
+    "root_bound_fact_bundle_complete",
+    "root_bound_fact_bundle_missing_observations",
+    "root_bound_fact_bundle_semantic_reobservation_required",
+    "root_bound_fact_bundle_root_reobservation_required",
+    "root_bound_fact_bundle_binding_obstruction"
+  ],
+  "cross_plane_contract": {
+    "working_bytes_authority": "Filesystem MCP observation",
+    "lean_semantic_authority": "Lean-LSP observation for the exact filesystem content digest",
+    "remote_ci_authority": "GitHub exact-head/CI observation",
+    "local_diff_authority": "Git MCP local diff observation",
+    "provider_overlap_implies_semantic_identity": false
+  },
+  "recovery_contract": {
+    "route_degraded_intake_can_complete_after_provider_recovers": true,
+    "task_candidate_retained_on_missing_observations": true,
+    "task_candidate_retained_on_semantic_reobservation": true,
+    "moved_main_returns_to_v7_32_then_v7_33": true
+  },
+  "next": "Derive task-specific analysis/repair readiness from the complete root-bound fact bundle, requesting fresh mutation authority only when the bound task actually needs an effect."
+}
