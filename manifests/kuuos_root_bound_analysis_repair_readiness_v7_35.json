@@ -1,0 +1,70 @@
+{
+  "version": "kuuos_root_bound_analysis_repair_readiness_manifest_v7_35",
+  "purpose": "Derive task-specific analysis and repair readiness from a complete v7.34 root-bound fact bundle, requesting a fresh authority class only when the bound task and mutation intent actually require an effect.",
+  "predecessors": [
+    "KuuOS Root-Bound Development Intake v7.33",
+    "KuuOS Root-Bound Fact Observation Bundle v7.34"
+  ],
+  "core_rules": {
+    "fact_bundle_must_bind_exact_intake": true,
+    "task_root_scope_and_target_must_match": true,
+    "complete_fact_bundle_required_for_readiness": true,
+    "lean_filesystem_semantic_coherence_required": true,
+    "mutation_intent_alone_requests_authority": false,
+    "effect_requirement_derived_from_task_kind_and_mutation_intent": true,
+    "analysis_only_task_may_request_mutation_authority": false,
+    "missing_facts_reject_task": false,
+    "repair_readiness_grants_write_authority": false,
+    "analysis_readiness_grants_write_authority": false,
+    "readiness_executes_mutation": false,
+    "readiness_grants_merge_authority": false,
+    "source_authority_transferred": false
+  },
+  "states": [
+    "root_bound_task_analysis_ready",
+    "root_bound_task_repair_ready_authority_pending",
+    "root_bound_task_effect_ready_authority_pending",
+    "root_bound_task_reclassification_required",
+    "root_bound_task_fact_reobservation_required",
+    "root_bound_task_readiness_binding_obstruction"
+  ],
+  "effect_contracts": {
+    "lean_ci_repair": {
+      "effect_class": "workspace_source_edit",
+      "authority_class": "workspace_write_authority"
+    },
+    "local_worktree_review": {
+      "effect_class": "workspace_git_or_file_mutation",
+      "authority_class": "workspace_write_authority"
+    },
+    "remote_repository_observation": {
+      "effect_class": "github_remote_mutation",
+      "authority_class": "github_write_authority"
+    },
+    "browser_functional_validation": {
+      "effect_class": "browser_session_effect",
+      "authority_class": "browser_effect_authority"
+    },
+    "browser_debugging": {
+      "effect_class": "browser_session_effect",
+      "authority_class": "browser_effect_authority"
+    },
+    "deployment_debugging": {
+      "effect_class": "deployment_provider_effect",
+      "authority_class": "deployment_provider_write_authority"
+    },
+    "database_debugging": {
+      "effect_class": "database_provider_effect",
+      "authority_class": "database_provider_write_authority"
+    },
+    "multi_mcp_orchestration": {
+      "effect_class": "mcp_orchestration_effect",
+      "authority_class": "mcp_orchestration_authority"
+    }
+  },
+  "analysis_only_task_kinds": [
+    "external_library_docs",
+    "mcp_spec_research"
+  ],
+  "next": "Bind the derived authority class to a fresh, scope-exact authority receipt and produce a bounded effect candidate without executing it."
+}
