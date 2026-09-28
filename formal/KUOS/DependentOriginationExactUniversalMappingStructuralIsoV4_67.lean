@@ -168,8 +168,14 @@ private theorem compatibleInverseCompatibility
   have hlift_inv_hom :
       liftIso.inv.hom ≫ liftIso.hom.hom =
         𝟙 g.lift.hom := by
-    have h := congrArg (fun m => m.hom) liftIso.inv_hom_id
-    simpa using h
+    have h :=
+      congrArg
+        (fun m : g.lift ⟶ g.lift => m.hom)
+        liftIso.inv_hom_id
+    change
+      liftIso.inv.hom ≫ liftIso.hom.hom =
+        𝟙 g.lift.hom at h
+    exact h
 
   have hlift_whisker :
       (restrictHigherLocalizedModification
@@ -264,6 +270,50 @@ private noncomputable def compatibleInverse
   compatibility :=
     compatibleInverseCompatibility
       (W := W) A eta rawIso liftIso hraw hlift
+
+/-- The generic compatible inverse is a right inverse of the original
+compatible 2-cell.  After v4.60 extensionality the two goals are exactly the
+native inverse laws of the supplied raw and DO₂ isomorphisms. -/
+private theorem compatibleInverse_hom_inv
+    {X Y : ExactUniversalRawObject (W := W) A}
+    {f g : ExactUniversalRawMorphism (W := W) A X Y}
+    (eta : ExactUniversalRawMorphismTwoCell (W := W) A f g)
+    (rawIso : f.raw ≅ g.raw)
+    (liftIso : f.lift ≅ g.lift)
+    (hraw : eta.raw = rawIso.hom)
+    (hlift : eta.lift = liftIso.hom) :
+    eta ≫
+        compatibleInverse
+          (W := W) A eta rawIso liftIso hraw hlift =
+      𝟙 f := by
+  apply ExactUniversalRawMorphismTwoCell.ext
+  · change eta.raw ≫ rawIso.inv = 𝟙 f.raw
+    rw [hraw]
+    exact rawIso.hom_inv_id
+  · change eta.lift ≫ liftIso.inv = 𝟙 f.lift
+    rw [hlift]
+    exact liftIso.hom_inv_id
+
+/-- The generic compatible inverse is also a left inverse. -/
+private theorem compatibleInverse_inv_hom
+    {X Y : ExactUniversalRawObject (W := W) A}
+    {f g : ExactUniversalRawMorphism (W := W) A X Y}
+    (eta : ExactUniversalRawMorphismTwoCell (W := W) A f g)
+    (rawIso : f.raw ≅ g.raw)
+    (liftIso : f.lift ≅ g.lift)
+    (hraw : eta.raw = rawIso.hom)
+    (hlift : eta.lift = liftIso.hom) :
+    compatibleInverse
+          (W := W) A eta rawIso liftIso hraw hlift ≫
+        eta =
+      𝟙 g := by
+  apply ExactUniversalRawMorphismTwoCell.ext
+  · change rawIso.inv ≫ eta.raw = 𝟙 g.raw
+    rw [hraw]
+    exact rawIso.inv_hom_id
+  · change liftIso.inv ≫ eta.lift = 𝟙 g.lift
+    rw [hlift]
+    exact liftIso.inv_hom_id
 
 /-!
 ## Structural inverse cells
@@ -401,10 +451,14 @@ isomorphisms.
       (ExactUniversalRawMorphism.comp
         (W := W) A
         (ExactUniversalRawMorphism.comp (W := W) A f g)
-        h) := by
-  apply ExactUniversalRawMorphismTwoCell.ext
-  · simp
-  · simp
+        h) :=
+  compatibleInverse_hom_inv
+    (W := W) A
+    (ExactUniversalRawMorphismTwoCell.associator (W := W) A f g h)
+    (Pseudofunctor.StrongTrans.associator f.raw g.raw h.raw)
+    (completion2AssociatorIso (W := W) A f.lift g.lift h.lift)
+    rfl
+    rfl
 
 @[simp] theorem ExactUniversalRawMorphismTwoCell.associator_inv_hom
     {X Y Z T : ExactUniversalRawObject (W := W) A}
@@ -416,10 +470,14 @@ isomorphisms.
     𝟙
       (ExactUniversalRawMorphism.comp
         (W := W) A f
-        (ExactUniversalRawMorphism.comp (W := W) A g h)) := by
-  apply ExactUniversalRawMorphismTwoCell.ext
-  · simp
-  · simp
+        (ExactUniversalRawMorphism.comp (W := W) A g h)) :=
+  compatibleInverse_inv_hom
+    (W := W) A
+    (ExactUniversalRawMorphismTwoCell.associator (W := W) A f g h)
+    (Pseudofunctor.StrongTrans.associator f.raw g.raw h.raw)
+    (completion2AssociatorIso (W := W) A f.lift g.lift h.lift)
+    rfl
+    rfl
 
 @[simp] theorem ExactUniversalRawMorphismTwoCell.leftUnitor_hom_inv
     {X Y : ExactUniversalRawObject (W := W) A}
@@ -430,20 +488,28 @@ isomorphisms.
       (ExactUniversalRawMorphism.comp
         (W := W) A
         (ExactUniversalRawMorphism.id (W := W) A X)
-        f) := by
-  apply ExactUniversalRawMorphismTwoCell.ext
-  · simp
-  · simp
+        f) :=
+  compatibleInverse_hom_inv
+    (W := W) A
+    (ExactUniversalRawMorphismTwoCell.leftUnitor (W := W) A f)
+    (Pseudofunctor.StrongTrans.leftUnitor f.raw)
+    (completion2LeftUnitorIso (W := W) A f.lift)
+    rfl
+    rfl
 
 @[simp] theorem ExactUniversalRawMorphismTwoCell.leftUnitor_inv_hom
     {X Y : ExactUniversalRawObject (W := W) A}
     (f : ExactUniversalRawMorphism (W := W) A X Y) :
     ExactUniversalRawMorphismTwoCell.leftUnitorInv (W := W) A f ≫
       ExactUniversalRawMorphismTwoCell.leftUnitor (W := W) A f =
-    𝟙 f := by
-  apply ExactUniversalRawMorphismTwoCell.ext
-  · simp
-  · simp
+    𝟙 f :=
+  compatibleInverse_inv_hom
+    (W := W) A
+    (ExactUniversalRawMorphismTwoCell.leftUnitor (W := W) A f)
+    (Pseudofunctor.StrongTrans.leftUnitor f.raw)
+    (completion2LeftUnitorIso (W := W) A f.lift)
+    rfl
+    rfl
 
 @[simp] theorem ExactUniversalRawMorphismTwoCell.rightUnitor_hom_inv
     {X Y : ExactUniversalRawObject (W := W) A}
@@ -453,20 +519,28 @@ isomorphisms.
     𝟙
       (ExactUniversalRawMorphism.comp
         (W := W) A f
-        (ExactUniversalRawMorphism.id (W := W) A Y)) := by
-  apply ExactUniversalRawMorphismTwoCell.ext
-  · simp
-  · simp
+        (ExactUniversalRawMorphism.id (W := W) A Y)) :=
+  compatibleInverse_hom_inv
+    (W := W) A
+    (ExactUniversalRawMorphismTwoCell.rightUnitor (W := W) A f)
+    (Pseudofunctor.StrongTrans.rightUnitor f.raw)
+    (completion2RightUnitorIso (W := W) A f.lift)
+    rfl
+    rfl
 
 @[simp] theorem ExactUniversalRawMorphismTwoCell.rightUnitor_inv_hom
     {X Y : ExactUniversalRawObject (W := W) A}
     (f : ExactUniversalRawMorphism (W := W) A X Y) :
     ExactUniversalRawMorphismTwoCell.rightUnitorInv (W := W) A f ≫
       ExactUniversalRawMorphismTwoCell.rightUnitor (W := W) A f =
-    𝟙 f := by
-  apply ExactUniversalRawMorphismTwoCell.ext
-  · simp
-  · simp
+    𝟙 f :=
+  compatibleInverse_inv_hom
+    (W := W) A
+    (ExactUniversalRawMorphismTwoCell.rightUnitor (W := W) A f)
+    (Pseudofunctor.StrongTrans.rightUnitor f.raw)
+    (completion2RightUnitorIso (W := W) A f.lift)
+    rfl
+    rfl
 
 /-- Source associator packaged as an isomorphism in the v4.60 hom category. -/
 noncomputable def ExactUniversalRawMorphismTwoCell.associatorIso
