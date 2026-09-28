@@ -1,0 +1,45 @@
+{
+  "version": "kuuos_root_bound_development_intake_manifest_v7_33",
+  "purpose": "Bind a new development task to a fresh v7.32 lineage root and select the minimum verified MCP fact planes without executing edits or inheriting predecessor authority.",
+  "predecessors": [
+    "KuuOS Development Lineage Re-rooting v7.32",
+    "KuuOS Development MCP Capability Routing v7.24"
+  ],
+  "core_rules": {
+    "task_must_bind_exact_lineage_root": true,
+    "task_must_bind_root_main_sha": true,
+    "task_must_bind_intent_and_scope_digests": true,
+    "root_movement_requires_reroot_reobservation": true,
+    "mutation_intent_is_allowed": true,
+    "intake_executes_mutation": false,
+    "intake_grants_write_authority": false,
+    "intake_grants_merge_authority": false,
+    "predecessor_authority_may_be_reused": false,
+    "missing_required_mcp_plane_rejects_task": false,
+    "local_reconciliation_blocks_remote_only_intake": false,
+    "target_paths_must_remain_inside_repository": true
+  },
+  "states": [
+    "root_bound_task_intake_ready",
+    "root_bound_task_intake_ready_local_reconciliation_required",
+    "root_bound_task_intake_ready_future_mutation_authority_required",
+    "root_bound_task_intake_route_degraded",
+    "root_main_reobservation_required",
+    "root_binding_obstruction",
+    "task_binding_obstruction"
+  ],
+  "routing_contract": {
+    "router": "KuuOS Development MCP Capability Routing v7.24",
+    "routing_is_preview_only": true,
+    "routing_request_write": false,
+    "mutation_requested_preserved_separately": true,
+    "required_fact_planes_are_task_specific": true,
+    "maximal_profile_activated_by_default": false
+  },
+  "root_freshness_contract": {
+    "fresh_current_main_observation_required": true,
+    "current_main_must_equal_bound_root_for_task_intake": true,
+    "changed_current_main_returns_to_v7_32": true
+  },
+  "next": "Materialize the required fresh observations for the root-bound task and only then derive repair/readiness states; acquire new authority separately when mutation is requested."
+}
