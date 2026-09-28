@@ -275,6 +275,7 @@ def build_root_bound_development_intake(
     }
 
     routing = None
+    routing_provider_unavailable = False
     if not blockers:
         routing = route_development_mcp_task(
             registry=registry,
@@ -282,7 +283,17 @@ def build_root_bound_development_intake(
             environment=environment,
         )
         if routing.status == ROUTING_BLOCKED:
-            blockers.extend("routing:" + item for item in routing.blockers)
+            if routing.blockers:
+                blockers.extend("routing:" + item for item in routing.blockers)
+            elif routing.unavailable_required_count > 0:
+                # v7.24 correctly blocks task execution when a required provider
+                # is unavailable. v7.33 is earlier: intake preserves the task and
+                # records degraded routing so the provider can be restored later.
+                routing_provider_unavailable = True
+            else:
+                blockers.append("routing_blocked_without_typed_reason")
+        elif routing.status == ROUTING_PARTIAL:
+            routing_provider_unavailable = routing.unavailable_required_count > 0
 
     local_reconciliation_required = bool(
         source.get("local_reconciliation_required") is True
@@ -306,7 +317,7 @@ def build_root_bound_development_intake(
             }
         )
         route_status = routing.status
-    elif routing.status == ROUTING_PARTIAL:
+    elif routing_provider_unavailable or routing.status == ROUTING_PARTIAL:
         state = ROUTE_DEGRADED
         status = PARTIAL
         next_route = "retain_task_intake_and_restore_required_mcp_planes"
@@ -392,6 +403,12 @@ def build_root_bound_development_intake(
         ),
         "routing_unavailable_required_count": (
             routing.unavailable_required_count if routing is not None else 0
+        ),
+        "routing_blocked_only_by_provider_unavailability": bool(
+            routing_provider_unavailable
+        ),
+        "routing_schema_or_request_blockers": (
+            list(routing.blockers) if routing is not None else []
         ),
         "mutation_requested": mutation_requested,
         "intake_executes_mutation": False,
