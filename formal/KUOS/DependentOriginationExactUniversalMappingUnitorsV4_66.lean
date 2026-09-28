@@ -232,14 +232,16 @@ compatibility goal. -/
         (𝟙 (X.raw.obj (LocallyDiscrete.mk U)))
         (f.raw.app (LocallyDiscrete.mk U))).hom := by
   rw [ExactUniversalRawMorphism.comp_comparison_square_hom_app]
+  simp only [
+    ExactUniversalRawMorphism.id_comparison_square_hom_app,
+    ExactUniversalRawMorphism.id_raw
+  ]
   dsimp [
     ExactUniversalRawMorphism.id,
     CategoryTheory.Bicategory.InducedBicategory.categoryStruct,
     Pseudofunctor.StrongTrans.categoryStruct,
     Pseudofunctor.StrongTrans.id,
-    restrictHigherLocalizedStrongTrans,
-    Pseudofunctor.StrongTrans.leftUnitor,
-    Pseudofunctor.StrongTrans.rightUnitor
+    restrictHigherLocalizedStrongTrans
   ]
 
 /-- Component normal form for composing the mapping-property identity on the
@@ -277,14 +279,16 @@ right. -/
         (f.raw.app (LocallyDiscrete.mk U))
         (𝟙 (Y.raw.obj (LocallyDiscrete.mk U)))).hom := by
   rw [ExactUniversalRawMorphism.comp_comparison_square_hom_app]
+  simp only [
+    ExactUniversalRawMorphism.id_comparison_square_hom_app,
+    ExactUniversalRawMorphism.id_raw
+  ]
   dsimp [
     ExactUniversalRawMorphism.id,
     CategoryTheory.Bicategory.InducedBicategory.categoryStruct,
     Pseudofunctor.StrongTrans.categoryStruct,
     Pseudofunctor.StrongTrans.id,
-    restrictHigherLocalizedStrongTrans,
-    Pseudofunctor.StrongTrans.leftUnitor,
-    Pseudofunctor.StrongTrans.rightUnitor
+    restrictHigherLocalizedStrongTrans
   ]
 
 /-- Exact component of the raw StrongTrans left unitor. -/
