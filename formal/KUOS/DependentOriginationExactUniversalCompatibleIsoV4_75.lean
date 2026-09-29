@@ -121,8 +121,8 @@ def exactUniversalTwoCellEquivComma :
 
 instance exactUniversalComparisonCommaFunctor_faithful :
     (exactUniversalComparisonCommaFunctor (W := W) A X Y).Faithful where
-  map_injective {f g} eta theta h :=
-    (exactUniversalTwoCellEquivComma (W := W) A (f := f) (g := g)).injective h
+  map_injective {f g} :=
+    (exactUniversalTwoCellEquivComma (W := W) A (f := f) (g := g)).injective
 
 instance exactUniversalComparisonCommaFunctor_full :
     (exactUniversalComparisonCommaFunctor (W := W) A X Y).Full where
@@ -250,13 +250,37 @@ example (e : f ≅ g) :
       ((exactUniversalSourceIsoEquivCompatibleComponents (W := W) A) e) = e :=
   (exactUniversalSourceIsoEquivCompatibleComponents (W := W) A).symm_apply_apply e
 
+example (e : ExactUniversalCompatibleComponentIso (W := W) A f g) :
+    (exactUniversalSourceIsoEquivCompatibleComponents (W := W) A)
+      ((exactUniversalSourceIsoEquivCompatibleComponents (W := W) A).symm e) = e :=
+  (exactUniversalSourceIsoEquivCompatibleComponents (W := W) A).apply_symm_apply e
+
 example (eta : f ⟶ g) [IsIso eta.raw] [IsIso eta.lift] : IsIso eta :=
   (exactUniversalTwoCell_isIso_iff (W := W) A eta).2 ⟨inferInstance, inferInstance⟩
 
+-- Instance synthesis does not unfold the ordinary definitions of the source
+-- identity/vertical composite. Expose their projected morphisms with `change`
+-- before asking Mathlib for the standard identity/composition instances.
 example (f : ExactUniversalRawMorphism (W := W) A X Y) :
-    IsIso (𝟙 f : f ⟶ f) :=
-  (exactUniversalTwoCell_isIso_iff (W := W) A (𝟙 f)).2
-    ⟨inferInstance, inferInstance⟩
+    IsIso (𝟙 f : f ⟶ f) := by
+  apply (exactUniversalTwoCell_isIso_iff (W := W) A (𝟙 f)).2
+  constructor
+  · change IsIso (𝟙 f.raw)
+    infer_instance
+  · change IsIso (𝟙 f.lift)
+    infer_instance
+
+example {h : ExactUniversalRawMorphism (W := W) A X Y}
+    (eta : f ⟶ g) (theta : g ⟶ h)
+    [IsIso eta.raw] [IsIso eta.lift]
+    [IsIso theta.raw] [IsIso theta.lift] :
+    IsIso (eta ≫ theta) := by
+  apply (exactUniversalTwoCell_isIso_iff (W := W) A (eta ≫ theta)).2
+  constructor
+  · change IsIso (eta.raw ≫ theta.raw)
+    infer_instance
+  · change IsIso (eta.lift ≫ theta.lift)
+    infer_instance
 
 #print axioms exactUniversalSourceIsoEquivCompatibleComponents
 #print axioms exactUniversalTwoCell_isIso_iff
