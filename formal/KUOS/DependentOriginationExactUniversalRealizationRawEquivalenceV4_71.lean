@@ -25,22 +25,21 @@ set_option autoImplicit false
 noncomputable section
 
 /-!
-# Raw-equivalence invariance of the exact realization v4.71
+# Coherent raw-equivalence invariance of strict realization v4.71
 
-v4.56 proves object-level uniqueness and naturality for coherent exact
-universal targets.  v4.70 packages the chosen carrier projection as a strict
-pseudofunctor on the exact universal mapping source.
+The v4.55 transport keeps the chosen DO₂ carrier definitionally unchanged.
+The v4.56 universal-target theorem supplies a native bicategorical equivalence
+to any exact universal target for the transported raw system. The object map
+of the v4.70 strict realization is definitionally the chosen carrier.
 
-This file reconnects those two layers at the source-object boundary.
+These are constructor-level identifications, not equalities of entire
+pseudofunctors. The proofs below therefore reuse the native equivalence witness
+directly, without simplification of its type or expansion of coherence data.
 
-If two exact universal raw objects have coherently equivalent raw contextual
-systems, then their images under the strict DO₂ realization are bicategorically
-equivalent.  Thus the realization depends on the raw system only up to the
-coherent raw-equivalence notion already proved sufficient for exact universal
-target transport.
-
-No choice of presentation is identified definitionally, and no arbitrary
-one-way raw morphism is promoted to an equivalence.
+This file concerns equivalence of realized objects under a two-sided coherent
+raw equivalence. It does not promote every one-way raw morphism to an
+equivalence, identify distinct carriers definitionally, or supply compatible
+unit and counit 2-cells in the source bicategory.
 -/
 
 universe u v uH vH
@@ -49,47 +48,33 @@ variable {Context : Type u} [Category.{v} Context]
 variable (W : MorphismProperty Context)
 variable (A : RefinementAtlas (LocalizedContext W))
 
-/-- Coherently equivalent raw systems carried by exact-universal source objects
-have equivalent realized objects in DO₂. -/
+/-- A coherent raw equivalence induces a bicategorical equivalence between the
+objects selected by the strict DO₂ realization. -/
 theorem exactUniversalRealization_equivalent_of_rawCoherentEquivalence
     (X Y : ExactUniversalRawObject.{u, v, uH, vH} (W := W) A)
     (E : HigherRawSystemCoherentEquivalence X.raw Y.raw) :
     Nonempty
       (Bicategory.Equivalence
         ((exactUniversalRealization (W := W) A).obj X)
-        ((exactUniversalRealization (W := W) A).obj Y)) := by
-  simpa only [exactUniversalRealization_obj] using
-    (transportedUniversalTarget_isCompletion2EquivalentToAnyTarget
-      (W := W) A
-      E
-      X.presentation X.universal
-      Y.presentation Y.universal)
+        ((exactUniversalRealization (W := W) A).obj Y)) :=
+  transportedUniversalTarget_isCompletion2EquivalentToAnyTarget
+    (W := W) A E X.presentation X.universal Y.presentation Y.universal
 
-/-- Carrier-level spelling of the same presentation-independent naturality
-statement. -/
+/-- The same result expressed using the chosen carriers directly. -/
 theorem exactUniversalRawObject_carrier_equivalent_of_rawCoherentEquivalence
     (X Y : ExactUniversalRawObject.{u, v, uH, vH} (W := W) A)
     (E : HigherRawSystemCoherentEquivalence X.raw Y.raw) :
-    Nonempty (Bicategory.Equivalence X.carrier Y.carrier) := by
-  exact
-    transportedUniversalTarget_isCompletion2EquivalentToAnyTarget
-      (W := W) A
-      E
-      X.presentation X.universal
-      Y.presentation Y.universal
+    Nonempty (Bicategory.Equivalence X.carrier Y.carrier) :=
+  transportedUniversalTarget_isCompletion2EquivalentToAnyTarget
+    (W := W) A E X.presentation X.universal Y.presentation Y.universal
 
 /-!
 ## Boundary after v4.71
 
-The exact-universal mapping source now has a strict DO₂ realization, and that
-realization is invariant up to bicategorical equivalence under coherent
-equivalence of the underlying raw contextual systems.
-
-The remaining general mapping-property problem is genuinely about arbitrary
-admissible raw morphisms: a one-way morphism does not by itself supply the
-two-sided coherent data used here.  Closing that gap requires a theorem that
-constructs the appropriate exact-universal mapping 1-cell (or an explicit
-obstruction) from the chosen admissibility hypothesis.
+Object-level raw-equivalence invariance is connected to the strict realization.
+The next question is exact liftability of an arbitrary raw morphism between
+chosen presentations, or its explicit obstruction. A source bicategorical
+equivalence requires further compatible source 2-cell data.
 -/
 
 end
