@@ -56,6 +56,41 @@ variable {Context : Type u} [Category.{v} Context]
 variable (W : MorphismProperty Context)
 variable (A : RefinementAtlas (LocalizedContext W))
 
+/-- Realization of source left whiskering is the native DO₂ left whiskering. -/
+@[simp] theorem exactUniversalRealization_source_whiskerLeft_lift
+    {X Y Z : ExactUniversalRawObject.{u, v, uH, vH} (W := W) A}
+    (f : X ⟶ Y) {g h : Y ⟶ Z} (eta : g ⟶ h) :
+    (f ◁ eta).lift = f.lift ◁ eta.lift :=
+  rfl
+
+/-- Realization of source right whiskering is the native DO₂ right whiskering. -/
+@[simp] theorem exactUniversalRealization_source_whiskerRight_lift
+    {X Y Z : ExactUniversalRawObject.{u, v, uH, vH} (W := W) A}
+    {f g : X ⟶ Y} (eta : f ⟶ g) (h : Y ⟶ Z) :
+    (eta ▷ h).lift = eta.lift ▷ h.lift :=
+  rfl
+
+/-- Realization of the source left unitor hom is the native DO₂ left unitor hom. -/
+@[simp] theorem exactUniversalRealization_source_leftUnitor_lift
+    {X Y : ExactUniversalRawObject.{u, v, uH, vH} (W := W) A}
+    (f : X ⟶ Y) :
+    (λ_ f).hom.lift = (λ_ f.lift).hom :=
+  rfl
+
+/-- Realization of the source right unitor hom is the native DO₂ right unitor hom. -/
+@[simp] theorem exactUniversalRealization_source_rightUnitor_lift
+    {X Y : ExactUniversalRawObject.{u, v, uH, vH} (W := W) A}
+    (f : X ⟶ Y) :
+    (ρ_ f).hom.lift = (ρ_ f.lift).hom :=
+  rfl
+
+/-- Realization of the source associator hom is the native DO₂ associator hom. -/
+@[simp] theorem exactUniversalRealization_source_associator_lift
+    {V X Y Z : ExactUniversalRawObject.{u, v, uH, vH} (W := W) A}
+    (f : V ⟶ X) (g : X ⟶ Y) (h : Y ⟶ Z) :
+    (α_ f g h).hom.lift = (α_ f.lift g.lift h.lift).hom :=
+  rfl
+
 /-- The strict realization core from the exact universal mapping source into
 the chosen DO₂ carrier. -/
 noncomputable def exactUniversalRealizationStrictCore :
@@ -72,23 +107,23 @@ noncomputable def exactUniversalRealizationStrictCore :
   map₂_whisker_left := by
     intro X Y Z f g g' eta
     apply CategoryTheory.Bicategory.InducedBicategory.hom₂_ext
-    simp [ExactUniversalRawObject.bicategory]
+    simp
   map₂_whisker_right := by
     intro X Y Z f f' eta g
     apply CategoryTheory.Bicategory.InducedBicategory.hom₂_ext
-    simp [ExactUniversalRawObject.bicategory]
+    simp
   map₂_left_unitor := by
     intro X Y f
     apply CategoryTheory.Bicategory.InducedBicategory.hom₂_ext
-    simp [ExactUniversalRawObject.bicategory]
+    simp
   map₂_right_unitor := by
     intro X Y f
     apply CategoryTheory.Bicategory.InducedBicategory.hom₂_ext
-    simp [ExactUniversalRawObject.bicategory]
+    simp
   map₂_associator := by
     intro X Y Z T f g h
     apply CategoryTheory.Bicategory.InducedBicategory.hom₂_ext
-    simp [ExactUniversalRawObject.bicategory]
+    simp
 
 /-- The DO₂ realization of the exact universal mapping source is a strict
 pseudofunctor. -/
