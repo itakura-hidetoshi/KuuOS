@@ -72,23 +72,23 @@ noncomputable def exactUniversalRealizationStrictCore :
   map₂_whisker_left := by
     intro X Y Z f g g' eta
     apply CategoryTheory.Bicategory.InducedBicategory.hom₂_ext
-    simp
+    simp [ExactUniversalRawObject.bicategory]
   map₂_whisker_right := by
     intro X Y Z f f' eta g
     apply CategoryTheory.Bicategory.InducedBicategory.hom₂_ext
-    simp
+    simp [ExactUniversalRawObject.bicategory]
   map₂_left_unitor := by
     intro X Y f
     apply CategoryTheory.Bicategory.InducedBicategory.hom₂_ext
-    simp
+    simp [ExactUniversalRawObject.bicategory]
   map₂_right_unitor := by
     intro X Y f
     apply CategoryTheory.Bicategory.InducedBicategory.hom₂_ext
-    simp
+    simp [ExactUniversalRawObject.bicategory]
   map₂_associator := by
     intro X Y Z T f g h
     apply CategoryTheory.Bicategory.InducedBicategory.hom₂_ext
-    simp
+    simp [ExactUniversalRawObject.bicategory]
 
 /-- The DO₂ realization of the exact universal mapping source is a strict
 pseudofunctor. -/
