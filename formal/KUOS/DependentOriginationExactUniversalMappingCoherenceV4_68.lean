@@ -61,21 +61,21 @@ theorem ExactUniversalRawMorphismTwoCell.pentagon
     (i : ExactUniversalRawMorphism (W := W) A Z T) :
     ExactUniversalRawMorphismTwoCell.vcomp
       (W := W) A
+      (ExactUniversalRawMorphismTwoCell.whiskerRight
+        (W := W) A
+        (ExactUniversalRawMorphismTwoCell.associator
+          (W := W) A f g h)
+        i)
       (ExactUniversalRawMorphismTwoCell.vcomp
         (W := W) A
-        (ExactUniversalRawMorphismTwoCell.whiskerRight
-          (W := W) A
-          (ExactUniversalRawMorphismTwoCell.associator
-            (W := W) A f g h)
-          i)
         (ExactUniversalRawMorphismTwoCell.associator
           (W := W) A f
           (ExactUniversalRawMorphism.comp (W := W) A g h)
-          i))
-      (ExactUniversalRawMorphismTwoCell.whiskerLeft
-        (W := W) A f
-        (ExactUniversalRawMorphismTwoCell.associator
-          (W := W) A g h i)) =
+          i)
+        (ExactUniversalRawMorphismTwoCell.whiskerLeft
+          (W := W) A f
+          (ExactUniversalRawMorphismTwoCell.associator
+            (W := W) A g h i))) =
     ExactUniversalRawMorphismTwoCell.vcomp
       (W := W) A
       (ExactUniversalRawMorphismTwoCell.associator
