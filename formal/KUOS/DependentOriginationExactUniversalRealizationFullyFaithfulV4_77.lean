@@ -135,18 +135,28 @@ private theorem pointwiseWhiskerPreimage_naturality
     ← pointwiseWhiskerPreimage_app c hc tau U x] at ht
   letI : IsIso ((c.naturality p).hom.toNatTrans.app x) :=
     ((Cat.Hom.toNatIso (c.naturality p)).app x).isIso_hom
-  apply (cancel_epi
-    ((r.app V).toFunctor.map ((c.naturality p).hom.toNatTrans.app x))).1
+  -- Fix the component endpoints before applying categorical laws. Explicit
+  -- proof terms avoid `rw`/`simp` matching across the Cat/functor wrappers.
+  let alpha := pointwiseWhiskerPreimage c hc tau V
+  let y₀ := (c.app V).toFunctor.obj ((R.map p).toFunctor.obj x)
+  let y₁ := (S.map p).toFunctor.obj ((c.app U).toFunctor.obj x)
+  let k : y₀ ⟶ y₁ := (c.naturality p).hom.toNatTrans.app x
+  let rMap := (r.app V).toFunctor.map k
+  let sMap := (s.app V).toFunctor.map k
+  let rNat := (r.naturality p).hom.toNatTrans.app ((c.app U).toFunctor.obj x)
+  let sNat := (s.naturality p).hom.toNatTrans.app ((c.app U).toFunctor.obj x)
+  let tail := (T.map p).toFunctor.map
+    ((pointwiseWhiskerPreimage c hc tau U).app ((c.app U).toFunctor.obj x))
+  apply (cancel_epi rMap).1
   calc
-    _ = ((pointwiseWhiskerPreimage c hc tau V).app
-          ((c.app V).toFunctor.obj ((R.map p).toFunctor.obj x)) ≫
-        (s.app V).toFunctor.map ((c.naturality p).hom.toNatTrans.app x)) ≫
-          (s.naturality p).hom.toNatTrans.app ((c.app U).toFunctor.obj x) := by
-      rw [← Category.assoc,
-        (pointwiseWhiskerPreimage c hc tau V).naturality
-          ((c.naturality p).hom.toNatTrans.app x)]
-    _ = _ := by
-      simpa only [Category.assoc] using ht
+    rMap ≫ (alpha.app y₁ ≫ sNat) = (rMap ≫ alpha.app y₁) ≫ sNat :=
+      (Category.assoc rMap (alpha.app y₁) sNat).symm
+    _ = (alpha.app y₀ ≫ sMap) ≫ sNat :=
+      eq_whisker (alpha.naturality k) sNat
+    _ = alpha.app y₀ ≫ (sMap ≫ sNat) :=
+      Category.assoc (alpha.app y₀) sMap sNat
+    _ = (rMap ≫ rNat) ≫ tail := ht
+    _ = rMap ≫ (rNat ≫ tail) := Category.assoc rMap rNat tail
 
 /-- Assemble the pointwise preimages into an actual modification. -/
 def pseudofunctorWhiskerLeftPreimage (tau : c ≫ r ⟶ c ≫ s) : r ⟶ s where
