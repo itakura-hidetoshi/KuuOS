@@ -112,7 +112,9 @@ private theorem pointwiseWhiskerPreimage_naturality
   apply ((Functor.whiskeringLeft
     (R.obj U) (S.obj U) (T.obj V)).obj (c.app U).toFunctor).map_injective
   apply NatTrans.ext
-  intro x
+  -- `NatTrans.ext` leaves equality of the dependent component functions,
+  -- not a universally quantified goal that `intro` could introduce.
+  funext x
   change
     (pointwiseWhiskerPreimage c hc tau V).app
         ((S.map p).toFunctor.obj ((c.app U).toFunctor.obj x)) ≫
@@ -171,6 +173,11 @@ theorem pseudofunctorWhiskerLeft_surjective_of_pointwiseEquivalence :
   exact ⟨pseudofunctorWhiskerLeftPreimage c hc tau,
     pseudofunctorWhiskerLeftPreimage_spec c hc tau⟩
 
+-- Exercise the assembled modification over an arbitrary base bicategory.
+example (tau : c ≫ r ⟶ c ≫ s) :
+    c ◁ pseudofunctorWhiskerLeftPreimage c hc tau = tau :=
+  pseudofunctorWhiskerLeftPreimage_spec c hc tau
+
 end Pointwise
 
 variable {Context : Type u} [Category.{v} Context]
@@ -209,8 +216,16 @@ def exactUniversalCompletion2Preimage (ell : f.lift ⟶ g.lift) : f ⟶ g := by
     (restrictHigherLocalizedModification (W := W) ell.hom ▷
         Y.presentation.comparison) ≫ g.comparison_square.hom =
       f.comparison_square.hom ≫ F.map (F.preimage square)
-  simpa only [square, Iso.hom_inv_id_assoc] using
-    (congrArg (fun m => f.comparison_square.hom ≫ m) (F.map_preimage square)).symm
+  -- Specialize inverse cancellation to the stored comparison explicitly.
+  -- This avoids asking `simp` to infer that isomorphism through the wrappers.
+  calc
+    _ = f.comparison_square.hom ≫ square :=
+      (f.comparison_square.hom_inv_id_assoc
+        ((restrictHigherLocalizedModification (W := W) ell.hom ▷
+          Y.presentation.comparison) ≫ g.comparison_square.hom)).symm
+    _ = f.comparison_square.hom ≫ F.map (F.preimage square) :=
+      congrArg (fun m : F.obj f.raw ⟶ F.obj g.raw =>
+        f.comparison_square.hom ≫ m) (F.map_preimage square).symm
 
 /-- Fullness of the actual DO₂ realization, not merely its comma embedding. -/
 instance exactUniversalCompletion2HomFunctor_full :
@@ -271,10 +286,18 @@ example (ell : f.lift ⟶ g.lift) :
 example (ell : f.lift ≅ g.lift) : Nonempty (f ≅ g) :=
   ⟨exactUniversalSourceIsoOfLift (W := W) A ell⟩
 
+-- A lifted isomorphism must realize to the prescribed one, not just exist.
+example (ell : f.lift ≅ g.lift) :
+    (exactUniversalCompletion2HomFunctor (W := W) A X Y).mapIso
+      (exactUniversalSourceIsoOfLift (W := W) A ell) = ell := by
+  apply Iso.ext
+  exact (exactUniversalCompletion2HomFunctor (W := W) A X Y).map_preimage ell.hom
+
 example (ell : f.lift ⟶ g.lift) :
     ∃! eta : f ⟶ g, eta.lift = ell :=
   existsUnique_exactUniversalTwoCell_of_lift (W := W) A ell
 
+#print axioms pointwiseWhiskerPreimage_naturality
 #print axioms pseudofunctorWhiskerLeft_surjective_of_pointwiseEquivalence
 #print axioms exactUniversalCompletion2HomFullyFaithful
 #print axioms exactUniversalTwoCellEquivLift
