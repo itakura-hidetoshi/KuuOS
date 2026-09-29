@@ -133,21 +133,23 @@ private theorem pointwiseWhiskerPreimage_naturality
   rw [compositeNaturality_app c s p x, compositeNaturality_app c r p x,
     ← pointwiseWhiskerPreimage_app c hc tau V ((R.map p).toFunctor.obj x),
     ← pointwiseWhiskerPreimage_app c hc tau U x] at ht
-  letI : IsIso ((c.naturality p).hom.toNatTrans.app x) :=
-    ((Cat.Hom.toNatIso (c.naturality p)).app x).isIso_hom
   -- Fix the component endpoints before applying categorical laws. Explicit
   -- proof terms avoid `rw`/`simp` matching across the Cat/functor wrappers.
   let alpha := pointwiseWhiskerPreimage c hc tau V
   let y₀ := (c.app V).toFunctor.obj ((R.map p).toFunctor.obj x)
   let y₁ := (S.map p).toFunctor.obj ((c.app U).toFunctor.obj x)
-  let k : y₀ ⟶ y₁ := (c.naturality p).hom.toNatTrans.app x
-  let rMap := (r.app V).toFunctor.map k
+  let kIso : y₀ ≅ y₁ := (Cat.Hom.toNatIso (c.naturality p)).app x
+  let k : y₀ ⟶ y₁ := kIso.hom
+  let rIso := (r.app V).toFunctor.mapIso kIso
+  let rMap := rIso.hom
   let sMap := (s.app V).toFunctor.map k
   let rNat := (r.naturality p).hom.toNatTrans.app ((c.app U).toFunctor.obj x)
   let sNat := (s.naturality p).hom.toNatTrans.app ((c.app U).toFunctor.obj x)
   let tail := (T.map p).toFunctor.map
     ((pointwiseWhiskerPreimage c hc tau U).app ((c.app U).toFunctor.obj x))
-  apply (cancel_epi rMap).1
+  -- Retain the actual mapped isomorphism instead of rediscovering `Epi rMap`
+  -- through local aliases and the Cat wrappers by typeclass search.
+  apply (Iso.cancel_iso_hom_left rIso (alpha.app y₁ ≫ sNat) (rNat ≫ tail)).1
   calc
     rMap ≫ (alpha.app y₁ ≫ sNat) = (rMap ≫ alpha.app y₁) ≫ sNat :=
       (Category.assoc rMap (alpha.app y₁) sNat).symm
