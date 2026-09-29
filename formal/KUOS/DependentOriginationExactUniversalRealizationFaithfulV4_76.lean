@@ -79,6 +79,7 @@ instance exactUniversalRawComparisonFunctor_faithful
   map_injective {r s} :=
     rawWhiskerLeft_injective_of_pointwiseEquivalence
       X.presentation.comparison X.presentation.comparison_isEquivalence
+      (r := r) (s := s)
 
 variable {X Y : ExactUniversalRawObject.{u, v, uH, vH} (W := W) A}
 variable {f g : ExactUniversalRawMorphism (W := W) A X Y}
@@ -98,7 +99,13 @@ theorem exactUniversalCompletion2_map_injective :
             Y.presentation.comparison) ≫ g.comparison_square.hom :=
         eta.compatibility.symm
       _ = (restrictHigherLocalizedModification (W := W) theta.lift.hom ▷
-            Y.presentation.comparison) ≫ g.comparison_square.hom := by rw [h]
+            Y.presentation.comparison) ≫ g.comparison_square.hom := by
+        -- Transport the equality through a fixed, typed function instead of
+        -- asking `rw` to match the unreduced lambda application in `h`.
+        exact congrArg
+          (fun ell : f.lift ⟶ g.lift =>
+            (restrictHigherLocalizedModification (W := W) ell.hom ▷
+              Y.presentation.comparison) ≫ g.comparison_square.hom) h
       _ = f.comparison_square.hom ≫ (X.presentation.comparison ◁ theta.raw) :=
         theta.compatibility
   · exact h
@@ -115,7 +122,10 @@ theorem exactUniversalTwoCell_eq_iff_lift_eq (eta theta : f ⟶ g) :
   constructor
   · intro h
     exact congrArg (fun m : f ⟶ g => m.lift) h
-  · exact exactUniversalCompletion2_map_injective (W := W) A
+  · intro h
+    -- Specialize injectivity to this equality; its universally quantified
+    -- proof is not itself the fixed-pair implication expected here.
+    exact exactUniversalCompletion2_map_injective (W := W) A h
 
 /-- For a fixed realized modification, two raw solutions of the comparison
 square coincide. Existence of a solution is deliberately not assumed or claimed. -/
@@ -164,6 +174,15 @@ theorem exactUniversalTwoCell_square_iff
 example : (exactUniversalCompletion2HomFunctor (W := W) A X Y).Faithful :=
   inferInstance
 
+-- Exercise both the polymorphic injectivity API and its fixed-pair use.
+example : Function.Injective (fun eta : f ⟶ g => eta.lift) :=
+  exactUniversalCompletion2_map_injective (W := W) A
+
+example (eta theta : f ⟶ g)
+    (h : (fun m : f ⟶ g => m.lift) eta = (fun m : f ⟶ g => m.lift) theta) :
+    eta = theta :=
+  exactUniversalCompletion2_map_injective (W := W) A h
+
 example (eta theta : f ⟶ g) (h : eta.lift = theta.lift) : eta = theta :=
   (exactUniversalTwoCell_eq_iff_lift_eq (W := W) A eta theta).2 h
 
@@ -179,8 +198,15 @@ example (eta : f ⟶ g) (theta : g ⟶ f)
 example (e d : f ≅ g) (h : e.hom.lift = d.hom.lift) : e = d :=
   (exactUniversalSourceIso_eq_iff_lift_hom_eq (W := W) A e d).2 h
 
+example {h i : ExactUniversalRawMorphism (W := W) A X Y}
+    (alpha : f ⟶ g) (beta : g ⟶ i) (gamma : f ⟶ h) (delta : h ⟶ i)
+    (hsquare : alpha.lift ≫ beta.lift = gamma.lift ≫ delta.lift) :
+    alpha ≫ beta = gamma ≫ delta :=
+  (exactUniversalTwoCell_square_iff (W := W) A alpha beta gamma delta).2 hsquare
+
 #print axioms rawWhiskerLeft_injective_of_pointwiseEquivalence
 #print axioms exactUniversalCompletion2_map_injective
+#print axioms exactUniversalTwoCell_eq_iff_lift_eq
 #print axioms exactUniversalSourceIso_eq_iff_lift_hom_eq
 
 end
