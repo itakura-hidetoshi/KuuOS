@@ -1,42 +1,43 @@
 # KuuOS / 空OS Roadmap
 
-**Theorem snapshot: 2026-09-29 JST · integrated through v4.74**
+**Theorem snapshot: 2026-09-29 JST · integrated through v4.79**
 
-This roadmap separates integrated Lean results from proposed theorem units. It is subordinate to the exact canonical GitHub snapshot and its formal artifacts. [README](README.md) gives the overview.
+**現在地：局所充満忠実性・source 随伴同値・固定した１射対の随伴構造の対応まで統合済み。** 次は、任意の１射の持ち上げと、独立に指定された raw データの保持を分けて扱い、最終的な高次写像性へ接続する。
 
-**現在地：source bicategory と DO₂ への strict realization は構成済み。** coherent raw equivalence の両方向の射の lift が存在し、同じ射の lift は DO₂ 側で同型になる。次の課題は、その同型と raw 成分の compatibility を証明して可逆 source ２射を構成し、unit/counit の整合性から source equivalence へ進むこと。
+This roadmap separates integrated Lean results from proposed obligations. [README](README.md) gives the overview. Exact canonical source is authoritative; historical plans are not evidence that a theorem exists.
 
-## 0. Authority and reproducible snapshot
+## 0. Reproducible theorem snapshot
 
 | Role | Reference |
 | --- | --- |
 | Repository / canonical branch | `itakura-hidetoshi/KuuOS` / **main** |
-| Observed main before this docs-only refresh | `ee0438d23119331c08f4c91365872429a6424d7f` |
-| Latest theorem-bearing baseline | **`ee0438d23119331c08f4c91365872429a6424d7f`** |
-| Latest theorem-bearing merge | [#1910 — equivalence-leg uniqueness v4.74](https://github.com/itakura-hidetoshi/KuuOS/pull/1910) |
-| Exact validated PR head for that theorem unit | `d3d94bb3bf9b4198713a2c38ae071e8493551995` |
-| Associated CI run | [#3235 / 36522637253](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/36522637253) |
-| Head status receipts | `chatgpt-ci-receipt/KuuOS Strict Lean formal validation`: success; `chatgpt-ci-receipt/KuuOS exact-head terminal`: success |
+| Observed main before this docs-only refresh | `b239068dbcfaf8d3e0bce101e7402f9cede34c9f` |
+| Latest theorem-bearing baseline | **`b239068dbcfaf8d3e0bce101e7402f9cede34c9f`** |
+| Latest theorem merge | [#1916 — adjunction lifting v4.79](https://github.com/itakura-hidetoshi/KuuOS/pull/1916) |
+| Exact validated PR head | `e470e1269715582b9f8a0746aa213a0447132d79` |
+| Tested synthetic merge checkout | `617d8fb2667324d3f078a609175da77d4ab05f4d` |
+| Associated CI | [#3250 / 36563945324](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/36563945324), attempt 1: success |
+| Exact-head receipts | `chatgpt-ci-receipt/KuuOS Strict Lean formal validation`: success; `chatgpt-ci-receipt/KuuOS exact-head terminal`: success |
 | Lean | `leanprover/lean4:v4.30.0-rc2` |
 | Mathlib | `5450b53e5ddc75d46418fabb605edbf36bd0beb6` |
 
-The observed-main row records the input to this refresh. It is not the eventual documentation commit or an assertion about a future moving branch. Subsequent docs-only commits advance `main`; they do not create a new theorem frontier. Re-observe the live branch before new work and compare its formal artifacts against this baseline.
+The downloaded Lean artifact `11031183566` has verified SHA-256 `36873a6e3763268445b46832789c92e8a235164d615f325cc58777cc2ce9dbe2`. Its receipt reports return code 0. The v4.79 module contains 15 regression examples and seven axiom reports, all limited to `propext`, `Classical.choice`, and `Quot.sound`, without `sorryAx`.
+
+The [immutable v4.79 artifact](https://github.com/itakura-hidetoshi/KuuOS/blob/b239068dbcfaf8d3e0bce101e7402f9cede34c9f/formal/KUOS/DependentOriginationExactUniversalAdjunctionLiftingV4_79.lean) specifies the statement. The observed-main row records the input to this documentation refresh; its eventual docs-only merge is not a new theorem-bearing baseline.
 
 ```text
-1. fresh exact GitHub canonical SHA
-2. formal Lean theorem artifacts at that SHA
-3. README / ROADMAP
-4. exact-head CI/runtime receipts
-5. history / memory
+fresh exact canonical GitHub SHA
+  > formal Lean theorem artifacts at that SHA
+  > README / ROADMAP
+  > exact-head CI/runtime receipts
+  > history / memory
 ```
 
-A CI receipt must be interpreted with its associated PR head, tested checkout, selected targets, and command. It is evidence of that validation, not a substitute for the theorem statement. Docs/runtime receipts do not validate new Lean content. The latest theorem statement is linked at the [immutable v4.74 baseline](https://github.com/itakura-hidetoshi/KuuOS/blob/ee0438d23119331c08f4c91365872429a6424d7f/formal/KUOS/DependentOriginationExactUniversalEquivalenceLegUniquenessV4_74.lean).
+**Protected lane:** [#1558](https://github.com/itakura-hidetoshi/KuuOS/pull/1558) is Lean 4.31 validation-only, outside canonical theorem authority. Keep it draft and unmerged; do not mark Ready for review, enable auto-merge, or change the canonical pins through it.
 
-**Protected lane:** [#1558](https://github.com/itakura-hidetoshi/KuuOS/pull/1558) is Lean 4.31 validation-only, outside canonical theorem authority. Keep it unmerged and in draft; do not mark Ready for review or enable auto-merge. Do not use it to change the canonical pins.
+## 1. Long-range target and chosen sector
 
-## 1. Long-range target and scope
-
-The research target remains a higher dependent-origination mapping property. The following is a schematic objective, **not an existing Lean theorem or a finalized choice of functor category**:
+The target remains a higher dependent-origination mapping/classification property. This is a schematic research objective, **not an existing theorem or a finalized functor-category choice**:
 
 ```text
 eta : C -> DO(C,W,J,H)
@@ -46,46 +47,23 @@ AdmissibleContextualSystems(C,X)
 Fun(DO(C,W,J,H),X)
 ```
 
-A final statement must specify the exact admissible sector, higher variance, localization and stack-descent hypotheses, compatible 1-cells and 2-cells, coherent uniqueness, and naturality. The current source construction deliberately includes chosen exact presentations and universal-target witnesses. It does not silently include all weakly admissible raw systems.
+A final theorem must specify admissibility, localization and stack descent, higher variance, the target sector, compatible 1-cells and 2-cells, factor existence, coherent uniqueness, and naturality. The present source **already stores** exact presentations and universal-target witnesses; it does not construct them for every weakly admissible raw system.
 
-A quotient, recursive carrier, inverse limit, metric fractal, or completed source bicategory is not by itself the final universal classification theorem. Likewise, strictness of realization does not establish local full faithfulness or a biequivalence.
+In particular, local full faithfulness concerns the maps on 2-cells in each hom category. It does not by itself give essential surjectivity on 1-cells, essential surjectivity on objects, or a global biequivalence.
 
-## 2. Closed obstruction and geometric stress-test spine
+## 2. Closed foundations — v4.00–v4.70
 
-### v4.00–v4.12: exact nonfactorization
-
-The octahedral C2 countermodel separates weak W-admissibility from exact localization:
-
-```text
-weak W-admissibility                     EXISTS
-coherent quotient transport              EXISTS
-quotient coboundary solution             EXISTS
-comparison / presentation lift           IMPOSSIBLE
-HigherLocalizationFactorization          IMPOSSIBLE
-```
-
-[AbstractNonfactorizationV4_00](formal/KUOS/DependentOriginationAbstractNonfactorizationV4_00.lean) establishes nonfactorization. [StageIIObstructionClassV4_12](formal/KUOS/DependentOriginationStageIIObstructionClassV4_12.lean) gives `omega(T) = 1` in `ZMod 2` for every coherent quotient transport. A comparison lift would force the incompatible value zero.
-
-This remains a permanent counterexample to the general implication from weak admissibility to exact presentation/localization.
-
-### v4.13–v4.48: concrete carriers, limits, and descent
-
-The integrated concrete sequence covers the eight-label Stage-II carrier; truncated-icosahedral incidence geometry; global/local capacity obstructions; middle-switch mates, source provenance, and integer orientation; recursive preservation at every finite depth; an inverse limit; fixed-point-free middle-switch; translated ternary Cantor fibers and exact Hausdorff dimension `log 2 / log 3`; zero-dimensional finite approximants with a Hausdorff-limit dimension jump; a bare-carrier self-homeomorphism; exact two-point orbit quotients; integer-orientation non-descent; mod-2 unique descent; and descent of the still-nonzero Stage-II class.
-
-The geometry is a validated instance and stress test. It is not the general definition of dependent origination, and its special finite or metric conclusions are not automatically transferred to arbitrary presentations.
-
-## 3. Closed presentation-general and universal-target layers
-
-| Version | Integrated result | Scope boundary |
+| Versions | Integrated result | Scope retained |
 | --- | --- | --- |
-| v4.49 | Presentation quotient factorization iff invariance; nonfactorization iff presentation-descent obstruction | Abstract presentation data; not the final higher mapping property |
-| v4.50 | Exact DO₂ sector and its higher stack-localization factorization interface | Weak admissibility alone is insufficient |
-| v4.51 | Exact presentability transported by a directed pointwise-equivalence comparison | Same DO₂ carrier, postcomposed raw comparison |
-| v4.52 | Comparison hierarchy for exact presentations | A canonical common-target cospan is not automatically a coherent equivalence |
-| v4.53 | Chosen coherent universal target under a coherent weak universal property plus stack descent of its chosen lift | Conditional factor existence and invertible-modification existence |
-| v4.54 | Mutual coherent comparisons of universal targets; composites modification-isomorphic to identities | Not yet promoted to DO₂ equivalence at that theorem unit |
-| v4.55 | Transport of universal targets under coherent two-sided raw equivalence | Chosen carrier is preserved |
-| v4.56 | Mathlib `Bicategory.Equivalence` between exact coherent universal targets | Not an equivalence theorem for arbitrary exact presentations |
+| v4.00–v4.12 | Exact nonfactorization in the octahedral C2 countermodel; `omega(T) = 1` in `ZMod 2` for every coherent quotient transport | Weak admissibility, coherent quotient transport, and quotient coboundary solvability do not imply comparison liftability |
+| v4.13–v4.48 | Incidence/capacity obstructions; recursive and inverse-limit carriers; exact Cantor dimension `log 2 / log 3`; middle-switch and orbit/orientation descent | Concrete geometry is a stress test, not the general definition |
+| v4.49 | Presentation quotient factorization iff invariance; nonfactorization iff presentation-descent obstruction | Abstract presentation theorem, not final higher universality |
+| v4.50–v4.56 | Exact Cat-valued sector; comparison hierarchy; conditional coherent universal targets; mutual uniqueness; raw-equivalence transport; DO₂ adjoint equivalence of universal targets | Exactness and universality are explicit hypotheses |
+| v4.57–v4.60 | Mapping-compatible source objects/1-cells/2-cells; vertical structure; genuine hom categories and projection functors | Compatibility is part of the 2-cell type |
+| v4.61–v4.68 | Restriction/whiskering compatibility; horizontal interchange; structural inverses; pentagon and triangle | Coherence is proved, not inferred from graph structure |
+| v4.69–v4.70 | Native source `Bicategory` and strict DO₂ realization | Strict pseudofunctor does not mean a strict source bicategory |
+
+Formal entry points: [v4.00](formal/KUOS/DependentOriginationAbstractNonfactorizationV4_00.lean), [v4.12](formal/KUOS/DependentOriginationStageIIObstructionClassV4_12.lean), [v4.40](formal/KUOS/DependentOriginationStageIIExactFractalCertificateV4_40.lean), [v4.48](formal/KUOS/DependentOriginationStageIIOrbitOrientationDescentV4_48.lean), [v4.49](formal/KUOS/DependentOriginationAbstractPresentationDescentV4_49.lean), [v4.50](formal/KUOS/DependentOriginationExactHigherPresentationSectorV4_50.lean), [v4.56](formal/KUOS/DependentOriginationExactUniversalTargetDO2EquivalenceV4_56.lean), [v4.60](formal/KUOS/DependentOriginationExactUniversalMappingHomCategoryV4_60.lean), [v4.69](formal/KUOS/DependentOriginationExactUniversalMappingBicategoryV4_69.lean), [v4.70](formal/KUOS/DependentOriginationExactUniversalRealizationStrictPseudofunctorV4_70.lean).
 
 The exact positive-sector implications remain:
 
@@ -96,264 +74,209 @@ exact DO₂ presentation
   => weak W-admissibility
 ```
 
-Reference entry points: [v4.49](formal/KUOS/DependentOriginationAbstractPresentationDescentV4_49.lean), [v4.50](formal/KUOS/DependentOriginationExactHigherPresentationSectorV4_50.lean), and [v4.56](formal/KUOS/DependentOriginationExactUniversalTargetDO2EquivalenceV4_56.lean).
+The converse from weak admissibility is false in general. No later positive-sector theorem removes that counterexample.
 
-## 4. Closed mapping-source construction — v4.57–v4.70
+## 3. Closed raw-leg lifting — v4.71–v4.74
 
-### Source interface
-
-A source object `X` consists of a raw higher contextual system, a chosen exact DO₂ presentation, and a coherent universal-target witness. A source 1-cell `f : X -> Y` contains:
+[v4.71](formal/KUOS/DependentOriginationExactUniversalRealizationRawEquivalenceV4_71.lean) gives equivalence of the realized carriers under coherent raw equivalence. [v4.72](formal/KUOS/DependentOriginationExactUniversalMorphismLiftabilityV4_72.lean) defines, for fixed chosen source objects:
 
 ```text
-f.raw   : raw StrongTrans
-f.lift  : X.carrier -> Y.carrier
-s_f     : restrict(f.lift) ; c_Y ≅ c_X ; f.raw
-```
-
-A source 2-cell contains a raw modification and a DO₂ modification satisfying the stored comparison-square equation. The equation is part of the type; two unrelated modifications are not a source 2-cell.
-
-### Integrated milestones
-
-| Version | Completed obligation | Formal entry point |
-| --- | --- | --- |
-| v4.57 | Objects, mapping-compatible 1-cells, identities, composition | [MappingMorphism](formal/KUOS/DependentOriginationExactUniversalMappingMorphismV4_57.lean) |
-| v4.58 | Compatible 2-cell interface and restriction of modifications | [MappingTwoCell](formal/KUOS/DependentOriginationExactUniversalMappingTwoCellV4_58.lean) |
-| v4.59–v4.60 | Vertical structure, genuine hom categories, raw/lift projection functors | [HomCategory](formal/KUOS/DependentOriginationExactUniversalMappingHomCategoryV4_60.lean) |
-| v4.61–v4.64 | Restriction preserves whiskering; compatible left/right whiskering; horizontal composition and interchange | [Horizontal](formal/KUOS/DependentOriginationExactUniversalMappingHorizontalV4_64.lean) |
-| v4.65–v4.66 | Compatible associator and both unitor homs | [Associator](formal/KUOS/DependentOriginationExactUniversalMappingAssociatorV4_65.lean), [Unitors](formal/KUOS/DependentOriginationExactUniversalMappingUnitorsV4_66.lean) |
-| v4.67 | Structural inverse 2-cells, both inverse laws, hom-category `Iso` packaging | [StructuralIso](formal/KUOS/DependentOriginationExactUniversalMappingStructuralIsoV4_67.lean) |
-| v4.68 | Pentagon and triangle coherence | [Coherence](formal/KUOS/DependentOriginationExactUniversalMappingCoherenceV4_68.lean) |
-| v4.69 | Genuine source `Bicategory` instance, including the remaining whiskering axioms | [Bicategory](formal/KUOS/DependentOriginationExactUniversalMappingBicategoryV4_69.lean) |
-| v4.70 | DO₂ realization as a Mathlib `StrictPseudofunctor` | [StrictPseudofunctor](formal/KUOS/DependentOriginationExactUniversalRealizationStrictPseudofunctorV4_70.lean) |
-
-These are completed, not proposed milestones. There is no need to rebuild structural inverses, pentagon/triangle, or the source bicategory before continuing.
-
-### Realization
-
-`exactUniversalRealizationStrictCore` is packaged by `StrictPseudofunctor.mk'` as `exactUniversalRealization`:
-
-```text
-X   |-> X.carrier
-f   |-> f.lift
-eta |-> eta.lift
-```
-
-Identity and 1-cell composition are preserved definitionally. Left/right whiskering and the associator/unitors are preserved via the installed source projection API. The proof normalizes the strict-core `eqToHom` transports to identity 2-cells before using those projections.
-
-The conclusion is a strict pseudofunctor between bicategories. It does not assert that the source is a strict bicategory, that realization is an equivalence, or that its hom functors are full or faithful.
-
-## 5. Integrated lifting and uniqueness frontier — v4.71–v4.74
-
-### v4.71 — equivalence of realized objects
-
-File: [DependentOriginationExactUniversalRealizationRawEquivalenceV4_71.lean](formal/KUOS/DependentOriginationExactUniversalRealizationRawEquivalenceV4_71.lean).
-
-For `X`, `Y` in the chosen exact-universal source and `E : HigherRawSystemCoherentEquivalence X.raw Y.raw`, the main results are:
-
-```text
-exactUniversalRealization_equivalent_of_rawCoherentEquivalence
-exactUniversalRawObject_carrier_equivalent_of_rawCoherentEquivalence
-```
-
-They give `Nonempty (Bicategory.Equivalence X.carrier Y.carrier)` and its spelling through the realization object map. They reuse the v4.55/v4.56 transport and universal-target theorem. They do not produce a source equivalence with prescribed raw legs.
-
-### v4.72 — presentation-indexed liftability
-
-File: [DependentOriginationExactUniversalMorphismLiftabilityV4_72.lean](formal/KUOS/DependentOriginationExactUniversalMorphismLiftabilityV4_72.lean).
-
-For fixed chosen source objects `X`, `Y` and `eta : X.raw -> Y.raw`:
-
-```text
-Liftable_(X,Y)(eta)
+Liftable_(X,Y)(r)
   := exists lift : X.carrier -> Y.carrier,
-       Nonempty (restrict(lift) ; c_Y ≅ c_X ; eta)
+       Nonempty (restrict(lift) ; c_Y ≅ c_X ; r)
 
-Obstructed_(X,Y)(eta) := not Liftable_(X,Y)(eta)
+Liftable_(X,Y)(r) <-> exists source 1-cell f, f.raw = r
+Obstructed_(X,Y)(r) := not Liftable_(X,Y)(r)
 ```
 
-Integrated API in namespace `ExactUniversalRawMorphism`:
+Identities and composites are liftable. `Obstructed` names the exact logical complement; it is not a general decision procedure or a new computable cohomology detector.
+
+[v4.73](formal/KUOS/DependentOriginationExactUniversalEquivalenceLegLiftabilityV4_73.lean) transports the source presentation along coherent raw equivalence and uses the target's factor field to lift both prescribed raw legs. [v4.74](formal/KUOS/DependentOriginationExactUniversalEquivalenceLegUniquenessV4_74.lean) gives `Nonempty (f.lift ≅ g.lift)` for two source lifts of the same equivalence leg.
+
+Historically, v4.74 alone did not supply compatible source 2-isomorphisms. **v4.77 now supplies source isomorphism lifting when the raw component is allowed to be determined by compatibility.** Uniqueness of the DO₂ isomorphism itself and equality with an independently prescribed raw identity are different claims.
+
+## 4. Closed local classification — v4.75–v4.77
+
+For existing source 1-cells `f`, `g : X ⟶ Y`, write `s_f`, `s_g` for their comparison squares. The source compatibility equation is:
 
 ```text
-liftable_iff_exists_sourceMorphism
-obstructed_iff_not_exists_sourceMorphism
-liftable_raw
-liftable_id
-Liftable.comp
-not_obstructed_raw
+(restrict(ell.hom) ▷ c_Y) ; s_g.hom
+  = s_f.hom ; (c_X ◁ r)
 ```
 
-The predicate is exactly source-morphism existence over the prescribed raw projection; identities and compositions are liftable. Source and target presentation indices are explicit. Equal raw systems alone must not cause Lean to infer a different chosen source object.
+### v4.75 / #1912 — compatible isomorphism classification
 
-This file names the logical complement of liftability. It does not give a decision procedure, a computable detector, or an independent cohomology obstruction class for every raw morphism. Comparison with an independently specified semantic admissibility condition remains open in this development.
+File: [CompatibleIsoV4_75](formal/KUOS/DependentOriginationExactUniversalCompatibleIsoV4_75.lean).
 
-### v4.73 — both coherent raw-equivalence legs have source lifts
+The comparison functors give a full and faithful embedding of the source hom category in Mathlib `Comma`. `Comma.isoMk` derives inverse compatibility from the forward square. `exactUniversalSourceIsoEquivCompatibleComponents` classifies source isomorphisms by compatible raw/DO₂ isomorphism pairs; `exactUniversalTwoCell_isIso_iff` detects invertibility jointly on both components.
 
-File: [DependentOriginationExactUniversalEquivalenceLegLiftabilityV4_73.lean](formal/KUOS/DependentOriginationExactUniversalEquivalenceLegLiftabilityV4_73.lean).
+This result concerns the **comma embedding**, not yet the DO₂ projection on its own.
 
-Construction:
+### v4.76 / #1913 — faithfulness of the actual DO₂ projection
 
-```text
-transport X.presentation along E
-  -> exact presentation of Y.raw with carrier X.carrier
-  -> apply Y.universal.factor
-  -> use the factor's comparison triangle as the source lifting square
-```
+File: [RealizationFaithfulV4_76](formal/KUOS/DependentOriginationExactUniversalRealizationFaithfulV4_76.lean).
 
-The backward construction uses `E.symm`. The proved APIs include:
-
-```text
-ExactUniversalRawMorphism.Liftable.forward_of_rawCoherentEquivalence
-ExactUniversalRawMorphism.Liftable.backward_of_rawCoherentEquivalence
-exists_exactUniversalRawMorphism_forward_of_rawCoherentEquivalence
-exists_exactUniversalRawMorphism_backward_of_rawCoherentEquivalence
-```
-
-These results supply actual source 1-cells over both prescribed raw legs. They do not supply compatible source unit or counit 2-cells.
-
-### v4.74 — DO₂ isomorphism of any two lifts of the same equivalence leg
-
-File: [DependentOriginationExactUniversalEquivalenceLegUniquenessV4_74.lean](formal/KUOS/DependentOriginationExactUniversalEquivalenceLegUniquenessV4_74.lean).
-
-`exactPresentationComparisonOfForwardSourceMorphism` packages an existing source lift as an `ExactPresentationCoherentComparison` from the transported source presentation into the target. Given two such comparisons, `Y.universal.essential_unique` supplies an isomorphism of the underlying StrongTrans. `InducedBicategory.isoMk` turns it into a DO₂ hom-category isomorphism.
-
-The key theorems are:
-
-```text
-exactUniversalRawMorphism_lifts_iso_of_same_forward_rawEquivalence
-exactUniversalRawMorphism_lifts_iso_of_same_backward_rawEquivalence
-```
-
-For `f.raw = E.forward.comparison` and `g.raw = E.forward.comparison`, the forward conclusion is exactly:
+The presentation comparison is pointwise an equivalence. Its precomposition functor is faithful, so the compatibility equations recover equality of raw components from equality of lift components:
 
 ```lean
-Nonempty (f.lift ≅ g.lift)
+eta = theta ↔ eta.lift = theta.lift
 ```
 
-**Meaning:** the realized lifts are unique up to existence of an isomorphism. **Not proved by this statement:** uniqueness of that isomorphism, equality of source morphisms, a compatible source 2-isomorphism, source adjoint equivalence, or local full faithfulness of realization.
+The installed `Faithful` instance belongs to `exactUniversalCompletion2HomFunctor` itself.
 
-## 6. The remaining compatibility equation
+### v4.77 / #1914 — fullness and unique compatible preimages
 
-Fix source morphisms `f`, `g : X -> Y` with comparison squares `s_f`, `s_g`. For proposed components `r : f.raw -> g.raw` and `l : f.lift -> g.lift`, the [v4.58 interface](formal/KUOS/DependentOriginationExactUniversalMappingTwoCellV4_58.lean) requires:
+File: [RealizationFullyFaithfulV4_77](formal/KUOS/DependentOriginationExactUniversalRealizationFullyFaithfulV4_77.lean).
+
+A general Cat-valued pseudofunctor lemma constructs modification preimages under left whiskering by a pointwise equivalence. The KuuOS construction applies it to the conjugated square
 
 ```text
-(restrict(l.hom) ▷ c_Y) ; s_g.hom
-  =
-s_f.hom ; (c_X ◁ r)
+s_f.inv ; (restrict(ell.hom) ▷ c_Y) ; s_g.hom
 ```
 
-Thus the current distinction is:
+and proves compatibility. Installed APIs include:
 
 ```text
-exists DO₂ Iso between the lifts                         PROVED in v4.74
-exists one whose components satisfy the prescribed square NOT YET PROVED generally
-exists compatible source 2-Iso                            NEXT CONSTRUCTION
+exactUniversalCompletion2Preimage
+exactUniversalCompletion2HomFunctor_full
+exactUniversalCompletion2HomFullyFaithful
+exactUniversalTwoCellEquivLift
+existsUnique_exactUniversalTwoCell_of_lift
+exactUniversalSourceIsoOfLift
 ```
 
-Even in a fixed raw fiber, the raw component must be the prescribed identity modification after the required index transports. An arbitrary isomorphism supplied by essential uniqueness need not satisfy that condition merely by being an isomorphism.
+Consequently `(f ⟶ g) ≃ (f.lift ⟶ g.lift)`, and every prescribed lift 2-cell has one and only one compatible source 2-cell. `preimageIso` lifts every DO₂ isomorphism between existing source 1-cells. No independent raw component or additional fullness hypothesis is required.
 
-The next proofs must either establish the equation from the existing hypotheses, identify an additional sufficient hypothesis precisely, or exhibit its failure. No compatibility hypothesis may be silently added to the existing universal-target witness, and no impossible compatibility claim should be presented as completed.
+**Closed:** compatible lifting with the DO₂ 2-cell prescribed and the raw component constructed. **Separate:** lifting while independently prescribing raw data, or producing a source 1-cell over an arbitrary DO₂ 1-cell.
 
-## 7. Proposed next theorem units — not yet integrated
+## 5. Closed source equivalences — v4.78 / #1915
 
-The version labels below are planning labels. Their scope may be split or revised after fresh inspection of the formal artifacts.
+File: [SourceEquivalenceV4_78](formal/KUOS/DependentOriginationExactUniversalSourceEquivalenceV4_78.lean).
 
-### Proposed v4.75 — compatible 2-cell lifting
+`exactUniversalEndomorphism_iso_id_of_rawIso` turns `h.raw ≅ 𝟙 X.raw` into `Nonempty (h ≅ 𝟙 X)` using a coherent endocomparison, universal-target essential uniqueness, and v4.77. Applying it to both composites of chosen source legs constructs source unit/counit. Mathlib `Equivalence.mkOfAdjointifyCounit` supplies the triangle laws.
 
-Start with lifts in a fixed equivalence-leg fiber and the prescribed raw identity modification. Then consider a prescribed invertible raw modification between two source 1-cells with fixed endpoints.
+The main theorem is:
 
-Exit criteria:
+```lean
+-- E : HigherRawSystemCoherentEquivalence X.raw Y.raw
+∃ e : Bicategory.Equivalence X Y,
+  e.hom.raw = E.forward.comparison ∧
+  e.inv.raw = E.backward.comparison
+```
 
-1. State a typed compatibility condition with all chosen source/presentation indices fixed.
-2. Construct a DO₂ isomorphism satisfying that equation under explicitly stated hypotheses, or prove the precise obstruction.
-3. Package the components as a compatible source 2-cell and prove inverse compatibility and both inverse laws where applicable.
-4. Expose raw and DO₂ projection lemmas without equating entire dependent pseudofunctor structures.
+This is a source adjoint equivalence, not merely a pair of opposite arrows or an equivalence of realized carriers. Both raw 1-cell legs are preserved. Its raw unit/counit are **not** asserted to be the prescribed `E.unit`/`E.counit`: essential uniqueness does not select them, and adjointification changes the chosen source counit.
 
-The generic compatible-inverse proof pattern in v4.67 is reusable, but its implementation helpers are private. Reuse the argument through a deliberately designed API rather than referring to inaccessible private declarations. Those inverse arguments require compatibility of the forward cell; they do not prove that compatibility exists.
+## 6. Closed prescribed DO₂ adjunction lifting — v4.79 / #1916
 
-### Proposed v4.76 — compatible source unit and counit
+File: [AdjunctionLiftingV4_79](formal/KUOS/DependentOriginationExactUniversalAdjunctionLiftingV4_79.lean).
 
-For the forward and backward source morphisms whose raw projections are supplied by v4.73, align the raw comparison isomorphisms with the composites and identities. Construct compatible source 2-isomorphisms of the unit/counit orientation needed by the intended equivalence construction.
+For fixed source legs `f : X ⟶ Y` and `g : Y ⟶ X`:
 
-Exit criteria: explicit raw and lift projections, comparison-square compatibility for both cells, both inverse laws, and the required triangle/coherence equations. Keep the dependence on any extra lifting hypothesis visible. Object-level DO₂ equivalence from v4.71 and DO₂ hom isomorphisms from v4.74 do not alone close this unit.
+```lean
+Bicategory.Adjunction f g ≃ Bicategory.Adjunction f.lift g.lift
+```
 
-### Proposed v4.77 — source bicategorical equivalence
+The construction preserves left/right zigzags and reflects both triangle laws independently. The preimages of the specified DO₂ unit and counit provide a source adjunction without assuming either cell invertible. `Bicategory.Adjunction.ext` and local faithfulness prove both round trips and uniqueness:
 
-Assemble the preceding compatible source data into a Mathlib `Bicategory.Equivalence` between the chosen source objects, with its raw legs related to the prescribed coherent raw equivalence. Prove the corresponding statement after applying strict realization.
+```lean
+-- adj : Bicategory.Adjunction f.lift g.lift
+∃! a : Bicategory.Adjunction f g,
+  a.unit.lift = adj.unit ∧ a.counit.lift = adj.counit
+```
 
-Exit criteria: the actual equivalence structure and all required fields typecheck; no mere pair of opposite source morphisms is substituted for it. Choice-independence or naturality of these equivalences requires its own statement and proof.
+For invertible DO₂ data already satisfying the left triangle, `exactUniversalEquivalenceOfLiftTriangle` constructs a native source equivalence without adjointification. The source legs, realized unit/counit isomorphisms, and their inverses are retained exactly. The native structure also supplies the right triangle.
 
-### Subsequent units — semantic admissibility and the final mapping property
+Key APIs:
 
-Compare an independently specified semantic admissibility condition with v4.72 `Liftable`, including identity/composition stability and the role of chosen presentations. Determine whether an implication, an equivalence under extra hypotheses, or a counterexample is the correct theorem.
+```text
+exactUniversal_leftTriangle_iff_lift
+exactUniversal_rightTriangle_iff_lift
+exactUniversalAdjunctionToLift / exactUniversalAdjunctionOfLift
+exactUniversalAdjunctionEquivLift
+existsUnique_exactUniversalAdjunction_of_lift
+exactUniversalAdjunction_nonempty_iff_lift
+exactUniversalEquivalenceOfLiftTriangle
+exactUniversalEquivalenceOfLiftTriangle_unit_lift
+exactUniversalEquivalenceOfLiftTriangle_counit_lift
+```
 
-Then state the final higher mapping property with the appropriate source, target, variance, transformation level, factor existence, compatible essential uniqueness, and naturality. Prove local fullness/faithfulness or an equivalence of hom categories only if the chosen classification statement requires them; they are not consequences of the current unstructured isomorphism-existence result.
+Do not conflate the two completed routes: v4.78 starts with raw coherent inverse data and establishes source-equivalence existence; v4.79 starts with a DO₂ adjunction on **existing source legs** and preserves its DO₂ components exactly. Neither theorem identifies those components with separately prescribed raw unit/counit.
 
-The historical positive sufficient-condition program—thinness, trivial automorphisms, correction reachability, strict models, and explicit coherence/descent assumptions—remains a source of candidate hypotheses. Each application must use the precise theorem and assumptions that actually prove the relevant lifting equation.
+## 7. Next obligations — proposed, not integrated
 
-## 8. Proof-engineering lessons for the next units
+These are mathematical targets, not preassigned version numbers. The old proposed v4.75–v4.77 labels are superseded by the actual integrated results above.
 
-**Keep the problem at the smallest typed boundary.** v4.65/v4.66 separate pure bicategory pasting, component normal forms, and dependent source wrappers. Global equalities of StrongTrans or whole bicategory instances often ask Lean to normalize far more than the actual goal requires.
+### P1. Essential surjectivity on 1-cells in each realization hom category
 
-**Use extensionality at the right stage.** v4.60 source extensionality is effective for inverse laws and componentwise coherence. In the v4.70 strict-core proof, projecting first through induced-bicategory `.hom` obscured the small transport goal. The successful proof first exposes the definitionally trivial `eqToHom` transports with `change`, then composes the native projection equality with `Category.id_comp`/`Category.comp_id`.
+Fix chosen source objects `X`, `Y`. Determine the correct scope for:
 
-**Distinguish definitional equality from a proved equality.** `change` only changes to a definitionally equal expression. For genuine index transport, keep `eqToHom`/`eqToIso` or a typed transport proof. Ordinary `rw` through a term on which the surrounding type depends can produce an ill-typed motive; use component APIs, typed equalities, `congrArg`, or a suitable dependent rewriting strategy.
+```text
+for every l : X.carrier -> Y.carrier,
+  exists f : X -> Y, Nonempty (f.lift ≅ l)
+```
 
-**Avoid uncontrolled simplification of evidence.** Broad `simpa using` simplifies the supplied theorem type as well as the goal. In v4.67, projection plus a typed normalization and direct `exact` of `Iso.hom_inv_id`/`Iso.inv_hom_id` avoids this instability. In v4.71, the native equivalence witness already has the needed type by constructor-level identification, so it is reused directly.
+Exit criterion: a source 1-cell with a raw StrongTrans and coherent invertible comparison square, under the precise necessary hypotheses. This is a proposed existence theorem, not a conclusion of v4.77. Its `preimage` operates on hom-category **morphisms (2-cells)**, not hom-category **objects (1-cells)**.
 
-**Fix the chosen presentation indices.** v4.72/v4.73 explicitly pass `(X := X)` and `(Y := Y)` where raw projections do not uniquely recover the source objects. v4.74 first types the underlying StrongTrans isomorphism, then applies `InducedBicategory.isoMk`.
+If proved for the intended sector, combine it with the existing local full faithfulness to construct hom-category equivalences. Then address their coherence/naturality; object-level essential surjectivity is another obligation for a proposed biequivalence.
 
-**Preserve API and namespace discipline.** Imports do not open namespaces or propagate scoped notation. Keep `autoImplicit false`, open the needed StrongTrans/bicategory scopes, avoid typeclass shadowing and diamonds, and keep private implementation helpers out of public theorem types. Check the pinned Mathlib source before assuming an API or generated projection name.
+### P2. Independently prescribed raw 2-cell and adjunction data
 
-These are proof-design lessons, not reasons to suppress warnings, raise heartbeat limits by default, weaken statements, or add axioms.
+For fixed source 1-cells and an independently specified raw modification, determine whether a compatible DO₂ modification exists, or identify the precise obstruction. If both components are specified, prove the stored comparison equation rather than inferring it from isomorphism existence.
 
-## 9. Validation and cache policy
+Exit criteria: exact projection identities for the prescribed raw data, compatible lifting, and any required unit/counit triangle laws without silently changing the inputs. In a fixed raw fiber, preservation of the prescribed identity modification is stronger than merely producing some source isomorphism.
 
-[PR governance](.github/workflows/pr-governance-gate.yml) selects affected checks and publishes head-associated Lean/terminal status receipts. [Main formal validation](.github/workflows/lean-formal-validation.yml) builds the pinned target and provides reusable `.lake` workspace caches. The PR Lean job restores compatible cache content without saving to the shared producer lane.
+This is not a request to reprove v4.79's DO₂-data preservation. Any failure statement must be proved for its stated hypotheses; lack of a current construction is not a counterexample.
 
-Cache keys include operating system, architecture, the toolchain hash, the manifest hash, and a commit suffix. Compatible-prefix restoration reuses an earlier workspace when available. Restoration does not establish proof validity: the selected target is still built against the actual checkout. Cache hits can still involve substantial rebuilding; benchmark claims must identify both runs, their targets, and their dependency changes.
+### P3. Semantic admissibility versus exact raw liftability
 
-For subsequent work:
+Specify admissibility independently of `Liftable_(X,Y)`, then prove the appropriate implication, equivalence under extra hypotheses, or counterexample. Keep chosen presentations, variance, identity/composition stability, and the difference between exact and weak sectors explicit.
 
-- Re-observe the exact canonical SHA and relevant artifact before editing or deciding to merge.
-- A changed Lean head needs a new Lean validation receipt. Check its actual source, target selection, and associated head rather than an old GREEN badge.
-- Do not rerun Strict Lean merely for README/ROADMAP-only changes when formal content, pins, and build configuration are unchanged. Run the applicable selected documentation/runtime checks instead.
-- Before reusing validation across an independent base change, compare relevant blobs/diffs and the dependency/build context. Never transfer success to modified theorem content without validation.
-- Keep theorem, runtime/MCP, and documentation results separate. A docs-only merge advances the branch, not the theorem frontier.
-- Use GitHub as the delivery location; no ZIP artifact is needed. Leave #1558 untouched.
+The historical programs involving thinness, trivial automorphisms, correction reachability, strict models, and explicit coherence/descent assumptions can supply candidate hypotheses. Do not make semantic admissibility a tautological renaming of source-morphism existence or promote weak admissibility to exact presentation.
 
-A successful selected workflow is not a repository-wide warning-free certificate. Historical dependency linter warnings must not be misreported as fixed by a documentation refresh.
+### P4. Final higher mapping/classification property
 
-## 10. Reproduction entry points
+Choose the precise source and target sectors and transformation level. Combine factor existence, mapping-level coherence, local equivalences where required, object-level coverage, and naturality under justified changes of context/presentation.
 
-Pins are recorded in [lean-toolchain](lean-toolchain) and [lake-manifest.json](lake-manifest.json). The following commands reproduce the repository's configured CI interface; [docs/LEAN4_BUILD.md](docs/LEAN4_BUILD.md) and the current workflow are the build references.
+Exit criterion: a typed higher universal-property statement with all hypotheses and coherence obligations discharged. Neither a quotient/fractal carrier nor local full faithfulness alone is this final theorem. Preserve the distinction between presentation invariance and operational identification of different worlds.
 
-Current theorem frontier, including its imported source/realization chain:
+## 8. Proof-engineering lessons retained
+
+**Typed endpoints before choice.** The v4.78 unit/counit repair supplies `(X := X)` or `(X := Y)`, explicit source composition, and a typed `Nonempty` witness before `Classical.choice`. Do not ask nested choice/inversion to infer chosen presentation indices.
+
+**Hom-category objects are 1-cells.** In v4.79, `F.map_preimage` needs the same source identity/composite objects already passed to `preimageIso`. A fully faithful projection is not an inverse on objects. Reverse these source endpoints when using an inverse isomorphism.
+
+**Use bundled inverse data.** The v4.77 naturality proof keeps `kIso`, maps it with `mapIso`, and applies explicit isomorphism cancellation instead of requiring instance search to recover `Epi` for a named mapped morphism.
+
+**Use the right equality interface.** `NatTrans.ext` can leave equality of component functions, requiring `funext`. Use typed `congrArg` for equality under restriction/whiskering, and explicit `Category.assoc` or stored inverse laws when generic rewrite matching is unstable. `change` only handles definitional equality; genuine index changes require `eqToHom`/`eqToIso`.
+
+**Keep proof-only parameters and scopes visible.** Use `include` when a section hypothesis is needed only in a theorem proof. Imports do not open namespaces or scoped instances. Retain `autoImplicit false`, check pinned Mathlib APIs, and keep private helpers out of public theorem types.
+
+These are reasons to improve proof structure, not to add axioms, weaken statements, disable linters, or raise resource limits by default. The official [fully faithful functor](https://leanprover-community.github.io/mathlib4_docs/Mathlib/CategoryTheory/Functor/FullyFaithful.html) and [bicategorical adjunction](https://leanprover-community.github.io/mathlib4_docs/Mathlib/CategoryTheory/Bicategory/Adjunction/Basic.html) documentation are explanatory references; the pinned source determines the actual API.
+
+## 9. Validation, caching, and reproduction
+
+[PR governance](.github/workflows/pr-governance-gate.yml) selects affected checks and publishes exact-head Lean/terminal receipts. [Main formal validation](.github/workflows/lean-formal-validation.yml) produces reusable `.lake` caches; the PR lane restores compatible workspaces. Cache keys distinguish platform, toolchain, manifest, and commit. A restored cache does not replace validation of changed Lean artifacts.
+
+Re-observe the canonical SHA and PR head, check the selected target and actual checkout, and compare relevant dependency/build changes before reusing evidence. Do not attach old success to modified theorem content. Historical dependency linter warnings are not a new-module failure and are not fixed by this docs-only refresh.
+
+**No manual Strict Lean rerun for README/ROADMAP-only changes.** Keep formal files, pins, and build configuration unchanged; use the selected documentation/runtime checks. Documentation merges advance the branch, not theorem authority. GitHub is the delivery location; leave #1558 untouched.
+
+The pins live in [lean-toolchain](lean-toolchain) and [lake-manifest.json](lake-manifest.json); [docs/LEAN4_BUILD.md](docs/LEAN4_BUILD.md) is the build guide. The successful latest theorem command was:
 
 ```bash
 lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build \
-  KUOS.DependentOriginationExactUniversalEquivalenceLegUniquenessV4_74
+  KUOS.DependentOriginationExactUniversalAdjunctionLiftingV4_79
 ```
 
-Focused structure and lifting targets:
+To reproduce both the raw-equivalence and prescribed-adjunction branches:
 
 ```bash
 lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build \
-  KUOS.DependentOriginationExactUniversalMappingBicategoryV4_69 \
-  KUOS.DependentOriginationExactUniversalRealizationStrictPseudofunctorV4_70 \
-  KUOS.DependentOriginationExactUniversalMorphismLiftabilityV4_72 \
-  KUOS.DependentOriginationExactUniversalEquivalenceLegLiftabilityV4_73
+  KUOS.DependentOriginationExactUniversalSourceEquivalenceV4_78 \
+  KUOS.DependentOriginationExactUniversalAdjunctionLiftingV4_79
 ```
 
-Foundational boundary targets:
-
-```bash
-lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build \
-  KUOS.DependentOriginationAbstractNonfactorizationV4_00 \
-  KUOS.DependentOriginationStageIIObstructionClassV4_12 \
-  KUOS.DependentOriginationAbstractPresentationDescentV4_49 \
-  KUOS.DependentOriginationExactHigherPresentationSectorV4_50 \
-  KUOS.DependentOriginationExactUniversalTargetDO2EquivalenceV4_56
-```
+**Import boundary:** v4.79 imports v4.77 and v4.70, not v4.78 or v4.74. Their earlier proofs remain integrated, but are not validated anew merely by building v4.79. For direct reproduction of the historical leg-uniqueness statement, add `KUOS.DependentOriginationExactUniversalEquivalenceLegUniquenessV4_74` explicitly.
 
 Registered aggregate target and separate runtime check:
 
@@ -362,67 +285,31 @@ lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KuuOS
 PYTHONPATH=. python3 runtime/kuuos_current_check.py
 ```
 
-These are reproduction commands, not instructions to launch a formal rebuild for this docs-only update.
+Aggregate coverage depends on its actual imports. These are reproduction entry points, not instructions to launch a formal rebuild for this documentation change.
 
-## 11. Permanent no-go implications
-
-```text
-weak W-admissibility
-  !=> higher localization / exact DO₂ presentation
-
-one failing gauge
-  !=> every gauge fails
-
-local odd parity
-  !=> global obstruction without the relevant theorem
-
-finite recursion or a newly chosen inverse-limit metric
-  !=> an exact positive Hausdorff-dimension theorem
-
-two arbitrary exact presentations
-  !=> DO₂ equivalence of universal targets
-
-arbitrary one-way raw morphism
-  !=> exact liftability or an equivalence
-
-Nonempty (f.lift ≅ g.lift)
-  !=> uniqueness of the Iso or equality of the source morphisms
-
-DO₂ Iso of lifts
-  !=> compatible source 2-Iso with prescribed raw component
-
-opposite source 1-cells
-  !=> source Bicategory.Equivalence without compatible coherence data
-
-source bicategory + strict realization
-  !=> local full faithfulness or the final universal mapping property
-
-runtime/docs/cache success
-  !=> theorem authority
-```
-
-## 12. Current research boundary
+## 10. Current boundary at a glance
 
 ```text
-CLOSED:
-  octahedral nonfactorization and nonzero Stage-II obstruction
-  concrete recursive/geometric stress test and orientation descent
-  abstract presentation descent and exact Cat-valued sector
-  universal-target invariance, essential uniqueness, naturality, DO₂ equivalence
-  mapping-compatible source 1-cells and 2-cells
-  hom categories, whiskering, horizontal interchange
-  structural isomorphisms, pentagon, triangle
-  genuine source bicategory
-  strict DO₂ realization
-  coherent raw-equivalence invariance of realized objects
-  exact presentation-indexed morphism liftability boundary
-  source lifts for both coherent raw-equivalence legs
-  DO₂ isomorphism of any two lifts of the same equivalence leg
+CLOSED IN THE CHOSEN EXACT-UNIVERSAL SECTOR:
+  source bicategory and strict DO₂ realization
+  raw-equivalence leg existence and DO₂ essential uniqueness
+  compatible raw/DO₂ isomorphism-pair classification
+  actual local fullness and faithfulness of realization
+  unique compatible source 2-cell over every prescribed DO₂ 2-cell
+  source adjoint equivalence from coherent raw inverse data, with fixed raw legs
+  exact classification of adjunctions on fixed source legs
+  preservation of prescribed coherent DO₂ unit/counit, including inverses
 
-NEXT, WITH EXPLICIT HYPOTHESES:
-  comparison-square compatibility for prescribed raw/lift 2-cell components
-  compatible source 2-isomorphisms
-  source unit/counit coherence and source bicategorical equivalence
-  semantic admissibility versus exact liftability
-  final higher dependent-origination mapping/classification theorem
+PROPOSED NEXT:
+  essential surjectivity on arbitrary DO₂ 1-cells in the intended sector
+  lifting while independently prescribing raw 2-cell/adjunction data
+  semantic admissibility versus presentation-indexed liftability
+  final higher mapping property, object coverage, and naturality
+
+NOT VALID WITHOUT FURTHER HYPOTHESES OR PROOF:
+  weak W-admissibility => exact presentation/localization
+  arbitrary one-way raw morphism => liftable morphism or equivalence
+  DO₂ isomorphism => compatibility with an independently prescribed raw component
+  local full faithfulness => essential surjectivity or final biequivalence
+  runtime/docs/cache success => theorem authority
 ```
