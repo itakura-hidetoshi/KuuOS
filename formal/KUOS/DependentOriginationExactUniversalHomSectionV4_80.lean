@@ -98,7 +98,7 @@ abbrev exactUniversalRestrictedCarrier
 or automatically inhabited class of exact-universal source objects. Only the
 one-sided inverse modification needed for precomposition is required. -/
 structure ExactUniversalComparisonRetraction
-    (X : ExactUniversalRawObject.{u, v, uH, vH} (W := W) A X) where
+    (X : ExactUniversalRawObject.{u, v, uH, vH} (W := W) A) where
   retraction : X.raw ⟶ exactUniversalRestrictedCarrier (W := W) A X
   retractIso : X.presentation.comparison ≫ retraction ≅
     𝟙 (exactUniversalRestrictedCarrier (W := W) A X)
@@ -243,8 +243,8 @@ def exactUniversalHomEquivalenceOfRetraction
 coherent retraction, not an unrelated replacement functor. -/
 @[implicit_reducible]
 def exactUniversalCompletion2HomEssSurjOfRetraction
-    (RX : ExactUniversalComparisonRetraction (W := W) A X) :
-    (exactUniversalCompletion2HomFunctor (W := W) A X Y).EssSurj :=
+    (RX : ExactUniversalComparisonRetraction (W := W) A X)
+    : (exactUniversalCompletion2HomFunctor (W := W) A X Y).EssSurj :=
   ⟨fun ell =>
     ⟨exactUniversalMorphismOfComparisonRetraction (W := W) A RX ell,
       ⟨Iso.refl ell⟩⟩⟩
