@@ -66,6 +66,57 @@ private theorem postcomposeTriple {C : Type*} [Category C]
     ((congrArg (fun z => z ≫ t) (Category.assoc u v n)).trans
       (congrArg (fun z => z ≫ t) h))
 
+/-! Homogeneous diagram algebra is proved once with abstract category objects.
+The concrete applications below pass already established equations to these
+lemmas; no simplifier must discover a functor or a category through `D`/`E`. -/
+
+private theorem postcomposePair {C₀ : Type*} [Category C₀]
+    {a b b' e f : C₀} (u : a ⟶ b) (v : b ⟶ e)
+    (u' : a ⟶ b') (v' : b' ⟶ e) (h : u ≫ v = u' ≫ v') (t : e ⟶ f) :
+    u ≫ v ≫ t = u' ≫ v' ≫ t :=
+  (Category.assoc u v t).symm.trans
+    ((congrArg (fun z => z ≫ t) h).trans (Category.assoc u' v' t))
+
+private theorem postcomposeTripleNormalized {C₀ : Type*} [Category C₀]
+    {a b e f g : C₀} (u : a ⟶ b) (v : b ⟶ e) (n : e ⟶ f)
+    (m : a ⟶ f) (h : u ≫ v ≫ n = m) (t : f ⟶ g) :
+    u ≫ v ≫ n ≫ t = m ≫ t :=
+  (Category.assoc u v (n ≫ t)).symm.trans (postcomposeTriple u v n m h t)
+
+private theorem mapPairCongr {C₀ C₁ : Type*} [Category C₀] [Category C₁]
+    (F : C₀ ⥤ C₁) {a b b' e : C₀}
+    (u : a ⟶ b) (v : b ⟶ e) (u' : a ⟶ b') (v' : b' ⟶ e)
+    (h : u ≫ v = u' ≫ v') {l r : C₁} (pre : l ⟶ F.obj a) (post : F.obj e ⟶ r) :
+    (pre ≫ F.map u) ≫ F.map v ≫ post =
+      pre ≫ F.map u' ≫ F.map v' ≫ post := by
+  simpa only [Functor.map_comp, Category.assoc] using
+    congrArg (fun m : a ⟶ e => pre ≫ F.map m ≫ post) h
+
+private theorem mapToPair {C₀ C₁ : Type*} [Category C₀] [Category C₁]
+    (F : C₀ ⥤ C₁) {a b e : C₀} (u : a ⟶ b) (v : b ⟶ e)
+    (m : a ⟶ e) (h : u ≫ v = m) {l : C₁} (pre : l ⟶ F.obj a) :
+    pre ≫ F.map m = (pre ≫ F.map u) ≫ F.map v :=
+  (congrArg (fun z => pre ≫ F.map z) h.symm).trans
+    ((congrArg (fun z => pre ≫ z) (F.map_comp u v)).trans
+      (Category.assoc pre (F.map u) (F.map v)).symm)
+
+private theorem mapPairTripleCongr {C₀ C₁ : Type*} [Category C₀] [Category C₁]
+    (F : C₀ ⥤ C₁) {a b e d f : C₀}
+    (u : a ⟶ b) (v : b ⟶ f) (u' : a ⟶ e) (v' : e ⟶ d) (w' : d ⟶ f)
+    (h : u ≫ v = u' ≫ v' ≫ w') {l r : C₁}
+    (pre : l ⟶ F.obj a) (post : F.obj f ⟶ r) :
+    (pre ≫ F.map u) ≫ F.map v ≫ post =
+      pre ≫ F.map u' ≫ F.map v' ≫ F.map w' ≫ post := by
+  simpa only [Functor.map_comp, Category.assoc] using
+    congrArg (fun m : a ⟶ f => pre ≫ F.map m ≫ post) h
+
+private theorem mapTripleEq {C₀ C₁ : Type*} [Category C₀] [Category C₁]
+    (F : C₀ ⥤ C₁) {a b e f : C₀} (u : a ⟶ b) (v : b ⟶ e) (n : e ⟶ f)
+    (m : a ⟶ f) (h : u ≫ v ≫ n = m) :
+    F.map u ≫ F.map v ≫ F.map n = F.map m :=
+  (congrArg (fun z => F.map u ≫ z) (F.map_comp v n).symm).trans
+    ((F.map_comp u (v ≫ n)).symm.trans (congrArg (fun z : a ⟶ f => F.map z) h))
+
 /-- Naturality with respect to arbitrary base two-cells, not only isomorphisms. -/
 theorem pointwiseInverseNaturality_twoCell {U V : B} {p q : U ⟶ V} (alpha : p ⟶ q) :
     whiskerRight (S.map₂ alpha).toNatTrans (D V) ≫ (N q).hom =
@@ -95,15 +146,13 @@ theorem pointwiseInverseNaturality_twoCell {U V : B} {p q : U ⟶ V} (alpha : p 
     (E V).hom.naturality t
   have h1 : k.hom ≫ (D V).map s ≫ (N q).hom.app z =
       (E V).hom.app (rp.obj x) ≫ (D V).map ((c.app V).toFunctor.map t) ≫
-        (D V).map b ≫ (N q).hom.app z := by
-    simpa only [Functor.map_comp, Category.assoc] using
-      congrArg (fun m => (E V).hom.app (rp.obj x) ≫
-        (D V).map m ≫ (N q).hom.app z) hbase.symm
+        (D V).map b ≫ (N q).hom.app z :=
+    mapPairCongr (D V) a s ((c.app V).toFunctor.map t) b hbase.symm
+      ((E V).hom.app (rp.obj x)) ((N q).hom.app z)
   have h2 : (E V).hom.app (rp.obj x) ≫ (D V).map ((c.app V).toFunctor.map t) ≫
       (D V).map b ≫ (N q).hom.app z =
-        t ≫ (E V).hom.app (rq.obj x) ≫ (D V).map b ≫ (N q).hom.app z := by
-    simpa only [Category.assoc] using
-      congrArg (fun m => m ≫ (D V).map b ≫ (N q).hom.app z) hunit.symm
+        t ≫ (E V).hom.app (rq.obj x) ≫ (D V).map b ≫ (N q).hom.app z :=
+    postcomposePair _ _ _ _ hunit.symm ((D V).map b ≫ (N q).hom.app z)
   have h3 : t ≫ (E V).hom.app (rq.obj x) ≫ (D V).map b ≫ (N q).hom.app z =
       t ≫ rq.map ((E U).hom.app x) :=
     congrArg (fun m => t ≫ m) (pointwiseInverseNaturality_unit_app c hc q x)
@@ -151,9 +200,8 @@ theorem pointwiseInverseNaturality_id (U : B) :
       (E U).hom.app (r.obj x) ≫ (D U).map ((c.app U).toFunctor.map t) :=
     (E U).hom.naturality t
   have h4 : (E U).hom.app (r.obj x) ≫ (D U).map ((c.app U).toFunctor.map t) =
-      k.hom ≫ (D U).map s := by
-    simpa only [Functor.map_comp, Category.assoc] using
-      congrArg (fun m => (E U).hom.app (r.obj x) ≫ (D U).map m) hbase.symm
+      k.hom ≫ (D U).map s :=
+    mapToPair (D U) a s ((c.app U).toFunctor.map t) hbase ((E U).hom.app (r.obj x))
   exact h1.trans (h2.trans (h3.trans h4))
 
 /-- Compatibility with base composition. Functor associativity is used only
@@ -208,40 +256,36 @@ theorem pointwiseInverseNaturality_comp {U V T : B} (p : U ⟶ V) (q : V ⟶ T) 
   have h1 : k.hom ≫ (D T).map s ≫ (N q).hom.app (sp.obj z) ≫ rq.map ((N p).hom.app z) =
       (E T).hom.app (rpq.obj x) ≫ (D T).map ((c.app T).toFunctor.map t) ≫
         (D T).map b ≫ (D T).map (sq.map a) ≫
-          (N q).hom.app (sp.obj z) ≫ rq.map ((N p).hom.app z) := by
-    simpa only [Functor.map_comp, Category.assoc] using
-      congrArg (fun m => (E T).hom.app (rpq.obj x) ≫ (D T).map m ≫
-        (N q).hom.app (sp.obj z) ≫ rq.map ((N p).hom.app z)) hbase
+          (N q).hom.app (sp.obj z) ≫ rq.map ((N p).hom.app z) :=
+    mapPairTripleCongr (D T) ab s ((c.app T).toFunctor.map t) b (sq.map a) hbase
+      ((E T).hom.app (rpq.obj x)) ((N q).hom.app (sp.obj z) ≫ rq.map ((N p).hom.app z))
   have h2 : (E T).hom.app (rpq.obj x) ≫ (D T).map ((c.app T).toFunctor.map t) ≫
       (D T).map b ≫ (D T).map (sq.map a) ≫
         (N q).hom.app (sp.obj z) ≫ rq.map ((N p).hom.app z) =
       t ≫ (E T).hom.app (rq.obj (rp.obj x)) ≫ (D T).map b ≫
-        (D T).map (sq.map a) ≫ (N q).hom.app (sp.obj z) ≫ rq.map ((N p).hom.app z) := by
-    simpa only [Category.assoc] using
-      congrArg (fun m => m ≫ (D T).map b ≫ (D T).map (sq.map a) ≫
-        (N q).hom.app (sp.obj z) ≫ rq.map ((N p).hom.app z)) hunit.symm
+        (D T).map (sq.map a) ≫ (N q).hom.app (sp.obj z) ≫ rq.map ((N p).hom.app z) :=
+    postcomposePair _ _ _ _ hunit.symm
+      ((D T).map b ≫ (D T).map (sq.map a) ≫ (N q).hom.app (sp.obj z) ≫ rq.map ((N p).hom.app z))
   have h3 : t ≫ (E T).hom.app (rq.obj (rp.obj x)) ≫ (D T).map b ≫
       (D T).map (sq.map a) ≫ (N q).hom.app (sp.obj z) ≫ rq.map ((N p).hom.app z) =
       t ≫ (E T).hom.app (rq.obj (rp.obj x)) ≫ (D T).map b ≫
         (N q).hom.app ((c.app V).toFunctor.obj (rp.obj x)) ≫
-          rq.map ((D V).map a) ≫ rq.map ((N p).hom.app z) := by
-    simpa only [Category.assoc] using
-      congrArg (fun m => t ≫ (E T).hom.app (rq.obj (rp.obj x)) ≫
-        (D T).map b ≫ m ≫ rq.map ((N p).hom.app z)) hsquare
+          rq.map ((D V).map a) ≫ rq.map ((N p).hom.app z) :=
+    congrArg (fun m => t ≫ (E T).hom.app (rq.obj (rp.obj x)) ≫ (D T).map b ≫ m)
+      (postcomposePair _ _ _ _ hsquare (rq.map ((N p).hom.app z)))
   have h4 : t ≫ (E T).hom.app (rq.obj (rp.obj x)) ≫ (D T).map b ≫
       (N q).hom.app ((c.app V).toFunctor.obj (rp.obj x)) ≫
         rq.map ((D V).map a) ≫ rq.map ((N p).hom.app z) =
       t ≫ rq.map ((E V).hom.app (rp.obj x)) ≫
-        rq.map ((D V).map a) ≫ rq.map ((N p).hom.app z) := by
-    simpa only [Category.assoc] using
-      congrArg (fun m => t ≫ m ≫ rq.map ((D V).map a) ≫
-        rq.map ((N p).hom.app z))
-        (pointwiseInverseNaturality_unit_app c hc q (rp.obj x))
+        rq.map ((D V).map a) ≫ rq.map ((N p).hom.app z) :=
+    congrArg (fun m => t ≫ m)
+      (postcomposeTripleNormalized _ _ _ _ (pointwiseInverseNaturality_unit_app c hc q (rp.obj x))
+        (rq.map ((D V).map a) ≫ rq.map ((N p).hom.app z)))
   have h5 : t ≫ rq.map ((E V).hom.app (rp.obj x)) ≫
       rq.map ((D V).map a) ≫ rq.map ((N p).hom.app z) =
-        t ≫ rq.map (rp.map ((E U).hom.app x)) := by
-    simpa only [Functor.map_comp, Category.assoc] using
-      congrArg (fun m => t ≫ rq.map m) (pointwiseInverseNaturality_unit_app c hc p x)
+        t ≫ rq.map (rp.map ((E U).hom.app x)) :=
+    congrArg (fun m => t ≫ m)
+      (mapTripleEq rq _ _ _ _ (pointwiseInverseNaturality_unit_app c hc p x))
   have hright := h1.trans (h2.trans (h3.trans (h4.trans h5)))
   exact hleft.trans (hnat.trans hright.symm)
 
