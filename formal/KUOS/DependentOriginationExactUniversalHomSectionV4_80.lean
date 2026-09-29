@@ -98,7 +98,7 @@ abbrev exactUniversalRestrictedCarrier
 or automatically inhabited class of exact-universal source objects. Only the
 one-sided inverse modification needed for precomposition is required. -/
 structure ExactUniversalComparisonRetraction
-    (X : ExactUniversalRawObject.{u, v, uH, vH} (W := W) A) where
+    (X : ExactUniversalRawObject.{u, v, uH, vH} (W := W) A X) where
   retraction : X.raw ⟶ exactUniversalRestrictedCarrier (W := W) A X
   retractIso : X.presentation.comparison ≫ retraction ≅
     𝟙 (exactUniversalRestrictedCarrier (W := W) A X)
@@ -214,9 +214,18 @@ def exactUniversalHomSectionUnitIso
           (exactUniversalSourceIsoSectionOfRetraction (W := W) A RX g).hom.lift =
         (exactUniversalSourceIsoSectionOfRetraction (W := W) A RX f).hom.lift ≫
           eta.lift
-      rw [exactUniversalSourceIsoSection_hom_lift,
-        exactUniversalSourceIsoSection_hom_lift]
-      simp only [Category.comp_id, Category.id_comp])
+      -- Give the endpoint-fixed equality terms directly. Rewriting followed
+      -- by `simp only` failed to discharge this wrapped DO2 hom-category goal.
+      -- No change to the ambient transparency or simplifier settings is needed.
+      calc
+        _ = eta.lift ≫ 𝟙 g.lift :=
+          congrArg (fun m : g.lift ⟶ g.lift => eta.lift ≫ m)
+            (exactUniversalSourceIsoSection_hom_lift (W := W) A RX g)
+        _ = eta.lift := Category.comp_id eta.lift
+        _ = 𝟙 f.lift ≫ eta.lift := (Category.id_comp eta.lift).symm
+        _ = _ :=
+          congrArg (fun m : f.lift ⟶ f.lift => m ≫ eta.lift)
+            (exactUniversalSourceIsoSection_hom_lift (W := W) A RX f).symm)
 
 /-- Conditional native hom-category equivalence with the explicit constructed
 section as inverse. Mathlib supplies the adjointification required by its
@@ -232,6 +241,7 @@ def exactUniversalHomEquivalenceOfRetraction
 
 /-- The actual realization functor is essentially surjective under the stated
 coherent retraction, not an unrelated replacement functor. -/
+@[implicit_reducible]
 def exactUniversalCompletion2HomEssSurjOfRetraction
     (RX : ExactUniversalComparisonRetraction (W := W) A X) :
     (exactUniversalCompletion2HomFunctor (W := W) A X Y).EssSurj :=
@@ -241,6 +251,7 @@ def exactUniversalCompletion2HomEssSurjOfRetraction
 
 /-- The native IsEquivalence interface retains the explicit retraction input.
 It is deliberately not installed as an unconditional global instance. -/
+@[implicit_reducible]
 def exactUniversalCompletion2HomIsEquivalenceOfRetraction
     (RX : ExactUniversalComparisonRetraction (W := W) A X) :
     (exactUniversalCompletion2HomFunctor (W := W) A X Y).IsEquivalence where
@@ -317,10 +328,39 @@ example : (exactUniversalCompletion2HomFunctor (W := W) A X Y).EssSurj :=
 example : (exactUniversalCompletion2HomFunctor (W := W) A X Y).IsEquivalence :=
   exactUniversalCompletion2HomIsEquivalenceOfRetraction (W := W) A RX
 
+-- Check the actual naturality equations of both directions, not merely
+-- pointwise isomorphism existence or equality after projection.
+example {f g : ExactUniversalRawMorphism (W := W) A X Y} (eta : f ⟶ g) :
+    eta ≫ (exactUniversalHomSectionUnitIso (W := W) A RX).hom.app g =
+      (exactUniversalHomSectionUnitIso (W := W) A RX).hom.app f ≫
+        (exactUniversalHomSectionOfRetraction (W := W) A RX).map eta.lift :=
+  (exactUniversalHomSectionUnitIso (W := W) A RX).hom.naturality eta
+
+example {f g : ExactUniversalRawMorphism (W := W) A X Y} (eta : f ⟶ g) :
+    (exactUniversalHomSectionOfRetraction (W := W) A RX).map eta.lift ≫
+        (exactUniversalHomSectionUnitIso (W := W) A RX).inv.app g =
+      (exactUniversalHomSectionUnitIso (W := W) A RX).inv.app f ≫ eta :=
+  (exactUniversalHomSectionUnitIso (W := W) A RX).inv.naturality eta
+
+-- The class-valued definitions remain explicit inputs to local instance
+-- synthesis; no unconditional global instance is introduced.
+example : (exactUniversalCompletion2HomFunctor (W := W) A X Y).IsEquivalence := by
+  letI : (exactUniversalCompletion2HomFunctor (W := W) A X Y).EssSurj :=
+    exactUniversalCompletion2HomEssSurjOfRetraction (W := W) A RX
+  exact { }
+
+example : Nonempty
+    (ExactUniversalRawMorphism (W := W) A X Y ≌ (X.carrier ⟶ Y.carrier)) := by
+  letI : (exactUniversalCompletion2HomFunctor (W := W) A X Y).IsEquivalence :=
+    exactUniversalCompletion2HomIsEquivalenceOfRetraction (W := W) A RX
+  exact ⟨(exactUniversalCompletion2HomFunctor (W := W) A X Y).asEquivalence⟩
+
 #print axioms exists_retraction_iff_allTargetOneCellLift
 #print axioms exactUniversalMorphismOfComparisonRetraction
 #print axioms exactUniversalHomSectionOfRetraction
 #print axioms exactUniversalHomSection_comp_realization
+#print axioms exactUniversalSourceIsoSection_hom_lift
+#print axioms exactUniversalSourceIsoSection_inv_lift
 #print axioms exactUniversalHomSectionUnitIso
 #print axioms exactUniversalHomEquivalenceOfRetraction
 #print axioms exactUniversalCompletion2HomIsEquivalenceOfRetraction
