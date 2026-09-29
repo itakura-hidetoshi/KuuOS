@@ -25,22 +25,16 @@ noncomputable section
 # Exact liftability boundary for arbitrary raw morphisms v4.72
 
 The exact-universal mapping source intentionally does not contain every raw
-StrongTrans.  A raw 1-cell is admitted exactly when it has
+StrongTrans. A raw 1-cell is admitted exactly when it has a DO₂ lift between the
+chosen exact carriers and an invertible presentation-comparison square.
 
-1. a DO₂ lift between the chosen exact carriers, and
-2. an invertible modification filling the presentation comparison square.
+Liftability is indexed by the chosen source objects, not just their raw systems.
+Those indices are supplied explicitly below: a raw projection must not silently
+select a different exact presentation of the same system.
 
-This file exposes that condition as a proposition on arbitrary raw 1-cells and
-proves that it is equivalent to existence of a source 1-cell lying over the
-raw map.
-
-The predicate contains the genuine obstruction rather than hiding it in a
-choice of representative.  It is closed under identity and composition,
-because the v4.57 source identity and composition already construct the
-required compatible lifts.
-
-Thus exact liftability is the precise composition-stable morphism boundary of
-the generalized dependent-origination source.
+The condition is equivalent to existence of a source 1-cell over the raw map and
+is closed under identity and composition. No arbitrary weak admissibility
+hypothesis is silently strengthened to exact liftability.
 -/
 
 universe u v uH vH
@@ -49,9 +43,8 @@ variable {Context : Type u} [Category.{v} Context]
 variable (W : MorphismProperty Context)
 variable (A : RefinementAtlas (LocalizedContext W))
 
-/-- A raw StrongTrans between exact-universal source objects is liftable when
-there exists a DO₂ 1-cell whose restriction fills the stored comparison square
-up to an invertible modification. -/
+/-- A raw StrongTrans is liftable between the chosen exact-universal objects
+when a DO₂ 1-cell fills their presentation square by an invertible modification. -/
 def ExactUniversalRawMorphism.Liftable
     {X Y : ExactUniversalRawObject.{u, v, uH, vH} (W := W) A}
     (eta : X.raw ⟶ Y.raw) : Prop :=
@@ -61,24 +54,23 @@ def ExactUniversalRawMorphism.Liftable
           Y.presentation.comparison) ≅
         (X.presentation.comparison ≫ eta))
 
-/-- A raw morphism is obstructed precisely when the exact liftability witness
-does not exist. -/
+/-- A raw morphism is obstructed exactly when no compatible lift exists. -/
 def ExactUniversalRawMorphism.Obstructed
     {X Y : ExactUniversalRawObject.{u, v, uH, vH} (W := W) A}
     (eta : X.raw ⟶ Y.raw) : Prop :=
-  ¬ ExactUniversalRawMorphism.Liftable (W := W) A eta
+  ¬ ExactUniversalRawMorphism.Liftable (W := W) A (X := X) (Y := Y) eta
 
-/-- Exact liftability is equivalent to the existence of an actual mapping-
-property source 1-cell whose raw projection is the prescribed map. -/
+/-- Exact liftability is equivalent to existence of a source 1-cell over the
+prescribed raw map, with the chosen presentations fixed. -/
 theorem ExactUniversalRawMorphism.liftable_iff_exists_sourceMorphism
     {X Y : ExactUniversalRawObject.{u, v, uH, vH} (W := W) A}
     (eta : X.raw ⟶ Y.raw) :
-    ExactUniversalRawMorphism.Liftable (W := W) A eta ↔
+    ExactUniversalRawMorphism.Liftable (W := W) A (X := X) (Y := Y) eta ↔
       ∃ f : ExactUniversalRawMorphism (W := W) A X Y,
         f.raw = eta := by
   constructor
   · rintro ⟨lift, ⟨comparison_square⟩⟩
-    refine ⟨{
+    exact ⟨{
       raw := eta
       lift := lift
       comparison_square := comparison_square
@@ -88,89 +80,74 @@ theorem ExactUniversalRawMorphism.liftable_iff_exists_sourceMorphism
     rw [← hraw]
     exact f.comparison_square
 
-/-- The obstruction proposition is exactly nonexistence of a source 1-cell
-over the prescribed raw morphism. -/
+/-- The obstruction is exactly nonexistence of a source 1-cell over the map. -/
 theorem ExactUniversalRawMorphism.obstructed_iff_not_exists_sourceMorphism
     {X Y : ExactUniversalRawObject.{u, v, uH, vH} (W := W) A}
     (eta : X.raw ⟶ Y.raw) :
-    ExactUniversalRawMorphism.Obstructed (W := W) A eta ↔
+    ExactUniversalRawMorphism.Obstructed (W := W) A (X := X) (Y := Y) eta ↔
       ¬ ∃ f : ExactUniversalRawMorphism (W := W) A X Y,
         f.raw = eta := by
   unfold ExactUniversalRawMorphism.Obstructed
-  rw [ExactUniversalRawMorphism.liftable_iff_exists_sourceMorphism
-    (W := W) A eta]
+  exact not_congr (ExactUniversalRawMorphism.liftable_iff_exists_sourceMorphism
+    (W := W) A (X := X) (Y := Y) eta)
 
 /-- Every source 1-cell witnesses liftability of its own raw projection. -/
 theorem ExactUniversalRawMorphism.liftable_raw
     {X Y : ExactUniversalRawObject.{u, v, uH, vH} (W := W) A}
     (f : ExactUniversalRawMorphism (W := W) A X Y) :
-    ExactUniversalRawMorphism.Liftable (W := W) A f.raw := by
-  exact
-    (ExactUniversalRawMorphism.liftable_iff_exists_sourceMorphism
-      (W := W) A f.raw).2 ⟨f, rfl⟩
+    ExactUniversalRawMorphism.Liftable (W := W) A (X := X) (Y := Y) f.raw :=
+  ⟨f.lift, ⟨f.comparison_square⟩⟩
 
-/-- Identity raw morphisms are liftable. -/
+/-- Identity raw morphisms are liftable over the same chosen source object. -/
 theorem ExactUniversalRawMorphism.liftable_id
     (X : ExactUniversalRawObject.{u, v, uH, vH} (W := W) A) :
-    ExactUniversalRawMorphism.Liftable (W := W) A (𝟙 X.raw) := by
-  exact
-    (ExactUniversalRawMorphism.liftable_iff_exists_sourceMorphism
-      (W := W) A (𝟙 X.raw)).2
-      ⟨ExactUniversalRawMorphism.id (W := W) A X, rfl⟩
+    ExactUniversalRawMorphism.Liftable (W := W) A (X := X) (Y := X) (𝟙 X.raw) :=
+  ExactUniversalRawMorphism.liftable_raw (W := W) A
+    (ExactUniversalRawMorphism.id (W := W) A X)
 
 /-- Exact liftability is closed under composition of arbitrary raw morphisms. -/
 theorem ExactUniversalRawMorphism.Liftable.comp
     {X Y Z : ExactUniversalRawObject.{u, v, uH, vH} (W := W) A}
     {eta : X.raw ⟶ Y.raw}
     {theta : Y.raw ⟶ Z.raw}
-    (heta : ExactUniversalRawMorphism.Liftable (W := W) A eta)
-    (htheta : ExactUniversalRawMorphism.Liftable (W := W) A theta) :
-    ExactUniversalRawMorphism.Liftable (W := W) A (eta ≫ theta) := by
+    (heta : ExactUniversalRawMorphism.Liftable
+      (W := W) A (X := X) (Y := Y) eta)
+    (htheta : ExactUniversalRawMorphism.Liftable
+      (W := W) A (X := Y) (Y := Z) theta) :
+    ExactUniversalRawMorphism.Liftable
+      (W := W) A (X := X) (Y := Z) (eta ≫ theta) := by
   rcases
       (ExactUniversalRawMorphism.liftable_iff_exists_sourceMorphism
-        (W := W) A eta).1 heta with
-    ⟨f, hf⟩
+        (W := W) A (X := X) (Y := Y) eta).1 heta with ⟨f, hf⟩
   rcases
       (ExactUniversalRawMorphism.liftable_iff_exists_sourceMorphism
-        (W := W) A theta).1 htheta with
-    ⟨g, hg⟩
+        (W := W) A (X := Y) (Y := Z) theta).1 htheta with ⟨g, hg⟩
   apply
     (ExactUniversalRawMorphism.liftable_iff_exists_sourceMorphism
-      (W := W) A (eta ≫ theta)).2
-  refine
-    ⟨ExactUniversalRawMorphism.comp (W := W) A f g, ?_⟩
-  simpa only [ExactUniversalRawMorphism.comp_raw, hf, hg]
+      (W := W) A (X := X) (Y := Z) (eta ≫ theta)).2
+  refine ⟨ExactUniversalRawMorphism.comp (W := W) A f g, ?_⟩
+  exact congrArg₂ (fun a b => a ≫ b) hf hg
 
-/-- A realized source 1-cell can never be obstructed at its raw projection. -/
+/-- A realized source 1-cell cannot be obstructed at its raw projection. -/
 theorem ExactUniversalRawMorphism.not_obstructed_raw
     {X Y : ExactUniversalRawObject.{u, v, uH, vH} (W := W) A}
     (f : ExactUniversalRawMorphism (W := W) A X Y) :
-    ¬ ExactUniversalRawMorphism.Obstructed (W := W) A f.raw := by
+    ¬ ExactUniversalRawMorphism.Obstructed
+      (W := W) A (X := X) (Y := Y) f.raw := by
   intro h
   exact h (ExactUniversalRawMorphism.liftable_raw (W := W) A f)
 
 /-!
 ## Boundary after v4.72
 
-The arbitrary-morphism frontier is now exact:
+A raw morphism is admitted by the generalized source exactly when it has a
+compatible DO₂ lift between the chosen presentations. This morphism class is
+stable under identity and composition.
 
-  raw morphism eta
-      is admitted by the generalized source
-  iff
-      eta has a compatible DO₂ lift.
-
-The condition is stable under identity and composition, hence it is a genuine
-morphism class rather than a one-off witness.
-
-The next mathematical question is no longer structural coherence.  It is to
-compare this exact liftability class with whichever semantic admissibility
-predicate is intended for the final dependent-origination theorem:
-
-* prove admissibility implies Liftable under explicit hypotheses; or
-* exhibit the obstruction preventing such an implication.
-
-That theorem, rather than a blanket assumption that all weakly admissible maps
-lift, is the correct remaining generalization boundary.
+The remaining question is to compare exact liftability with the intended
+semantic admissibility predicate: prove the implication under explicit
+hypotheses or exhibit the obstruction. This file does not assume that all
+weakly admissible morphisms lift.
 -/
 
 end
