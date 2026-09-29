@@ -145,11 +145,20 @@ def exactUniversalSectionCompIso
     (Y := exactUniversalOneCellOfLift (W := W) A X Z (ell ≫ k)) (𝟙 (ell ≫ k))
 
 /-- Objects retain source labels; all one- and two-cells between their carriers
-come from DO2. This is not an assertion of object coverage of the whole DO2. -/
+come from DO2. This is not an assertion of object coverage of the whole DO2.
+Infer the carrier universes from the typed object map: the generated universe
+parameter list of DO2 is not the four-parameter source-object list. -/
 abbrev ExactUniversalRealizedSector :=
   Bicategory.InducedBicategory
-    (DependentOriginationCompletion2.{u, v, uH, vH} (W := W) A)
+    (DependentOriginationCompletion2 (W := W) A)
     (fun X : ExactUniversalRawObject.{u, v, uH, vH} (W := W) A => X.carrier)
+
+-- The source fibre object/hom universes stay independent, also after a level shift.
+example : Bicategory (ExactUniversalRealizedSector.{u, v, uH + 1, vH} (W := W) A) :=
+  inferInstance
+
+example {X Y : ExactUniversalRealizedSector.{u, v, uH + 1, vH} (W := W) A}
+    (f : X ⟶ Y) : X.carrier ⟶ Y.carrier := f.hom
 
 /-- Assemble the local sections into a coherent, generally non-strict,
 object-label-preserving pseudofunctor. Every coherence field is proved. -/
