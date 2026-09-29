@@ -90,18 +90,24 @@ The raw component of this chosen unit need not be the supplied one. -/
 def exactUniversalSourceUnitOfRawInverse
     (f : ExactUniversalRawMorphism (W := W) A X Y)
     (g : ExactUniversalRawMorphism (W := W) A Y X)
-    (rawUnit : 𝟙 X.raw ≅ f.raw ≫ g.raw) : 𝟙 X ≅ f ≫ g :=
-  (Classical.choice (exactUniversalEndomorphism_iso_id_of_rawIso
-    (W := W) A (f ≫ g) rawUnit.symm)).symm
+    (rawUnit : 𝟙 X.raw ≅ f.raw ≫ g.raw) : 𝟙 X ≅ f ≫ g := by
+  -- Pin the chosen source object and composite before eliminating `Nonempty`.
+  have hfg : Nonempty (f ≫ g ≅ 𝟙 X) :=
+    exactUniversalEndomorphism_iso_id_of_rawIso (W := W) A (X := X)
+      (ExactUniversalRawMorphism.comp (W := W) A f g) rawUnit.symm
+  exact (Classical.choice hfg).symm
 
 /-- A source counit exists for every chosen pair whose raw composite has a
 counit. Mathlib will subsequently adjust this counit for the triangle law. -/
 def exactUniversalSourceCounitOfRawInverse
     (f : ExactUniversalRawMorphism (W := W) A X Y)
     (g : ExactUniversalRawMorphism (W := W) A Y X)
-    (rawCounit : g.raw ≫ f.raw ≅ 𝟙 Y.raw) : g ≫ f ≅ 𝟙 Y :=
-  Classical.choice (exactUniversalEndomorphism_iso_id_of_rawIso
-    (W := W) A (g ≫ f) rawCounit)
+    (rawCounit : g.raw ≫ f.raw ≅ 𝟙 Y.raw) : g ≫ f ≅ 𝟙 Y := by
+  -- The endomorphism lemma's object parameter is now the target object `Y`.
+  have hgf : Nonempty (g ≫ f ≅ 𝟙 Y) :=
+    exactUniversalEndomorphism_iso_id_of_rawIso (W := W) A (X := Y)
+      (ExactUniversalRawMorphism.comp (W := W) A g f) rawCounit
+  exact Classical.choice hgf
 
 /-- Adjointify the constructed source unit/counit using Mathlib. Both chosen
 source 1-cells are retained exactly; no source inverse laws are assumed. -/
@@ -147,6 +153,17 @@ theorem exactUniversalRawObject_equivalent_of_rawCoherentEquivalence
   exact ⟨e⟩
 
 /-! ## Regression checks: source-level inverse data and native triangle laws. -/
+
+-- Check each choice boundary without assuming the other raw inverse cell.
+example (f : ExactUniversalRawMorphism (W := W) A X Y)
+    (g : ExactUniversalRawMorphism (W := W) A Y X)
+    (rawUnit : 𝟙 X.raw ≅ f.raw ≫ g.raw) : Nonempty (𝟙 X ≅ f ≫ g) :=
+  ⟨exactUniversalSourceUnitOfRawInverse (W := W) A f g rawUnit⟩
+
+example (f : ExactUniversalRawMorphism (W := W) A X Y)
+    (g : ExactUniversalRawMorphism (W := W) A Y X)
+    (rawCounit : g.raw ≫ f.raw ≅ 𝟙 Y.raw) : Nonempty (g ≫ f ≅ 𝟙 Y) :=
+  ⟨exactUniversalSourceCounitOfRawInverse (W := W) A f g rawCounit⟩
 
 example (h : ExactUniversalRawMorphism (W := W) A X X)
     (rawIso : h.raw ≅ 𝟙 X.raw) : Nonempty (h ≅ 𝟙 X) :=
@@ -198,6 +215,8 @@ example (E : HigherRawSystemCoherentEquivalence X.raw Y.raw) :
   exactUniversalRawObject_equivalent_of_rawCoherentEquivalence (W := W) A X Y E
 
 #print axioms exactUniversalEndomorphism_iso_id_of_rawIso
+#print axioms exactUniversalSourceUnitOfRawInverse
+#print axioms exactUniversalSourceCounitOfRawInverse
 #print axioms exactUniversalSourceEquivalenceOfRawInverse
 #print axioms exists_exactUniversalSourceEquivalence_of_rawCoherentEquivalence
 #print axioms exactUniversalRawObject_equivalent_of_rawCoherentEquivalence
