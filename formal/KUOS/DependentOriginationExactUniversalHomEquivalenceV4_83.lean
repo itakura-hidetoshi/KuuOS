@@ -279,17 +279,41 @@ example : (exactUniversalCompletion2HomFunctor (W := W) A X Y).IsEquivalence :=
 example : Nonempty ((X ⟶ Y) ≌ (X.carrier ⟶ Y.carrier)) :=
   ⟨(exactUniversalCompletion2HomFunctor (W := W) A X Y).asEquivalence⟩
 
--- v4.79 applies to the now-constructed legs of ANY realized adjunction.
--- The legs are fixed by our section; their raw components are not prescribed independently.
-example (ell : X.carrier ⟶ Y.carrier) (k : Y.carrier ⟶ X.carrier)
+/-- v4.79 applies to the constructed legs of any realized adjunction. Fix the
+source bicategory endpoints before elaborating Adjunction and its unit/counit:
+Lean cannot reconstruct the ambient Hom instance backwards from the concrete
+ExactUniversalRawMorphism result type. Naming this specialization also lets its
+axiom query cover the formerly anonymous failing regression. -/
+theorem existsUnique_exactUniversalAdjunction_on_liftedLegs
+    (ell : X.carrier ⟶ Y.carrier) (k : Y.carrier ⟶ X.carrier)
     (adj : Bicategory.Adjunction ell k) :
-    ∃! a : Bicategory.Adjunction
+    ∃! a : Bicategory.Adjunction (a := X) (b := Y)
         (exactUniversalOneCellOfLift (W := W) A X Y ell)
         (exactUniversalOneCellOfLift (W := W) A Y X k),
       a.unit.lift = adj.unit ∧ a.counit.lift = adj.counit :=
-  existsUnique_exactUniversalAdjunction_of_lift (W := W) A
+  existsUnique_exactUniversalAdjunction_of_lift (W := W) A (X := X) (Y := Y)
     (exactUniversalOneCellOfLift (W := W) A X Y ell)
     (exactUniversalOneCellOfLift (W := W) A Y X k) adj
+
+-- Preserve the original unique-existence assertion, with explicit source endpoints.
+example (ell : X.carrier ⟶ Y.carrier) (k : Y.carrier ⟶ X.carrier)
+    (adj : Bicategory.Adjunction ell k) :
+    ∃! a : Bicategory.Adjunction (a := X) (b := Y)
+        (exactUniversalOneCellOfLift (W := W) A X Y ell)
+        (exactUniversalOneCellOfLift (W := W) A Y X k),
+      a.unit.lift = adj.unit ∧ a.counit.lift = adj.counit :=
+  existsUnique_exactUniversalAdjunction_on_liftedLegs (W := W) A (X := X) (Y := Y)
+    ell k adj
+
+-- Reversing the objects must also reverse both source legs and their endpoints.
+example (ell : X.carrier ⟶ Y.carrier) (k : Y.carrier ⟶ X.carrier)
+    (adj : Bicategory.Adjunction k ell) :
+    ∃! a : Bicategory.Adjunction (a := Y) (b := X)
+        (exactUniversalOneCellOfLift (W := W) A Y X k)
+        (exactUniversalOneCellOfLift (W := W) A X Y ell),
+      a.unit.lift = adj.unit ∧ a.counit.lift = adj.counit :=
+  existsUnique_exactUniversalAdjunction_on_liftedLegs (W := W) A (X := Y) (Y := X)
+    k ell adj
 
 #print axioms exactUniversalComparisonRetraction
 #print axioms exactUniversalOneCellOfLift
@@ -300,6 +324,7 @@ example (ell : X.carrier ⟶ Y.carrier) (k : Y.carrier ⟶ X.carrier)
 #print axioms exactUniversalHomUnitIso
 #print axioms exactUniversalHomEquivalence
 #print axioms exactUniversalCompletion2HomFunctor_isEquivalence
+#print axioms existsUnique_exactUniversalAdjunction_on_liftedLegs
 
 end
 
