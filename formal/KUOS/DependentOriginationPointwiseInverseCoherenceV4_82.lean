@@ -48,8 +48,23 @@ theorem pointwiseInverseNaturality_unit_app {U V : B} (p : U ⟶ V) (x : R.obj U
         (D V).map ((c.naturality p).hom.toNatTrans.app x) ≫
           (N p).hom.app ((c.app U).toFunctor.obj x) =
       (R.map p).toFunctor.map ((E U).hom.app x) := by
-  rw [pointwiseInverseNaturalityIso_unitCompatible c hc p x]
-  exact (E V).hom_inv_id_app_assoc _ _
+  exact (congrArg
+    (fun m :
+      (D V).obj ((c.app V).toFunctor.obj ((R.map p).toFunctor.obj x)) ⟶
+        (R.map p).toFunctor.obj ((D U).obj ((c.app U).toFunctor.obj x)) =>
+      (E V).hom.app ((R.map p).toFunctor.obj x) ≫ m)
+    (pointwiseInverseNaturalityIso_unitCompatible c hc p x)).trans
+      ((E V).hom_inv_id_app_assoc _ _)
+
+/-- Homogeneous equality composition avoids asking the Trans typeclass to
+unfold the chosen equivalence while reassociating evaluated Cat components. -/
+private theorem postcomposeTriple {C : Type*} [Category C]
+    {a b e f g : C} (u : a ⟶ b) (v : b ⟶ e) (n : e ⟶ f)
+    (m : a ⟶ f) (h : u ≫ v ≫ n = m) (t : f ⟶ g) :
+    (u ≫ v) ≫ n ≫ t = m ≫ t :=
+  (Category.assoc (u ≫ v) n t).symm.trans
+    ((congrArg (fun z => z ≫ t) (Category.assoc u v n)).trans
+      (congrArg (fun z => z ≫ t) h))
 
 /-- Naturality with respect to arbitrary base two-cells, not only isomorphisms. -/
 theorem pointwiseInverseNaturality_twoCell {U V : B} {p q : U ⟶ V} (alpha : p ⟶ q) :
@@ -78,25 +93,27 @@ theorem pointwiseInverseNaturality_twoCell {U V : B} {p q : U ⟶ V} (alpha : p 
   have hunit : t ≫ (E V).hom.app (rq.obj x) =
       (E V).hom.app (rp.obj x) ≫ (D V).map ((c.app V).toFunctor.map t) :=
     (E V).hom.naturality t
-  calc
-    _ = (E V).hom.app (rp.obj x) ≫
-          (D V).map ((c.app V).toFunctor.map t) ≫
-            (D V).map b ≫ (N q).hom.app z := by
-      simpa only [Functor.map_comp, Category.assoc] using
-        congrArg (fun m => (E V).hom.app (rp.obj x) ≫
-          (D V).map m ≫ (N q).hom.app z) hbase.symm
-    _ = t ≫ (E V).hom.app (rq.obj x) ≫ (D V).map b ≫ (N q).hom.app z := by
-      simpa only [Category.assoc] using
-        congrArg (fun m => m ≫ (D V).map b ≫ (N q).hom.app z) hunit.symm
-    _ = t ≫ rq.map ((E U).hom.app x) := by
-      exact congrArg (fun m => t ≫ m) (pointwiseInverseNaturality_unit_app c hc q x)
-    _ = rp.map ((E U).hom.app x) ≫
-          (R.map₂ alpha).toNatTrans.app ((D U).obj z) :=
-      ((R.map₂ alpha).toNatTrans.naturality ((E U).hom.app x)).symm
-    _ = _ := by
-      simpa only [Category.assoc] using
-        congrArg (fun m => m ≫ (R.map₂ alpha).toNatTrans.app ((D U).obj z))
-          (pointwiseInverseNaturality_unit_app c hc p x).symm
+  have h1 : k.hom ≫ (D V).map s ≫ (N q).hom.app z =
+      (E V).hom.app (rp.obj x) ≫ (D V).map ((c.app V).toFunctor.map t) ≫
+        (D V).map b ≫ (N q).hom.app z := by
+    simpa only [Functor.map_comp, Category.assoc] using
+      congrArg (fun m => (E V).hom.app (rp.obj x) ≫
+        (D V).map m ≫ (N q).hom.app z) hbase.symm
+  have h2 : (E V).hom.app (rp.obj x) ≫ (D V).map ((c.app V).toFunctor.map t) ≫
+      (D V).map b ≫ (N q).hom.app z =
+        t ≫ (E V).hom.app (rq.obj x) ≫ (D V).map b ≫ (N q).hom.app z := by
+    simpa only [Category.assoc] using
+      congrArg (fun m => m ≫ (D V).map b ≫ (N q).hom.app z) hunit.symm
+  have h3 : t ≫ (E V).hom.app (rq.obj x) ≫ (D V).map b ≫ (N q).hom.app z =
+      t ≫ rq.map ((E U).hom.app x) :=
+    congrArg (fun m => t ≫ m) (pointwiseInverseNaturality_unit_app c hc q x)
+  have h4 : t ≫ rq.map ((E U).hom.app x) =
+      rp.map ((E U).hom.app x) ≫ (R.map₂ alpha).toNatTrans.app ((D U).obj z) :=
+    ((R.map₂ alpha).toNatTrans.naturality ((E U).hom.app x)).symm
+  have h5 : k.hom ≫ (N p).hom.app z ≫ (R.map₂ alpha).toNatTrans.app ((D U).obj z) =
+      rp.map ((E U).hom.app x) ≫ (R.map₂ alpha).toNatTrans.app ((D U).obj z) :=
+    postcomposeTriple _ _ _ _ (pointwiseInverseNaturality_unit_app c hc p x) _
+  exact h1.trans (h2.trans (h3.trans (h4.trans h5.symm)))
 
 /-- Compatibility with base identities, as an ordinary natural-transformation equation. -/
 theorem pointwiseInverseNaturality_id (U : B) :
@@ -123,18 +140,21 @@ theorem pointwiseInverseNaturality_id (U : B) :
         m.toNatTrans.app x) (c.naturality_id U)
     change a ≫ s = (c.app U).toFunctor.map t ≫ 𝟙 _ ≫ 𝟙 _ at h
     simpa only [Category.comp_id] using h
-  calc
-    _ = r.map ((E U).hom.app x) ≫ (R.mapId U).hom.toNatTrans.app ((D U).obj z) := by
-      simpa only [Category.assoc] using
-        congrArg (fun m => m ≫ (R.mapId U).hom.toNatTrans.app ((D U).obj z))
-          (pointwiseInverseNaturality_unit_app c hc (𝟙 U) x)
-    _ = t ≫ (E U).hom.app x :=
-      (R.mapId U).hom.toNatTrans.naturality ((E U).hom.app x)
-    _ = (E U).hom.app (r.obj x) ≫ (D U).map ((c.app U).toFunctor.map t) :=
-      (E U).hom.naturality t
-    _ = _ := by
-      simpa only [Functor.map_comp, Category.assoc] using
-        congrArg (fun m => (E U).hom.app (r.obj x) ≫ (D U).map m) hbase.symm
+  have h1 : k.hom ≫ (N (𝟙 U)).hom.app z ≫
+      (R.mapId U).hom.toNatTrans.app ((D U).obj z) =
+        r.map ((E U).hom.app x) ≫ (R.mapId U).hom.toNatTrans.app ((D U).obj z) :=
+    postcomposeTriple _ _ _ _ (pointwiseInverseNaturality_unit_app c hc (𝟙 U) x) _
+  have h2 : r.map ((E U).hom.app x) ≫ (R.mapId U).hom.toNatTrans.app ((D U).obj z) =
+      t ≫ (E U).hom.app x :=
+    (R.mapId U).hom.toNatTrans.naturality ((E U).hom.app x)
+  have h3 : t ≫ (E U).hom.app x =
+      (E U).hom.app (r.obj x) ≫ (D U).map ((c.app U).toFunctor.map t) :=
+    (E U).hom.naturality t
+  have h4 : (E U).hom.app (r.obj x) ≫ (D U).map ((c.app U).toFunctor.map t) =
+      k.hom ≫ (D U).map s := by
+    simpa only [Functor.map_comp, Category.assoc] using
+      congrArg (fun m => (E U).hom.app (r.obj x) ≫ (D U).map m) hbase.symm
+  exact h1.trans (h2.trans (h3.trans h4))
 
 /-- Compatibility with base composition. Functor associativity is used only
 inside this ordinary functor category; the native StrongTrans below retains
@@ -177,43 +197,53 @@ theorem pointwiseInverseNaturality_comp {U V T : B} (p : U ⟶ V) (q : V ⟶ T) 
   have hsquare : (D T).map (sq.map a) ≫ (N q).hom.app (sp.obj z) =
       (N q).hom.app ((c.app V).toFunctor.obj (rp.obj x)) ≫ rq.map ((D V).map a) :=
     (N q).hom.naturality a
-  calc
-    _ = rpq.map ((E U).hom.app x) ≫ (R.mapComp p q).hom.toNatTrans.app ((D U).obj z) := by
-      simpa only [Category.assoc] using
-        congrArg (fun m => m ≫ (R.mapComp p q).hom.toNatTrans.app ((D U).obj z))
-          (pointwiseInverseNaturality_unit_app c hc (p ≫ q) x)
-    _ = t ≫ rq.map (rp.map ((E U).hom.app x)) :=
-      (R.mapComp p q).hom.toNatTrans.naturality ((E U).hom.app x)
-    _ = _ := by
-      symm
-      calc
-        _ = (E T).hom.app (rpq.obj x) ≫ (D T).map ((c.app T).toFunctor.map t) ≫
-              (D T).map b ≫ (D T).map (sq.map a) ≫
-                (N q).hom.app (sp.obj z) ≫ rq.map ((N p).hom.app z) := by
-          simpa only [Functor.map_comp, Category.assoc] using
-            congrArg (fun m => (E T).hom.app (rpq.obj x) ≫ (D T).map m ≫
-              (N q).hom.app (sp.obj z) ≫ rq.map ((N p).hom.app z)) hbase
-        _ = t ≫ (E T).hom.app (rq.obj (rp.obj x)) ≫
-              (D T).map b ≫ (D T).map (sq.map a) ≫
-                (N q).hom.app (sp.obj z) ≫ rq.map ((N p).hom.app z) := by
-          simpa only [Category.assoc] using
-            congrArg (fun m => m ≫ (D T).map b ≫ (D T).map (sq.map a) ≫
-              (N q).hom.app (sp.obj z) ≫ rq.map ((N p).hom.app z)) hunit.symm
-        _ = t ≫ (E T).hom.app (rq.obj (rp.obj x)) ≫ (D T).map b ≫
-              (N q).hom.app ((c.app V).toFunctor.obj (rp.obj x)) ≫
-                rq.map ((D V).map a) ≫ rq.map ((N p).hom.app z) := by
-          simpa only [Category.assoc] using
-            congrArg (fun m => t ≫ (E T).hom.app (rq.obj (rp.obj x)) ≫
-              (D T).map b ≫ m ≫ rq.map ((N p).hom.app z)) hsquare
-        _ = t ≫ rq.map ((E V).hom.app (rp.obj x)) ≫
-              rq.map ((D V).map a) ≫ rq.map ((N p).hom.app z) := by
-          simpa only [Category.assoc] using
-            congrArg (fun m => t ≫ m ≫ rq.map ((D V).map a) ≫
-              rq.map ((N p).hom.app z))
-              (pointwiseInverseNaturality_unit_app c hc q (rp.obj x))
-        _ = t ≫ rq.map (rp.map ((E U).hom.app x)) := by
-          simpa only [Functor.map_comp, Category.assoc] using
-            congrArg (fun m => t ≫ rq.map m) (pointwiseInverseNaturality_unit_app c hc p x)
+  have hleft : k.hom ≫ (N (p ≫ q)).hom.app z ≫
+      (R.mapComp p q).hom.toNatTrans.app ((D U).obj z) =
+        rpq.map ((E U).hom.app x) ≫ (R.mapComp p q).hom.toNatTrans.app ((D U).obj z) :=
+    postcomposeTriple _ _ _ _ (pointwiseInverseNaturality_unit_app c hc (p ≫ q) x) _
+  have hnat : rpq.map ((E U).hom.app x) ≫
+      (R.mapComp p q).hom.toNatTrans.app ((D U).obj z) =
+        t ≫ rq.map (rp.map ((E U).hom.app x)) :=
+    (R.mapComp p q).hom.toNatTrans.naturality ((E U).hom.app x)
+  have h1 : k.hom ≫ (D T).map s ≫ (N q).hom.app (sp.obj z) ≫ rq.map ((N p).hom.app z) =
+      (E T).hom.app (rpq.obj x) ≫ (D T).map ((c.app T).toFunctor.map t) ≫
+        (D T).map b ≫ (D T).map (sq.map a) ≫
+          (N q).hom.app (sp.obj z) ≫ rq.map ((N p).hom.app z) := by
+    simpa only [Functor.map_comp, Category.assoc] using
+      congrArg (fun m => (E T).hom.app (rpq.obj x) ≫ (D T).map m ≫
+        (N q).hom.app (sp.obj z) ≫ rq.map ((N p).hom.app z)) hbase
+  have h2 : (E T).hom.app (rpq.obj x) ≫ (D T).map ((c.app T).toFunctor.map t) ≫
+      (D T).map b ≫ (D T).map (sq.map a) ≫
+        (N q).hom.app (sp.obj z) ≫ rq.map ((N p).hom.app z) =
+      t ≫ (E T).hom.app (rq.obj (rp.obj x)) ≫ (D T).map b ≫
+        (D T).map (sq.map a) ≫ (N q).hom.app (sp.obj z) ≫ rq.map ((N p).hom.app z) := by
+    simpa only [Category.assoc] using
+      congrArg (fun m => m ≫ (D T).map b ≫ (D T).map (sq.map a) ≫
+        (N q).hom.app (sp.obj z) ≫ rq.map ((N p).hom.app z)) hunit.symm
+  have h3 : t ≫ (E T).hom.app (rq.obj (rp.obj x)) ≫ (D T).map b ≫
+      (D T).map (sq.map a) ≫ (N q).hom.app (sp.obj z) ≫ rq.map ((N p).hom.app z) =
+      t ≫ (E T).hom.app (rq.obj (rp.obj x)) ≫ (D T).map b ≫
+        (N q).hom.app ((c.app V).toFunctor.obj (rp.obj x)) ≫
+          rq.map ((D V).map a) ≫ rq.map ((N p).hom.app z) := by
+    simpa only [Category.assoc] using
+      congrArg (fun m => t ≫ (E T).hom.app (rq.obj (rp.obj x)) ≫
+        (D T).map b ≫ m ≫ rq.map ((N p).hom.app z)) hsquare
+  have h4 : t ≫ (E T).hom.app (rq.obj (rp.obj x)) ≫ (D T).map b ≫
+      (N q).hom.app ((c.app V).toFunctor.obj (rp.obj x)) ≫
+        rq.map ((D V).map a) ≫ rq.map ((N p).hom.app z) =
+      t ≫ rq.map ((E V).hom.app (rp.obj x)) ≫
+        rq.map ((D V).map a) ≫ rq.map ((N p).hom.app z) := by
+    simpa only [Category.assoc] using
+      congrArg (fun m => t ≫ m ≫ rq.map ((D V).map a) ≫
+        rq.map ((N p).hom.app z))
+        (pointwiseInverseNaturality_unit_app c hc q (rp.obj x))
+  have h5 : t ≫ rq.map ((E V).hom.app (rp.obj x)) ≫
+      rq.map ((D V).map a) ≫ rq.map ((N p).hom.app z) =
+        t ≫ rq.map (rp.map ((E U).hom.app x)) := by
+    simpa only [Functor.map_comp, Category.assoc] using
+      congrArg (fun m => t ≫ rq.map m) (pointwiseInverseNaturality_unit_app c hc p x)
+  have hright := h1.trans (h2.trans (h3.trans (h4.trans h5)))
+  exact hleft.trans (hnat.trans hright.symm)
 
 /-- All three coherence laws now assemble the actual inverse StrongTrans. -/
 def pointwiseInverseStrongTrans : S ⟶ R where
@@ -272,6 +302,7 @@ def pointwiseInverseRetractionIso : c ≫ pointwiseInverseStrongTrans c hc ≅ �
 @[simp] theorem pointwiseInverseUnitModification_inv_app (U : B) :
     ((pointwiseInverseUnitModification c hc).inv.as.app U).toNatTrans = (E U).inv := rfl
 
+include hc in
 /-- Existence has no assumed coherent inverse or coherence fields. -/
 theorem exists_pointwiseInverseRetraction :
     ∃ d : S ⟶ R, Nonempty (c ≫ d ≅ 𝟙 R) :=
@@ -279,7 +310,11 @@ theorem exists_pointwiseInverseRetraction :
 
 /-! ## Regression checks: all inputs remain pointwise, and two-cells need not be invertible. -/
 
-example : S ⟶ R := pointwiseInverseStrongTrans c hc
+example (h : ∀ U : B, (c.app U).toFunctor.IsEquivalence) : S ⟶ R :=
+  pointwiseInverseStrongTrans c h
+
+example (h : ∀ U : B, (c.app U).toFunctor.IsEquivalence) :
+    ∃ d : S ⟶ R, Nonempty (c ≫ d ≅ 𝟙 R) := exists_pointwiseInverseRetraction c h
 
 example (U : B) : (pointwiseInverseStrongTrans c hc).app U = (D U).toCatHom := rfl
 
