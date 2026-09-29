@@ -168,10 +168,16 @@ def exactUniversalEquivalenceOfLiftTriangle
     exactUniversalSourceIsoOfLift (W := W) A (X := Y) (Y := Y)
       (f := ExactUniversalRawMorphism.comp (W := W) A g f)
       (g := ExactUniversalRawMorphism.id (W := W) A Y) counitIso
+  -- `map_preimage` also needs source hom-category objects: its `X` and `Y`
+  -- are source 1-cells, not the outer bicategory objects or their DO₂ images.
   have heta : eta.hom.lift = unitIso.hom :=
-    (exactUniversalCompletion2HomFunctor (W := W) A X X).map_preimage unitIso.hom
+    (exactUniversalCompletion2HomFunctor (W := W) A X X).map_preimage
+      (X := ExactUniversalRawMorphism.id (W := W) A X)
+      (Y := ExactUniversalRawMorphism.comp (W := W) A f g) unitIso.hom
   have heps : eps.hom.lift = counitIso.hom :=
-    (exactUniversalCompletion2HomFunctor (W := W) A Y Y).map_preimage counitIso.hom
+    (exactUniversalCompletion2HomFunctor (W := W) A Y Y).map_preimage
+      (X := ExactUniversalRawMorphism.comp (W := W) A g f)
+      (Y := ExactUniversalRawMorphism.id (W := W) A Y) counitIso.hom
   refine { hom := f, inv := g, unit := eta, counit := eps, left_triangle := ?_ }
   apply Iso.ext
   apply (exactUniversal_leftTriangle_iff_lift (W := W) A f g eta.hom eps.hom).2
@@ -188,7 +194,9 @@ theorem exactUniversalEquivalenceOfLiftTriangle_unit_lift
       (λ_ f.lift) ≪≫ (ρ_ f.lift).symm) :
     (exactUniversalEquivalenceOfLiftTriangle
       (W := W) A f g unitIso counitIso hleft).unit.hom.lift = unitIso.hom :=
-  (exactUniversalCompletion2HomFunctor (W := W) A X X).map_preimage unitIso.hom
+  (exactUniversalCompletion2HomFunctor (W := W) A X X).map_preimage
+    (X := ExactUniversalRawMorphism.id (W := W) A X)
+    (Y := ExactUniversalRawMorphism.comp (W := W) A f g) unitIso.hom
 
 /-- In contrast with adjointification, the prescribed DO₂ counit is unchanged. -/
 theorem exactUniversalEquivalenceOfLiftTriangle_counit_lift
@@ -198,7 +206,9 @@ theorem exactUniversalEquivalenceOfLiftTriangle_counit_lift
       (λ_ f.lift) ≪≫ (ρ_ f.lift).symm) :
     (exactUniversalEquivalenceOfLiftTriangle
       (W := W) A f g unitIso counitIso hleft).counit.hom.lift = counitIso.hom :=
-  (exactUniversalCompletion2HomFunctor (W := W) A Y Y).map_preimage counitIso.hom
+  (exactUniversalCompletion2HomFunctor (W := W) A Y Y).map_preimage
+    (X := ExactUniversalRawMorphism.comp (W := W) A g f)
+    (Y := ExactUniversalRawMorphism.id (W := W) A Y) counitIso.hom
 
 /-! ## Regression checks: fixed legs and prescribed adjunction data. -/
 
@@ -270,11 +280,26 @@ example : (exactUniversalCompletion2HomFunctor (W := W) A Y Y).mapIso
   exact exactUniversalEquivalenceOfLiftTriangle_counit_lift
     (W := W) A f g unitIso counitIso hleft
 
+-- Check inverse preimages too: their source hom-category endpoints are reversed.
+example : (exactUniversalEquivalenceOfLiftTriangle
+    (W := W) A f g unitIso counitIso hleft).unit.inv.lift = unitIso.inv :=
+  (exactUniversalCompletion2HomFunctor (W := W) A X X).map_preimage
+    (X := ExactUniversalRawMorphism.comp (W := W) A f g)
+    (Y := ExactUniversalRawMorphism.id (W := W) A X) unitIso.inv
+
+example : (exactUniversalEquivalenceOfLiftTriangle
+    (W := W) A f g unitIso counitIso hleft).counit.inv.lift = counitIso.inv :=
+  (exactUniversalCompletion2HomFunctor (W := W) A Y Y).map_preimage
+    (X := ExactUniversalRawMorphism.id (W := W) A Y)
+    (Y := ExactUniversalRawMorphism.comp (W := W) A g f) counitIso.inv
+
 #print axioms exactUniversal_leftTriangle_iff_lift
 #print axioms exactUniversal_rightTriangle_iff_lift
 #print axioms exactUniversalAdjunctionEquivLift
 #print axioms existsUnique_exactUniversalAdjunction_of_lift
 #print axioms exactUniversalEquivalenceOfLiftTriangle
+#print axioms exactUniversalEquivalenceOfLiftTriangle_unit_lift
+#print axioms exactUniversalEquivalenceOfLiftTriangle_counit_lift
 
 end
 
