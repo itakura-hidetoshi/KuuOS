@@ -86,21 +86,21 @@ theorem ExactUniversalRawMorphismTwoCell.pentagon
         (W := W) A f g
         (ExactUniversalRawMorphism.comp (W := W) A h i)) := by
   apply ExactUniversalRawMorphismTwoCell.ext
-  · simpa only [
+  · simp only [
       ExactUniversalRawMorphismTwoCell.vcomp_raw,
       ExactUniversalRawMorphismTwoCell.whiskerRight_raw,
       ExactUniversalRawMorphismTwoCell.whiskerLeft_raw,
       ExactUniversalRawMorphismTwoCell.associator_raw,
       ExactUniversalRawMorphism.comp_raw
-    ] using!
-      (Bicategory.pentagon f.raw g.raw h.raw i.raw)
-  · simpa only [
+    ]
+    exact Bicategory.pentagon f.raw g.raw h.raw i.raw
+  · simp only [
       ExactUniversalRawMorphismTwoCell.vcomp_lift,
       ExactUniversalRawMorphismTwoCell.whiskerRight_lift,
       ExactUniversalRawMorphismTwoCell.whiskerLeft_lift,
       ExactUniversalRawMorphism.comp_lift
-    ] using!
-      (Bicategory.pentagon f.lift g.lift h.lift i.lift)
+    ]
+    exact Bicategory.pentagon f.lift g.lift h.lift i.lift
 
 /-- The exact universal mapping source satisfies the bicategory triangle law.
 
@@ -126,7 +126,7 @@ theorem ExactUniversalRawMorphismTwoCell.triangle
         (W := W) A f)
       g := by
   apply ExactUniversalRawMorphismTwoCell.ext
-  · simpa only [
+  · simp only [
       ExactUniversalRawMorphismTwoCell.vcomp_raw,
       ExactUniversalRawMorphismTwoCell.associator_raw,
       ExactUniversalRawMorphismTwoCell.whiskerLeft_raw,
@@ -134,15 +134,15 @@ theorem ExactUniversalRawMorphismTwoCell.triangle
       ExactUniversalRawMorphismTwoCell.whiskerRight_raw,
       ExactUniversalRawMorphismTwoCell.rightUnitor_raw,
       ExactUniversalRawMorphism.id_raw
-    ] using!
-      (Bicategory.triangle f.raw g.raw)
-  · simpa only [
+    ]
+    exact Bicategory.triangle f.raw g.raw
+  · simp only [
       ExactUniversalRawMorphismTwoCell.vcomp_lift,
       ExactUniversalRawMorphismTwoCell.whiskerLeft_lift,
       ExactUniversalRawMorphismTwoCell.whiskerRight_lift,
       ExactUniversalRawMorphism.id_lift
-    ] using!
-      (Bicategory.triangle f.lift g.lift)
+    ]
+    exact Bicategory.triangle f.lift g.lift
 
 /-!
 ## Boundary after v4.68
