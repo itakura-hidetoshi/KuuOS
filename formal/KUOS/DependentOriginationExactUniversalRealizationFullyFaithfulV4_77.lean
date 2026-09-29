@@ -162,6 +162,7 @@ theorem pseudofunctorWhiskerLeftPreimage_spec (tau : c ≫ r ⟶ c ≫ s) :
   apply Cat.Hom₂.ext
   exact pointwiseWhiskerPreimage_spec c hc tau U
 
+include hc in
 /-- Precomposition by a pointwise equivalence is full on modifications, for
 Cat-valued pseudofunctors on any bicategory. -/
 theorem pseudofunctorWhiskerLeft_surjective_of_pointwiseEquivalence :
