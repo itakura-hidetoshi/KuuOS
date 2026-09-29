@@ -250,62 +250,62 @@ local notation "S" => exactUniversalSectionPseudofunctor (W := W) A
 example : Pseudofunctor (ExactUniversalRealizedSector (W := W) A)
     (ExactUniversalRawObject.{u, v, uH, vH} (W := W) A) := S
 
-example : S.obj X = (X : ExactUniversalRawObject (W := W) A) := rfl
+example : (S).obj X = (X : ExactUniversalRawObject (W := W) A) := rfl
 
-example (f : X ⟶ Y) : (S.map f).lift = f.hom := rfl
+example (f : X ⟶ Y) : ((S).map f).lift = f.hom := rfl
 
-example {f g : X ⟶ Y} (eta : f ⟶ g) : (S.map₂ eta).lift = eta.hom := rfl
+example {f g : X ⟶ Y} (eta : f ⟶ g) : ((S).map₂ eta).lift = eta.hom := rfl
 
-example (f : X ⟶ Y) : S.map₂ (𝟙 f) = 𝟙 (S.map f) := S.map₂_id f
+example (f : X ⟶ Y) : (S).map₂ (𝟙 f) = 𝟙 ((S).map f) := (S).map₂_id f
 
 example {f g h : X ⟶ Y} (eta : f ⟶ g) (theta : g ⟶ h) :
-    S.map₂ (eta ≫ theta) = S.map₂ eta ≫ S.map₂ theta := S.map₂_comp eta theta
+    (S).map₂ (eta ≫ theta) = (S).map₂ eta ≫ (S).map₂ theta := (S).map₂_comp eta theta
 
-example : (S.mapId X).hom.lift = 𝟙 (𝟙 X.carrier) :=
+example : ((S).mapId X).hom.lift = 𝟙 (𝟙 X.carrier) :=
   exactUniversalSectionIdIso_hom_lift (W := W) A X
 
-example : (S.mapId X).inv.lift = 𝟙 (𝟙 X.carrier) :=
+example : ((S).mapId X).inv.lift = 𝟙 (𝟙 X.carrier) :=
   exactUniversalSectionIdIso_inv_lift (W := W) A X
 
-example (f : X ⟶ Y) (g : Y ⟶ Z) : (S.mapComp f g).hom.lift = 𝟙 (f.hom ≫ g.hom) :=
+example (f : X ⟶ Y) (g : Y ⟶ Z) : ((S).mapComp f g).hom.lift = 𝟙 (f.hom ≫ g.hom) :=
   exactUniversalSectionCompIso_hom_lift (W := W) A X Y Z f.hom g.hom
 
-example (f : X ⟶ Y) (g : Y ⟶ Z) : (S.mapComp f g).inv.lift = 𝟙 (f.hom ≫ g.hom) :=
+example (f : X ⟶ Y) (g : Y ⟶ Z) : ((S).mapComp f g).inv.lift = 𝟙 (f.hom ≫ g.hom) :=
   exactUniversalSectionCompIso_inv_lift (W := W) A X Y Z f.hom g.hom
 
 example : (exactUniversalCompletion2HomFunctor (W := W) A X X).mapIso
-    (S.mapId X) = Iso.refl (𝟙 X.carrier) := by
+    ((S).mapId X) = Iso.refl (𝟙 X.carrier) := by
   apply Iso.ext
   exact exactUniversalSectionIdIso_hom_lift (W := W) A X
 
 example (f : X ⟶ Y) (g : Y ⟶ Z) :
     (exactUniversalCompletion2HomFunctor (W := W) A X Z).mapIso
-      (S.mapComp f g) = Iso.refl (f.hom ≫ g.hom) := by
+      ((S).mapComp f g) = Iso.refl (f.hom ≫ g.hom) := by
   apply Iso.ext
   exact exactUniversalSectionCompIso_hom_lift (W := W) A X Y Z f.hom g.hom
 
 example (f : X ⟶ Y) {g h : Y ⟶ Z} (eta : g ⟶ h) :
-    S.map₂ (f ◁ eta) = (S.mapComp f g).hom ≫ S.map f ◁ S.map₂ eta ≫
-      (S.mapComp f h).inv := S.map₂_whisker_left f eta
+    (S).map₂ (f ◁ eta) = ((S).mapComp f g).hom ≫ (S).map f ◁ (S).map₂ eta ≫
+      ((S).mapComp f h).inv := (S).map₂_whisker_left f eta
 
 example {f g : X ⟶ Y} (eta : f ⟶ g) (h : Y ⟶ Z) :
-    S.map₂ (eta ▷ h) = (S.mapComp f h).hom ≫ S.map₂ eta ▷ S.map h ≫
-      (S.mapComp g h).inv := S.map₂_whisker_right eta h
+    (S).map₂ (eta ▷ h) = ((S).mapComp f h).hom ≫ (S).map₂ eta ▷ (S).map h ≫
+      ((S).mapComp g h).inv := (S).map₂_whisker_right eta h
 
 example (f : X ⟶ Y) (g : Y ⟶ Z) (h : Z ⟶ T) :
-    S.map₂ (α_ f g h).hom = (S.mapComp (f ≫ g) h).hom ≫
-      (S.mapComp f g).hom ▷ S.map h ≫ (α_ (S.map f) (S.map g) (S.map h)).hom ≫
-      S.map f ◁ (S.mapComp g h).inv ≫ (S.mapComp f (g ≫ h)).inv :=
-  S.map₂_associator f g h
+    (S).map₂ (α_ f g h).hom = ((S).mapComp (f ≫ g) h).hom ≫
+      ((S).mapComp f g).hom ▷ (S).map h ≫ (α_ ((S).map f) ((S).map g) ((S).map h)).hom ≫
+      (S).map f ◁ ((S).mapComp g h).inv ≫ ((S).mapComp f (g ≫ h)).inv :=
+  (S).map₂_associator f g h
 
-example (f : X ⟶ Y) : S.map₂ (λ_ f).hom = (S.mapComp (𝟙 X) f).hom ≫
-    (S.mapId X).hom ▷ S.map f ≫ (λ_ (S.map f)).hom := S.map₂_left_unitor f
+example (f : X ⟶ Y) : (S).map₂ (λ_ f).hom = ((S).mapComp (𝟙 X) f).hom ≫
+    ((S).mapId X).hom ▷ (S).map f ≫ (λ_ ((S).map f)).hom := (S).map₂_left_unitor f
 
-example (f : X ⟶ Y) : S.map₂ (ρ_ f).hom = (S.mapComp f (𝟙 Y)).hom ≫
-    S.map f ◁ (S.mapId Y).hom ≫ (ρ_ (S.map f)).hom := S.map₂_right_unitor f
+example (f : X ⟶ Y) : (S).map₂ (ρ_ f).hom = ((S).mapComp f (𝟙 Y)).hom ≫
+    (S).map f ◁ ((S).mapId Y).hom ≫ (ρ_ ((S).map f)).hom := (S).map₂_right_unitor f
 
 example (ell : X.carrier ⟶ Y.carrier) :
-    (S.map (Bicategory.InducedBicategory.mkHom (X := X) (Y := Y) ell)).lift = ell := rfl
+    ((S).map (Bicategory.InducedBicategory.mkHom (X := X) (Y := Y) ell)).lift = ell := rfl
 
 #print axioms exactUniversalSectionIdIso
 #print axioms exactUniversalSectionCompIso
