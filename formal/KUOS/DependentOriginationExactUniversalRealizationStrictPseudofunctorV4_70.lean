@@ -44,7 +44,7 @@ is already strict on identities and composition:
 Likewise the source whiskerings and structural cells were constructed with DO₂
 projection equal to the native induced-bicategory operations.  Hence the
 realization is not merely a pseudofunctor: it is a Mathlib
-\`StrictPseudofunctor\`.
+`StrictPseudofunctor`.
 
 This packages the mapping-level coherence without adding any presentation
 hypothesis or comparison coefficient.
@@ -56,8 +56,49 @@ variable {Context : Type u} [Category.{v} Context]
 variable (W : MorphismProperty Context)
 variable (A : RefinementAtlas (LocalizedContext W))
 
+/-- Realization of source left whiskering is the native DO₂ left whiskering. -/
+@[simp] theorem exactUniversalRealization_source_whiskerLeft_lift
+    {X Y Z : ExactUniversalRawObject.{u, v, uH, vH} (W := W) A}
+    (f : X ⟶ Y) {g h : Y ⟶ Z} (eta : g ⟶ h) :
+    (f ◁ eta).lift = f.lift ◁ eta.lift :=
+  rfl
+
+/-- Realization of source right whiskering is the native DO₂ right whiskering. -/
+@[simp] theorem exactUniversalRealization_source_whiskerRight_lift
+    {X Y Z : ExactUniversalRawObject.{u, v, uH, vH} (W := W) A}
+    {f g : X ⟶ Y} (eta : f ⟶ g) (h : Y ⟶ Z) :
+    (eta ▷ h).lift = eta.lift ▷ h.lift :=
+  rfl
+
+/-- Realization of the source left unitor hom is the native DO₂ left unitor hom. -/
+@[simp] theorem exactUniversalRealization_source_leftUnitor_lift
+    {X Y : ExactUniversalRawObject.{u, v, uH, vH} (W := W) A}
+    (f : X ⟶ Y) :
+    (λ_ f).hom.lift = (λ_ f.lift).hom :=
+  rfl
+
+/-- Realization of the source right unitor hom is the native DO₂ right unitor hom. -/
+@[simp] theorem exactUniversalRealization_source_rightUnitor_lift
+    {X Y : ExactUniversalRawObject.{u, v, uH, vH} (W := W) A}
+    (f : X ⟶ Y) :
+    (ρ_ f).hom.lift = (ρ_ f.lift).hom :=
+  rfl
+
+/-- Realization of the source associator hom is the native DO₂ associator hom. -/
+@[simp] theorem exactUniversalRealization_source_associator_lift
+    {V X Y Z : ExactUniversalRawObject.{u, v, uH, vH} (W := W) A}
+    (f : V ⟶ X) (g : X ⟶ Y) (h : Y ⟶ Z) :
+    (α_ f g h).hom.lift = (α_ f.lift g.lift h.lift).hom :=
+  rfl
+
 /-- The strict realization core from the exact universal mapping source into
-the chosen DO₂ carrier. -/
+the chosen DO₂ carrier.
+
+The transport morphisms inserted by `StrictPseudofunctorCore` are identities
+by definitional equality, since `map_id` and `map_comp` are reflexivity proofs.
+Normalize these small hom-category goals before using the structural projection
+lemmas.  Applying induced-bicategory extensionality first hides the transports
+under `.hom`; unfolding the entire source instance is unnecessary. -/
 noncomputable def exactUniversalRealizationStrictCore :
     StrictPseudofunctorCore
       (ExactUniversalRawObject.{u, v, uH, vH} (W := W) A)
@@ -71,24 +112,41 @@ noncomputable def exactUniversalRealizationStrictCore :
   map_comp f g := rfl
   map₂_whisker_left := by
     intro X Y Z f g g' eta
-    apply CategoryTheory.Bicategory.InducedBicategory.hom₂_ext
-    simp
+    change (f ◁ eta).lift =
+      𝟙 (f.lift ≫ g.lift) ≫
+        (f.lift ◁ eta.lift) ≫ 𝟙 (f.lift ≫ g'.lift)
+    exact (exactUniversalRealization_source_whiskerLeft_lift
+      (W := W) A f eta).trans
+        ((Category.id_comp _).trans (Category.comp_id _)).symm
   map₂_whisker_right := by
     intro X Y Z f f' eta g
-    apply CategoryTheory.Bicategory.InducedBicategory.hom₂_ext
-    simp
+    change (eta ▷ g).lift =
+      𝟙 (f.lift ≫ g.lift) ≫
+        (eta.lift ▷ g.lift) ≫ 𝟙 (f'.lift ≫ g.lift)
+    exact (exactUniversalRealization_source_whiskerRight_lift
+      (W := W) A eta g).trans
+        ((Category.id_comp _).trans (Category.comp_id _)).symm
   map₂_left_unitor := by
     intro X Y f
-    apply CategoryTheory.Bicategory.InducedBicategory.hom₂_ext
-    simp
+    change (λ_ f).hom.lift =
+      𝟙 (𝟙 X.carrier ≫ f.lift) ≫ (λ_ f.lift).hom
+    exact (exactUniversalRealization_source_leftUnitor_lift
+      (W := W) A f).trans (Category.id_comp _).symm
   map₂_right_unitor := by
     intro X Y f
-    apply CategoryTheory.Bicategory.InducedBicategory.hom₂_ext
-    simp
+    change (ρ_ f).hom.lift =
+      𝟙 (f.lift ≫ 𝟙 Y.carrier) ≫ (ρ_ f.lift).hom
+    exact (exactUniversalRealization_source_rightUnitor_lift
+      (W := W) A f).trans (Category.id_comp _).symm
   map₂_associator := by
     intro X Y Z T f g h
-    apply CategoryTheory.Bicategory.InducedBicategory.hom₂_ext
-    simp
+    change (α_ f g h).hom.lift =
+      𝟙 ((f.lift ≫ g.lift) ≫ h.lift) ≫
+        (α_ f.lift g.lift h.lift).hom ≫
+          𝟙 (f.lift ≫ (g.lift ≫ h.lift))
+    exact (exactUniversalRealization_source_associator_lift
+      (W := W) A f g h).trans
+        ((Category.id_comp _).trans (Category.comp_id _)).symm
 
 /-- The DO₂ realization of the exact universal mapping source is a strict
 pseudofunctor. -/
