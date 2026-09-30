@@ -129,6 +129,77 @@ theorem higherLocalizedModificationNaturalityProperty_comp
   simp only [Pseudofunctor.StrongTrans.naturality_comp_hom]
   simp [hf, hg]
 
+/-- The modification-naturality property holds on identities. Unlike the raw
+image-arrow case, this is intrinsic to the StrongTrans identity coherence and
+does not require a chosen presentation representative. -/
+theorem higherLocalizedModificationNaturalityProperty_id
+    {F G : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W)}
+    {alpha beta : F ⟶ G}
+    (Gamma :
+      restrictHigherLocalizedStrongTrans (W := W) alpha ⟶
+        restrictHigherLocalizedStrongTrans (W := W) beta)
+    (X : LocalizedContext W) :
+    higherLocalizedModificationNaturalityProperty (W := W) Gamma (𝟙 X) := by
+  dsimp [higherLocalizedModificationNaturalityProperty]
+  simp only [Functor.map_id, Quiver.Hom.id_toLoc]
+  simp [Pseudofunctor.StrongTrans.naturality_id_hom]
+
+/-- A Cat-valued localized pseudofunctor sends every isomorphism of the
+underlying localized category to an equivalence of categories.
+
+We build the quasi-inverse directly from the image of the inverse arrow. The
+unit and counit are the pseudofunctor mapId/mapComp isomorphisms, so this lemma
+uses only the pinned pseudofunctor API and does not depend on newer mathlib
+adjunction conveniences. -/
+noncomputable def higherLocalizedMapEquivalenceOfIso
+    (H : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W))
+    {X Y : LocalizedContext W}
+    (e : X ≅ Y) :
+    H.obj (.mk ((opOp (LocalizedContext W)).obj X)) ≌
+      H.obj (.mk ((opOp (LocalizedContext W)).obj Y)) := by
+  let p :=
+    ((opOp (LocalizedContext W)).map e.hom).toLoc
+  let q :=
+    ((opOp (LocalizedContext W)).map e.inv).toLoc
+  have hpq : p ≫ q = 𝟙 _ := by
+    apply Discrete.ext
+    dsimp [p, q]
+    simp
+  have hqp : q ≫ p = 𝟙 _ := by
+    apply Discrete.ext
+    dsimp [p, q]
+    simp
+  let etaCat :
+      𝟙 (H.obj (.mk ((opOp (LocalizedContext W)).obj X))) ≅
+        H.map p ≫ H.map q :=
+    (H.mapId _).symm ≪≫
+      H.mapComp' p q (𝟙 _) hpq
+  let epsCat :
+      H.map q ≫ H.map p ≅
+        𝟙 (H.obj (.mk ((opOp (LocalizedContext W)).obj Y))) :=
+    (H.mapComp' q p (𝟙 _) hqp).symm ≪≫
+      H.mapId _
+  exact
+    CategoryTheory.Equivalence.mk
+      (H.map p).toFunctor
+      (H.map q).toFunctor
+      (by
+        simpa only [Cat.Hom.id_toFunctor, Cat.Hom.comp_toFunctor] using
+          Cat.Hom.toNatIso etaCat)
+      (by
+        simpa only [Cat.Hom.id_toFunctor, Cat.Hom.comp_toFunctor] using
+          Cat.Hom.toNatIso epsCat)
+
+/-- In particular, the image functor of an isomorphism is an equivalence. -/
+theorem higherLocalizedMap_isEquivalence_of_iso
+    (H : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W))
+    {X Y : LocalizedContext W}
+    (e : X ≅ Y) :
+    ((H.map (((opOp (LocalizedContext W)).map e.hom).toLoc).toFunctor)
+      .IsEquivalence := by
+  exact
+    (higherLocalizedMapEquivalenceOfIso (W := W) H e).isEquivalence_functor
+
 /-- The naturality property holds on every raw image arrow. This is exactly the
 naturality field of the supplied restricted modification. -/
 theorem higherLocalizedModificationNaturalityProperty_map
@@ -150,6 +221,9 @@ theorem higherLocalizedModificationNaturalityProperty_map
 #print axioms higherLocalizedModificationExtensionApp
 #print axioms higherLocalizedModificationExtensionApp_presentation
 #print axioms higherLocalizedModificationNaturalityProperty_comp
+#print axioms higherLocalizedModificationNaturalityProperty_id
+#print axioms higherLocalizedMapEquivalenceOfIso
+#print axioms higherLocalizedMap_isEquivalence_of_iso
 #print axioms higherLocalizedModificationNaturalityProperty_map
 
 end
