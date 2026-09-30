@@ -192,7 +192,7 @@ structure ExactUniversalLabelledBiequivalenceCertificate where
     WhiteheadBiequivalenceData
       (ExactUniversalRawObject.{u, v, uH, vH} (W := W) A)
       (ExactUniversalRealizedSector.{u, v, uH, vH} (W := W) A)
-  section :
+  quasiInverse :
     Pseudofunctor
       (ExactUniversalRealizedSector.{u, v, uH, vH} (W := W) A)
       (ExactUniversalRawObject.{u, v, uH, vH} (W := W) A)
@@ -200,10 +200,10 @@ structure ExactUniversalLabelledBiequivalenceCertificate where
     Pseudofunctor.StrongTrans
       (Pseudofunctor.id
         (ExactUniversalRawObject.{u, v, uH, vH} (W := W) A))
-      (Pseudofunctor.comp whitehead.forward section)
+      (Pseudofunctor.comp whitehead.forward quasiInverse)
   counit :
     Pseudofunctor.StrongTrans
-      (Pseudofunctor.comp section whitehead.forward)
+      (Pseudofunctor.comp quasiInverse whitehead.forward)
       (Pseudofunctor.id
         (ExactUniversalRealizedSector.{u, v, uH, vH} (W := W) A))
 
@@ -212,7 +212,7 @@ def exactUniversalLabelledBiequivalenceCertificate :
     ExactUniversalLabelledBiequivalenceCertificate (W := W) A where
   whitehead :=
     exactUniversalLabelledWhiteheadBiequivalence (W := W) A
-  section :=
+  quasiInverse :=
     exactUniversalSectionPseudofunctor (W := W) A
   unit := by
     change
@@ -232,9 +232,9 @@ def exactUniversalLabelledBiequivalenceCertificate :
       (W := W) A).whitehead.forward =
       (exactUniversalLabelledRealization (W := W) A).toPseudofunctor := rfl
 
-@[simp] theorem exactUniversalLabelledBiequivalenceCertificate_section :
+@[simp] theorem exactUniversalLabelledBiequivalenceCertificate_quasiInverse :
     (exactUniversalLabelledBiequivalenceCertificate
-      (W := W) A).section =
+      (W := W) A).quasiInverse =
       exactUniversalSectionPseudofunctor (W := W) A := rfl
 
 /-- Object coverage is deliberately only coverage of the object-labelled
