@@ -128,21 +128,22 @@ def exactUniversalLabelledRealization :
     (exactUniversalLabelledRealization (W := W) A).obj X = X := rfl
 
 @[simp] theorem exactUniversalLabelledRealization_map_hom
-    {X Y : ExactUniversalRawObject.{u, v, uH, vH} (W := W) A)
+    {X Y : ExactUniversalRawObject.{u, v, uH, vH} (W := W) A}
     (f : X ⟶ Y) :
     ((exactUniversalLabelledRealization (W := W) A).map f).hom = f.lift := rfl
 
 @[simp] theorem exactUniversalLabelledRealization_map₂_hom
-    {X Y : ExactUniversalRawObject.{u, v, uH, vH} (W := W) A)
+    {X Y : ExactUniversalRawObject.{u, v, uH, vH} (W := W) A}
     {f g : X ⟶ Y} (eta : f ⟶ g) :
     ((exactUniversalLabelledRealization (W := W) A).map₂ eta).hom = eta.lift := rfl
 
 @[simp] theorem exactUniversalLabelledRealization_map_id
     (X : ExactUniversalRawObject.{u, v, uH, vH} (W := W) A) :
-    (exactUniversalLabelledRealization (W := W) A).map (𝟙 X) = 𝟙 X := rfl
+    (exactUniversalLabelledRealization (W := W) A).map (𝟙 X) =
+      𝟙 ((exactUniversalLabelledRealization (W := W) A).obj X) := rfl
 
 @[simp] theorem exactUniversalLabelledRealization_map_comp
-    {X Y Z : ExactUniversalRawObject.{u, v, uH, vH} (W := W) A)
+    {X Y Z : ExactUniversalRawObject.{u, v, uH, vH} (W := W) A}
     (f : X ⟶ Y) (g : Y ⟶ Z) :
     (exactUniversalLabelledRealization (W := W) A).map (f ≫ g) =
       (exactUniversalLabelledRealization (W := W) A).map f ≫
@@ -177,11 +178,12 @@ theorem exactUniversalLabelledHomRoundtrip
     (exactUniversalSectionPseudofunctor (W := W) A).mapFunctor X Y ⋙
       (exactUniversalLabelledRealization (W := W) A).mapFunctor X Y =
         𝟭 (X ⟶ Y) := by
-  apply Functor.ext
+  apply CategoryTheory.Functor.hext
   · intro f
     exact exactUniversalLabelledRealization_section_map (W := W) A f
   · intro f g eta
-    exact exactUniversalLabelledRealization_section_map₂ (W := W) A eta
+    exact HEq.of_eq
+      (exactUniversalLabelledRealization_section_map₂ (W := W) A eta)
 
 /-! ## Regression checks -/
 
@@ -195,12 +197,12 @@ example (X : ExactUniversalRawObject.{u, v, uH, vH} (W := W) A) :
     (exactUniversalLabelledRealization (W := W) A).obj X = X := rfl
 
 example
-    {X Y : ExactUniversalRawObject.{u, v, uH, vH} (W := W) A)
+    {X Y : ExactUniversalRawObject.{u, v, uH, vH} (W := W) A}
     (f : X ⟶ Y) :
     ((exactUniversalLabelledRealization (W := W) A).map f).hom = f.lift := rfl
 
 example
-    {X Y : ExactUniversalRawObject.{u, v, uH, vH} (W := W) A)
+    {X Y : ExactUniversalRawObject.{u, v, uH, vH} (W := W) A}
     {f g : X ⟶ Y} (eta : f ⟶ g) :
     ((exactUniversalLabelledRealization (W := W) A).map₂ eta).hom = eta.lift := rfl
 
