@@ -12,6 +12,7 @@ open KUOS.DependentOriginationExactUniversalMappingMorphismV4_57
 open KUOS.DependentOriginationExactUniversalHomEquivalenceV4_83
 open KUOS.DependentOriginationExactUniversalSectionPseudofunctorV4_84
 open KUOS.DependentOriginationExactUniversalLabelledRealizationV4_85
+open KUOS.DependentOriginationExactUniversalGlobalUnitSquaresV4_86
 open KUOS.DependentOriginationExactUniversalGlobalUnitStrongTransV4_87
 open KUOS.DependentOriginationExactUniversalGlobalCounitStrongTransV4_88
 
@@ -114,7 +115,8 @@ def exactUniversalRealizedHomWrapperUnitIso
     (fun f => Bicategory.InducedBicategory.isoMk (Iso.refl f.hom))
     (fun eta => by
       apply Bicategory.InducedBicategory.hom₂_ext
-      rfl)
+      change eta.hom ≫ 𝟙 _ = 𝟙 _ ≫ eta.hom
+      simp only [Category.comp_id, Category.id_comp])
 
 /-- Rewrapping and then forgetting is literally identity on the underlying
 DO₂ hom category. -/
@@ -125,7 +127,9 @@ def exactUniversalRealizedHomWrapperCounitIso
       𝟭 (X.carrier ⟶ Y.carrier) :=
   NatIso.ofComponents
     (fun f => Iso.refl f)
-    (fun _ => by rfl)
+    (fun eta => by
+      change eta ≫ 𝟙 _ = 𝟙 _ ≫ eta
+      simp only [Category.comp_id, Category.id_comp])
 
 /-- The induced realized hom category is equivalent to the corresponding
 underlying DO₂ hom category. -/
@@ -157,8 +161,7 @@ the labelled realization, not merely isomorphic to it. -/
 theorem exactUniversalLabelledHomEquivalence_functor
     (X Y : Source (W := W) A) :
     (exactUniversalLabelledHomEquivalence (W := W) A X Y).functor =
-      (exactUniversalLabelledRealization (W := W) A).toPseudofunctor
-        |>.toPrelaxFunctor.mapFunctor X Y := by
+      (exactUniversalLabelledRealization (W := W) A).mapFunctor X Y := by
   apply CategoryTheory.Functor.hext
   · intro f
     rfl
@@ -187,20 +190,22 @@ global quasi-inverse and the already verified StrongTrans unit/counit. -/
 structure ExactUniversalLabelledBiequivalenceCertificate where
   whitehead :
     WhiteheadBiequivalenceData
-      (Source (W := W) A)
-      (Realized (W := W) A)
+      (ExactUniversalRawObject.{u, v, uH, vH} (W := W) A)
+      (ExactUniversalRealizedSector.{u, v, uH, vH} (W := W) A)
   section :
     Pseudofunctor
-      (Realized (W := W) A)
-      (Source (W := W) A)
+      (ExactUniversalRealizedSector.{u, v, uH, vH} (W := W) A)
+      (ExactUniversalRawObject.{u, v, uH, vH} (W := W) A)
   unit :
     Pseudofunctor.StrongTrans
-      (Pseudofunctor.id (Source (W := W) A))
+      (Pseudofunctor.id
+        (ExactUniversalRawObject.{u, v, uH, vH} (W := W) A))
       (Pseudofunctor.comp whitehead.forward section)
   counit :
     Pseudofunctor.StrongTrans
       (Pseudofunctor.comp section whitehead.forward)
-      (Pseudofunctor.id (Realized (W := W) A))
+      (Pseudofunctor.id
+        (ExactUniversalRealizedSector.{u, v, uH, vH} (W := W) A))
 
 /-- The complete current object-labelled biequivalence certificate. -/
 def exactUniversalLabelledBiequivalenceCertificate :
