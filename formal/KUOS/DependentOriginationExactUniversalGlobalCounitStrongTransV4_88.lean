@@ -181,15 +181,13 @@ def exactUniversalRealizedRoundtripNaturalityIso
     {X Y : Realized (W := W) A} (f : X ⟶ Y) :
     (exactUniversalRealizedRoundtripNaturalityIso (W := W) A f).hom.hom =
       (ρ_ f.hom).hom ≫ (λ_ f.hom).inv := by
+  -- Do not rewrite `roundtrip.map f).hom = f.hom` inside the dependent
+  -- source/target of the following 2-cell composition.  Both equalities used
+  -- here are definitional, so normalize the whole typed expression at once.
   change
-    (ρ_ ((exactUniversalRealizedRoundtrip (W := W) A).map f).hom).hom ≫
-        (exactUniversalRealizedRoundtripCoreIso (W := W) A f).hom.hom ≫
-          (λ_ f.hom).inv =
+    (ρ_ f.hom).hom ≫ 𝟙 f.hom ≫ (λ_ f.hom).inv =
       (ρ_ f.hom).hom ≫ (λ_ f.hom).inv
-  rw [exactUniversalRealizedRoundtrip_map_hom,
-    exactUniversalRealizedRoundtripCoreIso_hom_hom]
   simp only [Category.comp_id]
-  rfl
 
 /-- The realized-side exact recovery is a global native StrongTrans counit. -/
 def exactUniversalRealizedRoundtripCounit :
@@ -255,9 +253,20 @@ def exactUniversalRealizedRoundtripCounit :
             ((Pseudofunctor.id (Realized (W := W) A)).map g).hom).hom
     rw [exactUniversalRealizedRoundtripNaturalityIso_hom_hom,
       exactUniversalRealizedIdentityPseudofunctor_mapComp_hom_hom,
-      exactUniversalRealizedRoundtrip_mapComp_hom_hom,
-      exactUniversalRealizedRoundtrip_map_hom,
-      exactUniversalRealizedIdentityPseudofunctor_map_hom]
+      exactUniversalRealizedRoundtrip_mapComp_hom_hom]
+    -- The remaining roundtrip/identity object maps occur in dependent
+    -- associator and whiskering positions.  Their underlying one-cells are
+    -- definitionally f.hom/g.hom, so use one typed normalization rather than
+    -- dependent `rw` through those positions.
+    change
+      ((ρ_ (f.hom ≫ g.hom)).hom ≫ (λ_ (f.hom ≫ g.hom)).inv) ≫
+          (𝟙 a.carrier ◁ 𝟙 (f.hom ≫ g.hom)) =
+        (𝟙 (f.hom ≫ g.hom) ▷ 𝟙 c.carrier) ≫
+          (α_ f.hom g.hom (𝟙 c.carrier)).hom ≫
+          f.hom ◁ ((ρ_ g.hom).hom ≫ (λ_ g.hom).inv) ≫
+          (α_ f.hom (𝟙 b.carrier) g.hom).inv ≫
+          ((ρ_ f.hom).hom ≫ (λ_ f.hom).inv) ▷ g.hom ≫
+          (α_ (𝟙 a.carrier) f.hom g.hom).hom
     bicategory
 
 @[simp] theorem exactUniversalRealizedRoundtripCounit_app
