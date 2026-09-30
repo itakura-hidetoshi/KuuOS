@@ -200,6 +200,69 @@ theorem higherLocalizedMap_isEquivalence_of_iso
   exact
     (higherLocalizedMapEquivalenceOfIso (W := W) H e).isEquivalence_functor
 
+/-- Naturality is stable under inversion of an isomorphism in the localized
+base. The proof cancels left whiskering by the image of the forward arrow; that
+whiskering is faithful because the forward arrow is sent to an equivalence of
+categories. The remaining equation is the composition coherence for the
+StrongTrans, together with the already-known square for the forward arrow. -/
+theorem higherLocalizedModificationNaturalityProperty_inv
+    {F G : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W)}
+    {alpha beta : F ⟶ G}
+    (Gamma :
+      restrictHigherLocalizedStrongTrans (W := W) alpha ⟶
+        restrictHigherLocalizedStrongTrans (W := W) beta)
+    {X Y : LocalizedContext W}
+    (e : X ≅ Y)
+    (h :
+      higherLocalizedModificationNaturalityProperty (W := W) Gamma e.hom) :
+    higherLocalizedModificationNaturalityProperty (W := W) Gamma e.inv := by
+  let p :=
+    ((opOp (LocalizedContext W)).map e.hom).toLoc
+  let q :=
+    ((opOp (LocalizedContext W)).map e.inv).toLoc
+  let mX :=
+    higherLocalizedModificationExtensionApp (W := W) Gamma
+      (.mk ((opOp (LocalizedContext W)).obj X))
+  let mY :=
+    higherLocalizedModificationExtensionApp (W := W) Gamma
+      (.mk ((opOp (LocalizedContext W)).obj Y))
+  have hComp :
+      higherLocalizedModificationNaturalityProperty (W := W) Gamma
+        (e.hom ≫ e.inv) := by
+    rw [e.hom_inv_id]
+    exact
+      higherLocalizedModificationNaturalityProperty_id
+        (W := W) Gamma X
+  have hp :
+      F.map p ◁ mY ≫ (beta.naturality p).hom =
+        (alpha.naturality p).hom ≫ mX ▷ G.map p := by
+    simpa only
+      [higherLocalizedModificationNaturalityProperty, p, mX, mY] using h
+  have hpq :
+      F.map (p ≫ q) ◁ mX ≫ (beta.naturality (p ≫ q)).hom =
+        (alpha.naturality (p ≫ q)).hom ≫
+          mX ▷ G.map (p ≫ q) := by
+    simpa only
+      [higherLocalizedModificationNaturalityProperty, Functor.map_comp,
+        Quiver.Hom.comp_toLoc, p, q, mX] using hComp
+  change
+    F.map q ◁ mX ≫ (beta.naturality q).hom =
+      (alpha.naturality q).hom ≫ mY ▷ G.map q
+  letI : (F.map p).toFunctor.IsEquivalence := by
+    simpa only [p] using
+      higherLocalizedMap_isEquivalence_of_iso (W := W) F e
+  have hWhisker :
+      F.map p ◁
+          (F.map q ◁ mX ≫ (beta.naturality q).hom) =
+        F.map p ◁
+          ((alpha.naturality q).hom ≫ mY ▷ G.map q) := by
+    simp only [Pseudofunctor.StrongTrans.naturality_comp_hom] at hpq
+    simpa [hp] using hpq
+  apply Cat.Hom₂.ext
+  apply
+    ((Functor.whiskeringLeft _ _ _).obj (F.map p).toFunctor).map_injective
+  exact congrArg Cat.Hom₂.toNatTrans hWhisker
+
 /-- The naturality property holds on every raw image arrow. This is exactly the
 naturality field of the supplied restricted modification. -/
 theorem higherLocalizedModificationNaturalityProperty_map
@@ -224,6 +287,7 @@ theorem higherLocalizedModificationNaturalityProperty_map
 #print axioms higherLocalizedModificationNaturalityProperty_id
 #print axioms higherLocalizedMapEquivalenceOfIso
 #print axioms higherLocalizedMap_isEquivalence_of_iso
+#print axioms higherLocalizedModificationNaturalityProperty_inv
 #print axioms higherLocalizedModificationNaturalityProperty_map
 
 end
