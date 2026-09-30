@@ -281,6 +281,198 @@ theorem higherLocalizedModificationNaturalityProperty_map
       restrictHigherLocalizedStrongTrans]
     using Gamma.as.naturality f.toLoc
 
+/-! ## Localization generation and fullness -/
+
+/-- The modification-naturality property is stable under composition, packaged
+in the typeclass form required by Mathlib's localization generator theorem. -/
+instance higherLocalizedModificationNaturalityProperty_isStableUnderComposition
+    {F G : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W)}
+    {alpha beta : F ⟶ G}
+    (Gamma :
+      restrictHigherLocalizedStrongTrans (W := W) alpha ⟶
+        restrictHigherLocalizedStrongTrans (W := W) beta) :
+    (higherLocalizedModificationNaturalityProperty (W := W) Gamma)
+      .IsStableUnderComposition where
+  comp_mem f g hf hg :=
+    higherLocalizedModificationNaturalityProperty_comp
+      (W := W) Gamma f g hf hg
+
+/-- The modification square holds for every morphism of the constructed
+localization. Mathlib's generator theorem reduces this to the raw image-arrow
+case and stability under inversion of isomorphisms. -/
+theorem higherLocalizedModificationNaturalityProperty_eq_top
+    {F G : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W)}
+    {alpha beta : F ⟶ G}
+    (Gamma :
+      restrictHigherLocalizedStrongTrans (W := W) alpha ⟶
+        restrictHigherLocalizedStrongTrans (W := W) beta) :
+    higherLocalizedModificationNaturalityProperty (W := W) Gamma = ⊤ := by
+  exact
+    Localization.Construction.morphismProperty_eq_top'
+      (W := W)
+      (higherLocalizedModificationNaturalityProperty (W := W) Gamma)
+      (fun f =>
+        higherLocalizedModificationNaturalityProperty_map
+          (W := W) Gamma f)
+      (fun e he =>
+        higherLocalizedModificationNaturalityProperty_inv
+          (W := W) Gamma e he)
+
+/-- Pointwise form of the preceding top-property theorem. -/
+theorem higherLocalizedModificationNaturalityProperty_all
+    {F G : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W)}
+    {alpha beta : F ⟶ G}
+    (Gamma :
+      restrictHigherLocalizedStrongTrans (W := W) alpha ⟶
+        restrictHigherLocalizedStrongTrans (W := W) beta)
+    {X Y : LocalizedContext W}
+    (f : X ⟶ Y) :
+    higherLocalizedModificationNaturalityProperty (W := W) Gamma f := by
+  rw [higherLocalizedModificationNaturalityProperty_eq_top
+    (W := W) Gamma]
+  exact MorphismProperty.top_apply f
+
+/-- Extend an arbitrary raw modification uniquely at the object-component level
+to a modification between the localized StrongTrans. Naturality for an
+arbitrary locally-discrete 1-cell is the all-morphisms result above, transported
+through the double-opposite equivalence. -/
+noncomputable def higherLocalizedModificationExtension
+    {F G : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W)}
+    {alpha beta : F ⟶ G}
+    (Gamma :
+      restrictHigherLocalizedStrongTrans (W := W) alpha ⟶
+        restrictHigherLocalizedStrongTrans (W := W) beta) :
+    alpha ⟶ beta := by
+  refine ⟨{
+    app := higherLocalizedModificationExtensionApp (W := W) Gamma
+    naturality := ?_
+  }⟩
+  intro X Y f
+  let g : LocalizedContext W := f.as.unop.unop
+  have hg :=
+    higherLocalizedModificationNaturalityProperty_all
+      (W := W) Gamma g
+  simpa [higherLocalizedModificationNaturalityProperty, g] using hg
+
+/-- Restricting the canonical localized extension recovers the original raw
+modification exactly. -/
+@[simp] theorem restrictHigherLocalizedModification_extension
+    {F G : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W)}
+    {alpha beta : F ⟶ G}
+    (Gamma :
+      restrictHigherLocalizedStrongTrans (W := W) alpha ⟶
+        restrictHigherLocalizedStrongTrans (W := W) beta) :
+    restrictHigherLocalizedModification
+        (W := W)
+        (higherLocalizedModificationExtension (W := W) Gamma) =
+      Gamma := by
+  apply Pseudofunctor.StrongTrans.homCategory.ext
+  rintro ⟨X⟩
+  exact
+    higherLocalizedModificationExtensionApp_presentation
+      (W := W) Gamma X
+
+/-- Restriction along the presentation unit is full on every StrongTrans hom
+category. Together with v4.93 faithfulness, all modification-level extension
+obligations are now unconditional. -/
+theorem higherLocalizedRestrictionHomFunctor_full
+    (F G : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W)) :
+    (higherLocalizedRestrictionHomFunctor (W := W) F G).Full where
+  map_surjective {alpha beta} Gamma := by
+    refine
+      ⟨higherLocalizedModificationExtension (W := W) Gamma, ?_⟩
+    change
+      restrictHigherLocalizedModification
+          (W := W)
+          (higherLocalizedModificationExtension (W := W) Gamma) =
+        Gamma
+    exact
+      restrictHigherLocalizedModification_extension
+        (W := W) Gamma
+
+/-- The v4.93 global ambient Full obligation is therefore theorem-level
+unconditional. -/
+theorem exactUniversalAmbientRestrictionHomFull
+    (A : RefinementAtlas (LocalizedContext W)) :
+    ExactUniversalAmbientRestrictionHomFull.{u, v, uH, vH}
+      (W := W) A := by
+  intro X Y
+  exact
+    higherLocalizedRestrictionHomFunctor_full
+      (W := W)
+      (higherStackObjectVal (W := W) A X)
+      (higherStackObjectVal (W := W) A Y)
+
+/-- With Faithful from v4.93 and Full from v4.94 both unconditional, local
+restriction hom-equivalence is now equivalent to essential surjectivity alone. -/
+theorem exactUniversalAmbientRestrictionHomEquivalence_iff_essSurj
+    (A : RefinementAtlas (LocalizedContext W)) :
+    ExactUniversalAmbientRestrictionHomEquivalence.{u, v, uH, vH}
+        (W := W) A ↔
+      ExactUniversalAmbientRestrictionHomEssSurj.{u, v, uH, vH}
+        (W := W) A := by
+  constructor
+  · intro h
+    exact
+      ((exactUniversalAmbientRestrictionHomEquivalence_iff_full_essSurj
+        (W := W) A).1 h).2
+  · intro hEssSurj
+    exact
+      (exactUniversalAmbientRestrictionHomEquivalence_iff_full_essSurj
+        (W := W) A).2
+        ⟨exactUniversalAmbientRestrictionHomFull (W := W) A,
+          hEssSurj⟩
+
+/-- Essential surjectivity alone now suffices for canonical restriction
+universality. -/
+theorem exactUniversalAmbientRestrictionUniversality_of_homEssSurj
+    (A : RefinementAtlas (LocalizedContext W))
+    (hEssSurj :
+      ExactUniversalAmbientRestrictionHomEssSurj.{u, v, uH, vH}
+        (W := W) A) :
+    ExactUniversalAmbientRestrictionUniversality.{u, v, uH, vH}
+      (W := W) A :=
+  exactUniversalAmbientRestrictionUniversality_of_homFull_essSurj
+    (W := W) A
+    (exactUniversalAmbientRestrictionHomFull (W := W) A)
+    hEssSurj
+
+/-- Essential surjectivity alone now implies ambient object coverage. -/
+theorem exactUniversalAmbientObjectCoverage_of_restrictionHomEssSurj
+    (A : RefinementAtlas (LocalizedContext W))
+    (hEssSurj :
+      ExactUniversalAmbientRestrictionHomEssSurj.{u, v, uH, vH}
+        (W := W) A) :
+    ExactUniversalAmbientObjectCoverage.{u, v, uH, vH}
+      (W := W) A :=
+  exactUniversalAmbientObjectCoverage_of_restrictionHomFull_essSurj
+    (W := W) A
+    (exactUniversalAmbientRestrictionHomFull (W := W) A)
+    hEssSurj
+
+/-- The current ambient Whitehead route is reduced to the single remaining
+StrongTrans essential-surjectivity extension problem. -/
+theorem exactUniversalAmbientWhiteheadExistence_of_restrictionHomEssSurj
+    (A : RefinementAtlas (LocalizedContext W))
+    (hEssSurj :
+      ExactUniversalAmbientRestrictionHomEssSurj.{u, v, uH, vH}
+        (W := W) A) :
+    ExactUniversalAmbientWhiteheadExistence.{u, v, uH, vH}
+      (W := W) A :=
+  exactUniversalAmbientWhiteheadExistence_of_restrictionHomFull_essSurj
+    (W := W) A
+    (exactUniversalAmbientRestrictionHomFull (W := W) A)
+    hEssSurj
+
+/-! ## Regression checks -/
+
+variable
+  (F G : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W))
+
+example :
+    (higherLocalizedRestrictionHomFunctor (W := W) F G).Full :=
+  higherLocalizedRestrictionHomFunctor_full (W := W) F G
+
 #print axioms higherLocalizedModificationExtensionApp
 #print axioms higherLocalizedModificationExtensionApp_presentation
 #print axioms higherLocalizedModificationNaturalityProperty_comp
@@ -289,6 +481,16 @@ theorem higherLocalizedModificationNaturalityProperty_map
 #print axioms higherLocalizedMap_isEquivalence_of_iso
 #print axioms higherLocalizedModificationNaturalityProperty_inv
 #print axioms higherLocalizedModificationNaturalityProperty_map
+#print axioms higherLocalizedModificationNaturalityProperty_eq_top
+#print axioms higherLocalizedModificationNaturalityProperty_all
+#print axioms higherLocalizedModificationExtension
+#print axioms restrictHigherLocalizedModification_extension
+#print axioms higherLocalizedRestrictionHomFunctor_full
+#print axioms exactUniversalAmbientRestrictionHomFull
+#print axioms exactUniversalAmbientRestrictionHomEquivalence_iff_essSurj
+#print axioms exactUniversalAmbientRestrictionUniversality_of_homEssSurj
+#print axioms exactUniversalAmbientObjectCoverage_of_restrictionHomEssSurj
+#print axioms exactUniversalAmbientWhiteheadExistence_of_restrictionHomEssSurj
 
 end
 
