@@ -157,8 +157,9 @@ by inverse left-unitor. -/
   rw [exactUniversalRealization_source_rightUnitor_lift,
     exactUniversalSourceRoundtripCoreIso_hom_lift,
     exactUniversalRealization_source_leftUnitor_inv_lift]
-  simpa only [exactUniversalSourceRoundtrip_map_lift,
+  simp only [exactUniversalSourceRoundtrip_map_lift,
     Category.id_comp, Category.comp_id]
+  rfl
 
 /-- As a complete realized isomorphism, the prospective unit naturality square
 is exactly the canonical DO2 unitor comparison. -/
