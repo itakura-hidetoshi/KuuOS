@@ -12,6 +12,7 @@ open KUOS.DependentOriginationCoherentWeakHigherLocalizationV2_19
 open KUOS.DependentOriginationExactHigherPresentationSectorV4_50
 open KUOS.DependentOriginationExactPresentationComparisonV4_52
 open KUOS.DependentOriginationExactPresentationEssentialUniquenessV4_53
+open KUOS.DependentOriginationExactUniversalMappingMorphismV4_57
 open KUOS.DependentOriginationExactUniversalMappingTwoCellV4_58
 open KUOS.DependentOriginationExactUniversalMappingTwoCellVerticalV4_59
 open KUOS.DependentOriginationExactUniversalLabelledBiequivalenceV4_89
@@ -245,14 +246,15 @@ variable
     DependentOriginationCompletion2.{u, v, uH, uH, vH}
       (W := W) A)
 
-example :
+example
+    (alpha :
+      higherStackObjectVal (W := W) A X ⟶
+        higherStackObjectVal (W := W) A Y) :
     (higherLocalizedRestrictionHomFunctor
       (W := W)
       (higherStackObjectVal (W := W) A X)
-      (higherStackObjectVal (W := W) A Y)).obj
-        (𝟙 (higherStackObjectVal (W := W) A X)) =
-      restrictHigherLocalizedStrongTrans
-        (W := W) (𝟙 (higherStackObjectVal (W := W) A X)) := by
+      (higherStackObjectVal (W := W) A Y)).obj alpha =
+      restrictHigherLocalizedStrongTrans (W := W) alpha := by
   rfl
 
 example
