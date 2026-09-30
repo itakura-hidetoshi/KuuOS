@@ -54,12 +54,12 @@ abbrev Source :=
   ExactUniversalRawObject.{u, v, uH, vH} (W := W) A
 
 abbrev Ambient :=
-  DependentOriginationCompletion2.{u, v, uH, vH} (W := W) A
+  DependentOriginationCompletion2.{u, v, uH, uH, vH} (W := W) A
 
 /-- The remaining object-level condition for extending the exact-universal
 realization from its labelled image to all ambient DO₂ objects. -/
 def ExactUniversalAmbientObjectCoverage : Prop :=
-  ∀ Z : DependentOriginationCompletion2.{u, v, uH, vH} (W := W) A,
+  ∀ Z : DependentOriginationCompletion2.{u, v, uH, uH, vH} (W := W) A,
     ∃ X : ExactUniversalRawObject.{u, v, uH, vH} (W := W) A,
       Nonempty (Bicategory.Equivalence X.carrier Z)
 
@@ -92,7 +92,7 @@ def exactUniversalAmbientWhiteheadBiequivalenceOfCoverage
     (hcoverage : ExactUniversalAmbientObjectCoverage (W := W) A) :
     WhiteheadBiequivalenceData
       (ExactUniversalRawObject.{u, v, uH, vH} (W := W) A)
-      (DependentOriginationCompletion2.{u, v, uH, vH} (W := W) A) where
+      (DependentOriginationCompletion2.{u, v, uH, uH, vH} (W := W) A) where
   forward :=
     (exactUniversalRealization (W := W) A).toPseudofunctor
   homEquiv X Y :=
@@ -115,7 +115,7 @@ theorem exactUniversalAmbientObjectCoverage_of_whitehead
     (data :
       WhiteheadBiequivalenceData
         (ExactUniversalRawObject.{u, v, uH, vH} (W := W) A)
-        (DependentOriginationCompletion2.{u, v, uH, vH} (W := W) A))
+        (DependentOriginationCompletion2.{u, v, uH, uH, vH} (W := W) A))
     (hforward :
       data.forward =
         (exactUniversalRealization (W := W) A).toPseudofunctor) :
@@ -132,7 +132,7 @@ def ExactUniversalAmbientWhiteheadExistence : Prop :=
   ∃ data :
       WhiteheadBiequivalenceData
         (ExactUniversalRawObject.{u, v, uH, vH} (W := W) A)
-        (DependentOriginationCompletion2.{u, v, uH, vH} (W := W) A),
+        (DependentOriginationCompletion2.{u, v, uH, uH, vH} (W := W) A),
     data.forward =
       (exactUniversalRealization (W := W) A).toPseudofunctor
 
@@ -166,7 +166,7 @@ example
     (hcoverage : ExactUniversalAmbientObjectCoverage (W := W) A) :
     WhiteheadBiequivalenceData
       (ExactUniversalRawObject.{u, v, uH, vH} (W := W) A)
-      (DependentOriginationCompletion2.{u, v, uH, vH} (W := W) A) :=
+      (DependentOriginationCompletion2.{u, v, uH, uH, vH} (W := W) A) :=
   exactUniversalAmbientWhiteheadBiequivalenceOfCoverage
     (W := W) A hcoverage
 
