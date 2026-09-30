@@ -54,13 +54,13 @@ abbrev Source :=
   ExactUniversalRawObject.{u, v, uH, vH} (W := W) A
 
 abbrev Ambient :=
-  DependentOriginationCompletion2 (W := W) A
+  DependentOriginationCompletion2.{u, v, uH, vH} (W := W) A
 
 /-- The remaining object-level condition for extending the exact-universal
 realization from its labelled image to all ambient DO₂ objects. -/
 def ExactUniversalAmbientObjectCoverage : Prop :=
-  ∀ Z : Ambient (W := W) A,
-    ∃ X : Source (W := W) A,
+  ∀ Z : DependentOriginationCompletion2.{u, v, uH, vH} (W := W) A,
+    ∃ X : ExactUniversalRawObject.{u, v, uH, vH} (W := W) A,
       Nonempty (Bicategory.Equivalence X.carrier Z)
 
 /-- The already proved v4.83 local equivalence, restated with the ambient target
@@ -91,8 +91,8 @@ theorem exactUniversalAmbientHomEquivalence_functor
 def exactUniversalAmbientWhiteheadBiequivalenceOfCoverage
     (hcoverage : ExactUniversalAmbientObjectCoverage (W := W) A) :
     WhiteheadBiequivalenceData
-      (Source (W := W) A)
-      (Ambient (W := W) A) where
+      (ExactUniversalRawObject.{u, v, uH, vH} (W := W) A)
+      (DependentOriginationCompletion2.{u, v, uH, vH} (W := W) A) where
   forward :=
     (exactUniversalRealization (W := W) A).toPseudofunctor
   homEquiv X Y :=
@@ -114,8 +114,8 @@ ambient object coverage. -/
 theorem exactUniversalAmbientObjectCoverage_of_whitehead
     (data :
       WhiteheadBiequivalenceData
-        (Source (W := W) A)
-        (Ambient (W := W) A))
+        (ExactUniversalRawObject.{u, v, uH, vH} (W := W) A)
+        (DependentOriginationCompletion2.{u, v, uH, vH} (W := W) A))
     (hforward :
       data.forward =
         (exactUniversalRealization (W := W) A).toPseudofunctor) :
@@ -131,8 +131,8 @@ forward pseudofunctor. -/
 def ExactUniversalAmbientWhiteheadExistence : Prop :=
   ∃ data :
       WhiteheadBiequivalenceData
-        (Source (W := W) A)
-        (Ambient (W := W) A),
+        (ExactUniversalRawObject.{u, v, uH, vH} (W := W) A)
+        (DependentOriginationCompletion2.{u, v, uH, vH} (W := W) A),
     data.forward =
       (exactUniversalRealization (W := W) A).toPseudofunctor
 
@@ -153,7 +153,7 @@ theorem exactUniversalAmbientWhiteheadExistence_iff_objectCoverage :
 
 /-! ## Regression checks -/
 
-variable {X Y : Source (W := W) A}
+variable {X Y : ExactUniversalRawObject.{u, v, uH, vH} (W := W) A}
 
 example :
     CategoryTheory.Equivalence
@@ -165,8 +165,8 @@ example :
 example
     (hcoverage : ExactUniversalAmbientObjectCoverage (W := W) A) :
     WhiteheadBiequivalenceData
-      (Source (W := W) A)
-      (Ambient (W := W) A) :=
+      (ExactUniversalRawObject.{u, v, uH, vH} (W := W) A)
+      (DependentOriginationCompletion2.{u, v, uH, vH} (W := W) A) :=
   exactUniversalAmbientWhiteheadBiequivalenceOfCoverage
     (W := W) A hcoverage
 
