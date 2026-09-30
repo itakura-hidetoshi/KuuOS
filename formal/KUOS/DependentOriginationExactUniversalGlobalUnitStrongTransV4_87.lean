@@ -65,6 +65,15 @@ exactly. -/
     ((exactUniversalSourceRoundtrip (W := W) A).map₂ eta).lift = eta.lift := by
   rfl
 
+/-- Vertical composition in a source hom category projects definitionally to
+vertical composition in DO₂.  State this at the categorical-notation level so
+it can rewrite goals before the underlying v4.59 `vcomp` constructor is
+exposed. -/
+@[simp] theorem exactUniversalSourceTwoCell_comp_lift
+    {X Y : Source (W := W) A} {f g h : X ⟶ Y}
+    (eta : f ⟶ g) (theta : g ⟶ h) :
+    (eta ≫ theta).lift = eta.lift ≫ theta.lift := rfl
+
 /-- The identity comparison of the source roundtrip realizes to the identity
 2-cell on the DO₂ identity. -/
 @[simp] theorem exactUniversalSourceRoundtrip_mapId_hom_lift
@@ -76,8 +85,8 @@ exactly. -/
         ((exactUniversalLabelledRealization (W := W) A).toPseudofunctor.mapId X).hom) ≫
       ((exactUniversalSectionPseudofunctor (W := W) A).mapId X).hom).lift =
         𝟙 (𝟙 X.carrier)
-  rw [ExactUniversalRawMorphismTwoCell.vcomp_lift,
-    exactUniversalSectionPseudofunctor_map₂_lift,
+  simp only [exactUniversalSourceTwoCell_comp_lift]
+  rw [exactUniversalSectionPseudofunctor_map₂_lift,
     exactUniversalSectionIdIso_hom_lift]
   simp [exactUniversalLabelledRealization,
     exactUniversalLabelledRealizationStrictCore]
@@ -95,8 +104,8 @@ exactly. -/
         ((exactUniversalLabelledRealization (W := W) A).map f)
         ((exactUniversalLabelledRealization (W := W) A).map g)).hom).lift =
           𝟙 (f.lift ≫ g.lift)
-  rw [ExactUniversalRawMorphismTwoCell.vcomp_lift,
-    exactUniversalSectionPseudofunctor_map₂_lift,
+  simp only [exactUniversalSourceTwoCell_comp_lift]
+  rw [exactUniversalSectionPseudofunctor_map₂_lift,
     exactUniversalSectionCompIso_hom_lift]
   simp [exactUniversalLabelledRealization,
     exactUniversalLabelledRealizationStrictCore]
@@ -121,12 +130,11 @@ def exactUniversalSourceRoundtripUnit :
     rw [exactUniversalSourceRoundtripNaturalityIso_hom_lift,
       exactUniversalSourceRoundtripNaturalityIso_hom_lift,
       exactUniversalSourceRoundtrip_map₂_lift]
-    simp only [Category.assoc, Bicategory.rightUnitor_naturality_assoc,
-      Bicategory.leftUnitor_inv_naturality]
+    bicategory
   naturality_id X := by
     apply exactUniversalCompletion2_map_injective (W := W) A
-    rw [ExactUniversalRawMorphismTwoCell.vcomp_lift,
-      exactUniversalSourceRoundtripNaturalityIso_hom_lift,
+    simp only [exactUniversalSourceTwoCell_comp_lift]
+    rw [exactUniversalSourceRoundtripNaturalityIso_hom_lift,
       exactUniversalRealization_source_whiskerLeft_lift,
       exactUniversalSourceRoundtrip_mapId_hom_lift,
       exactUniversalRealization_source_whiskerRight_lift,
@@ -181,6 +189,7 @@ example (f : X ⟶ Y) :
       (ρ_ f.lift).hom ≫ (λ_ f.lift).inv :=
   exactUniversalSourceRoundtripNaturalityIso_hom_lift (W := W) A f
 
+#print axioms exactUniversalSourceTwoCell_comp_lift
 #print axioms exactUniversalSourceRoundtrip_map₂_lift
 #print axioms exactUniversalSourceRoundtrip_mapId_hom_lift
 #print axioms exactUniversalSourceRoundtrip_mapComp_hom_lift
