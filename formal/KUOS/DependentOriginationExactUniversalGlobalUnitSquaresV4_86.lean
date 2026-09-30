@@ -157,8 +157,7 @@ by inverse left-unitor. -/
   rw [exactUniversalRealization_source_rightUnitor_lift,
     exactUniversalSourceRoundtripCoreIso_hom_lift,
     exactUniversalRealization_source_leftUnitor_inv_lift]
-  simp only [exactUniversalSourceRoundtrip_map_lift,
-    Category.id_comp, Category.comp_id]
+  simp only [exactUniversalSourceRoundtrip_map_lift, Category.id_comp]
   rfl
 
 /-- As a complete realized isomorphism, the prospective unit naturality square
