@@ -75,7 +75,7 @@ exactly. -/
         ((exactUniversalLabelledRealization (W := W) A).toPseudofunctor.mapId X).hom) ≫
       ((exactUniversalSectionPseudofunctor (W := W) A).mapId X).hom).lift =
         𝟙 (𝟙 X.carrier)
-  rw [ExactUniversalRawMorphismTwoCell.comp_lift,
+  rw [ExactUniversalRawMorphismTwoCell.vcomp_lift,
     exactUniversalSectionPseudofunctor_map₂_lift,
     exactUniversalSectionIdIso_hom_lift]
   simp [exactUniversalLabelledRealization,
@@ -94,7 +94,7 @@ exactly. -/
         ((exactUniversalLabelledRealization (W := W) A).map f)
         ((exactUniversalLabelledRealization (W := W) A).map g)).hom).lift =
           𝟙 (f.lift ≫ g.lift)
-  rw [ExactUniversalRawMorphismTwoCell.comp_lift,
+  rw [ExactUniversalRawMorphismTwoCell.vcomp_lift,
     exactUniversalSectionPseudofunctor_map₂_lift,
     exactUniversalSectionCompIso_hom_lift]
   simp [exactUniversalLabelledRealization,
@@ -124,7 +124,7 @@ def exactUniversalSourceRoundtripUnit :
       Bicategory.leftUnitor_inv_naturality]
   naturality_id X := by
     apply exactUniversalCompletion2_map_injective (W := W) A
-    rw [ExactUniversalRawMorphismTwoCell.comp_lift,
+    rw [ExactUniversalRawMorphismTwoCell.vcomp_lift,
       exactUniversalSourceRoundtripNaturalityIso_hom_lift,
       exactUniversalRealization_source_whiskerLeft_lift,
       exactUniversalSourceRoundtrip_mapId_hom_lift,
@@ -139,7 +139,7 @@ def exactUniversalSourceRoundtripUnit :
     bicategory
   naturality_comp {a b c} f g := by
     apply exactUniversalCompletion2_map_injective (W := W) A
-    rw [ExactUniversalRawMorphismTwoCell.comp_lift,
+    rw [ExactUniversalRawMorphismTwoCell.vcomp_lift,
       exactUniversalSourceRoundtripNaturalityIso_hom_lift,
       exactUniversalRealization_source_whiskerLeft_lift,
       exactUniversalSourceRoundtrip_mapComp_hom_lift,
