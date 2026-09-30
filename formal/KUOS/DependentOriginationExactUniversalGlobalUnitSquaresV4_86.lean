@@ -8,7 +8,6 @@ open KUOS.DependentOriginationGeneratedRefinementTopologyV2_4
 open KUOS.DependentOriginationLocalizedSheafUniversalityV2_6
 open KUOS.DependentOriginationHigherStackCarrierV2_9
 open KUOS.DependentOriginationExactUniversalMappingMorphismV4_57
-open KUOS.DependentOriginationExactUniversalMappingTwoCellVerticalV4_59
 open KUOS.DependentOriginationExactUniversalMappingHomCategoryV4_60
 open KUOS.DependentOriginationExactUniversalMappingStructuralIsoV4_67
 open KUOS.DependentOriginationExactUniversalRealizationStrictPseudofunctorV4_70
@@ -91,6 +90,10 @@ def exactUniversalSourceRoundtrip :
     (exactUniversalSourceRoundtrip (W := W) A).map f =
       exactUniversalOneCellOfLift (W := W) A X Y f.lift := rfl
 
+@[simp] theorem exactUniversalSourceRoundtrip_map_lift
+    {X Y : Source (W := W) A} (f : X ⟶ Y) :
+    ((exactUniversalSourceRoundtrip (W := W) A).map f).lift = f.lift := rfl
+
 @[simp] theorem exactUniversalSourceRoundtrip_map₂
     {X Y : Source (W := W) A} {f g : X ⟶ Y} (eta : f ⟶ g) :
     (exactUniversalSourceRoundtrip (W := W) A).map₂ eta =
@@ -154,20 +157,8 @@ by inverse left-unitor. -/
   rw [exactUniversalRealization_source_rightUnitor_lift,
     exactUniversalSourceRoundtripCoreIso_hom_lift,
     exactUniversalRealization_source_leftUnitor_inv_lift]
-  simpa only [Category.id_comp, Category.comp_id]
-
-/-- The inverse naturality cell realizes to the inverse canonical unitor path. -/
-@[simp] theorem exactUniversalSourceRoundtripNaturalityIso_inv_lift
-    {X Y : Source (W := W) A} (f : X ⟶ Y) :
-    (exactUniversalSourceRoundtripNaturalityIso (W := W) A f).inv.lift =
-      (λ_ f.lift).hom ≫ (ρ_ f.lift).inv := by
-  simp only [exactUniversalSourceRoundtripNaturalityIso, Iso.trans_inv, Iso.symm_inv,
-    ExactUniversalRawMorphismTwoCell.vcomp_lift]
-  rw [exactUniversalRealization_source_leftUnitor_lift,
-    exactUniversalSourceRoundtripCoreIso_inv_lift,
-    exactUniversalRealization_source_rightUnitor_inv_lift]
-  simpa only [exactUniversalSourceRoundtrip_map,
-    exactUniversalOneCellOfLift_lift, Category.id_comp, Category.comp_id]
+  simpa only [exactUniversalSourceRoundtrip_map_lift,
+    Category.id_comp, Category.comp_id]
 
 /-- As a complete realized isomorphism, the prospective unit naturality square
 is exactly the canonical DO2 unitor comparison. -/
@@ -179,6 +170,17 @@ theorem exactUniversalSourceRoundtripNaturalityIso_realization
   apply Iso.ext
   exact exactUniversalSourceRoundtripNaturalityIso_hom_lift
     (W := W) A f
+
+/-- The inverse recovery is derived from the complete realized isomorphism,
+rather than re-expanding source vertical composition a second time. -/
+@[simp] theorem exactUniversalSourceRoundtripNaturalityIso_inv_lift
+    {X Y : Source (W := W) A} (f : X ⟶ Y) :
+    (exactUniversalSourceRoundtripNaturalityIso (W := W) A f).inv.lift =
+      (λ_ f.lift).hom ≫ (ρ_ f.lift).inv := by
+  have h := congrArg Iso.inv
+    (exactUniversalSourceRoundtripNaturalityIso_realization (W := W) A f)
+  simpa only [Functor.mapIso_inv, exactUniversalCompletion2HomFunctor_map,
+    Iso.trans_inv, Iso.symm_inv] using h
 
 /-! ## Regression checks -/
 
