@@ -79,7 +79,6 @@ theorem higherPresentationUnitFunctor_obj_surjective :
     simpa [X] using
       (Localization.Construction.objEquiv W).apply_symm_apply Z
   rw [hX]
-  rfl
 
 /-- The same object-surjectivity after wrapping source and target categories as
 locally discrete bicategories. -/
@@ -100,7 +99,8 @@ category. No stack, exactness, or universal-property hypothesis is needed. -/
 theorem higherLocalizedRestrictionHomFunctor_faithful
     (F G : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W)) :
     (higherLocalizedRestrictionHomFunctor (W := W) F G).Faithful where
-  map_injective {alpha beta} h := by
+  map_injective := by
+    intro alpha beta h
     apply Pseudofunctor.StrongTrans.homCategory.ext
     intro Y
     rcases
