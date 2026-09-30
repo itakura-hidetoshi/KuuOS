@@ -1,10 +1,8 @@
 # KuuOS / 空OS Roadmap
 
-**Theorem snapshot: 2026-09-30 JST · integrated through v4.86**
+**Theorem snapshot: 2026-10-01 JST · integrated through v4.93**
 
-**現在地：chosen exact-universal sector では P1 が閉じ、realization hom functor は各 hom category で同値。さらに inverse hom sections は object-labelled realized sector から source への pseudofunctor に統合され、label-preserving strict realization と source-roundtrip unit squares まで構成済み。**
-
-次は v4.86 の unit squares を native StrongTrans / pseudonatural unit に組み上げ、realized-side roundtrip と合わせて object-labelled sector 上の global equivalence / biequivalence statement を閉じる。その後、全 DO₂ object coverage、独立 raw data、semantic admissibility、最終 higher mapping property を別々に扱う。
+**現在地：object-labelled exact-universal sector の Whitehead-style biequivalence は v4.89 で閉じた。ambient DO₂ への拡張は v4.90 で object coverage と同値まで還元され、v4.91–v4.93 の constructive route では restriction hom functor の Faithful が無条件に閉じ、残る本質的課題は Full と EssSurj の2つに分離された。**
 
 This roadmap separates **integrated Lean theorems** from **proposed obligations**. Exact theorem artifacts on fresh canonical GitHub state are authoritative; plans and historical conversation are not evidence that a theorem exists.
 
@@ -13,21 +11,21 @@ This roadmap separates **integrated Lean theorems** from **proposed obligations*
 | Role | Reference |
 | --- | --- |
 | Repository / canonical branch | `itakura-hidetoshi/KuuOS` / **main** |
-| Observed main before this docs-only refresh | **`4d1c26388480e13398cd63faaa1f4323f58b4a8f`** |
-| Latest theorem-bearing baseline | **`4d1c26388480e13398cd63faaa1f4323f58b4a8f`** |
-| Latest theorem merge | [#1924 — global source-roundtrip unit squares v4.86](https://github.com/itakura-hidetoshi/KuuOS/pull/1924) |
-| Exact validated PR head | `affd9b1633ca3d82bc55681f601735a2db07ceaa` |
-| Associated CI | [Run #3272 / 36670438900](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/36670438900): completed / success |
+| Observed main before this docs-only refresh | **`6d4ef51705a71b25e167bc8a766fc6f43e89ef2e`** |
+| Latest theorem-bearing baseline | **`6d4ef51705a71b25e167bc8a766fc6f43e89ef2e`** |
+| Latest theorem merge | [#1932 — restriction faithfulness split v4.93](https://github.com/itakura-hidetoshi/KuuOS/pull/1932) |
+| Exact validated PR head | `8be3321da513de1d2bd881ab9457e652b316b883` |
+| Associated CI | [Run #3303 / 36783070351](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/36783070351): completed / success |
 | Exact-head receipts | Strict Lean: success; exact-head terminal: success |
-| Lean artifact | `11078177476` |
-| Artifact digest | `sha256:46863dbfd4043ce14adc2834f422e5ccee4354f29e8573e6cb71db0570f27278` |
-| Build | `Build completed successfully (8605 jobs)` |
+| Lean artifact | `11129581377` |
+| Artifact digest | `sha256:42164e397ab008644d7d7749c03f74a0a0423c31246a33ea18a8cd5b55409520` |
+| Build | `Build completed successfully (8612 jobs)` |
 | Lean | `leanprover/lean4:v4.30.0-rc2` |
 | Mathlib | `5450b53e5ddc75d46418fabb605edbf36bd0beb6` |
 
-The immutable current theorem artifact is [v4.86 at the theorem-bearing SHA](https://github.com/itakura-hidetoshi/KuuOS/blob/4d1c26388480e13398cd63faaa1f4323f58b4a8f/formal/KUOS/DependentOriginationExactUniversalGlobalUnitSquaresV4_86.lean). The selected build succeeded and the module's six axiom reports contain no `sorryAx`.
+The immutable current theorem artifact is [v4.93 at the theorem-bearing SHA](https://github.com/itakura-hidetoshi/KuuOS/blob/6d4ef51705a71b25e167bc8a766fc6f43e89ef2e/formal/KUOS/DependentOriginationExactUniversalAmbientRestrictionFaithfulSplitV4_93.lean). Its public axiom reports contain no `sorryAx`.
 
-The observed-main SHA is the input to this documentation refresh. A later docs-only merge advances `main` but does not supersede the theorem-bearing baseline.
+A later docs-only merge advances `main` but does not supersede this theorem-bearing baseline.
 
 ```text
 fresh exact canonical GitHub SHA
@@ -53,28 +51,28 @@ Fun(DO(C,W,J,H),X)
 
 This is **not yet a theorem statement**. A final formulation must make explicit:
 
-- admissibility and its relation to exact presentation;
+- semantic admissibility and its relation to exact presentation;
 - localization and stack descent;
 - source and target higher categories;
 - allowed 1-cells and 2-cells;
-- variance / world / presentation labels;
+- variance, world, and presentation labels;
 - factor existence;
 - coherent uniqueness;
-- object coverage;
-- pseudonaturality under justified changes of context and presentation.
+- ambient object coverage;
+- pseudonaturality under justified changes of context/presentation.
 
-The current exact-universal source already stores exact presentations and universal-target witnesses. Therefore success inside this sector must not be misreported as existence of exact presentations for every weakly admissible raw system.
+The current exact-universal source stores exact presentations and universal-target witnesses. Success inside that sector must never be reported as existence of exact presentations for every weakly admissible raw system.
 
 ## 2. Closed foundations — v4.00–v4.70
 
 | Versions | Integrated result | Boundary retained |
 | --- | --- | --- |
 | v4.00–v4.12 | Exact octahedral C2 nonfactorization and nonzero Stage-II obstruction in `ZMod 2` | weak admissibility does not imply exact liftability |
-| v4.13–v4.48 | Incidence/capacity obstruction theory; recursive and inverse-limit carriers; exact Cantor dimension; switch/orientation descent | concrete geometry is a stress test, not the general definition |
+| v4.13–v4.48 | Incidence/capacity obstruction theory; recursive/inverse-limit carriers; exact Cantor dimension; switch/orientation descent | concrete geometry is a stress test, not the general definition |
 | v4.49 | Abstract presentation descent iff presentation invariance | presentation theorem, not final universality |
 | v4.50–v4.56 | Exact higher presentation sector and coherent universal-target comparison/equivalence | exactness and universality are explicit hypotheses |
 | v4.57–v4.60 | Compatible source objects/1-cells/2-cells and genuine hom categories | compatibility belongs to the typed source |
-| v4.61–v4.68 | Whiskering, interchange, structural inverse laws, pentagon and triangle | higher coherence is proved explicitly |
+| v4.61–v4.68 | Whiskering, interchange, structural inverse laws, pentagon and triangle | higher coherence is explicit |
 | v4.69–v4.70 | Native source `Bicategory` and strict DO₂ realization | strict realization ≠ strict source bicategory |
 
 Formal anchors: [v4.00](formal/KUOS/DependentOriginationAbstractNonfactorizationV4_00.lean), [v4.12](formal/KUOS/DependentOriginationStageIIObstructionClassV4_12.lean), [v4.49](formal/KUOS/DependentOriginationAbstractPresentationDescentV4_49.lean), [v4.56](formal/KUOS/DependentOriginationExactUniversalTargetDO2EquivalenceV4_56.lean), [v4.69](formal/KUOS/DependentOriginationExactUniversalMappingBicategoryV4_69.lean), [v4.70](formal/KUOS/DependentOriginationExactUniversalRealizationStrictPseudofunctorV4_70.lean).
@@ -90,322 +88,360 @@ exact DO₂ presentation
 
 The converse is false in general by the earlier obstruction chain.
 
-## 3. Closed local mapping theory — v4.71–v4.79
+## 3. Local mapping theory closed — v4.71–v4.83
 
-### v4.71–v4.74 — liftability and equivalence-leg existence
+### v4.71–v4.79
 
-[v4.72](formal/KUOS/DependentOriginationExactUniversalMorphismLiftabilityV4_72.lean) defines exact presentation-indexed raw liftability. Identities and composites are liftable; obstruction is its logical complement, not a generic decision algorithm.
+The local source theory establishes presentation-indexed liftability, compatible 2-cell full faithfulness, source equivalences from coherent raw equivalences, and exact adjunction lifting on fixed source legs.
 
-[v4.73](formal/KUOS/DependentOriginationExactUniversalEquivalenceLegLiftabilityV4_73.lean) lifts the forward and backward raw legs of a coherent raw equivalence. [v4.74](formal/KUOS/DependentOriginationExactUniversalEquivalenceLegUniquenessV4_74.lean) gives DO₂ isomorphism between lifts of the same leg.
+Key endpoints:
 
-### v4.75–v4.77 — actual local full faithfulness
+- [v4.77](formal/KUOS/DependentOriginationExactUniversalRealizationFullyFaithfulV4_77.lean):
+  ```lean
+  (f ⟶ g) ≃ (f.lift ⟶ g.lift)
+  ```
+  for existing source 1-cells;
+- [v4.79](formal/KUOS/DependentOriginationExactUniversalAdjunctionLiftingV4_79.lean):
+  ```lean
+  Bicategory.Adjunction f g ≃ Bicategory.Adjunction f.lift g.lift
+  ```
+  for fixed source legs.
 
-[v4.75](formal/KUOS/DependentOriginationExactUniversalCompatibleIsoV4_75.lean) classifies compatible source isomorphisms through the comma-style compatibility interface.
+### v4.80–v4.83 — P1 closed
 
-[v4.76](formal/KUOS/DependentOriginationExactUniversalRealizationFaithfulV4_76.lean) proves that a compatible source 2-cell is determined by its DO₂ component.
+v4.80 reduces arbitrary DO₂ 1-cell lifting to a coherent retraction of the presentation comparison.
 
-[v4.77](formal/KUOS/DependentOriginationExactUniversalRealizationFullyFaithfulV4_77.lean) constructs the unique compatible source preimage of every prescribed DO₂ 2-cell:
+v4.81–v4.82 construct that coherent inverse StrongTrans/retraction from the already-stored pointwise equivalence data.
 
-```lean
-(f ⟶ g) ≃ (f.lift ⟶ g.lift)
-```
-
-for existing source 1-cells `f,g`.
-
-This closes the 2-cell part. It did not yet produce source 1-cells above arbitrary DO₂ 1-cells.
-
-### v4.78 — coherent raw equivalence gives a source adjoint equivalence
-
-[v4.78](formal/KUOS/DependentOriginationExactUniversalSourceEquivalenceV4_78.lean) constructs a native source adjoint equivalence from coherent raw inverse data, preserving the prescribed raw forward/backward **1-cell legs**. Its raw unit/counit are not asserted equal to independently prescribed raw unit/counit.
-
-### v4.79 — exact fixed-leg adjunction lifting
-
-[v4.79](formal/KUOS/DependentOriginationExactUniversalAdjunctionLiftingV4_79.lean) proves, for fixed source legs:
-
-```lean
-Bicategory.Adjunction f g ≃ Bicategory.Adjunction f.lift g.lift
-```
-
-and preserves prescribed DO₂ unit/counit exactly. This is a classification of adjunction structures on existing source legs, not yet arbitrary 1-cell lifting.
-
-## 4. P1 closed — v4.80–v4.83
-
-P1 was:
-
-> For fixed chosen exact-universal objects `X,Y`, lift arbitrary DO₂ 1-cells `ell : X.carrier ⟶ Y.carrier` to source 1-cells.
-
-### v4.80 — conditional reduction to a coherent retraction
-
-[v4.80 / #1918](formal/KUOS/DependentOriginationExactUniversalHomSectionV4_80.lean) proves that a coherent one-sided retraction of the presentation comparison is sufficient:
-
-```text
-c_X ; d_X ≅ 1
-```
-
-implies exact 1-cell lifting, a hom section, and a hom equivalence.
-
-At this stage the retraction was additional input, so unconditional P1 was still open.
-
-### v4.81 — inverse naturality squares from pointwise equivalences
-
-[v4.81 / #1919](formal/KUOS/DependentOriginationPointwiseInverseNaturalityV4_81.lean) constructs the inverse component functors and naturality isomorphisms from only pointwise `IsEquivalence` proofs.
-
-It proves exact unit-compatible recovery and uniqueness of the complete inverse naturality isomorphism, but does not yet prove identity/composition/two-cell coherence.
-
-### v4.82 — pointwise inverse becomes a coherent StrongTrans
-
-[v4.82 / #1920](formal/KUOS/DependentOriginationPointwiseInverseCoherenceV4_82.lean) proves:
-
-- base two-cell naturality;
-- identity coherence;
-- composition coherence;
-- actual inverse `StrongTrans`;
-- invertible unit modification;
-- existence of the coherent retraction required by v4.80.
-
-No extra coherence assumption is added.
-
-### v4.83 — exact-universal realization hom equivalence
-
-[v4.83 / #1921](formal/KUOS/DependentOriginationExactUniversalHomEquivalenceV4_83.lean) applies v4.82 to each stored presentation comparison.
-
-For every existing exact-universal pair `X,Y`:
+[v4.83](formal/KUOS/DependentOriginationExactUniversalHomEquivalenceV4_83.lean) therefore proves, for every existing exact-universal pair `X,Y`:
 
 ```lean
 ∃ f : X ⟶ Y, f.lift = ell
 ```
 
-for every `ell : X.carrier ⟶ Y.carrier`, and
+for every `ell : X.carrier ⟶ Y.carrier`, and packages the actual realization hom functor as an equivalence:
 
 ```lean
 (X ⟶ Y) ≌ (X.carrier ⟶ Y.carrier)
 ```
 
-is a native Mathlib equivalence whose forward functor is the existing realization and whose inverse is the explicit section.
+**P1 status: CLOSED on the chosen exact-universal object sector.**
 
-**Status: P1 is CLOSED on the chosen exact-universal object sector.**
+## 4. Object-labelled global biequivalence closed — v4.84–v4.89
 
-This does not assert that every object of the ambient DO₂ belongs to the realized image of some source object.
-
-## 5. Cross-hom/global assembly — v4.84–v4.86
-
-Introduce:
+Define:
 
 ```text
 Source
-  = ExactUniversalRawObject
+  = chosen exact-universal source objects and compatible cells
 
 RealizedSector
-  = same object labels,
-    DO₂ hom categories between their carriers
+  = the same object labels,
+    with DO₂ hom categories between the labelled carriers
 ```
 
-The labels are retained intentionally.
+The labels are intentionally retained.
 
-### v4.84 — section pseudofunctor
+### v4.84–v4.85
 
-[v4.84 / #1922](formal/KUOS/DependentOriginationExactUniversalSectionPseudofunctorV4_84.lean) assembles the v4.83 inverse hom functors into:
+[v4.84](formal/KUOS/DependentOriginationExactUniversalSectionPseudofunctorV4_84.lean) assembles the v4.83 inverse hom sections into a native section pseudofunctor
 
 ```text
-S : RealizedSector -> Source
+S : RealizedSector -> Source.
 ```
 
-as a native `Pseudofunctor`.
-
-Closed coherence fields:
-
-- map₂ identity;
-- map₂ vertical composition;
-- left whiskering;
-- right whiskering;
-- associator;
-- left unitor;
-- right unitor.
-
-Identity/composition comparison isomorphisms realize to identities. `S` is not asserted strict.
-
-### v4.85 — labelled strict realization
-
-[v4.85 / #1923](formal/KUOS/DependentOriginationExactUniversalLabelledRealizationV4_85.lean) constructs:
+[v4.85](formal/KUOS/DependentOriginationExactUniversalLabelledRealizationV4_85.lean) gives the converse label-preserving strict realization
 
 ```text
-R : Source -> RealizedSector
+R : Source -> RealizedSector.
 ```
 
-as a native `StrictPseudofunctor`.
+Realized-side object/1-cell/2-cell recovery is exact.
 
-Objects preserve their labels; 1-cells and 2-cells are the wrappers of `f.lift` and `eta.lift`.
+### v4.86
 
-The realized-side cell recovery is exact:
+[v4.86](formal/KUOS/DependentOriginationExactUniversalGlobalUnitSquaresV4_86.lean) constructs source-roundtrip unit squares.
+
+At v4.86 these were components, not yet a bundled StrongTrans.
+
+### v4.87 — bundled source unit
+
+[v4.87 / #1926](formal/KUOS/DependentOriginationExactUniversalGlobalUnitStrongTransV4_87.lean) closes the full native StrongTrans:
+
+```text
+Id_Source ⟶ S ∘ R.
+```
+
+The proof projects structural equations to DO₂, reduces them to native bicategory coherence, then reflects equality back using realization faithfulness.
+
+### v4.88 — bundled realized counit
+
+[v4.88 / #1927](formal/KUOS/DependentOriginationExactUniversalGlobalCounitStrongTransV4_88.lean) constructs:
+
+```text
+R ∘ S ⟶ Id_RealizedSector.
+```
+
+### v4.89 — Whitehead certificate
+
+[v4.89 / #1928](formal/KUOS/DependentOriginationExactUniversalLabelledBiequivalenceV4_89.lean) packages:
+
+- the actual labelled realization pseudofunctor;
+- an equivalence on every hom category;
+- exact equality of each equivalence's forward functor with realization;
+- object essential surjectivity inside the labelled sector;
+- the chosen section, unit, and counit.
+
+Because Source and RealizedSector have identical object labels, object essential surjectivity there is reflexive.
+
+**Status: the object-labelled Whitehead-style biequivalence certificate is CLOSED.**
+
+Boundary retained: this is not yet a claim about all ambient DO₂ objects, and no stronger adjoint-biequivalence package with triangle modifications is asserted.
+
+## 5. Ambient P4 reduction — v4.90–v4.93
+
+P4 is the question of extending from the labelled sector to **all ambient DO₂ objects**.
+
+### v4.90 — ambient Whitehead exactly equals object coverage
+
+[v4.90 / #1929](formal/KUOS/DependentOriginationExactUniversalAmbientCoverageReductionV4_90.lean) proves:
 
 ```lean
-R.obj (S.obj X) = X
-
-R.map (S.map f) = f
-
-R.map₂ (S.map₂ eta) = eta
+ExactUniversalAmbientWhiteheadExistence
+  ↔
+ExactUniversalAmbientObjectCoverage
 ```
 
-and on each realized hom category:
+for the actual v4.70 realization.
 
-```lean
-S.mapFunctor X Y ⋙ R.mapFunctor X Y = 𝟭 (X ⟶ Y)
-```
+Local hom equivalence is no longer the ambient issue; object coverage is.
 
-This is stronger than mere essential surjectivity locally. It is still not a global pseudonatural counit/equivalence by itself.
+### v4.91 — restriction universality gives literal carrier coverage
 
-### v4.86 — source-roundtrip unit squares
-
-[v4.86 / #1924](formal/KUOS/DependentOriginationExactUniversalGlobalUnitSquaresV4_86.lean) forms:
+[v4.91 / #1930](formal/KUOS/DependentOriginationExactUniversalAmbientRestrictionUniversalityV4_91.lean) takes an arbitrary ambient `Z` and constructs the tautological presentation of its raw restriction:
 
 ```text
-Source --R--> RealizedSector --S--> Source
+raw      = restrict(Z)
+carrier  = Z
+compare  = identity
 ```
 
-and the actual roundtrip pseudofunctor `S ∘ R`.
+The identity comparison is automatically pointwise an equivalence.
 
-For each source 1-cell `f`:
+The only non-tautological field is coherent universality. If the tautological presentation is universally terminal among exact presentations of the same raw restriction, then the constructed source object has carrier **literally equal to Z**, hence coverage.
+
+This is a sufficient condition, not an unconditional theorem.
+
+### v4.92 — universality from local restriction hom equivalence
+
+[v4.92 / #1931](formal/KUOS/DependentOriginationExactUniversalAmbientRestrictionHomEquivalenceV4_92.lean) defines restriction as a genuine functor between StrongTrans hom categories.
+
+If that restriction functor is an equivalence for every relevant pair:
+
+- EssSurj lifts comparison StrongTrans and gives factor existence;
+- Full + Faithful lift isomorphisms and give essential uniqueness.
+
+Hence the v4.91 tautological presentation is universal.
+
+### v4.93 — Faithful removed from the frontier
+
+[v4.93 / #1932](formal/KUOS/DependentOriginationExactUniversalAmbientRestrictionFaithfulSplitV4_93.lean) proves object-surjectivity of the presentation unit from Mathlib's constructed localization:
 
 ```lean
-f ≅ (S ∘ R).map f
+Context ≃ W.Localization
 ```
 
-is the existing v4.83 hom-unit component, and the pseudonaturality-shaped cell is:
+and uses modification extensionality to prove restriction is faithful on every StrongTrans hom category.
+
+It then proves the exact split:
 
 ```lean
-f ≫ 𝟙 Y ≅ 𝟙 X ≫ (S ∘ R).map f
+ExactUniversalAmbientRestrictionHomEquivalence
+  ↔
+ExactUniversalAmbientRestrictionHomFull
+    ∧ ExactUniversalAmbientRestrictionHomEssSurj
 ```
 
-Under realization it is exactly:
+Thus the current constructive route is:
 
 ```text
-rho(f.lift) ; lambda(f.lift)^-1
+Full + EssSurj
+   ⇔ restriction Hom equivalence          [v4.93]
+   ⇒ canonical restriction universality   [v4.92]
+   ⇒ ambient object coverage              [v4.91]
+   ⇔ ambient Whitehead existence          [v4.90]
 ```
 
-with inverse:
-
-```text
-lambda(f.lift) ; rho(f.lift)^-1.
-```
-
-**Status: the component squares for the global source unit are CLOSED.  
-The StrongTrans coherence built from those squares is NOT yet closed.**
+Only the first equivalence and final equivalence above are proved equivalences. The middle arrows are sufficient implications. Do not silently reverse them.
 
 ## 6. Immediate next obligations
 
-These are the next mathematical tasks, not preassigned theorem numbers.
+These are proposed theorem units, not preassigned theorem numbers.
 
-### G1. Assemble the source-side global unit
+### A. Restriction Full — first target
 
-Use v4.86's object components `𝟙 X` and naturality isomorphisms to construct the actual StrongTrans / pseudonatural transformation:
+Goal:
 
-```text
-Id_Source  ==>  S ∘ R
+> Every raw modification between restrictions of localized StrongTrans has a localized modification preimage.
+
+The likely proof route should exploit Mathlib localization generation rather than manually recurse over quotient paths.
+
+Candidate steps:
+
+1. take `Γ : restrict(alpha) ⟶ restrict(beta)`;
+2. define candidate component 2-cells on localized objects using the canonical object equivalence;
+3. define the property “candidate components satisfy modification naturality along `f`” as a morphism property on the localized base category;
+4. prove the property for the image of every raw context arrow using `Γ.naturality`;
+5. prove stability under composition;
+6. prove stability under inverses of inverted `W` arrows;
+7. use `Localization.Construction.morphismProperty_eq_top` or `morphismProperty_eq_top'`;
+8. assemble the genuine localized modification;
+9. prove restriction recovers `Γ`.
+
+Exit criterion:
+
+```lean
+(higherLocalizedRestrictionHomFunctor ...).Full
 ```
 
-or the orientation selected by the native Mathlib interface.
+without a new semantic axiom.
 
-Required proofs should include the full native StrongTrans fields:
+### B. Restriction EssSurj — second target
 
-- naturality with source 2-cells;
+Goal:
+
+> Every raw StrongTrans between restricted localized pseudofunctors is isomorphic to the restriction of some localized StrongTrans.
+
+This is the genuinely 1-cell/pseudonatural extension problem.
+
+Likely required ingredients:
+
+- object-component reconstruction;
+- extension of naturality isomorphisms from raw arrows to localized arrows;
 - identity coherence;
 - composition coherence;
-- agreement with the already verified v4.86 naturality cells.
+- compatibility with inverse images of `W`;
+- an isomorphism after restriction, not necessarily definitional equality.
 
-Exit criterion: an actual bundled StrongTrans whose components and naturality squares are exactly the v4.86 data, plus invertibility if the chosen interface requires a pseudonatural isomorphism.
+Ordinary 1-categorical `Localization.functorEquivalence` is useful background but does not by itself prove this pseudonatural StrongTrans statement.
 
-### G2. Package the realized-side roundtrip globally
+Exit criterion:
 
-v4.85 already proves exact object/1-cell/2-cell recovery for `R ∘ S` on the object-labelled realized sector.
+```lean
+(higherLocalizedRestrictionHomFunctor ...).EssSurj
+```
 
-Next determine the cleanest native formulation:
+for the ambient stack carriers required by v4.93.
 
-- equality of pseudofunctors, if the structural fields reduce sufficiently;
-- otherwise a pseudonatural counit/isomorphism whose components are identities.
+### C. Close the current P4 route
 
-Exit criterion: a bundled global comparison, not merely per-hom functor equality.
+Once A and B are closed:
 
-### G3. Close the Source ↔ RealizedSector equivalence/biequivalence
+```text
+Full + EssSurj
+  -> restriction Hom equivalence
+  -> canonical restriction universality
+  -> literal ambient carrier coverage
+  -> ambient Whitehead existence.
+```
 
-Combine G1 and G2 and discharge the required triangle/coherence laws in the native Mathlib framework.
+At that point the actual v4.70 realization would have ambient Whitehead data for all DO₂ objects through the current route.
 
-The target here is specifically the **object-labelled RealizedSector**. Do not silently replace it with all of DO₂.
-
-Exit criterion: a precise native equivalence/biequivalence statement with the chosen unit/counit and their coherence recorded.
-
-## 7. Separate obligations after labelled-sector closure
+## 7. Separate obligations after P4
 
 ### P2. Independently prescribed raw 2-cell / adjunction data
 
-Current full faithfulness lets a prescribed DO₂ 2-cell determine its unique compatible raw component. A stronger problem is to specify the raw component independently and prove compatibility, or identify the exact obstruction.
-
-Required distinction:
+Current full faithfulness says:
 
 ```text
 DO₂ component prescribed
-  => unique compatible raw component        [closed]
+  => unique compatible raw component.
+```
 
-DO₂ component + raw component both prescribed
-  => compatibility must be proved           [open in general]
+A stronger problem remains:
+
+```text
+DO₂ component + raw component independently prescribed
+  => compatibility must be proved.
 ```
 
 Do not infer the second from the first.
 
 ### P3. Semantic admissibility versus exact liftability
 
-Define semantic admissibility independently of source-morphism existence, then prove an implication, equivalence under stronger hypotheses, or a counterexample.
+Define semantic admissibility independently of source-morphism existence, then prove an implication, an equivalence under stronger hypotheses, or an obstruction.
 
 Do not define admissibility as a tautological restatement of `Liftable`.
 
-The earlier obstruction chain must remain visible: weak admissibility alone cannot imply exact presentation.
-
-### P4. Ambient DO₂ object coverage
-
-The current RealizedSector has the **same object labels as Source**. If the final theorem requires all ambient DO₂ objects, prove the necessary object-level essential surjectivity or specify a justified smaller target sector.
-
-This is now separate from P1: 1-cell coverage between chosen objects is already closed.
+The earlier nonfactorization theorem must remain visible: weak admissibility alone cannot imply exact presentation in general.
 
 ### P5. Final higher mapping/classification property
 
-Only after the target sector is fixed should the final universal property be stated.
+Only after the ambient target sector is settled should the final universal property be frozen.
 
 Required ingredients include:
 
-- exact/weak admissibility boundary;
-- object coverage;
+- admissibility/exactness boundary;
+- ambient object coverage;
 - hom equivalences;
-- global unit/counit;
-- naturality under changes of context/presentation;
-- descent and variance/world labels;
-- any required compatibility with operational bindings.
+- global unit/counit or the selected Whitehead interface;
+- naturality under context/presentation change;
+- descent;
+- variance and world/presentation labels;
+- operational binding compatibility if it is part of the mathematical statement.
 
 ## 8. Proof-engineering lessons retained
 
-### Local scope is not imported scope
+### Imported declarations do not import open namespaces
 
-Imports expose declarations but do not open namespaces or export local instances. Use explicit namespace openings or qualified theorem names where needed.
+Open or qualify the declaration's namespace explicitly.
 
 ### `change` is definitional only
 
-Use `change` only when the new target is definitionally equal. Normalize propositional structure using the actual theorem, e.g. `Iso.trans_inv`, projection lemmas, or typed `calc`.
+If the target is merely propositionally equal, use the actual normalization theorem rather than forcing `change`.
 
-### Fix dependent endpoints early
+### Fix generated universes explicitly when needed
 
-For `Bicategory.Adjunction`, `map_preimage`, `preimageIso`, and related dependent APIs, specify the ambient source objects and hom-category endpoints before asking Lean to elaborate dependent fields.
+The v4.90–v4.93 ambient types include a target-category universe that can occur only inside a proposition body. At public call sites, explicit applications such as
 
-### Infer generated universe signatures through typed maps
+```lean
+.{u, v, uH, vH}
+```
 
-Do not copy positional universe arguments from one declaration to another when generated signatures differ. Let typed object maps determine the codomain universe where possible.
+avoid fresh unconstrained universe metavariables.
 
-### Distinguish dotted identifiers from field notation
+### Higher-order structure fields have multiple binder layers
 
-When a local notation such as `S` is a term receiver, write `(S).map`, `(S).obj`, etc. if `S.map` would be parsed as a dotted identifier before notation expansion.
+Pinned Mathlib defines:
 
-### Reflect coherence only after reducing wrappers
+```lean
+Functor.Faithful.map_injective :
+  ∀ {X Y}, Function.Injective F.map
+```
 
-Use faithful realization to reflect source equalities after the realized side has been reduced to a small homogeneous diagram. Avoid asking broad `simp` to discover categories, functors, associators, and wrappers simultaneously.
+Therefore a structure proof should distinguish:
 
-These rules improve robustness. They are not reasons to add axioms, suppress warnings, broaden transparency, or increase heartbeat limits by default.
+1. the hom-category objects `X,Y`;
+2. the two morphisms being compared;
+3. their mapped equality.
+
+For v4.93 the robust form is schematically:
+
+```lean
+map_injective {alpha beta} := by
+  intro eta theta h
+  ...
+```
+
+not a binder form that accidentally treats `eta/theta` as `alpha/beta`.
+
+### Do not solve a goal twice
+
+If `rw` closes the goal by definitional reduction, a following `rfl` produces `No goals to be solved`.
+
+### Reduce wrappers before extensionality/coherence
+
+Use the concrete component theorem for restriction, then `Pseudofunctor.StrongTrans.homCategory.ext`. Avoid asking broad simplification to reconstruct all endpoints at once.
 
 ## 9. Validation and reproduction
 
@@ -413,17 +449,22 @@ Latest theorem command:
 
 ```bash
 lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build \
-  KUOS.DependentOriginationExactUniversalGlobalUnitSquaresV4_86
+  KUOS.DependentOriginationExactUniversalAmbientRestrictionFaithfulSplitV4_93
 ```
 
-The v4.86 import path includes the v4.85 → v4.84 → v4.83 route and the v4.80/v4.82 P1 machinery behind v4.83.
+The exact validated head completed with:
 
-The separate v4.78 source-equivalence theorem is not on that import path. To reproduce both current major branches:
+```text
+Build completed successfully (8612 jobs)
+return_code = 0
+```
+
+Reproduce the two current major endpoints with:
 
 ```bash
 lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build \
-  KUOS.DependentOriginationExactUniversalSourceEquivalenceV4_78 \
-  KUOS.DependentOriginationExactUniversalGlobalUnitSquaresV4_86
+  KUOS.DependentOriginationExactUniversalLabelledBiequivalenceV4_89 \
+  KUOS.DependentOriginationExactUniversalAmbientRestrictionFaithfulSplitV4_93
 ```
 
 Aggregate and runtime entry points:
@@ -435,9 +476,9 @@ PYTHONPATH=. python3 runtime/kuuos_current_check.py
 
 Cache success does not replace exact-head validation. Historical dependency warnings do not invalidate a new module merely because they replay in its dependency build.
 
-**README/ROADMAP-only changes should not manually rerun an already successful Strict Lean theorem build.** Use the impact-selected documentation/runtime checks. The documentation commit is not a theorem-bearing baseline.
+**README/ROADMAP-only changes should not manually rerun an already successful Strict Lean theorem build.** Use impact-selected documentation/governance checks. A docs-only merge is not a theorem-bearing baseline.
 
-## 10. Current boundary at a glance
+## 10. Boundary at a glance
 
 ```text
 CLOSED:
@@ -445,33 +486,36 @@ CLOSED:
   exact presentation and universal-target sector
   native source bicategory
   strict DO₂ realization
-  local full faithfulness on 2-cells
-  coherent raw-equivalence source equivalences
-  exact fixed-leg adjunction lifting
-  pointwise-equivalence -> coherent inverse StrongTrans/retraction
-  arbitrary DO₂ 1-cell exact lift between chosen carriers
+  local full faithfulness on source 2-cells
+  arbitrary DO₂ 1-cell lift between chosen carriers
   realization hom-category equivalences
   cross-hom section pseudofunctor
   label-preserving strict realization
-  exact realized-side object/1-cell/2-cell roundtrip
-  source-roundtrip pseudofunctor
-  canonical source global-unit naturality squares
+  global source unit StrongTrans
+  global realized counit StrongTrans
+  object-labelled Whitehead-style biequivalence certificate
+  ambient Whitehead existence iff ambient object coverage
+  restriction-universality sufficient route to coverage
+  restriction hom-equivalence sufficient route to universality
+  unconditional restriction faithfulness
+  restriction hom-equivalence iff Full + EssSurj
 
 NEXT:
-  bundle v4.86 squares into the source global StrongTrans / unit
-  bundle the realized-side global counit / roundtrip
-  close Source <-> object-labelled RealizedSector equivalence/biequivalence
+  prove restriction Full
+  prove restriction EssSurj
+  close the current route to ambient object coverage
+  obtain ambient Whitehead existence via v4.90
 
 SEPARATE OPEN QUESTIONS:
-  coverage of ambient DO₂ objects outside the labelled sector
   independently prescribed raw components/data
   semantic admissibility vs exact liftability
   final higher mapping/classification property
 
 NOT VALID WITHOUT FURTHER PROOF:
   weak W-admissibility => exact presentation
-  arbitrary ambient DO₂ object => represented by a chosen source object
-  local hom equivalence => global biequivalence without unit/counit coherence
-  DO₂ 2-cell lift => compatibility with an independently prescribed raw component
+  arbitrary ambient DO₂ object => represented by a source object
+  restriction Faithful => restriction Full
+  restriction Full => restriction EssSurj
+  ordinary functor localization => pseudonatural StrongTrans localization
   docs/runtime/cache success => theorem authority
 ```
