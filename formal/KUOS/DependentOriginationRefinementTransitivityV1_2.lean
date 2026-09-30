@@ -258,8 +258,13 @@ theorem nestedStateDescends_iff_flattenStateDescends
     intro i j
     change D.transport (R.chartToSubchart i j)
       (D.transport (C.toChart i) x) = u.state i j
-    rw [twoStep_transport_eq_flatten_transport D C R x i j]
-    simpa only [NestedLocalStateFamily.flatten_state] using hx ⟨i, j⟩
+    calc
+      D.transport (R.chartToSubchart i j)
+          (D.transport (C.toChart i) x) =
+        D.transport (R.flatten.toChart ⟨i, j⟩) x :=
+          twoStep_transport_eq_flatten_transport D C R x i j
+      _ = u.state i j := by
+        simpa [NestedLocalStateFamily.flatten] using hx ⟨i, j⟩
 
 /--
 Every inner refinement cover separates states of its parent chart.  This is the
@@ -302,11 +307,15 @@ theorem no_flattenStateDescent_of_no_topStateDescent
   change D.transport (R.chartToSubchart i j)
       (D.transport (C.toChart i) x) =
     D.transport (R.chartToSubchart i j) (s.state i)
-  rw [twoStep_transport_eq_flatten_transport D C R x i j]
-  have hFlat :
-      D.transport (R.flatten.toChart ⟨i, j⟩) x = u.state i j := by
-    simpa only [NestedLocalStateFamily.flatten_state] using hx ⟨i, j⟩
-  exact hFlat.trans (hLocal i j).symm
+  calc
+    D.transport (R.chartToSubchart i j)
+        (D.transport (C.toChart i) x) =
+      D.transport (R.flatten.toChart ⟨i, j⟩) x :=
+        twoStep_transport_eq_flatten_transport D C R x i j
+    _ = u.state i j := by
+      simpa [NestedLocalStateFamily.flatten] using hx ⟨i, j⟩
+    _ = D.transport (R.chartToSubchart i j) (s.state i) :=
+      (hLocal i j).symm
 
 /--
 The invariant semantic value of every subchart agrees with the invariant
