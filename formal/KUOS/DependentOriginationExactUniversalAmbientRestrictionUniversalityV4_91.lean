@@ -12,6 +12,7 @@ open KUOS.DependentOriginationExactHigherPresentationSectorV4_50
 open KUOS.DependentOriginationExactPresentationEssentialUniquenessV4_53
 open KUOS.DependentOriginationExactUniversalMappingMorphismV4_57
 open KUOS.DependentOriginationExactUniversalRealizationStrictPseudofunctorV4_70
+open KUOS.DependentOriginationExactUniversalLabelledBiequivalenceV4_89
 open KUOS.DependentOriginationExactUniversalAmbientCoverageReductionV4_90
 
 open scoped CategoryTheory.Pseudofunctor.StrongTrans
@@ -58,13 +59,10 @@ variable (A : RefinementAtlas (LocalizedContext W))
 abbrev Source :=
   ExactUniversalRawObject.{u, v, uH, vH} (W := W) A
 
-abbrev Ambient :=
-  DependentOriginationCompletion2.{u, v, uH, uH, vH} (W := W) A
-
 /-- Raw system obtained by restricting one ambient DO₂ object along the
 presentation-localization unit. -/
 abbrev exactUniversalAmbientRestrictionRaw
-    (Z : Ambient (W := W) A) :
+    (Z : DependentOriginationCompletion2.{u, v, uH, uH, vH} (W := W) A) :
     RawHigherContextualSystem.{u, v, uH, vH} (Context := Context) :=
   restrictHigherLocalizedSystem W
     (higherStackObjectVal (W := W) A Z)
@@ -72,7 +70,7 @@ abbrev exactUniversalAmbientRestrictionRaw
 /-- Tautological exact presentation of the raw restriction of an ambient
 object. The carrier is Z itself and the comparison is identity. -/
 noncomputable def exactUniversalAmbientRestrictionPresentation
-    (Z : Ambient (W := W) A) :
+    (Z : DependentOriginationCompletion2.{u, v, uH, uH, vH} (W := W) A) :
     ExactHigherDependentOriginationPresentation
       (W := W) A
       (exactUniversalAmbientRestrictionRaw (W := W) A Z) where
@@ -86,13 +84,13 @@ noncomputable def exactUniversalAmbientRestrictionPresentation
     infer_instance
 
 @[simp] theorem exactUniversalAmbientRestrictionPresentation_carrier
-    (Z : Ambient (W := W) A) :
+    (Z : DependentOriginationCompletion2.{u, v, uH, uH, vH} (W := W) A) :
     (exactUniversalAmbientRestrictionPresentation
       (W := W) A Z).carrier = Z :=
   rfl
 
 @[simp] theorem exactUniversalAmbientRestrictionPresentation_comparison
-    (Z : Ambient (W := W) A) :
+    (Z : DependentOriginationCompletion2.{u, v, uH, uH, vH} (W := W) A) :
     (exactUniversalAmbientRestrictionPresentation
       (W := W) A Z).comparison = 𝟙 _ :=
   rfl
@@ -100,7 +98,7 @@ noncomputable def exactUniversalAmbientRestrictionPresentation
 /-- The remaining non-tautological condition for one ambient object: its
 identity-comparison restriction presentation is a coherent universal target. -/
 def HasExactUniversalAmbientRestrictionUniversalTarget
-    (Z : Ambient (W := W) A) : Prop :=
+    (Z : DependentOriginationCompletion2.{u, v, uH, uH, vH} (W := W) A) : Prop :=
   Nonempty
     (ExactPresentationCoherentUniversalTarget
       (W := W) A
@@ -109,7 +107,7 @@ def HasExactUniversalAmbientRestrictionUniversalTarget
 
 /-- Uniform restriction-universality over all ambient DO₂ objects. -/
 def ExactUniversalAmbientRestrictionUniversality : Prop :=
-  ∀ Z : Ambient (W := W) A,
+  ∀ Z : DependentOriginationCompletion2.{u, v, uH, uH, vH} (W := W) A,
     HasExactUniversalAmbientRestrictionUniversalTarget
       (W := W) A Z
 
@@ -117,7 +115,7 @@ def ExactUniversalAmbientRestrictionUniversality : Prop :=
 packages directly as an exact-universal source object whose carrier is exactly
 Z. -/
 def exactUniversalAmbientSourceOfRestrictionUniversalTarget
-    (Z : Ambient (W := W) A)
+    (Z : DependentOriginationCompletion2.{u, v, uH, uH, vH} (W := W) A)
     (T :
       ExactPresentationCoherentUniversalTarget
         (W := W) A
@@ -130,7 +128,7 @@ def exactUniversalAmbientSourceOfRestrictionUniversalTarget
   universal := T
 
 @[simp] theorem exactUniversalAmbientSourceOfRestrictionUniversalTarget_carrier
-    (Z : Ambient (W := W) A)
+    (Z : DependentOriginationCompletion2.{u, v, uH, uH, vH} (W := W) A)
     (T :
       ExactPresentationCoherentUniversalTarget
         (W := W) A
@@ -144,7 +142,7 @@ def exactUniversalAmbientSourceOfRestrictionUniversalTarget
 some source object has carrier literally equal to the prescribed ambient
 object. -/
 theorem exists_exactUniversalAmbientSource_carrier_eq
-    (Z : Ambient (W := W) A)
+    (Z : DependentOriginationCompletion2.{u, v, uH, uH, vH} (W := W) A)
     (hZ :
       HasExactUniversalAmbientRestrictionUniversalTarget
         (W := W) A Z) :
@@ -200,7 +198,7 @@ theorem exactUniversalAmbientWhiteheadExistence_of_restrictionUniversality
 
 /-! ## Regression checks -/
 
-variable (Z : Ambient (W := W) A)
+variable (Z : DependentOriginationCompletion2.{u, v, uH, uH, vH} (W := W) A)
 
 example :
     (exactUniversalAmbientRestrictionPresentation
