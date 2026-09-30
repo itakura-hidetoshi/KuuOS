@@ -10,6 +10,7 @@ open KUOS.DependentOriginationHigherStackCarrierV2_9
 open KUOS.DependentOriginationExactUniversalMappingMorphismV4_57
 open KUOS.DependentOriginationExactUniversalMappingHomCategoryV4_60
 open KUOS.DependentOriginationExactUniversalMappingStructuralIsoV4_67
+open KUOS.DependentOriginationExactUniversalRealizationStrictPseudofunctorV4_70
 open KUOS.DependentOriginationExactUniversalRealizationFaithfulV4_76
 open KUOS.DependentOriginationExactUniversalRealizationFullyFaithfulV4_77
 open KUOS.DependentOriginationExactUniversalHomEquivalenceV4_83
@@ -159,15 +160,12 @@ by inverse left-unitor. -/
     {X Y : Source (W := W) A} (f : X ⟶ Y) :
     (exactUniversalSourceRoundtripNaturalityIso (W := W) A f).inv.lift =
       (λ_ f.lift).hom ≫ (ρ_ f.lift).inv := by
-  change
-    (λ_ ((exactUniversalSourceRoundtrip (W := W) A).map f)).hom.lift ≫
-        (exactUniversalSourceRoundtripCoreIso (W := W) A f).inv.lift ≫
-          (ρ_ f).inv.lift =
-      (λ_ f.lift).hom ≫ (ρ_ f.lift).inv
+  simp only [exactUniversalSourceRoundtripNaturalityIso, Iso.trans_inv, Iso.symm_inv]
   rw [exactUniversalRealization_source_leftUnitor_lift,
     exactUniversalSourceRoundtripCoreIso_inv_lift,
     exactUniversalRealization_source_rightUnitor_inv_lift]
-  simp only [Category.comp_id]
+  simp only [exactUniversalSourceRoundtrip_map,
+    exactUniversalOneCellOfLift_lift, Category.comp_id]
 
 /-- As a complete realized isomorphism, the prospective unit naturality square
 is exactly the canonical DO2 unitor comparison. -/
