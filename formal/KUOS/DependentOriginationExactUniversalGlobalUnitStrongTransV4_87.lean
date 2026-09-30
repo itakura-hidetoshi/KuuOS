@@ -154,8 +154,8 @@ later proofs need not unfold the whole pseudofunctor structure. -/
   simp only [exactUniversalSourceTwoCell_comp_lift,
     exactUniversalSectionPseudofunctor_map₂_lift,
     exactUniversalLabelledRealization_mapId_hom_hom,
-    exactUniversalSectionPseudofunctor_mapId_hom_lift,
-    Category.comp_id]
+    exactUniversalSectionPseudofunctor_mapId_hom_lift]
+  exact Category.comp_id _
 
 /-- The composition comparison of the source roundtrip realizes to the identity
 2-cell on the realized composite. -/
@@ -173,8 +173,11 @@ later proofs need not unfold the whole pseudofunctor structure. -/
   simp only [exactUniversalSourceTwoCell_comp_lift,
     exactUniversalSectionPseudofunctor_map₂_lift,
     exactUniversalLabelledRealization_mapComp_hom_hom,
-    exactUniversalSectionPseudofunctor_mapComp_hom_lift,
-    Category.comp_id]
+    exactUniversalSectionPseudofunctor_mapComp_hom_lift]
+  change
+    (𝟙 (f.lift ≫ g.lift)) ≫ 𝟙 (f.lift ≫ g.lift) =
+      𝟙 (f.lift ≫ g.lift)
+  exact Category.comp_id _
 
 /-- The v4.86 unit components and squares satisfy all three native StrongTrans
 coherence laws. -/
@@ -190,7 +193,6 @@ def exactUniversalSourceRoundtripUnit :
     simp only [exactUniversalSourceTwoCell_comp_lift,
       exactUniversalRealization_source_whiskerRight_lift,
       exactUniversalSourceIdentityPseudofunctor_map₂_lift,
-      ExactUniversalRawMorphism.id_lift,
       exactUniversalSourceRoundtripNaturalityIso_hom_lift,
       exactUniversalRealization_source_whiskerLeft_lift,
       exactUniversalSourceRoundtrip_map₂_lift]
@@ -203,7 +205,6 @@ def exactUniversalSourceRoundtripUnit :
       exactUniversalSourceRoundtrip_mapId_hom_lift,
       exactUniversalSourceIdentityPseudofunctor_mapId_hom_lift,
       exactUniversalRealization_source_whiskerRight_lift,
-      ExactUniversalRawMorphism.id_lift,
       exactUniversalRealization_source_leftUnitor_lift,
       exactUniversalRealization_source_rightUnitor_inv_lift]
     bicategory
@@ -215,10 +216,7 @@ def exactUniversalSourceRoundtripUnit :
       exactUniversalSourceRoundtrip_mapComp_hom_lift,
       exactUniversalSourceIdentityPseudofunctor_mapComp_hom_lift,
       exactUniversalRealization_source_whiskerRight_lift,
-      exactUniversalSourceIdentityPseudofunctor_map_lift,
       exactUniversalSourceRoundtrip_map_lift,
-      ExactUniversalRawMorphism.id_lift,
-      ExactUniversalRawMorphism.comp_lift,
       exactUniversalRealization_source_associator_lift,
       exactUniversalRealization_source_associator_inv_lift]
     bicategory
