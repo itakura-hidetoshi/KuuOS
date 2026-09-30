@@ -107,6 +107,28 @@ def higherLocalizedModificationNaturalityProperty
             (.mk ((opOp (LocalizedContext W)).obj X)) ▷
           G.map p
 
+/-- The modification-naturality property is stable under composition of
+localized morphisms. This is the bicategorical pasting law for the two
+modification squares, with the StrongTrans composition coherences supplying the
+necessary reassociations. -/
+theorem higherLocalizedModificationNaturalityProperty_comp
+    {F G : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W)}
+    {alpha beta : F ⟶ G}
+    (Gamma :
+      restrictHigherLocalizedStrongTrans (W := W) alpha ⟶
+        restrictHigherLocalizedStrongTrans (W := W) beta)
+    {X Y Z : LocalizedContext W}
+    (f : X ⟶ Y) (g : Y ⟶ Z)
+    (hf :
+      higherLocalizedModificationNaturalityProperty (W := W) Gamma f)
+    (hg :
+      higherLocalizedModificationNaturalityProperty (W := W) Gamma g) :
+    higherLocalizedModificationNaturalityProperty (W := W) Gamma (f ≫ g) := by
+  dsimp [higherLocalizedModificationNaturalityProperty] at hf hg ⊢
+  simp only [Functor.map_comp, Quiver.Hom.comp_toLoc]
+  simp only [Pseudofunctor.StrongTrans.naturality_comp_hom]
+  simp [hf, hg]
+
 /-- The naturality property holds on every raw image arrow. This is exactly the
 naturality field of the supplied restricted modification. -/
 theorem higherLocalizedModificationNaturalityProperty_map
@@ -127,6 +149,7 @@ theorem higherLocalizedModificationNaturalityProperty_map
 
 #print axioms higherLocalizedModificationExtensionApp
 #print axioms higherLocalizedModificationExtensionApp_presentation
+#print axioms higherLocalizedModificationNaturalityProperty_comp
 #print axioms higherLocalizedModificationNaturalityProperty_map
 
 end
