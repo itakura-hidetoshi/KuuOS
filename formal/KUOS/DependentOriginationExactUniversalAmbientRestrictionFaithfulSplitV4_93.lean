@@ -99,8 +99,8 @@ category. No stack, exactness, or universal-property hypothesis is needed. -/
 theorem higherLocalizedRestrictionHomFunctor_faithful
     (F G : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W)) :
     (higherLocalizedRestrictionHomFunctor (W := W) F G).Faithful where
-  map_injective := by
-    intro alpha beta h
+  map_injective {alpha beta} := by
+    intro eta theta h
     apply Pseudofunctor.StrongTrans.homCategory.ext
     intro Y
     rcases
