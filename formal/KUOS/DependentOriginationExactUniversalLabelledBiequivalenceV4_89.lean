@@ -1,5 +1,6 @@
 import KUOS.DependentOriginationExactUniversalGlobalCounitStrongTransV4_88
-import KUOS.DependentOriginationBiequivalencePresentationInvariantV1_26
+import Mathlib.CategoryTheory.Equivalence
+import Mathlib.CategoryTheory.Bicategory.Adjunction.Basic
 
 namespace KUOS.DependentOriginationExactUniversalLabelledBiequivalenceV4_89
 
@@ -7,8 +8,6 @@ open CategoryTheory
 open KUOS.DependentOriginationGeneratedRefinementTopologyV2_4
 open KUOS.DependentOriginationLocalizedSheafUniversalityV2_6
 open KUOS.DependentOriginationHigherStackCarrierV2_9
-open KUOS.DependentOriginationPresentationIndependentInvariantV1_25
-open KUOS.DependentOriginationBiequivalencePresentationInvariantV1_26
 open KUOS.DependentOriginationExactUniversalMappingMorphismV4_57
 open KUOS.DependentOriginationExactUniversalHomEquivalenceV4_83
 open KUOS.DependentOriginationExactUniversalSectionPseudofunctorV4_84
@@ -38,19 +37,25 @@ this wrapper/forgetful pair as an ordinary category equivalence. Composing it
 with v4.83 gives, for each pair of labelled objects, an equivalence whose
 forward functor is exactly the hom functor of the labelled realization.
 
+The older v1.26 presentation-invariance file contains a Whitehead-style
+biequivalence record, but importing that file also imports the historical
+Duskin/presentation spine. This theorem unit needs none of that presentation
+machinery. We therefore state the minimal four-field Whitehead interface here:
+a pseudofunctor, local hom-category equivalences, exact agreement of their
+forward functors, and object essential surjectivity up to bicategorical
+equivalence.
+
 Because the realized sector has exactly the same object labels as the source,
-object essential surjectivity inside this sector is reflexive. Hence the
-existing v1.26 Whitehead-style BicategoricalModelEquivalence applies directly.
+object essential surjectivity inside this sector is reflexive.
 
 Finally we retain the chosen v4.84 section together with the actual v4.87 unit
 and v4.88 counit in one certificate. This is a biequivalence certificate for
-the object-labelled realized sector, not for all ambient DO₂ objects. The
-pinned Mathlib version does not provide a bundled tricategorical
-pseudofunctor-biequivalence structure with triangle modifications; no such
-stronger packaging is asserted here.
+the object-labelled realized sector, not for all ambient DO₂ objects. No
+stronger tricategorical adjoint-biequivalence package with triangle
+modifications is asserted here.
 -/
 
-universe u v uH vH
+universe u v uH vH u₁ u₂ v₁ v₂ w₁ w₂
 
 variable {Context : Type u} [Category.{v} Context]
 variable (W : MorphismProperty Context)
@@ -61,6 +66,24 @@ abbrev Source :=
 
 abbrev Realized :=
   ExactUniversalRealizedSector.{u, v, uH, vH} (W := W) A
+
+/-- Minimal Whitehead-style biequivalence data, independent of any particular
+nerve or presentation layer. -/
+structure WhiteheadBiequivalenceData
+    (B : Type u₁) [Bicategory.{w₁, v₁} B]
+    (C : Type u₂) [Bicategory.{w₂, v₂} C] where
+  forward : Pseudofunctor B C
+  homEquiv :
+    ∀ X Y : B,
+      CategoryTheory.Equivalence (X ⟶ Y)
+        (forward.obj X ⟶ forward.obj Y)
+  homEquiv_functor :
+    ∀ X Y : B,
+      (homEquiv X Y).functor =
+        forward.toPrelaxFunctor.mapFunctor X Y
+  object_essentially_surjective :
+    ∀ Z : C,
+      ∃ X : B, Nonempty (Bicategory.Equivalence (forward.obj X) Z)
 
 /-- Forget the induced-bicategory wrapper on one fixed realized hom category. -/
 def exactUniversalRealizedHomForget
@@ -89,6 +112,9 @@ def exactUniversalRealizedHomWrapperUnitIso
         exactUniversalRealizedHomWrap (W := W) A X Y :=
   NatIso.ofComponents
     (fun f => Bicategory.InducedBicategory.isoMk (Iso.refl f.hom))
+    (fun eta => by
+      apply Bicategory.InducedBicategory.hom₂_ext
+      rfl)
 
 /-- Rewrapping and then forgetting is literally identity on the underlying
 DO₂ hom category. -/
@@ -97,13 +123,15 @@ def exactUniversalRealizedHomWrapperCounitIso
     exactUniversalRealizedHomWrap (W := W) A X Y ⋙
         exactUniversalRealizedHomForget (W := W) A X Y ≅
       𝟭 (X.carrier ⟶ Y.carrier) :=
-  NatIso.ofComponents (fun f => Iso.refl f)
+  NatIso.ofComponents
+    (fun f => Iso.refl f)
+    (fun _ => by rfl)
 
 /-- The induced realized hom category is equivalent to the corresponding
 underlying DO₂ hom category. -/
 def exactUniversalRealizedHomWrapperEquivalence
     (X Y : Realized (W := W) A) :
-    (X ⟶ Y) ≌ (X.carrier ⟶ Y.carrier) :=
+    CategoryTheory.Equivalence (X ⟶ Y) (X.carrier ⟶ Y.carrier) :=
   CategoryTheory.Equivalence.mk
     (exactUniversalRealizedHomForget (W := W) A X Y)
     (exactUniversalRealizedHomWrap (W := W) A X Y)
@@ -114,7 +142,8 @@ def exactUniversalRealizedHomWrapperEquivalence
 realized hom category. It is v4.83 followed by rewrapping. -/
 def exactUniversalLabelledHomEquivalence
     (X Y : Source (W := W) A) :
-    (X ⟶ Y) ≌
+    CategoryTheory.Equivalence
+      (X ⟶ Y)
       ((exactUniversalLabelledRealization (W := W) A).obj X ⟶
         (exactUniversalLabelledRealization (W := W) A).obj Y) :=
   (exactUniversalHomEquivalence (W := W) A X Y).trans
@@ -139,8 +168,8 @@ theorem exactUniversalLabelledHomEquivalence_functor
 /-- Whitehead-style biequivalence data from the exact-universal source to its
 object-labelled realized sector. Object essential surjectivity is reflexive
 because the labels are retained exactly. -/
-def exactUniversalLabelledBicategoricalModelEquivalence :
-    BicategoricalModelEquivalence
+def exactUniversalLabelledWhiteheadBiequivalence :
+    WhiteheadBiequivalenceData
       (Source (W := W) A)
       (Realized (W := W) A) where
   forward :=
@@ -151,15 +180,13 @@ def exactUniversalLabelledBicategoricalModelEquivalence :
     exactUniversalLabelledHomEquivalence_functor (W := W) A X Y
   object_essentially_surjective := by
     intro Z
-    refine ⟨Z, ?_⟩
-    change Nonempty (Z ≌ Z)
-    exact ⟨Bicategory.Equivalence.id Z⟩
+    exact ⟨Z, ⟨Bicategory.Equivalence.id Z⟩⟩
 
 /-- Package the Whitehead local/object certificate together with the chosen
 global quasi-inverse and the already verified StrongTrans unit/counit. -/
 structure ExactUniversalLabelledBiequivalenceCertificate where
   whitehead :
-    BicategoricalModelEquivalence
+    WhiteheadBiequivalenceData
       (Source (W := W) A)
       (Realized (W := W) A)
   section :
@@ -179,7 +206,7 @@ structure ExactUniversalLabelledBiequivalenceCertificate where
 def exactUniversalLabelledBiequivalenceCertificate :
     ExactUniversalLabelledBiequivalenceCertificate (W := W) A where
   whitehead :=
-    exactUniversalLabelledBicategoricalModelEquivalence (W := W) A
+    exactUniversalLabelledWhiteheadBiequivalence (W := W) A
   section :=
     exactUniversalSectionPseudofunctor (W := W) A
   unit := by
@@ -210,9 +237,10 @@ realized sector. -/
 theorem exactUniversalLabelledObjectEssentialSurjectivity
     (Z : Realized (W := W) A) :
     ∃ X : Source (W := W) A,
-      IntrinsicObjectEquivalent
-        ((exactUniversalLabelledRealization (W := W) A).obj X) Z :=
-  (exactUniversalLabelledBicategoricalModelEquivalence
+      Nonempty
+        (Bicategory.Equivalence
+          ((exactUniversalLabelledRealization (W := W) A).obj X) Z) :=
+  (exactUniversalLabelledWhiteheadBiequivalence
     (W := W) A).object_essentially_surjective Z
 
 /-! ## Regression checks -/
@@ -220,13 +248,14 @@ theorem exactUniversalLabelledObjectEssentialSurjectivity
 variable {X Y : Source (W := W) A}
 
 example :
-    BicategoricalModelEquivalence
+    WhiteheadBiequivalenceData
       (Source (W := W) A)
       (Realized (W := W) A) :=
-  exactUniversalLabelledBicategoricalModelEquivalence (W := W) A
+  exactUniversalLabelledWhiteheadBiequivalence (W := W) A
 
 example :
-    (X ⟶ Y) ≌
+    CategoryTheory.Equivalence
+      (X ⟶ Y)
       ((exactUniversalLabelledRealization (W := W) A).obj X ⟶
         (exactUniversalLabelledRealization (W := W) A).obj Y) :=
   exactUniversalLabelledHomEquivalence (W := W) A X Y
@@ -248,7 +277,7 @@ example :
 #print axioms exactUniversalRealizedHomWrapperEquivalence
 #print axioms exactUniversalLabelledHomEquivalence
 #print axioms exactUniversalLabelledHomEquivalence_functor
-#print axioms exactUniversalLabelledBicategoricalModelEquivalence
+#print axioms exactUniversalLabelledWhiteheadBiequivalence
 #print axioms exactUniversalLabelledBiequivalenceCertificate
 #print axioms exactUniversalLabelledObjectEssentialSurjectivity
 
