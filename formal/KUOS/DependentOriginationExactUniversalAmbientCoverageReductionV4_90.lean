@@ -89,7 +89,7 @@ theorem exactUniversalAmbientHomEquivalence_functor
 /-- Ambient Whitehead data follows from object coverage; no additional local
 1-cell or 2-cell hypothesis is needed. -/
 def exactUniversalAmbientWhiteheadBiequivalenceOfCoverage
-    (hcoverage : ExactUniversalAmbientObjectCoverage (W := W) A) :
+    (hcoverage : ExactUniversalAmbientObjectCoverage.{u, v, uH, vH} (W := W) A) :
     WhiteheadBiequivalenceData
       (ExactUniversalRawObject.{u, v, uH, vH} (W := W) A)
       (DependentOriginationCompletion2.{u, v, uH, uH, vH} (W := W) A) where
@@ -119,7 +119,7 @@ theorem exactUniversalAmbientObjectCoverage_of_whitehead
     (hforward :
       data.forward =
         (exactUniversalRealization (W := W) A).toPseudofunctor) :
-    ExactUniversalAmbientObjectCoverage (W := W) A := by
+    ExactUniversalAmbientObjectCoverage.{u, v, uH, vH} (W := W) A := by
   intro Z
   rcases data.object_essentially_surjective Z with ⟨X, hX⟩
   refine ⟨X, ?_⟩
@@ -139,15 +139,15 @@ def ExactUniversalAmbientWhiteheadExistence : Prop :=
 /-- Main reduction theorem: for the actual exact-universal realization, the
 ambient Whitehead problem is equivalent to ambient object coverage. -/
 theorem exactUniversalAmbientWhiteheadExistence_iff_objectCoverage :
-    ExactUniversalAmbientWhiteheadExistence (W := W) A ↔
-      ExactUniversalAmbientObjectCoverage (W := W) A := by
+    ExactUniversalAmbientWhiteheadExistence.{u, v, uH, vH} (W := W) A ↔
+      ExactUniversalAmbientObjectCoverage.{u, v, uH, vH} (W := W) A := by
   constructor
   · rintro ⟨data, hforward⟩
-    exact exactUniversalAmbientObjectCoverage_of_whitehead
+    exact exactUniversalAmbientObjectCoverage_of_whitehead.{u, v, uH, vH}
       (W := W) A data hforward
   · intro hcoverage
     exact ⟨
-      exactUniversalAmbientWhiteheadBiequivalenceOfCoverage
+      exactUniversalAmbientWhiteheadBiequivalenceOfCoverage.{u, v, uH, vH}
         (W := W) A hcoverage,
       rfl⟩
 
@@ -163,17 +163,17 @@ example :
   exactUniversalAmbientHomEquivalence (W := W) A X Y
 
 example
-    (hcoverage : ExactUniversalAmbientObjectCoverage (W := W) A) :
+    (hcoverage : ExactUniversalAmbientObjectCoverage.{u, v, uH, vH} (W := W) A) :
     WhiteheadBiequivalenceData
       (ExactUniversalRawObject.{u, v, uH, vH} (W := W) A)
       (DependentOriginationCompletion2.{u, v, uH, uH, vH} (W := W) A) :=
-  exactUniversalAmbientWhiteheadBiequivalenceOfCoverage
+  exactUniversalAmbientWhiteheadBiequivalenceOfCoverage.{u, v, uH, vH}
     (W := W) A hcoverage
 
 example :
-    ExactUniversalAmbientWhiteheadExistence (W := W) A ↔
-      ExactUniversalAmbientObjectCoverage (W := W) A :=
-  exactUniversalAmbientWhiteheadExistence_iff_objectCoverage
+    ExactUniversalAmbientWhiteheadExistence.{u, v, uH, vH} (W := W) A ↔
+      ExactUniversalAmbientObjectCoverage.{u, v, uH, vH} (W := W) A :=
+  exactUniversalAmbientWhiteheadExistence_iff_objectCoverage.{u, v, uH, vH}
     (W := W) A
 
 #print axioms exactUniversalAmbientHomEquivalence
