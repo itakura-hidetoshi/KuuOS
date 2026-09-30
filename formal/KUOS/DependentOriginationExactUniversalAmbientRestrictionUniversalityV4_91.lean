@@ -105,10 +105,15 @@ def HasExactUniversalAmbientRestrictionUniversalTarget
       (exactUniversalAmbientRestrictionPresentation
         (W := W) A Z))
 
-/-- Uniform restriction-universality over all ambient DO₂ objects. -/
+/-- Uniform restriction-universality over all ambient DO₂ objects.
+
+The target-category universe `vH` occurs only inside this proposition's body,
+not in the term parameters `W` or `A`.  Consequently callers must instantiate
+this declaration explicitly as `.{u, v, uH, vH}`; otherwise Lean is free to
+introduce a fresh universe metavariable for the final DO₂ level. -/
 def ExactUniversalAmbientRestrictionUniversality : Prop :=
   ∀ Z : DependentOriginationCompletion2.{u, v, uH, uH, vH} (W := W) A,
-    HasExactUniversalAmbientRestrictionUniversalTarget
+    HasExactUniversalAmbientRestrictionUniversalTarget.{u, v, uH, vH}
       (W := W) A Z
 
 /-- Once the tautological restriction presentation of Z is universal, it
@@ -144,7 +149,7 @@ object. -/
 theorem exists_exactUniversalAmbientSource_carrier_eq
     (Z : DependentOriginationCompletion2.{u, v, uH, uH, vH} (W := W) A)
     (hZ :
-      HasExactUniversalAmbientRestrictionUniversalTarget
+      HasExactUniversalAmbientRestrictionUniversalTarget.{u, v, uH, vH}
         (W := W) A Z) :
     ∃ X : Source (W := W) A, X.carrier = Z := by
   rcases hZ with ⟨T⟩
@@ -156,7 +161,7 @@ theorem exists_exactUniversalAmbientSource_carrier_eq
 object-coverage condition. -/
 theorem exactUniversalAmbientObjectCoverage_of_restrictionUniversality
     (hU :
-      ExactUniversalAmbientRestrictionUniversality
+      ExactUniversalAmbientRestrictionUniversality.{u, v, uH, vH}
         (W := W) A) :
     ExactUniversalAmbientObjectCoverage.{u, v, uH, vH}
       (W := W) A := by
@@ -172,28 +177,28 @@ theorem exactUniversalAmbientObjectCoverage_of_restrictionUniversality
 this sharpened canonical restriction-universality hypothesis. -/
 def exactUniversalAmbientWhiteheadBiequivalenceOfRestrictionUniversality
     (hU :
-      ExactUniversalAmbientRestrictionUniversality
+      ExactUniversalAmbientRestrictionUniversality.{u, v, uH, vH}
         (W := W) A) :
     WhiteheadBiequivalenceData
       (ExactUniversalRawObject.{u, v, uH, vH} (W := W) A)
       (DependentOriginationCompletion2.{u, v, uH, uH, vH}
         (W := W) A) :=
-  exactUniversalAmbientWhiteheadBiequivalenceOfCoverage
+  exactUniversalAmbientWhiteheadBiequivalenceOfCoverage.{u, v, uH, vH}
     (W := W) A
-    (exactUniversalAmbientObjectCoverage_of_restrictionUniversality
+    (exactUniversalAmbientObjectCoverage_of_restrictionUniversality.{u, v, uH, vH}
       (W := W) A hU)
 
 /-- Existence form of the same consequence, matching the v4.90 reduction
 interface. -/
 theorem exactUniversalAmbientWhiteheadExistence_of_restrictionUniversality
     (hU :
-      ExactUniversalAmbientRestrictionUniversality
+      ExactUniversalAmbientRestrictionUniversality.{u, v, uH, vH}
         (W := W) A) :
     ExactUniversalAmbientWhiteheadExistence.{u, v, uH, vH}
       (W := W) A :=
-  (exactUniversalAmbientWhiteheadExistence_iff_objectCoverage
+  (exactUniversalAmbientWhiteheadExistence_iff_objectCoverage.{u, v, uH, vH}
     (W := W) A).2
-    (exactUniversalAmbientObjectCoverage_of_restrictionUniversality
+    (exactUniversalAmbientObjectCoverage_of_restrictionUniversality.{u, v, uH, vH}
       (W := W) A hU)
 
 /-! ## Regression checks -/
@@ -217,11 +222,11 @@ example
 
 example
     (hU :
-      ExactUniversalAmbientRestrictionUniversality
+      ExactUniversalAmbientRestrictionUniversality.{u, v, uH, vH}
         (W := W) A) :
     ExactUniversalAmbientObjectCoverage.{u, v, uH, vH}
       (W := W) A :=
-  exactUniversalAmbientObjectCoverage_of_restrictionUniversality
+  exactUniversalAmbientObjectCoverage_of_restrictionUniversality.{u, v, uH, vH}
     (W := W) A hU
 
 #print axioms exactUniversalAmbientRestrictionPresentation
