@@ -29,16 +29,16 @@ noncomputable section
 This theorem unit attacks the first remaining v4.93 obligation: fullness of
 restriction on StrongTrans hom categories.
 
-The first step is canonical and unconditional. Mathlib's constructed
-localization has a literal object equivalence
-`Context ≃ W.Localization`. Therefore every component of a raw modification
-between restricted StrongTrans determines a canonical component at every
-localized object. The remaining proof obligation is precisely naturality of
-this component family along every localized morphism.
+Mathlib's constructed localization has a literal object equivalence
+`Context ≃ W.Localization`. Hence a raw modification after restriction already
+determines the component at every localized object. The genuine remaining
+obligation is morphism naturality.
 
-The latter will be discharged using
-`Localization.Construction.morphismProperty_eq_top'`: it is enough to prove
-the modification square on raw image arrows, composition, and inverses.
+We package that equation as a `MorphismProperty` on the constructed
+localization. The image-arrow case is exactly the naturality equation of the
+given raw modification. The next step is to close composition and inverse
+stability and then apply
+`Localization.Construction.morphismProperty_eq_top'`.
 -/
 
 universe u v uH vH
@@ -72,7 +72,7 @@ noncomputable def higherLocalizedModificationExtensionApp
   exact Gamma.as.app (.mk X)
 
 /-- On an object coming from the original context, the canonical extended
-component is definitionally the original raw component. -/
+component is the original raw component. -/
 @[simp] theorem higherLocalizedModificationExtensionApp_presentation
     {F G : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W)}
     {alpha beta : F ⟶ G}
@@ -85,8 +85,49 @@ component is definitionally the original raw component. -/
       Gamma.as.app (.mk X) := by
   rfl
 
+/-- The modification-naturality equation, viewed as a property of a morphism in
+the constructed localization. The double-opposite functor only restores the
+variance used by the KuuOS higher-localized site. -/
+def higherLocalizedModificationNaturalityProperty
+    {F G : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W)}
+    {alpha beta : F ⟶ G}
+    (Gamma :
+      restrictHigherLocalizedStrongTrans (W := W) alpha ⟶
+        restrictHigherLocalizedStrongTrans (W := W) beta) :
+    MorphismProperty (LocalizedContext W) :=
+  fun X Y f =>
+    let p :=
+      ((opOp (LocalizedContext W)).map f).toLoc
+    F.map p ◁
+          higherLocalizedModificationExtensionApp (W := W) Gamma
+            (.mk ((opOp (LocalizedContext W)).obj Y)) ≫
+        (beta.naturality p).hom =
+      (alpha.naturality p).hom ≫
+        higherLocalizedModificationExtensionApp (W := W) Gamma
+            (.mk ((opOp (LocalizedContext W)).obj X)) ▷
+          G.map p
+
+/-- The naturality property holds on every raw image arrow. This is exactly the
+naturality field of the supplied restricted modification. -/
+theorem higherLocalizedModificationNaturalityProperty_map
+    {F G : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W)}
+    {alpha beta : F ⟶ G}
+    (Gamma :
+      restrictHigherLocalizedStrongTrans (W := W) alpha ⟶
+        restrictHigherLocalizedStrongTrans (W := W) beta)
+    {X Y : Context} (f : X ⟶ Y) :
+    higherLocalizedModificationNaturalityProperty (W := W) Gamma
+      (W.Q.map f) := by
+  simpa only
+    [higherLocalizedModificationNaturalityProperty,
+      higherLocalizedModificationExtensionApp_presentation,
+      higherPresentationUnitFunctor,
+      restrictHigherLocalizedStrongTrans]
+    using Gamma.as.naturality f.toLoc
+
 #print axioms higherLocalizedModificationExtensionApp
 #print axioms higherLocalizedModificationExtensionApp_presentation
+#print axioms higherLocalizedModificationNaturalityProperty_map
 
 end
 
