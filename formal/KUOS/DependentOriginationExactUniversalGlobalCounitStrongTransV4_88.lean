@@ -187,7 +187,7 @@ def exactUniversalRealizedRoundtripNaturalityIso
   change
     (ρ_ f.hom).hom ≫ 𝟙 f.hom ≫ (λ_ f.hom).inv =
       (ρ_ f.hom).hom ≫ (λ_ f.hom).inv
-  simp only [Category.comp_id]
+  simp only [Category.id_comp]
 
 /-- The realized-side exact recovery is a global native StrongTrans counit. -/
 def exactUniversalRealizedRoundtripCounit :
@@ -251,22 +251,23 @@ def exactUniversalRealizedRoundtripCounit :
             (𝟙 a.carrier)
             ((Pseudofunctor.id (Realized (W := W) A)).map f).hom
             ((Pseudofunctor.id (Realized (W := W) A)).map g).hom).hom
-    rw [exactUniversalRealizedRoundtripNaturalityIso_hom_hom,
+    rw [
+      exactUniversalRealizedRoundtripNaturalityIso_hom_hom
+        (W := W) A (f ≫ g),
+      exactUniversalRealizedRoundtripNaturalityIso_hom_hom
+        (W := W) A g,
+      exactUniversalRealizedRoundtripNaturalityIso_hom_hom
+        (W := W) A f,
       exactUniversalRealizedIdentityPseudofunctor_mapComp_hom_hom,
       exactUniversalRealizedRoundtrip_mapComp_hom_hom]
-    -- The remaining roundtrip/identity object maps occur in dependent
-    -- associator and whiskering positions.  Their underlying one-cells are
-    -- definitionally f.hom/g.hom, so use one typed normalization rather than
-    -- dependent `rw` through those positions.
-    change
-      ((ρ_ (f.hom ≫ g.hom)).hom ≫ (λ_ (f.hom ≫ g.hom)).inv) ≫
-          (𝟙 a.carrier ◁ 𝟙 (f.hom ≫ g.hom)) =
-        (𝟙 (f.hom ≫ g.hom) ▷ 𝟙 c.carrier) ≫
-          (α_ f.hom g.hom (𝟙 c.carrier)).hom ≫
-          f.hom ◁ ((ρ_ g.hom).hom ≫ (λ_ g.hom).inv) ≫
-          (α_ f.hom (𝟙 b.carrier) g.hom).inv ≫
-          ((ρ_ f.hom).hom ≫ (λ_ f.hom).inv) ▷ g.hom ≫
-          (α_ (𝟙 a.carrier) f.hom g.hom).hom
+    -- At this point only the underlying one-cell maps remain inside dependent
+    -- associator/whiskering arguments.  Simplification is deliberately
+    -- inside-out here; unlike `rw`, it can normalize these dependent
+    -- subterms without constructing an ill-typed global rewrite motive.
+    simp only [
+      exactUniversalRealizedRoundtrip_map_hom,
+      exactUniversalRealizedIdentityPseudofunctor_map_hom,
+      CategoryTheory.Bicategory.InducedBicategory.bicategory_comp_hom]
     bicategory
 
 @[simp] theorem exactUniversalRealizedRoundtripCounit_app
