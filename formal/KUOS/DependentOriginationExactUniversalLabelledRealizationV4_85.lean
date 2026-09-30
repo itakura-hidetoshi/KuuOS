@@ -182,7 +182,7 @@ theorem exactUniversalLabelledHomRoundtrip
   · intro f
     exact exactUniversalLabelledRealization_section_map (W := W) A f
   · intro f g eta
-    exact HEq.of_eq
+    exact heq_of_eq
       (exactUniversalLabelledRealization_section_map₂ (W := W) A eta)
 
 /-! ## Regression checks -/
