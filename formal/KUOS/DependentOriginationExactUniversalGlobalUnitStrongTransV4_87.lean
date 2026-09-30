@@ -148,8 +148,8 @@ def exactUniversalSourceRoundtripUnit :
     bicategory
   naturality_comp {a b c} f g := by
     apply exactUniversalCompletion2_map_injective (W := W) A
-    rw [ExactUniversalRawMorphismTwoCell.vcomp_lift,
-      exactUniversalSourceRoundtripNaturalityIso_hom_lift,
+    simp only [exactUniversalSourceTwoCell_comp_lift]
+    rw [exactUniversalSourceRoundtripNaturalityIso_hom_lift,
       exactUniversalRealization_source_whiskerLeft_lift,
       exactUniversalSourceRoundtrip_mapComp_hom_lift,
       exactUniversalRealization_source_whiskerRight_lift,
