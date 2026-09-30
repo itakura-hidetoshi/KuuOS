@@ -53,6 +53,10 @@ variable (A : RefinementAtlas (LocalizedContext W))
 abbrev Source :=
   ExactUniversalRawObject.{u, v, uH, vH} (W := W) A
 
+/-- Pin the generated DO₂ universe instantiation used by the carrier of
+`ExactUniversalRawObject.{u, v, uH, vH}`.  `DependentOriginationCompletion2`
+has five generated universe arguments here; the carrier elaborates at
+`.{u, v, uH, uH, vH}`, not the four-argument source spelling. -/
 abbrev Ambient :=
   DependentOriginationCompletion2.{u, v, uH, uH, vH} (W := W) A
 
