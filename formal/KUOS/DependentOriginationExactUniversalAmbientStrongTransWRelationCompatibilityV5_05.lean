@@ -133,6 +133,10 @@ theorem higherLocalizedStrongTransNaturality_hom_inv_transport
   dsimp
     [higherLocalizedStrongTransInverseWhiskeredSquare,
       higherLocalizedIsoHomInvRelation]
+  simp only
+    [Pseudofunctor.mapComp', Iso.trans_hom, Iso.trans_inv,
+      PrelaxFunctor.map₂Iso_eqToIso, PrelaxFunctor.map₂_eqToHom,
+      eqToIso.hom, eqToIso.inv]
   bicategory
 
 /-! ## Regression checks -/
