@@ -109,7 +109,7 @@ theorem higherLocalizedStrongTransPresentationNaturality_id_coherence
           gamma.app (.mk X) ≫
         (λ_ (gamma.app (.mk X))).hom ≫
         (ρ_ (gamma.app (.mk X))).inv
-  exact Pseudofunctor.StrongTrans.naturality_id_hom gamma (.mk X)
+  exact gamma.naturality_id (.mk X)
 
 /-- On raw composable arrows, the v4.97 canonical presentation naturality of
 their composite is exactly Mathlib's standard StrongTrans composition formula
@@ -192,7 +192,7 @@ theorem higherLocalizedStrongTransPresentationNaturality_comp_coherence
         (gamma.naturality f).hom ▷
           (restrictHigherLocalizedSystem W G).map g ≫
         (α_ _ _ _).hom
-  exact Pseudofunctor.StrongTrans.naturality_comp_hom gamma f g
+  exact gamma.naturality_comp f g
 
 /-! ## Regression checks -/
 
