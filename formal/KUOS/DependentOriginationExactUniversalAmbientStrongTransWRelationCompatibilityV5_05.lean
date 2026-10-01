@@ -151,6 +151,11 @@ theorem higherLocalizedStrongTransNaturality_hom_inv_transport
     [Pseudofunctor.mapComp', Iso.trans_hom, Iso.trans_inv,
       PrelaxFunctor.map₂Iso_eqToIso, PrelaxFunctor.map₂_eqToHom,
       eqToIso.hom, eqToIso.inv]
+  rw [← (higherLocalizedStrongTransExtensionApp
+      (W := W) gamma (.mk (op (op X)))).toFunctor.map_comp_assoc,
+    Iso.hom_inv_id, Functor.map_id, Category.id_comp]
+  rw [← (G.map e.inv.op.op.toLoc).toFunctor.map_comp_assoc,
+    Iso.inv_hom_id, Functor.map_id, Category.id_comp]
   simp
 
 /-! ## Regression checks -/
