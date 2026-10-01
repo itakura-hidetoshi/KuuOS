@@ -128,28 +128,29 @@ theorem higherLocalizedStrongTransNaturality_hom_inv_transport
   apply NatTrans.ext
   funext x
   have hspec := congrArg
-    (fun m => m.toNatTrans.app x)
-    (higherLocalizedStrongTransNaturality_invOfIso_spec_hom
-      (W := W) gamma e hp)
+    (fun η => η.app x)
+    (congrArg Iso.hom
+      (higherLocalizedStrongTransNaturality_invOfIso_spec
+        (W := W) gamma e hp))
+  change
+    (higherLocalizedStrongTransNaturality_invOfIso
+        (W := W) gamma e hp).hom.toNatTrans.app
+          ((F.map e.hom.op.op.toLoc).toFunctor.obj x) =
+      (higherLocalizedStrongTransInverseWhiskeredSquare
+        (W := W) gamma e hp).hom.app x at hspec
   simp only
     [higherLocalizedStrongTransNaturality_comp_hom,
       higherLocalizedStrongTransNaturalityTransport_hom,
       higherLocalizedStrongTransNaturality_id_hom,
       Cat.Hom₂.comp_app, Cat.whiskerLeft_app, Cat.whiskerRight_app]
+  rw [hspec]
   dsimp
     [higherLocalizedStrongTransInverseWhiskeredSquare,
-      higherLocalizedIsoHomInvRelation] at hspec ⊢
+      higherLocalizedIsoHomInvRelation]
   simp only
     [Pseudofunctor.mapComp', Iso.trans_hom, Iso.trans_inv,
       PrelaxFunctor.map₂Iso_eqToIso, PrelaxFunctor.map₂_eqToHom,
-      eqToIso.hom, eqToIso.inv, Cat.Hom₂.comp_app,
-      Cat.whiskerLeft_app, Cat.whiskerRight_app,
-      Functor.isoWhiskerLeft_hom, Functor.isoWhiskerRight_hom,
-      NatTrans.comp_app, Functor.associator_hom_app,
-      Functor.associator_inv_app, Functor.leftUnitor_hom_app,
-      Functor.leftUnitor_inv_app, Functor.rightUnitor_hom_app,
-      Functor.rightUnitor_inv_app] at hspec ⊢
-  rw [hspec]
+      eqToIso.hom, eqToIso.inv]
   simp
 
 /-! ## Regression checks -/
