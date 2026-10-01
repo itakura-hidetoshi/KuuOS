@@ -109,8 +109,10 @@ theorem higherLocalizedStrongTransPresentationNaturality_restrictionSquare
           (restrictHigherLocalizedSystem W G).map f := by
   rcases X with ⟨X⟩
   rcases Y with ⟨Y⟩
-  apply Cat.Hom₂.ext
-  simp [higherLocalizedStrongTransPresentationNaturality]
+  simpa only [Bicategory.whiskerLeft_id, Bicategory.id_whiskerRight,
+    Category.id_comp, Category.comp_id] using
+    (higherLocalizedStrongTransPresentationNaturality_hom
+      (W := W) gamma f).symm
 
 /-- The raw-image part of the v4.96 reduced extension package therefore needs
 no additional existence hypothesis: both the naturality isomorphism and its
