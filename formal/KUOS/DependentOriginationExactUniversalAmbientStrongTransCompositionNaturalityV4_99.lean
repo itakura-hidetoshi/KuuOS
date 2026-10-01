@@ -3,6 +3,7 @@ import KUOS.DependentOriginationExactUniversalAmbientStrongTransWInverseNaturali
 namespace KUOS.DependentOriginationExactUniversalAmbientStrongTransCompositionNaturalityV4_99
 
 open CategoryTheory
+open CategoryTheory.Bicategory
 open KUOS.DependentOriginationHigherStackDescentV2_8
 open KUOS.DependentOriginationHigherLocalizationInterfaceV2_10
 open KUOS.DependentOriginationExactUniversalAmbientStrongTransExtensionV4_95
@@ -112,7 +113,8 @@ theorem higherLocalizedStrongTransNaturality_comp_hom
         (α_ _ _ _).hom ≫
         higherLocalizedStrongTransExtensionApp (W := W) gamma a ◁
           (G.mapComp f g).inv := by
-  rfl
+  simp only [higherLocalizedStrongTransNaturality_comp,
+    Iso.trans_hom, Iso.symm_hom, whiskerLeftIso_hom, whiskerRightIso_hom]
 
 /-- Pointwise existence of StrongTrans naturality is closed under composition. -/
 theorem exists_higherLocalizedStrongTransNaturality_comp
