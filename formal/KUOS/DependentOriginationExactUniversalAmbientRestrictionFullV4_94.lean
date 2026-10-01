@@ -142,7 +142,11 @@ theorem higherLocalizedModificationNaturalityProperty_comp
   rw [hf]
   rw [Bicategory.comp_whiskerRight_assoc]
   rw [Bicategory.associator_naturality_left_assoc]
-  rw [← Bicategory.whisker_exchange]
+  simp only [Category.assoc]
+  rw [← Bicategory.whisker_exchange
+    (η := higherLocalizedModificationExtensionApp (W := W) Gamma
+      (.mk ((opOp (LocalizedContext W)).obj X)))
+    (θ := (G.mapComp _ _).inv)]
 
 /-- The modification-naturality property holds on identities. Unlike the raw
 image-arrow case, this is intrinsic to the StrongTrans identity coherence and
@@ -164,7 +168,11 @@ theorem higherLocalizedModificationNaturalityProperty_id
       (.mk ((opOp (LocalizedContext W)).obj X)))]
   rw [Bicategory.leftUnitor_naturality_assoc]
   rw [Bicategory.rightUnitor_inv_naturality_assoc]
-  rw [← Bicategory.whisker_exchange]
+  simp only [Category.assoc]
+  rw [← Bicategory.whisker_exchange
+    (η := higherLocalizedModificationExtensionApp (W := W) Gamma
+      (.mk ((opOp (LocalizedContext W)).obj X)))
+    (θ := (G.mapId _).inv)]
 
 /-- Naturality is stable under inversion of an isomorphism in the localized
 base.
