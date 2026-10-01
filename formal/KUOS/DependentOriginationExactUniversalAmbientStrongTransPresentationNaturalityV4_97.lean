@@ -5,6 +5,7 @@ namespace KUOS.DependentOriginationExactUniversalAmbientStrongTransPresentationN
 open CategoryTheory
 open Opposite
 open KUOS.DependentOriginationGeneratedRefinementTopologyV2_4
+open KUOS.DependentOriginationHigherStackDescentV2_8
 open KUOS.DependentOriginationHigherLocalizationInterfaceV2_10
 open KUOS.DependentOriginationCoherentWeakHigherLocalizationV2_19
 open KUOS.DependentOriginationExactUniversalAmbientStrongTransExtensionV4_95
@@ -83,7 +84,7 @@ theorem higherLocalizedStrongTransPresentationNaturality_hom
       (gamma.naturality f).hom := by
   rcases X with ⟨X⟩
   rcases Y with ⟨Y⟩
-  rfl
+  simp [higherLocalizedStrongTransPresentationNaturality]
 
 /-- The presentation-arrow choice satisfies exactly the forward modification
 square stored by v4.95.
