@@ -53,6 +53,21 @@ universe u v uH vH
 variable {Context : Type u} [Category.{v} Context]
 variable (W : MorphismProperty Context)
 
+/-!
+Lean 4 elaboration note.
+
+The transparency override below is intentionally scoped only to the canonical
+presentation-naturality declaration.  Without it, elaborating the retyping of
+`gamma.naturality f` can insert a dependent `cast`; the pretty-printed source
+and target then look identical while their `.hom` fields are no longer
+definitionally equal.  The following `_hom` theorem is therefore deliberately
+proved by plain `rfl` as a regression check that no cast survives.
+
+After that cast-free boundary is established, the restriction square uses
+`change` only for definitional unfolding and delegates the remaining identity
+whiskers/unit coherence to the `bicategory` tactic, rather than trying to
+normalize bicategorical whiskering with ordinary category rewrites.
+-/
 set_option backward.isDefEq.respectTransparency false in
 /-- Canonical StrongTrans naturality on an arrow in the image of the
 presentation unit.  It is exactly the raw StrongTrans naturality, merely viewed
