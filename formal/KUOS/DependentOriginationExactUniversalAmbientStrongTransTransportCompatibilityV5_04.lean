@@ -71,6 +71,7 @@ theorem higherLocalizedStrongTransPresentationNaturality_id_transport
       higherLocalizedStrongTransNaturality_id_hom,
       restrictHigherLocalizedSystem_mapId_decomposition,
       Iso.trans_hom, Iso.symm_hom, whiskerLeftIso_hom, whiskerRightIso_hom]
+  dsimp
   bicategory
 
 /-- The v4.97 presentation naturality of a composite is exactly the v5.03
@@ -95,6 +96,7 @@ theorem higherLocalizedStrongTransPresentationNaturality_comp_transport
       higherLocalizedStrongTransNaturality_comp_hom,
       restrictHigherLocalizedSystem_mapComp_decomposition,
       Iso.trans_hom, Iso.symm_hom, whiskerLeftIso_hom, whiskerRightIso_hom]
+  dsimp
   bicategory
 
 /-! ## Regression checks -/
