@@ -143,55 +143,21 @@ theorem higherLocalizedModificationNaturalityProperty_id
   dsimp [higherLocalizedModificationNaturalityProperty]
   simp [Pseudofunctor.StrongTrans.naturality_id_hom]
 
-/-- A Cat-valued localized pseudofunctor sends every isomorphism of the
-underlying localized category to an equivalence of categories.
-
-Pinned mathlib already provides `Functor.IsEquivalence.mk'`, so we only need
-the image of the inverse arrow together with the pseudofunctor unit/composition
-isomorphisms. This avoids the ambiguous `≌` notation between categorical and
-bicategorical equivalences. -/
-theorem higherLocalizedMap_isEquivalence_of_iso
-    (H : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W))
-    {X Y : LocalizedContext W}
-    (e : X ≅ Y) :
-    (H.map (((opOp (LocalizedContext W)).map e.hom).toLoc).toFunctor).IsEquivalence := by
-  let p :=
-    ((opOp (LocalizedContext W)).map e.hom).toLoc
-  let q :=
-    ((opOp (LocalizedContext W)).map e.inv).toLoc
-  have hpq : p ≫ q = 𝟙 _ := by
-    apply Discrete.ext
-    dsimp [p, q]
-    simp
-  have hqp : q ≫ p = 𝟙 _ := by
-    apply Discrete.ext
-    dsimp [p, q]
-    simp
-  let etaCat :
-      𝟙 (H.obj (.mk ((opOp (LocalizedContext W)).obj X))) ≅
-        H.map p ≫ H.map q :=
-    (H.mapId _).symm ≪≫
-      H.mapComp' p q (𝟙 _) hpq
-  let epsCat :
-      H.map q ≫ H.map p ≅
-        𝟙 (H.obj (.mk ((opOp (LocalizedContext W)).obj Y))) :=
-    (H.mapComp' q p (𝟙 _) hqp).symm ≪≫
-      H.mapId _
-  exact
-    Functor.IsEquivalence.mk'
-      (H.map q).toFunctor
-      (by
-        simpa only [Cat.Hom.id_toFunctor, Cat.Hom.comp_toFunctor] using
-          Cat.Hom.toNatIso etaCat)
-      (by
-        simpa only [Cat.Hom.id_toFunctor, Cat.Hom.comp_toFunctor] using
-          Cat.Hom.toNatIso epsCat)
-
 /-- Naturality is stable under inversion of an isomorphism in the localized
-base. The proof cancels left whiskering by the image of the forward arrow; that
-whiskering is faithful because the forward arrow is sent to an equivalence of
-categories. The remaining equation is the composition coherence for the
-StrongTrans, together with the already-known square for the forward arrow. -/
+base.
+
+The proof is the bicategorical analogue of Mathlib's ordinary
+`MorphismProperty.naturalityProperty.stableUnderInverse`.  Instead of trying
+to erase the pseudofunctor coherence with a large `simp`, we expose it:
+
+* prepend the invertible `F.mapComp` comparison;
+* append the invertible `beta.naturality p` and `G.mapComp` comparisons;
+* identify the resulting equation with naturality for `p ≫ q`;
+* use the known square for `p`, whiskered by `q`;
+* cancel the invertible prefix and suffix.
+
+This keeps the proof on the pinned bicategory API and avoids assuming a newer
+`Pseudofunctor.mapAdjunction` API. -/
 theorem higherLocalizedModificationNaturalityProperty_inv
     {F G : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W)}
     {alpha beta : F ⟶ G}
@@ -232,19 +198,74 @@ theorem higherLocalizedModificationNaturalityProperty_inv
     simpa only
       [higherLocalizedModificationNaturalityProperty, Functor.map_comp,
         Quiver.Hom.comp_toLoc, p, q, mX] using hComp
+  have hpR :
+      (F.map p ◁ mY) ▷ G.map q ≫
+          (beta.naturality p).hom ▷ G.map q =
+        (alpha.naturality p).hom ▷ G.map q ≫
+          (mX ▷ G.map p) ▷ G.map q := by
+    simpa only [Bicategory.comp_whiskerRight] using
+      congrArg (fun k => k ▷ G.map q) hp
   change
     F.map q ◁ mX ≫ (beta.naturality q).hom =
       (alpha.naturality q).hom ≫ mY ▷ G.map q
-  letI : (F.map p).toFunctor.IsEquivalence := by
-    simpa only [p] using
-      higherLocalizedMap_isEquivalence_of_iso (W := W) F e
+  let pre :=
+    (F.mapComp p q).hom ▷ alpha.app
+        (.mk ((opOp (LocalizedContext W)).obj X)) ≫
+      (α_
+        (F.map p)
+        (F.map q)
+        (alpha.app (.mk ((opOp (LocalizedContext W)).obj X)))).hom
+  let post :=
+    (α_
+        (F.map p)
+        (beta.app (.mk ((opOp (LocalizedContext W)).obj Y)))
+        (G.map q)).inv ≫
+      (beta.naturality p).hom ▷ G.map q ≫
+      (α_
+        (beta.app (.mk ((opOp (LocalizedContext W)).obj X)))
+        (G.map p)
+        (G.map q)).hom ≫
+      beta.app (.mk ((opOp (LocalizedContext W)).obj X)) ◁
+        (G.mapComp p q).inv
   have hWhisker :
       F.map p ◁
           (F.map q ◁ mX ≫ (beta.naturality q).hom) =
         F.map p ◁
           ((alpha.naturality q).hom ≫ mY ▷ G.map q) := by
-    simp only [Pseudofunctor.StrongTrans.naturality_comp_hom] at hpq
-    simpa [hp] using hpq
+    rw [← cancel_epi pre, ← cancel_mono post]
+    dsimp [pre, post]
+    calc
+      _ =
+          F.map (p ≫ q) ◁ mX ≫
+            (beta.naturality (p ≫ q)).hom := by
+        rw [Pseudofunctor.StrongTrans.naturality_comp_hom]
+        rw [whisker_exchange]
+        bicategory
+      _ =
+          (alpha.naturality (p ≫ q)).hom ≫
+            mX ▷ G.map (p ≫ q) := hpq
+      _ = _ := by
+        rw [Pseudofunctor.StrongTrans.naturality_comp_hom]
+        rw [whisker_exchange]
+        rw [← hpR]
+        bicategory
+  letI : (F.map p).toFunctor.IsEquivalence := by
+    apply Functor.IsEquivalence.mk'
+      (H := (F.map q).toFunctor)
+    · exact
+        Cat.Hom.toNatIso
+          ((F.mapId _).symm ≪≫
+            F.mapComp' p q (𝟙 _) (by
+              apply Discrete.ext
+              dsimp [p, q]
+              simp))
+    · exact
+        Cat.Hom.toNatIso
+          ((F.mapComp' q p (𝟙 _) (by
+              apply Discrete.ext
+              dsimp [p, q]
+              simp)).symm ≪≫
+            F.mapId _)
   apply Cat.Hom₂.ext
   apply
     ((Functor.whiskeringLeft _ _ _).obj (F.map p).toFunctor).map_injective
@@ -464,7 +485,6 @@ example :
 #print axioms higherLocalizedModificationExtensionApp_presentation
 #print axioms higherLocalizedModificationNaturalityProperty_comp
 #print axioms higherLocalizedModificationNaturalityProperty_id
-#print axioms higherLocalizedMap_isEquivalence_of_iso
 #print axioms higherLocalizedModificationNaturalityProperty_inv
 #print axioms higherLocalizedModificationNaturalityProperty_map
 #print axioms higherLocalizedModificationNaturalityProperty_eq_top
