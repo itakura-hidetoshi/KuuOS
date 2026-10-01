@@ -158,8 +158,11 @@ theorem higherLocalizedStrongTransNaturality_hom_inv_transport
   rw [← (higherLocalizedStrongTransExtensionApp
       (W := W) gamma (.mk (op (op X)))).toFunctor.map_comp]
   simp only [Cat.Hom.hom_inv_id_toNatTrans_app_assoc]
-  rw [← (G.map e.inv.op.op.toLoc).toFunctor.map_comp]
-  simp only [Cat.Hom.inv_hom_id_toNatTrans_app, Functor.map_id]
+  simp only [Category.assoc]
+  rw [← (G.map e.inv.op.op.toLoc).toFunctor.map_comp_assoc]
+  simp only
+    [Cat.Hom.inv_hom_id_toNatTrans_app, Functor.map_id,
+      Category.id_comp]
   simp
 
 /-! ## Regression checks -/
