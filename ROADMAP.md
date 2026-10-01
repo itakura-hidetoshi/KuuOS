@@ -1,8 +1,8 @@
 # KuuOS / 空OS Roadmap
 
-**Theorem snapshot: 2026-10-01 JST · integrated through v4.93**
+**Theorem snapshot: 2026-10-01 JST · integrated through v4.95**
 
-**現在地：object-labelled exact-universal sector の Whitehead-style biequivalence は v4.89 で閉じた。ambient DO₂ への拡張は v4.90 で object coverage と同値まで還元され、v4.91–v4.93 の constructive route では restriction hom functor の Faithful が無条件に閉じ、残る本質的課題は Full と EssSurj の2つに分離された。**
+**現在地：object-labelled exact-universal sector の Whitehead-style biequivalence は v4.89 で閉じた。ambient DO₂ への拡張は v4.90 で object coverage と同値まで還元され、v4.93 で Faithful、v4.94 で Full が無条件に閉じた。v4.95 は残る EssSurj を StrongTrans の object-component reconstruction から切り離し、局所 naturality / 2-cell naturality / identity・composition coherence / raw-arrow restriction square の explicit coherence-extension package の構成へ還元した。**
 
 This roadmap separates **integrated Lean theorems** from **proposed obligations**. Exact theorem artifacts on fresh canonical GitHub state are authoritative; plans and historical conversation are not evidence that a theorem exists.
 
@@ -11,19 +11,19 @@ This roadmap separates **integrated Lean theorems** from **proposed obligations*
 | Role | Reference |
 | --- | --- |
 | Repository / canonical branch | `itakura-hidetoshi/KuuOS` / **main** |
-| Observed main before this docs-only refresh | **`6d4ef51705a71b25e167bc8a766fc6f43e89ef2e`** |
-| Latest theorem-bearing baseline | **`6d4ef51705a71b25e167bc8a766fc6f43e89ef2e`** |
-| Latest theorem merge | [#1932 — restriction faithfulness split v4.93](https://github.com/itakura-hidetoshi/KuuOS/pull/1932) |
-| Exact validated PR head | `8be3321da513de1d2bd881ab9457e652b316b883` |
-| Associated CI | [Run #3303 / 36783070351](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/36783070351): completed / success |
+| Observed main before this docs-only refresh | **`77b19267e817fafbd9d6aa850d3ffa88f0d3281f`** |
+| Latest theorem-bearing baseline | **`77b19267e817fafbd9d6aa850d3ffa88f0d3281f`** |
+| Latest theorem merge | [#1935 — StrongTrans extension reduction v4.95](https://github.com/itakura-hidetoshi/KuuOS/pull/1935) |
+| Exact validated PR head | `4f769f847e6d3c6720114af046450c03285637ba` |
+| Associated CI | [Run #3329 / 36813797496](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/36813797496): completed / success |
 | Exact-head receipts | Strict Lean: success; exact-head terminal: success |
-| Lean artifact | `11129581377` |
-| Artifact digest | `sha256:42164e397ab008644d7d7749c03f74a0a0423c31246a33ea18a8cd5b55409520` |
-| Build | `Build completed successfully (8612 jobs)` |
+| Lean artifact | `11141346204` |
+| Artifact digest | `sha256:7b1ff1be49d11719aba70e232cdde6c70de67e2b580a0d4d2cf94a444d27e24e` |
+| Build | `Build completed successfully (8614 jobs)` |
 | Lean | `leanprover/lean4:v4.30.0-rc2` |
 | Mathlib | `5450b53e5ddc75d46418fabb605edbf36bd0beb6` |
 
-The immutable current theorem artifact is [v4.93 at the theorem-bearing SHA](https://github.com/itakura-hidetoshi/KuuOS/blob/6d4ef51705a71b25e167bc8a766fc6f43e89ef2e/formal/KUOS/DependentOriginationExactUniversalAmbientRestrictionFaithfulSplitV4_93.lean). Its public axiom reports contain no `sorryAx`.
+The immutable current theorem artifact is [v4.95 at the theorem-bearing SHA](https://github.com/itakura-hidetoshi/KuuOS/blob/77b19267e817fafbd9d6aa850d3ffa88f0d3281f/formal/KUOS/DependentOriginationExactUniversalAmbientStrongTransExtensionV4_95.lean). Its public axiom reports contain only `propext`, `Classical.choice`, and `Quot.sound`; there is no `sorryAx`.
 
 A later docs-only merge advances `main` but does not supersede this theorem-bearing baseline.
 
@@ -198,7 +198,7 @@ Because Source and RealizedSector have identical object labels, object essential
 
 Boundary retained: this is not yet a claim about all ambient DO₂ objects, and no stronger adjoint-biequivalence package with triangle modifications is asserted.
 
-## 5. Ambient P4 reduction — v4.90–v4.93
+## 5. Ambient P4 reduction — v4.90–v4.95
 
 P4 is the question of extending from the labelled sector to **all ambient DO₂ objects**.
 
@@ -214,46 +214,19 @@ ExactUniversalAmbientObjectCoverage
 
 for the actual v4.70 realization.
 
-Local hom equivalence is no longer the ambient issue; object coverage is.
-
 ### v4.91 — restriction universality gives literal carrier coverage
 
-[v4.91 / #1930](formal/KUOS/DependentOriginationExactUniversalAmbientRestrictionUniversalityV4_91.lean) takes an arbitrary ambient `Z` and constructs the tautological presentation of its raw restriction:
-
-```text
-raw      = restrict(Z)
-carrier  = Z
-compare  = identity
-```
-
-The identity comparison is automatically pointwise an equivalence.
-
-The only non-tautological field is coherent universality. If the tautological presentation is universally terminal among exact presentations of the same raw restriction, then the constructed source object has carrier **literally equal to Z**, hence coverage.
+[v4.91 / #1930](formal/KUOS/DependentOriginationExactUniversalAmbientRestrictionUniversalityV4_91.lean) constructs, for arbitrary ambient `Z`, the tautological presentation of `restrict(Z)` with carrier literally `Z` and identity comparison. If that presentation is a coherent universal target, ambient object coverage follows.
 
 This is a sufficient condition, not an unconditional theorem.
 
 ### v4.92 — universality from local restriction hom equivalence
 
-[v4.92 / #1931](formal/KUOS/DependentOriginationExactUniversalAmbientRestrictionHomEquivalenceV4_92.lean) defines restriction as a genuine functor between StrongTrans hom categories.
+[v4.92 / #1931](formal/KUOS/DependentOriginationExactUniversalAmbientRestrictionHomEquivalenceV4_92.lean) packages restriction as a functor between StrongTrans hom categories. If that functor is an equivalence for every relevant pair, the canonical v4.91 restriction presentation is universal.
 
-If that restriction functor is an equivalence for every relevant pair:
+### v4.93 — Faithful is unconditional
 
-- EssSurj lifts comparison StrongTrans and gives factor existence;
-- Full + Faithful lift isomorphisms and give essential uniqueness.
-
-Hence the v4.91 tautological presentation is universal.
-
-### v4.93 — Faithful removed from the frontier
-
-[v4.93 / #1932](formal/KUOS/DependentOriginationExactUniversalAmbientRestrictionFaithfulSplitV4_93.lean) proves object-surjectivity of the presentation unit from Mathlib's constructed localization:
-
-```lean
-Context ≃ W.Localization
-```
-
-and uses modification extensionality to prove restriction is faithful on every StrongTrans hom category.
-
-It then proves the exact split:
+[v4.93 / #1932](formal/KUOS/DependentOriginationExactUniversalAmbientRestrictionFaithfulSplitV4_93.lean) uses Mathlib's constructed localization object equivalence and modification extensionality to prove restriction Faithful without additional hypotheses:
 
 ```lean
 ExactUniversalAmbientRestrictionHomEquivalence
@@ -262,90 +235,127 @@ ExactUniversalAmbientRestrictionHomFull
     ∧ ExactUniversalAmbientRestrictionHomEssSurj
 ```
 
-Thus the current constructive route is:
+### v4.94 — Full is unconditional
 
-```text
-Full + EssSurj
-   ⇔ restriction Hom equivalence          [v4.93]
-   ⇒ canonical restriction universality   [v4.92]
-   ⇒ ambient object coverage              [v4.91]
-   ⇔ ambient Whitehead existence          [v4.90]
-```
+[v4.94 / #1934](formal/KUOS/DependentOriginationExactUniversalAmbientRestrictionFullV4_94.lean) constructs the canonical extension of every raw modification. Its naturality property is proved on all localized arrows by Mathlib localization generation.
 
-Only the first equivalence and final equivalence above are proved equivalences. The middle arrows are sufficient implications. Do not silently reverse them.
-
-## 6. Immediate next obligations
-
-These are proposed theorem units, not preassigned theorem numbers.
-
-### A. Restriction Full — first target
-
-Goal:
-
-> Every raw modification between restrictions of localized StrongTrans has a localized modification preimage.
-
-The likely proof route should exploit Mathlib localization generation rather than manually recurse over quotient paths.
-
-Candidate steps:
-
-1. take `Γ : restrict(alpha) ⟶ restrict(beta)`;
-2. define candidate component 2-cells on localized objects using the canonical object equivalence;
-3. define the property “candidate components satisfy modification naturality along `f`” as a morphism property on the localized base category;
-4. prove the property for the image of every raw context arrow using `Γ.naturality`;
-5. prove stability under composition;
-6. prove stability under inverses of inverted `W` arrows;
-7. use `Localization.Construction.morphismProperty_eq_top` or `morphismProperty_eq_top'`;
-8. assemble the genuine localized modification;
-9. prove restriction recovers `Γ`.
-
-Exit criterion:
+Therefore:
 
 ```lean
 (higherLocalizedRestrictionHomFunctor ...).Full
 ```
 
-without a new semantic axiom.
+unconditionally, and globally:
 
-### B. Restriction EssSurj — second target
+```lean
+ExactUniversalAmbientRestrictionHomEquivalence
+  ↔
+ExactUniversalAmbientRestrictionHomEssSurj
+```
 
-Goal:
+Thus Full is no longer part of the frontier.
 
-> Every raw StrongTrans between restricted localized pseudofunctors is isomorphic to the restriction of some localized StrongTrans.
+### v4.95 — EssSurj reduced to StrongTrans coherence extension
 
-This is the genuinely 1-cell/pseudonatural extension problem.
+[v4.95 / #1935](formal/KUOS/DependentOriginationExactUniversalAmbientStrongTransExtensionV4_95.lean) canonically extends the object component of every raw StrongTrans to every localized object.
 
-Likely required ingredients:
+The remaining 1-cell data are isolated in:
 
-- object-component reconstruction;
-- extension of naturality isomorphisms from raw arrows to localized arrows;
+```lean
+HigherLocalizedStrongTransCoherenceExtension (W := W) gamma
+```
+
+which stores:
+
+- naturality isomorphisms on localized arrows;
+- naturality with respect to 2-cells;
 - identity coherence;
 - composition coherence;
-- compatibility with inverse images of `W`;
-- an isomorphism after restriction, not necessarily definitional equality.
+- the exact forward modification-naturality square on raw presentation arrows.
 
-Ordinary 1-categorical `Localization.functorEquivalence` is useful background but does not by itself prove this pseudonatural StrongTrans statement.
+The package assembles to a genuine localized StrongTrans whose restriction is isomorphic to `gamma`. Hence:
+
+```lean
+HigherLocalizedStrongTransExtensionExists ...
+  -> (higherLocalizedRestrictionHomFunctor ...).EssSurj
+```
+
+and the ambient extension hypothesis implies ambient Whitehead existence through v4.94–v4.90.
+
+The resulting constructive route is:
+
+```text
+StrongTrans coherence-extension existence
+   ⇒ restriction Hom EssSurj              [v4.95]
+   ⇔ restriction Hom equivalence          [v4.94]
+   ⇒ canonical restriction universality   [v4.92]
+   ⇒ ambient object coverage              [v4.91]
+   ⇔ ambient Whitehead existence          [v4.90]
+```
+
+The first and middle implication directions must not be silently reversed. In particular, **v4.95 does not yet construct the coherence-extension package unconditionally**.
+
+## 6. Immediate next obligations
+
+These are proposed theorem units, not claims that the corresponding theorem already exists.
+
+### A. Construct the v4.95 StrongTrans coherence-extension package — immediate target
+
+For every
+
+```lean
+gamma :
+  restrictHigherLocalizedSystem W F ⟶
+    restrictHigherLocalizedSystem W G
+```
+
+prove:
+
+```lean
+Nonempty
+  (HigherLocalizedStrongTransCoherenceExtension (W := W) gamma)
+```
+
+v4.95 already solves the object-component reconstruction. The remaining tasks are exactly:
+
+1. construct the localized naturality isomorphism for every localized 1-cell;
+2. prove naturality with respect to localized 2-cells;
+3. prove identity coherence;
+4. prove composition coherence;
+5. prove the exact raw-arrow modification square used by `restrictionIso`.
+
+The likely proof should exploit Mathlib's localization construction/generation APIs and the fact that `W.Q` formally inverts `W`, rather than manually recurse through implementation-specific quotient representatives unless unavoidable.
+
+A useful proof-engineering principle from v4.94–v4.95 is to formulate the final raw-arrow compatibility directly in the exact square required by `StrongTrans.isoMk`, instead of storing a weaker equality and relying on later whisker/coercion normalization.
 
 Exit criterion:
 
 ```lean
-(higherLocalizedRestrictionHomFunctor ...).EssSurj
+HigherLocalizedStrongTransExtensionExists (W := W) F G
 ```
 
-for the ambient stack carriers required by v4.93.
+for the ambient stack carriers required by v4.95.
 
-### C. Close the current P4 route
+### B. Close restriction EssSurj and the current P4 route
 
-Once A and B are closed:
+Once A is available uniformly:
 
 ```text
-Full + EssSurj
-  -> restriction Hom equivalence
-  -> canonical restriction universality
-  -> literal ambient carrier coverage
-  -> ambient Whitehead existence.
+extension package
+  -> restriction EssSurj        [v4.95]
+  -> restriction hom equivalence [v4.94]
+  -> restriction universality    [v4.92]
+  -> ambient coverage             [v4.91]
+  -> ambient Whitehead existence  [v4.90]
 ```
 
-At that point the actual v4.70 realization would have ambient Whitehead data for all DO₂ objects through the current route.
+No new Full or Faithful theorem is needed; those are already closed.
+
+### C. Preserve the boundary
+
+Do not report v4.95 itself as unconditional EssSurj. Its theorem is conditional on the explicit coherence-extension existence package.
+
+Ordinary 1-categorical `Localization.functorEquivalence` is relevant background but does not by itself establish pseudonatural StrongTrans extension or its coherence.
 
 ## 7. Separate obligations after P4
 
@@ -402,7 +412,7 @@ If the target is merely propositionally equal, use the actual normalization theo
 
 ### Fix generated universes explicitly when needed
 
-The v4.90–v4.93 ambient types include a target-category universe that can occur only inside a proposition body. At public call sites, explicit applications such as
+The ambient types include a target-category universe that can occur only inside a proposition body. At public call sites, explicit applications such as
 
 ```lean
 .{u, v, uH, vH}
@@ -419,21 +429,27 @@ Functor.Faithful.map_injective :
   ∀ {X Y}, Function.Injective F.map
 ```
 
-Therefore a structure proof should distinguish:
+so hom-category objects and the morphisms being compared are separate binder layers.
 
-1. the hom-category objects `X,Y`;
-2. the two morphisms being compared;
-3. their mapped equality.
+### Reassociated equalities matter
 
-For v4.93 the robust form is schematically:
+When a categorical equality occurs inside a longer composite, use the reassociated theorem form, for example:
 
 ```lean
-map_injective {alpha beta} := by
-  intro eta theta h
-  ...
+rw [reassoc_of% h]
 ```
 
-not a binder form that accidentally treats `eta/theta` as `alpha/beta`.
+rather than expecting a raw `rw [h]` to find an exact subterm.
+
+### Pretty-printing is not elaborated-term identity
+
+In v4.95, an expression printed like `f ◁ 𝟙 g` did not necessarily match `Bicategory.whiskerLeft_id` because coercions and definitional wrappers remained in the elaborated term.
+
+If an API such as `Pseudofunctor.StrongTrans.isoMk` requires a specific modification square, prefer storing/proving that exact square in the structure instead of compressing it to a simpler equality and reconstructing the square later.
+
+### Avoid dependent casts when definitional equality is available
+
+Dependent `rw` can introduce casts. When two component objects are definitionally the same, direct terms such as `Iso.refl _` are more robust.
 
 ### Do not solve a goal twice
 
@@ -441,7 +457,7 @@ If `rw` closes the goal by definitional reduction, a following `rfl` produces `N
 
 ### Reduce wrappers before extensionality/coherence
 
-Use the concrete component theorem for restriction, then `Pseudofunctor.StrongTrans.homCategory.ext`. Avoid asking broad simplification to reconstruct all endpoints at once.
+Use concrete component theorems and exact endpoint types before broad extensionality or coherence tactics.
 
 ## 9. Validation and reproduction
 
@@ -449,22 +465,23 @@ Latest theorem command:
 
 ```bash
 lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build \
-  KUOS.DependentOriginationExactUniversalAmbientRestrictionFaithfulSplitV4_93
+  KUOS.DependentOriginationExactUniversalAmbientStrongTransExtensionV4_95
 ```
 
-The exact validated head completed with:
+The exact validated head `4f769f847e6d3c6720114af046450c03285637ba` completed with:
 
 ```text
-Build completed successfully (8612 jobs)
+Build completed successfully (8614 jobs)
 return_code = 0
 ```
 
-Reproduce the two current major endpoints with:
+Reproduce the current major endpoints with:
 
 ```bash
 lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build \
   KUOS.DependentOriginationExactUniversalLabelledBiequivalenceV4_89 \
-  KUOS.DependentOriginationExactUniversalAmbientRestrictionFaithfulSplitV4_93
+  KUOS.DependentOriginationExactUniversalAmbientRestrictionFullV4_94 \
+  KUOS.DependentOriginationExactUniversalAmbientStrongTransExtensionV4_95
 ```
 
 Aggregate and runtime entry points:
@@ -497,12 +514,15 @@ CLOSED:
   ambient Whitehead existence iff ambient object coverage
   restriction-universality sufficient route to coverage
   restriction hom-equivalence sufficient route to universality
-  unconditional restriction faithfulness
-  restriction hom-equivalence iff Full + EssSurj
+  unconditional restriction Faithful
+  unconditional restriction Full
+  restriction hom-equivalence iff EssSurj
+  canonical StrongTrans object-component extension
+  EssSurj reduction to explicit StrongTrans coherence-extension existence
 
 NEXT:
-  prove restriction Full
-  prove restriction EssSurj
+  construct HigherLocalizedStrongTransCoherenceExtension for every raw StrongTrans
+  obtain restriction EssSurj via v4.95
   close the current route to ambient object coverage
   obtain ambient Whitehead existence via v4.90
 
@@ -514,8 +534,8 @@ SEPARATE OPEN QUESTIONS:
 NOT VALID WITHOUT FURTHER PROOF:
   weak W-admissibility => exact presentation
   arbitrary ambient DO₂ object => represented by a source object
-  restriction Faithful => restriction Full
-  restriction Full => restriction EssSurj
+  v4.95 => unconditional restriction EssSurj
+  object-component reconstruction => full StrongTrans extension
   ordinary functor localization => pseudonatural StrongTrans localization
   docs/runtime/cache success => theorem authority
 ```
