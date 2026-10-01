@@ -64,7 +64,7 @@ theorem higherLocalizedStrongTransPresentationNaturality_id_transport
       higherLocalizedStrongTransPresentationIdentityTransport
         (W := W) gamma X := by
   rw [higherLocalizedStrongTransPresentationNaturality_id_iso]
-  ext
+  apply Iso.ext
   simp only
     [higherLocalizedStrongTransPresentationIdentityTransport,
       higherLocalizedStrongTransNaturalityTransport_hom,
@@ -88,7 +88,7 @@ theorem higherLocalizedStrongTransPresentationNaturality_comp_transport
       higherLocalizedStrongTransPresentationCompositionTransport
         (W := W) gamma f g := by
   rw [higherLocalizedStrongTransPresentationNaturality_comp_iso]
-  ext
+  apply Iso.ext
   simp only
     [higherLocalizedStrongTransPresentationCompositionTransport,
       higherLocalizedStrongTransNaturalityTransport_hom,
