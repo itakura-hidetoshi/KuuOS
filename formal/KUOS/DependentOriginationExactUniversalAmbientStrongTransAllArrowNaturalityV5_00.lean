@@ -99,7 +99,7 @@ theorem higherLocalizedStrongTransNaturalityProperty_comp
       higherLocalizedStrongTransNaturalityProperty (W := W) gamma g) :
     higherLocalizedStrongTransNaturalityProperty (W := W) gamma (f ≫ g) := by
   dsimp [higherLocalizedStrongTransNaturalityProperty] at hf hg ⊢
-  simpa only [Opposite.op_comp, Quiver.Hom.comp_toLoc] using
+  simpa only [op_comp, Quiver.Hom.comp_toLoc] using
     (HigherLocalizedStrongTransNaturalityExists.comp
       (W := W) gamma f.op.op.toLoc g.op.op.toLoc hf hg)
 
