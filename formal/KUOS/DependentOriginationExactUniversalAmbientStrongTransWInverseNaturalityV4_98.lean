@@ -8,6 +8,7 @@ open CategoryTheory
 open CategoryTheory.Functor
 open Opposite
 open KUOS.DependentOriginationGeneratedRefinementTopologyV2_4
+open KUOS.DependentOriginationLocalizedSheafUniversalityV2_6
 open KUOS.DependentOriginationHigherStackDescentV2_8
 open KUOS.DependentOriginationHigherLocalizationInterfaceV2_10
 open KUOS.DependentOriginationHigherLocalizationNecessityV2_16
