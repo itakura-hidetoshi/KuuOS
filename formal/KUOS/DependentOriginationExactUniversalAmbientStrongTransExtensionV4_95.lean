@@ -171,11 +171,11 @@ noncomputable def HigherLocalizedStrongTransCoherenceExtension.restrictionIso
   · rcases X with ⟨X⟩
     exact Iso.refl _
   · rintro ⟨X⟩ ⟨Y⟩ ⟨f⟩
-    simpa only [restrictHigherLocalizedStrongTrans,
-      HigherLocalizedStrongTransCoherenceExtension.toStrongTrans,
-      Iso.refl_hom, Bicategory.whiskerLeft_id,
-      Bicategory.id_whiskerRight, Category.id_comp, Category.comp_id] using
-      (D.restrict_naturality_hom f).symm
+    dsimp [restrictHigherLocalizedStrongTrans,
+      HigherLocalizedStrongTransCoherenceExtension.toStrongTrans]
+    rw [Bicategory.whiskerLeft_id, Category.id_comp,
+      Bicategory.id_whiskerRight, Category.comp_id]
+    exact (D.restrict_naturality_hom f).symm
 
 /-- Existence of coherent StrongTrans extension data for every raw StrongTrans
 between one pair of localized systems. -/
