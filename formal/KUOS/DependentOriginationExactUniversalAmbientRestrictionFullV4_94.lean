@@ -252,14 +252,14 @@ theorem higherLocalizedModificationNaturalityProperty_inv
   letI : (F.map p).toFunctor.IsEquivalence := by
     apply Functor.IsEquivalence.mk'
       (F.map q).toFunctor
-    · exact
+    · simpa only [Cat.Hom.id_toFunctor, Cat.Hom.comp_toFunctor] using
         Cat.Hom.toNatIso
           ((F.mapId _).symm ≪≫
             F.mapComp' p q (𝟙 _) (by
               apply Discrete.ext
               dsimp [p, q]
               simp))
-    · exact
+    · simpa only [Cat.Hom.id_toFunctor, Cat.Hom.comp_toFunctor] using
         Cat.Hom.toNatIso
           ((F.mapComp' q p (𝟙 _) (by
               apply Discrete.ext
