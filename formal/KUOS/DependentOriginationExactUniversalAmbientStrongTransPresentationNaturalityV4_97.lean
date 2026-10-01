@@ -53,6 +53,7 @@ universe u v uH vH
 variable {Context : Type u} [Category.{v} Context]
 variable (W : MorphismProperty Context)
 
+set_option backward.isDefEq.respectTransparency false in
 /-- Canonical StrongTrans naturality on an arrow in the image of the
 presentation unit.  It is exactly the raw StrongTrans naturality, merely viewed
 at its localized endpoints. -/
@@ -70,7 +71,7 @@ noncomputable def higherLocalizedStrongTransPresentationNaturality
         G.map ((higherPresentationUnitFunctor W).toPseudofunctor.map f) := by
   rcases X with ⟨X⟩
   rcases Y with ⟨Y⟩
-  simpa [restrictHigherLocalizedSystem] using gamma.naturality f
+  exact gamma.naturality f
 
 /-- On a presentation arrow, the canonical localized naturality is literally
 the raw naturality after exposing the restriction definitions. -/
@@ -84,7 +85,7 @@ theorem higherLocalizedStrongTransPresentationNaturality_hom
       (gamma.naturality f).hom := by
   rcases X with ⟨X⟩
   rcases Y with ⟨Y⟩
-  simp [higherLocalizedStrongTransPresentationNaturality]
+  rfl
 
 /-- The presentation-arrow choice satisfies exactly the forward modification
 square stored by v4.95.
