@@ -332,7 +332,7 @@ theorem higherLocalizedModificationNaturalityProperty_inv
           (η := mX)
           (θ := (G.mapComp p q).inv)]
         rw [Bicategory.whiskerLeft_comp]
-        rw [hpRcoherent]
+        rw [reassoc_of% hpRcoherent]
         bicategory
   letI : (F.map p).toFunctor.IsEquivalence := by
     apply Functor.IsEquivalence.mk'
