@@ -132,7 +132,7 @@ theorem higherLocalizedModificationNaturalityProperty_comp
   rw [Bicategory.whisker_exchange_assoc
     (η := (F.mapComp _ _).hom)
     (θ := higherLocalizedModificationExtensionApp (W := W) Gamma
-      (.mk ((opOp (LocalizedContext W)).obj Z))]
+      (.mk ((opOp (LocalizedContext W)).obj Z)))]
   rw [Bicategory.associator_naturality_right_assoc]
   rw [← Bicategory.whiskerLeft_comp_assoc]
   rw [hg]
@@ -161,7 +161,7 @@ theorem higherLocalizedModificationNaturalityProperty_id
   rw [Bicategory.whisker_exchange_assoc
     (η := (F.mapId _).hom)
     (θ := higherLocalizedModificationExtensionApp (W := W) Gamma
-      (.mk ((opOp (LocalizedContext W)).obj X))]
+      (.mk ((opOp (LocalizedContext W)).obj X)))]
   rw [Bicategory.leftUnitor_naturality_assoc]
   rw [Bicategory.rightUnitor_inv_naturality_assoc]
   rw [← Bicategory.whisker_exchange]
@@ -310,7 +310,7 @@ theorem higherLocalizedModificationNaturalityProperty_inv
           F.map (p ≫ q) ◁ mX ≫
             (beta.naturality (p ≫ q)).hom := by
         rw [Pseudofunctor.StrongTrans.naturality_comp_hom]
-        rw [Bicategory.whisker_exchange
+        rw [Bicategory.whisker_exchange_assoc
           (η := (F.mapComp p q).hom)
           (θ := mX)]
         bicategory
@@ -319,6 +319,7 @@ theorem higherLocalizedModificationNaturalityProperty_inv
             mX ▷ G.map (p ≫ q) := hpq
       _ = _ := by
         rw [Pseudofunctor.StrongTrans.naturality_comp_hom]
+        simp only [Category.assoc]
         rw [Bicategory.whisker_exchange
           (η := mX)
           (θ := (G.mapComp p q).inv)]
