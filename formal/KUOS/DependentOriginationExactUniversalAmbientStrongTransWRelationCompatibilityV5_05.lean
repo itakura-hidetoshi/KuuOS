@@ -124,20 +124,33 @@ theorem higherLocalizedStrongTransNaturality_hom_inv_transport
         (higherLocalizedStrongTransNaturality_id
           (W := W) gamma (.mk (op (op X)))) := by
   apply Iso.ext
+  apply Cat.Hom₂.ext
+  apply NatTrans.ext
+  funext x
+  have hspec := congrArg
+    (fun m => m.toNatTrans.app x)
+    (higherLocalizedStrongTransNaturality_invOfIso_spec_hom
+      (W := W) gamma e hp)
   simp only
     [higherLocalizedStrongTransNaturality_comp_hom,
       higherLocalizedStrongTransNaturalityTransport_hom,
-      higherLocalizedStrongTransNaturality_id_hom]
-  rw [higherLocalizedStrongTransNaturality_invOfIso_spec_hom
-    (W := W) gamma e hp]
+      higherLocalizedStrongTransNaturality_id_hom,
+      Cat.Hom₂.comp_app, Cat.whiskerLeft_app, Cat.whiskerRight_app]
   dsimp
     [higherLocalizedStrongTransInverseWhiskeredSquare,
-      higherLocalizedIsoHomInvRelation]
+      higherLocalizedIsoHomInvRelation] at hspec ⊢
   simp only
     [Pseudofunctor.mapComp', Iso.trans_hom, Iso.trans_inv,
       PrelaxFunctor.map₂Iso_eqToIso, PrelaxFunctor.map₂_eqToHom,
-      eqToIso.hom, eqToIso.inv]
-  bicategory
+      eqToIso.hom, eqToIso.inv, Cat.Hom₂.comp_app,
+      Cat.whiskerLeft_app, Cat.whiskerRight_app,
+      Functor.isoWhiskerLeft_hom, Functor.isoWhiskerRight_hom,
+      NatTrans.comp_app, Functor.associator_hom_app,
+      Functor.associator_inv_app, Functor.leftUnitor_hom_app,
+      Functor.leftUnitor_inv_app, Functor.rightUnitor_hom_app,
+      Functor.rightUnitor_inv_app] at hspec ⊢
+  rw [hspec]
+  simp
 
 /-! ## Regression checks -/
 
