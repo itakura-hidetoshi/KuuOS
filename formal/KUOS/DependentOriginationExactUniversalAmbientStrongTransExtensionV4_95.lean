@@ -11,6 +11,7 @@ open KUOS.DependentOriginationHigherStackCarrierV2_9
 open KUOS.DependentOriginationHigherLocalizationInterfaceV2_10
 open KUOS.DependentOriginationCoherentWeakHigherLocalizationV2_19
 open KUOS.DependentOriginationExactUniversalMappingTwoCellV4_58
+open KUOS.DependentOriginationExactUniversalAmbientCoverageReductionV4_90
 open KUOS.DependentOriginationExactUniversalAmbientRestrictionHomEquivalenceV4_92
 open KUOS.DependentOriginationExactUniversalAmbientRestrictionFaithfulSplitV4_93
 open KUOS.DependentOriginationExactUniversalAmbientRestrictionFullV4_94
@@ -168,11 +169,7 @@ noncomputable def HigherLocalizedStrongTransCoherenceExtension.restrictionIso
         (W := W) D.toStrongTrans ≅ gamma := by
   refine Pseudofunctor.StrongTrans.isoMk (fun X => ?_) ?_
   · rcases X with ⟨X⟩
-    change
-      higherLocalizedStrongTransExtensionApp (W := W) gamma
-          (.mk ((higherPresentationUnitFunctor W).obj X)) ≅
-        gamma.app (.mk X)
-    rw [higherLocalizedStrongTransExtensionApp_presentation]
+    exact Iso.refl _
   · rintro ⟨X⟩ ⟨Y⟩ ⟨f⟩
     simpa [restrictHigherLocalizedStrongTrans,
       HigherLocalizedStrongTransCoherenceExtension.toStrongTrans] using
