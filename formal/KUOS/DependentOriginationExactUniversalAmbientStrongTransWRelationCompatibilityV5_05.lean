@@ -71,7 +71,7 @@ hom-inv identity supplied by Mathlib. -/
 theorem functor_map_hom_inv_comp_assoc
     {C D : Type*} [Category C] [Category D]
     (H : C ⥤ D)
-    {X Y Z : C} (e : X ≅ Y) (r : Y ⟶ Z)
+    {X Y Z : C} (e : X ≅ Y) (r : X ⟶ Z)
     {T : D} (h : H.obj Z ⟶ T) :
     H.map e.hom ≫ H.map (e.inv ≫ r) ≫ h =
       H.map r ≫ h := by
