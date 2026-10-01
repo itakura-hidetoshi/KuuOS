@@ -251,7 +251,7 @@ theorem higherLocalizedModificationNaturalityProperty_inv
         bicategory
   letI : (F.map p).toFunctor.IsEquivalence := by
     apply Functor.IsEquivalence.mk'
-      (H := (F.map q).toFunctor)
+      (F.map q).toFunctor
     · exact
         Cat.Hom.toNatIso
           ((F.mapId _).symm ≪≫
