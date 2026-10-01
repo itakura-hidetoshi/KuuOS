@@ -205,6 +205,54 @@ theorem higherLocalizedModificationNaturalityProperty_inv
           (mX ▷ G.map p) ▷ G.map q := by
     simpa only [Bicategory.comp_whiskerRight] using
       congrArg (fun k => k ▷ G.map q) hp
+  have hpRcoherent :
+      (α_
+          (F.map p)
+          (alpha.app (.mk ((opOp (LocalizedContext W)).obj Y)))
+          (G.map q)).inv ≫
+        (alpha.naturality p).hom ▷ G.map q ≫
+        (α_
+          (alpha.app (.mk ((opOp (LocalizedContext W)).obj X)))
+          (G.map p)
+          (G.map q)).hom ≫
+        mX ▷ (G.map p ≫ G.map q) =
+      F.map p ◁ (mY ▷ G.map q) ≫
+        (α_
+          (F.map p)
+          (beta.app (.mk ((opOp (LocalizedContext W)).obj Y)))
+          (G.map q)).inv ≫
+        (beta.naturality p).hom ▷ G.map q ≫
+        (α_
+          (beta.app (.mk ((opOp (LocalizedContext W)).obj X)))
+          (G.map p)
+          (G.map q)).hom := by
+    calc
+      _ =
+          (α_
+            (F.map p)
+            (alpha.app (.mk ((opOp (LocalizedContext W)).obj Y)))
+            (G.map q)).inv ≫
+            ((alpha.naturality p).hom ▷ G.map q ≫
+              (mX ▷ G.map p) ▷ G.map q) ≫
+            (α_
+              (beta.app (.mk ((opOp (LocalizedContext W)).obj X)))
+              (G.map p)
+              (G.map q)).hom := by
+        bicategory
+      _ =
+          (α_
+            (F.map p)
+            (alpha.app (.mk ((opOp (LocalizedContext W)).obj Y)))
+            (G.map q)).inv ≫
+            ((F.map p ◁ mY) ▷ G.map q ≫
+              (beta.naturality p).hom ▷ G.map q) ≫
+            (α_
+              (beta.app (.mk ((opOp (LocalizedContext W)).obj X)))
+              (G.map p)
+              (G.map q)).hom := by
+        rw [hpR]
+      _ = _ := by
+        bicategory
   change
     F.map q ◁ mX ≫ (beta.naturality q).hom =
       (alpha.naturality q).hom ≫ mY ▷ G.map q
@@ -247,7 +295,7 @@ theorem higherLocalizedModificationNaturalityProperty_inv
       _ = _ := by
         rw [Pseudofunctor.StrongTrans.naturality_comp_hom]
         rw [whisker_exchange]
-        rw [← hpR]
+        rw [hpRcoherent]
         bicategory
   letI : (F.map p).toFunctor.IsEquivalence := by
     apply Functor.IsEquivalence.mk'
