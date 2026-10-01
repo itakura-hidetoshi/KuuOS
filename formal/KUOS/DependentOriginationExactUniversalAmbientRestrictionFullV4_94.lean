@@ -127,7 +127,19 @@ theorem higherLocalizedModificationNaturalityProperty_comp
       higherLocalizedModificationNaturalityProperty (W := W) Gamma g) :
     higherLocalizedModificationNaturalityProperty (W := W) Gamma (f ≫ g) := by
   dsimp [higherLocalizedModificationNaturalityProperty] at hf hg ⊢
-  simp [Pseudofunctor.StrongTrans.naturality_comp_hom, hf, hg]
+  rw [Pseudofunctor.StrongTrans.naturality_comp_hom,
+    Pseudofunctor.StrongTrans.naturality_comp_hom]
+  rw [Bicategory.whisker_exchange_assoc]
+  rw [Bicategory.associator_naturality_right_assoc]
+  rw [← Bicategory.whiskerLeft_comp_assoc]
+  rw [hg]
+  rw [Bicategory.whiskerLeft_comp_assoc]
+  rw [Bicategory.associator_inv_naturality_middle_assoc]
+  rw [← Bicategory.comp_whiskerRight_assoc]
+  rw [hf]
+  rw [Bicategory.comp_whiskerRight_assoc]
+  rw [Bicategory.associator_naturality_left_assoc]
+  rw [← Bicategory.whisker_exchange]
 
 /-- The modification-naturality property holds on identities. Unlike the raw
 image-arrow case, this is intrinsic to the StrongTrans identity coherence and
@@ -141,7 +153,12 @@ theorem higherLocalizedModificationNaturalityProperty_id
     (X : LocalizedContext W) :
     higherLocalizedModificationNaturalityProperty (W := W) Gamma (𝟙 X) := by
   dsimp [higherLocalizedModificationNaturalityProperty]
-  simp [Pseudofunctor.StrongTrans.naturality_id_hom]
+  rw [Pseudofunctor.StrongTrans.naturality_id_hom,
+    Pseudofunctor.StrongTrans.naturality_id_hom]
+  rw [Bicategory.whisker_exchange_assoc]
+  rw [Bicategory.leftUnitor_naturality_assoc]
+  rw [Bicategory.rightUnitor_inv_naturality_assoc]
+  rw [← Bicategory.whisker_exchange]
 
 /-- Naturality is stable under inversion of an isomorphism in the localized
 base.
@@ -287,14 +304,14 @@ theorem higherLocalizedModificationNaturalityProperty_inv
           F.map (p ≫ q) ◁ mX ≫
             (beta.naturality (p ≫ q)).hom := by
         rw [Pseudofunctor.StrongTrans.naturality_comp_hom]
-        rw [whisker_exchange]
+        rw [Bicategory.whisker_exchange]
         bicategory
       _ =
           (alpha.naturality (p ≫ q)).hom ≫
             mX ▷ G.map (p ≫ q) := hpq
       _ = _ := by
         rw [Pseudofunctor.StrongTrans.naturality_comp_hom]
-        rw [whisker_exchange]
+        rw [Bicategory.whisker_exchange]
         rw [hpRcoherent]
         bicategory
   letI : (F.map p).toFunctor.IsEquivalence := by
