@@ -168,15 +168,13 @@ theorem higherLocalizedMap_isEquivalence_of_iso
     dsimp [p, q]
     simp
   let etaCat :
-      𝟙 (H.obj (.mk ((opOp (LocalizedContext W)).obj X)) ⟶
-          H.obj (.mk ((opOp (LocalizedContext W)).obj X))) ≅
+      𝟙 (H.obj (.mk ((opOp (LocalizedContext W)).obj X))) ≅
         H.map p ≫ H.map q :=
     (H.mapId _).symm ≪≫
       H.mapComp' p q (𝟙 _) hpq
   let epsCat :
       H.map q ≫ H.map p ≅
-        𝟙 (H.obj (.mk ((opOp (LocalizedContext W)).obj Y)) ⟶
-          H.obj (.mk ((opOp (LocalizedContext W)).obj Y))) :=
+        𝟙 (H.obj (.mk ((opOp (LocalizedContext W)).obj Y))) :=
     (H.mapComp' q p (𝟙 _) hqp).symm ≪≫
       H.mapId _
   exact
