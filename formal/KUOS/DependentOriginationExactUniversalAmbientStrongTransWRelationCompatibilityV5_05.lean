@@ -49,7 +49,7 @@ identity for a localized base isomorphism. -/
 noncomputable def higherLocalizedIsoHomInvRelation
     {X Y : LocalizedContext W} (e : X ≅ Y) :
     e.hom.op.op.toLoc ≫ e.inv.op.op.toLoc ≅
-      𝟙 (.mk (op (op X))) :=
+      𝟙 (LocallyDiscrete.mk (op (op X))) :=
   eqToIso (by
     apply Discrete.ext
     simp)
@@ -59,7 +59,7 @@ identity for a localized base isomorphism. -/
 noncomputable def higherLocalizedIsoInvHomRelation
     {X Y : LocalizedContext W} (e : X ≅ Y) :
     e.inv.op.op.toLoc ≫ e.hom.op.op.toLoc ≅
-      𝟙 (.mk (op (op Y))) :=
+      𝟙 (LocallyDiscrete.mk (op (op Y))) :=
   eqToIso (by
     apply Discrete.ext
     simp)
