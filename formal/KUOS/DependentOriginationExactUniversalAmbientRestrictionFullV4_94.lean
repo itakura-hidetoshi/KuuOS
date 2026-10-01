@@ -12,6 +12,8 @@ open KUOS.DependentOriginationHigherStackCarrierV2_9
 open KUOS.DependentOriginationHigherLocalizationInterfaceV2_10
 open KUOS.DependentOriginationCoherentWeakHigherLocalizationV2_19
 open KUOS.DependentOriginationExactUniversalMappingTwoCellV4_58
+open KUOS.DependentOriginationExactUniversalAmbientCoverageReductionV4_90
+open KUOS.DependentOriginationExactUniversalAmbientRestrictionUniversalityV4_91
 open KUOS.DependentOriginationExactUniversalAmbientRestrictionHomEquivalenceV4_92
 open KUOS.DependentOriginationExactUniversalAmbientRestrictionFaithfulSplitV4_93
 
@@ -125,9 +127,7 @@ theorem higherLocalizedModificationNaturalityProperty_comp
       higherLocalizedModificationNaturalityProperty (W := W) Gamma g) :
     higherLocalizedModificationNaturalityProperty (W := W) Gamma (f ≫ g) := by
   dsimp [higherLocalizedModificationNaturalityProperty] at hf hg ⊢
-  simp only [Functor.map_comp, Quiver.Hom.comp_toLoc]
-  simp only [Pseudofunctor.StrongTrans.naturality_comp_hom]
-  simp [hf, hg]
+  simp [Pseudofunctor.StrongTrans.naturality_comp_hom, hf, hg]
 
 /-- The modification-naturality property holds on identities. Unlike the raw
 image-arrow case, this is intrinsic to the StrongTrans identity coherence and
@@ -141,22 +141,20 @@ theorem higherLocalizedModificationNaturalityProperty_id
     (X : LocalizedContext W) :
     higherLocalizedModificationNaturalityProperty (W := W) Gamma (𝟙 X) := by
   dsimp [higherLocalizedModificationNaturalityProperty]
-  simp only [Functor.map_id, Quiver.Hom.id_toLoc]
   simp [Pseudofunctor.StrongTrans.naturality_id_hom]
 
 /-- A Cat-valued localized pseudofunctor sends every isomorphism of the
 underlying localized category to an equivalence of categories.
 
-We build the quasi-inverse directly from the image of the inverse arrow. The
-unit and counit are the pseudofunctor mapId/mapComp isomorphisms, so this lemma
-uses only the pinned pseudofunctor API and does not depend on newer mathlib
-adjunction conveniences. -/
-noncomputable def higherLocalizedMapEquivalenceOfIso
+Pinned mathlib already provides `Functor.IsEquivalence.mk'`, so we only need
+the image of the inverse arrow together with the pseudofunctor unit/composition
+isomorphisms. This avoids the ambiguous `≌` notation between categorical and
+bicategorical equivalences. -/
+theorem higherLocalizedMap_isEquivalence_of_iso
     (H : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W))
     {X Y : LocalizedContext W}
     (e : X ≅ Y) :
-    H.obj (.mk ((opOp (LocalizedContext W)).obj X)) ≌
-      H.obj (.mk ((opOp (LocalizedContext W)).obj Y)) := by
+    (H.map (((opOp (LocalizedContext W)).map e.hom).toLoc).toFunctor).IsEquivalence := by
   let p :=
     ((opOp (LocalizedContext W)).map e.hom).toLoc
   let q :=
@@ -170,18 +168,19 @@ noncomputable def higherLocalizedMapEquivalenceOfIso
     dsimp [p, q]
     simp
   let etaCat :
-      𝟙 (H.obj (.mk ((opOp (LocalizedContext W)).obj X))) ≅
+      𝟙 (H.obj (.mk ((opOp (LocalizedContext W)).obj X)) ⟶
+          H.obj (.mk ((opOp (LocalizedContext W)).obj X))) ≅
         H.map p ≫ H.map q :=
     (H.mapId _).symm ≪≫
       H.mapComp' p q (𝟙 _) hpq
   let epsCat :
       H.map q ≫ H.map p ≅
-        𝟙 (H.obj (.mk ((opOp (LocalizedContext W)).obj Y))) :=
+        𝟙 (H.obj (.mk ((opOp (LocalizedContext W)).obj Y)) ⟶
+          H.obj (.mk ((opOp (LocalizedContext W)).obj Y))) :=
     (H.mapComp' q p (𝟙 _) hqp).symm ≪≫
       H.mapId _
   exact
-    CategoryTheory.Equivalence.mk
-      (H.map p).toFunctor
+    Functor.IsEquivalence.mk'
       (H.map q).toFunctor
       (by
         simpa only [Cat.Hom.id_toFunctor, Cat.Hom.comp_toFunctor] using
@@ -189,16 +188,6 @@ noncomputable def higherLocalizedMapEquivalenceOfIso
       (by
         simpa only [Cat.Hom.id_toFunctor, Cat.Hom.comp_toFunctor] using
           Cat.Hom.toNatIso epsCat)
-
-/-- In particular, the image functor of an isomorphism is an equivalence. -/
-theorem higherLocalizedMap_isEquivalence_of_iso
-    (H : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W))
-    {X Y : LocalizedContext W}
-    (e : X ≅ Y) :
-    ((H.map (((opOp (LocalizedContext W)).map e.hom).toLoc).toFunctor)
-      .IsEquivalence := by
-  exact
-    (higherLocalizedMapEquivalenceOfIso (W := W) H e).isEquivalence_functor
 
 /-- Naturality is stable under inversion of an isomorphism in the localized
 base. The proof cancels left whiskering by the image of the forward arrow; that
@@ -291,8 +280,8 @@ instance higherLocalizedModificationNaturalityProperty_isStableUnderComposition
     (Gamma :
       restrictHigherLocalizedStrongTrans (W := W) alpha ⟶
         restrictHigherLocalizedStrongTrans (W := W) beta) :
-    (higherLocalizedModificationNaturalityProperty (W := W) Gamma)
-      .IsStableUnderComposition where
+    MorphismProperty.IsStableUnderComposition
+      (higherLocalizedModificationNaturalityProperty (W := W) Gamma) where
   comp_mem f g hf hg :=
     higherLocalizedModificationNaturalityProperty_comp
       (W := W) Gamma f g hf hg
@@ -311,10 +300,10 @@ theorem higherLocalizedModificationNaturalityProperty_eq_top
     Localization.Construction.morphismProperty_eq_top'
       (W := W)
       (higherLocalizedModificationNaturalityProperty (W := W) Gamma)
-      (fun f =>
+      (fun {_ _} f =>
         higherLocalizedModificationNaturalityProperty_map
           (W := W) Gamma f)
-      (fun e he =>
+      (fun {_ _} e he =>
         higherLocalizedModificationNaturalityProperty_inv
           (W := W) Gamma e he)
 
@@ -348,7 +337,7 @@ noncomputable def higherLocalizedModificationExtension
     naturality := ?_
   }⟩
   intro X Y f
-  let g : LocalizedContext W := f.as.unop.unop
+  let g := f.as.unop.unop
   have hg :=
     higherLocalizedModificationNaturalityProperty_all
       (W := W) Gamma g
@@ -477,7 +466,6 @@ example :
 #print axioms higherLocalizedModificationExtensionApp_presentation
 #print axioms higherLocalizedModificationNaturalityProperty_comp
 #print axioms higherLocalizedModificationNaturalityProperty_id
-#print axioms higherLocalizedMapEquivalenceOfIso
 #print axioms higherLocalizedMap_isEquivalence_of_iso
 #print axioms higherLocalizedModificationNaturalityProperty_inv
 #print axioms higherLocalizedModificationNaturalityProperty_map
