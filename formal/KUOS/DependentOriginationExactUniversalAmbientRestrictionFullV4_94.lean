@@ -250,7 +250,7 @@ theorem higherLocalizedModificationNaturalityProperty_inv
               (beta.app (.mk ((opOp (LocalizedContext W)).obj X)))
               (G.map p)
               (G.map q)).hom := by
-        rw [hpR]
+        rw [← hpR]
       _ = _ := by
         bicategory
   change
