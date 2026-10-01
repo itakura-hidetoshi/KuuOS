@@ -95,8 +95,11 @@ StrongTrans component exactly. -/
 /-- The genuine remaining data needed to extend a raw StrongTrans once its
 object components have been fixed canonically.
 
-The final field says that the localized naturality isomorphism agrees with the
-given raw one on every arrow in the image of the presentation unit. -/
+The final field stores the exact forward modification-naturality square on
+every raw arrow.  This is the shape required directly by
+`Pseudofunctor.StrongTrans.isoMk`; keeping that square rather than first
+compressing it to an equality of naturality components avoids dependent
+coercion and whiskering-normal-form artifacts. -/
 structure HigherLocalizedStrongTransCoherenceExtension
     {F G : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W)}
     (gamma :
@@ -136,11 +139,19 @@ structure HigherLocalizedStrongTransCoherenceExtension
           (α_ _ _ _).inv ≫
           (naturality f).hom ▷ G.map g ≫
           (α_ _ _ _).hom
-  restrict_naturality_hom
-      {X Y : Context} (f : X ⟶ Y) :
-      (naturality
-        ((higherPresentationUnitFunctor W).toPseudofunctor.map f.toLoc)).hom =
-        (gamma.naturality f.toLoc).hom
+  restrict_modification_naturality
+      {X Y : LocallyDiscrete Context} (f : X ⟶ Y) :
+      (restrictHigherLocalizedSystem W F).map f ◁
+            𝟙
+              (higherLocalizedStrongTransExtensionApp (W := W) gamma
+                ((higherPresentationUnitFunctor W).toPseudofunctor.obj Y)) ≫
+          (gamma.naturality f).hom =
+        (naturality
+            ((higherPresentationUnitFunctor W).toPseudofunctor.map f)).hom ≫
+          𝟙
+              (higherLocalizedStrongTransExtensionApp (W := W) gamma
+                ((higherPresentationUnitFunctor W).toPseudofunctor.obj X)) ▷
+            (restrictHigherLocalizedSystem W G).map f
 
 /-- Assemble the preceding extension data into a genuine localized StrongTrans. -/
 noncomputable def HigherLocalizedStrongTransCoherenceExtension.toStrongTrans
@@ -171,11 +182,10 @@ noncomputable def HigherLocalizedStrongTransCoherenceExtension.restrictionIso
   · rcases X with ⟨X⟩
     exact Iso.refl _
   · rintro ⟨X⟩ ⟨Y⟩ ⟨f⟩
-    dsimp [restrictHigherLocalizedStrongTrans,
-      HigherLocalizedStrongTransCoherenceExtension.toStrongTrans]
-    rw [Bicategory.whiskerLeft_id, Category.id_comp,
-      Bicategory.id_whiskerRight, Category.comp_id]
-    exact (D.restrict_naturality_hom f).symm
+    simpa only [restrictHigherLocalizedStrongTrans,
+      HigherLocalizedStrongTransCoherenceExtension.toStrongTrans,
+      Iso.refl_hom] using
+      D.restrict_modification_naturality f.toLoc
 
 /-- Existence of coherent StrongTrans extension data for every raw StrongTrans
 between one pair of localized systems. -/
