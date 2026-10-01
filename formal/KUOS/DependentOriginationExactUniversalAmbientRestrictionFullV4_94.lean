@@ -102,11 +102,11 @@ def higherLocalizedModificationNaturalityProperty
       f.op.op.toLoc
     F.map p ◁
           higherLocalizedModificationExtensionApp (W := W) Gamma
-            (.mk op (op Y)) ≫
+            (.mk (op (op Y))) ≫
         (beta.naturality p).hom =
       (alpha.naturality p).hom ≫
         higherLocalizedModificationExtensionApp (W := W) Gamma
-            (.mk op (op X)) ▷
+            (.mk (op (op X))) ▷
           G.map p
 
 /-- The modification-naturality property is stable under composition of
@@ -132,7 +132,7 @@ theorem higherLocalizedModificationNaturalityProperty_comp
   rw [Bicategory.whisker_exchange_assoc
     (η := (F.mapComp _ _).hom)
     (θ := higherLocalizedModificationExtensionApp (W := W) Gamma
-      (.mk op (op Z)))]
+      (.mk (op (op Z))))]
   rw [Bicategory.associator_naturality_right_assoc]
   rw [← Bicategory.whiskerLeft_comp_assoc]
   rw [hg]
@@ -145,7 +145,7 @@ theorem higherLocalizedModificationNaturalityProperty_comp
   simp only [Category.assoc]
   rw [← Bicategory.whisker_exchange
     (η := higherLocalizedModificationExtensionApp (W := W) Gamma
-      (.mk op (op X)))
+      (.mk (op (op X))))
     (θ := (G.mapComp _ _).inv)]
 
 /-- The modification-naturality property holds on identities. Unlike the raw
@@ -165,13 +165,13 @@ theorem higherLocalizedModificationNaturalityProperty_id
   rw [Bicategory.whisker_exchange_assoc
     (η := (F.mapId _).hom)
     (θ := higherLocalizedModificationExtensionApp (W := W) Gamma
-      (.mk op (op X)))]
+      (.mk (op (op X))))]
   rw [Bicategory.leftUnitor_naturality_assoc]
   rw [Bicategory.rightUnitor_inv_naturality_assoc]
   simp only [Category.assoc]
   rw [← Bicategory.whisker_exchange
     (η := higherLocalizedModificationExtensionApp (W := W) Gamma
-      (.mk op (op X)))
+      (.mk (op (op X))))
     (θ := (G.mapId _).inv)]
 
 /-- Naturality is stable under inversion of an isomorphism in the localized
@@ -206,10 +206,10 @@ theorem higherLocalizedModificationNaturalityProperty_inv
     e.inv.op.op.toLoc
   let mX :=
     higherLocalizedModificationExtensionApp (W := W) Gamma
-      (.mk op (op X))
+      (.mk (op (op X)))
   let mY :=
     higherLocalizedModificationExtensionApp (W := W) Gamma
-      (.mk op (op Y))
+      (.mk (op (op Y)))
   have hComp :
       higherLocalizedModificationNaturalityProperty (W := W) Gamma
         (e.hom ≫ e.inv) := by
@@ -239,46 +239,46 @@ theorem higherLocalizedModificationNaturalityProperty_inv
   have hpRcoherent :
       (α_
           (F.map p)
-          (alpha.app (.mk op (op Y)))
+          (alpha.app (.mk (op (op Y))))
           (G.map q)).inv ≫
         (alpha.naturality p).hom ▷ G.map q ≫
         (α_
-          (alpha.app (.mk op (op X)))
+          (alpha.app (.mk (op (op X))))
           (G.map p)
           (G.map q)).hom ≫
         mX ▷ (G.map p ≫ G.map q) =
       F.map p ◁ (mY ▷ G.map q) ≫
         (α_
           (F.map p)
-          (beta.app (.mk op (op Y)))
+          (beta.app (.mk (op (op Y))))
           (G.map q)).inv ≫
         (beta.naturality p).hom ▷ G.map q ≫
         (α_
-          (beta.app (.mk op (op X)))
+          (beta.app (.mk (op (op X))))
           (G.map p)
           (G.map q)).hom := by
     calc
       _ =
           (α_
             (F.map p)
-            (alpha.app (.mk op (op Y)))
+            (alpha.app (.mk (op (op Y))))
             (G.map q)).inv ≫
             ((alpha.naturality p).hom ▷ G.map q ≫
               (mX ▷ G.map p) ▷ G.map q) ≫
             (α_
-              (beta.app (.mk op (op X)))
+              (beta.app (.mk (op (op X))))
               (G.map p)
               (G.map q)).hom := by
         bicategory
       _ =
           (α_
             (F.map p)
-            (alpha.app (.mk op (op Y)))
+            (alpha.app (.mk (op (op Y))))
             (G.map q)).inv ≫
             ((F.map p ◁ mY) ▷ G.map q ≫
               (beta.naturality p).hom ▷ G.map q) ≫
             (α_
-              (beta.app (.mk op (op X)))
+              (beta.app (.mk (op (op X))))
               (G.map p)
               (G.map q)).hom := by
         rw [← hpR]
@@ -289,22 +289,22 @@ theorem higherLocalizedModificationNaturalityProperty_inv
       (alpha.naturality q).hom ≫ mY ▷ G.map q
   let pre :=
     (F.mapComp p q).hom ▷ alpha.app
-        (.mk op (op X)) ≫
+        (.mk (op (op X))) ≫
       (α_
         (F.map p)
         (F.map q)
-        (alpha.app (.mk op (op X)))).hom
+        (alpha.app (.mk (op (op X))))).hom
   let post :=
     (α_
         (F.map p)
-        (beta.app (.mk op (op Y)))
+        (beta.app (.mk (op (op Y))))
         (G.map q)).inv ≫
       (beta.naturality p).hom ▷ G.map q ≫
       (α_
-        (beta.app (.mk op (op X)))
+        (beta.app (.mk (op (op X))))
         (G.map p)
         (G.map q)).hom ≫
-      beta.app (.mk op (op X)) ◁
+      beta.app (.mk (op (op X))) ◁
         (G.mapComp p q).inv
   have hWhisker :
       F.map p ◁
