@@ -187,7 +187,7 @@ theorem higherLocalizedStrongTransNaturality_hom_inv_transport
     [← Cat.Hom.toNatIso_hom, ← Cat.Hom.toNatIso_inv,
       CategoryTheory.Functor.map_hom_inv'_assoc,
       CategoryTheory.Functor.map_inv_hom'_assoc,
-      Iso.hom_inv_id_app_assoc]
+      Iso.hom_inv_id_app, Category.comp_id]
 
 /-! ## Regression checks -/
 
