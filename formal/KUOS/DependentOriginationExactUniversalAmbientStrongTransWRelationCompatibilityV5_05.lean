@@ -304,6 +304,105 @@ theorem higherLocalizedStrongTransNaturality_inv_hom_transport
   simp only [← Cat.Hom.toNatIso_hom, ← Cat.Hom.toNatIso_inv]
   simp
 
+
+/-! ## Declared W-arrow specializations -/
+
+/-- The v4.97 presentation naturality rewritten at the exact localized
+Q.map arrow used by Localization.Construction.wIso. -/
+noncomputable def higherLocalizedStrongTransWForwardNaturalityV5_05
+    {F G : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W)}
+    (gamma :
+      restrictHigherLocalizedSystem W F ⟶
+        restrictHigherLocalizedSystem W G)
+    {X Y : Context} (w : X ⟶ Y) :
+    F.map (W.Q.map w).op.op.toLoc ≫
+          higherLocalizedStrongTransExtensionApp (W := W) gamma
+            (.mk (op (op (W.Q.obj Y)))) ≅
+      higherLocalizedStrongTransExtensionApp (W := W) gamma
+            (.mk (op (op (W.Q.obj X)))) ≫
+        G.map (W.Q.map w).op.op.toLoc := by
+  simpa [higherPresentationUnitFunctor] using
+    (higherLocalizedStrongTransPresentationNaturality
+      (W := W) gamma w.toLoc)
+
+/-- The canonical v4.98 inverse naturality, with its forward input normalized
+to the exact Q.map presentation above. -/
+noncomputable def higherLocalizedStrongTransWInverseNaturalityV5_05
+    {F G : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W)}
+    (gamma :
+      restrictHigherLocalizedSystem W F ⟶
+        restrictHigherLocalizedSystem W G)
+    {X Y : Context} (w : X ⟶ Y) (hw : W w) :
+    F.map (Localization.Construction.wInv w hw).op.op.toLoc ≫
+          higherLocalizedStrongTransExtensionApp (W := W) gamma
+            (.mk (op (op (W.Q.obj X)))) ≅
+      higherLocalizedStrongTransExtensionApp (W := W) gamma
+            (.mk (op (op (W.Q.obj Y)))) ≫
+        G.map (Localization.Construction.wInv w hw).op.op.toLoc :=
+  higherLocalizedStrongTransNaturality_invOfIso
+    (W := W) gamma
+    (Localization.Construction.wIso w hw)
+    (higherLocalizedStrongTransWForwardNaturalityV5_05
+      (W := W) gamma w)
+
+/-- Winv₁ specialization: Q(w) followed by wInv(w) reduces to canonical
+identity naturality at Q(X). -/
+theorem higherLocalizedStrongTransNaturality_Winv1_transport
+    {F G : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W)}
+    (gamma :
+      restrictHigherLocalizedSystem W F ⟶
+        restrictHigherLocalizedSystem W G)
+    {X Y : Context} (w : X ⟶ Y) (hw : W w) :
+    higherLocalizedStrongTransNaturality_comp
+        (W := W) gamma
+        (W.Q.map w).op.op.toLoc
+        (Localization.Construction.wInv w hw).op.op.toLoc
+        (higherLocalizedStrongTransWForwardNaturalityV5_05
+          (W := W) gamma w)
+        (higherLocalizedStrongTransWInverseNaturalityV5_05
+          (W := W) gamma w hw) =
+      higherLocalizedStrongTransNaturalityTransport
+        (W := W) gamma
+        (higherLocalizedIsoHomInvRelation
+          (W := W) (Localization.Construction.wIso w hw))
+        (higherLocalizedStrongTransNaturality_id
+          (W := W) gamma (.mk (op (op (W.Q.obj X))))) := by
+  exact
+    higherLocalizedStrongTransNaturality_hom_inv_transport
+      (W := W) gamma
+      (Localization.Construction.wIso w hw)
+      (higherLocalizedStrongTransWForwardNaturalityV5_05
+        (W := W) gamma w)
+
+/-- Winv₂ specialization: wInv(w) followed by Q(w) reduces to canonical
+identity naturality at Q(Y). -/
+theorem higherLocalizedStrongTransNaturality_Winv2_transport
+    {F G : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W)}
+    (gamma :
+      restrictHigherLocalizedSystem W F ⟶
+        restrictHigherLocalizedSystem W G)
+    {X Y : Context} (w : X ⟶ Y) (hw : W w) :
+    higherLocalizedStrongTransNaturality_comp
+        (W := W) gamma
+        (Localization.Construction.wInv w hw).op.op.toLoc
+        (W.Q.map w).op.op.toLoc
+        (higherLocalizedStrongTransWInverseNaturalityV5_05
+          (W := W) gamma w hw)
+        (higherLocalizedStrongTransWForwardNaturalityV5_05
+          (W := W) gamma w) =
+      higherLocalizedStrongTransNaturalityTransport
+        (W := W) gamma
+        (higherLocalizedIsoInvHomRelation
+          (W := W) (Localization.Construction.wIso w hw))
+        (higherLocalizedStrongTransNaturality_id
+          (W := W) gamma (.mk (op (op (W.Q.obj Y))))) := by
+  exact
+    higherLocalizedStrongTransNaturality_inv_hom_transport
+      (W := W) gamma
+      (Localization.Construction.wIso w hw)
+      (higherLocalizedStrongTransWForwardNaturalityV5_05
+        (W := W) gamma w)
+
 /-! ## Regression checks -/
 
 #print axioms higherLocalizedIsoHomInvRelation
@@ -316,6 +415,10 @@ theorem higherLocalizedStrongTransNaturality_inv_hom_transport
 #print axioms higherLocalizedStrongTransNaturality_invOfIso_spec_hom
 #print axioms higherLocalizedStrongTransNaturality_hom_inv_transport
 #print axioms higherLocalizedStrongTransNaturality_inv_hom_transport
+#print axioms higherLocalizedStrongTransWForwardNaturalityV5_05
+#print axioms higherLocalizedStrongTransWInverseNaturalityV5_05
+#print axioms higherLocalizedStrongTransNaturality_Winv1_transport
+#print axioms higherLocalizedStrongTransNaturality_Winv2_transport
 
 end
 
