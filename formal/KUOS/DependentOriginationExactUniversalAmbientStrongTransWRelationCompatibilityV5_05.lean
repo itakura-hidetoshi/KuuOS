@@ -184,48 +184,24 @@ theorem higherLocalizedStrongTransNaturality_hom_inv_transport
     [Cat.Hom.toNatTrans_comp, NatTrans.comp_app, CategoryTheory.Functor.map_comp,
       Category.id_comp, Category.comp_id]
   simp only [Category.assoc]
-  have hFcomp :=
-    Cat.Hom.hom_inv_id_toNatTrans_app
-      (F.mapComp e.hom.op.op.toLoc e.inv.op.op.toLoc) x
-  have hHp :=
-    Cat.Hom.inv_hom_id_toNatTrans_app hp x
-  have hGcomp :=
-    Cat.Hom.hom_inv_id_toNatTrans_app
+  have hFcancel :=
+    (higherLocalizedStrongTransExtensionApp
+      (W := W) gamma (.mk (op (op X)))).toFunctor.map_hom_inv'_assoc
+      ((Cat.Hom.toNatIso
+        (F.mapComp e.hom.op.op.toLoc e.inv.op.op.toLoc)).app x)
+  have hHpCancel :=
+    (G.map e.inv.op.op.toLoc).toFunctor.map_inv_hom'_assoc
+      ((Cat.Hom.toNatIso hp).app x)
+  have hGcancel :=
+    Cat.Hom.hom_inv_id_toNatTrans_app_assoc
       (G.mapComp e.hom.op.op.toLoc e.inv.op.op.toLoc)
       ((higherLocalizedStrongTransExtensionApp
         (W := W) gamma (.mk (op (op X)))).toFunctor.obj x)
-  have hFmap :
-      (higherLocalizedStrongTransExtensionApp
-          (W := W) gamma (.mk (op (op X)))).toFunctor.map
-            ((F.mapComp
-              e.hom.op.op.toLoc e.inv.op.op.toLoc).hom.toNatTrans.app x) ≫
-        (higherLocalizedStrongTransExtensionApp
-          (W := W) gamma (.mk (op (op X)))).toFunctor.map
-            ((F.mapComp
-              e.hom.op.op.toLoc e.inv.op.op.toLoc).inv.toNatTrans.app x) =
-          𝟙 _ := by
-    rw [← (higherLocalizedStrongTransExtensionApp
-      (W := W) gamma (.mk (op (op X)))).toFunctor.map_comp,
-      hFcomp, CategoryTheory.Functor.map_id]
-  have hHpMap :
-      (G.map e.inv.op.op.toLoc).toFunctor.map
-            (hp.inv.toNatTrans.app x) ≫
-        (G.map e.inv.op.op.toLoc).toFunctor.map
-            (hp.hom.toNatTrans.app x) =
-          𝟙 _ := by
-    rw [← (G.map e.inv.op.op.toLoc).toFunctor.map_comp,
-      hHp, CategoryTheory.Functor.map_id]
-  slice_lhs 1 2 =>
-    simp only
-      [CategoryTheory.Functor.map_comp, ← Category.assoc,
-        hFmap, Category.id_comp]
-  slice_lhs 6 7 =>
-    simp only
-      [Cat.Hom.comp_toFunctor, CategoryTheory.Functor.comp_obj,
-        hHpMap]
   simpa only
-    [Category.assoc, Cat.Hom.comp_toFunctor,
-      CategoryTheory.Functor.comp_obj, hGcomp,
+    [CategoryTheory.Functor.map_comp, Category.assoc,
+      hFcancel, hHpCancel, hGcancel,
+      Cat.Hom.comp_toFunctor, Cat.Hom.comp_obj,
+      CategoryTheory.Functor.comp_obj,
       Category.id_comp, Category.comp_id]
 
 /-! ## Regression checks -/
