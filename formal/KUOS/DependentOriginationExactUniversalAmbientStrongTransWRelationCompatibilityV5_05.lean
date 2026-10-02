@@ -115,6 +115,15 @@ theorem functor_map_cancel_assoc
     H.map f ≫ H.map g ≫ h = h := by
   rw [← H.map_comp_assoc, hfg, H.map_id, Category.id_comp]
 
+/-- Cancel an isomorphism immediately after a fixed prefix morphism.
+This is the exact shape produced by `slice_lhs` at the final G-side transport
+boundary, where the prefix transport and `hom` are already left-associated. -/
+theorem comp_iso_hom_inv_cancel
+    {C : Type*} [Category C]
+    {W X Y : C} (r : W ⟶ X) (e : X ≅ Y) :
+    (r ≫ e.hom) ≫ e.inv = r := by
+  rw [Category.assoc, e.hom_inv_id, Category.comp_id]
+
 /-- Bicategorical hom form of the v4.98 fully-faithful specification.
 This is the exact rewrite shape needed inside the v4.99 composition formula. -/
 theorem higherLocalizedStrongTransNaturality_invOfIso_spec_hom
@@ -216,12 +225,8 @@ theorem higherLocalizedStrongTransNaturality_hom_inv_transport
     apply functor_map_cancel
     exact Iso.inv_hom_id_app (Cat.Hom.toNatIso hp) x
   simp only [Category.id_comp]
-  slice_lhs 5 6 =>
-    exact Iso.hom_inv_id_app
-      (Cat.Hom.toNatIso
-        (G.mapComp e.hom.op.op.toLoc e.inv.op.op.toLoc))
-      ((higherLocalizedStrongTransExtensionApp
-        (W := W) gamma (.mk (op (op X)))).toFunctor.obj x)
+  slice_lhs 4 5 =>
+    apply comp_iso_hom_inv_cancel
   simp
 
 /-! ## Regression checks -/
@@ -232,6 +237,7 @@ theorem higherLocalizedStrongTransNaturality_hom_inv_transport
 #print axioms functor_map_cancel
 #print axioms functor_map_cancel_comp_assoc
 #print axioms functor_map_cancel_assoc
+#print axioms comp_iso_hom_inv_cancel
 #print axioms higherLocalizedStrongTransNaturality_invOfIso_spec_hom
 #print axioms higherLocalizedStrongTransNaturality_hom_inv_transport
 
