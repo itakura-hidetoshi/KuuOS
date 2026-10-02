@@ -231,7 +231,6 @@ theorem higherLocalizedStrongTransNaturality_hom_inv_transport
         (G.mapComp e.hom.op.op.toLoc e.inv.op.op.toLoc)).app
           ((higherLocalizedStrongTransExtensionApp
             (W := W) gamma (.mk (op (op X)))).toFunctor.obj x))
-  simp
 
 /-! ## Regression checks -/
 
