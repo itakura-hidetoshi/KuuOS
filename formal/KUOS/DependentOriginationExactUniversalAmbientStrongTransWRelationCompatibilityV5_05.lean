@@ -181,7 +181,7 @@ theorem higherLocalizedStrongTransNaturality_hom_inv_transport
       PrelaxFunctor.map₂Iso_eqToIso, PrelaxFunctor.map₂_eqToHom,
       eqToIso.hom, eqToIso.inv]
   simp only
-    [Cat.Hom.toNatTrans_comp, NatTrans.comp_app, Functor.map_comp,
+    [Cat.Hom.toNatTrans_comp, NatTrans.comp_app, CategoryTheory.Functor.map_comp,
       Category.id_comp, Category.comp_id]
   simp only [Category.assoc]
   have hFcomp :=
@@ -206,7 +206,7 @@ theorem higherLocalizedStrongTransNaturality_hom_inv_transport
           𝟙 _ := by
     rw [← (higherLocalizedStrongTransExtensionApp
       (W := W) gamma (.mk (op (op X)))).toFunctor.map_comp,
-      hFcomp, Functor.map_id]
+      hFcomp, CategoryTheory.Functor.map_id]
   have hHpMap :
       (G.map e.inv.op.op.toLoc).toFunctor.map
             (hp.inv.toNatTrans.app x) ≫
@@ -214,7 +214,7 @@ theorem higherLocalizedStrongTransNaturality_hom_inv_transport
             (hp.hom.toNatTrans.app x) =
           𝟙 _ := by
     rw [← (G.map e.inv.op.op.toLoc).toFunctor.map_comp,
-      hHp, Functor.map_id]
+      hHp, CategoryTheory.Functor.map_id]
   simpa only
     [← Category.assoc, hFmap, hHpMap, hGcomp,
       Category.id_comp, Category.comp_id]
