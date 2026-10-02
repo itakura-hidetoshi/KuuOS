@@ -345,8 +345,7 @@ theorem higherLocalizedPseudofunctor_iso_inv_hom_triangle_hom_app
         Category.assoc, higherLocalizedIsoHomInvRelation,
         higherLocalizedIsoInvHomRelation,
         PrelaxFunctor.map₂Iso_eqToIso, PrelaxFunctor.map₂_eqToHom,
-        eqToIso.hom, eqToIso.inv, Cat.Hom.toNatIso,
-        ← Cat.Hom.toNatIso_hom, ← Cat.Hom.toNatIso_inv] using h
+        eqToIso.hom, eqToIso.inv, Cat.Hom.toNatIso] using h
   exact (Iso.inv_comp_eq k).1 h'
 
 /-- Expand the inverse triangle to the concrete mapComp and equality 2-cells.
