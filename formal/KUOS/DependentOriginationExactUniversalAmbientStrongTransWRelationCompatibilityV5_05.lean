@@ -184,7 +184,7 @@ theorem higherLocalizedStrongTransNaturality_hom_inv_transport
     [Cat.Hom.toNatTrans_comp, NatTrans.comp_app, Functor.map_comp,
       Category.id_comp, Category.comp_id]
   simp only [Category.assoc]
-  slice_lhs 1 3 =>
+  slice_lhs 1 2 =>
     rw [← (higherLocalizedStrongTransExtensionApp
       (W := W) gamma (.mk (op (op X)))).toFunctor.map_comp]
     simp only
