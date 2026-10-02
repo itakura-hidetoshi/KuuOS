@@ -332,15 +332,15 @@ theorem higherLocalizedPseudofunctor_iso_inv_hom_triangle_hom_app
         (H.map₂ (higherLocalizedIsoInvHomRelation (W := W) e).inv).toNatTrans.app
           ((H.map p).toFunctor.obj x) := by
     rfl
-  have h' :
+  have hcompact :
       k.inv ≫
           (H.mapComp q p).hom.toNatTrans.app ((H.map p).toFunctor.obj x) ≫
         (H.map p).toFunctor.map
-            ((H.mapComp p q).inv.toNatTrans.app x) ≫
+            ((H.mapComp p q).inv.toNatTrans.app x ≫
+              (H.map₂
+                (higherLocalizedIsoHomInvRelation (W := W) e).hom).toNatTrans.app x) ≫
           (H.map p).toFunctor.map
-              ((H.map₂ (higherLocalizedIsoHomInvRelation (W := W) e).hom).toNatTrans.app x) ≫
-            (H.map p).toFunctor.map
-              ((H.mapId a).hom.toNatTrans.app x) =
+            ((H.mapId a).hom.toNatTrans.app x) =
         (H.mapId b).hom.toNatTrans.app ((H.map p).toFunctor.obj x) := by
     rw [hk_inv]
     simp only
@@ -348,12 +348,12 @@ theorem higherLocalizedPseudofunctor_iso_inv_hom_triangle_hom_app
         Iso.trans_hom, Iso.trans_inv, Cat.Hom.toNatTrans_comp,
         NatTrans.comp_app, PrelaxFunctor.map₂Iso_eqToIso,
         eqToIso.hom, eqToIso.inv] at h
-    rw [(H.map e.hom.op.op.toLoc).toFunctor.map_comp] at h
     simpa only
       [p, q, a, b, higherLocalizedIsoHomInvRelation,
         higherLocalizedIsoInvHomRelation, PrelaxFunctor.map₂_eqToHom,
         eqToIso.hom, eqToIso.inv, Category.assoc] using h
-  exact (Iso.inv_comp_eq k).1 h'
+  have hcancel := (Iso.inv_comp_eq k).1 hcompact
+  simpa only [CategoryTheory.Functor.map_comp, Category.assoc] using hcancel
 
 /-- Expand the inverse triangle to the concrete mapComp and equality 2-cells.
 The final equality 2-cell is kept explicitly on the right, exactly as required
@@ -517,38 +517,32 @@ theorem higherLocalizedStrongTransNaturality_inv_hom_transport
   let Fq := (F.map q).toFunctor
   let Gp := (G.map p).toFunctor
   let Gq := (G.map q).toFunctor
-  let mF :=
+  let mFpre :=
     (F.mapComp p q).inv.toNatTrans.app x ≫
-      (F.map₂ (higherLocalizedIsoHomInvRelation (W := W) e).hom).toNatTrans.app x ≫
-        (F.mapId (.mk (op (op X)))).hom.toNatTrans.app x
+      (F.map₂
+        (higherLocalizedIsoHomInvRelation (W := W) e).hom).toNatTrans.app x
+  let mF :=
+    mFpre ≫ (F.mapId (.mk (op (op X)))).hom.toNatTrans.app x
 
   have hhp := hp.hom.toNatTrans.naturality mF
   have hhp' :
       hp.hom.toNatTrans.app (Fq.obj (Fp.obj x)) ≫
-          Gp.map (aX.map ((F.mapComp p q).inv.toNatTrans.app x)) ≫
+          Gp.map (aX.map mFpre) ≫
         Gp.map (aX.map
-          ((F.map₂ (higherLocalizedIsoHomInvRelation (W := W) e).hom).toNatTrans.app x)) ≫
-          Gp.map (aX.map
-            ((F.mapId (.mk (op (op X)))).hom.toNatTrans.app x)) =
-        aY.map (Fp.map ((F.mapComp p q).inv.toNatTrans.app x)) ≫
+          ((F.mapId (.mk (op (op X)))).hom.toNatTrans.app x)) =
+        aY.map (Fp.map mFpre) ≫
           aY.map (Fp.map
-            ((F.map₂ (higherLocalizedIsoHomInvRelation (W := W) e).hom).toNatTrans.app x)) ≫
-            aY.map (Fp.map
-              ((F.mapId (.mk (op (op X)))).hom.toNatTrans.app x)) ≫
-              hp.hom.toNatTrans.app x := by
+            ((F.mapId (.mk (op (op X)))).hom.toNatTrans.app x)) ≫
+          hp.hom.toNatTrans.app x := by
     simpa only
       [mF, Functor.comp_map, CategoryTheory.Functor.map_comp,
         Category.assoc] using hhp.symm
-  dsimp [p, q, aX, aY, Fp, Fq, Gp, Gq] at hhp'
+  dsimp [p, q, aX, aY, Fp, Fq, Gp, Gq, mFpre] at hhp'
   simp only
     [higherLocalizedIsoHomInvRelation, eqToIso.hom,
       PrelaxFunctor.map₂_eqToHom] at hhp'
-  rw [
-    (higherLocalizedStrongTransExtensionApp
-      (W := W) gamma (.mk (op (op X)))).toFunctor.map_comp,
-    (G.map e.hom.op.op.toLoc).toFunctor.map_comp]
   simp only [Category.assoc]
-  slice_lhs 2 5 =>
+  slice_lhs 2 4 =>
     rw [hhp']
 
   have hFtri :=
@@ -557,14 +551,28 @@ theorem higherLocalizedStrongTransNaturality_inv_hom_transport
   simp only
     [higherLocalizedIsoHomInvRelation, higherLocalizedIsoInvHomRelation,
       eqToIso.hom, PrelaxFunctor.map₂_eqToHom] at hFtri
+  have hFtriCompact :
+      (F.mapComp e.inv.op.op.toLoc e.hom.op.op.toLoc).hom.toNatTrans.app
+            ((F.map e.hom.op.op.toLoc).toFunctor.obj x) ≫
+          (F.map e.hom.op.op.toLoc).toFunctor.map mFpre ≫
+        (F.map e.hom.op.op.toLoc).toFunctor.map
+          ((F.mapId (.mk (op (op X)))).hom.toNatTrans.app x) =
+      (F.map₂
+          (higherLocalizedIsoInvHomRelation (W := W) e).hom).toNatTrans.app
+            ((F.map e.hom.op.op.toLoc).toFunctor.obj x) ≫
+        (F.mapId (.mk (op (op Y)))).hom.toNatTrans.app
+          ((F.map e.hom.op.op.toLoc).toFunctor.obj x) := by
+    dsimp [mFpre]
+    rw [CategoryTheory.Functor.map_comp]
+    exact hFtri
   have hFmapped :=
     congrArg
       (fun m =>
         (higherLocalizedStrongTransExtensionApp
           (W := W) gamma (.mk (op (op Y)))).toFunctor.map m)
-      hFtri
+      hFtriCompact
   simp only [CategoryTheory.Functor.map_comp, Category.assoc] at hFmapped
-  slice_lhs 1 4 =>
+  slice_lhs 1 3 =>
     rw [hFmapped]
 
   have hGcomp :=
