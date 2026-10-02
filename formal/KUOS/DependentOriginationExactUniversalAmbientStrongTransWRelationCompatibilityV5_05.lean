@@ -194,20 +194,17 @@ theorem higherLocalizedStrongTransNaturality_hom_inv_transport
       (G.mapComp e.hom.op.op.toLoc e.inv.op.op.toLoc)
       ((higherLocalizedStrongTransExtensionApp
         (W := W) gamma (.mk (op (op X)))).toFunctor.obj x)
-  slice_lhs 1 2 =>
+  slice_lhs 1 3 =>
     simp only
       [← (higherLocalizedStrongTransExtensionApp
         (W := W) gamma (.mk (op (op X)))).toFunctor.map_comp,
-        hFcomp, Functor.map_id]
-  simp only [Category.id_comp]
-  slice_lhs 6 7 =>
+        hFcomp, Functor.map_id, Category.id_comp]
+  slice_lhs 6 8 =>
     simp only
       [← (G.map e.inv.op.op.toLoc).toFunctor.map_comp,
-        hHp, Functor.map_id]
-  simp only [Category.assoc, Category.id_comp]
-  slice_lhs 5 6 =>
-    simp only [hGcomp]
-  simp
+        hHp, Functor.map_id, Category.id_comp]
+  slice_lhs 4 6 =>
+    simp only [Category.assoc, hGcomp, Category.comp_id]
 
 /-! ## Regression checks -/
 
