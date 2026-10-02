@@ -207,24 +207,14 @@ theorem higherLocalizedStrongTransNaturality_hom_inv_transport
       Category.id_comp, Category.comp_id]
   simp only [← Cat.Hom.toNatIso_hom, ← Cat.Hom.toNatIso_inv]
   slice_lhs 1 2 =>
-    exact functor_map_cancel_comp
-      (H := (higherLocalizedStrongTransExtensionApp
-        (W := W) gamma (.mk (op (op X)))).toFunctor)
-      (f := (Cat.Hom.toNatIso
-        (F.mapComp e.hom.op.op.toLoc e.inv.op.op.toLoc)).hom.app x)
-      (g := (Cat.Hom.toNatIso
-        (F.mapComp e.hom.op.op.toLoc e.inv.op.op.toLoc)).inv.app x)
-      (r := (eqToHom _).toNatTrans.app x)
-      (Iso.hom_inv_id_app
-        (Cat.Hom.toNatIso
-          (F.mapComp e.hom.op.op.toLoc e.inv.op.op.toLoc)) x)
+    apply functor_map_cancel_comp
+    exact Iso.hom_inv_id_app
+      (Cat.Hom.toNatIso
+        (F.mapComp e.hom.op.op.toLoc e.inv.op.op.toLoc)) x
   simp only [Category.assoc]
   slice_lhs 6 7 =>
-    exact functor_map_cancel
-      (H := (G.map e.inv.op.op.toLoc).toFunctor)
-      (f := (Cat.Hom.toNatIso hp).inv.app x)
-      (g := (Cat.Hom.toNatIso hp).hom.app x)
-      (Iso.inv_hom_id_app (Cat.Hom.toNatIso hp) x)
+    apply functor_map_cancel
+    exact Iso.inv_hom_id_app (Cat.Hom.toNatIso hp) x
   simp only [Category.id_comp, Category.comp_id]
   slice_lhs 5 6 =>
     exact Iso.hom_inv_id_app
