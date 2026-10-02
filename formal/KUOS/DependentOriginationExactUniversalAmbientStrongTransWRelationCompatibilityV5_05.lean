@@ -328,6 +328,11 @@ theorem higherLocalizedPseudofunctor_iso_inv_hom_triangle_hom_app
     (Cat.Hom.toNatIso
       (H.map₂Iso (higherLocalizedIsoInvHomRelation (W := W) e))).app
         ((H.map p).toFunctor.obj x)
+  have hk_inv :
+      k.inv =
+        (H.map₂ (higherLocalizedIsoInvHomRelation (W := W) e).inv).toNatTrans.app
+          ((H.map p).toFunctor.obj x) := by
+    rfl
   have h' :
       k.inv ≫
           (H.mapComp q p).hom.toNatTrans.app ((H.map p).toFunctor.obj x) ≫
@@ -338,14 +343,15 @@ theorem higherLocalizedPseudofunctor_iso_inv_hom_triangle_hom_app
             (H.map p).toFunctor.map
               ((H.mapId a).hom.toNatTrans.app x) =
         (H.mapId b).hom.toNatTrans.app ((H.map p).toFunctor.obj x) := by
+    rw [hk_inv]
     simpa only
-      [p, q, a, b, k, Pseudofunctor.mapComp',
+      [p, q, a, b, Pseudofunctor.mapComp',
         Iso.trans_hom, Iso.trans_inv, Cat.Hom.toNatTrans_comp,
         NatTrans.comp_app, CategoryTheory.Functor.map_comp,
         Category.assoc, higherLocalizedIsoHomInvRelation,
         higherLocalizedIsoInvHomRelation,
         PrelaxFunctor.map₂Iso_eqToIso, PrelaxFunctor.map₂_eqToHom,
-        eqToIso.hom, eqToIso.inv, Cat.Hom.toNatIso] using h
+        eqToIso.hom, eqToIso.inv] using h
   exact (Iso.inv_comp_eq k).1 h'
 
 /-- Expand the inverse triangle to the concrete mapComp and equality 2-cells.
@@ -386,6 +392,11 @@ theorem higherLocalizedPseudofunctor_iso_inv_hom_triangle_inv_app
     (Cat.Hom.toNatIso
       (H.map₂Iso (higherLocalizedIsoInvHomRelation (W := W) e))).app
         ((H.map p).toFunctor.obj x)
+  have hk_hom :
+      k.hom =
+        (H.map₂ (higherLocalizedIsoInvHomRelation (W := W) e).hom).toNatTrans.app
+          ((H.map p).toFunctor.obj x) := by
+    rfl
   have h' :
       (H.map p).toFunctor.map ((H.mapId a).inv.toNatTrans.app x) ≫
           (H.map p).toFunctor.map
@@ -395,15 +406,15 @@ theorem higherLocalizedPseudofunctor_iso_inv_hom_triangle_inv_app
           (H.mapComp q p).inv.toNatTrans.app ((H.map p).toFunctor.obj x) ≫
             k.hom =
         (H.mapId b).inv.toNatTrans.app ((H.map p).toFunctor.obj x) := by
+    rw [hk_hom]
     simpa only
-      [p, q, a, b, k, Pseudofunctor.mapComp',
+      [p, q, a, b, Pseudofunctor.mapComp',
         Iso.trans_hom, Iso.trans_inv, Cat.Hom.toNatTrans_comp,
         NatTrans.comp_app, CategoryTheory.Functor.map_comp,
         Category.assoc, higherLocalizedIsoHomInvRelation,
         higherLocalizedIsoInvHomRelation,
         PrelaxFunctor.map₂Iso_eqToIso, PrelaxFunctor.map₂_eqToHom,
-        eqToIso.hom, eqToIso.inv,
-        ← Cat.Hom.toNatIso_hom, ← Cat.Hom.toNatIso_inv] using h
+        eqToIso.hom, eqToIso.inv] using h
   have hfinal :
       (H.map p).toFunctor.map ((H.mapId a).inv.toNatTrans.app x) ≫
           (H.map p).toFunctor.map
