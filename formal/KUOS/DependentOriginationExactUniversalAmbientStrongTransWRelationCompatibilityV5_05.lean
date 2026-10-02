@@ -258,10 +258,9 @@ theorem pseudofunctor_inverse_pair_triangle_hom_app
   simp only
     [Pseudofunctor.mapComp'_comp_id_inv_app,
       Pseudofunctor.mapComp'_id_comp_hom_app,
-      ← Cat.Hom.toNatIso_hom, ← Cat.Hom.toNatIso_inv,
       Category.assoc, ← CategoryTheory.Functor.map_comp,
-      Iso.inv_hom_id_app, CategoryTheory.Functor.map_id,
-      Category.comp_id]
+      Cat.Hom.inv_hom_id_toNatTrans_app,
+      CategoryTheory.Functor.map_id, Category.comp_id]
 
 /-- The inverse component form of the same strict-source pseudofunctor triangle,
 oriented so that the source mapId inverse is cancelled first. -/
@@ -286,10 +285,9 @@ theorem pseudofunctor_inverse_pair_triangle_inv_app
   simp only
     [Pseudofunctor.mapComp'_id_comp_inv_app,
       Pseudofunctor.mapComp'_comp_id_hom_app,
-      ← Cat.Hom.toNatIso_hom, ← Cat.Hom.toNatIso_inv,
       Category.assoc, ← CategoryTheory.Functor.map_comp,
-      Iso.inv_hom_id_app, CategoryTheory.Functor.map_id,
-      Category.id_comp]
+      Cat.Hom.inv_hom_id_toNatTrans_app,
+      CategoryTheory.Functor.map_id, Category.id_comp]
 
 /-- Expand the preceding hom triangle from mapComp' to the concrete mapComp and
 the two equality 2-cells carried by a localized isomorphism. -/
