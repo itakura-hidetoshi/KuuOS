@@ -81,6 +81,28 @@ theorem functor_map_cancel_comp_assoc
   simp only [Category.assoc]
   rw [← H.map_comp_assoc, hfg, H.map_id, Category.id_comp]
 
+/-- Functorial cancellation of an inverse-like pair when the second
+morphism is already composed with one following morphism.  Unlike the reassociated
+version below, this has no ambient tail metavariable, so it is stable under
+`slice_lhs` on exactly two factors. -/
+theorem functor_map_cancel_comp
+    {C D : Type*} [Category C] [Category D]
+    (H : C ⥤ D)
+    {X Y Z : C} (f : X ⟶ Y) (g : Y ⟶ X) (r : X ⟶ Z)
+    (hfg : f ≫ g = 𝟙 X) :
+    H.map f ≫ H.map (g ≫ r) = H.map r := by
+  rw [← H.map_comp]
+  rw [← Category.assoc, hfg, Category.id_comp]
+
+/-- Functorial cancellation of an inverse-like pair after applying a functor. -/
+theorem functor_map_cancel
+    {C D : Type*} [Category C] [Category D]
+    (H : C ⥤ D)
+    {X Y : C} (f : X ⟶ Y) (g : Y ⟶ X)
+    (hfg : f ≫ g = 𝟙 X) :
+    H.map f ≫ H.map g = 𝟙 (H.obj X) := by
+  rw [← H.map_comp, hfg, H.map_id]
+
 /-- Functorial cancellation of two explicitly supplied inverse-like
 morphisms inside a longer composite.  Keeping the component morphisms explicit
 avoids coercion-sensitive matching through NatIso wrappers. -/
@@ -183,16 +205,41 @@ theorem higherLocalizedStrongTransNaturality_hom_inv_transport
   simp only
     [Cat.Hom.toNatTrans_comp, NatTrans.comp_app, CategoryTheory.Functor.map_comp,
       Category.id_comp, Category.comp_id]
-  simp only
-    [← Cat.Hom.toNatIso_hom, ← Cat.Hom.toNatIso_inv,
-      CategoryTheory.Functor.map_hom_inv'_assoc,
-      CategoryTheory.Functor.map_inv_hom'_assoc,
-      Iso.hom_inv_id_app, Category.comp_id]
+  simp only [← Cat.Hom.toNatIso_hom, ← Cat.Hom.toNatIso_inv]
+  slice_lhs 1 2 =>
+    exact functor_map_cancel_comp
+      (H := (higherLocalizedStrongTransExtensionApp
+        (W := W) gamma (.mk (op (op X)))).toFunctor)
+      (f := (Cat.Hom.toNatIso
+        (F.mapComp e.hom.op.op.toLoc e.inv.op.op.toLoc)).hom.app x)
+      (g := (Cat.Hom.toNatIso
+        (F.mapComp e.hom.op.op.toLoc e.inv.op.op.toLoc)).inv.app x)
+      (r := (eqToHom _).toNatTrans.app x)
+      (Iso.hom_inv_id_app
+        (Cat.Hom.toNatIso
+          (F.mapComp e.hom.op.op.toLoc e.inv.op.op.toLoc)) x)
+  simp only [Category.assoc]
+  slice_lhs 6 7 =>
+    exact functor_map_cancel
+      (H := (G.map e.inv.op.op.toLoc).toFunctor)
+      (f := (Cat.Hom.toNatIso hp).inv.app x)
+      (g := (Cat.Hom.toNatIso hp).hom.app x)
+      (Iso.inv_hom_id_app (Cat.Hom.toNatIso hp) x)
+  simp only [Category.id_comp, Category.comp_id]
+  slice_lhs 5 6 =>
+    exact Iso.hom_inv_id_app
+      (Cat.Hom.toNatIso
+        (G.mapComp e.hom.op.op.toLoc e.inv.op.op.toLoc))
+      ((higherLocalizedStrongTransExtensionApp
+        (W := W) gamma (.mk (op (op X)))).toFunctor.obj x)
+  simp
 
 /-! ## Regression checks -/
 
 #print axioms higherLocalizedIsoHomInvRelation
 #print axioms higherLocalizedIsoInvHomRelation
+#print axioms functor_map_cancel_comp
+#print axioms functor_map_cancel
 #print axioms functor_map_cancel_comp_assoc
 #print axioms functor_map_cancel_assoc
 #print axioms higherLocalizedStrongTransNaturality_invOfIso_spec_hom
