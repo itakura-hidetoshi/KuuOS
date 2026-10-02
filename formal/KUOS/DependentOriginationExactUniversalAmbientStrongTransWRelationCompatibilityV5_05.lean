@@ -184,18 +184,29 @@ theorem higherLocalizedStrongTransNaturality_hom_inv_transport
     [Cat.Hom.toNatTrans_comp, NatTrans.comp_app, Functor.map_comp,
       Category.id_comp, Category.comp_id]
   simp only [Category.assoc]
+  have hFcomp :=
+    Cat.Hom.hom_inv_id_toNatTrans_app
+      (F.mapComp e.hom.op.op.toLoc e.inv.op.op.toLoc) x
+  have hHp :=
+    Cat.Hom.inv_hom_id_toNatTrans_app hp x
+  have hGcomp :=
+    Cat.Hom.hom_inv_id_toNatTrans_app
+      (G.mapComp e.hom.op.op.toLoc e.inv.op.op.toLoc)
+      ((higherLocalizedStrongTransExtensionApp
+        (W := W) gamma (.mk (op (op X)))).toFunctor.obj x)
   slice_lhs 1 2 =>
-    rw [← (higherLocalizedStrongTransExtensionApp
-      (W := W) gamma (.mk (op (op X)))).toFunctor.map_comp]
     simp only
-      [← Category.assoc,
-        Cat.Hom.hom_inv_id_toNatTrans_app,
-        Category.id_comp]
-  slice_lhs 5 7 =>
-    rw [← (G.map e.inv.op.op.toLoc).toFunctor.map_comp_assoc]
+      [← (higherLocalizedStrongTransExtensionApp
+        (W := W) gamma (.mk (op (op X)))).toFunctor.map_comp,
+        hFcomp, Functor.map_id]
+  simp only [Category.id_comp]
+  slice_lhs 6 7 =>
     simp only
-      [Cat.Hom.inv_hom_id_toNatTrans_app,
-        Functor.map_id, Category.id_comp]
+      [← (G.map e.inv.op.op.toLoc).toFunctor.map_comp,
+        hHp, Functor.map_id]
+  simp only [Category.assoc, Category.id_comp]
+  slice_lhs 5 6 =>
+    simp only [hGcomp]
   simp
 
 /-! ## Regression checks -/
