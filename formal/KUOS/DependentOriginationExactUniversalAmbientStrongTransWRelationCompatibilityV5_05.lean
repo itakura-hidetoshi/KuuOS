@@ -285,7 +285,7 @@ theorem higherLocalizedStrongTransNaturality_inv_hom_transport
       (higherLocalizedStrongTransInverseWhiskeredSquare
         (W := W) gamma e hp).hom.app x at hspec
   simp only
-    [Functor.whiskerLeft_app,
+    [Functor.whiskeringLeft_obj_map, Functor.whiskerLeft_app,
       higherLocalizedStrongTransNaturality_comp_hom,
       higherLocalizedStrongTransNaturalityTransport_hom,
       higherLocalizedStrongTransNaturality_id_hom,
