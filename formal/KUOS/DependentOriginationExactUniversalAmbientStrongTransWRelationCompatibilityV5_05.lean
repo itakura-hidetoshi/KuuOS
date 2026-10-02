@@ -258,7 +258,7 @@ theorem pseudofunctor_inverse_pair_triangle_hom_app
   simp only [Category.assoc]
   rw [Pseudofunctor.mapComp'_comp_id_inv_app_assoc,
     Pseudofunctor.mapComp'_id_comp_hom_app_assoc,
-    ← CategoryTheory.Functor.map_comp_assoc,
+    ← CategoryTheory.Functor.map_comp,
     Cat.Hom.inv_hom_id_toNatTrans_app,
     CategoryTheory.Functor.map_id]
   simp
