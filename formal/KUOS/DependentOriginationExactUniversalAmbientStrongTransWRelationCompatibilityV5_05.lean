@@ -194,17 +194,30 @@ theorem higherLocalizedStrongTransNaturality_hom_inv_transport
       (G.mapComp e.hom.op.op.toLoc e.inv.op.op.toLoc)
       ((higherLocalizedStrongTransExtensionApp
         (W := W) gamma (.mk (op (op X)))).toFunctor.obj x)
-  slice_lhs 1 3 =>
-    simp only
-      [← (higherLocalizedStrongTransExtensionApp
-        (W := W) gamma (.mk (op (op X)))).toFunctor.map_comp,
-        hFcomp, Functor.map_id, Category.id_comp]
-  slice_lhs 6 8 =>
-    simp only
-      [← (G.map e.inv.op.op.toLoc).toFunctor.map_comp,
-        hHp, Functor.map_id, Category.id_comp]
-  slice_lhs 4 6 =>
-    simp only [Category.assoc, hGcomp, Category.comp_id]
+  have hFmap :
+      (higherLocalizedStrongTransExtensionApp
+          (W := W) gamma (.mk (op (op X)))).toFunctor.map
+            ((F.mapComp
+              e.hom.op.op.toLoc e.inv.op.op.toLoc).hom.toNatTrans.app x) ≫
+        (higherLocalizedStrongTransExtensionApp
+          (W := W) gamma (.mk (op (op X)))).toFunctor.map
+            ((F.mapComp
+              e.hom.op.op.toLoc e.inv.op.op.toLoc).inv.toNatTrans.app x) =
+          𝟙 _ := by
+    rw [← (higherLocalizedStrongTransExtensionApp
+      (W := W) gamma (.mk (op (op X)))).toFunctor.map_comp,
+      hFcomp, Functor.map_id]
+  have hHpMap :
+      (G.map e.inv.op.op.toLoc).toFunctor.map
+            (hp.inv.toNatTrans.app x) ≫
+        (G.map e.inv.op.op.toLoc).toFunctor.map
+            (hp.hom.toNatTrans.app x) =
+          𝟙 _ := by
+    rw [← (G.map e.inv.op.op.toLoc).toFunctor.map_comp,
+      hHp, Functor.map_id]
+  simpa only
+    [← Category.assoc, hFmap, hHpMap, hGcomp,
+      Category.id_comp, Category.comp_id]
 
 /-! ## Regression checks -/
 
