@@ -348,6 +348,7 @@ theorem higherLocalizedPseudofunctor_iso_inv_hom_triangle_hom_app
         Iso.trans_hom, Iso.trans_inv, Cat.Hom.toNatTrans_comp,
         NatTrans.comp_app, PrelaxFunctor.map₂Iso_eqToIso,
         eqToIso.hom, eqToIso.inv] at h
+    simp_rw [CategoryTheory.Functor.map_comp] at h
     simpa only
       [p, q, a, b, higherLocalizedIsoHomInvRelation,
         higherLocalizedIsoInvHomRelation, PrelaxFunctor.map₂_eqToHom,
@@ -542,6 +543,7 @@ theorem higherLocalizedStrongTransNaturality_inv_hom_transport
   simp only
     [higherLocalizedIsoHomInvRelation, eqToIso.hom,
       PrelaxFunctor.map₂_eqToHom] at hhp'
+  simp_rw [CategoryTheory.Functor.map_comp]
   simp only [Category.assoc]
   slice_lhs 2 5 =>
     rw [hhp']
