@@ -64,20 +64,21 @@ noncomputable def higherLocalizedIsoInvHomRelation
     apply Discrete.ext
     simp)
 
-/-- Functorial cancellation when the inverse is already composed
-with a following morphism.  This is the stable rewrite shape needed below:
-first expose functoriality on the composite, then use the reassociated
-hom-inv identity supplied by Mathlib. -/
-theorem functor_map_hom_inv_comp_assoc
+/-- Functorial cancellation when an inverse-like morphism is already
+composed with a following morphism.  The cancellation equality is supplied
+explicitly so this lemma works directly with Cat 2-cell components, without
+passing through the NatIso conversion and relying on definitional unfolding. -/
+theorem functor_map_cancel_comp_assoc
     {C D : Type*} [Category C] [Category D]
     (H : C ⥤ D)
-    {X Y Z : C} (e : X ≅ Y) (r : X ⟶ Z)
+    {X Y Z : C} (f : X ⟶ Y) (g : Y ⟶ X) (r : X ⟶ Z)
+    (hfg : f ≫ g = 𝟙 X)
     {T : D} (h : H.obj Z ⟶ T) :
-    H.map e.hom ≫ H.map (e.inv ≫ r) ≫ h =
+    H.map f ≫ H.map (g ≫ r) ≫ h =
       H.map r ≫ h := by
   rw [H.map_comp]
-  simpa only [Category.assoc] using
-    H.map_hom_inv'_assoc e (H.map r ≫ h)
+  simp only [Category.assoc]
+  rw [← H.map_comp_assoc, hfg, H.map_id, Category.id_comp]
 
 /-- Bicategorical hom form of the v4.98 fully-faithful specification.
 This is the exact rewrite shape needed inside the v4.99 composition formula. -/
@@ -170,11 +171,15 @@ theorem higherLocalizedStrongTransNaturality_hom_inv_transport
     [Cat.Hom.toNatTrans_comp, NatTrans.comp_app, Functor.map_comp,
       Category.id_comp, Category.comp_id]
   simp only [Category.assoc]
-  rw [functor_map_hom_inv_comp_assoc
+  rw [functor_map_cancel_comp_assoc
     (H := (higherLocalizedStrongTransExtensionApp
       (W := W) gamma (.mk (op (op X)))).toFunctor)
-    (e := (Cat.Hom.toNatIso
-      (F.mapComp e.hom.op.op.toLoc e.inv.op.op.toLoc)).app x)]
+    (f := (F.mapComp
+      e.hom.op.op.toLoc e.inv.op.op.toLoc).hom.toNatTrans.app x)
+    (g := (F.mapComp
+      e.hom.op.op.toLoc e.inv.op.op.toLoc).inv.toNatTrans.app x)
+    (hfg := Cat.Hom.hom_inv_id_toNatTrans_app
+      (F.mapComp e.hom.op.op.toLoc e.inv.op.op.toLoc) x)]
   rw [Functor.map_inv_hom'_assoc
     (G.map e.inv.op.op.toLoc).toFunctor
     ((Cat.Hom.toNatIso hp).app x)]
@@ -184,7 +189,7 @@ theorem higherLocalizedStrongTransNaturality_hom_inv_transport
 
 #print axioms higherLocalizedIsoHomInvRelation
 #print axioms higherLocalizedIsoInvHomRelation
-#print axioms functor_map_hom_inv_comp_assoc
+#print axioms functor_map_cancel_comp_assoc
 #print axioms higherLocalizedStrongTransNaturality_invOfIso_spec_hom
 #print axioms higherLocalizedStrongTransNaturality_hom_inv_transport
 
