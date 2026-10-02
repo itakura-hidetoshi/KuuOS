@@ -506,8 +506,6 @@ theorem higherLocalizedStrongTransNaturality_inv_hom_transport
   simp only
     [Cat.Hom.toNatTrans_comp, NatTrans.comp_app,
       CategoryTheory.Functor.map_comp, Category.id_comp, Category.comp_id]
-  simp only [Cat.Hom.toNatIso_hom, Cat.Hom.toNatIso_inv]
-
   let p := e.hom.op.op.toLoc
   let q := e.inv.op.op.toLoc
   let aX := (higherLocalizedStrongTransExtensionApp
@@ -544,9 +542,7 @@ theorem higherLocalizedStrongTransNaturality_inv_hom_transport
   simp only
     [higherLocalizedIsoHomInvRelation, eqToIso.hom,
       PrelaxFunctor.map₂_eqToHom] at hhp'
-  simp only
-    [Cat.Hom.toNatIso_hom, Cat.Hom.toNatIso_inv,
-      CategoryTheory.Functor.map_comp, Category.assoc]
+  simp only [CategoryTheory.Functor.map_comp, Category.assoc]
   slice_lhs 2 5 =>
     rw [hhp']
 
