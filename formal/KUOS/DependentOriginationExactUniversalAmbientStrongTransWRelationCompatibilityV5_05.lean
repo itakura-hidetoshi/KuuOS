@@ -415,6 +415,16 @@ theorem higherLocalizedPseudofunctor_iso_inv_hom_triangle_inv_app
         higherLocalizedIsoInvHomRelation,
         PrelaxFunctor.map₂Iso_eqToIso, PrelaxFunctor.map₂_eqToHom,
         eqToIso.hom, eqToIso.inv] using h
+  have hk_cancel :
+      ((H.map p).toFunctor.map ((H.mapId a).inv.toNatTrans.app x) ≫
+          (H.map p).toFunctor.map
+            ((H.map₂ (higherLocalizedIsoHomInvRelation (W := W) e).inv).toNatTrans.app x) ≫
+        (H.map p).toFunctor.map
+            ((H.mapComp p q).hom.toNatTrans.app x) ≫
+          (H.mapComp q p).inv.toNatTrans.app ((H.map p).toFunctor.obj x)) ≫
+            k.hom =
+        (H.mapId b).inv.toNatTrans.app ((H.map p).toFunctor.obj x) := by
+    simpa only [Category.assoc] using h'
   have hfinal :
       (H.map p).toFunctor.map ((H.mapId a).inv.toNatTrans.app x) ≫
           (H.map p).toFunctor.map
@@ -424,7 +434,7 @@ theorem higherLocalizedPseudofunctor_iso_inv_hom_triangle_inv_app
           (H.mapComp q p).inv.toNatTrans.app ((H.map p).toFunctor.obj x) =
         (H.mapId b).inv.toNatTrans.app ((H.map p).toFunctor.obj x) ≫
           k.inv :=
-    (Iso.eq_comp_inv k).2 h'
+    (Iso.eq_comp_inv k).2 hk_cancel
   simpa only [p, q, a, b, k, Cat.Hom.toNatIso_inv] using hfinal
 
 /-- Generic inv-hom compatibility.  We compare after precomposition by the
