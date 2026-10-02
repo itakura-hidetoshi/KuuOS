@@ -184,13 +184,10 @@ theorem higherLocalizedStrongTransNaturality_hom_inv_transport
     [Cat.Hom.toNatTrans_comp, NatTrans.comp_app, CategoryTheory.Functor.map_comp,
       Category.id_comp, Category.comp_id]
   simp only
-    [CategoryTheory.Functor.map_comp, Category.assoc,
+    [← Cat.Hom.toNatIso_hom, ← Cat.Hom.toNatIso_inv,
       CategoryTheory.Functor.map_hom_inv'_assoc,
       CategoryTheory.Functor.map_inv_hom'_assoc,
-      Cat.Hom.hom_inv_id_toNatTrans_app_assoc,
-      Cat.Hom.comp_toFunctor, Cat.Hom.comp_obj,
-      CategoryTheory.Functor.comp_obj,
-      Category.id_comp, Category.comp_id]
+      Iso.hom_inv_id_app_assoc]
 
 /-! ## Regression checks -/
 
