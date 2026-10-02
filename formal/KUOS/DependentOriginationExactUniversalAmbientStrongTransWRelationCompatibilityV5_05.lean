@@ -192,9 +192,10 @@ theorem higherLocalizedStrongTransNaturality_hom_inv_transport
         Cat.Hom.hom_inv_id_toNatTrans_app,
         Category.id_comp]
   slice_lhs 5 7 =>
-    rw [← (G.map e.inv.op.op.toLoc).toFunctor.map_comp_assoc,
-      Cat.Hom.inv_hom_id_toNatTrans_app,
-      Functor.map_id, Category.id_comp]
+    rw [← (G.map e.inv.op.op.toLoc).toFunctor.map_comp_assoc]
+    simp only
+      [Cat.Hom.inv_hom_id_toNatTrans_app,
+        Functor.map_id, Category.id_comp]
   simp
 
 /-! ## Regression checks -/
