@@ -1,4 +1,5 @@
 import Mathlib.Tactic.CategoryTheory.Slice
+import Mathlib.CategoryTheory.Bicategory.Strict.Pseudofunctor
 import KUOS.DependentOriginationExactUniversalAmbientStrongTransTransportCompatibilityV5_04
 
 namespace KUOS.DependentOriginationExactUniversalAmbientStrongTransWRelationCompatibilityV5_05
@@ -233,10 +234,197 @@ theorem higherLocalizedStrongTransNaturality_hom_inv_transport
             (W := W) gamma (.mk (op (op X)))).toFunctor.obj x))
 
 
+/-- The component form of the strict-source pseudofunctor triangle for an
+inverse pair, oriented so that the hom side ends at the target mapId.  This is
+the coherence hidden in the long inv-hom component calculation below. -/
+theorem pseudofunctor_inverse_pair_triangle_hom_app
+    (H : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W))
+    {a b : LocallyDiscrete ((HigherLocalizedSite W)ᵒᵖ)}
+    (p : a ⟶ b) (q : b ⟶ a)
+    (hpq : p ≫ q = 𝟙 a) (hqp : q ≫ p = 𝟙 b)
+    (x : H.obj a) :
+    (H.mapComp' q p (𝟙 b) hqp).hom.toNatTrans.app
+          ((H.map p).toFunctor.obj x) ≫
+        (H.map p).toFunctor.map
+          ((H.mapComp' p q (𝟙 a) hpq).inv.toNatTrans.app x) ≫
+      (H.map p).toFunctor.map ((H.mapId a).hom.toNatTrans.app x) =
+    (H.mapId b).hom.toNatTrans.app ((H.map p).toFunctor.obj x) := by
+  have h :=
+    H.mapComp'₀₁₃_inv_comp_mapComp'₀₂₃_hom_app
+      p q p (𝟙 a) (𝟙 b) p hpq hqp (by simp) x
+  slice_lhs 1 2 =>
+    rw [← h]
+  simp only
+    [Pseudofunctor.mapComp'_comp_id_inv_app,
+      Pseudofunctor.mapComp'_id_comp_hom_app,
+      ← Cat.Hom.toNatIso_hom, ← Cat.Hom.toNatIso_inv,
+      Category.assoc, ← CategoryTheory.Functor.map_comp,
+      Iso.inv_hom_id_app, CategoryTheory.Functor.map_id,
+      Category.comp_id]
+
+/-- The inverse component form of the same strict-source pseudofunctor triangle,
+oriented so that the source mapId inverse is cancelled first. -/
+theorem pseudofunctor_inverse_pair_triangle_inv_app
+    (H : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W))
+    {a b : LocallyDiscrete ((HigherLocalizedSite W)ᵒᵖ)}
+    (p : a ⟶ b) (q : b ⟶ a)
+    (hpq : p ≫ q = 𝟙 a) (hqp : q ≫ p = 𝟙 b)
+    (x : H.obj a) :
+    (H.map p).toFunctor.map ((H.mapId a).inv.toNatTrans.app x) ≫
+        (H.map p).toFunctor.map
+          ((H.mapComp' p q (𝟙 a) hpq).hom.toNatTrans.app x) ≫
+      (H.mapComp' q p (𝟙 b) hqp).inv.toNatTrans.app
+        ((H.map p).toFunctor.obj x) =
+    (H.mapId b).inv.toNatTrans.app ((H.map p).toFunctor.obj x) := by
+  have h :=
+    H.mapComp'₀₂₃_inv_comp_mapComp'₀₁₃_hom_app
+      p q p (𝟙 a) (𝟙 b) p hpq hqp (by simp) x
+  slice_lhs 2 3 =>
+    rw [← h]
+  simp only
+    [Pseudofunctor.mapComp'_id_comp_inv_app,
+      Pseudofunctor.mapComp'_comp_id_hom_app,
+      ← Cat.Hom.toNatIso_hom, ← Cat.Hom.toNatIso_inv,
+      Category.assoc, ← CategoryTheory.Functor.map_comp,
+      Iso.inv_hom_id_app, CategoryTheory.Functor.map_id,
+      Category.id_comp]
+
+/-- Expand the preceding hom triangle from mapComp' to the concrete mapComp and
+the two equality 2-cells carried by a localized isomorphism. -/
+theorem higherLocalizedPseudofunctor_iso_inv_hom_triangle_hom_app
+    (H : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W))
+    {X Y : LocalizedContext W} (e : X ≅ Y)
+    (x : H.obj (.mk (op (op X)))) :
+    (H.mapComp e.inv.op.op.toLoc e.hom.op.op.toLoc).hom.toNatTrans.app
+          ((H.map e.hom.op.op.toLoc).toFunctor.obj x) ≫
+        (H.map e.hom.op.op.toLoc).toFunctor.map
+          ((H.mapComp e.hom.op.op.toLoc e.inv.op.op.toLoc).inv.toNatTrans.app x) ≫
+      (H.map e.hom.op.op.toLoc).toFunctor.map
+          ((H.map₂ (higherLocalizedIsoHomInvRelation (W := W) e).hom).toNatTrans.app x) ≫
+        (H.map e.hom.op.op.toLoc).toFunctor.map
+          ((H.mapId (.mk (op (op X)))).hom.toNatTrans.app x) =
+    (H.map₂ (higherLocalizedIsoInvHomRelation (W := W) e).hom).toNatTrans.app
+          ((H.map e.hom.op.op.toLoc).toFunctor.obj x) ≫
+      (H.mapId (.mk (op (op Y)))).hom.toNatTrans.app
+        ((H.map e.hom.op.op.toLoc).toFunctor.obj x) := by
+  let p := e.hom.op.op.toLoc
+  let q := e.inv.op.op.toLoc
+  let a := LocallyDiscrete.mk (op (op X))
+  let b := LocallyDiscrete.mk (op (op Y))
+  have hpq : p ≫ q = 𝟙 a := by
+    apply Discrete.ext
+    dsimp [p, q, a]
+    simp
+  have hqp : q ≫ p = 𝟙 b := by
+    apply Discrete.ext
+    dsimp [p, q, b]
+    simp
+  have h :=
+    pseudofunctor_inverse_pair_triangle_hom_app
+      (W := W) H p q hpq hqp x
+  let k :=
+    (Cat.Hom.toNatIso
+      (H.map₂Iso (higherLocalizedIsoInvHomRelation (W := W) e))).app
+        ((H.map p).toFunctor.obj x)
+  have h' :
+      k.inv ≫
+          (H.mapComp q p).hom.toNatTrans.app ((H.map p).toFunctor.obj x) ≫
+        (H.map p).toFunctor.map
+            ((H.mapComp p q).inv.toNatTrans.app x) ≫
+          (H.map p).toFunctor.map
+              ((H.map₂ (higherLocalizedIsoHomInvRelation (W := W) e).hom).toNatTrans.app x) ≫
+            (H.map p).toFunctor.map
+              ((H.mapId a).hom.toNatTrans.app x) =
+        (H.mapId b).hom.toNatTrans.app ((H.map p).toFunctor.obj x) := by
+    simpa only
+      [p, q, a, b, k, Pseudofunctor.mapComp',
+        Iso.trans_hom, Iso.trans_inv, Cat.Hom.toNatTrans_comp,
+        NatTrans.comp_app, CategoryTheory.Functor.map_comp,
+        Category.assoc, higherLocalizedIsoHomInvRelation,
+        higherLocalizedIsoInvHomRelation,
+        PrelaxFunctor.map₂Iso_eqToIso, PrelaxFunctor.map₂_eqToHom,
+        eqToIso.hom, eqToIso.inv,
+        ← Cat.Hom.toNatIso_hom, ← Cat.Hom.toNatIso_inv] using h
+  rw [Iso.inv_comp_eq] at h'
+  simpa only [p, q, a, b, k, Cat.Hom.toNatIso_hom] using h'
+
+/-- Expand the inverse triangle to the concrete mapComp and equality 2-cells.
+The final equality 2-cell is kept explicitly on the right, exactly as required
+by the transported inv-hom identity candidate. -/
+theorem higherLocalizedPseudofunctor_iso_inv_hom_triangle_inv_app
+    (H : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W))
+    {X Y : LocalizedContext W} (e : X ≅ Y)
+    (x : H.obj (.mk (op (op X)))) :
+    (H.map e.hom.op.op.toLoc).toFunctor.map
+          ((H.mapId (.mk (op (op X)))).inv.toNatTrans.app x) ≫
+        (H.map e.hom.op.op.toLoc).toFunctor.map
+          ((H.map₂ (higherLocalizedIsoHomInvRelation (W := W) e).inv).toNatTrans.app x) ≫
+      (H.map e.hom.op.op.toLoc).toFunctor.map
+          ((H.mapComp e.hom.op.op.toLoc e.inv.op.op.toLoc).hom.toNatTrans.app x) ≫
+        (H.mapComp e.inv.op.op.toLoc e.hom.op.op.toLoc).inv.toNatTrans.app
+          ((H.map e.hom.op.op.toLoc).toFunctor.obj x) =
+    (H.mapId (.mk (op (op Y)))).inv.toNatTrans.app
+          ((H.map e.hom.op.op.toLoc).toFunctor.obj x) ≫
+      (H.map₂ (higherLocalizedIsoInvHomRelation (W := W) e).inv).toNatTrans.app
+        ((H.map e.hom.op.op.toLoc).toFunctor.obj x) := by
+  let p := e.hom.op.op.toLoc
+  let q := e.inv.op.op.toLoc
+  let a := LocallyDiscrete.mk (op (op X))
+  let b := LocallyDiscrete.mk (op (op Y))
+  have hpq : p ≫ q = 𝟙 a := by
+    apply Discrete.ext
+    dsimp [p, q, a]
+    simp
+  have hqp : q ≫ p = 𝟙 b := by
+    apply Discrete.ext
+    dsimp [p, q, b]
+    simp
+  have h :=
+    pseudofunctor_inverse_pair_triangle_inv_app
+      (W := W) H p q hpq hqp x
+  let k :=
+    (Cat.Hom.toNatIso
+      (H.map₂Iso (higherLocalizedIsoInvHomRelation (W := W) e))).app
+        ((H.map p).toFunctor.obj x)
+  have h' :
+      (H.map p).toFunctor.map ((H.mapId a).inv.toNatTrans.app x) ≫
+          (H.map p).toFunctor.map
+            ((H.map₂ (higherLocalizedIsoHomInvRelation (W := W) e).inv).toNatTrans.app x) ≫
+        (H.map p).toFunctor.map
+            ((H.mapComp p q).hom.toNatTrans.app x) ≫
+          (H.mapComp q p).inv.toNatTrans.app ((H.map p).toFunctor.obj x) ≫
+            k.hom =
+        (H.mapId b).inv.toNatTrans.app ((H.map p).toFunctor.obj x) := by
+    simpa only
+      [p, q, a, b, k, Pseudofunctor.mapComp',
+        Iso.trans_hom, Iso.trans_inv, Cat.Hom.toNatTrans_comp,
+        NatTrans.comp_app, CategoryTheory.Functor.map_comp,
+        Category.assoc, higherLocalizedIsoHomInvRelation,
+        higherLocalizedIsoInvHomRelation,
+        PrelaxFunctor.map₂Iso_eqToIso, PrelaxFunctor.map₂_eqToHom,
+        eqToIso.hom, eqToIso.inv,
+        ← Cat.Hom.toNatIso_hom, ← Cat.Hom.toNatIso_inv] using h
+  have hfinal :
+      (H.map p).toFunctor.map ((H.mapId a).inv.toNatTrans.app x) ≫
+          (H.map p).toFunctor.map
+            ((H.map₂ (higherLocalizedIsoHomInvRelation (W := W) e).inv).toNatTrans.app x) ≫
+        (H.map p).toFunctor.map
+            ((H.mapComp p q).hom.toNatTrans.app x) ≫
+          (H.mapComp q p).inv.toNatTrans.app ((H.map p).toFunctor.obj x) =
+        (H.mapId b).inv.toNatTrans.app ((H.map p).toFunctor.obj x) ≫
+          k.inv := by
+    calc
+      _ = (_ ≫ k.hom) ≫ k.inv := by
+        simp only [Category.assoc, k.hom_inv_id, Category.comp_id]
+      _ = (H.mapId b).inv.toNatTrans.app ((H.map p).toFunctor.obj x) ≫
+          k.inv := by rw [h']
+  simpa only [p, q, a, b, k, Cat.Hom.toNatIso_inv] using hfinal
+
 /-- Generic inv-hom compatibility.  We compare after precomposition by the
 forward image of the localized isomorphism; this is faithful because that image
-is an equivalence.  The v4.98 fully-faithful specification then rewrites the
-inverse naturality component at exactly the required object. -/
+is an equivalence.  The proof is then split into the two strict-source
+pseudofunctor inverse-pair triangles and ordinary naturality of the supplied
+forward square. -/
 theorem higherLocalizedStrongTransNaturality_inv_hom_transport
     {F G : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W)}
     (gamma :
@@ -299,10 +487,146 @@ theorem higherLocalizedStrongTransNaturality_inv_hom_transport
       PrelaxFunctor.map₂Iso_eqToIso, PrelaxFunctor.map₂_eqToHom,
       eqToIso.hom, eqToIso.inv]
   simp only
-    [Cat.Hom.toNatTrans_comp, NatTrans.comp_app, CategoryTheory.Functor.map_comp,
-      Category.id_comp, Category.comp_id]
+    [Cat.Hom.toNatTrans_comp, NatTrans.comp_app,
+      CategoryTheory.Functor.map_comp, Category.id_comp, Category.comp_id]
   simp only [← Cat.Hom.toNatIso_hom, ← Cat.Hom.toNatIso_inv]
-  simp
+
+  let p := e.hom.op.op.toLoc
+  let q := e.inv.op.op.toLoc
+  let aX := (higherLocalizedStrongTransExtensionApp
+    (W := W) gamma (.mk (op (op X)))).toFunctor
+  let aY := (higherLocalizedStrongTransExtensionApp
+    (W := W) gamma (.mk (op (op Y)))).toFunctor
+  let Fp := (F.map p).toFunctor
+  let Fq := (F.map q).toFunctor
+  let Gp := (G.map p).toFunctor
+  let Gq := (G.map q).toFunctor
+  let mF :=
+    (F.mapComp p q).inv.toNatTrans.app x ≫
+      (F.map₂ (higherLocalizedIsoHomInvRelation (W := W) e).hom).toNatTrans.app x ≫
+        (F.mapId (.mk (op (op X)))).hom.toNatTrans.app x
+
+  have hhp := hp.hom.toNatTrans.naturality mF
+  have hhp' :
+      hp.hom.toNatTrans.app (Fq.obj (Fp.obj x)) ≫
+          Gp.map (aX.map ((F.mapComp p q).inv.toNatTrans.app x)) ≫
+        Gp.map (aX.map
+          ((F.map₂ (higherLocalizedIsoHomInvRelation (W := W) e).hom).toNatTrans.app x)) ≫
+          Gp.map (aX.map
+            ((F.mapId (.mk (op (op X)))).hom.toNatTrans.app x)) =
+        aY.map (Fp.map ((F.mapComp p q).inv.toNatTrans.app x)) ≫
+          aY.map (Fp.map
+            ((F.map₂ (higherLocalizedIsoHomInvRelation (W := W) e).hom).toNatTrans.app x)) ≫
+            aY.map (Fp.map
+              ((F.mapId (.mk (op (op X)))).hom.toNatTrans.app x)) ≫
+              hp.hom.toNatTrans.app x := by
+    simpa only
+      [mF, Functor.comp_map, CategoryTheory.Functor.map_comp,
+        Category.assoc] using hhp.symm
+  dsimp [p, q, aX, aY, Fp, Fq, Gp, Gq] at hhp'
+  simp only
+    [higherLocalizedIsoHomInvRelation, eqToIso.hom,
+      PrelaxFunctor.map₂_eqToHom] at hhp'
+  slice_lhs 2 5 =>
+    rw [hhp']
+
+  have hFtri :=
+    higherLocalizedPseudofunctor_iso_inv_hom_triangle_hom_app
+      (W := W) F e x
+  simp only
+    [higherLocalizedIsoHomInvRelation, higherLocalizedIsoInvHomRelation,
+      eqToIso.hom, PrelaxFunctor.map₂_eqToHom] at hFtri
+  have hFmapped :=
+    congrArg
+      (fun m =>
+        (higherLocalizedStrongTransExtensionApp
+          (W := W) gamma (.mk (op (op Y)))).toFunctor.map m)
+      hFtri
+  simp only [CategoryTheory.Functor.map_comp, Category.assoc] at hFmapped
+  slice_lhs 1 4 =>
+    rw [hFmapped]
+
+  have hGcomp :=
+    (G.mapComp e.inv.op.op.toLoc e.hom.op.op.toLoc).inv.toNatTrans.naturality
+      (hp.inv.toNatTrans.app x)
+  have hGcomp' :
+      (G.map e.hom.op.op.toLoc).toFunctor.map
+            ((G.map e.inv.op.op.toLoc).toFunctor.map
+              (hp.inv.toNatTrans.app x)) ≫
+        (G.mapComp e.inv.op.op.toLoc e.hom.op.op.toLoc).inv.toNatTrans.app
+          ((higherLocalizedStrongTransExtensionApp
+            (W := W) gamma (.mk (op (op Y)))).toFunctor.obj
+              ((F.map e.hom.op.op.toLoc).toFunctor.obj x)) =
+      (G.mapComp e.inv.op.op.toLoc e.hom.op.op.toLoc).inv.toNatTrans.app
+          ((G.map e.hom.op.op.toLoc).toFunctor.obj
+            ((higherLocalizedStrongTransExtensionApp
+              (W := W) gamma (.mk (op (op X)))).toFunctor.obj x)) ≫
+        (G.map
+          (e.inv.op.op.toLoc ≫ e.hom.op.op.toLoc)).toFunctor.map
+            (hp.inv.toNatTrans.app x) := by
+    simpa only [Functor.comp_map] using hGcomp
+  slice_lhs 7 8 =>
+    rw [hGcomp']
+
+  have hGtri :=
+    higherLocalizedPseudofunctor_iso_inv_hom_triangle_inv_app
+      (W := W) G e
+      ((higherLocalizedStrongTransExtensionApp
+        (W := W) gamma (.mk (op (op X)))).toFunctor.obj x)
+  simp only
+    [higherLocalizedIsoHomInvRelation, higherLocalizedIsoInvHomRelation,
+      eqToIso.hom, eqToIso.inv, PrelaxFunctor.map₂_eqToHom] at hGtri
+  slice_lhs 4 7 =>
+    rw [hGtri]
+
+  let tG :
+      𝟭 (G.obj (.mk (op (op Y)))) ⟶
+        (G.map (e.inv.op.op.toLoc ≫ e.hom.op.op.toLoc)).toFunctor :=
+    (G.mapId (.mk (op (op Y)))).inv.toNatTrans ≫
+      (G.map₂
+        (higherLocalizedIsoInvHomRelation (W := W) e).inv).toNatTrans
+  have ht := tG.naturality (hp.hom.toNatTrans.app x)
+  have ht' := congrArg
+    (fun m =>
+      m ≫
+        (G.map
+          (e.inv.op.op.toLoc ≫ e.hom.op.op.toLoc)).toFunctor.map
+            (hp.inv.toNatTrans.app x))
+    ht
+  have hGsuffix :
+      hp.hom.toNatTrans.app x ≫
+          (G.mapId (.mk (op (op Y)))).inv.toNatTrans.app
+            ((G.map e.hom.op.op.toLoc).toFunctor.obj
+              ((higherLocalizedStrongTransExtensionApp
+                (W := W) gamma (.mk (op (op X)))).toFunctor.obj x)) ≫
+        (G.map₂
+          (higherLocalizedIsoInvHomRelation (W := W) e).inv).toNatTrans.app
+            ((G.map e.hom.op.op.toLoc).toFunctor.obj
+              ((higherLocalizedStrongTransExtensionApp
+                (W := W) gamma (.mk (op (op X)))).toFunctor.obj x)) ≫
+          (G.map
+            (e.inv.op.op.toLoc ≫ e.hom.op.op.toLoc)).toFunctor.map
+              (hp.inv.toNatTrans.app x) =
+        (G.mapId (.mk (op (op Y)))).inv.toNatTrans.app
+            ((higherLocalizedStrongTransExtensionApp
+              (W := W) gamma (.mk (op (op Y)))).toFunctor.obj
+                ((F.map e.hom.op.op.toLoc).toFunctor.obj x)) ≫
+          (G.map₂
+            (higherLocalizedIsoInvHomRelation (W := W) e).inv).toNatTrans.app
+              ((higherLocalizedStrongTransExtensionApp
+                (W := W) gamma (.mk (op (op Y)))).toFunctor.obj
+                  ((F.map e.hom.op.op.toLoc).toFunctor.obj x)) := by
+    simpa only
+      [tG, NatTrans.comp_app, Functor.id_map, Category.assoc,
+        ← CategoryTheory.Functor.map_comp,
+        ← Cat.Hom.toNatIso_hom, ← Cat.Hom.toNatIso_inv,
+        Iso.hom_inv_id_app, CategoryTheory.Functor.map_id,
+        Category.comp_id] using ht'
+  simp only
+    [higherLocalizedIsoInvHomRelation, eqToIso.inv,
+      PrelaxFunctor.map₂_eqToHom] at hGsuffix
+  slice_lhs 3 6 =>
+    rw [hGsuffix]
 
 
 /-! ## Declared W-arrow specializations -/
@@ -413,6 +737,10 @@ theorem higherLocalizedStrongTransNaturality_Winv2_transport
 #print axioms functor_map_cancel_assoc
 #print axioms comp_iso_hom_inv_cancel
 #print axioms higherLocalizedStrongTransNaturality_invOfIso_spec_hom
+#print axioms pseudofunctor_inverse_pair_triangle_hom_app
+#print axioms pseudofunctor_inverse_pair_triangle_inv_app
+#print axioms higherLocalizedPseudofunctor_iso_inv_hom_triangle_hom_app
+#print axioms higherLocalizedPseudofunctor_iso_inv_hom_triangle_inv_app
 #print axioms higherLocalizedStrongTransNaturality_hom_inv_transport
 #print axioms higherLocalizedStrongTransNaturality_inv_hom_transport
 #print axioms higherLocalizedStrongTransWForwardNaturalityV5_05
