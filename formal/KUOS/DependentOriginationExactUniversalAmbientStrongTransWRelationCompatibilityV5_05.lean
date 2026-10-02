@@ -216,11 +216,12 @@ theorem higherLocalizedStrongTransNaturality_hom_inv_transport
     apply functor_map_cancel
     exact Iso.inv_hom_id_app (Cat.Hom.toNatIso hp) x
   simp only [Category.id_comp]
-  slice_lhs 4 5 =>
-    simp only
-      [Category.assoc,
-        Iso.hom_inv_id_app,
-        Category.comp_id]
+  slice_lhs 5 6 =>
+    exact Iso.hom_inv_id_app
+      (Cat.Hom.toNatIso
+        (G.mapComp e.hom.op.op.toLoc e.inv.op.op.toLoc))
+      ((higherLocalizedStrongTransExtensionApp
+        (W := W) gamma (.mk (op (op X)))).toFunctor.obj x)
   simp
 
 /-! ## Regression checks -/
