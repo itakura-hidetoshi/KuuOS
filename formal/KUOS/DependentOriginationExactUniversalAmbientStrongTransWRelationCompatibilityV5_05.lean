@@ -255,12 +255,10 @@ theorem pseudofunctor_inverse_pair_triangle_hom_app
   simp only [Cat.Hom.comp_toFunctor, Functor.comp_obj]
   slice_lhs 1 2 =>
     rw [← h]
-  simp only
+  simp
     [Pseudofunctor.mapComp'_comp_id_inv_app,
       Pseudofunctor.mapComp'_id_comp_hom_app,
-      Category.assoc, ← CategoryTheory.Functor.map_comp,
-      Cat.Hom.inv_hom_id_toNatTrans_app,
-      CategoryTheory.Functor.map_id, Category.comp_id]
+      ← CategoryTheory.Functor.map_comp]
 
 /-- The inverse component form of the same strict-source pseudofunctor triangle,
 oriented so that the source mapId inverse is cancelled first. -/
@@ -282,12 +280,10 @@ theorem pseudofunctor_inverse_pair_triangle_inv_app
   simp only [Cat.Hom.comp_toFunctor, Functor.comp_obj]
   slice_lhs 2 3 =>
     rw [← h]
-  simp only
+  simp
     [Pseudofunctor.mapComp'_id_comp_inv_app,
       Pseudofunctor.mapComp'_comp_id_hom_app,
-      Category.assoc, ← CategoryTheory.Functor.map_comp,
-      Cat.Hom.inv_hom_id_toNatTrans_app,
-      CategoryTheory.Functor.map_id, Category.id_comp]
+      ← CategoryTheory.Functor.map_comp]
 
 /-- Expand the preceding hom triangle from mapComp' to the concrete mapComp and
 the two equality 2-cells carried by a localized isomorphism. -/
@@ -342,14 +338,15 @@ theorem higherLocalizedPseudofunctor_iso_inv_hom_triangle_hom_app
               ((H.mapId a).hom.toNatTrans.app x) =
         (H.mapId b).hom.toNatTrans.app ((H.map p).toFunctor.obj x) := by
     rw [hk_inv]
-    simpa only
+    simp only
       [p, q, a, b, Pseudofunctor.mapComp',
         Iso.trans_hom, Iso.trans_inv, Cat.Hom.toNatTrans_comp,
-        NatTrans.comp_app, CategoryTheory.Functor.map_comp,
-        Category.assoc, higherLocalizedIsoHomInvRelation,
+        NatTrans.comp_app, higherLocalizedIsoHomInvRelation,
         higherLocalizedIsoInvHomRelation,
         PrelaxFunctor.map₂Iso_eqToIso, PrelaxFunctor.map₂_eqToHom,
-        eqToIso.hom, eqToIso.inv] using h
+        eqToIso.hom, eqToIso.inv] at h
+    simp_rw [CategoryTheory.Functor.map_comp] at h
+    simpa only [Category.assoc] using h
   exact (Iso.inv_comp_eq k).1 h'
 
 /-- Expand the inverse triangle to the concrete mapComp and equality 2-cells.
@@ -540,7 +537,8 @@ theorem higherLocalizedStrongTransNaturality_inv_hom_transport
   simp only
     [higherLocalizedIsoHomInvRelation, eqToIso.hom,
       PrelaxFunctor.map₂_eqToHom] at hhp'
-  simp only [CategoryTheory.Functor.map_comp, Category.assoc]
+  simp_rw [CategoryTheory.Functor.map_comp]
+  simp only [Category.assoc]
   slice_lhs 2 5 =>
     rw [hhp']
 
