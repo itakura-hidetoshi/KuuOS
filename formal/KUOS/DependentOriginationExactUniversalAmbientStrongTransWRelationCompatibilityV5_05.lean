@@ -183,23 +183,11 @@ theorem higherLocalizedStrongTransNaturality_hom_inv_transport
   simp only
     [Cat.Hom.toNatTrans_comp, NatTrans.comp_app, CategoryTheory.Functor.map_comp,
       Category.id_comp, Category.comp_id]
-  simp only [Category.assoc]
-  have hFcancel :=
-    (higherLocalizedStrongTransExtensionApp
-      (W := W) gamma (.mk (op (op X)))).toFunctor.map_hom_inv'_assoc
-      ((Cat.Hom.toNatIso
-        (F.mapComp e.hom.op.op.toLoc e.inv.op.op.toLoc)).app x)
-  have hHpCancel :=
-    (G.map e.inv.op.op.toLoc).toFunctor.map_inv_hom'_assoc
-      ((Cat.Hom.toNatIso hp).app x)
-  have hGcancel :=
-    Cat.Hom.hom_inv_id_toNatTrans_app_assoc
-      (G.mapComp e.hom.op.op.toLoc e.inv.op.op.toLoc)
-      ((higherLocalizedStrongTransExtensionApp
-        (W := W) gamma (.mk (op (op X)))).toFunctor.obj x)
-  simpa only
+  simp only
     [CategoryTheory.Functor.map_comp, Category.assoc,
-      hFcancel, hHpCancel, hGcancel,
+      CategoryTheory.Functor.map_hom_inv'_assoc,
+      CategoryTheory.Functor.map_inv_hom'_assoc,
+      Cat.Hom.hom_inv_id_toNatTrans_app_assoc,
       Cat.Hom.comp_toFunctor, Cat.Hom.comp_obj,
       CategoryTheory.Functor.comp_obj,
       Category.id_comp, Category.comp_id]
