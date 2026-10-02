@@ -252,6 +252,7 @@ theorem pseudofunctor_inverse_pair_triangle_hom_app
   have h :=
     H.mapComp'₀₁₃_inv_comp_mapComp'₀₂₃_hom_app
       p q p (𝟙 a) (𝟙 b) p hpq hqp (by simp) x
+  simp only [Cat.Hom.comp_toFunctor, Functor.comp_obj]
   slice_lhs 1 2 =>
     rw [← h]
   simp only
@@ -279,6 +280,7 @@ theorem pseudofunctor_inverse_pair_triangle_inv_app
   have h :=
     H.mapComp'₀₂₃_inv_comp_mapComp'₀₁₃_hom_app
       p q p (𝟙 a) (𝟙 b) p hpq hqp (by simp) x
+  simp only [Cat.Hom.comp_toFunctor, Functor.comp_obj]
   slice_lhs 2 3 =>
     rw [← h]
   simp only
@@ -343,10 +345,9 @@ theorem higherLocalizedPseudofunctor_iso_inv_hom_triangle_hom_app
         Category.assoc, higherLocalizedIsoHomInvRelation,
         higherLocalizedIsoInvHomRelation,
         PrelaxFunctor.map₂Iso_eqToIso, PrelaxFunctor.map₂_eqToHom,
-        eqToIso.hom, eqToIso.inv,
+        eqToIso.hom, eqToIso.inv, Cat.Hom.toNatIso,
         ← Cat.Hom.toNatIso_hom, ← Cat.Hom.toNatIso_inv] using h
-  rw [Iso.inv_comp_eq] at h'
-  simpa only [p, q, a, b, k, Cat.Hom.toNatIso_hom] using h'
+  exact (Iso.inv_comp_eq k).1 h'
 
 /-- Expand the inverse triangle to the concrete mapComp and equality 2-cells.
 The final equality 2-cell is kept explicitly on the right, exactly as required
@@ -412,12 +413,8 @@ theorem higherLocalizedPseudofunctor_iso_inv_hom_triangle_inv_app
             ((H.mapComp p q).hom.toNatTrans.app x) ≫
           (H.mapComp q p).inv.toNatTrans.app ((H.map p).toFunctor.obj x) =
         (H.mapId b).inv.toNatTrans.app ((H.map p).toFunctor.obj x) ≫
-          k.inv := by
-    calc
-      _ = (_ ≫ k.hom) ≫ k.inv := by
-        simp only [Category.assoc, k.hom_inv_id, Category.comp_id]
-      _ = (H.mapId b).inv.toNatTrans.app ((H.map p).toFunctor.obj x) ≫
-          k.inv := by rw [h']
+          k.inv :=
+    (Iso.eq_comp_inv k).2 h'
   simpa only [p, q, a, b, k, Cat.Hom.toNatIso_inv] using hfinal
 
 /-- Generic inv-hom compatibility.  We compare after precomposition by the
@@ -489,7 +486,7 @@ theorem higherLocalizedStrongTransNaturality_inv_hom_transport
   simp only
     [Cat.Hom.toNatTrans_comp, NatTrans.comp_app,
       CategoryTheory.Functor.map_comp, Category.id_comp, Category.comp_id]
-  simp only [← Cat.Hom.toNatIso_hom, ← Cat.Hom.toNatIso_inv]
+  simp only [Cat.Hom.toNatIso_hom, Cat.Hom.toNatIso_inv]
 
   let p := e.hom.op.op.toLoc
   let q := e.inv.op.op.toLoc
@@ -527,6 +524,9 @@ theorem higherLocalizedStrongTransNaturality_inv_hom_transport
   simp only
     [higherLocalizedIsoHomInvRelation, eqToIso.hom,
       PrelaxFunctor.map₂_eqToHom] at hhp'
+  simp only
+    [Cat.Hom.toNatIso_hom, Cat.Hom.toNatIso_inv,
+      CategoryTheory.Functor.map_comp, Category.assoc]
   slice_lhs 2 5 =>
     rw [hhp']
 
