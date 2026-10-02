@@ -212,11 +212,11 @@ theorem higherLocalizedStrongTransNaturality_hom_inv_transport
       (Cat.Hom.toNatIso
         (F.mapComp e.hom.op.op.toLoc e.inv.op.op.toLoc)) x
   simp only [Category.assoc]
-  slice_lhs 6 7 =>
+  slice_lhs 5 6 =>
     apply functor_map_cancel
     exact Iso.inv_hom_id_app (Cat.Hom.toNatIso hp) x
   simp only [Category.id_comp, Category.comp_id]
-  slice_lhs 5 6 =>
+  slice_lhs 4 5 =>
     exact Iso.hom_inv_id_app
       (Cat.Hom.toNatIso
         (G.mapComp e.hom.op.op.toLoc e.inv.op.op.toLoc))
