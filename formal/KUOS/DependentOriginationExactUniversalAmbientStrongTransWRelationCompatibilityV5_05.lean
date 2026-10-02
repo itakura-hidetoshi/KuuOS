@@ -232,6 +232,78 @@ theorem higherLocalizedStrongTransNaturality_hom_inv_transport
           ((higherLocalizedStrongTransExtensionApp
             (W := W) gamma (.mk (op (op X)))).toFunctor.obj x))
 
+
+/-- Generic inv-hom compatibility.  We compare after precomposition by the
+forward image of the localized isomorphism; this is faithful because that image
+is an equivalence.  The v4.98 fully-faithful specification then rewrites the
+inverse naturality component at exactly the required object. -/
+theorem higherLocalizedStrongTransNaturality_inv_hom_transport
+    {F G : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W)}
+    (gamma :
+      restrictHigherLocalizedSystem W F ⟶
+        restrictHigherLocalizedSystem W G)
+    {X Y : LocalizedContext W} (e : X ≅ Y)
+    (hp :
+      F.map e.hom.op.op.toLoc ≫
+            higherLocalizedStrongTransExtensionApp (W := W) gamma
+              (.mk (op (op Y))) ≅
+        higherLocalizedStrongTransExtensionApp (W := W) gamma
+              (.mk (op (op X))) ≫
+          G.map e.hom.op.op.toLoc) :
+    higherLocalizedStrongTransNaturality_comp
+        (W := W) gamma
+        e.inv.op.op.toLoc e.hom.op.op.toLoc
+        (higherLocalizedStrongTransNaturality_invOfIso
+          (W := W) gamma e hp)
+        hp =
+      higherLocalizedStrongTransNaturalityTransport
+        (W := W) gamma
+        (higherLocalizedIsoInvHomRelation (W := W) e)
+        (higherLocalizedStrongTransNaturality_id
+          (W := W) gamma (.mk (op (op Y)))) := by
+  letI : (F.map e.hom.op.op.toLoc).toFunctor.IsEquivalence :=
+    pseudofunctor_map_of_isIso_isEquivalence F e.hom.op.op
+  apply Iso.ext
+  apply Cat.Hom₂.ext
+  apply
+    ((whiskeringLeft
+      (F.obj (.mk (op (op X))))
+      (F.obj (.mk (op (op Y))))
+      (G.obj (.mk (op (op Y))))).obj
+        (F.map e.hom.op.op.toLoc).toFunctor).map_injective
+  apply NatTrans.ext
+  funext x
+  have hspec := congrArg
+    (fun η => η.app x)
+    (congrArg Iso.hom
+      (higherLocalizedStrongTransNaturality_invOfIso_spec
+        (W := W) gamma e hp))
+  change
+    (higherLocalizedStrongTransNaturality_invOfIso
+        (W := W) gamma e hp).hom.toNatTrans.app
+          ((F.map e.hom.op.op.toLoc).toFunctor.obj x) =
+      (higherLocalizedStrongTransInverseWhiskeredSquare
+        (W := W) gamma e hp).hom.app x at hspec
+  simp only
+    [Functor.whiskerLeft_app,
+      higherLocalizedStrongTransNaturality_comp_hom,
+      higherLocalizedStrongTransNaturalityTransport_hom,
+      higherLocalizedStrongTransNaturality_id_hom,
+      Cat.Hom₂.comp_app, Cat.whiskerLeft_app, Cat.whiskerRight_app]
+  rw [hspec]
+  dsimp
+    [higherLocalizedStrongTransInverseWhiskeredSquare,
+      higherLocalizedIsoInvHomRelation]
+  simp only
+    [Pseudofunctor.mapComp', Iso.trans_hom, Iso.trans_inv,
+      PrelaxFunctor.map₂Iso_eqToIso, PrelaxFunctor.map₂_eqToHom,
+      eqToIso.hom, eqToIso.inv]
+  simp only
+    [Cat.Hom.toNatTrans_comp, NatTrans.comp_app, CategoryTheory.Functor.map_comp,
+      Category.id_comp, Category.comp_id]
+  simp only [← Cat.Hom.toNatIso_hom, ← Cat.Hom.toNatIso_inv]
+  simp
+
 /-! ## Regression checks -/
 
 #print axioms higherLocalizedIsoHomInvRelation
@@ -243,6 +315,7 @@ theorem higherLocalizedStrongTransNaturality_hom_inv_transport
 #print axioms comp_iso_hom_inv_cancel
 #print axioms higherLocalizedStrongTransNaturality_invOfIso_spec_hom
 #print axioms higherLocalizedStrongTransNaturality_hom_inv_transport
+#print axioms higherLocalizedStrongTransNaturality_inv_hom_transport
 
 end
 
