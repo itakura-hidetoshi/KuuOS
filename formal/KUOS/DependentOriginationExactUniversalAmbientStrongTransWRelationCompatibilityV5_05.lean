@@ -223,12 +223,10 @@ theorem higherLocalizedStrongTransNaturality_hom_inv_transport
     simp only
       [Cat.Hom.comp_toFunctor, CategoryTheory.Functor.comp_obj,
         hHpMap]
-  simp only [Category.id_comp, Category.comp_id]
-  slice_lhs 5 6 =>
-    simp only
-      [Cat.Hom.comp_toFunctor, CategoryTheory.Functor.comp_obj,
-        hGcomp]
-  simp
+  simpa only
+    [Category.assoc, Cat.Hom.comp_toFunctor,
+      CategoryTheory.Functor.comp_obj, hGcomp,
+      Category.id_comp, Category.comp_id]
 
 /-! ## Regression checks -/
 
