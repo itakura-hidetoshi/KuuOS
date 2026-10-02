@@ -80,6 +80,18 @@ theorem functor_map_cancel_comp_assoc
   simp only [Category.assoc]
   rw [← H.map_comp_assoc, hfg, H.map_id, Category.id_comp]
 
+/-- Functorial cancellation of two explicitly supplied inverse-like
+morphisms inside a longer composite.  Keeping the component morphisms explicit
+avoids coercion-sensitive matching through NatIso wrappers. -/
+theorem functor_map_cancel_assoc
+    {C D : Type*} [Category C] [Category D]
+    (H : C ⥤ D)
+    {X Y : C} (f : X ⟶ Y) (g : Y ⟶ X)
+    (hfg : f ≫ g = 𝟙 X)
+    {T : D} (h : H.obj X ⟶ T) :
+    H.map f ≫ H.map g ≫ h = h := by
+  rw [← H.map_comp_assoc, hfg, H.map_id, Category.id_comp]
+
 /-- Bicategorical hom form of the v4.98 fully-faithful specification.
 This is the exact rewrite shape needed inside the v4.99 composition formula. -/
 theorem higherLocalizedStrongTransNaturality_invOfIso_spec_hom
@@ -180,9 +192,11 @@ theorem higherLocalizedStrongTransNaturality_hom_inv_transport
       e.hom.op.op.toLoc e.inv.op.op.toLoc).inv.toNatTrans.app x)
     (hfg := Cat.Hom.hom_inv_id_toNatTrans_app
       (F.mapComp e.hom.op.op.toLoc e.inv.op.op.toLoc) x)]
-  rw [Functor.map_inv_hom'_assoc
-    (G.map e.inv.op.op.toLoc).toFunctor
-    ((Cat.Hom.toNatIso hp).app x)]
+  rw [functor_map_cancel_assoc
+    (H := (G.map e.inv.op.op.toLoc).toFunctor)
+    (f := hp.inv.toNatTrans.app x)
+    (g := hp.hom.toNatTrans.app x)
+    (hfg := Cat.Hom.inv_hom_id_toNatTrans_app hp x)]
   simp
 
 /-! ## Regression checks -/
@@ -190,6 +204,7 @@ theorem higherLocalizedStrongTransNaturality_hom_inv_transport
 #print axioms higherLocalizedIsoHomInvRelation
 #print axioms higherLocalizedIsoInvHomRelation
 #print axioms functor_map_cancel_comp_assoc
+#print axioms functor_map_cancel_assoc
 #print axioms higherLocalizedStrongTransNaturality_invOfIso_spec_hom
 #print axioms higherLocalizedStrongTransNaturality_hom_inv_transport
 
