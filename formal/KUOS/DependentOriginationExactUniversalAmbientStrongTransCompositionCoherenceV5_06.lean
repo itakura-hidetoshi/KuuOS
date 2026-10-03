@@ -89,9 +89,10 @@ theorem higherLocalizedStrongTransNaturality_comp_id_left
         PrelaxFunctor.map₂_eqToHom,
         eqToHom_map]
   slice_lhs 2 3 => erw [hnat']
+  trace_state
   simp only
-    [← Functor.map_comp_assoc,
-      Cat.Hom.inv_hom_id_toNatTrans_app_assoc,
+    [← Functor.map_comp,
+      Cat.Hom.inv_hom_id_toNatTrans_app,
       Functor.map_id, Category.id_comp, Category.comp_id,
       eqToHom_refl]
 
@@ -143,20 +144,20 @@ theorem higherLocalizedStrongTransNaturality_comp_id_right
         F.mapComp_id_right_hom_app,
         G.mapComp_id_right_inv_app,
         Strict.rightUnitor_eqToIso,
-        PrelaxFunctor.map₂_eqToHom,
-        eqToHom_map]
+        PrelaxFunctor.map₂_eqToHom]
   slice_lhs 2 3 =>
     simp only
       [← Functor.map_comp,
         Cat.Hom.inv_hom_id_toNatTrans_app,
         Functor.map_id, Category.id_comp, Category.comp_id]
   simp only
-    [Category.assoc,
-      ← NatTrans.naturality_assoc,
-      Cat.Hom.inv_hom_id_toNatTrans_app_assoc,
-      ← Functor.map_comp_assoc,
-      Functor.map_id, Category.id_comp, Category.comp_id,
-      eqToHom_refl]
+    [Cat.Hom.inv_hom_id_toNatTrans_app,
+      Functor.map_id, Category.id_comp]
+  simp only [Category.assoc, ← Functor.map_comp_assoc]
+  simp only [NatTrans.naturality_assoc]
+  simp only
+    [Cat.Hom.inv_hom_id_toNatTrans_app_assoc,
+      Category.id_comp, Category.comp_id]
 
 /-- The two parenthesizations of the v4.99 composition constructor agree after
 transport along the source associator. -/
@@ -237,11 +238,13 @@ theorem higherLocalizedStrongTransNaturality_comp_assoc
         PrelaxFunctor.map₂_eqToHom]
   slice_lhs 2 3 => erw [← hnatH']
   slice_rhs 6 7 => erw [← hnatG']
-  rw [← (higherLocalizedStrongTransExtensionApp
-    (W := W) gamma d).toFunctor.map_comp_assoc]
-  rw [F.mapComp_assoc_left_hom_app]
-  simp only [Functor.map_comp, Category.assoc]
-  rw [G.mapComp_assoc_left_inv_app_assoc]
+  slice_lhs 6 7 =>
+    rw [G.mapComp_assoc_left_inv_app]
+  slice_lhs 1 3 =>
+    rw [← (higherLocalizedStrongTransExtensionApp
+      (W := W) gamma d).toFunctor.map_comp_assoc]
+    rw [F.mapComp_assoc_left_hom_app]
+    simp only [Functor.map_comp, Category.assoc]
   simp
     [Strict.associator_eqToIso,
       PrelaxFunctor.map₂_eqToHom]
