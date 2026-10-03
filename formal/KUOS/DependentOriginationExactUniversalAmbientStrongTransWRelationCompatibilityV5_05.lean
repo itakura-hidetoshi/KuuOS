@@ -692,6 +692,7 @@ theorem higherLocalizedStrongTransNaturality_inv_hom_transport
       PrelaxFunctor.map₂_eqToHom] at hGsuffix
   slice_lhs 2 5 =>
     exact hGsuffix
+  simp only [CategoryTheory.Functor.map_comp, Category.assoc]
 
 
 /-! ## Declared W-arrow specializations -/
