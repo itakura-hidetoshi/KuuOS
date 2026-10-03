@@ -88,9 +88,9 @@ noncomputable def higherLocalizedStrongTransPathNaturality
         G.map (higherLocalizedPathArrow W p) := by
   induction p with
   | nil =>
-      simpa only
+      simpa
         [higherLocalizedPathArrow, higherLocalizedPathObject,
-          higherLocalizedPathQuotientFunctor, Functor.map_id] using
+          higherLocalizedPathQuotientFunctor] using
         (higherLocalizedStrongTransNaturality_id
           (W := W) gamma
           (higherLocalizedPathObject W _))
@@ -118,15 +118,19 @@ noncomputable def higherLocalizedStrongTransPathNaturality
               higherLocalizedPathQuotientFunctor] using
             (higherLocalizedStrongTransWInverseNaturalityV5_05
               (W := W) gamma w.1 w.2)
-      simpa only
-        [higherLocalizedPathArrow, higherLocalizedPathQuotientFunctor,
-          Functor.map_comp] using
-        (higherLocalizedStrongTransNaturality_comp
-          (W := W) gamma
-          (higherLocalizedPathArrow W p)
-          (higherLocalizedPathArrow W
-            ((Paths.of (Localization.Construction.LocQuiver W)).map e))
-          hp he)
+      cases p with
+      | nil =>
+          simpa using he
+      | cons p e' =>
+          simpa only
+            [higherLocalizedPathArrow, higherLocalizedPathQuotientFunctor,
+              Functor.map_comp, op_comp, Quiver.Hom.comp_toLoc] using
+            (higherLocalizedStrongTransNaturality_comp
+              (W := W) gamma
+              (higherLocalizedPathArrow W (p.cons e'))
+              (higherLocalizedPathArrow W
+                ((Paths.of (Localization.Construction.LocQuiver W)).map e))
+              hp he)
 
 /-! ## Regression checks -/
 
