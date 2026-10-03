@@ -58,11 +58,13 @@ theorem higherLocalizedStrongTransNaturality_comp_id_left
       higherLocalizedStrongTransNaturalityTransport
         (W := W) gamma (λ_ f) naturality_f := by
   apply Iso.ext
-  simp
+  simp only
     [higherLocalizedStrongTransNaturality_comp_hom,
       higherLocalizedStrongTransNaturality_id_hom,
       higherLocalizedStrongTransNaturalityTransport_hom,
-      Pseudofunctor.mapComp_id_left_hom]
+      Iso.trans_hom, Iso.symm_hom,
+      whiskerLeftIso_hom, whiskerRightIso_hom]
+  rw [F.mapComp_id_left_hom f, G.mapComp_id_left_inv f]
   bicategory
 
 /-- Composing any supplied naturality with canonical identity naturality on the
@@ -84,11 +86,13 @@ theorem higherLocalizedStrongTransNaturality_comp_id_right
       higherLocalizedStrongTransNaturalityTransport
         (W := W) gamma (ρ_ f) naturality_f := by
   apply Iso.ext
-  simp
+  simp only
     [higherLocalizedStrongTransNaturality_comp_hom,
       higherLocalizedStrongTransNaturality_id_hom,
       higherLocalizedStrongTransNaturalityTransport_hom,
-      Pseudofunctor.mapComp_id_right_hom]
+      Iso.trans_hom, Iso.symm_hom,
+      whiskerLeftIso_hom, whiskerRightIso_hom]
+  rw [F.mapComp_id_right_hom f, G.mapComp_id_right_inv f]
   bicategory
 
 /-- The two parenthesizations of the v4.99 composition constructor agree after
@@ -122,11 +126,14 @@ theorem higherLocalizedStrongTransNaturality_comp_assoc
           (higherLocalizedStrongTransNaturality_comp
             (W := W) gamma g h naturality_g naturality_h)) := by
   apply Iso.ext
-  simp
+  simp only
     [higherLocalizedStrongTransNaturality_comp_hom,
       higherLocalizedStrongTransNaturalityTransport_hom,
-      Pseudofunctor.mapComp_assoc_left_hom,
-      Pseudofunctor.mapComp_assoc_right_hom]
+      Iso.trans_hom, Iso.symm_hom,
+      whiskerLeftIso_hom, whiskerRightIso_hom]
+  simp only [Category.assoc]
+  rw [F.mapComp_assoc_left_hom f g h]
+  rw [G.mapComp_assoc_left_inv f g h]
   bicategory
 
 /-! ## Regression checks -/
