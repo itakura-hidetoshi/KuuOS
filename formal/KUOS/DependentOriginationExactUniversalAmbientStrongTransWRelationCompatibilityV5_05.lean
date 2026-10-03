@@ -693,6 +693,7 @@ theorem higherLocalizedStrongTransNaturality_inv_hom_transport
   slice_lhs 2 5 =>
     exact hGsuffix
   simp only [CategoryTheory.Functor.map_comp, Category.assoc]
+  simp
 
 
 /-! ## Declared W-arrow specializations -/
