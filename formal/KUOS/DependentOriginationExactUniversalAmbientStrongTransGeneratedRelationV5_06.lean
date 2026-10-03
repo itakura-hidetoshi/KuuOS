@@ -86,15 +86,15 @@ noncomputable def higherLocalizedStrongTransPathNaturality
       higherLocalizedStrongTransExtensionApp (W := W) gamma
             (higherLocalizedPathObject W X) ≫
         G.map (higherLocalizedPathArrow W p) := by
-  induction p using Paths.induction with
-  | id =>
+  induction p with
+  | nil =>
       simpa only
         [higherLocalizedPathArrow, higherLocalizedPathObject,
           higherLocalizedPathQuotientFunctor, Functor.map_id] using
         (higherLocalizedStrongTransNaturality_id
           (W := W) gamma
           (higherLocalizedPathObject W _))
-  | comp p e hp =>
+  | cons p e hp =>
       have he :
           F.map
                 (higherLocalizedPathArrow W
