@@ -603,7 +603,7 @@ theorem higherLocalizedStrongTransNaturality_inv_hom_transport
             (hp.inv.toNatTrans.app x) := by
     simpa only [Functor.comp_map] using hGcomp
   slice_lhs 7 8 =>
-    rw [hGcomp']
+    exact hGcomp'
 
   have hGtri :=
     higherLocalizedPseudofunctor_iso_inv_hom_triangle_inv_app
@@ -614,7 +614,7 @@ theorem higherLocalizedStrongTransNaturality_inv_hom_transport
     [higherLocalizedIsoHomInvRelation, higherLocalizedIsoInvHomRelation,
       eqToIso.hom, eqToIso.inv, PrelaxFunctor.map₂_eqToHom] at hGtri
   slice_lhs 4 7 =>
-    rw [hGtri]
+    exact hGtri
 
   let tG :
       𝟭 (G.obj (.mk (op (op Y)))) ⟶
@@ -663,7 +663,7 @@ theorem higherLocalizedStrongTransNaturality_inv_hom_transport
     [higherLocalizedIsoInvHomRelation, eqToIso.inv,
       PrelaxFunctor.map₂_eqToHom] at hGsuffix
   slice_lhs 3 6 =>
-    rw [hGsuffix]
+    exact hGsuffix
 
 
 /-! ## Declared W-arrow specializations -/
