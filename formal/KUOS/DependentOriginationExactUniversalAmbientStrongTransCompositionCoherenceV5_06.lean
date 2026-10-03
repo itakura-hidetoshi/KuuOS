@@ -126,20 +126,6 @@ theorem higherLocalizedStrongTransNaturality_comp_id_right
   have hnat :=
     (G.mapId b).hom.toNatTrans.naturality
       (naturality_f.hom.toNatTrans.app x)
-  have hnat' :
-      (G.map (𝟙 b)).toFunctor.map
-            (naturality_f.hom.toNatTrans.app x) ≫
-          (G.mapId b).hom.toNatTrans.app
-            ((G.map f).toFunctor.obj
-              ((higherLocalizedStrongTransExtensionApp
-                (W := W) gamma a).toFunctor.obj x)) =
-        (G.mapId b).hom.toNatTrans.app
-            ((higherLocalizedStrongTransExtensionApp
-              (W := W) gamma b).toFunctor.obj ((F.map f).toFunctor.obj x)) ≫
-          naturality_f.hom.toNatTrans.app x := by
-    simpa only
-      [Cat.Hom.id_toFunctor, Functor.id_obj, Functor.id_map,
-        Category.comp_id] using hnat
   set_option backward.isDefEq.respectTransparency false in
     simp
       [-Pseudofunctor.map₂_right_unitor,
