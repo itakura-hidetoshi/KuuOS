@@ -68,13 +68,9 @@ theorem higherLocalizedStrongTransNaturality_comp_transport_first
         (higherLocalizedStrongTransNaturality_comp
           (W := W) gamma g h naturality_g naturality_h) := by
   apply Iso.ext
-  simp only
+  simp
     [higherLocalizedStrongTransNaturality_comp_hom,
-      higherLocalizedStrongTransNaturalityTransport_hom,
-      whiskerRightIso_hom,
-      Pseudofunctor.map₂_whisker_right]
-  dsimp
-  bicategory
+      higherLocalizedStrongTransNaturalityTransport_hom]
 
 /-- Transport in the second factor commutes with the canonical StrongTrans
 composition constructor. -/
@@ -103,13 +99,9 @@ theorem higherLocalizedStrongTransNaturality_comp_transport_second
         (higherLocalizedStrongTransNaturality_comp
           (W := W) gamma k g naturality_k naturality_g) := by
   apply Iso.ext
-  simp only
+  simp
     [higherLocalizedStrongTransNaturality_comp_hom,
-      higherLocalizedStrongTransNaturalityTransport_hom,
-      whiskerLeftIso_hom,
-      Pseudofunctor.map₂_whisker_left]
-  dsimp
-  bicategory
+      higherLocalizedStrongTransNaturalityTransport_hom]
 
 /-! ## Regression checks -/
 
