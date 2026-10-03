@@ -63,7 +63,7 @@ theorem higherLocalizedStrongTransNaturality_comp_id_left
   funext x
   have hnat :=
     naturality_f.hom.toNatTrans.naturality
-      ((F.mapId a).hom.toNatTrans.app x)
+      ((F.mapId a).inv.toNatTrans.app x)
   set_option backward.isDefEq.respectTransparency false in
     simp
       [-Pseudofunctor.map₂_left_unitor,
@@ -73,10 +73,12 @@ theorem higherLocalizedStrongTransNaturality_comp_id_left
         F.mapComp_id_left_hom_app,
         G.mapComp_id_left_inv_app,
         Strict.leftUnitor_eqToIso,
+        PrelaxFunctor.map₂_eqToHom,
         eqToHom_map,
-        ← hnat]
+        hnat]
   simp only
-    [← Functor.map_comp, Iso.inv_hom_id_app, Iso.hom_inv_id_app,
+    [← Functor.map_comp,
+      Cat.Hom.inv_hom_id_toNatTrans_app,
       Functor.map_id, Category.id_comp, Category.comp_id]
 
 /-- Composing any supplied naturality with canonical identity naturality on the
@@ -113,10 +115,12 @@ theorem higherLocalizedStrongTransNaturality_comp_id_right
         F.mapComp_id_right_hom_app,
         G.mapComp_id_right_inv_app,
         Strict.rightUnitor_eqToIso,
+        PrelaxFunctor.map₂_eqToHom,
         eqToHom_map,
         hnat]
   simp only
-    [← Functor.map_comp, Iso.inv_hom_id_app, Iso.hom_inv_id_app,
+    [← Functor.map_comp,
+      Cat.Hom.inv_hom_id_toNatTrans_app,
       Functor.map_id, Category.id_comp, Category.comp_id]
 
 /-- The two parenthesizations of the v4.99 composition constructor agree after
@@ -162,7 +166,7 @@ theorem higherLocalizedStrongTransNaturality_comp_assoc
         G.mapComp_assoc_right_inv_app,
         Strict.associator_eqToIso,
         PrelaxFunctor.map₂_eqToHom,
-        NatTrans.naturality_assoc]
+        ← NatTrans.naturality_assoc]
 
 /-! ## Regression checks -/
 
