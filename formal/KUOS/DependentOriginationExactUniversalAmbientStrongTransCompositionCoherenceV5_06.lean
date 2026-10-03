@@ -88,11 +88,7 @@ theorem higherLocalizedStrongTransNaturality_comp_id_left
         Strict.leftUnitor_eqToIso,
         PrelaxFunctor.map₂_eqToHom,
         eqToHom_map]
-  slice_lhs 2 3 =>
-    simp only
-      [← Functor.map_comp,
-        Cat.Hom.inv_hom_id_toNatTrans_app,
-        Functor.map_id, Category.id_comp, Category.comp_id]
+  slice_lhs 2 3 => erw [hnat']
 
 /-- Composing any supplied naturality with canonical identity naturality on the
 right is the same as transporting along the source right unitor. -/
@@ -145,11 +141,17 @@ theorem higherLocalizedStrongTransNaturality_comp_id_right
         PrelaxFunctor.map₂_eqToHom,
         eqToHom_map]
   slice_lhs 2 3 => erw [hnat']
-  simp only
-    [← Functor.map_comp,
-      Cat.Hom.inv_hom_id_toNatTrans_app,
-      Functor.map_id, Category.id_comp, Category.comp_id,
-      eqToHom_refl]
+  slice_lhs 3 4 =>
+    simp only
+      [← Functor.map_comp,
+        Cat.Hom.inv_hom_id_toNatTrans_app,
+        Functor.map_id, Category.id_comp, Category.comp_id]
+  slice_lhs 3 4 =>
+    simp only
+      [← Functor.map_comp,
+        Cat.Hom.inv_hom_id_toNatTrans_app,
+        Functor.map_id, Category.id_comp, Category.comp_id]
+  simp
 
 /-- The two parenthesizations of the v4.99 composition constructor agree after
 transport along the source associator. -/
@@ -230,31 +232,16 @@ theorem higherLocalizedStrongTransNaturality_comp_assoc
         PrelaxFunctor.map₂_eqToHom]
   slice_lhs 2 3 => erw [← hnatH']
   slice_rhs 6 7 => erw [← hnatG']
-  have hFapp :=
-    congrArg (fun eta => eta.toNatTrans.app x)
-      (F.mapComp_assoc_left_hom f g h)
-  have hFmap :=
-    congrArg
-      (fun m =>
-        (higherLocalizedStrongTransExtensionApp
-          (W := W) gamma d).toFunctor.map m)
-      hFapp
-  simp only [Functor.map_comp] at hFmap
-  have hGapp :=
-    congrArg
-      (fun eta =>
-        eta.toNatTrans.app
-          ((higherLocalizedStrongTransExtensionApp
-            (W := W) gamma a).toFunctor.obj x))
-      (G.mapComp_assoc_left_inv f g h)
-  rw [hFmap]
-  rw [hGapp]
-  simp only
+  slice_lhs 1 2 =>
+    rw [← (higherLocalizedStrongTransExtensionApp
+      (W := W) gamma d).toFunctor.map_comp]
+    rw [F.mapComp_assoc_left_hom_app]
+    simp only [Functor.map_comp]
+  slice_lhs 6 7 =>
+    rw [G.mapComp_assoc_left_inv_app]
+  simp
     [Strict.associator_eqToIso,
-      PrelaxFunctor.map₂_eqToHom,
-      Cat.Hom.comp_toFunctor, Functor.comp_obj, Functor.comp_map,
-      Cat.eqToHom_app, eqToHom_refl,
-      Category.comp_id, Category.id_comp, Category.assoc]
+      PrelaxFunctor.map₂_eqToHom]
 
 /-! ## Regression checks -/
 
