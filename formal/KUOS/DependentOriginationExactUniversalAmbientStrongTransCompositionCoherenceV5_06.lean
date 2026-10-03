@@ -175,7 +175,10 @@ theorem higherLocalizedStrongTransNaturality_comp_id_left
                 ((Cat.Hom.toNatIso (G.mapId a)).app
                   ((higherLocalizedStrongTransExtensionApp
                     (W := W) gamma a).toFunctor.obj x)).hom := by
-      simpa only [Category.assoc, Category.id_comp, Category.comp_id] using hFctx
+      simpa only
+        [K, Cat.Hom.comp_toFunctor, Functor.comp_obj,
+          Cat.Hom.id_toFunctor, Functor.id_obj,
+          Category.assoc, Category.id_comp, Category.comp_id] using hFctx
     have hGctx :=
       congrArg
         (fun m => naturality_f.hom.toNatTrans.app x ≫ m)
@@ -191,7 +194,9 @@ theorem higherLocalizedStrongTransNaturality_comp_id_left
                   ((higherLocalizedStrongTransExtensionApp
                     (W := W) gamma a).toFunctor.obj x)).hom =
           naturality_f.hom.toNatTrans.app x := by
-      simpa only [Category.assoc, Category.id_comp, Category.comp_id] using hGctx
+      simpa only
+        [Cat.Hom.id_toFunctor, Functor.id_obj,
+          Category.assoc, Category.id_comp, Category.comp_id] using hGctx
     exact hFctx'.trans hGctx'
   slice_lhs 2 6 =>
     simp only [Category.assoc, hmiddle]
@@ -319,15 +324,7 @@ theorem higherLocalizedStrongTransNaturality_comp_assoc
           (W := W) gamma d).toFunctor.map m)
       hFapp
   simp only [Functor.map_comp] at hFmap
-  have hFmap_naturality :=
-    congrArg
-      (fun m =>
-        m ≫ naturality_h.hom.toNatTrans.app
-          ((F.map g).toFunctor.obj ((F.map f).toFunctor.obj x)))
-      hFmap
-  slice_lhs 1 3 =>
-    rw [← Category.assoc]
-    erw [hFmap_naturality]
+  slice_lhs 1 2 => erw [hFmap]
   slice_lhs 7 8 => erw [G.mapComp_assoc_left_inv_app]
   simp
     [Strict.associator_eqToIso,
