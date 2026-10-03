@@ -88,7 +88,6 @@ theorem higherLocalizedStrongTransNaturality_comp_id_left
         Strict.leftUnitor_eqToIso,
         PrelaxFunctor.map₂_eqToHom,
         eqToHom_map]
-  simp only [Category.assoc]
   simp only
     [← Functor.map_comp,
       Cat.Hom.inv_hom_id_toNatTrans_app,
@@ -151,7 +150,6 @@ theorem higherLocalizedStrongTransNaturality_comp_id_right
         Strict.rightUnitor_eqToIso,
         PrelaxFunctor.map₂_eqToHom,
         eqToHom_map]
-  simp only [Category.assoc]
   simp only
     [← Functor.map_comp,
       Cat.Hom.inv_hom_id_toNatTrans_app,
@@ -241,7 +239,6 @@ theorem higherLocalizedStrongTransNaturality_comp_assoc
         higherLocalizedStrongTransNaturalityTransport_hom,
         Strict.associator_eqToIso,
         PrelaxFunctor.map₂_eqToHom]
-  simp only [Category.assoc]
   rw [← hnatH']
   rw [← hnatG']
   simp
