@@ -353,9 +353,14 @@ theorem higherLocalizedPseudofunctor_iso_inv_hom_triangle_hom_app
         higherLocalizedIsoInvHomRelation, PrelaxFunctor.map₂_eqToHom,
         eqToIso.hom, eqToIso.inv, Category.assoc] using h
   have hcancel := (Iso.inv_comp_eq k).1 hcompact
+  have hk_hom :
+      k.hom =
+        (H.map₂ (higherLocalizedIsoInvHomRelation (W := W) e).hom).toNatTrans.app
+          ((H.map p).toFunctor.obj x) := by
+    rfl
+  rw [hk_hom] at hcancel
   simpa only
-    [p, q, a, b, k, Cat.Hom.toNatIso_hom,
-      CategoryTheory.Functor.map_comp, Category.assoc] using hcancel
+    [p, q, a, b, CategoryTheory.Functor.map_comp, Category.assoc] using hcancel
 
 /-- Expand the inverse triangle to the concrete mapComp and equality 2-cells.
 The final equality 2-cell is kept explicitly on the right, exactly as required
@@ -544,7 +549,8 @@ theorem higherLocalizedStrongTransNaturality_inv_hom_transport
     [higherLocalizedIsoHomInvRelation, eqToIso.hom,
       PrelaxFunctor.map₂_eqToHom] at hhp'
   simp only [Category.assoc]
-  rw [reassoc_of% hhp']
+  slice_lhs 2 4 =>
+    exact hhp'
 
   have hFtri :=
     higherLocalizedPseudofunctor_iso_inv_hom_triangle_hom_app
