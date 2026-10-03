@@ -359,8 +359,8 @@ theorem higherLocalizedPseudofunctor_iso_inv_hom_triangle_hom_app
           ((H.map p).toFunctor.obj x) := by
     rfl
   rw [hk_hom] at hcancel
-  simpa only
-    [p, q, a, b, CategoryTheory.Functor.map_comp, Category.assoc] using hcancel
+  rw [(H.map p).toFunctor.map_comp] at hcancel
+  simpa only [p, q, a, b, Category.assoc] using hcancel
 
 /-- Expand the inverse triangle to the concrete mapComp and equality 2-cells.
 The final equality 2-cell is kept explicitly on the right, exactly as required
@@ -555,9 +555,6 @@ theorem higherLocalizedStrongTransNaturality_inv_hom_transport
   have hFtri :=
     higherLocalizedPseudofunctor_iso_inv_hom_triangle_hom_app
       (W := W) F e x
-  simp only
-    [higherLocalizedIsoHomInvRelation, higherLocalizedIsoInvHomRelation,
-      eqToIso.hom, PrelaxFunctor.map₂_eqToHom] at hFtri
   have hFtriCompact :
       (F.mapComp e.inv.op.op.toLoc e.hom.op.op.toLoc).hom.toNatTrans.app
             ((F.map e.hom.op.op.toLoc).toFunctor.obj x) ≫
@@ -570,17 +567,21 @@ theorem higherLocalizedStrongTransNaturality_inv_hom_transport
         (F.mapId (.mk (op (op Y)))).hom.toNatTrans.app
           ((F.map e.hom.op.op.toLoc).toFunctor.obj x) := by
     dsimp [mFpre]
-    rw [CategoryTheory.Functor.map_comp]
-    exact hFtri
+    rw [(F.map e.hom.op.op.toLoc).toFunctor.map_comp]
+    simpa only [Category.assoc] using hFtri
   have hFmapped :=
     congrArg
       (fun m =>
         (higherLocalizedStrongTransExtensionApp
           (W := W) gamma (.mk (op (op Y)))).toFunctor.map m)
       hFtriCompact
-  simp only [CategoryTheory.Functor.map_comp, Category.assoc] at hFmapped
+  simp only [CategoryTheory.Functor.map_comp] at hFmapped
+  dsimp [mFpre] at hFmapped
+  simp only
+    [higherLocalizedIsoHomInvRelation, higherLocalizedIsoInvHomRelation,
+      eqToIso.hom, PrelaxFunctor.map₂_eqToHom] at hFmapped
   slice_lhs 1 3 =>
-    rw [hFmapped]
+    exact hFmapped
 
   have hGcomp :=
     (G.mapComp e.inv.op.op.toLoc e.hom.op.op.toLoc).inv.toNatTrans.naturality
