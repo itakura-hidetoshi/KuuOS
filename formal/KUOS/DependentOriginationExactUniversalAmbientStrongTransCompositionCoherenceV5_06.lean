@@ -150,6 +150,12 @@ theorem higherLocalizedStrongTransNaturality_comp_id_right
       [← Functor.map_comp,
         Cat.Hom.inv_hom_id_toNatTrans_app,
         Functor.map_id, Category.id_comp, Category.comp_id]
+  slice_lhs 3 5 => erw [hnat]
+  simp only
+    [← Functor.map_comp,
+      Cat.Hom.inv_hom_id_toNatTrans_app,
+      Functor.map_id, Category.id_comp, Category.comp_id,
+      eqToHom_refl]
 
 /-- The two parenthesizations of the v4.99 composition constructor agree after
 transport along the source associator. -/
