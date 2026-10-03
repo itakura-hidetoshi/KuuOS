@@ -71,9 +71,7 @@ theorem higherLocalizedStrongTransNaturality_comp_id_left
         G.mapComp_id_left_inv_app,
         Strict.leftUnitor_eqToIso,
         PrelaxFunctor.map₂_eqToHom,
-        ← Functor.map_comp_assoc,
-        ← Cat.Hom₂.comp_app,
-        ← NatTrans.naturality_assoc]
+        NatTrans.naturality_assoc]
 
 /-- Composing any supplied naturality with canonical identity naturality on the
 right is the same as transporting along the source right unitor. -/
@@ -107,9 +105,7 @@ theorem higherLocalizedStrongTransNaturality_comp_id_right
         G.mapComp_id_right_inv_app,
         Strict.rightUnitor_eqToIso,
         PrelaxFunctor.map₂_eqToHom,
-        ← Functor.map_comp_assoc,
-        ← Cat.Hom₂.comp_app,
-        ← NatTrans.naturality_assoc]
+        NatTrans.naturality_assoc]
 
 /-- The two parenthesizations of the v4.99 composition constructor agree after
 transport along the source associator. -/
