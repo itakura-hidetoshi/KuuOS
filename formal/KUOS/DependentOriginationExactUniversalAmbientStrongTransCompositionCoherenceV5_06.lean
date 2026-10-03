@@ -117,11 +117,28 @@ theorem higherLocalizedStrongTransNaturality_comp_id_left
     rw [← (G.map f).toFunctor.map_comp]
     rw [Cat.Hom.inv_hom_id_toNatTrans_app]
     simp
-  simp only
-    [Category.assoc,
-      reassoc_of% hFcancel,
-      reassoc_of% hGcancel,
+  have hmiddle :
+      naturality_f.hom.toNatTrans.app x ≫
+          (G.map f).toFunctor.map
+            ((higherLocalizedStrongTransExtensionApp
+              (W := W) gamma a).toFunctor.map
+                ((F.mapId a).inv.toNatTrans.app x)) ≫
+          (G.map f).toFunctor.map
+            ((higherLocalizedStrongTransExtensionApp
+              (W := W) gamma a).toFunctor.map
+                ((F.mapId a).hom.toNatTrans.app x)) ≫
+          (G.map f).toFunctor.map
+            ((G.mapId a).inv.toNatTrans.app
+              ((higherLocalizedStrongTransExtensionApp
+                (W := W) gamma a).toFunctor.obj x)) ≫
+          (G.map f).toFunctor.map
+            ((G.mapId a).hom.toNatTrans.app
+              ((higherLocalizedStrongTransExtensionApp
+                (W := W) gamma a).toFunctor.obj x)) =
+        naturality_f.hom.toNatTrans.app x := by
+    simp only [Category.assoc, hFcancel, hGcancel,
       Category.id_comp, Category.comp_id]
+  rw [reassoc_of% hmiddle]
 
 /-- Composing any supplied naturality with canonical identity naturality on the
 right is the same as transporting along the source right unitor. -/
@@ -245,32 +262,14 @@ theorem higherLocalizedStrongTransNaturality_comp_assoc
           (W := W) gamma d).toFunctor.map m)
       hFapp
   simp only [Functor.map_comp] at hFmap
-  have hFmap_naturality :
-      (higherLocalizedStrongTransExtensionApp
-            (W := W) gamma d).toFunctor.map
-          ((F.mapComp (f ≫ g) h).hom.toNatTrans.app x) ≫
-        (higherLocalizedStrongTransExtensionApp
-            (W := W) gamma d).toFunctor.map
-          ((F.map h).toFunctor.map
-            ((F.mapComp f g).hom.toNatTrans.app x)) ≫
-        naturality_h.hom.toNatTrans.app
-          ((F.map g).toFunctor.obj ((F.map f).toFunctor.obj x)) =
-      (higherLocalizedStrongTransExtensionApp
-            (W := W) gamma d).toFunctor.map
-          ((F.map₂ (α_ f g h).hom).toNatTrans.app x) ≫
-        (higherLocalizedStrongTransExtensionApp
-            (W := W) gamma d).toFunctor.map
-          ((F.mapComp f (g ≫ h)).hom.toNatTrans.app x) ≫
-        (higherLocalizedStrongTransExtensionApp
-            (W := W) gamma d).toFunctor.map
-          ((F.mapComp g h).hom.toNatTrans.app
-            ((F.map f).toFunctor.obj x)) ≫
-        naturality_h.hom.toNatTrans.app
-          ((F.map g).toFunctor.obj ((F.map f).toFunctor.obj x)) := by
-    simpa only [Category.assoc] using reassoc_of% hFmap
-  rw [hFmap_naturality]
+  have hFmap_assoc := reassoc_of% hFmap
+  have hFmap_naturality :=
+    hFmap_assoc
+      (naturality_h.hom.toNatTrans.app
+        ((F.map g).toFunctor.obj ((F.map f).toFunctor.obj x))
+  rw [reassoc_of% hFmap_naturality]
   simp only [Category.assoc]
-  rw [G.mapComp_assoc_left_inv_app]
+  rw [G.mapComp_assoc_left_inv_app_assoc]
   simp
     [Strict.associator_eqToIso,
       PrelaxFunctor.map₂_eqToHom]
