@@ -58,20 +58,22 @@ theorem higherLocalizedStrongTransNaturality_comp_id_left
       higherLocalizedStrongTransNaturalityTransport
         (W := W) gamma (λ_ f) naturality_f := by
   apply Iso.ext
-  simp only
-    [higherLocalizedStrongTransNaturality_comp_hom,
-      higherLocalizedStrongTransNaturality_id_hom,
-      higherLocalizedStrongTransNaturalityTransport_hom]
-  rw [F.map₂_left_unitor f]
-  have hG :
-      G.map₂ (λ_ f).inv =
-        (λ_ (G.map f)).inv ≫
-          (G.mapId a).inv ▷ G.map f ≫
-            (G.mapComp (𝟙 a) f).inv := by
-    change (G.toLax).map₂ (λ_ f).inv = _
-    exact (G.toLax).map₂_leftUnitor f
-  rw [hG]
-  bicategory
+  apply Cat.Hom₂.ext
+  apply NatTrans.ext
+  funext x
+  set_option backward.isDefEq.respectTransparency false in
+    simp
+      [-Pseudofunctor.map₂_left_unitor,
+        higherLocalizedStrongTransNaturality_comp_hom,
+        higherLocalizedStrongTransNaturality_id_hom,
+        higherLocalizedStrongTransNaturalityTransport_hom,
+        F.mapComp_id_left_hom_app,
+        G.mapComp_id_left_inv_app,
+        Strict.leftUnitor_eqToIso,
+        PrelaxFunctor.map₂_eqToHom,
+        ← Functor.map_comp_assoc,
+        ← Cat.Hom₂.comp_app,
+        ← NatTrans.naturality_assoc]
 
 /-- Composing any supplied naturality with canonical identity naturality on the
 right is the same as transporting along the source right unitor. -/
@@ -92,20 +94,22 @@ theorem higherLocalizedStrongTransNaturality_comp_id_right
       higherLocalizedStrongTransNaturalityTransport
         (W := W) gamma (ρ_ f) naturality_f := by
   apply Iso.ext
-  simp only
-    [higherLocalizedStrongTransNaturality_comp_hom,
-      higherLocalizedStrongTransNaturality_id_hom,
-      higherLocalizedStrongTransNaturalityTransport_hom]
-  rw [F.map₂_right_unitor f]
-  have hG :
-      G.map₂ (ρ_ f).inv =
-        (ρ_ (G.map f)).inv ≫
-          G.map f ◁ (G.mapId b).inv ≫
-            (G.mapComp f (𝟙 b)).inv := by
-    change (G.toLax).map₂ (ρ_ f).inv = _
-    exact (G.toLax).map₂_rightUnitor f
-  rw [hG]
-  bicategory
+  apply Cat.Hom₂.ext
+  apply NatTrans.ext
+  funext x
+  set_option backward.isDefEq.respectTransparency false in
+    simp
+      [-Pseudofunctor.map₂_right_unitor,
+        higherLocalizedStrongTransNaturality_comp_hom,
+        higherLocalizedStrongTransNaturality_id_hom,
+        higherLocalizedStrongTransNaturalityTransport_hom,
+        F.mapComp_id_right_hom_app,
+        G.mapComp_id_right_inv_app,
+        Strict.rightUnitor_eqToIso,
+        PrelaxFunctor.map₂_eqToHom,
+        ← Functor.map_comp_assoc,
+        ← Cat.Hom₂.comp_app,
+        ← NatTrans.naturality_assoc]
 
 /-- The two parenthesizations of the v4.99 composition constructor agree after
 transport along the source associator. -/
@@ -138,12 +142,21 @@ theorem higherLocalizedStrongTransNaturality_comp_assoc
           (higherLocalizedStrongTransNaturality_comp
             (W := W) gamma g h naturality_g naturality_h)) := by
   apply Iso.ext
-  simp only
-    [higherLocalizedStrongTransNaturality_comp_hom,
-      higherLocalizedStrongTransNaturalityTransport_hom]
-  rw [F.map₂_associator f g h]
-  have hG := G.mapComp_assoc_left_inv f g h
-  bicategory_nf
+  apply Cat.Hom₂.ext
+  apply NatTrans.ext
+  funext x
+  set_option backward.isDefEq.respectTransparency false in
+    simp
+      [-Pseudofunctor.map₂_associator,
+        higherLocalizedStrongTransNaturality_comp_hom,
+        higherLocalizedStrongTransNaturalityTransport_hom,
+        F.mapComp_assoc_right_hom_app_assoc,
+        G.mapComp_assoc_right_inv_app,
+        Strict.associator_eqToIso,
+        PrelaxFunctor.map₂_eqToHom,
+        ← NatTrans.naturality_assoc,
+        ← Functor.map_comp_assoc,
+        ← Cat.Hom₂.comp_app]
 
 /-! ## Regression checks -/
 
