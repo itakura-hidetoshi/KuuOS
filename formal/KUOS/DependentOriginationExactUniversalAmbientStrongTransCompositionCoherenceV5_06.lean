@@ -117,8 +117,10 @@ theorem higherLocalizedStrongTransNaturality_comp_id_left
     rw [← (G.map f).toFunctor.map_comp]
     rw [Cat.Hom.inv_hom_id_toNatTrans_app]
     simp
-  simp only [Category.assoc, hFcancel, hGcancel,
-    Category.id_comp, Category.comp_id]
+  simp only [Category.assoc]
+  rw [reassoc_of% hFcancel]
+  rw [reassoc_of% hGcancel]
+  simp
 
 /-- Composing any supplied naturality with canonical identity naturality on the
 right is the same as transporting along the source right unitor. -/
@@ -137,7 +139,8 @@ theorem higherLocalizedStrongTransNaturality_comp_id_right
         naturality_f
         (higherLocalizedStrongTransNaturality_id (W := W) gamma b) =
       higherLocalizedStrongTransNaturalityTransport
-        (W := W) gamma (ρ_ f) naturality_f := by  apply Iso.ext
+        (W := W) gamma (ρ_ f) naturality_f := by
+  apply Iso.ext
   apply Cat.Hom₂.ext
   apply NatTrans.ext
   funext x
@@ -240,7 +243,30 @@ theorem higherLocalizedStrongTransNaturality_comp_assoc
           (W := W) gamma d).toFunctor.map m)
       hFapp
   simp only [Functor.map_comp] at hFmap
-  rw [reassoc_of% hFmap]
+  have hFmap_naturality :
+      (higherLocalizedStrongTransExtensionApp
+            (W := W) gamma d).toFunctor.map
+          ((F.mapComp (f ≫ g) h).hom.toNatTrans.app x) ≫
+        (higherLocalizedStrongTransExtensionApp
+            (W := W) gamma d).toFunctor.map
+          ((F.map h).toFunctor.map
+            ((F.mapComp f g).hom.toNatTrans.app x)) ≫
+        naturality_h.hom.toNatTrans.app
+          ((F.map g).toFunctor.obj ((F.map f).toFunctor.obj x)) =
+      (higherLocalizedStrongTransExtensionApp
+            (W := W) gamma d).toFunctor.map
+          ((F.map₂ (α_ f g h).hom).toNatTrans.app x) ≫
+        (higherLocalizedStrongTransExtensionApp
+            (W := W) gamma d).toFunctor.map
+          ((F.mapComp f (g ≫ h)).hom.toNatTrans.app x) ≫
+        (higherLocalizedStrongTransExtensionApp
+            (W := W) gamma d).toFunctor.map
+          ((F.mapComp g h).hom.toNatTrans.app
+            ((F.map f).toFunctor.obj x)) ≫
+        naturality_h.hom.toNatTrans.app
+          ((F.map g).toFunctor.obj ((F.map f).toFunctor.obj x)) := by
+    simpa only [Category.assoc] using reassoc_of% hFmap
+  rw [hFmap_naturality]
   simp only [Category.assoc]
   rw [G.mapComp_assoc_left_inv_app]
   simp
