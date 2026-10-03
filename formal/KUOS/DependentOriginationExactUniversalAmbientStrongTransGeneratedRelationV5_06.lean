@@ -86,15 +86,16 @@ noncomputable def higherLocalizedStrongTransPathNaturality
       higherLocalizedStrongTransExtensionApp (W := W) gamma
             (higherLocalizedPathObject W X) ≫
         G.map (higherLocalizedPathArrow W p) := by
-  induction p using Paths.induction with
-  | id =>
+  change Quiver.Path X Y at p
+  induction p with
+  | nil =>
       simpa
         [higherLocalizedPathArrow, higherLocalizedPathObject,
           higherLocalizedPathQuotientFunctor] using
         (higherLocalizedStrongTransNaturality_id
           (W := W) gamma
           (higherLocalizedPathObject W _))
-  | comp p e hp =>
+  | cons p e hp =>
       have he :
           F.map
                 (higherLocalizedPathArrow W
@@ -120,6 +121,7 @@ noncomputable def higherLocalizedStrongTransPathNaturality
               (W := W) gamma w.1 w.2)
       simpa only
         [higherLocalizedPathArrow, higherLocalizedPathQuotientFunctor,
+          Quiver.Path.comp_toPath_eq_cons,
           Functor.map_comp, op_comp, Quiver.Hom.comp_toLoc] using
         (higherLocalizedStrongTransNaturality_comp
           (W := W) gamma
