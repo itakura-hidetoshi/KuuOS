@@ -88,6 +88,7 @@ theorem higherLocalizedStrongTransNaturality_comp_id_left
         Strict.leftUnitor_eqToIso,
         PrelaxFunctor.map₂_eqToHom,
         eqToHom_map]
+  simp only [Category.assoc]
   rw [hnat']
   simp only
     [← Functor.map_comp,
@@ -144,6 +145,7 @@ theorem higherLocalizedStrongTransNaturality_comp_id_right
         Strict.rightUnitor_eqToIso,
         PrelaxFunctor.map₂_eqToHom,
         eqToHom_map]
+  simp only [Category.assoc]
   rw [hnat']
   simp only
     [← Functor.map_comp,
@@ -225,12 +227,16 @@ theorem higherLocalizedStrongTransNaturality_comp_assoc
       [-Pseudofunctor.map₂_associator,
         higherLocalizedStrongTransNaturality_comp_hom,
         higherLocalizedStrongTransNaturalityTransport_hom,
-        F.mapComp_assoc_left_hom_app_assoc,
-        G.mapComp_assoc_left_inv_app_assoc,
         Strict.associator_eqToIso,
-        PrelaxFunctor.map₂_eqToHom,
-        ← hnatH',
-        hnatG']
+        PrelaxFunctor.map₂_eqToHom]
+  simp only [Category.assoc]
+  rw [← hnatH']
+  rw [← hnatG']
+  simp
+    [F.mapComp_assoc_left_hom_app_assoc,
+      G.mapComp_assoc_left_inv_app_assoc,
+      Strict.associator_eqToIso,
+      PrelaxFunctor.map₂_eqToHom]
 
 /-! ## Regression checks -/
 
