@@ -89,17 +89,14 @@ theorem higherLocalizedStrongTransNaturality_comp_id_left
         PrelaxFunctor.map₂_eqToHom,
         eqToHom_map]
   slice_lhs 2 3 => erw [hnat']
-  slice_lhs 5 6 =>
+  slice_lhs 3 6 =>
     simp only
-      [← Functor.map_comp,
+      [Category.assoc,
+        ← Functor.map_comp,
         Cat.Hom.inv_hom_id_toNatTrans_app,
-        Functor.map_id]
-  slice_lhs 3 4 =>
-    simp only
-      [← Functor.map_comp,
-        Cat.Hom.inv_hom_id_toNatTrans_app,
-        Functor.map_id]
-  simp only [Category.assoc, Category.id_comp, Category.comp_id, eqToHom_refl]
+        Functor.map_id,
+        Category.id_comp, Category.comp_id]
+  simp
 
 /-- Composing any supplied naturality with canonical identity naturality on the
 right is the same as transporting along the source right unitor. -/
@@ -142,7 +139,6 @@ theorem higherLocalizedStrongTransNaturality_comp_id_right
     simp only
       [Cat.Hom.inv_hom_id_toNatTrans_app,
         Functor.map_id]
-  simp only [Category.id_comp, Category.comp_id]
   slice_lhs 3 5 =>
     rw [← eqToHom_map]
     rw [← (G.map (𝟙 b)).toFunctor.map_comp_assoc]
@@ -243,7 +239,9 @@ theorem higherLocalizedStrongTransNaturality_comp_assoc
           (W := W) gamma d).toFunctor.map m)
       hFapp
   simp only [Functor.map_comp] at hFmap
-  slice_lhs 1 2 => rw [hFmap]
+  slice_lhs 1 3 =>
+    rw [← Category.assoc]
+    rw [hFmap]
   simp only [Category.assoc]
   rw [G.mapComp_assoc_left_inv_app]
   simp
