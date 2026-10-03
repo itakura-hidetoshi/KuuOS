@@ -64,6 +64,19 @@ theorem higherLocalizedStrongTransNaturality_comp_id_left
   have hnat :=
     naturality_f.hom.toNatTrans.naturality
       ((F.mapId a).inv.toNatTrans.app x)
+  have hnat' :
+      (higherLocalizedStrongTransExtensionApp (W := W) gamma b).toFunctor.map
+            ((F.map f).toFunctor.map ((F.mapId a).inv.toNatTrans.app x)) ≫
+          naturality_f.hom.toNatTrans.app
+            ((F.map (𝟙 a)).toFunctor.obj x) =
+        naturality_f.hom.toNatTrans.app x ≫
+          (G.map f).toFunctor.map
+            ((higherLocalizedStrongTransExtensionApp
+              (W := W) gamma a).toFunctor.map
+                ((F.mapId a).inv.toNatTrans.app x)) := by
+    simpa only
+      [Cat.Hom.comp_toFunctor, Functor.comp_obj, Functor.comp_map,
+        Cat.Hom.id_toFunctor, Functor.id_obj] using hnat
   set_option backward.isDefEq.respectTransparency false in
     simp
       [-Pseudofunctor.map₂_left_unitor,
@@ -75,7 +88,7 @@ theorem higherLocalizedStrongTransNaturality_comp_id_left
         Strict.leftUnitor_eqToIso,
         PrelaxFunctor.map₂_eqToHom,
         eqToHom_map,
-        hnat]
+        hnat']
   simp only
     [← Functor.map_comp,
       Cat.Hom.inv_hom_id_toNatTrans_app,
@@ -106,6 +119,19 @@ theorem higherLocalizedStrongTransNaturality_comp_id_right
   have hnat :=
     (G.mapId b).hom.toNatTrans.naturality
       (naturality_f.hom.toNatTrans.app x)
+  have hnat' :
+      (G.map (𝟙 b)).toFunctor.map
+            (naturality_f.hom.toNatTrans.app x) ≫
+          (G.mapId b).hom.toNatTrans.app
+            ((higherLocalizedStrongTransExtensionApp
+              (W := W) gamma a).toFunctor.obj ((G.map f).toFunctor.obj x)) =
+        (G.mapId b).hom.toNatTrans.app
+            ((higherLocalizedStrongTransExtensionApp
+              (W := W) gamma b).toFunctor.obj ((F.map f).toFunctor.obj x)) ≫
+          naturality_f.hom.toNatTrans.app x := by
+    simpa only
+      [Cat.Hom.id_toFunctor, Functor.id_obj, Functor.id_map,
+        Category.comp_id] using hnat
   set_option backward.isDefEq.respectTransparency false in
     simp
       [-Pseudofunctor.map₂_right_unitor,
@@ -117,7 +143,7 @@ theorem higherLocalizedStrongTransNaturality_comp_id_right
         Strict.rightUnitor_eqToIso,
         PrelaxFunctor.map₂_eqToHom,
         eqToHom_map,
-        hnat]
+        hnat']
   simp only
     [← Functor.map_comp,
       Cat.Hom.inv_hom_id_toNatTrans_app,
