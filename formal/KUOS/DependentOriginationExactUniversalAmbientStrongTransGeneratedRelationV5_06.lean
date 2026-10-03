@@ -65,7 +65,10 @@ abbrev higherLocalizedPathObject (X : LocalizationPaths W) :
 /-- A free path, mapped to the corresponding source 1-cell of the localized
 higher contextual systems. -/
 abbrev higherLocalizedPathArrow
-    {X Y : LocalizationPaths W} (p : X ⟶ Y) :
+    {X Y : LocalizationPaths W}
+    (p :
+      (Paths.categoryPaths
+        (Localization.Construction.LocQuiver W)).Hom X Y) :
     higherLocalizedPathObject W X ⟶ higherLocalizedPathObject W Y :=
   ((higherLocalizedPathQuotientFunctor W).map p).op.op.toLoc
 
@@ -79,25 +82,27 @@ noncomputable def higherLocalizedStrongTransPathNaturality
     (gamma :
       restrictHigherLocalizedSystem W F ⟶
         restrictHigherLocalizedSystem W G)
-    {X Y : LocalizationPaths W} (p : X ⟶ Y) :
+    {X Y : LocalizationPaths W}
+    (p :
+      (Paths.categoryPaths
+        (Localization.Construction.LocQuiver W)).Hom X Y) :
     F.map (higherLocalizedPathArrow W p) ≫
           higherLocalizedStrongTransExtensionApp (W := W) gamma
             (higherLocalizedPathObject W Y) ≅
       higherLocalizedStrongTransExtensionApp (W := W) gamma
             (higherLocalizedPathObject W X) ≫
         G.map (higherLocalizedPathArrow W p) := by
-  change Quiver.Path X Y at p
   exact
     @Quiver.Path.rec
       (Localization.Construction.LocQuiver W) _
       X
-      (fun Y p =>
-        F.map (higherLocalizedPathArrow W p) ≫
+      (fun Y path =>
+        F.map (higherLocalizedPathArrow W path) ≫
               higherLocalizedStrongTransExtensionApp (W := W) gamma
                 (higherLocalizedPathObject W Y) ≅
           higherLocalizedStrongTransExtensionApp (W := W) gamma
                 (higherLocalizedPathObject W X) ≫
-            G.map (higherLocalizedPathArrow W p))
+            G.map (higherLocalizedPathArrow W path))
       (by
         simpa
           [higherLocalizedPathArrow, higherLocalizedPathObject,
@@ -105,7 +110,7 @@ noncomputable def higherLocalizedStrongTransPathNaturality
           (higherLocalizedStrongTransNaturality_id
             (W := W) gamma
             (higherLocalizedPathObject W X)))
-      (fun _ e hp => by
+      (fun prefix e hp => by
         have he :
             F.map
                   (higherLocalizedPathArrow W
@@ -135,7 +140,7 @@ noncomputable def higherLocalizedStrongTransPathNaturality
             Functor.map_comp, op_comp, Quiver.Hom.comp_toLoc] using
           (higherLocalizedStrongTransNaturality_comp
             (W := W) gamma
-            (higherLocalizedPathArrow W p)
+            (higherLocalizedPathArrow W prefix)
             (higherLocalizedPathArrow W
               ((Paths.of (Localization.Construction.LocQuiver W)).map e))
             hp he))
