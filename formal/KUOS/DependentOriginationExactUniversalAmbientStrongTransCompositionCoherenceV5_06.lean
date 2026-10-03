@@ -90,8 +90,8 @@ theorem higherLocalizedStrongTransNaturality_comp_id_left
         eqToHom_map]
   slice_lhs 2 3 => erw [hnat']
   simp only
-    [← Functor.map_comp,
-      Cat.Hom.inv_hom_id_toNatTrans_app,
+    [← Functor.map_comp_assoc,
+      Cat.Hom.inv_hom_id_toNatTrans_app_assoc,
       Functor.map_id, Category.id_comp, Category.comp_id,
       eqToHom_refl]
 
@@ -150,10 +150,11 @@ theorem higherLocalizedStrongTransNaturality_comp_id_right
       [← Functor.map_comp,
         Cat.Hom.inv_hom_id_toNatTrans_app,
         Functor.map_id, Category.id_comp, Category.comp_id]
-  slice_lhs 3 5 => erw [hnat]
   simp only
-    [← Functor.map_comp,
-      Cat.Hom.inv_hom_id_toNatTrans_app,
+    [Category.assoc,
+      ← NatTrans.naturality_assoc,
+      Cat.Hom.inv_hom_id_toNatTrans_app_assoc,
+      ← Functor.map_comp_assoc,
       Functor.map_id, Category.id_comp, Category.comp_id,
       eqToHom_refl]
 
@@ -236,13 +237,11 @@ theorem higherLocalizedStrongTransNaturality_comp_assoc
         PrelaxFunctor.map₂_eqToHom]
   slice_lhs 2 3 => erw [← hnatH']
   slice_rhs 6 7 => erw [← hnatG']
-  slice_lhs 1 2 =>
-    rw [← (higherLocalizedStrongTransExtensionApp
-      (W := W) gamma d).toFunctor.map_comp]
-    rw [F.mapComp_assoc_left_hom_app]
-    simp only [Functor.map_comp]
-  slice_lhs 6 7 =>
-    rw [G.mapComp_assoc_left_inv_app]
+  rw [← (higherLocalizedStrongTransExtensionApp
+    (W := W) gamma d).toFunctor.map_comp_assoc]
+  rw [F.mapComp_assoc_left_hom_app]
+  simp only [Functor.map_comp, Category.assoc]
+  rw [G.mapComp_assoc_left_inv_app_assoc]
   simp
     [Strict.associator_eqToIso,
       PrelaxFunctor.map₂_eqToHom]
