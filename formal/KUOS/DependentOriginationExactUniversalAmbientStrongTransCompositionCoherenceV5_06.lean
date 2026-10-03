@@ -193,6 +193,8 @@ theorem higherLocalizedStrongTransNaturality_comp_assoc
         G.mapComp_assoc_right_inv_app,
         Strict.associator_eqToIso,
         PrelaxFunctor.map₂_eqToHom,
+        ← Functor.map_comp_assoc,
+        ← Cat.Hom₂.comp_app,
         ← NatTrans.naturality_assoc]
 
 /-! ## Regression checks -/
