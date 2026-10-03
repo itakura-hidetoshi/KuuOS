@@ -245,15 +245,27 @@ jobs:
           echo "Lake cache exact hit: ${CACHE_HIT:-false}"
           echo "Lake cache matched key: ${CACHE_MATCHED_KEY:-none}"
 
-      - name: Set up pinned Lean and Mathlib cache
+      - name: Set up pinned Lean
         uses: leanprover/lean-action@v1
         with:
           auto-config: false
           build: false
           test: false
           lint: false
-          use-mathlib-cache: true
+          use-mathlib-cache: false
           use-github-cache: false
+
+      # A restored trusted main .lake already contains the pinned Mathlib build
+      # and the compiled KuuOS dependency graph. Running `lake exe cache get`
+      # after that restore can refresh dependency mtimes and make Lake rebuild
+      # otherwise reusable KuuOS .olean files. Only fetch Mathlib when no Lake
+      # workspace cache was restored at all.
+      - name: Fetch Mathlib cache on Lake workspace cache miss
+        if: steps.lean-workspace-cache.outputs.cache-matched-key == ''
+        shell: bash
+        run: |
+          set -euo pipefail
+          lake exe cache get
 
       - name: Run selected Lean check
         shell: bash
