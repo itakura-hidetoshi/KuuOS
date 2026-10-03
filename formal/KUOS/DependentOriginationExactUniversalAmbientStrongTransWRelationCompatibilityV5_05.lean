@@ -639,7 +639,7 @@ theorem higherLocalizedStrongTransNaturality_inv_hom_transport
   simp only
     [higherLocalizedIsoHomInvRelation, higherLocalizedIsoInvHomRelation,
       eqToIso.inv, PrelaxFunctor.map₂_eqToHom] at hGtriCompact
-  slice_lhs 3 5 =>
+  slice_lhs 3 4 =>
     exact hGtriCompact
 
   let tG :
