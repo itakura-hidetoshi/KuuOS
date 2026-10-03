@@ -136,8 +136,9 @@ theorem higherLocalizedStrongTransNaturality_comp_id_left
               ((higherLocalizedStrongTransExtensionApp
                 (W := W) gamma a).toFunctor.obj x)) =
         naturality_f.hom.toNatTrans.app x := by
-    simp only [Category.assoc, hFcancel, hGcancel,
-      Category.id_comp, Category.comp_id]
+    rw [reassoc_of% hFcancel]
+    rw [hGcancel]
+    simp
   rw [reassoc_of% hmiddle]
 
 /-- Composing any supplied naturality with canonical identity naturality on the
@@ -266,7 +267,7 @@ theorem higherLocalizedStrongTransNaturality_comp_assoc
   have hFmap_naturality :=
     hFmap_assoc
       (naturality_h.hom.toNatTrans.app
-        ((F.map g).toFunctor.obj ((F.map f).toFunctor.obj x))
+        ((F.map g).toFunctor.obj ((F.map f).toFunctor.obj x)))
   rw [reassoc_of% hFmap_naturality]
   simp only [Category.assoc]
   rw [G.mapComp_assoc_left_inv_app_assoc]
