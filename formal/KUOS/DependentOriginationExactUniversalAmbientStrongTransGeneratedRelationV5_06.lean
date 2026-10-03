@@ -125,7 +125,7 @@ noncomputable def higherLocalizedStrongTransPathNaturality
           (W := W) gamma
           (higherLocalizedPathArrow W p)
           (higherLocalizedPathArrow W
-            ((Paths.of (Localization.Construction.LocQuiver W)).map e)
+            ((Paths.of (Localization.Construction.LocQuiver W)).map e))
           hp he)
 
 /-! ## Regression checks -/
