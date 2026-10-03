@@ -56,17 +56,18 @@ noncomputable def higherLocalizedGeneratingPathArrowIso
     higherLocalizedPathArrow W p ≅ higherLocalizedPathArrow W q := by
   cases alpha with
   | id X =>
-      simpa
-        [higherLocalizedPathArrow, higherLocalizedPathObject,
-          higherLocalizedPathQuotientFunctor, higherPresentationUnitFunctor] using
-        ((higherPresentationUnitFunctor W).toPseudofunctor.mapId
-          (.mk X))
+      change
+        (W.Q.map (𝟙 X)).op.op.toLoc ≅
+          𝟙 (LocallyDiscrete.mk (op (op (W.Q.obj X))))
+      exact
+        (higherPresentationUnitFunctor W).toPseudofunctor.mapId (.mk X)
   | comp f g =>
-      simpa
-        [higherLocalizedPathArrow, higherLocalizedPathObject,
-          higherLocalizedPathQuotientFunctor, higherPresentationUnitFunctor] using
-        ((higherPresentationUnitFunctor W).toPseudofunctor.mapComp
-          f.toLoc g.toLoc)
+      change
+        (W.Q.map (f ≫ g)).op.op.toLoc ≅
+          (W.Q.map f).op.op.toLoc ≫ (W.Q.map g).op.op.toLoc
+      exact
+        (higherPresentationUnitFunctor W).toPseudofunctor.mapComp
+          f.toLoc g.toLoc
   | Winv₁ w hw =>
       simpa
         [higherLocalizedPathArrow, higherLocalizedPathObject,
