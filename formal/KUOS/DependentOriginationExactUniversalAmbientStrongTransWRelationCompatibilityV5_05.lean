@@ -359,7 +359,8 @@ theorem higherLocalizedPseudofunctor_iso_inv_hom_triangle_hom_app
           ((H.map p).toFunctor.obj x) := by
     rfl
   rw [hk_hom] at hcancel
-  rw [(H.map p).toFunctor.map_comp] at hcancel
+  slice_lhs 2 3 =>
+    rw [← (H.map p).toFunctor.map_comp]
   simpa only [p, q, a, b, Category.assoc] using hcancel
 
 /-- Expand the inverse triangle to the concrete mapComp and equality 2-cells.
@@ -602,7 +603,7 @@ theorem higherLocalizedStrongTransNaturality_inv_hom_transport
           (e.inv.op.op.toLoc ≫ e.hom.op.op.toLoc)).toFunctor.map
             (hp.inv.toNatTrans.app x) := by
     simpa only [Functor.comp_map] using hGcomp
-  slice_lhs 7 8 =>
+  slice_lhs 6 7 =>
     exact hGcomp'
 
   have hGtri :=
@@ -610,11 +611,39 @@ theorem higherLocalizedStrongTransNaturality_inv_hom_transport
       (W := W) G e
       ((higherLocalizedStrongTransExtensionApp
         (W := W) gamma (.mk (op (op X)))).toFunctor.obj x)
+  have hGtriCompact :
+      (G.map e.hom.op.op.toLoc).toFunctor.map
+            ((G.mapId (.mk (op (op X)))).inv.toNatTrans.app
+              ((higherLocalizedStrongTransExtensionApp
+                (W := W) gamma (.mk (op (op X)))).toFunctor.obj x)) ≫
+        (G.map e.hom.op.op.toLoc).toFunctor.map
+          ((G.map₂
+              (higherLocalizedIsoHomInvRelation (W := W) e).inv).toNatTrans.app
+                ((higherLocalizedStrongTransExtensionApp
+                  (W := W) gamma (.mk (op (op X)))).toFunctor.obj x) ≫
+            (G.mapComp e.hom.op.op.toLoc e.inv.op.op.toLoc).hom.toNatTrans.app
+              ((higherLocalizedStrongTransExtensionApp
+                (W := W) gamma (.mk (op (op X)))).toFunctor.obj x)) ≫
+          (G.mapComp e.inv.op.op.toLoc e.hom.op.op.toLoc).inv.toNatTrans.app
+            ((G.map e.hom.op.op.toLoc).toFunctor.obj
+              ((higherLocalizedStrongTransExtensionApp
+                (W := W) gamma (.mk (op (op X)))).toFunctor.obj x)) =
+      (G.mapId (.mk (op (op Y)))).inv.toNatTrans.app
+            ((G.map e.hom.op.op.toLoc).toFunctor.obj
+              ((higherLocalizedStrongTransExtensionApp
+                (W := W) gamma (.mk (op (op X)))).toFunctor.obj x)) ≫
+        (G.map₂
+          (higherLocalizedIsoInvHomRelation (W := W) e).inv).toNatTrans.app
+            ((G.map e.hom.op.op.toLoc).toFunctor.obj
+              ((higherLocalizedStrongTransExtensionApp
+                (W := W) gamma (.mk (op (op X)))).toFunctor.obj x)) := by
+    rw [(G.map e.hom.op.op.toLoc).toFunctor.map_comp]
+    exact hGtri
   simp only
     [higherLocalizedIsoHomInvRelation, higherLocalizedIsoInvHomRelation,
-      eqToIso.hom, eqToIso.inv, PrelaxFunctor.map₂_eqToHom] at hGtri
-  slice_lhs 4 7 =>
-    exact hGtri
+      eqToIso.hom, eqToIso.inv, PrelaxFunctor.map₂_eqToHom] at hGtriCompact
+  slice_lhs 4 6 =>
+    exact hGtriCompact
 
   let tG :
       𝟭 (G.obj (.mk (op (op Y)))) ⟶
