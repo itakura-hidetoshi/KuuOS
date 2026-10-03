@@ -71,6 +71,12 @@ theorem higherLocalizedStrongTransNaturality_comp_transport_first
   simp
     [higherLocalizedStrongTransNaturality_comp_hom,
       higherLocalizedStrongTransNaturalityTransport_hom]
+  slice_rhs 2 3 =>
+    rw [associator_naturality_left]
+  slice_rhs 3 4 =>
+    rw [← whisker_exchange]
+  slice_rhs 4 5 =>
+    rw [associator_inv_naturality_left]
 
 /-- Transport in the second factor commutes with the canonical StrongTrans
 composition constructor. -/
@@ -102,6 +108,12 @@ theorem higherLocalizedStrongTransNaturality_comp_transport_second
   simp
     [higherLocalizedStrongTransNaturality_comp_hom,
       higherLocalizedStrongTransNaturalityTransport_hom]
+  slice_lhs 5 6 =>
+    rw [associator_inv_naturality_right]
+  slice_lhs 6 7 =>
+    rw [whisker_exchange]
+  slice_lhs 7 8 =>
+    rw [associator_naturality_right]
 
 /-! ## Regression checks -/
 
