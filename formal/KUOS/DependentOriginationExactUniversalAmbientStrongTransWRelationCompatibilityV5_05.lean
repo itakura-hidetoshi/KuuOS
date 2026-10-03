@@ -299,9 +299,9 @@ theorem higherLocalizedPseudofunctor_iso_inv_hom_triangle_hom_app
     (H.mapComp e.inv.op.op.toLoc e.hom.op.op.toLoc).hom.toNatTrans.app
           ((H.map e.hom.op.op.toLoc).toFunctor.obj x) ≫
         (H.map e.hom.op.op.toLoc).toFunctor.map
-          ((H.mapComp e.hom.op.op.toLoc e.inv.op.op.toLoc).inv.toNatTrans.app x) ≫
-      (H.map e.hom.op.op.toLoc).toFunctor.map
-          ((H.map₂ (higherLocalizedIsoHomInvRelation (W := W) e).hom).toNatTrans.app x) ≫
+          ((H.mapComp e.hom.op.op.toLoc e.inv.op.op.toLoc).inv.toNatTrans.app x ≫
+            (H.map₂
+              (higherLocalizedIsoHomInvRelation (W := W) e).hom).toNatTrans.app x) ≫
         (H.map e.hom.op.op.toLoc).toFunctor.map
           ((H.mapId (.mk (op (op X)))).hom.toNatTrans.app x) =
     (H.map₂ (higherLocalizedIsoInvHomRelation (W := W) e).hom).toNatTrans.app
@@ -359,9 +359,7 @@ theorem higherLocalizedPseudofunctor_iso_inv_hom_triangle_hom_app
           ((H.map p).toFunctor.obj x) := by
     rfl
   rw [hk_hom] at hcancel
-  slice_lhs 2 3 =>
-    rw [← (H.map p).toFunctor.map_comp]
-  simpa only [p, q, a, b, Category.assoc] using hcancel
+  simpa only [p, q, a, b] using hcancel
 
 /-- Expand the inverse triangle to the concrete mapComp and equality 2-cells.
 The final equality 2-cell is kept explicitly on the right, exactly as required
@@ -567,9 +565,8 @@ theorem higherLocalizedStrongTransNaturality_inv_hom_transport
             ((F.map e.hom.op.op.toLoc).toFunctor.obj x) ≫
         (F.mapId (.mk (op (op Y)))).hom.toNatTrans.app
           ((F.map e.hom.op.op.toLoc).toFunctor.obj x) := by
-    dsimp [mFpre]
-    rw [(F.map e.hom.op.op.toLoc).toFunctor.map_comp]
-    simpa only [Category.assoc] using hFtri
+    dsimp [mFpre, p, q]
+    exact hFtri
   have hFmapped :=
     congrArg
       (fun m =>
@@ -603,7 +600,7 @@ theorem higherLocalizedStrongTransNaturality_inv_hom_transport
           (e.inv.op.op.toLoc ≫ e.hom.op.op.toLoc)).toFunctor.map
             (hp.inv.toNatTrans.app x) := by
     simpa only [Functor.comp_map] using hGcomp
-  slice_lhs 6 7 =>
+  slice_lhs 5 6 =>
     exact hGcomp'
 
   have hGtri :=
