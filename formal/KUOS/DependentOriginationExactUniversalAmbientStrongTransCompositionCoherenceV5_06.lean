@@ -198,7 +198,8 @@ theorem higherLocalizedStrongTransNaturality_comp_id_left
     exact hFctx'.trans hGctx'
   have hmiddle_assoc := reassoc_of% hmiddle
   slice_lhs 2 7 =>
-    simpa only [Category.assoc] using hmiddle_assoc _
+    simp only [Category.assoc]
+    erw [hmiddle_assoc]
   simpa only [Category.assoc]
 
 /-- Composing any supplied naturality with canonical identity naturality on the
@@ -325,7 +326,8 @@ theorem higherLocalizedStrongTransNaturality_comp_assoc
   simp only [Functor.map_comp] at hFmap
   have hFmap_assoc := reassoc_of% hFmap
   slice_lhs 1 3 =>
-    simpa only [Category.assoc] using hFmap_assoc _
+    simp only [Category.assoc]
+    erw [hFmap_assoc]
   slice_lhs 7 8 => erw [G.mapComp_assoc_left_inv_app]
   simp
     [Strict.associator_eqToIso,
