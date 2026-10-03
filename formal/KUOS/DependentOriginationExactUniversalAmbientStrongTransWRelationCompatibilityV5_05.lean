@@ -640,8 +640,9 @@ theorem higherLocalizedStrongTransNaturality_inv_hom_transport
     [higherLocalizedIsoHomInvRelation, higherLocalizedIsoInvHomRelation,
       eqToIso.inv, PrelaxFunctor.map₂_eqToHom,
       Cat.Hom.id_toFunctor, Functor.id_obj] at hGtriCompact
+  have hGtriCompact_assoc := reassoc_of% hGtriCompact
   slice_lhs 3 6 =>
-    rw [reassoc_of% hGtriCompact]
+    exact hGtriCompact_assoc _
 
   let tG :
       𝟭 (G.obj (.mk (op (op Y)))) ⟶
