@@ -184,18 +184,53 @@ theorem higherLocalizedStrongTransNaturality_comp_assoc
   apply Cat.Hom₂.ext
   apply NatTrans.ext
   funext x
+  have hnatH :=
+    naturality_h.hom.toNatTrans.naturality
+      ((F.mapComp f g).hom.toNatTrans.app x)
+  have hnatH' :
+      (higherLocalizedStrongTransExtensionApp (W := W) gamma d).toFunctor.map
+            ((F.map h).toFunctor.map
+              ((F.mapComp f g).hom.toNatTrans.app x)) ≫
+          naturality_h.hom.toNatTrans.app
+            ((F.map g).toFunctor.obj ((F.map f).toFunctor.obj x)) =
+        naturality_h.hom.toNatTrans.app
+            ((F.map (f ≫ g)).toFunctor.obj x) ≫
+          (G.map h).toFunctor.map
+            ((higherLocalizedStrongTransExtensionApp
+              (W := W) gamma c).toFunctor.map
+                ((F.mapComp f g).hom.toNatTrans.app x)) := by
+    simpa only
+      [Cat.Hom.comp_toFunctor, Functor.comp_obj, Functor.comp_map] using hnatH
+  have hnatG :=
+    (G.mapComp g h).inv.toNatTrans.naturality
+      (naturality_f.hom.toNatTrans.app x)
+  have hnatG' :
+      (G.map h).toFunctor.map
+            ((G.map g).toFunctor.map
+              (naturality_f.hom.toNatTrans.app x)) ≫
+          (G.mapComp g h).inv.toNatTrans.app
+            ((G.map f).toFunctor.obj
+              ((higherLocalizedStrongTransExtensionApp
+                (W := W) gamma a).toFunctor.obj x)) =
+        (G.mapComp g h).inv.toNatTrans.app
+            ((higherLocalizedStrongTransExtensionApp
+              (W := W) gamma b).toFunctor.obj
+                ((F.map f).toFunctor.obj x)) ≫
+          (G.map (g ≫ h)).toFunctor.map
+            (naturality_f.hom.toNatTrans.app x) := by
+    simpa only
+      [Cat.Hom.comp_toFunctor, Functor.comp_obj, Functor.comp_map] using hnatG
   set_option backward.isDefEq.respectTransparency false in
     simp
       [-Pseudofunctor.map₂_associator,
         higherLocalizedStrongTransNaturality_comp_hom,
         higherLocalizedStrongTransNaturalityTransport_hom,
-        F.mapComp_assoc_right_hom_app_assoc,
-        G.mapComp_assoc_right_inv_app,
+        F.mapComp_assoc_left_hom_app_assoc,
+        G.mapComp_assoc_left_inv_app_assoc,
         Strict.associator_eqToIso,
         PrelaxFunctor.map₂_eqToHom,
-        ← Functor.map_comp_assoc,
-        ← Cat.Hom₂.comp_app,
-        ← NatTrans.naturality_assoc]
+        ← hnatH',
+        hnatG']
 
 /-! ## Regression checks -/
 
