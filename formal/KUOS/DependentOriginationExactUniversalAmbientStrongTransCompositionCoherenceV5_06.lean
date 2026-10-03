@@ -61,6 +61,9 @@ theorem higherLocalizedStrongTransNaturality_comp_id_left
   apply Cat.Hom₂.ext
   apply NatTrans.ext
   funext x
+  have hnat :=
+    naturality_f.hom.toNatTrans.naturality
+      ((F.mapId a).hom.toNatTrans.app x)
   set_option backward.isDefEq.respectTransparency false in
     simp
       [-Pseudofunctor.map₂_left_unitor,
@@ -70,8 +73,11 @@ theorem higherLocalizedStrongTransNaturality_comp_id_left
         F.mapComp_id_left_hom_app,
         G.mapComp_id_left_inv_app,
         Strict.leftUnitor_eqToIso,
-        PrelaxFunctor.map₂_eqToHom,
-        NatTrans.naturality_assoc]
+        eqToHom_map,
+        ← hnat]
+  simp only
+    [← Functor.map_comp, Iso.inv_hom_id_app, Iso.hom_inv_id_app,
+      Functor.map_id, Category.id_comp, Category.comp_id]
 
 /-- Composing any supplied naturality with canonical identity naturality on the
 right is the same as transporting along the source right unitor. -/
@@ -95,6 +101,9 @@ theorem higherLocalizedStrongTransNaturality_comp_id_right
   apply Cat.Hom₂.ext
   apply NatTrans.ext
   funext x
+  have hnat :=
+    (G.mapId b).hom.toNatTrans.naturality
+      (naturality_f.hom.toNatTrans.app x)
   set_option backward.isDefEq.respectTransparency false in
     simp
       [-Pseudofunctor.map₂_right_unitor,
@@ -104,8 +113,11 @@ theorem higherLocalizedStrongTransNaturality_comp_id_right
         F.mapComp_id_right_hom_app,
         G.mapComp_id_right_inv_app,
         Strict.rightUnitor_eqToIso,
-        PrelaxFunctor.map₂_eqToHom,
-        NatTrans.naturality_assoc]
+        eqToHom_map,
+        hnat]
+  simp only
+    [← Functor.map_comp, Iso.inv_hom_id_app, Iso.hom_inv_id_app,
+      Functor.map_id, Category.id_comp, Category.comp_id]
 
 /-- The two parenthesizations of the v4.99 composition constructor agree after
 transport along the source associator. -/
@@ -150,9 +162,7 @@ theorem higherLocalizedStrongTransNaturality_comp_assoc
         G.mapComp_assoc_right_inv_app,
         Strict.associator_eqToIso,
         PrelaxFunctor.map₂_eqToHom,
-        ← NatTrans.naturality_assoc,
-        ← Functor.map_comp_assoc,
-        ← Cat.Hom₂.comp_app]
+        NatTrans.naturality_assoc]
 
 /-! ## Regression checks -/
 
