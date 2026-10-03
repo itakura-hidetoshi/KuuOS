@@ -108,19 +108,44 @@ theorem higherLocalizedStrongTransNaturality_comp_id_left
               ((higherLocalizedStrongTransExtensionApp
                 (W := W) gamma a).toFunctor.obj x)) =
         naturality_f.hom.toNatTrans.app x := by
-    slice_lhs 2 3 =>
-      rw [← (G.map f).toFunctor.map_comp]
-      rw [← (higherLocalizedStrongTransExtensionApp
-        (W := W) gamma a).toFunctor.map_comp]
-      rw [Cat.Hom.inv_hom_id_toNatTrans_app]
-      rw [Functor.map_id]
-    simp only [Category.id_comp, Category.comp_id]
-    slice_lhs 2 3 =>
-      rw [← (G.map f).toFunctor.map_comp]
-      rw [Cat.Hom.inv_hom_id_toNatTrans_app]
-      rw [Functor.map_id]
-    simp only [Category.id_comp, Category.comp_id]
-  simp only [Category.assoc]
+    let K :=
+      (higherLocalizedStrongTransExtensionApp
+        (W := W) gamma a).toFunctor ⋙ (G.map f).toFunctor
+    have hFcancel' :
+        K.map ((Cat.Hom.toNatIso (F.mapId a)).app x).inv ≫
+          K.map ((Cat.Hom.toNatIso (F.mapId a)).app x).hom = 𝟙 _ :=
+      K.map_inv_hom' ((Cat.Hom.toNatIso (F.mapId a)).app x)
+    have hGcancel' :
+        (G.map f).toFunctor.map
+              ((Cat.Hom.toNatIso (G.mapId a)).app
+                ((higherLocalizedStrongTransExtensionApp
+                  (W := W) gamma a).toFunctor.obj x)).inv ≫
+          (G.map f).toFunctor.map
+              ((Cat.Hom.toNatIso (G.mapId a)).app
+                ((higherLocalizedStrongTransExtensionApp
+                  (W := W) gamma a).toFunctor.obj x)).hom = 𝟙 _ :=
+      (G.map f).toFunctor.map_inv_hom'
+        ((Cat.Hom.toNatIso (G.mapId a)).app
+          ((higherLocalizedStrongTransExtensionApp
+            (W := W) gamma a).toFunctor.obj x))
+    change
+      naturality_f.hom.toNatTrans.app x ≫
+          K.map ((Cat.Hom.toNatIso (F.mapId a)).app x).inv ≫
+          K.map ((Cat.Hom.toNatIso (F.mapId a)).app x).hom ≫
+          (G.map f).toFunctor.map
+              ((Cat.Hom.toNatIso (G.mapId a)).app
+                ((higherLocalizedStrongTransExtensionApp
+                  (W := W) gamma a).toFunctor.obj x)).inv ≫
+          (G.map f).toFunctor.map
+              ((Cat.Hom.toNatIso (G.mapId a)).app
+                ((higherLocalizedStrongTransExtensionApp
+                  (W := W) gamma a).toFunctor.obj x)).hom =
+        naturality_f.hom.toNatTrans.app x
+    simp only [Category.assoc]
+    rw [reassoc_of% hFcancel']
+    rw [hGcancel']
+    simp
+  simp_rw [Category.assoc]
   rw [reassoc_of% hmiddle]
 
 /-- Composing any supplied naturality with canonical identity naturality on the
@@ -250,9 +275,8 @@ theorem higherLocalizedStrongTransNaturality_comp_assoc
     hFmap_assoc
       (naturality_h.hom.toNatTrans.app
         ((F.map g).toFunctor.obj ((F.map f).toFunctor.obj x)))
-  simp only [Category.assoc]
-  rw [reassoc_of% hFmap_naturality]
-  rw [G.mapComp_assoc_left_inv_app_assoc]
+  slice_lhs 1 3 => erw [hFmap_naturality]
+  slice_lhs 7 8 => erw [G.mapComp_assoc_left_inv_app]
   simp
     [Strict.associator_eqToIso,
       PrelaxFunctor.map₂_eqToHom]
