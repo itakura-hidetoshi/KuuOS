@@ -635,11 +635,11 @@ theorem higherLocalizedStrongTransNaturality_inv_hom_transport
               ((higherLocalizedStrongTransExtensionApp
                 (W := W) gamma (.mk (op (op X)))).toFunctor.obj x)) := by
     rw [(G.map e.hom.op.op.toLoc).toFunctor.map_comp]
-    exact hGtri
+    simpa only [Category.assoc] using hGtri
   simp only
     [higherLocalizedIsoHomInvRelation, higherLocalizedIsoInvHomRelation,
-      eqToIso.hom, eqToIso.inv, PrelaxFunctor.map₂_eqToHom] at hGtriCompact
-  slice_lhs 4 6 =>
+      eqToIso.inv, PrelaxFunctor.map₂_eqToHom] at hGtriCompact
+  slice_lhs 3 5 =>
     exact hGtriCompact
 
   let tG :
@@ -688,7 +688,7 @@ theorem higherLocalizedStrongTransNaturality_inv_hom_transport
   simp only
     [higherLocalizedIsoInvHomRelation, eqToIso.inv,
       PrelaxFunctor.map₂_eqToHom] at hGsuffix
-  slice_lhs 3 6 =>
+  slice_lhs 2 5 =>
     exact hGsuffix
 
 
