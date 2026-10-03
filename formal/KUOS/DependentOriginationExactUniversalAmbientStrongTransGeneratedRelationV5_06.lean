@@ -110,7 +110,7 @@ noncomputable def higherLocalizedStrongTransPathNaturality
           (higherLocalizedStrongTransNaturality_id
             (W := W) gamma
             (higherLocalizedPathObject W X)))
-      (fun prefix e hp => by
+      (fun pfx e hp => by
         have he :
             F.map
                   (higherLocalizedPathArrow W
@@ -140,7 +140,7 @@ noncomputable def higherLocalizedStrongTransPathNaturality
             Functor.map_comp, op_comp, Quiver.Hom.comp_toLoc] using
           (higherLocalizedStrongTransNaturality_comp
             (W := W) gamma
-            (higherLocalizedPathArrow W prefix)
+            (higherLocalizedPathArrow W pfx)
             (higherLocalizedPathArrow W
               ((Paths.of (Localization.Construction.LocQuiver W)).map e))
             hp he))
