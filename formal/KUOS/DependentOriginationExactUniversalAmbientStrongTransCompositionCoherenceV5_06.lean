@@ -99,7 +99,7 @@ theorem higherLocalizedStrongTransNaturality_comp_id_left
       [← Functor.map_comp,
         Cat.Hom.inv_hom_id_toNatTrans_app,
         Functor.map_id]
-  simp only [Category.id_comp, Category.comp_id, eqToHom_refl]
+  rfl
 
 /-- Composing any supplied naturality with canonical identity naturality on the
 right is the same as transporting along the source right unitor. -/
@@ -149,13 +149,14 @@ theorem higherLocalizedStrongTransNaturality_comp_id_right
         F.mapComp_id_right_hom_app,
         G.mapComp_id_right_inv_app,
         Strict.rightUnitor_eqToIso,
-        PrelaxFunctor.map₂_eqToHom]
+        PrelaxFunctor.map₂_eqToHom,
+        -eqToHom_map]
   slice_lhs 2 3 =>
     simp only
       [← Functor.map_comp,
         Cat.Hom.inv_hom_id_toNatTrans_app,
         Functor.map_id, Category.id_comp, Category.comp_id]
-  trace_state
+  simp [-eqToHom_map]
 
 /-- The two parenthesizations of the v4.99 composition constructor agree after
 transport along the source associator. -/
@@ -244,8 +245,8 @@ theorem higherLocalizedStrongTransNaturality_comp_assoc
           (W := W) gamma d).toFunctor.map m)
       hFapp
   simp only [Functor.map_comp] at hFmap
-  rw [reassoc_of% hFmap]
   simp only [Category.assoc]
+  rw [reassoc_of% hFmap]
   rw [G.mapComp_assoc_left_inv_app]
   simp
     [Strict.associator_eqToIso,
