@@ -62,7 +62,15 @@ theorem higherLocalizedStrongTransNaturality_comp_id_left
     [higherLocalizedStrongTransNaturality_comp_hom,
       higherLocalizedStrongTransNaturality_id_hom,
       higherLocalizedStrongTransNaturalityTransport_hom]
-  rw [F.map₂_left_unitor f, (G.toLax).map₂_leftUnitor f]
+  rw [F.map₂_left_unitor f]
+  have hG :
+      G.map₂ (λ_ f).inv =
+        (λ_ (G.map f)).inv ≫
+          (G.mapId a).inv ▷ G.map f ≫
+            (G.mapComp (𝟙 a) f).inv := by
+    change (G.toLax).map₂ (λ_ f).inv = _
+    exact (G.toLax).map₂_leftUnitor f
+  rw [hG]
   bicategory
 
 /-- Composing any supplied naturality with canonical identity naturality on the
@@ -88,7 +96,15 @@ theorem higherLocalizedStrongTransNaturality_comp_id_right
     [higherLocalizedStrongTransNaturality_comp_hom,
       higherLocalizedStrongTransNaturality_id_hom,
       higherLocalizedStrongTransNaturalityTransport_hom]
-  rw [F.map₂_right_unitor f, (G.toLax).map₂_rightUnitor f]
+  rw [F.map₂_right_unitor f]
+  have hG :
+      G.map₂ (ρ_ f).inv =
+        (ρ_ (G.map f)).inv ≫
+          G.map f ◁ (G.mapId b).inv ≫
+            (G.mapComp f (𝟙 b)).inv := by
+    change (G.toLax).map₂ (ρ_ f).inv = _
+    exact (G.toLax).map₂_rightUnitor f
+  rw [hG]
   bicategory
 
 /-- The two parenthesizations of the v4.99 composition constructor agree after
@@ -127,7 +143,7 @@ theorem higherLocalizedStrongTransNaturality_comp_assoc
       higherLocalizedStrongTransNaturalityTransport_hom]
   rw [F.map₂_associator f g h]
   have hG := G.mapComp_assoc_left_inv f g h
-  bicategory
+  bicategory_nf
 
 /-! ## Regression checks -/
 
