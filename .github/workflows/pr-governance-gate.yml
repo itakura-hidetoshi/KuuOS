@@ -245,6 +245,31 @@ jobs:
           echo "Lake cache exact hit: ${CACHE_HIT:-false}"
           echo "Lake cache matched key: ${CACHE_MATCHED_KEY:-none}"
 
+      # Overlay the most recent local project build from this PR only.  This
+      # cache is never restored by main and therefore cannot contaminate the
+      # trusted default-branch Lake workspace.  It lets a RED Lean iteration
+      # reuse the successfully compiled dependency prefix on the next head.
+      - name: Restore PR-local Lean build overlay
+        if: github.event_name == 'pull_request'
+        id: lean-pr-build-cache
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake/build
+          key: kuuos-pr-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-pr${{ github.event.pull_request.number }}-${{ github.event.pull_request.head.sha }}
+          restore-keys: |
+            kuuos-pr-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-pr${{ github.event.pull_request.number }}-
+
+      - name: Report PR-local Lean build overlay restore
+        if: github.event_name == 'pull_request'
+        shell: bash
+        env:
+          CACHE_HIT: ${{ steps.lean-pr-build-cache.outputs.cache-hit }}
+          CACHE_MATCHED_KEY: ${{ steps.lean-pr-build-cache.outputs.cache-matched-key }}
+        run: |
+          set -euo pipefail
+          echo "PR build cache exact hit: ${CACHE_HIT:-false}"
+          echo "PR build cache matched key: ${CACHE_MATCHED_KEY:-none}"
+
       - name: Set up pinned Lean
         uses: leanprover/lean-action@v1
         with:
@@ -298,6 +323,17 @@ jobs:
             --check-id lean-formal \
             --command "${LEAN_COMMAND}" \
             --selection artifacts/selection/selection.json
+
+      # Save only the local project build, never the package tree.  Even when
+      # the selected target is RED, the compiled dependency prefix is valid
+      # for the exact source files that produced it and remains scoped to this
+      # pull request.  A changed source on the next head is still rebuilt by Lake.
+      - name: Save PR-local Lean build overlay
+        if: always() && github.event_name == 'pull_request'
+        uses: actions/cache/save@v5
+        with:
+          path: .lake/build
+          key: kuuos-pr-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-pr${{ github.event.pull_request.number }}-${{ github.event.pull_request.head.sha }}
 
       - name: Verify committed dependency manifest remains canonical
         shell: bash
