@@ -71,10 +71,9 @@ theorem higherLocalizedStrongTransNaturality_comp_transport_first
   simp only
     [higherLocalizedStrongTransNaturality_comp_hom,
       higherLocalizedStrongTransNaturalityTransport_hom,
-      Iso.trans_hom, Iso.symm_hom,
-      whiskerLeftIso_hom, whiskerRightIso_hom,
-      Pseudofunctor.map₂_whisker_right,
-      Category.assoc]
+      whiskerRightIso_hom,
+      Pseudofunctor.map₂_whisker_right]
+  dsimp
   bicategory
 
 /-- Transport in the second factor commutes with the canonical StrongTrans
@@ -107,10 +106,9 @@ theorem higherLocalizedStrongTransNaturality_comp_transport_second
   simp only
     [higherLocalizedStrongTransNaturality_comp_hom,
       higherLocalizedStrongTransNaturalityTransport_hom,
-      Iso.trans_hom, Iso.symm_hom,
-      whiskerLeftIso_hom, whiskerRightIso_hom,
-      Pseudofunctor.map₂_whisker_left,
-      Category.assoc]
+      whiskerLeftIso_hom,
+      Pseudofunctor.map₂_whisker_left]
+  dsimp
   bicategory
 
 /-! ## Regression checks -/
