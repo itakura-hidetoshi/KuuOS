@@ -141,12 +141,11 @@ theorem higherLocalizedStrongTransNaturality_comp_id_left
                 ((higherLocalizedStrongTransExtensionApp
                   (W := W) gamma a).toFunctor.obj x)).hom =
         naturality_f.hom.toNatTrans.app x
-    simp only [Category.assoc]
     rw [reassoc_of% hFcancel']
     rw [hGcancel']
     simp
-  simp_rw [Category.assoc]
-  rw [reassoc_of% hmiddle]
+  slice_lhs 2 6 => rw [hmiddle]
+  simpa only [Category.assoc]
 
 /-- Composing any supplied naturality with canonical identity naturality on the
 right is the same as transporting along the source right unitor. -/
@@ -270,12 +269,8 @@ theorem higherLocalizedStrongTransNaturality_comp_assoc
           (W := W) gamma d).toFunctor.map m)
       hFapp
   simp only [Functor.map_comp] at hFmap
-  have hFmap_assoc := reassoc_of% hFmap
-  have hFmap_naturality :=
-    hFmap_assoc
-      (naturality_h.hom.toNatTrans.app
-        ((F.map g).toFunctor.obj ((F.map f).toFunctor.obj x)))
-  slice_lhs 1 3 => erw [hFmap_naturality]
+  slice_lhs 1 3 =>
+    rw [← Category.assoc, hFmap]
   slice_lhs 7 8 => erw [G.mapComp_assoc_left_inv_app]
   simp
     [Strict.associator_eqToIso,
