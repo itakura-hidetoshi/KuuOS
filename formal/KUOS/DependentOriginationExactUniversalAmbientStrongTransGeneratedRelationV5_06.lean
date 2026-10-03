@@ -38,7 +38,11 @@ already validated canonical constructors:
 * identity: v5.01;
 * ordinary presentation edge: v4.97;
 * formal W-inverse edge: v5.05/v4.98;
-* path composition: v4.99.
+* nonempty-prefix path composition: v4.99.
+
+Singleton paths are normalized directly to their generator naturality.  This
+avoids inserting a spurious leading identity-composition layer and makes the
+retained localization generators line up definitionally with v5.04/v5.05.
 
 The next step will prove invariance of this evaluator under
 `LocalizationGenerating2Cell`, then extend structurally through
@@ -134,16 +138,20 @@ noncomputable def higherLocalizedStrongTransPathNaturality
                 higherLocalizedPathQuotientFunctor] using
               (higherLocalizedStrongTransWInverseNaturalityV5_05
                 (W := W) gamma w.1 w.2)
-        simpa only
-          [higherLocalizedPathArrow, higherLocalizedPathQuotientFunctor,
-            Quiver.Path.comp_toPath_eq_cons,
-            Functor.map_comp, op_comp, Quiver.Hom.comp_toLoc] using
-          (higherLocalizedStrongTransNaturality_comp
-            (W := W) gamma
-            (higherLocalizedPathArrow W pfx)
-            (higherLocalizedPathArrow W
-              ((Paths.of (Localization.Construction.LocQuiver W)).map e))
-            hp he))
+        cases pfx with
+        | nil =>
+            simpa using he
+        | cons pfx e0 =>
+            simpa only
+              [higherLocalizedPathArrow, higherLocalizedPathQuotientFunctor,
+                Quiver.Path.comp_toPath_eq_cons,
+                Functor.map_comp, op_comp, Quiver.Hom.comp_toLoc] using
+              (higherLocalizedStrongTransNaturality_comp
+                (W := W) gamma
+                (higherLocalizedPathArrow W (Quiver.Path.cons pfx e0))
+                (higherLocalizedPathArrow W
+                  ((Paths.of (Localization.Construction.LocQuiver W)).map e))
+                hp he))
       Y p
 
 /-! ## Regression checks -/
