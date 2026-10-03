@@ -638,7 +638,8 @@ theorem higherLocalizedStrongTransNaturality_inv_hom_transport
     simpa only [Category.assoc] using hGtri
   simp only
     [higherLocalizedIsoHomInvRelation, higherLocalizedIsoInvHomRelation,
-      eqToIso.inv, PrelaxFunctor.map₂_eqToHom] at hGtriCompact
+      eqToIso.inv, PrelaxFunctor.map₂_eqToHom,
+      Cat.Hom.id_toFunctor, Functor.id_obj] at hGtriCompact
   slice_lhs 3 6 =>
     rw [reassoc_of% hGtriCompact]
 
