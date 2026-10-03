@@ -141,12 +141,34 @@ theorem higherLocalizedStrongTransNaturality_comp_id_left
                 ((higherLocalizedStrongTransExtensionApp
                   (W := W) gamma a).toFunctor.obj x)).hom =
         naturality_f.hom.toNatTrans.app x
-    slice_lhs 2 3 => erw [hFcancel']
-    simp only [Category.id_comp, Category.comp_id]
-    slice_lhs 2 3 => erw [hGcancel']
-    simp
-  slice_lhs 2 6 => erw [hmiddle]
-  simpa only [Category.assoc]
+    calc
+      naturality_f.hom.toNatTrans.app x ≫
+            K.map ((Cat.Hom.toNatIso (F.mapId a)).app x).inv ≫
+            K.map ((Cat.Hom.toNatIso (F.mapId a)).app x).hom ≫
+            (G.map f).toFunctor.map
+                ((Cat.Hom.toNatIso (G.mapId a)).app
+                  ((higherLocalizedStrongTransExtensionApp
+                    (W := W) gamma a).toFunctor.obj x)).inv ≫
+            (G.map f).toFunctor.map
+                ((Cat.Hom.toNatIso (G.mapId a)).app
+                  ((higherLocalizedStrongTransExtensionApp
+                    (W := W) gamma a).toFunctor.obj x)).hom =
+          naturality_f.hom.toNatTrans.app x ≫
+            (K.map ((Cat.Hom.toNatIso (F.mapId a)).app x).inv ≫
+              K.map ((Cat.Hom.toNatIso (F.mapId a)).app x).hom) ≫
+            ((G.map f).toFunctor.map
+                ((Cat.Hom.toNatIso (G.mapId a)).app
+                  ((higherLocalizedStrongTransExtensionApp
+                    (W := W) gamma a).toFunctor.obj x)).inv ≫
+              (G.map f).toFunctor.map
+                ((Cat.Hom.toNatIso (G.mapId a)).app
+                  ((higherLocalizedStrongTransExtensionApp
+                    (W := W) gamma a).toFunctor.obj x)).hom) := by
+              simp only [Category.assoc]
+      _ = naturality_f.hom.toNatTrans.app x ≫ 𝟙 _ ≫ 𝟙 _ := by
+            rw [hFcancel', hGcancel']
+      _ = naturality_f.hom.toNatTrans.app x := by simp
+  simpa only [Category.assoc, reassoc_of% hmiddle]
 
 /-- Composing any supplied naturality with canonical identity naturality on the
 right is the same as transporting along the source right unitor. -/
@@ -270,7 +292,7 @@ theorem higherLocalizedStrongTransNaturality_comp_assoc
           (W := W) gamma d).toFunctor.map m)
       hFapp
   simp only [Functor.map_comp] at hFmap
-  slice_lhs 1 2 => erw [hFmap]
+  simp only [Category.assoc, reassoc_of% hFmap]
   slice_lhs 7 8 => erw [G.mapComp_assoc_left_inv_app]
   simp
     [Strict.associator_eqToIso,
