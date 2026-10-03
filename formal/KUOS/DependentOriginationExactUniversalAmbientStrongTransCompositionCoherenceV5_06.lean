@@ -87,8 +87,8 @@ theorem higherLocalizedStrongTransNaturality_comp_id_left
         G.mapComp_id_left_inv_app,
         Strict.leftUnitor_eqToIso,
         PrelaxFunctor.map₂_eqToHom,
-        eqToHom_map,
-        hnat']
+        eqToHom_map]
+  rw [hnat']
   simp only
     [← Functor.map_comp,
       Cat.Hom.inv_hom_id_toNatTrans_app,
@@ -123,8 +123,9 @@ theorem higherLocalizedStrongTransNaturality_comp_id_right
       (G.map (𝟙 b)).toFunctor.map
             (naturality_f.hom.toNatTrans.app x) ≫
           (G.mapId b).hom.toNatTrans.app
-            ((higherLocalizedStrongTransExtensionApp
-              (W := W) gamma a).toFunctor.obj ((G.map f).toFunctor.obj x)) =
+            ((G.map f).toFunctor.obj
+              ((higherLocalizedStrongTransExtensionApp
+                (W := W) gamma a).toFunctor.obj x)) =
         (G.mapId b).hom.toNatTrans.app
             ((higherLocalizedStrongTransExtensionApp
               (W := W) gamma b).toFunctor.obj ((F.map f).toFunctor.obj x)) ≫
@@ -142,8 +143,8 @@ theorem higherLocalizedStrongTransNaturality_comp_id_right
         G.mapComp_id_right_inv_app,
         Strict.rightUnitor_eqToIso,
         PrelaxFunctor.map₂_eqToHom,
-        eqToHom_map,
-        hnat']
+        eqToHom_map]
+  rw [hnat']
   simp only
     [← Functor.map_comp,
       Cat.Hom.inv_hom_id_toNatTrans_app,
