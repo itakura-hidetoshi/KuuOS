@@ -89,17 +89,13 @@ theorem higherLocalizedStrongTransNaturality_comp_id_left
         PrelaxFunctor.map₂_eqToHom,
         eqToHom_map]
   slice_lhs 2 3 => erw [hnat']
-  slice_lhs 3 4 =>
+  slice_lhs 3 6 =>
     simp only
       [← Functor.map_comp,
         Cat.Hom.inv_hom_id_toNatTrans_app,
-        Functor.map_id]
-  slice_lhs 3 4 =>
-    simp only
-      [← Functor.map_comp,
-        Cat.Hom.inv_hom_id_toNatTrans_app,
-        Functor.map_id]
-  rfl
+        Functor.map_id,
+        Category.id_comp, Category.comp_id]
+  simpa only [Category.id_comp, Category.comp_id]
 
 /-- Composing any supplied naturality with canonical identity naturality on the
 right is the same as transporting along the source right unitor. -/
@@ -149,14 +145,21 @@ theorem higherLocalizedStrongTransNaturality_comp_id_right
         F.mapComp_id_right_hom_app,
         G.mapComp_id_right_inv_app,
         Strict.rightUnitor_eqToIso,
-        PrelaxFunctor.map₂_eqToHom,
-        -eqToHom_map]
+        PrelaxFunctor.map₂_eqToHom]
   slice_lhs 2 3 =>
-    simp only
-      [← Functor.map_comp,
-        Cat.Hom.inv_hom_id_toNatTrans_app,
-        Functor.map_id, Category.id_comp, Category.comp_id]
-  simp [-eqToHom_map]
+    rw [← (higherLocalizedStrongTransExtensionApp
+      (W := W) gamma b).toFunctor.map_comp]
+    rw [Cat.Hom.inv_hom_id_toNatTrans_app]
+    rw [Functor.map_id]
+  simp only [Category.id_comp, Category.comp_id]
+  slice_lhs 3 5 =>
+    rw [← eqToHom_map]
+    rw [← (G.map (𝟙 b)).toFunctor.map_comp_assoc]
+    rw [(G.mapId b).hom.toNatTrans.naturality_assoc]
+  slice_lhs 2 3 =>
+    rw [Cat.Hom.inv_hom_id_toNatTrans_app]
+  simpa only
+    [Category.id_comp, Category.comp_id, eqToHom_map]
 
 /-- The two parenthesizations of the v4.99 composition constructor agree after
 transport along the source associator. -/
@@ -245,8 +248,8 @@ theorem higherLocalizedStrongTransNaturality_comp_assoc
           (W := W) gamma d).toFunctor.map m)
       hFapp
   simp only [Functor.map_comp] at hFmap
+  slice_lhs 1 2 => rw [hFmap]
   simp only [Category.assoc]
-  rw [reassoc_of% hFmap]
   rw [G.mapComp_assoc_left_inv_app]
   simp
     [Strict.associator_eqToIso,
