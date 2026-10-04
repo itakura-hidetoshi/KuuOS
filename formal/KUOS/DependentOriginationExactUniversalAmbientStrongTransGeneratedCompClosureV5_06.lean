@@ -96,6 +96,27 @@ theorem higherLocalizedStrongTransPathNaturality_generating_invariant_of_iso
     higherLocalizedStrongTransPathNaturality_generating_invariant
       (W := W) gamma alpha
 
+/-- The canonical evaluator on the identity free path is exactly the
+v5.01 canonical identity naturality.  Unlike the ordinary presentation edge
+corresponding to an identity morphism, the identity in `LocalizationPaths W`
+is literally the empty path, so no presentation `mapId` transport is needed. -/
+theorem higherLocalizedStrongTransPathNaturality_id
+    {F G : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W)}
+    (gamma :
+      restrictHigherLocalizedSystem W F ⟶
+        restrictHigherLocalizedSystem W G)
+    (X : LocalizationPaths W) :
+    higherLocalizedStrongTransPathNaturality
+        (W := W) gamma (𝟙 X) =
+      higherLocalizedStrongTransNaturality_id
+        (W := W) gamma (higherLocalizedPathObject W X) := by
+  apply Iso.ext
+  simp
+    [higherLocalizedStrongTransPathNaturality,
+      higherLocalizedStrongTransNaturality_id_hom,
+      higherLocalizedPathArrow, higherLocalizedPathObject,
+      higherLocalizedPathQuotientFunctor]
+
 /-- Right-unit normalization of the free-path evaluator, expressed using
 the canonical path-composition comparison. -/
 theorem higherLocalizedStrongTransPathNaturality_comp_id_right
@@ -270,6 +291,7 @@ noncomputable def higherLocalizedGeneratedCompClosurePathArrowIso
 #print axioms higherLocalizedPathArrowCompIso
 #print axioms higherLocalizedPathArrowIso_ext
 #print axioms higherLocalizedStrongTransPathNaturality_generating_invariant_of_iso
+#print axioms higherLocalizedStrongTransPathNaturality_id
 #print axioms higherLocalizedStrongTransPathNaturality_comp_id_right
 #print axioms higherLocalizedStrongTransNaturalityTransport_eq_of_parallel_iso
 #print axioms higherLocalizedStrongTransNaturalityTransport_refl
