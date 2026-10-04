@@ -129,15 +129,42 @@ theorem higherLocalizedStrongTransQuotientRepresentativeNaturality_eq_of_represe
         (W := W) gamma etaFq
         (higherLocalizedStrongTransPathNaturality
           (W := W) gamma q)
-  rw [hPath]
-  rw [higherLocalizedStrongTransNaturalityTransport_trans]
-  exact
-    higherLocalizedStrongTransNaturalityTransport_eq_of_parallel_iso
-      (W := W) gamma
-      (etaFp ≪≫ etaPq)
-      etaFq
-      (higherLocalizedStrongTransPathNaturality
-        (W := W) gamma q)
+  calc
+    higherLocalizedStrongTransNaturalityTransport
+          (W := W) gamma etaFp
+          (higherLocalizedStrongTransPathNaturality
+            (W := W) gamma p) =
+        higherLocalizedStrongTransNaturalityTransport
+          (W := W) gamma etaFp
+          (higherLocalizedStrongTransNaturalityTransport
+            (W := W) gamma etaPq
+            (higherLocalizedStrongTransPathNaturality
+              (W := W) gamma q)) :=
+      congrArg
+        (fun naturality_p =>
+          higherLocalizedStrongTransNaturalityTransport
+            (W := W) gamma etaFp naturality_p)
+        hPath
+    _ =
+        higherLocalizedStrongTransNaturalityTransport
+          (W := W) gamma (etaFp ≪≫ etaPq)
+          (higherLocalizedStrongTransPathNaturality
+            (W := W) gamma q) :=
+      higherLocalizedStrongTransNaturalityTransport_trans
+        (W := W) gamma etaFp etaPq
+        (higherLocalizedStrongTransPathNaturality
+          (W := W) gamma q)
+    _ =
+        higherLocalizedStrongTransNaturalityTransport
+          (W := W) gamma etaFq
+          (higherLocalizedStrongTransPathNaturality
+            (W := W) gamma q) :=
+      higherLocalizedStrongTransNaturalityTransport_eq_of_parallel_iso
+        (W := W) gamma
+        (etaFp ≪≫ etaPq)
+        etaFq
+        (higherLocalizedStrongTransPathNaturality
+          (W := W) gamma q)
 
 /-- Data-level canonical StrongTrans naturality on every actual morphism of the
 constructed localization.  `Quot.out` merely selects one representative;
