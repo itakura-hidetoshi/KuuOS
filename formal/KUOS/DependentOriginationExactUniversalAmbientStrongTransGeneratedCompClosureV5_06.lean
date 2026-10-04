@@ -571,6 +571,182 @@ theorem higherLocalizedStrongTransPathNaturality_comp
       have hleft := hih_outer.trans hpr
       exact hassoc_plain.symm.trans hleft
 
+/-- Path-level invariance is preserved by whiskering on the left.
+The supplied whole-path comparison may use any presentation with the correct
+endpoints; local discreteness makes the resulting transport independent of that
+presentation. -/
+theorem higherLocalizedStrongTransPathNaturality_whiskerLeft_invariant_of_iso
+    {F G : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W)}
+    (gamma :
+      restrictHigherLocalizedSystem W F ⟶
+        restrictHigherLocalizedSystem W G)
+    {X Y Z : LocalizationPaths W}
+    (k : X ⟶ Y) {p q : Y ⟶ Z}
+    (eta :
+      higherLocalizedPathArrow W p ≅ higherLocalizedPathArrow W q)
+    (h :
+      higherLocalizedStrongTransPathNaturality (W := W) gamma p =
+        higherLocalizedStrongTransNaturalityTransport
+          (W := W) gamma eta
+          (higherLocalizedStrongTransPathNaturality (W := W) gamma q))
+    (theta :
+      higherLocalizedPathArrow W (k ≫ p) ≅
+        higherLocalizedPathArrow W (k ≫ q)) :
+    higherLocalizedStrongTransPathNaturality
+        (W := W) gamma (k ≫ p) =
+      higherLocalizedStrongTransNaturalityTransport
+        (W := W) gamma theta
+        (higherLocalizedStrongTransPathNaturality
+          (W := W) gamma (k ≫ q)) := by
+  calc
+    higherLocalizedStrongTransPathNaturality
+          (W := W) gamma (k ≫ p) =
+        higherLocalizedStrongTransNaturality_comp
+          (W := W) gamma
+          (higherLocalizedPathArrow W k)
+          (higherLocalizedPathArrow W p)
+          (higherLocalizedStrongTransPathNaturality (W := W) gamma k)
+          (higherLocalizedStrongTransPathNaturality (W := W) gamma p) :=
+      (higherLocalizedStrongTransPathNaturality_comp
+        (W := W) gamma k p).symm
+    _ =
+        higherLocalizedStrongTransNaturality_comp
+          (W := W) gamma
+          (higherLocalizedPathArrow W k)
+          (higherLocalizedPathArrow W p)
+          (higherLocalizedStrongTransPathNaturality (W := W) gamma k)
+          (higherLocalizedStrongTransNaturalityTransport
+            (W := W) gamma eta
+            (higherLocalizedStrongTransPathNaturality
+              (W := W) gamma q)) := by
+      rw [h]
+    _ =
+        higherLocalizedStrongTransNaturalityTransport
+          (W := W) gamma
+          (Bicategory.whiskerLeftIso
+            (higherLocalizedPathArrow W k) eta)
+          (higherLocalizedStrongTransNaturality_comp
+            (W := W) gamma
+            (higherLocalizedPathArrow W k)
+            (higherLocalizedPathArrow W q)
+            (higherLocalizedStrongTransPathNaturality (W := W) gamma k)
+            (higherLocalizedStrongTransPathNaturality
+              (W := W) gamma q)) :=
+      higherLocalizedStrongTransNaturality_comp_transport_second
+        (W := W) gamma
+        (higherLocalizedPathArrow W k)
+        (higherLocalizedStrongTransPathNaturality (W := W) gamma k)
+        eta
+        (higherLocalizedStrongTransPathNaturality (W := W) gamma q)
+    _ =
+        higherLocalizedStrongTransNaturalityTransport
+          (W := W) gamma
+          (Bicategory.whiskerLeftIso
+            (higherLocalizedPathArrow W k) eta)
+          (higherLocalizedStrongTransPathNaturality
+            (W := W) gamma (k ≫ q)) := by
+      rw [higherLocalizedStrongTransPathNaturality_comp
+        (W := W) gamma k q]
+    _ =
+        higherLocalizedStrongTransNaturalityTransport
+          (W := W) gamma theta
+          (higherLocalizedStrongTransPathNaturality
+            (W := W) gamma (k ≫ q)) :=
+      higherLocalizedStrongTransNaturalityTransport_eq_of_parallel_iso
+        (W := W) gamma
+        (Bicategory.whiskerLeftIso
+          (higherLocalizedPathArrow W k) eta)
+        theta
+        (higherLocalizedStrongTransPathNaturality
+          (W := W) gamma (k ≫ q))
+
+/-- Path-level invariance is preserved by whiskering on the right, again with
+an arbitrary presentation of the resulting whole-path source comparison. -/
+theorem higherLocalizedStrongTransPathNaturality_whiskerRight_invariant_of_iso
+    {F G : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W)}
+    (gamma :
+      restrictHigherLocalizedSystem W F ⟶
+        restrictHigherLocalizedSystem W G)
+    {X Y Z : LocalizationPaths W}
+    {p q : X ⟶ Y} (k : Y ⟶ Z)
+    (eta :
+      higherLocalizedPathArrow W p ≅ higherLocalizedPathArrow W q)
+    (h :
+      higherLocalizedStrongTransPathNaturality (W := W) gamma p =
+        higherLocalizedStrongTransNaturalityTransport
+          (W := W) gamma eta
+          (higherLocalizedStrongTransPathNaturality (W := W) gamma q))
+    (theta :
+      higherLocalizedPathArrow W (p ≫ k) ≅
+        higherLocalizedPathArrow W (q ≫ k)) :
+    higherLocalizedStrongTransPathNaturality
+        (W := W) gamma (p ≫ k) =
+      higherLocalizedStrongTransNaturalityTransport
+        (W := W) gamma theta
+        (higherLocalizedStrongTransPathNaturality
+          (W := W) gamma (q ≫ k)) := by
+  calc
+    higherLocalizedStrongTransPathNaturality
+          (W := W) gamma (p ≫ k) =
+        higherLocalizedStrongTransNaturality_comp
+          (W := W) gamma
+          (higherLocalizedPathArrow W p)
+          (higherLocalizedPathArrow W k)
+          (higherLocalizedStrongTransPathNaturality (W := W) gamma p)
+          (higherLocalizedStrongTransPathNaturality (W := W) gamma k) :=
+      (higherLocalizedStrongTransPathNaturality_comp
+        (W := W) gamma p k).symm
+    _ =
+        higherLocalizedStrongTransNaturality_comp
+          (W := W) gamma
+          (higherLocalizedPathArrow W p)
+          (higherLocalizedPathArrow W k)
+          (higherLocalizedStrongTransNaturalityTransport
+            (W := W) gamma eta
+            (higherLocalizedStrongTransPathNaturality
+              (W := W) gamma q))
+          (higherLocalizedStrongTransPathNaturality (W := W) gamma k) := by
+      rw [h]
+    _ =
+        higherLocalizedStrongTransNaturalityTransport
+          (W := W) gamma
+          (Bicategory.whiskerRightIso eta
+            (higherLocalizedPathArrow W k))
+          (higherLocalizedStrongTransNaturality_comp
+            (W := W) gamma
+            (higherLocalizedPathArrow W q)
+            (higherLocalizedPathArrow W k)
+            (higherLocalizedStrongTransPathNaturality
+              (W := W) gamma q)
+            (higherLocalizedStrongTransPathNaturality
+              (W := W) gamma k)) :=
+      higherLocalizedStrongTransNaturality_comp_transport_first
+        (W := W) gamma eta
+        (higherLocalizedStrongTransPathNaturality (W := W) gamma q)
+        (higherLocalizedPathArrow W k)
+        (higherLocalizedStrongTransPathNaturality (W := W) gamma k)
+    _ =
+        higherLocalizedStrongTransNaturalityTransport
+          (W := W) gamma
+          (Bicategory.whiskerRightIso eta
+            (higherLocalizedPathArrow W k))
+          (higherLocalizedStrongTransPathNaturality
+            (W := W) gamma (q ≫ k)) := by
+      rw [higherLocalizedStrongTransPathNaturality_comp
+        (W := W) gamma q k]
+    _ =
+        higherLocalizedStrongTransNaturalityTransport
+          (W := W) gamma theta
+          (higherLocalizedStrongTransPathNaturality
+            (W := W) gamma (q ≫ k)) :=
+      higherLocalizedStrongTransNaturalityTransport_eq_of_parallel_iso
+        (W := W) gamma
+        (Bicategory.whiskerRightIso eta
+          (higherLocalizedPathArrow W k))
+        theta
+        (higherLocalizedStrongTransPathNaturality
+          (W := W) gamma (q ≫ k))
+
 /-- Equality-induced source-arrow comparison attached to a retained generated
 composition-closure derivation.  The derivation itself supplies the quotient
 equality; no choice of relation witness is introduced. -/
