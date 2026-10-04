@@ -96,6 +96,46 @@ theorem higherLocalizedStrongTransPathNaturality_generating_invariant_of_iso
     higherLocalizedStrongTransPathNaturality_generating_invariant
       (W := W) gamma alpha
 
+/-- The localized source arrow of the identity free path is canonically
+identified with the identity source 1-cell.  This isolates the dependent
+`Q.map_id` transport instead of rewriting through a naturality term whose type
+depends on it. -/
+noncomputable def higherLocalizedPathArrowIdIso
+    (X : LocalizationPaths W) :
+    higherLocalizedPathArrow W (𝟙 X) ≅
+      𝟙 (higherLocalizedPathObject W X) :=
+  eqToIso (by
+    change
+      ((higherLocalizedPathQuotientFunctor W).map (𝟙 X)).op.op.toLoc =
+        𝟙 (higherLocalizedPathObject W X)
+    rw [(higherLocalizedPathQuotientFunctor W).map_id X]
+    rfl)
+
+/-- The singleton-normalized path evaluator on an identity path is the
+canonical v5.01 identity naturality transported along
+`higherLocalizedPathArrowIdIso`. -/
+theorem higherLocalizedStrongTransPathNaturality_id_transport
+    {F G : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W)}
+    (gamma :
+      restrictHigherLocalizedSystem W F ⟶
+        restrictHigherLocalizedSystem W G)
+    (X : LocalizationPaths W) :
+    higherLocalizedStrongTransPathNaturality
+        (W := W) gamma (𝟙 X) =
+      higherLocalizedStrongTransNaturalityTransport
+        (W := W) gamma
+        (higherLocalizedPathArrowIdIso W X)
+        (higherLocalizedStrongTransNaturality_id
+          (W := W) gamma (higherLocalizedPathObject W X)) := by
+  apply Iso.ext
+  simp
+    [higherLocalizedPathArrowIdIso,
+      higherLocalizedStrongTransPathNaturality,
+      higherLocalizedStrongTransNaturalityTransport_hom,
+      higherLocalizedPathArrow, higherLocalizedPathObject,
+      higherLocalizedPathQuotientFunctor,
+      PrelaxFunctor.map₂_eqToHom]
+
 /-- Right-unit normalization of the free-path evaluator, expressed using
 the canonical path-composition comparison. -/
 theorem higherLocalizedStrongTransPathNaturality_comp_id_right
@@ -218,6 +258,8 @@ noncomputable def higherLocalizedGeneratedCompClosurePathArrowIso
 #print axioms higherLocalizedPathArrowCompIso
 #print axioms higherLocalizedPathArrowIso_ext
 #print axioms higherLocalizedStrongTransPathNaturality_generating_invariant_of_iso
+#print axioms higherLocalizedPathArrowIdIso
+#print axioms higherLocalizedStrongTransPathNaturality_id_transport
 #print axioms higherLocalizedStrongTransPathNaturality_comp_id_right
 #print axioms higherLocalizedStrongTransNaturalityTransport_eq_of_parallel_iso
 #print axioms higherLocalizedStrongTransNaturalityTransport_refl
