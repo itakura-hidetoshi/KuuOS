@@ -115,40 +115,42 @@ theorem higherLocalizedStrongTransPathNaturality_id
   rfl
 
 /-- Left-unit normalization in the only form needed by the path recursion:
-the right factor is a single localization-quiver edge.  For a singleton path,
-`nil.comp e.toPath` reduces definitionally, avoiding the dependent transport
-that appears for an arbitrary right-hand path. -/
+the right factor is a single localization-quiver edge.  The source object is
+fixed by the edge itself, so no dependent endpoint equality is carried through
+elaboration. -/
 theorem higherLocalizedStrongTransPathNaturality_comp_id_left_edge
     {F G : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W)}
     (gamma :
       restrictHigherLocalizedSystem W F ⟶
         restrictHigherLocalizedSystem W G)
-    {X : LocalizationPaths W}
     {a b : Localization.Construction.LocQuiver W}
-    (e : a ⟶ b)
-    (hX : X = (Paths.of (Localization.Construction.LocQuiver W)).obj a) :
+    (e : a ⟶ b) :
     higherLocalizedStrongTransNaturality_comp
         (W := W) gamma
-        (higherLocalizedPathArrow W (𝟙 X))
+        (higherLocalizedPathArrow W
+          (𝟙 ((Paths.of (Localization.Construction.LocQuiver W)).obj a)))
         (higherLocalizedPathArrow W
           ((Paths.of (Localization.Construction.LocQuiver W)).map e))
-        (higherLocalizedStrongTransPathNaturality (W := W) gamma (𝟙 X))
+        (higherLocalizedStrongTransPathNaturality
+          (W := W) gamma
+          (𝟙 ((Paths.of (Localization.Construction.LocQuiver W)).obj a)))
         (higherLocalizedStrongTransPathNaturality
           (W := W) gamma
           ((Paths.of (Localization.Construction.LocQuiver W)).map e)) =
       higherLocalizedStrongTransNaturalityTransport
         (W := W) gamma
-        (higherLocalizedPathArrowCompIso W (𝟙 X)
+        (higherLocalizedPathArrowCompIso W
+          (𝟙 ((Paths.of (Localization.Construction.LocQuiver W)).obj a))
           ((Paths.of (Localization.Construction.LocQuiver W)).map e))
         (higherLocalizedStrongTransPathNaturality
           (W := W) gamma
-          ((𝟙 X) ≫
+          ((𝟙 ((Paths.of (Localization.Construction.LocQuiver W)).obj a)) ≫
             (Paths.of (Localization.Construction.LocQuiver W)).map e)) := by
-  subst X
   rw [higherLocalizedStrongTransPathNaturality_id]
   set_option backward.isDefEq.respectTransparency false in
     simpa
-      [higherLocalizedPathArrow, higherLocalizedPathObject,
+      [higherLocalizedPathArrowCompIso,
+        higherLocalizedPathArrow, higherLocalizedPathObject,
         higherLocalizedPathQuotientFunctor,
         Strict.leftUnitor_eqToIso,
         PrelaxFunctor.map₂_eqToHom] using
