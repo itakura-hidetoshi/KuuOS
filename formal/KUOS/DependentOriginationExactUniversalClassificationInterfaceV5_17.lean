@@ -131,7 +131,7 @@ def ExactLiftableClassificationObject.toWeak
     (X :
       ExactLiftableClassificationObject
         (W := W) A WorldLabel PresentationLabel) :
-    X.toWeak (W := W) A |>.label = X.label :=
+    (X.toWeak (W := W) A).label = X.label :=
   rfl
 
 @[simp] theorem ExactLiftableClassificationObject.toWeak_raw
@@ -140,7 +140,7 @@ def ExactLiftableClassificationObject.toWeak
     (X :
       ExactLiftableClassificationObject
         (W := W) A WorldLabel PresentationLabel) :
-    X.toWeak (W := W) A |>.raw = X.raw :=
+    (X.toWeak (W := W) A).raw = X.raw :=
   rfl
 
 /-! ## Exact-universal source and localized carrier objects -/
@@ -210,7 +210,7 @@ def ExactUniversalClassificationObject.realize
     (X :
       ExactUniversalClassificationObject
         (W := W) A WorldLabel PresentationLabel) :
-    X.realize (W := W) A |>.label = X.label :=
+    (X.realize (W := W) A).label = X.label :=
   rfl
 
 @[simp] theorem ExactUniversalClassificationObject.realize_carrier
@@ -219,7 +219,7 @@ def ExactUniversalClassificationObject.realize
     (X :
       ExactUniversalClassificationObject
         (W := W) A WorldLabel PresentationLabel) :
-    X.realize (W := W) A |>.carrier = X.source.carrier :=
+    (X.realize (W := W) A).carrier = X.source.carrier :=
   rfl
 
 /-! ## Explicit object/1-cell/2-cell levels -/
@@ -429,8 +429,7 @@ theorem weakAdmissibility_not_exactLiftability_counterexample
         KUOS.DependentOriginationGeneratedHolonomyCountermodelV2_69.counterSystem := by
   exact
     ⟨KUOS.DependentOriginationAdmissibleNonfactorizationV4_01.counterSystem_admissible,
-      KUOS.DependentOriginationExactHigherPresentationSectorV4_50
-        .counterSystem_no_exactHigherDependentOriginationPresentation A⟩
+      KUOS.DependentOriginationExactHigherPresentationSectorV4_50.counterSystem_no_exactHigherDependentOriginationPresentation A⟩
 
 /-!
 ## Boundary after v5.17
