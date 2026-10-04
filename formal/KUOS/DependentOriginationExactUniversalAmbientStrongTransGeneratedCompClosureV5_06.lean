@@ -603,7 +603,8 @@ theorem higherLocalizedStrongTransPathNaturality_whiskerLeft_invariant_of_iso
         higherLocalizedPathArrow W (k ≫ q) :=
     Bicategory.whiskerLeftIso
       (higherLocalizedPathArrow W k) eta
-  calc
+  set_option backward.isDefEq.respectTransparency false in
+    calc
     higherLocalizedStrongTransPathNaturality
           (W := W) gamma (k ≫ p) =
         higherLocalizedStrongTransNaturality_comp
@@ -694,7 +695,8 @@ theorem higherLocalizedStrongTransPathNaturality_whiskerRight_invariant_of_iso
         higherLocalizedPathArrow W (q ≫ k) :=
     Bicategory.whiskerRightIso eta
       (higherLocalizedPathArrow W k)
-  calc
+  set_option backward.isDefEq.respectTransparency false in
+    calc
     higherLocalizedStrongTransPathNaturality
           (W := W) gamma (p ≫ k) =
         higherLocalizedStrongTransNaturality_comp
