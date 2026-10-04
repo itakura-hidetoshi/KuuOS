@@ -137,11 +137,15 @@ source label is the canonical v5.11 label rather than literally X. -/
       ((exactUniversalAmbientCanonicalSectionPseudofunctor
         (W := W) A).mapId X.carrier).hom).lift =
       𝟙 (𝟙 X.carrier)
-  simp only [exactUniversalSourceTwoCell_comp_lift,
+  rw [exactUniversalSourceTwoCell_comp_lift,
     exactUniversalAmbientCanonicalSectionPseudofunctor_map₂_lift,
-    exactUniversalRealizationPseudofunctor_mapId_hom,
-    exactUniversalAmbientSectionIdIso_hom_lift]
-  exact Category.comp_id _
+    exactUniversalRealizationPseudofunctor_mapId_hom]
+  change
+    (𝟙 (𝟙 X.carrier)) ≫
+        (exactUniversalAmbientSectionIdIso (W := W) A X.carrier).hom.lift =
+      𝟙 (𝟙 X.carrier)
+  rw [exactUniversalAmbientSectionIdIso_hom_lift]
+  exact Category.comp_id (𝟙 (𝟙 X.carrier))
 
 /-- The source roundtrip composition comparison realizes to identity. -/
 @[simp] theorem exactUniversalSourceAmbientRoundtrip_mapComp_hom_lift
@@ -157,11 +161,16 @@ source label is the canonical v5.11 label rather than literally X. -/
       ((exactUniversalAmbientCanonicalSectionPseudofunctor
         (W := W) A).mapComp f.lift g.lift).hom).lift =
       𝟙 (f.lift ≫ g.lift)
-  simp only [exactUniversalSourceTwoCell_comp_lift,
+  rw [exactUniversalSourceTwoCell_comp_lift,
     exactUniversalAmbientCanonicalSectionPseudofunctor_map₂_lift,
-    exactUniversalRealizationPseudofunctor_mapComp_hom,
-    exactUniversalAmbientSectionCompIso_hom_lift]
-  exact Category.comp_id _
+    exactUniversalRealizationPseudofunctor_mapComp_hom]
+  change
+    (𝟙 (f.lift ≫ g.lift)) ≫
+        (exactUniversalAmbientSectionCompIso
+          (W := W) A f.lift g.lift).hom.lift =
+      𝟙 (f.lift ≫ g.lift)
+  rw [exactUniversalAmbientSectionCompIso_hom_lift]
+  exact Category.comp_id (𝟙 (f.lift ≫ g.lift))
 
 /-- Unit component from an original source label to the canonical source label
 chosen over the same ambient carrier. -/
@@ -283,7 +292,6 @@ noncomputable def exactUniversalSourceAmbientRoundtripUnit :
     simp only [exactUniversalSourceTwoCell_comp_lift,
       exactUniversalRealization_source_whiskerRight_lift,
       exactUniversalSourceIdentityPseudofunctor_map₂_lift,
-      exactUniversalSourceAmbientRoundtripUnitApp_lift,
       exactUniversalSourceAmbientRoundtripNaturalityIso_hom_lift,
       exactUniversalRealization_source_whiskerLeft_lift,
       exactUniversalSourceAmbientRoundtrip_map₂_lift]
@@ -293,7 +301,6 @@ noncomputable def exactUniversalSourceAmbientRoundtripUnit :
     simp only [exactUniversalSourceTwoCell_comp_lift,
       exactUniversalSourceAmbientRoundtripNaturalityIso_hom_lift,
       exactUniversalRealization_source_whiskerLeft_lift,
-      exactUniversalSourceAmbientRoundtripUnitApp_lift,
       exactUniversalSourceAmbientRoundtrip_mapId_hom_lift,
       exactUniversalSourceIdentityPseudofunctor_mapId_hom_lift,
       exactUniversalRealization_source_whiskerRight_lift,
@@ -305,19 +312,16 @@ noncomputable def exactUniversalSourceAmbientRoundtripUnit :
     simp only [exactUniversalSourceTwoCell_comp_lift,
       exactUniversalSourceAmbientRoundtripNaturalityIso_hom_lift,
       exactUniversalRealization_source_whiskerLeft_lift,
-      exactUniversalSourceAmbientRoundtripUnitApp_lift,
       exactUniversalSourceAmbientRoundtrip_mapComp_hom_lift,
       exactUniversalSourceIdentityPseudofunctor_mapComp_hom_lift,
       exactUniversalRealization_source_whiskerRight_lift,
-      exactUniversalSourceAmbientRoundtrip_map_lift,
-      exactUniversalSourceIdentityPseudofunctor_map_lift,
       exactUniversalRealization_source_associator_lift,
       exactUniversalRealization_source_associator_inv_lift]
     bicategory
 
 @[simp] theorem exactUniversalSourceAmbientRoundtripUnit_app_lift
     (X : Source (W := W) A) :
-    (exactUniversalSourceAmbientRoundtripUnit (W := W) A).app X |>.lift =
+    ((exactUniversalSourceAmbientRoundtripUnit (W := W) A).app X).lift =
       𝟙 X.carrier := by
   exact exactUniversalSourceAmbientRoundtripUnitApp_lift (W := W) A X
 
