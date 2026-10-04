@@ -152,6 +152,120 @@ theorem higherLocalizedCanonicalStrongTransNaturalityOnSource_presentation
     (higherLocalizedCanonicalStrongTransNaturality_presentation
       (W := W) gamma f)
 
+/-- The source-indexed canonical family satisfies the exact raw
+presentation restriction square required by v4.96. -/
+theorem higherLocalizedCanonicalStrongTransNaturalityOnSource_restrictionSquare
+    {F G : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W)}
+    (gamma :
+      restrictHigherLocalizedSystem W F ⟶
+        restrictHigherLocalizedSystem W G)
+    {X Y : LocallyDiscrete Context}
+    (f : X ⟶ Y) :
+    (restrictHigherLocalizedSystem W F).map f ◁
+          𝟙
+            (higherLocalizedStrongTransExtensionApp (W := W) gamma
+              ((higherPresentationUnitFunctor W).toPseudofunctor.obj Y)) ≫
+        (gamma.naturality f).hom =
+      (higherLocalizedCanonicalStrongTransNaturalityOnSource
+          (W := W) gamma
+          ((higherPresentationUnitFunctor W).toPseudofunctor.map f)).hom ≫
+        𝟙
+            (higherLocalizedStrongTransExtensionApp (W := W) gamma
+              ((higherPresentationUnitFunctor W).toPseudofunctor.obj X)) ▷
+          (restrictHigherLocalizedSystem W G).map f := by
+  rw [higherLocalizedCanonicalStrongTransNaturalityOnSource_presentation]
+  exact
+    higherLocalizedStrongTransPresentationNaturality_restrictionSquare
+      (W := W) gamma f
+
+/-- On the identity of an actual localized object, the v5.07 quotient-level
+canonical family is exactly the v5.01 canonical identity naturality. -/
+theorem higherLocalizedCanonicalStrongTransNaturality_id
+    {F G : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W)}
+    (gamma :
+      restrictHigherLocalizedSystem W F ⟶
+        restrictHigherLocalizedSystem W G)
+    (X : W.Localization) :
+    higherLocalizedCanonicalStrongTransNaturality
+        (W := W) gamma (𝟙 X) =
+      higherLocalizedStrongTransNaturality_id
+        (W := W) gamma (.mk (op (op X))) := by
+  have hcanonical :=
+    higherLocalizedStrongTransQuotientRepresentativeNaturality_eq_canonical
+      (W := W) gamma
+      (𝟙 X)
+      (𝟙 X.as)
+      rfl
+  calc
+    higherLocalizedCanonicalStrongTransNaturality
+          (W := W) gamma (𝟙 X) =
+        higherLocalizedStrongTransQuotientRepresentativeNaturality
+          (W := W) gamma
+          (𝟙 X)
+          (𝟙 X.as)
+          rfl :=
+      hcanonical.symm
+    _ =
+        higherLocalizedStrongTransPathNaturality
+          (W := W) gamma (𝟙 X.as) := by
+      change
+        higherLocalizedStrongTransNaturalityTransport
+            (W := W) gamma (Iso.refl _)
+            (higherLocalizedStrongTransPathNaturality
+              (W := W) gamma (𝟙 X.as)) =
+          higherLocalizedStrongTransPathNaturality
+            (W := W) gamma (𝟙 X.as)
+      exact
+        higherLocalizedStrongTransNaturalityTransport_refl
+          (W := W) gamma _ _
+    _ =
+        higherLocalizedStrongTransNaturality_id
+          (W := W) gamma
+          (higherLocalizedPathObject W X.as) :=
+      higherLocalizedStrongTransPathNaturality_id
+        (W := W) gamma X.as
+    _ =
+        higherLocalizedStrongTransNaturality_id
+          (W := W) gamma (.mk (op (op X))) := by
+      rfl
+
+/-- Source-indexed form of quotient identity normalization. -/
+theorem higherLocalizedCanonicalStrongTransNaturalityOnSource_id
+    {F G : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W)}
+    (gamma :
+      restrictHigherLocalizedSystem W F ⟶
+        restrictHigherLocalizedSystem W G)
+    (a : LocallyDiscrete ((HigherLocalizedSite W)ᵒᵖ)) :
+    higherLocalizedCanonicalStrongTransNaturalityOnSource
+        (W := W) gamma (𝟙 a) =
+      higherLocalizedStrongTransNaturality_id
+        (W := W) gamma a := by
+  let X := a.as.unop.unop
+  simpa [higherLocalizedCanonicalStrongTransNaturalityOnSource, X] using
+    (higherLocalizedCanonicalStrongTransNaturality_id
+      (W := W) gamma X)
+
+/-- The source-indexed canonical quotient family satisfies exactly the v4.96
+identity coherence field. -/
+theorem higherLocalizedCanonicalStrongTransNaturalityOnSource_id_coherence
+    {F G : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W)}
+    (gamma :
+      restrictHigherLocalizedSystem W F ⟶
+        restrictHigherLocalizedSystem W G)
+    (a : LocallyDiscrete ((HigherLocalizedSite W)ᵒᵖ)) :
+    (higherLocalizedCanonicalStrongTransNaturalityOnSource
+        (W := W) gamma (𝟙 a)).hom ≫
+          higherLocalizedStrongTransExtensionApp (W := W) gamma a ◁
+            (G.mapId a).hom =
+      (F.mapId a).hom ▷
+          higherLocalizedStrongTransExtensionApp (W := W) gamma a ≫
+        (λ_ (higherLocalizedStrongTransExtensionApp (W := W) gamma a)).hom ≫
+        (ρ_ (higherLocalizedStrongTransExtensionApp (W := W) gamma a)).inv := by
+  rw [higherLocalizedCanonicalStrongTransNaturalityOnSource_id]
+  exact
+    higherLocalizedStrongTransNaturality_id_coherence
+      (W := W) gamma a
+
 /-! ## Regression checks -/
 
 #print axioms higherLocalizedCanonicalStrongTransNaturalityOnSource
@@ -159,6 +273,10 @@ theorem higherLocalizedCanonicalStrongTransNaturalityOnSource_presentation
 #print axioms higherLocalizedStrongTransQuotientRepresentativeNaturality_presentation
 #print axioms higherLocalizedCanonicalStrongTransNaturality_presentation
 #print axioms higherLocalizedCanonicalStrongTransNaturalityOnSource_presentation
+#print axioms higherLocalizedCanonicalStrongTransNaturalityOnSource_restrictionSquare
+#print axioms higherLocalizedCanonicalStrongTransNaturality_id
+#print axioms higherLocalizedCanonicalStrongTransNaturalityOnSource_id
+#print axioms higherLocalizedCanonicalStrongTransNaturalityOnSource_id_coherence
 
 end
 
