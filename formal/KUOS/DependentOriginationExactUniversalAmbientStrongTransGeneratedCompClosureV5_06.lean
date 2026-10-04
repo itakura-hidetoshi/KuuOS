@@ -55,10 +55,7 @@ noncomputable def higherLocalizedPathArrowCompIso
     (p : X ⟶ Y) (q : Y ⟶ Z) :
     higherLocalizedPathArrow W p ≫ higherLocalizedPathArrow W q ≅
       higherLocalizedPathArrow W (p ≫ q) :=
-  eqToIso (by
-    simp
-      [higherLocalizedPathArrow, higherLocalizedPathQuotientFunctor,
-        Functor.map_comp, op_comp, Quiver.Hom.comp_toLoc])
+  Iso.refl _
 
 /-- In a locally discrete source hom-category, parallel source-arrow
 isomorphisms are equal.  Keeping this as a named lemma prevents later proofs
