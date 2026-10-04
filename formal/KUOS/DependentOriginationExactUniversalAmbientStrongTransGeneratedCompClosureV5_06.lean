@@ -167,12 +167,11 @@ theorem higherLocalizedStrongTransPathNaturality_comp_id_right
         (higherLocalizedPathArrowCompIso W p (𝟙 Y))
         (higherLocalizedStrongTransPathNaturality
           (W := W) gamma (p ≫ 𝟙 Y)) := by
+  rw [higherLocalizedStrongTransPathNaturality_id]
   simpa
     [higherLocalizedPathArrowCompIso,
-      higherLocalizedStrongTransPathNaturality,
       higherLocalizedPathArrow, higherLocalizedPathObject,
       higherLocalizedPathQuotientFunctor,
-      Functor.map_comp, op_comp, Quiver.Hom.comp_toLoc,
       Strict.rightUnitor_eqToIso,
       PrelaxFunctor.map₂_eqToHom] using
     (higherLocalizedStrongTransNaturality_comp_id_right
