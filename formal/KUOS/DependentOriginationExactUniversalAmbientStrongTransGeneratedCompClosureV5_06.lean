@@ -463,10 +463,13 @@ theorem higherLocalizedStrongTransPathNaturality_comp
       · obtain rfl := Quiver.Path.eq_of_length_zero p hp0
         have hpnil := Quiver.Path.eq_nil_of_length_zero p hp0
         subst p
-        simpa only [P] using
-          (higherLocalizedStrongTransPathNaturality_comp_id_left_edge
-            (W := W) gamma e)
-      · simpa only [P] using
+        dsimp [P]
+        simp only [Quiver.Path.nil_comp]
+        rw [higherLocalizedStrongTransPathNaturality_comp_id_left_edge]
+        exact
+          higherLocalizedStrongTransNaturalityTransport_refl
+            (W := W) gamma _ _
+      · simpa only [P, Quiver.Path.nil_comp] using
           (higherLocalizedStrongTransPathNaturality_comp_edge_of_nonempty
             (W := W) gamma p e hp0)
     · obtain ⟨c, r', e', rfl⟩ :=
@@ -475,9 +478,14 @@ theorem higherLocalizedStrongTransPathNaturality_comp
       have hr :=
         higherLocalizedStrongTransPathNaturality_comp_edge_of_nonempty
           (W := W) gamma (Quiver.Path.cons r' e') e (by simp)
+      have hpcomp_nonzero :
+          (p ≫ Quiver.Path.cons r' e').length ≠ 0 := by
+        change
+          (Quiver.Path.comp p (Quiver.Path.cons r' e')).length ≠ 0
+        simp
       have hpr :=
         higherLocalizedStrongTransPathNaturality_comp_edge_of_nonempty
-          (W := W) gamma (p ≫ Quiver.Path.cons r' e') e (by simp)
+          (W := W) gamma (p ≫ Quiver.Path.cons r' e') e hpcomp_nonzero
       have hassoc :=
         higherLocalizedStrongTransNaturality_comp_assoc_paths
           (W := W) gamma
@@ -489,7 +497,7 @@ theorem higherLocalizedStrongTransPathNaturality_comp
           (higherLocalizedStrongTransPathNaturality
             (W := W) gamma
             ((Paths.of (Localization.Construction.LocQuiver W)).map e))
-      rw [ih, hpr, hr] at hassoc
+      simp only [ih, hpr, hr] at hassoc
       simpa only [Category.assoc] using hassoc.symm
 
 /-- Equality-induced source-arrow comparison attached to a retained generated
