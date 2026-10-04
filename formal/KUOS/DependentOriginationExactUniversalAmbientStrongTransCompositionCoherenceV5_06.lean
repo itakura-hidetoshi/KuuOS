@@ -328,7 +328,8 @@ theorem higherLocalizedStrongTransNaturality_comp_assoc
         (W := W) gamma a).toFunctor.obj x)
   slice_lhs 1 2 =>
     erw [hFmap_assoc]
-  rw [Category.assoc]
+  conv_lhs =>
+    rw [Category.assoc]
   rw [hGapp]
   simp
     [Strict.associator_eqToIso,
