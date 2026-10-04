@@ -333,7 +333,8 @@ theorem higherLocalizedStrongTransNaturality_comp_assoc
   rw [hGapp]
   simp
     [Strict.associator_eqToIso,
-      PrelaxFunctor.map₂_eqToHom]
+      PrelaxFunctor.map₂_eqToHom,
+      eqToHom_map]
 
 /-! ## Regression checks -/
 
