@@ -249,6 +249,52 @@ theorem higherLocalizedStrongTransNaturalityTransport_symm_right
     higherLocalizedStrongTransNaturalityTransport_refl
       (W := W) gamma f naturality_f
 
+/-- Appending a single localization-quiver edge to a nonempty free path
+agrees with the v4.99 composition constructor, up to the canonical source-arrow
+composition comparison.
+
+The nonempty hypothesis is exactly the branch condition of the singleton-
+normalized v5.06 evaluator. -/
+theorem higherLocalizedStrongTransPathNaturality_comp_edge_of_nonempty
+    {F G : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W)}
+    (gamma :
+      restrictHigherLocalizedSystem W F ⟶
+        restrictHigherLocalizedSystem W G)
+    {X : LocalizationPaths W}
+    {a b : Localization.Construction.LocQuiver W}
+    (p : X ⟶ (Paths.of (Localization.Construction.LocQuiver W)).obj a)
+    (e : a ⟶ b)
+    (hp : p.length ≠ 0) :
+    higherLocalizedStrongTransNaturality_comp
+        (W := W) gamma
+        (higherLocalizedPathArrow W p)
+        (higherLocalizedPathArrow W
+          ((Paths.of (Localization.Construction.LocQuiver W)).map e))
+        (higherLocalizedStrongTransPathNaturality (W := W) gamma p)
+        (higherLocalizedStrongTransPathNaturality
+          (W := W) gamma
+          ((Paths.of (Localization.Construction.LocQuiver W)).map e)) =
+      higherLocalizedStrongTransNaturalityTransport
+        (W := W) gamma
+        (higherLocalizedPathArrowCompIso W p
+          ((Paths.of (Localization.Construction.LocQuiver W)).map e))
+        (higherLocalizedStrongTransPathNaturality
+          (W := W) gamma
+          (p ≫ (Paths.of (Localization.Construction.LocQuiver W)).map e)) := by
+  cases p with
+  | nil =>
+      simp at hp
+  | cons p e₀ =>
+      apply Iso.ext
+      simp
+        [higherLocalizedStrongTransPathNaturality,
+          higherLocalizedPathArrowCompIso,
+          higherLocalizedStrongTransNaturalityTransport_hom,
+          higherLocalizedPathArrow, higherLocalizedPathObject,
+          higherLocalizedPathQuotientFunctor,
+          Functor.map_comp, op_comp, Quiver.Hom.comp_toLoc,
+          PrelaxFunctor.map₂_eqToHom]
+
 /-- Equality-induced source-arrow comparison attached to a retained generated
 composition-closure derivation.  The derivation itself supplies the quotient
 equality; no choice of relation witness is introduced. -/
@@ -276,6 +322,7 @@ noncomputable def higherLocalizedGeneratedCompClosurePathArrowIso
 #print axioms higherLocalizedStrongTransNaturalityTransport_trans
 #print axioms higherLocalizedStrongTransNaturalityTransport_symm_left
 #print axioms higherLocalizedStrongTransNaturalityTransport_symm_right
+#print axioms higherLocalizedStrongTransPathNaturality_comp_edge_of_nonempty
 #print axioms higherLocalizedGeneratedCompClosurePathArrowIso
 
 end
