@@ -127,6 +127,10 @@ theorem higherLocalizedStrongTransPathNaturality_id_transport
         (higherLocalizedPathArrowIdIso W X)
         (higherLocalizedStrongTransNaturality_id
           (W := W) gamma (higherLocalizedPathObject W X)) := by
+  change
+    higherLocalizedStrongTransPathNaturality
+        (W := W) gamma (Quiver.Path.nil : X ⟶ X) =
+      _
   apply Iso.ext
   simp
     [higherLocalizedPathArrowIdIso,
