@@ -263,7 +263,13 @@ double identity. -/
     𝟙 (((exactUniversalAmbientCanonicalSectionPseudofunctor
       (W := W) A).obj Z).carrier) ≫ 𝟙 Z =
       𝟙 Z ≫ 𝟙 Z
-  simpa only [exactUniversalAmbientCanonicalSectionPseudofunctor_obj_carrier]
+  have hCarrier :
+      ((exactUniversalAmbientCanonicalSectionPseudofunctor
+        (W := W) A).obj Z).carrier = Z :=
+    exactUniversalAmbientCanonicalSectionPseudofunctor_obj_carrier
+      (W := W) A Z
+  cases hCarrier
+  rfl
 
 /-- Coherent quasi-inverse triangle representative. -/
 noncomputable def exactUniversalQuasiInverseTriangleStrongTrans :
@@ -288,8 +294,14 @@ noncomputable def exactUniversalQuasiInverseTriangleStrongTrans :
         ((exactUniversalAmbientCanonicalSectionPseudofunctor
           (W := W) A).obj Z)).lift =
       𝟙 Z ≫ 𝟙 Z
-  simp only [ExactUniversalRawMorphism.id_lift,
-    exactUniversalAmbientCanonicalSectionPseudofunctor_obj_carrier]
+  simp only [ExactUniversalRawMorphism.id_lift]
+  have hCarrier :
+      ((exactUniversalAmbientCanonicalSectionPseudofunctor
+        (W := W) A).obj Z).carrier = Z :=
+    exactUniversalAmbientCanonicalSectionPseudofunctor_obj_carrier
+      (W := W) A Z
+  cases hCarrier
+  rfl
 
 /-- Realized equality of the actual quasi-inverse triangle component and the
 coherent representative component. -/
