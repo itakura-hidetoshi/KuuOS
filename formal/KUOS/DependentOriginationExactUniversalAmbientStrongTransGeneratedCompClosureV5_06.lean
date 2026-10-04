@@ -195,7 +195,7 @@ theorem higherLocalizedStrongTransPathNaturality_id_transport
         (W := W) gamma (eqToIso hId)
         (higherLocalizedStrongTransNaturality_id
           (W := W) gamma (higherLocalizedPathObject W X))
-  cases hId
+  rw [hId]
   change
     higherLocalizedStrongTransPathNaturality
         (W := W) gamma (Quiver.Path.nil : X ⟶ X) =
