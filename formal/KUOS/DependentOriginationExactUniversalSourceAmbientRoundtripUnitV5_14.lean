@@ -260,6 +260,9 @@ theorem exactUniversalSourceAmbientRoundtripNaturalityIso_realization
       (W := W) A
       X
       ((exactUniversalSourceAmbientRoundtrip (W := W) A).obj Y)).map_preimage
+        (X := f ≫ exactUniversalSourceAmbientRoundtripUnitApp (W := W) A Y)
+        (Y := exactUniversalSourceAmbientRoundtripUnitApp (W := W) A X ≫
+          (exactUniversalSourceAmbientRoundtrip (W := W) A).map f)
         (exactUniversalSourceAmbientRoundtripNaturalityLiftIso
           (W := W) A f).hom
 
