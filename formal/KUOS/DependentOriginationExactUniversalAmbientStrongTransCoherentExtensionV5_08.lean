@@ -534,6 +534,93 @@ theorem higherLocalizedCanonicalStrongTransNaturalityOnSource_comp
     [higherLocalizedCanonicalStrongTransNaturalityOnSource,
       f', g', CategoryTheory.op_comp] using h
 
+
+/-- The source-indexed canonical quotient family satisfies exactly the v4.96
+composition coherence field. -/
+theorem higherLocalizedCanonicalStrongTransNaturalityOnSource_comp_coherence
+    {F G : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W)}
+    (gamma :
+      restrictHigherLocalizedSystem W F ⟶
+        restrictHigherLocalizedSystem W G)
+    {a b c : LocallyDiscrete ((HigherLocalizedSite W)ᵒᵖ)}
+    (f : a ⟶ b) (g : b ⟶ c) :
+    (higherLocalizedCanonicalStrongTransNaturalityOnSource
+        (W := W) gamma (f ≫ g)).hom ≫
+          higherLocalizedStrongTransExtensionApp (W := W) gamma a ◁
+            (G.mapComp f g).hom =
+      (F.mapComp f g).hom ▷
+          higherLocalizedStrongTransExtensionApp (W := W) gamma c ≫
+        (α_ _ _ _).hom ≫
+        F.map f ◁
+          (higherLocalizedCanonicalStrongTransNaturalityOnSource
+            (W := W) gamma g).hom ≫
+        (α_ _ _ _).inv ≫
+        (higherLocalizedCanonicalStrongTransNaturalityOnSource
+            (W := W) gamma f).hom ▷
+          G.map g ≫
+        (α_ _ _ _).hom := by
+  rw [← higherLocalizedCanonicalStrongTransNaturalityOnSource_comp]
+  rw [higherLocalizedStrongTransNaturality_comp_hom]
+  simp only
+    [Category.assoc, Bicategory.whiskerLeft_inv_hom,
+      Iso.inv_hom_id_assoc, Category.comp_id]
+
+/-- The four nonautomatic v4.96 one-cell coherence fields are canonically
+realized by the quotient-independent v5.07 naturality family. -/
+noncomputable def higherLocalizedCanonicalStrongTransOneCellCoherenceExtension
+    {F G : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W)}
+    (gamma :
+      restrictHigherLocalizedSystem W F ⟶
+        restrictHigherLocalizedSystem W G) :
+    HigherLocalizedStrongTransOneCellCoherenceExtension
+      (W := W) gamma where
+  naturality :=
+    higherLocalizedCanonicalStrongTransNaturalityOnSource
+      (W := W) gamma
+  naturality_id :=
+    higherLocalizedCanonicalStrongTransNaturalityOnSource_id_coherence
+      (W := W) gamma
+  naturality_comp :=
+    higherLocalizedCanonicalStrongTransNaturalityOnSource_comp_coherence
+      (W := W) gamma
+  restrict_modification_naturality :=
+    higherLocalizedCanonicalStrongTransNaturalityOnSource_restrictionSquare
+      (W := W) gamma
+
+/-- Every raw StrongTrans between localized systems therefore admits the
+reduced v4.96 one-cell coherence extension. -/
+theorem higherLocalizedCanonicalStrongTransOneCellExtensionExists
+    (F G : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W)) :
+    HigherLocalizedStrongTransOneCellExtensionExists
+      (W := W) F G := by
+  intro gamma
+  exact
+    ⟨higherLocalizedCanonicalStrongTransOneCellCoherenceExtension
+      (W := W) gamma⟩
+
+/-- Reinsert automatic locally-discrete 2-cell naturality and obtain the full
+v4.95 StrongTrans coherence-extension package canonically. -/
+noncomputable def higherLocalizedCanonicalStrongTransCoherenceExtension
+    {F G : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W)}
+    (gamma :
+      restrictHigherLocalizedSystem W F ⟶
+        restrictHigherLocalizedSystem W G) :
+    HigherLocalizedStrongTransCoherenceExtension
+      (W := W) gamma :=
+  (higherLocalizedCanonicalStrongTransOneCellCoherenceExtension
+    (W := W) gamma).toCoherenceExtension
+
+/-- Uniform full v4.95 StrongTrans extension existence is now unconditional for
+every pair of localized higher systems. -/
+theorem higherLocalizedCanonicalStrongTransExtensionExists
+    (F G : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W)) :
+    HigherLocalizedStrongTransExtensionExists
+      (W := W) F G := by
+  intro gamma
+  exact
+    ⟨higherLocalizedCanonicalStrongTransCoherenceExtension
+      (W := W) gamma⟩
+
 /-! ## Regression checks -/
 
 #print axioms higherLocalizedCanonicalStrongTransNaturalityOnSource
@@ -548,6 +635,11 @@ theorem higherLocalizedCanonicalStrongTransNaturalityOnSource_comp
 #print axioms higherLocalizedStrongTransQuotientRepresentativeNaturality_comp
 #print axioms higherLocalizedCanonicalStrongTransNaturality_comp
 #print axioms higherLocalizedCanonicalStrongTransNaturalityOnSource_comp
+#print axioms higherLocalizedCanonicalStrongTransNaturalityOnSource_comp_coherence
+#print axioms higherLocalizedCanonicalStrongTransOneCellCoherenceExtension
+#print axioms higherLocalizedCanonicalStrongTransOneCellExtensionExists
+#print axioms higherLocalizedCanonicalStrongTransCoherenceExtension
+#print axioms higherLocalizedCanonicalStrongTransExtensionExists
 
 end
 
