@@ -598,6 +598,11 @@ theorem higherLocalizedStrongTransPathNaturality_whiskerLeft_invariant_of_iso
         (W := W) gamma theta
         (higherLocalizedStrongTransPathNaturality
           (W := W) gamma (k ≫ q)) := by
+  let etaWhisker :
+      higherLocalizedPathArrow W (k ≫ p) ≅
+        higherLocalizedPathArrow W (k ≫ q) :=
+    Bicategory.whiskerLeftIso
+      (higherLocalizedPathArrow W k) eta
   calc
     higherLocalizedStrongTransPathNaturality
           (W := W) gamma (k ≫ p) =
@@ -623,8 +628,7 @@ theorem higherLocalizedStrongTransPathNaturality_whiskerLeft_invariant_of_iso
     _ =
         higherLocalizedStrongTransNaturalityTransport
           (W := W) gamma
-          (Bicategory.whiskerLeftIso
-            (higherLocalizedPathArrow W k) eta)
+          etaWhisker
           (higherLocalizedStrongTransNaturality_comp
             (W := W) gamma
             (higherLocalizedPathArrow W k)
@@ -632,17 +636,18 @@ theorem higherLocalizedStrongTransPathNaturality_whiskerLeft_invariant_of_iso
             (higherLocalizedStrongTransPathNaturality (W := W) gamma k)
             (higherLocalizedStrongTransPathNaturality
               (W := W) gamma q)) :=
-      higherLocalizedStrongTransNaturality_comp_transport_second
-        (W := W) gamma
-        (higherLocalizedPathArrow W k)
-        (higherLocalizedStrongTransPathNaturality (W := W) gamma k)
-        eta
-        (higherLocalizedStrongTransPathNaturality (W := W) gamma q)
+      by
+        exact
+          higherLocalizedStrongTransNaturality_comp_transport_second
+            (W := W) gamma
+            (higherLocalizedPathArrow W k)
+            (higherLocalizedStrongTransPathNaturality (W := W) gamma k)
+            eta
+            (higherLocalizedStrongTransPathNaturality (W := W) gamma q)
     _ =
         higherLocalizedStrongTransNaturalityTransport
           (W := W) gamma
-          (Bicategory.whiskerLeftIso
-            (higherLocalizedPathArrow W k) eta)
+          etaWhisker
           (higherLocalizedStrongTransPathNaturality
             (W := W) gamma (k ≫ q)) := by
       rw [higherLocalizedStrongTransPathNaturality_comp
@@ -654,8 +659,7 @@ theorem higherLocalizedStrongTransPathNaturality_whiskerLeft_invariant_of_iso
             (W := W) gamma (k ≫ q)) :=
       higherLocalizedStrongTransNaturalityTransport_eq_of_parallel_iso
         (W := W) gamma
-        (Bicategory.whiskerLeftIso
-          (higherLocalizedPathArrow W k) eta)
+        etaWhisker
         theta
         (higherLocalizedStrongTransPathNaturality
           (W := W) gamma (k ≫ q))
@@ -685,6 +689,11 @@ theorem higherLocalizedStrongTransPathNaturality_whiskerRight_invariant_of_iso
         (W := W) gamma theta
         (higherLocalizedStrongTransPathNaturality
           (W := W) gamma (q ≫ k)) := by
+  let etaWhisker :
+      higherLocalizedPathArrow W (p ≫ k) ≅
+        higherLocalizedPathArrow W (q ≫ k) :=
+    Bicategory.whiskerRightIso eta
+      (higherLocalizedPathArrow W k)
   calc
     higherLocalizedStrongTransPathNaturality
           (W := W) gamma (p ≫ k) =
@@ -710,8 +719,7 @@ theorem higherLocalizedStrongTransPathNaturality_whiskerRight_invariant_of_iso
     _ =
         higherLocalizedStrongTransNaturalityTransport
           (W := W) gamma
-          (Bicategory.whiskerRightIso eta
-            (higherLocalizedPathArrow W k))
+          etaWhisker
           (higherLocalizedStrongTransNaturality_comp
             (W := W) gamma
             (higherLocalizedPathArrow W q)
@@ -720,16 +728,17 @@ theorem higherLocalizedStrongTransPathNaturality_whiskerRight_invariant_of_iso
               (W := W) gamma q)
             (higherLocalizedStrongTransPathNaturality
               (W := W) gamma k)) :=
-      higherLocalizedStrongTransNaturality_comp_transport_first
-        (W := W) gamma eta
-        (higherLocalizedStrongTransPathNaturality (W := W) gamma q)
-        (higherLocalizedPathArrow W k)
-        (higherLocalizedStrongTransPathNaturality (W := W) gamma k)
+      by
+        exact
+          higherLocalizedStrongTransNaturality_comp_transport_first
+            (W := W) gamma eta
+            (higherLocalizedStrongTransPathNaturality (W := W) gamma q)
+            (higherLocalizedPathArrow W k)
+            (higherLocalizedStrongTransPathNaturality (W := W) gamma k)
     _ =
         higherLocalizedStrongTransNaturalityTransport
           (W := W) gamma
-          (Bicategory.whiskerRightIso eta
-            (higherLocalizedPathArrow W k))
+          etaWhisker
           (higherLocalizedStrongTransPathNaturality
             (W := W) gamma (q ≫ k)) := by
       rw [higherLocalizedStrongTransPathNaturality_comp
@@ -741,8 +750,7 @@ theorem higherLocalizedStrongTransPathNaturality_whiskerRight_invariant_of_iso
             (W := W) gamma (q ≫ k)) :=
       higherLocalizedStrongTransNaturalityTransport_eq_of_parallel_iso
         (W := W) gamma
-        (Bicategory.whiskerRightIso eta
-          (higherLocalizedPathArrow W k))
+        etaWhisker
         theta
         (higherLocalizedStrongTransPathNaturality
           (W := W) gamma (q ≫ k))
