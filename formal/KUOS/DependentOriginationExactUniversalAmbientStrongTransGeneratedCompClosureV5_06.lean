@@ -127,6 +127,10 @@ theorem higherLocalizedStrongTransPathNaturality_id_transport
         (higherLocalizedPathArrowIdIso W X)
         (higherLocalizedStrongTransNaturality_id
           (W := W) gamma (higherLocalizedPathObject W X)) := by
+  change
+    higherLocalizedStrongTransPathNaturality
+        (W := W) gamma (Quiver.Path.nil : Quiver.Path X X) =
+      _
   apply Iso.ext
   simp
     [higherLocalizedPathArrowIdIso,
@@ -234,8 +238,7 @@ theorem higherLocalizedStrongTransNaturalityTransport_trans
   apply Iso.ext
   simp
     [higherLocalizedStrongTransNaturalityTransport_hom,
-      Iso.trans_hom, Iso.trans_inv, PrelaxFunctor.map₂_comp] <;>
-    bicategory
+      Iso.trans_hom, Iso.trans_inv, PrelaxFunctor.map₂_comp]
 
 /-- Equality-induced source-arrow comparison attached to a retained generated
 composition-closure derivation.  The derivation itself supplies the quotient
