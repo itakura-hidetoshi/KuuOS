@@ -156,12 +156,6 @@ noncomputable def doubleIdentityStrongTransIso :
   rw [doubleIdentityNaturalityIso_hom]
   bicategory
 
-@[simp] theorem doubleIdentityStrongTransIso_hom_app
-    (X : B) :
-    ((doubleIdentityStrongTransIso F).hom.as.app X) =
-      (ρ_ (𝟙 (F.obj X))).hom :=
-  rfl
-
 end DoubleIdentityStrongTrans
 
 /-! ## Exact-universal specialization -/
@@ -225,13 +219,6 @@ noncomputable def exactUniversalForwardTriangleModification :=
   doubleIdentityStrongTransIso
     (exactUniversalRealization (W := W) A).toPseudofunctor
 
-@[simp] theorem exactUniversalForwardTriangleModification_hom_app
-    (X : Source (W := W) A) :
-    ((exactUniversalForwardTriangleModification
-      (W := W) A).hom.as.app X) =
-      (ρ_ (𝟙 X.carrier)).hom :=
-  rfl
-
 /-! ## Quasi-inverse triangle -/
 
 /-- The chosen ambient section object has the prescribed realized carrier. -/
@@ -276,7 +263,7 @@ double identity. -/
     𝟙 (((exactUniversalAmbientCanonicalSectionPseudofunctor
       (W := W) A).obj Z).carrier) ≫ 𝟙 Z =
       𝟙 Z ≫ 𝟙 Z
-  rw [exactUniversalAmbientCanonicalSectionPseudofunctor_obj_carrier]
+  simpa only [exactUniversalAmbientCanonicalSectionPseudofunctor_obj_carrier]
 
 /-- Coherent quasi-inverse triangle representative. -/
 noncomputable def exactUniversalQuasiInverseTriangleStrongTrans :
@@ -292,12 +279,16 @@ noncomputable def exactUniversalQuasiInverseTriangleStrongTrans :
       (W := W) A).app Z).lift =
       𝟙 Z ≫ 𝟙 Z := by
   change
-    (𝟙 ((exactUniversalAmbientCanonicalSectionPseudofunctor
-      (W := W) A).obj Z)).lift ≫
-      (𝟙 ((exactUniversalAmbientCanonicalSectionPseudofunctor
-        (W := W) A).obj Z)).lift =
+    (ExactUniversalRawMorphism.id
+      (W := W) A
+      ((exactUniversalAmbientCanonicalSectionPseudofunctor
+        (W := W) A).obj Z)).lift ≫
+      (ExactUniversalRawMorphism.id
+        (W := W) A
+        ((exactUniversalAmbientCanonicalSectionPseudofunctor
+          (W := W) A).obj Z)).lift =
       𝟙 Z ≫ 𝟙 Z
-  rw [ExactUniversalRawMorphism.id_lift,
+  simp only [ExactUniversalRawMorphism.id_lift,
     exactUniversalAmbientCanonicalSectionPseudofunctor_obj_carrier]
 
 /-- Realized equality of the actual quasi-inverse triangle component and the
@@ -358,19 +349,6 @@ noncomputable def exactUniversalQuasiInverseTriangleModification :=
   doubleIdentityStrongTransIso
     (exactUniversalAmbientCanonicalSectionPseudofunctor (W := W) A)
 
-@[simp] theorem exactUniversalQuasiInverseTriangleModification_hom_app_lift
-    (Z : Ambient (W := W) A) :
-    ((exactUniversalQuasiInverseTriangleModification
-      (W := W) A).hom.as.app Z).lift =
-      (ρ_ (𝟙 Z)).hom := by
-  change
-    (ρ_ (𝟙 ((exactUniversalAmbientCanonicalSectionPseudofunctor
-      (W := W) A).obj Z))).hom.lift =
-      (ρ_ (𝟙 Z)).hom
-  rw [exactUniversalRealization_source_rightUnitor_lift,
-    ExactUniversalRawMorphism.id_lift,
-    exactUniversalAmbientCanonicalSectionPseudofunctor_obj_carrier]
-
 /-! ## Regression checks -/
 
 #print axioms doubleIdentityNaturalityIso
@@ -386,7 +364,6 @@ noncomputable def exactUniversalQuasiInverseTriangleModification :=
 #print axioms exactUniversalQuasiInverseTriangleRepresentativeIso
 #print axioms exactUniversalQuasiInverseTriangleRepresentativeIso_realization
 #print axioms exactUniversalQuasiInverseTriangleModification
-#print axioms exactUniversalQuasiInverseTriangleModification_hom_app_lift
 
 end
 
