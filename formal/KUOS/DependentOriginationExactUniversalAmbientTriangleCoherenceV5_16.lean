@@ -124,19 +124,20 @@ noncomputable def exactUniversalForwardTriangleStrongTrans :
   naturality f :=
     exactUniversalForwardTriangleNaturalityIso (W := W) A f
   naturality_naturality {a b} {f g} eta := by
-    simp only [exactUniversalForwardTriangleApp_eq_id,
-      exactUniversalForwardTriangleNaturalityIso_hom]
-    bicategory
+    simpa only [exactUniversalForwardTriangleApp_eq_id,
+      exactUniversalForwardTriangleNaturalityIso_hom] using
+      (Pseudofunctor.StrongTrans.id
+        (exactUniversalRealization (W := W) A).toPseudofunctor).naturality_naturality eta
   naturality_id X := by
-    simp only [exactUniversalForwardTriangleApp_eq_id,
-      exactUniversalForwardTriangleNaturalityIso_hom,
-      exactUniversalRealizationPseudofunctor_mapId_hom]
-    bicategory
+    simpa only [exactUniversalForwardTriangleApp_eq_id,
+      exactUniversalForwardTriangleNaturalityIso_hom] using
+      (Pseudofunctor.StrongTrans.id
+        (exactUniversalRealization (W := W) A).toPseudofunctor).naturality_id X
   naturality_comp {a b c} f g := by
-    simp only [exactUniversalForwardTriangleApp_eq_id,
-      exactUniversalForwardTriangleNaturalityIso_hom,
-      exactUniversalRealizationPseudofunctor_mapComp_hom]
-    bicategory
+    simpa only [exactUniversalForwardTriangleApp_eq_id,
+      exactUniversalForwardTriangleNaturalityIso_hom] using
+      (Pseudofunctor.StrongTrans.id
+        (exactUniversalRealization (W := W) A).toPseudofunctor).naturality_comp f g
 
 /-- Forward triangle modification: the explicit triangle StrongTrans is
 canonically isomorphic to identity. -/
@@ -148,10 +149,11 @@ noncomputable def exactUniversalForwardTriangleModification :
   · rw [exactUniversalForwardTriangleApp_eq_id]
     exact Iso.refl _
   · intro X Y f
-    simp [exactUniversalForwardTriangleStrongTrans,
-      exactUniversalForwardTriangleNaturalityIso,
-      exactUniversalForwardTriangleApp_eq_id]
-    bicategory
+    simpa only [exactUniversalForwardTriangleApp_eq_id,
+      exactUniversalForwardTriangleNaturalityIso_hom] using
+      (Pseudofunctor.StrongTrans.Modification.id
+        (Pseudofunctor.StrongTrans.id
+          (exactUniversalRealization (W := W) A).toPseudofunctor)).naturality f
 
 /-! ## Quasi-inverse triangle -/
 
@@ -341,6 +343,23 @@ noncomputable def exactUniversalQuasiInverseTriangleStrongTrans :
   rw [ExactUniversalRawMorphism.id_lift,
     exactUniversalAmbientCanonicalSource_carrier]
 
+/-- Ambient identity isomorphism underlying the pointwise quasi-inverse triangle. -/
+noncomputable def exactUniversalQuasiInverseTriangleComponentLiftIso
+    (Z : Ambient (W := W) A) :
+    (exactUniversalQuasiInverseTriangleApp (W := W) A Z).lift ≅
+      (𝟙 ((exactUniversalAmbientCanonicalSectionPseudofunctor
+        (W := W) A).obj Z)).lift := by
+  rw [exactUniversalQuasiInverseTriangleApp_lift,
+    exactUniversalCanonicalSource_id_lift]
+  exact Iso.refl _
+
+@[simp] theorem exactUniversalQuasiInverseTriangleComponentLiftIso_hom
+    (Z : Ambient (W := W) A) :
+    (exactUniversalQuasiInverseTriangleComponentLiftIso
+      (W := W) A Z).hom = 𝟙 (𝟙 Z) := by
+  change (Iso.refl (𝟙 Z)).hom = 𝟙 (𝟙 Z)
+  rfl
+
 /-- Pointwise source isomorphism from the quasi-inverse triangle component to
 identity, obtained uniquely from the realized identity. -/
 noncomputable def exactUniversalQuasiInverseTriangleComponentIso
@@ -350,10 +369,8 @@ noncomputable def exactUniversalQuasiInverseTriangleComponentIso
         (W := W) A).obj Z) :=
   exactUniversalSourceIsoOfLift
     (W := W) A
-    (by
-      rw [exactUniversalQuasiInverseTriangleApp_lift,
-        exactUniversalCanonicalSource_id_lift]
-      exact Iso.refl _)
+    (exactUniversalQuasiInverseTriangleComponentLiftIso
+      (W := W) A Z)
 
 /-- Realization of the pointwise quasi-inverse triangle isomorphism. -/
 theorem exactUniversalQuasiInverseTriangleComponentIso_realization
@@ -366,7 +383,8 @@ theorem exactUniversalQuasiInverseTriangleComponentIso_realization
         (W := W) A).obj Z)).mapIso
         (exactUniversalQuasiInverseTriangleComponentIso
           (W := W) A Z) =
-      Iso.refl (𝟙 Z) := by
+      exactUniversalQuasiInverseTriangleComponentLiftIso
+        (W := W) A Z := by
   apply Iso.ext
   exact
     (exactUniversalCompletion2HomFunctor
@@ -378,7 +396,8 @@ theorem exactUniversalQuasiInverseTriangleComponentIso_realization
         (X := exactUniversalQuasiInverseTriangleApp (W := W) A Z)
         (Y := 𝟙 ((exactUniversalAmbientCanonicalSectionPseudofunctor
           (W := W) A).obj Z))
-        (Iso.refl (𝟙 Z)).hom
+        (exactUniversalQuasiInverseTriangleComponentLiftIso
+          (W := W) A Z).hom
 
 @[simp] theorem exactUniversalQuasiInverseTriangleComponentIso_hom_lift
     (Z : Ambient (W := W) A) :
@@ -390,7 +409,8 @@ theorem exactUniversalQuasiInverseTriangleComponentIso_realization
       (exactUniversalQuasiInverseTriangleComponentIso_realization
         (W := W) A Z)
   simpa only [Functor.mapIso_hom,
-    exactUniversalCompletion2HomFunctor_map] using h
+    exactUniversalCompletion2HomFunctor_map,
+    exactUniversalQuasiInverseTriangleComponentLiftIso_hom] using h
 
 /-- Quasi-inverse triangle modification to identity. -/
 noncomputable def exactUniversalQuasiInverseTriangleModification :
