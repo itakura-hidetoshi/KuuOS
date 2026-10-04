@@ -198,7 +198,6 @@ theorem higherLocalizedStrongTransNaturality_comp_id_left
     exact hFctx'.trans hGctx'
   slice_lhs 2 5 =>
     exact (Category.assoc _ _ _).trans hmiddle
-  simpa only [Category.assoc]
 
 /-- Composing any supplied naturality with canonical identity naturality on the
 right is the same as transporting along the source right unitor. -/
@@ -329,6 +328,7 @@ theorem higherLocalizedStrongTransNaturality_comp_assoc
         (W := W) gamma a).toFunctor.obj x)
   slice_lhs 1 2 =>
     erw [hFmap_assoc]
+  rw [Category.assoc]
   rw [hGapp]
   simp
     [Strict.associator_eqToIso,
