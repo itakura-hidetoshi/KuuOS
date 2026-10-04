@@ -153,59 +153,6 @@ theorem higherLocalizedStrongTransNaturalityTransport_eq_of_parallel_iso
   subst theta
   rfl
 
-/-- The identity free path carries the canonical v5.01 identity
-naturality after transport along the quotient functor's map-id comparison.
-
-The equality proof is named locally and eliminated before simplification.  This
-avoids asking `simp` to normalize a dependent `eqToHom` whose source type
-still contains `Q.map (𝟙 X)`. -/
-theorem higherLocalizedStrongTransPathNaturality_id_transport
-    {F G : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W)}
-    (gamma :
-      restrictHigherLocalizedSystem W F ⟶
-        restrictHigherLocalizedSystem W G)
-    (X : LocalizationPaths W) :
-    let hId :
-        higherLocalizedPathArrow W (𝟙 X) =
-          𝟙 (higherLocalizedPathObject W X) := by
-      change
-        ((higherLocalizedPathQuotientFunctor W).map (𝟙 X)).op.op.toLoc =
-          𝟙 (higherLocalizedPathObject W X)
-      rw [(higherLocalizedPathQuotientFunctor W).map_id X]
-      rfl
-    higherLocalizedStrongTransPathNaturality
-        (W := W) gamma (𝟙 X) =
-      higherLocalizedStrongTransNaturalityTransport
-        (W := W) gamma (eqToIso hId)
-        (higherLocalizedStrongTransNaturality_id
-          (W := W) gamma (higherLocalizedPathObject W X)) := by
-  dsimp only
-  let hId :
-      higherLocalizedPathArrow W (𝟙 X) =
-        𝟙 (higherLocalizedPathObject W X) := by
-    change
-      ((higherLocalizedPathQuotientFunctor W).map (𝟙 X)).op.op.toLoc =
-        𝟙 (higherLocalizedPathObject W X)
-    rw [(higherLocalizedPathQuotientFunctor W).map_id X]
-    rfl
-  change
-    higherLocalizedStrongTransPathNaturality
-        (W := W) gamma (𝟙 X) =
-      higherLocalizedStrongTransNaturalityTransport
-        (W := W) gamma (eqToIso hId)
-        (higherLocalizedStrongTransNaturality_id
-          (W := W) gamma (higherLocalizedPathObject W X))
-  rw [hId]
-  change
-    higherLocalizedStrongTransPathNaturality
-        (W := W) gamma (Quiver.Path.nil : X ⟶ X) =
-      _
-  apply Iso.ext
-  simp
-    [higherLocalizedStrongTransPathNaturality,
-      higherLocalizedStrongTransNaturalityTransport_hom,
-      PrelaxFunctor.map₂_eqToHom]
-
 /-- Transport along the identity source 2-isomorphism is the identity
 operation on StrongTrans naturality data. -/
 theorem higherLocalizedStrongTransNaturalityTransport_refl
@@ -249,6 +196,59 @@ theorem higherLocalizedStrongTransNaturalityTransport_trans
     [higherLocalizedStrongTransNaturalityTransport_hom,
       Iso.trans_hom, Iso.trans_inv, PrelaxFunctor.map₂_comp]
 
+/-- Transporting back along the inverse source isomorphism cancels the
+original transport. -/
+theorem higherLocalizedStrongTransNaturalityTransport_symm_left
+    {F G : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W)}
+    (gamma :
+      restrictHigherLocalizedSystem W F ⟶
+        restrictHigherLocalizedSystem W G)
+    {a b : LocallyDiscrete ((HigherLocalizedSite W)ᵒᵖ)}
+    {f g : a ⟶ b}
+    (eta : f ≅ g)
+    (naturality_g :
+      F.map g ≫ higherLocalizedStrongTransExtensionApp (W := W) gamma b ≅
+        higherLocalizedStrongTransExtensionApp (W := W) gamma a ≫ G.map g) :
+    higherLocalizedStrongTransNaturalityTransport
+        (W := W) gamma eta.symm
+        (higherLocalizedStrongTransNaturalityTransport
+          (W := W) gamma eta naturality_g) =
+      naturality_g := by
+  rw [higherLocalizedStrongTransNaturalityTransport_trans]
+  have hIso : eta.symm ≪≫ eta = Iso.refl g := by
+    apply Iso.ext
+    exact Subsingleton.elim _ _
+  rw [hIso]
+  exact
+    higherLocalizedStrongTransNaturalityTransport_refl
+      (W := W) gamma g naturality_g
+
+/-- The opposite cancellation order for source transport. -/
+theorem higherLocalizedStrongTransNaturalityTransport_symm_right
+    {F G : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W)}
+    (gamma :
+      restrictHigherLocalizedSystem W F ⟶
+        restrictHigherLocalizedSystem W G)
+    {a b : LocallyDiscrete ((HigherLocalizedSite W)ᵒᵖ)}
+    {f g : a ⟶ b}
+    (eta : f ≅ g)
+    (naturality_f :
+      F.map f ≫ higherLocalizedStrongTransExtensionApp (W := W) gamma b ≅
+        higherLocalizedStrongTransExtensionApp (W := W) gamma a ≫ G.map f) :
+    higherLocalizedStrongTransNaturalityTransport
+        (W := W) gamma eta
+        (higherLocalizedStrongTransNaturalityTransport
+          (W := W) gamma eta.symm naturality_f) =
+      naturality_f := by
+  rw [higherLocalizedStrongTransNaturalityTransport_trans]
+  have hIso : eta ≪≫ eta.symm = Iso.refl f := by
+    apply Iso.ext
+    exact Subsingleton.elim _ _
+  rw [hIso]
+  exact
+    higherLocalizedStrongTransNaturalityTransport_refl
+      (W := W) gamma f naturality_f
+
 /-- Equality-induced source-arrow comparison attached to a retained generated
 composition-closure derivation.  The derivation itself supplies the quotient
 equality; no choice of relation witness is introduced. -/
@@ -272,9 +272,10 @@ noncomputable def higherLocalizedGeneratedCompClosurePathArrowIso
 #print axioms higherLocalizedStrongTransPathNaturality_generating_invariant_of_iso
 #print axioms higherLocalizedStrongTransPathNaturality_comp_id_right
 #print axioms higherLocalizedStrongTransNaturalityTransport_eq_of_parallel_iso
-#print axioms higherLocalizedStrongTransPathNaturality_id_transport
 #print axioms higherLocalizedStrongTransNaturalityTransport_refl
 #print axioms higherLocalizedStrongTransNaturalityTransport_trans
+#print axioms higherLocalizedStrongTransNaturalityTransport_symm_left
+#print axioms higherLocalizedStrongTransNaturalityTransport_symm_right
 #print axioms higherLocalizedGeneratedCompClosurePathArrowIso
 
 end
