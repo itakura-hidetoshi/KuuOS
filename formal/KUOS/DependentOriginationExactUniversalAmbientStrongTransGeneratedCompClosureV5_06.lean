@@ -415,6 +415,70 @@ theorem higherLocalizedStrongTransPathNaturality_comp_edge_of_nonempty
     (Quiver.Path.length_ne_zero_iff_eq_cons (p := p)).1 hp
   rfl
 
+/-- The singleton-normalized canonical path evaluator is compositional on
+all retained free paths.
+
+The proof follows the recursion of the right-hand path.  In the nontrivial
+successor case, v5.06 associativity supplies the necessary source associator
+transport; the final `Category.assoc` rewrite identifies that transported
+dependent endpoint with the concatenated free path. -/
+theorem higherLocalizedStrongTransPathNaturality_comp
+    {F G : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W)}
+    (gamma :
+      restrictHigherLocalizedSystem W F ⟶
+        restrictHigherLocalizedSystem W G)
+    {X Y Z : LocalizationPaths W}
+    (p : X ⟶ Y) (q : Y ⟶ Z) :
+    higherLocalizedStrongTransNaturality_comp
+        (W := W) gamma
+        (higherLocalizedPathArrow W p)
+        (higherLocalizedPathArrow W q)
+        (higherLocalizedStrongTransPathNaturality (W := W) gamma p)
+        (higherLocalizedStrongTransPathNaturality (W := W) gamma q) =
+      higherLocalizedStrongTransPathNaturality
+        (W := W) gamma (p ≫ q) := by
+  induction q with
+  | nil =>
+      simpa only
+        [higherLocalizedPathArrowCompIso,
+          higherLocalizedStrongTransNaturalityTransport_refl] using
+        (higherLocalizedStrongTransPathNaturality_comp_id_right
+          (W := W) gamma p)
+  | cons q e ih =>
+      cases q with
+      | nil =>
+          cases p with
+          | nil =>
+              simpa only
+                [higherLocalizedPathArrowCompIso,
+                  higherLocalizedStrongTransNaturalityTransport_refl] using
+                (higherLocalizedStrongTransPathNaturality_comp_id_left_edge
+                  (W := W) gamma e)
+          | cons p' e' =>
+              exact
+                higherLocalizedStrongTransPathNaturality_comp_edge_of_nonempty
+                  (W := W) gamma (Quiver.Path.cons p' e') e (by simp)
+      | cons q' e' =>
+          have hr :=
+            higherLocalizedStrongTransPathNaturality_comp_edge_of_nonempty
+              (W := W) gamma (Quiver.Path.cons q' e') e (by simp)
+          have hpr :=
+            higherLocalizedStrongTransPathNaturality_comp_edge_of_nonempty
+              (W := W) gamma (p ≫ Quiver.Path.cons q' e') e (by simp)
+          have hassoc :=
+            higherLocalizedStrongTransNaturality_comp_assoc_paths
+              (W := W) gamma
+              p (Quiver.Path.cons q' e')
+              ((Paths.of (Localization.Construction.LocQuiver W)).map e)
+              (higherLocalizedStrongTransPathNaturality (W := W) gamma p)
+              (higherLocalizedStrongTransPathNaturality
+                (W := W) gamma (Quiver.Path.cons q' e'))
+              (higherLocalizedStrongTransPathNaturality
+                (W := W) gamma
+                ((Paths.of (Localization.Construction.LocQuiver W)).map e))
+          rw [ih, hpr, hr] at hassoc
+          simpa only [Category.assoc] using hassoc.symm
+
 /-- Equality-induced source-arrow comparison attached to a retained generated
 composition-closure derivation.  The derivation itself supplies the quotient
 equality; no choice of relation witness is introduced. -/
@@ -446,6 +510,7 @@ noncomputable def higherLocalizedGeneratedCompClosurePathArrowIso
 #print axioms higherLocalizedStrongTransNaturalityTransport_symm_left
 #print axioms higherLocalizedStrongTransNaturalityTransport_symm_right
 #print axioms higherLocalizedStrongTransPathNaturality_comp_edge_of_nonempty
+#print axioms higherLocalizedStrongTransPathNaturality_comp
 #print axioms higherLocalizedGeneratedCompClosurePathArrowIso
 
 end
