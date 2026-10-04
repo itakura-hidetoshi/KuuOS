@@ -451,14 +451,9 @@ criterion, factor existence, and coherent uniqueness are separated should a
 v5.19+ classification equivalence be stated.
 -/
 
-#print axioms ExactLiftableClassificationObject.toWeak
-#print axioms ExactUniversalClassificationObject.toExactLiftable
-#print axioms ExactUniversalClassificationObject.toWeak
-#print axioms ExactUniversalClassificationObject.realize
 #print axioms ExactUniversalClassificationOneCell.realize
 #print axioms ExactUniversalClassificationTwoCell.realize
 #print axioms restrictLocalizedClassificationMapping
-#print axioms weakAdmissibility_not_exactLiftability_counterexample
 
 end
 
