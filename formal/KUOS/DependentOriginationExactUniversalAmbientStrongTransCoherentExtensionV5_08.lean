@@ -434,6 +434,79 @@ theorem higherLocalizedStrongTransQuotientRepresentativeNaturality_comp
         (higherLocalizedStrongTransPathNaturality
           (W := W) gamma (p ≫ q))
 
+
+/-- The quotient-independent v5.07 canonical family is closed under the
+canonical v4.99 composition constructor.  Representative independence is used
+only to replace the three chosen path representatives by the canonical quotient
+values. -/
+theorem higherLocalizedCanonicalStrongTransNaturality_comp
+    {F G : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W)}
+    (gamma :
+      restrictHigherLocalizedSystem W F ⟶
+        restrictHigherLocalizedSystem W G)
+    {X Y Z : W.Localization}
+    (f : X ⟶ Y) (g : Y ⟶ Z) :
+    higherLocalizedStrongTransNaturality_comp
+        (W := W) gamma
+        f.op.op.toLoc
+        g.op.op.toLoc
+        (higherLocalizedCanonicalStrongTransNaturality
+          (W := W) gamma f)
+        (higherLocalizedCanonicalStrongTransNaturality
+          (W := W) gamma g) =
+      higherLocalizedCanonicalStrongTransNaturality
+        (W := W) gamma (f ≫ g) := by
+  let p : X.as ⟶ Y.as := Quot.out f
+  let q : Y.as ⟶ Z.as := Quot.out g
+  have hp :
+      (higherLocalizedPathQuotientFunctor W).map p = f :=
+    Quot.out_eq f
+  have hq :
+      (higherLocalizedPathQuotientFunctor W).map q = g :=
+    Quot.out_eq g
+  have hpq :
+      (higherLocalizedPathQuotientFunctor W).map (p ≫ q) = f ≫ g :=
+    ((higherLocalizedPathQuotientFunctor W).map_comp p q).trans
+      (congrArg₂ (fun u v => u ≫ v) hp hq)
+  have hf :=
+    higherLocalizedStrongTransQuotientRepresentativeNaturality_eq_canonical
+      (W := W) gamma f p hp
+  have hg :=
+    higherLocalizedStrongTransQuotientRepresentativeNaturality_eq_canonical
+      (W := W) gamma g q hq
+  have hfg :=
+    higherLocalizedStrongTransQuotientRepresentativeNaturality_eq_canonical
+      (W := W) gamma (f ≫ g) (p ≫ q) hpq
+  have hrep :=
+    higherLocalizedStrongTransQuotientRepresentativeNaturality_comp
+      (W := W) gamma f g p q hp hq
+  calc
+    higherLocalizedStrongTransNaturality_comp
+          (W := W) gamma
+          f.op.op.toLoc
+          g.op.op.toLoc
+          (higherLocalizedCanonicalStrongTransNaturality
+            (W := W) gamma f)
+          (higherLocalizedCanonicalStrongTransNaturality
+            (W := W) gamma g) =
+        higherLocalizedStrongTransNaturality_comp
+          (W := W) gamma
+          f.op.op.toLoc
+          g.op.op.toLoc
+          (higherLocalizedStrongTransQuotientRepresentativeNaturality
+            (W := W) gamma f p hp)
+          (higherLocalizedStrongTransQuotientRepresentativeNaturality
+            (W := W) gamma g q hq) := by
+      rw [hf, hg]
+    _ =
+        higherLocalizedStrongTransQuotientRepresentativeNaturality
+          (W := W) gamma (f ≫ g) (p ≫ q) hpq :=
+      hrep
+    _ =
+        higherLocalizedCanonicalStrongTransNaturality
+          (W := W) gamma (f ≫ g) :=
+      hfg
+
 /-! ## Regression checks -/
 
 #print axioms higherLocalizedCanonicalStrongTransNaturalityOnSource
