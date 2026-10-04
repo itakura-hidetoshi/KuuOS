@@ -107,12 +107,12 @@ theorem higherLocalizedStrongTransPathNaturality_id
         (W := W) gamma (𝟙 X) =
       higherLocalizedStrongTransNaturality_id
         (W := W) gamma (higherLocalizedPathObject W X) := by
-  apply Iso.ext
-  simp
-    [higherLocalizedStrongTransPathNaturality,
-      higherLocalizedStrongTransNaturality_id_hom,
-      higherLocalizedPathArrow, higherLocalizedPathObject,
-      higherLocalizedPathQuotientFunctor]
+  change
+    higherLocalizedStrongTransPathNaturality
+        (W := W) gamma (Quiver.Path.nil : X ⟶ X) =
+      higherLocalizedStrongTransNaturality_id
+        (W := W) gamma (higherLocalizedPathObject W X)
+  rfl
 
 /-- Left-unit normalization for the singleton-normalized path evaluator.
 The separate identity-path theorem removes the only dependent cast that made a
@@ -141,7 +141,7 @@ theorem higherLocalizedStrongTransPathNaturality_comp_id_left
       higherLocalizedPathArrow, higherLocalizedPathObject,
       higherLocalizedPathQuotientFunctor,
       Strict.leftUnitor_eqToIso,
-      PrelaxFunctor.map₂_eqToHom] using
+      PrelaxFunctor.map₂_eqToHom] using!
     (higherLocalizedStrongTransNaturality_comp_id_left
       (W := W) gamma
       (higherLocalizedPathArrow W p)
@@ -173,7 +173,7 @@ theorem higherLocalizedStrongTransPathNaturality_comp_id_right
       higherLocalizedPathArrow, higherLocalizedPathObject,
       higherLocalizedPathQuotientFunctor,
       Strict.rightUnitor_eqToIso,
-      PrelaxFunctor.map₂_eqToHom] using
+      PrelaxFunctor.map₂_eqToHom] using!
     (higherLocalizedStrongTransNaturality_comp_id_right
       (W := W) gamma
       (higherLocalizedPathArrow W p)
