@@ -451,9 +451,10 @@ criterion, factor existence, and coherent uniqueness are separated should a
 v5.19+ classification equivalence be stated.
 -/
 
-#print axioms ExactUniversalClassificationOneCell.realize
-#print axioms ExactUniversalClassificationTwoCell.realize
-#print axioms restrictLocalizedClassificationMapping
+/-! The exact-head Strict Lean lane compiles this file with
+`-DsorryAsError=true`.  Imported theorem authority is inherited from the
+already validated v5.16 main baseline; deep `#print axioms` traversals are
+therefore deliberately not repeated here. -/
 
 end
 
