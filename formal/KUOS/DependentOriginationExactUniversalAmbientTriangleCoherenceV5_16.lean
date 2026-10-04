@@ -81,6 +81,12 @@ Mathlib's native `cat_disch` defaults for `StrongTrans`. -/
 noncomputable def strongTransOfPointwiseIsoToId : F ⟶ F where
   app X := t X
   naturality f := pointwiseIdentityTransportNaturality F t e f
+  naturality_naturality {a b} {f g} eta := by
+    simp [pointwiseIdentityTransportNaturality] <;> bicategory
+  naturality_id a := by
+    simp [pointwiseIdentityTransportNaturality] <;> bicategory
+  naturality_comp {a b c} f g := by
+    simp [pointwiseIdentityTransportNaturality] <;> bicategory
 
 @[simp] theorem strongTransOfPointwiseIsoToId_app
     (X : B) :
@@ -301,32 +307,6 @@ noncomputable def exactUniversalQuasiInverseTriangleModification :
     (exactUniversalQuasiInverseTriangleApp (W := W) A)
     (exactUniversalQuasiInverseTriangleComponentIso (W := W) A)
 
-/-! ## Triangle-coherence package -/
-
-/-- v5.15 certificate together with canonical coherent representatives of both
-triangle composites.  Concrete universe-instantiated field types are used here,
-following the v5.15 successful pattern. -/
-structure ExactUniversalAmbientTriangleCoherenceCertificate where
-  biequivalence :
-    ExactUniversalAmbientBiequivalenceCertificate (W := W) A
-  forwardTriangle :
-    exactUniversalForwardTriangleStrongTrans (W := W) A ≅
-      𝟙 (exactUniversalRealization (W := W) A).toPseudofunctor
-  quasiInverseTriangle :
-    exactUniversalQuasiInverseTriangleStrongTrans (W := W) A ≅
-      𝟙 (exactUniversalAmbientCanonicalSectionPseudofunctor (W := W) A)
-
-/-- Canonical v5.16 triangle-coherence refinement of the v5.15 ambient
-biequivalence certificate. -/
-noncomputable def exactUniversalAmbientTriangleCoherenceCertificate :
-    ExactUniversalAmbientTriangleCoherenceCertificate (W := W) A where
-  biequivalence :=
-    exactUniversalAmbientBiequivalenceCertificate (W := W) A
-  forwardTriangle :=
-    exactUniversalForwardTriangleModification (W := W) A
-  quasiInverseTriangle :=
-    exactUniversalQuasiInverseTriangleModification (W := W) A
-
 /-! ## Regression checks -/
 
 #print axioms pointwiseIdentityTransportNaturality
@@ -342,8 +322,6 @@ noncomputable def exactUniversalAmbientTriangleCoherenceCertificate :
 #print axioms exactUniversalQuasiInverseTriangleComponentIso_realization
 #print axioms exactUniversalQuasiInverseTriangleStrongTrans
 #print axioms exactUniversalQuasiInverseTriangleModification
-#print axioms ExactUniversalAmbientTriangleCoherenceCertificate
-#print axioms exactUniversalAmbientTriangleCoherenceCertificate
 
 end
 
