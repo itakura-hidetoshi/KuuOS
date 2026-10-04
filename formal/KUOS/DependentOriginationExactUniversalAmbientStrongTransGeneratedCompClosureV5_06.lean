@@ -773,6 +773,69 @@ noncomputable def higherLocalizedGeneratedCompClosurePathArrowIso
         (generatedLocalization2Cell_equalInLocalization W
           (GeneratedLocalization2Cell.ofCompClosure alpha)))
 
+/-- The canonical StrongTrans path naturality evaluator is invariant under every
+retained generated composition-closure 2-cell.  The proof follows the retained
+syntax: a generating relation is propagated through both whiskers, while the
+recursive constructors use the corresponding left/right propagation lemmas. -/
+theorem higherLocalizedStrongTransPathNaturality_generatedCompClosure_invariant
+    {F G : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W)}
+    (gamma :
+      restrictHigherLocalizedSystem W F ⟶
+        restrictHigherLocalizedSystem W G)
+    {X Y : LocalizationPaths W} {p q : X ⟶ Y}
+    (alpha : GeneratedCompClosure2Cell W p q) :
+    higherLocalizedStrongTransPathNaturality
+        (W := W) gamma p =
+      higherLocalizedStrongTransNaturalityTransport
+        (W := W) gamma
+        (higherLocalizedGeneratedCompClosurePathArrowIso
+          (W := W) alpha)
+        (higherLocalizedStrongTransPathNaturality
+          (W := W) gamma q) := by
+  induction alpha with
+  | whisker f alpha g =>
+      have hgen :=
+        higherLocalizedStrongTransPathNaturality_generating_invariant
+          (W := W) gamma alpha
+      have hleft :=
+        higherLocalizedStrongTransPathNaturality_whiskerLeft_invariant_of_iso
+          (W := W) gamma f
+          (higherLocalizedGeneratingPathArrowIso (W := W) alpha)
+          hgen
+          (Bicategory.whiskerLeftIso
+            (higherLocalizedPathArrow W f)
+            (higherLocalizedGeneratingPathArrowIso (W := W) alpha))
+      exact
+        higherLocalizedStrongTransPathNaturality_whiskerRight_invariant_of_iso
+          (W := W) gamma g
+          (Bicategory.whiskerLeftIso
+            (higherLocalizedPathArrow W f)
+            (higherLocalizedGeneratingPathArrowIso (W := W) alpha))
+          hleft
+          (higherLocalizedGeneratedCompClosurePathArrowIso
+            (W := W)
+            (GeneratedCompClosure2Cell.whisker f alpha g))
+  | whiskerLeft k alpha ih =>
+      exact
+        higherLocalizedStrongTransPathNaturality_whiskerLeft_invariant_of_iso
+          (W := W) gamma k
+          (higherLocalizedGeneratedCompClosurePathArrowIso
+            (W := W) alpha)
+          ih
+          (higherLocalizedGeneratedCompClosurePathArrowIso
+            (W := W)
+            (GeneratedCompClosure2Cell.whiskerLeft k alpha))
+  | whiskerRight k alpha ih =>
+      exact
+        higherLocalizedStrongTransPathNaturality_whiskerRight_invariant_of_iso
+          (W := W) gamma k
+          (higherLocalizedGeneratedCompClosurePathArrowIso
+            (W := W) alpha)
+          ih
+          (higherLocalizedGeneratedCompClosurePathArrowIso
+            (W := W)
+            (GeneratedCompClosure2Cell.whiskerRight k alpha))
+
 /-! ## Regression checks -/
 
 #print axioms higherLocalizedPathArrowCompIso
@@ -789,7 +852,10 @@ noncomputable def higherLocalizedGeneratedCompClosurePathArrowIso
 #print axioms higherLocalizedStrongTransNaturalityTransport_symm_right
 #print axioms higherLocalizedStrongTransPathNaturality_comp_edge_of_nonempty
 #print axioms higherLocalizedStrongTransPathNaturality_comp
+#print axioms higherLocalizedStrongTransPathNaturality_whiskerLeft_invariant_of_iso
+#print axioms higherLocalizedStrongTransPathNaturality_whiskerRight_invariant_of_iso
 #print axioms higherLocalizedGeneratedCompClosurePathArrowIso
+#print axioms higherLocalizedStrongTransPathNaturality_generatedCompClosure_invariant
 
 end
 
