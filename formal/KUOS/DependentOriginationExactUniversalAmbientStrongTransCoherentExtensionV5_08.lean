@@ -290,7 +290,9 @@ theorem higherLocalizedStrongTransQuotientRepresentativeNaturality_comp
         (f ≫ g)
         (p ≫ q)
         (by
-          simpa only [Functor.map_comp, hp, hq]) := by
+          exact
+            ((higherLocalizedPathQuotientFunctor W).map_comp p q).trans
+              (congrArg₂ (fun u v => u ≫ v) hp hq)) := by
   let etaF :=
     higherLocalizedQuotientRepresentativePathArrowIso
       (W := W) f p hp
@@ -298,8 +300,9 @@ theorem higherLocalizedStrongTransQuotientRepresentativeNaturality_comp
     higherLocalizedQuotientRepresentativePathArrowIso
       (W := W) g q hq
   have hpq :
-      (higherLocalizedPathQuotientFunctor W).map (p ≫ q) = f ≫ g := by
-    simpa only [Functor.map_comp, hp, hq]
+      (higherLocalizedPathQuotientFunctor W).map (p ≫ q) = f ≫ g :=
+    ((higherLocalizedPathQuotientFunctor W).map_comp p q).trans
+      (congrArg₂ (fun u v => u ≫ v) hp hq)
   let etaFG :=
     higherLocalizedQuotientRepresentativePathArrowIso
       (W := W) (f ≫ g) (p ≫ q) hpq
