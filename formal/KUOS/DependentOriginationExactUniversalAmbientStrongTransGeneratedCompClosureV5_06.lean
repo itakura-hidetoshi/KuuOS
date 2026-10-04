@@ -114,38 +114,47 @@ theorem higherLocalizedStrongTransPathNaturality_id
         (W := W) gamma (higherLocalizedPathObject W X)
   rfl
 
-/-- Left-unit normalization for the singleton-normalized path evaluator.
-The separate identity-path theorem removes the only dependent cast that made a
-direct `simpa` brittle. -/
-theorem higherLocalizedStrongTransPathNaturality_comp_id_left
+/-- Left-unit normalization in the only form needed by the path recursion:
+the right factor is a single localization-quiver edge.  For a singleton path,
+`nil.comp e.toPath` reduces definitionally, avoiding the dependent transport
+that appears for an arbitrary right-hand path. -/
+theorem higherLocalizedStrongTransPathNaturality_comp_id_left_edge
     {F G : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W)}
     (gamma :
       restrictHigherLocalizedSystem W F ⟶
         restrictHigherLocalizedSystem W G)
-    {X Y : LocalizationPaths W}
-    (p : X ⟶ Y) :
+    {X : LocalizationPaths W}
+    {a b : Localization.Construction.LocQuiver W}
+    (e : a ⟶ b)
+    (hX : X = (Paths.of (Localization.Construction.LocQuiver W)).obj a) :
     higherLocalizedStrongTransNaturality_comp
         (W := W) gamma
         (higherLocalizedPathArrow W (𝟙 X))
-        (higherLocalizedPathArrow W p)
+        (higherLocalizedPathArrow W
+          ((Paths.of (Localization.Construction.LocQuiver W)).map e))
         (higherLocalizedStrongTransPathNaturality (W := W) gamma (𝟙 X))
-        (higherLocalizedStrongTransPathNaturality (W := W) gamma p) =
-      higherLocalizedStrongTransNaturalityTransport
-        (W := W) gamma
-        (higherLocalizedPathArrowCompIso W (𝟙 X) p)
         (higherLocalizedStrongTransPathNaturality
-          (W := W) gamma ((𝟙 X) ≫ p)) := by
+          (W := W) gamma
+          ((Paths.of (Localization.Construction.LocQuiver W)).map e)) =
+      higherLocalizedStrongTransPathNaturality
+        (W := W) gamma
+        ((𝟙 X) ≫
+          (Paths.of (Localization.Construction.LocQuiver W)).map e) := by
+  subst X
   rw [higherLocalizedStrongTransPathNaturality_id]
-  simpa
-    [higherLocalizedPathArrowCompIso,
-      higherLocalizedPathArrow, higherLocalizedPathObject,
-      higherLocalizedPathQuotientFunctor,
-      Strict.leftUnitor_eqToIso,
-      PrelaxFunctor.map₂_eqToHom] using!
-    (higherLocalizedStrongTransNaturality_comp_id_left
-      (W := W) gamma
-      (higherLocalizedPathArrow W p)
-      (higherLocalizedStrongTransPathNaturality (W := W) gamma p))
+  set_option backward.isDefEq.respectTransparency false in
+    simpa
+      [higherLocalizedPathArrow, higherLocalizedPathObject,
+        higherLocalizedPathQuotientFunctor,
+        Strict.leftUnitor_eqToIso,
+        PrelaxFunctor.map₂_eqToHom] using
+      (higherLocalizedStrongTransNaturality_comp_id_left
+        (W := W) gamma
+        (higherLocalizedPathArrow W
+          ((Paths.of (Localization.Construction.LocQuiver W)).map e))
+        (higherLocalizedStrongTransPathNaturality
+          (W := W) gamma
+          ((Paths.of (Localization.Construction.LocQuiver W)).map e))
 
 /-- Right-unit normalization of the free-path evaluator, expressed using
 the canonical path-composition comparison. -/
@@ -168,13 +177,14 @@ theorem higherLocalizedStrongTransPathNaturality_comp_id_right
         (higherLocalizedStrongTransPathNaturality
           (W := W) gamma (p ≫ 𝟙 Y)) := by
   rw [higherLocalizedStrongTransPathNaturality_id]
-  simpa
-    [higherLocalizedPathArrowCompIso,
-      higherLocalizedPathArrow, higherLocalizedPathObject,
-      higherLocalizedPathQuotientFunctor,
-      Strict.rightUnitor_eqToIso,
-      PrelaxFunctor.map₂_eqToHom] using!
-    (higherLocalizedStrongTransNaturality_comp_id_right
+  set_option backward.isDefEq.respectTransparency false in
+    simpa
+      [higherLocalizedPathArrowCompIso,
+        higherLocalizedPathArrow, higherLocalizedPathObject,
+        higherLocalizedPathQuotientFunctor,
+        Strict.rightUnitor_eqToIso,
+        PrelaxFunctor.map₂_eqToHom] using
+      (higherLocalizedStrongTransNaturality_comp_id_right
       (W := W) gamma
       (higherLocalizedPathArrow W p)
       (higherLocalizedStrongTransPathNaturality (W := W) gamma p))
@@ -351,7 +361,7 @@ noncomputable def higherLocalizedGeneratedCompClosurePathArrowIso
 #print axioms higherLocalizedPathArrowIso_ext
 #print axioms higherLocalizedStrongTransPathNaturality_generating_invariant_of_iso
 #print axioms higherLocalizedStrongTransPathNaturality_id
-#print axioms higherLocalizedStrongTransPathNaturality_comp_id_left
+#print axioms higherLocalizedStrongTransPathNaturality_comp_id_left_edge
 #print axioms higherLocalizedStrongTransPathNaturality_comp_id_right
 #print axioms higherLocalizedStrongTransNaturalityTransport_eq_of_parallel_iso
 #print axioms higherLocalizedStrongTransNaturalityTransport_refl
