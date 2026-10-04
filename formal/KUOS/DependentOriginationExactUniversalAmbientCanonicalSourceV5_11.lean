@@ -13,6 +13,7 @@ open KUOS.DependentOriginationHigherLocalizationInterfaceV2_10
 open KUOS.DependentOriginationExactHigherPresentationSectorV4_50
 open KUOS.DependentOriginationExactPresentationEssentialUniquenessV4_53
 open KUOS.DependentOriginationExactUniversalMappingMorphismV4_57
+open KUOS.DependentOriginationExactUniversalRealizationStrictPseudofunctorV4_70
 open KUOS.DependentOriginationExactUniversalHomEquivalenceV4_83
 open KUOS.DependentOriginationExactUniversalAmbientCoverageReductionV4_90
 open KUOS.DependentOriginationExactUniversalAmbientRestrictionUniversalityV4_91
@@ -109,16 +110,21 @@ noncomputable def exactUniversalAmbientCanonicalSource
 definitionally. -/
 @[simp] theorem exactUniversalAmbientCanonicalSource_carrier
     (Z : Ambient (W := W) A) :
-    (exactUniversalAmbientCanonicalSource (W := W) A Z).carrier = Z :=
-  rfl
+    (exactUniversalAmbientCanonicalSource (W := W) A Z).carrier = Z := by
+  exact
+    exactUniversalAmbientSourceOfRestrictionUniversalTarget_carrier
+      (W := W) A Z
+      (exactUniversalAmbientCanonicalRestrictionUniversalTarget
+        (W := W) A Z)
 
 /-- The strict exact-universal realization sends the selected source label
 back to the original ambient object. -/
 @[simp] theorem exactUniversalAmbientCanonicalSource_realization_obj
     (Z : Ambient (W := W) A) :
     (exactUniversalRealization (W := W) A).obj
-        (exactUniversalAmbientCanonicalSource (W := W) A Z) = Z :=
-  rfl
+        (exactUniversalAmbientCanonicalSource (W := W) A Z) = Z := by
+  rw [exactUniversalRealization_obj]
+  exact exactUniversalAmbientCanonicalSource_carrier (W := W) A Z
 
 /-- Local inverse functor on one ambient hom category, using the v4.83 exact
 hom section for the canonical source labels. -/
@@ -154,7 +160,12 @@ realization projection. -/
     (eta : f ⟶ g) :
     ((exactUniversalAmbientCanonicalHomSection
       (W := W) A Z T).map eta).lift = eta := by
-  rfl
+  simpa only [exactUniversalAmbientCanonicalHomSection] using
+    (exactUniversalHomSection_map_lift_exact
+      (W := W) A
+      (exactUniversalAmbientCanonicalSource (W := W) A Z)
+      (exactUniversalAmbientCanonicalSource (W := W) A T)
+      eta)
 
 /-! ## Regression checks -/
 
