@@ -94,13 +94,25 @@ noncomputable def strongTransOfPointwiseIsoToId : F ⟶ F where
   app X := t X
   naturality f := pointwiseIdentityTransportNaturality F t e f
   naturality_naturality {a b} {f g} eta := by
-    simp only [pointwiseIdentityTransportNaturality_hom]
+    simp only [pointwiseIdentityTransportNaturality_hom,
+      Iso.trans_hom, Iso.symm_hom, Iso.refl_hom,
+      whiskerLeftIso_hom, whiskerRightIso_hom,
+      Bicategory.whiskerLeft_id, Bicategory.id_whiskerRight,
+      Category.id_comp, Category.comp_id]
     bicategory
   naturality_id a := by
-    simp only [pointwiseIdentityTransportNaturality_hom]
+    simp only [pointwiseIdentityTransportNaturality_hom,
+      Iso.trans_hom, Iso.symm_hom, Iso.refl_hom,
+      whiskerLeftIso_hom, whiskerRightIso_hom,
+      Bicategory.whiskerLeft_id, Bicategory.id_whiskerRight,
+      Category.id_comp, Category.comp_id]
     bicategory
   naturality_comp {a b c} f g := by
-    simp only [pointwiseIdentityTransportNaturality_hom]
+    simp only [pointwiseIdentityTransportNaturality_hom,
+      Iso.trans_hom, Iso.symm_hom, Iso.refl_hom,
+      whiskerLeftIso_hom, whiskerRightIso_hom,
+      Bicategory.whiskerLeft_id, Bicategory.id_whiskerRight,
+      Category.id_comp, Category.comp_id]
     bicategory
 
 @[simp] theorem strongTransOfPointwiseIsoToId_app
@@ -121,7 +133,11 @@ noncomputable def strongTransOfPointwiseIsoToIdIso :
           (pointwiseIdentityTransportNaturality F t e f).hom ≫
             (e X).hom ▷ F.map f
       simp only [pointwiseIdentityTransportNaturality_hom,
-        Iso.trans_hom, Iso.symm_hom]
+      Iso.trans_hom, Iso.symm_hom, Iso.refl_hom,
+      whiskerLeftIso_hom, whiskerRightIso_hom,
+      Bicategory.whiskerLeft_id, Bicategory.id_whiskerRight,
+      Category.id_comp, Category.comp_id,
+        Bicategory.inv_hom_whiskerRight]
       bicategory)
 
 @[simp] theorem strongTransOfPointwiseIsoToIdIso_hom_app
