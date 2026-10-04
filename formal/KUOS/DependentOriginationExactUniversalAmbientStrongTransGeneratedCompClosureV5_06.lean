@@ -196,7 +196,12 @@ theorem higherLocalizedStrongTransPathNaturality_id_transport
         (higherLocalizedStrongTransNaturality_id
           (W := W) gamma (higherLocalizedPathObject W X))
   cases hId
-  rfl
+  apply Iso.ext
+  simp
+    [higherLocalizedStrongTransPathNaturality,
+      higherLocalizedStrongTransNaturalityTransport_hom,
+      PrelaxFunctor.map₂_eqToHom,
+      eqToHom_refl]
 
 /-- Transport along the identity source 2-isomorphism is the identity
 operation on StrongTrans naturality data. -/
