@@ -21,6 +21,7 @@ open scoped CategoryTheory.Pseudofunctor.StrongTrans
 open scoped CategoryTheory.Bicategory
 
 set_option autoImplicit false
+set_option mathlib.tactic.category.grind true
 
 noncomputable section
 
@@ -81,12 +82,9 @@ Mathlib's native `cat_disch` defaults for `StrongTrans`. -/
 noncomputable def strongTransOfPointwiseIsoToId : F ⟶ F where
   app X := t X
   naturality f := pointwiseIdentityTransportNaturality F t e f
-  naturality_naturality {a b} {f g} eta := by
-    simp [pointwiseIdentityTransportNaturality] <;> bicategory
-  naturality_id a := by
-    simp [pointwiseIdentityTransportNaturality] <;> bicategory
-  naturality_comp {a b c} f g := by
-    simp [pointwiseIdentityTransportNaturality] <;> bicategory
+  naturality_naturality := by cat_disch
+  naturality_id := by cat_disch
+  naturality_comp := by cat_disch
 
 @[simp] theorem strongTransOfPointwiseIsoToId_app
     (X : B) :
@@ -98,10 +96,7 @@ noncomputable def strongTransOfPointwiseIsoToIdIso :
     strongTransOfPointwiseIsoToId F t e ≅ 𝟙 F :=
   Pseudofunctor.StrongTrans.isoMk
     (fun X => e X)
-    (by
-      intro X Y f
-      simp [strongTransOfPointwiseIsoToId,
-        pointwiseIdentityTransportNaturality])
+    (by cat_disch)
 
 @[simp] theorem strongTransOfPointwiseIsoToIdIso_hom_app
     (X : B) :
