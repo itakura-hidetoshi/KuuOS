@@ -196,38 +196,31 @@ theorem higherLocalizedCanonicalStrongTransNaturality_id
       (𝟙 X)
       (𝟙 X.as)
       rfl
-  calc
-    higherLocalizedCanonicalStrongTransNaturality
-          (W := W) gamma (𝟙 X) =
-        higherLocalizedStrongTransQuotientRepresentativeNaturality
+  have hrepresentative :
+      higherLocalizedStrongTransQuotientRepresentativeNaturality
           (W := W) gamma
           (𝟙 X)
           (𝟙 X.as)
-          rfl :=
-      hcanonical.symm
-    _ =
-        higherLocalizedStrongTransPathNaturality
-          (W := W) gamma (𝟙 X.as) := by
-      change
-        higherLocalizedStrongTransNaturalityTransport
-            (W := W) gamma (Iso.refl _)
-            (higherLocalizedStrongTransPathNaturality
-              (W := W) gamma (𝟙 X.as)) =
-          higherLocalizedStrongTransPathNaturality
-            (W := W) gamma (𝟙 X.as)
-      exact
-        higherLocalizedStrongTransNaturalityTransport_refl
-          (W := W) gamma _ _
-    _ =
-        higherLocalizedStrongTransNaturality_id
-          (W := W) gamma
-          (higherLocalizedPathObject W X.as) :=
-      higherLocalizedStrongTransPathNaturality_id
-        (W := W) gamma X.as
-    _ =
+          rfl =
         higherLocalizedStrongTransNaturality_id
           (W := W) gamma (.mk (op (op X))) := by
-      rfl
+    change
+      higherLocalizedStrongTransNaturalityTransport
+          (W := W) gamma (Iso.refl _)
+          (higherLocalizedStrongTransPathNaturality
+            (W := W) gamma (𝟙 X.as)) =
+        higherLocalizedStrongTransNaturality_id
+          (W := W) gamma (.mk (op (op X)))
+    rw [higherLocalizedStrongTransNaturalityTransport_refl]
+    change
+      higherLocalizedStrongTransPathNaturality
+          (W := W) gamma (𝟙 X.as) =
+        higherLocalizedStrongTransNaturality_id
+          (W := W) gamma (higherLocalizedPathObject W X.as)
+    exact
+      higherLocalizedStrongTransPathNaturality_id
+        (W := W) gamma X.as
+  exact hcanonical.symm.trans hrepresentative
 
 /-- Source-indexed form of quotient identity normalization. -/
 theorem higherLocalizedCanonicalStrongTransNaturalityOnSource_id
