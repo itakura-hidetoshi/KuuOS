@@ -129,40 +129,45 @@ theorem higherLocalizedStrongTransPathNaturality_comp_id_right
       (higherLocalizedPathArrow W p)
       (higherLocalizedStrongTransPathNaturality (W := W) gamma p))
 
-/-- Left-unit normalization of the free-path evaluator, expressed using
-the canonical path-composition comparison. -/
-theorem higherLocalizedStrongTransPathNaturality_comp_id_left
+/-- Transport along parallel source 2-isomorphisms is independent of
+which presentation of that 2-isomorphism is chosen.  This is the thinness
+principle used below to forget equality-proof presentation details. -/
+theorem higherLocalizedStrongTransNaturalityTransport_eq_of_parallel_iso
     {F G : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W)}
     (gamma :
       restrictHigherLocalizedSystem W F ⟶
         restrictHigherLocalizedSystem W G)
-    {X Y : LocalizationPaths W}
-    (p : X ⟶ Y) :
-    higherLocalizedStrongTransNaturality_comp
-        (W := W) gamma
-        (higherLocalizedPathArrow W (𝟙 X))
-        (higherLocalizedPathArrow W p)
-        (higherLocalizedStrongTransPathNaturality (W := W) gamma (𝟙 X))
-        (higherLocalizedStrongTransPathNaturality (W := W) gamma p) =
+    {a b : LocallyDiscrete ((HigherLocalizedSite W)ᵒᵖ)}
+    {f g : a ⟶ b}
+    (eta theta : f ≅ g)
+    (naturality_g :
+      F.map g ≫ higherLocalizedStrongTransExtensionApp (W := W) gamma b ≅
+        higherLocalizedStrongTransExtensionApp (W := W) gamma a ≫ G.map g) :
+    higherLocalizedStrongTransNaturalityTransport
+        (W := W) gamma eta naturality_g =
       higherLocalizedStrongTransNaturalityTransport
-        (W := W) gamma
-        (higherLocalizedPathArrowCompIso W (𝟙 X) p)
-        (higherLocalizedStrongTransPathNaturality
-          (W := W) gamma ((𝟙 X) ≫ p)) := by
-  simp only [higherLocalizedPathArrow, higherLocalizedPathQuotientFunctor]
-  erw [(Quotient.functor (Localization.Construction.relations W)).map_id X]
-  simpa
-    [higherLocalizedPathArrowCompIso,
-      higherLocalizedStrongTransPathNaturality,
-      higherLocalizedPathArrow, higherLocalizedPathObject,
-      higherLocalizedPathQuotientFunctor,
-      Functor.map_id, Functor.map_comp, op_comp, Quiver.Hom.comp_toLoc,
-      Strict.leftUnitor_eqToIso,
-      PrelaxFunctor.map₂_eqToHom] using
-    (higherLocalizedStrongTransNaturality_comp_id_left
-      (W := W) gamma
-      (higherLocalizedPathArrow W p)
-      (higherLocalizedStrongTransPathNaturality (W := W) gamma p))
+        (W := W) gamma theta naturality_g := by
+  have h : eta = theta := by
+    apply Iso.ext
+    exact Subsingleton.elim _ _
+  subst theta
+  rfl
+
+/-- Equality-induced source-arrow comparison attached to a retained generated
+composition-closure derivation.  The derivation itself supplies the quotient
+equality; no choice of relation witness is introduced. -/
+noncomputable def higherLocalizedGeneratedCompClosurePathArrowIso
+    {X Y : LocalizationPaths W} {p q : X ⟶ Y}
+    (alpha : GeneratedCompClosure2Cell W p q) :
+    higherLocalizedPathArrow W p ≅ higherLocalizedPathArrow W q :=
+  eqToIso (by
+    change
+      ((higherLocalizedPathQuotientFunctor W).map p).op.op.toLoc =
+        ((higherLocalizedPathQuotientFunctor W).map q).op.op.toLoc
+    exact
+      congrArg (fun k => k.op.op.toLoc)
+        (generatedLocalization2Cell_equalInLocalization W
+          (GeneratedLocalization2Cell.ofCompClosure alpha)))
 
 /-! ## Regression checks -/
 
@@ -170,7 +175,8 @@ theorem higherLocalizedStrongTransPathNaturality_comp_id_left
 #print axioms higherLocalizedPathArrowIso_ext
 #print axioms higherLocalizedStrongTransPathNaturality_generating_invariant_of_iso
 #print axioms higherLocalizedStrongTransPathNaturality_comp_id_right
-#print axioms higherLocalizedStrongTransPathNaturality_comp_id_left
+#print axioms higherLocalizedStrongTransNaturalityTransport_eq_of_parallel_iso
+#print axioms higherLocalizedGeneratedCompClosurePathArrowIso
 
 end
 
