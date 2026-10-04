@@ -1,0 +1,107 @@
+import KUOS.DependentOriginationExactUniversalAmbientStrongTransCompositionCoherenceV5_06
+
+namespace KUOS.DependentOriginationExactUniversalAmbientStrongTransGeneratedCompClosureV5_06
+
+open CategoryTheory
+open CategoryTheory.Bicategory
+open CategoryTheory.Functor
+open Opposite
+open KUOS.DependentOriginationHigherStackDescentV2_8
+open KUOS.DependentOriginationHigherLocalizationInterfaceV2_10
+open KUOS.DependentOriginationGeneratedLocalizationHolonomyV2_68
+open KUOS.DependentOriginationExactUniversalAmbientStrongTransExtensionV4_95
+open KUOS.DependentOriginationExactUniversalAmbientStrongTransCompositionNaturalityV4_99
+open KUOS.DependentOriginationExactUniversalAmbientStrongTransIdentityNaturalityV5_01
+open KUOS.DependentOriginationExactUniversalAmbientStrongTransPresentationTransportV5_03
+open KUOS.DependentOriginationExactUniversalAmbientStrongTransGeneratedRelationV5_06
+open KUOS.DependentOriginationExactUniversalAmbientStrongTransGeneratorInvarianceV5_06
+open KUOS.DependentOriginationExactUniversalAmbientStrongTransWhiskerCompatibilityV5_06
+open KUOS.DependentOriginationExactUniversalAmbientStrongTransCompositionCoherenceV5_06
+
+open scoped CategoryTheory.Pseudofunctor.StrongTrans
+open scoped CategoryTheory.Bicategory
+open scoped Bicategory
+
+set_option autoImplicit false
+
+noncomputable section
+
+/-!
+# Generated composition-closure invariance v5.06
+
+This file begins the structural extension from the four retained localization
+generators to `GeneratedCompClosure2Cell`.
+
+The source bicategory is locally discrete.  Consequently, once the endpoints
+of a source-arrow comparison are fixed, the comparison 2-isomorphism is unique.
+We exploit that thinness explicitly: generator invariance may be used with any
+comparison isomorphism having the same endpoints, while path-composition
+comparisons are retained as concrete equality-induced isomorphisms.
+
+The remaining step in this file is to combine these comparisons with the v5.06
+unit/associativity and whisker-transport theorems to perform structural
+induction on `GeneratedCompClosure2Cell`.
+-/
+
+universe u v uH vH
+
+variable {Context : Type u} [Category.{v} Context]
+variable (W : MorphismProperty Context)
+
+/-- Canonical comparison from the composite of the two localized source arrows
+to the localized source arrow of the concatenated free path. -/
+noncomputable def higherLocalizedPathArrowCompIso
+    {X Y Z : LocalizationPaths W}
+    (p : X ⟶ Y) (q : Y ⟶ Z) :
+    higherLocalizedPathArrow W p ≫ higherLocalizedPathArrow W q ≅
+      higherLocalizedPathArrow W (p ≫ q) :=
+  eqToIso (by
+    simp
+      [higherLocalizedPathArrow, higherLocalizedPathQuotientFunctor,
+        Functor.map_comp, op_comp, Quiver.Hom.comp_toLoc])
+
+/-- In a locally discrete source hom-category, parallel source-arrow
+isomorphisms are equal.  Keeping this as a named lemma prevents later proofs
+from depending on the presentation chosen for equality transports. -/
+theorem higherLocalizedPathArrowIso_ext
+    {X Y : LocalizationPaths W} {p q : X ⟶ Y}
+    (eta theta :
+      higherLocalizedPathArrow W p ≅ higherLocalizedPathArrow W q) :
+    eta = theta := by
+  apply Iso.ext
+  exact Subsingleton.elim _ _
+
+/-- Generator invariance is independent of the presentation of the parallel
+source-arrow comparison. -/
+theorem higherLocalizedStrongTransPathNaturality_generating_invariant_of_iso
+    {F G : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W)}
+    (gamma :
+      restrictHigherLocalizedSystem W F ⟶
+        restrictHigherLocalizedSystem W G)
+    {X Y : LocalizationPaths W} {p q : X ⟶ Y}
+    (alpha : LocalizationGenerating2Cell W p q)
+    (eta :
+      higherLocalizedPathArrow W p ≅ higherLocalizedPathArrow W q) :
+    higherLocalizedStrongTransPathNaturality
+        (W := W) gamma p =
+      higherLocalizedStrongTransNaturalityTransport
+        (W := W) gamma eta
+        (higherLocalizedStrongTransPathNaturality
+          (W := W) gamma q) := by
+  have heta :
+      eta = higherLocalizedGeneratingPathArrowIso (W := W) alpha :=
+    higherLocalizedPathArrowIso_ext W _ _
+  rw [heta]
+  exact
+    higherLocalizedStrongTransPathNaturality_generating_invariant
+      (W := W) gamma alpha
+
+/-! ## Regression checks -/
+
+#print axioms higherLocalizedPathArrowCompIso
+#print axioms higherLocalizedPathArrowIso_ext
+#print axioms higherLocalizedStrongTransPathNaturality_generating_invariant_of_iso
+
+end
+
+end KUOS.DependentOriginationExactUniversalAmbientStrongTransGeneratedCompClosureV5_06
