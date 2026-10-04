@@ -281,19 +281,17 @@ theorem higherLocalizedStrongTransPathNaturality_comp_edge_of_nonempty
         (higherLocalizedStrongTransPathNaturality
           (W := W) gamma
           (p ≫ (Paths.of (Localization.Construction.LocQuiver W)).map e)) := by
-  cases p with
-  | nil =>
-      simp at hp
-  | cons p e₀ =>
-      apply Iso.ext
-      simp
-        [higherLocalizedStrongTransPathNaturality,
-          higherLocalizedPathArrowCompIso,
-          higherLocalizedStrongTransNaturalityTransport_hom,
-          higherLocalizedPathArrow, higherLocalizedPathObject,
-          higherLocalizedPathQuotientFunctor,
-          Functor.map_comp, op_comp, Quiver.Hom.comp_toLoc,
-          PrelaxFunctor.map₂_eqToHom]
+  obtain ⟨c, p', e₀, rfl⟩ :=
+    (Quiver.Path.length_ne_zero_iff_eq_cons (p := p)).1 hp
+  apply Iso.ext
+  simp
+    [higherLocalizedStrongTransPathNaturality,
+      higherLocalizedPathArrowCompIso,
+      higherLocalizedStrongTransNaturalityTransport_hom,
+      higherLocalizedPathArrow, higherLocalizedPathObject,
+      higherLocalizedPathQuotientFunctor,
+      Functor.map_comp, op_comp, Quiver.Hom.comp_toLoc,
+      PrelaxFunctor.map₂_eqToHom]
 
 /-- Equality-induced source-arrow comparison attached to a retained generated
 composition-closure derivation.  The derivation itself supplies the quotient
