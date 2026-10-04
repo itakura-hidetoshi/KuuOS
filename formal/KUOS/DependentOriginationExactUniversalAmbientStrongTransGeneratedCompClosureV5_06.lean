@@ -794,29 +794,29 @@ theorem higherLocalizedStrongTransPathNaturality_generatedCompClosure_invariant
           (W := W) gamma q) := by
   induction alpha with
   | whisker f alpha g =>
+      let etaGen :=
+        higherLocalizedGeneratingPathArrowIso (W := W) alpha
+      let etaLeft :=
+        Bicategory.whiskerLeftIso
+          (higherLocalizedPathArrow W f) etaGen
+      let etaWhole :=
+        Bicategory.whiskerRightIso etaLeft
+          (higherLocalizedPathArrow W g)
       have hgen :=
-        higherLocalizedStrongTransPathNaturality_generating_invariant
-          (W := W) gamma alpha
+        higherLocalizedStrongTransPathNaturality_generating_invariant_of_iso
+          (W := W) gamma alpha etaGen
       have hleft :=
         higherLocalizedStrongTransPathNaturality_whiskerLeft_invariant_of_iso
-          (W := W) gamma f
-          (higherLocalizedGeneratingPathArrowIso (W := W) alpha)
-          hgen
-          (Bicategory.whiskerLeftIso
-            (higherLocalizedPathArrow W f)
-            (higherLocalizedGeneratingPathArrowIso (W := W) alpha))
-      exact
+          (W := W) gamma f etaGen hgen etaLeft
+      have hwhole :=
         higherLocalizedStrongTransPathNaturality_whiskerRight_invariant_of_iso
-          (W := W) gamma g
-          (Bicategory.whiskerLeftIso
-            (higherLocalizedPathArrow W f)
-            (higherLocalizedGeneratingPathArrowIso (W := W) alpha))
-          hleft
-          (higherLocalizedGeneratedCompClosurePathArrowIso
-            (W := W)
-            (by
-              simpa only [Category.assoc] using
-                (GeneratedCompClosure2Cell.whisker f alpha g)))
+          (W := W) gamma g etaLeft hleft etaWhole
+      exact
+        hwhole.trans
+          (higherLocalizedStrongTransNaturalityTransport_eq_of_parallel_iso
+            (W := W) gamma etaWhole _
+            (higherLocalizedStrongTransPathNaturality
+              (W := W) gamma _))
   | whiskerLeft k alpha ih =>
       exact
         higherLocalizedStrongTransPathNaturality_whiskerLeft_invariant_of_iso
