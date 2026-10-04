@@ -136,10 +136,14 @@ theorem higherLocalizedStrongTransPathNaturality_comp_id_left_edge
         (higherLocalizedStrongTransPathNaturality
           (W := W) gamma
           ((Paths.of (Localization.Construction.LocQuiver W)).map e)) =
-      higherLocalizedStrongTransPathNaturality
+      higherLocalizedStrongTransNaturalityTransport
         (W := W) gamma
-        ((𝟙 X) ≫
-          (Paths.of (Localization.Construction.LocQuiver W)).map e) := by
+        (higherLocalizedPathArrowCompIso W (𝟙 X)
+          ((Paths.of (Localization.Construction.LocQuiver W)).map e))
+        (higherLocalizedStrongTransPathNaturality
+          (W := W) gamma
+          ((𝟙 X) ≫
+            (Paths.of (Localization.Construction.LocQuiver W)).map e)) := by
   subst X
   rw [higherLocalizedStrongTransPathNaturality_id]
   set_option backward.isDefEq.respectTransparency false in
