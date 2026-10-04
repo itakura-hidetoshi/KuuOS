@@ -796,25 +796,21 @@ theorem higherLocalizedStrongTransPathNaturality_generatedCompClosure_invariant
   | whisker f alpha g =>
       let etaGen :=
         higherLocalizedGeneratingPathArrowIso (W := W) alpha
-      let etaLeft :=
-        Bicategory.whiskerLeftIso
-          (higherLocalizedPathArrow W f) etaGen
-      let etaWhole :=
-        Bicategory.whiskerRightIso etaLeft
+      let etaRight :=
+        Bicategory.whiskerRightIso etaGen
           (higherLocalizedPathArrow W g)
       have hgen :=
         higherLocalizedStrongTransPathNaturality_generating_invariant_of_iso
           (W := W) gamma alpha etaGen
-      have hleft :=
-        higherLocalizedStrongTransPathNaturality_whiskerLeft_invariant_of_iso
-          (W := W) gamma f etaGen hgen etaLeft
-      have hwhole :=
+      have hright :=
         higherLocalizedStrongTransPathNaturality_whiskerRight_invariant_of_iso
-          (W := W) gamma g etaLeft hleft etaWhole
-      rw [hwhole]
-      apply
-        higherLocalizedStrongTransNaturalityTransport_eq_of_parallel_iso
-          (W := W) gamma
+          (W := W) gamma g etaGen hgen etaRight
+      exact
+        higherLocalizedStrongTransPathNaturality_whiskerLeft_invariant_of_iso
+          (W := W) gamma f etaRight hright
+          (higherLocalizedGeneratedCompClosurePathArrowIso
+            (W := W)
+            (GeneratedCompClosure2Cell.whisker f alpha g))
   | whiskerLeft k alpha ih =>
       exact
         higherLocalizedStrongTransPathNaturality_whiskerLeft_invariant_of_iso
