@@ -40,9 +40,6 @@ variable {Context : Type u} [Category.{v} Context]
 variable (W : MorphismProperty Context)
 variable (A : RefinementAtlas (LocalizedContext W))
 
-abbrev Source :=
-  ExactUniversalRawObject.{u, v, uH, vH} (W := W) A
-
 abbrev Ambient :=
   DependentOriginationCompletion2.{u, v, uH, uH, vH} (W := W) A
 
@@ -183,8 +180,6 @@ noncomputable def exactUniversalAmbientRoundtripCounit :
       exactUniversalAmbientRoundtripNaturalityIso_hom,
       exactUniversalAmbientIdentityPseudofunctor_mapComp_hom,
       exactUniversalAmbientRoundtrip_mapComp_hom]
-    simp only [exactUniversalAmbientRoundtrip_map,
-      exactUniversalAmbientIdentityPseudofunctor_map]
     bicategory
 
 @[simp] theorem exactUniversalAmbientRoundtripCounit_app
