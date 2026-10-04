@@ -19,6 +19,7 @@ open KUOS.DependentOriginationExactUniversalAmbientStrongTransPresentationTransp
 open KUOS.DependentOriginationExactUniversalAmbientStrongTransTransportCompatibilityV5_04
 open KUOS.DependentOriginationExactUniversalAmbientStrongTransGeneratedRelationV5_06
 open KUOS.DependentOriginationExactUniversalAmbientStrongTransGeneratedCompClosureV5_06
+open KUOS.DependentOriginationExactUniversalAmbientStrongTransWhiskerCompatibilityV5_06
 open KUOS.DependentOriginationExactUniversalAmbientStrongTransGeneratedLocalizationV5_06
 open KUOS.DependentOriginationExactUniversalAmbientStrongTransQuotientNaturalityV5_07
 
@@ -259,6 +260,177 @@ theorem higherLocalizedCanonicalStrongTransNaturalityOnSource_id_coherence
     higherLocalizedStrongTransNaturality_id_coherence
       (W := W) gamma a
 
+/-- Representative-level quotient naturality is compatible with the canonical
+v4.99 composition constructor.  The proof keeps the two source transports
+separate, composes them only after applying the generic whisker-transport laws,
+and uses locally-discrete presentation independence only at the final source
+comparison. -/
+theorem higherLocalizedStrongTransQuotientRepresentativeNaturality_comp
+    {F G : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W)}
+    (gamma :
+      restrictHigherLocalizedSystem W F ⟶
+        restrictHigherLocalizedSystem W G)
+    {X Y Z : W.Localization}
+    (f : X ⟶ Y) (g : Y ⟶ Z)
+    (p : X.as ⟶ Y.as) (q : Y.as ⟶ Z.as)
+    (hp :
+      (higherLocalizedPathQuotientFunctor W).map p = f)
+    (hq :
+      (higherLocalizedPathQuotientFunctor W).map q = g) :
+    higherLocalizedStrongTransNaturality_comp
+        (W := W) gamma
+        f.op.op.toLoc
+        g.op.op.toLoc
+        (higherLocalizedStrongTransQuotientRepresentativeNaturality
+          (W := W) gamma f p hp)
+        (higherLocalizedStrongTransQuotientRepresentativeNaturality
+          (W := W) gamma g q hq) =
+      higherLocalizedStrongTransQuotientRepresentativeNaturality
+        (W := W) gamma
+        (f ≫ g)
+        (p ≫ q)
+        (by
+          rw [Functor.map_comp, hp, hq]) := by
+  let etaF :=
+    higherLocalizedQuotientRepresentativePathArrowIso
+      (W := W) f p hp
+  let etaG :=
+    higherLocalizedQuotientRepresentativePathArrowIso
+      (W := W) g q hq
+  have hpq :
+      (higherLocalizedPathQuotientFunctor W).map (p ≫ q) = f ≫ g := by
+    rw [Functor.map_comp, hp, hq]
+  let etaFG :=
+    higherLocalizedQuotientRepresentativePathArrowIso
+      (W := W) (f ≫ g) (p ≫ q) hpq
+  let etaFRight :=
+    Bicategory.whiskerRightIso etaF g.op.op.toLoc
+  let etaGLeft :=
+    Bicategory.whiskerLeftIso
+      (higherLocalizedPathArrow W p) etaG
+  change
+    higherLocalizedStrongTransNaturality_comp
+        (W := W) gamma
+        f.op.op.toLoc
+        g.op.op.toLoc
+        (higherLocalizedStrongTransNaturalityTransport
+          (W := W) gamma etaF
+          (higherLocalizedStrongTransPathNaturality
+            (W := W) gamma p))
+        (higherLocalizedStrongTransNaturalityTransport
+          (W := W) gamma etaG
+          (higherLocalizedStrongTransPathNaturality
+            (W := W) gamma q)) =
+      higherLocalizedStrongTransNaturalityTransport
+        (W := W) gamma etaFG
+        (higherLocalizedStrongTransPathNaturality
+          (W := W) gamma (p ≫ q))
+  have hFirst :=
+    higherLocalizedStrongTransNaturality_comp_transport_first
+      (W := W) gamma
+      etaF
+      (higherLocalizedStrongTransPathNaturality
+        (W := W) gamma p)
+      g.op.op.toLoc
+      (higherLocalizedStrongTransNaturalityTransport
+        (W := W) gamma etaG
+        (higherLocalizedStrongTransPathNaturality
+          (W := W) gamma q))
+  have hSecond :=
+    higherLocalizedStrongTransNaturality_comp_transport_second
+      (W := W) gamma
+      (higherLocalizedPathArrow W p)
+      (higherLocalizedStrongTransPathNaturality
+        (W := W) gamma p)
+      etaG
+      (higherLocalizedStrongTransPathNaturality
+        (W := W) gamma q)
+  have hSecondOuter :=
+    congrArg
+      (fun naturality_pg =>
+        higherLocalizedStrongTransNaturalityTransport
+          (W := W) gamma etaFRight naturality_pg)
+      hSecond
+  have hTransport :=
+    higherLocalizedStrongTransNaturalityTransport_trans
+      (W := W) gamma
+      etaFRight etaGLeft
+      (higherLocalizedStrongTransNaturality_comp
+        (W := W) gamma
+        (higherLocalizedPathArrow W p)
+        (higherLocalizedPathArrow W q)
+        (higherLocalizedStrongTransPathNaturality
+          (W := W) gamma p)
+        (higherLocalizedStrongTransPathNaturality
+          (W := W) gamma q))
+  have hPath :=
+    higherLocalizedStrongTransPathNaturality_comp
+      (W := W) gamma p q
+  have hPathOuter :=
+    congrArg
+      (fun naturality_pq =>
+        higherLocalizedStrongTransNaturalityTransport
+          (W := W) gamma (etaFRight ≪≫ etaGLeft) naturality_pq)
+      hPath
+  calc
+    _ =
+        higherLocalizedStrongTransNaturalityTransport
+          (W := W) gamma etaFRight
+          (higherLocalizedStrongTransNaturality_comp
+            (W := W) gamma
+            (higherLocalizedPathArrow W p)
+            g.op.op.toLoc
+            (higherLocalizedStrongTransPathNaturality
+              (W := W) gamma p)
+            (higherLocalizedStrongTransNaturalityTransport
+              (W := W) gamma etaG
+              (higherLocalizedStrongTransPathNaturality
+                (W := W) gamma q))) :=
+      hFirst
+    _ =
+        higherLocalizedStrongTransNaturalityTransport
+          (W := W) gamma etaFRight
+          (higherLocalizedStrongTransNaturalityTransport
+            (W := W) gamma etaGLeft
+            (higherLocalizedStrongTransNaturality_comp
+              (W := W) gamma
+              (higherLocalizedPathArrow W p)
+              (higherLocalizedPathArrow W q)
+              (higherLocalizedStrongTransPathNaturality
+                (W := W) gamma p)
+              (higherLocalizedStrongTransPathNaturality
+                (W := W) gamma q))) :=
+      hSecondOuter
+    _ =
+        higherLocalizedStrongTransNaturalityTransport
+          (W := W) gamma (etaFRight ≪≫ etaGLeft)
+          (higherLocalizedStrongTransNaturality_comp
+            (W := W) gamma
+            (higherLocalizedPathArrow W p)
+            (higherLocalizedPathArrow W q)
+            (higherLocalizedStrongTransPathNaturality
+              (W := W) gamma p)
+            (higherLocalizedStrongTransPathNaturality
+              (W := W) gamma q)) :=
+      hTransport
+    _ =
+        higherLocalizedStrongTransNaturalityTransport
+          (W := W) gamma (etaFRight ≪≫ etaGLeft)
+          (higherLocalizedStrongTransPathNaturality
+            (W := W) gamma (p ≫ q)) :=
+      hPathOuter
+    _ =
+        higherLocalizedStrongTransNaturalityTransport
+          (W := W) gamma etaFG
+          (higherLocalizedStrongTransPathNaturality
+            (W := W) gamma (p ≫ q)) :=
+      higherLocalizedStrongTransNaturalityTransport_eq_of_parallel_iso
+        (W := W) gamma
+        (etaFRight ≪≫ etaGLeft)
+        etaFG
+        (higherLocalizedStrongTransPathNaturality
+          (W := W) gamma (p ≫ q))
+
 /-! ## Regression checks -/
 
 #print axioms higherLocalizedCanonicalStrongTransNaturalityOnSource
@@ -270,6 +442,7 @@ theorem higherLocalizedCanonicalStrongTransNaturalityOnSource_id_coherence
 #print axioms higherLocalizedCanonicalStrongTransNaturality_id
 #print axioms higherLocalizedCanonicalStrongTransNaturalityOnSource_id
 #print axioms higherLocalizedCanonicalStrongTransNaturalityOnSource_id_coherence
+#print axioms higherLocalizedStrongTransQuotientRepresentativeNaturality_comp
 
 end
 
