@@ -154,7 +154,7 @@ theorem higherLocalizedStrongTransPathNaturality_comp_id_left_edge
           ((Paths.of (Localization.Construction.LocQuiver W)).map e))
         (higherLocalizedStrongTransPathNaturality
           (W := W) gamma
-          ((Paths.of (Localization.Construction.LocQuiver W)).map e))
+          ((Paths.of (Localization.Construction.LocQuiver W)).map e)))
 
 /-- Right-unit normalization of the free-path evaluator, expressed using
 the canonical path-composition comparison. -/
@@ -185,9 +185,9 @@ theorem higherLocalizedStrongTransPathNaturality_comp_id_right
         Strict.rightUnitor_eqToIso,
         PrelaxFunctor.map₂_eqToHom] using
       (higherLocalizedStrongTransNaturality_comp_id_right
-      (W := W) gamma
-      (higherLocalizedPathArrow W p)
-      (higherLocalizedStrongTransPathNaturality (W := W) gamma p))
+        (W := W) gamma
+        (higherLocalizedPathArrow W p)
+        (higherLocalizedStrongTransPathNaturality (W := W) gamma p))
 
 /-- Transport along parallel source 2-isomorphisms is independent of
 which presentation of that 2-isomorphism is chosen.  This is the thinness
