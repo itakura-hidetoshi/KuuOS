@@ -113,11 +113,6 @@ noncomputable def doubleIdentityStrongTrans :
   app X := 𝟙 (F.obj X) ≫ 𝟙 (F.obj X)
   naturality f := doubleIdentityNaturalityIso (F.map f)
   naturality_naturality {a b} {f g} eta := by
-    change
-      F.map₂ eta ▷ (𝟙 (F.obj b) ≫ 𝟙 (F.obj b)) ≫
-          (doubleIdentityNaturalityIso (F.map g)).hom =
-        (doubleIdentityNaturalityIso (F.map f)).hom ≫
-          (𝟙 (F.obj a) ≫ 𝟙 (F.obj a)) ◁ F.map₂ eta
     rw [doubleIdentityNaturalityIso_hom,
       doubleIdentityNaturalityIso_hom]
     bicategory
@@ -131,20 +126,6 @@ noncomputable def doubleIdentityStrongTrans :
     rw [doubleIdentityNaturalityIso_hom]
     bicategory
   naturality_comp {a b c} f g := by
-    change
-      (doubleIdentityNaturalityIso (F.map (f ≫ g))).hom ≫
-          (𝟙 (F.obj a) ≫ 𝟙 (F.obj a)) ◁ (F.mapComp f g).hom =
-        (F.mapComp f g).hom ▷ (𝟙 (F.obj c) ≫ 𝟙 (F.obj c)) ≫
-          (α_ (F.map f) (F.map g)
-            (𝟙 (F.obj c) ≫ 𝟙 (F.obj c))).hom ≫
-            F.map f ◁ (doubleIdentityNaturalityIso (F.map g)).hom ≫
-              (α_ (F.map f)
-                (𝟙 (F.obj b) ≫ 𝟙 (F.obj b))
-                (F.map g)).inv ≫
-                (doubleIdentityNaturalityIso (F.map f)).hom ▷ F.map g ≫
-                  (α_
-                    (𝟙 (F.obj a) ≫ 𝟙 (F.obj a))
-                    (F.map f) (F.map g)).hom
     rw [doubleIdentityNaturalityIso_hom,
       doubleIdentityNaturalityIso_hom,
       doubleIdentityNaturalityIso_hom]
@@ -159,8 +140,11 @@ noncomputable def doubleIdentityStrongTrans :
 /-- The double-identity StrongTrans is canonically modification-isomorphic to
 the identity StrongTrans. -/
 noncomputable def doubleIdentityStrongTransIso :
-    doubleIdentityStrongTrans F ≅
-      Pseudofunctor.StrongTrans.id F := by
+    @CategoryTheory.Iso
+      (Pseudofunctor.StrongTrans F F)
+      (Pseudofunctor.StrongTrans.homCategory (F := F) (G := F))
+      (doubleIdentityStrongTrans F)
+      (Pseudofunctor.StrongTrans.id F) := by
   refine Pseudofunctor.StrongTrans.isoMk
     (fun X => ρ_ (𝟙 (F.obj X))) ?_
   intro X Y f
@@ -216,6 +200,7 @@ ambient double identity, with no strict collapse of `𝟙 ≫ 𝟙`. -/
       𝟙 X.carrier ≫ 𝟙 X.carrier
   rw [exactUniversalSourceAmbientRoundtripUnit_app_lift,
     exactUniversalAmbientRoundtripCounit_app]
+  rfl
 
 /-- Coherent forward triangle representative. -/
 noncomputable def exactUniversalForwardTriangleStrongTrans :
@@ -236,10 +221,7 @@ component. -/
 
 /-- Native forward triangle modification of the coherent representative to
 identity. -/
-noncomputable def exactUniversalForwardTriangleModification :
-    exactUniversalForwardTriangleStrongTrans (W := W) A ≅
-      Pseudofunctor.StrongTrans.id
-        (exactUniversalRealization (W := W) A).toPseudofunctor :=
+noncomputable def exactUniversalForwardTriangleModification :=
   doubleIdentityStrongTransIso
     (exactUniversalRealization (W := W) A).toPseudofunctor
 
@@ -287,10 +269,14 @@ double identity. -/
         (W := W) A).map
           ((exactUniversalAmbientRoundtripCounit (W := W) A).app Z)).lift =
       𝟙 Z ≫ 𝟙 Z
-  simp only [exactUniversalSourceAmbientRoundtripUnit_app_lift,
+  rw [exactUniversalSourceAmbientRoundtripUnit_app_lift,
     exactUniversalAmbientCanonicalSectionPseudofunctor_map_lift,
-    exactUniversalAmbientRoundtripCounit_app,
-    exactUniversalAmbientCanonicalSectionPseudofunctor_obj_carrier]
+    exactUniversalAmbientRoundtripCounit_app]
+  change
+    𝟙 (((exactUniversalAmbientCanonicalSectionPseudofunctor
+      (W := W) A).obj Z).carrier) ≫ 𝟙 Z =
+      𝟙 Z ≫ 𝟙 Z
+  rw [exactUniversalAmbientCanonicalSectionPseudofunctor_obj_carrier]
 
 /-- Coherent quasi-inverse triangle representative. -/
 noncomputable def exactUniversalQuasiInverseTriangleStrongTrans :
@@ -306,14 +292,12 @@ noncomputable def exactUniversalQuasiInverseTriangleStrongTrans :
       (W := W) A).app Z).lift =
       𝟙 Z ≫ 𝟙 Z := by
   change
-    ((𝟙 ((exactUniversalAmbientCanonicalSectionPseudofunctor
-      (W := W) A).obj Z)) ≫
-      𝟙 ((exactUniversalAmbientCanonicalSectionPseudofunctor
+    (𝟙 ((exactUniversalAmbientCanonicalSectionPseudofunctor
+      (W := W) A).obj Z)).lift ≫
+      (𝟙 ((exactUniversalAmbientCanonicalSectionPseudofunctor
         (W := W) A).obj Z)).lift =
       𝟙 Z ≫ 𝟙 Z
-  rw [ExactUniversalRawMorphism.comp_lift,
-    ExactUniversalRawMorphism.id_lift,
-    ExactUniversalRawMorphism.id_lift,
+  rw [ExactUniversalRawMorphism.id_lift,
     exactUniversalAmbientCanonicalSectionPseudofunctor_obj_carrier]
 
 /-- Realized equality of the actual quasi-inverse triangle component and the
@@ -325,7 +309,6 @@ noncomputable def exactUniversalQuasiInverseTriangleRepresentativeLiftIso
         (W := W) A).app Z).lift := by
   rw [exactUniversalQuasiInverseTriangleApp_lift,
     exactUniversalQuasiInverseTriangleStrongTrans_app_lift]
-  exact Iso.refl _
 
 /-- Local full faithfulness lifts the realized equality to the unique canonical
 source isomorphism from the actual quasi-inverse triangle component to the
@@ -371,10 +354,7 @@ theorem exactUniversalQuasiInverseTriangleRepresentativeIso_realization
 
 /-- Native quasi-inverse triangle modification of the coherent representative
 to identity. -/
-noncomputable def exactUniversalQuasiInverseTriangleModification :
-    exactUniversalQuasiInverseTriangleStrongTrans (W := W) A ≅
-      Pseudofunctor.StrongTrans.id
-        (exactUniversalAmbientCanonicalSectionPseudofunctor (W := W) A) :=
+noncomputable def exactUniversalQuasiInverseTriangleModification :=
   doubleIdentityStrongTransIso
     (exactUniversalAmbientCanonicalSectionPseudofunctor (W := W) A)
 
