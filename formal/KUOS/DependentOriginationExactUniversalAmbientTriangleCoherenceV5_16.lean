@@ -76,15 +76,32 @@ noncomputable def pointwiseIdentityTransportNaturality
       (λ_ (F.map f)).symm ≪≫
         Bicategory.whiskerRightIso (e X).symm (F.map f)
 
+@[simp] theorem pointwiseIdentityTransportNaturality_hom
+    {X Y : B} (f : X ⟶ Y) :
+    (pointwiseIdentityTransportNaturality F t e f).hom =
+      (F.map f ◁ (e Y).hom) ≫
+        (ρ_ (F.map f)).hom ≫
+          (λ_ (F.map f)).inv ≫
+            (e X).inv ▷ F.map f := by
+  simp only [pointwiseIdentityTransportNaturality,
+    Iso.trans_hom, Iso.symm_hom,
+    whiskerLeftIso_hom, whiskerRightIso_hom]
+
 /-- The prescribed object components carry the canonical StrongTrans structure
 transported from identity.  The omitted coherence fields are discharged by
 Mathlib's native `cat_disch` defaults for `StrongTrans`. -/
 noncomputable def strongTransOfPointwiseIsoToId : F ⟶ F where
   app X := t X
   naturality f := pointwiseIdentityTransportNaturality F t e f
-  naturality_naturality := by cat_disch
-  naturality_id := by cat_disch
-  naturality_comp := by cat_disch
+  naturality_naturality {a b} {f g} eta := by
+    simp only [pointwiseIdentityTransportNaturality_hom]
+    bicategory
+  naturality_id a := by
+    simp only [pointwiseIdentityTransportNaturality_hom]
+    bicategory
+  naturality_comp {a b c} f g := by
+    simp only [pointwiseIdentityTransportNaturality_hom]
+    bicategory
 
 @[simp] theorem strongTransOfPointwiseIsoToId_app
     (X : B) :
@@ -96,7 +113,16 @@ noncomputable def strongTransOfPointwiseIsoToIdIso :
     strongTransOfPointwiseIsoToId F t e ≅ 𝟙 F :=
   Pseudofunctor.StrongTrans.isoMk
     (fun X => e X)
-    (by cat_disch)
+    (by
+      intro X Y f
+      change
+        F.map f ◁ (e Y).hom ≫
+            (((ρ_ (F.map f)) ≪≫ (λ_ (F.map f)).symm).hom) =
+          (pointwiseIdentityTransportNaturality F t e f).hom ≫
+            (e X).hom ▷ F.map f
+      simp only [pointwiseIdentityTransportNaturality_hom,
+        Iso.trans_hom, Iso.symm_hom]
+      bicategory)
 
 @[simp] theorem strongTransOfPointwiseIsoToIdIso_hom_app
     (X : B) :
