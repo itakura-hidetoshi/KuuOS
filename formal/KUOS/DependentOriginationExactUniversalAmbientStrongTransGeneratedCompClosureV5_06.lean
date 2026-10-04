@@ -195,9 +195,14 @@ theorem higherLocalizedStrongTransPathNaturality_comp_id_right
         (higherLocalizedPathArrow W p)
         (higherLocalizedStrongTransPathNaturality (W := W) gamma p))
 
-/-- On source 1-cells represented by free paths, the v5.06
-associativity coherence has no residual transport: both parenthesizations map
-to the same source 1-cell in the locally discrete localization. -/
+/-- Free-path specialization of the v5.06 associativity coherence.
+
+The associator transport is intentionally retained.  Although
+`higherLocalizedPathArrow W (p ≫ q)` is definitionally the composite of the
+two mapped path arrows, the two triple-composite parenthesizations are only
+propositionally identified by the source associator.  Erasing that transport
+would make the two StrongTrans naturality isomorphisms live in different
+dependent types. -/
 theorem higherLocalizedStrongTransNaturality_comp_assoc_paths
     {F G : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W)}
     (gamma :
@@ -236,28 +241,29 @@ theorem higherLocalizedStrongTransNaturality_comp_assoc_paths
           (higherLocalizedPathArrow W q)
           naturality_p naturality_q)
         naturality_r =
-      higherLocalizedStrongTransNaturality_comp
+      higherLocalizedStrongTransNaturalityTransport
         (W := W) gamma
-        (higherLocalizedPathArrow W p)
-        (higherLocalizedPathArrow W (q ≫ r))
-        naturality_p
+        (α_
+          (higherLocalizedPathArrow W p)
+          (higherLocalizedPathArrow W q)
+          (higherLocalizedPathArrow W r))
         (higherLocalizedStrongTransNaturality_comp
           (W := W) gamma
-          (higherLocalizedPathArrow W q)
-          (higherLocalizedPathArrow W r)
-          naturality_q naturality_r) := by
-  rw [higherLocalizedStrongTransNaturality_comp_assoc
-    (W := W) gamma
-    (higherLocalizedPathArrow W p)
-    (higherLocalizedPathArrow W q)
-    (higherLocalizedPathArrow W r)
-    naturality_p naturality_q naturality_r]
-  apply Iso.ext
-  simp
-    [higherLocalizedStrongTransNaturalityTransport_hom,
-      higherLocalizedPathArrow, higherLocalizedPathQuotientFunctor,
-      Strict.associator_eqToIso,
-      PrelaxFunctor.map₂_eqToHom]
+          (higherLocalizedPathArrow W p)
+          (higherLocalizedPathArrow W (q ≫ r))
+          naturality_p
+          (higherLocalizedStrongTransNaturality_comp
+            (W := W) gamma
+            (higherLocalizedPathArrow W q)
+            (higherLocalizedPathArrow W r)
+            naturality_q naturality_r)) := by
+  exact
+    higherLocalizedStrongTransNaturality_comp_assoc
+      (W := W) gamma
+      (higherLocalizedPathArrow W p)
+      (higherLocalizedPathArrow W q)
+      (higherLocalizedPathArrow W r)
+      naturality_p naturality_q naturality_r
 
 /-- Transport along parallel source 2-isomorphisms is independent of
 which presentation of that 2-isomorphism is chosen.  This is the thinness
