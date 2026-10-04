@@ -510,7 +510,6 @@ theorem higherLocalizedCanonicalStrongTransNaturality_comp
 
 /-- Source-indexed form of quotient composition normalization.  The two
 opposites reverse composition twice, so the original order is restored. -/
-set_option backward.isDefEq.respectTransparency false in
 theorem higherLocalizedCanonicalStrongTransNaturalityOnSource_comp
     {F G : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W)}
     (gamma :
