@@ -153,6 +153,50 @@ theorem higherLocalizedStrongTransNaturalityTransport_eq_of_parallel_iso
   subst theta
   rfl
 
+/-- Transport along the identity source 2-isomorphism is the identity
+operation on StrongTrans naturality data. -/
+theorem higherLocalizedStrongTransNaturalityTransport_refl
+    {F G : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W)}
+    (gamma :
+      restrictHigherLocalizedSystem W F ⟶
+        restrictHigherLocalizedSystem W G)
+    {a b : LocallyDiscrete ((HigherLocalizedSite W)ᵒᵖ)}
+    (f : a ⟶ b)
+    (naturality_f :
+      F.map f ≫ higherLocalizedStrongTransExtensionApp (W := W) gamma b ≅
+        higherLocalizedStrongTransExtensionApp (W := W) gamma a ≫ G.map f) :
+    higherLocalizedStrongTransNaturalityTransport
+        (W := W) gamma (Iso.refl f) naturality_f =
+      naturality_f := by
+  apply Iso.ext
+  simp [higherLocalizedStrongTransNaturalityTransport_hom]
+
+/-- Successive source transports compose.  This is the vertical transport law
+needed both for path-composition normalization and for the later
+`GeneratedLocalization2Cell.trans` case. -/
+theorem higherLocalizedStrongTransNaturalityTransport_trans
+    {F G : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W)}
+    (gamma :
+      restrictHigherLocalizedSystem W F ⟶
+        restrictHigherLocalizedSystem W G)
+    {a b : LocallyDiscrete ((HigherLocalizedSite W)ᵒᵖ)}
+    {f g h : a ⟶ b}
+    (eta : f ≅ g) (theta : g ≅ h)
+    (naturality_h :
+      F.map h ≫ higherLocalizedStrongTransExtensionApp (W := W) gamma b ≅
+        higherLocalizedStrongTransExtensionApp (W := W) gamma a ≫ G.map h) :
+    higherLocalizedStrongTransNaturalityTransport
+        (W := W) gamma eta
+        (higherLocalizedStrongTransNaturalityTransport
+          (W := W) gamma theta naturality_h) =
+      higherLocalizedStrongTransNaturalityTransport
+        (W := W) gamma (eta ≪≫ theta) naturality_h := by
+  apply Iso.ext
+  simp
+    [higherLocalizedStrongTransNaturalityTransport_hom,
+      Iso.trans_hom, Iso.trans_inv, PrelaxFunctor.map₂_comp] <;>
+    bicategory
+
 /-- Equality-induced source-arrow comparison attached to a retained generated
 composition-closure derivation.  The derivation itself supplies the quotient
 equality; no choice of relation witness is introduced. -/
@@ -176,6 +220,8 @@ noncomputable def higherLocalizedGeneratedCompClosurePathArrowIso
 #print axioms higherLocalizedStrongTransPathNaturality_generating_invariant_of_iso
 #print axioms higherLocalizedStrongTransPathNaturality_comp_id_right
 #print axioms higherLocalizedStrongTransNaturalityTransport_eq_of_parallel_iso
+#print axioms higherLocalizedStrongTransNaturalityTransport_refl
+#print axioms higherLocalizedStrongTransNaturalityTransport_trans
 #print axioms higherLocalizedGeneratedCompClosurePathArrowIso
 
 end
