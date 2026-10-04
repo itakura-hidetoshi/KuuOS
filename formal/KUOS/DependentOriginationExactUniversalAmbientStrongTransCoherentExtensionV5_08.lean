@@ -507,6 +507,34 @@ theorem higherLocalizedCanonicalStrongTransNaturality_comp
           (W := W) gamma (f ≫ g) :=
       hfg
 
+
+/-- Source-indexed form of quotient composition normalization.  The two
+opposites reverse composition twice, so the original order is restored. -/
+set_option backward.isDefEq.respectTransparency false in
+theorem higherLocalizedCanonicalStrongTransNaturalityOnSource_comp
+    {F G : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W)}
+    (gamma :
+      restrictHigherLocalizedSystem W F ⟶
+        restrictHigherLocalizedSystem W G)
+    {a b c : LocallyDiscrete ((HigherLocalizedSite W)ᵒᵖ)}
+    (f : a ⟶ b) (g : b ⟶ c) :
+    higherLocalizedStrongTransNaturality_comp
+        (W := W) gamma f g
+        (higherLocalizedCanonicalStrongTransNaturalityOnSource
+          (W := W) gamma f)
+        (higherLocalizedCanonicalStrongTransNaturalityOnSource
+          (W := W) gamma g) =
+      higherLocalizedCanonicalStrongTransNaturalityOnSource
+        (W := W) gamma (f ≫ g) := by
+  let f' := f.as.unop.unop
+  let g' := g.as.unop.unop
+  have h :=
+    higherLocalizedCanonicalStrongTransNaturality_comp
+      (W := W) gamma f' g'
+  simpa only
+    [higherLocalizedCanonicalStrongTransNaturalityOnSource,
+      f', g', CategoryTheory.op_comp] using h
+
 /-! ## Regression checks -/
 
 #print axioms higherLocalizedCanonicalStrongTransNaturalityOnSource
