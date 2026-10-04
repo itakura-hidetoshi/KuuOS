@@ -108,12 +108,17 @@ noncomputable def higherLocalizedStrongTransPathNaturality
                 (higherLocalizedPathObject W X) ≫
             G.map (higherLocalizedPathArrow W path))
       (by
-        simpa
-          [higherLocalizedPathArrow, higherLocalizedPathObject,
-            higherLocalizedPathQuotientFunctor] using
-          (higherLocalizedStrongTransNaturality_id
+        change
+          F.map (𝟙 (higherLocalizedPathObject W X)) ≫
+                higherLocalizedStrongTransExtensionApp (W := W) gamma
+                  (higherLocalizedPathObject W X) ≅
+            higherLocalizedStrongTransExtensionApp (W := W) gamma
+                  (higherLocalizedPathObject W X) ≫
+              G.map (𝟙 (higherLocalizedPathObject W X))
+        exact
+          higherLocalizedStrongTransNaturality_id
             (W := W) gamma
-            (higherLocalizedPathObject W X)))
+            (higherLocalizedPathObject W X))
       (fun pfx e hp => by
         have he :
             F.map
