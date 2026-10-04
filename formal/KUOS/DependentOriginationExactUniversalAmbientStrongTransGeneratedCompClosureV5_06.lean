@@ -154,7 +154,7 @@ theorem higherLocalizedStrongTransPathNaturality_comp_id_left
       higherLocalizedStrongTransPathNaturality,
       higherLocalizedPathArrow, higherLocalizedPathObject,
       higherLocalizedPathQuotientFunctor,
-      Functor.map_comp, op_comp, Quiver.Hom.comp_toLoc,
+      Functor.map_id, Functor.map_comp, op_comp, Quiver.Hom.comp_toLoc,
       Strict.leftUnitor_eqToIso,
       PrelaxFunctor.map₂_eqToHom] using
     (higherLocalizedStrongTransNaturality_comp_id_left
