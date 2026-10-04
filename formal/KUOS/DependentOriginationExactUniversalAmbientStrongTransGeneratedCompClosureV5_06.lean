@@ -150,7 +150,7 @@ theorem higherLocalizedStrongTransPathNaturality_comp_id_left
         (higherLocalizedStrongTransPathNaturality
           (W := W) gamma ((𝟙 X) ≫ p)) := by
   simp only [higherLocalizedPathArrow, higherLocalizedPathQuotientFunctor]
-  rw [(Quotient.functor (Localization.Construction.relations W)).map_id X]
+  erw [(Quotient.functor (Localization.Construction.relations W)).map_id X]
   simpa
     [higherLocalizedPathArrowCompIso,
       higherLocalizedStrongTransPathNaturality,
