@@ -300,6 +300,36 @@ theorem higherLocalizedStrongTransNaturalityTransport_symm_right
     higherLocalizedStrongTransNaturalityTransport_refl
       (W := W) gamma f naturality_f
 
+/-- Appending one localization-quiver edge to a nonempty path is
+exactly the v4.99 composition constructor.  After the definitional
+normalization of `higherLocalizedPathArrowCompIso`, no endpoint transport is
+present in this recursion equation. -/
+theorem higherLocalizedStrongTransPathNaturality_comp_edge_of_nonempty
+    {F G : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W)}
+    (gamma :
+      restrictHigherLocalizedSystem W F ⟶
+        restrictHigherLocalizedSystem W G)
+    {X : LocalizationPaths W}
+    {a b : Localization.Construction.LocQuiver W}
+    (p : X ⟶ (Paths.of (Localization.Construction.LocQuiver W)).obj a)
+    (e : a ⟶ b)
+    (hp : p.length ≠ 0) :
+    higherLocalizedStrongTransNaturality_comp
+        (W := W) gamma
+        (higherLocalizedPathArrow W p)
+        (higherLocalizedPathArrow W
+          ((Paths.of (Localization.Construction.LocQuiver W)).map e))
+        (higherLocalizedStrongTransPathNaturality (W := W) gamma p)
+        (higherLocalizedStrongTransPathNaturality
+          (W := W) gamma
+          ((Paths.of (Localization.Construction.LocQuiver W)).map e)) =
+      higherLocalizedStrongTransPathNaturality
+        (W := W) gamma
+        (p ≫ (Paths.of (Localization.Construction.LocQuiver W)).map e) := by
+  obtain ⟨c, p', e₀, rfl⟩ :=
+    (Quiver.Path.length_ne_zero_iff_eq_cons (p := p)).1 hp
+  rfl
+
 /-- Equality-induced source-arrow comparison attached to a retained generated
 composition-closure derivation.  The derivation itself supplies the quotient
 equality; no choice of relation witness is introduced. -/
@@ -329,6 +359,7 @@ noncomputable def higherLocalizedGeneratedCompClosurePathArrowIso
 #print axioms higherLocalizedStrongTransNaturalityTransport_trans
 #print axioms higherLocalizedStrongTransNaturalityTransport_symm_left
 #print axioms higherLocalizedStrongTransNaturalityTransport_symm_right
+#print axioms higherLocalizedStrongTransPathNaturality_comp_edge_of_nonempty
 #print axioms higherLocalizedGeneratedCompClosurePathArrowIso
 
 end
