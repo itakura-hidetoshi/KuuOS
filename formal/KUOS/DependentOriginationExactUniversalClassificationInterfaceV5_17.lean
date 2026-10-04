@@ -428,8 +428,8 @@ theorem weakAdmissibility_not_exactLiftability_counterexample
         A
         KUOS.DependentOriginationGeneratedHolonomyCountermodelV2_69.counterSystem := by
   exact
-    ⟨KUOS.DependentOriginationAdmissibleNonfactorizationV4_01.counterSystem_admissible,
-      KUOS.DependentOriginationExactHigherPresentationSectorV4_50.counterSystem_no_exactHigherDependentOriginationPresentation A⟩
+    KUOS.DependentOriginationExactHigherPresentationSectorV4_50
+      .counterSystem_weaklyAdmissible_but_not_exact A
 
 /-!
 ## Boundary after v5.17
