@@ -464,7 +464,6 @@ theorem higherLocalizedStrongTransPathNaturality_comp
         have hpnil := Quiver.Path.eq_nil_of_length_zero p hp0
         subst p
         dsimp [P]
-        simp only [Quiver.Path.nil_comp]
         rw [higherLocalizedStrongTransPathNaturality_comp_id_left_edge]
         exact
           higherLocalizedStrongTransNaturalityTransport_refl
@@ -497,8 +496,34 @@ theorem higherLocalizedStrongTransPathNaturality_comp
           (higherLocalizedStrongTransPathNaturality
             (W := W) gamma
             ((Paths.of (Localization.Construction.LocQuiver W)).map e))
-      simp only [ih, hpr, hr] at hassoc
-      simpa only [Category.assoc] using hassoc.symm
+      rw [hr] at hassoc
+      rw [
+        higherLocalizedStrongTransNaturalityTransport_eq_of_parallel_iso
+          (W := W) gamma
+          (α_
+            (higherLocalizedPathArrow W p)
+            (higherLocalizedPathArrow W (Quiver.Path.cons r' e'))
+            (higherLocalizedPathArrow W
+              ((Paths.of (Localization.Construction.LocQuiver W)).map e)))
+          (Iso.refl _),
+        higherLocalizedStrongTransNaturalityTransport_refl
+      ] at hassoc
+      have hih_outer :=
+        congrArg
+          (fun naturality_pr =>
+            higherLocalizedStrongTransNaturality_comp
+              (W := W) gamma
+              (higherLocalizedPathArrow W
+                (p ≫ Quiver.Path.cons r' e'))
+              (higherLocalizedPathArrow W
+                ((Paths.of (Localization.Construction.LocQuiver W)).map e))
+              naturality_pr
+              (higherLocalizedStrongTransPathNaturality
+                (W := W) gamma
+                ((Paths.of (Localization.Construction.LocQuiver W)).map e)))
+          ih
+      have hleft := hih_outer.trans hpr
+      exact hassoc.symm.trans hleft
 
 /-- Equality-induced source-arrow comparison attached to a retained generated
 composition-closure derivation.  The derivation itself supplies the quotient
