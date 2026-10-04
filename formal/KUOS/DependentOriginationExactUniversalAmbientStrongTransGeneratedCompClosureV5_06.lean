@@ -811,12 +811,10 @@ theorem higherLocalizedStrongTransPathNaturality_generatedCompClosure_invariant
       have hwhole :=
         higherLocalizedStrongTransPathNaturality_whiskerRight_invariant_of_iso
           (W := W) gamma g etaLeft hleft etaWhole
-      exact
-        hwhole.trans
-          (higherLocalizedStrongTransNaturalityTransport_eq_of_parallel_iso
-            (W := W) gamma etaWhole _
-            (higherLocalizedStrongTransPathNaturality
-              (W := W) gamma _))
+      rw [hwhole]
+      apply
+        higherLocalizedStrongTransNaturalityTransport_eq_of_parallel_iso
+          (W := W) gamma
   | whiskerLeft k alpha ih =>
       exact
         higherLocalizedStrongTransPathNaturality_whiskerLeft_invariant_of_iso
