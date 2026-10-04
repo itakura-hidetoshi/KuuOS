@@ -1,0 +1,858 @@
+import KUOS.DependentOriginationExactUniversalAmbientStrongTransCompositionCoherenceV5_06
+
+namespace KUOS.DependentOriginationExactUniversalAmbientStrongTransGeneratedCompClosureV5_06
+
+open CategoryTheory
+open CategoryTheory.Bicategory
+open CategoryTheory.Functor
+open Opposite
+open KUOS.DependentOriginationHigherStackDescentV2_8
+open KUOS.DependentOriginationHigherLocalizationInterfaceV2_10
+open KUOS.DependentOriginationGeneratedLocalizationHolonomyV2_68
+open KUOS.DependentOriginationExactUniversalAmbientStrongTransExtensionV4_95
+open KUOS.DependentOriginationExactUniversalAmbientStrongTransCompositionNaturalityV4_99
+open KUOS.DependentOriginationExactUniversalAmbientStrongTransIdentityNaturalityV5_01
+open KUOS.DependentOriginationExactUniversalAmbientStrongTransPresentationTransportV5_03
+open KUOS.DependentOriginationExactUniversalAmbientStrongTransGeneratedRelationV5_06
+open KUOS.DependentOriginationExactUniversalAmbientStrongTransGeneratorInvarianceV5_06
+open KUOS.DependentOriginationExactUniversalAmbientStrongTransWhiskerCompatibilityV5_06
+open KUOS.DependentOriginationExactUniversalAmbientStrongTransCompositionCoherenceV5_06
+
+open scoped CategoryTheory.Pseudofunctor.StrongTrans
+open scoped CategoryTheory.Bicategory
+open scoped Bicategory
+
+set_option autoImplicit false
+
+noncomputable section
+
+/-!
+# Generated composition-closure invariance v5.06
+
+This file begins the structural extension from the four retained localization
+generators to `GeneratedCompClosure2Cell`.
+
+The source bicategory is locally discrete.  Consequently, once the endpoints
+of a source-arrow comparison are fixed, the comparison 2-isomorphism is unique.
+We exploit that thinness explicitly: generator invariance may be used with any
+comparison isomorphism having the same endpoints, while path-composition
+comparisons are retained as concrete equality-induced isomorphisms.
+
+The remaining step in this file is to combine these comparisons with the v5.06
+unit/associativity and whisker-transport theorems to perform structural
+induction on `GeneratedCompClosure2Cell`.
+-/
+
+universe u v uH vH
+
+variable {Context : Type u} [Category.{v} Context]
+variable (W : MorphismProperty Context)
+
+/-- Canonical comparison from the composite of the two localized source arrows
+to the localized source arrow of the concatenated free path. -/
+noncomputable def higherLocalizedPathArrowCompIso
+    {X Y Z : LocalizationPaths W}
+    (p : X ⟶ Y) (q : Y ⟶ Z) :
+    higherLocalizedPathArrow W p ≫ higherLocalizedPathArrow W q ≅
+      higherLocalizedPathArrow W (p ≫ q) :=
+  Iso.refl _
+
+/-- In a locally discrete source hom-category, parallel source-arrow
+isomorphisms are equal.  Keeping this as a named lemma prevents later proofs
+from depending on the presentation chosen for equality transports. -/
+theorem higherLocalizedPathArrowIso_ext
+    {X Y : LocalizationPaths W} {p q : X ⟶ Y}
+    (eta theta :
+      higherLocalizedPathArrow W p ≅ higherLocalizedPathArrow W q) :
+    eta = theta := by
+  apply Iso.ext
+  exact Subsingleton.elim _ _
+
+/-- Generator invariance is independent of the presentation of the parallel
+source-arrow comparison. -/
+theorem higherLocalizedStrongTransPathNaturality_generating_invariant_of_iso
+    {F G : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W)}
+    (gamma :
+      restrictHigherLocalizedSystem W F ⟶
+        restrictHigherLocalizedSystem W G)
+    {X Y : LocalizationPaths W} {p q : X ⟶ Y}
+    (alpha : LocalizationGenerating2Cell W p q)
+    (eta :
+      higherLocalizedPathArrow W p ≅ higherLocalizedPathArrow W q) :
+    higherLocalizedStrongTransPathNaturality
+        (W := W) gamma p =
+      higherLocalizedStrongTransNaturalityTransport
+        (W := W) gamma eta
+        (higherLocalizedStrongTransPathNaturality
+          (W := W) gamma q) := by
+  have heta :
+      eta = higherLocalizedGeneratingPathArrowIso (W := W) alpha :=
+    higherLocalizedPathArrowIso_ext W _ _
+  rw [heta]
+  exact
+    higherLocalizedStrongTransPathNaturality_generating_invariant
+      (W := W) gamma alpha
+
+/-- The canonical evaluator on the identity free path is exactly the
+v5.01 canonical identity naturality.  Unlike the ordinary presentation edge
+corresponding to an identity morphism, the identity in `LocalizationPaths W`
+is literally the empty path, so no presentation `mapId` transport is needed. -/
+theorem higherLocalizedStrongTransPathNaturality_id
+    {F G : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W)}
+    (gamma :
+      restrictHigherLocalizedSystem W F ⟶
+        restrictHigherLocalizedSystem W G)
+    (X : LocalizationPaths W) :
+    higherLocalizedStrongTransPathNaturality
+        (W := W) gamma (𝟙 X) =
+      higherLocalizedStrongTransNaturality_id
+        (W := W) gamma (higherLocalizedPathObject W X) := by
+  change
+    higherLocalizedStrongTransPathNaturality
+        (W := W) gamma (Quiver.Path.nil : X ⟶ X) =
+      higherLocalizedStrongTransNaturality_id
+        (W := W) gamma (higherLocalizedPathObject W X)
+  rfl
+
+/-- Left-unit normalization in the only form needed by the path recursion:
+the right factor is a single localization-quiver edge.  The source object is
+fixed by the edge itself, so no dependent endpoint equality is carried through
+elaboration. -/
+theorem higherLocalizedStrongTransPathNaturality_comp_id_left_edge
+    {F G : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W)}
+    (gamma :
+      restrictHigherLocalizedSystem W F ⟶
+        restrictHigherLocalizedSystem W G)
+    {a b : Localization.Construction.LocQuiver W}
+    (e : a ⟶ b) :
+    higherLocalizedStrongTransNaturality_comp
+        (W := W) gamma
+        (higherLocalizedPathArrow W
+          (𝟙 ((Paths.of (Localization.Construction.LocQuiver W)).obj a)))
+        (higherLocalizedPathArrow W
+          ((Paths.of (Localization.Construction.LocQuiver W)).map e))
+        (higherLocalizedStrongTransPathNaturality
+          (W := W) gamma
+          (𝟙 ((Paths.of (Localization.Construction.LocQuiver W)).obj a)))
+        (higherLocalizedStrongTransPathNaturality
+          (W := W) gamma
+          ((Paths.of (Localization.Construction.LocQuiver W)).map e)) =
+      higherLocalizedStrongTransNaturalityTransport
+        (W := W) gamma
+        (higherLocalizedPathArrowCompIso W
+          (𝟙 ((Paths.of (Localization.Construction.LocQuiver W)).obj a))
+          ((Paths.of (Localization.Construction.LocQuiver W)).map e))
+        (higherLocalizedStrongTransPathNaturality
+          (W := W) gamma
+          ((𝟙 ((Paths.of (Localization.Construction.LocQuiver W)).obj a)) ≫
+            (Paths.of (Localization.Construction.LocQuiver W)).map e)) := by
+  rw [higherLocalizedStrongTransPathNaturality_id]
+  set_option backward.isDefEq.respectTransparency false in
+    simpa
+      [higherLocalizedPathArrowCompIso,
+        higherLocalizedPathArrow, higherLocalizedPathObject,
+        higherLocalizedPathQuotientFunctor,
+        Strict.leftUnitor_eqToIso,
+        PrelaxFunctor.map₂_eqToHom] using
+      (higherLocalizedStrongTransNaturality_comp_id_left
+        (W := W) gamma
+        (higherLocalizedPathArrow W
+          ((Paths.of (Localization.Construction.LocQuiver W)).map e))
+        (higherLocalizedStrongTransPathNaturality
+          (W := W) gamma
+          ((Paths.of (Localization.Construction.LocQuiver W)).map e)))
+
+/-- Right-unit normalization of the free-path evaluator, expressed using
+the canonical path-composition comparison. -/
+theorem higherLocalizedStrongTransPathNaturality_comp_id_right
+    {F G : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W)}
+    (gamma :
+      restrictHigherLocalizedSystem W F ⟶
+        restrictHigherLocalizedSystem W G)
+    {X Y : LocalizationPaths W}
+    (p : X ⟶ Y) :
+    higherLocalizedStrongTransNaturality_comp
+        (W := W) gamma
+        (higherLocalizedPathArrow W p)
+        (higherLocalizedPathArrow W (𝟙 Y))
+        (higherLocalizedStrongTransPathNaturality (W := W) gamma p)
+        (higherLocalizedStrongTransPathNaturality (W := W) gamma (𝟙 Y)) =
+      higherLocalizedStrongTransNaturalityTransport
+        (W := W) gamma
+        (higherLocalizedPathArrowCompIso W p (𝟙 Y))
+        (higherLocalizedStrongTransPathNaturality
+          (W := W) gamma (p ≫ 𝟙 Y)) := by
+  rw [higherLocalizedStrongTransPathNaturality_id]
+  set_option backward.isDefEq.respectTransparency false in
+    simpa
+      [higherLocalizedPathArrowCompIso,
+        higherLocalizedPathArrow, higherLocalizedPathObject,
+        higherLocalizedPathQuotientFunctor,
+        Strict.rightUnitor_eqToIso,
+        PrelaxFunctor.map₂_eqToHom] using
+      (higherLocalizedStrongTransNaturality_comp_id_right
+        (W := W) gamma
+        (higherLocalizedPathArrow W p)
+        (higherLocalizedStrongTransPathNaturality (W := W) gamma p))
+
+/-- Free-path specialization of the v5.06 associativity coherence.
+
+The associator transport is intentionally retained.  Although
+`higherLocalizedPathArrow W (p ≫ q)` is definitionally the composite of the
+two mapped path arrows, the two triple-composite parenthesizations are only
+propositionally identified by the source associator.  Erasing that transport
+would make the two StrongTrans naturality isomorphisms live in different
+dependent types. -/
+theorem higherLocalizedStrongTransNaturality_comp_assoc_paths
+    {F G : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W)}
+    (gamma :
+      restrictHigherLocalizedSystem W F ⟶
+        restrictHigherLocalizedSystem W G)
+    {X Y Z T : LocalizationPaths W}
+    (p : X ⟶ Y) (q : Y ⟶ Z) (r : Z ⟶ T)
+    (naturality_p :
+      F.map (higherLocalizedPathArrow W p) ≫
+          higherLocalizedStrongTransExtensionApp (W := W) gamma
+            (higherLocalizedPathObject W Y) ≅
+        higherLocalizedStrongTransExtensionApp (W := W) gamma
+            (higherLocalizedPathObject W X) ≫
+          G.map (higherLocalizedPathArrow W p))
+    (naturality_q :
+      F.map (higherLocalizedPathArrow W q) ≫
+          higherLocalizedStrongTransExtensionApp (W := W) gamma
+            (higherLocalizedPathObject W Z) ≅
+        higherLocalizedStrongTransExtensionApp (W := W) gamma
+            (higherLocalizedPathObject W Y) ≫
+          G.map (higherLocalizedPathArrow W q))
+    (naturality_r :
+      F.map (higherLocalizedPathArrow W r) ≫
+          higherLocalizedStrongTransExtensionApp (W := W) gamma
+            (higherLocalizedPathObject W T) ≅
+        higherLocalizedStrongTransExtensionApp (W := W) gamma
+            (higherLocalizedPathObject W Z) ≫
+          G.map (higherLocalizedPathArrow W r)) :
+    higherLocalizedStrongTransNaturality_comp
+        (W := W) gamma
+        (higherLocalizedPathArrow W (p ≫ q))
+        (higherLocalizedPathArrow W r)
+        (higherLocalizedStrongTransNaturality_comp
+          (W := W) gamma
+          (higherLocalizedPathArrow W p)
+          (higherLocalizedPathArrow W q)
+          naturality_p naturality_q)
+        naturality_r =
+      higherLocalizedStrongTransNaturalityTransport
+        (W := W) gamma
+        (α_
+          (higherLocalizedPathArrow W p)
+          (higherLocalizedPathArrow W q)
+          (higherLocalizedPathArrow W r))
+        (higherLocalizedStrongTransNaturality_comp
+          (W := W) gamma
+          (higherLocalizedPathArrow W p)
+          (higherLocalizedPathArrow W (q ≫ r))
+          naturality_p
+          (higherLocalizedStrongTransNaturality_comp
+            (W := W) gamma
+            (higherLocalizedPathArrow W q)
+            (higherLocalizedPathArrow W r)
+            naturality_q naturality_r)) := by
+  exact
+    higherLocalizedStrongTransNaturality_comp_assoc
+      (W := W) gamma
+      (higherLocalizedPathArrow W p)
+      (higherLocalizedPathArrow W q)
+      (higherLocalizedPathArrow W r)
+      naturality_p naturality_q naturality_r
+
+/-- Transport along parallel source 2-isomorphisms is independent of
+which presentation of that 2-isomorphism is chosen.  This is the thinness
+principle used below to forget equality-proof presentation details. -/
+theorem higherLocalizedStrongTransNaturalityTransport_eq_of_parallel_iso
+    {F G : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W)}
+    (gamma :
+      restrictHigherLocalizedSystem W F ⟶
+        restrictHigherLocalizedSystem W G)
+    {a b : LocallyDiscrete ((HigherLocalizedSite W)ᵒᵖ)}
+    {f g : a ⟶ b}
+    (eta theta : f ≅ g)
+    (naturality_g :
+      F.map g ≫ higherLocalizedStrongTransExtensionApp (W := W) gamma b ≅
+        higherLocalizedStrongTransExtensionApp (W := W) gamma a ≫ G.map g) :
+    higherLocalizedStrongTransNaturalityTransport
+        (W := W) gamma eta naturality_g =
+      higherLocalizedStrongTransNaturalityTransport
+        (W := W) gamma theta naturality_g := by
+  have h : eta = theta := by
+    apply Iso.ext
+    exact Subsingleton.elim _ _
+  subst theta
+  rfl
+
+/-- Transport along the identity source 2-isomorphism is the identity
+operation on StrongTrans naturality data. -/
+theorem higherLocalizedStrongTransNaturalityTransport_refl
+    {F G : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W)}
+    (gamma :
+      restrictHigherLocalizedSystem W F ⟶
+        restrictHigherLocalizedSystem W G)
+    {a b : LocallyDiscrete ((HigherLocalizedSite W)ᵒᵖ)}
+    (f : a ⟶ b)
+    (naturality_f :
+      F.map f ≫ higherLocalizedStrongTransExtensionApp (W := W) gamma b ≅
+        higherLocalizedStrongTransExtensionApp (W := W) gamma a ≫ G.map f) :
+    higherLocalizedStrongTransNaturalityTransport
+        (W := W) gamma (Iso.refl f) naturality_f =
+      naturality_f := by
+  apply Iso.ext
+  simp [higherLocalizedStrongTransNaturalityTransport_hom]
+
+/-- Successive source transports compose.  This is the vertical transport law
+needed both for path-composition normalization and for the later
+`GeneratedLocalization2Cell.trans` case. -/
+theorem higherLocalizedStrongTransNaturalityTransport_trans
+    {F G : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W)}
+    (gamma :
+      restrictHigherLocalizedSystem W F ⟶
+        restrictHigherLocalizedSystem W G)
+    {a b : LocallyDiscrete ((HigherLocalizedSite W)ᵒᵖ)}
+    {f g h : a ⟶ b}
+    (eta : f ≅ g) (theta : g ≅ h)
+    (naturality_h :
+      F.map h ≫ higherLocalizedStrongTransExtensionApp (W := W) gamma b ≅
+        higherLocalizedStrongTransExtensionApp (W := W) gamma a ≫ G.map h) :
+    higherLocalizedStrongTransNaturalityTransport
+        (W := W) gamma eta
+        (higherLocalizedStrongTransNaturalityTransport
+          (W := W) gamma theta naturality_h) =
+      higherLocalizedStrongTransNaturalityTransport
+        (W := W) gamma (eta ≪≫ theta) naturality_h := by
+  apply Iso.ext
+  simp
+    [higherLocalizedStrongTransNaturalityTransport_hom,
+      Iso.trans_hom, Iso.trans_inv, PrelaxFunctor.map₂_comp]
+
+/-- Transporting back along the inverse source isomorphism cancels the
+original transport. -/
+theorem higherLocalizedStrongTransNaturalityTransport_symm_left
+    {F G : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W)}
+    (gamma :
+      restrictHigherLocalizedSystem W F ⟶
+        restrictHigherLocalizedSystem W G)
+    {a b : LocallyDiscrete ((HigherLocalizedSite W)ᵒᵖ)}
+    {f g : a ⟶ b}
+    (eta : f ≅ g)
+    (naturality_g :
+      F.map g ≫ higherLocalizedStrongTransExtensionApp (W := W) gamma b ≅
+        higherLocalizedStrongTransExtensionApp (W := W) gamma a ≫ G.map g) :
+    higherLocalizedStrongTransNaturalityTransport
+        (W := W) gamma eta.symm
+        (higherLocalizedStrongTransNaturalityTransport
+          (W := W) gamma eta naturality_g) =
+      naturality_g := by
+  rw [higherLocalizedStrongTransNaturalityTransport_trans]
+  have hIso : eta.symm ≪≫ eta = Iso.refl g := by
+    apply Iso.ext
+    exact Subsingleton.elim _ _
+  rw [hIso]
+  exact
+    higherLocalizedStrongTransNaturalityTransport_refl
+      (W := W) gamma g naturality_g
+
+/-- The opposite cancellation order for source transport. -/
+theorem higherLocalizedStrongTransNaturalityTransport_symm_right
+    {F G : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W)}
+    (gamma :
+      restrictHigherLocalizedSystem W F ⟶
+        restrictHigherLocalizedSystem W G)
+    {a b : LocallyDiscrete ((HigherLocalizedSite W)ᵒᵖ)}
+    {f g : a ⟶ b}
+    (eta : f ≅ g)
+    (naturality_f :
+      F.map f ≫ higherLocalizedStrongTransExtensionApp (W := W) gamma b ≅
+        higherLocalizedStrongTransExtensionApp (W := W) gamma a ≫ G.map f) :
+    higherLocalizedStrongTransNaturalityTransport
+        (W := W) gamma eta
+        (higherLocalizedStrongTransNaturalityTransport
+          (W := W) gamma eta.symm naturality_f) =
+      naturality_f := by
+  rw [higherLocalizedStrongTransNaturalityTransport_trans]
+  have hIso : eta ≪≫ eta.symm = Iso.refl f := by
+    apply Iso.ext
+    exact Subsingleton.elim _ _
+  rw [hIso]
+  exact
+    higherLocalizedStrongTransNaturalityTransport_refl
+      (W := W) gamma f naturality_f
+
+/-- Appending one localization-quiver edge to a nonempty path is
+exactly the v4.99 composition constructor.  After the definitional
+normalization of `higherLocalizedPathArrowCompIso`, no endpoint transport is
+present in this recursion equation. -/
+theorem higherLocalizedStrongTransPathNaturality_comp_edge_of_nonempty
+    {F G : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W)}
+    (gamma :
+      restrictHigherLocalizedSystem W F ⟶
+        restrictHigherLocalizedSystem W G)
+    {X : LocalizationPaths W}
+    {a b : Localization.Construction.LocQuiver W}
+    (p : X ⟶ (Paths.of (Localization.Construction.LocQuiver W)).obj a)
+    (e : a ⟶ b)
+    (hp : p.length ≠ 0) :
+    higherLocalizedStrongTransNaturality_comp
+        (W := W) gamma
+        (higherLocalizedPathArrow W p)
+        (higherLocalizedPathArrow W
+          ((Paths.of (Localization.Construction.LocQuiver W)).map e))
+        (higherLocalizedStrongTransPathNaturality (W := W) gamma p)
+        (higherLocalizedStrongTransPathNaturality
+          (W := W) gamma
+          ((Paths.of (Localization.Construction.LocQuiver W)).map e)) =
+      higherLocalizedStrongTransPathNaturality
+        (W := W) gamma
+        (p ≫ (Paths.of (Localization.Construction.LocQuiver W)).map e) := by
+  obtain ⟨c, p', e₀, rfl⟩ :=
+    (Quiver.Path.length_ne_zero_iff_eq_cons (p := p)).1 hp
+  rfl
+
+/-- The singleton-normalized canonical path evaluator is compositional on
+all retained free paths.
+
+The proof follows the recursion of the right-hand path.  In the nontrivial
+successor case, v5.06 associativity supplies the necessary source associator
+transport; the final `Category.assoc` rewrite identifies that transported
+dependent endpoint with the concatenated free path. -/
+theorem higherLocalizedStrongTransPathNaturality_comp
+    {F G : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W)}
+    (gamma :
+      restrictHigherLocalizedSystem W F ⟶
+        restrictHigherLocalizedSystem W G)
+    {X Y Z : LocalizationPaths W}
+    (p : X ⟶ Y) (q : Y ⟶ Z) :
+    higherLocalizedStrongTransNaturality_comp
+        (W := W) gamma
+        (higherLocalizedPathArrow W p)
+        (higherLocalizedPathArrow W q)
+        (higherLocalizedStrongTransPathNaturality (W := W) gamma p)
+        (higherLocalizedStrongTransPathNaturality (W := W) gamma q) =
+      higherLocalizedStrongTransPathNaturality
+        (W := W) gamma (p ≫ q) := by
+  let P : ∀ {T : LocalizationPaths W}, (Y ⟶ T) → Prop :=
+    fun {T} r =>
+      higherLocalizedStrongTransNaturality_comp
+          (W := W) gamma
+          (higherLocalizedPathArrow W p)
+          (higherLocalizedPathArrow W r)
+          (higherLocalizedStrongTransPathNaturality (W := W) gamma p)
+          (higherLocalizedStrongTransPathNaturality (W := W) gamma r) =
+        higherLocalizedStrongTransPathNaturality
+          (W := W) gamma (p ≫ r)
+  change P q
+  apply Paths.induction_fixed_source P
+  · dsimp [P]
+    rw [higherLocalizedStrongTransPathNaturality_comp_id_right]
+    exact
+      higherLocalizedStrongTransNaturalityTransport_refl
+        (W := W) gamma _ _
+  · intro a b r e ih
+    by_cases hr0 : r.length = 0
+    · obtain rfl := Quiver.Path.eq_of_length_zero r hr0
+      have hrnil := Quiver.Path.eq_nil_of_length_zero r hr0
+      subst r
+      by_cases hp0 : p.length = 0
+      · obtain rfl := Quiver.Path.eq_of_length_zero p hp0
+        have hpnil := Quiver.Path.eq_nil_of_length_zero p hp0
+        subst p
+        dsimp [P]
+        have hleft :=
+          higherLocalizedStrongTransPathNaturality_comp_id_left_edge
+            (W := W) gamma e
+        have hrefl :=
+          higherLocalizedStrongTransNaturalityTransport_refl
+            (W := W) gamma
+            (higherLocalizedPathArrow W
+                (𝟙 ((Paths.of
+                  (Localization.Construction.LocQuiver W)).obj X)) ≫
+              higherLocalizedPathArrow W
+                ((Paths.of
+                  (Localization.Construction.LocQuiver W)).map e))
+            (higherLocalizedStrongTransPathNaturality
+              (W := W) gamma
+              ((𝟙 ((Paths.of
+                (Localization.Construction.LocQuiver W)).obj X)) ≫
+                (Paths.of
+                  (Localization.Construction.LocQuiver W)).map e))
+        exact hleft.trans hrefl
+      · simpa only [P, Quiver.Path.nil_comp] using
+          (higherLocalizedStrongTransPathNaturality_comp_edge_of_nonempty
+            (W := W) gamma p e hp0)
+    · obtain ⟨c, r', e', rfl⟩ :=
+        (Quiver.Path.length_ne_zero_iff_eq_cons (p := r)).1 hr0
+      dsimp [P] at ih ⊢
+      have hr :=
+        higherLocalizedStrongTransPathNaturality_comp_edge_of_nonempty
+          (W := W) gamma (Quiver.Path.cons r' e') e (by simp)
+      have hpcomp_nonzero :
+          (p ≫ Quiver.Path.cons r' e').length ≠ 0 := by
+        change
+          (Quiver.Path.comp p (Quiver.Path.cons r' e')).length ≠ 0
+        simp
+      have hpr :=
+        higherLocalizedStrongTransPathNaturality_comp_edge_of_nonempty
+          (W := W) gamma (p ≫ Quiver.Path.cons r' e') e hpcomp_nonzero
+      have hassoc :=
+        higherLocalizedStrongTransNaturality_comp_assoc_paths
+          (W := W) gamma
+          p (Quiver.Path.cons r' e')
+          ((Paths.of (Localization.Construction.LocQuiver W)).map e)
+          (higherLocalizedStrongTransPathNaturality (W := W) gamma p)
+          (higherLocalizedStrongTransPathNaturality
+            (W := W) gamma (Quiver.Path.cons r' e'))
+          (higherLocalizedStrongTransPathNaturality
+            (W := W) gamma
+            ((Paths.of (Localization.Construction.LocQuiver W)).map e))
+      rw [hr] at hassoc
+      have htransport_presentation :=
+        higherLocalizedStrongTransNaturalityTransport_eq_of_parallel_iso
+          (W := W) gamma
+          (α_
+            (higherLocalizedPathArrow W p)
+            (higherLocalizedPathArrow W (Quiver.Path.cons r' e'))
+            (higherLocalizedPathArrow W
+              ((Paths.of (Localization.Construction.LocQuiver W)).map e)))
+          (Iso.refl _)
+          (higherLocalizedStrongTransNaturality_comp
+            (W := W) gamma
+            (higherLocalizedPathArrow W p)
+            (higherLocalizedPathArrow W
+              ((Quiver.Path.cons r' e') ≫
+                (Paths.of
+                  (Localization.Construction.LocQuiver W)).map e))
+            (higherLocalizedStrongTransPathNaturality
+              (W := W) gamma p)
+            (higherLocalizedStrongTransPathNaturality
+              (W := W) gamma
+              ((Quiver.Path.cons r' e') ≫
+                (Paths.of
+                  (Localization.Construction.LocQuiver W)).map e)))
+      have hassoc_refl := hassoc.trans htransport_presentation
+      have htransport_refl :=
+        higherLocalizedStrongTransNaturalityTransport_refl
+          (W := W) gamma _
+          (higherLocalizedStrongTransNaturality_comp
+            (W := W) gamma
+            (higherLocalizedPathArrow W p)
+            (higherLocalizedPathArrow W
+              ((Quiver.Path.cons r' e') ≫
+                (Paths.of
+                  (Localization.Construction.LocQuiver W)).map e))
+            (higherLocalizedStrongTransPathNaturality
+              (W := W) gamma p)
+            (higherLocalizedStrongTransPathNaturality
+              (W := W) gamma
+              ((Quiver.Path.cons r' e') ≫
+                (Paths.of
+                  (Localization.Construction.LocQuiver W)).map e)))
+      have hassoc_plain := hassoc_refl.trans htransport_refl
+      have hih_outer :=
+        congrArg
+          (fun naturality_pr =>
+            higherLocalizedStrongTransNaturality_comp
+              (W := W) gamma
+              (higherLocalizedPathArrow W
+                (p ≫ Quiver.Path.cons r' e'))
+              (higherLocalizedPathArrow W
+                ((Paths.of (Localization.Construction.LocQuiver W)).map e))
+              naturality_pr
+              (higherLocalizedStrongTransPathNaturality
+                (W := W) gamma
+                ((Paths.of (Localization.Construction.LocQuiver W)).map e)))
+          ih
+      have hleft := hih_outer.trans hpr
+      exact hassoc_plain.symm.trans hleft
+
+/-- Path-level invariance is preserved by whiskering on the left.
+The supplied whole-path comparison may use any presentation with the correct
+endpoints; local discreteness makes the resulting transport independent of that
+presentation. -/
+theorem higherLocalizedStrongTransPathNaturality_whiskerLeft_invariant_of_iso
+    {F G : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W)}
+    (gamma :
+      restrictHigherLocalizedSystem W F ⟶
+        restrictHigherLocalizedSystem W G)
+    {X Y Z : LocalizationPaths W}
+    (k : X ⟶ Y) {p q : Y ⟶ Z}
+    (eta :
+      higherLocalizedPathArrow W p ≅ higherLocalizedPathArrow W q)
+    (h :
+      higherLocalizedStrongTransPathNaturality (W := W) gamma p =
+        higherLocalizedStrongTransNaturalityTransport
+          (W := W) gamma eta
+          (higherLocalizedStrongTransPathNaturality (W := W) gamma q))
+    (theta :
+      higherLocalizedPathArrow W (k ≫ p) ≅
+        higherLocalizedPathArrow W (k ≫ q)) :
+    higherLocalizedStrongTransPathNaturality
+        (W := W) gamma (k ≫ p) =
+      higherLocalizedStrongTransNaturalityTransport
+        (W := W) gamma theta
+        (higherLocalizedStrongTransPathNaturality
+          (W := W) gamma (k ≫ q)) := by
+  let etaWhisker :
+      higherLocalizedPathArrow W (k ≫ p) ≅
+        higherLocalizedPathArrow W (k ≫ q) :=
+    Bicategory.whiskerLeftIso
+      (higherLocalizedPathArrow W k) eta
+  set_option backward.isDefEq.respectTransparency false in
+    calc
+    higherLocalizedStrongTransPathNaturality
+          (W := W) gamma (k ≫ p) =
+        higherLocalizedStrongTransNaturality_comp
+          (W := W) gamma
+          (higherLocalizedPathArrow W k)
+          (higherLocalizedPathArrow W p)
+          (higherLocalizedStrongTransPathNaturality (W := W) gamma k)
+          (higherLocalizedStrongTransPathNaturality (W := W) gamma p) :=
+      (higherLocalizedStrongTransPathNaturality_comp
+        (W := W) gamma k p).symm
+    _ =
+        higherLocalizedStrongTransNaturality_comp
+          (W := W) gamma
+          (higherLocalizedPathArrow W k)
+          (higherLocalizedPathArrow W p)
+          (higherLocalizedStrongTransPathNaturality (W := W) gamma k)
+          (higherLocalizedStrongTransNaturalityTransport
+            (W := W) gamma eta
+            (higherLocalizedStrongTransPathNaturality
+              (W := W) gamma q)) := by
+      rw [h]
+    _ =
+        higherLocalizedStrongTransNaturalityTransport
+          (W := W) gamma
+          etaWhisker
+          (higherLocalizedStrongTransNaturality_comp
+            (W := W) gamma
+            (higherLocalizedPathArrow W k)
+            (higherLocalizedPathArrow W q)
+            (higherLocalizedStrongTransPathNaturality (W := W) gamma k)
+            (higherLocalizedStrongTransPathNaturality
+              (W := W) gamma q)) :=
+      by
+        exact
+          higherLocalizedStrongTransNaturality_comp_transport_second
+            (W := W) gamma
+            (higherLocalizedPathArrow W k)
+            (higherLocalizedStrongTransPathNaturality (W := W) gamma k)
+            eta
+            (higherLocalizedStrongTransPathNaturality (W := W) gamma q)
+    _ =
+        higherLocalizedStrongTransNaturalityTransport
+          (W := W) gamma
+          etaWhisker
+          (higherLocalizedStrongTransPathNaturality
+            (W := W) gamma (k ≫ q)) := by
+      rw [higherLocalizedStrongTransPathNaturality_comp
+        (W := W) gamma k q]
+    _ =
+        higherLocalizedStrongTransNaturalityTransport
+          (W := W) gamma theta
+          (higherLocalizedStrongTransPathNaturality
+            (W := W) gamma (k ≫ q)) :=
+      higherLocalizedStrongTransNaturalityTransport_eq_of_parallel_iso
+        (W := W) gamma
+        etaWhisker
+        theta
+        (higherLocalizedStrongTransPathNaturality
+          (W := W) gamma (k ≫ q))
+
+/-- Path-level invariance is preserved by whiskering on the right, again with
+an arbitrary presentation of the resulting whole-path source comparison. -/
+theorem higherLocalizedStrongTransPathNaturality_whiskerRight_invariant_of_iso
+    {F G : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W)}
+    (gamma :
+      restrictHigherLocalizedSystem W F ⟶
+        restrictHigherLocalizedSystem W G)
+    {X Y Z : LocalizationPaths W}
+    {p q : X ⟶ Y} (k : Y ⟶ Z)
+    (eta :
+      higherLocalizedPathArrow W p ≅ higherLocalizedPathArrow W q)
+    (h :
+      higherLocalizedStrongTransPathNaturality (W := W) gamma p =
+        higherLocalizedStrongTransNaturalityTransport
+          (W := W) gamma eta
+          (higherLocalizedStrongTransPathNaturality (W := W) gamma q))
+    (theta :
+      higherLocalizedPathArrow W (p ≫ k) ≅
+        higherLocalizedPathArrow W (q ≫ k)) :
+    higherLocalizedStrongTransPathNaturality
+        (W := W) gamma (p ≫ k) =
+      higherLocalizedStrongTransNaturalityTransport
+        (W := W) gamma theta
+        (higherLocalizedStrongTransPathNaturality
+          (W := W) gamma (q ≫ k)) := by
+  let etaWhisker :
+      higherLocalizedPathArrow W (p ≫ k) ≅
+        higherLocalizedPathArrow W (q ≫ k) :=
+    Bicategory.whiskerRightIso eta
+      (higherLocalizedPathArrow W k)
+  set_option backward.isDefEq.respectTransparency false in
+    calc
+    higherLocalizedStrongTransPathNaturality
+          (W := W) gamma (p ≫ k) =
+        higherLocalizedStrongTransNaturality_comp
+          (W := W) gamma
+          (higherLocalizedPathArrow W p)
+          (higherLocalizedPathArrow W k)
+          (higherLocalizedStrongTransPathNaturality (W := W) gamma p)
+          (higherLocalizedStrongTransPathNaturality (W := W) gamma k) :=
+      (higherLocalizedStrongTransPathNaturality_comp
+        (W := W) gamma p k).symm
+    _ =
+        higherLocalizedStrongTransNaturality_comp
+          (W := W) gamma
+          (higherLocalizedPathArrow W p)
+          (higherLocalizedPathArrow W k)
+          (higherLocalizedStrongTransNaturalityTransport
+            (W := W) gamma eta
+            (higherLocalizedStrongTransPathNaturality
+              (W := W) gamma q))
+          (higherLocalizedStrongTransPathNaturality (W := W) gamma k) := by
+      rw [h]
+    _ =
+        higherLocalizedStrongTransNaturalityTransport
+          (W := W) gamma
+          etaWhisker
+          (higherLocalizedStrongTransNaturality_comp
+            (W := W) gamma
+            (higherLocalizedPathArrow W q)
+            (higherLocalizedPathArrow W k)
+            (higherLocalizedStrongTransPathNaturality
+              (W := W) gamma q)
+            (higherLocalizedStrongTransPathNaturality
+              (W := W) gamma k)) :=
+      by
+        exact
+          higherLocalizedStrongTransNaturality_comp_transport_first
+            (W := W) gamma eta
+            (higherLocalizedStrongTransPathNaturality (W := W) gamma q)
+            (higherLocalizedPathArrow W k)
+            (higherLocalizedStrongTransPathNaturality (W := W) gamma k)
+    _ =
+        higherLocalizedStrongTransNaturalityTransport
+          (W := W) gamma
+          etaWhisker
+          (higherLocalizedStrongTransPathNaturality
+            (W := W) gamma (q ≫ k)) := by
+      rw [higherLocalizedStrongTransPathNaturality_comp
+        (W := W) gamma q k]
+    _ =
+        higherLocalizedStrongTransNaturalityTransport
+          (W := W) gamma theta
+          (higherLocalizedStrongTransPathNaturality
+            (W := W) gamma (q ≫ k)) :=
+      higherLocalizedStrongTransNaturalityTransport_eq_of_parallel_iso
+        (W := W) gamma
+        etaWhisker
+        theta
+        (higherLocalizedStrongTransPathNaturality
+          (W := W) gamma (q ≫ k))
+
+/-- Equality-induced source-arrow comparison attached to a retained generated
+composition-closure derivation.  The derivation itself supplies the quotient
+equality; no choice of relation witness is introduced. -/
+noncomputable def higherLocalizedGeneratedCompClosurePathArrowIso
+    {X Y : LocalizationPaths W} {p q : X ⟶ Y}
+    (alpha : GeneratedCompClosure2Cell W p q) :
+    higherLocalizedPathArrow W p ≅ higherLocalizedPathArrow W q :=
+  eqToIso (by
+    change
+      ((higherLocalizedPathQuotientFunctor W).map p).op.op.toLoc =
+        ((higherLocalizedPathQuotientFunctor W).map q).op.op.toLoc
+    exact
+      congrArg (fun k => k.op.op.toLoc)
+        (generatedLocalization2Cell_equalInLocalization W
+          (GeneratedLocalization2Cell.ofCompClosure alpha)))
+
+/-- The canonical StrongTrans path naturality evaluator is invariant under every
+retained generated composition-closure 2-cell.  The proof follows the retained
+syntax: a generating relation is propagated through both whiskers, while the
+recursive constructors use the corresponding left/right propagation lemmas. -/
+theorem higherLocalizedStrongTransPathNaturality_generatedCompClosure_invariant
+    {F G : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W)}
+    (gamma :
+      restrictHigherLocalizedSystem W F ⟶
+        restrictHigherLocalizedSystem W G)
+    {X Y : LocalizationPaths W} {p q : X ⟶ Y}
+    (alpha : GeneratedCompClosure2Cell W p q) :
+    higherLocalizedStrongTransPathNaturality
+        (W := W) gamma p =
+      higherLocalizedStrongTransNaturalityTransport
+        (W := W) gamma
+        (higherLocalizedGeneratedCompClosurePathArrowIso
+          (W := W) alpha)
+        (higherLocalizedStrongTransPathNaturality
+          (W := W) gamma q) := by
+  induction alpha with
+  | whisker f alpha g =>
+      let etaGen :=
+        higherLocalizedGeneratingPathArrowIso (W := W) alpha
+      let etaRight :=
+        Bicategory.whiskerRightIso etaGen
+          (higherLocalizedPathArrow W g)
+      have hgen :=
+        higherLocalizedStrongTransPathNaturality_generating_invariant_of_iso
+          (W := W) gamma alpha etaGen
+      have hright :=
+        higherLocalizedStrongTransPathNaturality_whiskerRight_invariant_of_iso
+          (W := W) gamma g etaGen hgen etaRight
+      exact
+        higherLocalizedStrongTransPathNaturality_whiskerLeft_invariant_of_iso
+          (W := W) gamma f etaRight hright
+          (higherLocalizedGeneratedCompClosurePathArrowIso
+            (W := W)
+            (GeneratedCompClosure2Cell.whisker f alpha g))
+  | whiskerLeft k alpha ih =>
+      exact
+        higherLocalizedStrongTransPathNaturality_whiskerLeft_invariant_of_iso
+          (W := W) gamma k
+          (higherLocalizedGeneratedCompClosurePathArrowIso
+            (W := W) alpha)
+          ih
+          (higherLocalizedGeneratedCompClosurePathArrowIso
+            (W := W)
+            (GeneratedCompClosure2Cell.whiskerLeft k alpha))
+  | whiskerRight k alpha ih =>
+      exact
+        higherLocalizedStrongTransPathNaturality_whiskerRight_invariant_of_iso
+          (W := W) gamma k
+          (higherLocalizedGeneratedCompClosurePathArrowIso
+            (W := W) alpha)
+          ih
+          (higherLocalizedGeneratedCompClosurePathArrowIso
+            (W := W)
+            (GeneratedCompClosure2Cell.whiskerRight k alpha))
+
+/-! ## Regression checks -/
+
+#print axioms higherLocalizedPathArrowCompIso
+#print axioms higherLocalizedPathArrowIso_ext
+#print axioms higherLocalizedStrongTransPathNaturality_generating_invariant_of_iso
+#print axioms higherLocalizedStrongTransPathNaturality_id
+#print axioms higherLocalizedStrongTransPathNaturality_comp_id_left_edge
+#print axioms higherLocalizedStrongTransPathNaturality_comp_id_right
+#print axioms higherLocalizedStrongTransNaturality_comp_assoc_paths
+#print axioms higherLocalizedStrongTransNaturalityTransport_eq_of_parallel_iso
+#print axioms higherLocalizedStrongTransNaturalityTransport_refl
+#print axioms higherLocalizedStrongTransNaturalityTransport_trans
+#print axioms higherLocalizedStrongTransNaturalityTransport_symm_left
+#print axioms higherLocalizedStrongTransNaturalityTransport_symm_right
+#print axioms higherLocalizedStrongTransPathNaturality_comp_edge_of_nonempty
+#print axioms higherLocalizedStrongTransPathNaturality_comp
+#print axioms higherLocalizedStrongTransPathNaturality_whiskerLeft_invariant_of_iso
+#print axioms higherLocalizedStrongTransPathNaturality_whiskerRight_invariant_of_iso
+#print axioms higherLocalizedGeneratedCompClosurePathArrowIso
+#print axioms higherLocalizedStrongTransPathNaturality_generatedCompClosure_invariant
+
+end
+
+end KUOS.DependentOriginationExactUniversalAmbientStrongTransGeneratedCompClosureV5_06
