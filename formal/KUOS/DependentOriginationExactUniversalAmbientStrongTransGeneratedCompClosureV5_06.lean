@@ -814,7 +814,9 @@ theorem higherLocalizedStrongTransPathNaturality_generatedCompClosure_invariant
           hleft
           (higherLocalizedGeneratedCompClosurePathArrowIso
             (W := W)
-            (GeneratedCompClosure2Cell.whisker f alpha g))
+            (by
+              simpa only [Category.assoc] using
+                (GeneratedCompClosure2Cell.whisker f alpha g)))
   | whiskerLeft k alpha ih =>
       exact
         higherLocalizedStrongTransPathNaturality_whiskerLeft_invariant_of_iso
