@@ -9,6 +9,7 @@ open KUOS.DependentOriginationHigherStackCarrierV2_9
 open KUOS.DependentOriginationExactUniversalMappingMorphismV4_57
 open KUOS.DependentOriginationExactUniversalRealizationStrictPseudofunctorV4_70
 open KUOS.DependentOriginationExactUniversalLabelledBiequivalenceV4_89
+open KUOS.DependentOriginationExactUniversalAmbientCoverageReductionV4_90
 open KUOS.DependentOriginationExactUniversalAmbientWhiteheadDataV5_10
 open KUOS.DependentOriginationExactUniversalAmbientSectionPseudofunctorV5_12
 open KUOS.DependentOriginationExactUniversalAmbientRoundtripCounitV5_13
@@ -56,20 +57,25 @@ abbrev Ambient :=
 structure ExactUniversalAmbientBiequivalenceCertificate where
   whitehead :
     WhiteheadBiequivalenceData
-      (Source (W := W) A)
-      (Ambient (W := W) A)
+      (ExactUniversalRawObject.{u, v, uH, vH} (W := W) A)
+      (DependentOriginationCompletion2.{u, v, uH, uH, vH}
+        (W := W) A)
   quasiInverse :
     Pseudofunctor
-      (Ambient (W := W) A)
-      (Source (W := W) A)
+      (DependentOriginationCompletion2.{u, v, uH, uH, vH}
+        (W := W) A)
+      (ExactUniversalRawObject.{u, v, uH, vH} (W := W) A)
   unit :
     Pseudofunctor.StrongTrans
-      (Pseudofunctor.id (Source (W := W) A))
+      (Pseudofunctor.id
+        (ExactUniversalRawObject.{u, v, uH, vH} (W := W) A))
       (Pseudofunctor.comp whitehead.forward quasiInverse)
   counit :
     Pseudofunctor.StrongTrans
       (Pseudofunctor.comp quasiInverse whitehead.forward)
-      (Pseudofunctor.id (Ambient (W := W) A))
+      (Pseudofunctor.id
+        (DependentOriginationCompletion2.{u, v, uH, uH, vH}
+          (W := W) A))
 
 /-- Complete ambient exact-universal biequivalence certificate assembled from
 v5.10-v5.14. -/
