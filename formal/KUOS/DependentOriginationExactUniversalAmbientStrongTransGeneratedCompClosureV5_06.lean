@@ -96,11 +96,79 @@ theorem higherLocalizedStrongTransPathNaturality_generating_invariant_of_iso
     higherLocalizedStrongTransPathNaturality_generating_invariant
       (W := W) gamma alpha
 
+/-- Right-unit normalization of the free-path evaluator, expressed using
+the canonical path-composition comparison. -/
+theorem higherLocalizedStrongTransPathNaturality_comp_id_right
+    {F G : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W)}
+    (gamma :
+      restrictHigherLocalizedSystem W F ⟶
+        restrictHigherLocalizedSystem W G)
+    {X Y : LocalizationPaths W}
+    (p : X ⟶ Y) :
+    higherLocalizedStrongTransNaturality_comp
+        (W := W) gamma
+        (higherLocalizedPathArrow W p)
+        (higherLocalizedPathArrow W (𝟙 Y))
+        (higherLocalizedStrongTransPathNaturality (W := W) gamma p)
+        (higherLocalizedStrongTransPathNaturality (W := W) gamma (𝟙 Y)) =
+      higherLocalizedStrongTransNaturalityTransport
+        (W := W) gamma
+        (higherLocalizedPathArrowCompIso W p (𝟙 Y))
+        (higherLocalizedStrongTransPathNaturality
+          (W := W) gamma (p ≫ 𝟙 Y)) := by
+  simpa
+    [higherLocalizedPathArrowCompIso,
+      higherLocalizedStrongTransPathNaturality,
+      higherLocalizedPathArrow, higherLocalizedPathObject,
+      higherLocalizedPathQuotientFunctor,
+      Functor.map_comp, op_comp, Quiver.Hom.comp_toLoc,
+      Strict.rightUnitor_eqToIso,
+      PrelaxFunctor.map₂_eqToHom] using
+    (higherLocalizedStrongTransNaturality_comp_id_right
+      (W := W) gamma
+      (higherLocalizedPathArrow W p)
+      (higherLocalizedStrongTransPathNaturality (W := W) gamma p))
+
+/-- Left-unit normalization of the free-path evaluator, expressed using
+the canonical path-composition comparison. -/
+theorem higherLocalizedStrongTransPathNaturality_comp_id_left
+    {F G : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W)}
+    (gamma :
+      restrictHigherLocalizedSystem W F ⟶
+        restrictHigherLocalizedSystem W G)
+    {X Y : LocalizationPaths W}
+    (p : X ⟶ Y) :
+    higherLocalizedStrongTransNaturality_comp
+        (W := W) gamma
+        (higherLocalizedPathArrow W (𝟙 X))
+        (higherLocalizedPathArrow W p)
+        (higherLocalizedStrongTransPathNaturality (W := W) gamma (𝟙 X))
+        (higherLocalizedStrongTransPathNaturality (W := W) gamma p) =
+      higherLocalizedStrongTransNaturalityTransport
+        (W := W) gamma
+        (higherLocalizedPathArrowCompIso W (𝟙 X) p)
+        (higherLocalizedStrongTransPathNaturality
+          (W := W) gamma ((𝟙 X) ≫ p)) := by
+  simpa
+    [higherLocalizedPathArrowCompIso,
+      higherLocalizedStrongTransPathNaturality,
+      higherLocalizedPathArrow, higherLocalizedPathObject,
+      higherLocalizedPathQuotientFunctor,
+      Functor.map_comp, op_comp, Quiver.Hom.comp_toLoc,
+      Strict.leftUnitor_eqToIso,
+      PrelaxFunctor.map₂_eqToHom] using
+    (higherLocalizedStrongTransNaturality_comp_id_left
+      (W := W) gamma
+      (higherLocalizedPathArrow W p)
+      (higherLocalizedStrongTransPathNaturality (W := W) gamma p))
+
 /-! ## Regression checks -/
 
 #print axioms higherLocalizedPathArrowCompIso
 #print axioms higherLocalizedPathArrowIso_ext
 #print axioms higherLocalizedStrongTransPathNaturality_generating_invariant_of_iso
+#print axioms higherLocalizedStrongTransPathNaturality_comp_id_right
+#print axioms higherLocalizedStrongTransPathNaturality_comp_id_left
 
 end
 
