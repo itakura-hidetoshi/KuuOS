@@ -64,9 +64,9 @@ noncomputable def higherLocalizedCanonicalStrongTransNaturalityOnSource
     (higherLocalizedCanonicalStrongTransNaturality
       (W := W) gamma g)
 
+set_option backward.isDefEq.respectTransparency false in
 /-- On a singleton ordinary localization path, the retained path evaluator is
 exactly the v4.97 presentation-arrow naturality. -/
-set_option backward.isDefEq.respectTransparency false in
 theorem higherLocalizedStrongTransPathNaturality_presentation
     {F G : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W)}
     (gamma :
@@ -79,14 +79,7 @@ theorem higherLocalizedStrongTransPathNaturality_presentation
         (Localization.Construction.ψ₁ W f.as) =
       higherLocalizedStrongTransPresentationNaturality
         (W := W) gamma f := by
-  rcases X with ⟨X⟩
-  rcases Y with ⟨Y⟩
-  simpa
-    [Localization.Construction.ψ₁,
-      higherLocalizedStrongTransPathNaturality,
-      higherLocalizedPathArrow, higherLocalizedPathObject,
-      higherLocalizedPathQuotientFunctor,
-      higherPresentationUnitFunctor]
+  rfl
 
 /-- Evaluating the quotient arrow `Q(f)` through its canonical singleton
 ordinary path representative gives exactly the v4.97 presentation naturality. -/
