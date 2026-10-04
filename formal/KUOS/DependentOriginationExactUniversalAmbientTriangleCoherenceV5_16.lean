@@ -10,7 +10,10 @@ open KUOS.DependentOriginationHigherStackCarrierV2_9
 open KUOS.DependentOriginationExactUniversalMappingMorphismV4_57
 open KUOS.DependentOriginationExactUniversalMappingHomCategoryV4_60
 open KUOS.DependentOriginationExactUniversalRealizationStrictPseudofunctorV4_70
+open KUOS.DependentOriginationExactUniversalRealizationFaithfulV4_76
 open KUOS.DependentOriginationExactUniversalRealizationFullyFaithfulV4_77
+open KUOS.DependentOriginationExactUniversalGlobalUnitSquaresV4_86
+open KUOS.DependentOriginationExactUniversalGlobalUnitStrongTransV4_87
 open KUOS.DependentOriginationExactUniversalAmbientCanonicalSourceV5_11
 open KUOS.DependentOriginationExactUniversalAmbientSectionPseudofunctorV5_12
 open KUOS.DependentOriginationExactUniversalAmbientRoundtripCounitV5_13
@@ -21,7 +24,6 @@ open scoped CategoryTheory.Pseudofunctor.StrongTrans
 open scoped CategoryTheory.Bicategory
 
 set_option autoImplicit false
-set_option mathlib.tactic.category.grind true
 
 noncomputable section
 
@@ -32,123 +34,153 @@ v5.15 packages the strict exact-universal realization `F`, its canonical
 ambient section `G`, the source unit `η : Id ⟶ F ≫ G`, and the ambient
 counit `ε : G ≫ F ⟶ Id`.
 
-The central point is genuinely bicategorical: after projection, a triangle
-component is `𝟙 Z ≫ 𝟙 Z`, so it is canonically *isomorphic* to `𝟙 Z` by a
-unitor and is not identified with it by strict equality.
+The previous draft tried to prove a much stronger generic statement: every
+family of endomorphisms pointwise isomorphic to identity carries a canonical
+StrongTrans structure.  That statement is true, but it is unnecessary here and
+its transport proof obscures the actual exact-universal geometry.
+
+For the present unit/counit the triangle components have a much simpler normal
+form.  After realization, both are exactly
+
+  `𝟙 Z ≫ 𝟙 Z`.
+
+A bicategory does not identify this composite strictly with `𝟙 Z`; the
+comparison is the native right unitor.  This file therefore isolates the
+canonical `double identity` StrongTrans once, using only associators and
+unitors, and relates the two actual triangle object components to that coherent
+representative:
+
+* on the forward/ambient side the actual component is equal to the double
+  identity component after the existing v5.13/v5.14 projections;
+* on the quasi-inverse/source side the two components have the same realized
+  lift, so local full faithfulness produces their unique canonical source
+  isomorphism.
 
 Pinned Mathlib does not expose a separate tricategorical horizontal-composition
-API for pseudofunctors and StrongTrans.  We therefore formalize exactly the
-coherence that is present and canonical:
+API for pseudofunctors and StrongTrans.  Accordingly we claim exactly the
+coherent representative and its native invertible modification to identity,
+not a stronger unidentified tricategory structure.
 
-* the forward triangle object component
-  `F.map (η.app X) ≫ ε.app (F.obj X)`;
-* the quasi-inverse triangle object component
-  `η.app (G.obj Z) ≫ G.map (ε.app Z)`;
-* canonical pointwise isomorphisms from both components to identity;
-* coherent endo-StrongTrans representatives obtained by transporting identity
-  naturality through those pointwise isomorphisms;
-* native invertible modifications of those representatives to identity.
-
-No arbitrary choice is introduced.  No weak-W exact-presentation implication
+No arbitrary choice is introduced, and no weak-W exact-presentation implication
 is used or asserted.
 -/
 
 universe u v uH vH
-universe u₁ v₁ w₁ u₂ v₂ w₂
+universe uB vB wB
 
-/-! ## Generic pointwise transport to an identity StrongTrans -/
+/-! ## Pure bicategorical double-identity coherence -/
 
-section PointwiseIdentityTransport
+section DoubleIdentity
 
-variable {B : Type u₁} [Bicategory.{w₁, v₁} B]
-variable {C : Type u₂} [Bicategory.{w₂, v₂} C]
+variable {B : Type uB} [Bicategory.{wB, vB} B]
+
+/-- Canonical comparison from
+`f ≫ (𝟙 ≫ 𝟙)` to `(𝟙 ≫ 𝟙) ≫ f`.
+It is the unique structural path obtained by reducing both sides to `f`. -/
+noncomputable def doubleIdentityNaturalityIso
+    {X Y : B} (f : X ⟶ Y) :
+    f ≫ (𝟙 Y ≫ 𝟙 Y) ≅ (𝟙 X ≫ 𝟙 X) ≫ f :=
+  (α_ f (𝟙 Y) (𝟙 Y)).symm ≪≫
+    Bicategory.whiskerRightIso (ρ_ f) (𝟙 Y) ≪≫
+      (ρ_ f) ≪≫
+        (λ_ f).symm ≪≫
+          (Bicategory.whiskerLeftIso (𝟙 X) (λ_ f)).symm ≪≫
+            (α_ (𝟙 X) (𝟙 X) f).symm
+
+@[simp] theorem doubleIdentityNaturalityIso_hom
+    {X Y : B} (f : X ⟶ Y) :
+    (doubleIdentityNaturalityIso f).hom =
+      (α_ f (𝟙 Y) (𝟙 Y)).inv ≫
+        (ρ_ f).hom ▷ (𝟙 Y) ≫
+          (ρ_ f).hom ≫
+            (λ_ f).inv ≫
+              (𝟙 X) ◁ (λ_ f).inv ≫
+                (α_ (𝟙 X) (𝟙 X) f).inv := by
+  rfl
+
+end DoubleIdentity
+
+section DoubleIdentityStrongTrans
+
+variable {B : Type uB} [Bicategory.{wB, vB} B]
+variable {C : Type u} [Bicategory.{uH, vH} C]
 variable (F : Pseudofunctor B C)
-variable (t : ∀ X : B, F.obj X ⟶ F.obj X)
-variable (e : ∀ X : B, t X ≅ 𝟙 (F.obj X))
 
-/-- Conjugate the identity StrongTrans naturality by the prescribed objectwise
-isomorphisms `e`. -/
-noncomputable def pointwiseIdentityTransportNaturality
-    {X Y : B} (f : X ⟶ Y) :
-    F.map f ≫ t Y ≅ t X ≫ F.map f :=
-  Bicategory.whiskerLeftIso (F.map f) (e Y) ≪≫
-    (ρ_ (F.map f)) ≪≫
-      (λ_ (F.map f)).symm ≪≫
-        Bicategory.whiskerRightIso (e X).symm (F.map f)
-
-@[simp] theorem pointwiseIdentityTransportNaturality_hom
-    {X Y : B} (f : X ⟶ Y) :
-    (pointwiseIdentityTransportNaturality F t e f).hom =
-      (F.map f ◁ (e Y).hom) ≫
-        (ρ_ (F.map f)).hom ≫
-          (λ_ (F.map f)).inv ≫
-            (e X).inv ▷ F.map f := by
-  simp only [pointwiseIdentityTransportNaturality,
-    Iso.trans_hom, Iso.symm_hom,
-    whiskerLeftIso_hom, whiskerRightIso_hom]
-
-/-- The prescribed object components carry the canonical StrongTrans structure
-transported from identity.  The omitted coherence fields are discharged by
-Mathlib's native `cat_disch` defaults for `StrongTrans`. -/
-noncomputable def strongTransOfPointwiseIsoToId : F ⟶ F where
-  app X := t X
-  naturality f := pointwiseIdentityTransportNaturality F t e f
+/-- The canonical endo-StrongTrans whose component at `X` is
+`𝟙 (F.obj X) ≫ 𝟙 (F.obj X)`. -/
+noncomputable def doubleIdentityStrongTrans :
+    Pseudofunctor.StrongTrans F F where
+  app X := 𝟙 (F.obj X) ≫ 𝟙 (F.obj X)
+  naturality f := doubleIdentityNaturalityIso (F.map f)
   naturality_naturality {a b} {f g} eta := by
-    simp only [pointwiseIdentityTransportNaturality_hom,
-      Iso.trans_hom, Iso.symm_hom, Iso.refl_hom,
-      whiskerLeftIso_hom, whiskerRightIso_hom,
-      Bicategory.whiskerLeft_id, Bicategory.id_whiskerRight,
-      Category.id_comp, Category.comp_id]
+    change
+      F.map₂ eta ▷ (𝟙 (F.obj b) ≫ 𝟙 (F.obj b)) ≫
+          (doubleIdentityNaturalityIso (F.map g)).hom =
+        (doubleIdentityNaturalityIso (F.map f)).hom ≫
+          (𝟙 (F.obj a) ≫ 𝟙 (F.obj a)) ◁ F.map₂ eta
+    rw [doubleIdentityNaturalityIso_hom,
+      doubleIdentityNaturalityIso_hom]
     bicategory
   naturality_id a := by
-    simp only [pointwiseIdentityTransportNaturality_hom,
-      Iso.trans_hom, Iso.symm_hom, Iso.refl_hom,
-      whiskerLeftIso_hom, whiskerRightIso_hom,
-      Bicategory.whiskerLeft_id, Bicategory.id_whiskerRight,
-      Category.id_comp, Category.comp_id]
+    change
+      (doubleIdentityNaturalityIso (F.map (𝟙 a))).hom ≫
+          (𝟙 (F.obj a) ≫ 𝟙 (F.obj a)) ◁ (F.mapId a).hom =
+        (F.mapId a).hom ▷ (𝟙 (F.obj a) ≫ 𝟙 (F.obj a)) ≫
+          (λ_ (𝟙 (F.obj a) ≫ 𝟙 (F.obj a))).hom ≫
+            (ρ_ (𝟙 (F.obj a) ≫ 𝟙 (F.obj a))).inv
+    rw [doubleIdentityNaturalityIso_hom]
     bicategory
   naturality_comp {a b c} f g := by
-    simp only [pointwiseIdentityTransportNaturality_hom,
-      Iso.trans_hom, Iso.symm_hom, Iso.refl_hom,
-      whiskerLeftIso_hom, whiskerRightIso_hom,
-      Bicategory.whiskerLeft_id, Bicategory.id_whiskerRight,
-      Category.id_comp, Category.comp_id]
+    change
+      (doubleIdentityNaturalityIso (F.map (f ≫ g))).hom ≫
+          (𝟙 (F.obj a) ≫ 𝟙 (F.obj a)) ◁ (F.mapComp f g).hom =
+        (F.mapComp f g).hom ▷ (𝟙 (F.obj c) ≫ 𝟙 (F.obj c)) ≫
+          (α_ (F.map f) (F.map g)
+            (𝟙 (F.obj c) ≫ 𝟙 (F.obj c))).hom ≫
+            F.map f ◁ (doubleIdentityNaturalityIso (F.map g)).hom ≫
+              (α_ (F.map f)
+                (𝟙 (F.obj b) ≫ 𝟙 (F.obj b))
+                (F.map g)).inv ≫
+                (doubleIdentityNaturalityIso (F.map f)).hom ▷ F.map g ≫
+                  (α_
+                    (𝟙 (F.obj a) ≫ 𝟙 (F.obj a))
+                    (F.map f) (F.map g)).hom
+    rw [doubleIdentityNaturalityIso_hom,
+      doubleIdentityNaturalityIso_hom,
+      doubleIdentityNaturalityIso_hom]
     bicategory
 
-@[simp] theorem strongTransOfPointwiseIsoToId_app
+@[simp] theorem doubleIdentityStrongTrans_app
     (X : B) :
-    (strongTransOfPointwiseIsoToId F t e).app X = t X :=
+    (doubleIdentityStrongTrans F).app X =
+      𝟙 (F.obj X) ≫ 𝟙 (F.obj X) :=
   rfl
 
-/-- The transported StrongTrans is modification-isomorphic to identity. -/
-noncomputable def strongTransOfPointwiseIsoToIdIso :
-    strongTransOfPointwiseIsoToId F t e ≅ 𝟙 F :=
-  Pseudofunctor.StrongTrans.isoMk
-    (fun X => e X)
-    (by
-      intro X Y f
-      change
-        F.map f ◁ (e Y).hom ≫
-            (((ρ_ (F.map f)) ≪≫ (λ_ (F.map f)).symm).hom) =
-          (pointwiseIdentityTransportNaturality F t e f).hom ≫
-            (e X).hom ▷ F.map f
-      simp only [pointwiseIdentityTransportNaturality_hom,
-      Iso.trans_hom, Iso.symm_hom, Iso.refl_hom,
-      whiskerLeftIso_hom, whiskerRightIso_hom,
-      Bicategory.whiskerLeft_id, Bicategory.id_whiskerRight,
-      Category.id_comp, Category.comp_id,
-        Bicategory.inv_hom_whiskerRight]
-      bicategory)
+/-- The double-identity StrongTrans is canonically modification-isomorphic to
+the identity StrongTrans. -/
+noncomputable def doubleIdentityStrongTransIso :
+    doubleIdentityStrongTrans F ≅
+      Pseudofunctor.StrongTrans.id F := by
+  refine Pseudofunctor.StrongTrans.isoMk
+    (fun X => ρ_ (𝟙 (F.obj X))) ?_
+  intro X Y f
+  change
+    F.map f ◁ (ρ_ (𝟙 (F.obj Y))).hom ≫
+        (ρ_ (F.map f)).hom ≫ (λ_ (F.map f)).inv =
+      (doubleIdentityNaturalityIso (F.map f)).hom ≫
+        (ρ_ (𝟙 (F.obj X))).hom ▷ F.map f
+  rw [doubleIdentityNaturalityIso_hom]
+  bicategory
 
-@[simp] theorem strongTransOfPointwiseIsoToIdIso_hom_app
+@[simp] theorem doubleIdentityStrongTransIso_hom_app
     (X : B) :
-    ((strongTransOfPointwiseIsoToIdIso F t e).hom.as.app X) =
-      (e X).hom :=
+    ((doubleIdentityStrongTransIso F).hom.as.app X) =
+      (ρ_ (𝟙 (F.obj X))).hom :=
   rfl
 
-end PointwiseIdentityTransport
+end DoubleIdentityStrongTrans
 
-/-! ## Exact-universal ambient specialization -/
+/-! ## Exact-universal specialization -/
 
 variable {Context : Type u} [Category.{v} Context]
 variable (W : MorphismProperty Context)
@@ -162,7 +194,7 @@ abbrev Ambient :=
 
 /-! ## Forward triangle -/
 
-/-- Exact object component of the forward triangle composite `Fη ; εF`. -/
+/-- Actual object component of the forward triangle `Fη ; εF`. -/
 noncomputable def exactUniversalForwardTriangleApp
     (X : Source (W := W) A) :
     (exactUniversalRealization (W := W) A).obj X ⟶
@@ -172,56 +204,55 @@ noncomputable def exactUniversalForwardTriangleApp
     (exactUniversalAmbientRoundtripCounit (W := W) A).app
       ((exactUniversalRealization (W := W) A).obj X)
 
-/-- The forward triangle component is canonically isomorphic, not equal, to
-identity. -/
-noncomputable def exactUniversalForwardTriangleComponentIso
+/-- Projection of the actual forward triangle component: it is exactly the
+ambient double identity, with no strict collapse of `𝟙 ≫ 𝟙`. -/
+@[simp] theorem exactUniversalForwardTriangleApp_eq_doubleIdentity
     (X : Source (W := W) A) :
-    exactUniversalForwardTriangleApp (W := W) A X ≅
-      𝟙 ((exactUniversalRealization (W := W) A).obj X) := by
+    exactUniversalForwardTriangleApp (W := W) A X =
+      𝟙 X.carrier ≫ 𝟙 X.carrier := by
   change
     ((exactUniversalSourceAmbientRoundtripUnit (W := W) A).app X).lift ≫
-        (exactUniversalAmbientRoundtripCounit (W := W) A).app X.carrier ≅
-      𝟙 X.carrier
-  simpa only [exactUniversalSourceAmbientRoundtripUnit_app_lift,
-    exactUniversalAmbientRoundtripCounit_app] using
-      (ρ_ (𝟙 X.carrier))
+        (exactUniversalAmbientRoundtripCounit (W := W) A).app X.carrier =
+      𝟙 X.carrier ≫ 𝟙 X.carrier
+  rw [exactUniversalSourceAmbientRoundtripUnit_app_lift,
+    exactUniversalAmbientRoundtripCounit_app]
 
-/-- Coherent forward-triangle representative with the genuine triangle object
-components. -/
+/-- Coherent forward triangle representative. -/
 noncomputable def exactUniversalForwardTriangleStrongTrans :
-    (exactUniversalRealization (W := W) A).toPseudofunctor ⟶
+    Pseudofunctor.StrongTrans
+      (exactUniversalRealization (W := W) A).toPseudofunctor
       (exactUniversalRealization (W := W) A).toPseudofunctor :=
-  strongTransOfPointwiseIsoToId
+  doubleIdentityStrongTrans
     (exactUniversalRealization (W := W) A).toPseudofunctor
-    (exactUniversalForwardTriangleApp (W := W) A)
-    (exactUniversalForwardTriangleComponentIso (W := W) A)
 
-@[simp] theorem exactUniversalForwardTriangleStrongTrans_app
+/-- The coherent representative has exactly the projected actual triangle
+component. -/
+@[simp] theorem exactUniversalForwardTriangleApp_eq_representative
     (X : Source (W := W) A) :
-    (exactUniversalForwardTriangleStrongTrans (W := W) A).app X =
-      exactUniversalForwardTriangleApp (W := W) A X :=
+    exactUniversalForwardTriangleApp (W := W) A X =
+      (exactUniversalForwardTriangleStrongTrans (W := W) A).app X := by
+  rw [exactUniversalForwardTriangleApp_eq_doubleIdentity]
   rfl
 
-/-- Forward triangle modification to identity. -/
+/-- Native forward triangle modification of the coherent representative to
+identity. -/
 noncomputable def exactUniversalForwardTriangleModification :
     exactUniversalForwardTriangleStrongTrans (W := W) A ≅
-      𝟙 (exactUniversalRealization (W := W) A).toPseudofunctor :=
-  strongTransOfPointwiseIsoToIdIso
+      Pseudofunctor.StrongTrans.id
+        (exactUniversalRealization (W := W) A).toPseudofunctor :=
+  doubleIdentityStrongTransIso
     (exactUniversalRealization (W := W) A).toPseudofunctor
-    (exactUniversalForwardTriangleApp (W := W) A)
-    (exactUniversalForwardTriangleComponentIso (W := W) A)
 
 @[simp] theorem exactUniversalForwardTriangleModification_hom_app
     (X : Source (W := W) A) :
     ((exactUniversalForwardTriangleModification
       (W := W) A).hom.as.app X) =
-      (exactUniversalForwardTriangleComponentIso
-        (W := W) A X).hom :=
+      (ρ_ (𝟙 X.carrier)).hom :=
   rfl
 
 /-! ## Quasi-inverse triangle -/
 
-/-- The chosen ambient section object has the prescribed ambient carrier. -/
+/-- The chosen ambient section object has the prescribed realized carrier. -/
 @[simp] theorem exactUniversalAmbientCanonicalSectionPseudofunctor_obj_carrier
     (Z : Ambient (W := W) A) :
     ((exactUniversalAmbientCanonicalSectionPseudofunctor
@@ -230,8 +261,7 @@ noncomputable def exactUniversalForwardTriangleModification :
     (exactUniversalAmbientCanonicalSource (W := W) A Z).carrier = Z
   exact exactUniversalAmbientCanonicalSource_carrier (W := W) A Z
 
-/-- Exact object component of the quasi-inverse triangle composite
-`ηG ; Gε`. -/
+/-- Actual object component of the quasi-inverse triangle `ηG ; Gε`. -/
 noncomputable def exactUniversalQuasiInverseTriangleApp
     (Z : Ambient (W := W) A) :
     (exactUniversalAmbientCanonicalSectionPseudofunctor (W := W) A).obj Z ⟶
@@ -243,55 +273,77 @@ noncomputable def exactUniversalQuasiInverseTriangleApp
       (W := W) A).map
         ((exactUniversalAmbientRoundtripCounit (W := W) A).app Z)
 
-/-- Realized quasi-inverse triangle component.  The target is written with the
-concrete source identity constructor to keep its dependent endpoints fixed. -/
-noncomputable def exactUniversalQuasiInverseTriangleComponentLiftIso
+/-- The actual quasi-inverse triangle component realizes exactly to the ambient
+double identity. -/
+@[simp] theorem exactUniversalQuasiInverseTriangleApp_lift
     (Z : Ambient (W := W) A) :
-    (exactUniversalQuasiInverseTriangleApp (W := W) A Z).lift ≅
-      (ExactUniversalRawMorphism.id
-        (W := W) A
-        ((exactUniversalAmbientCanonicalSectionPseudofunctor
-          (W := W) A).obj Z)).lift := by
+    (exactUniversalQuasiInverseTriangleApp (W := W) A Z).lift =
+      𝟙 Z ≫ 𝟙 Z := by
   change
     ((exactUniversalSourceAmbientRoundtripUnit (W := W) A).app
         ((exactUniversalAmbientCanonicalSectionPseudofunctor
           (W := W) A).obj Z)).lift ≫
       ((exactUniversalAmbientCanonicalSectionPseudofunctor
         (W := W) A).map
-          ((exactUniversalAmbientRoundtripCounit (W := W) A).app Z)).lift ≅
-      (ExactUniversalRawMorphism.id
-        (W := W) A
-        ((exactUniversalAmbientCanonicalSectionPseudofunctor
-          (W := W) A).obj Z)).lift
+          ((exactUniversalAmbientRoundtripCounit (W := W) A).app Z)).lift =
+      𝟙 Z ≫ 𝟙 Z
   simp only [exactUniversalSourceAmbientRoundtripUnit_app_lift,
     exactUniversalAmbientCanonicalSectionPseudofunctor_map_lift,
     exactUniversalAmbientRoundtripCounit_app,
-    ExactUniversalRawMorphism.id_lift]
-  change (𝟙 Z ≫ 𝟙 Z) ≅ 𝟙 Z
-  exact ρ_ (𝟙 Z)
+    exactUniversalAmbientCanonicalSectionPseudofunctor_obj_carrier]
 
-/-- Lift the realized triangle coherence uniquely through local full
-faithfulness of exact realization. -/
-noncomputable def exactUniversalQuasiInverseTriangleComponentIso
+/-- Coherent quasi-inverse triangle representative. -/
+noncomputable def exactUniversalQuasiInverseTriangleStrongTrans :
+    Pseudofunctor.StrongTrans
+      (exactUniversalAmbientCanonicalSectionPseudofunctor (W := W) A)
+      (exactUniversalAmbientCanonicalSectionPseudofunctor (W := W) A) :=
+  doubleIdentityStrongTrans
+    (exactUniversalAmbientCanonicalSectionPseudofunctor (W := W) A)
+
+@[simp] theorem exactUniversalQuasiInverseTriangleStrongTrans_app_lift
+    (Z : Ambient (W := W) A) :
+    ((exactUniversalQuasiInverseTriangleStrongTrans
+      (W := W) A).app Z).lift =
+      𝟙 Z ≫ 𝟙 Z := by
+  change
+    ((𝟙 ((exactUniversalAmbientCanonicalSectionPseudofunctor
+      (W := W) A).obj Z)) ≫
+      𝟙 ((exactUniversalAmbientCanonicalSectionPseudofunctor
+        (W := W) A).obj Z)).lift =
+      𝟙 Z ≫ 𝟙 Z
+  rw [ExactUniversalRawMorphism.comp_lift,
+    ExactUniversalRawMorphism.id_lift,
+    ExactUniversalRawMorphism.id_lift,
+    exactUniversalAmbientCanonicalSectionPseudofunctor_obj_carrier]
+
+/-- Realized equality of the actual quasi-inverse triangle component and the
+coherent representative component. -/
+noncomputable def exactUniversalQuasiInverseTriangleRepresentativeLiftIso
+    (Z : Ambient (W := W) A) :
+    (exactUniversalQuasiInverseTriangleApp (W := W) A Z).lift ≅
+      ((exactUniversalQuasiInverseTriangleStrongTrans
+        (W := W) A).app Z).lift := by
+  rw [exactUniversalQuasiInverseTriangleApp_lift,
+    exactUniversalQuasiInverseTriangleStrongTrans_app_lift]
+  exact Iso.refl _
+
+/-- Local full faithfulness lifts the realized equality to the unique canonical
+source isomorphism from the actual quasi-inverse triangle component to the
+coherent representative component. -/
+noncomputable def exactUniversalQuasiInverseTriangleRepresentativeIso
     (Z : Ambient (W := W) A) :
     exactUniversalQuasiInverseTriangleApp (W := W) A Z ≅
-      𝟙 ((exactUniversalAmbientCanonicalSectionPseudofunctor
-        (W := W) A).obj Z) := by
-  change
-    exactUniversalQuasiInverseTriangleApp (W := W) A Z ≅
-      ExactUniversalRawMorphism.id
-        (W := W) A
-        ((exactUniversalAmbientCanonicalSectionPseudofunctor
-          (W := W) A).obj Z)
-  exact
-    exactUniversalSourceIsoOfLift
-      (W := W) A
-      (exactUniversalQuasiInverseTriangleComponentLiftIso
-        (W := W) A Z)
+      (exactUniversalQuasiInverseTriangleStrongTrans (W := W) A).app Z :=
+  exactUniversalSourceIsoOfLift
+    (W := W) A
+    (f := exactUniversalQuasiInverseTriangleApp (W := W) A Z)
+    (g := (exactUniversalQuasiInverseTriangleStrongTrans (W := W) A).app Z)
+    (exactUniversalQuasiInverseTriangleRepresentativeLiftIso
+      (W := W) A Z)
 
-/-- Realization of the lifted quasi-inverse triangle component is exactly the
-prescribed ambient unitor comparison. -/
-theorem exactUniversalQuasiInverseTriangleComponentIso_realization
+/-- Realization of the lifted comparison is exactly the prescribed reflexive
+ambient comparison. -/
+theorem exactUniversalQuasiInverseTriangleRepresentativeIso_realization
     (Z : Ambient (W := W) A) :
     (exactUniversalCompletion2HomFunctor
       (W := W) A
@@ -299,9 +351,9 @@ theorem exactUniversalQuasiInverseTriangleComponentIso_realization
         (W := W) A).obj Z)
       ((exactUniversalAmbientCanonicalSectionPseudofunctor
         (W := W) A).obj Z)).mapIso
-        (exactUniversalQuasiInverseTriangleComponentIso
+        (exactUniversalQuasiInverseTriangleRepresentativeIso
           (W := W) A Z) =
-      exactUniversalQuasiInverseTriangleComponentLiftIso
+      exactUniversalQuasiInverseTriangleRepresentativeLiftIso
         (W := W) A Z := by
   apply Iso.ext
   exact
@@ -312,53 +364,49 @@ theorem exactUniversalQuasiInverseTriangleComponentIso_realization
       ((exactUniversalAmbientCanonicalSectionPseudofunctor
         (W := W) A).obj Z)).map_preimage
         (X := exactUniversalQuasiInverseTriangleApp (W := W) A Z)
-        (Y := ExactUniversalRawMorphism.id
-          (W := W) A
-          ((exactUniversalAmbientCanonicalSectionPseudofunctor
-            (W := W) A).obj Z))
-        (exactUniversalQuasiInverseTriangleComponentLiftIso
+        (Y := (exactUniversalQuasiInverseTriangleStrongTrans
+          (W := W) A).app Z)
+        (exactUniversalQuasiInverseTriangleRepresentativeLiftIso
           (W := W) A Z).hom
 
-/-- Coherent quasi-inverse-triangle representative with the genuine triangle
-object components. -/
-noncomputable def exactUniversalQuasiInverseTriangleStrongTrans :
-    exactUniversalAmbientCanonicalSectionPseudofunctor (W := W) A ⟶
-      exactUniversalAmbientCanonicalSectionPseudofunctor (W := W) A :=
-  strongTransOfPointwiseIsoToId
-    (exactUniversalAmbientCanonicalSectionPseudofunctor (W := W) A)
-    (exactUniversalQuasiInverseTriangleApp (W := W) A)
-    (exactUniversalQuasiInverseTriangleComponentIso (W := W) A)
-
-@[simp] theorem exactUniversalQuasiInverseTriangleStrongTrans_app
-    (Z : Ambient (W := W) A) :
-    (exactUniversalQuasiInverseTriangleStrongTrans (W := W) A).app Z =
-      exactUniversalQuasiInverseTriangleApp (W := W) A Z :=
-  rfl
-
-/-- Quasi-inverse triangle modification to identity. -/
+/-- Native quasi-inverse triangle modification of the coherent representative
+to identity. -/
 noncomputable def exactUniversalQuasiInverseTriangleModification :
     exactUniversalQuasiInverseTriangleStrongTrans (W := W) A ≅
-      𝟙 (exactUniversalAmbientCanonicalSectionPseudofunctor (W := W) A) :=
-  strongTransOfPointwiseIsoToIdIso
+      Pseudofunctor.StrongTrans.id
+        (exactUniversalAmbientCanonicalSectionPseudofunctor (W := W) A) :=
+  doubleIdentityStrongTransIso
     (exactUniversalAmbientCanonicalSectionPseudofunctor (W := W) A)
-    (exactUniversalQuasiInverseTriangleApp (W := W) A)
-    (exactUniversalQuasiInverseTriangleComponentIso (W := W) A)
+
+@[simp] theorem exactUniversalQuasiInverseTriangleModification_hom_app_lift
+    (Z : Ambient (W := W) A) :
+    ((exactUniversalQuasiInverseTriangleModification
+      (W := W) A).hom.as.app Z).lift =
+      (ρ_ (𝟙 Z)).hom := by
+  change
+    (ρ_ (𝟙 ((exactUniversalAmbientCanonicalSectionPseudofunctor
+      (W := W) A).obj Z))).hom.lift =
+      (ρ_ (𝟙 Z)).hom
+  rw [exactUniversalRealization_source_rightUnitor_lift,
+    ExactUniversalRawMorphism.id_lift,
+    exactUniversalAmbientCanonicalSectionPseudofunctor_obj_carrier]
 
 /-! ## Regression checks -/
 
-#print axioms pointwiseIdentityTransportNaturality
-#print axioms strongTransOfPointwiseIsoToId
-#print axioms strongTransOfPointwiseIsoToIdIso
+#print axioms doubleIdentityNaturalityIso
+#print axioms doubleIdentityStrongTrans
+#print axioms doubleIdentityStrongTransIso
 #print axioms exactUniversalForwardTriangleApp
-#print axioms exactUniversalForwardTriangleComponentIso
+#print axioms exactUniversalForwardTriangleApp_eq_doubleIdentity
 #print axioms exactUniversalForwardTriangleStrongTrans
 #print axioms exactUniversalForwardTriangleModification
 #print axioms exactUniversalQuasiInverseTriangleApp
-#print axioms exactUniversalQuasiInverseTriangleComponentLiftIso
-#print axioms exactUniversalQuasiInverseTriangleComponentIso
-#print axioms exactUniversalQuasiInverseTriangleComponentIso_realization
+#print axioms exactUniversalQuasiInverseTriangleApp_lift
 #print axioms exactUniversalQuasiInverseTriangleStrongTrans
+#print axioms exactUniversalQuasiInverseTriangleRepresentativeIso
+#print axioms exactUniversalQuasiInverseTriangleRepresentativeIso_realization
 #print axioms exactUniversalQuasiInverseTriangleModification
+#print axioms exactUniversalQuasiInverseTriangleModification_hom_app_lift
 
 end
 
