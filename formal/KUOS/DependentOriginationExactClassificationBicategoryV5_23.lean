@@ -13,6 +13,9 @@ open KUOS.DependentOriginationExactUniversalMappingTwoCellVerticalV4_59
 open KUOS.DependentOriginationExactUniversalMappingHomCategoryV4_60
 open KUOS.DependentOriginationExactUniversalMappingLeftWhiskerV4_62
 open KUOS.DependentOriginationExactUniversalMappingRightWhiskerV4_63
+open KUOS.DependentOriginationExactUniversalMappingHorizontalV4_64
+open KUOS.DependentOriginationExactUniversalMappingAssociatorV4_65
+open KUOS.DependentOriginationExactUniversalMappingUnitorsV4_66
 open KUOS.DependentOriginationExactUniversalMappingStructuralIsoV4_67
 open KUOS.DependentOriginationExactUniversalMappingCoherenceV4_68
 open KUOS.DependentOriginationExactUniversalMappingBicategoryV4_69
@@ -252,6 +255,89 @@ noncomputable def ExactUniversalClassificationTwoCell.rightUnitorIso
     (ExactUniversalRawMorphismTwoCell.rightUnitorIso
       (W := W) A f.map)
 
+
+@[simp] theorem ExactUniversalClassificationTwoCell.associatorIso_hom_cell
+    {WorldLabel : Type uW}
+    {PresentationLabel : Type uP}
+    {V X Y Z :
+      ExactUniversalClassificationObject
+        (W := W) A WorldLabel PresentationLabel}
+    (f : ExactUniversalClassificationOneCell (W := W) A V X)
+    (g : ExactUniversalClassificationOneCell (W := W) A X Y)
+    (h : ExactUniversalClassificationOneCell (W := W) A Y Z) :
+    (ExactUniversalClassificationTwoCell.associatorIso
+      (W := W) A f g h).hom.cell =
+      (ExactUniversalRawMorphismTwoCell.associatorIso
+        (W := W) A f.map g.map h.map).hom :=
+  rfl
+
+@[simp] theorem ExactUniversalClassificationTwoCell.associatorIso_inv_cell
+    {WorldLabel : Type uW}
+    {PresentationLabel : Type uP}
+    {V X Y Z :
+      ExactUniversalClassificationObject
+        (W := W) A WorldLabel PresentationLabel}
+    (f : ExactUniversalClassificationOneCell (W := W) A V X)
+    (g : ExactUniversalClassificationOneCell (W := W) A X Y)
+    (h : ExactUniversalClassificationOneCell (W := W) A Y Z) :
+    (ExactUniversalClassificationTwoCell.associatorIso
+      (W := W) A f g h).inv.cell =
+      (ExactUniversalRawMorphismTwoCell.associatorIso
+        (W := W) A f.map g.map h.map).inv :=
+  rfl
+
+@[simp] theorem ExactUniversalClassificationTwoCell.leftUnitorIso_hom_cell
+    {WorldLabel : Type uW}
+    {PresentationLabel : Type uP}
+    {X Y :
+      ExactUniversalClassificationObject
+        (W := W) A WorldLabel PresentationLabel}
+    (f : ExactUniversalClassificationOneCell (W := W) A X Y) :
+    (ExactUniversalClassificationTwoCell.leftUnitorIso
+      (W := W) A f).hom.cell =
+      (ExactUniversalRawMorphismTwoCell.leftUnitorIso
+        (W := W) A f.map).hom :=
+  rfl
+
+@[simp] theorem ExactUniversalClassificationTwoCell.leftUnitorIso_inv_cell
+    {WorldLabel : Type uW}
+    {PresentationLabel : Type uP}
+    {X Y :
+      ExactUniversalClassificationObject
+        (W := W) A WorldLabel PresentationLabel}
+    (f : ExactUniversalClassificationOneCell (W := W) A X Y) :
+    (ExactUniversalClassificationTwoCell.leftUnitorIso
+      (W := W) A f).inv.cell =
+      (ExactUniversalRawMorphismTwoCell.leftUnitorIso
+        (W := W) A f.map).inv :=
+  rfl
+
+@[simp] theorem ExactUniversalClassificationTwoCell.rightUnitorIso_hom_cell
+    {WorldLabel : Type uW}
+    {PresentationLabel : Type uP}
+    {X Y :
+      ExactUniversalClassificationObject
+        (W := W) A WorldLabel PresentationLabel}
+    (f : ExactUniversalClassificationOneCell (W := W) A X Y) :
+    (ExactUniversalClassificationTwoCell.rightUnitorIso
+      (W := W) A f).hom.cell =
+      (ExactUniversalRawMorphismTwoCell.rightUnitorIso
+        (W := W) A f.map).hom :=
+  rfl
+
+@[simp] theorem ExactUniversalClassificationTwoCell.rightUnitorIso_inv_cell
+    {WorldLabel : Type uW}
+    {PresentationLabel : Type uP}
+    {X Y :
+      ExactUniversalClassificationObject
+        (W := W) A WorldLabel PresentationLabel}
+    (f : ExactUniversalClassificationOneCell (W := W) A X Y) :
+    (ExactUniversalClassificationTwoCell.rightUnitorIso
+      (W := W) A f).inv.cell =
+      (ExactUniversalRawMorphismTwoCell.rightUnitorIso
+        (W := W) A f.map).inv :=
+  rfl
+
 /-! ## Genuine bicategory instance -/
 
 /-- Exact-universal classification objects with label-preserving 1-cells form a
@@ -290,109 +376,326 @@ noncomputable instance ExactUniversalClassificationObject.bicategory
   whiskerLeft_id := by
     intro X Y Z f g
     apply ExactUniversalClassificationTwoCell.ext
-    change f.map ◁ 𝟙 g.map = 𝟙 (f.map ≫ g.map)
-    exact Bicategory.whiskerLeft_id f.map g.map
+    apply ExactUniversalRawMorphismTwoCell.ext
+    · simp only [
+        ExactUniversalClassificationTwoCell.whiskerLeft_cell,
+        ExactUniversalClassificationTwoCell.id_cell,
+        ExactUniversalClassificationOneCell.comp_map,
+        ExactUniversalRawMorphismTwoCell.whiskerLeft_raw,
+        ExactUniversalRawMorphismTwoCell.id_raw,
+        ExactUniversalRawMorphism.comp_raw
+      ]
+      exact Bicategory.whiskerLeft_id f.map.raw g.map.raw
+    · simp only [
+        ExactUniversalClassificationTwoCell.whiskerLeft_cell,
+        ExactUniversalClassificationTwoCell.id_cell,
+        ExactUniversalClassificationOneCell.comp_map,
+        ExactUniversalRawMorphismTwoCell.whiskerLeft_lift,
+        ExactUniversalRawMorphismTwoCell.id_lift,
+        ExactUniversalRawMorphism.comp_lift
+      ]
+      exact Bicategory.whiskerLeft_id f.map.lift g.map.lift
 
   whiskerLeft_comp := by
     intro X Y Z f g h i eta theta
     apply ExactUniversalClassificationTwoCell.ext
-    change f.map ◁ (eta.cell ≫ theta.cell) =
-      (f.map ◁ eta.cell) ≫ (f.map ◁ theta.cell)
-    exact Bicategory.whiskerLeft_comp f.map eta.cell theta.cell
+    apply ExactUniversalRawMorphismTwoCell.ext
+    · simp only [
+        ExactUniversalClassificationTwoCell.whiskerLeft_cell,
+        ExactUniversalClassificationTwoCell.vcomp_cell,
+        ExactUniversalClassificationOneCell.comp_map,
+        ExactUniversalRawMorphismTwoCell.whiskerLeft_raw,
+        ExactUniversalRawMorphismTwoCell.vcomp_raw,
+        ExactUniversalRawMorphism.comp_raw
+      ]
+      exact Bicategory.whiskerLeft_comp
+        f.map.raw eta.cell.raw theta.cell.raw
+    · simp only [
+        ExactUniversalClassificationTwoCell.whiskerLeft_cell,
+        ExactUniversalClassificationTwoCell.vcomp_cell,
+        ExactUniversalClassificationOneCell.comp_map,
+        ExactUniversalRawMorphismTwoCell.whiskerLeft_lift,
+        ExactUniversalRawMorphismTwoCell.vcomp_lift,
+        ExactUniversalRawMorphism.comp_lift
+      ]
+      exact Bicategory.whiskerLeft_comp
+        f.map.lift eta.cell.lift theta.cell.lift
 
   id_whiskerLeft := by
     intro X Y f g eta
     apply ExactUniversalClassificationTwoCell.ext
-    change
-      (𝟙 X.source ◁ eta.cell) =
-        (ExactUniversalRawMorphismTwoCell.leftUnitorIso
-          (W := W) A f.map).hom ≫
-          eta.cell ≫
-            (ExactUniversalRawMorphismTwoCell.leftUnitorIso
-              (W := W) A g.map).inv
-    exact Bicategory.id_whiskerLeft eta.cell
+    apply ExactUniversalRawMorphismTwoCell.ext
+    · simp only [
+        ExactUniversalClassificationTwoCell.whiskerLeft_cell,
+        ExactUniversalClassificationTwoCell.vcomp_cell,
+        ExactUniversalClassificationOneCell.id_map,
+        ExactUniversalClassificationOneCell.comp_map,
+        ExactUniversalClassificationTwoCell.leftUnitorIso_hom_cell,
+        ExactUniversalClassificationTwoCell.leftUnitorIso_inv_cell,
+        ExactUniversalRawMorphismTwoCell.whiskerLeft_raw,
+        ExactUniversalRawMorphismTwoCell.vcomp_raw,
+        ExactUniversalRawMorphism.id_raw,
+        ExactUniversalRawMorphism.comp_raw,
+        ExactUniversalRawMorphismTwoCell.leftUnitorIso_hom,
+        ExactUniversalRawMorphismTwoCell.leftUnitorIso_inv,
+        ExactUniversalRawMorphismTwoCell.leftUnitor_raw,
+        ExactUniversalRawMorphismTwoCell.leftUnitorInv_raw
+      ]
+      exact Bicategory.id_whiskerLeft eta.cell.raw
+    · simp only [
+        ExactUniversalClassificationTwoCell.whiskerLeft_cell,
+        ExactUniversalClassificationTwoCell.vcomp_cell,
+        ExactUniversalClassificationOneCell.id_map,
+        ExactUniversalClassificationOneCell.comp_map,
+        ExactUniversalClassificationTwoCell.leftUnitorIso_hom_cell,
+        ExactUniversalClassificationTwoCell.leftUnitorIso_inv_cell,
+        ExactUniversalRawMorphismTwoCell.whiskerLeft_lift,
+        ExactUniversalRawMorphismTwoCell.vcomp_lift,
+        ExactUniversalRawMorphism.id_lift,
+        ExactUniversalRawMorphism.comp_lift,
+        ExactUniversalRawMorphismTwoCell.leftUnitorIso_hom,
+        ExactUniversalRawMorphismTwoCell.leftUnitorIso_inv
+      ]
+      exact Bicategory.id_whiskerLeft eta.cell.lift
 
   comp_whiskerLeft := by
     intro X Y Z T f g h h' eta
     apply ExactUniversalClassificationTwoCell.ext
-    change
-      ((f.map ≫ g.map) ◁ eta.cell) =
-        (ExactUniversalRawMorphismTwoCell.associatorIso
-          (W := W) A f.map g.map h.map).hom ≫
-          (f.map ◁ (g.map ◁ eta.cell)) ≫
-            (ExactUniversalRawMorphismTwoCell.associatorIso
-              (W := W) A f.map g.map h'.map).inv
-    exact Bicategory.comp_whiskerLeft f.map g.map eta.cell
+    apply ExactUniversalRawMorphismTwoCell.ext
+    · simp only [
+        ExactUniversalClassificationTwoCell.whiskerLeft_cell,
+        ExactUniversalClassificationTwoCell.vcomp_cell,
+        ExactUniversalClassificationOneCell.comp_map,
+        ExactUniversalClassificationTwoCell.associatorIso_hom_cell,
+        ExactUniversalClassificationTwoCell.associatorIso_inv_cell,
+        ExactUniversalRawMorphismTwoCell.whiskerLeft_raw,
+        ExactUniversalRawMorphismTwoCell.vcomp_raw,
+        ExactUniversalRawMorphism.comp_raw,
+        ExactUniversalRawMorphismTwoCell.associatorIso_hom,
+        ExactUniversalRawMorphismTwoCell.associatorIso_inv,
+        ExactUniversalRawMorphismTwoCell.associator_raw,
+        ExactUniversalRawMorphismTwoCell.associatorInv_raw
+      ]
+      exact Bicategory.comp_whiskerLeft
+        f.map.raw g.map.raw eta.cell.raw
+    · simp only [
+        ExactUniversalClassificationTwoCell.whiskerLeft_cell,
+        ExactUniversalClassificationTwoCell.vcomp_cell,
+        ExactUniversalClassificationOneCell.comp_map,
+        ExactUniversalClassificationTwoCell.associatorIso_hom_cell,
+        ExactUniversalClassificationTwoCell.associatorIso_inv_cell,
+        ExactUniversalRawMorphismTwoCell.whiskerLeft_lift,
+        ExactUniversalRawMorphismTwoCell.vcomp_lift,
+        ExactUniversalRawMorphism.comp_lift,
+        ExactUniversalRawMorphismTwoCell.associatorIso_hom,
+        ExactUniversalRawMorphismTwoCell.associatorIso_inv
+      ]
+      exact Bicategory.comp_whiskerLeft
+        f.map.lift g.map.lift eta.cell.lift
 
   id_whiskerRight := by
     intro X Y Z f g
     apply ExactUniversalClassificationTwoCell.ext
-    change
-      (𝟙 f.map ▷ g.map) = 𝟙 (f.map ≫ g.map)
-    exact Bicategory.id_whiskerRight f.map g.map
+    apply ExactUniversalRawMorphismTwoCell.ext
+    · simp only [
+        ExactUniversalClassificationTwoCell.whiskerRight_cell,
+        ExactUniversalClassificationTwoCell.id_cell,
+        ExactUniversalClassificationOneCell.comp_map,
+        ExactUniversalRawMorphismTwoCell.whiskerRight_raw,
+        ExactUniversalRawMorphismTwoCell.id_raw,
+        ExactUniversalRawMorphism.comp_raw
+      ]
+      exact Bicategory.id_whiskerRight f.map.raw g.map.raw
+    · simp only [
+        ExactUniversalClassificationTwoCell.whiskerRight_cell,
+        ExactUniversalClassificationTwoCell.id_cell,
+        ExactUniversalClassificationOneCell.comp_map,
+        ExactUniversalRawMorphismTwoCell.whiskerRight_lift,
+        ExactUniversalRawMorphismTwoCell.id_lift,
+        ExactUniversalRawMorphism.comp_lift
+      ]
+      exact Bicategory.id_whiskerRight f.map.lift g.map.lift
 
   comp_whiskerRight := by
     intro X Y Z f g h eta theta i
     apply ExactUniversalClassificationTwoCell.ext
-    change
-      ((eta.cell ≫ theta.cell) ▷ i.map) =
-        (eta.cell ▷ i.map) ≫ (theta.cell ▷ i.map)
-    exact Bicategory.comp_whiskerRight eta.cell theta.cell i.map
+    apply ExactUniversalRawMorphismTwoCell.ext
+    · simp only [
+        ExactUniversalClassificationTwoCell.whiskerRight_cell,
+        ExactUniversalClassificationTwoCell.vcomp_cell,
+        ExactUniversalClassificationOneCell.comp_map,
+        ExactUniversalRawMorphismTwoCell.whiskerRight_raw,
+        ExactUniversalRawMorphismTwoCell.vcomp_raw,
+        ExactUniversalRawMorphism.comp_raw
+      ]
+      exact Bicategory.comp_whiskerRight
+        eta.cell.raw theta.cell.raw i.map.raw
+    · simp only [
+        ExactUniversalClassificationTwoCell.whiskerRight_cell,
+        ExactUniversalClassificationTwoCell.vcomp_cell,
+        ExactUniversalClassificationOneCell.comp_map,
+        ExactUniversalRawMorphismTwoCell.whiskerRight_lift,
+        ExactUniversalRawMorphismTwoCell.vcomp_lift,
+        ExactUniversalRawMorphism.comp_lift
+      ]
+      exact Bicategory.comp_whiskerRight
+        eta.cell.lift theta.cell.lift i.map.lift
 
   whiskerRight_id := by
     intro X Y f g eta
     apply ExactUniversalClassificationTwoCell.ext
-    change
-      (eta.cell ▷ 𝟙 Y.source) =
-        (ExactUniversalRawMorphismTwoCell.rightUnitorIso
-          (W := W) A f.map).hom ≫
-          eta.cell ≫
-            (ExactUniversalRawMorphismTwoCell.rightUnitorIso
-              (W := W) A g.map).inv
-    exact Bicategory.whiskerRight_id eta.cell
+    apply ExactUniversalRawMorphismTwoCell.ext
+    · simp only [
+        ExactUniversalClassificationTwoCell.whiskerRight_cell,
+        ExactUniversalClassificationTwoCell.vcomp_cell,
+        ExactUniversalClassificationOneCell.id_map,
+        ExactUniversalClassificationOneCell.comp_map,
+        ExactUniversalClassificationTwoCell.rightUnitorIso_hom_cell,
+        ExactUniversalClassificationTwoCell.rightUnitorIso_inv_cell,
+        ExactUniversalRawMorphismTwoCell.whiskerRight_raw,
+        ExactUniversalRawMorphismTwoCell.vcomp_raw,
+        ExactUniversalRawMorphism.id_raw,
+        ExactUniversalRawMorphism.comp_raw,
+        ExactUniversalRawMorphismTwoCell.rightUnitorIso_hom,
+        ExactUniversalRawMorphismTwoCell.rightUnitorIso_inv,
+        ExactUniversalRawMorphismTwoCell.rightUnitor_raw,
+        ExactUniversalRawMorphismTwoCell.rightUnitorInv_raw
+      ]
+      exact Bicategory.whiskerRight_id eta.cell.raw
+    · simp only [
+        ExactUniversalClassificationTwoCell.whiskerRight_cell,
+        ExactUniversalClassificationTwoCell.vcomp_cell,
+        ExactUniversalClassificationOneCell.id_map,
+        ExactUniversalClassificationOneCell.comp_map,
+        ExactUniversalClassificationTwoCell.rightUnitorIso_hom_cell,
+        ExactUniversalClassificationTwoCell.rightUnitorIso_inv_cell,
+        ExactUniversalRawMorphismTwoCell.whiskerRight_lift,
+        ExactUniversalRawMorphismTwoCell.vcomp_lift,
+        ExactUniversalRawMorphism.id_lift,
+        ExactUniversalRawMorphism.comp_lift,
+        ExactUniversalRawMorphismTwoCell.rightUnitorIso_hom,
+        ExactUniversalRawMorphismTwoCell.rightUnitorIso_inv
+      ]
+      exact Bicategory.whiskerRight_id eta.cell.lift
 
   whiskerRight_comp := by
     intro X Y Z T f f' eta g h
     apply ExactUniversalClassificationTwoCell.ext
-    change
-      (eta.cell ▷ (g.map ≫ h.map)) =
-        (ExactUniversalRawMorphismTwoCell.associatorIso
-          (W := W) A f.map g.map h.map).inv ≫
-          ((eta.cell ▷ g.map) ▷ h.map) ≫
-            (ExactUniversalRawMorphismTwoCell.associatorIso
-              (W := W) A f'.map g.map h.map).hom
-    exact Bicategory.whiskerRight_comp eta.cell g.map h.map
+    apply ExactUniversalRawMorphismTwoCell.ext
+    · simp only [
+        ExactUniversalClassificationTwoCell.whiskerRight_cell,
+        ExactUniversalClassificationTwoCell.vcomp_cell,
+        ExactUniversalClassificationOneCell.comp_map,
+        ExactUniversalClassificationTwoCell.associatorIso_hom_cell,
+        ExactUniversalClassificationTwoCell.associatorIso_inv_cell,
+        ExactUniversalRawMorphismTwoCell.whiskerRight_raw,
+        ExactUniversalRawMorphismTwoCell.vcomp_raw,
+        ExactUniversalRawMorphism.comp_raw,
+        ExactUniversalRawMorphismTwoCell.associatorIso_hom,
+        ExactUniversalRawMorphismTwoCell.associatorIso_inv,
+        ExactUniversalRawMorphismTwoCell.associator_raw,
+        ExactUniversalRawMorphismTwoCell.associatorInv_raw
+      ]
+      exact Bicategory.whiskerRight_comp
+        eta.cell.raw g.map.raw h.map.raw
+    · simp only [
+        ExactUniversalClassificationTwoCell.whiskerRight_cell,
+        ExactUniversalClassificationTwoCell.vcomp_cell,
+        ExactUniversalClassificationOneCell.comp_map,
+        ExactUniversalClassificationTwoCell.associatorIso_hom_cell,
+        ExactUniversalClassificationTwoCell.associatorIso_inv_cell,
+        ExactUniversalRawMorphismTwoCell.whiskerRight_lift,
+        ExactUniversalRawMorphismTwoCell.vcomp_lift,
+        ExactUniversalRawMorphism.comp_lift,
+        ExactUniversalRawMorphismTwoCell.associatorIso_hom,
+        ExactUniversalRawMorphismTwoCell.associatorIso_inv
+      ]
+      exact Bicategory.whiskerRight_comp
+        eta.cell.lift g.map.lift h.map.lift
 
   whisker_assoc := by
     intro X Y Z T f g g' eta h
     apply ExactUniversalClassificationTwoCell.ext
-    change
-      ((f.map ◁ eta.cell) ▷ h.map) =
-        (ExactUniversalRawMorphismTwoCell.associatorIso
-          (W := W) A f.map g.map h.map).hom ≫
-          (f.map ◁ (eta.cell ▷ h.map)) ≫
-            (ExactUniversalRawMorphismTwoCell.associatorIso
-              (W := W) A f.map g'.map h.map).inv
-    exact Bicategory.whisker_assoc f.map eta.cell h.map
+    apply ExactUniversalRawMorphismTwoCell.ext
+    · simp only [
+        ExactUniversalClassificationTwoCell.whiskerLeft_cell,
+        ExactUniversalClassificationTwoCell.whiskerRight_cell,
+        ExactUniversalClassificationTwoCell.vcomp_cell,
+        ExactUniversalClassificationOneCell.comp_map,
+        ExactUniversalClassificationTwoCell.associatorIso_hom_cell,
+        ExactUniversalClassificationTwoCell.associatorIso_inv_cell,
+        ExactUniversalRawMorphismTwoCell.whiskerLeft_raw,
+        ExactUniversalRawMorphismTwoCell.whiskerRight_raw,
+        ExactUniversalRawMorphismTwoCell.vcomp_raw,
+        ExactUniversalRawMorphism.comp_raw,
+        ExactUniversalRawMorphismTwoCell.associatorIso_hom,
+        ExactUniversalRawMorphismTwoCell.associatorIso_inv,
+        ExactUniversalRawMorphismTwoCell.associator_raw,
+        ExactUniversalRawMorphismTwoCell.associatorInv_raw
+      ]
+      exact Bicategory.whisker_assoc
+        f.map.raw eta.cell.raw h.map.raw
+    · simp only [
+        ExactUniversalClassificationTwoCell.whiskerLeft_cell,
+        ExactUniversalClassificationTwoCell.whiskerRight_cell,
+        ExactUniversalClassificationTwoCell.vcomp_cell,
+        ExactUniversalClassificationOneCell.comp_map,
+        ExactUniversalClassificationTwoCell.associatorIso_hom_cell,
+        ExactUniversalClassificationTwoCell.associatorIso_inv_cell,
+        ExactUniversalRawMorphismTwoCell.whiskerLeft_lift,
+        ExactUniversalRawMorphismTwoCell.whiskerRight_lift,
+        ExactUniversalRawMorphismTwoCell.vcomp_lift,
+        ExactUniversalRawMorphism.comp_lift,
+        ExactUniversalRawMorphismTwoCell.associatorIso_hom,
+        ExactUniversalRawMorphismTwoCell.associatorIso_inv
+      ]
+      exact Bicategory.whisker_assoc
+        f.map.lift eta.cell.lift h.map.lift
 
   whisker_exchange := by
     intro X Y Z f g h i eta theta
     apply ExactUniversalClassificationTwoCell.ext
-    exact Bicategory.whisker_exchange eta.cell theta.cell
+    simpa only [
+      ExactUniversalClassificationTwoCell.whiskerLeft_cell,
+      ExactUniversalClassificationTwoCell.whiskerRight_cell,
+      ExactUniversalClassificationTwoCell.vcomp_cell,
+      ExactUniversalClassificationOneCell.comp_map
+    ] using
+      (ExactUniversalRawMorphismTwoCell.hcomp_eq_exchange
+        (W := W) A eta.cell theta.cell).symm
 
   pentagon := by
     intro X Y Z T U f g h i
     apply ExactUniversalClassificationTwoCell.ext
-    exact
-      ExactUniversalRawMorphismTwoCell.pentagon
-        (W := W) A f.map g.map h.map i.map
+    simpa only [
+      ExactUniversalClassificationTwoCell.whiskerLeft_cell,
+      ExactUniversalClassificationTwoCell.whiskerRight_cell,
+      ExactUniversalClassificationTwoCell.vcomp_cell,
+      ExactUniversalClassificationOneCell.comp_map,
+      ExactUniversalClassificationTwoCell.associatorIso_hom_cell,
+      ExactUniversalRawMorphismTwoCell.associatorIso_hom
+    ] using
+      (ExactUniversalRawMorphismTwoCell.pentagon
+        (W := W) A f.map g.map h.map i.map)
 
   triangle := by
     intro X Y Z f g
     apply ExactUniversalClassificationTwoCell.ext
-    exact
-      ExactUniversalRawMorphismTwoCell.triangle
-        (W := W) A f.map g.map
+    simpa only [
+      ExactUniversalClassificationTwoCell.whiskerLeft_cell,
+      ExactUniversalClassificationTwoCell.whiskerRight_cell,
+      ExactUniversalClassificationTwoCell.vcomp_cell,
+      ExactUniversalClassificationOneCell.id_map,
+      ExactUniversalClassificationOneCell.comp_map,
+      ExactUniversalClassificationTwoCell.associatorIso_hom_cell,
+      ExactUniversalClassificationTwoCell.leftUnitorIso_hom_cell,
+      ExactUniversalClassificationTwoCell.rightUnitorIso_hom_cell,
+      ExactUniversalRawMorphismTwoCell.associatorIso_hom,
+      ExactUniversalRawMorphismTwoCell.leftUnitorIso_hom,
+      ExactUniversalRawMorphismTwoCell.rightUnitorIso_hom
+    ] using
+      (ExactUniversalRawMorphismTwoCell.triangle
+        (W := W) A f.map g.map)
 
 /-! ## Regression checks -/
 
