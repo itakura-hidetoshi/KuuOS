@@ -129,11 +129,11 @@ theorem pointwiseComparisonInverseComponentIsEquivalence
     (U : LocallyDiscrete Context) :
     ((pointwiseComparisonInverseStrongTrans E).app U).toFunctor.IsEquivalence := by
   change
-    (KUOS.DependentOriginationPointwiseInverseNaturalityV4_81.pointwiseInverseComponent
+    (KUOS.DependentOriginationPointwiseInverseNaturalityV4_81.pointwiseInverseEquivalence
       E.comparison
       (pointwiseComparisonComponentIsEquivalence E)
-      U).IsEquivalence
-  infer_instance
+      U).inverse.IsEquivalence
+  exact CategoryTheory.Equivalence.isEquivalence_inverse _
 
 /-- Package the chosen inverse StrongTrans as the directed pointwise comparison
 in the reverse direction. -/
