@@ -356,7 +356,10 @@ normalize nested classification, source-bicategory, and pseudofunctor
 composition structures.  All mathematical laws have already been reduced to
 v5.14 above; this declaration alone receives a larger deterministic
 elaboration budget. -/
-set_option maxHeartbeats 600000 in
+section SourceUnitElaboration
+
+set_option maxHeartbeats 600000
+
 noncomputable def exactUniversalClassificationSourceRoundtripUnit
     {WorldLabel : Type uW}
     {PresentationLabel : Type uP} :
@@ -415,6 +418,8 @@ noncomputable def exactUniversalClassificationSourceRoundtripUnit
     ] using
       (exactUniversalSourceAmbientRoundtripUnit
         (W := W) A).naturality_comp f.map g.map
+
+end SourceUnitElaboration
 
 @[simp] theorem exactUniversalClassificationSourceRoundtripUnit_app_map
     {WorldLabel : Type uW}
