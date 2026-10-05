@@ -170,13 +170,12 @@ theorem exists_exactUniversalClassificationObject_sameLabel_equivalent
     { label := Z.label
       source := S }
   refine ⟨X, rfl, ⟨?_⟩⟩
-  apply
+  exact
     localizedClassificationEquivalenceOfUnderlying
       (W := W) A
       (X := (exactUniversalClassificationRealization (W := W) A).obj X)
       (Y := Z)
-      rfl
-  exact e
+      rfl e
 
 /-!
 ## Boundary after v5.26
