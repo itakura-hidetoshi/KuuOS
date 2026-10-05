@@ -59,7 +59,7 @@ universe u v uH vH uW uP
 
 variable {Context : Type u} [Category.{v} Context]
 variable (W : MorphismProperty Context)
-variable (A : RefinementAtlas (LocalizedContext W))
+variable\n  (A :\n    RefinementAtlas.{u, max u v, uH}\n      (LocalizedContext W))
 
 /-! ## Lift an underlying DO₂ equivalence through the label wrapper -/
 
@@ -136,13 +136,12 @@ theorem exactUniversalClassificationRealization_object_essentially_surjective
     { label := Z.label
       source := S }
   refine ⟨X, ⟨?_⟩⟩
-  apply
+  exact
     localizedClassificationEquivalenceOfUnderlying
       (W := W) A
       (X := (exactUniversalClassificationRealization (W := W) A).obj X)
       (Y := Z)
-      rfl
-  exact e
+      rfl e
 
 /-- The covering source can be chosen with label literally equal to the target
 label. -/
