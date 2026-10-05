@@ -16,6 +16,7 @@ open KUOS.DependentOriginationExactClassificationHomFunctorV5_22
 open KUOS.DependentOriginationLocalizedClassificationRealizationV5_24
 open KUOS.DependentOriginationExactUniversalAmbientBiequivalenceCertificateV5_15
 
+open scoped CategoryTheory.Pseudofunctor.StrongTrans
 open scoped CategoryTheory.Bicategory
 open scoped Bicategory
 
@@ -65,16 +66,6 @@ variable
     RefinementAtlas.{u, max u v, uH}
       (LocalizedContext W))
 
-/-- Give typeclass synthesis the exact DO₂ carrier instance at the universe
-levels used by the classification objects.  The generic Mathlib instance is
-`InducedBicategory.bicategory`; naming it here avoids leaving the nested
-`DependentOriginationCompletion2` abbreviation and its universe arguments as
-metavariables during theorem-header elaboration. -/
-noncomputable local instance completion2Bicategory :
-    Bicategory
-      (DependentOriginationCompletion2.{u, v, uH, uH, vH}
-        (W := W) A) :=
-  CategoryTheory.Bicategory.InducedBicategory.bicategory
 
 /-! ## Lift an underlying DO₂ equivalence through the label wrapper -/
 
