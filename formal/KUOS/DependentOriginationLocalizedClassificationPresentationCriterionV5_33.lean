@@ -14,6 +14,8 @@ open KUOS.DependentOriginationExactUniversalClassificationInterfaceV5_17
 open KUOS.DependentOriginationExactLiftabilityCriterionV5_18
 open KUOS.DependentOriginationAlignedExactLiftabilityCollapseV5_32
 
+open scoped CategoryTheory.Pseudofunctor.StrongTrans
+
 set_option autoImplicit false
 
 noncomputable section
