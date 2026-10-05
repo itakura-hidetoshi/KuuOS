@@ -383,15 +383,6 @@ theorem exactUniversalClassificationSourceRoundtripUnit_naturality_naturality
           (exactUniversalClassificationSourceRoundtrip
             (W := W) A).map₂ eta := by
   apply ExactUniversalClassificationTwoCell.ext
-  simp only [
-    ExactUniversalClassificationTwoCell.vcomp_cell,
-    ExactUniversalClassificationTwoCell.whiskerLeft_cell,
-    ExactUniversalClassificationTwoCell.whiskerRight_cell,
-    exactUniversalClassificationSourceIdentity_map₂_underlying,
-    exactUniversalClassificationSourceRoundtrip_map₂_underlying,
-    exactUniversalClassificationSourceRoundtripUnitApp_underlying,
-    exactUniversalClassificationSourceRoundtripUnitNaturalityIso_hom_cell
-  ]
   exact
     (exactUniversalSourceAmbientRoundtripUnit
       (W := W) A).naturality_naturality eta.cell
@@ -413,17 +404,6 @@ theorem exactUniversalClassificationSourceRoundtripUnit_naturality_id
         (ρ_ (exactUniversalClassificationSourceRoundtripUnitApp
           (W := W) A X)).inv := by
   apply ExactUniversalClassificationTwoCell.ext
-  simp only [
-    ExactUniversalClassificationTwoCell.vcomp_cell,
-    ExactUniversalClassificationTwoCell.whiskerLeft_cell,
-    ExactUniversalClassificationTwoCell.whiskerRight_cell,
-    ExactUniversalClassificationTwoCell.leftUnitorIso_hom_cell,
-    ExactUniversalClassificationTwoCell.rightUnitorIso_inv_cell,
-    exactUniversalClassificationSourceIdentity_mapId_hom_underlying,
-    exactUniversalClassificationSourceRoundtrip_mapId_hom_underlying,
-    exactUniversalClassificationSourceRoundtripUnitApp_underlying,
-    exactUniversalClassificationSourceRoundtripUnitNaturalityIso_hom_cell
-  ]
   exact
     (exactUniversalSourceAmbientRoundtripUnit
       (W := W) A).naturality_id X.source
@@ -454,19 +434,6 @@ theorem exactUniversalClassificationSourceRoundtripUnit_naturality_comp
               (W := W) A).map g ≫
         (α_ _ _ _).hom := by
   apply ExactUniversalClassificationTwoCell.ext
-  simp only [
-    ExactUniversalClassificationTwoCell.vcomp_cell,
-    ExactUniversalClassificationTwoCell.whiskerLeft_cell,
-    ExactUniversalClassificationTwoCell.whiskerRight_cell,
-    ExactUniversalClassificationTwoCell.associatorIso_hom_cell,
-    ExactUniversalClassificationTwoCell.associatorIso_inv_cell,
-    exactUniversalClassificationSourceIdentity_map_underlying,
-    exactUniversalClassificationSourceIdentity_mapComp_hom_underlying,
-    exactUniversalClassificationSourceRoundtrip_map_underlying,
-    exactUniversalClassificationSourceRoundtrip_mapComp_hom_underlying,
-    exactUniversalClassificationSourceRoundtripUnitApp_underlying,
-    exactUniversalClassificationSourceRoundtripUnitNaturalityIso_hom_cell
-  ]
   exact
     (exactUniversalSourceAmbientRoundtripUnit
       (W := W) A).naturality_comp f.map g.map
