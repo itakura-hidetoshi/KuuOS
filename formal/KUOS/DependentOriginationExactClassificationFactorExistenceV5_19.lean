@@ -132,8 +132,10 @@ noncomputable def exactUniversalClassificationFactorOfPresentation
   comparison :=
     { comparison := by
         change
-          restrictHigherLocalizedSystem W
-              (higherStackObjectVal (W := W) A P.carrier) ⟶
+          ((restrictHigherLocalizedSystem W
+              (higherStackObjectVal (W := W) A P.carrier) :
+            RawHigherContextualSystem.{u, v, uH, vH}
+              (Context := Context)) ⟶
             X.raw
         exact P.comparison
       comparison_isEquivalence := by
@@ -173,22 +175,6 @@ theorem exactUniversalClassificationFactorOfPresentation_carrier
     exactUniversalAmbientCanonicalSource_carrier
       (W := W) A P.carrier
 
-/-- The raw comparison stored by the factor is exactly the comparison already
-carried by the selected exact presentation. -/
-theorem exactUniversalClassificationFactorOfPresentation_comparison
-    {WorldLabel : Type uW}
-    {PresentationLabel : Type uP}
-    (X :
-      ExactLiftableClassificationObject
-        (W := W) A WorldLabel PresentationLabel)
-    (P :
-      ExactHigherDependentOriginationPresentation
-        (W := W) A X.raw) :
-    (exactUniversalClassificationFactorOfPresentation
-      (W := W) A X P).comparison.comparison =
-      P.comparison := by
-  rfl
-
 /-- Every exact-liftable classification object admits exact-universal factor
 data. -/
 theorem ExactLiftableClassificationObject.existsExactUniversalClassificationFactor
@@ -201,9 +187,12 @@ theorem ExactLiftableClassificationObject.existsExactUniversalClassificationFact
       (ExactUniversalClassificationFactor
         (W := W) A X) := by
   rcases X.exact with ⟨P⟩
-  exact
-    ⟨exactUniversalClassificationFactorOfPresentation
-      (W := W) A X P⟩
+  let F :
+      ExactUniversalClassificationFactor
+        (W := W) A X :=
+    exactUniversalClassificationFactorOfPresentation
+      (W := W) A X P
+  exact ⟨F⟩
 
 /-- A concise existence statement: every exact-liftable classification object
 has a label-preserving exact-universal source whose raw system compares
