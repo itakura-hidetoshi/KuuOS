@@ -494,8 +494,8 @@ noncomputable def exactUniversalClassificationRealization
     (X :
       ExactUniversalClassificationObject
         (W := W) A WorldLabel PresentationLabel) :
-    (exactUniversalClassificationRealization
-      (W := W) A).obj X |>.label =
+    ((exactUniversalClassificationRealization
+      (W := W) A).obj X).label =
       X.label := by
   rfl
 
@@ -505,8 +505,8 @@ noncomputable def exactUniversalClassificationRealization
     (X :
       ExactUniversalClassificationObject
         (W := W) A WorldLabel PresentationLabel) :
-    (exactUniversalClassificationRealization
-      (W := W) A).obj X |>.carrier =
+    ((exactUniversalClassificationRealization
+      (W := W) A).obj X).carrier =
       X.source.carrier := by
   rfl
 
