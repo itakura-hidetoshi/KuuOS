@@ -257,8 +257,8 @@ noncomputable def exactUniversalClassificationCanonicalSection
     {WorldLabel : Type uW}
     {PresentationLabel : Type uP}
     (Z : Target (W := W) A WorldLabel PresentationLabel) :
-    (exactUniversalClassificationCanonicalSection
-      (W := W) A).obj Z |>.label = Z.label :=
+    ((exactUniversalClassificationCanonicalSection
+      (W := W) A).obj Z).label = Z.label :=
   rfl
 
 @[simp] theorem exactUniversalClassificationCanonicalSection_obj_realize_carrier
