@@ -379,19 +379,15 @@ noncomputable instance ExactUniversalClassificationObject.bicategory
     apply ExactUniversalRawMorphismTwoCell.ext
     · simp only [
         ExactUniversalClassificationTwoCell.whiskerLeft_cell,
-        ExactUniversalClassificationTwoCell.id_cell,
         ExactUniversalClassificationOneCell.comp_map,
         ExactUniversalRawMorphismTwoCell.whiskerLeft_raw,
-        ExactUniversalRawMorphismTwoCell.id_raw,
         ExactUniversalRawMorphism.comp_raw
       ]
       exact Bicategory.whiskerLeft_id f.map.raw g.map.raw
     · simp only [
         ExactUniversalClassificationTwoCell.whiskerLeft_cell,
-        ExactUniversalClassificationTwoCell.id_cell,
         ExactUniversalClassificationOneCell.comp_map,
         ExactUniversalRawMorphismTwoCell.whiskerLeft_lift,
-        ExactUniversalRawMorphismTwoCell.id_lift,
         ExactUniversalRawMorphism.comp_lift
       ]
       exact Bicategory.whiskerLeft_id f.map.lift g.map.lift
@@ -402,20 +398,16 @@ noncomputable instance ExactUniversalClassificationObject.bicategory
     apply ExactUniversalRawMorphismTwoCell.ext
     · simp only [
         ExactUniversalClassificationTwoCell.whiskerLeft_cell,
-        ExactUniversalClassificationTwoCell.vcomp_cell,
         ExactUniversalClassificationOneCell.comp_map,
         ExactUniversalRawMorphismTwoCell.whiskerLeft_raw,
-        ExactUniversalRawMorphismTwoCell.vcomp_raw,
         ExactUniversalRawMorphism.comp_raw
       ]
       exact Bicategory.whiskerLeft_comp
         f.map.raw eta.cell.raw theta.cell.raw
     · simp only [
         ExactUniversalClassificationTwoCell.whiskerLeft_cell,
-        ExactUniversalClassificationTwoCell.vcomp_cell,
         ExactUniversalClassificationOneCell.comp_map,
         ExactUniversalRawMorphismTwoCell.whiskerLeft_lift,
-        ExactUniversalRawMorphismTwoCell.vcomp_lift,
         ExactUniversalRawMorphism.comp_lift
       ]
       exact Bicategory.whiskerLeft_comp
@@ -427,34 +419,20 @@ noncomputable instance ExactUniversalClassificationObject.bicategory
     apply ExactUniversalRawMorphismTwoCell.ext
     · simp only [
         ExactUniversalClassificationTwoCell.whiskerLeft_cell,
-        ExactUniversalClassificationTwoCell.vcomp_cell,
         ExactUniversalClassificationOneCell.id_map,
         ExactUniversalClassificationOneCell.comp_map,
-        ExactUniversalClassificationTwoCell.leftUnitorIso_hom_cell,
-        ExactUniversalClassificationTwoCell.leftUnitorIso_inv_cell,
         ExactUniversalRawMorphismTwoCell.whiskerLeft_raw,
-        ExactUniversalRawMorphismTwoCell.vcomp_raw,
         ExactUniversalRawMorphism.id_raw,
-        ExactUniversalRawMorphism.comp_raw,
-        ExactUniversalRawMorphismTwoCell.leftUnitorIso_hom,
-        ExactUniversalRawMorphismTwoCell.leftUnitorIso_inv,
-        ExactUniversalRawMorphismTwoCell.leftUnitor_raw,
-        ExactUniversalRawMorphismTwoCell.leftUnitorInv_raw
+        ExactUniversalRawMorphism.comp_raw
       ]
       exact Bicategory.id_whiskerLeft eta.cell.raw
     · simp only [
         ExactUniversalClassificationTwoCell.whiskerLeft_cell,
-        ExactUniversalClassificationTwoCell.vcomp_cell,
         ExactUniversalClassificationOneCell.id_map,
         ExactUniversalClassificationOneCell.comp_map,
-        ExactUniversalClassificationTwoCell.leftUnitorIso_hom_cell,
-        ExactUniversalClassificationTwoCell.leftUnitorIso_inv_cell,
         ExactUniversalRawMorphismTwoCell.whiskerLeft_lift,
-        ExactUniversalRawMorphismTwoCell.vcomp_lift,
         ExactUniversalRawMorphism.id_lift,
-        ExactUniversalRawMorphism.comp_lift,
-        ExactUniversalRawMorphismTwoCell.leftUnitorIso_hom,
-        ExactUniversalRawMorphismTwoCell.leftUnitorIso_inv
+        ExactUniversalRawMorphism.comp_lift
       ]
       exact Bicategory.id_whiskerLeft eta.cell.lift
 
@@ -464,31 +442,17 @@ noncomputable instance ExactUniversalClassificationObject.bicategory
     apply ExactUniversalRawMorphismTwoCell.ext
     · simp only [
         ExactUniversalClassificationTwoCell.whiskerLeft_cell,
-        ExactUniversalClassificationTwoCell.vcomp_cell,
         ExactUniversalClassificationOneCell.comp_map,
-        ExactUniversalClassificationTwoCell.associatorIso_hom_cell,
-        ExactUniversalClassificationTwoCell.associatorIso_inv_cell,
         ExactUniversalRawMorphismTwoCell.whiskerLeft_raw,
-        ExactUniversalRawMorphismTwoCell.vcomp_raw,
-        ExactUniversalRawMorphism.comp_raw,
-        ExactUniversalRawMorphismTwoCell.associatorIso_hom,
-        ExactUniversalRawMorphismTwoCell.associatorIso_inv,
-        ExactUniversalRawMorphismTwoCell.associator_raw,
-        ExactUniversalRawMorphismTwoCell.associatorInv_raw
+        ExactUniversalRawMorphism.comp_raw
       ]
       exact Bicategory.comp_whiskerLeft
         f.map.raw g.map.raw eta.cell.raw
     · simp only [
         ExactUniversalClassificationTwoCell.whiskerLeft_cell,
-        ExactUniversalClassificationTwoCell.vcomp_cell,
         ExactUniversalClassificationOneCell.comp_map,
-        ExactUniversalClassificationTwoCell.associatorIso_hom_cell,
-        ExactUniversalClassificationTwoCell.associatorIso_inv_cell,
         ExactUniversalRawMorphismTwoCell.whiskerLeft_lift,
-        ExactUniversalRawMorphismTwoCell.vcomp_lift,
-        ExactUniversalRawMorphism.comp_lift,
-        ExactUniversalRawMorphismTwoCell.associatorIso_hom,
-        ExactUniversalRawMorphismTwoCell.associatorIso_inv
+        ExactUniversalRawMorphism.comp_lift
       ]
       exact Bicategory.comp_whiskerLeft
         f.map.lift g.map.lift eta.cell.lift
@@ -499,19 +463,15 @@ noncomputable instance ExactUniversalClassificationObject.bicategory
     apply ExactUniversalRawMorphismTwoCell.ext
     · simp only [
         ExactUniversalClassificationTwoCell.whiskerRight_cell,
-        ExactUniversalClassificationTwoCell.id_cell,
         ExactUniversalClassificationOneCell.comp_map,
         ExactUniversalRawMorphismTwoCell.whiskerRight_raw,
-        ExactUniversalRawMorphismTwoCell.id_raw,
         ExactUniversalRawMorphism.comp_raw
       ]
       exact Bicategory.id_whiskerRight f.map.raw g.map.raw
     · simp only [
         ExactUniversalClassificationTwoCell.whiskerRight_cell,
-        ExactUniversalClassificationTwoCell.id_cell,
         ExactUniversalClassificationOneCell.comp_map,
         ExactUniversalRawMorphismTwoCell.whiskerRight_lift,
-        ExactUniversalRawMorphismTwoCell.id_lift,
         ExactUniversalRawMorphism.comp_lift
       ]
       exact Bicategory.id_whiskerRight f.map.lift g.map.lift
@@ -522,20 +482,16 @@ noncomputable instance ExactUniversalClassificationObject.bicategory
     apply ExactUniversalRawMorphismTwoCell.ext
     · simp only [
         ExactUniversalClassificationTwoCell.whiskerRight_cell,
-        ExactUniversalClassificationTwoCell.vcomp_cell,
         ExactUniversalClassificationOneCell.comp_map,
         ExactUniversalRawMorphismTwoCell.whiskerRight_raw,
-        ExactUniversalRawMorphismTwoCell.vcomp_raw,
         ExactUniversalRawMorphism.comp_raw
       ]
       exact Bicategory.comp_whiskerRight
         eta.cell.raw theta.cell.raw i.map.raw
     · simp only [
         ExactUniversalClassificationTwoCell.whiskerRight_cell,
-        ExactUniversalClassificationTwoCell.vcomp_cell,
         ExactUniversalClassificationOneCell.comp_map,
         ExactUniversalRawMorphismTwoCell.whiskerRight_lift,
-        ExactUniversalRawMorphismTwoCell.vcomp_lift,
         ExactUniversalRawMorphism.comp_lift
       ]
       exact Bicategory.comp_whiskerRight
@@ -547,34 +503,20 @@ noncomputable instance ExactUniversalClassificationObject.bicategory
     apply ExactUniversalRawMorphismTwoCell.ext
     · simp only [
         ExactUniversalClassificationTwoCell.whiskerRight_cell,
-        ExactUniversalClassificationTwoCell.vcomp_cell,
         ExactUniversalClassificationOneCell.id_map,
         ExactUniversalClassificationOneCell.comp_map,
-        ExactUniversalClassificationTwoCell.rightUnitorIso_hom_cell,
-        ExactUniversalClassificationTwoCell.rightUnitorIso_inv_cell,
         ExactUniversalRawMorphismTwoCell.whiskerRight_raw,
-        ExactUniversalRawMorphismTwoCell.vcomp_raw,
         ExactUniversalRawMorphism.id_raw,
-        ExactUniversalRawMorphism.comp_raw,
-        ExactUniversalRawMorphismTwoCell.rightUnitorIso_hom,
-        ExactUniversalRawMorphismTwoCell.rightUnitorIso_inv,
-        ExactUniversalRawMorphismTwoCell.rightUnitor_raw,
-        ExactUniversalRawMorphismTwoCell.rightUnitorInv_raw
+        ExactUniversalRawMorphism.comp_raw
       ]
       exact Bicategory.whiskerRight_id eta.cell.raw
     · simp only [
         ExactUniversalClassificationTwoCell.whiskerRight_cell,
-        ExactUniversalClassificationTwoCell.vcomp_cell,
         ExactUniversalClassificationOneCell.id_map,
         ExactUniversalClassificationOneCell.comp_map,
-        ExactUniversalClassificationTwoCell.rightUnitorIso_hom_cell,
-        ExactUniversalClassificationTwoCell.rightUnitorIso_inv_cell,
         ExactUniversalRawMorphismTwoCell.whiskerRight_lift,
-        ExactUniversalRawMorphismTwoCell.vcomp_lift,
         ExactUniversalRawMorphism.id_lift,
-        ExactUniversalRawMorphism.comp_lift,
-        ExactUniversalRawMorphismTwoCell.rightUnitorIso_hom,
-        ExactUniversalRawMorphismTwoCell.rightUnitorIso_inv
+        ExactUniversalRawMorphism.comp_lift
       ]
       exact Bicategory.whiskerRight_id eta.cell.lift
 
@@ -584,31 +526,17 @@ noncomputable instance ExactUniversalClassificationObject.bicategory
     apply ExactUniversalRawMorphismTwoCell.ext
     · simp only [
         ExactUniversalClassificationTwoCell.whiskerRight_cell,
-        ExactUniversalClassificationTwoCell.vcomp_cell,
         ExactUniversalClassificationOneCell.comp_map,
-        ExactUniversalClassificationTwoCell.associatorIso_hom_cell,
-        ExactUniversalClassificationTwoCell.associatorIso_inv_cell,
         ExactUniversalRawMorphismTwoCell.whiskerRight_raw,
-        ExactUniversalRawMorphismTwoCell.vcomp_raw,
-        ExactUniversalRawMorphism.comp_raw,
-        ExactUniversalRawMorphismTwoCell.associatorIso_hom,
-        ExactUniversalRawMorphismTwoCell.associatorIso_inv,
-        ExactUniversalRawMorphismTwoCell.associator_raw,
-        ExactUniversalRawMorphismTwoCell.associatorInv_raw
+        ExactUniversalRawMorphism.comp_raw
       ]
       exact Bicategory.whiskerRight_comp
         eta.cell.raw g.map.raw h.map.raw
     · simp only [
         ExactUniversalClassificationTwoCell.whiskerRight_cell,
-        ExactUniversalClassificationTwoCell.vcomp_cell,
         ExactUniversalClassificationOneCell.comp_map,
-        ExactUniversalClassificationTwoCell.associatorIso_hom_cell,
-        ExactUniversalClassificationTwoCell.associatorIso_inv_cell,
         ExactUniversalRawMorphismTwoCell.whiskerRight_lift,
-        ExactUniversalRawMorphismTwoCell.vcomp_lift,
-        ExactUniversalRawMorphism.comp_lift,
-        ExactUniversalRawMorphismTwoCell.associatorIso_hom,
-        ExactUniversalRawMorphismTwoCell.associatorIso_inv
+        ExactUniversalRawMorphism.comp_lift
       ]
       exact Bicategory.whiskerRight_comp
         eta.cell.lift g.map.lift h.map.lift
@@ -620,34 +548,20 @@ noncomputable instance ExactUniversalClassificationObject.bicategory
     · simp only [
         ExactUniversalClassificationTwoCell.whiskerLeft_cell,
         ExactUniversalClassificationTwoCell.whiskerRight_cell,
-        ExactUniversalClassificationTwoCell.vcomp_cell,
         ExactUniversalClassificationOneCell.comp_map,
-        ExactUniversalClassificationTwoCell.associatorIso_hom_cell,
-        ExactUniversalClassificationTwoCell.associatorIso_inv_cell,
         ExactUniversalRawMorphismTwoCell.whiskerLeft_raw,
         ExactUniversalRawMorphismTwoCell.whiskerRight_raw,
-        ExactUniversalRawMorphismTwoCell.vcomp_raw,
-        ExactUniversalRawMorphism.comp_raw,
-        ExactUniversalRawMorphismTwoCell.associatorIso_hom,
-        ExactUniversalRawMorphismTwoCell.associatorIso_inv,
-        ExactUniversalRawMorphismTwoCell.associator_raw,
-        ExactUniversalRawMorphismTwoCell.associatorInv_raw
+        ExactUniversalRawMorphism.comp_raw
       ]
       exact Bicategory.whisker_assoc
         f.map.raw eta.cell.raw h.map.raw
     · simp only [
         ExactUniversalClassificationTwoCell.whiskerLeft_cell,
         ExactUniversalClassificationTwoCell.whiskerRight_cell,
-        ExactUniversalClassificationTwoCell.vcomp_cell,
         ExactUniversalClassificationOneCell.comp_map,
-        ExactUniversalClassificationTwoCell.associatorIso_hom_cell,
-        ExactUniversalClassificationTwoCell.associatorIso_inv_cell,
         ExactUniversalRawMorphismTwoCell.whiskerLeft_lift,
         ExactUniversalRawMorphismTwoCell.whiskerRight_lift,
-        ExactUniversalRawMorphismTwoCell.vcomp_lift,
-        ExactUniversalRawMorphism.comp_lift,
-        ExactUniversalRawMorphismTwoCell.associatorIso_hom,
-        ExactUniversalRawMorphismTwoCell.associatorIso_inv
+        ExactUniversalRawMorphism.comp_lift
       ]
       exact Bicategory.whisker_assoc
         f.map.lift eta.cell.lift h.map.lift
