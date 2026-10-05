@@ -95,7 +95,7 @@ theorem ambientAlignedExactLiftabilityCriterion_implies_exactLiftabilityCriterio
       RawHigherContextualSystem.{u, v, uH, vH}
         (Context := Context))
     (hAligned :
-      AmbientAlignedExactLiftabilityCriterion
+      AmbientAlignedExactLiftabilityCriterion.{u, v, uH, vH}
         (W := W) A R) :
     ExactLiftabilityCriterion
       (W := W) A R := by
@@ -142,7 +142,7 @@ theorem ExactLiftableClassificationObject.exists_labelPreserving_exactUniversalS
       ExactLiftableClassificationObject
         (W := W) A WorldLabel PresentationLabel)
     (hAligned :
-      AmbientAlignedExactLiftabilityCriterion
+      AmbientAlignedExactLiftabilityCriterion.{u, v, uH, vH}
         (W := W) A X.raw) :
     ∃ Y :
         ExactUniversalClassificationObject
@@ -155,7 +155,7 @@ theorem ExactLiftableClassificationObject.exists_labelPreserving_exactUniversalS
   let Z :
       DependentOriginationCompletion2.{u, v, uH, uH, vH}
         (W := W) A :=
-    ambientCarrierOfAlignedStackFactorization
+    ambientCarrierOfAlignedStackFactorization.{u, v, uH, vH}
       (W := W) A H
   let S :
       ExactUniversalRawObject.{u, v, uH, vH}
@@ -188,7 +188,7 @@ theorem WeakSemanticClassificationObject.exists_labelPreserving_exactUniversalSo
       WeakSemanticClassificationObject
         (W := W) WorldLabel PresentationLabel)
     (hAligned :
-      AmbientAlignedExactLiftabilityCriterion
+      AmbientAlignedExactLiftabilityCriterion.{u, v, uH, vH}
         (W := W) A X.raw) :
     ∃ Y :
         ExactUniversalClassificationObject
@@ -201,7 +201,7 @@ theorem WeakSemanticClassificationObject.exists_labelPreserving_exactUniversalSo
   let Z :
       DependentOriginationCompletion2.{u, v, uH, uH, vH}
         (W := W) A :=
-    ambientCarrierOfAlignedStackFactorization
+    ambientCarrierOfAlignedStackFactorization.{u, v, uH, vH}
       (W := W) A H
   let S :
       ExactUniversalRawObject.{u, v, uH, vH}
