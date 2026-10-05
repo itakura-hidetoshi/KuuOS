@@ -23,45 +23,44 @@ set_option autoImplicit false
 noncomputable section
 
 /-!
-# Exact classification factor existence v5.19
+# Ambient-aligned classification factor existence v5.19
 
-v5.18 identifies exact liftability with stack-localization factorization.
-The next classification obligation is factor existence.
+v5.18 identifies exact presentation existence with a higher localization
+factorization plus stack descent.  A fresh universe audit shows that this does
+not yet imply the universe alignment required by the v5.11 ambient canonical
+source.
 
-There is a genuine universe boundary inherited from the already-proved ambient
-theory.  In v5.11 the canonical ambient source is developed with four declared
-universes `u v uH vH`; consequently the refinement-atlas index universe in
-that theorem family is the same `uH` used for the object universe of
-`Cat.{vH,uH}`.
+The distinction is visible in the native v2.10 type.  A stack localization
+factorization has separate universe parameters for:
 
-Accordingly this theorem unit states that boundary explicitly:
+* the refinement-atlas index family;
+* the objects of the localized Cat-valued lift;
+* the morphisms of the localized Cat-valued lift.
 
-  A : RefinementAtlas.{u, max u v, uH} (LocalizedContext W).
+Thus an exact-liftability witness for a raw system in
+`Cat.{vH,uH}` may have a localized lift in `Cat.{vLift,uLift}`.
+Nothing in v4.50/v5.18 identifies those universe levels.
 
-No theorem for an independently larger atlas-index universe is manufactured.
+By contrast, the existing v5.11 canonical ambient source is instantiated at
 
-For an exact-liftable classification object X, v4.50/v5.18 supplies a
-stack-localization factorization
+  DO₂.{u,v,uH,uH,vH},
 
-  H : HigherStackLocalizationFactorization W A X.raw.
+so its atlas-index universe and localized Cat object universe are both `uH`.
 
-Its localized lift has the already-fixed `Cat.{vH,uH}` universe.  Repackage it
-as the ambient object
+The correct next criterion is therefore an explicitly ambient-aligned
+stack-localization factorization.  Under that criterion, factor existence is
+straightforward and theorem-backed:
 
-  Z : DO₂.{u,v,uH,uH,vH} := ⟨H.lift, H.isStack⟩.
+  aligned stack factorization H
+      -> Z := ⟨H.lift, H.isStack⟩ in DO₂.{u,v,uH,uH,vH}
+      -> canonical exact-universal source S(Z)
+      -> H.comparison : S(Z).raw --> R
 
-v5.11 then gives a canonical exact-universal source over Z.  Its raw system is
-definitionally the restriction of H.lift, while H.comparison is a directed
-pointwise equivalence
+with pointwise-equivalence components.
 
-  restrict(H.lift) --> X.raw.
-
-Thus factor existence preserves the external classification label and the
-chosen ambient carrier exactly, while retaining the precise directed
-pointwise-equivalence relation to the original raw system.
-
-No inverse raw comparison, raw equality, or arbitrary-factor coherent
-uniqueness is asserted.
+This file deliberately does not assert that ordinary v5.18 exact liftability
+implies ambient alignment.  Proving such a universe-alignment/reindexing theorem
+would be a separate theorem unit.
 -/
 
 universe u v uH vH uW uP
@@ -69,56 +68,82 @@ universe u v uH vH uW uP
 variable {Context : Type u} [Category.{v} Context]
 variable (W : MorphismProperty Context)
 
-/-- v5.11's ambient theorem family identifies the atlas-index universe with
-`uH`.  v5.19 keeps exactly that existing theorem boundary. -/
+/-
+The v5.11 theorem family uses the same universe `uH` for atlas indices and
+localized Cat objects.  This is a theorem boundary, not a cosmetic annotation.
+-/
 variable
   (A :
     RefinementAtlas.{u, max u v, uH}
       (LocalizedContext W))
 
-/-- The ambient DO₂ object type used by the canonical v5.11 source. -/
-abbrev ClassificationAmbient :=
-  DependentOriginationCompletion2.{u, v, uH, uH, vH}
-    (W := W) A
+/-- Existence of a stack-localization factorization already living in the
+universe used by the v5.11 ambient completion. -/
+def AmbientAlignedExactLiftabilityCriterion
+    (R :
+      RawHigherContextualSystem.{u, v, uH, vH}
+        (Context := Context)) : Prop :=
+  Nonempty
+    (HigherStackLocalizationFactorization.{u, v, uH, uH, vH}
+      (W := W) A R)
 
-/-- Build the ambient DO₂ object carried by one stack-localization
-factorization.  The target and atlas universes are already fixed in the
-signature, before elaboration of the subtype constructor begins. -/
-def ambientCarrierOfStackFactorization
+/-- Ambient alignment is stronger than the v5.18 exact-liftability criterion:
+forget the universe alignment, retain the ordinary higher factorization and its
+stack witness. -/
+theorem ambientAlignedExactLiftabilityCriterion_implies_exactLiftabilityCriterion
+    (R :
+      RawHigherContextualSystem.{u, v, uH, vH}
+        (Context := Context))
+    (hAligned :
+      AmbientAlignedExactLiftabilityCriterion
+        (W := W) A R) :
+    ExactLiftabilityCriterion
+      (W := W) A R := by
+  rcases hAligned with ⟨H⟩
+  exact
+    ⟨H.toHigherLocalizationFactorization, H.isStack⟩
+
+/-- The explicitly aligned stack factorization determines an object of the
+ambient completion used by v5.11. -/
+def ambientCarrierOfAlignedStackFactorization
     {R :
       RawHigherContextualSystem.{u, v, uH, vH}
         (Context := Context)}
     (H :
-      HigherStackLocalizationFactorization
+      HigherStackLocalizationFactorization.{u, v, uH, uH, vH}
         (W := W) A R) :
-    ClassificationAmbient.{u, v, uH, vH}
+    DependentOriginationCompletion2.{u, v, uH, uH, vH}
       (W := W) A :=
   ⟨H.lift, H.isStack⟩
 
-@[simp] theorem ambientCarrierOfStackFactorization_val
+@[simp] theorem ambientCarrierOfAlignedStackFactorization_val
     {R :
       RawHigherContextualSystem.{u, v, uH, vH}
         (Context := Context)}
     (H :
-      HigherStackLocalizationFactorization
+      HigherStackLocalizationFactorization.{u, v, uH, uH, vH}
         (W := W) A R) :
     higherStackObjectVal (W := W) A
-        (ambientCarrierOfStackFactorization
+        (ambientCarrierOfAlignedStackFactorization
           (W := W) A H) =
       H.lift :=
   rfl
 
-/-- Core factor-existence theorem.
+/-- Core v5.19 factor-existence theorem.
 
-Every exact-liftable classification object has a label-preserving
-exact-universal source whose raw restriction compares pointwise-equivalently to
-the original raw system. -/
-theorem ExactLiftableClassificationObject.exists_labelPreserving_exactUniversalSource
+An exact-liftable classification object enters the v5.11 exact-universal
+ambient source once an ambient-aligned witness is supplied.  The external label
+is preserved literally and the raw system is related to the canonical source
+by the original directed pointwise-equivalence comparison. -/
+theorem ExactLiftableClassificationObject.exists_labelPreserving_exactUniversalSource_of_ambientAligned
     {WorldLabel : Type uW}
     {PresentationLabel : Type uP}
     (X :
       ExactLiftableClassificationObject
-        (W := W) A WorldLabel PresentationLabel) :
+        (W := W) A WorldLabel PresentationLabel)
+    (hAligned :
+      AmbientAlignedExactLiftabilityCriterion
+        (W := W) A X.raw) :
     ∃ Y :
         ExactUniversalClassificationObject
           (W := W) A WorldLabel PresentationLabel,
@@ -126,16 +151,11 @@ theorem ExactLiftableClassificationObject.exists_labelPreserving_exactUniversalS
         Nonempty
           (HigherPointwiseEquivalenceComparison
             Y.source.raw X.raw) := by
-  have hStack :
-      HasHigherStackLocalizationFactorization
-        (W := W) A X.raw :=
-    (hasExactHigherDependentOriginationPresentation_iff_stackFactorization
-      (W := W) A X.raw).1 X.exact
-  rcases hStack with ⟨H⟩
+  rcases hAligned with ⟨H⟩
   let Z :
-      ClassificationAmbient.{u, v, uH, vH}
+      DependentOriginationCompletion2.{u, v, uH, uH, vH}
         (W := W) A :=
-    ambientCarrierOfStackFactorization
+    ambientCarrierOfAlignedStackFactorization
       (W := W) A H
   let S :
       ExactUniversalRawObject.{u, v, uH, vH}
@@ -156,19 +176,19 @@ theorem ExactLiftableClassificationObject.exists_labelPreserving_exactUniversalS
     { comparison := H.comparison
       comparison_isEquivalence := H.comparison_isEquivalence }
 
-/-- The same factor-existence theorem starts from a weak semantic object once
-an explicit v5.18 exact-liftability criterion witness is supplied.
+/-- The factor-existence theorem can also start at the weak semantic layer,
+provided the stronger ambient-aligned criterion is supplied explicitly.
 
-The proof consumes the criterion itself; weak admissibility alone is never used
-to manufacture an exact factor. -/
-theorem WeakSemanticClassificationObject.exists_labelPreserving_exactUniversalSource_ofCriterion
+The criterion itself implies the v5.18 exact-liftability criterion; weak
+admissibility alone remains insufficient. -/
+theorem WeakSemanticClassificationObject.exists_labelPreserving_exactUniversalSource_of_ambientAligned
     {WorldLabel : Type uW}
     {PresentationLabel : Type uP}
     (X :
       WeakSemanticClassificationObject
         (W := W) WorldLabel PresentationLabel)
-    (hCriterion :
-      ExactLiftabilityCriterion
+    (hAligned :
+      AmbientAlignedExactLiftabilityCriterion
         (W := W) A X.raw) :
     ∃ Y :
         ExactUniversalClassificationObject
@@ -177,17 +197,12 @@ theorem WeakSemanticClassificationObject.exists_labelPreserving_exactUniversalSo
         Nonempty
           (HigherPointwiseEquivalenceComparison
             Y.source.raw X.raw) := by
-  rcases hCriterion with ⟨H, hStack⟩
-  let HS :
-      HigherStackLocalizationFactorization
-        (W := W) A X.raw :=
-    { toHigherLocalizationFactorization := H
-      isStack := hStack }
+  rcases hAligned with ⟨H⟩
   let Z :
-      ClassificationAmbient.{u, v, uH, vH}
+      DependentOriginationCompletion2.{u, v, uH, uH, vH}
         (W := W) A :=
-    ambientCarrierOfStackFactorization
-      (W := W) A HS
+    ambientCarrierOfAlignedStackFactorization
+      (W := W) A H
   let S :
       ExactUniversalRawObject.{u, v, uH, vH}
         (W := W) A :=
@@ -210,31 +225,37 @@ theorem WeakSemanticClassificationObject.exists_labelPreserving_exactUniversalSo
 /-!
 ## Boundary after v5.19
 
-At the exact universe boundary already used by v5.11:
+The factor-existence boundary is now explicit:
 
-  exact-liftable X
-      -> stack-localization factorization H
-      -> Z : DO₂.{u,v,uH,uH,vH}
+  AmbientAlignedExactLiftabilityCriterion R
+      -> ExactLiftabilityCriterion R
+      -> IsHigherWAdmissible W R,
+
+and, at the aligned level,
+
+  aligned stack factorization H
+      -> Z in DO₂.{u,v,uH,uH,vH}
       -> canonical exact-universal source S(Z)
-      -> directed pointwise-equivalence
-           S(Z).raw = restrict(H.lift) --> X.raw.
+      -> directed pointwise equivalence S(Z).raw --> R.
 
-The external label is preserved literally.
+What is not proved is the converse
 
-Two boundaries remain explicit.
+  ExactLiftabilityCriterion R
+      -> AmbientAlignedExactLiftabilityCriterion R.
 
-1. The current canonical ambient source theorem identifies the atlas-index
-   universe with `uH`.  Generalizing that ambient package to an independent
-   atlas universe is a separate theorem-engineering task, not part of v5.19.
+That missing arrow is a genuine universe-alignment/reindexing obligation.  It
+must not be hidden by implicit universe inference.
 
-2. The comparison above is directed.  It does not contain the inverse
-   StrongTrans and unit/counit modifications required by v4.55's
-   `HigherRawSystemCoherentEquivalence`.  Hence it cannot be silently upgraded
-   to two-sided coherent equivalence.
+Likewise the factor comparison is directed; it does not supply the inverse
+StrongTrans and unit/counit modifications required by v4.55's
+`HigherRawSystemCoherentEquivalence`.
 
-The next coherent-uniqueness theorem should therefore use v4.54 for universal
-targets over the same raw system, and v4.55 only when an explicit two-sided
-coherent raw equivalence is supplied.
+The next theorem unit can therefore separate two independent obligations:
+
+1. universe-alignment/reindexing, if the final classification theorem must start
+   from all v5.18 exact-liftable objects; and
+2. coherent uniqueness, using v4.54 on fixed-raw universal targets and v4.55
+   only under explicit two-sided coherent raw equivalence.
 -/
 
 end
