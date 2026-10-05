@@ -349,7 +349,14 @@ noncomputable def exactUniversalClassificationSourceRoundtripUnitNaturalityIso
         (W := W) A).mapComp f.map g.map).hom :=
   rfl
 
-/-- Native source-side StrongTrans unit. -/
+/-- Native source-side StrongTrans unit.
+
+The wrapper-level composition law is elaboration-heavy because Lean must
+normalize nested classification, source-bicategory, and pseudofunctor
+composition structures.  All mathematical laws have already been reduced to
+v5.14 above; this declaration alone receives a larger deterministic
+elaboration budget. -/
+set_option maxHeartbeats 600000 in
 noncomputable def exactUniversalClassificationSourceRoundtripUnit
     {WorldLabel : Type uW}
     {PresentationLabel : Type uP} :
