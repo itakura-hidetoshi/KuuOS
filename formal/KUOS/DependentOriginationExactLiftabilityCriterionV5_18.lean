@@ -112,7 +112,7 @@ theorem exactLiftabilityCriterion_isHigherWAdmissible
 /-- A weak semantic classification object can be promoted to the exact-liftable
 layer when, and only when, an explicit exact-liftability criterion witness is
 available.  No implication from weak admissibility alone is used. -/
-def WeakSemanticClassificationObject.toExactLiftableOfCriterion
+def weakSemanticClassificationObjectToExactLiftableOfCriterion
     {WorldLabel : Type uW}
     {PresentationLabel : Type uP}
     (X :
@@ -136,7 +136,8 @@ def WeakSemanticClassificationObject.toExactLiftableOfCriterion
         (W := W) WorldLabel PresentationLabel)
     (hCriterion :
       ExactLiftabilityCriterion (W := W) A X.raw) :
-    (X.toExactLiftableOfCriterion (W := W) A hCriterion).label =
+    (weakSemanticClassificationObjectToExactLiftableOfCriterion
+      (W := W) A X hCriterion).label =
       X.label :=
   rfl
 
@@ -148,7 +149,8 @@ def WeakSemanticClassificationObject.toExactLiftableOfCriterion
         (W := W) WorldLabel PresentationLabel)
     (hCriterion :
       ExactLiftabilityCriterion (W := W) A X.raw) :
-    (X.toExactLiftableOfCriterion (W := W) A hCriterion).raw =
+    (weakSemanticClassificationObjectToExactLiftableOfCriterion
+      (W := W) A X hCriterion).raw =
       X.raw :=
   rfl
 
@@ -197,7 +199,7 @@ theorem not_all_weakSemantic_octahedral_objects_satisfy_exactLiftabilityCriterio
         (LocalizedContext allMorphisms)) :
     ¬ ∀
       X :
-        WeakSemanticClassificationObject
+        WeakSemanticClassificationObject.{0, 0, 0, 0, 0, 0}
           (W := allMorphisms) Unit Unit,
       ExactLiftabilityCriterion
         (W := allMorphisms) A X.raw := by
