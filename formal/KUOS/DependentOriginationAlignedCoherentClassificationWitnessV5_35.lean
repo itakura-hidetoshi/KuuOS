@@ -83,7 +83,7 @@ structure LabelPreservingLocalizedCoherentPresentationWitness
 /-- Upgrade the original explicit directed witness of the first v5.34 package
 to a coherent witness using the pointwise-to-coherent theorem. -/
 noncomputable def
-    LabelPreservingLocalizedPresentationWitness.toCoherent
+    directedWitnessToCoherent
     {WorldLabel : Type uW}
     {PresentationLabel : Type uP}
     {label : ClassificationLabel WorldLabel PresentationLabel}
@@ -103,7 +103,7 @@ noncomputable def
 
 /-- Forget a coherent witness back to the original directed witness through the
 forward comparison of the coherent raw equivalence. -/
-def LabelPreservingLocalizedCoherentPresentationWitness.toDirected
+def coherentWitnessToDirected
     {WorldLabel : Type uW}
     {PresentationLabel : Type uP}
     {label : ClassificationLabel WorldLabel PresentationLabel}
@@ -120,7 +120,7 @@ def LabelPreservingLocalizedCoherentPresentationWitness.toDirected
   comparison := P.equivalence.forward
 
 @[simp] theorem
-    LabelPreservingLocalizedPresentationWitness.toCoherent_target
+    directedWitnessToCoherent_target
     {WorldLabel : Type uW}
     {PresentationLabel : Type uP}
     {label : ClassificationLabel WorldLabel PresentationLabel}
@@ -130,12 +130,12 @@ def LabelPreservingLocalizedCoherentPresentationWitness.toDirected
     (P :
       KUOS.DependentOriginationAlignedClassificationWitnessPackageV5_34.LabelPreservingLocalizedPresentationWitness
         (W := W) A label R) :
-    (LabelPreservingLocalizedPresentationWitness.toCoherent
+    (directedWitnessToCoherent
       (W := W) A P).target = P.target :=
   rfl
 
 @[simp] theorem
-    LabelPreservingLocalizedCoherentPresentationWitness.toDirected_target
+    coherentWitnessToDirected_target
     {WorldLabel : Type uW}
     {PresentationLabel : Type uP}
     {label : ClassificationLabel WorldLabel PresentationLabel}
@@ -145,7 +145,7 @@ def LabelPreservingLocalizedCoherentPresentationWitness.toDirected
     (P :
       LabelPreservingLocalizedCoherentPresentationWitness
         (W := W) A label R) :
-    (P.toDirected (W := W) A).target = P.target :=
+    (coherentWitnessToDirected (W := W) A P).target = P.target :=
   rfl
 
 /-- The old explicit directed witness and the new coherent witness have
@@ -166,11 +166,11 @@ theorem nonemptyLocalizedPresentationWitness_iff_nonemptyCoherentWitness
   constructor
   · rintro ⟨P⟩
     exact
-      ⟨LabelPreservingLocalizedPresentationWitness.toCoherent
+      ⟨directedWitnessToCoherent
         (W := W) A P⟩
   · rintro ⟨P⟩
     exact
-      ⟨P.toDirected (W := W) A⟩
+      ⟨coherentWitnessToDirected (W := W) A P⟩
 
 /-- The existential coherent-presentation predicate of the second v5.34 file is
 precisely nonemptiness of the explicit coherent witness type. -/
@@ -283,7 +283,7 @@ def exactLiftableClassificationObjectOfLocalizedCoherentPresentationWitness
       (W := W) A WorldLabel PresentationLabel :=
   KUOS.DependentOriginationAlignedClassificationWitnessPackageV5_34.exactLiftableClassificationObjectOfLocalizedPresentationWitness
     (W := W) A X
-    (P.toDirected (W := W) A)
+    (coherentWitnessToDirected (W := W) A P)
 
 @[simp] theorem
     exactLiftableClassificationObjectOfLocalizedCoherentPresentationWitness_label
@@ -371,7 +371,7 @@ Still open / unchanged:
   exact-universal mapping-morphism machinery.
 -/
 
-#print axioms LabelPreservingLocalizedPresentationWitness.toCoherent
+#print axioms directedWitnessToCoherent
 #print axioms nonemptyLocalizedPresentationWitness_iff_nonemptyCoherentWitness
 #print axioms exactLiftabilityCriterion_iff_nonemptyLocalizedCoherentPresentationWitness
 #print axioms ExactLiftableClassificationObject.nonempty_labelPreservingLocalizedCoherentPresentationWitness
