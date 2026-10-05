@@ -67,7 +67,7 @@ No inverse raw comparison and no coherent uniqueness between arbitrary factors
 is asserted here.
 -/
 
-universe u v uH vH uW uP
+universe u v uH vH uW uP uE
 
 variable {Context : Type u} [Category.{v} Context]
 variable (W : MorphismProperty Context)
@@ -86,7 +86,7 @@ noncomputable def exactLiftableChosenStackFactorization
     {WorldLabel : Type uW}
     {PresentationLabel : Type uP}
     (X :
-      ExactLiftableClassificationObject
+      ExactLiftableClassificationObject.{u, v, uH, vH, uW, uP, uE}
         (W := W) A WorldLabel PresentationLabel) :
     HigherStackLocalizationFactorization
       (W := W) A X.raw :=
@@ -100,7 +100,7 @@ noncomputable def exactLiftableClassificationAmbientCarrier
     {WorldLabel : Type uW}
     {PresentationLabel : Type uP}
     (X :
-      ExactLiftableClassificationObject
+      ExactLiftableClassificationObject.{u, v, uH, vH, uW, uP, uE}
         (W := W) A WorldLabel PresentationLabel) :
     ClassificationAmbient (W := W) A :=
   ⟨(exactLiftableChosenStackFactorization
@@ -113,7 +113,7 @@ noncomputable def exactLiftableClassificationAmbientCarrier
     {WorldLabel : Type uW}
     {PresentationLabel : Type uP}
     (X :
-      ExactLiftableClassificationObject
+      ExactLiftableClassificationObject.{u, v, uH, vH, uW, uP, uE}
         (W := W) A WorldLabel PresentationLabel) :
     higherStackObjectVal (W := W) A
         (exactLiftableClassificationAmbientCarrier
@@ -128,7 +128,7 @@ structure ExactUniversalClassificationFactor
     {WorldLabel : Type uW}
     {PresentationLabel : Type uP}
     (X :
-      ExactLiftableClassificationObject
+      ExactLiftableClassificationObject.{u, v, uH, vH, uW, uP, uE}
         (W := W) A WorldLabel PresentationLabel) where
   /-- Stack-localization data at the raw system's fixed universes. -/
   factorization :
@@ -165,7 +165,7 @@ noncomputable def exactUniversalClassificationFactor
     {WorldLabel : Type uW}
     {PresentationLabel : Type uP}
     (X :
-      ExactLiftableClassificationObject
+      ExactLiftableClassificationObject.{u, v, uH, vH, uW, uP, uE}
         (W := W) A WorldLabel PresentationLabel) :
     ExactUniversalClassificationFactor
       (W := W) A X := by
@@ -210,7 +210,7 @@ noncomputable def exactUniversalClassificationFactor
     {WorldLabel : Type uW}
     {PresentationLabel : Type uP}
     (X :
-      ExactLiftableClassificationObject
+      ExactLiftableClassificationObject.{u, v, uH, vH, uW, uP, uE}
         (W := W) A WorldLabel PresentationLabel) :
     (exactUniversalClassificationFactor
       (W := W) A X).source.label =
@@ -223,7 +223,7 @@ lift. -/
     {WorldLabel : Type uW}
     {PresentationLabel : Type uP}
     (X :
-      ExactLiftableClassificationObject
+      ExactLiftableClassificationObject.{u, v, uH, vH, uW, uP, uE}
         (W := W) A WorldLabel PresentationLabel) :
     higherStackObjectVal (W := W) A
         (exactUniversalClassificationFactor
@@ -240,7 +240,7 @@ theorem exactUniversalClassificationFactor_source_carrier
     {WorldLabel : Type uW}
     {PresentationLabel : Type uP}
     (X :
-      ExactLiftableClassificationObject
+      ExactLiftableClassificationObject.{u, v, uH, vH, uW, uP, uE}
         (W := W) A WorldLabel PresentationLabel) :
     (exactUniversalClassificationFactor
       (W := W) A X).source.source.carrier =
@@ -256,7 +256,7 @@ theorem ExactLiftableClassificationObject.existsExactUniversalClassificationFact
     {WorldLabel : Type uW}
     {PresentationLabel : Type uP}
     (X :
-      ExactLiftableClassificationObject
+      ExactLiftableClassificationObject.{u, v, uH, vH, uW, uP, uE}
         (W := W) A WorldLabel PresentationLabel) :
     Nonempty
       (ExactUniversalClassificationFactor
@@ -271,7 +271,7 @@ theorem ExactLiftableClassificationObject.exists_labelPreserving_exactUniversalS
     {WorldLabel : Type uW}
     {PresentationLabel : Type uP}
     (X :
-      ExactLiftableClassificationObject
+      ExactLiftableClassificationObject.{u, v, uH, vH, uW, uP, uE}
         (W := W) A WorldLabel PresentationLabel) :
     ∃ Y :
         ExactUniversalClassificationObject
@@ -306,9 +306,7 @@ theorem WeakSemanticClassificationObject.exists_labelPreserving_exactUniversalSo
         Nonempty
           (HigherPointwiseEquivalenceComparison
             Y.source.raw X.raw) := by
-  let XExact :
-      ExactLiftableClassificationObject
-        (W := W) A WorldLabel PresentationLabel :=
+  let XExact :=
     weakSemanticClassificationObjectToExactLiftableOfCriterion
       (W := W) A X hCriterion
   exact
