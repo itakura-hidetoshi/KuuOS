@@ -98,7 +98,7 @@ variable {Context : Type u} [Category.{v} Context]
 
 /-- Adapt the Context-indexed pointwise-equivalence field to every object of the
 actual raw base bicategory LocallyDiscrete Context. -/
-theorem HigherPointwiseEquivalenceComparison.componentIsEquivalence
+theorem pointwiseComparisonComponentIsEquivalence
     {R S :
       RawHigherContextualSystem.{u, v, uH, vH}
         (Context := Context)}
@@ -110,7 +110,7 @@ theorem HigherPointwiseEquivalenceComparison.componentIsEquivalence
 
 /-- The v4.82 inverse StrongTrans associated to a directed pointwise
 comparison. -/
-abbrev HigherPointwiseEquivalenceComparison.inverseStrongTrans
+abbrev pointwiseComparisonInverseStrongTrans
     {R S :
       RawHigherContextualSystem.{u, v, uH, vH}
         (Context := Context)}
@@ -118,94 +118,94 @@ abbrev HigherPointwiseEquivalenceComparison.inverseStrongTrans
     S ⟶ R :=
   KUOS.DependentOriginationPointwiseInverseCoherenceV4_82.pointwiseInverseStrongTrans
     E.comparison
-    (HigherPointwiseEquivalenceComparison.componentIsEquivalence E)
+    (pointwiseComparisonComponentIsEquivalence E)
 
 /-- The chosen inverse StrongTrans is itself pointwise an equivalence. -/
-theorem HigherPointwiseEquivalenceComparison.inverseStrongTrans_componentIsEquivalence
+theorem pointwiseComparisonInverseComponentIsEquivalence
     {R S :
       RawHigherContextualSystem.{u, v, uH, vH}
         (Context := Context)}
     (E : HigherPointwiseEquivalenceComparison R S)
     (U : LocallyDiscrete Context) :
-    ((HigherPointwiseEquivalenceComparison.inverseStrongTrans E).app U).toFunctor.IsEquivalence := by
+    ((pointwiseComparisonInverseStrongTrans E).app U).toFunctor.IsEquivalence := by
   change
     (KUOS.DependentOriginationPointwiseInverseNaturalityV4_81.pointwiseInverseComponent
       E.comparison
-      (HigherPointwiseEquivalenceComparison.componentIsEquivalence E)
+      (pointwiseComparisonComponentIsEquivalence E)
       U).IsEquivalence
   infer_instance
 
 /-- Package the chosen inverse StrongTrans as the directed pointwise comparison
 in the reverse direction. -/
-noncomputable def HigherPointwiseEquivalenceComparison.inverseComparison
+noncomputable def pointwiseComparisonInverseComparison
     {R S :
       RawHigherContextualSystem.{u, v, uH, vH}
         (Context := Context)}
     (E : HigherPointwiseEquivalenceComparison R S) :
     HigherPointwiseEquivalenceComparison S R where
   comparison :=
-    HigherPointwiseEquivalenceComparison.inverseStrongTrans E
+    pointwiseComparisonInverseStrongTrans E
   comparison_isEquivalence := by
     intro X
     exact
-      HigherPointwiseEquivalenceComparison.inverseStrongTrans_componentIsEquivalence
+      pointwiseComparisonInverseComponentIsEquivalence
         E (.mk X)
 
 /-- Apply v4.82 a second time to the inverse StrongTrans. -/
-abbrev HigherPointwiseEquivalenceComparison.doubleInverseStrongTrans
+abbrev pointwiseComparisonDoubleInverseStrongTrans
     {R S :
       RawHigherContextualSystem.{u, v, uH, vH}
         (Context := Context)}
     (E : HigherPointwiseEquivalenceComparison R S) :
     R ⟶ S :=
   KUOS.DependentOriginationPointwiseInverseCoherenceV4_82.pointwiseInverseStrongTrans
-    (HigherPointwiseEquivalenceComparison.inverseStrongTrans E)
-    (HigherPointwiseEquivalenceComparison.inverseStrongTrans_componentIsEquivalence E)
+    (pointwiseComparisonInverseStrongTrans E)
+    (pointwiseComparisonInverseComponentIsEquivalence E)
 
 /-- The double pointwise inverse is coherently isomorphic to the original
 forward StrongTrans by alternating-retraction algebra. -/
-noncomputable def HigherPointwiseEquivalenceComparison.doubleInverseIsoForward
+noncomputable def pointwiseComparisonDoubleInverseIsoForward
     {R S :
       RawHigherContextualSystem.{u, v, uH, vH}
         (Context := Context)}
     (E : HigherPointwiseEquivalenceComparison R S) :
-    HigherPointwiseEquivalenceComparison.doubleInverseStrongTrans E ≅
+    pointwiseComparisonDoubleInverseStrongTrans E ≅
       E.comparison :=
   alternatingRetractions_doubleInverseIso
     E.comparison
-    (HigherPointwiseEquivalenceComparison.inverseStrongTrans E)
-    (HigherPointwiseEquivalenceComparison.doubleInverseStrongTrans E)
+    (pointwiseComparisonInverseStrongTrans E)
+    (pointwiseComparisonDoubleInverseStrongTrans E)
     (KUOS.DependentOriginationPointwiseInverseCoherenceV4_82.pointwiseInverseUnitModification
       E.comparison
-      (HigherPointwiseEquivalenceComparison.componentIsEquivalence E))
+      (pointwiseComparisonComponentIsEquivalence E))
     (KUOS.DependentOriginationPointwiseInverseCoherenceV4_82.pointwiseInverseUnitModification
-      (HigherPointwiseEquivalenceComparison.inverseStrongTrans E)
-      (HigherPointwiseEquivalenceComparison.inverseStrongTrans_componentIsEquivalence E))
+      (pointwiseComparisonInverseStrongTrans E)
+      (pointwiseComparisonInverseComponentIsEquivalence E))
 
 /-- The missing counit for the original directed comparison. -/
-noncomputable def HigherPointwiseEquivalenceComparison.inverseCounit
+noncomputable def pointwiseComparisonInverseCounit
     {R S :
       RawHigherContextualSystem.{u, v, uH, vH}
         (Context := Context)}
     (E : HigherPointwiseEquivalenceComparison R S) :
-    HigherPointwiseEquivalenceComparison.inverseStrongTrans E ≫
+    pointwiseComparisonInverseStrongTrans E ≫
         E.comparison ≅
       𝟙 S :=
   alternatingRetractions_counit
     E.comparison
-    (HigherPointwiseEquivalenceComparison.inverseStrongTrans E)
-    (HigherPointwiseEquivalenceComparison.doubleInverseStrongTrans E)
+    (pointwiseComparisonInverseStrongTrans E)
+    (pointwiseComparisonDoubleInverseStrongTrans E)
     (KUOS.DependentOriginationPointwiseInverseCoherenceV4_82.pointwiseInverseUnitModification
       E.comparison
-      (HigherPointwiseEquivalenceComparison.componentIsEquivalence E))
+      (pointwiseComparisonComponentIsEquivalence E))
     (KUOS.DependentOriginationPointwiseInverseCoherenceV4_82.pointwiseInverseUnitModification
-      (HigherPointwiseEquivalenceComparison.inverseStrongTrans E)
-      (HigherPointwiseEquivalenceComparison.inverseStrongTrans_componentIsEquivalence E))
+      (pointwiseComparisonInverseStrongTrans E)
+      (pointwiseComparisonInverseComponentIsEquivalence E))
 
 /-- Main v5.34 theorem: a single directed pointwise-equivalence comparison
 canonically yields the two-sided coherent raw-equivalence data required by
 v4.55. -/
-noncomputable def HigherPointwiseEquivalenceComparison.toCoherentEquivalence
+noncomputable def pointwiseComparisonToCoherentEquivalence
     {R S :
       RawHigherContextualSystem.{u, v, uH, vH}
         (Context := Context)}
@@ -213,40 +213,40 @@ noncomputable def HigherPointwiseEquivalenceComparison.toCoherentEquivalence
     HigherRawSystemCoherentEquivalence R S where
   forward := E
   backward :=
-    HigherPointwiseEquivalenceComparison.inverseComparison E
+    pointwiseComparisonInverseComparison E
   unit := by
     change
       𝟙 R ≅
         E.comparison ≫
-          HigherPointwiseEquivalenceComparison.inverseStrongTrans E
+          pointwiseComparisonInverseStrongTrans E
     exact
       KUOS.DependentOriginationPointwiseInverseCoherenceV4_82.pointwiseInverseUnitModification
         E.comparison
-        (HigherPointwiseEquivalenceComparison.componentIsEquivalence E)
+        (pointwiseComparisonComponentIsEquivalence E)
   counit := by
     change
-      HigherPointwiseEquivalenceComparison.inverseStrongTrans E ≫
+      pointwiseComparisonInverseStrongTrans E ≫
           E.comparison ≅
         𝟙 S
     exact
-      HigherPointwiseEquivalenceComparison.inverseCounit E
+      pointwiseComparisonInverseCounit E
 
-@[simp] theorem HigherPointwiseEquivalenceComparison.toCoherentEquivalence_forward
+@[simp] theorem pointwiseComparisonToCoherentEquivalence_forward
     {R S :
       RawHigherContextualSystem.{u, v, uH, vH}
         (Context := Context)}
     (E : HigherPointwiseEquivalenceComparison R S) :
-    (HigherPointwiseEquivalenceComparison.toCoherentEquivalence E).forward =
+    (pointwiseComparisonToCoherentEquivalence E).forward =
       E :=
   rfl
 
-@[simp] theorem HigherPointwiseEquivalenceComparison.toCoherentEquivalence_backward_comparison
+@[simp] theorem pointwiseComparisonToCoherentEquivalence_backward_comparison
     {R S :
       RawHigherContextualSystem.{u, v, uH, vH}
         (Context := Context)}
     (E : HigherPointwiseEquivalenceComparison R S) :
-    (HigherPointwiseEquivalenceComparison.toCoherentEquivalence E).backward.comparison =
-      HigherPointwiseEquivalenceComparison.inverseStrongTrans E :=
+    (pointwiseComparisonToCoherentEquivalence E).backward.comparison =
+      pointwiseComparisonInverseStrongTrans E :=
   rfl
 
 /-! ## Coherent strengthening of the v5.33 classification criterion -/
@@ -298,7 +298,7 @@ theorem exactLiftabilityCriterion_iff_labelPreservingLocalizedCoherentPresentati
       (KUOS.DependentOriginationLocalizedClassificationPresentationCriterionV5_33.exactLiftabilityCriterion_iff_labelPreservingLocalizedPresentation
         (W := W) A label R).1 hExact
     rcases hPresentation with ⟨Z, hLabel, ⟨E⟩⟩
-    exact ⟨Z, hLabel, ⟨HigherPointwiseEquivalenceComparison.toCoherentEquivalence E⟩⟩
+    exact ⟨Z, hLabel, ⟨pointwiseComparisonToCoherentEquivalence E⟩⟩
   · rintro ⟨Z, hLabel, ⟨E⟩⟩
     have hPresentation :
         KUOS.DependentOriginationLocalizedClassificationPresentationCriterionV5_33.HasLabelPreservingLocalizedClassificationPresentation
@@ -345,7 +345,7 @@ Still unchanged:
   mapping-property morphism machinery rather than this theorem.
 -/
 
-#print axioms HigherPointwiseEquivalenceComparison.toCoherentEquivalence
+#print axioms pointwiseComparisonToCoherentEquivalence
 #print axioms exactLiftabilityCriterion_iff_labelPreservingLocalizedCoherentPresentation
 #print axioms ExactLiftableClassificationObject.exists_labelPreserving_localizedCoherentPresentation
 
