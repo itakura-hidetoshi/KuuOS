@@ -1,6 +1,4 @@
 import KUOS.DependentOriginationAlignedExactLiftabilityCollapseV5_32
-import KUOS.DependentOriginationExactHigherPresentationInvarianceV4_51
-import KUOS.DependentOriginationExactPresentationComparisonV4_52
 import Mathlib
 
 namespace KUOS.DependentOriginationLocalizedClassificationPresentationCriterionV5_33
@@ -12,8 +10,6 @@ open KUOS.DependentOriginationHigherStackCarrierV2_9
 open KUOS.DependentOriginationHigherLocalizationInterfaceV2_10
 open KUOS.DependentOriginationPointwiseEquivalenceTransportV2_17
 open KUOS.DependentOriginationExactHigherPresentationSectorV4_50
-open KUOS.DependentOriginationExactHigherPresentationInvarianceV4_51
-open KUOS.DependentOriginationExactPresentationComparisonV4_52
 open KUOS.DependentOriginationExactUniversalClassificationInterfaceV5_17
 open KUOS.DependentOriginationExactLiftabilityCriterionV5_18
 open KUOS.DependentOriginationAlignedExactLiftabilityCollapseV5_32
@@ -40,8 +36,9 @@ pointwise-equivalence comparison
   restrict(Z.carrier) --> R.
 
 The forward direction deliberately passes through the v5.32 exact-universal
-source theorem and then reuses the source presentation comparison.  The reverse
-direction is carrier-first: Z.carrier plus the supplied comparison is exactly an
+source theorem and composes its chosen presentation comparison with the
+resulting directed raw comparison.  The reverse direction is carrier-first:
+Z.carrier plus the supplied comparison is exactly an
 ExactHigherDependentOriginationPresentation of R.
 
 This file does not assert weak admissibility -> exact liftability, does not
@@ -119,19 +116,24 @@ theorem exactLiftabilityCriterion_iff_labelPreservingLocalizedPresentation
         KUOS.DependentOriginationAlignedExactLiftabilityCollapseV5_32.ExactLiftableClassificationObject.exists_labelPreserving_exactUniversalSource
           (W := W) A X with
       ⟨Y, hLabel, ⟨E⟩⟩
-    let P :
-        ExactHigherDependentOriginationPresentation
-          (W := W) A R :=
-      exactPresentationOfPointwiseEquivalenceComparison
-        (W := W) A Y.source.presentation E
     refine ⟨Y.realize (W := W) A, ?_, ?_⟩
     · exact hLabel
     · refine ⟨?_⟩
-      change
-        HigherPointwiseEquivalenceComparison
-          (exactPresentationRestrictedCarrier (W := W) A P)
-          R
-      exact exactPresentationToRawComparison (W := W) A P
+      exact
+        { comparison :=
+            Y.source.presentation.comparison ≫ E.comparison
+          comparison_isEquivalence := by
+            intro C
+            letI :
+                (Y.source.presentation.comparison.app (.mk C)).toFunctor.IsEquivalence :=
+              Y.source.presentation.comparison_isEquivalence C
+            letI :
+                (E.comparison.app (.mk C)).toFunctor.IsEquivalence :=
+              E.comparison_isEquivalence C
+            change
+              ((Y.source.presentation.comparison.app (.mk C)).toFunctor ⋙
+                (E.comparison.app (.mk C)).toFunctor).IsEquivalence
+            infer_instance }
   · rintro ⟨Z, _hLabel, ⟨E⟩⟩
     have hPresentation :
         HasExactHigherDependentOriginationPresentation
