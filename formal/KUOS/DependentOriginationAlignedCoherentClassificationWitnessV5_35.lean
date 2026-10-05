@@ -231,7 +231,7 @@ theorem
         (LabelPreservingLocalizedCoherentPresentationWitness
           (W := W) A X.label X.raw) := by
   exact
-    exactLiftabilityCriterion_iff_nonemptyLocalizedCoherentPresentationWitness
+    KUOS.DependentOriginationAlignedCoherentClassificationWitnessV5_35.exactLiftabilityCriterion_iff_nonemptyLocalizedCoherentPresentationWitness
       (W := W) A X.label X.raw
 
 /-- Every exact-liftable classification object has an explicit
@@ -247,7 +247,7 @@ theorem
       (LabelPreservingLocalizedCoherentPresentationWitness
         (W := W) A X.label X.raw) := by
   exact
-    (exactLiftabilityCriterion_iff_nonemptyLocalizedCoherentPresentationWitness
+    (KUOS.DependentOriginationAlignedCoherentClassificationWitnessV5_35.exactLiftabilityCriterion_iff_nonemptyLocalizedCoherentPresentationWitness
       (W := W) A X.label X.raw).1
       (KUOS.DependentOriginationExactLiftabilityCriterionV5_18.ExactLiftableClassificationObject.satisfiesExactLiftabilityCriterion
         (W := W) A X)
@@ -265,7 +265,7 @@ noncomputable def localizedCoherentPresentationWitnessOfExactCriterion
     LabelPreservingLocalizedCoherentPresentationWitness
       (W := W) A X.label X.raw :=
   Classical.choice
-    ((WeakSemanticClassificationObject.exactLiftabilityCriterion_iff_nonemptyLocalizedCoherentPresentationWitness
+    ((KUOS.DependentOriginationAlignedCoherentClassificationWitnessV5_35.WeakSemanticClassificationObject.exactLiftabilityCriterion_iff_nonemptyLocalizedCoherentPresentationWitness
       (W := W) A X).1 hExact)
 
 /-- A coherent explicit witness reconstructs the exact-liftable classification
@@ -325,7 +325,7 @@ structure AlignedCoherentClassificationTheoremCertificate
     (WorldLabel : Type uW)
     (PresentationLabel : Type uP) where
   base :
-    KUOS.DependentOriginationAlignedClassificationWitnessPackageV5_34.AlignedClassificationTheoremCertificate
+    KUOS.DependentOriginationAlignedClassificationWitnessPackageV5_34.AlignedClassificationTheoremCertificate.{u, v, uH, vH, uW, uP}
       (W := W) A WorldLabel PresentationLabel
   exactCriterionCoherentPresentation :
     ∀ X :
@@ -341,7 +341,7 @@ certificate. -/
 noncomputable def alignedCoherentClassificationTheoremCertificate
     {WorldLabel : Type uW}
     {PresentationLabel : Type uP} :
-    AlignedCoherentClassificationTheoremCertificate
+    AlignedCoherentClassificationTheoremCertificate.{u, v, uH, vH, uW, uP}
       (W := W) A WorldLabel PresentationLabel where
   base :=
     KUOS.DependentOriginationAlignedClassificationWitnessPackageV5_34.alignedClassificationTheoremCertificate
@@ -349,7 +349,7 @@ noncomputable def alignedCoherentClassificationTheoremCertificate
   exactCriterionCoherentPresentation := by
     intro X
     exact
-      WeakSemanticClassificationObject.exactLiftabilityCriterion_iff_nonemptyLocalizedCoherentPresentationWitness
+      KUOS.DependentOriginationAlignedCoherentClassificationWitnessV5_35.WeakSemanticClassificationObject.exactLiftabilityCriterion_iff_nonemptyLocalizedCoherentPresentationWitness
         (W := W) A X
 
 /-!
