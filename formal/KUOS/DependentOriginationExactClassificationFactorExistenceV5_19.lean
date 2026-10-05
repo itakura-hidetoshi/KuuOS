@@ -136,7 +136,7 @@ noncomputable def exactUniversalClassificationFactorOfPresentation
               (higherStackObjectVal (W := W) A P.carrier) :
             RawHigherContextualSystem.{u, v, uH, vH}
               (Context := Context)) ⟶
-            X.raw
+            X.raw)
         exact P.comparison
       comparison_isEquivalence := by
         intro U
@@ -187,12 +187,32 @@ theorem ExactLiftableClassificationObject.existsExactUniversalClassificationFact
       (ExactUniversalClassificationFactor
         (W := W) A X) := by
   rcases X.exact with ⟨P⟩
-  let F :
-      ExactUniversalClassificationFactor
-        (W := W) A X :=
-    exactUniversalClassificationFactorOfPresentation
-      (W := W) A X P
-  exact ⟨F⟩
+  refine ⟨{
+    presentation := P
+    source :=
+      { label := X.label
+        source :=
+          exactUniversalAmbientCanonicalSource
+            (W := W) A P.carrier }
+    label_eq := rfl
+    carrier_eq := by
+      exact
+        exactUniversalAmbientCanonicalSource_carrier
+          (W := W) A P.carrier
+    comparison :=
+      { comparison := by
+          change
+            ((restrictHigherLocalizedSystem W
+                (higherStackObjectVal (W := W) A P.carrier) :
+              RawHigherContextualSystem.{u, v, uH, vH}
+                (Context := Context)) ⟶
+              X.raw)
+          exact P.comparison
+        comparison_isEquivalence := by
+          intro U
+          change (P.comparison.app (.mk U)).toFunctor.IsEquivalence
+          exact P.comparison_isEquivalence U }
+  }⟩
 
 /-- A concise existence statement: every exact-liftable classification object
 has a label-preserving exact-universal source whose raw system compares
