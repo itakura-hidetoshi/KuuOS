@@ -1,3 +1,4 @@
+import KUOS.DependentOriginationExactClassificationHomFunctorV5_22
 import KUOS.DependentOriginationClassificationCanonicalSectionV5_28
 import KUOS.DependentOriginationExactUniversalAmbientRoundtripCounitV5_13
 import KUOS.DependentOriginationExactUniversalSourceAmbientRoundtripUnitV5_14
@@ -381,9 +382,7 @@ theorem exactUniversalClassificationSourceRoundtripUnit_naturality_naturality
         exactUniversalClassificationSourceRoundtripUnitApp (W := W) A a ◁
           (exactUniversalClassificationSourceRoundtrip
             (W := W) A).map₂ eta := by
-  apply
-    KUOS.DependentOriginationExactClassificationHomFunctorV5_22.
-      ExactUniversalClassificationTwoCell.ext
+  apply ExactUniversalClassificationTwoCell.ext
   simp only [
     ExactUniversalClassificationTwoCell.vcomp_cell,
     ExactUniversalClassificationTwoCell.whiskerLeft_cell,
@@ -413,9 +412,7 @@ theorem exactUniversalClassificationSourceRoundtripUnit_naturality_id
           (W := W) A X)).hom ≫
         (ρ_ (exactUniversalClassificationSourceRoundtripUnitApp
           (W := W) A X)).inv := by
-  apply
-    KUOS.DependentOriginationExactClassificationHomFunctorV5_22.
-      ExactUniversalClassificationTwoCell.ext
+  apply ExactUniversalClassificationTwoCell.ext
   simp only [
     ExactUniversalClassificationTwoCell.vcomp_cell,
     ExactUniversalClassificationTwoCell.whiskerLeft_cell,
@@ -456,9 +453,7 @@ theorem exactUniversalClassificationSourceRoundtripUnit_naturality_comp
             (exactUniversalClassificationSourceRoundtrip
               (W := W) A).map g ≫
         (α_ _ _ _).hom := by
-  apply
-    KUOS.DependentOriginationExactClassificationHomFunctorV5_22.
-      ExactUniversalClassificationTwoCell.ext
+  apply ExactUniversalClassificationTwoCell.ext
   simp only [
     ExactUniversalClassificationTwoCell.vcomp_cell,
     ExactUniversalClassificationTwoCell.whiskerLeft_cell,
