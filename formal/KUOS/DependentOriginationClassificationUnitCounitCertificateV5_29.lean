@@ -225,17 +225,17 @@ noncomputable def exactUniversalClassificationTargetRoundtripCounit
     exactUniversalClassificationTargetRoundtripCounitNaturalityIso
       (W := W) A f
   naturality_naturality {a b} {f g} eta := by
-    apply KUOS.DependentOriginationExactClassificationHomFunctorV5_22.LocalizedClassificationTwoCell.ext
+    apply LocalizedClassificationTwoCell.ext
     exact
       (exactUniversalAmbientRoundtripCounit
         (W := W) A).naturality_naturality eta.cell
   naturality_id X := by
-    apply KUOS.DependentOriginationExactClassificationHomFunctorV5_22.LocalizedClassificationTwoCell.ext
+    apply LocalizedClassificationTwoCell.ext
     exact
       (exactUniversalAmbientRoundtripCounit
         (W := W) A).naturality_id X.carrier
   naturality_comp {a b c} f g := by
-    apply KUOS.DependentOriginationExactClassificationHomFunctorV5_22.LocalizedClassificationTwoCell.ext
+    apply LocalizedClassificationTwoCell.ext
     exact
       (exactUniversalAmbientRoundtripCounit
         (W := W) A).naturality_comp f.map g.map
