@@ -221,8 +221,10 @@ theorem ExactLiftableClassificationObject.exists_labelPreserving_exactUniversalS
         Nonempty
           (HigherPointwiseEquivalenceComparison
             Y.source.raw X.raw) := by
-  rcases X.existsExactUniversalClassificationFactor
-    (W := W) A with ⟨F⟩
+  rcases
+      ExactLiftableClassificationObject.existsExactUniversalClassificationFactor
+        (W := W) A X with
+    ⟨F⟩
   exact ⟨F.source, F.label_eq, ⟨F.comparison⟩⟩
 
 /-- The same factor-existence result starts from a weak semantic object once an
@@ -250,8 +252,8 @@ theorem WeakSemanticClassificationObject.exists_labelPreserving_exactUniversalSo
     weakSemanticClassificationObjectToExactLiftableOfCriterion
       (W := W) A X hCriterion
   rcases
-      XExact.exists_labelPreserving_exactUniversalSource
-        (W := W) A with
+      ExactLiftableClassificationObject.exists_labelPreserving_exactUniversalSource
+        (W := W) A XExact with
     ⟨Y, hLabel, hComparison⟩
   exact ⟨Y, hLabel, hComparison⟩
 
