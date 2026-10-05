@@ -321,15 +321,15 @@ instance LocalizedClassificationOneCell.homCategory
   id_comp := by
     intro f g eta
     apply LocalizedClassificationTwoCell.ext
-    simp
+    exact Category.id_comp eta.cell
   comp_id := by
     intro f g eta
     apply LocalizedClassificationTwoCell.ext
-    simp
+    exact Category.comp_id eta.cell
   assoc := by
     intro f g h i eta theta iota
     apply LocalizedClassificationTwoCell.ext
-    simp
+    exact Category.assoc eta.cell theta.cell iota.cell
 
 /-! ## Realization as a hom functor -/
 
