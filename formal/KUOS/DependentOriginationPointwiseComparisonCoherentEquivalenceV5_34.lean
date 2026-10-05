@@ -116,7 +116,9 @@ abbrev HigherPointwiseEquivalenceComparison.inverseStrongTrans
         (Context := Context)}
     (E : HigherPointwiseEquivalenceComparison R S) :
     S ⟶ R :=
-  pointwiseInverseStrongTrans E.comparison HigherPointwiseEquivalenceComparison.componentIsEquivalence E
+  pointwiseInverseStrongTrans
+    E.comparison
+    (HigherPointwiseEquivalenceComparison.componentIsEquivalence E)
 
 /-- The chosen inverse StrongTrans is itself pointwise an equivalence. -/
 theorem HigherPointwiseEquivalenceComparison.inverseStrongTrans_componentIsEquivalence
@@ -128,7 +130,9 @@ theorem HigherPointwiseEquivalenceComparison.inverseStrongTrans_componentIsEquiv
     ((HigherPointwiseEquivalenceComparison.inverseStrongTrans E).app U).toFunctor.IsEquivalence := by
   change
     (pointwiseInverseComponent
-      E.comparison HigherPointwiseEquivalenceComparison.componentIsEquivalence E U).IsEquivalence
+      E.comparison
+      (HigherPointwiseEquivalenceComparison.componentIsEquivalence E)
+      U).IsEquivalence
   infer_instance
 
 /-- Package the chosen inverse StrongTrans as the directed pointwise comparison
@@ -139,10 +143,13 @@ noncomputable def HigherPointwiseEquivalenceComparison.inverseComparison
         (Context := Context)}
     (E : HigherPointwiseEquivalenceComparison R S) :
     HigherPointwiseEquivalenceComparison S R where
-  comparison := HigherPointwiseEquivalenceComparison.inverseStrongTrans E
+  comparison :=
+    HigherPointwiseEquivalenceComparison.inverseStrongTrans E
   comparison_isEquivalence := by
     intro X
-    exact HigherPointwiseEquivalenceComparison.inverseStrongTrans_componentIsEquivalence E (.mk X)
+    exact
+      HigherPointwiseEquivalenceComparison.inverseStrongTrans_componentIsEquivalence
+        E (.mk X)
 
 /-- Apply v4.82 a second time to the inverse StrongTrans. -/
 abbrev HigherPointwiseEquivalenceComparison.doubleInverseStrongTrans
@@ -152,8 +159,8 @@ abbrev HigherPointwiseEquivalenceComparison.doubleInverseStrongTrans
     (E : HigherPointwiseEquivalenceComparison R S) :
     R ⟶ S :=
   pointwiseInverseStrongTrans
-    HigherPointwiseEquivalenceComparison.inverseStrongTrans E
-    HigherPointwiseEquivalenceComparison.inverseStrongTrans_componentIsEquivalence E
+    (HigherPointwiseEquivalenceComparison.inverseStrongTrans E)
+    (HigherPointwiseEquivalenceComparison.inverseStrongTrans_componentIsEquivalence E)
 
 /-- The double pointwise inverse is coherently isomorphic to the original
 forward StrongTrans by alternating-retraction algebra. -/
@@ -162,16 +169,18 @@ noncomputable def HigherPointwiseEquivalenceComparison.doubleInverseIsoForward
       RawHigherContextualSystem.{u, v, uH, vH}
         (Context := Context)}
     (E : HigherPointwiseEquivalenceComparison R S) :
-    HigherPointwiseEquivalenceComparison.doubleInverseStrongTrans E ≅ E.comparison :=
+    HigherPointwiseEquivalenceComparison.doubleInverseStrongTrans E ≅
+      E.comparison :=
   alternatingRetractions_doubleInverseIso
     E.comparison
-    HigherPointwiseEquivalenceComparison.inverseStrongTrans E
-    HigherPointwiseEquivalenceComparison.doubleInverseStrongTrans E
+    (HigherPointwiseEquivalenceComparison.inverseStrongTrans E)
+    (HigherPointwiseEquivalenceComparison.doubleInverseStrongTrans E)
     (pointwiseInverseUnitModification
-      E.comparison HigherPointwiseEquivalenceComparison.componentIsEquivalence E)
+      E.comparison
+      (HigherPointwiseEquivalenceComparison.componentIsEquivalence E))
     (pointwiseInverseUnitModification
-      HigherPointwiseEquivalenceComparison.inverseStrongTrans E
-      HigherPointwiseEquivalenceComparison.inverseStrongTrans_componentIsEquivalence E)
+      (HigherPointwiseEquivalenceComparison.inverseStrongTrans E)
+      (HigherPointwiseEquivalenceComparison.inverseStrongTrans_componentIsEquivalence E))
 
 /-- The missing counit for the original directed comparison. -/
 noncomputable def HigherPointwiseEquivalenceComparison.inverseCounit
@@ -179,16 +188,19 @@ noncomputable def HigherPointwiseEquivalenceComparison.inverseCounit
       RawHigherContextualSystem.{u, v, uH, vH}
         (Context := Context)}
     (E : HigherPointwiseEquivalenceComparison R S) :
-    HigherPointwiseEquivalenceComparison.inverseStrongTrans E ≫ E.comparison ≅ 𝟙 S :=
+    HigherPointwiseEquivalenceComparison.inverseStrongTrans E ≫
+        E.comparison ≅
+      𝟙 S :=
   alternatingRetractions_counit
     E.comparison
-    HigherPointwiseEquivalenceComparison.inverseStrongTrans E
-    HigherPointwiseEquivalenceComparison.doubleInverseStrongTrans E
+    (HigherPointwiseEquivalenceComparison.inverseStrongTrans E)
+    (HigherPointwiseEquivalenceComparison.doubleInverseStrongTrans E)
     (pointwiseInverseUnitModification
-      E.comparison HigherPointwiseEquivalenceComparison.componentIsEquivalence E)
+      E.comparison
+      (HigherPointwiseEquivalenceComparison.componentIsEquivalence E))
     (pointwiseInverseUnitModification
-      HigherPointwiseEquivalenceComparison.inverseStrongTrans E
-      HigherPointwiseEquivalenceComparison.inverseStrongTrans_componentIsEquivalence E)
+      (HigherPointwiseEquivalenceComparison.inverseStrongTrans E)
+      (HigherPointwiseEquivalenceComparison.inverseStrongTrans_componentIsEquivalence E))
 
 /-- Main v5.34 theorem: a single directed pointwise-equivalence comparison
 canonically yields the two-sided coherent raw-equivalence data required by
@@ -200,22 +212,32 @@ noncomputable def HigherPointwiseEquivalenceComparison.toCoherentEquivalence
     (E : HigherPointwiseEquivalenceComparison R S) :
     HigherRawSystemCoherentEquivalence R S where
   forward := E
-  backward := HigherPointwiseEquivalenceComparison.inverseComparison E
+  backward :=
+    HigherPointwiseEquivalenceComparison.inverseComparison E
   unit := by
-    change 𝟙 R ≅ E.comparison ≫ HigherPointwiseEquivalenceComparison.inverseStrongTrans E
+    change
+      𝟙 R ≅
+        E.comparison ≫
+          HigherPointwiseEquivalenceComparison.inverseStrongTrans E
     exact
       pointwiseInverseUnitModification
-        E.comparison HigherPointwiseEquivalenceComparison.componentIsEquivalence E
+        E.comparison
+        (HigherPointwiseEquivalenceComparison.componentIsEquivalence E)
   counit := by
-    change HigherPointwiseEquivalenceComparison.inverseStrongTrans E ≫ E.comparison ≅ 𝟙 S
-    exact HigherPointwiseEquivalenceComparison.inverseCounit E
+    change
+      HigherPointwiseEquivalenceComparison.inverseStrongTrans E ≫
+          E.comparison ≅
+        𝟙 S
+    exact
+      HigherPointwiseEquivalenceComparison.inverseCounit E
 
 @[simp] theorem HigherPointwiseEquivalenceComparison.toCoherentEquivalence_forward
     {R S :
       RawHigherContextualSystem.{u, v, uH, vH}
         (Context := Context)}
     (E : HigherPointwiseEquivalenceComparison R S) :
-    HigherPointwiseEquivalenceComparison.toCoherentEquivalence E.forward = E :=
+    (HigherPointwiseEquivalenceComparison.toCoherentEquivalence E).forward =
+      E :=
   rfl
 
 @[simp] theorem HigherPointwiseEquivalenceComparison.toCoherentEquivalence_backward_comparison
@@ -223,7 +245,7 @@ noncomputable def HigherPointwiseEquivalenceComparison.toCoherentEquivalence
       RawHigherContextualSystem.{u, v, uH, vH}
         (Context := Context)}
     (E : HigherPointwiseEquivalenceComparison R S) :
-    HigherPointwiseEquivalenceComparison.toCoherentEquivalence E.backward.comparison =
+    (HigherPointwiseEquivalenceComparison.toCoherentEquivalence E).backward.comparison =
       HigherPointwiseEquivalenceComparison.inverseStrongTrans E :=
   rfl
 
