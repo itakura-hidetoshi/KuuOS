@@ -15,6 +15,7 @@ open KUOS.DependentOriginationExactUniversalAmbientRoundtripCounitV5_13
 open KUOS.DependentOriginationExactUniversalSourceAmbientRoundtripUnitV5_14
 open KUOS.DependentOriginationExactUniversalClassificationInterfaceV5_17
 open KUOS.DependentOriginationExactClassificationMorphismInterfaceV5_21
+open KUOS.DependentOriginationExactClassificationHomFunctorV5_22
 open KUOS.DependentOriginationExactClassificationBicategoryV5_23
 open KUOS.DependentOriginationLocalizedClassificationRealizationV5_24
 open KUOS.DependentOriginationClassificationWhiteheadBiequivalenceV5_27
@@ -223,17 +224,17 @@ noncomputable def exactUniversalClassificationTargetRoundtripCounit
     exactUniversalClassificationTargetRoundtripCounitNaturalityIso
       (W := W) A f
   naturality_naturality {a b} {f g} eta := by
-    apply LocalizedClassificationTwoCell.ext
+    apply KUOS.DependentOriginationExactClassificationHomFunctorV5_22.LocalizedClassificationTwoCell.ext
     exact
       (exactUniversalAmbientRoundtripCounit
         (W := W) A).naturality_naturality eta.cell
   naturality_id X := by
-    apply LocalizedClassificationTwoCell.ext
+    apply KUOS.DependentOriginationExactClassificationHomFunctorV5_22.LocalizedClassificationTwoCell.ext
     exact
       (exactUniversalAmbientRoundtripCounit
         (W := W) A).naturality_id X.carrier
   naturality_comp {a b c} f g := by
-    apply LocalizedClassificationTwoCell.ext
+    apply KUOS.DependentOriginationExactClassificationHomFunctorV5_22.LocalizedClassificationTwoCell.ext
     exact
       (exactUniversalAmbientRoundtripCounit
         (W := W) A).naturality_comp f.map g.map
@@ -289,17 +290,17 @@ noncomputable def exactUniversalClassificationSourceRoundtripUnit
     exactUniversalClassificationSourceRoundtripUnitNaturalityIso
       (W := W) A f
   naturality_naturality {a b} {f g} eta := by
-    apply ExactUniversalClassificationTwoCell.ext
+    apply KUOS.DependentOriginationExactClassificationHomFunctorV5_22.ExactUniversalClassificationTwoCell.ext
     exact
       (exactUniversalSourceAmbientRoundtripUnit
         (W := W) A).naturality_naturality eta.cell
   naturality_id X := by
-    apply ExactUniversalClassificationTwoCell.ext
+    apply KUOS.DependentOriginationExactClassificationHomFunctorV5_22.ExactUniversalClassificationTwoCell.ext
     exact
       (exactUniversalSourceAmbientRoundtripUnit
         (W := W) A).naturality_id X.source
   naturality_comp {a b c} f g := by
-    apply ExactUniversalClassificationTwoCell.ext
+    apply KUOS.DependentOriginationExactClassificationHomFunctorV5_22.ExactUniversalClassificationTwoCell.ext
     exact
       (exactUniversalSourceAmbientRoundtripUnit
         (W := W) A).naturality_comp f.map g.map
@@ -315,36 +316,45 @@ noncomputable def exactUniversalClassificationSourceRoundtripUnit
 
 /-! ## Complete current classification certificate -/
 
-/-- Classification analogue of the v5.15 ambient biequivalence certificate:
-Whitehead data, explicit quasi-inverse, and global unit/counit StrongTrans. -/
-structure ExactUniversalClassificationBiequivalenceCertificate
-    (WorldLabel : Type uW)
-    (PresentationLabel : Type uP) where
-  whitehead :
-    WhiteheadBiequivalenceData
-      (Source (W := W) A WorldLabel PresentationLabel)
-      (Target (W := W) A WorldLabel PresentationLabel)
-  quasiInverse :
-    Pseudofunctor
-      (Target (W := W) A WorldLabel PresentationLabel)
-      (Source (W := W) A WorldLabel PresentationLabel)
+/-! ## Generic Whitehead + unit/counit package -/
+
+universe u₁ u₂ v₁ v₂ w₁ w₂
+
+/-- A universe-explicit reusable package: Whitehead data, a chosen
+quasi-inverse pseudofunctor, and global unit/counit StrongTrans.
+
+Making the source and target bicategories explicit parameters avoids leaving
+their hom-universe levels as unconstrained metavariables in a
+classification-specific structure declaration. -/
+structure WhiteheadUnitCounitCertificate
+    (B : Type u₁) [Bicategory.{w₁, v₁} B]
+    (C : Type u₂) [Bicategory.{w₂, v₂} C] where
+  whitehead : WhiteheadBiequivalenceData B C
+  quasiInverse : Pseudofunctor C B
   unit :
     Pseudofunctor.StrongTrans
-      (Pseudofunctor.id
-        (Source (W := W) A WorldLabel PresentationLabel))
+      (Pseudofunctor.id B)
       (Pseudofunctor.comp whitehead.forward quasiInverse)
   counit :
     Pseudofunctor.StrongTrans
       (Pseudofunctor.comp quasiInverse whitehead.forward)
-      (Pseudofunctor.id
-        (Target (W := W) A WorldLabel PresentationLabel))
+      (Pseudofunctor.id C)
 
-/-- Assemble the current full classification biequivalence certificate. -/
+/-- Classification analogue of the v5.15 ambient biequivalence certificate:
+Whitehead data, explicit quasi-inverse, and global unit/counit StrongTrans.
+
+Unlike the first draft, the source/target hom universes are inferred from the
+already elaborated v5.27 Whitehead datum and v5.28 canonical section rather
+than being re-inferred independently inside a new classification-specific
+structure declaration. -/
 noncomputable def exactUniversalClassificationBiequivalenceCertificate
     {WorldLabel : Type uW}
     {PresentationLabel : Type uP} :
-    ExactUniversalClassificationBiequivalenceCertificate
-      (W := W) A WorldLabel PresentationLabel where
+    WhiteheadUnitCounitCertificate
+      (ClassificationSource
+        (W := W) A WorldLabel PresentationLabel)
+      (ClassificationTarget
+        (W := W) A WorldLabel PresentationLabel) where
   whitehead :=
     exactUniversalClassificationWhiteheadBiequivalence
       (W := W) A
@@ -355,7 +365,8 @@ noncomputable def exactUniversalClassificationBiequivalenceCertificate
     change
       Pseudofunctor.StrongTrans
         (Pseudofunctor.id
-          (Source (W := W) A WorldLabel PresentationLabel))
+          (ClassificationSource
+            (W := W) A WorldLabel PresentationLabel))
         (exactUniversalClassificationSourceRoundtrip
           (W := W) A)
     exact
@@ -367,7 +378,8 @@ noncomputable def exactUniversalClassificationBiequivalenceCertificate
         (exactUniversalClassificationTargetRoundtrip
           (W := W) A)
         (Pseudofunctor.id
-          (Target (W := W) A WorldLabel PresentationLabel))
+          (ClassificationTarget
+            (W := W) A WorldLabel PresentationLabel))
     exact
       exactUniversalClassificationTargetRoundtripCounit
         (W := W) A
@@ -442,8 +454,11 @@ variable
     {PresentationLabel : Type uP}
 
 example :
-    ExactUniversalClassificationBiequivalenceCertificate
-      (W := W) A WorldLabel PresentationLabel :=
+    WhiteheadUnitCounitCertificate
+      (ClassificationSource
+        (W := W) A WorldLabel PresentationLabel)
+      (ClassificationTarget
+        (W := W) A WorldLabel PresentationLabel) :=
   exactUniversalClassificationBiequivalenceCertificate
     (W := W) A
 
