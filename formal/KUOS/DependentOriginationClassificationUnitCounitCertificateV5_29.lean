@@ -304,6 +304,16 @@ noncomputable def exactUniversalClassificationSourceRoundtripUnitNaturalityIso
       eta.cell :=
   rfl
 
+@[simp] theorem exactUniversalClassificationSourceIdentity_map_underlying
+    {WorldLabel : Type uW}
+    {PresentationLabel : Type uP}
+    {X Y : Source (W := W) A WorldLabel PresentationLabel}
+    (f : X ⟶ Y) :
+    ((Pseudofunctor.id
+      (Source (W := W) A WorldLabel PresentationLabel)).map f).map =
+      f.map :=
+  rfl
+
 @[simp] theorem exactUniversalClassificationSourceIdentity_mapId_hom_underlying
     {WorldLabel : Type uW}
     {PresentationLabel : Type uP}
@@ -349,17 +359,122 @@ noncomputable def exactUniversalClassificationSourceRoundtripUnitNaturalityIso
         (W := W) A).mapComp f.map g.map).hom :=
   rfl
 
-/- Native source-side StrongTrans unit.
+/-! ### Source-unit StrongTrans laws
 
-The wrapper-level composition law is elaboration-heavy because Lean must
-normalize nested classification, source-bicategory, and pseudofunctor
-composition structures.  All mathematical laws have already been reduced to
-v5.14 above; this declaration alone receives a larger deterministic
-elaboration budget. -/
-section SourceUnitElaboration
+The three coherence laws are proved as separate commands.  This keeps each
+elaboration problem below the ordinary heartbeat budget instead of forcing
+Lean to normalize the entire dependent StrongTrans record in one command. -/
 
-set_option maxHeartbeats 600000
+theorem exactUniversalClassificationSourceRoundtripUnit_naturality_naturality
+    {WorldLabel : Type uW}
+    {PresentationLabel : Type uP}
+    {a b : Source (W := W) A WorldLabel PresentationLabel}
+    {f g : a ⟶ b}
+    (eta : f ⟶ g) :
+    ((Pseudofunctor.id
+      (Source (W := W) A WorldLabel PresentationLabel)).map₂ eta ▷
+        exactUniversalClassificationSourceRoundtripUnitApp (W := W) A b) ≫
+        (exactUniversalClassificationSourceRoundtripUnitNaturalityIso
+          (W := W) A g).hom =
+      (exactUniversalClassificationSourceRoundtripUnitNaturalityIso
+        (W := W) A f).hom ≫
+        exactUniversalClassificationSourceRoundtripUnitApp (W := W) A a ◁
+          (exactUniversalClassificationSourceRoundtrip
+            (W := W) A).map₂ eta := by
+  apply
+    KUOS.DependentOriginationExactClassificationHomFunctorV5_22.
+      ExactUniversalClassificationTwoCell.ext
+  simpa only [
+    ExactUniversalClassificationTwoCell.vcomp_cell,
+    ExactUniversalClassificationTwoCell.whiskerLeft_cell,
+    ExactUniversalClassificationTwoCell.whiskerRight_cell,
+    exactUniversalClassificationSourceIdentity_map₂_underlying,
+    exactUniversalClassificationSourceRoundtrip_map₂_underlying,
+    exactUniversalClassificationSourceRoundtripUnitApp_underlying,
+    exactUniversalClassificationSourceRoundtripUnitNaturalityIso_hom_cell
+  ] using
+    (exactUniversalSourceAmbientRoundtripUnit
+      (W := W) A).naturality_naturality eta.cell
 
+theorem exactUniversalClassificationSourceRoundtripUnit_naturality_id
+    {WorldLabel : Type uW}
+    {PresentationLabel : Type uP}
+    (X : Source (W := W) A WorldLabel PresentationLabel) :
+    (exactUniversalClassificationSourceRoundtripUnitNaturalityIso
+      (W := W) A (𝟙 X)).hom ≫
+        exactUniversalClassificationSourceRoundtripUnitApp (W := W) A X ◁
+          ((exactUniversalClassificationSourceRoundtrip
+            (W := W) A).mapId X).hom =
+      ((Pseudofunctor.id
+        (Source (W := W) A WorldLabel PresentationLabel)).mapId X).hom ▷
+          exactUniversalClassificationSourceRoundtripUnitApp (W := W) A X ≫
+        (λ_ (exactUniversalClassificationSourceRoundtripUnitApp
+          (W := W) A X)).hom ≫
+        (ρ_ (exactUniversalClassificationSourceRoundtripUnitApp
+          (W := W) A X)).inv := by
+  apply
+    KUOS.DependentOriginationExactClassificationHomFunctorV5_22.
+      ExactUniversalClassificationTwoCell.ext
+  simpa only [
+    ExactUniversalClassificationTwoCell.vcomp_cell,
+    ExactUniversalClassificationTwoCell.whiskerLeft_cell,
+    ExactUniversalClassificationTwoCell.whiskerRight_cell,
+    ExactUniversalClassificationTwoCell.leftUnitorIso_hom_cell,
+    ExactUniversalClassificationTwoCell.rightUnitorIso_inv_cell,
+    exactUniversalClassificationSourceIdentity_mapId_hom_underlying,
+    exactUniversalClassificationSourceRoundtrip_mapId_hom_underlying,
+    exactUniversalClassificationSourceRoundtripUnitApp_underlying,
+    exactUniversalClassificationSourceRoundtripUnitNaturalityIso_hom_cell
+  ] using
+    (exactUniversalSourceAmbientRoundtripUnit
+      (W := W) A).naturality_id X.source
+
+theorem exactUniversalClassificationSourceRoundtripUnit_naturality_comp
+    {WorldLabel : Type uW}
+    {PresentationLabel : Type uP}
+    {a b c : Source (W := W) A WorldLabel PresentationLabel}
+    (f : a ⟶ b)
+    (g : b ⟶ c) :
+    (exactUniversalClassificationSourceRoundtripUnitNaturalityIso
+      (W := W) A (f ≫ g)).hom ≫
+        exactUniversalClassificationSourceRoundtripUnitApp (W := W) A a ◁
+          ((exactUniversalClassificationSourceRoundtrip
+            (W := W) A).mapComp f g).hom =
+      ((Pseudofunctor.id
+        (Source (W := W) A WorldLabel PresentationLabel)).mapComp f g).hom ▷
+          exactUniversalClassificationSourceRoundtripUnitApp (W := W) A c ≫
+        (α_ _ _ _).hom ≫
+        (Pseudofunctor.id
+          (Source (W := W) A WorldLabel PresentationLabel)).map f ◁
+            (exactUniversalClassificationSourceRoundtripUnitNaturalityIso
+              (W := W) A g).hom ≫
+        (α_ _ _ _).inv ≫
+        (exactUniversalClassificationSourceRoundtripUnitNaturalityIso
+          (W := W) A f).hom ▷
+            (exactUniversalClassificationSourceRoundtrip
+              (W := W) A).map g ≫
+        (α_ _ _ _).hom := by
+  apply
+    KUOS.DependentOriginationExactClassificationHomFunctorV5_22.
+      ExactUniversalClassificationTwoCell.ext
+  simpa only [
+    ExactUniversalClassificationTwoCell.vcomp_cell,
+    ExactUniversalClassificationTwoCell.whiskerLeft_cell,
+    ExactUniversalClassificationTwoCell.whiskerRight_cell,
+    ExactUniversalClassificationTwoCell.associatorIso_hom_cell,
+    ExactUniversalClassificationTwoCell.associatorIso_inv_cell,
+    exactUniversalClassificationSourceIdentity_map_underlying,
+    exactUniversalClassificationSourceIdentity_mapComp_hom_underlying,
+    exactUniversalClassificationSourceRoundtrip_map_underlying,
+    exactUniversalClassificationSourceRoundtrip_mapComp_hom_underlying,
+    exactUniversalClassificationSourceRoundtripUnitApp_underlying,
+    exactUniversalClassificationSourceRoundtripUnitNaturalityIso_hom_cell
+  ] using
+    (exactUniversalSourceAmbientRoundtripUnit
+      (W := W) A).naturality_comp f.map g.map
+
+/-- Native source-side StrongTrans unit, assembled from the separately checked
+coherence laws above. -/
 noncomputable def exactUniversalClassificationSourceRoundtripUnit
     {WorldLabel : Type uW}
     {PresentationLabel : Type uP} :
@@ -375,51 +490,15 @@ noncomputable def exactUniversalClassificationSourceRoundtripUnit
   naturality f :=
     exactUniversalClassificationSourceRoundtripUnitNaturalityIso
       (W := W) A f
-  naturality_naturality {a b} {f g} eta := by
-    apply KUOS.DependentOriginationExactClassificationHomFunctorV5_22.ExactUniversalClassificationTwoCell.ext
-    simpa only [
-      ExactUniversalClassificationTwoCell.vcomp_cell,
-      ExactUniversalClassificationTwoCell.whiskerLeft_cell,
-      ExactUniversalClassificationTwoCell.whiskerRight_cell,
-      exactUniversalClassificationSourceIdentity_map₂_underlying,
-      exactUniversalClassificationSourceRoundtrip_map₂_underlying,
-      exactUniversalClassificationSourceRoundtripUnitApp_underlying,
-      exactUniversalClassificationSourceRoundtripUnitNaturalityIso_hom_cell
-    ] using
-      (exactUniversalSourceAmbientRoundtripUnit
-        (W := W) A).naturality_naturality eta.cell
-  naturality_id X := by
-    apply KUOS.DependentOriginationExactClassificationHomFunctorV5_22.ExactUniversalClassificationTwoCell.ext
-    simpa only [
-      ExactUniversalClassificationTwoCell.vcomp_cell,
-      ExactUniversalClassificationTwoCell.whiskerLeft_cell,
-      ExactUniversalClassificationTwoCell.whiskerRight_cell,
-      ExactUniversalClassificationTwoCell.leftUnitorIso_hom_cell,
-      ExactUniversalClassificationTwoCell.rightUnitorIso_inv_cell,
-      exactUniversalClassificationSourceIdentity_mapId_hom_underlying,
-      exactUniversalClassificationSourceRoundtrip_mapId_hom_underlying,
-      exactUniversalClassificationSourceRoundtripUnitApp_underlying,
-      exactUniversalClassificationSourceRoundtripUnitNaturalityIso_hom_cell
-    ] using
-      (exactUniversalSourceAmbientRoundtripUnit
-        (W := W) A).naturality_id X.source
-  naturality_comp {a b c} f g := by
-    apply KUOS.DependentOriginationExactClassificationHomFunctorV5_22.ExactUniversalClassificationTwoCell.ext
-    simpa only [
-      ExactUniversalClassificationTwoCell.vcomp_cell,
-      ExactUniversalClassificationTwoCell.whiskerLeft_cell,
-      ExactUniversalClassificationTwoCell.whiskerRight_cell,
-      ExactUniversalClassificationTwoCell.associatorIso_hom_cell,
-      ExactUniversalClassificationTwoCell.associatorIso_inv_cell,
-      exactUniversalClassificationSourceIdentity_mapComp_hom_underlying,
-      exactUniversalClassificationSourceRoundtrip_mapComp_hom_underlying,
-      exactUniversalClassificationSourceRoundtripUnitApp_underlying,
-      exactUniversalClassificationSourceRoundtripUnitNaturalityIso_hom_cell
-    ] using
-      (exactUniversalSourceAmbientRoundtripUnit
-        (W := W) A).naturality_comp f.map g.map
-
-end SourceUnitElaboration
+  naturality_naturality eta :=
+    exactUniversalClassificationSourceRoundtripUnit_naturality_naturality
+      (W := W) A eta
+  naturality_id X :=
+    exactUniversalClassificationSourceRoundtripUnit_naturality_id
+      (W := W) A X
+  naturality_comp f g :=
+    exactUniversalClassificationSourceRoundtripUnit_naturality_comp
+      (W := W) A f g
 
 @[simp] theorem exactUniversalClassificationSourceRoundtripUnit_app_map
     {WorldLabel : Type uW}
