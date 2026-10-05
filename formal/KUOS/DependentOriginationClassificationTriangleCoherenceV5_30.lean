@@ -1,4 +1,6 @@
 import KUOS.DependentOriginationClassificationUnitCounitCertificateV5_29
+import KUOS.DependentOriginationExactUniversalAmbientRoundtripCounitV5_13
+import KUOS.DependentOriginationExactUniversalSourceAmbientRoundtripUnitV5_14
 import KUOS.DependentOriginationExactUniversalAmbientTriangleCoherenceV5_16
 import KUOS.DependentOriginationExactClassificationHomFunctorV5_22
 import KUOS.DependentOriginationExactClassificationBicategoryV5_23
@@ -11,6 +13,8 @@ open KUOS.DependentOriginationGeneratedRefinementTopologyV2_4
 open KUOS.DependentOriginationLocalizedSheafUniversalityV2_6
 open KUOS.DependentOriginationHigherStackCarrierV2_9
 open KUOS.DependentOriginationExactUniversalMappingMorphismV4_57
+open KUOS.DependentOriginationExactUniversalAmbientRoundtripCounitV5_13
+open KUOS.DependentOriginationExactUniversalSourceAmbientRoundtripUnitV5_14
 open KUOS.DependentOriginationExactUniversalClassificationInterfaceV5_17
 open KUOS.DependentOriginationExactClassificationMorphismInterfaceV5_21
 open KUOS.DependentOriginationExactClassificationHomFunctorV5_22
@@ -163,12 +167,18 @@ noncomputable def exactUniversalClassificationForwardTriangleStrongTrans
     {PresentationLabel : Type uP} :
     Pseudofunctor.StrongTrans
       (exactUniversalClassificationRealization
-        (W := W) A).toPseudofunctor
+        (W := W) A
+        (WorldLabel := WorldLabel)
+        (PresentationLabel := PresentationLabel)).toPseudofunctor
       (exactUniversalClassificationRealization
-        (W := W) A).toPseudofunctor :=
+        (W := W) A
+        (WorldLabel := WorldLabel)
+        (PresentationLabel := PresentationLabel)).toPseudofunctor :=
   doubleIdentityStrongTrans
     (exactUniversalClassificationRealization
-      (W := W) A).toPseudofunctor
+      (W := W) A
+      (WorldLabel := WorldLabel)
+      (PresentationLabel := PresentationLabel)).toPseudofunctor
 
 @[simp] theorem exactUniversalClassificationForwardTriangleStrongTrans_app_map
     {WorldLabel : Type uW}
@@ -187,7 +197,9 @@ the coherent representative. -/
     (X : Source (W := W) A WorldLabel PresentationLabel) :
     exactUniversalClassificationForwardTriangleApp (W := W) A X =
       (exactUniversalClassificationForwardTriangleStrongTrans
-        (W := W) A).app X := by
+        (W := W) A
+        (WorldLabel := WorldLabel)
+        (PresentationLabel := PresentationLabel)).app X := by
   apply LocalizedClassificationOneCell.ext
   rw [exactUniversalClassificationForwardTriangleApp_map,
     exactUniversalClassificationForwardTriangleStrongTrans_app_map]
@@ -199,7 +211,9 @@ noncomputable def exactUniversalClassificationForwardTriangleModification
     {PresentationLabel : Type uP} :=
   doubleIdentityStrongTransIso
     (exactUniversalClassificationRealization
-      (W := W) A).toPseudofunctor
+      (W := W) A
+      (WorldLabel := WorldLabel)
+      (PresentationLabel := PresentationLabel)).toPseudofunctor
 
 /-! ## Quasi-inverse triangle -/
 
@@ -209,13 +223,19 @@ noncomputable def exactUniversalClassificationQuasiInverseTriangleApp
     {PresentationLabel : Type uP}
     (Z : Target (W := W) A WorldLabel PresentationLabel) :
     (exactUniversalClassificationCanonicalSection
-      (W := W) A).obj Z ⟶
+      (W := W) A
+      (WorldLabel := WorldLabel)
+      (PresentationLabel := PresentationLabel)).obj Z ⟶
       (exactUniversalClassificationCanonicalSection
-        (W := W) A).obj Z :=
+        (W := W) A
+        (WorldLabel := WorldLabel)
+        (PresentationLabel := PresentationLabel)).obj Z :=
   (exactUniversalClassificationSourceRoundtripUnit
     (W := W) A).app
       ((exactUniversalClassificationCanonicalSection
-        (W := W) A).obj Z) ≫
+        (W := W) A
+        (WorldLabel := WorldLabel)
+        (PresentationLabel := PresentationLabel)).obj Z) ≫
     (exactUniversalClassificationCanonicalSection
       (W := W) A).map
         ((exactUniversalClassificationTargetRoundtripCounit
@@ -254,19 +274,27 @@ noncomputable def exactUniversalClassificationQuasiInverseTriangleStrongTrans
     {PresentationLabel : Type uP} :
     Pseudofunctor.StrongTrans
       (exactUniversalClassificationCanonicalSection
-        (W := W) A)
+        (W := W) A
+        (WorldLabel := WorldLabel)
+        (PresentationLabel := PresentationLabel))
       (exactUniversalClassificationCanonicalSection
-        (W := W) A) :=
+        (W := W) A
+        (WorldLabel := WorldLabel)
+        (PresentationLabel := PresentationLabel)) :=
   doubleIdentityStrongTrans
     (exactUniversalClassificationCanonicalSection
-      (W := W) A)
+      (W := W) A
+      (WorldLabel := WorldLabel)
+      (PresentationLabel := PresentationLabel))
 
 @[simp] theorem exactUniversalClassificationQuasiInverseTriangleStrongTrans_app_map
     {WorldLabel : Type uW}
     {PresentationLabel : Type uP}
     (Z : Target (W := W) A WorldLabel PresentationLabel) :
     ((exactUniversalClassificationQuasiInverseTriangleStrongTrans
-      (W := W) A).app Z).map =
+      (W := W) A
+      (WorldLabel := WorldLabel)
+      (PresentationLabel := PresentationLabel)).app Z).map =
       (exactUniversalQuasiInverseTriangleStrongTrans
         (W := W) A).app Z.carrier :=
   rfl
@@ -276,7 +304,9 @@ noncomputable def exactUniversalClassificationQuasiInverseTriangleStrongTrans
     {PresentationLabel : Type uP}
     (Z : Target (W := W) A WorldLabel PresentationLabel) :
     ((exactUniversalClassificationQuasiInverseTriangleStrongTrans
-      (W := W) A).app Z).map.lift =
+      (W := W) A
+      (WorldLabel := WorldLabel)
+      (PresentationLabel := PresentationLabel)).app Z).map.lift =
       𝟙 Z.carrier ≫ 𝟙 Z.carrier := by
   rw [exactUniversalClassificationQuasiInverseTriangleStrongTrans_app_map]
   exact
@@ -292,7 +322,9 @@ noncomputable def exactUniversalClassificationQuasiInverseTriangleRepresentative
     exactUniversalClassificationQuasiInverseTriangleApp
         (W := W) A Z ≅
       (exactUniversalClassificationQuasiInverseTriangleStrongTrans
-        (W := W) A).app Z := by
+        (W := W) A
+        (WorldLabel := WorldLabel)
+        (PresentationLabel := PresentationLabel)).app Z := by
   apply ExactUniversalClassificationTwoCell.isoOfUnderlying (W := W) A
   simpa only [
     exactUniversalClassificationQuasiInverseTriangleApp_map,
@@ -319,7 +351,9 @@ noncomputable def exactUniversalClassificationQuasiInverseTriangleModification
     {PresentationLabel : Type uP} :=
   doubleIdentityStrongTransIso
     (exactUniversalClassificationCanonicalSection
-      (W := W) A)
+      (W := W) A
+      (WorldLabel := WorldLabel)
+      (PresentationLabel := PresentationLabel))
 
 /-!
 ## Boundary after v5.30
@@ -351,7 +385,9 @@ variable
 example :
     exactUniversalClassificationForwardTriangleApp (W := W) A X =
       (exactUniversalClassificationForwardTriangleStrongTrans
-        (W := W) A).app X :=
+        (W := W) A
+        (WorldLabel := WorldLabel)
+        (PresentationLabel := PresentationLabel)).app X :=
   exactUniversalClassificationForwardTriangleApp_eq_representative
     (W := W) A X
 
