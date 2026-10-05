@@ -271,15 +271,39 @@ instance ExactUniversalClassificationOneCell.homCategory
   id_comp := by
     intro f g eta
     apply ExactUniversalClassificationTwoCell.ext
-    exact Category.id_comp eta.cell
+    apply ExactUniversalRawMorphismTwoCell.ext
+    · simpa only [
+        ExactUniversalRawMorphismTwoCell.vcomp_raw,
+        ExactUniversalRawMorphismTwoCell.id_raw
+      ] using (Category.id_comp eta.cell.raw)
+    · simpa only [
+        ExactUniversalRawMorphismTwoCell.vcomp_lift,
+        ExactUniversalRawMorphismTwoCell.id_lift
+      ] using (Category.id_comp eta.cell.lift)
   comp_id := by
     intro f g eta
     apply ExactUniversalClassificationTwoCell.ext
-    exact Category.comp_id eta.cell
+    apply ExactUniversalRawMorphismTwoCell.ext
+    · simpa only [
+        ExactUniversalRawMorphismTwoCell.vcomp_raw,
+        ExactUniversalRawMorphismTwoCell.id_raw
+      ] using (Category.comp_id eta.cell.raw)
+    · simpa only [
+        ExactUniversalRawMorphismTwoCell.vcomp_lift,
+        ExactUniversalRawMorphismTwoCell.id_lift
+      ] using (Category.comp_id eta.cell.lift)
   assoc := by
     intro f g h i eta theta iota
     apply ExactUniversalClassificationTwoCell.ext
-    exact Category.assoc eta.cell theta.cell iota.cell
+    apply ExactUniversalRawMorphismTwoCell.ext
+    · simpa only [
+        ExactUniversalRawMorphismTwoCell.vcomp_raw
+      ] using
+        (Category.assoc eta.cell.raw theta.cell.raw iota.cell.raw)
+    · simpa only [
+        ExactUniversalRawMorphismTwoCell.vcomp_lift
+      ] using
+        (Category.assoc eta.cell.lift theta.cell.lift iota.cell.lift)
 
 /-- Localized classification 2-cells are determined by their native DO₂
 component. -/
