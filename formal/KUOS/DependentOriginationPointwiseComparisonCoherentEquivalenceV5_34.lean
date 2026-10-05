@@ -116,7 +116,7 @@ abbrev HigherPointwiseEquivalenceComparison.inverseStrongTrans
         (Context := Context)}
     (E : HigherPointwiseEquivalenceComparison R S) :
     S ⟶ R :=
-  pointwiseInverseStrongTrans
+  KUOS.DependentOriginationPointwiseInverseCoherenceV4_82.pointwiseInverseStrongTrans
     E.comparison
     (HigherPointwiseEquivalenceComparison.componentIsEquivalence E)
 
@@ -129,7 +129,7 @@ theorem HigherPointwiseEquivalenceComparison.inverseStrongTrans_componentIsEquiv
     (U : LocallyDiscrete Context) :
     ((HigherPointwiseEquivalenceComparison.inverseStrongTrans E).app U).toFunctor.IsEquivalence := by
   change
-    (pointwiseInverseComponent
+    (KUOS.DependentOriginationPointwiseInverseNaturalityV4_81.pointwiseInverseComponent
       E.comparison
       (HigherPointwiseEquivalenceComparison.componentIsEquivalence E)
       U).IsEquivalence
@@ -158,7 +158,7 @@ abbrev HigherPointwiseEquivalenceComparison.doubleInverseStrongTrans
         (Context := Context)}
     (E : HigherPointwiseEquivalenceComparison R S) :
     R ⟶ S :=
-  pointwiseInverseStrongTrans
+  KUOS.DependentOriginationPointwiseInverseCoherenceV4_82.pointwiseInverseStrongTrans
     (HigherPointwiseEquivalenceComparison.inverseStrongTrans E)
     (HigherPointwiseEquivalenceComparison.inverseStrongTrans_componentIsEquivalence E)
 
@@ -175,10 +175,10 @@ noncomputable def HigherPointwiseEquivalenceComparison.doubleInverseIsoForward
     E.comparison
     (HigherPointwiseEquivalenceComparison.inverseStrongTrans E)
     (HigherPointwiseEquivalenceComparison.doubleInverseStrongTrans E)
-    (pointwiseInverseUnitModification
+    (KUOS.DependentOriginationPointwiseInverseCoherenceV4_82.pointwiseInverseUnitModification
       E.comparison
       (HigherPointwiseEquivalenceComparison.componentIsEquivalence E))
-    (pointwiseInverseUnitModification
+    (KUOS.DependentOriginationPointwiseInverseCoherenceV4_82.pointwiseInverseUnitModification
       (HigherPointwiseEquivalenceComparison.inverseStrongTrans E)
       (HigherPointwiseEquivalenceComparison.inverseStrongTrans_componentIsEquivalence E))
 
@@ -195,10 +195,10 @@ noncomputable def HigherPointwiseEquivalenceComparison.inverseCounit
     E.comparison
     (HigherPointwiseEquivalenceComparison.inverseStrongTrans E)
     (HigherPointwiseEquivalenceComparison.doubleInverseStrongTrans E)
-    (pointwiseInverseUnitModification
+    (KUOS.DependentOriginationPointwiseInverseCoherenceV4_82.pointwiseInverseUnitModification
       E.comparison
       (HigherPointwiseEquivalenceComparison.componentIsEquivalence E))
-    (pointwiseInverseUnitModification
+    (KUOS.DependentOriginationPointwiseInverseCoherenceV4_82.pointwiseInverseUnitModification
       (HigherPointwiseEquivalenceComparison.inverseStrongTrans E)
       (HigherPointwiseEquivalenceComparison.inverseStrongTrans_componentIsEquivalence E))
 
@@ -220,7 +220,7 @@ noncomputable def HigherPointwiseEquivalenceComparison.toCoherentEquivalence
         E.comparison ≫
           HigherPointwiseEquivalenceComparison.inverseStrongTrans E
     exact
-      pointwiseInverseUnitModification
+      KUOS.DependentOriginationPointwiseInverseCoherenceV4_82.pointwiseInverseUnitModification
         E.comparison
         (HigherPointwiseEquivalenceComparison.componentIsEquivalence E)
   counit := by
@@ -273,7 +273,7 @@ def HasLabelPreservingLocalizedClassificationCoherentPresentation
     Z.label = label ∧
       Nonempty
         (HigherRawSystemCoherentEquivalence
-          (localizedClassificationRestrictedCarrier
+          (KUOS.DependentOriginationLocalizedClassificationPresentationCriterionV5_33.localizedClassificationRestrictedCarrier
             (W := W) A Z)
           R)
 
@@ -293,19 +293,19 @@ theorem exactLiftabilityCriterion_iff_labelPreservingLocalizedCoherentPresentati
   constructor
   · intro hExact
     have hPresentation :
-        HasLabelPreservingLocalizedClassificationPresentation
+        KUOS.DependentOriginationLocalizedClassificationPresentationCriterionV5_33.HasLabelPreservingLocalizedClassificationPresentation
           (W := W) A label R :=
-      (exactLiftabilityCriterion_iff_labelPreservingLocalizedPresentation
+      (KUOS.DependentOriginationLocalizedClassificationPresentationCriterionV5_33.exactLiftabilityCriterion_iff_labelPreservingLocalizedPresentation
         (W := W) A label R).1 hExact
     rcases hPresentation with ⟨Z, hLabel, ⟨E⟩⟩
     exact ⟨Z, hLabel, ⟨HigherPointwiseEquivalenceComparison.toCoherentEquivalence E⟩⟩
   · rintro ⟨Z, hLabel, ⟨E⟩⟩
     have hPresentation :
-        HasLabelPreservingLocalizedClassificationPresentation
+        KUOS.DependentOriginationLocalizedClassificationPresentationCriterionV5_33.HasLabelPreservingLocalizedClassificationPresentation
           (W := W) A label R := by
       exact ⟨Z, hLabel, ⟨E.forward⟩⟩
     exact
-      (exactLiftabilityCriterion_iff_labelPreservingLocalizedPresentation
+      (KUOS.DependentOriginationLocalizedClassificationPresentationCriterionV5_33.exactLiftabilityCriterion_iff_labelPreservingLocalizedPresentation
         (W := W) A label R).2 hPresentation
 
 /-- Exact-liftable classification objects therefore admit a label-preserving
