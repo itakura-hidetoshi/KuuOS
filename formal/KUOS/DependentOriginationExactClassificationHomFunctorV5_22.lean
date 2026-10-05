@@ -271,15 +271,15 @@ instance ExactUniversalClassificationOneCell.homCategory
   id_comp := by
     intro f g eta
     apply ExactUniversalClassificationTwoCell.ext
-    simp
+    exact Category.id_comp eta.cell
   comp_id := by
     intro f g eta
     apply ExactUniversalClassificationTwoCell.ext
-    simp
+    exact Category.comp_id eta.cell
   assoc := by
     intro f g h i eta theta iota
     apply ExactUniversalClassificationTwoCell.ext
-    simp
+    exact Category.assoc eta.cell theta.cell iota.cell
 
 /-- Localized classification 2-cells are determined by their native DO₂
 component. -/
@@ -380,8 +380,8 @@ noncomputable def exactUniversalClassificationRealizationHomFunctor
       ExactUniversalClassificationObject
         (W := W) A WorldLabel PresentationLabel)
     (f : ExactUniversalClassificationOneCell (W := W) A X Y) :
-    (exactUniversalClassificationRealizationHomFunctor
-      (W := W) A X Y).obj f |>.map =
+    ((exactUniversalClassificationRealizationHomFunctor
+      (W := W) A X Y).obj f).map =
       f.map.lift :=
   rfl
 
