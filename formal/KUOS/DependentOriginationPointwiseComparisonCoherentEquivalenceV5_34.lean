@@ -292,21 +292,34 @@ theorem exactLiftabilityCriterion_iff_labelPreservingLocalizedCoherentPresentati
         (W := W) A label R := by
   constructor
   · intro hExact
-    have hPresentation :
-        KUOS.DependentOriginationLocalizedClassificationPresentationCriterionV5_33.HasLabelPreservingLocalizedClassificationPresentation
-          (W := W) A label R :=
-      (KUOS.DependentOriginationLocalizedClassificationPresentationCriterionV5_33.exactLiftabilityCriterion_iff_labelPreservingLocalizedPresentation
-        (W := W) A label R).1 hExact
+    let X :
+        KUOS.DependentOriginationExactUniversalClassificationInterfaceV5_17.ExactLiftableClassificationObject.{u, v, uH, vH, uW, uP}
+          (W := W) A WorldLabel PresentationLabel :=
+      { label := label
+        raw := R
+        exact :=
+          (KUOS.DependentOriginationExactLiftabilityCriterionV5_18.hasExactHigherDependentOriginationPresentation_iff_exactLiftabilityCriterion
+            (W := W) A R).2 hExact }
+    have hPresentation :=
+      KUOS.DependentOriginationLocalizedClassificationPresentationCriterionV5_33.ExactLiftableClassificationObject.exists_labelPreserving_localizedPresentation
+        (W := W) A X
+    change
+      KUOS.DependentOriginationLocalizedClassificationPresentationCriterionV5_33.HasLabelPreservingLocalizedClassificationPresentation
+        (W := W) A label R at hPresentation
     rcases hPresentation with ⟨Z, hLabel, ⟨E⟩⟩
     exact ⟨Z, hLabel, ⟨pointwiseComparisonToCoherentEquivalence E⟩⟩
-  · rintro ⟨Z, hLabel, ⟨E⟩⟩
+  · rintro ⟨Z, _hLabel, ⟨E⟩⟩
     have hPresentation :
-        KUOS.DependentOriginationLocalizedClassificationPresentationCriterionV5_33.HasLabelPreservingLocalizedClassificationPresentation
-          (W := W) A label R := by
-      exact ⟨Z, hLabel, ⟨E.forward⟩⟩
+        KUOS.DependentOriginationExactHigherPresentationSectorV4_50.HasExactHigherDependentOriginationPresentation
+          (W := W) A R := by
+      refine ⟨?_⟩
+      exact
+        { carrier := Z.carrier
+          comparison := E.forward.comparison
+          comparison_isEquivalence := E.forward.comparison_isEquivalence }
     exact
-      (KUOS.DependentOriginationLocalizedClassificationPresentationCriterionV5_33.exactLiftabilityCriterion_iff_labelPreservingLocalizedPresentation
-        (W := W) A label R).2 hPresentation
+      (KUOS.DependentOriginationExactLiftabilityCriterionV5_18.hasExactHigherDependentOriginationPresentation_iff_exactLiftabilityCriterion
+        (W := W) A R).1 hPresentation
 
 /-- Exact-liftable classification objects therefore admit a label-preserving
 localized presentation coherently equivalent to their raw system. -/
