@@ -280,7 +280,9 @@ theorem ExactLiftableClassificationObject.exists_labelPreserving_exactUniversalS
         Nonempty
           (HigherPointwiseEquivalenceComparison
             Y.source.raw X.raw) := by
-  let F :=
+  let F :
+      ExactUniversalClassificationFactor
+        (W := W) A X :=
     exactUniversalClassificationFactor
       (W := W) A X
   exact
