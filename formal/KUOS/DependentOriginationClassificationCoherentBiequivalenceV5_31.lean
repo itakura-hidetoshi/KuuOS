@@ -1,3 +1,4 @@
+import KUOS.DependentOriginationLocalizedClassificationRealizationV5_24
 import KUOS.DependentOriginationClassificationTriangleCoherenceV5_30
 import Mathlib
 
@@ -8,6 +9,7 @@ open KUOS.DependentOriginationGeneratedRefinementTopologyV2_4
 open KUOS.DependentOriginationLocalizedSheafUniversalityV2_6
 open KUOS.DependentOriginationHigherStackCarrierV2_9
 open KUOS.DependentOriginationExactUniversalClassificationInterfaceV5_17
+open KUOS.DependentOriginationLocalizedClassificationRealizationV5_24
 open KUOS.DependentOriginationClassificationWhiteheadBiequivalenceV5_27
 open KUOS.DependentOriginationClassificationCanonicalSectionV5_28
 open KUOS.DependentOriginationClassificationUnitCounitCertificateV5_29
@@ -95,13 +97,13 @@ variable
 abbrev ClassificationSource
     (WorldLabel : Type uW)
     (PresentationLabel : Type uP) :=
-  ExactUniversalClassificationObject
+  ExactUniversalClassificationObject.{u, v, uH, vH, uW, uP}
     (W := W) A WorldLabel PresentationLabel
 
 abbrev ClassificationTarget
     (WorldLabel : Type uW)
     (PresentationLabel : Type uP) :=
-  LocalizedClassificationObject
+  LocalizedClassificationObject.{u, v, uH, vH, uW, uP}
     (W := W) A WorldLabel PresentationLabel
 
 /-- The full current labelled-classification biequivalence/coherence package.
