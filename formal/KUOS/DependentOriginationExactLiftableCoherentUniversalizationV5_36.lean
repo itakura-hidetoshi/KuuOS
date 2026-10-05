@@ -282,7 +282,8 @@ theorem WeakSemanticClassificationObject.exists_labelPreserving_fixedRawExactUni
       WeakSemanticClassificationObject.{u, v, uH, vH, uW, uP}
         (W := W) WorldLabel PresentationLabel)
     (hExact :
-      ExactLiftabilityCriterion (W := W) A X.raw) :
+      KUOS.DependentOriginationExactLiftabilityCriterionV5_18.ExactLiftabilityCriterion
+        (W := W) A X.raw) :
     ∃ U :
         KUOS.DependentOriginationExactClassificationCoherentUniquenessV5_20.FixedRawExactUniversalClassificationObject.{u, v, uH, vH, uW, uP}
           (W := W) A
