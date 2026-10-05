@@ -21,29 +21,25 @@ noncomputable section
 /-!
 # Label-preserving localized presentation criterion v5.33
 
-v5.32 closes the universe-alignment bookkeeping gap under the atlas
-specialization already used by v5.19:
+v5.32 removes the extra ambient-alignment witness under the atlas universe
+specialization already used by v5.19.  This theorem unit turns that result into
+a direct classification-level presentation criterion.
 
-  ExactLiftabilityCriterion R
-    <-> AmbientAlignedExactLiftabilityCriterion R.
+For a weak semantic classification object X, exact liftability of X.raw is
+equivalent to existence of a localized labelled DO₂ object Z with the same
+external label and a directed pointwise-equivalence comparison
 
-The present theorem unit turns that result into a direct object-level
-classification criterion.  For a fixed external classification label and raw
-system R, exact liftability is equivalent to existence of a localized labelled
-DO₂ object Z carrying the same external label together with a directed
-pointwise-equivalence comparison
+  restrict(Z.carrier) --> X.raw.
 
-  restrict(Z.carrier) --> R.
-
-The forward direction deliberately passes through the v5.32 exact-universal
-source theorem and composes its chosen presentation comparison with the
-resulting directed raw comparison.  The reverse direction is carrier-first:
+The forward direction uses the v5.32 weak-object exact-universal source bridge.
+The source's chosen exact presentation comparison is then composed with the
+v5.32 directed raw comparison.  The reverse direction is carrier-first:
 Z.carrier plus the supplied comparison is exactly an
-ExactHigherDependentOriginationPresentation of R.
+ExactHigherDependentOriginationPresentation of X.raw.
 
-This file does not assert weak admissibility -> exact liftability, does not
-resize arbitrary atlas index universes, and does not upgrade a directed
-pointwise-equivalence comparison to a two-sided coherent raw equivalence.
+No implication from weak admissibility alone is asserted.  No arbitrary atlas
+universe resizing is introduced, and directed pointwise equivalence is not
+upgraded to a two-sided coherent raw equivalence.
 -/
 
 universe u v uH vH uW uP
@@ -55,8 +51,8 @@ variable
     RefinementAtlas.{u, max u v, uH}
       (LocalizedContext W))
 
-/-- Raw contextual system obtained by restricting the carrier of a localized
-classification object back to the original context. -/
+/-- Raw contextual system obtained by restricting a localized classification
+carrier back to the original context. -/
 abbrev localizedClassificationRestrictedCarrier
     {WorldLabel : Type uW}
     {PresentationLabel : Type uP}
@@ -68,11 +64,7 @@ abbrev localizedClassificationRestrictedCarrier
   restrictHigherLocalizedSystem W
     (higherStackObjectVal (W := W) A Z.carrier)
 
-/-- Direct labelled localized-presentation predicate.
-
-The external label is preserved literally.  The mathematical witness is only
-the directed pointwise-equivalence comparison supported by the existing
-presentation interface. -/
+/-- Direct label-preserving localized-presentation predicate. -/
 def HasLabelPreservingLocalizedClassificationPresentation
     {WorldLabel : Type uW}
     {PresentationLabel : Type uP}
@@ -90,31 +82,25 @@ def HasLabelPreservingLocalizedClassificationPresentation
             (W := W) A Z)
           R)
 
-/-- Under the aligned-atlas specialization, exact liftability is exactly
-existence of a label-preserving localized classification presentation. -/
-theorem exactLiftabilityCriterion_iff_labelPreservingLocalizedPresentation
+/-- For a weak semantic classification object, exact liftability is equivalent
+to existence of a localized presentation carrying the same external label.
+
+The stored weak admissibility is not used as a substitute for exactness: the
+forward implication consumes an explicit ExactLiftabilityCriterion witness. -/
+theorem WeakSemanticClassificationObject.exactLiftabilityCriterion_iff_labelPreservingLocalizedPresentation
     {WorldLabel : Type uW}
     {PresentationLabel : Type uP}
-    (label : ClassificationLabel WorldLabel PresentationLabel)
-    (R :
-      RawHigherContextualSystem.{u, v, uH, vH}
-        (Context := Context)) :
-    ExactLiftabilityCriterion (W := W) A R ↔
+    (X :
+      WeakSemanticClassificationObject.{u, v, uH, vH, uW, uP}
+        (W := W) WorldLabel PresentationLabel) :
+    ExactLiftabilityCriterion (W := W) A X.raw ↔
       HasLabelPreservingLocalizedClassificationPresentation
-        (W := W) A label R := by
+        (W := W) A X.label X.raw := by
   constructor
   · intro hExact
-    let X :
-        ExactLiftableClassificationObject.{u, v, uH, vH, uW, uP}
-          (W := W) A WorldLabel PresentationLabel :=
-      { label := label
-        raw := R
-        exact :=
-          (hasExactHigherDependentOriginationPresentation_iff_exactLiftabilityCriterion
-            (W := W) A R).2 hExact }
     rcases
-        KUOS.DependentOriginationAlignedExactLiftabilityCollapseV5_32.ExactLiftableClassificationObject.exists_labelPreserving_exactUniversalSource
-          (W := W) A X with
+        KUOS.DependentOriginationAlignedExactLiftabilityCollapseV5_32.WeakSemanticClassificationObject.exists_labelPreserving_exactUniversalSource_of_exactCriterion
+          (W := W) A X hExact with
       ⟨Y, hLabel, ⟨E⟩⟩
     refine ⟨Y.realize (W := W) A, ?_, ?_⟩
     · exact hLabel
@@ -137,7 +123,7 @@ theorem exactLiftabilityCriterion_iff_labelPreservingLocalizedPresentation
   · rintro ⟨Z, _hLabel, ⟨E⟩⟩
     have hPresentation :
         HasExactHigherDependentOriginationPresentation
-          (W := W) A R := by
+          (W := W) A X.raw := by
       refine ⟨?_⟩
       exact
         { carrier := Z.carrier
@@ -145,25 +131,10 @@ theorem exactLiftabilityCriterion_iff_labelPreservingLocalizedPresentation
           comparison_isEquivalence := E.comparison_isEquivalence }
     exact
       (hasExactHigherDependentOriginationPresentation_iff_exactLiftabilityCriterion
-        (W := W) A R).1 hPresentation
+        (W := W) A X.raw).1 hPresentation
 
-/-- Classification-object spelling for a weak semantic object.  Its stored weak
-admissibility is not used to manufacture exactness; the iff is controlled
-entirely by the exact criterion above. -/
-theorem WeakSemanticClassificationObject.exactLiftabilityCriterion_iff_labelPreservingLocalizedPresentation
-    {WorldLabel : Type uW}
-    {PresentationLabel : Type uP}
-    (X :
-      WeakSemanticClassificationObject.{u, v, uH, vH, uW, uP}
-        (W := W) WorldLabel PresentationLabel) :
-    ExactLiftabilityCriterion (W := W) A X.raw ↔
-      HasLabelPreservingLocalizedClassificationPresentation
-        (W := W) A X.label X.raw :=
-  exactLiftabilityCriterion_iff_labelPreservingLocalizedPresentation
-    (W := W) A X.label X.raw
-
-/-- Exact-liftable classification objects satisfy the same direct localized
-presentation criterion with their external label retained literally. -/
+/-- Exact-liftable objects inherit the same iff by forgetting only to their
+weak semantic wrapper; label and raw carrier are definitionally unchanged. -/
 theorem ExactLiftableClassificationObject.exactLiftabilityCriterion_iff_labelPreservingLocalizedPresentation
     {WorldLabel : Type uW}
     {PresentationLabel : Type uP}
@@ -172,12 +143,15 @@ theorem ExactLiftableClassificationObject.exactLiftabilityCriterion_iff_labelPre
         (W := W) A WorldLabel PresentationLabel) :
     ExactLiftabilityCriterion (W := W) A X.raw ↔
       HasLabelPreservingLocalizedClassificationPresentation
-        (W := W) A X.label X.raw :=
-  exactLiftabilityCriterion_iff_labelPreservingLocalizedPresentation
-    (W := W) A X.label X.raw
+        (W := W) A X.label X.raw := by
+  simpa only [
+      ExactLiftableClassificationObject.toWeak_label,
+      ExactLiftableClassificationObject.toWeak_raw] using
+    (WeakSemanticClassificationObject.exactLiftabilityCriterion_iff_labelPreservingLocalizedPresentation
+      (W := W) A (X.toWeak (W := W) A))
 
-/-- In particular, every exact-liftable classification object has a localized
-label-preserving presentation, with no additional ambient-alignment witness. -/
+/-- Every exact-liftable classification object therefore has a localized
+label-preserving presentation, with no additional alignment witness. -/
 theorem ExactLiftableClassificationObject.exists_labelPreserving_localizedPresentation
     {WorldLabel : Type uW}
     {PresentationLabel : Type uP}
@@ -195,22 +169,19 @@ theorem ExactLiftableClassificationObject.exists_labelPreserving_localizedPresen
 /-!
 ## Boundary after v5.33
 
-Within the aligned-atlas specialization, the exact raw/classification layer now
-has a direct localized object presentation criterion:
+Within the aligned-atlas specialization:
 
-  ExactLiftabilityCriterion R
+  ExactLiftabilityCriterion X.raw
     <->
   exists label-preserving Z in LocalizedClassification,
-    restrict(Z.carrier) --> R pointwise-equivalently.
+    restrict(Z.carrier) --> X.raw pointwise-equivalently.
 
-The reverse direction uses only the defining carrier-first exact-presentation
-interface.  Therefore the result does not collapse any of the remaining
-boundaries: weak admissibility is still insufficient, arbitrary atlas resizing
-is still absent, and directed pointwise equivalence remains weaker than a
-two-sided coherent raw equivalence.
+The reverse implication uses only the carrier-first exact-presentation
+interface.  Thus weak admissibility remains insufficient, arbitrary atlas
+resizing remains absent, and directed pointwise equivalence remains strictly
+weaker data than a two-sided coherent raw equivalence.
 -/
 
-#print axioms exactLiftabilityCriterion_iff_labelPreservingLocalizedPresentation
 #print axioms WeakSemanticClassificationObject.exactLiftabilityCriterion_iff_labelPreservingLocalizedPresentation
 #print axioms ExactLiftableClassificationObject.exactLiftabilityCriterion_iff_labelPreservingLocalizedPresentation
 #print axioms ExactLiftableClassificationObject.exists_labelPreserving_localizedPresentation
