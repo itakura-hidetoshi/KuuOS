@@ -515,7 +515,7 @@ noncomputable def exactUniversalClassificationRealization
     {PresentationLabel : Type uP}
     {X Y :
       ExactUniversalClassificationObject
-        (W := W) A WorldLabel PresentationLabel)
+        (W := W) A WorldLabel PresentationLabel}
     (f : X ⟶ Y) :
     ((exactUniversalClassificationRealization
       (W := W) A).map f).map =
@@ -527,7 +527,7 @@ noncomputable def exactUniversalClassificationRealization
     {PresentationLabel : Type uP}
     {X Y :
       ExactUniversalClassificationObject
-        (W := W) A WorldLabel PresentationLabel)
+        (W := W) A WorldLabel PresentationLabel}
     {f g : X ⟶ Y}
     (eta : f ⟶ g) :
     ((exactUniversalClassificationRealization
