@@ -384,7 +384,7 @@ theorem exactUniversalClassificationSourceRoundtripUnit_naturality_naturality
   apply
     KUOS.DependentOriginationExactClassificationHomFunctorV5_22.
       ExactUniversalClassificationTwoCell.ext
-  simpa only [
+  simp only [
     ExactUniversalClassificationTwoCell.vcomp_cell,
     ExactUniversalClassificationTwoCell.whiskerLeft_cell,
     ExactUniversalClassificationTwoCell.whiskerRight_cell,
@@ -392,7 +392,8 @@ theorem exactUniversalClassificationSourceRoundtripUnit_naturality_naturality
     exactUniversalClassificationSourceRoundtrip_map₂_underlying,
     exactUniversalClassificationSourceRoundtripUnitApp_underlying,
     exactUniversalClassificationSourceRoundtripUnitNaturalityIso_hom_cell
-  ] using
+  ]
+  exact
     (exactUniversalSourceAmbientRoundtripUnit
       (W := W) A).naturality_naturality eta.cell
 
@@ -415,7 +416,7 @@ theorem exactUniversalClassificationSourceRoundtripUnit_naturality_id
   apply
     KUOS.DependentOriginationExactClassificationHomFunctorV5_22.
       ExactUniversalClassificationTwoCell.ext
-  simpa only [
+  simp only [
     ExactUniversalClassificationTwoCell.vcomp_cell,
     ExactUniversalClassificationTwoCell.whiskerLeft_cell,
     ExactUniversalClassificationTwoCell.whiskerRight_cell,
@@ -425,7 +426,8 @@ theorem exactUniversalClassificationSourceRoundtripUnit_naturality_id
     exactUniversalClassificationSourceRoundtrip_mapId_hom_underlying,
     exactUniversalClassificationSourceRoundtripUnitApp_underlying,
     exactUniversalClassificationSourceRoundtripUnitNaturalityIso_hom_cell
-  ] using
+  ]
+  exact
     (exactUniversalSourceAmbientRoundtripUnit
       (W := W) A).naturality_id X.source
 
@@ -457,7 +459,7 @@ theorem exactUniversalClassificationSourceRoundtripUnit_naturality_comp
   apply
     KUOS.DependentOriginationExactClassificationHomFunctorV5_22.
       ExactUniversalClassificationTwoCell.ext
-  simpa only [
+  simp only [
     ExactUniversalClassificationTwoCell.vcomp_cell,
     ExactUniversalClassificationTwoCell.whiskerLeft_cell,
     ExactUniversalClassificationTwoCell.whiskerRight_cell,
@@ -469,7 +471,8 @@ theorem exactUniversalClassificationSourceRoundtripUnit_naturality_comp
     exactUniversalClassificationSourceRoundtrip_mapComp_hom_underlying,
     exactUniversalClassificationSourceRoundtripUnitApp_underlying,
     exactUniversalClassificationSourceRoundtripUnitNaturalityIso_hom_cell
-  ] using
+  ]
+  exact
     (exactUniversalSourceAmbientRoundtripUnit
       (W := W) A).naturality_comp f.map g.map
 
