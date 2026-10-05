@@ -80,10 +80,10 @@ theorem ExactLiftableClassificationObject.exists_labelPreserving_exactUniversalS
     {WorldLabel : Type uW}
     {PresentationLabel : Type uP}
     (X :
-      ExactLiftableClassificationObject
+      ExactLiftableClassificationObject.{u, v, uH, vH, uW, uP}
         (W := W) A WorldLabel PresentationLabel) :
     ∃ Y :
-        ExactUniversalClassificationObject
+        ExactUniversalClassificationObject.{u, v, uH, vH, uW, uP}
           (W := W) A WorldLabel PresentationLabel,
       Y.label = X.label ∧
         Nonempty
@@ -91,27 +91,30 @@ theorem ExactLiftableClassificationObject.exists_labelPreserving_exactUniversalS
             Y.source.raw X.raw) := by
   have hExact :
       ExactLiftabilityCriterion (W := W) A X.raw :=
-    X.satisfiesExactLiftabilityCriterion (W := W) A
+    KUOS.DependentOriginationExactLiftabilityCriterionV5_18.
+      ExactLiftableClassificationObject.satisfiesExactLiftabilityCriterion
+        (W := W) A X
   have hAligned :
       AmbientAlignedExactLiftabilityCriterion.{u, v, uH, vH}
         (W := W) A X.raw :=
     exactLiftabilityCriterion_implies_ambientAligned_of_alignedAtlas
       (W := W) A X.raw hExact
   exact
-    X.exists_labelPreserving_exactUniversalSource_of_ambientAligned
-      (W := W) A hAligned
+    KUOS.DependentOriginationExactClassificationFactorExistenceV5_19.
+      ExactLiftableClassificationObject.exists_labelPreserving_exactUniversalSource_of_ambientAligned
+        (W := W) A X hAligned
 
 theorem WeakSemanticClassificationObject.exists_labelPreserving_exactUniversalSource_of_exactCriterion
     {WorldLabel : Type uW}
     {PresentationLabel : Type uP}
     (X :
-      WeakSemanticClassificationObject
+      WeakSemanticClassificationObject.{u, v, uH, vH, uW, uP}
         (W := W) WorldLabel PresentationLabel)
     (hExact :
       ExactLiftabilityCriterion
         (W := W) A X.raw) :
     ∃ Y :
-        ExactUniversalClassificationObject
+        ExactUniversalClassificationObject.{u, v, uH, vH, uW, uP}
           (W := W) A WorldLabel PresentationLabel,
       Y.label = X.label ∧
         Nonempty
@@ -123,8 +126,9 @@ theorem WeakSemanticClassificationObject.exists_labelPreserving_exactUniversalSo
     exactLiftabilityCriterion_implies_ambientAligned_of_alignedAtlas
       (W := W) A X.raw hExact
   exact
-    X.exists_labelPreserving_exactUniversalSource_of_ambientAligned
-      (W := W) A hAligned
+    KUOS.DependentOriginationExactClassificationFactorExistenceV5_19.
+      WeakSemanticClassificationObject.exists_labelPreserving_exactUniversalSource_of_ambientAligned
+        (W := W) A X hAligned
 
 /-!
 The weak-semantic boundary is unchanged: v5.18 already proves by the octahedral
