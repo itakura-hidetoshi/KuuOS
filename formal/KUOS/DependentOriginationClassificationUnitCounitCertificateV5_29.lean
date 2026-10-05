@@ -273,6 +273,82 @@ noncomputable def exactUniversalClassificationSourceRoundtripUnitNaturalityIso
   exact
     (exactUniversalSourceAmbientRoundtripUnit (W := W) A).naturality f.map
 
+@[simp] theorem exactUniversalClassificationSourceRoundtripUnitApp_underlying
+    {WorldLabel : Type uW}
+    {PresentationLabel : Type uP}
+    (X : Source (W := W) A WorldLabel PresentationLabel) :
+    (exactUniversalClassificationSourceRoundtripUnitApp
+      (W := W) A X).map =
+      (exactUniversalSourceAmbientRoundtripUnit (W := W) A).app X.source :=
+  rfl
+
+@[simp] theorem exactUniversalClassificationSourceRoundtripUnitNaturalityIso_hom_cell
+    {WorldLabel : Type uW}
+    {PresentationLabel : Type uP}
+    {X Y : Source (W := W) A WorldLabel PresentationLabel}
+    (f : X ⟶ Y) :
+    (exactUniversalClassificationSourceRoundtripUnitNaturalityIso
+      (W := W) A f).hom.cell =
+      ((exactUniversalSourceAmbientRoundtripUnit
+        (W := W) A).naturality f.map).hom :=
+  rfl
+
+@[simp] theorem exactUniversalClassificationSourceIdentity_map₂_underlying
+    {WorldLabel : Type uW}
+    {PresentationLabel : Type uP}
+    {X Y : Source (W := W) A WorldLabel PresentationLabel}
+    {f g : X ⟶ Y}
+    (eta : f ⟶ g) :
+    ((Pseudofunctor.id
+      (Source (W := W) A WorldLabel PresentationLabel)).map₂ eta).cell =
+      eta.cell :=
+  rfl
+
+@[simp] theorem exactUniversalClassificationSourceIdentity_mapId_hom_underlying
+    {WorldLabel : Type uW}
+    {PresentationLabel : Type uP}
+    (X : Source (W := W) A WorldLabel PresentationLabel) :
+    (((Pseudofunctor.id
+      (Source (W := W) A WorldLabel PresentationLabel)).mapId X).hom).cell =
+      ((Pseudofunctor.id
+        (ExactUniversalRawObject.{u, v, uH, vH} (W := W) A)).mapId X.source).hom :=
+  rfl
+
+@[simp] theorem exactUniversalClassificationSourceIdentity_mapComp_hom_underlying
+    {WorldLabel : Type uW}
+    {PresentationLabel : Type uP}
+    {X Y Z : Source (W := W) A WorldLabel PresentationLabel}
+    (f : X ⟶ Y)
+    (g : Y ⟶ Z) :
+    (((Pseudofunctor.id
+      (Source (W := W) A WorldLabel PresentationLabel)).mapComp f g).hom).cell =
+      ((Pseudofunctor.id
+        (ExactUniversalRawObject.{u, v, uH, vH} (W := W) A)).mapComp
+          f.map g.map).hom :=
+  rfl
+
+@[simp] theorem exactUniversalClassificationSourceRoundtrip_mapId_hom_underlying
+    {WorldLabel : Type uW}
+    {PresentationLabel : Type uP}
+    (X : Source (W := W) A WorldLabel PresentationLabel) :
+    (((exactUniversalClassificationSourceRoundtrip
+      (W := W) A).mapId X).hom).cell =
+      ((exactUniversalSourceAmbientRoundtrip
+        (W := W) A).mapId X.source).hom :=
+  rfl
+
+@[simp] theorem exactUniversalClassificationSourceRoundtrip_mapComp_hom_underlying
+    {WorldLabel : Type uW}
+    {PresentationLabel : Type uP}
+    {X Y Z : Source (W := W) A WorldLabel PresentationLabel}
+    (f : X ⟶ Y)
+    (g : Y ⟶ Z) :
+    (((exactUniversalClassificationSourceRoundtrip
+      (W := W) A).mapComp f g).hom).cell =
+      ((exactUniversalSourceAmbientRoundtrip
+        (W := W) A).mapComp f.map g.map).hom :=
+  rfl
+
 /-- Native source-side StrongTrans unit. -/
 noncomputable def exactUniversalClassificationSourceRoundtripUnit
     {WorldLabel : Type uW}
@@ -291,21 +367,49 @@ noncomputable def exactUniversalClassificationSourceRoundtripUnit
       (W := W) A f
   naturality_naturality {a b} {f g} eta := by
     apply KUOS.DependentOriginationExactClassificationHomFunctorV5_22.ExactUniversalClassificationTwoCell.ext
-    exact
+    simpa only [
+      ExactUniversalClassificationTwoCell.vcomp_cell,
+      ExactUniversalClassificationTwoCell.whiskerLeft_cell,
+      ExactUniversalClassificationTwoCell.whiskerRight_cell,
+      exactUniversalClassificationSourceIdentity_map₂_underlying,
+      exactUniversalClassificationSourceRoundtrip_map₂_underlying,
+      exactUniversalClassificationSourceRoundtripUnitApp_underlying,
+      exactUniversalClassificationSourceRoundtripUnitNaturalityIso_hom_cell
+    ] using
       (exactUniversalSourceAmbientRoundtripUnit
         (W := W) A).naturality_naturality eta.cell
   naturality_id X := by
     apply KUOS.DependentOriginationExactClassificationHomFunctorV5_22.ExactUniversalClassificationTwoCell.ext
-    exact
+    simpa only [
+      ExactUniversalClassificationTwoCell.vcomp_cell,
+      ExactUniversalClassificationTwoCell.whiskerLeft_cell,
+      ExactUniversalClassificationTwoCell.whiskerRight_cell,
+      ExactUniversalClassificationTwoCell.leftUnitorIso_hom_cell,
+      ExactUniversalClassificationTwoCell.rightUnitorIso_inv_cell,
+      exactUniversalClassificationSourceIdentity_mapId_hom_underlying,
+      exactUniversalClassificationSourceRoundtrip_mapId_hom_underlying,
+      exactUniversalClassificationSourceRoundtripUnitApp_underlying,
+      exactUniversalClassificationSourceRoundtripUnitNaturalityIso_hom_cell
+    ] using
       (exactUniversalSourceAmbientRoundtripUnit
         (W := W) A).naturality_id X.source
   naturality_comp {a b c} f g := by
     apply KUOS.DependentOriginationExactClassificationHomFunctorV5_22.ExactUniversalClassificationTwoCell.ext
-    exact
+    simpa only [
+      ExactUniversalClassificationTwoCell.vcomp_cell,
+      ExactUniversalClassificationTwoCell.whiskerLeft_cell,
+      ExactUniversalClassificationTwoCell.whiskerRight_cell,
+      ExactUniversalClassificationTwoCell.associatorIso_hom_cell,
+      ExactUniversalClassificationTwoCell.associatorIso_inv_cell,
+      exactUniversalClassificationSourceIdentity_mapComp_hom_underlying,
+      exactUniversalClassificationSourceRoundtrip_mapComp_hom_underlying,
+      exactUniversalClassificationSourceRoundtripUnitApp_underlying,
+      exactUniversalClassificationSourceRoundtripUnitNaturalityIso_hom_cell
+    ] using
       (exactUniversalSourceAmbientRoundtripUnit
         (W := W) A).naturality_comp f.map g.map
 
-@[simp] theorem exactUniversalClassificationSourceRoundtripUnit_app_underlying
+@[simp] theorem exactUniversalClassificationSourceRoundtripUnit_app_map
     {WorldLabel : Type uW}
     {PresentationLabel : Type uP}
     (X : Source (W := W) A WorldLabel PresentationLabel) :
