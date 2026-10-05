@@ -1,6 +1,7 @@
 import KUOS.DependentOriginationLocalizedClassificationRealizationV5_24
 import KUOS.DependentOriginationExactUniversalAmbientBiequivalenceCertificateV5_15
 import Mathlib.CategoryTheory.Bicategory.Adjunction.Basic
+import Mathlib.CategoryTheory.Bicategory.InducedBicategory
 import Mathlib
 
 namespace KUOS.DependentOriginationClassificationObjectCoverageV5_26
@@ -59,7 +60,10 @@ universe u v uH vH uW uP
 
 variable {Context : Type u} [Category.{v} Context]
 variable (W : MorphismProperty Context)
-variable\n  (A :\n    RefinementAtlas.{u, max u v, uH}\n      (LocalizedContext W))
+variable
+  (A :
+    RefinementAtlas.{u, max u v, uH}
+      (LocalizedContext W))
 
 /-! ## Lift an underlying DO₂ equivalence through the label wrapper -/
 
