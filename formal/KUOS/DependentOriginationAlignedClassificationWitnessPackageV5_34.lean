@@ -271,7 +271,8 @@ triangle modifications, or a coherent raw equivalence.  Those data must not be
 inferred silently.
 
 The weak-admissibility counterexample and the arbitrary-atlas universe-resizing
-boundary are unchanged.
+boundary are unchanged.  In particular, this package is a faithful boundary
+certificate rather than a silent extension of the exact-universal bicategory.
 -/
 
 #print axioms hasLabelPreservingLocalizedClassificationPresentation_iff_nonemptyWitness
