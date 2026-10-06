@@ -1,3 +1,4 @@
+import KUOS.DependentOriginationExactLiftableActualLiftQuasiInverseTriangleUnitV5_53
 import Mathlib.CategoryTheory.Bicategory.NaturalTransformation.Pseudo
 
 namespace KUOS.DependentOriginationExactLiftableActualLiftQuasiInverseTriangleCounitV5_54
@@ -19,7 +20,7 @@ is introduced.  The concrete actual-lift specialization is assembled after
 this generic kernel has been validated.
 -/
 
-universe uB vB wB uC vC wC uD vD wD uE vE wE
+universe uB vB wB uC vC wC uD vD wD uE vE wE u v uH vH uW uP
 
 namespace MappedSquare
 
@@ -242,6 +243,63 @@ theorem mapComp_hom {a b c : B} (f : a ⟶ b) (g : b ⟶ c) :
 
 end TripleComparison
 
+/-! ## Specialization to the original actual-lift G and counit -/
+
+open KUOS.DependentOriginationGeneratedRefinementTopologyV2_4
+open KUOS.DependentOriginationLocalizedSheafUniversalityV2_6
+open KUOS.DependentOriginationExactUniversalClassificationInterfaceV5_17
+open KUOS.DependentOriginationExactLiftableActualLiftOneCellV5_40
+open KUOS.DependentOriginationExactLiftableActualLiftQuasiInversePseudofunctorV5_48
+open KUOS.DependentOriginationExactLiftableActualLiftTargetCounitV5_49
+
+variable {Context : Type u} [Category.{v} Context]
+variable (W : MorphismProperty Context)
+variable (A : RefinementAtlas.{u, max u v, uH} (LocalizedContext W))
+variable {WorldLabel : Type uW} {PresentationLabel : Type uP}
+
+/-- The native left-associated source of the second backward-triangle factor:
+    (G ; F) ; G. No reassociation is hidden in this definition. -/
+def actualLiftQuasiInverseCounitTriple :
+    Pseudofunctor
+      (ExactUniversalClassificationObject.{u, v, uH, vH, uW, uP}
+        (W := W) A WorldLabel PresentationLabel)
+      (ExactLiftableClassificationObject.{u, v, uH, vH, uW, uP}
+        (W := W) A WorldLabel PresentationLabel) :=
+  Pseudofunctor.comp
+    (actualLiftTargetRoundtrip (W := W) A)
+    (actualLiftQuasiInversePseudofunctor (W := W) A)
+
+/-- Apply the original non-strict G to the original target counit.
+The source remains literally (G ; F) ; G; reassociation to G ; (F ; G)
+is a separate coherence obligation. -/
+def actualLiftQuasiInverseRestrictedTargetCounit :
+    Pseudofunctor.StrongTrans
+      (actualLiftQuasiInverseCounitTriple (W := W) A)
+      (actualLiftQuasiInversePseudofunctor (W := W) A) :=
+  CounitPostcomposition.strongTrans
+    (actualLiftQuasiInversePseudofunctor (W := W) A)
+    (actualLiftTargetRoundtripCounit (W := W) A)
+
+@[simp] theorem actualLiftQuasiInverseRestrictedTargetCounit_app
+    (Y : ExactUniversalClassificationObject.{u, v, uH, vH, uW, uP}
+      (W := W) A WorldLabel PresentationLabel) :
+    (actualLiftQuasiInverseRestrictedTargetCounit (W := W) A).app Y =
+      (actualLiftQuasiInversePseudofunctor (W := W) A).map
+        ((actualLiftTargetRoundtripCounit (W := W) A).app Y) := rfl
+
+@[simp] theorem actualLiftQuasiInverseRestrictedTargetCounit_naturality
+    {Y Z : ExactUniversalClassificationObject.{u, v, uH, vH, uW, uP}
+      (W := W) A WorldLabel PresentationLabel} (k : Y ⟶ Z) :
+    (actualLiftQuasiInverseRestrictedTargetCounit (W := W) A).naturality k =
+      CounitPostcomposition.naturalityIso
+        (actualLiftQuasiInversePseudofunctor (W := W) A)
+        (actualLiftTargetRoundtripCounit (W := W) A) k := rfl
+
+/-! The next layer will transport only the source comparison fields from
+the left-associated triple to the already existing right-associated triple,
+using TripleComparison. The object/map/map₂ data are not replaced and the
+counit component above remains unchanged. -/
+
 section GenericRegression
 
 variable {B : Type uB} [Bicategory.{wB, vB} B]
@@ -264,6 +322,7 @@ end GenericRegression
 #print axioms CounitPostcomposition.strongTrans
 #print axioms TripleComparison.mapId_hom
 #print axioms TripleComparison.mapComp_hom
+#print axioms actualLiftQuasiInverseRestrictedTargetCounit
 
 end
 
