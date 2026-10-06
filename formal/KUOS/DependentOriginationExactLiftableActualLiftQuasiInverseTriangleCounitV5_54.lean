@@ -12,33 +12,34 @@ noncomputable section
 /-!
 # Non-strict counit postcomposition for the backward triangle v5.54
 
-First establish the construction in arbitrary bicategories.  All comparison
-isomorphisms of the postcomposing pseudofunctor are retained.  The naturality
-is the original mapped counit square between the two actual compositors.
-The concrete actual-lift specialization is a subsequent assembly step.
+Prove mapped-square coherence before specializing any identity-functor
+endpoint.  The resulting counit uses the old square between the two original
+compositors of H.  No strictness, replacement comparison, or fresh equivalence
+is introduced.  The concrete actual-lift specialization is assembled after
+this generic kernel has been validated.
 -/
 
 universe uB vB wB uC vC wC uD vD wD uE vE wE
 
-namespace CounitPostcomposition
+namespace MappedSquare
 
 variable {B : Type uB} [Bicategory.{wB, vB} B]
 variable {C : Type uC} [Bicategory.{wC, vC} C]
-variable (H : Pseudofunctor B C) {R : Pseudofunctor B B}
-variable (eps : Pseudofunctor.StrongTrans R (Pseudofunctor.id B))
+variable (H : Pseudofunctor B C)
+variable {a b c x y z : B}
 
-/-- The mapped counit square, with both non-strict compositors intact. -/
-def naturalityIso {a b : B} (f : a ⟶ b) :
-    H.map (R.map f) ≫ H.map (eps.app b) ≅ H.map (eps.app a) ≫ H.map f :=
-  (H.mapComp (R.map f) (eps.app b)).symm ≪≫
-    H.map₂Iso (eps.naturality f) ≪≫ H.mapComp (eps.app a) f
+/-- Map a square with explicit four vertices before specializing its edges. -/
+def iso (r : x ⟶ y) (f : a ⟶ b) (u : x ⟶ a) (v : y ⟶ b)
+    (n : r ≫ v ≅ u ≫ f) :
+    H.map r ≫ H.map v ≅ H.map u ≫ H.map f :=
+  (H.mapComp r v).symm ≪≫ H.map₂Iso n ≪≫ H.mapComp u f
 
-@[simp] theorem naturalityIso_hom {a b : B} (f : a ⟶ b) :
-    (naturalityIso H eps f).hom =
-      (H.mapComp (R.map f) (eps.app b)).inv ≫
-        H.map₂ (eps.naturality f).hom ≫ (H.mapComp (eps.app a) f).hom := rfl
+@[simp] theorem iso_hom (r : x ⟶ y) (f : a ⟶ b) (u : x ⟶ a) (v : y ⟶ b)
+    (n : r ≫ v ≅ u ≫ f) :
+    (iso H r f u v n).hom =
+      (H.mapComp r v).inv ≫ H.map₂ n.hom ≫ (H.mapComp u f).hom := rfl
 
-/-- Reverse the existing associator preservation law as an equality of isos. -/
+/-- Reverse the original associator preservation equality, without new data. -/
 private theorem map_associator_inv {a b c d : B}
     (f : a ⟶ b) (g : b ⟶ c) (k : c ⟶ d) :
     H.map₂ (α_ f g k).inv =
@@ -58,14 +59,94 @@ private theorem map_associator_inv {a b c d : B}
   simpa only [Iso.trans_inv, Iso.symm_inv, Bicategory.whiskerLeftIso_inv,
     Bicategory.whiskerRightIso_inv, Category.assoc] using congrArg Iso.inv h
 
-/-- Cancel a whiskered identity before specializing any identity-functor
-endpoint.  This lemma changes no pseudofunctor comparison. -/
+/-- Mapping respects an arbitrary 2-cell comparison between two squares. -/
+theorem naturality (r s : x ⟶ y) (f g : a ⟶ b) (u : x ⟶ a) (v : y ⟶ b)
+    (nf : r ≫ v ≅ u ≫ f) (ng : s ≫ v ≅ u ≫ g)
+    (tau : r ⟶ s) (theta : f ⟶ g)
+    (h : tau ▷ v ≫ ng.hom = nf.hom ≫ u ◁ theta) :
+    H.map₂ tau ▷ H.map v ≫ (iso H s g u v ng).hom =
+      (iso H r f u v nf).hom ≫ H.map u ◁ H.map₂ theta := by
+  have hm := congrArg (fun t =>
+    (H.mapComp r v).inv ≫ H.map₂ t ≫ (H.mapComp u g).hom) h
+  dsimp only at hm
+  rw [H.map₂_comp, H.map₂_comp, H.map₂_whisker_right,
+    H.map₂_whisker_left] at hm
+  simp only [Category.assoc] at hm
+  rw [(H.mapComp r v).inv_hom_id_assoc,
+    (H.mapComp u g).inv_hom_id, Category.comp_id] at hm
+  simpa only [iso_hom, Category.assoc] using hm
+
+/-- The image of an identity square retains the actual identity comparison. -/
+theorem identity (r : x ⟶ x) (u : x ⟶ a) (e : r ≅ 𝟙 x)
+    (n : r ≫ u ≅ u ≫ 𝟙 a)
+    (h : n.hom = e.hom ▷ u ≫ (λ_ u).hom ≫ (ρ_ u).inv) :
+    (iso H r (𝟙 a) u u n).hom ≫ H.map u ◁ (H.mapId a).hom =
+      (H.map₂ e.hom ≫ (H.mapId x).hom) ▷ H.map u ≫
+        (λ_ (H.map u)).hom ≫ (ρ_ (H.map u)).inv := by
+  rw [iso_hom, h, H.map₂_comp, H.map₂_comp,
+    H.map₂_whisker_right, H.map₂_left_unitor, H.mapComp_id_right_hom]
+  simp only [Bicategory.comp_whiskerRight, Category.assoc]
+  rw [(H.mapComp r u).inv_hom_id_assoc,
+    (H.mapComp (𝟙 x) u).inv_hom_id_assoc,
+    H.map₂_inv_hom_assoc (ρ_ u),
+    Bicategory.whiskerLeft_inv_hom (H.map u) (H.mapId a), Category.comp_id]
+
+/-- Map a composable pair of squares and their existing compositor law.
+All seven cancellations use an original comparison and its own inverse. -/
+theorem composition (r : x ⟶ y) (s : y ⟶ z) (k : x ⟶ z)
+    (f : a ⟶ b) (g : b ⟶ c) (u : x ⟶ a) (v : y ⟶ b) (w : z ⟶ c)
+    (e : k ≅ r ≫ s) (nf : r ≫ v ≅ u ≫ f) (ng : s ≫ w ≅ v ≫ g)
+    (nfg : k ≫ w ≅ u ≫ (f ≫ g))
+    (h : nfg.hom = e.hom ▷ w ≫ (α_ r s w).hom ≫
+      r ◁ ng.hom ≫ (α_ r v g).inv ≫ nf.hom ▷ g ≫ (α_ u f g).hom) :
+    (iso H k (f ≫ g) u w nfg).hom ≫ H.map u ◁ (H.mapComp f g).hom =
+      (H.map₂ e.hom ≫ (H.mapComp r s).hom) ▷ H.map w ≫
+        (α_ (H.map r) (H.map s) (H.map w)).hom ≫
+        H.map r ◁ (iso H s g v w ng).hom ≫
+        (α_ (H.map r) (H.map v) (H.map g)).inv ≫
+        (iso H r f u v nf).hom ▷ H.map g ≫
+        (α_ (H.map u) (H.map f) (H.map g)).hom := by
+  rw [iso_hom H k (f ≫ g), h,
+    H.map₂_comp, H.map₂_comp, H.map₂_comp, H.map₂_comp, H.map₂_comp,
+    H.map₂_whisker_right, H.map₂_associator, H.map₂_whisker_left,
+    map_associator_inv H, H.map₂_whisker_right, H.map₂_associator,
+    iso_hom H s g, iso_hom H r f]
+  simp only [Bicategory.whiskerLeft_comp, Bicategory.comp_whiskerRight, Category.assoc]
+  rw [(H.mapComp k w).inv_hom_id_assoc,
+    (H.mapComp (r ≫ s) w).inv_hom_id_assoc,
+    (H.mapComp r (s ≫ w)).inv_hom_id_assoc,
+    (H.mapComp r (v ≫ g)).inv_hom_id_assoc,
+    (H.mapComp (r ≫ v) g).inv_hom_id_assoc,
+    (H.mapComp (u ≫ f) g).inv_hom_id_assoc,
+    (H.mapComp u (f ≫ g)).inv_hom_id_assoc,
+    Bicategory.whiskerLeft_inv_hom (H.map u) (H.mapComp f g), Category.comp_id]
+
+end MappedSquare
+
+namespace CounitPostcomposition
+
+variable {B : Type uB} [Bicategory.{wB, vB} B]
+variable {C : Type uC} [Bicategory.{wC, vC} C]
+variable (H : Pseudofunctor B C) {R : Pseudofunctor B B}
+variable (eps : Pseudofunctor.StrongTrans R (Pseudofunctor.id B))
+
+/-- The original three-isomorphism paste, without replacing the counit. -/
+def naturalityIso {a b : B} (f : a ⟶ b) :
+    H.map (R.map f) ≫ H.map (eps.app b) ≅ H.map (eps.app a) ≫ H.map f :=
+  (H.mapComp (R.map f) (eps.app b)).symm ≪≫
+    H.map₂Iso (eps.naturality f) ≪≫ H.mapComp (eps.app a) f
+
+@[simp] theorem naturalityIso_hom {a b : B} (f : a ⟶ b) :
+    (naturalityIso H eps f).hom =
+      (H.mapComp (R.map f) (eps.app b)).inv ≫
+        H.map₂ (eps.naturality f).hom ≫ (H.mapComp (eps.app a) f).hom := rfl
+
+/-- Typed cancellation before specializing an identity-target endpoint. -/
 private theorem erase_whiskerLeft_id {a b c : B}
     (u : a ⟶ b) (f : b ⟶ c) {k : a ⟶ c} (t : k ⟶ u ≫ f) :
     t ≫ u ◁ 𝟙 f = t := by
   rw [Bicategory.whiskerLeft_id, Category.comp_id]
 
-/-- Normalize only the comparison of the identity target, not that of R. -/
 private theorem counit_id (a : B) :
     (eps.naturality (𝟙 a)).hom =
       (R.mapId a).hom ▷ eps.app a ≫
@@ -73,7 +154,6 @@ private theorem counit_id (a : B) :
   (erase_whiskerLeft_id (eps.app a) (𝟙 a)
     (eps.naturality (𝟙 a)).hom).symm.trans (eps.naturality_id a)
 
-/-- The original composition law with only the identity target exposed. -/
 private theorem counit_comp {a b c : B} (f : a ⟶ b) (g : b ⟶ c) :
     (eps.naturality (f ≫ g)).hom =
       (R.mapComp f g).hom ▷ eps.app c ≫
@@ -84,50 +164,23 @@ private theorem counit_comp {a b c : B} (f : a ⟶ b) (g : b ⟶ c) :
   (erase_whiskerLeft_id (eps.app a) (f ≫ g)
     (eps.naturality (f ≫ g)).hom).symm.trans (eps.naturality_comp f g)
 
-/-- Map the old arbitrary-2-cell square, then cancel the outer compositors. -/
+/-- Specialize a proved mapped square; no rewriting through Id.obj is needed. -/
 theorem naturality {a b : B} {f g : a ⟶ b} (theta : f ⟶ g) :
     H.map₂ (R.map₂ theta) ▷ H.map (eps.app b) ≫ (naturalityIso H eps g).hom =
-      (naturalityIso H eps f).hom ≫ H.map (eps.app a) ◁ H.map₂ theta := by
-  have heps : R.map₂ theta ▷ eps.app b ≫ (eps.naturality g).hom =
-      (eps.naturality f).hom ≫ eps.app a ◁ theta :=
-    eps.naturality_naturality theta
-  have h := congrArg (fun t =>
-    (H.mapComp (R.map f) (eps.app b)).inv ≫ H.map₂ t ≫
-      (H.mapComp (eps.app a) g).hom) heps
-  rw [H.map₂_comp (R.map₂ theta ▷ eps.app b) (eps.naturality g).hom,
-    H.map₂_comp (eps.naturality f).hom (eps.app a ◁ theta),
-    H.map₂_whisker_right (R.map₂ theta) (eps.app b),
-    H.map₂_whisker_left (eps.app a) theta] at h
-  simp only [Category.assoc] at h
-  rw [(H.mapComp (R.map f) (eps.app b)).inv_hom_id_assoc,
-    (H.mapComp (eps.app a) g).inv_hom_id, Category.comp_id] at h
-  simpa only [naturalityIso_hom, Category.assoc] using h
+      (naturalityIso H eps f).hom ≫ H.map (eps.app a) ◁ H.map₂ theta :=
+  MappedSquare.naturality H (R.map f) (R.map g) f g (eps.app a) (eps.app b)
+    (eps.naturality f) (eps.naturality g) (R.map₂ theta) theta
+    (eps.naturality_naturality theta)
 
-/-- The actual composite identity comparison, with H itself as target. -/
+/-- Keep both H's and the composite's actual identity comparisons. -/
 theorem naturality_id (a : B) :
     (naturalityIso H eps (𝟙 a)).hom ≫ H.map (eps.app a) ◁ (H.mapId a).hom =
       ((Pseudofunctor.comp R H).mapId a).hom ▷ H.map (eps.app a) ≫
-        (λ_ (H.map (eps.app a))).hom ≫ (ρ_ (H.map (eps.app a))).inv := by
-  change ((H.mapComp (R.map (𝟙 a)) (eps.app a)).inv ≫
-    H.map₂ (eps.naturality (𝟙 a)).hom ≫
-    (H.mapComp (eps.app a) (𝟙 a)).hom) ≫
-      H.map (eps.app a) ◁ (H.mapId a).hom =
-    (H.map₂ (R.mapId a).hom ≫ (H.mapId (R.obj a)).hom) ▷ H.map (eps.app a) ≫
-      (λ_ (H.map (eps.app a))).hom ≫ (ρ_ (H.map (eps.app a))).inv
-  rw [counit_id eps a,
-    H.map₂_comp ((R.mapId a).hom ▷ eps.app a)
-      ((λ_ (eps.app a)).hom ≫ (ρ_ (eps.app a)).inv),
-    H.map₂_comp (λ_ (eps.app a)).hom (ρ_ (eps.app a)).inv,
-    H.map₂_whisker_right (R.mapId a).hom (eps.app a),
-    H.map₂_left_unitor (eps.app a), H.mapComp_id_right_hom (eps.app a)]
-  simp only [Bicategory.comp_whiskerRight, Category.assoc]
-  rw [(H.mapComp (R.map (𝟙 a)) (eps.app a)).inv_hom_id_assoc,
-    (H.mapComp (𝟙 (R.obj a)) (eps.app a)).inv_hom_id_assoc,
-    H.map₂_inv_hom_assoc (ρ_ (eps.app a)),
-    Bicategory.whiskerLeft_inv_hom (H.map (eps.app a)) (H.mapId a), Category.comp_id]
+        (λ_ (H.map (eps.app a))).hom ≫ (ρ_ (H.map (eps.app a))).inv :=
+  MappedSquare.identity H (R.map (𝟙 a)) (eps.app a) (R.mapId a)
+    (eps.naturality (𝟙 a)) (counit_id eps a)
 
-/-- Map the original composition diagram, including its three associators.
-Every cancelling comparison occurs together with its own inverse. -/
+/-- Keep both actual compositors, specializing the proved pasted-square law. -/
 theorem naturality_comp {a b c : B} (f : a ⟶ b) (g : b ⟶ c) :
     (naturalityIso H eps (f ≫ g)).hom ≫
         H.map (eps.app a) ◁ (H.mapComp f g).hom =
@@ -136,38 +189,12 @@ theorem naturality_comp {a b c : B} (f : a ⟶ b) (g : b ⟶ c) :
         H.map (R.map f) ◁ (naturalityIso H eps g).hom ≫
         (α_ (H.map (R.map f)) (H.map (eps.app b)) (H.map g)).inv ≫
         (naturalityIso H eps f).hom ▷ H.map g ≫
-        (α_ (H.map (eps.app a)) (H.map f) (H.map g)).hom := by
-  change ((H.mapComp (R.map (f ≫ g)) (eps.app c)).inv ≫
-    H.map₂ (eps.naturality (f ≫ g)).hom ≫
-    (H.mapComp (eps.app a) (f ≫ g)).hom) ≫
-      H.map (eps.app a) ◁ (H.mapComp f g).hom =
-    (H.map₂ (R.mapComp f g).hom ≫ (H.mapComp (R.map f) (R.map g)).hom) ▷
-      H.map (eps.app c) ≫ _
-  rw [counit_comp eps f g,
-    H.map₂_comp ((R.mapComp f g).hom ▷ eps.app c) _,
-    H.map₂_comp (α_ (R.map f) (R.map g) (eps.app c)).hom _,
-    H.map₂_comp (R.map f ◁ (eps.naturality g).hom) _,
-    H.map₂_comp (α_ (R.map f) (eps.app b) g).inv _,
-    H.map₂_comp ((eps.naturality f).hom ▷ g) (α_ (eps.app a) f g).hom,
-    H.map₂_whisker_right (R.mapComp f g).hom (eps.app c),
-    H.map₂_associator (R.map f) (R.map g) (eps.app c),
-    H.map₂_whisker_left (R.map f) (eps.naturality g).hom,
-    map_associator_inv H (R.map f) (eps.app b) g,
-    H.map₂_whisker_right (eps.naturality f).hom g,
-    H.map₂_associator (eps.app a) f g,
-    naturalityIso_hom H eps g, naturalityIso_hom H eps f]
-  simp only [Bicategory.whiskerLeft_comp, Bicategory.comp_whiskerRight, Category.assoc]
-  rw [(H.mapComp (R.map (f ≫ g)) (eps.app c)).inv_hom_id_assoc,
-    (H.mapComp (R.map f ≫ R.map g) (eps.app c)).inv_hom_id_assoc,
-    (H.mapComp (R.map f) (R.map g ≫ eps.app c)).inv_hom_id_assoc,
-    (H.mapComp (R.map f) (eps.app b ≫ g)).inv_hom_id_assoc,
-    (H.mapComp (R.map f ≫ eps.app b) g).inv_hom_id_assoc,
-    (H.mapComp (eps.app a ≫ f) g).inv_hom_id_assoc,
-    (H.mapComp (eps.app a) (f ≫ g)).inv_hom_id_assoc,
-    Bicategory.whiskerLeft_inv_hom (H.map (eps.app a)) (H.mapComp f g), Category.comp_id]
+        (α_ (H.map (eps.app a)) (H.map f) (H.map g)).hom :=
+  MappedSquare.composition H (R.map f) (R.map g) (R.map (f ≫ g))
+    f g (eps.app a) (eps.app b) (eps.app c) (R.mapComp f g)
+    (eps.naturality f) (eps.naturality g) (eps.naturality (f ≫ g)) (counit_comp eps f g)
 
-/-- Postcompose a counit by an arbitrary pseudofunctor, retaining all its
-comparison isomorphisms and all three native StrongTrans coherence fields. -/
+/-- Native postcomposition of a counit by an arbitrary non-strict H. -/
 def strongTrans : Pseudofunctor.StrongTrans (Pseudofunctor.comp R H) H where
   app a := H.map (eps.app a)
   naturality f := naturalityIso H eps f
@@ -191,7 +218,7 @@ variable {D : Type uD} [Bicategory.{wD, vD} D]
 variable {E : Type uE} [Bicategory.{wE, vE} E]
 variable (P : Pseudofunctor B C) (Q : Pseudofunctor C D) (H : Pseudofunctor D E)
 
-/-- The two native bracketings have equal identity comparisons by map2_comp. -/
+/-- Compare the actual identity comparisons of the two native bracketings. -/
 theorem mapId_hom (a : B) :
     ((Pseudofunctor.comp (Pseudofunctor.comp P Q) H).mapId a).hom =
       ((Pseudofunctor.comp P (Pseudofunctor.comp Q H)).mapId a).hom := by
@@ -201,7 +228,7 @@ theorem mapId_hom (a : B) :
       H.map₂ (Q.mapId (P.obj a)).hom ≫ (H.mapId (Q.obj (P.obj a))).hom
   rw [PrelaxFunctor.map₂_comp, Category.assoc]
 
-/-- The compositor comparison does not require any of P, Q, H to be strict. -/
+/-- Compare the original compositors without assuming strictness. -/
 theorem mapComp_hom {a b c : B} (f : a ⟶ b) (g : b ⟶ c) :
     ((Pseudofunctor.comp (Pseudofunctor.comp P Q) H).mapComp f g).hom =
       ((Pseudofunctor.comp P (Pseudofunctor.comp Q H)).mapComp f g).hom := by
@@ -228,6 +255,9 @@ example (H : Pseudofunctor B C) (R : Pseudofunctor B B)
 
 end GenericRegression
 
+#print axioms MappedSquare.naturality
+#print axioms MappedSquare.identity
+#print axioms MappedSquare.composition
 #print axioms CounitPostcomposition.naturality
 #print axioms CounitPostcomposition.naturality_id
 #print axioms CounitPostcomposition.naturality_comp
