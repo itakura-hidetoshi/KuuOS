@@ -166,6 +166,25 @@ theorem comp (ex : Bicategory.Equivalence a x)
     Bicategory.whiskerRightIso_inv, Category.assoc, Bicategory.id_whiskerRight,
     Category.id_comp] using h
 
+/-- Cancel the image of an identity 2-cell before the fixed identity comparison.
+Keep the bicategory explicit here.  The fully qualified theorem is the
+categorical functor law, not the root programming Functor.map_id. -/
+theorem map_id_idIso_hom (ex : Bicategory.Equivalence a x) :
+    (Conjugation.homFunctor ex ex).map (𝟙 (𝟙 x)) ≫
+        (Conjugation.idIso ex).hom = (Conjugation.idIso ex).hom := by
+  rw [CategoryTheory.Functor.map_id, Category.id_comp]
+
+/-- The same typed cancellation for the original compositor.  Specializing
+this equality avoids elaborating a new composite hom-category expression
+inside the concrete actual-lift classification bicategory. -/
+theorem map_id_compIso_hom (ex : Bicategory.Equivalence a x)
+    (ey : Bicategory.Equivalence b y) (ez : Bicategory.Equivalence c z)
+    (f : x ⟶ y) (g : y ⟶ z) :
+    (Conjugation.homFunctor ex ez).map (𝟙 (f ≫ g)) ≫
+        (Conjugation.compIso ex ey ez f g).hom =
+      (Conjugation.compIso ex ey ez f g).hom := by
+  rw [CategoryTheory.Functor.map_id, Category.id_comp]
+
 end ConjugationUnit
 
 /-! ## The fixed source roundtrip and its native comparisons -/
@@ -224,11 +243,8 @@ def actualLiftSourceObjectEquivalence
       (W := W) A WorldLabel PresentationLabel) :
     ((actualLiftSourceRoundtrip (W := W) A).mapId X).hom =
       (Conjugation.idIso (actualLiftSourceObjectEquivalence (W := W) A X)).hom := by
-  change (Conjugation.homFunctor (actualLiftSourceObjectEquivalence (W := W) A X)
-      (actualLiftSourceObjectEquivalence (W := W) A X)).map
-      (𝟙 (𝟙 (CanonicalExactUniversalObject (W := W) A X))) ≫
-      (Conjugation.idIso (actualLiftSourceObjectEquivalence (W := W) A X)).hom = _
-  rw [Functor.map_id, Category.id_comp]
+  exact ConjugationUnit.map_id_idIso_hom
+    (actualLiftSourceObjectEquivalence (W := W) A X)
 
 /-- The native source compositor has exactly the original conjugation image. -/
 @[simp] theorem actualLiftSourceRoundtrip_mapComp_hom
@@ -238,13 +254,10 @@ def actualLiftSourceObjectEquivalence
       (Conjugation.compIso (actualLiftSourceObjectEquivalence (W := W) A X)
         (actualLiftSourceObjectEquivalence (W := W) A Y)
         (actualLiftSourceObjectEquivalence (W := W) A Z) f.actualLift g.actualLift).hom := by
-  change (Conjugation.homFunctor (actualLiftSourceObjectEquivalence (W := W) A X)
-      (actualLiftSourceObjectEquivalence (W := W) A Z)).map
-      (𝟙 (f.actualLift ≫ g.actualLift)) ≫
-      (Conjugation.compIso (actualLiftSourceObjectEquivalence (W := W) A X)
-        (actualLiftSourceObjectEquivalence (W := W) A Y)
-        (actualLiftSourceObjectEquivalence (W := W) A Z) f.actualLift g.actualLift).hom = _
-  rw [Functor.map_id, Category.id_comp]
+  exact ConjugationUnit.map_id_compIso_hom
+    (actualLiftSourceObjectEquivalence (W := W) A X)
+    (actualLiftSourceObjectEquivalence (W := W) A Y)
+    (actualLiftSourceObjectEquivalence (W := W) A Z) f.actualLift g.actualLift
 
 /-! ## Re-packaged inverse components and the native source unit -/
 
@@ -350,6 +363,19 @@ section Regression
 variable {X Y Z : ExactLiftableClassificationObject.{u, v, uH, vH, uW, uP}
   (W := W) A WorldLabel PresentationLabel}
 
+-- Direct comparison regressions cover both projection lemmas repaired here.
+example :
+    ((actualLiftSourceRoundtrip (W := W) A).mapId X).hom =
+      (Conjugation.idIso (actualLiftSourceObjectEquivalence (W := W) A X)).hom :=
+  actualLiftSourceRoundtrip_mapId_hom (W := W) A X
+
+example (f : X ⟶ Y) (g : Y ⟶ Z) :
+    ((actualLiftSourceRoundtrip (W := W) A).mapComp f g).hom =
+      (Conjugation.compIso (actualLiftSourceObjectEquivalence (W := W) A X)
+        (actualLiftSourceObjectEquivalence (W := W) A Y)
+        (actualLiftSourceObjectEquivalence (W := W) A Z) f.actualLift g.actualLift).hom :=
+  actualLiftSourceRoundtrip_mapComp_hom (W := W) A f g
+
 example :
     let R := actualLiftSourceRoundtrip (W := W) A
     let eta := actualLiftSourceRoundtripUnit (W := W) A
@@ -405,6 +431,8 @@ No strict raw-forgetting claim or equality of independent presentations is made.
 #print axioms ConjugationUnit.id
 #print axioms ConjugationUnit.comp_inv
 #print axioms ConjugationUnit.comp
+#print axioms ConjugationUnit.map_id_idIso_hom
+#print axioms ConjugationUnit.map_id_compIso_hom
 #print axioms actualLiftSourceRoundtrip
 #print axioms actualLiftSourceObjectEquivalence
 #print axioms actualLiftSourceRoundtrip_mapId_hom
