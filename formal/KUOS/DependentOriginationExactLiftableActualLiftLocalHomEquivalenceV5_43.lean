@@ -168,8 +168,12 @@ def actualLiftHomFullyFaithful
     (X Y :
       ExactLiftableClassificationObject.{u, v, uH, vH, uW, uP}
         (W := W) A WorldLabel PresentationLabel) :
-    (actualLiftHomFunctor (W := W) A X Y).FullyFaithful :=
-  Functor.FullyFaithful.ofFullyFaithful _
+    (actualLiftHomFunctor (W := W) A X Y).FullyFaithful := by
+  letI : (actualLiftHomFunctor (W := W) A X Y).Faithful :=
+    actualLiftHomFunctor_faithful (W := W) A X Y
+  letI : (actualLiftHomFunctor (W := W) A X Y).Full :=
+    actualLiftHomFunctor_full (W := W) A X Y
+  exact Functor.FullyFaithful.ofFullyFaithful _
 
 /-- The local equivalence induced by the actual-lift projection. -/
 noncomputable def actualLiftHomEquivalence
@@ -183,8 +187,10 @@ noncomputable def actualLiftHomEquivalence
       ExactUniversalClassificationOneCell
         (W := W) A
         (CanonicalExactUniversalObject (W := W) A X)
-        (CanonicalExactUniversalObject (W := W) A Y) :=
-  (actualLiftHomFunctor (W := W) A X Y).asEquivalence
+        (CanonicalExactUniversalObject (W := W) A Y) := by
+  letI : (actualLiftHomFunctor (W := W) A X Y).IsEquivalence :=
+    actualLiftHomFunctor_isEquivalence (W := W) A X Y
+  exact (actualLiftHomFunctor (W := W) A X Y).asEquivalence
 
 @[simp] theorem actualLiftHomEquivalence_functor
     {WorldLabel : Type uW}
@@ -227,7 +233,7 @@ instance exactLiftableActualLiftStrictPseudofunctor_mapFunctor_isEquivalence
       (W := W) A).mapFunctor X Y).IsEquivalence := by
   rw [exactLiftableActualLiftStrictPseudofunctor_mapFunctor_eq
     (W := W) A X Y]
-  infer_instance
+  exact actualLiftHomFunctor_isEquivalence (W := W) A X Y
 
 /-!
 ## Boundary after v5.43
