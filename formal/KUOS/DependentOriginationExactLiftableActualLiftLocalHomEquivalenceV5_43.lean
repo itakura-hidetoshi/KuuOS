@@ -202,39 +202,6 @@ noncomputable def actualLiftHomEquivalence
       actualLiftHomFunctor (W := W) A X Y :=
   rfl
 
-/-! ## Identification with the global strict pseudofunctor -/
-
-/-- The hom functor of the v5.42 strict pseudofunctor is definitionally the
-v5.41 actual-lift hom functor. -/
-theorem exactLiftableActualLiftStrictPseudofunctor_mapFunctor_eq
-    {WorldLabel : Type uW}
-    {PresentationLabel : Type uP}
-    (X Y :
-      ExactLiftableClassificationObject.{u, v, uH, vH, uW, uP}
-        (W := W) A WorldLabel PresentationLabel) :
-    (exactLiftableActualLiftStrictPseudofunctor
-      (W := W) A).mapFunctor X Y =
-      actualLiftHomFunctor (W := W) A X Y := by
-  apply CategoryTheory.Functor.hext
-  · intro f
-    rfl
-  · intro f g eta
-    exact heq_of_eq rfl
-
-/-- Consequently the global strict pseudofunctor is locally an equivalence on
-every hom category. -/
-instance exactLiftableActualLiftStrictPseudofunctor_mapFunctor_isEquivalence
-    {WorldLabel : Type uW}
-    {PresentationLabel : Type uP}
-    (X Y :
-      ExactLiftableClassificationObject.{u, v, uH, vH, uW, uP}
-        (W := W) A WorldLabel PresentationLabel) :
-    ((exactLiftableActualLiftStrictPseudofunctor
-      (W := W) A).mapFunctor X Y).IsEquivalence := by
-  rw [exactLiftableActualLiftStrictPseudofunctor_mapFunctor_eq
-    (W := W) A X Y]
-  exact actualLiftHomFunctor_isEquivalence (W := W) A X Y
-
 /-!
 ## Boundary after v5.43
 
@@ -250,20 +217,19 @@ This is stronger than the v5.39 local full/faithful statement: v5.43 includes
 essential surjectivity on 1-cells because the actual-lift presentation stores
 the target one-cell itself.
 
-The remaining genuinely global issue is object-level essential surjectivity of
+The next global theorem unit should combine this local equivalence with the
+v5.42 strict pseudofunctor.  As in v5.27, agreement of the local equivalence
+forward functor with the global pseudofunctor hom functor should be proved by
+small functor extensionality rather than large definitional unfolding.
 
-  X |-> CanonicalExactUniversalObject X
-
-onto the v5.23 exact-universal classification bicategory, up to the appropriate
-bicategorical equivalence.  That should be attacked next using
-ExactUniversalClassificationObject.toExactLiftable together with the existing
-fixed-raw coherent uniqueness/universal-target machinery.
+After that, the genuinely global issue is object-level essential surjectivity
+of X |-> CanonicalExactUniversalObject X onto the v5.23 exact-universal
+classification bicategory, up to bicategorical equivalence.
 -/
 
 #print axioms actualOneCellOfExactUniversalClassificationOneCell
 #print axioms actualLiftHomFullyFaithful
 #print axioms actualLiftHomEquivalence
-#print axioms exactLiftableActualLiftStrictPseudofunctor_mapFunctor_eq
 
 end
 
