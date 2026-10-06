@@ -143,6 +143,54 @@ noncomputable def actualLiftHomFunctor
     (actualLiftHomFunctor (W := W) A X Y).map eta = eta :=
   rfl
 
+/-- Rewrap an isomorphism between stored actual lifts as an isomorphism
+between the corresponding v5.40 one-cells.  The object types differ, even
+though their hom types are definitionally the same, so this wrapper is the
+necessary boundary between the two bicategories. -/
+noncomputable def ExactLiftableClassificationActualTwoCell.isoOfActualLift
+    {WorldLabel : Type uW}
+    {PresentationLabel : Type uP}
+    {X Y :
+      ExactLiftableClassificationObject.{u, v, uH, vH, uW, uP}
+        (W := W) A WorldLabel PresentationLabel}
+    {f g :
+      ExactLiftableClassificationActualOneCell
+        (W := W) A X Y}
+    (e : f.actualLift ≅ g.actualLift) :
+    f ≅ g where
+  hom := e.hom
+  inv := e.inv
+  hom_inv_id := e.hom_inv_id
+  inv_hom_id := e.inv_hom_id
+
+@[simp] theorem ExactLiftableClassificationActualTwoCell.isoOfActualLift_hom
+    {WorldLabel : Type uW}
+    {PresentationLabel : Type uP}
+    {X Y :
+      ExactLiftableClassificationObject.{u, v, uH, vH, uW, uP}
+        (W := W) A WorldLabel PresentationLabel}
+    {f g :
+      ExactLiftableClassificationActualOneCell
+        (W := W) A X Y}
+    (e : f.actualLift ≅ g.actualLift) :
+    (ExactLiftableClassificationActualTwoCell.isoOfActualLift
+      (W := W) A e).hom = e.hom :=
+  rfl
+
+@[simp] theorem ExactLiftableClassificationActualTwoCell.isoOfActualLift_inv
+    {WorldLabel : Type uW}
+    {PresentationLabel : Type uP}
+    {X Y :
+      ExactLiftableClassificationObject.{u, v, uH, vH, uW, uP}
+        (W := W) A WorldLabel PresentationLabel}
+    {f g :
+      ExactLiftableClassificationActualOneCell
+        (W := W) A X Y}
+    (e : f.actualLift ≅ g.actualLift) :
+    (ExactLiftableClassificationActualTwoCell.isoOfActualLift
+      (W := W) A e).inv = e.inv :=
+  rfl
+
 /-- Left whiskering is inherited from the stored actual classification lifts. -/
 noncomputable def ExactLiftableClassificationActualTwoCell.whiskerLeft
     {WorldLabel : Type uW}
@@ -217,8 +265,10 @@ noncomputable def ExactLiftableClassificationActualTwoCell.associatorIso
         (W := W) A f
         (exactLiftableClassificationActualOneCellComp
           (W := W) A g h) :=
-  ExactUniversalClassificationTwoCell.associatorIso
-    (W := W) A f.actualLift g.actualLift h.actualLift
+  ExactLiftableClassificationActualTwoCell.isoOfActualLift
+    (W := W) A
+    (ExactUniversalClassificationTwoCell.associatorIso
+      (W := W) A f.actualLift g.actualLift h.actualLift)
 
 /-- Left unitor inherited from v5.23. -/
 noncomputable def ExactLiftableClassificationActualTwoCell.leftUnitorIso
@@ -235,8 +285,10 @@ noncomputable def ExactLiftableClassificationActualTwoCell.leftUnitorIso
         (exactLiftableClassificationActualOneCellId
           (W := W) A X) f ≅
       f :=
-  ExactUniversalClassificationTwoCell.leftUnitorIso
-    (W := W) A f.actualLift
+  ExactLiftableClassificationActualTwoCell.isoOfActualLift
+    (W := W) A
+    (ExactUniversalClassificationTwoCell.leftUnitorIso
+      (W := W) A f.actualLift)
 
 /-- Right unitor inherited from v5.23. -/
 noncomputable def ExactLiftableClassificationActualTwoCell.rightUnitorIso
@@ -253,8 +305,10 @@ noncomputable def ExactLiftableClassificationActualTwoCell.rightUnitorIso
         (exactLiftableClassificationActualOneCellId
           (W := W) A Y) ≅
       f :=
-  ExactUniversalClassificationTwoCell.rightUnitorIso
-    (W := W) A f.actualLift
+  ExactLiftableClassificationActualTwoCell.isoOfActualLift
+    (W := W) A
+    (ExactUniversalClassificationTwoCell.rightUnitorIso
+      (W := W) A f.actualLift)
 
 /-- Exact-liftable classification objects with actual-lift one-cells form a
 genuine Mathlib bicategory.
@@ -395,6 +449,7 @@ actual lifts, its compositor and unitor can be chosen from identity isomorphisms
 -/
 
 #print axioms actualLiftHomFunctor
+#print axioms ExactLiftableClassificationActualTwoCell.isoOfActualLift
 #print axioms ExactLiftableClassificationActualTwoCell.whiskerLeft
 #print axioms ExactLiftableClassificationActualTwoCell.whiskerRight
 #print axioms ExactLiftableClassificationActualTwoCell.associatorIso
