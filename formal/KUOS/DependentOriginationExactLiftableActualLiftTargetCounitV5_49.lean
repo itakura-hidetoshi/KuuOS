@@ -51,6 +51,17 @@ def naturalityIso (ex : Bicategory.Equivalence a x)
     Bicategory.whiskerLeftIso (B := B) (ex.hom ≫ f) ey.counit ≪≫
     (ρ_ (ex.hom ≫ f))
 
+/-- Remove the identity comparison of the target identity pseudofunctor.
+Prove this while the ambient bicategory is an explicit variable, then use the
+result as a typed equality when assembling the concrete StrongTrans.  This
+avoids asking the simplifier to unfold the concrete classification structure. -/
+theorem naturality_hom_comp_whiskerLeft_id
+    (ex : Bicategory.Equivalence a x) (ey : Bicategory.Equivalence b y)
+    (f : x ⟶ y) :
+    (naturalityIso ex ey f).hom ≫ ex.hom ◁ 𝟙 f =
+      (naturalityIso ex ey f).hom := by
+  rw [Bicategory.whiskerLeft_id, Category.comp_id]
+
 /-- An arbitrary, not necessarily invertible, 2-cell commutes with the final
 counit contraction by the bicategorical exchange law. -/
 theorem naturality (ex : Bicategory.Equivalence a x)
@@ -279,15 +290,19 @@ def actualLiftTargetRoundtripCounit :
       (actualLiftQuasiInverseObjectEquivalence (W := W) A Y) eta
   naturality_id X := by
     rw [targetIdentity_mapId_hom, actualLiftTargetRoundtrip_mapId_hom]
-    simpa only [Bicategory.whiskerLeft_id, Category.comp_id] using
-      ConjugationCounit.id (actualLiftQuasiInverseObjectEquivalence (W := W) A X)
+    exact (ConjugationCounit.naturality_hom_comp_whiskerLeft_id
+      (actualLiftQuasiInverseObjectEquivalence (W := W) A X)
+      (actualLiftQuasiInverseObjectEquivalence (W := W) A X) (𝟙 X)).trans
+        (ConjugationCounit.id (actualLiftQuasiInverseObjectEquivalence (W := W) A X))
   naturality_comp {X Y Z} f g := by
     rw [targetIdentity_mapComp_hom, actualLiftTargetRoundtrip_mapComp_hom]
-    simpa only [Bicategory.whiskerLeft_id, Category.comp_id] using
-      ConjugationCounit.comp
-        (actualLiftQuasiInverseObjectEquivalence (W := W) A X)
-        (actualLiftQuasiInverseObjectEquivalence (W := W) A Y)
-        (actualLiftQuasiInverseObjectEquivalence (W := W) A Z) f g
+    exact (ConjugationCounit.naturality_hom_comp_whiskerLeft_id
+      (actualLiftQuasiInverseObjectEquivalence (W := W) A X)
+      (actualLiftQuasiInverseObjectEquivalence (W := W) A Z) (f ≫ g)).trans
+        (ConjugationCounit.comp
+          (actualLiftQuasiInverseObjectEquivalence (W := W) A X)
+          (actualLiftQuasiInverseObjectEquivalence (W := W) A Y)
+          (actualLiftQuasiInverseObjectEquivalence (W := W) A Z) f g)
 
 @[simp] theorem actualLiftTargetRoundtripCounit_app
     (X : ExactUniversalClassificationObject.{u, v, uH, vH, uW, uP}
@@ -319,6 +334,27 @@ example : Pseudofunctor.StrongTrans
 section Regression
 variable {X Y Z : ExactUniversalClassificationObject.{u, v, uH, vH, uW, uP}
   (W := W) A WorldLabel PresentationLabel}
+
+-- Preserve the full native left-hand sides, including the target identity
+-- comparisons: these are the two obligations that failed before this repair.
+example :
+    let R := actualLiftTargetRoundtrip (W := W) A
+    let eps := actualLiftTargetRoundtripCounit (W := W) A
+    (eps.naturality (𝟙 X)).hom ≫ eps.app X ◁ 𝟙 (𝟙 X) =
+      (R.mapId X).hom ▷ eps.app X ≫
+        (λ_ (eps.app X)).hom ≫ (ρ_ (eps.app X)).inv :=
+  (actualLiftTargetRoundtripCounit (W := W) A).naturality_id X
+
+example (f : X ⟶ Y) (g : Y ⟶ Z) :
+    let R := actualLiftTargetRoundtrip (W := W) A
+    let eps := actualLiftTargetRoundtripCounit (W := W) A
+    (eps.naturality (f ≫ g)).hom ≫ eps.app X ◁ 𝟙 (f ≫ g) =
+      (R.mapComp f g).hom ▷ eps.app Z ≫
+        (α_ (R.map f) (R.map g) (eps.app Z)).hom ≫
+        R.map f ◁ (eps.naturality g).hom ≫
+        (α_ (R.map f) (eps.app Y) g).inv ≫
+        (eps.naturality f).hom ▷ g ≫ (α_ (eps.app X) f g).hom :=
+  (actualLiftTargetRoundtripCounit (W := W) A).naturality_comp f g
 
 example {f g : X ⟶ Y} (eta : f ⟶ g) :
     (actualLiftTargetRoundtrip (W := W) A).map₂ eta ▷
@@ -356,6 +392,7 @@ components, invertible modifications, and their integrated certificate.
 Existing ambient/localized-classification roundtrip results are unchanged.
 -/
 
+#print axioms ConjugationCounit.naturality_hom_comp_whiskerLeft_id
 #print axioms ConjugationCounit.naturality
 #print axioms ConjugationCounit.id_lax
 #print axioms ConjugationCounit.id
