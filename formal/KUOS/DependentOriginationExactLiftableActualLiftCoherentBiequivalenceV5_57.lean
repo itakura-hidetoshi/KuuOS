@@ -99,6 +99,41 @@ abbrev value.{u₀, v₀, uH₀, vH₀, uW₀, uP₀}
         (W := W₀) A₀ WL PL) :=
   exactLiftableActualLiftCoherentBiequivalenceCertificate (W := W₀) A₀
 
+/-- Expose the existing native forward hom category through the certificate
+projection, with both concrete bicategories and all universes explicit. -/
+local instance forwardValueHomCategory :
+    Category (Pseudofunctor.StrongTrans
+      (B := ExactLiftableClassificationObject.{u, v, uH, vH, uW, uP}
+        (W := W) A WorldLabel PresentationLabel)
+      (C := ExactUniversalClassificationObject.{u, v, uH, vH, uW, uP}
+        (W := W) A WorldLabel PresentationLabel)
+      (value.{u, v, uH, vH, uW, uP} W A WorldLabel PresentationLabel).base.whitehead.forward
+      (value.{u, v, uH, vH, uW, uP} W A WorldLabel PresentationLabel).base.whitehead.forward) :=
+  Pseudofunctor.StrongTrans.homCategory
+    (B := ExactLiftableClassificationObject.{u, v, uH, vH, uW, uP}
+      (W := W) A WorldLabel PresentationLabel)
+    (C := ExactUniversalClassificationObject.{u, v, uH, vH, uW, uP}
+      (W := W) A WorldLabel PresentationLabel)
+    (F := (value.{u, v, uH, vH, uW, uP} W A WorldLabel PresentationLabel).base.whitehead.forward)
+    (G := (value.{u, v, uH, vH, uW, uP} W A WorldLabel PresentationLabel).base.whitehead.forward)
+
+/-- The corresponding original native hom category for the non-strict G. -/
+local instance quasiInverseValueHomCategory :
+    Category (Pseudofunctor.StrongTrans
+      (B := ExactUniversalClassificationObject.{u, v, uH, vH, uW, uP}
+        (W := W) A WorldLabel PresentationLabel)
+      (C := ExactLiftableClassificationObject.{u, v, uH, vH, uW, uP}
+        (W := W) A WorldLabel PresentationLabel)
+      (value.{u, v, uH, vH, uW, uP} W A WorldLabel PresentationLabel).base.quasiInverse
+      (value.{u, v, uH, vH, uW, uP} W A WorldLabel PresentationLabel).base.quasiInverse) :=
+  Pseudofunctor.StrongTrans.homCategory
+    (B := ExactUniversalClassificationObject.{u, v, uH, vH, uW, uP}
+      (W := W) A WorldLabel PresentationLabel)
+    (C := ExactLiftableClassificationObject.{u, v, uH, vH, uW, uP}
+      (W := W) A WorldLabel PresentationLabel)
+    (F := (value.{u, v, uH, vH, uW, uP} W A WorldLabel PresentationLabel).base.quasiInverse)
+    (G := (value.{u, v, uH, vH, uW, uP} W A WorldLabel PresentationLabel).base.quasiInverse)
+
 /-! ## The complete original base data are retained -/
 
 @[simp] theorem base :
@@ -358,6 +393,8 @@ additional higher adjoint-biequivalence coherence or changing the raw boundary.
 #print axioms exactLiftableActualLiftUnitCounitCertificate
 #print axioms exactLiftableActualLiftCoherentBiequivalenceCertificate
 #print axioms Certificate.value
+#print axioms Certificate.forwardValueHomCategory
+#print axioms Certificate.quasiInverseValueHomCategory
 #print axioms Certificate.base
 #print axioms Certificate.whitehead
 #print axioms Certificate.forward
