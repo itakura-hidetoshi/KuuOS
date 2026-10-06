@@ -85,131 +85,155 @@ def exactLiftableActualLiftCoherentBiequivalenceCertificate :
 
 namespace Certificate
 
--- These local notations are only explicit type annotations. In particular,
--- vH and the two label universes remain independent in every declaration.
-local notation "L" => ExactLiftableClassificationObject.{u, v, uH, vH, uW, uP}
-  (W := W) A WorldLabel PresentationLabel
-local notation "E" => ExactUniversalClassificationObject.{u, v, uH, vH, uW, uP}
-  (W := W) A WorldLabel PresentationLabel
-local notation "C₀" => (exactLiftableActualLiftCoherentBiequivalenceCertificate (W := W) A :
-  WhiteheadTriangleRepresentativeCertificate L E)
+/-- A typed abbreviation of the same certificate. Explicitly ordered universe
+parameters are applied in ordinary terms, never inside a notation quotation.
+This alias makes no choice and changes no stored field. -/
+abbrev value.{u₀, v₀, uH₀, vH₀, uW₀, uP₀}
+    {Ctx : Type u₀} [Category.{v₀} Ctx] (W₀ : MorphismProperty Ctx)
+    (A₀ : RefinementAtlas.{u₀, max u₀ v₀, uH₀} (LocalizedContext W₀))
+    (WL : Type uW₀) (PL : Type uP₀) :
+    WhiteheadTriangleRepresentativeCertificate
+      (ExactLiftableClassificationObject.{u₀, v₀, uH₀, vH₀, uW₀, uP₀}
+        (W := W₀) A₀ WL PL)
+      (ExactUniversalClassificationObject.{u₀, v₀, uH₀, vH₀, uW₀, uP₀}
+        (W := W₀) A₀ WL PL) :=
+  exactLiftableActualLiftCoherentBiequivalenceCertificate (W := W₀) A₀
 
 /-! ## The complete original base data are retained -/
 
 @[simp] theorem base :
-    C₀.base = (exactLiftableActualLiftUnitCounitCertificate (W := W) A :
-      WhiteheadUnitCounitCertificate L E) := rfl
+    (value.{u, v, uH, vH, uW, uP} W A WorldLabel PresentationLabel).base = (exactLiftableActualLiftUnitCounitCertificate (W := W) A :
+      WhiteheadUnitCounitCertificate (ExactLiftableClassificationObject.{u, v, uH, vH, uW, uP}
+      (W := W) A WorldLabel PresentationLabel) (ExactUniversalClassificationObject.{u, v, uH, vH, uW, uP}
+      (W := W) A WorldLabel PresentationLabel)) := rfl
 
 @[simp] theorem whitehead :
-    C₀.base.whitehead = exactLiftableActualLiftWhiteheadBiequivalence (W := W) A := rfl
+    (value.{u, v, uH, vH, uW, uP} W A WorldLabel PresentationLabel).base.whitehead = exactLiftableActualLiftWhiteheadBiequivalence (W := W) A := rfl
 
 @[simp] theorem forward :
-    C₀.base.whitehead.forward =
+    (value.{u, v, uH, vH, uW, uP} W A WorldLabel PresentationLabel).base.whitehead.forward =
       (exactLiftableActualLiftStrictPseudofunctor (W := W) A).toPseudofunctor := rfl
 
 @[simp] theorem quasiInverse :
-    C₀.base.quasiInverse = actualLiftQuasiInversePseudofunctor (W := W) A := rfl
+    (value.{u, v, uH, vH, uW, uP} W A WorldLabel PresentationLabel).base.quasiInverse = actualLiftQuasiInversePseudofunctor (W := W) A := rfl
 
 @[simp] theorem unit :
-    C₀.base.unit = actualLiftSourceRoundtripUnit (W := W) A := rfl
+    (value.{u, v, uH, vH, uW, uP} W A WorldLabel PresentationLabel).base.unit = actualLiftSourceRoundtripUnit (W := W) A := rfl
 
 @[simp] theorem counit :
-    C₀.base.counit = actualLiftTargetRoundtripCounit (W := W) A := rfl
+    (value.{u, v, uH, vH, uW, uP} W A WorldLabel PresentationLabel).base.counit = actualLiftTargetRoundtripCounit (W := W) A := rfl
 
 /-! ## Exact native pastes, not unrelated triangle representatives -/
 
 @[simp] theorem forwardTriangle :
-    C₀.forwardTriangleRepresentative = actualLiftForwardTriangle (W := W) A := rfl
+    (value.{u, v, uH, vH, uW, uP} W A WorldLabel PresentationLabel).forwardTriangleRepresentative = actualLiftForwardTriangle (W := W) A := rfl
 
 @[simp] theorem quasiInverseTriangle :
-    C₀.quasiInverseTriangleRepresentative = actualLiftQuasiInverseTriangle (W := W) A := rfl
+    (value.{u, v, uH, vH, uW, uP} W A WorldLabel PresentationLabel).quasiInverseTriangleRepresentative = actualLiftQuasiInverseTriangle (W := W) A := rfl
 
 /-- Equality of whole StrongTrans records, retaining the original naturality. -/
 theorem forwardTriangle_eq_vcomp :
-    C₀.forwardTriangleRepresentative = Pseudofunctor.StrongTrans.vcomp
+    (value.{u, v, uH, vH, uW, uP} W A WorldLabel PresentationLabel).forwardTriangleRepresentative = Pseudofunctor.StrongTrans.vcomp
       (actualLiftProjectedSourceUnit (W := W) A)
       (actualLiftRestrictedTargetCounit (W := W) A) := rfl
 
 /-- The middle pseudofunctor is the proved native G ; (F ; G). -/
 theorem quasiInverseTriangle_eq_vcomp :
-    C₀.quasiInverseTriangleRepresentative = Pseudofunctor.StrongTrans.vcomp
+    (value.{u, v, uH, vH, uW, uP} W A WorldLabel PresentationLabel).quasiInverseTriangleRepresentative = Pseudofunctor.StrongTrans.vcomp
       (actualLiftQuasiInverseRestrictedSourceUnit (W := W) A)
       (actualLiftQuasiInverseRestrictedTargetCounitReassociated (W := W) A) := rfl
 
 /-- This formula uses the unit and counit stored in this certificate itself. -/
-theorem forwardTriangle_app (X : L) :
-    C₀.forwardTriangleRepresentative.app X =
-      C₀.base.whitehead.forward.map (C₀.base.unit.app X) ≫
-        C₀.base.counit.app (C₀.base.whitehead.forward.obj X) := rfl
+theorem forwardTriangle_app (X : (ExactLiftableClassificationObject.{u, v, uH, vH, uW, uP}
+      (W := W) A WorldLabel PresentationLabel)) :
+    (value.{u, v, uH, vH, uW, uP} W A WorldLabel PresentationLabel).forwardTriangleRepresentative.app X =
+      (value.{u, v, uH, vH, uW, uP} W A WorldLabel PresentationLabel).base.whitehead.forward.map ((value.{u, v, uH, vH, uW, uP} W A WorldLabel PresentationLabel).base.unit.app X) ≫
+        (value.{u, v, uH, vH, uW, uP} W A WorldLabel PresentationLabel).base.counit.app ((value.{u, v, uH, vH, uW, uP} W A WorldLabel PresentationLabel).base.whitehead.forward.obj X) := rfl
 
 /-- The reverse component likewise uses precisely this certificate's base. -/
-theorem quasiInverseTriangle_app (Y : E) :
-    C₀.quasiInverseTriangleRepresentative.app Y =
-      C₀.base.unit.app (C₀.base.quasiInverse.obj Y) ≫
-        C₀.base.quasiInverse.map (C₀.base.counit.app Y) := rfl
+theorem quasiInverseTriangle_app (Y : (ExactUniversalClassificationObject.{u, v, uH, vH, uW, uP}
+      (W := W) A WorldLabel PresentationLabel)) :
+    (value.{u, v, uH, vH, uW, uP} W A WorldLabel PresentationLabel).quasiInverseTriangleRepresentative.app Y =
+      (value.{u, v, uH, vH, uW, uP} W A WorldLabel PresentationLabel).base.unit.app ((value.{u, v, uH, vH, uW, uP} W A WorldLabel PresentationLabel).base.quasiInverse.obj Y) ≫
+        (value.{u, v, uH, vH, uW, uP} W A WorldLabel PresentationLabel).base.quasiInverse.map ((value.{u, v, uH, vH, uW, uP} W A WorldLabel PresentationLabel).base.counit.app Y) := rfl
 
 /-! ## Whole modification isomorphisms and both original component maps -/
 
 @[simp] theorem forwardModification :
-    C₀.forwardTriangleModification = actualLiftForwardTriangleModificationIso (W := W) A := rfl
+    (value.{u, v, uH, vH, uW, uP} W A WorldLabel PresentationLabel).forwardTriangleModification = actualLiftForwardTriangleModificationIso (W := W) A := rfl
 
 @[simp] theorem quasiInverseModification :
-    C₀.quasiInverseTriangleModification =
+    (value.{u, v, uH, vH, uW, uP} W A WorldLabel PresentationLabel).quasiInverseTriangleModification =
       actualLiftQuasiInverseTriangleModificationIso (W := W) A := rfl
 
-@[simp] theorem forwardModification_hom_app (X : L) :
-    C₀.forwardTriangleModification.hom.as.app X =
+@[simp] theorem forwardModification_hom_app (X : (ExactLiftableClassificationObject.{u, v, uH, vH, uW, uP}
+      (W := W) A WorldLabel PresentationLabel)) :
+    (value.{u, v, uH, vH, uW, uP} W A WorldLabel PresentationLabel).forwardTriangleModification.hom.as.app X =
       (actualLiftForwardTriangleIso (W := W) A X).hom := rfl
 
-@[simp] theorem forwardModification_inv_app (X : L) :
-    C₀.forwardTriangleModification.inv.as.app X =
+@[simp] theorem forwardModification_inv_app (X : (ExactLiftableClassificationObject.{u, v, uH, vH, uW, uP}
+      (W := W) A WorldLabel PresentationLabel)) :
+    (value.{u, v, uH, vH, uW, uP} W A WorldLabel PresentationLabel).forwardTriangleModification.inv.as.app X =
       (actualLiftForwardTriangleIso (W := W) A X).inv := rfl
 
-@[simp] theorem quasiInverseModification_hom_app (Y : E) :
-    C₀.quasiInverseTriangleModification.hom.as.app Y =
+@[simp] theorem quasiInverseModification_hom_app (Y : (ExactUniversalClassificationObject.{u, v, uH, vH, uW, uP}
+      (W := W) A WorldLabel PresentationLabel)) :
+    (value.{u, v, uH, vH, uW, uP} W A WorldLabel PresentationLabel).quasiInverseTriangleModification.hom.as.app Y =
       (actualLiftQuasiInverseTriangleIso (W := W) A Y).hom := rfl
 
-@[simp] theorem quasiInverseModification_inv_app (Y : E) :
-    C₀.quasiInverseTriangleModification.inv.as.app Y =
+@[simp] theorem quasiInverseModification_inv_app (Y : (ExactUniversalClassificationObject.{u, v, uH, vH, uW, uP}
+      (W := W) A WorldLabel PresentationLabel)) :
+    (value.{u, v, uH, vH, uW, uP} W A WorldLabel PresentationLabel).quasiInverseTriangleModification.inv.as.app Y =
       (actualLiftQuasiInverseTriangleIso (W := W) A Y).inv := rfl
 
 /-! ## The inherited Whitehead, label and actual-lift boundaries -/
 
-@[simp] theorem forward_obj_label (X : L) :
-    (C₀.base.whitehead.forward.obj X).label = X.label := rfl
+@[simp] theorem forward_obj_label (X : (ExactLiftableClassificationObject.{u, v, uH, vH, uW, uP}
+      (W := W) A WorldLabel PresentationLabel)) :
+    ((value.{u, v, uH, vH, uW, uP} W A WorldLabel PresentationLabel).base.whitehead.forward.obj X).label = X.label := rfl
 
-@[simp] theorem quasiInverse_obj_label (Y : E) :
-    (C₀.base.quasiInverse.obj Y).label = Y.label := rfl
+@[simp] theorem quasiInverse_obj_label (Y : (ExactUniversalClassificationObject.{u, v, uH, vH, uW, uP}
+      (W := W) A WorldLabel PresentationLabel)) :
+    ((value.{u, v, uH, vH, uW, uP} W A WorldLabel PresentationLabel).base.quasiInverse.obj Y).label = Y.label := rfl
 
 /-- Only an actual-lift-carrying one-cell supplies this prescribed raw map. -/
-theorem forward_map_raw {X Y : L}
+theorem forward_map_raw {X Y : (ExactLiftableClassificationObject.{u, v, uH, vH, uW, uP}
+      (W := W) A WorldLabel PresentationLabel)}
     (f : ExactLiftableClassificationActualOneCell (W := W) A X Y) :
-    (C₀.base.whitehead.forward.map f).map.raw = f.raw.map := f.raw_eq
+    ((value.{u, v, uH, vH, uW, uP} W A WorldLabel PresentationLabel).base.whitehead.forward.map f).map.raw = f.raw.map := f.raw_eq
 
 /-- The local equivalences still use this certificate's native forward map. -/
-theorem homEquiv_forward (X Y : L) :
-    (C₀.base.whitehead.homEquiv X Y).functor =
-      C₀.base.whitehead.forward.toPrelaxFunctor.mapFunctor X Y :=
-  C₀.base.whitehead.homEquiv_functor X Y
+theorem homEquiv_forward (X Y : (ExactLiftableClassificationObject.{u, v, uH, vH, uW, uP}
+      (W := W) A WorldLabel PresentationLabel)) :
+    ((value.{u, v, uH, vH, uW, uP} W A WorldLabel PresentationLabel).base.whitehead.homEquiv X Y).functor =
+      (value.{u, v, uH, vH, uW, uP} W A WorldLabel PresentationLabel).base.whitehead.forward.toPrelaxFunctor.mapFunctor X Y :=
+  (value.{u, v, uH, vH, uW, uP} W A WorldLabel PresentationLabel).base.whitehead.homEquiv_functor X Y
 
 /-- Retain label-preserving coverage, without identifying presentations. -/
-theorem sameLabel_coverage (Y : E) :
-    ∃ X : L, X.label = Y.label ∧
-      Nonempty (Bicategory.Equivalence (B := E) (C₀.base.whitehead.forward.obj X) Y) :=
+theorem sameLabel_coverage (Y : (ExactUniversalClassificationObject.{u, v, uH, vH, uW, uP}
+      (W := W) A WorldLabel PresentationLabel)) :
+    ∃ X : (ExactLiftableClassificationObject.{u, v, uH, vH, uW, uP}
+      (W := W) A WorldLabel PresentationLabel), X.label = Y.label ∧
+      Nonempty (Bicategory.Equivalence (B := (ExactUniversalClassificationObject.{u, v, uH, vH, uW, uP}
+      (W := W) A WorldLabel PresentationLabel)) ((value.{u, v, uH, vH, uW, uP} W A WorldLabel PresentationLabel).base.whitehead.forward.obj X) Y) :=
   exactLiftableActualLiftWhiteheadBiequivalence_sameLabel_coverage (W := W) A Y
 
 /-- The old source component equivalence witnesses the stored unit component. -/
-theorem unit_component_equivalence (X : L) :
-    ∃ e : Bicategory.Equivalence (B := L) X
-        ((Pseudofunctor.comp C₀.base.whitehead.forward C₀.base.quasiInverse).obj X),
-      e.hom = C₀.base.unit.app X :=
+theorem unit_component_equivalence (X : (ExactLiftableClassificationObject.{u, v, uH, vH, uW, uP}
+      (W := W) A WorldLabel PresentationLabel)) :
+    ∃ e : Bicategory.Equivalence (B := (ExactLiftableClassificationObject.{u, v, uH, vH, uW, uP}
+      (W := W) A WorldLabel PresentationLabel)) X
+        ((Pseudofunctor.comp (value.{u, v, uH, vH, uW, uP} W A WorldLabel PresentationLabel).base.whitehead.forward (value.{u, v, uH, vH, uW, uP} W A WorldLabel PresentationLabel).base.quasiInverse).obj X),
+      e.hom = (value.{u, v, uH, vH, uW, uP} W A WorldLabel PresentationLabel).base.unit.app X :=
   ⟨actualLiftSourceUnitComponentEquivalence (W := W) A X, rfl⟩
 
 /-- Use the same fixed e_Y, not a new objectwise choice. -/
-theorem counit_component_equivalence (Y : E) :
-    ∃ e : Bicategory.Equivalence (B := E)
-        ((Pseudofunctor.comp C₀.base.quasiInverse C₀.base.whitehead.forward).obj Y) Y,
-      e.hom = C₀.base.counit.app Y :=
+theorem counit_component_equivalence (Y : (ExactUniversalClassificationObject.{u, v, uH, vH, uW, uP}
+      (W := W) A WorldLabel PresentationLabel)) :
+    ∃ e : Bicategory.Equivalence (B := (ExactUniversalClassificationObject.{u, v, uH, vH, uW, uP}
+      (W := W) A WorldLabel PresentationLabel))
+        ((Pseudofunctor.comp (value.{u, v, uH, vH, uW, uP} W A WorldLabel PresentationLabel).base.quasiInverse (value.{u, v, uH, vH, uW, uP} W A WorldLabel PresentationLabel).base.whitehead.forward).obj Y) Y,
+      e.hom = (value.{u, v, uH, vH, uW, uP} W A WorldLabel PresentationLabel).base.counit.app Y :=
   ⟨actualLiftQuasiInverseObjectEquivalence (W := W) A Y, rfl⟩
 
 /-! ## Concrete regressions through the integrated native interface -/
@@ -223,47 +247,54 @@ example : WhiteheadTriangleRepresentativeCertificate
       (W := W) A WorldLabel PresentationLabel) :=
   exactLiftableActualLiftCoherentBiequivalenceCertificate (W := W) A
 
-example (X Y : L) :
-    (C₀.base.whitehead.forward.toPrelaxFunctor.mapFunctor X Y).IsEquivalence :=
+example (X Y : (ExactLiftableClassificationObject.{u, v, uH, vH, uW, uP}
+      (W := W) A WorldLabel PresentationLabel)) :
+    ((value.{u, v, uH, vH, uW, uP} W A WorldLabel PresentationLabel).base.whitehead.forward.toPrelaxFunctor.mapFunctor X Y).IsEquivalence :=
   exactLiftableActualLiftNativeMapFunctor_isEquivalence (W := W) A X Y
 
-example (X : L) :
-    C₀.forwardTriangleRepresentative.app X =
-      C₀.base.whitehead.forward.map (C₀.base.unit.app X) ≫
-        C₀.base.counit.app (C₀.base.whitehead.forward.obj X) := rfl
+example (X : (ExactLiftableClassificationObject.{u, v, uH, vH, uW, uP}
+      (W := W) A WorldLabel PresentationLabel)) :
+    (value.{u, v, uH, vH, uW, uP} W A WorldLabel PresentationLabel).forwardTriangleRepresentative.app X =
+      (value.{u, v, uH, vH, uW, uP} W A WorldLabel PresentationLabel).base.whitehead.forward.map ((value.{u, v, uH, vH, uW, uP} W A WorldLabel PresentationLabel).base.unit.app X) ≫
+        (value.{u, v, uH, vH, uW, uP} W A WorldLabel PresentationLabel).base.counit.app ((value.{u, v, uH, vH, uW, uP} W A WorldLabel PresentationLabel).base.whitehead.forward.obj X) := rfl
 
-example (Y : E) :
-    C₀.quasiInverseTriangleRepresentative.app Y =
-      C₀.base.unit.app (C₀.base.quasiInverse.obj Y) ≫
-        C₀.base.quasiInverse.map (C₀.base.counit.app Y) := rfl
+example (Y : (ExactUniversalClassificationObject.{u, v, uH, vH, uW, uP}
+      (W := W) A WorldLabel PresentationLabel)) :
+    (value.{u, v, uH, vH, uW, uP} W A WorldLabel PresentationLabel).quasiInverseTriangleRepresentative.app Y =
+      (value.{u, v, uH, vH, uW, uP} W A WorldLabel PresentationLabel).base.unit.app ((value.{u, v, uH, vH, uW, uP} W A WorldLabel PresentationLabel).base.quasiInverse.obj Y) ≫
+        (value.{u, v, uH, vH, uW, uP} W A WorldLabel PresentationLabel).base.quasiInverse.map ((value.{u, v, uH, vH, uW, uP} W A WorldLabel PresentationLabel).base.counit.app Y) := rfl
 
-example {X Y : L} (f : X ⟶ Y) :
-    C₀.base.whitehead.forward.map f ◁ C₀.forwardTriangleModification.hom.as.app Y ≫
-        ((Pseudofunctor.StrongTrans.id C₀.base.whitehead.forward).naturality f).hom =
-      (C₀.forwardTriangleRepresentative.naturality f).hom ≫
-        C₀.forwardTriangleModification.hom.as.app X ▷ C₀.base.whitehead.forward.map f :=
-  C₀.forwardTriangleModification.hom.as.naturality f
+example {X Y : (ExactLiftableClassificationObject.{u, v, uH, vH, uW, uP}
+      (W := W) A WorldLabel PresentationLabel)} (f : X ⟶ Y) :
+    (value.{u, v, uH, vH, uW, uP} W A WorldLabel PresentationLabel).base.whitehead.forward.map f ◁ (value.{u, v, uH, vH, uW, uP} W A WorldLabel PresentationLabel).forwardTriangleModification.hom.as.app Y ≫
+        ((Pseudofunctor.StrongTrans.id (value.{u, v, uH, vH, uW, uP} W A WorldLabel PresentationLabel).base.whitehead.forward).naturality f).hom =
+      ((value.{u, v, uH, vH, uW, uP} W A WorldLabel PresentationLabel).forwardTriangleRepresentative.naturality f).hom ≫
+        (value.{u, v, uH, vH, uW, uP} W A WorldLabel PresentationLabel).forwardTriangleModification.hom.as.app X ▷ (value.{u, v, uH, vH, uW, uP} W A WorldLabel PresentationLabel).base.whitehead.forward.map f :=
+  (value.{u, v, uH, vH, uW, uP} W A WorldLabel PresentationLabel).forwardTriangleModification.hom.as.naturality f
 
-example {X Y : L} (f : X ⟶ Y) :
-    C₀.base.whitehead.forward.map f ◁ C₀.forwardTriangleModification.inv.as.app Y ≫
-        (C₀.forwardTriangleRepresentative.naturality f).hom =
-      ((Pseudofunctor.StrongTrans.id C₀.base.whitehead.forward).naturality f).hom ≫
-        C₀.forwardTriangleModification.inv.as.app X ▷ C₀.base.whitehead.forward.map f :=
-  C₀.forwardTriangleModification.inv.as.naturality f
+example {X Y : (ExactLiftableClassificationObject.{u, v, uH, vH, uW, uP}
+      (W := W) A WorldLabel PresentationLabel)} (f : X ⟶ Y) :
+    (value.{u, v, uH, vH, uW, uP} W A WorldLabel PresentationLabel).base.whitehead.forward.map f ◁ (value.{u, v, uH, vH, uW, uP} W A WorldLabel PresentationLabel).forwardTriangleModification.inv.as.app Y ≫
+        ((value.{u, v, uH, vH, uW, uP} W A WorldLabel PresentationLabel).forwardTriangleRepresentative.naturality f).hom =
+      ((Pseudofunctor.StrongTrans.id (value.{u, v, uH, vH, uW, uP} W A WorldLabel PresentationLabel).base.whitehead.forward).naturality f).hom ≫
+        (value.{u, v, uH, vH, uW, uP} W A WorldLabel PresentationLabel).forwardTriangleModification.inv.as.app X ▷ (value.{u, v, uH, vH, uW, uP} W A WorldLabel PresentationLabel).base.whitehead.forward.map f :=
+  (value.{u, v, uH, vH, uW, uP} W A WorldLabel PresentationLabel).forwardTriangleModification.inv.as.naturality f
 
-example {Y Z : E} (f : Y ⟶ Z) :
-    C₀.base.quasiInverse.map f ◁ C₀.quasiInverseTriangleModification.hom.as.app Z ≫
-        ((Pseudofunctor.StrongTrans.id C₀.base.quasiInverse).naturality f).hom =
-      (C₀.quasiInverseTriangleRepresentative.naturality f).hom ≫
-        C₀.quasiInverseTriangleModification.hom.as.app Y ▷ C₀.base.quasiInverse.map f :=
-  C₀.quasiInverseTriangleModification.hom.as.naturality f
+example {Y Z : (ExactUniversalClassificationObject.{u, v, uH, vH, uW, uP}
+      (W := W) A WorldLabel PresentationLabel)} (f : Y ⟶ Z) :
+    (value.{u, v, uH, vH, uW, uP} W A WorldLabel PresentationLabel).base.quasiInverse.map f ◁ (value.{u, v, uH, vH, uW, uP} W A WorldLabel PresentationLabel).quasiInverseTriangleModification.hom.as.app Z ≫
+        ((Pseudofunctor.StrongTrans.id (value.{u, v, uH, vH, uW, uP} W A WorldLabel PresentationLabel).base.quasiInverse).naturality f).hom =
+      ((value.{u, v, uH, vH, uW, uP} W A WorldLabel PresentationLabel).quasiInverseTriangleRepresentative.naturality f).hom ≫
+        (value.{u, v, uH, vH, uW, uP} W A WorldLabel PresentationLabel).quasiInverseTriangleModification.hom.as.app Y ▷ (value.{u, v, uH, vH, uW, uP} W A WorldLabel PresentationLabel).base.quasiInverse.map f :=
+  (value.{u, v, uH, vH, uW, uP} W A WorldLabel PresentationLabel).quasiInverseTriangleModification.hom.as.naturality f
 
-example {Y Z : E} (f : Y ⟶ Z) :
-    C₀.base.quasiInverse.map f ◁ C₀.quasiInverseTriangleModification.inv.as.app Z ≫
-        (C₀.quasiInverseTriangleRepresentative.naturality f).hom =
-      ((Pseudofunctor.StrongTrans.id C₀.base.quasiInverse).naturality f).hom ≫
-        C₀.quasiInverseTriangleModification.inv.as.app Y ▷ C₀.base.quasiInverse.map f :=
-  C₀.quasiInverseTriangleModification.inv.as.naturality f
+example {Y Z : (ExactUniversalClassificationObject.{u, v, uH, vH, uW, uP}
+      (W := W) A WorldLabel PresentationLabel)} (f : Y ⟶ Z) :
+    (value.{u, v, uH, vH, uW, uP} W A WorldLabel PresentationLabel).base.quasiInverse.map f ◁ (value.{u, v, uH, vH, uW, uP} W A WorldLabel PresentationLabel).quasiInverseTriangleModification.inv.as.app Z ≫
+        ((value.{u, v, uH, vH, uW, uP} W A WorldLabel PresentationLabel).quasiInverseTriangleRepresentative.naturality f).hom =
+      ((Pseudofunctor.StrongTrans.id (value.{u, v, uH, vH, uW, uP} W A WorldLabel PresentationLabel).base.quasiInverse).naturality f).hom ≫
+        (value.{u, v, uH, vH, uW, uP} W A WorldLabel PresentationLabel).quasiInverseTriangleModification.inv.as.app Y ▷ (value.{u, v, uH, vH, uW, uP} W A WorldLabel PresentationLabel).base.quasiInverse.map f :=
+  (value.{u, v, uH, vH, uW, uP} W A WorldLabel PresentationLabel).quasiInverseTriangleModification.inv.as.naturality f
 
 end Certificate
 
@@ -276,6 +307,26 @@ universe uB vB wB uC vC wC
 variable {B : Type uB} [Bicategory.{wB, vB} B]
 variable {C : Type uC} [Bicategory.{wC, vC} C]
 variable (P : WhiteheadTriangleRepresentativeCertificate B C)
+
+-- Expose exactly Mathlib's existing hom categories at these typed endpoints.
+-- Neither modification composition nor its identity is replaced.
+local instance forwardHomCategory :
+    Category (Pseudofunctor.StrongTrans (B := B) (C := C)
+      P.base.whitehead.forward P.base.whitehead.forward) :=
+  Pseudofunctor.StrongTrans.homCategory (B := B) (C := C)
+    (F := P.base.whitehead.forward) (G := P.base.whitehead.forward)
+
+local instance quasiInverseHomCategory :
+    Category (Pseudofunctor.StrongTrans (B := C) (C := B)
+      P.base.quasiInverse P.base.quasiInverse) :=
+  Pseudofunctor.StrongTrans.homCategory (B := C) (C := B)
+    (F := P.base.quasiInverse) (G := P.base.quasiInverse)
+
+example : Category (Pseudofunctor.StrongTrans (B := B) (C := C)
+    P.base.whitehead.forward P.base.whitehead.forward) := inferInstance
+
+example : Category (Pseudofunctor.StrongTrans (B := C) (C := B)
+    P.base.quasiInverse P.base.quasiInverse) := inferInstance
 
 example : P.forwardTriangleModification.hom ≫ P.forwardTriangleModification.inv =
     𝟙 P.forwardTriangleRepresentative := P.forwardTriangleModification.hom_inv_id
@@ -306,6 +357,7 @@ additional higher adjoint-biequivalence coherence or changing the raw boundary.
 
 #print axioms exactLiftableActualLiftUnitCounitCertificate
 #print axioms exactLiftableActualLiftCoherentBiequivalenceCertificate
+#print axioms Certificate.value
 #print axioms Certificate.base
 #print axioms Certificate.whitehead
 #print axioms Certificate.forward
