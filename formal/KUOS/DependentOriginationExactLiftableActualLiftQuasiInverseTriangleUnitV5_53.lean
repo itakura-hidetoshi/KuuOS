@@ -55,7 +55,8 @@ theorem naturality_id (a : D) :
   rw [Bicategory.whiskerLeft_comp, ← Category.assoc,
     ← eta.naturality_naturality (H.mapId a).hom, Category.assoc,
     eta.naturality_id]
-  simp
+  -- Cancel only the identity-source comparison; H.mapId remains unchanged.
+  rw [Bicategory.id_whiskerRight, Category.id_comp]
 
 /-- Use naturality at H's actual compositor before eta's composition law.
 This keeps precisely the compositor of the native composite H ; R. -/
@@ -74,7 +75,8 @@ theorem naturality_comp {a b c : D} (f : a ⟶ b) (g : b ⟶ c) :
   rw [Bicategory.whiskerLeft_comp, ← Category.assoc,
     ← eta.naturality_naturality (H.mapComp f g).hom, Category.assoc,
     eta.naturality_comp]
-  simp
+  -- Cancel only the identity-source comparison; H.mapComp remains unchanged.
+  rw [Bicategory.id_whiskerRight, Category.id_comp]
 
 /-- Precompose a unit StrongTrans by an arbitrary pseudofunctor.
 The source is H itself, not an unproved identification of H ; Id with H. -/
@@ -104,6 +106,28 @@ example (H : Pseudofunctor D B) (R : Pseudofunctor B B)
     (eta : Pseudofunctor.StrongTrans (Pseudofunctor.id B) R) :
     Pseudofunctor.StrongTrans H (Pseudofunctor.comp H R) :=
   UnitPrecomposition.strongTrans H eta
+
+-- Regress both repaired laws with arbitrary H and its actual comparisons.
+example (H : Pseudofunctor D B) (R : Pseudofunctor B B)
+    (eta : Pseudofunctor.StrongTrans (Pseudofunctor.id B) R) (a : D) :
+    (eta.naturality (H.map (𝟙 a))).hom ≫
+        eta.app (H.obj a) ◁ ((Pseudofunctor.comp H R).mapId a).hom =
+      (H.mapId a).hom ▷ eta.app (H.obj a) ≫
+        (λ_ (eta.app (H.obj a))).hom ≫ (ρ_ (eta.app (H.obj a))).inv :=
+  (UnitPrecomposition.strongTrans H eta).naturality_id a
+
+example (H : Pseudofunctor D B) (R : Pseudofunctor B B)
+    (eta : Pseudofunctor.StrongTrans (Pseudofunctor.id B) R)
+    {a b c : D} (f : a ⟶ b) (g : b ⟶ c) :
+    (eta.naturality (H.map (f ≫ g))).hom ≫
+        eta.app (H.obj a) ◁ ((Pseudofunctor.comp H R).mapComp f g).hom =
+      (H.mapComp f g).hom ▷ eta.app (H.obj c) ≫
+        (α_ (H.map f) (H.map g) (eta.app (H.obj c))).hom ≫
+        H.map f ◁ (eta.naturality (H.map g)).hom ≫
+        (α_ (H.map f) (eta.app (H.obj b)) (R.map (H.map g))).inv ≫
+        (eta.naturality (H.map f)).hom ▷ R.map (H.map g) ≫
+        (α_ (eta.app (H.obj a)) (R.map (H.map f)) (R.map (H.map g))).hom :=
+  (UnitPrecomposition.strongTrans H eta).naturality_comp f g
 
 end GenericRegression
 
