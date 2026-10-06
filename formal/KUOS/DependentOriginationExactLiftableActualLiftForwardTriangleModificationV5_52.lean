@@ -8,6 +8,7 @@ open scoped CategoryTheory.Bicategory CategoryTheory.Pseudofunctor.StrongTrans
 open KUOS.DependentOriginationGeneratedRefinementTopologyV2_4
 open KUOS.DependentOriginationLocalizedSheafUniversalityV2_6
 open KUOS.DependentOriginationExactUniversalClassificationInterfaceV5_17
+open KUOS.DependentOriginationExactClassificationHomFunctorV5_22
 open KUOS.DependentOriginationExactLiftableActualLiftOneCellV5_40
 open KUOS.DependentOriginationExactLiftableClassificationBicategoryV5_41
 open KUOS.DependentOriginationExactLiftableActualLiftStrictPseudofunctorV5_42
@@ -146,11 +147,15 @@ private theorem projection_mapId_hom
     ((exactLiftableActualLiftStrictPseudofunctor (W := W) A).toPseudofunctor.mapId X).hom =
       𝟙 (𝟙 (CanonicalExactUniversalObject (W := W) A X)) := rfl
 
+/-- Expose the target composition constructor before elaborating its identity
+2-cell.  The wrapped actual lifts do not determine the ambient bicategory
+for an unannotated use of horizontal composition. -/
 private theorem projection_mapComp_hom
     {X Y Z : ExactLiftableClassificationObject.{u, v, uH, vH, uW, uP}
       (W := W) A WorldLabel PresentationLabel} (f : X ⟶ Y) (g : Y ⟶ Z) :
     ((exactLiftableActualLiftStrictPseudofunctor (W := W) A).toPseudofunctor.mapComp f g).hom =
-      𝟙 (f.actualLift ≫ g.actualLift) := rfl
+      𝟙 (ExactUniversalClassificationOneCell.comp
+        (W := W) A f.actualLift g.actualLift) := rfl
 
 /-- Project the old source unit through F.  The naturality projection is
 recorded below, so this is not an unrelated pointwise replacement. -/
@@ -241,6 +246,22 @@ def actualLiftForwardTriangle :
   apply Iso.ext
   rfl
 
+/-- Use precisely Mathlib's native hom category, with its two endpoints
+explicit.  This local binding only exposes the existing instance at the
+concrete StrongTrans type; it does not change modification composition. -/
+local instance actualLiftForwardStrongTransCategory :
+    Category (Pseudofunctor.StrongTrans
+      ((exactLiftableActualLiftStrictPseudofunctor (W := W) A).toPseudofunctor :
+        Pseudofunctor
+          (ExactLiftableClassificationObject.{u, v, uH, vH, uW, uP}
+            (W := W) A WorldLabel PresentationLabel)
+          (ExactUniversalClassificationObject.{u, v, uH, vH, uW, uP}
+            (W := W) A WorldLabel PresentationLabel))
+      (exactLiftableActualLiftStrictPseudofunctor (W := W) A).toPseudofunctor) :=
+  Pseudofunctor.StrongTrans.homCategory
+    (F := (exactLiftableActualLiftStrictPseudofunctor (W := W) A).toPseudofunctor)
+    (G := (exactLiftableActualLiftStrictPseudofunctor (W := W) A).toPseudofunctor)
+
 /-- The v5.51 contractions form a global invertible modification for the
 actual pasted triangle.  isoMk proves inverse naturality and both inverse laws. -/
 def actualLiftForwardTriangleModificationIso :
@@ -249,6 +270,9 @@ def actualLiftForwardTriangleModificationIso :
     Pseudofunctor.StrongTrans.id
       (exactLiftableActualLiftStrictPseudofunctor (W := W) A).toPseudofunctor :=
   Pseudofunctor.StrongTrans.isoMk
+    (η := actualLiftForwardTriangle (W := W) A)
+    (θ := Pseudofunctor.StrongTrans.id
+      (exactLiftableActualLiftStrictPseudofunctor (W := W) A).toPseudofunctor)
     (fun X => actualLiftForwardTriangleIso (W := W) A X)
     (by
       intro X Y f
@@ -268,6 +292,24 @@ def actualLiftForwardTriangleModificationIso :
       (actualLiftForwardTriangleIso (W := W) A X).inv := rfl
 
 /-! ## Native-interface regressions -/
+
+-- Regressions for both failed elaboration boundaries.
+example {X Y Z : ExactLiftableClassificationObject.{u, v, uH, vH, uW, uP}
+    (W := W) A WorldLabel PresentationLabel} (f : X ⟶ Y) (g : Y ⟶ Z) :
+    ((exactLiftableActualLiftStrictPseudofunctor (W := W) A).toPseudofunctor.mapComp f g).hom =
+      𝟙 (ExactUniversalClassificationOneCell.comp (W := W) A f.actualLift g.actualLift) :=
+  projection_mapComp_hom (W := W) A f g
+
+example :
+    Category (Pseudofunctor.StrongTrans
+      ((exactLiftableActualLiftStrictPseudofunctor (W := W) A).toPseudofunctor :
+        Pseudofunctor
+          (ExactLiftableClassificationObject.{u, v, uH, vH, uW, uP}
+            (W := W) A WorldLabel PresentationLabel)
+          (ExactUniversalClassificationObject.{u, v, uH, vH, uW, uP}
+            (W := W) A WorldLabel PresentationLabel))
+      (exactLiftableActualLiftStrictPseudofunctor (W := W) A).toPseudofunctor) :=
+  inferInstance
 
 example :
     Pseudofunctor.StrongTrans
@@ -341,6 +383,8 @@ a full adjoint-biequivalence or strict preservation of original raw maps.
 #print axioms actualLiftRestrictedTargetCounit
 #print axioms actualLiftForwardTriangle
 #print axioms actualLiftForwardTriangle_naturality
+#print axioms projection_mapComp_hom
+#print axioms actualLiftForwardStrongTransCategory
 #print axioms actualLiftForwardTriangleModificationIso
 #print axioms actualLiftForwardTriangleModificationIso_hom_app
 #print axioms actualLiftForwardTriangleModificationIso_inv_app
