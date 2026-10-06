@@ -204,7 +204,7 @@ theorem exactLiftableClassificationRawOneCell_liftable_iff_exists_classification
     exactLiftableClassificationRawOneCellLiftable
         (W := W) A f ↔
       ∃ g :
-          KUOS.DependentOriginationExactClassificationMorphismInterfaceV5_21.ExactUniversalClassificationOneCell.{u, v, uH, vH, uW, uP}
+          KUOS.DependentOriginationExactClassificationMorphismInterfaceV5_21.ExactUniversalClassificationOneCell
             (W := W) A
             (canonicalExactUniversalClassificationObjectOfExactLiftable
               (W := W) A X)
@@ -256,7 +256,7 @@ theorem exactLiftableClassificationRawOneCell_obstructed_iff_not_exists_classifi
     exactLiftableClassificationRawOneCellObstructed
         (W := W) A f ↔
       ¬ ∃ g :
-          KUOS.DependentOriginationExactClassificationMorphismInterfaceV5_21.ExactUniversalClassificationOneCell.{u, v, uH, vH, uW, uP}
+          KUOS.DependentOriginationExactClassificationMorphismInterfaceV5_21.ExactUniversalClassificationOneCell
             (W := W) A
             (canonicalExactUniversalClassificationObjectOfExactLiftable
               (W := W) A X)
@@ -299,7 +299,7 @@ def exactLiftableClassificationRawOneCellComp
     ExactLiftableClassificationRawOneCell
       (W := W) A X Z where
   label_eq := f.label_eq.trans g.label_eq
-  map := f.map ≫ g.map
+  map := Pseudofunctor.StrongTrans.vcomp f.map g.map
 
 /-- Identity belongs to the liftable raw morphism class. -/
 theorem exactLiftableClassificationRawOneCell_id_liftable
@@ -356,7 +356,19 @@ theorem exactLiftableClassificationRawOneCell_liftable_comp
         (W := W) A f g) := by
   exact
     KUOS.DependentOriginationExactUniversalMorphismLiftabilityV4_72.ExactUniversalRawMorphism.Liftable.comp
-      (W := W) A hf hg
+      (W := W) A
+      (X :=
+        (canonicalExactUniversalClassificationObjectOfExactLiftable
+          (W := W) A X).source)
+      (Y :=
+        (canonicalExactUniversalClassificationObjectOfExactLiftable
+          (W := W) A Y).source)
+      (Z :=
+        (canonicalExactUniversalClassificationObjectOfExactLiftable
+          (W := W) A Z).source)
+      (eta := f.map)
+      (theta := g.map)
+      hf hg
 
 /-! ## Chosen classification lift -/
 
@@ -374,7 +386,7 @@ noncomputable def classificationOneCellOfLiftableRawOneCell
     (hLift :
       exactLiftableClassificationRawOneCellLiftable
         (W := W) A f) :
-    KUOS.DependentOriginationExactClassificationMorphismInterfaceV5_21.ExactUniversalClassificationOneCell.{u, v, uH, vH, uW, uP}
+    KUOS.DependentOriginationExactClassificationMorphismInterfaceV5_21.ExactUniversalClassificationOneCell
       (W := W) A
       (canonicalExactUniversalClassificationObjectOfExactLiftable
         (W := W) A X)
