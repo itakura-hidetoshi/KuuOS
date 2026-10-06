@@ -59,8 +59,8 @@ theorem actualLiftHomFunctor_eq_nativeMapFunctor
     (X Y : ExactLiftableClassificationObject.{u, v, uH, vH, uW, uP}
       (W := W) A WorldLabel PresentationLabel) :
     actualLiftHomFunctor (W := W) A X Y =
-      (exactLiftableActualLiftStrictPseudofunctor (W := W) A).
-        toPseudofunctor.toPrelaxFunctor.mapFunctor X Y := by
+      (exactLiftableActualLiftStrictPseudofunctor
+        (W := W) A).toPseudofunctor.toPrelaxFunctor.mapFunctor X Y := by
   apply CategoryTheory.Functor.hext
   · intro f
     rfl
@@ -73,8 +73,8 @@ theorem actualLiftHomEquivalence_forward
     (X Y : ExactLiftableClassificationObject.{u, v, uH, vH, uW, uP}
       (W := W) A WorldLabel PresentationLabel) :
     (actualLiftHomEquivalence (W := W) A X Y).functor =
-      (exactLiftableActualLiftStrictPseudofunctor (W := W) A).
-        toPseudofunctor.toPrelaxFunctor.mapFunctor X Y :=
+      (exactLiftableActualLiftStrictPseudofunctor
+        (W := W) A).toPseudofunctor.toPrelaxFunctor.mapFunctor X Y :=
   (actualLiftHomEquivalence_functor (W := W) A X Y).trans
     (actualLiftHomFunctor_eq_nativeMapFunctor (W := W) A X Y)
 
@@ -84,8 +84,8 @@ large definitional reduction during typeclass synthesis. -/
 instance exactLiftableActualLiftNativeMapFunctor_isEquivalence
     (X Y : ExactLiftableClassificationObject.{u, v, uH, vH, uW, uP}
       (W := W) A WorldLabel PresentationLabel) :
-    ((exactLiftableActualLiftStrictPseudofunctor (W := W) A).
-      toPseudofunctor.toPrelaxFunctor.mapFunctor X Y).IsEquivalence := by
+    ((exactLiftableActualLiftStrictPseudofunctor
+      (W := W) A).toPseudofunctor.toPrelaxFunctor.mapFunctor X Y).IsEquivalence := by
   rw [← actualLiftHomFunctor_eq_nativeMapFunctor (W := W) A X Y]
   exact actualLiftHomFunctor_isEquivalence (W := W) A X Y
 
@@ -114,15 +114,15 @@ def exactLiftableActualLiftWhiteheadBiequivalence :
 @[simp] theorem exactLiftableActualLiftWhiteheadBiequivalence_obj_label
     (X : ExactLiftableClassificationObject.{u, v, uH, vH, uW, uP}
       (W := W) A WorldLabel PresentationLabel) :
-    ((exactLiftableActualLiftWhiteheadBiequivalence (W := W) A).
-      forward.obj X).label = X.label :=
+    ((exactLiftableActualLiftWhiteheadBiequivalence
+      (W := W) A).forward.obj X).label = X.label :=
   rfl
 
 @[simp] theorem exactLiftableActualLiftWhiteheadBiequivalence_homEquiv
     (X Y : ExactLiftableClassificationObject.{u, v, uH, vH, uW, uP}
       (W := W) A WorldLabel PresentationLabel) :
-    (exactLiftableActualLiftWhiteheadBiequivalence (W := W) A).
-      homEquiv X Y = actualLiftHomEquivalence (W := W) A X Y :=
+    (exactLiftableActualLiftWhiteheadBiequivalence
+      (W := W) A).homEquiv X Y = actualLiftHomEquivalence (W := W) A X Y :=
   rfl
 
 /-- The covering source for every target object can still be taken with its
@@ -136,8 +136,8 @@ theorem exactLiftableActualLiftWhiteheadBiequivalence_sameLabel_coverage
         Nonempty (Bicategory.Equivalence
           (B := ExactUniversalClassificationObject (W := W) A
             WorldLabel PresentationLabel)
-          ((exactLiftableActualLiftWhiteheadBiequivalence (W := W) A).
-            forward.obj X) Y) :=
+          ((exactLiftableActualLiftWhiteheadBiequivalence
+            (W := W) A).forward.obj X) Y) :=
   exists_exactLiftableObject_sameLabel_equivalent (W := W) A Y
 
 /-! ## Native-interface regression checks -/
@@ -150,23 +150,23 @@ variable
 
 -- The ordinary Pseudofunctor API, not a second ad hoc local functor.
 example :
-    ((exactLiftableActualLiftStrictPseudofunctor (W := W) A).
-      toPseudofunctor.mapFunctor X Y).IsEquivalence :=
+    ((exactLiftableActualLiftStrictPseudofunctor
+      (W := W) A).toPseudofunctor.mapFunctor X Y).IsEquivalence :=
   exactLiftableActualLiftNativeMapFunctor_isEquivalence (W := W) A X Y
 
 -- The certificate's local forward map is its own global forward hom functor.
 example :
-    ((exactLiftableActualLiftWhiteheadBiequivalence (W := W) A).
-      homEquiv X Y).functor =
-      (exactLiftableActualLiftWhiteheadBiequivalence (W := W) A).
-        forward.toPrelaxFunctor.mapFunctor X Y :=
-  (exactLiftableActualLiftWhiteheadBiequivalence (W := W) A).
-    homEquiv_functor X Y
+    ((exactLiftableActualLiftWhiteheadBiequivalence
+      (W := W) A).homEquiv X Y).functor =
+      (exactLiftableActualLiftWhiteheadBiequivalence
+        (W := W) A).forward.toPrelaxFunctor.mapFunctor X Y :=
+  (exactLiftableActualLiftWhiteheadBiequivalence
+    (W := W) A).homEquiv_functor X Y
 
 -- The native forward 1-cell is the stored lift, retaining the prescribed raw map.
 example (f : ExactLiftableClassificationActualOneCell (W := W) A X Y) :
-    ((exactLiftableActualLiftWhiteheadBiequivalence (W := W) A).
-      forward.map f).map.raw = f.raw.map :=
+    ((exactLiftableActualLiftWhiteheadBiequivalence
+      (W := W) A).forward.map f).map.raw = f.raw.map :=
   f.raw_eq
 
 end Regression
