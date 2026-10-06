@@ -14,10 +14,12 @@ noncomputable section
 # Non-strict counit postcomposition for the backward triangle v5.54
 
 Prove mapped-square coherence before specializing any identity-functor
-endpoint.  The resulting counit uses the old square between the two original
-compositors of H.  No strictness, replacement comparison, or fresh equivalence
-is introduced.  The concrete actual-lift specialization is assembled after
-this generic kernel has been validated.
+endpoint. The resulting counit uses the old square between the two original
+compositors of H. No strictness, replacement comparison, or fresh equivalence
+is introduced. The concrete factor retains the original G and eps; the two
+native triple bracketings are connected only through their proved comparison
+hom equalities. The full backward triangle, its global modification, and the
+integrated certificate remain separate obligations.
 -/
 
 universe uB vB wB uC vC wC uD vD wD uE vE wE u v uH vH uW uP
@@ -272,10 +274,14 @@ def actualLiftQuasiInverseCounitTriple :
     (actualLiftQuasiInversePseudofunctor (W := W) A)
 
 /-- Apply the original non-strict G to the original target counit.
-The source remains literally (G ; F) ; G; reassociation to G ; (F ; G)
-is a separate coherence obligation. -/
+The source remains literally (G ; F) ; G. Explicit ambient types in the
+header fix both labels and vH before Lean elaborates the body. -/
 def actualLiftQuasiInverseRestrictedTargetCounit :
     Pseudofunctor.StrongTrans
+      (B := ExactUniversalClassificationObject.{u, v, uH, vH, uW, uP}
+        (W := W) A WorldLabel PresentationLabel)
+      (C := ExactLiftableClassificationObject.{u, v, uH, vH, uW, uP}
+        (W := W) A WorldLabel PresentationLabel)
       (actualLiftQuasiInverseCounitTriple (W := W) A)
       (actualLiftQuasiInversePseudofunctor (W := W) A) :=
   CounitPostcomposition.strongTrans
@@ -297,11 +303,38 @@ def actualLiftQuasiInverseRestrictedTargetCounit :
         (actualLiftQuasiInversePseudofunctor (W := W) A)
         (actualLiftTargetRoundtripCounit (W := W) A) k := rfl
 
+/-- Specialize the existing identity comparison at a typed concrete boundary.
+The projection toPseudofunctor retains exactly the original strict F. -/
+theorem actualLiftQuasiInverseCounitTriple_mapId_hom
+    (Y : ExactUniversalClassificationObject.{u, v, uH, vH, uW, uP}
+      (W := W) A WorldLabel PresentationLabel) :
+    ((actualLiftQuasiInverseCounitTriple (W := W) A).mapId Y).hom =
+      ((actualLiftQuasiInverseTriple (W := W) A).mapId Y).hom :=
+  TripleComparison.mapId_hom
+    (actualLiftQuasiInversePseudofunctor (W := W) A)
+    (exactLiftableActualLiftStrictPseudofunctor (W := W) A).toPseudofunctor
+    (actualLiftQuasiInversePseudofunctor (W := W) A) Y
+
+/-- The same typed specialization for the original native compositors. -/
+theorem actualLiftQuasiInverseCounitTriple_mapComp_hom
+    {X Y Z : ExactUniversalClassificationObject.{u, v, uH, vH, uW, uP}
+      (W := W) A WorldLabel PresentationLabel} (k : X ⟶ Y) (l : Y ⟶ Z) :
+    ((actualLiftQuasiInverseCounitTriple (W := W) A).mapComp k l).hom =
+      ((actualLiftQuasiInverseTriple (W := W) A).mapComp k l).hom :=
+  TripleComparison.mapComp_hom
+    (actualLiftQuasiInversePseudofunctor (W := W) A)
+    (exactLiftableActualLiftStrictPseudofunctor (W := W) A).toPseudofunctor
+    (actualLiftQuasiInversePseudofunctor (W := W) A) k l
+
 /-- The same original counit factor with the source bracketed exactly as the
 v5.53 unit factor's target, G ; (F ; G). Only the source mapId/mapComp
 coherence is reconciled by TripleComparison; app and naturality are unchanged. -/
 def actualLiftQuasiInverseRestrictedTargetCounitReassociated :
     Pseudofunctor.StrongTrans
+      (B := ExactUniversalClassificationObject.{u, v, uH, vH, uW, uP}
+        (W := W) A WorldLabel PresentationLabel)
+      (C := ExactLiftableClassificationObject.{u, v, uH, vH, uW, uP}
+        (W := W) A WorldLabel PresentationLabel)
       (actualLiftQuasiInverseTriple (W := W) A)
       (actualLiftQuasiInversePseudofunctor (W := W) A) where
   app Y := (actualLiftQuasiInverseRestrictedTargetCounit (W := W) A).app Y
@@ -309,16 +342,10 @@ def actualLiftQuasiInverseRestrictedTargetCounitReassociated :
   naturality_naturality theta :=
     (actualLiftQuasiInverseRestrictedTargetCounit (W := W) A).naturality_naturality theta
   naturality_id Y := by
-    rw [← TripleComparison.mapId_hom
-      (actualLiftQuasiInversePseudofunctor (W := W) A)
-      (exactLiftableActualLiftStrictPseudofunctor (W := W) A)
-      (actualLiftQuasiInversePseudofunctor (W := W) A)]
+    rw [← actualLiftQuasiInverseCounitTriple_mapId_hom (W := W) A Y]
     exact (actualLiftQuasiInverseRestrictedTargetCounit (W := W) A).naturality_id Y
   naturality_comp k l := by
-    rw [← TripleComparison.mapComp_hom
-      (actualLiftQuasiInversePseudofunctor (W := W) A)
-      (exactLiftableActualLiftStrictPseudofunctor (W := W) A)
-      (actualLiftQuasiInversePseudofunctor (W := W) A)]
+    rw [← actualLiftQuasiInverseCounitTriple_mapComp_hom (W := W) A k l]
     exact (actualLiftQuasiInverseRestrictedTargetCounit (W := W) A).naturality_comp k l
 
 @[simp] theorem actualLiftQuasiInverseRestrictedTargetCounitReassociated_app
@@ -346,6 +373,74 @@ example (H : Pseudofunctor B C) (R : Pseudofunctor B B)
 
 end GenericRegression
 
+/-! ## Concrete native-interface regressions
+
+The two headers keep vH and both labels independently universe-polymorphic.
+The native laws use the right-associated source, not an assumed equality of
+pseudofunctors. The final regression checks actual vcomp compatibility with
+the unchanged v5.53 unit factor; it does not assert a global contraction.
+-/
+
+example : Pseudofunctor.StrongTrans
+    (B := ExactUniversalClassificationObject.{u, v, uH, vH, uW, uP}
+      (W := W) A WorldLabel PresentationLabel)
+    (C := ExactLiftableClassificationObject.{u, v, uH, vH, uW, uP}
+      (W := W) A WorldLabel PresentationLabel)
+    (actualLiftQuasiInverseCounitTriple (W := W) A)
+    (actualLiftQuasiInversePseudofunctor (W := W) A) :=
+  actualLiftQuasiInverseRestrictedTargetCounit (W := W) A
+
+example : Pseudofunctor.StrongTrans
+    (B := ExactUniversalClassificationObject.{u, v, uH, vH, uW, uP}
+      (W := W) A WorldLabel PresentationLabel)
+    (C := ExactLiftableClassificationObject.{u, v, uH, vH, uW, uP}
+      (W := W) A WorldLabel PresentationLabel)
+    (actualLiftQuasiInverseTriple (W := W) A)
+    (actualLiftQuasiInversePseudofunctor (W := W) A) :=
+  actualLiftQuasiInverseRestrictedTargetCounitReassociated (W := W) A
+
+example {Y Z : ExactUniversalClassificationObject.{u, v, uH, vH, uW, uP}
+    (W := W) A WorldLabel PresentationLabel} {f g : Y ⟶ Z} (theta : f ⟶ g) :
+    let G := actualLiftQuasiInversePseudofunctor (W := W) A
+    let T := actualLiftQuasiInverseTriple (W := W) A
+    let epsG := actualLiftQuasiInverseRestrictedTargetCounitReassociated (W := W) A
+    T.map₂ theta ▷ epsG.app Z ≫ (epsG.naturality g).hom =
+      (epsG.naturality f).hom ≫ epsG.app Y ◁ G.map₂ theta :=
+  (actualLiftQuasiInverseRestrictedTargetCounitReassociated (W := W) A).naturality_naturality theta
+
+example (Y : ExactUniversalClassificationObject.{u, v, uH, vH, uW, uP}
+    (W := W) A WorldLabel PresentationLabel) :
+    let G := actualLiftQuasiInversePseudofunctor (W := W) A
+    let T := actualLiftQuasiInverseTriple (W := W) A
+    let epsG := actualLiftQuasiInverseRestrictedTargetCounitReassociated (W := W) A
+    (epsG.naturality (𝟙 Y)).hom ≫ epsG.app Y ◁ (G.mapId Y).hom =
+      (T.mapId Y).hom ▷ epsG.app Y ≫
+        (λ_ (epsG.app Y)).hom ≫ (ρ_ (epsG.app Y)).inv :=
+  (actualLiftQuasiInverseRestrictedTargetCounitReassociated (W := W) A).naturality_id Y
+
+example {X Y Z : ExactUniversalClassificationObject.{u, v, uH, vH, uW, uP}
+    (W := W) A WorldLabel PresentationLabel} (k : X ⟶ Y) (l : Y ⟶ Z) :
+    let G := actualLiftQuasiInversePseudofunctor (W := W) A
+    let T := actualLiftQuasiInverseTriple (W := W) A
+    let epsG := actualLiftQuasiInverseRestrictedTargetCounitReassociated (W := W) A
+    (epsG.naturality (k ≫ l)).hom ≫ epsG.app X ◁ (G.mapComp k l).hom =
+      (T.mapComp k l).hom ▷ epsG.app Z ≫
+        (α_ (T.map k) (T.map l) (epsG.app Z)).hom ≫
+        T.map k ◁ (epsG.naturality l).hom ≫
+        (α_ (T.map k) (epsG.app Y) (G.map l)).inv ≫
+        (epsG.naturality k).hom ▷ G.map l ≫
+        (α_ (epsG.app X) (G.map k) (G.map l)).hom :=
+  (actualLiftQuasiInverseRestrictedTargetCounitReassociated (W := W) A).naturality_comp k l
+
+example (Y : ExactUniversalClassificationObject.{u, v, uH, vH, uW, uP}
+    (W := W) A WorldLabel PresentationLabel) :
+    (Pseudofunctor.StrongTrans.vcomp
+      (actualLiftQuasiInverseRestrictedSourceUnit (W := W) A)
+      (actualLiftQuasiInverseRestrictedTargetCounitReassociated (W := W) A)).app Y =
+      (actualLiftQuasiInverseRestrictedSourceUnit (W := W) A).app Y ≫
+        (actualLiftQuasiInversePseudofunctor (W := W) A).map
+          ((actualLiftTargetRoundtripCounit (W := W) A).app Y) := rfl
+
 #print axioms MappedSquare.naturality
 #print axioms MappedSquare.identity
 #print axioms MappedSquare.composition
@@ -355,8 +450,14 @@ end GenericRegression
 #print axioms CounitPostcomposition.strongTrans
 #print axioms TripleComparison.mapId_hom
 #print axioms TripleComparison.mapComp_hom
+#print axioms actualLiftQuasiInverseCounitTriple_mapId_hom
+#print axioms actualLiftQuasiInverseCounitTriple_mapComp_hom
 #print axioms actualLiftQuasiInverseRestrictedTargetCounit
+#print axioms actualLiftQuasiInverseRestrictedTargetCounit_app
+#print axioms actualLiftQuasiInverseRestrictedTargetCounit_naturality
 #print axioms actualLiftQuasiInverseRestrictedTargetCounitReassociated
+#print axioms actualLiftQuasiInverseRestrictedTargetCounitReassociated_app
+#print axioms actualLiftQuasiInverseRestrictedTargetCounitReassociated_naturality
 
 end
 
