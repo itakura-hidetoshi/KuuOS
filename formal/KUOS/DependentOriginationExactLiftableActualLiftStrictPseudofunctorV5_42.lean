@@ -65,7 +65,8 @@ variable
       ExactLiftableClassificationActualOneCell
         (W := W) A Y Z}
     (eta : g ⟶ h) :
-    f ◁ eta =
+    ExactLiftableClassificationActualTwoCell.whiskerLeft
+        (W := W) A f eta =
       ExactUniversalClassificationTwoCell.whiskerLeft
         (W := W) A f.actualLift eta :=
   rfl
@@ -83,7 +84,8 @@ variable
     (h :
       ExactLiftableClassificationActualOneCell
         (W := W) A Y Z) :
-    eta ▷ h =
+    ExactLiftableClassificationActualTwoCell.whiskerRight
+        (W := W) A eta h =
       ExactUniversalClassificationTwoCell.whiskerRight
         (W := W) A eta h.actualLift :=
   rfl
@@ -97,7 +99,8 @@ variable
     (f :
       ExactLiftableClassificationActualOneCell
         (W := W) A X Y) :
-    (λ_ f).hom =
+    (ExactLiftableClassificationActualTwoCell.leftUnitorIso
+      (W := W) A f).hom =
       (ExactUniversalClassificationTwoCell.leftUnitorIso
         (W := W) A f.actualLift).hom :=
   rfl
@@ -111,7 +114,8 @@ variable
     (f :
       ExactLiftableClassificationActualOneCell
         (W := W) A X Y) :
-    (ρ_ f).hom =
+    (ExactLiftableClassificationActualTwoCell.rightUnitorIso
+      (W := W) A f).hom =
       (ExactUniversalClassificationTwoCell.rightUnitorIso
         (W := W) A f.actualLift).hom :=
   rfl
@@ -131,7 +135,8 @@ variable
     (h :
       ExactLiftableClassificationActualOneCell
         (W := W) A Y Z) :
-    (α_ f g h).hom =
+    (ExactLiftableClassificationActualTwoCell.associatorIso
+      (W := W) A f g h).hom =
       (ExactUniversalClassificationTwoCell.associatorIso
         (W := W) A f.actualLift g.actualLift h.actualLift).hom :=
   rfl
@@ -168,10 +173,12 @@ noncomputable def exactLiftableActualLiftStrictCore
     change
       ExactUniversalClassificationTwoCell.whiskerLeft
           (W := W) A f.actualLift eta =
-        𝟙 _ ≫
+        𝟙 (ExactUniversalClassificationOneCell.comp
+              (W := W) A f.actualLift g.actualLift) ≫
           ExactUniversalClassificationTwoCell.whiskerLeft
             (W := W) A f.actualLift eta ≫
-          𝟙 _
+          𝟙 (ExactUniversalClassificationOneCell.comp
+              (W := W) A f.actualLift g'.actualLift)
     exact
       ((Category.id_comp _).trans (Category.comp_id _)).symm
 
@@ -180,10 +187,12 @@ noncomputable def exactLiftableActualLiftStrictCore
     change
       ExactUniversalClassificationTwoCell.whiskerRight
           (W := W) A eta g.actualLift =
-        𝟙 _ ≫
+        𝟙 (ExactUniversalClassificationOneCell.comp
+              (W := W) A f.actualLift g.actualLift) ≫
           ExactUniversalClassificationTwoCell.whiskerRight
             (W := W) A eta g.actualLift ≫
-          𝟙 _
+          𝟙 (ExactUniversalClassificationOneCell.comp
+              (W := W) A f'.actualLift g.actualLift)
     exact
       ((Category.id_comp _).trans (Category.comp_id _)).symm
 
@@ -192,7 +201,12 @@ noncomputable def exactLiftableActualLiftStrictCore
     change
       (ExactUniversalClassificationTwoCell.leftUnitorIso
         (W := W) A f.actualLift).hom =
-        𝟙 _ ≫
+        𝟙 (ExactUniversalClassificationOneCell.comp
+              (W := W) A
+              (ExactUniversalClassificationOneCell.id
+                (W := W) A
+                (CanonicalExactUniversalObject (W := W) A X))
+              f.actualLift) ≫
           (ExactUniversalClassificationTwoCell.leftUnitorIso
             (W := W) A f.actualLift).hom
     exact (Category.id_comp _).symm
@@ -202,7 +216,11 @@ noncomputable def exactLiftableActualLiftStrictCore
     change
       (ExactUniversalClassificationTwoCell.rightUnitorIso
         (W := W) A f.actualLift).hom =
-        𝟙 _ ≫
+        𝟙 (ExactUniversalClassificationOneCell.comp
+              (W := W) A f.actualLift
+              (ExactUniversalClassificationOneCell.id
+                (W := W) A
+                (CanonicalExactUniversalObject (W := W) A Y))) ≫
           (ExactUniversalClassificationTwoCell.rightUnitorIso
             (W := W) A f.actualLift).hom
     exact (Category.id_comp _).symm
@@ -212,10 +230,17 @@ noncomputable def exactLiftableActualLiftStrictCore
     change
       (ExactUniversalClassificationTwoCell.associatorIso
         (W := W) A f.actualLift g.actualLift h.actualLift).hom =
-        𝟙 _ ≫
+        𝟙 (ExactUniversalClassificationOneCell.comp
+              (W := W) A
+              (ExactUniversalClassificationOneCell.comp
+                (W := W) A f.actualLift g.actualLift)
+              h.actualLift) ≫
           (ExactUniversalClassificationTwoCell.associatorIso
             (W := W) A f.actualLift g.actualLift h.actualLift).hom ≫
-          𝟙 _
+          𝟙 (ExactUniversalClassificationOneCell.comp
+              (W := W) A f.actualLift
+              (ExactUniversalClassificationOneCell.comp
+                (W := W) A g.actualLift h.actualLift))
     exact
       ((Category.id_comp _).trans (Category.comp_id _)).symm
 
