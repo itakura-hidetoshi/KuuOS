@@ -351,58 +351,98 @@ noncomputable instance ExactLiftableClassificationObject.actualLiftBicategory
 
   whiskerLeft_id := by
     intro X Y Z f g
-    exact Bicategory.whiskerLeft_id f.actualLift g.actualLift
+    exact Bicategory.whiskerLeft_id
+      (B :=
+        ExactUniversalClassificationObject
+          (W := W) A WorldLabel PresentationLabel)
+      f.actualLift g.actualLift
 
   whiskerLeft_comp := by
     intro X Y Z f g h i eta theta
     exact Bicategory.whiskerLeft_comp
+      (B :=
+        ExactUniversalClassificationObject
+          (W := W) A WorldLabel PresentationLabel)
       f.actualLift eta theta
 
   id_whiskerLeft := by
     intro X Y f g eta
-    exact Bicategory.id_whiskerLeft eta
+    exact Bicategory.id_whiskerLeft
+      (B :=
+        ExactUniversalClassificationObject
+          (W := W) A WorldLabel PresentationLabel)
+      eta
 
   comp_whiskerLeft := by
     intro X Y Z T f g h h' eta
     exact Bicategory.comp_whiskerLeft
+      (B :=
+        ExactUniversalClassificationObject
+          (W := W) A WorldLabel PresentationLabel)
       f.actualLift g.actualLift eta
 
   id_whiskerRight := by
     intro X Y Z f g
     exact Bicategory.id_whiskerRight
+      (B :=
+        ExactUniversalClassificationObject
+          (W := W) A WorldLabel PresentationLabel)
       f.actualLift g.actualLift
 
   comp_whiskerRight := by
     intro X Y Z f g h eta theta i
     exact Bicategory.comp_whiskerRight
+      (B :=
+        ExactUniversalClassificationObject
+          (W := W) A WorldLabel PresentationLabel)
       eta theta i.actualLift
 
   whiskerRight_id := by
     intro X Y f g eta
-    exact Bicategory.whiskerRight_id eta
+    exact Bicategory.whiskerRight_id
+      (B :=
+        ExactUniversalClassificationObject
+          (W := W) A WorldLabel PresentationLabel)
+      eta
 
   whiskerRight_comp := by
     intro X Y Z T f f' eta g h
     exact Bicategory.whiskerRight_comp
+      (B :=
+        ExactUniversalClassificationObject
+          (W := W) A WorldLabel PresentationLabel)
       eta g.actualLift h.actualLift
 
   whisker_assoc := by
     intro X Y Z T f g g' eta h
     exact Bicategory.whisker_assoc
+      (B :=
+        ExactUniversalClassificationObject
+          (W := W) A WorldLabel PresentationLabel)
       f.actualLift eta h.actualLift
 
   whisker_exchange := by
     intro X Y Z f g h i eta theta
-    exact Bicategory.whisker_exchange eta theta
+    exact Bicategory.whisker_exchange
+      (B :=
+        ExactUniversalClassificationObject
+          (W := W) A WorldLabel PresentationLabel)
+      eta theta
 
   pentagon := by
     intro X Y Z T U f g h i
     exact Bicategory.pentagon
+      (B :=
+        ExactUniversalClassificationObject
+          (W := W) A WorldLabel PresentationLabel)
       f.actualLift g.actualLift h.actualLift i.actualLift
 
   triangle := by
     intro X Y Z f g
     exact Bicategory.triangle
+      (B :=
+        ExactUniversalClassificationObject
+          (W := W) A WorldLabel PresentationLabel)
       f.actualLift g.actualLift
 
 /-! ## Regression checks -/
