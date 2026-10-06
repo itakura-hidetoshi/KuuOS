@@ -208,8 +208,12 @@ theorem exactLiftableActualLiftStrictPseudofunctor_mapFunctor_eq
         (W := W) A WorldLabel PresentationLabel) :
     (exactLiftableActualLiftStrictPseudofunctor
       (W := W) A).mapFunctor X Y =
-      actualLiftHomFunctor (W := W) A X Y :=
-  rfl
+      actualLiftHomFunctor (W := W) A X Y := by
+  apply CategoryTheory.Functor.hext
+  · intro f
+    rfl
+  · intro f g eta
+    exact heq_of_eq rfl
 
 /-- Consequently the global strict pseudofunctor is locally an equivalence on
 every hom category. -/
@@ -221,7 +225,8 @@ instance exactLiftableActualLiftStrictPseudofunctor_mapFunctor_isEquivalence
         (W := W) A WorldLabel PresentationLabel) :
     ((exactLiftableActualLiftStrictPseudofunctor
       (W := W) A).mapFunctor X Y).IsEquivalence := by
-  change (actualLiftHomFunctor (W := W) A X Y).IsEquivalence
+  rw [exactLiftableActualLiftStrictPseudofunctor_mapFunctor_eq
+    (W := W) A X Y]
   infer_instance
 
 /-!
