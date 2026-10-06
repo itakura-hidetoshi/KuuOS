@@ -249,7 +249,9 @@ open KUOS.DependentOriginationGeneratedRefinementTopologyV2_4
 open KUOS.DependentOriginationLocalizedSheafUniversalityV2_6
 open KUOS.DependentOriginationExactUniversalClassificationInterfaceV5_17
 open KUOS.DependentOriginationExactLiftableActualLiftOneCellV5_40
+open KUOS.DependentOriginationExactLiftableActualLiftStrictPseudofunctorV5_42
 open KUOS.DependentOriginationExactLiftableActualLiftQuasiInversePseudofunctorV5_48
+open KUOS.DependentOriginationExactLiftableActualLiftQuasiInverseTriangleUnitV5_53
 open KUOS.DependentOriginationExactLiftableActualLiftTargetCounitV5_49
 
 variable {Context : Type u} [Category.{v} Context]
@@ -295,10 +297,41 @@ def actualLiftQuasiInverseRestrictedTargetCounit :
         (actualLiftQuasiInversePseudofunctor (W := W) A)
         (actualLiftTargetRoundtripCounit (W := W) A) k := rfl
 
-/-! The next layer will transport only the source comparison fields from
-the left-associated triple to the already existing right-associated triple,
-using TripleComparison. The object/map/map₂ data are not replaced and the
-counit component above remains unchanged. -/
+/-- The same original counit factor with the source bracketed exactly as the
+v5.53 unit factor's target, G ; (F ; G). Only the source mapId/mapComp
+coherence is reconciled by TripleComparison; app and naturality are unchanged. -/
+def actualLiftQuasiInverseRestrictedTargetCounitReassociated :
+    Pseudofunctor.StrongTrans
+      (actualLiftQuasiInverseTriple (W := W) A)
+      (actualLiftQuasiInversePseudofunctor (W := W) A) where
+  app Y := (actualLiftQuasiInverseRestrictedTargetCounit (W := W) A).app Y
+  naturality k := (actualLiftQuasiInverseRestrictedTargetCounit (W := W) A).naturality k
+  naturality_naturality theta :=
+    (actualLiftQuasiInverseRestrictedTargetCounit (W := W) A).naturality_naturality theta
+  naturality_id Y := by
+    rw [← TripleComparison.mapId_hom
+      (actualLiftQuasiInversePseudofunctor (W := W) A)
+      (exactLiftableActualLiftStrictPseudofunctor (W := W) A)
+      (actualLiftQuasiInversePseudofunctor (W := W) A)]
+    exact (actualLiftQuasiInverseRestrictedTargetCounit (W := W) A).naturality_id Y
+  naturality_comp k l := by
+    rw [← TripleComparison.mapComp_hom
+      (actualLiftQuasiInversePseudofunctor (W := W) A)
+      (exactLiftableActualLiftStrictPseudofunctor (W := W) A)
+      (actualLiftQuasiInversePseudofunctor (W := W) A)]
+    exact (actualLiftQuasiInverseRestrictedTargetCounit (W := W) A).naturality_comp k l
+
+@[simp] theorem actualLiftQuasiInverseRestrictedTargetCounitReassociated_app
+    (Y : ExactUniversalClassificationObject.{u, v, uH, vH, uW, uP}
+      (W := W) A WorldLabel PresentationLabel) :
+    (actualLiftQuasiInverseRestrictedTargetCounitReassociated (W := W) A).app Y =
+      (actualLiftQuasiInverseRestrictedTargetCounit (W := W) A).app Y := rfl
+
+@[simp] theorem actualLiftQuasiInverseRestrictedTargetCounitReassociated_naturality
+    {Y Z : ExactUniversalClassificationObject.{u, v, uH, vH, uW, uP}
+      (W := W) A WorldLabel PresentationLabel} (k : Y ⟶ Z) :
+    (actualLiftQuasiInverseRestrictedTargetCounitReassociated (W := W) A).naturality k =
+      (actualLiftQuasiInverseRestrictedTargetCounit (W := W) A).naturality k := rfl
 
 section GenericRegression
 
@@ -323,6 +356,7 @@ end GenericRegression
 #print axioms TripleComparison.mapId_hom
 #print axioms TripleComparison.mapComp_hom
 #print axioms actualLiftQuasiInverseRestrictedTargetCounit
+#print axioms actualLiftQuasiInverseRestrictedTargetCounitReassociated
 
 end
 
