@@ -107,15 +107,12 @@ noncomputable instance exactLiftableClassificationOneCellHomCategory
       (ExactLiftableClassificationOneCell
         (W := W) A X Y) where
   Hom f g :=
-    ExactLiftableClassificationTwoCell
-      (W := W) A f g
+    (canonicalLift (W := W) A f) ⟶
+      (canonicalLift (W := W) A g)
   id f :=
-    KUOS.DependentOriginationExactClassificationHomFunctorV5_22.ExactUniversalClassificationTwoCell.id
-      (W := W) A
-      (canonicalLift (W := W) A f)
+    𝟙 (canonicalLift (W := W) A f)
   comp eta theta :=
-    KUOS.DependentOriginationExactClassificationHomFunctorV5_22.ExactUniversalClassificationTwoCell.vcomp
-      (W := W) A eta theta
+    eta ≫ theta
   id_comp := by
     intro f g eta
     exact Category.id_comp eta
@@ -183,20 +180,20 @@ noncomputable def canonicalLiftHomFunctor
 
 /-- The canonical local lift functor is faithful.  Its map on 2-cells is
 definitionally the identity. -/
-theorem canonicalLiftHomFunctor_faithful
+theorem canonicalLiftHomFunctor_injective_on_hom
     {WorldLabel : Type uW}
     {PresentationLabel : Type uP}
     (X Y :
       ExactLiftableClassificationObject.{u, v, uH, vH, uW, uP}
-        (W := W) A WorldLabel PresentationLabel) :
+        (W := W) A WorldLabel PresentationLabel)
+    (f g :
+      ExactLiftableClassificationOneCell
+        (W := W) A X Y) :
     Function.Injective
-      (fun {f g :
-          ExactLiftableClassificationOneCell
-            (W := W) A X Y}
-        (eta : f ⟶ g) =>
-          (canonicalLiftHomFunctor
-            (W := W) A X Y).map eta) := by
-  intro f g eta theta h
+      (fun eta : f ⟶ g =>
+        (canonicalLiftHomFunctor
+          (W := W) A X Y).map eta) := by
+  intro eta theta h
   exact h
 
 /-- The canonical local lift functor is full on each fixed pair of bundled
@@ -262,7 +259,7 @@ inside noncomputable choice.
 -/
 
 #print axioms canonicalLiftHomFunctor
-#print axioms canonicalLiftHomFunctor_faithful
+#print axioms canonicalLiftHomFunctor_injective_on_hom
 #print axioms canonicalLiftHomFunctor_surjective_on_hom
 #print axioms canonicalLiftHomFunctor_obj_raw
 
