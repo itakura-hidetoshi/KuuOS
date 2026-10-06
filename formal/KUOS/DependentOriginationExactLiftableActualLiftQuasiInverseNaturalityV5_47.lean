@@ -1,4 +1,5 @@
 import KUOS.DependentOriginationExactLiftableActualLiftQuasiInversePrelaxV5_46
+import Mathlib.CategoryTheory.Whiskering
 
 namespace KUOS.DependentOriginationExactLiftableActualLiftQuasiInverseNaturalityV5_47
 
@@ -38,6 +39,9 @@ universe uB vB wB
 variable {B : Type uB} [Bicategory.{wB, vB} B]
 variable {a b c x y z : B}
 
+-- Ordinary functor-category whiskering lives in CategoryTheory.Functor.
+-- Qualify it explicitly to distinguish it from bicategorical whiskering.
+
 /-- Middle cancellation, natural in its right-hand argument.  The four
 components are precisely the four steps of v5.46's middle cancellation. -/
 def cancelMiddleNatIsoRight (l : a ⟶ y)
@@ -45,15 +49,15 @@ def cancelMiddleNatIsoRight (l : a ⟶ y)
     Bicategory.precomp (B := B) z ey.hom ⋙
         Bicategory.precomp (B := B) z (l ≫ ey.inv) ≅
       Bicategory.precomp (B := B) z l :=
-  isoWhiskerLeft (Bicategory.precomp (B := B) z ey.hom)
+  CategoryTheory.Functor.isoWhiskerLeft (Bicategory.precomp (B := B) z ey.hom)
       (Bicategory.associatorNatIsoRight (B := B) l ey.inv z) ≪≫
-    isoWhiskerRight
+    CategoryTheory.Functor.isoWhiskerRight
       (Bicategory.associatorNatIsoRight (B := B) ey.inv ey.hom z).symm
       (Bicategory.precomp (B := B) z l) ≪≫
-    isoWhiskerRight
+    CategoryTheory.Functor.isoWhiskerRight
       ((Bicategory.precomposing (B := B) y y z).mapIso ey.counit)
       (Bicategory.precomp (B := B) z l) ≪≫
-    isoWhiskerRight (Bicategory.leftUnitorNatIso (B := B) y z)
+    CategoryTheory.Functor.isoWhiskerRight (Bicategory.leftUnitorNatIso (B := B) y z)
       (Bicategory.precomp (B := B) z l)
 
 /-- The same middle cancellation, now natural in its left-hand argument. -/
@@ -77,13 +81,13 @@ def compNatIsoRight (ex : Bicategory.Equivalence a x)
     Conjugation.homFunctor ey ez ⋙
         Bicategory.precomp (B := B) c ((Conjugation.homFunctor ex ey).obj f) ≅
       Bicategory.precomp (B := B) z f ⋙ Conjugation.homFunctor ex ez :=
-  isoWhiskerLeft (Bicategory.precomp (B := B) z ey.hom)
+  CategoryTheory.Functor.isoWhiskerLeft (Bicategory.precomp (B := B) z ey.hom)
       (Bicategory.associatorNatIsoMiddle (B := B)
         ((ex.hom ≫ f) ≫ ey.inv) ez.inv).symm ≪≫
-    isoWhiskerRight
+    CategoryTheory.Functor.isoWhiskerRight
       (cancelMiddleNatIsoRight (z := z) (ex.hom ≫ f) ey)
       (Bicategory.postcomp (B := B) a ez.inv) ≪≫
-    isoWhiskerRight (Bicategory.associatorNatIsoRight (B := B) ex.hom f z)
+    CategoryTheory.Functor.isoWhiskerRight (Bicategory.associatorNatIsoRight (B := B) ex.hom f z)
       (Bicategory.postcomp (B := B) a ez.inv)
 
 /-- For fixed g, the inverse compositor is a natural isomorphism in f. -/
@@ -93,13 +97,13 @@ def compNatIsoLeft (ex : Bicategory.Equivalence a x)
     Conjugation.homFunctor ex ey ⋙
         Bicategory.postcomp (B := B) a ((Conjugation.homFunctor ey ez).obj g) ≅
       Bicategory.postcomp (B := B) x g ⋙ Conjugation.homFunctor ex ez :=
-  isoWhiskerLeft (Conjugation.homFunctor ex ey)
+  CategoryTheory.Functor.isoWhiskerLeft (Conjugation.homFunctor ex ey)
       (Bicategory.associatorNatIsoLeft (B := B) a (ey.hom ≫ g) ez.inv).symm ≪≫
-    isoWhiskerRight
-      (isoWhiskerLeft (Bicategory.precomp (B := B) y ex.hom)
+    CategoryTheory.Functor.isoWhiskerRight
+      (CategoryTheory.Functor.isoWhiskerLeft (Bicategory.precomp (B := B) y ex.hom)
         (cancelMiddleNatIsoLeft (a := a) ey g))
       (Bicategory.postcomp (B := B) a ez.inv) ≪≫
-    isoWhiskerRight (Bicategory.associatorNatIsoMiddle (B := B) ex.hom g)
+    CategoryTheory.Functor.isoWhiskerRight (Bicategory.associatorNatIsoMiddle (B := B) ex.hom g)
       (Bicategory.postcomp (B := B) a ez.inv)
 
 /-- The natural construction uses the old compositor, not a replacement. -/
