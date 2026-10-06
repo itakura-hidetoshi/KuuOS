@@ -42,6 +42,25 @@ universe uB vB wB
 variable {B : Type uB} [Bicategory.{wB, vB} B]
 variable {a b c d x y z t : B}
 
+/-- Expose the existing compositor at the 2-cell level.  Reflexivity unfolds
+v5.46's private middle-cancellation helper without naming its generated private
+identifier.  This is an expansion theorem, not a replacement compositor. -/
+private theorem compIso_inv_expansion
+    (ex : Bicategory.Equivalence a x) (ey : Bicategory.Equivalence b y)
+    (ez : Bicategory.Equivalence c z) (f : x ⟶ y) (g : y ⟶ z) :
+    (Conjugation.compIso ex ey ez f g).inv =
+      (α_ ((ex.hom ≫ f) ≫ ey.inv) (ey.hom ≫ g) ez.inv).inv ≫
+        ((α_ (ex.hom ≫ f) ey.inv (ey.hom ≫ g)).hom ≫
+          (ex.hom ≫ f) ◁ (α_ ey.inv ey.hom g).inv ≫
+          (ex.hom ≫ f) ◁ (ey.counit.hom ▷ g) ≫
+          (ex.hom ≫ f) ◁ (λ_ g).hom) ▷ ez.inv ≫
+        (α_ ex.hom f g).hom ▷ ez.inv :=
+  rfl
+
+-- The endpoints of intermediate ⊗≫ expressions below are written as explicit
+-- composites: BicategoricalCoherence is synthesized before the tactic proof,
+-- so a subsequent dsimp cannot repair an endpoint hidden by homFunctor.obj.
+
 /-- Lax associativity: contracting the two middle counits in either order
 agrees by whisker exchange.  All the comparisons are the original v5.46 ones. -/
 theorem associator
@@ -59,26 +78,26 @@ theorem associator
           (Conjugation.compIso ey ez et g h).inv ≫
         (Conjugation.compIso ex ey et f (g ≫ h)).inv := by
   calc
-    _ = 𝟙 (((Conjugation.homFunctor ex ey).obj f ≫
-          (Conjugation.homFunctor ey ez).obj g) ≫
-            (Conjugation.homFunctor ez et).obj h) ⊗≫
+    _ = 𝟙 (((((ex.hom ≫ f) ≫ ey.inv) ≫ ((ey.hom ≫ g) ≫ ez.inv)) ≫
+          ((ez.hom ≫ h) ≫ et.inv))) ⊗≫
         (ex.hom ≫ f) ◁
           ((ey.counit.hom ▷ g) ▷ (ez.inv ≫ ez.hom) ≫
             (𝟙 y ≫ g) ◁ ez.counit.hom) ▷ (h ≫ et.inv) ⊗≫
-        𝟙 ((Conjugation.homFunctor ex et).obj (f ≫ (g ≫ h))) := by
-      dsimp [Conjugation.compIso, Conjugation.homFunctor]
+        𝟙 ((ex.hom ≫ (f ≫ (g ≫ h))) ≫ et.inv) := by
+      simp only [compIso_inv_expansion]
+      dsimp [Conjugation.homFunctor]
       bicategory
-    _ = 𝟙 (((Conjugation.homFunctor ex ey).obj f ≫
-          (Conjugation.homFunctor ey ez).obj g) ≫
-            (Conjugation.homFunctor ez et).obj h) ⊗≫
+    _ = 𝟙 (((((ex.hom ≫ f) ≫ ey.inv) ≫ ((ey.hom ≫ g) ≫ ez.inv)) ≫
+          ((ez.hom ≫ h) ≫ et.inv))) ⊗≫
         (ex.hom ≫ f) ◁
           (((ey.inv ≫ ey.hom) ≫ g) ◁ ez.counit.hom ≫
             (ey.counit.hom ▷ g) ▷ (𝟙 z)) ▷ (h ≫ et.inv) ⊗≫
-        𝟙 ((Conjugation.homFunctor ex et).obj (f ≫ (g ≫ h))) := by
+        𝟙 ((ex.hom ≫ (f ≫ (g ≫ h))) ≫ et.inv) := by
       rw [← Bicategory.whisker_exchange (B := B)
         (ey.counit.hom ▷ g) ez.counit.hom]
     _ = _ := by
-      dsimp [Conjugation.compIso, Conjugation.homFunctor]
+      simp only [compIso_inv_expansion]
+      dsimp [Conjugation.homFunctor]
       bicategory
 
 /-- The hom-form of lax left unity is the chosen equivalence's left triangle,
@@ -92,15 +111,16 @@ theorem leftUnitor_hom
           (Conjugation.homFunctor ex ey).map (λ_ f).hom := by
   symm
   calc
-    _ = 𝟙 (𝟙 a ≫ (Conjugation.homFunctor ex ey).obj f) ⊗≫
+    _ = 𝟙 (𝟙 a ≫ ((ex.hom ≫ f) ≫ ey.inv)) ⊗≫
         (Bicategory.leftZigzag ex.unit.hom ex.counit.hom) ▷
           (f ≫ ey.inv) ⊗≫
-        𝟙 ((Conjugation.homFunctor ex ey).obj f) := by
-      dsimp [Conjugation.idIso, Conjugation.compIso,
-        Conjugation.homFunctor, Bicategory.leftZigzag]
+        𝟙 ((ex.hom ≫ f) ≫ ey.inv) := by
+      simp only [compIso_inv_expansion]
+      dsimp [Conjugation.idIso, Conjugation.homFunctor, Bicategory.leftZigzag]
       bicategory
     _ = _ := by
       rw [ex.left_triangle_hom]
+      dsimp [Conjugation.homFunctor]
       bicategory
 
 /-- The hom-form of lax right unity uses the right triangle. -/
@@ -113,15 +133,16 @@ theorem rightUnitor_hom
           (Conjugation.homFunctor ex ey).map (ρ_ f).hom := by
   symm
   calc
-    _ = 𝟙 ((Conjugation.homFunctor ex ey).obj f ≫ 𝟙 b) ⊗≫
+    _ = 𝟙 (((ex.hom ≫ f) ≫ ey.inv) ≫ 𝟙 b) ⊗≫
         (ex.hom ≫ f) ◁
           (Bicategory.rightZigzag ey.unit.hom ey.counit.hom) ⊗≫
-        𝟙 ((Conjugation.homFunctor ex ey).obj f) := by
-      dsimp [Conjugation.idIso, Conjugation.compIso,
-        Conjugation.homFunctor, Bicategory.rightZigzag]
+        𝟙 ((ex.hom ≫ f) ≫ ey.inv) := by
+      simp only [compIso_inv_expansion]
+      dsimp [Conjugation.idIso, Conjugation.homFunctor, Bicategory.rightZigzag]
       bicategory
     _ = _ := by
       rw [ey.right_triangle_hom]
+      dsimp [Conjugation.homFunctor]
       bicategory
 
 /-- Left unity in exactly the inverse-unitor direction required by LaxFunctor. -/
@@ -136,8 +157,12 @@ theorem leftUnitor_inv
     (fun k => (λ_ ((Conjugation.homFunctor ex ey).obj f)).inv ≫ k ≫
       (Conjugation.homFunctor ex ey).map (λ_ f).inv)
     (leftUnitor_hom ex ey f)
-  simpa only [Category.assoc, Iso.inv_hom_id_assoc, ← Functor.map_comp,
-    Iso.hom_inv_id, Functor.map_id, Category.comp_id] using hs
+  have hc :
+      (Conjugation.homFunctor ex ey).map (λ_ f).hom ≫
+          (Conjugation.homFunctor ex ey).map (λ_ f).inv =
+        𝟙 ((Conjugation.homFunctor ex ey).obj (𝟙 x ≫ f)) :=
+    ((Conjugation.homFunctor ex ey).mapIso (Bicategory.leftUnitor (B := B) f)).hom_inv_id
+  simpa only [Category.assoc, Iso.inv_hom_id_assoc, hc, Category.comp_id] using hs
 
 /-- Right unity in the inverse-unitor direction required by LaxFunctor. -/
 theorem rightUnitor_inv
@@ -151,8 +176,12 @@ theorem rightUnitor_inv
     (fun k => (ρ_ ((Conjugation.homFunctor ex ey).obj f)).inv ≫ k ≫
       (Conjugation.homFunctor ex ey).map (ρ_ f).inv)
     (rightUnitor_hom ex ey f)
-  simpa only [Category.assoc, Iso.inv_hom_id_assoc, ← Functor.map_comp,
-    Iso.hom_inv_id, Functor.map_id, Category.comp_id] using hs
+  have hc :
+      (Conjugation.homFunctor ex ey).map (ρ_ f).hom ≫
+          (Conjugation.homFunctor ex ey).map (ρ_ f).inv =
+        𝟙 ((Conjugation.homFunctor ex ey).obj (f ≫ 𝟙 y)) :=
+    ((Conjugation.homFunctor ex ey).mapIso (Bicategory.rightUnitor (B := B) f)).hom_inv_id
+  simpa only [Category.assoc, Iso.inv_hom_id_assoc, hc, Category.comp_id] using hs
 
 end ConjugationCoherence
 
@@ -291,6 +320,7 @@ Still separate: global pseudonatural unit/counit and modification-level
 roundtrip coherence.  In particular this is not a strict raw-forgetting map.
 -/
 
+#print axioms ConjugationCoherence.compIso_inv_expansion
 #print axioms ConjugationCoherence.associator
 #print axioms ConjugationCoherence.leftUnitor_hom
 #print axioms ConjugationCoherence.rightUnitor_hom
