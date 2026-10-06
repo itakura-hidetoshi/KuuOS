@@ -55,7 +55,11 @@ theorem naturality_id (a : D) :
   rw [Bicategory.whiskerLeft_comp, ← Category.assoc,
     ← eta.naturality_naturality (H.mapId a).hom, Category.assoc,
     eta.naturality_id]
-  -- Cancel only the identity-source comparison; H.mapId remains unchanged.
+  -- Expose only the identity source's maps before matching the unit laws.
+  -- H.mapId is still its original, potentially nontrivial comparison.
+  change (H.mapId a).hom ▷ eta.app (H.obj a) ≫
+    (𝟙 (𝟙 (H.obj a))) ▷ eta.app (H.obj a) ≫
+      (λ_ (eta.app (H.obj a))).hom ≫ (ρ_ (eta.app (H.obj a))).inv = _
   rw [Bicategory.id_whiskerRight, Category.id_comp]
 
 /-- Use naturality at H's actual compositor before eta's composition law.
@@ -75,7 +79,14 @@ theorem naturality_comp {a b c : D} (f : a ⟶ b) (g : b ⟶ c) :
   rw [Bicategory.whiskerLeft_comp, ← Category.assoc,
     ← eta.naturality_naturality (H.mapComp f g).hom, Category.assoc,
     eta.naturality_comp]
-  -- Cancel only the identity-source comparison; H.mapComp remains unchanged.
+  -- Normalize Pseudofunctor.id, not H or R, at this generic boundary.
+  change (H.mapComp f g).hom ▷ eta.app (H.obj c) ≫
+    (𝟙 (H.map f ≫ H.map g)) ▷ eta.app (H.obj c) ≫
+      (α_ (H.map f) (H.map g) (eta.app (H.obj c))).hom ≫
+      H.map f ◁ (eta.naturality (H.map g)).hom ≫
+      (α_ (H.map f) (eta.app (H.obj b)) (R.map (H.map g))).inv ≫
+      (eta.naturality (H.map f)).hom ▷ R.map (H.map g) ≫
+      (α_ (eta.app (H.obj a)) (R.map (H.map f)) (R.map (H.map g))).hom = _
   rw [Bicategory.id_whiskerRight, Category.id_comp]
 
 /-- Precompose a unit StrongTrans by an arbitrary pseudofunctor.
