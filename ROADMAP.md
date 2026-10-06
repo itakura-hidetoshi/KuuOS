@@ -1,40 +1,40 @@
 # KuuOS / 空OS Roadmap
 
-**Theorem snapshot: 2026-10-04 JST · integrated through v5.15**
+**Theorem snapshot: 2026-10-06 JST · integrated through v5.48**
 
-**現在地：v4.90 以降の ambient frontier は完全に進展し、v5.09 で ambient P4 / object coverage、v5.10 で canonical Whitehead data、v5.11-v5.14 で canonical ambient section・explicit quasi-inverse・source unit・ambient counit、v5.15 でそれらを束ねた explicit ambient biequivalence certificate まで形式化された。現在の主 frontier は、必要なら triangle modifications を追加することと、obstruction を保持した final mapping/classification property を正確に定式化することである。**
+**現在地：#2003 をマージし、actual-lift 分類双圏から exact-universal 分類双圏への strict pseudofunctor、局所圏同値、対象の本質的全射性、Whitehead 証明書に加え、戻り方向の native Pseudofunctor まで形式化・検証済み。次は、この新しい関手の組に対する global な擬自然 unit／counit と、その modification レベルの整合性である。**
 
-This roadmap separates **integrated Lean theorems** from **proposed research obligations**. Fresh exact theorem artifacts are authoritative; plans, README text, runtime output, and conversation history are not theorem evidence.
+This roadmap distinguishes integrated Lean constructions from proposed obligations. It replaces the old v5.15 snapshot and the already-completed v5.16-v5.19 proposals; it does not remove the earlier ambient or localized-classification results.
 
-## 0. Reproducible theorem snapshot
+## 0. Exact theorem baseline and evidence
 
 | Role | Reference |
 | --- | --- |
-| Repository / canonical branch | itakura-hidetoshi/KuuOS / **main** |
-| Fresh theorem-bearing main | **41d4b4628a6a3d65d4892c143ea197eab2eecb4b** |
-| Latest theorem merge | [#1967 — Package ambient biequivalence certificate v5.15](https://github.com/itakura-hidetoshi/KuuOS/pull/1967) |
-| Exact validated PR head | **7d222ead4eae477fefbb885e2883a505e49ea13c** |
-| Associated CI | [Run #3598 / 37204932464](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/37204932464): completed / success |
-| Exact-head receipts | Strict Lean: success; exact-head terminal: success |
-| Build | Build completed successfully (8639 jobs) |
-| Lean | leanprover/lean4:v4.30.0-rc2 |
-| Mathlib | 5450b53e5ddc75d46418fabb605edbf36bd0beb6 |
+| Repository / canonical branch | `itakura-hidetoshi/KuuOS` / **main** |
+| Latest theorem-bearing merge at this snapshot | **`ff8f9953a4f59b96f969356bd52314eb4aa24ed3`** |
+| Theorem PR | [#2003](https://github.com/itakura-hidetoshi/KuuOS/pull/2003), v5.48, merged |
+| Validated exact PR head | `3076d51d6dd5cfab0dfcdc82492eee6a35ff9a08` |
+| Validation run | [37436221935, attempt 1](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/37436221935), success |
+| Strict Lean / governance jobs | `112178648971` / `112179228496`, success |
+| Lean / terminal completion jobs | `112179228365` / `112179300773`, success |
+| Actual validation checkout | Synthetic PR merge `5a33e3d9e2e004d15cc749c501e7a2503301a8b8` |
+| Build and receipt | `8675/8675`; `passed`; return code `0` |
+| Lean | `leanprover/lean4:v4.30.0-rc2` |
+| Mathlib | `5450b53e5ddc75d46418fabb605edbf36bd0beb6` |
 
-The latest theorem-bearing module is:
+Latest endpoint: [DependentOriginationExactLiftableActualLiftQuasiInversePseudofunctorV5_48.lean](formal/KUOS/DependentOriginationExactLiftableActualLiftQuasiInversePseudofunctorV5_48.lean).
 
-[DependentOriginationExactUniversalAmbientBiequivalenceCertificateV5_15.lean](formal/KUOS/DependentOriginationExactUniversalAmbientBiequivalenceCertificateV5_15.lean)
-
-Its public axiom reports contain only:
+The inspected artifact is `audit-check-lean-formal-37436221935-1` (artifact ID `11398887963`). The downloaded archive SHA-256 matched its GitHub metadata:
 
 ~~~text
-propext
-Classical.choice
-Quot.sound
+cd2bda98c1d5c1c01db71a42777e9a83308d1f7c93ce9930560f948dd54b5230
 ~~~
 
-There is no sorryAx.
+The full 2,223-line log has zero Lean error lines, zero v5.48 target warnings, and no `sorryAx` or `declaration uses 'sorry'`. All nine queried central declarations, including the comparator expansion lemma, report only `propext`, `Classical.choice`, and `Quot.sound`. The log retains 116 existing dependency warnings across 37 files; no repository-wide warning-free claim is made. See the [repair and evidence record](https://github.com/itakura-hidetoshi/KuuOS/pull/2003#issuecomment-6012458786).
 
-Authority order:
+The PR head, synthetic validation merge, final theorem merge, and any later documentation-only merge are distinct roles. A docs-only commit does not become a newer theorem-bearing baseline. Likewise, the PR validation receipt is not a separate claim about every main-push job or the aggregate build.
+
+Authority order remains:
 
 ~~~text
 fresh exact canonical GitHub SHA
@@ -44,47 +44,29 @@ fresh exact canonical GitHub SHA
   > history / conversation memory
 ~~~
 
-**Protected validation lane:** [#1558](https://github.com/itakura-hidetoshi/KuuOS/pull/1558) is still **open / draft / unmerged** and is not canonical theorem authority. It must not be merged into the canonical line merely to validate Lean 4.31.
+**Protected lane:** [#1558](https://github.com/itakura-hidetoshi/KuuOS/pull/1558) is Lean 4.31 validation-only, **open / draft / unmerged**, head `3a09839782ea82661ddbf8e13a0fd08e893079b4`. It is outside canonical theorem authority. Do not merge it, mark it ready for review, or enable auto-merge.
 
-## 1. Long-range target
+## 1. Keep the three equivalence interfaces distinct
 
-The long-range target remains a higher dependent-origination mapping/classification principle, schematically:
-
-~~~text
-eta : C -> DO(C,W,J,H)
-
-AdmissibleContextualSystems(C,X)
-  ≃
-Fun(DO(C,W,J,H),X)
-~~~
-
-This is **not yet a theorem statement**.
-
-A correct final formulation must make explicit:
-
-- the exact source and target higher categories;
-- semantic W-admissibility versus exact presentation/liftability;
-- localization and descent hypotheses;
-- allowed 1-cells and 2-cells;
-- world, context, and presentation labels;
-- factor existence;
-- coherent uniqueness;
-- pseudonaturality under justified context/presentation changes;
-- the role of obstruction classes on the complement of the exact-universal image.
-
-The formal obstruction results prohibit silently replacing “exactly liftable” by “weakly admissible.”
-
-## 2. Closed obstruction and presentation foundations — v4.00-v4.70
-
-| Versions | Integrated theorem content | Boundary retained |
+| Interface | Integrated data | Boundary |
 | --- | --- | --- |
-| v4.00-v4.12 | Exact C2 nonfactorization and nonzero Stage-II obstruction in ZMod 2 | weak admissibility does not force exact factorization |
-| v4.13-v4.48 | Incidence/capacity obstructions; recursive/inverse-limit carriers; exact Cantor dimension; switch/orientation descent | concrete carrier geometry is a stress test, not the universal definition |
-| v4.49 | Abstract presentation descent iff presentation invariance | presentation result, not final mapping theorem |
-| v4.50-v4.56 | Exact higher presentation sector and coherent universal-target comparison | exactness remains an explicit positive-sector condition |
-| v4.57-v4.60 | Typed source objects, 1-cells, 2-cells, genuine hom categories | compatibility is part of the source type |
-| v4.61-v4.68 | Whiskering, interchange, inverse laws, pentagon, triangle | bicategorical coherence is explicit |
-| v4.69-v4.70 | Native source bicategory and strict DO₂ realization | strict target realization does not make the source bicategory strict |
+| Exact-universal raw source -> constructed ambient DO₂ completion | v5.09-v5.15: coverage, Whitehead data, section, native unit/counit; v5.16: coherent triangle representatives and modifications | The representatives do not assert an additional unnamed tricategorical adjoint-biequivalence structure |
+| Exact-universal classification -> localized classification | v5.21-v5.31: labelled bicategories, realization, local equivalence, object coverage, section, unit/counit and triangle-representative certificate | External classification labels are retained |
+| Actual-lift exact-liftable classification -> exact-universal classification | v5.40-v5.45: bicategory, strict projection and Whitehead data; v5.46-v5.48: explicit backwards pseudofunctor | Global pseudonatural roundtrips for this new pair are the current frontier |
+
+In particular, “global unit/counit remains open” below refers only to the third row. It does not reopen the unit/counit constructions already present in the first two rows. Conversely, their existence does not automatically supply coherence for the new pair of functors.
+
+## 2. Retained foundations — v4.00-v5.16
+
+| Versions | Integrated content | Source anchors |
+| --- | --- | --- |
+| v4.00-v4.12 | Exact C2 nonfactorization and nonzero Stage-II obstruction in ZMod 2 | [v4.00](formal/KUOS/DependentOriginationAbstractNonfactorizationV4_00.lean), [v4.12](formal/KUOS/DependentOriginationStageIIObstructionClassV4_12.lean) |
+| v4.13-v4.48 | Incidence/capacity obstructions, recursive and inverse-limit carriers, exact Cantor dimension, switch/orientation descent | [v4.40](formal/KUOS/DependentOriginationStageIIExactFractalCertificateV4_40.lean), [v4.48](formal/KUOS/DependentOriginationStageIIOrbitOrientationDescentV4_48.lean) |
+| v4.49-v4.70 | Presentation descent, exact universal targets, source 1-/2-cells and bicategory, strict realization | [v4.69](formal/KUOS/DependentOriginationExactUniversalMappingBicategoryV4_69.lean), [v4.70](formal/KUOS/DependentOriginationExactUniversalRealizationStrictPseudofunctorV4_70.lean) |
+| v4.71-v4.89 | Prescribed raw-map liftability, compatible 2-cell full faithfulness, DO₂ hom equivalences, labelled section and global certificate | [v4.83](formal/KUOS/DependentOriginationExactUniversalHomEquivalenceV4_83.lean), [v4.89](formal/KUOS/DependentOriginationExactUniversalLabelledBiequivalenceV4_89.lean) |
+| v4.90-v5.08 | Restriction universality, StrongTrans extension through localization, generator compatibility, generated-relation invariance, quotient-independent coherence | [v5.08](formal/KUOS/DependentOriginationExactUniversalAmbientStrongTransCoherentExtensionV5_08.lean) |
+| v5.09-v5.15 | Ambient P4 and object coverage, canonical Whitehead data, ambient section, source unit, ambient counit, explicit certificate | [v5.15](formal/KUOS/DependentOriginationExactUniversalAmbientBiequivalenceCertificateV5_15.lean) |
+| v5.16 | Coherent double-identity triangle representatives and native invertible modifications, related to the actual triangle components | [v5.16](formal/KUOS/DependentOriginationExactUniversalAmbientTriangleCoherenceV5_16.lean) |
 
 The positive implication chain remains:
 
@@ -95,588 +77,269 @@ exact DO₂ presentation
   => weak W-admissibility
 ~~~
 
-The converse is false in general by the obstruction chain.
+The converse is false in general. Concrete geometric carriers remain stress tests for obstruction and descent, not a universal replacement for the abstract definitions.
 
-## 3. Local mapping and labelled global theory — v4.71-v4.89
+## 3. Label-sensitive classification — v5.17-v5.35
 
-### v4.71-v4.83 — local mapping theory
+### v5.17-v5.20: interfaces, criterion, factorization and uniqueness
 
-Closed:
+The [v5.17 interface](formal/KUOS/DependentOriginationExactUniversalClassificationInterfaceV5_17.lean) distinguishes semantic admissibility, exact liftability, exact-universal objects, and localized classification objects, retaining world/presentation labels. v5.18-v5.20 supply the exact-liftability criterion, factor-existence interface, and coherent-uniqueness machinery.
 
-- presentation-indexed liftability;
-- compatible 2-cell full faithfulness;
-- pointwise inverse StrongTrans coherence;
-- arbitrary DO₂ 1-cell lifting between existing chosen carriers;
-- hom-category equivalences.
+These concrete interfaces replace the old roadmap's purely schematic classification proposal. They do not prove a universal exact-presentation theorem for every weakly admissible raw system.
 
-Endpoint:
+### v5.21-v5.31: localized-classification global package
 
-~~~text
-(X ⟶ Y) ≌ (X.carrier ⟶ Y.carrier)
-~~~
+The development adds classification 1-/2-cells, hom categories, a native bicategory, strict realization, local hom equivalences, object coverage, and Whitehead data. The canonical section and global unit/counit are then packaged with coherent triangle representatives.
 
-for existing exact-universal source objects.
+The [v5.30 triangle layer](formal/KUOS/DependentOriginationClassificationTriangleCoherenceV5_30.lean) reuses the ambient double-identity construction. The [v5.31 certificate](formal/KUOS/DependentOriginationClassificationCoherentBiequivalenceV5_31.lean), `exactUniversalClassificationCoherentBiequivalenceCertificate`, packages the existing results without strengthening their coherence level. Its triangle data is explicitly representative-based.
 
-### v4.84-v4.89 — object-labelled global certificate
+### v5.32-v5.35: aligned exact-liftability and coherent witnesses
 
-Closed:
-
-- section pseudofunctor;
-- label-preserving realization;
-- global source unit StrongTrans;
-- realized counit StrongTrans;
-- Whitehead-style local/object data;
-- explicit labelled quasi-inverse;
-- object-labelled biequivalence certificate.
-
-The object labels are intentionally retained. Equivalent realized carriers do not erase source presentation, context history, or world binding.
-
-## 4. Ambient reduction — v4.90-v4.95
-
-These versions converted the ambient problem into explicit local conditions.
-
-### v4.90
+The [v5.32 aligned result](formal/KUOS/DependentOriginationAlignedExactLiftabilityCollapseV5_32.lean) specializes the atlas to:
 
 ~~~text
-ExactUniversalAmbientWhiteheadExistence
-  ↔
-ExactUniversalAmbientObjectCoverage
+RefinementAtlas.{u, max u v, uH} (LocalizedContext W)
 ~~~
 
-### v4.91
+Under this specialization the exact criterion agrees with the ambient-aligned criterion. This does not prove arbitrary atlas-universe reindexing.
 
-Uniform canonical restriction universality implies ambient object coverage.
-
-### v4.92-v4.94
-
-Restriction-hom equivalence is reduced to essential surjectivity:
+v5.33-v5.34 introduce localized presentation criteria and explicit label-preserving witnesses. The crucial v5.34 upgrade is:
 
 ~~~text
-restriction Faithful
-restriction Full
-
-therefore
-
-ExactUniversalAmbientRestrictionHomEquivalence
-  ↔
-ExactUniversalAmbientRestrictionHomEssSurj
+HigherPointwiseEquivalenceComparison R S
+  -> HigherRawSystemCoherentEquivalence R S
 ~~~
 
-### v4.95
-
-StrongTrans object components extend canonically on objects, and the remaining obstruction is isolated as:
+Thus the old directed-comparison-to-coherent-transport gap is closed. [v5.35](formal/KUOS/DependentOriginationAlignedCoherentClassificationWitnessV5_35.lean) combines the explicit witness with the coherent equivalence and proves:
 
 ~~~text
-HigherLocalizedStrongTransCoherenceExtension
+ExactLiftabilityCriterion
+  <-> Nonempty (label-preserving localized coherent presentation witness)
 ~~~
 
-Existence of this extension implies restriction-hom EssSurj.
+This is an existence/classification theorem with the stated labels and universe alignment, not equality of all possible presentations.
 
-## 5. StrongTrans localization coherence — v4.96-v5.03
+## 4. From exact-liftable objects to a bicategory — v5.36-v5.42
 
-### v4.96
+### v5.36: universalization on the original raw system
 
-Locally-discrete source 2-cell naturality is automatic.
-
-The essential package becomes:
+[v5.36](formal/KUOS/DependentOriginationExactLiftableCoherentUniversalizationV5_36.lean) connects the aligned classification source, the coherent-comparison upgrade, and coherent transport. The endpoint is:
 
 ~~~text
-HigherLocalizedStrongTransOneCellCoherenceExtension
+ExactLiftableClassificationObject.exists_labelPreserving_fixedRawExactUniversalTarget
 ~~~
 
-with fields:
+An exact-liftable object's own raw system carries a coherent exact-universal target; the target is not confined to an auxiliary raw presentation. Fixed-raw mutual coherent uniqueness is retained.
 
-1. naturality
-2. naturality_id
-3. naturality_comp
-4. restrict_modification_naturality
+### v5.37-v5.39: admissible morphisms and local hom categories
 
-### v4.97-v5.03
-
-Closed:
-
-- presentation-arrow naturality;
-- exact restriction square;
-- formal W-inverse naturality;
-- composition constructor;
-- all-arrow Nonempty naturality existence;
-- canonical identity naturality;
-- exact identity coherence;
-- presentation identity/composition coherence;
-- transport of naturality along source 1-cell isomorphisms;
-- exact Pseudofunctor.comp normalization.
-
-At v5.03 the remaining issue was coherent descent through the localization relations.
-
-## 6. Canonical localization descent — v5.04-v5.08
-
-This entire frontier is now closed.
-
-### v5.04
-
-Canonical presentation identity/composition choices agree with transported localized choices.
-
-### v5.05
-
-Winv₁ / Winv₂ compatibility is closed.
-
-After v5.05 all four localization generators are compatible:
+[v5.37](formal/KUOS/DependentOriginationExactLiftableMorphismLiftabilityV5_37.lean) lifts the raw-morphism obstruction to classification:
 
 ~~~text
-id
-comp
-Winv₁
-Winv₂
+Liftable(f)
+  <-> exists classification 1-cell whose raw projection is exactly f.map
 ~~~
 
-### v5.06
+Identity is liftable and liftable morphisms compose. The obstruction is equivalent to nonexistence of the prescribed classification lift. No arbitrary raw StrongTrans is declared liftable.
 
-The existing v2.68 relation syntax is retained:
+v5.38 bundles a raw map and its liftability proof. [v5.39](formal/KUOS/DependentOriginationExactLiftableLocalHomCategoryV5_39.lean) defines local 2-cells through chosen canonical lifts and builds genuine hom categories and a canonical-lift hom functor. This alone does not provide global horizontal coherence for the independently chosen lifts.
+
+### v5.40: retain the actual lift as data
+
+[v5.40](formal/KUOS/DependentOriginationExactLiftableActualLiftOneCellV5_40.lean) uses the refined 1-cell type:
 
 ~~~text
-LocalizationGenerating2Cell
-GeneratedCompClosure2Cell
-GeneratedLocalization2Cell
+ExactLiftableClassificationActualOneCell X Y
+  raw        : prescribed label-preserving raw one-cell
+  actualLift : ExactUniversalClassificationOneCell (F X) (F Y)
+  raw_eq     : actualLift.map.raw = raw.map
 ~~~
 
-The canonical path evaluator is invariant under:
+The liftability proposition is derived from this data. Forgetting gives the v5.38 bundle; every v5.38 bundled 1-cell can be refined by its existing chosen lift. The existence criterion is preserved.
 
-- generator relations;
-- whiskering;
-- composition closure;
-- associativity normalization;
-- refl/symm/trans generated localization closure.
+Crucially, the actual lift of an identity/composite is defined using the existing exact-universal identity/composition. The construction does not need an equality between `chosenLift(f ; g)` and `chosenLift(f) ; chosenLift(g)`. It also does not assert that same raw projection alone makes all selected lifts canonically equal.
 
-### v5.07
+### v5.41-v5.42: global bicategory and strict projection
 
-Naturality descends to actual localization arrows and becomes quotient-independent:
+The [v5.41 bicategory](formal/KUOS/DependentOriginationExactLiftableClassificationBicategoryV5_41.lean) inherits 2-cells, whiskering, associators, unitors, pentagon, and triangle from the stored exact-universal lifts.
+
+The [v5.42 strict pseudofunctor](formal/KUOS/DependentOriginationExactLiftableActualLiftStrictPseudofunctorV5_42.lean), `exactLiftableActualLiftStrictPseudofunctor`, has:
 
 ~~~text
-higherLocalizedCanonicalStrongTransNaturality
+F.obj X  = CanonicalExactUniversalObject X
+F.map f  = f.actualLift
+F.map₂ η = η
 ~~~
 
-### v5.08
+Identity and composition are preserved definitionally by this projection. That does not make the source bicategory itself strict.
 
-The quotient-independent family is reindexed to the source and satisfies the full v4.96 package.
+## 5. Local equivalence and the global Whitehead certificate — v5.43-v5.45
 
-Key endpoints:
+[v5.43](formal/KUOS/DependentOriginationExactLiftableActualLiftLocalHomEquivalenceV5_43.lean) proves local fullness and faithfulness because the 2-cell map is identity. It also proves essential surjectivity on 1-cells: a target 1-cell `k` between canonical endpoints supplies its own raw datum `(k.label_eq, k.map.raw)` and can be stored as its actual lift. Every explicit `actualLiftHomFunctor X Y` is therefore a Mathlib equivalence.
+
+[v5.44](formal/KUOS/DependentOriginationExactLiftableActualLiftObjectCoverageV5_44.lean) supplies label-preserving object coverage:
 
 ~~~text
-higherLocalizedCanonicalStrongTransOneCellCoherenceExtension
-higherLocalizedCanonicalStrongTransCoherenceExtension
-higherLocalizedCanonicalStrongTransExtensionExists
+F(Y.toExactLiftable) ~ Y
 ~~~
 
-Thus the v4.95 extension condition is unconditionally discharged in the exact-universal construction.
+The equivalence is obtained from same-raw coherent equivalence and the existing exact-universal machinery. It is not a definitional equality of chosen presentations.
 
-## 7. Ambient P4 and Whitehead closure — v5.09-v5.10
-
-### v5.09
-
-[DependentOriginationExactUniversalAmbientP4ClosureV5_09.lean](formal/KUOS/DependentOriginationExactUniversalAmbientP4ClosureV5_09.lean)
-
-For every refinement atlas A:
+[v5.45](formal/KUOS/DependentOriginationExactLiftableActualLiftWhiteheadBiequivalenceV5_45.lean) closes the interface deliberately separated in v5.43: the explicit local hom functor agrees with the native `toPseudofunctor.toPrelaxFunctor.mapFunctor`. It transfers `IsEquivalence` and packages:
 
 ~~~text
-exactUniversalAmbientRestrictionStrongTransExtension_canonical
-exactUniversalAmbientRestrictionHomEssSurj_canonical
-exactUniversalAmbientObjectCoverage_canonical
-exactUniversalAmbientWhiteheadExistence_canonical
+exactLiftableActualLiftWhiteheadBiequivalence
+  forward
+  homEquiv
+  homEquiv_functor
+  object_essentially_surjective
 ~~~
 
-are theorem-level consequences.
+This is one genuine `WhiteheadBiequivalenceData` value for the actual-lift bicategory. The local/global hom-functor bridge is no longer an open task.
 
-The former ambient object-coverage frontier is closed.
+## 6. Explicit backwards pseudofunctor — v5.46-v5.48
 
-### v5.10
+Let `L` be the actual-lift exact-liftable classification bicategory, `E` the exact-universal classification bicategory, and `F : L -> E` the v5.42 strict projection. In this section `;` denotes composition from left to right.
 
-[DependentOriginationExactUniversalAmbientWhiteheadDataV5_10.lean](formal/KUOS/DependentOriginationExactUniversalAmbientWhiteheadDataV5_10.lean)
+### v5.46: fixed object choices and conjugation
 
-The ambient endpoint is exposed as actual data:
+[v5.46](formal/KUOS/DependentOriginationExactLiftableActualLiftQuasiInversePrelaxV5_46.lean) fixes:
 
 ~~~text
-exactUniversalAmbientCanonicalWhiteheadBiequivalenceData
+G.obj Y := Y.toExactLiftable
+eY : F(G.obj Y) ~ Y
 ~~~
 
-with:
-
-- forward = exact-universal realization;
-- local hom equivalence = existing exact-universal hom equivalence;
-- ambient object essential surjectivity.
-
-At this point the global quasi-inverse/unit/counit were not yet packaged.
-
-## 8. Explicit ambient quasi-inverse and roundtrips — v5.11-v5.14
-
-### v5.11 — canonical ambient source
-
-[DependentOriginationExactUniversalAmbientCanonicalSourceV5_11.lean](formal/KUOS/DependentOriginationExactUniversalAmbientCanonicalSourceV5_11.lean)
-
-For every ambient object Z, choose a canonical exact-universal source with:
+using one chosen adjoint equivalence per object. For `k : Y -> Z`, the stored actual lift of `G.map k` is:
 
 ~~~text
-canonicalSource(Z).carrier = Z
-realization.obj (canonicalSource Z) = Z
+(eY.hom ; k) ; eZ.inv
 ~~~
 
-and a local hom-section recovering prescribed ambient one- and two-cells exactly.
+Mathlib `Bicategory.precomp` and `postcomp` make this a functor on each hom category. `PrelaxFunctor.mkOfHomFunctors` assembles the vertical laws. The chosen units/counits supply invertible identity/composition comparisons.
 
-### v5.12 — ambient canonical section pseudofunctor
+At v5.46 these were candidate pseudofunctor data, not yet a pseudofunctor.
 
-[DependentOriginationExactUniversalAmbientSectionPseudofunctorV5_12.lean](formal/KUOS/DependentOriginationExactUniversalAmbientSectionPseudofunctorV5_12.lean)
+### v5.47: horizontal naturality
 
-The v5.11 objectwise/local choices are assembled into:
+[v5.47](formal/KUOS/DependentOriginationExactLiftableActualLiftQuasiInverseNaturalityV5_47.lean), merged as [#2002](https://github.com/itakura-hidetoshi/KuuOS/pull/2002), proves:
 
 ~~~text
-exactUniversalAmbientCanonicalSectionPseudofunctor :
-  Ambient -> Source
+actualLiftQuasiInverse_map₂_whisker_left
+actualLiftQuasiInverse_map₂_whisker_right
 ~~~
 
-This is a genuine Mathlib Pseudofunctor.
+Natural isomorphisms in either argument have exactly the existing compositor's inverse as their components. `NatTrans.naturality` then gives the required equations for arbitrary 2-cells, with no invertibility hypothesis on those cells and no change to the chosen data.
 
-After strict realization, object/map/map₂ recover the original ambient data.
+### v5.48: associator, both unitors, and native pseudofunctor
 
-### v5.13 — ambient roundtrip counit
+[v5.48](formal/KUOS/DependentOriginationExactLiftableActualLiftQuasiInversePseudofunctorV5_48.lean), merged as [#2003](https://github.com/itakura-hidetoshi/KuuOS/pull/2003), proves the remaining three conditions in the lax direction:
 
-[DependentOriginationExactUniversalAmbientRoundtripCounitV5_13.lean](formal/KUOS/DependentOriginationExactUniversalAmbientRoundtripCounitV5_13.lean)
+- Associativity exchanges the two middle counit contractions.
+- Left unity uses the chosen equivalence's `left_triangle_hom`.
+- Right unity uses its `right_triangle_hom`.
 
-The composite:
+The structural rearrangements are handled by `bicategory`, while exchange and triangle identities are invoked explicitly. A typed `mapIso` cancellation gives the inverse-unitor equations required by `LaxFunctor`.
+
+The resulting constructions are:
 
 ~~~text
-Ambient -> Source -> Ambient
+actualLiftQuasiInverseLax
+actualLiftQuasiInversePseudoCore
+actualLiftQuasiInversePseudofunctor
 ~~~
 
-recovers ambient objects, one-cells, and two-cells exactly.
+`Pseudofunctor.mkOfLax` retains the original v5.46 `mapId` and `mapComp`. The file proves literal agreement with the old prelax map and comparison isomorphisms, label preservation, and native associator/unitor regression examples.
 
-Its structural comparisons reduce to identities, yielding:
+**All five native pseudofunctor coherence fields are now supplied.** Do not keep horizontal naturality, associator preservation, either unitor law, or backwards-pseudofunctor assembly on the open-task list.
+
+## 7. Current frontier: global roundtrips for the actual-lift pair
+
+The following are **proposed obligations**, not existing v5.49+ theorem claims. Re-observe the canonical SHA before assigning a new version.
+
+### Next A — target counit
+
+Construct a native pseudonatural transformation / `StrongTrans`:
 
 ~~~text
-canonicalSection ≫ realization
-  ⟶
-Id_Ambient
+G ; F => Id_E
 ~~~
 
-as a native StrongTrans counit.
+Use the already fixed `eY.hom` as the object component. Prove naturality for every 1-cell and all 2-cell, identity, and composition coherence fields against the actual v5.48 compositor. Objectwise equivalences alone do not constitute this global transformation.
 
-### v5.14 — source roundtrip unit
+### Next B — source unit
 
-[DependentOriginationExactUniversalSourceAmbientRoundtripUnitV5_14.lean](formal/KUOS/DependentOriginationExactUniversalSourceAmbientRoundtripUnitV5_14.lean)
-
-The composite:
+Construct:
 
 ~~~text
-Source -> Ambient -> Source
+Id_L => F ; G
 ~~~
 
-changes the source label, even though the carrier is unchanged.
+Use the local fully faithful actual-lift projection to lift the appropriate target comparison, with `e_(F X).inv` as the expected target-side component. Establish its projection and naturality explicitly; do not replace a canonicalized source object by the original object through unproved equality.
 
-Therefore the unit component is not a literal source identity. It is the canonical source lift of:
+### Next C — triangle comparisons and a combined certificate
+
+After A and B, form the actual triangle components for these specific `F`, `G`, unit, and counit. Relate them to coherent representatives, construct native invertible modifications where required, and package the data at a stated coherence level.
+
+The existing v5.16/v5.30/v5.31 pattern is a candidate for reuse, not a proof that the new triangles automatically coincide with the old ones. A stronger tricategorical adjoint-biequivalence claim requires its own precise structure and coherence obligations.
+
+### Longer-range semantics and mapping principle
+
+The concrete exact-sector classification is already substantial. A broader schema such as:
 
 ~~~text
-𝟙 X.carrier
+AdmissibleContextualSystems(C, X) ~ Fun(DO(C, W, J, H), X)
 ~~~
 
-The ambient naturality square is lifted uniquely through full faithfulness, producing:
+is still not an unrestricted theorem. Any further formulation must specify the higher source/target, variance, atlas alignment, world/presentation labels, permitted morphisms, and the exact-liftability boundary. Obstruction results prohibit silently substituting weak admissibility for exact presentation.
 
-~~~text
-Id_Source
-  ⟶
-realization ≫ canonicalSection
+Runtime reasoning and action semantics are separate from theorem-level classification. Neither equivalent carriers nor a CI pass removes provenance, external world binding, empirical uncertainty, or authorization requirements.
+
+## 8. Lean proof-engineering lessons from the completed chain
+
+**Names and scopes.** Importing a module does not open its namespaces. Ordinary functor-category whiskering is `CategoryTheory.Functor.isoWhiskerLeft/Right`; bicategorical whiskering is a different API. v5.47's repair qualified all 11 uses, including one hidden inside a failed outer application.
+
+**Universes and endpoints.** Do not guess the order of universe suffixes. Let typed endpoints determine universes when possible; use explicit, checked parameters where inference is genuinely underconstrained. State `(B := ...)` for ambient bicategory lemmas when a wrapped 1-cell cannot determine the ambient type. An aligned atlas theorem is not arbitrary universe reindexing.
+
+**Proof terms versus typed goals.** After an explicitly typed `change`, small `simp only` proofs can be more stable than constructing underconstrained standalone `Category.id_comp _` terms. Name dependent source/target 1-cells when taking fully faithful preimages. Parent projections and `Functor.hext` make the local/native hom-functor boundary explicit.
+
+**Coherence elaboration happens early.** `⊗≫` requires `BicategoricalCoherence` while its intermediate expression is elaborated. A later `dsimp` cannot rescue a failed instance search. v5.48 writes these intermediate endpoints as explicit composites.
+
+**Expose the actual nonstructural cells.** Unfolding an outer definition may leave a private helper opaque to the coherence tactic. v5.48's private `compIso_inv_expansion`, proved by `rfl`, exposes the original counit contraction without using a generated private name or changing the comparator. `bicategory` then handles structural reassociation; it does not replace the exchange or triangle laws.
+
+**Use typed cancellation.** `(F.mapIso e).hom_inv_id` supplies exact cancellation at known endpoints and avoids broad reverse-`Functor.map_comp` simplification leaving residual mapped identities.
+
+**Separate root errors from cascades.** A failed upstream declaration can cause downstream unknown identifiers, unsolved goals, or `sorryAx` reports. Read the full file and log, fix independent root causes, and rebuild. Do not suppress warnings, add axioms, increase heartbeats, or weaken theorem statements to hide a failure.
+
+**Validation is not authority.** Confirm the current PR head, matching run, Strict Lean, governance, final receipt, and axiom output. Distinguish PR head from the synthetic merge actually compiled. Cached dependency warnings are not target warnings; docs-only success is not fresh Lean validation.
+
+## 9. Reproduction and document maintenance
+
+With the pinned toolchain available, run from the repository root at the theorem revision:
+
+~~~bash
+git clone https://github.com/itakura-hidetoshi/KuuOS.git KuuOS-repro
+cd KuuOS-repro
+git checkout ff8f9953a4f59b96f969356bd52314eb4aa24ed3
+lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build \
+  KUOS.DependentOriginationExactLiftableActualLiftQuasiInversePseudofunctorV5_48
 ~~~
 
-as a native StrongTrans unit.
-
-## 9. Ambient biequivalence certificate — v5.15
-
-[DependentOriginationExactUniversalAmbientBiequivalenceCertificateV5_15.lean](formal/KUOS/DependentOriginationExactUniversalAmbientBiequivalenceCertificateV5_15.lean)
-
-v5.15 packages:
-
-~~~text
-whitehead
-quasiInverse
-unit
-counit
-~~~
-
-into:
-
-~~~text
-ExactUniversalAmbientBiequivalenceCertificate
-~~~
-
-Concretely:
-
-~~~text
-whitehead
-  = exactUniversalAmbientCanonicalWhiteheadBiequivalenceData
-
-quasiInverse
-  = exactUniversalAmbientCanonicalSectionPseudofunctor
-
-unit
-  = exactUniversalSourceAmbientRoundtripUnit
-
-counit
-  = exactUniversalAmbientRoundtripCounit
-~~~
-
-Thus the current ambient endpoint is stronger than the old Whitehead-only existence statement.
-
-The formal development now contains:
-
-- local hom equivalences;
-- ambient object essential surjectivity;
-- explicit global quasi-inverse pseudofunctor;
-- source unit StrongTrans;
-- ambient counit StrongTrans.
-
-## 10. Current closed boundary
-
-### CLOSED
-
-~~~text
-obstruction / nonfactorization countermodels
-exact presentation and coherent universal-target sector
-native source bicategory
-strict DO₂ realization
-local compatible full faithfulness
-arbitrary DO₂ 1-cell lift between chosen carriers
-source/realized hom-category equivalences
-object-labelled section pseudofunctor
-object-labelled unit/counit StrongTrans
-object-labelled biequivalence certificate
-ambient Whitehead iff object coverage
-restriction Faithful
-restriction Full
-restriction hom-equivalence iff EssSurj
-canonical StrongTrans object components
-automatic source 2-cell naturality
-presentation-arrow naturality + exact restriction square
-W-inverse naturality
-composition closure
-all-arrow Nonempty naturality existence
-canonical identity naturality
-presentation id/comp coherence
-transport bridge
-id / comp localization-generator compatibility
-Winv₁ / Winv₂ compatibility
-retained generated-localization invariance
-quotient-independent canonical naturality
-v4.96 one-cell coherence extension
-full v4.95 StrongTrans coherence extension
-ambient restriction-hom EssSurj
-ambient exact-universal object coverage
-canonical ambient WhiteheadBiequivalenceData
-canonical source over every ambient object
-ambient-to-source section pseudofunctor
-ambient roundtrip counit StrongTrans
-source roundtrip unit StrongTrans
-explicit ambient biequivalence certificate
-~~~
-
-## 11. What remains open
-
-The old StrongTrans/P4/quasi-inverse packaging frontier is no longer open.
-
-### A. Triangle modifications / stronger adjoint-biequivalence package
-
-v5.15 records an explicit quasi-inverse and native unit/counit StrongTrans.
-
-What is not yet separately formalized is a stronger tricategorical adjoint-biequivalence structure with explicit triangle modifications/coherence equations connecting the unit and counit.
-
-This should be added only if the final theorem requires that stronger package.
-
-### B. Final higher mapping/classification property
-
-The main conceptual target remains to formulate and prove the correct universal property above the exact-universal construction.
-
-Questions that must be fixed in the theorem statement:
-
-- What is the precise bicategory/category of admissible contextual systems?
-- Which systems are exact-liftable?
-- Which world/presentation labels remain part of equivalence data?
-- What is the correct mapping/functor category?
-- What is the coherent uniqueness notion?
-- How do the obstruction classes appear outside the exact-universal image?
-
-### C. Semantic admissibility versus exact liftability
-
-The repository now has both:
-
-- a very strong positive exact-universal ambient equivalence package;
-- explicit negative obstruction/nonfactorization theorems.
-
-The next conceptual theorem should characterize the boundary between them rather than erase it.
-
-In particular, the desired theorem cannot be:
-
-~~~text
-weak W-admissibility => exact presentation
-~~~
-
-because the repository already proves counterexamples.
-
-### D. Prescribed external data versus canonical choices
-
-v5.04-v5.15 use canonical, representative-independent choices.
-
-A different question is whether independently prescribed components/actions/world bindings can be preserved by an extension. Canonical existence does not imply arbitrary prescribed-data preservation.
-
-### E. World-sensitive semantics
-
-A final KuuOS classification theorem should distinguish:
-
-- invariant structural content;
-- source/presentation labels;
-- world binding;
-- action semantics.
-
-Paramārtha-level equivalence must not automatically erase conventional/world-specific distinctions.
-
-## 12. Proposed next theorem units
-
-The labels below are **proposals**, not existing theorem claims.
-
-### Proposed v5.16 — ambient triangle coherence
-
-If needed, formulate the two triangle composites built from the v5.14 unit and v5.13 counit and prove the appropriate modification/coherence equations.
-
-Exit criterion:
-
-- no new arbitrary choice;
-- triangle data grounded in the existing canonical section;
-- exact projection under realization;
-- Strict Lean GREEN with no sorryAx.
-
-### Proposed v5.17 — classification interface
-
-Define the exact domain/codomain of the final mapping property.
-
-Exit criterion:
-
-- type-correct higher categorical statement;
-- explicit variance;
-- explicit morphism levels;
-- explicit world/presentation labels;
-- no hidden replacement of exact liftability by weak admissibility.
-
-### Proposed v5.18 — exact-liftability criterion
-
-Relate semantic admissibility, exact presentation, and the obstruction classes from v4.00-v4.48.
-
-Exit criterion: a theorem identifying a mathematically correct criterion for membership in the exact-universal image without contradicting the established countermodels.
-
-### Proposed v5.19+ — higher mapping/classification theorem
-
-Use the mature exact-universal package:
-
-~~~text
-strict realization
-+ hom equivalences
-+ ambient coverage
-+ canonical section
-+ unit/counit
-+ ambient certificate
-~~~
-
-as the structural core.
-
-Build factor existence and coherent uniqueness as separate theorem units before stating the final equivalence.
-
-## 13. Proof-engineering rules retained
-
-### Authority discipline
-
-Always re-observe the fresh canonical SHA before theorem work.
-
-Do not treat docs-only merges, runtime checks, cache hits, or conversation history as theorem authority.
-
-### Namespace discipline
-
-Importing a module does not open its namespaces.
-
-With autoImplicit false, an unopened namespace produces an immediate unknown-identifier error.
-
-### Universe discipline
-
-For theorem-critical dependent structures, prefer concrete universe-instantiated field types when abbrev layers leave universe metavariables underdetermined.
-
-This lesson was decisive in v5.15.
-
-### Typeclass/elaboration discipline
-
-Lean does not resolve a typeclass whose input type is still an unresolved metavariable.
-
-Fix dependent endpoints first; then invoke category/bicategory lemmas.
-
-### Fully-faithful preimage discipline
-
-When preimage data lives in a dependent hom category, explicitly state the source and target 1-cells if inference is ambiguous.
-
-### Equality discipline
-
-- change only for definitional equality;
-- use explicit Eq.trans / congrArg / congrArg₂ when the equality shape is known;
-- avoid broad rw across dependent source/target expressions;
-- avoid redundant simp steps after previous normalization has already removed the target.
-
-### Bicategory discipline
-
-- project complicated source equalities to the realized DO₂ layer;
-- use faithful realization to reflect equalities back;
-- normalize structural comparison cells before invoking bicategory coherence;
-- keep source labels even when carriers agree.
-
-### Quotient discipline
-
-Representative choice may be computational.
-
-Mathematical content must be representative-independent theorem-level data.
-
-## 14. Validation and reproduction
-
-Latest theorem target:
+To inspect the distinct global packages:
 
 ~~~bash
 lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build \
-  KUOS.DependentOriginationExactUniversalAmbientBiequivalenceCertificateV5_15
+  KUOS.DependentOriginationExactUniversalAmbientTriangleCoherenceV5_16 \
+  KUOS.DependentOriginationClassificationCoherentBiequivalenceV5_31 \
+  KUOS.DependentOriginationExactLiftableActualLiftWhiteheadBiequivalenceV5_45 \
+  KUOS.DependentOriginationExactLiftableActualLiftQuasiInversePseudofunctorV5_48
 ~~~
 
-Validated exact head:
-
-~~~text
-7d222ead4eae477fefbb885e2883a505e49ea13c
-Build completed successfully (8639 jobs)
-return_code = 0
-~~~
-
-Current theorem-bearing main:
-
-~~~text
-41d4b4628a6a3d65d4892c143ea197eab2eecb4b
-~~~
-
-Useful endpoint reproduction:
-
-~~~bash
-lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build \
-  KUOS.DependentOriginationExactUniversalLabelledBiequivalenceV4_89 \
-  KUOS.DependentOriginationExactUniversalAmbientStrongTransCoherentExtensionV5_08 \
-  KUOS.DependentOriginationExactUniversalAmbientP4ClosureV5_09 \
-  KUOS.DependentOriginationExactUniversalAmbientWhiteheadDataV5_10 \
-  KUOS.DependentOriginationExactUniversalAmbientCanonicalSourceV5_11 \
-  KUOS.DependentOriginationExactUniversalAmbientSectionPseudofunctorV5_12 \
-  KUOS.DependentOriginationExactUniversalAmbientRoundtripCounitV5_13 \
-  KUOS.DependentOriginationExactUniversalSourceAmbientRoundtripUnitV5_14 \
-  KUOS.DependentOriginationExactUniversalAmbientBiequivalenceCertificateV5_15
-~~~
-
-Aggregate and runtime entry points:
+Aggregate and runtime commands are separate entry points, not additional successful runs asserted by this docs-only update:
 
 ~~~bash
 lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KuuOSFormal
 PYTHONPATH=. python3 runtime/kuuos_current_check.py
 ~~~
 
-README/ROADMAP-only commits should not be treated as newer theorem-bearing baselines.
+Keep [README.md](README.md) and this roadmap aligned on the same theorem-bearing snapshot. Future documentation commits should update the milestone ledger and real remaining obligations without turning their own commit SHA into a new theorem result.
