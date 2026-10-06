@@ -179,8 +179,7 @@ noncomputable def exactLiftableActualLiftStrictCore
             (W := W) A f.actualLift eta ≫
           𝟙 (ExactUniversalClassificationOneCell.comp
               (W := W) A f.actualLift g'.actualLift)
-    exact
-      ((Category.id_comp _).trans (Category.comp_id _)).symm
+    simp only [Category.id_comp, Category.comp_id]
 
   map₂_whisker_right := by
     intro X Y Z f f' eta g
@@ -193,8 +192,7 @@ noncomputable def exactLiftableActualLiftStrictCore
             (W := W) A eta g.actualLift ≫
           𝟙 (ExactUniversalClassificationOneCell.comp
               (W := W) A f'.actualLift g.actualLift)
-    exact
-      ((Category.id_comp _).trans (Category.comp_id _)).symm
+    simp only [Category.id_comp, Category.comp_id]
 
   map₂_left_unitor := by
     intro X Y f
@@ -209,7 +207,7 @@ noncomputable def exactLiftableActualLiftStrictCore
               f.actualLift) ≫
           (ExactUniversalClassificationTwoCell.leftUnitorIso
             (W := W) A f.actualLift).hom
-    exact (Category.id_comp _).symm
+    simp only [Category.id_comp]
 
   map₂_right_unitor := by
     intro X Y f
@@ -223,7 +221,7 @@ noncomputable def exactLiftableActualLiftStrictCore
                 (CanonicalExactUniversalObject (W := W) A Y))) ≫
           (ExactUniversalClassificationTwoCell.rightUnitorIso
             (W := W) A f.actualLift).hom
-    exact (Category.id_comp _).symm
+    simp only [Category.id_comp]
 
   map₂_associator := by
     intro X Y Z T f g h
@@ -241,8 +239,7 @@ noncomputable def exactLiftableActualLiftStrictCore
               (W := W) A f.actualLift
               (ExactUniversalClassificationOneCell.comp
                 (W := W) A g.actualLift h.actualLift))
-    exact
-      ((Category.id_comp _).trans (Category.comp_id _)).symm
+    simp only [Category.id_comp, Category.comp_id]
 
 /-- The stored actual-lift projection is a global strict pseudofunctor. -/
 noncomputable def exactLiftableActualLiftStrictPseudofunctor
