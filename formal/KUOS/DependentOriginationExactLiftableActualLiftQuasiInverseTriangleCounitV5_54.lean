@@ -67,7 +67,8 @@ private theorem counit_id (a : B) :
   change (eps.naturality (𝟙 a)).hom ≫ eps.app a ◁ 𝟙 (𝟙 a) =
     (R.mapId a).hom ▷ eps.app a ≫
       (λ_ (eps.app a)).hom ≫ (ρ_ (eps.app a)).inv at h
-  simpa only [Bicategory.whiskerLeft_id, Category.comp_id] using h
+  rw [Bicategory.whiskerLeft_id, Category.comp_id] at h
+  exact h
 
 /-- The original composition law with only the identity target exposed. -/
 private theorem counit_comp {a b c : B} (f : a ⟶ b) (g : b ⟶ c) :
@@ -84,7 +85,8 @@ private theorem counit_comp {a b c : B} (f : a ⟶ b) (g : b ⟶ c) :
       R.map f ◁ (eps.naturality g).hom ≫
       (α_ (R.map f) (eps.app b) g).inv ≫
       (eps.naturality f).hom ▷ g ≫ (α_ (eps.app a) f g).hom at h
-  simpa only [Bicategory.whiskerLeft_id, Category.comp_id] using h
+  rw [Bicategory.whiskerLeft_id, Category.comp_id] at h
+  exact h
 
 /-- Map the old arbitrary-2-cell square, then cancel the outer compositors. -/
 theorem naturality {a b : B} {f g : a ⟶ b} (theta : f ⟶ g) :
@@ -96,9 +98,11 @@ theorem naturality {a b : B} {f g : a ⟶ b} (theta : f ⟶ g) :
   have h := congrArg (fun t =>
     (H.mapComp (R.map f) (eps.app b)).inv ≫ H.map₂ t ≫
       (H.mapComp (eps.app a) g).hom) heps
-  simpa only [naturalityIso_hom, PrelaxFunctor.map₂_comp,
-    Pseudofunctor.map₂_whisker_left, Pseudofunctor.map₂_whisker_right,
-    Category.assoc, Iso.inv_hom_id_assoc, Iso.inv_hom_id, Category.comp_id] using h
+  rw [H.map₂_comp, H.map₂_comp, H.map₂_whisker_right,
+    H.map₂_whisker_left] at h
+  simp only [Category.assoc] at h
+  rw [Iso.inv_hom_id_assoc, Iso.inv_hom_id, Category.comp_id] at h
+  simpa only [naturalityIso_hom, Category.assoc] using h
 
 /-- The actual composite identity comparison, with H itself as target. -/
 theorem naturality_id (a : B) :
@@ -111,12 +115,11 @@ theorem naturality_id (a : B) :
       H.map (eps.app a) ◁ (H.mapId a).hom =
     (H.map₂ (R.mapId a).hom ≫ (H.mapId (R.obj a)).hom) ▷ H.map (eps.app a) ≫
       (λ_ (H.map (eps.app a))).hom ≫ (ρ_ (H.map (eps.app a))).inv
-  rw [counit_id eps a]
-  simp only [PrelaxFunctor.map₂_comp, Pseudofunctor.map₂_whisker_right,
-    Pseudofunctor.map₂_left_unitor, H.mapComp_id_right_hom,
-    Bicategory.comp_whiskerRight, Category.assoc, Iso.inv_hom_id_assoc,
-    PrelaxFunctor.map₂_inv_hom_assoc, Bicategory.whiskerLeft_inv_hom,
-    Category.comp_id]
+  rw [counit_id eps a, H.map₂_comp, H.map₂_comp,
+    H.map₂_whisker_right, H.map₂_left_unitor, H.mapComp_id_right_hom]
+  simp only [Bicategory.comp_whiskerRight, Category.assoc]
+  rw [Iso.inv_hom_id_assoc, Iso.inv_hom_id_assoc,
+    H.map₂_inv_hom_assoc, Bicategory.whiskerLeft_inv_hom, Category.comp_id]
 
 /-- Map the original composition diagram, including its three associators.
 Every cancelling comparison occurs together with its own inverse. -/
@@ -135,13 +138,14 @@ theorem naturality_comp {a b c : B} (f : a ⟶ b) (g : b ⟶ c) :
       H.map (eps.app a) ◁ (H.mapComp f g).hom =
     (H.map₂ (R.mapComp f g).hom ≫ (H.mapComp (R.map f) (R.map g)).hom) ▷
       H.map (eps.app c) ≫ _
-  rw [counit_comp eps f g]
-  simp only [naturalityIso_hom, PrelaxFunctor.map₂_comp,
-    Pseudofunctor.map₂_whisker_left, Pseudofunctor.map₂_whisker_right,
-    Pseudofunctor.map₂_associator, map_associator_inv,
-    Bicategory.whiskerLeft_comp, Bicategory.comp_whiskerRight,
-    Category.assoc, Iso.inv_hom_id_assoc, Iso.inv_hom_id,
-    Bicategory.whiskerLeft_inv_hom, Category.comp_id]
+  rw [counit_comp eps f g, H.map₂_comp, H.map₂_comp, H.map₂_comp,
+    H.map₂_comp, H.map₂_comp, H.map₂_whisker_right, H.map₂_associator,
+    H.map₂_whisker_left, map_associator_inv H, H.map₂_whisker_right,
+    H.map₂_associator, naturalityIso_hom, naturalityIso_hom]
+  simp only [Bicategory.whiskerLeft_comp, Bicategory.comp_whiskerRight, Category.assoc]
+  rw [Iso.inv_hom_id_assoc, Iso.inv_hom_id_assoc, Iso.inv_hom_id_assoc,
+    Iso.inv_hom_id_assoc, Iso.inv_hom_id_assoc, Iso.inv_hom_id_assoc,
+    Iso.inv_hom_id_assoc, Bicategory.whiskerLeft_inv_hom, Category.comp_id]
 
 /-- Postcompose a counit by an arbitrary pseudofunctor, retaining all its
 comparison isomorphisms and all three native StrongTrans coherence fields. -/
