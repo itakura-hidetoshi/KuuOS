@@ -128,9 +128,9 @@ theorem reverseNaturality : ReverseNaturality R eta := by
     UnitPrecomposition.strongTrans_naturality,
     UnitPrecomposition.strongTrans_app,
     Iso.symm_hom,
-    Bicategory.whiskerLeft_comp,
     Category.assoc
   ]
+  simp only [Bicategory.whiskerLeft_comp, Category.assoc]
   rw [← reassoc_of% hY]
   rw [← reassoc_of% hX]
   simpa only [Category.assoc] using
