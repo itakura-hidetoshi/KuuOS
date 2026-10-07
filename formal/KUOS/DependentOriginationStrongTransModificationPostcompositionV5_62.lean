@@ -191,7 +191,13 @@ theorem naturality_id (a : B) :
       (alpha.naturality (𝟙 a))
       (alpha.naturality_id a)
 
-/-- Composition coherence retains both source and target mapComp comparisons. -/
+/-- Composition coherence retains both source and target mapComp comparisons.
+
+The v5.54 mapped-square composition theorem expects the target edge already
+expanded as `G.map f ≫ G.map g`.  We therefore compose the old naturality
+square with the original target compositor first, and separately prove that
+mapping this enlarged square is the same as mapping the old square and then
+using the target composite pseudofunctor's compositor. -/
 theorem naturality_comp
     {a b c : B} (f : a ⟶ b) (g : b ⟶ c) :
     (naturalityIso H alpha (f ≫ g)).hom ≫
@@ -212,7 +218,34 @@ theorem naturality_comp
         (α_ (H.map (alpha.app a))
           ((Pseudofunctor.comp G H).map f)
           ((Pseudofunctor.comp G H).map g)).hom := by
-  exact
+  let nfg :
+      F.map (f ≫ g) ≫ alpha.app c ≅
+        alpha.app a ≫ (G.map f ≫ G.map g) :=
+    alpha.naturality (f ≫ g) ≪≫
+      Bicategory.whiskerLeftIso (alpha.app a) (G.mapComp f g)
+  have hnfg :
+      nfg.hom =
+        (F.mapComp f g).hom ▷ alpha.app c ≫
+          (α_ (F.map f) (F.map g) (alpha.app c)).hom ≫
+          F.map f ◁ (alpha.naturality g).hom ≫
+          (α_ (F.map f) (alpha.app b) (G.map g)).inv ≫
+          (alpha.naturality f).hom ▷ G.map g ≫
+          (α_ (alpha.app a) (G.map f) (G.map g)).hom := by
+    simpa only [nfg, Iso.trans_hom, Bicategory.whiskerLeftIso_hom] using
+      alpha.naturality_comp f g
+  have hbridge :
+      (naturalityIso H alpha (f ≫ g)).hom ≫
+          H.map (alpha.app a) ◁ H.map₂ (G.mapComp f g).hom =
+        (MappedSquare.iso
+          H
+          (F.map (f ≫ g)) (G.map f ≫ G.map g)
+          (alpha.app a) (alpha.app c)
+          nfg).hom := by
+    simp only [naturalityIso_hom, MappedSquare.iso_hom, nfg,
+      Iso.trans_hom, Bicategory.whiskerLeftIso_hom,
+      PrelaxFunctor.map₂_comp, H.map₂_whisker_left,
+      Category.assoc, Iso.inv_hom_id_assoc]
+  have hmapped :=
     MappedSquare.composition
       H
       (F.map f) (F.map g) (F.map (f ≫ g))
@@ -221,8 +254,15 @@ theorem naturality_comp
       (F.mapComp f g)
       (alpha.naturality f)
       (alpha.naturality g)
-      (alpha.naturality (f ≫ g))
-      (alpha.naturality_comp f g)
+      nfg
+      hnfg
+  change
+    (naturalityIso H alpha (f ≫ g)).hom ≫
+        H.map (alpha.app a) ◁
+          (H.map₂ (G.mapComp f g).hom ≫
+            (H.mapComp (G.map f) (G.map g)).hom) = _
+  rw [Bicategory.whiskerLeft_comp, ← Category.assoc, hbridge]
+  exact hmapped
 
 /-- Postcompose an arbitrary StrongTrans by an arbitrary pseudofunctor. -/
 def strongTrans :
