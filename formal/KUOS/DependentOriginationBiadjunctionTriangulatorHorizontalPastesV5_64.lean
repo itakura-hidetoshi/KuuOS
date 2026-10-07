@@ -10,6 +10,8 @@ open KUOS.DependentOriginationExactLiftableActualLiftIncoherentBiadjunctionV5_59
 open KUOS.DependentOriginationExactLiftableActualLiftIncoherentBiadjunctionV5_59.Generic
 open KUOS.DependentOriginationGeneratedRefinementTopologyV2_4
 open KUOS.DependentOriginationLocalizedSheafUniversalityV2_6
+open KUOS.DependentOriginationStrongTransModificationPrecompositionV5_61
+open KUOS.DependentOriginationStrongTransPostcompositionIdentityTriangulatorV5_63
 
 set_option autoImplicit false
 
@@ -69,38 +71,34 @@ abbrev targetRoundtrip : Pseudofunctor C C :=
 The v5.63 postcomposition construction retains G.mapId in the contraction. -/
 def sourceForwardTriangulator :
     FunctorBicategoryTriangulator (sourceRoundtrip D) :=
-  KUOS.DependentOriginationStrongTransPostcompositionIdentityTriangulatorV5_63.
-    StrongTransPostcomposition.triangulator
-      D.base.whitehead.forward
-      D.base.quasiInverse
-      D.triangulators.forward
+  StrongTransPostcomposition.triangulator
+    D.base.whitehead.forward
+    D.base.quasiInverse
+    D.triangulators.forward
 
 /-- Reverse triangulator horizontally whiskered on the left by F.
 Precomposition preserves the identity StrongTrans definitionally. -/
 def sourceReverseTriangulator :
     FunctorBicategoryTriangulator (sourceRoundtrip D) :=
-  KUOS.DependentOriginationStrongTransModificationPrecompositionV5_61.
-    StrongTransPrecomposition.triangulator
-      D.base.whitehead.forward
-      D.triangulators.reverse
+  StrongTransPrecomposition.triangulator
+    D.base.whitehead.forward
+    D.triangulators.reverse
 
 /-- Forward triangulator horizontally whiskered on the left by G. -/
 def targetForwardTriangulator :
     FunctorBicategoryTriangulator (targetRoundtrip D) :=
-  KUOS.DependentOriginationStrongTransModificationPrecompositionV5_61.
-    StrongTransPrecomposition.triangulator
-      D.base.quasiInverse
-      D.triangulators.forward
+  StrongTransPrecomposition.triangulator
+    D.base.quasiInverse
+    D.triangulators.forward
 
 /-- Reverse triangulator horizontally whiskered on the right by F.
 The v5.63 postcomposition construction retains F.mapId in the contraction. -/
 def targetReverseTriangulator :
     FunctorBicategoryTriangulator (targetRoundtrip D) :=
-  KUOS.DependentOriginationStrongTransPostcompositionIdentityTriangulatorV5_63.
-    StrongTransPostcomposition.triangulator
-      D.base.quasiInverse
-      D.base.whitehead.forward
-      D.triangulators.reverse
+  StrongTransPostcomposition.triangulator
+    D.base.quasiInverse
+    D.base.whitehead.forward
+    D.triangulators.reverse
 
 /-- Source-side horizontal paste.
 
@@ -133,47 +131,43 @@ def targetHorizontalPaste :
 
 @[simp] theorem sourceForwardTriangulator_triangle :
     (sourceForwardTriangulator D).triangle =
-      KUOS.DependentOriginationStrongTransModificationPostcompositionV5_62.
-        StrongTransPostcomposition.strongTrans
-          D.base.quasiInverse
-          D.triangulators.forward.triangle :=
+      KUOS.DependentOriginationStrongTransModificationPostcompositionV5_62.StrongTransPostcomposition.strongTrans
+        D.base.quasiInverse
+        D.triangulators.forward.triangle :=
   rfl
 
 @[simp] theorem sourceReverseTriangulator_triangle :
     (sourceReverseTriangulator D).triangle =
-      KUOS.DependentOriginationStrongTransModificationPrecompositionV5_61.
-        StrongTransPrecomposition.strongTrans
-          D.base.whitehead.forward
-          D.triangulators.reverse.triangle :=
+      StrongTransPrecomposition.strongTrans
+        D.base.whitehead.forward
+        D.triangulators.reverse.triangle :=
   rfl
 
 @[simp] theorem targetForwardTriangulator_triangle :
     (targetForwardTriangulator D).triangle =
-      KUOS.DependentOriginationStrongTransModificationPrecompositionV5_61.
-        StrongTransPrecomposition.strongTrans
-          D.base.quasiInverse
-          D.triangulators.forward.triangle :=
+      StrongTransPrecomposition.strongTrans
+        D.base.quasiInverse
+        D.triangulators.forward.triangle :=
   rfl
 
 @[simp] theorem targetReverseTriangulator_triangle :
     (targetReverseTriangulator D).triangle =
-      KUOS.DependentOriginationStrongTransModificationPostcompositionV5_62.
-        StrongTransPostcomposition.strongTrans
-          D.base.whitehead.forward
-          D.triangulators.reverse.triangle :=
+      KUOS.DependentOriginationStrongTransModificationPostcompositionV5_62.StrongTransPostcomposition.strongTrans
+        D.base.whitehead.forward
+        D.triangulators.reverse.triangle :=
   rfl
 
 @[simp] theorem sourceHorizontalPaste_hom :
     (sourceHorizontalPaste D).hom =
       (sourceForwardTriangulator D).contraction.hom ≫
-        (sourceReverseTriangulator D).contraction.inv :=
-  rfl
+        (sourceReverseTriangulator D).contraction.inv := by
+  simp only [sourceHorizontalPaste, Iso.trans_hom, Iso.symm_hom]
 
 @[simp] theorem targetHorizontalPaste_hom :
     (targetHorizontalPaste D).hom =
       (targetForwardTriangulator D).contraction.hom ≫
-        (targetReverseTriangulator D).contraction.inv :=
-  rfl
+        (targetReverseTriangulator D).contraction.inv := by
+  simp only [targetHorizontalPaste, Iso.trans_hom, Iso.symm_hom]
 
 end IncoherentBiadjunctionDatum
 
