@@ -71,6 +71,16 @@ def reverseSwallowtailRight :
     (targetReverseTriangulator D).triangle
     D.base.counit
 
+@[simp] theorem reverseSwallowtailLeft_app (Y : C) :
+    (reverseSwallowtailLeft D).app Y =
+      (targetForwardTriangulator D).triangle.app Y ≫ D.base.counit.app Y :=
+  rfl
+
+@[simp] theorem reverseSwallowtailRight_app (Y : C) :
+    (reverseSwallowtailRight D).app Y =
+      (targetReverseTriangulator D).triangle.app Y ≫ D.base.counit.app Y :=
+  rfl
+
 /-! As in v5.64 and v5.65, keep the native StrongTrans hom category explicit
 at the generic universe boundary. -/
 
