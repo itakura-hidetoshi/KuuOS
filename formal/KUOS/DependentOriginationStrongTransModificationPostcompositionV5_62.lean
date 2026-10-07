@@ -244,7 +244,9 @@ theorem naturality_comp
     simp only [naturalityIso_hom, MappedSquare.iso_hom, nfg,
       Iso.trans_hom, Bicategory.whiskerLeftIso_hom,
       PrelaxFunctor.map₂_comp, H.map₂_whisker_left,
-      Category.assoc, Iso.inv_hom_id_assoc]
+      Category.assoc]
+    rw [(H.mapComp (alpha.app a) (G.map f ≫ G.map g)).inv_hom_id,
+      Category.comp_id]
   have hmapped :=
     MappedSquare.composition
       H
