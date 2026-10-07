@@ -10,6 +10,7 @@ open KUOS.DependentOriginationUnitPostcompositionNativeSourceV5_72
 open KUOS.DependentOriginationUnitPostcompositionNativeSourceV5_72.Generic
 open KUOS.DependentOriginationUnitSelfInterchangerBoundaryV5_73
 open KUOS.DependentOriginationUnitSelfInterchangerBoundaryV5_73.Generic
+open KUOS.DependentOriginationUnitSelfInterchangerBoundaryV5_73.Generic.UnitSelfInterchanger
 
 set_option autoImplicit false
 
