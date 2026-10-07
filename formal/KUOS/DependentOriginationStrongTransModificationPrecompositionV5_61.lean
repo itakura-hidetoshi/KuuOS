@@ -195,7 +195,7 @@ def iso
     change
       e.hom.as.app (K.obj a) ≫ e.inv.as.app (K.obj a) =
         𝟙 (alpha.app (K.obj a))
-    simpa using congrArg
+    exact congrArg
       (fun m => m.as.app (K.obj a))
       e.hom_inv_id
   inv_hom_id := by
@@ -204,7 +204,7 @@ def iso
     change
       e.inv.as.app (K.obj a) ≫ e.hom.as.app (K.obj a) =
         𝟙 (beta.app (K.obj a))
-    simpa using congrArg
+    exact congrArg
       (fun m => m.as.app (K.obj a))
       e.inv_hom_id
 
