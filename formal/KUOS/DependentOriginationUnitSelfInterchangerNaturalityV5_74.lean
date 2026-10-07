@@ -192,14 +192,14 @@ theorem reverseNaturality : ReverseNaturality R eta := by
     _ = (eta.naturality (f ≫ eta.app Y)).hom ≫
           eta.app X ◁ R.map₂ (eta.naturality f).hom := by
         rw [hY]
-        simp [Category.assoc]
+        bicategory
     _ = (Pseudofunctor.id B).map₂ (eta.naturality f).hom ▷
           eta.app (R.obj Y) ≫
         (eta.naturality (eta.app X ≫ R.map f)).hom :=
       (eta.naturality_naturality (eta.naturality f).hom).symm
     _ = _ := by
       rw [hX]
-      simp [Category.assoc]
+      bicategory
 
 end UnitSelfInterchanger
 
