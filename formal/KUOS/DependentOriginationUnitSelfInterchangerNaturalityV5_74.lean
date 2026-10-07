@@ -192,7 +192,7 @@ theorem reverseNaturality : ReverseNaturality R eta := by
     _ = (eta.naturality (f ≫ eta.app Y)).hom ≫
           eta.app X ◁ R.map₂ (eta.naturality f).hom := by
         rw [hY]
-        bicategory <;> simp [Iso.trans_hom, Bicategory.whiskerLeftIso_hom]
+        bicategory <;> simp <;> cat_disch
     _ = (Pseudofunctor.id B).map₂ (eta.naturality f).hom ▷
           eta.app (R.obj Y) ≫
         (eta.naturality (eta.app X ≫ R.map f)).hom :=
