@@ -85,17 +85,22 @@ the orientation required by MappedSquare.composition. -/
 private theorem vcomp_naturality_inv
     {a b : B} (f : a ⟶ b) :
     ((Pseudofunctor.StrongTrans.vcomp alpha beta).naturality f).inv =
-      (α_ (alpha.app a) (beta.app a) (K.map f)).hom ≫
-        alpha.app a ◁ (beta.naturality f).inv ≫
-        (α_ (alpha.app a) (G.map f) (beta.app b)).inv ≫
-        (alpha.naturality f).inv ▷ beta.app b ≫
+      ((((α_ (alpha.app a) (beta.app a) (K.map f)).hom ≫
+          alpha.app a ◁ (beta.naturality f).inv) ≫
+        (α_ (alpha.app a) (G.map f) (beta.app b)).inv) ≫
+        (alpha.naturality f).inv ▷ beta.app b) ≫
         (α_ (F.map f) (alpha.app b) (beta.app b)).hom := by
   have h :=
     Pseudofunctor.StrongTrans.categoryStruct_comp_naturality_inv
       alpha beta f
   change
-    ((Pseudofunctor.StrongTrans.vcomp alpha beta).naturality f).inv = _ at h
-  simpa only [Category.assoc] using h
+    ((Pseudofunctor.StrongTrans.vcomp alpha beta).naturality f).inv =
+      ((((α_ (alpha.app a) (beta.app a) (K.map f)).hom ≫
+          alpha.app a ◁ (beta.naturality f).inv) ≫
+        (α_ (alpha.app a) (G.map f) (beta.app b)).inv) ≫
+        (alpha.naturality f).inv ▷ beta.app b) ≫
+        (α_ (F.map f) (alpha.app b) (beta.app b)).hom at h
+  exact h
 
 /-- Mapping the inverse naturality square is the inverse of the mapped
 naturality square. -/
@@ -119,18 +124,18 @@ has the expected five-factor form. -/
 private theorem vcompPost_naturality_inv
     {a b : B} (f : a ⟶ b) :
     ((vcompPost H alpha beta).naturality f).inv =
-      (α_
+      ((((α_
         (H.map (alpha.app a))
         (H.map (beta.app a))
         (H.map (K.map f))).hom ≫
         H.map (alpha.app a) ◁
-          (StrongTransPostcomposition.naturalityIso H beta f).inv ≫
+          (StrongTransPostcomposition.naturalityIso H beta f).inv) ≫
         (α_
           (H.map (alpha.app a))
           (H.map (G.map f))
-          (H.map (beta.app b))).inv ≫
+          (H.map (beta.app b))).inv) ≫
         (StrongTransPostcomposition.naturalityIso H alpha f).inv ▷
-          H.map (beta.app b) ≫
+          H.map (beta.app b)) ≫
         (α_
           (H.map (F.map f))
           (H.map (alpha.app b))
@@ -139,10 +144,25 @@ private theorem vcompPost_naturality_inv
     Pseudofunctor.StrongTrans.categoryStruct_comp_naturality_inv
       (StrongTransPostcomposition.strongTrans H alpha)
       (StrongTransPostcomposition.strongTrans H beta) f
-  change ((vcompPost H alpha beta).naturality f).inv = _ at h
-  simpa only [Category.assoc,
-    StrongTransPostcomposition.strongTrans_app,
-    StrongTransPostcomposition.strongTrans_naturality] using h
+  change
+    ((vcompPost H alpha beta).naturality f).inv =
+      ((((α_
+        (H.map (alpha.app a))
+        (H.map (beta.app a))
+        (H.map (K.map f))).hom ≫
+        H.map (alpha.app a) ◁
+          (StrongTransPostcomposition.naturalityIso H beta f).inv) ≫
+        (α_
+          (H.map (alpha.app a))
+          (H.map (G.map f))
+          (H.map (beta.app b))).inv) ≫
+        (StrongTransPostcomposition.naturalityIso H alpha f).inv ▷
+          H.map (beta.app b)) ≫
+        (α_
+          (H.map (F.map f))
+          (H.map (alpha.app b))
+          (H.map (beta.app b))).hom at h
+  exact h
 
 /-- The compositor components satisfy the modification square.
 
@@ -225,6 +245,12 @@ theorem naturality
           ((H.mapComp (alpha.app a) (beta.app a)).hom ▷ H.map (K.map f) ≫
             ((vcompPost H alpha beta).naturality f).inv) :=
     (((postVcomp H alpha beta).naturality f).inv_comp_eq).mp hinv
+  change
+    H.map (F.map f) ◁
+          (H.mapComp (alpha.app b) (beta.app b)).hom ≫
+        ((vcompPost H alpha beta).naturality f).hom =
+      ((postVcomp H alpha beta).naturality f).hom ≫
+        (H.mapComp (alpha.app a) (beta.app a)).hom ▷ H.map (K.map f)
   rw [hx]
   simp only [Category.assoc, Iso.inv_hom_id_assoc, Category.comp_id]
 
