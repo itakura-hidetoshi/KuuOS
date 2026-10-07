@@ -82,14 +82,21 @@ theorem identityNaturality {a b : B} (f : a ⟶ b) :
   simp only [Iso.symm_hom, Category.assoc]
   rw [H.map₂_inv_hom_assoc (ρ_ (F.map f)),
     H.map₂_inv_hom_assoc (λ_ (F.map f))]
-  have hmap :
-      (Pseudofunctor.comp F H).map f = H.map (F.map f) :=
-    rfl
-  -- `rw [hmap]` is not type-correct here because the surrounding unitors
-  -- and whiskerings depend on the rewritten 1-morphism.  Simp performs the
-  -- dependent transport needed by these congruence positions.
-  simp only [hmap]
-  rw [Bicategory.inv_hom_whiskerRight, Category.id_comp]
+  -- At this late stage every nontrivial coherence cell has already been
+  -- normalized.  The only remaining difference is the reducible projection
+  -- `(F.comp H).map f = H.map (F.map f)`, so a local `change` is now
+  -- definitionally safe.
+  change
+    H.map (F.map f) ◁ (H.mapId (F.obj b)).hom ≫
+        (ρ_ (H.map (F.map f))).hom ≫
+        (λ_ (H.map (F.map f))).inv =
+      H.map (F.map f) ◁ (H.mapId (F.obj b)).hom ≫
+        (ρ_ (H.map (F.map f))).hom ≫
+        (λ_ (H.map (F.map f))).inv ≫
+        (H.mapId (F.obj a)).inv ▷ H.map (F.map f) ≫
+        (H.mapId (F.obj a)).hom ▷ H.map (F.map f)
+  simp only [Category.assoc, Bicategory.inv_hom_whiskerRight,
+    Category.comp_id]
 
 /-- The postcomposed identity StrongTrans is canonically isomorphic to the
 native identity StrongTrans of the composite pseudofunctor. -/
