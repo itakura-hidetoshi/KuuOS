@@ -20,6 +20,9 @@ noncomputable section
 /-!
 # Unit self-naturality core v5.67
 
+This head is revalidated directly against canonical main after the v5.66
+reverse-swallowtail predicate merge; no stacked-base receipt is reused.
+
 The forward swallowtail predicate of v5.65 requires a canonical
 unit-centered interchanger paste.  The irreducible core of that paste is not
 new data: it is the pseudonaturality isomorphism of the stored unit evaluated
