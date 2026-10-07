@@ -70,14 +70,12 @@ theorem identityNaturality {a b : B} (f : a ⟶ b) :
       (naturalityIso H (Pseudofunctor.StrongTrans.id F) f).hom ≫
         (H.mapId (F.obj a)).hom ▷
           (Pseudofunctor.comp F H).map f := by
-  change
-    H.map (F.map f) ◁ (H.mapId (F.obj b)).hom ≫
-        (ρ_ (H.map (F.map f))).hom ≫
-        (λ_ (H.map (F.map f))).inv =
-      (H.mapComp (F.map f) (𝟙 (F.obj b))).inv ≫
-        H.map₂ ((ρ_ (F.map f)).hom ≫ (λ_ (F.map f)).inv) ≫
-        (H.mapComp (𝟙 (F.obj a)) (F.map f)).hom ≫
-        (H.mapId (F.obj a)).hom ▷ H.map (F.map f)
+  -- Do not use `change` here: the composite-pseudofunctor and identity-
+  -- StrongTrans projections are propositionally presented through reducible
+  -- structures, but Lean's `change` requires the whole displayed target to
+  -- be definitionally equal at the current transparency setting.
+  simp only [naturalityIso_hom]
+  dsimp only [Pseudofunctor.StrongTrans.id]
   rw [H.mapComp_id_right_inv, PrelaxFunctor.map₂_comp,
     H.mapComp_id_left_hom]
   simp only [Category.assoc]
