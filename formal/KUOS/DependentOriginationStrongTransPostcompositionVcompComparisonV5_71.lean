@@ -272,9 +272,24 @@ theorem naturality
         ((vcompPost H alpha beta).naturality f).hom =
       ((postVcomp H alpha beta).naturality f).hom ≫
         (H.mapComp (alpha.app a) (beta.app a)).hom ▷ H.map (K.map f)
-  rw [hx]
-  simp only [Category.assoc, Iso.inv_hom_id, Iso.inv_hom_id_assoc,
-    Category.id_comp, Category.comp_id]
+  calc
+    _ =
+        (((postVcomp H alpha beta).naturality f).hom ≫
+          ((H.mapComp (alpha.app a) (beta.app a)).hom ▷ H.map (K.map f) ≫
+            ((vcompPost H alpha beta).naturality f).inv)) ≫
+          ((vcompPost H alpha beta).naturality f).hom := by
+      rw [hx]
+    _ =
+        ((postVcomp H alpha beta).naturality f).hom ≫
+          ((H.mapComp (alpha.app a) (beta.app a)).hom ▷ H.map (K.map f) ≫
+            (((vcompPost H alpha beta).naturality f).inv ≫
+              ((vcompPost H alpha beta).naturality f).hom)) := by
+      rw [Category.assoc, Category.assoc]
+    _ =
+        ((postVcomp H alpha beta).naturality f).hom ≫
+          (H.mapComp (alpha.app a) (beta.app a)).hom ▷ H.map (K.map f) := by
+      rw [((vcompPost H alpha beta).naturality f).inv_hom_id,
+        Category.comp_id]
 
 local instance postVcompStrongTransHomCategory :
     Category
