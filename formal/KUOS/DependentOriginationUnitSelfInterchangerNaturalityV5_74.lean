@@ -130,7 +130,7 @@ theorem reverseNaturality : ReverseNaturality R eta := by
     Iso.symm_hom,
     Category.assoc
   ]
-  simp only [Bicategory.whiskerLeft_comp, Category.assoc]
+  rw [Bicategory.whiskerLeft_comp]
   rw [← reassoc_of% hY]
   rw [← reassoc_of% hX]
   simpa only [Category.assoc] using
