@@ -130,7 +130,21 @@ theorem reverseNaturality : ReverseNaturality R eta := by
     Iso.symm_hom,
     Category.assoc
   ]
-  rw [Bicategory.whiskerLeft_comp]
+  have hsplit :
+      eta.app X ◁
+          ((R.mapComp f (eta.app Y)).inv ≫
+            (R.map₂ (eta.naturality f).hom ≫
+              (R.mapComp (eta.app X) (R.map f)).hom)) =
+        (eta.app X ◁ (R.mapComp f (eta.app Y)).inv) ≫
+          (eta.app X ◁
+            (R.map₂ (eta.naturality f).hom ≫
+              (R.mapComp (eta.app X) (R.map f)).hom)) :=
+    Bicategory.whiskerLeft_comp
+      (eta.app X)
+      (R.mapComp f (eta.app Y)).inv
+      (R.map₂ (eta.naturality f).hom ≫
+        (R.mapComp (eta.app X) (R.map f)).hom)
+  rw [hsplit]
   rw [← reassoc_of% hY]
   rw [← reassoc_of% hX]
   simpa only [Category.assoc] using
