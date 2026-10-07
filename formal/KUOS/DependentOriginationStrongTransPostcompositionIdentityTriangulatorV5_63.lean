@@ -70,8 +70,20 @@ theorem identityNaturality {a b : B} (f : a ⟶ b) :
       (naturalityIso H (Pseudofunctor.StrongTrans.id F) f).hom ≫
         (H.mapId (F.obj a)).hom ▷
           (Pseudofunctor.comp F H).map f := by
-  simp only [naturalityIso_hom]
-  simp
+  change
+    H.map (F.map f) ◁ (H.mapId (F.obj b)).hom ≫
+        (ρ_ (H.map (F.map f))).hom ≫
+        (λ_ (H.map (F.map f))).inv =
+      (H.mapComp (F.map f) (𝟙 (F.obj b))).inv ≫
+        H.map₂ ((ρ_ (F.map f)).hom ≫ (λ_ (F.map f)).inv) ≫
+        (H.mapComp (𝟙 (F.obj a)) (F.map f)).hom ≫
+        (H.mapId (F.obj a)).hom ▷ H.map (F.map f)
+  rw [H.mapComp_id_right_inv, PrelaxFunctor.map₂_comp,
+    H.mapComp_id_left_hom]
+  simp only [Category.assoc]
+  rw [H.map₂_inv_hom_assoc (ρ_ (F.map f)),
+    H.map₂_inv_hom_assoc (λ_ (F.map f)),
+    Bicategory.inv_hom_whiskerRight, Category.id_comp]
 
 /-- The postcomposed identity StrongTrans is canonically isomorphic to the
 native identity StrongTrans of the composite pseudofunctor. -/
