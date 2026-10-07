@@ -5,6 +5,7 @@ namespace KUOS.DependentOriginationForwardSwallowtailModificationObstructionV5_7
 open CategoryTheory
 open scoped CategoryTheory.Bicategory CategoryTheory.Pseudofunctor.StrongTrans
 
+open KUOS.DependentOriginationExactLiftableActualLiftBiadjunctionTriangulatorsV5_58
 open KUOS.DependentOriginationForwardSwallowtailPredicateV5_65
 open KUOS.DependentOriginationForwardSwallowtailPredicateV5_65.Generic.IncoherentBiadjunctionDatum
 open KUOS.DependentOriginationBiadjunctionTriangulatorHorizontalPastesV5_64.Generic.IncoherentBiadjunctionDatum
@@ -89,20 +90,25 @@ abbrev actualLiftForwardSwallowtailRightV70 :=
       (WorldLabel := WorldLabel)
       (PresentationLabel := PresentationLabel))
 
+/-!
+The source object type is written directly with all six universe levels in
+this declaration header.  Under `set_option autoImplicit false`, Lean
+elaborates binder types before using information from the body; routing the
+binder through a local abbreviation leaves the hom-universe level
+underconstrained here.  This is the same header-first issue already isolated
+in v5.58.
+-/
+
 /-- Exact modification-naturality proposition for the v5.68 objectwise
 interchanger family. -/
 def ActualLiftForwardSwallowtailModificationNaturality : Prop :=
   ∀ {X Y :
-      actualLiftForwardSwallowtailSourceV70
-        (W := W) A
-        (WorldLabel := WorldLabel)
-        (PresentationLabel := PresentationLabel)}
+      ActualLiftSource.{u, v, uH, vH, uW, uP}
+        (W := W) A WorldLabel PresentationLabel}
     (f : X ⟶ Y),
     (Pseudofunctor.id
-      (actualLiftForwardSwallowtailSourceV70
-        (W := W) A
-        (WorldLabel := WorldLabel)
-        (PresentationLabel := PresentationLabel))).map f ◁
+      (ActualLiftSource.{u, v, uH, vH, uW, uP}
+        (W := W) A WorldLabel PresentationLabel)).map f ◁
         (actualLiftForwardSwallowtailComponentInterchanger
           (W := W) A
           (WorldLabel := WorldLabel)
@@ -140,15 +146,11 @@ local instance actualLiftForwardSwallowtailHomCategoryV70 :
           (PresentationLabel := PresentationLabel))) :=
   Pseudofunctor.StrongTrans.homCategory
     (B :=
-      actualLiftForwardSwallowtailSourceV70
-        (W := W) A
-        (WorldLabel := WorldLabel)
-        (PresentationLabel := PresentationLabel))
+      ActualLiftSource.{u, v, uH, vH, uW, uP}
+        (W := W) A WorldLabel PresentationLabel)
     (C :=
-      actualLiftForwardSwallowtailSourceV70
-        (W := W) A
-        (WorldLabel := WorldLabel)
-        (PresentationLabel := PresentationLabel))
+      ActualLiftSource.{u, v, uH, vH, uW, uP}
+        (W := W) A WorldLabel PresentationLabel)
     (F :=
       Pseudofunctor.id
         (actualLiftForwardSwallowtailSourceV70
@@ -201,10 +203,8 @@ def actualLiftForwardSwallowtailInterchangerOfNaturality
         (WorldLabel := WorldLabel)
         (PresentationLabel := PresentationLabel))
     (X :
-      actualLiftForwardSwallowtailSourceV70
-        (W := W) A
-        (WorldLabel := WorldLabel)
-        (PresentationLabel := PresentationLabel)) :
+      ActualLiftSource.{u, v, uH, vH, uW, uP}
+        (W := W) A WorldLabel PresentationLabel) :
     (actualLiftForwardSwallowtailInterchangerOfNaturality
       (W := W) A
       (WorldLabel := WorldLabel)
@@ -224,10 +224,8 @@ def actualLiftForwardSwallowtailInterchangerOfNaturality
         (WorldLabel := WorldLabel)
         (PresentationLabel := PresentationLabel))
     (X :
-      actualLiftForwardSwallowtailSourceV70
-        (W := W) A
-        (WorldLabel := WorldLabel)
-        (PresentationLabel := PresentationLabel)) :
+      ActualLiftSource.{u, v, uH, vH, uW, uP}
+        (W := W) A WorldLabel PresentationLabel) :
     (actualLiftForwardSwallowtailInterchangerOfNaturality
       (W := W) A
       (WorldLabel := WorldLabel)
