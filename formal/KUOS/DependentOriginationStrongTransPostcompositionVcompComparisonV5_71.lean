@@ -192,7 +192,8 @@ theorem naturality
           (α_ (F.map f) (alpha.app b) (beta.app b)).hom := by
     simp only [e, Iso.refl_hom, Bicategory.id_whiskerRight, Category.id_comp,
       Iso.symm_hom]
-    exact vcomp_naturality_inv alpha beta f
+    simpa only [Category.assoc] using
+      (vcomp_naturality_inv alpha beta f)
   have hmapped :=
     MappedSquare.composition
       H
@@ -236,7 +237,27 @@ theorem naturality
     rw [hpost, hbeta, halpha] at hmapped
     simp only [e, Iso.refl_hom, PrelaxFunctor.map₂_id,
       Category.id_comp] at hmapped
-    rw [← vcompPost_naturality_inv H alpha beta f] at hmapped
+    have hv :
+        ((vcompPost H alpha beta).naturality f).inv =
+          (α_
+            (H.map (alpha.app a))
+            (H.map (beta.app a))
+            (H.map (K.map f))).hom ≫
+          H.map (alpha.app a) ◁
+              (StrongTransPostcomposition.naturalityIso H beta f).inv ≫
+          (α_
+            (H.map (alpha.app a))
+            (H.map (G.map f))
+            (H.map (beta.app b))).inv ≫
+          (StrongTransPostcomposition.naturalityIso H alpha f).inv ▷
+              H.map (beta.app b) ≫
+          (α_
+            (H.map (F.map f))
+            (H.map (alpha.app b))
+            (H.map (beta.app b))).hom := by
+      simpa only [Category.assoc] using
+        (vcompPost_naturality_inv H alpha beta f)
+    rw [← hv] at hmapped
     exact hmapped
   have hx :
       H.map (F.map f) ◁
@@ -252,7 +273,8 @@ theorem naturality
       ((postVcomp H alpha beta).naturality f).hom ≫
         (H.mapComp (alpha.app a) (beta.app a)).hom ▷ H.map (K.map f)
   rw [hx]
-  simp only [Category.assoc, Iso.inv_hom_id_assoc, Category.comp_id]
+  simp only [Category.assoc, Iso.inv_hom_id, Iso.inv_hom_id_assoc,
+    Category.id_comp, Category.comp_id]
 
 local instance postVcompStrongTransHomCategory :
     Category
