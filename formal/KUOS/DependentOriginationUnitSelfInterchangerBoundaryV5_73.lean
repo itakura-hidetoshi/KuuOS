@@ -16,8 +16,8 @@ noncomputable section
 /-!
 # Unit self-interchanger boundary v5.73
 
-This head is revalidated against the repaired v5.71/v5.72 stack; cascade
-receipts from the former parent failure are not reused.
+Revalidated directly against canonical main after the v5.72 merge; stacked
+receipts from the former parent chain are not reused.
 The v5.72 declarations used below live under
 `DependentOriginationUnitPostcompositionNativeSourceV5_72.Generic`.
 Lean's `open` is namespace-local rather than recursive through child
