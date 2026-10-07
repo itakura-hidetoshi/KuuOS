@@ -67,6 +67,26 @@ abbrev sourceRoundtrip : Pseudofunctor B B :=
 abbrev targetRoundtrip : Pseudofunctor C C :=
   Pseudofunctor.comp D.base.quasiInverse D.base.whitehead.forward
 
+/-! The StrongTrans hom categories are scoped instances in Mathlib.  At this
+generic two-bicategory boundary the universe carried by `Category` is not an
+output parameter, so elaborating `Iso.trans` cannot reliably reconstruct it
+from the endpoints alone.  Bind the exact native hom categories explicitly,
+as in v5.61 and v5.63. -/
+
+local instance sourceRoundtripStrongTransHomCategory :
+    Category
+      (Pseudofunctor.StrongTrans (sourceRoundtrip D) (sourceRoundtrip D)) :=
+  Pseudofunctor.StrongTrans.homCategory
+    (B := B) (C := B)
+    (F := sourceRoundtrip D) (G := sourceRoundtrip D)
+
+local instance targetRoundtripStrongTransHomCategory :
+    Category
+      (Pseudofunctor.StrongTrans (targetRoundtrip D) (targetRoundtrip D)) :=
+  Pseudofunctor.StrongTrans.homCategory
+    (B := C) (C := C)
+    (F := targetRoundtrip D) (G := targetRoundtrip D)
+
 /-- Forward triangulator horizontally whiskered on the right by G.
 The v5.63 postcomposition construction retains G.mapId in the contraction. -/
 def sourceForwardTriangulator :
@@ -160,14 +180,14 @@ def targetHorizontalPaste :
 @[simp] theorem sourceHorizontalPaste_hom :
     (sourceHorizontalPaste D).hom =
       (sourceForwardTriangulator D).contraction.hom ≫
-        (sourceReverseTriangulator D).contraction.inv := by
-  simp only [sourceHorizontalPaste, Iso.trans_hom, Iso.symm_hom]
+        (sourceReverseTriangulator D).contraction.inv :=
+  rfl
 
 @[simp] theorem targetHorizontalPaste_hom :
     (targetHorizontalPaste D).hom =
       (targetForwardTriangulator D).contraction.hom ≫
-        (targetReverseTriangulator D).contraction.inv := by
-  simp only [targetHorizontalPaste, Iso.trans_hom, Iso.symm_hom]
+        (targetReverseTriangulator D).contraction.inv :=
+  rfl
 
 end IncoherentBiadjunctionDatum
 
