@@ -84,13 +84,13 @@ def componentIso (a : B) :
 the orientation required by MappedSquare.composition. -/
 private theorem vcomp_naturality_inv
     {a b : B} (f : a ⟶ b) :
-    ((Pseudofunctor.StrongTrans.vcomp alpha beta).naturality f).inv =
+    ((alpha ≫ beta).naturality f).inv =
       (α_ (alpha.app a) (beta.app a) (K.map f)).hom ≫
         alpha.app a ◁ (beta.naturality f).inv ≫
         (α_ (alpha.app a) (G.map f) (beta.app b)).inv ≫
         (alpha.naturality f).inv ▷ beta.app b ≫
         (α_ (F.map f) (alpha.app b) (beta.app b)).hom := by
-  simpa only using
+  simpa only [Category.assoc] using
     (Pseudofunctor.StrongTrans.categoryStruct_comp_naturality_inv
       alpha beta f)
 
@@ -115,24 +115,26 @@ private theorem mapped_naturality_symm
 has the expected five-factor form. -/
 private theorem vcompPost_naturality_inv
     {a b : B} (f : a ⟶ b) :
-    ((vcompPost H alpha beta).naturality f).inv =
+    ((StrongTransPostcomposition.strongTrans H alpha ≫
+        StrongTransPostcomposition.strongTrans H beta).naturality f).inv =
       (α_
         (H.map (alpha.app a))
         (H.map (beta.app a))
-        (H.map (K.map f))).hom ≫
+        ((Pseudofunctor.comp K H).map f)).hom ≫
         H.map (alpha.app a) ◁
           (StrongTransPostcomposition.naturalityIso H beta f).inv ≫
         (α_
           (H.map (alpha.app a))
-          (H.map (G.map f))
+          ((Pseudofunctor.comp G H).map f)
           (H.map (beta.app b))).inv ≫
         (StrongTransPostcomposition.naturalityIso H alpha f).inv ▷
           H.map (beta.app b) ≫
         (α_
-          (H.map (F.map f))
+          ((Pseudofunctor.comp F H).map f)
           (H.map (alpha.app b))
           (H.map (beta.app b))).hom := by
-  simpa only [StrongTransPostcomposition.strongTrans_app,
+  simpa only [Category.assoc,
+    StrongTransPostcomposition.strongTrans_app,
     StrongTransPostcomposition.strongTrans_naturality] using
     (Pseudofunctor.StrongTrans.categoryStruct_comp_naturality_inv
       (StrongTransPostcomposition.strongTrans H alpha)
@@ -222,8 +224,8 @@ theorem naturality
         ((vcompPost H alpha beta).naturality f).hom =
       ((postVcomp H alpha beta).naturality f).hom ≫
         (H.mapComp (alpha.app a) (beta.app a)).hom ▷ H.map (K.map f)
-  simpa only [← Category.assoc, Iso.hom_inv_id,
-    Iso.inv_hom_id, Category.id_comp, Category.comp_id] using hconj
+  simpa only [Category.assoc, Iso.hom_inv_id_assoc,
+    Iso.inv_hom_id_assoc] using hconj
 
 local instance postVcompStrongTransHomCategory :
     Category
