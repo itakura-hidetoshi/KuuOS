@@ -69,6 +69,19 @@ def unitSelfGlobalComparisonIso :
   KUOS.DependentOriginationUnitSelfInterchangerNaturalityV5_74.Generic.UnitSelfInterchanger.comparisonIso
     (sourceRoundtrip D) D.base.unit
 
+/-! Mathlib scopes the StrongTrans hom-category instance.  The universe
+of its 2-cells is not an output parameter, so pin the exact category before
+elaborating Iso projections in the following component theorems. -/
+local instance unitSelfGlobalHomCategory :
+    Category
+      (Pseudofunctor.StrongTrans
+        (Pseudofunctor.id B)
+        (Pseudofunctor.comp (sourceRoundtrip D) (sourceRoundtrip D))) :=
+  Pseudofunctor.StrongTrans.homCategory
+    (B := B) (C := B)
+    (F := Pseudofunctor.id B)
+    (G := Pseudofunctor.comp (sourceRoundtrip D) (sourceRoundtrip D))
+
 /-- The global modification's component is literally the v5.67 core,
 reversed in the direction used by the forward swallowtail. -/
 @[simp] theorem unitSelfGlobalComparisonIso_hom_app (X : B) :
@@ -99,6 +112,36 @@ def actualLiftUnitSelfGlobalComparisonIso :=
       (W := W) A
       (WorldLabel := WorldLabel)
       (PresentationLabel := PresentationLabel))
+
+/-! The six universe levels of ActualLiftSource are explicit here, as
+in v5.70.  A hom-category instance inferred only from the abbreviated
+comparison may leave the 2-morphism universe underconstrained. -/
+local instance actualLiftUnitSelfHomCategory :
+    Category
+      (Pseudofunctor.StrongTrans
+        (Pseudofunctor.id
+          (ActualLiftSource.{u, v, uH, vH, uW, uP}
+            (W := W) A WorldLabel PresentationLabel))
+        (Pseudofunctor.comp
+          (sourceRoundtrip
+            (actualLiftForwardSwallowtailDatum
+              (W := W) A
+              (WorldLabel := WorldLabel)
+              (PresentationLabel := PresentationLabel)))
+          (sourceRoundtrip
+            (actualLiftForwardSwallowtailDatum
+              (W := W) A
+              (WorldLabel := WorldLabel)
+              (PresentationLabel := PresentationLabel))))) :=
+  Pseudofunctor.StrongTrans.homCategory
+    (B :=
+      ActualLiftSource.{u, v, uH, vH, uW, uP}
+        (W := W) A WorldLabel PresentationLabel)
+    (C :=
+      ActualLiftSource.{u, v, uH, vH, uW, uP}
+        (W := W) A WorldLabel PresentationLabel)
+    (F := Pseudofunctor.id _)
+    (G := _)
 
 /-- The same component used by the v5.68 four-cell paste, now supplied by
 a globally natural modification instead of only pointwise isomorphisms. -/
