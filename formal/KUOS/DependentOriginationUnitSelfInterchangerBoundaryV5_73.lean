@@ -17,6 +17,8 @@ noncomputable section
 
 This head is revalidated against the repaired v5.71/v5.72 stack; cascade
 receipts from the former parent failure are not reused.
+Current stacked-base revalidation uses v5.72 head
+`8d9f46f6efd07f508303fc9599fc84d8356b0ede`.
 
 Let R : B -> B and eta : Id_B => R.
 
