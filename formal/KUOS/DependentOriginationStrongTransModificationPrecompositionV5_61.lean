@@ -38,6 +38,26 @@ variable (K : Pseudofunctor D B)
 variable {F G : Pseudofunctor B C}
 variable (alpha : Pseudofunctor.StrongTrans F G)
 
+/-! Explicit native hom categories.
+
+Although Mathlib exposes these as scoped instances, the universe of
+modifications is not an output parameter of `Category`.  At the generic
+three-bicategory boundary below, asking typeclass search to reconstruct that
+universe from an `Iso` header is unstable.  Bind the already existing
+Mathlib hom categories directly, as in the v5.57 certificate. -/
+
+local instance sourceStrongTransHomCategory
+    {P Q : Pseudofunctor B C} :
+    Category (Pseudofunctor.StrongTrans P Q) :=
+  Pseudofunctor.StrongTrans.homCategory
+    (B := B) (C := C) (F := P) (G := Q)
+
+local instance precomposedStrongTransHomCategory
+    {P Q : Pseudofunctor D C} :
+    Category (Pseudofunctor.StrongTrans P Q) :=
+  Pseudofunctor.StrongTrans.homCategory
+    (B := D) (C := C) (F := P) (G := Q)
+
 /-- Identity coherence for arbitrary precomposition.  The proof first moves
 K.mapId through alpha by alpha's 2-cell naturality and only then applies the
 original StrongTrans identity law. -/
