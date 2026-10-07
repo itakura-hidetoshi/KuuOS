@@ -25,15 +25,17 @@ representatives on the source roundtrip.
 
 The coherent forward swallowtail law is not merely the assertion that this
 comparison is an identity.  In the standard Gray-categorical formulation, the
-unit is horizontally composed with itself in two different orders.  Their
-canonical interchanger is then compared with the paste of the two
-triangulators; the swallowtail equation says that the resulting defect is the
-identity modification of the unit.
+unit is horizontally composed with itself in two different orders.  The
+resulting interchanger, together with the required associator/unitor and
+counit whiskering corrections, gives a canonical comparison between the two
+full unit-followed-by-triangle paths.  The swallowtail equation compares that
+canonical interchanger paste with the paste of the two triangulators; the
+resulting defect must be the identity modification of the unit.
 
 At the current KuuOS boundary the generic StrongTrans pre/postcomposition
 machinery and the v5.64 triangulator paste are available, while the canonical
-unit-self interchanger has not yet been constructed as a generic KuuOS
-operation.  This file therefore isolates the exact typed equation without
+unit-centered interchanger paste (including its structural correction cells)
+has not yet been constructed as a generic KuuOS operation.  This file therefore isolates the exact typed equation without
 postulating that missing cell:
 
 * the two boundary StrongTrans values are fixed by the stored unit and the
@@ -97,7 +99,7 @@ local instance forwardSwallowtailHomCategory :
     (F := Pseudofunctor.id B)
     (G := sourceRoundtrip D)
 
-/-- The exact type required of the unit-self interchanger in the forward
+/-- The exact type required of the unit-centered interchanger paste in the forward
 swallowtail equation.
 
 The construction of the canonical inhabitant from the pseudonaturality of the
@@ -165,7 +167,7 @@ abbrev actualLiftForwardSwallowtailDatum :=
     (WorldLabel := WorldLabel)
     (PresentationLabel := PresentationLabel)
 
-/-- Exact type of a candidate actual-lift unit-self interchanger. -/
+/-- Exact type of a candidate actual-lift unit-centered interchanger paste. -/
 abbrev ActualLiftForwardSwallowtailInterchanger :=
   Generic.IncoherentBiadjunctionDatum.ForwardSwallowtailInterchanger
     (actualLiftForwardSwallowtailDatum
@@ -196,8 +198,9 @@ target and modification universe.
 
 What remains is mathematical rather than terminological:
 
-1. construct the canonical unit-self interchanger from the stored unit
-   pseudonaturality, retaining all pseudofunctor mapId/mapComp and
+1. construct the canonical unit-centered interchanger paste from the stored unit
+   pseudonaturality, retaining the eta/eta interchanger, all pseudofunctor
+   mapId/mapComp cells, the required counit whiskering, and
    associator/unitor corrections;
 2. specialize it to the actual-lift datum;
 3. prove that this canonical interchanger equals
