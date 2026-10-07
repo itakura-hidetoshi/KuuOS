@@ -79,7 +79,7 @@ theorem reverseNaturality : ReverseNaturality R eta := by
         (eta.naturality f).hom ▷ R.map (eta.app Y) ≫
         (α_ (eta.app X) (R.map f) (R.map (eta.app Y))).hom ≫
         eta.app X ◁ (R.mapComp f (eta.app Y)).inv := by
-    simpa using
+    simpa only [Category.id_comp] using
       (Pseudofunctor.StrongTrans.naturality_comp_hom
         eta f (eta.app Y))
   have hX :
@@ -94,7 +94,7 @@ theorem reverseNaturality : ReverseNaturality R eta := by
           (R.map (R.map f))).hom ≫
         eta.app X ◁
           (R.mapComp (eta.app X) (R.map f)).inv := by
-    simpa using
+    simpa only [Category.id_comp] using
       (Pseudofunctor.StrongTrans.naturality_comp_hom
         eta (eta.app X) (R.map f))
   let pre :=
@@ -104,6 +104,13 @@ theorem reverseNaturality : ReverseNaturality R eta := by
       (R.map (R.map f))).hom ≫
       eta.app X ◁
         (R.mapComp (eta.app X) (R.map f)).inv
+  change
+    f ◁ (eta.naturality (eta.app Y)).hom ≫
+        ((Pseudofunctor.StrongTrans.vcomp
+          eta (UnitPostcomposition.strongTrans R eta)).naturality f).hom =
+      ((Pseudofunctor.StrongTrans.vcomp
+        eta (UnitPrecomposition.strongTrans R eta)).naturality f).hom ≫
+        (eta.naturality (eta.app X)).hom ▷ R.map (R.map f)
   rw [← cancel_epi pre, ← cancel_mono post]
   dsimp [pre, post]
   simp only [
