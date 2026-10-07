@@ -70,7 +70,56 @@ def ReverseNaturality : Prop :=
 then expose the pre- and post-composed naturality factors. -/
 theorem reverseNaturality : ReverseNaturality R eta := by
   intro X Y f
-  cat_disch
+  have hY :
+      (eta.naturality (f ≫ eta.app Y)).hom =
+        (α_ f (eta.app Y) (eta.app (R.obj Y))).hom ≫
+        f ◁ (eta.naturality (eta.app Y)).hom ≫
+        (α_ f (eta.app Y) (R.map (eta.app Y))).inv ≫
+        (eta.naturality f).hom ▷ R.map (eta.app Y) ≫
+        (α_ (eta.app X) (R.map f) (R.map (eta.app Y))).hom ≫
+        eta.app X ◁ (R.mapComp f (eta.app Y)).inv := by
+    simpa using
+      (Pseudofunctor.StrongTrans.naturality_comp_hom
+        eta f (eta.app Y))
+  have hX :
+      (eta.naturality (eta.app X ≫ R.map f)).hom =
+        (α_ (eta.app X) (R.map f) (eta.app (R.obj Y))).hom ≫
+        eta.app X ◁ (eta.naturality (R.map f)).hom ≫
+        (α_ (eta.app X) (eta.app (R.obj X))
+          (R.map (R.map f))).inv ≫
+        (eta.naturality (eta.app X)).hom ▷
+          R.map (R.map f) ≫
+        (α_ (eta.app X) (R.map (eta.app X))
+          (R.map (R.map f))).hom ≫
+        eta.app X ◁
+          (R.mapComp (eta.app X) (R.map f)).inv := by
+    simpa using
+      (Pseudofunctor.StrongTrans.naturality_comp_hom
+        eta (eta.app X) (R.map f))
+  let pre :=
+    (α_ f (eta.app Y) (eta.app (R.obj Y))).hom
+  let post :=
+    (α_ (eta.app X) (R.map (eta.app X))
+      (R.map (R.map f))).hom ≫
+      eta.app X ◁
+        (R.mapComp (eta.app X) (R.map f)).inv
+  rw [← cancel_epi pre, ← cancel_mono post]
+  dsimp [pre, post]
+  simp only [
+    reverseComponentIso_hom,
+    Pseudofunctor.StrongTrans.categoryStruct_comp_naturality_hom,
+    UnitPostcomposition.strongTrans_naturality,
+    UnitPostcomposition.naturalityIso_hom,
+    UnitPrecomposition.strongTrans_naturality,
+    UnitPostcomposition.strongTrans_app,
+    UnitPrecomposition.strongTrans_app,
+    Bicategory.whiskerLeft_comp,
+    Category.assoc
+  ]
+  rw [← reassoc_of% hY]
+  rw [← reassoc_of% hX]
+  simpa only [Category.assoc] using
+    (eta.naturality_naturality (eta.naturality f).hom).symm
 
 end UnitSelfInterchanger
 
