@@ -95,7 +95,8 @@ theorem reverseNaturality : ReverseNaturality R eta := by
       (R.map (R.map f))).hom ≫
       eta.app X ◁
         (R.mapComp (eta.app X) (R.map f)).inv
-  rw [← cancel_epi pre, ← cancel_mono post]
+  apply (cancel_epi pre).mp
+  apply (cancel_mono post).mp
   dsimp [pre, post]
   simp only [
     reverseComponentIso_hom,
