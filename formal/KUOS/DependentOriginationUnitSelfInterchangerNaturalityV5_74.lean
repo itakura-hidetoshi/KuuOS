@@ -199,18 +199,18 @@ theorem reverseNaturality : ReverseNaturality R eta := by
         (eta.app X ◁ (R.mapComp (eta.app X) (R.map f)).inv)
     let assocIso :=
       α_ (eta.app X) (R.map (eta.app X)) (R.map (R.map f))
+    let first :=
+      eta.app X ◁ (R.mapComp (eta.app X) (R.map f)).hom
+    let last :=
+      eta.app X ◁ (R.mapComp (eta.app X) (R.map f)).inv
     have hcancel := assocIso.inv_hom_id
-    have hcontext :=
-      congrArg
-        (fun middle =>
-          (eta.app X ◁
-            (R.mapComp (eta.app X) (R.map f)).hom) ≫
-            middle ≫
-              (eta.app X ◁
-                (R.mapComp (eta.app X) (R.map f)).inv))
-        hcancel
-    simpa only [assocIso, Category.assoc,
-      Category.id_comp, Category.comp_id] using hcontext
+    calc
+      _ = first ≫ ((assocIso.inv ≫ assocIso.hom) ≫ last) := by
+        simp only [first, last, assocIso, Category.assoc]
+      _ = first ≫ ((𝟙 _) ≫ last) :=
+        congrArg (fun middle => first ≫ (middle ≫ last)) hcancel
+      _ = _ := by
+        simp only [Category.id_comp]
   rw [hpostNorm, hpre]
   simp only [
     leftFactor, rightFactor,
