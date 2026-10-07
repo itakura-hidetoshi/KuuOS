@@ -210,7 +210,7 @@ theorem reverseNaturality : ReverseNaturality R eta := by
       _ = first ≫ ((𝟙 _) ≫ last) :=
         congrArg (fun middle => first ≫ (middle ≫ last)) hcancel
       _ = _ := by
-        simp only [Category.id_comp]
+        rfl
   rw [hpostNorm, hpre]
   simp only [
     leftFactor, rightFactor,
@@ -242,9 +242,16 @@ theorem reverseNaturality : ReverseNaturality R eta := by
                         (eta.app X ◁ R.map₂ (eta.naturality f).hom)
         have hlead :=
           congrArg (fun tail => lead ≫ tail) htail
-        simpa only [lead, Category.assoc,
-          Bicategory.whiskerLeft_hom_inv, Category.comp_id]
-          using hlead
+        have htailRight :
+            lead ≫
+                ((eta.app X ◁
+                    (R.mapComp (eta.app X) (R.map f)).hom) ≫
+                  (eta.app X ◁
+                    (R.mapComp (eta.app X) (R.map f)).inv)) =
+              lead := by
+          simp only [Bicategory.whiskerLeft_hom_inv, Category.comp_id]
+        have htotal := hlead.trans htailRight
+        simpa only [lead, ← Category.assoc] using htotal
     _ = (Pseudofunctor.id B).map₂ (eta.naturality f).hom ▷
           eta.app (R.obj Y) ≫
         (eta.naturality (eta.app X ≫ R.map f)).hom :=
