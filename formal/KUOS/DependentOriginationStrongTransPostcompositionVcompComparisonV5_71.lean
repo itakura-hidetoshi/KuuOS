@@ -85,12 +85,22 @@ the orientation required by MappedSquare.composition. -/
 private theorem vcomp_naturality_inv
     {a b : B} (f : a ⟶ b) :
     ((Pseudofunctor.StrongTrans.vcomp alpha beta).naturality f).inv =
-      (α_ (alpha.app a) (beta.app a) (K.map f)).hom ≫
-        alpha.app a ◁ (beta.naturality f).inv ≫
-        (α_ (alpha.app a) (G.map f) (beta.app b)).inv ≫
-        (alpha.naturality f).inv ▷ beta.app b ≫
-        (α_ (F.map f) (alpha.app b) (beta.app b)).hom :=
-  rfl
+      ((((α_ (alpha.app a) (beta.app a) (K.map f)).hom ≫
+          alpha.app a ◁ (beta.naturality f).inv) ≫
+        (α_ (alpha.app a) (G.map f) (beta.app b)).inv) ≫
+        (alpha.naturality f).inv ▷ beta.app b) ≫
+        (α_ (F.map f) (alpha.app b) (beta.app b)).hom := by
+  have h :=
+    Pseudofunctor.StrongTrans.categoryStruct_comp_naturality_inv
+      alpha beta f
+  change
+    ((Pseudofunctor.StrongTrans.vcomp alpha beta).naturality f).inv =
+      ((((α_ (alpha.app a) (beta.app a) (K.map f)).hom ≫
+          alpha.app a ◁ (beta.naturality f).inv) ≫
+        (α_ (alpha.app a) (G.map f) (beta.app b)).inv) ≫
+        (alpha.naturality f).inv ▷ beta.app b) ≫
+        (α_ (F.map f) (alpha.app b) (beta.app b)).hom at h
+  exact h
 
 /-- Mapping the inverse naturality square is the inverse of the mapped
 naturality square. -/
@@ -104,30 +114,55 @@ private theorem mapped_naturality_symm
       (P.map f) (Q.map f)
       (gamma.naturality f).symm).hom =
       (StrongTransPostcomposition.naturalityIso H gamma f).inv := by
-  rfl
+  simp only [MappedSquare.iso, StrongTransPostcomposition.naturalityIso,
+    Iso.trans_inv, Iso.symm_inv, Iso.trans_hom, Iso.symm_hom,
+    PrelaxFunctor.map₂Iso_hom, PrelaxFunctor.map₂Iso_inv,
+    Category.assoc]
 
 /-- The inverse naturality of the separately postcomposed vertical composite
 has the expected five-factor form. -/
 private theorem vcompPost_naturality_inv
     {a b : B} (f : a ⟶ b) :
     ((vcompPost H alpha beta).naturality f).inv =
-      (α_
+      ((((α_
         (H.map (alpha.app a))
         (H.map (beta.app a))
         (H.map (K.map f))).hom ≫
         H.map (alpha.app a) ◁
-          (StrongTransPostcomposition.naturalityIso H beta f).inv ≫
+          (StrongTransPostcomposition.naturalityIso H beta f).inv) ≫
         (α_
           (H.map (alpha.app a))
           (H.map (G.map f))
-          (H.map (beta.app b))).inv ≫
+          (H.map (beta.app b))).inv) ≫
         (StrongTransPostcomposition.naturalityIso H alpha f).inv ▷
-          H.map (beta.app b) ≫
+          H.map (beta.app b)) ≫
         (α_
           (H.map (F.map f))
           (H.map (alpha.app b))
-          (H.map (beta.app b))).hom :=
-  rfl
+          (H.map (beta.app b))).hom := by
+  have h :=
+    Pseudofunctor.StrongTrans.categoryStruct_comp_naturality_inv
+      (StrongTransPostcomposition.strongTrans H alpha)
+      (StrongTransPostcomposition.strongTrans H beta) f
+  change
+    ((vcompPost H alpha beta).naturality f).inv =
+      ((((α_
+        (H.map (alpha.app a))
+        (H.map (beta.app a))
+        (H.map (K.map f))).hom ≫
+        H.map (alpha.app a) ◁
+          (StrongTransPostcomposition.naturalityIso H beta f).inv) ≫
+        (α_
+          (H.map (alpha.app a))
+          (H.map (G.map f))
+          (H.map (beta.app b))).inv) ≫
+        (StrongTransPostcomposition.naturalityIso H alpha f).inv ▷
+          H.map (beta.app b)) ≫
+        (α_
+          (H.map (F.map f))
+          (H.map (alpha.app b))
+          (H.map (beta.app b))).hom at h
+  exact h
 
 /-- The compositor components satisfy the modification square.
 
@@ -157,7 +192,8 @@ theorem naturality
           (α_ (F.map f) (alpha.app b) (beta.app b)).hom := by
     simp only [e, Iso.refl_hom, Bicategory.id_whiskerRight, Category.id_comp,
       Iso.symm_hom]
-    exact vcomp_naturality_inv alpha beta f
+    simpa only [Category.assoc] using
+      (vcomp_naturality_inv alpha beta f)
   have hmapped :=
     MappedSquare.composition
       H
@@ -169,26 +205,82 @@ theorem naturality
       (beta.naturality f).symm
       ((Pseudofunctor.StrongTrans.vcomp alpha beta).naturality f).symm
       hcomp
+  have hpost :
+      (MappedSquare.iso H
+        (alpha.app a ≫ beta.app a)
+        (alpha.app b ≫ beta.app b)
+        (F.map f) (K.map f)
+        ((Pseudofunctor.StrongTrans.vcomp alpha beta).naturality f).symm).hom =
+        ((postVcomp H alpha beta).naturality f).inv := by
+    exact
+      mapped_naturality_symm H
+        (Pseudofunctor.StrongTrans.vcomp alpha beta) f
+  have hbeta :
+      (MappedSquare.iso H
+        (beta.app a) (beta.app b)
+        (G.map f) (K.map f)
+        (beta.naturality f).symm).hom =
+        (StrongTransPostcomposition.naturalityIso H beta f).inv :=
+    mapped_naturality_symm H beta f
+  have halpha :
+      (MappedSquare.iso H
+        (alpha.app a) (alpha.app b)
+        (F.map f) (G.map f)
+        (alpha.naturality f).symm).hom =
+        (StrongTransPostcomposition.naturalityIso H alpha f).inv :=
+    mapped_naturality_symm H alpha f
   have hinv :
       ((postVcomp H alpha beta).naturality f).inv ≫
           H.map (F.map f) ◁ (H.mapComp (alpha.app b) (beta.app b)).hom =
         (H.mapComp (alpha.app a) (beta.app a)).hom ▷ H.map (K.map f) ≫
           ((vcompPost H alpha beta).naturality f).inv := by
-    rw [mapped_naturality_symm H
-      (Pseudofunctor.StrongTrans.vcomp alpha beta) f] at hmapped
-    rw [mapped_naturality_symm H beta f,
-      mapped_naturality_symm H alpha f] at hmapped
+    rw [hpost, hbeta, halpha] at hmapped
     simp only [e, Iso.refl_hom, PrelaxFunctor.map₂_id,
       Category.id_comp] at hmapped
-    rw [← vcompPost_naturality_inv H alpha beta f] at hmapped
+    have hv :
+        ((vcompPost H alpha beta).naturality f).inv =
+          (α_
+            (H.map (alpha.app a))
+            (H.map (beta.app a))
+            (H.map (K.map f))).hom ≫
+          H.map (alpha.app a) ◁
+              (StrongTransPostcomposition.naturalityIso H beta f).inv ≫
+          (α_
+            (H.map (alpha.app a))
+            (H.map (G.map f))
+            (H.map (beta.app b))).inv ≫
+          (StrongTransPostcomposition.naturalityIso H alpha f).inv ▷
+              H.map (beta.app b) ≫
+          (α_
+            (H.map (F.map f))
+            (H.map (alpha.app b))
+            (H.map (beta.app b))).hom := by
+      simpa only [Category.assoc] using
+        (vcompPost_naturality_inv H alpha beta f)
+    rw [← hv] at hmapped
     exact hmapped
-  have hconj := congrArg
-    (fun t =>
+  have hx :
+      H.map (F.map f) ◁
+          (H.mapComp (alpha.app b) (beta.app b)).hom =
+        ((postVcomp H alpha beta).naturality f).hom ≫
+          ((H.mapComp (alpha.app a) (beta.app a)).hom ▷ H.map (K.map f) ≫
+            ((vcompPost H alpha beta).naturality f).inv) :=
+    (((postVcomp H alpha beta).naturality f).inv_comp_eq).mp hinv
+  change
+    H.map (F.map f) ◁
+          (H.mapComp (alpha.app b) (beta.app b)).hom ≫
+        ((vcompPost H alpha beta).naturality f).hom =
       ((postVcomp H alpha beta).naturality f).hom ≫
-        t ≫ ((vcompPost H alpha beta).naturality f).hom)
-    hinv
-  simpa only [Category.assoc, Iso.hom_inv_id_assoc,
-    Iso.inv_hom_id_assoc, Category.id_comp, Category.comp_id] using hconj
+        (H.mapComp (alpha.app a) (beta.app a)).hom ▷ H.map (K.map f)
+  have hx' :
+      (((postVcomp H alpha beta).naturality f).hom ≫
+          (H.mapComp (alpha.app a) (beta.app a)).hom ▷ H.map (K.map f)) ≫
+        ((vcompPost H alpha beta).naturality f).inv =
+      H.map (F.map f) ◁
+        (H.mapComp (alpha.app b) (beta.app b)).hom := by
+    simpa only [Category.assoc] using hx.symm
+  exact
+    ((((vcompPost H alpha beta).naturality f).comp_inv_eq).mp hx').symm
 
 local instance postVcompStrongTransHomCategory :
     Category

@@ -14,6 +14,11 @@ noncomputable section
 /-!
 # Unit postcomposition with native source v5.72
 
+This head is revalidated against the repaired v5.71 postcomposition-vcomp
+base; the earlier cascade receipt from the failing parent is not reused.
+Current stacked-base revalidation uses v5.71 head
+`31dda2a31a7f72752517a1359a7f15d9279dcdab`.
+
 For a pseudofunctor R : B -> B and a unit
 
   eta : Id_B => R,
@@ -74,10 +79,11 @@ def naturalityIso {a b : B} (f : a ⟶ b) :
 
 @[simp] theorem naturalityIso_hom {a b : B} (f : a ⟶ b) :
     (naturalityIso R eta f).hom =
-      (R.mapComp (R.map f) (eta.app b)).inv ≫
+      (R.mapComp f (eta.app b)).inv ≫
         R.map₂ (eta.naturality f).hom ≫
-        (R.mapComp (eta.app a) (R.map f)).hom :=
-  rfl
+        (R.mapComp (eta.app a) (R.map f)).hom := by
+  simpa only using
+    (StrongTransPostcomposition.naturalityIso_hom R eta f)
 
 /-- 2-cell naturality is literally the already-proved postcomposition law. -/
 theorem naturality_naturality
