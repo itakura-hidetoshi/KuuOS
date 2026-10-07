@@ -79,10 +79,11 @@ def naturalityIso {a b : B} (f : a ⟶ b) :
 
 @[simp] theorem naturalityIso_hom {a b : B} (f : a ⟶ b) :
     (naturalityIso R eta f).hom =
-      (R.mapComp (R.map f) (eta.app b)).inv ≫
+      (R.mapComp f (eta.app b)).inv ≫
         R.map₂ (eta.naturality f).hom ≫
-        (R.mapComp (eta.app a) (R.map f)).hom :=
-  rfl
+        (R.mapComp (eta.app a) (R.map f)).hom := by
+  simpa only using
+    (StrongTransPostcomposition.naturalityIso_hom R eta f)
 
 /-- 2-cell naturality is literally the already-proved postcomposition law. -/
 theorem naturality_naturality
