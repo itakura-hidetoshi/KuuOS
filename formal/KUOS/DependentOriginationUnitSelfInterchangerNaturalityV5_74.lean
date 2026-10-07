@@ -179,6 +179,13 @@ theorem reverseNaturality : ReverseNaturality R eta := by
           congrArg (fun t => leftFactor ≫ t ≫ rightFactor) hsplit
       _ = _ := by
         simp only [Bicategory.whiskerLeft_comp, Category.assoc]
+  have htail :
+      (eta.app X ◁ (R.mapComp (eta.app X) (R.map f)).hom) ≫
+        (α_ (eta.app X) (R.map (eta.app X)) (R.map (R.map f))).inv ≫
+        (α_ (eta.app X) (R.map (eta.app X)) (R.map (R.map f))).hom ≫
+        (eta.app X ◁ (R.mapComp (eta.app X) (R.map f)).inv) =
+      𝟙 (eta.app X ≫ R.map (eta.app X ≫ R.map f)) := by
+    simp [Category.assoc]
   rw [hpostNorm, hpre]
   simp only [
     leftFactor, rightFactor,
@@ -192,15 +199,7 @@ theorem reverseNaturality : ReverseNaturality R eta := by
     _ = (eta.naturality (f ≫ eta.app Y)).hom ≫
           eta.app X ◁ R.map₂ (eta.naturality f).hom := by
         rw [hY]
-        bicategory
-        simp only [
-          Category.assoc,
-          Bicategory.whiskerLeft_id,
-          Category.id_comp,
-          Category.comp_id,
-          Iso.inv_hom_id_assoc,
-          Bicategory.whiskerLeft_hom_inv_assoc
-        ]
+        simp only [Category.assoc, htail, Category.comp_id]
     _ = (Pseudofunctor.id B).map₂ (eta.naturality f).hom ▷
           eta.app (R.obj Y) ≫
         (eta.naturality (eta.app X ≫ R.map f)).hom :=
