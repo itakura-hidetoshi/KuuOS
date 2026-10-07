@@ -184,7 +184,7 @@ theorem reverseNaturality : ReverseNaturality R eta := by
         (α_ (eta.app X) (R.map (eta.app X)) (R.map (R.map f))).inv ≫
         (α_ (eta.app X) (R.map (eta.app X)) (R.map (R.map f))).hom ≫
         (eta.app X ◁ (R.mapComp (eta.app X) (R.map f)).inv) =
-      𝟙 (eta.app X ≫ R.map (eta.app X ≫ R.map f)) := by
+      𝟙 _ := by
     simp [Category.assoc]
   rw [hpostNorm, hpre]
   simp only [
@@ -199,7 +199,7 @@ theorem reverseNaturality : ReverseNaturality R eta := by
     _ = (eta.naturality (f ≫ eta.app Y)).hom ≫
           eta.app X ◁ R.map₂ (eta.naturality f).hom := by
         rw [hY]
-        simp only [Category.assoc, htail, Category.comp_id]
+        simp only [Pseudofunctor.comp_map, Category.assoc, htail, Category.comp_id]
     _ = (Pseudofunctor.id B).map₂ (eta.naturality f).hom ▷
           eta.app (R.obj Y) ≫
         (eta.naturality (eta.app X ≫ R.map f)).hom :=
