@@ -174,14 +174,14 @@ theorem naturality
           H.map (F.map f) ◁ (H.mapComp (alpha.app b) (beta.app b)).hom =
         (H.mapComp (alpha.app a) (beta.app a)).hom ▷ H.map (K.map f) ≫
           ((vcompPost H alpha beta).naturality f).inv := by
-    simpa only [
-      mapped_naturality_symm H
-        (Pseudofunctor.StrongTrans.vcomp alpha beta) f,
-      mapped_naturality_symm H alpha f,
-      mapped_naturality_symm H beta f,
-      vcompPost_naturality_inv H alpha beta f,
-      e, Iso.refl_hom, PrelaxFunctor.map₂_id, Category.id_comp
-    ] using hmapped
+    rw [mapped_naturality_symm H
+      (Pseudofunctor.StrongTrans.vcomp alpha beta) f] at hmapped
+    rw [mapped_naturality_symm H beta f,
+      mapped_naturality_symm H alpha f] at hmapped
+    simp only [e, Iso.refl_hom, PrelaxFunctor.map₂_id,
+      Category.id_comp] at hmapped
+    rw [← vcompPost_naturality_inv H alpha beta f] at hmapped
+    exact hmapped
   have hconj := congrArg
     (fun t =>
       ((postVcomp H alpha beta).naturality f).hom ≫
