@@ -14,6 +14,9 @@ noncomputable section
 /-!
 # Unit postcomposition with native source v5.72
 
+This head is revalidated against the repaired v5.71 postcomposition-vcomp
+base; the earlier cascade receipt from the failing parent is not reused.
+
 For a pseudofunctor R : B -> B and a unit
 
   eta : Id_B => R,
