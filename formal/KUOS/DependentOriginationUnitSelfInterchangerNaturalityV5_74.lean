@@ -188,7 +188,17 @@ theorem reverseNaturality : ReverseNaturality R eta := by
         (eta.app X ◁ (R.mapComp (eta.app X) (R.map f)).inv) =
       (eta.app X ◁ (R.mapComp (eta.app X) (R.map f)).hom) ≫
         (eta.app X ◁ (R.mapComp (eta.app X) (R.map f)).inv) := by
-    simp [Category.assoc]
+    change
+      (eta.app X ◁ (R.mapComp (eta.app X) (R.map f)).hom) ≫
+        (α_ (eta.app X) (R.map (eta.app X))
+          (R.map (R.map f))).inv ≫
+        (α_ (eta.app X) (R.map (eta.app X))
+          (R.map (R.map f))).hom ≫
+        (eta.app X ◁ (R.mapComp (eta.app X) (R.map f)).inv) =
+      (eta.app X ◁ (R.mapComp (eta.app X) (R.map f)).hom) ≫
+        (eta.app X ◁ (R.mapComp (eta.app X) (R.map f)).inv)
+    rw [(α_ (eta.app X) (R.map (eta.app X))
+       (R.map (R.map f))).inv_hom_id_assoc]
   rw [hpostNorm, hpre]
   simp only [
     leftFactor, rightFactor,
