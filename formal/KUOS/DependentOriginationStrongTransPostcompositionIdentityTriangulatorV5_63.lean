@@ -85,7 +85,11 @@ theorem identityNaturality {a b : B} (f : a ⟶ b) :
   have hmap :
       (Pseudofunctor.comp F H).map f = H.map (F.map f) :=
     rfl
-  rw [hmap, Bicategory.inv_hom_whiskerRight, Category.id_comp]
+  -- `rw [hmap]` is not type-correct here because the surrounding unitors
+  -- and whiskerings depend on the rewritten 1-morphism.  Simp performs the
+  -- dependent transport needed by these congruence positions.
+  simp only [hmap]
+  rw [Bicategory.inv_hom_whiskerRight, Category.id_comp]
 
 /-- The postcomposed identity StrongTrans is canonically isomorphic to the
 native identity StrongTrans of the composite pseudofunctor. -/
