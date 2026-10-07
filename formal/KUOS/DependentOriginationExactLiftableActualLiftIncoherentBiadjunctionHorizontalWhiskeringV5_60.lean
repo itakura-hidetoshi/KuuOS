@@ -35,8 +35,12 @@ the non-strict horizontal whiskering already proved concretely in v5.53/v5.54:
 * vertically compose the two resulting StrongTrans values.
 
 This file generalizes that construction to any
-`IncoherentBiadjunctionDatum`.  No new 2-cell or 3-cell is chosen.
+`IncoherentBiadjunctionDatum`. No new 2-cell or 3-cell is chosen.
 In particular, no swallowtail equation is asserted here.
+
+Implementation note: the definitions in this file are external operations on
+the v5.59 structure, not structure fields. They are therefore applied
+explicitly rather than through field notation.
 -/
 
 namespace Generic
@@ -60,18 +64,18 @@ abbrev targetRoundtrip : Pseudofunctor C C :=
 
 /-- Right-associated triple G ; (F ; G). -/
 def quasiInverseTripleRight : Pseudofunctor C B :=
-  Pseudofunctor.comp D.base.quasiInverse sourceRoundtrip D
+  Pseudofunctor.comp D.base.quasiInverse (sourceRoundtrip D)
 
 /-- Left-associated triple (G ; F) ; G. -/
 def quasiInverseTripleLeft : Pseudofunctor C B :=
-  Pseudofunctor.comp targetRoundtrip D D.base.quasiInverse
+  Pseudofunctor.comp (targetRoundtrip D) D.base.quasiInverse
 
 /-- Precompose the stored source unit eta by the stored non-strict G.
 This is exactly the generic v5.53 construction. -/
 def quasiInverseUnitFactor :
     Pseudofunctor.StrongTrans
       D.base.quasiInverse
-      quasiInverseTripleRight D :=
+      (quasiInverseTripleRight D) :=
   UnitPrecomposition.strongTrans
     D.base.quasiInverse
     D.base.unit
@@ -80,7 +84,7 @@ def quasiInverseUnitFactor :
 The source is kept literally left-associated. -/
 def quasiInverseCounitFactorLeft :
     Pseudofunctor.StrongTrans
-      quasiInverseTripleLeft D
+      (quasiInverseTripleLeft D)
       D.base.quasiInverse :=
   CounitPostcomposition.strongTrans
     D.base.quasiInverse
@@ -89,8 +93,8 @@ def quasiInverseCounitFactorLeft :
 /-- The identity comparisons of the two native triple bracketings agree as
 2-cells after expanding Pseudofunctor.comp. -/
 theorem quasiInverseTriple_mapId_hom (Y : C) :
-    (quasiInverseTripleLeft D.mapId Y).hom =
-      (quasiInverseTripleRight D.mapId Y).hom :=
+    ((quasiInverseTripleLeft D).mapId Y).hom =
+      ((quasiInverseTripleRight D).mapId Y).hom :=
   TripleComparison.mapId_hom
     D.base.quasiInverse
     D.base.whitehead.forward
@@ -101,8 +105,8 @@ theorem quasiInverseTriple_mapId_hom (Y : C) :
 No strict associativity of pseudofunctor composition is assumed. -/
 theorem quasiInverseTriple_mapComp_hom
     {X Y Z : C} (f : X ⟶ Y) (g : Y ⟶ Z) :
-    (quasiInverseTripleLeft D.mapComp f g).hom =
-      (quasiInverseTripleRight D.mapComp f g).hom :=
+    ((quasiInverseTripleLeft D).mapComp f g).hom =
+      ((quasiInverseTripleRight D).mapComp f g).hom :=
   TripleComparison.mapComp_hom
     D.base.quasiInverse
     D.base.whitehead.forward
@@ -113,47 +117,47 @@ theorem quasiInverseTriple_mapComp_hom
 The app, naturality, and naturality_naturality fields are unchanged. -/
 def quasiInverseCounitFactor :
     Pseudofunctor.StrongTrans
-      quasiInverseTripleRight D
+      (quasiInverseTripleRight D)
       D.base.quasiInverse where
-  app Y := quasiInverseCounitFactorLeft D.app Y
-  naturality f := quasiInverseCounitFactorLeft D.naturality f
+  app Y := (quasiInverseCounitFactorLeft D).app Y
+  naturality f := (quasiInverseCounitFactorLeft D).naturality f
   naturality_naturality theta :=
-    quasiInverseCounitFactorLeft D.naturality_naturality theta
+    (quasiInverseCounitFactorLeft D).naturality_naturality theta
   naturality_id Y := by
     rw [← quasiInverseTriple_mapId_hom D Y]
-    exact quasiInverseCounitFactorLeft D.naturality_id Y
+    exact (quasiInverseCounitFactorLeft D).naturality_id Y
   naturality_comp f g := by
     rw [← quasiInverseTriple_mapComp_hom D f g]
-    exact quasiInverseCounitFactorLeft D.naturality_comp f g
+    exact (quasiInverseCounitFactorLeft D).naturality_comp f g
 
 /-- The reverse triangle obtained from the two native horizontal-whiskering
-factors.  This is still only a StrongTrans; its contraction is stored
+factors. This is still only a StrongTrans; its contraction is stored
 separately in v5.59's reverse triangulator. -/
 def quasiInverseTriangle :
     Pseudofunctor.StrongTrans
       D.base.quasiInverse
       D.base.quasiInverse :=
   Pseudofunctor.StrongTrans.vcomp
-    quasiInverseUnitFactor D
-    quasiInverseCounitFactor D
+    (quasiInverseUnitFactor D)
+    (quasiInverseCounitFactor D)
 
 @[simp] theorem quasiInverseUnitFactor_app (Y : C) :
-    quasiInverseUnitFactor D.app Y =
+    (quasiInverseUnitFactor D).app Y =
       D.base.unit.app (D.base.quasiInverse.obj Y) :=
   rfl
 
 @[simp] theorem quasiInverseCounitFactorLeft_app (Y : C) :
-    quasiInverseCounitFactorLeft D.app Y =
+    (quasiInverseCounitFactorLeft D).app Y =
       D.base.quasiInverse.map (D.base.counit.app Y) :=
   rfl
 
 @[simp] theorem quasiInverseCounitFactor_app (Y : C) :
-    quasiInverseCounitFactor D.app Y =
+    (quasiInverseCounitFactor D).app Y =
       D.base.quasiInverse.map (D.base.counit.app Y) :=
   rfl
 
 @[simp] theorem quasiInverseTriangle_app (Y : C) :
-    quasiInverseTriangle D.app Y =
+    (quasiInverseTriangle D).app Y =
       D.base.unit.app (D.base.quasiInverse.obj Y) ≫
         D.base.quasiInverse.map (D.base.counit.app Y) :=
   rfl
@@ -181,10 +185,11 @@ abbrev actualLiftBiadjunctionDatum :=
 /-! ## Whole-record regressions to the already-proved v5.53--v5.55 data -/
 
 @[simp] theorem actualLiftBiadjunctionDatum_quasiInverseTripleRight :
-    (actualLiftBiadjunctionDatum
-      (W := W) A
-      (WorldLabel := WorldLabel)
-      (PresentationLabel := PresentationLabel)).quasiInverseTripleRight =
+    Generic.IncoherentBiadjunctionDatum.quasiInverseTripleRight
+      (actualLiftBiadjunctionDatum
+        (W := W) A
+        (WorldLabel := WorldLabel)
+        (PresentationLabel := PresentationLabel)) =
       actualLiftQuasiInverseTriple
         (W := W) A
         (WorldLabel := WorldLabel)
@@ -192,10 +197,11 @@ abbrev actualLiftBiadjunctionDatum :=
   rfl
 
 @[simp] theorem actualLiftBiadjunctionDatum_quasiInverseTripleLeft :
-    (actualLiftBiadjunctionDatum
-      (W := W) A
-      (WorldLabel := WorldLabel)
-      (PresentationLabel := PresentationLabel)).quasiInverseTripleLeft =
+    Generic.IncoherentBiadjunctionDatum.quasiInverseTripleLeft
+      (actualLiftBiadjunctionDatum
+        (W := W) A
+        (WorldLabel := WorldLabel)
+        (PresentationLabel := PresentationLabel)) =
       actualLiftQuasiInverseCounitTriple
         (W := W) A
         (WorldLabel := WorldLabel)
@@ -203,10 +209,11 @@ abbrev actualLiftBiadjunctionDatum :=
   rfl
 
 @[simp] theorem actualLiftBiadjunctionDatum_quasiInverseUnitFactor :
-    (actualLiftBiadjunctionDatum
-      (W := W) A
-      (WorldLabel := WorldLabel)
-      (PresentationLabel := PresentationLabel)).quasiInverseUnitFactor =
+    Generic.IncoherentBiadjunctionDatum.quasiInverseUnitFactor
+      (actualLiftBiadjunctionDatum
+        (W := W) A
+        (WorldLabel := WorldLabel)
+        (PresentationLabel := PresentationLabel)) =
       actualLiftQuasiInverseRestrictedSourceUnit
         (W := W) A
         (WorldLabel := WorldLabel)
@@ -214,10 +221,11 @@ abbrev actualLiftBiadjunctionDatum :=
   rfl
 
 @[simp] theorem actualLiftBiadjunctionDatum_quasiInverseCounitFactorLeft :
-    (actualLiftBiadjunctionDatum
-      (W := W) A
-      (WorldLabel := WorldLabel)
-      (PresentationLabel := PresentationLabel)).quasiInverseCounitFactorLeft =
+    Generic.IncoherentBiadjunctionDatum.quasiInverseCounitFactorLeft
+      (actualLiftBiadjunctionDatum
+        (W := W) A
+        (WorldLabel := WorldLabel)
+        (PresentationLabel := PresentationLabel)) =
       actualLiftQuasiInverseRestrictedTargetCounit
         (W := W) A
         (WorldLabel := WorldLabel)
@@ -225,10 +233,11 @@ abbrev actualLiftBiadjunctionDatum :=
   rfl
 
 @[simp] theorem actualLiftBiadjunctionDatum_quasiInverseCounitFactor :
-    (actualLiftBiadjunctionDatum
-      (W := W) A
-      (WorldLabel := WorldLabel)
-      (PresentationLabel := PresentationLabel)).quasiInverseCounitFactor =
+    Generic.IncoherentBiadjunctionDatum.quasiInverseCounitFactor
+      (actualLiftBiadjunctionDatum
+        (W := W) A
+        (WorldLabel := WorldLabel)
+        (PresentationLabel := PresentationLabel)) =
       actualLiftQuasiInverseRestrictedTargetCounitReassociated
         (W := W) A
         (WorldLabel := WorldLabel)
@@ -236,10 +245,11 @@ abbrev actualLiftBiadjunctionDatum :=
   rfl
 
 @[simp] theorem actualLiftBiadjunctionDatum_quasiInverseTriangle :
-    (actualLiftBiadjunctionDatum
-      (W := W) A
-      (WorldLabel := WorldLabel)
-      (PresentationLabel := PresentationLabel)).quasiInverseTriangle =
+    Generic.IncoherentBiadjunctionDatum.quasiInverseTriangle
+      (actualLiftBiadjunctionDatum
+        (W := W) A
+        (WorldLabel := WorldLabel)
+        (PresentationLabel := PresentationLabel)) =
       actualLiftQuasiInverseTriangle
         (W := W) A
         (WorldLabel := WorldLabel)
@@ -249,10 +259,11 @@ abbrev actualLiftBiadjunctionDatum :=
 /-- The generic v5.60 reverse triangle is exactly the triangle stored by the
 v5.59 reverse triangulator. -/
 @[simp] theorem actualLiftBiadjunctionDatum_quasiInverseTriangle_eq_stored :
-    (actualLiftBiadjunctionDatum
-      (W := W) A
-      (WorldLabel := WorldLabel)
-      (PresentationLabel := PresentationLabel)).quasiInverseTriangle =
+    Generic.IncoherentBiadjunctionDatum.quasiInverseTriangle
+      (actualLiftBiadjunctionDatum
+        (W := W) A
+        (WorldLabel := WorldLabel)
+        (PresentationLabel := PresentationLabel)) =
       (actualLiftBiadjunctionDatum
         (W := W) A
         (WorldLabel := WorldLabel)
@@ -274,7 +285,7 @@ The second arrow is obtained from the native left-associated postcomposition
 bracketings.
 
 Thus the StrongTrans-level horizontal whiskering needed by the reverse
-triangle is no longer actual-lift-specific.  The next higher-coherence step is
+triangle is no longer actual-lift-specific. The next higher-coherence step is
 modification-level whiskering of the stored triangulator contractions; no
 such 3-cell operation is claimed in this file.
 -/
