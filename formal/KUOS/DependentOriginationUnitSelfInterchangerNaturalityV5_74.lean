@@ -71,46 +71,24 @@ def ReverseNaturality : Prop :=
 then expose the pre- and post-composed naturality factors. -/
 theorem reverseNaturality : ReverseNaturality R eta := by
   intro X Y f
-  have hY :
-      (eta.naturality (f ≫ eta.app Y)).hom =
-        (α_ f (eta.app Y) (eta.app (R.obj Y))).hom ≫
-        f ◁ (eta.naturality (eta.app Y)).hom ≫
-        (α_ f (eta.app Y) (R.map (eta.app Y))).inv ≫
-        (eta.naturality f).hom ▷ R.map (eta.app Y) ≫
-        (α_ (eta.app X) (R.map f) (R.map (eta.app Y))).hom ≫
-        eta.app X ◁ (R.mapComp f (eta.app Y)).inv := by
-    simpa only [Category.id_comp] using
-      (Pseudofunctor.StrongTrans.naturality_comp_hom
-        eta f (eta.app Y))
-  have hX :
-      (eta.naturality (eta.app X ≫ R.map f)).hom =
-        (α_ (eta.app X) (R.map f) (eta.app (R.obj Y))).hom ≫
-        eta.app X ◁ (eta.naturality (R.map f)).hom ≫
-        (α_ (eta.app X) (eta.app (R.obj X))
-          (R.map (R.map f))).inv ≫
-        (eta.naturality (eta.app X)).hom ▷
-          R.map (R.map f) ≫
-        (α_ (eta.app X) (R.map (eta.app X))
-          (R.map (R.map f))).hom ≫
-        eta.app X ◁
-          (R.mapComp (eta.app X) (R.map f)).inv := by
-    simpa only [Category.id_comp] using
-      (Pseudofunctor.StrongTrans.naturality_comp_hom
-        eta (eta.app X) (R.map f))
+  have hY :=
+    Pseudofunctor.StrongTrans.naturality_comp_hom
+      eta f (eta.app Y)
+  have hX :=
+    Pseudofunctor.StrongTrans.naturality_comp_hom
+      eta (eta.app X) (R.map f)
   let pre :=
-    (α_ f (eta.app Y) (eta.app (R.obj Y))).hom
+    ((Pseudofunctor.id B).mapComp f (eta.app Y)).hom ▷
+        eta.app (R.obj Y) ≫
+      (α_
+        ((Pseudofunctor.id B).map f)
+        ((Pseudofunctor.id B).map (eta.app Y))
+        (eta.app (R.obj Y))).hom
   let post :=
     (α_ (eta.app X) (R.map (eta.app X))
       (R.map (R.map f))).hom ≫
       eta.app X ◁
         (R.mapComp (eta.app X) (R.map f)).inv
-  change
-    f ◁ (eta.naturality (eta.app Y)).hom ≫
-        ((Pseudofunctor.StrongTrans.vcomp
-          eta (UnitPostcomposition.strongTrans R eta)).naturality f).hom =
-      ((Pseudofunctor.StrongTrans.vcomp
-        eta (UnitPrecomposition.strongTrans R eta)).naturality f).hom ≫
-        (eta.naturality (eta.app X)).hom ▷ R.map (R.map f)
   rw [← cancel_epi pre, ← cancel_mono post]
   dsimp [pre, post]
   simp only [
