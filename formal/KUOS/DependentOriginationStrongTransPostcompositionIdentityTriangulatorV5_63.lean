@@ -79,7 +79,7 @@ theorem identityNaturality {a b : B} (f : a ⟶ b) :
   simp only [Iso.trans_hom]
   rw [H.mapComp_id_right_inv, PrelaxFunctor.map₂_comp,
     H.mapComp_id_left_hom]
-  simp only [Category.assoc]
+  simp only [Iso.symm_hom, Category.assoc]
   rw [H.map₂_inv_hom_assoc (ρ_ (F.map f)),
     H.map₂_inv_hom_assoc (λ_ (F.map f)),
     Bicategory.inv_hom_whiskerRight, Category.id_comp]
