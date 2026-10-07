@@ -76,8 +76,9 @@ theorem identityNaturality {a b : B} (f : a ⟶ b) :
   -- be definitionally equal at the current transparency setting.
   simp only [naturalityIso_hom]
   dsimp only [Pseudofunctor.StrongTrans.id]
-  rw [H.mapComp_id_right_inv, Iso.trans_hom,
-    PrelaxFunctor.map₂_comp, H.mapComp_id_left_hom]
+  simp only [Iso.trans_hom]
+  rw [H.mapComp_id_right_inv, PrelaxFunctor.map₂_comp,
+    H.mapComp_id_left_hom]
   simp only [Category.assoc]
   rw [H.map₂_inv_hom_assoc (ρ_ (F.map f)),
     H.map₂_inv_hom_assoc (λ_ (F.map f)),
