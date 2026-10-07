@@ -136,10 +136,8 @@ local instance actualLiftForwardSwallowtailHomCategoryV70 :
     Category
       (Pseudofunctor.StrongTrans
         (Pseudofunctor.id
-          (actualLiftForwardSwallowtailSourceV70
-            (W := W) A
-            (WorldLabel := WorldLabel)
-            (PresentationLabel := PresentationLabel)))
+          (ActualLiftSource.{u, v, uH, vH, uW, uP}
+            (W := W) A WorldLabel PresentationLabel))
         (actualLiftForwardSwallowtailRoundtripV70
           (W := W) A
           (WorldLabel := WorldLabel)
