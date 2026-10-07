@@ -70,22 +70,7 @@ def ReverseNaturality : Prop :=
 then expose the pre- and post-composed naturality factors. -/
 theorem reverseNaturality : ReverseNaturality R eta := by
   intro X Y f
-  have h := eta.naturality_naturality (eta.naturality f).hom
-  rw [
-    Pseudofunctor.StrongTrans.naturality_comp_hom eta
-      (eta.app X) (R.map f),
-    Pseudofunctor.StrongTrans.naturality_comp_hom eta
-      ((Pseudofunctor.id B).map f) (eta.app Y)
-  ] at h
-  simpa only [
-    Pseudofunctor.StrongTrans.categoryStruct_comp_naturality_hom,
-    UnitPostcomposition.strongTrans_naturality,
-    UnitPostcomposition.naturalityIso_hom,
-    UnitPrecomposition.strongTrans_naturality,
-    UnitPostcomposition.strongTrans_app,
-    UnitPrecomposition.strongTrans_app,
-    Category.assoc
-  ] using h
+  cat_disch
 
 end UnitSelfInterchanger
 
