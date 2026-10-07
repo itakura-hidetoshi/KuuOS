@@ -100,17 +100,6 @@ theorem reverseNaturality : ReverseNaturality R eta := by
   apply (cancel_epi preIso.hom).mp
   apply (cancel_mono postIso.hom).mp
   dsimp [preIso, postIso]
-  simp only [
-    reverseComponentIso_hom,
-    Pseudofunctor.StrongTrans.categoryStruct_comp_naturality_hom,
-    UnitPostcomposition.strongTrans_naturality,
-    UnitPostcomposition.naturalityIso_hom,
-    UnitPrecomposition.strongTrans_naturality,
-    UnitPostcomposition.strongTrans_app,
-    UnitPrecomposition.strongTrans_app,
-    Bicategory.whiskerLeft_comp,
-    Category.assoc
-  ]
   rw [← reassoc_of% hY]
   rw [← reassoc_of% hX]
   simpa only [Category.assoc] using
