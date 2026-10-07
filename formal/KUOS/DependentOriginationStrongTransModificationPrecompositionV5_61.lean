@@ -59,6 +59,7 @@ theorem naturality_id (a : D) :
   rw [Bicategory.whiskerLeft_comp, ← Category.assoc,
     ← alpha.naturality_naturality (K.mapId a).hom, Category.assoc,
     alpha.naturality_id, Bicategory.comp_whiskerRight]
+  simp only [Category.assoc]
 
 /-- Composition coherence for arbitrary precomposition.  K.mapComp remains
 visible and is transported by alpha.naturality_naturality before the original
@@ -101,6 +102,7 @@ theorem naturality_comp {a b c : D} (f : a ⟶ b) (g : b ⟶ c) :
   rw [Bicategory.whiskerLeft_comp, ← Category.assoc,
     ← alpha.naturality_naturality (K.mapComp f g).hom, Category.assoc,
     alpha.naturality_comp, Bicategory.comp_whiskerRight]
+  simp only [Category.assoc]
 
 /-- Precompose an arbitrary StrongTrans by an arbitrary pseudofunctor. -/
 def strongTrans :
@@ -142,11 +144,29 @@ def modification
     (modification K Gamma).app a = Gamma.app (K.obj a) :=
   rfl
 
-/-- Precomposition preserves an invertible modification. -/
+/-- Precomposition preserves an invertible modification.
+
+The hom-category instances are written explicitly.  This avoids asking
+typeclass search to reconstruct the 2-morphism universe of a StrongTrans hom
+category from the surrounding Iso notation. -/
 def iso
     {alpha beta : Pseudofunctor.StrongTrans F G}
-    (e : alpha ≅ beta) :
-    strongTrans K alpha ≅ strongTrans K beta where
+    (e :
+      @CategoryTheory.Iso
+        (Pseudofunctor.StrongTrans F G)
+        (Pseudofunctor.StrongTrans.homCategory
+          (B := B) (C := C) (F := F) (G := G))
+        alpha beta) :
+    @CategoryTheory.Iso
+      (Pseudofunctor.StrongTrans
+        (Pseudofunctor.comp K F)
+        (Pseudofunctor.comp K G))
+      (Pseudofunctor.StrongTrans.homCategory
+        (B := D) (C := C)
+        (F := Pseudofunctor.comp K F)
+        (G := Pseudofunctor.comp K G))
+      (strongTrans K alpha)
+      (strongTrans K beta) where
   hom.as := modification K e.hom.as
   inv.as := modification K e.inv.as
   hom_inv_id := by
@@ -166,6 +186,15 @@ def iso
       (fun m => m.as.app (K.obj a))
       e.inv_hom_id
 
+/-- Precomposition of the identity StrongTrans is definitionally the native
+identity StrongTrans of the composite pseudofunctor.  The non-strict
+comparators belong to the pseudofunctor itself and its mapped 1-cells agree
+definitionally on both sides. -/
+@[simp] theorem strongTrans_id :
+    strongTrans K (Pseudofunctor.StrongTrans.id F) =
+      Pseudofunctor.StrongTrans.id (Pseudofunctor.comp K F) :=
+  rfl
+
 /-- Precompose an entire functor-bicategory triangulator. -/
 def triangulator
     (T : KUOS.DependentOriginationExactLiftableActualLiftBiadjunctionTriangulatorsV5_58.Generic.FunctorBicategoryTriangulator F) :
@@ -173,9 +202,7 @@ def triangulator
       (Pseudofunctor.comp K F) where
   triangle := strongTrans K T.triangle
   contraction := by
-    change strongTrans K T.triangle ≅
-      strongTrans K (Pseudofunctor.StrongTrans.id F)
-    exact iso K T.contraction
+    simpa only [strongTrans_id] using (iso K T.contraction)
 
 @[simp] theorem triangulator_triangle
     (T : KUOS.DependentOriginationExactLiftableActualLiftBiadjunctionTriangulatorsV5_58.Generic.FunctorBicategoryTriangulator F) :
