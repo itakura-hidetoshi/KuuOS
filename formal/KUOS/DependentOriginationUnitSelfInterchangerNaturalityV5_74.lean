@@ -99,7 +99,25 @@ theorem reverseNaturality : ReverseNaturality R eta := by
         (R.mapComp (eta.app X) (R.map f)).symm
   apply (cancel_epi preIso.hom).mp
   apply (cancel_mono postIso.hom).mp
-  dsimp [preIso, postIso]
+  simp only [
+    preIso, postIso, Iso.trans_hom,
+    Bicategory.whiskerRightIso_hom,
+    Bicategory.whiskerLeftIso_hom
+  ]
+  rw [
+    Pseudofunctor.StrongTrans.categoryStruct_comp_naturality_hom
+      eta (UnitPostcomposition.strongTrans R eta) f,
+    Pseudofunctor.StrongTrans.categoryStruct_comp_naturality_hom
+      eta (UnitPrecomposition.strongTrans R eta) f
+  ]
+  simp only [
+    UnitPostcomposition.strongTrans_naturality,
+    UnitPostcomposition.naturalityIso_hom,
+    UnitPostcomposition.strongTrans_app,
+    UnitPrecomposition.strongTrans_naturality,
+    UnitPrecomposition.strongTrans_app,
+    Category.assoc
+  ]
   rw [← reassoc_of% hY]
   rw [← reassoc_of% hX]
   simpa only [Category.assoc] using
