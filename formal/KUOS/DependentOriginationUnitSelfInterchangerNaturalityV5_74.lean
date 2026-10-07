@@ -120,16 +120,8 @@ theorem reverseNaturality : ReverseNaturality R eta := by
       eta (UnitPrecomposition.strongTrans R eta)).naturality f).hom = _
       at hpre
   rw [hpost, hpre]
-  simp only [
-    reverseComponentIso_hom,
-    UnitPostcomposition.strongTrans_naturality,
-    UnitPostcomposition.naturalityIso_hom,
-    UnitPostcomposition.strongTrans_app,
-    UnitPrecomposition.strongTrans_naturality,
-    UnitPrecomposition.strongTrans_app,
-    Iso.symm_hom,
-    Category.assoc
-  ]
+  rw [UnitPostcomposition.strongTrans_naturality,
+    UnitPostcomposition.naturalityIso_hom]
   have hsplit :
       eta.app X ◁
           ((R.mapComp f (eta.app Y)).inv ≫
@@ -145,6 +137,14 @@ theorem reverseNaturality : ReverseNaturality R eta := by
       (R.map₂ (eta.naturality f).hom ≫
         (R.mapComp (eta.app X) (R.map f)).hom)
   rw [hsplit]
+  simp only [
+    reverseComponentIso_hom,
+    UnitPostcomposition.strongTrans_app,
+    UnitPrecomposition.strongTrans_naturality,
+    UnitPrecomposition.strongTrans_app,
+    Iso.symm_hom,
+    Category.assoc
+  ]
   rw [← reassoc_of% hY]
   rw [← reassoc_of% hX]
   simpa only [Category.assoc] using
