@@ -276,6 +276,7 @@ theorem reverseNaturality : ReverseNaturality R eta := by
                         (R.mapComp (eta.app X) (R.map f)).inv)) := by
               bicategory
           _ = lead := htotal
+          _ = _ := by bicategory
     _ = (Pseudofunctor.id B).map₂ (eta.naturality f).hom ▷
           eta.app (R.obj Y) ≫
         (eta.naturality (eta.app X ≫ R.map f)).hom :=
