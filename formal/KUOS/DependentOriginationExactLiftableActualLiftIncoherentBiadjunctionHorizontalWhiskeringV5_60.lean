@@ -60,18 +60,18 @@ abbrev targetRoundtrip : Pseudofunctor C C :=
 
 /-- Right-associated triple G ; (F ; G). -/
 def quasiInverseTripleRight : Pseudofunctor C B :=
-  Pseudofunctor.comp D.base.quasiInverse D.sourceRoundtrip
+  Pseudofunctor.comp D.base.quasiInverse sourceRoundtrip D
 
 /-- Left-associated triple (G ; F) ; G. -/
 def quasiInverseTripleLeft : Pseudofunctor C B :=
-  Pseudofunctor.comp D.targetRoundtrip D.base.quasiInverse
+  Pseudofunctor.comp targetRoundtrip D D.base.quasiInverse
 
 /-- Precompose the stored source unit eta by the stored non-strict G.
 This is exactly the generic v5.53 construction. -/
 def quasiInverseUnitFactor :
     Pseudofunctor.StrongTrans
       D.base.quasiInverse
-      D.quasiInverseTripleRight :=
+      quasiInverseTripleRight D :=
   UnitPrecomposition.strongTrans
     D.base.quasiInverse
     D.base.unit
@@ -80,7 +80,7 @@ def quasiInverseUnitFactor :
 The source is kept literally left-associated. -/
 def quasiInverseCounitFactorLeft :
     Pseudofunctor.StrongTrans
-      D.quasiInverseTripleLeft
+      quasiInverseTripleLeft D
       D.base.quasiInverse :=
   CounitPostcomposition.strongTrans
     D.base.quasiInverse
@@ -89,8 +89,8 @@ def quasiInverseCounitFactorLeft :
 /-- The identity comparisons of the two native triple bracketings agree as
 2-cells after expanding Pseudofunctor.comp. -/
 theorem quasiInverseTriple_mapId_hom (Y : C) :
-    (D.quasiInverseTripleLeft.mapId Y).hom =
-      (D.quasiInverseTripleRight.mapId Y).hom :=
+    (quasiInverseTripleLeft D.mapId Y).hom =
+      (quasiInverseTripleRight D.mapId Y).hom :=
   TripleComparison.mapId_hom
     D.base.quasiInverse
     D.base.whitehead.forward
@@ -101,8 +101,8 @@ theorem quasiInverseTriple_mapId_hom (Y : C) :
 No strict associativity of pseudofunctor composition is assumed. -/
 theorem quasiInverseTriple_mapComp_hom
     {X Y Z : C} (f : X ⟶ Y) (g : Y ⟶ Z) :
-    (D.quasiInverseTripleLeft.mapComp f g).hom =
-      (D.quasiInverseTripleRight.mapComp f g).hom :=
+    (quasiInverseTripleLeft D.mapComp f g).hom =
+      (quasiInverseTripleRight D.mapComp f g).hom :=
   TripleComparison.mapComp_hom
     D.base.quasiInverse
     D.base.whitehead.forward
@@ -113,18 +113,18 @@ theorem quasiInverseTriple_mapComp_hom
 The app, naturality, and naturality_naturality fields are unchanged. -/
 def quasiInverseCounitFactor :
     Pseudofunctor.StrongTrans
-      D.quasiInverseTripleRight
+      quasiInverseTripleRight D
       D.base.quasiInverse where
-  app Y := D.quasiInverseCounitFactorLeft.app Y
-  naturality f := D.quasiInverseCounitFactorLeft.naturality f
+  app Y := quasiInverseCounitFactorLeft D.app Y
+  naturality f := quasiInverseCounitFactorLeft D.naturality f
   naturality_naturality theta :=
-    D.quasiInverseCounitFactorLeft.naturality_naturality theta
+    quasiInverseCounitFactorLeft D.naturality_naturality theta
   naturality_id Y := by
-    rw [← D.quasiInverseTriple_mapId_hom Y]
-    exact D.quasiInverseCounitFactorLeft.naturality_id Y
+    rw [← quasiInverseTriple_mapId_hom D Y]
+    exact quasiInverseCounitFactorLeft D.naturality_id Y
   naturality_comp f g := by
-    rw [← D.quasiInverseTriple_mapComp_hom f g]
-    exact D.quasiInverseCounitFactorLeft.naturality_comp f g
+    rw [← quasiInverseTriple_mapComp_hom D f g]
+    exact quasiInverseCounitFactorLeft D.naturality_comp f g
 
 /-- The reverse triangle obtained from the two native horizontal-whiskering
 factors.  This is still only a StrongTrans; its contraction is stored
@@ -134,26 +134,26 @@ def quasiInverseTriangle :
       D.base.quasiInverse
       D.base.quasiInverse :=
   Pseudofunctor.StrongTrans.vcomp
-    D.quasiInverseUnitFactor
-    D.quasiInverseCounitFactor
+    quasiInverseUnitFactor D
+    quasiInverseCounitFactor D
 
 @[simp] theorem quasiInverseUnitFactor_app (Y : C) :
-    D.quasiInverseUnitFactor.app Y =
+    quasiInverseUnitFactor D.app Y =
       D.base.unit.app (D.base.quasiInverse.obj Y) :=
   rfl
 
 @[simp] theorem quasiInverseCounitFactorLeft_app (Y : C) :
-    D.quasiInverseCounitFactorLeft.app Y =
+    quasiInverseCounitFactorLeft D.app Y =
       D.base.quasiInverse.map (D.base.counit.app Y) :=
   rfl
 
 @[simp] theorem quasiInverseCounitFactor_app (Y : C) :
-    D.quasiInverseCounitFactor.app Y =
+    quasiInverseCounitFactor D.app Y =
       D.base.quasiInverse.map (D.base.counit.app Y) :=
   rfl
 
 @[simp] theorem quasiInverseTriangle_app (Y : C) :
-    D.quasiInverseTriangle.app Y =
+    quasiInverseTriangle D.app Y =
       D.base.unit.app (D.base.quasiInverse.obj Y) ≫
         D.base.quasiInverse.map (D.base.counit.app Y) :=
   rfl
