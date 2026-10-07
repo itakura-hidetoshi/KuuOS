@@ -197,8 +197,20 @@ theorem reverseNaturality : ReverseNaturality R eta := by
         (eta.app X ◁ (R.mapComp (eta.app X) (R.map f)).inv) =
       (eta.app X ◁ (R.mapComp (eta.app X) (R.map f)).hom) ≫
         (eta.app X ◁ (R.mapComp (eta.app X) (R.map f)).inv)
-    rw [(α_ (eta.app X) (R.map (eta.app X))
-       (R.map (R.map f))).inv_hom_id_assoc]
+    let assocIso :=
+      α_ (eta.app X) (R.map (eta.app X)) (R.map (R.map f))
+    have hcancel := assocIso.inv_hom_id
+    have hcontext :=
+      congrArg
+        (fun middle =>
+          (eta.app X ◁
+            (R.mapComp (eta.app X) (R.map f)).hom) ≫
+            middle ≫
+              (eta.app X ◁
+                (R.mapComp (eta.app X) (R.map f)).inv))
+        hcancel
+    simpa only [assocIso, Category.assoc,
+      Category.id_comp, Category.comp_id] using hcontext
   rw [hpostNorm, hpre]
   simp only [
     leftFactor, rightFactor,
