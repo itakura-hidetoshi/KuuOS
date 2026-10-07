@@ -77,14 +77,20 @@ theorem reverseNaturality : ReverseNaturality R eta := by
   have hX :=
     Pseudofunctor.StrongTrans.naturality_comp_hom
       eta (eta.app X) (R.map f)
-  let pre :=
+  let pre :
+      (Pseudofunctor.id B).map (f ≫ eta.app Y) ≫
+          eta.app (R.obj Y) ⟶
+        (Pseudofunctor.id B).map f ≫ (prePath R eta).app Y :=
     ((Pseudofunctor.id B).mapComp f (eta.app Y)).hom ▷
         eta.app (R.obj Y) ≫
       (α_
         ((Pseudofunctor.id B).map f)
         ((Pseudofunctor.id B).map (eta.app Y))
         (eta.app (R.obj Y))).hom
-  let post :=
+  let post :
+      (postPath R eta).app X ≫
+          (Pseudofunctor.comp R R).map f ⟶
+        eta.app X ≫ R.map (eta.app X ≫ R.map f) :=
     (α_ (eta.app X) (R.map (eta.app X))
       (R.map (R.map f))).hom ≫
       eta.app X ◁
