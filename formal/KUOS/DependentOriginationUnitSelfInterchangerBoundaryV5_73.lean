@@ -15,6 +15,9 @@ noncomputable section
 /-!
 # Unit self-interchanger boundary v5.73
 
+This head is revalidated against the repaired v5.71/v5.72 stack; cascade
+receipts from the former parent failure are not reused.
+
 Let R : B -> B and eta : Id_B => R.
 
 v5.53 gives the native left action of eta along R,
