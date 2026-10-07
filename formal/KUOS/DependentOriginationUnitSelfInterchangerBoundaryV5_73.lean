@@ -7,6 +7,7 @@ open scoped CategoryTheory.Bicategory CategoryTheory.Pseudofunctor.StrongTrans
 
 open KUOS.DependentOriginationExactLiftableActualLiftQuasiInverseTriangleUnitV5_53
 open KUOS.DependentOriginationUnitPostcompositionNativeSourceV5_72
+open KUOS.DependentOriginationUnitPostcompositionNativeSourceV5_72.Generic
 
 set_option autoImplicit false
 
@@ -17,8 +18,11 @@ noncomputable section
 
 This head is revalidated against the repaired v5.71/v5.72 stack; cascade
 receipts from the former parent failure are not reused.
-Current stacked-base revalidation uses v5.72 head
-`8d9f46f6efd07f508303fc9599fc84d8356b0ede`.
+The v5.72 declarations used below live under
+`DependentOriginationUnitPostcompositionNativeSourceV5_72.Generic`.
+Lean's `open` is namespace-local rather than recursive through child
+namespaces, so the Generic namespace is opened explicitly before referring to
+`UnitPostcomposition.strongTrans`.
 
 Let R : B -> B and eta : Id_B => R.
 
