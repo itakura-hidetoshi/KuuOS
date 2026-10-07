@@ -77,27 +77,29 @@ theorem reverseNaturality : ReverseNaturality R eta := by
   have hX :=
     Pseudofunctor.StrongTrans.naturality_comp_hom
       eta (eta.app X) (R.map f)
-  let pre :
+  let preIso :
       (Pseudofunctor.id B).map (f ≫ eta.app Y) ≫
-          eta.app (R.obj Y) ⟶
+          eta.app (R.obj Y) ≅
         (Pseudofunctor.id B).map f ≫ (prePath R eta).app Y :=
-    ((Pseudofunctor.id B).mapComp f (eta.app Y)).hom ▷
-        eta.app (R.obj Y) ≫
+    Bicategory.whiskerRightIso
+        ((Pseudofunctor.id B).mapComp f (eta.app Y))
+        (eta.app (R.obj Y)) ≪≫
       (α_
         ((Pseudofunctor.id B).map f)
         ((Pseudofunctor.id B).map (eta.app Y))
-        (eta.app (R.obj Y))).hom
-  let post :
+        (eta.app (R.obj Y)))
+  let postIso :
       (postPath R eta).app X ≫
-          (Pseudofunctor.comp R R).map f ⟶
+          (Pseudofunctor.comp R R).map f ≅
         eta.app X ≫ R.map (eta.app X ≫ R.map f) :=
     (α_ (eta.app X) (R.map (eta.app X))
-      (R.map (R.map f))).hom ≫
-      eta.app X ◁
-        (R.mapComp (eta.app X) (R.map f)).inv
-  apply (cancel_epi pre).mp
-  apply (cancel_mono post).mp
-  dsimp [pre, post]
+      (R.map (R.map f))) ≪≫
+      Bicategory.whiskerLeftIso
+        (eta.app X)
+        (R.mapComp (eta.app X) (R.map f)).symm
+  apply (cancel_epi preIso.hom).mp
+  apply (cancel_mono postIso.hom).mp
+  dsimp [preIso, postIso]
   simp only [
     reverseComponentIso_hom,
     Pseudofunctor.StrongTrans.categoryStruct_comp_naturality_hom,
