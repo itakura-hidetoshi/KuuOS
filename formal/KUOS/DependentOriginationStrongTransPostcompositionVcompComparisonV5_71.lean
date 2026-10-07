@@ -273,6 +273,12 @@ theorem naturality
       ((postVcomp H alpha beta).naturality f).hom ≫
         (H.mapComp (alpha.app a) (beta.app a)).hom ▷ H.map (K.map f)
   rw [hx]
+  have hcancel := congrArg
+    (fun t =>
+      ((postVcomp H alpha beta).naturality f).hom ≫
+        ((H.mapComp (alpha.app a) (beta.app a)).hom ▷ H.map (K.map f) ≫ t))
+    ((vcompPost H alpha beta).naturality f).inv_hom_id
+  simpa only [Category.assoc, Category.comp_id] using hcancel
 
 local instance postVcompStrongTransHomCategory :
     Category
