@@ -192,15 +192,15 @@ theorem reverseNaturality : ReverseNaturality R eta := by
     _ = (eta.naturality (f ≫ eta.app Y)).hom ≫
           eta.app X ◁ R.map₂ (eta.naturality f).hom := by
         rw [hY]
-        bicategory <;>
-          simp only [
-            Category.assoc,
-            Bicategory.whiskerLeft_id,
-            Category.id_comp,
-            Category.comp_id,
-            Iso.inv_hom_id,
-            Bicategory.whiskerLeft_hom_inv
-          ]
+        bicategory
+        simp only [
+          Category.assoc,
+          Bicategory.whiskerLeft_id,
+          Category.id_comp,
+          Category.comp_id,
+          Iso.inv_hom_id_assoc,
+          Bicategory.whiskerLeft_hom_inv_assoc
+        ]
     _ = (Pseudofunctor.id B).map₂ (eta.naturality f).hom ▷
           eta.app (R.obj Y) ≫
         (eta.naturality (eta.app X ≫ R.map f)).hom :=
