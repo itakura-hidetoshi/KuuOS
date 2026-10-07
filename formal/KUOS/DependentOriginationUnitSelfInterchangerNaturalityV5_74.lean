@@ -119,9 +119,14 @@ theorem reverseNaturality : ReverseNaturality R eta := by
     ((Pseudofunctor.StrongTrans.vcomp
       eta (UnitPrecomposition.strongTrans R eta)).naturality f).hom = _
       at hpre
-  rw [hpost, hpre]
-  rw [UnitPostcomposition.strongTrans_naturality,
-    UnitPostcomposition.naturalityIso_hom]
+  let leftFactor :=
+    (α_ ((Pseudofunctor.id B).map f) (eta.app Y)
+      (R.map (eta.app Y))).inv ≫
+      (eta.naturality f).hom ▷ R.map (eta.app Y) ≫
+        (α_ (eta.app X) (R.map f) (R.map (eta.app Y))).hom
+  let rightFactor :=
+    (α_ (eta.app X) (R.map (eta.app X))
+      ((Pseudofunctor.comp R R).map f)).inv
   have hsplit :
       eta.app X ◁
           ((R.mapComp f (eta.app Y)).inv ≫
@@ -136,10 +141,48 @@ theorem reverseNaturality : ReverseNaturality R eta := by
       (R.mapComp f (eta.app Y)).inv
       (R.map₂ (eta.naturality f).hom ≫
         (R.mapComp (eta.app X) (R.map f)).hom)
-  rw [hsplit]
+  have hpostRaw :
+      ((Pseudofunctor.StrongTrans.vcomp
+        eta (UnitPostcomposition.strongTrans R eta)).naturality f).hom =
+        leftFactor ≫
+          (eta.app X ◁
+            ((R.mapComp f (eta.app Y)).inv ≫
+              (R.map₂ (eta.naturality f).hom ≫
+                (R.mapComp (eta.app X) (R.map f)).hom))) ≫
+          rightFactor := by
+    simpa only [leftFactor, rightFactor,
+      UnitPostcomposition.strongTrans_app,
+      UnitPostcomposition.strongTrans_naturality,
+      UnitPostcomposition.naturalityIso_hom,
+      Category.assoc] using hpost
+  have hpostNorm :
+      ((Pseudofunctor.StrongTrans.vcomp
+        eta (UnitPostcomposition.strongTrans R eta)).naturality f).hom =
+        leftFactor ≫
+          (eta.app X ◁ (R.mapComp f (eta.app Y)).inv) ≫
+          (eta.app X ◁ R.map₂ (eta.naturality f).hom) ≫
+          (eta.app X ◁ (R.mapComp (eta.app X) (R.map f)).hom) ≫
+          rightFactor := by
+    calc
+      _ = leftFactor ≫
+            (eta.app X ◁
+              ((R.mapComp f (eta.app Y)).inv ≫
+                (R.map₂ (eta.naturality f).hom ≫
+                  (R.mapComp (eta.app X) (R.map f)).hom))) ≫
+            rightFactor := hpostRaw
+      _ = leftFactor ≫
+            ((eta.app X ◁ (R.mapComp f (eta.app Y)).inv) ≫
+              (eta.app X ◁
+                (R.map₂ (eta.naturality f).hom ≫
+                  (R.mapComp (eta.app X) (R.map f)).hom))) ≫
+            rightFactor :=
+          congrArg (fun t => leftFactor ≫ t ≫ rightFactor) hsplit
+      _ = _ := by
+        simp only [Bicategory.whiskerLeft_comp, Category.assoc]
+  rw [hpostNorm, hpre]
   simp only [
+    leftFactor, rightFactor,
     reverseComponentIso_hom,
-    UnitPostcomposition.strongTrans_app,
     UnitPrecomposition.strongTrans_naturality,
     UnitPrecomposition.strongTrans_app,
     Iso.symm_hom,
