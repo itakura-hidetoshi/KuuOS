@@ -151,10 +151,8 @@ local instance actualLiftForwardSwallowtailHomCategoryV70 :
         (W := W) A WorldLabel PresentationLabel)
     (F :=
       Pseudofunctor.id
-        (actualLiftForwardSwallowtailSourceV70
-          (W := W) A
-          (WorldLabel := WorldLabel)
-          (PresentationLabel := PresentationLabel)))
+        (ActualLiftSource.{u, v, uH, vH, uW, uP}
+          (W := W) A WorldLabel PresentationLabel))
     (G :=
       actualLiftForwardSwallowtailRoundtripV70
         (W := W) A
