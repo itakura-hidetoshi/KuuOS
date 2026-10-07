@@ -14,6 +14,8 @@ noncomputable section
 /-!
 # Unit postcomposition with native source v5.72
 
+Revalidated directly against canonical main after the v5.71 merge; no stacked-base receipt is reused.
+
 This head is revalidated against the repaired v5.71 postcomposition-vcomp
 base; the earlier cascade receipt from the failing parent is not reused.
 Current stacked-base revalidation uses v5.71 head
