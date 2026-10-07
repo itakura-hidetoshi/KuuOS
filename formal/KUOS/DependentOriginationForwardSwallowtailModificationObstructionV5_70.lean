@@ -108,14 +108,14 @@ def ActualLiftForwardSwallowtailModificationNaturality : Prop :=
           (WorldLabel := WorldLabel)
           (PresentationLabel := PresentationLabel)
           Y).hom ≫
-      (actualLiftForwardSwallowtailRightV70
+      ((actualLiftForwardSwallowtailRightV70
         (W := W) A
         (WorldLabel := WorldLabel)
-        (PresentationLabel := PresentationLabel)).naturality f |>.hom =
-    (actualLiftForwardSwallowtailLeftV70
+        (PresentationLabel := PresentationLabel)).naturality f).hom =
+    ((actualLiftForwardSwallowtailLeftV70
       (W := W) A
       (WorldLabel := WorldLabel)
-      (PresentationLabel := PresentationLabel)).naturality f |>.hom ≫
+      (PresentationLabel := PresentationLabel)).naturality f).hom ≫
       (actualLiftForwardSwallowtailComponentInterchanger
         (W := W) A
         (WorldLabel := WorldLabel)
