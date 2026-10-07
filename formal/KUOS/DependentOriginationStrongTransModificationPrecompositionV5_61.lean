@@ -190,7 +190,8 @@ def iso
   hom.as := modification K e.hom.as
   inv.as := modification K e.inv.as
   hom_inv_id := by
-    ext a
+    apply Pseudofunctor.StrongTrans.homCategory.ext
+    intro a
     change
       e.hom.as.app (K.obj a) ≫ e.inv.as.app (K.obj a) =
         𝟙 (alpha.app (K.obj a))
@@ -198,7 +199,8 @@ def iso
       (fun m => m.as.app (K.obj a))
       e.hom_inv_id
   inv_hom_id := by
-    ext a
+    apply Pseudofunctor.StrongTrans.homCategory.ext
+    intro a
     change
       e.inv.as.app (K.obj a) ≫ e.hom.as.app (K.obj a) =
         𝟙 (beta.app (K.obj a))
