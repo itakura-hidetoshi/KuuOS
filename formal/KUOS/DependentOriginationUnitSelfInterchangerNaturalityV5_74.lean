@@ -104,6 +104,7 @@ theorem reverseNaturality : ReverseNaturality R eta := by
     Bicategory.whiskerRightIso_hom,
     Bicategory.whiskerLeftIso_hom
   ]
+  dsimp only [postPath, prePath]
   rw [
     Pseudofunctor.StrongTrans.categoryStruct_comp_naturality_hom
       eta (UnitPostcomposition.strongTrans R eta) f,
@@ -111,11 +112,13 @@ theorem reverseNaturality : ReverseNaturality R eta := by
       eta (UnitPrecomposition.strongTrans R eta) f
   ]
   simp only [
+    reverseComponentIso_hom,
     UnitPostcomposition.strongTrans_naturality,
     UnitPostcomposition.naturalityIso_hom,
     UnitPostcomposition.strongTrans_app,
     UnitPrecomposition.strongTrans_naturality,
     UnitPrecomposition.strongTrans_app,
+    Iso.symm_hom,
     Category.assoc
   ]
   rw [← reassoc_of% hY]
