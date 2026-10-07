@@ -283,13 +283,68 @@ theorem reverseNaturality : ReverseNaturality R eta := by
       (eta.naturality_naturality (eta.naturality f).hom).symm
     _ = _ := by
       rw [hX]
-      simp <;> bicategory
+      simp; bicategory
+
+/-- The reversed eta/eta comparison as a native invertible modification.
+Mathlib constructs the inverse modification and its naturality from the
+proved forward square, so no inverse square is postulated. -/
+local instance unitSelfHomCategory :
+    Category
+      (Pseudofunctor.StrongTrans
+        (Pseudofunctor.id B)
+        (Pseudofunctor.comp R R)) :=
+  Pseudofunctor.StrongTrans.homCategory
+    (B := B) (C := B)
+    (F := Pseudofunctor.id B)
+    (G := Pseudofunctor.comp R R)
+
+def reverseComparisonIso :
+    @CategoryTheory.Iso
+      (Pseudofunctor.StrongTrans
+        (Pseudofunctor.id B)
+        (Pseudofunctor.comp R R))
+      (Pseudofunctor.StrongTrans.homCategory
+        (B := B) (C := B)
+        (F := Pseudofunctor.id B)
+        (G := Pseudofunctor.comp R R))
+      (prePath R eta)
+      (postPath R eta) :=
+  Pseudofunctor.StrongTrans.isoMk
+    (η := prePath R eta)
+    (θ := postPath R eta)
+    (reverseComponentIso R eta)
+    (by
+      intro X Y f
+      exact reverseNaturality R eta f)
+
+/-- The original v5.73 naturality orientation, inherited from the inverse of
+the fully constructed reverse modification. -/
+theorem naturality : Naturality R eta := by
+  intro X Y f
+  exact (reverseComparisonIso R eta).inv.as.naturality f
+
+/-- The native invertible eta/eta modification, now without a
+conditional naturality assumption. -/
+def comparisonIso :
+    @CategoryTheory.Iso
+      (Pseudofunctor.StrongTrans
+        (Pseudofunctor.id B)
+        (Pseudofunctor.comp R R))
+      (Pseudofunctor.StrongTrans.homCategory
+        (B := B) (C := B)
+        (F := Pseudofunctor.id B)
+        (G := Pseudofunctor.comp R R))
+      (postPath R eta)
+      (prePath R eta) :=
+  comparisonIsoOfNaturality R eta (naturality R eta)
 
 end UnitSelfInterchanger
 
 end Generic
 
 #print axioms Generic.UnitSelfInterchanger.reverseNaturality
+#print axioms Generic.UnitSelfInterchanger.naturality
+#print axioms Generic.UnitSelfInterchanger.comparisonIso
 
 end
 
