@@ -6,6 +6,7 @@ open CategoryTheory
 open scoped CategoryTheory.Bicategory CategoryTheory.Pseudofunctor.StrongTrans
 
 open KUOS.DependentOriginationStrongTransModificationPostcompositionV5_62
+open KUOS.DependentOriginationStrongTransModificationPostcompositionV5_62.StrongTransPostcomposition
 open KUOS.DependentOriginationExactLiftableActualLiftBiadjunctionTriangulatorsV5_58
 open KUOS.DependentOriginationExactLiftableActualLiftBiadjunctionTriangulatorsV5_58.Generic
 
@@ -64,8 +65,8 @@ identity StrongTrans and the native identity StrongTrans. -/
 theorem identityNaturality {a b : B} (f : a ⟶ b) :
     (Pseudofunctor.comp F H).map f ◁
           (H.mapId (F.obj b)).hom ≫
-        (Pseudofunctor.StrongTrans.id
-          (Pseudofunctor.comp F H)).naturality f |>.hom =
+        ((Pseudofunctor.StrongTrans.id
+          (Pseudofunctor.comp F H)).naturality f).hom =
       (naturalityIso H (Pseudofunctor.StrongTrans.id F) f).hom ≫
         (H.mapId (F.obj a)).hom ▷
           (Pseudofunctor.comp F H).map f := by
