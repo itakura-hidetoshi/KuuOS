@@ -81,8 +81,11 @@ theorem identityNaturality {a b : B} (f : a ⟶ b) :
     H.mapComp_id_left_hom]
   simp only [Iso.symm_hom, Category.assoc]
   rw [H.map₂_inv_hom_assoc (ρ_ (F.map f)),
-    H.map₂_inv_hom_assoc (λ_ (F.map f)),
-    Bicategory.inv_hom_whiskerRight, Category.id_comp]
+    H.map₂_inv_hom_assoc (λ_ (F.map f))]
+  have hmap :
+      (Pseudofunctor.comp F H).map f = H.map (F.map f) :=
+    rfl
+  rw [hmap, Bicategory.inv_hom_whiskerRight, Category.id_comp]
 
 /-- The postcomposed identity StrongTrans is canonically isomorphic to the
 native identity StrongTrans of the composite pseudofunctor. -/
