@@ -264,8 +264,7 @@ theorem reverseNaturality : ReverseNaturality R eta := by
             congrArg (fun middle => lead ≫ middle) hwhisker
           exact hc.trans (Category.comp_id lead)
         have htotal := hlead.trans htailRight
-        simp only [Category.assoc] at htotal ⊢
-        exact htotal
+        convert htotal using 1 <;> simp only [lead, Category.assoc] <;> cat_disch
     _ = (Pseudofunctor.id B).map₂ (eta.naturality f).hom ▷
           eta.app (R.obj Y) ≫
         (eta.naturality (eta.app X ≫ R.map f)).hom :=
