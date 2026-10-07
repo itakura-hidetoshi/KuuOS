@@ -212,9 +212,27 @@ theorem reverseNaturality : ReverseNaturality R eta := by
     _ = (eta.naturality (f ≫ eta.app Y)).hom ≫
           eta.app X ◁ R.map₂ (eta.naturality f).hom := by
         rw [hY]
-        simp only [Category.assoc]
-        rw [htail]
-        simp only [Bicategory.whiskerLeft_hom_inv, Category.id_comp]
+        let lead :=
+          ((Pseudofunctor.id B).mapComp f (eta.app Y)).hom ▷
+              eta.app (R.obj Y) ≫
+            (α_ ((Pseudofunctor.id B).map f)
+              ((Pseudofunctor.id B).map (eta.app Y))
+              (eta.app (R.obj Y))).hom ≫
+              ((Pseudofunctor.id B).map f ◁
+                (eta.naturality (eta.app Y)).hom) ≫
+                (α_ ((Pseudofunctor.id B).map f)
+                  (eta.app Y) (R.map (eta.app Y))).inv ≫
+                  ((eta.naturality f).hom ▷ R.map (eta.app Y)) ≫
+                    (α_ (eta.app X) (R.map f)
+                      (R.map (eta.app Y))).hom ≫
+                      (eta.app X ◁
+                        (R.mapComp f (eta.app Y)).inv) ≫
+                        (eta.app X ◁ R.map₂ (eta.naturality f).hom)
+        have hlead :=
+          congrArg (fun tail => lead ≫ tail) htail
+        simpa only [lead, Category.assoc,
+          Bicategory.whiskerLeft_hom_inv, Category.comp_id]
+          using hlead
     _ = (Pseudofunctor.id B).map₂ (eta.naturality f).hom ▷
           eta.app (R.obj Y) ≫
         (eta.naturality (eta.app X ≫ R.map f)).hom :=
