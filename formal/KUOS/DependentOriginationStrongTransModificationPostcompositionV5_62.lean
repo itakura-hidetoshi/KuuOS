@@ -255,14 +255,14 @@ def modification
       (strongTrans H alpha)
       (strongTrans H beta) where
   app a := H.map₂ (Gamma.app a)
-  naturality f :=
+  naturality {a b} f :=
     MappedSquarePostcomposition.verticalNaturality
       H
       (F.map f) (G.map f)
-      (alpha.app _) (beta.app _)
-      (alpha.app _) (beta.app _)
+      (alpha.app a) (beta.app a)
+      (alpha.app b) (beta.app b)
       (alpha.naturality f) (beta.naturality f)
-      (Gamma.app _) (Gamma.app _)
+      (Gamma.app a) (Gamma.app b)
       (Gamma.naturality f)
 
 @[simp] theorem modification_app
@@ -301,11 +301,11 @@ def iso
       H.map₂ (e.hom.as.app a) ≫
           H.map₂ (e.inv.as.app a) =
         𝟙 (H.map (alpha.app a))
-    have hcomponent :=
+    have hcomponent :
+        e.hom.as.app a ≫ e.inv.as.app a =
+          𝟙 (alpha.app a) :=
       congrArg (fun m => m.as.app a) e.hom_inv_id
-    have hmapped :=
-      congrArg (fun t => H.map₂ t) hcomponent
-    simpa only [PrelaxFunctor.map₂_comp, PrelaxFunctor.map₂_id] using hmapped
+    rw [← PrelaxFunctor.map₂_comp, hcomponent, PrelaxFunctor.map₂_id]
   inv_hom_id := by
     apply Pseudofunctor.StrongTrans.homCategory.ext
     intro a
@@ -313,11 +313,11 @@ def iso
       H.map₂ (e.inv.as.app a) ≫
           H.map₂ (e.hom.as.app a) =
         𝟙 (H.map (beta.app a))
-    have hcomponent :=
+    have hcomponent :
+        e.inv.as.app a ≫ e.hom.as.app a =
+          𝟙 (beta.app a) :=
       congrArg (fun m => m.as.app a) e.inv_hom_id
-    have hmapped :=
-      congrArg (fun t => H.map₂ t) hcomponent
-    simpa only [PrelaxFunctor.map₂_comp, PrelaxFunctor.map₂_id] using hmapped
+    rw [← PrelaxFunctor.map₂_comp, hcomponent, PrelaxFunctor.map₂_id]
 
 end StrongTransPostcomposition
 
