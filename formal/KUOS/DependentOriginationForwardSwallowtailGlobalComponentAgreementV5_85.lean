@@ -83,6 +83,28 @@ theorem fiveStage_hom_app
     eqToIso_hom_app_of_app_eq h2 X happ2,
     eqToIso_hom_app_of_app_eq h3 X happ3]
 
+/-- The three whole-StrongTrans equality transports can be erased
+pointwise when the entire equality is eliminated *generically*. This
+avoids elaborating equality recursors for the large actual-lift records. -/
+theorem fiveStage_hom_app_reduced
+    {sigma0 sigma1 sigma2 sigma3 sigma4 sigma5 :
+      Pseudofunctor.StrongTrans F G}
+    (h1 : sigma1 = sigma0)
+    (e1 : sigma1 ≅ sigma2)
+    (h2 : sigma2 = sigma3)
+    (e2 : sigma3 ≅ sigma4)
+    (h3 : sigma4 = sigma5) (X : B) :
+    ((eqToIso h1).symm ≪≫ e1 ≪≫ eqToIso h2 ≪≫
+      e2 ≪≫ eqToIso h3).hom.as.app X =
+      e1.hom.as.app X ≫ e2.hom.as.app X := by
+  cases h1
+  cases h2
+  cases h3
+  simpa only [eqToHom_refl, Category.id_comp, Category.comp_id] using
+    (fiveStage_hom_app (h1 := rfl) (e1 := e1) (h2 := rfl)
+      (e2 := e2) (h3 := rfl) (X := X)
+      (happ1 := rfl) (happ2 := rfl) (happ3 := rfl))
+
 end Generic
 
 universe u v uH vH uW uP
@@ -123,21 +145,48 @@ theorem actualLiftForwardSwallowtailGlobalIso_hom_app
     (actualLiftForwardSwallowtailComponentInterchanger (W := W) A
       (WorldLabel := WorldLabel)
       (PresentationLabel := PresentationLabel) X).hom := by
-  -- Keep the equality-transport computation generic: the three app
-  -- comparisons are all judgmentally reflexive (v5.78/v5.79).
-  unfold actualLiftForwardSwallowtailGlobalIso
-  rw [Generic.fiveStage_hom_app (X := X)
-    (happ1 := by rfl) (happ2 := by rfl) (happ3 := by rfl)]
-  simp only [eqToHom_refl, Category.id_comp, Category.comp_id,
-    forwardMapCompGlobalIso_hom_app,
-    sourceCounitReassociatedInterchangerIso_hom_app,
-    sourceCounitReassociatedComponentIso,
-    actualLiftForwardSwallowtailComponentInterchanger,
-    Category.assoc]
-  rfl
+  let leading :=
+    forwardMapCompGlobalIso (W := W) A
+      (WorldLabel := WorldLabel)
+      (PresentationLabel := PresentationLabel)
+  let trailing :=
+    sourceCounitReassociatedInterchangerIso
+      (actualLiftDatumV579 (W := W) A
+        (WorldLabel := WorldLabel)
+        (PresentationLabel := PresentationLabel))
+  have hcomponents :
+      (actualLiftForwardSwallowtailGlobalIso (W := W) A
+        (WorldLabel := WorldLabel)
+        (PresentationLabel := PresentationLabel)).hom.as.app X =
+      leading.hom.as.app X ≫ trailing.hom.as.app X := by
+    unfold actualLiftForwardSwallowtailGlobalIso
+    exact Generic.fiveStage_hom_app_reduced
+      (sourceMapCompPathV578_eq_forwardSwallowtailLeft (W := W) A
+        (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))
+      leading
+      (middleStrongTrans_eq (W := W) A
+        (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))
+      trailing
+      (rightStrongTrans_eq (W := W) A
+        (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))
+      X
+  calc
+    _ = leading.hom.as.app X ≫ trailing.hom.as.app X := hcomponents
+    _ = (actualLiftForwardSwallowtailComponentInterchanger (W := W) A
+        (WorldLabel := WorldLabel)
+        (PresentationLabel := PresentationLabel) X).hom := by
+      dsimp only [leading, trailing]
+      rw [forwardMapCompGlobalIso_hom_app (W := W) A
+        (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel) X]
+      rw [sourceCounitReassociatedInterchangerIso_hom_app
+        (actualLiftDatumV579 (W := W) A
+          (WorldLabel := WorldLabel)
+          (PresentationLabel := PresentationLabel)) X]
+      rfl
 
 #print axioms Generic.eqToIso_inv_app_of_app_eq
 #print axioms Generic.fiveStage_hom_app
+#print axioms Generic.fiveStage_hom_app_reduced
 #print axioms actualLiftForwardSwallowtailGlobalIso_hom_app
 
 end
