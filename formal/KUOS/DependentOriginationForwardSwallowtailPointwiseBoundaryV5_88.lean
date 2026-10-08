@@ -136,7 +136,7 @@ theorem actualLiftForwardSwallowtailPredicate_iff_pointwise :
       (actualLiftForwardSwallowtailCanonicalIso.{u, v, uH, uW, uP, vH} (W := W) A
         (WorldLabel := WorldLabel)
         (PresentationLabel := PresentationLabel)) ↔
-    ActualLiftForwardSwallowtailPointwiseAgreement.{u, v, uH, uW, uP, vH} (W := W) A
+    ActualLiftForwardSwallowtailPointwiseAgreement.{u, v, uH, vH, uW, uP} (W := W) A
       (WorldLabel := WorldLabel)
       (PresentationLabel := PresentationLabel) := by
   constructor
@@ -154,7 +154,7 @@ theorem actualLiftForwardSwallowtailPredicate_iff_pointwise :
         (WorldLabel := WorldLabel)
         (PresentationLabel := PresentationLabel) =>
         e.hom.as.app X) h
-    rw [actualLiftForwardSwallowtailInterchangerOfNaturality_hom_app.{u, v, uH, uW, uP, vH} (W := W) A
+    rw [actualLiftForwardSwallowtailInterchangerOfNaturality_hom_app.{u, v, uH, vH, uW, uP} (W := W) A
       (WorldLabel := WorldLabel)
       (PresentationLabel := PresentationLabel)
       (actualLiftForwardSwallowtailOriginalNaturality.{u, v, uH, uW, uP, vH} (W := W) A
@@ -183,7 +183,7 @@ theorem actualLiftForwardSwallowtailPredicate_iff_pointwise :
         (actualLiftForwardSwallowtailComponentInterchanger.{u, v, uH, uW, uP, vH} (W := W) A
           (WorldLabel := WorldLabel)
           (PresentationLabel := PresentationLabel) X).hom :=
-        actualLiftForwardSwallowtailInterchangerOfNaturality_hom_app.{u, v, uH, uW, uP, vH} (W := W) A
+        actualLiftForwardSwallowtailInterchangerOfNaturality_hom_app.{u, v, uH, vH, uW, uP} (W := W) A
           (WorldLabel := WorldLabel)
           (PresentationLabel := PresentationLabel)
           (actualLiftForwardSwallowtailOriginalNaturality.{u, v, uH, uW, uP, vH} (W := W) A
@@ -211,7 +211,7 @@ theorem actualLiftForwardGlobalPredicate_iff_pointwise :
       (actualLiftForwardSwallowtailGlobalIso.{u, v, uH, uW, uP, vH} (W := W) A
         (WorldLabel := WorldLabel)
         (PresentationLabel := PresentationLabel)) ↔
-    ActualLiftForwardSwallowtailPointwiseAgreement.{u, v, uH, uW, uP, vH} (W := W) A
+    ActualLiftForwardSwallowtailPointwiseAgreement.{u, v, uH, vH, uW, uP} (W := W) A
       (WorldLabel := WorldLabel)
       (PresentationLabel := PresentationLabel) := by
   rw [← actualLiftForwardSwallowtailCanonicalIso_eq_global.{u, v, uH, uW, uP, vH} (W := W) A
