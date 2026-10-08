@@ -211,30 +211,35 @@ theorem actualLiftForwardSwallowtailGlobalIso_hom_app
         (PresentationLabel := PresentationLabel))
       hleft leading hmiddle trailing hright X
       (by rfl) (by rfl) (by rfl)
-  -- Work with the *stated* five-step Iso, not an unrestricted rewrite of
-  -- its deeply nested actual-lift hom. The first step is definitional,
-  -- and the generic component lemma supplies the second directly.
-  calc
-    (actualLiftForwardSwallowtailGlobalIso (W := W) A
-      (WorldLabel := WorldLabel)
-      (PresentationLabel := PresentationLabel)).hom.as.app X =
+  -- A typed chain avoids the metavariable `Trans Eq Eq ?m` that can
+  -- remain unresolved when Lean elaborates a dependent `calc` block.
+  have hraw :
+      (actualLiftForwardSwallowtailGlobalIso (W := W) A
+        (WorldLabel := WorldLabel)
+        (PresentationLabel := PresentationLabel)).hom.as.app X =
         ((eqToIso hleft).symm ≪≫ leading ≪≫
           eqToIso hmiddle ≪≫ trailing ≪≫ eqToIso hright).hom.as.app X := by
-            rfl
-    _ = leading.hom.as.app X ≫ trailing.hom.as.app X := by
-          simpa only [eqToHom_refl, Category.id_comp, Category.comp_id]
-            using htransport
-    _ = (actualLiftForwardSwallowtailComponentInterchanger (W := W) A
+    rfl
+  have hfive :
+      ((eqToIso hleft).symm ≪≫ leading ≪≫
+        eqToIso hmiddle ≪≫ trailing ≪≫ eqToIso hright).hom.as.app X =
+      leading.hom.as.app X ≫ trailing.hom.as.app X := by
+    simpa only [eqToHom_refl, Category.id_comp, Category.comp_id]
+      using htransport
+  have hcanonical :
+      leading.hom.as.app X ≫ trailing.hom.as.app X =
+      (actualLiftForwardSwallowtailComponentInterchanger (W := W) A
         (WorldLabel := WorldLabel)
         (PresentationLabel := PresentationLabel) X).hom := by
-          dsimp only [leading, trailing]
-          rw [forwardMapCompGlobalIso_hom_app (W := W) A
-            (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel) X]
-          rw [sourceCounitReassociatedInterchangerIso_hom_app
-            (actualLiftDatumV579 (W := W) A
-              (WorldLabel := WorldLabel)
-              (PresentationLabel := PresentationLabel)) X]
-          rfl
+    dsimp only [leading, trailing]
+    rw [forwardMapCompGlobalIso_hom_app (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel) X]
+    rw [sourceCounitReassociatedInterchangerIso_hom_app
+      (actualLiftDatumV579 (W := W) A
+        (WorldLabel := WorldLabel)
+        (PresentationLabel := PresentationLabel)) X]
+    rfl
+  exact hraw.trans (hfive.trans hcanonical)
 
 #print axioms Generic.eqToIso_inv_app_of_app_eq
 #print axioms Generic.fiveStage_hom_app
