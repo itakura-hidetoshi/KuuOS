@@ -236,6 +236,44 @@ theorem middleEqToHom_app_is_id
       (PresentationLabel := PresentationLabel)).app X) := by
   rfl
 
+/-- The leading v5.78 app transport uses the original mapped triangle
+and is definitionally the identity 2-cell on that component. -/
+theorem leftEqToHom_app_is_id
+    (X : sourceV578 (W := W) A
+      (WorldLabel := WorldLabel)
+      (PresentationLabel := PresentationLabel)) :
+    eqToHom (show
+      (actualLiftForwardSwallowtailLeftV70 (W := W) A
+        (WorldLabel := WorldLabel)
+        (PresentationLabel := PresentationLabel)).app X =
+      (sourceMapCompPathV578 (W := W) A
+        (WorldLabel := WorldLabel)
+        (PresentationLabel := PresentationLabel)).app X
+      from rfl) =
+    𝟙 ((sourceMapCompPathV578 (W := W) A
+      (WorldLabel := WorldLabel)
+      (PresentationLabel := PresentationLabel)).app X) := by
+  rfl
+
+/-- The final native counit path has the original v5.65 endpoint component;
+its equality-transport 2-cell is the identity. -/
+theorem rightEqToHom_app_is_id
+    (X : sourceV578 (W := W) A
+      (WorldLabel := WorldLabel)
+      (PresentationLabel := PresentationLabel)) :
+    eqToHom (show
+      (sourcePreCounitPath (actualLiftDatumV579 (W := W) A
+        (WorldLabel := WorldLabel)
+        (PresentationLabel := PresentationLabel))).app X =
+      (actualLiftForwardSwallowtailRightV70 (W := W) A
+        (WorldLabel := WorldLabel)
+        (PresentationLabel := PresentationLabel)).app X
+      from rfl) =
+    𝟙 ((sourcePreCounitPath (actualLiftDatumV579 (W := W) A
+      (WorldLabel := WorldLabel)
+      (PresentationLabel := PresentationLabel))).app X) := by
+  rfl
+
 /-- The v5.83 global comparison has precisely the original canonical v5.68
 four-cell paste on each source object. The independent naturality theorem
 then promotes that specific old family to a modification. -/
@@ -353,17 +391,16 @@ theorem actualLiftForwardSwallowtailGlobalIso_hom_app
       (WorldLabel := WorldLabel)
       (PresentationLabel := PresentationLabel) X).hom
     (by
-      -- The three supplied component equalities are reflexive in the
-      -- v5.78/v5.79 presentation. Change only this lightweight goal;
-      -- do not reduce the named global Iso.
-      change leading.hom.as.app X ≫ trailing.hom.as.app X =
-        (actualLiftForwardSwallowtailComponentInterchanger (W := W) A
-          (WorldLabel := WorldLabel)
-          (PresentationLabel := PresentationLabel) X).hom
+      -- Normalize three typed app transports individually. This leaves
+      -- only the previously proved four-cell component equality.
+      simp only [leftEqToHom_app_is_id, middleEqToHom_app_is_id,
+        rightEqToHom_app_is_id, Category.id_comp, Category.comp_id]
       exact hcanonical)
 
 
 #print axioms middleEqToHom_app_is_id
+#print axioms leftEqToHom_app_is_id
+#print axioms rightEqToHom_app_is_id
 #print axioms Generic.eqToIso_inv_app_of_app_eq
 #print axioms Generic.fiveStage_hom_app
 #print axioms Generic.fiveStage_hom_app_of_iso_eq
