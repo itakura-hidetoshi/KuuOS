@@ -13,6 +13,7 @@ open KUOS.DependentOriginationActualLiftForwardMapCompGlobalV5_78
 open KUOS.DependentOriginationReassociatedSourceCounitInterchangerV5_77.Generic.IncoherentBiadjunctionDatum
 
 set_option autoImplicit false
+set_option maxHeartbeats 1000000
 noncomputable section
 
 /-!
@@ -42,7 +43,7 @@ abbrev actualLiftDatumV579 :=
     (PresentationLabel := PresentationLabel)
 
 
-/-- A fully general extensionality rule for StrongTrans records.
+/- A fully general extensionality rule for StrongTrans records.
 Unlike modification extensionality, equality of strong transformations
 requires both app-fields and all naturality 2-isomorphisms. -/
 namespace Generic
@@ -67,7 +68,7 @@ theorem strongTrans_eq_of_app_and_naturality
         funext X
         exact happ X
       cases hApp
-      have hNat : sn = tn := by
+      have hNat : @sn = @tn := by
         funext X Y f
         apply Iso.ext
         exact eq_of_heq (hnat f)
@@ -126,9 +127,8 @@ HEq avoids prematurely transporting along an app-field equality and keeps
 both actual StrongTrans naturality fields visible. -/
 def MiddleNaturalityAgreement : Prop :=
   ∀ {X Y :
-      sourceV578 (W := W) A
-        (WorldLabel := WorldLabel)
-        (PresentationLabel := PresentationLabel)}
+      ActualLiftSource.{u, v, uH, vH, uW, uP}
+        (W := W) A WorldLabel PresentationLabel}
     (f : X ⟶ Y),
     HEq
       (((targetMapCompPathV578 (W := W) A
