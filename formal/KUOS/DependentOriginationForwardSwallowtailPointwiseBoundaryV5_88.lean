@@ -136,7 +136,7 @@ theorem actualLiftForwardSwallowtailPredicate_iff_pointwise :
       (actualLiftForwardSwallowtailCanonicalIso.{u, v, uH, uW, uP, vH} (W := W) A
         (WorldLabel := WorldLabel)
         (PresentationLabel := PresentationLabel)) ↔
-    ActualLiftForwardSwallowtailPointwiseAgreement (W := W) A
+    ActualLiftForwardSwallowtailPointwiseAgreement.{u, v, uH, uW, uP, vH} (W := W) A
       (WorldLabel := WorldLabel)
       (PresentationLabel := PresentationLabel) := by
   constructor
@@ -211,7 +211,7 @@ theorem actualLiftForwardGlobalPredicate_iff_pointwise :
       (actualLiftForwardSwallowtailGlobalIso.{u, v, uH, uW, uP, vH} (W := W) A
         (WorldLabel := WorldLabel)
         (PresentationLabel := PresentationLabel)) ↔
-    ActualLiftForwardSwallowtailPointwiseAgreement (W := W) A
+    ActualLiftForwardSwallowtailPointwiseAgreement.{u, v, uH, uW, uP, vH} (W := W) A
       (WorldLabel := WorldLabel)
       (PresentationLabel := PresentationLabel) := by
   rw [← actualLiftForwardSwallowtailCanonicalIso_eq_global.{u, v, uH, uW, uP, vH} (W := W) A
