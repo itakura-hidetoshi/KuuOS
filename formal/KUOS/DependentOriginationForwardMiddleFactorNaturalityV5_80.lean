@@ -99,8 +99,20 @@ theorem roundtrip_mapComp_eq_quasiInverse_mapComp
         ((forwardV578 (W := W) A
           (WorldLabel := WorldLabel)
           (PresentationLabel := PresentationLabel)).map g)).hom = _
-  rw [strictForward_mapComp_hom (W := W) A f g,
-    PrelaxFunctor.map₂_id, Category.id_comp]
+  rw [strictForward_mapComp_hom (W := W) A f g]
+  let F := forwardV578 (W := W) A
+    (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)
+  let G := quasiInverseV578 (W := W) A
+    (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)
+  change G.map₂ (𝟙 (F.map f ≫ F.map g)) ≫
+      (G.mapComp (F.map f) (F.map g)).hom =
+    (G.mapComp (F.map f) (F.map g)).hom
+  have hmap₂ :
+      G.map₂ (𝟙 (F.map f ≫ F.map g)) =
+        𝟙 (G.map (F.map f ≫ F.map g)) :=
+    G.toPrelaxFunctor.map₂_id (F.map f ≫ F.map g)
+  simpa only [Category.id_comp] using
+    congrArg (fun t => t ≫ (G.mapComp (F.map f) (F.map g)).hom) hmap₂
 
 /-- The full native source roundtrip now has a named compositor equality
 which can be used in either hom or inv orientations in later proofs. -/
