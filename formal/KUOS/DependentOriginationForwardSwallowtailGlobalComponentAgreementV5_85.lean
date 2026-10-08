@@ -231,12 +231,17 @@ theorem actualLiftForwardSwallowtailGlobalIso_hom_app
     congrArg (fun (z : ActualLiftForwardSwallowtailInterchanger (W := W) A
       (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)) =>
         z.hom.as.app X) hIso
+  -- Normalize only the RHS of the already typed generic theorem.
+  -- `simpa` on this whole equality would force expensive `whnf` of
+  -- the actual-lift Iso on the LHS, despite identical syntax.
+  conv at htransport =>
+    rhs
+    simp only [eqToHom_refl, Category.id_comp, Category.comp_id]
   have hfive :
       ((eqToIso hleft).symm ≪≫ leading ≪≫
         eqToIso hmiddle ≪≫ trailing ≪≫ eqToIso hright).hom.as.app X =
-      leading.hom.as.app X ≫ trailing.hom.as.app X := by
-    simpa only [eqToHom_refl, Category.id_comp, Category.comp_id]
-      using htransport
+      leading.hom.as.app X ≫ trailing.hom.as.app X :=
+    htransport
   have hcanonical :
       leading.hom.as.app X ≫ trailing.hom.as.app X =
       (actualLiftForwardSwallowtailComponentInterchanger (W := W) A
