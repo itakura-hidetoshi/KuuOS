@@ -147,73 +147,12 @@ variable (W : MorphismProperty Context)
 variable (A : RefinementAtlas.{u, max u v, uH} (LocalizedContext W))
 variable {WorldLabel : Type uW} {PresentationLabel : Type uP}
 
-/-- Pin the *syntactic* v5.78 StrongTrans hom category needed by
-`forwardMapCompGlobalIso`. The elaborator does not reliably synthesize
-this through the expanded v5.70 aliases at large universe levels. -/
-local instance sourceHomCategoryV585 :
-    Category
-      (Pseudofunctor.StrongTrans
-        (Pseudofunctor.id
-          (sourceV578 (W := W) A
-            (WorldLabel := WorldLabel)
-            (PresentationLabel := PresentationLabel)))
-        (roundtripV578 (W := W) A
-          (WorldLabel := WorldLabel)
-          (PresentationLabel := PresentationLabel))) :=
-  Pseudofunctor.StrongTrans.homCategory
-    (B := sourceV578 (W := W) A
-      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))
-    (C := sourceV578 (W := W) A
-      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))
-    (F := Pseudofunctor.id _)
-    (G := roundtripV578 (W := W) A
-      (WorldLabel := WorldLabel)
-      (PresentationLabel := PresentationLabel))
-
-/-- v5.65 presents the same category by the original source
-and stored biadjunction roundtrip, rather than the v5.78 abbreviations. -/
-local instance sourceHomCategoryV585Predicate :
-    Category
-      (Pseudofunctor.StrongTrans
-        (Pseudofunctor.id
-          (ActualLiftSource.{u, v, uH, vH, uW, uP}
-            (W := W) A WorldLabel PresentationLabel))
-        (sourceRoundtrip
-          (actualLiftForwardSwallowtailDatum (W := W) A
-            (WorldLabel := WorldLabel)
-            (PresentationLabel := PresentationLabel)))) :=
-  Pseudofunctor.StrongTrans.homCategory
-    (B := ActualLiftSource.{u, v, uH, vH, uW, uP}
-      (W := W) A WorldLabel PresentationLabel)
-    (C := ActualLiftSource.{u, v, uH, vH, uW, uP}
-      (W := W) A WorldLabel PresentationLabel)
-    (F := Pseudofunctor.id _)
-    (G := sourceRoundtrip
-      (actualLiftForwardSwallowtailDatum (W := W) A
-        (WorldLabel := WorldLabel)
-        (PresentationLabel := PresentationLabel)))
-
-/-- v5.79's native counit boundary retains a separately named datum. -/
-local instance sourceHomCategoryV585Native :
-    Category
-      (Pseudofunctor.StrongTrans
-        (Pseudofunctor.id
-          (ActualLiftSource.{u, v, uH, vH, uW, uP}
-            (W := W) A WorldLabel PresentationLabel))
-        (sourceRoundtrip
-          (actualLiftDatumV579 (W := W) A
-            (WorldLabel := WorldLabel)
-            (PresentationLabel := PresentationLabel)))) :=
-  Pseudofunctor.StrongTrans.homCategory
-    (B := ActualLiftSource.{u, v, uH, vH, uW, uP}
-      (W := W) A WorldLabel PresentationLabel)
-    (C := ActualLiftSource.{u, v, uH, vH, uW, uP}
-      (W := W) A WorldLabel PresentationLabel)
-    (F := Pseudofunctor.id _)
-    (G := sourceRoundtrip
-      (actualLiftDatumV579 (W := W) A
-        (WorldLabel := WorldLabel)
-        (PresentationLabel := PresentationLabel)))
+/-!
+The sole StrongTrans hom-category instance for the actual-lift comparison
+is installed locally in the theorem below, using exactly the v5.83 F and G.
+Avoid globally competing instances under v5.78, v5.65 and v5.79 aliases:
+they can obscure typeclass/projection reduction of equality transports.
+-/
 
 /-- The original middle app presentations coincide definitionally.
 This is a *component* identity; it does not replace v5.82's whole-record
