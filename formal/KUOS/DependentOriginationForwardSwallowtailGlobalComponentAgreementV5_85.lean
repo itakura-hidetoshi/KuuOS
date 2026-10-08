@@ -398,8 +398,9 @@ theorem actualLiftForwardSwallowtailGlobalIso_hom_app
       -- Reflexive object-component proofs are definitionally identities
       -- in the pinned mathlib hom categories. Normalize the transport
       -- itself, rather than relying on the syntactic name of its proof.
-      simp only [leftEqToHom_app_is_id, middleEqToHom_app_is_id,
-        rightEqToHom_app_is_id, Category.id_comp, Category.comp_id]
+      simp only [leftEqToHom_app_is_id, rightEqToHom_app_is_id]
+      set_option pp.proofs true in
+        trace_state
       exact hcanonical)
 
 
