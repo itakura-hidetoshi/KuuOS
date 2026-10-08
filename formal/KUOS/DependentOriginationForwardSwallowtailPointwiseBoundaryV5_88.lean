@@ -71,11 +71,11 @@ local instance roundtripHomCategoryV588 :
     Category
       (Pseudofunctor.StrongTrans
         (sourceRoundtrip
-          (actualLiftForwardSwallowtailDatum
+          (actualLiftDatumV579
             (W := W) A (WorldLabel := WorldLabel)
             (PresentationLabel := PresentationLabel)))
         (sourceRoundtrip
-          (actualLiftForwardSwallowtailDatum
+          (actualLiftDatumV579
             (W := W) A (WorldLabel := WorldLabel)
             (PresentationLabel := PresentationLabel)))) :=
   Pseudofunctor.StrongTrans.homCategory
@@ -84,11 +84,11 @@ local instance roundtripHomCategoryV588 :
     (C := ActualLiftSource.{u, v, uH, vH, uW, uP}
       (W := W) A WorldLabel PresentationLabel)
     (F := sourceRoundtrip
-      (actualLiftForwardSwallowtailDatum
+      (actualLiftDatumV579
         (W := W) A (WorldLabel := WorldLabel)
         (PresentationLabel := PresentationLabel)))
     (G := sourceRoundtrip
-      (actualLiftForwardSwallowtailDatum
+      (actualLiftDatumV579
         (W := W) A (WorldLabel := WorldLabel)
         (PresentationLabel := PresentationLabel)))
 
