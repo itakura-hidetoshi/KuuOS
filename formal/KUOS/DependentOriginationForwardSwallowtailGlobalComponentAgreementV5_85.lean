@@ -111,6 +111,33 @@ theorem fiveStage_hom_app_of_iso_eq
   exact fiveStage_hom_app h1 e1 h2 e2 h3 X happ1 happ2 happ3
 
 
+/-- Combine a global Iso's proven five-stage presentation with a supplied
+pointwise target cell entirely at the generic StrongTrans boundary.
+This ensures `Eq.trans` is elaborated without expanding actual-lift records. -/
+theorem fiveStage_hom_app_of_iso_eq_and_component
+    {sigma0 sigma1 sigma2 sigma3 sigma4 sigma5 :
+      Pseudofunctor.StrongTrans F G}
+    (h1 : sigma1 = sigma0)
+    (e1 : sigma1 ≅ sigma2)
+    (h2 : sigma2 = sigma3)
+    (e2 : sigma3 ≅ sigma4)
+    (h3 : sigma4 = sigma5)
+    (Sigma : sigma0 ≅ sigma5)
+    (hSigma : Sigma = (eqToIso h1).symm ≪≫ e1 ≪≫
+      eqToIso h2 ≪≫ e2 ≪≫ eqToIso h3)
+    (X : B)
+    (happ1 : sigma0.app X = sigma1.app X)
+    (happ2 : sigma2.app X = sigma3.app X)
+    (happ3 : sigma4.app X = sigma5.app X)
+    (target : sigma0.app X ⟶ sigma5.app X)
+    (hcanonical :
+      eqToHom happ1 ≫ e1.hom.as.app X ≫ eqToHom happ2 ≫
+        e2.hom.as.app X ≫ eqToHom happ3 = target) :
+    Sigma.hom.as.app X = target :=
+  (fiveStage_hom_app_of_iso_eq h1 e1 h2 e2 h3 Sigma hSigma
+    X happ1 happ2 happ3).trans hcanonical
+
+
 end Generic
 
 universe u v uH vH uW uP
@@ -250,26 +277,8 @@ theorem actualLiftForwardSwallowtailGlobalIso_hom_app
     rfl
   -- Specialize the *generic* Iso equality bridge before projecting
   -- components. The resulting LHS is the named original v5.83 Iso.
-  have htransport :=
-    Generic.fiveStage_hom_app_of_iso_eq
-      (B := ActualLiftSource.{u, v, uH, vH, uW, uP}
-        (W := W) A WorldLabel PresentationLabel)
-      (C := ActualLiftSource.{u, v, uH, vH, uW, uP}
-        (W := W) A WorldLabel PresentationLabel)
-      (F := Pseudofunctor.id
-        (ActualLiftSource.{u, v, uH, vH, uW, uP}
-          (W := W) A WorldLabel PresentationLabel))
-      (G := actualLiftForwardSwallowtailRoundtripV70 (W := W) A
-        (WorldLabel := WorldLabel)
-        (PresentationLabel := PresentationLabel))
-      hleft leading hmiddle trailing hright
-      (actualLiftForwardSwallowtailGlobalIso (W := W) A
-        (WorldLabel := WorldLabel)
-        (PresentationLabel := PresentationLabel))
-      hIso X (by rfl) (by rfl) (by rfl)
-  conv at htransport =>
-    rhs
-    simp only [eqToHom_refl, Category.id_comp, Category.comp_id]
+  -- Match the original v5.68 four-cell paste using the exact v5.78
+  -- leading and v5.77 trailing components, not a newly chosen 2-cell.
   have hcanonical :
       leading.hom.as.app X ≫ trailing.hom.as.app X =
       (actualLiftForwardSwallowtailComponentInterchanger (W := W) A
@@ -283,11 +292,36 @@ theorem actualLiftForwardSwallowtailGlobalIso_hom_app
         (WorldLabel := WorldLabel)
         (PresentationLabel := PresentationLabel)) X]
     rfl
-  exact htransport.trans hcanonical
+  -- The generic `trans` proof avoids comparing the two enormous
+  -- actual-lift hom-category expressions at the conclusion.
+  exact Generic.fiveStage_hom_app_of_iso_eq_and_component
+    (B := ActualLiftSource.{u, v, uH, vH, uW, uP}
+      (W := W) A WorldLabel PresentationLabel)
+    (C := ActualLiftSource.{u, v, uH, vH, uW, uP}
+      (W := W) A WorldLabel PresentationLabel)
+    (F := Pseudofunctor.id
+      (ActualLiftSource.{u, v, uH, vH, uW, uP}
+        (W := W) A WorldLabel PresentationLabel))
+    (G := actualLiftForwardSwallowtailRoundtripV70 (W := W) A
+      (WorldLabel := WorldLabel)
+      (PresentationLabel := PresentationLabel))
+    hleft leading hmiddle trailing hright
+    (actualLiftForwardSwallowtailGlobalIso (W := W) A
+      (WorldLabel := WorldLabel)
+      (PresentationLabel := PresentationLabel))
+    hIso X (by rfl) (by rfl) (by rfl)
+    (actualLiftForwardSwallowtailComponentInterchanger (W := W) A
+      (WorldLabel := WorldLabel)
+      (PresentationLabel := PresentationLabel) X).hom
+    (by
+      simp only [eqToHom_refl, Category.id_comp, Category.comp_id]
+      exact hcanonical)
+
 
 #print axioms Generic.eqToIso_inv_app_of_app_eq
 #print axioms Generic.fiveStage_hom_app
 #print axioms Generic.fiveStage_hom_app_of_iso_eq
+#print axioms Generic.fiveStage_hom_app_of_iso_eq_and_component
 #print axioms actualLiftForwardSwallowtailGlobalIso_hom_app
 
 end
