@@ -98,12 +98,12 @@ def sourceCounitReassociatedInterchangerIso :
         (F := Pseudofunctor.id B) (G := sourceRoundtrip D))
       (sourcePostCounitPath D)
       (sourcePreCounitPath D) :=
-  (α_
+  (Pseudofunctor.StrongTrans.associator (B := B) (C := B)
       D.base.unit
       (UnitPostcomposition.strongTrans (sourceRoundtrip D) D.base.unit)
       (sourceCounitMultiplication D)).symm ≪≫
     unitSelfCounitWhiskeredComparisonIso D ≪≫
-    (α_
+    (Pseudofunctor.StrongTrans.associator (B := B) (C := B)
       D.base.unit
       (UnitPrecomposition.strongTrans (sourceRoundtrip D) D.base.unit)
       (sourceCounitMultiplication D))
@@ -135,6 +135,7 @@ paste as its component: there is no new 2-cell choice. -/
   simp only [sourceCounitReassociatedInterchangerIso,
     sourceCounitReassociatedComponentIso,
     Iso.trans_hom, Iso.symm_hom,
+    Pseudofunctor.StrongTrans.homCategory_comp_as_app,
     Pseudofunctor.StrongTrans.associator_inv_as_app,
     Pseudofunctor.StrongTrans.associator_hom_as_app,
     unitSelfCounitWhiskeredComparisonIso_hom_app]
