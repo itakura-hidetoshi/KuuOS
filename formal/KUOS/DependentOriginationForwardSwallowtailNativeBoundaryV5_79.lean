@@ -158,27 +158,21 @@ def MiddleNaturalityAgreement : Prop :=
         (WorldLabel := WorldLabel)
         (PresentationLabel := PresentationLabel)))
 
-/-- The middle transformation equality follows from object components
-(which were already proved) together with precisely the missing naturality
-2-cell agreement. No datum or mathematical assumption is added. -/
-theorem middleStrongTrans_eq_of_naturality
-    (h : MiddleNaturalityAgreement (W := W) A
-      (WorldLabel := WorldLabel)
-      (PresentationLabel := PresentationLabel)) :
-    targetMapCompPathV578 (W := W) A
-      (WorldLabel := WorldLabel)
-      (PresentationLabel := PresentationLabel) =
-    sourcePostCounitPath
-      (actualLiftDatumV579 (W := W) A
-        (WorldLabel := WorldLabel)
-        (PresentationLabel := PresentationLabel)) := by
-  apply Generic.strongTrans_eq_of_app_and_naturality
-  · intro X
-    exact middleComponent_eq (W := W) A
-      (WorldLabel := WorldLabel)
-      (PresentationLabel := PresentationLabel) X
-  · intro X Y f
-    exact h f
+/-!
+## Exact next proof obligation
+
+`MiddleNaturalityAgreement` is a proposition, not an assumed coherence cell.
+`middleComponent_eq` establishes only the 1-morphism components of the
+two native StrongTrans values. The general extensionality theorem above
+establishes the logical sufficiency of agreeing app and naturality fields.
+
+Specializing the whole-record extensionality theorem here causes the pinned
+Lean elaborator to expand the entire actual-lift construction, exceeding the
+`whnf` heartbeat budget. We do not turn that resource failure into a
+false proof claim, use `sorry`, or assert a middle-path equality from the
+component theorem alone. The next step must prove the original naturality
+2-cell equality at a smaller, named factor boundary, and then reassemble it.
+-/
 
 /-- Test the stronger right bridge, including all naturality data. -/
 theorem rightStrongTrans_eq :
@@ -195,7 +189,8 @@ theorem rightStrongTrans_eq :
 #print axioms middleComponent_eq
 #print axioms rightComponent_eq
 #print axioms MiddleNaturalityAgreement
-#print axioms middleStrongTrans_eq_of_naturality
+#print axioms Generic.strongTrans_eq_of_app_and_naturality
+#print axioms Generic.NaturalityAgreement
 #print axioms rightStrongTrans_eq
 
 end
