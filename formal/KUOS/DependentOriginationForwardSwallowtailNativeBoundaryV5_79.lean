@@ -72,7 +72,10 @@ v5.65 reverse-triangle boundary, including the unchanged counit. -/
       (PresentationLabel := PresentationLabel)).app X := by
   rfl
 
-/-- Test the stronger middle bridge, including all naturality data. -/
+/-- Test the stronger middle bridge, including all naturality data.
+The exact actual-lift source has deeply nested pseudofunctor records;
+the definitionally equal path comparison needs a local normalization budget. -/
+set_option maxHeartbeats 1500000 in
 theorem middleStrongTrans_eq :
     targetMapCompPathV578 (W := W) A
       (WorldLabel := WorldLabel)
