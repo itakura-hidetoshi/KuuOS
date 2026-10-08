@@ -93,22 +93,26 @@ variable (W : MorphismProperty Context)
 variable (A : RefinementAtlas.{u, max u v, uH} (LocalizedContext W))
 variable {WorldLabel : Type uW} {PresentationLabel : Type uP}
 
+/-- Pin the *syntactic* v5.78 StrongTrans hom category needed by
+`forwardMapCompGlobalIso`. The elaborator does not reliably synthesize
+this through the expanded v5.70 aliases at large universe levels. -/
 local instance sourceHomCategoryV585 :
     Category
       (Pseudofunctor.StrongTrans
         (Pseudofunctor.id
-          (ActualLiftSource.{u, v, uH, vH, uW, uP}
-            (W := W) A WorldLabel PresentationLabel))
-        (actualLiftForwardSwallowtailRoundtripV70 (W := W) A
+          (sourceV578 (W := W) A
+            (WorldLabel := WorldLabel)
+            (PresentationLabel := PresentationLabel)))
+        (roundtripV578 (W := W) A
           (WorldLabel := WorldLabel)
           (PresentationLabel := PresentationLabel))) :=
   Pseudofunctor.StrongTrans.homCategory
-    (B := ActualLiftSource.{u, v, uH, vH, uW, uP}
-      (W := W) A WorldLabel PresentationLabel)
-    (C := ActualLiftSource.{u, v, uH, vH, uW, uP}
-      (W := W) A WorldLabel PresentationLabel)
+    (B := sourceV578 (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))
+    (C := sourceV578 (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))
     (F := Pseudofunctor.id _)
-    (G := actualLiftForwardSwallowtailRoundtripV70 (W := W) A
+    (G := roundtripV578 (W := W) A
       (WorldLabel := WorldLabel)
       (PresentationLabel := PresentationLabel))
 
