@@ -166,16 +166,9 @@ theorem actualLiftGlobalIso_hom_app_twoFactor
         (PresentationLabel := PresentationLabel))).hom.as.app X := by
   rw [actualLiftGlobalIso_hom_app_fiveStage (W := W) A
     (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel) X]
-  rw [leftEqToHom_app_is_id (W := W) A
-    (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel) X]
-  rw [middleEqToHom_app_is_id (W := W) A
-    (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel) X
-    (middleComponent_eq (W := W) A
-      (WorldLabel := WorldLabel)
-      (PresentationLabel := PresentationLabel) X)]
-  rw [rightEqToHom_app_is_id (W := W) A
-    (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel) X]
-  simp only [Category.id_comp, Category.comp_id]
+  -- Normalize all three reflexive component transports without trying to
+  -- match their opaque proof terms across the three source presentations.
+  simp only [eqToHom_refl, Category.id_comp, Category.comp_id]
 
 /-- The originally constructed global v5.83 Iso has, at every actual-lift
 source object, *exactly* the unchanged four-cell v5.68 component.
