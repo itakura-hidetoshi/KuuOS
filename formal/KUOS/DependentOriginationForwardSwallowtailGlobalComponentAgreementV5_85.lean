@@ -174,6 +174,28 @@ theorem actualLiftForwardSwallowtailGlobalIso_hom_app
     (actualLiftForwardSwallowtailComponentInterchanger (W := W) A
       (WorldLabel := WorldLabel)
       (PresentationLabel := PresentationLabel) X).hom := by
+  -- Use the same concrete hom-category as v5.83 at this specialization.
+  -- Avoid three distinct syntactic aliases during eqToIso elaboration.
+  letI : Category
+      (Pseudofunctor.StrongTrans
+        (Pseudofunctor.id
+          (ActualLiftSource.{u, v, uH, vH, uW, uP}
+            (W := W) A WorldLabel PresentationLabel))
+        (actualLiftForwardSwallowtailRoundtripV70 (W := W) A
+          (WorldLabel := WorldLabel)
+          (PresentationLabel := PresentationLabel))) :=
+    Pseudofunctor.StrongTrans.homCategory
+      (B := ActualLiftSource.{u, v, uH, vH, uW, uP}
+        (W := W) A WorldLabel PresentationLabel)
+      (C := ActualLiftSource.{u, v, uH, vH, uW, uP}
+        (W := W) A WorldLabel PresentationLabel)
+      (F := Pseudofunctor.id
+        (ActualLiftSource.{u, v, uH, vH, uW, uP}
+          (W := W) A WorldLabel PresentationLabel))
+      (G := actualLiftForwardSwallowtailRoundtripV70 (W := W) A
+        (WorldLabel := WorldLabel)
+        (PresentationLabel := PresentationLabel))
+
   let leading :=
     forwardMapCompGlobalIso (W := W) A
       (WorldLabel := WorldLabel)
