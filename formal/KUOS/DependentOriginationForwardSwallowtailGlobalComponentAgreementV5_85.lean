@@ -262,18 +262,18 @@ and is definitionally the identity 2-cell on that component. -/
 theorem leftEqToHom_app_is_id
     (X : sourceV578 (W := W) A
       (WorldLabel := WorldLabel)
-      (PresentationLabel := PresentationLabel)) :
-    eqToHom (show
+      (PresentationLabel := PresentationLabel))
+    (happ :
       (actualLiftForwardSwallowtailLeftV70 (W := W) A
         (WorldLabel := WorldLabel)
         (PresentationLabel := PresentationLabel)).app X =
       (sourceMapCompPathV578 (W := W) A
         (WorldLabel := WorldLabel)
-        (PresentationLabel := PresentationLabel)).app X
-      from rfl) =
-    𝟙 ((sourceMapCompPathV578 (W := W) A
-      (WorldLabel := WorldLabel)
-      (PresentationLabel := PresentationLabel)).app X) := by
+        (PresentationLabel := PresentationLabel)).app X) :
+    eqToHom happ =
+      𝟙 ((sourceMapCompPathV578 (W := W) A
+        (WorldLabel := WorldLabel)
+        (PresentationLabel := PresentationLabel)).app X) := by
   rfl
 
 /-- The final native counit path has the original v5.65 endpoint component;
@@ -281,18 +281,18 @@ its equality-transport 2-cell is the identity. -/
 theorem rightEqToHom_app_is_id
     (X : sourceV578 (W := W) A
       (WorldLabel := WorldLabel)
-      (PresentationLabel := PresentationLabel)) :
-    eqToHom (show
+      (PresentationLabel := PresentationLabel))
+    (happ :
       (sourcePreCounitPath (actualLiftDatumV579 (W := W) A
         (WorldLabel := WorldLabel)
         (PresentationLabel := PresentationLabel))).app X =
       (actualLiftForwardSwallowtailRightV70 (W := W) A
         (WorldLabel := WorldLabel)
-        (PresentationLabel := PresentationLabel)).app X
-      from rfl) =
-    𝟙 ((sourcePreCounitPath (actualLiftDatumV579 (W := W) A
-      (WorldLabel := WorldLabel)
-      (PresentationLabel := PresentationLabel))).app X) := by
+        (PresentationLabel := PresentationLabel)).app X) :
+    eqToHom happ =
+      𝟙 ((sourcePreCounitPath (actualLiftDatumV579 (W := W) A
+        (WorldLabel := WorldLabel)
+        (PresentationLabel := PresentationLabel))).app X) := by
   rfl
 
 /-- The v5.83 global comparison has precisely the original canonical v5.68
@@ -372,8 +372,40 @@ theorem actualLiftForwardSwallowtailGlobalIso_hom_app
         (WorldLabel := WorldLabel)
         (PresentationLabel := PresentationLabel)) X]
     rfl
-  -- The generic `trans` proof avoids comparing the two enormous
-  -- actual-lift hom-category expressions at the conclusion.
+  -- Give the three object equalities stable names. The generic formula
+  -- and the local transport cancellation must use these *same* witnesses.
+  let happLeft :
+      (actualLiftForwardSwallowtailLeftV70 (W := W) A
+        (WorldLabel := WorldLabel)
+        (PresentationLabel := PresentationLabel)).app X =
+      (sourceMapCompPathV578 (W := W) A
+        (WorldLabel := WorldLabel)
+        (PresentationLabel := PresentationLabel)).app X := by rfl
+  let happMiddle :
+      (targetMapCompPathV578 (W := W) A
+        (WorldLabel := WorldLabel)
+        (PresentationLabel := PresentationLabel)).app X =
+      (sourcePostCounitPath (actualLiftDatumV579 (W := W) A
+        (WorldLabel := WorldLabel)
+        (PresentationLabel := PresentationLabel))).app X := by rfl
+  let happRight :
+      (sourcePreCounitPath (actualLiftDatumV579 (W := W) A
+        (WorldLabel := WorldLabel)
+        (PresentationLabel := PresentationLabel))).app X =
+      (actualLiftForwardSwallowtailRightV70 (W := W) A
+        (WorldLabel := WorldLabel)
+        (PresentationLabel := PresentationLabel)).app X := by rfl
+  have htransportCanonical :
+      eqToHom happLeft ≫ leading.hom.as.app X ≫
+        eqToHom happMiddle ≫ trailing.hom.as.app X ≫
+          eqToHom happRight =
+      (actualLiftForwardSwallowtailComponentInterchanger (W := W) A
+        (WorldLabel := WorldLabel)
+        (PresentationLabel := PresentationLabel) X).hom := by
+    rw [leftEqToHom_app_is_id (W := W) A X happLeft]
+    rw [middleEqToHom_app_is_id (W := W) A X happMiddle]
+    rw [rightEqToHom_app_is_id (W := W) A X happRight]
+    simpa only [Category.id_comp, Category.comp_id] using hcanonical
   exact Generic.fiveStage_hom_app_of_iso_eq_and_component
     (B := ActualLiftSource.{u, v, uH, vH, uW, uP}
       (W := W) A WorldLabel PresentationLabel)
@@ -389,38 +421,11 @@ theorem actualLiftForwardSwallowtailGlobalIso_hom_app
     (actualLiftForwardSwallowtailGlobalIso (W := W) A
       (WorldLabel := WorldLabel)
       (PresentationLabel := PresentationLabel))
-    hIso X
-      (show (sourceMapCompPathV578 (W := W) A
-          (WorldLabel := WorldLabel)
-          (PresentationLabel := PresentationLabel)).app X =
-        (sourceMapCompPathV578 (W := W) A
-          (WorldLabel := WorldLabel)
-          (PresentationLabel := PresentationLabel)).app X from rfl)
-      (show (targetMapCompPathV578 (W := W) A
-          (WorldLabel := WorldLabel)
-          (PresentationLabel := PresentationLabel)).app X =
-        (sourcePostCounitPath (actualLiftDatumV579 (W := W) A
-          (WorldLabel := WorldLabel)
-          (PresentationLabel := PresentationLabel))).app X from rfl)
-      (show (sourcePreCounitPath (actualLiftDatumV579 (W := W) A
-          (WorldLabel := WorldLabel)
-          (PresentationLabel := PresentationLabel))).app X =
-        (sourcePreCounitPath (actualLiftDatumV579 (W := W) A
-          (WorldLabel := WorldLabel)
-          (PresentationLabel := PresentationLabel))).app X from rfl)
+    hIso X happLeft happMiddle happRight
     (actualLiftForwardSwallowtailComponentInterchanger (W := W) A
       (WorldLabel := WorldLabel)
       (PresentationLabel := PresentationLabel) X).hom
-    (by
-      -- Normalize three typed app transports individually. This leaves
-      -- only the previously proved four-cell component equality.
-      -- Reflexive object-component proofs are definitionally identities
-      -- in the pinned mathlib hom categories. Normalize the transport
-      -- itself, rather than relying on the syntactic name of its proof.
-      simp only [leftEqToHom_app_is_id, middleEqToHom_self_app_is_id,
-        rightEqToHom_app_is_id, Category.id_comp, Category.comp_id]
-      trace_state
-      exact hcanonical)
+    htransportCanonical
 
 
 #print axioms middleEqToHom_app_is_id
