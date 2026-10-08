@@ -65,6 +65,29 @@ local instance forwardSwallowtailHomCategoryV586 :
       (WorldLabel := WorldLabel)
       (PresentationLabel := PresentationLabel))
 
+/-- The v5.78 factor has its own explicit syntactic presentation.
+The declared category is the *same mathlib homCategory*, not a
+different structure or a strictification of F/G. -/
+local instance sourceHomCategoryV586MapComp :
+    Category
+      (Pseudofunctor.StrongTrans
+        (Pseudofunctor.id
+          (sourceV578 (W := W) A
+            (WorldLabel := WorldLabel)
+            (PresentationLabel := PresentationLabel)))
+        (roundtripV578 (W := W) A
+          (WorldLabel := WorldLabel)
+          (PresentationLabel := PresentationLabel))) :=
+  Pseudofunctor.StrongTrans.homCategory
+    (B := sourceV578 (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))
+    (C := sourceV578 (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))
+    (F := Pseudofunctor.id _)
+    (G := roundtripV578 (W := W) A
+      (WorldLabel := WorldLabel)
+      (PresentationLabel := PresentationLabel))
+
 /-- The five native stages before removing the three componentwise
 reflexive equality transports. No expansion of the biadjunction datum
 is used to evaluate the modification composition. -/
@@ -162,24 +185,13 @@ theorem actualLiftGlobalCanonicalComponentAgreement :
       (WorldLabel := WorldLabel)
       (PresentationLabel := PresentationLabel) := by
   intro X
-  calc
-    (actualLiftForwardSwallowtailGlobalIso (W := W) A
+  exact
+    (actualLiftGlobalIso_hom_app_twoFactor (W := W) A
       (WorldLabel := WorldLabel)
-      (PresentationLabel := PresentationLabel)).hom.as.app X =
-      (forwardMapCompGlobalIso (W := W) A
-        (WorldLabel := WorldLabel)
-        (PresentationLabel := PresentationLabel)).hom.as.app X ≫
-      (sourceCounitReassociatedInterchangerIso
-        (actualLiftDatumV579 (W := W) A
-          (WorldLabel := WorldLabel)
-          (PresentationLabel := PresentationLabel))).hom.as.app X :=
-        actualLiftGlobalIso_hom_app_twoFactor (W := W) A
-          (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel) X
-    _ = (actualLiftForwardSwallowtailComponentInterchanger (W := W) A
+      (PresentationLabel := PresentationLabel) X).trans
+    (actualLiftForwardSwallowtailTwoFactor_hom_app (W := W) A
       (WorldLabel := WorldLabel)
-      (PresentationLabel := PresentationLabel) X).hom :=
-        actualLiftForwardSwallowtailTwoFactor_hom_app (W := W) A
-          (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel) X
+      (PresentationLabel := PresentationLabel) X)
 
 #print axioms actualLiftGlobalIso_hom_app_fiveStage
 #print axioms actualLiftGlobalIso_hom_app_twoFactor
