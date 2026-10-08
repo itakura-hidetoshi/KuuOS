@@ -211,14 +211,19 @@ theorem actualLiftForwardSwallowtailGlobalIso_hom_app
         (PresentationLabel := PresentationLabel))
       hleft leading hmiddle trailing hright X
       (by rfl) (by rfl) (by rfl)
+  -- Normalize only the transport side of the generic equation.
+  -- Rewriting the whole equality unfolds the enormous actual-lift Iso
+  -- expression and causes `whnf` heartbeat exhaustion.
+  conv at htransport =>
+    rhs
+    simp only [eqToHom_refl, Category.id_comp, Category.comp_id]
   have hcomponents :
       (actualLiftForwardSwallowtailGlobalIso (W := W) A
         (WorldLabel := WorldLabel)
         (PresentationLabel := PresentationLabel)).hom.as.app X =
       leading.hom.as.app X ≫ trailing.hom.as.app X := by
     unfold actualLiftForwardSwallowtailGlobalIso
-    simpa only [eqToHom_refl, Category.id_comp, Category.comp_id]
-      using htransport
+    exact htransport
   calc
     _ = leading.hom.as.app X ≫ trailing.hom.as.app X := hcomponents
     _ = (actualLiftForwardSwallowtailComponentInterchanger (W := W) A
