@@ -213,13 +213,24 @@ theorem actualLiftForwardSwallowtailGlobalIso_hom_app
       (by rfl) (by rfl) (by rfl)
   -- A typed chain avoids the metavariable `Trans Eq Eq ?m` that can
   -- remain unresolved when Lean elaborates a dependent `calc` block.
+  have hIso :
+      actualLiftForwardSwallowtailGlobalIso (W := W) A
+        (WorldLabel := WorldLabel)
+        (PresentationLabel := PresentationLabel) =
+        (eqToIso hleft).symm ≪≫ leading ≪≫
+          eqToIso hmiddle ≪≫ trailing ≪≫ eqToIso hright := by
+    rfl
+  -- An Iso equality is substantially smaller than directly reducing the
+  -- entire nested hom-component. Transport it by congruence once.
   have hraw :
       (actualLiftForwardSwallowtailGlobalIso (W := W) A
         (WorldLabel := WorldLabel)
         (PresentationLabel := PresentationLabel)).hom.as.app X =
         ((eqToIso hleft).symm ≪≫ leading ≪≫
-          eqToIso hmiddle ≪≫ trailing ≪≫ eqToIso hright).hom.as.app X := by
-    rfl
+          eqToIso hmiddle ≪≫ trailing ≪≫ eqToIso hright).hom.as.app X :=
+    congrArg (fun (z : ActualLiftForwardSwallowtailInterchanger (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)) =>
+        z.hom.as.app X) hIso
   have hfive :
       ((eqToIso hleft).symm ≪≫ leading ≪≫
         eqToIso hmiddle ≪≫ trailing ≪≫ eqToIso hright).hom.as.app X =
