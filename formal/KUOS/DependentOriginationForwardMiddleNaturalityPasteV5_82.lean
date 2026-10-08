@@ -12,6 +12,7 @@ open KUOS.DependentOriginationActualLiftForwardMapCompGlobalV5_78
 open KUOS.DependentOriginationForwardSwallowtailNativeBoundaryV5_79
 open KUOS.DependentOriginationForwardMiddleUnitCounitFactorsV5_81
 open KUOS.DependentOriginationSourceCounitMultiplicationGlobalInterchangerV5_76.Generic.IncoherentBiadjunctionDatum
+open KUOS.DependentOriginationReassociatedSourceCounitInterchangerV5_77.Generic.IncoherentBiadjunctionDatum
 
 set_option autoImplicit false
 noncomputable section
@@ -85,12 +86,43 @@ theorem middleFactors_naturality_hom
     ((nativeMiddleV582 (W := W) A
       (WorldLabel := WorldLabel)
       (PresentationLabel := PresentationLabel)).naturality f).hom := by
-  simp only [mappedMiddleV582, nativeMiddleV582,
-    Pseudofunctor.StrongTrans.categoryStruct_comp_naturality_hom,
-    mappedProjectedUnit_naturality_hom,
-    mappedRestrictedCounit_naturality_hom,
-    mappedProjectedUnit_app]
-  all_goals rfl
+  have hMapped :=
+    Pseudofunctor.StrongTrans.categoryStruct_comp_naturality_hom
+      (mappedProjectedUnitV581 (W := W) A
+        (WorldLabel := WorldLabel)
+        (PresentationLabel := PresentationLabel))
+      (mappedRestrictedCounitV581 (W := W) A
+        (WorldLabel := WorldLabel)
+        (PresentationLabel := PresentationLabel)) f
+  change
+    ((Pseudofunctor.StrongTrans.vcomp
+      (mappedProjectedUnitV581 (W := W) A
+        (WorldLabel := WorldLabel)
+        (PresentationLabel := PresentationLabel))
+      (mappedRestrictedCounitV581 (W := W) A
+        (WorldLabel := WorldLabel)
+        (PresentationLabel := PresentationLabel))).naturality f).hom = _ at hMapped
+  have hNative :=
+    Pseudofunctor.StrongTrans.categoryStruct_comp_naturality_hom
+      (nativeRoundtripUnitV581 (W := W) A
+        (WorldLabel := WorldLabel)
+        (PresentationLabel := PresentationLabel))
+      (sourceCounitMultiplication
+        (actualLiftDatumV579 (W := W) A
+          (WorldLabel := WorldLabel)
+          (PresentationLabel := PresentationLabel))) f
+  change
+    ((Pseudofunctor.StrongTrans.vcomp
+      (nativeRoundtripUnitV581 (W := W) A
+        (WorldLabel := WorldLabel)
+        (PresentationLabel := PresentationLabel))
+      (sourceCounitMultiplication
+        (actualLiftDatumV579 (W := W) A
+          (WorldLabel := WorldLabel)
+          (PresentationLabel := PresentationLabel)))).naturality f).hom = _ at hNative
+  rw [hMapped, hNative]
+  simp only [mappedProjectedUnit_naturality_hom,
+    mappedRestrictedCounit_naturality_hom, mappedProjectedUnit_app]
 
 /-- Equality of the two native R => R middle transformations, using
 both the original app-fields and original 2-isomorphism naturality. -/
@@ -107,7 +139,7 @@ theorem middleFactors_eq :
       (WorldLabel := WorldLabel)
       (PresentationLabel := PresentationLabel) X
   · intro X Y f
-    exact HEq_of_eq (middleFactors_naturality_hom (W := W) A
+    exact heq_of_eq (middleFactors_naturality_hom (W := W) A
       (WorldLabel := WorldLabel)
       (PresentationLabel := PresentationLabel) f)
 
