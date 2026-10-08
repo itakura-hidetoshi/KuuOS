@@ -393,8 +393,11 @@ theorem actualLiftForwardSwallowtailGlobalIso_hom_app
     (by
       -- Normalize three typed app transports individually. This leaves
       -- only the previously proved four-cell component equality.
-      simp only [leftEqToHom_app_is_id, middleEqToHom_app_is_id,
-        rightEqToHom_app_is_id, Category.id_comp, Category.comp_id]
+      -- Reflexive object-component proofs are definitionally identities
+      -- in the pinned mathlib hom categories. Normalize the transport
+      -- itself, rather than relying on the syntactic name of its proof.
+      simp only [eqToHom_refl, Category.id_comp, Category.comp_id]
+      trace_state
       exact hcanonical)
 
 
