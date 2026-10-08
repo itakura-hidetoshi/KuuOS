@@ -217,12 +217,21 @@ theorem actualLiftForwardSwallowtailGlobalIso_hom_app
   conv at htransport =>
     rhs
     simp only [eqToHom_refl, Category.id_comp, Category.comp_id]
+  -- Identify the five-stage Iso at the *Iso level* before projecting
+  -- to modifications. Avoid elaborator-wide reduction of its hom components.
+  have hglobalIso :
+      actualLiftForwardSwallowtailGlobalIso (W := W) A
+        (WorldLabel := WorldLabel)
+        (PresentationLabel := PresentationLabel) =
+      (eqToIso hleft).symm ≪≫ leading ≪≫
+        eqToIso hmiddle ≪≫ trailing ≪≫ eqToIso hright := by
+    rfl
   have hcomponents :
       (actualLiftForwardSwallowtailGlobalIso (W := W) A
         (WorldLabel := WorldLabel)
         (PresentationLabel := PresentationLabel)).hom.as.app X =
       leading.hom.as.app X ≫ trailing.hom.as.app X := by
-    unfold actualLiftForwardSwallowtailGlobalIso
+    rw [hglobalIso]
     exact htransport
   calc
     _ = leading.hom.as.app X ≫ trailing.hom.as.app X := hcomponents
