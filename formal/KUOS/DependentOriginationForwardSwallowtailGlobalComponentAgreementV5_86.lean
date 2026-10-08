@@ -41,25 +41,27 @@ variable (W : MorphismProperty Context)
 variable (A : RefinementAtlas.{u, max u v, uH} (LocalizedContext W))
 variable {WorldLabel : Type uW} {PresentationLabel : Type uP}
 
-/-- Exactly the native v5.83 StrongTrans hom-category; keep the
-universe and pseudofunctor endpoints fixed at a small boundary. -/
-local instance sourceHomCategoryV586 :
+/-- Use exactly the native v5.83 syntactic StrongTrans hom category.
+In particular the v5.78 `roundtripV578` abbreviation alone does not
+reliably trigger instance resolution for v5.65/v5.79 boundary records. -/
+local instance forwardSwallowtailHomCategoryV586 :
     Category
       (Pseudofunctor.StrongTrans
         (Pseudofunctor.id
-          (sourceV578 (W := W) A
-            (WorldLabel := WorldLabel)
-            (PresentationLabel := PresentationLabel)))
-        (roundtripV578 (W := W) A
+          (ActualLiftSource.{u, v, uH, vH, uW, uP}
+            (W := W) A WorldLabel PresentationLabel))
+        (actualLiftForwardSwallowtailRoundtripV70 (W := W) A
           (WorldLabel := WorldLabel)
           (PresentationLabel := PresentationLabel))) :=
   Pseudofunctor.StrongTrans.homCategory
-    (B := sourceV578 (W := W) A
-      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))
-    (C := sourceV578 (W := W) A
-      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))
-    (F := Pseudofunctor.id _)
-    (G := roundtripV578 (W := W) A
+    (B := ActualLiftSource.{u, v, uH, vH, uW, uP}
+      (W := W) A WorldLabel PresentationLabel)
+    (C := ActualLiftSource.{u, v, uH, vH, uW, uP}
+      (W := W) A WorldLabel PresentationLabel)
+    (F := Pseudofunctor.id
+      (ActualLiftSource.{u, v, uH, vH, uW, uP}
+        (W := W) A WorldLabel PresentationLabel))
+    (G := actualLiftForwardSwallowtailRoundtripV70 (W := W) A
       (WorldLabel := WorldLabel)
       (PresentationLabel := PresentationLabel))
 
