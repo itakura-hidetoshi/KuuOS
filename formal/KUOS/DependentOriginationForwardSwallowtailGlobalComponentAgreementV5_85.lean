@@ -309,11 +309,31 @@ theorem actualLiftForwardSwallowtailGlobalIso_hom_app
     (actualLiftForwardSwallowtailGlobalIso (W := W) A
       (WorldLabel := WorldLabel)
       (PresentationLabel := PresentationLabel))
-    hIso X (by rfl) (by rfl) (by rfl)
+    hIso X
+      (show (sourceMapCompPathV578 (W := W) A
+          (WorldLabel := WorldLabel)
+          (PresentationLabel := PresentationLabel)).app X =
+        (sourceMapCompPathV578 (W := W) A
+          (WorldLabel := WorldLabel)
+          (PresentationLabel := PresentationLabel)).app X from rfl)
+      (show (sourcePostCounitPath (actualLiftDatumV579 (W := W) A
+          (WorldLabel := WorldLabel)
+          (PresentationLabel := PresentationLabel))).app X =
+        (sourcePostCounitPath (actualLiftDatumV579 (W := W) A
+          (WorldLabel := WorldLabel)
+          (PresentationLabel := PresentationLabel))).app X from rfl)
+      (show (sourcePreCounitPath (actualLiftDatumV579 (W := W) A
+          (WorldLabel := WorldLabel)
+          (PresentationLabel := PresentationLabel))).app X =
+        (sourcePreCounitPath (actualLiftDatumV579 (W := W) A
+          (WorldLabel := WorldLabel)
+          (PresentationLabel := PresentationLabel))).app X from rfl)
     (actualLiftForwardSwallowtailComponentInterchanger (W := W) A
       (WorldLabel := WorldLabel)
       (PresentationLabel := PresentationLabel) X).hom
-    hcanonical
+    (by
+      simp only [eqToHom_refl, Category.id_comp, Category.comp_id]
+      exact hcanonical)
 
 
 #print axioms Generic.eqToIso_inv_app_of_app_eq
