@@ -87,21 +87,33 @@ def actualLiftForwardSwallowtailGlobalIso :
     ActualLiftForwardSwallowtailInterchanger (W := W) A
       (WorldLabel := WorldLabel)
       (PresentationLabel := PresentationLabel) :=
-  (eqToIso (sourceMapCompPathV578_eq_forwardSwallowtailLeft
+  (@CategoryTheory.eqToIso _
+      (forwardSwallowtailHomCategoryV583 (W := W) A
+        (WorldLabel := WorldLabel)
+        (PresentationLabel := PresentationLabel))
+      _ _ (sourceMapCompPathV578_eq_forwardSwallowtailLeft
       (W := W) A
       (WorldLabel := WorldLabel)
       (PresentationLabel := PresentationLabel))).symm ≪≫
     (forwardMapCompGlobalIso (W := W) A
       (WorldLabel := WorldLabel)
       (PresentationLabel := PresentationLabel)) ≪≫
-    (eqToIso (middleStrongTrans_eq (W := W) A
+    (@CategoryTheory.eqToIso _
+      (forwardSwallowtailHomCategoryV583 (W := W) A
+        (WorldLabel := WorldLabel)
+        (PresentationLabel := PresentationLabel))
+      _ _ (middleStrongTrans_eq (W := W) A
       (WorldLabel := WorldLabel)
       (PresentationLabel := PresentationLabel))) ≪≫
     (sourceCounitReassociatedInterchangerIso
       (actualLiftDatumV579 (W := W) A
         (WorldLabel := WorldLabel)
         (PresentationLabel := PresentationLabel))) ≪≫
-    (eqToIso (rightStrongTrans_eq (W := W) A
+    (@CategoryTheory.eqToIso _
+      (forwardSwallowtailHomCategoryV583 (W := W) A
+        (WorldLabel := WorldLabel)
+        (PresentationLabel := PresentationLabel))
+      _ _ (rightStrongTrans_eq (W := W) A
       (WorldLabel := WorldLabel)
       (PresentationLabel := PresentationLabel)))
 
