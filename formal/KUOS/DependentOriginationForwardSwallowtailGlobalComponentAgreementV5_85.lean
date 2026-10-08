@@ -332,7 +332,13 @@ theorem actualLiftForwardSwallowtailGlobalIso_hom_app
       (WorldLabel := WorldLabel)
       (PresentationLabel := PresentationLabel) X).hom
     (by
-      simp only [eqToHom_refl, Category.id_comp, Category.comp_id]
+      -- The three supplied component equalities are reflexive in the
+      -- v5.78/v5.79 presentation. Change only this lightweight goal;
+      -- do not reduce the named global Iso.
+      change leading.hom.as.app X ≫ trailing.hom.as.app X =
+        (actualLiftForwardSwallowtailComponentInterchanger (W := W) A
+          (WorldLabel := WorldLabel)
+          (PresentationLabel := PresentationLabel) X).hom
       exact hcanonical)
 
 
