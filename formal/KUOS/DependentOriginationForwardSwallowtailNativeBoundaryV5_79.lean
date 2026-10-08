@@ -76,6 +76,13 @@ theorem strongTrans_eq_of_app_and_naturality
       cases hNat
       rfl
 
+/-- The exact naturality agreement, at generic pseudofunctor endpoints.
+Keeping this generic prevents unnecessary expansion of deeply nested
+actual-lift StrongTrans records during type elaboration. -/
+def NaturalityAgreement (sigma tau : Pseudofunctor.StrongTrans F G) : Prop :=
+  ∀ {X Y : B} (f : X ⟶ Y),
+    HEq (sigma.naturality f).hom (tau.naturality f).hom
+
 end Generic
 
 /-- The middle path agrees objectwise with the native source-side
@@ -123,22 +130,17 @@ For the full comparison we must prove that the existing naturality 2-cells
 coincide, not replace them or postulate any extra coherence.
 -/
 
-/-- Exact remaining 2-cell naturality condition for the middle boundary.
-HEq avoids prematurely transporting along an app-field equality and keeps
-both actual StrongTrans naturality fields visible. -/
+/-- Exact missing 2-cell naturality condition, specialized from the generic
+StrongTrans interface; the original naturality isomorphisms remain unchanged. -/
 def MiddleNaturalityAgreement : Prop :=
-  ∀ {X Y :
-      ActualLiftSource.{u, v, uH, vH, uW, uP}
-        (W := W) A WorldLabel PresentationLabel}
-    (f : X ⟶ Y),
-    HEq
-      (((targetMapCompPathV578 (W := W) A
+  Generic.NaturalityAgreement
+    (targetMapCompPathV578 (W := W) A
+      (WorldLabel := WorldLabel)
+      (PresentationLabel := PresentationLabel))
+    (sourcePostCounitPath
+      (actualLiftDatumV579 (W := W) A
         (WorldLabel := WorldLabel)
-        (PresentationLabel := PresentationLabel)).naturality f).hom)
-      (((sourcePostCounitPath
-        (actualLiftDatumV579 (W := W) A
-          (WorldLabel := WorldLabel)
-          (PresentationLabel := PresentationLabel))).naturality f).hom)
+        (PresentationLabel := PresentationLabel)))
 
 /-- The middle transformation equality follows from object components
 (which were already proved) together with precisely the missing naturality
