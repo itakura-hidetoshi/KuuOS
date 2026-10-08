@@ -85,6 +85,32 @@ theorem fiveStage_hom_app
     eqToIso_hom_app_of_app_eq h3 X happ3]
 
 
+/-- Transfer the five-stage component formula to a *named* native Iso.
+The input `hSigma` is an ordinary proved equality, not another
+coherence cell. This avoids re-elaborating the expanded actual-lift
+Iso components at the specialization site. -/
+theorem fiveStage_hom_app_of_iso_eq
+    {sigma0 sigma1 sigma2 sigma3 sigma4 sigma5 :
+      Pseudofunctor.StrongTrans F G}
+    (h1 : sigma1 = sigma0)
+    (e1 : sigma1 ≅ sigma2)
+    (h2 : sigma2 = sigma3)
+    (e2 : sigma3 ≅ sigma4)
+    (h3 : sigma4 = sigma5)
+    (Sigma : sigma0 ≅ sigma5)
+    (hSigma : Sigma = (eqToIso h1).symm ≪≫ e1 ≪≫
+      eqToIso h2 ≪≫ e2 ≪≫ eqToIso h3)
+    (X : B)
+    (happ1 : sigma0.app X = sigma1.app X)
+    (happ2 : sigma2.app X = sigma3.app X)
+    (happ3 : sigma4.app X = sigma5.app X) :
+    Sigma.hom.as.app X =
+      eqToHom happ1 ≫ e1.hom.as.app X ≫
+        eqToHom happ2 ≫ e2.hom.as.app X ≫ eqToHom happ3 := by
+  rw [hSigma]
+  exact fiveStage_hom_app h1 e1 h2 e2 h3 X happ1 happ2 happ3
+
+
 end Generic
 
 universe u v uH vH uW uP
@@ -242,28 +268,28 @@ theorem actualLiftForwardSwallowtailGlobalIso_hom_app
         (eqToIso hleft).symm ≪≫ leading ≪≫
           eqToIso hmiddle ≪≫ trailing ≪≫ eqToIso hright := by
     rfl
-  -- An Iso equality is substantially smaller than directly reducing the
-  -- entire nested hom-component. Transport it by congruence once.
-  have hraw :
+  -- Specialize the *generic* Iso equality bridge before projecting
+  -- components. The resulting LHS is the named original v5.83 Iso.
+  have htransport :=
+    Generic.fiveStage_hom_app_of_iso_eq
+      (B := ActualLiftSource.{u, v, uH, vH, uW, uP}
+        (W := W) A WorldLabel PresentationLabel)
+      (C := ActualLiftSource.{u, v, uH, vH, uW, uP}
+        (W := W) A WorldLabel PresentationLabel)
+      (F := Pseudofunctor.id
+        (ActualLiftSource.{u, v, uH, vH, uW, uP}
+          (W := W) A WorldLabel PresentationLabel))
+      (G := actualLiftForwardSwallowtailRoundtripV70 (W := W) A
+        (WorldLabel := WorldLabel)
+        (PresentationLabel := PresentationLabel))
+      hleft leading hmiddle trailing hright
       (actualLiftForwardSwallowtailGlobalIso (W := W) A
         (WorldLabel := WorldLabel)
-        (PresentationLabel := PresentationLabel)).hom.as.app X =
-        ((eqToIso hleft).symm ≪≫ leading ≪≫
-          eqToIso hmiddle ≪≫ trailing ≪≫ eqToIso hright).hom.as.app X :=
-    congrArg (fun (z : ActualLiftForwardSwallowtailInterchanger (W := W) A
-      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)) =>
-        z.hom.as.app X) hIso
-  -- Normalize only the RHS of the already typed generic theorem.
-  -- `simpa` on this whole equality would force expensive `whnf` of
-  -- the actual-lift Iso on the LHS, despite identical syntax.
+        (PresentationLabel := PresentationLabel))
+      hIso X (by rfl) (by rfl) (by rfl)
   conv at htransport =>
     rhs
     simp only [eqToHom_refl, Category.id_comp, Category.comp_id]
-  have hfive :
-      ((eqToIso hleft).symm ≪≫ leading ≪≫
-        eqToIso hmiddle ≪≫ trailing ≪≫ eqToIso hright).hom.as.app X =
-      leading.hom.as.app X ≫ trailing.hom.as.app X :=
-    htransport
   have hcanonical :
       leading.hom.as.app X ≫ trailing.hom.as.app X =
       (actualLiftForwardSwallowtailComponentInterchanger (W := W) A
@@ -277,10 +303,11 @@ theorem actualLiftForwardSwallowtailGlobalIso_hom_app
         (WorldLabel := WorldLabel)
         (PresentationLabel := PresentationLabel)) X]
     rfl
-  exact hraw.trans (hfive.trans hcanonical)
+  exact htransport.trans hcanonical
 
 #print axioms Generic.eqToIso_inv_app_of_app_eq
 #print axioms Generic.fiveStage_hom_app
+#print axioms Generic.fiveStage_hom_app_of_iso_eq
 #print axioms actualLiftForwardSwallowtailGlobalIso_hom_app
 
 end
