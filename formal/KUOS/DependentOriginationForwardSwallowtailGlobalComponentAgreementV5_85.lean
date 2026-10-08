@@ -73,9 +73,10 @@ theorem actualLiftForwardSwallowtailGlobalIso_hom_app
     (actualLiftForwardSwallowtailComponentInterchanger (W := W) A
       (WorldLabel := WorldLabel)
       (PresentationLabel := PresentationLabel) X).hom := by
+  -- Simplify the global isomorphism at the modification level *before*
+  -- projecting to components; `Iso.trans_hom` alone loses this boundary.
   simp only [actualLiftForwardSwallowtailGlobalIso,
-    Iso.trans_hom, Iso.symm_hom,
-    Pseudofunctor.StrongTrans.homCategory_comp_as_app,
+    isoTrans_hom_app, Iso.symm_hom,
     eqToIso_inv_app, eqToIso_hom_app,
     eqToHom_refl, Category.id_comp, Category.comp_id,
     forwardMapCompGlobalIso_hom_app,
