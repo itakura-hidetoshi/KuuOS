@@ -12,6 +12,7 @@ open KUOS.DependentOriginationBiadjunctionTriangulatorHorizontalPastesV5_64.Gene
 open KUOS.DependentOriginationForwardSwallowtailPredicateV5_65
 open KUOS.DependentOriginationForwardSwallowtailPredicateV5_65.Generic.IncoherentBiadjunctionDatum
 open KUOS.DependentOriginationForwardSwallowtailModificationObstructionV5_70
+open KUOS.DependentOriginationForwardSwallowtailNativeBoundaryV5_79
 open KUOS.DependentOriginationForwardSwallowtailComponentInterchangerV5_68
 open KUOS.DependentOriginationGlobalForwardSwallowtailInterchangerV5_83
 open KUOS.DependentOriginationForwardCanonicalNaturalityV5_87
@@ -70,11 +71,11 @@ local instance roundtripHomCategoryV588 :
     Category
       (Pseudofunctor.StrongTrans
         (sourceRoundtrip
-          (actualLiftForwardSwallowtailDatum.{u, v, uH, vH, uW, uP}
+          (actualLiftForwardSwallowtailDatum
             (W := W) A (WorldLabel := WorldLabel)
             (PresentationLabel := PresentationLabel)))
         (sourceRoundtrip
-          (actualLiftForwardSwallowtailDatum.{u, v, uH, vH, uW, uP}
+          (actualLiftForwardSwallowtailDatum
             (W := W) A (WorldLabel := WorldLabel)
             (PresentationLabel := PresentationLabel)))) :=
   Pseudofunctor.StrongTrans.homCategory
@@ -83,11 +84,11 @@ local instance roundtripHomCategoryV588 :
     (C := ActualLiftSource.{u, v, uH, vH, uW, uP}
       (W := W) A WorldLabel PresentationLabel)
     (F := sourceRoundtrip
-      (actualLiftForwardSwallowtailDatum.{u, v, uH, vH, uW, uP}
+      (actualLiftForwardSwallowtailDatum
         (W := W) A (WorldLabel := WorldLabel)
         (PresentationLabel := PresentationLabel)))
     (G := sourceRoundtrip
-      (actualLiftForwardSwallowtailDatum.{u, v, uH, vH, uW, uP}
+      (actualLiftForwardSwallowtailDatum
         (W := W) A (WorldLabel := WorldLabel)
         (PresentationLabel := PresentationLabel)))
 
@@ -97,14 +98,14 @@ theorem actualLiftForwardTriangulatorPaste_hom_app
     (X : ActualLiftSource.{u, v, uH, vH, uW, uP}
       (W := W) A WorldLabel PresentationLabel) :
     (forwardTriangulatorPaste
-      (actualLiftForwardSwallowtailDatum.{u, v, uH, vH, uW, uP} (W := W) A
+      (actualLiftDatumV579 (W := W) A
         (WorldLabel := WorldLabel)
         (PresentationLabel := PresentationLabel))).hom.as.app X =
-    ((actualLiftForwardSwallowtailDatum.{u, v, uH, vH, uW, uP} (W := W) A
+    ((actualLiftDatumV579 (W := W) A
       (WorldLabel := WorldLabel)
       (PresentationLabel := PresentationLabel)).base.unit.app X) ◁
       (sourceHorizontalPaste
-        (actualLiftForwardSwallowtailDatum.{u, v, uH, vH, uW, uP} (W := W) A
+        (actualLiftDatumV579 (W := W) A
           (WorldLabel := WorldLabel)
           (PresentationLabel := PresentationLabel))).hom.as.app X := by
   simp only [forwardTriangulatorPaste, Bicategory.whiskerLeftIso_hom,
@@ -116,14 +117,14 @@ four original v5.68 cells against the v5.64 horizontal triangulator paste. -/
 def ActualLiftForwardSwallowtailPointwiseAgreement : Prop :=
   ∀ X : ActualLiftSource.{u, v, uH, vH, uW, uP}
       (W := W) A WorldLabel PresentationLabel,
-    (actualLiftForwardSwallowtailComponentInterchanger.{u, v, uH, vH, uW, uP} (W := W) A
+    (actualLiftForwardSwallowtailComponentInterchanger (W := W) A
       (WorldLabel := WorldLabel)
       (PresentationLabel := PresentationLabel) X).hom =
-    ((actualLiftForwardSwallowtailDatum.{u, v, uH, vH, uW, uP} (W := W) A
+    ((actualLiftDatumV579 (W := W) A
       (WorldLabel := WorldLabel)
       (PresentationLabel := PresentationLabel)).base.unit.app X) ◁
       (sourceHorizontalPaste
-        (actualLiftForwardSwallowtailDatum.{u, v, uH, vH, uW, uP} (W := W) A
+        (actualLiftDatumV579 (W := W) A
           (WorldLabel := WorldLabel)
           (PresentationLabel := PresentationLabel))).hom.as.app X
 
@@ -131,92 +132,92 @@ def ActualLiftForwardSwallowtailPointwiseAgreement : Prop :=
 equivalent to the displayed pointwise comparison, because the original
 four-cell components are already modification-natural (v5.87). -/
 theorem actualLiftForwardSwallowtailPredicate_iff_pointwise :
-    actualLiftForwardSwallowtailPredicate.{u, v, uH, vH, uW, uP} (W := W) A
-      (actualLiftForwardSwallowtailCanonicalIso.{u, v, uH, vH, uW, uP} (W := W) A
+    actualLiftForwardSwallowtailPredicate (W := W) A
+      (actualLiftForwardSwallowtailCanonicalIso (W := W) A
         (WorldLabel := WorldLabel)
         (PresentationLabel := PresentationLabel)) ↔
-    ActualLiftForwardSwallowtailPointwiseAgreement.{u, v, uH, vH, uW, uP} (W := W) A
+    ActualLiftForwardSwallowtailPointwiseAgreement (W := W) A
       (WorldLabel := WorldLabel)
       (PresentationLabel := PresentationLabel) := by
   constructor
   · intro h X
     change
-      actualLiftForwardSwallowtailCanonicalIso.{u, v, uH, vH, uW, uP} (W := W) A
+      actualLiftForwardSwallowtailCanonicalIso (W := W) A
         (WorldLabel := WorldLabel)
         (PresentationLabel := PresentationLabel) =
       forwardTriangulatorPaste
-        (actualLiftForwardSwallowtailDatum.{u, v, uH, vH, uW, uP} (W := W) A
+        (actualLiftDatumV579 (W := W) A
           (WorldLabel := WorldLabel)
           (PresentationLabel := PresentationLabel)) at h
     have hApp := congrArg
-      (fun e : ActualLiftForwardSwallowtailInterchanger.{u, v, uH, vH, uW, uP} (W := W) A
+      (fun e : ActualLiftForwardSwallowtailInterchanger (W := W) A
         (WorldLabel := WorldLabel)
         (PresentationLabel := PresentationLabel) =>
         e.hom.as.app X) h
-    rw [actualLiftForwardSwallowtailInterchangerOfNaturality_hom_app.{u, v, uH, vH, uW, uP} (W := W) A
+    rw [actualLiftForwardSwallowtailInterchangerOfNaturality_hom_app (W := W) A
       (WorldLabel := WorldLabel)
       (PresentationLabel := PresentationLabel)
-      (actualLiftForwardSwallowtailOriginalNaturality.{u, v, uH, vH, uW, uP} (W := W) A
+      (actualLiftForwardSwallowtailOriginalNaturality (W := W) A
         (WorldLabel := WorldLabel)
         (PresentationLabel := PresentationLabel)) X] at hApp
-    rw [actualLiftForwardTriangulatorPaste_hom_app.{u, v, uH, vH, uW, uP} (W := W) A
+    rw [actualLiftForwardTriangulatorPaste_hom_app (W := W) A
       (WorldLabel := WorldLabel)
       (PresentationLabel := PresentationLabel) X] at hApp
     exact hApp
   · intro h
     change
-      actualLiftForwardSwallowtailCanonicalIso.{u, v, uH, vH, uW, uP} (W := W) A
+      actualLiftForwardSwallowtailCanonicalIso (W := W) A
         (WorldLabel := WorldLabel)
         (PresentationLabel := PresentationLabel) =
       forwardTriangulatorPaste
-        (actualLiftForwardSwallowtailDatum.{u, v, uH, vH, uW, uP} (W := W) A
+        (actualLiftDatumV579 (W := W) A
           (WorldLabel := WorldLabel)
           (PresentationLabel := PresentationLabel))
     apply Iso.ext
     apply Pseudofunctor.StrongTrans.homCategory.ext
     intro X
     calc
-      (actualLiftForwardSwallowtailCanonicalIso.{u, v, uH, vH, uW, uP} (W := W) A
+      (actualLiftForwardSwallowtailCanonicalIso (W := W) A
         (WorldLabel := WorldLabel)
         (PresentationLabel := PresentationLabel)).hom.as.app X =
-        (actualLiftForwardSwallowtailComponentInterchanger.{u, v, uH, vH, uW, uP} (W := W) A
+        (actualLiftForwardSwallowtailComponentInterchanger (W := W) A
           (WorldLabel := WorldLabel)
           (PresentationLabel := PresentationLabel) X).hom :=
-        actualLiftForwardSwallowtailInterchangerOfNaturality_hom_app.{u, v, uH, vH, uW, uP} (W := W) A
+        actualLiftForwardSwallowtailInterchangerOfNaturality_hom_app (W := W) A
           (WorldLabel := WorldLabel)
           (PresentationLabel := PresentationLabel)
-          (actualLiftForwardSwallowtailOriginalNaturality.{u, v, uH, vH, uW, uP} (W := W) A
+          (actualLiftForwardSwallowtailOriginalNaturality (W := W) A
             (WorldLabel := WorldLabel)
             (PresentationLabel := PresentationLabel)) X
-      _ = ((actualLiftForwardSwallowtailDatum.{u, v, uH, vH, uW, uP} (W := W) A
+      _ = ((actualLiftDatumV579 (W := W) A
         (WorldLabel := WorldLabel)
         (PresentationLabel := PresentationLabel)).base.unit.app X) ◁
           (sourceHorizontalPaste
-            (actualLiftForwardSwallowtailDatum.{u, v, uH, vH, uW, uP} (W := W) A
+            (actualLiftDatumV579 (W := W) A
               (WorldLabel := WorldLabel)
               (PresentationLabel := PresentationLabel))).hom.as.app X := h X
       _ = (forwardTriangulatorPaste
-        (actualLiftForwardSwallowtailDatum.{u, v, uH, vH, uW, uP} (W := W) A
+        (actualLiftDatumV579 (W := W) A
           (WorldLabel := WorldLabel)
           (PresentationLabel := PresentationLabel))).hom.as.app X :=
-        (actualLiftForwardTriangulatorPaste_hom_app.{u, v, uH, vH, uW, uP} (W := W) A
+        (actualLiftForwardTriangulatorPaste_hom_app (W := W) A
           (WorldLabel := WorldLabel)
           (PresentationLabel := PresentationLabel) X).symm
 
 /-- Same obstruction measured using the exact v5.83 global Iso, by
 v5.87's equality between the canonical and global native Iso. -/
 theorem actualLiftForwardGlobalPredicate_iff_pointwise :
-    actualLiftForwardSwallowtailPredicate.{u, v, uH, vH, uW, uP} (W := W) A
-      (actualLiftForwardSwallowtailGlobalIso.{u, v, uH, vH, uW, uP} (W := W) A
+    actualLiftForwardSwallowtailPredicate (W := W) A
+      (actualLiftForwardSwallowtailGlobalIso (W := W) A
         (WorldLabel := WorldLabel)
         (PresentationLabel := PresentationLabel)) ↔
-    ActualLiftForwardSwallowtailPointwiseAgreement.{u, v, uH, vH, uW, uP} (W := W) A
+    ActualLiftForwardSwallowtailPointwiseAgreement (W := W) A
       (WorldLabel := WorldLabel)
       (PresentationLabel := PresentationLabel) := by
-  rw [← actualLiftForwardSwallowtailCanonicalIso_eq_global.{u, v, uH, vH, uW, uP} (W := W) A
+  rw [← actualLiftForwardSwallowtailCanonicalIso_eq_global (W := W) A
     (WorldLabel := WorldLabel)
     (PresentationLabel := PresentationLabel)]
-  exact actualLiftForwardSwallowtailPredicate_iff_pointwise.{u, v, uH, vH, uW, uP} (W := W) A
+  exact actualLiftForwardSwallowtailPredicate_iff_pointwise (W := W) A
     (WorldLabel := WorldLabel)
     (PresentationLabel := PresentationLabel)
 
