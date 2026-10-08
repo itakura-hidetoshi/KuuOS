@@ -20,7 +20,7 @@ open KUOS.DependentOriginationForwardSwallowtailGlobalComponentAgreementV5_85
 open KUOS.DependentOriginationReassociatedSourceCounitInterchangerV5_77.Generic.IncoherentBiadjunctionDatum
 
 set_option autoImplicit false
-set_option maxHeartbeats 1200000
+set_option maxHeartbeats 300000
 noncomputable section
 
 /-!
