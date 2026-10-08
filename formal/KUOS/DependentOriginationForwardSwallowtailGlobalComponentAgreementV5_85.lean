@@ -238,6 +238,25 @@ theorem middleEqToHom_app_is_id
   -- induce the same identity 2-cell; do not match a particular proof term.
   rfl
 
+/-- Normalize a reflexive transport in the literal v5.77 middle
+presentation, independently of the v5.79 bridge's syntactic source. -/
+theorem middleEqToHom_self_app_is_id
+    (X : sourceV578 (W := W) A
+      (WorldLabel := WorldLabel)
+      (PresentationLabel := PresentationLabel))
+    (happ :
+      (sourcePostCounitPath (actualLiftDatumV579 (W := W) A
+        (WorldLabel := WorldLabel)
+        (PresentationLabel := PresentationLabel))).app X =
+      (sourcePostCounitPath (actualLiftDatumV579 (W := W) A
+        (WorldLabel := WorldLabel)
+        (PresentationLabel := PresentationLabel))).app X) :
+    eqToHom happ =
+      𝟙 ((sourcePostCounitPath (actualLiftDatumV579 (W := W) A
+        (WorldLabel := WorldLabel)
+        (PresentationLabel := PresentationLabel))).app X) := by
+  exact eqToHom_refl _ happ
+
 /-- The leading v5.78 app transport uses the original mapped triangle
 and is definitionally the identity 2-cell on that component. -/
 theorem leftEqToHom_app_is_id
@@ -398,13 +417,14 @@ theorem actualLiftForwardSwallowtailGlobalIso_hom_app
       -- Reflexive object-component proofs are definitionally identities
       -- in the pinned mathlib hom categories. Normalize the transport
       -- itself, rather than relying on the syntactic name of its proof.
-      simp only [leftEqToHom_app_is_id, rightEqToHom_app_is_id]
-      set_option pp.proofs true in
-        trace_state
+      simp only [leftEqToHom_app_is_id, middleEqToHom_self_app_is_id,
+        rightEqToHom_app_is_id, Category.id_comp, Category.comp_id]
+      trace_state
       exact hcanonical)
 
 
 #print axioms middleEqToHom_app_is_id
+#print axioms middleEqToHom_self_app_is_id
 #print axioms leftEqToHom_app_is_id
 #print axioms rightEqToHom_app_is_id
 #print axioms Generic.eqToIso_inv_app_of_app_eq
