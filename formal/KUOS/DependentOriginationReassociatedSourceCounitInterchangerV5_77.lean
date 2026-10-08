@@ -137,8 +137,7 @@ paste as its component: there is no new 2-cell choice. -/
     Iso.trans_hom, Iso.symm_hom,
     Pseudofunctor.StrongTrans.associator_inv_as_app,
     Pseudofunctor.StrongTrans.associator_hom_as_app,
-    unitSelfCounitWhiskeredComparisonIso_hom_app,
-    Iso.symm_hom]
+    unitSelfCounitWhiskeredComparisonIso_hom_app]
   rfl
 
 end IncoherentBiadjunctionDatum
