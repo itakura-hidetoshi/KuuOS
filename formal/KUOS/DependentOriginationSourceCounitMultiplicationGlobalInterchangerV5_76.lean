@@ -142,6 +142,7 @@ of the original four-step v5.68 paste. -/
     unitSelfGlobalComparisonIso_hom_app,
     sourceCounitMultiplication_app,
     Iso.symm_hom]
+  rfl
 
 end IncoherentBiadjunctionDatum
 end Generic
