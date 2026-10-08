@@ -221,19 +221,21 @@ naturality equality. -/
 theorem middleEqToHom_app_is_id
     (X : sourceV578 (W := W) A
       (WorldLabel := WorldLabel)
-      (PresentationLabel := PresentationLabel)) :
-    eqToHom (show
+      (PresentationLabel := PresentationLabel))
+    (happ :
       (targetMapCompPathV578 (W := W) A
         (WorldLabel := WorldLabel)
         (PresentationLabel := PresentationLabel)).app X =
       (sourcePostCounitPath
         (actualLiftDatumV579 (W := W) A
           (WorldLabel := WorldLabel)
-          (PresentationLabel := PresentationLabel))).app X
-      from rfl) =
-    𝟙 ((targetMapCompPathV578 (W := W) A
-      (WorldLabel := WorldLabel)
-      (PresentationLabel := PresentationLabel)).app X) := by
+          (PresentationLabel := PresentationLabel))).app X) :
+    eqToHom happ =
+      𝟙 ((targetMapCompPathV578 (W := W) A
+        (WorldLabel := WorldLabel)
+        (PresentationLabel := PresentationLabel)).app X) := by
+  -- Proof-irrelevance makes every witness of this reflexive app equality
+  -- induce the same identity 2-cell; do not match a particular proof term.
   rfl
 
 /-- The leading v5.78 app transport uses the original mapped triangle
@@ -396,8 +398,8 @@ theorem actualLiftForwardSwallowtailGlobalIso_hom_app
       -- Reflexive object-component proofs are definitionally identities
       -- in the pinned mathlib hom categories. Normalize the transport
       -- itself, rather than relying on the syntactic name of its proof.
-      simp only [eqToHom_refl, Category.id_comp, Category.comp_id]
-      trace_state
+      simp only [leftEqToHom_app_is_id, middleEqToHom_app_is_id,
+        rightEqToHom_app_is_id, Category.id_comp, Category.comp_id]
       exact hcanonical)
 
 
