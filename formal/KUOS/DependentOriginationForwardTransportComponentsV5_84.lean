@@ -19,6 +19,10 @@ proofs, without postulating strictness or another chosen 2-cell.
 
 This generic file proves exactly how eqToIso and vertical composition
 in Mathlib's native StrongTrans hom category act on components.
+At the pinned Mathlib revision, eqToIso is built from eqToHom, while
+StrongTrans.homCategory uses Modification.id and Modification.vcomp.
+Thus equality induction and definitional reduction expose the original
+component identity and vertical paste without any extra coherence choice.
 The actual-lift component identification is a separate, subsequent step.
 -/
 
