@@ -313,9 +313,7 @@ theorem actualLiftForwardSwallowtailGlobalIso_hom_app
     (actualLiftForwardSwallowtailComponentInterchanger (W := W) A
       (WorldLabel := WorldLabel)
       (PresentationLabel := PresentationLabel) X).hom
-    (by
-      simp only [eqToHom_refl, Category.id_comp, Category.comp_id]
-      exact hcanonical)
+    hcanonical
 
 
 #print axioms Generic.eqToIso_inv_app_of_app_eq
