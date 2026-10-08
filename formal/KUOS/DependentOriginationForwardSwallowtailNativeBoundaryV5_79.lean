@@ -8,6 +8,7 @@ open scoped CategoryTheory.Bicategory CategoryTheory.Pseudofunctor.StrongTrans
 open KUOS.DependentOriginationGeneratedRefinementTopologyV2_4
 open KUOS.DependentOriginationLocalizedSheafUniversalityV2_6
 open KUOS.DependentOriginationExactLiftableActualLiftBiadjunctionTriangulatorsV5_58
+open KUOS.DependentOriginationExactLiftableActualLiftIncoherentBiadjunctionV5_59.Generic
 open KUOS.DependentOriginationForwardSwallowtailPredicateV5_65
 open KUOS.DependentOriginationForwardSwallowtailModificationObstructionV5_70
 open KUOS.DependentOriginationActualLiftForwardMapCompGlobalV5_78
@@ -37,7 +38,12 @@ variable (W : MorphismProperty Context)
 variable (A : RefinementAtlas.{u, max u v, uH} (LocalizedContext W))
 variable {WorldLabel : Type uW} {PresentationLabel : Type uP}
 
-abbrev actualLiftDatumV579 :=
+abbrev actualLiftDatumV579 :
+    IncoherentBiadjunctionDatum
+      (ActualLiftSource.{u, v, uH, vH, uW, uP}
+        (W := W) A WorldLabel PresentationLabel)
+      (ActualLiftTarget.{u, v, uH, vH, uW, uP}
+        (W := W) A WorldLabel PresentationLabel) :=
   actualLiftForwardSwallowtailDatum
     (W := W) A
     (WorldLabel := WorldLabel)
@@ -134,6 +140,16 @@ coincide, not replace them or postulate any extra coherence.
 StrongTrans interface; the original naturality isomorphisms remain unchanged. -/
 def MiddleNaturalityAgreement : Prop :=
   Generic.NaturalityAgreement
+    (B := ActualLiftSource.{u, v, uH, vH, uW, uP}
+      (W := W) A WorldLabel PresentationLabel)
+    (C := ActualLiftSource.{u, v, uH, vH, uW, uP}
+      (W := W) A WorldLabel PresentationLabel)
+    (F := Pseudofunctor.id
+      (ActualLiftSource.{u, v, uH, vH, uW, uP}
+        (W := W) A WorldLabel PresentationLabel))
+    (G := roundtripV578 (W := W) A
+      (WorldLabel := WorldLabel)
+      (PresentationLabel := PresentationLabel))
     (targetMapCompPathV578 (W := W) A
       (WorldLabel := WorldLabel)
       (PresentationLabel := PresentationLabel))
