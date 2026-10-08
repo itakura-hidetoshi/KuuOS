@@ -406,7 +406,7 @@ theorem actualLiftForwardSwallowtailGlobalIso_hom_app
     -- This does not invoke matching against a potentially different
     -- hidden hom-category instance in a separately elaborated lemma.
     dsimp only [happLeft, happMiddle, happRight]
-    simp only [eqToHom_refl, Category.id_comp, Category.comp_id]
+    trace_state
     exact hcanonical
   exact Generic.fiveStage_hom_app_of_iso_eq_and_component
     (B := ActualLiftSource.{u, v, uH, vH, uW, uP}
