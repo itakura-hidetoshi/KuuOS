@@ -49,7 +49,7 @@ theorem whiskerLeft_eq_comp_inv_iff
     {g h k : Y ⟶ Z} (a : g ⟶ k) (e : h ≅ k)
     (sigma : f ≫ g ⟶ f ≫ h) :
     sigma = f ◁ (a ≫ e.inv) ↔
-      sigma ≫ f ◁ e.hom = f ◁ a := by
+      sigma ≫ (f ◁ e.hom) = f ◁ a := by
   simpa only [Bicategory.whiskerLeft_comp,
       Bicategory.whiskerLeftIso_hom, Bicategory.whiskerLeftIso_inv] using
     (Iso.eq_comp_inv (Bicategory.whiskerLeftIso f e)
@@ -74,11 +74,11 @@ def ActualLiftForwardSwallowtailCancelledCore : Prop :=
     ((actualLiftForwardSwallowtailComponentInterchanger.{u, v, uH, uW, uP, vH}
         (W := W) A
         (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel) X).hom) ≫
-      ((actualLiftSourceRoundtripUnit (W := W) A
+      (((actualLiftSourceRoundtripUnit (W := W) A
         (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)).app X) ◁
         (actualLiftQuasiInverseTriangleIso (W := W) A
           ((actualLiftForwardPseudofunctor
-            (W := W) A WorldLabel PresentationLabel).obj X)).hom =
+            (W := W) A WorldLabel PresentationLabel).obj X)).hom) =
     ((actualLiftSourceRoundtripUnit (W := W) A
       (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)).app X) ◁
       ((actualLiftQuasiInversePseudofunctor (W := W) A).map₂
