@@ -97,26 +97,26 @@ theorem actualLiftGlobalIso_hom_app_fiveStage
     (actualLiftForwardSwallowtailGlobalIso (W := W) A
       (WorldLabel := WorldLabel)
       (PresentationLabel := PresentationLabel)).hom.as.app X =
-    eqToHom (show
-      (actualLiftForwardSwallowtailLeftV70 (W := W) A
+    eqToHom (Eq.refl
+      ((sourceMapCompPathV578 (W := W) A
         (WorldLabel := WorldLabel)
-        (PresentationLabel := PresentationLabel)).app X =
-      (sourceMapCompPathV578 (W := W) A
-        (WorldLabel := WorldLabel)
-        (PresentationLabel := PresentationLabel)).app X from rfl) ≫
+        (PresentationLabel := PresentationLabel)).app X)) ≫
     (forwardMapCompGlobalIso (W := W) A
       (WorldLabel := WorldLabel)
       (PresentationLabel := PresentationLabel)).hom.as.app X ≫
-    eqToHom (middleComponent_eq (W := W) A
-      (WorldLabel := WorldLabel)
-      (PresentationLabel := PresentationLabel) X) ≫
+    eqToHom (Eq.refl
+      ((targetMapCompPathV578 (W := W) A
+        (WorldLabel := WorldLabel)
+        (PresentationLabel := PresentationLabel)).app X)) ≫
     (sourceCounitReassociatedInterchangerIso
       (actualLiftDatumV579 (W := W) A
         (WorldLabel := WorldLabel)
         (PresentationLabel := PresentationLabel))).hom.as.app X ≫
-    eqToHom (rightComponent_eq (W := W) A
-      (WorldLabel := WorldLabel)
-      (PresentationLabel := PresentationLabel) X) := by
+    eqToHom (Eq.refl
+      ((sourcePreCounitPath
+        (actualLiftDatumV579 (W := W) A
+          (WorldLabel := WorldLabel)
+          (PresentationLabel := PresentationLabel))).app X)) := by
   exact
     KUOS.DependentOriginationForwardSwallowtailGlobalComponentAgreementV5_85.Generic.fiveStage_hom_app_of_iso_eq
       (sourceMapCompPathV578_eq_forwardSwallowtailLeft (W := W) A
@@ -141,12 +141,8 @@ theorem actualLiftGlobalIso_hom_app_fiveStage
       (by rfl)
       X
       (by rfl)
-      (middleComponent_eq (W := W) A
-        (WorldLabel := WorldLabel)
-        (PresentationLabel := PresentationLabel) X)
-      (rightComponent_eq (W := W) A
-        (WorldLabel := WorldLabel)
-        (PresentationLabel := PresentationLabel) X)
+      (by rfl)
+      (by rfl)
 
 /-- The three equality transports are identity 2-cells at every original
 actual-lift source object. Hence the complete five-stage component is the
