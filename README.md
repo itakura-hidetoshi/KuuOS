@@ -10,11 +10,11 @@
 
 > What remains invariant under justified changes of context and presentation? Which local observations can be transported, compared, and glued, and where do obstructions prevent descent?
 
-## Status / 現在地 — v5.87 (2026-10-09 JST)
+## Status / 現在地 — v5.88 (2026-10-09 JST)
 
-**Theorem-bearing canonical main is integrated through v5.87, [PR #2046](https://github.com/itakura-hidetoshi/KuuOS/pull/2046).**
+**Theorem-bearing canonical main is integrated through v5.88, [PR #2047](https://github.com/itakura-hidetoshi/KuuOS/pull/2047).**
 
-The formal actual-lift classification program has progressed from explicit non-strict pseudofunctors, unit/counit, and invertible triangle contractions (v5.40–v5.63) to **native forward/reverse swallowtail predicates, the original four-cell paste, its fully identified global invertible modification, and its proved original modification naturality** (v5.64–v5.87).
+The formal actual-lift classification program has progressed from explicit non-strict pseudofunctors, unit/counit, and invertible triangle contractions (v5.40–v5.63) to **native forward/reverse swallowtail predicates, the original four-cell paste, a fully identified global invertible modification, proved original modification naturality, and a precise forward pointwise-equivalence boundary** (v5.64–v5.88). The last equivalence reduces the forward swallowtail law to a remaining pointwise equation; it does **not** establish that equation.
 
 Most importantly, the current proved and unproved boundaries are separate:
 
@@ -28,6 +28,8 @@ Most importantly, the current proved and unproved boundaries are separate:
 | Full component identification of the **v5.83 global Iso** with the **v5.68 original four-cell interchanger** | **Proved**: `actualLiftGlobalCanonicalComponentAgreement` | [v5.86](formal/KUOS/DependentOriginationForwardSwallowtailGlobalComponentAgreementV5_86.lean) |
 | Original v5.68 four-cell **modification naturality** (v5.70 predicate) | **Proved**: `actualLiftForwardSwallowtailOriginalNaturality` | [v5.87](formal/KUOS/DependentOriginationForwardCanonicalNaturalityV5_87.lean) |
 | Original-family `isoMk` **equals** the native v5.83 global Iso | **Proved**: `actualLiftForwardSwallowtailCanonicalIso_eq_global` | [v5.87](formal/KUOS/DependentOriginationForwardCanonicalNaturalityV5_87.lean) |
+| Unit-whiskered source triangulator horizontal paste: **component formula** | **Proved**: `actualLiftForwardTriangulatorPaste_hom_app` | [v5.88](formal/KUOS/DependentOriginationForwardSwallowtailPointwiseBoundaryV5_88.lean) |
+| Original v5.65 **forward swallowtail predicate iff original pointwise four-cell/triangulator-paste equation** (canonical and global Iso) | **Proved equivalence**, **not** either side of the equation: `actualLiftForwardSwallowtailPredicate_iff_pointwise`, `actualLiftForwardGlobalPredicate_iff_pointwise` | [v5.88](formal/KUOS/DependentOriginationForwardSwallowtailPointwiseBoundaryV5_88.lean) |
 | Original forward and reverse swallowtail equations | **Open — predicates stated, equations not proved** | [v5.65](formal/KUOS/DependentOriginationForwardSwallowtailPredicateV5_65.lean), [v5.66](formal/KUOS/DependentOriginationReverseSwallowtailPredicateV5_66.lean) |
 
 The v5.57 certificate's historical name is retained for compatibility. Neither that name nor the existence of native invertible triangle contractions establishes the missing **swallowtail** laws. KuuOS does **not** claim a newly proved coherent biadjunction, biadjoint biequivalence with swallowtail coherence, or a fully coherent tricategorical adjunction.
@@ -37,17 +39,17 @@ The v5.57 certificate's historical name is retained for compatibility. Neither t
 | Authority or receipt | Exact reference |
 | --- | --- |
 | Repository / canonical branch | **itakura-hidetoshi/KuuOS / main** |
-| Latest theorem-bearing merge / canonical main | **68a1119d42fd62d065cab4c1c48da8c35d198aca** |
-| Integrated theorem PR | [#2046, v5.87, merged](https://github.com/itakura-hidetoshi/KuuOS/pull/2046) |
-| Validated exact PR head | **d4d32200f4e44eb96706b635d634e0e0147f6d51** |
-| Exact-head PR CI | [Run #37833388313 — SUCCESS](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/37833388313) |
-| Strict Lean / governance jobs | **113504397306 / 113516402296 — SUCCESS** |
-| MCP Lean / MCP CI completion receipts | **113516402404 / 113516485003 — SUCCESS** |
-| Selected target + dependency build | **8714/8714 jobs; return code 0** |
+| Latest theorem-bearing merge / canonical main | **98287ccf8315dd66e32a5dbae2a0ef0ea5d190ca** |
+| Integrated theorem PR | [#2047, v5.88, merged](https://github.com/itakura-hidetoshi/KuuOS/pull/2047) |
+| Validated exact PR head | **256f0c2648a47bbe2746a307e631adcd31aa3b14** |
+| Exact-head PR CI | [Run #37849042384 — SUCCESS](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/37849042384) |
+| Strict Lean / governance jobs | **113557162372 / 113558065578 — SUCCESS** |
+| MCP Lean / MCP CI completion receipts | **113558065710 / 113558145940 — SUCCESS** |
+| Selected target + dependency build | **8715/8715 jobs; return code 0; changed-file warnings/errors 0; no sorryAx** |
 | Lean | **leanprover/lean4:v4.30.0-rc2** ([lean-toolchain](lean-toolchain)) |
 | mathlib | **5450b53e5ddc75d46418fabb605edbf36bd0beb6** ([lake-manifest.json](lake-manifest.json)) |
 
-This receipt validates the **selected v5.87 Lean target and its dependencies** with strict warning/sorry handling; it does not by itself mean every aggregate target or AI runtime was rerun. A later **docs-only** merge can advance main without advancing this theorem-bearing baseline. Re-observe the exact main SHA before interpreting any new claims.
+This receipt validates the **selected v5.88 Lean target and its dependencies** with strict warning/sorry handling; it does not by itself mean every aggregate target or AI runtime was rerun. A later **docs-only** merge can advance main without advancing this theorem-bearing baseline. Re-observe the exact main SHA before interpreting any new claims.
 
 Formal authority order:
 
@@ -134,10 +136,11 @@ exact DO₂ presentation
 | **v5.85** | Generic five-stage transport calculus and original four-cell = two-factor pointwise component theorem | 
 | **v5.86** | **Full component equality between v5.83 global Iso and the unchanged v5.68 four-cell paste** |
 | **v5.87** | **Original v5.70 four-cell naturality and equality of the v5.70 canonical `isoMk` with the v5.83 global Iso** |
+| **v5.88** | **Pointwise unit-whiskered triangulator component and exact forward swallowtail predicate ↔ original four-cell/triangulator pointwise agreement**; the pointwise equality itself remains open |
 
-Direct source endpoints: [v5.64](formal/KUOS/DependentOriginationBiadjunctionTriangulatorHorizontalPastesV5_64.lean), [v5.65](formal/KUOS/DependentOriginationForwardSwallowtailPredicateV5_65.lean), [v5.66](formal/KUOS/DependentOriginationReverseSwallowtailPredicateV5_66.lean), [v5.70](formal/KUOS/DependentOriginationForwardSwallowtailModificationObstructionV5_70.lean), [v5.77](formal/KUOS/DependentOriginationReassociatedSourceCounitInterchangerV5_77.lean), [v5.78](formal/KUOS/DependentOriginationActualLiftForwardMapCompGlobalV5_78.lean), [v5.79](formal/KUOS/DependentOriginationForwardSwallowtailNativeBoundaryV5_79.lean), [v5.82](formal/KUOS/DependentOriginationForwardMiddleNaturalityPasteV5_82.lean), [v5.83](formal/KUOS/DependentOriginationGlobalForwardSwallowtailInterchangerV5_83.lean), [v5.84](formal/KUOS/DependentOriginationForwardTransportComponentsV5_84.lean), [v5.85](formal/KUOS/DependentOriginationForwardSwallowtailGlobalComponentAgreementV5_85.lean), [v5.86](formal/KUOS/DependentOriginationForwardSwallowtailGlobalComponentAgreementV5_86.lean), [v5.87](formal/KUOS/DependentOriginationForwardCanonicalNaturalityV5_87.lean).
+Direct source endpoints: [v5.64](formal/KUOS/DependentOriginationBiadjunctionTriangulatorHorizontalPastesV5_64.lean), [v5.65](formal/KUOS/DependentOriginationForwardSwallowtailPredicateV5_65.lean), [v5.66](formal/KUOS/DependentOriginationReverseSwallowtailPredicateV5_66.lean), [v5.70](formal/KUOS/DependentOriginationForwardSwallowtailModificationObstructionV5_70.lean), [v5.77](formal/KUOS/DependentOriginationReassociatedSourceCounitInterchangerV5_77.lean), [v5.78](formal/KUOS/DependentOriginationActualLiftForwardMapCompGlobalV5_78.lean), [v5.79](formal/KUOS/DependentOriginationForwardSwallowtailNativeBoundaryV5_79.lean), [v5.82](formal/KUOS/DependentOriginationForwardMiddleNaturalityPasteV5_82.lean), [v5.83](formal/KUOS/DependentOriginationGlobalForwardSwallowtailInterchangerV5_83.lean), [v5.84](formal/KUOS/DependentOriginationForwardTransportComponentsV5_84.lean), [v5.85](formal/KUOS/DependentOriginationForwardSwallowtailGlobalComponentAgreementV5_85.lean), [v5.86](formal/KUOS/DependentOriginationForwardSwallowtailGlobalComponentAgreementV5_86.lean), [v5.87](formal/KUOS/DependentOriginationForwardCanonicalNaturalityV5_87.lean), [v5.88](formal/KUOS/DependentOriginationForwardSwallowtailPointwiseBoundaryV5_88.lean).
 
-## How the v5.85–v5.87 boundary was resolved
+## How the v5.85–v5.88 boundary was resolved
 
 The native global Iso of v5.83 is a five-stage composite:
 
@@ -156,7 +159,15 @@ The original v5.68 pointwise interchanger is a **four-cell** composite. v5.85 pr
   ; (global reassociated counit factor).hom.app X
 ~~~
 
-v5.86 closes the previously open **ActualLiftGlobalCanonicalComponentAgreement** with the unchanged original four-cell components: the three `eqToIso` transports reduce to reflexive component transports under the pinned native hom-category instances. v5.87 then transports the v5.83 modification naturality to the actual original v5.68 four-cell family and proves the v5.70 `isoMk` is equal to the v5.83 global Iso. **Neither result proves the separate forward/reverse swallowtail equations.** The current forward obstacle is equality with the stored triangulator horizontal paste, not naturality of the original interchanger.
+v5.86 closes the previously open **ActualLiftGlobalCanonicalComponentAgreement** with the unchanged original four-cell components: the three `eqToIso` transports reduce to reflexive component transports under the pinned native hom-category instances. v5.87 transports the v5.83 modification naturality to the unchanged v5.68 four-cell family and proves the v5.70 `isoMk` equals the v5.83 global Iso. v5.88 proves that the **v5.65 forward swallowtail predicate for this original/global Iso is equivalent to the following fixed, still-unproved component equation at every original source object X:**
+
+~~~text
+(original v5.68 four-cell interchanger at X).hom
+  = (original unit eta.app X) ◁
+      (sourceHorizontalPaste of the original triangulators).hom.as.app X
+~~~
+
+The equivalences `actualLiftForwardSwallowtailPredicate_iff_pointwise` and `actualLiftForwardGlobalPredicate_iff_pointwise` are theorems, **not** proofs of the pointwise equation or the forward swallowtail law. The reverse swallowtail law remains open as well. Neither a coherent-biadjunction certificate nor a strictly replaced G is claimed.
 
 The detailed next obligations and evidence are in [ROADMAP.md](ROADMAP.md).
 
@@ -165,11 +176,11 @@ The detailed next obligations and evidence are in [ROADMAP.md](ROADMAP.md).
 ~~~bash
 git clone https://github.com/itakura-hidetoshi/KuuOS.git KuuOS-repro
 cd KuuOS-repro
-git checkout 68a1119d42fd62d065cab4c1c48da8c35d198aca
+git checkout 98287ccf8315dd66e32a5dbae2a0ef0ea5d190ca
 
 lake -KleanArgs=-DwarningAsError=true \
      -KleanArgs=-DsorryAsError=true \
-     build KUOS.DependentOriginationForwardCanonicalNaturalityV5_87
+     build KUOS.DependentOriginationForwardSwallowtailPointwiseBoundaryV5_88
 ~~~
 
 Additional selected targets:
@@ -182,7 +193,8 @@ lake -KleanArgs=-DwarningAsError=true \
   KUOS.DependentOriginationGlobalForwardSwallowtailInterchangerV5_83 \
   KUOS.DependentOriginationForwardTransportComponentsV5_84 \
   KUOS.DependentOriginationForwardSwallowtailGlobalComponentAgreementV5_85 \
-  KUOS.DependentOriginationForwardSwallowtailGlobalComponentAgreementV5_86
+  KUOS.DependentOriginationForwardSwallowtailGlobalComponentAgreementV5_86 \
+  KUOS.DependentOriginationForwardCanonicalNaturalityV5_87
 ~~~
 
 Broader builds and runtime checks are **distinct** validation targets, not consequences of that CI receipt:
