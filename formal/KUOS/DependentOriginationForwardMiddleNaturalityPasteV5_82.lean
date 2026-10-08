@@ -122,8 +122,7 @@ theorem middleFactors_naturality_hom
           (PresentationLabel := PresentationLabel)))).naturality f).hom = _ at hNative
   rw [hMapped, hNative]
   simp only [mappedProjectedUnit_naturality_hom,
-    mappedRestrictedCounit_naturality_hom, mappedProjectedUnit_app,
-    Pseudofunctor.comp_map]
+    mappedRestrictedCounit_naturality_hom, mappedProjectedUnit_app]
   rfl
 
 /-- Equality of the two native R => R middle transformations, using
