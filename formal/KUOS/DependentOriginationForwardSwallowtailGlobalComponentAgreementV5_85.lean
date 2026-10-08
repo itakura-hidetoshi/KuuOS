@@ -393,8 +393,8 @@ theorem actualLiftForwardSwallowtailGlobalIso_hom_app
     (by
       -- Normalize three typed app transports individually. This leaves
       -- only the previously proved four-cell component equality.
-      simp only [leftEqToHom_app_is_id, middleEqToHom_app_is_id,
-        rightEqToHom_app_is_id, Category.id_comp, Category.comp_id]
+      simp only [leftEqToHom_app_is_id, rightEqToHom_app_is_id]
+      trace_state
       exact hcanonical)
 
 
