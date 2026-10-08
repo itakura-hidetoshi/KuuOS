@@ -147,12 +147,73 @@ variable (W : MorphismProperty Context)
 variable (A : RefinementAtlas.{u, max u v, uH} (LocalizedContext W))
 variable {WorldLabel : Type uW} {PresentationLabel : Type uP}
 
-/-!
-The sole StrongTrans hom-category instance for the actual-lift comparison
-is installed locally in the theorem below, using exactly the v5.83 F and G.
-Avoid globally competing instances under v5.78, v5.65 and v5.79 aliases:
-they can obscure typeclass/projection reduction of equality transports.
--/
+/-- Pin the *syntactic* v5.78 StrongTrans hom category needed by
+`forwardMapCompGlobalIso`. The elaborator does not reliably synthesize
+this through the expanded v5.70 aliases at large universe levels. -/
+local instance sourceHomCategoryV585 :
+    Category
+      (Pseudofunctor.StrongTrans
+        (Pseudofunctor.id
+          (sourceV578 (W := W) A
+            (WorldLabel := WorldLabel)
+            (PresentationLabel := PresentationLabel)))
+        (roundtripV578 (W := W) A
+          (WorldLabel := WorldLabel)
+          (PresentationLabel := PresentationLabel))) :=
+  Pseudofunctor.StrongTrans.homCategory
+    (B := sourceV578 (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))
+    (C := sourceV578 (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))
+    (F := Pseudofunctor.id _)
+    (G := roundtripV578 (W := W) A
+      (WorldLabel := WorldLabel)
+      (PresentationLabel := PresentationLabel))
+
+/-- v5.65 presents the same category by the original source
+and stored biadjunction roundtrip, rather than the v5.78 abbreviations. -/
+local instance sourceHomCategoryV585Predicate :
+    Category
+      (Pseudofunctor.StrongTrans
+        (Pseudofunctor.id
+          (ActualLiftSource.{u, v, uH, vH, uW, uP}
+            (W := W) A WorldLabel PresentationLabel))
+        (sourceRoundtrip
+          (actualLiftForwardSwallowtailDatum (W := W) A
+            (WorldLabel := WorldLabel)
+            (PresentationLabel := PresentationLabel)))) :=
+  Pseudofunctor.StrongTrans.homCategory
+    (B := ActualLiftSource.{u, v, uH, vH, uW, uP}
+      (W := W) A WorldLabel PresentationLabel)
+    (C := ActualLiftSource.{u, v, uH, vH, uW, uP}
+      (W := W) A WorldLabel PresentationLabel)
+    (F := Pseudofunctor.id _)
+    (G := sourceRoundtrip
+      (actualLiftForwardSwallowtailDatum (W := W) A
+        (WorldLabel := WorldLabel)
+        (PresentationLabel := PresentationLabel)))
+
+/-- v5.79's native counit boundary retains a separately named datum. -/
+local instance sourceHomCategoryV585Native :
+    Category
+      (Pseudofunctor.StrongTrans
+        (Pseudofunctor.id
+          (ActualLiftSource.{u, v, uH, vH, uW, uP}
+            (W := W) A WorldLabel PresentationLabel))
+        (sourceRoundtrip
+          (actualLiftDatumV579 (W := W) A
+            (WorldLabel := WorldLabel)
+            (PresentationLabel := PresentationLabel)))) :=
+  Pseudofunctor.StrongTrans.homCategory
+    (B := ActualLiftSource.{u, v, uH, vH, uW, uP}
+      (W := W) A WorldLabel PresentationLabel)
+    (C := ActualLiftSource.{u, v, uH, vH, uW, uP}
+      (W := W) A WorldLabel PresentationLabel)
+    (F := Pseudofunctor.id _)
+    (G := sourceRoundtrip
+      (actualLiftDatumV579 (W := W) A
+        (WorldLabel := WorldLabel)
+        (PresentationLabel := PresentationLabel)))
 
 /-- The original middle app presentations coincide definitionally.
 This is a *component* identity; it does not replace v5.82's whole-record
@@ -201,18 +262,18 @@ and is definitionally the identity 2-cell on that component. -/
 theorem leftEqToHom_app_is_id
     (X : sourceV578 (W := W) A
       (WorldLabel := WorldLabel)
-      (PresentationLabel := PresentationLabel))
-    (happ :
+      (PresentationLabel := PresentationLabel)) :
+    eqToHom (show
       (actualLiftForwardSwallowtailLeftV70 (W := W) A
         (WorldLabel := WorldLabel)
         (PresentationLabel := PresentationLabel)).app X =
       (sourceMapCompPathV578 (W := W) A
         (WorldLabel := WorldLabel)
-        (PresentationLabel := PresentationLabel)).app X) :
-    eqToHom happ =
-      𝟙 ((sourceMapCompPathV578 (W := W) A
-        (WorldLabel := WorldLabel)
-        (PresentationLabel := PresentationLabel)).app X) := by
+        (PresentationLabel := PresentationLabel)).app X
+      from rfl) =
+    𝟙 ((sourceMapCompPathV578 (W := W) A
+      (WorldLabel := WorldLabel)
+      (PresentationLabel := PresentationLabel)).app X) := by
   rfl
 
 /-- The final native counit path has the original v5.65 endpoint component;
@@ -220,154 +281,69 @@ its equality-transport 2-cell is the identity. -/
 theorem rightEqToHom_app_is_id
     (X : sourceV578 (W := W) A
       (WorldLabel := WorldLabel)
-      (PresentationLabel := PresentationLabel))
-    (happ :
+      (PresentationLabel := PresentationLabel)) :
+    eqToHom (show
       (sourcePreCounitPath (actualLiftDatumV579 (W := W) A
         (WorldLabel := WorldLabel)
         (PresentationLabel := PresentationLabel))).app X =
       (actualLiftForwardSwallowtailRightV70 (W := W) A
         (WorldLabel := WorldLabel)
-        (PresentationLabel := PresentationLabel)).app X) :
-    eqToHom happ =
-      𝟙 ((sourcePreCounitPath (actualLiftDatumV579 (W := W) A
-        (WorldLabel := WorldLabel)
-        (PresentationLabel := PresentationLabel))).app X) := by
+        (PresentationLabel := PresentationLabel)).app X
+      from rfl) =
+    𝟙 ((sourcePreCounitPath (actualLiftDatumV579 (W := W) A
+      (WorldLabel := WorldLabel)
+      (PresentationLabel := PresentationLabel))).app X) := by
   rfl
 
-/-- The v5.83 global comparison has precisely the original canonical v5.68
-four-cell paste on each source object. The independent naturality theorem
-then promotes that specific old family to a modification. -/
-theorem actualLiftForwardSwallowtailGlobalIso_hom_app
+/-!
+## Validated actual-lift component boundary
+
+The original v5.68 four-cell component paste is identified with the
+first v5.78 mapComp component followed by the three-cell v5.77
+source-counit reassociation. Unlike the full five-stage global
+modification, this statement has no intervening equality-transport
+cells and can be checked independently of their descent.
+
+The global equality with the v5.83 native Iso is recorded as a
+*proposition* below, not asserted as a theorem. Its proof requires
+further control of the three equality transports at the actual-lift
+boundary, beyond the generic v5.84/v5.85 transport calculus.
+-/
+
+/-- The unchanged original v5.68 four-cell paste is exactly the
+two-factor native component paste (v5.78 followed by v5.77). -/
+theorem actualLiftForwardSwallowtailTwoFactor_hom_app
     (X : ActualLiftSource.{u, v, uH, vH, uW, uP}
       (W := W) A WorldLabel PresentationLabel) :
+    (forwardMapCompGlobalIso (W := W) A
+      (WorldLabel := WorldLabel)
+      (PresentationLabel := PresentationLabel)).hom.as.app X ≫
+    (sourceCounitReassociatedInterchangerIso
+      (actualLiftDatumV579 (W := W) A
+        (WorldLabel := WorldLabel)
+        (PresentationLabel := PresentationLabel))).hom.as.app X =
+    (actualLiftForwardSwallowtailComponentInterchanger (W := W) A
+      (WorldLabel := WorldLabel)
+      (PresentationLabel := PresentationLabel) X).hom := by
+  rw [forwardMapCompGlobalIso_hom_app (W := W) A
+    (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel) X]
+  rw [sourceCounitReassociatedInterchangerIso_hom_app
+    (actualLiftDatumV579 (W := W) A
+      (WorldLabel := WorldLabel)
+      (PresentationLabel := PresentationLabel)) X]
+  rfl
+
+/-- The precise remaining v5.83-to-v5.68 component equality. Deliberately
+left as a named Prop, not a claimed proof or an assumed coherence axiom. -/
+def ActualLiftGlobalCanonicalComponentAgreement : Prop :=
+  ∀ X : ActualLiftSource.{u, v, uH, vH, uW, uP}
+      (W := W) A WorldLabel PresentationLabel,
     (actualLiftForwardSwallowtailGlobalIso (W := W) A
       (WorldLabel := WorldLabel)
       (PresentationLabel := PresentationLabel)).hom.as.app X =
     (actualLiftForwardSwallowtailComponentInterchanger (W := W) A
       (WorldLabel := WorldLabel)
-      (PresentationLabel := PresentationLabel) X).hom := by
-  -- Use the same concrete hom-category as v5.83 at this specialization.
-  -- Avoid three distinct syntactic aliases during eqToIso elaboration.
-  letI : Category
-      (Pseudofunctor.StrongTrans
-        (Pseudofunctor.id
-          (ActualLiftSource.{u, v, uH, vH, uW, uP}
-            (W := W) A WorldLabel PresentationLabel))
-        (actualLiftForwardSwallowtailRoundtripV70 (W := W) A
-          (WorldLabel := WorldLabel)
-          (PresentationLabel := PresentationLabel))) :=
-    Pseudofunctor.StrongTrans.homCategory
-      (B := ActualLiftSource.{u, v, uH, vH, uW, uP}
-        (W := W) A WorldLabel PresentationLabel)
-      (C := ActualLiftSource.{u, v, uH, vH, uW, uP}
-        (W := W) A WorldLabel PresentationLabel)
-      (F := Pseudofunctor.id
-        (ActualLiftSource.{u, v, uH, vH, uW, uP}
-          (W := W) A WorldLabel PresentationLabel))
-      (G := actualLiftForwardSwallowtailRoundtripV70 (W := W) A
-        (WorldLabel := WorldLabel)
-        (PresentationLabel := PresentationLabel))
-
-  let leading :=
-    forwardMapCompGlobalIso (W := W) A
-      (WorldLabel := WorldLabel)
-      (PresentationLabel := PresentationLabel)
-  let trailing :=
-    sourceCounitReassociatedInterchangerIso
-      (actualLiftDatumV579 (W := W) A
-        (WorldLabel := WorldLabel)
-        (PresentationLabel := PresentationLabel))
-  let hleft :=
-    sourceMapCompPathV578_eq_forwardSwallowtailLeft (W := W) A
-      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)
-  let hmiddle :=
-    middleStrongTrans_eq (W := W) A
-      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)
-  let hright :=
-    rightStrongTrans_eq (W := W) A
-      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)
-  -- Whole-record equalities come from v5.78, v5.82 and v5.79.
-  have hIso :
-      actualLiftForwardSwallowtailGlobalIso (W := W) A
-        (WorldLabel := WorldLabel)
-        (PresentationLabel := PresentationLabel) =
-        (eqToIso hleft).symm ≪≫ leading ≪≫
-          eqToIso hmiddle ≪≫ trailing ≪≫ eqToIso hright := by
-    rfl
-  -- Specialize the *generic* Iso equality bridge before projecting
-  -- components. The resulting LHS is the named original v5.83 Iso.
-  -- Match the original v5.68 four-cell paste using the exact v5.78
-  -- leading and v5.77 trailing components, not a newly chosen 2-cell.
-  have hcanonical :
-      leading.hom.as.app X ≫ trailing.hom.as.app X =
-      (actualLiftForwardSwallowtailComponentInterchanger (W := W) A
-        (WorldLabel := WorldLabel)
-        (PresentationLabel := PresentationLabel) X).hom := by
-    dsimp only [leading, trailing]
-    rw [forwardMapCompGlobalIso_hom_app (W := W) A
-      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel) X]
-    rw [sourceCounitReassociatedInterchangerIso_hom_app
-      (actualLiftDatumV579 (W := W) A
-        (WorldLabel := WorldLabel)
-        (PresentationLabel := PresentationLabel)) X]
-    rfl
-  -- Give the three object equalities stable names. The generic formula
-  -- and the local transport cancellation must use these *same* witnesses.
-  let happLeft :
-      (actualLiftForwardSwallowtailLeftV70 (W := W) A
-        (WorldLabel := WorldLabel)
-        (PresentationLabel := PresentationLabel)).app X =
-      (sourceMapCompPathV578 (W := W) A
-        (WorldLabel := WorldLabel)
-        (PresentationLabel := PresentationLabel)).app X := by rfl
-  let happMiddle :
-      (targetMapCompPathV578 (W := W) A
-        (WorldLabel := WorldLabel)
-        (PresentationLabel := PresentationLabel)).app X =
-      (sourcePostCounitPath (actualLiftDatumV579 (W := W) A
-        (WorldLabel := WorldLabel)
-        (PresentationLabel := PresentationLabel))).app X := by rfl
-  let happRight :
-      (sourcePreCounitPath (actualLiftDatumV579 (W := W) A
-        (WorldLabel := WorldLabel)
-        (PresentationLabel := PresentationLabel))).app X =
-      (actualLiftForwardSwallowtailRightV70 (W := W) A
-        (WorldLabel := WorldLabel)
-        (PresentationLabel := PresentationLabel)).app X := by rfl
-  have htransportCanonical :
-      eqToHom happLeft ≫ leading.hom.as.app X ≫
-        eqToHom happMiddle ≫ trailing.hom.as.app X ≫
-          eqToHom happRight =
-      (actualLiftForwardSwallowtailComponentInterchanger (W := W) A
-        (WorldLabel := WorldLabel)
-        (PresentationLabel := PresentationLabel) X).hom := by
-    -- Unfold the *shared local equality proofs* before normalizing.
-    -- This does not invoke matching against a potentially different
-    -- hidden hom-category instance in a separately elaborated lemma.
-    dsimp only [happLeft, happMiddle, happRight]
-    trace_state
-    exact hcanonical
-  exact Generic.fiveStage_hom_app_of_iso_eq_and_component
-    (B := ActualLiftSource.{u, v, uH, vH, uW, uP}
-      (W := W) A WorldLabel PresentationLabel)
-    (C := ActualLiftSource.{u, v, uH, vH, uW, uP}
-      (W := W) A WorldLabel PresentationLabel)
-    (F := Pseudofunctor.id
-      (ActualLiftSource.{u, v, uH, vH, uW, uP}
-        (W := W) A WorldLabel PresentationLabel))
-    (G := actualLiftForwardSwallowtailRoundtripV70 (W := W) A
-      (WorldLabel := WorldLabel)
-      (PresentationLabel := PresentationLabel))
-    hleft leading hmiddle trailing hright
-    (actualLiftForwardSwallowtailGlobalIso (W := W) A
-      (WorldLabel := WorldLabel)
-      (PresentationLabel := PresentationLabel))
-    hIso X happLeft happMiddle happRight
-    (actualLiftForwardSwallowtailComponentInterchanger (W := W) A
-      (WorldLabel := WorldLabel)
       (PresentationLabel := PresentationLabel) X).hom
-    htransportCanonical
-
 
 #print axioms middleEqToHom_app_is_id
 #print axioms middleEqToHom_self_app_is_id
@@ -377,7 +353,7 @@ theorem actualLiftForwardSwallowtailGlobalIso_hom_app
 #print axioms Generic.fiveStage_hom_app
 #print axioms Generic.fiveStage_hom_app_of_iso_eq
 #print axioms Generic.fiveStage_hom_app_of_iso_eq_and_component
-#print axioms actualLiftForwardSwallowtailGlobalIso_hom_app
+#print axioms actualLiftForwardSwallowtailTwoFactor_hom_app
 
 end
 
