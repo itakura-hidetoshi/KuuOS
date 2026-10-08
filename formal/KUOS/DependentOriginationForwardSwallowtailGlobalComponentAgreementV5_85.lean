@@ -35,6 +35,56 @@ This is distinct from the v5.65 swallowtail equation against the
 triangulator paste, which remains a separate obligation.
 -/
 
+namespace Generic
+
+universe uB vB wB uC vC wC
+
+variable {B : Type uB} [Bicategory.{wB, vB} B]
+variable {C : Type uC} [Bicategory.{wC, vC} C]
+variable {F G : Pseudofunctor B C}
+
+local instance nativeHomCategory :
+    Category (Pseudofunctor.StrongTrans F G) :=
+  Pseudofunctor.StrongTrans.homCategory
+    (B := B) (C := C) (F := F) (G := G)
+
+/-- Equality-transport inversion changes no 2-cell choice: it transports
+the inverse equality between the two actual object components. -/
+theorem eqToIso_inv_app_of_app_eq
+    {sigma tau : Pseudofunctor.StrongTrans F G}
+    (h : sigma = tau) (X : B)
+    (happ : tau.app X = sigma.app X) :
+    (eqToIso h).inv.as.app X = eqToHom happ := by
+  cases h
+  cases happ
+  rfl
+
+/-- Evaluate the entire five-stage native global modification on one object
+*before* specializing to the nested actual-lift pseudofunctors. This keeps
+universe and hom-category inference at the small generic boundary. -/
+theorem fiveStage_hom_app
+    {sigma0 sigma1 sigma2 sigma3 sigma4 sigma5 :
+      Pseudofunctor.StrongTrans F G}
+    (h1 : sigma1 = sigma0)
+    (e1 : sigma1 ≅ sigma2)
+    (h2 : sigma2 = sigma3)
+    (e2 : sigma3 ≅ sigma4)
+    (h3 : sigma4 = sigma5)
+    (X : B)
+    (happ1 : sigma0.app X = sigma1.app X)
+    (happ2 : sigma2.app X = sigma3.app X)
+    (happ3 : sigma4.app X = sigma5.app X) :
+    ((eqToIso h1).symm ≪≫ e1 ≪≫ eqToIso h2 ≪≫
+      e2 ≪≫ eqToIso h3).hom.as.app X =
+      eqToHom happ1 ≫ e1.hom.as.app X ≫
+        eqToHom happ2 ≫ e2.hom.as.app X ≫ eqToHom happ3 := by
+  simp only [isoTrans_hom_app, Iso.symm_hom]
+  rw [eqToIso_inv_app_of_app_eq h1 X happ1,
+    eqToIso_hom_app_of_app_eq h2 X happ2,
+    eqToIso_hom_app_of_app_eq h3 X happ3]
+
+end Generic
+
 universe u v uH vH uW uP
 
 variable {Context : Type u} [Category.{v} Context]
@@ -73,15 +123,12 @@ theorem actualLiftForwardSwallowtailGlobalIso_hom_app
     (actualLiftForwardSwallowtailComponentInterchanger (W := W) A
       (WorldLabel := WorldLabel)
       (PresentationLabel := PresentationLabel) X).hom := by
-  -- Expose the native Iso paste before rewriting its components:
-  -- `Iso.trans_hom` would change the rewrite target to a raw Hom composite.
+  -- Keep the equality-transport computation generic: the three app
+  -- comparisons are all judgmentally reflexive (v5.78/v5.79).
   unfold actualLiftForwardSwallowtailGlobalIso
-  simp only [isoTrans_hom_app]
-  -- Transport cells are induced by already proved whole-StrongTrans equalities.
-  -- The first and last are definitionally reflexive on object components;
-  -- the middle has the v5.79 component equality.
-  simp only [Iso.symm_hom, eqToIso_inv_app, eqToIso_hom_app,
-    eqToHom_refl, Category.id_comp, Category.comp_id,
+  rw [Generic.fiveStage_hom_app (X := X)
+    (happ1 := by rfl) (happ2 := by rfl) (happ3 := by rfl)]
+  simp only [eqToHom_refl, Category.id_comp, Category.comp_id,
     forwardMapCompGlobalIso_hom_app,
     sourceCounitReassociatedInterchangerIso_hom_app,
     sourceCounitReassociatedComponentIso,
@@ -89,6 +136,8 @@ theorem actualLiftForwardSwallowtailGlobalIso_hom_app
     Category.assoc]
   rfl
 
+#print axioms Generic.eqToIso_inv_app_of_app_eq
+#print axioms Generic.fiveStage_hom_app
 #print axioms actualLiftForwardSwallowtailGlobalIso_hom_app
 
 end
