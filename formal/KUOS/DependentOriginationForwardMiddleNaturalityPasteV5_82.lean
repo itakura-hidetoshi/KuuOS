@@ -122,7 +122,9 @@ theorem middleFactors_naturality_hom
           (PresentationLabel := PresentationLabel)))).naturality f).hom = _ at hNative
   rw [hMapped, hNative]
   simp only [mappedProjectedUnit_naturality_hom,
-    mappedRestrictedCounit_naturality_hom, mappedProjectedUnit_app]
+    mappedRestrictedCounit_naturality_hom, mappedProjectedUnit_app,
+    Pseudofunctor.comp_map]
+  rfl
 
 /-- Equality of the two native R => R middle transformations, using
 both the original app-fields and original 2-isomorphism naturality. -/
@@ -169,6 +171,7 @@ theorem middleStrongTrans_eq :
         (WorldLabel := WorldLabel)
         (PresentationLabel := PresentationLabel))
   rw [middleFactors_eq (W := W) A]
+  rfl
 
 /-- Discharge the exact v5.79 naturality predicate from the unchanged
 natural transformations, without selecting any additional coherence cell. -/
