@@ -70,8 +70,19 @@ local instance forwardSwallowtailHomCategoryV583 :
       (PresentationLabel := PresentationLabel))
 
 /-- The actual native global iso is assembled from the original four
-coherence cells. The two eqToIso adapters only transport along *proved*
-whole-StrongTrans equalities. No coherence 2-cell is postulated. -/
+coherence cells. The endpoint and middle `eqToIso` adapters only transport
+along *proved* whole-StrongTrans equalities; no coherence 2-cell is postulated.
+
+The composition is oriented left-to-right, with explicit intermediate boundaries:
+
+* `forwardSwallowtailLeft` to `sourceMapCompPathV578` (symmetric equality);
+* `sourceMapCompPathV578` to `targetMapCompPathV578` (global `G.mapComp`);
+* `targetMapCompPathV578` to `sourcePostCounitPath` (v5.82 naturality);
+* `sourcePostCounitPath` to `sourcePreCounitPath` (native v5.77 modification);
+* `sourcePreCounitPath` to `forwardSwallowtailRight` (v5.79 equality).
+
+This documents the whole-record equality boundaries separately from the
+canonical v5.68 component-comparison theorem, which remains a later goal. -/
 def actualLiftForwardSwallowtailGlobalIso :
     ActualLiftForwardSwallowtailInterchanger (W := W) A
       (WorldLabel := WorldLabel)
