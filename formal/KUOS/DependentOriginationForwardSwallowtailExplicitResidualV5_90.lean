@@ -16,6 +16,7 @@ open KUOS.DependentOriginationBiadjunctionTriangulatorHorizontalPastesV5_64.Gene
 open KUOS.DependentOriginationForwardSwallowtailPredicateV5_65
 open KUOS.DependentOriginationForwardSwallowtailPredicateV5_65.Generic.IncoherentBiadjunctionDatum
 open KUOS.DependentOriginationForwardSwallowtailNativeBoundaryV5_79
+open KUOS.DependentOriginationForwardCanonicalNaturalityV5_87
 open KUOS.DependentOriginationForwardSwallowtailPointwiseBoundaryV5_88
 open KUOS.DependentOriginationForwardSwallowtailContractionExpansionV5_89
 
@@ -107,7 +108,7 @@ theorem actualLiftForwardTriangulatorPaste_hom_app_expanded
           (actualLiftQuasiInverseTriangleIso (W := W) A
             ((actualLiftForwardPseudofunctor
               (W := W) A WorldLabel PresentationLabel).obj X)).inv) := by
-  exact Generic.forwardTriangulatorPaste_hom_app
+  exact KUOS.DependentOriginationForwardSwallowtailContractionExpansionV5_89.Generic.forwardTriangulatorPaste_hom_app
     (actualLiftDatumV579 (W := W) A
       (WorldLabel := WorldLabel)
       (PresentationLabel := PresentationLabel)) X
