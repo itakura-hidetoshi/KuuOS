@@ -215,6 +215,27 @@ local instance sourceHomCategoryV585Native :
         (WorldLabel := WorldLabel)
         (PresentationLabel := PresentationLabel)))
 
+/-- The original middle app presentations coincide definitionally.
+This is a *component* identity; it does not replace v5.82's whole-record
+naturality equality. -/
+theorem middleEqToHom_app_is_id
+    (X : sourceV578 (W := W) A
+      (WorldLabel := WorldLabel)
+      (PresentationLabel := PresentationLabel)) :
+    eqToHom (show
+      (targetMapCompPathV578 (W := W) A
+        (WorldLabel := WorldLabel)
+        (PresentationLabel := PresentationLabel)).app X =
+      (sourcePostCounitPath
+        (actualLiftDatumV579 (W := W) A
+          (WorldLabel := WorldLabel)
+          (PresentationLabel := PresentationLabel))).app X
+      from rfl) =
+    𝟙 ((targetMapCompPathV578 (W := W) A
+      (WorldLabel := WorldLabel)
+      (PresentationLabel := PresentationLabel)).app X) := by
+  rfl
+
 /-- The v5.83 global comparison has precisely the original canonical v5.68
 four-cell paste on each source object. The independent naturality theorem
 then promotes that specific old family to a modification. -/
@@ -342,6 +363,7 @@ theorem actualLiftForwardSwallowtailGlobalIso_hom_app
       exact hcanonical)
 
 
+#print axioms middleEqToHom_app_is_id
 #print axioms Generic.eqToIso_inv_app_of_app_eq
 #print axioms Generic.fiveStage_hom_app
 #print axioms Generic.fiveStage_hom_app_of_iso_eq
