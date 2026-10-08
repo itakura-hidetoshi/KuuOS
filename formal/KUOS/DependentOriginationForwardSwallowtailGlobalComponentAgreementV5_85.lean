@@ -116,6 +116,51 @@ local instance sourceHomCategoryV585 :
       (WorldLabel := WorldLabel)
       (PresentationLabel := PresentationLabel))
 
+/-- v5.65 presents the same category by the original source
+and stored biadjunction roundtrip, rather than the v5.78 abbreviations. -/
+local instance sourceHomCategoryV585Predicate :
+    Category
+      (Pseudofunctor.StrongTrans
+        (Pseudofunctor.id
+          (ActualLiftSource.{u, v, uH, vH, uW, uP}
+            (W := W) A WorldLabel PresentationLabel))
+        (sourceRoundtrip
+          (actualLiftForwardSwallowtailDatum (W := W) A
+            (WorldLabel := WorldLabel)
+            (PresentationLabel := PresentationLabel)))) :=
+  Pseudofunctor.StrongTrans.homCategory
+    (B := ActualLiftSource.{u, v, uH, vH, uW, uP}
+      (W := W) A WorldLabel PresentationLabel)
+    (C := ActualLiftSource.{u, v, uH, vH, uW, uP}
+      (W := W) A WorldLabel PresentationLabel)
+    (F := Pseudofunctor.id _)
+    (G := sourceRoundtrip
+      (actualLiftForwardSwallowtailDatum (W := W) A
+        (WorldLabel := WorldLabel)
+        (PresentationLabel := PresentationLabel)))
+
+/-- v5.79's native counit boundary retains a separately named datum. -/
+local instance sourceHomCategoryV585Native :
+    Category
+      (Pseudofunctor.StrongTrans
+        (Pseudofunctor.id
+          (ActualLiftSource.{u, v, uH, vH, uW, uP}
+            (W := W) A WorldLabel PresentationLabel))
+        (sourceRoundtrip
+          (actualLiftDatumV579 (W := W) A
+            (WorldLabel := WorldLabel)
+            (PresentationLabel := PresentationLabel)))) :=
+  Pseudofunctor.StrongTrans.homCategory
+    (B := ActualLiftSource.{u, v, uH, vH, uW, uP}
+      (W := W) A WorldLabel PresentationLabel)
+    (C := ActualLiftSource.{u, v, uH, vH, uW, uP}
+      (W := W) A WorldLabel PresentationLabel)
+    (F := Pseudofunctor.id _)
+    (G := sourceRoundtrip
+      (actualLiftDatumV579 (W := W) A
+        (WorldLabel := WorldLabel)
+        (PresentationLabel := PresentationLabel)))
+
 /-- The v5.83 global comparison has precisely the original canonical v5.68
 four-cell paste on each source object. The independent naturality theorem
 then promotes that specific old family to a modification. -/
