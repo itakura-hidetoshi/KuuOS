@@ -73,11 +73,14 @@ theorem actualLiftForwardSwallowtailGlobalIso_hom_app
     (actualLiftForwardSwallowtailComponentInterchanger (W := W) A
       (WorldLabel := WorldLabel)
       (PresentationLabel := PresentationLabel) X).hom := by
-  -- Simplify the global isomorphism at the modification level *before*
-  -- projecting to components; `Iso.trans_hom` alone loses this boundary.
-  simp only [actualLiftForwardSwallowtailGlobalIso,
-    isoTrans_hom_app, Iso.symm_hom,
-    eqToIso_inv_app, eqToIso_hom_app,
+  -- Expose the native Iso paste before rewriting its components:
+  -- `Iso.trans_hom` would change the rewrite target to a raw Hom composite.
+  unfold actualLiftForwardSwallowtailGlobalIso
+  simp only [isoTrans_hom_app]
+  -- Transport cells are induced by already proved whole-StrongTrans equalities.
+  -- The first and last are definitionally reflexive on object components;
+  -- the middle has the v5.79 component equality.
+  simp only [Iso.symm_hom, eqToIso_inv_app, eqToIso_hom_app,
     eqToHom_refl, Category.id_comp, Category.comp_id,
     forwardMapCompGlobalIso_hom_app,
     sourceCounitReassociatedInterchangerIso_hom_app,
