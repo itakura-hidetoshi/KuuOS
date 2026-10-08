@@ -19,7 +19,7 @@ open KUOS.DependentOriginationForwardTransportComponentsV5_84.Generic
 open KUOS.DependentOriginationReassociatedSourceCounitInterchangerV5_77.Generic.IncoherentBiadjunctionDatum
 
 set_option autoImplicit false
-set_option maxHeartbeats 1200000
+set_option maxHeartbeats 300000
 noncomputable section
 
 /-!
@@ -144,8 +144,22 @@ theorem actualLiftForwardSwallowtailGlobalIso_hom_app
       (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)
   -- Three app equalities are definitional; whole-StrongTrans equality is
   -- separately supplied by v5.78, v5.82 and v5.79.
+  -- Pin the source bicategory and pseudofunctor universes before
+  -- elaborating the generic theorem: inference from these nested isos
+  -- otherwise requests a hom-category at an unconstrained universe.
   have htransport :=
-    Generic.fiveStage_hom_app hleft leading hmiddle trailing hright X
+    Generic.fiveStage_hom_app
+      (B := ActualLiftSource.{u, v, uH, vH, uW, uP}
+        (W := W) A WorldLabel PresentationLabel)
+      (C := ActualLiftSource.{u, v, uH, vH, uW, uP}
+        (W := W) A WorldLabel PresentationLabel)
+      (F := Pseudofunctor.id
+        (ActualLiftSource.{u, v, uH, vH, uW, uP}
+          (W := W) A WorldLabel PresentationLabel))
+      (G := actualLiftForwardSwallowtailRoundtripV70 (W := W) A
+        (WorldLabel := WorldLabel)
+        (PresentationLabel := PresentationLabel))
+      hleft leading hmiddle trailing hright X
       (by rfl) (by rfl) (by rfl)
   have hcomponents :
       (actualLiftForwardSwallowtailGlobalIso (W := W) A
