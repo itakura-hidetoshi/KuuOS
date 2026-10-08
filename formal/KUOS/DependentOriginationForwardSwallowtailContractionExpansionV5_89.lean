@@ -46,6 +46,19 @@ local instance roundtripHomCategoryV589 :
     (B := B) (C := B)
     (F := sourceRoundtrip D) (G := sourceRoundtrip D)
 
+/-! The forward paste is a modification in the Id-to-roundtrip hom
+category, *not* in the endomorphism hom category above.  At this generic
+bicategory/universe boundary the scoped Category instance cannot be recovered
+from the overloaded Iso projection.  Supply Mathlib's exact existing
+homCategory instance, as in v5.65 and v5.88; no new structure is chosen. -/
+local instance forwardSwallowtailHomCategoryV589 :
+    Category
+      (Pseudofunctor.StrongTrans
+        (Pseudofunctor.id B) (sourceRoundtrip D)) :=
+  Pseudofunctor.StrongTrans.homCategory
+    (B := B) (C := B)
+    (F := Pseudofunctor.id B) (G := sourceRoundtrip D)
+
 /-- The horizontal paste is *exactly* mapped forward contraction,
 followed by the native non-strict G.mapId, followed by the inverse
 of the original reverse contraction at F(X). -/
