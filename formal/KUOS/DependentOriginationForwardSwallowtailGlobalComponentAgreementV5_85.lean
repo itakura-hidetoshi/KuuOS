@@ -20,7 +20,7 @@ open KUOS.DependentOriginationForwardTransportComponentsV5_84.Generic
 open KUOS.DependentOriginationReassociatedSourceCounitInterchangerV5_77.Generic.IncoherentBiadjunctionDatum
 
 set_option autoImplicit false
-set_option maxHeartbeats 300000
+set_option maxHeartbeats 1200000
 noncomputable section
 
 /-!
@@ -211,41 +211,30 @@ theorem actualLiftForwardSwallowtailGlobalIso_hom_app
         (PresentationLabel := PresentationLabel))
       hleft leading hmiddle trailing hright X
       (by rfl) (by rfl) (by rfl)
-  -- Normalize only the transport side of the generic equation.
-  -- Rewriting the whole equality unfolds the enormous actual-lift Iso
-  -- expression and causes `whnf` heartbeat exhaustion.
-  conv at htransport =>
-    rhs
-    simp only [eqToHom_refl, Category.id_comp, Category.comp_id]
-  -- Identify the five-stage Iso at the *Iso level* before projecting
-  -- to modifications. Avoid elaborator-wide reduction of its hom components.
-  have hglobalIso :
-      actualLiftForwardSwallowtailGlobalIso (W := W) A
-        (WorldLabel := WorldLabel)
-        (PresentationLabel := PresentationLabel) =
-      (eqToIso hleft).symm ≪≫ leading ≪≫
-        eqToIso hmiddle ≪≫ trailing ≪≫ eqToIso hright := by
-    rfl
-  have hcomponents :
-      (actualLiftForwardSwallowtailGlobalIso (W := W) A
-        (WorldLabel := WorldLabel)
-        (PresentationLabel := PresentationLabel)).hom.as.app X =
-      leading.hom.as.app X ≫ trailing.hom.as.app X := by
-    rw [hglobalIso]
-    exact htransport
+  -- Work with the *stated* five-step Iso, not an unrestricted rewrite of
+  -- its deeply nested actual-lift hom. The first step is definitional,
+  -- and the generic component lemma supplies the second directly.
   calc
-    _ = leading.hom.as.app X ≫ trailing.hom.as.app X := hcomponents
+    (actualLiftForwardSwallowtailGlobalIso (W := W) A
+      (WorldLabel := WorldLabel)
+      (PresentationLabel := PresentationLabel)).hom.as.app X =
+        ((eqToIso hleft).symm ≪≫ leading ≪≫
+          eqToIso hmiddle ≪≫ trailing ≪≫ eqToIso hright).hom.as.app X := by
+            rfl
+    _ = leading.hom.as.app X ≫ trailing.hom.as.app X := by
+          simpa only [eqToHom_refl, Category.id_comp, Category.comp_id]
+            using htransport
     _ = (actualLiftForwardSwallowtailComponentInterchanger (W := W) A
         (WorldLabel := WorldLabel)
         (PresentationLabel := PresentationLabel) X).hom := by
-      dsimp only [leading, trailing]
-      rw [forwardMapCompGlobalIso_hom_app (W := W) A
-        (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel) X]
-      rw [sourceCounitReassociatedInterchangerIso_hom_app
-        (actualLiftDatumV579 (W := W) A
-          (WorldLabel := WorldLabel)
-          (PresentationLabel := PresentationLabel)) X]
-      rfl
+          dsimp only [leading, trailing]
+          rw [forwardMapCompGlobalIso_hom_app (W := W) A
+            (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel) X]
+          rw [sourceCounitReassociatedInterchangerIso_hom_app
+            (actualLiftDatumV579 (W := W) A
+              (WorldLabel := WorldLabel)
+              (PresentationLabel := PresentationLabel)) X]
+          rfl
 
 #print axioms Generic.eqToIso_inv_app_of_app_eq
 #print axioms Generic.fiveStage_hom_app
