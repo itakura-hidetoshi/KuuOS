@@ -123,7 +123,7 @@ def unitSelfCounitWhiskeredComparisonIso :
       (Pseudofunctor.StrongTrans.vcomp
         (prePath (sourceRoundtrip D) D.base.unit)
         (sourceCounitMultiplication D)) :=
-  Bicategory.whiskerRightIso
+  Bicategory.whiskerRightIso (B := Pseudofunctor B B)
     (unitSelfGlobalComparisonIso D)
     (sourceCounitMultiplication D)
 
@@ -135,8 +135,13 @@ of the original four-step v5.68 paste. -/
       (Bicategory.whiskerRightIso
         (unitSelfNaturalityIso D X).symm
         (D.base.quasiInverse.map
-          (D.base.counit.app (D.base.whitehead.forward.obj X)))).hom :=
-  rfl
+          (D.base.counit.app (D.base.whitehead.forward.obj X)))).hom := by
+  simp only [unitSelfCounitWhiskeredComparisonIso,
+    Bicategory.whiskerRightIso_hom,
+    Pseudofunctor.StrongTrans.whiskerRight_as_app,
+    unitSelfGlobalComparisonIso_hom_app,
+    sourceCounitMultiplication_app,
+    Iso.symm_hom]
 
 end IncoherentBiadjunctionDatum
 end Generic
