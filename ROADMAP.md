@@ -1,8 +1,8 @@
 # KuuOS / 空OS — Formal Roadmap
 
-**Snapshot: 2026-10-08 JST · canonical theorem-bearing main through v5.85 · [PR #2043 MERGED](https://github.com/itakura-hidetoshi/KuuOS/pull/2043)**
+**Snapshot: 2026-10-09 JST · canonical theorem-bearing main through v5.87 · [PR #2046 MERGED](https://github.com/itakura-hidetoshi/KuuOS/pull/2046)**
 
-**現在地：** actual-lift 分類双圏の同じ F、G、unit η、counit ε と、元の両三角形の contraction を保持したまま、swallowtail の型付き述語、v5.68 の元の四セル、v5.82 の中間 StrongTrans 全体の自然性、v5.83 のグローバル可逆 modification、および v5.85 の汎用五段輸送計算と元の四セルの二因子成分一致まで Lean で構築・証明した。**グローバル Iso と元の成分の完全同定、および forward / reverse swallowtail 等式は未証明である。**
+**現在地：** 同じ F、G、unit η、counit ε と元の両三角形の contraction を保持し、v5.85 の五段輸送計算、v5.86 のグローバル Iso と元の四セルの完全成分同定、v5.87 の v5.70 元の modification naturality と v5.83 グローバル Iso への正準 `isoMk` 同定まで Lean で証明した。**forward / reverse swallowtail 等式そのものは依然未証明である。**
 
 This is a milestone ledger, not a claim that every anticipated higher-coherence equation has been closed. Construction of an invertible modification and proof of a swallowtail law are different mathematical assertions.
 
@@ -11,17 +11,17 @@ This is a milestone ledger, not a claim that every anticipated higher-coherence 
 | Item | Verified value |
 | --- | --- |
 | Canonical repository and branch | **itakura-hidetoshi/KuuOS**, **main** |
-| Latest theorem-bearing merge | **4b1a117ded213562f37e5b5d3627bbf28410b05c** |
-| Integrated theorem PR | [#2043 — v5.85](https://github.com/itakura-hidetoshi/KuuOS/pull/2043), merged |
-| Exact validated PR HEAD | **a1d66d8d9ab164527a2b00fb43c43a0018a50eea** |
-| Exact PR workflow | [37773980229](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/37773980229), completed / success |
-| Strict Lean job | **113300216620**, success; **8712/8712** jobs |
-| Governance gate | **113301429843**, success |
-| MCP Lean completion receipt | **113301429847**, success |
-| MCP CI completion receipt | **113301499488**, success |
+| Latest theorem-bearing merge | **68a1119d42fd62d065cab4c1c48da8c35d198aca** |
+| Integrated theorem PR | [#2046 — v5.87](https://github.com/itakura-hidetoshi/KuuOS/pull/2046), merged |
+| Exact validated PR HEAD | **d4d32200f4e44eb96706b635d634e0e0147f6d51** |
+| Exact PR workflow | [37833388313](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/37833388313), completed / success |
+| Strict Lean job | **113504397306**, success; **8714/8714** jobs |
+| Governance gate | **113516402296**, success |
+| MCP Lean completion receipt | **113516402404**, success |
+| MCP CI completion receipt | **113516485003**, success |
 | Lean compiler | **leanprover/lean4:v4.30.0-rc2** |
 | mathlib revision | **5450b53e5ddc75d46418fabb605edbf36bd0beb6** |
-| Theorem endpoint | [DependentOriginationForwardSwallowtailGlobalComponentAgreementV5_85.lean](formal/KUOS/DependentOriginationForwardSwallowtailGlobalComponentAgreementV5_85.lean) |
+| Theorem endpoint | [DependentOriginationForwardCanonicalNaturalityV5_87.lean](formal/KUOS/DependentOriginationForwardCanonicalNaturalityV5_87.lean) |
 
 The exact-head Strict Lean target plus its dependencies passed with warning/sorry checks enabled. Do not infer that all aggregate formal targets, repository workflows, or external AI runtimes were also rerun.
 
@@ -42,11 +42,13 @@ A later docs-only merge will change the fresh canonical main SHA but **not** thi
 | Generic component projection for eqToIso, inverse transport, and Iso composition | Proved | [v5.84](formal/KUOS/DependentOriginationForwardTransportComponentsV5_84.lean) |
 | Generic five-stage component formulas, with explicit equality transport | Proved | [v5.85](formal/KUOS/DependentOriginationForwardSwallowtailGlobalComponentAgreementV5_85.lean) |
 | Original **four-cell** component equals the **v5.78 global mapComp component followed by v5.77 three-cell component** | **Proved**: actualLiftForwardSwallowtailTwoFactor_hom_app | [v5.85](formal/KUOS/DependentOriginationForwardSwallowtailGlobalComponentAgreementV5_85.lean) |
-| Original four-cell equals the component of the **full v5.83 five-stage global Iso** | **Open**: ActualLiftGlobalCanonicalComponentAgreement is a Prop, not a theorem | [v5.85](formal/KUOS/DependentOriginationForwardSwallowtailGlobalComponentAgreementV5_85.lean) |
+| Original four-cell equals the component of the **full v5.83 five-stage global Iso** | **Proved**: `actualLiftGlobalCanonicalComponentAgreement` | [v5.86](formal/KUOS/DependentOriginationForwardSwallowtailGlobalComponentAgreementV5_86.lean) |
+| Original v5.68 four-cell modification naturality (v5.70 obstruction) | **Proved**: `actualLiftForwardSwallowtailOriginalNaturality` | [v5.87](formal/KUOS/DependentOriginationForwardCanonicalNaturalityV5_87.lean) |
+| Original-family v5.70 `isoMk` equals the exact native v5.83 global Iso | **Proved**: `actualLiftForwardSwallowtailCanonicalIso_eq_global` | [v5.87](formal/KUOS/DependentOriginationForwardCanonicalNaturalityV5_87.lean) |
 | Actual forward and reverse swallowtail coherence laws | **Open** | v5.65 / v5.66 |
 | A new stronger swallowtail-coherent biadjunction / biadjoint biequivalence certificate | **Not claimed** | Await both higher equations |
 
-In particular, "middle naturality proved" is not "swallowtail proved", and "generic transport calculus proved" is not "all concrete transport adapters eliminated."
+In particular, "global original-family naturality proved" is **not** "swallowtail proved": equality with the actual chosen triangulator horizontal paste remains a separate mathematical requirement.
 
 ## 2. Retained obstruction and localization foundations — v4.00–v5.36
 
@@ -153,9 +155,9 @@ The v5.83 forward global Iso has the actual shape:
   ; eqToIso right-equation
 ~~~
 
-These adapters are **proved equalities between entire StrongTrans values**, not newly selected coherence 2-cells. However, their actual **component-level cancellation against the original four-cell expression** is a separate remaining comparison.
+These adapters are **proved equalities between entire StrongTrans values**, not newly selected coherence 2-cells. Their original component-level cancellation is now proved by v5.86, and the original naturality condition by v5.87; neither alone proves swallowtail coherence.
 
-## 8. v5.85 — exact proven boundary
+## 8. v5.85 — historical generic boundary; v5.86–v5.87 close its specialization
 
 [PR #2043](https://github.com/itakura-hidetoshi/KuuOS/pull/2043) added [DependentOriginationForwardSwallowtailGlobalComponentAgreementV5_85.lean](formal/KUOS/DependentOriginationForwardSwallowtailGlobalComponentAgreementV5_85.lean).
 
@@ -172,7 +174,7 @@ These adapters are **proved equalities between entire StrongTrans values**, not 
 - leftEqToHom_app_is_id and rightEqToHom_app_is_id, at the two endpoint components;
 - **actualLiftForwardSwallowtailTwoFactor_hom_app**: exactly the v5.68 old four-cell component equals the two-factor composite of v5.78 and v5.77 components.
 
-The following is a **definition of Prop**, **not** a proven theorem:
+At the **v5.85 snapshot**, the following was introduced as a **definition of Prop**, not yet a theorem:
 
 ~~~lean
 ActualLiftGlobalCanonicalComponentAgreement (W) A : Prop
@@ -180,33 +182,33 @@ ActualLiftGlobalCanonicalComponentAgreement (W) A : Prop
 
 It states that for **all source objects X**, the component of **actualLiftForwardSwallowtailGlobalIso** from v5.83 equals the hom of the original **actualLiftForwardSwallowtailComponentInterchanger X** from v5.68.
 
-The current result does not silently infer that universal proposition from the generic calculus or from the two-factor identity. Formal compatibility of the actual three equality transports with that exact composite remains to be established.
+**Historical status at v5.85:** the generic calculus alone did not discharge the actual-lift comparison. **Current status:** [v5.86 / PR #2045](https://github.com/itakura-hidetoshi/KuuOS/pull/2045) proved the complete component equality by explicitly pinning the native hom-category instances and reducing the three reflexive `eqToHom` transports. [v5.87 / PR #2046](https://github.com/itakura-hidetoshi/KuuOS/pull/2046) then proved v5.70 original-family naturality and equality of canonical `isoMk` with v5.83 global Iso. Both are verified without `sorryAx`, changes to F/G/η/ε, or new axioms.
 
-## 9. Immediate next proof obligations — ordered
+## 9. Closed and open higher-coherence obligations — ordered
 
-### F1. Close the *actual* global-to-canonical component comparison
+### F1. CLOSED — actual global-to-canonical component comparison (v5.86)
 
-Start from the exact v5.83 Iso and original v5.68 component. Reuse v5.82 **middleStrongTrans_eq**, v5.84's eqToIso component lemmas, and the v5.85 generic five-stage theorem. Prove precisely the proposition **ActualLiftGlobalCanonicalComponentAgreement**, with all original η, ε, F, G, labels, and whiskerings unchanged.
+[PR #2045](https://github.com/itakura-hidetoshi/KuuOS/pull/2045) proves **ActualLiftGlobalCanonicalComponentAgreement** for the exact v5.83 Iso and original v5.68 four-cell family, with η, ε, F, G, labels and whiskerings unchanged.
 
-The critical point is the nontrivial *actual-lift specialization*, not the already-proved abstract five-stage theorem. Never replace a difficult equality by an unproved assertion, an alternate instance-dependent 2-cell, or a new axiom.
+The formerly difficult *actual-lift specialization* is now theorem-bearing. All three equality transports were handled through mathlib's native reflexive component transport rather than new coherence cells.
 
-**Suggested proof-engineering path:** retain the same native hom-category instance and fixed universe parameters; pass exact component equality proofs in the same named representation; normalize the three eqToHom transports at separate generic boundaries; then compose via a well-typed pointwise equation. Limit expensive whnf/isDefEq expansion of the entire actual-lift source.
+**Validated engineering:** explicit v5.83/v5.78 hom-category presentation, fixed universe parameters, reflexive component proofs via `Eq.refl`/`eqToHom_refl`, and well-typed component equality; avoid global whnf/isDefEq expansion.
 
-### F2. Descend original pointwise data into modification naturality
+### F2. CLOSED — original four-cell modification naturality (v5.87)
 
-Once F1 is available, use the naturality already possessed by the v5.83 global invertible modification to transport that result back to the **unchanged** canonical v5.68 family and discharge the remaining v5.70 naturality obstruction.
+[PR #2046](https://github.com/itakura-hidetoshi/KuuOS/pull/2046) transports the genuine v5.83 global modification naturality to the **unchanged** canonical v5.68 four-cell family using v5.86, proving `actualLiftForwardSwallowtailOriginalNaturality` and establishing equality between the resulting `isoMk` and the global Iso.
 
-Pointwise equality must have a verified connection to the globally natural modification; merely having global naturality of a *different representation* is not by itself the old naturality theorem.
+The connection to the original family is now the proved component equality, not a new choice of naturality data. The v5.65/66 swallowtail equations remain open.
 
-### F3. Complete the forward swallowtail
+### F3. OPEN — complete the forward swallowtail
 
 Prove the **v5.65 forward swallowtail predicate** against its specified triangulator contraction paste. A forward interchanger (even when global and natural) is not automatically the swallowtail equation itself.
 
-### F4. Complete the reverse swallowtail
+### F4. OPEN — complete the reverse swallowtail
 
 Construct/compare the corresponding reverse-oriented pastes and prove **v5.66** for the same non-strict quasi-inverse G and the same stored data. Do not confuse reverse triangle contraction with reverse swallowtail coherence.
 
-### F5. Stronger package only after both laws
+### F5. OPEN — stronger package only after both laws
 
 Only after verified forward and reverse equations should the formal layer introduce a structure whose specification asserts swallowtail-coherent biadjunction or a correspondingly stronger biadjoint biequivalence. If a mathematically necessary triangulator adjustment is discovered, formalize the adjustment explicitly and prove what data it preserves.
 
@@ -239,7 +241,7 @@ Continue connecting obstruction, refinement, finite/inverse-limit carriers, and 
 
 The KuuOS reasoning route can constrain contextual retrieval and decision support by marking observation, inference, provenance, compatibility, obstruction, authority, minimal action, and re-observation. This is a **research/software integration frontier**, not a Lean theorem that any LLM must use the route correctly or that permission to execute actions is implied.
 
-The runtime, website, MCP bridge, and benchmarks have distinct validation receipts and are not automatically certified by the selected v5.85 Lean build.
+The runtime, website, MCP bridge, and benchmarks have distinct validation receipts and are not automatically certified by the selected v5.87 Lean build.
 
 ## 11. Lean/mathlib proof-engineering ledger
 
@@ -247,7 +249,7 @@ The runtime, website, MCP bridge, and benchmarks have distinct validation receip
 - **Keep source, target, and universes explicit:** a typed StrongTrans Hom category may need a fully specified Mathlib **Pseudofunctor.StrongTrans.homCategory** to prevent underconstrained universe inference.
 - **Objectwise equality is not record equality:** v5.79 isolated the middle naturality obstruction; v5.82 closed it by proving the actual naturality fields.
 - **Use native component APIs:** v5.84's eqToIso_hom_app / eqToIso_inv_app / isoTrans_hom_app are preferable to expanding the entire modification record.
-- **Do not assume a generic lemma closes a large specialization:** v5.85 closes generic transport but keeps the actual global-canonical proposition open.
+- **Do not assume a generic lemma closes a large specialization:** v5.85 closes generic transport; v5.86 separately discharges the actual global-canonical proposition and v5.87 separately proves original naturality.
 - **Equality witnesses and transports matter in elaboration:** use the same named equality proof when needed; a printed goal can hide different category instances or universe arguments.
 - **Proof irrelevance is not a replacement for a typed equality:** it permits identification of proofs of a fixed Prop, but does not justify changing endpoints or erasing actual naturality data.
 - **Control simplification scope:** prefer targeted simp only, rw, conv, congrArg, typed have statements, and exact at a small interface. Avoid whnf/isDefEq expansion of enormous actual-lift terms.
@@ -259,11 +261,11 @@ The runtime, website, MCP bridge, and benchmarks have distinct validation receip
 ~~~bash
 git clone https://github.com/itakura-hidetoshi/KuuOS.git KuuOS-repro
 cd KuuOS-repro
-git checkout 4b1a117ded213562f37e5b5d3627bbf28410b05c
+git checkout 68a1119d42fd62d065cab4c1c48da8c35d198aca
 
 lake -KleanArgs=-DwarningAsError=true \
      -KleanArgs=-DsorryAsError=true \
-     build KUOS.DependentOriginationForwardSwallowtailGlobalComponentAgreementV5_85
+     build KUOS.DependentOriginationForwardCanonicalNaturalityV5_87
 ~~~
 
 Additional source endpoints:
@@ -277,7 +279,9 @@ lake -KleanArgs=-DwarningAsError=true \
   KUOS.DependentOriginationForwardSwallowtailModificationObstructionV5_70 \
   KUOS.DependentOriginationForwardMiddleNaturalityPasteV5_82 \
   KUOS.DependentOriginationGlobalForwardSwallowtailInterchangerV5_83 \
-  KUOS.DependentOriginationForwardTransportComponentsV5_84
+  KUOS.DependentOriginationForwardTransportComponentsV5_84 \
+  KUOS.DependentOriginationForwardSwallowtailGlobalComponentAgreementV5_85 \
+  KUOS.DependentOriginationForwardSwallowtailGlobalComponentAgreementV5_86
 ~~~
 
 Broader formal and operational validations are separate commands and have independent evidence requirements:
