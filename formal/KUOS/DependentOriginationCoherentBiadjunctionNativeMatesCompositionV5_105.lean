@@ -153,6 +153,7 @@ theorem actualLiftSourceUnitNativeComp_eq_leftPaste
       simpa only [hIdMapF, hIdMapG, Bicategory.leftAdjointSquare.vcomp] using hNative
     _ = _ := by
       simp only [Bicategory.id_whiskerRight, Category.id_comp]
+      rfl
 
 /-- The original source compositor-corrected naturality for f;g is
 exactly the native VComp of the two original right mates. -/
