@@ -9,6 +9,7 @@ open KUOS.DependentOriginationGeneratedRefinementTopologyV2_4
 open KUOS.DependentOriginationLocalizedSheafUniversalityV2_6
 open KUOS.DependentOriginationExactLiftableActualLiftBiadjunctionTriangulatorsV5_58
 open KUOS.DependentOriginationExactLiftableActualLiftTriangleComponentsV5_51
+open KUOS.DependentOriginationExactLiftableActualLiftTargetCounitV5_49
 open KUOS.DependentOriginationExactLiftableActualLiftQuasiInversePseudofunctorV5_48
 open KUOS.DependentOriginationBiadjunctionTriangulatorHorizontalPastesV5_64.Generic.IncoherentBiadjunctionDatum
 open KUOS.DependentOriginationReverseSwallowtailPredicateV5_66.Generic.IncoherentBiadjunctionDatum
@@ -108,17 +109,17 @@ theorem actualLiftReverseTriangulatorPaste_hom_app
       (actualLiftReverseSwallowtailDatum
         (W := W) A (WorldLabel := WorldLabel)
         (PresentationLabel := PresentationLabel))).hom.as.app Y =
-      (((actualLiftForwardTriangleIso (W := W) A
+      ((actualLiftForwardTriangleIso (W := W) A
           ((actualLiftQuasiInversePseudofunctor
             (W := W) A).obj Y)).hom ≫
-        ((actualLiftForwardPseudofunctor
+        (((actualLiftForwardPseudofunctor
           (W := W) A WorldLabel PresentationLabel).mapId
             ((actualLiftQuasiInversePseudofunctor
-              (W := W) A).obj Y)).inv) ≫
-        (actualLiftForwardPseudofunctor
-          (W := W) A WorldLabel PresentationLabel).map₂
-          ((actualLiftQuasiInverseTriangleIso
-            (W := W) A Y).inv)) ▷
+              (W := W) A).obj Y)).inv ≫
+          (actualLiftForwardPseudofunctor
+            (W := W) A WorldLabel PresentationLabel).map₂
+            ((actualLiftQuasiInverseTriangleIso
+              (W := W) A Y).inv))) ▷
           (actualLiftTargetRoundtripCounit (W := W) A).app Y := by
   exact Generic.reverseTriangulatorPaste_hom_app
     (actualLiftReverseSwallowtailDatum
