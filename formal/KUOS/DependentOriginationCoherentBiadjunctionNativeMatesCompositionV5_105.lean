@@ -14,6 +14,7 @@ open KUOS.DependentOriginationExactLiftableActualLiftTargetCounitV5_49
 open KUOS.DependentOriginationExactLiftableActualLiftSourceUnitV5_50
 open KUOS.DependentOriginationExactLiftableActualLiftBiadjunctionTriangulatorsV5_58
 open KUOS.DependentOriginationCoherentBiadjunctionMathlibAdjunctionBridgeV5_102
+open KUOS.DependentOriginationCoherentBiadjunctionMathlibAdjunctionBridgeV5_102.Generic
 open KUOS.DependentOriginationCoherentBiadjunctionNativeMatesV5_104
 
 set_option autoImplicit false
@@ -128,9 +129,15 @@ theorem actualLiftSourceUnitNativeComp_eq_leftPaste
       Bicategory.leftAdjointSquare.vcomp
         ((actualLiftSourceRoundtripUnit (W := W) A).naturality f).hom
         ((actualLiftSourceRoundtripUnit (W := W) A).naturality g).hom := by
-  simpa only [Bicategory.leftAdjointSquare.vcomp,
-    Bicategory.id_whiskerRight, Category.id_comp] using
-      (actualLiftSourceRoundtripUnit (W := W) A).naturality_comp f g
+  have hIdComp :
+      ((Pseudofunctor.id
+          (ActualLiftSource.{u, v, uH, vH, uW, uP}
+            (W := W) A WorldLabel PresentationLabel)).mapComp f g).hom =
+        𝟙 (f ≫ g) := rfl
+  have hNative := (actualLiftSourceRoundtripUnit (W := W) A).naturality_comp f g
+  rw [hIdComp] at hNative
+  rw [Bicategory.id_whiskerRight, Category.id_comp] at hNative
+  exact hNative
 
 /-- The original source compositor-corrected naturality for f;g is
 exactly the native VComp of the two original right mates. -/
