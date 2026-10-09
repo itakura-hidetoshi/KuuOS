@@ -282,6 +282,4 @@ lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KuuOS
 PYTHONPATH=. python3 runtime/kuuos_current_check.py
 ~~~
 
-
-
 Maintain [README.md](README.md), this roadmap, the Lean files, [GOVERNANCE.md](GOVERNANCE.md), [LICENSE](LICENSE) and all exact-head evidence in agreement. **Copyright © 2026 Hidetoshi Itakura / 板倉英俊; all rights reserved.** This roadmap grants no new reproduction, training, redistribution, adaptation or commercial-use rights.
