@@ -60,7 +60,7 @@ theorem reverseConjugationFourCell_cancelled
   rw [reverseConjugationTriangle_whiskerRight_expanded]
   rw [leftTriangle_unit_whiskerRight_normal]
   let θ : e.hom ⟶ e.hom ≫ (e.inv ≫ e.hom) :=
-    e.hom ◁ e.counit.inv
+    (ρ_ e.hom).inv ≫ (e.hom ◁ e.counit.inv)
   -- Interchange the old d.counit insertion/removal with the fixed
   -- e.counit inverse 2-cell. This is NOT a bicategory coherence-only move:
   -- the two non-structural 2-cells must be exchanged explicitly.
