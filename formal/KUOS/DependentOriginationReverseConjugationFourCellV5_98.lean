@@ -67,7 +67,6 @@ theorem reverseConjugationTriangle_whiskerRight_expanded
           ((ConjugationUnit.naturalityIso d e e.hom).hom ▷ e.hom)) := by
   rw [ConjugationTriangle.quasiInverseIso_inv,
     Bicategory.comp_whiskerRight, Bicategory.comp_whiskerRight]
-  exact Category.assoc _ _ _
 
 /-- The fixed equivalence's genuine left triangle identifies insertion
 of its unit before e.hom with insertion of its inverse counit after
@@ -78,16 +77,16 @@ theorem leftTriangle_unit_vs_inverseCounit
     (e.unit.hom ▷ e.hom) ≫ (α_ e.hom e.inv e.hom).hom =
       (λ_ e.hom).hom ≫
         ((ρ_ e.hom).inv ≫ (e.hom ◁ e.counit.inv)) := by
-  have h := congrArg
-    (fun k => k ≫ (e.hom ◁ e.counit.inv))
-    e.left_triangle_hom
-  change
-    (((e.unit.hom ▷ e.hom) ≫
-      (α_ e.hom e.inv e.hom).hom ≫
-      (e.hom ◁ e.counit.hom)) ≫
-      (e.hom ◁ e.counit.inv)) =
-      (((λ_ e.hom).hom ≫ (ρ_ e.hom).inv) ≫
-        (e.hom ◁ e.counit.inv)) at h
+  have hleft :
+      (e.unit.hom ▷ e.hom) ≫ (α_ e.hom e.inv e.hom).hom ≫
+          (e.hom ◁ e.counit.hom) =
+        (λ_ e.hom).hom ≫ (ρ_ e.hom).inv := by
+    calc
+      _ = Bicategory.leftZigzag e.unit.hom e.counit.hom := by
+        dsimp only [Bicategory.leftZigzag]
+        bicategory
+      _ = _ := e.left_triangle_hom
+  have h := congrArg (fun k => k ≫ (e.hom ◁ e.counit.inv)) hleft
   simpa only [Category.assoc, Bicategory.whiskerLeft_hom_inv,
     Category.comp_id] using h
 
