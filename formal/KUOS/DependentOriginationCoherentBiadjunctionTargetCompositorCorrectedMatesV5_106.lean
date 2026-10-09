@@ -53,7 +53,17 @@ theorem mateEquiv_precompose
     Bicategory.mateEquiv adj₁ adj₂ (θ ▷ l₂ ≫ α) =
       (r₁ ◁ θ) ≫ Bicategory.mateEquiv adj₁ adj₂ α := by
   simp only [Bicategory.mateEquiv_apply']
-  bicategory
+  calc
+    _ = 𝟙 _ ⊗≫
+        (r₁ ◁ (g₁ ◁ adj₂.unit ≫ θ ▷ (l₂ ≫ r₂))) ⊗≫
+        r₁ ◁ α ▷ r₂ ⊗≫ adj₁.counit ▷ h ▷ r₂ ⊗≫ 𝟙 _ := by
+      bicategory
+    _ = 𝟙 _ ⊗≫
+        (r₁ ◁ (θ ▷ (𝟙 c) ≫ g₂ ◁ adj₂.unit)) ⊗≫
+        r₁ ◁ α ▷ r₂ ⊗≫ adj₁.counit ▷ h ▷ r₂ ⊗≫ 𝟙 _ := by
+      rw [Bicategory.whisker_exchange θ adj₂.unit]
+    _ = _ := by
+      bicategory
 
 end Generic
 
@@ -116,8 +126,11 @@ theorem actualLiftTargetCounitCorrectedLeftMate_eq_rightPaste
           ((actualLiftTargetRoundtripCounit (W := W) A).naturality f).hom
           ((actualLiftTargetRoundtripCounit (W := W) A).naturality g).hom)
     _ = _ := by
-      rw [actualLiftTargetCounitMateVComp_eq (W := W) A f g]
-      rfl
+      have hMate := actualLiftTargetCounitMateVComp_eq (W := W) A f g
+      simpa only [actualLiftTargetCounitRightCorrectedVComp] using
+        congrArg
+          (fun t => actualLiftTargetCounitRightMapCompWhisker (W := W) A f g ≫ t)
+          hMate
 
 /-- F10 target naturality_comp theorem: the ORIGINAL counit square at
 f ≫ g, with its (identity-pseudofunctor) right correction, mates to the
