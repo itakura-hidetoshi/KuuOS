@@ -113,8 +113,8 @@ theorem actualLiftTargetCounitRightMate_id_mapId :
             (W := W) A WorldLabel PresentationLabel)).mapId X).hom =
           𝟙 (𝟙 X) := rfl
     have hNative := eps.naturality_id X
-    rw [hId] at hNative
-    simpa only [Bicategory.whiskerLeft_id, Category.comp_id] using hNative
+    rw [hId, Bicategory.whiskerLeft_id, Category.comp_id] at hNative
+    exact hNative
   change (Bicategory.mateEquiv e.adj e.adj)
       ((eps.naturality (𝟙 X)).hom) = _
   calc
@@ -164,8 +164,8 @@ theorem actualLiftSourceUnitRightMate_id_mapId :
             (W := W) A WorldLabel PresentationLabel)).mapId X).hom =
           𝟙 (𝟙 X) := rfl
     have hNative := eta.naturality_id X
-    rw [hId] at hNative
-    simpa only [Bicategory.id_whiskerRight, Category.id_comp] using hNative
+    rw [hId, Bicategory.id_whiskerRight, Category.id_comp] at hNative
+    exact hNative
   change (Bicategory.mateEquiv e.adj e.adj)
       ((eta.naturality (𝟙 X)).hom) ≫
         (R.mapId X).hom ▷ e.r = _
