@@ -113,10 +113,10 @@ def ActualLiftReverseSwallowtailModificationNaturality : Prop :=
 /-- Package the original objectwise reverse four-cells into Mathlib's
 native invertible modification, *given* its exact naturality proof. -/
 def actualLiftReverseSwallowtailInterchangerOfNaturality
-    (h : ActualLiftReverseSwallowtailModificationNaturality
+    (h : ActualLiftReverseSwallowtailModificationNaturality.{u, v, uH, vH, uW, uP}
       (W := W) A (WorldLabel := WorldLabel)
       (PresentationLabel := PresentationLabel)) :
-    ActualLiftReverseSwallowtailInterchanger
+    ActualLiftReverseSwallowtailInterchanger.{u, v, uH, uW, uP, vH}
       (W := W) A (WorldLabel := WorldLabel)
       (PresentationLabel := PresentationLabel) :=
   Pseudofunctor.StrongTrans.isoMk
@@ -132,7 +132,7 @@ def actualLiftReverseSwallowtailInterchangerOfNaturality
     (by intro Y Z f; exact h f)
 
 @[simp] theorem actualLiftReverseInterchangerOfNaturality_hom_app
-    (h : ActualLiftReverseSwallowtailModificationNaturality
+    (h : ActualLiftReverseSwallowtailModificationNaturality.{u, v, uH, vH, uW, uP}
       (W := W) A (WorldLabel := WorldLabel)
       (PresentationLabel := PresentationLabel))
     (Y : ActualLiftTarget.{u, v, uH, vH, uW, uP}
@@ -148,10 +148,10 @@ def actualLiftReverseSwallowtailInterchangerOfNaturality
 /-- The naturality requirement is equivalent to existence of a native
 global Iso having exactly the original v5.95 components. -/
 theorem actualLiftReverseNaturality_iff_exists_modification :
-    ActualLiftReverseSwallowtailModificationNaturality
+    ActualLiftReverseSwallowtailModificationNaturality.{u, v, uH, vH, uW, uP}
       (W := W) A (WorldLabel := WorldLabel)
       (PresentationLabel := PresentationLabel) ↔
-    ∃ Sigma : ActualLiftReverseSwallowtailInterchanger
+    ∃ Sigma : ActualLiftReverseSwallowtailInterchanger.{u, v, uH, uW, uP, vH}
         (W := W) A (WorldLabel := WorldLabel)
         (PresentationLabel := PresentationLabel),
       ∀ Y : ActualLiftTarget.{u, v, uH, vH, uW, uP}
@@ -205,10 +205,10 @@ def ActualLiftReverseSwallowtailExpandedResidual : Prop :=
 /-- v5.94's exact source component expansion gives an equivalence
 of the two genuine F4 pointwise residual formulations. -/
 theorem actualLiftReversePointwise_iff_expanded :
-    ActualLiftReverseSwallowtailPointwiseAgreement
+    ActualLiftReverseSwallowtailPointwiseAgreement.{u, v, uH, vH, uW, uP}
       (W := W) A (WorldLabel := WorldLabel)
       (PresentationLabel := PresentationLabel) ↔
-    ActualLiftReverseSwallowtailExpandedResidual
+    ActualLiftReverseSwallowtailExpandedResidual.{u, v, uH, vH, uW, uP}
       (W := W) A (WorldLabel := WorldLabel)
       (PresentationLabel := PresentationLabel) := by
   constructor
@@ -226,14 +226,14 @@ theorem actualLiftReversePointwise_iff_expanded :
 /-- Given naturality, the original reverse v5.66 predicate is exactly the
 v5.95 versus v5.94 pointwise equation, and is not proved here. -/
 theorem actualLiftReversePredicate_iff_pointwise
-    (hNat : ActualLiftReverseSwallowtailModificationNaturality
+    (hNat : ActualLiftReverseSwallowtailModificationNaturality.{u, v, uH, vH, uW, uP}
       (W := W) A (WorldLabel := WorldLabel)
       (PresentationLabel := PresentationLabel)) :
     actualLiftReverseSwallowtailPredicate (W := W) A
       (actualLiftReverseSwallowtailInterchangerOfNaturality
         (W := W) A (WorldLabel := WorldLabel)
         (PresentationLabel := PresentationLabel) hNat) ↔
-    ActualLiftReverseSwallowtailPointwiseAgreement
+    ActualLiftReverseSwallowtailPointwiseAgreement.{u, v, uH, vH, uW, uP}
       (W := W) A (WorldLabel := WorldLabel)
       (PresentationLabel := PresentationLabel) := by
   constructor
@@ -246,7 +246,7 @@ theorem actualLiftReversePredicate_iff_pointwise
         (actualLiftReverseSwallowtailDatum (W := W) A
           (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)) at h
     have hApp := congrArg
-      (fun Sigma : ActualLiftReverseSwallowtailInterchanger
+      (fun Sigma : ActualLiftReverseSwallowtailInterchanger.{u, v, uH, uW, uP, vH}
         (W := W) A (WorldLabel := WorldLabel)
         (PresentationLabel := PresentationLabel) =>
         Sigma.hom.as.app Y) h
@@ -273,14 +273,14 @@ theorem actualLiftReversePredicate_iff_pointwise
 /-- Same global predicate reduced to the actual original contractions,
 conditionally on the independent naturality obligation. -/
 theorem actualLiftReversePredicate_iff_expanded
-    (hNat : ActualLiftReverseSwallowtailModificationNaturality
+    (hNat : ActualLiftReverseSwallowtailModificationNaturality.{u, v, uH, vH, uW, uP}
       (W := W) A (WorldLabel := WorldLabel)
       (PresentationLabel := PresentationLabel)) :
     actualLiftReverseSwallowtailPredicate (W := W) A
       (actualLiftReverseSwallowtailInterchangerOfNaturality
         (W := W) A (WorldLabel := WorldLabel)
         (PresentationLabel := PresentationLabel) hNat) ↔
-    ActualLiftReverseSwallowtailExpandedResidual
+    ActualLiftReverseSwallowtailExpandedResidual.{u, v, uH, vH, uW, uP}
       (W := W) A (WorldLabel := WorldLabel)
       (PresentationLabel := PresentationLabel) :=
   (actualLiftReversePredicate_iff_pointwise
