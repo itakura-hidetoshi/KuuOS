@@ -41,6 +41,31 @@ v5.95 counit four-cell family and v5.94 target triangulator paste.
 Draft until Lean proves every equality and printed axioms show no holes.
 -/
 
+/-! Generic category-level cancellations are proved independently of the
+concrete actual-lift wrappers and then specialized at their genuine data. -/
+universe uB vB wB
+
+private theorem reverseFourCell_hom_append_id
+    {B : Type uB} [Bicategory.{wB, vB} B] {a b x : B}
+    (e : Bicategory.Equivalence a x)
+    (d : Bicategory.Equivalence b a) :
+    (α_ d.inv d.hom e.hom).hom ≫
+      (d.inv ◁ (ConjugationCounit.naturalityIso d e e.hom).inv) ≫
+      (α_ d.inv ((Conjugation.homFunctor d e).obj e.hom) e.hom).inv ≫
+      𝟙 ((d.inv ≫ (Conjugation.homFunctor d e).obj e.hom) ≫ e.hom) =
+      (reverseConjugationFourCell e d).hom := by
+  rw [reverseConjugationFourCell_hom]
+  simp
+
+private theorem reverseExpandedResidual_insert_id
+    {B : Type uB} [Bicategory.{wB, vB} B] {a b x : B}
+    (e : Bicategory.Equivalence a x)
+    (d : Bicategory.Equivalence b a) :
+    (d.counit.hom ≫
+      (𝟙 (𝟙 a) ≫ (ConjugationTriangle.quasiInverseIso e d).inv)) ▷ e.hom =
+      (d.counit.hom ≫ (ConjugationTriangle.quasiInverseIso e d).inv) ▷ e.hom := by
+  simp
+
 universe u v uH vH uW uP
 
 variable {Context : Type u} [Category.{v} Context]
@@ -97,6 +122,8 @@ theorem actualLiftReverseFourCell_hom_eq_generic
     (PresentationLabel := PresentationLabel)
   let f := eta.app (G.obj Y)
   let g := G.map (eps.app Y)
+  let e := actualLiftQuasiInverseObjectEquivalence (W := W) A Y
+  let d := actualLiftSourceObjectEquivalence (W := W) A (G.obj Y)
   -- The original strict projection has a native composition comparison
   -- constructed from its `map_comp` equality.  Its inverse must retain
   -- the same actual-lift 1-cell endpoints as the original four-cell.
@@ -131,8 +158,7 @@ theorem actualLiftReverseFourCell_hom_eq_generic
     actualLiftQuasiInverseLax, actualLiftQuasiInversePrelax,
     actualLiftQuasiInverseHomFunctor, actualLiftRepackHomFunctor]
   simp only [actualOneCellOfExactUniversalClassificationOneCell_actualLift]
-  rw [reverseConjugationFourCell_hom]
-  bicategory
+  exact reverseFourCell_hom_append_id e d
 
 /-- Exactly v5.96's original F4 expanded pointwise residual,
 not a substitute swallowtail equation. -/
@@ -174,10 +200,8 @@ theorem actualLiftReverseExpandedResidual :
   -- The middle unit lies in the original target hom category.  State
   -- the native Category identity law at its exact 1-cell endpoint,
   -- rather than requesting a new bicategory context from the tactic.
-  calc
-    _ = (d.counit.hom ≫ (ConjugationTriangle.quasiInverseIso e d).inv) ▷ e.hom :=
-      hFour.trans hGeneric
-    _ = _ := by bicategory
+  exact (hFour.trans hGeneric).trans
+    (reverseExpandedResidual_insert_id e d).symm
 
 /-- Genuine original v5.95 reverse four-cell equals the unchanged
 v5.94 target horizontal paste component at every target object. -/
