@@ -7,6 +7,7 @@ open scoped CategoryTheory.Bicategory CategoryTheory.Pseudofunctor.StrongTrans
 
 open KUOS.DependentOriginationGeneratedRefinementTopologyV2_4
 open KUOS.DependentOriginationLocalizedSheafUniversalityV2_6
+open KUOS.DependentOriginationExactLiftableActualLiftOneCellV5_40
 open KUOS.DependentOriginationExactLiftableActualLiftQuasiInversePrelaxV5_46
 open KUOS.DependentOriginationExactLiftableActualLiftQuasiInversePseudofunctorV5_48
 open KUOS.DependentOriginationExactLiftableActualLiftSourceUnitV5_50
@@ -46,29 +47,29 @@ equivalence using the *specified* unit and counit isomorphisms.
 No adjointification or replacement counit is needed. -/
 def equivalenceOfFramedAdjunction
     (adj : Bicategory.Adjunction f g)
-    (η : 𝟙 a ≅ f ≫ g) (ε : g ≫ f ≅ 𝟙 b)
-    (hη : η.hom = adj.unit) (hε : ε.hom = adj.counit) :
+    (η : 𝟙 a ≅ f ≫ g) (counitIso : g ≫ f ≅ 𝟙 b)
+    (hη : η.hom = adj.unit) (hcounitIso : counitIso.hom = adj.counit) :
     Bicategory.Equivalence a b where
   hom := f
   inv := g
   unit := η
-  counit := ε
+  counit := counitIso
   left_triangle := by
     apply Iso.ext
-    change Bicategory.leftZigzag η.hom ε.hom =
+    change Bicategory.leftZigzag η.hom counitIso.hom =
       (λ_ f).hom ≫ (ρ_ f).inv
-    rw [hη, hε]
+    rw [hη, hcounitIso]
     exact adj.left_triangle
 
 /-- Restore from the native one-morphism in mathlib's bicategory Adj B,
 rather than from an unrelated choice of adjoint arrows. -/
 def equivalenceOfFramedAdjHom
     (h : Bicategory.Adj.Hom a b)
-    (η : 𝟙 a ≅ h.l ≫ h.r) (ε : h.r ≫ h.l ≅ 𝟙 b)
+    (η : 𝟙 a ≅ h.l ≫ h.r) (counitIso : h.r ≫ h.l ≅ 𝟙 b)
     (hη : η.hom = h.adj.unit)
-    (hε : ε.hom = h.adj.counit) :
+    (hcounitIso : counitIso.hom = h.adj.counit) :
     Bicategory.Equivalence a b :=
-  equivalenceOfFramedAdjunction h.adj η ε hη hε
+  equivalenceOfFramedAdjunction h.adj η counitIso hη hcounitIso
 
 /-- Native-Adj transport together with the original isomorphism frames
 returns the exact original equivalence. -/
@@ -87,15 +88,18 @@ the complete original equivalence record is equal. -/
   cases e
   rfl
 
+/-- The unit is a dependent field: use heterogeneous equality
+rather than invalid non-dependent congrArg projection. -/
 @[simp] theorem originalEquivalenceRoundtrip_unit
     (e : Bicategory.Equivalence a b) :
-    (originalEquivalenceRoundtrip e).unit = e.unit :=
-  congrArg Bicategory.Equivalence.unit (originalEquivalenceRoundtrip_eq e)
+    HEq (originalEquivalenceRoundtrip e).unit e.unit := by
+  rw [originalEquivalenceRoundtrip_eq]
 
+/-- The exact same reasoning applies to the dependent counit field. -/
 @[simp] theorem originalEquivalenceRoundtrip_counit
     (e : Bicategory.Equivalence a b) :
-    (originalEquivalenceRoundtrip e).counit = e.counit :=
-  congrArg Bicategory.Equivalence.counit (originalEquivalenceRoundtrip_eq e)
+    HEq (originalEquivalenceRoundtrip e).counit e.counit := by
+  rw [originalEquivalenceRoundtrip_eq]
 
 end Generic
 
