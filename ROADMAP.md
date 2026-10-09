@@ -1,35 +1,39 @@
 # KuuOS / 空OS — Formal Roadmap
 
-**Snapshot / 最終確認: 2026-10-09 JST · theorem-bearing canonical `main` v5.101 · [PR #2062 MERGED](https://github.com/itakura-hidetoshi/KuuOS/pull/2062)**
+**Snapshot / 最終確認: 2026-10-10 JST · theorem-bearing canonical `main` v5.106 · [PR #2069 MERGED](https://github.com/itakura-hidetoshi/KuuOS/pull/2069)**
 
-**現在地:** **F1–F5 are CLOSED in their stated KuuOS formal specifications.** F3 (v5.93) proves the unchanged actual-lift forward swallowtail, F4 (v5.100) proves the unchanged reverse swallowtail, and F5 (v5.101) constructs a single **`Generic.CoherentBiadjunctionDatum`** inhabitant with the original base, both independently constructed interchangers and proofs of **both** original predicates. The non-strict G, F, η, ε, chosen equivalences, native comparisons and triangulator modifications remain intact.
+**現在地:** **F1–F10 CLOSED within their stated, actual-lift-specific KuuOS formal specifications.** F3 (v5.93) and F4 (v5.100) prove the unchanged forward/reverse swallowtails, and F5 (v5.101) packages both into the original `Generic.CoherentBiadjunctionDatum`. F6–F10 (v5.102–v5.106) connect chosen objectwise equivalences and the original η/ε naturality 2-cells to native mathlib `Bicategory.Adjunction` and `mateEquiv`; the final target-side right-mate composition **retains the genuine non-strict `R_E.mapComp` correction**.
 
-This roadmap separates **(a) mathematical constructions, (b) formally discharged obligations, (c) generalizations not yet proved, and (d) independent software/runtime validations**. “Coherent biadjunction” at v5.101 names the *exact KuuOS record defined there*, not every possible tricategorical or Gray-categorical axiom scheme.
+This roadmap distinguishes **(a) actual mathematical constructions and typed Lean proofs, (b) unproved extensions, (c) independently tested software/runtime properties, and (d) exact-head CI evidence**. Native objectwise mathlib adjunctions and mates do not, by terminology alone, entail an unrestricted tricategorical/Gray-categorical biadjunction equivalence or a verified AI runtime.
 
 ## 0. Canonical authority, pinned environment and exact receipt
 
 | Item | Verified theorem-bearing reference |
 | --- | --- |
 | Repository / canonical branch | **itakura-hidetoshi/KuuOS / main** |
-| Last verified theorem-bearing merge before this docs update | **53e8ceaa3d50cb18c1e8278dc64b845f8b648896** |
+| Last theorem-bearing merge before this docs update | **`1aac4e4fef8d3c7f500095cc7b047a7e8baf6782`** — [PR #2069 MERGED](https://github.com/itakura-hidetoshi/KuuOS/pull/2069) |
 | F3 / forward swallowtail | [PR #2053, v5.93, MERGED](https://github.com/itakura-hidetoshi/KuuOS/pull/2053) |
 | F4 / reverse swallowtail | [PR #2061, v5.100, MERGED](https://github.com/itakura-hidetoshi/KuuOS/pull/2061) |
-| F5 / coherent carrier | [PR #2062, v5.101, MERGED](https://github.com/itakura-hidetoshi/KuuOS/pull/2062) |
-| Exact validated v5.101 PR HEAD | **e01bb1776b7a2139504c27022541e495caebf8f8** |
-| Exact-head GitHub Actions | [Run 37928590324](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/37928590324) — completed / success |
-| Strict Lean | Job **113813495613**, **8,727/8,727** build jobs; 0 changed-file warnings/errors |
-| Workflow consolidation | Job **113813495683**, success |
-| Governance | Job **113823296377**, success |
-| MCP Lean / MCP CI completion | Jobs **113823296498** / **113823358524**, success |
-| Final printed axioms | No `sorryAx`, `admit` or new axiom; conventional `propext`, `Classical.choice`, `Quot.sound` |
+| F5 / KuuOS coherent carrier | [PR #2062, v5.101, MERGED](https://github.com/itakura-hidetoshi/KuuOS/pull/2062) |
+| F6 / native adjunction bridge | [PR #2065, v5.102, MERGED](https://github.com/itakura-hidetoshi/KuuOS/pull/2065) |
+| F7 / lossless return | [PR #2066, v5.103, MERGED](https://github.com/itakura-hidetoshi/KuuOS/pull/2066) |
+| F8 / mates and original naturality | [PR #2067, v5.104, MERGED](https://github.com/itakura-hidetoshi/KuuOS/pull/2067) |
+| F9 / vertical/horizontal mate pasting | [PR #2068, v5.105, MERGED](https://github.com/itakura-hidetoshi/KuuOS/pull/2068) |
+| F10 / compositor-corrected target right paste | [PR #2069, v5.106, MERGED](https://github.com/itakura-hidetoshi/KuuOS/pull/2069) |
+| Exact validated v5.106 PR source HEAD | **`210814f700252163e4ae13794cae595625ff4ed4`** |
+| Exact-head GitHub Actions | [Run 37999962448](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/37999962448) — completed / success |
+| Strict Lean | Job **114055427705 — SUCCESS**, **8732/8732** selected-module/dependency build |
+| Governance / audit summary | Job **114055925178 — SUCCESS** |
+| MCP Lean / MCP CI completion | Jobs **114055925139 / 114055968137 — SUCCESS** |
+| v5.106 changed-file diagnostics | **0 warnings / 0 errors**; five `#print axioms` checks report no `sorryAx` |
 | Compiler | **leanprover/lean4:v4.30.0-rc2** — [lean-toolchain](lean-toolchain) |
 | mathlib | **5450b53e5ddc75d46418fabb605edbf36bd0beb6** — [lake-manifest.json](lake-manifest.json) |
 
-This is the receipt of the selected v5.101 module **and its imported dependencies**. It is **not** a universal full-repository build or a validation of the running AI/website. A docs-only merge advances the live `main` SHA while the most recent theorem-bearing baseline remains the v5.101 merge above; freshly re-observe the SHA for new work.
+The exact-head receipt validates the **selected v5.106 Lean module and its imported dependency build**, not a universal clean full-repository build, all workflows, or the deployed AI/website. Imported historical warnings are distinguished from zero diagnostics in the changed v5.106 file. The five terminal declarations list only conventional `propext`, `Classical.choice` and `Quot.sound` dependencies, with **no `sorryAx`** and no new axiom. A docs-only merge moves live `main` without changing this theorem-bearing baseline.
 
-**Authority:** fresh canonical SHA → actual Lean definitions/theorems/proofs → README/ROADMAP → exact-head CI/governance/MCP receipts → historical summaries.
+**Authority:** fresh canonical SHA → actual Lean definitions/theorems/proofs → README/ROADMAP → matching exact-head CI/governance/MCP receipts → historical summaries.
 
-**Protected validation lane:** [PR #1558](https://github.com/itakura-hidetoshi/KuuOS/pull/1558), Lean 4.31 only, is **OPEN / DRAFT / unmerged**, observed HEAD `3a09839782ea82661ddbf8e13a0fd08e893079b4`. It is outside theorem authority. **Do not merge, mark ready or enable auto-merge**.
+**Protected validation lane:** [PR #1558](https://github.com/itakura-hidetoshi/KuuOS/pull/1558), Lean 4.31 only, remains **OPEN / DRAFT / unmerged**, observed HEAD `3a09839782ea82661ddbf8e13a0fd08e893079b4`. It is not theorem authority. **Do not merge, mark ready or enable auto-merge**.
 
 ## 1. Formal truth table / 証明済みと未証明の境界
 
@@ -45,11 +49,16 @@ This is the receipt of the selected v5.101 module **and its imported dependencie
 | F4 original counit-centered reverse four-cell, pointwise and naturality | **PROVED** | `actualLiftReverseFourCell_hom_eq_generic`, `actualLiftReversePointwise`, `actualLiftReverseNaturality`, [v5.100](formal/KUOS/DependentOriginationReverseSwallowtailActualLiftV5_100.lean) |
 | F4 native global reverse swallowtail predicate | **PROVED** | `actualLiftReverseSwallowtail`, [v5.100](formal/KUOS/DependentOriginationReverseSwallowtailActualLiftV5_100.lean) |
 | F5 both original swallowtail laws carried on the *same original datum* | **PROVED** | `actualLiftCoherentBiadjunctionDatum` / `actualLiftCoherentBiadjunction_exists`, [v5.101](formal/KUOS/DependentOriginationCoherentBiadjunctionActualLiftV5_101.lean) |
-| Arbitrary bicategory instantiation of F3/F4 *without* the given actual-lift hypotheses | **NOT proved by v5.101** | Requires its own assumptions and theorem |
+| F6 selected object equivalences → native mathlib `Adjunction` and `Adj.Hom` | **PROVED, objectwise** | `Generic.nativeAdjunctionOfEquivalence`, `actualLiftSourceNativeAdjHom`, `actualLiftTargetNativeAdjHom`, [v5.102](formal/KUOS/DependentOriginationCoherentBiadjunctionMathlibAdjunctionBridgeV5_102.lean) |
+| F7 recovered source and target original equivalences, without re-choosing data | **PROVED** | `Generic.originalEquivalenceRoundtrip_eq`, `actualLiftSourceRecoveredEquivalence_eq`, `actualLiftTargetRecoveredEquivalence_eq`, [v5.103](formal/KUOS/DependentOriginationNativeAdjunctionLosslessReturnV5_103.lean) |
+| F8 original η/ε naturality squares → right mates, unmate and 2-cell naturality | **PROVED** | `actualLiftSourceUnitRightMate_unmate`, `actualLiftTargetCounitRightMate_naturality₂`, [v5.104](formal/KUOS/DependentOriginationCoherentBiadjunctionNativeMatesV5_104.lean) |
+| F9 `mateEquiv_vcomp` and `mateEquiv_hcomp` with source-side `mapComp` correction | **PROVED** | `Generic.originalEquivalences_mate_hcomp`, `actualLiftSourceUnitMateComp_native`, [v5.105](formal/KUOS/DependentOriginationCoherentBiadjunctionNativeMatesCompositionV5_105.lean) |
+| F10 target `R_E.mapComp` whisker and explicitly corrected right-mate composition | **PROVED** | `Generic.mateEquiv_precompose`, `actualLiftTargetCounitMateComp_correctedRight`, [v5.106](formal/KUOS/DependentOriginationCoherentBiadjunctionTargetCompositorCorrectedMatesV5_106.lean) |
+| Arbitrary bicategory instantiation of F3/F4 without the actual-lift hypotheses | **NOT established by F1–F10** | Requires independent assumptions and a distinct theorem |
 | Universal comparison to every conventional tricategorical/Gray-categorical biadjunction or unrestricted higher adjunction API | **OPEN / not claimed** | Specify source/target and coherence conventions first |
 | Arbitrary cross-presentation descent, strong higher universal mapping principle, all AI/runtime behaviors | **OPEN / independent research & engineering** | Explicit hypotheses, implementation and separate receipts required |
 
-**Historical caveat:** `v5.57` uses “CoherentBiequivalence” in a pre-existing API name, but the two higher swallowtail predicates were not yet discharged there. `v5.101` is the current, stricter **KuuOS two-swallowtail certificate**, not a retroactive reinterpretation of the earlier theorem.
+**Historical caveat:** `v5.57` uses “CoherentBiequivalence” in a triangle-level API name, before the two higher swallowtails were proved. `v5.101` supplies the **KuuOS two-swallowtail certificate**; `v5.102–v5.106` extend it with selected mathlib adjunction/mate interfaces, not a retroactive reinterpretation of v5.57.
 
 ## 2. Obstruction, localization and exact classification foundations — v4.00–v5.36
 
@@ -91,7 +100,7 @@ RefinementAtlas.{u, max u v, uH} (LocalizedContext W)
 - **v5.58–v5.59:** native triangulators and `IncoherentBiadjunctionDatum` without (at that historical stage) a swallowtail field.
 - **v5.60–v5.63:** horizontal whiskering, StrongTrans modification pre/postcomposition, native G/F `mapId` comparisons and non-strict coherence.
 
-The original F, G, η, ε and triangles are **not reselected** during the v5.64–v5.101 swallowtail proof program.
+The original F, G, η, ε and triangles are **not reselected**, neither in the v5.64–v5.101 swallowtail proof program nor the v5.102–v5.106 native mate interfaces.
 
 ## 4. Forward swallowtail F1–F3: exact path to closure — v5.64–v5.93
 
@@ -169,13 +178,37 @@ The source further proves `actualLiftCoherentBiadjunctionDatum_base` by `rfl` an
 
 **Theorem boundary:** This is a proved KuuOS coherent biadjunction carrier for actual lifts. Merely defining `CoherentBiadjunctionDatum` does not prove that every arbitrary incoherent datum admits such interchangers, or that it automatically satisfies some separately specified tricategorical definition. Such extensions require a separate comparison theorem and explicit coherence hypotheses.
 
-## 7. Next mathematics — independent frontiers beyond F1–F5
+## 7. F6–F10 CLOSED: native mathlib adjunction and mates — v5.102–v5.106
 
-### 7.1 Compare with external higher-adjunction formalisms
+This is a **bridge from the same original actual-lift data**, not a replacement adjunction. The adjunctions here are attached to the **chosen objectwise unit/counit equivalences**. Native mate equivalences act on 2-morphism sets and do not automatically make arbitrary mates invertible.
+
+| Stage | Merged theorem source | Mathematical content and exact boundary |
+| --- | --- | --- |
+| **F6 / v5.102 / [#2065](https://github.com/itakura-hidetoshi/KuuOS/pull/2065)** | [MathlibAdjunctionBridgeV5_102.lean](formal/KUOS/DependentOriginationCoherentBiadjunctionMathlibAdjunctionBridgeV5_102.lean) | Build `Generic.nativeAdjunctionOfEquivalence`, `Generic.nativeAdjHomOfEquivalence` and unchanged source/target adjuncts; retain original units/counits and both triangles |
+| **F7 / v5.103 / [#2066](https://github.com/itakura-hidetoshi/KuuOS/pull/2066)** | [NativeAdjunctionLosslessReturnV5_103.lean](formal/KUOS/DependentOriginationNativeAdjunctionLosslessReturnV5_103.lean) | Recover exactly the stored framed equivalences from native adjunction data, including source and target specializations |
+| **F8 / v5.104 / [#2067](https://github.com/itakura-hidetoshi/KuuOS/pull/2067)** | [NativeMatesV5_104.lean](formal/KUOS/DependentOriginationCoherentBiadjunctionNativeMatesV5_104.lean) | `actualLiftSourceUnitRightMate`, `actualLiftTargetCounitRightMate`; unmate returns the **original** naturality squares; transport naturality with respect to 2-cells |
+| **F9 / v5.105 / [#2068](https://github.com/itakura-hidetoshi/KuuOS/pull/2068)** | [NativeMatesCompositionV5_105.lean](formal/KUOS/DependentOriginationCoherentBiadjunctionNativeMatesCompositionV5_105.lean) | `mateEquiv_vcomp` and generic `mateEquiv_hcomp`, source compositor-corrected mate composition; target `mapComp` still visible on the left side |
+| **F10 / v5.106 / [#2069](https://github.com/itakura-hidetoshi/KuuOS/pull/2069)** | [TargetCompositorCorrectedMatesV5_106.lean](formal/KUOS/DependentOriginationCoherentBiadjunctionTargetCompositorCorrectedMatesV5_106.lean) | Original target `R_E.mapComp` becomes a typed **right-adjoint left whisker** before the two original right mates are pasted; `actualLiftTargetCounitMateComp_correctedRight` |
+
+**F10 exact structure:** for target `f : X ⟶ Y` and `g : Y ⟶ Z`, the original target counit naturality for `f ≫ g` mates to a composite of (i) the exact `R_E.mapComp f g` whiskered by the original right-adjoint leg at X, and (ii) `actualLiftTargetCounitMateVComp f g`. The real compositor is not erased or asserted to be an identity. This is stronger than F9's separate left-side compositor equation and bare mate `vcomp`.
+
+The F10 generic lemma `Generic.mateEquiv_precompose` uses `Bicategory.whisker_exchange` for naturality of a 2-cell with the adjunction unit; `bicategory` alone normalizes associators/unitors but does not prove this interchange. The final instantiation uses a typed `congrArg` rather than a failed direct `rw` into a composite.
+
+**Exact F10 verification:** PR source `210814f700252163e4ae13794cae595625ff4ed4`; [CI #37999962448 SUCCESS](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/37999962448), Strict Lean **114055427705 SUCCESS, 8732/8732**, Governance **114055925178 SUCCESS**, MCP Lean/CI **114055925139 / 114055968137 SUCCESS**. Changed Lean file has **0 warning/error**; all five printed final declaration axiom sets have **no `sorryAx`**. The earlier failing head is superseded, not a theorem-bearing result.
+
+## 8. Next mathematics — explicit frontiers after F1–F10
+
+### 8.1 Candidate F11: target/source identity and `mapId` mate coherence — NOT PROVED
+
+A bounded next task is to state and prove an identity/unit analogue of F9–F10 using the **original** `R_E.mapId` (and source counterpart where appropriate), preserving unitors and the chosen η/ε and right legs. Compare the native mate of the original StrongTrans `naturality_id` to a typed corrected right identity paste. This is a **proposal**, not an already established Lean declaration. Avoid any unsupported assertion of global pseudofunctor adjunction or strict `mapId`.
+
+
+
+### 8.2 Compare with external higher-adjunction formalisms
 
 State a target theorem relating this *specific* two-swallowtail KuuOS carrier to an explicit tricategorical/Gray-categorical biadjunction specification. Specify orientations of horizontal/vertical composition, modifications, unitors/associators, any required extra axioms and the precise preservation of chosen η/ε/triangulators. Do **not** infer this equivalence from similar terminology.
 
-### 7.2 Higher universal mapping principle
+### 8.3 Higher universal mapping principle
 
 The schematic equivalence
 
@@ -185,7 +218,7 @@ AdmissibleContextualSystems(C, X) ~ Fun(DO(C, W, J, H), X)
 
 is **not** an unrestricted theorem. State the source/target bicategories, presentation/label universes, variance, morphism classes, admissibility and exact lift/descent assumptions before proving a more general mapping result.
 
-### 7.3 Cross-presentation descent / obstruction transfer
+### 8.4 Cross-presentation descent / obstruction transfer
 
 Preserve the strict distinctions:
 
@@ -198,11 +231,11 @@ fixed-presentation equivalence
 
 Potential extensions include transport of the completed actual-lift coherent carrier along compatible presentation changes and explicit obstructions when it cannot descend. Keep the existing nonfactorization and Stage-II results authoritative at their original hypotheses.
 
-### 7.4 Runtime, GitHub/MCP and interactive AI
+### 8.5 Runtime, GitHub/MCP and interactive AI
 
 An AI dialogue or website may *use* the authority route and search/index formal declarations, but the present theorem does **not** certify an LLM's reasoning weights, permissions, retrieval completeness or operational behavior. Future engineering needs an exact GitHub SHA-aware retrieval/indexing layer, formal artifact links, dependency graphs, deterministic replay and independent runtime/UX validation.
 
-## 8. Lean 4 / mathlib engineering and review ledger
+## 9. Lean 4 / mathlib engineering and review ledger
 
 - **Strict pinned environment:** Lean v4.30.0-rc2 / mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`. The independent Lean 4.31 validation PR #1558 remains protected and outside theorem authority.
 - **Original data are binding:** preserve F, non-strict G, η, ε, eY/e_(FGY), and all genuine `mapId`, `mapComp`, associator and unitor data. Changing them changes the mathematical claim.
@@ -213,17 +246,26 @@ An AI dialogue or website may *use* the authority route and search/index formal 
 - **Universe constraints matter:** use the correctly ordered universe parameters for source and target and explicitly supply `Pseudofunctor.StrongTrans.homCategory` where Mathlib inference is ambiguous.
 - **No proof holes:** `sorry`, `admit`, additional axioms or a surrogate strict G are prohibited. Read **all** new-file diagnostics, including unused simp arguments under `warningAsError`.
 - **Authority receipts:** a GREEN job is not a merge SHA. Confirm exact PR head, changed-file diagnostics, printed axioms, governance, both MCP receipts, successful merge and freshly observed canonical main.
-- **Document honest bounds:** preserve historical “open at version X” statements as history, but never present the now-closed F3/F4/F5 as current open obligations.
+- **Document honest bounds:** preserve historical “open at version X” statements as history, but never present the now-closed F3–F10 as current open obligations.
+- **F10 exact Lean 4 lesson:** use `Bicategory.whisker_exchange` for 2-cell interchange, not `bicategory` alone; replace unsuccessful rewriting within a composed mate by `congrArg (fun t => correction ≫ t)` with a typed intermediate equality. A failed compilation prints `sorryAx` for incomplete theorems; require a fresh, successful exact-head `#print axioms` receipt before claiming closure.
 
-## 9. Reproduction / 再現
+## 10. Reproduction / 再現
 
-Checkout the final theorem-bearing commit, not an unrelated documentation SHA:
+Checkout the **v5.106 theorem-bearing commit** rather than a later docs-only SHA:
 
 ~~~bash
 git clone https://github.com/itakura-hidetoshi/KuuOS.git KuuOS-repro
 cd KuuOS-repro
-git checkout 53e8ceaa3d50cb18c1e8278dc64b845f8b648896
+git checkout 1aac4e4fef8d3c7f500095cc7b047a7e8baf6782
 
+lake -KleanArgs=-DwarningAsError=true \
+     -KleanArgs=-DsorryAsError=true build \
+  KUOS.DependentOriginationCoherentBiadjunctionTargetCompositorCorrectedMatesV5_106
+~~~
+
+The F10 module imports F9 and its existing F1–F8 dependencies. For explicit independent verification of the original two swallowtail proof endpoints:
+
+~~~bash
 lake -KleanArgs=-DwarningAsError=true \
      -KleanArgs=-DsorryAsError=true build \
   KUOS.DependentOriginationForwardSwallowtailActualLiftDescentV5_93 \
@@ -231,9 +273,9 @@ lake -KleanArgs=-DwarningAsError=true \
   KUOS.DependentOriginationCoherentBiadjunctionActualLiftV5_101
 ~~~
 
-The exact-head v5.101 CI [run 37928590324](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/37928590324) validates the selected final module and imported dependencies with **8,727/8,727 SUCCESS**, changed Lean file warnings/errors **0/0**, and **no `sorryAx`**.
+Exact-head [run 37999962448](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/37999962448) validates the selected **v5.106** module and imported dependencies with **8732/8732 SUCCESS**, zero changed-file warnings/errors, and five declarations printed with **no `sorryAx`**.
 
-Broader formal and runtime checks are **different** validation targets; do not assert they passed merely from the v5.101 receipt:
+Broader all-formal and runtime checks remain separate targets requiring independent receipts:
 
 ~~~bash
 lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KuuOSFormal
