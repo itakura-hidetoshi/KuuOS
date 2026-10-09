@@ -158,8 +158,13 @@ theorem actualLiftSourceUnitMateComp_native
           (actualLiftSourceRoundtripUnit (W := W) A).app X ◁
             ((actualLiftSourceRoundtrip (W := W) A).mapComp f g).hom) =
       actualLiftSourceUnitMateVComp (W := W) A f g := by
-  rw [actualLiftSourceUnitNativeComp_eq_leftPaste (W := W) A f g]
-  exact actualLiftSourceUnitMateVComp_eq (W := W) A f g
+  exact
+    (congrArg
+      (Bicategory.mateEquiv
+        (actualLiftSourceNativeAdjHom (W := W) A X).adj
+        (actualLiftSourceNativeAdjHom (W := W) A Z).adj)
+      (actualLiftSourceUnitNativeComp_eq_leftPaste (W := W) A f g)).trans
+      (actualLiftSourceUnitMateVComp_eq (W := W) A f g)
 
 end Source
 
