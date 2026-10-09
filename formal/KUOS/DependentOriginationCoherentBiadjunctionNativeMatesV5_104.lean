@@ -88,7 +88,6 @@ theorem actualLiftSourceUnitRightMate_recovered (f : X ⟶ Y) :
         (actualLiftSourceRecoveredEquivalence (W := W) A Y)))
       ((actualLiftSourceRoundtripUnit (W := W) A).naturality f).hom =
         actualLiftSourceUnitRightMate (W := W) A f := by
-  simp only [actualLiftSourceRecoveredEquivalence_eq]
   rfl
 
 /-- Original source naturality for any 2-cell between f and g is
@@ -147,7 +146,6 @@ theorem actualLiftTargetCounitRightMate_recovered (f : X ⟶ Y) :
         (actualLiftTargetRecoveredEquivalence (W := W) A Y)))
       ((actualLiftTargetRoundtripCounit (W := W) A).naturality f).hom =
         actualLiftTargetCounitRightMate (W := W) A f := by
-  simp only [actualLiftTargetRecoveredEquivalence_eq]
   rfl
 
 /-- Native mate transport of the original target counit's
