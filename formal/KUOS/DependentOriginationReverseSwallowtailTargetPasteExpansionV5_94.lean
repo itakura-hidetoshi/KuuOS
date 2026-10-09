@@ -99,6 +99,64 @@ variable (W : MorphismProperty Context)
 variable (A : RefinementAtlas.{u, max u v, uH} (LocalizedContext W))
 variable {WorldLabel : Type uW} {PresentationLabel : Type uP}
 
+/-!
+The generic v5.66 reverse modification belongs to the StrongTrans hom
+category from the *target roundtrip* to the identity pseudofunctor.
+Although the two generic instances above elaborate without difficulty,
+they are not local instances for the particular six-universe actual-lift
+type.  Supply the existing Mathlib homCategory at both concrete endpoints
+before elaborating the projected Iso and its component.  No category or
+coherence data are redefined here.
+-/
+
+local instance actualLiftTargetEndHomCategoryV594 :
+    Category
+      (Pseudofunctor.StrongTrans
+        (targetRoundtrip
+          (actualLiftReverseSwallowtailDatum
+        (W := W) A (WorldLabel := WorldLabel)
+        (PresentationLabel := PresentationLabel)))
+        (targetRoundtrip
+          (actualLiftReverseSwallowtailDatum
+        (W := W) A (WorldLabel := WorldLabel)
+        (PresentationLabel := PresentationLabel)))) :=
+  Pseudofunctor.StrongTrans.homCategory
+    (B := ActualLiftTarget.{u, v, uH, vH, uW, uP}
+      (W := W) A WorldLabel PresentationLabel)
+    (C := ActualLiftTarget.{u, v, uH, vH, uW, uP}
+      (W := W) A WorldLabel PresentationLabel)
+    (F := targetRoundtrip
+      (actualLiftReverseSwallowtailDatum
+        (W := W) A (WorldLabel := WorldLabel)
+        (PresentationLabel := PresentationLabel)))
+    (G := targetRoundtrip
+      (actualLiftReverseSwallowtailDatum
+        (W := W) A (WorldLabel := WorldLabel)
+        (PresentationLabel := PresentationLabel)))
+
+local instance actualLiftTargetToIdentityHomCategoryV594 :
+    Category
+      (Pseudofunctor.StrongTrans
+        (targetRoundtrip
+          (actualLiftReverseSwallowtailDatum
+        (W := W) A (WorldLabel := WorldLabel)
+        (PresentationLabel := PresentationLabel)))
+        (Pseudofunctor.id
+          (ActualLiftTarget.{u, v, uH, vH, uW, uP}
+      (W := W) A WorldLabel PresentationLabel))) :=
+  Pseudofunctor.StrongTrans.homCategory
+    (B := ActualLiftTarget.{u, v, uH, vH, uW, uP}
+      (W := W) A WorldLabel PresentationLabel)
+    (C := ActualLiftTarget.{u, v, uH, vH, uW, uP}
+      (W := W) A WorldLabel PresentationLabel)
+    (F := targetRoundtrip
+      (actualLiftReverseSwallowtailDatum
+        (W := W) A (WorldLabel := WorldLabel)
+        (PresentationLabel := PresentationLabel)))
+    (G := Pseudofunctor.id
+      (ActualLiftTarget.{u, v, uH, vH, uW, uP}
+      (W := W) A WorldLabel PresentationLabel))
+
 /-- The original actual-lift F4 triangulator boundary retains the original
 forward/reverse contractions and exact F.mapId.  In this specific model F
 is strict, but its mapId cell remains visible rather than silently erased. -/
