@@ -75,6 +75,18 @@ theorem mateEquiv_postcompose
     _ = _ := by
       bicategory
 
+/-- The original source conjugation unit identity, with the identity
+pseudofunctor's right whisker removed in a generic bicategory before
+specializing to actual-lift homs. This is exactly the v5.50 identity
+law, not a new choice of unit or a strictification. -/
+theorem sourceUnitIdentity_simplified (ex : Bicategory.Equivalence a b) :
+    (ConjugationUnit.naturalityIso ex ex (𝟙 b)).hom ≫
+        ex.inv ◁ (Conjugation.idIso ex).hom =
+      (λ_ ex.inv).hom ≫ (ρ_ ex.inv).inv := by
+  have h := ConjugationUnit.id ex
+  rw [Bicategory.id_whiskerRight, Category.id_comp] at h
+  exact h
+
 end Generic
 
 universe u v uH vH uW uP
@@ -107,14 +119,9 @@ theorem actualLiftTargetCounitRightMate_id_mapId :
       ((eps.naturality (𝟙 X)).hom) =
         (R.mapId X).hom ▷ eps.app X ≫
           (λ_ (eps.app X)).hom ≫ (ρ_ (eps.app X)).inv := by
-    have hId :
-        ((Pseudofunctor.id
-          (ActualLiftTarget.{u, v, uH, vH, uW, uP}
-            (W := W) A WorldLabel PresentationLabel)).mapId X).hom =
-          𝟙 (𝟙 X) := rfl
-    have hNative := eps.naturality_id X
-    rw [hId, Bicategory.whiskerLeft_id, Category.comp_id] at hNative
-    exact hNative
+    rw [actualLiftTargetRoundtrip_mapId_hom]
+    exact ConjugationCounit.id
+      (actualLiftQuasiInverseObjectEquivalence (W := W) A X)
   change (Bicategory.mateEquiv e.adj e.adj)
       ((eps.naturality (𝟙 X)).hom) = _
   calc
@@ -158,14 +165,9 @@ theorem actualLiftSourceUnitRightMate_id_mapId :
       ((eta.naturality (𝟙 X)).hom) ≫
         eta.app X ◁ (R.mapId X).hom =
           (λ_ (eta.app X)).hom ≫ (ρ_ (eta.app X)).inv := by
-    have hId :
-        ((Pseudofunctor.id
-          (ActualLiftSource.{u, v, uH, vH, uW, uP}
-            (W := W) A WorldLabel PresentationLabel)).mapId X).hom =
-          𝟙 (𝟙 X) := rfl
-    have hNative := eta.naturality_id X
-    rw [hId, Bicategory.id_whiskerRight, Category.id_comp] at hNative
-    exact hNative
+    rw [actualLiftSourceRoundtrip_mapId_hom]
+    exact Generic.sourceUnitIdentity_simplified
+      (actualLiftSourceObjectEquivalence (W := W) A X)
   change (Bicategory.mateEquiv e.adj e.adj)
       ((eta.naturality (𝟙 X)).hom) ≫
         (R.mapId X).hom ▷ e.r = _
@@ -183,6 +185,7 @@ theorem actualLiftSourceUnitRightMate_id_mapId :
 end Source
 
 #print axioms Generic.mateEquiv_postcompose
+#print axioms Generic.sourceUnitIdentity_simplified
 #print axioms actualLiftTargetCounitRightMate_id_mapId
 #print axioms actualLiftSourceUnitRightMate_id_mapId
 
