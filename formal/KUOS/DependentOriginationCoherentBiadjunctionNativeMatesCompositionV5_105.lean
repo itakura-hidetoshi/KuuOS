@@ -136,8 +136,8 @@ theorem actualLiftSourceUnitNativeComp_eq_leftPaste
         𝟙 (f ≫ g) := rfl
   have hNative := (actualLiftSourceRoundtripUnit (W := W) A).naturality_comp f g
   rw [hIdComp] at hNative
-  rw [Bicategory.id_whiskerRight, Category.id_comp] at hNative
-  exact hNative
+  simpa only [Bicategory.id_whiskerRight, Category.id_comp,
+    Bicategory.leftAdjointSquare.vcomp] using hNative
 
 /-- The original source compositor-corrected naturality for f;g is
 exactly the native VComp of the two original right mates. -/
