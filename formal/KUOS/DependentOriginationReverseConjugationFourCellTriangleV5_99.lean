@@ -59,11 +59,38 @@ theorem reverseConjugationFourCell_cancelled
         (ConjugationTriangle.quasiInverseIso e d).inv) ▷ e.hom := by
   rw [reverseConjugationTriangle_whiskerRight_expanded]
   rw [leftTriangle_unit_whiskerRight_normal]
-  simp only [reverseConjugationFourCell_hom]
-  dsimp [ConjugationUnit.naturalityIso,
-    ConjugationCounit.naturalityIso,
-    Conjugation.homFunctor]
-  bicategory
+  let θ : e.hom ⟶ e.hom ≫ (e.inv ≫ e.hom) :=
+    e.hom ◁ e.counit.inv
+  -- Interchange the old d.counit insertion/removal with the fixed
+  -- e.counit inverse 2-cell. This is NOT a bicategory coherence-only move:
+  -- the two non-structural 2-cells must be exchanged explicitly.
+  have hEnvelope :
+      (d.counit.hom ▷ e.hom ≫ (𝟙 a) ◁ θ) ≫
+          d.counit.inv ▷ (e.hom ≫ (e.inv ≫ e.hom)) =
+        (d.inv ≫ d.hom) ◁ θ := by
+    rw [← Bicategory.whisker_exchange (B := B) d.counit.hom θ]
+    simp only [Category.assoc, Bicategory.hom_inv_whiskerRight,
+      Category.comp_id]
+  calc
+    (reverseConjugationFourCell e d).hom =
+        𝟙 ((d.inv ≫ d.hom) ≫ e.hom) ⊗≫
+          ((d.inv ≫ d.hom) ◁ θ) ⊗≫
+          𝟙 ((d.inv ≫ ((d.hom ≫ e.hom) ≫ e.inv)) ≫ e.hom) := by
+      simp only [reverseConjugationFourCell_hom,
+        Iso.trans_hom, Iso.symm_hom, Bicategory.whiskerLeftIso_hom]
+      dsimp [ConjugationCounit.naturalityIso,
+        Conjugation.homFunctor, θ]
+      bicategory
+    _ = 𝟙 ((d.inv ≫ d.hom) ≫ e.hom) ⊗≫
+          (d.counit.hom ▷ e.hom ≫
+            (𝟙 a) ◁ θ ≫
+            d.counit.inv ▷ (e.hom ≫ (e.inv ≫ e.hom))) ⊗≫
+          𝟙 ((d.inv ≫ ((d.hom ≫ e.hom) ≫ e.inv)) ≫ e.hom) := by
+      rw [hEnvelope]
+    _ = _ := by
+      dsimp [ConjugationUnit.naturalityIso, Conjugation.homFunctor,
+        θ]
+      bicategory
 
 #print axioms leftTriangle_unit_whiskerRight_normal
 #print axioms reverseConjugationFourCell_cancelled
