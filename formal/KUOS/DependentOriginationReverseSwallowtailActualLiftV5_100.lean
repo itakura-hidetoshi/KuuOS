@@ -119,7 +119,6 @@ theorem actualLiftReverseFourCell_hom_eq_generic
     rw [hCmpInv]
     exact Bicategory.id_whiskerRight _ _
   rw [hCmpWhisker]
-  simp only [Category.assoc, Category.comp_id]
   -- The remaining three factors are exactly the old target counit's
   -- Conjugation.naturality cell and the two native associators. Unfold
   -- their stored original data only after cancelling strict mapComp.
@@ -132,7 +131,8 @@ theorem actualLiftReverseFourCell_hom_eq_generic
     actualLiftQuasiInverseLax, actualLiftQuasiInversePrelax,
     actualLiftQuasiInverseHomFunctor, actualLiftRepackHomFunctor]
   simp only [actualOneCellOfExactUniversalClassificationOneCell_actualLift]
-  simpa only [reverseConjugationFourCell_hom]
+  rw [reverseConjugationFourCell_hom]
+  bicategory
 
 /-- Exactly v5.96's original F4 expanded pointwise residual,
 not a substitute swallowtail equation. -/
@@ -174,7 +174,10 @@ theorem actualLiftReverseExpandedResidual :
   -- The middle unit lies in the original target hom category.  State
   -- the native Category identity law at its exact 1-cell endpoint,
   -- rather than requesting a new bicategory context from the tactic.
-  simpa only [Category.assoc, Category.id_comp] using hFour.trans hGeneric
+  calc
+    _ = (d.counit.hom ≫ (ConjugationTriangle.quasiInverseIso e d).inv) ▷ e.hom :=
+      hFour.trans hGeneric
+    _ = _ := by bicategory
 
 /-- Genuine original v5.95 reverse four-cell equals the unchanged
 v5.94 target horizontal paste component at every target object. -/
