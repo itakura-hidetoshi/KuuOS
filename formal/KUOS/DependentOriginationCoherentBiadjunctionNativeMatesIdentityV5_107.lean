@@ -100,7 +100,9 @@ theorem actualLiftTargetCounitRightMate_id_mapId :
           (λ_ (actualLiftTargetNativeAdjHom (W := W) A X).r).inv := by
   let e := actualLiftTargetNativeAdjHom (W := W) A X
   let R := actualLiftTargetRoundtrip (W := W) A
+    (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)
   let eps := actualLiftTargetRoundtripCounit (W := W) A
+    (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)
   have hNat :
       ((eps.naturality (𝟙 X)).hom) =
         (R.mapId X).hom ▷ eps.app X ≫
@@ -143,7 +145,9 @@ theorem actualLiftSourceUnitRightMate_id_mapId :
         (λ_ (actualLiftSourceNativeAdjHom (W := W) A X).r).inv := by
   let e := actualLiftSourceNativeAdjHom (W := W) A X
   let R := actualLiftSourceRoundtrip (W := W) A
+    (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)
   let eta := actualLiftSourceRoundtripUnit (W := W) A
+    (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)
   have hNat :
       ((eta.naturality (𝟙 X)).hom) ≫
         eta.app X ◁ (R.mapId X).hom =
