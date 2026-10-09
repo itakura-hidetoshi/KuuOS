@@ -98,9 +98,13 @@ theorem actualLiftReversePointwise_iff_original_global_swallowtail :
       actualLiftReverseSwallowtailPredicate (W := W) A Sigma := by
   constructor
   · intro h
-    let hn := actualLiftReversePointwise_implies_naturality
-      (W := W) A (WorldLabel := WorldLabel)
-      (PresentationLabel := PresentationLabel) h
+    have hn :
+        ActualLiftReverseSwallowtailModificationNaturality.{u, v, uH, vH, uW, uP}
+          (W := W) A (WorldLabel := WorldLabel)
+          (PresentationLabel := PresentationLabel) :=
+      actualLiftReversePointwise_implies_naturality
+        (W := W) A (WorldLabel := WorldLabel)
+        (PresentationLabel := PresentationLabel) h
     refine ⟨actualLiftReverseSwallowtailInterchangerOfNaturality
       (W := W) A (WorldLabel := WorldLabel)
       (PresentationLabel := PresentationLabel) hn, ?_, ?_⟩
