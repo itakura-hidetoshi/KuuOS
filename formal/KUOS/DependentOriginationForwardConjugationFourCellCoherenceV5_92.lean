@@ -105,10 +105,8 @@ theorem conjugationForwardFourCell_cancelled
     rw [hcomposition]
     simp only [Category.assoc, Iso.hom_inv_id_assoc,
       Iso.inv_hom_id_assoc, Bicategory.whiskerLeft_hom_inv,
-      Bicategory.whiskerLeft_inv_hom,
       Bicategory.hom_inv_whiskerRight,
-      Bicategory.inv_hom_whiskerRight,
-      Category.id_comp, Category.comp_id]
+      Category.comp_id]
     bicategory
   have hfinal :
       n.hom ≫ e.inv ◁ a0 =
@@ -120,8 +118,7 @@ theorem conjugationForwardFourCell_cancelled
     rw [Bicategory.whiskerLeft_comp]
     rw [← Category.assoc, ← hnatural]
     rw [Category.assoc, hidentity]
-    simp only [Bicategory.id_whiskerRight, Category.id_comp,
-      Category.assoc]
+    simp only [Bicategory.id_whiskerRight, Category.id_comp]
   have hpre : n.hom ≫ (sigma ≫ e.inv ◁ cG) =
       n.hom ≫ e.inv ◁ a0 :=
     hfirst.trans (htriangle.trans hfinal.symm)
