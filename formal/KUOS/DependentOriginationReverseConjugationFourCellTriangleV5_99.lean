@@ -76,8 +76,7 @@ theorem reverseConjugationFourCell_cancelled
         𝟙 ((d.inv ≫ d.hom) ≫ e.hom) ⊗≫
           ((d.inv ≫ d.hom) ◁ θ) ⊗≫
           𝟙 ((d.inv ≫ ((d.hom ≫ e.hom) ≫ e.inv)) ≫ e.hom) := by
-      simp only [reverseConjugationFourCell_hom,
-        Iso.trans_hom, Iso.symm_hom, Bicategory.whiskerLeftIso_hom]
+      simp only [reverseConjugationFourCell_hom]
       dsimp [ConjugationCounit.naturalityIso,
         Conjugation.homFunctor, θ]
       bicategory
@@ -86,7 +85,8 @@ theorem reverseConjugationFourCell_cancelled
             (𝟙 a) ◁ θ ≫
             d.counit.inv ▷ (e.hom ≫ (e.inv ≫ e.hom))) ⊗≫
           𝟙 ((d.inv ≫ ((d.hom ≫ e.hom) ≫ e.inv)) ≫ e.hom) := by
-      rw [hEnvelope]
+      rw [← hEnvelope]
+      simp only [Category.assoc]
     _ = _ := by
       dsimp [ConjugationUnit.naturalityIso, Conjugation.homFunctor,
         θ]
