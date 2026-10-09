@@ -144,8 +144,15 @@ theorem actualLiftSourceUnitNativeComp_eq_leftPaste
           (W := W) A WorldLabel PresentationLabel)).map g = g := rfl
   have hNative := (actualLiftSourceRoundtripUnit (W := W) A).naturality_comp f g
   rw [hIdComp] at hNative
-  simpa only [hIdMapF, hIdMapG, Bicategory.id_whiskerRight,
-    Category.id_comp, Bicategory.leftAdjointSquare.vcomp] using hNative
+  calc
+    _ =
+        (𝟙 (f ≫ g) ▷ (actualLiftSourceRoundtripUnit (W := W) A).app Z) ≫
+          Bicategory.leftAdjointSquare.vcomp
+            ((actualLiftSourceRoundtripUnit (W := W) A).naturality f).hom
+            ((actualLiftSourceRoundtripUnit (W := W) A).naturality g).hom := by
+      simpa only [hIdMapF, hIdMapG, Bicategory.leftAdjointSquare.vcomp] using hNative
+    _ = _ := by
+      simp only [Bicategory.id_whiskerRight, Category.id_comp]
 
 /-- The original source compositor-corrected naturality for f;g is
 exactly the native VComp of the two original right mates. -/
