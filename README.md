@@ -187,6 +187,4 @@ PYTHONPATH=. python3 runtime/kuuos_current_check.py
 
 **Not yet established:** an F11 identity/`mapId`-corrected mate coherence theorem (proposed next formal target); unrestricted external tricategorical/Gray-categorical equivalence; cross-presentation descent and higher universal mapping properties without additional hypotheses; and empirical correctness of GitHub/MCP-backed AI, retrieval, runtime or website behavior. These require independently typed statements, actual proofs and exact-head evidence.
 
-
-
 See [ROADMAP.md](ROADMAP.md) for the detailed theorem ledger and next steps, [GOVERNANCE.md](GOVERNANCE.md) for operational boundaries, [CITATION.cff](CITATION.cff) for citation and [LICENSE](LICENSE) for rights.
