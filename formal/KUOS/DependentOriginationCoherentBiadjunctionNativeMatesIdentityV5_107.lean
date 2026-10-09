@@ -107,8 +107,14 @@ theorem actualLiftTargetCounitRightMate_id_mapId :
       ((eps.naturality (𝟙 X)).hom) =
         (R.mapId X).hom ▷ eps.app X ≫
           (λ_ (eps.app X)).hom ≫ (ρ_ (eps.app X)).inv := by
-    simpa only [Bicategory.whiskerLeft_id, Category.comp_id] using
-      eps.naturality_id X
+    have hId :
+        ((Pseudofunctor.id
+          (ActualLiftTarget.{u, v, uH, vH, uW, uP}
+            (W := W) A WorldLabel PresentationLabel)).mapId X).hom =
+          𝟙 (𝟙 X) := rfl
+    have hNative := eps.naturality_id X
+    rw [hId] at hNative
+    simpa only [Bicategory.whiskerLeft_id, Category.comp_id] using hNative
   change (Bicategory.mateEquiv e.adj e.adj)
       ((eps.naturality (𝟙 X)).hom) = _
   calc
@@ -152,8 +158,14 @@ theorem actualLiftSourceUnitRightMate_id_mapId :
       ((eta.naturality (𝟙 X)).hom) ≫
         eta.app X ◁ (R.mapId X).hom =
           (λ_ (eta.app X)).hom ≫ (ρ_ (eta.app X)).inv := by
-    simpa only [Bicategory.id_whiskerRight, Category.id_comp] using
-      eta.naturality_id X
+    have hId :
+        ((Pseudofunctor.id
+          (ActualLiftSource.{u, v, uH, vH, uW, uP}
+            (W := W) A WorldLabel PresentationLabel)).mapId X).hom =
+          𝟙 (𝟙 X) := rfl
+    have hNative := eta.naturality_id X
+    rw [hId] at hNative
+    simpa only [Bicategory.id_whiskerRight, Category.id_comp] using hNative
   change (Bicategory.mateEquiv e.adj e.adj)
       ((eta.naturality (𝟙 X)).hom) ≫
         (R.mapId X).hom ▷ e.r = _
