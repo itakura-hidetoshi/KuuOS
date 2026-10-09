@@ -4,116 +4,136 @@
 ![Core Governance](https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/core_governance_validation.yml/badge.svg)
 ![KuuOS Runtime Full Check](https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/kuuos_runtime_full_check.yml/badge.svg)
 
-**KuuOS / 空OS** is a public research architecture for dependent origination (縁起), non-reification (空), context-sensitive reasoning, coherence, descent, obstruction, exact presentations, and universal properties.
+**KuuOS / 空OS** is a research architecture for dependent origination (縁起), non-reification (空), context-sensitive reasoning, presentation-sensitive equivalence, higher coherence, descent, exact universal properties and explicit obstructions.
 
-**Founder and copyright holder:** Hidetoshi Itakura / 板倉英俊. See [COPYRIGHT.md](COPYRIGHT.md) and [LICENSE](LICENSE): public visibility does **not** grant a license to reproduce, adapt, train on, redistribute, or commercialize the materials.
+**Founder and copyright holder / 創始者・著作権者:** **Hidetoshi Itakura / 板倉英俊**. See [COPYRIGHT.md](COPYRIGHT.md) and [LICENSE](LICENSE). Public repository access does **not** itself grant permission to reproduce, adapt, train on, redistribute or commercialize this work.
 
-> What remains invariant under justified changes of context and presentation? Which local observations can be transported, compared, and glued, and where do obstructions prevent descent?
+> An observation is not a global truth. Which relations survive a justified change of context or presentation? When can compatible local data descend, and where does an obstruction prevent that descent?
 
-## Status / 現在地 — v5.93 (2026-10-09 JST)
+## Status / 現在地 — v5.101 (2026-10-09 JST)
 
-**Theorem-bearing canonical main is integrated through v5.93, [PR #2053](https://github.com/itakura-hidetoshi/KuuOS/pull/2053).**
+**Theorem-bearing canonical `main` is integrated through v5.101: [PR #2062 MERGED](https://github.com/itakura-hidetoshi/KuuOS/pull/2062).**
 
-The formal actual-lift classification program has progressed from explicit non-strict F/G pseudofunctors, unit/counit and invertible triangle contractions (v5.40–v5.63), through the original global four-cell interchanger and the pointwise forward boundary (v5.64–v5.88), to an **unconditional proof of the original forward swallowtail law**. v5.89–v5.91 expand and cancel the genuine contractions without strictifying G; v5.92 proves the original two-equivalence conjugation four-cell coherence; v5.93 specializes it to the unchanged actual-lift data and proves the original and global forward predicates. **Reverse swallowtail (F4) and a swallowtail-coherent biadjunction package (F5) are not yet proved.**
+**F3 forward swallowtail, F4 reverse swallowtail and F5 KuuOS-defined coherent biadjunction carrier are now proved in Lean/mathlib for the original actual-lift data.** The v5.101 record contains the **same** F, genuinely non-strict G, unit η, counit ε, two native invertible triangulator modifications, and the independently constructed original forward and reverse interchangers. Both fields are proofs of the **original v5.65 and v5.66 swallowtail predicates**, not newly chosen replacement equalities.
 
-Most importantly, the current proved and unproved boundaries are separate:
+**日本語要約：** v5.93 で F3（順方向）、v5.100 で F4（逆方向）を証明し、v5.101 で同一の actual-lift 構造に両者を統合しました。従来の F/G/η/ε・選択された対象同値・非strict な G.mapId/G.mapComp は保持しています。旧版にあった「F4／F5 未証明」という記述は現在には該当しません。
 
-| Result | Status | Evidence |
+| Milestone | Status | Authoritative Lean artifact |
 | --- | --- | --- |
-| Original forward canonical four-cell interchanger at each source object | **Proved / constructed** | [v5.68](formal/KUOS/DependentOriginationForwardSwallowtailComponentInterchangerV5_68.lean) |
-| Middle whole-StrongTrans naturality agreement, not merely objectwise equality | **Proved** | [v5.82](formal/KUOS/DependentOriginationForwardMiddleNaturalityPasteV5_82.lean) |
-| Native **global invertible** forward interchanger, with equality-transport adapters | **Constructed** | [v5.83](formal/KUOS/DependentOriginationGlobalForwardSwallowtailInterchangerV5_83.lean) |
-| Generic equality-transport and vertical-composition formulas on StrongTrans components | **Proved** | [v5.84](formal/KUOS/DependentOriginationForwardTransportComponentsV5_84.lean) |
-| Generic five-stage transport formulas and the original four-cell = two-factor pointwise component paste | **Proved** | [v5.85](formal/KUOS/DependentOriginationForwardSwallowtailGlobalComponentAgreementV5_85.lean) |
-| Full component identification of the **v5.83 global Iso** with the **v5.68 original four-cell interchanger** | **Proved**: `actualLiftGlobalCanonicalComponentAgreement` | [v5.86](formal/KUOS/DependentOriginationForwardSwallowtailGlobalComponentAgreementV5_86.lean) |
-| Original v5.68 four-cell **modification naturality** (v5.70 predicate) | **Proved**: `actualLiftForwardSwallowtailOriginalNaturality` | [v5.87](formal/KUOS/DependentOriginationForwardCanonicalNaturalityV5_87.lean) |
-| Original-family `isoMk` **equals** the native v5.83 global Iso | **Proved**: `actualLiftForwardSwallowtailCanonicalIso_eq_global` | [v5.87](formal/KUOS/DependentOriginationForwardCanonicalNaturalityV5_87.lean) |
-| Unit-whiskered source triangulator horizontal paste: **component formula** | **Proved**: `actualLiftForwardTriangulatorPaste_hom_app` | [v5.88](formal/KUOS/DependentOriginationForwardSwallowtailPointwiseBoundaryV5_88.lean) |
-| Original v5.65 forward predicate iff pointwise four-cell/triangulator-paste equation (canonical and global Iso) | **Proved equivalence**, historically the v5.88 reduction | [v5.88](formal/KUOS/DependentOriginationForwardSwallowtailPointwiseBoundaryV5_88.lean) |
-| Native G.mapId + original forward/reverse contraction expansion and exact F3 cancelled residual | **Proved** | [v5.89](formal/KUOS/DependentOriginationForwardSwallowtailContractionExpansionV5_89.lean), [v5.90](formal/KUOS/DependentOriginationForwardSwallowtailExplicitResidualV5_90.lean), [v5.91](formal/KUOS/DependentOriginationForwardReverseContractionCancellationV5_91.lean) |
-| Genuine four-cell/right-triangle coherence for two distinct original equivalences | **Proved**: `conjugationForwardFourCell_cancelled` | [v5.92](formal/KUOS/DependentOriginationForwardConjugationFourCellCoherenceV5_92.lean) |
-| Actual original pointwise F3 equality and both canonical/global **forward swallowtail** laws | **PROVED**: `actualLiftForwardSwallowtailPointwise`, `actualLiftForwardSwallowtail`, `actualLiftForwardGlobalSwallowtail` | [v5.93](formal/KUOS/DependentOriginationForwardSwallowtailActualLiftDescentV5_93.lean) |
-| Original **reverse swallowtail (F4)** | **OPEN**: v5.66 predicate is typed; counit-centered interchanger and equality remain | [v5.66](formal/KUOS/DependentOriginationReverseSwallowtailPredicateV5_66.lean) |
+| Base: F/G, η/ε and both original triangle contractions | **Constructed and proved**; original incoherent carrier, not yet a swallowtail statement at v5.59 | [v5.57](formal/KUOS/DependentOriginationExactLiftableActualLiftCoherentBiequivalenceV5_57.lean), [v5.58](formal/KUOS/DependentOriginationExactLiftableActualLiftBiadjunctionTriangulatorsV5_58.lean), [v5.59](formal/KUOS/DependentOriginationExactLiftableActualLiftIncoherentBiadjunctionV5_59.lean) |
+| F1: original global-to-canonical four-cell comparison | **PROVED** | [v5.86](formal/KUOS/DependentOriginationForwardSwallowtailGlobalComponentAgreementV5_86.lean) |
+| F2: naturality of the original forward four-cell family | **PROVED** | [v5.87](formal/KUOS/DependentOriginationForwardCanonicalNaturalityV5_87.lean) |
+| F3: original forward swallowtail (canonical and global) | **PROVED**, `actualLiftForwardSwallowtail` / `actualLiftForwardGlobalSwallowtail` | [v5.93](formal/KUOS/DependentOriginationForwardSwallowtailActualLiftDescentV5_93.lean), [PR #2053](https://github.com/itakura-hidetoshi/KuuOS/pull/2053) |
+| F4: original counit-centered reverse swallowtail | **PROVED**, `actualLiftReverseSwallowtail` plus pointwise and naturality | [v5.100](formal/KUOS/DependentOriginationReverseSwallowtailActualLiftV5_100.lean), [PR #2061](https://github.com/itakura-hidetoshi/KuuOS/pull/2061) |
+| F5: both equations on one unchanged actual-lift datum | **PROVED**, `actualLiftCoherentBiadjunctionDatum` and `actualLiftCoherentBiadjunction_exists` | [v5.101](formal/KUOS/DependentOriginationCoherentBiadjunctionActualLiftV5_101.lean), [PR #2062](https://github.com/itakura-hidetoshi/KuuOS/pull/2062) |
 
-The v5.57 certificate's historical name is retained for compatibility. Forward swallowtail now has a genuine v5.93 proof; a triangle contraction or F3 alone does **not** establish the missing **reverse** law. KuuOS does **not** yet claim a swallowtail-coherent biadjunction, biadjoint biequivalence with both swallowtail equations, or a fully coherent tricategorical adjunction.
+**Formal scope:** `Generic.CoherentBiadjunctionDatum` is the **explicit KuuOS structure defined in v5.101**, consisting of the existing `IncoherentBiadjunctionDatum`, both original interchangers, and proof fields for both typed KuuOS swallowtail laws. This is a formal, witnessed result for the actual-lift construction. It is **not** by itself a formal equivalence with every alternative definition of tricategorical/Gray-categorical biadjunction, an unrestricted higher universal mapping principle, or a guarantee about the behavior of an AI runtime. The historically named v5.57 “coherent biequivalence certificate” remains the earlier triangle-level API; v5.101 supplies the subsequently proved swallowtail layer.
 
-## Exact reproducibility / 正本と検証
+## Exact authority and reproducibility / 正本と検証
 
-| Authority or receipt | Exact reference |
+This is the **theorem-bearing snapshot before the current documentation-only update**; a docs merge moves `main` without changing the Lean theorem-bearing baseline.
+
+| Item | Exact value or receipt |
 | --- | --- |
 | Repository / canonical branch | **itakura-hidetoshi/KuuOS / main** |
-| Latest theorem-bearing merge / canonical main at this snapshot | **a57ab96a29805e89929236c863b9f47a8f1958e8** |
-| Integrated theorem PR | [#2053, v5.93, merged](https://github.com/itakura-hidetoshi/KuuOS/pull/2053) |
-| Validated exact PR head | **7ff21d5d85e7989772e4f2a5f7914557a5e20127** |
-| Exact-head PR CI | [Run #37878220553 — SUCCESS](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/37878220553) |
-| Strict Lean / governance jobs | **113651650764 / 113658529647 — SUCCESS** |
-| MCP Lean / MCP CI completion receipts | **113658529552 / 113658627442 — SUCCESS** |
-| Selected target + dependency build | **8720/8720 jobs; return code 0; changed-file warnings/errors 0; no sorryAx** |
-| Lean | **leanprover/lean4:v4.30.0-rc2** ([lean-toolchain](lean-toolchain)) |
-| mathlib | **5450b53e5ddc75d46418fabb605edbf36bd0beb6** ([lake-manifest.json](lake-manifest.json)) |
+| Latest verified theorem-bearing merge | **53e8ceaa3d50cb18c1e8278dc64b845f8b648896** — [PR #2062 merged](https://github.com/itakura-hidetoshi/KuuOS/pull/2062) |
+| Validated v5.101 PR source head | **e01bb1776b7a2139504c27022541e495caebf8f8** |
+| Exact-head CI | [GitHub Actions run 37928590324 — SUCCESS](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/37928590324) |
+| Strict Lean formal validation | Job **113813495613** — **8,727/8,727**, success |
+| Governance + workflow consolidation | Jobs **113823296377** + **113813495683** — success |
+| MCP Lean / MCP CI completion receipts | Jobs **113823296498** / **113823358524** — success |
+| Changed Lean file diagnostics | **0 warnings, 0 errors; no `sorryAx`** in printed v5.101 declarations |
+| Compiler | **leanprover/lean4:v4.30.0-rc2** — [lean-toolchain](lean-toolchain) |
+| mathlib | **5450b53e5ddc75d46418fabb605edbf36bd0beb6** — [lake-manifest.json](lake-manifest.json) |
 
-This receipt validates the **selected v5.93 Lean target and its dependencies** with strict warning/sorry handling and the four printed proof declarations with axioms limited to `propext`, `Classical.choice`, `Quot.sound`; it does not mean every aggregate target or AI runtime was rerun. A later **docs-only** merge can advance main without advancing this theorem-bearing baseline. Re-observe the exact main SHA before interpreting any new claims.
+The strict receipt verifies the **selected v5.101 module with its imported dependency build**, not every aggregate target, every workflow or an interactive KuuOS/AI deployment. `#print axioms` for the final declarations reports conventional Lean axioms (`propext`, `Classical.choice`, `Quot.sound`) and **no `sorryAx`**; no new axiom was inserted to obtain the result.
 
-Formal authority order:
+**Authority order / 権威の優先順位:**
 
 ~~~text
-fresh exact canonical GitHub commit SHA
-  > formal Lean declarations at that exact commit
+fresh exact canonical GitHub main SHA
+  > actual Lean definitions, theorem statements, and proofs at that SHA
   > README / ROADMAP
-  > matching exact-head CI, governance and completion receipts
-  > historical summaries and conversation memory
+  > matching exact-head CI, governance and MCP receipts
+  > historical notes, previous conversations and memory
 ~~~
 
-The isolated [PR #1558](https://github.com/itakura-hidetoshi/KuuOS/pull/1558) is a **Lean 4.31 validation-only** lane: open, draft, unmerged (observed head: 3a09839782ea82661ddbf8e13a0fd08e893079b4). It is not theorem authority; **do not merge, mark ready for review, or auto-merge** it.
+**Protected lane:** [PR #1558](https://github.com/itakura-hidetoshi/KuuOS/pull/1558), Lean 4.31 validation-only, stays **OPEN / DRAFT / not merged** (last observed head: `3a09839782ea82661ddbf8e13a0fd08e893079b4`). It is **not** theorem authority; **never mark ready, auto-merge or merge** this PR.
 
-## 空・縁起 as a reasoning discipline
+## Mathematical construction / 数学的構成
 
-空 means **non-reification**, not that nothing exists. An observation is not automatically global truth; a representation is not an intrinsic substance; compatible local views still require a valid transport/gluing argument; an equivalence does not erase the chosen presentation or provenance.
-
-KuuOS's operational route is:
-
-1. Separate observations from inferences.
-2. Identify the active context and authority.
-3. Retain multiple presentations rather than choosing a single fictitious canonical view.
-4. Track relations, history, provenance, and label/world binding.
-5. Check compatibility of local information.
-6. Evaluate whether descent or gluing is mathematically justified.
-7. State exact obstructions instead of silently forcing a factorization.
-8. Respect tool, data, and action-authorization boundaries.
-9. Take only warranted actions.
-10. Re-observe and update after acting.
-
-These are research and operational principles, **not** a claim that an LLM has become infallible, that KuuOS is a trained foundation-model weight replacement, or that an AI is authorized to act without user permission.
-
-## Formal classification and actual lifts
-
-Keep external world and presentation labels explicit. The aligned atlas used by the actual-lift construction is:
+The actual-lift construction keeps world and presentation labels explicit and uses the aligned atlas:
 
 ~~~lean
 RefinementAtlas.{u, max u v, uH} (LocalizedContext W)
 ~~~
 
-The source and universal classification layers use the **same** stored data:
+The same original choices are retained throughout:
 
 ~~~text
-L = ExactLiftableClassificationObject
-    (actual-lift-carrying 1-cells)
+L = ExactLiftableClassificationObject   (actual-lift-carrying 1-cells)
 E = ExactUniversalClassificationObject
 
-F   : L -> E
-G   : E -> L                    (genuinely non-strict)
-eta : Id_L => F ; G
-eps : G ; F => Id_E
+F   : L -> E                              (native strict projection)
+G   : E -> L                              (genuinely non-strict)
+η   : Id_L => F ; G                       (original source unit)
+ε   : G ; F => Id_E                       (original target counit)
 
-T_F : F => F                    original forward triangle
-T_G : G => G                    original reverse triangle
-C_F : T_F ~= Id_F               invertible modification
-C_G : T_G ~= Id_G               invertible modification
+T_F : F => F                              (original forward triangle)
+T_G : G => G                              (original reverse triangle)
+C_F : T_F ~= Id_F                         (invertible modification)
+C_G : T_G ~= Id_G                         (invertible modification)
+
+Σ_F : original unit-centered forward interchanger
+Σ_R : original counit-centered reverse interchanger
+
+F3: Σ_F = forwardTriangulatorPaste
+F4: Σ_R = reverseTriangulatorPaste
+F5: original data + Σ_F + Σ_R + proofs of both equations
 ~~~
 
-For Y in E, the quasi-inverse chooses once an equivalence eY : F(GY) ≃ Y and retains the actual-lift formula **(eY.hom ; k) ; eZ.inv** for k : Y -> Z. Its native mapId/mapComp, associators, and unitors are not strictified away.
+For each target object `Y`, the actual quasi-inverse uses the **fixed** equivalence `eY : F(GY) ≃ Y`. Its stored action on a target 1-cell `k : Y → Z` includes the genuine transported actual lift:
 
-The earlier obstruction chain still has a one-way implication:
+~~~text
+(eY.hom ; k) ; eZ.inv
+~~~
+
+The second selected equivalence at `G(Y)` need not coincide with `eY`; the proofs preserve these choices. The non-strict `G.mapId`, `G.mapComp`, associators and unitors are never silently replaced by strict identities.
+
+In particular, **two invertible triangle contractions alone did not give the two swallowtail laws**. Those obligations were discharged separately. In v5.101 the four fields of `Generic.CoherentBiadjunctionDatum` are the original datum, the forward interchanger, the reverse interchanger, and *both* proof fields; see [the exact v5.101 source](formal/KUOS/DependentOriginationCoherentBiadjunctionActualLiftV5_101.lean).
+
+## Formal milestone map / 形式化の履歴
+
+| Milestones | Theorem-bearing achievements |
+| --- | --- |
+| v4.00–v4.48 | Nonfactorization and Stage-II obstructions, incidence/capacity, finite/inverse-limit carriers, orientation and descent |
+| v4.49–v5.36 | Exact-universal targets, localized classification, labels and compatible presentations, realization and unit/counit infrastructure |
+| v5.37–v5.57 | Actual-lift bicategory; original F/G; chosen object equivalences; η/ε; original two triangle contractions |
+| v5.58–v5.70 | Native functor-bicategory triangulators, incoherent carrier, non-strict comparison cells, both typed swallowtail interfaces |
+| v5.71–v5.87 | Global forward interchanger, native middle naturality, original four-cell equality and modification naturality (F1/F2) |
+| v5.88–v5.93 | Original forward paste/residual, genuine conjugation coherence, original canonical/global F3 proved |
+| v5.94–v5.97 | Original reverse paste and counit-centered four-cell, typed reverse naturality and pointwise reduction |
+| v5.98–v5.99 | Generic reverse four-cell and left-triangle cancellation for **two distinct** chosen equivalences |
+| **v5.100** | **F4 proved** for original actual lifts; reverse pointwise, modification naturality, global predicate |
+| **v5.101** | **F5 proved** as a KuuOS coherent biadjunction record using original F3 and F4 laws |
+
+The exact reverse series is [v5.94](formal/KUOS/DependentOriginationReverseSwallowtailTargetPasteExpansionV5_94.lean) → [v5.95](formal/KUOS/DependentOriginationReverseSwallowtailCounitFourCellV5_95.lean) → [v5.96](formal/KUOS/DependentOriginationReverseSwallowtailPointwiseBoundaryV5_96.lean) → [v5.97](formal/KUOS/DependentOriginationReverseSwallowtailSingleResidualV5_97.lean) → [v5.98](formal/KUOS/DependentOriginationReverseConjugationFourCellV5_98.lean) → [v5.99](formal/KUOS/DependentOriginationReverseConjugationFourCellTriangleV5_99.lean) → [v5.100](formal/KUOS/DependentOriginationReverseSwallowtailActualLiftV5_100.lean) → [v5.101](formal/KUOS/DependentOriginationCoherentBiadjunctionActualLiftV5_101.lean).
+
+## 空・縁起 as a reasoning discipline
+
+“空” means **non-reification**, not nonexistence. An observation is not automatically a global truth; an equivalence does not erase the chosen presentation or provenance; compatible local views still require transport, descent and gluing hypotheses.
+
+KuuOS operational reasoning distinguishes:
+
+1. Observation from inference and the active context from background assumptions.
+2. Multiple presentations, world labels, histories and provenance.
+3. Compatibility of local information and conditions for transport/descent.
+4. Explicit obstructions, authority boundaries and minimal authorized actions.
+5. Re-observation after acting and revision when evidence changes.
+
+This is a **research and engineering discipline**, not proof that an LLM has adopted KuuOS as its underlying trained weights or that it may take actions without authorization.
+
+Earlier obstruction results retain their *one-way* implication:
 
 ~~~text
 exact DO₂ presentation
@@ -122,96 +142,40 @@ exact DO₂ presentation
   => weak W-admissibility
 ~~~
 
-**The converse is false in general.** There is no assertion of arbitrary raw-morphism liftability, atlas-universe reindexing, or a presentation-independent identification without descent data.
+The converse does **not** hold in general. v5.101 does not establish arbitrary raw-morphism liftability, presentation-independent descent, or unrestricted equivalence across atlases.
 
-## Integrated formal milestone map
-
-| Milestones | Proven constructions and comparisons |
-| --- | --- |
-| v4.00–v4.48 | Nonfactorization, Stage-II obstruction, recursive/inverse-limit carriers, orientation and descent |
-| v4.49–v5.36 | Exact-universal targets, presentation-sensitive classification, realization, hom equivalences, coherent ambient/local packages |
-| v5.37–v5.57 | Actual-lift bicategory; F and G; fixed choices; unit/counit; both actual triangle pastes and contractions |
-| v5.58–v5.63 | Native functor-bicategory triangulators, explicitly **incoherent** biadjunction datum, non-strict pre/postcomposition and mapId bridge |
-| v5.64–v5.70 | Horizontal pastes; typed forward/reverse swallowtail predicates; unit self-naturality; original four-cell pointwise interchanger; explicit global-modification obstruction |
-| v5.71–v5.78 | Postcomposition vertical coherence, unit and counit-whiskered interchangers, their global naturality/reassociation; original forward G.mapComp global factor |
-| v5.79–v5.82 | Native endpoint equalities; nontrivial middle naturality obstruction and its resolution using original mapComp/naturality factors |
-| v5.83–v5.84 | Native global invertible interchanger and generic StrongTrans component/equality-transport formulas |
-| **v5.85** | Generic five-stage transport calculus and original four-cell = two-factor pointwise component theorem | 
-| **v5.86** | **Full component equality between v5.83 global Iso and the unchanged v5.68 four-cell paste** |
-| **v5.87** | **Original v5.70 four-cell naturality and equality of the v5.70 canonical `isoMk` with the v5.83 global Iso** |
-| **v5.88 (historical)** | Forward swallowtail ↔ original four-cell/triangulator pointwise equality; proof of equality was still open **at v5.88** |
-| **v5.89–v5.91** | Exact original contraction expansion, preserved non-strict G.mapId and reversible reverse-contraction cancellation |
-| **v5.92** | Generic four-cell compatibility for distinct equivalences, via original naturality/unit/triangle coherence |
-| **v5.93** | **Original F3 pointwise equality and both canonical/global forward swallowtail predicates PROVED**; reverse F4 remains open |
-
-Direct source endpoints: [v5.64](formal/KUOS/DependentOriginationBiadjunctionTriangulatorHorizontalPastesV5_64.lean), [v5.65](formal/KUOS/DependentOriginationForwardSwallowtailPredicateV5_65.lean), [v5.66](formal/KUOS/DependentOriginationReverseSwallowtailPredicateV5_66.lean), [v5.70](formal/KUOS/DependentOriginationForwardSwallowtailModificationObstructionV5_70.lean), [v5.77](formal/KUOS/DependentOriginationReassociatedSourceCounitInterchangerV5_77.lean), [v5.78](formal/KUOS/DependentOriginationActualLiftForwardMapCompGlobalV5_78.lean), [v5.79](formal/KUOS/DependentOriginationForwardSwallowtailNativeBoundaryV5_79.lean), [v5.82](formal/KUOS/DependentOriginationForwardMiddleNaturalityPasteV5_82.lean), [v5.83](formal/KUOS/DependentOriginationGlobalForwardSwallowtailInterchangerV5_83.lean), [v5.84](formal/KUOS/DependentOriginationForwardTransportComponentsV5_84.lean), [v5.85](formal/KUOS/DependentOriginationForwardSwallowtailGlobalComponentAgreementV5_85.lean), [v5.86](formal/KUOS/DependentOriginationForwardSwallowtailGlobalComponentAgreementV5_86.lean), [v5.87](formal/KUOS/DependentOriginationForwardCanonicalNaturalityV5_87.lean), [v5.88](formal/KUOS/DependentOriginationForwardSwallowtailPointwiseBoundaryV5_88.lean), [v5.89](formal/KUOS/DependentOriginationForwardSwallowtailContractionExpansionV5_89.lean), [v5.90](formal/KUOS/DependentOriginationForwardSwallowtailExplicitResidualV5_90.lean), [v5.91](formal/KUOS/DependentOriginationForwardReverseContractionCancellationV5_91.lean), [v5.92](formal/KUOS/DependentOriginationForwardConjugationFourCellCoherenceV5_92.lean), [v5.93](formal/KUOS/DependentOriginationForwardSwallowtailActualLiftDescentV5_93.lean).
-
-## How the v5.85–v5.93 boundary was resolved
-
-The native global Iso of v5.83 is a five-stage composite:
-
-~~~text
-(endpoint eqToIso)^-1
-  ; globally whiskered G.mapComp (v5.78)
-  ; middle whole-StrongTrans eqToIso (v5.82)
-  ; reassociated counit-whiskered three-cell Iso (v5.77)
-  ; endpoint eqToIso (v5.79)
-~~~
-
-The original v5.68 pointwise interchanger is a **four-cell** composite. v5.85 proves that its pointwise component equals:
-
-~~~text
-(global G.mapComp factor).hom.app X
-  ; (global reassociated counit factor).hom.app X
-~~~
-
-v5.86 closes the previously open **ActualLiftGlobalCanonicalComponentAgreement** with the unchanged original four-cell components: the three `eqToIso` transports reduce to reflexive component transports under the pinned native hom-category instances. v5.87 transports the v5.83 modification naturality to the unchanged v5.68 four-cell family and proves the v5.70 `isoMk` equals the v5.83 global Iso. v5.88 proves that the **v5.65 forward swallowtail predicate is equivalent to the following component equation**, still unproved at that historical stage but subsequently established in v5.93, at every original source object X:
-
-~~~text
-(original v5.68 four-cell interchanger at X).hom
-  = (original unit eta.app X) ◁
-      (sourceHorizontalPaste of the original triangulators).hom.as.app X
-~~~
-
-Historically, v5.88's two iff theorems alone did not establish this equality. **The equation itself is now proved** by v5.92's original conjugation four-cell theorem and v5.93's `actualLiftForwardSwallowtailPointwise`; the forward canonical/global swallowtail theorems follow. The reverse swallowtail and stronger biadjunction certificate remain open. No strictly replaced G is claimed.
-
-The detailed next obligations and evidence are in [ROADMAP.md](ROADMAP.md).
-
-## Reproduce the selected formal result
+## Reproduce the theorem-bearing result
 
 ~~~bash
 git clone https://github.com/itakura-hidetoshi/KuuOS.git KuuOS-repro
 cd KuuOS-repro
-git checkout 98287ccf8315dd66e32a5dbae2a0ef0ea5d190ca
+git checkout 53e8ceaa3d50cb18c1e8278dc64b845f8b648896
 
 lake -KleanArgs=-DwarningAsError=true \
-     -KleanArgs=-DsorryAsError=true \
-     build KUOS.DependentOriginationForwardSwallowtailActualLiftDescentV5_93
+     -KleanArgs=-DsorryAsError=true build \
+  KUOS.DependentOriginationCoherentBiadjunctionActualLiftV5_101
 ~~~
 
-Additional selected targets:
+For the two independently proved swallowtail modules:
 
 ~~~bash
 lake -KleanArgs=-DwarningAsError=true \
      -KleanArgs=-DsorryAsError=true build \
-  KUOS.DependentOriginationForwardSwallowtailComponentInterchangerV5_68 \
-  KUOS.DependentOriginationForwardMiddleNaturalityPasteV5_82 \
-  KUOS.DependentOriginationGlobalForwardSwallowtailInterchangerV5_83 \
-  KUOS.DependentOriginationForwardTransportComponentsV5_84 \
-  KUOS.DependentOriginationForwardSwallowtailGlobalComponentAgreementV5_85 \
-  KUOS.DependentOriginationForwardSwallowtailGlobalComponentAgreementV5_86 \
-  KUOS.DependentOriginationForwardCanonicalNaturalityV5_87
+  KUOS.DependentOriginationForwardSwallowtailActualLiftDescentV5_93 \
+  KUOS.DependentOriginationReverseSwallowtailActualLiftV5_100
 ~~~
 
-Broader builds and runtime checks are **distinct** validation targets, not consequences of that CI receipt:
+Broader formal builds and software/runtime checks are separate tests and must receive their own evidence:
 
 ~~~bash
 lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KuuOSFormal
 PYTHONPATH=. python3 runtime/kuuos_current_check.py
 ~~~
 
-## Research/runtime boundary and citation
+## Remaining research and runtime boundaries / 次の課題
 
-Formal Lean declarations constrain what is mathematically justified. Runtime agents, retrieval pipelines, websites, and AI dialogues must separately manage observations, permissions, provenance, audit evidence, and re-observation; simply having a formal theorem does not mean a runtime uses it.
+**Completed within their precise scope:** F1–F5 and the original actual-lift two-swallowtail KuuOS coherent carrier.
 
-See [ROADMAP.md](ROADMAP.md) for the full milestone ledger and unresolved higher-coherence work, [GOVERNANCE.md](GOVERNANCE.md) for operating boundaries, [CITATION.cff](CITATION.cff) for citation, and [LICENSE](LICENSE) for usage rights.
+**Still separate tasks:** (1) comparison with external tricategorical/Gray-categorical notions under explicitly stated hypotheses; (2) stronger cross-presentation descent and higher universal mapping results; (3) empirical integration of the formal authority and reasoning discipline into GitHub/MCP-backed interactive AI; (4) separately validated end-to-end runtime and website behavior. Do not promote these into Lean theorems without their own types, proofs and exact receipts.
+
+See [ROADMAP.md](ROADMAP.md) for the detailed theorem ledger and next steps, [GOVERNANCE.md](GOVERNANCE.md) for operational boundaries, [CITATION.cff](CITATION.cff) for citation and [LICENSE](LICENSE) for rights.
