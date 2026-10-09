@@ -24,7 +24,7 @@ comparison is the stored e.left_triangle_hom.
 
 The two equivalences e : a ≌ x, d : b ≌ a remain DISTINCT.
 This theorem attempts the actual generic F4 equality, not an alternate
-definition of the residual. No sorry/admit/new axiom or strictification.
+definition of the residual. No proof holes, additional axioms, or strictification.
 -/
 
 universe uB vB wB
