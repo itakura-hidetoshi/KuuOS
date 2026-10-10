@@ -224,25 +224,25 @@ variable {WorldLabel : Type uW} {PresentationLabel : Type uP}
 of EVERY modification on the original source-unit η. No strictification. -/
 theorem actualLiftSourceGlobalMapIdNaturality
     (Γ : Pseudofunctor.StrongTrans.Modification
-      (actualLiftSourceRoundtripUnit (W := W) A
+      (actualLiftSourceRoundtripUnit.{u, v, uH, vH, uW, uP} (W := W) A
         (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))
-      (actualLiftSourceRoundtripUnit (W := W) A
+      (actualLiftSourceRoundtripUnit.{u, v, uH, vH, uW, uP} (W := W) A
         (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)))
     (X : ActualLiftSource.{u, v, uH, vH, uW, uP}
       (W := W) A WorldLabel PresentationLabel) :
-    let D := actualLiftSourceRightMateData (W := W) A
+    let D := actualLiftSourceRightMateData.{u, v, uH, vH, uW, uP} (W := W) A
       (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)
-    let R := actualLiftSourceRoundtrip (W := W) A
+    let R := actualLiftSourceRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
       (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)
-    let m := Generic.rightModification D D Γ
+    let m := rightModification D D Γ
     ((m.app X ▷ (𝟙 X) ≫ D.right.naturality (𝟙 X)) ≫
         (R.mapId X).hom ▷ D.right.app X) =
       (D.right.naturality (𝟙 X) ≫ (R.mapId X).hom ▷ D.right.app X) ≫
         (𝟙 X) ◁ m.app X := by
   exact Generic.globalConjugateMapIdNaturality
-    (actualLiftSourceRightMateData (W := W) A
+    (actualLiftSourceRightMateData.{u, v, uH, vH, uW, uP} (W := W) A
       (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))
-    (actualLiftSourceRightMateData (W := W) A
+    (actualLiftSourceRightMateData.{u, v, uH, vH, uW, uP} (W := W) A
       (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))
     Γ X
 
@@ -250,27 +250,27 @@ theorem actualLiftSourceGlobalMapIdNaturality
 naturality square on each arbitrary composite source 1-morphism. -/
 theorem actualLiftSourceGlobalMapCompNaturality
     (Γ : Pseudofunctor.StrongTrans.Modification
-      (actualLiftSourceRoundtripUnit (W := W) A
+      (actualLiftSourceRoundtripUnit.{u, v, uH, vH, uW, uP} (W := W) A
         (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))
-      (actualLiftSourceRoundtripUnit (W := W) A
+      (actualLiftSourceRoundtripUnit.{u, v, uH, vH, uW, uP} (W := W) A
         (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)))
     {X Y Z : ActualLiftSource.{u, v, uH, vH, uW, uP}
       (W := W) A WorldLabel PresentationLabel}
     (f : X ⟶ Y) (g : Y ⟶ Z) :
-    let D := actualLiftSourceRightMateData (W := W) A
+    let D := actualLiftSourceRightMateData.{u, v, uH, vH, uW, uP} (W := W) A
       (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)
-    let R := actualLiftSourceRoundtrip (W := W) A
+    let R := actualLiftSourceRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
       (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)
-    let m := Generic.rightModification D D Γ
+    let m := rightModification D D Γ
     ((m.app X ▷ (f ≫ g) ≫ D.right.naturality (f ≫ g)) ≫
         (R.mapComp f g).hom ▷ D.right.app Z) =
       (D.right.naturality (f ≫ g) ≫
         (R.mapComp f g).hom ▷ D.right.app Z) ≫
           (R.map f ≫ R.map g) ◁ m.app Z := by
   exact Generic.globalConjugateMapCompNaturality
-    (actualLiftSourceRightMateData (W := W) A
+    (actualLiftSourceRightMateData.{u, v, uH, vH, uW, uP} (W := W) A
       (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))
-    (actualLiftSourceRightMateData (W := W) A
+    (actualLiftSourceRightMateData.{u, v, uH, vH, uW, uP} (W := W) A
       (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))
     Γ f g
 
@@ -278,25 +278,25 @@ theorem actualLiftSourceGlobalMapCompNaturality
 source side of the original target-counit's right-mate square. -/
 theorem actualLiftTargetGlobalMapIdNaturality
     (Γ : Pseudofunctor.StrongTrans.Modification
-      (actualLiftTargetRoundtripCounit (W := W) A
+      (actualLiftTargetRoundtripCounit.{u, v, uH, vH, uW, uP} (W := W) A
         (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))
-      (actualLiftTargetRoundtripCounit (W := W) A
+      (actualLiftTargetRoundtripCounit.{u, v, uH, vH, uW, uP} (W := W) A
         (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)))
     (X : ActualLiftTarget.{u, v, uH, vH, uW, uP}
       (W := W) A WorldLabel PresentationLabel) :
-    let D := actualLiftTargetRightMateData (W := W) A
+    let D := actualLiftTargetRightMateData.{u, v, uH, vH, uW, uP} (W := W) A
       (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)
-    let R := actualLiftTargetRoundtrip (W := W) A
+    let R := actualLiftTargetRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
       (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)
-    let m := Generic.rightModification D D Γ
+    let m := rightModification D D Γ
     ((m.app X ▷ (𝟙 X) ≫ D.right.app X ◁ (R.mapId X).inv) ≫
         D.right.naturality (𝟙 X)) =
       (D.right.app X ◁ (R.mapId X).inv) ≫
         (D.right.naturality (𝟙 X) ≫ (𝟙 X) ◁ m.app X) := by
   exact Generic.globalConjugateDomainMapIdNaturality
-    (actualLiftTargetRightMateData (W := W) A
+    (actualLiftTargetRightMateData.{u, v, uH, vH, uW, uP} (W := W) A
       (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))
-    (actualLiftTargetRightMateData (W := W) A
+    (actualLiftTargetRightMateData.{u, v, uH, vH, uW, uP} (W := W) A
       (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))
     Γ X
 
@@ -304,18 +304,18 @@ theorem actualLiftTargetGlobalMapIdNaturality
 side, dual to the source-unit R_L.mapComp correction. -/
 theorem actualLiftTargetGlobalMapCompNaturality
     (Γ : Pseudofunctor.StrongTrans.Modification
-      (actualLiftTargetRoundtripCounit (W := W) A
+      (actualLiftTargetRoundtripCounit.{u, v, uH, vH, uW, uP} (W := W) A
         (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))
-      (actualLiftTargetRoundtripCounit (W := W) A
+      (actualLiftTargetRoundtripCounit.{u, v, uH, vH, uW, uP} (W := W) A
         (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)))
     {X Y Z : ActualLiftTarget.{u, v, uH, vH, uW, uP}
       (W := W) A WorldLabel PresentationLabel}
     (f : X ⟶ Y) (g : Y ⟶ Z) :
-    let D := actualLiftTargetRightMateData (W := W) A
+    let D := actualLiftTargetRightMateData.{u, v, uH, vH, uW, uP} (W := W) A
       (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)
-    let R := actualLiftTargetRoundtrip (W := W) A
+    let R := actualLiftTargetRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
       (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)
-    let m := Generic.rightModification D D Γ
+    let m := rightModification D D Γ
     ((m.app X ▷ (R.map f ≫ R.map g) ≫
         D.right.app X ◁ (R.mapComp f g).inv) ≫
           D.right.naturality (f ≫ g)) =
@@ -323,9 +323,9 @@ theorem actualLiftTargetGlobalMapCompNaturality
         (D.right.naturality (f ≫ g) ≫
           (f ≫ g) ◁ m.app Z) := by
   exact Generic.globalConjugateDomainMapCompNaturality
-    (actualLiftTargetRightMateData (W := W) A
+    (actualLiftTargetRightMateData.{u, v, uH, vH, uW, uP} (W := W) A
       (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))
-    (actualLiftTargetRightMateData (W := W) A
+    (actualLiftTargetRightMateData.{u, v, uH, vH, uW, uP} (W := W) A
       (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))
     Γ f g
 
