@@ -48,6 +48,14 @@ variable {B : Type uB} [Bicategory.{wB, vB} B]
 variable {C : Type uC} [Bicategory.{wC, vC} C]
 variable (F G : Pseudofunctor B C)
 
+/-! Mathlib's native StrongTrans homCategory is a scoped instance with
+non-output universe parameters. Fix the exact hom category explicitly at
+this generic two-bicategory boundary, as in v5.64 and v5.116. -/
+local instance exactStrongTransHomCategory :
+    Category (Pseudofunctor.StrongTrans F G) :=
+  Pseudofunctor.StrongTrans.homCategory
+    (B := B) (C := C) (F := F) (G := G)
+
 /-- Forget the chosen adjunctions but retain the original full strong
 transformation and each original (possibly noninvertible) modification.
 The target is mathlib's actual StrongTrans hom category. -/
