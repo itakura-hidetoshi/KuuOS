@@ -59,6 +59,7 @@ theorem liftStructuralComparisonIso_compression
     (structuralComparisonPairIso p q).hom := by
   simp only [liftStructuralComparisonIso,
     Functor.preimageIso_hom, Functor.map_preimage]
+  rfl
 
 variable {aF bF cF dF eF aG bG cG dG eG : C}
 
