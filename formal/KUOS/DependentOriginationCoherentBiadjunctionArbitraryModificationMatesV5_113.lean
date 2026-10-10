@@ -189,9 +189,8 @@ theorem compatible_vcomp
     change conjugateComponent dθ dι deltaMod X ≫
       conjugateComponent dσ dθ Γ X = _
     exact (conjugateComponent_vcomp dσ dθ dι Γ deltaMod X).symm
-  exact (compatible_iff_exists dσ dι
-    (Pseudofunctor.StrongTrans.Modification.vcomp Γ deltaMod)).2
-      ⟨m, hm⟩
+  intro X Y f
+  simpa only [hm X, hm Y] using m.naturality f
 
 /-- Full equality of actual right lax modifications (not only of
 objectwise 2-cells): contravariant vertical functoriality. -/
