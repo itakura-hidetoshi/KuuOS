@@ -200,6 +200,7 @@ theorem finiteLeftBoundary_normalize
           c.gComposite ▷ dσ.right.app Y := by
   simp only [finiteLeftBoundary, BiComparisonChain.leftCorrection_eq_whisker,
     BiComparisonChain.rightCorrection_eq_whisker]
+  rfl
 
 /-- The expanded right boundary normalizes independently, retaining
 the final genuine G-side whiskering rather than strictifying it. -/
@@ -213,9 +214,10 @@ theorem finiteRightBoundary_normalize
       (((dθ.right.app X ◁ (c.fComposite).inv ≫
           dθ.right.naturality f) ≫
         c.gComposite ▷ dθ.right.app Y) ≫
-          kG ◁ (rightModification dσ dθ Γ).app Y := by
+          kG ◁ (rightModification dσ dθ Γ).app Y) := by
   simp only [finiteRightBoundary, BiComparisonChain.leftCorrection_eq_whisker,
     BiComparisonChain.rightCorrection_eq_whisker]
+  rfl
 
 /-- Original F22 simultaneous comparison naturality now holds for
 the genuinely EXPANDED boundaries of EVERY finite comparison chain. -/
