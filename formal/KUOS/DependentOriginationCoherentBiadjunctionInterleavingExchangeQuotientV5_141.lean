@@ -49,7 +49,7 @@ primitive refinement operations. -/
 inductive OrderedInterleaving :
     ∀ {a b : D} {x y : E}, Nat → Nat →
       Blocks a b → Blocks x y →
-      Blocks a b → Blocks x y → Type (max uD uE vD vE) where
+      Blocks a b → Blocks x y → Type (max (max uD uE) (max vD vE)) where
   | refl {a b : D} {x y : E}
       (mods : Blocks a b) (pq : Blocks x y) :
       OrderedInterleaving 0 0 mods pq mods pq
@@ -195,7 +195,7 @@ of AdjacentSwap, because Quot forms that generated congruence. -/
 def ExchangeClass
     {a b : D} {x y : E} (n m : Nat)
     (ma mb : Blocks a b) (pa pb : Blocks x y) :
-    Type (max uD uE vD vE) :=
+    Type (max (max uD uE) (max vD vE)) :=
   Quot (fun p q : OrderedInterleaving n m ma pa mb pb => AdjacentSwap p q)
 
 /-- Put a concrete ordered path into the genuine exchange quotient. -/
