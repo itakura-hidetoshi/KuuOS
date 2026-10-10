@@ -123,6 +123,7 @@ theorem kernelQuotientHorizontalExchange_compression (aF bF aG bG : C)
   simp only [kernelQuotientHorizontalExchangeNatIso,
     NatIso.ofComponents_hom_app,
     Functor.preimageIso_hom, Functor.map_preimage]
+  rfl
 
 /-- Naturality of F34 is a genuine equality of two distinct
 composites of F28 quotient-CATEGORY arrows, for ANY arrow `pq`. -/
