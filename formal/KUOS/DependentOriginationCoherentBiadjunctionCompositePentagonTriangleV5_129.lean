@@ -75,14 +75,14 @@ theorem compositePentagon
           fF ◁ (α_ gF hF iF).hom =
         (α_ (fF ≫ gF) hF iF).hom ≫
           (α_ fF gF (hF ≫ iF)).hom
-    exact Bicategory.pentagon fF gF hF iF
+    simpa only [Category.assoc] using Bicategory.pentagon fF gF hF iF
   · change
       ((α_ fG gG hG).hom ▷ iG ≫
         (α_ fG (gG ≫ hG) iG).hom) ≫
           fG ◁ (α_ gG hG iG).hom =
         (α_ (fG ≫ gG) hG iG).hom ≫
           (α_ fG gG (hG ≫ iG)).hom
-    exact Bicategory.pentagon fG gG hG iG
+    simpa only [Category.assoc] using Bicategory.pentagon fG gG hG iG
 
 variable {aF bF cF aG bG cG : C}
 
