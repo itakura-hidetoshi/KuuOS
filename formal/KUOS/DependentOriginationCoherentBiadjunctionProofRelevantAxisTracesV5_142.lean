@@ -167,4 +167,5 @@ theorem ExchangeClass.axisTraces_composites
 #print axioms ExchangeClass.axisTraces_toRectangleTrace
 #print axioms ExchangeClass.axisTraces_composites
 
+end
 end KUOS.DependentOriginationCoherentBiadjunctionInterleavingExchangeQuotientV5_141.Grid
