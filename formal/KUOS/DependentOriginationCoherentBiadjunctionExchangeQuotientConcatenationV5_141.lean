@@ -85,9 +85,9 @@ theorem AdjacentSwap.appendPrefix
     AdjacentSwap (OrderedInterleaving.append earlier p)
       (OrderedInterleaving.append earlier q) := by
   induction h with
-  | square prefix hm hp =>
+  | square initialPath hm hp =>
       simpa only [OrderedInterleaving.append, Nat.add_succ] using
-        (AdjacentSwap.square (OrderedInterleaving.append earlier prefix) hm hp)
+        (AdjacentSwap.square (OrderedInterleaving.append earlier initialPath) hm hp)
   | afterModification h step ih =>
       simpa only [OrderedInterleaving.append, Nat.add_succ] using
         (AdjacentSwap.afterModification ih step)
