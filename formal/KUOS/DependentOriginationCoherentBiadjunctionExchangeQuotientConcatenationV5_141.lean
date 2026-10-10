@@ -90,10 +90,10 @@ theorem AdjacentSwap.appendPrefix
         (AdjacentSwap.square (OrderedInterleaving.append earlier initialPath) hm hp)
   | afterModification h step ih =>
       simpa only [OrderedInterleaving.append, Nat.add_succ] using
-        (AdjacentSwap.afterModification ih step)
+        (AdjacentSwap.afterModification (ih earlier) step)
   | afterComparison h step ih =>
       simpa only [OrderedInterleaving.append, Nat.add_succ] using
-        (AdjacentSwap.afterComparison ih step)
+        (AdjacentSwap.afterComparison (ih earlier) step)
 
 /-- Exact quotient path concatenation: BOTH congruence conditions
 are discharged by explicit primitive-interchange computations.
