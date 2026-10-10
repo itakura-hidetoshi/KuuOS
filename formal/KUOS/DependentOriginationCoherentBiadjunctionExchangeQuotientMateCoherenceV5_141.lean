@@ -123,7 +123,7 @@ theorem exchangeQuotientOriginalMate
     (kernelCategoryHomToKernelHom (basePath ≫ routeLong) =
       kernelCategoryHomToKernelHom (basePath ≫ routeShort)) := by
   exact finiteTraceRectangleOriginalMate F G modsA modsB f uF uG vF vG wF wG pqA pqB
-    (Grid.ExchangeClass.toInterleaving exchange).toRectangleTrace basePath
+    ((Grid.ExchangeClass.toInterleaving exchange).toRectangleTrace) basePath
 
 /-- Two arbitrary original ordered exchange sequences concatenate as
 another original F19/F28 exchange, with EXACT additive n/m depths. -/
@@ -233,7 +233,7 @@ theorem exchangeQuotientVerticalMate
     (kernelCategoryHomToKernelHom (basePath ≫ routeLong) =
       kernelCategoryHomToKernelHom (basePath ≫ routeShort)) := by
   exact finiteTraceRectangleVerticalMate F G modsA modsB f uF uG vF vG wF wG T β pqA pqB
-    (Grid.ExchangeClass.toInterleaving exchange).toRectangleTrace basePath
+    ((Grid.ExchangeClass.toInterleaving exchange).toRectangleTrace) basePath
 
 /-- The same after TWO genuine interleaved original refinement paths,
 without reordering F/G nonstrict comparisons or assuming invertibility. -/
