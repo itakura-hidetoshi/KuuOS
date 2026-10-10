@@ -149,8 +149,8 @@ theorem constructiveRectangleOriginalMateTrans
     (kernelCategoryHomToKernelHom (basePath ≫ routeLong) =
       kernelCategoryHomToKernelHom (basePath ≫ routeShort)) := by
   exact constructiveRectangleOriginalMate F G modsA modsC
-    (Grid.RectangleRefines.trans hAB hBC)
-    f uF uG vF vG wF wG pqA pqC basePath
+    f uF uG vF vG wF wG pqA pqC
+    (Grid.RectangleRefines.trans hAB hBC) basePath
 
 /-- The same constructive refinement descent after one further arbitrary
 potentially noninvertible natural transformation. -/
@@ -265,8 +265,8 @@ theorem constructiveRectangleVerticalMateTrans
     (kernelCategoryHomToKernelHom (basePath ≫ routeLong) =
       kernelCategoryHomToKernelHom (basePath ≫ routeShort)) := by
   exact constructiveRectangleVerticalMate F G modsA modsC
-    (Grid.RectangleRefines.trans hAB hBC)
-    f uF uG vF vG wF wG T β pqA pqC basePath
+    f uF uG vF vG wF wG T β pqA pqC
+    (Grid.RectangleRefines.trans hAB hBC) basePath
 
 #print axioms constructiveRectangleOriginalMate
 #print axioms constructiveRectangleOriginalMateTrans
