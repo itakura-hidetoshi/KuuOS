@@ -120,12 +120,8 @@ theorem kernelQuotientHorizontalExchange_compression (aF bF aG bG : C)
       (compositeHorizontalExchangeNatIso aF bF aG bG
         uF uG vF vG).hom.app
           ((quotientCompositeFunctor aF bF aG bG).obj x) := by
-  change (quotientCompositeFunctor eF dF eG dG).map
-    ((quotientCompositeFunctor eF dF eG dG).preimage
-      ((compositeHorizontalExchangeNatIso aF bF aG bG
-        uF uG vF vG).hom.app
-        ((quotientCompositeFunctor aF bF aG bG).obj x))) = _
-  exact (quotientCompositeFunctor eF dF eG dG).map_preimage _
+  simp only [kernelQuotientHorizontalExchangeNatIso,
+    Functor.preimageIso_hom, Functor.map_preimage]
 
 /-- Naturality of F34 is a genuine equality of two distinct
 composites of F28 quotient-CATEGORY arrows, for ANY arrow `pq`. -/
