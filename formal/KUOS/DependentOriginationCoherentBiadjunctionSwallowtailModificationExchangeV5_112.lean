@@ -14,8 +14,10 @@ open KUOS.DependentOriginationExactLiftableActualLiftTargetCounitV5_49
 open KUOS.DependentOriginationExactLiftableActualLiftBiadjunctionTriangulatorsV5_58
 open KUOS.DependentOriginationCoherentBiadjunctionActualLiftV5_101
 open KUOS.DependentOriginationCoherentBiadjunctionNativeMatesV5_104
+open KUOS.DependentOriginationCoherentBiadjunctionMathlibAdjunctionBridgeV5_102
 open KUOS.DependentOriginationCoherentBiadjunctionNativeRightMateLaxTransV5_110
 open KUOS.DependentOriginationCoherentBiadjunctionNativeRightMateTriangleModificationsV5_111
+open KUOS.DependentOriginationCoherentBiadjunctionNativeRightMateTriangleModificationsV5_111.Generic
 open KUOS.DependentOriginationBiadjunctionTriangulatorHorizontalPastesV5_64.Generic.IncoherentBiadjunctionDatum
 open KUOS.DependentOriginationForwardSwallowtailPredicateV5_65.Generic.IncoherentBiadjunctionDatum
 open KUOS.DependentOriginationReverseSwallowtailPredicateV5_66.Generic.IncoherentBiadjunctionDatum
@@ -38,9 +40,14 @@ original global triangulator pastes.  Mathlib's bicategorical
 **any** modification of the original unit/counit, including the
 non-strict normalized left zigzag modifications of v5.111.
 
-Second, expose the unchanged F14 right mates' global naturality with
-the v5.111 normalized RIGHT zigzag modifications.  Both constructions
-refer to the same old objectwise adjunctions, and add no new adjoints,
+Second, mathlib's native `Bicategory.conjugateEquiv` carries the
+ORIGINAL normalized left adjunction triangle at each object to the
+ORIGINAL normalized right adjunction triangle at that SAME object.
+This establishes a concrete, non-strict *mate* comparison between
+the left unit/counit modifications and F14's right-mate modifications.
+The genuine lax naturality of those right transformations is retained.
+Both constructions refer to the same old objectwise adjunctions,
+and add no new adjoints,
 triangulators, invertibility assumptions, or coherence axioms.
 
 The resulting result is a typed compatibility boundary: it does not
@@ -52,6 +59,17 @@ namespace Generic
 universe uB vB wB uC vC wC
 variable {B : Type uB} [Bicategory.{wB, vB} B]
 variable {C : Type uC} [Bicategory.{wC, vC} C]
+
+/-- The normalised ORIGINAL left triangle is sent by mathlib's
+genuine conjugate-mate equivalence to the normalised ORIGINAL right
+triangle, for the SAME adjunction.  No replacement adjunct is used. -/
+theorem normalizedLeftTriangle_conjugate_eq_right
+    {a b : B} {l : a ⟶ b} {r : b ⟶ a}
+    (adj : Bicategory.Adjunction l r) :
+    Bicategory.conjugateEquiv adj adj (normalizedLeftZigzag adj) =
+      normalizedRightZigzag adj := by
+  simp only [normalizedLeftZigzag_eq_id, normalizedRightZigzag_eq_id,
+    Bicategory.conjugateEquiv_id]
 
 variable (D :
   KUOS.DependentOriginationCoherentBiadjunctionActualLiftV5_101.Generic.CoherentBiadjunctionDatum B C)
@@ -170,12 +188,46 @@ theorem actualLiftTargetRightMateTriangle_naturality
   exact (actualLiftTargetRightMateTriangleModification (W := W) A
     (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)).naturality f
 
+/-- Source: the left triangle 2-cell of the original η_X, under
+mathlib's ACTUAL conjugate equivalence, is exactly the right
+triangle component of F14's original source right mate. -/
+theorem actualLiftSourceTriangle_conjugate_eq_rightMate
+    (X : ActualLiftSource.{u, v, uH, vH, uW, uP}
+      (W := W) A WorldLabel PresentationLabel) :
+    Bicategory.conjugateEquiv
+      (actualLiftSourceNativeAdjHom (W := W) A X).adj
+      (actualLiftSourceNativeAdjHom (W := W) A X).adj
+      ((actualLiftSourceUnitLeftTriangleModification (W := W) A
+        (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)).app X) =
+    (actualLiftSourceRightMateTriangleModification (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)).app X := by
+  exact Generic.normalizedLeftTriangle_conjugate_eq_right
+    (actualLiftSourceNativeAdjHom (W := W) A X).adj
+
+/-- Target: the SAME conjugate-mate bridge for the original ε_Y
+and its chosen right adjoint; the non-strict R_E is unchanged. -/
+theorem actualLiftTargetTriangle_conjugate_eq_rightMate
+    (Y : ActualLiftTarget.{u, v, uH, vH, uW, uP}
+      (W := W) A WorldLabel PresentationLabel) :
+    Bicategory.conjugateEquiv
+      (actualLiftTargetNativeAdjHom (W := W) A Y).adj
+      (actualLiftTargetNativeAdjHom (W := W) A Y).adj
+      ((actualLiftTargetCounitLeftTriangleModification (W := W) A
+        (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)).app Y) =
+    (actualLiftTargetRightMateTriangleModification (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)).app Y := by
+  exact Generic.normalizedLeftTriangle_conjugate_eq_right
+    (actualLiftTargetNativeAdjHom (W := W) A Y).adj
+
+#print axioms Generic.normalizedLeftTriangle_conjugate_eq_right
 #print axioms Generic.forwardInterchanger_exchange
 #print axioms Generic.reverseInterchanger_exchange
 #print axioms actualLiftForwardInterchanger_sourceTriangle_exchange
 #print axioms actualLiftReverseInterchanger_targetTriangle_exchange
 #print axioms actualLiftSourceRightMateTriangle_naturality
 #print axioms actualLiftTargetRightMateTriangle_naturality
+#print axioms actualLiftSourceTriangle_conjugate_eq_rightMate
+#print axioms actualLiftTargetTriangle_conjugate_eq_rightMate
 
 end
 
