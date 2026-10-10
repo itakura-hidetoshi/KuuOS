@@ -50,6 +50,8 @@ Both constructions refer to the same old objectwise adjunctions,
 and add no new adjoints,
 triangulators, invertibility assumptions, or coherence axioms.
 
+The transported left triangle components are assembled as actual lax
+modifications and proved equal to the original right zigzag modifications.
 The resulting result is a typed compatibility boundary: it does not
 claim a direct equality of cells living in different functor bicategories.
 -/
@@ -219,6 +221,69 @@ theorem actualLiftTargetTriangle_conjugate_eq_rightMate
   exact Generic.normalizedLeftTriangle_conjugate_eq_right
     (actualLiftTargetNativeAdjHom (W := W) A Y).adj
 
+/-- The canonical conjugate of EACH original source-unit left triangle
+component assembles into a full native lax modification on the
+unchanged F14 source right-mate transformation.  The naturality proof
+uses the already established original right zigzag modification. -/
+def actualLiftSourceConjugatedTriangleModification :
+    Oplax.LaxTrans.Modification
+      (actualLiftSourceRightMateLaxTrans (W := W) A
+        (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))
+      (actualLiftSourceRightMateLaxTrans (W := W) A
+        (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)) where
+  app X :=
+    Bicategory.conjugateEquiv
+      (actualLiftSourceNativeAdjHom (W := W) A X).adj
+      (actualLiftSourceNativeAdjHom (W := W) A X).adj
+      ((actualLiftSourceUnitLeftTriangleModification (W := W) A
+        (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)).app X)
+  naturality {_ _} f := by
+    simpa only [actualLiftSourceTriangle_conjugate_eq_rightMate] using
+      (actualLiftSourceRightMateTriangleModification (W := W) A
+        (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)).naturality f
+
+/-- The conjugated ORIGINAL left triangle is EXACTLY the already
+constructed right zigzag modification, globally (not just at points). -/
+theorem actualLiftSourceConjugatedTriangleModification_eq_original :
+    actualLiftSourceConjugatedTriangleModification (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel) =
+    actualLiftSourceRightMateTriangleModification (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel) := by
+  apply Oplax.LaxTrans.Modification.ext
+  funext X
+  exact actualLiftSourceTriangle_conjugate_eq_rightMate (W := W) A X
+
+/-- The conjugate of each ORIGINAL target-counit left triangle also
+assembles into a full native lax modification on the original target
+right mate, without promoting its naturality cells to isomorphisms. -/
+def actualLiftTargetConjugatedTriangleModification :
+    Oplax.LaxTrans.Modification
+      (actualLiftTargetRightMateLaxTrans (W := W) A
+        (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))
+      (actualLiftTargetRightMateLaxTrans (W := W) A
+        (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)) where
+  app Y :=
+    Bicategory.conjugateEquiv
+      (actualLiftTargetNativeAdjHom (W := W) A Y).adj
+      (actualLiftTargetNativeAdjHom (W := W) A Y).adj
+      ((actualLiftTargetCounitLeftTriangleModification (W := W) A
+        (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)).app Y)
+  naturality {_ _} f := by
+    simpa only [actualLiftTargetTriangle_conjugate_eq_rightMate] using
+      (actualLiftTargetRightMateTriangleModification (W := W) A
+        (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)).naturality f
+
+/-- The conjugated ORIGINAL target triangle equals the full v5.111
+right-mate modification; equality includes genuine lax naturality. -/
+theorem actualLiftTargetConjugatedTriangleModification_eq_original :
+    actualLiftTargetConjugatedTriangleModification (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel) =
+    actualLiftTargetRightMateTriangleModification (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel) := by
+  apply Oplax.LaxTrans.Modification.ext
+  funext Y
+  exact actualLiftTargetTriangle_conjugate_eq_rightMate (W := W) A Y
+
 #print axioms Generic.normalizedLeftTriangle_conjugate_eq_right
 #print axioms Generic.forwardInterchanger_exchange
 #print axioms Generic.reverseInterchanger_exchange
@@ -228,6 +293,10 @@ theorem actualLiftTargetTriangle_conjugate_eq_rightMate
 #print axioms actualLiftTargetRightMateTriangle_naturality
 #print axioms actualLiftSourceTriangle_conjugate_eq_rightMate
 #print axioms actualLiftTargetTriangle_conjugate_eq_rightMate
+#print axioms actualLiftSourceConjugatedTriangleModification
+#print axioms actualLiftSourceConjugatedTriangleModification_eq_original
+#print axioms actualLiftTargetConjugatedTriangleModification
+#print axioms actualLiftTargetConjugatedTriangleModification_eq_original
 
 end
 
