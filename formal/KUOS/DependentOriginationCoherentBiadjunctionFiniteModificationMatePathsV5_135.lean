@@ -48,12 +48,9 @@ theorem mapPath_composite (H : D ⥤ E) {x y : D}
     (mapPath H p).composite = H.map p.composite := by
   induction p with
   | nil =>
-      change (𝟙 (H.obj x)) = H.map (𝟙 x)
-      exact (H.map_id x).symm
+      simpa only [mapPath, Chain.Path.composite] using (H.map_id x).symm
   | @snoc mid fin p q ih =>
-      change (mapPath H p).composite ≫ H.map q =
-        H.map (p.composite ≫ q)
-      rw [ih, H.map_comp]
+      simpa only [mapPath, Chain.Path.composite, H.map_comp, ih]
 
 /-- Categorical finite-path transport respects every finite split,
 without assuming that the functor is strict on its objects. -/
@@ -62,11 +59,10 @@ theorem mapPath_append (H : D ⥤ E) {x y z : D}
     mapPath H (p.append q) =
       (mapPath H p).append (mapPath H q) := by
   induction q with
-  | nil => rfl
+  | nil =>
+      simp only [Chain.Path.append, mapPath]
   | @snoc mid fin q r ih =>
-      change Chain.Path.snoc (mapPath H (p.append q)) (H.map r) =
-        Chain.Path.snoc ((mapPath H p).append (mapPath H q)) (H.map r)
-      rw [ih]
+      simpa only [Chain.Path.append, mapPath, ih]
 
 /-- Transport ALL (including empty and nested) binary parenthesizations
 without dropping their actual input 1-cells. -/
@@ -85,14 +81,12 @@ theorem mapBracketing_evaluated (H : D ⥤ E) {x y : D}
     (mapBracketing H p).evaluated = H.map p.evaluated := by
   induction p with
   | empty =>
-      change (𝟙 (H.obj x)) = H.map (𝟙 x)
-      exact (H.map_id x).symm
-  | arrow q => rfl
+      simpa only [mapBracketing, Chain.Bracketing.evaluated] using (H.map_id _).symm
+  | arrow q =>
+      simp only [mapBracketing, Chain.Bracketing.evaluated]
   | paste p q ihp ihq =>
-      change (mapBracketing H p).evaluated ≫
-        (mapBracketing H q).evaluated =
-        H.map (p.evaluated ≫ q.evaluated)
-      rw [ihp, ihq, H.map_comp]
+      simpa only [mapBracketing, Chain.Bracketing.evaluated,
+        H.map_comp, ihp, ihq]
 
 /-- The transported binary tree has EXACTLY the same flattened
 finite path as transporting the original flattened path. -/
@@ -101,13 +95,13 @@ theorem mapBracketing_flattened (H : D ⥤ E) {x y : D}
     (mapBracketing H p).flattened =
       mapPath H p.flattened := by
   induction p with
-  | empty => rfl
-  | arrow q => rfl
+  | empty =>
+      simp only [mapBracketing, Chain.Bracketing.flattened, mapPath]
+  | arrow q =>
+      simp only [mapBracketing, Chain.Bracketing.flattened, mapPath]
   | paste p q ihp ihq =>
-      change (mapBracketing H p).flattened.append
-        (mapBracketing H q).flattened =
-        mapPath H (p.flattened.append q.flattened)
-      rw [ihp, ihq, mapPath_append]
+      simpa only [mapBracketing, Chain.Bracketing.flattened,
+        mapPath_append, ihp, ihq]
 
 end Finite
 
