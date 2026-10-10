@@ -8,6 +8,12 @@ open scoped CategoryTheory.Bicategory CategoryTheory.Oplax.LaxTrans
 open KUOS.DependentOriginationCoherentBiadjunctionArbitraryModificationMatesV5_113.Generic
 open KUOS.DependentOriginationCoherentBiadjunctionAutomaticModificationMatesV5_114.Generic
 open KUOS.DependentOriginationCoherentBiadjunctionMateForgetfulHorizontalWhiskeringV5_117.Generic
+open KUOS.DependentOriginationGeneratedRefinementTopologyV2_4
+open KUOS.DependentOriginationLocalizedSheafUniversalityV2_6
+open KUOS.DependentOriginationExactLiftableActualLiftSourceUnitV5_50
+open KUOS.DependentOriginationExactLiftableActualLiftTargetCounitV5_49
+open KUOS.DependentOriginationExactLiftableActualLiftBiadjunctionTriangulatorsV5_58
+open KUOS.DependentOriginationCoherentBiadjunctionArbitraryModificationMatesV5_113
 
 set_option autoImplicit false
 noncomputable section
@@ -205,5 +211,127 @@ theorem globalConjugateDomainMapCompNaturality
 end Generic
 
 end
+
+/-! ## Genuine original source η and target ε specializations -/
+
+universe u v uH vH uW uP
+variable {Context : Type u} [Category.{v} Context]
+variable (W : MorphismProperty Context)
+variable (A : RefinementAtlas.{u, max u v, uH} (LocalizedContext W))
+variable {WorldLabel : Type uW} {PresentationLabel : Type uP}
+
+/-- SOURCE: original R_L.mapId is explicitly present in the naturality
+of EVERY modification on the original source-unit η. No strictification. -/
+theorem actualLiftSourceGlobalMapIdNaturality
+    (Γ : Pseudofunctor.StrongTrans.Modification
+      (actualLiftSourceRoundtripUnit (W := W) A
+        (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))
+      (actualLiftSourceRoundtripUnit (W := W) A
+        (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)))
+    (X : ActualLiftSource.{u, v, uH, vH, uW, uP}
+      (W := W) A WorldLabel PresentationLabel) :
+    let D := actualLiftSourceRightMateData (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)
+    let R := actualLiftSourceRoundtrip (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)
+    let m := Generic.rightModification D D Γ
+    ((m.app X ▷ (𝟙 X) ≫ D.right.naturality (𝟙 X)) ≫
+        (R.mapId X).hom ▷ D.right.app X) =
+      (D.right.naturality (𝟙 X) ≫ (R.mapId X).hom ▷ D.right.app X) ≫
+        (𝟙 X) ◁ m.app X := by
+  exact Generic.globalConjugateMapIdNaturality
+    (actualLiftSourceRightMateData (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))
+    (actualLiftSourceRightMateData (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))
+    Γ X
+
+/-- SOURCE: retain the ORIGINAL R_L.mapComp after the full mate
+naturality square on each arbitrary composite source 1-morphism. -/
+theorem actualLiftSourceGlobalMapCompNaturality
+    (Γ : Pseudofunctor.StrongTrans.Modification
+      (actualLiftSourceRoundtripUnit (W := W) A
+        (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))
+      (actualLiftSourceRoundtripUnit (W := W) A
+        (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)))
+    {X Y Z : ActualLiftSource.{u, v, uH, vH, uW, uP}
+      (W := W) A WorldLabel PresentationLabel}
+    (f : X ⟶ Y) (g : Y ⟶ Z) :
+    let D := actualLiftSourceRightMateData (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)
+    let R := actualLiftSourceRoundtrip (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)
+    let m := Generic.rightModification D D Γ
+    ((m.app X ▷ (f ≫ g) ≫ D.right.naturality (f ≫ g)) ≫
+        (R.mapComp f g).hom ▷ D.right.app Z) =
+      (D.right.naturality (f ≫ g) ≫
+        (R.mapComp f g).hom ▷ D.right.app Z) ≫
+          (R.map f ≫ R.map g) ◁ m.app Z := by
+  exact Generic.globalConjugateMapCompNaturality
+    (actualLiftSourceRightMateData (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))
+    (actualLiftSourceRightMateData (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))
+    Γ f g
+
+/-- TARGET: the ORIGINAL non-strict R_E.mapId inverse is kept on the
+source side of the original target-counit's right-mate square. -/
+theorem actualLiftTargetGlobalMapIdNaturality
+    (Γ : Pseudofunctor.StrongTrans.Modification
+      (actualLiftTargetRoundtripCounit (W := W) A
+        (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))
+      (actualLiftTargetRoundtripCounit (W := W) A
+        (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)))
+    (X : ActualLiftTarget.{u, v, uH, vH, uW, uP}
+      (W := W) A WorldLabel PresentationLabel) :
+    let D := actualLiftTargetRightMateData (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)
+    let R := actualLiftTargetRoundtrip (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)
+    let m := Generic.rightModification D D Γ
+    ((m.app X ▷ (𝟙 X) ≫ D.right.app X ◁ (R.mapId X).inv) ≫
+        D.right.naturality (𝟙 X)) =
+      (D.right.app X ◁ (R.mapId X).inv) ≫
+        (D.right.naturality (𝟙 X) ≫ (𝟙 X) ◁ m.app X) := by
+  exact Generic.globalConjugateDomainMapIdNaturality
+    (actualLiftTargetRightMateData (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))
+    (actualLiftTargetRightMateData (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))
+    Γ X
+
+/-- TARGET: the ORIGINAL R_E.mapComp inverse is kept on the source
+side, dual to the source-unit R_L.mapComp correction. -/
+theorem actualLiftTargetGlobalMapCompNaturality
+    (Γ : Pseudofunctor.StrongTrans.Modification
+      (actualLiftTargetRoundtripCounit (W := W) A
+        (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))
+      (actualLiftTargetRoundtripCounit (W := W) A
+        (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)))
+    {X Y Z : ActualLiftTarget.{u, v, uH, vH, uW, uP}
+      (W := W) A WorldLabel PresentationLabel}
+    (f : X ⟶ Y) (g : Y ⟶ Z) :
+    let D := actualLiftTargetRightMateData (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)
+    let R := actualLiftTargetRoundtrip (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)
+    let m := Generic.rightModification D D Γ
+    ((m.app X ▷ (R.map f ≫ R.map g) ≫
+        D.right.app X ◁ (R.mapComp f g).inv) ≫
+          D.right.naturality (f ≫ g)) =
+      (D.right.app X ◁ (R.mapComp f g).inv) ≫
+        (D.right.naturality (f ≫ g) ≫
+          (f ≫ g) ◁ m.app Z) := by
+  exact Generic.globalConjugateDomainMapCompNaturality
+    (actualLiftTargetRightMateData (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))
+    (actualLiftTargetRightMateData (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))
+    Γ f g
+
+#print axioms actualLiftSourceGlobalMapIdNaturality
+#print axioms actualLiftSourceGlobalMapCompNaturality
+#print axioms actualLiftTargetGlobalMapIdNaturality
+#print axioms actualLiftTargetGlobalMapCompNaturality
 
 end KUOS.DependentOriginationCoherentBiadjunctionGlobalHorizontalMateNaturalityV5_118
