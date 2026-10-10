@@ -112,6 +112,7 @@ theorem kernelCategoryLeftMateBoundary_eq_compressed
           (G.obj X) (G.obj Y)).map q) := by
   rw [kernelCategoryLeftMateBoundary, quotientLeftMateBoundary_eq_compressed,
     kernelCategoryHomToKernelHom_composite]
+  rfl
 
 /-- The original independent RIGHT mate boundary likewise factors
 through the genuine F28 quotient-category compression. -/
@@ -133,6 +134,7 @@ theorem kernelCategoryRightMateBoundary_eq_compressed
           (G.obj X) (G.obj Y)).map q) := by
   rw [kernelCategoryRightMateBoundary, quotientRightMateBoundary_eq_compressed,
     kernelCategoryHomToKernelHom_composite]
+  rfl
 
 /-- The UNCHANGED F22 mate naturality extends to every real quotient
 category arrow, not merely a finite-path quotient representative. -/
