@@ -49,14 +49,48 @@ def rightKernelQuotientAssociatorNatIso
       apply (quotientCompositeFunctor aF dF aG dG).map_injective
       simp only [Functor.map_comp, Functor.comp_map,
         Functor.preimageIso_hom, Functor.map_preimage]
-      rw [rightKernelQuotientWhisker_compression aF eF aG eG vF vG
-        ((rightKernelQuotientWhiskerFunctor aF bF aG bG uF uG).map pq)]
-      rw [rightKernelQuotientWhisker_compression aF bF aG bG uF uG pq]
-      rw [rightKernelQuotientWhisker_compression aF bF aG bG
-        (uF ≫ vF) (uG ≫ vG) pq]
-      exact (rightCompositeAssociatorNatIso aF bF aG bG
-        uF uG vF vG).hom.naturality
-          ((quotientCompositeFunctor aF bF aG bG).map pq))
+      have hcomp :
+          (quotientCompositeFunctor aF dF aG dG).map
+            ((rightKernelQuotientWhiskerFunctor aF eF aG eG vF vG).map
+              ((rightKernelQuotientWhiskerFunctor aF bF aG bG uF uG).map pq)) =
+          (rightCompositeWhiskerFunctor aF eF aG eG vF vG).map
+            ((rightCompositeWhiskerFunctor aF bF aG bG uF uG).map
+              ((quotientCompositeFunctor aF bF aG bG).map pq)) := by
+        calc
+          _ = (rightCompositeWhiskerFunctor aF eF aG eG vF vG).map
+                ((quotientCompositeFunctor aF eF aG eG).map
+                  ((rightKernelQuotientWhiskerFunctor aF bF aG bG uF uG).map pq)) :=
+            rightKernelQuotientWhisker_compression aF eF aG eG vF vG _
+          _ = _ := congrArg
+            (fun z => (rightCompositeWhiskerFunctor aF eF aG eG vF vG).map z)
+            (rightKernelQuotientWhisker_compression aF bF aG bG uF uG pq)
+      calc
+        _ = (rightCompositeWhiskerFunctor aF eF aG eG vF vG).map
+              ((rightCompositeWhiskerFunctor aF bF aG bG uF uG).map
+                ((quotientCompositeFunctor aF bF aG bG).map pq)) ≫
+              ((rightCompositeAssociatorNatIso aF bF aG bG
+                uF uG vF vG).app
+                  ((quotientCompositeFunctor aF bF aG bG).obj y)).hom :=
+          congrArg
+            (fun z => z ≫ ((rightCompositeAssociatorNatIso aF bF aG bG
+              uF uG vF vG).app
+                ((quotientCompositeFunctor aF bF aG bG).obj y)).hom)
+            hcomp
+        _ = ((rightCompositeAssociatorNatIso aF bF aG bG
+              uF uG vF vG).app
+                ((quotientCompositeFunctor aF bF aG bG).obj x)).hom ≫
+              (rightCompositeWhiskerFunctor aF bF aG bG
+                (uF ≫ vF) (uG ≫ vG)).map
+                ((quotientCompositeFunctor aF bF aG bG).map pq) :=
+          (rightCompositeAssociatorNatIso aF bF aG bG
+            uF uG vF vG).hom.naturality
+              ((quotientCompositeFunctor aF bF aG bG).map pq)
+        _ = _ := congrArg
+          (fun z => ((rightCompositeAssociatorNatIso aF bF aG bG
+            uF uG vF vG).app
+              ((quotientCompositeFunctor aF bF aG bG).obj x)).hom ≫ z)
+          (rightKernelQuotientWhisker_compression aF bF aG bG
+            (uF ≫ vF) (uG ≫ vG) pq).symm)
 
 /-- Left unitor is a genuine NATURAL ISO from quotient left whiskering
 by the original identity 1-cells to the actual identity quotient functor. -/
