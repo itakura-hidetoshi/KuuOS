@@ -88,7 +88,7 @@ theorem exchangeQuotientOriginalMapId
       quotientComposite longClass = quotientComposite shortClass ) := by
   exact finiteTraceOriginalMapId F G modsA modsB X
     uF uG vF vG wF wG pA pB
-    (Grid.ExchangeClass.toInterleaving exchange).toRectangleTrace basePath
+    ((Grid.ExchangeClass.toInterleaving exchange).toRectangleTrace) basePath
 
 /-- Original nonstrict mapId through successive independently counted
 finite interleavings of F19 and F28 primitive refinement operations. -/
@@ -178,7 +178,7 @@ theorem exchangeQuotientOriginalMapComp
       quotientComposite longClass = quotientComposite shortClass ) := by
   exact finiteTraceOriginalMapComp F G modsA modsB f g
     uF uG vF vG wF wG pA pB
-    (Grid.ExchangeClass.toInterleaving exchange).toRectangleTrace basePath
+    ((Grid.ExchangeClass.toInterleaving exchange).toRectangleTrace) basePath
 
 /-- Original nonstrict mapComp coherence under concatenated two-axis
 primitive refinement interleavings with exact additive step counts. -/
