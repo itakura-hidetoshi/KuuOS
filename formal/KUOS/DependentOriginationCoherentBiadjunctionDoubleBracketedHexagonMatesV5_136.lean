@@ -98,7 +98,7 @@ theorem doubleBracketedHexagonMateIndependence
     Chain.Bracketing.independent pqA pqB hpq
   have h := doubleFiniteModificationHexagonMateInterchange F G
     modsA.flattened f uF uG vF vG wF wG pqA.flattened basePath
-  refine ⟨Finite.mapBracketing_independent
+  refine ⟨KUOS.DependentOriginationCoherentBiadjunctionDoubleFinitePastingCoreV5_136.Finite.mapBracketing_independent
     (rightMateFunctor F G) modsA modsB hmods, ?_, ?_⟩
   · rw [← hm, ← hq]
     simpa only [Chain.Bracketing.evaluated_eq_flattened] using h.2.1
@@ -140,26 +140,6 @@ theorem doubleBracketedHexagonVerticalMateIndependence
         (G.obj X) bG wF wG
     let hexagon := kernelMixedHexagonStagewiseLongNatIso
       aF bF aG bG uF uG vF vG wF wG
-    let routeLong := (L.map pq.composite ≫ hexagon.hom.app y) ≫ β.app y
-    let routeShort := hexagon.hom.app x ≫
-      (β.app x ≫ T.map pq.composite)
-    ((rightMateFunctor F G).map mods.composite =
-      (Finite.mapPath (rightMateFunctor F G) mods).composite) ∧
-    (kernelCategoryLeftMateBoundary a.core.datum b.core.datum
-        mods.composite f (basePath ≫ routeLong) =
-      kernelCategoryLeftMateBoundary a.core.datum b.core.datum
-        mods.composite f (basePath ≫ routeShort) ∧
-     kernelCategoryRightMateBoundary a.core.datum b.core.datum
-        mods.composite f (basePath ≫ routeLong) =
-      kernelCategoryRightMateBoundary a.core.datum b.core.datum
-        mods.composite f (basePath ≫ routeShort) ∧
-     kernelCategoryLeftMateBoundary a.core.datum b.core.datum
-        mods.composite f (basePath ≫ routeLong) =
-      kernelCategoryRightMateBoundary a.core.datum b.core.datum
-        mods.composite f (basePath ≫ routeShort)) ∧
-    (kernelCategoryHomToKernelHom (basePath ≫ routeLong) =
-      kernelCategoryHomToKernelHom (basePath ≫ routeShort))    let hexagon := kernelMixedHexagonStagewiseLongNatIso
-      aF bF aG bG uF uG vF vG wF wG
     let routeLong := (L.map pqA.evaluated ≫ hexagon.hom.app y) ≫ β.app y
     let routeShort := hexagon.hom.app x ≫
       (β.app x ≫ T.map pqB.evaluated)
@@ -185,7 +165,7 @@ theorem doubleBracketedHexagonVerticalMateIndependence
     Chain.Bracketing.independent pqA pqB hpq
   have h := doubleFiniteModificationHexagonVerticalPasting F G
     modsA.flattened f uF uG vF vG wF wG T β pqA.flattened basePath
-  refine ⟨Finite.mapBracketing_independent
+  refine ⟨KUOS.DependentOriginationCoherentBiadjunctionDoubleFinitePastingCoreV5_136.Finite.mapBracketing_independent
     (rightMateFunctor F G) modsA modsB hmods, ?_, ?_⟩
   · rw [← hm, ← hq]
     simpa only [Chain.Bracketing.evaluated_eq_flattened] using h.2.1
