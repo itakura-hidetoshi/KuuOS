@@ -82,8 +82,26 @@ theorem kernelMixedHexagonStagewiseLongIso_compression
       uF uG vF vG wF wG
       ((quotientCompositeFunctor aF bF aG bG).obj x)).hom := by
   rcases x with ⟨x⟩
-  simpa only [kernelMixedHexagonStagewiseLongIso,
-    Iso.trans_hom, Functor.map_comp,
+  let Q := quotientCompositeFunctor dF cF dG cG
+  let p1 := liftStructuralComparisonIso
+    (Bicategory.whiskerRightIso (α_ vF uF x.fF) wF)
+    (Bicategory.whiskerRightIso (α_ vG uG x.fG) wG)
+  let p2 := liftStructuralComparisonIso
+    (α_ vF (uF ≫ x.fF) wF) (α_ vG (uG ≫ x.fG) wG)
+  let p3 := liftStructuralComparisonIso
+    (Bicategory.whiskerLeftIso vF (α_ uF x.fF wF))
+    (Bicategory.whiskerLeftIso vG (α_ uG x.fG wG))
+  let p4 := liftStructuralComparisonIso
+    (α_ vF uF (x.fF ≫ wF)).symm
+    (α_ vG uG (x.fG ≫ wG)).symm
+  change Q.map (((p1.hom ≫ p2.hom) ≫ p3.hom) ≫ p4.hom) =
+    (compositeMixedHexagonLongIso aF bF aG bG
+      uF uG vF vG wF wG
+      ((quotientCompositeFunctor aF bF aG bG).obj ⟨x⟩)).hom
+  rw [Q.map_comp ((p1.hom ≫ p2.hom) ≫ p3.hom) p4.hom]
+  rw [Q.map_comp (p1.hom ≫ p2.hom) p3.hom]
+  rw [Q.map_comp p1.hom p2.hom]
+  simpa only [p1, p2, p3, p4, Q,
     liftStructuralComparisonIso_compression, Category.assoc]
 
 /-- The independently staged four F31/F34 quotient arrows paste to
