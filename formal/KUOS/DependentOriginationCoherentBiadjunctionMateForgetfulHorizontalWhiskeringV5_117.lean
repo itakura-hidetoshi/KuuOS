@@ -72,7 +72,8 @@ def forgetOriginalStrongFullyFaithful :
     (forgetOriginalStrong F G).FullyFaithful where
   preimage {_ _} f := f.as
   map_preimage {_ _} f := by
-    cases f
+    change Pseudofunctor.StrongTrans.Hom.of f.as = f
+    apply Pseudofunctor.StrongTrans.Hom.ext
     rfl
   preimage_map {_ _} f := rfl
 
@@ -94,7 +95,7 @@ def forgetRightThroughMateFullyFaithful :
         (leftModification a.core.datum b.core.datum
           (rightModification a.core.datum b.core.datum f.as)) = f
     rw [leftModification_rightModification]
-    cases f
+    apply Pseudofunctor.StrongTrans.Hom.ext
     rfl
   preimage_map {a b} m := by
     change
@@ -124,12 +125,15 @@ def originalForgetfulComparison :
     (fun a => Iso.refl a.core.left)
     (by
       intro a b m
+      apply Pseudofunctor.StrongTrans.homCategory.ext
+      intro X
       change
-        (forgetRightThroughMate F G).map ((rightMateFunctor F G).map m) ≫
-          𝟙 (b.core.left) =
-        𝟙 (a.core.left) ≫ (forgetOriginalStrong F G).map m
-      rw [Category.comp_id, Category.id_comp,
-        forgetOriginalStrong_rightMate_map F G m])
+        (leftModification a.core.datum b.core.datum
+          (rightModification a.core.datum b.core.datum m)).app X ≫
+            𝟙 (b.core.left.app X) =
+          𝟙 (a.core.left.app X) ≫ m.app X
+      rw [leftModification_rightModification]
+      simp only [Category.comp_id, Category.id_comp])
 
 /-- All components of the forgetful comparison are literally the
 identity of the original (unmodified) strong transformation. -/
