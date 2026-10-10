@@ -64,8 +64,13 @@ theorem globalConjugateBiComparisonLeftPastingNormalize
       dσ.right.app X ◁ (t.inv ≫ p.inv) =
         (dσ.right.app X ◁ t.inv) ≫ (dσ.right.app X ◁ p.inv) :=
     Bicategory.whiskerLeft_comp (dσ.right.app X) t.inv p.inv
-  simp only [Iso.trans_inv, Bicategory.comp_whiskerRight, Category.assoc]
-  rw [hWhisker]
+  let m := rightModification dσ dθ Γ
+  have hPasted := congrArg
+    (fun (z : (dσ.right.app X ≫ lF) ⟶ (dσ.right.app X ≫ F.map f)) =>
+      (m.app X ▷ lF ≫ z) ≫ dσ.right.naturality f ≫
+        (q ≫ r) ▷ dσ.right.app Y) hWhisker.symm
+  simpa only [Iso.trans_inv, Bicategory.comp_whiskerRight,
+    Category.assoc] using hPasted
 
 /-- The independent right boundary also normalizes to the composite
 F ISO / G 2-cell. It includes the actual outer G-side whiskering by
@@ -90,8 +95,13 @@ theorem globalConjugateBiComparisonRightPastingNormalize
       dθ.right.app X ◁ (t.inv ≫ p.inv) =
         (dθ.right.app X ◁ t.inv) ≫ (dθ.right.app X ◁ p.inv) :=
     Bicategory.whiskerLeft_comp (dθ.right.app X) t.inv p.inv
-  simp only [Iso.trans_inv, Bicategory.comp_whiskerRight, Category.assoc]
-  rw [hWhisker]
+  let m := rightModification dσ dθ Γ
+  have hPasted := congrArg
+    (fun (z : (dθ.right.app X ≫ lF) ⟶ (dθ.right.app X ≫ F.map f)) =>
+      (z ≫ dθ.right.naturality f ≫
+        (q ≫ r) ▷ dθ.right.app Y) ≫ lG ◁ m.app Y) hWhisker.symm
+  simpa only [Iso.trans_inv, Bicategory.comp_whiskerRight,
+    Category.assoc] using hPasted
 
 /-- Two completely DIFFERENT factorizations through independent F/G
 intermediate 1-cells yield the SAME expanded left and right pastings
