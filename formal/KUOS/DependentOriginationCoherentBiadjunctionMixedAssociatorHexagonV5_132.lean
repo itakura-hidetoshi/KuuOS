@@ -139,6 +139,17 @@ def compositeMixedHexagonLongNatIso
       uF uG vF vG wF wG x)
     (by
       intro x y pq
+      change
+        (leftCompositeWhiskerFunctor aF bF aG bG
+          (vF ≫ uF) (vG ≫ uG) ⋙
+          rightCompositeWhiskerFunctor dF bF dG bG wF wG).map pq ≫
+          (compositeMixedHexagonLongIso aF bF aG bG
+            uF uG vF vG wF wG y).hom =
+        (compositeMixedHexagonLongIso aF bF aG bG
+          uF uG vF vG wF wG x).hom ≫
+          (rightCompositeWhiskerFunctor aF bF aG bG wF wG ⋙
+            leftCompositeWhiskerFunctor aF cF aG cG
+              (vF ≫ uF) (vG ≫ uG)).map pq
       rw [compositeMixedHexagon aF bF aG bG uF uG vF vG wF wG x,
           compositeMixedHexagon aF bF aG bG uF uG vF vG wF wG y]
       exact (compositeHorizontalExchangeNatIso aF bF aG bG
