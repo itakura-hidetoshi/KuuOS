@@ -39,9 +39,9 @@ def OrderedInterleaving.castComparisonDepth
     {ma mb : Blocks a b} {pa pb : Blocks x y}
     (depthEq : m = m')
     (route : OrderedInterleaving n m ma pa mb pb) :
-    OrderedInterleaving n m' ma pa mb pb := by
-  cases depthEq
-  exact route
+    OrderedInterleaving n m' ma pa mb pb :=
+  cast (congrArg
+    (fun k => OrderedInterleaving n k ma pa mb pb) depthEq) route
 
 /-- Reindex ONLY the genuine F19 primitive count. F28's independent
 actual quotient-category refinement history remains unmodified. -/
@@ -50,9 +50,9 @@ def OrderedInterleaving.castModificationDepth
     {ma mb : Blocks a b} {pa pb : Blocks x y}
     (depthEq : n = n')
     (route : OrderedInterleaving n m ma pa mb pb) :
-    OrderedInterleaving n' m ma pa mb pb := by
-  cases depthEq
-  exact route
+    OrderedInterleaving n' m ma pa mb pb :=
+  cast (congrArg
+    (fun k => OrderedInterleaving k m ma pa mb pb) depthEq) route
 
 /-- The comparison-depth Eq.mp index transport keeps the complete
 proof-relevant F19 modification trace unchanged, not just a Prop
