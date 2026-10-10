@@ -44,6 +44,20 @@ This creates new coherent structures, not new axioms, functors,
 objectwise adjunctions, eta/epsilon, or strictifications.
 -/
 
+namespace Generic
+
+universe uB vB wB
+variable {B : Type uB} [Bicategory.{wB, vB} B]
+variable {a b c : B} {g : a ⟶ b} {h : b ⟶ c} {k : a ⟶ c}
+
+/-- A right-whiskered identity 2-cell disappears under composition
+with an arbitrary 2-cell, without unfolding a concrete bicategory. -/
+theorem comp_id_whiskerRight (α : k ⟶ g ≫ h) :
+    α ≫ (𝟙 g ▷ h) = α := by
+  rw [Bicategory.id_whiskerRight, Category.comp_id]
+
+end Generic
+
 universe u v uH vH uW uP
 variable {Context : Type u} [Category.{v} Context]
 variable (W : MorphismProperty Context)
@@ -122,8 +136,9 @@ def actualLiftTargetRightMateLaxTrans :
     have hIdentity :
         actualLiftTargetCounitRightMate (W := W) A (𝟙 X) ≫
             𝟙 (𝟙 X) ▷ (actualLiftTargetNativeAdjHom (W := W) A X).r =
-          actualLiftTargetCounitRightMate (W := W) A (𝟙 X) := by
-      bicategory
+          actualLiftTargetCounitRightMate (W := W) A (𝟙 X) :=
+      Generic.comp_id_whiskerRight
+        (actualLiftTargetCounitRightMate (W := W) A (𝟙 X))
     exact hIdentity.trans
       (actualLiftTargetCounitRightMate_id_mapId (W := W) A X)
   naturality_comp {X Y Z} f g := by
@@ -146,6 +161,7 @@ def actualLiftTargetRightMateLaxTrans :
       actualLiftTargetCounitRightMapCompWhisker, actualLiftTargetCounitMateVComp,
       Bicategory.rightAdjointSquare.vcomp] using hRight
 
+#print axioms Generic.comp_id_whiskerRight
 #print axioms actualLiftSourceRightMateLaxTrans
 #print axioms actualLiftTargetRightMateLaxTrans
 
