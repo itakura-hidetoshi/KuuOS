@@ -180,13 +180,19 @@ def actualLiftSourceBiMapIdTwoStageNaturality
       (actualLiftSourceRoundtripUnit.{u, v, uH, vH, uW, uP} (W := W) A
         (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)))
     (X : ActualLiftSource.{u, v, uH, vH, uW, uP}
-      (W := W) A WorldLabel PresentationLabel) :=
+      (W := W) A WorldLabel PresentationLabel)
+    {lF : X ⟶ X} (t : 𝟙 X ≅ lF)
+    {lG : (actualLiftSourceRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)).obj X ⟶ (actualLiftSourceRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)).obj X}
+    (r : (𝟙 ((actualLiftSourceRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)).obj X)) ⟶ lG) :=
   Generic.globalConjugateBiMapIdTwoStageNaturality
     (actualLiftSourceRightMateData.{u, v, uH, uW, uP, vH} (W := W) A
       (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))
     (actualLiftSourceRightMateData.{u, v, uH, uW, uP, vH} (W := W) A
       (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))
-    Γ X
+    Γ X t r
 
 /-- Original SOURCE eta: mapComp followed by both arbitrary extra cells. -/
 def actualLiftSourceBiMapCompTwoStageNaturality
@@ -197,13 +203,20 @@ def actualLiftSourceBiMapCompTwoStageNaturality
         (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)))
     {X Y Z : ActualLiftSource.{u, v, uH, vH, uW, uP}
       (W := W) A WorldLabel PresentationLabel}
-    (f : X ⟶ Y) (g : Y ⟶ Z) :=
+    (f : X ⟶ Y) (g : Y ⟶ Z)
+    {lF : X ⟶ Z} (t : (f ≫ g) ≅ lF)
+    {lG : (actualLiftSourceRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)).obj X ⟶ (actualLiftSourceRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)).obj Z}
+    (r : ((actualLiftSourceRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)).map f ≫ (actualLiftSourceRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)).map g) ⟶ lG) :=
   Generic.globalConjugateBiMapCompTwoStageNaturality
     (actualLiftSourceRightMateData.{u, v, uH, uW, uP, vH} (W := W) A
       (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))
     (actualLiftSourceRightMateData.{u, v, uH, uW, uP, vH} (W := W) A
       (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))
-    Γ f g
+    Γ f g t r
 
 /-- Original TARGET epsilon: mapId with arbitrary F/G second stages. -/
 def actualLiftTargetBiMapIdTwoStageNaturality
@@ -213,13 +226,19 @@ def actualLiftTargetBiMapIdTwoStageNaturality
       (actualLiftTargetRoundtripCounit.{u, v, uH, vH, uW, uP} (W := W) A
         (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)))
     (X : ActualLiftTarget.{u, v, uH, vH, uW, uP}
-      (W := W) A WorldLabel PresentationLabel) :=
+      (W := W) A WorldLabel PresentationLabel)
+    {lF : (actualLiftTargetRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)).obj X ⟶ (actualLiftTargetRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)).obj X}
+    (t : (𝟙 ((actualLiftTargetRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)).obj X)) ≅ lF)
+    {lG : X ⟶ X} (r : 𝟙 X ⟶ lG) :=
   Generic.globalConjugateBiMapIdTwoStageNaturality
     (actualLiftTargetRightMateData.{u, v, uH, uW, uP, vH} (W := W) A
       (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))
     (actualLiftTargetRightMateData.{u, v, uH, uW, uP, vH} (W := W) A
       (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))
-    Γ X
+    Γ X t r
 
 /-- Original TARGET epsilon: mapComp with arbitrary F/G second stages. -/
 def actualLiftTargetBiMapCompTwoStageNaturality
@@ -230,13 +249,20 @@ def actualLiftTargetBiMapCompTwoStageNaturality
         (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)))
     {X Y Z : ActualLiftTarget.{u, v, uH, vH, uW, uP}
       (W := W) A WorldLabel PresentationLabel}
-    (f : X ⟶ Y) (g : Y ⟶ Z) :=
+    (f : X ⟶ Y) (g : Y ⟶ Z)
+    {lF : (actualLiftTargetRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)).obj X ⟶ (actualLiftTargetRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)).obj Z}
+    (t : ((actualLiftTargetRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)).map f ≫ (actualLiftTargetRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)).map g) ≅ lF)
+    {lG : X ⟶ Z} (r : (f ≫ g) ⟶ lG) :=
   Generic.globalConjugateBiMapCompTwoStageNaturality
     (actualLiftTargetRightMateData.{u, v, uH, uW, uP, vH} (W := W) A
       (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))
     (actualLiftTargetRightMateData.{u, v, uH, uW, uP, vH} (W := W) A
       (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))
-    Γ f g
+    Γ f g t r
 
 #print axioms actualLiftSourceBiMapIdTwoStageNaturality
 #print axioms actualLiftSourceBiMapCompTwoStageNaturality
