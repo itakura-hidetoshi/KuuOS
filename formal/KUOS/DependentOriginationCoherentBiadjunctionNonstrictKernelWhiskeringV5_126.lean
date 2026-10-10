@@ -46,8 +46,10 @@ theorem originalMapIdPrepend_composites (X : B)
   constructor
   · simp only [originalMapIdFiniteChain, Chains.prepend_eq_singleton_append,
       Chains.fComposite_append, BiComparisonChain.fComposite, Iso.refl_trans]
+    rfl
   · simp only [originalMapIdFiniteChain, Chains.prepend_eq_singleton_append,
       Chains.gComposite_append, BiComparisonChain.gComposite, Category.id_comp]
+    rfl
 
 /-- Composition comparisons are retained with their genuine nonstrict
 orientation, for any continuation (the G part need not invert). -/
@@ -63,8 +65,10 @@ theorem originalMapCompPrepend_composites
   constructor
   · simp only [originalMapCompFiniteChain, Chains.prepend_eq_singleton_append,
       Chains.fComposite_append, BiComparisonChain.fComposite, Iso.refl_trans]
+    rfl
   · simp only [originalMapCompFiniteChain, Chains.prepend_eq_singleton_append,
       Chains.gComposite_append, BiComparisonChain.gComposite, Category.id_comp]
+    rfl
 
 /-- Prepending original mapId preserves EXACTLY the F28 compression
 kernel, on both the invertible F and noninvertible G components. -/
