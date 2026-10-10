@@ -8,7 +8,6 @@ open scoped CategoryTheory.Bicategory CategoryTheory.Oplax.LaxTrans
 open KUOS.DependentOriginationCoherentBiadjunctionFiniteRectangularSubdivisionV5_137
 open KUOS.DependentOriginationCoherentBiadjunctionFiniteRefinementTracesV5_139
 open KUOS.DependentOriginationCoherentBiadjunctionInterleavingExchangeQuotientV5_141
-open KUOS.DependentOriginationCoherentBiadjunctionProofRelevantAxisTracesV5_142
 open KUOS.DependentOriginationCoherentBiadjunctionFunctorialPrimitiveRefinementV5_140
 
 set_option autoImplicit false
@@ -44,10 +43,10 @@ def AxisTrace.mapBlocks
     (H : D ⥤ D')
     {a b : D} {n : Nat}
     {p q : Blocks a b} (h : AxisTrace n p q) :
-    AxisTrace n (mapBlocks H p) (mapBlocks H q) := by
+    AxisTrace n (KUOS.DependentOriginationCoherentBiadjunctionFiniteRectangularSubdivisionV5_137.Grid.mapBlocks H p) (KUOS.DependentOriginationCoherentBiadjunctionFiniteRectangularSubdivisionV5_137.Grid.mapBlocks H q) := by
   induction h with
   | refl p =>
-      exact AxisTrace.refl (mapBlocks H p)
+      exact AxisTrace.refl (KUOS.DependentOriginationCoherentBiadjunctionFiniteRectangularSubdivisionV5_137.Grid.mapBlocks H p)
   | snoc h step ih =>
       exact AxisTrace.snoc ih (oneStep_mapBlocks H step)
 
