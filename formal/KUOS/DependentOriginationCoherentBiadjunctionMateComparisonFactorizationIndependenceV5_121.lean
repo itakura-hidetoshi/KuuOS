@@ -99,7 +99,8 @@ theorem globalConjugateBiComparisonRightPastingNormalize
   have hPasted := congrArg
     (fun (z : (dθ.right.app X ≫ lF) ⟶ (dθ.right.app X ≫ F.map f)) =>
       (z ≫ dθ.right.naturality f ≫
-        (q ≫ r) ▷ dθ.right.app Y) ≫ lG ◁ m.app Y) hWhisker.symm
+        q ▷ dθ.right.app Y ≫ r ▷ dθ.right.app Y) ≫
+          lG ◁ m.app Y) hWhisker.symm
   simpa only [Iso.trans_inv, Bicategory.comp_whiskerRight,
     Category.assoc] using hPasted
 
