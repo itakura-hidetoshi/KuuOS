@@ -304,4 +304,6 @@ def finiteOriginalMapCompNaturality
 
 end Generic
 
+end
+
 end KUOS.DependentOriginationCoherentBiadjunctionFiniteMateComparisonChainsV5_122
