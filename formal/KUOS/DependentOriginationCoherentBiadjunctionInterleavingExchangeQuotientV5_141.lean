@@ -225,7 +225,7 @@ theorem ExchangeClass.toInterleaving
     {ma mb : Blocks a b} {pa pb : Blocks x y}
     (c : ExchangeClass n m ma mb pa pb) :
     Interleaving n m ma pa mb pb := by
-  refine Quot.ind ?_ c
+  refine Quot.induction_on c ?_
   intro route
   exact OrderedInterleaving.toInterleaving route
 
