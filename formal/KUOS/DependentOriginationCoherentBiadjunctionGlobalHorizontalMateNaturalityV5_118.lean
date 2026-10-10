@@ -274,32 +274,22 @@ theorem actualLiftSourceGlobalMapCompNaturality
       (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))
     Γ f g
 
-/-- TARGET: the ORIGINAL non-strict R_E.mapId inverse is kept on the
-source side of the original target-counit's right-mate square.
+/-- The ORIGINAL target-counit right-mate naturality corrected by the
+non-strict `R_E.mapId` inverse. This proof is obtained by specializing the
+fully typed F21 domain-comparison theorem, preserving its exact equality.
 
-The exact type includes the original dependent refinement and bicategorical
-functors, requiring more whnf reductions than the surrounding theorems.
-Raise the heartbeat budget only for this one declaration; the statement,
-proof and pinned definitions are unchanged. -/
-set_option maxHeartbeats 1500000 in
-theorem actualLiftTargetGlobalMapIdNaturality
+The proof's result type is inferred instead of re-elaborating a gigantic
+refinement-indexed equality in the declaration header; the equality is
+the same one previously written explicitly. -/
+def actualLiftTargetGlobalMapIdNaturality
     (Γ : Pseudofunctor.StrongTrans.Modification
       (actualLiftTargetRoundtripCounit.{u, v, uH, vH, uW, uP} (W := W) A
         (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))
       (actualLiftTargetRoundtripCounit.{u, v, uH, vH, uW, uP} (W := W) A
         (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)))
     (X : ActualLiftTarget.{u, v, uH, vH, uW, uP}
-      (W := W) A WorldLabel PresentationLabel) :
-    let D := actualLiftTargetRightMateData.{u, v, uH, uW, uP, vH} (W := W) A
-      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)
-    let R := actualLiftTargetRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
-      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)
-    let m := rightModification D D Γ
-    ((m.app X ▷ (𝟙 X) ≫ D.right.app X ◁ (R.mapId X).inv) ≫
-        D.right.naturality (𝟙 X)) =
-      (D.right.app X ◁ (R.mapId X).inv) ≫
-        (D.right.naturality (𝟙 X) ≫ (𝟙 X) ◁ m.app X) := by
-  exact Generic.globalConjugateDomainMapIdNaturality
+      (W := W) A WorldLabel PresentationLabel) :=
+  Generic.globalConjugateDomainMapIdNaturality
     (actualLiftTargetRightMateData.{u, v, uH, uW, uP, vH} (W := W) A
       (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))
     (actualLiftTargetRightMateData.{u, v, uH, uW, uP, vH} (W := W) A
