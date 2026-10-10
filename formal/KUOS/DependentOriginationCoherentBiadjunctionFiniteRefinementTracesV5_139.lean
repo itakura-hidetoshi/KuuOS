@@ -92,7 +92,7 @@ theorem Trace.append {x y : D} {n m : Nat}
       simpa only [Nat.add_zero] using h
   | snoc k step ih =>
       simpa only [Nat.add_succ] using
-        (Trace.snoc ih step)
+        (Trace.snoc (ih h) step)
 
 /-- Original right-hand whiskering preserves the EXACT step count. -/
 theorem Trace.whisker {x y z : D} {n : Nat} {p q : Blocks x y}
