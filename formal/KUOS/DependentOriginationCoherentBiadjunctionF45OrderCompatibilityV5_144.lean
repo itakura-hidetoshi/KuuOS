@@ -80,17 +80,6 @@ theorem OrderedInterleaving.comparisonTrace_append
   | comparison k step ih =>
       exact congrArg (fun t => AxisTrace.snoc t step) (ih h)
 
-/-- A genuine zero-step prefix does not alter the appended native
-same-axis refinement history, at the full Type-level. -/
-theorem AxisTrace.append_refl_left
-    {a b : D} {n : Nat} {ma mb : Blocks a b}
-    (hm : AxisTrace n ma mb) :
-    AxisTrace.append (AxisTrace.refl ma) hm = hm := by
-  induction hm with
-  | refl p => rfl
-  | snoc hm step ih =>
-      exact congrArg (fun t => AxisTrace.snoc t step) ih
-
 /-- A genuine zero-step suffix likewise leaves the original
 same-axis intermediate block history exactly unchanged. -/
 theorem AxisTrace.append_refl_right
@@ -106,13 +95,16 @@ theorem AxisTrace.modificationFirst_modificationTrace
     {ma mb : Blocks a b} {pa pb : Blocks x y}
     (hm : AxisTrace n ma mb) (hc : AxisTrace m pa pb) :
     (AxisTrace.modificationFirst hm hc).modificationTrace = hm := by
-  change (OrderedInterleaving.append
-      (AxisTrace.toModificationInterleaving hm pa)
-      (AxisTrace.toComparisonInterleaving mb hc)).modificationTrace = hm
-  rw [OrderedInterleaving.modificationTrace_append,
-    AxisTrace.toModificationInterleaving_modificationTrace,
-    AxisTrace.toComparisonInterleaving_modificationTrace,
-    AxisTrace.append_refl_right]
+  induction hc with
+  | refl p =>
+      simpa only [AxisTrace.modificationFirst,
+        AxisTrace.toComparisonInterleaving, OrderedInterleaving.append,
+        Nat.add_zero, Nat.zero_add] using
+        (AxisTrace.toModificationInterleaving_modificationTrace hm p)
+  | snoc hc step ih =>
+      simpa only [AxisTrace.modificationFirst,
+        AxisTrace.toComparisonInterleaving, OrderedInterleaving.append,
+        Nat.add_zero, Nat.zero_add, Nat.add_succ] using ih
 
 /-- F45's original F19-first ordered route also preserves all
 independent F28 quotient-category primitive history in Type. -/
@@ -121,13 +113,17 @@ theorem AxisTrace.modificationFirst_comparisonTrace
     {ma mb : Blocks a b} {pa pb : Blocks x y}
     (hm : AxisTrace n ma mb) (hc : AxisTrace m pa pb) :
     (AxisTrace.modificationFirst hm hc).comparisonTrace = hc := by
-  change (OrderedInterleaving.append
-      (AxisTrace.toModificationInterleaving hm pa)
-      (AxisTrace.toComparisonInterleaving mb hc)).comparisonTrace = hc
-  rw [OrderedInterleaving.comparisonTrace_append,
-    AxisTrace.toModificationInterleaving_comparisonTrace,
-    AxisTrace.toComparisonInterleaving_comparisonTrace,
-    AxisTrace.append_refl_left]
+  induction hc with
+  | refl p =>
+      simpa only [AxisTrace.modificationFirst,
+        AxisTrace.toComparisonInterleaving, OrderedInterleaving.append,
+        Nat.add_zero, Nat.zero_add] using
+        (AxisTrace.toModificationInterleaving_comparisonTrace hm p)
+  | snoc hc step ih =>
+      simpa only [AxisTrace.modificationFirst,
+        AxisTrace.toComparisonInterleaving, OrderedInterleaving.append,
+        Nat.add_zero, Nat.zero_add, Nat.add_succ] using
+        (congrArg (fun t => AxisTrace.snoc t step) ih)
 
 /-- F45's ORIGINAL F28-first full ordered construction preserves
 the entire native F19 Type-level step history without permutation. -/
@@ -136,13 +132,17 @@ theorem AxisTrace.comparisonFirst_modificationTrace
     {ma mb : Blocks a b} {pa pb : Blocks x y}
     (hm : AxisTrace n ma mb) (hc : AxisTrace m pa pb) :
     (AxisTrace.comparisonFirst hm hc).modificationTrace = hm := by
-  change (OrderedInterleaving.append
-      (AxisTrace.toComparisonInterleaving ma hc)
-      (AxisTrace.toModificationInterleaving hm pb)).modificationTrace = hm
-  rw [OrderedInterleaving.modificationTrace_append,
-    AxisTrace.toComparisonInterleaving_modificationTrace,
-    AxisTrace.toModificationInterleaving_modificationTrace,
-    AxisTrace.append_refl_left]
+  induction hm with
+  | refl p =>
+      simpa only [AxisTrace.comparisonFirst,
+        AxisTrace.toModificationInterleaving, OrderedInterleaving.append,
+        Nat.add_zero, Nat.zero_add] using
+        (AxisTrace.toComparisonInterleaving_modificationTrace p hc)
+  | snoc hm step ih =>
+      simpa only [AxisTrace.comparisonFirst,
+        AxisTrace.toModificationInterleaving, OrderedInterleaving.append,
+        Nat.add_zero, Nat.zero_add, Nat.add_succ] using
+        (congrArg (fun t => AxisTrace.snoc t step) ih)
 
 /-- F45's original F28-first route likewise preserves its genuine
 separate F28 Type-level quotient primitive history. -/
@@ -151,13 +151,16 @@ theorem AxisTrace.comparisonFirst_comparisonTrace
     {ma mb : Blocks a b} {pa pb : Blocks x y}
     (hm : AxisTrace n ma mb) (hc : AxisTrace m pa pb) :
     (AxisTrace.comparisonFirst hm hc).comparisonTrace = hc := by
-  change (OrderedInterleaving.append
-      (AxisTrace.toComparisonInterleaving ma hc)
-      (AxisTrace.toModificationInterleaving hm pb)).comparisonTrace = hc
-  rw [OrderedInterleaving.comparisonTrace_append,
-    AxisTrace.toComparisonInterleaving_comparisonTrace,
-    AxisTrace.toModificationInterleaving_comparisonTrace,
-    AxisTrace.append_refl_right]
+  induction hm with
+  | refl p =>
+      simpa only [AxisTrace.comparisonFirst,
+        AxisTrace.toModificationInterleaving, OrderedInterleaving.append,
+        Nat.add_zero, Nat.zero_add] using
+        (AxisTrace.toComparisonInterleaving_comparisonTrace p hc)
+  | snoc hm step ih =>
+      simpa only [AxisTrace.comparisonFirst,
+        AxisTrace.toModificationInterleaving, OrderedInterleaving.append,
+        Nat.add_zero, Nat.zero_add, Nat.add_succ] using ih
 
 /-- The two ACTUAL original F45 finite concatenation paths are related
 by F44's generated primitive exchanges, not only by a Hom equality. -/
@@ -217,7 +220,6 @@ theorem AxisTrace.comparisonFirst_class_eq_comparisonNormal
 #print axioms AxisTrace.append
 #print axioms OrderedInterleaving.modificationTrace_append
 #print axioms OrderedInterleaving.comparisonTrace_append
-#print axioms AxisTrace.append_refl_left
 #print axioms AxisTrace.append_refl_right
 #print axioms AxisTrace.modificationFirst_modificationTrace
 #print axioms AxisTrace.modificationFirst_comparisonTrace
