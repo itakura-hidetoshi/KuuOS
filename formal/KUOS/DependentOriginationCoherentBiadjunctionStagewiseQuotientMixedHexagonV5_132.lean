@@ -81,10 +81,10 @@ theorem kernelMixedHexagonStagewiseLongIso_compression
     (compositeMixedHexagonLongIso aF bF aG bG
       uF uG vF vG wF wG
       ((quotientCompositeFunctor aF bF aG bG).obj x)).hom := by
-  simp only [kernelMixedHexagonStagewiseLongIso,
+  rcases x with ⟨x⟩
+  simpa only [kernelMixedHexagonStagewiseLongIso,
     Iso.trans_hom, Functor.map_comp,
     liftStructuralComparisonIso_compression]
-  rfl
 
 /-- The independently staged four F31/F34 quotient arrows paste to
 exactly the F35-B full-hexagon quotient ISO. Proved using F28's
@@ -105,7 +105,6 @@ theorem kernelMixedHexagonStagewiseLongIso_eq_full
   rw [kernelMixedHexagonStagewiseLongIso_compression]
   simp only [kernelMixedHexagonLongComponent,
     Functor.preimageIso_hom, Functor.map_preimage]
-  rfl
 
 /-- The four independently composed F31/F34 F28 quotient
 structural isomorphisms form a TRUE NatIso, natural for ALL
