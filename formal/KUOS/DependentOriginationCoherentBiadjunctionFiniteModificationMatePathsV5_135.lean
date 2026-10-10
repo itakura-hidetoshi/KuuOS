@@ -48,7 +48,7 @@ theorem mapPath_composite (H : D ⥤ E) {x y : D}
     (mapPath H p).composite = H.map p.composite := by
   induction p with
   | nil =>
-      simpa only [mapPath, Chain.Path.composite] using (H.map_id x).symm
+      simp only [mapPath, Chain.Path.composite, H.map_id]
   | @snoc mid fin p q ih =>
       simpa only [mapPath, Chain.Path.composite, H.map_comp, ih]
 
@@ -62,7 +62,7 @@ theorem mapPath_append (H : D ⥤ E) {x y z : D}
   | nil =>
       simp only [Chain.Path.append, mapPath]
   | @snoc mid fin q r ih =>
-      simpa only [Chain.Path.append, mapPath, ih]
+      simp only [Chain.Path.append, mapPath, ih]
 
 /-- Transport ALL (including empty and nested) binary parenthesizations
 without dropping their actual input 1-cells. -/
@@ -81,7 +81,7 @@ theorem mapBracketing_evaluated (H : D ⥤ E) {x y : D}
     (mapBracketing H p).evaluated = H.map p.evaluated := by
   induction p with
   | empty =>
-      simpa only [mapBracketing, Chain.Bracketing.evaluated] using (H.map_id _).symm
+      simp only [mapBracketing, Chain.Bracketing.evaluated, H.map_id]
   | arrow q =>
       simp only [mapBracketing, Chain.Bracketing.evaluated]
   | paste p q ihp ihq =>
@@ -100,7 +100,7 @@ theorem mapBracketing_flattened (H : D ⥤ E) {x y : D}
   | arrow q =>
       simp only [mapBracketing, Chain.Bracketing.flattened, mapPath]
   | paste p q ihp ihq =>
-      simpa only [mapBracketing, Chain.Bracketing.flattened,
+      simp only [mapBracketing, Chain.Bracketing.flattened,
         mapPath_append, ihp, ihq]
 
 end Finite
