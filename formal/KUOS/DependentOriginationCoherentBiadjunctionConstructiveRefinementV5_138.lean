@@ -33,6 +33,8 @@ F26's comparison-chain carrier is NOT substituted for F28 Hom.
 
 namespace Grid
 
+open KUOS.DependentOriginationCoherentBiadjunctionFiniteRectangularSubdivisionV5_137.Grid
+
 universe u v uE vE
 variable {D : Type u} [Category.{v} D]
 
@@ -82,9 +84,9 @@ theorem Refines.append_right {x y z : D} {p q : Blocks x y}
 /-- Directed refinements can occur AFTER an arbitrary already completed
 prefix of original category blocks, with the same exact 1-cells. -/
 theorem Refines.append_left {x y z : D}
-    (prefix : Blocks x y) {p q : Blocks y z}
+    (lead : Blocks x y) {p q : Blocks y z}
     (h : Refines p q) :
-    Refines (prefix.append p) (prefix.append q) := by
+    Refines (lead.append p) (lead.append q) := by
   induction h with
   | refl p =>
       exact Refines.refl _
@@ -93,9 +95,9 @@ theorem Refines.append_left {x y z : D}
   | whisker h t ih =>
       exact Refines.whisker ih t
   | split p q r =>
-      exact Refines.split (prefix.append p) q r
+      exact Refines.split (lead.append p) q r
   | insertNil p =>
-      exact Refines.insertNil (prefix.append p)
+      exact Refines.insertNil (lead.append p)
 
 /-- Two independently refined segments may themselves be concatenated;
 both components are kept as explicit constructive witnesses. -/
