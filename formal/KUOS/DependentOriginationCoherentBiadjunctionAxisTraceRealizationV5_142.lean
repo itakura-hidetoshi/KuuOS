@@ -1,6 +1,6 @@
 import KUOS.DependentOriginationCoherentBiadjunctionFunctorialAxisTraceDescentV5_142
 
-namespace KUOS.DependentOriginationCoherentBiadjunctionAxisTraceRealizationV5_142
+namespace KUOS.DependentOriginationCoherentBiadjunctionInterleavingExchangeQuotientV5_141.Grid
 
 open CategoryTheory
 open scoped CategoryTheory.Bicategory CategoryTheory.Oplax.LaxTrans
@@ -28,12 +28,10 @@ refinements are equal; future completeness/normal-form results must
 show any stronger equality by F44's explicit AdjacentSwap rules.
 -/
 
-namespace Grid
 
 open KUOS.DependentOriginationCoherentBiadjunctionFiniteRectangularSubdivisionV5_137.Grid
 open KUOS.DependentOriginationCoherentBiadjunctionInterleavingExchangeQuotientV5_141.Grid
 open KUOS.DependentOriginationCoherentBiadjunctionExchangeQuotientConcatenationV5_141.Grid
-open KUOS.DependentOriginationCoherentBiadjunctionProofRelevantAxisTracesV5_142.Grid
 
 universe uD vD uE vE
 variable {D : Type uD} [Category.{vD} D]
@@ -132,7 +130,4 @@ theorem AxisTrace.modificationFirst_toInterleaving
 #print axioms AxisTrace.toComparisonFirstClass
 #print axioms AxisTrace.modificationFirst_toInterleaving
 
-end Grid
-end
-
-end KUOS.DependentOriginationCoherentBiadjunctionAxisTraceRealizationV5_142
+end KUOS.DependentOriginationCoherentBiadjunctionInterleavingExchangeQuotientV5_141.Grid
