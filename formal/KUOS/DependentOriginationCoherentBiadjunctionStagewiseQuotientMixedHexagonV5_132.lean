@@ -84,7 +84,7 @@ theorem kernelMixedHexagonStagewiseLongIso_compression
   rcases x with ⟨x⟩
   simpa only [kernelMixedHexagonStagewiseLongIso,
     Iso.trans_hom, Functor.map_comp,
-    liftStructuralComparisonIso_compression]
+    liftStructuralComparisonIso_compression, Category.assoc]
 
 /-- The independently staged four F31/F34 quotient arrows paste to
 exactly the F35-B full-hexagon quotient ISO. Proved using F28's
