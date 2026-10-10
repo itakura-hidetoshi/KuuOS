@@ -1,6 +1,6 @@
 import KUOS.DependentOriginationCoherentBiadjunctionProofRelevantAxisTracesV5_142
 
-namespace KUOS.DependentOriginationCoherentBiadjunctionFunctorialAxisTraceDescentV5_142
+namespace KUOS.DependentOriginationCoherentBiadjunctionInterleavingExchangeQuotientV5_141.Grid
 
 open CategoryTheory
 open scoped CategoryTheory.Bicategory CategoryTheory.Oplax.LaxTrans
@@ -27,12 +27,10 @@ unchanged F43 functorial OneStep map; no strictification of a
 pseudofunctor or artificial inverse of G's lax cell is used.
 -/
 
-namespace Grid
 
 open KUOS.DependentOriginationCoherentBiadjunctionFiniteRectangularSubdivisionV5_137.Grid
 open KUOS.DependentOriginationCoherentBiadjunctionFiniteRefinementTracesV5_139.Grid
 open KUOS.DependentOriginationCoherentBiadjunctionInterleavingExchangeQuotientV5_141.Grid
-open KUOS.DependentOriginationCoherentBiadjunctionProofRelevantAxisTracesV5_142.Grid
 open KUOS.DependentOriginationCoherentBiadjunctionFunctorialPrimitiveRefinementV5_140.Grid
 
 universe uD vD uE vE uD' vD' uE' vE'
@@ -131,7 +129,4 @@ theorem AxisTrace.mapBlocks_toTrace
 #print axioms ExchangeClass.axisTraces_mapBoth
 #print axioms AxisTrace.mapBlocks_toTrace
 
-end Grid
-end
-
-end KUOS.DependentOriginationCoherentBiadjunctionFunctorialAxisTraceDescentV5_142
+end KUOS.DependentOriginationCoherentBiadjunctionInterleavingExchangeQuotientV5_141.Grid
