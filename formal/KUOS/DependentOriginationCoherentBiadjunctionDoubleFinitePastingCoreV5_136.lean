@@ -31,6 +31,8 @@ No original adjunction, mapId/mapComp or right mate is altered.
 
 namespace Finite
 
+open KUOS.DependentOriginationCoherentBiadjunctionFiniteModificationMatePathsV5_135.Finite
+
 universe uD vD uE vE
 variable {D : Type uD} [Category.{vD} D]
 variable {E : Type uE} [Category.{vE} E]
