@@ -135,7 +135,7 @@ theorem exchangeQuotientOriginalMapIdTrans
       quotientComposite longClass = quotientComposite shortClass ) := by
   exact exchangeQuotientOriginalMapId F G modsA modsC X
     uF uG vF vG wF wG pA pC
-    (Grid.ExchangeClass.append exchangeAB exchangeBC) basePath
+    (KUOS.DependentOriginationCoherentBiadjunctionExchangeQuotientConcatenationV5_141.Grid.ExchangeClass.append exchangeAB exchangeBC) basePath
 
 /-- Original nonstrict mapComp through any interleaved refinement. -/
 theorem exchangeQuotientOriginalMapComp
@@ -225,7 +225,7 @@ theorem exchangeQuotientOriginalMapCompTrans
       quotientComposite longClass = quotientComposite shortClass ) := by
   exact exchangeQuotientOriginalMapComp F G modsA modsC f g
     uF uG vF vG wF wG pA pC
-    (Grid.ExchangeClass.append exchangeAB exchangeBC) basePath
+    (KUOS.DependentOriginationCoherentBiadjunctionExchangeQuotientConcatenationV5_141.Grid.ExchangeClass.append exchangeAB exchangeBC) basePath
 
 #print axioms exchangeQuotientOriginalMapId
 #print axioms exchangeQuotientOriginalMapIdTrans
