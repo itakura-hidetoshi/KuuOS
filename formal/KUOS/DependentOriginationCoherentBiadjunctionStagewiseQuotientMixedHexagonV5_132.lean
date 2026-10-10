@@ -105,11 +105,8 @@ theorem kernelMixedHexagonStagewiseLongIso_compression
   simp only [p1, p2, p3, p4, Q,
     liftStructuralComparisonIso_compression,
     compositeMixedHexagonLongIso, structuralComparisonPairIso,
-    Iso.trans_hom, Category.assoc]
-  apply Prod.ext
-  · apply Iso.ext
-    simp only [Iso.trans_hom, Category.assoc]
-  · simp only [Category.assoc]
+    Iso.trans_hom]
+  rfl
 
 /-- The independently staged four F31/F34 quotient arrows paste to
 exactly the F35-B full-hexagon quotient ISO. Proved using F28's
