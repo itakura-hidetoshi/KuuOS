@@ -59,6 +59,7 @@ theorem originalMapIdCategory_composite
           (G.obj X) (G.obj X)).map q).2) := by
   rw [originalMapIdQuotientPrepend_composite,
     kernelCategoryHomToKernelHom_composite]
+  rfl
 
 /-- Original nonstrict mapComp retains F.mapComp and the forward
 G.toOplax.mapComp, after conversion from any genuine F28 category arrow. -/
@@ -81,6 +82,7 @@ theorem originalMapCompCategory_composite
           (G.obj X) (G.obj Z)).map q).2) := by
   rw [originalMapCompQuotientPrepend_composite,
     kernelCategoryHomToKernelHom_composite]
+  rfl
 
 /-- Equality of genuine F28 quotient-CATEGORY arrows is preserved
 through the ORIGINAL mapId comparison and BOTH actual lax-right-mate
