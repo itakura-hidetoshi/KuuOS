@@ -46,27 +46,18 @@ theorem originalMapIdQuotientCategory_compression (X : B)
           (originalMapIdFiniteChain (F := F) (G := G) X tail)) =
       ((F.mapId X).trans tail.fComposite,
        G.toOplax.mapId X ≫ tail.gComposite) := by
-  have hcat := congrArg
-    (fun (H : ComparisonPair (F.obj X) (F.obj X)
-        (G.obj X) (G.obj X) ⥤
-        CompositeComparisonPair (F.obj X) (F.obj X)
-          (G.obj X) (G.obj X)) =>
-      H.map (X := ⟨F.map (𝟙 X), G.map (𝟙 X)⟩)
-        (Y := ⟨kF, kG⟩)
-        (originalMapIdFiniteChain (F := F) (G := G) X tail))
-    (compression_factors_through_kernel_quotient
-      (F.obj X) (F.obj X) (G.obj X) (G.obj X))
   change
-    (quotientCompositeFunctor (F.obj X) (F.obj X)
-      (G.obj X) (G.obj X)).map
-      ((comparisonKernelQuotientFunctor (F.obj X) (F.obj X)
+    ((comparisonKernelQuotientFunctor (F.obj X) (F.obj X)
+        (G.obj X) (G.obj X) ⋙
+      quotientCompositeFunctor (F.obj X) (F.obj X)
         (G.obj X) (G.obj X)).map
-          (originalMapIdFiniteChain (F := F) (G := G) X tail)) =
-      ((originalMapIdFiniteChain (F := F) (G := G) X tail).fComposite,
-       (originalMapIdFiniteChain (F := F) (G := G) X tail).gComposite) at hcat
-  exact hcat.trans (Prod.ext
+      (originalMapIdFiniteChain (F := F) (G := G) X tail)) =
+      ((F.mapId X).trans tail.fComposite,
+       G.toOplax.mapId X ≫ tail.gComposite)
+  rw [compression_factors_through_kernel_quotient]
+  exact Prod.ext
     (originalMapIdPrepend_composites (F := F) (G := G) X tail).1
-    (originalMapIdPrepend_composites (F := F) (G := G) X tail).2)
+    (originalMapIdPrepend_composites (F := F) (G := G) X tail).2
 
 /-- Genuine mapComp and its noninvertible G component agree with
 compression THROUGH the quotient CATEGORY, including arbitrary tails. -/
@@ -82,27 +73,18 @@ theorem originalMapCompQuotientCategory_compression
           (originalMapCompFiniteChain (F := F) (G := G) f g tail)) =
       ((F.mapComp f g).trans tail.fComposite,
        G.toOplax.mapComp f g ≫ tail.gComposite) := by
-  have hcat := congrArg
-    (fun (H : ComparisonPair (F.obj X) (F.obj Z)
-        (G.obj X) (G.obj Z) ⥤
-        CompositeComparisonPair (F.obj X) (F.obj Z)
-          (G.obj X) (G.obj Z)) =>
-      H.map (X := ⟨F.map (f ≫ g), G.map (f ≫ g)⟩)
-        (Y := ⟨kF, kG⟩)
-        (originalMapCompFiniteChain (F := F) (G := G) f g tail))
-    (compression_factors_through_kernel_quotient
-      (F.obj X) (F.obj Z) (G.obj X) (G.obj Z))
   change
-    (quotientCompositeFunctor (F.obj X) (F.obj Z)
-      (G.obj X) (G.obj Z)).map
-      ((comparisonKernelQuotientFunctor (F.obj X) (F.obj Z)
+    ((comparisonKernelQuotientFunctor (F.obj X) (F.obj Z)
+        (G.obj X) (G.obj Z) ⋙
+      quotientCompositeFunctor (F.obj X) (F.obj Z)
         (G.obj X) (G.obj Z)).map
-          (originalMapCompFiniteChain (F := F) (G := G) f g tail)) =
-      ((originalMapCompFiniteChain (F := F) (G := G) f g tail).fComposite,
-       (originalMapCompFiniteChain (F := F) (G := G) f g tail).gComposite) at hcat
-  exact hcat.trans (Prod.ext
+      (originalMapCompFiniteChain (F := F) (G := G) f g tail)) =
+      ((F.mapComp f g).trans tail.fComposite,
+       G.toOplax.mapComp f g ≫ tail.gComposite)
+  rw [compression_factors_through_kernel_quotient]
+  exact Prod.ext
     (originalMapCompPrepend_composites (F := F) (G := G) f g tail).1
-    (originalMapCompPrepend_composites (F := F) (G := G) f g tail).2)
+    (originalMapCompPrepend_composites (F := F) (G := G) f g tail).2
 
 /-- Equality of ACTUAL F28 quotient-category arrows preserves left
 whiskering of the F ISO and arbitrary G 2-cell alike. -/
