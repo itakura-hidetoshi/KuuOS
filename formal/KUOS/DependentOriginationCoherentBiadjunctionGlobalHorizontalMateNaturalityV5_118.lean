@@ -94,7 +94,8 @@ theorem globalConjugateComparisonNaturality
       rw [Category.assoc]
     _ = dθ.right.naturality f ≫
         (q ▷ dθ.right.app Y ≫ k ◁ m.app Y) := by
-      rw [Bicategory.whisker_exchange q (m.app Y)]
+      exact congrArg (fun t => dθ.right.naturality f ≫ t)
+        (Bicategory.whisker_exchange q (m.app Y))
     _ = _ := by rw [Category.assoc]
 
 #print axioms globalConjugateNaturality
