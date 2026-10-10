@@ -129,4 +129,5 @@ theorem AxisTrace.mapBlocks_toTrace
 #print axioms ExchangeClass.axisTraces_mapBoth
 #print axioms AxisTrace.mapBlocks_toTrace
 
+end
 end KUOS.DependentOriginationCoherentBiadjunctionInterleavingExchangeQuotientV5_141.Grid
