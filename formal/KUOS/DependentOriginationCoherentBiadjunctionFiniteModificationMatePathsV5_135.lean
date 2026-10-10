@@ -36,10 +36,10 @@ variable {E : Type uE} [Category.{vE} E]
 
 /-- Map each genuine categorical arrow in a finite path through a
 functor, keeping all intermediate objects and without using any inverse. -/
-def mapPath (H : D ⥤ E) {x y : D} :
+def mapPath (H : D ⥤ E) : ∀ {x y : D},
     Chain.Path x y → Chain.Path (H.obj x) (H.obj y)
-  | .nil x => Chain.Path.nil (H.obj x)
-  | .snoc p q => Chain.Path.snoc (mapPath H p) (H.map q)
+  | _, _, .nil x => Chain.Path.nil (H.obj x)
+  | _, _, .snoc p q => Chain.Path.snoc (mapPath H p) (H.map q)
 
 /-- Evaluation COMMUTES with arbitrary finite-path transport, by
 induction, including the original nontrivial functor mapId/mapComp. -/
@@ -70,11 +70,11 @@ theorem mapPath_append (H : D ⥤ E) {x y z : D}
 
 /-- Transport ALL (including empty and nested) binary parenthesizations
 without dropping their actual input 1-cells. -/
-def mapBracketing (H : D ⥤ E) {x y : D} :
+def mapBracketing (H : D ⥤ E) : ∀ {x y : D},
     Chain.Bracketing x y → Chain.Bracketing (H.obj x) (H.obj y)
-  | .empty x => Chain.Bracketing.empty (H.obj x)
-  | .arrow q => Chain.Bracketing.arrow (H.map q)
-  | .paste p q => Chain.Bracketing.paste
+  | _, _, .empty x => Chain.Bracketing.empty (H.obj x)
+  | _, _, .arrow q => Chain.Bracketing.arrow (H.map q)
+  | _, _, .paste p q => Chain.Bracketing.paste
       (mapBracketing H p) (mapBracketing H q)
 
 /-- Evaluating any transported binary bracketing equals mapping its
