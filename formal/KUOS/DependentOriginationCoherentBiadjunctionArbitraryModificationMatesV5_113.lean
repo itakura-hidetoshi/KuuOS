@@ -133,8 +133,8 @@ theorem compatible_id (dσ : RightMateLaxData σ) :
       dσ.right.naturality f =
     dσ.right.naturality f ≫
       G.map f ◁ Bicategory.conjugateEquiv (dσ.adj Y) (dσ.adj Y) (𝟙 _)
-  simp only [Bicategory.conjugateEquiv_id, Bicategory.id_whiskerRight,
-    Bicategory.whiskerLeft_id, Category.id_comp, Category.comp_id]
+  simpa only [Bicategory.conjugateEquiv_id] using
+    (Oplax.LaxTrans.Modification.id dσ.right).naturality f
 
 /-- The identity modification is sent to the identity right-mate lax
 modification, without assuming it is strong. -/
@@ -149,23 +149,23 @@ theorem toRightModification_id (dσ : RightMateLaxData σ) :
   exact Bicategory.conjugateEquiv_id (dσ.adj X)
 
 /-- Arbitrary vertical composition reverses under the original
-conjugate-mate equivalences; no inverse of Γ or Δ is needed. -/
+conjugate-mate equivalences; no inverse of Γ or deltaMod is needed. -/
 theorem conjugateComponent_vcomp
     (dσ : RightMateLaxData σ) (dθ : RightMateLaxData θ)
     (dι : RightMateLaxData ι)
     (Γ : Pseudofunctor.StrongTrans.Modification σ θ)
-    (Δ : Pseudofunctor.StrongTrans.Modification θ ι)
+    (deltaMod : Pseudofunctor.StrongTrans.Modification θ ι)
     (X : B) :
     conjugateComponent dσ dι
-      (Pseudofunctor.StrongTrans.Modification.vcomp Γ Δ) X =
-    conjugateComponent dθ dι Δ X ≫ conjugateComponent dσ dθ Γ X := by
+      (Pseudofunctor.StrongTrans.Modification.vcomp Γ deltaMod) X =
+    conjugateComponent dθ dι deltaMod X ≫ conjugateComponent dσ dθ Γ X := by
   change
     Bicategory.conjugateEquiv (dι.adj X) (dσ.adj X)
-        (Γ.app X ≫ Δ.app X) =
-      Bicategory.conjugateEquiv (dι.adj X) (dθ.adj X) (Δ.app X) ≫
+        (Γ.app X ≫ deltaMod.app X) =
+      Bicategory.conjugateEquiv (dι.adj X) (dθ.adj X) (deltaMod.app X) ≫
         Bicategory.conjugateEquiv (dθ.adj X) (dσ.adj X) (Γ.app X)
   exact (Bicategory.conjugateEquiv_comp
-    (dι.adj X) (dθ.adj X) (dσ.adj X) (Δ.app X) (Γ.app X)).symm
+    (dι.adj X) (dθ.adj X) (dσ.adj X) (deltaMod.app X) (Γ.app X)).symm
 
 /-- Natural arbitrary modifications are closed under the original
 vertical paste. The corresponding right modifications compose in the
@@ -174,23 +174,23 @@ theorem compatible_vcomp
     (dσ : RightMateLaxData σ) (dθ : RightMateLaxData θ)
     (dι : RightMateLaxData ι)
     (Γ : Pseudofunctor.StrongTrans.Modification σ θ)
-    (Δ : Pseudofunctor.StrongTrans.Modification θ ι)
-    (hΓ : Compatible dσ dθ Γ) (hΔ : Compatible dθ dι Δ) :
+    (deltaMod : Pseudofunctor.StrongTrans.Modification θ ι)
+    (hΓ : Compatible dσ dθ Γ) (hdeltaMod : Compatible dθ dι deltaMod) :
     Compatible dσ dι
-      (Pseudofunctor.StrongTrans.Modification.vcomp Γ Δ) := by
+      (Pseudofunctor.StrongTrans.Modification.vcomp Γ deltaMod) := by
   let m : Oplax.LaxTrans.Modification dι.right dσ.right :=
     Oplax.LaxTrans.Modification.vcomp
-      (toRightModification dθ dι Δ hΔ)
+      (toRightModification dθ dι deltaMod hdeltaMod)
       (toRightModification dσ dθ Γ hΓ)
   have hm (X : B) :
       m.app X =
         conjugateComponent dσ dι
-          (Pseudofunctor.StrongTrans.Modification.vcomp Γ Δ) X := by
-    change conjugateComponent dθ dι Δ X ≫
+          (Pseudofunctor.StrongTrans.Modification.vcomp Γ deltaMod) X := by
+    change conjugateComponent dθ dι deltaMod X ≫
       conjugateComponent dσ dθ Γ X = _
-    exact (conjugateComponent_vcomp dσ dθ dι Γ Δ X).symm
+    exact (conjugateComponent_vcomp dσ dθ dι Γ deltaMod X).symm
   exact (compatible_iff_exists dσ dι
-    (Pseudofunctor.StrongTrans.Modification.vcomp Γ Δ)).2
+    (Pseudofunctor.StrongTrans.Modification.vcomp Γ deltaMod)).2
       ⟨m, hm⟩
 
 /-- Full equality of actual right lax modifications (not only of
@@ -199,17 +199,17 @@ theorem toRightModification_vcomp
     (dσ : RightMateLaxData σ) (dθ : RightMateLaxData θ)
     (dι : RightMateLaxData ι)
     (Γ : Pseudofunctor.StrongTrans.Modification σ θ)
-    (Δ : Pseudofunctor.StrongTrans.Modification θ ι)
-    (hΓ : Compatible dσ dθ Γ) (hΔ : Compatible dθ dι Δ) :
+    (deltaMod : Pseudofunctor.StrongTrans.Modification θ ι)
+    (hΓ : Compatible dσ dθ Γ) (hdeltaMod : Compatible dθ dι deltaMod) :
     toRightModification dσ dι
-      (Pseudofunctor.StrongTrans.Modification.vcomp Γ Δ)
-      (compatible_vcomp dσ dθ dι Γ Δ hΓ hΔ) =
+      (Pseudofunctor.StrongTrans.Modification.vcomp Γ deltaMod)
+      (compatible_vcomp dσ dθ dι Γ deltaMod hΓ hdeltaMod) =
     Oplax.LaxTrans.Modification.vcomp
-      (toRightModification dθ dι Δ hΔ)
+      (toRightModification dθ dι deltaMod hdeltaMod)
       (toRightModification dσ dθ Γ hΓ) := by
   apply Oplax.LaxTrans.Modification.ext
   funext X
-  exact conjugateComponent_vcomp dσ dθ dι Γ Δ X
+  exact conjugateComponent_vcomp dσ dθ dι Γ deltaMod X
 
 end Generic
 
@@ -228,7 +228,7 @@ def actualLiftSourceRightMateData :
   right := actualLiftSourceRightMateLaxTrans (W := W) A
     (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)
   adj X := (actualLiftSourceNativeAdjHom (W := W) A X).adj
-  naturality_eq_mate {_ _} f := rfl
+  naturality_eq_mate {_ _} _ := rfl
 
 /-- The same unchanged v5.49 counit, original target adjunctions, and
 v5.110 target lax right mate, including its non-strict compositor. -/
@@ -239,7 +239,7 @@ def actualLiftTargetRightMateData :
   right := actualLiftTargetRightMateLaxTrans (W := W) A
     (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)
   adj Y := (actualLiftTargetNativeAdjHom (W := W) A Y).adj
-  naturality_eq_mate {_ _} f := rfl
+  naturality_eq_mate {_ _} _ := rfl
 
 /-- The original source-unit triangle is an ACTUAL zero-obstruction
 example of arbitrary modification mate transport. -/
