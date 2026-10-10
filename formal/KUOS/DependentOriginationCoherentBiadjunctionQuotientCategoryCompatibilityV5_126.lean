@@ -48,17 +48,8 @@ theorem originalMapIdQuotientCategory_compression (X : B)
           (originalMapIdFiniteChain (F := F) (G := G) X tail)) =
       ((F.mapId X).trans tail.fComposite,
        G.toOplax.mapId X ≫ tail.gComposite) := by
-  change
-    ((comparisonKernelQuotientFunctor (F.obj X) (F.obj X)
-        (G.obj X) (G.obj X) ⋙
-      quotientCompositeFunctor (F.obj X) (F.obj X)
-        (G.obj X) (G.obj X)).map
-      (X := ⟨F.map (𝟙 X), G.map (𝟙 X)⟩)
-      (Y := ⟨kF, kG⟩)
-      (originalMapIdFiniteChain (F := F) (G := G) X tail)) =
-      ((F.mapId X).trans tail.fComposite,
-       G.toOplax.mapId X ≫ tail.gComposite)
-  rw [compression_factors_through_kernel_quotient]
+  simp only [quotientCompositeFunctor, comparisonKernelQuotientFunctor,
+    CategoryTheory.Quotient.lift_map_functor_map]
   exact Prod.ext
     (originalMapIdPrepend_composites (F := F) (G := G) X tail).1
     (originalMapIdPrepend_composites (F := F) (G := G) X tail).2
@@ -79,17 +70,8 @@ theorem originalMapCompQuotientCategory_compression
           (originalMapCompFiniteChain (F := F) (G := G) f g tail)) =
       ((F.mapComp f g).trans tail.fComposite,
        G.toOplax.mapComp f g ≫ tail.gComposite) := by
-  change
-    ((comparisonKernelQuotientFunctor (F.obj X) (F.obj Z)
-        (G.obj X) (G.obj Z) ⋙
-      quotientCompositeFunctor (F.obj X) (F.obj Z)
-        (G.obj X) (G.obj Z)).map
-      (X := ⟨F.map (f ≫ g), G.map (f ≫ g)⟩)
-      (Y := ⟨kF, kG⟩)
-      (originalMapCompFiniteChain (F := F) (G := G) f g tail)) =
-      ((F.mapComp f g).trans tail.fComposite,
-       G.toOplax.mapComp f g ≫ tail.gComposite)
-  rw [compression_factors_through_kernel_quotient]
+  simp only [quotientCompositeFunctor, comparisonKernelQuotientFunctor,
+    CategoryTheory.Quotient.lift_map_functor_map]
   exact Prod.ext
     (originalMapCompPrepend_composites (F := F) (G := G) f g tail).1
     (originalMapCompPrepend_composites (F := F) (G := G) f g tail).2
