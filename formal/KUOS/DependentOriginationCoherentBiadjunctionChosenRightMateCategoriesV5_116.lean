@@ -187,10 +187,14 @@ def chosenMateCategoryEquivalence :
   counitIso :=
     NatIso.ofComponents (fun a => Iso.refl a) (by
       intro a b f
-      change (rightMateFunctor F G).map ((leftMateFunctor F G).map f) ≫ 𝟙 b =
-        𝟙 a ≫ f
-      rw [Category.comp_id, Category.id_comp]
-      exact right_left_map F G a b f)
+      apply Oplax.LaxTrans.Modification.ext
+      funext X
+      change
+        𝟙 (b.core.datum.right.app X) ≫
+          ((rightMateFunctor F G).map ((leftMateFunctor F G).map f)).app X =
+        f.app X ≫ 𝟙 (a.core.datum.right.app X)
+      rw [right_left_map F G a b f]
+      simp only [Category.id_comp, Category.comp_id])
   functor_unitIso_comp a := by
     change (rightMateFunctor F G).map (𝟙 a) ≫
       𝟙 ((rightMateFunctor F G).obj a) = 𝟙 ((rightMateFunctor F G).obj a)
