@@ -7,6 +7,7 @@ open scoped CategoryTheory.Bicategory CategoryTheory.Oplax.LaxTrans
 
 open KUOS.DependentOriginationCoherentBiadjunctionArbitraryModificationMatesV5_113.Generic
 open KUOS.DependentOriginationCoherentBiadjunctionAutomaticModificationMatesV5_114.Generic
+open KUOS.DependentOriginationCoherentBiadjunctionBiComparisonMateNaturalityV5_119.Generic
 open KUOS.DependentOriginationCoherentBiadjunctionTwoStageMateComparisonPastingV5_120.Generic
 open KUOS.DependentOriginationGeneratedRefinementTopologyV2_4
 open KUOS.DependentOriginationLocalizedSheafUniversalityV2_6
@@ -72,9 +73,9 @@ theorem globalConjugateBiComparisonLeftPastingNormalize
   simpa only [Iso.trans_inv, Bicategory.comp_whiskerRight,
     Category.assoc] using hPasted
 
-/-- The independent right boundary also normalizes to the composite
-F ISO / G 2-cell. It includes the actual outer G-side whiskering by
-the original right-mate modification. -/
+/-- The right boundary normalizes to the composite comparison via the
+F23 two-stage square, the left normal form, and F22 composite naturality.
+It retains the actual outer G-side whisker without bracket manipulation. -/
 theorem globalConjugateBiComparisonRightPastingNormalize
     (dσ : RightMateLaxData σ) (dθ : RightMateLaxData θ)
     (Γ : Pseudofunctor.StrongTrans.Modification σ θ)
@@ -91,18 +92,18 @@ theorem globalConjugateBiComparisonRightPastingNormalize
       (((dθ.right.app X ◁ (p.trans t).inv ≫
           dθ.right.naturality f) ≫
         (q ≫ r) ▷ dθ.right.app Y) ≫ lG ◁ m.app Y) := by
-  have hWhisker :
-      dθ.right.app X ◁ (t.inv ≫ p.inv) =
-        (dθ.right.app X ◁ t.inv) ≫ (dθ.right.app X ◁ p.inv) :=
-    Bicategory.whiskerLeft_comp (dθ.right.app X) t.inv p.inv
   let m := rightModification dσ dθ Γ
-  have hPasted := congrArg
-    (fun (z : (dθ.right.app X ≫ lF) ⟶ (dθ.right.app X ≫ F.map f)) =>
-      (z ≫ dθ.right.naturality f ≫
-        q ▷ dθ.right.app Y ≫ r ▷ dθ.right.app Y) ≫
-          lG ◁ m.app Y) hWhisker.symm
-  simpa only [Iso.trans_inv, Bicategory.comp_whiskerRight,
-    Category.assoc] using hPasted
+  calc
+    _ = (((((m.app X ▷ lF ≫ dσ.right.app X ◁ t.inv) ≫
+            dσ.right.app X ◁ p.inv) ≫ dσ.right.naturality f) ≫
+          q ▷ dσ.right.app Y) ≫ r ▷ dσ.right.app Y) :=
+      (globalConjugateBiComparisonTwoStageNaturality
+        dσ dθ Γ f p t q r).symm
+    _ = (((m.app X ▷ lF ≫ dσ.right.app X ◁ (p.trans t).inv) ≫
+          dσ.right.naturality f) ≫ (q ≫ r) ▷ dσ.right.app Y) :=
+      globalConjugateBiComparisonLeftPastingNormalize dσ dθ Γ f p t q r
+    _ = _ :=
+      globalConjugateBiComparisonNaturality dσ dθ Γ f (p.trans t) (q ≫ r)
 
 /-- Two completely DIFFERENT factorizations through independent F/G
 intermediate 1-cells yield the SAME expanded left and right pastings
