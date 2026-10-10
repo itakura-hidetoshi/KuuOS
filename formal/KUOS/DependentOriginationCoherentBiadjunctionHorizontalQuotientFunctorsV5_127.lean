@@ -41,14 +41,12 @@ theorem leftWhiskerChain_kernel (aF bF aG bG : C)
     {eF eG : C} (uF : eF ⟶ aF) (uG : eG ⟶ aG)
     {x y : ComparisonPair aF bF aG bG} {c d : x ⟶ y}
     (h : (compressionKernelHomRel aF bF aG bG) c d) :
-    (compressionKernelHomRel eF bF eG bG)
-      (leftWhiskerChain uF uG c) (leftWhiskerChain uF uG d) := by
-  obtain ⟨hf, hg⟩ :=
-    (comparisonCompressionFunctor_map_eq_iff aF bF aG bG c d).mp h
-  change (leftWhiskerChain uF uG c).fComposite =
+    (leftWhiskerChain uF uG c).fComposite =
       (leftWhiskerChain uF uG d).fComposite ∧
     (leftWhiskerChain uF uG c).gComposite =
-      (leftWhiskerChain uF uG d).gComposite
+      (leftWhiskerChain uF uG d).gComposite := by
+  obtain ⟨hf, hg⟩ :=
+    (comparisonCompressionFunctor_map_eq_iff aF bF aG bG c d).mp h
   constructor
   · rw [leftWhiskerChain_fComposite, leftWhiskerChain_fComposite, hf]
   · rw [leftWhiskerChain_gComposite, leftWhiskerChain_gComposite, hg]
@@ -59,14 +57,12 @@ theorem rightWhiskerChain_kernel (aF bF aG bG : C)
     {eF eG : C} (vF : bF ⟶ eF) (vG : bG ⟶ eG)
     {x y : ComparisonPair aF bF aG bG} {c d : x ⟶ y}
     (h : (compressionKernelHomRel aF bF aG bG) c d) :
-    (compressionKernelHomRel aF eF aG eG)
-      (rightWhiskerChain vF vG c) (rightWhiskerChain vF vG d) := by
-  obtain ⟨hf, hg⟩ :=
-    (comparisonCompressionFunctor_map_eq_iff aF bF aG bG c d).mp h
-  change (rightWhiskerChain vF vG c).fComposite =
+    (rightWhiskerChain vF vG c).fComposite =
       (rightWhiskerChain vF vG d).fComposite ∧
     (rightWhiskerChain vF vG c).gComposite =
-      (rightWhiskerChain vF vG d).gComposite
+      (rightWhiskerChain vF vG d).gComposite := by
+  obtain ⟨hf, hg⟩ :=
+    (comparisonCompressionFunctor_map_eq_iff aF bF aG bG c d).mp h
   constructor
   · rw [rightWhiskerChain_fComposite, rightWhiskerChain_fComposite, hf]
   · rw [rightWhiskerChain_gComposite, rightWhiskerChain_gComposite, hg]
@@ -84,8 +80,12 @@ def leftKernelQuotientWhiskerFunctor (aF bF aG bG : C)
     (by
       intro x y c d h
       change (comparisonKernelQuotientFunctor eF bF eG bG).map
+          (X := ⟨uF ≫ x.fF, uG ≫ x.fG⟩)
+          (Y := ⟨uF ≫ y.fF, uG ≫ y.fG⟩)
           (leftWhiskerChain uF uG c) =
         (comparisonKernelQuotientFunctor eF bF eG bG).map
+          (X := ⟨uF ≫ x.fF, uG ≫ x.fG⟩)
+          (Y := ⟨uF ≫ y.fF, uG ≫ y.fG⟩)
           (leftWhiskerChain uF uG d)
       apply (kernelQuotient_map_eq_iff eF bF eG bG _ _).2
       exact leftWhiskerChain_kernel aF bF aG bG uF uG h)
@@ -102,8 +102,12 @@ def rightKernelQuotientWhiskerFunctor (aF bF aG bG : C)
     (by
       intro x y c d h
       change (comparisonKernelQuotientFunctor aF eF aG eG).map
+          (X := ⟨x.fF ≫ vF, x.fG ≫ vG⟩)
+          (Y := ⟨y.fF ≫ vF, y.fG ≫ vG⟩)
           (rightWhiskerChain vF vG c) =
         (comparisonKernelQuotientFunctor aF eF aG eG).map
+          (X := ⟨x.fF ≫ vF, x.fG ≫ vG⟩)
+          (Y := ⟨y.fF ≫ vF, y.fG ≫ vG⟩)
           (rightWhiskerChain vF vG d)
       apply (kernelQuotient_map_eq_iff aF eF aG eG _ _).2
       exact rightWhiskerChain_kernel aF bF aG bG vF vG h)
