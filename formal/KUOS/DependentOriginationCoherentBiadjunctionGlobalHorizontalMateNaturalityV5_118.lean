@@ -275,7 +275,13 @@ theorem actualLiftSourceGlobalMapCompNaturality
     Γ f g
 
 /-- TARGET: the ORIGINAL non-strict R_E.mapId inverse is kept on the
-source side of the original target-counit's right-mate square. -/
+source side of the original target-counit's right-mate square.
+
+The exact type includes the original dependent refinement and bicategorical
+functors, requiring more whnf reductions than the surrounding theorems.
+Raise the heartbeat budget only for this one declaration; the statement,
+proof and pinned definitions are unchanged. -/
+set_option maxHeartbeats 1500000 in
 theorem actualLiftTargetGlobalMapIdNaturality
     (Γ : Pseudofunctor.StrongTrans.Modification
       (actualLiftTargetRoundtripCounit.{u, v, uH, vH, uW, uP} (W := W) A
