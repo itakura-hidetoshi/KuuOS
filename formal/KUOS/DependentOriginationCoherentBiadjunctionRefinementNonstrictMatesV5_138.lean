@@ -111,8 +111,8 @@ theorem constructiveRectangleOriginalMapIdTrans
         (vF ≫ uF) (vG ≫ uG) ⋙
         rightKernelQuotientWhiskerFunctor (F.obj X) bF
           (G.obj X) bG wF wG).obj x)) :
-    ((Grid.mapClocks (rightMateFunctor F G) modsA).composite =
-      (Grid.mapClocks (rightMateFunctor F G) modsC).composite) ∧
+    ((Grid.mapBlocks (rightMateFunctor F G) modsA).composite =
+      (Grid.mapBlocks (rightMateFunctor F G) modsC).composite) ∧
     (let hexagon := kernelMixedHexagonStagewiseLongNatIso aF bF aG bG
       uF uG vF vG wF wG
     let routeLong := (rightKernelQuotientWhiskerFunctor (F.obj X) bF
@@ -201,8 +201,8 @@ theorem constructiveRectangleOriginalMapCompTrans
         (vF ≫ uF) (vG ≫ uG) ⋙
         rightKernelQuotientWhiskerFunctor (F.obj X) bF
           (G.obj X) bG wF wG).obj x)) :
-    ((Grid.mapClocks (rightMateFunctor F G) modsA).composite =
-      (Grid.mapClocks (rightMateFunctor F G) modsC).composite) ∧
+    ((Grid.mapBlocks (rightMateFunctor F G) modsA).composite =
+      (Grid.mapBlocks (rightMateFunctor F G) modsC).composite) ∧
     (let hexagon := kernelMixedHexagonStagewiseLongNatIso aF bF aG bG
       uF uG vF vG wF wG
     let routeLong := (rightKernelQuotientWhiskerFunctor (F.obj X) bF
