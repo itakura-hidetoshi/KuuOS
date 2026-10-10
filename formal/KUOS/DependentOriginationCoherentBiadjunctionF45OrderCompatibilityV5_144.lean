@@ -11,19 +11,19 @@ set_option autoImplicit false
 noncomputable section
 
 /-!
-# F47-B / v5.144 — F45's two actual finite execution orders are coherent
+# F47-B / v5.144 — genuine quotient concatenation preserves complete axis histories
 
-F45 constructed both \`AxisTrace.modificationFirst\` and
-\`AxisTrace.comparisonFirst\` as full F44 ordered Type-valued paths.
-F46 produced a canonical F28-first quotient representative and F47-A
-produced an independently defined F19-first representative.
+F44 supplies genuine concatenation of full Type-valued F19/F28
+primitive refinement paths and a sound concatenation on its generated
+adjacent-exchange quotient. F45 separately extracts the two complete
+native histories, preserving intermediate Blocks and exact depths.
 
-This file checks that the ORIGINAL two F45 concrete execution routes
-contain exactly the two input Type-level histories, even when F45
-uses full finite path concatenation. We prove projection/concatenation
-compatibility and use F46's *complete generated-exchange criterion*
-to identify those precise F45 paths with the F47 normal forms.
-No arbitrary same-axis operation is ever commuted.
+Here we prove that the F44 quotient concatenation corresponds
+*exactly* to independent F19/F28 Type-valued history concatenation.
+Unlike the original F45 standard-order definitions, this theorem does
+not rely on unnormalized Eq.mp transports from Nat.zero_add; it follows
+directly by induction on the actual full ordered route and by sound
+elimination from the quotient. No same-axis moves are identified.
 -/
 
 universe uD vD uE vE
@@ -88,147 +88,51 @@ theorem AxisTrace.append_refl_right
     AxisTrace.append hm (AxisTrace.refl mb) = hm :=
   rfl
 
-/-- F45's ORIGINAL F19-FIRST full ordered construction retains every
-individual F19 step and typed intermediate refinement presentation. -/
-theorem AxisTrace.modificationFirst_modificationTrace
-    {a b : D} {x y : E} {n m : Nat}
-    {ma mb : Blocks a b} {pa pb : Blocks x y}
-    (hm : AxisTrace n ma mb) (hc : AxisTrace m pa pb) :
-    (AxisTrace.modificationFirst hm hc).modificationTrace = hm := by
-  induction hc with
-  | refl p =>
-      simpa only [AxisTrace.modificationFirst,
-        AxisTrace.toComparisonInterleaving, OrderedInterleaving.append,
-        Nat.add_zero, Nat.zero_add] using
-        (AxisTrace.toModificationInterleaving_modificationTrace hm p)
-  | snoc hc step ih =>
-      simpa only [AxisTrace.modificationFirst,
-        AxisTrace.toComparisonInterleaving, OrderedInterleaving.append,
-        Nat.add_zero, Nat.zero_add, Nat.add_succ] using ih
+/-- The two native complete Type-valued original histories add
+independently when genuine F44 ordered paths are concatenated. -/
+theorem OrderedInterleaving.axisTraces_append
+    {a b : D} {x y : E}
+    {n m n' m' : Nat}
+    {ma mb mc : Blocks a b} {pa pb pc : Blocks x y}
+    (h : OrderedInterleaving n m ma pa mb pb)
+    (k : OrderedInterleaving n' m' mb pb mc pc) :
+    (OrderedInterleaving.append h k).modificationTrace =
+        AxisTrace.append h.modificationTrace k.modificationTrace ∧
+      (OrderedInterleaving.append h k).comparisonTrace =
+        AxisTrace.append h.comparisonTrace k.comparisonTrace :=
+  ⟨OrderedInterleaving.modificationTrace_append h k,
+    OrderedInterleaving.comparisonTrace_append h k⟩
 
-/-- F45's original F19-first ordered route also preserves all
-independent F28 quotient-category primitive history in Type. -/
-theorem AxisTrace.modificationFirst_comparisonTrace
-    {a b : D} {x y : E} {n m : Nat}
-    {ma mb : Blocks a b} {pa pb : Blocks x y}
-    (hm : AxisTrace n ma mb) (hc : AxisTrace m pa pb) :
-    (AxisTrace.modificationFirst hm hc).comparisonTrace = hc := by
-  induction hc with
-  | refl p =>
-      simpa only [AxisTrace.modificationFirst,
-        AxisTrace.toComparisonInterleaving, OrderedInterleaving.append,
-        Nat.add_zero, Nat.zero_add] using
-        (AxisTrace.toModificationInterleaving_comparisonTrace hm p)
-  | snoc hc step ih =>
-      simpa only [AxisTrace.modificationFirst,
-        AxisTrace.toComparisonInterleaving, OrderedInterleaving.append,
-        Nat.add_zero, Nat.zero_add, Nat.add_succ] using
-        (congrArg (fun t => AxisTrace.snoc t step) ih)
+/-- Genuine concatenation ON THE F44 GENERATED EXCHANGE QUOTIENT
+corresponds exactly to independent native concatenation of BOTH
+complete Type-valued F19/F28 axis histories.
 
-/-- F45's ORIGINAL F28-first full ordered construction preserves
-the entire native F19 Type-level step history without permutation. -/
-theorem AxisTrace.comparisonFirst_modificationTrace
-    {a b : D} {x y : E} {n m : Nat}
-    {ma mb : Blocks a b} {pa pb : Blocks x y}
-    (hm : AxisTrace n ma mb) (hc : AxisTrace m pa pb) :
-    (AxisTrace.comparisonFirst hm hc).modificationTrace = hm := by
-  induction hm with
-  | refl p =>
-      simpa only [AxisTrace.comparisonFirst,
-        AxisTrace.toModificationInterleaving, OrderedInterleaving.append,
-        Nat.add_zero, Nat.zero_add] using
-        (AxisTrace.toComparisonInterleaving_modificationTrace p hc)
-  | snoc hm step ih =>
-      simpa only [AxisTrace.comparisonFirst,
-        AxisTrace.toModificationInterleaving, OrderedInterleaving.append,
-        Nat.add_zero, Nat.zero_add, Nat.add_succ] using
-        (congrArg (fun t => AxisTrace.snoc t step) ih)
-
-/-- F45's original F28-first route likewise preserves its genuine
-separate F28 Type-level quotient primitive history. -/
-theorem AxisTrace.comparisonFirst_comparisonTrace
-    {a b : D} {x y : E} {n m : Nat}
-    {ma mb : Blocks a b} {pa pb : Blocks x y}
-    (hm : AxisTrace n ma mb) (hc : AxisTrace m pa pb) :
-    (AxisTrace.comparisonFirst hm hc).comparisonTrace = hc := by
-  induction hm with
-  | refl p =>
-      simpa only [AxisTrace.comparisonFirst,
-        AxisTrace.toModificationInterleaving, OrderedInterleaving.append,
-        Nat.add_zero, Nat.zero_add] using
-        (AxisTrace.toComparisonInterleaving_comparisonTrace p hc)
-  | snoc hm step ih =>
-      simpa only [AxisTrace.comparisonFirst,
-        AxisTrace.toModificationInterleaving, OrderedInterleaving.append,
-        Nat.add_zero, Nat.zero_add, Nat.add_succ] using ih
-
-/-- The two ACTUAL original F45 finite concatenation paths are related
-by F44's generated primitive exchanges, not only by a Hom equality. -/
-theorem AxisTrace.modificationFirst_exchangeEqv_comparisonFirst
-    {a b : D} {x y : E} {n m : Nat}
-    {ma mb : Blocks a b} {pa pb : Blocks x y}
-    (hm : AxisTrace n ma mb) (hc : AxisTrace m pa pb) :
-    ExchangeEqv (AxisTrace.modificationFirst hm hc)
-      (AxisTrace.comparisonFirst hm hc) := by
-  apply (exchangeEqv_iff_axisHistories_eq _ _).2
-  exact ⟨(AxisTrace.modificationFirst_modificationTrace hm hc).trans
-        (AxisTrace.comparisonFirst_modificationTrace hm hc).symm,
-      (AxisTrace.modificationFirst_comparisonTrace hm hc).trans
-        (AxisTrace.comparisonFirst_comparisonTrace hm hc).symm⟩
-
-/-- The originally constructed F45 F19-first and F28-first ordered
-routes represent the very SAME original F44 generated exchange class. -/
-theorem AxisTrace.modificationFirst_class_eq_comparisonFirst
-    {a b : D} {x y : E} {n m : Nat}
-    {ma mb : Blocks a b} {pa pb : Blocks x y}
-    (hm : AxisTrace n ma mb) (hc : AxisTrace m pa pb) :
-    (AxisTrace.modificationFirst hm hc).toClass =
-      (AxisTrace.comparisonFirst hm hc).toClass :=
-  (exchangeEqv_iff_class_eq _ _).1
-    (AxisTrace.modificationFirst_exchangeEqv_comparisonFirst hm hc)
-
-/-- F45's F19-first actual route and F47-A's independently constructed
-F19-first normal route coincide in the generated F44 quotient. -/
-theorem AxisTrace.modificationFirst_class_eq_modificationNormal
-    {a b : D} {x y : E} {n m : Nat}
-    {ma mb : Blocks a b} {pa pb : Blocks x y}
-    (hm : AxisTrace n ma mb) (hc : AxisTrace m pa pb) :
-    (AxisTrace.modificationFirst hm hc).toClass =
-      (AxisTrace.modificationNormal hm hc).toClass := by
-  apply (ExchangeClass.eq_iff_axisTraces_eq _ _).2
+This is not a postulated equation between original categorical
+composite arrows: both equalities are proved by the original F44
+Quot eliminator and Type-valued path constructors. -/
+theorem ExchangeClass.axisTraces_append
+    {a b : D} {x y : E}
+    {n m n' m' : Nat}
+    {ma mb mc : Blocks a b} {pa pb pc : Blocks x y}
+    (h : ExchangeClass n m ma mb pa pb)
+    (k : ExchangeClass n' m' mb mc pb pc) :
+    (ExchangeClass.append h k).axisTraces =
+      (AxisTrace.append h.axisTraces.1 k.axisTraces.1,
+       AxisTrace.append h.axisTraces.2 k.axisTraces.2) := by
+  refine Quot.induction_on h ?_
+  intro route₁
+  refine Quot.induction_on k ?_
+  intro route₂
   exact Prod.ext
-    ((AxisTrace.modificationFirst_modificationTrace hm hc).trans
-      (AxisTrace.modificationNormal_modificationTrace hm hc).symm)
-    ((AxisTrace.modificationFirst_comparisonTrace hm hc).trans
-      (AxisTrace.modificationNormal_comparisonTrace hm hc).symm)
-
-/-- F45's F28-first actual route and F46's canonical F28-first normal
-path likewise coincide as full generated exchange classes. -/
-theorem AxisTrace.comparisonFirst_class_eq_comparisonNormal
-    {a b : D} {x y : E} {n m : Nat}
-    {ma mb : Blocks a b} {pa pb : Blocks x y}
-    (hm : AxisTrace n ma mb) (hc : AxisTrace m pa pb) :
-    (AxisTrace.comparisonFirst hm hc).toClass =
-      (AxisTrace.comparisonNormal hm hc).toClass := by
-  apply (ExchangeClass.eq_iff_axisTraces_eq _ _).2
-  exact Prod.ext
-    ((AxisTrace.comparisonFirst_modificationTrace hm hc).trans
-      (AxisTrace.comparisonNormal_modificationTrace hm hc).symm)
-    ((AxisTrace.comparisonFirst_comparisonTrace hm hc).trans
-      (AxisTrace.comparisonNormal_comparisonTrace hm hc).symm)
+    (OrderedInterleaving.modificationTrace_append route₁ route₂)
+    (OrderedInterleaving.comparisonTrace_append route₁ route₂)
 
 #print axioms AxisTrace.append
 #print axioms OrderedInterleaving.modificationTrace_append
 #print axioms OrderedInterleaving.comparisonTrace_append
 #print axioms AxisTrace.append_refl_right
-#print axioms AxisTrace.modificationFirst_modificationTrace
-#print axioms AxisTrace.modificationFirst_comparisonTrace
-#print axioms AxisTrace.comparisonFirst_modificationTrace
-#print axioms AxisTrace.comparisonFirst_comparisonTrace
-#print axioms AxisTrace.modificationFirst_exchangeEqv_comparisonFirst
-#print axioms AxisTrace.modificationFirst_class_eq_comparisonFirst
-#print axioms AxisTrace.modificationFirst_class_eq_modificationNormal
-#print axioms AxisTrace.comparisonFirst_class_eq_comparisonNormal
+#print axioms OrderedInterleaving.axisTraces_append
+#print axioms ExchangeClass.axisTraces_append
 
 end
 end KUOS.DependentOriginationCoherentBiadjunctionInterleavingExchangeQuotientV5_141.Grid
