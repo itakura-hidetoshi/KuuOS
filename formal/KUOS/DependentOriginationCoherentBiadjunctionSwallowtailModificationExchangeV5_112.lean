@@ -80,6 +80,25 @@ variable (D :
 pin the exact original source/target hom categories at this generic boundary,
 as in v5.64–v5.66.  The functor-bicategory instances alone do not infer
 these universe levels from the projection `Iso.hom`. -/
+/-! Horizontal pastes themselves live in the ENDO-StrongTrans hom
+categories of the non-strict source/target roundtrips.  These are
+distinct from the unit/counit hom categories pinned just below. -/
+local instance sourceRoundtripStrongTransHomCategory :
+    Category
+      (Pseudofunctor.StrongTrans (sourceRoundtrip D.datum)
+        (sourceRoundtrip D.datum)) :=
+  Pseudofunctor.StrongTrans.homCategory
+    (B := B) (C := B)
+    (F := sourceRoundtrip D.datum) (G := sourceRoundtrip D.datum)
+
+local instance targetRoundtripStrongTransHomCategory :
+    Category
+      (Pseudofunctor.StrongTrans (targetRoundtrip D.datum)
+        (targetRoundtrip D.datum)) :=
+  Pseudofunctor.StrongTrans.homCategory
+    (B := C) (C := C)
+    (F := targetRoundtrip D.datum) (G := targetRoundtrip D.datum)
+
 local instance sourceSwallowtailHomCategory :
     Category
       (Pseudofunctor.StrongTrans (Pseudofunctor.id B)
