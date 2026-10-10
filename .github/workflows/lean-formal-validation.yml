@@ -62,11 +62,55 @@ jobs:
           set -euo pipefail
           bash scripts/build_lean4.sh --target "$KUUOS_LEAN_TARGET" \
             2>&1 | tee lean-formal-validation.log
+      # KuuOSFormal does not import every theorem-bearing DO frontier.
+      # On trusted main only, compile the newest committed DO version chain
+      # with exactly the same strict Lean options as PR validation. The
+      # actions/cache post-step then saves these .olean artifacts for NEW
+      # pull requests, not only later commits of an existing pull request.
+      # No cached result is treated as proof: Lake still hashes every input
+      # and rebuilds any changed modules on each PR's exact HEAD.
+      - name: Warm current dependent-origination theorem spine for PR caches
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        shell: bash
+        run: |
+          set -euo pipefail
+          mapfile -t frontier_targets < <(
+            python3 - <<'PY'
+          import pathlib
+          import re
+
+          root = pathlib.Path("formal/KUOS")
+          candidates = []
+          for path in root.glob("DependentOrigination*V5_*.lean"):
+              match = re.search(r"V5_(\d+)\.lean$", path.name)
+              if match:
+                  candidates.append((int(match.group(1)), f"KUOS.{path.stem}"))
+
+          if not candidates:
+              raise SystemExit("No versioned DO theorem frontier found; refusing cold baseline")
+          max_version = max(version for version, _ in candidates)
+          for version, target in sorted(candidates, key=lambda item: item[1]):
+              if version == max_version:
+                  print(target)
+          PY
+          )
+          if (( ${#frontier_targets[@]} == 0 )); then
+            echo "ERROR: no canonical DO theorem cache targets selected" >&2
+            exit 1
+          fi
+          printf 'Warm canonical theorem modules: %s\n' "${frontier_targets[*]}"
+          LEAN_ABORT_ON_PANIC=1 lake \
+            -KleanArgs=-DwarningAsError=true \
+            -KleanArgs=-DsorryAsError=true \
+            build "${frontier_targets[@]}" 2>&1 | tee lean-frontier-cache-warm.log
+
       - name: Upload formal validation log
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: kuuos-lean-formal-validation-log-${{ github.run_id }}-${{ github.run_attempt }}
-          path: lean-formal-validation.log
+          path: |
+            lean-formal-validation.log
+            lean-frontier-cache-warm.log
           if-no-files-found: warn
           retention-days: 14
