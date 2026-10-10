@@ -130,4 +130,5 @@ theorem AxisTrace.modificationFirst_toInterleaving
 #print axioms AxisTrace.toComparisonFirstClass
 #print axioms AxisTrace.modificationFirst_toInterleaving
 
+end
 end KUOS.DependentOriginationCoherentBiadjunctionInterleavingExchangeQuotientV5_141.Grid
