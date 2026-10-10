@@ -60,7 +60,8 @@ by structural induction on the number of independent blocks. -/
 theorem Blocks.composite_eq_flatten {x y : D} (p : Blocks x y) :
     p.composite = p.flatten.composite := by
   induction p with
-  | empty => rfl
+  | empty =>
+      simp only [Blocks.composite, Blocks.flatten, Chain.Path.composite]
   | snoc p q ih =>
       simp only [Blocks.composite, Blocks.flatten,
         Chain.Path.composite_append, ih]
@@ -74,7 +75,8 @@ theorem Blocks.flatten_append {x y z : D}
   | empty =>
       simp only [Blocks.append, Blocks.flatten, Chain.Path.append]
   | snoc q r ih =>
-      simp only [Blocks.append, Blocks.flatten, Chain.Path.append, ih]
+      simpa only [Blocks.append, Blocks.flatten, ih] using
+        (Chain.Path.append_assoc p.flatten q.flatten r)
 
 /-- Evaluation of an arbitrarily long sequence of blocks respects any
 split point, not merely the two original F39 finite paths. -/
@@ -122,7 +124,9 @@ theorem mapBlocks_flatten {E : Type uE} [Category.{vE} E]
       KUOS.DependentOriginationCoherentBiadjunctionFiniteModificationMatePathsV5_135.Finite.mapPath
         H p.flatten := by
   induction p with
-  | empty => rfl
+  | empty =>
+      simp only [mapBlocks, Blocks.flatten,
+        KUOS.DependentOriginationCoherentBiadjunctionFiniteModificationMatePathsV5_135.Finite.mapPath]
   | snoc p q ih =>
       simp only [mapBlocks, Blocks.flatten,
         KUOS.DependentOriginationCoherentBiadjunctionFiniteModificationMatePathsV5_135.Finite.mapPath_append,
