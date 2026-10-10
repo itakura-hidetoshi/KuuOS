@@ -42,17 +42,17 @@ variable {WorldLabel : Type uW} {PresentationLabel : Type uP}
 and the unchanged source roundtrip pseudofunctor. -/
 def actualLiftSourceCompressionFunctor
     (X Y : ActualLiftSource.{u, v, uH, vH, uW, uP} (W := W) A WorldLabel PresentationLabel) :=
-  comparisonCompressionFunctor X Y (actualLiftSourceRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
-      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)).obj X (actualLiftSourceRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
-      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)).obj Y
+  let R := actualLiftSourceRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
+    (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)
+  comparisonCompressionFunctor X Y (R.obj X) (R.obj Y)
 
 /-- Genuine compression functor for the ORIGINAL target classification
 and the unchanged target roundtrip pseudofunctor. -/
 def actualLiftTargetCompressionFunctor
     (X Y : ActualLiftTarget.{u, v, uH, vH, uW, uP} (W := W) A WorldLabel PresentationLabel) :=
-  comparisonCompressionFunctor (actualLiftTargetRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
-      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)).obj X (actualLiftTargetRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
-      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)).obj Y X Y
+  let R := actualLiftTargetRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
+    (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)
+  comparisonCompressionFunctor (R.obj X) (R.obj Y) X Y
 
 /-- Equality in the original SOURCE compressed category
 forces equality of both original source/target mate pasting boundaries. -/
