@@ -50,7 +50,7 @@ theorem mapPath_composite (H : D ⥤ E) {x y : D}
   | nil =>
       simp only [mapPath, Chain.Path.composite, H.map_id]
   | @snoc mid fin p q ih =>
-      simpa only [mapPath, Chain.Path.composite, H.map_comp, ih]
+      simp only [mapPath, Chain.Path.composite, H.map_comp, ih]
 
 /-- Categorical finite-path transport respects every finite split,
 without assuming that the functor is strict on its objects. -/
@@ -85,7 +85,7 @@ theorem mapBracketing_evaluated (H : D ⥤ E) {x y : D}
   | arrow q =>
       simp only [mapBracketing, Chain.Bracketing.evaluated]
   | paste p q ihp ihq =>
-      simpa only [mapBracketing, Chain.Bracketing.evaluated,
+      simp only [mapBracketing, Chain.Bracketing.evaluated,
         H.map_comp, ihp, ihq]
 
 /-- The transported binary tree has EXACTLY the same flattened
