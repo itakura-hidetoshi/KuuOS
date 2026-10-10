@@ -119,7 +119,12 @@ def actualLiftTargetRightMateLaxTrans :
             ((actualLiftTargetRoundtrip (W := W) A).mapId X).hom ≫
               (ρ_ (actualLiftTargetNativeAdjHom (W := W) A X).r).hom ≫
                 (λ_ (actualLiftTargetNativeAdjHom (W := W) A X).r).inv
-    simpa only [Bicategory.id_whiskerRight, Category.comp_id] using
+    have hIdentity :
+        actualLiftTargetCounitRightMate (W := W) A (𝟙 X) ≫
+            𝟙 (𝟙 X) ▷ (actualLiftTargetNativeAdjHom (W := W) A X).r =
+          actualLiftTargetCounitRightMate (W := W) A (𝟙 X) := by
+      bicategory
+    exact hIdentity.trans
       (actualLiftTargetCounitRightMate_id_mapId (W := W) A X)
   naturality_comp {X Y Z} f g := by
     let eX := actualLiftTargetNativeAdjHom (W := W) A X
