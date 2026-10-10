@@ -177,7 +177,7 @@ theorem exchangeQuotientOriginalMateTrans
     (kernelCategoryHomToKernelHom (basePath ≫ routeLong) =
       kernelCategoryHomToKernelHom (basePath ≫ routeShort)) := by
   exact exchangeQuotientOriginalMate F G modsA modsC f uF uG vF vG wF wG pqA pqC
-    (Grid.ExchangeClass.append exchangeAB exchangeBC) basePath
+    (KUOS.DependentOriginationCoherentBiadjunctionExchangeQuotientConcatenationV5_141.Grid.ExchangeClass.append exchangeAB exchangeBC) basePath
 
 /-- Original crossed lax right-mate coherence survives an arbitrary
 second (potentially NONINVERTIBLE) quotient NatTrans for ANY exchange. -/
@@ -292,7 +292,7 @@ theorem exchangeQuotientVerticalMateTrans
     (kernelCategoryHomToKernelHom (basePath ≫ routeLong) =
       kernelCategoryHomToKernelHom (basePath ≫ routeShort)) := by
   exact exchangeQuotientVerticalMate F G modsA modsC f uF uG vF vG wF wG T β pqA pqC
-    (Grid.ExchangeClass.append exchangeAB exchangeBC) basePath
+    (KUOS.DependentOriginationCoherentBiadjunctionExchangeQuotientConcatenationV5_141.Grid.ExchangeClass.append exchangeAB exchangeBC) basePath
 
 #print axioms chosenRightMateExchangeQuotientTransport
 #print axioms exchangeQuotientOriginalMate
