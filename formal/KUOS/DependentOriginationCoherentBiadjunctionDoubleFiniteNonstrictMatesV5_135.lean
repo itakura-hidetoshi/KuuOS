@@ -73,8 +73,8 @@ theorem doubleFiniteModificationHexagonOriginalMapIdMateNaturality
       (kernelCategoryHomToKernelHom (basePath ≫ routeLong))
     let shortClass := originalMapIdQuotientPrepend (F := F) (G := G) X
       (kernelCategoryHomToKernelHom (basePath ≫ routeShort))
-    quotientLeftMateBoundary dσ dθ Γ (𝟙 X) longClass =
-        quotientRightMateBoundary dσ dθ Γ (𝟙 X) shortClass ∧
+    quotientLeftMateBoundary a.core.datum b.core.datum mods.composite (𝟙 X) longClass =
+        quotientRightMateBoundary a.core.datum b.core.datum mods.composite (𝟙 X) shortClass ∧
       quotientComposite longClass = quotientComposite shortClass ) := by
   refine ⟨(chosenRightMateFiniteModificationPath F G mods).symm, ?_⟩
   exact finiteStagewiseHexagonOriginalMapIdMateNaturality
@@ -116,8 +116,8 @@ theorem doubleFiniteModificationHexagonOriginalMapCompMateNaturality
       (kernelCategoryHomToKernelHom (basePath ≫ routeLong))
     let shortClass := originalMapCompQuotientPrepend (F := F) (G := G) f g
       (kernelCategoryHomToKernelHom (basePath ≫ routeShort))
-    quotientLeftMateBoundary dσ dθ Γ (f ≫ g) longClass =
-        quotientRightMateBoundary dσ dθ Γ (f ≫ g) shortClass ∧
+    quotientLeftMateBoundary a.core.datum b.core.datum mods.composite (f ≫ g) longClass =
+        quotientRightMateBoundary a.core.datum b.core.datum mods.composite (f ≫ g) shortClass ∧
       quotientComposite longClass = quotientComposite shortClass ) := by
   refine ⟨(chosenRightMateFiniteModificationPath F G mods).symm, ?_⟩
   exact finiteStagewiseHexagonOriginalMapCompMateNaturality
