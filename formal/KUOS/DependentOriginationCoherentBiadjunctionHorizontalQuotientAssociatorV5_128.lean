@@ -47,12 +47,16 @@ def leftKernelQuotientAssociatorNatIso
     (by
       intro x y pq
       apply (quotientCompositeFunctor dF bF dG bG).map_injective
-      simpa only [Functor.map_comp, Functor.comp_map,
-        Functor.preimageIso_hom, Functor.map_preimage,
-        leftKernelQuotientWhisker_compression]
-        using (leftCompositeAssociatorNatIso aF bF aG bG
-          uF uG vF vG).hom.naturality
-            ((quotientCompositeFunctor aF bF aG bG).map pq))
+      simp only [Functor.map_comp, Functor.comp_map,
+        Functor.preimageIso_hom, Functor.map_preimage]
+      rw [leftKernelQuotientWhisker_compression aF bF aG bG
+        (vF ≫ uF) (vG ≫ uG) pq]
+      rw [leftKernelQuotientWhisker_compression eF bF eG bG vF vG
+        ((leftKernelQuotientWhiskerFunctor aF bF aG bG uF uG).map pq)]
+      rw [leftKernelQuotientWhisker_compression aF bF aG bG uF uG pq]
+      exact (leftCompositeAssociatorNatIso aF bF aG bG
+        uF uG vF vG).hom.naturality
+          ((quotientCompositeFunctor aF bF aG bG).map pq))
 
 #print axioms leftKernelQuotientAssociatorNatIso
 
