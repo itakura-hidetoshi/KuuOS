@@ -62,8 +62,8 @@ theorem nil_append
   induction tail with
   | nil => rfl
   | snoc previous t r ih =>
-      change .snoc (append (.nil : BiComparisonChain fF fG fF fG) previous) t r =
-        .snoc previous t r
+      change BiComparisonChain.snoc (append (.nil : BiComparisonChain fF fG fF fG) previous) t r =
+        BiComparisonChain.snoc previous t r
       rw [ih]
 
 /-- Concatenation is associative as a typed CHAIN, including all
@@ -77,8 +77,8 @@ theorem append_assoc
   induction c₃ with
   | nil => rfl
   | snoc previous t r ih =>
-      change .snoc (append (append c₁ c₂) previous) t r =
-        .snoc (append c₁ (append c₂ previous)) t r
+      change BiComparisonChain.snoc (append (append c₁ c₂) previous) t r =
+        BiComparisonChain.snoc (append c₁ (append c₂ previous)) t r
       rw [ih]
 
 /-- Total finite depth is additive under path concatenation. -/
@@ -92,7 +92,7 @@ theorem depth_append
   | snoc previous t r ih =>
       change (append head previous).depth + 1 =
         head.depth + (previous.depth + 1)
-      rw [ih, Nat.add_succ]
+      rw [ih, Nat.add_assoc]
 
 /-- Original F-side 2-ISO composites respect concatenation. -/
 theorem fComposite_append
@@ -156,8 +156,8 @@ theorem rightCorrection_append {e : C} (h : bG ⟶ e)
       exact (Category.comp_id (head.rightCorrection h)).symm
   | snoc previous t r ih =>
       change (append head previous).rightCorrection h ≫ r ▷ h =
-        (head.rightCorrection h ≫ previous.rightCorrection h) ≫ r ▷ h
-      rw [ih]
+        head.rightCorrection h ≫ (previous.rightCorrection h ≫ r ▷ h)
+      rw [ih, Category.assoc]
 
 /-- Existing F25 prepend is exactly a singleton chain concatenated
 with its full original finite tail. -/
@@ -170,8 +170,8 @@ theorem prepend_eq_singleton_append
   induction tail with
   | nil => rfl
   | snoc previous t r ih =>
-      change .snoc (BiComparisonChain.prepend p q previous) t r =
-        .snoc (append (.snoc .nil p q) previous) t r
+      change BiComparisonChain.snoc (BiComparisonChain.prepend p q previous) t r =
+        BiComparisonChain.snoc (append (.snoc .nil p q) previous) t r
       rw [ih]
 
 #print axioms append
@@ -257,7 +257,7 @@ theorem finiteAppendRightBoundary_normalize
           ((head.fComposite).trans tail.fComposite).inv ≫
           dθ.right.naturality f) ≫
         (head.gComposite ≫ tail.gComposite) ▷ dθ.right.app Y) ≫
-        lG ◁ (rightModification dσ dθ Γ).app Y := by
+        lG ◁ (rightModification dσ dθ Γ).app Y) := by
   rw [finiteRightBoundary_normalize, Chains.fComposite_append,
     Chains.gComposite_append]
 
