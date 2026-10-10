@@ -66,9 +66,30 @@ def actualLiftSourceRightMateLaxTrans :
   naturality_naturality {X Y} {f g} θ := by
     exact (actualLiftSourceUnitRightMate_naturality₂_explicit (W := W) A θ).symm
   naturality_id X := by
+    change
+      actualLiftSourceUnitRightMate (W := W) A (𝟙 X) ≫
+        ((actualLiftSourceRoundtrip (W := W) A).mapId X).hom ▷
+          (actualLiftSourceNativeAdjHom (W := W) A X).r =
+        (actualLiftSourceNativeAdjHom (W := W) A X).r ◁ 𝟙 (𝟙 X) ≫
+          (ρ_ (actualLiftSourceNativeAdjHom (W := W) A X).r).hom ≫
+            (λ_ (actualLiftSourceNativeAdjHom (W := W) A X).r).inv
     simpa only [Bicategory.whiskerLeft_id, Category.id_comp] using
       (actualLiftSourceUnitRightMate_id_mapId (W := W) A X)
   naturality_comp {X Y Z} f g := by
+    change
+      actualLiftSourceUnitRightMate (W := W) A (f ≫ g) ≫
+        ((actualLiftSourceRoundtrip (W := W) A).mapComp f g).hom ▷
+          (actualLiftSourceNativeAdjHom (W := W) A Z).r =
+        (actualLiftSourceNativeAdjHom (W := W) A X).r ◁ 𝟙 (f ≫ g) ≫
+          (α_ (actualLiftSourceNativeAdjHom (W := W) A X).r f g).inv ≫
+            actualLiftSourceUnitRightMate (W := W) A f ▷ g ≫
+              (α_ ((actualLiftSourceRoundtrip (W := W) A).map f)
+                (actualLiftSourceNativeAdjHom (W := W) A Y).r g).hom ≫
+                (actualLiftSourceRoundtrip (W := W) A).map f ◁
+                  actualLiftSourceUnitRightMate (W := W) A g ≫
+                    (α_ ((actualLiftSourceRoundtrip (W := W) A).map f)
+                      ((actualLiftSourceRoundtrip (W := W) A).map g)
+                      (actualLiftSourceNativeAdjHom (W := W) A Z).r).inv
     have h := actualLiftSourceUnitRightCorrectedVComp_eq_vcomp (W := W) A f g
     simpa only [actualLiftSourceUnitRightCorrectedVComp,
       actualLiftSourceUnitRightMapCompWhisker, actualLiftSourceUnitMateVComp,
@@ -91,6 +112,13 @@ def actualLiftTargetRightMateLaxTrans :
   naturality_naturality {X Y} {f g} θ := by
     exact (actualLiftTargetCounitRightMate_naturality₂_explicit (W := W) A θ).symm
   naturality_id X := by
+    change
+      actualLiftTargetCounitRightMate (W := W) A (𝟙 X) ≫
+        𝟙 (𝟙 X) ▷ (actualLiftTargetNativeAdjHom (W := W) A X).r =
+          (actualLiftTargetNativeAdjHom (W := W) A X).r ◁
+            ((actualLiftTargetRoundtrip (W := W) A).mapId X).hom ≫
+              (ρ_ (actualLiftTargetNativeAdjHom (W := W) A X).r).hom ≫
+                (λ_ (actualLiftTargetNativeAdjHom (W := W) A X).r).inv
     simpa only [Bicategory.id_whiskerRight, Category.comp_id] using
       (actualLiftTargetCounitRightMate_id_mapId (W := W) A X)
   naturality_comp {X Y Z} f g := by
