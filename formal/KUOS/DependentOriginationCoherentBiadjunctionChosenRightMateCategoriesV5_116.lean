@@ -134,7 +134,7 @@ arbitrary right lax modification, not just invertible examples. -/
 theorem right_left_map (a b : RightMateOppPresentation F G)
     (m : a ⟶ b) :
     (rightMateFunctor F G).map ((leftMateFunctor F G).map m) = m :=
-  rightModification_leftModification b.core.datum a.core.datum m
+  rightModification_leftModification a.core.datum b.core.datum m
 
 /-- Functoriality automatically gives simultaneous naturality of the
 hom correspondence in both arguments, including the non-strict
