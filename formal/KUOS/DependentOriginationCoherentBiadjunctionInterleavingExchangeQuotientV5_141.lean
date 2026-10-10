@@ -128,13 +128,13 @@ inductive AdjacentSwap :
   | square {a b : D} {x y : E}
       {n m : Nat}
       {ma mb mc : Blocks a b} {pa pb pc : Blocks x y}
-      (prefix : OrderedInterleaving n m ma pa mb pb)
+      (initialPath : OrderedInterleaving n m ma pa mb pb)
       (hm : OneStep mb mc) (hp : OneStep pb pc) :
       AdjacentSwap
         (OrderedInterleaving.comparison
-          (OrderedInterleaving.modification prefix hm) hp)
+          (OrderedInterleaving.modification initialPath hm) hp)
         (OrderedInterleaving.modification
-          (OrderedInterleaving.comparison prefix hp) hm)
+          (OrderedInterleaving.comparison initialPath hp) hm)
   | afterModification {a b : D} {x y : E}
       {n m : Nat}
       {ma mb mc : Blocks a b} {pa pb : Blocks x y}
@@ -180,9 +180,9 @@ theorem AdjacentSwap.mapBoth
     AdjacentSwap (OrderedInterleaving.mapBoth H K p)
       (OrderedInterleaving.mapBoth H K q) := by
   induction h with
-  | square prefix hm hp =>
+  | square initialPath hm hp =>
       exact AdjacentSwap.square
-        (OrderedInterleaving.mapBoth H K prefix)
+        (OrderedInterleaving.mapBoth H K initialPath)
         (oneStep_mapBlocks H hm) (oneStep_mapBlocks K hp)
   | afterModification h step ih =>
       exact AdjacentSwap.afterModification ih (oneStep_mapBlocks H step)
