@@ -51,12 +51,36 @@ def leftKernelQuotientAssociatorNatIso
         Functor.preimageIso_hom, Functor.map_preimage]
       rw [leftKernelQuotientWhisker_compression aF bF aG bG
         (vF ≫ uF) (vG ≫ uG) pq]
-      rw [leftKernelQuotientWhisker_compression eF bF eG bG vF vG
-        ((leftKernelQuotientWhiskerFunctor aF bF aG bG uF uG).map pq)]
-      rw [leftKernelQuotientWhisker_compression aF bF aG bG uF uG pq]
-      exact (leftCompositeAssociatorNatIso aF bF aG bG
-        uF uG vF vG).hom.naturality
-          ((quotientCompositeFunctor aF bF aG bG).map pq))
+      have hcomp :
+          (quotientCompositeFunctor dF bF dG bG).map
+            ((leftKernelQuotientWhiskerFunctor eF bF eG bG vF vG).map
+              ((leftKernelQuotientWhiskerFunctor aF bF aG bG uF uG).map pq)) =
+          (leftCompositeWhiskerFunctor eF bF eG bG vF vG).map
+            ((leftCompositeWhiskerFunctor aF bF aG bG uF uG).map
+              ((quotientCompositeFunctor aF bF aG bG).map pq)) := by
+        calc
+          _ = (leftCompositeWhiskerFunctor eF bF eG bG vF vG).map
+                ((quotientCompositeFunctor eF bF eG bG).map
+                  ((leftKernelQuotientWhiskerFunctor aF bF aG bG uF uG).map pq)) :=
+            leftKernelQuotientWhisker_compression eF bF eG bG vF vG _
+          _ = _ := congrArg
+            (fun z => (leftCompositeWhiskerFunctor eF bF eG bG vF vG).map z)
+            (leftKernelQuotientWhisker_compression aF bF aG bG uF uG pq)
+      calc
+        _ = ((leftCompositeAssociatorNatIso aF bF aG bG
+              uF uG vF vG).app
+                ((quotientCompositeFunctor aF bF aG bG).obj x)).hom ≫
+              (leftCompositeWhiskerFunctor eF bF eG bG vF vG).map
+                ((leftCompositeWhiskerFunctor aF bF aG bG uF uG).map
+                  ((quotientCompositeFunctor aF bF aG bG).map pq)) :=
+          (leftCompositeAssociatorNatIso aF bF aG bG
+            uF uG vF vG).hom.naturality
+              ((quotientCompositeFunctor aF bF aG bG).map pq)
+        _ = _ := congrArg
+          (fun z => ((leftCompositeAssociatorNatIso aF bF aG bG
+            uF uG vF vG).app
+              ((quotientCompositeFunctor aF bF aG bG).obj x)).hom ≫ z)
+          hcomp.symm)
 
 #print axioms leftKernelQuotientAssociatorNatIso
 
