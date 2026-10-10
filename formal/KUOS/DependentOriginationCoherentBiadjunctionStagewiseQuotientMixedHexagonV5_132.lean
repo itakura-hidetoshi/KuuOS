@@ -98,7 +98,7 @@ theorem kernelMixedHexagonStagewiseLongIso_compression
   change Q.map (((p1.hom ≫ p2.hom) ≫ p3.hom) ≫ p4.hom) =
     (compositeMixedHexagonLongIso aF bF aG bG
       uF uG vF vG wF wG
-      ((quotientCompositeFunctor aF bF aG bG).obj ⟨x⟩)).hom
+      ⟨x.fF, x.fG⟩).hom
   rw [Q.map_comp ((p1.hom ≫ p2.hom) ≫ p3.hom) p4.hom]
   rw [Q.map_comp (p1.hom ≫ p2.hom) p3.hom]
   rw [Q.map_comp p1.hom p2.hom]
