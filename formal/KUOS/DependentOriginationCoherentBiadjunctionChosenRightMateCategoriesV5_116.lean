@@ -180,13 +180,15 @@ def chosenMateCategoryEquivalence :
   unitIso :=
     NatIso.ofComponents (fun a => Iso.refl a) (by
       intro a b f
-      simpa using (left_right_map F G a b f).symm)
+      simpa only [Category.comp_id, Category.id_comp] using
+        (left_right_map F G a b f).symm)
   counitIso :=
     NatIso.ofComponents (fun a => Iso.refl a) (by
       intro a b f
-      simpa using (right_left_map F G a b f))
+      simpa only [Category.comp_id, Category.id_comp] using
+        (right_left_map F G a b f))
   functor_unitIso_comp a := by
-    simp
+    simp only [Functor.map_id, Category.id_comp]
 
 #print axioms MatePresentation
 #print axioms LeftMatePresentation
