@@ -23,7 +23,7 @@ set_option autoImplicit false
 noncomputable section
 
 /-!
-# F43-C / v5.140 — original chosen mates on ANY ordered two-axis exchange
+# F44-C / v5.141 — original chosen mates descended to exchange classes
 
 Unlike F42, which bundled a pair of independently finite F19/F28
 primitive refinement traces, F43-B constructs an ACTUALLY ORDERED
@@ -176,7 +176,7 @@ theorem exchangeQuotientOriginalMateTrans
     (kernelCategoryHomToKernelHom (basePath ≫ routeLong) =
       kernelCategoryHomToKernelHom (basePath ≫ routeShort)) := by
   exact exchangeQuotientOriginalMate F G modsA modsC f uF uG vF vG wF wG pqA pqC
-    (Grid.ExchangeClass.append exchangeAB exchangeBC).toInterleaving basePath
+    (Grid.ExchangeClass.append exchangeAB exchangeBC) basePath
 
 /-- Original crossed lax right-mate coherence survives an arbitrary
 second (potentially NONINVERTIBLE) quotient NatTrans for ANY exchange. -/
@@ -291,7 +291,7 @@ theorem exchangeQuotientVerticalMateTrans
     (kernelCategoryHomToKernelHom (basePath ≫ routeLong) =
       kernelCategoryHomToKernelHom (basePath ≫ routeShort)) := by
   exact exchangeQuotientVerticalMate F G modsA modsC f uF uG vF vG wF wG T β pqA pqC
-    (Grid.ExchangeClass.append exchangeAB exchangeBC).toInterleaving basePath
+    (Grid.ExchangeClass.append exchangeAB exchangeBC) basePath
 
 #print axioms chosenRightMateExchangeQuotientTransport
 #print axioms exchangeQuotientOriginalMate
