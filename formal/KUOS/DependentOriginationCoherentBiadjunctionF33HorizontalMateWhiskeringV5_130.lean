@@ -122,7 +122,40 @@ theorem triangleOriginalMateBoundary_whiskerBoth
     (triangleOriginalMateBoundaryCompatibility dσ dθ Γ f
       uF vF uG vG basePath).2.2
 
+/-- F32 pentagon structural paths agree after the ACTUAL F30
+right horizontal functor as well: both orientations, including G's
+arbitrary comparison direction, are preserved by the quotient map. -/
+theorem pentagonF30RightWhiskeringCoherence
+    {aF bF cF dF eF aG bG cG dG eG : C}
+    (uF : aF ⟶ bF) (vF : bF ⟶ cF) (wF : cF ⟶ dF) (zF : dF ⟶ eF)
+    (uG : aG ⟶ bG) (vG : bG ⟶ cG) (wG : cG ⟶ dG) (zG : dG ⟶ eG)
+    {pF pG : C} (outerF : eF ⟶ pF) (outerG : eG ⟶ pG) :
+    (rightKernelQuotientWhiskerFunctor aF eF aG eG outerF outerG).map
+      (kernelPentagonLongIso uF vF wF zF uG vG wG zG).hom =
+    (rightKernelQuotientWhiskerFunctor aF eF aG eG outerF outerG).map
+      (kernelPentagonShortIso uF vF wF zF uG vG wG zG).hom := by
+  exact congrArg
+    (fun t => (rightKernelQuotientWhiskerFunctor aF eF aG eG outerF outerG).map t)
+    (congrArg Iso.hom (kernelQuotientPentagon uF vF wF zF uG vG wG zG))
+
+/-- The other F30 horizontal direction: the F32 triangle also
+commutes with true LEFT whiskering of native kernel quotient arrows. -/
+theorem triangleF30LeftWhiskeringCoherence
+    {aF bF cF aG bG cG : C}
+    (uF : aF ⟶ bF) (vF : bF ⟶ cF)
+    (uG : aG ⟶ bG) (vG : bG ⟶ cG)
+    {pF pG : C} (outerF : pF ⟶ aF) (outerG : pG ⟶ aG) :
+    (leftKernelQuotientWhiskerFunctor aF cF aG cG outerF outerG).map
+      (kernelTriangleLongIso uF vF uG vG).hom =
+    (leftKernelQuotientWhiskerFunctor aF cF aG cG outerF outerG).map
+      (kernelTriangleShortIso uF vF uG vG).hom := by
+  exact congrArg
+    (fun t => (leftKernelQuotientWhiskerFunctor aF cF aG cG outerF outerG).map t)
+    (congrArg Iso.hom (kernelQuotientTriangle uF vF uG vG))
+
 #print axioms pentagonF30LeftWhiskeringCoherence
+#print axioms pentagonF30RightWhiskeringCoherence
+#print axioms triangleF30LeftWhiskeringCoherence
 #print axioms triangleF30RightWhiskeringCoherence
 #print axioms pentagonOriginalMateBoundary_whiskerBoth
 #print axioms triangleOriginalMateBoundary_whiskerBoth
