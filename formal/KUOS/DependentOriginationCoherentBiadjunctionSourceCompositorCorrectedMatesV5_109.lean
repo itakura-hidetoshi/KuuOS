@@ -91,7 +91,7 @@ theorem actualLiftSourceUnitRightCorrectedVComp_eq_vcomp
           (((actualLiftSourceRoundtripUnit (W := W) A).naturality (f ≫ g)).hom ≫
             (actualLiftSourceRoundtripUnit (W := W) A).app X ◁
               ((actualLiftSourceRoundtrip (W := W) A).mapComp f g).hom) := by
-      exact (Generic.mateEquiv_postcompose
+      exact (KUOS.DependentOriginationCoherentBiadjunctionNativeMatesIdentityV5_107.Generic.mateEquiv_postcompose
         (actualLiftSourceNativeAdjHom (W := W) A X).adj
         (actualLiftSourceNativeAdjHom (W := W) A Z).adj
         ((actualLiftSourceRoundtripUnit (W := W) A).naturality (f ≫ g)).hom
