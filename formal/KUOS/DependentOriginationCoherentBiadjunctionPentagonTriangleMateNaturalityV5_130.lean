@@ -46,7 +46,7 @@ theorem mateBoundaries_of_equal_quotient_postcomposition
     (Γ : Pseudofunctor.StrongTrans.Modification σ θ)
     {X Y : B} (f : X ⟶ Y)
     {kF lF : F.obj X ⟶ F.obj Y} {kG lG : G.obj X ⟶ G.obj Y}
-    (prefix :
+    (basePath :
       (⟨⟨F.map f, G.map f⟩⟩ :
         compressionKernelCategory (F.obj X) (F.obj Y) (G.obj X) (G.obj Y)) ⟶
       (⟨⟨kF, kG⟩⟩ :
@@ -57,18 +57,18 @@ theorem mateBoundaries_of_equal_quotient_postcomposition
       (⟨⟨lF, lG⟩⟩ :
         compressionKernelCategory (F.obj X) (F.obj Y) (G.obj X) (G.obj Y)))
     (h : r = s) :
-    kernelCategoryLeftMateBoundary dσ dθ Γ f (prefix ≫ r) =
-      kernelCategoryLeftMateBoundary dσ dθ Γ f (prefix ≫ s) ∧
-    kernelCategoryRightMateBoundary dσ dθ Γ f (prefix ≫ r) =
-      kernelCategoryRightMateBoundary dσ dθ Γ f (prefix ≫ s) ∧
-    kernelCategoryLeftMateBoundary dσ dθ Γ f (prefix ≫ r) =
-      kernelCategoryRightMateBoundary dσ dθ Γ f (prefix ≫ s) := by
+    kernelCategoryLeftMateBoundary dσ dθ Γ f (basePath ≫ r) =
+      kernelCategoryLeftMateBoundary dσ dθ Γ f (basePath ≫ s) ∧
+    kernelCategoryRightMateBoundary dσ dθ Γ f (basePath ≫ r) =
+      kernelCategoryRightMateBoundary dσ dθ Γ f (basePath ≫ s) ∧
+    kernelCategoryLeftMateBoundary dσ dθ Γ f (basePath ≫ r) =
+      kernelCategoryRightMateBoundary dσ dθ Γ f (basePath ≫ s) := by
   subst s
-  exact ⟨rfl, rfl, kernelCategoryMateNaturality dσ dθ Γ f (prefix ≫ r)⟩
+  exact ⟨rfl, rfl, kernelCategoryMateNaturality dσ dθ Γ f (basePath ≫ r)⟩
 
 /-- F32 PENTAGON transports BOTH ORIGINAL lax mate boundaries through
 the 3-stage and 2-stage comparison pastes in the genuine F28 quotient.
-The original prefix is fully arbitrary, including a noninvertible G cell. -/
+The original basePath is fully arbitrary, including a noninvertible G cell. -/
 theorem pentagonOriginalMateBoundaryCompatibility
     (dσ : RightMateLaxData σ) (dθ : RightMateLaxData θ)
     (Γ : Pseudofunctor.StrongTrans.Modification σ θ)
@@ -78,31 +78,31 @@ theorem pentagonOriginalMateBoundaryCompatibility
     (wF : cF ⟶ dF) (zF : dF ⟶ F.obj Y)
     (uG : G.obj X ⟶ bG) (vG : bG ⟶ cG)
     (wG : cG ⟶ dG) (zG : dG ⟶ G.obj Y)
-    (prefix :
+    (basePath :
       (⟨⟨F.map f, G.map f⟩⟩ :
         compressionKernelCategory (F.obj X) (F.obj Y) (G.obj X) (G.obj Y)) ⟶
       (⟨⟨(((uF ≫ vF) ≫ wF) ≫ zF), (((uG ≫ vG) ≫ wG) ≫ zG)⟩⟩ :
         compressionKernelCategory (F.obj X) (F.obj Y) (G.obj X) (G.obj Y))) :
     kernelCategoryLeftMateBoundary dσ dθ Γ f
-      (prefix ≫ (kernelPentagonLongIso uF vF wF zF uG vG wG zG).hom) =
+      (basePath ≫ (kernelPentagonLongIso uF vF wF zF uG vG wG zG).hom) =
     kernelCategoryLeftMateBoundary dσ dθ Γ f
-      (prefix ≫ (kernelPentagonShortIso uF vF wF zF uG vG wG zG).hom) ∧
+      (basePath ≫ (kernelPentagonShortIso uF vF wF zF uG vG wG zG).hom) ∧
     kernelCategoryRightMateBoundary dσ dθ Γ f
-      (prefix ≫ (kernelPentagonLongIso uF vF wF zF uG vG wG zG).hom) =
+      (basePath ≫ (kernelPentagonLongIso uF vF wF zF uG vG wG zG).hom) =
     kernelCategoryRightMateBoundary dσ dθ Γ f
-      (prefix ≫ (kernelPentagonShortIso uF vF wF zF uG vG wG zG).hom) ∧
+      (basePath ≫ (kernelPentagonShortIso uF vF wF zF uG vG wG zG).hom) ∧
     kernelCategoryLeftMateBoundary dσ dθ Γ f
-      (prefix ≫ (kernelPentagonLongIso uF vF wF zF uG vG wG zG).hom) =
+      (basePath ≫ (kernelPentagonLongIso uF vF wF zF uG vG wG zG).hom) =
     kernelCategoryRightMateBoundary dσ dθ Γ f
-      (prefix ≫ (kernelPentagonShortIso uF vF wF zF uG vG wG zG).hom) := by
-  exact mateBoundaries_of_equal_quotient_postcomposition dσ dθ Γ f prefix
+      (basePath ≫ (kernelPentagonShortIso uF vF wF zF uG vG wG zG).hom) := by
+  exact mateBoundaries_of_equal_quotient_postcomposition dσ dθ Γ f basePath
     (kernelPentagonLongIso uF vF wF zF uG vG wG zG).hom
     (kernelPentagonShortIso uF vF wF zF uG vG wG zG).hom
     (congrArg Iso.hom (kernelQuotientPentagon uF vF wF zF uG vG wG zG))
 
 /-- F32 TRIANGLE transports BOTH ORIGINAL lax mate boundaries through
 the 2-stage associator/left-unitor paste and the whiskered right-unitor
-paste. The prefix retains its arbitrary G-side comparison direction. -/
+paste. The basePath retains its arbitrary G-side comparison direction. -/
 theorem triangleOriginalMateBoundaryCompatibility
     (dσ : RightMateLaxData σ) (dθ : RightMateLaxData θ)
     (Γ : Pseudofunctor.StrongTrans.Modification σ θ)
@@ -110,24 +110,24 @@ theorem triangleOriginalMateBoundaryCompatibility
     {bF bG : C}
     (uF : F.obj X ⟶ bF) (vF : bF ⟶ F.obj Y)
     (uG : G.obj X ⟶ bG) (vG : bG ⟶ G.obj Y)
-    (prefix :
+    (basePath :
       (⟨⟨F.map f, G.map f⟩⟩ :
         compressionKernelCategory (F.obj X) (F.obj Y) (G.obj X) (G.obj Y)) ⟶
       (⟨⟨(uF ≫ 𝟙 bF) ≫ vF, (uG ≫ 𝟙 bG) ≫ vG⟩⟩ :
         compressionKernelCategory (F.obj X) (F.obj Y) (G.obj X) (G.obj Y))) :
     kernelCategoryLeftMateBoundary dσ dθ Γ f
-      (prefix ≫ (kernelTriangleLongIso uF vF uG vG).hom) =
+      (basePath ≫ (kernelTriangleLongIso uF vF uG vG).hom) =
     kernelCategoryLeftMateBoundary dσ dθ Γ f
-      (prefix ≫ (kernelTriangleShortIso uF vF uG vG).hom) ∧
+      (basePath ≫ (kernelTriangleShortIso uF vF uG vG).hom) ∧
     kernelCategoryRightMateBoundary dσ dθ Γ f
-      (prefix ≫ (kernelTriangleLongIso uF vF uG vG).hom) =
+      (basePath ≫ (kernelTriangleLongIso uF vF uG vG).hom) =
     kernelCategoryRightMateBoundary dσ dθ Γ f
-      (prefix ≫ (kernelTriangleShortIso uF vF uG vG).hom) ∧
+      (basePath ≫ (kernelTriangleShortIso uF vF uG vG).hom) ∧
     kernelCategoryLeftMateBoundary dσ dθ Γ f
-      (prefix ≫ (kernelTriangleLongIso uF vF uG vG).hom) =
+      (basePath ≫ (kernelTriangleLongIso uF vF uG vG).hom) =
     kernelCategoryRightMateBoundary dσ dθ Γ f
-      (prefix ≫ (kernelTriangleShortIso uF vF uG vG).hom) := by
-  exact mateBoundaries_of_equal_quotient_postcomposition dσ dθ Γ f prefix
+      (basePath ≫ (kernelTriangleShortIso uF vF uG vG).hom) := by
+  exact mateBoundaries_of_equal_quotient_postcomposition dσ dθ Γ f basePath
     (kernelTriangleLongIso uF vF uG vG).hom
     (kernelTriangleShortIso uF vF uG vG).hom
     (congrArg Iso.hom (kernelQuotientTriangle uF vF uG vG))
