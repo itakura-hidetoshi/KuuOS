@@ -53,7 +53,7 @@ instance compressionKernelCongruence (aF bF aG bG : C) :
 /-- The ACTUAL mathlib quotient category by the compression kernel.
 Its homs are quotient classes of original finite path presentations;
 its composition is the induced native path composition. -/
-def compressionKernelCategory (aF bF aG bG : C) :=
+abbrev compressionKernelCategory (aF bF aG bG : C) :=
   CategoryTheory.Quotient (compressionKernelHomRel aF bF aG bG)
 
 /-- The canonical functor from the unquotiented F26 comparison-path
@@ -93,8 +93,8 @@ theorem compression_factors_through_kernel_quotient
     (aF bF aG bG : C) :
     comparisonKernelQuotientFunctor aF bF aG bG ⋙
       quotientCompositeFunctor aF bF aG bG =
-        comparisonCompressionFunctor aF bF aG bG := by
-  exact CategoryTheory.Quotient.lift_spec
+        comparisonCompressionFunctor aF bF aG bG :=
+  CategoryTheory.Quotient.lift_spec
     (compressionKernelHomRel aF bF aG bG)
     (comparisonCompressionFunctor aF bF aG bG)
     (fun _ _ _ _ h => h)
