@@ -37,8 +37,9 @@ noncomputable section
 
 The F46 equivalence reduces a genuine F44 exchange class to one
 pair of complete native F19 modification and F28 quotient-category
-Type-valued primitive histories. F47-A/B prove both actual F19-first
-and F28-first orders belong to that SAME generated exchange class.
+Type-valued primitive histories. F47-A proves the actual F19-first and F28-first native normal
+executions belong to the SAME generated exchange class. F47-B proves
+history preservation under arbitrary quotient concatenation.
 
 The four original F44 mate/hexagon and forward nonstrict comparisons
 are instantiated here directly on that pair of native histories.
@@ -259,10 +260,10 @@ theorem originalMapCompNormalHistories
     uF uG vF vG wF wG pA pB
     (Grid.AxisTrace.pairToClass (hm, hc)) basePath
 
-/-- The two ACTUAL F45 finite execution orders commute even after
+/-- The ACTUAL F19-first and F28-first normal execution orders commute even after
 applying the ORIGINAL chosen right-mate functor on the F19 axis,
 and a separate arbitrary honest functor on the F28 axis. -/
-theorem chosenRightMateF45OrdersAgree
+theorem chosenRightMateNormalOrdersAgree
     {a b : LeftMatePresentation F G}
     {aF bF aG bG : C}
     {x y : compressionKernelCategory aF bF aG bG}
@@ -273,16 +274,16 @@ theorem chosenRightMateF45OrdersAgree
     (hm : Grid.AxisTrace n modsA modsB)
     (hc : Grid.AxisTrace m pqA pqB) :
     Grid.ExchangeClass.mapBoth (rightMateFunctor F G) K
-      (Grid.AxisTrace.modificationFirst hm hc).toClass =
+      (Grid.AxisTrace.modificationNormal hm hc).toClass =
     Grid.ExchangeClass.mapBoth (rightMateFunctor F G) K
-      (Grid.AxisTrace.comparisonFirst hm hc).toClass :=
+      (Grid.AxisTrace.comparisonNormal hm hc).toClass :=
   congrArg (Grid.ExchangeClass.mapBoth (rightMateFunctor F G) K)
-    (Grid.AxisTrace.modificationFirst_class_eq_comparisonFirst hm hc)
+    (Grid.AxisTrace.modificationNormal_class_eq_comparisonNormal hm hc)
 
-/-- The genuine F45 F19-first path, transported through the ORIGINAL
+/-- The genuine F47 F19-first normal path, transported through the ORIGINAL
 F19 chosen right mate and independent F28 functor, is completely
 classified by the TWO transported native Type-level histories. -/
-theorem chosenRightMateF45NormalHistories
+theorem chosenRightMateF19FirstNormalHistories
     {a b : LeftMatePresentation F G}
     {aF bF aG bG : C}
     {x y : compressionKernelCategory aF bF aG bG}
@@ -293,32 +294,32 @@ theorem chosenRightMateF45NormalHistories
     (hm : Grid.AxisTrace n modsA modsB)
     (hc : Grid.AxisTrace m pqA pqB) :
     chosenRightMateExchangeQuotientTransport F G K
-      (Grid.AxisTrace.toModificationFirstClass hm hc) =
+      ((Grid.AxisTrace.modificationNormal hm hc).toClass) =
     Grid.AxisTrace.pairToClass
       (Grid.AxisTrace.mapBlocks (rightMateFunctor F G) hm,
        Grid.AxisTrace.mapBlocks K hc) := by
   calc
     chosenRightMateExchangeQuotientTransport F G K
-        (Grid.AxisTrace.toModificationFirstClass hm hc) =
+        ((Grid.AxisTrace.modificationNormal hm hc).toClass) =
       Grid.AxisTrace.pairToClass
         (Grid.AxisTrace.mapBlocks (rightMateFunctor F G)
-          (Grid.AxisTrace.toModificationFirstClass hm hc).axisTraces.1,
+          ((Grid.AxisTrace.modificationNormal hm hc).toClass).axisTraces.1,
          Grid.AxisTrace.mapBlocks K
-          (Grid.AxisTrace.toModificationFirstClass hm hc).axisTraces.2) :=
+          ((Grid.AxisTrace.modificationNormal hm hc).toClass).axisTraces.2) :=
       chosenRightMateExchangeNormalForm F G K _
     _ = Grid.AxisTrace.pairToClass
           (Grid.AxisTrace.mapBlocks (rightMateFunctor F G) hm,
            Grid.AxisTrace.mapBlocks K hc) := by
       rw [Grid.OrderedInterleaving.axisTraces_toClass,
-        Grid.AxisTrace.modificationFirst_modificationTrace,
-        Grid.AxisTrace.modificationFirst_comparisonTrace]
+        Grid.AxisTrace.modificationNormal_modificationTrace,
+        Grid.AxisTrace.modificationNormal_comparisonTrace]
 
 #print axioms originalMateNormalHistories
 #print axioms verticalMateNormalHistories
 #print axioms originalMapIdNormalHistories
 #print axioms originalMapCompNormalHistories
-#print axioms chosenRightMateF45OrdersAgree
-#print axioms chosenRightMateF45NormalHistories
+#print axioms chosenRightMateNormalOrdersAgree
+#print axioms chosenRightMateF19FirstNormalHistories
 
 end Generic
 end
