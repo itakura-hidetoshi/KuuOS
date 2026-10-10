@@ -67,10 +67,10 @@ theorem AdjacentSwap.appendSuffix
       simpa only [OrderedInterleaving.append, Nat.add_zero] using h
   | modification later step ih =>
       simpa only [OrderedInterleaving.append, Nat.add_succ] using
-        (AdjacentSwap.afterModification ih step)
+        (AdjacentSwap.afterModification (ih h) step)
   | comparison later step ih =>
       simpa only [OrderedInterleaving.append, Nat.add_succ] using
-        (AdjacentSwap.afterComparison ih step)
+        (AdjacentSwap.afterComparison (ih h) step)
 
 /-- A raw adjacent exchange remains one such exchange when an
 arbitrary earlier sequence is prepended; this checks the core square
