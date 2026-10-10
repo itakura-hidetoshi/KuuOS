@@ -41,13 +41,19 @@ def actualLiftSourceMapIdQuotientNaturality
       (actualLiftSourceRoundtripUnit.{u, v, uH, vH, uW, uP} (W := W) A
         (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)))
     (X : ActualLiftSource.{u, v, uH, vH, uW, uP}
-      (W := W) A WorldLabel PresentationLabel) :=
+      (W := W) A WorldLabel PresentationLabel)
+    {kF : X ⟶ X}
+    {kG : (actualLiftSourceRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)).obj X ⟶ (actualLiftSourceRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)).obj X}
+    (q : KernelHom (𝟙 X) (𝟙 ((actualLiftSourceRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)).obj X)) kF kG) :=
   originalMapIdQuotientMateNaturality
     (actualLiftSourceRightMateData.{u, v, uH, uW, uP, vH} (W := W) A
       (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))
     (actualLiftSourceRightMateData.{u, v, uH, uW, uP, vH} (W := W) A
       (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))
-    Γ X
+    Γ X q
 
 /-- TARGET epsilon: its actual roundtrip mapId and identity-side
 comparisons are unchanged; the original lax mate square descends. -/
@@ -58,13 +64,19 @@ def actualLiftTargetMapIdQuotientNaturality
       (actualLiftTargetRoundtripCounit.{u, v, uH, vH, uW, uP} (W := W) A
         (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)))
     (X : ActualLiftTarget.{u, v, uH, vH, uW, uP}
-      (W := W) A WorldLabel PresentationLabel) :=
+      (W := W) A WorldLabel PresentationLabel)
+    {kF : (actualLiftTargetRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)).obj X ⟶ (actualLiftTargetRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)).obj X}
+    {kG : X ⟶ X}
+    (q : KernelHom (𝟙 ((actualLiftTargetRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)).obj X)) (𝟙 X) kF kG) :=
   originalMapIdQuotientMateNaturality
     (actualLiftTargetRightMateData.{u, v, uH, uW, uP, vH} (W := W) A
       (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))
     (actualLiftTargetRightMateData.{u, v, uH, uW, uP, vH} (W := W) A
       (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))
-    Γ X
+    Γ X q
 
 /-- SOURCE eta: the complete original nonstrict mapComp pair acts on
 kernel classes and respects both native original mate boundaries. -/
@@ -76,13 +88,21 @@ def actualLiftSourceMapCompQuotientNaturality
         (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)))
     {X Y Z : ActualLiftSource.{u, v, uH, vH, uW, uP}
       (W := W) A WorldLabel PresentationLabel}
-    (f : X ⟶ Y) (g : Y ⟶ Z) :=
+    (f : X ⟶ Y) (g : Y ⟶ Z)
+    {kF : X ⟶ Z}
+    {kG : (actualLiftSourceRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)).obj X ⟶ (actualLiftSourceRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)).obj Z}
+    (q : KernelHom (f ≫ g)
+      ((actualLiftSourceRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)).map f ≫ (actualLiftSourceRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)).map g) kF kG) :=
   originalMapCompQuotientMateNaturality
     (actualLiftSourceRightMateData.{u, v, uH, uW, uP, vH} (W := W) A
       (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))
     (actualLiftSourceRightMateData.{u, v, uH, uW, uP, vH} (W := W) A
       (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))
-    Γ f g
+    Γ f g q
 
 /-- TARGET epsilon: the unchanged mapComp cells and arbitrarily
 noninvertible G comparisons are compatible with kernel mate descent. -/
@@ -94,13 +114,21 @@ def actualLiftTargetMapCompQuotientNaturality
         (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)))
     {X Y Z : ActualLiftTarget.{u, v, uH, vH, uW, uP}
       (W := W) A WorldLabel PresentationLabel}
-    (f : X ⟶ Y) (g : Y ⟶ Z) :=
+    (f : X ⟶ Y) (g : Y ⟶ Z)
+    {kF : (actualLiftTargetRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)).obj X ⟶ (actualLiftTargetRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)).obj Z}
+    {kG : X ⟶ Z}
+    (q : KernelHom
+      ((actualLiftTargetRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)).map f ≫ (actualLiftTargetRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)).map g) (f ≫ g) kF kG) :=
   originalMapCompQuotientMateNaturality
     (actualLiftTargetRightMateData.{u, v, uH, uW, uP, vH} (W := W) A
       (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))
     (actualLiftTargetRightMateData.{u, v, uH, uW, uP, vH} (W := W) A
       (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))
-    Γ f g
+    Γ f g q
 
 #print axioms actualLiftSourceMapIdQuotientNaturality
 #print axioms actualLiftTargetMapIdQuotientNaturality
