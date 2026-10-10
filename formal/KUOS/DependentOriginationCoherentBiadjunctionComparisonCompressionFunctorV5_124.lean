@@ -165,7 +165,7 @@ def compressedMateRightBoundary
     (pq : (F.map f ≅ kF) × (G.map f ⟶ kG)) :=
   (((dθ.right.app X ◁ pq.1.inv ≫ dθ.right.naturality f) ≫
       pq.2 ▷ dθ.right.app Y) ≫
-    kG ◁ (rightModification dσ dθ Γ).app Y
+    kG ◁ (rightModification dσ dθ Γ).app Y)
 
 /-- The original F22 naturality descends on the actual compressed
 Hom-pair, without invertibility assumptions on the G 2-cell. -/
