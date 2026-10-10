@@ -29,7 +29,8 @@ coherence; it is not an ambient bicategory biequivalence or a claim
 of arbitrary tricategorical modification interchange.
 -/
 
-namespace Chain
+namespace Higher
+open KUOS.DependentOriginationCoherentBiadjunctionFiniteHorizontalExchangeV5_133.Chain
 
 universe u v uE vE
 variable {D : Type u} [Category.{v} D]
@@ -72,7 +73,7 @@ theorem Bracketing.verticalPasting {E : Type uE} [Category.{vE} E]
   simpa only [Bracketing.evaluated_eq_flattened] using
     (Path.verticalPasting α β p.flattened)
 
-end Chain
+end Higher
 
 namespace Generic
 
@@ -157,7 +158,7 @@ theorem kernelStagewiseHexagonFiniteVerticalPasting
     (L.map p.composite ≫ stagewise.hom.app y) ≫ β.app y =
       stagewise.hom.app x ≫ (β.app x ≫ T.map p.composite) := by
   dsimp only
-  exact Chain.Path.verticalPasting
+  exact Higher.Path.verticalPasting
     (kernelMixedHexagonStagewiseLongNatIso aF bF aG bG
       uF uG vF vG wF wG).hom β p
 
@@ -187,7 +188,7 @@ theorem kernelStagewiseHexagonFiniteVerticalAppend
     stagewise.hom.app x ≫ (β.app x ≫
       (T.map p.composite ≫ T.map q.composite)) := by
   dsimp only
-  exact Chain.Path.verticalPasting_append
+  exact Higher.Path.verticalPasting_append
     (kernelMixedHexagonStagewiseLongNatIso aF bF aG bG
       uF uG vF vG wF wG).hom β p q
 
@@ -215,13 +216,13 @@ theorem kernelStagewiseHexagonBracketedVerticalPasting
     (L.map p.evaluated ≫ stagewise.hom.app y) ≫ β.app y =
       stagewise.hom.app x ≫ (β.app x ≫ T.map p.evaluated) := by
   dsimp only
-  exact Chain.Bracketing.verticalPasting
+  exact Higher.Bracketing.verticalPasting
     (kernelMixedHexagonStagewiseLongNatIso aF bF aG bG
       uF uG vF vG wF wG).hom β p
 
-#print axioms Chain.Path.verticalPasting
-#print axioms Chain.Path.verticalPasting_append
-#print axioms Chain.Bracketing.verticalPasting
+#print axioms Higher.Path.verticalPasting
+#print axioms Higher.Path.verticalPasting_append
+#print axioms Higher.Bracketing.verticalPasting
 #print axioms kernelStagewiseHexagonFiniteInterchange
 #print axioms kernelStagewiseHexagonFiniteVerticalPasting
 #print axioms kernelStagewiseHexagonFiniteVerticalAppend
