@@ -47,10 +47,10 @@ theorem Path.composite_append {x y z : D} (p : Path x y)
     (q : Path y z) :
     (p.append q).composite = p.composite ≫ q.composite := by
   induction q with
-  | nil y =>
+  | nil =>
       change p.composite = p.composite ≫ 𝟙 y
       rw [Category.comp_id]
-  | @snoc y z w q r ih =>
+  | @snoc mid fin q r ih =>
       change (p.append q).composite ≫ r =
         p.composite ≫ (q.composite ≫ r)
       rw [ih]
@@ -60,8 +60,8 @@ theorem Path.append_assoc {w x y z : D}
     (p : Path w x) (q : Path x y) (r : Path y z) :
     (p.append q).append r = p.append (q.append r) := by
   induction r with
-  | nil y => rfl
-  | @snoc y z t r f ih =>
+  | nil => rfl
+  | @snoc mid fin r f ih =>
       change Path.snoc ((p.append q).append r) f =
         Path.snoc (p.append (q.append r)) f
       rw [ih]
@@ -69,8 +69,8 @@ theorem Path.append_assoc {w x y z : D}
 theorem Path.nil_append {x y : D} (p : Path x y) :
     (Path.nil x).append p = p := by
   induction p with
-  | nil x => rfl
-  | @snoc x y z p q ih =>
+  | nil => rfl
+  | @snoc mid fin p q ih =>
       change Path.snoc ((Path.nil x).append p) q = Path.snoc p q
       rw [ih]
 
@@ -82,10 +82,10 @@ theorem Path.naturality {E : Type uE} [Category.{vE} E]
     L.map p.composite ≫ α.app y =
       α.app x ≫ R.map p.composite := by
   induction p with
-  | nil x =>
+  | nil =>
       simp only [Path.composite, Functor.map_id, Category.id_comp,
         Category.comp_id]
-  | @snoc x y z p q ih =>
+  | @snoc y z p q ih =>
       simp only [Path.composite, Functor.map_comp]
       calc
         (L.map p.composite ≫ L.map q) ≫ α.app z =
