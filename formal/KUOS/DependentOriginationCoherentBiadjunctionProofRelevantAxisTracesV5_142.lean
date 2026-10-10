@@ -1,6 +1,6 @@
 import KUOS.DependentOriginationCoherentBiadjunctionExchangeQuotientConcatenationV5_141
 
-namespace KUOS.DependentOriginationCoherentBiadjunctionProofRelevantAxisTracesV5_142
+namespace KUOS.DependentOriginationCoherentBiadjunctionInterleavingExchangeQuotientV5_141.Grid
 
 open CategoryTheory
 open scoped CategoryTheory.Bicategory CategoryTheory.Oplax.LaxTrans
@@ -31,7 +31,6 @@ No equality of different same-axis refinements is postulated, and
 nothing here identifies the original F19 and F28 Hom types.
 -/
 
-namespace Grid
 
 open KUOS.DependentOriginationCoherentBiadjunctionFiniteRectangularSubdivisionV5_137.Grid
 open KUOS.DependentOriginationCoherentBiadjunctionFiniteRefinementTracesV5_139.Grid
@@ -168,7 +167,4 @@ theorem ExchangeClass.axisTraces_composites
 #print axioms ExchangeClass.axisTraces_toRectangleTrace
 #print axioms ExchangeClass.axisTraces_composites
 
-end Grid
-end
-
-end KUOS.DependentOriginationCoherentBiadjunctionProofRelevantAxisTracesV5_142
+end KUOS.DependentOriginationCoherentBiadjunctionInterleavingExchangeQuotientV5_141.Grid
