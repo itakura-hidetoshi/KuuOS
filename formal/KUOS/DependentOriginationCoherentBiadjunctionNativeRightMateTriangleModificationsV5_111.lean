@@ -1,5 +1,6 @@
 import KUOS.DependentOriginationCoherentBiadjunctionNativeRightMateLaxTransV5_110
 import Mathlib.CategoryTheory.Bicategory.Modification.Oplax
+import Mathlib.CategoryTheory.Bicategory.Modification.Pseudo
 
 namespace KUOS.DependentOriginationCoherentBiadjunctionNativeRightMateTriangleModificationsV5_111
 
@@ -8,6 +9,8 @@ open scoped CategoryTheory.Bicategory CategoryTheory.Oplax.LaxTrans
 
 open KUOS.DependentOriginationGeneratedRefinementTopologyV2_4
 open KUOS.DependentOriginationLocalizedSheafUniversalityV2_6
+open KUOS.DependentOriginationExactLiftableActualLiftSourceUnitV5_50
+open KUOS.DependentOriginationExactLiftableActualLiftTargetCounitV5_49
 open KUOS.DependentOriginationCoherentBiadjunctionMathlibAdjunctionBridgeV5_102
 open KUOS.DependentOriginationCoherentBiadjunctionNativeRightMateLaxTransV5_110
 
@@ -26,10 +29,12 @@ source unit η and target counit ε.  The following generic construction
 uses their **actual** unit/counit zigzag, normalized by the non-strict
 bicategorical unitors, as a family of modification components.
 The original right triangle makes that modification equal to the
-identity modification.  Consequently its naturality is global, not
-merely a collection of unrelated objectwise triangle equalities.
+identity modification.  Similarly, the original left zigzag gives
+a genuine modification of the source unit and target counit StrongTrans.
+Consequently all four naturality laws are global, not merely a
+collection of unrelated objectwise triangle equalities.
 
-This is a precise first F15 modification-level boundary.  It does
+This is a precise F15 modification-level boundary.  It does
 not identify these objectwise adjunction triangles with the separate
 v5.58 triangulators of the F/G biadjunction.
 -/
@@ -55,7 +60,7 @@ theorem normalizedRightZigzag_eq_id {a b : B} {l : a ⟶ b} {r : b ⟶ a}
       Bicategory.rightZigzag adj.unit adj.counit ≫ (λ_ r).hom = 𝟙 r
   rw [adj.right_triangle]
   simp only [Category.assoc, Iso.inv_hom_id_assoc,
-    Category.id_comp, Iso.inv_hom_id]
+    Iso.inv_hom_id]
 
 variable {C : Type uC} [Bicategory.{wC, vC} C]
 variable {F G : OplaxFunctor B C}
@@ -84,6 +89,46 @@ theorem rightZigzagModification_eq_id (τ : Oplax.LaxTrans F G)
   apply Oplax.LaxTrans.Modification.ext
   funext X
   exact normalizedRightZigzag_eq_id (adj X)
+
+
+/-- The ORIGINAL left zigzag of an adjunction, with both bicategorical
+unitors, normalized to an endomorphism of its left leg. -/
+def normalizedLeftZigzag {a b : B} {l : a ⟶ b} {r : b ⟶ a}
+    (adj : Bicategory.Adjunction l r) : l ⟶ l :=
+  (λ_ l).inv ≫ Bicategory.leftZigzag adj.unit adj.counit ≫ (ρ_ l).hom
+
+/-- Exact normalized left triangle of the same original adjunction. -/
+theorem normalizedLeftZigzag_eq_id {a b : B} {l : a ⟶ b} {r : b ⟶ a}
+    (adj : Bicategory.Adjunction l r) :
+    normalizedLeftZigzag adj = 𝟙 l := by
+  change (λ_ l).inv ≫
+      Bicategory.leftZigzag adj.unit adj.counit ≫ (ρ_ l).hom = 𝟙 l
+  rw [adj.left_triangle]
+  simp
+
+variable {P Q : Pseudofunctor B C}
+
+/-- The LEFT zigzags make a real modification of the unchanged
+pseudonatural unit/counit.  It is genuinely natural for every 1-cell,
+not merely an objectwise family of component identities. -/
+def leftZigzagModification (σ : Pseudofunctor.StrongTrans P Q)
+    (r : ∀ X : B, Q.obj X ⟶ P.obj X)
+    (adj : ∀ X : B, Bicategory.Adjunction (σ.app X) (r X)) :
+    Pseudofunctor.StrongTrans.Modification σ σ where
+  app X := normalizedLeftZigzag (adj X)
+  naturality {_ _} f := by
+    simp only [normalizedLeftZigzag_eq_id,
+      Bicategory.whiskerLeft_id, Bicategory.id_whiskerRight,
+      Category.id_comp, Category.comp_id]
+
+theorem leftZigzagModification_eq_id (σ : Pseudofunctor.StrongTrans P Q)
+    (r : ∀ X : B, Q.obj X ⟶ P.obj X)
+    (adj : ∀ X : B, Bicategory.Adjunction (σ.app X) (r X)) :
+    leftZigzagModification σ r adj =
+      Pseudofunctor.StrongTrans.Modification.id σ := by
+  apply Pseudofunctor.StrongTrans.Modification.ext
+  funext X
+  exact normalizedLeftZigzag_eq_id (adj X)
 
 end Generic
 
@@ -149,14 +194,75 @@ theorem actualLiftTargetRightMateTriangleModification_eq_id :
     (fun Y => (actualLiftTargetNativeAdjHom (W := W) A Y).l)
     (fun Y => (actualLiftTargetNativeAdjHom (W := W) A Y).adj)
 
+
+/-- The left triangle of each ORIGINAL source-unit equivalence forms
+a modification of the unchanged source-unit strong transformation. -/
+def actualLiftSourceUnitLeftTriangleModification :
+    Pseudofunctor.StrongTrans.Modification
+      (actualLiftSourceRoundtripUnit (W := W) A
+        (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))
+      (actualLiftSourceRoundtripUnit (W := W) A
+        (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)) :=
+  Generic.leftZigzagModification
+    (actualLiftSourceRoundtripUnit (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))
+    (fun X => (actualLiftSourceNativeAdjHom (W := W) A X).r)
+    (fun X => (actualLiftSourceNativeAdjHom (W := W) A X).adj)
+
+theorem actualLiftSourceUnitLeftTriangleModification_eq_id :
+    actualLiftSourceUnitLeftTriangleModification (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel) =
+    Pseudofunctor.StrongTrans.Modification.id
+      (actualLiftSourceRoundtripUnit (W := W) A
+        (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)) := by
+  exact Generic.leftZigzagModification_eq_id
+    (actualLiftSourceRoundtripUnit (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))
+    (fun X => (actualLiftSourceNativeAdjHom (W := W) A X).r)
+    (fun X => (actualLiftSourceNativeAdjHom (W := W) A X).adj)
+
+/-- The original target counit also carries its actual left-triangle
+modification, with its original non-strict compositor unmodified. -/
+def actualLiftTargetCounitLeftTriangleModification :
+    Pseudofunctor.StrongTrans.Modification
+      (actualLiftTargetRoundtripCounit (W := W) A
+        (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))
+      (actualLiftTargetRoundtripCounit (W := W) A
+        (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)) :=
+  Generic.leftZigzagModification
+    (actualLiftTargetRoundtripCounit (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))
+    (fun Y => (actualLiftTargetNativeAdjHom (W := W) A Y).r)
+    (fun Y => (actualLiftTargetNativeAdjHom (W := W) A Y).adj)
+
+theorem actualLiftTargetCounitLeftTriangleModification_eq_id :
+    actualLiftTargetCounitLeftTriangleModification (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel) =
+    Pseudofunctor.StrongTrans.Modification.id
+      (actualLiftTargetRoundtripCounit (W := W) A
+        (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)) := by
+  exact Generic.leftZigzagModification_eq_id
+    (actualLiftTargetRoundtripCounit (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))
+    (fun Y => (actualLiftTargetNativeAdjHom (W := W) A Y).r)
+    (fun Y => (actualLiftTargetNativeAdjHom (W := W) A Y).adj)
+
 #print axioms Generic.normalizedRightZigzag
 #print axioms Generic.normalizedRightZigzag_eq_id
 #print axioms Generic.rightZigzagModification
 #print axioms Generic.rightZigzagModification_eq_id
+#print axioms Generic.normalizedLeftZigzag
+#print axioms Generic.normalizedLeftZigzag_eq_id
+#print axioms Generic.leftZigzagModification
+#print axioms Generic.leftZigzagModification_eq_id
 #print axioms actualLiftSourceRightMateTriangleModification
 #print axioms actualLiftSourceRightMateTriangleModification_eq_id
 #print axioms actualLiftTargetRightMateTriangleModification
 #print axioms actualLiftTargetRightMateTriangleModification_eq_id
+#print axioms actualLiftSourceUnitLeftTriangleModification
+#print axioms actualLiftSourceUnitLeftTriangleModification_eq_id
+#print axioms actualLiftTargetCounitLeftTriangleModification
+#print axioms actualLiftTargetCounitLeftTriangleModification_eq_id
 
 end
 
