@@ -83,8 +83,7 @@ theorem Path.naturality {E : Type uE} [Category.{vE} E]
       α.app x ≫ R.map p.composite := by
   induction p with
   | nil =>
-      simp only [Path.composite, Functor.map_id, Category.id_comp,
-        Category.comp_id]
+      exact α.naturality (𝟙 x)
   | @snoc y z p q ih =>
       simp only [Path.composite, Functor.map_comp]
       calc
