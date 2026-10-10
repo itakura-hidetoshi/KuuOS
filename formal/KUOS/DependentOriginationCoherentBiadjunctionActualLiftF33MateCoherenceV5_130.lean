@@ -54,7 +54,7 @@ def actualLiftSourcePentagonMapIdMateCompatibility
     (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)).obj X ⟶ bG) (vG : bG ⟶ cG)
     (wG : cG ⟶ dG) (zG : dG ⟶ (actualLiftSourceRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
     (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)).obj X)
-    (prefix :
+    (basePath :
       (⟨⟨𝟙 (X), 𝟙 ((actualLiftSourceRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
     (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)).obj X)⟩⟩ : compressionKernelCategory (X) (X) ((actualLiftSourceRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
     (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)).obj X) ((actualLiftSourceRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
@@ -65,7 +65,7 @@ def actualLiftSourcePentagonMapIdMateCompatibility
   originalPentagonMapIdMateCompatibility
     (actualLiftSourceRightMateData.{u, v, uH, uW, uP, vH} (W := W) A
       (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)) (actualLiftSourceRightMateData.{u, v, uH, uW, uP, vH} (W := W) A
-      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)) Γ X uF vF wF zF uG vG wG zG prefix
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)) Γ X uF vF wF zF uG vG wG zG basePath
 
 /-- ORIGINAL SOURCE η/ε Triangle with nonstrict MapComp:
 both authentic lax right-mate boundaries and the F/G compressed
@@ -80,7 +80,7 @@ def actualLiftSourceTriangleMapCompMateCompatibility
     (uG : (actualLiftSourceRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
     (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)).obj X ⟶ bG) (vG : bG ⟶ (actualLiftSourceRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
     (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)).obj Z)
-    (prefix :
+    (basePath :
       (⟨⟨f ≫ g, (actualLiftSourceRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
     (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)).map f ≫ (actualLiftSourceRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
     (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)).map g⟩⟩ : compressionKernelCategory (X) (Z) ((actualLiftSourceRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
@@ -92,7 +92,7 @@ def actualLiftSourceTriangleMapCompMateCompatibility
   originalTriangleMapCompMateCompatibility
     (actualLiftSourceRightMateData.{u, v, uH, uW, uP, vH} (W := W) A
       (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)) (actualLiftSourceRightMateData.{u, v, uH, uW, uP, vH} (W := W) A
-      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)) Γ f g uF vF uG vG prefix
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)) Γ f g uF vF uG vG basePath
 
 /-- ORIGINAL TARGET η/ε Pentagon with nonstrict MapId:
 both authentic lax right-mate boundaries and the F/G compressed
@@ -109,7 +109,7 @@ def actualLiftTargetPentagonMapIdMateCompatibility
     (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)).obj X)
     (uG : X ⟶ bG) (vG : bG ⟶ cG)
     (wG : cG ⟶ dG) (zG : dG ⟶ X)
-    (prefix :
+    (basePath :
       (⟨⟨𝟙 ((actualLiftTargetRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
     (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)).obj X), 𝟙 (X)⟩⟩ : compressionKernelCategory ((actualLiftTargetRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
     (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)).obj X) ((actualLiftTargetRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
@@ -120,7 +120,7 @@ def actualLiftTargetPentagonMapIdMateCompatibility
   originalPentagonMapIdMateCompatibility
     (actualLiftTargetRightMateData.{u, v, uH, uW, uP, vH} (W := W) A
       (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)) (actualLiftTargetRightMateData.{u, v, uH, uW, uP, vH} (W := W) A
-      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)) Γ X uF vF wF zF uG vG wG zG prefix
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)) Γ X uF vF wF zF uG vG wG zG basePath
 
 /-- ORIGINAL TARGET η/ε Triangle with nonstrict MapComp:
 both authentic lax right-mate boundaries and the F/G compressed
@@ -135,7 +135,7 @@ def actualLiftTargetTriangleMapCompMateCompatibility
     (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)).obj X ⟶ bF) (vF : bF ⟶ (actualLiftTargetRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
     (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)).obj Z)
     (uG : X ⟶ bG) (vG : bG ⟶ Z)
-    (prefix :
+    (basePath :
       (⟨⟨(actualLiftTargetRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
     (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)).map f ≫ (actualLiftTargetRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
     (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)).map g, f ≫ g⟩⟩ : compressionKernelCategory ((actualLiftTargetRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
@@ -147,7 +147,7 @@ def actualLiftTargetTriangleMapCompMateCompatibility
   originalTriangleMapCompMateCompatibility
     (actualLiftTargetRightMateData.{u, v, uH, uW, uP, vH} (W := W) A
       (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)) (actualLiftTargetRightMateData.{u, v, uH, uW, uP, vH} (W := W) A
-      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)) Γ f g uF vF uG vG prefix
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)) Γ f g uF vF uG vG basePath
 #print axioms actualLiftSourcePentagonMapIdMateCompatibility
 #print axioms actualLiftSourceTriangleMapCompMateCompatibility
 #print axioms actualLiftTargetPentagonMapIdMateCompatibility
