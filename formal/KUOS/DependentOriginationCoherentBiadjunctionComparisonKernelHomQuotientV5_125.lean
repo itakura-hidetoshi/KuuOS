@@ -51,8 +51,8 @@ def chainKernelSetoid
     c₁.gComposite = c₂.gComposite
   iseqv := ⟨
     (fun _ => ⟨rfl, rfl⟩),
-    (fun _ _ h => ⟨h.1.symm, h.2.symm⟩),
-    (fun _ _ _ h h' => ⟨h.1.trans h'.1, h.2.trans h'.2⟩)⟩
+    (fun h => ⟨h.1.symm, h.2.symm⟩),
+    (fun h h' => ⟨h.1.trans h'.1, h.2.trans h'.2⟩)⟩
 
 /-- Actual quotient type of each dependent F/G finite-comparison hom.
 Its classes are presentations with exactly the same composite cells. -/
