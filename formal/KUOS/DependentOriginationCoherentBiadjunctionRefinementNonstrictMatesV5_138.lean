@@ -132,8 +132,8 @@ theorem constructiveRectangleOriginalMapIdTrans
         quotientRightMateBoundary a.core.datum b.core.datum modsC.composite (𝟙 X) shortClass ∧
       quotientComposite longClass = quotientComposite shortClass ) := by
   exact constructiveRectangleOriginalMapId F G modsA modsC
-    (Grid.RectangleRefines.trans hAB hBC)
-    X uF uG vF vG wF wG pA pC basePath
+    X uF uG vF vG wF wG pA pC
+    (Grid.RectangleRefines.trans hAB hBC) basePath
 
 /-- Original mapComp nonstrict corrections and exact F/G compression
 remain unchanged under an arbitrary independent grid refinement. -/
@@ -222,8 +222,8 @@ theorem constructiveRectangleOriginalMapCompTrans
         quotientRightMateBoundary a.core.datum b.core.datum modsC.composite (f ≫ g) shortClass ∧
       quotientComposite longClass = quotientComposite shortClass ) := by
   exact constructiveRectangleOriginalMapComp F G modsA modsC
-    (Grid.RectangleRefines.trans hAB hBC)
-    f g uF uG vF vG wF wG pA pC basePath
+    f g uF uG vF vG wF wG pA pC
+    (Grid.RectangleRefines.trans hAB hBC) basePath
 
 #print axioms constructiveRectangleOriginalMapId
 #print axioms constructiveRectangleOriginalMapIdTrans
