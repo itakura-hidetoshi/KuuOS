@@ -121,6 +121,7 @@ theorem kernelQuotientHorizontalExchange_compression (aF bF aG bG : C)
         uF uG vF vG).hom.app
           ((quotientCompositeFunctor aF bF aG bG).obj x) := by
   simp only [kernelQuotientHorizontalExchangeNatIso,
+    NatIso.ofComponents_hom_app,
     Functor.preimageIso_hom, Functor.map_preimage]
 
 /-- Naturality of F34 is a genuine equality of two distinct
