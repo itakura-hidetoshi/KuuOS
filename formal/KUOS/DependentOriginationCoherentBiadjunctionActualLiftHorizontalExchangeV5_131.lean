@@ -46,22 +46,22 @@ def actualLiftSourceHorizontalExchangeMateNaturality
       (W := W) A WorldLabel PresentationLabel} (f : X ⟶ Y)
     {aF bF aG bG : ActualLiftSource.{u, v, uH, vH, uW, uP}
       (W := W) A WorldLabel PresentationLabel}
-    (uF : X ⟶ aF) (uG : ((actualLiftSourceRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
-      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))).obj X ⟶ aG)
-    (vF : bF ⟶ Y) (vG : bG ⟶ ((actualLiftSourceRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
-      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))).obj Y)
+    (uF : X ⟶ aF) (uG : (((actualLiftSourceRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))).obj X) ⟶ aG)
+    (vF : bF ⟶ Y) (vG : bG ⟶ (((actualLiftSourceRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))).obj Y))
     {x y : compressionKernelCategory aF bF aG bG}
     (q : x ⟶ y)
     (basePath :
       (⟨⟨f, ((actualLiftSourceRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
       (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))).map f⟩⟩ :
-        compressionKernelCategory X Y ((actualLiftSourceRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
-      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))).obj X ((actualLiftSourceRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
-      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))).obj Y) ⟶
+        compressionKernelCategory X Y (((actualLiftSourceRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))).obj X) (((actualLiftSourceRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))).obj Y)) ⟶
       ((leftKernelQuotientWhiskerFunctor aF bF aG bG uF uG ⋙
         rightKernelQuotientWhiskerFunctor X bF
-          ((actualLiftSourceRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
-      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))).obj X bG vF vG).obj x)) :=
+          (((actualLiftSourceRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))).obj X) bG vF vG).obj x)) :=
   horizontalExchangeOriginalMateModificationNaturality
     (actualLiftSourceRightMateData.{u, v, uH, uW, uP, vH} (W := W) A
       (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)) (actualLiftSourceRightMateData.{u, v, uH, uW, uP, vH} (W := W) A
@@ -78,22 +78,22 @@ def actualLiftSourceHorizontalExchangeMapIdMateNaturality
       (W := W) A WorldLabel PresentationLabel)
     {aF bF aG bG : ActualLiftSource.{u, v, uH, vH, uW, uP}
       (W := W) A WorldLabel PresentationLabel}
-    (uF : X ⟶ aF) (uG : ((actualLiftSourceRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
-      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))).obj X ⟶ aG)
-    (vF : bF ⟶ X) (vG : bG ⟶ ((actualLiftSourceRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
-      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))).obj X)
+    (uF : X ⟶ aF) (uG : (((actualLiftSourceRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))).obj X) ⟶ aG)
+    (vF : bF ⟶ X) (vG : bG ⟶ (((actualLiftSourceRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))).obj X))
     {x y : compressionKernelCategory aF bF aG bG}
     (q : x ⟶ y)
     (basePath :
-      (⟨⟨𝟙 X, 𝟙 (((actualLiftSourceRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
-      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))).obj X)⟩⟩ :
-        compressionKernelCategory X X ((actualLiftSourceRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
-      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))).obj X ((actualLiftSourceRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
-      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))).obj X) ⟶
+      (⟨⟨𝟙 X, 𝟙 ((((actualLiftSourceRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))).obj X))⟩⟩ :
+        compressionKernelCategory X X (((actualLiftSourceRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))).obj X) (((actualLiftSourceRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))).obj X)) ⟶
       ((leftKernelQuotientWhiskerFunctor aF bF aG bG uF uG ⋙
         rightKernelQuotientWhiskerFunctor X bF
-          ((actualLiftSourceRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
-      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))).obj X bG vF vG).obj x)) :=
+          (((actualLiftSourceRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))).obj X) bG vF vG).obj x)) :=
   originalMapIdHorizontalExchangeMateNaturality
     (actualLiftSourceRightMateData.{u, v, uH, uW, uP, vH} (W := W) A
       (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)) (actualLiftSourceRightMateData.{u, v, uH, uW, uP, vH} (W := W) A
@@ -110,23 +110,23 @@ def actualLiftSourceHorizontalExchangeMapCompMateNaturality
       (W := W) A WorldLabel PresentationLabel} (f : X ⟶ Y) (g : Y ⟶ Z)
     {aF bF aG bG : ActualLiftSource.{u, v, uH, vH, uW, uP}
       (W := W) A WorldLabel PresentationLabel}
-    (uF : X ⟶ aF) (uG : ((actualLiftSourceRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
-      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))).obj X ⟶ aG)
-    (vF : bF ⟶ Z) (vG : bG ⟶ ((actualLiftSourceRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
-      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))).obj Z)
+    (uF : X ⟶ aF) (uG : (((actualLiftSourceRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))).obj X) ⟶ aG)
+    (vF : bF ⟶ Z) (vG : bG ⟶ (((actualLiftSourceRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))).obj Z))
     {x y : compressionKernelCategory aF bF aG bG}
     (q : x ⟶ y)
     (basePath :
       (⟨⟨f ≫ g, ((actualLiftSourceRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
       (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))).map f ≫ ((actualLiftSourceRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
       (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))).map g⟩⟩ :
-        compressionKernelCategory X Z ((actualLiftSourceRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
-      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))).obj X ((actualLiftSourceRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
-      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))).obj Z) ⟶
+        compressionKernelCategory X Z (((actualLiftSourceRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))).obj X) (((actualLiftSourceRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))).obj Z)) ⟶
       ((leftKernelQuotientWhiskerFunctor aF bF aG bG uF uG ⋙
         rightKernelQuotientWhiskerFunctor X bF
-          ((actualLiftSourceRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
-      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))).obj X bG vF vG).obj x)) :=
+          (((actualLiftSourceRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))).obj X) bG vF vG).obj x)) :=
   originalMapCompHorizontalExchangeMateNaturality
     (actualLiftSourceRightMateData.{u, v, uH, uW, uP, vH} (W := W) A
       (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)) (actualLiftSourceRightMateData.{u, v, uH, uW, uP, vH} (W := W) A
@@ -143,21 +143,21 @@ def actualLiftTargetHorizontalExchangeMateNaturality
       (W := W) A WorldLabel PresentationLabel} (f : X ⟶ Y)
     {aF bF aG bG : ActualLiftTarget.{u, v, uH, vH, uW, uP}
       (W := W) A WorldLabel PresentationLabel}
-    (uF : ((actualLiftTargetRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
-      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))).obj X ⟶ aF) (uG : X ⟶ aG)
-    (vF : bF ⟶ ((actualLiftTargetRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
-      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))).obj Y) (vG : bG ⟶ Y)
+    (uF : (((actualLiftTargetRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))).obj X) ⟶ aF) (uG : X ⟶ aG)
+    (vF : bF ⟶ (((actualLiftTargetRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))).obj Y)) (vG : bG ⟶ Y)
     {x y : compressionKernelCategory aF bF aG bG}
     (q : x ⟶ y)
     (basePath :
       (⟨⟨((actualLiftTargetRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
       (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))).map f, f⟩⟩ :
-        compressionKernelCategory ((actualLiftTargetRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
-      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))).obj X ((actualLiftTargetRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
-      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))).obj Y X Y) ⟶
+        compressionKernelCategory (((actualLiftTargetRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))).obj X) (((actualLiftTargetRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))).obj Y) X Y) ⟶
       ((leftKernelQuotientWhiskerFunctor aF bF aG bG uF uG ⋙
-        rightKernelQuotientWhiskerFunctor ((actualLiftTargetRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
-      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))).obj X bF
+        rightKernelQuotientWhiskerFunctor (((actualLiftTargetRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))).obj X) bF
           X bG vF vG).obj x)) :=
   horizontalExchangeOriginalMateModificationNaturality
     (actualLiftTargetRightMateData.{u, v, uH, uW, uP, vH} (W := W) A
@@ -175,21 +175,21 @@ def actualLiftTargetHorizontalExchangeMapIdMateNaturality
       (W := W) A WorldLabel PresentationLabel)
     {aF bF aG bG : ActualLiftTarget.{u, v, uH, vH, uW, uP}
       (W := W) A WorldLabel PresentationLabel}
-    (uF : ((actualLiftTargetRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
-      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))).obj X ⟶ aF) (uG : X ⟶ aG)
-    (vF : bF ⟶ ((actualLiftTargetRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
-      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))).obj X) (vG : bG ⟶ X)
+    (uF : (((actualLiftTargetRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))).obj X) ⟶ aF) (uG : X ⟶ aG)
+    (vF : bF ⟶ (((actualLiftTargetRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))).obj X)) (vG : bG ⟶ X)
     {x y : compressionKernelCategory aF bF aG bG}
     (q : x ⟶ y)
     (basePath :
-      (⟨⟨𝟙 (((actualLiftTargetRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
-      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))).obj X), 𝟙 X⟩⟩ :
-        compressionKernelCategory ((actualLiftTargetRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
-      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))).obj X ((actualLiftTargetRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
-      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))).obj X X X) ⟶
+      (⟨⟨𝟙 ((((actualLiftTargetRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))).obj X)), 𝟙 X⟩⟩ :
+        compressionKernelCategory (((actualLiftTargetRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))).obj X) (((actualLiftTargetRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))).obj X) X X) ⟶
       ((leftKernelQuotientWhiskerFunctor aF bF aG bG uF uG ⋙
-        rightKernelQuotientWhiskerFunctor ((actualLiftTargetRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
-      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))).obj X bF
+        rightKernelQuotientWhiskerFunctor (((actualLiftTargetRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))).obj X) bF
           X bG vF vG).obj x)) :=
   originalMapIdHorizontalExchangeMateNaturality
     (actualLiftTargetRightMateData.{u, v, uH, uW, uP, vH} (W := W) A
@@ -207,22 +207,22 @@ def actualLiftTargetHorizontalExchangeMapCompMateNaturality
       (W := W) A WorldLabel PresentationLabel} (f : X ⟶ Y) (g : Y ⟶ Z)
     {aF bF aG bG : ActualLiftTarget.{u, v, uH, vH, uW, uP}
       (W := W) A WorldLabel PresentationLabel}
-    (uF : ((actualLiftTargetRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
-      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))).obj X ⟶ aF) (uG : X ⟶ aG)
-    (vF : bF ⟶ ((actualLiftTargetRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
-      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))).obj Z) (vG : bG ⟶ Z)
+    (uF : (((actualLiftTargetRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))).obj X) ⟶ aF) (uG : X ⟶ aG)
+    (vF : bF ⟶ (((actualLiftTargetRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))).obj Z)) (vG : bG ⟶ Z)
     {x y : compressionKernelCategory aF bF aG bG}
     (q : x ⟶ y)
     (basePath :
       (⟨⟨((actualLiftTargetRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
       (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))).map f ≫ ((actualLiftTargetRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
       (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))).map g, f ≫ g⟩⟩ :
-        compressionKernelCategory ((actualLiftTargetRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
-      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))).obj X ((actualLiftTargetRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
-      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))).obj Z X Z) ⟶
+        compressionKernelCategory (((actualLiftTargetRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))).obj X) (((actualLiftTargetRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))).obj Z) X Z) ⟶
       ((leftKernelQuotientWhiskerFunctor aF bF aG bG uF uG ⋙
-        rightKernelQuotientWhiskerFunctor ((actualLiftTargetRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
-      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))).obj X bF
+        rightKernelQuotientWhiskerFunctor (((actualLiftTargetRoundtrip.{u, v, uH, vH, uW, uP} (W := W) A
+      (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))).obj X) bF
           X bG vF vG).obj x)) :=
   originalMapCompHorizontalExchangeMateNaturality
     (actualLiftTargetRightMateData.{u, v, uH, uW, uP, vH} (W := W) A
