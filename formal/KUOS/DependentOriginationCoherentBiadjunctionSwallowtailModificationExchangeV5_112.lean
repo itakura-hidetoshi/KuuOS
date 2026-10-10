@@ -76,6 +76,26 @@ theorem normalizedLeftTriangle_conjugate_eq_right
 variable (D :
   KUOS.DependentOriginationCoherentBiadjunctionActualLiftV5_101.Generic.CoherentBiadjunctionDatum B C)
 
+/-! The modification-hom categories carry non-output universe parameters;
+pin the exact original source/target hom categories at this generic boundary,
+as in v5.64–v5.66.  The functor-bicategory instances alone do not infer
+these universe levels from the projection `Iso.hom`. -/
+local instance sourceSwallowtailHomCategory :
+    Category
+      (Pseudofunctor.StrongTrans (Pseudofunctor.id B)
+        (sourceRoundtrip D.datum)) :=
+  Pseudofunctor.StrongTrans.homCategory
+    (B := B) (C := B)
+    (F := Pseudofunctor.id B) (G := sourceRoundtrip D.datum)
+
+local instance targetSwallowtailHomCategory :
+    Category
+      (Pseudofunctor.StrongTrans (targetRoundtrip D.datum)
+        (Pseudofunctor.id C)) :=
+  Pseudofunctor.StrongTrans.homCategory
+    (B := C) (C := C)
+    (F := targetRoundtrip D.datum) (G := Pseudofunctor.id C)
+
 /-- The original forward interchanger commutes with an ARBITRARY
 unit modification.  The proof uses the *certified* forward swallowtail
 rather than replacing the independently constructed interchanger by
@@ -125,6 +145,50 @@ variable (W : MorphismProperty Context)
 variable (A : RefinementAtlas.{u, max u v, uH} (LocalizedContext W))
 variable {WorldLabel : Type uW} {PresentationLabel : Type uP}
 
+/-! Give the same exact hom-category instances at the concrete actual-lift
+specialization boundary; local declarations in `Generic` are not inherited. -/
+local instance actualSourceSwallowtailHomCategory :
+    Category
+      (Pseudofunctor.StrongTrans
+        (Pseudofunctor.id
+          (ActualLiftSource.{u, v, uH, vH, uW, uP}
+            (W := W) A WorldLabel PresentationLabel))
+        (sourceRoundtrip
+          (actualLiftCoherentBiadjunctionDatum (W := W) A
+            (WorldLabel := WorldLabel)
+            (PresentationLabel := PresentationLabel)).datum)) :=
+  Pseudofunctor.StrongTrans.homCategory
+    (B := ActualLiftSource.{u, v, uH, vH, uW, uP}
+      (W := W) A WorldLabel PresentationLabel)
+    (C := ActualLiftSource.{u, v, uH, vH, uW, uP}
+      (W := W) A WorldLabel PresentationLabel)
+    (F := Pseudofunctor.id _)
+    (G := sourceRoundtrip
+      (actualLiftCoherentBiadjunctionDatum (W := W) A
+        (WorldLabel := WorldLabel)
+        (PresentationLabel := PresentationLabel)).datum)
+
+local instance actualTargetSwallowtailHomCategory :
+    Category
+      (Pseudofunctor.StrongTrans
+        (targetRoundtrip
+          (actualLiftCoherentBiadjunctionDatum (W := W) A
+            (WorldLabel := WorldLabel)
+            (PresentationLabel := PresentationLabel)).datum)
+        (Pseudofunctor.id
+          (ActualLiftTarget.{u, v, uH, vH, uW, uP}
+            (W := W) A WorldLabel PresentationLabel))) :=
+  Pseudofunctor.StrongTrans.homCategory
+    (B := ActualLiftTarget.{u, v, uH, vH, uW, uP}
+      (W := W) A WorldLabel PresentationLabel)
+    (C := ActualLiftTarget.{u, v, uH, vH, uW, uP}
+      (W := W) A WorldLabel PresentationLabel)
+    (F := targetRoundtrip
+      (actualLiftCoherentBiadjunctionDatum (W := W) A
+        (WorldLabel := WorldLabel)
+        (PresentationLabel := PresentationLabel)).datum)
+    (G := Pseudofunctor.id _)
+
 /-- Specialize the GLOBAL forward swallowtail exchange to the normalized
 left triangle modification from the ACTUAL source-unit adjunctions.
 The right-hand sides are the original F/G triangulators, not redefined
@@ -168,11 +232,11 @@ satisfies its genuine lax naturality square, for every 1-morphism. -/
 theorem actualLiftSourceRightMateTriangle_naturality
     {X Y : ActualLiftSource.{u, v, uH, vH, uW, uP}
       (W := W) A WorldLabel PresentationLabel} (f : X ⟶ Y) :
-    let Δ := actualLiftSourceRightMateTriangleModification (W := W) A
+    let triangleMod := actualLiftSourceRightMateTriangleModification (W := W) A
       (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)
-    Δ.app X ▷ f ≫ actualLiftSourceUnitRightMate (W := W) A f =
+    triangleMod.app X ▷ f ≫ actualLiftSourceUnitRightMate (W := W) A f =
       actualLiftSourceUnitRightMate (W := W) A f ≫
-        (actualLiftSourceRoundtrip (W := W) A).map f ◁ Δ.app Y := by
+        (actualLiftSourceRoundtrip (W := W) A).map f ◁ triangleMod.app Y := by
   exact (actualLiftSourceRightMateTriangleModification (W := W) A
     (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)).naturality f
 
@@ -181,12 +245,12 @@ modification naturality square, retaining the actual R_E map f. -/
 theorem actualLiftTargetRightMateTriangle_naturality
     {X Y : ActualLiftTarget.{u, v, uH, vH, uW, uP}
       (W := W) A WorldLabel PresentationLabel} (f : X ⟶ Y) :
-    let Δ := actualLiftTargetRightMateTriangleModification (W := W) A
+    let triangleMod := actualLiftTargetRightMateTriangleModification (W := W) A
       (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)
-    Δ.app X ▷ (actualLiftTargetRoundtrip (W := W) A).map f ≫
+    triangleMod.app X ▷ (actualLiftTargetRoundtrip (W := W) A).map f ≫
         actualLiftTargetCounitRightMate (W := W) A f =
       actualLiftTargetCounitRightMate (W := W) A f ≫
-        f ◁ Δ.app Y := by
+        f ◁ triangleMod.app Y := by
   exact (actualLiftTargetRightMateTriangleModification (W := W) A
     (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel)).naturality f
 
