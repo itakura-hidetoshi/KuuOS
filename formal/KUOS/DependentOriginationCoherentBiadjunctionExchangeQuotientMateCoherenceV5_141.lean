@@ -55,7 +55,7 @@ variable (F G : Pseudofunctor B C)
 /-- ORIGINAL chosen F19 right-mate functor transports EVERY explicit
 interleaved primitive modification step, at exact original depth,
 simultaneously with ANY actual F28 quotient-category functor. -/
-theorem chosenRightMateExchangeQuotientTransport
+def chosenRightMateExchangeQuotientTransport
     {a b : LeftMatePresentation F G}
     {aF bF aG bG : C}
     {x y : compressionKernelCategory aF bF aG bG}
