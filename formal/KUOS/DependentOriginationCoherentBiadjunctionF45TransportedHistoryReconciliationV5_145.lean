@@ -5,6 +5,7 @@ namespace KUOS.DependentOriginationCoherentBiadjunctionInterleavingExchangeQuoti
 open CategoryTheory
 open scoped CategoryTheory.Bicategory CategoryTheory.Oplax.LaxTrans
 open KUOS.DependentOriginationCoherentBiadjunctionFiniteRectangularSubdivisionV5_137.Grid
+open KUOS.DependentOriginationCoherentBiadjunctionFiniteRefinementTracesV5_139.Grid
 open KUOS.DependentOriginationCoherentBiadjunctionExchangeQuotientConcatenationV5_141.Grid
 
 set_option autoImplicit false
@@ -84,8 +85,13 @@ theorem AxisTrace.append_refl_left_cast
   | refl p =>
       rfl
   | snoc t step ih =>
-      simpa only [AxisTrace.append, AxisTrace.castDepth_snoc] using
-        congrArg (fun h => AxisTrace.snoc h step) ih
+      calc
+        _ = AxisTrace.snoc
+              (AxisTrace.castDepth (Nat.zero_add _)
+                (AxisTrace.append (AxisTrace.refl _) t)) step := by
+          exact AxisTrace.castDepth_snoc (Nat.zero_add _) _ step
+        _ = AxisTrace.snoc t step :=
+          congrArg (fun h => AxisTrace.snoc h step) ih
 
 /-- ORIGINAL F45 F19-FIRST path: exact F19 Type-valued history,
 including every genuine intermediate F40 block and OneStep. -/
