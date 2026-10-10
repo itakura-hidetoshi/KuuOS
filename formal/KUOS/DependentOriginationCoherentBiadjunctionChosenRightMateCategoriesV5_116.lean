@@ -148,6 +148,46 @@ theorem rightMateFunctor_hom_naturality
           (rightMateFunctor F G).map g := by
   rw [Functor.map_comp, Functor.map_comp]
 
+
+/-- The original F18 2-Hom equivalence, now expressed as the hom
+equivalence of the actual mate functor between chosen presentations. -/
+def homEquiv (a b : LeftMatePresentation F G) :
+    (a ⟶ b) ≃
+      ((rightMateFunctor F G).obj a ⟶ (rightMateFunctor F G).obj b) where
+  toFun f := (rightMateFunctor F G).map f
+  invFun m := (leftMateFunctor F G).map m
+  left_inv f := left_right_map F G a b f
+  right_inv m :=
+    right_left_map F G
+      ⟨a.core⟩ ⟨b.core⟩ m
+
+/-- This hom equivalence is natural in both arguments: composition on
+the right has exactly the opposite mate-pasting order. -/
+theorem homEquiv_comp {a b c : LeftMatePresentation F G}
+    (f : a ⟶ b) (g : b ⟶ c) :
+    homEquiv F G a c (f ≫ g) =
+      homEquiv F G a b f ≫ homEquiv F G b c g := by
+  exact (rightMateFunctor F G).map_comp f g
+
+/-- The two fully typed mate functors give a genuine equivalence of
+ordinary categories of CHOSEN adjunct presentations, with identity
+unit/counit on the same unchanged original data. This is not an
+equivalence between the underlying bicategories B and C. -/
+def chosenMateCategoryEquivalence :
+    LeftMatePresentation F G ≌ RightMateOppPresentation F G where
+  functor := rightMateFunctor F G
+  inverse := leftMateFunctor F G
+  unitIso :=
+    NatIso.ofComponents (fun a => Iso.refl a) (by
+      intro a b f
+      simpa using (left_right_map F G a b f).symm)
+  counitIso :=
+    NatIso.ofComponents (fun a => Iso.refl a) (by
+      intro a b f
+      simpa using (right_left_map F G a b f))
+  functor_unitIso_comp a := by
+    simp
+
 #print axioms MatePresentation
 #print axioms LeftMatePresentation
 #print axioms RightMateOppPresentation
@@ -158,6 +198,9 @@ theorem rightMateFunctor_hom_naturality
 #print axioms left_right_map
 #print axioms right_left_map
 #print axioms rightMateFunctor_hom_naturality
+#print axioms homEquiv
+#print axioms homEquiv_comp
+#print axioms chosenMateCategoryEquivalence
 
 end Generic
 
