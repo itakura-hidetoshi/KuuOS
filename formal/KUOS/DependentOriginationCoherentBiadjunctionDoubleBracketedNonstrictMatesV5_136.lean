@@ -93,7 +93,7 @@ theorem doubleBracketedOriginalMapIdMateIndependence
     Chain.Bracketing.independent pA pB hp
   have h := doubleFiniteModificationHexagonOriginalMapIdMateNaturality F G modsA.flattened X
     uF uG vF vG wF wG pA.flattened basePath
-  refine ⟨Finite.mapBracketing_independent
+  refine ⟨KUOS.DependentOriginationCoherentBiadjunctionDoubleFinitePastingCoreV5_136.Finite.mapBracketing_independent
     (rightMateFunctor F G) modsA modsB hmods, ?_⟩
   rw [← hm, ← hpEval]
   simpa only [Chain.Bracketing.evaluated_eq_flattened] using h.2
@@ -147,7 +147,7 @@ theorem doubleBracketedOriginalMapCompMateIndependence
     Chain.Bracketing.independent pA pB hp
   have h := doubleFiniteModificationHexagonOriginalMapCompMateNaturality F G modsA.flattened f g
     uF uG vF vG wF wG pA.flattened basePath
-  refine ⟨Finite.mapBracketing_independent
+  refine ⟨KUOS.DependentOriginationCoherentBiadjunctionDoubleFinitePastingCoreV5_136.Finite.mapBracketing_independent
     (rightMateFunctor F G) modsA modsB hmods, ?_⟩
   rw [← hm, ← hpEval]
   simpa only [Chain.Bracketing.evaluated_eq_flattened] using h.2
