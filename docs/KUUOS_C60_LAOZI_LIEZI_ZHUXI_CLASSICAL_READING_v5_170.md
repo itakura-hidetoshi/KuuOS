@@ -40,11 +40,14 @@ absolute fixed North=Yang / South=Yin essences. The same local
 conjugation can appear as a different manifestation under a
 different chart.
 
-**Constructive test**: the actual complex `i)-multiplication
-`T(z)=i*z` intertwines `κ_N` and `κ_S` in the chosen paired
-polar frame, `κ_S ∘ T = T ∘ κ_N`. The inverse map uses `-i`.
-The concrete proof is a new mathematical lemma, not a proof that
-Laozi intended complex numbers.
+**Mathematical comparison (distinct from the classical text)**:
+complex `i`-multiplication `T(z)=i*z` algebraically intertwines
+the two oppositely signed conjugations in the chosen polar
+frame, `κ_S ∘ T = T ∘ κ_N`; the inverse uses `-i`.
+The PR's Lean theorem carrier proves the concrete pole-wise
+conjugations are involutive and exchange under pole flip;
+a separate `i`-intertwiner Lean theorem is not claimed here.
+None of this suggests that Laozi intended complex numbers.
 
 "Dao" and Buddhist *śūnyatā* ("空") may be fruitfully compared,
 but are neither textual synonyms nor mathematically equal
