@@ -8,6 +8,9 @@ open KUOS.DependentOriginationTruncatedIcosahedralEdgesV3_85
 open KUOS.DependentOriginationGrayBraidedThreeCellCoreV5_156
 open KUOS.DependentOriginationGrayNativeBraidedCategoryV5_156
 open KUOS.DependentOriginationGrayF55PhaseRealizationV5_156
+open KUOS.DependentOriginationTruncatedIcosahedralHigherChargeV5_155
+open KUOS.DependentOriginationGrayC60F55SharpRepairV5_168
+open KUOS.DependentOriginationGrayC60WangBiZhouyiTimeV5_170
 open KUOS.DependentOriginationGrayC60CyclicGlobalPastingV5_156
 open KUOS.DependentOriginationGrayC60AllNinetyEdgePastingV5_157
 open KUOS.DependentOriginationGrayC60WangBiNativeHigherCoherenceV5_171
@@ -207,7 +210,7 @@ theorem c60F55SourceNative_phase_eq_F58SquareParity
       cell.interpret
         (OriginalF45BracketTree.DepthRotationRoute.HigherCellTarget.generatorCharge
           (D := D) (E := E)) :=
-    cell.braidedPhase_charge_eq_F58
+    KUOS.DependentOriginationGrayF55PhaseRealizationV5_156.OriginalF45BracketTree.DepthRotationRoute.PresentedCell.braidedPhase_charge_eq_F58 cell
   rw [hc] at hmem
   exact hmem
 
@@ -234,13 +237,13 @@ theorem c60F55SourceNative_eq_iff_F58Charge_eq
       α.interpret
         (OriginalF45BracketTree.DepthRotationRoute.HigherCellTarget.generatorCharge
           (D := D) (E := E)) :=
-    α.braidedPhase_charge_eq_F58
+    KUOS.DependentOriginationGrayF55PhaseRealizationV5_156.OriginalF45BracketTree.DepthRotationRoute.PresentedCell.braidedPhase_charge_eq_F58 α
   have hβ :
       (c60F55SourceNative β).charge =
       β.interpret
         (OriginalF45BracketTree.DepthRotationRoute.HigherCellTarget.generatorCharge
           (D := D) (E := E)) :=
-    β.braidedPhase_charge_eq_F58
+    KUOS.DependentOriginationGrayF55PhaseRealizationV5_156.OriginalF45BracketTree.DepthRotationRoute.PresentedCell.braidedPhase_charge_eq_F58 β
   constructor
   · intro h
     rw [← hα, ← hβ]
@@ -312,7 +315,7 @@ def c60F55OriginalLockedGrade
     (_edge : TruncatedIcosahedralEdge) : c60F55PhaseLocked :=
   ⟨originalF55BraidedSquareGenerator, c60F55SquareNativeGenerator_mem⟩
 
-/-- The physical F55 original edge assignment is EXACTLY the one
+/- The physical F55 original edge assignment is EXACTLY the one
 used in v5.174: for ANY independently supplied original F54 local
 rotations its target value is the actual interpreted F55 square
 PresentedCell, not a newly invented label. -/
