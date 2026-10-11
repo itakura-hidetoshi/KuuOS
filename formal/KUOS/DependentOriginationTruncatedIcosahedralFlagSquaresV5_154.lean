@@ -48,6 +48,19 @@ def truncatedDartOnSeedFace
   | .aroundVertex v => d.endpoint = v
   | .fromTriangle t => d.edge ∈ icosahedralFaceEdges t
 
+/-- Genuine computable Decidable instances for the old finite
+face-incidence predicates. These are used by kernel-reduced `decide`,
+not by `native_decide` or its compiler-trust axiom. -/
+instance (d : IcosahedralDart) (f : TruncatedIcosahedralSeedFace) :
+    Decidable (truncatedDartOnSeedFace d f) := by
+  cases f with
+  | aroundVertex v =>
+      change Decidable (d.endpoint = v)
+      infer_instance
+  | fromTriangle t =>
+      change Decidable (d.edge ∈ icosahedralFaceEdges t)
+      infer_instance
+
 /-- A genuine truncated edge belongs to a seed face if BOTH of its
 actual endpoint darts lie on that face. This is the precise local
 edge/face incidence relation for the original C60 construction. -/
@@ -56,6 +69,12 @@ def truncatedEdgeOnSeedFace
     (f : TruncatedIcosahedralSeedFace) : Prop :=
   truncatedDartOnSeedFace (truncatedIcosahedralEdgeEndpoints e).1 f ∧
     truncatedDartOnSeedFace (truncatedIcosahedralEdgeEndpoints e).2 f
+
+instance (e : TruncatedIcosahedralEdge)
+    (f : TruncatedIcosahedralSeedFace) :
+    Decidable (truncatedEdgeOnSeedFace e f) := by
+  unfold truncatedEdgeOnSeedFace
+  infer_instance
 
 /-- Executable finite list of all faces adjacent to a truncated edge,
 not a merely asserted global combinatorial incidence count. -/
@@ -69,7 +88,7 @@ polygonal faces, checked on the existing full finite incidence seed. -/
 theorem truncatedEdgeIncidentFaceSet_card :
     ∀ e : TruncatedIcosahedralEdge,
       (truncatedEdgeIncidentFaceSet e).card = 2 := by
-  native_decide
+  decide
 
 /-- Every genuine truncated edge has two different endpoint darts,
 including each of the thirty cross and sixty around-vertex edges. -/
@@ -77,7 +96,7 @@ theorem truncatedEdgeEndpoints_ne :
     ∀ e : TruncatedIcosahedralEdge,
       (truncatedIcosahedralEdgeEndpoints e).1 ≠
         (truncatedIcosahedralEdgeEndpoints e).2 := by
-  native_decide
+  decide
 
 /-- Every genuine truncated edge has two distinct faces which are
 each incident at BOTH endpoint darts. This supplies actual four
@@ -88,7 +107,7 @@ theorem truncatedEdgeTwoIncidentFaces :
         firstFace ≠ secondFace ∧
         truncatedEdgeOnSeedFace e firstFace ∧
         truncatedEdgeOnSeedFace e secondFace := by
-  native_decide
+  decide
 
 /-- A REAL incidence square around an actual C60 edge:
 two different endpoint vertices times two different incident faces.
@@ -107,21 +126,24 @@ structure TruncatedEdgeFlagSquare
 /-- Construct a genuine nondegenerate edge incidence square from
 the EXISTING ninety-edge combinatorial C60 model. -/
 noncomputable def truncatedEdgeFlagSquare
-    (e : TruncatedIcosahedralEdge) : TruncatedEdgeFlagSquare e := by
-  obtain ⟨f₀, f₁, hne, h₀, h₁⟩ := truncatedEdgeTwoIncidentFaces e
-  exact {
+    (e : TruncatedIcosahedralEdge) : TruncatedEdgeFlagSquare e :=
+  let f₀ := Classical.choose (truncatedEdgeTwoIncidentFaces e)
+  let hf₀ := Classical.choose_spec (truncatedEdgeTwoIncidentFaces e)
+  let f₁ := Classical.choose hf₀
+  let hf₁ := Classical.choose_spec hf₀
+  {
     firstFace := f₀
     secondFace := f₁
-    faces_ne := hne
-    firstIncident := h₀
-    secondIncident := h₁
+    faces_ne := hf₁.1
+    firstIncident := hf₁.2.1
+    secondIncident := hf₁.2.2
     endpoints_ne := truncatedEdgeEndpoints_ne e
   }
 
 /-- One of two ACTUAL vertex corners of the fixed edge. -/
 def TruncatedEdgeFlagSquare.vertex
     {e : TruncatedIcosahedralEdge}
-    (square : TruncatedEdgeFlagSquare e) : Bool → IcosahedralDart
+    (_square : TruncatedEdgeFlagSquare e) : Bool → IcosahedralDart
   | false => (truncatedIcosahedralEdgeEndpoints e).1
   | true => (truncatedIcosahedralEdgeEndpoints e).2
 
@@ -181,7 +203,7 @@ theorem aroundEdge_incident_hexagon :
     ∀ a : TruncatedIcosahedralAroundEdge,
       ∃ t : IcosahedralFace,
         truncatedEdgeOnSeedFace (.around a) (.fromTriangle t) := by
-  native_decide
+  decide
 
 /-- The edge-local square next to a pentagon is constructed with
 FIRST face exactly the original pentagon, and SECOND face exactly
@@ -189,12 +211,13 @@ the neighboring original hexagon. This makes the gluing orientation
 explicit instead of using an arbitrary unordered pair of faces. -/
 noncomputable def aroundPentagonHexagonSquare
     (a : TruncatedIcosahedralAroundEdge) :
-    TruncatedEdgeFlagSquare (.around a) := by
-  obtain ⟨t, ht⟩ := aroundEdge_incident_hexagon a
-  exact {
+    TruncatedEdgeFlagSquare (.around a) :=
+  let t := Classical.choose (aroundEdge_incident_hexagon a)
+  let ht := Classical.choose_spec (aroundEdge_incident_hexagon a)
+  {
     firstFace := .aroundVertex a.center
     secondFace := .fromTriangle t
-    faces_ne := by discriminate
+    faces_ne := by intro h; cases h
     firstIncident := aroundEdge_incident_pentagon a
     secondIncident := ht
     endpoints_ne := truncatedEdgeEndpoints_ne (.around a)
