@@ -29,7 +29,7 @@ We construct:
 
 This is a concrete braided monoidal *groupoid*, the monoidal category of
 2- and 3-cell data underlying a doubly-degenerate Gray-category model.
-It is not the entire global tricategory with arbitrary 0-/1-cells,
+It is not the entire global tricategory with arbitrary zero-cell and one-cell data,
 nor an equivalence of KuuOS and any arbitrary ambient Gray category.
 The original F58 integer charges and the extra F59 exchange phase remain
 independent, and no old Stage-II omega class is identified with either.
@@ -115,8 +115,10 @@ instance : MonoidalCategory GrayGrade :=
     (id_tensorHom_id := by
       intro X Y
       apply GradedThreeCell.ext
-      · simp [GradedThreeCell.tensor, GradedThreeCell.ident]
-      · simp [GradedThreeCell.tensor, GradedThreeCell.ident])
+      · change (0 : Int × Int) + 0 = (0 : Int × Int)
+        exact zero_add _
+      · change (0 : ZMod 2) + 0 = (0 : ZMod 2)
+        exact zero_add _)
     (id_tensorHom := by
       intro X Y Z f
       rfl)
@@ -148,10 +150,10 @@ instance : MonoidalCategory GrayGrade :=
       intro X Y f
       apply GradedThreeCell.ext
       · change (f.charge + (0 : Int × Int)) + 0 =
-          f.charge + (0 : Int × Int)
+          (0 : Int × Int) + f.charge
         abel
       · change (f.phase + (0 : ZMod 2)) + 0 =
-          f.phase + (0 : ZMod 2)
+          (0 : ZMod 2) + f.phase
         abel)
     (pentagon := by
       intro W X Y Z
@@ -187,12 +189,22 @@ instance : BraidedCategory GrayGrade where
       f (GradedThreeCell.ident Z.degree)
   hexagon_forward := by
     intro X Y Z
-    exact GradedThreeCell.exchange_hexagon_forward
-      X.degree Y.degree Z.degree
+    apply GradedThreeCell.ext
+    · change (0 : Int × Int) + 0 + 0 =
+        ((0 : Int × Int) + 0) + 0 + ((0 : Int × Int) + 0)
+      abel
+    · change (0 : ZMod 2) + X.degree * (Y.degree + Z.degree) + 0 =
+        (((X.degree * Y.degree) + 0) + 0) + (0 + X.degree * Z.degree)
+      simp [mul_add, add_assoc]
   hexagon_reverse := by
     intro X Y Z
-    exact GradedThreeCell.exchange_hexagon_reverse
-      X.degree Y.degree Z.degree
+    apply GradedThreeCell.ext
+    · change (0 : Int × Int) + 0 + 0 =
+        ((0 : Int × Int) + 0) + 0 + ((0 : Int × Int) + 0)
+      abel
+    · change (0 : ZMod 2) + (X.degree + Y.degree) * Z.degree + 0 =
+        (0 + Y.degree * Z.degree) + 0 + (X.degree * Z.degree + 0)
+      simp [add_mul, add_comm, add_left_comm, add_assoc]
 
 /-- The odd graded 2-cell object whose self-exchange is a nontrivial
 native 3-morphism even though its F58 integer charge vanishes. -/
