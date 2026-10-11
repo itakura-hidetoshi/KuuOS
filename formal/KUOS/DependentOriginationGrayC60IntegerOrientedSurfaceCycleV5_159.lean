@@ -180,8 +180,7 @@ theorem c60IntegerFullSurfaceBoundaryChain_zero :
   apply Finsupp.ext
   intro e
   simp only [c60IntegerFullSurfaceBoundaryChain,
-    Finset.sum_apply, c60IntegerFaceBoundaryChain,
-    Finsupp.onFinset_apply, Finsupp.zero_apply]
+    c60IntegerFaceBoundaryChain, Finsupp.zero_apply]
   exact c60IntegerFullSurfaceEdgeCoefficient_zero e
 
 /-- Signed integer boundary reduction gives the previously proved
