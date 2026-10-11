@@ -1,8 +1,8 @@
 # KuuOS / 空OS — Formal Roadmap
 
-**Snapshot / 最終確認：2026-10-11 JST · theorem-bearing canonical `main` v5.152 · [PR #2123 MERGED](https://github.com/itakura-hidetoshi/KuuOS/pull/2123) · merge SHA `80f2b4cca5c1ca93f3c296468359a4aca067fd07`**
+**Snapshot / 最終確認：2026-10-11 JST · theorem-bearing canonical `main` v5.153 · [PR #2129 MERGED](https://github.com/itakura-hidetoshi/KuuOS/pull/2129) · merge SHA `482e325d35b8186d43b0d503ebaceb7e3a498036`**
 
-**現在地：F1–F55 are CLOSED only within their precise original KuuOS Lean theorem scopes.** The fixed actual F/G/η/ε swallowtails (F1–F5), native chosen mates and genuinely independent F19/F28 categories (F6–F39), complete primitive histories and F44 independent-axis generated adjacent-exchange quotient/classification (F40–F46), original finite F45 typed stage trees and F53 five-vertex quotient pentagon (F47–F53), and F54 actual typed contextual finite rotations remain unchanged. **F55／v5.152 adds genuine 3-vs-2 pentagon paths and independent square of distinct Type-valued F54 finite routes; a freely presented Type-valued `PresentedCell` relation; independent double Nat-depth transport and original F44/whole F19–F28 history preservation through all path constructors; original chosen right-mate and actual source η / target ε specialization.** The higher-cell presentation is NOT an external tricategory 3-cell realization theorem.
+**現在地：F1–F56 are CLOSED only within their precise original KuuOS Lean theorem scopes.** The original actual F/G/η/ε swallowtails, distinct chosen F19 right-mate and F28 kernel-quotient category, finite proof-relevant axis histories and F44 independent-axis exchange quotient, F45 genuine tree stages, F53 pentagon, F54 local rotation chains, and F55 actual 3-versus-2 rotation paths/square/free presented 2D cells remain intact. **F56-A–E** supplies a *conditional* higher-cell target interpreter, its exact contextual/vertical/horizontal pasting equations, a 3≠2 literal count obstruction, one concrete original F44/full-F19/F28-history observational model, its subsingleton `F44ObservedCell` fibers, and a universal **conditional no-faithful-factorization theorem** for interpretations factoring only through those certificates. An external Gray/tricategorical 3-cell realization is **not yet proved**.
 
 **Boundaries are part of the result.** No F19 and F28 Hom identification, no unjustified inversion of potentially noninvertible `G.toOplax` cells, no global tricategorical/Gray-category biequivalence, no infinite convergence theorem, and no verified AI runtime follows from these Lean artifacts.
 
@@ -11,13 +11,13 @@
 | Item | Freshly verified baseline |
 | --- | --- |
 | Repository and branch | **[itakura-hidetoshi/KuuOS](https://github.com/itakura-hidetoshi/KuuOS) / `main`** |
-| Latest theorem-bearing canonical `main` | **`80f2b4cca5c1ca93f3c296468359a4aca067fd07`**, [PR #2123 MERGED](https://github.com/itakura-hidetoshi/KuuOS/pull/2123) |
-| F55-C2/C3 source PR HEAD | **`cc9c121c8548e2e7e822e9413b7b5f5b763e590a`** |
-| Exact-head validated GitHub run | [**38103624866 — SUCCESS**](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38103624866) |
-| Strict Lean validation | Job **114364474771 — SUCCESS**, selected dependency closure **8861 / 8861** |
-| Governance audit | Job **114364877195 — SUCCESS** |
-| MCP Lean / MCP CI completion receipts | Jobs **114364877157 / 114364915253 — SUCCESS** |
-| F55-C2/C3 changed files / declaration audit | **2 new Lean files**, **0 warnings / 0 errors**, **7/7 `#print axioms`**, no `sorryAx`, `sorry`, `admit`, new axiom |
+| Latest theorem-bearing canonical `main` | **`482e325d35b8186d43b0d503ebaceb7e3a498036`**, [PR #2129 MERGED](https://github.com/itakura-hidetoshi/KuuOS/pull/2129) |
+| F56-E source PR HEAD | **`43e455606731bcba225cd74240d889da5abe10c9`** |
+| Exact-head validated GitHub run | [**38107828541 — SUCCESS**](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38107828541) |
+| Strict Lean validation | Job **114377017783 — SUCCESS**, selected dependency closure **8862 / 8862** |
+| Governance audit | Job **114377307113 — SUCCESS** |
+| MCP Lean / MCP CI completion receipts | Jobs **114377307093 / 114377329449 — SUCCESS** |
+| F56-E changed files / declaration audit | **1 new Lean file**, **0 warnings / 0 errors**, **4/4 `#print axioms`**, no `sorryAx`, `sorry`, `admit`, new axiom |
 | Permitted axiom dependencies observed | `propext`, `Classical.choice`, `Quot.sound` only |
 | Pinned Lean | **v4.30.0-rc2** — [lean-toolchain](lean-toolchain) |
 | Pinned mathlib | **`5450b53e5ddc75d46418fabb605edbf36bd0beb6`** — [lake-manifest.json](lake-manifest.json) |
@@ -44,6 +44,8 @@
 | Relations between DISTINCT RotationChain witnesses | **NOT YET PROVED:** F44 endpoint-class equality alone is not Type-valued higher path coherence |
 | Concrete pentagon/square with freely presented higher witnesses | **PROVED/CONSTRUCTED:** F55-A/B, actual pentagon long **3** rotations and short **2** rotations, inequivalence as raw Type-valued routes, disjoint contextual square of 2+2 actual rotations, freely generated `DepthRotationRoute.PresentedCell` with typed whiskering/composition; **NOT** yet identified with external tricategory 3-cells |
 | Original F44/native histories and chosen mate/η/ε image of F55 routes | **PROVED:** F55-C1–C3, separate original F19/F28 index transports and complete F44/typed history invariance, chosen original F19 right mate under arbitrary independent genuine F28 quotient functor, actual unchanged source η and target ε endpoint interpretations |
+| Conditional Type-valued higher-cell semantics | **PROVED under separately supplied target cell data:** F56-A/B, interpreter of all F55 PresentedCell constructors and exact whisker/pasting equations, plus a real 3≠2 obstruction to universally preserving literal rotation counts in any target realizing the pentagon |
+| Constructed original observational target and exact information-loss obstruction | **PROVED:** F56-C constructs a Type-valued `F44ObservedCell` target with four original F44/full typed F19/F28 Prop certificates; F56-D proves it is a subsingleton and equivalent to `PUnit`, and that distinct raw F55 higher witnesses are observationally indistinguishable; F56-E proves any map factoring through this observation is constant, non-injective and lacks a global left inverse on raw PresentedCell. External higher 3-cell realization remains open |
 | External tricategorical/Gray-categorical 3-cell pentagon | **NOT PROVED**; equalities of F44 `Quot` classes do not automatically provide arbitrary higher 3-cell coherence |
 | Arbitrary presentation-independent lifting/descent, global biadjunction equivalence, runtime/AI correctness, infinite limit | **NOT PROVED** without additional exact hypotheses and separate independent tests |
 
@@ -245,7 +247,7 @@ Representative Lean:
 [F45](formal/KUOS/DependentOriginationCoherentBiadjunctionProofRelevantAxisTracesV5_142.lean),
 [F46](formal/KUOS/DependentOriginationCoherentBiadjunctionExchangeAxisPairEquivalenceV5_143.lean).
 
-## 11. F47–F55 CLOSED — original finite paths, contextual rotations, presented pentagon/square and chosen mates
+## 11. F47–F56 CLOSED — original finite rotations, freely presented higher witnesses, and observational boundaries
 
 | Milestone / exact proof artifact | Verified theorem content |
 | --- | --- |
@@ -261,20 +263,25 @@ Representative Lean:
 | **F55-B / v5.152 / [#2121](https://github.com/itakura-hidetoshi/KuuOS/pull/2121)** | [Original rotation square and presented cells](formal/KUOS/DependentOriginationCoherentBiadjunctionOriginalF45PresentedRotationCellsV5_152.lean): independent left-first/right-first contextual F54 paths (two rotations each); **free Type-valued** `PresentedCell` generators for concrete pentagon and square plus identity, inverse, transitive and contextual/pasting operations; 7/7 `#print axioms`, 8856/8856 GREEN. This is a presentation, not an imported Gray 3-cell equality |
 | **F55-C1 / v5.152 / [#2122](https://github.com/itakura-hidetoshi/KuuOS/pull/2122)** | [Actual double-depth invariants](formal/KUOS/DependentOriginationCoherentBiadjunctionOriginalF45DepthRotationInvariantsV5_152.lean): `depthEq`, `toExchangeClass_eq`, `axisHistories_eq` for ALL five original DepthRotationRoute constructors, 3/2 pentagon class consequences and both freely presented path-cell F44 boundaries; 6/6 `#print axioms`, 8857/8857 GREEN |
 | **F55-C2/C3 / v5.152 / [#2123](https://github.com/itakura-hidetoshi/KuuOS/pull/2123)** | [Original chosen mate](formal/KUOS/DependentOriginationCoherentBiadjunctionOriginalF45DepthRotationMatesV5_152.lean), [actual η/ε](formal/KUOS/DependentOriginationCoherentBiadjunctionActualLiftDepthRotationV5_152.lean): original F19 right mate vs independent genuine F28 quotient, cast/functor commutation, both whole mapped primitive histories, freely presented cell endpoint certificates, unchanged source η/target ε; 7/7 `#print axioms`, 8861/8861 exact-head GREEN, new-file warning/error 0/0 |
+| **F56-A / v5.153 / [#2125](https://github.com/itakura-hidetoshi/KuuOS/pull/2125)** | [Conditional target semantics](formal/KUOS/DependentOriginationCoherentBiadjunctionOriginalF45ConditionalHigherCellTargetV5_153.lean): independently specified `HigherCellTarget` with typed pentagon, square, inverses and context/pasting structure; actual inductively defined `PresentedCell.interpret` for all constructors |
+| **F56-B / v5.153 / [#2126](https://github.com/itakura-hidetoshi/KuuOS/pull/2126)** | [Pasting equations and count obstruction](formal/KUOS/DependentOriginationCoherentBiadjunctionOriginalF45HigherCellPastingObstructionV5_153.lean): exact left/right contextual and pre/postcomposition interpreter laws, and `HigherCellTarget.no_global_rotationCount` from original 3-versus-2 pentagon witness |
+| **F56-C / v5.153 / [#2127](https://github.com/itakura-hidetoshi/KuuOS/pull/2127)** | [Concrete F44 observation](formal/KUOS/DependentOriginationCoherentBiadjunctionOriginalF45ConcreteF44CellTargetV5_153.lean): Type-valued `F44ObservedCell` of four separate original F44 and both fully typed F19/F28 axis-history certificates; constructed `HigherCellTarget.originalF44`; final exact-head [CI #38106999972 SUCCESS](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38106999972). Only observational truncation, not external Gray 3-cells |
+| **F56-D / v5.153 / [#2128](https://github.com/itakura-hidetoshi/KuuOS/pull/2128)** | [Exact observational information loss](formal/KUOS/DependentOriginationCoherentBiadjunctionOriginalF45ObservedHigherCellNonfaithfulnessV5_153.lean): observational fibers are `Subsingleton`, `F44ObservedCell ≃ PUnit`; raw `PresentedCell.ident route` differs from double identity paste, but their observations are equal, so original F44 observation is non-injective; 6/6 axioms, [CI #38107624498](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38107624498) GREEN |
+| **F56-E / v5.153 / [#2129](https://github.com/itakura-hidetoshi/KuuOS/pull/2129)** | [Universal conditional factorization no-go](formal/KUOS/DependentOriginationCoherentBiadjunctionOriginalF45ObservedHigherCellFactorizationNoGoV5_153.lean): any function from the raw free PresentedCell type factoring through original F44 observations is constant on fixed parallel-route boundaries, non-injective on its reflexive endomorphism fiber, and cannot have a reconstruction left inverse; applies to every chosen `HigherCellTarget` satisfying this exact factorization; 4/4 axioms, [CI #38107828541](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38107828541) GREEN |
 
-**Mathematical boundary after F55:** The F53 pentagon was an equality of original F44 generated exchange classes. F55-A/B NOW adds two distinct Type-valued **concrete** 3-vs-2 pentagon rotation routes and a genuinely disjoint contextual square, and declares a Type-valued freely presented path-cell generator between those routes. F55-C certifies the actual original F44/full-history/selected right mate/η/ε endpoint interpretation of every route, including the generated cell's two boundaries. None of these statements identifies a freely presented cell with a separately specified tricategorical/Gray 3-cell, proves coherence of all arbitrary external higher pastings, or forces a global biequivalence.
+**Mathematical boundary through F56:** F53 proves equality of original F44 quotient classes; F55 constructs actual distinct 3-vs-2 Type-valued pentagon paths, independent contextual square and free 2-dimensional PresentedCell generators, with original right mate and η/ε endpoint interpretations. F56-A/B adds a target-data-conditional higher-cell interpreter and actual pentagon count obstruction. F56-C constructs the observational F44/complete-history target; F56-D/E proves it necessarily forgets raw free higher syntax and NO interpretation that factors only through it can be faithful to that syntax. This does **not** invalidate external Gray/tricategorical coherence targets with additional data or justify new inverses of G.toOplax.
 
-## 12. Immediate mathematical frontier — F56 / v5.153 (NOT YET PROVED at this snapshot)
+## 12. Next mathematical frontier — F57 / v5.154 (NOT YET PROVED at this snapshot)
 
-**F55 is CLOSED only in the precise verified Lean scopes above.** The genuine F54 Type-valued rotation witnesses are now retained in F55-A original depth-indexed pentagon and disjoint square; F55-B freely PRESENTS a Type-valued 2D relation between parallel concrete paths, and F55-C proves independent double Nat-depth transport and original chosen-mate/actual η–ε F44 endpoint invariance. Equality of F44 endpoint classes does not supply an arbitrary external 3-cell interpretation.
+**F56-A–E CLOSED within their exact Lean types.** Crucially the new F56-C observational target has proof-relevant *Type packaging* but only Prop-valued four-certificate fields, so F56-D identifies every fixed-boundary fiber with `PUnit`; F56-E proves that any higher-cell semantics which factors through it cannot faithfully recover the original free `PresentedCell` witnesses. This is a mathematically exact obstruction to treating quotient endpoint equality as adequate external 3-cell evidence.
 
-F56 research targets (NONE marked proved without separately chosen concrete data, exact Lean theorems and CI receipts):
+The next F57 program requires NEW independently meaningful target higher cells and comparison theorems; no item below is proved merely by F56:
 
-1. **Specify a real target for the presented cells.** Identify native bicategorical/Gray/tricategorical comparison data with explicit types, eta/epsilon orientations and ambient 2-/3-cell operations; do NOT treat `PresentedCell` constructors as externally valid 3-cells by declaration alone.
-2. **Realize the concrete generators.** Construct actual target witnesses for both independent-context square and five-vertex 3-vs-2 pentagon, respecting original chosen F/G pseudofunctor comparison ISOs and potentially NONINVERTIBLE G.toOplax forward comparisons.
-3. **Prove the target comparison/pasting laws.** Check composition, inversion (only where genuinely available), left/right contextual whiskering, naturality/interchange and compatibility of target structure rather than relying on proof irrelevance of F44 equalities.
-4. **Preserve authority boundaries.** Keep original distinct F19 and F28 Hom types, Type-valued same-axis operation histories, both Nat-depth casts, actual η/ε and pinned Lean/mathlib. Separate any new conditional comparison theorem from an unrestricted global equivalence or all-presentations descent.
-5. **Independent audits.** Show exact-head changed-file Lean/axiom receipts and define separate runtime/AI indexing evidence only if software behavior is actually tested.
+1. **Path-sensitive target construction.** Specify actual nontrivial higher comparison data beyond original F44 and full F19/F28 history endpoint propositions. Simply taking the free `PresentedCell` itself as the target is not an external Gray/tricategorical semantics.
+2. **Independent generator realizations.** Supply genuine pentagon and disjoint rotation-square cells in an explicitly typed native 2-/3-cell setting, preserving the original F/G, η/ε orientations and genuinely noninvertible forward G.toOplax comparisons.
+3. **Pasting and interchange coherence.** Prove contextual whiskering, vertical/horizontal pasting, naturality and interchange in that independent target, not by assuming F44 endpoint proof irrelevance or free constructor equalities.
+4. **Faithfulness/descent with hypotheses.** Determine which exact richer target conditions avoid the F56-E observational factorization no-go; present any partial equivalence/faithfulness only under formal Lean assumptions and give counterexamples when conditions fail.
+5. **Receipts and authority.** Preserve pinned Lean v4.30.0-rc2/mathlib and #1558 Draft validation lane, full changed-file warnings/errors and `#print axioms` audit, original separate F19/F28 Hom types and exact main SHA after merges.
 
 ### Other open mathematical frontiers
 
@@ -304,12 +311,12 @@ Earlier nonfactorization and Stage-II results remain one-way; the specific F19/F
 
 ## 14. Reproduction / 再現
 
-The newest verified theorem-bearing baseline is the **v5.152 F55-C2/C3 merge SHA `80f2b4cca5c1ca93f3c296468359a4aca067fd07`**, not the old F10 or F54 SHA and not a later docs-only merge.
+The newest verified theorem-bearing baseline is the **v5.153 F56-E merge SHA `482e325d35b8186d43b0d503ebaceb7e3a498036`**, not a prior theorem SHA nor a later docs-only merge.
 
 ~~~bash
 git clone https://github.com/itakura-hidetoshi/KuuOS.git KuuOS-repro
 cd KuuOS-repro
-git checkout 80f2b4cca5c1ca93f3c296468359a4aca067fd07
+git checkout 482e325d35b8186d43b0d503ebaceb7e3a498036
 cat lean-toolchain
 
 lake -KleanArgs=-DwarningAsError=true \
@@ -323,13 +330,18 @@ lake -KleanArgs=-DwarningAsError=true \
   KUOS.DependentOriginationCoherentBiadjunctionOriginalF45PresentedRotationCellsV5_152 \
   KUOS.DependentOriginationCoherentBiadjunctionOriginalF45DepthRotationInvariantsV5_152 \
   KUOS.DependentOriginationCoherentBiadjunctionOriginalF45DepthRotationMatesV5_152 \
-  KUOS.DependentOriginationCoherentBiadjunctionActualLiftDepthRotationV5_152
+  KUOS.DependentOriginationCoherentBiadjunctionActualLiftDepthRotationV5_152 \
+  KUOS.DependentOriginationCoherentBiadjunctionOriginalF45ConditionalHigherCellTargetV5_153 \
+  KUOS.DependentOriginationCoherentBiadjunctionOriginalF45HigherCellPastingObstructionV5_153 \
+  KUOS.DependentOriginationCoherentBiadjunctionOriginalF45ConcreteF44CellTargetV5_153 \
+  KUOS.DependentOriginationCoherentBiadjunctionOriginalF45ObservedHigherCellNonfaithfulnessV5_153 \
+  KUOS.DependentOriginationCoherentBiadjunctionOriginalF45ObservedHigherCellFactorizationNoGoV5_153
 ~~~
 
-[Exact-head CI #38103624866](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38103624866) built the selected imported Lean dependency closure **8861/8861** for the two last changed F55-C2/C3 Lean files, with zero changed-file warnings/errors, **7/7 `#print axioms`**, only permitted `propext`/`Classical.choice`/`Quot.sound`, no proof holes/new axioms; Governance and both MCP receipts SUCCESS. Earlier F55-A/B/C1 exact-head independent CI runs #38102195466 / #38102570003 / #38103317725 also succeeded. This does not certify the whole repository or runtime.
+[Exact-head CI #38107828541](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38107828541) built the F56-E selected imported Lean closure **8862/8862**, one changed file warning/error 0/0, **4/4 `#print axioms`**, no proof holes/new axioms; Governance and both MCP receipts SUCCESS. The F56-D run [#38107624498](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38107624498) separately verified 6/6 axioms. This does not certify all repository workflows or runtime/AI model correctness.
 
 ~~~bash
-# Broader checks — run separately; not implied by the F55 exact-head receipt:
+# Broader checks — run separately; not implied by the F56 exact-head receipt:
 lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KuuOSFormal
 PYTHONPATH=. python3 runtime/kuuos_current_check.py
 ~~~
