@@ -127,7 +127,7 @@ theorem originalC60DistinctPairPatch_cancels_mod2
 
 /-- Charges add exactly over DISJOINT geometric collections of
 pentagons; this is ordinary finite additive aggregation, not a
-claim that separate higher cells admit a native vertical 3-pasting. -/
+claim of external vertical 3-cell composability. -/
 theorem originalC60DisjointPatchCharge_add
     (S T : Finset IcosahedralVertex) (hST : Disjoint S T) :
     originalC60PatchCharge t₁ t₂ left right (S ∪ T) =
