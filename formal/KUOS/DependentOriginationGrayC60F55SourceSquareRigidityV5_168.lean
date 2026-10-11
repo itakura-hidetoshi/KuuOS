@@ -185,8 +185,7 @@ def C60F55SquareWord.toOriginalF55 :
   | _, _, .inverseSquare =>
       .symm (.disjointSquare left right)
   | _, _, .trans before after =>
-      .trans (before.toOriginalF55 t₁ t₂ left right)
-        (after.toOriginalF55 t₁ t₂ left right)
+      .trans (toOriginalF55 before) (toOriginalF55 after)
 
 /-- This SOURCE construction is interpreted by the PREEXISTING
 independent F59 braidedPhase HigherCellTarget. It agrees on every
