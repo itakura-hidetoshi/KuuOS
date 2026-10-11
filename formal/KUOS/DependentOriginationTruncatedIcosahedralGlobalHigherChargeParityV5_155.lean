@@ -31,8 +31,9 @@ With the SAME explicitly supplied original F55 F45 t1/t2 local
 square rotations repeated as labels over all geometric C60
 pentagon-hexagon shared edges, the global finite sum is (12,60).
 
-The independent group homomorphism coordinatewise Int -> ZMod 2
-detects the nonzero LOCAL signature (1,1), but its GLOBAL
+The independent, explicitly proved and bundled ADDITIVE
+group homomorphism coordinatewise Int -> ZMod 2 detects the nonzero
+LOCAL signature (1,1), but its GLOBAL
 uniform twelve-pentagon sum vanishes (0,0). This is a concrete
 and fully typed parity-collapse test on the NEW F58 additive
 generator charges, reminiscent of but NEVER IDENTIFIED WITH
@@ -54,6 +55,30 @@ no old obstruction class is identified with a charge coordinate. -/
 def originalC60HigherChargeMod2
     (z : Int × Int) : ZMod 2 × ZMod 2 :=
   ((z.1 : ZMod 2), (z.2 : ZMod 2))
+
+/-- The coordinatewise coefficient reduction is ADDITIVE,
+not merely a mapping on charge values. Preserve the independently
+signed pentagon/square integer generator counts on both axes. -/
+theorem originalC60HigherChargeMod2_add
+    (z w : Int × Int) :
+    originalC60HigherChargeMod2 (z + w) =
+      originalC60HigherChargeMod2 z + originalC60HigherChargeMod2 w := by
+  ext <;> simp [originalC60HigherChargeMod2, Prod.add_def]
+
+/-- The original pair-zero charge reduces to the zero mod-2 pair. -/
+theorem originalC60HigherChargeMod2_zero :
+    originalC60HigherChargeMod2 (0 : Int × Int) =
+      (0 : ZMod 2 × ZMod 2) := by
+  rfl
+
+/-- The genuine coordinatewise additive charge reduction, packaged
+as a homomorphism. This is a NEW independent generator-charge map,
+not an identification with the older Stage-II omega obstruction. -/
+def originalC60HigherChargeMod2Hom :
+    (Int × Int) →+ (ZMod 2 × ZMod 2) where
+  toFun := originalC60HigherChargeMod2
+  map_zero' := originalC60HigherChargeMod2_zero
+  map_add' := originalC60HigherChargeMod2_add
 
 /-- Reverify the original C60 seed's twelve icosahedral vertices
 using kernel reduction rather than importing the old v3.84
@@ -120,13 +145,11 @@ theorem originalC60GlobalPentagonCollarCharge_mod2_zero :
   rw [originalC60GlobalPentagonCollarCharge t₁ t₂ left right]
   change ((12 : ZMod 2), (60 : ZMod 2)) =
     ((0 : ZMod 2), (0 : ZMod 2))
-  apply Prod.ext
-  · calc
-      (12 : ZMod 2) = 6 * (2 : ZMod 2) := by ring
-      _ = 0 := by rw [ZMod.natCast_self]; simp
-  · calc
-      (60 : ZMod 2) = 30 * (2 : ZMod 2) := by ring
-      _ = 0 := by rw [ZMod.natCast_self]; simp
+  -- All four elements of the displayed equality are concrete finite
+  -- ZMod 2 values. Kernel reduction handles these equalities exactly,
+  -- avoiding a syntactically mismatched rewrite of a numeral as a
+  -- Nat-cast expression and avoiding a native compiler-trust axiom.
+  decide
 
 /-- The local-to-global distinction is REAL and proved: the
 individual C60 pentagon charge survives mod 2 whereas its
@@ -150,6 +173,9 @@ theorem originalC60LocalNonzeroGlobalZero
 end GlobalActualPentagonCollars
 
 #print axioms originalC60HigherChargeMod2
+#print axioms originalC60HigherChargeMod2_add
+#print axioms originalC60HigherChargeMod2_zero
+#print axioms originalC60HigherChargeMod2Hom
 #print axioms originalC60IcosahedralVertex_card_kernel
 #print axioms originalC60LocalCollarCharge_mod2
 #print axioms originalC60GlobalPentagonCollarCharge
