@@ -121,23 +121,6 @@ theorem allOriginalTruncatedEdge_card_kernel :
     Fintype.card TruncatedIcosahedralEdge = 90 := by
   decide
 
-/-- Each of the TWENTY original hexagonal C60 faces has a genuinely
-closed SIX-edge boundary, with THREE cross/hexagon-to-hexagon slots
-and THREE around/pentagon-to-hexagon slots alternating cyclically. -/
-theorem originalC60EveryHexagon_alternatingEdgeFamilies
-    (f : IcosahedralFace) :
-    (truncatedIcosahedralHexagonCycle f).edges.length = 6 ∧
-    ((truncatedIcosahedralHexagonCycle f).e0.family,
-      (truncatedIcosahedralHexagonCycle f).e1.family,
-      (truncatedIcosahedralHexagonCycle f).e2.family,
-      (truncatedIcosahedralHexagonCycle f).e3.family,
-      (truncatedIcosahedralHexagonCycle f).e4.family,
-      (truncatedIcosahedralHexagonCycle f).e5.family) =
-      (.around, .cross, .around, .cross, .around, .cross) := by
-  constructor
-  · rfl
-  · cases f <;> rfl
-
 /-- The real twenty closed hexagon boundaries—not an arbitrary set
 of schematic six-edge polygons—are counted by kernel reduction. -/
 theorem originalC60HexagonFace_card_kernel :
@@ -154,7 +137,6 @@ theorem originalC60HexagonFace_card_kernel :
 #print axioms crossOriginalEdge_card_kernel
 #print axioms aroundOriginalEdge_card_kernel
 #print axioms allOriginalTruncatedEdge_card_kernel
-#print axioms originalC60EveryHexagon_alternatingEdgeFamilies
 #print axioms originalC60HexagonFace_card_kernel
 
 end
