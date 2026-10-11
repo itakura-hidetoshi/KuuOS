@@ -115,9 +115,7 @@ theorem OriginalF45BracketTree.DepthRotationRoute.axisHistories_eq
       last.axisHistories := by
   have heq := route.toExchangeClass_eq
   have hh := congrArg ExchangeClass.axisTraces heq
-  simpa only [OriginalF45BracketTree.castDepths_toExchangeClass,
-    ExchangeClass.axisTraces_castDepths,
-    OriginalF45BracketTree.toExchangeClass_axisTraces] using hh
+  simpa only [OriginalF45BracketTree.toExchangeClass_axisTraces] using hh
 
 /-- Each real F55-A 3-edge pentagon route has the F44 class of the
 SAME original right-deep tree after its exactly recorded two casts. -/
