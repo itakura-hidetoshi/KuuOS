@@ -63,8 +63,12 @@ def OriginalF45BracketTree.DepthRotationRoute.HigherCellTarget.generatorCharge :
   symm := fun c => -c
   trans := fun c d => c + d
   leftContext := fun c _ => c
-  rightContext := fun _ c => c
-  precompose := fun _ c => c
+  rightContext := by
+    intros
+    assumption
+  precompose := by
+    intros
+    assumption
   postcompose := fun c _ => c
 
 /-- This is a real signed higher-cell generator signature: the original
@@ -178,8 +182,10 @@ theorem originalC60Pentagon_generatorCharge
     (t₃ : OriginalF45BracketTree n₃ m₃ p₂ q₂ p₃ q₃)
     (t₄ : OriginalF45BracketTree n₄ m₄ p₃ q₃ p₄ q₄)
     (v : IcosahedralVertex) :
-    (originalF45C60PentagonPasting t₁ t₂ t₃ t₄ v).interpret
-      OriginalF45BracketTree.DepthRotationRoute.HigherCellTarget.generatorCharge =
+    (OriginalF45C60PentagonPasting.interpret
+      (originalF45C60PentagonPasting t₁ t₂ t₃ t₄ v)
+      (OriginalF45BracketTree.DepthRotationRoute.HigherCellTarget.generatorCharge
+        (D := D) (E := E))) =
         ((1 : Int), (0 : Int)) := by
   rfl
 
@@ -197,8 +203,10 @@ theorem originalC60Pentagon_generatorCharge_ne_zero
     (t₃ : OriginalF45BracketTree n₃ m₃ p₂ q₂ p₃ q₃)
     (t₄ : OriginalF45BracketTree n₄ m₄ p₃ q₃ p₄ q₄)
     (v : IcosahedralVertex) :
-    (originalF45C60PentagonPasting t₁ t₂ t₃ t₄ v).interpret
-      OriginalF45BracketTree.DepthRotationRoute.HigherCellTarget.generatorCharge ≠
+    (OriginalF45C60PentagonPasting.interpret
+      (originalF45C60PentagonPasting t₁ t₂ t₃ t₄ v)
+      (OriginalF45BracketTree.DepthRotationRoute.HigherCellTarget.generatorCharge
+        (D := D) (E := E))) ≠
         (0 : Int × Int) := by
   rw [originalC60Pentagon_generatorCharge]
   decide
