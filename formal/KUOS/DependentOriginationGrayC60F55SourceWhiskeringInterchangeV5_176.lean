@@ -107,7 +107,7 @@ theorem c60F55SourceLocked_trans
     {a b : D} {x y : E} {n n' m m' : Nat}
     {ma mb : Blocks a b} {pa pb : Blocks x y}
     {first : OriginalF45BracketTree n m ma pa mb pb}
-    {last : OriginalF45BracketTree n' m' ma pb mb pb}
+    {last : OriginalF45BracketTree n' m' ma pa mb pb}
     {r s t : OriginalF45BracketTree.DepthRotationRoute first last}
     (α : OriginalF45BracketTree.DepthRotationRoute.PresentedCell r s)
     (β : OriginalF45BracketTree.DepthRotationRoute.PresentedCell s t) :
