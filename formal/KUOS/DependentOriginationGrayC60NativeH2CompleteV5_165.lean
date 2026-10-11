@@ -225,6 +225,9 @@ theorem c60NativeH2FundamentalLinear_rightInverse :
   change c60NativeH2FundamentalLinear
     (c60NativeH2NorthPentagonCoefficient h) = h
   apply c60NativeH2ConcreteCycleIso.toLinearEquiv.injective
+  change c60NativeH2ConcreteCycleIso.hom.hom
+      (c60NativeH2FundamentalLinear (c60NativeH2NorthPentagonCoefficient h)) =
+    c60NativeH2ConcreteCycleIso.hom.hom h
   rw [c60NativeH2FundamentalLinear_apply, map_smul,
     c60NativeH2ConcreteCycleIso_fundamental]
   apply Subtype.ext
