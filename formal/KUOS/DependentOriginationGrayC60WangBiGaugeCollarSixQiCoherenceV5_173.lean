@@ -382,7 +382,12 @@ theorem c60SixQiSourceFlag_incident :
         (c60SixQiSourceFlag face q).1
         (c60SixQiSourceFlag face q).2 := by
   intro face q
-  fin_cases face <;> fin_cases q <;> decide
+  cases face <;> cases q <;>
+    simp [c60SixQiSourceFlag, c60SixQiOrientedEdge,
+      truncatedIcosahedralHexagonCycle,
+      OrientedTruncatedIcosahedralEdge.source,
+      truncatedDartOnSeedFace, icosahedralFaceEdges,
+      icosahedralIncidentDartAt]
 
 theorem c60SixQiTargetFlag_consecutive
     (face : IcosahedralFace) (q : C60SixQi) :
