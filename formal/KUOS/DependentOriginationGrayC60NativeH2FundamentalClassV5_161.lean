@@ -1,6 +1,7 @@
 import KUOS.DependentOriginationGrayC60NativeChainComplexV5_160
 import Mathlib.Algebra.Homology.ShortComplex.ModuleCat
 import Mathlib.Algebra.Homology.ShortComplex.HomologicalComplex
+import Mathlib.CategoryTheory.Elementwise
 
 namespace KUOS.DependentOriginationGrayC60NativeH2FundamentalClassV5_161
 
@@ -44,9 +45,12 @@ pasting and old Stage-II omega remain separately unproved.
 is zero, because the original C60 CW-complex has no 3-cells. -/
 theorem c60NativeH2_incoming_zero :
     (c60NativeIntegralCellularComplex.sc 2).f = 0 := by
-  simpa [HomologicalComplex.sc, HomologicalComplex.shortComplexFunctor,
-    HomologicalComplex.shortComplexFunctor', ChainComplex.prev] using
-      c60NativeIntegralCellularComplex_d32
+  change c60NativeIntegralCellularComplex.d
+    ((ComplexShape.down ℕ).prev 2) 2 = 0
+  have hp : (ComplexShape.down ℕ).prev 2 = 3 := by
+    simpa using (ChainComplex.prev ℕ 2)
+  rw [hp]
+  exact c60NativeIntegralCellularComplex_d32
 
 /-- The exact outgoing native H₂ differential evaluates to zero
 on the previously kernel-certified oriented fundamental surface,
@@ -54,9 +58,13 @@ using the actual F59-F9 integer cellular boundary d₂. -/
 theorem c60NativeH2_outgoing_fundamental_zero :
     (c60NativeIntegralCellularComplex.sc 2).g.hom
       c60IntegralFundamentalSurfaceChain = 0 := by
-  simpa [HomologicalComplex.sc, HomologicalComplex.shortComplexFunctor,
-    HomologicalComplex.shortComplexFunctor', ChainComplex.next_nat_succ] using
-      c60IntegralBoundaryTwo_fundamental_zero
+  change (c60NativeIntegralCellularComplex.d 2
+    ((ComplexShape.down ℕ).next 2)).hom
+      c60IntegralFundamentalSurfaceChain = 0
+  have hn : (ComplexShape.down ℕ).next 2 = 1 := by
+    simpa using (ChainComplex.next_nat_succ 1)
+  rw [hn, c60NativeIntegralCellularComplex_d21]
+  exact c60IntegralBoundaryTwo_fundamental_zero
 
 /-- The genuine nonzero sum of all 32 original oriented C60 faces
 lies in the ACTUAL native mathlib cycle submodule ker d₂. -/
@@ -110,13 +118,16 @@ theorem c60NativeH2FundamentalCycle_ne_zero :
       (c60NativeIntegralCellularComplex.sc 2).moduleCatCyclesIso.hom
         c60NativeH2FundamentalCycle = 0 := by
     rw [h]
-    simp
+    change ((c60NativeIntegralCellularComplex.sc 2).moduleCatCyclesIso.hom.hom)
+      (0 : c60NativeIntegralCellularComplex.cycles 2) = 0
+    exact map_zero _
   have hker :
       (⟨c60IntegralFundamentalSurfaceChain,
         c60NativeH2_fundamental_mem_native_cycles⟩ :
         LinearMap.ker (c60NativeIntegralCellularComplex.sc 2).g.hom) =
           0 := by
-    simpa [c60NativeH2FundamentalCycle] using hmap
+    simpa only [c60NativeH2FundamentalCycle, Iso.inv_hom_id_apply]
+      using hmap
   exact c60IntegralFundamentalSurfaceChain_ne_zero
     (congrArg Subtype.val hker)
 
