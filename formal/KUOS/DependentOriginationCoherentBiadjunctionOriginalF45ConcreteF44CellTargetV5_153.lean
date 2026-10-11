@@ -105,14 +105,12 @@ def OriginalF45BracketTree.DepthRotationRoute.HigherCellTarget.originalF44 :
     OriginalF45BracketTree.DepthRotationRoute.F44ObservedCell.canonical _ _
   leftContext := fun _ _ =>
     OriginalF45BracketTree.DepthRotationRoute.F44ObservedCell.canonical _ _
-  rightContext := fun earlier {r} {s} _ =>
-    OriginalF45BracketTree.DepthRotationRoute.F44ObservedCell.canonical
-      (OriginalF45BracketTree.DepthRotationRoute.rightContext earlier r)
-      (OriginalF45BracketTree.DepthRotationRoute.rightContext earlier s)
-  precompose := fun priorRoute {r} {s} _ =>
-    OriginalF45BracketTree.DepthRotationRoute.F44ObservedCell.canonical
-      (OriginalF45BracketTree.DepthRotationRoute.trans priorRoute r)
-      (OriginalF45BracketTree.DepthRotationRoute.trans priorRoute s)
+  rightContext := by
+    intros
+    exact OriginalF45BracketTree.DepthRotationRoute.F44ObservedCell.canonical _ _
+  precompose := by
+    intros
+    exact OriginalF45BracketTree.DepthRotationRoute.F44ObservedCell.canonical _ _
   postcompose := fun _ _ =>
     OriginalF45BracketTree.DepthRotationRoute.F44ObservedCell.canonical _ _
 
