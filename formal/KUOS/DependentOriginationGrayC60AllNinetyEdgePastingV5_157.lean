@@ -344,6 +344,7 @@ theorem c60AllNinetyGrayTotal_components :
       _ = (0 : ZMod 2) := by
             simp only [Finset.sum_const, Finset.card_univ]
             rw [allOriginalTruncatedEdge_card_kernel]
+            rw [nsmul_one]
             decide
 
 /-- A full ACTUAL edge partition 60+30, as an equality of native
@@ -353,11 +354,19 @@ theorem c60AllNinetyGrayTotal_split :
       c60AroundSixtyGrayTotal t₁ t₂ left right +
         c60CrossThirtyGrayTotal t₁ t₂ left right := by
   apply GradedThreeCell.ext
-  · rw [(c60AllNinetyGrayTotal_components t₁ t₂ left right).1,
+  · change
+      (c60AllNinetyGrayTotal t₁ t₂ left right).charge =
+        (c60AroundSixtyGrayTotal t₁ t₂ left right).charge +
+          (c60CrossThirtyGrayTotal t₁ t₂ left right).charge
+    rw [(c60AllNinetyGrayTotal_components t₁ t₂ left right).1,
       (c60AroundSixtyGrayTotal_components t₁ t₂ left right).1,
       (c60CrossThirtyGrayTotal_components t₁ t₂ left right).1]
     decide
-  · rw [(c60AllNinetyGrayTotal_components t₁ t₂ left right).2,
+  · change
+      (c60AllNinetyGrayTotal t₁ t₂ left right).phase =
+        (c60AroundSixtyGrayTotal t₁ t₂ left right).phase +
+          (c60CrossThirtyGrayTotal t₁ t₂ left right).phase
+    rw [(c60AllNinetyGrayTotal_components t₁ t₂ left right).2,
       (c60AroundSixtyGrayTotal_components t₁ t₂ left right).2,
       (c60CrossThirtyGrayTotal_components t₁ t₂ left right).2]
     decide
