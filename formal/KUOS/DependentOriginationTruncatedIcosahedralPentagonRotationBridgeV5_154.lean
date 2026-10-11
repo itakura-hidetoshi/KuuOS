@@ -158,6 +158,15 @@ theorem originalF45PentagonFiveRotationCount :
     originalF45PentagonSignedSide_rotationCount]
   decide
 
+/-- Each of the five slot-indexed geometric edges really belongs to
+the EXISTING v3.85 closed pentagonal boundary, rather than merely
+having the correct pentagonal face endpoint labels. -/
+theorem originalC60PentagonEdge_mem_boundary
+    (v : IcosahedralVertex) (s : PentagonalSlot) :
+    (TruncatedIcosahedralEdge.around ⟨v, s⟩) ∈
+      truncatedIcosahedralPentagonBoundary v := by
+  cases s <;> simp [truncatedIcosahedralPentagonBoundary]
+
 /-- A fully typed bridge on one REAL truncated C60 pentagon boundary
 edge: its actual pentagon/hexagon four-flag incidence square and
 the specifically assigned original F55 signed one-rotation path. -/
@@ -226,19 +235,18 @@ noncomputable def originalF45C60PentagonPasting
 same ORIGINAL v3.85 C60 pentagon and labelled by one rotation. -/
 theorem originalF45C60PentagonPasting_valid
     (v : IcosahedralVertex) (s : PentagonalSlot) :
-    ((originalF45C60PentagonPasting t₁ t₂ t₃ t₄ v).sides s).pentagonFace =
-      (originalF45C60GluedPentagonSide t₁ t₂ t₃ t₄ v s).pentagonFace ∧
+    ((originalF45C60PentagonPasting t₁ t₂ t₃ t₄ v).sides s).incidenceSquare.firstFace =
+      .aroundVertex v ∧
     ((originalF45C60PentagonPasting t₁ t₂ t₃ t₄ v).sides s).rotation.rotationCount =
       1 := by
-  constructor
-  · rfl
-  · exact originalF45PentagonSignedSide_rotationCount t₁ t₂ t₃ t₄ s
+  exact originalF45C60GluedPentagonSide_valid t₁ t₂ t₃ t₄ v s
 
 /-- The ACTUAL higher pentagon generator, now packaged with all five
 C60 edge-local flag squares, can be interpreted in any independently
 SUPPLIED F56 higher-cell target. No target 3-cell is inferred solely
 from combinatorial arity or quotient endpoint equality. -/
 def OriginalF45C60PentagonPasting.interpret
+    {v : IcosahedralVertex}
     (patch : OriginalF45C60PentagonPasting t₁ t₂ t₃ t₄ v)
     (target : OriginalF45BracketTree.DepthRotationRoute.HigherCellTarget D E) :
     target.Cell
@@ -253,6 +261,7 @@ def OriginalF45C60PentagonPasting.interpret
 #print axioms originalF45PentagonSignedSide
 #print axioms originalF45PentagonSignedSide_rotationCount
 #print axioms originalF45PentagonFiveRotationCount
+#print axioms originalC60PentagonEdge_mem_boundary
 #print axioms OriginalF45C60GluedPentagonSide
 #print axioms originalF45C60GluedPentagonSide
 #print axioms originalF45C60GluedPentagonSide_valid
