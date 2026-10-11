@@ -80,7 +80,7 @@ theorem c60WuxingKe_is_two_sheng_steps
     c60WuxingKeVirtualChord v p =
       (c60WuxingDart v p,
        c60WuxingDart v (wuxingSheng (wuxingSheng p))) := by
-  rw [c60WuxingKe_eq_sheng_twice]
+  rw [wuxingKe_eq_sheng_twice]
 
 /-- KEY TOPOLOGICAL SAFETY CERTIFICATE: all virtual Ke diagonals
 are DISTINCT from every real ORIGINAL C60 90-edge physical
@@ -105,25 +105,10 @@ theorem c60WuxingKe_not_physical_reverse :
 
 /-- The five Ke chords on one face are distinct even as oriented
 relations because their physical source darts are different. -/
-theorem c60WuxingKe_chords_injective
-    (v : IcosahedralVertex) :
-    Function.Injective (c60WuxingKeVirtualChord v) := by
-  intro p q h
-  have hp : (c60WuxingKeVirtualChord v p).1 =
-      (c60WuxingKeVirtualChord v q).1 := congrArg Prod.fst h
-  have hdistinct :
-      ∀ p q : WuxingPhase,
-        c60WuxingDart v p = c60WuxingDart v q → p = q := by
-    cases v with
-    | north => decide
-    | south => decide
-    | upper i =>
-        have := i
-        decide
-    | lower i =>
-        have := i
-        decide
-  exact hdistinct p q hp
+theorem c60WuxingKe_chords_injective :
+    ∀ v : IcosahedralVertex,
+      Function.Injective (c60WuxingKeVirtualChord v) := by
+  decide
 
 /-- Chart equivalence: the twelve-by-five quiver corner positions
 are EXACTLY the existing original sixty around-pentagon edge
