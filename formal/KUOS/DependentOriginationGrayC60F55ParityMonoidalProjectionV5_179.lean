@@ -203,18 +203,10 @@ def c60F31ParityCoreMonoidal :
   μIso := fun X Y => Iso.refl _
   μIso_hom_natural_left := by
     intro X Y p Z
-    apply GradedThreeCell.ext
-    · simp [c60F31ParityFunctor, c60F31ParityCell,
-        GradedThreeCell.comp, GradedThreeCell.tensor, GradedThreeCell.ident]
-    · simp [c60F31ParityFunctor, c60F31ParityCell,
-        GradedThreeCell.comp, GradedThreeCell.tensor, GradedThreeCell.ident]
+    simpa using (c60F31ParityFunctor_whiskerRight p Z).symm
   μIso_hom_natural_right := by
     intro X Y Z p
-    apply GradedThreeCell.ext
-    · simp [c60F31ParityFunctor, c60F31ParityCell,
-        GradedThreeCell.comp, GradedThreeCell.tensor, GradedThreeCell.ident]
-    · simp [c60F31ParityFunctor, c60F31ParityCell,
-        GradedThreeCell.comp, GradedThreeCell.tensor, GradedThreeCell.ident]
+    simpa using (c60F31ParityFunctor_whiskerLeft Z p).symm
   associativity := by
     intro X Y Z
     apply GradedThreeCell.ext <;>
@@ -234,7 +226,7 @@ instance c60F31ParityMonoidalFunctor :
     c60F31ParityFunctor.Monoidal :=
   c60F31ParityCoreMonoidal.toMonoidal
 
-/-- All ORIGINAL source F55 proof-relevant PresentedCells are fixed
+/- All ORIGINAL source F55 proof-relevant PresentedCells are fixed
 by the monoidal rephasing functor, at ANY nonneutral 2-cell grade. -/
 universe uD vD uE vE
 variable {D : Type uD} [Category.{vD} D]
@@ -271,15 +263,7 @@ theorem c60F31ParityFunctor_not_braided :
       (BraidedCategory.braiding GrayGrade.odd GrayGrade.odd).hom ≠
       (BraidedCategory.braiding GrayGrade.odd GrayGrade.odd).hom := by
   intro h
-  have hh :
-      (BraidedCategory.braiding GrayGrade.odd GrayGrade.odd).hom =
-        (𝟙 (GrayGrade.tensor GrayGrade.odd GrayGrade.odd)) := by
-    calc
-      (BraidedCategory.braiding GrayGrade.odd GrayGrade.odd).hom =
-          c60F31ParityFunctor.map
-            (BraidedCategory.braiding GrayGrade.odd GrayGrade.odd).hom :=
-              h.symm
-      _ = _ := c60F31ParityOddBraiding_collapse
+  have hh := h.symm.trans c60F31ParityOddBraiding_collapse
   exact GrayGrade.native_braiding_odd_nonidentity hh
 
 /-- Rephasing preserves every native F55 generator charge and
