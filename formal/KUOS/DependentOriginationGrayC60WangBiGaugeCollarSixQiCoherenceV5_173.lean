@@ -15,6 +15,7 @@ open KUOS.DependentOriginationGrayC60WangBiFourImageSixQiF55NaturalityV5_172
 open KUOS.DependentOriginationGrayC60WuxingPentagramQuiverV5_169
 open KUOS.DependentOriginationGrayC60WuxingPentagramIncidenceV5_169
 open KUOS.DependentOriginationGrayBraidedThreeCellCoreV5_156
+open KUOS.DependentOriginationGrayNativeBraidedCategoryV5_156
 open KUOS.DependentOriginationGrayF55PhaseRealizationV5_156
 open KUOS.DependentOriginationGrayC60CyclicGlobalPastingV5_156
 open KUOS.DependentOriginationGrayC60AllNinetyEdgePastingV5_157
@@ -269,6 +270,8 @@ variable
   (left : OriginalF45BracketTree.LocalRotation t₁ leftAfter)
   (right : OriginalF45BracketTree.LocalRotation t₂ rightAfter)
 
+include left right
+
 /-- The new Wang Bi gauge-glued local list is IDENTICAL to the
 old five ACTUAL F55 interpreted C60 squares, retaining original
 typed F54 rotations. -/
@@ -378,7 +381,8 @@ theorem c60SixQiSourceFlag_incident :
       truncatedDartOnSeedFace
         (c60SixQiSourceFlag face q).1
         (c60SixQiSourceFlag face q).2 := by
-  decide
+  intro face q
+  fin_cases face <;> fin_cases q <;> decide
 
 theorem c60SixQiTargetFlag_consecutive
     (face : IcosahedralFace) (q : C60SixQi) :
