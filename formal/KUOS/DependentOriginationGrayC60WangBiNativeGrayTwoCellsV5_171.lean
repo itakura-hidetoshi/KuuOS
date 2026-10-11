@@ -67,8 +67,10 @@ def c60WangBiGrayNativeTwoCell
   naturality := by
     intro X Y f
     apply GradedThreeCell.ext
-    · simp [GradedThreeCell.comp, add_comm]
-    · simp [GradedThreeCell.comp, add_comm]
+    · change f.charge + w.charge = w.charge + f.charge
+      exact add_comm _ _
+    · change f.phase + w.phase = w.phase + f.phase
+      exact add_comm _ _
 
 /-- The original grade-zero component preserves ALL integer
 generator charges and genuine ZMod2 braided exchange phase. -/
@@ -86,8 +88,11 @@ theorem c60WangBiGrayNativeTwoCell_injective :
   have hunit := congrArg
     (fun η : (𝟭 GrayGrade) ⟶ (𝟭 GrayGrade) =>
       η.app GrayGrade.unit) h
-  rwa [c60WangBiGrayNativeTwoCell_atUnit,
+  change (c60WangBiGrayNativeTwoCell w).app GrayGrade.unit =
+      (c60WangBiGrayNativeTwoCell z).app GrayGrade.unit at hunit
+  rw [c60WangBiGrayNativeTwoCell_atUnit,
     c60WangBiGrayNativeTwoCell_atUnit] at hunit
+  exact hunit
 
 /-- The true native Cat 2-cell vertical category identity is
 precisely original braided neutral Gray 3-cell zero. -/
@@ -140,7 +145,9 @@ theorem c60WangBiOriginalF55NativeTwoCell_ne_id :
   have hcharge := congrArg
     (fun g : GradedThreeCell 0 0 => g.charge.2) hc
   have hw := originalF55BraidedSquareGenerator_complete.1
-  simp [hw] at hcharge
+  rw [hw] at hcharge
+  change (1 : ℤ) = 0 at hcharge
+  exact one_ne_zero hcharge
 
 /-- Each of all NINETY genuine original C60 incidence-square
 labels is carried to a genuine Cat 2-cell with full original
