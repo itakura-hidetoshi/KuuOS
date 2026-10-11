@@ -84,7 +84,8 @@ theorem OriginalF45BracketTree.DepthRotationRoute.toExchangeClass_eq
       change ExchangeClass.castDepths
         (left.depthEq.1.trans right.depthEq.1)
         (left.depthEq.2.trans right.depthEq.2) _ = _
-      rw [← ExchangeClass.castDepths_comp]
+      rw [← ExchangeClass.castDepths_comp
+        left.depthEq.1 right.depthEq.1 left.depthEq.2 right.depthEq.2]
       rw [ihLeft, ihRight]
   | leftContext path later ih =>
       change ExchangeClass.castDepths
@@ -92,14 +93,20 @@ theorem OriginalF45BracketTree.DepthRotationRoute.toExchangeClass_eq
         (congrArg (fun k : Nat => k + _) path.depthEq.2)
         (ExchangeClass.append _ _) =
         ExchangeClass.append _ _
-      rw [ExchangeClass.castDepths_appendLeft, ih]
+      rw [ExchangeClass.castDepths_appendLeft
+        path.depthEq.1 path.depthEq.2]
+      exact congrArg
+        (fun c => ExchangeClass.append c later.toExchangeClass) ih
   | rightContext earlier path ih =>
       change ExchangeClass.castDepths
         (congrArg (fun k : Nat => _ + k) path.depthEq.1)
         (congrArg (fun k : Nat => _ + k) path.depthEq.2)
         (ExchangeClass.append _ _) =
         ExchangeClass.append _ _
-      rw [ExchangeClass.castDepths_appendRight, ih]
+      rw [ExchangeClass.castDepths_appendRight
+        path.depthEq.1 path.depthEq.2]
+      exact congrArg
+        (fun c => ExchangeClass.append earlier.toExchangeClass c) ih
 
 /-- Preservation is stronger than equality of evaluated Hom composites:
 BOTH complete originally typed F19 and F28 primitive-operation
@@ -171,7 +178,7 @@ theorem OriginalF45BracketTree.DepthRotationRoute.PresentedCell.both_routes_toCl
     {first : OriginalF45BracketTree n m ma pa mb pb}
     {last : OriginalF45BracketTree n' m' ma pa mb pb}
     {r s : OriginalF45BracketTree.DepthRotationRoute first last}
-    (cell : OriginalF45BracketTree.DepthRotationRoute.PresentedCell r s) :
+    (_cell : OriginalF45BracketTree.DepthRotationRoute.PresentedCell r s) :
     (ExchangeClass.castDepths r.depthEq.1 r.depthEq.2
       first.toExchangeClass = last.toExchangeClass) ∧
     (ExchangeClass.castDepths s.depthEq.1 s.depthEq.2
