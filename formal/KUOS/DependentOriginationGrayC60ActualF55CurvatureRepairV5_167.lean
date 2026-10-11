@@ -17,6 +17,7 @@ open KUOS.DependentOriginationGrayC60IntegralChainComplexV5_160
 open KUOS.DependentOriginationGrayC60NativeH1ContractingHomotopyV5_164
 open KUOS.DependentOriginationGrayC60CochainDescentV5_166
 open KUOS.DependentOriginationCoherentBiadjunctionFiniteRectangularSubdivisionV5_137.Grid
+open KUOS.DependentOriginationCoherentBiadjunctionInterleavingExchangeQuotientV5_141.Grid
 
 set_option autoImplicit false
 set_option maxRecDepth 4096
@@ -132,7 +133,7 @@ the generator has infinite additive order even though its braided
 exchange phase has order two. -/
 theorem c60F19OriginalF55Scalar_secondCharge (n : ℤ) :
     (n • originalF55BraidedSquareGenerator).charge.2 = n := by
-  have h := grayNeutralChargeHom.map_zsmul n originalF55BraidedSquareGenerator
+  have h := grayNeutralChargeHom.map_zsmul originalF55BraidedSquareGenerator n
   have h' := congrArg Prod.snd h
   simpa [originalF55BraidedSquareGenerator_complete.1] using h'
 
@@ -141,7 +142,7 @@ multiple is its parity, completely independent of the unbounded
 integer generator charge. -/
 theorem c60F19OriginalF55Scalar_phase (n : ℤ) :
     (n • originalF55BraidedSquareGenerator).phase = (n : ZMod 2) := by
-  have h := grayNeutralPhaseHom.map_zsmul n originalF55BraidedSquareGenerator
+  have h := grayNeutralPhaseHom.map_zsmul originalF55BraidedSquareGenerator n
   simpa [originalF55BraidedSquareGenerator_complete.2,
     zsmul_eq_mul] using h
 
@@ -294,21 +295,21 @@ theorem c60F19CanonicalTreeCorrection_flat :
 /-- The 59-edge physical original spanning tree used in F59-F16.
 It has 48 around-pentagon edges (slots 0–3 of each pentagon)
 plus eleven cross links (five north, five aligned, one south). -/
-def c60F19IsPrimalTreeEdge : TruncatedIcosahedralEdge → Prop
-  | .around a => a.slot ≠ .s4
-  | .cross (.northSpoke _) => True
-  | .cross (.crossAligned _) => True
-  | .cross (.southSpoke i) => i = 0
-  | _ => False
+def c60F19IsPrimalTreeEdge : TruncatedIcosahedralEdge → Bool
+  | .around a => decide (a.slot ≠ .s4)
+  | .cross (.northSpoke _) => true
+  | .cross (.crossAligned _) => true
+  | .cross (.southSpoke i) => decide (i = 0)
+  | _ => false
 
 /-- Exactly 59 of the ACTUAL ninety original edges belong to
 the spanning tree, so its complement has exactly 31 edges. -/
 theorem c60F19PrimalTreeEdge_card :
-    (Finset.univ.filter c60F19IsPrimalTreeEdge).card = 59 := by
+    (Finset.univ.filter (fun e => c60F19IsPrimalTreeEdge e = true)).card = 59 := by
   decide
 
 theorem c60F19PrimalTreeComplement_card :
-    (Finset.univ.filter (fun e => ¬ c60F19IsPrimalTreeEdge e)).card = 31 := by
+    (Finset.univ.filter (fun e => c60F19IsPrimalTreeEdge e = false)).card = 31 := by
   decide
 
 /-- The F59-F16 exact dual-tree filling is empty on every one
@@ -316,7 +317,7 @@ of the 59 original primal tree edges: this finite certificate
 uses the actual F59-F16 list, not a new assumed tree model. -/
 theorem c60F19TreeEdge_noDualFill :
     ∀ e : TruncatedIcosahedralEdge,
-      c60F19IsPrimalTreeEdge e →
+      c60F19IsPrimalTreeEdge e = true →
         c60F16DualFaceFillList e = [] := by
   decide
 
@@ -324,7 +325,7 @@ theorem c60F19TreeEdge_noDualFill :
 is identically ZERO on all 59 original tree basis edges. -/
 theorem c60F19CanonicalTreeCorrection_zero
     (e : TruncatedIcosahedralEdge)
-    (he : c60F19IsPrimalTreeEdge e) :
+    (he : c60F19IsPrimalTreeEdge e = true) :
     c60F19CanonicalTreeCorrection
       (Finsupp.single e (1 : ℤ)) = 0 := by
   have hface : c60F16FaceFill e = 0 := by
@@ -346,8 +347,9 @@ theorem c60F19CanonicalTreeCorrection_zero
 
 /-- The set of actually modified physical square edges. -/
 noncomputable def c60F19CanonicalTreeCorrectionSupport :
-    Finset TruncatedIcosahedralEdge :=
-  Finset.univ.filter (fun e =>
+    Finset TruncatedIcosahedralEdge := by
+  classical
+  exact Finset.univ.filter (fun e =>
     c60F19CanonicalTreeCorrection
       (Finsupp.single e (1 : ℤ)) ≠ 0)
 
@@ -359,13 +361,15 @@ theorem c60F19CanonicalTreeCorrectionSupport_card_le31 :
   classical
   have hs :
       c60F19CanonicalTreeCorrectionSupport ⊆
-        Finset.univ.filter (fun e => ¬ c60F19IsPrimalTreeEdge e) := by
+        Finset.univ.filter (fun e => c60F19IsPrimalTreeEdge e = false) := by
     intro e he
     simp only [c60F19CanonicalTreeCorrectionSupport,
       Finset.mem_filter, Finset.mem_univ, true_and] at he
     simp only [Finset.mem_filter, Finset.mem_univ, true_and]
-    intro ht
-    exact he (c60F19CanonicalTreeCorrection_zero e ht)
+    cases h : c60F19IsPrimalTreeEdge e with
+    | false => rfl
+    | true => exact False.elim
+        (he (c60F19CanonicalTreeCorrection_zero e h))
   calc
     c60F19CanonicalTreeCorrectionSupport.card ≤
       (Finset.univ.filter
