@@ -117,8 +117,9 @@ theorem c60IntegralBoundaryTwo_kernel_ne_bot :
   intro h
   have hm := c60IntegralFundamentalSurfaceChain_mem_kernel
   rw [h] at hm
-  exact c60IntegralFundamentalSurfaceChain_ne_zero
-    (Submodule.mem_bot.mp hm)
+  have hz : c60IntegralFundamentalSurfaceChain = 0 := by
+    simpa using hm
+  exact c60IntegralFundamentalSurfaceChain_ne_zero hz
 
 /-- Complete algebraic characterization CERTIFIED in F59-F8/F9:
 a nonzero all-32-face integer 2-chain exists with truly vanishing
