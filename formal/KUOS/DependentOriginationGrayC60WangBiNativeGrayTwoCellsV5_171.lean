@@ -144,6 +144,8 @@ theorem c60WangBiOriginalF55NativeTwoCell_ne_id :
     (h.trans (c60WangBiGrayNativeTwoCell_zero).symm)
   have hcharge := congrArg
     (fun g : GradedThreeCell 0 0 => g.charge.2) hc
+  change originalF55BraidedSquareGenerator.charge.2 =
+    (0 : GradedThreeCell 0 0).charge.2 at hcharge
   have hw := originalF55BraidedSquareGenerator_complete.1
   rw [hw] at hcharge
   change (1 : ℤ) = 0 at hcharge
