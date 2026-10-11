@@ -143,8 +143,9 @@ integral cellular chain complex is NOT THE ZERO MODULECAT OBJECT. -/
 theorem c60NativeH2_not_isZero :
     ¬ IsZero (c60NativeIntegralCellularComplex.homology 2) := by
   intro hzero
-  exact c60NativeH2FundamentalClass_ne_zero
-    (hzero.eq_of_tgt (𝟙 _) (0 : _))
+  haveI : Subsingleton (c60NativeIntegralCellularComplex.homology 2) :=
+    ModuleCat.isZero_iff_subsingleton.mp hzero
+  exact c60NativeH2FundamentalClass_ne_zero (Subsingleton.elim _ _)
 
 /-- Consequently the native cellular complex is NOT exact
 at degree 2. This obstruction is rigorously the nontrivial
