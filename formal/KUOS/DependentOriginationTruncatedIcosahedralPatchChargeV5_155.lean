@@ -77,7 +77,7 @@ theorem originalC60PatchCharge_exact
       unfold originalC60PatchCharge at ih ⊢
       rw [Finset.sum_insert hv,
         originalC60PentagonSquareCollarCharge_eq t₁ t₂ left right v,
-        ih, Finset.card_insert_of_not_mem hv]
+        ih, Finset.card_insert_of_notMem hv]
       simp [Prod.add_def, Nat.cast_add, mul_add,
         add_assoc, add_comm, add_left_comm]
 
@@ -92,6 +92,25 @@ theorem originalC60PatchCharge_mod2
   rw [originalC60PatchCharge_exact t₁ t₂ left right S]
   have h5 : (5 : ZMod 2) = 1 := by decide
   simp [originalC60HigherChargeMod2, h5]
+
+/-- For ANY selected set of genuine C60 pentagons, mod-two
+generator-charge cancellation is equivalent to the number of selected
+pentagons being even. This is the complete finite subpatch parity test,
+not an identification with any Stage-II obstruction class. -/
+theorem originalC60PatchCharge_mod2_zero_iff_even
+    (S : Finset IcosahedralVertex) :
+    originalC60HigherChargeMod2
+      (originalC60PatchCharge t₁ t₂ left right S) =
+        ((0 : ZMod 2), (0 : ZMod 2)) ↔ Even S.card := by
+  rw [originalC60PatchCharge_mod2 t₁ t₂ left right S]
+  constructor
+  · intro h
+    have hfirst : (S.card : ZMod 2) = 0 := congrArg Prod.fst h
+    exact ZMod.natCast_eq_zero_iff_even.mp hfirst
+  · intro heven
+    have hzero : (S.card : ZMod 2) = 0 :=
+      ZMod.natCast_eq_zero_iff_even.mpr heven
+    simp [hzero]
 
 /-- A single actual C60 pentagon retains its nonzero higher-generator
 signature under the independent mod-two charge reduction. -/
@@ -173,6 +192,7 @@ theorem originalC60NoUniversalChargeRecoveryFromMod2 :
 #print axioms originalC60PatchCharge
 #print axioms originalC60PatchCharge_exact
 #print axioms originalC60PatchCharge_mod2
+#print axioms originalC60PatchCharge_mod2_zero_iff_even
 #print axioms originalC60SingletonPatch_mod2_ne_zero
 #print axioms originalC60DistinctPairPatch_cancels_mod2
 #print axioms originalC60DisjointPatchCharge_add
