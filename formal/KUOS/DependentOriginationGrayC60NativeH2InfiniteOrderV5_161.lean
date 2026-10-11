@@ -82,10 +82,11 @@ theorem c60NativeH2ConcreteCycleIso_fundamental :
       c60NativeH2FundamentalπIso.inv.hom
         c60NativeH2FundamentalClass =
           c60NativeH2FundamentalCycle := by
-    simpa only [c60NativeH2FundamentalClass,
-      c60NativeH2FundamentalπIso] using
-      (Iso.hom_inv_id_apply c60NativeH2FundamentalπIso
-        c60NativeH2FundamentalCycle)
+    change c60NativeH2FundamentalπIso.inv.hom
+      (c60NativeH2FundamentalπIso.hom.hom
+        c60NativeH2FundamentalCycle) =
+          c60NativeH2FundamentalCycle
+    exact Iso.hom_inv_id_apply _ _
   change ((c60NativeIntegralCellularComplex.sc 2).moduleCatCyclesIso.hom).hom
     (c60NativeH2FundamentalπIso.inv.hom
       c60NativeH2FundamentalClass) = _
@@ -147,10 +148,10 @@ theorem c60NativeH2FundamentalClass_zsmul_eq_zero_iff (n : ℤ) :
     n • c60NativeH2FundamentalClass = 0 ↔ n = 0 := by
   constructor
   · intro h
-    have hh := congrArg c60NativeH2NorthPentagonCoefficient h
-    simpa only [map_smul,
-      c60NativeH2NorthPentagonCoefficient_fundamental,
-      smul_eq_mul, mul_one, map_zero] using hh
+    apply c60NativeH2FundamentalLinear_injective
+    change n • c60NativeH2FundamentalClass =
+      (0 : ℤ) • c60NativeH2FundamentalClass
+    simpa only [zero_smul] using h
   · rintro rfl
     simp
 
@@ -159,9 +160,11 @@ the explicit native C60 H₂ fundamental class; it is not torsion. -/
 theorem c60NativeH2FundamentalClass_infinite_order :
     Function.Injective
       (fun n : ℤ => n • c60NativeH2FundamentalClass) := by
-  simpa only [c60NativeH2FundamentalLinear,
-    LinearMap.toSpanSingleton_apply] using
-      c60NativeH2FundamentalLinear_injective
+  intro m n hmn
+  apply c60NativeH2FundamentalLinear_injective
+  change m • c60NativeH2FundamentalClass =
+    n • c60NativeH2FundamentalClass
+  exact hmn
 
 #print axioms c60NativeH2FundamentalπIso
 #print axioms c60NativeH2ConcreteCycleIso
