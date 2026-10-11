@@ -59,8 +59,7 @@ def kernelC60HexagonEdgeMultiplicity
     (kernelC60HexagonBoundaryEdges face).count edge
 
 /-- Each of the original SIXTY pentagon-to-hexagon around edges
-occurs exactly ONCE as an unoriented hexagon boundary edge.
-All thirty-six? No: the original finite edge family has sixty. -/
+occurs exactly ONCE as an unoriented hexagon boundary edge. -/
 theorem kernelC60AroundEdge_hexagonMultiplicity :
     ∀ edge : TruncatedIcosahedralAroundEdge,
       kernelC60HexagonEdgeMultiplicity (.around edge) = 1 := by
