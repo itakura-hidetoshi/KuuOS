@@ -21,6 +21,7 @@ open KUOS.DependentOriginationGrayC60F55SourcePhaseLockedAtlasV5_175
 open KUOS.DependentOriginationGrayC60F55NonneutralBraidingTransportV5_177
 open KUOS.DependentOriginationGrayC60NonneutralDefectDoubleCountV5_178
 open KUOS.DependentOriginationGrayC60F55ParityMonoidalProjectionV5_179
+open KUOS.DependentOriginationGrayC60WangBiZhouyiTimeV5_170
 open KUOS.DependentOriginationGrayC60WangBiNativeHigherCoherenceV5_171
 open KUOS.DependentOriginationGrayC60WangBiGaugeCollarSixQiCoherenceV5_173
 
@@ -63,7 +64,7 @@ we prove:
    exactly the underlying 27-edge repaired F55 field at EVERY
    real physical edge;
 3. the parity projection commutes with ACTUAL ORIENTED signed
-   5-/6-edge C60 face 3-cell pasting and its full 32-face surface;
+   5- or 6-edge C60 face 3-cell pasting and its full 32-face surface;
 4. the parity image is locally flat on ALL original 32 faces and
    has the specific real 59-edge-tree vertex descent;
 5. before projection, B_11 has NONZERO original NORTH pentagon
@@ -323,7 +324,7 @@ theorem c60F32OddOddBraided_no_vertexDescent :
   intro h
   have hall := (c60WangBiGlobalFlatIffVertexDescent
     (c60F32BraidedRepairedEdge 1 1)).2 h
-  exact c60F32OddOddNorthPentagon_nonflat hall
+  exact c60F32OddOddNorthPentagon_nonflat (hall (.aroundVertex .north))
 
 /-- But the parity-projected field descends EXACTLY to the
 previously CONSTRUCTED original F59-F19 59-edge spanning-tree
