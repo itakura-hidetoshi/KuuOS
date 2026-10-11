@@ -48,7 +48,7 @@ theorem c60NativeH2_incoming_zero :
   change c60NativeIntegralCellularComplex.d
     ((ComplexShape.down ℕ).prev 2) 2 = 0
   have hp : (ComplexShape.down ℕ).prev 2 = 3 := by
-    simpa using (ChainComplex.prev ℕ 2)
+    simp
   rw [hp]
   exact c60NativeIntegralCellularComplex_d32
 
@@ -62,7 +62,7 @@ theorem c60NativeH2_outgoing_fundamental_zero :
     ((ComplexShape.down ℕ).next 2)).hom
       c60IntegralFundamentalSurfaceChain = 0
   have hn : (ComplexShape.down ℕ).next 2 = 1 := by
-    simpa using (ChainComplex.next_nat_succ 1)
+    simp
   rw [hn, c60NativeIntegralCellularComplex_d21]
   exact c60IntegralBoundaryTwo_fundamental_zero
 
