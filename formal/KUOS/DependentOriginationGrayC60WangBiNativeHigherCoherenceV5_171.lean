@@ -48,7 +48,7 @@ structure WangBiFrame where
 one canonical re-encoding arrow for each pair of charts,
 since the encoding charts are invertible. This is not a
 claim that each C60 symbolic image has a unique meaning. -/
-instance : Category WangBiFrame where
+instance : Category.{0} WangBiFrame where
   Hom _ _ := PUnit
   id _ := PUnit.unit
   comp _ _ := PUnit.unit
