@@ -57,6 +57,12 @@ instance grayNeutralAddCommGroup : AddCommGroup (GradedThreeCell 0 0) where
   zero := GradedThreeCell.ident 0
   add := GradedThreeCell.comp
   neg := GradedThreeCell.inv
+  sub := fun f g => f.comp g.inv
+  nsmul := nsmulRec
+  zsmul := zsmulRec
+  sub_eq_add_neg := by
+    intro f g
+    rfl
   add_assoc := by
     intro f g h
     exact GradedThreeCell.comp_assoc f g h
@@ -66,7 +72,7 @@ instance grayNeutralAddCommGroup : AddCommGroup (GradedThreeCell 0 0) where
   add_zero := by
     intro f
     exact GradedThreeCell.comp_ident f
-  add_left_neg := by
+  neg_add_cancel := by
     intro f
     exact GradedThreeCell.inv_comp f
   add_comm := by
@@ -188,7 +194,11 @@ theorem c60GrayCollar_components (v : IcosahedralVertex) :
       ((1 : Int), (5 : Int)) ∧
     (c60GrayCollar t₁ t₂ t₃ t₄ left right v).phase =
       (1 : ZMod 2) := by
-  have hp :=
+  have hp :
+      (c60GrayPentagon t₁ t₂ t₃ t₄ v).charge =
+        ((1 : Int), (0 : Int)) ∧
+      (c60GrayPentagon t₁ t₂ t₃ t₄ v).phase =
+        (0 : ZMod 2) :=
     originalC60Pentagon_braidedPhase t₁ t₂ t₃ t₄ v
   have hs := c60GrayFiveSquares_components t₁ t₂ left right v
   constructor
@@ -246,6 +256,10 @@ theorem c60GrayPatch_charge_eq_F58
         S.sum (fun v =>
           originalC60PentagonSquareCollarCharge t₁ t₂ left right v)
   rw [map_sum]
+  change S.sum (fun v =>
+      (c60GrayCollar t₁ t₂ t₃ t₄ left right v).charge) =
+    S.sum (fun v =>
+      originalC60PentagonSquareCollarCharge t₁ t₂ left right v)
   apply Finset.sum_congr rfl
   intro v _
   rw [(c60GrayCollar_components t₁ t₂ t₃ t₄ left right v).1,
