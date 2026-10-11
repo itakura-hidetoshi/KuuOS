@@ -96,7 +96,13 @@ theorem c60LegacyLocalShengStep
     wuxingSlotSheng_equivariant]
   rw [icosahedralIncidentDartAt_endpoint,
     icosahedralIncidentDartAt_endpoint]
-  simp only [pentagonalSlotIndex_next]
+  have hstep :
+      ∀ s : PentagonalSlot,
+        pentagonalSlotIndex (pentagonalSlotNext s) =
+          pentagonalSlotIndex s + 1 := by
+    intro s
+    cases s <;> decide
+  rw [hstep]
   ring
 
 /-- KuuOS phase-valued zero-cochain on the 60 actual C60 darts. -/
@@ -153,12 +159,9 @@ theorem c60LegacyEveryFace_phase_closed
     (frame : C60LegacyWuxingFrames)
     (face : TruncatedIcosahedralSeedFace) :
     (c60LegacyOriginalFaceShift frame face).1 = 0 := by
-  have h := LinearMap.congr_fun
-      (c60F18Coboundary_squared_zero (c60LegacyPhasePotential frame))
-      (Finsupp.single face (1 : ℤ))
-  simp only [LinearMap.comp_apply, LinearMap.zero_apply] at h
-  rw [c60IntegralBoundaryTwo_singleFace] at h
-  exact h
+  change c60LegacyPhasePotential frame
+    (c60IntegralBoundaryOne (c60IntegerFaceBoundaryChain face)) = 0
+  rw [c60IntegralBoundaryOne_eachOrientedFace_zero, map_zero]
 
 /-- The original 12 pentagons record five interaction events
 each; the 20 genuine hexagons record six each, independently
@@ -207,7 +210,7 @@ theorem c60LegacyPentagon_fibonacci_return
     applyShift (c60LegacyOriginalFaceShift frame (.aroundVertex v))
       ⟨phase, unitHistory⟩ = ⟨phase, ⟨3,5⟩⟩ := by
   rw [c60LegacyPentagon_shift]
-  simp [applyShift, unit_history_after_five]
+  simp [applyShift]; decide
 
 /-- Literal v2.6 action of one actual hexagon traversal:
 phase returns, history becomes (5,8). -/
@@ -217,7 +220,7 @@ theorem c60LegacyHexagon_fibonacci_return
     applyShift (c60LegacyOriginalFaceShift frame (.fromTriangle f))
       ⟨phase, unitHistory⟩ = ⟨phase, ⟨5,8⟩⟩ := by
   rw [c60LegacyHexagon_shift]
-  simp [applyShift, c60LegacyUnitHistory_after_six]
+  simp [applyShift]; decide
 
 /-- Across the true original closed C60, all 12 pentagonal
 and 20 hexagonal boundaries record exactly 180 events.
@@ -232,7 +235,6 @@ theorem c60LegacyAllThirtyTwoFaces_history180
   simp [c60LegacyOriginalFaceShift,
     c60IntegerOrientedFaceBoundary_length,
     kernelC60FullFaceBoundary_length]
-  decide
 
 /-- Reframing all 12 local C60 pentagons arbitrarily does NOT
 disturb the facewise phase closure. This is true for ANY
