@@ -136,6 +136,8 @@ theorem c60F20OriginalGeneratorNonzeroScalar_iff (n : ℤ) :
   · intro hn hzero
     have hc := congrArg
       (fun g : GradedThreeCell 0 0 => g.charge.2) hzero
+    change (n • originalF55BraidedSquareGenerator).charge.2 =
+      (0 : GradedThreeCell 0 0).charge.2 at hc
     rw [c60F19OriginalF55Scalar_secondCharge] at hc
     have hh : n = 0 := by
       simpa using hc
@@ -197,11 +199,12 @@ theorem c60F20AllSouthSpokeSquares_preserved :
       c60F19CanonicalTreeCorrection
         (Finsupp.single
           (.cross (.southSpoke i)) (1 : ℤ)) = 0 := by
+  have hz :
+      ∀ i : IcosahedralRingIndex,
+        c60F20OriginalTreeCorrectionDegree
+          (.cross (.southSpoke i)) = 0 := by decide
   intro i
-  rw [c60F20CanonicalCorrection_edgeFormula]
-  have hz : c60F20OriginalTreeCorrectionDegree
-      (.cross (.southSpoke i)) = 0 := by decide
-  rw [hz, zero_smul]
+  rw [c60F20CanonicalCorrection_edgeFormula, hz i, zero_smul]
 
 #print axioms c60F20UniformSignedEdgeList
 #print axioms c60F20OriginalF55PathValue
