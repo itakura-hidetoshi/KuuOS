@@ -80,6 +80,7 @@ theorem c60WuxingKe_is_two_sheng_steps
     c60WuxingKeVirtualChord v p =
       (c60WuxingDart v p,
        c60WuxingDart v (wuxingSheng (wuxingSheng p))) := by
+  change (c60WuxingDart v p, c60WuxingDart v (wuxingKe p)) = _
   rw [wuxingKe_eq_sheng_twice]
 
 /-- KEY TOPOLOGICAL SAFETY CERTIFICATE: all virtual Ke diagonals
