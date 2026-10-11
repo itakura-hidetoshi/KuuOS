@@ -113,7 +113,7 @@ def OriginalF45BracketTree.RotationChain.length
     {first last : OriginalF45BracketTree n m ma pa mb pb}
     (chain : OriginalF45BracketTree.RotationChain first last) : Nat := by
   induction chain with
-  | refl _ =>
+  | refl =>
       exact 0
   | snoc _ _ ih =>
       exact ih + 1
@@ -129,10 +129,10 @@ def OriginalF45BracketTree.RotationChain.append
     (right : OriginalF45BracketTree.RotationChain middle last) :
     OriginalF45BracketTree.RotationChain first last := by
   induction right with
-  | refl _ =>
+  | refl =>
       exact left
   | snoc right edge ih =>
-      exact OriginalF45BracketTree.RotationChain.snoc (ih left) edge
+      exact OriginalF45BracketTree.RotationChain.snoc ih edge
 
 /-- Real finite concatenation preserves the exact count of local
 rotation steps without presuming any cancellation of reverse moves. -/
@@ -145,12 +145,12 @@ theorem OriginalF45BracketTree.RotationChain.length_append
     (OriginalF45BracketTree.RotationChain.append left right).length =
       left.length + right.length := by
   induction right with
-  | refl _ =>
+  | refl =>
       rfl
   | snoc right edge ih =>
       simpa only [OriginalF45BracketTree.RotationChain.append,
         OriginalF45BracketTree.RotationChain.length,
-        Nat.add_succ] using congrArg Nat.succ (ih left)
+        Nat.add_succ] using congrArg Nat.succ ih
 
 /-- An actual finite local rotation chain can be traversed backward
 as another actual Type-valued sequence of reverse elementary edges. -/
@@ -161,8 +161,8 @@ def OriginalF45BracketTree.RotationChain.reverse
     (chain : OriginalF45BracketTree.RotationChain first last) :
     OriginalF45BracketTree.RotationChain last first := by
   induction chain with
-  | refl tree =>
-      exact OriginalF45BracketTree.RotationChain.refl tree
+  | refl =>
+      exact OriginalF45BracketTree.RotationChain.refl _
   | snoc chain edge ih =>
       exact OriginalF45BracketTree.RotationChain.append
         (OriginalF45BracketTree.RotationChain.snoc
