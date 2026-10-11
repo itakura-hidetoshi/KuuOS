@@ -113,7 +113,12 @@ theorem OriginalF45BracketTree.DepthRotationRoute.axisHistories_eq
     (OriginalF45BracketTree.castDepths
         route.depthEq.1 route.depthEq.2 first).axisHistories =
       last.axisHistories := by
-  have heq := route.toExchangeClass_eq
+  have heq :
+      (OriginalF45BracketTree.castDepths
+        route.depthEq.1 route.depthEq.2 first).toExchangeClass =
+      last.toExchangeClass := by
+    simpa only [OriginalF45BracketTree.castDepths_toExchangeClass] using
+      route.toExchangeClass_eq
   have hh := congrArg ExchangeClass.axisTraces heq
   simpa only [OriginalF45BracketTree.toExchangeClass_axisTraces] using hh
 
