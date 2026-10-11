@@ -95,7 +95,7 @@ instance : Quiver WuxingPhase where
 mathlib quiver path based at Wood. -/
 def wuxingShengPentagon :
     Quiver.Path WuxingPhase.wood WuxingPhase.wood :=
-  (((((Quiver.Path.nil : Quiver.Path .wood .wood)
+  (((((Quiver.Path.nil : Quiver.Path WuxingPhase.wood WuxingPhase.wood)
     .cons (WuxingArrow.sheng .wood))
     .cons (WuxingArrow.sheng .fire))
     .cons (WuxingArrow.sheng .earth))
@@ -106,7 +106,7 @@ def wuxingShengPentagon :
 cycle with a different order of the SAME five source vertices. -/
 def wuxingKePentagram :
     Quiver.Path WuxingPhase.wood WuxingPhase.wood :=
-  (((((Quiver.Path.nil : Quiver.Path .wood .wood)
+  (((((Quiver.Path.nil : Quiver.Path WuxingPhase.wood WuxingPhase.wood)
     .cons (WuxingArrow.ke .wood))
     .cons (WuxingArrow.ke .earth))
     .cons (WuxingArrow.ke .water))
