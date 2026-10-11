@@ -11,11 +11,11 @@
 > An observation is not a global truth. Which relations survive a justified change of context or presentation? When can compatible local data descend, and where does an obstruction prevent that descent?
 
 
-## Status / 現在地 — v5.150 · 2026-10-11 JST
+## Status / 現在地 — v5.151 · 2026-10-11 JST
 
-**Latest verified theorem-bearing canonical `main`:** [PR #2116 / v5.150 F53 MERGED](https://github.com/itakura-hidetoshi/KuuOS/pull/2116), **`e6484cc99a72fd59d33d9c662055ea1c23889d93`**. The PR merge SHA and the freshly observed `main` HEAD match. **F1–F53 are closed only within their individual explicitly typed KuuOS milestone statements**; this does **not** mean the general higher-categorical, presentation-independent, infinite-stage, or AI-runtime research program is complete.
+**Latest verified theorem-bearing canonical `main`:** [PR #2118 / v5.151 F54 MERGED](https://github.com/itakura-hidetoshi/KuuOS/pull/2118), **`195b9fd68a7f9923eced96e9c6ddce536981cd1f`**. The PR merge SHA and the freshly observed `main` HEAD match. **F1–F54 are closed only within their individual explicitly typed KuuOS milestone statements**; this does **not** mean the general higher-categorical, presentation-independent, infinite-stage, or AI-runtime research program is complete.
 
-**日本語要約：** F1–F5では、元の F/G・source η・target ε・triangulator を保ったまま forward/reverse swallowtail を証明しました。F6–F18では mathlib の objectwise adjunction、mate、元の非strict `mapId`／`mapComp`、modification とその自然性を形式化しました。F19–F39では、選択右mateの圏、実際のF28比較核の商圏、whiskering・hexagon・有限貼り合わせを構築しました。F40–F53では、元の二軸の操作を **`Type`-valued 経路として保持**し、F44の原始的隣接交換による商、F46の完全な正規形と2軸履歴対の同値、任意有限段階、再括弧付け、4部分経路の **pentagon** を証明しました。
+**日本語要約：** F1–F5では、元の F/G・source η・target ε・triangulator を保ったまま forward/reverse swallowtail を証明しました。F6–F18では mathlib の objectwise adjunction、mate、元の非strict `mapId`／`mapComp`、modification とその自然性を形式化しました。F19–F39では、選択右mateの圏、実際のF28比較核の商圏、whiskering・hexagon・有限貼り合わせを構築しました。F40–F54では、元の二軸の操作を **`Type`-valued 経路として保持**し、F44の原始的隣接交換による商、F46の完全な正規形と2軸履歴対の同値、任意有限段階、再括弧付け、4部分経路の **pentagon** を証明しました。F54（v5.151）ではさらに、元のF45二分木における**局所結合律回転の型付き証拠**、逆向きの回転、有限回の合成、左右の文脈への埋め込み、元のright mateとsource η／target εの交換商上の整合性を形式化しました。
 
 | Mathematical result | Proved scope / exact representative |
 | --- | --- |
@@ -26,25 +26,26 @@
 | Complete generated-exchange normal forms | **v5.143 / F46**: `ExchangeClass ≃ (AxisTrace F19 × AxisTrace F28)` at fixed endpoints/depths. **Only independent-axis adjacent swaps are quotiented**; distinct same-axis histories remain distinct: [Lean](formal/KUOS/DependentOriginationCoherentBiadjunctionExchangeAxisPairEquivalenceV5_143.lean), [PR #2109](https://github.com/itakura-hidetoshi/KuuOS/pull/2109) |
 | Actual original F45 routes, η/ε and finite composition | **v5.144–v5.148 / F47–F51**; original `Eq.mp`/`Nat.zero_add` casts, real chosen mate and source/target comparisons, quotient associativity/units and arbitrary finite stage chains: [F48](formal/KUOS/DependentOriginationCoherentBiadjunctionF45TransportedHistoryReconciliationV5_145.lean), [F51](formal/KUOS/DependentOriginationCoherentBiadjunctionArbitraryFiniteOriginalF45StagesV5_148.lean) |
 | Arbitrary finite bracketing and fourfold pentagon | **v5.149–v5.150 / F52–F53**; genuine full binary ORIGINAL F45 paths; five vertices/five associator edges; long **3-edge** and short **2-edge** routes agree **in the F44 exchange quotient with both depth casts**, including original chosen mate and actual η/ε endpoint specializations: [F52](formal/KUOS/DependentOriginationCoherentBiadjunctionArbitraryBracketTreeV5_149.lean), [F53](formal/KUOS/DependentOriginationCoherentBiadjunctionFourfoldPentagonV5_150.lean), [PR #2116](https://github.com/itakura-hidetoshi/KuuOS/pull/2116) |
+| Finite local associativity rotations in arbitrary F45 tree contexts | **v5.151 / F54**: actual `Type`-valued `LocalRotation` under arbitrary left/right contexts; `RotationEdge` with forward/backward witnesses; finite `RotationChain` with length, composition, reverse and contextual whiskering; preservation of the **original F44 quotient and both complete typed F19/F28 histories**, transported via original chosen right mate and actual source η / target ε: [local rotations](formal/KUOS/DependentOriginationCoherentBiadjunctionOriginalF45LocalRotationV5_151.lean), [finite chains](formal/KUOS/DependentOriginationCoherentBiadjunctionOriginalF45FiniteRotationChainsV5_151.lean), [η/ε](formal/KUOS/DependentOriginationCoherentBiadjunctionActualLiftRotationV5_151.lean), [PR #2118](https://github.com/itakura-hidetoshi/KuuOS/pull/2118) |
 
-**Scope boundary / 数学的境界：** The F53 pentagon compares classes in the **specific generated F44 path quotient**, not arbitrary tricategorical/Gray-categorical 3-cells. `Quot.sound`, `propext` and `Classical.choice` are the ordinary Lean axioms observed in the selected proofs. No general equivalence of every presentation, no original F19/F28 Hom-type identification, no G-side inverse to a potentially noninvertible `G.toOplax` comparison, no infinite convergence or uniform finite-depth bound is proved.
+**Scope boundary / 数学的境界：** The F53 pentagon and F54 finite rotation chains compare classes in the **specific generated F44 path quotient**, not arbitrary tricategorical/Gray-categorical 3-cells. `Quot.sound`, `propext` and `Classical.choice` are the ordinary Lean axioms observed in the selected proofs. No general equivalence of every presentation, no original F19/F28 Hom-type identification, no G-side inverse to a potentially noninvertible `G.toOplax` comparison, no infinite convergence or uniform finite-depth bound is proved.
 
 ## Exact authority and reproducibility / 正本と検証
 
 | Item | Exact verified value |
 | --- | --- |
 | Repository / canonical branch | **[itakura-hidetoshi/KuuOS](https://github.com/itakura-hidetoshi/KuuOS) / `main`** |
-| **Latest theorem-bearing canonical `main` and F53 PR merge** | **`e6484cc99a72fd59d33d9c662055ea1c23889d93`**, [PR #2116 CLOSED/MERGED](https://github.com/itakura-hidetoshi/KuuOS/pull/2116) |
-| Latest validated F53 PR source HEAD | **`8cd1f510ccbdf38541f00f7ee13909d55f3caa28`** |
-| Exact-head PR workflow | [Run **38098974231** — SUCCESS](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38098974231) |
-| Strict Lean validation | Job **114350826020 — SUCCESS**, **8854/8854** selected dependency/module build |
-| Governance / audit | Job **114351248154 — SUCCESS** |
-| MCP Lean / MCP CI completion receipts | Jobs **114351248183 / 114351283468 — SUCCESS** |
-| Changed F53 Lean diagnostics / axioms | **0 warnings / 0 errors**, **59/59** `#print axioms`, no `sorryAx`/`sorry`/`admit`/new axiom |
+| **Latest theorem-bearing canonical `main` and F54 PR merge** | **`195b9fd68a7f9923eced96e9c6ddce536981cd1f`**, [PR #2118 CLOSED/MERGED](https://github.com/itakura-hidetoshi/KuuOS/pull/2118) |
+| Latest validated F54 PR source HEAD | **`2a633aa2844e59db9e4f7aa7c7816884f24105df`** |
+| Exact-head PR workflow | [Run **38101255425** — SUCCESS](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38101255425) |
+| Strict Lean validation | Job **114357548574 — SUCCESS**, **8856/8856** selected dependency/module build |
+| Governance / audit | Job **114358006078 — SUCCESS** |
+| MCP Lean / MCP CI completion receipts | Jobs **114358006017 / 114358040926 — SUCCESS** |
+| Changed F54 Lean diagnostics / axioms | **0 warnings / 0 errors**, **27/27** `#print axioms`, no `sorryAx`/`sorry`/`admit`/new axiom |
 | Pinned compiler | **Lean v4.30.0-rc2** — [lean-toolchain](lean-toolchain) |
 | Pinned mathlib | **`5450b53e5ddc75d46418fabb605edbf36bd0beb6`** — [lake-manifest.json](lake-manifest.json) |
 
-The exact-head receipt covers the selected changed Lean modules **and imported dependency closure**. It does not by itself validate every repository workflow, all runtimes, the interactive website, or an LLM model. After a documentation-only merge, `main` moves; the **F53 theorem-bearing SHA remains the cited mathematical baseline** until another verified theorem-bearing merge.
+The exact-head receipt covers the selected F54 changed Lean modules **and imported dependency closure**. It does not by itself validate every repository workflow, all runtimes, the interactive website, or an LLM model. After a documentation-only merge, `main` moves; the **F54 theorem-bearing SHA remains the cited mathematical baseline** until another verified theorem-bearing merge.
 
 **Authority order:** fresh exact GitHub `main` SHA → actual Lean declarations and proofs at that SHA → README/ROADMAP → matching exact-head CI/governance/MCP receipts → historical notes.
 
@@ -111,6 +112,7 @@ In particular, **two invertible triangle contractions alone did not give the two
 | v5.147–v5.148 | **F50–F51:** true two-stage sequential composition, associativity/units with double Nat casts, arbitrary **finite** typed ORIGINAL F45 stage chain |
 | v5.149 | **F52:** any finite full binary bracketing, compatibility with the original left-associated stage sequence, chosen mate and actual η/ε specialization |
 | **v5.150** | **F53 / [PR #2116](https://github.com/itakura-hidetoshi/KuuOS/pull/2116):** explicit **five-vertex fourfold pentagon** (three-edge versus two-edge), double dependent Nat-depth casts, genuine F44 quotient and original F45 tree/mate/η/ε compatibility |
+| **v5.151** | **F54 / [PR #2118](https://github.com/itakura-hidetoshi/KuuOS/pull/2118):** arbitrary original F45 local Type-valued associativity rotation evidence in left/right finite binary contexts; genuine finite bidirectional rotation chains with lengths, append/reverse, full F19/F28 history and original F44 quotient preservation, actual chosen right mate and source η / target ε descent |
 
 The source of mathematical truth is **the typed Lean theorem and its exact dependencies**, not the version number or a generic assertion that all higher coherence has been proved.
 
@@ -138,17 +140,17 @@ exact DO₂ presentation
   => weak W-admissibility
 ~~~
 
-The converse does **not** hold in general. Neither v5.101 nor the finite original F19/F28 mate/exchange refinements through v5.150 establish arbitrary raw-morphism liftability, presentation-independent descent, or unrestricted equivalence across atlases.
+The converse does **not** hold in general. Neither v5.101 nor the finite original F19/F28 mate/exchange refinements through v5.151 establish arbitrary raw-morphism liftability, presentation-independent descent, or unrestricted equivalence across atlases.
 
 
 ## Reproduce the theorem-bearing result / 再現
 
-Check out the **v5.150 theorem-bearing commit**; do not confuse a later docs-only merge with a new proof:
+Check out the **v5.151 theorem-bearing commit**; do not confuse a later docs-only merge with a new proof:
 
 ~~~bash
 git clone https://github.com/itakura-hidetoshi/KuuOS.git KuuOS-repro
 cd KuuOS-repro
-git checkout e6484cc99a72fd59d33d9c662055ea1c23889d93
+git checkout 195b9fd68a7f9923eced96e9c6ddce536981cd1f
 cat lean-toolchain
 
 lake -KleanArgs=-DwarningAsError=true \
@@ -157,10 +159,15 @@ lake -KleanArgs=-DwarningAsError=true \
   KUOS.DependentOriginationCoherentBiadjunctionOriginalF45PentagonTreesV5_150 \
   KUOS.DependentOriginationCoherentBiadjunctionOriginalRightMatePentagonV5_150 \
   KUOS.DependentOriginationCoherentBiadjunctionActualLiftPentagonLeftV5_150 \
-  KUOS.DependentOriginationCoherentBiadjunctionActualLiftPentagonRightV5_150
+  KUOS.DependentOriginationCoherentBiadjunctionActualLiftPentagonRightV5_150 \
+  KUOS.DependentOriginationCoherentBiadjunctionOriginalF45LocalRotationV5_151 \
+  KUOS.DependentOriginationCoherentBiadjunctionOriginalF45FiniteRotationChainsV5_151 \
+  KUOS.DependentOriginationCoherentBiadjunctionOriginalF45RotationContextsV5_151 \
+  KUOS.DependentOriginationCoherentBiadjunctionOriginalF45RotationMatesV5_151 \
+  KUOS.DependentOriginationCoherentBiadjunctionActualLiftRotationV5_151
 ~~~
 
-Selected build evidence: [CI #38098974231](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38098974231), `8854/8854` with 59 final axiom checks and zero changed-file diagnostics. The exact action's selection/dependency closure and local build target may differ from an all-repository check. See [ROADMAP.md](ROADMAP.md) for exact F11–F53 theorem references and open research boundaries.
+Selected F54 build evidence: [CI #38101255425](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38101255425), `8856/8856` with 27 final axiom checks and zero changed-file diagnostics. The exact action's selection/dependency closure and local build target may differ from an all-repository check. See [ROADMAP.md](ROADMAP.md) for exact F11–F54 theorem references and open research boundaries.
 
 For a broader **independent** build or runtime smoke test (not implied by the F53 theorem receipt):
 
@@ -171,9 +178,9 @@ PYTHONPATH=. python3 runtime/kuuos_current_check.py
 
 ## Remaining research and runtime boundaries / 次の課題
 
-**Completed under precisely typed fixed-presentation hypotheses:** F1–F53, including both original actual-lift swallowtails, native chosen mate interfaces, genuine two-axis F19/F28 finite path quotient completeness, associativity and units, arbitrary finite binary parenthesization and the **fourfold F44 quotient pentagon**.
+**Completed under precisely typed fixed-presentation hypotheses:** F1–F54, including both original actual-lift swallowtails, native chosen mate interfaces, genuine two-axis F19/F28 finite path quotient completeness, associativity and units, arbitrary finite binary parenthesization and the **fourfold F44 quotient pentagon**; finite proof-relevant F45 local rotations with arbitrary contextual whiskering and original η/ε right-mate preservation.
 
-**Next formal frontier — F54 / v5.151, NOT YET PROVED at this snapshot:** local associativity rotations within **arbitrary finite original F45 binary-tree contexts**, composable chains of such rotations, and coherence after original chosen right-mate / η / ε transport, with all double Nat-depth casts explicit. A class-level result is not automatically a nontrivial identity of higher 3-cell witnesses.
+**Next formal frontier — F55 / v5.152, NOT YET PROVED at this snapshot:** develop explicit **comparisons between distinct finite Type-valued rotation chains**, including an actual pentagon of rotation-path witnesses, contextual square/associahedral relations and coherent normal forms for those witnesses. F54 proves endpoint equality in the generated F44 quotient and preservation of native histories; it does **not** prove that two different rotation-chain witnesses themselves are equal as higher cells.
 
 **Other open work:** unrestricted tricategorical/Gray-categorical coherence and comparison equivalence, transport/descent across independently chosen presentations or labels, an unconditional higher universal mapping principle, infinite-stage convergence/uniform finite depth, and the empirical correctness/completeness of GitHub/MCP indexing, AI dialogue and interactive runtime/website behavior. These need separate explicit statements and independent receipts.
 
