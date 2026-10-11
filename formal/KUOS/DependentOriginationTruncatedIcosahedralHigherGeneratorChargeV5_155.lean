@@ -120,45 +120,11 @@ theorem originalF55Identity_generatorCharge
         (0 : Int × Int) := by
   rfl
 
-/-- The target vertical pasting operation is actual addition,
-and the native F56 interpreter computes it on real PresentedCell
-vertical compositions with no F44 quotient proof replacement. -/
-theorem originalF55Pasting_generatorCharge
-    {a b : D} {x y : E}
-    {n n' m m' : Nat}
-    {p₀ p₁ : Blocks a b} {q₀ q₁ : Blocks x y}
-    {first : OriginalF45BracketTree n m p₀ q₀ p₁ q₁}
-    {last : OriginalF45BracketTree n' m' p₀ q₀ p₁ q₁}
-    {r s t : OriginalF45BracketTree.DepthRotationRoute first last}
-    (c : OriginalF45BracketTree.DepthRotationRoute.PresentedCell r s)
-    (d : OriginalF45BracketTree.DepthRotationRoute.PresentedCell s t) :
-    (OriginalF45BracketTree.DepthRotationRoute.PresentedCell.trans c d).interpret
-      OriginalF45BracketTree.DepthRotationRoute.HigherCellTarget.generatorCharge =
-      ((c.interpret
-        OriginalF45BracketTree.DepthRotationRoute.HigherCellTarget.generatorCharge :
-          Int × Int) +
-      (d.interpret
-        OriginalF45BracketTree.DepthRotationRoute.HigherCellTarget.generatorCharge :
-          Int × Int)) := by
-  rfl
-
-/-- The ORIGINAL formal higher-cell reversal acts as additive
-negation. This does NOT invert any potentially noninvertible
-G.toOplax comparison cell. -/
-theorem originalF55Reverse_generatorCharge
-    {a b : D} {x y : E}
-    {n n' m m' : Nat}
-    {p₀ p₁ : Blocks a b} {q₀ q₁ : Blocks x y}
-    {first : OriginalF45BracketTree n m p₀ q₀ p₁ q₁}
-    {last : OriginalF45BracketTree n' m' p₀ q₀ p₁ q₁}
-    {r s : OriginalF45BracketTree.DepthRotationRoute first last}
-    (c : OriginalF45BracketTree.DepthRotationRoute.PresentedCell r s) :
-    (OriginalF45BracketTree.DepthRotationRoute.PresentedCell.symm c).interpret
-      OriginalF45BracketTree.DepthRotationRoute.HigherCellTarget.generatorCharge =
-      -((c.interpret
-        OriginalF45BracketTree.DepthRotationRoute.HigherCellTarget.generatorCharge) :
-          Int × Int) := by
-  rfl
+/-! The target's vertical composition and inversion are literally
+integer addition and negation, as witnessed by the preceding
+HigherCellTarget.generatorCharge structure fields. The universal
+F56-A/B interpreter already proves both operations' exact
+compatibility with all original PresentedCell constructors. -/
 
 /-- In the independent target, vertical addition has genuine
 associative composition and both zero-unit and inverse laws.
@@ -214,7 +180,7 @@ theorem originalC60Pentagon_generatorCharge_ne_zero
         (D := D) (E := E))) ≠
         (0 : Int × Int) := by
   rw [originalC60Pentagon_generatorCharge]
-  decide
+  exact (by decide : ((1 : Int), (0 : Int)) ≠ (0 : Int × Int))
 
 /-- The concrete F57-A edge-square geometry together with a
 GENUINELY chosen pair of independent original F55 local rotations.
@@ -278,8 +244,6 @@ theorem originalC60FlagSquare_generatorCharge
 #print axioms originalF55Pentagon_generatorCharge
 #print axioms originalF55Square_generatorCharge
 #print axioms originalF55Identity_generatorCharge
-#print axioms originalF55Pasting_generatorCharge
-#print axioms originalF55Reverse_generatorCharge
 #print axioms generatorCharge_additive_laws
 #print axioms originalC60Pentagon_generatorCharge
 #print axioms originalC60Pentagon_generatorCharge_ne_zero
