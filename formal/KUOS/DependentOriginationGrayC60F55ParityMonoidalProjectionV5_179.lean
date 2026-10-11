@@ -203,10 +203,18 @@ def c60F31ParityCoreMonoidal :
   μIso := fun X Y => Iso.refl _
   μIso_hom_natural_left := by
     intro X Y p Z
-    simpa using (c60F31ParityFunctor_whiskerRight p Z).symm
+    change (c60F31ParityFunctor.map p ▷ Z) ≫
+        (𝟙 (Y ⊗ Z)) =
+      (𝟙 (X ⊗ Z)) ≫ c60F31ParityFunctor.map (p ▷ Z)
+    rw [Category.comp_id, Category.id_comp]
+    exact (c60F31ParityFunctor_whiskerRight p Z).symm
   μIso_hom_natural_right := by
     intro X Y Z p
-    simpa using (c60F31ParityFunctor_whiskerLeft Z p).symm
+    change (Z ◁ c60F31ParityFunctor.map p) ≫
+        (𝟙 (Z ⊗ Y)) =
+      (𝟙 (Z ⊗ X)) ≫ c60F31ParityFunctor.map (Z ◁ p)
+    rw [Category.comp_id, Category.id_comp]
+    exact (c60F31ParityFunctor_whiskerLeft Z p).symm
   associativity := by
     intro X Y Z
     apply GradedThreeCell.ext <;>
