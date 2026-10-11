@@ -81,7 +81,7 @@ chart category into Type, carrying every object to the
 true 64-code six-Yao space and every arrow to the
 verified chart-change bijection. The proof obligations
 are genuine Mathlib functor identity and composition laws. -/
-def wangBiSixYaoFunctor : WangBiFrame ⥤ Type where
+def wangBiSixYaoFunctor : WangBiFrame ⥤ Type 0 where
   obj _ := WangBiSixYao
   map := fun {a b} f => TypeCat.ofHom (wangBiChartArrow a b f : WangBiSixYao → WangBiSixYao)
   map_id := by
