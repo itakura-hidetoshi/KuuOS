@@ -93,11 +93,13 @@ theorem OriginalF45Stages.toExchangeClass_axisTraces
   | refl mods pq =>
       rfl
   | snoc stages order hm hc ih =>
-      simpa only [OriginalF45Stages.toExchangeClass,
-        OriginalF45Stages.axisHistories,
-        ExchangeClass.axisTraces_append,
-        AxisTrace.originalF45OrderClass_axisTraces,
-        ih]
+      change
+        (ExchangeClass.append stages.toExchangeClass
+          (AxisTrace.originalF45OrderClass order hm hc)).axisTraces =
+        (AxisTrace.append stages.axisHistories.1 hm,
+         AxisTrace.append stages.axisHistories.2 hc)
+      rw [ExchangeClass.axisTraces_append,
+        AxisTrace.originalF45OrderClass_axisTraces, ih]
 
 /-- F46 exact completeness: an ARBITRARY finite sequence of
 ORIGINAL F45 order-selected execution stages has precisely the
@@ -109,9 +111,8 @@ theorem OriginalF45Stages.toExchangeClass_eq_pair
     (stages : OriginalF45Stages n m ma pa mb pb) :
     stages.toExchangeClass = AxisTrace.pairToClass stages.axisHistories := by
   apply (ExchangeClass.eq_iff_axisTraces_eq _ _).2
-  simpa only [OriginalF45Stages.toExchangeClass_axisTraces,
-    AxisTrace.pairToClass_axisTraces] using
-    (rfl : stages.axisHistories = stages.axisHistories)
+  simp only [OriginalF45Stages.toExchangeClass_axisTraces,
+    AxisTrace.pairToClass_axisTraces]
 
 /-- A whole arbitrary finite serial run equals an ACTUAL OLD F45
 F19-first OR F28-first route with exactly its complete total native
@@ -192,9 +193,16 @@ theorem OriginalF45Stages.mapBoth_axisHistories
   | refl mods pq =>
       rfl
   | snoc stages order hm hc ih =>
-      simpa only [OriginalF45Stages.mapBoth,
-        OriginalF45Stages.axisHistories,
-        AxisTrace.mapBlocks_append, ih]
+      change
+        (AxisTrace.append (OriginalF45Stages.mapBoth H K stages).axisHistories.1
+            (AxisTrace.mapBlocks H hm),
+         AxisTrace.append (OriginalF45Stages.mapBoth H K stages).axisHistories.2
+            (AxisTrace.mapBlocks K hc)) =
+        (AxisTrace.mapBlocks H
+            (AxisTrace.append stages.axisHistories.1 hm),
+         AxisTrace.mapBlocks K
+            (AxisTrace.append stages.axisHistories.2 hc))
+      rw [ih, AxisTrace.mapBlocks_append, AxisTrace.mapBlocks_append]
 
 /-- Genuine naturality of an ARBITRARY finite number of ORIGINAL
 F45 execution stages in the generated F44 quotient, for unrelated
