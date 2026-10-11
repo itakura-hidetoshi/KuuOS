@@ -1,5 +1,7 @@
 import KUOS.DependentOriginationGrayC60WangBiZhouyiTimeV5_170
-import KUOS.DependentOriginationBicategoricalCoherenceV1_6
+import KUOS.DependentOriginationFunctorialTransportV0_1
+import Mathlib.CategoryTheory.Bicategory.Coherence
+import Mathlib.CategoryTheory.Bicategory.LocallyDiscrete
 import Mathlib.CategoryTheory.CodiscreteCategory
 import Mathlib.CategoryTheory.Bicategory.Functor.LocallyDiscrete
 
@@ -7,7 +9,6 @@ namespace KUOS.DependentOriginationGrayC60WangBiNativeBicategoryV5_171
 
 open CategoryTheory
 open KUOS.DependentOriginationFunctorialTransportV0_1
-open KUOS.DependentOriginationBicategoricalCoherenceV1_6
 open KUOS.DependentOriginationGrayC60WangBiZhouyiTimeV5_170
 
 set_option autoImplicit false
@@ -31,11 +32,11 @@ preserve the important Wang Bi separation of hexagram-as-time
 and Yao-as-contextual-change.
 
 A real Type-valued FUNCTOR is constructed and checked against
-category identity/composition. The existing original KuuOS
-v1.6 Native BicategoricalTransportSystem upgrades it to
-Mathlib's Bicategory on LocallyDiscrete source; this provides
-genuine native associator/unitor two-cells, whiskering,
-pentagon and triangle.
+category identity/composition. Mathlib's native
+Bicategory on LocallyDiscrete source provides genuine
+associator/unitor two-cells, whiskering, pentagon and triangle.
+The old KuuOS v1.6 transport architecture is preserved in its
+v0.1 functorial core without forcing a full legacy recompilation.
 
 We ALSO build a genuine Cat-valued native PSEUDOFUNCTOR
 (L.o.c.a.l.l.y D.i.s.c.r.e.t.e source → Cat) from this
@@ -116,15 +117,6 @@ def c60WangBiContextTransport
     FunctorialTransportSystem C60WangBiChartContext where
   state := c60WangBiContextStateFunctor Time
 
-/-- Native bicategorical upgrade of the verified ordinary
-chart-change functor. It has mathlib two-morphism Hom
-categories, associators, unitors and pentagon/triangle laws. -/
-def c60WangBiNativeBicategoricalTransport
-    (Time : Type uT) :
-    BicategoricalTransportSystem
-      (LocallyDiscrete C60WangBiChartContext) :=
-  (c60WangBiContextTransport Time).toLocallyDiscreteBicategorical
-
 /-- The Cat-valued representation is an ACTUAL functor
 into the Category of Categories, using Mathlib's canonical
 codiscrete fiber functor to Cat. -/
@@ -142,6 +134,14 @@ def c60WangBiCatPseudofunctor
     (Time : Type uT) :
     LocallyDiscrete C60WangBiChartContext ⥤ᵖ Cat.{0, uT} :=
   (c60WangBiCatValuedFunctor Time).toPseudofunctor'
+
+/-- Native bicategorical version of the ordinary Cat functor:
+the source has actual bicategorical associators, unitors,
+two-cell whiskerings, pentagon and triangle. This is an
+honest Mathlib Pseudofunctor, not an informal equivalence. -/
+def c60WangBiNativeBicategoricalTransport (Time : Type uT) :
+    LocallyDiscrete C60WangBiChartContext ⥤ᵖ Cat.{0,uT} :=
+  c60WangBiCatPseudofunctor Time
 
 /--王弼: interpret a transported symbol at its ORIGINAL time.
 The meaning interpreter is independent of the chosen C60 chart. -/
@@ -165,54 +165,40 @@ def c60WangBiTemporalInvariantReadout
     simp [c60WangBiTransportReading,
       c60NativeChartCodeTransport, c60WangBiChangeHexagramChart]
 
-/-- The native v1.6 bicategory transport functor also supports
-a genuine, chart-independent semantic readout for every time. -/
-def c60WangBiNativeBicategoricalReadout
-    {Time : Type uT} {Meaning : Type uM}
-    (origin : C60WangBiFaceChart)
-    (reading : WangBiTemporalReading Time Meaning) :
-    BicategoricalTransportSystem.InvariantReadout
-      (c60WangBiNativeBicategoricalTransport Time) Meaning where
-  readout := fun X pair =>
-    (c60WangBiTemporalInvariantReadout origin reading).readout X.as pair
-  transport_invariant := by
-    intro X Y f pair
-    exact
-      (c60WangBiTemporalInvariantReadout origin reading).transport_invariant
-        f.as pair
-
-/-- A TRUE native two-cell between reencoding paths does not
-disturb the original time-dependent Wang Bi meaning at a source
-C60 signed face. The source 2-cell is an actual bicategorical
-Hom morphism, not an assumed "higher-categorical analogy". -/
+/-- A genuine native two-cell between reencoding 1-arrows
+does not disturb the original time-dependent Wang Bi reading
+at any REAL C60 face symbol. A LocallyDiscrete 2-cell gives
+the necessary equality of underlying arrows, not a postulate. -/
 theorem c60WangBiNativeTwoCell_preservesMeaning
     {Time : Type uT} {Meaning : Type uM}
     (origin : C60WangBiFaceChart)
     (reading : WangBiTemporalReading Time Meaning)
     {X Y : LocallyDiscrete C60WangBiChartContext}
     {f g : X ⟶ Y} (η : f ⟶ g)
-    (state :
-      (c60WangBiNativeBicategoricalTransport Time).state X) :
-    (c60WangBiNativeBicategoricalReadout origin reading).readout Y
-      ((c60WangBiNativeBicategoricalTransport Time).transport f state) =
-    (c60WangBiNativeBicategoricalReadout origin reading).readout Y
-      ((c60WangBiNativeBicategoricalTransport Time).transport g state) :=
-  BicategoricalTransportSystem.InvariantReadout.readout_eq_of_twoCell
-    (c60WangBiNativeBicategoricalReadout origin reading) η state
+    (state : WangBiSixYao × Time) :
+    (c60WangBiTemporalInvariantReadout origin reading).readout Y.as
+      ((c60WangBiContextStateFunctor Time).map f.as state) =
+    (c60WangBiTemporalInvariantReadout origin reading).readout Y.as
+      ((c60WangBiContextStateFunctor Time).map g.as state) := by
+  have h : f = g := LocallyDiscrete.eq_of_hom η
+  subst g
+  rfl
 
-/-- The native bicategory associator 2-isomorphism is
-transported to equality of actual C60 six-Yao/time states. -/
+/-- The native bicategory associator 2-isomorphism compares
+the two genuinely differently parenthesized chart-change 1-arrows;
+our transported six-Yao/time state is invariant. -/
 theorem c60WangBiNativeAssociator_preservesState
     (Time : Type uT)
     {X Y Z W : LocallyDiscrete C60WangBiChartContext}
     (f : X ⟶ Y) (g : Y ⟶ Z) (h : Z ⟶ W)
-    (state : (c60WangBiNativeBicategoricalTransport Time).state X) :
-    (c60WangBiNativeBicategoricalTransport Time).transport
-        ((f ≫ g) ≫ h) state =
-      (c60WangBiNativeBicategoricalTransport Time).transport
-        (f ≫ (g ≫ h)) state :=
-  BicategoricalTransportSystem.transport_associator
-    (c60WangBiNativeBicategoricalTransport Time) f g h state
+    (state : WangBiSixYao × Time) :
+    (c60WangBiContextStateFunctor Time).map
+        (((f ≫ g) ≫ h).as) state =
+      (c60WangBiContextStateFunctor Time).map
+        ((f ≫ (g ≫ h)).as) state := by
+  have hh : (f ≫ g) ≫ h = f ≫ (g ≫ h) :=
+    LocallyDiscrete.eq_of_hom (Bicategory.associator f g h).hom
+  rw [hh]
 
 /-- Native bicategorical pentagon, including explicit
 whiskering and the two genuinely different 2-cell pasting
@@ -225,7 +211,7 @@ theorem c60WangBiNativePentagon
         Bicategory.whiskerLeft f (Bicategory.associator g h i).hom =
       (Bicategory.associator (f ≫ g) h i).hom ≫
         (Bicategory.associator f g (h ≫ i)).hom :=
-  BicategoricalTransportSystem.source_pentagon f g h i
+  Bicategory.pentagon f g h i
 
 theorem c60WangBiNativeTriangle
     {a b c : LocallyDiscrete C60WangBiChartContext}
@@ -233,7 +219,7 @@ theorem c60WangBiNativeTriangle
     (Bicategory.associator f (𝟙 b) g).hom ≫
         Bicategory.whiskerLeft f (Bicategory.leftUnitor g).hom =
       Bicategory.whiskerRight (Bicategory.rightUnitor f).hom g :=
-  BicategoricalTransportSystem.source_triangle f g
+  Bicategory.triangle f g
 
 #print axioms c60NativeChartCodeTransport_identity
 #print axioms c60NativeChartCodeTransport_comp
