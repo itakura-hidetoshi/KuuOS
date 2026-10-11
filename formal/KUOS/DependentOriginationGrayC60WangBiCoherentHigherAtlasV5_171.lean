@@ -157,7 +157,10 @@ theorem c60WangBiHigherAtlas_preserves_primal_tree
 hexagram re-encoding choices, while the repaired Gray field
 remains locally 2-coherent. We bundle the ACTUAL native
 pseudofunctor and physical native 2-cell data. -/
-structure C60WangBiCoherentHigherAtlas (Time Meaning : Type*) where
+universe uT uM
+
+structure C60WangBiCoherentHigherAtlas
+    (Time : Type uT) (Meaning : Type uM) where
   originChart : C60WangBiFaceChart
   temporalReading : WangBiTemporalReading Time Meaning
   grayPhysicalSquare :
@@ -167,9 +170,7 @@ structure C60WangBiCoherentHigherAtlas (Time Meaning : Type*) where
     ∀ e, grayPhysicalSquare e =
       c60WangBiHigherAtlasPhysicalSquareTwoCell e
   nativeCatPseudofunctor :
-    LocallyDiscrete C60WangBiChartContext ⥤ᵖ Cat.{0, max 0 (max (max 0 0) 0)}
-  -- The native Cat carrier's universe is fixed here; a general
-  -- universe-polymorphic pseudofunctor is separately constructed.
+    LocallyDiscrete C60WangBiChartContext ⥤ᵖ Cat.{0,uT}
   everyFaceCoherent :
     ∀ f : TruncatedIcosahedralSeedFace,
       c60WangBiGrayNativeTwoCell
@@ -177,12 +178,24 @@ structure C60WangBiCoherentHigherAtlas (Time Meaning : Type*) where
           c60WangBiHigherAtlasFlatEdgeLabel f) =
             𝟙 (𝟭 GrayGrade)
 
-/-!
-We deliberately keep the core theorem carrier as the preceding
-fully general constructions rather than postulating extra
-dependent coherence data in a higher Atlas interpretation.
-The bundled atlas stores witnessed, checked data, not axioms.
--/
+/-- One explicit, complete HIGHER Atlas object for any
+independently supplied original Wang Bi time-dependent reading.
+The native Cat pseudofunctor and every physical Gray 2-cell
+coherence are actual definitions and proven theorem fields,
+not additional axioms or placeholders. -/
+def c60WangBiCanonicalCoherentHigherAtlas
+    {Time : Type uT} {Meaning : Type uM}
+    (origin : C60WangBiFaceChart)
+    (reading : WangBiTemporalReading Time Meaning) :
+    C60WangBiCoherentHigherAtlas Time Meaning where
+  originChart := origin
+  temporalReading := reading
+  grayPhysicalSquare := c60WangBiHigherAtlasPhysicalSquareTwoCell
+  grayPhysicalSquare_eq := by intro e; rfl
+  nativeCatPseudofunctor := c60WangBiCatPseudofunctor Time
+  everyFaceCoherent := c60WangBiHigherAtlasNativeFaceTwoCell_identity
+
+#print axioms c60WangBiCanonicalCoherentHigherAtlas
 
 #print axioms c60WangBiLinearEdgeField_eq_combination
 #print axioms c60WangBiHigherAtlasFlatEdgeLabels_reconstruct
