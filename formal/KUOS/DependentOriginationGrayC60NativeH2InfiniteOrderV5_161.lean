@@ -91,7 +91,7 @@ theorem c60NativeH2ConcreteCycleIso_fundamental :
     (c60NativeH2FundamentalπIso.inv.hom
       c60NativeH2FundamentalClass) = _
   rw [hπ]
-  simpa only [c60NativeH2FundamentalCycle,
+  simp only [c60NativeH2FundamentalCycle,
     Iso.inv_hom_id_apply]
 
 /-- The north-pentagon coordinate of the native fundamental class
@@ -114,10 +114,14 @@ theorem c60NativeH2NorthPentagonCoefficient_fundamental :
 mathlib H₂ object, sending n to n times the actual C60 fundamental
 class, not to a detached formal generator. -/
 def c60NativeH2FundamentalLinear :
-    ℤ →ₗ[ℤ] (c60NativeIntegralCellularComplex.homology 2) :=
-  LinearMap.toSpanSingleton ℤ
-    (c60NativeIntegralCellularComplex.homology 2)
-    c60NativeH2FundamentalClass
+    ℤ →ₗ[ℤ] (c60NativeIntegralCellularComplex.homology 2) where
+  toFun := fun n : ℤ => n • c60NativeH2FundamentalClass
+  map_add' := by
+    intro n m
+    exact add_smul n m c60NativeH2FundamentalClass
+  map_smul' := by
+    intro r n
+    exact mul_smul r n c60NativeH2FundamentalClass
 
 /-- This copy of the integers inside native C60 H₂ is SPLIT:
 the north-pentagon coefficient map is a strict linear LEFT
