@@ -1,6 +1,5 @@
 import KUOS.DependentOriginationGrayC60NativeH2FundamentalClassV5_161
 import Mathlib.LinearAlgebra.Finsupp.Defs
-import Mathlib.LinearAlgebra.Module.Torsion
 
 namespace KUOS.DependentOriginationGrayC60NativeH2InfiniteOrderV5_161
 
