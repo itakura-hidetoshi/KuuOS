@@ -323,7 +323,9 @@ noncomputable def c60NativeH0IsoInteger :
         ((ComplexShape.down ℕ).prev 0) 0).hom =
         c60IntegralEdgeRange
     rw [ChainComplex.prev]
-    simp only [zero_add, c60NativeIntegralCellularComplex_d10]
+    change LinearMap.range
+      (c60NativeIntegralCellularComplex.d 1 0).hom = c60IntegralEdgeRange
+    rw [c60NativeIntegralCellularComplex_d10]
     rfl
   have hQuot :
       ModuleCat.of ℤ
