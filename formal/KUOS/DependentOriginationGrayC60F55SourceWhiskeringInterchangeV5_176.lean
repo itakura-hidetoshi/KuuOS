@@ -193,6 +193,99 @@ theorem c60F55SourceLocked_postcompose
       c60F55SourceLocked α := by
   rfl
 
+
+/-! ## Full whiskering / vertical-pasting compatibility on the
+original dependent F55 source cells. These are equalities of
+native braided 3-cell IMAGES, not raw source PresentedCell equalities. -/
+
+/-- Left contextual whiskering commutes with REAL F55 vertical
+pasting on arbitrary dependent F19/F28 index-carrying routes. -/
+theorem c60F55SourceLeftContextVerticalCoherence
+    {a b : D} {x y : E} {n n' m m' k l : Nat}
+    {ma mb mc : Blocks a b} {pa pb pc : Blocks x y}
+    {first : OriginalF45BracketTree n m ma pa mb pb}
+    {last : OriginalF45BracketTree n' m' ma pa mb pb}
+    {r s t : OriginalF45BracketTree.DepthRotationRoute first last}
+    (α : OriginalF45BracketTree.DepthRotationRoute.PresentedCell r s)
+    (β : OriginalF45BracketTree.DepthRotationRoute.PresentedCell s t)
+    (later : OriginalF45BracketTree k l mb pb mc pc) :
+    c60F55SourceLocked
+      (OriginalF45BracketTree.DepthRotationRoute.PresentedCell.leftContext
+        (OriginalF45BracketTree.DepthRotationRoute.PresentedCell.trans α β)
+        later) =
+    c60F55SourceLocked
+      (OriginalF45BracketTree.DepthRotationRoute.PresentedCell.trans
+        (OriginalF45BracketTree.DepthRotationRoute.PresentedCell.leftContext α later)
+        (OriginalF45BracketTree.DepthRotationRoute.PresentedCell.leftContext β later)) := by
+  apply Subtype.ext
+  rfl
+
+/-- Right contextual whiskering commutes with original F55
+vertical pasting, retaining the source proof-relevant route types. -/
+theorem c60F55SourceRightContextVerticalCoherence
+    {a b : D} {x y : E} {k l n n' m m' : Nat}
+    {ma mb mc : Blocks a b} {pa pb pc : Blocks x y}
+    (earlier : OriginalF45BracketTree k l ma pa mb pb)
+    {first : OriginalF45BracketTree n m mb pb mc pc}
+    {last : OriginalF45BracketTree n' m' mb pb mc pc}
+    {r s t : OriginalF45BracketTree.DepthRotationRoute first last}
+    (α : OriginalF45BracketTree.DepthRotationRoute.PresentedCell r s)
+    (β : OriginalF45BracketTree.DepthRotationRoute.PresentedCell s t) :
+    c60F55SourceLocked
+      (OriginalF45BracketTree.DepthRotationRoute.PresentedCell.rightContext
+        earlier
+        (OriginalF45BracketTree.DepthRotationRoute.PresentedCell.trans α β)) =
+    c60F55SourceLocked
+      (OriginalF45BracketTree.DepthRotationRoute.PresentedCell.trans
+        (OriginalF45BracketTree.DepthRotationRoute.PresentedCell.rightContext earlier α)
+        (OriginalF45BracketTree.DepthRotationRoute.PresentedCell.rightContext earlier β)) := by
+  apply Subtype.ext
+  rfl
+
+/-- Fixed ORIGINAL prior-route whiskering respects target native
+vertical composition of arbitrary original F55 PresentedCells. -/
+theorem c60F55SourcePrecomposeVerticalCoherence
+    {a b : D} {x y : E} {n₁ n₂ n₃ m₁ m₂ m₃ : Nat}
+    {ma mb : Blocks a b} {pa pb : Blocks x y}
+    {first : OriginalF45BracketTree n₁ m₁ ma pa mb pb}
+    {middle : OriginalF45BracketTree n₂ m₂ ma pa mb pb}
+    {last : OriginalF45BracketTree n₃ m₃ ma pa mb pb}
+    (prior : OriginalF45BracketTree.DepthRotationRoute first middle)
+    {r s t : OriginalF45BracketTree.DepthRotationRoute middle last}
+    (α : OriginalF45BracketTree.DepthRotationRoute.PresentedCell r s)
+    (β : OriginalF45BracketTree.DepthRotationRoute.PresentedCell s t) :
+    c60F55SourceLocked
+      (OriginalF45BracketTree.DepthRotationRoute.PresentedCell.precompose prior
+        (OriginalF45BracketTree.DepthRotationRoute.PresentedCell.trans α β)) =
+    c60F55SourceLocked
+      (OriginalF45BracketTree.DepthRotationRoute.PresentedCell.trans
+        (OriginalF45BracketTree.DepthRotationRoute.PresentedCell.precompose prior α)
+        (OriginalF45BracketTree.DepthRotationRoute.PresentedCell.precompose prior β)) := by
+  apply Subtype.ext
+  rfl
+
+/-- Fixed ORIGINAL suffix-route whiskering respects target native
+vertical composition of arbitrary original F55 PresentedCells. -/
+theorem c60F55SourcePostcomposeVerticalCoherence
+    {a b : D} {x y : E} {n₁ n₂ n₃ m₁ m₂ m₃ : Nat}
+    {ma mb : Blocks a b} {pa pb : Blocks x y}
+    {first : OriginalF45BracketTree n₁ m₁ ma pa mb pb}
+    {middle : OriginalF45BracketTree n₂ m₂ ma pa mb pb}
+    {last : OriginalF45BracketTree n₃ m₃ ma pa mb pb}
+    {r s t : OriginalF45BracketTree.DepthRotationRoute first middle}
+    (α : OriginalF45BracketTree.DepthRotationRoute.PresentedCell r s)
+    (β : OriginalF45BracketTree.DepthRotationRoute.PresentedCell s t)
+    (suffix : OriginalF45BracketTree.DepthRotationRoute middle last) :
+    c60F55SourceLocked
+      (OriginalF45BracketTree.DepthRotationRoute.PresentedCell.postcompose
+        (OriginalF45BracketTree.DepthRotationRoute.PresentedCell.trans α β) suffix) =
+    c60F55SourceLocked
+      (OriginalF45BracketTree.DepthRotationRoute.PresentedCell.trans
+        (OriginalF45BracketTree.DepthRotationRoute.PresentedCell.postcompose α suffix)
+        (OriginalF45BracketTree.DepthRotationRoute.PresentedCell.postcompose β suffix)) := by
+  apply Subtype.ext
+  rfl
+
 section SourceHorizontal
 variable {a b : D} {x y : E}
 variable {n₁ n₂ n₃ m₁ m₂ m₃ : Nat}
@@ -389,6 +482,10 @@ end OriginalC60Square
 #print axioms c60F55SourceLocked_rightContext
 #print axioms c60F55SourceLocked_precompose
 #print axioms c60F55SourceLocked_postcompose
+#print axioms c60F55SourceLeftContextVerticalCoherence
+#print axioms c60F55SourceRightContextVerticalCoherence
+#print axioms c60F55SourcePrecomposeVerticalCoherence
+#print axioms c60F55SourcePostcomposeVerticalCoherence
 #print axioms c60F55SourceHorizontalLeftFirst
 #print axioms c60F55SourceHorizontalRightFirst
 #print axioms c60F55SourceHorizontalLeftFirst_value
