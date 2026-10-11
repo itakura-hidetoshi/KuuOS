@@ -73,13 +73,13 @@ theorem originalC60PatchCharge_exact
   induction S using Finset.induction_on with
   | empty =>
       simp [originalC60PatchCharge]
+      rfl
   | @insert v S hv ih =>
       unfold originalC60PatchCharge at ih ⊢
       rw [Finset.sum_insert hv,
         originalC60PentagonSquareCollarCharge_eq t₁ t₂ left right v,
         ih, Finset.card_insert_of_notMem hv]
-      simp [Prod.add_def, Nat.cast_add, mul_add,
-        add_assoc, add_comm, add_left_comm]
+      simp [Prod.add_def, Nat.cast_add, mul_add, add_comm]
 
 /-- On the very same real subset of C60 pentagon collars, the
 coordinatewise additive mod-two image retains precisely the selected
@@ -137,7 +137,7 @@ theorem originalC60DistinctPairPatch_cancels_mod2
           ((0 : ZMod 2), (0 : ZMod 2)) := by
   have hcard :
       ({v, w} : Finset IcosahedralVertex).card = 2 := by
-    simp [hvw, Ne.symm hvw]
+    simp [hvw]
   constructor
   · rw [originalC60PatchCharge_exact t₁ t₂ left right, hcard]
     norm_num
@@ -173,21 +173,19 @@ theorem originalC60NoUniversalChargeRecoveryFromMod2 :
       ∀ q : Int × Int,
         recover (originalC60HigherChargeMod2 q) = q := by
   rintro ⟨recover, hrecover⟩
-  let G : Int × Int :=
-    ∑ v : IcosahedralVertex,
-      originalC60PentagonSquareCollarCharge t₁ t₂ left right v
-  have hG_ne : G ≠ (0 : Int × Int) := by
-    dsimp [G]
-    exact originalC60GlobalCharge_int_ne_zero t₁ t₂ left right
+  -- This exact nonzero pair is the previous F58-F actual C60 total.
+  -- Its reduction equals the zero pair, hence any global left inverse
+  -- would force a false integer equality.
   have hparity :
-      originalC60HigherChargeMod2 G =
+      originalC60HigherChargeMod2 ((12 : Int), (60 : Int)) =
         originalC60HigherChargeMod2 (0 : Int × Int) := by
-    dsimp [G]
-    rw [originalC60GlobalPentagonCollarCharge_mod2_zero
-      t₁ t₂ left right, originalC60HigherChargeMod2_zero]
+    change ((12 : ZMod 2), (60 : ZMod 2)) =
+      ((0 : ZMod 2), (0 : ZMod 2))
+    decide
   have heq := congrArg recover hparity
-  rw [hrecover G, hrecover (0 : Int × Int)] at heq
-  exact hG_ne heq
+  rw [hrecover ((12 : Int), (60 : Int)),
+    hrecover (0 : Int × Int)] at heq
+  exact (by decide : ((12 : Int), (60 : Int)) ≠ (0 : Int × Int)) heq
 
 #print axioms originalC60PatchCharge
 #print axioms originalC60PatchCharge_exact
