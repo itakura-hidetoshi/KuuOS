@@ -85,7 +85,7 @@ theorem originalC60LocalCollarCharge_mod2
       (originalC60PentagonSquareCollarCharge t₁ t₂ left right v) =
       ((1 : ZMod 2), (1 : ZMod 2)) := by
   rw [originalC60PentagonSquareCollarCharge_eq t₁ t₂ left right v]
-  norm_num [originalC60HigherChargeMod2] <;> decide
+  norm_num [originalC60HigherChargeMod2] ; decide
 
 /-- The genuine C60 has EXACTLY twelve distinct original
 vertex-origin pentagonal faces, each with exact signed integer
@@ -104,7 +104,9 @@ theorem originalC60GlobalPentagonCollarCharge :
           intro v _
           exact originalC60PentagonSquareCollarCharge_eq t₁ t₂ left right v
     _ = ((12 : Int), (60 : Int)) := by
-          norm_num [Finset.sum_const, originalC60IcosahedralVertex_card_kernel]
+          simp only [Finset.sum_const, Finset.card_univ]
+          rw [originalC60IcosahedralVertex_card_kernel]
+          decide
 
 /-- Although the independently defined higher-charge pair is
 nonzero on a single actual C60 pentagon, the uniform global
@@ -116,7 +118,15 @@ theorem originalC60GlobalPentagonCollarCharge_mod2_zero :
         originalC60PentagonSquareCollarCharge t₁ t₂ left right v) =
       ((0 : ZMod 2), (0 : ZMod 2)) := by
   rw [originalC60GlobalPentagonCollarCharge t₁ t₂ left right]
-  norm_num [originalC60HigherChargeMod2]
+  change ((12 : ZMod 2), (60 : ZMod 2)) =
+    ((0 : ZMod 2), (0 : ZMod 2))
+  apply Prod.ext
+  · calc
+      (12 : ZMod 2) = 6 * (2 : ZMod 2) := by ring
+      _ = 0 := by rw [ZMod.natCast_self]; simp
+  · calc
+      (60 : ZMod 2) = 30 * (2 : ZMod 2) := by ring
+      _ = 0 := by rw [ZMod.natCast_self]; simp
 
 /-- The local-to-global distinction is REAL and proved: the
 individual C60 pentagon charge survives mod 2 whereas its
