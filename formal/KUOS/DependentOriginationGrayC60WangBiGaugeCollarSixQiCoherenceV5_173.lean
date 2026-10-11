@@ -387,7 +387,9 @@ theorem c60SixQiSourceFlag_incident :
       truncatedIcosahedralHexagonCycle,
       OrientedTruncatedIcosahedralEdge.source,
       truncatedDartOnSeedFace, icosahedralFaceEdges,
-      icosahedralIncidentDartAt]
+      truncatedIcosahedralEdgeEndpoints,
+      truncatedIcosahedralAroundEdgeEndpoints,
+      IcosahedralDart.edge, icosahedralIncidentDartAt]
 
 theorem c60SixQiTargetFlag_consecutive
     (face : IcosahedralFace) (q : C60SixQi) :
