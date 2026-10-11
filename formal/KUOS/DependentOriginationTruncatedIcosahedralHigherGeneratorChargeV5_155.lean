@@ -134,10 +134,12 @@ theorem originalF55Pasting_generatorCharge
     (d : OriginalF45BracketTree.DepthRotationRoute.PresentedCell s t) :
     (OriginalF45BracketTree.DepthRotationRoute.PresentedCell.trans c d).interpret
       OriginalF45BracketTree.DepthRotationRoute.HigherCellTarget.generatorCharge =
-      c.interpret
-        OriginalF45BracketTree.DepthRotationRoute.HigherCellTarget.generatorCharge +
-      d.interpret
-        OriginalF45BracketTree.DepthRotationRoute.HigherCellTarget.generatorCharge := by
+      ((c.interpret
+        OriginalF45BracketTree.DepthRotationRoute.HigherCellTarget.generatorCharge :
+          Int × Int) +
+      (d.interpret
+        OriginalF45BracketTree.DepthRotationRoute.HigherCellTarget.generatorCharge :
+          Int × Int)) := by
   rfl
 
 /-- The ORIGINAL formal higher-cell reversal acts as additive
@@ -153,8 +155,9 @@ theorem originalF55Reverse_generatorCharge
     (c : OriginalF45BracketTree.DepthRotationRoute.PresentedCell r s) :
     (OriginalF45BracketTree.DepthRotationRoute.PresentedCell.symm c).interpret
       OriginalF45BracketTree.DepthRotationRoute.HigherCellTarget.generatorCharge =
-      -(c.interpret
-        OriginalF45BracketTree.DepthRotationRoute.HigherCellTarget.generatorCharge) := by
+      -((c.interpret
+        OriginalF45BracketTree.DepthRotationRoute.HigherCellTarget.generatorCharge) :
+          Int × Int) := by
   rfl
 
 /-- In the independent target, vertical addition has genuine
@@ -183,6 +186,7 @@ theorem originalC60Pentagon_generatorCharge
     (t₄ : OriginalF45BracketTree n₄ m₄ p₃ q₃ p₄ q₄)
     (v : IcosahedralVertex) :
     (OriginalF45C60PentagonPasting.interpret
+      t₁ t₂ t₃ t₄
       (originalF45C60PentagonPasting t₁ t₂ t₃ t₄ v)
       (OriginalF45BracketTree.DepthRotationRoute.HigherCellTarget.generatorCharge
         (D := D) (E := E))) =
@@ -204,6 +208,7 @@ theorem originalC60Pentagon_generatorCharge_ne_zero
     (t₄ : OriginalF45BracketTree n₄ m₄ p₃ q₃ p₄ q₄)
     (v : IcosahedralVertex) :
     (OriginalF45C60PentagonPasting.interpret
+      t₁ t₂ t₃ t₄
       (originalF45C60PentagonPasting t₁ t₂ t₃ t₄ v)
       (OriginalF45BracketTree.DepthRotationRoute.HigherCellTarget.generatorCharge
         (D := D) (E := E))) ≠
