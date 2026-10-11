@@ -80,9 +80,8 @@ def OriginalF45BracketTree.RotationChain.leftContext
       (OriginalF45BracketTree.node first later)
       (OriginalF45BracketTree.node second later) := by
   induction chain with
-  | refl tree =>
-      exact OriginalF45BracketTree.RotationChain.refl
-        (OriginalF45BracketTree.node tree later)
+  | refl =>
+      exact OriginalF45BracketTree.RotationChain.refl _
   | snoc chain edge ih =>
       exact OriginalF45BracketTree.RotationChain.snoc ih
         (OriginalF45BracketTree.RotationEdge.leftContext edge later)
@@ -99,9 +98,8 @@ def OriginalF45BracketTree.RotationChain.rightContext
       (OriginalF45BracketTree.node earlier first)
       (OriginalF45BracketTree.node earlier second) := by
   induction chain with
-  | refl tree =>
-      exact OriginalF45BracketTree.RotationChain.refl
-        (OriginalF45BracketTree.node earlier tree)
+  | refl =>
+      exact OriginalF45BracketTree.RotationChain.refl _
   | snoc chain edge ih =>
       exact OriginalF45BracketTree.RotationChain.snoc ih
         (OriginalF45BracketTree.RotationEdge.rightContext earlier edge)
@@ -116,7 +114,7 @@ theorem OriginalF45BracketTree.RotationChain.leftContext_length
     (later : OriginalF45BracketTree n' m' mb pb mc pc) :
     (chain.leftContext later).length = chain.length := by
   induction chain with
-  | refl tree =>
+  | refl =>
       rfl
   | snoc chain edge ih =>
       exact congrArg (fun t => t + 1) ih
@@ -127,11 +125,11 @@ theorem OriginalF45BracketTree.RotationChain.rightContext_length
     {a b : D} {x y : E} {n m n' m' : Nat}
     {ma mb mc : Blocks a b} {pa pb pc : Blocks x y}
     (earlier : OriginalF45BracketTree n m ma pa mb pb)
-    {first second : OriginalF45BracketTree n' m' mb pb pc}
+    {first second : OriginalF45BracketTree n' m' mb pb mc pc}
     (chain : OriginalF45BracketTree.RotationChain first second) :
     (chain.rightContext earlier).length = chain.length := by
   induction chain with
-  | refl tree =>
+  | refl =>
       rfl
   | snoc chain edge ih =>
       exact congrArg (fun t => t + 1) ih
@@ -154,7 +152,7 @@ theorem OriginalF45BracketTree.RotationChain.rightContext_toClass_eq
     {a b : D} {x y : E} {n m n' m' : Nat}
     {ma mb mc : Blocks a b} {pa pb pc : Blocks x y}
     (earlier : OriginalF45BracketTree n m ma pa mb pb)
-    {first second : OriginalF45BracketTree n' m' mb pb pc}
+    {first second : OriginalF45BracketTree n' m' mb pb mc pc}
     (chain : OriginalF45BracketTree.RotationChain first second) :
     (OriginalF45BracketTree.node earlier first).toExchangeClass =
       (OriginalF45BracketTree.node earlier second).toExchangeClass :=
