@@ -4,7 +4,7 @@ import Mathlib.Algebra.Homology.ShortComplex.HomologicalComplex
 
 namespace KUOS.DependentOriginationGrayC60NativeH2FundamentalClassV5_161
 
-open CategoryTheory
+open CategoryTheory Limits
 open KUOS.DependentOriginationGrayC60IntegralBoundaryLinearMapV5_159
 open KUOS.DependentOriginationGrayC60IntegralChainComplexV5_160
 open KUOS.DependentOriginationGrayC60NativeChainComplexV5_160
@@ -44,17 +44,19 @@ pasting and old Stage-II omega remain separately unproved.
 is zero, because the original C60 CW-complex has no 3-cells. -/
 theorem c60NativeH2_incoming_zero :
     (c60NativeIntegralCellularComplex.sc 2).f = 0 := by
-  change c60NativeIntegralCellularComplex.d 3 2 = 0
-  exact c60NativeIntegralCellularComplex_d32
+  simpa [HomologicalComplex.sc, HomologicalComplex.shortComplexFunctor,
+    HomologicalComplex.shortComplexFunctor', ChainComplex.prev] using
+      c60NativeIntegralCellularComplex_d32
 
-/-- The outgoing map C₂ → C₁ at the actual H₂ object IS the exact
-previously formally verified original oriented integer d₂. -/
-theorem c60NativeH2_outgoing_eq_d2 :
-    (c60NativeIntegralCellularComplex.sc 2).g =
-      ModuleCat.ofHom c60IntegralBoundaryTwo := by
-  change c60NativeIntegralCellularComplex.d 2 1 =
-    ModuleCat.ofHom c60IntegralBoundaryTwo
-  exact c60NativeIntegralCellularComplex_d21
+/-- The exact outgoing native H₂ differential evaluates to zero
+on the previously kernel-certified oriented fundamental surface,
+using the actual F59-F9 integer cellular boundary d₂. -/
+theorem c60NativeH2_outgoing_fundamental_zero :
+    (c60NativeIntegralCellularComplex.sc 2).g.hom
+      c60IntegralFundamentalSurfaceChain = 0 := by
+  simpa [HomologicalComplex.sc, HomologicalComplex.shortComplexFunctor,
+    HomologicalComplex.shortComplexFunctor', ChainComplex.next_nat_succ] using
+      c60IntegralBoundaryTwo_fundamental_zero
 
 /-- The genuine nonzero sum of all 32 original oriented C60 faces
 lies in the ACTUAL native mathlib cycle submodule ker d₂. -/
@@ -62,8 +64,7 @@ theorem c60NativeH2_fundamental_mem_native_cycles :
     c60IntegralFundamentalSurfaceChain ∈
       LinearMap.ker
         (c60NativeIntegralCellularComplex.sc 2).g.hom := by
-  change c60IntegralBoundaryTwo c60IntegralFundamentalSurfaceChain = 0
-  exact c60IntegralBoundaryTwo_fundamental_zero
+  exact c60NativeH2_outgoing_fundamental_zero
 
 /-- The same ACTUAL fundamental surface chain is NOT a boundary
 from degree three. This proof uses the truly zero native d₃ and
@@ -105,17 +106,17 @@ abstract category-theoretic cycles and the concrete ker(d₂). -/
 theorem c60NativeH2FundamentalCycle_ne_zero :
     c60NativeH2FundamentalCycle ≠ 0 := by
   intro h
-  have hinj :
-      Function.Injective
-        (c60NativeIntegralCellularComplex.sc 2).moduleCatCyclesIso.inv.hom :=
-    (ModuleCat.mono_iff_injective _).mp inferInstance
+  have hmap :
+      (c60NativeIntegralCellularComplex.sc 2).moduleCatCyclesIso.hom
+        c60NativeH2FundamentalCycle = 0 := by
+    rw [h]
+    simp
   have hker :
       (⟨c60IntegralFundamentalSurfaceChain,
         c60NativeH2_fundamental_mem_native_cycles⟩ :
         LinearMap.ker (c60NativeIntegralCellularComplex.sc 2).g.hom) =
           0 := by
-    apply hinj
-    simpa only [c60NativeH2FundamentalCycle, map_zero] using h
+    simpa [c60NativeH2FundamentalCycle] using hmap
   exact c60IntegralFundamentalSurfaceChain_ne_zero
     (congrArg Subtype.val hker)
 
@@ -128,7 +129,7 @@ theorem c60NativeH2FundamentalClass_ne_zero :
     c60NativeH2FundamentalClass ≠ 0 := by
   haveI : IsIso (c60NativeIntegralCellularComplex.homologyπ 2) :=
     c60NativeIntegralCellularComplex.isIso_homologyπ
-      3 2 (by rfl) c60NativeIntegralCellularComplex_d32
+      3 2 (by simp) c60NativeIntegralCellularComplex_d32
   have hinj :
       Function.Injective
         (c60NativeIntegralCellularComplex.homologyπ 2).hom :=
@@ -136,7 +137,7 @@ theorem c60NativeH2FundamentalClass_ne_zero :
   intro h
   apply c60NativeH2FundamentalCycle_ne_zero
   apply hinj
-  simpa only [c60NativeH2FundamentalClass, map_zero] using h
+  simpa [c60NativeH2FundamentalClass] using h
 
 /-- H₂ of the true original 60-vertex, 90-edge, 32-face C60
 integral cellular chain complex is NOT THE ZERO MODULECAT OBJECT. -/
@@ -154,10 +155,10 @@ theorem c60NativeChainComplex_not_exactAt_two :
     ¬ c60NativeIntegralCellularComplex.ExactAt 2 := by
   intro hexact
   exact c60NativeH2_not_isZero
-    ((c60NativeIntegralCellularComplex.exactAt_iff_isZero_homology).mp hexact)
+    ((c60NativeIntegralCellularComplex.exactAt_iff_isZero_homology 2).mp hexact)
 
 #print axioms c60NativeH2_incoming_zero
-#print axioms c60NativeH2_outgoing_eq_d2
+#print axioms c60NativeH2_outgoing_fundamental_zero
 #print axioms c60NativeH2_fundamental_mem_native_cycles
 #print axioms c60NativeH2_fundamental_not_boundary
 #print axioms c60NativeH2FundamentalCycle
