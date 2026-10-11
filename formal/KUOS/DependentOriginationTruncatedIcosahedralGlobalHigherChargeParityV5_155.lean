@@ -55,6 +55,13 @@ def originalC60HigherChargeMod2
     (z : Int × Int) : ZMod 2 × ZMod 2 :=
   ((z.1 : ZMod 2), (z.2 : ZMod 2))
 
+/-- Reverify the original C60 seed's twelve icosahedral vertices
+using kernel reduction rather than importing the old v3.84
+`native_decide`-specific compiler axiom. -/
+theorem originalC60IcosahedralVertex_card_kernel :
+    Fintype.card IcosahedralVertex = 12 := by
+  decide
+
 section GlobalActualPentagonCollars
 variable {a b : D} {x y : E}
 variable {n₁ n₂ m₁ m₂ : Nat}
@@ -78,7 +85,7 @@ theorem originalC60LocalCollarCharge_mod2
       (originalC60PentagonSquareCollarCharge t₁ t₂ left right v) =
       ((1 : ZMod 2), (1 : ZMod 2)) := by
   rw [originalC60PentagonSquareCollarCharge_eq t₁ t₂ left right v]
-  norm_num [originalC60HigherChargeMod2]
+  norm_num [originalC60HigherChargeMod2] <;> decide
 
 /-- The genuine C60 has EXACTLY twelve distinct original
 vertex-origin pentagonal faces, each with exact signed integer
@@ -97,7 +104,7 @@ theorem originalC60GlobalPentagonCollarCharge :
           intro v _
           exact originalC60PentagonSquareCollarCharge_eq t₁ t₂ left right v
     _ = ((12 : Int), (60 : Int)) := by
-          norm_num [Finset.sum_const, icosahedralVertex_card]
+          norm_num [Finset.sum_const, originalC60IcosahedralVertex_card_kernel]
 
 /-- Although the independently defined higher-charge pair is
 nonzero on a single actual C60 pentagon, the uniform global
@@ -133,6 +140,7 @@ theorem originalC60LocalNonzeroGlobalZero
 end GlobalActualPentagonCollars
 
 #print axioms originalC60HigherChargeMod2
+#print axioms originalC60IcosahedralVertex_card_kernel
 #print axioms originalC60LocalCollarCharge_mod2
 #print axioms originalC60GlobalPentagonCollarCharge
 #print axioms originalC60GlobalPentagonCollarCharge_mod2_zero
