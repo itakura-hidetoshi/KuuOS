@@ -86,10 +86,12 @@ def wangBiSixYaoFunctor : WangBiFrame ⥤ Type where
   map := fun {a b} f => TypeCat.ofHom (wangBiChartArrow a b f : WangBiSixYao → WangBiSixYao)
   map_id := by
     intro a
+    apply TypeCat.homEquiv.injective
     funext x
     exact wangBiChartArrow_id a x
   map_comp := by
     intro a b c f g
+    apply TypeCat.homEquiv.injective
     funext x
     exact wangBiChartArrow_comp a b c f g x
 
@@ -154,7 +156,9 @@ theorem wangBiReadingTransport_comp
       wangBiFrameTransport a c (f ≫ g) r := by
   cases r with
   | mk k =>
-      congr 1
+      apply congrArg
+        (fun h : WangBiSixYao → T → M =>
+          (⟨h⟩ : WangBiTemporalReading T M))
       funext code t
       simp [wangBiFrameTransport, c60WangBiTransportReading,
         c60WangBiChangeHexagramChart]
