@@ -388,6 +388,55 @@ theorem c60WangBiRepairedEdgeGrade_changed_card :
   rw [hs]
   exact c60F20ChangedPhysicalEdge_card
 
+
+/-- RECONSTRUCTION CERTIFICATE: evaluating the genuine original
+90-edge corrected integer-linear F55 cochain on each real physical
+basis edge and rebuilding its signed linear combination gives
+EXACTLY that original corrected cochain, not merely a new
+edge-indexed function with equal cardinality. -/
+theorem c60WangBiRepairedGrade_realizes_cochain :
+    c60F18GrayEdgeCochain c60WangBiRepairedEdgeGrade =
+      c60WangBiFlatRepairedCochain := by
+  apply Finsupp.lhom_ext
+  intro e z
+  have hs :
+      (Finsupp.single e z : C60IntegralOneChains) =
+        z • (Finsupp.single e (1 : ℤ)) := by
+    simp
+  rw [hs, map_smul, map_smul]
+  simp [c60F18GrayEdgeCochain, c60WangBiRepairedEdgeGrade]
+
+/-- The actual original C60 12 pentagon + 20 hexagon SIGNED
+3-cell face curvature of the corrected Wang Bi atlas vanishes
+on EACH real face individually, not just after summing over
+the entire 32-face surface. -/
+theorem c60WangBiRepairedGrade_all32Faces_flat
+    (face : TruncatedIcosahedralSeedFace) :
+    c60WangBiSignedGrayFace c60WangBiRepairedEdgeGrade face = 0 := by
+  change c60F18SignedGrayFacePasting c60WangBiRepairedEdgeGrade face = 0
+  rw [c60F18SignedGrayFacePasting_eq,
+    c60WangBiRepairedGrade_realizes_cochain]
+  have hh := LinearMap.congr_fun
+    c60WangBiFlatRepairedCochain_flat
+      (Finsupp.single face (1 : ℤ))
+  change c60WangBiFlatRepairedCochain
+      (c60IntegralBoundaryTwo (Finsupp.single face (1 : ℤ))) = 0 at hh
+  rw [c60IntegralBoundaryTwo_singleFace] at hh
+  exact hh
+
+/-- The flat corrected native F55 vertex transport is the
+EXACT original tree-vertex gauge from F59-F19: one concrete
+global descent, rather than only an unspecified existence. -/
+theorem c60WangBiRepairedGrade_exact_treeDescent :
+    c60F18GrayEdgeCochain c60WangBiRepairedEdgeGrade =
+      c60F19TreeVertexGauge.comp c60IntegralBoundaryOne := by
+  rw [c60WangBiRepairedGrade_realizes_cochain]
+  change c60F19OriginalF55EdgeCochain +
+    (c60F19TreeVertexGauge.comp c60IntegralBoundaryOne -
+      c60F19OriginalF55EdgeCochain) =
+    c60F19TreeVertexGauge.comp c60IntegralBoundaryOne
+  abel
+
 /-- The REPAIRED actual C60 edge grades admit a genuine
 Wang Bi 64-symbol × F55 graded Mathlib natural transformation
 in all 360 edge-local flags of the physically unchanged C60. -/
@@ -432,6 +481,9 @@ theorem c60WangBiRepairedSurface_globalZero :
 #print axioms c60WangBiRepairedEdgeGrade_preserved
 #print axioms c60WangBiRepairedEdgeGrade_changed_iff
 #print axioms c60WangBiRepairedEdgeGrade_changed_card
+#print axioms c60WangBiRepairedGrade_realizes_cochain
+#print axioms c60WangBiRepairedGrade_all32Faces_flat
+#print axioms c60WangBiRepairedGrade_exact_treeDescent
 #print axioms c60WangBiRepairedGlobalAtlas
 #print axioms c60WangBiRepairedGlobalAtlas_natural
 #print axioms c60WangBiRepairedSurface_globalZero
