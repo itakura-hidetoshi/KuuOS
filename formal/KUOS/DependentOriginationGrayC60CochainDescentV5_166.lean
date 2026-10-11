@@ -15,6 +15,7 @@ open KUOS.DependentOriginationGrayC60AllNinetyEdgePastingV5_157
 open KUOS.DependentOriginationGrayC60IntegerOrientedSurfaceCycleV5_159
 open KUOS.DependentOriginationGrayC60IntegralBoundaryLinearMapV5_159
 open KUOS.DependentOriginationGrayC60IntegralChainComplexV5_160
+open KUOS.DependentOriginationGrayC60NativeH0AugmentationV5_162
 open KUOS.DependentOriginationGrayC60NativeH0ConnectivityV5_163
 open KUOS.DependentOriginationGrayC60NativeH1ContractingHomotopyV5_164
 open KUOS.DependentOriginationGrayC60NativeH2CompleteV5_165
@@ -205,7 +206,7 @@ theorem c60F18FaceDescent_iff_surfaceObstruction_zero
             (c60F17NorthFaceCoefficient x)) = 0 := by
       rw [c60F17FundamentalSurfaceEmbedding,
         LinearMap.toSpanSingleton_apply, map_smul]
-      rw [← c60F18SurfaceObstruction] at hzero
+      change faceLabel c60IntegralFundamentalSurfaceChain = 0 at hzero
       rw [hzero, smul_zero]
     change faceLabel x =
       faceLabel (c60F16FaceFillLift (c60IntegralBoundaryTwo x))
