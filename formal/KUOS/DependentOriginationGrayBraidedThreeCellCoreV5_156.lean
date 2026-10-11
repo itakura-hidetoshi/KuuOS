@@ -245,6 +245,7 @@ theorem GradedThreeCell.exchange_hexagon_reverse
       GradedThreeCell.associatorInv, GradedThreeCell.associator,
       GradedThreeCell.inv, GradedThreeCell.exchange,
       GradedThreeCell.ident, add_mul]
+    exact add_comm (a * c) (b * c)
 
 /-- The explicitly typed associator obeys its original five-vertex
 pentagon equation even with independent charge and phase fields. -/
