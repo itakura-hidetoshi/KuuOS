@@ -114,14 +114,23 @@ theorem c60NativeH2NorthPentagonCoefficient_fundamental :
 mathlib H₂ object, sending n to n times the actual C60 fundamental
 class, not to a detached formal generator. -/
 def c60NativeH2FundamentalLinear :
-    ℤ →ₗ[ℤ] (c60NativeIntegralCellularComplex.homology 2) where
-  toFun := fun n : ℤ => n • c60NativeH2FundamentalClass
-  map_add' := by
-    intro n m
-    exact add_smul n m c60NativeH2FundamentalClass
-  map_smul' := by
-    intro r n
-    exact mul_smul r n c60NativeH2FundamentalClass
+    ℤ →ₗ[ℤ] (c60NativeIntegralCellularComplex.homology 2) :=
+  LinearMap.toSpanSingleton ℤ
+    (c60NativeIntegralCellularComplex.homology 2)
+    c60NativeH2FundamentalClass
+
+/-- In Mathlib the canonical integer module scalar action on a
+ModuleCat object must be connected EXPLICITLY with its underlying
+additive-group integer zsmul. This lemma provides that bridge. -/
+theorem c60NativeH2FundamentalLinear_apply (n : ℤ) :
+    c60NativeH2FundamentalLinear n =
+      n • c60NativeH2FundamentalClass := by
+  rw [c60NativeH2FundamentalLinear,
+    LinearMap.toSpanSingleton_apply]
+  exact int_smul_eq_zsmul
+    (inferInstance : Module ℤ
+      (c60NativeIntegralCellularComplex.homology 2))
+    n c60NativeH2FundamentalClass
 
 /-- This copy of the integers inside native C60 H₂ is SPLIT:
 the north-pentagon coefficient map is a strict linear LEFT
@@ -153,8 +162,8 @@ theorem c60NativeH2FundamentalClass_zsmul_eq_zero_iff (n : ℤ) :
   constructor
   · intro h
     apply c60NativeH2FundamentalLinear_injective
-    change n • c60NativeH2FundamentalClass =
-      (0 : ℤ) • c60NativeH2FundamentalClass
+    rw [c60NativeH2FundamentalLinear_apply,
+      c60NativeH2FundamentalLinear_apply]
     simpa only [zero_smul] using h
   · rintro rfl
     simp
@@ -166,8 +175,8 @@ theorem c60NativeH2FundamentalClass_infinite_order :
       (fun n : ℤ => n • c60NativeH2FundamentalClass) := by
   intro m n hmn
   apply c60NativeH2FundamentalLinear_injective
-  change m • c60NativeH2FundamentalClass =
-    n • c60NativeH2FundamentalClass
+  rw [c60NativeH2FundamentalLinear_apply,
+    c60NativeH2FundamentalLinear_apply]
   exact hmn
 
 #print axioms c60NativeH2FundamentalπIso
@@ -176,6 +185,7 @@ theorem c60NativeH2FundamentalClass_infinite_order :
 #print axioms c60NativeH2ConcreteCycleIso_fundamental
 #print axioms c60NativeH2NorthPentagonCoefficient_fundamental
 #print axioms c60NativeH2FundamentalLinear
+#print axioms c60NativeH2FundamentalLinear_apply
 #print axioms c60NativeH2FundamentalLinear_split
 #print axioms c60NativeH2FundamentalLinear_injective
 #print axioms c60NativeH2FundamentalClass_zsmul_eq_zero_iff
