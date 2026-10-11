@@ -145,7 +145,7 @@ theorem c60IntegralBoundaryOne_signedEdgeList_apply
   | cons p ps ih =>
       simp only [List.map_cons, List.sum_cons, Finsupp.add_apply]
       rw [ih]
-      simp [c60IntegralEdgeBoundaryChain_apply, smul_eq_mul]
+      simp [c60IntegralEdgeBoundaryChain_apply]
 
 /-- STRONG LOCAL CYCLIC INTEGRAL FACE CONDITION.
 Every one of the 32 genuine pentagonal or hexagonal boundary
