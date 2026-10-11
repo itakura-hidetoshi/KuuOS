@@ -72,8 +72,8 @@ theorem originalC60PentagonChosenMateAndCharge
     (t₄ : Grid.OriginalF45BracketTree n₄ m₄ p₃ q₃ p₄ q₄)
     (v : IcosahedralVertex) :
     (∀ s : PentagonalSlot,
-      ((originalF45C60PentagonPasting t₁ t₂ t₃ t₄ v).sides s)
-        .incidenceSquare.firstFace = .aroundVertex v) ∧
+      ((originalF45C60PentagonPasting t₁ t₂ t₃ t₄ v).sides s).incidenceSquare.firstFace =
+        TruncatedIcosahedralSeedFace.aroundVertex v) ∧
     (∀ route : Grid.OriginalF45BracketTree.DepthRotationRoute
         (Grid.OriginalF45BracketTree.pentagon0 t₁ t₂ t₃ t₄)
         (Grid.OriginalF45BracketTree.pentagon3 t₁ t₂ t₃ t₄),
@@ -86,7 +86,7 @@ theorem originalC60PentagonChosenMateAndCharge
     (OriginalF45C60PentagonPasting.interpret
       t₁ t₂ t₃ t₄
       (originalF45C60PentagonPasting t₁ t₂ t₃ t₄ v)
-      (Grid.OriginalF45BracketTree.DepthRotationRoute.HigherCellTarget.generatorCharge
+      (KUOS.DependentOriginationTruncatedIcosahedralHigherChargeV5_155.OriginalF45BracketTree.DepthRotationRoute.HigherCellTarget.generatorCharge
         (D := LeftMatePresentation F G)
         (E := compressionKernelCategory aF bF aG bG))) =
       ((1 : Int), (0 : Int)) := by
@@ -118,7 +118,7 @@ theorem originalC60PentagonTypedRoutes_distinct
     (OriginalF45C60PentagonPasting.interpret
       t₁ t₂ t₃ t₄
       (originalF45C60PentagonPasting t₁ t₂ t₃ t₄ v)
-      (Grid.OriginalF45BracketTree.DepthRotationRoute.HigherCellTarget.generatorCharge
+      (KUOS.DependentOriginationTruncatedIcosahedralHigherChargeV5_155.OriginalF45BracketTree.DepthRotationRoute.HigherCellTarget.generatorCharge
         (D := LeftMatePresentation F G)
         (E := compressionKernelCategory aF bF aG bG))) ≠
       (0 : Int × Int) := by
@@ -159,7 +159,7 @@ theorem originalC60FlagSquareChosenMateAndCharge
         (Grid.OriginalF45BracketTree.node leftAfter rightAfter).toExchangeClass) ∧
     (OriginalC60FlagSquareWithF55Generator.canonical
       edge left right).squareCell.interpret
-        (Grid.OriginalF45BracketTree.DepthRotationRoute.HigherCellTarget.generatorCharge
+        (KUOS.DependentOriginationTruncatedIcosahedralHigherChargeV5_155.OriginalF45BracketTree.DepthRotationRoute.HigherCellTarget.generatorCharge
           (D := LeftMatePresentation F G)
           (E := compressionKernelCategory aF bF aG bG)) =
         ((0 : Int), (1 : Int)) := by
