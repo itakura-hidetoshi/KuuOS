@@ -60,7 +60,7 @@ instance : Category WangBiFrame where
 is the PREEXISTING noncanonical but invertible F59-F22
 re-encoding. -/
 def wangBiChartArrow
-    (a b : WangBiFrame) (f : a ⟶ b) :
+    (a b : WangBiFrame) (_f : a ⟶ b) :
     WangBiSixYao ≃ WangBiSixYao :=
   c60WangBiChangeHexagramChart a.chart b.chart
 
@@ -83,7 +83,7 @@ verified chart-change bijection. The proof obligations
 are genuine Mathlib functor identity and composition laws. -/
 def wangBiSixYaoFunctor : WangBiFrame ⥤ Type where
   obj _ := WangBiSixYao
-  map := fun {a b} f => (wangBiChartArrow a b f : WangBiSixYao → WangBiSixYao)
+  map := fun {a b} f => TypeCat.ofHom (wangBiChartArrow a b f : WangBiSixYao → WangBiSixYao)
   map_id := by
     intro a
     funext x
@@ -124,7 +124,7 @@ def wangBiFrameRead
 using the F59-F22 verified meaning-compatible transport. -/
 def wangBiFrameTransport
     {T M : Type*} (a b : WangBiFrame)
-    (f : a ⟶ b) (r : WangBiTemporalReading T M) :
+    (_f : a ⟶ b) (r : WangBiTemporalReading T M) :
     WangBiTemporalReading T M :=
   c60WangBiTransportReading a.chart b.chart r
 
@@ -154,7 +154,7 @@ theorem wangBiReadingTransport_comp
       wangBiFrameTransport a c (f ≫ g) r := by
   cases r with
   | mk k =>
-      apply WangBiTemporalReading.ext
+      congr 1
       funext code t
       simp [wangBiFrameTransport, c60WangBiTransportReading,
         c60WangBiChangeHexagramChart]
