@@ -116,7 +116,7 @@ def actualLiftSourceSequentialOriginalF45GeneralMateIndependence
       (PresentationLabel := PresentationLabel))
     modsA modsB f
     uF uG vF vG wF wG pqA pqB
-    (Grid.ExchangeClass.append
+    (KUOS.DependentOriginationCoherentBiadjunctionExchangeQuotientConcatenationV5_141.Grid.ExchangeClass.append
       (Grid.AxisTrace.originalF45OrderClass first hm₁ hc₁)
       (Grid.AxisTrace.originalF45OrderClass second hm₂ hc₂)) basePath
 
@@ -170,7 +170,7 @@ def actualLiftSourceSequentialOriginalF45MapIdMateIndependence
       (PresentationLabel := PresentationLabel))
     modsA modsB X
     uF uG vF vG wF wG pqA pqB
-    (Grid.ExchangeClass.append
+    (KUOS.DependentOriginationCoherentBiadjunctionExchangeQuotientConcatenationV5_141.Grid.ExchangeClass.append
       (Grid.AxisTrace.originalF45OrderClass first hm₁ hc₁)
       (Grid.AxisTrace.originalF45OrderClass second hm₂ hc₂)) basePath
 
@@ -226,7 +226,7 @@ def actualLiftSourceSequentialOriginalF45MapCompMateIndependence
       (PresentationLabel := PresentationLabel))
     modsA modsB f g
     uF uG vF vG wF wG pqA pqB
-    (Grid.ExchangeClass.append
+    (KUOS.DependentOriginationCoherentBiadjunctionExchangeQuotientConcatenationV5_141.Grid.ExchangeClass.append
       (Grid.AxisTrace.originalF45OrderClass first hm₁ hc₁)
       (Grid.AxisTrace.originalF45OrderClass second hm₂ hc₂)) basePath
 
@@ -280,7 +280,7 @@ def actualLiftTargetSequentialOriginalF45GeneralMateIndependence
         (W := W) A WorldLabel PresentationLabel))
     modsA modsB f
     uF uG vF vG wF wG pqA pqB
-    (Grid.ExchangeClass.append
+    (KUOS.DependentOriginationCoherentBiadjunctionExchangeQuotientConcatenationV5_141.Grid.ExchangeClass.append
       (Grid.AxisTrace.originalF45OrderClass first hm₁ hc₁)
       (Grid.AxisTrace.originalF45OrderClass second hm₂ hc₂)) basePath
 
@@ -334,7 +334,7 @@ def actualLiftTargetSequentialOriginalF45MapIdMateIndependence
         (W := W) A WorldLabel PresentationLabel))
     modsA modsB X
     uF uG vF vG wF wG pqA pqB
-    (Grid.ExchangeClass.append
+    (KUOS.DependentOriginationCoherentBiadjunctionExchangeQuotientConcatenationV5_141.Grid.ExchangeClass.append
       (Grid.AxisTrace.originalF45OrderClass first hm₁ hc₁)
       (Grid.AxisTrace.originalF45OrderClass second hm₂ hc₂)) basePath
 
@@ -390,7 +390,7 @@ def actualLiftTargetSequentialOriginalF45MapCompMateIndependence
         (W := W) A WorldLabel PresentationLabel))
     modsA modsB f g
     uF uG vF vG wF wG pqA pqB
-    (Grid.ExchangeClass.append
+    (KUOS.DependentOriginationCoherentBiadjunctionExchangeQuotientConcatenationV5_141.Grid.ExchangeClass.append
       (Grid.AxisTrace.originalF45OrderClass first hm₁ hc₁)
       (Grid.AxisTrace.originalF45OrderClass second hm₂ hc₂)) basePath
 
