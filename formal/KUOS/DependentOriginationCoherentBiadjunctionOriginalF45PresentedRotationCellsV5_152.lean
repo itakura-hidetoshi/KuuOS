@@ -207,12 +207,12 @@ inductive OriginalF45BracketTree.DepthRotationRoute.PresentedCell :
       {first : OriginalF45BracketTree n₁ m₁ ma pa mb pb}
       {middle : OriginalF45BracketTree n₂ m₂ ma pa mb pb}
       {last : OriginalF45BracketTree n₃ m₃ ma pa mb pb}
-      (prefix : OriginalF45BracketTree.DepthRotationRoute first middle)
+      (priorRoute : OriginalF45BracketTree.DepthRotationRoute first middle)
       {r s : OriginalF45BracketTree.DepthRotationRoute middle last}
       (cell : PresentedCell r s) :
       PresentedCell
-        (OriginalF45BracketTree.DepthRotationRoute.trans prefix r)
-        (OriginalF45BracketTree.DepthRotationRoute.trans prefix s)
+        (OriginalF45BracketTree.DepthRotationRoute.trans priorRoute r)
+        (OriginalF45BracketTree.DepthRotationRoute.trans priorRoute s)
   | postcompose
       {a b : D} {x y : E}
       {n₁ n₂ n₃ m₁ m₂ m₃ : Nat}
