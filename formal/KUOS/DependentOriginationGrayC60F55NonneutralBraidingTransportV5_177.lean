@@ -199,6 +199,8 @@ theorem c60F29ShiftedSource_defect_zero
     {r s : OriginalF45BracketTree.DepthRotationRoute first last}
     (cell : OriginalF45BracketTree.DepthRotationRoute.PresentedCell r s) :
     c60F29PhaseDefect (c60F29ShiftedSource a cell) = 0 := by
+  change c60F29PhaseDefect
+    (c60F29ShiftNeutral a (c60F55SourceNative cell)) = 0
   rw [c60F29ShiftNeutral_defect]
   have h := c60F55SourceNative_mem cell
   change (c60F55SourceNative cell).phase =
@@ -254,6 +256,9 @@ theorem c60F29BraidedSource_defect
     {r s : OriginalF45BracketTree.DepthRotationRoute first last}
     (cell : OriginalF45BracketTree.DepthRotationRoute.PresentedCell r s) :
     c60F29PhaseDefect (c60F29BraidedSource a b cell) = a * b := by
+  change c60F29PhaseDefect
+    ((c60F29ShiftedSource (a + b) cell).comp
+      (GradedThreeCell.exchange a b)) = a * b
   rw [c60F29PhaseDefect_comp,
     c60F29ShiftedSource_defect_zero,
     c60F29PhaseDefect_exchange]
@@ -400,7 +405,17 @@ theorem c60F29BraidedSource_horizontal_WangBi
       (c60F55SourceHorizontalLeftFirst α β) =
     c60F29SourceBraidedAtlas a b side
       (c60F55SourceHorizontalRightFirst α β) := by
-  rw [c60F29BraidedSource_horizontal_coherence a b α β]
+  change c60F29BraidedCornerNatTrans a b side
+    (fun _ => c60F29BraidedSource a b
+      (c60F55SourceHorizontalLeftFirst α β)) =
+    c60F29BraidedCornerNatTrans a b side
+    (fun _ => c60F29BraidedSource a b
+      (c60F55SourceHorizontalRightFirst α β))
+  exact congrArg
+    (fun v : GradedThreeCell (a + b) (b + a) =>
+      c60F29BraidedCornerNatTrans a b side
+        (fun _ : TruncatedIcosahedralEdge => v))
+    (c60F29BraidedSource_horizontal_coherence a b α β)
 
 end OriginalSourceHorizontal
 
