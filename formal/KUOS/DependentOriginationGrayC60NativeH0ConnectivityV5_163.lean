@@ -185,7 +185,6 @@ theorem c60RootToEveryPentagon :
 one of the sixty incident-slot positions of the twelve
 actual original icosahedral vertices. -/
 set_option maxHeartbeats 1000000
-set_option maxRecDepth 4096 in
 theorem c60EveryDartHasIncidentSlot :
     ∀ d : IcosahedralDart,
       ∃ v : IcosahedralVertex, ∃ s : PentagonalSlot,
@@ -320,15 +319,12 @@ noncomputable def c60NativeH0IsoInteger :
       LinearMap.range
           (c60NativeIntegralCellularComplex.sc 0).f.hom =
         c60IntegralEdgeRange := by
-    have hf :
-        (c60NativeIntegralCellularComplex.sc 0).f =
-          ModuleCat.ofHom c60IntegralBoundaryOne := by
-      change c60NativeIntegralCellularComplex.d
-        ((ComplexShape.down ℕ).prev 0) 0 =
-          ModuleCat.ofHom c60IntegralBoundaryOne
-      rw [ChainComplex.prev]
-      exact c60NativeIntegralCellularComplex_d10
-    rw [hf]
+    change LinearMap.range
+      (c60NativeIntegralCellularComplex.d
+        ((ComplexShape.down ℕ).prev 0) 0).hom =
+        c60IntegralEdgeRange
+    rw [ChainComplex.prev]
+    rw [c60NativeIntegralCellularComplex_d10]
     rfl
   have hQuot :
       ModuleCat.of ℤ
