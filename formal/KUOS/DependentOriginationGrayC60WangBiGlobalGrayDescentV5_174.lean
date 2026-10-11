@@ -65,7 +65,7 @@ The full source F55 PresentedCell -> nontrivial ambient Gray
 identification remain distinct obligations.
 -/
 
-/-- The genuine original oriented 5-/6-edge F55-target holonomy,
+/-- The genuine original oriented 5- or 6-edge F55-target holonomy,
 not the unsigned boundary length or a synthetic quadrilateral. -/
 def c60WangBiSignedGrayFace
     (grade : TruncatedIcosahedralEdge → GradedThreeCell 0 0)
@@ -362,21 +362,28 @@ theorem c60WangBiRepairedEdgeGrade_changed_iff
         _ = 0 := by rw [heq, sub_self]
     exact hs hz
 
+/-- The exact set of physically changed F55-square edge grades.
+The independently typed graded F55 target is noncomputable, so its
+DecidablePred is obtained locally rather than adding an axiom. -/
+noncomputable def c60WangBiRepairedChangedSupport :
+    Finset TruncatedIcosahedralEdge := by
+  classical
+  exact Finset.univ.filter (fun e =>
+    c60WangBiRepairedEdgeGrade e ≠ originalF55BraidedSquareGenerator)
+
 /-- Exactly TWENTY-SEVEN of the ninety physical F55 3-cell
 edge grades actually change; the remaining SIXTY-THREE
 are all original nontrivial braided square generators. -/
 theorem c60WangBiRepairedEdgeGrade_changed_card :
-    (Finset.univ.filter (fun e : TruncatedIcosahedralEdge =>
-      c60WangBiRepairedEdgeGrade e ≠
-        originalF55BraidedSquareGenerator)).card = 27 := by
+    c60WangBiRepairedChangedSupport.card = 27 := by
+  classical
   have hs :
-      (Finset.univ.filter (fun e : TruncatedIcosahedralEdge =>
-        c60WangBiRepairedEdgeGrade e ≠
-          originalF55BraidedSquareGenerator)) =
+      c60WangBiRepairedChangedSupport =
       Finset.univ.filter (fun e =>
         c60F20IsChangedEdge e = true) := by
     ext e
-    simp only [Finset.mem_filter, Finset.mem_univ, true_and]
+    simp only [c60WangBiRepairedChangedSupport,
+      Finset.mem_filter, Finset.mem_univ, true_and]
     exact c60WangBiRepairedEdgeGrade_changed_iff e
   rw [hs]
   exact c60F20ChangedPhysicalEdge_card
