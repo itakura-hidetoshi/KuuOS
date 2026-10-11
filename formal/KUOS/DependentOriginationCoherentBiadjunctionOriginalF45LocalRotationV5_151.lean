@@ -110,24 +110,9 @@ theorem OriginalF45BracketTree.LocalRotation.axisHistories_eq
   have h := congrArg ExchangeClass.axisTraces step.toExchangeClass_eq
   simpa only [OriginalF45BracketTree.toExchangeClass_axisTraces] using h
 
-/-- Original F43 two-axis reachability remains certified by both
-ends of EVERY exact-depth local associativity rotation. -/
-theorem OriginalF45BracketTree.LocalRotation.originalInterleavings
-    {a b : D} {x y : E} {n m : Nat}
-    {ma mb : Blocks a b} {pa pb : Blocks x y}
-    {before after : OriginalF45BracketTree n m ma pa mb pb}
-    (step : OriginalF45BracketTree.LocalRotation before after) :
-    KUOS.DependentOriginationCoherentBiadjunctionInterleavedRefinementV5_140.Grid.Interleaving
-        n m ma pa mb pb ∧
-      KUOS.DependentOriginationCoherentBiadjunctionInterleavedRefinementV5_140.Grid.Interleaving
-        n m ma pa mb pb :=
-  ⟨before.toExchangeClass.toInterleaving,
-    after.toExchangeClass.toInterleaving⟩
-
 #print axioms OriginalF45BracketTree.LocalRotation
 #print axioms OriginalF45BracketTree.LocalRotation.toExchangeClass_eq
 #print axioms OriginalF45BracketTree.LocalRotation.axisHistories_eq
-#print axioms OriginalF45BracketTree.LocalRotation.originalInterleavings
 
 end
 end KUOS.DependentOriginationCoherentBiadjunctionInterleavingExchangeQuotientV5_141.Grid
