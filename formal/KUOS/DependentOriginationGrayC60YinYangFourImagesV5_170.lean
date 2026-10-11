@@ -76,7 +76,7 @@ theorem c60PolarComplexConjugation_involutive
     Function.Involutive (c60PolarComplexConjugation chart pole) := by
   intro z
   cases chart <;> cases pole <;>
-    simp [c60PolarComplexConjugation, Complex.ext_iff]
+    simp [c60PolarComplexConjugation]
 
 /-- The exact ORIGINAL KuuOS v2.4 LocalRealFrame interface,
 now instantiated on the physical north/south C60 pentagons
