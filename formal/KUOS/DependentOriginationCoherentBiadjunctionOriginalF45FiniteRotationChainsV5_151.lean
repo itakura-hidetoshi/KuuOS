@@ -179,7 +179,7 @@ theorem OriginalF45BracketTree.RotationChain.toExchangeClass_eq
     (chain : OriginalF45BracketTree.RotationChain first last) :
     first.toExchangeClass = last.toExchangeClass := by
   induction chain with
-  | refl tree =>
+  | refl =>
       rfl
   | snoc chain edge ih =>
       exact ih.trans edge.toExchangeClass_eq
