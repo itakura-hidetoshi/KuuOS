@@ -96,17 +96,15 @@ theorem originalC60SquareCollarChargeList_eq
       [((0 : Int), (1 : Int)), (0, 1), (0, 1), (0, 1), (0, 1)] := by
   rfl
 
-/-- Actual *additive invariant* of the real C60 five-edge pentagon
-plus all five independent local square labels. This is a finite
-aggregation over a cyclic geometric flag-collar, NOT a fabricated
-vertical 3-cell composite of incompatible source/target paths. -/
+/-- Actual finite additive invariant: the pentagon contribution is
+the previously PROVED universal F58-A value (1,0), rather than
+treating the dependent HigherCellTarget.Cell family as an
+untyped additive expression. The separate complete collar theorem
+below also proves that the ACTUAL C60 pentagon interpreter equals
+(1,0), so this definition does not silently assume the value. -/
 def originalC60PentagonSquareCollarCharge
     (v : IcosahedralVertex) : Int × Int :=
-  ((OriginalF45C60PentagonPasting.interpret
-    t₁ t₂ t₃ t₄
-    (originalF45C60PentagonPasting t₁ t₂ t₃ t₄ v)
-    (OriginalF45BracketTree.DepthRotationRoute.HigherCellTarget.generatorCharge
-      (D := D) (E := E))) : Int × Int) +
+  ((1 : Int), (0 : Int)) +
     (originalC60SquareCollarChargeList t₁ t₂ left right v).sum
 
 /-- The original C60 five-edge pentagon has independent charge (1,0),
@@ -114,11 +112,10 @@ while the FIVE genuinely labelled corner-glued four-flag squares
 have aggregate charge (0,5). Their finite invariant is (1,5). -/
 theorem originalC60PentagonSquareCollarCharge_eq
     (v : IcosahedralVertex) :
-    originalC60PentagonSquareCollarCharge t₁ t₂ t₃ t₄ left right v =
+    originalC60PentagonSquareCollarCharge t₁ t₂ left right v =
       ((1 : Int), (5 : Int)) := by
   unfold originalC60PentagonSquareCollarCharge
-  rw [originalC60Pentagon_generatorCharge t₁ t₂ t₃ t₄ v,
-    originalC60SquareCollarChargeList_eq t₁ t₂ left right v]
+  rw [originalC60SquareCollarChargeList_eq t₁ t₂ left right v]
   decide
 
 /-- The two adjacent ACTUAL integer-charged F55 square generators
@@ -179,12 +176,18 @@ theorem originalC60PentagonSquareCollar_complete
         ⟨v, pentagonalSlotNext s⟩ left right).geometricSquare.vertex false),
        ((OriginalC60FlagSquareWithF55Generator.canonical
         ⟨v, pentagonalSlotNext s⟩ left right).geometricSquare.face false))) ∧
+    ((OriginalF45C60PentagonPasting.interpret
+      t₁ t₂ t₃ t₄
+      (originalF45C60PentagonPasting t₁ t₂ t₃ t₄ v)
+      (OriginalF45BracketTree.DepthRotationRoute.HigherCellTarget.generatorCharge
+        (D := D) (E := E))) = ((1 : Int), (0 : Int))) ∧
     (originalC60PentagonSquareCollarCharge
-      t₁ t₂ t₃ t₄ left right v = ((1 : Int), (5 : Int))) :=
+      t₁ t₂ left right v = ((1 : Int), (5 : Int))) :=
   ⟨originalC60ChargedSquareCollar_consecutive_sharedFlag
       t₁ t₂ left right v,
+   originalC60Pentagon_generatorCharge t₁ t₂ t₃ t₄ v,
    originalC60PentagonSquareCollarCharge_eq
-      t₁ t₂ t₃ t₄ left right v⟩
+      t₁ t₂ left right v⟩
 
 #print axioms originalC60SquareCollarChargeList
 #print axioms originalC60SquareCollarChargeList_eq
