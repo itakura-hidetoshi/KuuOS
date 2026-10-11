@@ -167,7 +167,7 @@ theorem c60LegacyShengPentagon_returnsPhase_retainsHistory
     c60LegacyFibonacciState p ⟨3, 5⟩ := by
   rw [applyRelationWord_eq_applyShift,
     c60LegacyShengPentagon_protectedShift]
-  simp [applyShift, c60LegacyFibonacciState] <;> decide
+  simp [applyShift, c60LegacyFibonacciState]; decide
 
 /-- Five Ke single events likewise preserve the old event count
 and produce the same v2.5 Fibonacci lineage advance. -/
@@ -179,7 +179,7 @@ theorem c60LegacyKePentagram_returnsPhase_retainsHistory
     c60LegacyFibonacciState p ⟨3, 5⟩ := by
   rw [applyRelationWord_eq_applyShift,
     c60LegacyKePentagram_protectedShift]
-  simp [applyShift, c60LegacyFibonacciState] <;> decide
+  simp [applyShift, c60LegacyFibonacciState]; decide
 
 /-- Wood/Fire/Earth/Metal/Water label the ORIGINAL 2026-09
 pentagram outer tips p0..p4 in their true geometric order. -/
