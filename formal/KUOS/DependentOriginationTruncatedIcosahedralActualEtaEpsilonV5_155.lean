@@ -49,6 +49,14 @@ pentagon, any original double-F19/F28-depth pentagon endpoint
 rotation route preserves the actual-lift chosen mate F44 quotient,
 and the independent genuine C60 pentagon-generator charge is (1,0).
 
+The named argument `D` of the independent `HigherCellTarget.generatorCharge`
+is the TYPE of objects of the original `LeftMatePresentation F G`
+category. It is NOT `actualLiftSourceChosenMatePresentation` or
+`actualLiftTargetChosenMatePresentation`, which are particular OBJECTS
+of that category. The two original pseudofunctor directions differ;
+therefore both source and target specializations name the correct
+`LeftMatePresentation` type and preserve their honest orientation.
+
 These do NOT claim a Gray/tricategorical 3-cell realization,
 presentation-independent descent, or that any potentially
 noninvertible G.toOplax comparison has an inverse.
@@ -109,8 +117,13 @@ theorem actualLiftSourceEtaC60Pentagon
       t₁ t₂ t₃ t₄
       (originalF45C60PentagonPasting t₁ t₂ t₃ t₄ v)
       (KUOS.DependentOriginationTruncatedIcosahedralHigherChargeV5_155.OriginalF45BracketTree.DepthRotationRoute.HigherCellTarget.generatorCharge
-        (D := actualLiftSourceChosenMatePresentation (W := W) A
-          (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))
+        (D := LeftMatePresentation
+          (Pseudofunctor.id
+            (ActualLiftSource.{u, v, uH, vH, uW, uP}
+              (W := W) A WorldLabel PresentationLabel))
+          (actualLiftSourceRoundtrip.{u, v, uH, vH, uW, uP}
+            (W := W) A (WorldLabel := WorldLabel)
+            (PresentationLabel := PresentationLabel)))
         (E := compressionKernelCategory aF bF aG bG))) =
         ((1 : Int), (0 : Int)) := by
   refine ⟨?_, ?_, ?_⟩
@@ -170,8 +183,13 @@ theorem actualLiftTargetEpsilonC60Pentagon
       t₁ t₂ t₃ t₄
       (originalF45C60PentagonPasting t₁ t₂ t₃ t₄ v)
       (KUOS.DependentOriginationTruncatedIcosahedralHigherChargeV5_155.OriginalF45BracketTree.DepthRotationRoute.HigherCellTarget.generatorCharge
-        (D := actualLiftTargetChosenMatePresentation (W := W) A
-          (WorldLabel := WorldLabel) (PresentationLabel := PresentationLabel))
+        (D := LeftMatePresentation
+          (actualLiftTargetRoundtrip.{u, v, uH, vH, uW, uP}
+            (W := W) A (WorldLabel := WorldLabel)
+            (PresentationLabel := PresentationLabel))
+          (Pseudofunctor.id
+            (ActualLiftTarget.{u, v, uH, vH, uW, uP}
+              (W := W) A WorldLabel PresentationLabel)))
         (E := compressionKernelCategory aF bF aG bG))) =
         ((1 : Int), (0 : Int)) := by
   refine ⟨?_, ?_, ?_⟩
