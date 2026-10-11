@@ -47,7 +47,8 @@ structure OriginalF45BracketTree.DepthRotationRoute.F44ObservedCell
     {ma mb : Blocks a b} {pa pb : Blocks x y}
     {first : OriginalF45BracketTree n m ma pa mb pb}
     {last : OriginalF45BracketTree n' m' ma pa mb pb}
-    (r s : OriginalF45BracketTree.DepthRotationRoute first last) where
+    (r s : OriginalF45BracketTree.DepthRotationRoute first last) :
+    Type (max (max uD uE) (max vD vE)) where
   firstClass :
     ExchangeClass.castDepths r.depthEq.1 r.depthEq.2
       first.toExchangeClass = last.toExchangeClass
