@@ -9,6 +9,7 @@ open KUOS.DependentOriginationTruncatedIcosahedralEdgesV3_85
 open KUOS.DependentOriginationGrayBraidedThreeCellCoreV5_156
 open KUOS.DependentOriginationGrayC60F55NonneutralBraidingTransportV5_177
 open KUOS.DependentOriginationGrayC60AllThirtyTwoFaceCycleV5_158
+open KUOS.DependentOriginationTruncatedIcosahedralCrossHexagonFlagSquaresV5_157
 open KUOS.DependentOriginationCoherentBiadjunctionFiniteRectangularSubdivisionV5_137.Grid
 open KUOS.DependentOriginationCoherentBiadjunctionInterleavingExchangeQuotientV5_141.Grid
 
@@ -117,7 +118,7 @@ theorem c60F30ThirtyTwoFaceSourceDefect_zero
   rw [kernelC60FullSurfaceWeightedDoubleCount
     (c60F30OriginalSquareDefect t₁ t₂ left right a b)]
   have htwo : (2 : ZMod 2) = 0 := by decide
-  simpa [nsmul_eq_mul, htwo]
+  simp [nsmul_eq_mul, htwo]
 
 /-- This is NOT merely special to equal source-cell labels:
 the entire original C60 all-32-face incidence geometry cancels
@@ -128,7 +129,7 @@ theorem c60F30AnyEdgeDefect_surface_zero
       ((kernelC60FullFaceBoundaryEdges face).map defect).sum) = 0 := by
   rw [kernelC60FullSurfaceWeightedDoubleCount defect]
   have htwo : (2 : ZMod 2) = 0 := by decide
-  simpa [nsmul_eq_mul, htwo]
+  simp [nsmul_eq_mul, htwo]
 
 #print axioms c60F30OriginalSquareDefect
 #print axioms c60F30OriginalSquareDefect_eq
