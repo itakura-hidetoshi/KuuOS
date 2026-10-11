@@ -198,20 +198,23 @@ instance : BraidedCategory GrayGrade where
     · change (0 : Int × Int) + 0 + 0 =
         ((0 : Int × Int) + 0) + 0 + ((0 : Int × Int) + 0)
       abel
-    · change (0 : ZMod 2) + X.degree * (Y ⊗ Z).degree + 0 =
-        (((X.degree * Y.degree) + 0) + 0) + (0 + X.degree * Z.degree)
-      rw [GrayGrade.native_tensor_degree]
-      simp [mul_add, add_assoc]
+    · dsimp [GrayGrade.braidingIso, GrayGrade.associatorIso,
+        GrayGrade.tensor, GradedThreeCell.comp,
+        GradedThreeCell.tensor, GradedThreeCell.exchange,
+        GradedThreeCell.associator, GradedThreeCell.ident]
+      ring
   hexagon_reverse := by
     intro X Y Z
     apply GradedThreeCell.ext
     · change (0 : Int × Int) + 0 + 0 =
         ((0 : Int × Int) + 0) + 0 + ((0 : Int × Int) + 0)
       abel
-    · change (0 : ZMod 2) + (X ⊗ Y).degree * Z.degree + 0 =
-        (0 + Y.degree * Z.degree) + 0 + (X.degree * Z.degree + 0)
-      rw [GrayGrade.native_tensor_degree]
-      simp [add_mul, add_comm, add_left_comm, add_assoc]
+    · dsimp [GrayGrade.braidingIso, GrayGrade.associatorIso,
+        GrayGrade.tensor, GradedThreeCell.comp,
+        GradedThreeCell.tensor, GradedThreeCell.exchange,
+        GradedThreeCell.associatorInv, GradedThreeCell.associator,
+        GradedThreeCell.inv, GradedThreeCell.ident]
+      ring
 
 /-- The odd graded 2-cell object whose self-exchange is a nontrivial
 native 3-morphism even though its F58 integer charge vanishes. -/
