@@ -101,7 +101,7 @@ inductive OriginalF45BracketTree.RotationChain :
       {a b : D} {x y : E} {n m : Nat}
       {ma mb : Blocks a b} {pa pb : Blocks x y}
       {first middle last : OriginalF45BracketTree n m ma pa mb pb}
-      (prefix : RotationChain first middle)
+      (prior : RotationChain first middle)
       (edge : OriginalF45BracketTree.RotationEdge middle last) :
       RotationChain first last
 
