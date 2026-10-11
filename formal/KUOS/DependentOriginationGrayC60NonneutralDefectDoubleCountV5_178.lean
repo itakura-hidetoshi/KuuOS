@@ -104,7 +104,8 @@ theorem c60F30AllNinetySourceDefect_zero
     c60F30SourceDefectPatch t₁ t₂ left right a b Finset.univ = 0 := by
   rw [c60F30SourceDefectPatch_eq, Finset.card_univ]
   rw [allOriginalTruncatedEdge_card_kernel]
-  decide
+  have h90 : (90 : ZMod 2) = 0 := by decide
+  rw [h90, zero_mul]
 
 /-- The stronger FULL original C60 surface boundary identity:
 sum the SOURCE-TYPED F55/nonneutral-Gray independent defect along
