@@ -163,6 +163,11 @@ instance : MonoidalCategory GrayGrade :=
       intro X Y
       exact GradedThreeCell.associator_triangle X.degree Y.degree)
 
+/-- Exact degree of the native monoidal tensor, with NO extra
+identification of a geometric C60 face with a 2-cell. -/
+@[simp] theorem GrayGrade.native_tensor_degree (X Y : GrayGrade) :
+    (X ⊗ Y).degree = X.degree + Y.degree := rfl
+
 /-- The genuine F59-A odd/odd exchange is the HOM component of a
 native mathlib braiding isomorphism; the inverse is its typed inverse. -/
 def GrayGrade.braidingIso (X Y : GrayGrade) :
@@ -193,8 +198,9 @@ instance : BraidedCategory GrayGrade where
     · change (0 : Int × Int) + 0 + 0 =
         ((0 : Int × Int) + 0) + 0 + ((0 : Int × Int) + 0)
       abel
-    · change (0 : ZMod 2) + X.degree * (Y.degree + Z.degree) + 0 =
+    · change (0 : ZMod 2) + X.degree * (Y ⊗ Z).degree + 0 =
         (((X.degree * Y.degree) + 0) + 0) + (0 + X.degree * Z.degree)
+      rw [GrayGrade.native_tensor_degree]
       simp [mul_add, add_assoc]
   hexagon_reverse := by
     intro X Y Z
@@ -202,8 +208,9 @@ instance : BraidedCategory GrayGrade where
     · change (0 : Int × Int) + 0 + 0 =
         ((0 : Int × Int) + 0) + 0 + ((0 : Int × Int) + 0)
       abel
-    · change (0 : ZMod 2) + (X.degree + Y.degree) * Z.degree + 0 =
+    · change (0 : ZMod 2) + (X ⊗ Y).degree * Z.degree + 0 =
         (0 + Y.degree * Z.degree) + 0 + (X.degree * Z.degree + 0)
+      rw [GrayGrade.native_tensor_degree]
       simp [add_mul, add_comm, add_left_comm, add_assoc]
 
 /-- The odd graded 2-cell object whose self-exchange is a nontrivial
@@ -232,6 +239,7 @@ theorem GrayGrade.native_odd_braiding_charge_zero :
 #print axioms GrayGrade.rightUnitorIso
 #print axioms instMonoidalCategoryStructGrayGrade
 #print axioms instMonoidalCategoryGrayGrade
+#print axioms GrayGrade.native_tensor_degree
 #print axioms GrayGrade.braidingIso
 #print axioms instBraidedCategoryGrayGrade
 #print axioms GrayGrade.native_braiding_odd_nonidentity
