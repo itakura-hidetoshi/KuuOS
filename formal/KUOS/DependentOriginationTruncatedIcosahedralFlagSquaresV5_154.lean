@@ -107,7 +107,18 @@ theorem truncatedEdgeTwoIncidentFaces :
         firstFace ≠ secondFace ∧
         truncatedEdgeOnSeedFace e firstFace ∧
         truncatedEdgeOnSeedFace e secondFace := by
-  decide
+  intro e
+  classical
+  obtain ⟨f₀, f₁, hne, hfaces⟩ :=
+    Finset.card_eq_two.mp (truncatedEdgeIncidentFaceSet_card e)
+  have h₀ : f₀ ∈ truncatedEdgeIncidentFaceSet e := by
+    rw [hfaces]
+    simp
+  have h₁ : f₁ ∈ truncatedEdgeIncidentFaceSet e := by
+    rw [hfaces]
+    simp
+  exact ⟨f₀, f₁, hne,
+    (Finset.mem_filter.mp h₀).2, (Finset.mem_filter.mp h₁).2⟩
 
 /-- A REAL incidence square around an actual C60 edge:
 two different endpoint vertices times two different incident faces.
