@@ -97,24 +97,17 @@ def c60WangBiContextStateFunctor
     C60WangBiChartContext ⥤ Type uT where
   obj _ := WangBiSixYao × Time
   map := fun {X Y} (_ : X ⟶ Y) =>
-    (fun pair : WangBiSixYao × Time =>
+    TypeCat.ofHom (fun pair : WangBiSixYao × Time =>
       (c60NativeChartCodeTransport X.as Y.as pair.1, pair.2))
   map_id := by
     intro X
-    change
-      (fun pair : WangBiSixYao × Time =>
-        (c60NativeChartCodeTransport X.as X.as pair.1, pair.2)) = id
+    apply TypeCat.homEquiv.injective
     funext ⟨code, time⟩
     exact congrArg (fun code => (code, time))
       (c60NativeChartCodeTransport_identity X.as code)
   map_comp := by
     intro X Y Z f g
-    change
-      (fun pair : WangBiSixYao × Time =>
-        (c60NativeChartCodeTransport X.as Z.as pair.1, pair.2)) =
-      (fun pair : WangBiSixYao × Time =>
-        (c60NativeChartCodeTransport Y.as Z.as
-          (c60NativeChartCodeTransport X.as Y.as pair.1), pair.2))
+    apply TypeCat.homEquiv.injective
     funext ⟨code, time⟩
     exact congrArg (fun code => (code, time))
       (c60NativeChartCodeTransport_comp X.as Y.as Z.as code).symm
