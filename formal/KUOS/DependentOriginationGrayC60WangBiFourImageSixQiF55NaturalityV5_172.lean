@@ -19,6 +19,7 @@ open KUOS.DependentOriginationGrayBraidedThreeCellCoreV5_156
 open KUOS.DependentOriginationGrayF55PhaseRealizationV5_156
 open KUOS.DependentOriginationGrayC60AllNinetyEdgePastingV5_157
 open KUOS.DependentOriginationCoherentBiadjunctionFiniteRectangularSubdivisionV5_137.Grid
+open KUOS.DependentOriginationCoherentBiadjunctionInterleavingExchangeQuotientV5_141.Grid
 
 set_option autoImplicit false
 set_option maxRecDepth 4096
@@ -101,8 +102,7 @@ theorem c60ActualCornerFourImage_bijective_on_edge
 not 360 additional edges or C60 polygonal faces. -/
 theorem c60ActualSquareCorner_card :
     Fintype.card C60ActualSquareCorner = 360 := by
-  simp [C60ActualSquareCorner, Fintype.card_prod,
-    allOriginalTruncatedEdge_card_kernel]
+  simp [C60ActualSquareCorner, allOriginalTruncatedEdge_card_kernel]
 
 /-- Locally chosen endpoint side plus a genuinely incident face
 is one of the 64 *existing* C60 signed-face symbols. Adjacent edge
