@@ -139,7 +139,7 @@ theorem kernelC60HexagonWeightedDoubleCount
             (kernelC60HexagonBoundaryEdges f).count e) • w e := by
               apply Finset.sum_congr rfl
               intro e _
-              rw [Finset.sum_nsmul]
+              rw [Finset.sum_smul]
     _ = ∑ e : TruncatedIcosahedralEdge,
           kernelC60HexagonEdgeMultiplicity e • w e := rfl
 
@@ -154,16 +154,26 @@ theorem kernelC60HexagonWeightedDoubleCount_byFamilies
       ((kernelC60HexagonBoundaryEdges f).map w).sum) =
       (∑ a : TruncatedIcosahedralAroundEdge, w (.around a)) +
         (∑ e : IcosahedralEdge, (2 : Nat) • w (.cross e)) := by
-  rw [kernelC60HexagonWeightedDoubleCount w,
-    c60SumOverRealEdgeFamilies]
-  congr 1
-  · apply Finset.sum_congr rfl
-    intro a _
-    rw [kernelC60AroundEdge_hexagonMultiplicity a]
-    simp
-  · apply Finset.sum_congr rfl
-    intro e _
-    rw [kernelC60CrossEdge_hexagonMultiplicity e]
+  calc
+    (∑ f : IcosahedralFace,
+      ((kernelC60HexagonBoundaryEdges f).map w).sum) =
+        ∑ e : TruncatedIcosahedralEdge,
+          kernelC60HexagonEdgeMultiplicity e • w e :=
+            kernelC60HexagonWeightedDoubleCount w
+    _ = (∑ a : TruncatedIcosahedralAroundEdge,
+          w (.around a)) +
+        (∑ e : IcosahedralEdge,
+          (2 : Nat) • w (.cross e)) := by
+          rw [c60SumOverRealEdgeFamilies
+            (fun e => kernelC60HexagonEdgeMultiplicity e • w e)]
+          apply congrArg₂ (· + ·)
+          · apply Finset.sum_congr rfl
+            intro a _
+            rw [kernelC60AroundEdge_hexagonMultiplicity a]
+            simp
+          · apply Finset.sum_congr rfl
+            intro e _
+            rw [kernelC60CrossEdge_hexagonMultiplicity e]
 
 /-- Any possibly edge-dependent REAL native F59 Gray 3-cell labels
 obey the identical original C60 geometric double-counting identity.
@@ -227,13 +237,21 @@ theorem kernelC60F55NativeHexagonPasting_geometricDoubleCount :
             kernelC60HexagonAnyNativeGrayLabelsDoubleCount _
     _ = c60AllNinetyGrayTotal t₁ t₂ left right +
         c60CrossThirtyGrayTotal t₁ t₂ left right := by
-          simp only [c60AllNinetyGrayCell, c60AroundSixtyGrayTotal,
-            c60CrossThirtyGrayTotal]
-          simp_rw [two_nsmul]
-          rw [Finset.sum_add_distrib]
-          have hs := c60AllNinetyGrayTotal_split t₁ t₂ left right
-          simp only [c60AllNinetyGrayTotal_split] at hs
-          rw [hs]
+          have hcross :
+              (∑ e : IcosahedralEdge,
+                (2 : Nat) •
+                  c60AllNinetyGrayCell t₁ t₂ left right (.cross e)) =
+                c60CrossThirtyGrayTotal t₁ t₂ left right +
+                  c60CrossThirtyGrayTotal t₁ t₂ left right := by
+            simp only [c60AllNinetyGrayCell, c60CrossThirtyGrayTotal,
+              two_nsmul, Finset.sum_add_distrib]
+          rw [hcross]
+          change c60AroundSixtyGrayTotal t₁ t₂ left right +
+              (c60CrossThirtyGrayTotal t₁ t₂ left right +
+                c60CrossThirtyGrayTotal t₁ t₂ left right) =
+            c60AllNinetyGrayTotal t₁ t₂ left right +
+              c60CrossThirtyGrayTotal t₁ t₂ left right
+          rw [c60AllNinetyGrayTotal_split t₁ t₂ left right]
           abel
 
 #print axioms c60NinetyEdgeFamilyEquiv
