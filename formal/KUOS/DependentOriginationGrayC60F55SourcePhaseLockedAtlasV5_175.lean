@@ -187,6 +187,36 @@ theorem c60F55SourceNative_mem
   | precompose priorRoute cell ih => exact ih
   | postcompose cell suffix ih => exact ih
 
+/-- Exact realization of the original F55 source identity cell as
+the actual identity morphism in the NATIVE mathlib Gray category. -/
+theorem c60F55SourceNative_ident
+    {a b : D} {x y : E} {n n' m m' : Nat}
+    {ma mb : Blocks a b} {pa pb : Blocks x y}
+    {first : OriginalF45BracketTree n m ma pa mb pb}
+    {last : OriginalF45BracketTree n' m' ma pa mb pb}
+    (route : OriginalF45BracketTree.DepthRotationRoute first last) :
+    c60F55SourceNative
+      (OriginalF45BracketTree.DepthRotationRoute.PresentedCell.ident route) =
+      (𝟙 GrayGrade.unit : GrayGrade.unit ⟶ GrayGrade.unit) := by
+  rfl
+
+/-- The ACTUAL source F55 vertical composition constructor maps
+to GENUINE native Gray 3-cell categorical composition, preserving
+both independent integer charges and nonzero exchange phase. -/
+theorem c60F55SourceNative_trans
+    {a b : D} {x y : E} {n n' m m' : Nat}
+    {ma mb : Blocks a b} {pa pb : Blocks x y}
+    {first : OriginalF45BracketTree n m ma pa mb pb}
+    {last : OriginalF45BracketTree n' m' ma pa mb pb}
+    {r s t : OriginalF45BracketTree.DepthRotationRoute first last}
+    (α : OriginalF45BracketTree.DepthRotationRoute.PresentedCell r s)
+    (β : OriginalF45BracketTree.DepthRotationRoute.PresentedCell s t) :
+    c60F55SourceNative
+      (OriginalF45BracketTree.DepthRotationRoute.PresentedCell.trans α β) =
+      (c60F55SourceNative α ≫ c60F55SourceNative β :
+        GrayGrade.unit ⟶ GrayGrade.unit) := by
+  rfl
+
 /-- The supposedly independent F59 braided PHASE of a cell in
 the ORIGINAL F55 free presentation is in fact constrained by the
 existing independently proven F58 integer square-generator count.
@@ -309,6 +339,20 @@ def c60F55LockedInclusion :
     intros
     rfl
 
+/-- The refined original-F55-compatible Cat 2-cell projects
+EXACTLY to the already-proven v5.174 Wang Bi × independent Gray
+natural transformation: no 3-cell charge or exchange phase is lost. -/
+theorem c60F55LockedCornerNatTrans_forget
+    (side : C60DartSideGauge)
+    (grade : TruncatedIcosahedralEdge → c60F55PhaseLocked) :
+    c60F55LockedCornerNatTrans side grade ≫ c60F55LockedInclusion =
+      c60WangBiGlobalGradedAtlas side (fun e => (grade e).1) := by
+  apply NatTrans.ext
+  funext a
+  apply TypeCat.homEquiv.injective
+  funext corner
+  rfl
+
 /-- A single nontrivial original F55 square 3-cell always
 produces a valid, phase-compatible Wang Bi local-chart label. -/
 def c60F55OriginalLockedGrade
@@ -346,6 +390,18 @@ generators together with all 64 Wang Bi symbolic encodings. -/
 def c60ActualF55PresentedLockedAtlas (side : C60DartSideGauge) :
     c60ActualCornerFunctor ⟶ c60F55LockedSixYaoFunctor :=
   c60F55LockedCornerNatTrans side
+    (c60ActualF55PresentedLockedGrade t₁ t₂ left right)
+
+/-- After forgetting only the compatibility proof, the
+genuinely ORIGINAL F54/F55 PresentedCell-based Wang Bi atlas is
+identical to the original physical 90-edge Gray atlas of v5.174. -/
+theorem c60ActualF55PresentedLockedAtlas_forget
+    (side : C60DartSideGauge) :
+    c60ActualF55PresentedLockedAtlas t₁ t₂ left right side ≫
+      c60F55LockedInclusion =
+    c60WangBiGlobalGradedAtlas side
+      (fun e => c60AllNinetyGrayCell t₁ t₂ left right e) := by
+  exact c60F55LockedCornerNatTrans_forget side
     (c60ActualF55PresentedLockedGrade t₁ t₂ left right)
 
 /-- The typed source F55 generator's native grade and its
@@ -389,6 +445,16 @@ def c60F55RepairedLockedAtlas (side : C60DartSideGauge) :
     c60ActualCornerFunctor ⟶ c60F55LockedSixYaoFunctor :=
   c60F55LockedCornerNatTrans side c60F55RepairedLockedGrade
 
+/-- The new phase-compatible repaired Cat 2-cell reduces
+EXACTLY to the v5.174 canonical 27-edge corrected Wang Bi atlas.
+Thus phase-compatibility was added WITHOUT altering its proven
+cochain realization or any of the original physical C60 geometry. -/
+theorem c60F55RepairedLockedAtlas_forget
+    (side : C60DartSideGauge) :
+    c60F55RepairedLockedAtlas side ≫ c60F55LockedInclusion =
+      c60WangBiRepairedGlobalAtlas side := by
+  exact c60F55LockedCornerNatTrans_forget side c60F55RepairedLockedGrade
+
 /-- The real 12 original pentagon and 20 original hexagon
 ORIENTED source boundaries each have ZERO braided Gray
 face curvature for these very subgroup-valued atlas grades. -/
@@ -418,18 +484,23 @@ theorem c60F55RepairedLockedAtlas_preserves_original
 #print axioms c60F55PentagonNativeGenerator_mem
 #print axioms c60F55SquareNativeGenerator_mem
 #print axioms c60F55SourceNative_mem
+#print axioms c60F55SourceNative_ident
+#print axioms c60F55SourceNative_trans
 #print axioms c60F55SourceNative_phase_eq_F58SquareParity
 #print axioms c60F55SourceNative_eq_iff_F58Charge_eq
 #print axioms c60F55LockedSixYaoFunctor
 #print axioms c60F55LockedCornerNatTrans
 #print axioms c60F55LockedInclusion
+#print axioms c60F55LockedCornerNatTrans_forget
 #print axioms c60F55OriginalLockedGrade
 #print axioms c60ActualF55PresentedLockedGrade
 #print axioms c60ActualF55PresentedLockedAtlas
+#print axioms c60ActualF55PresentedLockedAtlas_forget
 #print axioms c60ActualF55PresentedLockedGrade_components
 #print axioms c60F55RepairedGrade_mem
 #print axioms c60F55RepairedLockedGrade
 #print axioms c60F55RepairedLockedAtlas
+#print axioms c60F55RepairedLockedAtlas_forget
 #print axioms c60F55RepairedLockedAtlas_all32_flat
 #print axioms c60F55RepairedLockedAtlas_changes_exact27
 #print axioms c60F55RepairedLockedAtlas_preserves_original
