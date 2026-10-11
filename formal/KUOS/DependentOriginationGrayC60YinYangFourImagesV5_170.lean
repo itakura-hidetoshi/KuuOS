@@ -66,8 +66,8 @@ at the two real poles. In particular this is NOT z↦±z
 and does not assert poles have absolute intrinsic polarity. -/
 def c60PolarComplexConjugation
     (chart : Bool) (pole : C60PolarEnd) (z : ℂ) : ℂ :=
-  if chart == (pole == .north) then Complex.conj z
-  else -Complex.conj z
+  if chart == (pole == .north) then star z
+  else -star z
 
 /-- Both local complex conjugations square to identity;
 a polar frame can be reversed without altering involutivity. -/
