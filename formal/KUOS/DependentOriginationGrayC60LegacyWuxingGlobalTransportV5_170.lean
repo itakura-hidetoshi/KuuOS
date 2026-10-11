@@ -230,11 +230,9 @@ theorem c60LegacyAllThirtyTwoFaces_history180
     (frame : C60LegacyWuxingFrames) :
     (∑ face : TruncatedIcosahedralSeedFace,
       (c60LegacyOriginalFaceShift frame face).2) = 180 := by
-  classical
-  rw [kernelC60SumOverAllRealFaces]
-  simp [c60LegacyOriginalFaceShift,
-    c60IntegerOrientedFaceBoundary_length,
-    kernelC60FullFaceBoundary_length]
+  change (∑ face : TruncatedIcosahedralSeedFace,
+    (c60IntegerOrientedFaceBoundary face).length) = 180
+  decide
 
 /-- Reframing all 12 local C60 pentagons arbitrarily does NOT
 disturb the facewise phase closure. This is true for ANY
