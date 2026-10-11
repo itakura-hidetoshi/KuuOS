@@ -122,18 +122,17 @@ theorem chosenRightMateFiniteRotationComposites
     (K : compressionKernelCategory aF bF aG bG ⥤ T)
     {before after : Grid.OriginalF45BracketTree n m ma pa mb pb}
     (chain : Grid.OriginalF45BracketTree.RotationChain before after) :
-    ((Grid.mapBlocks (rightMateFunctor F G) ma).composite =
-      (Grid.mapBlocks (rightMateFunctor F G) mb).composite ∧
-     (Grid.mapBlocks K pa).composite =
-      (Grid.mapBlocks K pb).composite) ∧
+    (chosenRightMateExchangeQuotientTransport F G K
+      before.toExchangeClass =
+     chosenRightMateExchangeQuotientTransport F G K
+      after.toExchangeClass) ∧
     ((Grid.mapBlocks (rightMateFunctor F G) ma).composite =
       (Grid.mapBlocks (rightMateFunctor F G) mb).composite ∧
      (Grid.mapBlocks K pa).composite =
       (Grid.mapBlocks K pb).composite) :=
-  ⟨(chosenRightMateExchangeQuotientTransport F G K
-      before.toExchangeClass).composites,
+  ⟨chosenRightMateFiniteRotationChain F G K chain,
    (chosenRightMateExchangeQuotientTransport F G K
-      after.toExchangeClass).composites⟩
+      before.toExchangeClass).composites⟩
 
 #print axioms chosenRightMateFiniteRotationChain
 #print axioms chosenRightMateFiniteRotationHistories
