@@ -51,7 +51,7 @@ theorem AxisTrace.append_assoc
         AxisTrace.castDepth_snoc
           (Nat.add_assoc n n' _) (AxisTrace.append (AxisTrace.append h k) l) step
       have hnext :=
-        congrArg (fun t => AxisTrace.snoc t step) ih
+        congrArg (fun t => AxisTrace.snoc t step) (ih k)
       simpa only [AxisTrace.append, Nat.add_succ] using hcast.trans hnext
 
 /-- The reflexive genuine F44 path is the unit of the generated
@@ -127,10 +127,9 @@ theorem ExchangeClass.append_refl_right
     (h : ExchangeClass n m ma mb pa pb) :
     ExchangeClass.append h (ExchangeClass.reflClass mb pb) = h := by
   apply (ExchangeClass.eq_iff_axisTraces_eq _ _).2
-  simpa only [ExchangeClass.axisTraces_append,
+  simp only [ExchangeClass.axisTraces_append,
     ExchangeClass.reflClass_axisTraces,
-    AxisTrace.append_refl_right, Nat.add_zero] using
-    (rfl : h.axisTraces = h.axisTraces)
+    AxisTrace.append_refl_right, Nat.add_zero]
 
 /-- Genuine left unit: the original zero-step class concatenated with
 an arbitrary F19/F28 exchange path is EXACTLY the same class after
@@ -142,11 +141,10 @@ theorem ExchangeClass.append_refl_left
     ExchangeClass.castDepths (Nat.zero_add n) (Nat.zero_add m)
       (ExchangeClass.append (ExchangeClass.reflClass ma pa) h) = h := by
   apply (ExchangeClass.eq_iff_axisTraces_eq _ _).2
-  simpa only [ExchangeClass.castDepths_axisTraces,
+  simp only [ExchangeClass.castDepths_axisTraces,
     ExchangeClass.axisTraces_append,
     ExchangeClass.reflClass_axisTraces,
-    AxisTrace.append_refl_left_cast] using
-    (rfl : h.axisTraces = h.axisTraces)
+    AxisTrace.append_refl_left_cast]
 
 #print axioms AxisTrace.append_assoc
 #print axioms ExchangeClass.reflClass
