@@ -119,16 +119,23 @@ theorem c60AroundConnected (v : IcosahedralVertex) :
 def c60BaseDart (v : IcosahedralVertex) : IcosahedralDart :=
   icosahedralIncidentDartAt v .s0
 
+/-- The five cyclic slot indices cover every ZMod 5 element.
+Unlike the earlier general slot equivalence this proof is kernel-checked
+by finite `decide` and does not use a native-decide axiom. -/
+theorem c60NorthIndexHasSlot (i : IcosahedralRingIndex) :
+    ∃ s : PentagonalSlot, pentagonalSlotIndex s = i := by
+  decide
+
 /-- Each of the five north spokes reaches the base dart of
 its corresponding upper-ring original vertex. -/
 theorem c60RootToUpper (i : IcosahedralRingIndex) :
     c60VertexGap c60NorthDart (c60BaseDart (.upper i)) ∈
       c60IntegralEdgeRange := by
+  obtain ⟨s, hs⟩ := c60NorthIndexHasSlot i
   have h₁ : c60VertexGap c60NorthDart (.first (.northSpoke i)) ∈
       c60IntegralEdgeRange := by
     simpa [c60NorthDart, c60BaseDart, icosahedralIncidentDartAt,
-      pentagonalSlotIndex_ofIndex] using
-      (c60AroundConnected .north (pentagonalSlotOfIndex i))
+      hs] using (c60AroundConnected .north s)
   have h₂ : c60VertexGap (.first (.northSpoke i))
       (c60BaseDart (.upper i)) ∈ c60IntegralEdgeRange :=
     c60VertexGap_edge (.cross (.northSpoke i))
@@ -176,8 +183,8 @@ theorem c60RootToEveryPentagon :
 /-- Every one of the original sixty darts really occurs in
 one of the sixty incident-slot positions of the twelve
 actual original icosahedral vertices. -/
+set_option maxHeartbeats 1000000
 set_option maxRecDepth 4096 in
-set_option maxHeartbeats 1000000 in
 theorem c60EveryDartHasIncidentSlot :
     ∀ d : IcosahedralDart,
       ∃ v : IcosahedralVertex, ∃ s : PentagonalSlot,
@@ -307,10 +314,25 @@ noncomputable def c60IntegralH0QuotientEquivInt :
 informal group computed outside the actual chain complex. -/
 noncomputable def c60NativeH0IsoInteger :
     c60NativeIntegralCellularComplex.homology 0 ≅
-      ModuleCat.of ℤ ℤ :=
-  c60NativeIntegralCellularComplex.isoHomologyι₀ ≪≫
+      ModuleCat.of ℤ ℤ := by
+  have hRange :
+      LinearMap.range
+          (c60NativeIntegralCellularComplex.sc 0).f.hom =
+        c60IntegralEdgeRange := by
+    change LinearMap.range
+      (c60NativeIntegralCellularComplex.d 1 0).hom =
+        c60IntegralEdgeRange
+    rw [c60NativeIntegralCellularComplex_d10]
+    rfl
+  have hQuot :
+      ModuleCat.of ℤ
+        ((c60NativeIntegralCellularComplex.sc 0).X₂ ⧸
+          LinearMap.range (c60NativeIntegralCellularComplex.sc 0).f.hom) ≅
+        ModuleCat.of ℤ ℤ := by
+    simpa only [hRange] using c60IntegralH0QuotientEquivInt.toModuleIso
+  exact c60NativeIntegralCellularComplex.isoHomologyι₀ ≪≫
     (c60NativeIntegralCellularComplex.sc 0).moduleCatOpcyclesIso ≪≫
-      c60IntegralH0QuotientEquivInt.toModuleIso
+      hQuot
 
 #print axioms c60VertexGap_edge
 #print axioms c60AroundConnected
