@@ -95,23 +95,33 @@ instance : Quiver WuxingPhase where
 mathlib quiver path based at Wood. -/
 def wuxingShengPentagon :
     Quiver.Path WuxingPhase.wood WuxingPhase.wood :=
-  (((((Quiver.Path.nil : Quiver.Path WuxingPhase.wood WuxingPhase.wood)
-    .cons (WuxingArrow.sheng .wood))
-    .cons (WuxingArrow.sheng .fire))
-    .cons (WuxingArrow.sheng .earth))
-    .cons (WuxingArrow.sheng .metal))
-    .cons (WuxingArrow.sheng .water)
+  Quiver.Path.cons
+    (Quiver.Path.cons
+      (Quiver.Path.cons
+        (Quiver.Path.cons
+          (Quiver.Path.cons
+            (Quiver.Path.nil : Quiver.Path WuxingPhase.wood WuxingPhase.wood)
+            (WuxingArrow.sheng .wood))
+          (WuxingArrow.sheng .fire))
+        (WuxingArrow.sheng .earth))
+      (WuxingArrow.sheng .metal))
+    (WuxingArrow.sheng .water)
 
 /-- The five star diagonals form another original typed 5-arrow
 cycle with a different order of the SAME five source vertices. -/
 def wuxingKePentagram :
     Quiver.Path WuxingPhase.wood WuxingPhase.wood :=
-  (((((Quiver.Path.nil : Quiver.Path WuxingPhase.wood WuxingPhase.wood)
-    .cons (WuxingArrow.ke .wood))
-    .cons (WuxingArrow.ke .earth))
-    .cons (WuxingArrow.ke .water))
-    .cons (WuxingArrow.ke .fire))
-    .cons (WuxingArrow.ke .metal)
+  Quiver.Path.cons
+    (Quiver.Path.cons
+      (Quiver.Path.cons
+        (Quiver.Path.cons
+          (Quiver.Path.cons
+            (Quiver.Path.nil : Quiver.Path WuxingPhase.wood WuxingPhase.wood)
+            (WuxingArrow.ke .wood))
+          (WuxingArrow.ke .earth))
+        (WuxingArrow.ke .water))
+      (WuxingArrow.ke .fire))
+    (WuxingArrow.ke .metal)
 
 theorem wuxingShengPentagon_length :
     wuxingShengPentagon.length = 5 := by
