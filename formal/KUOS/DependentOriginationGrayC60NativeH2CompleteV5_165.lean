@@ -136,7 +136,7 @@ theorem c60F17NorthFaceCoefficient_single
     (f : TruncatedIcosahedralSeedFace) (z : ℤ) :
     c60F17NorthFaceCoefficient (Finsupp.single f z) =
       (if f = .aroundVertex .north then z else 0) := by
-  simp [c60F17NorthFaceCoefficient, Finsupp.single_apply, eq_comm]
+  simp [c60F17NorthFaceCoefficient, Finsupp.single_apply]
 
 /-- Every face of the oriented all-32-face fundamental surface
 has coefficient exactly +1, even after integer multiplication. -/
@@ -222,7 +222,7 @@ theorem c60NativeH2FundamentalLinear_rightInverse :
       c60NativeH2NorthPentagonCoefficient = LinearMap.id := by
   apply LinearMap.ext
   intro h
-  apply (c60NativeH2ConcreteCycleIso.hom.hom).injective
+  apply c60NativeH2ConcreteCycleIso.toLinearEquiv.injective
   rw [c60NativeH2FundamentalLinear_apply, map_smul,
     c60NativeH2ConcreteCycleIso_fundamental]
   apply Subtype.ext
