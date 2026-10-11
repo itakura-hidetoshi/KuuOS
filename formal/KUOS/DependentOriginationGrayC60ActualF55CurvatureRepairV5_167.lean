@@ -133,18 +133,30 @@ the generator has infinite additive order even though its braided
 exchange phase has order two. -/
 theorem c60F19OriginalF55Scalar_secondCharge (n : ℤ) :
     (n • originalF55BraidedSquareGenerator).charge.2 = n := by
-  have h := grayNeutralChargeHom.map_zsmul originalF55BraidedSquareGenerator n
-  have h' := congrArg Prod.snd h
-  simpa [originalF55BraidedSquareGenerator_complete.1] using h'
+  calc
+    (n • originalF55BraidedSquareGenerator).charge.2 =
+        (n • originalF55BraidedSquareGenerator.charge).2 := by
+          exact congrArg Prod.snd
+            (grayNeutralChargeHom.map_zsmul
+              originalF55BraidedSquareGenerator n)
+    _ = n := by
+          rw [originalF55BraidedSquareGenerator_complete.1]
+          simp
 
 /-- The original F59 braided exchange phase of an integer F55
 multiple is its parity, completely independent of the unbounded
 integer generator charge. -/
 theorem c60F19OriginalF55Scalar_phase (n : ℤ) :
     (n • originalF55BraidedSquareGenerator).phase = (n : ZMod 2) := by
-  have h := grayNeutralPhaseHom.map_zsmul originalF55BraidedSquareGenerator n
-  simpa [originalF55BraidedSquareGenerator_complete.2,
-    zsmul_eq_mul] using h
+  calc
+    (n • originalF55BraidedSquareGenerator).phase =
+        n • originalF55BraidedSquareGenerator.phase := by
+          exact grayNeutralPhaseHom.map_zsmul
+            originalF55BraidedSquareGenerator n
+    _ = n • (1 : ZMod 2) := by
+          rw [originalF55BraidedSquareGenerator_complete.2]
+    _ = (n : ZMod 2) := by
+          simp [zsmul_eq_mul]
 
 /-- Real local curvature has exact original F58 charge and F59 phase,
 not just a claimed nonzero abstract holonomy. -/
@@ -368,12 +380,12 @@ theorem c60F19CanonicalTreeCorrectionSupport_card_le31 :
     simp only [Finset.mem_filter, Finset.mem_univ, true_and]
     cases h : c60F19IsPrimalTreeEdge e with
     | false => rfl
-    | true => exact False.elim
-        (he (c60F19CanonicalTreeCorrection_zero e h))
+    | true =>
+        exact (he (c60F19CanonicalTreeCorrection_zero e h)).elim
   calc
     c60F19CanonicalTreeCorrectionSupport.card ≤
       (Finset.univ.filter
-        (fun e => ¬ c60F19IsPrimalTreeEdge e)).card :=
+        (fun e => c60F19IsPrimalTreeEdge e = false)).card :=
           Finset.card_le_card hs
     _ = 31 := c60F19PrimalTreeComplement_card
 
