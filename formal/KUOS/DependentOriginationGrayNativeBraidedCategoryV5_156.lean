@@ -198,7 +198,12 @@ instance : BraidedCategory GrayGrade where
     · change (0 : Int × Int) + 0 + 0 =
         ((0 : Int × Int) + 0) + 0 + ((0 : Int × Int) + 0)
       abel
-    · dsimp [GrayGrade.braidingIso, GrayGrade.associatorIso,
+    · dsimp [CategoryStruct.comp,
+        MonoidalCategoryStruct.whiskerLeft,
+        MonoidalCategoryStruct.whiskerRight,
+        MonoidalCategoryStruct.associator,
+        MonoidalCategoryStruct.tensorObj,
+        GrayGrade.braidingIso, GrayGrade.associatorIso,
         GrayGrade.tensor, GradedThreeCell.comp,
         GradedThreeCell.tensor, GradedThreeCell.exchange,
         GradedThreeCell.associator, GradedThreeCell.ident]
@@ -209,7 +214,12 @@ instance : BraidedCategory GrayGrade where
     · change (0 : Int × Int) + 0 + 0 =
         ((0 : Int × Int) + 0) + 0 + ((0 : Int × Int) + 0)
       abel
-    · dsimp [GrayGrade.braidingIso, GrayGrade.associatorIso,
+    · dsimp [CategoryStruct.comp,
+        MonoidalCategoryStruct.whiskerLeft,
+        MonoidalCategoryStruct.whiskerRight,
+        MonoidalCategoryStruct.associator,
+        MonoidalCategoryStruct.tensorObj,
+        GrayGrade.braidingIso, GrayGrade.associatorIso,
         GrayGrade.tensor, GradedThreeCell.comp,
         GradedThreeCell.tensor, GradedThreeCell.exchange,
         GradedThreeCell.associatorInv, GradedThreeCell.associator,
