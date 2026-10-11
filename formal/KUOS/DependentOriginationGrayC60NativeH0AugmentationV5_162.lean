@@ -117,25 +117,20 @@ theorem c60NorthDartChain_not_in_edge_range :
       _ = 0 := hzero
   exact one_ne_zero hcontr
 
-/-- At native homology degree 0, the incoming differential
-is exactly the true F59-F10 edge-to-vertex map d₁. -/
-theorem c60NativeH0_incoming_eq_d1 :
-    (c60NativeIntegralCellularComplex.sc 0).f =
+/-- The explicit native three-term short complex in degrees
+1→0→0 has incoming differential EXACTLY the physically
+defined F59-F10 signed edge-to-vertex Z-linear map. Keeping
+the indices literal avoids transports hidden by 'prev 0'. -/
+theorem c60NativeH0_explicit_incoming_eq_d1 :
+    (c60NativeIntegralCellularComplex.sc' 1 0 0).f =
       ModuleCat.ofHom c60IntegralBoundaryOne := by
-  change c60NativeIntegralCellularComplex.d
-    ((ComplexShape.down ℕ).prev 0) 0 = _
-  have hp : (ComplexShape.down ℕ).prev 0 = 1 := by simp
-  rw [hp]
   exact c60NativeIntegralCellularComplex_d10
 
-/-- Outgoing differential from C₀ is zero, since its
-lower successor degree is 0 and no degree-negative
-vertex chains exist in this ℕ-indexed chain complex. -/
-theorem c60NativeH0_outgoing_zero :
-    (c60NativeIntegralCellularComplex.sc 0).g = 0 := by
-  change c60NativeIntegralCellularComplex.d 0
-    ((ComplexShape.down ℕ).next 0) = 0
-  rw [ChainComplex.next_nat_zero]
+/-- Its outgoing differential at degree zero is literally zero
+in the native C60 ChainComplex: degree-negative chains are absent. -/
+theorem c60NativeH0_explicit_outgoing_zero :
+    (c60NativeIntegralCellularComplex.sc' 1 0 0).g = 0 := by
+  change c60NativeIntegralCellularComplex.d 0 0 = 0
   change (ChainComplex.of c60NativeChainObjects
       c60NativeChainDifferential
       c60NativeChainDifferential_comp_zero).d 0 0 = 0
@@ -143,22 +138,27 @@ theorem c60NativeH0_outgoing_zero :
     c60NativeChainDifferential
     c60NativeChainDifferential_comp_zero (by omega)
 
-/-- Real original C60 cellular chains are NOT EXACT in degree
-ZERO: the north dart vertex is a true outgoing cycle but cannot
-come from any incoming physical edge boundary. -/
+/-- Real C60 cellular chains are NOT EXACT at degree ZERO:
+the north dart is an outgoing cycle, but is not the signed
+boundary of any original physical edge chain. -/
 theorem c60NativeChainComplex_not_exactAt_zero :
     ¬ c60NativeIntegralCellularComplex.ExactAt 0 := by
   intro hexact
+  have hexact' :
+      (c60NativeIntegralCellularComplex.sc' 1 0 0).Exact :=
+    (c60NativeIntegralCellularComplex.exactAt_iff'
+      (i := 1) (j := 0) (k := 0)
+      (by simp) (by simp)).mp hexact
   have hsurj :=
     (ShortComplex.moduleCat_exact_iff
-      (c60NativeIntegralCellularComplex.sc 0)).mp hexact
+      (c60NativeIntegralCellularComplex.sc' 1 0 0)).mp hexact'
   have hcycle :
-      (c60NativeIntegralCellularComplex.sc 0).g
+      (c60NativeIntegralCellularComplex.sc' 1 0 0).g
         c60NorthDartChain = 0 := by
-    rw [c60NativeH0_outgoing_zero]
+    rw [c60NativeH0_explicit_outgoing_zero]
     rfl
   obtain ⟨x, hx⟩ := hsurj c60NorthDartChain hcycle
-  rw [c60NativeH0_incoming_eq_d1] at hx
+  rw [c60NativeH0_explicit_incoming_eq_d1] at hx
   exact c60NorthDartChain_not_in_edge_range ⟨x, hx⟩
 
 /-- The actual NATIVE Mathlib degree-zero homology of the
@@ -178,8 +178,8 @@ theorem c60NativeH0_not_isZero :
 #print axioms c60NorthDartChain
 #print axioms c60NorthDartChain_augmentation_one
 #print axioms c60NorthDartChain_not_in_edge_range
-#print axioms c60NativeH0_incoming_eq_d1
-#print axioms c60NativeH0_outgoing_zero
+#print axioms c60NativeH0_explicit_incoming_eq_d1
+#print axioms c60NativeH0_explicit_outgoing_zero
 #print axioms c60NativeChainComplex_not_exactAt_zero
 #print axioms c60NativeH0_not_isZero
 
