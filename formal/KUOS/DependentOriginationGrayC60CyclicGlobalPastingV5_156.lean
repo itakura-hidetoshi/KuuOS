@@ -12,6 +12,7 @@ open KUOS.DependentOriginationTruncatedIcosahedralPentagonRotationBridgeV5_154
 open KUOS.DependentOriginationTruncatedIcosahedralHigherChargeV5_155
 open KUOS.DependentOriginationTruncatedIcosahedralCyclicChargeV5_155
 open KUOS.DependentOriginationTruncatedIcosahedralPatchChargeV5_155
+open KUOS.DependentOriginationTruncatedIcosahedralGlobalHigherChargeV5_155
 open KUOS.DependentOriginationGrayBraidedThreeCellCoreV5_156
 open KUOS.DependentOriginationGrayF55PhaseRealizationV5_156
 open KUOS.DependentOriginationGrayNativeBraidedCategoryV5_156
@@ -27,7 +28,7 @@ noncomputable section
 
 F59-A–D has a REAL native symmetric braided monoidal groupoid of typed
 3-cells with independent integer F58 charge and ZMod2 exchange phase.
-Its neutral endomorphisms admit ordinary native categorical composition.
+Its neutral endomorphisms support ordinary native categorical composition.
 
 Using the SAME ACTUAL F57 C60 pentagon-to-hexagon four-flag squares,
 the F55 separately supplied original local rotations, and the original
