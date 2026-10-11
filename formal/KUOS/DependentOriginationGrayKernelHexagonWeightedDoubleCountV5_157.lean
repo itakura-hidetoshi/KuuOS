@@ -24,7 +24,7 @@ noncomputable section
 
 F59-F3 constructed all twenty original hexagonal six-edge cyclic
 boundaries with kernel-certified endpoint equality, not inherited
-native_decide trust. F59-F5 proved the *edgewise* incidence law:
+compiler-specific trust. F59-F5 proved the *edgewise* incidence law:
 every around edge occurs ONCE and every cross edge occurs TWICE in
 those twenty hexagon boundary lists.
 
