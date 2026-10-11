@@ -203,18 +203,24 @@ def c60F31ParityCoreMonoidal :
   μIso := fun X Y => Iso.refl _
   μIso_hom_natural_left := by
     intro X Y p Z
-    change (c60F31ParityFunctor.map p ▷ Z) ≫
-        (𝟙 (Y ⊗ Z)) =
-      (𝟙 (X ⊗ Z)) ≫ c60F31ParityFunctor.map (p ▷ Z)
-    rw [Category.comp_id, Category.id_comp]
-    exact (c60F31ParityFunctor_whiskerRight p Z).symm
+    have he := (c60F31ParityFunctor_whiskerRight p Z).symm
+    apply GradedThreeCell.ext
+    · change ((c60F31ParityFunctor.map p ▷ Z).charge + (0 : Int × Int)) =
+        (0 : Int × Int) + (c60F31ParityFunctor.map (p ▷ Z)).charge
+      simpa only [add_zero, zero_add] using congrArg GradedThreeCell.charge he
+    · change ((c60F31ParityFunctor.map p ▷ Z).phase + (0 : ZMod 2)) =
+        (0 : ZMod 2) + (c60F31ParityFunctor.map (p ▷ Z)).phase
+      simpa only [add_zero, zero_add] using congrArg GradedThreeCell.phase he
   μIso_hom_natural_right := by
     intro X Y Z p
-    change (Z ◁ c60F31ParityFunctor.map p) ≫
-        (𝟙 (Z ⊗ Y)) =
-      (𝟙 (Z ⊗ X)) ≫ c60F31ParityFunctor.map (Z ◁ p)
-    rw [Category.comp_id, Category.id_comp]
-    exact (c60F31ParityFunctor_whiskerLeft Z p).symm
+    have he := (c60F31ParityFunctor_whiskerLeft Z p).symm
+    apply GradedThreeCell.ext
+    · change ((Z ◁ c60F31ParityFunctor.map p).charge + (0 : Int × Int)) =
+        (0 : Int × Int) + (c60F31ParityFunctor.map (Z ◁ p)).charge
+      simpa only [add_zero, zero_add] using congrArg GradedThreeCell.charge he
+    · change ((Z ◁ c60F31ParityFunctor.map p).phase + (0 : ZMod 2)) =
+        (0 : ZMod 2) + (c60F31ParityFunctor.map (Z ◁ p)).phase
+      simpa only [add_zero, zero_add] using congrArg GradedThreeCell.phase he
   associativity := by
     intro X Y Z
     apply GradedThreeCell.ext <;>
