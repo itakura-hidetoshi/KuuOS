@@ -222,6 +222,8 @@ theorem c60NativeH2FundamentalLinear_rightInverse :
       c60NativeH2NorthPentagonCoefficient = LinearMap.id := by
   apply LinearMap.ext
   intro h
+  change c60NativeH2FundamentalLinear
+    (c60NativeH2NorthPentagonCoefficient h) = h
   apply c60NativeH2ConcreteCycleIso.toLinearEquiv.injective
   rw [c60NativeH2FundamentalLinear_apply, map_smul,
     c60NativeH2ConcreteCycleIso_fundamental]
