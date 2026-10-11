@@ -122,8 +122,9 @@ def c60BaseDart (v : IcosahedralVertex) : IcosahedralDart :=
 /-- The five cyclic slot indices cover every ZMod 5 element.
 Unlike the earlier general slot equivalence this proof is kernel-checked
 by finite `decide` and does not use a native-decide axiom. -/
-theorem c60NorthIndexHasSlot (i : IcosahedralRingIndex) :
-    ∃ s : PentagonalSlot, pentagonalSlotIndex s = i := by
+theorem c60NorthIndexHasSlot :
+    ∀ i : IcosahedralRingIndex,
+      ∃ s : PentagonalSlot, pentagonalSlotIndex s = i := by
   decide
 
 /-- Each of the five north spokes reaches the base dart of
