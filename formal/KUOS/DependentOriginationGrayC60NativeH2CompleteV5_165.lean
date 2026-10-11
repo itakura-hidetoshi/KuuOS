@@ -228,7 +228,8 @@ theorem c60NativeH2FundamentalLinear_rightInverse :
   change c60NativeH2ConcreteCycleIso.hom.hom
       (c60NativeH2FundamentalLinear (c60NativeH2NorthPentagonCoefficient h)) =
     c60NativeH2ConcreteCycleIso.hom.hom h
-  rw [c60NativeH2FundamentalLinear_apply, map_smul,
+  rw [c60NativeH2FundamentalLinear_apply,
+    (c60NativeH2ConcreteCycleIso.hom.hom).map_smul,
     c60NativeH2ConcreteCycleIso_fundamental]
   apply Subtype.ext
   have hrec := c60F17EveryTwoCycle_isFundamental
@@ -240,7 +241,7 @@ theorem c60NativeH2FundamentalLinear_rightInverse :
   simpa only [c60NativeH2NorthPentagonCoefficient,
     c60F17NorthFaceCoefficient, c60F17FundamentalSurfaceEmbedding,
     LinearMap.toSpanSingleton_apply,
-    LinearMap.comp_apply, LinearMap.ker_subtype_apply] using hrec.symm
+    LinearMap.comp_apply] using hrec.symm
 
 /-- The north-pentagon coordinate is BOTH injective and surjective
 on the actual native degree-two C60 homology object. -/
