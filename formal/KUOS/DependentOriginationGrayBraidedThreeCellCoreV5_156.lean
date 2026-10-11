@@ -18,7 +18,7 @@ Build a genuine typed, skeletal *braided 3-cell calculus* with:
 
 These are executable mathematical DATA AND EQUATIONS, not a postulated
 Gray-category instance. A complete ambient Gray-category requires its
-chosen 0-/1-/2-cell carriers and coherence interface; a precise
+chosen zero-, one-, and two-cell carriers and coherence interface; a precise
 doubly-degenerate Gray-category can be built by delooping the braided
 monoidal groupoid specified by this finite algebra. F59-B will connect
 it to the original typed F55 PresentedCell and F58 charge interpreter.
@@ -110,19 +110,19 @@ theorem GradedThreeCell.comp_inv
     {a b : ZMod 2} (f : GradedThreeCell a b) :
     f.comp f.inv = GradedThreeCell.ident a := by
   apply GradedThreeCell.ext
-  · simp [GradedThreeCell.comp, GradedThreeCell.inv,
-      GradedThreeCell.ident]
-  · simp [GradedThreeCell.comp, GradedThreeCell.inv,
-      GradedThreeCell.ident]
+  · change f.charge + (-f.charge) = (0 : Int × Int)
+    exact add_neg_cancel _
+  · change f.phase + (-f.phase) = (0 : ZMod 2)
+    exact add_neg_cancel _
 
 theorem GradedThreeCell.inv_comp
     {a b : ZMod 2} (f : GradedThreeCell a b) :
     f.inv.comp f = GradedThreeCell.ident b := by
   apply GradedThreeCell.ext
-  · simp [GradedThreeCell.comp, GradedThreeCell.inv,
-      GradedThreeCell.ident]
-  · simp [GradedThreeCell.comp, GradedThreeCell.inv,
-      GradedThreeCell.ident]
+  · change (-f.charge) + f.charge = (0 : Int × Int)
+    exact neg_add_cancel _
+  · change (-f.phase) + f.phase = (0 : ZMod 2)
+    exact neg_add_cancel _
 
 /-- The tensor is bifunctorial: the two independent 3-cell pasting orders
 agree exactly, with ALL integer charges and exchange phases retained. -/
@@ -212,11 +212,11 @@ theorem GradedThreeCell.exchange_hexagon_forward
     ((GradedThreeCell.associator a b c).comp
       (GradedThreeCell.exchange a (b + c))).comp
       (GradedThreeCell.associator b c a) =
-    ((GradedThreeCell.exchange a b).tensor
+    (((GradedThreeCell.exchange a b).tensor
       (GradedThreeCell.ident c)).comp
-      (GradedThreeCell.associator b a c)
-      |>.comp ((GradedThreeCell.ident b).tensor
-        (GradedThreeCell.exchange a c)) := by
+      (GradedThreeCell.associator b a c)).comp
+        ((GradedThreeCell.ident b).tensor
+          (GradedThreeCell.exchange a c)) := by
   apply GradedThreeCell.ext
   · simp [GradedThreeCell.comp, GradedThreeCell.tensor,
       GradedThreeCell.associator, GradedThreeCell.exchange,
@@ -231,11 +231,11 @@ theorem GradedThreeCell.exchange_hexagon_reverse
     ((GradedThreeCell.associatorInv a b c).comp
       (GradedThreeCell.exchange (a + b) c)).comp
       (GradedThreeCell.associatorInv c a b) =
-    ((GradedThreeCell.ident a).tensor
+    (((GradedThreeCell.ident a).tensor
       (GradedThreeCell.exchange b c)).comp
-      (GradedThreeCell.associatorInv a c b)
-      |>.comp ((GradedThreeCell.exchange a c).tensor
-        (GradedThreeCell.ident b)) := by
+      (GradedThreeCell.associatorInv a c b)).comp
+        ((GradedThreeCell.exchange a c).tensor
+          (GradedThreeCell.ident b)) := by
   apply GradedThreeCell.ext
   · simp [GradedThreeCell.comp, GradedThreeCell.tensor,
       GradedThreeCell.associatorInv, GradedThreeCell.associator,
