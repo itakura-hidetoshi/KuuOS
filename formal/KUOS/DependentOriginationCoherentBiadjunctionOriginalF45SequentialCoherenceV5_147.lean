@@ -205,9 +205,11 @@ theorem AxisTrace.originalF45OrderClass_append_mapBoth
       rw [AxisTrace.mapBlocks_append, AxisTrace.mapBlocks_append,
         (AxisTrace.originalF45OrderClass_eq_pair whole _ _).symm]
 
-/-- Even three independent choices of the ORIGINAL F45 execution
-order, one at each stage and one for the total path, do NOT affect
-the native generated exchange class of their sequential refinements. -/
+/-- Changing either of TWO actual ORIGINAL F45 stage execution orders
+does not change the genuine concatenated F44 exchange class.
+Independently changing the total historical F45 order does not
+change its native canonical representation either: all SIX order
+choices are used in these TWO actual Type-level quotient equations. -/
 theorem AxisTrace.originalF45OrderClass_append_independent
     {a b : D} {x y : E}
     {n m n' m' : Nat}
@@ -215,14 +217,35 @@ theorem AxisTrace.originalF45OrderClass_append_independent
     (first₁ first₂ second₁ second₂ whole₁ whole₂ : OriginalF45Order)
     (hm₁ : AxisTrace n ma mb) (hm₂ : AxisTrace n' mb mc)
     (hc₁ : AxisTrace m pa pb) (hc₂ : AxisTrace m' pb pc) :
-    ExchangeClass.append
+    (ExchangeClass.append
         (AxisTrace.originalF45OrderClass first₁ hm₁ hc₁)
         (AxisTrace.originalF45OrderClass second₁ hm₂ hc₂) =
-      AxisTrace.originalF45OrderClass whole₂
+      ExchangeClass.append
+        (AxisTrace.originalF45OrderClass first₂ hm₁ hc₁)
+        (AxisTrace.originalF45OrderClass second₂ hm₂ hc₂)) ∧
+    (AxisTrace.originalF45OrderClass whole₁
         (AxisTrace.append hm₁ hm₂)
-        (AxisTrace.append hc₁ hc₂) := by
-  exact AxisTrace.originalF45OrderClass_append
-    first₁ second₁ whole₂ hm₁ hm₂ hc₁ hc₂
+        (AxisTrace.append hc₁ hc₂) =
+     AxisTrace.originalF45OrderClass whole₂
+        (AxisTrace.append hm₁ hm₂)
+        (AxisTrace.append hc₁ hc₂)) := by
+  constructor
+  · calc
+      ExchangeClass.append
+          (AxisTrace.originalF45OrderClass first₁ hm₁ hc₁)
+          (AxisTrace.originalF45OrderClass second₁ hm₂ hc₂) =
+        AxisTrace.originalF45OrderClass whole₁
+          (AxisTrace.append hm₁ hm₂)
+          (AxisTrace.append hc₁ hc₂) :=
+        AxisTrace.originalF45OrderClass_append
+          first₁ second₁ whole₁ hm₁ hm₂ hc₁ hc₂
+      _ = ExchangeClass.append
+            (AxisTrace.originalF45OrderClass first₂ hm₁ hc₁)
+            (AxisTrace.originalF45OrderClass second₂ hm₂ hc₂) :=
+        (AxisTrace.originalF45OrderClass_append
+          first₂ second₂ whole₁ hm₁ hm₂ hc₁ hc₂).symm
+  · exact AxisTrace.originalF45OrderClass_independent
+      whole₁ whole₂ (AxisTrace.append hm₁ hm₂) (AxisTrace.append hc₁ hc₂)
 
 #print axioms AxisTrace.originalF45OrderClass_append
 #print axioms AxisTrace.originalF45OrderClass_append_toInterleaving
