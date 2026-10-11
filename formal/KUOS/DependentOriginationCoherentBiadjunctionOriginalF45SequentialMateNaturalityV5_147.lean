@@ -57,8 +57,8 @@ theorem chosenRightMateExchangeQuotientTransport_append
     (h : Grid.ExchangeClass n m modsA modsM pqA pqM)
     (k : Grid.ExchangeClass n' m' modsM modsB pqM pqB) :
     chosenRightMateExchangeQuotientTransport F G K
-        (Grid.ExchangeClass.append h k) =
-      Grid.ExchangeClass.append
+        (KUOS.DependentOriginationCoherentBiadjunctionExchangeQuotientConcatenationV5_141.Grid.ExchangeClass.append h k) =
+      KUOS.DependentOriginationCoherentBiadjunctionExchangeQuotientConcatenationV5_141.Grid.ExchangeClass.append
         (chosenRightMateExchangeQuotientTransport F G K h)
         (chosenRightMateExchangeQuotientTransport F G K k) :=
   Grid.ExchangeClass.mapBoth_append (rightMateFunctor F G) K h k
@@ -83,7 +83,7 @@ theorem chosenRightMateOriginalF45SequentialNormal
     (hc₁ : Grid.AxisTrace m pqA pqM)
     (hc₂ : Grid.AxisTrace m' pqM pqB) :
     chosenRightMateExchangeQuotientTransport F G K
-      (Grid.ExchangeClass.append
+      (KUOS.DependentOriginationCoherentBiadjunctionExchangeQuotientConcatenationV5_141.Grid.ExchangeClass.append
         (Grid.AxisTrace.originalF45OrderClass first hm₁ hc₁)
         (Grid.AxisTrace.originalF45OrderClass second hm₂ hc₂)) =
     Grid.AxisTrace.originalF45OrderClass whole
@@ -115,17 +115,17 @@ theorem chosenRightMateOriginalF45SequentialOrderIndependent
     (hc₁ : Grid.AxisTrace m pqA pqM)
     (hc₂ : Grid.AxisTrace m' pqM pqB) :
     chosenRightMateExchangeQuotientTransport F G K
-      (Grid.ExchangeClass.append
+      (KUOS.DependentOriginationCoherentBiadjunctionExchangeQuotientConcatenationV5_141.Grid.ExchangeClass.append
         (Grid.AxisTrace.originalF45OrderClass first₁ hm₁ hc₁)
         (Grid.AxisTrace.originalF45OrderClass second₁ hm₂ hc₂)) =
     chosenRightMateExchangeQuotientTransport F G K
-      (Grid.ExchangeClass.append
+      (KUOS.DependentOriginationCoherentBiadjunctionExchangeQuotientConcatenationV5_141.Grid.ExchangeClass.append
         (Grid.AxisTrace.originalF45OrderClass first₂ hm₁ hc₁)
         (Grid.AxisTrace.originalF45OrderClass second₂ hm₂ hc₂)) := by
   exact congrArg (chosenRightMateExchangeQuotientTransport F G K)
     (by
       calc
-        Grid.ExchangeClass.append
+        KUOS.DependentOriginationCoherentBiadjunctionExchangeQuotientConcatenationV5_141.Grid.ExchangeClass.append
             (Grid.AxisTrace.originalF45OrderClass first₁ hm₁ hc₁)
             (Grid.AxisTrace.originalF45OrderClass second₁ hm₂ hc₂) =
           Grid.AxisTrace.originalF45OrderClass first₁
@@ -138,7 +138,7 @@ theorem chosenRightMateOriginalF45SequentialOrderIndependent
               (Grid.AxisTrace.append hc₁ hc₂) :=
           Grid.AxisTrace.originalF45OrderClass_independent
             first₁ first₂ _ _
-        _ = Grid.ExchangeClass.append
+        _ = KUOS.DependentOriginationCoherentBiadjunctionExchangeQuotientConcatenationV5_141.Grid.ExchangeClass.append
               (Grid.AxisTrace.originalF45OrderClass first₂ hm₁ hc₁)
               (Grid.AxisTrace.originalF45OrderClass second₂ hm₂ hc₂) :=
           (Grid.AxisTrace.originalF45OrderClass_append
@@ -165,7 +165,7 @@ theorem chosenRightMateOriginalF45SequentialComposites
       (Grid.mapBlocks (rightMateFunctor F G) modsB).composite ∧
     (Grid.mapBlocks K pqA).composite = (Grid.mapBlocks K pqB).composite :=
   (chosenRightMateExchangeQuotientTransport F G K
-    (Grid.ExchangeClass.append
+    (KUOS.DependentOriginationCoherentBiadjunctionExchangeQuotientConcatenationV5_141.Grid.ExchangeClass.append
       (Grid.AxisTrace.originalF45OrderClass first hm₁ hc₁)
       (Grid.AxisTrace.originalF45OrderClass second hm₂ hc₂))).composites
 
