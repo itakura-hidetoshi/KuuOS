@@ -33,7 +33,7 @@ def c60NativeChainObjects : ℕ → ModuleCat ℤ
   | 0 => ModuleCat.of ℤ C60IntegralZeroChains
   | 1 => ModuleCat.of ℤ C60IntegralOneChains
   | 2 => ModuleCat.of ℤ C60IntegralTwoChains
-  | _ + 3 => 0
+  | _ + 3 => ModuleCat.of ℤ PUnit
 
 /-- Native ModuleCat differentials induced by the exact original
 C60 signed integer cellular face-edge-vertex maps. -/
@@ -78,7 +78,7 @@ theorem c60NativeIntegralCellularComplex_X2 :
       ModuleCat.of ℤ C60IntegralTwoChains := rfl
 
 theorem c60NativeIntegralCellularComplex_X3 :
-    c60NativeIntegralCellularComplex.X 3 = (0 : ModuleCat ℤ) := rfl
+    c60NativeIntegralCellularComplex.X 3 = ModuleCat.of ℤ PUnit := rfl
 
 /-- Native first differential exactly recovers physical d₁. -/
 theorem c60NativeIntegralCellularComplex_d10 :
