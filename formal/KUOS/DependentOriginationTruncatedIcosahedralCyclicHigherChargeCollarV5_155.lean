@@ -102,9 +102,11 @@ aggregation over a cyclic geometric flag-collar, NOT a fabricated
 vertical 3-cell composite of incompatible source/target paths. -/
 def originalC60PentagonSquareCollarCharge
     (v : IcosahedralVertex) : Int × Int :=
-  ((originalF45C60PentagonPasting t₁ t₂ t₃ t₄ v).interpret
-    OriginalF45BracketTree.DepthRotationRoute.HigherCellTarget.generatorCharge :
-      Int × Int) +
+  ((OriginalF45C60PentagonPasting.interpret
+    t₁ t₂ t₃ t₄
+    (originalF45C60PentagonPasting t₁ t₂ t₃ t₄ v)
+    (OriginalF45BracketTree.DepthRotationRoute.HigherCellTarget.generatorCharge
+      (D := D) (E := E))) : Int × Int) +
     (originalC60SquareCollarChargeList t₁ t₂ left right v).sum
 
 /-- The original C60 five-edge pentagon has independent charge (1,0),
@@ -133,15 +135,17 @@ theorem originalC60ChargedSquareCollar_consecutive_sharedFlag
       ⟨v, pentagonalSlotNext s⟩ left right).geometricSquare.vertex false),
      ((OriginalC60FlagSquareWithF55Generator.canonical
       ⟨v, pentagonalSlotNext s⟩ left right).geometricSquare.face false)) := by
-  change
-    (((originalF45C60PentagonPasting t₁ t₂ t₃ t₄ v).sides s).incidenceSquare.vertex true,
-     ((originalF45C60PentagonPasting t₁ t₂ t₃ t₄ v).sides s).incidenceSquare.face false) =
-    (((originalF45C60PentagonPasting t₁ t₂ t₃ t₄ v).sides
-      (pentagonalSlotNext s)).incidenceSquare.vertex false,
-     ((originalF45C60PentagonPasting t₁ t₂ t₃ t₄ v).sides
-      (pentagonalSlotNext s)).incidenceSquare.face false)
-  exact (originalF45C60PentagonPasting t₁ t₂ t₃ t₄ v).consecutive_shared_flag
-    t₁ t₂ t₃ t₄ s
+  apply Prod.ext
+  · change
+      (truncatedIcosahedralEdgeEndpoints (.around ⟨v, s⟩)).2 =
+        (truncatedIcosahedralEdgeEndpoints
+          (.around ⟨v, pentagonalSlotNext s⟩)).1
+    exact truncatedIcosahedralAroundEdge_consecutive v s
+  · exact
+      (OriginalC60FlagSquareWithF55Generator.canonical
+        ⟨v, s⟩ left right).pentagonFace.trans
+      (OriginalC60FlagSquareWithF55Generator.canonical
+        ⟨v, pentagonalSlotNext s⟩ left right).pentagonFace.symm
 
 /-- The FIFTH charged square is glued back to the FIRST along an
 actual common pentagonal vertex/face flag. -/
@@ -157,7 +161,7 @@ theorem originalC60ChargedSquareCollar_closes
       ⟨v, .s0⟩ left right).geometricSquare.face false)) := by
   simpa only [pentagonalSlotNext] using
     originalC60ChargedSquareCollar_consecutive_sharedFlag
-      t₁ t₂ t₃ t₄ left right v .s4
+      t₁ t₂ left right v .s4
 
 /-- Exact combined concrete certification: the same five actual
 corner-glued C60 flag squares carry nontrivial independent square
@@ -178,7 +182,7 @@ theorem originalC60PentagonSquareCollar_complete
     (originalC60PentagonSquareCollarCharge
       t₁ t₂ t₃ t₄ left right v = ((1 : Int), (5 : Int))) :=
   ⟨originalC60ChargedSquareCollar_consecutive_sharedFlag
-      t₁ t₂ t₃ t₄ left right v,
+      t₁ t₂ left right v,
    originalC60PentagonSquareCollarCharge_eq
       t₁ t₂ t₃ t₄ left right v⟩
 
