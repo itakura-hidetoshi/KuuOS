@@ -105,6 +105,7 @@ theorem c60F30AllNinetySourceDefect_zero
   rw [c60F30SourceDefectPatch_eq, Finset.card_univ]
   rw [allOriginalTruncatedEdge_card_kernel]
   have h90 : (90 : ZMod 2) = 0 := by decide
+  change (90 : ZMod 2) * (a * b) = 0
   rw [h90, zero_mul]
 
 /-- The stronger FULL original C60 surface boundary identity:
