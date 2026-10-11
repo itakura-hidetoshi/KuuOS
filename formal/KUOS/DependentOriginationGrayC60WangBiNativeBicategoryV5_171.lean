@@ -8,6 +8,7 @@ import Mathlib.CategoryTheory.Bicategory.Functor.LocallyDiscrete
 namespace KUOS.DependentOriginationGrayC60WangBiNativeBicategoryV5_171
 
 open CategoryTheory
+open scoped CategoryTheory.Bicategory
 open KUOS.DependentOriginationFunctorialTransportV0_1
 open KUOS.DependentOriginationGrayC60WangBiZhouyiTimeV5_170
 
@@ -95,20 +96,28 @@ def c60WangBiContextStateFunctor
     (Time : Type uT) :
     C60WangBiChartContext ⥤ Type uT where
   obj _ := WangBiSixYao × Time
-  map := fun {X Y} _ => fun pair =>
-    (c60NativeChartCodeTransport X.as Y.as pair.1, pair.2)
+  map := fun {X Y} (_ : X ⟶ Y) =>
+    (fun pair : WangBiSixYao × Time =>
+      (c60NativeChartCodeTransport X.as Y.as pair.1, pair.2))
   map_id := by
     intro X
-    funext x
-    rcases x with ⟨code, time⟩
+    change
+      (fun pair : WangBiSixYao × Time =>
+        (c60NativeChartCodeTransport X.as X.as pair.1, pair.2)) = id
+    funext ⟨code, time⟩
     exact congrArg (fun code => (code, time))
       (c60NativeChartCodeTransport_identity X.as code)
   map_comp := by
     intro X Y Z f g
-    funext x
-    rcases x with ⟨code, time⟩
+    change
+      (fun pair : WangBiSixYao × Time =>
+        (c60NativeChartCodeTransport X.as Z.as pair.1, pair.2)) =
+      (fun pair : WangBiSixYao × Time =>
+        (c60NativeChartCodeTransport Y.as Z.as
+          (c60NativeChartCodeTransport X.as Y.as pair.1), pair.2))
+    funext ⟨code, time⟩
     exact congrArg (fun code => (code, time))
-      (c60NativeChartCodeTransport_comp X.as Y.as Z.as code)
+      (c60NativeChartCodeTransport_comp X.as Y.as Z.as code).symm
 
 /-- The ORIGINAL KuuOS v0.1 functorial transport interface is
 realized concretely on the REAL C60 Wang Bi chart category. -/
@@ -228,7 +237,6 @@ theorem c60WangBiNativeTriangle
 #print axioms c60WangBiNativeBicategoricalTransport
 #print axioms c60WangBiCatPseudofunctor
 #print axioms c60WangBiTemporalInvariantReadout
-#print axioms c60WangBiNativeBicategoricalReadout
 #print axioms c60WangBiNativeTwoCell_preservesMeaning
 #print axioms c60WangBiNativeAssociator_preservesState
 #print axioms c60WangBiNativePentagon
