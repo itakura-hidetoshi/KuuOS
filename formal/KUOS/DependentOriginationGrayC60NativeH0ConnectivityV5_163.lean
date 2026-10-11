@@ -320,10 +320,15 @@ noncomputable def c60NativeH0IsoInteger :
       LinearMap.range
           (c60NativeIntegralCellularComplex.sc 0).f.hom =
         c60IntegralEdgeRange := by
-    change LinearMap.range
-      (c60NativeIntegralCellularComplex.d 1 0).hom =
-        c60IntegralEdgeRange
-    rw [c60NativeIntegralCellularComplex_d10]
+    have hf :
+        (c60NativeIntegralCellularComplex.sc 0).f =
+          ModuleCat.ofHom c60IntegralBoundaryOne := by
+      change c60NativeIntegralCellularComplex.d
+        ((ComplexShape.down ℕ).prev 0) 0 =
+          ModuleCat.ofHom c60IntegralBoundaryOne
+      rw [ChainComplex.prev]
+      exact c60NativeIntegralCellularComplex_d10
+    rw [hf]
     rfl
   have hQuot :
       ModuleCat.of ℤ
