@@ -134,8 +134,9 @@ theorem originalC60EveryHexagon_alternatingEdgeFamilies
       (truncatedIcosahedralHexagonCycle f).e4.family,
       (truncatedIcosahedralHexagonCycle f).e5.family) =
       (.around, .cross, .around, .cross, .around, .cross) := by
-  exact ⟨truncatedIcosahedralHexagonCycle_length f,
-    truncatedIcosahedralHexagonCycle_family_pattern f⟩
+  constructor
+  · rfl
+  · cases f <;> rfl
 
 /-- The real twenty closed hexagon boundaries—not an arbitrary set
 of schematic six-edge polygons—are counted by kernel reduction. -/
