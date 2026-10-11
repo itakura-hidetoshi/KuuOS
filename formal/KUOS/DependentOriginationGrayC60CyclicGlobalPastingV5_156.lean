@@ -50,43 +50,44 @@ a global ambient Gray 3-functor, a proof of Stage-II omega equality,
 or a reversal of the original G.toOplax comparisons.
 -/
 
-/-- The genuine endomorphisms at the neutral GrayGrade form an
-additive commutative group. Its group addition IS the original
-native categorical vertical composition, not an invented charge sum. -/
-instance grayNeutralAddCommGroup : AddCommGroup (GradedThreeCell 0 0) where
-  zero := GradedThreeCell.ident 0
-  add := GradedThreeCell.comp
-  neg := GradedThreeCell.inv
-  sub := fun f g => f.comp g.inv
-  nsmul := nsmulRec
-  zsmul := zsmulRec
-  sub_eq_add_neg := by
-    intro f g
+/-- The neutral Gray 3-cell is EQUIVALENT to the precise product of
+its two independent F58 integer coordinates and F59 exchange phase.
+Its equality witness at grade zero carries no extra, secretly chosen data. -/
+def grayNeutralEquiv :
+    GradedThreeCell 0 0 ≃ ((Int × Int) × ZMod 2) where
+  toFun := fun f => (f.charge, f.phase)
+  invFun := fun z => ⟨rfl, z.1, z.2⟩
+  left_inv := by
+    intro f
+    apply GradedThreeCell.ext <;> rfl
+  right_inv := by
+    intro z
+    cases z
     rfl
-  add_assoc := by
-    intro f g h
-    exact GradedThreeCell.comp_assoc f g h
-  zero_add := by
-    intro f
-    exact GradedThreeCell.ident_comp f
-  add_zero := by
-    intro f
-    exact GradedThreeCell.comp_ident f
-  neg_add_cancel := by
-    intro f
-    exact GradedThreeCell.inv_comp f
-  add_comm := by
-    intro f g
-    apply GradedThreeCell.ext
-    · change f.charge + g.charge = g.charge + f.charge
-      exact add_comm _ _
-    · change f.phase + g.phase = g.phase + f.phase
-      exact add_comm _ _
 
-/-- Make the correspondence with the ACTUAL native categorical
-composition explicit for every pair of neutral 3-cells. -/
+/-- Transport the EXISTING product additive group through the proved
+equivalence. This supplies all native nsmul/zsmul/neg/sub laws without
+postulating anything or leaving unverified structure-default proofs. -/
+instance grayNeutralAddCommGroup : AddCommGroup (GradedThreeCell 0 0) :=
+  grayNeutralEquiv.addCommGroup
+
+/-- Unlike a mere abstract integer charge sum, the transported
+additive group operation coincides with actual native F59-C
+categorical composition of neutral-grade 3-cells. -/
 theorem grayNeutral_add_eq_native_comp (f g : GradedThreeCell 0 0) :
-    f + g = (f ≫ g : GrayGrade.unit ⟶ GrayGrade.unit) :=
+    f + g = (f ≫ g : GrayGrade.unit ⟶ GrayGrade.unit) := by
+  apply GradedThreeCell.ext <;> rfl
+
+/-- Integer charge still projects additively from native
+neutral-grade 3-cell categorical composition. -/
+theorem grayNeutral_add_charge (f g : GradedThreeCell 0 0) :
+    (f + g).charge = f.charge + g.charge := by
+  rfl
+
+/-- Independent ZMod2 exchange phase also respects the very SAME
+composition. -/
+theorem grayNeutral_add_phase (f g : GradedThreeCell 0 0) :
+    (f + g).phase = f.phase + g.phase := by
   rfl
 
 /-- The original F58 signed generator-charge projection is additive
@@ -341,7 +342,10 @@ theorem c60GrayLocalNonzeroGlobalZero (v : IcosahedralVertex) :
   · rw [(c60GrayGlobal_components t₁ t₂ t₃ t₄ left right).1]
     decide
 
+#print axioms grayNeutralEquiv
 #print axioms grayNeutralAddCommGroup
+#print axioms grayNeutral_add_charge
+#print axioms grayNeutral_add_phase
 #print axioms grayNeutral_add_eq_native_comp
 #print axioms grayNeutralChargeHom
 #print axioms grayNeutralPhaseHom
