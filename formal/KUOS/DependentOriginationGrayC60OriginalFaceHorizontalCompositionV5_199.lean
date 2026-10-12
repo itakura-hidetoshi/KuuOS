@@ -100,13 +100,17 @@ def c60F51HorizontalThreeHomFunctor
     exact add_zero _
   map_comp := by
     intro ⟨X, Y⟩ ⟨X', Y'⟩ ⟨X'', Y''⟩ f g
+    obtain ⟨f₁, f₂⟩ := f
+    obtain ⟨g₁, g₂⟩ := g
+    refine Quot.inductionOn f₁ (fun rf₁ => ?_)
+    refine Quot.inductionOn f₂ (fun rf₂ => ?_)
+    refine Quot.inductionOn g₁ (fun rg₁ => ?_)
+    refine Quot.inductionOn g₂ (fun rg₂ => ?_)
     apply Quot.sound
-    change
-      c60F51Eval (c60F51Comp f.1 g.1) +
-        c60F51Eval (c60F51Comp f.2 g.2) =
-      (c60F51Eval f.1 + c60F51Eval f.2) +
-        (c60F51Eval g.1 + c60F51Eval g.2)
-    rw [c60F51Eval_comp, c60F51Eval_comp]
+    change (rf₁.toNative + rg₁.toNative) +
+        (rf₂.toNative + rg₂.toNative) =
+      (rf₁.toNative + rf₂.toNative) +
+        (rg₁.toNative + rg₂.toNative)
     abel
 
 /-! ## II. Vertical original-F42 2-cell 3-Hom bifunctor -/
@@ -166,13 +170,17 @@ def c60F51VerticalTwoThreeHomFunctor
     exact add_zero _
   map_comp := by
     intro ⟨X, Y⟩ ⟨X', Y'⟩ ⟨X'', Y''⟩ f g
+    obtain ⟨f₁, f₂⟩ := f
+    obtain ⟨g₁, g₂⟩ := g
+    refine Quot.inductionOn f₁ (fun rf₁ => ?_)
+    refine Quot.inductionOn f₂ (fun rf₂ => ?_)
+    refine Quot.inductionOn g₁ (fun rg₁ => ?_)
+    refine Quot.inductionOn g₂ (fun rg₂ => ?_)
     apply Quot.sound
-    change
-      c60F51Eval (c60F51Comp f.1 g.1) +
-        c60F51Eval (c60F51Comp f.2 g.2) =
-      (c60F51Eval f.1 + c60F51Eval f.2) +
-        (c60F51Eval g.1 + c60F51Eval g.2)
-    rw [c60F51Eval_comp, c60F51Eval_comp]
+    change (rf₁.toNative + rg₁.toNative) +
+        (rf₂.toNative + rg₂.toNative) =
+      (rf₁.toNative + rf₂.toNative) +
+        (rg₁.toNative + rg₂.toNative)
     abel
 
 /-! ## III. Original real C60 1-path whiskering functors -/
@@ -260,7 +268,10 @@ theorem c60F51LeftWhisker_faithful
     (h : (c60F51LeftWhiskerFunctor prior).map f =
       (c60F51LeftWhiskerFunctor prior).map g) :
     f = g := by
-  have hh := congrArg (fun z => c60F51Eval z) h
+  have hh :
+      c60F51Eval ((c60F51LeftWhiskerFunctor prior).map f) =
+      c60F51Eval ((c60F51LeftWhiskerFunctor prior).map g) :=
+    congrArg (fun z => c60F51Eval z) h
   rw [c60F51LeftWhisker_eval, c60F51LeftWhisker_eval] at hh
   exact c60F51GrayFunctor_faithful _ _ (by
     apply GradedThreeCell.ext
@@ -276,7 +287,10 @@ theorem c60F51RightWhisker_faithful
     (h : (c60F51RightWhiskerFunctor suffix).map f =
       (c60F51RightWhiskerFunctor suffix).map g) :
     f = g := by
-  have hh := congrArg (fun z => c60F51Eval z) h
+  have hh :
+      c60F51Eval ((c60F51RightWhiskerFunctor suffix).map f) =
+      c60F51Eval ((c60F51RightWhiskerFunctor suffix).map g) :=
+    congrArg (fun z => c60F51Eval z) h
   rw [c60F51RightWhisker_eval, c60F51RightWhisker_eval] at hh
   exact c60F51GrayFunctor_faithful _ _ (by
     apply GradedThreeCell.ext
