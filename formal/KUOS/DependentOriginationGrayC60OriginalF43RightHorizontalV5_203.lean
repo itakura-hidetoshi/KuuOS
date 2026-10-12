@@ -6,6 +6,7 @@ open CategoryTheory
 open KUOS.DependentOriginationIcosahedralTruncationSeedV3_84
 open KUOS.DependentOriginationGrayBraidedThreeCellCoreV5_156
 open KUOS.DependentOriginationGrayNativeBraidedCategoryV5_156
+open KUOS.DependentOriginationGrayC60NativePathFunctorV5_189
 open KUOS.DependentOriginationGrayC60PresentedFaceTwoCellsV5_190
 open KUOS.DependentOriginationGrayC60PresentedInterchangerV5_191
 open KUOS.DependentOriginationGrayC60OriginalFaceHorizontalPresentationV5_199
@@ -119,8 +120,8 @@ theorem c60F54RightHorizontalMap_eval
     (f : X ⟶ X') (g : Y ⟶ Y') :
     c60F52Eval (c60F54RightHorizontalMap f g) =
       c60F52Eval f + c60F52Eval g := by
-  rw [c60F52Eval_catComp, c60F52Eval_catComp,
-    c60F52HorizontalMap_eval]
+  unfold c60F54RightHorizontalMap
+  simp only [c60F52Eval_catComp, c60F52HorizontalMap_eval]
   change -(c60F43PhysicalInterchangerNative X.original Y.original) +
       (c60F52Eval f + c60F52Eval g) +
       c60F43PhysicalInterchangerNative X'.original Y'.original =
@@ -159,9 +160,7 @@ def c60F54RightHorizontalThreeHomFunctor
       c60F52Eval
         (c60F54RightHorizontalMap f₁ f₂ ≫
           c60F54RightHorizontalMap g₁ g₂)
-    rw [c60F54RightHorizontalMap_eval, c60F52Eval_catComp,
-      c60F54RightHorizontalMap_eval, c60F54RightHorizontalMap_eval,
-      c60F52Eval_catComp, c60F52Eval_catComp]
+    simp only [c60F54RightHorizontalMap_eval, c60F52Eval_catComp]
     abel
 
 /-- Genuine original F43 interchange NATURALITY in the
