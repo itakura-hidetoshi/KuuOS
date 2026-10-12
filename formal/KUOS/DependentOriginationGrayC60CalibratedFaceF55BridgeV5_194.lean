@@ -97,20 +97,19 @@ def c60F46EdgeLocalizedFaceFunctor
     funext site
     by_cases hs : site = C60GrayPhysicalSite.edge edge
     · subst site
-      change c60F44FaceThreeGrayFunctor.map (𝟙 faceCell) =
-        (𝟙 GrayGrade.unit)
+      simp only [CategoryTheory.Pi.id_apply, if_pos rfl]
       exact c60F44FaceThreeGrayFunctor.map_id faceCell
-    · simp [hs]
+    · simp only [CategoryTheory.Pi.id_apply, if_neg hs]
+      rfl
   map_comp := by
     intro α β γ f g
     funext site
     by_cases hs : site = C60GrayPhysicalSite.edge edge
     · subst site
-      change c60F44FaceThreeGrayFunctor.map (f ≫ g) =
-        (c60F44FaceThreeGrayFunctor.map f ≫
-          c60F44FaceThreeGrayFunctor.map g)
+      simp only [CategoryTheory.Pi.comp_apply, if_pos rfl]
       exact c60F44FaceThreeGrayFunctor.map_comp f g
-    · simp [hs]
+    · simp only [CategoryTheory.Pi.comp_apply, if_neg hs]
+      exact (Category.id_comp (𝟙 GrayGrade.unit)).symm
 
 theorem c60F46EdgeLocalizedFace_atRealEdge
     (edge : TruncatedIcosahedralEdge)
@@ -118,7 +117,8 @@ theorem c60F46EdgeLocalizedFace_atRealEdge
     {α β : C60F42PresentedFaceCell p q}
     (f : α ⟶ β) :
     ((c60F46EdgeLocalizedFaceFunctor edge).map f) (.edge edge) =
-      c60F44FaceThreeGrayFunctor.map f := rfl
+      c60F44FaceThreeGrayFunctor.map f := by
+  simp only [c60F46EdgeLocalizedFaceFunctor, if_pos rfl]
 
 theorem c60F46EdgeLocalizedFace_faithful
     (edge : TruncatedIcosahedralEdge)
@@ -131,8 +131,10 @@ theorem c60F46EdgeLocalizedFace_faithful
     (fun m : (c60F46EdgeLocalizedFaceFunctor edge).obj α ⟶
        (c60F46EdgeLocalizedFaceFunctor edge).obj β =>
       m (.edge edge)) h
-  change c60F44FaceThreeGrayFunctor.map f =
-    c60F44FaceThreeGrayFunctor.map g at he
+  change ((c60F46EdgeLocalizedFaceFunctor edge).map f) (.edge edge) =
+    ((c60F46EdgeLocalizedFaceFunctor edge).map g) (.edge edge) at he
+  rw [c60F46EdgeLocalizedFace_atRealEdge,
+      c60F46EdgeLocalizedFace_atRealEdge] at he
   exact c60F44FaceThreeGrayFunctor_faithful he
 
 /-! ## II. Exact, unique native F55-to-C60 face receiver -/
