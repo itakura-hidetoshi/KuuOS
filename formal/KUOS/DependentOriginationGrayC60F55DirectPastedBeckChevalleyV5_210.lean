@@ -243,9 +243,23 @@ theorem c60F61LeftDirectBC_eq_pastedBC
   apply NatTrans.ext
   funext X
   cases X <;>
-    exact c60F61MixedEndomorphism_unique
+    (apply c60F47MixedGrayFunctor_faithful
       (c60F60LeftNestedFrame B₁ prior₁ outer₁ later₁ later₂)
-      _ _ _
+     simp [c60F61LeftDirectBCNormalizedNatIso,
+       c60F61LeftPastedBCNormalizedNatIso,
+       c60F61LeftFaceChoiceDirectNestedNatIso,
+       c60F59LeftTwoContextNatIso,
+       c60F59TwoContextPasting,
+       c60F58LeftFaceContext_NatIso,
+       c60F60LeftDirectVsNestedNatIso,
+       c60F56OriginalLeftMixedContextFunctor,
+       c60F56ContextMixedPoint, c60F56ContextMixedFunctor,
+       c60F56ContextMixedRaw, c60F47MixedGrayFunctor,
+       c60F47MixedEval, c60F47MixedComp,
+       C60F47PresentedMixedThreeCell.toNative,
+       c60F58LeftAfterFaceChoice,
+       c60F59LeftSecondFaceChoice,
+       c60F60LeftDirectToNested])
 #print axioms c60F61LeftFaceChoiceDirectNestedNatIso
 #print axioms c60F61LeftDirectBCNormalizedNatIso
 #print axioms c60F61LeftPastedBCNormalizedNatIso
