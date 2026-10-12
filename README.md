@@ -11,13 +11,13 @@
 > An observation is not a global truth. Which relations survive a justified change of context or presentation? When can compatible local data descend, and where does an obstruction prevent that descent?
 
 
-## Status / 現在地 — v5.200 · F59-F52 first stage · 2026-10-12 JST
+## Status / 現在地 — v5.201 · F59-F53-A · 2026-10-12 JST
 
-**Latest verified theorem-bearing baseline / 最新の定理を含む正本:** **[PR #2202 — v5.200 / F59-F52 first stage MERGED](https://github.com/itakura-hidetoshi/KuuOS/pull/2202)**, theorem-bearing merge SHA **`c82cbeaf76d4ac7fc9c2ab732bf68a05cbb74713`** (re-observed as the canonical `main` immediately after merge). Prior [#2199](https://github.com/itakura-hidetoshi/KuuOS/pull/2199) is the v5.199 theorem-bearing ancestor. Documentation-only merges (including #2200/#2201 and the present document update) move the live `main` SHA **without adding Lean theorems**; re-observe the current canonical branch for every new mathematical step.
+**Latest verified theorem-bearing baseline / 最新の定理を含む正本:** **[PR #2204 — v5.201 / F59-F53-A MERGED](https://github.com/itakura-hidetoshi/KuuOS/pull/2204)**, theorem-bearing merge SHA **`bbc64341b223835346e2dd927dde4e63e286d00b`**, verified equal to canonical `main` immediately after squash merge. [#2202](https://github.com/itakura-hidetoshi/KuuOS/pull/2202) remains the v5.200/F52-A ancestor. Subsequent documentation-only changes can advance `main` without adding Lean theorems.
 
-**Exact-head formal validation:** [GitHub Actions #38226438960](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38226438960) — **SUCCESS** on PR source `ac9b101ef4af26f71ca74c4a048d0af6bd37caf7`, Strict Lean **8999/8999**, changed Lean warning/error **0/0**, **25 `#print axioms`** across 3 new Lean modules, no `sorryAx`/new axiom declarations; Governance, MCP Lean receipt and MCP CI receipt **SUCCESS**. Trace dependencies include standard Lean axioms and **inherited C60 finite-geometry `native_decide` dependencies**; these were not newly introduced.
+**Exact-head formal validation:** [GitHub Actions #38227966129](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38227966129) — **SUCCESS** on PR source `2854a1bb802869737c6e3e163f73f68eae52dab8`, Strict Lean **9000/9000**, changed-file Lean warning/error **0/0**, **11 `#print axioms`** in the new F53-A module, no new `sorry`/`admit`/axiom declarations; Governance, MCP Lean receipt and MCP CI receipt **SUCCESS**. Standard axioms and inherited C60 `native_decide` dependencies remain distinguished.
 
-**日本語要約：** 空OSの実装は、元の `F/G/η/ε` と正逆swallowtail、F19/F28の独立履歴・商構成を保持し、C60の60頂点・90辺・12五角形・20六角形を用いた高次圏論へ進みました。**v5.197** ではC60の真正の0/1次元経路上に、完全な整数電荷2成分と独立した交換位相を持つ **graded Gray 3-圏包絡モデル**をLeanで構成しています。**v5.198** では元のF42面2射の証明項を保持した局所3-Homと忠実なGray解釈を、**v5.199** では新しい型付き水平・縦3射合成子を明示的に付加して、元の2射上の水平・縦3-Hom合成を真正のMathlib関手として構成しました。**v5.200（F52第一段階）**では、元のF42の異なる括弧付けを保持しつつC60経路等式でtransportする**新設**の結合子・単位子3射、F51の忠実包含、Mathlib水平3-Hom関手と結合子・左右単位子の自然性を証明しました。元の原表示に対する完全なpentagon/triangle貼り合わせは未証明です。
+**日本語要約：** 空OSの実装は、元の `F/G/η/ε` と正逆swallowtail、F19/F28の独立履歴・商構成を保持し、C60の60頂点・90辺・12五角形・20六角形を用いた高次圏論へ進みました。**v5.197** ではC60の真正の0/1次元経路上に、完全な整数電荷2成分と独立した交換位相を持つ **graded Gray 3-圏包絡モデル**をLeanで構成しています。**v5.198** では元のF42面2射の証明項を保持した局所3-Homと忠実なGray解釈を、**v5.199** では新しい型付き水平・縦3射合成子を明示的に付加して、元の2射上の水平・縦3-Hom合成を真正のMathlib関手として構成しました。**v5.200（F52第一段階）**では、元のF42の異なる括弧付けを保持しつつC60経路等式でtransportする**新設**の結合子・単位子3射、F51の忠実包含、Mathlib水平3-Hom関手と結合子・左右単位子の自然性を証明しました。**v5.201/F53-A**ではC60の四因子pentagon経路2通りとunit triangle経路2通りの一致、その元F42証明項・F52 3射へのtransport、忠実な再添字関手、型付き結合子・単位子同型を証明しました。**3射の四因子pentagonとtriangleの完全なsource-level貼り合わせはなお未証明**です。
 
 **重要な境界：** これは「元の全F42／F54／F55生成子を忠実に貼り合わせた完全な大域的・非退化Gray 3-圏」が成立したという意味ではありません。F47の混合補正 `Δ=(0,1;0)` は**新設の混合3射**であり、元のF55の9構成子からは得られません。元のF55辺場の北五角形局所曲率は非零のままです。Lean定理の範囲をAIモデルそのものの変更・実行時の正しさ・無条件のdescentと同一視しません。
 
@@ -33,6 +33,7 @@
 | **[v5.198 / F59-F50](https://github.com/itakura-hidetoshi/KuuOS/pull/2198)** | 元のF42証明項を保持する局所3-Hom・次数付き原2射圏、F43 3射の忠実関手、左右whiskering、全90辺の原F55比較。元の2射の相異と次数像の一致を区別。 |
 | **[v5.199 / F59-F51](https://github.com/itakura-hidetoshi/KuuOS/pull/2199)** | 元のF43にはなかった任意の水平／縦コンテキスト3射合成を**明示的に付加**。元のF42証明項上の水平・縦3-HomをMathlib積圏関手にし、F49 Grayの整数電荷・位相と整合。 |
 | **[v5.200 / F59-F52-A](https://github.com/itakura-hidetoshi/KuuOS/pull/2202)** | 元のF42証明項の2つのC60 path-index transport、型付き**新設**結合子・左右単位子、F52 3-Hom圏、F51の忠実包含、Mathlib水平積圏関手、**任意のF52 3射に対する結合子・単位子自然性**と元F43北五角形の非自明交換位相保持。**四因子pentagon／triangleは未証明**。 |
+| **[v5.201 / F59-F53-A](https://github.com/itakura-hidetoshi/KuuOS/pull/2204)** | 既存F52の実C60経路に対する四因子pentagonの**2本のpath-equalityルート**とunit triangleの**2ルート**を構成し、元F42証明項と任意のF52型付き3射へtransport。Mathlib再添字関手・忠実性、および結合子と左右単位子の**source-aware同型**をLeanで証明。**3射のpentagon／triangle方程式そのものは未証明**。 |
 
 **Status vocabulary:** “PROVED” means the **stated Lean declaration** and its hypotheses, not a blanket claim over all presentations. “Adjoined” indicates genuinely new source generators; “graded envelope” is not a fully faithful reconstruction of raw F42/F54/F55 higher source syntax.
 
@@ -42,12 +43,12 @@
 | Item | Verified evidence |
 | --- | --- |
 | Repository | **[itakura-hidetoshi/KuuOS](https://github.com/itakura-hidetoshi/KuuOS)** · canonical branch `main` |
-| Latest theorem-bearing merge | **`c82cbeaf76d4ac7fc9c2ab732bf68a05cbb74713`** · [#2202 MERGED](https://github.com/itakura-hidetoshi/KuuOS/pull/2202), distinct from subsequent docs-only SHA |
-| Validated PR source | `ac9b101ef4af26f71ca74c4a048d0af6bd37caf7` |
-| Exact-head CI | [#38226438960 — SUCCESS](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38226438960) |
-| Strict Lean job | `114735080182` · **8999/8999 SUCCESS** · 0 changed-file warnings / 0 errors |
-| Governance / MCP receipts | Governance `114735858446`, MCP Lean `114735858436`, MCP CI `114735935383` · **all SUCCESS** |
-| Changed-file axiom inspection | **25 `#print axioms`** across 3 new modules; no `sorryAx`; inherited `native_decide` dependencies disclosed, no new `axiom` declaration |
+| Latest theorem-bearing merge | **`bbc64341b223835346e2dd927dde4e63e286d00b`** · [#2204 MERGED](https://github.com/itakura-hidetoshi/KuuOS/pull/2204), distinct from subsequent docs-only SHA |
+| Validated PR source | `2854a1bb802869737c6e3e163f73f68eae52dab8` |
+| Exact-head CI | [#38227966129 — SUCCESS](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38227966129) |
+| Strict Lean job | `114740124223` · **9000/9000 SUCCESS** · 0 changed-file Lean warnings / 0 errors |
+| Governance / MCP receipts | Governance `114740767259`, MCP Lean `114740767422`, MCP CI `114740858363` · **all SUCCESS** |
+| Changed-file axiom inspection | **11 `#print axioms`** in one F53-A module; no new `sorryAx` or `axiom`; inherited C60 finite `native_decide` dependencies distinguished |
 | Toolchain | [Lean `v4.30.0-rc2`](lean-toolchain); [mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`](lake-manifest.json) |
 | Protected experimental lane | [PR #1558](https://github.com/itakura-hidetoshi/KuuOS/pull/1558) · **OPEN / DRAFT / NOT MERGED** (Lean 4.31 validation only) |
 
@@ -129,6 +130,7 @@ In particular, **two invertible triangle contractions alone did not give the two
 | **v5.198** | **F59-F50 / [#2198](https://github.com/itakura-hidetoshi/KuuOS/pull/2198):** source-aware F42 original proof-relevant 2-cell 3-Hom and faithful F43 Gray lift, decorated objects and left/right whiskering, all 90-edge F55 face comparison. [Original F43 lift](formal/KUOS/DependentOriginationGrayC60OriginalFaceTypedThreeHomLiftV5_198.lean). |
 | **v5.199** | **F59-F51 / [#2199](https://github.com/itakura-hidetoshi/KuuOS/pull/2199):** explicit **new** typed horizontal and vertical-context 3-cell constructors on original F42 sources, genuine Mathlib bifunctors and faithful original F43 inclusion, full graded Gray coherence. [Source constructors](formal/KUOS/DependentOriginationGrayC60OriginalFaceHorizontalPresentationV5_199.lean), [horizontal/vertical functors](formal/KUOS/DependentOriginationGrayC60OriginalFaceHorizontalCompositionV5_199.lean), [source-Gray coherence](formal/KUOS/DependentOriginationGrayC60OriginalFaceHorizontalGrayCoherenceV5_199.lean). |
 | **v5.200** | **F59-F52-A / [#2202](https://github.com/itakura-hidetoshi/KuuOS/pull/2202):** adjoined typed source associator/unitor with exact two-path transport, full-native quotient 3-Hom and faithful F51 inclusion, horizontal bifunctor, associator/left/right unitor naturality, old north F43 exchange still odd. [Source](formal/KUOS/DependentOriginationGrayC60OriginalFaceAssociatorPresentationV5_200.lean), [3-Hom](formal/KUOS/DependentOriginationGrayC60OriginalFaceAssociatorThreeHomV5_200.lean), [naturality](formal/KUOS/DependentOriginationGrayC60OriginalFaceAssociatorNaturalityV5_200.lean). Pentagons/triangles on four original words and F54/F55 global gluing remain open. |
+| **v5.201 / F53-A** | **[#2204](https://github.com/itakura-hidetoshi/KuuOS/pull/2204):** exact C60 path pentagon/triangle 2-route equalities and F42 two-boundary / F52 3-arrow dependent transports; Mathlib faithful reindex functor; source-aware associator and unit **isomorphisms**. [Lean source](formal/KUOS/DependentOriginationGrayC60OriginalFacePentagonTransportV5_201.lean). Does **not** prove full source-3-arrow pentagon or triangle pasting. |
 
 The source of mathematical truth is **the typed Lean theorem and its exact dependencies**, not the version number or a generic assertion that all higher coherence has been proved.
 
@@ -156,25 +158,22 @@ exact DO₂ presentation
   => weak W-admissibility
 ~~~
 
-The converse does **not** hold in general. Even the proved fixed-presentation swallowtails, the original F19/F28 mate/exchange histories, and the C60 graded Gray work through v5.200 do not establish arbitrary raw-morphism liftability, presentation-independent descent, or unrestricted equivalence across atlases.
+The converse does **not** hold in general. Even the proved fixed-presentation swallowtails, the original F19/F28 mate/exchange histories, and the C60 graded Gray work through v5.201/F53-A do not establish arbitrary raw-morphism liftability, presentation-independent descent, or unrestricted equivalence across atlases.
 
 
 ## Reproduce the theorem-bearing result / 再現
 
-Check out the **theorem-bearing SHA**, not merely the live `main` after a possible docs-only merge. The three newly merged v5.200 Lean modules are sufficient targets to re-run their selected import closure under the pinned toolchain:
+Check out the **theorem-bearing SHA**, not merely live `main` after future documentation-only merges. The v5.201 F53-A module builds its entire imported F42/F51/F52 dependency closure under the pinned toolchain:
 
 ~~~bash
 git clone https://github.com/itakura-hidetoshi/KuuOS.git KuuOS-repro
 cd KuuOS-repro
-git checkout c82cbeaf76d4ac7fc9c2ab732bf68a05cbb74713
+git checkout bbc64341b223835346e2dd927dde4e63e286d00b
 cat lean-toolchain
-lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build \
-  KUOS.DependentOriginationGrayC60OriginalFaceAssociatorPresentationV5_200 \
-  KUOS.DependentOriginationGrayC60OriginalFaceAssociatorThreeHomV5_200 \
-  KUOS.DependentOriginationGrayC60OriginalFaceAssociatorNaturalityV5_200
+lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.DependentOriginationGrayC60OriginalFacePentagonTransportV5_201
 ~~~
 
-Corresponding exact-head [CI #38226438960](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38226438960): **8999/8999**, changed Lean warnings/errors **0/0**, **25 `#print axioms`**, no `sorryAx`; Governance/MCP receipts **SUCCESS**. Because C60 finite combinatorics used `native_decide` in earlier formal modules, inspect the full displayed dependency lists instead of claiming only the three standard axioms.
+Corresponding exact-head [CI #38227966129](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38227966129): **9000/9000**, changed Lean warnings/errors **0/0**, **11 `#print axioms`**, no new `sorryAx`; Governance/MCP receipts **SUCCESS**. The output may expose inherited C60 finite-geometry `native_decide` dependencies; the selected Lean build and CI receipt do not validate every runtime component.
 
 A broader whole-project formal build and runtime check are independent tasks, **not implied** by this selected CI receipt:
 
@@ -185,7 +184,7 @@ PYTHONPATH=. python3 runtime/kuuos_current_check.py
 
 ## Remaining research and runtime boundaries / 次の課題
 
-**Next theorem frontier — v5.201 / F59-F53 and remaining F52 coherence:** v5.200/F52-A proved **adjoined typed original-F42 associator/left/right unitor and their full-native-quotient naturality**, including exact C60 path transports and the nontrivial original F43 exchange phase. Still open: construct the two correctly typed original four-factor **pentagon** routes and **triangle** comparison and prove their source-level identities, then connect all F51 higher contexts and independent original F54/F55 rotation source data. The adjoined F52 associator/unitor is not a theorem that the old F43 grammar already contained those generators. Never identify distinct original source proof terms merely from equal grades.
+**Next theorem frontier — v5.201 / F59-F53-B:** F53-A [#2204](https://github.com/itakura-hidetoshi/KuuOS/pull/2204) established path-level four-factor pentagon/triangle transport on genuine C60 one-path boundaries, retained original F42 evidence, and the invertibility of adjoined F52 associator/unitors. **Still open:** actually compose BOTH source-aware four-factor 3-arrow pentagon routes and the triangle routes with exactly aligned F42 proof-term boundaries, then prove their 3-Hom equalities. Do not replace this missing pasting by proof-irrelevance of path equalities or by equality of Gray grades. Next integrate original F43 interchange, F54/F55 mixed higher source and the existing nonflat obstruction without falsely identifying `Δ` with an original F55 primitive.
 
 **Further obligations:** globally coherent and faithful original F42–F54/F55 mixed 0/1/2/3-source realization; target-level pentagon/square/whiskering and Gray exchange with the *same original boundaries*; a genuinely correct interpretation or explicitly recorded obstruction for the added `Δ=(0,1;0)` (not produced by the old nine F55 constructors); preservation of original nonzero face curvature, lawful transport and conditional/descent checks. Unrestricted tricategorical/Gray-categorical equivalence, presentation-independent global descent, infinite convergence and universal mapping claims remain open unless stated by separate exact Lean declarations.
 
