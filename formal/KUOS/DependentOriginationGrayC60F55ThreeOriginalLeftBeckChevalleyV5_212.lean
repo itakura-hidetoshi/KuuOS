@@ -78,15 +78,46 @@ variable (later₁ : OriginalF45BracketTree k₁ l₁ mb pb mc pc)
 variable (later₂ : OriginalF45BracketTree k₂ l₂ mc pc md pd)
 variable (later₃ : OriginalF45BracketTree k₃ l₃ md pd me pe)
 
-/-- Two *distinct actual source constructions*, each composed of
-three F58 Beck–Chevalley NatIso with original F42 paths and original
-F54/F55 independent trees, glued by genuine F59 two-context pasting.
-
-The resulting pair shares exactly the SAME source and target functors.
-No equality of unlike original F42/F54 source proof terms is assumed.
--/
 /-- First paste the initial two F58 original BC squares. -/
-def c60F63OriginalLeftThreeBC_firstPair :=
+def c60F63OriginalLeftThreeBC_firstPair :
+  let A₁ := c60F47WhiskerLeft B₀ prior₀ later₁
+  let B₁' := c60F47WhiskerLeft B₁ prior₁ later₁
+  let A₂ := c60F47WhiskerLeft A₁ middle₀ later₂
+  let B₂' := c60F47WhiskerLeft B₁' middle₁ later₂
+  let hface₁ := c60F59LeftIntermediateFaceNative B₀ B₁
+    hface prior₀ prior₁ later₁
+  let hrot₁ := c60F59LeftIntermediateRotationNative B₀ B₁
+    hrot prior₀ prior₁ later₁
+  let hface₂ := c60F59LeftIntermediateFaceNative A₁ B₁'
+    hface₁ middle₀ middle₁ later₂
+  let hrot₂ := c60F59LeftIntermediateRotationNative A₁ B₁'
+    hrot₁ middle₀ middle₁ later₂
+  have hedge₁ : A₁.edge = B₁'.edge := by
+    change B₀.edge = B₁.edge
+    exact hedge
+  have hedge₂ : A₂.edge = B₂'.edge := by
+    change B₀.edge = B₁.edge
+    exact hedge
+  let L₀ := c60F56OriginalLeftMixedContextFunctor B₀ prior₀ later₁
+  let L₁ := c60F56OriginalLeftMixedContextFunctor A₁ middle₀ later₂
+  let L₂ := c60F56OriginalLeftMixedContextFunctor A₂ outer₀ later₃
+  let R₀ := c60F56OriginalLeftMixedContextFunctor B₁ prior₁ later₁
+  let R₁ := c60F56OriginalLeftMixedContextFunctor B₁' middle₁ later₂
+  let R₂ := c60F56OriginalLeftMixedContextFunctor B₂' outer₁ later₃
+  let P₀ := c60F56ContextMixedFunctor B₀ B₁ hedge hface hrot
+  let P₁ := c60F58LeftAfterFaceChoice B₀ B₁ hedge hface hrot
+    prior₀ prior₁ later₁
+  let P₂ := c60F58LeftAfterFaceChoice A₁ B₁' hedge₁ hface₁ hrot₁
+    middle₀ middle₁ later₂
+  let P₃ := c60F58LeftAfterFaceChoice A₂ B₂' hedge₂ hface₂ hrot₂
+    outer₀ outer₁ later₃
+  let bc₀ := c60F58LeftFaceContext_NatIso B₀ B₁ hedge hface hrot
+    prior₀ prior₁ later₁
+  let bc₁ := c60F58LeftFaceContext_NatIso A₁ B₁'
+    hedge₁ hface₁ hrot₁ middle₀ middle₁ later₂
+  let bc₂ := c60F58LeftFaceContext_NatIso A₂ B₂'
+    hedge₂ hface₂ hrot₂ outer₀ outer₁ later₃
+  ((((L₀ ⋙ L₁) ⋙ L₂) ⋙ P₃) ≅ (P₀ ⋙ ((R₀ ⋙ R₁) ⋙ R₂))) :=
   let A₁ := c60F47WhiskerLeft B₀ prior₀ later₁
   let B₁' := c60F47WhiskerLeft B₁ prior₁ later₁
   let A₂ := c60F47WhiskerLeft A₁ middle₀ later₂
@@ -129,7 +160,45 @@ def c60F63OriginalLeftThreeBC_firstPair :=
 
 /-- First paste the final two F58 original BC squares and transport
 both actual F42/F54 parenthesizations by the Mathlib associators. -/
-def c60F63OriginalLeftThreeBC_lastPair :=
+def c60F63OriginalLeftThreeBC_lastPair :
+  let A₁ := c60F47WhiskerLeft B₀ prior₀ later₁
+  let B₁' := c60F47WhiskerLeft B₁ prior₁ later₁
+  let A₂ := c60F47WhiskerLeft A₁ middle₀ later₂
+  let B₂' := c60F47WhiskerLeft B₁' middle₁ later₂
+  let hface₁ := c60F59LeftIntermediateFaceNative B₀ B₁
+    hface prior₀ prior₁ later₁
+  let hrot₁ := c60F59LeftIntermediateRotationNative B₀ B₁
+    hrot prior₀ prior₁ later₁
+  let hface₂ := c60F59LeftIntermediateFaceNative A₁ B₁'
+    hface₁ middle₀ middle₁ later₂
+  let hrot₂ := c60F59LeftIntermediateRotationNative A₁ B₁'
+    hrot₁ middle₀ middle₁ later₂
+  have hedge₁ : A₁.edge = B₁'.edge := by
+    change B₀.edge = B₁.edge
+    exact hedge
+  have hedge₂ : A₂.edge = B₂'.edge := by
+    change B₀.edge = B₁.edge
+    exact hedge
+  let L₀ := c60F56OriginalLeftMixedContextFunctor B₀ prior₀ later₁
+  let L₁ := c60F56OriginalLeftMixedContextFunctor A₁ middle₀ later₂
+  let L₂ := c60F56OriginalLeftMixedContextFunctor A₂ outer₀ later₃
+  let R₀ := c60F56OriginalLeftMixedContextFunctor B₁ prior₁ later₁
+  let R₁ := c60F56OriginalLeftMixedContextFunctor B₁' middle₁ later₂
+  let R₂ := c60F56OriginalLeftMixedContextFunctor B₂' outer₁ later₃
+  let P₀ := c60F56ContextMixedFunctor B₀ B₁ hedge hface hrot
+  let P₁ := c60F58LeftAfterFaceChoice B₀ B₁ hedge hface hrot
+    prior₀ prior₁ later₁
+  let P₂ := c60F58LeftAfterFaceChoice A₁ B₁' hedge₁ hface₁ hrot₁
+    middle₀ middle₁ later₂
+  let P₃ := c60F58LeftAfterFaceChoice A₂ B₂' hedge₂ hface₂ hrot₂
+    outer₀ outer₁ later₃
+  let bc₀ := c60F58LeftFaceContext_NatIso B₀ B₁ hedge hface hrot
+    prior₀ prior₁ later₁
+  let bc₁ := c60F58LeftFaceContext_NatIso A₁ B₁'
+    hedge₁ hface₁ hrot₁ middle₀ middle₁ later₂
+  let bc₂ := c60F58LeftFaceContext_NatIso A₂ B₂'
+    hedge₂ hface₂ hrot₂ outer₀ outer₁ later₃
+  ((((L₀ ⋙ L₁) ⋙ L₂) ⋙ P₃) ≅ (P₀ ⋙ ((R₀ ⋙ R₁) ⋙ R₂))) :=
   let A₁ := c60F47WhiskerLeft B₀ prior₀ later₁
   let B₁' := c60F47WhiskerLeft B₁ prior₁ later₁
   let A₂ := c60F47WhiskerLeft A₁ middle₀ later₂
