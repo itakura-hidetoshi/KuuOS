@@ -6,6 +6,7 @@ open CategoryTheory
 open KUOS.DependentOriginationIcosahedralTruncationSeedV3_84
 open KUOS.DependentOriginationGrayBraidedThreeCellCoreV5_156
 open KUOS.DependentOriginationGrayNativeBraidedCategoryV5_156
+open KUOS.DependentOriginationGrayC60CyclicGlobalPastingV5_156
 open KUOS.DependentOriginationGrayC60PresentedFaceTwoCellsV5_190
 open KUOS.DependentOriginationGrayC60PresentedInterchangerV5_191
 open KUOS.DependentOriginationGrayC60GradedGrayThreeCategoryV5_197
@@ -210,12 +211,17 @@ theorem c60F52Inclusion_faithful
     {f g : X ⟶ Y}
     (heq : (c60F52Inclusion p q).map f =
       (c60F52Inclusion p q).map g) : f = g := by
-  have hh := congrArg (fun z => c60F52Eval z) heq
+  have hh :
+      c60F52Eval ((c60F52Inclusion p q).map f) =
+      c60F52Eval ((c60F52Inclusion p q).map g) :=
+    congrArg (fun z => c60F52Eval z) heq
   rw [c60F52Inclusion_eval, c60F52Inclusion_eval] at hh
-  refine Quot.inductionOn f (fun f => ?_)
-  refine Quot.inductionOn g (fun g => ?_)
-  apply Quot.sound
-  exact hh
+  apply c60F51GrayFunctor_faithful p q
+  apply GradedThreeCell.ext
+  · change (c60F51Eval f).charge = (c60F51Eval g).charge
+    exact congrArg GradedThreeCell.charge hh
+  · change (c60F51Eval f).phase = (c60F51Eval g).phase
+    exact congrArg GradedThreeCell.phase hh
 
 def c60F52OriginalTwoHorizontal
     {a b c : IcosahedralDart}
