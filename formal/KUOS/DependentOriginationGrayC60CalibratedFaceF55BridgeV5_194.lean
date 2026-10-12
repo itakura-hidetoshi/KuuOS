@@ -216,45 +216,49 @@ theorem c60F46NorthFlagSquare_firstOriginalFace :
         (.around ⟨.north, .s0⟩)).firstFace =
       (.aroundVertex .north) := rfl
 
-/-- The genuine original C60 north-pentagon F42 face 2-cell
-exchange is localized at the SAME physical north around
-edge where the real F54/F55 3-cell is localized. Their
-images are related by the unique independent native receiver.
-This is a constructive SAME-SITE comparison with correct
-typed original source on BOTH sides, not a fake equality
-of their distinct source 2-cell boundaries. -/
+/-- The ACTUAL north C60 pentagon 2-cell interchange, evaluated
+at the adjacent REAL around-edge four-flag site with its original
+integer charges and independent Gray phase. The explicit
+neutral type is necessary for genuine native 3-cell addition. -/
+def c60F46NorthFaceSiteNative : GradedThreeCell 0 0 :=
+  ((c60F46EdgeLocalizedFaceFunctor
+      (.around ⟨.north, .s0⟩)).map
+    (c60F44FaceThreeOf c60F43NorthPentagonInterchange))
+       (.edge (.around ⟨.north, .s0⟩))
+
+/-- The GENUINE independently supplied original F54/F55 square
+source 3-cell, evaluated at precisely the SAME actual north
+C60 pentagon/hexagon incidence square site. -/
+def c60F46NorthF55SiteNative : GradedThreeCell 0 0 :=
+  ((c60F46EdgeLocalizedF55Functor
+      (.around ⟨.north, .s0⟩)).map
+    (c60F46PhysicalFlagOriginalF55Arrow
+      t₁ t₂ left right (.around ⟨.north, .s0⟩)))
+        (.edge (.around ⟨.north, .s0⟩))
+
+/-- A TRUE same-site face/F55 bridge with the unique native
+integer/phase calibration. Both original TYPE-VALUED source
+3-morphisms exist independently, with their different
+original 2-cell globular boundaries kept explicit. -/
 theorem c60F46NorthActualFlag_sitewise_calibrated :
-    ((c60F46EdgeLocalizedFaceFunctor
-        (.around ⟨.north, .s0⟩)).map
-       (c60F44FaceThreeOf c60F43NorthPentagonInterchange))
-          (.edge (.around ⟨.north, .s0⟩)) +
+    c60F46NorthFaceSiteNative +
       c60F46FaceF55ComparisonCalibration =
-    ((c60F46EdgeLocalizedF55Functor
-        (.around ⟨.north, .s0⟩)).map
-       (c60F46PhysicalFlagOriginalF55Arrow
-          t₁ t₂ left right (.around ⟨.north, .s0⟩)))
-          (.edge (.around ⟨.north, .s0⟩)) := by
+    c60F46NorthF55SiteNative t₁ t₂ left right := by
+  unfold c60F46NorthFaceSiteNative c60F46NorthF55SiteNative
   rw [c60F46EdgeLocalizedFace_atRealEdge,
-      c60F46EveryActualFlagSquare_localizedF55]
-  rw [c60AllNinetyGrayCell_eq]
+      c60F46EveryActualFlagSquare_localizedF55,
+      c60AllNinetyGrayCell_eq]
   exact c60F46NativeNorthFaceF55_calibrated
 
-/-- For the ACTUAL north C60 physical source square, the native
-receiver is the UNIQUE higher target 3-cell making the full
-integer-charge AND braided phase comparison commute. -/
+/-- Uniqueness at the SAME physical original C60 north
+pentagon incidence edge, retaining BOTH Int×Int generator
+charges and the independent ZMod2 interchange phase. -/
 theorem c60F46NorthActualFlag_sitewise_unique
     (receiver : GradedThreeCell 0 0) :
-    (((c60F46EdgeLocalizedFaceFunctor
-        (.around ⟨.north, .s0⟩)).map
-       (c60F44FaceThreeOf c60F43NorthPentagonInterchange))
-          (.edge (.around ⟨.north, .s0⟩)) +
-      receiver =
-    ((c60F46EdgeLocalizedF55Functor
-        (.around ⟨.north, .s0⟩)).map
-       (c60F46PhysicalFlagOriginalF55Arrow
-          t₁ t₂ left right (.around ⟨.north, .s0⟩)))
-          (.edge (.around ⟨.north, .s0⟩))) ↔
+    (c60F46NorthFaceSiteNative + receiver =
+      c60F46NorthF55SiteNative t₁ t₂ left right) ↔
        receiver = c60F46FaceF55ComparisonCalibration := by
+  unfold c60F46NorthFaceSiteNative c60F46NorthF55SiteNative
   rw [c60F46EdgeLocalizedFace_atRealEdge,
       c60F46EveryActualFlagSquare_localizedF55,
       c60AllNinetyGrayCell_eq]
