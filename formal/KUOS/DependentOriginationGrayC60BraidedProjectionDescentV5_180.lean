@@ -183,15 +183,17 @@ def c60F32NeutralParityAddHom :
     intro p q
     change c60F31ParityCell (p + q) =
       c60F31ParityCell p + c60F31ParityCell q
-    calc
-      c60F31ParityCell (p + q) =
-          c60F31ParityCell (p ≫ q) :=
-        congrArg c60F31ParityCell (grayNeutral_add_eq_native_comp p q)
-      _ = (c60F31ParityCell p ≫ c60F31ParityCell q) :=
-        c60F31ParityCell_comp p q
-      _ = c60F31ParityCell p + c60F31ParityCell q :=
-        (grayNeutral_add_eq_native_comp (c60F31ParityCell p)
-          (c60F31ParityCell q)).symm
+    apply GradedThreeCell.ext
+    · change (p + q).charge =
+        (c60F31ParityCell p + c60F31ParityCell q).charge
+      rw [grayNeutral_add_charge, grayNeutral_add_charge]
+      rfl
+    · change ((p + q).charge.2 : ZMod 2) =
+        (c60F31ParityCell p + c60F31ParityCell q).phase
+      rw [grayNeutral_add_charge, grayNeutral_add_phase]
+      change ((p.charge.2 + q.charge.2 : ℤ) : ZMod 2) =
+        (p.charge.2 : ZMod 2) + (q.charge.2 : ZMod 2)
+      rw [Int.cast_add]
 
 /-- The monoidal parity projection commutes with ALL ORIGINAL
 C60 signed 5- or 6-edge face 3-cell holonomies, including the
