@@ -30,7 +30,7 @@ noncomputable section
 # v5.196 / F59-F48 — ORIGINAL 90-edge × two-adjacent-face mixed squares
 
 All 90 genuine C60 edges carry two distinct, incident, original
-five-/six-sided physical faces. For EACH of the 180 face choices
+five- or six-sided physical faces. For EACH of the 180 face choices
 we construct the original Type-valued F42 physical face 2-cell,
 its ORIGINAL F43 interchanger with itself, the genuine original
 F54/F55 left-first/right-first rotation route 2-cells and 3-arrow,
