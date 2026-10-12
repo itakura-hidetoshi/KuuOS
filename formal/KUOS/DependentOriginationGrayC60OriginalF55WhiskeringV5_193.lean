@@ -113,6 +113,10 @@ theorem c60F45F55LeftContext_faithful
     (fun x : (c60F45F55LeftContextFunctor later).obj r ⟶
       (c60F45F55LeftContextFunctor later).obj s =>
       c60F44OriginalF55Eval x) h
+  change c60F44OriginalF55Eval
+      ((c60F45F55LeftContextFunctor later).map f) =
+    c60F44OriginalF55Eval
+      ((c60F45F55LeftContextFunctor later).map g) at hh
   rw [c60F45F55LeftContextGrayMap,
     c60F45F55LeftContextGrayMap] at hh
   exact c60F44OriginalF55GrayFunctor_faithful hh
@@ -173,6 +177,10 @@ theorem c60F45F55RightContext_faithful
     (fun x : (c60F45F55RightContextFunctor earlier).obj r ⟶
       (c60F45F55RightContextFunctor earlier).obj s =>
       c60F44OriginalF55Eval x) h
+  change c60F44OriginalF55Eval
+      ((c60F45F55RightContextFunctor earlier).map f) =
+    c60F44OriginalF55Eval
+      ((c60F45F55RightContextFunctor earlier).map g) at hh
   rw [c60F45F55RightContextGrayMap,
     c60F45F55RightContextGrayMap] at hh
   exact c60F44OriginalF55GrayFunctor_faithful hh
@@ -232,6 +240,10 @@ theorem c60F45F55Precompose_faithful
     (fun x : (c60F45F55PrecomposeFunctor priorRoute).obj r ⟶
       (c60F45F55PrecomposeFunctor priorRoute).obj s =>
       c60F44OriginalF55Eval x) h
+  change c60F44OriginalF55Eval
+      ((c60F45F55PrecomposeFunctor priorRoute).map f) =
+    c60F44OriginalF55Eval
+      ((c60F45F55PrecomposeFunctor priorRoute).map g) at hh
   rw [c60F45F55PrecomposeGrayMap,
     c60F45F55PrecomposeGrayMap] at hh
   exact c60F44OriginalF55GrayFunctor_faithful hh
@@ -291,6 +303,10 @@ theorem c60F45F55Postcompose_faithful
     (fun x : (c60F45F55PostcomposeFunctor suffix).obj r ⟶
       (c60F45F55PostcomposeFunctor suffix).obj s =>
       c60F44OriginalF55Eval x) h
+  change c60F44OriginalF55Eval
+      ((c60F45F55PostcomposeFunctor suffix).map f) =
+    c60F44OriginalF55Eval
+      ((c60F45F55PostcomposeFunctor suffix).map g) at hh
   rw [c60F45F55PostcomposeGrayMap,
     c60F45F55PostcomposeGrayMap] at hh
   exact c60F44OriginalF55GrayFunctor_faithful hh
