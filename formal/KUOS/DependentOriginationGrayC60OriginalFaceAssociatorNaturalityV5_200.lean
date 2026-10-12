@@ -30,6 +30,15 @@ The source associator and unitors were expressly adjoined by F52;
 F43 interchanger remains independently inherited and nontrivial.
 -/
 
+/-- Mathlib categorical composition of F52 3-arrows is exactly
+the previously verified native-quotient composition. -/
+@[simp] theorem c60F52Eval_catComp
+    {a b : IcosahedralDart} {p q : Quiver.Path a b}
+    {X Y Z : C60F52OriginalTwo p q}
+    (f : X ⟶ Y) (g : Y ⟶ Z) :
+    c60F52Eval (f ≫ g) = c60F52Eval f + c60F52Eval g :=
+  c60F52Eval_comp f g
+
 /-- Typed right and left contextual horizontal 3-arrow
 composition over the original physical C60 path boundaries. -/
 def c60F52HorizontalMap
@@ -144,7 +153,7 @@ theorem c60F52Associator_naturality
         (Quiver.Path.comp_assoc q s u).symm
         (c60F52HorizontalMap f (c60F52HorizontalMap g h)) := by
   apply c60F52Hom_ext
-  simp only [c60F52Eval_comp, c60F52HorizontalMap_eval,
+  simp only [c60F52Eval_catComp, c60F52HorizontalMap_eval,
     c60F52Associator_eval, c60F52ReindexMap_eval]
   abel
 
@@ -167,7 +176,7 @@ theorem c60F52LeftUnitor_naturality
       c60F52LeftUnitor Y =
     c60F52LeftUnitor X ≫ f := by
   apply c60F52Hom_ext
-  simp only [c60F52Eval_comp, c60F52ReindexMap_eval,
+  simp only [c60F52Eval_catComp, c60F52ReindexMap_eval,
     c60F52HorizontalMap_eval, c60F52Eval_id,
     c60F52LeftUnitor_eval, zero_add, add_zero]
 
@@ -181,7 +190,7 @@ theorem c60F52RightUnitor_naturality
       c60F52RightUnitor Y =
     c60F52RightUnitor X ≫ f := by
   apply c60F52Hom_ext
-  simp only [c60F52Eval_comp, c60F52ReindexMap_eval,
+  simp only [c60F52Eval_catComp, c60F52ReindexMap_eval,
     c60F52HorizontalMap_eval, c60F52Eval_id,
     c60F52RightUnitor_eval, zero_add, add_zero]
 
