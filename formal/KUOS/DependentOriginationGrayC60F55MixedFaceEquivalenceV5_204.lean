@@ -99,9 +99,14 @@ theorem c60F55MixedTransport_full
     refine Quot.inductionOn g (fun raw => ?_)
     refine ⟨c60F47MixedOf (c60F48ChangeMixedRaw B₁ B₀ raw), ?_⟩
     apply c60F47MixedGrayFunctor_faithful B₁
-    rw [c60F48MixedBoundaryTransportFunctor_fullNative]
-    exact c60F48ChangeMixedRaw_native B₁ B₀
-      hface.symm hrotation.symm raw
+    change (c60F48ChangeMixedRaw B₀ B₁
+      (c60F48ChangeMixedRaw B₁ B₀ raw)).toNative = raw.toNative
+    calc
+      _ = (c60F48ChangeMixedRaw B₁ B₀ raw).toNative :=
+        c60F48ChangeMixedRaw_native B₀ B₁ hface hrotation _
+      _ = raw.toNative :=
+        c60F48ChangeMixedRaw_native B₁ B₀
+          hface.symm hrotation.symm raw
 
 /-- Fullness and the older F48 FAITHFULNESS together mean
 bijection on EVERY typed F47 three-Hom, not just the image of
