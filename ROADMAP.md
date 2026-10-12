@@ -1,4 +1,3 @@
-
 # KuuOS / 空OS — Formal Roadmap
 
 **Current formal snapshot / 研究正本：2026-10-12 JST · v5.199 / F59-F51 · [PR #2199 MERGED](https://github.com/itakura-hidetoshi/KuuOS/pull/2199) · theorem-bearing merge SHA `8e62906fe48e9d808996b7275e0da0bfd1994fb7`.**
