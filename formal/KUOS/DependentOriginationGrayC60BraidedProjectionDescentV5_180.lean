@@ -22,6 +22,7 @@ open KUOS.DependentOriginationGrayC60F55NonneutralBraidingTransportV5_177
 open KUOS.DependentOriginationGrayC60NonneutralDefectDoubleCountV5_178
 open KUOS.DependentOriginationGrayC60F55ParityMonoidalProjectionV5_179
 open KUOS.DependentOriginationGrayC60WangBiZhouyiTimeV5_170
+open KUOS.DependentOriginationGrayC60WangBiFourImageSixQiF55NaturalityV5_172
 open KUOS.DependentOriginationGrayC60WangBiNativeHigherCoherenceV5_171
 open KUOS.DependentOriginationGrayC60WangBiGaugeCollarSixQiCoherenceV5_173
 
@@ -131,7 +132,11 @@ theorem c60F32BraidedRepaired_defect (a b : ZMod 2)
   change c60F29PhaseDefect
     (c60WangBiRepairedEdgeGrade edge +
       c60F32NeutralBraidCoefficient a b) = a * b
-  rw [grayNeutral_add_eq_native_comp, c60F29PhaseDefect_comp,
+  rw [grayNeutral_add_eq_native_comp]
+  change c60F29PhaseDefect
+    ((c60WangBiRepairedEdgeGrade edge).comp
+      (c60F32NeutralBraidCoefficient a b)) = a * b
+  rw [c60F29PhaseDefect_comp,
     c60F32NeutralBraidCoefficient_defect]
   have h := c60F55RepairedGrade_mem edge
   change (c60WangBiRepairedEdgeGrade edge).phase =
@@ -157,10 +162,14 @@ theorem c60F32BraidedRepaired_projected_eq
     (c60WangBiRepairedEdgeGrade edge +
       c60F32NeutralBraidCoefficient a b) =
       c60WangBiRepairedEdgeGrade edge
-  rw [grayNeutral_add_eq_native_comp,
-    c60F31ParityCell_comp, hf,
+  rw [grayNeutral_add_eq_native_comp]
+  change c60F31ParityCell
+    ((c60WangBiRepairedEdgeGrade edge).comp
+      (c60F32NeutralBraidCoefficient a b)) =
+      c60WangBiRepairedEdgeGrade edge
+  rw [c60F31ParityCell_comp, hf,
     c60F32NeutralBraidCoefficient_projected_zero]
-  exact Category.comp_id _
+  exact GradedThreeCell.comp_ident _
 
 /-- The real native Gray target's strong monoidal parity operation
 is an honest Z-additive group homomorphism on the neutral 3-cell
@@ -172,6 +181,8 @@ def c60F32NeutralParityAddHom :
     apply GradedThreeCell.ext <;> rfl
   map_add' := by
     intro p q
+    change c60F31ParityCell (p + q) =
+      c60F31ParityCell p + c60F31ParityCell q
     calc
       c60F31ParityCell (p + q) =
           c60F31ParityCell (p ≫ q) :=
@@ -179,10 +190,11 @@ def c60F32NeutralParityAddHom :
       _ = (c60F31ParityCell p ≫ c60F31ParityCell q) :=
         c60F31ParityCell_comp p q
       _ = c60F31ParityCell p + c60F31ParityCell q :=
-        (grayNeutral_add_eq_native_comp _ _).symm
+        (grayNeutral_add_eq_native_comp (c60F31ParityCell p)
+          (c60F31ParityCell q)).symm
 
 /-- The monoidal parity projection commutes with ALL ORIGINAL
-C60 signed 5-/6-edge face 3-cell holonomies, including the
+C60 signed 5- or 6-edge face 3-cell holonomies, including the
 true original integer orientation coefficients (negative edges). -/
 theorem c60F32Parity_signedFace_natural
     (grade : TruncatedIcosahedralEdge → GradedThreeCell 0 0)
@@ -233,7 +245,8 @@ private theorem c60F32SignedList_add
   induction l with
   | nil => simp
   | cons p ps ih =>
-      simp only [List.map_cons, List.sum_cons, smul_add, ih]
+      simp only [List.map_cons, List.sum_cons]
+      rw [smul_add, ih]
       abel
 
 theorem c60F32SignedGrayFace_add
