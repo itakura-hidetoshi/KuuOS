@@ -278,8 +278,10 @@ theorem c60F51RightWhisker_faithful
     f = g := by
   have hh := congrArg (fun z => c60F51Eval z) h
   rw [c60F51RightWhisker_eval, c60F51RightWhisker_eval] at hh
-  apply Quot.sound
-  exact hh
+  exact c60F51GrayFunctor_faithful _ _ (by
+    apply GradedThreeCell.ext
+    · exact congrArg GradedThreeCell.charge hh
+    · exact congrArg GradedThreeCell.phase hh)
 
 #print axioms c60F51HorizontalThreeHomFunctor
 #print axioms c60F51HorizontalMap_eval
