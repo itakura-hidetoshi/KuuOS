@@ -80,11 +80,11 @@ F42 LEFT paths and three original F54/F55 later trees, with the
 two different source BC parenthesizations equal as actual F47 NatIso. -/
 theorem c60F63PhysicalLeftThreeBC_coherent
     (edge : TruncatedIcosahedralEdge)
-    {u₀ u₁ z₀ z₁ t₀ t₁ : IcosahedralDart}
+    {u₀ u₁ z₀ z₁ endpoint₀ endpoint₁ : IcosahedralDart}
     (prior₀ : Quiver.Path u₀ (c60F58OriginalPhysicalFaceBase edge false))
     (prior₁ : Quiver.Path u₁ (c60F58OriginalPhysicalFaceBase edge true))
     (middle₀ : Quiver.Path z₀ u₀) (middle₁ : Quiver.Path z₁ u₁)
-    (outer₀ : Quiver.Path t₀ z₀) (outer₁ : Quiver.Path t₁ z₁)
+    (outer₀ : Quiver.Path endpoint₀ z₀) (outer₁ : Quiver.Path endpoint₁ z₁)
     {k₁ l₁ k₂ l₂ k₃ l₃ : Nat}
     {mc md me : Blocks a b} {pc pd pe : Blocks x y}
     (later₁ : OriginalF45BracketTree k₁ l₁ p₂ q₂ mc pc)
@@ -121,11 +121,11 @@ The two nonstrict source BC pastings are equal in the F47 four-tag
 full-native-kernel category, with both real incident face bases intact. -/
 theorem c60F63PhysicalRightThreeBC_coherent
     (edge : TruncatedIcosahedralEdge)
-    {u₀ u₁ z₀ z₁ t₀ t₁ : IcosahedralDart}
+    {u₀ u₁ z₀ z₁ endpoint₀ endpoint₁ : IcosahedralDart}
     (suffix₀ : Quiver.Path (c60F58OriginalPhysicalFaceBase edge false) u₀)
     (suffix₁ : Quiver.Path (c60F58OriginalPhysicalFaceBase edge true) u₁)
     (middle₀ : Quiver.Path u₀ z₀) (middle₁ : Quiver.Path u₁ z₁)
-    (outer₀ : Quiver.Path z₀ t₀) (outer₁ : Quiver.Path z₁ t₁)
+    (outer₀ : Quiver.Path z₀ endpoint₀) (outer₁ : Quiver.Path z₁ endpoint₁)
     {k₁ l₁ k₂ l₂ k₃ l₃ : Nat}
     {mc md me : Blocks a b} {pc pd pe : Blocks x y}
     (earlier₁ : OriginalF45BracketTree k₁ l₁ mc pc p₀ q₀)
