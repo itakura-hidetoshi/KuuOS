@@ -190,6 +190,13 @@ structure C60F49GrayThreeCategoryCertificate : Prop where
     ∀ {a b : C60F49Object} {p q : C60F49One a b}
       (α : C60F49Two p q),
       c60F49VerticalTwo α (c60F49IdTwo q) = α
+  twoVertAssoc :
+    ∀ {a b : C60F49Object} {p q r s : C60F49One a b}
+      (α : C60F49Two p q)
+      (β : C60F49Two q r)
+      (γ : C60F49Two r s),
+      c60F49VerticalTwo (c60F49VerticalTwo α β) γ =
+        c60F49VerticalTwo α (c60F49VerticalTwo β γ)
   twoHorizontalAssoc :
     ∀ {a b c d : C60F49Object}
       {p q : C60F49One a b}
@@ -200,6 +207,47 @@ structure C60F49GrayThreeCategoryCertificate : Prop where
       (γ : C60F49Two u v),
       c60F49HorizontalTwo (c60F49HorizontalTwo α β) γ =
         c60F49HorizontalTwo α (c60F49HorizontalTwo β γ)
+  twoMiddleFour :
+    ∀ {a b c : C60F49Object}
+      {p q r : C60F49One a b}
+      {s t u : C60F49One b c}
+      (α : C60F49Two p q) (α' : C60F49Two q r)
+      (β : C60F49Two s t) (β' : C60F49Two t u),
+      c60F49VerticalTwo
+        (c60F49HorizontalTwo α β)
+        (c60F49HorizontalTwo α' β') =
+      c60F49HorizontalTwo
+        (c60F49VerticalTwo α α')
+        (c60F49VerticalTwo β β')
+  threeVertUnitLeft :
+    ∀ {a b : C60F49Object} {p q : C60F49One a b}
+      {α β : C60F49Two p q} (f : C60F49Three α β),
+      c60F49VerticalThree (c60F49IdThree α) f = f
+  threeVertUnitRight :
+    ∀ {a b : C60F49Object} {p q : C60F49One a b}
+      {α β : C60F49Two p q} (f : C60F49Three α β),
+      c60F49VerticalThree f (c60F49IdThree β) = f
+  threeVertAssoc :
+    ∀ {a b : C60F49Object} {p q : C60F49One a b}
+      {α β γ δ : C60F49Two p q}
+      (f : C60F49Three α β)
+      (g : C60F49Three β γ)
+      (h : C60F49Three γ δ),
+      c60F49VerticalThree (c60F49VerticalThree f g) h =
+        c60F49VerticalThree f (c60F49VerticalThree g h)
+  threeHorizontalInterchange :
+    ∀ {a b c : C60F49Object}
+      {p q : C60F49One a b} {r s : C60F49One b c}
+      {α β γ : C60F49Two p q}
+      {δ ε ζ : C60F49Two r s}
+      (f : C60F49Three α β) (g : C60F49Three β γ)
+      (h : C60F49Three δ ε) (k : C60F49Three ε ζ),
+      c60F49VerticalThree
+        (c60F49HorizontalThree f h)
+        (c60F49HorizontalThree g k) =
+      c60F49HorizontalThree
+        (c60F49VerticalThree f g)
+        (c60F49VerticalThree h k)
   threeAssNat :
     ∀ {a a' b b' c c' : ZMod 2}
       (f : GradedThreeCell a a')
@@ -230,7 +278,13 @@ theorem c60F49GrayThreeCategory_proved :
     pathAssoc := ?_
     twoVertUnitLeft := ?_
     twoVertUnitRight := ?_
+    twoVertAssoc := ?_
     twoHorizontalAssoc := ?_
+    twoMiddleFour := ?_
+    threeVertUnitLeft := ?_
+    threeVertUnitRight := ?_
+    threeVertAssoc := ?_
+    threeHorizontalInterchange := ?_
     threeAssNat := ?_
     grayOddNonidentity := GradedThreeCell.exchange_odd_odd_ne_ident
     nativeBraided := ⟨inferInstance⟩
@@ -245,8 +299,20 @@ theorem c60F49GrayThreeCategory_proved :
     exact c60F49VerticalTwo_id_left α
   · intro a b p q α
     exact c60F49VerticalTwo_id_right α
+  · intro a b p q r s α β γ
+    exact c60F49VerticalTwo_assoc α β γ
   · intro a b c d p q r s u v α β γ
     exact c60F49HorizontalTwo_associativity α β γ
+  · intro a b c p q r s t u α α' β β'
+    exact c60F49Two_middle_four α α' β β'
+  · intro a b p q α β f
+    exact c60F49VerticalThree_id_left f
+  · intro a b p q α β f
+    exact c60F49VerticalThree_id_right f
+  · intro a b p q α β γ δ f g h
+    exact c60F49VerticalThree_assoc f g h
+  · intro a b c p q r s α β γ δ ε ζ f g h k
+    exact c60F49HorizontalThree_interchange f g h k
   · intro a a' b b' c c' f g h
     exact c60F49ThreeAssociator_naturality f g h
 
