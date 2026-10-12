@@ -123,9 +123,9 @@ theorem c60F54RightHorizontalMap_eval
   unfold c60F54RightHorizontalMap
   simp only [c60F52Eval_catComp, c60F52HorizontalMap_eval]
   change -(c60F43PhysicalInterchangerNative X.original Y.original) +
-      (c60F52Eval f + c60F52Eval g) +
-      c60F43PhysicalInterchangerNative X'.original Y'.original =
-        c60F52Eval f + c60F52Eval g
+      ((c60F52Eval f + c60F52Eval g) +
+        c60F43PhysicalInterchangerNative X'.original Y'.original) =
+      c60F52Eval f + c60F52Eval g
   have hi :
       c60F43PhysicalInterchangerNative X.original Y.original =
         c60F43PhysicalInterchangerNative X'.original Y'.original := by
