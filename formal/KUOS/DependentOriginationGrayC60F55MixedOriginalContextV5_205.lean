@@ -295,6 +295,24 @@ theorem c60F56OriginalRightMixedContext_square
   apply Quot.sound
   rfl
 
+/-- Both INDEPENDENT source left contexts leave the actual
+C60 original physical four-flag edge unchanged. -/
+theorem c60F56OriginalLeftMixedContext_edge
+    {u : IcosahedralDart} (prior : Quiver.Path u v)
+    {k l : Nat} {mc : Blocks a b} {pc : Blocks x y}
+    (later : OriginalF45BracketTree k l mb pb mc pc) :
+    (c60F47WhiskerLeft B prior later).edge = B.edge :=
+  c60F47WhiskerLeft_edge B prior later
+
+/-- The right C60 path and old F54/F55 bracket tree
+contexts likewise preserve the exact same physical edge. -/
+theorem c60F56OriginalRightMixedContext_edge
+    {u : IcosahedralDart} (suffix : Quiver.Path w u)
+    {k l : Nat} {mc : Blocks a b} {pc : Blocks x y}
+    (earlier : OriginalF45BracketTree k l mc pc ma pa) :
+    (c60F47WhiskerRight B suffix earlier).edge = B.edge :=
+  c60F47WhiskerRight_edge B suffix earlier
+
 end IndependentLeftAndRightWhiskering
 
 #print axioms c60F56ContextMixedFunctor
@@ -305,6 +323,8 @@ end IndependentLeftAndRightWhiskering
 #print axioms c60F56OriginalRightMixedContextFunctor
 #print axioms c60F56OriginalLeftMixedContext_square
 #print axioms c60F56OriginalRightMixedContext_square
+#print axioms c60F56OriginalLeftMixedContext_edge
+#print axioms c60F56OriginalRightMixedContext_edge
 
 end
 end KUOS.DependentOriginationGrayC60F55MixedOriginalContextV5_205
