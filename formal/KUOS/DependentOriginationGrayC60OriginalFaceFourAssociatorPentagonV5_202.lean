@@ -251,7 +251,6 @@ def c60F53BPentagonShortZero
         (α.horizontalLeftFirst
           (β.horizontalLeftFirst (γ.horizontalLeftFirst δ)))
     rw [c60F53BReindexFace_comp]
-    exact c60F53BReindexFace_proofIrrel _ _ _ _ _
   exact c60F53BZeroTrans f₁ (c60F53BZeroChangeTarget ht f₂)
 
 /-- Three genuinely composable F52 3-associator moves:
