@@ -139,7 +139,6 @@ def c60F53CTriangleAssocZero
             ((c60F53CUnitRaw b).horizontalLeftFirst β))) =
       α.horizontalLeftFirst (c60F52LeftUnitSource β)
     rw [c60F53BReindexFace_comp, hw]
-    all_goals exact c60F53BReindexFace_proofIrrel _ _ _ _ _
   exact c60F53BZeroTrans (c60F53BZeroChangeTarget ht f₁) f₂
 
 /-- Both actually constructed triangle 3-arrow pastings have
