@@ -3,6 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
+license = "Apache-2.0"
 name = "kuuos-mcp-bridge"
 version = "0.6.0"
 description = "Canonical continuation-state bridge shared by Chat and Work over MCP"

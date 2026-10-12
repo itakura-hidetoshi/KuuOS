@@ -355,4 +355,4 @@ lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KuuOS
 PYTHONPATH=. python3 runtime/kuuos_current_check.py
 ~~~
 
-See [README.md](README.md), [GOVERNANCE.md](GOVERNANCE.md), [CITATION.cff](CITATION.cff), [LICENSE](LICENSE) and [COPYRIGHT.md](COPYRIGHT.md). **Copyright © 2026 Hidetoshi Itakura / 板倉英俊; all rights reserved.** This roadmap does not expand permission for adaptation, redistribution, commercial exploitation or AI model training.
+See [README.md](README.md), [GOVERNANCE.md](GOVERNANCE.md), [CITATION.cff](CITATION.cff), [LICENSE](LICENSE), [NOTICE](NOTICE), and [COPYRIGHT.md](COPYRIGHT.md). **Copyright © 2026 Hidetoshi Itakura / 板倉英俊; licensed under Apache-2.0.** Covered material may be adapted, redistributed and used commercially under Apache 2.0; these copyright permissions do not certify proof correctness or authorize medical, institutional, or runtime actions.

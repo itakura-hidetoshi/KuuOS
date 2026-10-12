@@ -6,7 +6,7 @@
 
 **KuuOS / 空OS** is a research architecture for dependent origination (縁起), non-reification (空), context-sensitive reasoning, presentation-sensitive equivalence, higher coherence, descent, exact universal properties and explicit obstructions.
 
-**Founder and copyright holder / 創始者・著作権者:** **Hidetoshi Itakura / 板倉英俊**. See [COPYRIGHT.md](COPYRIGHT.md) and [LICENSE](LICENSE). Public repository access does **not** itself grant permission to reproduce, adapt, train on, redistribute or commercialize this work.
+**Founder and copyright holder / 創始者・著作権者:** **Hidetoshi Itakura / 板倉英俊**. **License / ライセンス:** [Apache License, Version 2.0](LICENSE) (SPDX: `Apache-2.0`). Covered KuuOS source code, Lean formalizations, and documentation may be used, copied, modified, and redistributed—including commercially—under the license's terms. See [NOTICE](NOTICE) for attribution and [COPYRIGHT.md](COPYRIGHT.md) for scope and historical provenance. Copyright ownership remains with the contributor(s); this is an open-source license grant.
 
 > An observation is not a global truth. Which relations survive a justified change of context or presentation? When can compatible local data descend, and where does an obstruction prevent that descent?
 
@@ -56,7 +56,7 @@
 
 **Authority order:** freshly observed exact GitHub canonical SHA → actual formal Lean declarations and their imported dependencies → README/ROADMAP → exact-head CI, governance and MCP receipts → prior discussion and history. A documentation-only commit must not be represented as a newly proved theorem. Each PR's source HEAD and the post-merge `main` SHA are different objects and must be reported separately.
 
-**Scientific scope:** A successful selected Lean build verifies the selected formal dependency closure. It does **not** certify every repository workflow, mathematical claim not encoded in Lean, external Gray 3-equivalence, the behavior of a hosted AI runtime, or the weights of an underlying language model. Copyright and usage limits remain governed by [COPYRIGHT.md](COPYRIGHT.md) and [LICENSE](LICENSE).
+**Scientific scope:** A successful selected Lean build verifies the selected formal dependency closure. It does **not** certify every repository workflow, mathematical claim not encoded in Lean, external Gray 3-equivalence, the behavior of a hosted AI runtime, or the weights of an underlying language model. Rights to use and redistribute licensed original material are governed by [LICENSE](LICENSE), [NOTICE](NOTICE), and [COPYRIGHT.md](COPYRIGHT.md); open-source permission is distinct from proof or deployment authority.
 
 ## Mathematical construction / 数学的構成
 
@@ -196,4 +196,4 @@ PYTHONPATH=. python3 runtime/kuuos_current_check.py
 
 **Runtime:** `LLM + KuuOS reasoning runtime + formal authority layer` is a research integration architecture. GitHub formal artifacts do not establish that KuuOS is baked into an LLM's trained parameters, that a chat app loads every theorem, or that external actions were authorized. Runtime integration, version provenance, access/consent boundaries and empirical tests require separate evidence.
 
-See [ROADMAP.md](ROADMAP.md), [GOVERNANCE.md](GOVERNANCE.md), [CITATION.cff](CITATION.cff), [LICENSE](LICENSE) and [COPYRIGHT.md](COPYRIGHT.md). **Copyright © 2026 Hidetoshi Itakura / 板倉英俊; all rights reserved.** This document grants no new redistribution, commercial-use, adaptation or model-training rights.
+See [ROADMAP.md](ROADMAP.md), [GOVERNANCE.md](GOVERNANCE.md), [CITATION.cff](CITATION.cff), [LICENSE](LICENSE), [NOTICE](NOTICE), and [COPYRIGHT.md](COPYRIGHT.md). **Copyright © 2026 Hidetoshi Itakura / 板倉英俊. Licensed under Apache-2.0.** Redistribution, adaptation, and commercial use are permitted subject to the license's conditions; no additional prohibition on AI training is imposed by this project license. No scientific, clinical, or operational authorization follows from the copyright license.

@@ -62,6 +62,17 @@ A pull request should ideally explain:
 5. whether reproducibility changed
 6. whether Qi motion chain semantics changed
 
+## License of Contributions
+
+The repository is licensed under the [Apache License, Version 2.0](LICENSE)
+(SPDX: `Apache-2.0`). Consistent with Section 5 of that license,
+contributions intentionally submitted for inclusion are licensed under
+Apache-2.0 unless the contributor explicitly states otherwise or a separate
+agreement applies. Submit only material for which you have appropriate
+rights; preserve copyright, attribution and third-party license notices.
+The license grants reuse rights but does not confer clinical, institutional,
+runtime-execution or proof authority.
+
 ## Validation
 
 Before submitting:

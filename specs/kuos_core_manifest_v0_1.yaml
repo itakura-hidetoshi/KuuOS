@@ -4,7 +4,7 @@ version: 0.1.21-ai-alaya-seed-taxonomy-teni-promotion-gate
 date: 2026-05-11
 author: Hidetoshi Itakura / 板倉英俊
 repository: https://github.com/itakura-hidetoshi/KuuOS
-license: All-Rights-Reserved
+license: Apache-2.0
 
 root_core:
   - 空 / emptiness
