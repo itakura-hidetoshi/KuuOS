@@ -107,8 +107,14 @@ ordinary integer divisibility by its chosen nonnegative period. -/
 theorem c60F38IntegerSubgroup_mem_iff_period_dvd
     (H : AddSubgroup ℤ) (z : ℤ) :
     z ∈ H ↔ ((c60F38IntegerAddSubgroupPeriod H : ℕ) : ℤ) ∣ z := by
-  rw [c60F38IntegerAddSubgroupPeriod_spec H]
-  exact Int.mem_zmultiples_iff
+  have heq : H = AddSubgroup.zmultiples
+      ((c60F38IntegerAddSubgroupPeriod H : ℕ) : ℤ) :=
+    c60F38IntegerAddSubgroupPeriod_spec H
+  constructor
+  · intro hz
+    exact (Int.mem_zmultiples_iff).mp (heq ▸ hz)
+  · intro hdiv
+    exact heq.symm ▸ ((Int.mem_zmultiples_iff).mpr hdiv)
 
 /-! ## II. Original fully typed F55 source-loop period -/
 
