@@ -16,6 +16,8 @@ open KUOS.DependentOriginationGrayF55PhaseRealizationV5_156
 open KUOS.DependentOriginationGrayC60CyclicGlobalPastingV5_156
 open KUOS.DependentOriginationGrayC60AllNinetyEdgePastingV5_157
 open KUOS.DependentOriginationGrayC60BraidedThreeSectorV5_188
+open KUOS.DependentOriginationGrayC60ActualF55CurvatureRepairV5_167
+open KUOS.DependentOriginationGrayC60WangBiGlobalGrayDescentV5_174
 open KUOS.DependentOriginationGrayC60OriginalF55ThreeHomV5_192
 open KUOS.DependentOriginationGrayC60OriginalF55WhiskeringV5_193
 open KUOS.DependentOriginationCoherentBiadjunctionFiniteRectangularSubdivisionV5_137.Grid
@@ -199,20 +201,19 @@ def c60F46EdgeLocalizedF55Functor
     funext site
     by_cases hsite : site = C60GrayPhysicalSite.edge edge
     · subst site
-      change c60F44OriginalF55GrayFunctor.map (𝟙 route) =
-        (𝟙 GrayGrade.unit)
+      simp only [CategoryTheory.Pi.id_apply, if_pos rfl]
       exact c60F44OriginalF55GrayFunctor.map_id route
-    · simp [hsite]
+    · simp only [CategoryTheory.Pi.id_apply, if_neg hsite]
+      rfl
   map_comp := by
     intro r s t f g
     funext site
     by_cases hsite : site = C60GrayPhysicalSite.edge edge
     · subst site
-      change c60F44OriginalF55GrayFunctor.map (f ≫ g) =
-        (c60F44OriginalF55GrayFunctor.map f ≫
-          c60F44OriginalF55GrayFunctor.map g)
+      simp only [CategoryTheory.Pi.comp_apply, if_pos rfl]
       exact c60F44OriginalF55GrayFunctor.map_comp f g
-    · simp [hsite]
+    · simp only [CategoryTheory.Pi.comp_apply, if_neg hsite]
+      exact (Category.id_comp (𝟙 GrayGrade.unit)).symm
 
 theorem c60F46EdgeLocalizedF55_atOriginalEdge
     (edge : TruncatedIcosahedralEdge)
@@ -220,7 +221,7 @@ theorem c60F46EdgeLocalizedF55_atOriginalEdge
     (f : r ⟶ s) :
     ((c60F46EdgeLocalizedF55Functor edge).map f)
       (.edge edge) = c60F44OriginalF55GrayFunctor.map f := by
-  rfl
+  simp only [c60F46EdgeLocalizedF55Functor, if_pos rfl]
 
 /-- All actual original C60 vertex positions receive only
 the categorical IDENTITY on the localized F55 3-Hom image. -/
@@ -230,7 +231,7 @@ theorem c60F46EdgeLocalizedF55_atOriginalVertex
     (f : r ⟶ s) (dart : IcosahedralDart) :
     ((c60F46EdgeLocalizedF55Functor edge).map f)
       (.dart dart) = (𝟙 GrayGrade.unit) := by
-  rfl
+  simp [c60F46EdgeLocalizedF55Functor]
 
 /-- All 32 actual original C60 pentagon/hexagon FACE sites
 remain separate, and are unchanged by edge-only F55 maps. -/
@@ -240,7 +241,7 @@ theorem c60F46EdgeLocalizedF55_atOriginalFace
     (f : r ⟶ s) (face : TruncatedIcosahedralSeedFace) :
     ((c60F46EdgeLocalizedF55Functor edge).map f)
       (.face face) = (𝟙 GrayGrade.unit) := by
-  rfl
+  simp [c60F46EdgeLocalizedF55Functor]
 
 /-- Original full F58 integer and F59 phase source-image
 FAITHFULNESS survives C60-localization at a chosen real edge:
@@ -257,8 +258,10 @@ theorem c60F46EdgeLocalizedF55_faithful
     (fun z : (c60F46EdgeLocalizedF55Functor edge).obj r ⟶
       (c60F46EdgeLocalizedF55Functor edge).obj s =>
         z (.edge edge)) h
-  change c60F44OriginalF55GrayFunctor.map f =
-    c60F44OriginalF55GrayFunctor.map g at hh
+  change ((c60F46EdgeLocalizedF55Functor edge).map f) (.edge edge) =
+    ((c60F46EdgeLocalizedF55Functor edge).map g) (.edge edge) at hh
+  rw [c60F46EdgeLocalizedF55_atOriginalEdge,
+      c60F46EdgeLocalizedF55_atOriginalEdge] at hh
   exact c60F44OriginalF55GrayFunctor_faithful hh
 
 end LocalizedCategoricalSource
