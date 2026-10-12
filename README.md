@@ -23,7 +23,7 @@
 
 | Verified frontier | What is established — and what is not |
 | --- | --- |
-| **F1–F57 / v5.101–v5.154** | 元の `F/G/η/ε`、swallowtail、独立F19/F28履歴、実F45回転経路、C60実幾何・5辺pentagonと四旗標。歴史と各Leanの詳細は下表および[ROADMAP](ROADMAP.md)。 |
+| **F1–F57 / v5.93–v5.154** | 元の `F/G/η/ε`、swallowtail、独立F19/F28履歴、実F45回転経路、C60実幾何・5辺pentagonと四旗標。歴史と各Leanの詳細は下表および[ROADMAP](ROADMAP.md)。 |
 | **F58 / v5.155 onward** | C60実5/6角面・32面符号付き境界、native Gray 3射、独立整数電荷・交換位相、H¹/H²/局所曲率の評価等を、各定理の型付き範囲で構築。**全域的な原表示の貼り合わせとは異なる**。 |
 | **F59 / v5.156–v5.193** | `BraidedCategory GrayGrade`、C60 90辺の元のF55高次射ラベル、局所非平坦性と修復・位相拘束、陰陽・四象・六気などの型付き幾何写像、元のF42/F43局所面3-Homとwhiskeringを段階的に形式化。 |
 | **[v5.194 / F59-F46](https://github.com/itakura-hidetoshi/KuuOS/pull/2194)** | 90実辺の四旗標と元のF55型付き3射の局所接続、C60 `(0,0;1)` 対 F55 `(0,1;1)`、一意の補正 `Δ=(0,1;0)`。 |
@@ -154,7 +154,7 @@ exact DO₂ presentation
   => weak W-admissibility
 ~~~
 
-The converse does **not** hold in general. Neither v5.101 nor the fixed-presentation original F19/F28 mate/exchange results and C60 graded Gray work through v5.199 establish arbitrary raw-morphism liftability, presentation-independent descent, or unrestricted equivalence across atlases.
+The converse does **not** hold in general. Even the proved fixed-presentation swallowtails, the original F19/F28 mate/exchange histories, and the C60 graded Gray work through v5.199 do not establish arbitrary raw-morphism liftability, presentation-independent descent, or unrestricted equivalence across atlases.
 
 
 ## Reproduce the theorem-bearing result / 再現
