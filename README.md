@@ -13,7 +13,7 @@
 
 ## Status / 現在地 — v5.199 · 2026-10-12 JST
 
-**Latest verified theorem-bearing baseline / 最新の定理を含む正本:** **[PR #2199 — v5.199 / F59-F51 MERGED](https://github.com/itakura-hidetoshi/KuuOS/pull/2199)**, merge SHA **`8e62906fe48e9d808996b7275e0da0bfd1994fb7`**. At this snapshot it equals canonical `main`. A subsequent documentation-only merge will change `main` but **not** the theorem-bearing baseline; always re-observe live `main` before new mathematical work.
+**Latest verified theorem-bearing baseline / 最新の定理を含む正本:** **[PR #2199 — v5.199 / F59-F51 MERGED](https://github.com/itakura-hidetoshi/KuuOS/pull/2199)**, merge SHA **`8e62906fe48e9d808996b7275e0da0bfd1994fb7`**. This commit was canonical `main` when PR #2199 merged. Documentation-only merges (including [#2200](https://github.com/itakura-hidetoshi/KuuOS/pull/2200)) advance the live `main` SHA **without adding Lean theorems**; re-observe live `main` before every new mathematical step.
 
 **Exact-head formal validation:** [GitHub Actions #38218642306](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38218642306) — **SUCCESS** on PR source `938acd7ee6ee7244cec2c2947b49dcc3ab945647`, Strict Lean **8996/8996**, changed Lean warning/error **0/0**, **28 `#print axioms`**, no `sorryAx`; Governance, MCP Lean receipt and MCP CI receipt **SUCCESS**. The trace includes standard Lean axioms and some **inherited C60 finite-geometry `native_decide` dependencies**; these are not newly introduced axioms.
 
