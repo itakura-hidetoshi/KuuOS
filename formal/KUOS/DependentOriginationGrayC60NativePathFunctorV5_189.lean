@@ -122,12 +122,12 @@ path with its exact original source and target. -/
 def c60F41OrientedPath
     (e : OrientedTruncatedIcosahedralEdge) :
     Quiver.Path e.source e.target :=
-  (⟨e, ⟨rfl, rfl⟩⟩ : e.source ⟶ e.target).toPath
+  ((⟨e, ⟨rfl, rfl⟩⟩ : e.source ⟶ e.target)).toPath
 
 theorem c60F41OrientedPath_length
     (e : OrientedTruncatedIcosahedralEdge) :
-    (c60F41OrientedPath e).length = 1 :=
-  Quiver.Path.length_toPath _
+    (c60F41OrientedPath e).length = 1 := by
+  simp [c60F41OrientedPath]
 
 /-- Original C60 sixty-object native free Mathlib CATEGORY:
 arrows are composable original edge paths, not unrelated
@@ -151,17 +151,25 @@ Type-valued 5-step 1-morphism from its first original dart to
 ITSELF; all arrows are the TRUE original around-vertex edges. -/
 def c60F41PentagonBoundaryLoop (v : IcosahedralVertex) :
     Quiver.Path (icosahedralIncidentDartAt v .s0)
-      (icosahedralIncidentDartAt v .s0) :=
-  (((((c60F41ForwardArrow (.around ⟨v, .s0⟩)).toPath)
-     .cons (c60F41ForwardArrow (.around ⟨v, .s1⟩)))
-     .cons (c60F41ForwardArrow (.around ⟨v, .s2⟩)))
-     .cons (c60F41ForwardArrow (.around ⟨v, .s3⟩)))
-     .cons (c60F41ForwardArrow (.around ⟨v, .s4⟩))
+      (icosahedralIncidentDartAt v .s0) := by
+  let p0 : Quiver.Path (icosahedralIncidentDartAt v .s0)
+      (icosahedralIncidentDartAt v .s1) :=
+    (c60F41ForwardArrow (.around ⟨v, .s0⟩)).toPath
+  let p1 : Quiver.Path (icosahedralIncidentDartAt v .s0)
+      (icosahedralIncidentDartAt v .s2) :=
+    p0.cons (c60F41ForwardArrow (.around ⟨v, .s1⟩))
+  let p2 : Quiver.Path (icosahedralIncidentDartAt v .s0)
+      (icosahedralIncidentDartAt v .s3) :=
+    p1.cons (c60F41ForwardArrow (.around ⟨v, .s2⟩))
+  let p3 : Quiver.Path (icosahedralIncidentDartAt v .s0)
+      (icosahedralIncidentDartAt v .s4) :=
+    p2.cons (c60F41ForwardArrow (.around ⟨v, .s3⟩))
+  exact p3.cons (c60F41ForwardArrow (.around ⟨v, .s4⟩))
 
 theorem c60F41PentagonBoundaryLoop_length
     (v : IcosahedralVertex) :
     (c60F41PentagonBoundaryLoop v).length = 5 := by
-  simp [c60F41PentagonBoundaryLoop]
+  rfl
 
 /-- An ORIGINAL oriented C60 hexagon supplies SIX genuine
 composable quiver 1-arrows with the SAME original endpoint
@@ -299,7 +307,9 @@ theorem c60F41PathFunctor_forward_edge
     c60F41OriginalC60GrayPathFunctor.map
       (c60F41ForwardArrow edge).toPath =
         c60WangBiHigherAtlasFlatEdgeLabel edge := by
-  rw [c60F41OriginalC60GrayPathFunctor, Paths.lift_toPath]
+  change (Paths.lift c60F41OriginalEdgePrefunctor).map
+    (c60F41ForwardArrow edge).toPath = _
+  rw [Paths.lift_toPath]
   rfl
 
 /-- Exact map of EACH reverse original C60 edge: actual native
@@ -309,7 +319,9 @@ theorem c60F41PathFunctor_reverse_edge
     c60F41OriginalC60GrayPathFunctor.map
       (c60F41ReverseArrow edge).toPath =
         (c60WangBiHigherAtlasFlatEdgeLabel edge).inv := by
-  rw [c60F41OriginalC60GrayPathFunctor, Paths.lift_toPath]
+  change (Paths.lift c60F41OriginalEdgePrefunctor).map
+    (c60F41ReverseArrow edge).toPath = _
+  rw [Paths.lift_toPath]
   rfl
 
 /-- The functor preserves actual ORIGINAL C60 path concatenation
@@ -367,8 +379,9 @@ No unproved source quotient or path equality is introduced. -/
 theorem c60F41NorthCrossBacktrackingPath_not_sourceIdentity :
     (c60F41ForwardArrow (.cross (.northSpoke 0))).toPath.comp
         (c60F41ReverseArrow (.cross (.northSpoke 0))).toPath ≠
-      (𝟙 ((.first (.northSpoke 0) : IcosahedralDart) :
-          C60F41OriginalPathCategory)) := by
+      (Quiver.Path.nil :
+        Quiver.Path (.first (.northSpoke 0) : IcosahedralDart)
+          (.first (.northSpoke 0) : IcosahedralDart)) := by
   intro h
   have hc := congrArg Quiver.Path.length h
   simpa [Quiver.Path.length_comp] using hc
