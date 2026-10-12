@@ -132,6 +132,33 @@ def c60F60RightDirectToNested
               (c60F45F55RightContextGrayMap earlier₂
                 (c60F47WhiskerRight B suffix earlier₁).rotationStep).symm)
 
+/-- Dependent four-tag Hom cast from the genuine two-stage
+original RIGHT F42/F54 context to the original direct-context
+comparison after final F47 presentation transport. -/
+def c60F60RightDirectVsNestedHomCast
+    {u z : IcosahedralDart}
+    (suffix : Quiver.Path w u) (outer : Quiver.Path u z)
+    {k₁ l₁ k₂ l₂ : Nat}
+    {mc md : Blocks a b} {pc pd : Blocks x y}
+    (earlier₁ : OriginalF45BracketTree k₁ l₁ mc pc ma pa)
+    (earlier₂ : OriginalF45BracketTree k₂ l₂ md pd mc pc)
+    {X Y : C60F47BoundaryPoint B}
+    (g :
+      ((c60F56OriginalRightMixedContextFunctor B suffix earlier₁) ⋙
+        (c60F56OriginalRightMixedContextFunctor
+          (c60F47WhiskerRight B suffix earlier₁) outer earlier₂)).obj X ⟶
+      ((c60F56OriginalRightMixedContextFunctor B suffix earlier₁) ⋙
+        (c60F56OriginalRightMixedContextFunctor
+          (c60F47WhiskerRight B suffix earlier₁) outer earlier₂)).obj Y) :
+    ((c60F56OriginalRightMixedContextFunctor B (suffix.comp outer)
+        (OriginalF45BracketTree.node earlier₂ earlier₁)) ⋙
+      (c60F60RightDirectToNested B suffix outer earlier₁ earlier₂)).obj X ⟶
+    ((c60F56OriginalRightMixedContextFunctor B (suffix.comp outer)
+        (OriginalF45BracketTree.node earlier₂ earlier₁)) ⋙
+      (c60F60RightDirectToNested B suffix outer earlier₁ earlier₂)).obj Y := by
+  cases X <;> cases Y
+  all_goals exact g
+
 /-- Both genuine right source contextualizations agree on EVERY F47
 source 3-Hom morphism after the justified final mixed source transport. -/
 theorem c60F60RightDirectVsNested_map
@@ -145,9 +172,10 @@ theorem c60F60RightDirectVsNested_map
     ((c60F56OriginalRightMixedContextFunctor B (suffix.comp outer)
         (OriginalF45BracketTree.node earlier₂ earlier₁)) ⋙
       (c60F60RightDirectToNested B suffix outer earlier₁ earlier₂)).map f =
-    ((c60F56OriginalRightMixedContextFunctor B suffix earlier₁) ⋙
-      (c60F56OriginalRightMixedContextFunctor
-        (c60F47WhiskerRight B suffix earlier₁) outer earlier₂)).map f := by
+    c60F60RightDirectVsNestedHomCast B suffix outer earlier₁ earlier₂
+      (((c60F56OriginalRightMixedContextFunctor B suffix earlier₁) ⋙
+        (c60F56OriginalRightMixedContextFunctor
+          (c60F47WhiskerRight B suffix earlier₁) outer earlier₂)).map f) := by
   cases X <;> cases Y
   all_goals
     apply c60F47MixedGrayFunctor_faithful
@@ -183,9 +211,10 @@ def c60F60RightDirectVsNestedNatIso
                 (OriginalF45BracketTree.node earlier₂ earlier₁)) ⋙
               (c60F60RightDirectToNested B suffix outer earlier₁ earlier₂)).map f :=
                 Category.comp_id _
-          _ = ((c60F56OriginalRightMixedContextFunctor B suffix earlier₁) ⋙
-              (c60F56OriginalRightMixedContextFunctor
-                (c60F47WhiskerRight B suffix earlier₁) outer earlier₂)).map f :=
+          _ = c60F60RightDirectVsNestedHomCast B suffix outer earlier₁ earlier₂
+              (((c60F56OriginalRightMixedContextFunctor B suffix earlier₁) ⋙
+                (c60F56OriginalRightMixedContextFunctor
+                  (c60F47WhiskerRight B suffix earlier₁) outer earlier₂)).map f) :=
                 c60F60RightDirectVsNested_map B suffix outer earlier₁ earlier₂ f
           _ = _ := (Category.id_comp _).symm)
 
@@ -303,6 +332,7 @@ end ActualPhysicalDirectComposite
 #print axioms c60F60RightDirectFrame
 #print axioms c60F60RightNestedFrame
 #print axioms c60F60RightDirectToNested
+#print axioms c60F60RightDirectVsNestedHomCast
 #print axioms c60F60RightDirectVsNested_map
 #print axioms c60F60RightDirectVsNestedNatIso
 #print axioms c60F60PhysicalLeftDirectVsNestedNatIso
