@@ -94,9 +94,6 @@ def c60F63OriginalRightThreeBC_firstPair :
     hface₁ middle₀ middle₁ earlier₂
   let hrot₂ := c60F59RightIntermediateRotationNative A₁ B₁'
     hrot₁ middle₀ middle₁ earlier₂
-  have hedge₁ : A₁.edge = B₁'.edge := by
-    change B₀.edge = B₁.edge
-    exact hedge
   have hedge₂ : A₂.edge = B₂'.edge := by
     change B₀.edge = B₁.edge
     exact hedge
@@ -165,9 +162,6 @@ def c60F63OriginalRightThreeBC_lastPair :
     hface₁ middle₀ middle₁ earlier₂
   let hrot₂ := c60F59RightIntermediateRotationNative A₁ B₁'
     hrot₁ middle₀ middle₁ earlier₂
-  have hedge₁ : A₁.edge = B₁'.edge := by
-    change B₀.edge = B₁.edge
-    exact hedge
   have hedge₂ : A₂.edge = B₂'.edge := by
     change B₀.edge = B₁.edge
     exact hedge
