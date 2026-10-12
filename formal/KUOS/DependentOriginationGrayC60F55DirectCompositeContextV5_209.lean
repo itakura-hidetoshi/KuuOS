@@ -255,7 +255,15 @@ theorem c60F60LeftDirectVsNested_map
   all_goals
     apply c60F47MixedGrayFunctor_faithful
       (c60F60LeftNestedFrame B prior outer later₁ later₂)
-    simp only [Functor.comp_map, c60F60LeftDirectToNested,
+    change c60F47MixedEval
+        ((c60F60LeftDirectToNested B prior outer later₁ later₂).map
+          ((c60F56OriginalLeftMixedContextFunctor B
+            (outer.comp prior) (OriginalF45BracketTree.node later₁ later₂)).map f)) =
+      c60F47MixedEval
+        ((c60F56OriginalLeftMixedContextFunctor
+          (c60F47WhiskerLeft B prior later₁) outer later₂).map
+          ((c60F56OriginalLeftMixedContextFunctor B prior later₁).map f))
+    simp only [c60F60LeftDirectToNested,
       c60F56OriginalLeftMixedContextFunctor,
       c60F56ContextMixedFunctor_fullNative]
 
