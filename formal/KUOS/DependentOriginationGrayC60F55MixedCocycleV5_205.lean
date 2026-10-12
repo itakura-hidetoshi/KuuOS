@@ -229,10 +229,19 @@ def c60F56MixedTransport_threeFrameNatIso
       intro X Y f
       cases X <;> cases Y
       all_goals
-        simpa only [Functor.comp_map, Iso.refl_hom,
-          Category.comp_id, Category.id_comp] using
-          (c60F56MixedTransport_threeFrame_cocycle_map
-            B₀ B₁ B₂ hface₀₁ hrot₀₁ hface₁₂ hrot₁₂ f))
+        calc
+          _ = (c60F48MixedBoundaryTransportFunctor
+                B₁ B₂ hface₁₂ hrot₁₂).map
+              ((c60F48MixedBoundaryTransportFunctor
+                B₀ B₁ hface₀₁ hrot₀₁).map f) :=
+            Category.comp_id _
+          _ = c60F56ThreeFrameHomCast B₀ B₁ B₂
+              ((c60F48MixedBoundaryTransportFunctor B₀ B₂
+                (hface₀₁.trans hface₁₂)
+                (hrot₀₁.trans hrot₁₂)).map f) :=
+            c60F56MixedTransport_threeFrame_cocycle_map
+              B₀ B₁ B₂ hface₀₁ hrot₀₁ hface₁₂ hrot₁₂ f
+          _ = _ := (Category.id_comp _).symm)
 
 /-- Actual roundtrip is a natural isomorphism to the IDENTITY
 of the original F47 mixed source category, with no loss of
@@ -253,9 +262,16 @@ def c60F56MixedTransport_roundTripNatIso
       intro X Y f
       cases X <;> cases Y
       all_goals
-        simpa only [Functor.comp_map, Functor.id_map,
-          Iso.refl_hom, Category.comp_id, Category.id_comp] using
-          (c60F56MixedTransport_roundTrip_map B₀ B₁ hface hrotation f))
+        calc
+          _ = (c60F48MixedBoundaryTransportFunctor
+                B₁ B₀ hface.symm hrotation.symm).map
+              ((c60F48MixedBoundaryTransportFunctor
+                B₀ B₁ hface hrotation).map f) :=
+            Category.comp_id _
+          _ = c60F56RoundTripHomCast B₀ B₁ f :=
+            c60F56MixedTransport_roundTrip_map
+              B₀ B₁ hface hrotation f
+          _ = _ := (Category.id_comp _).symm)
 
 end GeneralThreeLocalFrames
 
