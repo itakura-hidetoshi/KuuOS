@@ -86,22 +86,22 @@ theorem c60F63PhysicalLeftThreeBC_coherent
     (later₁ : OriginalF45BracketTree k₁ l₁ p₂ q₂ mc pc)
     (later₂ : OriginalF45BracketTree k₂ l₂ mc pc md pd)
     (later₃ : OriginalF45BracketTree k₃ l₃ md pd me pe) :
-    (c60F63OriginalLeftThreeBCPair
+    c60F63OriginalLeftThreeBC_firstPair
       (c60F58PhysicalMixedFrame t₁ t₂ left right edge false)
       (c60F58PhysicalMixedFrame t₁ t₂ left right edge true)
       rfl
       (c60F58PhysicalTwoFaces_sameOriginalF43 t₁ t₂ left right edge)
       (c60F58PhysicalTwoFaces_sameOriginalF55 t₁ t₂ left right edge)
       prior₀ prior₁ middle₀ middle₁ outer₀ outer₁
-      later₁ later₂ later₃).1 =
-    (c60F63OriginalLeftThreeBCPair
+      later₁ later₂ later₃ =
+    c60F63OriginalLeftThreeBC_lastPair
       (c60F58PhysicalMixedFrame t₁ t₂ left right edge false)
       (c60F58PhysicalMixedFrame t₁ t₂ left right edge true)
       rfl
       (c60F58PhysicalTwoFaces_sameOriginalF43 t₁ t₂ left right edge)
       (c60F58PhysicalTwoFaces_sameOriginalF55 t₁ t₂ left right edge)
       prior₀ prior₁ middle₀ middle₁ outer₀ outer₁
-      later₁ later₂ later₃).2 :=
+      later₁ later₂ later₃ :=
   c60F63OriginalLeftThreeBC_coherent
     (c60F58PhysicalMixedFrame t₁ t₂ left right edge false)
     (c60F58PhysicalMixedFrame t₁ t₂ left right edge true)
@@ -127,22 +127,22 @@ theorem c60F63PhysicalRightThreeBC_coherent
     (earlier₁ : OriginalF45BracketTree k₁ l₁ mc pc p₀ q₀)
     (earlier₂ : OriginalF45BracketTree k₂ l₂ md pd mc pc)
     (earlier₃ : OriginalF45BracketTree k₃ l₃ me pe md pd) :
-    (c60F63OriginalRightThreeBCPair
+    c60F63OriginalRightThreeBC_firstPair
       (c60F58PhysicalMixedFrame t₁ t₂ left right edge false)
       (c60F58PhysicalMixedFrame t₁ t₂ left right edge true)
       rfl
       (c60F58PhysicalTwoFaces_sameOriginalF43 t₁ t₂ left right edge)
       (c60F58PhysicalTwoFaces_sameOriginalF55 t₁ t₂ left right edge)
       suffix₀ suffix₁ middle₀ middle₁ outer₀ outer₁
-      earlier₁ earlier₂ earlier₃).1 =
-    (c60F63OriginalRightThreeBCPair
+      earlier₁ earlier₂ earlier₃ =
+    c60F63OriginalRightThreeBC_lastPair
       (c60F58PhysicalMixedFrame t₁ t₂ left right edge false)
       (c60F58PhysicalMixedFrame t₁ t₂ left right edge true)
       rfl
       (c60F58PhysicalTwoFaces_sameOriginalF43 t₁ t₂ left right edge)
       (c60F58PhysicalTwoFaces_sameOriginalF55 t₁ t₂ left right edge)
       suffix₀ suffix₁ middle₀ middle₁ outer₀ outer₁
-      earlier₁ earlier₂ earlier₃).2 :=
+      earlier₁ earlier₂ earlier₃ :=
   c60F63OriginalRightThreeBC_coherent
     (c60F58PhysicalMixedFrame t₁ t₂ left right edge false)
     (c60F58PhysicalMixedFrame t₁ t₂ left right edge true)
