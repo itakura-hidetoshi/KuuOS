@@ -266,6 +266,13 @@ theorem c60F60LeftDirectVsNested_map
     simp only [c60F60LeftDirectToNested,
       c60F56OriginalLeftMixedContextFunctor,
       c60F56ContextMixedFunctor_fullNative]
+    exact c60F56ContextMixedFunctor_fullNative
+      B (c60F60LeftDirectFrame B prior outer later₁ later₂)
+      rfl
+      (c60F45LeftWhiskerGrayMap (outer.comp prior) B.faceStep).symm
+      (c60F45F55LeftContextGrayMap
+        (OriginalF45BracketTree.node later₁ later₂) B.rotationStep).symm
+      f
 
 /-- Mathlib source-level natural isomorphism identifying the direct
 ORIGINAL F42 path-concatenated/F54 tree-node route with the earlier
