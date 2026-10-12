@@ -11,6 +11,7 @@ open KUOS.DependentOriginationGrayNativeBraidedCategoryV5_156
 open KUOS.DependentOriginationGrayF55PhaseRealizationV5_156
 open KUOS.DependentOriginationGrayC60CyclicGlobalPastingV5_156
 open KUOS.DependentOriginationGrayC60AllNinetyEdgePastingV5_157
+open KUOS.DependentOriginationGrayC60F55SourcePhaseLockedAtlasV5_175
 open KUOS.DependentOriginationGrayC60NativePathFunctorV5_189
 open KUOS.DependentOriginationGrayC60PresentedFaceTwoCellsV5_190
 open KUOS.DependentOriginationGrayC60PresentedInterchangerV5_191
@@ -158,11 +159,16 @@ theorem c60F49AllRealFace_originalF55_fullComponents
           (c60F48EveryRealEdgeMixedFrame
             t₁ t₂ left right edge side))).phase =
       (1 : ZMod 2) := by
-  change (c60AllNinetyGrayCell t₁ t₂ left right edge).charge =
-      ((0 : Int), (1 : Int)) ∧
-    (c60AllNinetyGrayCell t₁ t₂ left right edge).phase =
-      (1 : ZMod 2)
-  rw [c60AllNinetyGrayCell_eq]
+  change
+    (c60F44OriginalF55GrayFunctor.map
+      (c60F46PhysicalFlagOriginalF55Arrow
+        t₁ t₂ left right edge)).charge =
+        ((0 : Int), (1 : Int)) ∧
+    (c60F44OriginalF55GrayFunctor.map
+      (c60F46PhysicalFlagOriginalF55Arrow
+        t₁ t₂ left right edge)).phase = (1 : ZMod 2)
+  rw [c60F46PhysicalFlagOriginalF55Arrow_fullNative,
+    c60AllNinetyGrayCell_eq]
   exact originalF55BraidedSquareGenerator_complete
 
 /-- Even inside the complete new Gray three-category envelope,
