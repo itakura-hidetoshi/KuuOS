@@ -275,6 +275,13 @@ theorem c60F44OriginalF55Square_ne_C60FaceInterchanger
       (c60F44FaceThreeGrayFunctor.map
         (c60F44FaceThreeOf c60F43NorthPentagonInterchange)).charge.2 =
           (0 : Int) := rfl
+  change
+    (c60F44OriginalF55GrayFunctor.map
+      (c60F44OriginalF55Of
+        (OriginalF45BracketTree.DepthRotationRoute.PresentedCell.disjointSquare
+          left right))).charge.2 =
+      (c60F44FaceThreeGrayFunctor.map
+        (c60F44FaceThreeOf c60F43NorthPentagonInterchange)).charge.2 at hc
   rw [hs, ht] at hc
   exact (by decide : (1 : Int) ≠ 0) hc
 
