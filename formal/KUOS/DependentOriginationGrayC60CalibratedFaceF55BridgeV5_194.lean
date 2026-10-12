@@ -97,7 +97,7 @@ def c60F46EdgeLocalizedFaceFunctor
     funext site
     by_cases hs : site = C60GrayPhysicalSite.edge edge
     · subst site
-      simp only [CategoryTheory.Pi.id_apply, if_pos rfl]
+      simp only [CategoryTheory.Pi.id_apply]
       exact c60F44FaceThreeGrayFunctor.map_id faceCell
     · simp only [CategoryTheory.Pi.id_apply, if_neg hs]
       rfl
@@ -106,7 +106,7 @@ def c60F46EdgeLocalizedFaceFunctor
     funext site
     by_cases hs : site = C60GrayPhysicalSite.edge edge
     · subst site
-      simp only [CategoryTheory.Pi.comp_apply, if_pos rfl]
+      simp only [CategoryTheory.Pi.comp_apply]
       exact c60F44FaceThreeGrayFunctor.map_comp f g
     · simp only [CategoryTheory.Pi.comp_apply, if_neg hs]
       exact (Category.id_comp (𝟙 GrayGrade.unit)).symm
@@ -118,7 +118,7 @@ theorem c60F46EdgeLocalizedFace_atRealEdge
     (f : α ⟶ β) :
     ((c60F46EdgeLocalizedFaceFunctor edge).map f) (.edge edge) =
       c60F44FaceThreeGrayFunctor.map f := by
-  simp only [c60F46EdgeLocalizedFaceFunctor, if_pos rfl]
+  simp [c60F46EdgeLocalizedFaceFunctor]
 
 theorem c60F46EdgeLocalizedFace_faithful
     (edge : TruncatedIcosahedralEdge)
