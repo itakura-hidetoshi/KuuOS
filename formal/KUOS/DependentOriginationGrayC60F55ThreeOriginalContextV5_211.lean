@@ -20,6 +20,8 @@ set_option maxRecDepth 4096
 set_option maxHeartbeats 4000000
 noncomputable section
 
+universe uD vD uE vE
+
 /-!
 # v5.211 / F59-F61-A — genuinely typed three-context source foundations
 
