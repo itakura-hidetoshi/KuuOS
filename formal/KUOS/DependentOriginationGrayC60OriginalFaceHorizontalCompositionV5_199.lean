@@ -275,8 +275,10 @@ theorem c60F51LeftWhisker_faithful
   rw [c60F51LeftWhisker_eval, c60F51LeftWhisker_eval] at hh
   exact c60F51GrayFunctor_faithful _ _ (by
     apply GradedThreeCell.ext
-    · exact congrArg GradedThreeCell.charge hh
-    · exact congrArg GradedThreeCell.phase hh)
+    · change (c60F51Eval f).charge = (c60F51Eval g).charge
+      exact congrArg GradedThreeCell.charge hh
+    · change (c60F51Eval f).phase = (c60F51Eval g).phase
+      exact congrArg GradedThreeCell.phase hh)
 
 theorem c60F51RightWhisker_faithful
     {a b c : IcosahedralDart}
@@ -294,8 +296,10 @@ theorem c60F51RightWhisker_faithful
   rw [c60F51RightWhisker_eval, c60F51RightWhisker_eval] at hh
   exact c60F51GrayFunctor_faithful _ _ (by
     apply GradedThreeCell.ext
-    · exact congrArg GradedThreeCell.charge hh
-    · exact congrArg GradedThreeCell.phase hh)
+    · change (c60F51Eval f).charge = (c60F51Eval g).charge
+      exact congrArg GradedThreeCell.charge hh
+    · change (c60F51Eval f).phase = (c60F51Eval g).phase
+      exact congrArg GradedThreeCell.phase hh)
 
 #print axioms c60F51HorizontalThreeHomFunctor
 #print axioms c60F51HorizontalMap_eval
