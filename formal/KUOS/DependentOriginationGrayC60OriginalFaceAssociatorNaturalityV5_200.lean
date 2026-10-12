@@ -163,7 +163,12 @@ theorem c60F52Associator_naturality
         (Quiver.Path.comp_assoc q s u).symm
         (c60F52HorizontalMap f (c60F52HorizontalMap g h))))
   simp only [c60F52Eval_comp, c60F52HorizontalMap_eval,
-    c60F52Associator_eval, c60F52ReindexMap_eval]
+    c60F52Associator_eval]
+  rw [c60F52ReindexMap_eval
+    (Quiver.Path.comp_assoc p r t).symm
+    (Quiver.Path.comp_assoc q s u).symm
+    (c60F52HorizontalMap f (c60F52HorizontalMap g h))]
+  rw [c60F52HorizontalMap_eval, c60F52HorizontalMap_eval]
   abel
 
 /-- A genuinely typed source unit 2-cell at the actual C60 vertex. -/
@@ -192,8 +197,10 @@ theorem c60F52LeftUnitor_naturality
       (c60F52LeftUnitor Y)) =
     c60F52Eval (c60F52Comp (c60F52LeftUnitor X) f)
   simp only [c60F52Eval_comp, c60F52ReindexMap_eval,
-    c60F52HorizontalMap_eval, c60F52Eval_id,
-    c60F52LeftUnitor_eval, zero_add, add_zero]
+    c60F52HorizontalMap_eval, c60F52Eval_id, zero_add]
+  change c60F52Eval f + (0 : GradedThreeCell 0 0) =
+    c60F52Eval f
+  exact add_zero _
 
 theorem c60F52RightUnitor_naturality
     {a b : IcosahedralDart} {p q : Quiver.Path a b}
@@ -212,8 +219,10 @@ theorem c60F52RightUnitor_naturality
       (c60F52RightUnitor Y)) =
     c60F52Eval (c60F52Comp (c60F52RightUnitor X) f)
   simp only [c60F52Eval_comp, c60F52ReindexMap_eval,
-    c60F52HorizontalMap_eval, c60F52Eval_id,
-    c60F52RightUnitor_eval, zero_add, add_zero]
+    c60F52HorizontalMap_eval, c60F52Eval_id, add_zero]
+  change c60F52Eval f + (0 : GradedThreeCell 0 0) =
+    c60F52Eval f
+  exact add_zero _
 
 /-- The genuine F43 north-face generator survives the
 source associator extension with independent ODD exchange. -/
