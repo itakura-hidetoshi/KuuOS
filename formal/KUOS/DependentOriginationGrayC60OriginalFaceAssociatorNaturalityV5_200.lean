@@ -152,23 +152,13 @@ theorem c60F52Associator_naturality
         (Quiver.Path.comp_assoc p r t).symm
         (Quiver.Path.comp_assoc q s u).symm
         (c60F52HorizontalMap f (c60F52HorizontalMap g h)) := by
-  apply c60F52Hom_ext
-  change c60F52Eval (c60F52Comp
-      (c60F52HorizontalMap (c60F52HorizontalMap f g) h)
-      (c60F52Associator X' Y' Z')) =
-    c60F52Eval (c60F52Comp
-      (c60F52Associator X Y Z)
-      (c60F52ReindexMap
-        (Quiver.Path.comp_assoc p r t).symm
-        (Quiver.Path.comp_assoc q s u).symm
-        (c60F52HorizontalMap f (c60F52HorizontalMap g h))))
-  simp only [c60F52Eval_comp, c60F52HorizontalMap_eval,
-    c60F52Associator_eval]
-  rw [c60F52ReindexMap_eval
-    (Quiver.Path.comp_assoc p r t).symm
-    (Quiver.Path.comp_assoc q s u).symm
-    (c60F52HorizontalMap f (c60F52HorizontalMap g h))]
-  rw [c60F52HorizontalMap_eval, c60F52HorizontalMap_eval]
+  refine Quot.inductionOn f (fun rf => ?_)
+  refine Quot.inductionOn g (fun rg => ?_)
+  refine Quot.inductionOn h (fun rh => ?_)
+  apply Quot.sound
+  change ((rf.toNative + rg.toNative) + rh.toNative) +
+      (0 : GradedThreeCell 0 0) =
+    0 + (rf.toNative + (rg.toNative + rh.toNative))
   abel
 
 /-- A genuinely typed source unit 2-cell at the actual C60 vertex. -/
@@ -189,18 +179,11 @@ theorem c60F52LeftUnitor_naturality
         (c60F52HorizontalMap (𝟙 (c60F52IdentityTwo a)) f) ≫
       c60F52LeftUnitor Y =
     c60F52LeftUnitor X ≫ f := by
-  apply c60F52Hom_ext
-  change c60F52Eval (c60F52Comp
-      (c60F52ReindexMap
-        (Quiver.Path.nil_comp p) (Quiver.Path.nil_comp q)
-        (c60F52HorizontalMap (𝟙 (c60F52IdentityTwo a)) f))
-      (c60F52LeftUnitor Y)) =
-    c60F52Eval (c60F52Comp (c60F52LeftUnitor X) f)
-  simp only [c60F52Eval_comp, c60F52ReindexMap_eval,
-    c60F52HorizontalMap_eval, c60F52Eval_id, zero_add]
-  change c60F52Eval f + (0 : GradedThreeCell 0 0) =
-    c60F52Eval f
-  exact add_zero _
+  refine Quot.inductionOn f (fun raw => ?_)
+  apply Quot.sound
+  change ((0 : GradedThreeCell 0 0) + raw.toNative) + 0 =
+    0 + raw.toNative
+  abel
 
 theorem c60F52RightUnitor_naturality
     {a b : IcosahedralDart} {p q : Quiver.Path a b}
@@ -211,18 +194,11 @@ theorem c60F52RightUnitor_naturality
         (c60F52HorizontalMap f (𝟙 (c60F52IdentityTwo b))) ≫
       c60F52RightUnitor Y =
     c60F52RightUnitor X ≫ f := by
-  apply c60F52Hom_ext
-  change c60F52Eval (c60F52Comp
-      (c60F52ReindexMap
-        (Quiver.Path.comp_nil p) (Quiver.Path.comp_nil q)
-        (c60F52HorizontalMap f (𝟙 (c60F52IdentityTwo b))))
-      (c60F52RightUnitor Y)) =
-    c60F52Eval (c60F52Comp (c60F52RightUnitor X) f)
-  simp only [c60F52Eval_comp, c60F52ReindexMap_eval,
-    c60F52HorizontalMap_eval, c60F52Eval_id, add_zero]
-  change c60F52Eval f + (0 : GradedThreeCell 0 0) =
-    c60F52Eval f
-  exact add_zero _
+  refine Quot.inductionOn f (fun raw => ?_)
+  apply Quot.sound
+  change (raw.toNative + (0 : GradedThreeCell 0 0)) + 0 =
+    0 + raw.toNative
+  abel
 
 /-- The genuine F43 north-face generator survives the
 source associator extension with independent ODD exchange. -/
