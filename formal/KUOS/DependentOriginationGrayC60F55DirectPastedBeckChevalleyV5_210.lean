@@ -243,22 +243,22 @@ theorem c60F61LeftDirectBC_eq_pastedBC
   cases X <;>
     (apply c60F47MixedGrayFunctor_faithful
       (c60F60LeftNestedFrame B₁ prior₁ outer₁ later₁ later₂)
-     simp [c60F47MixedEval, c60F47MixedEval_comp,
-       c60F47MixedEval_of,
+     dsimp only [
        c60F61LeftDirectBCNormalizedNatIso,
-      c60F61LeftPastedBCNormalizedNatIso,
-      c60F61LeftFaceChoiceDirectNestedNatIso,
-      c60F59LeftTwoContextNatIso,
-      c60F59TwoContextPasting,
-      c60F58LeftFaceContext_NatIso,
-      c60F60LeftDirectVsNestedNatIso,
-      c60F56OriginalLeftMixedContextFunctor,
-      c60F56ContextMixedPoint,
-      c60F56ContextMixedFunctor,
-      c60F58LeftAfterFaceChoice,
-      c60F59LeftSecondFaceChoice,
-      c60F60LeftDirectToNested])
-
+       c60F61LeftPastedBCNormalizedNatIso,
+       c60F61LeftFaceChoiceDirectNestedNatIso,
+       c60F59LeftTwoContextNatIso,
+       c60F59TwoContextPasting,
+       c60F58LeftFaceContext_NatIso,
+       c60F60LeftDirectVsNestedNatIso]
+     simp only [Iso.trans_hom, NatTrans.comp_app, Functor.map_id,
+       Category.comp_id, Category.id_comp]
+     simp [c60F56OriginalLeftMixedContextFunctor,
+       c60F56ContextMixedPoint,
+       c60F56ContextMixedFunctor,
+       c60F58LeftAfterFaceChoice,
+       c60F59LeftSecondFaceChoice,
+       c60F60LeftDirectToNested])
 #print axioms c60F61LeftFaceChoiceDirectNestedNatIso
 #print axioms c60F61LeftDirectBCNormalizedNatIso
 #print axioms c60F61LeftPastedBCNormalizedNatIso
