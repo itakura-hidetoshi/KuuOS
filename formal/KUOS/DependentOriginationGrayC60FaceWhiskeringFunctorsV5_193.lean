@@ -119,6 +119,10 @@ theorem c60F45LeftWhiskerFunctor_faithful
     (fun x : (c60F45LeftWhiskerFunctor prior).obj α ⟶
       (c60F45LeftWhiskerFunctor prior).obj β =>
         c60F44FaceThreeEval x) h
+  change c60F44FaceThreeEval
+      ((c60F45LeftWhiskerFunctor prior).map f) =
+    c60F44FaceThreeEval
+      ((c60F45LeftWhiskerFunctor prior).map g) at hh
   rw [c60F45LeftWhiskerGrayMap, c60F45LeftWhiskerGrayMap] at hh
   exact c60F44FaceThreeGrayFunctor_faithful hh
 
@@ -187,6 +191,10 @@ theorem c60F45RightWhiskerFunctor_faithful
     (fun x : (c60F45RightWhiskerFunctor suffix).obj α ⟶
       (c60F45RightWhiskerFunctor suffix).obj β =>
         c60F44FaceThreeEval x) h
+  change c60F44FaceThreeEval
+      ((c60F45RightWhiskerFunctor suffix).map f) =
+    c60F44FaceThreeEval
+      ((c60F45RightWhiskerFunctor suffix).map g) at hh
   rw [c60F45RightWhiskerGrayMap, c60F45RightWhiskerGrayMap] at hh
   exact c60F44FaceThreeGrayFunctor_faithful hh
 
