@@ -162,6 +162,9 @@ def c60F44FaceThreeGrayFunctor :
     apply GradedThreeCell.ext <;> rfl
   map_comp := by
     intro α β γ f g
+    change c60F44FaceThreeEval (c60F44FaceThreeComp f g) =
+      (c60F44FaceThreeEval f ≫ c60F44FaceThreeEval g :
+        GrayGrade.unit ⟶ GrayGrade.unit)
     rw [c60F44FaceThreeEval_comp]
     exact grayNeutral_add_eq_native_comp
       (c60F44FaceThreeEval f) (c60F44FaceThreeEval g)
@@ -176,7 +179,8 @@ theorem c60F44FaceThreeGrayFunctor_faithful
       c60F44FaceThreeGrayFunctor.map g) : f = g := by
   change c60F44FaceThreeEval f = c60F44FaceThreeEval g at heq
   revert heq
-  refine Quot.inductionOn₂ f g (fun raw₁ raw₂ hh => ?_)
+  refine Quot.inductionOn f (fun raw₁ => ?_)
+  refine Quot.inductionOn g (fun raw₂ hh => ?_)
   exact Quot.sound hh
 
 /-- The genuinely typed C60 horizontal source interchange
