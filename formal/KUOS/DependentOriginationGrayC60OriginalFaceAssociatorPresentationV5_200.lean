@@ -181,6 +181,14 @@ inductive C60F52PresentedThreeCell :
       (suffix : Quiver.Path b c) :
       C60F52PresentedThreeCell
         (.whiskerRight α suffix) (.whiskerRight β suffix)
+  | reindex {a b : IcosahedralDart}
+      {p q p' q' : Quiver.Path a b}
+      (hp : p = p') (hq : q = q')
+      {α β : C60F42PresentedFaceCell p q}
+      (f : C60F52PresentedThreeCell α β) :
+      C60F52PresentedThreeCell
+        (c60F52ReindexFace hp hq α)
+        (c60F52ReindexFace hp hq β)
   | associator {a b c d : IcosahedralDart}
       {p q : Quiver.Path a b} {r s : Quiver.Path b c}
       {t u : Quiver.Path c d}
@@ -215,6 +223,7 @@ def C60F52PresentedThreeCell.toNative
   | vertical f g ihf ihg => exact ihf + ihg
   | whiskerLeft prior f ih => exact ih
   | whiskerRight f suffix ih => exact ih
+  | reindex hp hq f ih => exact ih
   | associator α β γ => exact 0
   | leftUnitor α => exact 0
   | rightUnitor α => exact 0
@@ -236,6 +245,8 @@ theorem C60F52PresentedThreeCell.preservesFaceDegree
       rw [c60F43FaceDegree_trans, c60F43FaceDegree_trans, ihf, ihg]
   | whiskerLeft prior f ih => exact ih
   | whiskerRight f suffix ih => exact ih
+  | reindex hp hq f ih =>
+      simpa only [c60F52ReindexFace_degree] using ih
   | associator α β γ =>
       simp only [c60F43FaceDegree_horizontalLeftFirst,
         c60F52AssocRight_degree, add_assoc]
