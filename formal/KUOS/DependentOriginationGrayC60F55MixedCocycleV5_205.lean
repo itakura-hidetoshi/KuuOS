@@ -229,7 +229,8 @@ def c60F56MixedTransport_threeFrameNatIso
       intro X Y f
       cases X <;> cases Y
       all_goals
-        simpa using
+        simpa only [Functor.comp_map, Iso.refl_hom,
+          Category.comp_id, Category.id_comp] using
           (c60F56MixedTransport_threeFrame_cocycle_map
             B₀ B₁ B₂ hface₀₁ hrot₀₁ hface₁₂ hrot₁₂ f))
 
@@ -252,7 +253,8 @@ def c60F56MixedTransport_roundTripNatIso
       intro X Y f
       cases X <;> cases Y
       all_goals
-        simpa using
+        simpa only [Functor.comp_map, Functor.id_map,
+          Iso.refl_hom, Category.comp_id, Category.id_comp] using
           (c60F56MixedTransport_roundTrip_map B₀ B₁ hface hrotation f))
 
 end GeneralThreeLocalFrames
