@@ -51,6 +51,7 @@
 | **[v5.208 / F59-F59-A/B](https://github.com/itakura-hidetoshi/KuuOS/pull/2219)** | **二段連続**する元F42実経路と独立元F54/F55木文脈の左右source-level BC貼り合わせNatIso。Mathlib関手結合子とiso-whiskering、全Hom自然性、完全native像による二段目F47混合面選択。**実C60全90辺×2隣接原面**に特殊化し、二段後の元F55全9構成子からの補正 `Δ` 非持ち上げをLean証明。直接合成された原構文との比較、三文脈pentagon、大域descentは未証明。 |
 | **[v5.209 / F59-F60-A/B](https://github.com/itakura-hidetoshi/KuuOS/pull/2221)** | 元F42の**実Quiver.Path直接連結**＋ `comp_assoc` 型付き2セル再添字、元F54/F55の**実node直接合成**＋両 `Nat.add_assoc` 深さ再結合を原構文のまま保持。F47全Homで**直接vs二段の左右文脈移送NatIso**、実C60全90辺×2隣接原面への特殊化と元F55全9構成子の補正 `Δ` 非持ち上げをLean証明。**直接BCと貼り合わせBCの高次一致・3文脈pentagon・無条件descentはOPEN**。 |
 | **[v5.210 / F59-F60-C](https://github.com/itakura-hidetoshi/KuuOS/pull/2223)** | F47四境界raw生成子の有向ランクから**完全native商3-Homの自己射一意性**を導出。元F42直接経路＋元F54本来の木nodeを用いる直接BCと、元F42/F54の連続二段貼り合わせBCの**左・右の型付きNatIso等式**をLean証明。**実C60全90辺×2相異なる隣接面**に特殊化。元F55の非零曲率・全9生成子からのΔ非持ち上げは保持。**3文脈pentagon、raw未商Gray3圏、大域descentはOPEN**。 |
+| **[v5.211 / F59-F61-A](https://github.com/itakura-hidetoshi/KuuOS/pull/2225)** | 元F42の三連続実経路、依存型comp_assoc、完全F43 Gray保存と元F54三木の二軸深さ再結合を証明。**高次BC pentagon・隣接C60パッチ・大域descentは未証明。** |
 
 **Status vocabulary:** “PROVED” means the **stated Lean declaration** and its hypotheses, not a blanket claim over all presentations. “Adjoined” indicates genuinely new source generators; “graded envelope” is not a fully faithful reconstruction of raw F42/F54/F55 higher source syntax.
 
@@ -60,9 +61,9 @@
 | Item | Verified evidence |
 | --- | --- |
 | Repository | **[itakura-hidetoshi/KuuOS](https://github.com/itakura-hidetoshi/KuuOS)** · canonical branch `main` |
-| Latest theorem-bearing merge | **`93345a0aeef06f346c74d666df7ace6c171d48c3`** · [#2223 MERGED](https://github.com/itakura-hidetoshi/KuuOS/pull/2223), distinct from later docs-only SHA |
-| Validated PR source | `e7b2c4f15e21b81d0c194188daef5f0c1cf5675c` · source tree equals tested merge tree `ed2f5f740e3838a25f981f44ee6f13d2b48052b2` |
-| Exact-source-tree CI | [#38319743177 — SUCCESS](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38319743177) |
+| Latest theorem-bearing merge | **`f4a617ef0885dbfd65210b8c5de3f7b828c1092a`** · [#2225 MERGED](https://github.com/itakura-hidetoshi/KuuOS/pull/2225), distinct from later docs-only SHA |
+| Validated PR source | `e2e1647e82b6bc118096bb23c2f0f9c735f1cbbe` · exact source HEAD checked by CI #38320884385 |
+| Exact-source-tree CI | [#38320884385 — SUCCESS](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38320884385) |
 | Strict Lean job | `115044776415` · **9020/9020 SUCCESS** · changed-file warning/error **0/0** |
 | Governance / MCP receipts | Governance `115045986126`, MCP Lean `115045985987`, MCP CI `115046054175` · **all SUCCESS** |
 | Changed-file axiom inspection | **15 `#print axioms`** across four new v5.210 modules; no `sorryAx`/new axiom; inherited C60 finite `native_decide` dependencies noted |
@@ -209,7 +210,7 @@ PYTHONPATH=. python3 runtime/kuuos_current_check.py
 
 ## Remaining research and runtime boundaries / 次の課題
 
-**Next theorem frontier — v5.211 / F59-F61:** [#2223](https://github.com/itakura-hidetoshi/KuuOS/pull/2223) has established the left/right **direct-vs-two-stage Beck–Chevalley NatIso equality** in the accurately tagged F47 source quotient, including all 90 real C60 edge and two adjacent polygon configurations. Next address **three successive ORIGINAL F42 path / ORIGINAL F54/F55 bracket-tree contexts** and genuinely typed higher pentagon / triple-context association-order coherence, plus adjacency across neighboring physical faces and explicit descent obstructions. The proven F47 endomorphism rigidity must not be overread as full faithfulness of raw unquotiented F42/F54/F55 source syntax. Retain original signed north nonflat curvature, adjoined `Δ=(0,1;0)` old-nine-F55 nonlift and lack of global vertex gauge.
+**Next theorem frontier — v5.211 / F59-F61-B/C:** [#2223](https://github.com/itakura-hidetoshi/KuuOS/pull/2223) has established the left/right **direct-vs-two-stage Beck–Chevalley NatIso equality** in the accurately tagged F47 source quotient, including all 90 real C60 edge and two adjacent polygon configurations. Next address **three successive ORIGINAL F42 path / ORIGINAL F54/F55 bracket-tree contexts** and genuinely typed higher pentagon / triple-context association-order coherence, plus adjacency across neighboring physical faces and explicit descent obstructions. The proven F47 endomorphism rigidity must not be overread as full faithfulness of raw unquotiented F42/F54/F55 source syntax. Retain original signed north nonflat curvature, adjoined `Δ=(0,1;0)` old-nine-F55 nonlift and lack of global vertex gauge.
 
 **Further obligations:** globally coherent and faithful original F42–F54/F55 mixed 0/1/2/3-source realization; target-level pentagon/square/whiskering and Gray exchange with the *same original boundaries*; a genuinely correct interpretation or explicitly recorded obstruction for the added `Δ=(0,1;0)` (not produced by the old nine F55 constructors); preservation of original nonzero face curvature, lawful transport and conditional/descent checks. Unrestricted tricategorical/Gray-categorical equivalence, presentation-independent global descent, infinite convergence and universal mapping claims remain open unless stated by separate exact Lean declarations.
 
