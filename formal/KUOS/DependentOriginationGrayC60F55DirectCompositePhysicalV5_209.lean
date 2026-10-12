@@ -191,6 +191,13 @@ theorem c60F60RightDirectVsNested_map
     simp only [c60F60RightDirectToNested,
       c60F56OriginalRightMixedContextFunctor,
       c60F56ContextMixedFunctor_fullNative]
+    exact c60F56ContextMixedFunctor_fullNative
+      B (c60F60RightDirectFrame B suffix outer earlier₁ earlier₂)
+      rfl
+      (c60F45RightWhiskerGrayMap (suffix.comp outer) B.faceStep).symm
+      (c60F45F55RightContextGrayMap
+        (OriginalF45BracketTree.node earlier₂ earlier₁) B.rotationStep).symm
+      f
 
 /-- Honest original-right direct-vs-nested Mathlib source natural
 isomorphism, without identifying raw F42 two-cells or F54 tree words. -/
