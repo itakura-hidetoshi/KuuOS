@@ -154,12 +154,12 @@ theorem c60WangBiHigherAtlas_preserves_primal_tree
   simp [c60F19OriginalF55EdgeCochain,
     c60F18GrayEdgeCochain, c60F19UniformF55EdgeLabels]
 
+universe uT uM
+
 /-- Contextual time/meaning is independent of arbitrary C60
 hexagram re-encoding choices, while the repaired Gray field
 remains locally 2-coherent. We bundle the ACTUAL native
 pseudofunctor and physical native 2-cell data. -/
-universe uT uM
-
 structure C60WangBiCoherentHigherAtlas
     (Time : Type uT) (Meaning : Type uM) where
   originChart : C60WangBiFaceChart
