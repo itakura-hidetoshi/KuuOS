@@ -15,6 +15,7 @@ open KUOS.DependentOriginationGrayC60ThreeHomCategoriesV5_192
 open KUOS.DependentOriginationGrayC60OriginalF55ThreeHomV5_192
 open KUOS.DependentOriginationGrayC60FaceWhiskeringFunctorsV5_193
 open KUOS.DependentOriginationGrayC60OriginalF55WhiskeringV5_193
+open KUOS.DependentOriginationGrayC60AllNinetyMixedBoundaryV5_196
 open KUOS.DependentOriginationGrayC60MixedBoundaryThreeHomV5_195
 open KUOS.DependentOriginationGrayC60MixedBoundaryWhiskeringV5_195
 open KUOS.DependentOriginationGrayC60F55MixedOriginalContextV5_205
@@ -75,7 +76,7 @@ theorem c60F61PhysicalTwoOriginalFaces_distinct
     (edge : TruncatedIcosahedralEdge) :
     c60F48AdjacentRealFace edge false ≠
       c60F48AdjacentRealFace edge true :=
-  (c60F58PhysicalBothFacesAndFlags t₁ t₂ left right edge).1
+  c60F48BothRealFaces_distinct edge
 
 /-- For EACH of the ninety real C60 edges, LEFT direct original
 F42/F54 Beck–Chevalley and two-stage original-source pasted BC
