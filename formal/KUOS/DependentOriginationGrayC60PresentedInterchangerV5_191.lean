@@ -10,6 +10,7 @@ open KUOS.DependentOriginationTruncatedIcosahedralEdgesV3_85
 open KUOS.DependentOriginationTruncatedIcosahedralHigherChargeV5_155
 open KUOS.DependentOriginationGrayBraidedThreeCellCoreV5_156
 open KUOS.DependentOriginationGrayF55PhaseRealizationV5_156
+open KUOS.DependentOriginationGrayC60F55SourcePhaseLockedAtlasV5_175
 open KUOS.DependentOriginationGrayNativeBraidedCategoryV5_156
 open KUOS.DependentOriginationGrayC60CyclicGlobalPastingV5_156
 open KUOS.DependentOriginationGrayC60AllNinetyEdgePastingV5_157
@@ -154,7 +155,9 @@ theorem c60F43FaceDegree_horizontalRightFirst
     (β : C60F42PresentedFaceCell r s) :
     c60F43FaceDegree (α.horizontalRightFirst β) =
       c60F43FaceDegree α + c60F43FaceDegree β := by
-  rfl
+  change c60F43FaceDegree β + c60F43FaceDegree α =
+    c60F43FaceDegree α + c60F43FaceDegree β
+  exact add_comm _ _
 
 /-! ## II. A real proof-relevant C60 3-cell source with interchanger -/
 
@@ -376,7 +379,8 @@ theorem c60F43Interchange_hexagon_forward
     (γ : C60F42PresentedFaceCell t u) :
     c60F43PhysicalInterchangerNative α (β.horizontalLeftFirst γ) =
       c60F43PhysicalInterchangerNative α β +
-        c60F43PhysicalInterchangerNative α γ := by
+        c60F43PhysicalInterchangerNative
+          (C60F42PresentedFaceCell.whiskerRight α r) γ := by
   apply GradedThreeCell.ext
   · rfl
   · change c60F43FaceDegree α *
@@ -395,7 +399,8 @@ theorem c60F43Interchange_hexagon_reverse
     (β : C60F42PresentedFaceCell r s)
     (γ : C60F42PresentedFaceCell t u) :
     c60F43PhysicalInterchangerNative (α.horizontalLeftFirst β) γ =
-      c60F43PhysicalInterchangerNative α γ +
+      c60F43PhysicalInterchangerNative
+          (C60F42PresentedFaceCell.whiskerRight α r) γ +
         c60F43PhysicalInterchangerNative β γ := by
   apply GradedThreeCell.ext
   · rfl
