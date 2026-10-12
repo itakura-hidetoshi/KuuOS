@@ -130,7 +130,7 @@ theorem c60F57OriginalLeftContext_noOriginalF55Lift
   have hreceiver :
       c60F55SourceNative cell =
         c60F46FaceF55ComparisonCalibration := by
-    exact add_left_cancel (heq.symm.trans hcal)
+    exact add_left_cancel (heq.trans hcal.symm)
   have hmem := c60F55SourceNative_mem cell
   rw [hreceiver] at hmem
   exact c60F46FaceF55ComparisonCalibration_notOriginalF55Locked hmem
@@ -155,7 +155,7 @@ theorem c60F57OriginalRightContext_noOriginalF55Lift
   have hreceiver :
       c60F55SourceNative cell =
         c60F46FaceF55ComparisonCalibration := by
-    exact add_left_cancel (heq.symm.trans hcal)
+    exact add_left_cancel (heq.trans hcal.symm)
   have hmem := c60F55SourceNative_mem cell
   rw [hreceiver] at hmem
   exact c60F46FaceF55ComparisonCalibration_notOriginalF55Locked hmem
