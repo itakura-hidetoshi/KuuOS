@@ -274,8 +274,11 @@ theorem c60F48MixedCalibration_northNonflat
       (c60F48MixedComparisonField t₁ t₂ left right side)
       (.aroundVertex .north) ≠ 0 := by
   intro h
-  have hh := congrArg
-    (fun g : GradedThreeCell 0 0 => g.charge.2) h
+  have hh :
+      (c60WangBiSignedGrayFace
+        (c60F48MixedComparisonField t₁ t₂ left right side)
+        (.aroundVertex .north)).charge.2 = (0 : ℤ) :=
+    congrArg (fun g : GradedThreeCell 0 0 => g.charge.2) h
   rw [c60F48MixedCalibration_northSecondCharge] at hh
   norm_num at hh
 
