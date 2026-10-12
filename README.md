@@ -11,7 +11,6 @@
 > An observation is not a global truth. Which relations survive a justified change of context or presentation? When can compatible local data descend, and where does an obstruction prevent that descent?
 
 
-
 ## Status / 現在地 — v5.199 · 2026-10-12 JST
 
 **Latest verified theorem-bearing baseline / 最新の定理を含む正本:** **[PR #2199 — v5.199 / F59-F51 MERGED](https://github.com/itakura-hidetoshi/KuuOS/pull/2199)**, merge SHA **`8e62906fe48e9d808996b7275e0da0bfd1994fb7`**. At this snapshot it equals canonical `main`. A subsequent documentation-only merge will change `main` but **not** the theorem-bearing baseline; always re-observe live `main` before new mathematical work.
