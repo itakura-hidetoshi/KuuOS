@@ -85,7 +85,7 @@ F54/F55 independent trees, glued by genuine F59 two-context pasting.
 The resulting pair shares exactly the SAME source and target functors.
 No equality of unlike original F42/F54 source proof terms is assumed.
 -/
-def c60F63OriginalLeftThreeBCPair := by
+def c60F63OriginalLeftThreeBCPair :=
   let A₁ := c60F47WhiskerLeft B₀ prior₀ later₁
   let B₁' := c60F47WhiskerLeft B₁ prior₁ later₁
   let A₂ := c60F47WhiskerLeft A₁ middle₀ later₂
@@ -123,10 +123,7 @@ def c60F63OriginalLeftThreeBCPair := by
     hedge₁ hface₁ hrot₁ middle₀ middle₁ later₂
   let bc₂ := c60F58LeftFaceContext_NatIso A₂ B₂'
     hedge₂ hface₂ hrot₂ outer₀ outer₁ later₃
-  exact show
-    ((((L₀ ⋙ L₁) ⋙ L₂) ⋙ P₃) ≅ (P₀ ⋙ ((R₀ ⋙ R₁) ⋙ R₂))) ×
-    ((((L₀ ⋙ L₁) ⋙ L₂) ⋙ P₃) ≅ (P₀ ⋙ ((R₀ ⋙ R₁) ⋙ R₂))) from
-      (c60F63ThreeBC_firstPair L₀ L₁ L₂ R₀ R₁ R₂
+  (c60F63ThreeBC_firstPair L₀ L₁ L₂ R₀ R₁ R₂
       P₀ P₁ P₂ P₃ bc₀ bc₁ bc₂,
      c60F63ThreeBC_lastPair L₀ L₁ L₂ R₀ R₁ R₂
       P₀ P₁ P₂ P₃ bc₀ bc₁ bc₂)
