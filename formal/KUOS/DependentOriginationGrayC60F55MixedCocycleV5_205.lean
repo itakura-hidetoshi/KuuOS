@@ -71,11 +71,51 @@ variable (B₀ : C60F47SquareFrame α₀ β₀ r s)
 variable (B₁ : C60F47SquareFrame α₁ β₁ r s)
 variable (B₂ : C60F47SquareFrame α₂ β₂ r s)
 
+/-- Explicit dependent Hom cast along the PROVED boundary-tag
+identity. A variable F47 boundary object is not definitionally
+equal to its transformed object until the original tag is
+inspected; no raw F42 or F54 witness is thereby identified. -/
+def c60F56IdentityHomCast
+    {X Y : C60F47BoundaryPoint B₀} (f : X ⟶ Y) :
+    c60F48ChangeMixedBoundaryPoint B₀ B₀ X ⟶
+      c60F48ChangeMixedBoundaryPoint B₀ B₀ Y := by
+  cases X <;> cases Y
+  all_goals exact f
+
+/-- Explicit source-dependent Hom transport for a complete
+two-sided F47 local presentation change B₀ → B₁ → B₀. -/
+def c60F56RoundTripHomCast
+    {X Y : C60F47BoundaryPoint B₀} (f : X ⟶ Y) :
+    c60F48ChangeMixedBoundaryPoint B₁ B₀
+        (c60F48ChangeMixedBoundaryPoint B₀ B₁ X) ⟶
+      c60F48ChangeMixedBoundaryPoint B₁ B₀
+        (c60F48ChangeMixedBoundaryPoint B₀ B₁ Y) := by
+  cases X <;> cases Y
+  all_goals exact f
+
+/-- Explicit dependent Hom cast from direct B₀→B₂ targets
+to the B₀→B₁→B₂ target. These are propositionally equal
+on each actual boundary TAG, but Lean correctly refuses
+to identify open dependent source expressions judgmentally. -/
+def c60F56ThreeFrameHomCast
+    {X Y : C60F47BoundaryPoint B₀}
+    (f :
+      c60F48ChangeMixedBoundaryPoint B₀ B₂ X ⟶
+        c60F48ChangeMixedBoundaryPoint B₀ B₂ Y) :
+    c60F48ChangeMixedBoundaryPoint B₁ B₂
+        (c60F48ChangeMixedBoundaryPoint B₀ B₁ X) ⟶
+      c60F48ChangeMixedBoundaryPoint B₁ B₂
+        (c60F48ChangeMixedBoundaryPoint B₀ B₁ Y) := by
+  cases X <;> cases Y
+  all_goals exact f
+
+
 /-- Identity presentation change fixes EVERY source mixed
 3-arrow, with all four original tagged boundaries. -/
 theorem c60F56MixedTransport_id_map
     {X Y : C60F47BoundaryPoint B₀} (f : X ⟶ Y) :
-    (c60F48MixedBoundaryTransportFunctor B₀ B₀ rfl rfl).map f = f := by
+    (c60F48MixedBoundaryTransportFunctor B₀ B₀ rfl rfl).map f =
+      c60F56IdentityHomCast B₀ f := by
   cases X <;> cases Y
   all_goals
     apply c60F47MixedGrayFunctor_faithful B₀
@@ -95,7 +135,8 @@ theorem c60F56MixedTransport_roundTrip_map
     (c60F48MixedBoundaryTransportFunctor
       B₁ B₀ hface.symm hrotation.symm).map
       ((c60F48MixedBoundaryTransportFunctor
-        B₀ B₁ hface hrotation).map f) = f := by
+        B₀ B₁ hface hrotation).map f) =
+      c60F56RoundTripHomCast B₀ B₁ f := by
   cases X <;> cases Y
   all_goals
     apply c60F47MixedGrayFunctor_faithful B₀
@@ -132,9 +173,10 @@ theorem c60F56MixedTransport_threeFrame_cocycle_map
     (c60F48MixedBoundaryTransportFunctor B₁ B₂ hface₁₂ hrot₁₂).map
       ((c60F48MixedBoundaryTransportFunctor
         B₀ B₁ hface₀₁ hrot₀₁).map f) =
-    (c60F48MixedBoundaryTransportFunctor B₀ B₂
-      (hface₀₁.trans hface₁₂)
-      (hrot₀₁.trans hrot₁₂)).map f := by
+    c60F56ThreeFrameHomCast B₀ B₁ B₂
+      ((c60F48MixedBoundaryTransportFunctor B₀ B₂
+        (hface₀₁.trans hface₁₂)
+        (hrot₀₁.trans hrot₁₂)).map f) := by
   cases X <;> cases Y
   all_goals
     apply c60F47MixedGrayFunctor_faithful B₂
@@ -187,10 +229,7 @@ def c60F56MixedTransport_threeFrameNatIso
       intro X Y f
       cases X <;> cases Y
       all_goals
-        simp only [Functor.comp_map, Iso.refl_hom,
-          Category.comp_id, Category.id_comp]
-        exact c60F56MixedTransport_threeFrame_cocycle_map
-          B₀ B₁ B₂ hface₀₁ hrot₀₁ hface₁₂ hrot₁₂ f)
+        simp only [Functor.comp_map, Iso.refl_hom])
 
 /-- Actual roundtrip is a natural isomorphism to the IDENTITY
 of the original F47 mixed source category, with no loss of
@@ -211,10 +250,7 @@ def c60F56MixedTransport_roundTripNatIso
       intro X Y f
       cases X <;> cases Y
       all_goals
-        simp only [Functor.comp_map, Functor.id_map,
-          Iso.refl_hom, Category.comp_id, Category.id_comp]
-        exact c60F56MixedTransport_roundTrip_map
-          B₀ B₁ hface hrotation f)
+        simp only [Functor.comp_map, Functor.id_map, Iso.refl_hom])
 
 end GeneralThreeLocalFrames
 
@@ -243,7 +279,12 @@ theorem c60F56EveryActualEdgeFaceChange_roundTrip
     (c60F55ActualEdgeFaceChoiceReverseFunctor
       t₁ t₂ left right edge).map
         ((c60F48ActualEdgeFaceChoiceFunctor
-          t₁ t₂ left right edge).map f) = f := by
+          t₁ t₂ left right edge).map f) =
+      c60F56RoundTripHomCast
+        (c60F48EveryRealEdgeMixedFrame
+          t₁ t₂ left right edge false)
+        (c60F48EveryRealEdgeMixedFrame
+          t₁ t₂ left right edge true) f := by
   exact c60F56MixedTransport_roundTrip_map
     (c60F48EveryRealEdgeMixedFrame
       t₁ t₂ left right edge false)
@@ -253,6 +294,9 @@ theorem c60F56EveryActualEdgeFaceChange_roundTrip
       c60F48EveryRealEdgeFaceStep_native])
     (by rfl) f
 
+#print axioms c60F56IdentityHomCast
+#print axioms c60F56RoundTripHomCast
+#print axioms c60F56ThreeFrameHomCast
 #print axioms c60F56MixedTransport_id_map
 #print axioms c60F56MixedTransport_roundTrip_map
 #print axioms c60F56MixedTransport_threeFrame_cocycle_map
