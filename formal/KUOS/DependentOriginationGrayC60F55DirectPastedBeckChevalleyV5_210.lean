@@ -1,4 +1,5 @@
 import KUOS.DependentOriginationGrayC60F55DirectCompositePhysicalV5_209
+import KUOS.DependentOriginationGrayC60F55MixedEndomorphismRigidityV5_210
 
 namespace KUOS.DependentOriginationGrayC60F55DirectPastedBeckChevalleyV5_210
 
@@ -14,6 +15,7 @@ open KUOS.DependentOriginationGrayC60OriginalF55ThreeHomV5_192
 open KUOS.DependentOriginationGrayC60FaceWhiskeringFunctorsV5_193
 open KUOS.DependentOriginationGrayC60OriginalF55WhiskeringV5_193
 open KUOS.DependentOriginationGrayC60MixedBoundaryThreeHomV5_195
+open KUOS.DependentOriginationGrayC60F55MixedEndomorphismRigidityV5_210
 open KUOS.DependentOriginationGrayC60MixedBoundaryWhiskeringV5_195
 open KUOS.DependentOriginationGrayC60F55MixedOriginalContextV5_205
 open KUOS.DependentOriginationGrayC60F55OriginalContextBeckChevalleyV5_207
@@ -241,27 +243,9 @@ theorem c60F61LeftDirectBC_eq_pastedBC
   apply NatTrans.ext
   funext X
   cases X <;>
-    (apply c60F47MixedGrayFunctor_faithful
+    exact c60F61MixedEndomorphism_unique
       (c60F60LeftNestedFrame B₁ prior₁ outer₁ later₁ later₂)
-     dsimp only [
-       c60F61LeftDirectBCNormalizedNatIso,
-       c60F61LeftPastedBCNormalizedNatIso,
-       c60F61LeftFaceChoiceDirectNestedNatIso,
-       c60F59LeftTwoContextNatIso,
-       c60F59TwoContextPasting,
-       c60F58LeftFaceContext_NatIso,
-       c60F60LeftDirectVsNestedNatIso]
-     simp only [Iso.trans_hom, NatTrans.comp_app]
-     simp [c60F56OriginalLeftMixedContextFunctor,
-       c60F56ContextMixedPoint,
-       c60F56ContextMixedFunctor,
-       c60F58LeftAfterFaceChoice,
-       c60F59LeftSecondFaceChoice,
-       c60F60LeftDirectToNested,
-       c60F47MixedGrayFunctor, c60F47MixedCategory,
-       c60F47MixedEval, c60F47MixedComp,
-       c60F47MixedOf, c60F56ContextMixedRaw,
-       C60F47PresentedMixedThreeCell.toNative])
+      _ _ _
 #print axioms c60F61LeftFaceChoiceDirectNestedNatIso
 #print axioms c60F61LeftDirectBCNormalizedNatIso
 #print axioms c60F61LeftPastedBCNormalizedNatIso
