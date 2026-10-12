@@ -120,6 +120,12 @@ def c60F61RightFaceChoiceDirectNestedNatIso
               simp only [c60F59RightSecondFaceChoice,
                 c60F58RightAfterFaceChoice, c60F60RightDirectToNested,
                 c60F56ContextMixedFunctor_fullNative]
+              calc
+                _ = c60F47MixedEval f := by
+                  apply c60F56ContextMixedFunctor_fullNative
+                _ = _ := by
+                  symm
+                  apply c60F56ContextMixedFunctor_fullNative
           _ = _ := (Category.id_comp _).symm)
 
 /-- The original DIRECT one-context F58 Beck–Chevalley NatIso,
@@ -243,7 +249,13 @@ theorem c60F61RightDirectBC_eq_pastedBC
       c60F59RightTwoContextNatIso,
       c60F59TwoContextPasting,
       c60F58RightFaceContext_NatIso,
-      c60F60RightDirectVsNestedNatIso]
+      c60F60RightDirectVsNestedNatIso,
+      c60F56OriginalRightMixedContextFunctor,
+      c60F56ContextMixedPoint,
+      c60F56ContextMixedFunctor,
+      c60F58RightAfterFaceChoice,
+      c60F59RightSecondFaceChoice,
+      c60F60RightDirectToNested]
 
 #print axioms c60F61RightFaceChoiceDirectNestedNatIso
 #print axioms c60F61RightDirectBCNormalizedNatIso
