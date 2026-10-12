@@ -66,10 +66,10 @@ theorem c60F61RawThreeCell_rank_mono
     c60F61FourBoundaryRank B X ≤ c60F61FourBoundaryRank B Y := by
   induction f with
   | ident _ => exact le_rfl
-  | originalFace => decide
-  | originalF55 => decide
-  | compareBefore => decide
-  | compareAfter => decide
+  | originalFace => simp [c60F61FourBoundaryRank]
+  | originalF55 => simp [c60F61FourBoundaryRank]
+  | compareBefore => simp [c60F61FourBoundaryRank]
+  | compareAfter => simp [c60F61FourBoundaryRank]
   | trans f g hf hg => exact hf.trans hg
 
 /-- No source F47 raw path can return to its original rank
