@@ -360,18 +360,18 @@ theorem c60F41NorthCrossPathTransport_phase_one :
     c60WangBiHigherAtlas_preserves_primal_tree _ (by decide)]
   rfl
 
-/-- A genuine original C60 1-path of length one CANNOT be the
-source path identity; the Gray image's nonzero F55 square charge
-is a separate target-level witness. -/
-theorem c60F41NorthCrossSourcePath_not_identity :
-    (c60F41ForwardArrow (.cross (.northSpoke 0))).toPath ≠
-      (𝟙 _ : ( ((.first (.northSpoke 0) : IcosahedralDart) :
-          C60F41OriginalPathCategory) ⟶
-          ((.first (.northSpoke 0) : IcosahedralDart) :
-            C60F41OriginalPathCategory))) := by
+/-- ORIGINAL nontrivial 2-edge backtracking path is
+NOT the 0-edge identity path in the TRUE free C60 path category,
+although its fully phase-sensitive native Gray image is identity.
+No unproved source quotient or path equality is introduced. -/
+theorem c60F41NorthCrossBacktrackingPath_not_sourceIdentity :
+    (c60F41ForwardArrow (.cross (.northSpoke 0))).toPath.comp
+        (c60F41ReverseArrow (.cross (.northSpoke 0))).toPath ≠
+      (𝟙 ((.first (.northSpoke 0) : IcosahedralDart) :
+          C60F41OriginalPathCategory)) := by
   intro h
   have hc := congrArg Quiver.Path.length h
-  simpa using hc
+  simpa [Quiver.Path.length_comp] using hc
 
 /-! The original 12 pentagon and 20 hexagon *closed 1-paths*
 now constitute correct typed candidate 2-cell boundaries.
