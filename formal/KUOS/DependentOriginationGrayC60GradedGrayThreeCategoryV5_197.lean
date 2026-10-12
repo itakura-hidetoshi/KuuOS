@@ -69,7 +69,7 @@ abbrev C60F49Three {a b : C60F49Object}
 
 /-- The 3-Hom category above EVERY parallel original C60 1-path
 pair is the ACTUAL F59 braided Mathlib category, not a preorder. -/
-def c60F49ThreeHomCategory
+@[reducible] def c60F49ThreeHomCategory
     {a b : C60F49Object} (p q : C60F49One a b) :
     Category (C60F49Two p q) := inferInstance
 
@@ -338,7 +338,7 @@ theorem c60F49GrayInterchanger_odd_nonidentity
   have hp := congrArg GradedThreeCell.phase h
   change α.degree * β.degree = (0 : ZMod 2) at hp
   rw [ha, hb] at hp
-  exact (by decide : (1 : ZMod 2) ≠ 0) (by simpa using hp)
+  norm_num at hp
 
 /-- Full native exchange is NATURAL in arbitrary genuinely
 typed 3-cells: both independent integer charges and phase
