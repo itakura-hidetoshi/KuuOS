@@ -14,10 +14,12 @@ open KUOS.DependentOriginationGrayF55PhaseRealizationV5_156
 open KUOS.DependentOriginationGrayNativeBraidedCategoryV5_156
 open KUOS.DependentOriginationGrayC60CyclicGlobalPastingV5_156
 open KUOS.DependentOriginationGrayC60IntegralBoundaryLinearMapV5_159
+open KUOS.DependentOriginationGrayC60CochainDescentV5_166
 open KUOS.DependentOriginationGrayC60IntegralChainComplexV5_160
 open KUOS.DependentOriginationGrayC60NativeChainComplexV5_160
 open KUOS.DependentOriginationGrayC60F55SharpRepairV5_168
 open KUOS.DependentOriginationGrayC60WangBiZhouyiTimeV5_170
+open KUOS.DependentOriginationGrayC60WangBiNativeHigherCoherenceV5_171
 open KUOS.DependentOriginationGrayC60WangBiFourImageSixQiF55NaturalityV5_172
 open KUOS.DependentOriginationGrayC60WangBiGaugeCollarSixQiCoherenceV5_173
 open KUOS.DependentOriginationGrayC60WangBiNativeGrayTwoCellsV5_171
@@ -109,8 +111,10 @@ actual source/target 2-cell grades, native interchanger,
 both exchange hexagons and the pentagon/triangle laws.
 None of these are postulated: mathlib resolves the fully
 proved Pi and genuine original GrayGrade class instances. -/
-theorem c60GrayThreeDiagonal_isBraided :
-    c60GrayThreeDiagonalFunctor.Braided := inferInstance
+noncomputable def c60GrayThreeDiagonal_isBraided :
+    c60GrayThreeDiagonalFunctor.Braided :=
+  CategoryTheory.Pi.instBraidedForallPi'
+    (fun _ : C60GrayPhysicalSite => Functor.id GrayGrade)
 
 /-- A chosen source Gray 2-cell keeps its ACTUAL source grade
 at every physical C60 site, including all original faces. -/
