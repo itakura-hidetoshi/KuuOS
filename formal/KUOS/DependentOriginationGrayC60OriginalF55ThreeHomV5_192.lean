@@ -4,6 +4,7 @@ import KUOS.DependentOriginationGrayC60AllNinetyEdgePastingV5_157
 namespace KUOS.DependentOriginationGrayC60OriginalF55ThreeHomV5_192
 
 open CategoryTheory
+open KUOS.DependentOriginationTruncatedIcosahedralEdgesV3_85
 open KUOS.DependentOriginationGrayBraidedThreeCellCoreV5_156
 open KUOS.DependentOriginationGrayNativeBraidedCategoryV5_156
 open KUOS.DependentOriginationGrayF55PhaseRealizationV5_156
@@ -66,7 +67,8 @@ def c60F44OriginalF55Rel
     Prop := c60F55SourceNative f = c60F55SourceNative g
 
 abbrev C60F44OriginalF55Hom
-    (r s : OriginalF45BracketTree.DepthRotationRoute first last) : Type :=
+    (r s : OriginalF45BracketTree.DepthRotationRoute first last) :
+    Type (max (max uD uE) (max vD vE)) :=
   Quot (c60F44OriginalF55Rel (r := r) (s := s))
 
 def c60F44OriginalF55Of
@@ -212,6 +214,9 @@ theorem c60F44GenuineF55Square_categorical_components
       (c60F44OriginalF55Of
         (OriginalF45BracketTree.DepthRotationRoute.PresentedCell.disjointSquare
           left right))).phase = (1 : ZMod 2) := by
+  change originalF55BraidedSquareGenerator.charge =
+      ((0 : Int), (1 : Int)) ∧
+    originalF55BraidedSquareGenerator.phase = (1 : ZMod 2)
   exact originalF55BraidedSquareGenerator_complete
 
 /-- Across all NINETY genuine original C60 edges, the actual
@@ -265,8 +270,12 @@ theorem c60F44OriginalF55Square_ne_C60FaceInterchanger
   have hc := congrArg
     (fun x : GradedThreeCell 0 0 => x.charge.2) h
   have hone := (c60F44GenuineF55Square_categorical_components left right).1
-  have hzero := c60F43NorthPentagonInterchange_components.1
-  change (1 : Int) = (0 : Int) at hc
+  have hs := congrArg Prod.snd hone
+  have ht :
+      (c60F44FaceThreeGrayFunctor.map
+        (c60F44FaceThreeOf c60F43NorthPentagonInterchange)).charge.2 =
+          (0 : Int) := rfl
+  rw [hs, ht] at hc
   exact (by decide : (1 : Int) ≠ 0) hc
 
 #print axioms c60F44OriginalF55Eval_comp
