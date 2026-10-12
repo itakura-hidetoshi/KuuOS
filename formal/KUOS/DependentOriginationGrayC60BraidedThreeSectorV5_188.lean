@@ -111,6 +111,7 @@ actual source/target 2-cell grades, native interchanger,
 both exchange hexagons and the pentagon/triangle laws.
 None of these are postulated: mathlib resolves the fully
 proved Pi and genuine original GrayGrade class instances. -/
+@[implicit_reducible]
 noncomputable def c60GrayThreeDiagonal_isBraided :
     c60GrayThreeDiagonalFunctor.Braided :=
   CategoryTheory.Pi.instBraidedForallPi'
