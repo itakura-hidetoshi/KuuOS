@@ -130,7 +130,11 @@ def c60F41OrientedPath
 theorem c60F41OrientedPath_length
     (e : OrientedTruncatedIcosahedralEdge) :
     (c60F41OrientedPath e).length = 1 := by
-  cases e <;> simp [c60F41OrientedPath]
+  cases e with
+  | forward edge =>
+      exact Quiver.Path.length_toPath (c60F41ForwardArrow edge)
+  | reverse edge =>
+      exact Quiver.Path.length_toPath (c60F41ReverseArrow edge)
 
 /-- Original C60 sixty-object native free Mathlib CATEGORY:
 arrows are composable original edge paths, not unrelated
@@ -387,7 +391,7 @@ theorem c60F41NorthCrossBacktrackingPath_not_sourceIdentity :
           (.first (.northSpoke 0) : IcosahedralDart)) := by
   intro h
   have hc := congrArg Quiver.Path.length h
-  simp [Quiver.Path.length_comp] at hc
+  simp at hc
 
 /-! The original 12 pentagon and 20 hexagon *closed 1-paths*
 now constitute correct typed candidate 2-cell boundaries.
