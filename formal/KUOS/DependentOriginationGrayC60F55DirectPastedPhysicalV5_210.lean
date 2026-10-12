@@ -253,14 +253,17 @@ theorem c60F61RightDirectBC_eq_pastedBC
        c60F59TwoContextPasting,
        c60F58RightFaceContext_NatIso,
        c60F60RightDirectVsNestedNatIso]
-     simp only [Iso.trans_hom, NatTrans.comp_app, Functor.map_id,
-       Category.comp_id, Category.id_comp]
+     simp only [Iso.trans_hom, NatTrans.comp_app]
      simp [c60F56OriginalRightMixedContextFunctor,
        c60F56ContextMixedPoint,
        c60F56ContextMixedFunctor,
        c60F58RightAfterFaceChoice,
        c60F59RightSecondFaceChoice,
-       c60F60RightDirectToNested])
+       c60F60RightDirectToNested,
+       c60F47MixedGrayFunctor, c60F47MixedCategory,
+       c60F47MixedEval, c60F47MixedComp,
+       c60F47MixedOf, c60F56ContextMixedRaw,
+       C60F47PresentedMixedThreeCell.toNative])
 #print axioms c60F61RightFaceChoiceDirectNestedNatIso
 #print axioms c60F61RightDirectBCNormalizedNatIso
 #print axioms c60F61RightPastedBCNormalizedNatIso
