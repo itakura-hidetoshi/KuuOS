@@ -162,6 +162,8 @@ theorem c60F42EveryOriginalPath_transport_eq_vertexDifference
   | cons p edge ih =>
       change (Paths.lift c60F41OriginalEdgePrefunctor).map
         (p.cons edge) = _
+      change (Paths.lift c60F41OriginalEdgePrefunctor).map p =
+        c60F42VertexGauge _ - c60F42VertexGauge a at ih
       rw [Paths.lift_cons, ih,
         c60F42OriginalQuiverArrow_eq_vertexDifference edge]
       change (c60F42VertexGauge _ - c60F42VertexGauge a) +
@@ -214,10 +216,10 @@ inductive C60F42PresentedFaceCell :
       (right : C60F42PresentedFaceCell q r) :
       C60F42PresentedFaceCell p r
   | whiskerLeft {a b c : IcosahedralDart}
-      (prefix : Quiver.Path a b)
+      (prior : Quiver.Path a b)
       {p q : Quiver.Path b c}
       (cell : C60F42PresentedFaceCell p q) :
-      C60F42PresentedFaceCell (prefix.comp p) (prefix.comp q)
+      C60F42PresentedFaceCell (prior.comp p) (prior.comp q)
   | whiskerRight {a b c : IcosahedralDart}
       {p q : Quiver.Path a b}
       (cell : C60F42PresentedFaceCell p q)
@@ -275,7 +277,7 @@ theorem C60F42PresentedFaceCell.transport_eq
   | symm cell ih => exact ih.symm
   | trans left right ihLeft ihRight =>
       exact ihLeft.trans ihRight
-  | whiskerLeft prefix cell ih =>
+  | whiskerLeft prior cell ih =>
       simp only [c60F41PathFunctor_comp]
       rw [ih]
   | whiskerRight cell suffix ih =>
@@ -376,7 +378,9 @@ theorem c60F42NorthCrossQuotientTransport_charge_one :
         c60F42OriginalFaceHomRel).map
           (c60F41ForwardArrow (.cross (.northSpoke 0))).toPath)).charge.2) =
         (1 : ℤ) := by
-  rw [CategoryTheory.Quotient.lift_map_functor_map]
+  change (c60F41OriginalC60GrayPathFunctor.map
+    (c60F41ForwardArrow (.cross (.northSpoke 0))).toPath).charge.2 =
+      (1 : ℤ)
   exact c60F41NorthCrossPathTransport_squareCharge_one
 
 /-- Full original C60 vertex distinctions are STILL retained by
