@@ -118,14 +118,8 @@ theorem c60F35TypedSourceLift_iff_phaseAndF58Realization
           (c60F55SourceNative cell).charge := hc.symm
         _ = g.charge := congrArg GradedThreeCell.charge hcell
   · rintro ⟨hmem, ⟨cell, hcharge⟩⟩
-    have hc : (c60F55SourceNative cell).charge = g.charge := by
-      calc
-        (c60F55SourceNative cell).charge =
-          cell.interpret
-            (OriginalF45BracketTree.DepthRotationRoute.HigherCellTarget.generatorCharge
-              (D := D) (E := E)) :=
-            KUOS.DependentOriginationGrayF55PhaseRealizationV5_156.OriginalF45BracketTree.DepthRotationRoute.PresentedCell.braidedPhase_charge_eq_F58 cell
-        _ = g.charge := hcharge
+    have hc : (c60F55SourceNative cell).charge = g.charge :=
+      (KUOS.DependentOriginationGrayF55PhaseRealizationV5_156.OriginalF45BracketTree.DepthRotationRoute.PresentedCell.braidedPhase_charge_eq_F58 cell).trans hcharge
     have hsource := c60F55SourceNative_mem cell
     change (c60F55SourceNative cell).phase =
       ((c60F55SourceNative cell).charge.2 : ZMod 2) at hsource
