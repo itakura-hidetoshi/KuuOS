@@ -71,6 +71,10 @@ theorem c60F63PhysicalAdjacentFaces_distinct
       c60F48AdjacentRealFace edge true :=
   c60F48BothRealFaces_distinct edge
 
+-- Keep all original F54 trees and their genuine rotation witnesses as
+-- source parameters even where quotient transport erases a dependency.
+include t₁ t₂ left right
+
 /-- All real C60 physical edges: three independently based ORIGINAL
 F42 LEFT paths and three original F54/F55 later trees, with the
 two different source BC parenthesizations equal as actual F47 NatIso. -/
@@ -101,8 +105,8 @@ theorem c60F63PhysicalLeftThreeBC_coherent
       (c60F58PhysicalTwoFaces_sameOriginalF43 t₁ t₂ left right edge)
       (c60F58PhysicalTwoFaces_sameOriginalF55 t₁ t₂ left right edge)
       prior₀ prior₁ middle₀ middle₁ outer₀ outer₁
-      later₁ later₂ later₃ :=
-  c60F63OriginalLeftThreeBC_coherent
+      later₁ later₂ later₃ := by
+  exact c60F63OriginalLeftThreeBC_coherent
     (c60F58PhysicalMixedFrame t₁ t₂ left right edge false)
     (c60F58PhysicalMixedFrame t₁ t₂ left right edge true)
     rfl
@@ -142,8 +146,8 @@ theorem c60F63PhysicalRightThreeBC_coherent
       (c60F58PhysicalTwoFaces_sameOriginalF43 t₁ t₂ left right edge)
       (c60F58PhysicalTwoFaces_sameOriginalF55 t₁ t₂ left right edge)
       suffix₀ suffix₁ middle₀ middle₁ outer₀ outer₁
-      earlier₁ earlier₂ earlier₃ :=
-  c60F63OriginalRightThreeBC_coherent
+      earlier₁ earlier₂ earlier₃ := by
+  exact c60F63OriginalRightThreeBC_coherent
     (c60F58PhysicalMixedFrame t₁ t₂ left right edge false)
     (c60F58PhysicalMixedFrame t₁ t₂ left right edge true)
     rfl
