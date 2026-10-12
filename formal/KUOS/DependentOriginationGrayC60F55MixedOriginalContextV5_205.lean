@@ -138,7 +138,7 @@ F42/F54 original boundary systems. The authentic physical C60
 edge must remain the same; only proved full Gray equality of
 the original two old 3-arrows admits this change of context. -/
 def c60F56ContextMixedFunctor
-    (hedge : B₀.edge = B₁.edge)
+    (_hedge : B₀.edge = B₁.edge)
     (hface : c60F44FaceThreeEval B₀.faceStep =
       c60F44FaceThreeEval B₁.faceStep)
     (hrotation : c60F44OriginalF55Eval B₀.rotationStep =
@@ -202,6 +202,12 @@ theorem c60F56ContextMixedFunctor_faithful
       (c60F56ContextMixedFunctor
         B₀ B₁ hedge hface hrotation).map g) : f = g := by
   have hh := congrArg (fun z => c60F47MixedEval z) h
+  change c60F47MixedEval
+        ((c60F56ContextMixedFunctor
+          B₀ B₁ hedge hface hrotation).map f) =
+      c60F47MixedEval
+        ((c60F56ContextMixedFunctor
+          B₀ B₁ hedge hface hrotation).map g) at hh
   rw [c60F56ContextMixedFunctor_fullNative,
     c60F56ContextMixedFunctor_fullNative] at hh
   exact c60F47MixedGrayFunctor_faithful B₀ hh
