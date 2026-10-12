@@ -34,7 +34,7 @@ keywords:
   - self-organization
   - selection policy
   - runtime root
-license: "All-Rights-Reserved"
+license: "Apache-2.0"
 repository-code: "https://github.com/itakura-hidetoshi/KuuOS"
 date-released: "2026-07-07"
 version: "0.92.0-self-organization-selection-policy"
