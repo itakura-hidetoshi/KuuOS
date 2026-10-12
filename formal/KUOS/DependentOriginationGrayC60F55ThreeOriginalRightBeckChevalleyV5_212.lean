@@ -125,8 +125,10 @@ def c60F63OriginalRightThreeBCPair := by
     hedge₁ hface₁ hrot₁ middle₀ middle₁ earlier₂
   let bc₂ := c60F58RightFaceContext_NatIso A₂ B₂'
     hedge₂ hface₂ hrot₂ outer₀ outer₁ earlier₃
-  exact
-    (c60F63ThreeBC_firstPair L₀ L₁ L₂ R₀ R₁ R₂
+  exact show
+    ((((L₀ ⋙ L₁) ⋙ L₂) ⋙ P₃) ≅ (P₀ ⋙ ((R₀ ⋙ R₁) ⋙ R₂))) ×
+    ((((L₀ ⋙ L₁) ⋙ L₂) ⋙ P₃) ≅ (P₀ ⋙ ((R₀ ⋙ R₁) ⋙ R₂))) from
+      (c60F63ThreeBC_firstPair L₀ L₁ L₂ R₀ R₁ R₂
       P₀ P₁ P₂ P₃ bc₀ bc₁ bc₂,
      c60F63ThreeBC_lastPair L₀ L₁ L₂ R₀ R₁ R₂
       P₀ P₁ P₂ P₃ bc₀ bc₁ bc₂)
