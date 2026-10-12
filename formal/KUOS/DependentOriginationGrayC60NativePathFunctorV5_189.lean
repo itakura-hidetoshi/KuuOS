@@ -92,8 +92,9 @@ noncomputable instance : Fintype OrientedTruncatedIcosahedralEdge :=
 
 theorem c60F41OriginalDirectedArrowCount :
     Fintype.card OrientedTruncatedIcosahedralEdge = 180 := by
+  have h90 : Fintype.card TruncatedIcosahedralEdge = 90 := by decide
   have h := Fintype.card_congr c60F41OrientedEdgeCode
-  simpa [Fintype.card_prod, truncatedIcosahedralEdge_card] using h
+  simpa [Fintype.card_prod, h90] using h
 
 /-- Genuine Mathlib QUIVER on the ORIGINAL sixty truncated darts.
 An arrow X→Y is precisely one of the original oriented C60
@@ -122,12 +123,14 @@ path with its exact original source and target. -/
 def c60F41OrientedPath
     (e : OrientedTruncatedIcosahedralEdge) :
     Quiver.Path e.source e.target :=
-  ((⟨e, ⟨rfl, rfl⟩⟩ : e.source ⟶ e.target)).toPath
+  match e with
+  | .forward edge => (c60F41ForwardArrow edge).toPath
+  | .reverse edge => (c60F41ReverseArrow edge).toPath
 
 theorem c60F41OrientedPath_length
     (e : OrientedTruncatedIcosahedralEdge) :
     (c60F41OrientedPath e).length = 1 := by
-  simp [c60F41OrientedPath]
+  cases e <;> simp [c60F41OrientedPath]
 
 /-- Original C60 sixty-object native free Mathlib CATEGORY:
 arrows are composable original edge paths, not unrelated
@@ -135,16 +138,16 @@ codiscrete chart changes or proof-erased relation certificates. -/
 abbrev C60F41OriginalPathCategory := Paths IcosahedralDart
 
 theorem c60F41OriginalObjectCount :
-    Fintype.card IcosahedralDart = 60 :=
-  icosahedralDart_card
+    Fintype.card IcosahedralDart = 60 := by
+  decide
 
 theorem c60F41OriginalEdgeCount :
-    Fintype.card TruncatedIcosahedralEdge = 90 :=
-  truncatedIcosahedralEdge_card
+    Fintype.card TruncatedIcosahedralEdge = 90 := by
+  decide
 
 theorem c60F41OriginalFaceCount :
-    Fintype.card TruncatedIcosahedralSeedFace = 32 :=
-  truncatedIcosahedralSeedFace_card
+    Fintype.card TruncatedIcosahedralSeedFace = 32 := by
+  decide
 
 /-- An original 12-fold C60 pentagonal face now has an ACTUAL
 Type-valued 5-step 1-morphism from its first original dart to
@@ -384,7 +387,7 @@ theorem c60F41NorthCrossBacktrackingPath_not_sourceIdentity :
           (.first (.northSpoke 0) : IcosahedralDart)) := by
   intro h
   have hc := congrArg Quiver.Path.length h
-  simpa [Quiver.Path.length_comp] using hc
+  simp [Quiver.Path.length_comp] at hc
 
 /-! The original 12 pentagon and 20 hexagon *closed 1-paths*
 now constitute correct typed candidate 2-cell boundaries.
