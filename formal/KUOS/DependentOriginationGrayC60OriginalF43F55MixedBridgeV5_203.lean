@@ -171,7 +171,7 @@ theorem c60F54ActualOriginalF43F55_calibrated
       c60F44OriginalF55Eval
         (c60F48EveryRealEdgeMixedFrame
           t₁ t₂ left right edge side).rotationStep := by
-  rw [c60F54F52Face_matchesActualF47]
+  rw [c60F54F52Face_matchesActualF47 t₁ t₂ left right edge side]
   exact (c60F48EveryRealEdgeMixedFrame
     t₁ t₂ left right edge side).calibrated
 
