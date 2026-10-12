@@ -8,6 +8,7 @@ open KUOS.DependentOriginationTruncatedIcosahedralEdgesV3_85
 open KUOS.DependentOriginationGrayBraidedThreeCellCoreV5_156
 open KUOS.DependentOriginationGrayNativeBraidedCategoryV5_156
 open KUOS.DependentOriginationGrayF55PhaseRealizationV5_156
+open KUOS.DependentOriginationTruncatedIcosahedralHigherChargeV5_155
 open KUOS.DependentOriginationGrayC60CyclicGlobalPastingV5_156
 open KUOS.DependentOriginationGrayC60IntegralBoundaryLinearMapV5_159
 open KUOS.DependentOriginationGrayC60IntegralChainComplexV5_160
@@ -17,6 +18,7 @@ open KUOS.DependentOriginationGrayC60ActualF55CurvatureRepairV5_167
 open KUOS.DependentOriginationGrayC60F55SharpRepairV5_168
 open KUOS.DependentOriginationGrayC60WangBiGlobalGrayDescentV5_174
 open KUOS.DependentOriginationGrayC60F55SourcePhaseLockedAtlasV5_175
+open KUOS.DependentOriginationGrayC60F55NonneutralBraidingTransportV5_177
 open KUOS.DependentOriginationGrayC60BraidedFlatRepairV5_181
 open KUOS.DependentOriginationGrayC60BraidedSharpSupportV5_182
 open KUOS.DependentOriginationGrayC60TypedF55LiftV5_183
@@ -94,7 +96,7 @@ theorem c60F36FullNinePentagonCharge_eq_rotationDifference
     (cell : OriginalF45BracketTree.DepthRotationRoute.PresentedCell r s) :
     (c60F55SourceNative cell).charge.1 =
       (r.rotationCount : ℤ) - (s.rotationCount : ℤ) := by
-  induction cell with
+  induction cell generalizing r s with
   | ident route =>
       change (0 : ℤ) = (route.rotationCount : ℤ) - (route.rotationCount : ℤ)
       omega
@@ -367,6 +369,8 @@ theorem c60F36NorthCross_noFullNineF55FixedSquareLift
   have hone := c60F36NorthCrossPentagonCharge_one
   have hc := congrArg
     (fun g : GradedThreeCell 0 0 => g.charge.1) hcell
+  change (c60F55SourceNative cell).charge.1 =
+    (c60F36PentagonTwistEdge (.cross (.northSpoke 0))).charge.1 at hc
   rw [hz, hone] at hc
   exact (by decide : (0 : ℤ) ≠ 1) hc
 
@@ -389,7 +393,7 @@ theorem c60F36FlatLocked_but_noFullNineFixedSquareSourceAtlas
       c60WangBiSignedGrayFace c60F36PentagonTwistEdge face = 0) ∧
     (∀ e : TruncatedIcosahedralEdge,
       c60F36PentagonTwistEdge e ∈ c60F55PhaseLocked) ∧
-    ¬ ∃ cells : ∀ e : TruncatedIcosahedralEdge,
+    ¬ ∃ cells : TruncatedIcosahedralEdge →
         OriginalF45BracketTree.DepthRotationRoute.PresentedCell
           (OriginalF45BracketTree.DepthRotationRoute.squareLeftFirst left right)
           (OriginalF45BracketTree.DepthRotationRoute.squareRightFirst left right),
@@ -411,8 +415,7 @@ variable {ma mb : Blocks a b} {pa pb : Blocks x y}
 variable {first : OriginalF45BracketTree n m ma pa mb pb}
 variable {last : OriginalF45BracketTree n' m' ma pa mb pb}
 
-/-- This is an independently selected ACTUAL original typed pair of
-F54 source/target routes on each of the original ninety C60 edges. -/
+/- An independently selected original typed F54 route pair on each C60 edge. -/
 variable
   (r s : TruncatedIcosahedralEdge →
     OriginalF45BracketTree.DepthRotationRoute first last)
