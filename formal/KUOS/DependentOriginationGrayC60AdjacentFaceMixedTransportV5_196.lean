@@ -182,8 +182,14 @@ theorem c60F48MixedBoundaryTransportFunctor_faithful
         B₀ B₁ hface hrotation).map f =
       (c60F48MixedBoundaryTransportFunctor
         B₀ B₁ hface hrotation).map g) : f = g := by
-  have hh := congrArg
-    (fun h => c60F47MixedEval h) heq
+  have hh :
+      c60F47MixedEval
+        ((c60F48MixedBoundaryTransportFunctor
+          B₀ B₁ hface hrotation).map f) =
+      c60F47MixedEval
+        ((c60F48MixedBoundaryTransportFunctor
+          B₀ B₁ hface hrotation).map g) :=
+    congrArg (fun h => c60F47MixedEval h) heq
   rw [c60F48MixedBoundaryTransportFunctor_fullNative,
     c60F48MixedBoundaryTransportFunctor_fullNative] at hh
   exact c60F47MixedGrayFunctor_faithful B₀ hh
