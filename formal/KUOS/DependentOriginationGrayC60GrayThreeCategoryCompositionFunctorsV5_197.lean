@@ -68,10 +68,12 @@ theorem c60F49HorizontalThreeHomFunctor_components
     {β β' : C60F49Two r s}
     (f : α ⟶ α') (g : β ⟶ β') :
     ((c60F49HorizontalThreeHomFunctor
-      (p := p) (q := q) (r := r) (s := s)).map (f, g)).charge =
+      (p := p) (q := q) (r := r) (s := s)).map
+        ((f, g) : (α, β) ⟶ (α', β'))).charge =
       f.charge + g.charge ∧
     ((c60F49HorizontalThreeHomFunctor
-      (p := p) (q := q) (r := r) (s := s)).map (f, g)).phase =
+      (p := p) (q := q) (r := r) (s := s)).map
+        ((f, g) : (α, β) ⟶ (α', β'))).phase =
       f.phase + g.phase :=
   ⟨rfl, rfl⟩
 
