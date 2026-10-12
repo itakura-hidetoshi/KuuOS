@@ -225,7 +225,7 @@ theorem c60F61LeftDirectBC_eq_pastedBC
       prior₀ prior₁ outer₀ outer₁ later₁ later₂ := by
   apply Iso.ext
   apply NatTrans.ext
-  intro X
+  funext X
   cases X <;>
     simp [c60F61LeftDirectBCNormalizedNatIso,
       c60F61LeftPastedBCNormalizedNatIso,
