@@ -96,7 +96,7 @@ theorem c60F36FullNinePentagonCharge_eq_rotationDifference
     (cell : OriginalF45BracketTree.DepthRotationRoute.PresentedCell r s) :
     (c60F55SourceNative cell).charge.1 =
       (r.rotationCount : ℤ) - (s.rotationCount : ℤ) := by
-  induction cell generalizing r s with
+  induction cell with
   | ident route =>
       change (0 : ℤ) = (route.rotationCount : ℤ) - (route.rotationCount : ℤ)
       omega
@@ -140,14 +140,14 @@ theorem c60F36FullNinePentagonCharge_eq_rotationDifference
       change (c60F55SourceNative cell).charge.1 =
         _ - _
       simp only [OriginalF45BracketTree.DepthRotationRoute.rotationCount,
-        Nat.cast_add]
+        Nat.cast_add] at ih ⊢
       rw [ih]
       omega
   | postcompose cell suffix ih =>
       change (c60F55SourceNative cell).charge.1 =
         _ - _
       simp only [OriginalF45BracketTree.DepthRotationRoute.rotationCount,
-        Nat.cast_add]
+        Nat.cast_add] at ih ⊢
       rw [ih]
       omega
 
