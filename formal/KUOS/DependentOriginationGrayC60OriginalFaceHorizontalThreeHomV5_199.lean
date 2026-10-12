@@ -182,11 +182,14 @@ theorem c60F51GrayFunctor_faithful
     {f g : X ⟶ Y}
     (h : (c60F51GrayFunctor p q).map f =
       (c60F51GrayFunctor p q).map g) : f = g := by
-  have hc := congrArg GradedThreeCell.charge h
-  have hp := congrArg GradedThreeCell.phase h
-  change (c60F51Eval f).charge = (c60F51Eval g).charge at hc
-  change (c60F51Eval f).phase = (c60F51Eval g).phase at hp
+  revert h
+  refine Quot.inductionOn f (fun rawf => ?_)
+  refine Quot.inductionOn g (fun rawg hh => ?_)
   apply Quot.sound
+  have hc := congrArg GradedThreeCell.charge hh
+  have hp := congrArg GradedThreeCell.phase hh
+  change rawf.toNative.charge = rawg.toNative.charge at hc
+  change rawf.toNative.phase = rawg.toNative.phase at hp
   exact GradedThreeCell.ext hc hp
 
 /-! ## Genuine ORIGINAL F43/F44 source injection -/
@@ -233,8 +236,10 @@ theorem c60F51OriginalInclusion_faithful
     {f g : α ⟶ β}
     (h : (c60F51OriginalInclusion p q).map f =
       (c60F51OriginalInclusion p q).map g) : f = g := by
-  have hh := congrArg
-    (fun z => c60F51Eval z) h
+  have hh :
+      c60F51Eval ((c60F51OriginalInclusion p q).map f) =
+      c60F51Eval ((c60F51OriginalInclusion p q).map g) :=
+    congrArg (fun z => c60F51Eval z) h
   rw [c60F51OriginalInclusion_native,
     c60F51OriginalInclusion_native] at hh
   exact c60F44FaceThreeGrayFunctor_faithful hh
@@ -251,8 +256,14 @@ theorem c60F51OriginalInclusion_GrayMap
     (c60F50OriginalFaceTypedThreeHomFunctor p q).map f := by
   have hh := c60F51OriginalInclusion_native p q f
   apply GradedThreeCell.ext
-  · exact congrArg GradedThreeCell.charge hh
-  · exact congrArg GradedThreeCell.phase hh
+  · change
+      (c60F51Eval ((c60F51OriginalInclusion p q).map f)).charge =
+      (c60F44FaceThreeEval f).charge
+    exact congrArg GradedThreeCell.charge hh
+  · change
+      (c60F51Eval ((c60F51OriginalInclusion p q).map f)).phase =
+      (c60F44FaceThreeEval f).phase
+    exact congrArg GradedThreeCell.phase hh
 
 #print axioms c60F51ThreeCategory
 #print axioms c60F51Eval_comp
