@@ -15,6 +15,7 @@ open KUOS.DependentOriginationGrayC60F55SharpRepairV5_168
 open KUOS.DependentOriginationGrayC60F55SourcePhaseLockedAtlasV5_175
 open KUOS.DependentOriginationGrayC60WangBiGlobalGrayDescentV5_174
 open KUOS.DependentOriginationGrayC60SquareLoopCosetV5_185
+open KUOS.DependentOriginationGrayC60FullF55ChargeObstructionV5_184
 open KUOS.DependentOriginationGrayC60IntegerSquarePeriodV5_186
 open KUOS.DependentOriginationCoherentBiadjunctionFiniteRectangularSubdivisionV5_137.Grid
 open KUOS.DependentOriginationCoherentBiadjunctionInterleavingExchangeQuotientV5_141.Grid
@@ -226,8 +227,9 @@ theorem c60F39AtomicOriginalF55Cell_nativeGray_zero
     change (c60F55SourceNative loop).phase =
       ((c60F55SourceNative loop).charge.2 : ZMod 2) at hp
     change (c60F55SourceNative loop).phase = 0
-    rw [hp, c60F39AtomicSource_squareCharge_zero loop hbare]
-    rfl
+    rw [hp]
+    change c60F37SquareCharge loop = (0 : ℤ)
+    exact c60F39AtomicSource_squareCharge_zero loop hbare
 
 /-- Exact source image criterion for ALL nine original constructors
 on any genuine atomic F54 loop: the ONLY realizable native Gray
@@ -306,7 +308,7 @@ theorem c60F39FlatAndLocked_canonicalC60_noAtomicSourceAtlas
       c60WangBiSignedGrayFace c60WangBiRepairedEdgeGrade face = 0) ∧
     (∀ e : TruncatedIcosahedralEdge,
       c60WangBiRepairedEdgeGrade e ∈ c60F55PhaseLocked) ∧
-    ¬ ∃ cells : ∀ e : TruncatedIcosahedralEdge,
+    ¬ ∃ cells : ∀ _e : TruncatedIcosahedralEdge,
         OriginalF45BracketTree.DepthRotationRoute.PresentedCell route route,
       ∀ e : TruncatedIcosahedralEdge,
         c60F55SourceNative (cells e) = c60WangBiRepairedEdgeGrade e := by
