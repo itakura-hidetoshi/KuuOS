@@ -95,22 +95,30 @@ def c60F61LeftFaceChoiceDirectNestedNatIso
       intro X Y f
       cases X <;> cases Y
       all_goals
-        apply c60F47MixedGrayFunctor_faithful
-          (c60F60LeftNestedFrame B₁ prior₁ outer₁ later₁ later₂)
-        change c60F47MixedEval
-            ((c60F60LeftDirectToNested B₁ prior₁ outer₁
-              later₁ later₂).map
-              ((c60F58LeftAfterFaceChoice B₀ B₁ hedge hface hrot
+        calc
+          _ = ((c60F58LeftAfterFaceChoice B₀ B₁ hedge hface hrot
                 (outer₀.comp prior₀) (outer₁.comp prior₁)
-                (OriginalF45BracketTree.node later₁ later₂)).map f)) =
-          c60F47MixedEval
-            ((c60F59LeftSecondFaceChoice B₀ B₁ hedge hface hrot
-              prior₀ prior₁ outer₀ outer₁ later₁ later₂).map
-              ((c60F60LeftDirectToNested B₀ prior₀ outer₀
-                later₁ later₂).map f))
-        simp only [c60F59LeftSecondFaceChoice,
-          c60F58LeftAfterFaceChoice, c60F60LeftDirectToNested,
-          c60F56ContextMixedFunctor_fullNative])
+                    (OriginalF45BracketTree.node later₁ later₂)) ⋙
+                (c60F60LeftDirectToNested B₁ prior₁ outer₁ later₁ later₂)).map f :=
+              Category.comp_id _
+          _ = ((c60F60LeftDirectToNested B₀ prior₀ outer₀ later₁ later₂) ⋙
+                (c60F59LeftSecondFaceChoice B₀ B₁ hedge hface hrot
+                  prior₀ prior₁ outer₀ outer₁ later₁ later₂)).map f := by
+              apply c60F47MixedGrayFunctor_faithful
+                (c60F60LeftNestedFrame B₁ prior₁ outer₁ later₁ later₂)
+              change c60F47MixedEval
+                  ((c60F60LeftDirectToNested B₁ prior₁ outer₁ later₁ later₂).map
+                    ((c60F58LeftAfterFaceChoice B₀ B₁ hedge hface hrot
+                      (outer₀.comp prior₀) (outer₁.comp prior₁)
+                    (OriginalF45BracketTree.node later₁ later₂)).map f)) =
+                c60F47MixedEval
+                  ((c60F59LeftSecondFaceChoice B₀ B₁ hedge hface hrot
+                    prior₀ prior₁ outer₀ outer₁ later₁ later₂).map
+                    ((c60F60LeftDirectToNested B₀ prior₀ outer₀ later₁ later₂).map f))
+              simp only [c60F59LeftSecondFaceChoice,
+                c60F58LeftAfterFaceChoice, c60F60LeftDirectToNested,
+                c60F56ContextMixedFunctor_fullNative]
+          _ = _ := (Category.id_comp _).symm)
 
 /-- The original DIRECT one-context F58 Beck–Chevalley NatIso,
 whiskered along the genuinely source-typed F60 final normalization.
