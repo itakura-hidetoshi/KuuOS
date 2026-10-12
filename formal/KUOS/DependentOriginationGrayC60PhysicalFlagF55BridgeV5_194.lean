@@ -201,7 +201,7 @@ def c60F46EdgeLocalizedF55Functor
     funext site
     by_cases hsite : site = C60GrayPhysicalSite.edge edge
     · subst site
-      simp only [CategoryTheory.Pi.id_apply, if_pos rfl]
+      simp only [CategoryTheory.Pi.id_apply]
       exact c60F44OriginalF55GrayFunctor.map_id route
     · simp only [CategoryTheory.Pi.id_apply, if_neg hsite]
       rfl
@@ -210,7 +210,7 @@ def c60F46EdgeLocalizedF55Functor
     funext site
     by_cases hsite : site = C60GrayPhysicalSite.edge edge
     · subst site
-      simp only [CategoryTheory.Pi.comp_apply, if_pos rfl]
+      simp only [CategoryTheory.Pi.comp_apply]
       exact c60F44OriginalF55GrayFunctor.map_comp f g
     · simp only [CategoryTheory.Pi.comp_apply, if_neg hsite]
       exact (Category.id_comp (𝟙 GrayGrade.unit)).symm
@@ -221,7 +221,7 @@ theorem c60F46EdgeLocalizedF55_atOriginalEdge
     (f : r ⟶ s) :
     ((c60F46EdgeLocalizedF55Functor edge).map f)
       (.edge edge) = c60F44OriginalF55GrayFunctor.map f := by
-  simp only [c60F46EdgeLocalizedF55Functor, if_pos rfl]
+  simp [c60F46EdgeLocalizedF55Functor]
 
 /-- All actual original C60 vertex positions receive only
 the categorical IDENTITY on the localized F55 3-Hom image. -/
