@@ -87,7 +87,8 @@ F54/F55 independent trees, glued by genuine F59 two-context pasting.
 The resulting pair shares exactly the SAME source and target functors.
 No equality of unlike original F42/F54 source proof terms is assumed.
 -/
-def c60F63OriginalRightThreeBCPair :=
+/-- First paste the initial two F58 original BC squares. -/
+def c60F63OriginalRightThreeBC_firstPair :=
   let A₁ := c60F47WhiskerRight B₀ suffix₀ earlier₁
   let B₁' := c60F47WhiskerRight B₁ suffix₁ earlier₁
   let A₂ := c60F47WhiskerRight A₁ middle₀ earlier₂
@@ -125,10 +126,51 @@ def c60F63OriginalRightThreeBCPair :=
     hedge₁ hface₁ hrot₁ middle₀ middle₁ earlier₂
   let bc₂ := c60F58RightFaceContext_NatIso A₂ B₂'
     hedge₂ hface₂ hrot₂ outer₀ outer₁ earlier₃
-  (c60F63ThreeBC_firstPair L₀ L₁ L₂ R₀ R₁ R₂
-      P₀ P₁ P₂ P₃ bc₀ bc₁ bc₂,
-     c60F63ThreeBC_lastPair L₀ L₁ L₂ R₀ R₁ R₂
-      P₀ P₁ P₂ P₃ bc₀ bc₁ bc₂)
+  c60F63ThreeBC_firstPair L₀ L₁ L₂ R₀ R₁ R₂
+    P₀ P₁ P₂ P₃ bc₀ bc₁ bc₂
+
+/-- First paste the final two F58 original BC squares and transport
+both actual F42/F54 parenthesizations by the Mathlib associators. -/
+def c60F63OriginalRightThreeBC_lastPair :=
+  let A₁ := c60F47WhiskerRight B₀ suffix₀ earlier₁
+  let B₁' := c60F47WhiskerRight B₁ suffix₁ earlier₁
+  let A₂ := c60F47WhiskerRight A₁ middle₀ earlier₂
+  let B₂' := c60F47WhiskerRight B₁' middle₁ earlier₂
+  let hface₁ := c60F59RightIntermediateFaceNative B₀ B₁
+    hface suffix₀ suffix₁ earlier₁
+  let hrot₁ := c60F59RightIntermediateRotationNative B₀ B₁
+    hrot suffix₀ suffix₁ earlier₁
+  let hface₂ := c60F59RightIntermediateFaceNative A₁ B₁'
+    hface₁ middle₀ middle₁ earlier₂
+  let hrot₂ := c60F59RightIntermediateRotationNative A₁ B₁'
+    hrot₁ middle₀ middle₁ earlier₂
+  have hedge₁ : A₁.edge = B₁'.edge := by
+    change B₀.edge = B₁.edge
+    exact hedge
+  have hedge₂ : A₂.edge = B₂'.edge := by
+    change B₀.edge = B₁.edge
+    exact hedge
+  let L₀ := c60F56OriginalRightMixedContextFunctor B₀ suffix₀ earlier₁
+  let L₁ := c60F56OriginalRightMixedContextFunctor A₁ middle₀ earlier₂
+  let L₂ := c60F56OriginalRightMixedContextFunctor A₂ outer₀ earlier₃
+  let R₀ := c60F56OriginalRightMixedContextFunctor B₁ suffix₁ earlier₁
+  let R₁ := c60F56OriginalRightMixedContextFunctor B₁' middle₁ earlier₂
+  let R₂ := c60F56OriginalRightMixedContextFunctor B₂' outer₁ earlier₃
+  let P₀ := c60F56ContextMixedFunctor B₀ B₁ hedge hface hrot
+  let P₁ := c60F58RightAfterFaceChoice B₀ B₁ hedge hface hrot
+    suffix₀ suffix₁ earlier₁
+  let P₂ := c60F58RightAfterFaceChoice A₁ B₁' hedge₁ hface₁ hrot₁
+    middle₀ middle₁ earlier₂
+  let P₃ := c60F58RightAfterFaceChoice A₂ B₂' hedge₂ hface₂ hrot₂
+    outer₀ outer₁ earlier₃
+  let bc₀ := c60F58RightFaceContext_NatIso B₀ B₁ hedge hface hrot
+    suffix₀ suffix₁ earlier₁
+  let bc₁ := c60F58RightFaceContext_NatIso A₁ B₁'
+    hedge₁ hface₁ hrot₁ middle₀ middle₁ earlier₂
+  let bc₂ := c60F58RightFaceContext_NatIso A₂ B₂'
+    hedge₂ hface₂ hrot₂ outer₀ outer₁ earlier₃
+  c60F63ThreeBC_lastPair L₀ L₁ L₂ R₀ R₁ R₂
+    P₀ P₁ P₂ P₃ bc₀ bc₁ bc₂
 
 /-- Three actual independent ORIGINAL C60/F42 path contexts and
 original F54/F55 bracket-tree contexts have coherent BC pasting
@@ -136,12 +178,12 @@ under both distinct parenthesizations. The conclusion equates actual
 Mathlib source NatIso in F47's four-tag full-native-kernel quotient,
 not merely native Gray charges or raw F42/F54 proof-term syntax. -/
 theorem c60F63OriginalRightThreeBC_coherent :
-    (c60F63OriginalRightThreeBCPair B₀ B₁ hedge hface hrot
+    c60F63OriginalRightThreeBC_firstPair B₀ B₁ hedge hface hrot
       suffix₀ suffix₁ middle₀ middle₁ outer₀ outer₁
-      earlier₁ earlier₂ earlier₃).1 =
-    (c60F63OriginalRightThreeBCPair B₀ B₁ hedge hface hrot
+      earlier₁ earlier₂ earlier₃ =
+    c60F63OriginalRightThreeBC_lastPair B₀ B₁ hedge hface hrot
       suffix₀ suffix₁ middle₀ middle₁ outer₀ outer₁
-      earlier₁ earlier₂ earlier₃).2 := by
+      earlier₁ earlier₂ earlier₃ := by
   apply Iso.ext
   apply NatTrans.ext
   funext X
@@ -153,7 +195,8 @@ theorem c60F63OriginalRightThreeBC_coherent :
           middle₁ earlier₂) outer₁ earlier₃)
       _ _ _
 
-#print axioms c60F63OriginalRightThreeBCPair
+#print axioms c60F63OriginalRightThreeBC_firstPair
+#print axioms c60F63OriginalRightThreeBC_lastPair
 #print axioms c60F63OriginalRightThreeBC_coherent
 
 end ThreeOriginalRightContexts
