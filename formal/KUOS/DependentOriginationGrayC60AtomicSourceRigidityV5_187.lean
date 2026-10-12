@@ -228,8 +228,9 @@ theorem c60F39AtomicOriginalF55Cell_nativeGray_zero
       ((c60F55SourceNative loop).charge.2 : ZMod 2) at hp
     change (c60F55SourceNative loop).phase = 0
     rw [hp]
-    change c60F37SquareCharge loop = (0 : ℤ)
-    exact c60F39AtomicSource_squareCharge_zero loop hbare
+    have hz := c60F39AtomicSource_squareCharge_zero loop hbare
+    change (c60F55SourceNative loop).charge.2 = (0 : ℤ) at hz
+    exact congrArg (fun z : ℤ => (z : ZMod 2)) hz
 
 /-- Exact source image criterion for ALL nine original constructors
 on any genuine atomic F54 loop: the ONLY realizable native Gray
