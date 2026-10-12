@@ -11,10 +11,10 @@
 | Item | Exact theorem-bearing authority |
 | --- | --- |
 | Repository / branch | **[itakura-hidetoshi/KuuOS](https://github.com/itakura-hidetoshi/KuuOS) / `main`** |
-| Latest theorem-bearing MERGED PR | **[#2223 — v5.210 F59-F60-C](https://github.com/itakura-hidetoshi/KuuOS/pull/2223)** |
-| Theorem-bearing merge SHA | **`93345a0aeef06f346c74d666df7ace6c171d48c3`** |
+| Latest theorem-bearing MERGED PR | **[#2225 — v5.211 F59-F61-A](https://github.com/itakura-hidetoshi/KuuOS/pull/2225)** |
+| Theorem-bearing merge SHA | **`f4a617ef0885dbfd65210b8c5de3f7b828c1092a`** |
 | Exact-head source SHA | `e7b2c4f15e21b81d0c194188daef5f0c1cf5675c` (checked merge tree `ed2f5f740e3838a25f981f44ee6f13d2b48052b2` matches source tree) |
-| Exact-head CI | [**#38319743177 — completed SUCCESS**](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38319743177) |
+| Exact-head CI | [**#38320884385 — completed SUCCESS**](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38320884385) |
 | Strict Lean | Job `115044776415`, **9020/9020**, **0 changed-file Lean warnings / 0 errors** |
 | Axiom inspection | **15 `#print axioms`** across four new v5.210 modules; no `sorryAx`/new axioms, inherited finite C60 `native_decide` dependencies distinguished |
 | Governance and receipts | Governance `115045986126`, MCP Lean `115045985987`, MCP CI `115046054175` — **all SUCCESS** |
@@ -325,7 +325,7 @@ The F58/F59 programme has multiple **independent verified theorem scopes**. “C
 9. **v5.208 F59-F59-A/B higher two-context Beck–Chevalley pasting — PROVED IN #2219.** Two independently original F42/F54 source whiskerings, both left and right, admit a typed Mathlib NatIso pasting with associators and full Hom naturality. All actual 90 C60 edges and two face bases are instantiated, and original F55 no-lift persists after two contexts. This is valid in the ADJOINED F47 full-native-kernel quotient, not raw unquotiented syntax.
 10. **v5.209 F59-F60-A/B source direct composition normalization — PROVED IN #2221.** Actual original F42 path `comp` and `comp_assoc` dependent cast, actual original F54/F55 `node` and exact two-axis F44 rebracketing, honest source full-Hom four-tag direct-vs-nested comparison and both LEFT/RIGHT NatIso, all real 90 physical C60 edges and both actual adjacent polygonal faces. The adjoined receiver Delta remains impossible in the original nine-constructor F55 source after either direct context.
 11. **v5.210 F59-F60-C original-source direct-vs-pasted BC — PROVED IN #2223.** The finite F47 four-tag directed raw generator rank yields uniqueness of full-native-kernel endomorphisms; the LEFT and RIGHT original-source NatIso for direct composition versus F59's two-stage BC pasting agree after the genuine F60 direct-vs-nested source normalization. All 90 real physical C60 edges and their two original distinct incident polygon bases are covered. Retain the nonzero north F55 curvature and Δ nonlift. Not a claim of raw-source Gray 3-equivalence.
-12. **v5.211 F59-F61 three-successive-context higher pentagon — OPEN.** Give three genuinely independent original F42 Quiver.Path contexts and three independently typed original F54/F55 bracket-tree contexts, explicit `Quiver.Path.comp_assoc` transports and two independent F54 depth reassociations. Compare all pentagon pasting routes at source-F47 3-Hom, and investigate neighboring physical-face overlaps and original F55 signed descent obstruction. Original unquotiented Gray 3-category/full global physical descent remain OPEN.
+12. **v5.211 F59-F61-A three-successive-context typed foundations — PROVED IN #2225; full F61-B/C pentagon remains OPEN.** Give three genuinely independent original F42 Quiver.Path contexts and three independently typed original F54/F55 bracket-tree contexts, explicit `Quiver.Path.comp_assoc` transports and two independent F54 depth reassociations. Compare all pentagon pasting routes at source-F47 3-Hom, and investigate neighboring physical-face overlaps and original F55 signed descent obstruction. Original unquotiented Gray 3-category/full global physical descent remain OPEN.
 
 **Exit criteria:** exact Lean declarations with correct raw original indices; zero `sorryAx`/new axioms; full inherited axiom list; successful strict exact-head imported-closure CI and Governance/MCP receipts; no extra assumptions hidden in the raw source grammar. When an obligation is impossible, record the exact obstruction rather than weakening the theorem statement into grade-only equivalence.
 
