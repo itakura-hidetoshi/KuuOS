@@ -153,7 +153,16 @@ theorem c60F52Associator_naturality
         (Quiver.Path.comp_assoc q s u).symm
         (c60F52HorizontalMap f (c60F52HorizontalMap g h)) := by
   apply c60F52Hom_ext
-  simp only [c60F52Eval_catComp, c60F52HorizontalMap_eval,
+  change c60F52Eval (c60F52Comp
+      (c60F52HorizontalMap (c60F52HorizontalMap f g) h)
+      (c60F52Associator X' Y' Z')) =
+    c60F52Eval (c60F52Comp
+      (c60F52Associator X Y Z)
+      (c60F52ReindexMap
+        (Quiver.Path.comp_assoc p r t).symm
+        (Quiver.Path.comp_assoc q s u).symm
+        (c60F52HorizontalMap f (c60F52HorizontalMap g h))))
+  simp only [c60F52Eval_comp, c60F52HorizontalMap_eval,
     c60F52Associator_eval, c60F52ReindexMap_eval]
   abel
 
@@ -176,7 +185,13 @@ theorem c60F52LeftUnitor_naturality
       c60F52LeftUnitor Y =
     c60F52LeftUnitor X ≫ f := by
   apply c60F52Hom_ext
-  simp only [c60F52Eval_catComp, c60F52ReindexMap_eval,
+  change c60F52Eval (c60F52Comp
+      (c60F52ReindexMap
+        (Quiver.Path.nil_comp p) (Quiver.Path.nil_comp q)
+        (c60F52HorizontalMap (𝟙 (c60F52IdentityTwo a)) f))
+      (c60F52LeftUnitor Y)) =
+    c60F52Eval (c60F52Comp (c60F52LeftUnitor X) f)
+  simp only [c60F52Eval_comp, c60F52ReindexMap_eval,
     c60F52HorizontalMap_eval, c60F52Eval_id,
     c60F52LeftUnitor_eval, zero_add, add_zero]
 
@@ -190,7 +205,13 @@ theorem c60F52RightUnitor_naturality
       c60F52RightUnitor Y =
     c60F52RightUnitor X ≫ f := by
   apply c60F52Hom_ext
-  simp only [c60F52Eval_catComp, c60F52ReindexMap_eval,
+  change c60F52Eval (c60F52Comp
+      (c60F52ReindexMap
+        (Quiver.Path.comp_nil p) (Quiver.Path.comp_nil q)
+        (c60F52HorizontalMap f (𝟙 (c60F52IdentityTwo b))))
+      (c60F52RightUnitor Y)) =
+    c60F52Eval (c60F52Comp (c60F52RightUnitor X) f)
+  simp only [c60F52Eval_comp, c60F52ReindexMap_eval,
     c60F52HorizontalMap_eval, c60F52Eval_id,
     c60F52RightUnitor_eval, zero_add, add_zero]
 
