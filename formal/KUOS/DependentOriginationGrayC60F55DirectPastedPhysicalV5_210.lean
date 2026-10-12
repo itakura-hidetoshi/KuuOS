@@ -243,7 +243,11 @@ theorem c60F61RightDirectBC_eq_pastedBC
   apply NatTrans.ext
   funext X
   cases X <;>
-    simp [c60F61RightDirectBCNormalizedNatIso,
+    (apply c60F47MixedGrayFunctor_faithful
+      (c60F60RightNestedFrame B₁ suffix₁ outer₁ earlier₁ earlier₂)
+     simp [c60F47MixedEval, c60F47MixedEval_comp,
+       c60F47MixedEval_of,
+       c60F61RightDirectBCNormalizedNatIso,
       c60F61RightPastedBCNormalizedNatIso,
       c60F61RightFaceChoiceDirectNestedNatIso,
       c60F59RightTwoContextNatIso,
@@ -255,7 +259,7 @@ theorem c60F61RightDirectBC_eq_pastedBC
       c60F56ContextMixedFunctor,
       c60F58RightAfterFaceChoice,
       c60F59RightSecondFaceChoice,
-      c60F60RightDirectToNested]
+      c60F60RightDirectToNested])
 
 #print axioms c60F61RightFaceChoiceDirectNestedNatIso
 #print axioms c60F61RightDirectBCNormalizedNatIso
