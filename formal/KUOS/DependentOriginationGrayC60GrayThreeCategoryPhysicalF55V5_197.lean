@@ -40,7 +40,7 @@ for EACH of the 90 physical edges and BOTH of its actual adjacent
 physical polygonal faces, with exact original F42/F54/F55 boundaries.
 
 For each chosen real polygonal face, its physical original
-five-/six-edge boundary path is doubled to obtain the ACTUAL
+five- or six-edge boundary path is doubled to obtain the ACTUAL
 1-path boundary of the F48 left/right face 2-cell pasting.
 At the corresponding nontrivial C60 1-path HOM, place F48's
 full Mathlib mixed-square category through its existing
@@ -54,7 +54,7 @@ NOT an equivalence between the distinct original global F42
 surface computad and original F54 tree-rotation source.
 -/
 
-/-- Double the ORIGINAL boundary path of an ACTUAL 5-/6-sided
+/-- Double the ORIGINAL boundary path of an ACTUAL five- or six-sided
 original C60 polygon. Exactly this path is the 1-source of
 the two copies of its F42 face-2-cell horizontally pasted. -/
 def c60F49PhysicalFaceDoubleLoop
