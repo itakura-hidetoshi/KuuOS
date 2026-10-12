@@ -8,6 +8,7 @@ open KUOS.DependentOriginationTruncatedIcosahedralEdgesV3_85
 open KUOS.DependentOriginationGrayBraidedThreeCellCoreV5_156
 open KUOS.DependentOriginationGrayNativeBraidedCategoryV5_156
 open KUOS.DependentOriginationGrayC60CyclicGlobalPastingV5_156
+open KUOS.DependentOriginationGrayC60NativePathFunctorV5_189
 open KUOS.DependentOriginationGrayC60PresentedFaceTwoCellsV5_190
 open KUOS.DependentOriginationGrayC60PresentedInterchangerV5_191
 open KUOS.DependentOriginationGrayC60ThreeHomCategoriesV5_192
@@ -179,7 +180,7 @@ a nonidentity source 3-morphism and keeps the exact native
 nonzero exchange phase after the source-typed functor. -/
 theorem c60F50OriginalNorthInterchanger_typedPhase :
     ((c60F50OriginalFaceTypedThreeHomFunctor
-      (c60F41PentagonBoundaryLoop .north |>.comp
+      ((c60F41PentagonBoundaryLoop .north).comp
         (c60F41PentagonBoundaryLoop .north))
       (Quiver.Path.nil)).map
       (c60F44FaceThreeOf c60F43NorthPentagonInterchange)).phase =
