@@ -105,18 +105,8 @@ def c60F63OriginalLeftThreeBC_firstPair :
   let R₁ := c60F56OriginalLeftMixedContextFunctor B₁' middle₁ later₂
   let R₂ := c60F56OriginalLeftMixedContextFunctor B₂' outer₁ later₃
   let P₀ := c60F56ContextMixedFunctor B₀ B₁ hedge hface hrot
-  let P₁ := c60F58LeftAfterFaceChoice B₀ B₁ hedge hface hrot
-    prior₀ prior₁ later₁
-  let P₂ := c60F58LeftAfterFaceChoice A₁ B₁' hedge₁ hface₁ hrot₁
-    middle₀ middle₁ later₂
   let P₃ := c60F58LeftAfterFaceChoice A₂ B₂' hedge₂ hface₂ hrot₂
     outer₀ outer₁ later₃
-  let bc₀ := c60F58LeftFaceContext_NatIso B₀ B₁ hedge hface hrot
-    prior₀ prior₁ later₁
-  let bc₁ := c60F58LeftFaceContext_NatIso A₁ B₁'
-    hedge₁ hface₁ hrot₁ middle₀ middle₁ later₂
-  let bc₂ := c60F58LeftFaceContext_NatIso A₂ B₂'
-    hedge₂ hface₂ hrot₂ outer₀ outer₁ later₃
   ((((L₀ ⋙ L₁) ⋙ L₂) ⋙ P₃) ≅ (P₀ ⋙ ((R₀ ⋙ R₁) ⋙ R₂))) :=
   let A₁ := c60F47WhiskerLeft B₀ prior₀ later₁
   let B₁' := c60F47WhiskerLeft B₁ prior₁ later₁
@@ -186,18 +176,8 @@ def c60F63OriginalLeftThreeBC_lastPair :
   let R₁ := c60F56OriginalLeftMixedContextFunctor B₁' middle₁ later₂
   let R₂ := c60F56OriginalLeftMixedContextFunctor B₂' outer₁ later₃
   let P₀ := c60F56ContextMixedFunctor B₀ B₁ hedge hface hrot
-  let P₁ := c60F58LeftAfterFaceChoice B₀ B₁ hedge hface hrot
-    prior₀ prior₁ later₁
-  let P₂ := c60F58LeftAfterFaceChoice A₁ B₁' hedge₁ hface₁ hrot₁
-    middle₀ middle₁ later₂
   let P₃ := c60F58LeftAfterFaceChoice A₂ B₂' hedge₂ hface₂ hrot₂
     outer₀ outer₁ later₃
-  let bc₀ := c60F58LeftFaceContext_NatIso B₀ B₁ hedge hface hrot
-    prior₀ prior₁ later₁
-  let bc₁ := c60F58LeftFaceContext_NatIso A₁ B₁'
-    hedge₁ hface₁ hrot₁ middle₀ middle₁ later₂
-  let bc₂ := c60F58LeftFaceContext_NatIso A₂ B₂'
-    hedge₂ hface₂ hrot₂ outer₀ outer₁ later₃
   ((((L₀ ⋙ L₁) ⋙ L₂) ⋙ P₃) ≅ (P₀ ⋙ ((R₀ ⋙ R₁) ⋙ R₂))) :=
   let A₁ := c60F47WhiskerLeft B₀ prior₀ later₁
   let B₁' := c60F47WhiskerLeft B₁ prior₁ later₁
