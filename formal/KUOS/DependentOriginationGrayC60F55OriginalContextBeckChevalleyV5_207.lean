@@ -117,6 +117,34 @@ def c60F58LeftAfterFaceChoice
             (c60F47WhiskerLeft B₁ prior₁ later).rotationStep :=
               (c60F45F55LeftContextGrayMap later B₁.rotationStep).symm)
 
+/-- An explicit dependent four-boundary Hom cast. The two context/face
+orders act on the SAME tagged final F47 source boundary only after
+inspecting the original F42/F54 mixed tag. No original source word is
+equated by this cast. -/
+def c60F58LeftFaceContextHomCast
+    (hedge : B₀.edge = B₁.edge)
+    (hface : c60F44FaceThreeEval B₀.faceStep =
+      c60F44FaceThreeEval B₁.faceStep)
+    (hrot : c60F44OriginalF55Eval B₀.rotationStep =
+      c60F44OriginalF55Eval B₁.rotationStep)
+    {u₀ u₁ : IcosahedralDart}
+    (prior₀ : Quiver.Path u₀ v₀)
+    (prior₁ : Quiver.Path u₁ v₁)
+    {k l : Nat} {mc : Blocks a b} {pc : Blocks x y}
+    (later : OriginalF45BracketTree k l mb pb mc pc)
+    {X Y : C60F47BoundaryPoint B₀}
+    (g :
+      (c60F56OriginalLeftMixedContextFunctor B₁ prior₁ later).obj
+        ((c60F56ContextMixedFunctor B₀ B₁ hedge hface hrot).obj X) ⟶
+      (c60F56OriginalLeftMixedContextFunctor B₁ prior₁ later).obj
+        ((c60F56ContextMixedFunctor B₀ B₁ hedge hface hrot).obj Y)) :
+    (c60F58LeftAfterFaceChoice B₀ B₁ hedge hface hrot prior₀ prior₁ later).obj
+        ((c60F56OriginalLeftMixedContextFunctor B₀ prior₀ later).obj X) ⟶
+    (c60F58LeftAfterFaceChoice B₀ B₁ hedge hface hrot prior₀ prior₁ later).obj
+        ((c60F56OriginalLeftMixedContextFunctor B₀ prior₀ later).obj Y) := by
+  cases X <;> cases Y
+  all_goals exact g
+
 /-- TRUE SOURCE 3-Hom Beck–Chevalley square after two
 independently typed original F42 left paths. Both sides are
 MORPHISMS in exactly the SAME final F47 mixed category;
@@ -136,8 +164,10 @@ theorem c60F58LeftFaceContext_BeckChevalley
     (c60F58LeftAfterFaceChoice B₀ B₁ hedge hface hrot
       prior₀ prior₁ later).map
       ((c60F56OriginalLeftMixedContextFunctor B₀ prior₀ later).map f) =
-    (c60F56OriginalLeftMixedContextFunctor B₁ prior₁ later).map
-      ((c60F56ContextMixedFunctor B₀ B₁ hedge hface hrot).map f) := by
+    c60F58LeftFaceContextHomCast B₀ B₁ hedge hface hrot
+      prior₀ prior₁ later
+      ((c60F56OriginalLeftMixedContextFunctor B₁ prior₁ later).map
+        ((c60F56ContextMixedFunctor B₀ B₁ hedge hface hrot).map f)) := by
   cases X <;> cases Y
   all_goals
     apply c60F47MixedGrayFunctor_faithful
@@ -235,6 +265,32 @@ def c60F58RightAfterFaceChoice
             (c60F47WhiskerRight B₁ suffix₁ earlier).rotationStep :=
               (c60F45F55RightContextGrayMap earlier B₁.rotationStep).symm)
 
+/-- Dependent right-context boundary cast: proof-relevant source
+tags are inspected before comparing the two actual F47 3-arrows. -/
+def c60F58RightFaceContextHomCast
+    (hedge : B₀.edge = B₁.edge)
+    (hface : c60F44FaceThreeEval B₀.faceStep =
+      c60F44FaceThreeEval B₁.faceStep)
+    (hrot : c60F44OriginalF55Eval B₀.rotationStep =
+      c60F44OriginalF55Eval B₁.rotationStep)
+    {u₀ u₁ : IcosahedralDart}
+    (suffix₀ : Quiver.Path w₀ u₀)
+    (suffix₁ : Quiver.Path w₁ u₁)
+    {k l : Nat} {mc : Blocks a b} {pc : Blocks x y}
+    (earlier : OriginalF45BracketTree k l mc pc ma pa)
+    {X Y : C60F47BoundaryPoint B₀}
+    (g :
+      (c60F56OriginalRightMixedContextFunctor B₁ suffix₁ earlier).obj
+        ((c60F56ContextMixedFunctor B₀ B₁ hedge hface hrot).obj X) ⟶
+      (c60F56OriginalRightMixedContextFunctor B₁ suffix₁ earlier).obj
+        ((c60F56ContextMixedFunctor B₀ B₁ hedge hface hrot).obj Y)) :
+    (c60F58RightAfterFaceChoice B₀ B₁ hedge hface hrot suffix₀ suffix₁ earlier).obj
+        ((c60F56OriginalRightMixedContextFunctor B₀ suffix₀ earlier).obj X) ⟶
+    (c60F58RightAfterFaceChoice B₀ B₁ hedge hface hrot suffix₀ suffix₁ earlier).obj
+        ((c60F56OriginalRightMixedContextFunctor B₀ suffix₀ earlier).obj Y) := by
+  cases X <;> cases Y
+  all_goals exact g
+
 theorem c60F58RightFaceContext_BeckChevalley
     (hedge : B₀.edge = B₁.edge)
     (hface : c60F44FaceThreeEval B₀.faceStep =
@@ -250,8 +306,10 @@ theorem c60F58RightFaceContext_BeckChevalley
     (c60F58RightAfterFaceChoice B₀ B₁ hedge hface hrot
       suffix₀ suffix₁ earlier).map
       ((c60F56OriginalRightMixedContextFunctor B₀ suffix₀ earlier).map f) =
-    (c60F56OriginalRightMixedContextFunctor B₁ suffix₁ earlier).map
-      ((c60F56ContextMixedFunctor B₀ B₁ hedge hface hrot).map f) := by
+    c60F58RightFaceContextHomCast B₀ B₁ hedge hface hrot
+      suffix₀ suffix₁ earlier
+      ((c60F56OriginalRightMixedContextFunctor B₁ suffix₁ earlier).map
+        ((c60F56ContextMixedFunctor B₀ B₁ hedge hface hrot).map f)) := by
   cases X <;> cases Y
   all_goals
     apply c60F47MixedGrayFunctor_faithful
@@ -304,6 +362,8 @@ def c60F58RightFaceContext_NatIso
                 hedge hface hrot suffix₀ suffix₁ earlier f
           _ = _ := (Category.id_comp _).symm)
 
+#print axioms c60F58LeftFaceContextHomCast
+#print axioms c60F58RightFaceContextHomCast
 #print axioms c60F58LeftAfterFaceChoice
 #print axioms c60F58LeftFaceContext_BeckChevalley
 #print axioms c60F58LeftFaceContext_NatIso
