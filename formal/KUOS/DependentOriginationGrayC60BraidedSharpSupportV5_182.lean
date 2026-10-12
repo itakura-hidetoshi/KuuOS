@@ -281,8 +281,11 @@ theorem c60F34CorrectedGrade_defect
           (Finsupp.single e (1 : ℤ)) =
         c60F32BraidedRepairedEdge a b e := by
     simp [c60F33BraidedEdgeCochain, c60F18GrayEdgeCochain]
-  rw [hb, grayNeutral_add_eq_native_comp,
-    c60F29PhaseDefect_comp, c60F32BraidedRepaired_defect]
+  rw [hb, grayNeutral_add_eq_native_comp]
+  change c60F29PhaseDefect
+    ((c60F32BraidedRepairedEdge a b e).comp
+      (k (Finsupp.single e (1 : ℤ)))) = _
+  rw [c60F29PhaseDefect_comp, c60F32BraidedRepaired_defect]
 
 /-- Necessary AND sufficient criterion for a corrected edge
 to be in the original F55-compatible phase-locked subgroup.
