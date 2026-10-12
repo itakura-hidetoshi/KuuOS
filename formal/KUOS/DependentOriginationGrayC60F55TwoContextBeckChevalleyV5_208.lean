@@ -239,4 +239,5 @@ end TwoSuccessiveOriginalLeftContexts
 #print axioms c60F59LeftSecondFaceChoice
 #print axioms c60F59LeftTwoContextNatIso
 
+end
 end KUOS.DependentOriginationGrayC60F55TwoContextBeckChevalleyV5_208
