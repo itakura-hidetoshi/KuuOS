@@ -75,11 +75,6 @@ def c60F47WhiskerLeft
   faceStep := (c60F45LeftWhiskerFunctor prior).map B.faceStep
   rotationStep := (c60F45F55LeftContextFunctor later).map B.rotationStep
   calibrated := by
-    change c60F44FaceThreeEval
-        ((c60F45LeftWhiskerFunctor prior).map B.faceStep) +
-        c60F46FaceF55ComparisonCalibration =
-      c60F44OriginalF55Eval
-        ((c60F45F55LeftContextFunctor later).map B.rotationStep)
     rw [c60F45LeftWhiskerGrayMap, c60F45F55LeftContextGrayMap]
     exact B.calibrated
 
@@ -114,11 +109,6 @@ def c60F47WhiskerRight
   faceStep := (c60F45RightWhiskerFunctor suffix).map B.faceStep
   rotationStep := (c60F45F55RightContextFunctor earlier).map B.rotationStep
   calibrated := by
-    change c60F44FaceThreeEval
-        ((c60F45RightWhiskerFunctor suffix).map B.faceStep) +
-        c60F46FaceF55ComparisonCalibration =
-      c60F44OriginalF55Eval
-        ((c60F45F55RightContextFunctor earlier).map B.rotationStep)
     rw [c60F45RightWhiskerGrayMap, c60F45F55RightContextGrayMap]
     exact B.calibrated
 
