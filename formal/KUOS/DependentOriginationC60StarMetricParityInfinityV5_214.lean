@@ -1,6 +1,8 @@
 import Mathlib
+import Mathlib.AlgebraicTopology.Quasicategory.Nerve
+import Mathlib.CategoryTheory.Elements
 import KUOS.DependentOriginationTruncatedIcosahedralRecursiveRefinementV3_90
-import KUOS.DependentOriginationQuasicategoryNerveV1_16
+import KUOS.DependentOriginationFreeHistoryFunctorV0_6
 
 namespace KUOS.DependentOriginationC60StarMetricParityInfinityV5_214
 
@@ -10,7 +12,6 @@ open KUOS.DependentOriginationTruncatedIcosahedralStarRefinementV3_83
 open KUOS.DependentOriginationTruncatedIcosahedralRecursiveRefinementV3_90
 open KUOS.DependentOriginationHistorySensitiveTransportV0_5
 open KUOS.DependentOriginationFreeHistoryFunctorV0_6
-open KUOS.DependentOriginationQuasicategoryNerveV1_16
 
 set_option autoImplicit false
 noncomputable section
@@ -178,13 +179,17 @@ theorem starHistoryTransport_append
 /-- The nerve retains BOTH context and state, rather than merely its
 one-object free-history category. -/
 def starHistoryDependentNerve : SSet :=
-  dependentNerve starHistoryContextualSystem
+  CategoryTheory.nerve starHistoryContextualSystem.state.Elements
 
 /-- A genuine pinned-Mathlib quasicategory structure, via category of
-elements and its strict Segal nerve. This remains 1-truncated. -/
+elements and its strict Segal nerve. This remains 1-truncated.
+Import Mathlib directly, so the historical v1.2 refinement proof is NOT a
+spurious dependency of this independent new theorem. -/
 theorem starHistoryDependentNerve_quasicategory :
     SSet.Quasicategory starHistoryDependentNerve :=
-  dependentNerve_quasicategory starHistoryContextualSystem
+  SSet.StrictSegal.quasicategory
+    (CategoryTheory.Nerve.strictSegal
+      starHistoryContextualSystem.state.Elements)
 
 /-- Hence the C60 parity-and-scale history model fills every inner horn
 at the 1-categorical state-transport level; nontrivial higher geometric
@@ -194,9 +199,10 @@ theorem starHistoryDependentNerve_innerHornFilling
     (h0 : 0 < i) (hn : i < Fin.last n)
     (σ0 : (Λ[n, i] : SSet) ⟶ starHistoryDependentNerve) :
     ∃ σ : Δ[n] ⟶ starHistoryDependentNerve,
-      σ0 = Λ[n, i].ι ≫ σ :=
-  dependentNerve_innerHornFilling
-    starHistoryContextualSystem h0 hn σ0
+      σ0 = Λ[n, i].ι ≫ σ := by
+  letI : SSet.Quasicategory starHistoryDependentNerve :=
+    starHistoryDependentNerve_quasicategory
+  exact SSet.Quasicategory.hornFilling h0 hn σ0
 
 #print axioms pentagramContraction_eq_inv_phi_sq
 #print axioms pentagramContraction_lt_hexagramContraction
