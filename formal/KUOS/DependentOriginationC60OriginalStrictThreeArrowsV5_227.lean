@@ -174,10 +174,10 @@ abbrev C60F73PhysicalStrictThreeHom
 morphism, not merely its Gray charge. -/
 def c60F73OriginalPhysicalFaceThreeArrow
     (sigma : C60F67Atlas) (edge : TruncatedIcosahedralEdge) :
-    (C60F73PhysicalStrictThreeHom
-      t₁ t₂ left right sigma edge).faceBefore ⟶
-      (C60F73PhysicalStrictThreeHom
-        t₁ t₂ left right sigma edge).faceAfter :=
+    (C60F47BoundaryPoint.faceBefore : C60F73PhysicalStrictThreeHom
+      t₁ t₂ left right sigma edge) ⟶
+      (C60F47BoundaryPoint.faceAfter : C60F73PhysicalStrictThreeHom
+      t₁ t₂ left right sigma edge) :=
   c60F47FaceArrow
     (c60F48EveryRealEdgeMixedFrame
       t₁ t₂ left right edge (sigma edge))
@@ -186,10 +186,10 @@ def c60F73OriginalPhysicalFaceThreeArrow
 DIFFERENT source two-cell types and original boundary tags. -/
 def c60F73OriginalPhysicalF55ThreeArrow
     (sigma : C60F67Atlas) (edge : TruncatedIcosahedralEdge) :
-    (C60F73PhysicalStrictThreeHom
-      t₁ t₂ left right sigma edge).rotationBefore ⟶
-      (C60F73PhysicalStrictThreeHom
-        t₁ t₂ left right sigma edge).rotationAfter :=
+    (C60F47BoundaryPoint.rotationBefore : C60F73PhysicalStrictThreeHom
+      t₁ t₂ left right sigma edge) ⟶
+      (C60F47BoundaryPoint.rotationAfter : C60F73PhysicalStrictThreeHom
+      t₁ t₂ left right sigma edge) :=
   c60F47OriginalF55Arrow
     (c60F48EveryRealEdgeMixedFrame
       t₁ t₂ left right edge (sigma edge))
