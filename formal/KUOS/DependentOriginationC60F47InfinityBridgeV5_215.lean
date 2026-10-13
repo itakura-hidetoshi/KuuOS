@@ -1,8 +1,8 @@
 import Mathlib
 import KUOS.DependentOriginationTruncatedIcosahedralRecursiveRefinementV3_90
 import KUOS.DependentOriginationGrayC60F55MixedEndomorphismRigidityV5_210
-import KUOS.DependentOriginationInfinityTwoYonedaV1_18
-import KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
+import Mathlib.AlgebraicTopology.Quasicategory.Nerve
+import Mathlib.CategoryTheory.Bicategory.Yoneda
 
 namespace KUOS.DependentOriginationC60F47InfinityBridgeV5_215
 
@@ -15,8 +15,6 @@ open KUOS.DependentOriginationGrayC60MixedBoundaryThreeHomV5_195
 open KUOS.DependentOriginationGrayC60F55MixedEndomorphismRigidityV5_210
 open KUOS.DependentOriginationTruncatedIcosahedralStarRefinementV3_83
 open KUOS.DependentOriginationTruncatedIcosahedralRecursiveRefinementV3_90
-open KUOS.DependentOriginationInfinityTwoYonedaV1_18
-open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
 open KUOS.DependentOriginationCoherentBiadjunctionFiniteRectangularSubdivisionV5_137.Grid
 open KUOS.DependentOriginationCoherentBiadjunctionInterleavingExchangeQuotientV5_141.Grid
 
@@ -78,14 +76,15 @@ def sourceC60Cat := Cat.of (sourceC60ThreeHom B)
 
 /-- The Cat bicategory mapping nerve at the real F47 source category. -/
 def sourceC60MappingNerve : SSet :=
-  mappingNerve (sourceC60Cat B) (sourceC60Cat B)
+  CategoryTheory.nerve (sourceC60Cat B ⟶ sourceC60Cat B)
 
 /-- This genuinely is a Mathlib mapping quasicategory and retains natural
 transformations between F47 endofunctors as its 1-simplices. -/
 theorem sourceC60MappingNerve_quasicategory :
     SSet.Quasicategory (sourceC60MappingNerve B) := by
-  exact mappingNerve_quasicategory
-    (sourceC60Cat B) (sourceC60Cat B)
+  exact SSet.StrictSegal.quasicategory
+    (CategoryTheory.Nerve.strictSegal
+      (sourceC60Cat B ⟶ sourceC60Cat B))
 
 /-- Native, rather than invented, two-Yoneda pseudofunctor is available
 for the ambient bicategory containing the C60 source category. -/
@@ -95,8 +94,9 @@ theorem sourceC60MappingNerve_innerHorn
     (horn : (Λ[j, i] : SSet) ⟶ sourceC60MappingNerve B) :
     ∃ filler : Δ[j] ⟶ sourceC60MappingNerve B,
       horn = Λ[j, i].ι ≫ filler := by
-  exact mapping_innerHornFilling
-    (sourceC60Cat B) (sourceC60Cat B) h0 hi horn
+  letI : SSet.Quasicategory (sourceC60MappingNerve B) :=
+    sourceC60MappingNerve_quasicategory B
+  exact SSet.Quasicategory.hornFilling h0 hi horn
 
 /-- Original C60 star arity remains five/six at every finite refinement depth,
 while the independent original F47 target mapping nerve is quasicategorical.
