@@ -112,7 +112,10 @@ theorem c60F88FourFactorComposite_eq_obstruction
       (c60F86TensoratorObstructionIso X Y).hom := by
   letI : c60F85TransportedDirectEquivalence.functor.Monoidal :=
     c60F87MediatedMonoidal
-  exact (c60F87Obstruction_hom_transport_formula X Y).symm
+  simpa only [c60F88FourFactorComposite, c60F88DirectUnitPair,
+    c60F88MediatedMu, c60F88MediatedBack, c60F88OriginalBeta,
+    Category.assoc] using
+      (c60F87Obstruction_hom_transport_formula X Y).symm
 
 /-- The pair of original F79 unit components has EXACTLY the
 sum of both Int×Int charges in the direct quotient. -/
@@ -144,7 +147,6 @@ theorem c60F88Obstruction_charge_fourFactors
   rw [← c60F88FourFactorComposite_eq_obstruction X Y]
   unfold c60F88FourFactorComposite
   simp only [c60F80QuotientThree_comp_charge]
-  abel
 
 /-- A fully typed FIVE-summand version resolving the first
 horizontal F80 tensor into its two independent unit charges. -/
@@ -164,7 +166,6 @@ theorem c60F88Obstruction_charge_fiveFactors
         (c60F88OriginalBeta X Y)).charge := by
   rw [c60F88Obstruction_charge_fourFactors,
     c60F88DirectUnitPair_charge]
-  abel
 
 /-- An EXACT necessary and sufficient condition to identify
 the F85 and F82 tensorators by the charge sum of genuinely typed
