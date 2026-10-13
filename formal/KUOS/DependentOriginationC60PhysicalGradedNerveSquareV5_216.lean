@@ -11,6 +11,7 @@ open KUOS.DependentOriginationTruncatedIcosahedralEdgesV3_85
 open KUOS.DependentOriginationGrayBraidedThreeCellCoreV5_156
 open KUOS.DependentOriginationGrayNativeBraidedCategoryV5_156
 open KUOS.DependentOriginationGrayC60PresentedFaceTwoCellsV5_190
+open KUOS.DependentOriginationGrayC60ThreeHomCategoriesV5_192
 open KUOS.DependentOriginationGrayC60OriginalF55ThreeHomV5_192
 open KUOS.DependentOriginationGrayC60MixedBoundaryThreeHomV5_195
 open KUOS.DependentOriginationGrayC60AllNinetyMixedBoundaryV5_196
@@ -110,8 +111,8 @@ theorem c60PhysicalFaceChoice_gradedNerve_square
   have hNerveComp : CategoryTheory.nerveMap F ≫
       CategoryTheory.nerveMap G₁ =
       CategoryTheory.nerveMap (F ⋙ G₁) := by
-    simpa [CategoryTheory.nerveFunctor,
-      Cat.Hom.comp_toFunctor] using
+    simpa only [CategoryTheory.nerveFunctor_map,
+      Cat.Hom.comp_toFunctor, Functor.toCatHom_toFunctor] using
       (CategoryTheory.nerveFunctor.map_comp F.toCatHom G₁.toCatHom).symm
   calc
     CategoryTheory.nerveMap F ≫ CategoryTheory.nerveMap G₁ =
@@ -132,6 +133,7 @@ theorem c60PhysicalFaceChoice_gradedNerve_allDegrees
       ((c60PhysicalMixedToOriginalGradedNerve
         t₁ t₂ left right edge false).app (Opposite.op ⦋k⦌)) simplex := by
   rw [c60PhysicalFaceChoice_gradedNerve_square t₁ t₂ left right edge]
+  rfl
 
 #print axioms c60PhysicalFaceChoice_gradedFunctor_square
 #print axioms c60PhysicalFaceChoice_gradedNerve_square
