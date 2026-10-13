@@ -7,6 +7,7 @@ open CategoryTheory
 open KUOS.DependentOriginationIcosahedralTruncationSeedV3_84
 open KUOS.DependentOriginationGrayBraidedThreeCellCoreV5_156
 open KUOS.DependentOriginationGrayNativeBraidedCategoryV5_156
+open KUOS.DependentOriginationGrayC60PresentedFaceTwoCellsV5_190
 open KUOS.DependentOriginationGrayC60OriginalFaceHorizontalPresentationV5_199
 open KUOS.DependentOriginationGrayC60OriginalFaceHorizontalThreeHomV5_199
 open KUOS.DependentOriginationC60InterchangerStrictChargeQuotientV5_229
@@ -97,7 +98,7 @@ theorem c60F79Equivalence_hasOriginalQuotientFunctor :
 /-- Every quotient arrow is recovered after applying the
 equivalence and its quasi-inverse, with the canonical actual
 Mathlib equivalence UNIT iso at each quotient object. -/
-theorem c60F79Quotient_unit_isIso
+def c60F79Quotient_unit_isIso
     (X : C60F77NativeQuotient) :
     X ≅
       (c60F79NativeChargeEquivalence.functor ⋙
@@ -107,7 +108,7 @@ theorem c60F79Quotient_unit_isIso
 /-- Every strict charge object is recovered after applying the
 actual inverse and forward functors, with the canonical verified
 COUNIt iso, rather than an invented equality of original Gray terms. -/
-theorem c60F79StrictCharge_counit_isIso
+def c60F79StrictCharge_counit_isIso
     (X : C60F75StrictChargeGrade) :
     (c60F79NativeChargeEquivalence.inverse ⋙
       c60F79NativeChargeEquivalence.functor).obj X ≅ X :=
