@@ -123,6 +123,39 @@ theorem c60F84DirectToCharge_map_rightUnitor
   apply C60F75StrictChargeThree.ext
   exact c60F83DirectRightUnitor_charge X
 
+/-! ## Coordinate formulas in the F75 quotient charge groupoid
+
+These are intentionally stated on genuinely typed F75 Hom sets,
+not on untyped numerical substitutes. They isolate the exact
+integer-charge mathematics from Mathlib's higher monoidal notation.
+-/
+
+@[simp] theorem c60F84Charge_id
+    (X : C60F75StrictChargeGrade) :
+    (𝟙 X : X ⟶ X).charge = (0 : Int × Int) := rfl
+
+@[simp] theorem c60F84Charge_comp
+    {X Y Z : C60F75StrictChargeGrade}
+    (f : X ⟶ Y) (g : Y ⟶ Z) :
+    (f ≫ g).charge = f.charge + g.charge := rfl
+
+@[simp] theorem c60F84Charge_tensor
+    {X X' Y Y' : C60F75StrictChargeGrade}
+    (f : X ⟶ X') (g : Y ⟶ Y') :
+    (f ⊗ₘ g).charge = f.charge + g.charge := rfl
+
+@[simp] theorem c60F84Charge_associator
+    (X Y Z : C60F75StrictChargeGrade) :
+    ((α_ X Y Z).hom).charge = (0 : Int × Int) := rfl
+
+@[simp] theorem c60F84Charge_leftUnitor
+    (X : C60F75StrictChargeGrade) :
+    ((λ_ X).hom).charge = (0 : Int × Int) := rfl
+
+@[simp] theorem c60F84Charge_rightUnitor
+    (X : C60F75StrictChargeGrade) :
+    ((ρ_ X).hom).charge = (0 : Int × Int) := rfl
+
 /-- First bundle preservation of all actual F80 quotient tensor
 three-Homs and both structural isomorphisms using Mathlib's
 tensorHom-based monoidal functor constructor. This avoids pretending
@@ -148,37 +181,16 @@ def c60F84DirectToChargeLaxMonoidal :
       exact (c60F84DirectToCharge_map_tensor f g).symm)
     (associativity := by
       intro X Y Z
-      calc
-        _ = c60F84DirectToCharge.map (α_ X Y Z).hom := by
-          dsimp only []
-          rw [MonoidalCategory.id_tensorHom_id, Category.id_comp,
-            Category.id_comp]
-        _ = (α_ (c60F84DirectToCharge.obj X)
-            (c60F84DirectToCharge.obj Y)
-            (c60F84DirectToCharge.obj Z)).hom :=
-          c60F84DirectToCharge_map_associator X Y Z
-        _ = _ := by
-          dsimp only []
-          rw [MonoidalCategory.id_tensorHom_id, Category.comp_id,
-            Category.comp_id])
+      apply C60F75StrictChargeThree.ext
+      simp [c60F84DirectToCharge_map_associator] <;> abel)
     (left_unitality := by
       intro X
-      calc
-        _ = c60F84DirectToCharge.map (λ_ X).hom :=
-          (c60F84DirectToCharge_map_leftUnitor X).symm
-        _ = _ := by
-          dsimp only []
-          rw [MonoidalCategory.id_tensorHom_id, Category.id_comp,
-            Category.id_comp])
+      apply C60F75StrictChargeThree.ext
+      simp [c60F84DirectToCharge_map_leftUnitor] <;> abel)
     (right_unitality := by
       intro X
-      calc
-        _ = c60F84DirectToCharge.map (ρ_ X).hom :=
-          (c60F84DirectToCharge_map_rightUnitor X).symm
-        _ = _ := by
-          dsimp only []
-          rw [MonoidalCategory.id_tensorHom_id, Category.id_comp,
-            Category.id_comp])
+      apply C60F75StrictChargeThree.ext
+      simp [c60F84DirectToCharge_map_rightUnitor] <;> abel)
 
 /-- Its unit and tensor comparison maps are LITERALLY identities,
 hence both invertible; convert the proven lax coherence to genuine
