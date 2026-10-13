@@ -74,6 +74,7 @@ theorem c60F82TransportedTensor_map_eq
       (c60F77QuotientToStrictCharge.map
         (c60F80QuotientThreeTensor f g))
   rw [c60F80QuotientTensor_chargeFunctor f g]
+  rfl
 
 /-- The F81 canonical componentwise comparison is NATURAL:
 the transported tensor 3-arrow, followed by the comparison at
