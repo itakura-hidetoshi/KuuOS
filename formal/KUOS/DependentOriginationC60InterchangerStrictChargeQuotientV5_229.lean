@@ -94,15 +94,6 @@ theorem C60F75StrictChargeThree.ext
       cases h
       rfl
 
-/-- Equality transport is the zero-charge identity in the
-strict quotient, including when the source-object equality arose
-from a real original nontrivial F43 interchange. -/
-theorem C60F75StrictChargeThree.eqToHom_charge_zero
-    {X Y : C60F75StrictChargeGrade} (h : X = Y) :
-    (eqToHom h : X ⟶ Y).charge = (0 : Int × Int) := by
-  cases h
-  rfl
-
 /-- A genuinely CONSTRUCTED strict Mathlib category: same-grade
 arrows carry the product group ℤ × ℤ with strictly associative
 addition, both units and both independent charge components.
@@ -123,6 +114,15 @@ instance : Category C60F75StrictChargeGrade where
     intro W X Y Z f g h
     apply C60F75StrictChargeThree.ext
     exact add_assoc f.charge g.charge h.charge
+
+/-- Equality transport is the zero-charge identity in the
+strict quotient, including when the source-object equality arose
+from a real original nontrivial F43 interchange. -/
+theorem C60F75StrictChargeThree.eqToHom_charge_zero
+    {X Y : C60F75StrictChargeGrade} (h : X = Y) :
+    (eqToHom h : X ⟶ Y).charge = (0 : Int × Int) := by
+  cases h
+  rfl
 
 /-- The concrete quotient/evaluation of the ORIGINAL native
 F59 Gray category: two integer charges and two-cell degree survive,
