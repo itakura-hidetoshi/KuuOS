@@ -21,6 +21,10 @@ open KUOS.DependentOriginationGrayC60F55MixedCocycleV5_205
 open KUOS.DependentOriginationGrayC60F55MixedEndomorphismRigidityV5_210
 open KUOS.DependentOriginationArbitraryPastingCoherenceV5_213
 open KUOS.DependentOriginationGrayC60F55PhysicalIncidenceBeckChevalleyV5_207
+open KUOS.DependentOriginationGrayC60IntegralChainComplexV5_160
+open KUOS.DependentOriginationGrayC60IntegralBoundaryLinearMapV5_159
+open KUOS.DependentOriginationGrayC60CochainDescentV5_166
+open KUOS.DependentOriginationGrayC60WangBiGlobalGrayDescentV5_174
 open KUOS.DependentOriginationC60PhysicalHigherNerveBridgeV5_215
 open KUOS.DependentOriginationC60ArbitraryAtlasNerveDescentV5_219
 open KUOS.DependentOriginationCoherentBiadjunctionFiniteRectangularSubdivisionV5_137.Grid
@@ -191,7 +195,7 @@ def c60F66AtlasCechMappingEdge
     (sigma tau upsilon : TruncatedIcosahedralEdge → Bool)
     (edge : TruncatedIcosahedralEdge) :=
   CategoryTheory.nerve.edgeMk
-    (Cat.isoMk
+    (Cat.Hom.isoMk
       (c60F66AtlasCechCocycleNatIso
         t₁ t₂ left right sigma tau upsilon edge)).hom
 
