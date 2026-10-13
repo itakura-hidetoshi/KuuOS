@@ -183,7 +183,7 @@ theorem c60F86TensoratorObstruction_natural
     _ = ((c60F86F85IdentityTensoratorIso X Y).hom ≫
           (c60F81TransportedVsOriginalQuotientTensorIso X Y).hom) ≫
           c60F80QuotientThreeTensor f g :=
-            Category.assoc _ _ _
+            (Category.assoc _ _ _).symm
 
 /-- Consequently the comparison defect is visible and checkable at
 the two separately conserved integer-charge coordinates. -/
