@@ -94,8 +94,7 @@ instance : PartialOrder C60F69PhysicalCellSite where
   le_trans := by
     intro a b c hab hbc
     cases a <;> cases b <;> cases c <;>
-      simp_all [c60F69PhysicalIncidence, truncatedEdgeOnSeedFace] <;>
-      aesop
+      (simp_all [c60F69PhysicalIncidence, truncatedEdgeOnSeedFace]; aesop)
   le_antisymm := by
     intro a b hab hba
     cases a <;> cases b <;>
