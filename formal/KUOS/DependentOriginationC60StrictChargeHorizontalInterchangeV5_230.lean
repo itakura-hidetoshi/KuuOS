@@ -8,6 +8,7 @@ open KUOS.DependentOriginationIcosahedralTruncationSeedV3_84
 open KUOS.DependentOriginationGrayBraidedThreeCellCoreV5_156
 open KUOS.DependentOriginationGrayNativeBraidedCategoryV5_156
 open KUOS.DependentOriginationGrayC60CyclicGlobalPastingV5_156
+open KUOS.DependentOriginationGrayC60NativePathFunctorV5_189
 open KUOS.DependentOriginationGrayC60PresentedFaceTwoCellsV5_190
 open KUOS.DependentOriginationGrayC60PresentedInterchangerV5_191
 open KUOS.DependentOriginationGrayC60ThreeHomCategoriesV5_192
@@ -208,6 +209,8 @@ theorem c60F76OriginalHorizontalStrictification_charge
     ((c60F75OriginalFaceStrictification (p.comp r) (q.comp s)).map
       (c60F51HorizontalMap f g)).charge =
     (c60F51Eval f).charge + (c60F51Eval g).charge := by
+  change (c60F51Eval (c60F51HorizontalMap f g)).charge =
+    (c60F51Eval f).charge + (c60F51Eval g).charge
   rw [c60F51HorizontalMap_eval]
   exact grayNeutral_add_charge _ _
 
