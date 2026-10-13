@@ -54,6 +54,12 @@ composition-stability laws are obtained from an actual functor. -/
 def c60F77ChargeKernel : HomRel GrayGrade :=
   c60F75ForgetGrayExchangePhase.homRel
 
+/-- Explicit typeclass carrier: the kernel relation of a genuine
+functor is a congruence, including stability under both compositions. -/
+instance c60F77ChargeKernelCongruence : Congruence c60F77ChargeKernel := by
+  change Congruence c60F75ForgetGrayExchangePhase.homRel
+  infer_instance
+
 /-- Relating two genuinely typed original native Gray three-arrows
 in this congruence is EQUIVALENT to equality of BOTH integer charges. -/
 theorem c60F77ChargeKernel_iff
@@ -186,8 +192,9 @@ theorem c60F77ToStrictCharge_map_injective
     (h : c60F77QuotientToStrictCharge.map f =
       c60F77QuotientToStrictCharge.map g) : f = g := by
   revert h
-  refine Quot.inductionOn₂ f g ?_
-  intro f₀ g₀ h₀
+  refine Quot.inductionOn f (fun f₀ => ?_)
+  refine Quot.inductionOn g (fun g₀ => ?_)
+  intro h₀
   apply CategoryTheory.Quotient.sound c60F77ChargeKernel
   apply (c60F77ChargeKernel_iff f₀ g₀).mpr
   exact congrArg C60F75StrictChargeThree.charge h₀
@@ -217,11 +224,8 @@ theorem c60F77PhaseArrow_killed
     (X : GrayGrade) (p : ZMod 2) :
     F.map (c60F77PhaseArrow X p) = 𝟙 (F.obj X) := by
   fin_cases p
-  · have hzero : c60F77PhaseArrow X 0 = 𝟙 X := by
-      apply GradedThreeCell.ext <;> rfl
-    rw [hzero]
-    exact F.map_id X
-  · exact hkill X
+  · simpa [c60F77PhaseArrow, GradedThreeCell.ident] using (F.map_id X)
+  · simpa [c60F77PhaseArrow, c60F77PhaseGenerator] using (hkill X)
 
 /-- THE KEY MINIMALITY RESULT. Any functor that kills the
 nontrivial phase-one generator automatically respects ALL and ONLY
