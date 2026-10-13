@@ -137,21 +137,27 @@ def c60F83DirectMonoidalCategory :
       (pentagon := by
         intro W X Y Z
         apply c60F80QuotientThree_ext
-        simp [c60F83DirectMonoidalStruct, c60F83DirectAssociator,
+        dsimp only [c60F83DirectMonoidalStruct, c60F83DirectAssociator,
           c60F83DirectLeftUnitor, c60F83DirectRightUnitor,
-          c60F80QuotientThree_comp_charge,
+          eqToIso.hom]
+        simp only [c60F80QuotientThree_comp_charge,
           c60F80QuotientThreeTensor_charge,
           c60F82Quotient_eqToHom_charge_zero,
-          c60F80QuotientThree_id_charge] <;> abel)
+          c60F80QuotientThree_id_charge]
+        trace_state
+        try abel)
       (triangle := by
         intro X Y
         apply c60F80QuotientThree_ext
-        simp [c60F83DirectMonoidalStruct, c60F83DirectAssociator,
+        dsimp only [c60F83DirectMonoidalStruct, c60F83DirectAssociator,
           c60F83DirectLeftUnitor, c60F83DirectRightUnitor,
-          c60F80QuotientThree_comp_charge,
+          eqToIso.hom]
+        simp only [c60F80QuotientThree_comp_charge,
           c60F80QuotientThreeTensor_charge,
           c60F82Quotient_eqToHom_charge_zero,
-          c60F80QuotientThree_id_charge] <;> abel)
+          c60F80QuotientThree_id_charge]
+        trace_state
+        try abel)
 
 /-- The strict original F80 tensor, seen as the Mathlib tensor
 bifunctor of this EXPLICIT separately proved direct monoidal
