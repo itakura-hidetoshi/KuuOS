@@ -87,9 +87,9 @@ theorem c60PhysicalFaceChoice_gradedFunctor_square
     rfl
   · intro X Y f
     simpa [c60F48ActualEdgeFaceChoiceFunctor, c60F47MixedGrayFunctor,
-    B₀, B₁] using
-    (c60F48MixedBoundaryTransportFunctor_fullNative B₀ B₁
-      hface hrot f)
+      B₀, B₁] using
+      (c60F48MixedBoundaryTransportFunctor_fullNative B₀ B₁
+        hface hrot f)
 
 /-- The ORIGINAL C60 physical side-choice nerve and the source-to-graded
 nerve realization form one strict commuting square of genuine simplicial
