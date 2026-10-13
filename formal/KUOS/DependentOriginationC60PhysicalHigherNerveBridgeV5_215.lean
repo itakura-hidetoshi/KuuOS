@@ -239,21 +239,15 @@ theorem c60PhysicalFaceChoiceNerveMap_reflects_edges
       (CategoryTheory.nerve.edgeMk g).map
         (c60PhysicalFaceChoiceNerveMap t₁ t₂ left right edge)) :
     f = g := by
+  have hLeft :=
+    c60PhysicalFaceChoiceNerveMap_edges t₁ t₂ left right edge f
+  have hRight :=
+    c60PhysicalFaceChoiceNerveMap_edges t₁ t₂ left right edge g
+  have hNerve := congrArg CategoryTheory.nerve.homEquiv heq
   have hh :
       (c60F48ActualEdgeFaceChoiceFunctor t₁ t₂ left right edge).map f =
-      (c60F48ActualEdgeFaceChoiceFunctor t₁ t₂ left right edge).map g := by
-    calc
-      (c60F48ActualEdgeFaceChoiceFunctor t₁ t₂ left right edge).map f =
-          CategoryTheory.nerve.homEquiv
-            ((CategoryTheory.nerve.edgeMk f).map
-              (c60PhysicalFaceChoiceNerveMap t₁ t₂ left right edge)) :=
-        (c60PhysicalFaceChoiceNerveMap_edges t₁ t₂ left right edge f).symm
-      _ = CategoryTheory.nerve.homEquiv
-            ((CategoryTheory.nerve.edgeMk g).map
-              (c60PhysicalFaceChoiceNerveMap t₁ t₂ left right edge)) :=
-        congrArg (fun h => CategoryTheory.nerve.homEquiv h) heq
-      _ = (c60F48ActualEdgeFaceChoiceFunctor t₁ t₂ left right edge).map g :=
-        c60PhysicalFaceChoiceNerveMap_edges t₁ t₂ left right edge g
+      (c60F48ActualEdgeFaceChoiceFunctor t₁ t₂ left right edge).map g :=
+    hLeft.symm.trans (hNerve.trans hRight)
   exact c60F48ActualEdgeFaceChoiceFunctor_faithful
     t₁ t₂ left right edge hh
 
