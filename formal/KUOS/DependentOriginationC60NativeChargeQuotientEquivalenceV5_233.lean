@@ -181,10 +181,22 @@ theorem c60F79OriginalF43_strictification_factor
     c60F79OriginalF43Quotient p q ⋙
       c60F79NativeChargeEquivalence.functor =
         c60F75OriginalF43Strictification p q := by
-  simpa only [c60F79NativeChargeEquivalence,
-    c60F79OriginalF43Quotient,
-    c60F75OriginalF43Strictification, Functor.assoc,
-    c60F77OriginalSource_factor]
+  calc
+    c60F79OriginalF43Quotient p q ⋙
+        c60F79NativeChargeEquivalence.functor =
+      (c60F51OriginalInclusion p q ⋙
+          c60F77OriginalSourceQuotient p q) ⋙
+        c60F77QuotientToStrictCharge := by
+          rw [c60F79Equivalence_hasOriginalQuotientFunctor]
+          rfl
+    _ = c60F51OriginalInclusion p q ⋙
+          (c60F77OriginalSourceQuotient p q ⋙
+            c60F77QuotientToStrictCharge) :=
+      Functor.assoc _ _ _
+    _ = c60F51OriginalInclusion p q ⋙
+          c60F75OriginalFaceStrictification p q := by
+            rw [c60F77OriginalSource_factor p q]
+    _ = c60F75OriginalF43Strictification p q := rfl
 
 /-- The F51 ORIGINAL SOURCE followed by the actual category
 equivalence is definitionally the same strict F75 functor as
