@@ -95,6 +95,10 @@ instance : PartialOrder C60F69PhysicalCellSite where
     intro a b c hab hbc
     cases a <;> cases b <;> cases c <;>
       simp_all [c60F69PhysicalIncidence, truncatedEdgeOnSeedFace]
+    case vertex.edge.face v e f =>
+      rcases hab with hv | hv
+      · simpa only [hv] using hbc.1
+      · simpa only [hv] using hbc.2
   le_antisymm := by
     intro a b hab hba
     cases a <;> cases b <;>
