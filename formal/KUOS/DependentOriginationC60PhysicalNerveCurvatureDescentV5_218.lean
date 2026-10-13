@@ -69,7 +69,7 @@ variable
   (t₂ : OriginalF45BracketTree n₂ m₂ p₁ q₁ p₂ q₂)
 variable
   {leftAfter : OriginalF45BracketTree n₁ m₁ p₀ q₀ p₁ q₁}
-  {rightAfter : OriginalF45BracketTree n₂ m₂ p₁ q₀ p₁ q₁}
+  {rightAfter : OriginalF45BracketTree n₂ m₂ p₁ q₁ p₂ q₂}
   (left : OriginalF45BracketTree.LocalRotation t₁ leftAfter)
   (right : OriginalF45BracketTree.LocalRotation t₂ rightAfter)
 
