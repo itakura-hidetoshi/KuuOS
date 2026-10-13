@@ -131,7 +131,7 @@ zero charge, without an assumed collapse of every generator. -/
     (X : C60F77NativeQuotient) :
     (c60F77QuotientToStrictCharge.map (𝟙 X)).charge =
       (0 : Int × Int) := by
-  rw [Functor.map_id]
+  change (0 : Int × Int) = 0
   rfl
 
 /-- Our REAL quotient horizontal tensor strictly preserves
@@ -251,7 +251,6 @@ theorem c60F80OriginalF51_horizontal_quotient
         ((c60F77OriginalSourceQuotient p q).map f)
         ((c60F77OriginalSourceQuotient r s).map g) := by
   apply c60F80QuotientThree_ext
-  rw [c60F80QuotientThreeTensor_charge]
   change (c60F51Eval (c60F51HorizontalMap f g)).charge =
     (c60F51Eval f).charge + (c60F51Eval g).charge
   rw [c60F51HorizontalMap_eval]
