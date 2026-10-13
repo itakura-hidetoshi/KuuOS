@@ -310,6 +310,84 @@ theorem c60PhysicalFaceGradedNerveEdge_charge_phase
   · exact c60PhysicalFaceGradedNerveEdge_phase edge side
 
 
+/-! ## Direct native F47 -> F49 geometric higher-nerve comparison -/
+
+section PhysicalGradedComparison
+
+variable {a b : D} {x y : E}
+variable {n₁ n₂ m₁ m₂ : Nat}
+variable {p₀ p₁ p₂ : Blocks a b} {q₀ q₁ q₂ : Blocks x y}
+variable
+  (t₁ : OriginalF45BracketTree n₁ m₁ p₀ q₀ p₁ q₁)
+  (t₂ : OriginalF45BracketTree n₂ m₂ p₁ q₁ p₂ q₂)
+variable
+  {leftAfter : OriginalF45BracketTree n₁ m₁ p₀ q₀ p₁ q₁}
+  {rightAfter : OriginalF45BracketTree n₂ m₂ p₁ q₁ p₂ q₂}
+  (left : OriginalF45BracketTree.LocalRotation t₁ leftAfter)
+  (right : OriginalF45BracketTree.LocalRotation t₂ rightAfter)
+
+/-- A genuine simplicial map from the original boundary-tagged F47 mixed
+3-Hom category at an ACTUAL physical C60 edge/face to the F49 graded
+3-Hom category indexed by that same original polygonal face's actual
+boundary loop and empty reference path. The map is induced by the
+preexisting complete native, faithful Gray functor; not by a phase-only
+projection or invented F42/F55 source identification. -/
+def c60PhysicalMixedToOriginalGradedNerve
+    (edge : TruncatedIcosahedralEdge) (side : Bool) :
+    c60PhysicalMixedThreeNerve t₁ t₂ left right edge side ⟶
+      c60OriginalGradedThreeNerve
+        (c60F41PhysicalFaceBoundaryLoop
+          (c60F48AdjacentRealFace edge side)).2
+        Quiver.Path.nil :=
+  CategoryTheory.nerveMap
+    (c60F47MixedGrayFunctor
+      (c60F48EveryRealEdgeMixedFrame t₁ t₂ left right edge side))
+
+/-- All genuinely typed F47 arrows, including the original face/F55
+3-cells and explicitly NEW calibration, map to their COMPLETE
+(Int × Int charge, ZMod 2 phase) F49 Gray 3-cell simplicial edge. -/
+theorem c60PhysicalMixedToOriginalGradedNerve_edges
+    (edge : TruncatedIcosahedralEdge) (side : Bool)
+    {X Y : C60F47BoundaryPoint
+      (c60F48EveryRealEdgeMixedFrame t₁ t₂ left right edge side)}
+    (f : X ⟶ Y) :
+    CategoryTheory.nerve.homEquiv
+      ((CategoryTheory.nerve.edgeMk f).map
+        (c60PhysicalMixedToOriginalGradedNerve
+          t₁ t₂ left right edge side)) =
+      c60F47MixedEval f := by
+  exact CategoryTheory.nerve.homEquiv_edgeMk_map_nerveMap
+    f (c60F47MixedGrayFunctor
+      (c60F48EveryRealEdgeMixedFrame t₁ t₂ left right edge side))
+
+/-- The actual physical F47 -> F49 nerve map is faithful on
+every original four-boundary typed 3-cell edge. -/
+theorem c60PhysicalMixedToOriginalGradedNerve_reflects_edges
+    (edge : TruncatedIcosahedralEdge) (side : Bool)
+    {X Y : C60F47BoundaryPoint
+      (c60F48EveryRealEdgeMixedFrame t₁ t₂ left right edge side)}
+    (f g : X ⟶ Y)
+    (h :
+      (CategoryTheory.nerve.edgeMk f).map
+        (c60PhysicalMixedToOriginalGradedNerve
+          t₁ t₂ left right edge side) =
+      (CategoryTheory.nerve.edgeMk g).map
+        (c60PhysicalMixedToOriginalGradedNerve
+          t₁ t₂ left right edge side)) : f = g := by
+  have hf :=
+    c60PhysicalMixedToOriginalGradedNerve_edges
+      t₁ t₂ left right edge side f
+  have hg :=
+    c60PhysicalMixedToOriginalGradedNerve_edges
+      t₁ t₂ left right edge side g
+  have hh := congrArg CategoryTheory.nerve.homEquiv h
+  have hEval : c60F47MixedEval f = c60F47MixedEval g :=
+    hf.symm.trans (hh.trans hg)
+  exact c60F47MixedGrayFunctor_faithful
+    (c60F48EveryRealEdgeMixedFrame t₁ t₂ left right edge side) hEval
+
+end PhysicalGradedComparison
+
 #print axioms c60LocalMixedThreeQuasicategory
 #print axioms c60LocalMixedThreeInnerHorn
 #print axioms c60LocalMixedTriangles_sharedDiagonal
@@ -321,6 +399,8 @@ theorem c60PhysicalFaceGradedNerveEdge_charge_phase
 #print axioms c60OriginalGradedThreeQuasicategory
 #print axioms c60PhysicalFaceGradedNerveEdge_phase
 #print axioms c60PhysicalFaceGradedNerveEdge_charge_phase
+#print axioms c60PhysicalMixedToOriginalGradedNerve_edges
+#print axioms c60PhysicalMixedToOriginalGradedNerve_reflects_edges
 
 end
 end KUOS.DependentOriginationC60PhysicalHigherNerveBridgeV5_215
