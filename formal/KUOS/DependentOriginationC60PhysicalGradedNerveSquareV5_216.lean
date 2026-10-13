@@ -82,9 +82,11 @@ theorem c60PhysicalFaceChoice_gradedFunctor_square
   have hrot : c60F44OriginalF55Eval B₀.rotationStep =
       c60F44OriginalF55Eval B₁.rotationStep := by
     rfl
-  apply CategoryTheory.Functor.ext (fun _ => rfl)
-  intro X Y f
-  simpa [c60F48ActualEdgeFaceChoiceFunctor, c60F47MixedGrayFunctor,
+  apply CategoryTheory.Functor.ext
+  · intro X
+    rfl
+  · intro X Y f
+    simpa [c60F48ActualEdgeFaceChoiceFunctor, c60F47MixedGrayFunctor,
     B₀, B₁] using
     (c60F48MixedBoundaryTransportFunctor_fullNative B₀ B₁
       hface hrot f)
