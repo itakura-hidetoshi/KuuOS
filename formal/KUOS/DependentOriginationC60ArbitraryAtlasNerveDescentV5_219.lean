@@ -20,6 +20,8 @@ open KUOS.DependentOriginationGrayC60ActualF55CurvatureRepairV5_167
 open KUOS.DependentOriginationGrayC60F55MixedDescentObstructionV5_204
 open KUOS.DependentOriginationGrayC60WangBiGlobalGrayDescentV5_174
 open KUOS.DependentOriginationGrayC60IntegralBoundaryLinearMapV5_159
+open KUOS.DependentOriginationGrayC60IntegralChainComplexV5_160
+open KUOS.DependentOriginationGrayC60OriginalFaceAssociatorThreeHomV5_200
 open KUOS.DependentOriginationGrayC60CochainDescentV5_166
 open KUOS.DependentOriginationGrayC60OriginalF43F55MixedBridgeV5_203
 open KUOS.DependentOriginationGrayC60F55SourcePhaseLockedAtlasV5_175
@@ -208,7 +210,7 @@ theorem c60F65AtlasNerveOriginal_eq_uniform
 side-independent across any arbitrary choice of physical faces. -/
 theorem c60F65AtlasFace_eq_false
     (sigma : TruncatedIcosahedralEdge → Bool) :
-    c60F65AtlasFaceField t₁ t₂ left right sigma =
+    c60F65AtlasFaceField sigma =
       c60F48FaceInterchangerField false := by
   funext edge
   cases h : sigma edge with
@@ -226,8 +228,8 @@ theorem c60F65Atlas_allChoicesNativeCochains_equal
         c60F65AtlasNerveDeltaField t₁ t₂ left right tau ∧
     c60F65AtlasNerveOriginalRotationField t₁ t₂ left right sigma =
         c60F65AtlasNerveOriginalRotationField t₁ t₂ left right tau ∧
-    c60F65AtlasFaceField t₁ t₂ left right sigma =
-        c60F65AtlasFaceField t₁ t₂ left right tau := by
+    c60F65AtlasFaceField sigma =
+        c60F65AtlasFaceField tau := by
   refine ⟨?_, ?_, ?_⟩
   · rw [c60F65AtlasNerveDelta_eq_calibration,
       c60F65AtlasNerveDelta_eq_calibration]
@@ -242,7 +244,7 @@ with a freely varying independent face choice. -/
 theorem c60F65AtlasNerve_sitewiseCalibration
     (sigma : TruncatedIcosahedralEdge → Bool)
     (edge : TruncatedIcosahedralEdge) :
-    c60F65AtlasFaceField t₁ t₂ left right sigma edge +
+    c60F65AtlasFaceField sigma edge +
       c60F65AtlasNerveDeltaField t₁ t₂ left right sigma edge =
     c60F65AtlasNerveOriginalRotationField
       t₁ t₂ left right sigma edge :=
@@ -292,11 +294,21 @@ theorem c60F65AtlasNerveDelta_noVertexGauge
         (c60F65AtlasNerveDeltaField
           t₁ t₂ left right sigma) =
         φ.comp c60IntegralBoundaryOne := by
-  rw [c60F65AtlasNerveDelta_eq_calibration]
-  rw [← c60F48MixedComparisonField_isCalibration
-    t₁ t₂ left right false]
-  exact (c60F64PhysicalNerveDelta_noVertexGauge
-    t₁ t₂ left right false)
+  intro hGauge
+  have hFlat := (c60WangBiGlobalFlatIffVertexDescent
+    (c60F65AtlasNerveDeltaField
+      t₁ t₂ left right sigma)).mpr hGauge
+  have hZero := hFlat (.aroundVertex .north)
+  have hZeroCharge :
+      (c60WangBiSignedGrayFace
+        (c60F65AtlasNerveDeltaField
+          t₁ t₂ left right sigma)
+        (.aroundVertex .north)).charge.2 = (0 : ℤ) :=
+    congrArg (fun g : GradedThreeCell 0 0 => g.charge.2) hZero
+  have hNorth := (c60F65AtlasNerveDelta_northChargePhase
+    t₁ t₂ left right sigma).1
+  rw [hNorth] at hZeroCharge
+  norm_num at hZeroCharge
 
  /-- Original genuine F55 edge labels are also non-exact, for
 every independent physical face-selection atlas. -/
@@ -324,7 +336,7 @@ theorem c60F65AtlasNerve_originalNonlift
       c60F65AtlasNerveOriginalRotationField
         t₁ t₂ left right sigma edge :=
   c60F64PhysicalNerveOriginal_nonlift
-    t₁ t₂ left right (sigma edge) edge
+    t₁ t₂ left right edge (sigma edge)
 
 /-- A single quantified theorem for all 2^90 independently chosen
 C60 adjacent-face atlases, exhibiting simultaneously local higher
@@ -337,7 +349,7 @@ theorem c60F65Atlas_allChoicesLocalCoherence_globalObstruction
       SSet.Quasicategory
         (c60F65AtlasLocalNerve t₁ t₂ left right sigma edge)) ∧
     (∀ edge : TruncatedIcosahedralEdge,
-      c60F65AtlasFaceField t₁ t₂ left right sigma edge +
+      c60F65AtlasFaceField sigma edge +
         c60F65AtlasNerveDeltaField
           t₁ t₂ left right sigma edge =
         c60F65AtlasNerveOriginalRotationField
