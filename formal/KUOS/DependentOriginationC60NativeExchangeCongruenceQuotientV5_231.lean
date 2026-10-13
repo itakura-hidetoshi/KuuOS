@@ -223,9 +223,17 @@ theorem c60F77PhaseArrow_killed
       F.map (c60F77PhaseGenerator X) = 𝟙 (F.obj X))
     (X : GrayGrade) (p : ZMod 2) :
     F.map (c60F77PhaseArrow X p) = 𝟙 (F.obj X) := by
-  fin_cases p
-  · simpa [c60F77PhaseArrow, GradedThreeCell.ident] using (F.map_id X)
-  · simpa [c60F77PhaseArrow, c60F77PhaseGenerator] using (hkill X)
+  have hp : p = (0 : ZMod 2) ∨ p = 1 := by
+    fin_cases p <;> decide
+  rcases hp with hp0 | hp1
+  · rw [hp0]
+    have hzero : c60F77PhaseArrow X 0 = 𝟙 X := by
+      apply GradedThreeCell.ext <;> rfl
+    rw [hzero]
+    exact F.map_id X
+  · rw [hp1]
+    change F.map (c60F77PhaseGenerator X) = 𝟙 (F.obj X)
+    exact hkill X
 
 /-- THE KEY MINIMALITY RESULT. Any functor that kills the
 nontrivial phase-one generator automatically respects ALL and ONLY
