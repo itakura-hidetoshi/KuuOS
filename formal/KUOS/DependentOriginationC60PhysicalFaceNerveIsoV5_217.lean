@@ -60,9 +60,6 @@ variable
   (left : OriginalF45BracketTree.LocalRotation t₁ leftAfter)
   (right : OriginalF45BracketTree.LocalRotation t₂ rightAfter)
 
-/-- The source-level face-change and reverse face-change functors
-compose to the identity on all original F47 four-tag Hom quotients. -/
-
 /-- The original physical adjacent-face source comparison and its reverse
 compose to an actual typed Mathlib natural isomorphism, not a new source axiom. -/
 def c60PhysicalFaceChange_forward_reverse_NatIso
@@ -170,4 +167,5 @@ theorem c60PhysicalFaceChangeEquivalence_gradedNerve
 #print axioms c60PhysicalFaceChangeEquivalence_gradedNerve
 
 end ActualPhysicalEdge
+end
 end KUOS.DependentOriginationC60PhysicalFaceNerveIsoV5_217
