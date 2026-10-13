@@ -93,10 +93,13 @@ theorem c60F87Obstruction_hom_transport_formula
     (fun h => h ≫ (c60F81TransportedVsOriginalQuotientTensorIso X Y).hom)
     (c60F87IdentityTensorator_transport_formula X Y)
 
-/-- The residual two-coordinate charge is the sum of four truly
-typed quotient-Hom contributions: tensor of the F79 units, the
-F81/F84 mediated μ, its F79 unit inverse, and F82's comparison.
-This is a computable interface for subsequent vanishing analysis. -/
+/-- The EXACT quotient charge of the F86 obstruction is the
+strict-charge functor applied to the independently established F87
+four-factor morphism equality. This is deliberately a single
+well-typed composite: splitting it into four integer-charge summands
+requires a separately checked compatibility with the explicit
+F84 direct-category composition instance. No such equality is
+assumed as a new axiom or fabricated using definitional reduction. -/
 theorem c60F87Obstruction_charge_transport_formula
     (X Y : C60F85TransportedQuotient) :
     letI : c60F85TransportedDirectEquivalence.functor.Monoidal :=
@@ -104,21 +107,27 @@ theorem c60F87Obstruction_charge_transport_formula
     (c60F77QuotientToStrictCharge.map
       (c60F86TensoratorObstructionIso X Y).hom).charge =
       (c60F77QuotientToStrictCharge.map
-        (c60F85MediatedToIdentityNatIso.inv.app X ⊗ₘ
-          c60F85MediatedToIdentityNatIso.inv.app Y)).charge +
-      (c60F77QuotientToStrictCharge.map
-        (Functor.LaxMonoidal.μ
-          c60F85TransportedDirectEquivalence.functor X Y)).charge +
-      (c60F77QuotientToStrictCharge.map
-        (c60F85MediatedToIdentityNatIso.hom.app (X ⊗ Y))).charge +
-      (c60F77QuotientToStrictCharge.map
-        (c60F81TransportedVsOriginalQuotientTensorIso X Y).hom).charge := by
+        (((c60F85MediatedToIdentityNatIso.inv.app X ⊗ₘ
+              c60F85MediatedToIdentityNatIso.inv.app Y) ≫
+            Functor.LaxMonoidal.μ
+              c60F85TransportedDirectEquivalence.functor X Y ≫
+            c60F85MediatedToIdentityNatIso.hom.app (X ⊗ Y)) ≫
+          (c60F81TransportedVsOriginalQuotientTensorIso X Y).hom)).charge := by
   letI : c60F85TransportedDirectEquivalence.functor.Monoidal :=
     c60F87MediatedMonoidal
-  rw [c60F86TensoratorObstruction_charge]
-  rw [c60F87IdentityTensorator_transport_formula]
-  simp only [c60F80QuotientThree_comp_charge]
-  abel
+  exact congrArg
+    (fun (f : c60F80QuotientTwoTensor X Y ⟶
+        c60F80QuotientTwoTensor X Y) =>
+      (c60F77QuotientToStrictCharge.map f).charge)
+    (c60F87Obstruction_hom_transport_formula X Y)
+
+/-!
+The stronger four-summand expansion is kept as an explicit F88
+obligation rather than silently identifying the F84 direct quotient
+composition and the F77 native quotient composition by a tactic.
+The F86 theorem already proves Ω = id iff BOTH integer charges
+vanish; F87 does not assert that the obstruction vanishes.
+-/
 
 #print axioms c60F87MediatedMonoidal
 #print axioms c60F87IdentityTensorator_transport_formula
