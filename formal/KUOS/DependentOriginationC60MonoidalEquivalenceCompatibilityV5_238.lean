@@ -150,24 +150,31 @@ def c60F84DirectToChargeLaxMonoidal :
       intro X Y Z
       calc
         _ = c60F84DirectToCharge.map (α_ X Y Z).hom := by
-          simp
+          rw [MonoidalCategory.id_whiskerRight, Category.id_comp,
+            Category.id_comp]
         _ = (α_ (c60F84DirectToCharge.obj X)
             (c60F84DirectToCharge.obj Y)
             (c60F84DirectToCharge.obj Z)).hom :=
           c60F84DirectToCharge_map_associator X Y Z
-        _ = _ := by simp)
+        _ = _ := by
+          rw [MonoidalCategory.whiskerLeft_id, Category.comp_id,
+            Category.comp_id])
     (left_unitality := by
       intro X
       calc
         _ = c60F84DirectToCharge.map (λ_ X).hom :=
-          c60F84DirectToCharge_map_leftUnitor X
-        _ = _ := by simp)
+          (c60F84DirectToCharge_map_leftUnitor X).symm
+        _ = _ := by
+          rw [MonoidalCategory.id_whiskerRight, Category.id_comp,
+            Category.id_comp])
     (right_unitality := by
       intro X
       calc
         _ = c60F84DirectToCharge.map (ρ_ X).hom :=
-          c60F84DirectToCharge_map_rightUnitor X
-        _ = _ := by simp)
+          (c60F84DirectToCharge_map_rightUnitor X).symm
+        _ = _ := by
+          rw [MonoidalCategory.whiskerLeft_id, Category.id_comp,
+            Category.id_comp])
 
 /-- Its unit and tensor comparison maps are LITERALLY identities,
 hence both invertible; convert the proven lax coherence to genuine
@@ -215,16 +222,17 @@ def c60F84DirectChargeEquivalenceInverseMonoidal :
 
 /-- The underlying F79 category equivalence is a genuine
 Mathlib MONOIDAL equivalence of the F83 direct quotient and F75. -/
+@[implicit_reducible]
 def c60F84DirectChargeMonoidalEquivalence :
     letI : c60F84DirectChargeEquivalence.functor.Monoidal :=
       c60F84DirectChargeEquivalenceForwardMonoidal
     letI : c60F84DirectChargeEquivalence.inverse.Monoidal :=
-      c60F84DirectChargeEquivalenceInverseMonoidal
+      c60F84DirectChargeEquivalence.inverseMonoidal
     c60F84DirectChargeEquivalence.IsMonoidal := by
   letI : c60F84DirectChargeEquivalence.functor.Monoidal :=
     c60F84DirectChargeEquivalenceForwardMonoidal
   letI : c60F84DirectChargeEquivalence.inverse.Monoidal :=
-    c60F84DirectChargeEquivalenceInverseMonoidal
+    c60F84DirectChargeEquivalence.inverseMonoidal
   infer_instance
 
 #print axioms c60F84DirectToCharge_map_tensor
