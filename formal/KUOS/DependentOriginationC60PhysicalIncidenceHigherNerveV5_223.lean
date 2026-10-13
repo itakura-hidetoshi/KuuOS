@@ -71,8 +71,9 @@ inductive C60F69PhysicalCellSite where
 
 /-- A genuine physical incidence relation, including direct vertex
 to face incidence needed for the oriented 2-simplex diagonal. -/
-def c60F69PhysicalIncidence :
-    C60F69PhysicalCellSite → C60F69PhysicalCellSite → Prop
+def c60F69PhysicalIncidence
+    (source target : C60F69PhysicalCellSite) : Prop :=
+  match source, target with
   | .vertex v, .vertex w => v = w
   | .vertex v, .edge e =>
       v = (truncatedIcosahedralEdgeEndpoints e).1 ∨
