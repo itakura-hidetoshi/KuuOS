@@ -187,7 +187,7 @@ monoidal structures in its typed source and target presentations. -/
 @[implicit_reducible]
 def c60F85IdentityEquivalence :
     C60F85TransportedQuotient ≌ C60F84DirectQuotient :=
-  Equivalence.refl
+  CategoryTheory.Equivalence.refl
 
 /-- The identity functor is strongly monoidal by the coherent
 F79-mediated construction, not by a bare tensor NatIso. -/
