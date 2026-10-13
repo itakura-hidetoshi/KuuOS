@@ -16,6 +16,7 @@ open KUOS.DependentOriginationGrayC60ThreeHomCategoriesV5_192
 open KUOS.DependentOriginationGrayC60OriginalF55ThreeHomV5_192
 open KUOS.DependentOriginationGrayC60MixedBoundaryThreeHomV5_195
 open KUOS.DependentOriginationGrayC60AllNinetyMixedBoundaryV5_196
+open KUOS.DependentOriginationGrayC60IntegralChainComplexV5_160
 open KUOS.DependentOriginationGrayC60F55MixedEndomorphismRigidityV5_210
 open KUOS.DependentOriginationC60ArbitraryAtlasNerveDescentV5_219
 open KUOS.DependentOriginationC60FourAtlasCechNerveV5_220
@@ -124,7 +125,7 @@ theorem c60F72NativeFlagTransport_functorEq
       c60F72NativeEdgeToFace
         t₁ t₂ left right sigma edge =
     c60F72NativeVertexToFace := by
-  fapply Functor.ext
+  fapply CategoryTheory.Functor.ext
   · intro X
     rfl
   · intro X Y f
