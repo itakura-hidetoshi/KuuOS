@@ -79,14 +79,15 @@ physical C60 edge. The empty intermediate list is the direct comparison.
 The list length k is UNBOUNDED; every element is an independent 90-bit atlas. -/
 def c60F67AtlasRoute
     (sigma omega : C60F67Atlas)
-    (edge : TruncatedIcosahedralEdge) :
-    List C60F67Atlas →
-      (C60F47BoundaryPoint
+    (edge : TruncatedIcosahedralEdge)
+    (via : List C60F67Atlas) :
+      C60F47BoundaryPoint
         (c60F48EveryRealEdgeMixedFrame
           t₁ t₂ left right edge (sigma edge)) ⥤
-       C60F47BoundaryPoint
+      C60F47BoundaryPoint
         (c60F48EveryRealEdgeMixedFrame
-          t₁ t₂ left right edge (omega edge)))
+          t₁ t₂ left right edge (omega edge)) :=
+  match via with
   | [] => c60F66AtlasTransition t₁ t₂ left right sigma omega edge
   | tau :: rest =>
       c60F66AtlasTransition t₁ t₂ left right sigma tau edge ⋙
@@ -98,10 +99,11 @@ step is a genuinely typed left whiskering followed by the original
 F66 three-atlas Cech cocycle. -/
 def c60F67AtlasRouteCollapse
     (sigma omega : C60F67Atlas)
-    (edge : TruncatedIcosahedralEdge) :
-    (via : List C60F67Atlas) →
+    (edge : TruncatedIcosahedralEdge)
+    (via : List C60F67Atlas) :
       c60F67AtlasRoute t₁ t₂ left right sigma omega edge via ≅
-      c60F66AtlasTransition t₁ t₂ left right sigma omega edge
+      c60F66AtlasTransition t₁ t₂ left right sigma omega edge :=
+  match via with
   | [] => Iso.refl _
   | tau :: rest =>
       (c60F66AtlasTransition
