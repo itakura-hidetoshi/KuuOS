@@ -78,6 +78,34 @@ def c60F83DirectRightUnitor
     c60F80QuotientTwoTensor X c60F80QuotientTwoUnit ≅ X :=
   eqToIso (c60F80QuotientTwoTensor_rightUnit X)
 
+/-- The DIRECT quotient associator has zero of BOTH physical
+integer charges because its arrow is the original equality transport. -/
+@[simp] theorem c60F83DirectAssociator_charge
+    (X Y Z : C60F77NativeQuotient) :
+    (c60F77QuotientToStrictCharge.map
+      (c60F83DirectAssociator X Y Z).hom).charge =
+        (0 : Int × Int) := by
+  exact c60F82Quotient_eqToHom_charge_zero
+    (c60F80QuotientTwoTensor_assoc X Y Z)
+
+/-- The DIRECT left unitor is zero in both independent charges. -/
+@[simp] theorem c60F83DirectLeftUnitor_charge
+    (X : C60F77NativeQuotient) :
+    (c60F77QuotientToStrictCharge.map
+      (c60F83DirectLeftUnitor X).hom).charge =
+        (0 : Int × Int) := by
+  exact c60F82Quotient_eqToHom_charge_zero
+    (c60F80QuotientTwoTensor_leftUnit X)
+
+/-- The DIRECT right unitor is zero in both independent charges. -/
+@[simp] theorem c60F83DirectRightUnitor_charge
+    (X : C60F77NativeQuotient) :
+    (c60F77QuotientToStrictCharge.map
+      (c60F83DirectRightUnitor X).hom).charge =
+        (0 : Int × Int) := by
+  exact c60F82Quotient_eqToHom_charge_zero
+    (c60F80QuotientTwoTensor_rightUnit X)
+
 /-- A NEW, independent monoidal STRUCTURE using the genuine original
 F80 quotient horizontal composition, NOT the transported F81
 monoidal structure. This is kept explicit to avoid double instances. -/
@@ -137,27 +165,44 @@ def c60F83DirectMonoidalCategory :
       (pentagon := by
         intro W X Y Z
         apply c60F80QuotientThree_ext
-        dsimp only [c60F83DirectMonoidalStruct, c60F83DirectAssociator,
-          c60F83DirectLeftUnitor, c60F83DirectRightUnitor,
-          eqToIso.hom]
-        simp only [c60F80QuotientThree_comp_charge,
-          c60F80QuotientThreeTensor_charge,
-          c60F82Quotient_eqToHom_charge_zero,
+        change
+          (c60F77QuotientToStrictCharge.map
+            (c60F80QuotientThreeTensor
+              (c60F83DirectAssociator W X Y).hom (𝟙 Z))).charge +
+            ((c60F77QuotientToStrictCharge.map
+              (c60F83DirectAssociator W
+                (c60F80QuotientTwoTensor X Y) Z).hom).charge +
+              (c60F77QuotientToStrictCharge.map
+                (c60F80QuotientThreeTensor
+                  (𝟙 W) (c60F83DirectAssociator X Y Z).hom)).charge) =
+          (c60F77QuotientToStrictCharge.map
+            (c60F83DirectAssociator
+              (c60F80QuotientTwoTensor W X) Y Z).hom).charge +
+          (c60F77QuotientToStrictCharge.map
+            (c60F83DirectAssociator W X
+              (c60F80QuotientTwoTensor Y Z)).hom).charge
+        simp only [c60F80QuotientThreeTensor_charge,
+          c60F83DirectAssociator_charge,
           c60F80QuotientThree_id_charge]
-        trace_state
-        try abel)
+        abel)
       (triangle := by
         intro X Y
         apply c60F80QuotientThree_ext
-        dsimp only [c60F83DirectMonoidalStruct, c60F83DirectAssociator,
-          c60F83DirectLeftUnitor, c60F83DirectRightUnitor,
-          eqToIso.hom]
-        simp only [c60F80QuotientThree_comp_charge,
-          c60F80QuotientThreeTensor_charge,
-          c60F82Quotient_eqToHom_charge_zero,
+        change
+          (c60F77QuotientToStrictCharge.map
+            (c60F83DirectAssociator X c60F80QuotientTwoUnit Y).hom).charge +
+          (c60F77QuotientToStrictCharge.map
+            (c60F80QuotientThreeTensor
+              (𝟙 X) (c60F83DirectLeftUnitor Y).hom)).charge =
+          (c60F77QuotientToStrictCharge.map
+            (c60F80QuotientThreeTensor
+              (c60F83DirectRightUnitor X).hom (𝟙 Y))).charge
+        simp only [c60F80QuotientThreeTensor_charge,
+          c60F83DirectAssociator_charge,
+          c60F83DirectLeftUnitor_charge,
+          c60F83DirectRightUnitor_charge,
           c60F80QuotientThree_id_charge]
-        trace_state
-        try abel)
+        abel)
 
 /-- The strict original F80 tensor, seen as the Mathlib tensor
 bifunctor of this EXPLICIT separately proved direct monoidal
@@ -201,6 +246,9 @@ theorem c60F83DirectMonoidal_interchange
 #print axioms c60F83DirectAssociator
 #print axioms c60F83DirectLeftUnitor
 #print axioms c60F83DirectRightUnitor
+#print axioms c60F83DirectAssociator_charge
+#print axioms c60F83DirectLeftUnitor_charge
+#print axioms c60F83DirectRightUnitor_charge
 #print axioms c60F83DirectMonoidalStruct
 #print axioms c60F83DirectMonoidalCategory
 #print axioms c60F83DirectTensorBifunctor
