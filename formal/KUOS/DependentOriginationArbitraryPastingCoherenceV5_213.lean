@@ -46,8 +46,11 @@ theorem natIso_eq_of_endomorphism_rigidity
   apply Iso.ext
   apply NatTrans.ext
   funext X
-  rw [← sameObjects X]
-  exact rigid (F.obj X) _ _
+  let e : F.obj X ≅ G.obj X := eqToIso (sameObjects X)
+  have h := rigid (F.obj X)
+    (η.hom.app X ≫ e.inv) (θ.hom.app X ≫ e.inv)
+  have h' := congrArg (fun (f : F.obj X ⟶ F.obj X) => f ≫ e.hom) h
+  simpa [e, Category.assoc] using h'
 
 /-- All routes in an arbitrarily indexed family agree once their typed
 endpoints agree and those endpoints have rigid endomorphisms. -/
