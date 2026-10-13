@@ -136,16 +136,39 @@ def c60F84DirectToChargeLaxMonoidal :
     (μ := fun _ _ => 𝟙 _)
     (μ_natural := by
       intro X Y X' Y' f g
-      simpa using (c60F84DirectToCharge_map_tensor f g).symm)
+      change
+        (c60F84DirectToCharge.map f ⊗ₘ
+          c60F84DirectToCharge.map g) ≫
+          𝟙 (c60F84DirectToCharge.obj Y ⊗
+            c60F84DirectToCharge.obj Y') =
+        𝟙 (c60F84DirectToCharge.obj X ⊗
+            c60F84DirectToCharge.obj X') ≫
+          c60F84DirectToCharge.map (f ⊗ₘ g)
+      rw [Category.comp_id, Category.id_comp]
+      exact (c60F84DirectToCharge_map_tensor f g).symm)
     (associativity := by
       intro X Y Z
-      simpa using (c60F84DirectToCharge_map_associator X Y Z).symm)
+      apply C60F75StrictChargeThree.ext
+      change
+        ((0 : Int × Int) + 0 + 0) +
+          (c60F84DirectToCharge.map (α_ X Y Z).hom).charge =
+        (0 : Int × Int) + ((0 + 0) + 0)
+      rw [c60F84DirectToCharge_map_associator X Y Z]
+      rfl)
     (left_unitality := by
       intro X
-      simpa using (c60F84DirectToCharge_map_leftUnitor X).symm)
+      apply C60F75StrictChargeThree.ext
+      change (0 : Int × Int) = (0 + 0 + 0) +
+        (c60F84DirectToCharge.map (λ_ X).hom).charge
+      rw [c60F84DirectToCharge_map_leftUnitor X]
+      rfl)
     (right_unitality := by
       intro X
-      simpa using (c60F84DirectToCharge_map_rightUnitor X).symm)
+      apply C60F75StrictChargeThree.ext
+      change (0 : Int × Int) = (0 + 0 + 0) +
+        (c60F84DirectToCharge.map (ρ_ X).hom).charge
+      rw [c60F84DirectToCharge_map_rightUnitor X]
+      rfl)
 
 /-- Its unit and tensor comparison maps are LITERALLY identities,
 hence both invertible; convert the proven lax coherence to genuine
