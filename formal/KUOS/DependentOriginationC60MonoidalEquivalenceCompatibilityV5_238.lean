@@ -150,14 +150,14 @@ def c60F84DirectToChargeLaxMonoidal :
       intro X Y Z
       calc
         _ = c60F84DirectToCharge.map (α_ X Y Z).hom := by
-          rw [MonoidalCategory.id_whiskerRight, Category.id_comp,
+          rw [MonoidalCategory.id_tensorHom_id, Category.id_comp,
             Category.id_comp]
         _ = (α_ (c60F84DirectToCharge.obj X)
             (c60F84DirectToCharge.obj Y)
             (c60F84DirectToCharge.obj Z)).hom :=
           c60F84DirectToCharge_map_associator X Y Z
         _ = _ := by
-          rw [MonoidalCategory.whiskerLeft_id, Category.comp_id,
+          rw [MonoidalCategory.id_tensorHom_id, Category.comp_id,
             Category.comp_id])
     (left_unitality := by
       intro X
@@ -165,7 +165,7 @@ def c60F84DirectToChargeLaxMonoidal :
         _ = c60F84DirectToCharge.map (λ_ X).hom :=
           (c60F84DirectToCharge_map_leftUnitor X).symm
         _ = _ := by
-          rw [MonoidalCategory.id_whiskerRight, Category.id_comp,
+          rw [MonoidalCategory.id_tensorHom_id, Category.id_comp,
             Category.id_comp])
     (right_unitality := by
       intro X
@@ -173,7 +173,7 @@ def c60F84DirectToChargeLaxMonoidal :
         _ = c60F84DirectToCharge.map (ρ_ X).hom :=
           (c60F84DirectToCharge_map_rightUnitor X).symm
         _ = _ := by
-          rw [MonoidalCategory.whiskerLeft_id, Category.id_comp,
+          rw [MonoidalCategory.id_tensorHom_id, Category.id_comp,
             Category.id_comp])
 
 /-- Its unit and tensor comparison maps are LITERALLY identities,
