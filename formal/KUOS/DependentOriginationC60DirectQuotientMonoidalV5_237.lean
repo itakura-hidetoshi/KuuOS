@@ -81,6 +81,7 @@ def c60F83DirectRightUnitor
 /-- A NEW, independent monoidal STRUCTURE using the genuine original
 F80 quotient horizontal composition, NOT the transported F81
 monoidal structure. This is kept explicit to avoid double instances. -/
+@[implicit_reducible]
 def c60F83DirectMonoidalStruct :
     MonoidalCategoryStruct C60F77NativeQuotient where
   tensorObj := c60F80QuotientTwoTensor
@@ -105,6 +106,7 @@ F77 quotient three-Hom sets. Crucially:
 * the pentagon and triangle are exact quotient 3-arrow equations,
   proved by F79 Faithful+charge=0, not granted by F81 transport.
 No global competing instance is introduced. -/
+@[implicit_reducible]
 def c60F83DirectMonoidalCategory :
     MonoidalCategory C60F77NativeQuotient := by
   letI : MonoidalCategoryStruct C60F77NativeQuotient :=
@@ -135,19 +137,21 @@ def c60F83DirectMonoidalCategory :
       (pentagon := by
         intro W X Y Z
         apply c60F80QuotientThree_ext
-        simp only [c60F80QuotientThree_comp_charge,
+        simp [c60F83DirectMonoidalStruct, c60F83DirectAssociator,
+          c60F83DirectLeftUnitor, c60F83DirectRightUnitor,
+          c60F80QuotientThree_comp_charge,
           c60F80QuotientThreeTensor_charge,
           c60F82Quotient_eqToHom_charge_zero,
-          c60F80QuotientThree_id_charge]
-        abel)
+          c60F80QuotientThree_id_charge] <;> abel)
       (triangle := by
         intro X Y
         apply c60F80QuotientThree_ext
-        simp only [c60F80QuotientThree_comp_charge,
+        simp [c60F83DirectMonoidalStruct, c60F83DirectAssociator,
+          c60F83DirectLeftUnitor, c60F83DirectRightUnitor,
+          c60F80QuotientThree_comp_charge,
           c60F80QuotientThreeTensor_charge,
           c60F82Quotient_eqToHom_charge_zero,
-          c60F80QuotientThree_id_charge]
-        abel)
+          c60F80QuotientThree_id_charge] <;> abel)
 
 /-- The strict original F80 tensor, seen as the Mathlib tensor
 bifunctor of this EXPLICIT separately proved direct monoidal
