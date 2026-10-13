@@ -171,7 +171,7 @@ theorem c60F76StrictChargeThreeTensor_assoc_charge
     f.charge + (g.charge + h.charge)
   exact add_assoc _ _ _
 
-/-! ## Original C60 F42/F43 source, then strict quotient /-
+/-! ## Original C60 F42/F43 source, then strict quotient -/
 
 section OriginalSource
 variable {a b c : IcosahedralDart}
