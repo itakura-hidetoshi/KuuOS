@@ -17,6 +17,7 @@ open KUOS.DependentOriginationGrayC60MixedBoundaryThreeHomV5_195
 open KUOS.DependentOriginationGrayC60AllNinetyMixedBoundaryV5_196
 open KUOS.DependentOriginationGrayC60AdjacentFaceMixedTransportV5_196
 open KUOS.DependentOriginationGrayC60F55MixedFaceEquivalenceV5_204
+open KUOS.DependentOriginationGrayC60F55PhysicalIncidenceBeckChevalleyV5_207
 open KUOS.DependentOriginationC60PhysicalHigherNerveBridgeV5_215
 open KUOS.DependentOriginationCoherentBiadjunctionFiniteRectangularSubdivisionV5_137.Grid
 open KUOS.DependentOriginationCoherentBiadjunctionInterleavingExchangeQuotientV5_141.Grid
@@ -76,13 +77,12 @@ theorem c60PhysicalFaceChoice_gradedFunctor_square
   let B₁ := c60F48EveryRealEdgeMixedFrame t₁ t₂ left right edge true
   have hface : c60F44FaceThreeEval B₀.faceStep =
       c60F44FaceThreeEval B₁.faceStep := by
-    dsimp [B₀, B₁]
-    rw [c60F48EveryRealEdgeFaceStep_native,
-      c60F48EveryRealEdgeFaceStep_native]
+    exact c60F58PhysicalTwoFaces_sameOriginalF43
+      t₁ t₂ left right edge
   have hrot : c60F44OriginalF55Eval B₀.rotationStep =
       c60F44OriginalF55Eval B₁.rotationStep := by
     rfl
-  apply Functor.ext (fun _ => rfl)
+  apply CategoryTheory.Functor.ext (fun _ => rfl)
   intro X Y f
   simpa [c60F48ActualEdgeFaceChoiceFunctor, c60F47MixedGrayFunctor,
     B₀, B₁] using
