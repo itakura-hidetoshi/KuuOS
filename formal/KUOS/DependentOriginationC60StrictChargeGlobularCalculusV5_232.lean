@@ -10,10 +10,12 @@ open KUOS.DependentOriginationGrayBraidedThreeCellCoreV5_156
 open KUOS.DependentOriginationGrayNativeBraidedCategoryV5_156
 open KUOS.DependentOriginationGrayC60PresentedFaceTwoCellsV5_190
 open KUOS.DependentOriginationGrayC60PresentedInterchangerV5_191
+open KUOS.DependentOriginationGrayC60NativePathFunctorV5_189
 open KUOS.DependentOriginationGrayC60GradedGrayThreeCategoryV5_197
 open KUOS.DependentOriginationGrayC60GrayThreeCategoryCoherenceV5_197
 open KUOS.DependentOriginationGrayC60OriginalFaceHorizontalPresentationV5_199
 open KUOS.DependentOriginationGrayC60OriginalFaceHorizontalThreeHomV5_199
+open KUOS.DependentOriginationGrayC60OriginalFaceHorizontalCompositionV5_199
 open KUOS.DependentOriginationC60InterchangerStrictChargeQuotientV5_229
 open KUOS.DependentOriginationC60StrictChargeHorizontalInterchangeV5_230
 open KUOS.DependentOriginationC60NativeExchangeCongruenceQuotientV5_231
@@ -38,7 +40,7 @@ The four typed levels are:
 3. An actual F75 Mathlib three-Hom with Int×Int integer charges.
 
 We construct BOTH independently typed vertical and horizontal
-two-/three-cell operations, units, associativity, middle-four laws,
+two- and three-cell operations, units, associativity, middle-four laws,
 left/right real-path whiskering and reassociated three-arrow naturality,
 using equality transports rather than pretending distinct dependent
 path expressions are definitional equal. Source F42/F43 faces still
@@ -485,6 +487,7 @@ theorem c60F78TwoIndependentCharges
   · rfl
   intro h
   have hh := congrArg (fun f : C60F78Three X X => f.charge.1) h
+  change (1 : Int) = 0 at hh
   norm_num at hh
 
 /-- Actual original north C60 pentagonal loop is still a nontrivial
@@ -499,7 +502,7 @@ theorem c60F78NorthOriginalPath_nonidentity :
 /-! V. Bundled, audit-friendly global strict globular certificate -/
 
 /-- A checked strict 0/1/2/3 GLOBULAR ENVELOPE certificate. Its
-objects/paths remain original, whereas 2-/3-cells are the phase
+objects/paths remain original, whereas 2- and 3-cells are the phase
 quotient's degree/Int×Int COMPLETION. This is not the raw F55
 mixed-boundary 3-category, nor a claim of uncorrected flatness. -/
 structure C60F78StrictGlobularCertificate : Prop where
