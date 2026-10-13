@@ -165,6 +165,7 @@ def c60F83DirectMonoidalCategory :
       (pentagon := by
         intro W X Y Z
         apply c60F80QuotientThree_ext
+        simp only [c60F80QuotientThree_comp_charge]
         change
           (c60F77QuotientToStrictCharge.map
             (c60F80QuotientThreeTensor
@@ -188,6 +189,7 @@ def c60F83DirectMonoidalCategory :
       (triangle := by
         intro X Y
         apply c60F80QuotientThree_ext
+        simp only [c60F80QuotientThree_comp_charge]
         change
           (c60F77QuotientToStrictCharge.map
             (c60F83DirectAssociator X c60F80QuotientTwoUnit Y).hom).charge +
