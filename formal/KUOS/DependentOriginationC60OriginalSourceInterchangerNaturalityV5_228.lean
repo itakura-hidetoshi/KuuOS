@@ -204,7 +204,7 @@ def c60F74OriginalInterchangerNatIso
           ((c60F74OriginalInterchangerIso X.1 X.2).inv ≫
             c60F51HorizontalMap f.1 f.2 ≫
             (c60F74OriginalInterchangerIso Y.1 Y.2).hom)
-      simp [Category.assoc])
+      simp)
 
 /-- The source NATURALITY SQUARE explicitly written as an
 equality between two different PASTINGS of genuine original
