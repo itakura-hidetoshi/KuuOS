@@ -72,7 +72,7 @@ higher atlas changes.
 FUTURE OBSTRUCTION: to lift this to a pseudofunctor from the ENTIRE
 C60 incidence category and to an effective (infinity,3) descent,
 one must construct genuinely typed fibre categories at vertices/faces
-and genuine compatible transition 1-/2-/3-morphisms on incidence
+and genuinely typed first-, second-, and third-level transitions on incidence
 arrows, without equating raw original F42 and F55 sources.
 -/
 
@@ -219,7 +219,11 @@ instance c60F70OriginalF47FibreInclusion_faithful
     (sigma : C60F67Atlas)
     (edge : TruncatedIcosahedralEdge) :
     (c60F70OriginalF47FibreInclusion
-      t₁ t₂ left right sigma edge).Faithful := inferInstance
+      t₁ t₂ left right sigma edge).Faithful := by
+  change (Grothendieck.ι
+    (c60F70PhysicalEdgeF47Diagram t₁ t₂ left right sigma)
+    (⟨edge⟩ : C60F70PhysicalEdgeBase)).Faithful
+  infer_instance
 
 /-- The genuine Grothendieck total-category nerve is a native
 Mathlib STRICT SEGAL quasicategory, not a substitute nerve
