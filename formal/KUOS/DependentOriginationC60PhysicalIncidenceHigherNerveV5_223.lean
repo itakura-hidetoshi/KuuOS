@@ -71,43 +71,59 @@ inductive C60F69PhysicalCellSite where
 
 /-- A genuine physical incidence relation, including direct vertex
 to face incidence needed for the oriented 2-simplex diagonal. -/
-inductive C60F69PhysicalIncidence : C60F69PhysicalCellSite → C60F69PhysicalCellSite → Prop where
-  | ident (site : C60F69PhysicalCellSite) : C60F69PhysicalIncidence site site
-  | incVE (v : IcosahedralDart) (e : TruncatedIcosahedralEdge) (hv : v = (truncatedIcosahedralEdgeEndpoints e).1 ∨ v = (truncatedIcosahedralEdgeEndpoints e).2) : C60F69PhysicalIncidence (.vertex v) (.edge e)
-  | incEF (e : TruncatedIcosahedralEdge) (f : TruncatedIcosahedralSeedFace) (hef : truncatedEdgeOnSeedFace e f) : C60F69PhysicalIncidence (.edge e) (.face f)
-  | incVF (v : IcosahedralDart) (f : TruncatedIcosahedralSeedFace) (hvf : truncatedDartOnSeedFace v f) : C60F69PhysicalIncidence (.vertex v) (.face f)
+def c60F69PhysicalIncidence :
+    C60F69PhysicalCellSite → C60F69PhysicalCellSite → Prop
+  | .vertex v, .vertex w => v = w
+  | .vertex v, .edge e =>
+      v = (truncatedIcosahedralEdgeEndpoints e).1 ∨
+        v = (truncatedIcosahedralEdgeEndpoints e).2
+  | .vertex v, .face f => truncatedDartOnSeedFace v f
+  | .edge e, .edge d => e = d
+  | .edge e, .face f => truncatedEdgeOnSeedFace e f
+  | .face f, .face g => f = g
+  | _, _ => False
 
-/-- Incidence by actual C60 endpoints and polygon containment makes
-the ORIGINAL face lattice a partial order, rather than falsely
-giving two unrelated flags a fake intersection. -/
+/-- The original three-dimensional cell strata carry the real
+C60 incidence PARTIAL ORDER, not any artificial face equality. -/
 instance : PartialOrder C60F69PhysicalCellSite where
-  le := C60F69PhysicalIncidence
-  le_refl := C60F69PhysicalIncidence.ident
+  le := c60F69PhysicalIncidence
+  le_refl := by
+    intro x
+    cases x <;> simp [c60F69PhysicalIncidence]
   le_trans := by
     intro a b c hab hbc
-    cases hab with
-    | ident _ => exact hbc
-    | incVE v e hv =>
-        cases hbc with
-        | ident _ => exact C60F69PhysicalIncidence.incVE v e hv
-        | incEF _ f hef =>
-            apply C60F69PhysicalIncidence.incVF v f
-            rcases hv with hv | hv
-            · simpa [hv] using hef.1
-            · simpa [hv] using hef.2
-    | incEF e f hef =>
-        cases hbc with
-        | ident _ => exact C60F69PhysicalIncidence.incEF e f hef
-    | incVF v f hvf =>
-        cases hbc with
-        | ident _ => exact C60F69PhysicalIncidence.incVF v f hvf
+    cases a <;> cases b <;> cases c <;>
+      simp_all [c60F69PhysicalIncidence, truncatedEdgeOnSeedFace] <;>
+      aesop
   le_antisymm := by
     intro a b hab hba
-    cases hab with
-    | ident _ => rfl
-    | incVE v e hv => cases hba
-    | incEF e f hef => cases hba
-    | incVF v f hvf => cases hba
+    cases a <;> cases b <;>
+      simp_all [c60F69PhysicalIncidence]
+
+/-- An ORIGINAL dart belongs to this ORIGINAL physical edge
+exactly by endpoint equality. -/
+theorem c60F69PhysicalVertexEdge
+    (v : IcosahedralDart)
+    (e : TruncatedIcosahedralEdge)
+    (hv : v = (truncatedIcosahedralEdgeEndpoints e).1 ∨
+      v = (truncatedIcosahedralEdgeEndpoints e).2) :
+    C60F69PhysicalCellSite.vertex v ≤ .edge e := hv
+
+/-- The two directly incident C60 polygons are exactly the
+physical edge-to-face arrows of the poset category. -/
+theorem c60F69PhysicalEdgeFace
+    (e : TruncatedIcosahedralEdge)
+    (f : TruncatedIcosahedralSeedFace)
+    (hef : truncatedEdgeOnSeedFace e f) :
+    C60F69PhysicalCellSite.edge e ≤ .face f := hef
+
+/-- A genuine vertex-face flag is the direct diagonal of an
+actual original vertex-edge-face incidence triangle. -/
+theorem c60F69PhysicalVertexFace
+    (v : IcosahedralDart)
+    (f : TruncatedIcosahedralSeedFace)
+    (hvf : truncatedDartOnSeedFace v f) :
+    C60F69PhysicalCellSite.vertex v ≤ .face f := hvf
 
 /-- The actual FULL C60 60/90/32 cell-incidence categorical nerve,
 not just a disconnected collection of 90 tiny abstract nerves. -/
@@ -170,12 +186,12 @@ def c60F69ActualPhysicalFlagTriangle
     ComposableArrows C60F69PhysicalCellSite 2 :=
   ComposableArrows.mk₂
     (CategoryTheory.homOfLE
-      (C60F69PhysicalIncidence.incVE
+      (c60F69PhysicalVertexEdge
         ((c60F46PhysicalFourFlagSquare edge).vertex endpoint)
         edge
         (c60F69ActualFlagEndpoint edge endpoint)))
     (CategoryTheory.homOfLE
-      (C60F69PhysicalIncidence.incEF
+      (c60F69PhysicalEdgeFace
         edge (c60F48AdjacentRealFace edge faceChoice)
         (c60F48AdjacentRealFace_incident edge faceChoice)))
 
@@ -211,7 +227,7 @@ theorem c60F69ActualPhysicalFlagTriangle_diagonal
       (c60F69ActualPhysicalFlagTriangle edge endpoint faceChoice) =
     ComposableArrows.mk₁
       (CategoryTheory.homOfLE
-        (C60F69PhysicalIncidence.incVF
+        (c60F69PhysicalVertexFace
           ((c60F46PhysicalFourFlagSquare edge).vertex endpoint)
           (c60F48AdjacentRealFace edge faceChoice)
           (c60F69EveryPhysicalFlagCorner_incident
@@ -221,16 +237,16 @@ theorem c60F69ActualPhysicalFlagTriangle_diagonal
       ((CategoryTheory.nerve C60F69PhysicalCellSite).δ 1))
       (ComposableArrows.mk₂
         (CategoryTheory.homOfLE
-          (C60F69PhysicalIncidence.incVE
+          (c60F69PhysicalVertexEdge
             ((c60F46PhysicalFourFlagSquare edge).vertex endpoint)
             edge (c60F69ActualFlagEndpoint edge endpoint)))
         (CategoryTheory.homOfLE
-          (C60F69PhysicalIncidence.incEF
+          (c60F69PhysicalEdgeFace
             edge (c60F48AdjacentRealFace edge faceChoice)
             (c60F48AdjacentRealFace_incident edge faceChoice)))) =
     ComposableArrows.mk₁
       (CategoryTheory.homOfLE
-        (C60F69PhysicalIncidence.incVF
+        (c60F69PhysicalVertexFace
           ((c60F46PhysicalFourFlagSquare edge).vertex endpoint)
           (c60F48AdjacentRealFace edge faceChoice)
           (c60F69EveryPhysicalFlagCorner_incident
@@ -390,7 +406,7 @@ theorem c60F69RealFlagNerve_curvature_obstruction_and_repair
 end PhysicalF47Fibres
 
 #print axioms C60F69PhysicalCellSite
-#print axioms C60F69PhysicalIncidence
+#print axioms c60F69PhysicalIncidence
 #print axioms c60F69PhysicalIncidenceNerve
 #print axioms c60F69PhysicalIncidenceNerve_quasicategory
 #print axioms c60F69EveryPhysicalFlagCorner_incident
