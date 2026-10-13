@@ -150,6 +150,7 @@ def c60F84DirectToChargeLaxMonoidal :
       intro X Y Z
       calc
         _ = c60F84DirectToCharge.map (α_ X Y Z).hom := by
+          dsimp only []
           rw [MonoidalCategory.id_tensorHom_id, Category.id_comp,
             Category.id_comp]
         _ = (α_ (c60F84DirectToCharge.obj X)
@@ -157,6 +158,7 @@ def c60F84DirectToChargeLaxMonoidal :
             (c60F84DirectToCharge.obj Z)).hom :=
           c60F84DirectToCharge_map_associator X Y Z
         _ = _ := by
+          dsimp only []
           rw [MonoidalCategory.id_tensorHom_id, Category.comp_id,
             Category.comp_id])
     (left_unitality := by
@@ -165,6 +167,7 @@ def c60F84DirectToChargeLaxMonoidal :
         _ = c60F84DirectToCharge.map (λ_ X).hom :=
           (c60F84DirectToCharge_map_leftUnitor X).symm
         _ = _ := by
+          dsimp only []
           rw [MonoidalCategory.id_tensorHom_id, Category.id_comp,
             Category.id_comp])
     (right_unitality := by
@@ -173,6 +176,7 @@ def c60F84DirectToChargeLaxMonoidal :
         _ = c60F84DirectToCharge.map (ρ_ X).hom :=
           (c60F84DirectToCharge_map_rightUnitor X).symm
         _ = _ := by
+          dsimp only []
           rw [MonoidalCategory.id_tensorHom_id, Category.id_comp,
             Category.id_comp])
 
