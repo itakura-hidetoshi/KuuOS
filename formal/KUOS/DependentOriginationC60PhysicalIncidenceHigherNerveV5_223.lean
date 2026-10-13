@@ -71,55 +71,43 @@ inductive C60F69PhysicalCellSite where
 
 /-- A genuine physical incidence relation, including direct vertex
 to face incidence needed for the oriented 2-simplex diagonal. -/
-inductive C60F69PhysicalIncidence :
-    C60F69PhysicalCellSite → C60F69PhysicalCellSite → Prop where
-  | refl : (site : C60F69PhysicalCellSite) →
-      C60F69PhysicalIncidence site site
-  | vertexEdge : (v : IcosahedralDart) →
-      (e : TruncatedIcosahedralEdge) →
-      (v = (truncatedIcosahedralEdgeEndpoints e).1 ∨
-       v = (truncatedIcosahedralEdgeEndpoints e).2) →
-      C60F69PhysicalIncidence (.vertex v) (.edge e)
-  | edgeFace : (e : TruncatedIcosahedralEdge) →
-      (f : TruncatedIcosahedralSeedFace) →
-      truncatedEdgeOnSeedFace e f →
-      C60F69PhysicalIncidence (.edge e) (.face f)
-  | vertexFace : (v : IcosahedralDart) →
-      (f : TruncatedIcosahedralSeedFace) →
-      truncatedDartOnSeedFace v f →
-      C60F69PhysicalIncidence (.vertex v) (.face f)
+inductive C60F69PhysicalIncidence : C60F69PhysicalCellSite → C60F69PhysicalCellSite → Prop where
+  | ident (site : C60F69PhysicalCellSite) : C60F69PhysicalIncidence site site
+  | incVE (v : IcosahedralDart) (e : TruncatedIcosahedralEdge) (hv : v = (truncatedIcosahedralEdgeEndpoints e).1 ∨ v = (truncatedIcosahedralEdgeEndpoints e).2) : C60F69PhysicalIncidence (.vertex v) (.edge e)
+  | incEF (e : TruncatedIcosahedralEdge) (f : TruncatedIcosahedralSeedFace) (hef : truncatedEdgeOnSeedFace e f) : C60F69PhysicalIncidence (.edge e) (.face f)
+  | incVF (v : IcosahedralDart) (f : TruncatedIcosahedralSeedFace) (hvf : truncatedDartOnSeedFace v f) : C60F69PhysicalIncidence (.vertex v) (.face f)
 
 /-- Incidence by actual C60 endpoints and polygon containment makes
 the ORIGINAL face lattice a partial order, rather than falsely
 giving two unrelated flags a fake intersection. -/
 instance : PartialOrder C60F69PhysicalCellSite where
   le := C60F69PhysicalIncidence
-  le_refl := C60F69PhysicalIncidence.refl
+  le_refl := C60F69PhysicalIncidence.ident
   le_trans := by
     intro a b c hab hbc
     cases hab with
-    | refl _ => exact hbc
-    | vertexEdge v e hv =>
+    | ident _ => exact hbc
+    | incVE v e hv =>
         cases hbc with
-        | refl _ => exact C60F69PhysicalIncidence.vertexEdge v e hv
-        | edgeFace _ f hef =>
-            apply C60F69PhysicalIncidence.vertexFace v f
+        | ident _ => exact C60F69PhysicalIncidence.incVE v e hv
+        | incEF _ f hef =>
+            apply C60F69PhysicalIncidence.incVF v f
             rcases hv with hv | hv
             · simpa [hv] using hef.1
             · simpa [hv] using hef.2
-    | edgeFace e f hef =>
+    | incEF e f hef =>
         cases hbc with
-        | refl _ => exact C60F69PhysicalIncidence.edgeFace e f hef
-    | vertexFace v f hvf =>
+        | ident _ => exact C60F69PhysicalIncidence.incEF e f hef
+    | incVF v f hvf =>
         cases hbc with
-        | refl _ => exact C60F69PhysicalIncidence.vertexFace v f hvf
+        | ident _ => exact C60F69PhysicalIncidence.incVF v f hvf
   le_antisymm := by
     intro a b hab hba
     cases hab with
-    | refl _ => rfl
-    | vertexEdge v e hv => cases hba
-    | edgeFace e f hef => cases hba
-    | vertexFace v f hvf => cases hba
+    | ident _ => rfl
+    | incVE v e hv => cases hba
+    | incEF e f hef => cases hba
+    | incVF v f hvf => cases hba
 
 /-- The actual FULL C60 60/90/32 cell-incidence categorical nerve,
 not just a disconnected collection of 90 tiny abstract nerves. -/
@@ -182,12 +170,12 @@ def c60F69ActualPhysicalFlagTriangle
     ComposableArrows C60F69PhysicalCellSite 2 :=
   ComposableArrows.mk₂
     (CategoryTheory.homOfLE
-      (C60F69PhysicalIncidence.vertexEdge
+      (C60F69PhysicalIncidence.incVE
         ((c60F46PhysicalFourFlagSquare edge).vertex endpoint)
         edge
         (c60F69ActualFlagEndpoint edge endpoint)))
     (CategoryTheory.homOfLE
-      (C60F69PhysicalIncidence.edgeFace
+      (C60F69PhysicalIncidence.incEF
         edge (c60F48AdjacentRealFace edge faceChoice)
         (c60F48AdjacentRealFace_incident edge faceChoice)))
 
@@ -223,7 +211,7 @@ theorem c60F69ActualPhysicalFlagTriangle_diagonal
       (c60F69ActualPhysicalFlagTriangle edge endpoint faceChoice) =
     ComposableArrows.mk₁
       (CategoryTheory.homOfLE
-        (C60F69PhysicalIncidence.vertexFace
+        (C60F69PhysicalIncidence.incVF
           ((c60F46PhysicalFourFlagSquare edge).vertex endpoint)
           (c60F48AdjacentRealFace edge faceChoice)
           (c60F69EveryPhysicalFlagCorner_incident
@@ -233,16 +221,16 @@ theorem c60F69ActualPhysicalFlagTriangle_diagonal
       ((CategoryTheory.nerve C60F69PhysicalCellSite).δ 1))
       (ComposableArrows.mk₂
         (CategoryTheory.homOfLE
-          (C60F69PhysicalIncidence.vertexEdge
+          (C60F69PhysicalIncidence.incVE
             ((c60F46PhysicalFourFlagSquare edge).vertex endpoint)
             edge (c60F69ActualFlagEndpoint edge endpoint)))
         (CategoryTheory.homOfLE
-          (C60F69PhysicalIncidence.edgeFace
+          (C60F69PhysicalIncidence.incEF
             edge (c60F48AdjacentRealFace edge faceChoice)
             (c60F48AdjacentRealFace_incident edge faceChoice)))) =
     ComposableArrows.mk₁
       (CategoryTheory.homOfLE
-        (C60F69PhysicalIncidence.vertexFace
+        (C60F69PhysicalIncidence.incVF
           ((c60F46PhysicalFourFlagSquare edge).vertex endpoint)
           (c60F48AdjacentRealFace edge faceChoice)
           (c60F69EveryPhysicalFlagCorner_incident
