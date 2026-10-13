@@ -117,6 +117,7 @@ theorem c60F87Obstruction_charge_transport_formula
     c60F87MediatedMonoidal
   rw [c60F86TensoratorObstruction_charge]
   rw [c60F87IdentityTensorator_transport_formula]
+  simp only [c60F80QuotientThree_comp_charge]
   abel
 
 #print axioms c60F87MediatedMonoidal
