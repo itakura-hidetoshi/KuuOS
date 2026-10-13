@@ -10,6 +10,7 @@ open KUOS.DependentOriginationGrayBraidedThreeCellCoreV5_156
 open KUOS.DependentOriginationGrayNativeBraidedCategoryV5_156
 open KUOS.DependentOriginationGrayC60CyclicGlobalPastingV5_156
 open KUOS.DependentOriginationGrayC60PresentedFaceTwoCellsV5_190
+open KUOS.DependentOriginationGrayC60NativePathFunctorV5_189
 open KUOS.DependentOriginationGrayC60PresentedInterchangerV5_191
 open KUOS.DependentOriginationGrayC60ThreeHomCategoriesV5_192
 open KUOS.DependentOriginationGrayC60MixedBoundaryThreeHomV5_195
@@ -92,6 +93,15 @@ theorem C60F75StrictChargeThree.ext
     | mk hg cg =>
       cases h
       rfl
+
+/-- Equality transport is the zero-charge identity in the
+strict quotient, including when the source-object equality arose
+from a real original nontrivial F43 interchange. -/
+theorem C60F75StrictChargeThree.eqToHom_charge_zero
+    {X Y : C60F75StrictChargeGrade} (h : X = Y) :
+    (eqToHom h : X ⟶ Y).charge = (0 : Int × Int) := by
+  cases h
+  rfl
 
 /-- A genuinely CONSTRUCTED strict Mathlib category: same-grade
 arrows carry the product group ℤ × ℤ with strictly associative
@@ -198,10 +208,16 @@ theorem c60F75OriginalInterchanger_collapses
         (c60F51OriginalInterchanger X Y) =
       eqToHom (c60F75OriginalInterchanger_objects_identified X Y) := by
   apply C60F75StrictChargeThree.ext
-  change
-    (c60F51Eval (c60F51OriginalInterchanger X Y)).charge =
-    (0 : Int × Int)
-  exact (c60F51OriginalInterchanger_nativeComponents X Y).1
+  calc
+    ((c60F75OriginalFaceStrictification (p.comp r) (q.comp s)).map
+        (c60F51OriginalInterchanger X Y)).charge =
+      (c60F51Eval (c60F51OriginalInterchanger X Y)).charge :=
+      c60F75OriginalFaceStrictification_charge _
+    _ = (0 : Int × Int) :=
+      (c60F51OriginalInterchanger_nativeComponents X Y).1
+    _ = (eqToHom
+          (c60F75OriginalInterchanger_objects_identified X Y)).charge :=
+      (C60F75StrictChargeThree.eqToHom_charge_zero _).symm
 
 /-- The SAME ACTUAL original north C60 pentagon now has its
 previously nonidentity F43 source exchange reduced to an
@@ -327,6 +343,7 @@ end ActualNorthCurvature
 
 #print axioms C60F75StrictChargeThree
 #print axioms C60F75StrictChargeThree.ext
+#print axioms C60F75StrictChargeThree.eqToHom_charge_zero
 #print axioms c60F75ForgetGrayExchangePhase
 #print axioms c60F75OriginalFaceStrictification
 #print axioms c60F75OriginalF43Strictification
