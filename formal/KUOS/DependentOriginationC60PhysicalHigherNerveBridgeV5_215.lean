@@ -242,9 +242,18 @@ theorem c60PhysicalFaceChoiceNerveMap_reflects_edges
   have hh :
       (c60F48ActualEdgeFaceChoiceFunctor t₁ t₂ left right edge).map f =
       (c60F48ActualEdgeFaceChoiceFunctor t₁ t₂ left right edge).map g := by
-    simpa only [c60PhysicalFaceChoiceNerveMap,
-      CategoryTheory.nerve.homEquiv_edgeMk_map_nerveMap] using
-      congrArg (fun h => CategoryTheory.nerve.homEquiv h) heq
+    calc
+      (c60F48ActualEdgeFaceChoiceFunctor t₁ t₂ left right edge).map f =
+          CategoryTheory.nerve.homEquiv
+            ((CategoryTheory.nerve.edgeMk f).map
+              (c60PhysicalFaceChoiceNerveMap t₁ t₂ left right edge)) :=
+        (c60PhysicalFaceChoiceNerveMap_edges t₁ t₂ left right edge f).symm
+      _ = CategoryTheory.nerve.homEquiv
+            ((CategoryTheory.nerve.edgeMk g).map
+              (c60PhysicalFaceChoiceNerveMap t₁ t₂ left right edge)) :=
+        congrArg (fun h => CategoryTheory.nerve.homEquiv h) heq
+      _ = (c60F48ActualEdgeFaceChoiceFunctor t₁ t₂ left right edge).map g :=
+        c60PhysicalFaceChoiceNerveMap_edges t₁ t₂ left right edge g
   exact c60F48ActualEdgeFaceChoiceFunctor_faithful
     t₁ t₂ left right edge hh
 
