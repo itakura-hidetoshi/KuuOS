@@ -132,46 +132,58 @@ def c60F84DirectToChargeCoreMonoidal :
   μIso := fun _ _ => Iso.refl _
   μIso_hom_natural_left := by
     intro X Y f Z
-    simp only [Iso.refl_hom, Category.comp_id, Category.id_comp]
-    exact (c60F84DirectToCharge_map_tensor f (𝟙 Z)).symm
+    simpa using (c60F84DirectToCharge_map_tensor f (𝟙 Z)).symm
   μIso_hom_natural_right := by
     intro X Y Z f
-    simp only [Iso.refl_hom, Category.comp_id, Category.id_comp]
-    exact (c60F84DirectToCharge_map_tensor (𝟙 X) f).symm
+    simpa using (c60F84DirectToCharge_map_tensor (𝟙 X) f).symm
   associativity := by
     intro X Y Z
-    simp only [Iso.refl_hom, Category.comp_id, Category.id_comp,
-      MonoidalCategory.id_whiskerRight,
-      MonoidalCategory.whiskerLeft_id]
-    exact (c60F84DirectToCharge_map_associator X Y Z).symm
+    simpa using (c60F84DirectToCharge_map_associator X Y Z).symm
   left_unitality := by
     intro X
-    simp only [Iso.refl_hom, Category.comp_id, Category.id_comp,
-      MonoidalCategory.id_whiskerRight]
-    exact (c60F84DirectToCharge_map_leftUnitor X).symm
+    simpa using (c60F84DirectToCharge_map_leftUnitor X).symm
   right_unitality := by
     intro X
-    simp only [Iso.refl_hom, Category.comp_id, Category.id_comp,
-      MonoidalCategory.whiskerLeft_id]
-    exact (c60F84DirectToCharge_map_rightUnitor X).symm
+    simpa using (c60F84DirectToCharge_map_rightUnitor X).symm
 
 /-- The proven strong monoidal F79 quotient functor, with ALL
 naturality, associativity and both unit compatibilities,
 as a full Mathlib Functor.Monoidal structure. -/
+@[implicit_reducible]
 def c60F84DirectToChargeMonoidal :
     c60F84DirectToCharge.Monoidal :=
   c60F84DirectToChargeCoreMonoidal.toMonoidal
 
-/-- The genuine F79 categorical equivalence is now a
-MONOIDAL equivalence: source F83 DIRECT, target F75 F81.
-This is a structural lifting beyond merely comparing bifunctors. -/
+/-- Put the independently verified direct strong monoidal
+structure on the ACTUAL forward leg of the F79 equivalence. -/
+@[implicit_reducible]
+def c60F84DirectChargeEquivalenceForwardMonoidal :
+    c60F84DirectChargeEquivalence.functor.Monoidal := by
+  exact c60F84DirectToChargeMonoidal
+
+/-- The original categorical equivalence, now with both its
+forward and quasi-inverse promoted to coherent monoidal functors. -/
+@[implicit_reducible]
+def c60F84DirectChargeEquivalenceInverseMonoidal :
+    letI : c60F84DirectChargeEquivalence.functor.Monoidal :=
+      c60F84DirectChargeEquivalenceForwardMonoidal
+    c60F84DirectChargeEquivalence.inverse.Monoidal := by
+  letI : c60F84DirectChargeEquivalence.functor.Monoidal :=
+    c60F84DirectChargeEquivalenceForwardMonoidal
+  exact c60F84DirectChargeEquivalence.inverseMonoidal
+
+/-- The underlying F79 category equivalence is a genuine
+Mathlib MONOIDAL equivalence of the F83 direct quotient and F75. -/
 def c60F84DirectChargeMonoidalEquivalence :
-    letI := c60F84DirectToChargeMonoidal
+    letI : c60F84DirectChargeEquivalence.functor.Monoidal :=
+      c60F84DirectChargeEquivalenceForwardMonoidal
+    letI : c60F84DirectChargeEquivalence.inverse.Monoidal :=
+      c60F84DirectChargeEquivalenceInverseMonoidal
     c60F84DirectChargeEquivalence.IsMonoidal := by
-  letI : c60F84DirectToCharge.Monoidal :=
-    c60F84DirectToChargeMonoidal
+  letI : c60F84DirectChargeEquivalence.functor.Monoidal :=
+    c60F84DirectChargeEquivalenceForwardMonoidal
   letI : c60F84DirectChargeEquivalence.inverse.Monoidal :=
-    c60F84DirectChargeEquivalence.inverseMonoidal
+    c60F84DirectChargeEquivalenceInverseMonoidal
   infer_instance
 
 #print axioms c60F84DirectToCharge_map_tensor
@@ -181,6 +193,8 @@ def c60F84DirectChargeMonoidalEquivalence :
 #print axioms c60F84DirectToCharge_map_rightUnitor
 #print axioms c60F84DirectToChargeCoreMonoidal
 #print axioms c60F84DirectToChargeMonoidal
+#print axioms c60F84DirectChargeEquivalenceForwardMonoidal
+#print axioms c60F84DirectChargeEquivalenceInverseMonoidal
 #print axioms c60F84DirectChargeMonoidalEquivalence
 
 end
