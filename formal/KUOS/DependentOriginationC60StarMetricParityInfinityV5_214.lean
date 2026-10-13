@@ -110,7 +110,8 @@ theorem pentagramContraction_lt_hexagramContraction :
   lt_trans pentagramContraction_lt_half hexagramContraction_gt_half
 
 /-- The contraction is genuinely face-type dependent. -/
-def starFaceScale : TruncatedIcosahedralFaceKind → ℝ
+def starFaceScale (kind : TruncatedIcosahedralFaceKind) : ℝ :=
+  match kind with
   | .pentagon => pentagramContraction
   | .hexagon => hexagramContraction
 
@@ -124,7 +125,8 @@ theorem starFaceScale_pos (k : TruncatedIcosahedralFaceKind) :
 theorem starFaceScale_lt_one (k : TruncatedIcosahedralFaceKind) :
     starFaceScale k < 1 := by
   cases k
-  · exact lt_trans pentagramContraction_lt_half (by norm_num)
+  · have hhalf : (1 / 2 : ℝ) < 1 := by norm_num
+    exact lt_trans pentagramContraction_lt_half hhalf
   · exact hexagramContraction_lt_one
 
 /-- Even the numerical metric data rule out one shared uniform face scale. -/
