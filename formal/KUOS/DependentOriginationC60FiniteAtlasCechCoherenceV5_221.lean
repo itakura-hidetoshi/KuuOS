@@ -91,7 +91,7 @@ def c60F67AtlasRoute
   | [] => c60F66AtlasTransition t₁ t₂ left right sigma omega edge
   | tau :: rest =>
       c60F66AtlasTransition t₁ t₂ left right sigma tau edge ⋙
-        c60F67AtlasRoute t₁ t₂ left right tau omega edge rest
+        c60F67AtlasRoute tau omega edge rest
 
 /-- Explicit recursively CONSTRUCTED NatIso from any finite physical
 90-edge atlas chain to the direct source comparison. The induction
@@ -109,7 +109,7 @@ def c60F67AtlasRouteCollapse
       (c60F66AtlasTransition
         t₁ t₂ left right sigma tau edge).isoWhiskerLeft
           (c60F67AtlasRouteCollapse
-            t₁ t₂ left right tau omega edge rest) ≪≫
+            tau omega edge rest) ≪≫
       c60F66AtlasCechCocycleNatIso
         t₁ t₂ left right sigma tau omega edge
 
