@@ -16,6 +16,7 @@ open KUOS.DependentOriginationGrayC60AllNinetyMixedBoundaryV5_196
 open KUOS.DependentOriginationGrayC60AdjacentFaceMixedTransportV5_196
 open KUOS.DependentOriginationGrayC60F55MixedFaceEquivalenceV5_204
 open KUOS.DependentOriginationGrayC60F55MixedCocycleV5_205
+open KUOS.DependentOriginationGrayC60F55PhysicalIncidenceBeckChevalleyV5_207
 open KUOS.DependentOriginationC60PhysicalHigherNerveBridgeV5_215
 open KUOS.DependentOriginationC60PhysicalGradedNerveSquareV5_216
 open KUOS.DependentOriginationCoherentBiadjunctionFiniteRectangularSubdivisionV5_137.Grid
@@ -24,24 +25,21 @@ open KUOS.DependentOriginationCoherentBiadjunctionInterleavingExchangeQuotientV5
 set_option autoImplicit false
 set_option maxRecDepth 4096
 set_option maxHeartbeats 4000000
+noncomputable section
 
 /-!
-# v5.217: genuine physical C60 adjacent-face simplicial isomorphism
+# v5.217: genuine category equivalence of the two original physical C60 face presentations.
 
-On each original physical edge, its two DISTINCT adjacent original faces
-have separately typed F42 paths and independent original F54/F55 trees.
-The existing F48 face choice functor and F55 original-face reverse functor
-preserve the four boundary tags and the full native Int×Int / ZMod 2 evaluation.
+For each real edge, the full-native-kernel F47 mixed source categories
+have original, independently typed F42 and F54/F55 contexts. Existing
+roundtrip natural isomorphisms construct an actual Mathlib category
+equivalence with coherent triangle. The forward native nerve action
+is bijective on each typed Hom and commutes with the complete F49
+Gray observation in EVERY simplicial degree (by merged v5.216).
 
-Their roundtrips are equal to identities on the F47 COMPLETE-NATIVE-KERNEL
-quotient by actual source rigidity and the existing v5.205 cocycle theorems.
-This upgrades the v5.216 strict commuting *square* to an actual isomorphism
-of the corresponding native Mathlib simplicial nerves, which also commutes
-with the complete native Gray grading.
-
-This is not a raw unquotiented F42/F54/F55 Gray-3 category equivalence,
-a nontrivial complete-Segal equivalence, or effective C60 global hyperdescent.
-The original nonzero north-pentagon curvature / F55 delta non-lift persist.
+A categorical equivalence of nerves is NOT asserted to be a strict
+simplicial isomorphism. The raw original F55 delta nonlift and
+north-pentagon curvature remain nonzero obstructions.
 -/
 
 universe uD vD uE vE
@@ -64,28 +62,29 @@ variable
 
 /-- The source-level face-change and reverse face-change functors
 compose to the identity on all original F47 four-tag Hom quotients. -/
-theorem c60PhysicalFaceChange_forward_reverse
+
+/-- The original physical adjacent-face source comparison and its reverse
+compose to an actual typed Mathlib natural isomorphism, not a new source axiom. -/
+def c60PhysicalFaceChange_forward_reverse_NatIso
     (edge : TruncatedIcosahedralEdge) :
     (c60F48ActualEdgeFaceChoiceFunctor t₁ t₂ left right edge) ⋙
-      (c60F55ActualEdgeFaceChoiceReverseFunctor t₁ t₂ left right edge) =
+      (c60F55ActualEdgeFaceChoiceReverseFunctor t₁ t₂ left right edge) ≅
     𝟭 (C60F47BoundaryPoint
       (c60F48EveryRealEdgeMixedFrame t₁ t₂ left right edge false)) := by
-  apply CategoryTheory.Functor.ext
-  · intro X Y f
-    cases X <;> cases Y
-    all_goals
-      simpa [c60F56RoundTripHomCast] using
-        (c60F56EveryActualEdgeFaceChange_roundTrip
-          t₁ t₂ left right edge f)
-  · intro X
-    cases X <;> rfl
+  let B₀ := c60F48EveryRealEdgeMixedFrame t₁ t₂ left right edge false
+  let B₁ := c60F48EveryRealEdgeMixedFrame t₁ t₂ left right edge true
+  have hface : c60F44FaceThreeEval B₀.faceStep =
+      c60F44FaceThreeEval B₁.faceStep :=
+    c60F58PhysicalTwoFaces_sameOriginalF43 t₁ t₂ left right edge
+  have hrot : c60F44OriginalF55Eval B₀.rotationStep =
+      c60F44OriginalF55Eval B₁.rotationStep := rfl
+  exact c60F56MixedTransport_roundTripNatIso B₀ B₁ hface hrot
 
-/-- The reverse-first transport is likewise the actual identity on
-every F47 tagged Hom; source and target are not silently collapsed. -/
-theorem c60PhysicalFaceChange_reverse_forward
+/-- The second face's original F42 boundary stays separately typed. -/
+def c60PhysicalFaceChange_reverse_forward_NatIso
     (edge : TruncatedIcosahedralEdge) :
     (c60F55ActualEdgeFaceChoiceReverseFunctor t₁ t₂ left right edge) ⋙
-      (c60F48ActualEdgeFaceChoiceFunctor t₁ t₂ left right edge) =
+      (c60F48ActualEdgeFaceChoiceFunctor t₁ t₂ left right edge) ≅
     𝟭 (C60F47BoundaryPoint
       (c60F48EveryRealEdgeMixedFrame t₁ t₂ left right edge true)) := by
   let B₀ := c60F48EveryRealEdgeMixedFrame t₁ t₂ left right edge false
@@ -95,81 +94,80 @@ theorem c60PhysicalFaceChange_reverse_forward
     c60F58PhysicalTwoFaces_sameOriginalF43 t₁ t₂ left right edge
   have hrot : c60F44OriginalF55Eval B₀.rotationStep =
       c60F44OriginalF55Eval B₁.rotationStep := rfl
-  apply CategoryTheory.Functor.ext
-  · intro X Y f
-    cases X <;> cases Y
-    all_goals
-      simpa [c60F56RoundTripHomCast,
-        c60F55ActualEdgeFaceChoiceReverseFunctor,
-        c60F48ActualEdgeFaceChoiceFunctor] using
-        (c60F56MixedTransport_roundTrip_map B₁ B₀
-          hface.symm hrot.symm f)
-  · intro X
-    cases X <;> rfl
+  exact c60F56MixedTransport_roundTripNatIso B₁ B₀ hface.symm hrot.symm
 
-/-- Real two-face equivalence as an ISOMORPHISM of the actual
-original tagged F47 source categories bundled as Mathlib Cat. -/
-def c60PhysicalFaceChangeCatIso
+/-- Mathlib upgrades genuine inverse source NatIso to a coherent
+category equivalence, with its adjoint triangle law. -/
+def c60PhysicalFaceChangeEquivalence
     (edge : TruncatedIcosahedralEdge) :
-    Cat.of (C60F47BoundaryPoint
-      (c60F48EveryRealEdgeMixedFrame t₁ t₂ left right edge false)) ≅
-    Cat.of (C60F47BoundaryPoint
-      (c60F48EveryRealEdgeMixedFrame t₁ t₂ left right edge true)) where
-  hom := (c60F48ActualEdgeFaceChoiceFunctor
-    t₁ t₂ left right edge).toCatHom
-  inv := (c60F55ActualEdgeFaceChoiceReverseFunctor
-    t₁ t₂ left right edge).toCatHom
-  hom_inv_id := by
-    apply Cat.Hom.ext
-    change (c60F48ActualEdgeFaceChoiceFunctor
-      t₁ t₂ left right edge) ⋙
-      (c60F55ActualEdgeFaceChoiceReverseFunctor
-        t₁ t₂ left right edge) = 𝟭 _
-    exact c60PhysicalFaceChange_forward_reverse t₁ t₂ left right edge
-  inv_hom_id := by
-    apply Cat.Hom.ext
-    change (c60F55ActualEdgeFaceChoiceReverseFunctor
-      t₁ t₂ left right edge) ⋙
-      (c60F48ActualEdgeFaceChoiceFunctor
-        t₁ t₂ left right edge) = 𝟭 _
-    exact c60PhysicalFaceChange_reverse_forward t₁ t₂ left right edge
+    C60F47BoundaryPoint
+      (c60F48EveryRealEdgeMixedFrame t₁ t₂ left right edge false) ≌
+    C60F47BoundaryPoint
+      (c60F48EveryRealEdgeMixedFrame t₁ t₂ left right edge true) :=
+  CategoryTheory.Equivalence.mk
+    (c60F48ActualEdgeFaceChoiceFunctor t₁ t₂ left right edge)
+    (c60F55ActualEdgeFaceChoiceReverseFunctor t₁ t₂ left right edge)
+    (c60PhysicalFaceChange_forward_reverse_NatIso
+      t₁ t₂ left right edge).symm
+    (c60PhysicalFaceChange_reverse_forward_NatIso
+      t₁ t₂ left right edge)
 
-/-- Apply the genuine pinned-Mathlib nerve functor to the physical
-two-face source isomorphism: the actual simplicial nerves are isomorphic. -/
-def c60PhysicalFaceChangeNerveIso
+@[simp] theorem c60PhysicalFaceChangeEquivalence_functor
     (edge : TruncatedIcosahedralEdge) :
-    c60PhysicalMixedThreeNerve t₁ t₂ left right edge false ≅
-      c60PhysicalMixedThreeNerve t₁ t₂ left right edge true :=
-  CategoryTheory.nerveFunctor.mapIso
-    (c60PhysicalFaceChangeCatIso t₁ t₂ left right edge)
+    (c60PhysicalFaceChangeEquivalence t₁ t₂ left right edge).functor =
+      c60F48ActualEdgeFaceChoiceFunctor t₁ t₂ left right edge := rfl
 
-/-- The isomorphism is the ACTUAL already constructed face-choice
-simplicial map, not just an abstract existence assertion. -/
-theorem c60PhysicalFaceChangeNerveIso_hom
+/-- Nerve of the genuine source inverse face-choice functor. -/
+def c60PhysicalReverseFaceChoiceNerveMap
     (edge : TruncatedIcosahedralEdge) :
-    (c60PhysicalFaceChangeNerveIso
-      t₁ t₂ left right edge).hom =
-      c60PhysicalFaceChoiceNerveMap t₁ t₂ left right edge := by
-  rfl
+    c60PhysicalMixedThreeNerve t₁ t₂ left right edge true ⟶
+      c60PhysicalMixedThreeNerve t₁ t₂ left right edge false :=
+  CategoryTheory.nerveMap
+    (c60F55ActualEdgeFaceChoiceReverseFunctor t₁ t₂ left right edge)
 
-/-- The isomorphic two nerves are compatible with the
-FULL original F47-to-F49 native Gray-graded simplicial observation. -/
-theorem c60PhysicalFaceChangeNerveIso_graded
+/-- Actual face-change nerve edge action is bijective on every typed
+four-boundary 3-Hom, by the EXISTING proved original full-faithfulness. -/
+theorem c60PhysicalFaceChoiceNerveMap_hom_bijective
+    (edge : TruncatedIcosahedralEdge)
+    {X Y : C60F47BoundaryPoint
+      (c60F48EveryRealEdgeMixedFrame t₁ t₂ left right edge false)} :
+    Function.Bijective
+      (fun (f : X ⟶ Y) =>
+        CategoryTheory.nerve.homEquiv
+          ((CategoryTheory.nerve.edgeMk f).map
+            (c60PhysicalFaceChoiceNerveMap t₁ t₂ left right edge))) := by
+  have hEq :
+      (fun (f : X ⟶ Y) =>
+        CategoryTheory.nerve.homEquiv
+          ((CategoryTheory.nerve.edgeMk f).map
+            (c60PhysicalFaceChoiceNerveMap t₁ t₂ left right edge))) =
+      (fun (f : X ⟶ Y) =>
+        (c60F48ActualEdgeFaceChoiceFunctor t₁ t₂ left right edge).map f) := by
+    funext f
+    exact c60PhysicalFaceChoiceNerveMap_edges t₁ t₂ left right edge f
+  rw [hEq]
+  exact c60F55ActualEdgeFaceChoice_isFullyFaithful t₁ t₂ left right edge
+
+/-- The actual equivalence's FORWARD nerve map preserves the full
+Int×Int / ZMod 2 original C60 grading in every simplicial dimension. -/
+theorem c60PhysicalFaceChangeEquivalence_gradedNerve
     (edge : TruncatedIcosahedralEdge) :
-    (c60PhysicalFaceChangeNerveIso t₁ t₂ left right edge).hom ≫
+    CategoryTheory.nerveMap
+        (c60PhysicalFaceChangeEquivalence
+          t₁ t₂ left right edge).functor ≫
       c60PhysicalMixedToOriginalGradedNerve
         t₁ t₂ left right edge true =
       c60PhysicalMixedToOriginalGradedNerve
         t₁ t₂ left right edge false := by
-  rw [c60PhysicalFaceChangeNerveIso_hom]
+  rw [c60PhysicalFaceChangeEquivalence_functor]
   exact c60PhysicalFaceChoice_gradedNerve_square
     t₁ t₂ left right edge
 
-#print axioms c60PhysicalFaceChange_forward_reverse
-#print axioms c60PhysicalFaceChange_reverse_forward
-#print axioms c60PhysicalFaceChangeCatIso
-#print axioms c60PhysicalFaceChangeNerveIso
-#print axioms c60PhysicalFaceChangeNerveIso_graded
+#print axioms c60PhysicalFaceChange_forward_reverse_NatIso
+#print axioms c60PhysicalFaceChange_reverse_forward_NatIso
+#print axioms c60PhysicalFaceChangeEquivalence
+#print axioms c60PhysicalFaceChoiceNerveMap_hom_bijective
+#print axioms c60PhysicalFaceChangeEquivalence_gradedNerve
 
 end ActualPhysicalEdge
 end KUOS.DependentOriginationC60PhysicalFaceNerveIsoV5_217
