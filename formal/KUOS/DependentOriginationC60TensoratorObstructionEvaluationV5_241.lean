@@ -88,8 +88,10 @@ theorem c60F87Obstruction_hom_transport_formula
       (c60F81TransportedVsOriginalQuotientTensorIso X Y).hom := by
   letI : c60F85TransportedDirectEquivalence.functor.Monoidal :=
     c60F87MediatedMonoidal
-  rw [c60F86TensoratorObstruction_hom,
-    c60F87IdentityTensorator_transport_formula]
+  rw [c60F86TensoratorObstruction_hom]
+  exact congrArg
+    (fun h => h ≫ (c60F81TransportedVsOriginalQuotientTensorIso X Y).hom)
+    (c60F87IdentityTensorator_transport_formula X Y)
 
 /-- The residual two-coordinate charge is the sum of four truly
 typed quotient-Hom contributions: tensor of the F79 units, the
@@ -113,8 +115,9 @@ theorem c60F87Obstruction_charge_transport_formula
         (c60F81TransportedVsOriginalQuotientTensorIso X Y).hom).charge := by
   letI : c60F85TransportedDirectEquivalence.functor.Monoidal :=
     c60F87MediatedMonoidal
-  rw [c60F87Obstruction_hom_transport_formula]
-  simp only [c60F80QuotientThree_comp_charge]
+  rw [c60F86TensoratorObstruction_charge]
+  rw [c60F87IdentityTensorator_transport_formula]
+  simp only [Functor.map_comp, c60F84Charge_comp]
   abel
 
 #print axioms c60F87MediatedMonoidal
