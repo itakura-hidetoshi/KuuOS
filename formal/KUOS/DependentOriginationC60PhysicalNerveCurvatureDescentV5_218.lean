@@ -204,6 +204,35 @@ theorem c60F64PhysicalNerveDelta_surfaceZero
   exact c60F48MixedCalibration_globalSurfaceZero
     t₁ t₂ left right side
 
+/-- The SAME Delta extracted from genuine simplicial 1-simplices
+has no original-C60 vertex potential. This follows from the actual
+north-pentagon degree -5 and the proved C60 cochain flatness iff
+vertex-descent theorem; the zero whole-surface sum is insufficient. -/
+theorem c60F64PhysicalNerveDelta_noVertexGauge
+    (side : Bool) :
+    ¬ ∃ φ : C60IntegralZeroChains →ₗ[ℤ] GradedThreeCell 0 0,
+      c60F18GrayEdgeCochain
+        (c60F64PhysicalNerveDeltaField
+          t₁ t₂ left right side) =
+        φ.comp c60IntegralBoundaryOne := by
+  intro hGauge
+  have hFlat :=
+    (c60WangBiGlobalFlatIffVertexDescent
+      (c60F64PhysicalNerveDeltaField
+        t₁ t₂ left right side)).mpr hGauge
+  have hZero :=
+    hFlat (TruncatedIcosahedralSeedFace.aroundVertex .north)
+  have hZeroCharge :
+      (c60WangBiSignedGrayFace
+        (c60F64PhysicalNerveDeltaField
+          t₁ t₂ left right side)
+        (.aroundVertex .north)).charge.2 = (0 : ℤ) :=
+    congrArg (fun g : GradedThreeCell 0 0 => g.charge.2) hZero
+  have hFive := (c60F64PhysicalNerveDelta_northChargePhase
+    t₁ t₂ left right side).1
+  rw [hFive] at hZeroCharge
+  norm_num at hZeroCharge
+
 /-- The genuine ORIGINAL physical F55 rotation 1-simplex field
 has nonzero curvature at the actual oriented north pentagon. -/
 theorem c60F64PhysicalNerveOriginalRotation_northNonflat
@@ -289,6 +318,7 @@ theorem c60F64PhysicalNerve_localCoherent_globalObstructed
 #print axioms c60F64PhysicalNerveDelta_sideIndependent
 #print axioms c60F64PhysicalNerveDelta_northChargePhase
 #print axioms c60F64PhysicalNerveDelta_surfaceZero
+#print axioms c60F64PhysicalNerveDelta_noVertexGauge
 #print axioms c60F64PhysicalNerveOriginalRotation_noVertexGauge
 #print axioms c60F64PhysicalNerveOriginal_nonlift
 #print axioms c60F64PhysicalNerve_localCoherent_globalObstructed
