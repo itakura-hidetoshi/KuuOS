@@ -306,7 +306,7 @@ end NinetyPhysicalSquares
 #print axioms c60F73OriginalFaceThreeSourceInclusion
 #print axioms c60F73OriginalFaceThreeSourceInclusion_faithful
 #print axioms c60F73OriginalSourceHorizontalThreeFunctor
-#print axioms c60F73PhysicalStrictThreeHom
+#print axioms C60F73PhysicalStrictThreeHom
 #print axioms c60F73OriginalPhysicalFaceThreeArrow
 #print axioms c60F73OriginalPhysicalF55ThreeArrow
 #print axioms c60F73OriginalPhysicalStrictThreeSquare
