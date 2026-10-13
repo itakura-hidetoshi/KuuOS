@@ -93,47 +93,28 @@ theorem c60F87Obstruction_hom_transport_formula
     (fun h => h ≫ (c60F81TransportedVsOriginalQuotientTensorIso X Y).hom)
     (c60F87IdentityTensorator_transport_formula X Y)
 
-/-- The EXACT quotient charge of the F86 obstruction is the
-strict-charge functor applied to the independently established F87
-four-factor morphism equality. This is deliberately a single
-well-typed composite: splitting it into four integer-charge summands
-requires a separately checked compatibility with the explicit
-F84 direct-category composition instance. No such equality is
-assumed as a new axiom or fabricated using definitional reduction. -/
-theorem c60F87Obstruction_charge_transport_formula
-    (X Y : C60F85TransportedQuotient) :
-    letI : c60F85TransportedDirectEquivalence.functor.Monoidal :=
-      c60F87MediatedMonoidal
-    (c60F77QuotientToStrictCharge.map
-      (c60F86TensoratorObstructionIso X Y).hom).charge =
-      (c60F77QuotientToStrictCharge.map
-        (((c60F85MediatedToIdentityNatIso.inv.app X ⊗ₘ
-              c60F85MediatedToIdentityNatIso.inv.app Y) ≫
-            Functor.LaxMonoidal.μ
-              c60F85TransportedDirectEquivalence.functor X Y ≫
-            c60F85MediatedToIdentityNatIso.hom.app (X ⊗ Y)) ≫
-          (c60F81TransportedVsOriginalQuotientTensorIso X Y).hom)).charge := by
-  letI : c60F85TransportedDirectEquivalence.functor.Monoidal :=
-    c60F87MediatedMonoidal
-  exact congrArg
-    (fun (f : c60F80QuotientTwoTensor X Y ⟶
-        c60F80QuotientTwoTensor X Y) =>
-      (c60F77QuotientToStrictCharge.map f).charge)
-    (c60F87Obstruction_hom_transport_formula X Y)
-
 /-!
-The stronger four-summand expansion is kept as an explicit F88
-obligation rather than silently identifying the F84 direct quotient
-composition and the F77 native quotient composition by a tactic.
-The F86 theorem already proves Ω = id iff BOTH integer charges
-vanish; F87 does not assert that the obstruction vanishes.
+## Remaining coordinate evaluation
+
+The verified quotient-Hom formula above identifies the F85
+monoidal identity tensorator with the precise F79/F84 transported
+construction, and identifies the F82 inverse component with the
+original F79 unit. F86 already proves that the obstruction is
+the identity iff its two integer charges vanish.
+
+A further *four-summand charge expansion* must explicitly select
+the F84 **direct** MonoidalCategoryStruct when tensoring the F79
+unit components, while retaining F81's **transported** structure
+for the source tensor object. Since their type synonyms are
+definitionally equal, indiscriminate notation '⊗ₘ' silently selects
+the wrong instance. The failed typed expansion is NOT part of this
+proof-bearing result, and no zero-charge conclusion is claimed.
 -/
 
 #print axioms c60F87MediatedMonoidal
 #print axioms c60F87IdentityTensorator_transport_formula
 #print axioms c60F87F82Inverse_is_F79_unit
 #print axioms c60F87Obstruction_hom_transport_formula
-#print axioms c60F87Obstruction_charge_transport_formula
 
 end
 end KUOS.DependentOriginationC60TensoratorObstructionEvaluationV5_241
