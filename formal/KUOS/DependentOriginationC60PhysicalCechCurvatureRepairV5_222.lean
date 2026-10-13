@@ -16,6 +16,9 @@ open KUOS.DependentOriginationGrayC60AllNinetyMixedBoundaryV5_196
 open KUOS.DependentOriginationGrayC60AdjacentFaceMixedTransportV5_196
 open KUOS.DependentOriginationGrayC60IntegralBoundaryLinearMapV5_159
 open KUOS.DependentOriginationGrayC60IntegralChainComplexV5_160
+open KUOS.DependentOriginationGrayC60NativeH0AugmentationV5_162
+open KUOS.DependentOriginationGrayC60NativeH0ConnectivityV5_163
+open KUOS.DependentOriginationGrayC60ActualF55CurvatureRepairV5_167
 open KUOS.DependentOriginationGrayC60NativeH1ContractingHomotopyV5_164
 open KUOS.DependentOriginationGrayC60CochainDescentV5_166
 open KUOS.DependentOriginationGrayC60WangBiGlobalGrayDescentV5_174
@@ -210,6 +213,9 @@ theorem c60F68PhysicalPatchCurvature_ne_zero
   have hNorth := c60F68PhysicalPatchCurvature_northSecondCharge
     t₁ t₂ left right sigma
   rw [hzero] at hNorth
+  have hZeroCharge :
+      ((0 : GradedThreeCell 0 0).charge.2) = (0 : ℤ) := rfl
+  rw [hZeroCharge] at hNorth
   norm_num at hNorth
 
 /-- The complete physical Čech curvature vanishes iff the genuine
@@ -397,12 +403,13 @@ def c60F68HigherAtlasRoute_curvatureCertificate
     (sigma omega : C60F67Atlas)
     (edge : TruncatedIcosahedralEdge)
     (via : List C60F67Atlas) :
-    (c60F67AtlasRoute
-        t₁ t₂ left right sigma omega edge via ≅
-      c60F66AtlasTransition
-        t₁ t₂ left right sigma omega edge) ×
-    (c60F68PhysicalPatchCurvature t₁ t₂ left right sigma =
-      c60F68PhysicalPatchCurvature t₁ t₂ left right omega) :=
+    { routeIso :
+        (c60F67AtlasRoute
+          t₁ t₂ left right sigma omega edge via ≅
+        c60F66AtlasTransition
+          t₁ t₂ left right sigma omega edge) //
+      c60F68PhysicalPatchCurvature t₁ t₂ left right sigma =
+      c60F68PhysicalPatchCurvature t₁ t₂ left right omega } :=
   ⟨c60F67AtlasRouteCollapse
       t₁ t₂ left right sigma omega edge via,
     c60F68PhysicalPatchCurvature_independent
