@@ -123,28 +123,47 @@ theorem c60F84DirectToCharge_map_rightUnitor
   apply C60F75StrictChargeThree.ext
   exact c60F83DirectRightUnitor_charge X
 
-/-- A genuine Mathlib strong monoidal compatibility certificate,
-with *identity* comparison isomorphisms because the F79 map
-preserves all direct quotient tensor and unit objects exactly. -/
+/-- First bundle preservation of all actual F80 quotient tensor
+three-Homs and both structural isomorphisms using Mathlib's
+tensorHom-based monoidal functor constructor. This avoids pretending
+the source whiskering equals transported F81 whiskering. -/
+@[implicit_reducible]
+def c60F84DirectToChargeLaxMonoidal :
+    c60F84DirectToCharge.LaxMonoidal :=
+  Functor.LaxMonoidal.ofTensorHom
+    (F := c60F84DirectToCharge)
+    (ε := 𝟙 _)
+    (μ := fun _ _ => 𝟙 _)
+    (μ_natural := by
+      intro X Y X' Y' f g
+      simpa using (c60F84DirectToCharge_map_tensor f g).symm)
+    (associativity := by
+      intro X Y Z
+      simpa using (c60F84DirectToCharge_map_associator X Y Z).symm)
+    (left_unitality := by
+      intro X
+      simpa using (c60F84DirectToCharge_map_leftUnitor X).symm)
+    (right_unitality := by
+      intro X
+      simpa using (c60F84DirectToCharge_map_rightUnitor X).symm)
+
+/-- Its unit and tensor comparison maps are LITERALLY identities,
+hence both invertible; convert the proven lax coherence to genuine
+strong monoidal coherence using Mathlib's checked constructor. -/
 def c60F84DirectToChargeCoreMonoidal :
-    c60F84DirectToCharge.CoreMonoidal where
-  εIso := Iso.refl _
-  μIso := fun _ _ => Iso.refl _
-  μIso_hom_natural_left := by
-    intro X Y f Z
-    simpa using (c60F84DirectToCharge_map_tensor f (𝟙 Z)).symm
-  μIso_hom_natural_right := by
-    intro X Y Z f
-    simpa using (c60F84DirectToCharge_map_tensor (𝟙 X) f).symm
-  associativity := by
-    intro X Y Z
-    simpa using (c60F84DirectToCharge_map_associator X Y Z).symm
-  left_unitality := by
-    intro X
-    simpa using (c60F84DirectToCharge_map_leftUnitor X).symm
-  right_unitality := by
-    intro X
-    simpa using (c60F84DirectToCharge_map_rightUnitor X).symm
+    c60F84DirectToCharge.CoreMonoidal := by
+  letI : c60F84DirectToCharge.LaxMonoidal :=
+    c60F84DirectToChargeLaxMonoidal
+  haveI : IsIso (Functor.LaxMonoidal.ε c60F84DirectToCharge) := by
+    change IsIso (𝟙 (𝟙_ C60F75StrictChargeGrade))
+    infer_instance
+  haveI :
+      ∀ X Y : C60F84DirectQuotient,
+        IsIso (Functor.LaxMonoidal.μ c60F84DirectToCharge X Y) := by
+    intro X Y
+    change IsIso (𝟙 (c60F84DirectToCharge.obj (X ⊗ Y)))
+    infer_instance
+  exact Functor.CoreMonoidal.ofLaxMonoidal c60F84DirectToCharge
 
 /-- The proven strong monoidal F79 quotient functor, with ALL
 naturality, associativity and both unit compatibilities,
@@ -191,6 +210,7 @@ def c60F84DirectChargeMonoidalEquivalence :
 #print axioms c60F84DirectToCharge_map_associator
 #print axioms c60F84DirectToCharge_map_leftUnitor
 #print axioms c60F84DirectToCharge_map_rightUnitor
+#print axioms c60F84DirectToChargeLaxMonoidal
 #print axioms c60F84DirectToChargeCoreMonoidal
 #print axioms c60F84DirectToChargeMonoidal
 #print axioms c60F84DirectChargeEquivalenceForwardMonoidal
