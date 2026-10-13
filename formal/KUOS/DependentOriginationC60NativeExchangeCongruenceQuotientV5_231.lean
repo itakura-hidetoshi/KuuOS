@@ -224,7 +224,11 @@ theorem c60F77PhaseArrow_killed
     (X : GrayGrade) (p : ZMod 2) :
     F.map (c60F77PhaseArrow X p) = 𝟙 (F.obj X) := by
   have hp : p = (0 : ZMod 2) ∨ p = 1 := by
-    fin_cases p <;> decide
+    have hv : p.val < 2 := ZMod.val_lt p
+    have hv01 : p.val = 0 ∨ p.val = 1 := by omega
+    rcases hv01 with h0 | h1
+    · exact Or.inl ((ZMod.val_eq_zero p).mp h0)
+    · exact Or.inr ((ZMod.val_eq_one (by decide : 1 < 2) p).mp h1)
   rcases hp with hp0 | hp1
   · rw [hp0]
     have hzero : c60F77PhaseArrow X 0 = 𝟙 X := by
