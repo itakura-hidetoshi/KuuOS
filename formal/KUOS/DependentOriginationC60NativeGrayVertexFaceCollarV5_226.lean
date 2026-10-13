@@ -138,7 +138,9 @@ theorem c60F72NativeFlagTransport_functorEq
             (c60F48EveryRealEdgeMixedFrame
               t₁ t₂ left right edge (sigma edge)))) =
       𝟙 GrayGrade.unit
-    exact Functor.map_id _ _
+    exact (c60F47MixedGrayFunctor
+      (c60F48EveryRealEdgeMixedFrame
+        t₁ t₂ left right edge (sigma edge))).map_id _
 
 /-- The physical C60 corner has a genuine vertex-edge-face
 2-simplex, AND its native Gray shadow admits a constructed strict
