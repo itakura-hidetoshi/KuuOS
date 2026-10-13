@@ -83,13 +83,13 @@ theorem c60PhysicalFaceChoice_gradedFunctor_square
       c60F44OriginalF55Eval B₁.rotationStep := by
     rfl
   apply CategoryTheory.Functor.ext
-  · intro X
-    rfl
   · intro X Y f
     simpa [c60F48ActualEdgeFaceChoiceFunctor, c60F47MixedGrayFunctor,
       B₀, B₁] using
       (c60F48MixedBoundaryTransportFunctor_fullNative B₀ B₁
         hface hrot f)
+  · intro X
+    rfl
 
 /-- The ORIGINAL C60 physical side-choice nerve and the source-to-graded
 nerve realization form one strict commuting square of genuine simplicial
