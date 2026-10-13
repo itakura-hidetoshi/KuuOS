@@ -9,6 +9,9 @@ open Simplicial
 open KUOS.DependentOriginationIcosahedralTruncationSeedV3_84
 open KUOS.DependentOriginationTruncatedIcosahedralEdgesV3_85
 open KUOS.DependentOriginationTruncatedIcosahedralFlagSquaresV5_154
+open KUOS.DependentOriginationGrayC60PhysicalFlagF55BridgeV5_194
+open KUOS.DependentOriginationGrayC60IntegralBoundaryLinearMapV5_159
+open KUOS.DependentOriginationGrayC60IntegralChainComplexV5_160
 open KUOS.DependentOriginationGrayBraidedThreeCellCoreV5_156
 open KUOS.DependentOriginationGrayNativeBraidedCategoryV5_156
 open KUOS.DependentOriginationGrayC60PresentedFaceTwoCellsV5_190
@@ -70,20 +73,20 @@ inductive C60F69PhysicalCellSite where
 to face incidence needed for the oriented 2-simplex diagonal. -/
 inductive C60F69PhysicalIncidence :
     C60F69PhysicalCellSite → C60F69PhysicalCellSite → Prop where
-  | refl (site : C60F69PhysicalCellSite) :
+  | refl : (site : C60F69PhysicalCellSite) →
       C60F69PhysicalIncidence site site
-  | vertexEdge (v : IcosahedralDart)
-      (e : TruncatedIcosahedralEdge)
-      (hv : v = (truncatedIcosahedralEdgeEndpoints e).1 ∨
-        v = (truncatedIcosahedralEdgeEndpoints e).2) :
+  | vertexEdge : (v : IcosahedralDart) →
+      (e : TruncatedIcosahedralEdge) →
+      (v = (truncatedIcosahedralEdgeEndpoints e).1 ∨
+       v = (truncatedIcosahedralEdgeEndpoints e).2) →
       C60F69PhysicalIncidence (.vertex v) (.edge e)
-  | edgeFace (e : TruncatedIcosahedralEdge)
-      (f : TruncatedIcosahedralSeedFace)
-      (hef : truncatedEdgeOnSeedFace e f) :
+  | edgeFace : (e : TruncatedIcosahedralEdge) →
+      (f : TruncatedIcosahedralSeedFace) →
+      truncatedEdgeOnSeedFace e f →
       C60F69PhysicalIncidence (.edge e) (.face f)
-  | vertexFace (v : IcosahedralDart)
-      (f : TruncatedIcosahedralSeedFace)
-      (hvf : truncatedDartOnSeedFace v f) :
+  | vertexFace : (v : IcosahedralDart) →
+      (f : TruncatedIcosahedralSeedFace) →
+      truncatedDartOnSeedFace v f →
       C60F69PhysicalIncidence (.vertex v) (.face f)
 
 /-- Incidence by actual C60 endpoints and polygon containment makes
