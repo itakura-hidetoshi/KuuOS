@@ -213,6 +213,7 @@ theorem c60F68PhysicalPatchCurvature_ne_zero
   have hNorth := c60F68PhysicalPatchCurvature_northSecondCharge
     t₁ t₂ left right sigma
   rw [hzero] at hNorth
+  simp only [LinearMap.zero_apply] at hNorth
   have hZeroCharge :
       ((0 : GradedThreeCell 0 0).charge.2) = (0 : ℤ) := rfl
   rw [hZeroCharge] at hNorth
@@ -403,7 +404,7 @@ def c60F68HigherAtlasRoute_curvatureCertificate
     (sigma omega : C60F67Atlas)
     (edge : TruncatedIcosahedralEdge)
     (via : List C60F67Atlas) :
-    { routeIso :
+    { _routeIso :
         (c60F67AtlasRoute
           t₁ t₂ left right sigma omega edge via ≅
         c60F66AtlasTransition
