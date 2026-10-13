@@ -240,11 +240,11 @@ def c60F84DirectChargeEquivalenceInverseMonoidal :
     c60F84DirectChargeEquivalenceForwardMonoidal
   exact c60F84DirectChargeEquivalence.inverseMonoidal
 
+set_option backward.isDefEq.respectTransparency false in
 /-- The underlying F79 category equivalence is a genuine
 Mathlib MONOIDAL equivalence of the F83 direct quotient and F75.
 The pinned mathlib equivalence example uses this transparency mode
 for exactly the same inverseMonoidal/IsMonoidal instance synthesis. -/
-set_option backward.isDefEq.respectTransparency false in
 @[implicit_reducible]
 def c60F84DirectChargeMonoidalEquivalence :
     letI : c60F84DirectChargeEquivalence.functor.Monoidal :=
