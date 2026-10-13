@@ -456,12 +456,14 @@ theorem c60F78OriginalSource_horizontal_preserved
     (c60F78OriginalSourceStrictFunctor (p.comp r) (q.comp s)).map
         (c60F51HorizontalMap f g) =
     c60F78HorizontalThree
+      (p := p) (q := q) (r := r) (s := s)
       ((c60F78OriginalSourceStrictFunctor p q).map f)
       ((c60F78OriginalSourceStrictFunctor r s).map g) := by
-  rw [c60F78OriginalSourceStrictFunctor_factor,
-    c60F78OriginalSourceStrictFunctor_factor,
-    c60F78OriginalSourceStrictFunctor_factor]
-  exact c60F76OriginalHorizontalStrictification_tensor f g
+  apply C60F75StrictChargeThree.ext
+  change (c60F51Eval (c60F51HorizontalMap f g)).charge =
+    (c60F51Eval f).charge + (c60F51Eval g).charge
+  rw [c60F51HorizontalMap_eval]
+  exact grayNeutral_add_charge _ _
 
 /-- Both independently integral charge coordinates really survive
 the strict quotient; a local 3-endomorphism need not be identity. -/
