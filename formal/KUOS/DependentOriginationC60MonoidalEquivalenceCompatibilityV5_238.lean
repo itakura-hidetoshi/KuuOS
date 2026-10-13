@@ -32,7 +32,7 @@ eqToIso associator and unitors, proving pentagon and triangle.
 
 It is invalid to have two unrelated competing MonoidalCategory
 instances on an untagged same type: distinguish the direct theory
-by this explicit type synonym, and give it precisely F83's proved
+by this explicit type synonym (definitionally equal as a carrier), and give it F83's proved
 monoidal laws. The original F81 transported quotient remains intact.
 
 We then prove that the ACTUAL F79 charge-quotient functor out of
@@ -49,8 +49,9 @@ unchanged F42/F54/F55 original higher-gluing 3-category is strict
 or that north C60 geometric integer curvature -5 vanishes.
 -/
 
-/-- Explicitly distinguish the independently constructed F83
-monoidal quotient from F81's transported monoidal quotient. -/
+/-- Explicit type synonym for the independently proved F83
+monoidal structure. The underlying types are definitionally equal:
+this symbol makes typeclass selection explicit, not a new carrier. -/
 def C60F84DirectQuotient := C60F77NativeQuotient
 
 instance c60F84DirectQuotientCategory : Category C60F84DirectQuotient :=
@@ -182,15 +183,18 @@ def c60F84DirectToChargeLaxMonoidal :
     (associativity := by
       intro X Y Z
       apply C60F75StrictChargeThree.ext
-      simp [c60F84DirectToCharge_map_associator] <;> abel)
+      simp [c60F84DirectToCharge_map_associator]
+      abel)
     (left_unitality := by
       intro X
       apply C60F75StrictChargeThree.ext
-      simp [c60F84DirectToCharge_map_leftUnitor] <;> abel)
+      simp [c60F84DirectToCharge_map_leftUnitor]
+      abel)
     (right_unitality := by
       intro X
       apply C60F75StrictChargeThree.ext
-      simp [c60F84DirectToCharge_map_rightUnitor] <;> abel)
+      simp [c60F84DirectToCharge_map_rightUnitor]
+      abel)
 
 /-- Its unit and tensor comparison maps are LITERALLY identities,
 hence both invertible; convert the proven lax coherence to genuine
@@ -237,7 +241,10 @@ def c60F84DirectChargeEquivalenceInverseMonoidal :
   exact c60F84DirectChargeEquivalence.inverseMonoidal
 
 /-- The underlying F79 category equivalence is a genuine
-Mathlib MONOIDAL equivalence of the F83 direct quotient and F75. -/
+Mathlib MONOIDAL equivalence of the F83 direct quotient and F75.
+The pinned mathlib equivalence example uses this transparency mode
+for exactly the same inverseMonoidal/IsMonoidal instance synthesis. -/
+set_option backward.isDefEq.respectTransparency false in
 @[implicit_reducible]
 def c60F84DirectChargeMonoidalEquivalence :
     letI : c60F84DirectChargeEquivalence.functor.Monoidal :=
@@ -251,6 +258,12 @@ def c60F84DirectChargeMonoidalEquivalence :
     c60F84DirectChargeEquivalence.inverseMonoidal
   infer_instance
 
+#print axioms c60F84Charge_id
+#print axioms c60F84Charge_comp
+#print axioms c60F84Charge_tensor
+#print axioms c60F84Charge_associator
+#print axioms c60F84Charge_leftUnitor
+#print axioms c60F84Charge_rightUnitor
 #print axioms c60F84DirectToCharge_map_tensor
 #print axioms c60F84DirectToCharge_unit
 #print axioms c60F84DirectToCharge_map_associator
