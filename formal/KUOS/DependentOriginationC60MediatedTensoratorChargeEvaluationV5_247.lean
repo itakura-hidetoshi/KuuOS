@@ -316,6 +316,10 @@ theorem c60F93MediatedCharge_evaluated
           (c60F85TransportedToCharge.functor.obj X).degree -
         c60F92GaugeGrade
           (c60F85TransportedToCharge.functor.obj Y).degree := by
+    letI : c60F84DirectChargeEquivalence.functor.Monoidal :=
+      c60F84DirectChargeEquivalenceForwardMonoidal
+    letI : c60F84DirectChargeEquivalence.inverse.Monoidal :=
+      c60F84DirectChargeEquivalenceInverseMonoidal
     change
       (c60F84DirectChargeEquivalence.functor.map
         (Functor.LaxMonoidal.μ
