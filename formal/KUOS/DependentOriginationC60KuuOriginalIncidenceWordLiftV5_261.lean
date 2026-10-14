@@ -357,8 +357,7 @@ theorem c60F107NonzeroPhase_obstructsNativeComp
     (fun z : (⟨L.face i X⟩ : C60F51OriginalTwo (A.p i) (A.q i)) ⟶
         (⟨L.face i Z⟩ : C60F51OriginalTwo (A.p i) (A.q i)) =>
        (c60F51Eval z).phase) heq
-  simp only [c60F107NativeWordHom, c60F51Eval_of, c60F51Eval_comp,
-    grayNeutral_add_phase] at hn
+  simp only [c60F107NativeWordHom, c60F51Eval_of] at hn
   exact hbad (sub_eq_zero.mpr hn)
 
 #print axioms c60F107OriginalFaceDegree_preserved
