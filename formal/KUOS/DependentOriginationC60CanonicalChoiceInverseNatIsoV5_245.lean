@@ -159,12 +159,19 @@ theorem c60F91ChosenUnit_factorsThroughCanonical
         (c60F91ExplicitToChosenInverseIso
           (c60F77QuotientToStrictCharge.obj
             (c60F89CanonicalGrade d))).hom
-  rw [c60F91CanonicalUnit_onCanonicalGrade, Category.id_comp]
-  apply c60F80QuotientThree_ext
-  exact (c60F91ChosenUnit_charge (c60F89CanonicalGrade d)).trans
-    (c60F91ExplicitToChosenInverse_charge
-      (c60F77QuotientToStrictCharge.obj
-        (c60F89CanonicalGrade d))).symm
+  rw [c60F91CanonicalUnit_onCanonicalGrade]
+  have hEq :
+      (c60F79NativeChargeEquivalence.unitIso.app
+        (c60F89CanonicalGrade d)).hom =
+        (c60F91ExplicitToChosenInverseIso
+          (c60F77QuotientToStrictCharge.obj
+            (c60F89CanonicalGrade d))).hom := by
+    apply c60F80QuotientThree_ext
+    exact (c60F91ChosenUnit_charge (c60F89CanonicalGrade d)).trans
+      (c60F91ExplicitToChosenInverse_charge
+        (c60F77QuotientToStrictCharge.obj
+          (c60F89CanonicalGrade d))).symm
+  exact hEq.trans (Category.id_comp _).symm
 
 #print axioms c60F91CounitComparisonIso
 #print axioms c60F91ExplicitToChosenInverseIso
