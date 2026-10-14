@@ -106,7 +106,7 @@ def c60F91ExplicitToChosenInverseNatIso :
     simpa only [Functor.map_comp, c60F80QuotientThree_comp_charge,
       c60F90Section_leftMap, c60F91ExplicitToChosenInverse_charge,
       c60F84Charge_comp, Functor.comp_map, Functor.id_map]
-      using hn)
+      using hn.symm)
 
 /-- Actual F79 triangle compatibility: the F79 unit mapped to
 F75 is precisely the inverse of the F79 chosen counit at FX. -/
@@ -125,8 +125,8 @@ theorem c60F91ChosenUnit_map_eq_counitInv
       (c60F79NativeChargeEquivalence.functor.map
         (c60F79NativeChargeEquivalence.unitIso.app X).hom ≫ ε.hom) ≫ ε.inv := by
           rw [Category.assoc, Iso.hom_inv_id, Category.comp_id]
-    _ = 𝟙 _ ≫ ε.inv := by rw [h]
-    _ = ε.inv := Category.id_comp _
+    _ = ε.inv := by
+          rw [h, Category.id_comp]
 
 /-- The F79 unit's actual two-integer-charge correction is the
 charge of the F79 chosen counit inverse, NOT automatically zero. -/
@@ -150,7 +150,7 @@ theorem c60F91ChosenUnit_factorsThroughCanonical
         (c60F91ExplicitToChosenInverseIso
           (c60F77QuotientToStrictCharge.obj X)).hom := by
   apply c60F80QuotientThree_ext
-  rw [c60F80QuotientThree_comp_charge,
+  rw [Functor.map_comp, c60F84Charge_comp,
     c60F90CanonicalUnit_charge_zero, zero_add]
   exact (c60F91ChosenUnit_charge X).trans
     (c60F91ExplicitToChosenInverse_charge
