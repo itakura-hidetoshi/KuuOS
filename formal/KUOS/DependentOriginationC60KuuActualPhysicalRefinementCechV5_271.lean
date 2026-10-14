@@ -133,9 +133,10 @@ theorem c60F111Refinement_observed_functor
         (c60F111RefineChart h i) := by
   fapply CategoryTheory.Functor.ext
   · intro X
-    exact c60F111Refinement_observed_obj C h i X
+    rfl
   · intro X Y f
-    exact c60F111Refinement_observed_map C h i f
+    simpa only [eqToHom_refl, Category.id_comp, Category.comp_id] using
+      (c60F111Refinement_observed_map C h i f)
 
 /-- A genuine F109 natural-isomorphism COMPONENT survives
 a real finite incidence refinement: transporting between
