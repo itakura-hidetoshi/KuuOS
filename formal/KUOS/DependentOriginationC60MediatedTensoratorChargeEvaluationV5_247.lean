@@ -271,16 +271,21 @@ theorem c60F93MediatedCharge_composition
     c60F85ChargeToDirectForwardMonoidal
   unfold c60F92MediatedCharge
   rw [c60F93MediatedMu_composition X Y]
-  rw [c60F80QuotientThree_comp_charge]
+  have hcomp := c60F80QuotientThree_comp_charge
+    (Functor.LaxMonoidal.μ c60F85ChargeToDirect.functor
+      (c60F85TransportedToCharge.functor.obj X)
+      (c60F85TransportedToCharge.functor.obj Y))
+    (c60F85ChargeToDirect.functor.map
+      (Functor.LaxMonoidal.μ c60F85TransportedToCharge.functor X Y))
   have h := c60F93ChosenInverse_map_preservesCharge
     (Functor.LaxMonoidal.μ
       c60F85TransportedToCharge.functor X Y)
-  simpa only [] using congrArg
+  exact hcomp.trans (congrArg
     (fun q : Int × Int =>
       (c60F84DirectChargeEquivalence.functor.map
         (Functor.LaxMonoidal.μ c60F85ChargeToDirect.functor
           (c60F85TransportedToCharge.functor.obj X)
-          (c60F85TransportedToCharge.functor.obj Y))).charge + q) h
+          (c60F85TransportedToCharge.functor.obj Y))).charge + q) h)
 
 #print axioms c60F93MediatedMu_composition
 #print axioms c60F93MediatedCharge_composition
