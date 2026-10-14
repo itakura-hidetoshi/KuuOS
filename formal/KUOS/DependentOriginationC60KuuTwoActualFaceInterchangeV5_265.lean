@@ -14,6 +14,7 @@ open KUOS.DependentOriginationGrayC60PhysicalFlagF55BridgeV5_194
 open KUOS.DependentOriginationGrayC60AllNinetyMixedBoundaryV5_196
 open KUOS.DependentOriginationGrayC60OriginalFaceHorizontalPresentationV5_199
 open KUOS.DependentOriginationGrayC60OriginalFaceHorizontalThreeHomV5_199
+open KUOS.DependentOriginationC60PhysicalIncidenceHigherNerveV5_223
 open KUOS.DependentOriginationC60KuuLocalUniversalDescentV5_249
 open KUOS.DependentOriginationC60KuuPhysicalOverlapObstructionV5_259
 open KUOS.DependentOriginationC60KuuActualIncidenceOverlapRefinementV5_260
@@ -256,7 +257,7 @@ noncomputable def c60F108BothFaceContextsFromGeometry
       (truncatedIcosahedralEdgeEndpoints (edges i)).2
 
 /-- All 90 original actual physical edges are represented, with
-BOTH genuinely distinct adjacent five-/six-gon face 2-cells. -/
+BOTH genuinely distinct adjacent pentagonal or hexagonal face 2-cells. -/
 noncomputable def c60F108AllNinetyBothFaces :
     C60F108BothFaceContexts
       (Fintype.card TruncatedIcosahedralEdge) :=
@@ -474,7 +475,7 @@ theorem c60F108BothFaceStarTriangle_coherent
 /-! ## V. Ninety genuine edge stars, TWO real polygon generators -/
 
 /-- In each actual original physical edge's incidence-star category
-this native F51 functor contains BOTH different 5-/6-gon generators. -/
+this native F51 functor contains BOTH different pentagonal or hexagonal generators. -/
 noncomputable def c60F108AllNinetyBothFaceNativeStar
     (i : Fin (Fintype.card TruncatedIcosahedralEdge)) :
     C60F106PhysicalOverlap
