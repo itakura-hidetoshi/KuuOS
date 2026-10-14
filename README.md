@@ -14,18 +14,18 @@ English: KuuOS is a research architecture for dependent origination, context-dep
 
 ## Verified formal frontier / Lean4の現在の正本
 
-**2026-10-14 JST 時点：`v5.261 / F107` まで統合済み。**
+**2026-10-15 JST 再確認：`v5.263 / F108` 第2段階まで統合済み。F108の非自明な局所原F51射の全スター拡張はOPEN。**
 
 | 検証項目 | 最新の確認済み権威 |
 | --- | --- |
 | Repository / canonical branch | [`itakura-hidetoshi/KuuOS`](https://github.com/itakura-hidetoshi/KuuOS) / `main` |
-| **最新 theorem-bearing PR** | **[PR #2281 — v5.261 F107, MERGED](https://github.com/itakura-hidetoshi/KuuOS/pull/2281)** |
-| **Theorem-bearing merge SHA** | **`62f878a739a3288174e8d1b68a754f8d9e239d73`**（PRマージ後に`main`との一致を確認） |
-| Exact tested source HEAD | `cc8e26d5049b849a403eb76b9878e2a89000cb9f` |
-| Exact-head proof CI | [GitHub Actions #38571374255](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38571374255) — **completed SUCCESS** |
-| Strict Lean target | `KUOS.DependentOriginationC60KuuOriginalIncidenceWordLiftV5_261` — **9073/9073 jobs SUCCESS** |
+| **最新 theorem-bearing PR** | **[PR #2284 — v5.263 F108第2段階, MERGED](https://github.com/itakura-hidetoshi/KuuOS/pull/2284)** |
+| **Theorem-bearing merge SHA** | **`dacf083feb1cfcf35744e7f3aaa584fc7b60ef47`**（PR #2284のマージ後に`main`と一致を確認） |
+| Exact tested source HEAD | `e1d621fcdc1ef89a3f0761c4378e8f850d6ccb2c` |
+| Exact-head proof CI | [GitHub Actions #38581217277](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38581217277) — **completed SUCCESS** |
+| Strict Lean target | `KUOS.DependentOriginationC60KuuAllPhysicalSourcePathsV5_263` — **9075/9075 jobs SUCCESS** |
 | Governance / MCP | Strict Lean・Governance・MCP Lean completion・MCP CI completion **全SUCCESS** |
-| Changed-file audit | **warning/error 0/0**、**10 `#print axioms`**、**`sorryAx`なし** |
+| Changed-file audit | **warning/error 0/0**、**12 `#print axioms`**、**`sorryAx`なし** |
 | Pinned versions | [Lean `v4.30.0-rc2`](lean-toolchain)、[mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`](lake-manifest.json) |
 | Separate verification only | [PR #1558 — Lean 4.31](https://github.com/itakura-hidetoshi/KuuOS/pull/1558): **OPEN / DRAFT / NOT MERGED**。正本へマージしない |
 
@@ -61,7 +61,7 @@ F=\overline F\circ Q_{p,q},\qquad \exists!\,\overline F
 | --- | --- | --- |
 | 原C60幾何 | **60頂点、90物理辺、32実多角形面（12五角形、20六角形）**、360入射旗標、真正の有向`Quiver.Path` | 入射旗標の`K₂,₂`四角形を新たなC60表面の正方形面とみなすこと |
 | 原F42/F43/F51/F54/F55 | 型付き2射・3射の原表示と独立した位相・荷電・曲率 | 異なる原構文を無条件に等置すること、既存のF43に無かったF51の追加生成子を過去に遡って同一視すること |
-| F75–F83、F94–F107 | 二成分荷電の真正`CategoryTheory.Quotient`、F95局所商圏と普遍性、水平・垂直合成、観測後の自然同型、条件付きdescent | F77の一致を元の全F42/F55位相保存同値や無条件の物理的hyperdescentとみなすこと |
+| F75–F83、F94–F108（第2段階） | 二成分荷電の真正`CategoryTheory.Quotient`、F95局所商圏、条件付きdescent、原C60経路からの非恒等F42面ラベル・局所F95関手、型付き非自明F51交換3射 | F77の一致を元の全F42/F55位相保存同値や無条件の物理的hyperdescentとみなすこと |
 | 実物理曲率 | F68の符号付き2-cochain、局所非平坦性、必要な非ゼロ修復 | 全32面の有向和がゼロであることから個々の五角形・六角形が平坦だと推論すること |
 
 **明示的なobstruction:** 元の北五角形の第2整数荷電は**`−5`**です。F77観測後の比較射が追加荷電ゼロでも、この原F55物理曲率は消えません。修復を使うならF68の非ゼロ補正を明示的に扱う必要があります。
@@ -84,6 +84,8 @@ F=\overline F\circ Q_{p,q},\qquad \exists!\,\overline F
 | [F105 / #2279](https://github.com/itakura-hidetoshi/KuuOS/pull/2279) | **異なる実C60物理辺**のF95局所圏を**与えられた重なり圏・制限関手**で比較。`Int × Int`差のcocycle、条件付き貼り合わせと非ゼロ障害、北五角形曲率の保持 |
 | [F106 / #2280](https://github.com/itakura-hidetoshi/KuuOS/pull/2280) | F69の真正の**入射スター有限交差圏**、部分集合による制限関手、共有頂点・共有実多角形面の存在証明。F95意味論は明示的な追加データ |
 | **[F107 / #2281](https://github.com/itakura-hidetoshi/KuuOS/pull/2281)** | 原F42の対象ラベル・型付き原F51の射語を与え、**二成分荷電の単位律・合成律からF95意味論関手を構成**。原F51への持ち上げには別途`ZMod 2`位相整合性を要求し、原F42境界次数と位相合成の障害を証明 |
+| **[F108 第1段階 / v5.262 / #2283](https://github.com/itakura-hidetoshi/KuuOS/pull/2283)** | 実際の五角形・六角形面と型付き前後`Quiver.Path`から**次数1の原F42面ラベル**と原F51恒等語による局所F95/F51関手を構成。別途、原F43交換射の前後文脈化により`charge=(0,0), phase=1`の**非恒等F51射**を真正F69入射三角形の比較とともに構成（文脈経路の存在は入力） |
+| **[F108 第2段階 / v5.263 / #2284](https://github.com/itakura-hidetoshi/KuuOS/pull/2284)** | 原C60正逆90辺から北基点→全60頂点、任意2頂点間の真正`Quiver.Path`を構成。F108の前後文脈経路の存在を証明して**全90物理辺**のF42/F95意味論を構成。保守的な原F51恒等語のスター全体への拡張と、独立した非恒等交換射の存在を区別 |
 
 特に最近のtheorem-bearingファイルは次のとおりです（各リンクは実際のLeanソース）。
 
@@ -95,14 +97,16 @@ F=\overline F\circ Q_{p,q},\qquad \exists!\,\overline F
 - [F105 — 異なる物理パッチ間の荷電障害](formal/KUOS/DependentOriginationC60KuuPhysicalOverlapObstructionV5_259.lean)
 - [F106 — 真正C60入射重なりと制限](formal/KUOS/DependentOriginationC60KuuActualIncidenceOverlapRefinementV5_260.lean)
 - **[F107 — 原F42/F51の型付き語からのKuu意味論](formal/KUOS/DependentOriginationC60KuuOriginalIncidenceWordLiftV5_261.lean)**
+- **[F108 第1段階 — 物理面F42/F51文脈と非ゼロ位相](formal/KUOS/DependentOriginationC60KuuPhysicalFlagSourceBridgeV5_262.lean)**
+- **[F108 第2段階 — 全60頂点の原Quiver.Pathと90物理辺の文脈](formal/KUOS/DependentOriginationC60KuuAllPhysicalSourcePathsV5_263.lean)**
 
 詳細な歴史・公理・未解決課題は **[ROADMAP.md](ROADMAP.md)** を参照してください。
 
 ## What remains open / 次の数学的課題
 
-**F108以降は未証明の計画です。** 現時点でF107は、物理入射圏の各対象への原F42ラベル、各射への型付き原F51語、および二成分荷電の整合性を**条件として受け取り**F95意味論を構成します。これらの入力を**任意の真正C60入射圏から自動的に作れる**という定理はまだありません。
+**F108第1・第2段階は証明・統合済みで、F108の残部とF109以降はOPENです。** F108第1段階では真正の多角形面の原F42ラベル（次数1）と元F43交換射由来の`phase=1`の原F51射を構成しました。第2段階では60頂点間の原Quiver.Pathと90物理辺の文脈経路の存在を証明し、文脈存在の追加仮定を除去しました。一方、F107の原F51恒等射を採用した**保守的な局所スター関手**とは別に構成した非恒等F51交換射を、**スターの全Hom上で一貫して非自明に作用する関手**へ拡張することはまだ証明していません。
 
-次の研究軸は、実C60の`vertex → edge → polygon face`旗標（三角形）の原F42/F51語を具体的に構成し、その荷電・位相・F55境界を照合することです。成立すればF106の幾何学的制限とF107の原構文意味論をさらに接続できます。成立しない場合は、次数不一致・位相・符号付きF55曲率をobstructionとして記録します。**全C60物理表面の無条件global glue、原F55の一般的な高次同値、無条件hyperdescentは未証明です。**
+次の研究軸は、実C60の`vertex → edge → polygon face`旗標に構成した**非恒等F51交換3射**を、全スターの対象・射・合成に整合する形で輸送すること、そして独立の物理パッチ間における位相・荷電・F55境界条件を比較することです。成立しない場合は、次数不一致・位相・符号付きF55曲率をobstructionとして記録します。**全C60物理表面の無条件global glue、原F55の一般的な高次同値、無条件hyperdescentは未証明です。**
 
 **Old Grayを復元することは本研究ルートの前提ではありません。** 元のGray位相はソース診断として保存し、空による交代可能性は**指定された商圏と正確な保存量**について証明します。
 
@@ -112,19 +116,19 @@ F=\overline F\circ Q_{p,q},\qquad \exists!\,\overline F
 
 研究上のランタイム構成案は **`LLM + KuuOS reasoning runtime + formal authority layer`** です。Leanの定理が正しいことは、モデルの重み・対話システム・バックグラウンドエージェントの挙動が変わったこと、全リポジトリが実際に取り込まれたこと、臨床的・物理的・倫理的正当性が検証されたことを意味しません。結合実装は、正本SHAへの固定、明示的な権限・同意境界、観測と推測の区別、継続的な実測・再検証を別途必要とします。
 
-## Reproduce the F107 theorem-bearing result / 形式証明の再現
+## Reproduce the F108 v5.263 theorem-bearing result / 形式証明の再現
 
 ```bash
 git clone https://github.com/itakura-hidetoshi/KuuOS.git
 cd KuuOS
-git checkout 62f878a739a3288174e8d1b68a754f8d9e239d73
+git checkout dacf083feb1cfcf35744e7f3aaa584fc7b60ef47
 cat lean-toolchain
 lake exe cache get  # 必要な場合のみ、固定mathlibに対応するキャッシュを取得
 lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build \
-  KUOS.DependentOriginationC60KuuOriginalIncidenceWordLiftV5_261
+  KUOS.DependentOriginationC60KuuAllPhysicalSourcePathsV5_263
 ```
 
-[PR #2281のexact-source-head CI #38571374255](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38571374255) は **9073/9073 SUCCESS**。追加ファイルのwarning/error 0/0、10件の`#print axioms`に`sorryAx`なし。Lean・Governance・MCP Lean/CI完了証跡は成功しています。
+[PR #2284のexact-source-head CI #38581217277](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38581217277) は **9075/9075 SUCCESS**。追加ファイルのwarning/error 0/0、12件の`#print axioms`に`sorryAx`なし。Lean・Governance・MCP Lean/CI完了証跡は成功しています。第1段階の[PR #2283 / CI #38578446820](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38578446820) は**9074/9074 SUCCESS**、10件の公理監査済みです。
 
 別の検証範囲である全形式化ターゲットや推論ランタイムを調べる場合は、それぞれ独立に実行してください（上記CIによる成功の保証はありません）。
 
