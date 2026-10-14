@@ -8,6 +8,7 @@ open CategoryTheory
 open KUOS.DependentOriginationIcosahedralTruncationSeedV3_84
 open KUOS.DependentOriginationTruncatedIcosahedralEdgesV3_85
 open KUOS.DependentOriginationTruncatedIcosahedralFlagSquaresV5_154
+open KUOS.DependentOriginationGrayC60PhysicalFlagF55BridgeV5_194
 open KUOS.DependentOriginationGrayBraidedThreeCellCoreV5_156
 open KUOS.DependentOriginationGrayC60NativePathFunctorV5_189
 open KUOS.DependentOriginationGrayC60PresentedFaceTwoCellsV5_190
@@ -19,6 +20,7 @@ open KUOS.DependentOriginationC60IncidenceGrothendieckExtensionV5_225
 open KUOS.DependentOriginationC60KuuPhysicalOverlapObstructionV5_259
 open KUOS.DependentOriginationC60KuuActualIncidenceOverlapRefinementV5_260
 open KUOS.DependentOriginationC60KuuOriginalIncidenceWordLiftV5_261
+open KUOS.DependentOriginationC60KuuLocalUniversalDescentV5_249
 open KUOS.DependentOriginationC60KuuPhysicalFlagSourceBridgeV5_262
 open KUOS.DependentOriginationC60KuuAllPhysicalSourcePathsV5_263
 
@@ -76,8 +78,9 @@ theorem c60F108OriginalIncidenceStage_monotone
     {X Y : C60F69PhysicalCellSite} (h : X ≤ Y) :
     c60F108OriginalIncidenceStage X ≤
       c60F108OriginalIncidenceStage Y := by
+  change c60F69PhysicalIncidence X Y at h
   cases X <;> cases Y <;>
-    simp_all [c60F108OriginalIncidenceStage, c60F69PhysicalIncidence]
+    first | decide | exact False.elim h
 
 /-- The entire REAL physical singleton-star incidence category
 maps to the genuine Boolean walking-arrow preorder category.
