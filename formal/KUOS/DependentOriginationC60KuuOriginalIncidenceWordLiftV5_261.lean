@@ -6,6 +6,8 @@ namespace KUOS.DependentOriginationC60KuuOriginalIncidenceWordLiftV5_261
 open CategoryTheory
 open KUOS.DependentOriginationIcosahedralTruncationSeedV3_84
 open KUOS.DependentOriginationGrayBraidedThreeCellCoreV5_156
+open KUOS.DependentOriginationGrayC60CyclicGlobalPastingV5_156
+open KUOS.DependentOriginationGrayC60PresentedInterchangerV5_191
 open KUOS.DependentOriginationGrayC60PresentedFaceTwoCellsV5_190
 open KUOS.DependentOriginationGrayC60OriginalFaceHorizontalPresentationV5_199
 open KUOS.DependentOriginationGrayC60OriginalFaceHorizontalThreeHomV5_199
@@ -148,17 +150,25 @@ def c60F107SingletonKuuFunctor
       (c60F51Of (W.word i f))
   map_id := by
     intro X
-    rw [←(c60F95LocalProjection (A.p i) (A.q i)).map_id
-      (⟨L.face i X⟩ : C60F51OriginalTwo (A.p i) (A.q i))]
-    apply (c60F95Projection_map_eq_iff_charges _ _).mpr
-    simpa only [c60F51Eval_of] using h.id i X
+    calc
+      (c60F95LocalProjection (A.p i) (A.q i)).map
+          (c60F51Of (W.word i (𝟙 X))) =
+        (c60F95LocalProjection (A.p i) (A.q i)).map
+          (𝟙 (⟨L.face i X⟩ : C60F51OriginalTwo (A.p i) (A.q i))) := by
+            apply (c60F95Projection_map_eq_iff_charges _ _).mpr
+            simpa only [c60F51Eval_of] using h.id i X
+      _ = _ := (c60F95LocalProjection (A.p i) (A.q i)).map_id _
   map_comp := by
     intro X Y Z f g
-    rw [←(c60F95LocalProjection (A.p i) (A.q i)).map_comp
-      (c60F51Of (W.word i f)) (c60F51Of (W.word i g))]
-    apply (c60F95Projection_map_eq_iff_charges _ _).mpr
-    simpa only [c60F51Eval_of, c60F51Eval_comp, grayNeutral_add_charge]
-      using h.comp i f g
+    calc
+      (c60F95LocalProjection (A.p i) (A.q i)).map
+          (c60F51Of (W.word i (f ≫ g))) =
+        (c60F95LocalProjection (A.p i) (A.q i)).map
+          (c60F51Of (W.word i f) ≫ c60F51Of (W.word i g)) := by
+            apply (c60F95Projection_map_eq_iff_charges _ _).mpr
+            simpa only [c60F51Eval_of, c60F51Eval_comp,
+              grayNeutral_add_charge] using h.comp i f g
+      _ = _ := (c60F95LocalProjection (A.p i) (A.q i)).map_comp _ _
 
 /-- F107 DISCHARGES F106's missing per-patch SEMANTIC input
 from precisely stated ORIGINAL F42/F51 source words and their
@@ -315,6 +325,19 @@ def c60F107PhaseCompositionDefect
   (W.word i (f ≫ g)).toNative.phase -
     ((W.word i f).toNative.phase + (W.word i g).toNative.phase)
 
+/-- The original native F51 Hom carried by one genuinely typed
+physical incidence arrow, before deliberate F95 phase forgetting. -/
+def c60F107NativeWordHom
+    {n : Nat} (A : C60F105PhysicalEdgePatchFamily n)
+    (L : C60F107OriginalF42Labels A)
+    (W : C60F107OriginalF51Words A L)
+    (i : Fin n)
+    {X Y : C60F106PhysicalOverlap A ({i} : Finset (Fin n))}
+    (f : X ⟶ Y) :
+    (⟨L.face i X⟩ : C60F51OriginalTwo (A.p i) (A.q i)) ⟶
+      (⟨L.face i Y⟩ : C60F51OriginalTwo (A.p i) (A.q i)) :=
+  c60F51Of (W.word i f)
+
 /-- A NONZERO phase-composition defect OBSTRUCTS a genuine
 source F51 functor taking these exact raw word choices to arrows,
 even if the charges alone form a valid F95 functor. -/
@@ -326,14 +349,16 @@ theorem c60F107NonzeroPhase_obstructsNativeComp
     {X Y Z : C60F106PhysicalOverlap A ({i} : Finset (Fin n))}
     (f : X ⟶ Y) (g : Y ⟶ Z)
     (hbad : c60F107PhaseCompositionDefect W i f g ≠ 0) :
-    c60F51Of (W.word i (f ≫ g)) ≠
-      c60F51Of (W.word i f) ≫ c60F51Of (W.word i g) := by
+    c60F107NativeWordHom A L W i (f ≫ g) ≠
+      c60F107NativeWordHom A L W i f ≫
+        c60F107NativeWordHom A L W i g := by
   intro heq
   have hn := congrArg
     (fun z : (⟨L.face i X⟩ : C60F51OriginalTwo (A.p i) (A.q i)) ⟶
         (⟨L.face i Z⟩ : C60F51OriginalTwo (A.p i) (A.q i)) =>
        (c60F51Eval z).phase) heq
-  simp only [c60F51Eval_of, c60F51Eval_comp, grayNeutral_add_phase] at hn
+  simp only [c60F107NativeWordHom, c60F51Eval_of, c60F51Eval_comp,
+    grayNeutral_add_phase] at hn
   exact hbad (sub_eq_zero.mpr hn)
 
 #print axioms c60F107OriginalFaceDegree_preserved
