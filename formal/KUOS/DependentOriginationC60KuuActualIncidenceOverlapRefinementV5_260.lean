@@ -8,6 +8,7 @@ open KUOS.DependentOriginationIcosahedralTruncationSeedV3_84
 open KUOS.DependentOriginationTruncatedIcosahedralEdgesV3_85
 open KUOS.DependentOriginationTruncatedIcosahedralFlagSquaresV5_154
 open KUOS.DependentOriginationGrayC60PhysicalFlagF55BridgeV5_194
+open KUOS.DependentOriginationGrayC60AllNinetyMixedBoundaryV5_196
 open KUOS.DependentOriginationC60PhysicalIncidenceHigherNerveV5_223
 open KUOS.DependentOriginationC60KuuPhysicalOverlapObstructionV5_259
 open KUOS.DependentOriginationC60NativeExchangeCongruenceQuotientV5_231
@@ -209,7 +210,7 @@ its independently typed original F95 quotient Hom category.
 This explicitly prevents claiming an unproved F42/F55 lift. -/
 structure C60F106SingletonF95Semantics
     {n : Nat} (A : C60F105PhysicalEdgePatchFamily n) where
-  local : (i : Fin n) →
+  patch : (i : Fin n) →
     C60F106PhysicalOverlap A ({i} : Finset (Fin n)) ⥤
       C60F95LocalKuuQuotient (A.p i) (A.q i)
 
@@ -223,7 +224,7 @@ def c60F106PhysicalToF95
     (I : Finset (Fin n)) (i : Fin n) (hi : i ∈ I) :
     C60F106PhysicalOverlap A I ⥤
       C60F95LocalKuuQuotient (A.p i) (A.q i) :=
-  c60F106ToSingleton A I i hi ⋙ S.local i
+  c60F106ToSingleton A I i hi ⋙ S.patch i
 
 /-- Each actual geometric-overlap restriction is interpreted by
 the ORIGINAL F95-to-F77 quotient observer of that precise
