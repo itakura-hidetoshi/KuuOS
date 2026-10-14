@@ -139,6 +139,77 @@ theorem c60F93DirectInverseMuChargeBalance
     c60F93DirectForwardDeltaChargeZero, zero_add] at hc
   exact hc
 
+
+/-- Mathlib's genuine strong inverse tensorator carries the
+EXACT selected-unit defect t(A+B) - t(A) - t(B), not a
+freely specified extra integer charge. -/
+theorem c60F93DirectInverseMu_charge
+    (A B : C60F75StrictChargeGrade) :
+    letI : c60F84DirectChargeEquivalence.functor.Monoidal :=
+      c60F84DirectChargeEquivalenceForwardMonoidal
+    letI : c60F84DirectChargeEquivalence.inverse.Monoidal :=
+      c60F84DirectChargeEquivalenceInverseMonoidal
+    (c60F84DirectChargeEquivalence.functor.map
+      (Functor.LaxMonoidal.μ
+        c60F84DirectChargeEquivalence.inverse A B)).charge =
+      c60F92GaugeGrade (A.degree + B.degree) -
+        c60F92GaugeGrade A.degree - c60F92GaugeGrade B.degree := by
+  letI : c60F84DirectChargeEquivalence.functor.Monoidal :=
+    c60F84DirectChargeEquivalenceForwardMonoidal
+  letI : c60F84DirectChargeEquivalence.inverse.Monoidal :=
+    c60F84DirectChargeEquivalenceInverseMonoidal
+  letI : c60F84DirectChargeEquivalence.IsMonoidal :=
+    c60F84DirectChargeMonoidalEquivalence
+  have hb := c60F93DirectInverseMuChargeBalance A B
+  rw [c60F93CounitHomCharge (A ⊗ B),
+    c60F93CounitHomCharge A,
+    c60F93CounitHomCharge B] at hb
+  change
+    (c60F84DirectChargeEquivalence.functor.map
+      (Functor.LaxMonoidal.μ
+        c60F84DirectChargeEquivalence.inverse A B)).charge +
+        -c60F92GaugeGrade (A.degree + B.degree) =
+      -c60F92GaugeGrade A.degree -
+        c60F92GaugeGrade B.degree at hb
+  calc
+    (c60F84DirectChargeEquivalence.functor.map
+        (Functor.LaxMonoidal.μ
+          c60F84DirectChargeEquivalence.inverse A B)).charge =
+      ((c60F84DirectChargeEquivalence.functor.map
+        (Functor.LaxMonoidal.μ
+          c60F84DirectChargeEquivalence.inverse A B)).charge +
+        -c60F92GaugeGrade (A.degree + B.degree)) +
+        c60F92GaugeGrade (A.degree + B.degree) := by abel
+    _ = (-c60F92GaugeGrade A.degree -
+          c60F92GaugeGrade B.degree) +
+        c60F92GaugeGrade (A.degree + B.degree) := by rw [hb]
+    _ = c60F92GaugeGrade (A.degree + B.degree) -
+          c60F92GaugeGrade A.degree -
+          c60F92GaugeGrade B.degree := by abel
+
+/-- The original F79 *chosen* inverse preserves BOTH integer
+charges of every actual F75 typed arrow, even though its
+objectwise natural unit may have nonzero charge. -/
+theorem c60F93ChosenInverse_map_preservesCharge
+    {A B : C60F75StrictChargeGrade} (f : A ⟶ B) :
+    (c60F79NativeChargeEquivalence.functor.map
+      (c60F79NativeChargeEquivalence.inverse.map f)).charge =
+      f.charge := by
+  have hc := congrArg C60F75StrictChargeThree.charge
+    (c60F79NativeChargeEquivalence.fun_inv_map A B f)
+  simp only [c60F84Charge_comp] at hc
+  rw [c60F93CounitHomCharge A, c60F93CounitInvCharge B] at hc
+  have hd : A.degree = B.degree := f.gradeEq
+  rw [hd] at hc
+  calc
+    (c60F79NativeChargeEquivalence.functor.map
+      (c60F79NativeChargeEquivalence.inverse.map f)).charge =
+       -c60F92GaugeGrade B.degree + f.charge +
+         c60F92GaugeGrade B.degree := hc
+    _ = f.charge := by abel
+
+#print axioms c60F93DirectInverseMu_charge
+#print axioms c60F93ChosenInverse_map_preservesCharge
 #print axioms c60F93CounitInvCharge
 #print axioms c60F93CounitHomCharge
 #print axioms c60F93TransportedForwardMuCharge
