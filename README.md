@@ -14,18 +14,18 @@ English: KuuOS is a research architecture for dependent origination, context-dep
 
 ## Verified formal frontier / Lean4の現在の正本
 
-**2026-10-15 JST 再確認：`v5.267 / F109` 第2段階まで統合済み。二つの異なる隣接実多角形面から原F42/F51合成を構成し、**真正の物理パッチ有限交差上でF77観測対象の一致・二成分荷電差ゼロ・自然同型・厳密Čech cocycle**を証明。元F42/F54/F55の一般的な大域貼り合わせは未証明。**
+**2026-10-15 JST 再確認：`v5.269 / F110` 第2段階まで統合済み。F109の真正C60物理重なりČech整合性を保持し、原F51交換位相1・F77等式輸送・原F68物理曲率（北五角形第2荷電`−5`）を型付きで分離。F77から元のGray位相全体を復元する左逆関手の**不存在**も証明しました。原F42/F54/F55の一般的な大域貼り合わせは未証明。**
 
 | 検証項目 | 最新の確認済み権威 |
 | --- | --- |
 | Repository / canonical branch | [`itakura-hidetoshi/KuuOS`](https://github.com/itakura-hidetoshi/KuuOS) / `main` |
-| **最新 theorem-bearing PR** | **[PR #2290 — v5.267 F109第2段階, MERGED](https://github.com/itakura-hidetoshi/KuuOS/pull/2290)** |
-| **Theorem-bearing merge SHA** | **`c02949e1698c48041ef0053f71e69c59f1e11f2d`**（PR #2290のマージ後に`main`と一致を確認） |
-| Exact tested source HEAD | `169351ffe9c4583eac956e428e56db2c6961586a` |
-| Exact-head proof CI | [GitHub Actions #38648025502](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38648025502) — **completed SUCCESS** |
-| Strict Lean target | `KUOS.DependentOriginationC60KuuTwoFaceObservedObjectCechV5_267` — **9079/9079 jobs SUCCESS** |
+| **最新 theorem-bearing PR** | **[PR #2293 — v5.269 F110第2段階, MERGED](https://github.com/itakura-hidetoshi/KuuOS/pull/2293)** |
+| **Theorem-bearing merge SHA** | **`04e7c321f1ce27d73e12b5cd2463366a60a0b49c`**（PR #2293のマージ後に`main`と一致を確認） |
+| Exact tested source HEAD | `685a7d9eaeb4ae336fced71eef7bf6ba8f5c2fe7` |
+| Exact-head proof CI | [GitHub Actions #38650991507](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38650991507) — **completed SUCCESS** |
+| Strict Lean target | `KUOS.DependentOriginationC60KuuPhaseReconstructionObstructionV5_269` — **9081/9081 jobs SUCCESS** |
 | Governance / MCP | Strict Lean・Governance・MCP Lean completion・MCP CI completion **全SUCCESS** |
-| Changed-file audit | **warning/error 0/0**、**7 `#print axioms`**、**`sorryAx`なし** |
+| Changed-file audit | **warning/error 0/0**、**6 `#print axioms`**、**`sorryAx`なし** |
 | Pinned versions | [Lean `v4.30.0-rc2`](lean-toolchain)、[mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`](lake-manifest.json) |
 | Separate verification only | [PR #1558 — Lean 4.31](https://github.com/itakura-hidetoshi/KuuOS/pull/1558): **OPEN / DRAFT / NOT MERGED**。正本へマージしない |
 
@@ -61,7 +61,7 @@ F=\overline F\circ Q_{p,q},\qquad \exists!\,\overline F
 | --- | --- | --- |
 | 原C60幾何 | **60頂点、90物理辺、32実多角形面（12五角形、20六角形）**、360入射旗標、真正の有向`Quiver.Path` | 入射旗標の`K₂,₂`四角形を新たなC60表面の正方形面とみなすこと |
 | 原F42/F43/F51/F54/F55 | 型付き2射・3射の原表示と独立した位相・荷電・曲率 | 異なる原構文を無条件に等置すること、既存のF43に無かったF51の追加生成子を過去に遡って同一視すること |
-| F75–F83、F94–F109（第2段階） | 二成分荷電の真正`CategoryTheory.Quotient`、F95局所商圏、二つの実隣接面を含む原F42/F51非自明交換関手、**実C60有限物理重なり上のF77対象・荷電の整合性とČech自然同型** | F77の一致を元の全F42/F55位相保存同値や無条件の物理的hyperdescentとみなすこと |
+| F75–F83、F94–F110（第2段階） | 二成分荷電の真正`CategoryTheory.Quotient`、二つの実隣接面を含む原F42/F51交換関手、真正C60物理重なりF77のČech自然同型、**原F51位相1とF68北五角形曲率`−5`の独立した障害**、F77から原Gray位相全体を戻す左逆関手の不存在 | F77の一致を元の全F42/F55位相保存同値や無条件の物理的hyperdescentとみなすこと |
 | 実物理曲率 | F68の符号付き2-cochain、局所非平坦性、必要な非ゼロ修復 | 全32面の有向和がゼロであることから個々の五角形・六角形が平坦だと推論すること |
 
 **明示的なobstruction:** 元の北五角形の第2整数荷電は**`−5`**です。F77観測後の比較射が追加荷電ゼロでも、この原F55物理曲率は消えません。修復を使うならF68の非ゼロ補正を明示的に扱う必要があります。
@@ -90,6 +90,8 @@ F=\overline F\circ Q_{p,q},\qquad \exists!\,\overline F
 | **[F108 第4段階 / v5.265 / #2288](https://github.com/itakura-hidetoshi/KuuOS/pull/2288)** | 物理辺を挟む**異なる二つの実多角形面**の原F42生成子を、基点間の真正C60経路で共通開経路へ接続。両面を含む二つの水平合成語間の原F43/F51交換射は`charge=(0,0), phase=1`。全90物理辺の局所スター関手と両側の実入射三角形を構成。各面サイトへの独立F42対象割当ては未証明 |
 | **[F109 第1段階 / v5.266 / #2289](https://github.com/itakura-hidetoshi/KuuOS/pull/2289)** | 二面原F51スター関手の**全Hom上の整数荷電ゼロ**と、任意の真正有限物理交差上の**二成分荷電差ゼロ**を証明。独立位相1は原構文に保持。二面F42合成の次数0を証明 |
 | **[F109 第2段階 / v5.267 / #2290](https://github.com/itakura-hidetoshi/KuuOS/pull/2290)** | 上記のF42次数0から、全物理重なりでF77観測対象が同一の中性商対象になることを証明。F106の対象・荷電条件を実際に満たし、**真のNatIsoおよび厳密な3パッチČech cocycle**を構成（この特定の二面意味論について） |
+| **[F110 第1段階 / v5.268 / #2292](https://github.com/itakura-hidetoshi/KuuOS/pull/2292)** | 実物理頂点→辺原F51射の位相1がF77観測後の**等式輸送射**に写ることを形式化。F109の真正F77物理Čech自然同型の追加荷電ゼロと、F68北五角形の原第2荷電`−5`・物理曲率非ゼロ・無補正頂点ゲージ不存在・必要な非ゼロ修復を同時に証明 |
+| **[F110 第2段階 / v5.269 / #2293](https://github.com/itakura-hidetoshi/KuuOS/pull/2293)** | 原Gray圏の位相1生成子と恒等射は異なるがF77商では同じ。F77射から全原位相を回復する関数は存在せず、**`F77→GrayGrade`の左逆関手による完全な原Gray復元も不可能**。ただし追加ソースデータによる局所リフトは否定しない |
 
 特に最近のtheorem-bearingファイルは次のとおりです（各リンクは実際のLeanソース）。
 
@@ -107,14 +109,16 @@ F=\overline F\circ Q_{p,q},\qquad \exists!\,\overline F
 - **[F108 第4段階 — 二つの実隣接面の原F42/F51交換](formal/KUOS/DependentOriginationC60KuuTwoActualFaceInterchangeV5_265.lean)**
 - **[F109 第1段階 — 真正C60物理重なりの整数荷電差ゼロ](formal/KUOS/DependentOriginationC60KuuTwoFacePhysicalOverlapCompatibilityV5_266.lean)**
 - **[F109 第2段階 — F77観測対象の一致とČech整合性](formal/KUOS/DependentOriginationC60KuuTwoFaceObservedObjectCechV5_267.lean)**
+- **[F110 第1段階 — F77入射射・原F51位相・F68非平坦曲率の同時証明](formal/KUOS/DependentOriginationC60KuuObservedGluingOriginalPhaseCurvatureV5_268.lean)**
+- **[F110 第2段階 — F77からの完全位相復元関手の不存在](formal/KUOS/DependentOriginationC60KuuPhaseReconstructionObstructionV5_269.lean)**
 
 詳細な歴史・公理・未解決課題は **[ROADMAP.md](ROADMAP.md)** を参照してください。
 
 ## What remains open / 次の数学的課題
 
-**F108第1〜第4段階・F109第1〜第2段階はLean4で証明・統合済みです。** F108第4段階では二つの異なる実多角形面の原F42生成子を一つの正しい原C60開経路対上で合成し、原F43/F51交換位相1を保持。F109では任意の有限C60実物理交差におけるF77観測対象一致・二成分荷電差ゼロ・厳密Čech cocycleを証明しました。ただしこれは**選択した二面合成の観測後意味論**であり、二つの面サイトへの原F42対象の完全独立割当て、旧F54/F55九生成子への非自明なソース持ち上げ、全C60曲率の消去、無条件の高次global descentは未証明です。
+**F108第1〜第4段階・F109第1〜第2段階・F110第1〜第2段階はLean4で証明・統合済みです。** F109は特定の二面原F42/F51意味論についてF77観測後の物理Čech整合性を証明しました。F110第1段階では実入射原F51射の位相1が観測後の等式輸送へ写ることと、原F68の非平坦曲率`−5`・必要な非ゼロ修復の両立を型付きで証明しました。第2段階ではF77の商の情報だけから原Grayの全位相を復元する読出し関数も、元のGray恒等関手を回復する左逆関手も存在しないことを証明しました。これは**原情報を保持した局所持ち上げの禁止ではありません**。原F42/F54/F55の全面別ソース解釈や一般的な大域貼り合わせは未証明です。
 
-次のF110では、F109で証明した観測後descentと、原F51位相・原F54/F55ソース境界・F68符号付き物理曲率の違いを型付きで比較します。F68北五角形第2荷電`−5`と必要な非ゼロ補正を保持し、観測後のゼロ差から原F55曲率ゼロを推論しません。成立しない場合は、次数不一致・位相・符号付きF55曲率をobstructionとして記録します。**全C60物理表面の無条件global glue、原F55の一般的な高次同値、無条件hyperdescentは未証明です。**
+**次の研究軸はF110以後の原F42/F54/F55境界整合性とF111の高次貼り合わせ**です。F110までの形式化はF77観測後descentを原Gray位相やF68物理曲率と同一視しません。二つの隣接面**それぞれ**に独立の原F42対象を割り当てる完全なF55ソース意味論、必要な非ゼロ修復の幾何的効果、および一般的な高次global descentはOPENです。
 
 **Old Grayを復元することは本研究ルートの前提ではありません。** 元のGray位相はソース診断として保存し、空による交代可能性は**指定された商圏と正確な保存量**について証明します。
 
@@ -124,19 +128,19 @@ F=\overline F\circ Q_{p,q},\qquad \exists!\,\overline F
 
 研究上のランタイム構成案は **`LLM + KuuOS reasoning runtime + formal authority layer`** です。Leanの定理が正しいことは、モデルの重み・対話システム・バックグラウンドエージェントの挙動が変わったこと、全リポジトリが実際に取り込まれたこと、臨床的・物理的・倫理的正当性が検証されたことを意味しません。結合実装は、正本SHAへの固定、明示的な権限・同意境界、観測と推測の区別、継続的な実測・再検証を別途必要とします。
 
-## Reproduce the F109 v5.267 theorem-bearing result / 形式証明の再現
+## Reproduce the F110 v5.269 theorem-bearing result / 形式証明の再現
 
 ```bash
 git clone https://github.com/itakura-hidetoshi/KuuOS.git
 cd KuuOS
-git checkout c02949e1698c48041ef0053f71e69c59f1e11f2d
+git checkout 04e7c321f1ce27d73e12b5cd2463366a60a0b49c
 cat lean-toolchain
 lake exe cache get  # 必要な場合のみ、固定mathlibに対応するキャッシュを取得
 lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build \
-  KUOS.DependentOriginationC60KuuTwoFaceObservedObjectCechV5_267
+  KUOS.DependentOriginationC60KuuPhaseReconstructionObstructionV5_269
 ```
 
-[PR #2290のexact-source-head CI #38648025502](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38648025502) は **9079/9079 SUCCESS**。変更ファイルwarning/error 0/0、7件の`#print axioms`に`sorryAx`なし。Strict Lean・Governance・MCP Lean/CI完了証跡はすべて成功しました。先行PR #2288（9077/9077）と#2289（9078/9078）もそれぞれGREEN・マージ済みです。
+[PR #2293のexact-source-head CI #38650991507](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38650991507)は **9081/9081 SUCCESS**。変更ファイルwarning/error 0/0、6件の`#print axioms`に`sorryAx`なし。Strict Lean・Governance・MCP Lean/CIの完了証跡もすべて成功。F110第1段階の[PR #2292 / CI #38650133389](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38650133389)も**9080/9080 SUCCESS**、公理8件・`sorryAx`なしです。
 
 別の検証範囲である全形式化ターゲットや推論ランタイムを調べる場合は、それぞれ独立に実行してください（上記CIによる成功の保証はありません）。
 
