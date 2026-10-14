@@ -242,8 +242,14 @@ def c60F99LeftWhiskerObservedNatIso
     (fun X => eqToIso (c60F99LeftWhisker_object_obs prior X))
     (by
       intro X Y f
+      change
+        (c60F95DescendedToF77 (prior.comp p) (prior.comp q)).map
+            ((c60F99LeftWhiskerFunctor prior).map f) ≫
+          eqToHom (c60F99LeftWhisker_object_obs prior Y) =
+        eqToHom (c60F99LeftWhisker_object_obs prior X) ≫
+          (c60F95DescendedToF77 p q).map f
       apply c60F80QuotientThree_ext
-      simp only [Functor.comp_map, c60F80QuotientThree_comp_charge,
+      simp only [c60F80QuotientThree_comp_charge,
         c60F82Quotient_eqToHom_charge_zero, add_zero, zero_add]
       exact c60F99LeftWhisker_charge_obs prior f)
 
@@ -260,8 +266,14 @@ def c60F99RightWhiskerObservedNatIso
     (fun X => eqToIso (c60F99RightWhisker_object_obs suffix X))
     (by
       intro X Y f
+      change
+        (c60F95DescendedToF77 (p.comp suffix) (q.comp suffix)).map
+            ((c60F99RightWhiskerFunctor suffix).map f) ≫
+          eqToHom (c60F99RightWhisker_object_obs suffix Y) =
+        eqToHom (c60F99RightWhisker_object_obs suffix X) ≫
+          (c60F95DescendedToF77 p q).map f
       apply c60F80QuotientThree_ext
-      simp only [Functor.comp_map, c60F80QuotientThree_comp_charge,
+      simp only [c60F80QuotientThree_comp_charge,
         c60F82Quotient_eqToHom_charge_zero, add_zero, zero_add]
       exact c60F99RightWhisker_charge_obs suffix f)
 
