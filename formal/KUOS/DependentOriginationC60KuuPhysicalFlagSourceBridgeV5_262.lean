@@ -93,8 +93,8 @@ by one original F42 PHYSICAL POLYGON relation in context. -/
 def c60F108ContextualFaceCell {n : Nat}
     (C : C60F108FaceContextFamily n) (i : Fin n) :
     C60F42PresentedFaceCell
-      (c60F108FacePatchFamily C).p i
-      (c60F108FacePatchFamily C).q i :=
+      ((c60F108FacePatchFamily C).p i)
+      ((c60F108FacePatchFamily C).q i) :=
   .whiskerRight
     (.whiskerLeft (C.prior i)
       (c60F48AdjacentFaceTwoCell (C.edge i) (C.side i)))
@@ -167,8 +167,8 @@ def c60F108OriginalNativeFunctor {n : Nat}
     C60F106PhysicalOverlap
       (c60F108FacePatchFamily C) ({i} : Finset (Fin n)) ⥤
       C60F51OriginalTwo
-        (c60F108FacePatchFamily C).p i
-        (c60F108FacePatchFamily C).q i :=
+        ((c60F108FacePatchFamily C).p i)
+        ((c60F108FacePatchFamily C).q i) :=
   c60F107NativeF51Functor
     (c60F108FacePatchFamily C)
     (c60F108OriginalF42Labels C)
@@ -200,8 +200,8 @@ proof-relevant source TERMS, even though their native image may match. -/
 def c60F108DoubleFaceLeft {n : Nat}
     (C : C60F108FaceContextFamily n) (i : Fin n) :
     C60F42PresentedFaceCell
-      (c60F108DoubleFacePatchFamily C).p i
-      (c60F108DoubleFacePatchFamily C).q i :=
+      ((c60F108DoubleFacePatchFamily C).p i)
+      ((c60F108DoubleFacePatchFamily C).q i) :=
   .whiskerRight
     (.whiskerLeft (C.prior i)
       ((c60F48AdjacentFaceTwoCell (C.edge i) (C.side i)).horizontalLeftFirst
@@ -211,8 +211,8 @@ def c60F108DoubleFaceLeft {n : Nat}
 def c60F108DoubleFaceRight {n : Nat}
     (C : C60F108FaceContextFamily n) (i : Fin n) :
     C60F42PresentedFaceCell
-      (c60F108DoubleFacePatchFamily C).p i
-      (c60F108DoubleFacePatchFamily C).q i :=
+      ((c60F108DoubleFacePatchFamily C).p i)
+      ((c60F108DoubleFacePatchFamily C).q i) :=
   .whiskerRight
     (.whiskerLeft (C.prior i)
       ((c60F48AdjacentFaceTwoCell (C.edge i) (C.side i)).horizontalRightFirst
@@ -266,12 +266,12 @@ def c60F108PhysicalThreeInterchangerHom {n : Nat}
     (C : C60F108FaceContextFamily n) (i : Fin n) :
     (⟨c60F108DoubleFaceLeft C i⟩ :
       C60F51OriginalTwo
-        (c60F108DoubleFacePatchFamily C).p i
-        (c60F108DoubleFacePatchFamily C).q i) ⟶
+        ((c60F108DoubleFacePatchFamily C).p i)
+        ((c60F108DoubleFacePatchFamily C).q i)) ⟶
     (⟨c60F108DoubleFaceRight C i⟩ :
       C60F51OriginalTwo
-        (c60F108DoubleFacePatchFamily C).p i
-        (c60F108DoubleFacePatchFamily C).q i) :=
+        ((c60F108DoubleFacePatchFamily C).p i)
+        ((c60F108DoubleFacePatchFamily C).q i)) :=
   c60F51Of (c60F108PhysicalThreeInterchanger C i)
 
 /-- For each of the FOUR genuine flags on each real edge, the
@@ -290,8 +290,8 @@ theorem c60F108ActualPhysicalFlag_sourceTriangle {n : Nat}
     (c60F108PhysicalThreeInterchangerHom C i ≫
         𝟙 (⟨c60F108DoubleFaceRight C i⟩ :
           C60F51OriginalTwo
-            (c60F108DoubleFacePatchFamily C).p i
-            (c60F108DoubleFacePatchFamily C).q i) =
+            ((c60F108DoubleFacePatchFamily C).p i)
+            ((c60F108DoubleFacePatchFamily C).q i)) =
       c60F108PhysicalThreeInterchangerHom C i) := by
   constructor
   · exact c60F71ActualPhysicalFlagTriangle_coherent
