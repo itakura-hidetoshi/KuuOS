@@ -28,7 +28,7 @@ noncomputable section
 Four genuinely independent original F95 local Kuu quotient Hom inputs
 are given TWO path contexts each, using one actual shared intermediate
 C60 path bridgeOut : b ⟶ m. The LEFT blocks are contextualized by prior
-and middle; the RIGHT blocks by middle and suffix. Each factor is
+and bridgeOut; the RIGHT blocks by bridgeIn and suffix. Each factor is
 computed independently in both F100 orders, left-then-right and
 right-then-left, whose original F42 source presentations are DIFFERENT.
 
@@ -124,7 +124,7 @@ def c60F102FourRL
     C60F98FourLocalInputs p q r s t u ⥤
       C60F98FourLocalInputs
         (prior.comp (p.comp bridgeOut)) (prior.comp (q.comp bridgeOut)) (prior.comp (r.comp bridgeOut))
-        (middle.comp (s.comp suffix)) (middle.comp (t.comp suffix)) (middle.comp (u.comp suffix)) where
+        (bridgeIn.comp (s.comp suffix)) (bridgeIn.comp (t.comp suffix)) (bridgeIn.comp (u.comp suffix)) where
   obj Z :=
     ((((c60F99LeftWhiskerFunctor prior).obj ((c60F99RightWhiskerFunctor bridgeOut).obj Z.1.1)), ((c60F99LeftWhiskerFunctor prior).obj ((c60F99RightWhiskerFunctor bridgeOut).obj Z.1.2))),
      (((c60F99LeftWhiskerFunctor bridgeIn).obj ((c60F99RightWhiskerFunctor suffix).obj Z.2.1)), ((c60F99LeftWhiskerFunctor bridgeIn).obj ((c60F99RightWhiskerFunctor suffix).obj Z.2.2))))
@@ -156,7 +156,7 @@ def c60F102RLHV
   c60F102FourRL prior p q r bridgeOut bridgeIn s t u suffix ⋙
     c60F98HorizontalAfterVerticalFunctor
       (prior.comp (p.comp bridgeOut)) (prior.comp (q.comp bridgeOut)) (prior.comp (r.comp bridgeOut))
-        (middle.comp (s.comp suffix)) (middle.comp (t.comp suffix)) (middle.comp (u.comp suffix))
+        (bridgeIn.comp (s.comp suffix)) (bridgeIn.comp (t.comp suffix)) (bridgeIn.comp (u.comp suffix))
 
 
 /-- The VH F98 observation after the actual RL context order. -/
@@ -172,7 +172,7 @@ def c60F102RLVH
   c60F102FourRL prior p q r bridgeOut bridgeIn s t u suffix ⋙
     c60F98VerticalAfterHorizontalFunctor
       (prior.comp (p.comp bridgeOut)) (prior.comp (q.comp bridgeOut)) (prior.comp (r.comp bridgeOut))
-        (middle.comp (s.comp suffix)) (middle.comp (t.comp suffix)) (middle.comp (u.comp suffix))
+        (bridgeIn.comp (s.comp suffix)) (bridgeIn.comp (t.comp suffix)) (bridgeIn.comp (u.comp suffix))
 
 
 /-- The two independent F100 context orders have equal observed HV
