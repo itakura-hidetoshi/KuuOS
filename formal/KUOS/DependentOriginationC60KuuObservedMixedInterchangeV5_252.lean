@@ -90,7 +90,7 @@ theorem c60F98ObservedMixedObject_eq
       ((c60F95DescendedToF77 p q).obj X)
       ((c60F95DescendedToF77 q r).obj X')
       ((c60F95DescendedToF77 s t).obj Y)
-      ((c60F95DescendedToF77 t u).obj Y'))
+      ((c60F95DescendedToF77 t u).obj Y')).symm
 
 /-- HORIZONTAL after VERTICAL pasting of arbitrary original
 LOCAL QUOTIENT 3-arrows, evaluated as a genuine F77 morphism. -/
@@ -127,6 +127,64 @@ def c60F98VerticalAfterHorizontalMap
       (c60F96HorizontalThree f g)
       (c60F96HorizontalThree f' g'))
 
+/-- Observed charge of horizontal-after-vertical: four original
+integer-charge inputs remain independent, with additive bracketing. -/
+theorem c60F98HorizontalAfterVerticalMap_charge
+    {a b c : IcosahedralDart}
+    {p q r : Quiver.Path a b} {s t u : Quiver.Path b c}
+    {X X₁ : C60F95LocalKuuQuotient p q}
+    {X' X₁' : C60F95LocalKuuQuotient q r}
+    {Y Y₁ : C60F95LocalKuuQuotient s t}
+    {Y' Y₁' : C60F95LocalKuuQuotient t u}
+    (f : X ⟶ X₁) (f' : X' ⟶ X₁')
+    (g : Y ⟶ Y₁) (g' : Y' ⟶ Y₁') :
+    (c60F77QuotientToStrictCharge.map
+      (c60F98HorizontalAfterVerticalMap f f' g g')).charge =
+    ((c60F77QuotientToStrictCharge.map
+        ((c60F95DescendedToF77 p q).map f)).charge +
+      (c60F77QuotientToStrictCharge.map
+        ((c60F95DescendedToF77 q r).map f')).charge) +
+    ((c60F77QuotientToStrictCharge.map
+        ((c60F95DescendedToF77 s t).map g)).charge +
+      (c60F77QuotientToStrictCharge.map
+        ((c60F95DescendedToF77 t u).map g')).charge) := by
+  unfold c60F98HorizontalAfterVerticalMap
+  rw [c60F96HorizontalThree_toF77,
+      c60F97VerticalThree_toF77,
+      c60F97VerticalThree_toF77,
+      c60F80QuotientThreeTensor_charge,
+      c60F80QuotientThreeTensor_charge,
+      c60F80QuotientThreeTensor_charge]
+
+/-- Observed charge of vertical-after-horizontal; the order of
+the same four conserved charges is the only change. -/
+theorem c60F98VerticalAfterHorizontalMap_charge
+    {a b c : IcosahedralDart}
+    {p q r : Quiver.Path a b} {s t u : Quiver.Path b c}
+    {X X₁ : C60F95LocalKuuQuotient p q}
+    {X' X₁' : C60F95LocalKuuQuotient q r}
+    {Y Y₁ : C60F95LocalKuuQuotient s t}
+    {Y' Y₁' : C60F95LocalKuuQuotient t u}
+    (f : X ⟶ X₁) (f' : X' ⟶ X₁')
+    (g : Y ⟶ Y₁) (g' : Y' ⟶ Y₁') :
+    (c60F77QuotientToStrictCharge.map
+      (c60F98VerticalAfterHorizontalMap f f' g g')).charge =
+    ((c60F77QuotientToStrictCharge.map
+        ((c60F95DescendedToF77 p q).map f)).charge +
+      (c60F77QuotientToStrictCharge.map
+        ((c60F95DescendedToF77 s t).map g)).charge) +
+    ((c60F77QuotientToStrictCharge.map
+        ((c60F95DescendedToF77 q r).map f')).charge +
+      (c60F77QuotientToStrictCharge.map
+        ((c60F95DescendedToF77 t u).map g')).charge) := by
+  unfold c60F98VerticalAfterHorizontalMap
+  rw [c60F97VerticalThree_toF77,
+      c60F96HorizontalThree_toF77,
+      c60F96HorizontalThree_toF77,
+      c60F80QuotientThreeTensor_charge,
+      c60F80QuotientThreeTensor_charge,
+      c60F80QuotientThreeTensor_charge]
+
 /-- The actual FOUR-ARROW middle-four square commutes between
 both different original pasting orders AFTER F77 descent.
 The equality includes typed source and target transports;
@@ -145,12 +203,10 @@ theorem c60F98ObservedMixed_naturality
       eqToHom (c60F98ObservedMixedObject_eq X X' Y Y') ≫
         c60F98VerticalAfterHorizontalMap f f' g g' := by
   apply c60F80QuotientThree_ext
-  unfold c60F98HorizontalAfterVerticalMap
-    c60F98VerticalAfterHorizontalMap
   simp only [c60F80QuotientThree_comp_charge,
-    c60F82Quotient_eqToHom_charge_zero,
-    c60F96HorizontalThree_toF77, c60F97VerticalThree_toF77,
-    c60F80QuotientThreeTensor_charge, add_zero, zero_add]
+    c60F82Quotient_eqToHom_charge_zero, add_zero, zero_add]
+  rw [c60F98HorizontalAfterVerticalMap_charge,
+    c60F98VerticalAfterHorizontalMap_charge]
   abel
 
 /-- One real functor for horizontal-after-vertical composition,
@@ -168,8 +224,9 @@ def c60F98HorizontalAfterVerticalFunctor
       c60F98HorizontalAfterVerticalMap
         (𝟙 Z.1.1) (𝟙 Z.1.2) (𝟙 Z.2.1) (𝟙 Z.2.2) = 𝟙 _
     unfold c60F98HorizontalAfterVerticalMap
-    simp only [c60F97VerticalThree_id, c60F96HorizontalThree_id,
-      Functor.map_id]
+    rw [c60F97VerticalThree_id, c60F97VerticalThree_id,
+      c60F96HorizontalThree_id]
+    exact (c60F95DescendedToF77 (p.comp s) (r.comp u)).map_id _
   map_comp := by
     intro X Y Z f g
     change
@@ -179,8 +236,10 @@ def c60F98HorizontalAfterVerticalFunctor
         c60F98HorizontalAfterVerticalMap f.1.1 f.1.2 f.2.1 f.2.2 ≫
           c60F98HorizontalAfterVerticalMap g.1.1 g.1.2 g.2.1 g.2.2
     unfold c60F98HorizontalAfterVerticalMap
-    simp only [c60F97VerticalThree_middleFour,
-      c60F96HorizontalThree_middleFour, Functor.map_comp]
+    rw [c60F97VerticalThree_middleFour,
+      c60F97VerticalThree_middleFour,
+      c60F96HorizontalThree_middleFour]
+    exact (c60F95DescendedToF77 (p.comp s) (r.comp u)).map_comp _ _
 
 /-- The second functor, vertical-after-horizontal, is constructed
 independently on actual input and output Hom types. -/
@@ -197,8 +256,9 @@ def c60F98VerticalAfterHorizontalFunctor
       c60F98VerticalAfterHorizontalMap
         (𝟙 Z.1.1) (𝟙 Z.1.2) (𝟙 Z.2.1) (𝟙 Z.2.2) = 𝟙 _
     unfold c60F98VerticalAfterHorizontalMap
-    simp only [c60F96HorizontalThree_id, c60F97VerticalThree_id,
-      Functor.map_id]
+    rw [c60F96HorizontalThree_id, c60F96HorizontalThree_id,
+      c60F97VerticalThree_id]
+    exact (c60F95DescendedToF77 (p.comp s) (r.comp u)).map_id _
   map_comp := by
     intro X Y Z f g
     change
@@ -208,8 +268,10 @@ def c60F98VerticalAfterHorizontalFunctor
         c60F98VerticalAfterHorizontalMap f.1.1 f.1.2 f.2.1 f.2.2 ≫
           c60F98VerticalAfterHorizontalMap g.1.1 g.1.2 g.2.1 g.2.2
     unfold c60F98VerticalAfterHorizontalMap
-    simp only [c60F96HorizontalThree_middleFour,
-      c60F97VerticalThree_middleFour, Functor.map_comp]
+    rw [c60F96HorizontalThree_middleFour,
+      c60F96HorizontalThree_middleFour,
+      c60F97VerticalThree_middleFour]
+    exact (c60F95DescendedToF77 (p.comp s) (r.comp u)).map_comp _ _
 
 /-- A GENUINE Mathlib natural isomorphism, not a diagrammatic
 claim. It witnesses horizontal/vertical exchange after the Kuu
@@ -240,7 +302,7 @@ theorem c60F98ObservedMixedNatIso_charge_zero
     (p q r : Quiver.Path a b) (s t u : Quiver.Path b c)
     (Z : C60F98FourLocalInputs p q r s t u) :
     (c60F77QuotientToStrictCharge.map
-      (c60F98ObservedMixedNatIso p q r s t u).hom.app Z).charge =
+      ((c60F98ObservedMixedNatIso p q r s t u).hom.app Z)).charge =
       (0 : Int × Int) := by
   change
     (c60F77QuotientToStrictCharge.map
@@ -250,6 +312,8 @@ theorem c60F98ObservedMixedNatIso_charge_zero
   exact c60F82Quotient_eqToHom_charge_zero _
 
 #print axioms c60F98ObservedMixedObject_eq
+#print axioms c60F98HorizontalAfterVerticalMap_charge
+#print axioms c60F98VerticalAfterHorizontalMap_charge
 #print axioms c60F98ObservedMixed_naturality
 #print axioms c60F98HorizontalAfterVerticalFunctor
 #print axioms c60F98VerticalAfterHorizontalFunctor
