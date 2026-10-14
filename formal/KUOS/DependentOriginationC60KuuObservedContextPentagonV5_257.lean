@@ -422,7 +422,8 @@ def c60F103TripleSequentialBundledNatIso
                 (c60F103LeftObserved_object ((A.comp B).comp C) X).symm) ≫
               (c60F103TripleBundledObserved A B C p q).map f)).charge := by
               rw [c60F80QuotientThree_comp_charge,
-                  c60F82Quotient_eqToHom_charge_zero, zero_add])
+                  c60F82Quotient_eqToHom_charge_zero, zero_add]
+              rfl)
 
 /-- Comparing three successive contexts to one bundled context
 introduces no added integer charge at any original F95 object. -/
