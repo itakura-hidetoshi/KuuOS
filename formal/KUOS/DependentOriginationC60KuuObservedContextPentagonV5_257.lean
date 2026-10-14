@@ -390,6 +390,15 @@ def c60F103TripleSequentialBundledNatIso
         (c60F103LeftObserved_object ((A.comp B).comp C) X).symm))
     (by
       intro X Y f
+      change
+        (c60F103TripleSequentialObserved A B C p q).map f ≫
+          eqToHom
+            ((c60F103TripleSequential_object A B C Y).trans
+              (c60F103LeftObserved_object ((A.comp B).comp C) Y).symm) =
+        eqToHom
+            ((c60F103TripleSequential_object A B C X).trans
+              (c60F103LeftObserved_object ((A.comp B).comp C) X).symm) ≫
+          (c60F103TripleBundledObserved A B C p q).map f
       apply c60F80QuotientThree_ext
       simp only [c60F80QuotientThree_comp_charge,
         c60F82Quotient_eqToHom_charge_zero, add_zero, zero_add]
