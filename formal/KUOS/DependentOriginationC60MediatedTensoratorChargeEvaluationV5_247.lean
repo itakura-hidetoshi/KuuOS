@@ -161,6 +161,13 @@ theorem c60F93DirectInverseMu_charge
   letI : c60F84DirectChargeEquivalence.IsMonoidal :=
     c60F84DirectChargeMonoidalEquivalence
   have hb := c60F93DirectInverseMuChargeBalance A B
+  change
+    (c60F84DirectChargeEquivalence.functor.map
+      (Functor.LaxMonoidal.μ
+        c60F84DirectChargeEquivalence.inverse A B)).charge +
+        (c60F79NativeChargeEquivalence.counitIso.app (A ⊗ B)).hom.charge =
+      (c60F79NativeChargeEquivalence.counitIso.app A).hom.charge +
+        (c60F79NativeChargeEquivalence.counitIso.app B).hom.charge at hb
   rw [c60F93CounitHomCharge (A ⊗ B),
     c60F93CounitHomCharge A,
     c60F93CounitHomCharge B] at hb
@@ -198,6 +205,12 @@ theorem c60F93ChosenInverse_map_preservesCharge
   have hc := congrArg C60F75StrictChargeThree.charge
     (c60F79NativeChargeEquivalence.fun_inv_map A B f)
   simp only [c60F84Charge_comp] at hc
+  change
+    (c60F79NativeChargeEquivalence.functor.map
+      (c60F79NativeChargeEquivalence.inverse.map f)).charge =
+        (c60F79NativeChargeEquivalence.counitIso.app A).hom.charge +
+          (f.charge +
+            (c60F79NativeChargeEquivalence.counitIso.app B).inv.charge) at hc
   rw [c60F93CounitHomCharge A, c60F93CounitInvCharge B] at hc
   have hd : A.degree = B.degree := f.gradeEq
   rw [hd] at hc
