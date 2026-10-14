@@ -116,17 +116,10 @@ theorem c60F91ChosenUnit_map_eq_counitInv
       (c60F79NativeChargeEquivalence.unitIso.app X).hom =
       (c60F79NativeChargeEquivalence.counitIso.app
         (c60F79NativeChargeEquivalence.functor.obj X)).inv := by
-  let ε := c60F79NativeChargeEquivalence.counitIso.app
-    (c60F79NativeChargeEquivalence.functor.obj X)
-  have h := c60F79NativeChargeEquivalence.functor_unitIso_comp X
-  calc
-    c60F79NativeChargeEquivalence.functor.map
-        (c60F79NativeChargeEquivalence.unitIso.app X).hom =
-      (c60F79NativeChargeEquivalence.functor.map
-        (c60F79NativeChargeEquivalence.unitIso.app X).hom ≫ ε.hom) ≫ ε.inv := by
-          rw [Category.assoc, Iso.hom_inv_id, Category.comp_id]
-    _ = ε.inv := by
-          rw [h, Category.id_comp]
+  exact (Iso.comp_hom_eq_id
+    (c60F79NativeChargeEquivalence.counitIso.app
+      (c60F79NativeChargeEquivalence.functor.obj X))).mp
+    (c60F79NativeChargeEquivalence.functor_unitIso_comp X)
 
 /-- The F79 unit's actual two-integer-charge correction is the
 charge of the F79 chosen counit inverse, NOT automatically zero. -/
@@ -150,8 +143,11 @@ theorem c60F91ChosenUnit_factorsThroughCanonical
         (c60F91ExplicitToChosenInverseIso
           (c60F77QuotientToStrictCharge.obj X)).hom := by
   apply c60F80QuotientThree_ext
-  rw [Functor.map_comp, c60F84Charge_comp,
-    c60F90CanonicalUnit_charge_zero, zero_add]
+  have hcomp := c60F80QuotientThree_comp_charge
+    (c60F90CanonicalUnitIso X).hom
+    (c60F91ExplicitToChosenInverseIso
+      (c60F77QuotientToStrictCharge.obj X)).hom
+  rw [hcomp, c60F90CanonicalUnit_charge_zero, zero_add]
   exact (c60F91ChosenUnit_charge X).trans
     (c60F91ExplicitToChosenInverse_charge
       (c60F77QuotientToStrictCharge.obj X)).symm
