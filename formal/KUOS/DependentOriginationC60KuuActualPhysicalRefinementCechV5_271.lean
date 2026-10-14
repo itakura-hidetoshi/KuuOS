@@ -135,8 +135,12 @@ theorem c60F111Refinement_observed_functor
   · intro X
     rfl
   · intro X Y f
-    simpa only [eqToHom_refl, Category.id_comp, Category.comp_id] using
-      (c60F111Refinement_observed_map C h i f)
+    apply c60F80QuotientThree_ext
+    simpa only [c60F80QuotientThree_comp_charge,
+      c60F82Quotient_eqToHom_charge_zero, zero_add, add_zero] using
+      congrArg
+        (fun g => (c60F77QuotientToStrictCharge.map g).charge)
+        (c60F111Refinement_observed_map C h i f)
 
 /-- A genuine F109 natural-isomorphism COMPONENT survives
 a real finite incidence refinement: transporting between
