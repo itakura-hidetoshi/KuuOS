@@ -131,7 +131,7 @@ theorem c60F111Refinement_observed_functor
         c60F111PhysicalObserved C J i =
       c60F111PhysicalObserved C I
         (c60F111RefineChart h i) := by
-  apply CategoryTheory.Functor.ext
+  fapply CategoryTheory.Functor.ext
   · intro X
     exact c60F111Refinement_observed_obj C h i X
   · intro X Y f
