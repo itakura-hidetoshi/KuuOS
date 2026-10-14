@@ -1,8 +1,8 @@
 # KuuOS / 空OS — Formal Roadmap
 
-**2026-10-15 JST / latest VERIFIED theorem-bearing frontier: `v5.271 / F111 part 2`.** [PR #2296](https://github.com/itakura-hidetoshi/KuuOS/pull/2296) MERGED; theorem-bearing merge SHA `8b842f0a21aa302c974ff0474429e74b9aa86db6`, exact PR source HEAD `7907ca2cf9c9d4b0a8d15cb55e4b6078f704addc`, [CI #38654664928](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38654664928) **9083/9083 SUCCESS**, warning/error 0/0, 7 `#print axioms`, no `sorryAx`; Strict Lean, Governance, MCP Lean and CI completion all SUCCESS. [PR #2295](https://github.com/itakura-hidetoshi/KuuOS/pull/2295) v5.270 F111 first stage also MERGED, exact-source [CI #38652879270](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38652879270) 9082/9082 SUCCESS, 10 axiom lists without `sorryAx`.
+**2026-10-15 JST / latest VERIFIED theorem-bearing frontier: `v5.272 / F111 part 3`.** [PR #2297](https://github.com/itakura-hidetoshi/KuuOS/pull/2297) **MERGED**; theorem-bearing merge SHA `d5b7aeb7ed9b44687427042ac4516f301c3a2b2c`, exact tested source HEAD `f3f53d700fa931b1752bcfceb30f5ce9a7bc5e62`. [CI #38656033380](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38656033380): **9084/9084 SUCCESS**, changed-file warning/error 0/0, 8 `#print axioms` without `sorryAx`; Strict Lean, Governance, MCP Lean and CI completion all SUCCESS. F111 predecessors [#2295](https://github.com/itakura-hidetoshi/KuuOS/pull/2295) v5.270 and [#2296](https://github.com/itakura-hidetoshi/KuuOS/pull/2296) v5.271 also exact-source GREEN and merged.
 
-**研究の現行方針：** 元の非自明なGray交換構造の復元を、新しい形式化ルートの前提にしません。**空＝指定された文脈・型・保存量のもとでの表現交代可能性**として、F94–F111（第2段階）では正確な局所商圏、普遍因子化、二方向の合成、自然同型と高次整合性、有限アトラスおよび実物理入射重なりの条件付きdescent、原F42/F51語からの意味論的関手を証明しています。元F55曲率・非整合は観測商圏の整合性によって消えません。
+**研究の現行方針：** 元の非自明なGray交換構造の復元を、新しい形式化ルートの前提にしません。**空＝指定された文脈・型・保存量のもとでの表現交代可能性**として、F94–F111（第3段階）では正確な局所商圏、普遍因子化、二方向の合成、自然同型と高次整合性、有限アトラスおよび実物理入射重なりの条件付きdescent、原F42/F51語からの意味論的関手を証明しています。元F55曲率・非整合は観測商圏の整合性によって消えません。
 
 この文書では**(a) 現在のLeanで実際に証明済みの定理、(b) 過去に証明されたソース由来の歴史、(c) 追加条件を明示した定理、(d) 未証明の今後の課題、(e) ランタイム・実証研究**を区別します。GitHubのdocumentation-only更新は、Leanの新定理を証明しません。
 
@@ -11,18 +11,18 @@
 | 項目 | 正確な根拠 |
 | --- | --- |
 | Canonical repository | [`itakura-hidetoshi/KuuOS`](https://github.com/itakura-hidetoshi/KuuOS)、branch `main` |
-| Latest verified theorem-bearing merge | [PR #2296 — v5.271 F111第2段階, MERGED](https://github.com/itakura-hidetoshi/KuuOS/pull/2296) |
-| **Theorem-bearing SHA** | **`8b842f0a21aa302c974ff0474429e74b9aa86db6`**（F111第2段階統合後に`main`と一致を確認） |
-| Exact tested source HEAD | `7907ca2cf9c9d4b0a8d15cb55e4b6078f704addc` |
-| Exact-head formal CI | [run #38654664928](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38654664928) — **completed SUCCESS** |
-| Strict Lean | Job `116161536071`, **9083/9083 SUCCESS** |
-| Governance / MCP completion | All completion receipts in [run #38654664928](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38654664928) — SUCCESS |
-| F111 v5.271 source diagnostics | **0 errors / 0 warnings**; **7 `#print axioms`**, no `sorryAx` |
+| Latest verified theorem-bearing merge | [PR #2297 — v5.272 F111第3段階, MERGED](https://github.com/itakura-hidetoshi/KuuOS/pull/2297) |
+| **Theorem-bearing SHA** | **`d5b7aeb7ed9b44687427042ac4516f301c3a2b2c`**（F111第3段階統合後に`main`と一致を確認） |
+| Exact tested source HEAD | `f3f53d700fa931b1752bcfceb30f5ce9a7bc5e62` |
+| Exact-head formal CI | [run #38656033380](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38656033380) — **completed SUCCESS** |
+| Strict Lean | Job `116165959983`, **9084/9084 SUCCESS** |
+| Governance / MCP completion | All completion receipts in [run #38656033380](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38656033380) — SUCCESS |
+| F111 v5.272 source diagnostics | **0 errors / 0 warnings**; **8 `#print axioms`**, no `sorryAx` |
 | Toolchain | [`leanprover/lean4:v4.30.0-rc2`](lean-toolchain); [mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`](lake-manifest.json) |
 | Separate validation-only lane | [PR #1558](https://github.com/itakura-hidetoshi/KuuOS/pull/1558) (Lean 4.31) — **OPEN / DRAFT / UNMERGED**; **do not merge** |
 | Copyright and license | 板倉英俊 / Hidetoshi Itakura · [Apache-2.0](LICENSE) · [NOTICE](NOTICE) · [COPYRIGHT.md](COPYRIGHT.md) |
 
-**Authority priority:** live exact `main` SHA → exact Lean declarations/imported proof artifacts → documentation as index → matching PR exact-source-head CI and completion receipts → historical notes. `main` SHA will move after this docs-only update; the theorem-bearing v5.271 F111 merge SHA above remains the pinned reproduction reference until a NEW verified theorem lands.
+**Authority priority:** live exact `main` SHA → exact Lean declarations/imported proof artifacts → documentation as index → matching PR exact-source-head CI and completion receipts → historical notes. `main` SHA will move after this docs-only update; the theorem-bearing v5.272 F111 merge SHA above remains the pinned reproduction reference until a NEW verified theorem lands.
 
 **CI and axiom boundary:** successful selected `lake build` is evidence for its selected Lean target/dependency closure, **not** the entire repository/runtime/model. `#print axioms` can include ordinary `propext`/`Classical.choice`/`Quot.sound` and inherited finite-geometric `native_decide` axioms. Neither `sorryAx` nor a new unreviewed assumption is permitted in accepted theorem-bearing changes. Keep physical assertions tied to the original source type; do not infer raw F42/F55 equality from an F77 quotient equality.
 
@@ -51,6 +51,7 @@
 | **F110 part 2 / v5.269** | F77 projects distinct native phase-one and original identity endomorphisms to the SAME arrow; thus not injective, no complete native ZMod2 phase readout from the F77 quotient Hom and NO functorial left inverse reconstructing all original native Gray morphisms (`c60F77Projection ⋙ lift ≠ 𝟭 GrayGrade`). | Extra original source phase data may still support local lifts; no broad non-existence of every right-side lift. |
 | **F111 part 1 / v5.270** | Proof-carrying actual real physical chart indices on a SAME F106 finite incidence-star intersection; Mathlib arbitrary finite history comparison proves exact path independence, normalized identity and inverse, loop identity, naturality, zero ADDED Int×Int charge, concatenation/subdivision and all-ninety-edge specialization. | No global F42/F54/F55 effective descent, physical intersection nonempty guarantee, or original F68 curvature flattening. |
 | **F111 part 2 / v5.271** | Genuine `J⊆I` physical overlap refinement `O_I→O_J` preserves F77 observed functors on objects AND all incidence Homs; F109 transition components and arbitrary DIFFERENT histories remain equal after refinement, with zero added integer charge. | This is for one explicit original two-face semantic family; not a global original face-site F42/F54/F55 3-sheaf or raw higher equivalence. |
+| **F111 part 3 / v5.272** | Exact geometric double restriction `O_I→O_J→O_K = O_I→O_K` on real F69 physical site objects and all incidence Homs for `K⊆J⊆I`. Source-derived F77 observed double-refinement object equality, comparison NatIso components, two successive genuinely typed arbitrary-history comparisons (independently chosen lengths and intermediates in K,J,I), zero added Int×Int charge, and all-ninety specialization. | Still NOT original F42/F54/F55 effective 3-sheaf descent, a Grothendieck topology or global source curvature cancellation. |
 
 ### Read this before claiming descent
 
@@ -329,7 +330,7 @@ The F58/F59 programme has multiple **independent verified theorem scopes**. “C
 
 
 
-## 13. Verified quotient/replaceability programme — v5.213–v5.271
+## 13. Verified quotient/replaceability programme — v5.213–v5.272
 
 ### 13.1 From finite C60 context to an intentional phase quotient (v5.213–v5.233)
 
@@ -408,7 +409,7 @@ F95 real local Kuu categorical quotient + universal factorization
 
 **Boundary:** `NatIso` and pentagon are at the F77 **observer** level. They do not identify unequal raw F42 proof trees or prove flatness of the unquotiented F55 source.
 
-### 13.5 F104–F107 CLOSED; F108–F111 part 2 VERIFIED (v5.258–v5.271)
+### 13.5 F104–F107 CLOSED; F108–F111 part 3 VERIFIED (v5.258–v5.272)
 
 | Stage / exact source | Verified mathematical content | PR |
 | --- | --- | --- |
@@ -426,6 +427,7 @@ F95 real local Kuu categorical quotient + universal factorization
 | **F110 part 2 / v5.269** — [`DependentOriginationC60KuuPhaseReconstructionObstructionV5_269.lean`](formal/KUOS/DependentOriginationC60KuuPhaseReconstructionObstructionV5_269.lean) | `c60F110UnitNativeExchange_projection_equal_identity` and `c60F110UnitNativeExchange_ne_identity` witness F77 noninjectivity; `c60F110NoCompletePhaseReadout_from_F77` and `c60F110NoFullNativeLeftInverseFunctor` prove no exact recovery of ALL original native Gray phases/functor via intentional F77 projection. `c60F110ActualPhysicalFlag_unrecoverable_phase` connects this to genuine C60 source phase-one flags. | [#2293](https://github.com/itakura-hidetoshi/KuuOS/pull/2293) |
 | **F111 part 1 / v5.270** — [`DependentOriginationC60KuuActualPhysicalFiniteCechHistoriesV5_270.lean`](formal/KUOS/DependentOriginationC60KuuActualPhysicalFiniteCechHistoriesV5_270.lean) | `C60F111PhysicalChart I` encodes proof of membership in the actual F106 overlap. `c60F111PhysicalTransitionChain_eq_direct` proves ALL finite histories yield exactly the direct F77 natural transformation; `..._loop` equals genuine identity, `..._charge_zero`, `..._append`, `..._natural` and 90-edge specialization prove robust original source-derived Čech coherence. No arbitrary original F55 source equality. | [#2295](https://github.com/itakura-hidetoshi/KuuOS/pull/2295) |
 | **F111 part 2 / v5.271** — [`DependentOriginationC60KuuActualPhysicalRefinementCechV5_271.lean`](formal/KUOS/DependentOriginationC60KuuActualPhysicalRefinementCechV5_271.lean) | `c60F111Refinement_observed_functor` proves actual C60 `O_I→O_J` geometric restriction preserves the entire F77 observed functor (objects and morphisms) under `J⊆I`. `..._transition_app` and `..._anyHistory_app` prove component equality even for two independently chosen finite histories of DIFFERENT lengths and intermediate charts, with exact zero added charge and all-ninety-edge specialization. Uses proof-relevant original physical source and F77 charge-faithful equality; no old F42/F54/F55 global effective lift. | [#2296](https://github.com/itakura-hidetoshi/KuuOS/pull/2296) |
+| **F111 part 3 / v5.272** — [`DependentOriginationC60KuuDoublePhysicalRefinementCechV5_272.lean`](formal/KUOS/DependentOriginationC60KuuDoublePhysicalRefinementCechV5_272.lean) | `c60F111PhysicalDoubleRefinement_obj` and `..._map` apply ACTUAL F106 `K⊆J⊆I` composable physical restrictions on real site/Hom. `c60F111PhysicalDoubleRefinement_observed_obj`, `..._transition_app`, `..._anyHistories` certify exact F77-observed double-refinement and TWO individually typed comparisons between independently chosen arbitrary-length histories in K, J and I. `..._historyCharge_zero` and `c60F111AllNinetyPhysicalDoubleRefinement_anyHistories` preserve zero added integer charge on 90 authentic edges. No raw F42/F54/F55 global source glue or north-F68 curvature cancellation. | [#2297](https://github.com/itakura-hidetoshi/KuuOS/pull/2297) |
 
 ### 13.6 Exact current logical hierarchy
 
@@ -479,6 +481,8 @@ F110 part 2: F77 phase quotient NOT faithful; no complete native inverse
 F111 part 1: true physical finite-overlap chart histories of ARBITRARY length
               |\--- loop identity, zero ADDED charge, path independence
 F111 part 2: true F106 geometric refinement preserves F77 observer functors
+              |
+F111 part 3: K⊆J⊆I REAL double restrictions and three independent histories
               |\--- ANY pair of different finite histories match on refined sites
               |
 OPEN: independent FACE-SITE F42/F54/F55 source gluing and effectivity
@@ -486,7 +490,7 @@ OPEN: independent FACE-SITE F42/F54/F55 source gluing and effectivity
 no unconditional global physical F55 glue / hyperdescent
 ```
 
-For GENERAL heterogeneous physical patches, gluing remains conditional on genuine overlap semantics, observed objects and charge. For the SPECIFIC two-face original F42/F51 source construction, F109 proves real finite F77 Čech isomorphisms; F111 v5.270–271 now also proves **all-length true-physical overlap chart histories and their independence under arbitrary geometric refinements** at full observed F77 Functor/NatTrans component levels. This does not imply original raw-source effectivity. The general signed overlap charge defect
+For GENERAL heterogeneous physical patches, gluing remains conditional on genuine overlap semantics, observed objects and charge. For the SPECIFIC two-face original F42/F51 source construction, F109 proves real finite F77 Čech isomorphisms; F111 v5.270–272 now also proves **all-length true-physical overlap chart histories and their independence under arbitrary geometric refinements** at full observed F77 Functor/NatTrans component levels. This does not imply original raw-source effectivity. The general signed overlap charge defect
 
 \[
 \omega_{ij}(f)=Q_i(f)-Q_j(f)\in\mathbb Z^2,\qquad
@@ -503,9 +507,9 @@ is a genuine signed charge 1-cocycle (additive even when no glue exists). A witn
 
 **F110 — first TWO stages VERIFIED; stronger original F54/F55 source boundary is OPEN.** v5.268 constructs a precise original two-face C60 flag source exchange whose native F51 phase is `1 : ZMod 2`, but whose F77 image is equality transport between the same neutral observed objects. It proves genuine F109 physical finite-overlap NatIso/cocycle with zero ADDED integer charge while F68 original physical north-pentagon curvature has second charge `−5`, the full signed 2-cochain is nonzero, uncorrected vertex gauge descent impossible and canonical physical repair nonzero. v5.269 proves original Gray unit identity and phase-one generator are DISTINCT but the deliberate F77 projection identifies them; no complete phase readout or full native left-inverse functor exists. This does **not** rule out local reconstruction retaining independent original data. OPEN: separately indexed original F42 objects at both original polygon sites, full F54/F55 source-boundary compatibility, real signed-curvature-aware corrected source descent and higher F111 effectivity.
 
-**F111 — FIRST TWO STAGES VERIFIED; effective original source descent remains OPEN.** v5.270 implements an actual C60 finite physical-incidence intersection index with *proof-carrying* patch membership, and a true Mathlib `NatTrans` for every finite list of physical charts. Every such history equals direct F109 `NatIso`, is closed-loop trivial, has zero added Int×Int charge, respects real incidence Homs and arbitrary concatenation. v5.271 then proves the genuine F106 incidence refinement `O_I→O_J` for `J⊆I` preserves the whole F77 observed functor, the F109 transition components and ANY two different-length chart histories, again without additional semantic inputs. This is still **observed F77 finite intersection coherence**, not a Grothendieck topology, proof of all intersections being nonempty, source F55 higher effectivity or reconstruction of lost phase.
+**F111 — THREE STAGES VERIFIED; effective original source descent remains OPEN.** v5.270 constructs the actual C60 proof-carrying physical incidence intersection chart type and true Mathlib F77 natural transformations for all finite histories; every history equals direct F109 `NatIso`, has trivial observed closed holonomy, zero added charge, actual incidence naturality and arbitrary concatenation coherence. v5.271 constructs the genuine F106 `O_I→O_J` restriction for `J⊆I`, proving entire F77 observed functors and all different-length physical histories compatible with it. v5.272 establishes `K⊆J⊆I` double physical restriction compatibility on objects and all Homs, and proves BOTH independently typed K→J and J→I comparisons among arbitrary distinct finite histories, preserving zero added integer charge for all 90 original physical edges. **This remains observed F77 finite physical-intersection coherence**, NOT a new topology, effective raw F42/F54/F55 global three-descent object or restoration of erased Gray phase.
 
-**Progression / proof authority gate:** **F108 parts 1–4, F109 parts 1–2, F110 parts 1–2, and F111 parts 1–2 are MERGED/verified in Lean.** F112+ still needs independently face-SITE-indexed original F42/F54/F55 labels and typed higher boundary transport, a genuine topology/descent object for effective global source gluing, and independently addressed nonzero F68 north-pentagon signed curvature (`−5`). Deliberate F77 phase forgetting has no universal complete native left inverse (F110); original-data-dependent local lifts are a separate problem.
+**Progression / proof authority gate:** **F108 parts 1–4, F109 parts 1–2, F110 parts 1–2, and F111 parts 1–3 are MERGED/verified in Lean.** F112+ still requires independently face-SITE-indexed original F42/F54/F55 source labels and typed higher-boundary transport, an actual topology/descent object for effective original source gluing, and independent treatment of F68 north-pentagon signed physical curvature (`−5`) plus its necessary nonzero repair. F110 proves the F77 phase-forgetting quotient has no universal complete native left inverse; separately retained source phase data may still support local lifts.
 
 ## 15. Explicit mathematical and implementation boundaries
 
@@ -526,19 +530,19 @@ is a genuine signed charge 1-cocycle (additive even when no glue exists). A witn
 4. exact source HEADで`warningAsError=true`、`sorryAsError=true`を指定して変更モジュールとその依存閉包をビルド。主定理の`#print axioms`を検査し、`native_decide`由来の既存公理依存を開示する。CIキャッシュの利用を新しい証明と混同しない。
 5. **Strict Lean / Governance / MCP Lean完了証跡 / MCP CI完了証跡** が同じPR source HEADに対してGREENであることを確認してからマージし、事後のcanonical `main`とmerge SHAの一致を再観測する。**docs-only PRのマージは新たなtheorem-bearing SHAではない**。
 
-**Reproduce exact F111 v5.271 theorem-bearing baseline:**
+**Reproduce exact F111 v5.272 theorem-bearing baseline:**
 
 ```bash
 git clone https://github.com/itakura-hidetoshi/KuuOS.git
 cd KuuOS
-git checkout 8b842f0a21aa302c974ff0474429e74b9aa86db6
+git checkout d5b7aeb7ed9b44687427042ac4516f301c3a2b2c
 cat lean-toolchain
 lake exe cache get  # 必要な場合のみ
 lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build \
-  KUOS.DependentOriginationC60KuuActualPhysicalRefinementCechV5_271
+  KUOS.DependentOriginationC60KuuDoublePhysicalRefinementCechV5_272
 ```
 
-[Exact F111 v5.271 PR source CI #38654664928](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38654664928): **9083/9083 SUCCESS**, seven printed axiom lists without `sorryAx`, changed-file warning/error 0/0, Strict Lean, Governance and both MCP Lean/CI completion receipts all SUCCESS. Tested source HEAD `7907ca2cf9c9d4b0a8d15cb55e4b6078f704addc`, theorem-bearing squash merge SHA `8b842f0a21aa302c974ff0474429e74b9aa86db6`. Earlier F111 [v5.270 PR #2295](https://github.com/itakura-hidetoshi/KuuOS/pull/2295) passed [CI #38652879270](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38652879270), **9082/9082**, ten axiom lists without `sorryAx`, warning/error 0/0; both MERGED.
+[Exact F111 v5.272 PR source CI #38656033380](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38656033380): **9084/9084 SUCCESS**, eight `#print axioms` without `sorryAx`, changed-file warnings/errors 0/0, Strict Lean, Governance and both MCP Lean/CI completion receipts SUCCESS. Tested source HEAD `f3f53d700fa931b1752bcfceb30f5ce9a7bc5e62`, theorem-bearing squash merge SHA `d5b7aeb7ed9b44687427042ac4516f301c3a2b2c`. Earlier F111 [v5.270 PR #2295](https://github.com/itakura-hidetoshi/KuuOS/pull/2295), [CI #38652879270](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38652879270) 9082/9082, and [v5.271 PR #2296](https://github.com/itakura-hidetoshi/KuuOS/pull/2296), [CI #38654664928](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38654664928) 9083/9083, both GREEN/MERGED and no `sorryAx`.
 
 **Independent broader checks** (not implied by F107 selected-target CI):
 
