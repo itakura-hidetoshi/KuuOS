@@ -152,8 +152,6 @@ theorem c60F98HorizontalAfterVerticalMap_charge
   rw [c60F96HorizontalThree_toF77,
       c60F97VerticalThree_toF77,
       c60F97VerticalThree_toF77,
-      c60F80QuotientThreeTensor_charge,
-      c60F80QuotientThreeTensor_charge,
       c60F80QuotientThreeTensor_charge]
 
 /-- Observed charge of vertical-after-horizontal; the order of
@@ -181,8 +179,6 @@ theorem c60F98VerticalAfterHorizontalMap_charge
   rw [c60F97VerticalThree_toF77,
       c60F96HorizontalThree_toF77,
       c60F96HorizontalThree_toF77,
-      c60F80QuotientThreeTensor_charge,
-      c60F80QuotientThreeTensor_charge,
       c60F80QuotientThreeTensor_charge]
 
 /-- The actual FOUR-ARROW middle-four square commutes between
