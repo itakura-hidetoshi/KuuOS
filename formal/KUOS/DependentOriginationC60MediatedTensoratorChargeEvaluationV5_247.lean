@@ -218,7 +218,8 @@ theorem c60F93ChosenInverse_map_preservesCharge
     (c60F79NativeChargeEquivalence.functor.map
       (c60F79NativeChargeEquivalence.inverse.map f)).charge =
        -c60F92GaugeGrade B.degree + f.charge +
-         c60F92GaugeGrade B.degree := hc
+         c60F92GaugeGrade B.degree := by
+           simpa only [add_assoc] using hc
     _ = f.charge := by abel
 
 #print axioms c60F93DirectInverseMu_charge
