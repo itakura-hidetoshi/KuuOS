@@ -222,6 +222,69 @@ theorem c60F93ChosenInverse_map_preservesCharge
            simpa only [add_assoc] using hc
     _ = f.charge := by abel
 
+
+/-- The F85 mediated MONOIDAL tensorator really is the composite
+of the transported forward F81 leg and F84's inverse leg, with
+the original actual quotient-Hom source and target retained. -/
+theorem c60F93MediatedMu_composition
+    (X Y : C60F85TransportedQuotient) :
+    letI : c60F85TransportedToCharge.functor.Monoidal :=
+      c60F85TransportedToChargeForwardMonoidal
+    letI : c60F85ChargeToDirect.functor.Monoidal :=
+      c60F85ChargeToDirectForwardMonoidal
+    c60F88MediatedMu X Y =
+      (Functor.LaxMonoidal.μ c60F85ChargeToDirect.functor
+          (c60F85TransportedToCharge.functor.obj X)
+          (c60F85TransportedToCharge.functor.obj Y)) ≫
+        c60F85ChargeToDirect.functor.map
+          (Functor.LaxMonoidal.μ
+            c60F85TransportedToCharge.functor X Y) := by
+  letI : c60F85TransportedToCharge.functor.Monoidal :=
+    c60F85TransportedToChargeForwardMonoidal
+  letI : c60F85ChargeToDirect.functor.Monoidal :=
+    c60F85ChargeToDirectForwardMonoidal
+  change
+    (Functor.LaxMonoidal.μ
+      (c60F85TransportedToCharge.functor ⋙
+        c60F85ChargeToDirect.functor) X Y) = _
+  rfl
+
+/-- Exact charge evaluation of the composite mediated monoidal
+tensorator: F84 inverse charge plus the transported forward
+tensorator charge, without introducing a new gauge. -/
+theorem c60F93MediatedCharge_composition
+    (X Y : C60F85TransportedQuotient) :
+    letI : c60F85TransportedToCharge.functor.Monoidal :=
+      c60F85TransportedToChargeForwardMonoidal
+    letI : c60F85ChargeToDirect.functor.Monoidal :=
+      c60F85ChargeToDirectForwardMonoidal
+    c60F92MediatedCharge X Y =
+      (c60F84DirectChargeEquivalence.functor.map
+        (Functor.LaxMonoidal.μ c60F85ChargeToDirect.functor
+          (c60F85TransportedToCharge.functor.obj X)
+          (c60F85TransportedToCharge.functor.obj Y))).charge +
+      (Functor.LaxMonoidal.μ
+        c60F85TransportedToCharge.functor X Y).charge := by
+  letI : c60F85TransportedToCharge.functor.Monoidal :=
+    c60F85TransportedToChargeForwardMonoidal
+  letI : c60F85ChargeToDirect.functor.Monoidal :=
+    c60F85ChargeToDirectForwardMonoidal
+  unfold c60F92MediatedCharge
+  rw [c60F93MediatedMu_composition X Y]
+  rw [c60F80QuotientThree_comp_charge]
+  have h := c60F93ChosenInverse_map_preservesCharge
+    (Functor.LaxMonoidal.μ
+      c60F85TransportedToCharge.functor X Y)
+  simpa only [] using congrArg
+    (fun q : Int × Int =>
+      (c60F84DirectChargeEquivalence.functor.map
+        (Functor.LaxMonoidal.μ c60F85ChargeToDirect.functor
+          (c60F85TransportedToCharge.functor.obj X)
+          (c60F85TransportedToCharge.functor.obj Y))).charge + q) h
+
+#print axioms c60F93MediatedMu_composition
+#print axioms c60F93MediatedCharge_composition
+
 #print axioms c60F93DirectInverseMu_charge
 #print axioms c60F93ChosenInverse_map_preservesCharge
 #print axioms c60F93CounitInvCharge
