@@ -132,6 +132,15 @@ theorem c60F91ChosenUnit_charge
   exact congrArg C60F75StrictChargeThree.charge
     (c60F91ChosenUnit_map_eq_counitInv X)
 
+/-- F90's canonical equality-transport unit is literally the
+identity on its selected original F77 representative at each grade.
+This avoids any interaction between competing implicit category
+instances when recovering the original F79 chosen unit. -/
+theorem c60F91CanonicalUnit_onCanonicalGrade
+    (d : ZMod 2) :
+    (c60F90CanonicalUnitIso (c60F89CanonicalGrade d)).hom =
+      𝟙 (c60F89CanonicalGrade d) := rfl
+
 /-- Both full, exact quotient-Hom gauge arrows coincide:
 F79's chosen unit equals F90's ZERO-charge canonical unit,
 followed by F91's NATURAL inverse comparison at the charge of X.
@@ -142,15 +151,20 @@ theorem c60F91ChosenUnit_factorsThroughCanonical
       (c60F90CanonicalUnitIso X).hom ≫
         (c60F91ExplicitToChosenInverseIso
           (c60F77QuotientToStrictCharge.obj X)).hom := by
+  rcases X with ⟨⟨d⟩⟩
+  change
+    (c60F79NativeChargeEquivalence.unitIso.app
+      (c60F89CanonicalGrade d)).hom =
+      (c60F90CanonicalUnitIso (c60F89CanonicalGrade d)).hom ≫
+        (c60F91ExplicitToChosenInverseIso
+          (c60F77QuotientToStrictCharge.obj
+            (c60F89CanonicalGrade d))).hom
+  rw [c60F91CanonicalUnit_onCanonicalGrade, Category.id_comp]
   apply c60F80QuotientThree_ext
-  have hcomp := c60F80QuotientThree_comp_charge
-    (c60F90CanonicalUnitIso X).hom
-    (c60F91ExplicitToChosenInverseIso
-      (c60F77QuotientToStrictCharge.obj X)).hom
-  rw [hcomp, c60F90CanonicalUnit_charge_zero, zero_add]
-  exact (c60F91ChosenUnit_charge X).trans
+  exact (c60F91ChosenUnit_charge (c60F89CanonicalGrade d)).trans
     (c60F91ExplicitToChosenInverse_charge
-      (c60F77QuotientToStrictCharge.obj X)).symm
+      (c60F77QuotientToStrictCharge.obj
+        (c60F89CanonicalGrade d))).symm
 
 #print axioms c60F91CounitComparisonIso
 #print axioms c60F91ExplicitToChosenInverseIso
@@ -159,6 +173,7 @@ theorem c60F91ChosenUnit_factorsThroughCanonical
 #print axioms c60F91ExplicitToChosenInverseNatIso
 #print axioms c60F91ChosenUnit_map_eq_counitInv
 #print axioms c60F91ChosenUnit_charge
+#print axioms c60F91CanonicalUnit_onCanonicalGrade
 #print axioms c60F91ChosenUnit_factorsThroughCanonical
 
 end
