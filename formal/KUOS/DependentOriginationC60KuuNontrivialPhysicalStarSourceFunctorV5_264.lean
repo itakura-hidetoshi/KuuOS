@@ -80,7 +80,10 @@ theorem c60F108OriginalIncidenceStage_monotone
       c60F108OriginalIncidenceStage Y := by
   change c60F69PhysicalIncidence X Y at h
   cases X <;> cases Y <;>
-    first | decide | exact False.elim h
+    first
+      | exact Bool.false_le _
+      | exact le_refl _
+      | exact False.elim h
 
 /-- The entire REAL physical singleton-star incidence category
 maps to the genuine Boolean walking-arrow preorder category.
