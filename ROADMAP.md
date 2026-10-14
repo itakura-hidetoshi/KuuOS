@@ -476,12 +476,17 @@ F110 part 1: original F51 phase ONE -> F77 equality transport;
               |           original F68 north curvature -5, repair != 0
 F110 part 2: F77 phase quotient NOT faithful; no complete native inverse
               |
-OPEN: independent FACE-SITE F42/F54/F55 source gluing and high-dimensional effects
+F111 part 1: true physical finite-overlap chart histories of ARBITRARY length
+              |\--- loop identity, zero ADDED charge, path independence
+F111 part 2: true F106 geometric refinement preserves F77 observer functors
+              |\--- ANY pair of different finite histories match on refined sites
+              |
+OPEN: independent FACE-SITE F42/F54/F55 source gluing and effectivity
               |
 no unconditional global physical F55 glue / hyperdescent
 ```
 
-For GENERAL heterogeneous physical patches, gluing remains conditional on overlap semantics, observed-object equality and charge compatibility. For the SPECIFIC two-face original F51 family of F108/F109, both F77 observed conditions and the strict finite Čech cocycle ARE PROVED; F110 additionally proves this does not imply original F51 phase recovery or flat F68 source curvature. The difference
+For GENERAL heterogeneous physical patches, gluing remains conditional on genuine overlap semantics, observed objects and charge. For the SPECIFIC two-face original F42/F51 source construction, F109 proves real finite F77 Čech isomorphisms; F111 v5.270–271 now also proves **all-length true-physical overlap chart histories and their independence under arbitrary geometric refinements** at full observed F77 Functor/NatTrans component levels. This does not imply original raw-source effectivity. The general signed overlap charge defect
 
 \[
 \omega_{ij}(f)=Q_i(f)-Q_j(f)\in\mathbb Z^2,\qquad
@@ -490,7 +495,7 @@ For GENERAL heterogeneous physical patches, gluing remains conditional on overla
 
 is a genuine signed charge 1-cocycle (additive even when no glue exists). A witness with `\omega_{ij}(f)\ne0` obstructs a zero-added-charge comparison, rather than being “repaired” without authority.
 
-## 14. Active theorem frontier — F110 remaining F54/F55 raw-source boundary and F111+ higher effectivity (OPEN)
+## 14. Active theorem frontier — F112+ original F54/F55 site-specific source descent and effectivity (OPEN)
 
 **F108 — four verified stages with explicit boundary.** Both original different incident polygon face generators are now represented in a common typed horizontal composite via real C60 inter-base paths and nonidentity F43/F51 exchange (v5.265). The two physical upper face sites still map to the SAME composite F42 object; independent per-face-site original F42 assignments, original F54/F55 boundary transports and global 3-source descent remain unproved.
 
@@ -498,9 +503,9 @@ is a genuine signed charge 1-cocycle (additive even when no glue exists). A witn
 
 **F110 — first TWO stages VERIFIED; stronger original F54/F55 source boundary is OPEN.** v5.268 constructs a precise original two-face C60 flag source exchange whose native F51 phase is `1 : ZMod 2`, but whose F77 image is equality transport between the same neutral observed objects. It proves genuine F109 physical finite-overlap NatIso/cocycle with zero ADDED integer charge while F68 original physical north-pentagon curvature has second charge `−5`, the full signed 2-cochain is nonzero, uncorrected vertex gauge descent impossible and canonical physical repair nonzero. v5.269 proves original Gray unit identity and phase-one generator are DISTINCT but the deliberate F77 projection identifies them; no complete phase readout or full native left-inverse functor exists. This does **not** rule out local reconstruction retaining independent original data. OPEN: separately indexed original F42 objects at both original polygon sites, full F54/F55 source-boundary compatibility, real signed-curvature-aware corrected source descent and higher F111 effectivity.
 
-**F111+ — higher finite-patch coherence, effectivity and runtime boundary.** After proving genuine semantic inputs, study finite multiple-overlap refinements and higher Čech comparisons (including F47/F55 2-/3-cell source). Show a fully typed global/effective construction only with an explicitly established topology, restriction diagram, descent object and genuine source boundary compatibility. A full global original F42/F54/F55 `(∞,3)` or unrestricted hyperdescent is NOT a current theorem. Runtime integration remains a separate experimental programme.
+**F111 — FIRST TWO STAGES VERIFIED; effective original source descent remains OPEN.** v5.270 implements an actual C60 finite physical-incidence intersection index with *proof-carrying* patch membership, and a true Mathlib `NatTrans` for every finite list of physical charts. Every such history equals direct F109 `NatIso`, is closed-loop trivial, has zero added Int×Int charge, respects real incidence Homs and arbitrary concatenation. v5.271 then proves the genuine F106 incidence refinement `O_I→O_J` for `J⊆I` preserves the whole F77 observed functor, the F109 transition components and ANY two different-length chart histories, again without additional semantic inputs. This is still **observed F77 finite intersection coherence**, not a Grothendieck topology, proof of all intersections being nonempty, source F55 higher effectivity or reconstruction of lost phase.
 
-**Progression / proof authority gate:** **F108 parts 1–4, F109 parts 1–2 and F110 parts 1–2 are MERGED/verified.** Independently face-SITE-labelled original F42/F54/F55 sources, curvature-aware stronger descent and F111+ remain OPEN. The no-phase-reconstruction theorem forbids complete information recovery **from F77 quotient data alone**, not original-source-informed local lifts. F68 original north second charge `−5` cannot be erased by observed NatIso.
+**Progression / proof authority gate:** **F108 parts 1–4, F109 parts 1–2, F110 parts 1–2, and F111 parts 1–2 are MERGED/verified in Lean.** F112+ still needs independently face-SITE-indexed original F42/F54/F55 labels and typed higher boundary transport, a genuine topology/descent object for effective global source gluing, and independently addressed nonzero F68 north-pentagon signed curvature (`−5`). Deliberate F77 phase forgetting has no universal complete native left inverse (F110); original-data-dependent local lifts are a separate problem.
 
 ## 15. Explicit mathematical and implementation boundaries
 
@@ -521,19 +526,19 @@ is a genuine signed charge 1-cocycle (additive even when no glue exists). A witn
 4. exact source HEADで`warningAsError=true`、`sorryAsError=true`を指定して変更モジュールとその依存閉包をビルド。主定理の`#print axioms`を検査し、`native_decide`由来の既存公理依存を開示する。CIキャッシュの利用を新しい証明と混同しない。
 5. **Strict Lean / Governance / MCP Lean完了証跡 / MCP CI完了証跡** が同じPR source HEADに対してGREENであることを確認してからマージし、事後のcanonical `main`とmerge SHAの一致を再観測する。**docs-only PRのマージは新たなtheorem-bearing SHAではない**。
 
-**Reproduce exact F110 v5.269 theorem-bearing baseline:**
+**Reproduce exact F111 v5.271 theorem-bearing baseline:**
 
 ```bash
 git clone https://github.com/itakura-hidetoshi/KuuOS.git
 cd KuuOS
-git checkout 04e7c321f1ce27d73e12b5cd2463366a60a0b49c
+git checkout 8b842f0a21aa302c974ff0474429e74b9aa86db6
 cat lean-toolchain
 lake exe cache get  # 必要な場合のみ
 lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build \
-  KUOS.DependentOriginationC60KuuPhaseReconstructionObstructionV5_269
+  KUOS.DependentOriginationC60KuuActualPhysicalRefinementCechV5_271
 ```
 
-[Exact F110 v5.269 CI #38650991507](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38650991507): **9081/9081 SUCCESS**, six printed axiom lists without `sorryAx`, new-file warnings/errors 0/0, all Governance/MCP Lean/CI completion receipts SUCCESS. The theorem-bearing squash merge SHA `04e7c321f1ce27d73e12b5cd2463366a60a0b49c` differs from the exact tested PR source SHA `685a7d9eaeb4ae336fced71eef7bf6ba8f5c2fe7`. Predecessor [F110 v5.268 PR #2292](https://github.com/itakura-hidetoshi/KuuOS/pull/2292) passed [CI #38650133389](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38650133389), **9080/9080**, eight printed axiom lists without `sorryAx`; both theorem-bearing PRs GREEN and merged.
+[Exact F111 v5.271 PR source CI #38654664928](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38654664928): **9083/9083 SUCCESS**, seven printed axiom lists without `sorryAx`, changed-file warning/error 0/0, Strict Lean, Governance and both MCP Lean/CI completion receipts all SUCCESS. Tested source HEAD `7907ca2cf9c9d4b0a8d15cb55e4b6078f704addc`, theorem-bearing squash merge SHA `8b842f0a21aa302c974ff0474429e74b9aa86db6`. Earlier F111 [v5.270 PR #2295](https://github.com/itakura-hidetoshi/KuuOS/pull/2295) passed [CI #38652879270](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38652879270), **9082/9082**, ten axiom lists without `sorryAx`, warning/error 0/0; both MERGED.
 
 **Independent broader checks** (not implied by F107 selected-target CI):
 
