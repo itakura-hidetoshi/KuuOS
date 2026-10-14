@@ -15,6 +15,7 @@ open KUOS.DependentOriginationC60QuotientTensorNaturalityV5_236
 open KUOS.DependentOriginationC60DirectQuotientMonoidalV5_237
 open KUOS.DependentOriginationC60MonoidalEquivalenceCompatibilityV5_238
 open KUOS.DependentOriginationC60TransportedDirectMonoidalEquivalenceV5_239
+open KUOS.DependentOriginationC60TensoratorComparisonObstructionV5_240
 open KUOS.DependentOriginationC60DirectTransportObstructionChargeV5_242
 open KUOS.DependentOriginationC60ObstructionFourGradeReductionV5_243
 open KUOS.DependentOriginationC60ObstructionGaugeCoboundaryV5_246
@@ -302,11 +303,27 @@ theorem c60F93MediatedCharge_evaluated
     c60F85TransportedToChargeForwardMonoidal
   letI : c60F85ChargeToDirect.functor.Monoidal :=
     c60F85ChargeToDirectForwardMonoidal
-  rw [c60F93MediatedCharge_composition X Y,
-    c60F93DirectInverseMu_charge
-      (c60F85TransportedToCharge.functor.obj X)
-      (c60F85TransportedToCharge.functor.obj Y),
-    c60F93TransportedForwardMuCharge X Y]
+  rw [c60F93MediatedCharge_composition X Y]
+  have hInverse :
+      (c60F84DirectChargeEquivalence.functor.map
+        (Functor.LaxMonoidal.μ c60F85ChargeToDirect.functor
+          (c60F85TransportedToCharge.functor.obj X)
+          (c60F85TransportedToCharge.functor.obj Y))).charge =
+        c60F92GaugeGrade
+          ((c60F85TransportedToCharge.functor.obj X).degree +
+           (c60F85TransportedToCharge.functor.obj Y).degree) -
+        c60F92GaugeGrade
+          (c60F85TransportedToCharge.functor.obj X).degree -
+        c60F92GaugeGrade
+          (c60F85TransportedToCharge.functor.obj Y).degree := by
+    change
+      (c60F84DirectChargeEquivalence.functor.map
+        (Functor.LaxMonoidal.μ
+          c60F84DirectChargeEquivalence.inverse
+          (c60F85TransportedToCharge.functor.obj X)
+          (c60F85TransportedToCharge.functor.obj Y))).charge = _
+    exact c60F93DirectInverseMu_charge _ _
+  rw [hInverse, c60F93TransportedForwardMuCharge X Y]
   have hX := c60F92GaugeCharge_factorsThroughGrade X
   have hY := c60F92GaugeCharge_factorsThroughGrade Y
   have hXY :=
