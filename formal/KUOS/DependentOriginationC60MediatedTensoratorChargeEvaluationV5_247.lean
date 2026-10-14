@@ -16,6 +16,7 @@ open KUOS.DependentOriginationC60DirectQuotientMonoidalV5_237
 open KUOS.DependentOriginationC60MonoidalEquivalenceCompatibilityV5_238
 open KUOS.DependentOriginationC60TransportedDirectMonoidalEquivalenceV5_239
 open KUOS.DependentOriginationC60DirectTransportObstructionChargeV5_242
+open KUOS.DependentOriginationC60ObstructionFourGradeReductionV5_243
 open KUOS.DependentOriginationC60ObstructionGaugeCoboundaryV5_246
 
 set_option autoImplicit false
@@ -96,7 +97,17 @@ theorem c60F93DirectForwardDeltaChargeZero
         (0 : Int × Int) := by
   letI : c60F84DirectChargeEquivalence.functor.Monoidal :=
     c60F84DirectChargeEquivalenceForwardMonoidal
-  rfl
+  have hμ :
+      (Functor.LaxMonoidal.μ
+        c60F84DirectChargeEquivalence.functor X Y).charge =
+          (0 : Int × Int) := by
+    rfl
+  have h := congrArg C60F75StrictChargeThree.charge
+    (Functor.Monoidal.μ_δ
+      c60F84DirectChargeEquivalence.functor X Y)
+  simp only [c60F84Charge_comp, c60F84Charge_id] at h
+  rw [hμ, zero_add] at h
+  exact h
 
 /-- The genuine inverse F84 monoidal comparison satisfies exactly
 the unit/counit balance from Mathlib's monoidal equivalence law;
