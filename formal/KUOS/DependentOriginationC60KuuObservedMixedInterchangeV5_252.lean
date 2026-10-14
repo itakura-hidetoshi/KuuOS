@@ -151,8 +151,8 @@ theorem c60F98HorizontalAfterVerticalMap_charge
   unfold c60F98HorizontalAfterVerticalMap
   rw [c60F96HorizontalThree_toF77,
       c60F97VerticalThree_toF77,
-      c60F97VerticalThree_toF77,
-      c60F80QuotientThreeTensor_charge]
+      c60F97VerticalThree_toF77]
+  simp only [c60F80QuotientThreeTensor_charge]
 
 /-- Observed charge of vertical-after-horizontal; the order of
 the same four conserved charges is the only change. -/
@@ -178,8 +178,8 @@ theorem c60F98VerticalAfterHorizontalMap_charge
   unfold c60F98VerticalAfterHorizontalMap
   rw [c60F97VerticalThree_toF77,
       c60F96HorizontalThree_toF77,
-      c60F96HorizontalThree_toF77,
-      c60F80QuotientThreeTensor_charge]
+      c60F96HorizontalThree_toF77]
+  simp only [c60F80QuotientThreeTensor_charge]
 
 /-- The actual FOUR-ARROW middle-four square commutes between
 both different original pasting orders AFTER F77 descent.
