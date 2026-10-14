@@ -168,8 +168,8 @@ def c60F100ObservedTwoSidedNatIso
     (prior : Quiver.Path a b)
     {p q : Quiver.Path b c}
     (suffix : Quiver.Path c d) :
-    c60F100LeftRightObserved prior suffix ≅
-      c60F100RightLeftObserved prior suffix :=
+    c60F100LeftRightObserved (p := p) (q := q) prior suffix ≅
+      c60F100RightLeftObserved (p := p) (q := q) prior suffix :=
   NatIso.ofComponents
     (fun X => eqToIso (c60F100ObservedObject_eq prior suffix X))
     (by
@@ -195,7 +195,7 @@ theorem c60F100ObservedTwoSidedNatIso_charge_zero
     (suffix : Quiver.Path c d)
     (X : C60F95LocalKuuQuotient p q) :
     (c60F77QuotientToStrictCharge.map
-      ((c60F100ObservedTwoSidedNatIso prior suffix).hom.app X)).charge =
+      ((c60F100ObservedTwoSidedNatIso (p := p) (q := q) prior suffix).hom.app X)).charge =
         (0 : Int × Int) := by
   change
     (c60F77QuotientToStrictCharge.map
