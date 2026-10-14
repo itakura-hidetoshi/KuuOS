@@ -141,7 +141,11 @@ EXHAUSTIVE FINITE enumeration of actual vertex/slot names, not
 an unverified graph connectedness hypothesis. -/
 noncomputable def c60F109RootToEveryDart (d : IcosahedralDart) :
     Quiver.Path (icosahedralIncidentDartAt .north .s0) d := by
-  obtain ⟨v, s, hs⟩ := c60EveryDartHasIncidentSlot d
+  let v : IcosahedralVertex := Classical.choose (c60EveryDartHasIncidentSlot d)
+  have hv : ∃ s : PentagonalSlot, icosahedralIncidentDartAt v s = d :=
+    Classical.choose_spec (c60EveryDartHasIncidentSlot d)
+  let s : PentagonalSlot := Classical.choose hv
+  have hs : icosahedralIncidentDartAt v s = d := Classical.choose_spec hv
   exact hs ▸ ((c60F109RootToPentagon v).comp (c60F109AroundPath v s))
 
 /-- A source-level C60 path between ANY two of the sixty original
