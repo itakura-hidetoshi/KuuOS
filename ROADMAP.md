@@ -1,59 +1,67 @@
 # KuuOS / 空OS — Formal Roadmap
 
-**Current formal snapshot / 研究正本：2026-10-13 JST · v5.212 / F59-F61-B1–B4 · [PR #2227 MERGED](https://github.com/itakura-hidetoshi/KuuOS/pull/2227) · theorem-bearing squash merge SHA `a22e74750058b160d7c3d26e238106730b40ffb9`.**
+**As of 2026-10-14 JST: verified theorem frontier `v5.253 / F99`.** Latest theorem-bearing [PR #2272](https://github.com/itakura-hidetoshi/KuuOS/pull/2272) is **MERGED**; theorem-bearing squash merge SHA: **`07d09c67eea1e49714248535465929da606ac618`**. Its exact tested source HEAD is `b8886ed66dd58212c4c5a6c541cb55a5a0452bb5`; [CI #38536067934](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38536067934) is **completed SUCCESS**, Strict Lean **9065/9065**, changed-file warnings/errors **0/0**, **12 `#print axioms`** and no `sorryAx`. Governance and both MCP completion receipts are SUCCESS.
 
-**現在地：** F58の元F42/F54左右Beck–Chevalley自然同型、F59の二文脈貼り合わせ、F60の直接合成と二文脈合成の比較・自然同型一致、v5.211の三連続元F42 Quiver.Pathおよび元F54/F55三木文脈を継承。**v5.212／F59-F61-B1–B4**では、三つの真のF42・F54/F55文脈移送について「先に前二段」と「先に後二段」を合成する二つの非strictなBC NatIsoをMathlib結合子で同じ四境界source圏へ移送し、**左右それぞれの元の型付きF47 full-native-kernel 3-Hom圏で自然同型そのものの一致**を証明。**実C60の全90辺と二つの真の隣接多角形面**へ特殊化。original raw F42/F54/F55語の同一視ではなく、旧F55の北五角形非零曲率と追加 `Δ=(0,1;0)` が旧9構成子から得られない障害は存続。**未証明**は、四文脈のMac Lane pentagon全体、隣接物理パッチ間のgluing/descent、未商の大域的Gray 3-圏です。
+**Scientific direction / 現在の決定：** **Do not restore original Gray as a new formal-programme prerequisite.** The current constructive route uses `空` to make proof-relevant presentations **replaceable on a specified quotient**, then establishes exact universal factorization, genuine horizontal/vertical composition functors, observed mixed-interchange natural isomorphisms, and path-context coherence. It preserves both independent integer charges and states original F42/F54/F55 source differences and physical curvature honestly.
 
-**Proven does not mean globally complete.** Local F43/F44/F51 categories, original F55 `PresentedCell`, added mixed comparisons and the grade-completed Gray target have **different source types**. The F46 native calibration `Δ=(0,1;0)` is newly adjoined in the mixed source; its absence from the original nine-generator F55 source is a proved boundary. The genuine F55 edge field remains nonflat on the true north pentagon even when the oriented full 32-face surface sum vanishes. Neither an unbounded-scale convergence theorem nor AI runtime/model correctness follows from formal Lean declarations.
+This roadmap separates **verified Lean declarations**, **inherited historical source results**, **still-open conditional mathematical tasks**, and **runtime aspirations**. It is not evidence that an LLM's trained weights or deployment have become KuuOS.
 
-## 0. Canonical authority / 正本・ツールチェーン・検証
+## 0. Canonical authority / 正本・検証
 
-| Item | Exact theorem-bearing authority |
+| Field | Exact evidence |
 | --- | --- |
-| Repository / branch | **[itakura-hidetoshi/KuuOS](https://github.com/itakura-hidetoshi/KuuOS) / `main`** |
-| Latest theorem-bearing MERGED PR | **[#2227 — v5.212 F59-F61-B1–B4](https://github.com/itakura-hidetoshi/KuuOS/pull/2227)** |
-| Theorem-bearing merge SHA | **`a22e74750058b160d7c3d26e238106730b40ffb9`** |
-| Exact-head source SHA | `4d47ba03604bf07673c7045de06883568f199024` (tested merge `a520f6096e30375fbd6616aa37062460fdce6839` has identical tree `3b9502f6092201178cae7161d51acfed13072057`) |
-| Exact-head CI | [**#38324672374 — completed SUCCESS**](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38324672374) |
-| Strict Lean | Job `115060599392`, **9025/9025**, **0 changed-file Lean warnings / 0 errors** |
-| Axiom inspection | **13 `#print axioms`** across four new v5.212 modules; no `sorryAx`/new axioms, inherited finite C60 `native_decide` dependencies distinguished |
-| Governance and receipts | Governance `115061231020`, MCP Lean `115061231072`, MCP CI `115061279532` — **all SUCCESS** |
-| Toolchain | [Lean `v4.30.0-rc2`](lean-toolchain), [mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`](lake-manifest.json) |
-| Protected experimental lane | [PR #1558](https://github.com/itakura-hidetoshi/KuuOS/pull/1558) Lean 4.31 — **OPEN / DRAFT / NOT MERGED** |
+| Canonical repository | [itakura-hidetoshi/KuuOS](https://github.com/itakura-hidetoshi/KuuOS), branch `main` |
+| Last theorem-bearing merge as of this revision | [#2272 — v5.253 F99 MERGED](https://github.com/itakura-hidetoshi/KuuOS/pull/2272) |
+| Theorem-bearing SHA | **`07d09c67eea1e49714248535465929da606ac618`** (reobserved as canonical `main` after theorem merge) |
+| Exact theorem PR source SHA | `b8886ed66dd58212c4c5a6c541cb55a5a0452bb5` |
+| CI evidence | [#38536067934 — completed SUCCESS](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38536067934), full selected imported closure **9065/9065** |
+| Strict Lean / Governance | Strict job `115759230335`, Governance job `115760073452` — SUCCESS |
+| MCP completion receipts | Lean job `115760073353`, CI job `115760132127` — SUCCESS |
+| Axiom and diagnostics audit | F99: **12 `#print axioms`**; `sorryAx` **absent**; changed-file warning/error **0/0**. Finite C60 earlier `native_decide` dependencies are inherited and must be disclosed. |
+| Pinned Lean / mathlib | `leanprover/lean4:v4.30.0-rc2` in [`lean-toolchain`](lean-toolchain); mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6` in [`lake-manifest.json`](lake-manifest.json) |
+| Protected separate validation lane | [PR #1558](https://github.com/itakura-hidetoshi/KuuOS/pull/1558) — Lean 4.31 validation only; **OPEN, DRAFT, NOT MERGED** |
+| Licensing | [Apache License 2.0](LICENSE), [NOTICE](NOTICE), [COPYRIGHT.md](COPYRIGHT.md) |
 
-**Authority precedence:** freshly read canonical GitHub `main` SHA → exact Lean declarations/dependencies → README/ROADMAP → matching exact-head CI/Governance/MCP receipts → history. The v5.210/F60-C theorem SHA was re-observed as `main` immediately after #2223; this docs-only merge will legitimately advance `main` without adding Lean theorems. Do not confuse a docs merge SHA with a new theorem-bearing merge.
+**Authority order (do not substitute documentation for Lean):** fresh actual canonical `main` SHA → exact Lean statement and imported proof artifacts → docs as indexed guide → matching PR source-tree Strict Lean/Governance/MCP receipts → historical claims. A **docs-only** merge changes `main` without proving anything new. The hash above is the most recent verified **theorem-bearing** merge at this document's baseline, not a promise that `main` will always keep that hash.
 
-## 1. Formal truth table / 証明と未証明の境界
+**Interpretation of CI:** a selected `lake build` under strict options proves only the imported Lean dependency closure it checked. It does not validate all repo modules, physical measurements, implementation deployments or a trained AI model. `#print axioms` also distinguishes ordinary Lean axioms (`propext`, `Classical.choice`, `Quot.sound`) and inherited finite `native_decide` declarations; `sorryAx` is unacceptable.
 
-| Topic / stage | Precisely established | Still unproved or explicitly different |
+## 1. Live formal truth table / 証明と未証明の境界
+
+| Formal topic | VERIFIED at stated scope | NOT established by that result |
 | --- | --- | --- |
-| F1–F5, v5.93–v5.101 | Unchanged original actual `F/G/η/ε`, fixed chosen equivalences, **forward and reverse swallowtails**, one coherent actual-lift biadjunction carrier | Unrestricted biequivalence over arbitrary independently chosen presentations |
-| F6–F39, v5.102–v5.136 | Native selected adjunction/mates, original F19 presentation category, independent genuine F28 compression-kernel quotient, 2-sided nonstrict coherence | Automatic inversion of potentially noninvertible `G.toOplax`, universal presentation-independent equivalence |
-| F40–F46, v5.137–v5.143 | Proof-relevant original F19/F28 histories, original independent-axis adjacent swaps, complete quotient normal form | Equality of different histories on the same axis without a proved relation |
-| F47–F57, v5.144–v5.154 | Finite original F45/F54 rotations, F55 3-vs-2 pentagon and contextual square, conditional higher interpreter/no-faithful-observation theorem, genuine C60 cyclic flag gluing | External full original-F55 higher semantics merely from F44 quotient/flag agreement |
-| v5.155–v5.193 / F58–F59 | Native braided `GrayGrade` with full two integer charges and phase, C60 signed cellular cochains/H¹/H², nonflat F55 physical face field, source F42/F43 2/3-cell and local quotient/whiskering machinery | Identifying the real incidence K2,2 flag square with a C60 quadrilateral polygon; inferring local flatness from global surface cancellation |
-| v5.194 / F59-F46 | 90-edge actual four flags joined locally to ORIGINAL F55 3-arrows; exact face exchange (0,0;1) vs F55 (0,1;1); unique ambient `Δ=(0,1;0)` | Existence of `Δ` in original F55 nine-constructor PresentedCell grammar |
-| v5.195–v5.196 / F59-F47–F48 | Adjoined mixed four-boundary categorical 3-Hom, faithful Gray functor, all 90 edges and both actual incident faces, face-choice transport, exact local curvature | Original-source 2-cell identity across unrelated F42 and F54 types; unconditional global descent |
-| v5.197 / F59-F49 | **Real 60-object C60 0/1-path graded Gray 3-category envelope**, Mathlib braided/3-Hom tensor coherence including nonidentity odd exchange | Global original raw 2-cell presentation: its 2-cell object is a **grade**, not a faithful F42/F54 raw term |
-| v5.198 / F59-F50 | Original F42 proof-relevant face-2-cell local 3-Hom, fully source-decorated object category and faithful 3-morphism Gray lift, actual left/right 1-path whiskering and 90-edge original F43/F55 comparison | Injectivity on all original F42 source 2-cell **objects** into grades; raw term identity from equal grade |
-| **v5.199 / F59-F51** | **NEW explicitly adjoined original-F42-indexed horizontal and vertical-context 3-cell source generators**, genuine Mathlib source 3-Hom category, faithful original F43 inclusion, source horizontal/vertical bifunctors and Gray tensor compatibility | Original source associators/unitors and pentagon/triangle not established by F51 alone; F54/F55 gluing open |
-| **v5.200 / F59-F52-A** | **New, explicitly ADJOINED** F42-path-indexed associator and left/right unitor source 3-cells with genuine C60 `comp_assoc`/`nil_comp`/`comp_nil` transport; Mathlib 3-Hom kernel quotient, faithful F51 inclusion, F52 horizontal bifunctor, **associator and unitor naturality on all F52 3-arrows**, full Gray charge and original odd F43 north exchange retained | Original four-factor pentagon and triangle pasting **not proved**, source 3-Hom quotient equality is not raw F42 word equality, and a globally faithful F42/F54/F55 Gray 3-category remains open |
-| **v5.201 / F59-F53-A** | Actual four-factor C60 1-path pentagon (two routes) and unit triangle (two routes), equality lifted to original F42 proof terms and every F52 typed 3-arrow by dependent transport; faithful reindexing Mathlib functor; adjoined source-aware associator and left/right unitor **isomorphisms** | **Original 3-arrow pentagon and triangle pasting remain OPEN**. Path-equality proof irrelevance is NOT the missing source-3-arrow coherence. F54/F55 global gluing remains open. |
-| **v5.202 / F59-F53-B/C** | **ACTUAL source-typed original-F42 four-face 3-associator pentagon and unit 3-arrow triangle** with exact real C60 1-path reindexing, explicit 2-step/3-step raw routes, retained distinct original F42 witness objects, and equality in **F52 full-native-kernel quotient 3-Hom**, preserving the entire Int×Int/ZMod2 native evaluation | **Not** equality of distinct raw 3-cell syntax trees or globally faithful F42/F54/F55 Gray 3-category; original F55 nonflat curvature and new mixed `Δ` provenance are preserved |
-| **v5.203 / F59-F54** | Genuine source F43 exchange iso and natural transformation between left-first and new right-first **Mathlib F52 3-Hom bifunctors**, original north phase-one exchange, F53 pentagon/triangle contextual compatibility. At all 90 actual C60 edges × both actual incident faces, source-typed original F52 F43 interchange and separate original F54/F55 square are connected by old F47 four-boundary category and uniquely calibrated `Δ=(0,1;0)` | **NOT** equality of original F42 and F54 source types, an original F55 Δ generator, all-original nondegenerate Gray 3-category or flat global descent. Original north local curvature charge remains `-5`. |
-| **v5.204 / F59-F55-A/B** | Adjoined F47 four-boundary mixed 3-Hom source face-choice transport is bijective on all four tags and fully faithful on ALL parallel native-kernel Hom sets, with genuine reverse face-choice functor at 90 original C60 edges. At 180 original edge-face sites, no old nine-constructor F55 PresentedCell at the exact F54 square-route boundaries supplies `Δ=(0,1;0)`; despite all local source comparison squares, signed north curvature is nonzero and the original F55 vertex-gauge lift does not exist | Does NOT equate original F42 and F54 raw source witnesses or prove global descent. |
-| **v5.205 / F59-F56-A/B** | Actual F47 mixed full-native-kernel 3-Hom **identity/roundtrip/three-frame cocycle and Mathlib NatIso** with a shared original F54 rotation type; independently typed F42 left/right paths and F54/F55 left/right bracket-tree context functors with real mixed-source comparison-square preservation | F56-B proved **faithfulness**, not yet general full/faithfulness when the original F54 route type itself changes; no unquotiented source word equalities. |
-| **v5.206 / F59-F57-A/B** | Independently typed original F42 source paths **and three distinct original F54 rotation route domains**: all-tag-object and all-parallel-mixed-3-Hom bijections for the F56 cross-original context functor, genuine roundtrip and three-context **typed Mathlib NatIso**. Both true original F42 left/right Quiver.Path plus independent original F54/F55 left/right bracket-tree contextual mixed source functors now full and faithful. Yet neither original F55 context can realize adjoined `Δ` as any old raw nine-constructor PresentedCell | NOT an equivalence of unquotiented F42/F54 original syntax, removal of local C60 curvature, or full global Gray 3-category/descent. |
-| **v5.207 / F59-F58-A/B** | Independently typed original F42 **left/right real paths** and original F54/F55 bracket-tree source contexts commute, by a typed SOURCE three-Hom Beck–Chevalley square, with the F47 local mixed face-choice: **both Mathlib NatIso** established. The TWO different C60 original adjacent polygonal faces for each of 90 real physical edges are instantiated with their **distinct actual base dart path indices** and certified K₂,₂ four-flag incidence (not an invented square polygon). Nine-constructor original F55 source remains incapable of producing new `Δ=(0,1;0)` after either context. | Mixed F47 full-native-kernel categorical comparisons; NOT raw independent original F42/F54 equality, unconditional physical descent, or globally nondegenerate raw Gray 3-category. |
-| **v5.208 / F59-F59-A/B** | TWO independently typed original F42 C60 Quiver.Path contexts and two independently typed original F54/F55 bracket-tree contexts are pasted by an actual Mathlib source **NatIso** with explicit associators/whiskering; both left and right constructions, second-stage mixed face-choice, and all source Hom naturality are encoded. Instantiated at the two distinct genuine polygon faces of every one of 90 physical C60 edges. Both two-stage original source contexts preserve the strict old-nine F55 nonlift for new `Δ=(0,1;0)`. | Direct single-composite original F42 path/F54 tree comparison, source `Quiver.Path.comp_assoc` transport, 3-stage coherence, raw F42/F54/F55 Gray 3-category or geometric descent remain OPEN. |
-| **v5.209 / F59-F60-A/B** | ACTUAL original F42 path concatenation, both source `Quiver.Path.comp_assoc` index casts through the original F52 source 2-cell reindexer; ACTUAL original F54/F55 `node` composition and two `Nat.add_assoc` depth casts in the F44 source exchange class. Direct original vs nested original contexts are compared by true source F47 four-boundary full-native functors, explicit dependent Hom casts, ALL 3-Hom equality and Mathlib NatIso on both LEFT and RIGHT; physical 90-edge/two-incident-face instantiation and direct-context original F55 old-nine no-lift. | Does **NOT** identify differently typed raw F42 two-cell or F54 tree terms; does **NOT** prove equality of direct/pasted BC natural transformations, three-context pentagon, unquotiented original Gray 3-category or unconditional descent. |
-| **v5.210 / F59-F60-C** | The ACTUAL F47 source four-boundary rank rises along every nonidentity primitive raw 3-cell, so any same-tag endomorphism has complete native `Int×Int; ZMod2` value zero; after the specified full-native-kernel quotient, **endomorphisms are unique**. Using this independent proof, the correctly normalized **direct-vs-two-step original F42/F54 Beck–Chevalley NatIso are equal as LEFT and RIGHT Mathlib natural isomorphisms**, instantiated at ALL 90 genuine C60 edges with their two distinct original polygonal face bases. | This source quotient has genuine boundary tags but **not** raw F42/F54/F55 syntax equality; three-context higher associator pentagon, original unquotiented Gray-3-equivalence, neighbor-face descent and unconditional physical flatness remain OPEN. Old F55 nine-constructor Delta no-lift and signed nonflat north curvature persist. |
-| **v5.211 / F59-F61-A** | Three genuine original F42 C60 paths with dependent `Quiver.Path.comp_assoc` transports and full source Gray-value preservation; three independent actual original F54/F55 `node` bracket-tree contexts with two-dimensional `Nat.add_assoc` depth reassociation in F44 source quotient (#2225). | Does not itself compare three-context BC pasting routes, four-context pentagon, or neighboring physical patch descent. |
-| **v5.212 / F59-F61-B1–B4** | Two three-context BC NatIso pasting orders built using F59 Mathlib associators/whiskering; actual independently typed original F42 LEFT and RIGHT paths and original F54/F55 three tree contexts, **equality of both source NatIso** within F47 full-native-kernel four-tag 3-Hom quotient. Specialization to all 90 C60 real physical edges and both genuinely incident original polygonal faces (#2227). | Does not equate raw unquotiented F42/F54/F55 proof words; four-context Mac Lane pentagon, neighboring-face gluing/descent, original nonflat F55 curvature/Δ nonlift obstruction remain OPEN. |
-| Runtime / AI | KuuOS reasoning method and formal proof repository; versioned CI checks of selected formal source | Model weight replacement, runtime loading/completeness of all KuuOS, universal output correctness, automatic or unauthorized actions |
-| Infinite/Stage-II/universal mapping | Several specifically conditional or one-way factorization and descent statements | Unconditional infinite convergence, uniform normalization bound, global universal mapping equivalence without typed admissibility hypotheses |
+| `v4.00–v5.36` | Presentation/label-sensitive localization, exact universal structures, one-way admissibility conditions and explicit obstructions | Automatically inverting conditional implications or treating all raw presentations as identical |
+| `v5.37–v5.101` | Unchanged original actual-lift `F/G/η/ε`, non-strict selected quasi-inverse, two separately proved swallowtails, [v5.101 coherent biadjunction](formal/KUOS/DependentOriginationCoherentBiadjunctionActualLiftV5_101.lean) | Replacing all non-strict original choices by strict identities |
+| `v5.102–v5.154` | Native mate/adjunction operations, independent F19/F28 histories, finite normal forms, F45/F54 path rotations and F55 presented higher source | Unconditional lift of arbitrary new comparison 3-arrows into the old F55 grammar |
+| `v5.155–v5.212` | Actual C60 60/90/32 geometry, original proof-relevant F42/F43 and F54/F55 source constructors, physical signed nonflatness, appropriately typed F47 mixed/local `NatIso` and BC comparisons | A fully faithful global *raw original* F42/F54/F55 Gray 3-category, unconditional physical patch descent, or removal of original curvature |
+| `v5.213–v5.228` | Verified finite C60 atlas/Čech/curved descent criteria, native quasicategory/nerve/face-choice bridges and original source interchanger in their declared conditional types | A universal unqualified equivalence between every original patch, or new `Δ` in the original nine F55 constructors |
+| **`v5.229–v5.233 / F75–F79`** | Deliberately **new** strict-charge target and phase-forgetting `Mathlib CategoryTheory.Quotient`, full original-C60 path-indexed F78 strict **globular** certificate, equivalence to charge groupoid | Original nontrivial Gray exchange being the identity before projection; entire raw source being a globally strict original 3-category |
+| **`v5.234–v5.239 / F80–F85`** | True quotient-Hom horizontal bifunctor, representative independence, middle-four and separately built direct/transported monoidal structure/equivalence | Equality of independently constructed tensorators merely from existence of an equivalence |
+| **`v5.240–v5.247 / F86–F93`** | Real tensorator difference/charge obstruction and four parity-pair classification, explicit section and chosen gauge; proven equality of the genuinely constructed F93 tensorators | Assuming arbitrary selected gauge/mediator 1-cochains vanish separately, or inferring original-phase restoration |
+| **`v5.248 / F94`** | At correct original C60 F51 Hom boundaries: `f ~ g ⇔ Qf = Qg ⇔ charge(f)=charge(g)` with **both independent integer coordinates**; horizontal/vertical categorical composition stability | Equality of all original raw 3-cell syntax or F42 witness objects |
+| **`v5.249 / F95`** | Real local categorical quotient and **unique universal factorization** of every replaceability-respecting observation `F`, at each actual parallel C60 path pair | Existence of a factorization for an observer that does not respect replaceability; global cross-patch descent |
+| **`v5.250 / F96`** | Genuine horizontal local quotient Mathlib bifunctor, identity, middle-four, F77 charge/structure compatibility | Full raw original F42 horizontal object equality |
+| **`v5.251 / F97`** | Genuine vertical 2-context local quotient bifunctor, identity, middle-four, F77/F78 compatibility | Distinct original F42 vertical/raw words being equal before observation |
+| **`v5.252 / F98`** | Genuine `NatIso` between **observed** horizontal-after-vertical and vertical-after-horizontal functors on **four independently indexed local quotient inputs**; comparison has zero additional integer charge | A raw F42 source object equality, F55 lift, or global original Gray interchange restoration |
+| **`v5.253 / F99`** | Genuine left/right original C60 path-context whiskering functors descended through F95 `UniversalLift`; F77 comparison `NatIso` with zero additional charge | All two-sided whiskering orders proven coherent, all contexts uniformly glued, or all runtime reasoning validated |
 
-**Historical sections 2–11** retain the precise earlier theorem references through v5.154; their earlier “next” descriptions are **historical**, not the current research frontier. The live proof frontier is in **sections 12–14 below**. A declared theorem type and its dependencies are the authority, not a version suffix, a PR title, or an uncited narrative. The v5.57 triangle-level certificate predates the separately verified actual swallowtail closure at v5.101.
+**Current central theorem relation.** For correctly typed original F51 three-arrows `f,g`, the relation below is an exact F94/F95 Lean result, with `charge` taking values in `Int × Int`:
+
+\[
+  f\sim_{\rm kuu}g
+  \quad\Longleftrightarrow\quad
+  Q(f)=Q(g)
+  \quad\Longleftrightarrow\quad
+  \operatorname{charge}(f)=\operatorname{charge}(g).
+\]
+
+Each original path pair `p,q` has an actual quotient category `\mathcal K(p,q)`. For any functor `F : \mathcal P(p,q)\to D` **respecting** this equivalence, `F=\bar F\circ Q` for a **unique** `\bar F`. This formalizes replaceability without erasing valid charges or assuming all observations are equivalent.
+
+**C60 geometry constraints:** 60 genuine vertices; 90 physical edges; 12 pentagons and 20 hexagons (32 faces). A four-flag incidence square at an edge is not an original polygonal square. Original F55 north signed curvature remains nonzero; the F47 adjoined correction `Δ=(0,1;0)` is not generated by the old nine F55 constructors, and the north mixed comparison's second charge **−5** is not set to zero. A vanishing global oriented surface sum does not imply local flatness.
+
+**Reading the older ledger:** sections **2–12** are retained to preserve source-level mathematical provenance through **v5.212**, including their historical “open next” language. Treat those phrases as **historical** rather than today's frontier. The authoritative **current** completion and OPEN tasks are sections **13–15**. Version names like “F51” recur under different stage prefixes; identify claims by full `v5.x`, file/declaration and PR.
+
+---
 
 ## 2. Obstruction, localization and exact classification foundations — v4.00–v5.36
 
@@ -279,7 +287,7 @@ Representative Lean:
 
 **Mathematical boundary through F57:** F55 gives distinct proof-relevant finite pentagon and square paths and a freely presented Type-valued higher generator, while F56 shows F44/whole-axis-history observation alone is NOT faithful to raw high-dimensional witnesses. F57 constructs actual C60 pentagon-edge incidence flags, geometric-to-F55 signed route labelling, two independent finite depth-aware square route orders and **5-cycle corner-flag gluing**. C60 has no quadrilateral polygon faces; these square flags are in the vertex–face incidence carrier. Shared corner flags do not imply equal adjacent hexagon faces, nor actual external Gray/tricategory 3-cell coherences. Separate original right mate/η/ε realization and independent higher target comparison remain open.
 
-## 12. v5.155–v5.207: C60 / F58–F59 completed local theorem ledger
+## 12. v5.155–v5.212: C60 / F58–F61 historical original-source theorem ledger
 
 The F58/F59 programme has multiple **independent verified theorem scopes**. “Completed” below means the exact named Lean construction, not closure of the unbounded original-Gray 3-category research agenda. Physical C60 has **60V / 90E / 32F = 12 pentagons + 20 hexagons**; its edge-local 2-by-2 incidence **flag squares are not extra polygon faces**.
 
@@ -314,71 +322,125 @@ The F58/F59 programme has multiple **independent verified theorem scopes**. “C
 
 **Source/target calculus:** The actual F43 interchange between distinct left-first/right-first original F42 face 2-cell words is a **nontrivial typed 3-arrow**, not an equation erasing those witnesses. In v5.199 new horizontal and vertical 3-arrow constructors were **added**, not recovered as if they had existed in the earlier F43 language. The complete target is an additive native Gray 3-cell with `Int×Int` charges and separate `ZMod 2` phase. Equality only after forgetting raw original F42 evidence is **not** a proof of source-level identical witnesses.
 
-## 13. Next formal frontier: v5.213 / F59-F61-C (four-context pentagon and genuine neighbor patch compatibility)
 
-**Verified latest stage: v5.212 / F59-F61-B1–B4 PR #2227 MERGED**. Exact PR source HEAD `4d47ba03604bf07673c7045de06883568f199024` and theorem merge SHA `a22e74750058b160d7c3d26e238106730b40ffb9`. [CI #38324672374](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38324672374) completed SUCCESS: 9025/9025, warnings/errors 0, 13 new `#print axioms`, no `sorryAx` or new axioms, Governance/MCP Lean/CI receipts all SUCCESS. Three successive independent genuine original F42/F54/F55 contexts and the TWO Mathlib BC pasting parenthesizations are coherent as LEFT and RIGHT source-level NatIso in the adjoined F47 four-tag full-native-kernel quotient, at all 90 actual C60 edges with their two real polygon faces. **NEXT:** prove the distinct FOUR-context pentagon of higher BC pastings and meaningful gluing/obstruction compatibility on NEIGHBORING physical C60 incidence patches. Original F55 curvature remains nonzero and old-nine F55 `Δ` nonlift persists. No raw original global Gray 3-equivalence or unconditional descent has been proved.
+## 13. Verified quotient/replaceability programme — v5.213–v5.253
 
-1. **Source associator/unitor — FIRST STAGE PROVED in #2202.** Newly adjoined comparison generators have exactly indexed original F42 source/target face witnesses and genuine C60 path `comp_assoc`/`nil_comp`/`comp_nil` reindexing. Further work: typed interaction with every original F42 whiskering context and the independent F54/F55 generators. These constructions are not old F43 cells and are not grade-only equalities.
-2. **Associator and both unitor naturalities — PROVED in #2202 on F52 3-Hom.** Naturality holds for every F52 morphism under the new horizontal Mathlib bifunctor and dependent 1-path reindexing, hence includes the faithful F51 image; exact proof uses `Quot.inductionOn` / `Quot.sound` and independent full Gray charge/phase. The additional 2-context vertical interchange and mixed F54/F55 effects require their own correctly typed comparison data.
-3. **Pentagon and triangle — SOURCE-3-ARROW QUOTIENT COHERENCE PROVED in #2206.** The four F42 face 2-cell terms are genuine proof-relevant objects, and the two-vs-three associator 3-arrow routes and associator/left-unitor vs right-unitor triangle are explicitly built with correct dependent C60 boundaries. Their equalities are established **in F52's full-native-kernel 3-Hom quotient**, not as raw source 3-word syntactic equalities. Full global original F54/F55 compatibility remains unproved.
-4. **Gray interchange/whiskering — F43 NATURAL TRANSFORMATION PROVED in #2208.** Original F43 interchange iso, naturality and right-first F52 horizontal Mathlib bifunctor retain the nonidentity north phase; F53 pentagon and triangle are preserved in the right-first context. Further mixed two-dimensional context/whiskering with the original F54/F55 source still requires typed global coherence and cannot be inferred from equality of native target values.
-5. **Mixed F54/F55 original boundaries — 180 LOCAL ORIGINAL BRIDGES PROVED in #2208.** Each original C60 physical edge and both independently typed incident polygon faces admits the existing F47 mixed source square: the F52 arrow is truly the old original F43 source interchange; the separate original F54/F55 rotation source arrow has the uniquely calibrated native value through newly adjoined `Δ=(0,1;0)`. Further target-level transport, higher naturality, and global coherent source gluing remain OPEN; the original F55 nine-generator source still cannot express `Δ`.
-6. **C60 all-edge locality and descent.** Preserve every genuine four flag at each physical edge, distinct incident faces, signed pentagon/hexagon boundary, and **nonzero** north local curvature; distinguish a global 32-face cancellation from genuine local flatness/descent.
-7. **v5.205 F56 and v5.206 F57 local cocycles/contextuality — PROVED IN #2213 AND #2215.** Same-F54 source 3-Hom face-choice roundtrip and three-chart NatIso; independent original F42/F54 route-type cross-context fully faithful functors, generalized three-route cocycle NatIso, and original F55 context no-lift. Valid only in the explicitly ADJOINED F47 full-native-kernel source quotient; does not imply original unquotiented raw source identification or local geometric flatness.
-8. **v5.207 F58 original C60 incidence and contextual face-choice interchange — PROVED IN #2217.** Genuine original-F42/F54 left and right Beck–Chevalley source NatIso with explicit dependent Hom transport; physical 90-edge × exactly 2 incident faces specialization, distinct based face loops, four-flag incidence and nine-constructor F55 no-lift preserved. Not yet a raw all-original Gray-3-category equivalence or physical flat descent.
-9. **v5.208 F59-F59-A/B higher two-context Beck–Chevalley pasting — PROVED IN #2219.** Two independently original F42/F54 source whiskerings, both left and right, admit a typed Mathlib NatIso pasting with associators and full Hom naturality. All actual 90 C60 edges and two face bases are instantiated, and original F55 no-lift persists after two contexts. This is valid in the ADJOINED F47 full-native-kernel quotient, not raw unquotiented syntax.
-10. **v5.209 F59-F60-A/B source direct composition normalization — PROVED IN #2221.** Actual original F42 path `comp` and `comp_assoc` dependent cast, actual original F54/F55 `node` and exact two-axis F44 rebracketing, honest source full-Hom four-tag direct-vs-nested comparison and both LEFT/RIGHT NatIso, all real 90 physical C60 edges and both actual adjacent polygonal faces. The adjoined receiver Delta remains impossible in the original nine-constructor F55 source after either direct context.
-11. **v5.210 F59-F60-C original-source direct-vs-pasted BC — PROVED IN #2223.** The finite F47 four-tag directed raw generator rank yields uniqueness of full-native-kernel endomorphisms; the LEFT and RIGHT original-source NatIso for direct composition versus F59's two-stage BC pasting agree after the genuine F60 direct-vs-nested source normalization. All 90 real physical C60 edges and their two original distinct incident polygon bases are covered. Retain the nonzero north F55 curvature and Δ nonlift. Not a claim of raw-source Gray 3-equivalence.
-12. **v5.211 F59-F61-A — PROVED IN #2225.** Three independently typed original F42 C60 Quiver.Paths, full Gray source preservation, original F54/F55 three-tree `node` and exact two-dimensional depth transports in the F44 source quotient.
+### 13.1 From finite C60 context to an intentional phase quotient (v5.213–v5.233)
 
-13. **v5.212 F59-F61-B1–B4 — PROVED IN #2227.** Real LEFT and RIGHT three-context original F42/F54/F55 source Beck–Chevalley pasting orders are actual Mathlib NatIso, and equal in F47's specified full-native-kernel quotient. All 90 real C60 physical edges and both distinct actual adjacent faces covered. NOT a full four-context pentagon or cross-patch descent.
-14. **v5.213 F59-F61-C — OPEN.** Four independent context steps and all Mac Lane pentagon routes with full original F42 path/F54 two-depth transports, plus meaningful adjacent-patch overlap transport and signed original F55 nonflat/descent obstruction.
-**Exit criteria:** exact Lean declarations with correct raw original indices; zero `sorryAx`/new axioms; full inherited axiom list; successful strict exact-head imported-closure CI and Governance/MCP receipts; no extra assumptions hidden in the raw source grammar. When an obligation is impossible, record the exact obstruction rather than weakening the theorem statement into grade-only equivalence.
+| Verified release | Distinct mathematical contribution | PR |
+| --- | --- | --- |
+| `v5.213–v5.217` | Actual original F47 dependent pasting; native quasicategories/Duskin-nerve bridges, C60 face-choice map and adjoining face-category equivalences with genuine finite incidence | [#2229](https://github.com/itakura-hidetoshi/KuuOS/pull/2229), [#2230](https://github.com/itakura-hidetoshi/KuuOS/pull/2230), [#2232](https://github.com/itakura-hidetoshi/KuuOS/pull/2232), [#2233](https://github.com/itakura-hidetoshi/KuuOS/pull/2233), [#2234](https://github.com/itakura-hidetoshi/KuuOS/pull/2234), [#2235](https://github.com/itakura-hidetoshi/KuuOS/pull/2235) |
+| `v5.218–v5.222` | Real signed C60 cochains/curvature and curvature-aware descent; 90-edge atlases, higher Čech coherence (including finite chains), and exact flatness/repair criteria | [#2236](https://github.com/itakura-hidetoshi/KuuOS/pull/2236), [#2237](https://github.com/itakura-hidetoshi/KuuOS/pull/2237), [#2238](https://github.com/itakura-hidetoshi/KuuOS/pull/2238), [#2239](https://github.com/itakura-hidetoshi/KuuOS/pull/2239), [#2240](https://github.com/itakura-hidetoshi/KuuOS/pull/2240) |
+| `v5.223–v5.227` | 360 actual flag incidence, Grothendieck/nerve and conditional C60 transport comparisons; **revised original typed 3-arrow-first F73** (the earlier F73 draft [#2245](https://github.com/itakura-hidetoshi/KuuOS/pull/2245) was not merged) | [#2241](https://github.com/itakura-hidetoshi/KuuOS/pull/2241)–[#2244](https://github.com/itakura-hidetoshi/KuuOS/pull/2244), [#2246](https://github.com/itakura-hidetoshi/KuuOS/pull/2246) |
+| **`v5.228 / F74`** | Actual original F43 interchange as source-level typed three-arrow `Iso` and naturality, retained as historical/source comparison evidence | [#2247](https://github.com/itakura-hidetoshi/KuuOS/pull/2247) |
+| **`v5.229 / F75`** | Deliberately forget original independent Gray exchange phase in an **explicit strict-charge target**, preserving original `Int × Int` charges and nontrivial curvature | [#2248](https://github.com/itakura-hidetoshi/KuuOS/pull/2248) |
+| **`v5.230 / F76`** | Strict charge horizontal 3-arrow product and strict middle-four interchange | [#2249](https://github.com/itakura-hidetoshi/KuuOS/pull/2249) |
+| **`v5.231 / F77`** | Genuine Mathlib categorical **kernel congruence quotient** and universal phase-killing factorization, not merely a charge-only metaphor | [#2250](https://github.com/itakura-hidetoshi/KuuOS/pull/2250) |
+| **`v5.232 / F78`** | Real C60 60-vertex and directed `Quiver.Path` 0/1 carrier; grade-completed 2-cells/charge-sensitive 3-cells with proved strict **globular coherence certificate** | [#2251](https://github.com/itakura-hidetoshi/KuuOS/pull/2251) |
+| **`v5.233 / F79`** | Genuine `CategoryTheory.Equivalence` between the F77 native quotient and strict-charge groupoid | [#2252](https://github.com/itakura-hidetoshi/KuuOS/pull/2252) |
 
-## 14. Other open mathematical / runtime commitments
+These results explicitly distinguish: (a) original C60 proof terms; (b) adjoined mixed or higher source generators; (c) the grade-completed model; (d) the purposeful **new quotient**. Nothing in this programme claims that a nonidentity old Gray braiding was already an identity in its original domain.
 
-The following statements are **NOT** current unconditional Lean theorems: a full original globally nondegenerate C60/F42/F54/F55 Gray 3-category or equivalence to an external tricategory; arbitrary higher naturality/pentagon of *all* original generating 3-cells; unrestricted presentation-independent descent across varying original atlases; a uniform infinite-depth normalization bound or continuum limit; an unconditional higher universal mapping equivalence; correctness of a deployed interactive KuuOS LLM runtime.
+### 13.2 Genuine quotient tensor and canonical comparison (v5.234–v5.247)
 
-The intended higher universal mapping schema remains a **research target**, not a proved generic equivalence:
+| Stage | Proved object and morphism data | PR |
+| --- | --- | --- |
+| **F80 · v5.234** | Quotient-Hom tensor defined by `Quot.liftOn₂`, both representative-independence proofs, real bifunctor and strict middle-four | [#2253](https://github.com/itakura-hidetoshi/KuuOS/pull/2253) |
+| **F81 · v5.235** | Mathlib quotient monoidal coherence, associator/unit equations | [#2254](https://github.com/itakura-hidetoshi/KuuOS/pull/2254) |
+| **F82 · v5.236** | Genuine transported-vs-direct quotient tensor `NatIso`, naturality in every quotient Hom | [#2255](https://github.com/itakura-hidetoshi/KuuOS/pull/2255) |
+| **F83 · v5.237** | Independent `MonoidalCategory` on the direct quotient, pentagon/triangle | [#2256](https://github.com/itakura-hidetoshi/KuuOS/pull/2256) |
+| **F84 · v5.238** | Strong-monoidal quotient-to-charge comparison over F79 equivalence | [#2257](https://github.com/itakura-hidetoshi/KuuOS/pull/2257) |
+| **F85 · v5.239** | Monoidal equivalence of separately built transported/direct quotient monoidal structures | [#2258](https://github.com/itakura-hidetoshi/KuuOS/pull/2258) |
+| **F86–F89 · v5.240–v5.243** | Comparison tensorator/obstruction on *actual* quotient Hom, transport charge identities, full four `ZMod 2 × ZMod 2` grade-pair classification | [#2259](https://github.com/itakura-hidetoshi/KuuOS/pull/2259)–[#2262](https://github.com/itakura-hidetoshi/KuuOS/pull/2262) |
+| **F90 · v5.244** | Explicit zero-phase section of native quotient-charge equivalence, object and Hom roundtrip | [#2263](https://github.com/itakura-hidetoshi/KuuOS/pull/2263) |
+| **F91 · v5.245** | Genuine selected-vs-canonical inverse `NatIso` and explicit gauge comparison | [#2264](https://github.com/itakura-hidetoshi/KuuOS/pull/2264) |
+| **F92 · v5.246** | Selected-unit gauge, additive coboundary and mediated-correction charge decomposition; do not assume chosen gauge vanishes | [#2265](https://github.com/itakura-hidetoshi/KuuOS/pull/2265) |
+| **F93 · v5.247** | Actual F85 mediated tensorator charge calculation and **comparison tensorator equality** on all original F77 quotient objects; zero total obstruction without setting each gauge term to zero | [#2266](https://github.com/itakura-hidetoshi/KuuOS/pull/2266) |
 
-~~~text
-AdmissibleContextualSystems(C, X) ~ Fun(DO(C,W,J,H), X)
-~~~
+Core proof API: `c60F77Projection_exactKernel`, `c60F80QuotientThreeTensor_middleFour`, `c60F82TransportedVsF80TensorNatIso`, `c60F90Section_rightMap`, `c60F93AllTensorators_agree`. Read the fully qualified Lean declarations in the corresponding source files before relying on their assumptions and domains.
 
-The v5.153 F56 original observation factorization no-go and v5.196 original phase-locked `Δ` obstruction must not be discarded by silently changing source types. Compare multiple presentations using actual transports, prove compatibility and descent only where hypotheses hold, otherwise retain the obstruction.
+### 13.3 空 as genuine Kuu replacement and composition (v5.248–v5.253)
 
-Interpretations of original five-elements (五行), three-yin-three-yang/six-qi, four-image (四象), three powers (三才), 10 heavenly stems, 12 earthly branches, 24 solar terms, 64 hexagrams, He Tu/Luo Shu, Wang Bi and classical philosophical notions remain **model-specific formal maps or research programmes**; a symbolic correspondence alone does not establish unrestricted native tricategorical functoriality or medical validity. Verify individual Lean declarations and domain-specific evidence.
+| Stage / file | Proved real categorical statement | PR |
+| --- | --- | --- |
+| **F94 / [`DependentOriginationC60KuuReplacementInterchangeV5_248.lean`](formal/KUOS/DependentOriginationC60KuuReplacementInterchangeV5_248.lean)** | `c60F94Replaceable_iff_charges`; replacement equivalence on correctly typed original F51 3-Homs and source horizontal/vertical categorical stability, F78/F93 comparisons | [#2267](https://github.com/itakura-hidetoshi/KuuOS/pull/2267) |
+| **F95 / [`DependentOriginationC60KuuLocalUniversalDescentV5_249.lean`](formal/KUOS/DependentOriginationC60KuuLocalUniversalDescentV5_249.lean)** | `C60F95LocalKuuQuotient`, `c60F95Universal_existsUnique`; real local category quotient with universal factorization for any **replaceability-respecting** observer | [#2268](https://github.com/itakura-hidetoshi/KuuOS/pull/2268) |
+| **F96 / [`DependentOriginationC60KuuLocalHorizontalFunctorV5_250.lean`](formal/KUOS/DependentOriginationC60KuuLocalHorizontalFunctorV5_250.lean)** | `c60F96LocalHorizontalFunctor`; genuine local-quotient **horizontal** bifunctor with middle-four; exact F77 tensor observation | [#2269](https://github.com/itakura-hidetoshi/KuuOS/pull/2269) |
+| **F97 / [`DependentOriginationC60KuuLocalVerticalFunctorV5_251.lean`](formal/KUOS/DependentOriginationC60KuuLocalVerticalFunctorV5_251.lean)** | `c60F97LocalVerticalFunctor`; independently constructed local-quotient **vertical two-context** bifunctor with strict Hom functoriality and F77/F78 observation | [#2270](https://github.com/itakura-hidetoshi/KuuOS/pull/2270) |
+| **F98 / [`DependentOriginationC60KuuObservedMixedInterchangeV5_252.lean`](formal/KUOS/DependentOriginationC60KuuObservedMixedInterchangeV5_252.lean)** | `c60F98ObservedMixedNatIso`; four-input **observed** horizontal/vertical mixed interchange, with `c60F98ObservedMixedNatIso_charge_zero`, retaining distinct raw F42 output presentations | [#2271](https://github.com/itakura-hidetoshi/KuuOS/pull/2271) |
+| **F99 / [`DependentOriginationC60KuuContextWhiskeringDescentV5_253.lean`](formal/KUOS/DependentOriginationC60KuuContextWhiskeringDescentV5_253.lean)** | `c60F99LeftWhiskerFunctor` and `c60F99RightWhiskerFunctor` by F95 universal descent; separate genuine observed left/right `NatIso` with zero *additional* `Int × Int` charge | [#2272](https://github.com/itakura-hidetoshi/KuuOS/pull/2272) |
 
-## 15. Engineering discipline / exact-head workflow
+The observation hierarchy, not raw proof-term equality, is the constructive result:
 
-- Re-observe fresh exact authoritative `main` SHA and PR source HEAD. **Docs-only** commits move `main` but do not add theorem statements.
-- Keep pinned Lean `v4.30.0-rc2` and mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`. **Never merge** protected Lean-4.31-only PR [#1558](https://github.com/itakura-hidetoshi/KuuOS/pull/1558).
-- Distinguish actual `F/G/η/ε`, F19 chosen mates, independent F28 quotient, real C60 flag squares, original F42/F43 source, original F54/F55 source, **adjoined** F47/F51 generators and the F49 grade-completed target.
-- In dependent Lean 4 constructions use exact types, explicit symbolic Nat transports, correctly oriented mate/whiskering equalities, `Quot.inductionOn`/`Quot.sound` **only after exposing raw representatives**, and typed `congrArg` projection equalities. Review **whole changed files**, not only the first CI error.
-- Avoid `sorry`/`admit`/new axioms. Count `#print axioms` and differentiate the ordinary Lean trio from inherited `native_decide` dependencies. Zero changed-file warnings/errors is a separate gate.
-- Cache and rebuild only selected affected imported closure where safe. A selected Strict Lean CI result does **not** prove unrelated runtime, UX, GitHub search index completeness or an entire LLM's behavior.
-- Merge only after **exact-head GREEN** and full Governance, MCP Lean and MCP CI receipts. Verify actual PR CLOSED/MERGED, merge SHA, re-observed `main` and intact protected #1558. Failure/obstruction stays Draft with factual explanation.
+```text
+REAL C60 original F51 path-indexed 3-Hom presentations
+        |  exact F94 kernel: equality of both integer charges
+        v
+F95 real local Kuu categorical quotient + universal factorization
+        |                     |
+        | F96 horizontal      | F97 vertical 2-context
+        +-----------+---------+
+                    v
+          F77/F78 observable typed quotient
+                    |
+              F98 observed mixed NatIso
+                    |
+         F99 left/right context functors + observed NatIso
+```
 
-## 16. Reproduction / 再現
+**Positive information is retained.** The original 3-arrow charge pair is not zeroed. F98's and F99's *comparison* isomorphisms contribute **zero extra charge**. This is not the same as forcing all physical C60 curvature or all source generators to vanish.
 
-The latest theorem-bearing baseline is **v5.207 / F59-F58-A/B**, [PR #2217](https://github.com/itakura-hidetoshi/KuuOS/pull/2217), theorem-bearing merge SHA `88ff04cd6d3bfe5e6ad2f335b4f6b40aefe5e4fe`. The v5.206/F57 cocycle [#2215](https://github.com/itakura-hidetoshi/KuuOS/pull/2215) and earlier v5.205/F56 [#2213](https://github.com/itakura-hidetoshi/KuuOS/pull/2213) are mathematical ancestors; Apache-2.0 licensing [#2210](https://github.com/itakura-hidetoshi/KuuOS/pull/2210) remains unchanged. Documentation-only commits are not theorem-bearing SHA updates.
+## 14. Next genuine proof frontier — F100 and successors (OPEN)
 
-~~~bash
-git clone https://github.com/itakura-hidetoshi/KuuOS.git KuuOS-repro
-cd KuuOS-repro
-git checkout 88ff04cd6d3bfe5e6ad2f335b4f6b40aefe5e4fe
+**F100 / v5.254 — two-sided path-context interchange.** Use *actual* C60 directed paths for both context operations. Compare the actions of applying a true left prefix and a true right suffix in both orders, with correct dependent `Quiver.Path` boundaries. Where the two original proof-relevant F42 objects remain distinct, construct a genuine naturally typed comparison **after F77 observation**, not a false raw equality. Show naturality for arbitrary F95 Hom arrows and zero *additional* charge using F99's left/right observed `NatIso` and the exact F77 quotient kernel. Do not silently replace genuine path transport by numerical grade equality.
+
+**F101+ — compatibility of F98 with path contexts and finite atlases.** Whisker the *four-input* F98 observed mixed interchange with left/right F99/F100 contexts and prove coherence squares/2-cell comparisons, then finite sequences of contexts with associator/path-dependent casts. Reuse the proved F80 tensor and F77/F78 semantics; preserve distinguished original source witness types.
+
+**Patch-gluing and obstruction programme.** Compare genuinely overlapping C60 polygonal incidence patches (all physical edge flag data when required), prove exact descent *under stated hypotheses*, and retain signed F55 curvature/obstruction where flatness fails. Physical `−5` north comparison and the mixed `Δ` non-lift are not optional artifacts to erase. Prove an obstruction-free result only for explicitly constructed admissible cases; never infer unconditional gluing from global oriented cancellation or from F95's universal property alone.
+
+**Exit criterion for any new theorem:** fresh exact canonical source SHA; a complete explicit Lean statement and proof; strict exact-HEAD target compilation; 0 changed-file diagnostics; `#print axioms` audit with no `sorryAx`/new unreviewed axiom; Governance and both MCP receipts SUCCESS; PR merged and post-merge canonical SHA reobserved. Unproved work stays Draft/OPEN.
+
+**Not a current requirement:** **reconstruct the old raw Gray structure**. The original nontrivial interchange and its historical results remain available for source comparison and failure diagnostics. The working mathematical object is the deliberately constructed *new quotient*, not a demand to resurrect a vanished phase.
+
+## 15. Further OPEN scope and runtime constraints
+
+- **Formal mathematics:** no unrestricted equality of original F42/F54/F55 raw witness trees or a globally faithful unquotiented original Gray 3-category; no unconditional F55 generator lift for newly adjoined `Δ`; no complete arbitrary finite physical-patch gluing; no universal infinite-depth convergence theorem or unconditional higher mapping equivalence.
+- **Philosophical and natural-system maps:** five elements (五行), 陰陽/四象/三陰三陽・六気, 三才, 十干・十二支, 24節気, 64卦, 河図洛書, 王弼・老子・内経 and related systems have model-specific historical constructions and intended research interpretations. They are **not** automatically proved universal categorical equivalences or clinical/physical laws. Check their exact Lean theorem statements and independent empirical evidence.
+- **KuuOS runtime:** `LLM + KuuOS reasoning runtime + formal authority layer` is an integration objective. Proof compilation does not modify foundation-model weights, certify that the entire repository is in a conversation model, or authorize external actions. Deployments require version-bound proof access, consent boundaries, real end-to-end tests and error/obstruction reporting.
+- **Formal discipline:** preserve the distinction between original actual `F/G/η/ε`, independent F19 and F28 axes, C60 real geometry, historical original Gray/F55 source, **adjoined** source comparators, and the intentional phase-quotient `F75–F99`. Do not infer claims about one carrier from equalities in a different quotient.
+- **One-way statement retained from earlier localization:** `exact DO₂ presentation ⇒ higher stack-localization factorization ⇒ higher localization factorization ⇒ weak W-admissibility`. No unrestricted converse is supplied.
+
+## 16. Engineering workflow and reproduction
+
+**GitHub authority & PR safety**
+
+1. Fetch fresh `main`, exact PR source HEAD, and original-file blob SHAs. Read the full dependent Lean file and actual pinned mathlib API before modifying a proof.
+2. Keep canonical Lean `v4.30.0-rc2` / mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`. The different Lean-4.31 [PR #1558](https://github.com/itakura-hidetoshi/KuuOS/pull/1558) is **validation-only, OPEN/DRAFT, do not merge**.
+3. Use exact source and target types, genuine `Quiver.Path` transports, explicit source contexts, Lean `Quot.sound`/`Quot.inductionOn` at the correct congruence closure, and correctly oriented monoidal/naturality lemmas. Avoid `sorry`, `admit` and unreviewed axioms.
+4. Compile changed imported closure under `warningAsError=true` and `sorryAsError=true`. For every principal new theorem, inspect `#print axioms` and distinguish ordinary axioms from inherited geometric `native_decide`. Prefer cached unaffected dependencies without representing a cache hit as proof.
+5. Wait for exact-source-head **Strict Lean + Governance + MCP Lean + MCP CI** receipts, merge only after GREEN and audit, reobserve canonical `main`. Do **not** describe a docs-only merge SHA as a new mathematical frontier.
+
+**Reproduce the last theorem-bearing result (v5.253/F99)**
+
+```bash
+git clone https://github.com/itakura-hidetoshi/KuuOS.git
+cd KuuOS
+git checkout 07d09c67eea1e49714248535465929da606ac618
 cat lean-toolchain
+lake exe cache get   # when no pinned mathlib cache has been restored
 lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build \
-  KUOS.DependentOriginationGrayC60F55OriginalContextBeckChevalleyV5_207 \
-  KUOS.DependentOriginationGrayC60F55PhysicalIncidenceBeckChevalleyV5_207
-~~~
+  KUOS.DependentOriginationC60KuuContextWhiskeringDescentV5_253
+```
 
-[Exact-head CI #38293817765](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38293817765) confirmed **9012/9012**, changed Lean warnings/errors **0/0**, **16 `#print axioms`** with no `sorryAx`/new axioms; Strict Lean, Governance and both MCP receipts **all SUCCESS**. Covers selected source-aware F47 mixed Beck–Chevalley and original C60 physical incidence modules, not a global raw all-original F42/F54/F55 Gray 3-category or unconditional descent.
+[Exact source-head CI #38536067934](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38536067934) completed SUCCESS: **9065/9065**, zero changed-file diagnostics, twelve printed axiom lists with no `sorryAx`; Governance and both MCP completion receipts SUCCESS.
 
-~~~bash
-# Independent broader build / runtime smoke test, NOT implied by the selected CI:
+Independently check a broader project and the runtime (neither is implied by F99's selected formal CI):
+
+```bash
 lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KuuOSFormal
 PYTHONPATH=. python3 runtime/kuuos_current_check.py
-~~~
+```
 
-See [README.md](README.md), [GOVERNANCE.md](GOVERNANCE.md), [CITATION.cff](CITATION.cff), [LICENSE](LICENSE), [NOTICE](NOTICE), and [COPYRIGHT.md](COPYRIGHT.md). **Copyright © 2026 Hidetoshi Itakura / 板倉英俊; licensed under Apache-2.0.** Covered material may be adapted, redistributed and used commercially under Apache 2.0; these copyright permissions do not certify proof correctness or authorize medical, institutional, or runtime actions.
+See [README](README.md), [GOVERNANCE](GOVERNANCE.md), [CITATION](CITATION.cff), [LICENSE](LICENSE), [NOTICE](NOTICE), [COPYRIGHT](COPYRIGHT.md).
+
+**Copyright © 2026 Hidetoshi Itakura / 板倉英俊. Licensed under Apache-2.0.** Open-source usage permission does not imply formal theorem scope, empirical correctness, clinical authorization, or permission for external automated actions.
