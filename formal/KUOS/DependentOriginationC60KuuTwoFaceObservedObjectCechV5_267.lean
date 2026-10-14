@@ -4,6 +4,7 @@ namespace KUOS.DependentOriginationC60KuuTwoFaceObservedObjectCechV5_267
 
 open CategoryTheory
 open KUOS.DependentOriginationIcosahedralTruncationSeedV3_84
+open KUOS.DependentOriginationTruncatedIcosahedralEdgesV3_85
 open KUOS.DependentOriginationGrayBraidedThreeCellCoreV5_156
 open KUOS.DependentOriginationGrayNativeBraidedCategoryV5_156
 open KUOS.DependentOriginationGrayC60PresentedInterchangerV5_191
@@ -31,7 +32,7 @@ original physical F69 edge stars has matching **two integer charges**
 for the concrete F108/v5.265 both-face star semantics. This module
 addresses the distinct, still-open F77 OBSERVED OBJECT agreement.
 
-Each separate original five-/six-gon F42 physical face generator has
+Each separate original pentagonal or hexagonal F42 physical face generator has
 degree one in ZMod 2, while the two different physical generators in
 each correct original F42 horizontal composite have total degree ZERO.
 The F51 native Gray interpretation and the F77 quotient therefore
@@ -73,13 +74,14 @@ theorem c60F109BothFaceObservedObject_isUnit
     (c60F106PhysicalObserved
         (c60F108BothFacePatchFamily C)
         (c60F109BothFaceSingletonSemantics C) I i hi).obj X =
-      (GrayGrade.unit : C60F77NativeQuotient) := by
+      (⟨⟨(0 : ZMod 2)⟩⟩ : C60F77NativeQuotient) := by
   change
-    (⟨c60F43FaceDegree
+    (⟨⟨c60F43FaceDegree
       (c60F108BothFaceWalkingObject C i
-        (c60F108OriginalIncidenceStage X.1)).original⟩ : GrayGrade) =
-      GrayGrade.unit
-  exact congrArg GrayGrade.mk
+        (c60F108OriginalIncidenceStage X.1)).original⟩⟩ :
+        C60F77NativeQuotient) = ⟨⟨(0 : ZMod 2)⟩⟩
+  exact congrArg
+    (fun d : ZMod 2 => (⟨⟨d⟩⟩ : C60F77NativeQuotient))
     (c60F109BothFaceWalkingObject_degree_zero C i _)
 
 /-- Original patch-index choices change the actual source physical
@@ -97,7 +99,7 @@ theorem c60F109BothFaceObservedObjects_agree
         (c60F108BothFacePatchFamily C)
         (c60F109BothFaceSingletonSemantics C) I j hj).obj X := by
   calc
-    _ = (GrayGrade.unit : C60F77NativeQuotient) :=
+    _ = (⟨⟨(0 : ZMod 2)⟩⟩ : C60F77NativeQuotient) :=
       c60F109BothFaceObservedObject_isUnit C I i hi X
     _ = _ :=
       (c60F109BothFaceObservedObject_isUnit C I j hj X).symm
