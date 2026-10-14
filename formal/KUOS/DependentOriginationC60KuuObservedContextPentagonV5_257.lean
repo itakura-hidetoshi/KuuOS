@@ -401,7 +401,12 @@ def c60F103TripleSequentialBundledNatIso
           (c60F103TripleBundledObserved A B C p q).map f
       apply c60F80QuotientThree_ext
       simp only [c60F80QuotientThree_comp_charge,
-        c60F82Quotient_eqToHom_charge_zero, add_zero, zero_add]
+        c60F82Quotient_eqToHom_charge_zero, add_zero]
+      change
+        (c60F77QuotientToStrictCharge.map
+          ((c60F103TripleSequentialObserved A B C p q).map f)).charge =
+        (c60F77QuotientToStrictCharge.map
+          ((c60F103LeftObserved ((A.comp B).comp C)).map f)).charge
       exact (c60F103TripleSequential_charge A B C f).trans
         (c60F103LeftObserved_charge ((A.comp B).comp C) f).symm)
 
