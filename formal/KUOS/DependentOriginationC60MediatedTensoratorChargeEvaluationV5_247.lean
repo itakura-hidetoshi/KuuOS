@@ -287,6 +287,84 @@ theorem c60F93MediatedCharge_composition
           (c60F85TransportedToCharge.functor.obj X)
           (c60F85TransportedToCharge.functor.obj Y))).charge + q) h)
 
+
+/-- COMPLETE evaluation of the actual F85-mediated strong
+monoidal tensorator. The exact selected gauge appears TWICE at
+the product grade, and negatively at both input grades, as forced
+by the ORIGINAL F81 transport and F84 inverse-monodial coherence. -/
+theorem c60F93MediatedCharge_evaluated
+    (X Y : C60F85TransportedQuotient) :
+    c60F92MediatedCharge X Y =
+      c60F92ChosenGaugeCharge (c60F80QuotientTwoTensor X Y) -
+        c60F92ChosenGaugeCharge X - c60F92ChosenGaugeCharge Y +
+        c60F92ChosenGaugeCharge (c60F80QuotientTwoTensor X Y) := by
+  letI : c60F85TransportedToCharge.functor.Monoidal :=
+    c60F85TransportedToChargeForwardMonoidal
+  letI : c60F85ChargeToDirect.functor.Monoidal :=
+    c60F85ChargeToDirectForwardMonoidal
+  rw [c60F93MediatedCharge_composition X Y,
+    c60F93DirectInverseMu_charge
+      (c60F85TransportedToCharge.functor.obj X)
+      (c60F85TransportedToCharge.functor.obj Y),
+    c60F93TransportedForwardMuCharge X Y]
+  have hX := c60F92GaugeCharge_factorsThroughGrade X
+  have hY := c60F92GaugeCharge_factorsThroughGrade Y
+  have hXY :=
+    c60F92GaugeCharge_factorsThroughGrade
+      (c60F80QuotientTwoTensor X Y)
+  rw [hX, hY, hXY]
+  change
+    (c60F92GaugeGrade (X.as.degree + Y.as.degree) -
+        c60F92GaugeGrade X.as.degree -
+        c60F92GaugeGrade Y.as.degree) +
+      c60F92GaugeGrade (X.as.degree + Y.as.degree) =
+    c60F92GaugeGrade (X.as.degree + Y.as.degree) -
+        c60F92GaugeGrade X.as.degree -
+        c60F92GaugeGrade Y.as.degree +
+      c60F92GaugeGrade (X.as.degree + Y.as.degree)
+  rfl
+
+/-- F92's full gauge-corrected F85/F82 obstruction actually
+vanishes IN BOTH independent INTEGER CHARGE COORDINATES.
+This is a theorem about the PHASE-QUOTIENT's explicitly chosen
+monoidal structures; it says nothing about restoring the
+original nontrivial raw Gray exchange. -/
+theorem c60F93ObstructionCharge_zero
+    (X Y : C60F77NativeQuotient) :
+    c60F89ObstructionCharge X Y = (0 : Int × Int) := by
+  rw [c60F92Obstruction_charge_gauge_expansion,
+    c60F92TransportedTensorObj_eq_direct,
+    c60F93MediatedCharge_evaluated]
+  abel
+
+/-- The ORIGINAL F85 strong monoidal IDENTITY tensorator is
+COMPONENTWISE the inverse of the independently proved F82
+natural tensor comparison on EVERY true F77 quotient pair.
+F86's potential obstruction has been discharged WITHOUT
+assuming any cancellation or quotient of F58 charges. -/
+theorem c60F93AllTensorators_agree :
+    ∀ X Y : C60F77NativeQuotient,
+      (c60F86F85IdentityTensoratorIso X Y).hom =
+        (c60F81TransportedVsOriginalQuotientTensorIso X Y).inv := by
+  intro X Y
+  apply (c60F86TensoratorObstruction_components_zero_iff X Y).mpr
+  exact c60F93ObstructionCharge_zero X Y
+
+/-- Consequently all four original F89 parity-pair obstruction
+charges are zero as a theorem, not merely a four-case hypothesis. -/
+theorem c60F93AllFourGradeObstructions_zero :
+    c60F89GradePairCharge 0 0 = (0 : Int × Int) ∧
+    c60F89GradePairCharge 0 1 = (0 : Int × Int) ∧
+    c60F89GradePairCharge 1 0 = (0 : Int × Int) ∧
+    c60F89GradePairCharge 1 1 = (0 : Int × Int) :=
+  c60F89AllTensoratorsEqual_iff_fourGradeChargesZero.mp
+    c60F93AllTensorators_agree
+
+#print axioms c60F93MediatedCharge_evaluated
+#print axioms c60F93ObstructionCharge_zero
+#print axioms c60F93AllTensorators_agree
+#print axioms c60F93AllFourGradeObstructions_zero
+
 #print axioms c60F93MediatedMu_composition
 #print axioms c60F93MediatedCharge_composition
 
