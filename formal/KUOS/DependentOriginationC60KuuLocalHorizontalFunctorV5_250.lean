@@ -68,12 +68,12 @@ def c60F96HorizontalThree
       apply (c60F95Projection_map_eq_iff _ _).mpr
       exact c60F94Replaceable_horizontal
         (c60F94Replaceable_refl rf)
-        ((c60F95LocalReplacementKernel_iff rg₁ rg₂).mp h))
+        ((c60F95Projection_map_eq_iff rg₁ rg₂).mp (Quot.sound h)))
     (by
       intro rf₁ rf₂ rg h
       apply (c60F95Projection_map_eq_iff _ _).mpr
       exact c60F94Replaceable_horizontal
-        ((c60F95LocalReplacementKernel_iff rf₁ rf₂).mp h)
+        ((c60F95Projection_map_eq_iff rf₁ rf₂).mp (Quot.sound h))
         (c60F94Replaceable_refl rg))
 
 /-- On original C60 presentations the new horizontal tensor is
