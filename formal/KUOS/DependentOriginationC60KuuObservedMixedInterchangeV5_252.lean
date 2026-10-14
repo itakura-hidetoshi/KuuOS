@@ -152,7 +152,21 @@ theorem c60F98HorizontalAfterVerticalMap_charge
   rw [c60F96HorizontalThree_toF77,
       c60F97VerticalThree_toF77,
       c60F97VerticalThree_toF77]
-  simp only [c60F80QuotientThreeTensor_charge]
+  exact
+    (c60F80QuotientThreeTensor_charge
+      (c60F80QuotientThreeTensor
+        ((c60F95DescendedToF77 p q).map f)
+        ((c60F95DescendedToF77 q r).map f'))
+      (c60F80QuotientThreeTensor
+        ((c60F95DescendedToF77 s t).map g)
+        ((c60F95DescendedToF77 t u).map g'))).trans
+      (congrArg₂ (fun x y : Int × Int => x + y)
+        (c60F80QuotientThreeTensor_charge
+          ((c60F95DescendedToF77 p q).map f)
+          ((c60F95DescendedToF77 q r).map f'))
+        (c60F80QuotientThreeTensor_charge
+          ((c60F95DescendedToF77 s t).map g)
+          ((c60F95DescendedToF77 t u).map g')))
 
 /-- Observed charge of vertical-after-horizontal; the order of
 the same four conserved charges is the only change. -/
@@ -179,7 +193,21 @@ theorem c60F98VerticalAfterHorizontalMap_charge
   rw [c60F97VerticalThree_toF77,
       c60F96HorizontalThree_toF77,
       c60F96HorizontalThree_toF77]
-  simp only [c60F80QuotientThreeTensor_charge]
+  exact
+    (c60F80QuotientThreeTensor_charge
+      (c60F80QuotientThreeTensor
+        ((c60F95DescendedToF77 p q).map f)
+        ((c60F95DescendedToF77 s t).map g))
+      (c60F80QuotientThreeTensor
+        ((c60F95DescendedToF77 q r).map f')
+        ((c60F95DescendedToF77 t u).map g'))).trans
+      (congrArg₂ (fun x y : Int × Int => x + y)
+        (c60F80QuotientThreeTensor_charge
+          ((c60F95DescendedToF77 p q).map f)
+          ((c60F95DescendedToF77 s t).map g))
+        (c60F80QuotientThreeTensor_charge
+          ((c60F95DescendedToF77 q r).map f')
+          ((c60F95DescendedToF77 t u).map g')))
 
 /-- The actual FOUR-ARROW middle-four square commutes between
 both different original pasting orders AFTER F77 descent.
