@@ -406,7 +406,7 @@ def c60F103TripleSequentialBundledNatIso
         (c60F77QuotientToStrictCharge.map
           ((c60F103TripleSequentialObserved A B C p q).map f)).charge =
         (c60F77QuotientToStrictCharge.map
-          ((c60F103LeftObserved ((A.comp B).comp C)).map f)).charge
+          ((c60F103LeftObserved ((A.comp B).comp C) p q).map f)).charge
       exact (c60F103TripleSequential_charge A B C f).trans
         (c60F103LeftObserved_charge ((A.comp B).comp C) f).symm)
 
