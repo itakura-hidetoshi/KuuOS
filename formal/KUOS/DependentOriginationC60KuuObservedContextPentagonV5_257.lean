@@ -400,16 +400,29 @@ def c60F103TripleSequentialBundledNatIso
               (c60F103LeftObserved_object ((A.comp B).comp C) X).symm) ≫
           (c60F103TripleBundledObserved A B C p q).map f
       apply c60F80QuotientThree_ext
-      have hcharge :
+      calc
+        (c60F77QuotientToStrictCharge.map
+          ((c60F103TripleSequentialObserved A B C p q).map f ≫
+            eqToHom
+              ((c60F103TripleSequential_object A B C Y).trans
+                (c60F103LeftObserved_object ((A.comp B).comp C) Y).symm))).charge =
           (c60F77QuotientToStrictCharge.map
-            ((c60F103TripleSequentialObserved A B C p q).map f)).charge =
+            ((c60F103TripleSequentialObserved A B C p q).map f)).charge := by
+              rw [c60F80QuotientThree_comp_charge,
+                  c60F82Quotient_eqToHom_charge_zero, add_zero]
+        _ =
           (c60F77QuotientToStrictCharge.map
-            ((c60F103TripleBundledObserved A B C p q).map f)).charge := by
-        exact (c60F103TripleSequential_charge A B C f).trans
-          (c60F103LeftObserved_charge ((A.comp B).comp C) f).symm
-      simpa only [c60F80QuotientThree_comp_charge,
-        c60F82Quotient_eqToHom_charge_zero, add_zero, zero_add]
-        using hcharge)
+            ((c60F103TripleBundledObserved A B C p q).map f)).charge :=
+              (c60F103TripleSequential_charge A B C f).trans
+                (c60F103LeftObserved_charge ((A.comp B).comp C) f).symm
+        _ =
+          (c60F77QuotientToStrictCharge.map
+            (eqToHom
+              ((c60F103TripleSequential_object A B C X).trans
+                (c60F103LeftObserved_object ((A.comp B).comp C) X).symm) ≫
+              (c60F103TripleBundledObserved A B C p q).map f)).charge := by
+              rw [c60F80QuotientThree_comp_charge,
+                  c60F82Quotient_eqToHom_charge_zero, zero_add])
 
 /-- Comparing three successive contexts to one bundled context
 introduces no added integer charge at any original F95 object. -/
