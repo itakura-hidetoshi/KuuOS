@@ -122,22 +122,14 @@ theorem c60F111PhysicalDoubleRefinement_transition_app
     (c60F111PhysicalTransition C I
       (c60F111RefineChart hJI (c60F111RefineChart hKJ i))
       (c60F111RefineChart hJI (c60F111RefineChart hKJ j))).hom.app X := by
-  calc
-    (c60F111PhysicalTransition C K i j).hom.app
+  apply c60F80QuotientThree_ext
+  exact
+    (c60F111PhysicalTransition_charge_zero C K i j
       ((c60F111RefinePhysicalOverlap C hKJ).obj
-        ((c60F111RefinePhysicalOverlap C hJI).obj X)) =
-      (c60F111PhysicalTransition C J
-        (c60F111RefineChart hKJ i)
-        (c60F111RefineChart hKJ j)).hom.app
-          ((c60F111RefinePhysicalOverlap C hJI).obj X) :=
-            c60F111Refinement_transition_app C hKJ i j
-              ((c60F111RefinePhysicalOverlap C hJI).obj X)
-    _ = (c60F111PhysicalTransition C I
-          (c60F111RefineChart hJI (c60F111RefineChart hKJ i))
-          (c60F111RefineChart hJI (c60F111RefineChart hKJ j))).hom.app X :=
-            c60F111Refinement_transition_app C hJI
-              (c60F111RefineChart hKJ i)
-              (c60F111RefineChart hKJ j) X
+        ((c60F111RefinePhysicalOverlap C hJI).obj X))).trans
+      (c60F111PhysicalTransition_charge_zero C I
+        (c60F111RefineChart hJI (c60F111RefineChart hKJ i))
+        (c60F111RefineChart hJI (c60F111RefineChart hKJ j)) X).symm
 
 /-- Arbitrarily many intermediate physical charts are permitted
 in EACH of K, J and I, with possibly unrelated chart histories
@@ -154,32 +146,29 @@ theorem c60F111PhysicalDoubleRefinement_anyHistories
     (historyI : List (C60F111PhysicalChart I))
     (X : C60F106PhysicalOverlap
       (c60F108BothFacePatchFamily C) I) :
-    (c60F111PhysicalTransitionChain C K i j historyK).app
-      ((c60F111RefinePhysicalOverlap C hKJ).obj
-        ((c60F111RefinePhysicalOverlap C hJI).obj X)) =
-    (c60F111PhysicalTransitionChain C I
-      (c60F111RefineChart hJI (c60F111RefineChart hKJ i))
-      (c60F111RefineChart hJI (c60F111RefineChart hKJ j))
-      historyI).app X := by
-  calc
-    (c60F111PhysicalTransitionChain C K i j historyK).app
+    ((c60F111PhysicalTransitionChain C K i j historyK).app
       ((c60F111RefinePhysicalOverlap C hKJ).obj
         ((c60F111RefinePhysicalOverlap C hJI).obj X)) =
       (c60F111PhysicalTransitionChain C J
         (c60F111RefineChart hKJ i)
         (c60F111RefineChart hKJ j) historyJ).app
-          ((c60F111RefinePhysicalOverlap C hJI).obj X) :=
-            c60F111Refinement_anyHistory_app C hKJ i j
-              historyK historyJ
-              ((c60F111RefinePhysicalOverlap C hJI).obj X)
-    _ = (c60F111PhysicalTransitionChain C I
-          (c60F111RefineChart hJI (c60F111RefineChart hKJ i))
-          (c60F111RefineChart hJI (c60F111RefineChart hKJ j))
-          historyI).app X :=
-            c60F111Refinement_anyHistory_app C hJI
-              (c60F111RefineChart hKJ i)
-              (c60F111RefineChart hKJ j)
-              historyJ historyI X
+          ((c60F111RefinePhysicalOverlap C hJI).obj X)) ∧
+    ((c60F111PhysicalTransitionChain C J
+      (c60F111RefineChart hKJ i)
+      (c60F111RefineChart hKJ j) historyJ).app
+        ((c60F111RefinePhysicalOverlap C hJI).obj X) =
+      (c60F111PhysicalTransitionChain C I
+        (c60F111RefineChart hJI (c60F111RefineChart hKJ i))
+        (c60F111RefineChart hJI (c60F111RefineChart hKJ j))
+        historyI).app X) := by
+  constructor
+  · exact c60F111Refinement_anyHistory_app C hKJ i j
+      historyK historyJ
+      ((c60F111RefinePhysicalOverlap C hJI).obj X)
+  · exact c60F111Refinement_anyHistory_app C hJI
+      (c60F111RefineChart hKJ i)
+      (c60F111RefineChart hKJ j)
+      historyJ historyI X
 
 /-- Any original two-face F51-derived Čech history in K carries
 zero ADDITIONAL integer charge, including after two genuine
@@ -213,15 +202,25 @@ theorem c60F111AllNinetyPhysicalDoubleRefinement_anyHistories
     (historyI : List (C60F111PhysicalChart I))
     (X : C60F106PhysicalOverlap
       (c60F108BothFacePatchFamily c60F108AllNinetyBothFaces) I) :
-    (c60F111PhysicalTransitionChain
+    ((c60F111PhysicalTransitionChain
       c60F108AllNinetyBothFaces K i j historyK).app
         ((c60F111RefinePhysicalOverlap c60F108AllNinetyBothFaces hKJ).obj
           ((c60F111RefinePhysicalOverlap c60F108AllNinetyBothFaces hJI).obj X)) =
       (c60F111PhysicalTransitionChain
+        c60F108AllNinetyBothFaces J
+        (c60F111RefineChart hKJ i)
+        (c60F111RefineChart hKJ j) historyJ).app
+          ((c60F111RefinePhysicalOverlap c60F108AllNinetyBothFaces hJI).obj X)) ∧
+    ((c60F111PhysicalTransitionChain
+      c60F108AllNinetyBothFaces J
+      (c60F111RefineChart hKJ i)
+      (c60F111RefineChart hKJ j) historyJ).app
+        ((c60F111RefinePhysicalOverlap c60F108AllNinetyBothFaces hJI).obj X) =
+      (c60F111PhysicalTransitionChain
         c60F108AllNinetyBothFaces I
         (c60F111RefineChart hJI (c60F111RefineChart hKJ i))
         (c60F111RefineChart hJI (c60F111RefineChart hKJ j))
-        historyI).app X :=
+        historyI).app X) :=
   c60F111PhysicalDoubleRefinement_anyHistories
     c60F108AllNinetyBothFaces hJI hKJ i j historyK historyJ historyI X
 
