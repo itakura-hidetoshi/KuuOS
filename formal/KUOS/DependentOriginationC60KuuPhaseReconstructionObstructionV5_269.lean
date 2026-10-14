@@ -58,7 +58,13 @@ theorem c60F110UnitNativeExchange_projection_equal_identity :
     c60F77Projection.map (c60F77PhaseGenerator GrayGrade.unit) =
       c60F77Projection.map
         (𝟙 GrayGrade.unit : GrayGrade.unit ⟶ GrayGrade.unit) := by
-  rw [c60F77PhaseGenerator_collapses, Functor.map_id]
+  calc
+    c60F77Projection.map (c60F77PhaseGenerator GrayGrade.unit) =
+      𝟙 (c60F77Projection.obj GrayGrade.unit) :=
+        c60F77PhaseGenerator_collapses _
+    _ = c60F77Projection.map
+          (𝟙 GrayGrade.unit : GrayGrade.unit ⟶ GrayGrade.unit) :=
+        (c60F77Projection.map_id _).symm
 
 /-- A concrete Mathlib failure of injectivity on native Homs,
 not merely informal loss-of-information language. -/
@@ -112,31 +118,22 @@ theorem c60F110NoFullNativeLeftInverseFunctor :
     ¬ ∃ lift : C60F77NativeQuotient ⥤ GrayGrade,
       c60F77Projection ⋙ lift = 𝟭 GrayGrade := by
   rintro ⟨lift, hlift⟩
-  let X : GrayGrade := GrayGrade.unit
-  have hExchange :
-      lift.map (c60F77Projection.map
-        (c60F77PhaseGenerator X)) =
-          c60F77PhaseGenerator X := by
-    have heq := congrArg
-      (fun F : GrayGrade ⥤ GrayGrade =>
-        F.map (c60F77PhaseGenerator X)) hlift
-    simpa only [Functor.comp_map, Functor.id_map] using heq
-  have hIdentity :
-      lift.map (c60F77Projection.map (𝟙 X : X ⟶ X)) =
-        (𝟙 X : X ⟶ X) := by
-    have heq := congrArg
-      (fun F : GrayGrade ⥤ GrayGrade => F.map (𝟙 X : X ⟶ X)) hlift
-    simpa only [Functor.comp_map, Functor.id_map] using heq
-  have hEqual : c60F77PhaseGenerator X = (𝟙 X : X ⟶ X) := by
-    calc
-      c60F77PhaseGenerator X =
-        lift.map (c60F77Projection.map
-          (c60F77PhaseGenerator X)) := hExchange.symm
-      _ = lift.map (c60F77Projection.map (𝟙 X : X ⟶ X)) := by
-          exact congrArg (fun f => lift.map f)
-            c60F110UnitNativeExchange_projection_equal_identity
-      _ = (𝟙 X : X ⟶ X) := hIdentity
-  exact c60F110UnitNativeExchange_ne_identity hEqual
+  have hMapped :
+      (c60F77Projection ⋙ lift).map
+          (c60F77PhaseGenerator GrayGrade.unit) =
+        (c60F77Projection ⋙ lift).map
+          (𝟙 GrayGrade.unit : GrayGrade.unit ⟶ GrayGrade.unit) := by
+    change lift.map
+        (c60F77Projection.map (c60F77PhaseGenerator GrayGrade.unit)) =
+      lift.map
+        (c60F77Projection.map
+          (𝟙 GrayGrade.unit : GrayGrade.unit ⟶ GrayGrade.unit))
+    exact congrArg (fun f => lift.map f)
+      c60F110UnitNativeExchange_projection_equal_identity
+  rw [hlift] at hMapped
+  change c60F77PhaseGenerator GrayGrade.unit =
+    (𝟙 GrayGrade.unit : GrayGrade.unit ⟶ GrayGrade.unit) at hMapped
+  exact c60F110UnitNativeExchange_ne_identity hMapped
 
 /-- Genuine physical edge flags now provide a SPECIFIC witness
 of exactly the same information-loss principle: source native
