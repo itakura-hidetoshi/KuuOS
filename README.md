@@ -1,137 +1,138 @@
 # KuuOS / 空OS
 
-![KuuOS PR Governance Gate](https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/pr-governance-gate.yml/badge.svg)
-![Core Governance](https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/core_governance_validation.yml/badge.svg)
-![KuuOS Runtime Full Check](https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/kuuos_runtime_full_check.yml/badge.svg)
+[![KuuOS PR Governance Gate](https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/pr-governance-gate.yml/badge.svg)](https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/pr-governance-gate.yml)
+[![Core Governance](https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/core_governance_validation.yml/badge.svg)](https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/core_governance_validation.yml)
+[![KuuOS Runtime Full Check](https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/kuuos_runtime_full_check.yml/badge.svg)](https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/kuuos_runtime_full_check.yml)
 
-**KuuOS (空OS)** is a research architecture for **dependent origination (縁起), emptiness (空), replaceability of presentations, context-sensitive reasoning, higher categorical composition, exact universal properties, and obstruction-aware descent**. It is both a mathematical formalization project in Lean 4 and a separate research programme for reasoning/runtime integration.
+**KuuOS（空OS）** は、**空・縁起・関係・文脈・表現の交代可能性・高次圏論・obstruction-aware descent** を数学的に扱う研究体系です。Lean 4による形式化と、別途検証が必要なAI推論ランタイム研究の双方を含みます。
 
-**Founder and copyright holder:** Hidetoshi Itakura / 板倉英俊. **License:** [Apache License 2.0](LICENSE) (`Apache-2.0`); see [NOTICE](NOTICE) and [COPYRIGHT.md](COPYRIGHT.md). Open-source permission does not confer proof, scientific, medical, or execution authority.
+**研究・著作権者 / Founder and copyright holder:** **板倉英俊 / Hidetoshi Itakura**。ソースコード・文書のライセンスは [Apache License 2.0](LICENSE)（`Apache-2.0`）。[NOTICE](NOTICE)・[COPYRIGHT.md](COPYRIGHT.md)を参照してください。
 
-> **空 is needed because a description or representative must be replaceable without losing what is structurally justified.** Preservation is proved in a specified quotient and context; it is not an assertion that every raw description is identical.
+> **空は、異なる原表示を無条件に同一視することではない。** 文脈と保存量を明確にしたうえで、交換可能な表現を証明し、合成・輸送・貼り合わせが不整合ならその障害を残す。
 
-日本語：KuuOSは、観測や表現を実体視せず、**何を保存したまま表現を交代できるか**を型付きの関手・商圏・自然同型・普遍性で検証する研究体系です。合成・貼り合わせの整合性が成立する範囲を証明し、成立しない原表示に関してはその相違・曲率・障害を残します。
+English: KuuOS is a research architecture for dependent origination, context-dependent presentations, exact categorical quotients, presentation replaceability, compositional coherence, and obstruction-preserving descent. The mathematical results are versioned Lean declarations; runtime use and empirical validity require independent evidence.
 
-## Current verified formal status / Lean4正本 — v5.253 · F99 · 2026-10-14 JST
+## Verified formal frontier / Lean4の現在の正本
 
-| Item | Exact verified authority |
+**2026-10-14 JST 時点：`v5.261 / F107` まで統合済み。**
+
+| 検証項目 | 最新の確認済み権威 |
 | --- | --- |
-| Repository / canonical branch | [itakura-hidetoshi/KuuOS](https://github.com/itakura-hidetoshi/KuuOS) / `main` |
-| **Latest theorem-bearing PR** | **[#2272: v5.253 F99 — MERGED](https://github.com/itakura-hidetoshi/KuuOS/pull/2272)** |
-| **Theorem-bearing merge SHA** | **`07d09c67eea1e49714248535465929da606ac618`** (verified as `main` immediately after merge) |
-| Exact tested PR source HEAD | `b8886ed66dd58212c4c5a6c541cb55a5a0452bb5` |
-| Exact-head CI | [run #38536067934](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38536067934), **completed SUCCESS** |
-| Lean target | `KUOS.DependentOriginationC60KuuContextWhiskeringDescentV5_253`, **9065/9065** build jobs |
-| Strict Lean / governance / MCP receipts | Strict job `115759230335`, governance `115760073452`, MCP Lean `115760073353`, MCP CI `115760132127`: **all SUCCESS** |
-| Audit of new module | **12 `#print axioms`**; `sorryAx` absent; changed Lean file warning/error **0/0**. Inherited native `native_decide` axioms for C60 finite geometry are disclosed, not classified as new axioms. |
-| Pinned toolchain | [Lean `v4.30.0-rc2`](lean-toolchain); mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6` in [`lake-manifest.json`](lake-manifest.json) |
-| Separate validation-only lane | [PR #1558](https://github.com/itakura-hidetoshi/KuuOS/pull/1558): Lean 4.31, **OPEN / DRAFT / NOT MERGED**; do not merge into the authoritative lane |
+| Repository / canonical branch | [`itakura-hidetoshi/KuuOS`](https://github.com/itakura-hidetoshi/KuuOS) / `main` |
+| **最新 theorem-bearing PR** | **[PR #2281 — v5.261 F107, MERGED](https://github.com/itakura-hidetoshi/KuuOS/pull/2281)** |
+| **Theorem-bearing merge SHA** | **`62f878a739a3288174e8d1b68a754f8d9e239d73`**（PRマージ後に`main`との一致を確認） |
+| Exact tested source HEAD | `cc8e26d5049b849a403eb76b9878e2a89000cb9f` |
+| Exact-head proof CI | [GitHub Actions #38571374255](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38571374255) — **completed SUCCESS** |
+| Strict Lean target | `KUOS.DependentOriginationC60KuuOriginalIncidenceWordLiftV5_261` — **9073/9073 jobs SUCCESS** |
+| Governance / MCP | Strict Lean・Governance・MCP Lean completion・MCP CI completion **全SUCCESS** |
+| Changed-file audit | **warning/error 0/0**、**10 `#print axioms`**、**`sorryAx`なし** |
+| Pinned versions | [Lean `v4.30.0-rc2`](lean-toolchain)、[mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`](lake-manifest.json) |
+| Separate verification only | [PR #1558 — Lean 4.31](https://github.com/itakura-hidetoshi/KuuOS/pull/1558): **OPEN / DRAFT / NOT MERGED**。正本へマージしない |
 
-**Important SHA rule:** This is the **last theorem-bearing** merge verified when this documentation was written. A subsequent documentation-only merge will move `main`, without proving a new theorem. Always observe the live canonical HEAD and the exact imported Lean declarations before asserting newer mathematical results. A CI SUCCESS is for the *selected target/dependency closure*, not proof that every repository module or deployed runtime works.
+**Authority rule:** その時点の実`main` HEAD → 正確なLean定理・依存ファイル → 文書 → 同じsource HEADのCI・証跡 → 履歴、の順に確認してください。README・ROADMAPだけの更新でも`main` SHAは動きますが、**数学的theorem-bearing SHAは変わりません**。選択したLeanモジュールのCI成功は、リポジトリ全体・実行環境・AIモデルの検証を意味しません。`#print axioms`には通常の`propext`、`Classical.choice`、`Quot.sound`のほか、初期C60有限幾何に由来する`native_decide`の公理依存が含まれる場合があります。これらを`sorryAx`や新しく導入した未審査公理と混同しないでください。
 
-## Core mathematical idea / 空・縁起・交代可能性
+## 空＝型付きの表現交代可能性 / Mathematical core
 
-Let `Q` be an authentic categorical quotient and let `f,g` be **parallel, correctly source- and target-typed original C60 three-arrows** in F51. The F94/F95 replaceability criterion is:
+F94–F95では、真正のC60経路`p,q`に沿う**平行な原F51の3射**`f,g`について、意図的に構成されたF77商圏への観測`Q`が
 
 \[
-  f\sim_{\mathrm{kuu}}g
-  \quad\Longleftrightarrow\quad Q(f)=Q(g)
-  \quad\Longleftrightarrow\quad
-  \operatorname{charge}(f)=\operatorname{charge}(g)\in\mathbb Z\times\mathbb Z.
+\boxed{
+f\sim_{\mathrm{kuu}}g
+\iff Q(f)=Q(g)
+\iff \operatorname{charge}(f)=\operatorname{charge}(g)
+\in\mathbb{Z}\times\mathbb{Z}
+}
 \]
 
-This is **not** an equality of all original raw F42/F43 or F54/F55 words. The two independent integer charge coordinates survive; the independent exchange phase is intentionally forgotten **only after** taking F77's genuine kernel-congruence quotient. Neither the original source's historical Gray data nor its nonzero physical curvature is retroactively set to zero.
+を満たします。**二つの独立した整数荷電は消去されません。** 元の交換位相（`ZMod 2`）は**この明示的な商圏に写した後にだけ**忘却されます。異なる原F42/F43やF54/F55の証明項が元の型で同じになるわけではありません。
 
-F95 makes this a real Mathlib categorical universal property. For each original C60 pair of parallel paths `p,q`, write `\mathcal P(p,q)` for the F51 source three-Hom category and `\mathcal K(p,q)` for its Kuu quotient. Every functor `F` that respects F94-replaceability factors **uniquely**:
+また各経路対に対するF95の真正の圏商`Q_{p,q}: \mathcal P(p,q)\to\mathcal K(p,q)`は、F94の交代可能性を保存する観測関手に対して**一意の因子化**を持ちます。
 
 \[
-  Q_{p,q}:\mathcal P(p,q)\to\mathcal K(p,q),
-  \qquad
-  F=\overline F\circ Q_{p,q},\qquad \exists!\,\overline F .
+F=\overline F\circ Q_{p,q},\qquad \exists!\,\overline F
+\quad\text{（`F`が交代可能性を保存する場合）}.
 \]
 
-The hypothesis “`F` respects replaceability” matters. Universality is **not** unconditional agreement among arbitrary representations, nor is local descent already global geometric gluing.
+この仮定は本質的です。局所的な一意因子化だけから、異なる物理パッチ間の無条件な大域貼り合わせは導けません。
 
-### C60: actual geometry, distinct raw sources, strict quotient target
+### 証明対象の区別 / Do not collapse the layers
 
-- The truncated-icosahedral C60 carrier has **60 actual vertices, 90 physical edges and 32 polygon faces** (**12 pentagons, 20 hexagons**). A physical edge's four vertex/incident-face flags are *incidence data*, **not** a fabricated quadrilateral C60 face. Actual `Quiver.Path` endpoints and original F42 face witness terms remain typed.
-- Original F42/F43 faces, original F54/F55 bracket-tree rotation paths, and newly **adjoined** F47 mixed comparisons/F51 source generators are distinct constructions. Do not silently equate different raw source types.
-- F55's original signed north-pentagon curvature is **nonzero**, and the calibration `Δ=(0,1;0)` is an adjoined mixed comparison not produced by its original nine constructors. The relevant north mixed comparison has second integer charge **−5**. Global oriented face-sum cancellation does not establish local flatness.
-- The F75–F83 *new phase-forgetting quotient* supports strict middle-four and monoidal coherence on its stated graded/quotient carriers. F78's four-level globular certificate preserves real C60 0/1-paths while its 2-cell carrier is **grade-completed**; it does not claim a globally faithful unquotiented original F42/F54/F55 strict or Gray 3-category.
+| 層 | 証明・操作できること | 誤って主張しないこと |
+| --- | --- | --- |
+| 原C60幾何 | **60頂点、90物理辺、32実多角形面（12五角形、20六角形）**、360入射旗標、真正の有向`Quiver.Path` | 入射旗標の`K₂,₂`四角形を新たなC60表面の正方形面とみなすこと |
+| 原F42/F43/F51/F54/F55 | 型付き2射・3射の原表示と独立した位相・荷電・曲率 | 異なる原構文を無条件に等置すること、既存のF43に無かったF51の追加生成子を過去に遡って同一視すること |
+| F75–F83、F94–F107 | 二成分荷電の真正`CategoryTheory.Quotient`、F95局所商圏と普遍性、水平・垂直合成、観測後の自然同型、条件付きdescent | F77の一致を元の全F42/F55位相保存同値や無条件の物理的hyperdescentとみなすこと |
+| 実物理曲率 | F68の符号付き2-cochain、局所非平坦性、必要な非ゼロ修復 | 全32面の有向和がゼロであることから個々の五角形・六角形が平坦だと推論すること |
 
-### Proof milestones / 現在の定理階層
+**明示的なobstruction:** 元の北五角形の第2整数荷電は**`−5`**です。F77観測後の比較射が追加荷電ゼロでも、この原F55物理曲率は消えません。修復を使うならF68の非ゼロ補正を明示的に扱う必要があります。
 
-| Versions / PRs | What Lean actually proves |
+## Formal milestones / 証明済みの主要段階
+
+| 範囲 / PR | Lean4で証明した到達点（その型と仮定の範囲内） |
 | --- | --- |
-| **v4.00–v5.101** | Presentation-sensitive obstructions/exact localization, original actual `F/G/η/ε` and *separately proved* forward and reverse swallowtails; the F5 coherent biadjunction carrier in [v5.101](formal/KUOS/DependentOriginationCoherentBiadjunctionActualLiftV5_101.lean). |
-| **v5.102–v5.154** | Native adjunction/mates, independent F19/F28 histories, finite multi-axis interchanges and chosen-mate normal forms; F45/F54 rotation paths and independent F55 three-cell presentation. |
-| **v5.155–v5.212** | Real C60 incidence/cochain and physical obstructions, F42/F43 and F54/F55 source-aware constructions; conditional F47 mixed comparisons, genuinely typed source Hom and earlier Beck–Chevalley higher pasting. These remain historical theorems and do not require restoring Gray. |
-| **v5.213–v5.228** | Finite C60 atlases and Čech/categorical nerve/face-choice developments, curved/descent conditions, graded original-source interchanger; see [ROADMAP](ROADMAP.md) for the verified local/conditional scope. |
-| **v5.229–v5.233 · [#2248–#2252](https://github.com/itakura-hidetoshi/KuuOS/pull/2248)** | **F75–F79**: explicit strict charge target, original-source phase-forgetting relation, genuine Mathlib `CategoryTheory.Quotient`, real C60 path-indexed globular certificate, equivalence of the quotient and charge groupoid. |
-| **v5.234–v5.239 · [#2253–#2258](https://github.com/itakura-hidetoshi/KuuOS/pull/2253)** | **F80–F85**: horizontal product of genuine quotient Hom classes (independent of representatives), middle-four, transported and direct `MonoidalCategory` coherence and monoidal equivalence. |
-| **v5.240–v5.247 · [#2259–#2266](https://github.com/itakura-hidetoshi/KuuOS/pull/2259)** | **F86–F93**: independently constructed comparison tensorators, exact charge-obstruction classification, explicit phase-zero section, selected inverse gauge, coboundary calculation, and F93's proved **tensorator equality**. No unjustified assumption that the selected gauge is zero. |
-| **v5.248 / F94 · [#2267](https://github.com/itakura-hidetoshi/KuuOS/pull/2267)** | Original F51 source three-arrow **replaceability iff both integer charges agree**; stability under categorical/2-context horizontal composition and connection to F78/F93. |
-| **v5.249 / F95 · [#2268](https://github.com/itakura-hidetoshi/KuuOS/pull/2268)** | **Local universal quotient** of every actual C60 path-indexed F51 three-Hom: exact kernel, real Mathlib congruence/quotient, unique factorization into arbitrary target categories for replaceability-respecting functors. |
-| **v5.250 / F96 · [#2269](https://github.com/itakura-hidetoshi/KuuOS/pull/2269)** | Genuine **horizontal bifunctor** on two F95 local Kuu quotient categories, unit/middle-four, agreement with F80. |
-| **v5.251 / F97 · [#2270](https://github.com/itakura-hidetoshi/KuuOS/pull/2270)** | Genuine **vertical 2-context bifunctor** on local Kuu quotients, unit/middle-four, agreement with F77/F78. |
-| **v5.252 / F98 · [#2271](https://github.com/itakura-hidetoshi/KuuOS/pull/2271)** | Four independently indexed local quotient inputs: horizontal-after-vertical versus vertical-after-horizontal yield a genuine **Mathlib `NatIso` after F77 observation**; comparison adds zero integer charge. Distinct raw F42 output objects are *not* identified. |
-| **v5.253 / F99 · [#2272](https://github.com/itakura-hidetoshi/KuuOS/pull/2272)** | Real LEFT/RIGHT C60 path whiskering **descends to local Kuu quotient functors** through F95 universality. Both resulting F77 observation comparisons are genuine natural isomorphisms of **zero additional charge**, for arbitrary typed quotient morphisms. |
+| v4.00–v5.101 | presentation-sensitiveな局所化と障害、原`F/G/η/ε`、独立したforward/reverse swallowtail、[v5.101 coherent biadjunction](formal/KUOS/DependentOriginationCoherentBiadjunctionActualLiftV5_101.lean) |
+| v5.102–v5.154 | Native mates/adjunction、独立したF19/F28軸、有限合成・原F45/F54/F55の構成 |
+| v5.155–v5.228 | 真正のC60幾何・F42/F51/F55入射と曲率、有限アトラス・Čech・nerveの条件付き結果 |
+| [F75–F93 / #2248–#2266](https://github.com/itakura-hidetoshi/KuuOS/pull/2266) | 独立位相を忘却するF77圏商、F78 globular certificate、F80の商Hom tensor、モノイダル整合性、F93の比較tensorator等式 |
+| [F94–F95 / #2267–#2268](https://github.com/itakura-hidetoshi/KuuOS/pull/2268) | 正しい原F51境界上の荷電による交代可能性、真正の局所`CategoryTheory.Quotient`と普遍因子化 |
+| [F96–F99 / #2269–#2272](https://github.com/itakura-hidetoshi/KuuOS/pull/2272) | F95水平・垂直双関手、4入力F98観測交換`NatIso`、F99左右`whiskering`関手の局所商圏へのdescent |
+| [F100 / #2274](https://github.com/itakura-hidetoshi/KuuOS/pull/2274) | 左→右と右→左の実C60文脈順序をF77観測後に`NatIso`で比較。原F42の異なる括弧は同一視しない |
+| [F101 / #2275](https://github.com/itakura-hidetoshi/KuuOS/pull/2275) | 4入力の文脈化された水平／垂直交換`NatIso`の可換四角形を自然変換の等式として証明 |
+| [F102 / #2276](https://github.com/itakura-hidetoshi/KuuOS/pull/2276) | 4入力の二重文脈順序LR/RLと水平／垂直HV/VHによる比較四角形の高次整合性 |
+| [F103 / #2277](https://github.com/itakura-hidetoshi/KuuOS/pull/2277) | 4経路の**観測後五角形整合性**、ゼロ追加荷電自然変換の一意性、F102比較経路の高次一意性 |
+| [F104 / #2278](https://github.com/itakura-hidetoshi/KuuOS/pull/2278) | **同一原経路対上**の有限左右文脈アトラスで厳密Čech 1-cocycle、任意長経路独立性、基準観測への比較と追加荷電障害 |
+| [F105 / #2279](https://github.com/itakura-hidetoshi/KuuOS/pull/2279) | **異なる実C60物理辺**のF95局所圏を**与えられた重なり圏・制限関手**で比較。`Int × Int`差のcocycle、条件付き貼り合わせと非ゼロ障害、北五角形曲率の保持 |
+| [F106 / #2280](https://github.com/itakura-hidetoshi/KuuOS/pull/2280) | F69の真正の**入射スター有限交差圏**、部分集合による制限関手、共有頂点・共有実多角形面の存在証明。F95意味論は明示的な追加データ |
+| **[F107 / #2281](https://github.com/itakura-hidetoshi/KuuOS/pull/2281)** | 原F42の対象ラベル・型付き原F51の射語を与え、**二成分荷電の単位律・合成律からF95意味論関手を構成**。原F51への持ち上げには別途`ZMod 2`位相整合性を要求し、原F42境界次数と位相合成の障害を証明 |
 
-The F94–F99 proof-bearing files, in increasing order, are:
+特に最近のtheorem-bearingファイルは次のとおりです（各リンクは実際のLeanソース）。
 
-- [F94: replaceability](formal/KUOS/DependentOriginationC60KuuReplacementInterchangeV5_248.lean)
-- [F95: universal local quotient](formal/KUOS/DependentOriginationC60KuuLocalUniversalDescentV5_249.lean)
-- [F96: horizontal bifunctor](formal/KUOS/DependentOriginationC60KuuLocalHorizontalFunctorV5_250.lean)
-- [F97: vertical bifunctor](formal/KUOS/DependentOriginationC60KuuLocalVerticalFunctorV5_251.lean)
-- [F98: mixed observable NatIso](formal/KUOS/DependentOriginationC60KuuObservedMixedInterchangeV5_252.lean)
-- [F99: path-context whiskering descent](formal/KUOS/DependentOriginationC60KuuContextWhiskeringDescentV5_253.lean)
+- [F100 — 二方向の観測順序](formal/KUOS/DependentOriginationC60KuuTwoSidedContextCoherenceV5_254.lean)
+- [F101 — 文脈化4入力交換](formal/KUOS/DependentOriginationC60KuuContextualMixedInterchangeSquareV5_255.lean)
+- [F102 — 二重文脈と交換の四角形](formal/KUOS/DependentOriginationC60KuuFourInputDoubleContextCoherenceV5_256.lean)
+- [F103 — 観測五角形と一意性](formal/KUOS/DependentOriginationC60KuuObservedContextPentagonV5_257.lean)
+- [F104 — 有限文脈Čech](formal/KUOS/DependentOriginationC60KuuFiniteContextCechDescentV5_258.lean)
+- [F105 — 異なる物理パッチ間の荷電障害](formal/KUOS/DependentOriginationC60KuuPhysicalOverlapObstructionV5_259.lean)
+- [F106 — 真正C60入射重なりと制限](formal/KUOS/DependentOriginationC60KuuActualIncidenceOverlapRefinementV5_260.lean)
+- **[F107 — 原F42/F51の型付き語からのKuu意味論](formal/KUOS/DependentOriginationC60KuuOriginalIncidenceWordLiftV5_261.lean)**
 
-## Reasoning architecture / LLMへの接続は別途検証
+詳細な歴史・公理・未解決課題は **[ROADMAP.md](ROADMAP.md)** を参照してください。
 
-The intended reasoning discipline is:
+## What remains open / 次の数学的課題
 
-```text
-observation -> local presentation(s) -> alternative compatible inferences
-            -> typed transport/whiskering -> comparison (2-/3-cells)
-            -> descent test
-                 coherent: glue (only within proved assumptions)
-                 not coherent: retain obstruction and provenance
-                 inadequate authority: re-observe / abstain
-```
+**F108以降は未証明の計画です。** 現時点でF107は、物理入射圏の各対象への原F42ラベル、各射への型付き原F51語、および二成分荷電の整合性を**条件として受け取り**F95意味論を構成します。これらの入力を**任意の真正C60入射圏から自動的に作れる**という定理はまだありません。
 
-The proposed application stack is **LLM + KuuOS reasoning runtime + formal authority layer**. The Lean repository is a versioned authority for *specified formal mathematics*, not proof that model weights have changed, that an app has loaded the whole repository, or that all generated answers/real-world actions are correct. The actual runtime, consent boundaries, retrieval/composition with pinned artifacts and end-to-end tests are independent engineering obligations.
+次の研究軸は、実C60の`vertex → edge → polygon face`旗標（三角形）の原F42/F51語を具体的に構成し、その荷電・位相・F55境界を照合することです。成立すればF106の幾何学的制限とF107の原構文意味論をさらに接続できます。成立しない場合は、次数不一致・位相・符号付きF55曲率をobstructionとして記録します。**全C60物理表面の無条件global glue、原F55の一般的な高次同値、無条件hyperdescentは未証明です。**
 
-## Reproduce the current formal result / 正本の再検証
+**Old Grayを復元することは本研究ルートの前提ではありません。** 元のGray位相はソース診断として保存し、空による交代可能性は**指定された商圏と正確な保存量**について証明します。
 
-The following is the exact **theorem-bearing** baseline, not a later documentation-only `main` merge:
+## Reasoning route and runtime boundary / 推論OSとの関係
+
+`observation → context/presentation → multiple inference paths → typed transport → 2-/3-cell comparison → compatibility check → descent or obstruction → authority check → minimal action → re-observation`
+
+研究上のランタイム構成案は **`LLM + KuuOS reasoning runtime + formal authority layer`** です。Leanの定理が正しいことは、モデルの重み・対話システム・バックグラウンドエージェントの挙動が変わったこと、全リポジトリが実際に取り込まれたこと、臨床的・物理的・倫理的正当性が検証されたことを意味しません。結合実装は、正本SHAへの固定、明示的な権限・同意境界、観測と推測の区別、継続的な実測・再検証を別途必要とします。
+
+## Reproduce the F107 theorem-bearing result / 形式証明の再現
 
 ```bash
 git clone https://github.com/itakura-hidetoshi/KuuOS.git
 cd KuuOS
-git checkout 07d09c67eea1e49714248535465929da606ac618
+git checkout 62f878a739a3288174e8d1b68a754f8d9e239d73
 cat lean-toolchain
-lake exe cache get   # needed when pinned Mathlib cache is not already present
+lake exe cache get  # 必要な場合のみ、固定mathlibに対応するキャッシュを取得
 lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build \
-  KUOS.DependentOriginationC60KuuContextWhiskeringDescentV5_253
+  KUOS.DependentOriginationC60KuuOriginalIncidenceWordLiftV5_261
 ```
 
-The selected v5.253 exact-head [CI #38536067934](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38536067934) successfully compiled **9065/9065** dependency jobs; the final changed file had **zero warning/error** and its twelve printed axiom dependencies contained **no `sorryAx`**. Some inherited C60 finite-geometry results rely on Lean-generated `native_decide` axioms; disclose them when making foundational claims.
+[PR #2281のexact-source-head CI #38571374255](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38571374255) は **9073/9073 SUCCESS**。追加ファイルのwarning/error 0/0、10件の`#print axioms`に`sorryAx`なし。Lean・Governance・MCP Lean/CI完了証跡は成功しています。
 
-Independently, the broader repository target and runtime smoke test may be run as separate checks (their success is **not implied** by the selected CI):
+別の検証範囲である全形式化ターゲットや推論ランタイムを調べる場合は、それぞれ独立に実行してください（上記CIによる成功の保証はありません）。
 
 ```bash
 lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KuuOSFormal
 PYTHONPATH=. python3 runtime/kuuos_current_check.py
 ```
 
-## Active frontier / 次の証明と実装
+参照 / References: [ROADMAP](ROADMAP.md) · [GOVERNANCE](GOVERNANCE.md) · [CITATION](CITATION.cff) · [LICENSE](LICENSE) · [NOTICE](NOTICE) · [COPYRIGHT](COPYRIGHT.md)。
 
-1. **F100 — two-sided path-context coherence**: compare applying actual left and right whiskering in both orders, with genuine dependent C60 path casts, functor/natural-isomorphism coherence and zero *additional* `Int × Int` charge **after appropriate F77 observation**.
-2. **F101+ — contextual mixed interchange / finite-patch gluing**: connect F98's four-input observed exchange with F99/F100 contextual actions; construct finite atlas comparisons with exact path/source indices. Preserve meaningful F55 signed-curvature and Δ non-lift obstructions instead of assuming unconditional flatness.
-3. **Formal/runtime boundary**: make any claimed interactive reasoning integration reproduce the pinned Lean authorities, justify context transport and preserve rejection/obstruction states; evaluate empirically before claiming deployed behavior.
-
-**Explicit non-goal:** **do not restore original Gray merely for its own sake**. The original Gray work remains a historical/source diagnostic; the current constructive route is the **Kuu quotient's representation replaceability, its exact universal property, and compositional coherence**. A full raw F42/F54/F55 equivalence, unrestricted global higher descent, infinite-depth convergence and runtime correctness are **not** established by the present theorems.
-
-Further evidence: [ROADMAP](ROADMAP.md) · [GOVERNANCE](GOVERNANCE.md) · [CITATION](CITATION.cff) · [LICENSE](LICENSE) · [NOTICE](NOTICE) · [COPYRIGHT](COPYRIGHT.md).
-
-**Copyright © 2026 Hidetoshi Itakura / 板倉英俊. Licensed under Apache-2.0.**
+**Copyright © 2026 Hidetoshi Itakura / 板倉英俊. Apache-2.0.**
