@@ -72,7 +72,6 @@ theorem c60F117LocalizationPaths_triangle :
           (⊤ : MorphismProperty C60F69PhysicalCellSite)) := by
   refine Paths.ext_functor rfl ?_
   intro X Y f
-  simp only [eqToHom_refl, Category.id_comp, Category.comp_id]
   rcases f with f | ⟨g, hg⟩
   · change
       c60F115F69ZigzagToLocalizationHom
@@ -100,8 +99,15 @@ instance c60F117RawF69ZigzagToLocalization_full :
     intro p
     refine ⟨c60F117LocalizationPathsToRawZigzag.map p, ?_⟩
     have h := Functor.congr_hom c60F117LocalizationPaths_triangle p
-    simpa only [Functor.comp_map, eqToHom_refl,
-      Category.id_comp, Category.comp_id] using h
+    change
+      c60F115F69ZigzagLocalizationFunctor.map
+          (c60F117LocalizationPathsToRawZigzag.map p) =
+        𝟙 _ ≫
+          (CategoryTheory.Quotient.functor
+            (Localization.Construction.relations
+              (⊤ : MorphismProperty C60F69PhysicalCellSite))).map p ≫
+          𝟙 _ at h
+    simpa only [Category.id_comp, Category.comp_id] using h
 
 /-- Every localized original physical F69 cell site comes
 from a genuine old original vertex/edge/face site, with
@@ -125,8 +131,11 @@ instance c60F117KernelLift_full :
         c60F116RawZigzagKernelLift.map
             (c60F116RawZigzagKernelQ.map p) =
           c60F115F69ZigzagLocalizationFunctor.map p := by
-      simpa only [Functor.comp_map, eqToHom_refl,
-        Category.id_comp, Category.comp_id] using h
+      change
+        c60F116RawZigzagKernelLift.map
+            (c60F116RawZigzagKernelQ.map p) =
+          𝟙 _ ≫ c60F115F69ZigzagLocalizationFunctor.map p ≫ 𝟙 _ at h
+      simpa only [Category.id_comp, Category.comp_id] using h
     exact hc.trans hp
 
 /-- No genuine old physical F69 site is missed by the
