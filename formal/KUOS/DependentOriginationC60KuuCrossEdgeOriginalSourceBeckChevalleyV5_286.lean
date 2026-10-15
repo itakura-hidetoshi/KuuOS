@@ -108,7 +108,7 @@ def c60F120LocalThenCross
     {n : Nat} (C : C60F108BothFaceContexts n)
     (i j : Fin n) (W : C60F112DistinctEdgeOverlap C i j)
     (P₀ P₁ : C60F112IndependentOddFacePair C i)
-    (Q₀ Q₁ : C60F112IndependentOddFacePair C j) :
+    (_Q₀ Q₁ : C60F112IndependentOddFacePair C j) :
     C60F47BoundaryPoint
       (c60F112CrossEdgeFrame t₁ t₂ left right C i P₀) ⥤
     C60F47BoundaryPoint
@@ -122,7 +122,7 @@ then change its original F42 source presentation there. -/
 def c60F120CrossThenLocal
     {n : Nat} (C : C60F108BothFaceContexts n)
     (i j : Fin n) (W : C60F112DistinctEdgeOverlap C i j)
-    (P₀ P₁ : C60F112IndependentOddFacePair C i)
+    (P₀ _P₁ : C60F112IndependentOddFacePair C i)
     (Q₀ Q₁ : C60F112IndependentOddFacePair C j) :
     C60F47BoundaryPoint
       (c60F112CrossEdgeFrame t₁ t₂ left right C i P₀) ⥤
@@ -303,12 +303,27 @@ theorem c60F120CrossEdgeSourceBC_mixedSquare
           (c60F112CrossEdgeFrame t₁ t₂ left right C i P₀) ≫
          c60F47OriginalF55Arrow
           (c60F112CrossEdgeFrame t₁ t₂ left right C i P₀)) := by
-  rw [c60F120OriginalCrossEdgeSourceBC_strict]
-  exact congrArg
-    (fun f => (c60F120CrossThenLocal
-      t₁ t₂ left right C i j W P₀ P₁ Q₀ Q₁).map f)
-    (c60F47MixedOriginalBoundarySquare
-      (c60F112CrossEdgeFrame t₁ t₂ left right C i P₀))
+  let B := c60F112CrossEdgeFrame t₁ t₂ left right C i P₀
+  let faceRoute := c60F47FaceArrow B ≫ c60F47CompareAfter B
+  let rotationRoute := c60F47CompareBefore B ≫ c60F47OriginalF55Arrow B
+  apply c60F47MixedGrayFunctor_faithful
+    (c60F112CrossEdgeFrame t₁ t₂ left right C j Q₁)
+  change c60F47MixedEval
+      ((c60F120LocalThenCross t₁ t₂ left right
+        C i j W P₀ P₁ Q₀ Q₁).map faceRoute) =
+    c60F47MixedEval
+      ((c60F120CrossThenLocal t₁ t₂ left right
+        C i j W P₀ P₁ Q₀ Q₁).map rotationRoute)
+  calc
+    _ = c60F47MixedEval faceRoute :=
+      (c60F120BothTransportOrders_fullNative
+        t₁ t₂ left right C i j W P₀ P₁ Q₀ Q₁ faceRoute).1
+    _ = c60F47MixedEval rotationRoute :=
+      congrArg (fun f => c60F47MixedEval f)
+        (c60F47MixedOriginalBoundarySquare B)
+    _ = _ :=
+      (c60F120BothTransportOrders_fullNative
+        t₁ t₂ left right C i j W P₀ P₁ Q₀ Q₁ rotationRoute).2.symm
 
 /-! ## Authentic physical geometry and independent source obstruction -/
 
@@ -319,8 +334,8 @@ comparison still cannot be expressed by its nine generators. -/
 theorem c60F120CrossEdgeBC_originalObstructions
     {n : Nat} (C : C60F108BothFaceContexts n)
     (i j : Fin n) (W : C60F112DistinctEdgeOverlap C i j)
-    (P₀ P₁ : C60F112IndependentOddFacePair C i)
-    (Q₀ Q₁ : C60F112IndependentOddFacePair C j)
+    (P₀ _P₁ : C60F112IndependentOddFacePair C i)
+    (Q₀ _Q₁ : C60F112IndependentOddFacePair C j)
     (sigma : C60F67Atlas) :
     (c60F51Eval (c60F112IndependentPairExchangeHom C i P₀)).phase =
       (1 : ZMod 2) ∧
