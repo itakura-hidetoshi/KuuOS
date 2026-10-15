@@ -444,7 +444,7 @@ NINE-CONSTRUCTOR original F55 source for the adjoined
 Delta comparison at the first physical edge. -/
 theorem c60F112CrossEdgeOriginalF55_nonlift
     {n : Nat} (C : C60F108BothFaceContexts n)
-    (i j : Fin n) (W : C60F112DistinctEdgeOverlap C i j)
+    (i j : Fin n) (_W : C60F112DistinctEdgeOverlap C i j)
     (P : C60F112IndependentOddFacePair C i)
     (Q : C60F112IndependentOddFacePair C j) :
     (¬ ∃ cell :
