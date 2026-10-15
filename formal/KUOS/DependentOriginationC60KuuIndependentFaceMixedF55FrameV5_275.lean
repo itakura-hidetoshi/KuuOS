@@ -304,7 +304,7 @@ constructed for the full NINETY real C60 edge atlas and each
 edge's TWO genuinely distinct original polygon faces.
 No synthetic extra physical face is added. -/
 theorem c60F112AllNinetyIndependentMixedSquare
-    (i : Fin (Fintype.card TruncatedIcosahedralEdge)) (side : Bool) :
+    (i : Fin (Fintype.card TruncatedIcosahedralEdge)) :
     c60F47FaceArrow
       (c60F112IndependentFaceOriginalMixedFrame t₁ t₂ left right
         c60F108AllNinetyBothFaces i
