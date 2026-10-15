@@ -111,6 +111,22 @@ def c60F123LocalizedWitnessedF47DiagramNatIso
         (c60F115WitnessedLocalizationQ C).IsLocalization
           (⊤ : MorphismProperty (C60F112WitnessedEdge C)) :=
       c60F115WitnessedLocalization_universal C
+    letI : Localization.Lifting
+        (c60F115WitnessedLocalizationQ C)
+        (⊤ : MorphismProperty (C60F112WitnessedEdge C))
+        (c60F112WitnessedF47Diagram t₁ t₂ left right C P)
+        (c60F115LocalizedOriginalF47Diagram t₁ t₂ left right C P) :=
+      ⟨eqToIso
+        (c60F115OriginalF47Localization_factors
+          t₁ t₂ left right C P)⟩
+    letI : Localization.Lifting
+        (c60F115WitnessedLocalizationQ C)
+        (⊤ : MorphismProperty (C60F112WitnessedEdge C))
+        (c60F112WitnessedF47Diagram t₁ t₂ left right C Q)
+        (c60F115LocalizedOriginalF47Diagram t₁ t₂ left right C Q) :=
+      ⟨eqToIso
+        (c60F115OriginalF47Localization_factors
+          t₁ t₂ left right C Q)⟩
     exact Localization.liftNatIso
       (c60F115WitnessedLocalizationQ C)
       (⊤ : MorphismProperty (C60F112WitnessedEdge C))
