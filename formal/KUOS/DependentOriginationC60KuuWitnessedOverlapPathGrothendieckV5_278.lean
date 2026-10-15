@@ -420,33 +420,35 @@ theorem c60F112WitnessedF47AnyPaths_HEq
         t₁ t₂ left right C P first).map f)
       ((c60F112WitnessedF47Transport
         t₁ t₂ left right C P second).map f) := by
-  have hxFirst := c60F112WitnessedF47Transport_obj
-    t₁ t₂ left right C P first X
-  have hyFirst := c60F112WitnessedF47Transport_obj
-    t₁ t₂ left right C P first Y
-  have hxSecond := c60F112WitnessedF47Transport_obj
-    t₁ t₂ left right C P second X
-  have hySecond := c60F112WitnessedF47Transport_obj
-    t₁ t₂ left right C P second Y
-  cases hxFirst
-  cases hyFirst
-  cases hxSecond
-  cases hySecond
-  apply heq_of_eq
-  apply c60F47MixedGrayFunctor_faithful
-    (c60F112CrossEdgeFrame t₁ t₂ left right C j (P j))
-  calc
-      c60F47MixedEval
-          ((c60F112WitnessedF47Transport
-            t₁ t₂ left right C P first).map f) =
-        c60F47MixedEval f :=
-          c60F112WitnessedF47Transport_fullNative
-            t₁ t₂ left right C P first f
-      _ = c60F47MixedEval
-          ((c60F112WitnessedF47Transport
-            t₁ t₂ left right C P second).map f) :=
-          (c60F112WitnessedF47Transport_fullNative
-            t₁ t₂ left right C P second f).symm
+  cases X <;> cases Y
+  all_goals
+    have hxFirst := c60F112WitnessedF47Transport_obj
+      t₁ t₂ left right C P first X
+    have hyFirst := c60F112WitnessedF47Transport_obj
+      t₁ t₂ left right C P first Y
+    have hxSecond := c60F112WitnessedF47Transport_obj
+      t₁ t₂ left right C P second X
+    have hySecond := c60F112WitnessedF47Transport_obj
+      t₁ t₂ left right C P second Y
+    cases hxFirst
+    cases hyFirst
+    cases hxSecond
+    cases hySecond
+    apply heq_of_eq
+    apply c60F47MixedGrayFunctor_faithful
+      (c60F112CrossEdgeFrame t₁ t₂ left right C j (P j))
+    calc
+        c60F47MixedEval
+            ((c60F112WitnessedF47Transport
+              t₁ t₂ left right C P first).map f) =
+          c60F47MixedEval f :=
+            c60F112WitnessedF47Transport_fullNative
+              t₁ t₂ left right C P first f
+        _ = c60F47MixedEval
+            ((c60F112WitnessedF47Transport
+              t₁ t₂ left right C P second).map f) :=
+            (c60F112WitnessedF47Transport_fullNative
+              t₁ t₂ left right C P second f).symm
 
 /-- Splicing ANY two real witnessed physical-edge routes
 commutes with the ACTUAL F47 source functor composition.
@@ -500,10 +502,8 @@ def c60F112WitnessedF47Diagram
     rfl
   map_comp := by
     intro X Y Z f g
-    change c60F112WitnessedF47Transport t₁ t₂ left right C P
-        (c60F112WitnessedOverlapAppend f g) =
-      c60F112WitnessedF47Transport t₁ t₂ left right C P f ⋙
-        c60F112WitnessedF47Transport t₁ t₂ left right C P g
+    apply Cat.Hom.ext
+    simp only [Cat.Hom.comp_toFunctor, Functor.toCatHom_toFunctor]
     exact c60F112WitnessedF47Transport_append
       t₁ t₂ left right C P f g
 
@@ -557,7 +557,7 @@ F68 cochain: its north signed second charge is -5 and an
 uncorrected vertex gauge is impossible. -/
 theorem c60F112WitnessedF47Total_originalCurvatureObstruction
     {n : Nat} (C : C60F108BothFaceContexts n)
-    (P : (i : Fin n) → C60F112IndependentOddFacePair C i)
+    (_P : (i : Fin n) → C60F112IndependentOddFacePair C i)
     (sigma : C60F67Atlas) :
     (c60F68PhysicalPatchCurvature t₁ t₂ left right sigma
       (Finsupp.single (.aroundVertex .north) (1 : ℤ))).charge.2 =
