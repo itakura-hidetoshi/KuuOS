@@ -190,7 +190,8 @@ theorem c60F115OriginalF69ReflexiveLeg_localized
     Subsingleton.elim _ _
   change c60F115OriginalF69LocalizationQ.map
       (homOfLE (le_refl s)) ≫ 𝟙 _ = 𝟙 _
-  rw [hid, Functor.map_id, Category.id_comp]
+  rw [hid, c60F115OriginalF69LocalizationQ.map_id s]
+  exact Category.id_comp _
 
 /-- Two REAL physical-edge overlap legs pass through their
 original common F69 vertex or face inside the localization. -/
@@ -294,7 +295,8 @@ theorem c60F115OriginalF47Localization_unique
       c60F112WitnessedF47Diagram t₁ t₂ left right C P) :
     F = c60F115LocalizedOriginalF47Diagram t₁ t₂ left right C P := by
   apply Localization.Construction.uniq
-  rw [hF, c60F115OriginalF47Localization_factors]
+  exact hF.trans
+    (c60F115OriginalF47Localization_factors t₁ t₂ left right C P).symm
 
 #check c60F113NoOriginalIncidenceProjection
 #check c60F112WitnessedF47Path_originalF55Nonlift
