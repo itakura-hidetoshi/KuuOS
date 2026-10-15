@@ -13,6 +13,7 @@ open KUOS.DependentOriginationGrayC60PresentedFaceTwoCellsV5_190
 open KUOS.DependentOriginationGrayC60PresentedInterchangerV5_191
 open KUOS.DependentOriginationGrayC60ThreeHomCategoriesV5_192
 open KUOS.DependentOriginationGrayC60OriginalF55ThreeHomV5_192
+open KUOS.DependentOriginationGrayC60IntegralChainComplexV5_160
 open KUOS.DependentOriginationGrayC60F55SourcePhaseLockedAtlasV5_175
 open KUOS.DependentOriginationGrayC60MixedBoundaryThreeHomV5_195
 open KUOS.DependentOriginationGrayC60AllNinetyMixedBoundaryV5_196
@@ -21,6 +22,7 @@ open KUOS.DependentOriginationC60PhysicalCechCurvatureRepairV5_222
 open KUOS.DependentOriginationC60PhysicalIncidenceHigherNerveV5_223
 open KUOS.DependentOriginationC60PhysicalEdgeGrothendieckV5_224
 open KUOS.DependentOriginationC60KuuActualIncidenceOverlapRefinementV5_260
+open KUOS.DependentOriginationC60KuuPhaseReconstructionObstructionV5_269
 open KUOS.DependentOriginationC60KuuTwoActualFaceInterchangeV5_265
 open KUOS.DependentOriginationC60KuuIndependentPhysicalFaceSiteSourceV5_274
 open KUOS.DependentOriginationC60KuuIndependentFaceMixedF55FrameV5_275
@@ -262,7 +264,7 @@ def c60F112WitnessedF47Transport
   | .step (i := i) (j := j) W rest =>
       c60F112CrossEdgeMixedSourceChange
         t₁ t₂ left right C i j W (P i) (P j) ⋙
-      c60F112WitnessedF47Transport t₁ t₂ left right C P rest
+      c60F112WitnessedF47Transport C P rest
 
 /-- The ENTIRE full original Gray source native image on
 EVERY F47 three-Hom is preserved after arbitrary different
@@ -388,8 +390,10 @@ theorem c60F112WitnessedF47AnyPaths_HEq
             t₁ t₂ left right C P second f).symm
 
 /-- Splicing ANY two real witnessed physical-edge routes
-commutes with the ACTUAL F47 source-functor composition, not
-just observed F77 equality. Every source Hom keeps phase. -/
+commutes with the ACTUAL F47 source functor composition.
+The proof is INDUCTION on source witness paths, not a
+fragile implicit change-of-object hom equality: the only
+coherence required is the proven functor-category associator. -/
 theorem c60F112WitnessedF47Transport_append
     {n : Nat} (C : C60F108BothFaceContexts n)
     (P : (i : Fin n) → C60F112IndependentOddFacePair C i)
@@ -400,85 +404,25 @@ theorem c60F112WitnessedF47Transport_append
         (c60F112WitnessedOverlapAppend first second) =
     c60F112WitnessedF47Transport t₁ t₂ left right C P first ⋙
       c60F112WitnessedF47Transport t₁ t₂ left right C P second := by
-  apply Functor.ext
-  · intro X
-    cases X with
-    | faceBefore =>
-        change
-          (c60F112WitnessedF47Transport t₁ t₂ left right C P
-            (c60F112WitnessedOverlapAppend first second)).obj .faceBefore =
-          (c60F112WitnessedF47Transport t₁ t₂ left right C P second).obj
-            ((c60F112WitnessedF47Transport t₁ t₂ left right C P first).obj
-              .faceBefore)
-        rw [(c60F112WitnessedF47Transport_objects
-          t₁ t₂ left right C P (c60F112WitnessedOverlapAppend first second)).1,
-          (c60F112WitnessedF47Transport_objects
-            t₁ t₂ left right C P first).1,
-          (c60F112WitnessedF47Transport_objects
-            t₁ t₂ left right C P second).1]
-    | faceAfter =>
-        change
-          (c60F112WitnessedF47Transport t₁ t₂ left right C P
-            (c60F112WitnessedOverlapAppend first second)).obj .faceAfter =
-          (c60F112WitnessedF47Transport t₁ t₂ left right C P second).obj
-            ((c60F112WitnessedF47Transport t₁ t₂ left right C P first).obj
-              .faceAfter)
-        rw [(c60F112WitnessedF47Transport_objects
-          t₁ t₂ left right C P (c60F112WitnessedOverlapAppend first second)).2.1,
-          (c60F112WitnessedF47Transport_objects
-            t₁ t₂ left right C P first).2.1,
-          (c60F112WitnessedF47Transport_objects
-            t₁ t₂ left right C P second).2.1]
-    | rotationBefore =>
-        change
-          (c60F112WitnessedF47Transport t₁ t₂ left right C P
-            (c60F112WitnessedOverlapAppend first second)).obj .rotationBefore =
-          (c60F112WitnessedF47Transport t₁ t₂ left right C P second).obj
-            ((c60F112WitnessedF47Transport t₁ t₂ left right C P first).obj
-              .rotationBefore)
-        rw [(c60F112WitnessedF47Transport_objects
-          t₁ t₂ left right C P (c60F112WitnessedOverlapAppend first second)).2.2.1,
-          (c60F112WitnessedF47Transport_objects
-            t₁ t₂ left right C P first).2.2.1,
-          (c60F112WitnessedF47Transport_objects
-            t₁ t₂ left right C P second).2.2.1]
-    | rotationAfter =>
-        change
-          (c60F112WitnessedF47Transport t₁ t₂ left right C P
-            (c60F112WitnessedOverlapAppend first second)).obj .rotationAfter =
-          (c60F112WitnessedF47Transport t₁ t₂ left right C P second).obj
-            ((c60F112WitnessedF47Transport t₁ t₂ left right C P first).obj
-              .rotationAfter)
-        rw [(c60F112WitnessedF47Transport_objects
-          t₁ t₂ left right C P (c60F112WitnessedOverlapAppend first second)).2.2.2,
-          (c60F112WitnessedF47Transport_objects
-            t₁ t₂ left right C P first).2.2.2,
-          (c60F112WitnessedF47Transport_objects
-            t₁ t₂ left right C P second).2.2.2]
-  · intro X Y f
-    cases X <;> cases Y
-    all_goals
-      apply c60F47MixedGrayFunctor_faithful
-        (c60F112CrossEdgeFrame t₁ t₂ left right C k (P k))
-      calc
-        c60F47MixedEval
-            ((c60F112WitnessedF47Transport t₁ t₂ left right C P
-              (c60F112WitnessedOverlapAppend first second)).map f) =
-          c60F47MixedEval f :=
-            c60F112WitnessedF47Transport_fullNative
-              t₁ t₂ left right C P
-                (c60F112WitnessedOverlapAppend first second) f
-        _ = c60F47MixedEval
-            ((c60F112WitnessedF47Transport
-                t₁ t₂ left right C P second).map
-              ((c60F112WitnessedF47Transport
-                t₁ t₂ left right C P first).map f)) := by
-              exact ((c60F112WitnessedF47Transport_fullNative
-                t₁ t₂ left right C P second
-                  ((c60F112WitnessedF47Transport
-                    t₁ t₂ left right C P first).map f)).trans
-                (c60F112WitnessedF47Transport_fullNative
-                  t₁ t₂ left right C P first f)).symm
+  induction first with
+  | nil i =>
+      change
+        c60F112WitnessedF47Transport t₁ t₂ left right C P second =
+        𝟭 _ ⋙
+          c60F112WitnessedF47Transport t₁ t₂ left right C P second
+      exact (Category.id_comp _).symm
+  | @step i j k W rest ih =>
+      change
+        c60F112CrossEdgeMixedSourceChange
+            t₁ t₂ left right C i j W (P i) (P j) ⋙
+          c60F112WitnessedF47Transport t₁ t₂ left right C P
+            (c60F112WitnessedOverlapAppend rest second) =
+        (c60F112CrossEdgeMixedSourceChange
+            t₁ t₂ left right C i j W (P i) (P j) ⋙
+          c60F112WitnessedF47Transport t₁ t₂ left right C P rest) ⋙
+          c60F112WitnessedF47Transport t₁ t₂ left right C P second
+      rw [ih]
+      exact (Category.assoc _ _ _).symm
 
 /-- A fully CONSTRUCTED Cat-valued diagram over the non-discrete
 category of arbitrary finite TRUE physical overlap paths.
