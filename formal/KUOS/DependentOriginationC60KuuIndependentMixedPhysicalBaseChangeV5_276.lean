@@ -13,6 +13,7 @@ open KUOS.DependentOriginationGrayC60PresentedFaceTwoCellsV5_190
 open KUOS.DependentOriginationGrayC60PresentedInterchangerV5_191
 open KUOS.DependentOriginationGrayC60ThreeHomCategoriesV5_192
 open KUOS.DependentOriginationGrayC60OriginalF55ThreeHomV5_192
+open KUOS.DependentOriginationGrayC60OriginalFaceHorizontalThreeHomV5_199
 open KUOS.DependentOriginationGrayC60OriginalF55WhiskeringV5_193
 open KUOS.DependentOriginationGrayC60F55SourcePhaseLockedAtlasV5_175
 open KUOS.DependentOriginationGrayC60PhysicalFlagF55BridgeV5_194
@@ -257,14 +258,16 @@ theorem c60F112MixedPhysicalThreeChanges_cocycle {n : Nat}
     {X Y : C60F47BoundaryPoint
       (c60F112MixedPhysicalFrame t₁ t₂ left right C₀ i P₀)}
     (f : X ⟶ Y) :
-    ((c60F112MixedPhysicalSourceChange
-      t₁ t₂ left right C₀ C₁ i P₀ P₁ h₀₁) ⋙
-      (c60F112MixedPhysicalSourceChange
-        t₁ t₂ left right C₁ C₂ i P₁ P₂ h₁₂)).map f =
-    (c60F112MixedPhysicalSourceChange
-      t₁ t₂ left right C₀ C₂ i P₀ P₂ (h₀₁.trans h₁₂)).map f := by
+    HEq
+      (((c60F112MixedPhysicalSourceChange
+        t₁ t₂ left right C₀ C₁ i P₀ P₁ h₀₁) ⋙
+        (c60F112MixedPhysicalSourceChange
+          t₁ t₂ left right C₁ C₂ i P₁ P₂ h₁₂)).map f)
+      ((c60F112MixedPhysicalSourceChange
+        t₁ t₂ left right C₀ C₂ i P₀ P₂ (h₀₁.trans h₁₂)).map f) := by
   cases X <;> cases Y
   all_goals
+    apply heq_of_eq
     apply c60F47MixedGrayFunctor_faithful
       (c60F112MixedPhysicalFrame t₁ t₂ left right C₂ i P₂)
     change c60F47MixedEval
@@ -447,12 +450,13 @@ theorem c60F112AllNinetyMixedPhysicalCech_cocycle
       (c60F112MixedPhysicalFrame t₁ t₂ left right
         c60F108AllNinetyBothFaces i P₀)}
     (f : X ⟶ Y) :
-    ((c60F112AllNinetyMixedPhysicalChange
-      t₁ t₂ left right i P₀ P₁) ⋙
-      (c60F112AllNinetyMixedPhysicalChange
-        t₁ t₂ left right i P₁ P₂)).map f =
-    (c60F112AllNinetyMixedPhysicalChange
-      t₁ t₂ left right i P₀ P₂).map f :=
+    HEq
+      (((c60F112AllNinetyMixedPhysicalChange
+        t₁ t₂ left right i P₀ P₁) ⋙
+        (c60F112AllNinetyMixedPhysicalChange
+          t₁ t₂ left right i P₁ P₂)).map f)
+      ((c60F112AllNinetyMixedPhysicalChange
+        t₁ t₂ left right i P₀ P₂).map f) :=
   c60F112MixedPhysicalThreeChanges_cocycle
     t₁ t₂ left right
     c60F108AllNinetyBothFaces c60F108AllNinetyBothFaces
