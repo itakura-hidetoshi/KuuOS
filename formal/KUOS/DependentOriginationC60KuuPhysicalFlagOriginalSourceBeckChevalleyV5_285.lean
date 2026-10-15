@@ -12,8 +12,14 @@ open KUOS.DependentOriginationGrayNativeBraidedCategoryV5_156
 open KUOS.DependentOriginationGrayC60PhysicalFlagF55BridgeV5_194
 open KUOS.DependentOriginationGrayC60AllNinetyMixedBoundaryV5_196
 open KUOS.DependentOriginationGrayC60MixedBoundaryThreeHomV5_195
+open KUOS.DependentOriginationGrayC60ThreeHomCategoriesV5_192
+open KUOS.DependentOriginationGrayC60OriginalF55ThreeHomV5_192
+open KUOS.DependentOriginationGrayC60F55SourcePhaseLockedAtlasV5_175
+open KUOS.DependentOriginationGrayC60OriginalFaceHorizontalThreeHomV5_199
 open KUOS.DependentOriginationGrayC60IntegralChainComplexV5_160
 open KUOS.DependentOriginationC60PhysicalCechCurvatureRepairV5_222
+open KUOS.DependentOriginationC60FiniteAtlasCechCoherenceV5_221
+open KUOS.DependentOriginationC60KuuF69ZigzagKernelQuotientFreeGroupoidV5_282
 open KUOS.DependentOriginationC60PhysicalIncidenceHigherNerveV5_223
 open KUOS.DependentOriginationC60KuuAllPhysicalSourcePathsV5_263
 open KUOS.DependentOriginationC60KuuTwoActualFaceInterchangeV5_265
@@ -56,7 +62,7 @@ selected original odd F42 cells. We build:
 Authority boundary: the BC is EDGE-LOCAL F47 SOURCE BC ANCHORED
 TO a genuine F69 physical flag. It is not a putative F69-wide Cat
 diagram (vertices and faces lack generally constructed F47 fibres)
-nor a 2-/3-cell natural transformation in an absent global original
+nor a 2-cell/3-cell natural transformation in an absent global original
 three-sheaf. The original raw F42/F54 sources, original F69 incidence,
 and physical nonflat F68 cochain remain distinct.
 -/
@@ -189,7 +195,7 @@ noncomputable def c60F119PhysicalFlagRightBC
 
 /-- SOURCE BC NATURALITY for EVERY original four-boundary F47 Hom,
 not just its phase-forgetting F77 evaluation. -/
-theorem c60F119PhysicalFlagLeftBC_naturality
+def c60F119PhysicalFlagLeftBC_naturality
     (edge : TruncatedIcosahedralEdge) (endpoint : Bool)
     (P₀ P₁ : C60F112IndependentOddFacePair
       (c60F119OnePhysicalEdgeContext edge) (0 : Fin 1))
@@ -201,7 +207,7 @@ theorem c60F119PhysicalFlagLeftBC_naturality
   (c60F119PhysicalFlagLeftBC
     t₁ t₂ left right edge endpoint P₀ P₁ later).hom.naturality f
 
-theorem c60F119PhysicalFlagRightBC_naturality
+def c60F119PhysicalFlagRightBC_naturality
     (edge : TruncatedIcosahedralEdge) (endpoint : Bool)
     (P₀ P₁ : C60F112IndependentOddFacePair
       (c60F119OnePhysicalEdgeContext edge) (0 : Fin 1))
@@ -215,7 +221,7 @@ theorem c60F119PhysicalFlagRightBC_naturality
 
 /-- Verify LEFT BC explicitly on the ORIGINAL F43 face-exchange
 three-Hom, not only on an abstract arrow of the F47 quotient. -/
-theorem c60F119PhysicalFlagLeftBC_originalFace
+def c60F119PhysicalFlagLeftBC_originalFace
     (edge : TruncatedIcosahedralEdge) (endpoint : Bool)
     (P₀ P₁ : C60F112IndependentOddFacePair
       (c60F119OnePhysicalEdgeContext edge) (0 : Fin 1))
@@ -228,7 +234,7 @@ theorem c60F119PhysicalFlagLeftBC_originalFace
 
 /-- Verify RIGHT BC explicitly on the REAL ORIGINAL F54/F55
 rotation-square source arrow, with original route type preserved. -/
-theorem c60F119PhysicalFlagRightBC_originalF55
+def c60F119PhysicalFlagRightBC_originalF55
     (edge : TruncatedIcosahedralEdge) (endpoint : Bool)
     (P₀ P₁ : C60F112IndependentOddFacePair
       (c60F119OnePhysicalEdgeContext edge) (0 : Fin 1))
