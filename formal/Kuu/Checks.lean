@@ -22,10 +22,14 @@ def secondPath : Quiver.Path Point.source Point.target :=
 
 theorem raw_distinct : firstPath ≠ secondPath := by
   intro h
-  have he : (Step.first : Step Point.source Point.target) = Step.second := by
-    apply eq_of_heq
-    apply Quiver.Path.hom_heq_of_cons_eq_cons
+  have hcons :
+      (Quiver.Path.nil : Quiver.Path Point.source Point.source).cons
+          (Step.first : Step Point.source Point.target) =
+      (Quiver.Path.nil : Quiver.Path Point.source Point.source).cons
+          (Step.second : Step Point.source Point.target) := by
     exact h
+  have he : (Step.first : Step Point.source Point.target) = Step.second :=
+    eq_of_heq (Quiver.Path.hom_heq_of_cons_eq_cons hcons)
   cases he
 
 theorem quotient_not_indiscrete :
