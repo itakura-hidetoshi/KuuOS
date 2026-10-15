@@ -14,7 +14,7 @@ English: KuuOS is a research architecture for dependent origination, context-dep
 
 ## Verified formal frontier / Lean4の現在の正本
 
-**2026-10-15 JST GitHub MCP再確認：`v5.286 / F112` 第14段階までLean4で統合済み。** F112第6段階（v5.278）で真正F69/F106物理交差証人を保持する任意有限長の経路圏、原F42/F43/F54/F55四境界F47ソースCat値図式・Grothendieck総圏を構成し、第7段階（v5.279）で元のF69頂点・辺・面の**真正前向き入射射と形式的な逆向き射**を別圏の自由zigzagへ配置しました。第8段階（v5.280）では、**異なる実C60物理辺の共通F69サイトを保存した証人の反転**、任意有限長の物理交差経路の逆順・連結反転則・二重反転恒等性、および元F69入射zigzagの正確な**形式的逆向き経路**を実装。**元の証人付き自由経路は往復しても空経路にならない**一方、完全な二整数荷電と独立ZMod2位相を保存する原F47ソース圏の輸送は**両向きの往復で厳密な恒等関手**となり、全Homに型付き`HEq`を与えます。これは元F69入射射に真の逆射を追加したことでも、元のF42/F54原語を同一視したことでもありません。F55比較補正射`Δ=(0,1;phase0)`の九生成子non-lift、F110位相のF77からの非復元、F68北五角形第2荷電`−5`の曲率障害は残り、原F42/F54/F55の完全な大域的実効3-descentは未証明です。
+**2026-10-15 JST GitHub MCP再確認：`v5.287 / F112` 第15段階までLean4で統合済み。** F112第6段階（v5.278）で真正F69/F106物理交差証人を保持する任意有限長の経路圏、原F42/F43/F54/F55四境界F47ソースCat値図式・Grothendieck総圏を構成し、第7段階（v5.279）で元のF69頂点・辺・面の**真正前向き入射射と形式的な逆向き射**を別圏の自由zigzagへ配置しました。第8段階（v5.280）では、**異なる実C60物理辺の共通F69サイトを保存した証人の反転**、任意有限長の物理交差経路の逆順・連結反転則・二重反転恒等性、および元F69入射zigzagの正確な**形式的逆向き経路**を実装。**元の証人付き自由経路は往復しても空経路にならない**一方、完全な二整数荷電と独立ZMod2位相を保存する原F47ソース圏の輸送は**両向きの往復で厳密な恒等関手**となり、全Homに型付き`HEq`を与えます。これは元F69入射射に真の逆射を追加したことでも、元のF42/F54原語を同一視したことでもありません。F55比較補正射`Δ=(0,1;phase0)`の九生成子non-lift、F110位相のF77からの非復元、F68北五角形第2荷電`−5`の曲率障害は残り、原F42/F54/F55の完全な大域的実効3-descentは未証明です。
 
 **v5.282／F112第10段階（[数学PR #2318](https://github.com/itakura-hidetoshi/KuuOS/pull/2318)）**では、元F69半順序圏の`FreeGroupoid`とGabriel–Zisman局所化が普遍性によって圏同値となることを証明。原F69の前向き真正入射と形式的後向きにより生成された**F113のraw自由zigzagの局所化核**を`Functor.homRel`として定義し、mathlibの真の`Quotient`圏、厳密で一意な因子化、核の等式を忠実に保持する表現を構成しました。rawの二脚往復は非空ですが、この**指定した核商で初めて恒等**になります。
 
@@ -26,6 +26,9 @@ English: KuuOS is a research architecture for dependent origination, context-dep
 
 **v5.286／F112第14段階（[数学PR #2325](https://github.com/itakura-hidetoshi/KuuOS/pull/2325)）**では、**相異なる真正C60物理辺**の交差証人`W : C60F112DistinctEdgeOverlap C i j`を必須とし、辺iで独立した原F42二面表示を変更後に実交差を越える経路と、実交差後に辺jで独立した原F42二面表示を変更する経路を、それぞれ**原F43/F54/F55由来の四境界付きF47ソース関手**として構成。**全F47三射で二整数荷電と独立ZMod2位相の完全保存**を証明し、二つの順序で得られるF47ソース関手の**厳密等式**、したがって関手圏の**Beck–Chevalley NatIso**を形式化しました。依存Homの`eqToHom`輸送を明示して等式を証明し、**全Hom自然性、原F43面交換射・元F54/F55回転射の自然性、混合四境界平方の保存**も証明。両方の原F42奇次数交換位相1、両辺の原F55九生成子Delta non-lift、F68北五角形の非ゼロ曲率荷電`−5`は同時に保持。**この二セルは真正F69交差でガードされた原F47混合ソース圏の関手圏2セル**です。全F69頂点／面の大域Cat値原F47繊維や元F42/F54/F55実効3-descent、F77からの原位相復元は主張しません。
 
+**v5.287／F112第15段階（[数学PR #2327](https://github.com/itakura-hidetoshi/KuuOS/pull/2327)）**では、F278で構成した**真正F69物理交差証人付き任意有限長経路圏**の同一実C60文脈`C`上、各物理辺に独立に選んだ原奇次数F42二面ソース表示族`P,Q`について**完全Int×Int荷電＋独立ZMod2位相を保存する原F47四境界ソース変更関手**を構成。第14段階の真正異辺交差にガードされたCat Beck–Chevalley等式を各一歩で用い、経路帰納法により**任意有限長pathについて`L_i ⋙ T_Q(path) = T_P(path) ⋙ L_j`**を証明しました。これにより、二つの原F47 Cat値図式間の**真の自然変換**を構成し、任意経路連結との整合性を保証。さらに三つの独立表示族`P,Q,R`について、**全自然変換の厳密Čech三重cocycle、自己表示変更が恒等自然変換であること**をLean4で証明し、逆向き表示変更を明示した**Cat値図式全体の自然同型**`c60F121WitnessedF47DiagramSourceNatIso`へ到達しました。**この自然同型は証人付き交差経路圏の原F47混合商ソース図式の間に限る**もので、元F69全頂点・面の原F47繊維や、原F42/F54/F55 raw構文の同一化、無条件の大域実効3-descentを意味しません。元F55 Delta九生成子non-lift、F110位相非復元とF68北五角形原第2荷電`−5`は保持します。
+
+
 
 
 
@@ -35,13 +38,13 @@ English: KuuOS is a research architecture for dependent origination, context-dep
 | 検証項目 | 最新の確認済み権威 |
 | --- | --- |
 | Repository / canonical branch | [`itakura-hidetoshi/KuuOS`](https://github.com/itakura-hidetoshi/KuuOS) / `main` |
-| **最新 theorem-bearing PR** | **[PR #2325 — v5.286 F112第14段階, MERGED](https://github.com/itakura-hidetoshi/KuuOS/pull/2325)** |
-| **Theorem-bearing merge SHA** | **`0522b9e0b280ac26c3ee33fdb08451d3fbb1dd4e`**（PR #2325数学squashマージSHA、マージ直後のcanonical `main`と一致確認済み） |
-| Exact tested source HEAD | `cd9a400cb932598c2123a09080fa40e58fdc94e6` |
-| Exact-head proof CI | [GitHub Actions #38738764863](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38738764863) — **completed SUCCESS** |
-| Strict Lean target | `KUOS.DependentOriginationC60KuuCrossEdgeOriginalSourceBeckChevalleyV5_286` — **9098/9098 jobs SUCCESS** |
+| **最新 theorem-bearing PR** | **[PR #2327 — v5.287 F112第15段階, MERGED](https://github.com/itakura-hidetoshi/KuuOS/pull/2327)** |
+| **Theorem-bearing merge SHA** | **`3f8d1986c9cf5b04b059c75340167d8acaa10ddd`**（PR #2327数学squashマージSHA、マージ直後canonical `main`一致確認済み） |
+| Exact tested source HEAD | `ecd8d2ccdfefafbdce2184318d701273943f317b` |
+| Exact-head proof CI | [GitHub Actions #38743253678](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38743253678) — **completed SUCCESS** |
+| Strict Lean target | `KUOS.DependentOriginationC60KuuWitnessedSourceDiagramBeckChevalleyV5_287` — **9099/9099 jobs SUCCESS** |
 | Governance / MCP | Strict Lean・Governance・MCP Lean completion・MCP CI completion **全SUCCESS** |
-| Changed-file audit | **warning/error 0/0**、**9 `#print axioms`**、**`sorryAx`なし**（既存の有限幾何`native_decide`依存は継承） |
+| Changed-file audit | **warning/error 0/0**、**10 `#print axioms`**、**`sorryAx`なし**（既存有限幾何の`native_decide`公理依存は継承） |
 | Pinned versions | [Lean `v4.30.0-rc2`](lean-toolchain)、[mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`](lake-manifest.json) |
 | Separate verification only | [PR #1558 — Lean 4.31](https://github.com/itakura-hidetoshi/KuuOS/pull/1558): **OPEN / DRAFT / NOT MERGED**。正本へマージしない |
 
@@ -125,6 +128,7 @@ F=\overline F\circ Q_{p,q},\qquad \exists!\,\overline F
 | **[F112 第12段階 / v5.284 / #2321](https://github.com/itakura-hidetoshi/KuuOS/pull/2321)** | 元の360真正F69頂点→辺→面二単体を、F113のraw二脚経路と原対角一脚経路で具体化し、**raw二脚≠raw対角**（長さ2対1）、しかし**元F69局所化とv5.283の正確な局所化核商では両者一致**を証明。任意の実F69始終点を共有する並行二脚spanも局所化・核商で整合。元F69前向き射を改変せず、元F42/F54/F55高次Beck–ChevalleyやF68曲率消去は未主張 |
 | **[F112 第13段階 / v5.285 / #2323](https://github.com/itakura-hidetoshi/KuuOS/pull/2323)** | すべての真正C60物理辺に実在する二つの原多角形面F42ソースを保持して、元の実Quiver.Pathを各360物理フラグ頂点へ接続。独立原F42奇次数面セルの間の原F47四境界比較関手で**左・右F58原F42/F54/F55 Beck–Chevalley NatIso**を実装し、全F47三射、原F43面交換、原F54/F55回転Homで自然性と完全Int×Int＋ZMod2保存を証明。全360入射二単体の核商整合とF51位相1、F55 Delta非lift、F68原曲率−5が同時に存在。**辺局所**であり、F69全サイトの大域原ソース3-descentは未主張 |
 | **[F112 第14段階 / v5.286 / #2325](https://github.com/itakura-hidetoshi/KuuOS/pull/2325)** | **二つの相異なる実物理辺間の真正F69交差証人**をガードとし、原F42二面表示の辺内変更と原F47ソースの交差辺輸送の**二順序が厳密に同じF47ソース関手**になることを証明。Catの**Beck–Chevalley NatIso**、全原F47三射／元F43面交換／原F54/F55回転射の自然性、混合四境界図式保存、完全Int×Int＋ZMod2保存を形式化。両辺の旧F55 Delta non-lift・F68北荷電`−5`を保持。**交差ガードされたF47ソース関手圏2セルであり、原F69全域のF42/F54/F55大域実効descentではない** |
+| **[F112 第15段階 / v5.287 / #2327](https://github.com/itakura-hidetoshi/KuuOS/pull/2327)** | F278の**真の物理交差証人付き任意有限経路圏**上、各辺の独立原F42二面表示族`P,Q`の間で完全Int×Int＋独立ZMod2位相付きF47ソース変更関手を構成。v5.286の各ステップ真正異辺交差BCから**任意有限長の経路に対する自然性と全Cat値F47図式間NatTrans**、経路連結との整合性を帰納法で証明。三表示族`P,Q,R`の**自然変換全体の厳密Čech cocycle、自己表示変更の単位則・明示的逆向き表示変更**から**F47ソース図式全体のNatIso**を構成。元F69入射全サイトの大域Cat値原F47図式や原F42/F54/F55実効3-descentは未主張 |
 
 特に最近のtheorem-bearingファイルは次のとおりです（各リンクは実際のLeanソース）。
 
@@ -161,14 +165,15 @@ F=\overline F\circ Q_{p,q},\qquad \exists!\,\overline F
 - **[F112 第12段階 — 真正C60/F69の全360非退化入射二単体、raw二脚と原対角の非同一、局所化・核商での二単体/平行span整合性](formal/KUOS/DependentOriginationC60KuuOriginalFlagTwoSimplexZigzagDescentV5_284.lean)**
 - **[F112 第13段階 — 真正C60物理フラグに固定した独立原F42/F54/F55四境界ソース、左右F58 Beck–Chevalley自然同型と全三射自然性・非lift／曲率障害](formal/KUOS/DependentOriginationC60KuuPhysicalFlagOriginalSourceBeckChevalleyV5_285.lean)**
 - **[F112 第14段階 — 真正異辺物理交差にガードされた原F42表示変更と原F47輸送の厳密可換性・Cat Beck–Chevalley自然同型・混合四境界／曲率障害](formal/KUOS/DependentOriginationC60KuuCrossEdgeOriginalSourceBeckChevalleyV5_286.lean)**
+- **[F112 第15段階 — 任意有限長の真正F69交差経路上の原F47図式間自然性・三重Čech cocycleと完全位相付きCat値図式自然同型](formal/KUOS/DependentOriginationC60KuuWitnessedSourceDiagramBeckChevalleyV5_287.lean)**
 
 詳細な歴史・公理・未解決課題は **[ROADMAP.md](ROADMAP.md)** を参照してください。
 
 ## What remains open / 次の数学的課題
 
-**F108第1〜第4段階、F109第1〜第2段階、F110第1〜第2段階、F111第1〜第3段階、F112第1〜第14段階をLean4で証明・マージ済みです。** F112第6段階で真正C60物理交差証人付きの任意有限長経路圏と完全Gray値を保存するF47四境界ソースGrothendieck総圏、第7段階で元F69実入射に沿った別の自由zigzag圏への幾何学的関手を構成しました。**第8段階は経路反転を幾何学の証人レベルまで構成し、経路往復が自由経路の等式としては非自明な一方、原F47ソース圏の完全荷電＋位相付き関手としては厳密に恒等になる**ことを証明。元F69の逆射を捏造しておらず、元F55 non-lift・F68北五角形の第2荷電`−5`は保存されています。大域的原F42/F54/F55実効descentは未証明です。 **第9段階v5.281は二つの局所化を分け、元F69入射射を反転させる局所化の普遍性と、元F47 Cat図式が証人付き経路圏の局所化を通る一意因子化を証明しました。** **第10〜11段階v5.282〜283では、真のF69局所化と元F69自由groupoidの普遍同値、F113のraw入射zigzagの正確な局所化核商、その局所化との充満・忠実・本質的全射を満たす圏同値を統合しました。** **第12段階v5.284では全360真正F69物理入射二単体のraw経路非同一と局所化・核商後の厳密二単体／平行span整合性を証明しました。** **第13段階v5.285では各360真正物理フラグに固定された原F47ソースの左右Beck–Chevalley自然同型を原F43/F55も含む全Homで検証しました。** **第14段階v5.286は、原F47辺内表示変更と真正異辺物理交差による再索引の二順序について完全位相付き関手等式・自然同型を証明しました。**
+**F108第1〜第4段階、F109第1〜第2段階、F110第1〜第2段階、F111第1〜第3段階、F112第1〜第15段階をLean4で証明・マージ済みです。** F112第6段階で真正C60物理交差証人付きの任意有限長経路圏と完全Gray値を保存するF47四境界ソースGrothendieck総圏、第7段階で元F69実入射に沿った別の自由zigzag圏への幾何学的関手を構成しました。**第8段階は経路反転を幾何学の証人レベルまで構成し、経路往復が自由経路の等式としては非自明な一方、原F47ソース圏の完全荷電＋位相付き関手としては厳密に恒等になる**ことを証明。元F69の逆射を捏造しておらず、元F55 non-lift・F68北五角形の第2荷電`−5`は保存されています。大域的原F42/F54/F55実効descentは未証明です。 **第9段階v5.281は二つの局所化を分け、元F69入射射を反転させる局所化の普遍性と、元F47 Cat図式が証人付き経路圏の局所化を通る一意因子化を証明しました。** **第10〜11段階v5.282〜283では、真のF69局所化と元F69自由groupoidの普遍同値、F113のraw入射zigzagの正確な局所化核商、その局所化との充満・忠実・本質的全射を満たす圏同値を統合しました。** **第12段階v5.284では全360真正F69物理入射二単体のraw経路非同一と局所化・核商後の厳密二単体／平行span整合性を証明しました。** **第13段階v5.285では各360真正物理フラグに固定された原F47ソースの左右Beck–Chevalley自然同型を原F43/F55も含む全Homで検証しました。** **第14段階v5.286は、原F47辺内表示変更と真正異辺物理交差による再索引の二順序について完全位相付き関手等式・自然同型を証明しました。** **第15段階v5.287では、真正物理交差証人付き任意有限長経路圏の原F47 Cat値図式間で、表示変更の自然変換・三重cocycle・明示的逆向きによる自然同型まで証明しました。**
 
-**次の未解決研究軸は、F112第15段階以降の**真正F69物理交差証人付き任意有限経路圏上で、各辺の独立原F42表示変更が原F47ソース図式間の自然変換・高次Čech整合性をなすかという問題**と、原F68非平坦曲率を組み込んだ条件付き原F42/F54/F55大域descentの実効条件です。v5.286は実F69交差証人を持つ**異なる二辺の原F47混合ソース圏での関手圏2セル**を証明しましたが、全元F69頂点・面に原F47 Cat値繊維を作ったわけではありません。元F119の左右コンテキスト自然同型を全異辺の原高次3-cellへ昇格したとも主張しません。F113のraw経路・原F42/F54構文、F110/F77位相非復元、旧F55 Delta non-lift、F68北第2荷電`−5`は残ります。
+**次の未解決研究軸は、F112第16段階以降の**真正証人付き経路上の自然同型が局所化・Grothendieck総圏・任意長高次Čech比較を介してどこまで輸送可能か**、さらにF68非平坦曲率と原F55 Delta non-liftを保持した原F42/F54/F55大域実効3-descentの真の成立条件の形式化です。v5.287の**自然同型は二つの原F47混合商ソースCat値図式間**であり、原F69の全頂点・面のF47 fibreを与えたことでも、元F113 raw経路／元F42/F54二射／原F55九生成子を同一化したことでもありません。F110のF77からの位相非復元、旧F55 Delta non-lift、F68北五角形の原第2荷電`−5`と非ゼロ曲率は依然として独立のobstructionです。
 
 **Old Grayを復元することは本研究ルートの前提ではありません。** 元のGray位相はソース診断として保存し、空による交代可能性は**指定された商圏と正確な保存量**について証明します。
 
@@ -178,19 +183,19 @@ F=\overline F\circ Q_{p,q},\qquad \exists!\,\overline F
 
 研究上のランタイム構成案は **`LLM + KuuOS reasoning runtime + formal authority layer`** です。Leanの定理が正しいことは、モデルの重み・対話システム・バックグラウンドエージェントの挙動が変わったこと、全リポジトリが実際に取り込まれたこと、臨床的・物理的・倫理的正当性が検証されたことを意味しません。結合実装は、正本SHAへの固定、明示的な権限・同意境界、観測と推測の区別、継続的な実測・再検証を別途必要とします。
 
-## Reproduce the F112 v5.286 theorem-bearing result / 形式証明の再現
+## Reproduce the F112 v5.287 theorem-bearing result / 形式証明の再現
 
 ```bash
 git clone https://github.com/itakura-hidetoshi/KuuOS.git
 cd KuuOS
-git checkout 0522b9e0b280ac26c3ee33fdb08451d3fbb1dd4e
+git checkout 3f8d1986c9cf5b04b059c75340167d8acaa10ddd
 cat lean-toolchain
 lake exe cache get  # 必要な場合のみ、固定mathlibに対応するキャッシュを取得
 lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build \
-  KUOS.DependentOriginationC60KuuCrossEdgeOriginalSourceBeckChevalleyV5_286
+  KUOS.DependentOriginationC60KuuWitnessedSourceDiagramBeckChevalleyV5_287
 ```
 
-[PR #2325のexact-source-head CI #38738764863](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38738764863) は **9098/9098 SUCCESS**。変更ファイルwarning/error 0/0、9件の`#print axioms`に`sorryAx`なし。Strict Lean・Governance・MCP Lean／CI完了証跡は全SUCCESS。検証済みsource HEAD `cd9a400cb932598c2123a09080fa40e58fdc94e6`、squash数学マージSHA `0522b9e0b280ac26c3ee33fdb08451d3fbb1dd4e`。先行第13段階[PR #2323](https://github.com/itakura-hidetoshi/KuuOS/pull/2323)の[CI #38732749167](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38732749167)は **9097/9097 SUCCESS**、11件の`#print axioms`に`sorryAx`なし。F112第1〜13段階もexact-head GREEN／マージ済みです。
+[PR #2327のexact-source-head CI #38743253678](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38743253678) は **9099/9099 SUCCESS**。変更ファイルwarning/error 0/0、10件の`#print axioms`に`sorryAx`なし。Strict Lean・Governance・MCP Lean／CI完了証跡は全SUCCESS。検証済みsource HEAD `ecd8d2ccdfefafbdce2184318d701273943f317b`、squash数学マージSHA `3f8d1986c9cf5b04b059c75340167d8acaa10ddd`。前段階の[PR #2325](https://github.com/itakura-hidetoshi/KuuOS/pull/2325)は[CI #38738764863](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38738764863) **9098/9098 SUCCESS**・9件の`#print axioms`に`sorryAx`なし。F112第1〜14段階もexact-head GREEN／マージ済みです。
 
 別の検証範囲である全形式化ターゲットや推論ランタイムを調べる場合は、それぞれ独立に実行してください（上記CIによる成功の保証はありません）。
 
