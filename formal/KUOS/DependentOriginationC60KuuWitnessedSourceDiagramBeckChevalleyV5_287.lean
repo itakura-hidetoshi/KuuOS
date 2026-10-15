@@ -298,12 +298,111 @@ theorem c60F121WitnessedDiagramChange_cocycle_app
     c60F121WitnessedLocalSourceChange_cocycle
       t₁ t₂ left right C P Q R X.index
 
+
+/-! ## Fully effective invertibility of this NAMED F47 source-diagram change -/
+
+/-- Re-presenting the genuine independently typed original F42
+odd face cells by THEMSELVES gives the identity F47 functor.
+This is an equality only in the accurately named native-kernel
+F47 mixed source category, not the original raw source grammar. -/
+theorem c60F121WitnessedLocalSourceChange_self
+    {n : Nat} (C : C60F108BothFaceContexts n)
+    (P : (i : Fin n) → C60F112IndependentOddFacePair C i)
+    (i : Fin n) :
+    c60F121WitnessedLocalSourceChange t₁ t₂ left right C P P i =
+      𝟭 (c60F112WitnessedF47Fibre t₁ t₂ left right C P i) := by
+  fapply CategoryTheory.Functor.ext
+  · intro X
+    cases X <;> rfl
+  · intro X Y f
+    apply c60F47MixedGrayFunctor_faithful
+      (c60F112CrossEdgeFrame t₁ t₂ left right C i (P i))
+    calc
+      c60F47MixedEval
+          ((c60F121WitnessedLocalSourceChange
+            t₁ t₂ left right C P P i).map f) =
+        c60F47MixedEval f :=
+          c60F121WitnessedLocalSourceChange_fullNative
+            t₁ t₂ left right C P P i f
+      _ = c60F47MixedEval
+          (eqToHom _ ≫ f ≫ eqToHom _) := by
+          symm
+          exact c60F112WitnessedF47EqToHom_conjugate
+            t₁ t₂ left right C P i _ _ f
+
+/-- The identity natural transformation of the ORIGINAL
+Cat-valued F47 source diagram is the actual chart change
+from any independently selected F42 family to ITSELF. -/
+theorem c60F121WitnessedDiagramChange_self
+    {n : Nat} (C : C60F108BothFaceContexts n)
+    (P : (i : Fin n) → C60F112IndependentOddFacePair C i) :
+    c60F121WitnessedF47DiagramSourceChange t₁ t₂ left right C P P =
+      NatTrans.id (c60F112WitnessedF47Diagram t₁ t₂ left right C P) := by
+  apply NatTrans.ext
+  intro X
+  apply Cat.Hom.ext
+  simpa only [Cat.Hom.id_toFunctor, Functor.toCatHom_toFunctor] using
+    c60F121WitnessedLocalSourceChange_self
+      t₁ t₂ left right C P X.index
+
+/-- The three-label ORIGINAL source Čech cocycle is valid as
+an equality of ENTIRE NATURAL TRANSFORMATIONS, rather than
+only independently checked components. Naturality along
+arbitrary witnessed paths was proved above. -/
+theorem c60F121WitnessedDiagramChange_cocycle
+    {n : Nat} (C : C60F108BothFaceContexts n)
+    (P Q R : (i : Fin n) → C60F112IndependentOddFacePair C i) :
+    NatTrans.vcomp
+      (c60F121WitnessedF47DiagramSourceChange
+        t₁ t₂ left right C P Q)
+      (c60F121WitnessedF47DiagramSourceChange
+        t₁ t₂ left right C Q R) =
+      c60F121WitnessedF47DiagramSourceChange
+        t₁ t₂ left right C P R := by
+  apply NatTrans.ext
+  intro X
+  exact c60F121WitnessedDiagramChange_cocycle_app
+    t₁ t₂ left right C P Q R X
+
+/-- The original fully phase-preserving source Cat diagrams
+of ANY TWO independent odd F42 presentation families are
+NATURALLY ISOMORPHIC over the entire genuine witnessed
+physical-overlap path category. The inverse is the typed
+reverse presentation change, with its triangle identities
+given by the exact three-presentation Čech cocycle.
+
+THIS DOES NOT PROVE GLOBAL ORIGINAL F42/F54/F55 RAW
+SOURCE EFFECTIVITY OR ORIGINAL F69-WIDE 3-DESCENT. -/
+def c60F121WitnessedF47DiagramSourceNatIso
+    {n : Nat} (C : C60F108BothFaceContexts n)
+    (P Q : (i : Fin n) → C60F112IndependentOddFacePair C i) :
+    c60F112WitnessedF47Diagram t₁ t₂ left right C P ≅
+      c60F112WitnessedF47Diagram t₁ t₂ left right C Q where
+  hom := c60F121WitnessedF47DiagramSourceChange
+    t₁ t₂ left right C P Q
+  inv := c60F121WitnessedF47DiagramSourceChange
+    t₁ t₂ left right C Q P
+  hom_inv_id := by
+    exact (c60F121WitnessedDiagramChange_cocycle
+      t₁ t₂ left right C P Q P).trans
+        (c60F121WitnessedDiagramChange_self
+          t₁ t₂ left right C P)
+  inv_hom_id := by
+    exact (c60F121WitnessedDiagramChange_cocycle
+      t₁ t₂ left right C Q P Q).trans
+        (c60F121WitnessedDiagramChange_self
+          t₁ t₂ left right C Q)
+
 #print axioms c60F121WitnessedLocalSourceChange_fullNative
 #print axioms c60F121WitnessedLocalSourceChange_path
 #print axioms c60F121WitnessedF47DiagramSourceChange
 #print axioms c60F121WitnessedLocalSourceChange_append
 #print axioms c60F121WitnessedLocalSourceChange_cocycle
 #print axioms c60F121WitnessedDiagramChange_cocycle_app
+#print axioms c60F121WitnessedLocalSourceChange_self
+#print axioms c60F121WitnessedDiagramChange_self
+#print axioms c60F121WitnessedDiagramChange_cocycle
+#print axioms c60F121WitnessedF47DiagramSourceNatIso
 
 end OriginalF47PathDiagramChange
 end
