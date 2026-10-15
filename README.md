@@ -14,11 +14,14 @@ English: KuuOS is a research architecture for dependent origination, context-dep
 
 ## Verified formal frontier / Lean4の現在の正本
 
-**2026-10-15 JST GitHub MCP再確認：`v5.283 / F112` 第11段階までLean4で統合済み。** F112第6段階（v5.278）で真正F69/F106物理交差証人を保持する任意有限長の経路圏、原F42/F43/F54/F55四境界F47ソースCat値図式・Grothendieck総圏を構成し、第7段階（v5.279）で元のF69頂点・辺・面の**真正前向き入射射と形式的な逆向き射**を別圏の自由zigzagへ配置しました。第8段階（v5.280）では、**異なる実C60物理辺の共通F69サイトを保存した証人の反転**、任意有限長の物理交差経路の逆順・連結反転則・二重反転恒等性、および元F69入射zigzagの正確な**形式的逆向き経路**を実装。**元の証人付き自由経路は往復しても空経路にならない**一方、完全な二整数荷電と独立ZMod2位相を保存する原F47ソース圏の輸送は**両向きの往復で厳密な恒等関手**となり、全Homに型付き`HEq`を与えます。これは元F69入射射に真の逆射を追加したことでも、元のF42/F54原語を同一視したことでもありません。F55比較補正射`Δ=(0,1;phase0)`の九生成子non-lift、F110位相のF77からの非復元、F68北五角形第2荷電`−5`の曲率障害は残り、原F42/F54/F55の完全な大域的実効3-descentは未証明です。
+**2026-10-15 JST GitHub MCP再確認：`v5.284 / F112` 第12段階までLean4で統合済み。** F112第6段階（v5.278）で真正F69/F106物理交差証人を保持する任意有限長の経路圏、原F42/F43/F54/F55四境界F47ソースCat値図式・Grothendieck総圏を構成し、第7段階（v5.279）で元のF69頂点・辺・面の**真正前向き入射射と形式的な逆向き射**を別圏の自由zigzagへ配置しました。第8段階（v5.280）では、**異なる実C60物理辺の共通F69サイトを保存した証人の反転**、任意有限長の物理交差経路の逆順・連結反転則・二重反転恒等性、および元F69入射zigzagの正確な**形式的逆向き経路**を実装。**元の証人付き自由経路は往復しても空経路にならない**一方、完全な二整数荷電と独立ZMod2位相を保存する原F47ソース圏の輸送は**両向きの往復で厳密な恒等関手**となり、全Homに型付き`HEq`を与えます。これは元F69入射射に真の逆射を追加したことでも、元のF42/F54原語を同一視したことでもありません。F55比較補正射`Δ=(0,1;phase0)`の九生成子non-lift、F110位相のF77からの非復元、F68北五角形第2荷電`−5`の曲率障害は残り、原F42/F54/F55の完全な大域的実効3-descentは未証明です。
 
 **v5.282／F112第10段階（[数学PR #2318](https://github.com/itakura-hidetoshi/KuuOS/pull/2318)）**では、元F69半順序圏の`FreeGroupoid`とGabriel–Zisman局所化が普遍性によって圏同値となることを証明。原F69の前向き真正入射と形式的後向きにより生成された**F113のraw自由zigzagの局所化核**を`Functor.homRel`として定義し、mathlibの真の`Quotient`圏、厳密で一意な因子化、核の等式を忠実に保持する表現を構成しました。rawの二脚往復は非空ですが、この**指定した核商で初めて恒等**になります。
 
 **v5.283／F112第11段階（[数学PR #2319](https://github.com/itakura-hidetoshi/KuuOS/pull/2319)）**では、固定mathlibの**実際の局所化生成子**（真正F69前向き射・その形式的逆向き射）からF113のraw zigzagへ復号する`Prefunctor`と`Paths.lift`を構成し、局所化の全Homが元の有限zigzagの像になる**充満性**を証明しました。さらに**本質的全射性**と第10段階の**忠実性**から、\(\operatorname{Zigzag}_{\mathrm{raw}}(F69)/\ker L\simeq F69[W^{-1}]\simeq\operatorname{FreeGroupoid}(F69)\) を**真の圏同値**としてLean4で証明。**元のraw zigzagそのものは同値と主張せず**、原F69入射圏を改変しません。F55 Δ non-lift、F110位相非復元、F68北五角形第2荷電`−5`、F42/F54/F55全ソース実効descent未証明を引き続き保持します。
+
+**v5.284／F112第12段階（[数学PR #2321](https://github.com/itakura-hidetoshi/KuuOS/pull/2321)）**では、元F69で既存の**真正360個の頂点–辺–面入射二単体**と、元の前向き入射射で構成したF113 raw二脚zigzagを接続しました。実際の中間辺サイトを保持した**raw二脚経路と原直接対角射のraw一脚経路は長さ2と1で非同一**、しかし正確なF69 Gabriel–Zisman局所化とv5.283の忠実充満な**局所化核商**ではそれらの像が同じ射になることを証明。任意の**真正**F69中間サイトによる平行二脚spanも、局所化・核商で厳密整合します。これは**F69入射1圏／そのnerveの二単体関係**であり、元F42/F54/F55の真正Gray 2/3-cellのBeck–Chevalley整合性・大域実効descentを自動的に証明するものではありません。原F55 Δ non-lift、F110のF77位相非復元、F68北五角形の原第2荷電`−5`も残存します。
+
 
 
 **v5.281／F112第9段階（[数学PR #2316](https://github.com/itakura-hidetoshi/KuuOS/pull/2316)）**は、元のF69入射半順序圏そのものを変更せず、mathlibのGabriel–Zisman局所化 \(C_{F69}[W^{-1}]\) を構成して普遍因子化・一意性を証明しました。第7段階の真正F69前向き不等式／形式的逆向きによる**自由zigzagをこの局所化へ型付き関手で写し**、rawの反射的一歩が局所化後には恒等射に写ることを区別します。また、真正C60物理交差の**証人付き経路圏の別の局所化**において、完全なInt×Int整数荷電・独立ZMod2位相を保持する原F47 Cat値図式が全経路を同型に送ることと、その**厳密で一意な因子化**を証明。**自由zigzag自体が局所化と圏同値であること、F69全サイト上の原F47図式、原F42/F54/F55の大域実効descentは未主張**であり、F55 Δ non-lift、F110位相非復元、F68北五角形の第2荷電\(-5\)は保持します。
@@ -26,13 +29,13 @@ English: KuuOS is a research architecture for dependent origination, context-dep
 | 検証項目 | 最新の確認済み権威 |
 | --- | --- |
 | Repository / canonical branch | [`itakura-hidetoshi/KuuOS`](https://github.com/itakura-hidetoshi/KuuOS) / `main` |
-| **最新 theorem-bearing PR** | **[PR #2319 — v5.283 F112第11段階, MERGED](https://github.com/itakura-hidetoshi/KuuOS/pull/2319)** |
-| **Theorem-bearing merge SHA** | **`675094b293f32bb035592a344bccdf5f4f79c6d4`**（PR #2319 squashマージSHA、canonical `main`一致確認済み） |
-| Exact tested source HEAD | `f9ec64a61a805ff13e993f7f347bf7a166175328` |
-| Exact-head proof CI | [GitHub Actions #38727358411](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38727358411) — **completed SUCCESS** |
-| Strict Lean target | `KUOS.DependentOriginationC60KuuF69RawZigzagQuotientLocalizationEquivalenceV5_283` — **9095/9095 jobs SUCCESS** |
+| **最新 theorem-bearing PR** | **[PR #2321 — v5.284 F112第12段階, MERGED](https://github.com/itakura-hidetoshi/KuuOS/pull/2321)** |
+| **Theorem-bearing merge SHA** | **`00349180e143a8c9d26d2d07eccf58a060a84ffc`**（PR #2321 squashマージSHA、canonical `main`一致確認済み） |
+| Exact tested source HEAD | `3648b599fcec451b03bea666d6a8f9eb01a0d36f` |
+| Exact-head proof CI | [GitHub Actions #38729640152](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38729640152) — **completed SUCCESS** |
+| Strict Lean target | `KUOS.DependentOriginationC60KuuOriginalFlagTwoSimplexZigzagDescentV5_284` — **9096/9096 jobs SUCCESS** |
 | Governance / MCP | Strict Lean・Governance・MCP Lean completion・MCP CI completion **全SUCCESS** |
-| Changed-file audit | **warning/error 0/0**、**9 `#print axioms`**、**`sorryAx`なし**（既存の`native_decide`幾何公理への依存は承継） |
+| Changed-file audit | **warning/error 0/0**、**12 `#print axioms`**、**`sorryAx`なし**（既存の幾何`native_decide`公理依存は承継） |
 | Pinned versions | [Lean `v4.30.0-rc2`](lean-toolchain)、[mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`](lake-manifest.json) |
 | Separate verification only | [PR #1558 — Lean 4.31](https://github.com/itakura-hidetoshi/KuuOS/pull/1558): **OPEN / DRAFT / NOT MERGED**。正本へマージしない |
 
@@ -113,6 +116,7 @@ F=\overline F\circ Q_{p,q},\qquad \exists!\,\overline F
 | **[F112 第9段階 / v5.281 / #2316](https://github.com/itakura-hidetoshi/KuuOS/pull/2316)** | 元のF69入射圏の**真正なmathlib局所化**と局所化普遍性、自由F69 zigzagから局所化への型付き関手、自由原反射的一歩のnontrivial raw／局所化後恒等性を証明。独立した真正C60証人付き経路圏の全射を原F47 Cat図式が同型に送ることをF114左右逆で証明し、**一意な原F47 Cat因子化**を構成。完全二整数荷電とZMod2位相を保持する一方、raw構文同一化、全F69 Cat source gluing、F55 non-lift解除、F68曲率平坦化は未主張 |
 | **[F112 第10段階 / v5.282 / #2318](https://github.com/itakura-hidetoshi/KuuOS/pull/2318)** | 元のF69の自由groupoid完成と真正局所化の**圏同値**、元F113 raw zigzagから局所化への表現関手の**厳密核`Functor.homRel`**によるmathlib商圏、厳密な普遍因子化・一意性・忠実性、真正元F69前向き射と形式的逆向き射のraw非空往復／核商後恒等性を証明。元raw構文は変更しない |
 | **[F112 第11段階 / v5.283 / #2319](https://github.com/itakura-hidetoshi/KuuOS/pull/2319)** | mathlib元F69局所化の**全真正generator**からF113 raw zigzagへ復号する`Prefunctor`＋`Paths.lift`を構成。型付き局所化パス全体の関手恒等性、**Full／EssSurj**を証明し、F116で確立した忠実性と合わせて**raw自由zigzagの局所化核商と元F69局所化・元F69自由groupoid完成の圏同値**に到達。元rawの直接圏同値、原F42/F54/F55の全域Cat値実効descent、F68曲率の平坦化は未主張 |
+| **[F112 第12段階 / v5.284 / #2321](https://github.com/itakura-hidetoshi/KuuOS/pull/2321)** | 元の360真正F69頂点→辺→面二単体を、F113のraw二脚経路と原対角一脚経路で具体化し、**raw二脚≠raw対角**（長さ2対1）、しかし**元F69局所化とv5.283の正確な局所化核商では両者一致**を証明。任意の実F69始終点を共有する並行二脚spanも局所化・核商で整合。元F69前向き射を改変せず、元F42/F54/F55高次Beck–ChevalleyやF68曲率消去は未主張 |
 
 特に最近のtheorem-bearingファイルは次のとおりです（各リンクは実際のLeanソース）。
 
@@ -146,14 +150,15 @@ F=\overline F\circ Q_{p,q},\qquad \exists!\,\overline F
 - **[F112 第9段階 — 元F69入射の真正局所化普遍性・自由zigzagの型付き解釈・完全位相付きF47 Cat図式の一意な局所化因子化](formal/KUOS/DependentOriginationC60KuuOriginalIncidenceLocalizationF47FactorizationV5_281.lean)**
 - **[F112 第10段階 — 元F69自由groupoid完成の普遍同値・F113生zigzag局所化核の正確なmathlib商圏](formal/KUOS/DependentOriginationC60KuuF69ZigzagKernelQuotientFreeGroupoidV5_282.lean)**
 - **[F112 第11段階 — 実局所化生成子の復号・raw zigzagの充満性／本質的全射性・核商≃局所化≃自由groupoid圏同値](formal/KUOS/DependentOriginationC60KuuF69RawZigzagQuotientLocalizationEquivalenceV5_283.lean)**
+- **[F112 第12段階 — 真正C60/F69の全360非退化入射二単体、raw二脚と原対角の非同一、局所化・核商での二単体/平行span整合性](formal/KUOS/DependentOriginationC60KuuOriginalFlagTwoSimplexZigzagDescentV5_284.lean)**
 
 詳細な歴史・公理・未解決課題は **[ROADMAP.md](ROADMAP.md)** を参照してください。
 
 ## What remains open / 次の数学的課題
 
-**F108第1〜第4段階、F109第1〜第2段階、F110第1〜第2段階、F111第1〜第3段階、F112第1〜第11段階をLean4で証明・マージ済みです。** F112第6段階で真正C60物理交差証人付きの任意有限長経路圏と完全Gray値を保存するF47四境界ソースGrothendieck総圏、第7段階で元F69実入射に沿った別の自由zigzag圏への幾何学的関手を構成しました。**第8段階は経路反転を幾何学の証人レベルまで構成し、経路往復が自由経路の等式としては非自明な一方、原F47ソース圏の完全荷電＋位相付き関手としては厳密に恒等になる**ことを証明。元F69の逆射を捏造しておらず、元F55 non-lift・F68北五角形の第2荷電`−5`は保存されています。大域的原F42/F54/F55実効descentは未証明です。 **第9段階v5.281は二つの局所化を分け、元F69入射射を反転させる局所化の普遍性と、元F47 Cat図式が証人付き経路圏の局所化を通る一意因子化を証明しました。** **第10〜11段階v5.282〜283では、真のF69局所化と元F69自由groupoidの普遍同値、F113のraw入射zigzagの正確な局所化核商、その局所化との充満・忠実・本質的全射を満たす圏同値を統合しました。**
+**F108第1〜第4段階、F109第1〜第2段階、F110第1〜第2段階、F111第1〜第3段階、F112第1〜第12段階をLean4で証明・マージ済みです。** F112第6段階で真正C60物理交差証人付きの任意有限長経路圏と完全Gray値を保存するF47四境界ソースGrothendieck総圏、第7段階で元F69実入射に沿った別の自由zigzag圏への幾何学的関手を構成しました。**第8段階は経路反転を幾何学の証人レベルまで構成し、経路往復が自由経路の等式としては非自明な一方、原F47ソース圏の完全荷電＋位相付き関手としては厳密に恒等になる**ことを証明。元F69の逆射を捏造しておらず、元F55 non-lift・F68北五角形の第2荷電`−5`は保存されています。大域的原F42/F54/F55実効descentは未証明です。 **第9段階v5.281は二つの局所化を分け、元F69入射射を反転させる局所化の普遍性と、元F47 Cat図式が証人付き経路圏の局所化を通る一意因子化を証明しました。** **第10〜11段階v5.282〜283では、真のF69局所化と元F69自由groupoidの普遍同値、F113のraw入射zigzagの正確な局所化核商、その局所化との充満・忠実・本質的全射を満たす圏同値を統合しました。** **第12段階v5.284では全360真正F69物理入射二単体のraw経路非同一と局所化・核商後の厳密二単体／平行span整合性を証明しました。**
 
-**次の未解決研究軸は、F112第12段階以降の**真正C60頂点–辺–面入射二単体／二脚spanの高次Beck–Chevalley比較、F68の非平坦物理曲率と接続した条件付き原ソースdescentの実効判定**です。v5.283の圏同値は**raw F113 zigzagを局所化表現の正確な核で商した後**に成立します。核を生成する最小有限関係式の完全な提示は別課題であり、元の生経路が恒等射になるわけではありません。全元F69入射サイトへの原F47 Cat値作用や原F42/F54/F55の大域実効3-descentは未証明です。F110位相非復元、元F55九生成子non-lift、F68北五角形の符号付き曲率`−5`を独立obstructionとして保持します。
+**次の未解決研究軸は、F112第13段階以降の**真正C60頂点–辺–面入射二単体から原F42/F54/F55に作用する型付き**高次**Beck–Chevalley比較、F68の非平坦物理曲率と結び付けた条件付き原ソースdescentの実効判定**です。v5.284の二単体／平行spanは**元F69入射1圏の局所化での射等式**であって、元F42/F54/F55 raw二射・三射の一致を主張しません。局所化核を生成する最小有限関係式の完全な提示も独立の未解決課題です。元のF113 raw経路は証人付きのまま残ります。全元F69入射サイト上の原F47 Cat値作用・大域実効3-descent、F110位相のF77からの復元、F55九生成子Δ non-lift解除、F68北五角形の原第2荷電`−5`消去は未証明です。
 
 **Old Grayを復元することは本研究ルートの前提ではありません。** 元のGray位相はソース診断として保存し、空による交代可能性は**指定された商圏と正確な保存量**について証明します。
 
@@ -163,19 +168,19 @@ F=\overline F\circ Q_{p,q},\qquad \exists!\,\overline F
 
 研究上のランタイム構成案は **`LLM + KuuOS reasoning runtime + formal authority layer`** です。Leanの定理が正しいことは、モデルの重み・対話システム・バックグラウンドエージェントの挙動が変わったこと、全リポジトリが実際に取り込まれたこと、臨床的・物理的・倫理的正当性が検証されたことを意味しません。結合実装は、正本SHAへの固定、明示的な権限・同意境界、観測と推測の区別、継続的な実測・再検証を別途必要とします。
 
-## Reproduce the F112 v5.283 theorem-bearing result / 形式証明の再現
+## Reproduce the F112 v5.284 theorem-bearing result / 形式証明の再現
 
 ```bash
 git clone https://github.com/itakura-hidetoshi/KuuOS.git
 cd KuuOS
-git checkout 675094b293f32bb035592a344bccdf5f4f79c6d4
+git checkout 00349180e143a8c9d26d2d07eccf58a060a84ffc
 cat lean-toolchain
 lake exe cache get  # 必要な場合のみ、固定mathlibに対応するキャッシュを取得
 lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build \
-  KUOS.DependentOriginationC60KuuF69RawZigzagQuotientLocalizationEquivalenceV5_283
+  KUOS.DependentOriginationC60KuuOriginalFlagTwoSimplexZigzagDescentV5_284
 ```
 
-[PR #2319のexact-source-head CI #38727358411](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38727358411) は **9095/9095 SUCCESS**。変更ファイルwarning/error 0/0、9件の`#print axioms`に`sorryAx`なし。Strict Lean・Governance・MCP Lean/CI完了証跡は全SUCCESS。検証済みsource HEAD `f9ec64a61a805ff13e993f7f347bf7a166175328`、squash数学マージSHA `675094b293f32bb035592a344bccdf5f4f79c6d4`。第10段階の[PR #2318](https://github.com/itakura-hidetoshi/KuuOS/pull/2318)も[CI #38724885277](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38724885277) **9094/9094 SUCCESS**・`#print axioms`14件、`sorryAx`なしでマージ済み。F112第1〜9段階の数学PRも既にexact-head GREEN・マージ済み。
+[PR #2321のexact-source-head CI #38729640152](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38729640152) は **9096/9096 SUCCESS**。変更ファイルwarning/error 0/0、12件の`#print axioms`に`sorryAx`なし。Strict Lean・Governance・MCP Lean/CI完了証跡は全SUCCESS。検証済みsource HEAD `3648b599fcec451b03bea666d6a8f9eb01a0d36f`、squash数学マージSHA `00349180e143a8c9d26d2d07eccf58a060a84ffc`。第11段階[PR #2319](https://github.com/itakura-hidetoshi/KuuOS/pull/2319)も[CI #38727358411](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38727358411) **9095/9095 SUCCESS**・9件`#print axioms`で`sorryAx`なし、第10段階[PR #2318](https://github.com/itakura-hidetoshi/KuuOS/pull/2318)も[CI #38724885277](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38724885277) **9094/9094 SUCCESS**・14件`#print axioms`で`sorryAx`なし。第1〜9段階もGREEN・マージ済み。
 
 別の検証範囲である全形式化ターゲットや推論ランタイムを調べる場合は、それぞれ独立に実行してください（上記CIによる成功の保証はありません）。
 
