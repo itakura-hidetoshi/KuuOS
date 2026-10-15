@@ -404,21 +404,22 @@ theorem c60F112WitnessedF47Transport_obj
       exact (c60F112WitnessedF47Transport_objects
         t₁ t₂ left right C P path).2.2.2
 
-/-- The type-transport morphism associated to an equality
-between ORIGINAL F47 boundary objects carries the exact ZERO native
-Gray grade. This is crucial in `Functor.ext`: that lemma conjugates
-the raw map by `eqToHom` casts when the functors' dependent object
-maps are only propositionally equal. -/
-theorem c60F112WitnessedF47EqToHom_native
+/-- Native F47 evaluation is INVARIANT under the exact
+propositional boundary casts inserted by `Functor.ext`.
+Unlike a raw simplification, this proof first eliminates the two
+equality witnesses of the source/target ORIGINAL four boundary tags;
+the resulting `eqToHom` arrows become identities. -/
+theorem c60F112WitnessedF47EqToHom_conjugate
     {n : Nat} (C : C60F108BothFaceContexts n)
     (P : (i : Fin n) → C60F112IndependentOddFacePair C i)
     (i : Fin n)
-    {X Y : c60F112WitnessedF47Fibre t₁ t₂ left right C P i}
-    (h : X = Y) :
-    c60F47MixedEval (eqToHom h) =
-      (0 : GradedThreeCell 0 0) := by
-  cases h
-  rfl
+    {A B D E : c60F112WitnessedF47Fibre t₁ t₂ left right C P i}
+    (hAB : A = B) (hDE : D = E) (f : B ⟶ D) :
+    c60F47MixedEval (eqToHom hAB ≫ f ≫ eqToHom hDE) =
+      c60F47MixedEval f := by
+  cases hAB
+  cases hDE
+  simp only [eqToHom_refl, Category.id_comp, Category.comp_id]
 
 /-- ANY two proof-relevant witnessed F69 overlap routes between
 the SAME original physical edges induce exactly the SAME F47 source
@@ -462,9 +463,11 @@ theorem c60F112WitnessedF47AnyPaths_functor
             (c60F112WitnessedF47Transport
               t₁ t₂ left right C P second).map f ≫
             eqToHom _) := by
-          simp only [c60F47MixedEval_comp,
-            c60F112WitnessedF47EqToHom_native,
-            zero_add, add_zero]
+          symm
+          exact c60F112WitnessedF47EqToHom_conjugate
+            t₁ t₂ left right C P j _ _
+            ((c60F112WitnessedF47Transport
+              t₁ t₂ left right C P second).map f)
 
 /-- Consequence on every fully dependent mixed-F47 source 3-Hom:
 different path-presentation morphisms are heterogeneously equal
@@ -620,7 +623,7 @@ theorem c60F112WitnessedF47Total_originalCurvatureObstruction
 #print axioms c60F112WitnessedF47Transport_faithful
 #print axioms c60F112WitnessedF47Transport_objects
 #print axioms c60F112WitnessedF47Transport_obj
-#print axioms c60F112WitnessedF47EqToHom_native
+#print axioms c60F112WitnessedF47EqToHom_conjugate
 #print axioms c60F112WitnessedF47AnyPaths_functor
 #print axioms c60F112WitnessedF47AnyPaths_HEq
 #print axioms c60F112WitnessedF47Transport_append
