@@ -23,6 +23,7 @@ open KUOS.DependentOriginationC60PhysicalIncidenceHigherNerveV5_223
 open KUOS.DependentOriginationC60PhysicalEdgeGrothendieckV5_224
 open KUOS.DependentOriginationC60KuuActualIncidenceOverlapRefinementV5_260
 open KUOS.DependentOriginationC60KuuPhaseReconstructionObstructionV5_269
+open KUOS.DependentOriginationC60KuuObservedGluingOriginalPhaseCurvatureV5_268
 open KUOS.DependentOriginationC60KuuTwoActualFaceInterchangeV5_265
 open KUOS.DependentOriginationC60KuuIndependentPhysicalFaceSiteSourceV5_274
 open KUOS.DependentOriginationC60KuuIndependentFaceMixedF55FrameV5_275
@@ -313,6 +314,10 @@ theorem c60F112WitnessedF47Transport_faithful
   apply c60F47MixedGrayFunctor_faithful
     (c60F112CrossEdgeFrame t₁ t₂ left right C i (P i))
   have hh := congrArg (fun z => c60F47MixedEval z) h
+  change c60F47MixedEval
+      ((c60F112WitnessedF47Transport t₁ t₂ left right C P path).map f) =
+    c60F47MixedEval
+      ((c60F112WitnessedF47Transport t₁ t₂ left right C P path).map g) at hh
   rw [c60F112WitnessedF47Transport_fullNative,
     c60F112WitnessedF47Transport_fullNative] at hh
   exact hh
@@ -355,6 +360,50 @@ theorem c60F112WitnessedF47Transport_objects
           t₁ t₂ left right C P rest).obj .rotationAfter = .rotationAfter)
       exact ih
 
+/-- Canonical REINDEXING of the four distinct originally typed
+source boundary tags from one real physical F47 fibre to another.
+It is merely an object-tag operation, NOT an equality of their
+underlying ORIGINAL F42 and ORIGINAL F54 source 2-cell witnesses. -/
+def c60F112WitnessedReindexTag
+    {n : Nat} (C : C60F108BothFaceContexts n)
+    (P : (i : Fin n) → C60F112IndependentOddFacePair C i)
+    {i j : Fin n}
+    (X : c60F112WitnessedF47Fibre t₁ t₂ left right C P i) :
+    c60F112WitnessedF47Fibre t₁ t₂ left right C P j :=
+  match X with
+  | .faceBefore => .faceBefore
+  | .faceAfter => .faceAfter
+  | .rotationBefore => .rotationBefore
+  | .rotationAfter => .rotationAfter
+
+/-- All ARBITRARILY LONG witnessed geometric route functors
+act on the genuine four F47 boundary tags exactly by their
+explicit canonical tag reindexing; this is PROPOSITIONAL and
+does not demand impossible definitional equality of recursive
+functors whose paths are arbitrary variables. -/
+theorem c60F112WitnessedF47Transport_obj
+    {n : Nat} (C : C60F108BothFaceContexts n)
+    (P : (i : Fin n) → C60F112IndependentOddFacePair C i)
+    {i j : Fin n}
+    (path : C60F112WitnessedOverlapPath C i j)
+    (X : c60F112WitnessedF47Fibre t₁ t₂ left right C P i) :
+    (c60F112WitnessedF47Transport
+      t₁ t₂ left right C P path).obj X =
+    c60F112WitnessedReindexTag t₁ t₂ left right C P X := by
+  cases X with
+  | faceBefore =>
+      exact (c60F112WitnessedF47Transport_objects
+        t₁ t₂ left right C P path).1
+  | faceAfter =>
+      exact (c60F112WitnessedF47Transport_objects
+        t₁ t₂ left right C P path).2.1
+  | rotationBefore =>
+      exact (c60F112WitnessedF47Transport_objects
+        t₁ t₂ left right C P path).2.2.1
+  | rotationAfter =>
+      exact (c60F112WitnessedF47Transport_objects
+        t₁ t₂ left right C P path).2.2.2
+
 /-- Two arbitrarily long routes of actual C60 star overlaps
 with the SAME physical start and end edges yield equivalent
 complete F47 source arrows. HEq is essential for the
@@ -371,12 +420,22 @@ theorem c60F112WitnessedF47AnyPaths_HEq
         t₁ t₂ left right C P first).map f)
       ((c60F112WitnessedF47Transport
         t₁ t₂ left right C P second).map f) := by
-  cases X <;> cases Y
-  all_goals
-    apply heq_of_eq
-    apply c60F47MixedGrayFunctor_faithful
-      (c60F112CrossEdgeFrame t₁ t₂ left right C j (P j))
-    calc
+  have hxFirst := c60F112WitnessedF47Transport_obj
+    t₁ t₂ left right C P first X
+  have hyFirst := c60F112WitnessedF47Transport_obj
+    t₁ t₂ left right C P first Y
+  have hxSecond := c60F112WitnessedF47Transport_obj
+    t₁ t₂ left right C P second X
+  have hySecond := c60F112WitnessedF47Transport_obj
+    t₁ t₂ left right C P second Y
+  cases hxFirst
+  cases hyFirst
+  cases hxSecond
+  cases hySecond
+  apply heq_of_eq
+  apply c60F47MixedGrayFunctor_faithful
+    (c60F112CrossEdgeFrame t₁ t₂ left right C j (P j))
+  calc
       c60F47MixedEval
           ((c60F112WitnessedF47Transport
             t₁ t₂ left right C P first).map f) =
@@ -410,7 +469,8 @@ theorem c60F112WitnessedF47Transport_append
         c60F112WitnessedF47Transport t₁ t₂ left right C P second =
         𝟭 _ ⋙
           c60F112WitnessedF47Transport t₁ t₂ left right C P second
-      exact (Category.id_comp _).symm
+      exact (Functor.id_comp
+        (c60F112WitnessedF47Transport t₁ t₂ left right C P second)).symm
   | @step i j k W rest ih =>
       change
         c60F112CrossEdgeMixedSourceChange
@@ -422,7 +482,7 @@ theorem c60F112WitnessedF47Transport_append
           c60F112WitnessedF47Transport t₁ t₂ left right C P rest) ⋙
           c60F112WitnessedF47Transport t₁ t₂ left right C P second
       rw [ih]
-      exact (Category.assoc _ _ _).symm
+      exact (Functor.assoc _ _ _).symm
 
 /-- A fully CONSTRUCTED Cat-valued diagram over the non-discrete
 category of arbitrary finite TRUE physical overlap paths.
@@ -440,6 +500,10 @@ def c60F112WitnessedF47Diagram
     rfl
   map_comp := by
     intro X Y Z f g
+    change c60F112WitnessedF47Transport t₁ t₂ left right C P
+        (c60F112WitnessedOverlapAppend f g) =
+      c60F112WitnessedF47Transport t₁ t₂ left right C P f ⋙
+        c60F112WitnessedF47Transport t₁ t₂ left right C P g
     exact c60F112WitnessedF47Transport_append
       t₁ t₂ left right C P f g
 
@@ -519,6 +583,7 @@ theorem c60F112WitnessedF47Total_originalCurvatureObstruction
 #print axioms c60F112WitnessedF47Transport_fullNative
 #print axioms c60F112WitnessedF47Transport_faithful
 #print axioms c60F112WitnessedF47Transport_objects
+#print axioms c60F112WitnessedF47Transport_obj
 #print axioms c60F112WitnessedF47AnyPaths_HEq
 #print axioms c60F112WitnessedF47Transport_append
 #print axioms c60F112WitnessedF47Diagram
