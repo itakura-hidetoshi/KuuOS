@@ -236,6 +236,7 @@ theorem c60F124AnyAdmissibleCorrection_northSecondCharge
   change (c60F68PhysicalPatchCurvature
     t₁ t₂ left right sigma north).charge.2 = (-5 : ℤ) at hNorth
   rw [hNorth] at hcharge
+  change ((gamma.comp c60IntegralBoundaryTwo) north).charge.2 = (5 : ℤ)
   omega
 
 /-- A correction that cancels the genuine physical signed
