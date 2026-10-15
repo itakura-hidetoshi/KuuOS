@@ -10,6 +10,7 @@ open KUOS.DependentOriginationGrayBraidedThreeCellCoreV5_156
 open KUOS.DependentOriginationGrayNativeBraidedCategoryV5_156
 open KUOS.DependentOriginationGrayC60MixedBoundaryThreeHomV5_195
 open KUOS.DependentOriginationGrayC60IntegralChainComplexV5_160
+open KUOS.DependentOriginationGrayC60IntegralBoundaryLinearMapV5_159
 open KUOS.DependentOriginationC60FiniteAtlasCechCoherenceV5_221
 open KUOS.DependentOriginationC60PhysicalCechCurvatureRepairV5_222
 open KUOS.DependentOriginationC60PhysicalIncidenceHigherNerveV5_223
@@ -162,7 +163,10 @@ theorem c60F125NativeIncidenceMap_comp
         change False at hYZ
         exact False.elim hYZ
       | face g =>
-        simp [c60F125NativeIncidenceMap, Category.comp_id]
+        change f = g at hYZ
+        subst g
+        simpa only [c60F125NativeIncidenceMap] using
+          (Category.comp_id c60F72NativeVertexToFace.toCatHom).symm
   | edge e =>
     cases Y with
     | vertex v =>
@@ -190,7 +194,12 @@ theorem c60F125NativeIncidenceMap_comp
         change False at hYZ
         exact False.elim hYZ
       | face g =>
-        simp [c60F125NativeIncidenceMap, Category.comp_id]
+        change f = g at hYZ
+        subst g
+        simpa only [c60F125NativeIncidenceMap] using
+          (Category.comp_id
+            (c60F72NativeEdgeToFace
+              t₁ t₂ left right sigma e).toCatHom).symm
   | face f =>
     cases Y with
     | vertex v =>
@@ -208,7 +217,13 @@ theorem c60F125NativeIncidenceMap_comp
         change False at hYZ
         exact False.elim hYZ
       | face j =>
-        simp [c60F125NativeIncidenceMap, Category.id_comp]
+        change f = g at hXY
+        subst g
+        change f = j at hYZ
+        subst j
+        simpa only [c60F125NativeIncidenceMap] using
+          (Category.id_comp
+            (𝟙 (Cat.of GrayGrade))).symm
 
 /-- This is a TRUE functor on the WHOLE original nonlocalized
 F69 60-vertex/90-edge/32-face incidence category, not merely
