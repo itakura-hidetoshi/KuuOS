@@ -23,7 +23,7 @@ def project (V : Type u) [Quiver.{v} V] (r : Relations V) :
 
 def Replaceable {V : Type u} [Quiver.{v} V] (r : Relations V)
     {X Y : Raw V} (f g : X ⟶ Y) : Prop :=
-  Relation.EqvGen (HomRel.CompClosure r) f g
+  Relation.EqvGen (@HomRel.CompClosure (Raw V) _ r X Y) f g
 
 theorem project_exact {V : Type u} [Quiver.{v} V] (r : Relations V)
     {X Y : Raw V} (f g : X ⟶ Y) :
