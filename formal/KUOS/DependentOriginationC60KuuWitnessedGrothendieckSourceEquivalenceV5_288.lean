@@ -97,8 +97,8 @@ theorem c60F122WitnessedF47TotalSourceChange_obj_base
     {n : Nat} (C : C60F108BothFaceContexts n)
     (P Q : (i : Fin n) → C60F112IndependentOddFacePair C i)
     (X : c60F112WitnessedF47Grothendieck t₁ t₂ left right C P) :
-    (c60F122WitnessedF47TotalSourceChange
-      t₁ t₂ left right C P Q).obj X |>.base = X.base := rfl
+    ((c60F122WitnessedF47TotalSourceChange
+      t₁ t₂ left right C P Q).obj X).base = X.base := rfl
 
 /-- Every total Hom retains its literal finite
 proof-carrying physical overlap PATH as its base arrow.
