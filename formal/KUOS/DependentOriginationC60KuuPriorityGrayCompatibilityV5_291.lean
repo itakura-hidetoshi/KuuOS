@@ -1,5 +1,6 @@
 import KUOS.DependentOriginationC60KuuNativeIncidenceCollarV5_291
 import KUOS.DependentOriginationC60KuuLocalUniversalDescentV5_249
+import KUOS.DependentOriginationC60KuuLocalVerticalFunctorV5_251
 import KUOS.DependentOriginationGrayC60OriginalFaceHorizontalGrayCoherenceV5_199
 import KUOS.DependentOriginationC60InterchangerStrictChargeQuotientV5_229
 
@@ -10,12 +11,15 @@ open KUOS.DependentOriginationIcosahedralTruncationSeedV3_84
 open KUOS.DependentOriginationGrayBraidedThreeCellCoreV5_156
 open KUOS.DependentOriginationGrayC60OriginalFaceHorizontalPresentationV5_199
 open KUOS.DependentOriginationGrayC60OriginalFaceHorizontalThreeHomV5_199
+open KUOS.DependentOriginationGrayC60OriginalFaceHorizontalCompositionV5_199
 open KUOS.DependentOriginationGrayC60OriginalFaceHorizontalGrayCoherenceV5_199
 open KUOS.DependentOriginationC60InterchangerStrictChargeQuotientV5_229
 open KUOS.DependentOriginationC60NativeExchangeCongruenceQuotientV5_231
 open KUOS.DependentOriginationC60StrictChargeGlobularCalculusV5_232
 open KUOS.DependentOriginationC60KuuReplacementInterchangeV5_248
 open KUOS.DependentOriginationC60KuuLocalUniversalDescentV5_249
+open KUOS.DependentOriginationC60KuuLocalHorizontalFunctorV5_250
+open KUOS.DependentOriginationC60KuuLocalVerticalFunctorV5_251
 
 set_option autoImplicit false
 set_option maxRecDepth 4096
@@ -228,7 +232,153 @@ theorem c60F125NorthKuuInterchange_withGrayDiagnostic :
   ⟨c60F51NorthOriginalInterchanger_phaseOne,
     c60F75NorthOriginalInterchanger_collapses⟩
 
+
+/-! ## Kuu-priority higher composition with retained phase -/
+
+/-- Physical horizontal two-cell pasting on the new Kuu-first
+representation uses the real original F51 object pasting. -/
+def c60F125KuuGrayHorizontalObj
+    {a b c : IcosahedralDart}
+    {p q : Quiver.Path a b} {r s : Quiver.Path b c}
+    (X : C60F125KuuGrayTwo p q)
+    (Y : C60F125KuuGrayTwo r s) :
+    C60F125KuuGrayTwo (p.comp r) (q.comp s) :=
+  ⟨c60F51OriginalTwoHorizontal X.original Y.original⟩
+
+/-- Kuu quotient is primary; phase is independently transported
+by the SAME native Gray tensor addition, not silently erased. -/
+def c60F125KuuGrayHorizontalHom
+    {a b c : IcosahedralDart}
+    {p q : Quiver.Path a b} {r s : Quiver.Path b c}
+    {X X' : C60F125KuuGrayTwo p q}
+    {Y Y' : C60F125KuuGrayTwo r s}
+    (f : X ⟶ X') (g : Y ⟶ Y') :
+    c60F125KuuGrayHorizontalObj X Y ⟶
+      c60F125KuuGrayHorizontalObj X' Y' :=
+  ⟨c60F96HorizontalThree f.1 g.1, f.2 + g.2⟩
+
+/-- A real horizontal bifunctor of the Kuu-first Gray-compatible
+source, with true middle-four on both the Kuu and phase factors. -/
+def c60F125KuuGrayHorizontalFunctor
+    {a b c : IcosahedralDart}
+    (p q : Quiver.Path a b) (r s : Quiver.Path b c) :
+    (C60F125KuuGrayTwo p q × C60F125KuuGrayTwo r s) ⥤
+      C60F125KuuGrayTwo (p.comp r) (q.comp s) where
+  obj Z := c60F125KuuGrayHorizontalObj Z.1 Z.2
+  map := fun {_ _} f => c60F125KuuGrayHorizontalHom f.1 f.2
+  map_id := by
+    intro X
+    apply Prod.ext
+    · exact c60F96HorizontalThree_id
+        ((c60F95LocalProjection p q).obj X.1.original)
+        ((c60F95LocalProjection r s).obj X.2.original)
+    · exact (zero_add (0 : ZMod 2))
+  map_comp := by
+    intro X Y Z f g
+    apply Prod.ext
+    · exact c60F96HorizontalThree_middleFour
+        f.1.1 g.1.1 f.2.1 g.2.1
+    · change
+        (f.1.2 + g.1.2) + (f.2.2 + g.2.2) =
+          (f.1.2 + f.2.2) + (g.1.2 + g.2.2)
+      abel
+
+/-- The original horizontal F51 three-arrow is sent to the
+same Kuu-plus-phase arrow whether original pasting is done
+first or the two independently source-typed arrows are mapped
+into the Kuu-first horizontal functor before pasting. -/
+theorem c60F125KuuFirst_horizontal_original
+    {a b c : IcosahedralDart}
+    {p q : Quiver.Path a b} {r s : Quiver.Path b c}
+    {X X' : C60F51OriginalTwo p q}
+    {Y Y' : C60F51OriginalTwo r s}
+    (f : X ⟶ X') (g : Y ⟶ Y') :
+    (c60F125KuuFirstOriginalSource (p.comp r) (q.comp s)).map
+        (c60F51HorizontalMap f g) =
+      c60F125KuuGrayHorizontalHom
+        ((c60F125KuuFirstOriginalSource p q).map f)
+        ((c60F125KuuFirstOriginalSource r s).map g) := by
+  apply Prod.ext
+  · exact (c60F96HorizontalThree_representatives f g).symm
+  · change (c60F51Eval (c60F51HorizontalMap f g)).phase =
+      (c60F51Eval f).phase + (c60F51Eval g).phase
+    rw [c60F51HorizontalMap_eval]
+    exact grayNeutral_add_phase _ _
+
+/-- Physical vertical F42 two-cell pasting, retaining the
+original source 2-cell witnesses at the actual p→q→r boundary. -/
+def c60F125KuuGrayVerticalObj
+    {a b : IcosahedralDart}
+    {p q r : Quiver.Path a b}
+    (X : C60F125KuuGrayTwo p q)
+    (Y : C60F125KuuGrayTwo q r) :
+    C60F125KuuGrayTwo p r :=
+  ⟨c60F51OriginalTwoVertical X.original Y.original⟩
+
+/-- Independent vertical composition on the Kuu quotient and
+the optional Gray phase diagnostic; the two operations are typed. -/
+def c60F125KuuGrayVerticalHom
+    {a b : IcosahedralDart}
+    {p q r : Quiver.Path a b}
+    {X X' : C60F125KuuGrayTwo p q}
+    {Y Y' : C60F125KuuGrayTwo q r}
+    (f : X ⟶ X') (g : Y ⟶ Y') :
+    c60F125KuuGrayVerticalObj X Y ⟶
+      c60F125KuuGrayVerticalObj X' Y' :=
+  ⟨c60F97VerticalThree f.1 g.1, f.2 + g.2⟩
+
+/-- Kuu-first vertical 2-context bifunctor: true middle-four
+using existing F97, plus additive phase tracking without
+requiring fake equality of unrelated raw original F42 words. -/
+def c60F125KuuGrayVerticalFunctor
+    {a b : IcosahedralDart}
+    (p q r : Quiver.Path a b) :
+    (C60F125KuuGrayTwo p q × C60F125KuuGrayTwo q r) ⥤
+      C60F125KuuGrayTwo p r where
+  obj Z := c60F125KuuGrayVerticalObj Z.1 Z.2
+  map := fun {_ _} f => c60F125KuuGrayVerticalHom f.1 f.2
+  map_id := by
+    intro X
+    apply Prod.ext
+    · exact c60F97VerticalThree_id
+        ((c60F95LocalProjection p q).obj X.1.original)
+        ((c60F95LocalProjection q r).obj X.2.original)
+    · exact (zero_add (0 : ZMod 2))
+  map_comp := by
+    intro X Y Z f g
+    apply Prod.ext
+    · exact c60F97VerticalThree_middleFour
+        f.1.1 g.1.1 f.2.1 g.2.1
+    · change
+        (f.1.2 + g.1.2) + (f.2.2 + g.2.2) =
+          (f.1.2 + f.2.2) + (g.1.2 + g.2.2)
+      abel
+
+/-- The original F51 vertical two-context three-arrow agrees
+with primary Kuu composition AND separate Gray phase addition. -/
+theorem c60F125KuuFirst_vertical_original
+    {a b : IcosahedralDart}
+    {p q r : Quiver.Path a b}
+    {X X' : C60F51OriginalTwo p q}
+    {Y Y' : C60F51OriginalTwo q r}
+    (f : X ⟶ X') (g : Y ⟶ Y') :
+    (c60F125KuuFirstOriginalSource p r).map
+        (c60F51VerticalTwoMap f g) =
+      c60F125KuuGrayVerticalHom
+        ((c60F125KuuFirstOriginalSource p q).map f)
+        ((c60F125KuuFirstOriginalSource q r).map g) := by
+  apply Prod.ext
+  · exact (c60F97VerticalThree_representatives f g).symm
+  · change (c60F51Eval (c60F51VerticalTwoMap f g)).phase =
+      (c60F51Eval f).phase + (c60F51Eval g).phase
+    rw [c60F51VerticalTwoMap_eval]
+    exact grayNeutral_add_phase _ _
+
 #print axioms c60F125KuuGrayCategory
+#print axioms c60F125KuuGrayHorizontalFunctor
+#print axioms c60F125KuuFirst_horizontal_original
+#print axioms c60F125KuuGrayVerticalFunctor
+#print axioms c60F125KuuFirst_vertical_original
 #print axioms c60F125KuuPrimaryProjection
 #print axioms c60F125KuuFirstOriginalSource
 #print axioms c60F125KuuPrimaryProjection_spec
