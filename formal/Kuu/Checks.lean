@@ -15,10 +15,10 @@ inductive Step : Point → Point → Type where
 instance : Quiver Point := ⟨Step⟩
 
 def firstPath : (Point.source : Raw Point) ⟶ Point.target :=
-  Quiver.Hom.toPath Step.first
+  (Paths.of Point).map Step.first
 
 def secondPath : (Point.source : Raw Point) ⟶ Point.target :=
-  Quiver.Hom.toPath Step.second
+  (Paths.of Point).map Step.second
 
 theorem raw_distinct : firstPath ≠ secondPath := by
   intro h
