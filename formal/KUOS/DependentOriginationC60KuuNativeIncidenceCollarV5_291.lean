@@ -182,7 +182,7 @@ theorem c60F125NativeIncidenceMap_comp
       | edge j =>
         change e = j at hYZ
         subst j
-        simp [c60F125NativeIncidenceMap, Category.id_comp]
+        simp [c60F125NativeIncidenceMap]
       | face f =>
         simp [c60F125NativeIncidenceMap, Category.id_comp]
     | face f =>
@@ -217,13 +217,10 @@ theorem c60F125NativeIncidenceMap_comp
         change False at hYZ
         exact False.elim hYZ
       | face j =>
-        change f = g at hXY
-        subst g
-        change f = j at hYZ
-        subst j
-        simpa only [c60F125NativeIncidenceMap] using
-          (Category.id_comp
-            (𝟙 (Cat.of GrayGrade))).symm
+        change (𝟙 (Cat.of GrayGrade)) =
+          (𝟙 (Cat.of GrayGrade)) ≫ (𝟙 (Cat.of GrayGrade))
+        exact (Category.id_comp
+          (𝟙 (Cat.of GrayGrade))).symm
 
 /-- This is a TRUE functor on the WHOLE original nonlocalized
 F69 60-vertex/90-edge/32-face incidence category, not merely
