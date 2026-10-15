@@ -226,7 +226,7 @@ theorem c60F114F69ZigzagLength_append
     c60F114F69ZigzagLength (c60F113ZigzagAppend p q) =
       c60F114F69ZigzagLength p + c60F114F69ZigzagLength q := by
   induction p with
-  | nil _ => rfl
+  | nil _ => simp [c60F113ZigzagAppend, c60F114F69ZigzagLength]
   | forward h rest ih =>
       change c60F114F69ZigzagLength
           (c60F113ZigzagAppend rest q) + 1 =
@@ -322,9 +322,9 @@ theorem c60F114WitnessedF47RoundTrip_leftInverse
         (c60F114ReverseWitnessedPath path) ⋙
       c60F112WitnessedF47Transport t₁ t₂ left right C P path =
       𝟭 (c60F112WitnessedF47Fibre t₁ t₂ left right C P j) := by
-  exact c60F114WitnessedF47RoundTrip_rightInverse
+  have h := c60F114WitnessedF47RoundTrip_rightInverse
     t₁ t₂ left right C P (c60F114ReverseWitnessedPath path)
-      |>.trans (by rw [c60F114ReverseWitnessed_involutive])
+  simpa only [c60F114ReverseWitnessed_involutive] using h
 
 /-- Concrete original F47 arrow statement: full native F47
 source round trip is identity on EVERY actual original
@@ -335,9 +335,11 @@ theorem c60F114WitnessedF47RoundTrip_map_identity
     {i j : Fin n} (path : C60F112WitnessedOverlapPath C i j)
     {X Y : c60F112WitnessedF47Fibre t₁ t₂ left right C P i}
     (f : X ⟶ Y) :
-    (c60F112WitnessedF47Transport t₁ t₂ left right C P path ⋙
-      c60F112WitnessedF47Transport t₁ t₂ left right C P
-        (c60F114ReverseWitnessedPath path)).map f = f := by
+    HEq
+      ((c60F112WitnessedF47Transport t₁ t₂ left right C P path ⋙
+        c60F112WitnessedF47Transport t₁ t₂ left right C P
+          (c60F114ReverseWitnessedPath path)).map f)
+      f := by
   rw [c60F114WitnessedF47RoundTrip_rightInverse]
   rfl
 
