@@ -72,19 +72,20 @@ theorem c60F117LocalizationPaths_triangle :
           (⊤ : MorphismProperty C60F69PhysicalCellSite)) := by
   refine Paths.ext_functor rfl ?_
   intro X Y f
-    rcases f with f | ⟨g, hg⟩
-    · change
-        c60F115F69ZigzagToLocalizationHom
-          (c60F116RawForward f) =
-        c60F115OriginalF69LocalizationQ.map f
-      exact c60F116RawForward_localized f
-    · change
-        c60F115F69ZigzagToLocalizationHom
-          (c60F116RawBackward g) =
-        Localization.Construction.wInv
-          (W := (⊤ : MorphismProperty C60F69PhysicalCellSite))
-          g hg
-      exact c60F116RawBackward_localized g
+  simp only [eqToHom_refl, Category.id_comp, Category.comp_id]
+  rcases f with f | ⟨g, hg⟩
+  · change
+      c60F115F69ZigzagToLocalizationHom
+        (c60F116RawForward f) =
+      c60F115OriginalF69LocalizationQ.map f
+    exact c60F116RawForward_localized f
+  · change
+      c60F115F69ZigzagToLocalizationHom
+        (c60F116RawBackward g) =
+      Localization.Construction.wInv
+        (W := (⊤ : MorphismProperty C60F69PhysicalCellSite))
+        g hg
+    exact c60F116RawBackward_localized g
 
 /-! ## II. Discharge FULLNESS and ESSENTIAL SURJECTIVITY, not assumptions -/
 
