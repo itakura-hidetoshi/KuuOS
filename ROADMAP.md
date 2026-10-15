@@ -1,6 +1,6 @@
 # KuuOS / 空OS — Formal Roadmap
 
-**2026-10-15 JST / latest VERIFIED theorem-bearing frontier: `v5.284 / F112 part 12`.** [PR #2321](https://github.com/itakura-hidetoshi/KuuOS/pull/2321) **MERGED**; theorem-bearing squash SHA `00349180e143a8c9d26d2d07eccf58a060a84ffc` matched canonical main after merge. Exact source HEAD `3648b599fcec451b03bea666d6a8f9eb01a0d36f`; [CI #38729640152](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38729640152) completed **9096/9096 SUCCESS**, zero changed-file warnings/errors, twelve `#print axioms` without `sorryAx`, Strict Lean, Governance, MCP Lean/CI receipts SUCCESS. Earlier verified F112 parts 10–11: #2318, #2319.
+**2026-10-15 JST / latest VERIFIED theorem-bearing frontier: `v5.285 / F112 part 13`.** [PR #2323](https://github.com/itakura-hidetoshi/KuuOS/pull/2323) **MERGED**, theorem-bearing squash SHA `75aeedc00008dd54b8492b3739c992a01048893a` matched canonical main after merge; exact source HEAD `8a8513e47280020306063cf9a9a1b3768afd6158`. [CI #38732749167](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38732749167) completed SUCCESS, **9097/9097 Lean jobs**, changed-file warning/error **0/0**, **11 `#print axioms`** without `sorryAx`, Governance and MCP Lean/CI completion receipts all SUCCESS. Earlier stages 1–12 through mathematics #2321 remain exact-head GREEN/MERGED.
 
 **研究の現行方針：** 空を**元の境界型・実物理交差文脈・完全Gray保存量に相対的な表現交代可能性**として使用します。第6段階v5.278はF69/F106実交差証人を保持する任意有限長の物理辺の自由経路圏と原F42/F54/F55混合F47ソースCat値関手・Grothendieck総圏を実装。第7段階v5.279は、元のF69の真正の前向き入射不等式または**形式的逆向き**だけから生成した別のzigzag圏と、実物理交差経路の幾何学的関手を構成。**第8段階v5.280では、交差証人の物理サイトを保存する経路反転と二重反転、連結逆順則、元F69ジグザグの形式的な逆向き操作**を実装しました。証明済みの原F47関手では任意有限経路とその逆の**左右往復が厳密な恒等関手**になりますが、元の自由交差経路そのものの往復は空ではありません。これはF47ソース商圏で完全二整数荷電＋独立ZMod2位相を保持して得た同値で、元のF69逆射、原F42/F54原語の等置、F77位相復元を主張しません。原F55九生成子Δ non-lift、F68北五角形第2荷電`−5`、大域的実効ソースdescent未証明は独立のobstructionとして維持します。
 
@@ -9,6 +9,9 @@
 **F112 parts 10–11 / v5.282–283の新たな正本：** 第10段階は、元F69入射圏の`FreeGroupoid`と真正Gabriel–Zisman局所化の**普遍圏同値**をmathlibの`Localization.uniq`で証明し、F113のraw自由zigzagから局所化への既証明関手の**正確な核関係`Functor.homRel`による真のQuotient圏**、厳密因子化・一意性・忠実性、元の前後入射raw非空往復と局所化後／核商後の恒等性を分離しました。第11段階は、mathlib `Localization.Construction.LocQuiver`の元F69真正前向き射＋形式的逆向き射をraw zigzagへ復号する`Prefunctor`、`Paths.lift`による任意有限長復号と元局所化への関手等式を実装し、**Full**および**EssSurj**を新規証明。第10段階の忠実性と合わせ、\(\mathrm{Zigzag}_{raw}(F69)/\ker L\simeq F69[W^{-1}]\simeq\mathrm{FreeGroupoid}(F69)\)の**型付き真の圏同値**を構成しています。これはraw zigzag自体の同値、旧F69への新逆射追加、元F42/F54/F55構文の無条件同一化を意味しません。F55 Δ non-lift・F110位相非復元・F68北曲率`−5`は未解消です。
 
 **F112 part 12 / v5.284 の新定理：** 360個の本物のC60頂点→辺→五／六角形面のF69入射二単体について、原入射に由来するF113 raw二脚経路と原対角一脚経路は**raw長さ2と1で非同一**、しかしF69の正確なGabriel–Zisman局所化とF113局所化核商では**型付きHom等式**が成立します。元F69同一始点・終点の異なる真正中間サイトを持つ平行二脚spanも、その二つの指定ターゲットでは一致します。これは**元F69入射1圏のnerve/二単体整合性**であり、F42/F54/F55の高次Beck–Chevalley 2/3-cellや大域実効descentの新規存在証明ではありません。F55 Δ non-lift、F110位相非復元、F68北五角形第2荷電`−5`は保持。
+
+**F112 part 13 / v5.285の正式な定理範囲：** 各真正C60物理辺を固定した両原多角形面F42源文脈と、実フラグ頂点から辺端点への**本物のQuiver.Path**を構成しました。同一原物理辺上の二つの任意の独立奇次数F42ソースペアには、原F47四境界SourceChangeと元F54/F55回転木を保持する**左・右F58 Beck–Chevalley NatIso**を構成し、全F47三射と特に元F43面交換・元F54/F55回転射で自然性を確認しました。すべての二整数荷電＋独立ZMod2位相を保持し、全360元F69入射二単体の局所化核商等式と、原F51位相1、旧F55 Delta九生成子**non-lift**、F68北五角形の原第2荷電`−5`は**同時に成立**します。ただしこれは**F69フラグにアンカーした辺局所の原F47ソースBC**であり、F69全頂点／面へF47繊維を定義する大域Cat図式、複数物理辺間の元F42/F54/F55高次修正、無条件実効3-descentは未証明です。
+
 
 
 
@@ -20,18 +23,18 @@
 | 項目 | 正確な根拠 |
 | --- | --- |
 | Canonical repository | [`itakura-hidetoshi/KuuOS`](https://github.com/itakura-hidetoshi/KuuOS)、branch `main` |
-| Latest verified theorem-bearing merge | [PR #2321 — v5.284 F112 part 12, MERGED](https://github.com/itakura-hidetoshi/KuuOS/pull/2321) |
-| **Theorem-bearing SHA** | **`00349180e143a8c9d26d2d07eccf58a060a84ffc`**（PR #2321 squash merge; canonical main一致検証済） |
-| Exact tested source HEAD | `3648b599fcec451b03bea666d6a8f9eb01a0d36f` |
-| Exact-head formal CI | [run #38729640152](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38729640152) — completed SUCCESS |
-| Strict Lean | Job `116404046525`, **9096/9096 SUCCESS** |
-| Governance / MCP completion | All SUCCESS in [run #38729640152](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38729640152) |
-| F112 v5.284 source diagnostics | **0 warnings / 0 errors**, **12 `#print axioms`**, no `sorryAx` |
+| Latest verified theorem-bearing merge | [PR #2323 — v5.285 F112 part 13, MERGED](https://github.com/itakura-hidetoshi/KuuOS/pull/2323) |
+| **Theorem-bearing SHA** | **`75aeedc00008dd54b8492b3739c992a01048893a`**（math theorem-bearing PR #2323 squash SHA; main一致確認済み） |
+| Exact tested source HEAD | `8a8513e47280020306063cf9a9a1b3768afd6158` |
+| Exact-head formal CI | [run #38732749167](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38732749167) — completed SUCCESS |
+| Strict Lean | Job `116414412708`, **9097/9097 SUCCESS** |
+| Governance / MCP completion | All SUCCESS in [run #38732749167](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38732749167) |
+| F112 v5.285 source diagnostics | **0 warnings / 0 errors**, **11 `#print axioms`**, no `sorryAx` |
 | Toolchain | [`leanprover/lean4:v4.30.0-rc2`](lean-toolchain); [mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`](lake-manifest.json) |
 | Separate validation-only lane | [PR #1558](https://github.com/itakura-hidetoshi/KuuOS/pull/1558) (Lean 4.31) — **OPEN / DRAFT / UNMERGED**; **do not merge** |
 | Copyright and license | 板倉英俊 / Hidetoshi Itakura · [Apache-2.0](LICENSE) · [NOTICE](NOTICE) · [COPYRIGHT.md](COPYRIGHT.md) |
 
-**Authority priority:** fresh canonical main SHA → actual Lean declarations → README/ROADMAP → exact-head CI and receipts → historical reports. Docs-only merges may change main but the latest verified theorem-bearing merge SHA remains `00349180e143a8c9d26d2d07eccf58a060a84ffc` until a later verified mathematics PR.
+**Authority priority:** fresh canonical main SHA → actual Lean declarations → README/ROADMAP verified indices → same exact source-head CI and receipts → historical reports. Docs-only merges may change main but the latest verified theorem-bearing merge SHA remains `75aeedc00008dd54b8492b3739c992a01048893a` until a later verified mathematics PR.
 
 **CI and axiom boundary:** successful selected `lake build` is evidence for its selected Lean target/dependency closure, **not** the entire repository/runtime/model. `#print axioms` can include ordinary `propext`/`Classical.choice`/`Quot.sound` and inherited finite-geometric `native_decide` axioms. Neither `sorryAx` nor a new unreviewed assumption is permitted in accepted theorem-bearing changes. Keep physical assertions tied to the original source type; do not infer raw F42/F55 equality from an F77 quotient equality.
 
@@ -73,6 +76,7 @@
 | **F112 part 10 / v5.282** | Mathlib `FreeGroupoid` of the unchanged original F69 incidence category is canonically equivalent to its **true localization at all actual arrows**, with natural comparison iso. The genuine F113 source raw zigzag representation's precise localization **kernel HomRel** defines a real Mathlib quotient category, a strict unique factorization and faithful induced functor. Forward old F69 identity/composition and formal backwards constructors retain genuinely nonempty RAW backtracking; both directions cancel in the named localization and raw-kernel quotient only. | This is NOT an equivalence of the raw free zigzag with original F69 or even with localization before quotient. Fullness of kernel lift is not assumed in v5.282; it is addressed by v5.283. Original F55 Δ non-lift and F68 north charge `−5` remain. |
 | **F112 part 11 / v5.283** | Actual mathlib `LocQuiver` generator decoding (genuine old F69 forward arrow / formal inverse) to the separately typed raw F113 zigzag is a `Prefunctor`. `Paths.lift` extends it to arbitrary paths; its composition with old-incidence localization is exactly the canonical path quotient FUNCTOR. Every actual localizing Hom has a raw zigzag representative, proving **Fullness**, and every localizing physical site is from a genuinely original F69 cell, proving **EssSurj**. After passing to the exact kernel quotient the induced representation is already Faithful (v5.282), now also Full + EssSurj, yielding the proven equivalences `raw zigzag/ker(L) ≌ original F69 localization ≌ FreeGroupoid(original F69)`. | This is an equivalence of the **named kernel QUOTIENT**, not raw zigzag itself, not the original F69 poset, and not an effective source F42/F54/F55 higher descent. A finite generator–relation minimal presentation of the kernel, if desired, remains a distinct task. Curvature and no-lift obstructions persist. |
 | **F112 part 12 / v5.284** | All 360 genuine physical C60 vertex–edge–original-face incidence triangles are bridged to F113 raw two-leg original-F69 zigzags. Their raw two-step words and original direct diagonal raw one-step generators remain unequal by length, while the images agree STRICTLY in the verified F69 localization and exact localizing-kernel quotient. Parallel genuine F69 two-leg spans with the same source/target likewise agree in those target Hom sets. | This is ORIGINAL F69 1-category/nerve 2-simplex coherence, NOT effective original F42/F54/F55 Gray source higher Beck–Chevalley or source 3-descent; F55 Delta nonlift, F110 phase loss and signed F68 north curvature −5 remain. |
+| **F112 part 13 / v5.285** | Genuine C60 original physical edge charts with separately typed original odd-degree F42 cells at both actual incident pentagon/hexagon faces; TRUE original C60 paths anchor each vertex-edge-face flag to the edge's first/second original endpoint. Source-typed original F47 mixed boundary change functors have **left/right F58 Beck–Chevalley NatIso** with true original F54/F55 independent rotation-tree contexts and FULL Hom naturality, checked separately for the original F43 and original F55 square Homs. Native Int×Int charges and independent ZMod2 phase survive. The all-360 flag theorem retains raw 2-step/diagonal distinction, localization-kernel-quotient equality, original F51 phase one, old F55 Delta nine-constructor no-lift and F68 north physical second charge −5. | These are **edge-local original F47 SOURCE BC anchored to genuine F69 flags**, NOT an F69-vertex/face-wide Cat-valued 3-sheaf, not higher modifications across multiple original physical edges and NOT original F42/F54/F55 effective global three-descent; curvature and original typed-source obstruction persist. |
 
 ### Read this before claiming descent
 
@@ -351,7 +355,7 @@ The F58/F59 programme has multiple **independent verified theorem scopes**. “C
 
 
 
-## 13. Verified quotient/replaceability programme — v5.213–v5.284
+## 13. Verified quotient/replaceability programme — v5.213–v5.285
 
 ### 13.1 From finite C60 context to an intentional phase quotient (v5.213–v5.233)
 
@@ -430,7 +434,7 @@ F95 real local Kuu categorical quotient + universal factorization
 
 **Boundary:** `NatIso` and pentagon are at the F77 **observer** level. They do not identify unequal raw F42 proof trees or prove flatness of the unquotiented F55 source.
 
-### 13.5 F104–F107 CLOSED; F108–F112 part 12 VERIFIED (v5.258–v5.284)
+### 13.5 F104–F107 CLOSED; F108–F112 part 13 VERIFIED (v5.258–v5.285)
 
 | Stage / exact source | Verified mathematical content | PR |
 | --- | --- | --- |
@@ -461,6 +465,7 @@ F95 real local Kuu categorical quotient + universal factorization
 | **F112 part 10 / v5.282** — [`DependentOriginationC60KuuF69ZigzagKernelQuotientFreeGroupoidV5_282.lean`](formal/KUOS/DependentOriginationC60KuuF69ZigzagKernelQuotientFreeGroupoidV5_282.lean) | `c60F116OriginalF69FreeGroupoidEquivalence` / `...Comparison` prove the genuine original F69 free-groupoid completion ≌ original Gabriel–Zisman localization via Mathlib universality; `c60F116RawZigzagKernel` is EXACTLY `Functor.homRel` of F113 raw zigzag→localization, with true Mathlib `Quotient`, strict functor factorization and uniqueness, exact iff on localizing images and faithful quotient lift. `c60F116RawForward`, `...RawBackward`, `...RawForward_comp_localized`, `...RawBacktrack_nonempty`, and both left/right localized cancellations preserve original proof-relevant raw geometric words but identify them when (and only when) applying the exact named quotient. This does NOT add old F69 inverse arrows or assert a raw zigzag equivalence. | [#2318](https://github.com/itakura-hidetoshi/KuuOS/pull/2318) |
 | **F112 part 11 / v5.283** — [`DependentOriginationC60KuuF69RawZigzagQuotientLocalizationEquivalenceV5_283.lean`](formal/KUOS/DependentOriginationC60KuuF69RawZigzagQuotientLocalizationEquivalenceV5_283.lean) | `c60F117LocalGeneratorToRawZigzag` decodes every REAL mathlib `Localization.Construction.LocQuiver` generator to the old-original-F69-witnessed raw F113 forward/backward step, and `c60F117LocalizationPathsToRawZigzag` uses the ACTUAL `Paths.lift`; `c60F117LocalizationPaths_triangle` establishes entire-functor compatibility with the genuine localization path quotient. `c60F117RawF69ZigzagToLocalization_full` proves any locally quotiented morphism has a raw zigzag path preimage, `..._essSurj` proves genuine original site coverage; the induced exact kernel quotient lift is now Full, Faithful (from v5.282), and EssSurj. `c60F117RawF69ZigzagKernelEquivalence` and `...FreeGroupoidEquivalence` construct both verified categorical EQUIVALENCES with no new axioms or unknown raw inverses. The old physical poset, raw witnesses, original F55 Δ non-lift, F77 phase non-recovery and F68 signed curvature −5 persist. | [#2319](https://github.com/itakura-hidetoshi/KuuOS/pull/2319) |
 | **F112 part 12 / v5.284** — [`DependentOriginationC60KuuOriginalFlagTwoSimplexZigzagDescentV5_284.lean`](formal/KUOS/DependentOriginationC60KuuOriginalFlagTwoSimplexZigzagDescentV5_284.lean) | `c60F118RawTwoStep` and `..._ne_diagonal` retain true original F69 two-leg versus direct-diagonal raw words; `..._localized` / `..._kernelQuotient` prove exactly the target Hom relation; `c60F118ParallelPhysicalSpans_localized` / `_kernelQuotient` establish true original-incidence parallel two-leg-span equality. `c60F118PhysicalFlag_isOriginalTwoSimplex` connects to F69 real physical nerve; `c60F118AllThreeHundredSixtyFlagTwoSimplices` certifies all 360 genuine vertex-edge-face flags. F55 nonlift, nonrecoverable F77 phase and F68 north physical −5 remain unaffected. | [#2321](https://github.com/itakura-hidetoshi/KuuOS/pull/2321) |
+| **F112 part 13 / v5.285** — [`DependentOriginationC60KuuPhysicalFlagOriginalSourceBeckChevalleyV5_285.lean`](formal/KUOS/DependentOriginationC60KuuPhysicalFlagOriginalSourceBeckChevalleyV5_285.lean) | `c60F119OnePhysicalEdgeContext` constructs a source context on ANY actual C60 edge, and `c60F119FlagPrior`/`FlagSuffix` are real ORIGINAL C60 typed paths from selected real F69 flag vertices. `c60F119PhysicalFlagMixedFrame` and `...SourceChange` preserve full native Int×Int and ZMod2 on all original F47 Homs. `c60F119PhysicalFlagLeftBC` and `...RightBC` explicitly instantiate source-typed F58 ORIGINAL left/right NatIso; `...BC_naturality` and explicit `...originalFace` / `...originalF55` declarations prove arrow-level BC naturality, and `...MixedSquare_transport` preserves the genuine original F47 four-boundary square. `c60F119OriginalF55NoLift_proved` retains the exact old nine-constructor F55 nonlift, and `c60F119EveryPhysicalFlagSourceAndCurvatureBoundary` establishes all 360 real F69 flags' raw/localized distinction, source phase one, nonlift and original F68 north charge −5 simultaneously. All assertions are on SAME-EDGE local F47 source frames, not full original F69 source sheaf or global three-descent. | [#2323](https://github.com/itakura-hidetoshi/KuuOS/pull/2323) |
 
 ### 13.6 Exact current logical hierarchy
 
@@ -557,6 +562,13 @@ F112 part 8: reverse actual witnessed C60 overlap paths and formal F69 zigzags
  F112 part 11: decode ALL true old F69 localizing path generators to raw zigzags
                |
  F112 part 12: TRUE 360 C60 vertex-edge-face F69 physical 2-simplices
+               |\---
+ F112 part 13: genuine EDGE-LOCAL original F42/F54/F55 source BC anchored at F69 flags
+               |\--- actual vertex-to-edge-endpoint original Quiver.Path contexts
+               |\--- LEFT and RIGHT F58 NatIso natural on all F47 3-Homs
+               |\--- original F43 face and original F54/F55 rotation arrow BC cases
+               |\--- full native Int×Int and independent ZMod2 phase preserved
+               |\--- F55 Delta nonlift, F68 original north −5 unchanged
                |\--- F113 raw two-leg words != direct original diagonal one-leg words
                |\--- EQUAL only after true F69 localization / exact kernel quotient
                |\--- parallel genuine F69 two-leg spans are locally coherent
@@ -586,7 +598,7 @@ For GENERAL heterogeneous physical patches, gluing remains conditional on genuin
 
 is a genuine signed charge 1-cocycle (additive even when no glue exists). A witness with `\omega_{ij}(f)\ne0` obstructs a zero-added-charge comparison, rather than being “repaired” without authority.
 
-## 14. Active theorem frontier — F112 part 13+ original source higher Beck–Chevalley and curved descent (OPEN)
+## 14. Active theorem frontier — F112 part 14+ cross-edge higher source BC and curved effective descent (OPEN)
 
 **F108 — four verified stages, later independently typed F112 source refinement now verified.** F108 original two-face physical F42/F51 source context began as one common horizontal composite for both upper face sites; F112 v5.274–277 has since constructed two independently original F42 face site types and old F43/F54/F55 mixed four-boundary frames, then genuine source F47 reindexing on same edges and on DISTINCT physical edges only when a TRUE F69 overlap is supplied. No identification of original face-base path types, global F69-to-F47 source diagram, or effective original F42/F54/F55 global three-descent is proved.
 
@@ -596,9 +608,9 @@ is a genuine signed charge 1-cocycle (additive even when no glue exists). A witn
 
 **F111 — THREE STAGES VERIFIED; effective original source descent remains OPEN.** v5.270 constructs the actual C60 proof-carrying physical incidence intersection chart type and true Mathlib F77 natural transformations for all finite histories; every history equals direct F109 `NatIso`, has trivial observed closed holonomy, zero added charge, actual incidence naturality and arbitrary concatenation coherence. v5.271 constructs the genuine F106 `O_I→O_J` restriction for `J⊆I`, proving entire F77 observed functors and all different-length physical histories compatible with it. v5.272 establishes `K⊆J⊆I` double physical restriction compatibility on objects and all Homs, and proves BOTH independently typed K→J and J→I comparisons among arbitrary distinct finite histories, preserving zero added integer charge for all 90 original physical edges. **This remains observed F77 finite physical-intersection coherence**, NOT a new topology, effective raw F42/F54/F55 global three-descent object or restoration of erased Gray phase.
 
-**F112 — TWELVE stages VERIFIED; original F69-incidence F42/F54/F55 effective source descent remains OPEN.** v5.273–281 built authentic physical incidence overlap paths, typed F42/F54/F55 mixed F47 source data and separate actual localizations; v5.282–283 constructed and proved the raw F113 zigzag kernel quotient categorically equivalent to original F69 localization and FreeGroupoid. **v5.284 proves the 360 real original F69 vertex-edge-face 2-simplex laws: raw two-leg witness paths differ from raw one-leg diagonals, but their images and all parallel genuine original-incidence two-leg spans agree in the true F69 localization and exact kernel quotient.** None of this constructs unrestricted higher original F42/F54/F55 source 2-/3-cell Beck–Chevalley modifications, global original F47 semantics on all F69 cells, F110 phase restoration or F68 north physical curvature cancellation.
+**F112 — THIRTEEN stages VERIFIED; full original F42/F54/F55 effective source descent remains OPEN.** v5.273–284 proved original F69 genuine 360 flag two-simplices, its exact zigzag-localization-kernel quotient and free groupoid comparison, and original F47 full-phase source transport on witnessed physical-overlap paths. **v5.285 now fixes each of the actual C60 physical edges as an original two-face F42 source chart, anchors it to a REAL flag vertex through physical C60 Quiver.Path and constructs BOTH originally typed F42/F54/F55 F47 source Beck–Chevalley NatIso, natural on EVERY F47 3-Hom (including real F43 exchange / old F55 source-square arrows).** The complete Int×Int plus ZMod2 phase survives, and the all-360 original flag geometry remains consistent with existing original F55 Delta non-lift and signed F68 north physical −5 obstruction. No full F69 vertex/face F47 fibres have been constructed, so higher cross-edge original-source modifications and global effective three-descent remain OPEN.
 
-**Progression / proof authority gate:** F108 parts 1–4, F109 parts 1–2, F110 parts 1–2, F111 parts 1–3, **F112 parts 1–12 MERGED / Lean verified**. Next: model the genuinely typed F42/F54/F55 original source 2-/3-cell Beck–Chevalley comparisons over the existing original 360 F69 physical flag two-simplices, retaining nonflat F68 signed curvature and exact authority boundaries. Minimal finite presentation of the raw zigzag localization kernel remains a separate open problem. Never identify old raw source cells, create fictitious old F69 reverse Homs, infer F77 phase recovery, or flatten F68 north −5 from this 1-categorical incidence coherence.
+**Progression / proof authority gate:** F108 parts 1–4, F109 parts 1–2, F110 parts 1–2, F111 parts 1–3, **F112 parts 1–13 MERGED/verified Lean.** Next: compare distinct original physical edges' independently typed F42/F54/F55 source Beck–Chevalley transformations over true two-edge F69 incidence witnesses and properly typed higher modifications; specify curvature-aware admissibility and genuine nonzero physical repair criteria for any proposed global effective source descent. Do not infer full F69-site F47 Cat semantics, original F55 Delta lifting, F77 phase recovery or signed F68 north −5 flattening from edge-local naturality.
 
 ## 15. Explicit mathematical and implementation boundaries
 
@@ -619,19 +631,19 @@ is a genuine signed charge 1-cocycle (additive even when no glue exists). A witn
 4. exact source HEADで`warningAsError=true`、`sorryAsError=true`を指定して変更モジュールとその依存閉包をビルド。主定理の`#print axioms`を検査し、`native_decide`由来の既存公理依存を開示する。CIキャッシュの利用を新しい証明と混同しない。
 5. **Strict Lean / Governance / MCP Lean完了証跡 / MCP CI完了証跡** が同じPR source HEADに対してGREENであることを確認してからマージし、事後のcanonical `main`とmerge SHAの一致を再観測する。**docs-only PRのマージは新たなtheorem-bearing SHAではない**。
 
-**Reproduce exact F112 v5.284 theorem-bearing baseline:**
+**Reproduce exact F112 v5.285 theorem-bearing baseline:**
 
 ```bash
 git clone https://github.com/itakura-hidetoshi/KuuOS.git
 cd KuuOS
-git checkout 00349180e143a8c9d26d2d07eccf58a060a84ffc
+git checkout 75aeedc00008dd54b8492b3739c992a01048893a
 cat lean-toolchain
 lake exe cache get  # 必要な場合のみ
 lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build \
-  KUOS.DependentOriginationC60KuuOriginalFlagTwoSimplexZigzagDescentV5_284
+  KUOS.DependentOriginationC60KuuPhysicalFlagOriginalSourceBeckChevalleyV5_285
 ```
 
-[Exact F112 v5.284 PR source CI #38729640152](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38729640152): **9096/9096 SUCCESS**, twelve `#print axioms` with no `sorryAx`, changed-file warning/error 0/0, Strict Lean, Governance and both MCP Lean/CI completion receipts SUCCESS. Tested source HEAD `3648b599fcec451b03bea666d6a8f9eb01a0d36f`, theorem-bearing squash merge SHA `00349180e143a8c9d26d2d07eccf58a060a84ffc`. Earlier F112 stages through v5.283 [#2319](https://github.com/itakura-hidetoshi/KuuOS/pull/2319) are all exact-head GREEN/MERGED.
+[Exact F112 v5.285 PR source CI #38732749167](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38732749167): **9097/9097 SUCCESS**, eleven `#print axioms` without `sorryAx`, changed-file warning/error 0/0, Strict Lean, Governance and both MCP Lean/CI completion receipts SUCCESS. Tested source HEAD `8a8513e47280020306063cf9a9a1b3768afd6158`, theorem-bearing squash merge SHA `75aeedc00008dd54b8492b3739c992a01048893a`. Previous F112 v5.284 mathematics [#2321](https://github.com/itakura-hidetoshi/KuuOS/pull/2321) passed exact-head CI [#38729640152](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38729640152), **9096/9096 SUCCESS**, twelve `#print axioms` without `sorryAx`. Earlier F112 stages 1–12 remain GREEN/MERGED.
 
 **Independent broader checks** (not implied by F107 selected-target CI):
 
