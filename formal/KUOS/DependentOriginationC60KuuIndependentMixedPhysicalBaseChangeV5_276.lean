@@ -114,18 +114,12 @@ theorem c60F112MixedPhysicalFace_native_eq {n : Nat}
       (c60F112MixedPhysicalFrame t₁ t₂ left right C₀ i P₀).faceStep =
     c60F44FaceThreeEval
       (c60F112MixedPhysicalFrame t₁ t₂ left right C₁ i P₁).faceStep := by
-  calc
-    _ = c60F51Eval (c60F112IndependentPairExchangeHom C₀ i P₀) :=
-      c60F112IndependentFaceMixedFrame_face_native
-        t₁ t₂ left right C₀ i P₀
-    _ = (c60F77PhaseGenerator GrayGrade.unit :
-          GrayGrade.unit ⟶ GrayGrade.unit) :=
-      c60F112IndependentPair_nativePhaseGenerator C₀ i P₀
-    _ = c60F51Eval (c60F112IndependentPairExchangeHom C₁ i P₁) :=
-      (c60F112IndependentPair_nativePhaseGenerator C₁ i P₁).symm
-    _ = _ :=
-      (c60F112IndependentFaceMixedFrame_face_native
-        t₁ t₂ left right C₁ i P₁).symm
+  rw [c60F112IndependentFaceMixedFrame_face_native
+      t₁ t₂ left right C₀ i P₀,
+    c60F112IndependentFaceMixedFrame_face_native
+      t₁ t₂ left right C₁ i P₁]
+  exact (c60F112IndependentPair_nativePhaseGenerator C₀ i P₀).trans
+    (c60F112IndependentPair_nativePhaseGenerator C₁ i P₁).symm
 
 /-- The actual original F54/F55 rotation square on one TRUE
 physical C60 edge is the same original source arrow, regardless
