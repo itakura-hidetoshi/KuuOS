@@ -132,7 +132,6 @@ theorem c60F112TowerRestrict_pathIndependent
       c60F112TowerRestrict C second := by
   rw [c60F112TowerRestrict_eq_direct C first,
       c60F112TowerRestrict_eq_direct C second]
-  rfl
 
 /-- Any two actual geometric refinement towers splice exactly,
 as Mathlib functors on the ORIGINAL physical incidence site. -/
@@ -173,14 +172,15 @@ theorem c60F112TowerTransition_app
     {I K : Finset (Fin n)} (tower : C60F112PhysicalTower I K)
     (i j : C60F111PhysicalChart K)
     (X : C60F106PhysicalOverlap (c60F108BothFacePatchFamily C) I) :
-    (c60F111PhysicalTransition C K i j).hom.app
-      ((c60F112TowerRestrict C tower).obj X) =
-    (c60F111PhysicalTransition C I
-      (c60F112TowerChart tower i)
-      (c60F112TowerChart tower j)).hom.app X := by
+    HEq
+      ((c60F111PhysicalTransition C K i j).hom.app
+        ((c60F112TowerRestrict C tower).obj X))
+      ((c60F111PhysicalTransition C I
+        (c60F112TowerChart tower i)
+        (c60F112TowerChart tower j)).hom.app X) := by
   rw [c60F112TowerRestrict_eq_direct C tower]
-  exact c60F111Refinement_transition_app C
-    (c60F112TowerSubset tower) i j X
+  exact HEq.ofEq (c60F111Refinement_transition_app C
+    (c60F112TowerSubset tower) i j X)
 
 /-- HIGHER Čech transport: arbitrary original physical chart
 histories of two INDEPENDENT lengths, across any number of genuine
@@ -193,14 +193,15 @@ theorem c60F112TowerAnyHistories_app
     (historyK : List (C60F111PhysicalChart K))
     (historyI : List (C60F111PhysicalChart I))
     (X : C60F106PhysicalOverlap (c60F108BothFacePatchFamily C) I) :
-    (c60F111PhysicalTransitionChain C K i j historyK).app
-      ((c60F112TowerRestrict C tower).obj X) =
-    (c60F111PhysicalTransitionChain C I
-      (c60F112TowerChart tower i)
-      (c60F112TowerChart tower j) historyI).app X := by
+    HEq
+      ((c60F111PhysicalTransitionChain C K i j historyK).app
+        ((c60F112TowerRestrict C tower).obj X))
+      ((c60F111PhysicalTransitionChain C I
+        (c60F112TowerChart tower i)
+        (c60F112TowerChart tower j) historyI).app X) := by
   rw [c60F112TowerRestrict_eq_direct C tower]
-  exact c60F111Refinement_anyHistory_app C
-    (c60F112TowerSubset tower) i j historyK historyI X
+  exact HEq.ofEq (c60F111Refinement_anyHistory_app C
+    (c60F112TowerSubset tower) i j historyK historyI X)
 
 /-- Even when the geometric refinement towers THEMSELVES
 differ and the observed Čech histories have unrelated finite
@@ -212,13 +213,14 @@ theorem c60F112TwoTowersAnyHistories_app
     (i j : C60F111PhysicalChart K)
     (historyFirst historySecond : List (C60F111PhysicalChart K))
     (X : C60F106PhysicalOverlap (c60F108BothFacePatchFamily C) I) :
-    (c60F111PhysicalTransitionChain C K i j historyFirst).app
-      ((c60F112TowerRestrict C first).obj X) =
-    (c60F111PhysicalTransitionChain C K i j historySecond).app
-      ((c60F112TowerRestrict C second).obj X) := by
+    HEq
+      ((c60F111PhysicalTransitionChain C K i j historyFirst).app
+        ((c60F112TowerRestrict C first).obj X))
+      ((c60F111PhysicalTransitionChain C K i j historySecond).app
+        ((c60F112TowerRestrict C second).obj X)) := by
+  rw [c60F112TowerRestrict_pathIndependent C first second]
   rw [c60F111PhysicalTransitionChain_eq_direct,
-      c60F111PhysicalTransitionChain_eq_direct,
-      c60F112TowerRestrict_pathIndependent C first second]
+      c60F111PhysicalTransitionChain_eq_direct]
 
 /-- A refined two-simplex of original F109 transitions is coherent
 after ANY finite number of original physical geometric refinements. -/
@@ -227,12 +229,13 @@ theorem c60F112TowerHigherCech_cocycle
     {I K : Finset (Fin n)} (tower : C60F112PhysicalTower I K)
     (i j k : C60F111PhysicalChart K)
     (X : C60F106PhysicalOverlap (c60F108BothFacePatchFamily C) I) :
-    ((c60F111PhysicalTransition C K i j).hom ≫
-      (c60F111PhysicalTransition C K j k).hom).app
-        ((c60F112TowerRestrict C tower).obj X) =
-      (c60F111PhysicalTransition C I
+    HEq
+      (((c60F111PhysicalTransition C K i j).hom ≫
+        (c60F111PhysicalTransition C K j k).hom).app
+          ((c60F112TowerRestrict C tower).obj X))
+      ((c60F111PhysicalTransition C I
         (c60F112TowerChart tower i)
-        (c60F112TowerChart tower k)).hom.app X := by
+        (c60F112TowerChart tower k)).hom.app X) := by
   rw [c60F111PhysicalTransition_cocycle C K i j k]
   exact c60F112TowerTransition_app C tower i k X
 
@@ -281,13 +284,14 @@ theorem c60F112AllNinetyTowerAnyHistories_app
     (historyI : List (C60F111PhysicalChart I))
     (X : C60F106PhysicalOverlap
       (c60F108BothFacePatchFamily c60F108AllNinetyBothFaces) I) :
-    (c60F111PhysicalTransitionChain
-      c60F108AllNinetyBothFaces K i j historyK).app
-      ((c60F112TowerRestrict c60F108AllNinetyBothFaces tower).obj X) =
-    (c60F111PhysicalTransitionChain
-      c60F108AllNinetyBothFaces I
-      (c60F112TowerChart tower i) (c60F112TowerChart tower j)
-      historyI).app X :=
+    HEq
+      ((c60F111PhysicalTransitionChain
+        c60F108AllNinetyBothFaces K i j historyK).app
+        ((c60F112TowerRestrict c60F108AllNinetyBothFaces tower).obj X))
+      ((c60F111PhysicalTransitionChain
+        c60F108AllNinetyBothFaces I
+        (c60F112TowerChart tower i) (c60F112TowerChart tower j)
+        historyI).app X) :=
   c60F112TowerAnyHistories_app
     c60F108AllNinetyBothFaces tower i j historyK historyI X
 
