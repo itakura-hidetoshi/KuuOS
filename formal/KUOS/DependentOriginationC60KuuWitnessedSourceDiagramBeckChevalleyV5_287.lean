@@ -339,7 +339,7 @@ theorem c60F121WitnessedDiagramChange_self
     c60F121WitnessedF47DiagramSourceChange t₁ t₂ left right C P P =
       NatTrans.id (c60F112WitnessedF47Diagram t₁ t₂ left right C P) := by
   apply NatTrans.ext
-  intro X
+  funext X
   apply Cat.Hom.ext
   simpa only [Cat.Hom.id_toFunctor, Functor.toCatHom_toFunctor] using
     c60F121WitnessedLocalSourceChange_self
@@ -360,7 +360,7 @@ theorem c60F121WitnessedDiagramChange_cocycle
       c60F121WitnessedF47DiagramSourceChange
         t₁ t₂ left right C P R := by
   apply NatTrans.ext
-  intro X
+  funext X
   exact c60F121WitnessedDiagramChange_cocycle_app
     t₁ t₂ left right C P Q R X
 
