@@ -135,6 +135,9 @@ def generate_repository_repair_candidates(
             validator,
         )
     for root_name in observation.missing_lake_roots:
+        if "import KuuOSStrict" in texts.get(LEAN_AGGREGATE_ROOT, ""):
+            if root_name not in {"KuuOSFormal", "KuuOSStrict", "Kuu"}:
+                continue  # defect remains visible; no unauthorized legacy repair
         add(
             LAKEFILE,
             _register_lake_root(texts.get(LAKEFILE, ""), root_name),
@@ -142,6 +145,9 @@ def generate_repository_repair_candidates(
             root_name,
         )
     for module in observation.missing_aggregate_imports:
+        if "import KuuOSStrict" in texts.get(LEAN_AGGREGATE_ROOT, ""):
+            if not (module == "KuuOSStrict" or module == "Kuu" or module.startswith("Kuu.")):
+                continue  # keep the obstruction, never import KUOS into Kuu
         add(
             LEAN_AGGREGATE_ROOT,
             _register_aggregate_import(texts.get(LEAN_AGGREGATE_ROOT, ""), module),

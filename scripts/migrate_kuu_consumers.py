@@ -1,29 +1,23 @@
 #!/usr/bin/env python3
-"""Deterministically separate existing formal consumers from the current Kuu core.
+"""Read-only migration verifier for existing consumers of the Kuu formal split.
 
-Default mode is a read-only plan. --publish-objects stores only a Git tree in
-this repository; it NEVER updates a branch or creates a commit. A separate,
-expected-SHA GitHub operation is required to apply the reviewed tree.
+All source changes are committed through GitHub MCP. This script performs no
+network writes, creates no archives and cannot update any repository ref.
 """
 from __future__ import annotations
 import argparse
 import json
-import os
 import re
 import subprocess
-import urllib.request
 from pathlib import Path
 from typing import Mapping
 
 ROOT = Path(__file__).resolve().parents[1]
-REPOSITORY = 'itakura-hidetoshi/KuuOS'
-BRANCH = 'formal/v5-292-independent-kuu-foundation-restructure'
 LEGACY = 'legacy/v5.291'
 CURRENT_WORKFLOWS = {
     '.github/workflows/pr-governance-gate.yml',
     '.github/workflows/lean-formal-validation.yml',
     '.github/workflows/kuu-independent-foundation.yml',
-    '.github/workflows/kuu-prepare-consumer-migration.yml',
 }
 
 
@@ -36,6 +30,8 @@ def replace_once(text: str, old: str, new: str, path: str) -> str:
 
 
 def legacy_workflow(text: str) -> str:
+    # Only actual shell-command prefixes, never documentation, quoted command
+    # expectations, workflow names, trigger filters or the Python validators.
     pattern = re.compile(r'(?m)^(\s*(?:-\s+)?(?:run:\s*)?)lake(?=\s)')
     if not pattern.search(text):
         return text
@@ -110,14 +106,34 @@ def transform_sources(sources: Mapping[str, str]) -> dict[str, str]:
             new = '        if formal_package == "legacy-v5.291":\n            references.update({"legacy/v5.291/formal/KuuOSFormal.lean", "legacy/v5.291/lakefile.toml"})\n' + old
             text = replace_once(text, old, new, name)
             old = '    for contract in contracts:\n        for path in contract.referenced_paths:\n'
-            new = '    for contract in contracts:\n        package = json.loads(texts[contract.manifest_path]).get("formal_package", "current")\n        prefix = "legacy/v5.291/" if package == "legacy-v5.291" else ""\n        # An explicit manifest scope selects its own formal inputs.\n        lean_root = texts.get(prefix + LEAN_AGGREGATE_ROOT, "")\n        lakefile = texts.get(prefix + LAKEFILE, "")\n        for path in contract.referenced_paths:\n'
+            new = '''    for contract in contracts:
+        package = json.loads(texts[contract.manifest_path]).get("formal_package", "current")
+        prefix = "legacy/v5.291/" if package == "legacy-v5.291" else ""
+        # An explicit manifest scope chooses its own formal inputs. No missing
+        # historical result is ever repaired by importing it into current Kuu.
+        lean_root = texts.get(prefix + LEAN_AGGREGATE_ROOT, "")
+        lakefile = texts.get(prefix + LAKEFILE, "")
+        for path in contract.referenced_paths:
+'''
             text = replace_once(text, old, new, name)
         if name == 'runtime/kuuos_repository_repair_candidates_v0_79.py':
+            # Frozen historical sources are never targets for automated repair;
+            # nor may the old engine reinstate an old root in independent Kuu.
             old = '    for root_name in observation.missing_lake_roots:\n        add(\n'
-            new = '    for root_name in observation.missing_lake_roots:\n        if "import KuuOSStrict" in texts.get(LEAN_AGGREGATE_ROOT, ""):\n            if root_name not in {"KuuOSFormal", "KuuOSStrict", "Kuu"}:\n                continue  # defect remains visible; never restore legacy roots\n        add(\n'
+            new = '''    for root_name in observation.missing_lake_roots:
+        if "import KuuOSStrict" in texts.get(LEAN_AGGREGATE_ROOT, ""):
+            if root_name not in {"KuuOSFormal", "KuuOSStrict", "Kuu"}:
+                continue  # defect remains visible; no unauthorized legacy repair
+        add(
+'''
             text = replace_once(text, old, new, name)
             old = '    for module in observation.missing_aggregate_imports:\n        add(\n'
-            new = '    for module in observation.missing_aggregate_imports:\n        if "import KuuOSStrict" in texts.get(LEAN_AGGREGATE_ROOT, ""):\n            if not (module == "KuuOSStrict" or module == "Kuu" or module.startswith("Kuu.")):\n                continue  # keep the obstruction, never import KUOS into Kuu\n        add(\n'
+            new = '''    for module in observation.missing_aggregate_imports:
+        if "import KuuOSStrict" in texts.get(LEAN_AGGREGATE_ROOT, ""):
+            if not (module == "KuuOSStrict" or module == "Kuu" or module.startswith("Kuu.")):
+                continue  # keep the obstruction, never import KUOS into Kuu
+        add(
+'''
             text = replace_once(text, old, new, name)
         if text != original:
             if name.endswith('.py'):
@@ -141,31 +157,16 @@ def tracked_sources(root: Path) -> dict[str,str]:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--check', action='store_true')
-    parser.add_argument('--publish-objects', action='store_true')
     args = parser.parse_args()
     sources = tracked_sources(ROOT)
     changes = transform_sources(sources)
+    # Idempotence matters: applying the plan must not progressively rewrite code.
     if transform_sources(dict(sources, **changes)):
         raise ValueError('migration is not idempotent')
     head = subprocess.check_output(['git','rev-parse','HEAD'], cwd=ROOT, text=True).strip()
     base_tree = subprocess.check_output(['git','rev-parse','HEAD^{tree}'], cwd=ROOT, text=True).strip()
     report = {'base_commit': head, 'base_tree': base_tree,
               'changed_count': len(changes), 'changed_paths': list(changes)}
-    if args.publish_objects:
-        if os.environ.get('GITHUB_REPOSITORY') != REPOSITORY or os.environ.get('PR_HEAD_REF') != BRANCH or os.environ.get('PR_HEAD_SHA') != head:
-            raise ValueError('object staging is limited to the exact same-repository migration PR head')
-        token = os.environ.get('GITHUB_TOKEN')
-        if not token:
-            raise ValueError('missing GitHub workflow token')
-        entries = [{'path':name,'mode':'100644','type':'blob','content':text} for name,text in changes.items()]
-        payload = json.dumps({'base_tree':base_tree,'tree':entries}).encode('utf-8')
-        request = urllib.request.Request('https://api.github.com/repos/'+REPOSITORY+'/git/trees',
-            data=payload, method='POST', headers={'Authorization':'Bearer '+token,
-            'Accept':'application/vnd.github+json','Content-Type':'application/json',
-            'X-GitHub-Api-Version':'2022-11-28'})
-        with urllib.request.urlopen(request, timeout=60) as response:
-            report['tree'] = json.load(response)['sha']
-        report['ref_updated'] = False
     print('KUU_MIGRATION_RESULT=' + json.dumps(report, ensure_ascii=False))
     return 1 if args.check and changes else 0
 
