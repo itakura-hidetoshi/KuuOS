@@ -1,0 +1,18 @@
+{
+  "schema_version": "0.2",
+  "known_paths": ["AGENTS.md", "legacy/v5.291/**"],
+  "checks": {
+    "kuu-independent-foundation": {
+      "name": "Independent Kuu foundation and legacy preservation",
+      "runner": "python",
+      "command": "python3 scripts/run_kuu_foundation_check.py",
+      "group": "static",
+      "tier": "critical",
+      "paths": ["formal/**", "lakefile.toml", "lean-toolchain", "lake-manifest.json", "legacy/v5.291/**", "AGENTS.md", "README.md", "ROADMAP.md", "scripts/check_kuu_foundation.py", "scripts/run_kuu_foundation_check.py", "tests/test_kuu_foundation.py", "ci/check_registry.d/kuu-independent-foundation-v5_292.json"],
+      "depends_on": [],
+      "timeout_minutes": 5,
+      "pr_required": true,
+      "full_audit_member": true
+    }
+  }
+}
