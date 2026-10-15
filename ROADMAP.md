@@ -522,6 +522,11 @@ F112 part 6: free REAL-overlap witness PATH CATEGORY, arbitrary finite length
               |\--- all-Hom full-native F47 route invariance; strict source functor equality
               |\--- Cat diagram and Grothendieck total; NO original F69 edge path functor
               |
+F112 part 7: separate ORIGINAL F69 directed-incidence ZIGZAG path category
+              |\--- each REAL two-edge common site → two genuine F69 incidence legs
+              |\--- all witness paths map by FUNCTOR to directed F69 zigzags
+              |\--- F47 Grothendieck geometry projection; original F69 site-fixing no-go
+              |
 OPEN: independent FACE-SITE F42/F54/F55 source gluing and effectivity
               |
 no unconditional global physical F55 glue / hyperdescent
