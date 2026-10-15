@@ -52,13 +52,15 @@ theorem two_horizontal_assoc {F G : A ⥤ B} {H I : B ⥤ C}
 theorem two_horizontal_left_unit {F G : A ⥤ B} (α : F ⟶ G) :
     (𝟙 (𝟭 A)) ◫ α = α := by
   ext X
-  simp only [NatTrans.hcomp_app, NatTrans.id_app, Functor.id_obj,
-    Functor.map_id, Category.comp_id]
+  change α.app X ≫ G.map (𝟙 X) = α.app X
+  rw [G.map_id X]
+  exact Category.comp_id (α.app X)
 
 theorem two_horizontal_right_unit {F G : A ⥤ B} (α : F ⟶ G) :
     α ◫ (𝟙 (𝟭 B)) = α := by
   ext X
-  simp only [NatTrans.hcomp_app, NatTrans.id_app, Functor.id_map, Category.id_comp]
+  change 𝟙 (F.obj X) ≫ α.app X = α.app X
+  exact Category.id_comp (α.app X)
 
 section TwoDimensionalDescent
 variable {V : Type u} [Quiver.{v} V] (r : Relations V)
@@ -79,8 +81,12 @@ theorem descendComparison_id (F : Space V r ⥤ B) :
 end TwoDimensionalDescent
 
 #print axioms one_assoc
+#print axioms one_left_unit
+#print axioms one_right_unit
 #print axioms two_interchange
 #print axioms two_horizontal_assoc
+#print axioms two_horizontal_left_unit
+#print axioms two_horizontal_right_unit
 #print axioms descendComparison_comp
 #print axioms descendComparison_id
 end Kuu
