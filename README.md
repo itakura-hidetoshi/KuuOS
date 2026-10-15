@@ -14,16 +14,16 @@ English: KuuOS is a research architecture for dependent origination, context-dep
 
 ## Verified formal frontier / Lean4の現在の正本
 
-**2026-10-15 JST GitHub MCP再確認：`v5.273 / F112` 第1段階まで統合済み。** 真正C60物理辺の任意有限個の入射スター交差について、証明付き包含からなる**任意有限長の幾何学的制限列**を帰納的に構成し、その実F106制限関手が端点の直接制限と完全に一致することをLean4で証明。任意の二つの制限列と独立した任意長F77 Čech履歴の比較、F109自然同型成分の高次整合性、追加Int×Int荷電ゼロ、全90実物理辺への特殊化を得ました。異なるHom型の比較はLean標準の異種等式`HEq`で正確に表現。対象は**特定の実二面原F42/F51意味論のF77観測後**であり、原F42/F54/F55の大域的実効貼り合わせ、原F51位相の復元、F68北五角形原第2荷電`−5`の消去は主張しません。
+**2026-10-15 JST GitHub MCP再確認：`v5.274 / F112` 第2段階までLean4で統合済み。** 真正C60の物理辺に隣接する二つの**異なる原五角形／六角形サイト**へ、各々独立した境界型付き原F42二射を割り当てる型付き構造を実装しました。実C60の面基点間`Quiver.Path`によって二つの原二射を型付きに合成し、原F43/F51交換射の整数荷電`(0,0)`・独立位相`1 : ZMod 2`・原圏での非恒等性を証明。F77射影後のみ恒等射となることを検証しました。これと**別の原F54回転経路／F55旗標四角形射**の実物理辺上の実現、およびF68北五角形の原第2荷電`−5`・曲率非零・無補正60頂点ゲージ不存在、任意長F112物理制限列の観測後整合性を同時に保持しました。**原F42/F54/F55の完全な大域的実効descent、ソース交換位相の再構成、F68曲率の消去は未証明／不可能な対象として明示的に分離**しています。
 
 | 検証項目 | 最新の確認済み権威 |
 | --- | --- |
 | Repository / canonical branch | [`itakura-hidetoshi/KuuOS`](https://github.com/itakura-hidetoshi/KuuOS) / `main` |
-| **最新 theorem-bearing PR** | **[PR #2300 — v5.273 F112第1段階, MERGED](https://github.com/itakura-hidetoshi/KuuOS/pull/2300)** |
-| **Theorem-bearing merge SHA** | **`6f6decc084951bafa0ecf65f42b908215bea0adc`**（PR #2300のsquash merge後にcanonical `main`と一致を再確認） |
-| Exact tested source HEAD | `de6a4066802d45b1194a93199ee1e64856fcbeef` |
-| Exact-head proof CI | [GitHub Actions #38679783875](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38679783875) — **completed SUCCESS** |
-| Strict Lean target | `KUOS.DependentOriginationC60KuuArbitraryPhysicalRefinementTowersV5_273` — **9085/9085 jobs SUCCESS** |
+| **最新 theorem-bearing PR** | **[PR #2302 — v5.274 F112第2段階, MERGED](https://github.com/itakura-hidetoshi/KuuOS/pull/2302)** |
+| **Theorem-bearing merge SHA** | **`a4bbdc8d523cc3a554018d0bc74cebb831b2ed4f`**（PR #2302 squash merge SHA、`main`一致確認済み） |
+| Exact tested source HEAD | `0ce639ab02004dc6a7c3eaef2cca4a19d3d5ef84` |
+| Exact-head proof CI | [GitHub Actions #38684364306](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38684364306) — **completed SUCCESS** |
+| Strict Lean target | `KUOS.DependentOriginationC60KuuIndependentPhysicalFaceSiteSourceV5_274` — **9086/9086 jobs SUCCESS** |
 | Governance / MCP | Strict Lean・Governance・MCP Lean completion・MCP CI completion **全SUCCESS** |
 | Changed-file audit | **warning/error 0/0**、**11 `#print axioms`**、**`sorryAx`なし** |
 | Pinned versions | [Lean `v4.30.0-rc2`](lean-toolchain)、[mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`](lake-manifest.json) |
@@ -61,7 +61,7 @@ F=\overline F\circ Q_{p,q},\qquad \exists!\,\overline F
 | --- | --- | --- |
 | 原C60幾何 | **60頂点、90物理辺、32実多角形面（12五角形、20六角形）**、360入射旗標、真正の有向`Quiver.Path` | 入射旗標の`K₂,₂`四角形を新たなC60表面の正方形面とみなすこと |
 | 原F42/F43/F51/F54/F55 | 型付き2射・3射の原表示と独立した位相・荷電・曲率 | 異なる原構文を無条件に等置すること、既存のF43に無かったF51の追加生成子を過去に遡って同一視すること |
-| F75–F83、F94–F112（第1段階） | 実C60原F42/F51二面関手とF77商圏、全90物理辺での実有限交差上Čech自然同型、**物理交差の任意長履歴の厳密な経路独立性・閉路恒等性・制限前後の観測関手／自然変換成分の整合性**。F110の原位相非復元・原F68非平坦曲率の障害も保持 | F77観測後の整合性を原F42/F54/F55の無条件大域貼り合わせや原位相復元、非ゼロ原物理曲率の消去とみなすこと |
+| F75–F83、F94–F112（第2段階） | 実C60原F42/F51二面関手とF77商圏、全90物理辺での実有限交差上Čech自然同型、**物理交差の任意長履歴の厳密な経路独立性・閉路恒等性・制限前後の観測関手／自然変換成分の整合性**。F110の原位相非復元・原F68非平坦曲率の障害も保持 | F77観測後の整合性を原F42/F54/F55の無条件大域貼り合わせや原位相復元、非ゼロ原物理曲率の消去とみなすこと |
 | 実物理曲率 | F68の符号付き2-cochain、局所非平坦性、必要な非ゼロ修復 | 全32面の有向和がゼロであることから個々の五角形・六角形が平坦だと推論すること |
 
 **明示的なobstruction:** 元の北五角形の第2整数荷電は**`−5`**です。F77観測後の比較射が追加荷電ゼロでも、この原F55物理曲率は消えません。修復を使うならF68の非ゼロ補正を明示的に扱う必要があります。
@@ -96,6 +96,7 @@ F=\overline F\circ Q_{p,q},\qquad \exists!\,\overline F
 | **[F111 第2段階 / v5.271 / #2296](https://github.com/itakura-hidetoshi/KuuOS/pull/2296)** | F106の真正幾何学的制限(J⊆I)に対する**F77観測関手の対象／射／関手全体の一致**を証明。F109自然同型の成分と**異なる長さ・中間パッチ履歴の成分**が制限前後で一致し、追加荷電ゼロを保存。全90辺へ特殊化 |
 | **[F111 第3段階 / v5.272 / #2297](https://github.com/itakura-hidetoshi/KuuOS/pull/2297)** | 真正C60有限物理交差の二段階包含`K⊆J⊆I`について、F106制限の対象・全Homの直接制限との一致、F109自然同型成分の二段階整合性、三つの集合で**それぞれ異なる任意長Čech履歴の二つの比較等式**、追加荷電ゼロを構成。全90実物理辺に特殊化。F77観測後の有限交差に限る |
 | **[F112 第1段階 / v5.273 / #2300](https://github.com/itakura-hidetoshi/KuuOS/pull/2300)** | **任意有限長の型付き真正C60物理交差制限列**を帰納型として実装。原F106制限関手の全対象・射での端点直接制限への一致、列の連結、独立な二列・異なる任意長Čech履歴のF77観測射の異種等式`HEq`、高次cocycleと追加荷電ゼロ、全90実物理辺をLeanで確認。F110位相非復元を保存し、原F68北五角形荷電`−5`は独立のobstructionとして保持 |
+| **[F112 第2段階 / v5.274 / #2302](https://github.com/itakura-hidetoshi/KuuOS/pull/2302)** | **二つの別々の実C60面サイトの独立した原F42境界型と奇次数を保存**。原F43/F51交換射の荷電`(0,0)`・位相`1`・非恒等性を示し、F77商ではじめて恒等射に潰れることを証明。別の原F54/F55回転境界付き物理旗標射の実現、任意長F112制限列の観測後整合性、原F68北五角形の第2荷電`−5`と無補正ゲージ不存在を同時に保持。ソース側全大域descentは未主張 |
 
 特に最近のtheorem-bearingファイルは次のとおりです（各リンクは実際のLeanソース）。
 
@@ -119,14 +120,15 @@ F=\overline F\circ Q_{p,q},\qquad \exists!\,\overline F
 - **[F111 第2段階 — 物理交差制限に沿った観測関手・Čech歴史の整合性](formal/KUOS/DependentOriginationC60KuuActualPhysicalRefinementCechV5_271.lean)**
 - **[F111 第3段階 — 二段階物理制限と任意長Čech歴史の高次整合性](formal/KUOS/DependentOriginationC60KuuDoublePhysicalRefinementCechV5_272.lean)**
 - **[F112 第1段階 — 任意有限長の真正C60物理制限列と高次Čech輸送](formal/KUOS/DependentOriginationC60KuuArbitraryPhysicalRefinementTowersV5_273.lean)**
+- **[F112 第2段階 — 原F42別々の実面サイト・F51位相・F54/F55物理境界の同時保持](formal/KUOS/DependentOriginationC60KuuIndependentPhysicalFaceSiteSourceV5_274.lean)**
 
 詳細な歴史・公理・未解決課題は **[ROADMAP.md](ROADMAP.md)** を参照してください。
 
 ## What remains open / 次の数学的課題
 
-**F108第1〜第4段階、F109第1〜第2段階、F110第1〜第2段階、F111第1〜第3段階、F112第1段階はLean4で証明・統合済みです。** F112では任意有限長の真正F106物理交差制限列そのものを型付きで構成し、任意の中間交差列を経由した原F106関手、二つの独立な制限列とČech履歴のF77観測後の整合性を証明しました。`HEq`は端点でのHom型が定義上一致しない場合の型付き比較です。成果は**特定の二つの実隣接面由来F42/F51意味論のF77観測後有限交差**に限られ、原F42/F54/F55の高次ソース大域的実効性、原F51位相の完全復元、F68北五角形原曲率`−5`の消去を示していません。
+**F108第1〜第4段階、F109第1〜第2段階、F110第1〜第2段階、F111第1〜第3段階、F112第1〜第2段階をLean4で証明・マージ済みです。** F112第1段階の任意有限長のF106幾何学的制限列とF77観測後のČech整合性を維持し、第2段階では別々の実面サイトに独立に選べる、真正の原F42境界型付き二射を配置しました。原F43/F51交換射の`charge=(0,0)`、`phase=1`、原圏での非恒等性を保存し、F77射影後のみ恒等射と一致します。F54/F55の別種の原境界型を等置せず、F68北五角形第2荷電`−5`を独立obstructionとして保持しています。一般の原F42/F54/F55高次ソース大域的実効descentは未証明です。
 
-**次の未解決研究軸は、F112第2段階以降の原F42/F54/F55独立面サイト解釈と高次descentの実効性**です。F112までの定理はF77観測後の真正C60有限物理交差上のČech整合性・任意有限長幾何学的制限列整合性であり、異なる原F42境界を各面サイトに保持する強いソース持ち上げは未証明です。F110の位相非復元定理とF68北五角形原第2荷電`−5`・必要な非ゼロ修復を独立の障害として維持します。
+**次の未解決研究軸は、F112第3段階以降の原F42/F54/F55の異なる境界型間の、真に型付きの高次transport／corrected descent**です。第2段階は原F42面サイトを独立に表現し原F55回転境界付き射と同時成立を示したもので、F51とF55を同一Homにする主張ではありません。F110の原位相の非復元性、F68北五角形第2荷電`−5`、必要な非ゼロ修復をobstructionとして保持します。
 
 **Old Grayを復元することは本研究ルートの前提ではありません。** 元のGray位相はソース診断として保存し、空による交代可能性は**指定された商圏と正確な保存量**について証明します。
 
@@ -136,19 +138,19 @@ F=\overline F\circ Q_{p,q},\qquad \exists!\,\overline F
 
 研究上のランタイム構成案は **`LLM + KuuOS reasoning runtime + formal authority layer`** です。Leanの定理が正しいことは、モデルの重み・対話システム・バックグラウンドエージェントの挙動が変わったこと、全リポジトリが実際に取り込まれたこと、臨床的・物理的・倫理的正当性が検証されたことを意味しません。結合実装は、正本SHAへの固定、明示的な権限・同意境界、観測と推測の区別、継続的な実測・再検証を別途必要とします。
 
-## Reproduce the F112 v5.273 theorem-bearing result / 形式証明の再現
+## Reproduce the F112 v5.274 theorem-bearing result / 形式証明の再現
 
 ```bash
 git clone https://github.com/itakura-hidetoshi/KuuOS.git
 cd KuuOS
-git checkout 6f6decc084951bafa0ecf65f42b908215bea0adc
+git checkout a4bbdc8d523cc3a554018d0bc74cebb831b2ed4f
 cat lean-toolchain
 lake exe cache get  # 必要な場合のみ、固定mathlibに対応するキャッシュを取得
 lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build \
-  KUOS.DependentOriginationC60KuuArbitraryPhysicalRefinementTowersV5_273
+  KUOS.DependentOriginationC60KuuIndependentPhysicalFaceSiteSourceV5_274
 ```
 
-[PR #2300のexact-source-head CI #38679783875](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38679783875)は **9085/9085 SUCCESS**。変更ファイルwarning/error 0/0、11件の`#print axioms`に`sorryAx`なし。Strict Lean・Governance・MCP Lean/CI完了証跡は全SUCCESS。検証済みsource HEAD `de6a4066802d45b1194a93199ee1e64856fcbeef`、squash数学マージSHA `6f6decc084951bafa0ecf65f42b908215bea0adc`。先行PR #2295（9082/9082）、#2296（9083/9083）、#2297（9084/9084）もGREEN・マージ済み。
+[PR #2302のexact-source-head CI #38684364306](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38684364306) は **9086/9086 SUCCESS**。変更ファイルwarning/error 0/0、11件の`#print axioms`に`sorryAx`なし。Strict Lean・Governance・MCP Lean/CI完了証跡は全SUCCESS。検証済みsource HEAD `0ce639ab02004dc6a7c3eaef2cca4a19d3d5ef84`、squash数学マージSHA `a4bbdc8d523cc3a554018d0bc74cebb831b2ed4f`。先行F112第1段階の[PR #2300](https://github.com/itakura-hidetoshi/KuuOS/pull/2300)とF111の各段階もGREEN・マージ済み。
 
 別の検証範囲である全形式化ターゲットや推論ランタイムを調べる場合は、それぞれ独立に実行してください（上記CIによる成功の保証はありません）。
 
