@@ -61,7 +61,7 @@ def c60F116OriginalF69FreeGroupoidEquivalence :
     C60F116OriginalF69FreeGroupoid ≌ C60F115OriginalF69Localization :=
   Localization.uniq
     (FreeGroupoid.of C60F69PhysicalCellSite)
-    c60F115OriginalF69LocalizationQ
+    ((⊤ : MorphismProperty C60F69PhysicalCellSite).Q)
     (⊤ : MorphismProperty C60F69PhysicalCellSite)
 
 /-- Compatibility on each genuinely existing original F69
@@ -72,7 +72,7 @@ def c60F116OriginalF69FreeGroupoidComparison :
       c60F115OriginalF69LocalizationQ :=
   Localization.compUniqFunctor
     (FreeGroupoid.of C60F69PhysicalCellSite)
-    c60F115OriginalF69LocalizationQ
+    ((⊤ : MorphismProperty C60F69PhysicalCellSite).Q)
     (⊤ : MorphismProperty C60F69PhysicalCellSite)
 
 /-- The universal comparison functor is a category equivalence. -/
@@ -149,8 +149,9 @@ theorem c60F116RawZigzagKernel_exact
 is faithful, as the kernel theorem demonstrates. -/
 theorem c60F116RawZigzagKernelLift_faithful :
     c60F116RawZigzagKernelLift.Faithful := by
-  dsimp [c60F116RawZigzagKernelLift, c60F116RawZigzagKernel]
-  infer_instance
+  constructor
+  rintro ⟨X⟩ ⟨Y⟩ ⟨p⟩ ⟨q⟩ hpq
+  exact (c60F116RawZigzagKernel_exact p q).2 hpq
 
 /-! ## III. Which original F69 word relations do we quotient? -/
 
