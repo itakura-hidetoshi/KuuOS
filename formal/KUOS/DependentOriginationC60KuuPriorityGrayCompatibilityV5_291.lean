@@ -9,6 +9,8 @@ namespace KUOS.DependentOriginationC60KuuPriorityGrayCompatibilityV5_291
 open CategoryTheory
 open KUOS.DependentOriginationIcosahedralTruncationSeedV3_84
 open KUOS.DependentOriginationGrayBraidedThreeCellCoreV5_156
+open KUOS.DependentOriginationGrayC60CyclicGlobalPastingV5_156
+open KUOS.DependentOriginationGrayC60NativePathFunctorV5_189
 open KUOS.DependentOriginationGrayNativeBraidedCategoryV5_156
 open KUOS.DependentOriginationGrayC60OriginalFaceHorizontalPresentationV5_199
 open KUOS.DependentOriginationGrayC60OriginalFaceHorizontalThreeHomV5_199
@@ -121,6 +123,8 @@ def c60F125KuuFirstOriginalSource
     · exact (c60F95LocalProjection p q).map_comp f g
     · change (c60F51Eval (f ≫ g)).phase =
         (c60F51Eval f).phase + (c60F51Eval g).phase
+      change (c60F51Eval (c60F51Comp f g)).phase =
+        (c60F51Eval f).phase + (c60F51Eval g).phase
       rw [c60F51Eval_comp]
       exact grayNeutral_add_phase _ _
 
@@ -190,8 +194,10 @@ theorem c60F125KuuFirst_originalFaithful
     c60F125KuuReconstruction_original] at hNative
   apply c60F51GrayFunctor_faithful p q
   apply GradedThreeCell.ext
-  · exact congrArg GradedThreeCell.charge hNative
-  · exact congrArg GradedThreeCell.phase hNative
+  · change (c60F51Eval f).charge = (c60F51Eval g).charge
+    exact congrArg GradedThreeCell.charge hNative
+  · change (c60F51Eval f).phase = (c60F51Eval g).phase
+    exact congrArg GradedThreeCell.phase hNative
 
 /-- Forgetting the supplementary phase recovers precisely
 Kuu replacement, while native phase equality is the EXACT
