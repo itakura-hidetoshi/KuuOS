@@ -14,15 +14,19 @@ inductive Step : Point → Point → Type where
 
 instance : Quiver Point := ⟨Step⟩
 
-def firstPath : (Point.source : Raw Point) ⟶ Point.target :=
-  (Paths.of Point).map Step.first
+def firstPath : Quiver.Path Point.source Point.target :=
+  Quiver.Hom.toPath Step.first
 
-def secondPath : (Point.source : Raw Point) ⟶ Point.target :=
-  (Paths.of Point).map Step.second
+def secondPath : Quiver.Path Point.source Point.target :=
+  Quiver.Hom.toPath Step.second
 
 theorem raw_distinct : firstPath ≠ secondPath := by
   intro h
-  cases h
+  have he : (Step.first : Step Point.source Point.target) = Step.second := by
+    apply eq_of_heq
+    apply Quiver.Path.hom_heq_of_cons_eq_cons
+    exact h
+  cases he
 
 theorem quotient_not_indiscrete :
     (project Point (identityRelations Point)).map firstPath ≠
