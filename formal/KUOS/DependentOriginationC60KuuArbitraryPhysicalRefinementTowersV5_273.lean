@@ -179,7 +179,7 @@ theorem c60F112TowerTransition_app
         (c60F112TowerChart tower i)
         (c60F112TowerChart tower j)).hom.app X) := by
   rw [c60F112TowerRestrict_eq_direct C tower]
-  exact HEq.ofEq (c60F111Refinement_transition_app C
+  exact heq_of_eq (c60F111Refinement_transition_app C
     (c60F112TowerSubset tower) i j X)
 
 /-- HIGHER Čech transport: arbitrary original physical chart
@@ -200,7 +200,7 @@ theorem c60F112TowerAnyHistories_app
         (c60F112TowerChart tower i)
         (c60F112TowerChart tower j) historyI).app X) := by
   rw [c60F112TowerRestrict_eq_direct C tower]
-  exact HEq.ofEq (c60F111Refinement_anyHistory_app C
+  exact heq_of_eq (c60F111Refinement_anyHistory_app C
     (c60F112TowerSubset tower) i j historyK historyI X)
 
 /-- Even when the geometric refinement towers THEMSELVES
