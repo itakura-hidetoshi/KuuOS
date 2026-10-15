@@ -106,14 +106,19 @@ def c60F123LocalizedWitnessedF47DiagramNatIso
     (P Q : (i : Fin n) → C60F112IndependentOddFacePair C i) :
     c60F115LocalizedOriginalF47Diagram t₁ t₂ left right C P ≅
       c60F115LocalizedOriginalF47Diagram t₁ t₂ left right C Q :=
-  Localization.liftNatIso
-    (c60F115WitnessedLocalizationQ C)
-    (⊤ : MorphismProperty (C60F112WitnessedEdge C))
-    (c60F112WitnessedF47Diagram t₁ t₂ left right C P)
-    (c60F112WitnessedF47Diagram t₁ t₂ left right C Q)
-    (c60F115LocalizedOriginalF47Diagram t₁ t₂ left right C P)
-    (c60F115LocalizedOriginalF47Diagram t₁ t₂ left right C Q)
-    (c60F121WitnessedF47DiagramSourceNatIso t₁ t₂ left right C P Q)
+  by
+    letI :
+        (c60F115WitnessedLocalizationQ C).IsLocalization
+          (⊤ : MorphismProperty (C60F112WitnessedEdge C)) :=
+      c60F115WitnessedLocalization_universal C
+    exact Localization.liftNatIso
+      (c60F115WitnessedLocalizationQ C)
+      (⊤ : MorphismProperty (C60F112WitnessedEdge C))
+      (c60F112WitnessedF47Diagram t₁ t₂ left right C P)
+      (c60F112WitnessedF47Diagram t₁ t₂ left right C Q)
+      (c60F115LocalizedOriginalF47Diagram t₁ t₂ left right C P)
+      (c60F115LocalizedOriginalF47Diagram t₁ t₂ left right C Q)
+      (c60F121WitnessedF47DiagramSourceNatIso t₁ t₂ left right C P Q)
 
 /-- The total category of ORIGINAL F47 3-Homs, now indexed by
 the GENUINE LOCALIZATION of the witnessed physical-overlap
@@ -189,7 +194,7 @@ theorem c60F123LocalizedTotalSourceChange_precompQ
       c60F123LocalizedWitnessedTotalSourceChange
         t₁ t₂ left right C P Q =
     Grothendieck.map
-        (whiskerLeft (c60F115WitnessedLocalizationQ C)
+        (Functor.whiskerLeft (c60F115WitnessedLocalizationQ C)
           (c60F123LocalizedWitnessedF47DiagramNatIso
             t₁ t₂ left right C P Q).hom) ⋙
       Grothendieck.pre
