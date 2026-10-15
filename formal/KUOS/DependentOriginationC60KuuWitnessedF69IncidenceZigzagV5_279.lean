@@ -225,7 +225,7 @@ def c60F113WitnessedToZigzagPath
     C60F113IncidenceZigzag (.edge (C.edge i)) (.edge (C.edge j)) :=
   match p with
   | .nil i => .nil (.edge (C.edge i))
-  | .step (i := i) (j := j) W tail =>
+  | .step (i := i) W tail =>
       c60F113ZigzagAppend
         (c60F113RealOverlapTwoLegZigzag C W)
         (c60F113WitnessedToZigzagPath C tail)
