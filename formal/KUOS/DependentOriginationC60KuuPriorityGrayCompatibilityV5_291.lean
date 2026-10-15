@@ -374,7 +374,82 @@ theorem c60F125KuuFirst_vertical_original
     rw [c60F51VerticalTwoMap_eval]
     exact grayNeutral_add_phase _ _
 
+
+/-! ## Genuine Gray diagnostic BELOW the Kuu-priority source category -/
+
+/-- The old Gray category is a REAL observational target of the
+richer Kuu-first phase-complete source, not the layer governing
+allowed replacement. The grade is reconstructed from the
+verified F95-to-F78 Kuu charge functor, not chosen independently. -/
+def c60F125KuuToGrayDiagnosticFunctor
+    {a b : IcosahedralDart} (p q : Quiver.Path a b) :
+    C60F125KuuGrayTwo p q ⥤ GrayGrade where
+  obj X :=
+    ⟨((c60F95StrictGlobularInterpretation p q).obj
+      ((c60F95LocalProjection p q).obj X.original)).degree⟩
+  map := fun {_ _} h =>
+    ⟨((c60F95StrictGlobularInterpretation p q).map h.1).gradeEq,
+      ((c60F95StrictGlobularInterpretation p q).map h.1).charge,
+      h.2⟩
+  map_id := by
+    intro X
+    apply GradedThreeCell.ext
+    · change
+        ((c60F95StrictGlobularInterpretation p q).map
+          (𝟙 ((c60F95LocalProjection p q).obj X.original))).charge =
+          (0 : Int × Int)
+      rw [(c60F95StrictGlobularInterpretation p q).map_id]
+      rfl
+    · rfl
+  map_comp := by
+    intro X Y Z f g
+    apply GradedThreeCell.ext
+    · change
+        ((c60F95StrictGlobularInterpretation p q).map
+          (f.1 ≫ g.1)).charge =
+        ((c60F95StrictGlobularInterpretation p q).map f.1).charge +
+          ((c60F95StrictGlobularInterpretation p q).map g.1).charge
+      rw [(c60F95StrictGlobularInterpretation p q).map_comp]
+      rfl
+    · rfl
+
+/-- Both integer native charges and the independent exchange
+phase are available as typed morphism data AFTER making Kuu
+the primary source category, without applying the old F77
+phase-erasing observation as the final output. -/
+theorem c60F125KuuToGrayDiagnostic_components
+    {a b : IcosahedralDart}
+    {p q : Quiver.Path a b}
+    {X Y : C60F125KuuGrayTwo p q}
+    (f : X ⟶ Y) :
+    ((c60F125KuuToGrayDiagnosticFunctor p q).map f).charge =
+      ((c60F95StrictGlobularInterpretation p q).map f.1).charge ∧
+    ((c60F125KuuToGrayDiagnosticFunctor p q).map f).phase =
+      f.2 :=
+  ⟨rfl, rfl⟩
+
+/-- The Kuu-first source, followed by its LOWER Gray diagnostic,
+recovers EXACTLY the original native Gray evaluation on ALL
+actual typed original F51 3-Homs, including nonzero phase. -/
+theorem c60F125KuuGrayDiagnostic_original
+    {a b : IcosahedralDart}
+    {p q : Quiver.Path a b}
+    {X Y : C60F51OriginalTwo p q}
+    (f : X ⟶ Y) :
+    ((c60F125KuuToGrayDiagnosticFunctor p q).map
+      ((c60F125KuuFirstOriginalSource p q).map f)).charge =
+      (c60F51Eval f).charge ∧
+    ((c60F125KuuToGrayDiagnosticFunctor p q).map
+      ((c60F125KuuFirstOriginalSource p q).map f)).phase =
+      (c60F51Eval f).phase := by
+  have h := c60F125KuuReconstruction_original f
+  exact ⟨congrArg GradedThreeCell.charge h,
+    congrArg GradedThreeCell.phase h⟩
+
 #print axioms c60F125KuuGrayCategory
+#print axioms c60F125KuuToGrayDiagnosticFunctor
+#print axioms c60F125KuuToGrayDiagnostic_components
+#print axioms c60F125KuuGrayDiagnostic_original
 #print axioms c60F125KuuGrayHorizontalFunctor
 #print axioms c60F125KuuFirst_horizontal_original
 #print axioms c60F125KuuGrayVerticalFunctor
