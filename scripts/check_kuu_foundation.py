@@ -91,6 +91,8 @@ def check(root: Path) -> dict:
             errors.append('current library exposes a legacy root')
         elif libraries[0].get('srcDir') != 'formal':
             errors.append('current source directory must be formal')
+        else:
+            current.update(libraries[0].get('roots', []))
     except (OSError, tomllib.TOMLDecodeError) as exc:
         errors.append(f'configuration: {exc}')
     pending = sorted(current)

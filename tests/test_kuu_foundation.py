@@ -19,6 +19,7 @@ class FoundationBoundaryTest(unittest.TestCase):
         return {
             'lakefile.toml': 'name = "KuuOS"\ndefaultTargets = ["KuuOSFormal"]\n[[lean_lib]]\nname = "KuuOSFormal"\nsrcDir = "formal"\nroots = ["KuuOSFormal", "Kuu"]\n',
             'formal/KuuOSFormal.lean': source,
+            'formal/Kuu.lean': 'import Kuu.Presentation\n',
             'formal/Kuu/Presentation.lean': 'import Mathlib.CategoryTheory.Quotient\n',
         }
 
@@ -46,6 +47,11 @@ class FoundationBoundaryTest(unittest.TestCase):
     def test_unused_current_module_is_also_checked(self):
         files = self.base()
         files['formal/Kuu/Unused.lean'] = 'import KUOS.Old\n'
+        self.assertFalse(check(self.fixture(files))['ok'])
+
+    def test_unreferenced_library_root_is_checked(self):
+        files = self.base()
+        files['formal/Kuu.lean'] = 'import KUOS.Old\n'
         self.assertFalse(check(self.fixture(files))['ok'])
 
     def test_new_axiom_or_sorry_is_rejected(self):

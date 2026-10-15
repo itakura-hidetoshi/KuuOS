@@ -1,0 +1,58 @@
+name: Independent Kuu Foundation
+
+on:
+  pull_request:
+    paths:
+      - 'formal/Kuu/**'
+      - 'formal/Kuu.lean'
+      - 'formal/KuuOSFormal.lean'
+      - 'formal/KuuOSStrict.lean'
+      - 'lakefile.toml'
+      - 'lake-manifest.json'
+      - 'lean-toolchain'
+      - 'scripts/*kuu_foundation*'
+      - 'scripts/report_kuu_migration_consumers.py'
+      - 'tests/test_kuu_foundation.py'
+      - '.github/workflows/kuu-independent-foundation.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: independent-kuu-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Inspect existing validation consumers without changing them
+        run: python3 scripts/report_kuu_migration_consumers.py --output artifacts/independent-kuu
+      - name: Independent source boundary and regressions
+        run: python3 scripts/run_kuu_foundation_check.py
+      - name: Set up pinned Lean and cached dependencies
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: true
+          use-github-cache: true
+      - name: Check current mathematical foundation
+        shell: bash
+        run: |
+          set -euo pipefail
+          lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KuuOSFormal 2>&1 | tee artifacts/independent-kuu/lean.log
+          git diff --exit-code -- lake-manifest.json lean-toolchain
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: independent-kuu-${{ github.run_id }}
+          path: artifacts/independent-kuu/
+          if-no-files-found: error
