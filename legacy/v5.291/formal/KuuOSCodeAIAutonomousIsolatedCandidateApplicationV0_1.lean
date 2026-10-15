@@ -1,0 +1,10 @@
+import KUOS.CodeAI.AutonomousIsolatedCandidateApplicationV0_1
+
+namespace KuuOSCodeAIAutonomousIsolatedCandidateApplicationV0_1
+
+open KUOS.CodeAI.AutonomousIsolatedCandidateApplicationV0_1
+
+theorem rootLoaded : True := by
+  trivial
+
+end KuuOSCodeAIAutonomousIsolatedCandidateApplicationV0_1
