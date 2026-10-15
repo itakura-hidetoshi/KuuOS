@@ -404,10 +404,42 @@ theorem c60F112WitnessedF47Transport_obj
       exact (c60F112WitnessedF47Transport_objects
         t₁ t₂ left right C P path).2.2.2
 
-/-- Two arbitrarily long routes of actual C60 star overlaps
-with the SAME physical start and end edges yield equivalent
-complete F47 source arrows. HEq is essential for the
-different dependent original F42/F54 Hom endpoint types. -/
+/-- ANY two proof-relevant witnessed F69 overlap routes between
+the SAME original physical edges induce exactly the SAME F47 source
+FUNCTOR. This is stronger than agreement in the F77 observer:
+original Int×Int charges and the independent ZMod2 Gray phase
+determine every quotient F47 Hom once the four endpoint tags
+have been transported to the same source/target objects.
+
+The separate original F42/F54 raw presentations remain typed;
+this is equality of the induced F47 mixed quotient functors only. -/
+theorem c60F112WitnessedF47AnyPaths_functor
+    {n : Nat} (C : C60F108BothFaceContexts n)
+    (P : (i : Fin n) → C60F112IndependentOddFacePair C i)
+    {i j : Fin n}
+    (first second : C60F112WitnessedOverlapPath C i j) :
+    c60F112WitnessedF47Transport t₁ t₂ left right C P first =
+      c60F112WitnessedF47Transport t₁ t₂ left right C P second := by
+  fapply CategoryTheory.Functor.ext
+  · intro X
+    exact (c60F112WitnessedF47Transport_obj
+      t₁ t₂ left right C P first X).trans
+        (c60F112WitnessedF47Transport_obj
+          t₁ t₂ left right C P second X).symm
+  · intro X Y f
+    cases X <;> cases Y
+    all_goals
+      apply c60F47MixedGrayFunctor_faithful
+        (c60F112CrossEdgeFrame t₁ t₂ left right C j (P j))
+      exact (c60F112WitnessedF47Transport_fullNative
+        t₁ t₂ left right C P first f).trans
+          (c60F112WitnessedF47Transport_fullNative
+            t₁ t₂ left right C P second f).symm
+
+/-- Consequence on every fully dependent mixed-F47 source 3-Hom:
+different path-presentation morphisms are heterogeneously equal
+because the entire induced source functors are themselves equal.
+This does not equate original F42 or F54 raw boundary expressions. -/
 theorem c60F112WitnessedF47AnyPaths_HEq
     {n : Nat} (C : C60F108BothFaceContexts n)
     (P : (i : Fin n) → C60F112IndependentOddFacePair C i)
@@ -420,35 +452,9 @@ theorem c60F112WitnessedF47AnyPaths_HEq
         t₁ t₂ left right C P first).map f)
       ((c60F112WitnessedF47Transport
         t₁ t₂ left right C P second).map f) := by
-  have hxFirst := c60F112WitnessedF47Transport_obj
-    t₁ t₂ left right C P first X
-  have hyFirst := c60F112WitnessedF47Transport_obj
-    t₁ t₂ left right C P first Y
-  have hxSecond := c60F112WitnessedF47Transport_obj
-    t₁ t₂ left right C P second X
-  have hySecond := c60F112WitnessedF47Transport_obj
-    t₁ t₂ left right C P second Y
-  cases X <;> cases Y
-  all_goals
-    cases hxFirst
-    cases hyFirst
-    cases hxSecond
-    cases hySecond
-    apply heq_of_eq
-    apply c60F47MixedGrayFunctor_faithful
-      (c60F112CrossEdgeFrame t₁ t₂ left right C j (P j))
-    calc
-        c60F47MixedEval
-            ((c60F112WitnessedF47Transport
-              t₁ t₂ left right C P first).map f) =
-          c60F47MixedEval f :=
-            c60F112WitnessedF47Transport_fullNative
-              t₁ t₂ left right C P first f
-        _ = c60F47MixedEval
-            ((c60F112WitnessedF47Transport
-              t₁ t₂ left right C P second).map f) :=
-            (c60F112WitnessedF47Transport_fullNative
-              t₁ t₂ left right C P second f).symm
+  have h := c60F112WitnessedF47AnyPaths_functor
+    t₁ t₂ left right C P first second
+  rw [h]
 
 /-- Splicing ANY two real witnessed physical-edge routes
 commutes with the ACTUAL F47 source functor composition.
@@ -584,6 +590,7 @@ theorem c60F112WitnessedF47Total_originalCurvatureObstruction
 #print axioms c60F112WitnessedF47Transport_faithful
 #print axioms c60F112WitnessedF47Transport_objects
 #print axioms c60F112WitnessedF47Transport_obj
+#print axioms c60F112WitnessedF47AnyPaths_functor
 #print axioms c60F112WitnessedF47AnyPaths_HEq
 #print axioms c60F112WitnessedF47Transport_append
 #print axioms c60F112WitnessedF47Diagram
