@@ -76,11 +76,16 @@ def pentagonRawLoop (v : Vertex) :
     Zigzag
       (Site.vertex (cyclicBoundaryDart (.pentagon v) 0))
       (Site.vertex (cyclicBoundaryDart (.pentagon v) 0)) :=
-  append (polygonRawSide (.pentagon v) boundaryIndex0 (by decide))
-    (append (polygonRawSide (.pentagon v) boundaryIndex1 (by decide))
-    (append (polygonRawSide (.pentagon v) boundaryIndex2 (by decide))
-    (append (polygonRawSide (.pentagon v) boundaryIndex3 (by decide))
-    (polygonRawSide (.pentagon v) boundaryIndex4 (by decide)))))
+  append (polygonRawSide (.pentagon v) boundaryIndex0
+      (by change 0 < 5; decide))
+    (append (polygonRawSide (.pentagon v) boundaryIndex1
+      (by change 1 < 5; decide))
+    (append (polygonRawSide (.pentagon v) boundaryIndex2
+      (by change 2 < 5; decide))
+    (append (polygonRawSide (.pentagon v) boundaryIndex3
+      (by change 3 < 5; decide))
+    (polygonRawSide (.pentagon v) boundaryIndex4
+      (by change 4 < 5; decide)))))
 
 /-- The real six-edge original-triangle hexagon is likewise a single
 dependent, CLOSED original-site raw zigzag, with no square-face proxy. -/
@@ -88,12 +93,18 @@ def hexagonRawLoop (t : Triangle) :
     Zigzag
       (Site.vertex (cyclicBoundaryDart (.hexagon t) 0))
       (Site.vertex (cyclicBoundaryDart (.hexagon t) 0)) :=
-  append (polygonRawSide (.hexagon t) boundaryIndex0 (by decide))
-    (append (polygonRawSide (.hexagon t) boundaryIndex1 (by decide))
-    (append (polygonRawSide (.hexagon t) boundaryIndex2 (by decide))
-    (append (polygonRawSide (.hexagon t) boundaryIndex3 (by decide))
-    (append (polygonRawSide (.hexagon t) boundaryIndex4 (by decide))
-    (polygonRawSide (.hexagon t) boundaryIndex5 (by decide))))))
+  append (polygonRawSide (.hexagon t) boundaryIndex0
+      (by change 0 < 6; decide))
+    (append (polygonRawSide (.hexagon t) boundaryIndex1
+      (by change 1 < 6; decide))
+    (append (polygonRawSide (.hexagon t) boundaryIndex2
+      (by change 2 < 6; decide))
+    (append (polygonRawSide (.hexagon t) boundaryIndex3
+      (by change 3 < 6; decide))
+    (append (polygonRawSide (.hexagon t) boundaryIndex4
+      (by change 4 < 6; decide))
+    (polygonRawSide (.hexagon t) boundaryIndex5
+      (by change 5 < 6; decide))))))
 
 /-- All 32 physical C60 polygon boundaries are now single raw loops.
 This is a concrete dependent expression, not merely a list of sides. -/
