@@ -11,4 +11,5 @@ import Kuu.F112.KernelEquivalence
 import Kuu.F112.Overlap
 import Kuu.F112.FaceRewrite
 import Kuu.F112.PolygonBoundary
+import Kuu.F112.PolygonRawLoop
 /-! Current independent Kuu foundation. No legacy KUOS imports are permitted. -/
