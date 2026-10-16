@@ -107,6 +107,14 @@ orientation of the old icosahedral dart and of its around-vertex ordering. -/
 def edgeJoins (e : Edge) (v w : Dart) : Prop :=
   edgeEndpoints e = (v, w) ∨ edgeEndpoints e = (w, v)
 
+/-- Explicitly expose computable endpoint-pair equality and disjunction
+to the finite boundary verifier; unfolding a def is not automatic for
+typeclass instance synthesis. -/
+instance edgeJoins_decidable (e : Edge) (v w : Dart) :
+    Decidable (edgeJoins e v w) := by
+  unfold edgeJoins
+  infer_instance
+
 /-- Edge-to-polygon incidence is a finite, COMPUTABLE physical
 proposition; use its constructor cases rather than classical choice. -/
 instance edgeOnFace_decidable (e : Edge) (p : Polygon) :
