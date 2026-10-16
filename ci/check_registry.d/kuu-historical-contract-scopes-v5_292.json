@@ -1,0 +1,17 @@
+{
+  "schema_version": "0.2",
+  "checks": {
+    "kuu-historical-contract-scopes": {
+      "name": "Explicit historical formal contracts without auto-repair promotion",
+      "runner": "python",
+      "command": "python3 -m unittest -v tests.test_kuu_historical_manifest_scope",
+      "group": "static",
+      "tier": "critical",
+      "paths": ["manifests/kuuos_repository_*.json", "manifests/kuuos_self_organization_v0_78.json", "scripts/check_kuuos_repository_live_v079.py", "tests/test_kuu_historical_manifest_scope.py", "ci/check_registry.d/kuu-historical-contract-scopes-v5_292.json"],
+      "depends_on": [],
+      "timeout_minutes": 5,
+      "pr_required": true,
+      "full_audit_member": true
+    }
+  }
+}

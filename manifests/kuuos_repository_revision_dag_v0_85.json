@@ -19,5 +19,6 @@
   "all_nodes_reachable": true,
   "acyclicity_checked": true,
   "normal_form_preserved": true,
-  "external_approval_required": false
+  "external_approval_required": false,
+  "formal_package": "legacy-v5.291"
 }

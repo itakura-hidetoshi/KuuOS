@@ -1,0 +1,24 @@
+{
+  "schema_version": "0.2",
+  "checks": {
+    "kuu-ci-boundary-regressions": {
+      "name": "Kuu fixture boundary and historical Lean-LSP workspace regressions",
+      "runner": "python",
+      "command": "python3 tests/test_kuu_ci_boundary_regressions.py",
+      "group": "static",
+      "tier": "critical",
+      "paths": [
+        "scripts/check_workflow_consolidation_integrity.py",
+        "scripts/check_kuuos_lean_lsp_mcp_compatibility_v7_17.py",
+        ".github/workflows/lean-lsp-mcp-compatibility-v7-17.yml",
+        "tests/test_kuu_consumer_migration.py",
+        "tests/test_kuu_ci_boundary_regressions.py",
+        "ci/check_registry.d/kuu-ci-boundary-regressions-v5_292.json"
+      ],
+      "depends_on": [],
+      "timeout_minutes": 5,
+      "pr_required": true,
+      "full_audit_member": true
+    }
+  }
+}

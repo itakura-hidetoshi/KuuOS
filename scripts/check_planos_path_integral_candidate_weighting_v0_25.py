@@ -137,7 +137,7 @@ def main() -> int:
     runtime = ROOT / "runtime/kuuos_planos_path_integral_candidate_weighting_v0_25.py"
     formal = ROOT / "formal/KUOS/PlanOS/PathIntegralCandidateWeightingV0_25.lean"
     formal_root = ROOT / "formal/KuuOSPlanOSV0_25.lean"
-    aggregate_root = ROOT / "formal/KuuOSFormal.lean"
+    aggregate_root = ROOT / "legacy/v5.291/formal/KuuOSFormal.lean"
     docs = ROOT / "docs/KUUOS_PLANOS_PATH_INTEGRAL_CANDIDATE_WEIGHTING_v0_25.md"
     manifest_path = ROOT / "manifests/kuuos_planos_path_integral_candidate_weighting_v0_25.json"
     source_formal = ROOT / "formal/KUOS/PlanOS/VacuumExpectationQiBlockerForesightPlanGateV0_24.lean"

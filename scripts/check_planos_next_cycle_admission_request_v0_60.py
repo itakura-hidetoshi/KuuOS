@@ -141,7 +141,7 @@ def main() -> int:
     runtime = ROOT / "runtime/kuuos_planos_next_cycle_admission_request_v0_60.py"
     formal = ROOT / "formal/KUOS/PlanOS/NextCycleAdmissionRequestV0_60.lean"
     formal_root = ROOT / "formal/KuuOSPlanOSV0_60.lean"
-    aggregate_root = ROOT / "formal/KuuOSFormal.lean"
+    aggregate_root = ROOT / "legacy/v5.291/formal/KuuOSFormal.lean"
     docs = ROOT / "docs/KUUOS_PLANOS_NEXT_CYCLE_ADMISSION_REQUEST_v0_60.md"
     manifest_path = ROOT / "manifests/kuuos_planos_next_cycle_admission_request_v0_60.json"
 

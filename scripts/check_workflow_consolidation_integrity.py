@@ -56,6 +56,9 @@ RETIRED_WORKFLOW_REFERENCES: dict[str, frozenset[str]] = {
 }
 
 VIRTUAL_FIXTURE_WORKFLOW_REFERENCES: dict[str, frozenset[str]] = {
+    "tests/test_kuu_consumer_migration.py": frozenset(
+        {".github/workflows/old.yml", ".github/workflows/new-current.yml"}
+    ),
     "tests/kuuos_repository_incremental_fixture_v0_81.py": frozenset(
         {".github/workflows/alignment-fixture-v081.yml"}
     ),

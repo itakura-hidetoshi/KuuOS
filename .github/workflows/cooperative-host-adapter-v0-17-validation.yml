@@ -39,7 +39,7 @@ jobs:
         continue-on-error: true
         run: |
           if command -v lake >/dev/null 2>&1 && { [ -f lakefile.lean ] || [ -f lakefile.toml ]; }; then
-            lake env lean formal/KUOS/OpenHorizon/CooperativeHostAdapterV0_17.lean >> cooperative-host-adapter-v017.log 2>&1
+            python3 scripts/run_formal_package.py --legacy -- env lean formal/KUOS/OpenHorizon/CooperativeHostAdapterV0_17.lean >> cooperative-host-adapter-v017.log 2>&1
           else
             echo "SKIP: repository Lean environment unavailable on this runner" >> cooperative-host-adapter-v017.log
           fi

@@ -68,6 +68,7 @@ jobs:
       - name: Set up pinned Lean and Lake
         uses: leanprover/lean-action@v1
         with:
+          lake-package-directory: legacy/v5.291
           auto-config: false
           build: false
           test: false
@@ -75,12 +76,12 @@ jobs:
           use-mathlib-cache: false
           use-github-cache: false
       - name: Resolve pinned dependencies
-        run: lake update
+        run: python3 scripts/run_formal_package.py --legacy -- update
       - name: Fetch Mathlib olean cache
-        run: lake exe cache get
+        run: python3 scripts/run_formal_package.py --legacy -- exe cache get
       - name: Strictly compile formal root
         run: >-
-          lake -KleanArgs=-DwarningAsError=true
+          python3 scripts/run_formal_package.py --legacy -- -KleanArgs=-DwarningAsError=true
           -KleanArgs=-DsorryAsError=true build KuuOSFormal
           > lean-v1-7.log 2>&1
       - name: Upload strict Lean diagnostics

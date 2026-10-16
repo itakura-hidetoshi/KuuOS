@@ -18,13 +18,14 @@ jobs:
       - run: PYTHONPATH=. python3 scripts/check_kuuos_shadow_v066.py
       - uses: leanprover/lean-action@v1
         with:
+          lake-package-directory: legacy/v5.291
           auto-config: false
           build: false
           test: false
           lint: false
           use-mathlib-cache: false
           use-github-cache: false
-      - run: lake update
-      - run: git diff --exit-code -- lake-manifest.json
-      - run: lake exe cache get
-      - run: lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KuuOSFormal
+      - run: python3 scripts/run_formal_package.py --legacy -- update
+      - run: git diff --exit-code -- lake-manifest.json legacy/v5.291/lake-manifest.json
+      - run: python3 scripts/run_formal_package.py --legacy -- exe cache get
+      - run: python3 scripts/run_formal_package.py --legacy -- -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KuuOSFormal

@@ -70,12 +70,13 @@ jobs:
       - name: Verify canonical registration
         shell: bash
         run: |
-          grep -Fq 'import KUOS.WORLD.KuuOSGaugeFieldSelfOrganizationV0_60' formal/KUOS.lean
-          grep -Fq 'import KUOS.WORLD.KuuOSGaugeFieldSelfOrganizationV0_60' formal/KuuOSFormal.lean
-          grep -Fq '"KuuOSFormalV0_60"' lakefile.toml
+          grep -Fq 'import KUOS.WORLD.KuuOSGaugeFieldSelfOrganizationV0_60' legacy/v5.291/formal/KUOS.lean
+          grep -Fq 'import KUOS.WORLD.KuuOSGaugeFieldSelfOrganizationV0_60' legacy/v5.291/formal/KuuOSFormal.lean
+          grep -Fq '"KuuOSFormalV0_60"' legacy/v5.291/lakefile.toml
       - name: Set up pinned Lean and Lake
         uses: leanprover/lean-action@v1
         with:
+          lake-package-directory: legacy/v5.291
           auto-config: false
           build: false
           test: false
@@ -83,23 +84,23 @@ jobs:
           use-mathlib-cache: false
           use-github-cache: false
       - name: Resolve pinned dependencies
-        run: lake update
+        run: python3 scripts/run_formal_package.py --legacy -- update
       - name: Verify committed manifest is canonical
-        run: git diff --exit-code -- lake-manifest.json
+        run: git diff --exit-code -- lake-manifest.json legacy/v5.291/lake-manifest.json
       - name: Fetch Mathlib olean cache
-        run: lake exe cache get
+        run: python3 scripts/run_formal_package.py --legacy -- exe cache get
       - name: Build v0.60 formal root
         shell: bash
         run: |
           set -o pipefail
-          lake -KleanArgs=-DwarningAsError=true \
+          python3 scripts/run_formal_package.py --legacy -- -KleanArgs=-DwarningAsError=true \
             -KleanArgs=-DsorryAsError=true \
             build KuuOSFormalV0_60 2>&1 | tee gauge-v060-build.log
       - name: Build aggregate formal root
         shell: bash
         run: |
           set -o pipefail
-          lake -KleanArgs=-DwarningAsError=true \
+          python3 scripts/run_formal_package.py --legacy -- -KleanArgs=-DwarningAsError=true \
             -KleanArgs=-DsorryAsError=true \
             build KuuOSFormal 2>&1 | tee aggregate-formal-build.log
       - name: Upload diagnostics

@@ -4,7 +4,7 @@
   "status": "formal_read_only_vacuum_information_geometry",
   "formal_module": "formal/KUOS/WORLD/KuuVacuumInformationGeometryBridgeV0_55.lean",
   "formal_root": "formal/KuuOSFormalV0_55.lean",
-  "aggregate_formal_root": "formal/KuuOSFormal.lean",
+  "aggregate_formal_root": "legacy/v5.291/formal/KuuOSFormal.lean",
   "documentation": "docs/KU_WORLD_KUU_VACUUM_INFORMATION_GEOMETRY_v0_55.md",
   "validator": "scripts/check_world_kuu_vacuum_information_geometry_v0_55.py",
   "full_check": "scripts/run_kuuos_runtime_full_check_v0_55.py",

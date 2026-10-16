@@ -133,7 +133,7 @@ def main() -> int:
     runtime = ROOT / "runtime/kuuos_planos_blocker_release_closeout_receipt_v0_59.py"
     formal = ROOT / "formal/KUOS/PlanOS/BlockerReleaseCloseoutReceiptV0_59.lean"
     formal_root = ROOT / "formal/KuuOSPlanOSV0_59.lean"
-    aggregate_root = ROOT / "formal/KuuOSFormal.lean"
+    aggregate_root = ROOT / "legacy/v5.291/formal/KuuOSFormal.lean"
     docs = ROOT / "docs/KUUOS_PLANOS_BLOCKER_RELEASE_CLOSEOUT_RECEIPT_v0_59.md"
     manifest_path = ROOT / "manifests/kuuos_planos_blocker_release_closeout_receipt_v0_59.json"
 

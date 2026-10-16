@@ -44,7 +44,7 @@ class PrEntryCheckV05Tests(unittest.TestCase):
         self.assertFalse(result["full_audit_required"])
         self.assertEqual(
             selected_ids(result),
-            {"workflow-integrity", "world-v053-v059", "lean-formal"},
+            {"workflow-integrity", "world-v053-v059", "lean-formal", "kuu-independent-foundation"},
         )
 
     def test_memory_runtime_change_selects_focused_and_global_runtime_checks(self) -> None:

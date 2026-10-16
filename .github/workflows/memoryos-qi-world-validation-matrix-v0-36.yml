@@ -61,6 +61,7 @@ jobs:
         run: PYTHONPATH=. python -m unittest -v tests.test_memoryos_qi_world_blocker_integration_v0_35
       - uses: leanprover/lean-action@v1
         with:
+          lake-package-directory: legacy/v5.291
           auto-config: false
           build: false
           test: false
@@ -69,11 +70,11 @@ jobs:
           use-github-cache: false
       - name: Recheck typed boundary
         run: |
-          lake update
-          lake exe cache get
-          lake -KleanArgs=-DwarningAsError=true \
+          python3 scripts/run_formal_package.py --legacy -- update
+          python3 scripts/run_formal_package.py --legacy -- exe cache get
+          python3 scripts/run_formal_package.py --legacy -- -KleanArgs=-DwarningAsError=true \
             -KleanArgs=-DsorryAsError=true \
             build KUOS.OpenHorizon.MemoryOSQiWorldBlockerIntegrationKernelV0_35
-          lake -KleanArgs=-DwarningAsError=true \
+          python3 scripts/run_formal_package.py --legacy -- -KleanArgs=-DwarningAsError=true \
             -KleanArgs=-DsorryAsError=true \
             build KuuOSFormal

@@ -33,12 +33,14 @@ def parse_repository_contracts(
         strict_root = payload.get("strict_formal_root")
         modules = payload.get("aggregate_lean_modules")
         runtime_modules = payload.get("runtime_modules", [])
+        formal_package = payload.get("formal_package", "current")
         if (
             not isinstance(validator, str)
             or not isinstance(strict_root, str)
             or not isinstance(modules, list)
             or not all(isinstance(item, str) for item in modules)
             or not isinstance(runtime_modules, list)
+            or formal_package not in {"current", "legacy-v5.291"}
         ):
             malformed.append(path)
             continue
@@ -46,6 +48,8 @@ def parse_repository_contracts(
             validator,
             *(item for item in runtime_modules if isinstance(item, str)),
         }
+        if formal_package == "legacy-v5.291":
+            references.update({"legacy/v5.291/formal/KuuOSFormal.lean", "legacy/v5.291/lakefile.toml"})
         for key in ("fixture", "tests", "documentation"):
             value = payload.get(key)
             if isinstance(value, str):
@@ -88,6 +92,12 @@ def observe_repository_structure(snapshot: RepositorySnapshot) -> RepositoryObse
     missing_roots: set[str] = set()
     missing_imports: set[str] = set()
     for contract in contracts:
+        package = json.loads(texts[contract.manifest_path]).get("formal_package", "current")
+        prefix = "legacy/v5.291/" if package == "legacy-v5.291" else ""
+        # An explicit manifest scope chooses its own formal inputs. No missing
+        # historical result is ever repaired by importing it into current Kuu.
+        lean_root = texts.get(prefix + LEAN_AGGREGATE_ROOT, "")
+        lakefile = texts.get(prefix + LAKEFILE, "")
         for path in contract.referenced_paths:
             if path not in paths:
                 missing_paths.add(f"{contract.manifest_path}:{path}")

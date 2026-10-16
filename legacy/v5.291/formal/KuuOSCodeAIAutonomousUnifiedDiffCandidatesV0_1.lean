@@ -1,0 +1,11 @@
+import KUOS.CodeAI.AutonomousUnifiedDiffCandidatesV0_1
+
+namespace KuuOSCodeAIAutonomousUnifiedDiffCandidatesV0_1
+
+open KUOS.CodeAI.AutonomousUnifiedDiffCandidatesV0_1
+
+abbrev Receipt := AutonomousUnifiedDiffCandidatesReceipt
+abbrev ReceiptValid := AutonomousUnifiedDiffCandidatesReceiptValid
+abbrev Portfolio := AutonomousUnifiedDiffCandidatePortfolio
+
+end KuuOSCodeAIAutonomousUnifiedDiffCandidatesV0_1

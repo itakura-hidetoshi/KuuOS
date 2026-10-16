@@ -21,7 +21,7 @@ def require_tokens(path: Path, tokens: tuple[str, ...]) -> None:
 
 def main() -> int:
     formal_root = ROOT / "formal/KuuOSPlanOSV0_20.lean"
-    top_root = ROOT / "formal/KuuOSFormal.lean"
+    top_root = ROOT / "legacy/v5.291/formal/KuuOSFormal.lean"
     formal = ROOT / "formal/KUOS/PlanOS/VacuumExpectationHysteresisConstraintDecisionHandoffV0_20.lean"
     generation = ROOT / "formal/KUOS/PlanOS/VacuumExpectationHistoryQiCandidateGenerationV0_19.lean"
     replan = ROOT / "formal/KUOS/PlanOS/QiConditionedNonMarkovReplanV0_2.lean"

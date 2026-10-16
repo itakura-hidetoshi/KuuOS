@@ -1,0 +1,23 @@
+import KUOS.CodeAI.ExternalGeneralBenchmarkSWEBenchVerifiedAdapterV0_1
+
+namespace KuuOSCodeAIExternalGeneralBenchmarkSWEBenchVerifiedAdapterV0_1
+
+open KUOS.CodeAI.ExternalGeneralBenchmarkSWEBenchVerifiedAdapterV0_1
+
+theorem external_general_benchmark_reference_admitted :
+    AdapterAdmitted referenceQuery referenceEvidence :=
+  reference_admitted
+
+theorem external_general_benchmark_holdout_leak_rejected :
+    ¬ AdapterAdmitted referenceQuery referenceHoldoutLeak :=
+  reference_holdout_leak_not_admitted
+
+theorem external_general_benchmark_test_path_overlap_rejected :
+    ¬ AdapterAdmitted referenceQuery referenceProtectedPathOverlap :=
+  reference_protected_path_overlap_not_admitted
+
+theorem external_general_benchmark_execution_boundary_preserved :
+    ¬ AdapterAdmitted referenceQuery referenceHarnessExecution :=
+  reference_harness_execution_not_admitted
+
+end KuuOSCodeAIExternalGeneralBenchmarkSWEBenchVerifiedAdapterV0_1

@@ -33,18 +33,22 @@ jobs:
     timeout-minutes: 25
     steps:
       - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
       - name: Verify package-local formal boundary
         run: |
           set -euo pipefail
           grep -Fq \
             'import KUOS.Architecture.QiWuxingAddConFirstIsomorphismV2_9' \
-            formal/KUOS/Architecture/QiWuxingPhaseObservationUniversalPropertyV3_0.lean
+            legacy/v5.291/formal/KUOS/Architecture/QiWuxingPhaseObservationUniversalPropertyV3_0.lean
           grep -Fq \
             'import KUOS.Architecture.QiWuxingPhaseObservationUniversalPropertyV3_0' \
-            formal/KuuOSQiWuxingPhaseObservationUniversalPropertyV3_0.lean
+            legacy/v5.291/formal/KuuOSQiWuxingPhaseObservationUniversalPropertyV3_0.lean
       - name: Set up pinned Lean and Lake
         uses: leanprover/lean-action@v1
         with:
+          lake-package-directory: legacy/v5.291
           auto-config: false
           build: false
           test: false
@@ -56,15 +60,15 @@ jobs:
         uses: actions/cache@v5
         with:
           path: |
-            .lake/packages
-            .lake/build
-          key: kuuos-lean-v2-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}
+            legacy/v5.291/.lake/packages
+            legacy/v5.291/.lake/build
+          key: kuuos-legacy-v5291-lean-v2-${{ runner.os }}-${{ hashFiles('legacy/v5.291/lean-toolchain', 'legacy/v5.291/lake-manifest.json') }}
       - name: Resolve dependencies on cache miss
         if: steps.lean-cache.outputs.cache-hit != 'true'
         run: |
           set -euo pipefail
           for attempt in 1 2 3; do
-            if lake update; then
+            if python3 scripts/run_formal_package.py --legacy -- update; then
               break
             fi
             if [ "$attempt" -eq 3 ]; then
@@ -72,11 +76,11 @@ jobs:
             fi
             sleep $((attempt * 10))
           done
-          git diff --exit-code -- lake-manifest.json
-          lake exe cache get
+          git diff --exit-code -- lake-manifest.json legacy/v5.291/lake-manifest.json
+          python3 scripts/run_formal_package.py --legacy -- exe cache get
       - name: Strictly compile only the v3.0 module
         run: |
           set -euo pipefail
-          lake -KleanArgs=-DwarningAsError=true \
+          python3 scripts/run_formal_package.py --legacy -- -KleanArgs=-DwarningAsError=true \
             -KleanArgs=-DsorryAsError=true \
             build KUOS.Architecture.QiWuxingPhaseObservationUniversalPropertyV3_0

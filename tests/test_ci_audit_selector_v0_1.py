@@ -78,10 +78,10 @@ class CiAuditSelectorV01Tests(unittest.TestCase):
         self.assertFalse(result["full_audit_required"])
         self.assertEqual(
             selected_ids(result),
-            {"lean-formal", "plan-os", "workflow-integrity"},
+            {"lean-formal", "plan-os", "workflow-integrity", "kuu-independent-foundation"},
         )
 
-    def test_validated_lean_incremental_runs_only_lean(self) -> None:
+    def test_validated_lean_incremental_keeps_independent_boundary(self) -> None:
         result = select(
             REGISTRY,
             ["formal/KUOS/DependentOriginationGeneratedQuotientCoherenceV2_68.lean"],
@@ -90,7 +90,7 @@ class CiAuditSelectorV01Tests(unittest.TestCase):
         )
         self.assertFalse(result["full_audit_required"])
         self.assertTrue(result["validated_lean_incremental"])
-        self.assertEqual(selected_ids(result), {"lean-formal"})
+        self.assertEqual(selected_ids(result), {"lean-formal", "kuu-independent-foundation"})
 
     def test_validated_lean_incremental_rejects_nonlean_diff(self) -> None:
         with self.assertRaisesRegex(ValueError, "formal/\\*\\*/\\*.lean-only diff"):

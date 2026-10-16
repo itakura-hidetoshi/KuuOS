@@ -146,19 +146,20 @@ jobs:
           {
             grep -Fq \
               'import KUOS.Architecture.QiWorldYinYangProcessBlockerComplementarityV2_3' \
-              formal/KUOS.lean
+              legacy/v5.291/formal/KUOS.lean
             grep -Fq \
               'import KUOS.Architecture.QiWorldCrossCycleBlockerTheoryV1_5' \
-              formal/KUOS/Architecture/QiWorldYinYangProcessBlockerComplementarityV2_3.lean
+              legacy/v5.291/formal/KUOS/Architecture/QiWorldYinYangProcessBlockerComplementarityV2_3.lean
             grep -Fq \
               'import KUOS.Architecture.QiWorldConcreteThirdLicensedCycleMaterializationV2_2' \
-              formal/KUOS/Architecture/QiWorldYinYangProcessBlockerComplementarityV2_3.lean
+              legacy/v5.291/formal/KUOS/Architecture/QiWorldYinYangProcessBlockerComplementarityV2_3.lean
             echo 'PASS: formal registration and dependency imports'
           } 2>&1 | tee artifacts/diagnostics/formal-registration.log
 
       - name: Set up pinned Lean and Lake
         uses: leanprover/lean-action@v1
         with:
+          lake-package-directory: legacy/v5.291
           auto-config: false
           build: false
           test: false
@@ -170,26 +171,26 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          lake update 2>&1 | tee artifacts/diagnostics/lake-update.log
+          python3 scripts/run_formal_package.py --legacy -- update 2>&1 | tee artifacts/diagnostics/lake-update.log
 
       - name: Verify committed manifest is canonical
         shell: bash
         run: |
           set -euo pipefail
-          git diff --exit-code -- lake-manifest.json \
+          git diff --exit-code -- lake-manifest.json legacy/v5.291/lake-manifest.json \
             2>&1 | tee artifacts/diagnostics/manifest-diff.log
 
       - name: Fetch Mathlib olean cache
         shell: bash
         run: |
           set -euo pipefail
-          lake exe cache get 2>&1 | tee artifacts/diagnostics/mathlib-cache.log
+          python3 scripts/run_formal_package.py --legacy -- exe cache get 2>&1 | tee artifacts/diagnostics/mathlib-cache.log
 
       - name: Strictly compile v2.3 formal module
         shell: bash
         run: |
           set -euo pipefail
-          lake -KleanArgs=-DwarningAsError=true \
+          python3 scripts/run_formal_package.py --legacy -- -KleanArgs=-DwarningAsError=true \
             -KleanArgs=-DsorryAsError=true \
             build KUOS.Architecture.QiWorldYinYangProcessBlockerComplementarityV2_3 \
             2>&1 | tee artifacts/diagnostics/v2-3-lean-module.log
@@ -207,7 +208,7 @@ jobs:
             echo "ref=${GITHUB_REF}"
             echo "sha=${GITHUB_SHA}"
             python3 --version
-            lake --version || true
+            command lake --version || true
             lean --version || true
           } > artifacts/diagnostics/context.log
 

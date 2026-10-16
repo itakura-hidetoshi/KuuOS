@@ -111,7 +111,7 @@ def main() -> int:
     runtime = ROOT / "runtime/kuuos_planos_truth_authority_closeout_receipt_v0_55.py"
     formal = ROOT / "formal/KUOS/PlanOS/TruthAuthorityCloseoutReceiptV0_55.lean"
     formal_root = ROOT / "formal/KuuOSPlanOSV0_55.lean"
-    aggregate_root = ROOT / "formal/KuuOSFormal.lean"
+    aggregate_root = ROOT / "legacy/v5.291/formal/KuuOSFormal.lean"
     docs = ROOT / "docs/KUUOS_PLANOS_TRUTH_AUTHORITY_CLOSEOUT_RECEIPT_v0_55.md"
     manifest_path = ROOT / "manifests/kuuos_planos_truth_authority_closeout_receipt_v0_55.json"
 

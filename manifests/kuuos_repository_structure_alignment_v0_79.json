@@ -16,5 +16,6 @@
   "strict_formal_root": "KuuOSRepositoryAlignmentV0_79",
   "aggregate_lean_modules": [
     "KUOS.WORLD.KuuOSRepositoryStructureAlignmentV0_79"
-  ]
+  ],
+  "formal_package": "legacy-v5.291"
 }
