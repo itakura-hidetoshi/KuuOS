@@ -28,4 +28,5 @@ import Kuu.F112.PolygonDepthAxes
 import Kuu.F112.PolygonDepthRoutes
 import Kuu.F112.PolygonDepthThreeComparison
 import Kuu.F112.PolygonDepthPentagon
+import Kuu.F112.PolygonDepthSquare
 /-! Current independent Kuu foundation. No legacy KUOS imports are permitted. -/
