@@ -10,4 +10,5 @@ import Kuu.F112.Localization
 import Kuu.F112.KernelEquivalence
 import Kuu.F112.Overlap
 import Kuu.F112.FaceRewrite
+import Kuu.F112.PolygonBoundary
 /-! Current independent Kuu foundation. No legacy KUOS imports are permitted. -/
