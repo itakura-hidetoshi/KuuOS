@@ -64,8 +64,14 @@ def northPentagonOverlap :
       (.around ⟨.north, .s1⟩) where
   distinct := by decide
   common := Site.face (Polygon.pentagon .north)
-  first := Or.inr (by decide)
-  second := Or.inr (by decide)
+  first := Or.inr (by
+    change edgeOnFace (Edge.around ⟨Vertex.north, Slot.s0⟩)
+      (Polygon.pentagon Vertex.north)
+    rfl)
+  second := Or.inr (by
+    change edgeOnFace (Edge.around ⟨Vertex.north, Slot.s1⟩)
+      (Polygon.pentagon Vertex.north)
+    rfl)
 
 theorem northPentagonOriginalArrow_absent :
     ¬ Nonempty
