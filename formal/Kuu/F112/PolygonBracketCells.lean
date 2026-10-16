@@ -221,7 +221,7 @@ theorem PolygonBracketCell.no_shadow_delta
   change cell.nativeShadow.2 = (0 : ZMod 2) at hp
   have hpar := cell.phase_squareParity
   rw [hs, hp] at hpar
-  exact (by decide : (1 : ZMod 2) ≠ 0) (by simpa using hpar)
+  exact (by decide : (1 : ZMod 2) ≠ 0) hpar
 
 /-- Horizontal composition of raw 3-cells uses the TWO actual
 F54-shaped route contexts and their genuinely typed pre/post
