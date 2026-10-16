@@ -93,20 +93,25 @@ the original starting dart: a true 5/6-cycle, never an added edge. -/
 theorem cyclicBoundary_closed (p : Polygon) :
     cyclicBoundaryDart p (polygonSideCount p) =
       cyclicBoundaryDart p 0 := by
-  cases p <;> rfl
+  cases p <;> simp [cyclicBoundaryDart, polygonSideCount]
 
-/-- A single closed, genuinely typed 10-/12-leg raw word for EVERY
-authentic 5-/6-sided C60 physical polygon. -/
+/-- Change ONLY the target physical site of a genuinely typed raw path. -/
+def changeZigzagTarget {s t u : Site} (h : t = u)
+    (z : Zigzag s t) : Zigzag s u :=
+  h ▸ z
+
+/-- A single closed, genuinely typed 10-or-12-leg raw word for EVERY
+authentic five-or-six-sided C60 physical polygon. -/
 def polygonRawLoop (p : Polygon) :
     Zigzag (Site.vertex (cyclicBoundaryDart p 0))
       (Site.vertex (cyclicBoundaryDart p 0)) :=
-  (congrArg Site.vertex (cyclicBoundary_closed p)) ▸
-    polygonRawPrefix p (polygonSideCount p) (Nat.le_refl _)
+  changeZigzagTarget (congrArg Site.vertex (cyclicBoundary_closed p))
+    (polygonRawPrefix p (polygonSideCount p) (Nat.le_refl _))
 
-/-- Transport of a target site does not erase either kind of raw leg. -/
+/-- Changing the target site does not erase either kind of raw leg. -/
 theorem zigzagLegCount_transport {s t u : Site}
     (h : t = u) (z : Zigzag s t) :
-    zigzagLegCount (h ▸ z) = zigzagLegCount z := by
+    zigzagLegCount (changeZigzagTarget h z) = zigzagLegCount z := by
   cases h
   rfl
 
@@ -135,7 +140,9 @@ theorem polygonRawPrefix_legCount (p : Polygon) :
 /-- Exactly two genuine F69 raw legs per side, with no raw cancellation. -/
 theorem polygonRawLoop_legCount (p : Polygon) :
     zigzagLegCount (polygonRawLoop p) = 2 * polygonSideCount p := by
-  unfold polygonRawLoop
+  change zigzagLegCount
+      (changeZigzagTarget (congrArg Site.vertex (cyclicBoundary_closed p))
+        (polygonRawPrefix p (polygonSideCount p) (Nat.le_refl _))) = _
   rw [zigzagLegCount_transport]
   exact polygonRawPrefix_legCount p (polygonSideCount p) (Nat.le_refl _)
 
