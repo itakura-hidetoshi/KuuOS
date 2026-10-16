@@ -204,7 +204,6 @@ theorem physicalFourBoundaryWord_legCount (p : Polygon) :
     zigzagLegCount (physicalFourBoundaryWord p) = 8 := by
   unfold physicalFourBoundaryWord
   rw [polygonRawSegment_legCount]
-  rfl
 
 /-- The north genuine C60 pentagon has different 3-step and
 2-step raw F54-shaped bracket routes on its first four real sides. -/
