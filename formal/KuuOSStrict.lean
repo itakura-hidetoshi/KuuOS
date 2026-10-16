@@ -16,4 +16,5 @@ import Kuu.F112.PolygonFan
 import Kuu.F112.PolygonDisk
 import Kuu.F112.PolygonSource
 import Kuu.F112.PolygonRotation
+import Kuu.F112.PolygonRotationSound
 /-! Current independent Kuu foundation. No legacy KUOS imports are permitted. -/
