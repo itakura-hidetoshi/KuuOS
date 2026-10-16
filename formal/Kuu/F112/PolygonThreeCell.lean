@@ -171,6 +171,25 @@ def polygonRotationInterchange
       (polygonRotationRightFirst a b) :=
   ⟨polygonRotationInterchange_degree a b⟩
 
+/-- The leading constructor can be inspected without eliminating
+the dependent endpoint equations of a raw 2-square. -/
+def PolygonRotationSquare.contextTag
+    {s t : Site} {q r : Zigzag s t}
+    (a : PolygonRotationSquare q r) : Nat :=
+  match a with
+  | .leftContext _ _ => 1
+  | .rightContext _ _ => 2
+  | _ => 0
+
+/-- Detect which of the two genuinely different raw whiskerings
+begins a vertical paste, independently of the indexed endpoints. -/
+def PolygonRotationSquare.firstPastingTag
+    {s t : Site} {q r : Zigzag s t}
+    (a : PolygonRotationSquare q r) : Nat :=
+  match a with
+  | .vertical c _ => c.contextTag
+  | _ => 0
+
 /-- The two E4 SOURCE pasting words are NOT identical.
 The explicit E5 comparison above is really a 3-cell between
 different raw two-proof trees, rather than raw proof irrelevance. -/
@@ -180,7 +199,9 @@ theorem polygonRotationInterchange_raw_ne
     (b : PolygonRotationSquare v w) :
     polygonRotationLeftFirst a b ≠ polygonRotationRightFirst a b := by
   intro h
-  cases h
+  have ht := congrArg PolygonRotationSquare.firstPastingTag h
+  change (2 : Nat) = 1 at ht
+  exact (by decide : (2 : Nat) ≠ 1) ht
 
 /-- Horizontal composition of 3-cells is derived from equality of
 their two independently indexed generator degrees. -/
