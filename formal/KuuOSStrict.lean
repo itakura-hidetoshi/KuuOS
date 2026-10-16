@@ -31,4 +31,5 @@ import Kuu.F112.PolygonDepthPentagon
 import Kuu.F112.PolygonDepthSquare
 import Kuu.F112.PolygonDepthGeneralRoutes
 import Kuu.F112.PolygonDepthTrace
+import Kuu.F112.PolygonDepthTraceCells
 /-! Current independent Kuu foundation. No legacy KUOS imports are permitted. -/
