@@ -52,17 +52,35 @@ def polygonRawSide (p : Polygon) (i : Fin 6)
     (cyclicBoundaryDart p (i.val + 1))
     (cyclicBoundarySide_real p i hi).1
 
+/-- Closed numeral index for dependent original polygon side #0. -/
+private def boundaryIndex0 : Fin 6 := ⟨0, by decide⟩
+
+/-- Closed numeral index for dependent original polygon side #1. -/
+private def boundaryIndex1 : Fin 6 := ⟨1, by decide⟩
+
+/-- Closed numeral index for dependent original polygon side #2. -/
+private def boundaryIndex2 : Fin 6 := ⟨2, by decide⟩
+
+/-- Closed numeral index for dependent original polygon side #3. -/
+private def boundaryIndex3 : Fin 6 := ⟨3, by decide⟩
+
+/-- Closed numeral index for dependent original polygon side #4. -/
+private def boundaryIndex4 : Fin 6 := ⟨4, by decide⟩
+
+/-- Closed numeral index for dependent original polygon side #5. -/
+private def boundaryIndex5 : Fin 6 := ⟨5, by decide⟩
+
 /-- The physical five-edge pentagon is an honest single CLOSED raw
 zigzag. Source and target are the SAME actual first old dart. -/
 def pentagonRawLoop (v : Vertex) :
     Zigzag
       (Site.vertex (cyclicBoundaryDart (.pentagon v) 0))
       (Site.vertex (cyclicBoundaryDart (.pentagon v) 0)) :=
-  append (polygonRawSide (.pentagon v) (⟨0, by decide⟩ : Fin 6) (by decide))
-    (append (polygonRawSide (.pentagon v) (⟨1, by decide⟩ : Fin 6) (by decide))
-    (append (polygonRawSide (.pentagon v) (⟨2, by decide⟩ : Fin 6) (by decide))
-    (append (polygonRawSide (.pentagon v) (⟨3, by decide⟩ : Fin 6) (by decide))
-    (polygonRawSide (.pentagon v) (⟨4, by decide⟩ : Fin 6) (by decide)))))
+  append (polygonRawSide (.pentagon v) boundaryIndex0 (by decide))
+    (append (polygonRawSide (.pentagon v) boundaryIndex1 (by decide))
+    (append (polygonRawSide (.pentagon v) boundaryIndex2 (by decide))
+    (append (polygonRawSide (.pentagon v) boundaryIndex3 (by decide))
+    (polygonRawSide (.pentagon v) boundaryIndex4 (by decide)))))
 
 /-- The real six-edge original-triangle hexagon is likewise a single
 dependent, CLOSED original-site raw zigzag, with no square-face proxy. -/
@@ -70,12 +88,12 @@ def hexagonRawLoop (t : Triangle) :
     Zigzag
       (Site.vertex (cyclicBoundaryDart (.hexagon t) 0))
       (Site.vertex (cyclicBoundaryDart (.hexagon t) 0)) :=
-  append (polygonRawSide (.hexagon t) (⟨0, by decide⟩ : Fin 6) (by decide))
-    (append (polygonRawSide (.hexagon t) (⟨1, by decide⟩ : Fin 6) (by decide))
-    (append (polygonRawSide (.hexagon t) (⟨2, by decide⟩ : Fin 6) (by decide))
-    (append (polygonRawSide (.hexagon t) (⟨3, by decide⟩ : Fin 6) (by decide))
-    (append (polygonRawSide (.hexagon t) (⟨4, by decide⟩ : Fin 6) (by decide))
-    (polygonRawSide (.hexagon t) (⟨5, by decide⟩ : Fin 6) (by decide))))))
+  append (polygonRawSide (.hexagon t) boundaryIndex0 (by decide))
+    (append (polygonRawSide (.hexagon t) boundaryIndex1 (by decide))
+    (append (polygonRawSide (.hexagon t) boundaryIndex2 (by decide))
+    (append (polygonRawSide (.hexagon t) boundaryIndex3 (by decide))
+    (append (polygonRawSide (.hexagon t) boundaryIndex4 (by decide))
+    (polygonRawSide (.hexagon t) boundaryIndex5 (by decide))))))
 
 /-- All 32 physical C60 polygon boundaries are now single raw loops.
 This is a concrete dependent expression, not merely a list of sides. -/
@@ -110,11 +128,11 @@ theorem polygonRawSide_two (p : Polygon) (i : Fin 6)
 
 theorem pentagonRawLoop_ten (v : Vertex) :
     zigzagLegCount (pentagonRawLoop v) = 10 := by
-  simp [pentagonRawLoop, zigzagLegCount_append, polygonRawSide_two]
+  rfl
 
 theorem hexagonRawLoop_twelve (t : Triangle) :
     zigzagLegCount (hexagonRawLoop t) = 12 := by
-  simp [hexagonRawLoop, zigzagLegCount_append, polygonRawSide_two]
+  rfl
 
 /-- The original C60 polygon cycle has exactly TWICE its number of
 uncancelled original incidence legs, rather than being silently nil. -/
