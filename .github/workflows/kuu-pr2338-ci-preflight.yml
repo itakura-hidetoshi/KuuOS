@@ -1,0 +1,63 @@
+name: PR2338 legacy integration preflight
+
+on:
+  push:
+    branches:
+      - 'fix/pr2338-legacy-ci-integration-20261016'
+    paths:
+      - '.github/workflows/kuu-pr2338-ci-preflight.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  inspect:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run existing boundary and migration regressions
+        run: python3 scripts/run_kuu_foundation_check.py
+      - name: Inspect historical workflow execution contexts
+        if: always()
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json
+          import re
+          from pathlib import Path
+          scope = json.loads(Path('ci/kuu_legacy_consumer_scope.json').read_text())
+          for name in scope['paths']:
+              if not name.startswith('.github/workflows/'):
+                  continue
+              text = Path(name).read_text()
+              findings = []
+              if 'scripts/run_formal_package.py' in text and 'actions/setup-python@' not in text:
+                  findings.append('package runner without explicit Python setup')
+              for number, line in enumerate(text.splitlines(), 1):
+                  if re.search(r'\b(?:if|then|do|&&|\|\|)\s+lake\s', line):
+                      findings.append(f'{number}: embedded Lake command: {line.strip()}')
+                  if re.search(r'\bgrep\b', line) and any(x in line for x in ('formal/KuuOSFormal.lean', 'lakefile.toml')) and 'legacy/v5.291/' not in line:
+                      findings.append(f'{number}: historical registration at current root: {line.strip()}')
+              if findings:
+                  print(json.dumps({'path': name, 'findings': findings}))
+          PY
+      - name: Preserve exact source for offline regression reproduction
+        if: always()
+        run: |
+          mkdir -p /tmp/kuu-pr2338-preflight
+          git rev-parse HEAD > /tmp/kuu-pr2338-preflight/source-commit.txt
+          git rev-parse HEAD^{tree} > /tmp/kuu-pr2338-preflight/source-tree.txt
+          git archive --format=tar --output=/tmp/kuu-pr2338-preflight/source.tar HEAD
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: kuu-pr2338-preflight-${{ github.run_id }}
+          path: /tmp/kuu-pr2338-preflight/
+          retention-days: 3
+          if-no-files-found: error
