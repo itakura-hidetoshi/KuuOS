@@ -20,4 +20,5 @@ import Kuu.F112.PolygonRotationSound
 import Kuu.F112.PolygonRotationTransport
 import Kuu.F112.PolygonRotationNaturality
 import Kuu.F112.PolygonThreeCell
+import Kuu.F112.PolygonThreeProof
 /-! Current independent Kuu foundation. No legacy KUOS imports are permitted. -/
