@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - 'scripts/check_kuuos_lean_lsp_mcp_compatibility_v7_17.py'
+      - 'tests/test_kuu_ci_boundary_regressions.py'
       - 'manifests/kuuos_lean_lsp_mcp_compatibility_v7_17.json'
       - 'docs/KUUOS_LEAN_LSP_MCP_COMPATIBILITY_v7_17.md'
       - 'manifests/kuuos_development_mcp_capability_registry_v7_16.json'
@@ -49,10 +50,8 @@ jobs:
       - name: Restore Lake workspace cache
         uses: actions/cache@v5
         with:
-          path: .lake
-          key: kuuos-lean-lsp-mcp-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}
-          restore-keys: |
-            kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-
+          path: legacy/v5.291/.lake
+          key: kuuos-legacy-v5291-lean-lsp-mcp-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('legacy/v5.291/lean-toolchain') }}-${{ hashFiles('legacy/v5.291/lake-manifest.json') }}
 
       - name: Fetch Mathlib cache
         run: |
@@ -62,10 +61,10 @@ jobs:
       - name: Verify exact KuuOS pins
         run: |
           set -euo pipefail
-          test "$(cat lean-toolchain)" = "leanprover/lean4:v4.30.0-rc2"
+          test "$(cat legacy/v5.291/lean-toolchain)" = "leanprover/lean4:v4.30.0-rc2"
           python - <<'PY'
           import json
-          m = json.load(open("lake-manifest.json"))
+          m = json.load(open("legacy/v5.291/lake-manifest.json"))
           mathlib = next(x for x in m["packages"] if x["name"] == "mathlib")
           assert mathlib["rev"] == "5450b53e5ddc75d46418fabb605edbf36bd0beb6"
           print(mathlib["rev"])
@@ -85,7 +84,11 @@ jobs:
       - name: Run live MCP and LSP compatibility probe
         run: |
           set -euo pipefail
-          PYTHONPATH=. python             scripts/check_kuuos_lean_lsp_mcp_compatibility_v7_17.py             --repository-root .             --live-probe             --receipt lean_lsp_mcp_compatibility_receipt_v7_17.json
+          PYTHONPATH=. python scripts/check_kuuos_lean_lsp_mcp_compatibility_v7_17.py \
+            --repository-root legacy/v5.291 \
+            --live-probe \
+            --receipt "${GITHUB_WORKSPACE}/lean_lsp_mcp_compatibility_receipt_v7_17.json" \
+            2>&1 | tee lean_lsp_mcp_compatibility_probe_v7_17.log
 
       - name: Verify compatibility receipt
         run: |
@@ -104,6 +107,8 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: kuuos-lean-lsp-mcp-compatibility-${{ github.run_id }}-${{ github.run_attempt }}
-          path: lean_lsp_mcp_compatibility_receipt_v7_17.json
+          path: |
+            lean_lsp_mcp_compatibility_receipt_v7_17.json
+            lean_lsp_mcp_compatibility_probe_v7_17.log
           if-no-files-found: error
           retention-days: 14
