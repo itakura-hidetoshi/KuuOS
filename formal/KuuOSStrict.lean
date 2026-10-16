@@ -14,4 +14,5 @@ import Kuu.F112.PolygonBoundary
 import Kuu.F112.PolygonRawLoop
 import Kuu.F112.PolygonFan
 import Kuu.F112.PolygonDisk
+import Kuu.F112.PolygonSource
 /-! Current independent Kuu foundation. No legacy KUOS imports are permitted. -/
