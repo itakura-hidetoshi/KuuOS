@@ -10,7 +10,8 @@ def main():
     for command in [
         [sys.executable, '-m', 'unittest', '-v', 'tests.test_kuu_foundation',
          'tests.test_kuu_consumer_migration', 'tests.test_formal_package_boundary',
-         'tests.test_kuu_formal_contract_scope', 'tests.test_kuu_historical_manifest_scope'],
+         'tests.test_kuu_formal_contract_scope', 'tests.test_kuu_historical_manifest_scope',
+         'tests.test_kuu_legacy_ci_integration'],
         [sys.executable, 'scripts/migrate_kuu_consumers.py', '--check'],
         [sys.executable, 'scripts/check_kuu_foundation.py', '--output', 'artifacts/kuu-foundation/dependencies.json'],
     ]:

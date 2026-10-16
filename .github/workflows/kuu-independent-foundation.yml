@@ -13,6 +13,18 @@ on:
       - 'scripts/*kuu_foundation*'
       - 'scripts/report_kuu_migration_consumers.py'
       - 'tests/test_kuu_foundation.py'
+      - 'tests/test_kuu_legacy_ci_integration.py'
+      - '.github/workflows/kuuos-gauge-field-self-organization-v0-60.yml'
+      - '.github/workflows/kuuos-github-mcp-live-write-verification-formal-v0-3-validation.yml'
+      - '.github/workflows/kuuos-github-mcp-server-bridge-formal-v0-1-validation.yml'
+      - '.github/workflows/kuuos-github-mcp-server-bridge-formal-v0-2-validation.yml'
+      - '.github/workflows/kuuos-os-associated-gauge-fields-v0-61.yml'
+      - '.github/workflows/qi-wuxing-addcon-first-isomorphism-v2-9-validation.yml'
+      - '.github/workflows/qi-wuxing-generation-control-coherence-v2-6-validation.yml'
+      - '.github/workflows/qi-wuxing-phase-observation-universal-property-v3-0-validation.yml'
+      - '.github/workflows/qi-wuxing-phase-projection-quotient-kernel-v2-8-validation.yml'
+      - '.github/workflows/qi-wuxing-relation-word-protected-history-v2-7-validation.yml'
+      - '.github/workflows/qi-yinyang-wuxing-fibonacci-history-v2-5-validation.yml'
       - '.github/workflows/kuu-independent-foundation.yml'
   workflow_dispatch:
 

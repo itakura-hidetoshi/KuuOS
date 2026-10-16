@@ -70,9 +70,9 @@ jobs:
       - name: Verify canonical registration
         shell: bash
         run: |
-          grep -Fq 'import KUOS.WORLD.KuuOSGaugeFieldSelfOrganizationV0_60' formal/KUOS.lean
-          grep -Fq 'import KUOS.WORLD.KuuOSGaugeFieldSelfOrganizationV0_60' formal/KuuOSFormal.lean
-          grep -Fq '"KuuOSFormalV0_60"' lakefile.toml
+          grep -Fq 'import KUOS.WORLD.KuuOSGaugeFieldSelfOrganizationV0_60' legacy/v5.291/formal/KUOS.lean
+          grep -Fq 'import KUOS.WORLD.KuuOSGaugeFieldSelfOrganizationV0_60' legacy/v5.291/formal/KuuOSFormal.lean
+          grep -Fq '"KuuOSFormalV0_60"' legacy/v5.291/lakefile.toml
       - name: Set up pinned Lean and Lake
         uses: leanprover/lean-action@v1
         with:
