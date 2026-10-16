@@ -1,6 +1,8 @@
 import Kuu.F112.TotalChange
 import Mathlib.Data.ZMod.Basic
+import Mathlib.Tactic.DeriveFintype
 import Mathlib.CategoryTheory.Category.Preorder
+import Mathlib.CategoryTheory.ComposableArrows.Basic
 
 /-!
 # F112 / independent C60 truncation and physical incidence seed
