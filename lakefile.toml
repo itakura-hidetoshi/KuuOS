@@ -11,3 +11,4 @@ rev = "v4.30.0-rc2"
 name = "KuuOSFormal"
 srcDir = "formal"
 roots = ["KuuOSFormal", "KuuOSStrict", "Kuu"]
+leanOptions = { warningAsError = true }

@@ -1,30 +1,27 @@
 # Independent Kuu Foundation Implementation Plan
 
-Goal: replace the current build and design, not merely add a nominally Kuu wrapper around the old evaluator.
-Architecture: boundary graph -> declared relation -> universal quotient -> strict comparison and context diagram. Historical sources are a separate frozen package.
+Goal: replace the current build and design, not add a nominally Kuu wrapper around a historical evaluator.
+Architecture: boundary graph -> declared relation -> universal quotient -> strict comparison and context diagram.
 Tech stack: pinned Lean v4.30.0-rc2, mathlib 5450b53e5ddc75d46418fabb605edbf36bd0beb6, Python standard library.
 Spec: ../specs/2026-10-16-independent-kuu-foundation-design.md
 
-## Global constraints
-No current import of KUOS or old F51/F77/Gray semantics. No new axioms or proof shortcuts. No claim that a two-dimensional comparison calculus completes a global strict 3-category. Preserve exact historical source trees and licensing.
+## Constraints
+No current import of KUOS or old F51/F77/Gray semantics. No new axioms or proof shortcuts. A two-dimensional calculus is not a proof-relevant global strict 3-category. Preserve historical source trees, configuration and licensing.
 
-## Progress ledger
-- Canonical baseline: f4b4e7859d380019bc6dcab0ee97c3be84bbc285.
-- Independent graph/replacement/quotient implemented. Exact quotient and universal observer proofs passed at d1031568b28c65cdd1fba8643942b259066a0fb9; remaining horizontal unit laws are being fixed using explicit typed identities.
-- Standard entry, root Lake surface and current README/ROADMAP changed on PR #2338. The exact historical formal tree and configuration remain preserved.
-- Direct/transitive import and configured-root tests: 13 passed in the independent CI run for d1031568b28c65cdd1fba8643942b259066a0fb9.
-- Existing runtime checks still require the old aggregate and public roots; this is a real migration failure, not a reason to restore old imports.
-- New explicit current/legacy package selection and deterministic existing-consumer migration are tested locally. Workflow YAML parsing was checked on all 111 affected workflow files. A named-action indentation regression was observed, added as a test and fixed.
+## Implemented integration work
+- Independent presentation quotient, strict comparison and incidence modules; replace the standard entry and Lake roots.
+- Preserve exact historical formal tree and fixed inputs as a separate legacy package.
+- Migrate 194 existing workflow/validator/manifest files and two runtime connections; fixed 196-consumer read-only migration verifier.
+- Explicit package scopes for all 18 recorded historical repository contracts, including the ten read-only v0.86–v0.95 contracts. Do not grant them auto-repair permissions.
+- Reject direct, transitive and unreferenced current-module imports of legacy code. Prevent automated reintroduction of historical roots.
+- Register all 48 boundary/configuration regressions with CI. Configure warningAsError on the actual Lake library, not only through an unused configuration key.
+- Remove the temporary Git-object publishing workflow. No source archive is generated or delivered.
+- Rewrite current README/ROADMAP, retain the historical originals, and separate integration success from unproved higher-dimensional claims.
 
-Ruling: preserve all existing runtime assertions and test commands while moving their historical FORMAL inputs and builds to the explicitly named legacy package. The current Kuu entry remains independent. Declared repository contracts gain a formal_package selector. Automated repair must not restore historical roots or imports into current Kuu.
+## Evidence and acceptance
+The exact fe9d720a36025a9fc259b70bf43b9f33b45891f2 independent run 38827903551 passed the then-current 45 tests and 644 Lean build jobs. The v0.86–v0.95 scope regression first failed for ten missing fields, then passed with the subsystem tests (324 local tests). The actual Lean option regression also failed before the library setting was added and passed afterward.
 
-Ruling: no source ZIP is created or delivered. Source changes are applied to GitHub. The bounded migration workflow may stage Git tree objects for this exact PR only; it cannot commit or update refs. Applying the tree uses the GitHub MCP expected-SHA operation after the result is inspected. Remove the temporary contents-write staging workflow before merge.
+Merge acceptance is the new exact-source-head Lean, static, runtime, selected regression, required gate and completion evidence. Do not equate prior-head success with current-head success; inspect the final GitHub status before merging and reobserve main afterward.
 
-## Remaining acceptance work
-- [ ] Apply all explicit consumer changes to PR #2338 and verify idempotence.
-- [ ] Confirm all independent Lean modules, not only Presentation, compile without warnings or sorryAx.
-- [ ] Run existing runtime and regression suites against the preserved formal package without weakening validators.
-- [ ] Remove the temporary object-staging workflow and publish only the corrected repository source.
-- [ ] Confirm exact-head CI before merge and reobserve canonical main afterward.
-
-The full proof-relevant strict 3-category and all historical high-dimensional theorem migrations are separate uncompleted mathematical obligations, not concealed by the build-surface change.
+## Separate mathematical continuation
+Proof-relevant global strict 3-cell syntax, all original F112 raw-source ports and the complete genuine C60 incidence reconstruction remain mathematical obligations, not missing CI switches. Prove them from the new foundation without importing Gray semantics back into it.

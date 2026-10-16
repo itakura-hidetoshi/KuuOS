@@ -2,6 +2,7 @@
 import json
 from pathlib import Path
 import unittest
+import tomllib
 
 from scripts.check_kuuos_repository_live_v079 import MANIFESTS
 
@@ -27,6 +28,13 @@ class HistoricalManifestScopeTests(unittest.TestCase):
                 self.assertTrue(payload['strict_formal_root'].startswith('KuuOSRepository'))
                 self.assertTrue(all(x.startswith('KUOS.WORLD.')
                                     for x in payload['aggregate_lean_modules']))
+
+
+class CurrentLeanCompilerOptionsTests(unittest.TestCase):
+    def test_actual_library_compiler_rejects_warnings(self):
+        config = tomllib.loads((ROOT / 'lakefile.toml').read_text(encoding='utf-8'))
+        library = next(lib for lib in config['lean_lib'] if lib['name'] == 'KuuOSFormal')
+        self.assertIs(library.get('leanOptions', {}).get('warningAsError'), True)
 
 
 if __name__ == '__main__':
