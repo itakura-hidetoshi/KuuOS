@@ -1,17 +1,18 @@
 import Kuu.F112.PolygonBoundary
+import Mathlib.Tactic.Omega
 
 /-!
-# F112-C / real polygon boundaries as one closed Type-valued raw zigzag
+# F112-C / genuine finite C60 polygon boundary loops
 
-The previous F112-B layer proves every one of 12 pentagons and 20 hexagons
-has its genuine 5/6-cycle of original C60 edges, darts and incidences.
-Here we COMPOSE those independently certified sides in the raw F69 zigzag
-category, retaining original physical sites in dependent source/target
-indices. The last side returns to the same original first physical dart.
+The previous F112-B layer certifies all twelve physical pentagon boundaries
+and all twenty physical hexagon boundaries. Here every certified actual
+side is interpreted as two proof-relevant original F69 raw incidence legs.
+One DEPENDENT induction on prefix length, not a sequence of special-purpose
+5/6 compositions, then constructs a single original-site raw loop.
 
-The resulting cycle consists of 10 (pentagon) or 12 (hexagon) raw incidence
-legs. It is NOT an original direct Site arrow, NOT an equality to nil and
-NOT a silently contracted F42 2-source. No Gray/F51/F77 code is imported.
+The last dart is identified with the first dart by the proved cyclic
+length of the physical polygon. The 5/6-sided loop remains distinct from
+raw nil; no historical Gray/F51/F77 evaluator or quotient is imported.
 -/
 
 namespace Kuu.F112.Physical
@@ -19,8 +20,8 @@ set_option autoImplicit false
 set_option maxRecDepth 4096
 set_option maxHeartbeats 2000000
 
-/-- The actual old-dart cycle, with arithmetic wrapping only at the
-PROVEN 5/6 boundary length; the default cannot occur for any valid side. -/
+/-- A cyclically indexed real C60 dart; the default is never reached at
+a certified original polygon side. -/
 def cyclicBoundaryDart (p : Polygon) (i : Nat) : Dart :=
   (polygonBoundaryDarts p).getD (i % polygonSideCount p)
     (.first (.northSpoke 0))
@@ -29,9 +30,8 @@ def cyclicBoundaryEdge (p : Polygon) (i : Nat) : Edge :=
   (polygonBoundaryEdges p).getD (i % polygonSideCount p)
     (.cross (.northSpoke 0))
 
-/-- Every genuine polygon and every legal 0..4/0..5 boundary slot has
-its ORIGINAL incident physical edge joining these consecutive actual
-darts, and not merely an abstract proxy path. -/
+/-- Every legally indexed side in the genuine 5/6 polygon is one real
+physical edge between its actual consecutive darts and on the same face. -/
 theorem cyclicBoundarySide_real :
     ∀ (p : Polygon) (i : Fin 6), i.val < polygonSideCount p →
       edgeJoins (cyclicBoundaryEdge p i.val)
@@ -41,8 +41,7 @@ theorem cyclicBoundarySide_real :
       cyclicBoundaryEdge p i.val ∈ polygonBoundaryEdges p := by
   decide
 
-/-- A single genuine oriented boundary side has exactly the two
-non-cancelled F69 raw legs: vertex -> original edge <- vertex. -/
+/-- The two uncancelled genuine physical incidence arrows on a side. -/
 def polygonRawSide (p : Polygon) (i : Fin 6)
     (hi : i.val < polygonSideCount p) :
     Zigzag (Site.vertex (cyclicBoundaryDart p i.val))
@@ -52,71 +51,7 @@ def polygonRawSide (p : Polygon) (i : Fin 6)
     (cyclicBoundaryDart p (i.val + 1))
     (cyclicBoundarySide_real p i hi).1
 
-/-- Closed numeral index for dependent original polygon side #0. -/
-private def boundaryIndex0 : Fin 6 := ⟨0, by decide⟩
-
-/-- Closed numeral index for dependent original polygon side #1. -/
-private def boundaryIndex1 : Fin 6 := ⟨1, by decide⟩
-
-/-- Closed numeral index for dependent original polygon side #2. -/
-private def boundaryIndex2 : Fin 6 := ⟨2, by decide⟩
-
-/-- Closed numeral index for dependent original polygon side #3. -/
-private def boundaryIndex3 : Fin 6 := ⟨3, by decide⟩
-
-/-- Closed numeral index for dependent original polygon side #4. -/
-private def boundaryIndex4 : Fin 6 := ⟨4, by decide⟩
-
-/-- Closed numeral index for dependent original polygon side #5. -/
-private def boundaryIndex5 : Fin 6 := ⟨5, by decide⟩
-
-/-- The physical five-edge pentagon is an honest single CLOSED raw
-zigzag. Source and target are the SAME actual first old dart. -/
-def pentagonRawLoop (v : Vertex) :
-    Zigzag
-      (Site.vertex (cyclicBoundaryDart (.pentagon v) 0))
-      (Site.vertex (cyclicBoundaryDart (.pentagon v) 0)) :=
-  append (polygonRawSide (.pentagon v) boundaryIndex0
-      (by change 0 < 5; decide))
-    (append (polygonRawSide (.pentagon v) boundaryIndex1
-      (by change 1 < 5; decide))
-    (append (polygonRawSide (.pentagon v) boundaryIndex2
-      (by change 2 < 5; decide))
-    (append (polygonRawSide (.pentagon v) boundaryIndex3
-      (by change 3 < 5; decide))
-    (polygonRawSide (.pentagon v) boundaryIndex4
-      (by change 4 < 5; decide)))))
-
-/-- The real six-edge original-triangle hexagon is likewise a single
-dependent, CLOSED original-site raw zigzag, with no square-face proxy. -/
-def hexagonRawLoop (t : Triangle) :
-    Zigzag
-      (Site.vertex (cyclicBoundaryDart (.hexagon t) 0))
-      (Site.vertex (cyclicBoundaryDart (.hexagon t) 0)) :=
-  append (polygonRawSide (.hexagon t) boundaryIndex0
-      (by change 0 < 6; decide))
-    (append (polygonRawSide (.hexagon t) boundaryIndex1
-      (by change 1 < 6; decide))
-    (append (polygonRawSide (.hexagon t) boundaryIndex2
-      (by change 2 < 6; decide))
-    (append (polygonRawSide (.hexagon t) boundaryIndex3
-      (by change 3 < 6; decide))
-    (append (polygonRawSide (.hexagon t) boundaryIndex4
-      (by change 4 < 6; decide))
-    (polygonRawSide (.hexagon t) boundaryIndex5
-      (by change 5 < 6; decide))))))
-
-/-- All 32 physical C60 polygon boundaries are now single raw loops.
-This is a concrete dependent expression, not merely a list of sides. -/
-def polygonRawLoop (p : Polygon) :
-    Zigzag (Site.vertex (cyclicBoundaryDart p 0))
-      (Site.vertex (cyclicBoundaryDart p 0)) :=
-  match p with
-  | .pentagon v => pentagonRawLoop v
-  | .hexagon t => hexagonRawLoop t
-
-/-- Count genuine raw FORWARD and BACKWARD incidence legs separately
-from polygon side count, without quotienting by localization. -/
+/-- Count forward and backward raw legs without introducing a quotient. -/
 def zigzagLegCount {s t : Site} : Zigzag s t → Nat
   | .nil _ => 0
   | .forward _ q => 1 + zigzagLegCount q
@@ -137,45 +72,110 @@ theorem polygonRawSide_two (p : Polygon) (i : Fin 6)
     (hi : i.val < polygonSideCount p) :
     zigzagLegCount (polygonRawSide p i hi) = 2 := rfl
 
-theorem pentagonRawLoop_ten (v : Vertex) :
-    zigzagLegCount (pentagonRawLoop v) = 10 := by
+/-- Generic length-indexed dependent raw path: at stage k the target
+is PRECISELY the kth genuine cyclic dart. Every gluing interface is
+checked by the Lean kernel, for arbitrary k bounded by the polygon. -/
+def polygonRawPrefix (p : Polygon) :
+    (k : Nat) → k ≤ polygonSideCount p →
+      Zigzag (Site.vertex (cyclicBoundaryDart p 0))
+        (Site.vertex (cyclicBoundaryDart p k))
+  | 0, _ => Zigzag.nil _
+  | k + 1, hk => by
+      have hklt : k < polygonSideCount p := Nat.lt_of_succ_le hk
+      have hk' : k ≤ polygonSideCount p := Nat.le_of_lt hklt
+      have hmax : polygonSideCount p ≤ 6 := by
+        cases p <;> simp [polygonSideCount]
+      let i : Fin 6 := ⟨k, Nat.lt_of_lt_of_le hklt hmax⟩
+      have hi : i.val < polygonSideCount p := hklt
+      exact append (polygonRawPrefix p k hk') (polygonRawSide p i hi)
+
+/-- Proof that the physical kth dart at a full boundary traversal is
+the original starting dart: a true 5/6-cycle, never an added edge. -/
+theorem cyclicBoundary_closed (p : Polygon) :
+    cyclicBoundaryDart p (polygonSideCount p) =
+      cyclicBoundaryDart p 0 := by
+  cases p <;> rfl
+
+/-- A single closed, genuinely typed 10-/12-leg raw word for EVERY
+authentic 5-/6-sided C60 physical polygon. -/
+def polygonRawLoop (p : Polygon) :
+    Zigzag (Site.vertex (cyclicBoundaryDart p 0))
+      (Site.vertex (cyclicBoundaryDart p 0)) :=
+  (congrArg Site.vertex (cyclicBoundary_closed p)) ▸
+    polygonRawPrefix p (polygonSideCount p) (Nat.le_refl _)
+
+/-- Transport of a target site does not erase either kind of raw leg. -/
+theorem zigzagLegCount_transport {s t u : Site}
+    (h : t = u) (z : Zigzag s t) :
+    zigzagLegCount (h ▸ z) = zigzagLegCount z := by
+  cases h
   rfl
 
-theorem hexagonRawLoop_twelve (t : Triangle) :
-    zigzagLegCount (hexagonRawLoop t) = 12 := by
-  rfl
+/-- Dependent induction on the genuine certified prefix. The statement
+is available for every partial boundary, not only the full 5/6 cycles. -/
+theorem polygonRawPrefix_legCount (p : Polygon) :
+    ∀ (k : Nat) (hk : k ≤ polygonSideCount p),
+      zigzagLegCount (polygonRawPrefix p k hk) = 2 * k := by
+  intro k
+  induction k with
+  | zero =>
+      intro _
+      rfl
+  | succ k ih =>
+      intro hk
+      have hk' : k ≤ polygonSideCount p :=
+        Nat.le_trans (Nat.le_succ k) hk
+      have hsplit :
+          zigzagLegCount (polygonRawPrefix p (k + 1) hk) =
+            zigzagLegCount (polygonRawPrefix p k hk') + 2 := by
+        simp only [polygonRawPrefix, zigzagLegCount_append,
+          polygonRawSide_two]
+      rw [hsplit, ih hk']
+      omega
 
-/-- The original C60 polygon cycle has exactly TWICE its number of
-uncancelled original incidence legs, rather than being silently nil. -/
+/-- Exactly two genuine F69 raw legs per side, with no raw cancellation. -/
 theorem polygonRawLoop_legCount (p : Polygon) :
     zigzagLegCount (polygonRawLoop p) = 2 * polygonSideCount p := by
-  cases p with
-  | pentagon v =>
-      simpa [polygonRawLoop, polygonSideCount] using pentagonRawLoop_ten v
-  | hexagon t =>
-      simpa [polygonRawLoop, polygonSideCount] using hexagonRawLoop_twelve t
+  unfold polygonRawLoop
+  rw [zigzagLegCount_transport]
+  exact polygonRawPrefix_legCount p (polygonSideCount p) (Nat.le_refl _)
 
-/-- Each original five/six side raw word survives even though both its
-endpoints coincide as genuine C60 physical darts. A separate relation,
-if later specified, is needed to contract it. -/
+/-- The independently typed raw loop is NOT the identity/empty path. -/
 theorem polygonRawLoop_ne_nil (p : Polygon) :
     polygonRawLoop p ≠ Zigzag.nil _ := by
   intro h
-  have hzero : zigzagLegCount (polygonRawLoop p) = 0 := by
+  have hz : zigzagLegCount (polygonRawLoop p) = 0 := by
     rw [h]
     rfl
-  rw [polygonRawLoop_legCount] at hzero
-  cases p <;> simp [polygonSideCount] at hzero
+  rw [polygonRawLoop_legCount] at hz
+  cases p <;> simp [polygonSideCount] at hz
+
+def pentagonRawLoop (v : Vertex) :=
+  polygonRawLoop (.pentagon v)
+
+def hexagonRawLoop (t : Triangle) :=
+  polygonRawLoop (.hexagon t)
+
+theorem pentagonRawLoop_ten (v : Vertex) :
+    zigzagLegCount (pentagonRawLoop v) = 10 := by
+  simpa [pentagonRawLoop, polygonSideCount] using
+    polygonRawLoop_legCount (.pentagon v)
+
+theorem hexagonRawLoop_twelve (t : Triangle) :
+    zigzagLegCount (hexagonRawLoop t) = 12 := by
+  simpa [hexagonRawLoop, polygonSideCount] using
+    polygonRawLoop_legCount (.hexagon t)
 
 #print axioms cyclicBoundarySide_real
 #print axioms polygonRawSide
-#print axioms pentagonRawLoop
-#print axioms hexagonRawLoop
-#print axioms polygonRawLoop
 #print axioms zigzagLegCount_append
-#print axioms polygonRawSide_two
-#print axioms pentagonRawLoop_ten
-#print axioms hexagonRawLoop_twelve
+#print axioms polygonRawPrefix
+#print axioms cyclicBoundary_closed
+#print axioms polygonRawLoop
+#print axioms zigzagLegCount_transport
+#print axioms polygonRawPrefix_legCount
 #print axioms polygonRawLoop_legCount
 #print axioms polygonRawLoop_ne_nil
+#print axioms pentagonRawLoop_ten
+#print axioms hexagonRawLoop_twelve
 end Kuu.F112.Physical
