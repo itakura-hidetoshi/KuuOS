@@ -1,5 +1,6 @@
 import Kuu.F112.Zigzag
 import Mathlib.AlgebraicTopology.SimplicialSet.Nerve
+import Mathlib.AlgebraicTopology.Quasicategory.StrictSegal
 
 /-!
 # Native nerve of the independently reconstructed 60/90/32 C60 incidence
