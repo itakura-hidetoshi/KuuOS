@@ -41,10 +41,10 @@ jobs:
           set -euo pipefail
           grep -Fq \
             'import KUOS.Architecture.QiWuxingPhaseProjectionQuotientKernelV2_8' \
-            formal/KUOS/Architecture/QiWuxingAddConFirstIsomorphismV2_9.lean
+            legacy/v5.291/formal/KUOS/Architecture/QiWuxingAddConFirstIsomorphismV2_9.lean
           grep -Fq \
             'import KUOS.Architecture.QiWuxingAddConFirstIsomorphismV2_9' \
-            formal/KuuOSQiWuxingAddConFirstIsomorphismV2_9.lean
+            legacy/v5.291/formal/KuuOSQiWuxingAddConFirstIsomorphismV2_9.lean
       - name: Set up pinned Lean and Lake
         uses: leanprover/lean-action@v1
         with:

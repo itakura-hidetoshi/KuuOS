@@ -29,7 +29,7 @@ jobs:
           fetch-depth: 0
 
       - name: Test exact comparison commit resolution
-        run: python3 -m unittest -v tests.test_kuu_ci_comparison_refs
+        run: python3 -m unittest -v tests.test_kuu_ci_comparison_refs tests.test_ci_comparison_history
 
       - name: Resolve comparison refs
         id: refs
@@ -62,61 +62,13 @@ jobs:
           python3 scripts/ensure_ci_comparison.py --base "${base}" --head "${head}"
 
           if [[ "${EVENT_ACTION}" == "synchronize" ]]; then
-            while IFS='|' read -r run_id candidate_sha run_status; do
-              [[ -n "${run_id}" && -n "${candidate_sha}" ]] || continue
-              [[ "${run_id}" != "${CURRENT_RUN_ID}" ]] || continue
-              [[ "${run_status}" == "completed" ]] || continue
-              git cat-file -e "${candidate_sha}^{commit}" 2>/dev/null || continue
-              git merge-base --is-ancestor "${candidate_sha}" "${head}" || continue
-
-              nonlean_count="$(
-                gh api -X GET "repos/${REPOSITORY}/actions/runs/${run_id}/jobs" \
-                  -f per_page=100 \
-                  --jq '[.jobs[]
-                    | select(.name != "Select impacted audit checks")
-                    | select(.name != "Strict Lean formal validation")
-                    | select(.name != "Governance gate and audit summary")
-                    | select(.name != "Publish MCP Lean completion receipt")
-                    | select(.name != "Publish MCP CI completion receipt")] | length'
-              )"
-              nonlean_bad_count="$(
-                gh api -X GET "repos/${REPOSITORY}/actions/runs/${run_id}/jobs" \
-                  -f per_page=100 \
-                  --jq '[.jobs[]
-                    | select(.name != "Select impacted audit checks")
-                    | select(.name != "Strict Lean formal validation")
-                    | select(.name != "Governance gate and audit summary")
-                    | select(.name != "Publish MCP Lean completion receipt")
-                    | select(.name != "Publish MCP CI completion receipt")
-                    | select(.conclusion != "success" and .conclusion != "skipped")] | length'
-              )"
-              [[ "${nonlean_count}" -gt 0 && "${nonlean_bad_count}" == "0" ]] || continue
-
-              mapfile -t delta_paths < <(
-                git diff --name-only --diff-filter=ACMR "${candidate_sha}...${head}"
-              )
-              [[ "${#delta_paths[@]}" -gt 0 ]] || continue
-
-              lean_only=true
-              for changed_path in "${delta_paths[@]}"; do
-                if [[ ! "${changed_path}" =~ ^formal/.+\.lean$ ]]; then
-                  lean_only=false
-                  break
-                fi
-              done
-              [[ "${lean_only}" == "true" ]] || continue
-
-              base="${candidate_sha}"
+            candidate="$(python3 scripts/select_ci_incremental_base.py \
+              --base "${base}" --head "${head}" --branch "${PR_HEAD_REF}" \
+              --repository "${REPOSITORY}" --current-run-id "${CURRENT_RUN_ID}")"
+            if [[ -n "${candidate}" ]]; then
+              base="${candidate}"
               mode="validated-lean-incremental"
-              break
-            done < <(
-              gh api -X GET \
-                "repos/${REPOSITORY}/actions/workflows/pr-governance-gate.yml/runs" \
-                -f event=pull_request \
-                -f branch="${PR_HEAD_REF}" \
-                -f per_page=10 \
-                --jq '.workflow_runs[] | "\(.id)|\(.head_sha)|\(.status)"'
-            )
+            fi
           fi
 
           echo "base=${base}" >> "${GITHUB_OUTPUT}"

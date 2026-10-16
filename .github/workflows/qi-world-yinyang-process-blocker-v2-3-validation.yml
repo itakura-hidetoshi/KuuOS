@@ -146,13 +146,13 @@ jobs:
           {
             grep -Fq \
               'import KUOS.Architecture.QiWorldYinYangProcessBlockerComplementarityV2_3' \
-              formal/KUOS.lean
+              legacy/v5.291/formal/KUOS.lean
             grep -Fq \
               'import KUOS.Architecture.QiWorldCrossCycleBlockerTheoryV1_5' \
-              formal/KUOS/Architecture/QiWorldYinYangProcessBlockerComplementarityV2_3.lean
+              legacy/v5.291/formal/KUOS/Architecture/QiWorldYinYangProcessBlockerComplementarityV2_3.lean
             grep -Fq \
               'import KUOS.Architecture.QiWorldConcreteThirdLicensedCycleMaterializationV2_2' \
-              formal/KUOS/Architecture/QiWorldYinYangProcessBlockerComplementarityV2_3.lean
+              legacy/v5.291/formal/KUOS/Architecture/QiWorldYinYangProcessBlockerComplementarityV2_3.lean
             echo 'PASS: formal registration and dependency imports'
           } 2>&1 | tee artifacts/diagnostics/formal-registration.log
 
@@ -208,7 +208,7 @@ jobs:
             echo "ref=${GITHUB_REF}"
             echo "sha=${GITHUB_SHA}"
             python3 --version
-            python3 scripts/run_formal_package.py --legacy -- --version || true
+            command lake --version || true
             lean --version || true
           } > artifacts/diagnostics/context.log
 

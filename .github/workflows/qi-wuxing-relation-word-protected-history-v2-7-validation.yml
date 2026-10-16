@@ -41,10 +41,10 @@ jobs:
           set -euo pipefail
           grep -Fq \
             'import KUOS.Architecture.QiWuxingGenerationControlCoherenceV2_6' \
-            formal/KUOS/Architecture/QiWuxingRelationWordProtectedHistoryV2_7.lean
+            legacy/v5.291/formal/KUOS/Architecture/QiWuxingRelationWordProtectedHistoryV2_7.lean
           grep -Fq \
             'import KUOS.Architecture.QiWuxingRelationWordProtectedHistoryV2_7' \
-            formal/KuuOSQiWuxingRelationWordProtectedHistoryV2_7.lean
+            legacy/v5.291/formal/KuuOSQiWuxingRelationWordProtectedHistoryV2_7.lean
       - name: Set up pinned Lean and Lake
         uses: leanprover/lean-action@v1
         with:

@@ -25,6 +25,10 @@ on:
       - '.github/workflows/qi-wuxing-phase-projection-quotient-kernel-v2-8-validation.yml'
       - '.github/workflows/qi-wuxing-relation-word-protected-history-v2-7-validation.yml'
       - '.github/workflows/qi-yinyang-wuxing-fibonacci-history-v2-5-validation.yml'
+      - 'tests/test_kuu_multiline_registration.py'
+      - '.github/workflows/world-four-great-phase-dynamics-v0-59.yml'
+      - '.github/workflows/qi-process-tensor-local-real-yinyang-v2-4-validation.yml'
+      - '.github/workflows/qi-world-yinyang-process-blocker-v2-3-validation.yml'
       - '.github/workflows/kuu-independent-foundation.yml'
   workflow_dispatch:
 

@@ -75,10 +75,10 @@ jobs:
           set -euo pipefail
           grep -Fq \
             'import KUOS.Architecture.QiYinYangWuxingFibonacciHistoryGeometryV2_5' \
-            formal/KUOS/Architecture/QiWuxingGenerationControlCoherenceV2_6.lean
+            legacy/v5.291/formal/KUOS/Architecture/QiWuxingGenerationControlCoherenceV2_6.lean
           grep -Fq \
             'import KUOS.Architecture.QiWuxingGenerationControlCoherenceV2_6' \
-            formal/KuuOSQiWuxingGenerationControlCoherenceV2_6.lean
+            legacy/v5.291/formal/KuuOSQiWuxingGenerationControlCoherenceV2_6.lean
       - name: Set up pinned Lean and Lake
         uses: leanprover/lean-action@v1
         with:
