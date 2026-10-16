@@ -30,7 +30,13 @@ abbrev PolygonBoundarySector (p : Polygon) :=
 /-- The new proof source has EXACTLY five or six independent sectors. -/
 theorem polygonBoundarySector_card (p : Polygon) :
     Fintype.card (PolygonBoundarySector p) = polygonSideCount p := by
-  cases p <;> decide
+  cases p with
+  | pentagon v =>
+      change Fintype.card {i : Fin 6 // i.val < 5} = 5
+      decide
+  | hexagon t =>
+      change Fintype.card {i : Fin 6 // i.val < 6} = 6
+      decide
 
 /-- Direct finite verification, over 90 original edges and all 32 real
 faces, of the EXACT neighboring polygon pair. No fabricated face
