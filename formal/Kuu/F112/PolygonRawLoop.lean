@@ -1,5 +1,4 @@
 import Kuu.F112.PolygonBoundary
-import Mathlib.Tactic.Omega
 
 /-!
 # F112-C / genuine finite C60 polygon boundary loops
@@ -131,7 +130,7 @@ theorem polygonRawPrefix_legCount (p : Polygon) :
         simp only [polygonRawPrefix, zigzagLegCount_append,
           polygonRawSide_two]
       rw [hsplit, ih hk']
-      omega
+      simp [Nat.mul_succ]
 
 /-- Exactly two genuine F69 raw legs per side, with no raw cancellation. -/
 theorem polygonRawLoop_legCount (p : Polygon) :
