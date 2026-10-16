@@ -1,0 +1,89 @@
+name: Release one superseded PR 2338 CI run
+
+on:
+  push:
+    branches: ['ci/finish2338-cancel-obsolete-b1a']
+    paths: ['.github/workflows/kuu2338-release-obsolete-ci-once.yml']
+
+permissions:
+  contents: read
+  pull-requests: read
+  actions: write
+
+jobs:
+  release-obsolete-run:
+    if: github.repository == 'itakura-hidetoshi/KuuOS' && github.ref == 'refs/heads/ci/finish2338-cancel-obsolete-b1a'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 2
+    steps:
+      - name: Cancel only the superseded ancestor run; never change source or check results
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          import os
+          import time
+          import urllib.error
+          import urllib.request
+
+          REPO = 'itakura-hidetoshi/KuuOS'
+          BRANCH = 'formal/v5-292-independent-kuu-foundation-restructure'
+          CURRENT = '6355e71e944a43b370923cc0c06743af999758b0'
+          OBSOLETE = 'b1a1e398cc5bb6f9a7031d5b2df11f7b8139ad33'
+          RUN = 38848310616
+          BASE = 'https://api.github.com/repos/' + REPO
+
+          def api(path, method='GET'):
+              req = urllib.request.Request(BASE + path, method=method, headers={
+                  'Authorization': 'Bearer ' + os.environ['GH_TOKEN'],
+                  'Accept': 'application/vnd.github+json',
+                  'X-GitHub-Api-Version': '2022-11-28',
+              })
+              try:
+                  with urllib.request.urlopen(req, timeout=20) as response:
+                      data = response.read()
+                      return json.loads(data) if data else {}
+              except urllib.error.HTTPError as error:
+                  if method == 'POST' and error.code == 409:
+                      return {'conflict': True}
+                  raise
+
+          def valid_scope(pr, run, comparison):
+              return (pr.get('number') == 2338 and pr.get('state') == 'open'
+                      and not pr.get('merged', False)
+                      and pr.get('head', {}).get('sha') == CURRENT
+                      and pr.get('head', {}).get('ref') == BRANCH
+                      and pr.get('head', {}).get('repo', {}).get('full_name') == REPO
+                      and run.get('id') == RUN
+                      and run.get('head_sha') == OBSOLETE
+                      and run.get('head_branch') == BRANCH
+                      and run.get('path') == '.github/workflows/pr-governance-gate.yml'
+                      and run.get('event') == 'pull_request'
+                      and any(p.get('number') == 2338 for p in run.get('pull_requests', []))
+                      and comparison.get('status') == 'ahead'
+                      and comparison.get('behind_by') == 0)
+
+          pr = api('/pulls/2338')
+          run = api('/actions/runs/' + str(RUN))
+          comparison = api('/compare/' + OBSOLETE + '...' + CURRENT)
+          if not valid_scope(pr, run, comparison):
+              raise SystemExit('No action: PR head, ancestor, repository or run scope changed')
+          if run['status'] == 'completed':
+              print('No action: obsolete run already completed')
+              raise SystemExit(0)
+
+          api('/actions/runs/' + str(RUN) + '/cancel', 'POST')
+          time.sleep(3)
+          run = api('/actions/runs/' + str(RUN))
+          if run['status'] != 'completed':
+              # Normal cancellation leaves an always() completion job pending.
+              # Force-cancel only this already-obsolete, exactly identified run.
+              if not valid_scope(api('/pulls/2338'), run, comparison):
+                  raise SystemExit('No force cancellation: exact scope changed')
+              api('/actions/runs/' + str(RUN) + '/force-cancel', 'POST')
+          print('Cancellation requested for obsolete run', RUN, 'at', OBSOLETE)
+          print('Current source, current CI, main, PR 1558, logs and check results were not changed')
+          PY
