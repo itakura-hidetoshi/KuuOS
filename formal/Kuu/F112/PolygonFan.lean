@@ -59,7 +59,11 @@ theorem siteSpan_localized {s t u v : Site}
         (siteLocalizationQ.map (homOfLE a) ≫ B.inv) ≫
           (B.hom ≫ siteLocalizationQ.map (homOfLE c)) := by rw [hb]
     _ = siteLocalizationQ.map (homOfLE a) ≫ siteLocalizationQ.map (homOfLE c) := by
-      simp only [Category.assoc, B.inv_hom_id, Category.id_comp]
+      calc
+        _ = siteLocalizationQ.map (homOfLE a) ≫
+              ((B.inv ≫ B.hom) ≫ siteLocalizationQ.map (homOfLE c)) := by
+              simp only [Category.assoc]
+        _ = _ := by rw [B.inv_hom_id, Category.id_comp]
     _ = siteLocalizationQ.map (homOfLE (le_trans a c)) := ha.symm
     _ = (siteLocalizationQ.map (homOfLE (le_trans a c)) ≫ D.inv) ≫ D.hom := by
       rw [Category.assoc, D.inv_hom_id, Category.comp_id]
@@ -75,8 +79,9 @@ def polygonConeRawSide (p : Polygon) (i : Fin 6)
   let v := cyclicBoundaryDart p i.val
   let w := cyclicBoundaryDart p (i.val + 1)
   let h := cyclicBoundarySide_real p i hi
-  .forward (le_trans (edgeJoins_start e v w h.1) h.2.1)
-    (.backward (le_trans (edgeJoins_finish e v w h.1) h.2.1) (.nil _))
+  let hface : Site.edge e ≤ Site.face p := h.2.1
+  .forward (le_trans (edgeJoins_start e v w h.1) hface)
+    (.backward (le_trans (edgeJoins_finish e v w h.1) hface) (.nil _))
 
 /-- A real physical fan sector: equality of localized edge-span and
 face-span is proved from the ORIGINAL poset triangles, not inserted as
@@ -89,15 +94,16 @@ theorem polygonFanSector_localized (p : Polygon) (i : Fin 6)
   let v := cyclicBoundaryDart p i.val
   let w := cyclicBoundaryDart p (i.val + 1)
   have h := cyclicBoundarySide_real p i hi
+  have hface : Site.edge e ≤ Site.face p := h.2.1
   change
     zigzagToLocalization
       (.forward (edgeJoins_start e v w h.1)
         (.backward (edgeJoins_finish e v w h.1) (.nil _))) =
     zigzagToLocalization
-      (.forward (le_trans (edgeJoins_start e v w h.1) h.2.1)
-        (.backward (le_trans (edgeJoins_finish e v w h.1) h.2.1) (.nil _)))
+      (.forward (le_trans (edgeJoins_start e v w h.1) hface)
+        (.backward (le_trans (edgeJoins_finish e v w h.1) hface) (.nil _)))
   exact siteSpan_localized (edgeJoins_start e v w h.1)
-    (edgeJoins_finish e v w h.1) h.2.1
+    (edgeJoins_finish e v w h.1) hface
 
 /-- The exact proven kernel, not a newly guessed equivalence. -/
 theorem polygonFanSector_kernel (p : Polygon) (i : Fin 6)
