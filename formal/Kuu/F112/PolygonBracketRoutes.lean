@@ -168,8 +168,8 @@ original boundary-side witnesses, carrying certified bounds. -/
 def firstFourPolygonSector (p : Polygon) (i : Fin 4) :
     PolygonBoundarySector p :=
   ⟨⟨i.val, Nat.lt_trans i.isLt (by decide : 4 < 6)⟩,
-    Nat.lt_of_lt_of_le i.isLt (by
-      cases p <;> simp [polygonSideCount] : 4 ≤ polygonSideCount p)⟩
+    Nat.lt_of_lt_of_le i.isLt (show 4 ≤ polygonSideCount p by
+      cases p <;> simp [polygonSideCount])⟩
 
 def physicalFourBracketLeaf (p : Polygon) (i : Fin 4) :
     PolygonBracketTree p :=
@@ -202,8 +202,7 @@ def physicalFourBoundaryWord (p : Polygon) :
 
 theorem physicalFourBoundaryWord_legCount (p : Polygon) :
     zigzagLegCount (physicalFourBoundaryWord p) = 8 := by
-  change zigzagLegCount
-    (polygonRawSegment p 0 4 (by cases p <;> simp [polygonSideCount])) = 8
+  unfold physicalFourBoundaryWord
   rw [polygonRawSegment_legCount]
   rfl
 
