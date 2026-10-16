@@ -24,4 +24,5 @@ import Kuu.F112.PolygonThreeProof
 import Kuu.F112.PolygonBracketRoutes
 import Kuu.F112.PolygonBracketCells
 import Kuu.F112.PolygonBracketThreeCategory
+import Kuu.F112.PolygonDepthAxes
 /-! Current independent Kuu foundation. No legacy KUOS imports are permitted. -/
