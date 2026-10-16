@@ -58,11 +58,11 @@ def pentagonRawLoop (v : Vertex) :
     Zigzag
       (Site.vertex (cyclicBoundaryDart (.pentagon v) 0))
       (Site.vertex (cyclicBoundaryDart (.pentagon v) 0)) :=
-  append (polygonRawSide (.pentagon v) ⟨0, by decide⟩ (by decide))
-    (append (polygonRawSide (.pentagon v) ⟨1, by decide⟩ (by decide))
-    (append (polygonRawSide (.pentagon v) ⟨2, by decide⟩ (by decide))
-    (append (polygonRawSide (.pentagon v) ⟨3, by decide⟩ (by decide))
-    (polygonRawSide (.pentagon v) ⟨4, by decide⟩ (by decide)))))
+  append (polygonRawSide (.pentagon v) (⟨0, by decide⟩ : Fin 6) (by decide))
+    (append (polygonRawSide (.pentagon v) (⟨1, by decide⟩ : Fin 6) (by decide))
+    (append (polygonRawSide (.pentagon v) (⟨2, by decide⟩ : Fin 6) (by decide))
+    (append (polygonRawSide (.pentagon v) (⟨3, by decide⟩ : Fin 6) (by decide))
+    (polygonRawSide (.pentagon v) (⟨4, by decide⟩ : Fin 6) (by decide)))))
 
 /-- The real six-edge original-triangle hexagon is likewise a single
 dependent, CLOSED original-site raw zigzag, with no square-face proxy. -/
@@ -70,12 +70,12 @@ def hexagonRawLoop (t : Triangle) :
     Zigzag
       (Site.vertex (cyclicBoundaryDart (.hexagon t) 0))
       (Site.vertex (cyclicBoundaryDart (.hexagon t) 0)) :=
-  append (polygonRawSide (.hexagon t) ⟨0, by decide⟩ (by decide))
-    (append (polygonRawSide (.hexagon t) ⟨1, by decide⟩ (by decide))
-    (append (polygonRawSide (.hexagon t) ⟨2, by decide⟩ (by decide))
-    (append (polygonRawSide (.hexagon t) ⟨3, by decide⟩ (by decide))
-    (append (polygonRawSide (.hexagon t) ⟨4, by decide⟩ (by decide))
-    (polygonRawSide (.hexagon t) ⟨5, by decide⟩ (by decide))))))
+  append (polygonRawSide (.hexagon t) (⟨0, by decide⟩ : Fin 6) (by decide))
+    (append (polygonRawSide (.hexagon t) (⟨1, by decide⟩ : Fin 6) (by decide))
+    (append (polygonRawSide (.hexagon t) (⟨2, by decide⟩ : Fin 6) (by decide))
+    (append (polygonRawSide (.hexagon t) (⟨3, by decide⟩ : Fin 6) (by decide))
+    (append (polygonRawSide (.hexagon t) (⟨4, by decide⟩ : Fin 6) (by decide))
+    (polygonRawSide (.hexagon t) (⟨5, by decide⟩ : Fin 6) (by decide))))))
 
 /-- All 32 physical C60 polygon boundaries are now single raw loops.
 This is a concrete dependent expression, not merely a list of sides. -/
