@@ -8,11 +8,19 @@
       "command": "python3 scripts/run_kuu_foundation_check.py",
       "group": "static",
       "tier": "critical",
-      "paths": ["formal/**", "lakefile.toml", "lean-toolchain", "lake-manifest.json", "legacy/v5.291/**", "AGENTS.md", "README.md", "ROADMAP.md", "scripts/check_kuu_foundation.py", "scripts/run_kuu_foundation_check.py", "tests/test_kuu_foundation.py", "ci/check_registry.d/kuu-independent-foundation-v5_292.json"],
-      "depends_on": [],
-      "timeout_minutes": 5,
-      "pr_required": true,
-      "full_audit_member": true
+      "paths": [
+        "formal/**", "lakefile.toml", "lean-toolchain", "lake-manifest.json",
+        "legacy/v5.291/**", "AGENTS.md", "README.md", "ROADMAP.md",
+        "scripts/check_kuu_foundation.py", "scripts/run_kuu_foundation_check.py",
+        "tests/test_kuu_foundation.py", "ci/check_registry.d/kuu-independent-foundation-v5_292.json",
+        "scripts/migrate_kuu_consumers.py", "scripts/formal_package_boundary.py",
+        "scripts/run_formal_package.py", "tests/test_kuu_consumer_migration.py",
+        "tests/test_formal_package_boundary.py", "tests/test_kuu_formal_contract_scope.py",
+        "ci/kuu_legacy_consumer_scope.json", "runtime/kuuos_repository_structure_observer_v0_79.py",
+        "runtime/kuuos_repository_repair_candidates_v0_79.py"
+      ],
+      "depends_on": [], "timeout_minutes": 5,
+      "pr_required": true, "full_audit_member": true
     }
   }
 }

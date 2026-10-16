@@ -1,4 +1,4 @@
-"""The migration changes formal scope, not assertions or test commands."""
+"""The migration changes formal scope, not the assertions or test commands."""
 import unittest
 from scripts.migrate_kuu_consumers import transform_sources
 
@@ -56,4 +56,26 @@ class KuuConsumerMigrationTests(unittest.TestCase):
         got=transform_sources({p:old})[p]
         self.assertIn('lake-package-directory: legacy/v5.291',got)
         self.assertIn('build: false',got)
+
+class BoundedMigrationScopeTests(unittest.TestCase):
+    def test_unlisted_future_current_contract_is_not_reclassified(self):
+        from scripts.migrate_kuu_consumers import bounded_plan
+        sources={'manifests/current.json':'{"repository_autorepair_contract":true,"formal_package":"current"}'}
+        self.assertEqual(bounded_plan(sources, []), {})
+    def test_missing_listed_source_is_not_silently_ignored(self):
+        from scripts.migrate_kuu_consumers import bounded_plan
+        with self.assertRaises(ValueError):
+            bounded_plan({}, ['scripts/check_old.py'])
+    def test_listed_source_migration_is_explicit_and_idempotent(self):
+        from scripts.migrate_kuu_consumers import bounded_plan
+        path='scripts/check_old.py'
+        sources={path:'ROOT / "formal/KuuOSFormal.lean"'}
+        changes=bounded_plan(sources, [path])
+        self.assertIn('legacy/v5.291/formal/KuuOSFormal.lean', changes[path])
+        self.assertEqual(bounded_plan(changes, [path]), {})
+    def test_workflow_added_after_snapshot_is_not_redirected(self):
+        from scripts.migrate_kuu_consumers import bounded_plan
+        sources={'.github/workflows/new-current.yml':'run: lake build KuuOSFormal'}
+        self.assertEqual(bounded_plan(sources, []), {})
+
 if __name__=='__main__': unittest.main()

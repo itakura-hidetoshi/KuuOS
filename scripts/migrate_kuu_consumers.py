@@ -142,6 +142,16 @@ def transform_sources(sources: Mapping[str, str]) -> dict[str, str]:
     return changed
 
 
+def bounded_plan(sources: Mapping[str, str], paths: list[str]) -> dict[str, str]:
+    """Only the named pre-migration consumers belong to the historical scope."""
+    if len(paths) != len(set(paths)):
+        raise ValueError('duplicate migration scope entry')
+    missing = sorted(set(paths) - sources.keys())
+    if missing:
+        raise ValueError('missing recorded consumer: ' + missing[0])
+    return transform_sources({name: sources[name] for name in paths})
+
+
 def tracked_sources(root: Path) -> dict[str,str]:
     files = subprocess.check_output(['git','ls-files','-z'], cwd=root).decode().split('\0')
     result = {}
@@ -159,9 +169,11 @@ def main() -> int:
     parser.add_argument('--check', action='store_true')
     args = parser.parse_args()
     sources = tracked_sources(ROOT)
-    changes = transform_sources(sources)
+    scope = json.loads((ROOT / "ci/kuu_legacy_consumer_scope.json").read_text(encoding="utf-8"))
+    paths = scope["paths"]
+    changes = bounded_plan(sources, paths)
     # Idempotence matters: applying the plan must not progressively rewrite code.
-    if transform_sources(dict(sources, **changes)):
+    if bounded_plan(dict(sources, **changes), paths):
         raise ValueError('migration is not idempotent')
     head = subprocess.check_output(['git','rev-parse','HEAD'], cwd=ROOT, text=True).strip()
     base_tree = subprocess.check_output(['git','rev-parse','HEAD^{tree}'], cwd=ROOT, text=True).strip()

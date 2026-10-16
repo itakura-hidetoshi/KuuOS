@@ -8,7 +8,10 @@ ROOT = Path(__file__).resolve().parents[1]
 
 def main():
     for command in [
-        [sys.executable, '-m', 'unittest', 'discover', '-s', 'tests', '-p', 'test_kuu_foundation.py', '-v'],
+        [sys.executable, '-m', 'unittest', '-v', 'tests.test_kuu_foundation',
+         'tests.test_kuu_consumer_migration', 'tests.test_formal_package_boundary',
+         'tests.test_kuu_formal_contract_scope'],
+        [sys.executable, 'scripts/migrate_kuu_consumers.py', '--check'],
         [sys.executable, 'scripts/check_kuu_foundation.py', '--output', 'artifacts/kuu-foundation/dependencies.json'],
     ]:
         result = subprocess.run(command, cwd=ROOT, check=False)
