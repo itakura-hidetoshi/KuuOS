@@ -7,7 +7,7 @@ This is an INDEPENDENT physical-bracket source, rather than the original
 F55 PresentedCell imported from the frozen KUOS/Gray tree. Its real
 leaves come from original C60 sectors in E6A. We now construct BOTH
 orders of two independent contextual F54-like reassociations, the
-freely presented pentagon and square 3-generators, and all SEVEN
+freely presented pentagon and square 3-generators, and all SIX
 remaining original F55-shaped operations, for NINE constructors total.
 
 An explicit additive (Int × Int) × ZMod 2 interpretation is proved
@@ -135,7 +135,7 @@ inductive PolygonBracketCell (p : Polygon) :
       (suffix : PolygonBracketRoute p b c) :
       PolygonBracketCell p (.trans f suffix) (.trans g suffix)
 
-/-- Four independent, proof-relevant grade coordinates:
+/-- Three proof-relevant shadow coordinates:
 two integer generator counts, and the separately retained
 ZMod 2 exchange phase. No phase is inferred from E4 localization. -/
 abbrev PolygonBracketNativeShadow := (Int × Int) × ZMod 2
@@ -217,6 +217,8 @@ theorem PolygonBracketCell.no_shadow_delta
     (fun z : PolygonBracketNativeShadow => z.1.2) h
   have hp := congrArg
     (fun z : PolygonBracketNativeShadow => z.2) h
+  change cell.nativeShadow.1.2 = (1 : Int) at hs
+  change cell.nativeShadow.2 = (0 : ZMod 2) at hp
   have hpar := cell.phase_squareParity
   rw [hs, hp] at hpar
   exact (by decide : (1 : ZMod 2) ≠ 0) (by simpa using hpar)
