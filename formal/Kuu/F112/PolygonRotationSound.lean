@@ -140,6 +140,7 @@ is an IDENTITY only AFTER the actual F69 localization. -/
 theorem polygonRotatedRawLoop_localized_id (p : Polygon) (k : Nat)
     (hk : k ≤ polygonSideCount p) :
     zigzagToLocalization (polygonRotatedRawLoop p k hk) = 𝟙 _ := by
+  unfold polygonRotatedRawLoop
   rw [zigzagToLocalization_append]
   rw [polygonRotationTail_cone_sound p k hk,
       polygonRawPrefix_cone_sound p k hk]
