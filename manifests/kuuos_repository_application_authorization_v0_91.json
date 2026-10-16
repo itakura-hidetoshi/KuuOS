@@ -26,5 +26,6 @@
   "working_tree_ignored": true,
   "patch_application_executed": false,
   "commit_authority_granted": false,
-  "reference_mutation_authority_granted": false
+  "reference_mutation_authority_granted": false,
+  "formal_package": "legacy-v5.291"
 }

@@ -18,5 +18,6 @@
   "frontier_antichain": true,
   "all_nodes_frontier_covered": true,
   "merged_ancestors_excluded": true,
-  "normal_form_preserved": true
+  "normal_form_preserved": true,
+  "formal_package": "legacy-v5.291"
 }

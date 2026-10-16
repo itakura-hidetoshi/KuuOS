@@ -27,5 +27,6 @@
   "index_write_performed": false,
   "working_tree_write_performed": false,
   "reference_mutated": false,
-  "signing_performed": false
+  "signing_performed": false,
+  "formal_package": "legacy-v5.291"
 }

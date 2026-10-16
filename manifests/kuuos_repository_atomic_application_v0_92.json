@@ -25,5 +25,6 @@
   "isolated_snapshot_only": true,
   "live_repository_write_performed": false,
   "commit_created": false,
-  "reference_mutated": false
+  "reference_mutated": false,
+  "formal_package": "legacy-v5.291"
 }
