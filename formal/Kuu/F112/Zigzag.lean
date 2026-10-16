@@ -147,4 +147,5 @@ def physicalGroupoidComparison :
 #print axioms physicalFreeGroupoid_isLocalization
 #print axioms physicalFreeGroupoidEquivalence
 #print axioms physicalGroupoidComparison
+end
 end Kuu.F112.Physical
