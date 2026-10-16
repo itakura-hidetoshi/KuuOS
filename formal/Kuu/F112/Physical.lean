@@ -168,7 +168,7 @@ theorem each_edge_on_faces :
     rcases a with ⟨v, s⟩
     cases v <;> cases s <;> cases side <;>
       simp [edgeOnFace, faceAt, cornerTriangle, aroundEndpoints,
-        incidentDart, Dart.edge, triangleEdges, slotIndex, slotNext]
+        incidentDart, Dart.edge, triangleEdges, slotIndex, slotNext] <;> decide
 
 /-- Actual endpoint dart belongs to its selected polygon. -/
 theorem incidentDart_endpoint :
