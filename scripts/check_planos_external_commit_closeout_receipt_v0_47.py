@@ -70,7 +70,7 @@ def main() -> int:
     runtime = ROOT / "runtime/kuuos_planos_external_commit_closeout_receipt_v0_47.py"
     formal = ROOT / "formal/KUOS/PlanOS/ExternalCommitCloseoutReceiptV0_47.lean"
     formal_root = ROOT / "formal/KuuOSPlanOSV0_47.lean"
-    aggregate_root = ROOT / "formal/KuuOSFormal.lean"
+    aggregate_root = ROOT / "legacy/v5.291/formal/KuuOSFormal.lean"
     docs = ROOT / "docs/KUUOS_PLANOS_EXTERNAL_COMMIT_CLOSEOUT_RECEIPT_v0_47.md"
     manifest_path = ROOT / "manifests/kuuos_planos_external_commit_closeout_receipt_v0_47.json"
 

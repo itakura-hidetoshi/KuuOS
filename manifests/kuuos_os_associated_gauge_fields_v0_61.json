@@ -14,7 +14,7 @@
   ],
   "formal_module": "formal/KUOS/WORLD/KuuOSOSAssociatedGaugeFieldsV0_61.lean",
   "formal_root": "formal/KuuOSFormalV0_61.lean",
-  "aggregate_formal_root": "formal/KuuOSFormal.lean",
+  "aggregate_formal_root": "legacy/v5.291/formal/KuuOSFormal.lean",
   "documentation": "docs/KUUOS_OS_ASSOCIATED_GAUGE_FIELDS_v0_61.md",
   "validator": "scripts/check_kuuos_os_associated_gauge_fields_v0_61.py",
   "tests": [

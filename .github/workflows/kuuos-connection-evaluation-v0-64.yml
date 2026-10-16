@@ -29,6 +29,7 @@ jobs:
       - name: Set up Lean
         uses: leanprover/lean-action@v1
         with:
+          lake-package-directory: legacy/v5.291
           auto-config: false
           build: false
           test: false
@@ -36,13 +37,13 @@ jobs:
           use-mathlib-cache: false
           use-github-cache: false
       - name: Resolve dependencies
-        run: lake update
+        run: python3 scripts/run_formal_package.py --legacy -- update
       - name: Verify manifest stability
-        run: git diff --exit-code -- lake-manifest.json
+        run: git diff --exit-code -- lake-manifest.json legacy/v5.291/lake-manifest.json
       - name: Fetch Mathlib cache
-        run: lake exe cache get
+        run: python3 scripts/run_formal_package.py --legacy -- exe cache get
       - name: Build aggregate formal root
         run: >-
-          lake -KleanArgs=-DwarningAsError=true
+          python3 scripts/run_formal_package.py --legacy -- -KleanArgs=-DwarningAsError=true
           -KleanArgs=-DsorryAsError=true
           build KuuOSFormal

@@ -41,6 +41,7 @@ jobs:
       - name: Set up pinned Lean, Mathlib, and caches
         uses: leanprover/lean-action@v1
         with:
+          lake-package-directory: legacy/v5.291
           auto-config: false
           build: false
           test: false
@@ -52,7 +53,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          lake -KleanArgs=-DwarningAsError=true \
+          python3 scripts/run_formal_package.py --legacy -- -KleanArgs=-DwarningAsError=true \
             -KleanArgs=-DsorryAsError=true \
             build KuuOSGitHubMCPServerBridgeV0_1 \
             2>&1 | tee artifacts/diagnostics/lean-build.log
@@ -61,7 +62,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          git diff --exit-code -- lake-manifest.json \
+          git diff --exit-code -- lake-manifest.json legacy/v5.291/lake-manifest.json \
             2>&1 | tee artifacts/diagnostics/lake-manifest-diff.log
 
       - name: Record run context
@@ -76,7 +77,7 @@ jobs:
             echo "event=${GITHUB_EVENT_NAME}"
             echo "ref=${GITHUB_REF}"
             echo "sha=${GITHUB_SHA}"
-            lake --version || true
+            python3 scripts/run_formal_package.py --legacy -- --version || true
             lean --version || true
           } > artifacts/diagnostics/context.log
 

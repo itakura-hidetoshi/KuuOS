@@ -9,7 +9,7 @@
   "formal_module": "formal/KUOS/WORLD/FourGreatPhaseDynamicsV0_59.lean",
   "bridge_module": "formal/KUOS/WORLD/FourGreatPhaseDynamicsCoreBridgeV0_59.lean",
   "formal_root": "formal/KuuOSFormalV0_59.lean",
-  "aggregate_formal_root": "formal/KuuOSFormal.lean",
+  "aggregate_formal_root": "legacy/v5.291/formal/KuuOSFormal.lean",
   "documentation": "docs/KU_WORLD_FOUR_GREAT_PHASE_DYNAMICS_v0_59.md",
   "validator": "scripts/check_world_four_great_phase_dynamics_v0_59.py",
   "workflow": ".github/workflows/world-v053-v059-main-validation.yml",

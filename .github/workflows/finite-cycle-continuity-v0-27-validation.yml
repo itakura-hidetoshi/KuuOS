@@ -157,6 +157,7 @@ jobs:
       - name: Set up pinned Lean and Lake
         uses: leanprover/lean-action@v1
         with:
+          lake-package-directory: legacy/v5.291
           auto-config: false
           build: false
           test: false
@@ -164,16 +165,16 @@ jobs:
           use-mathlib-cache: false
           use-github-cache: false
       - name: Resolve pinned dependencies
-        run: lake update
+        run: python3 scripts/run_formal_package.py --legacy -- update
       - name: Verify lockfile stability
-        run: git diff --exit-code -- lake-manifest.json
+        run: git diff --exit-code -- lake-manifest.json legacy/v5.291/lake-manifest.json
       - name: Fetch Mathlib olean cache
-        run: lake exe cache get
+        run: python3 scripts/run_formal_package.py --legacy -- exe cache get
       - name: Strictly compile v0.27 formal module
         shell: bash
         run: |
           set -o pipefail
-          lake -KleanArgs=-DwarningAsError=true \
+          python3 scripts/run_formal_package.py --legacy -- -KleanArgs=-DwarningAsError=true \
             -KleanArgs=-DsorryAsError=true \
             build KUOS.OpenHorizon.FiniteCycleContinuityKernelV0_27 \
             2>&1 | tee finite-cycle-v0-27-lean-module.log
@@ -181,7 +182,7 @@ jobs:
         shell: bash
         run: |
           set -o pipefail
-          lake -KleanArgs=-DwarningAsError=true \
+          python3 scripts/run_formal_package.py --legacy -- -KleanArgs=-DwarningAsError=true \
             -KleanArgs=-DsorryAsError=true build KuuOSFormal \
             2>&1 | tee finite-cycle-v0-27-lean-root.log
       - name: Upload v0.27 diagnostics

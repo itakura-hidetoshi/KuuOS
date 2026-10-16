@@ -14,7 +14,7 @@
   ],
   "formal_module": "formal/KUOS/WORLD/KuuOSGaugeFieldSelfOrganizationV0_60.lean",
   "formal_root": "formal/KuuOSFormalV0_60.lean",
-  "aggregate_formal_root": "formal/KuuOSFormal.lean",
+  "aggregate_formal_root": "legacy/v5.291/formal/KuuOSFormal.lean",
   "documentation": "docs/KUUOS_GAUGE_FIELD_SELF_ORGANIZATION_v0_60.md",
   "validator": "scripts/check_kuuos_gauge_field_self_organization_v0_60.py",
   "tests": [

@@ -189,7 +189,7 @@ def main() -> int:
     runtime = ROOT / "runtime/kuuos_planos_subsequent_cycle_candidate_review_request_v0_68.py"
     formal = ROOT / "formal/KUOS/PlanOS/SubsequentCycleCandidateReviewRequestV0_68.lean"
     formal_root = ROOT / "formal/KuuOSPlanOSV0_68.lean"
-    aggregate_root = ROOT / "formal/KuuOSFormal.lean"
+    aggregate_root = ROOT / "legacy/v5.291/formal/KuuOSFormal.lean"
     docs = ROOT / "docs/KUUOS_PLANOS_SUBSEQUENT_CYCLE_CANDIDATE_REVIEW_REQUEST_v0_68.md"
     manifest_path = ROOT / "manifests/kuuos_planos_subsequent_cycle_candidate_review_request_v0_68.json"
 

@@ -18,5 +18,6 @@
   "local_contract_recheck": true,
   "global_change_full_recheck": true,
   "stale_certificate_rejected": true,
-  "external_approval_required": false
+  "external_approval_required": false,
+  "formal_package": "legacy-v5.291"
 }

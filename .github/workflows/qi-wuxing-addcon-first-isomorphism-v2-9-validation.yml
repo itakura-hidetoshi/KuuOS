@@ -45,6 +45,7 @@ jobs:
       - name: Set up pinned Lean and Lake
         uses: leanprover/lean-action@v1
         with:
+          lake-package-directory: legacy/v5.291
           auto-config: false
           build: false
           test: false
@@ -72,11 +73,11 @@ jobs:
             fi
             sleep $((attempt * 10))
           done
-          git diff --exit-code -- lake-manifest.json
-          lake exe cache get
+          git diff --exit-code -- lake-manifest.json legacy/v5.291/lake-manifest.json
+          python3 scripts/run_formal_package.py --legacy -- exe cache get
       - name: Strictly compile only the v2.9 module
         run: |
           set -euo pipefail
-          lake -KleanArgs=-DwarningAsError=true \
+          python3 scripts/run_formal_package.py --legacy -- -KleanArgs=-DwarningAsError=true \
             -KleanArgs=-DsorryAsError=true \
             build KUOS.Architecture.QiWuxingAddConFirstIsomorphismV2_9

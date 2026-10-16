@@ -33,5 +33,6 @@
   "authority_widening_allowed": false,
   "host_state_write_performed": false,
   "unbounded_candidate_generation": false,
-  "low_score_implies_truth": false
+  "low_score_implies_truth": false,
+  "formal_package": "legacy-v5.291"
 }

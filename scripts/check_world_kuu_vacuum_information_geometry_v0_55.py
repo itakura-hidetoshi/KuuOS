@@ -72,7 +72,7 @@ def main() -> int:
     )
     require_tokens(ROOT / manifest["formal_root"], ("KuuVacuumInformationGeometryBridgeV0_55",))
     require_tokens(ROOT / manifest["aggregate_formal_root"], ("KUOS.WORLD.KuuVacuumInformationGeometryBridgeV0_55",))
-    require_tokens(ROOT / "lakefile.toml", ("KuuOSFormalV0_55",))
+    require_tokens(ROOT / "legacy/v5.291/lakefile.toml", ("KuuOSFormalV0_55",))
 
     documentation = ROOT / manifest["documentation"]
     require_tokens(

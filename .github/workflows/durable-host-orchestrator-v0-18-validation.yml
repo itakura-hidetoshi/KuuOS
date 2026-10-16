@@ -39,7 +39,7 @@ jobs:
         continue-on-error: true
         run: |
           if command -v lake >/dev/null 2>&1 && { [ -f lakefile.lean ] || [ -f lakefile.toml ]; }; then
-            lake env lean formal/KUOS/OpenHorizon/DurableHostInvocationOrchestratorV0_18.lean >> durable-host-orchestrator-v018.log 2>&1
+            python3 scripts/run_formal_package.py --legacy -- env lean formal/KUOS/OpenHorizon/DurableHostInvocationOrchestratorV0_18.lean >> durable-host-orchestrator-v018.log 2>&1
           else
             echo "SKIP: repository Lean environment unavailable on this runner" >> durable-host-orchestrator-v018.log
           fi

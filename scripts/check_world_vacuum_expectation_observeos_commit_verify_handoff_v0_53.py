@@ -62,10 +62,10 @@ def main() -> int:
         ("VacuumExpectationObserveOSCommitVerifyHandoffBridgeV0_53",),
     )
     require_tokens(
-        ROOT / "formal/KuuOSFormal.lean",
+        ROOT / "legacy/v5.291/formal/KuuOSFormal.lean",
         ("KUOS.WORLD.VacuumExpectationObserveOSCommitVerifyHandoffBridgeV0_53",),
     )
-    require_tokens(ROOT / "lakefile.toml", ("KuuOSFormalV0_53",))
+    require_tokens(ROOT / "legacy/v5.291/lakefile.toml", ("KuuOSFormalV0_53",))
     require_tokens(
         ROOT / "docs/KU_WORLD_VACUUM_EXPECTATION_OBSERVEOS_COMMIT_VERIFY_HANDOFF_v0_53.md",
         (

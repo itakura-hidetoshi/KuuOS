@@ -21,7 +21,7 @@ def require_tokens(path: Path, tokens: tuple[str, ...]) -> None:
 
 def main() -> int:
     formal_root = ROOT / "formal/KuuOSActOSV0_3.lean"
-    aggregate_root = ROOT / "formal/KuuOSFormal.lean"
+    aggregate_root = ROOT / "legacy/v5.291/formal/KuuOSFormal.lean"
     formal = ROOT / "formal/KUOS/ActOS/VacuumExpectationActivationAuthorizationIntakeV0_3.lean"
     source = ROOT / "formal/KUOS/PlanOS/VacuumExpectationActivationAdmissionActOSHandoffV0_23.lean"
     authority_v01 = ROOT / "formal/KUOS/ActOS/AuthorityBoundInvocationV0_1.lean"

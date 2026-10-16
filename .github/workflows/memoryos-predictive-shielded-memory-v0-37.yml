@@ -64,6 +64,7 @@ jobs:
           PYTHONPATH=. python -m unittest -v tests.test_memoryos_qi_world_validation_matrix_v0_36
       - uses: leanprover/lean-action@v1
         with:
+          lake-package-directory: legacy/v5.291
           auto-config: false
           build: false
           test: false
@@ -72,11 +73,11 @@ jobs:
           use-github-cache: false
       - name: Lean checks
         run: |
-          lake update
-          lake exe cache get
-          lake -KleanArgs=-DwarningAsError=true \
+          python3 scripts/run_formal_package.py --legacy -- update
+          python3 scripts/run_formal_package.py --legacy -- exe cache get
+          python3 scripts/run_formal_package.py --legacy -- -KleanArgs=-DwarningAsError=true \
             -KleanArgs=-DsorryAsError=true \
             build KUOS.OpenHorizon.MemoryOSPredictiveShieldedMemoryKernelV0_37
-          lake -KleanArgs=-DwarningAsError=true \
+          python3 scripts/run_formal_package.py --legacy -- -KleanArgs=-DwarningAsError=true \
             -KleanArgs=-DsorryAsError=true \
             build KuuOSFormal

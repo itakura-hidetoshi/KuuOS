@@ -18,12 +18,13 @@ jobs:
       - run: PYTHONPATH=. python3 scripts/check_kuuos_memory_review_v074.py
       - uses: leanprover/lean-action@v1
         with:
+          lake-package-directory: legacy/v5.291
           auto-config: false
           build: false
           test: false
           lint: false
           use-mathlib-cache: false
           use-github-cache: false
-      - run: lake update
-      - run: lake exe cache get
-      - run: lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KuuOSFormal KuuOSMemoryReviewV0_74
+      - run: python3 scripts/run_formal_package.py --legacy -- update
+      - run: python3 scripts/run_formal_package.py --legacy -- exe cache get
+      - run: python3 scripts/run_formal_package.py --legacy -- -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KuuOSFormal KuuOSMemoryReviewV0_74

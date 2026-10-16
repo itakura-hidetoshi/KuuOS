@@ -38,6 +38,7 @@ jobs:
       - name: Set up pinned Lean and Lake
         uses: leanprover/lean-action@v1
         with:
+          lake-package-directory: legacy/v5.291
           auto-config: false
           build: false
           test: false
@@ -56,7 +57,7 @@ jobs:
       - name: Fetch Mathlib cache
         run: |
           set -euo pipefail
-          lake exe cache get
+          python3 scripts/run_formal_package.py --legacy -- exe cache get
 
       - name: Verify exact KuuOS pins
         run: |
@@ -69,12 +70,12 @@ jobs:
           assert mathlib["rev"] == "5450b53e5ddc75d46418fabb605edbf36bd0beb6"
           print(mathlib["rev"])
           PY
-          lake env lean --version
+          python3 scripts/run_formal_package.py --legacy -- env lean --version
 
       - name: Compile representative KuuOS module only
         run: |
           set -euo pipefail
-          lake env lean             -o /tmp/kuuos-lean-lsp-probe.olean             formal/KUOS/DependentOriginationFunctorialTransportV0_1.lean
+          python3 scripts/run_formal_package.py --legacy -- env lean             -o /tmp/kuuos-lean-lsp-probe.olean             formal/KUOS/DependentOriginationFunctorialTransportV0_1.lean
 
       - name: Verify pinned lean-lsp-mcp package
         run: |
