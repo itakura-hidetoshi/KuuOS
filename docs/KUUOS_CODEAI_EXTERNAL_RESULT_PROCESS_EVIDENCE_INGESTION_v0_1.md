@@ -24,7 +24,7 @@ prediction digest = 9a2aeff25ca565214ecbae781f20df4c23eea20db72b135702aa56d5de23
 external observation digest = 689b63a246192b45af75f512aba7478ad87db7aba90689d96fc0aa91bc28cbca
 ```
 
-The predecessor artifact remains in GitHub Actions storage. This stage downloads it temporarily for validation and does not commit or re-upload its raw report, test output, or instance log.
+This historical predecessor artifact was originally uploaded to GitHub Actions, but its short-lived retention has expired; see the explicit reobservation section below. No raw report, test output or instance log is committed.
 
 ## Measured result
 
@@ -102,3 +102,48 @@ ingestion receipt != repository mutation or Git authority
 ## Next stage
 
 The next separately governed stage is **Baseline-versus-CodeAI and Ablation Comparison v0.1**. It must consume admitted aggregate result receipts, preregister comparison cohorts and metrics, and preserve holdout and authority boundaries.
+
+## Historical artifact expiration and explicit reobservation (2026-10-16 JST)
+
+The original evidence identifiers above describe a **historical, immutable
+reference case**. Workflow run `29894633457` uploaded artifact `8520539325`
+on 2026-07-22 with a 14-day retention period; that artifact is not currently
+available from GitHub Actions. The earlier statement that the artifact "remains"
+in Actions storage does **not** apply to the current date. Its original content
+must never be inferred from a hash or silently replaced.
+
+A distinct, genuine bounded official harness run completed successfully on
+2026-10-16, with a preserved artifact that was independently downloaded and
+verified before creating the new binding. The new evidence is **not** the July
+artifact, and is never presented as a restoration of it:
+
+| Provenance | Fresh independent observation |
+|---|---|
+| Workflow run / attempt | `38878097337` / `1` |
+| Source HEAD | `613060a35533b380850850eb021409864edd5f18` |
+| Artifact ID | `12039184115` |
+| Artifact name | `codeai-bounded-official-external-v0-1-38878097337-1` |
+| Artifact ZIP SHA256 | `edf52f8719af6e810944a52e57868e00cdbefa1613da520da23cb9cf362639d0` |
+| Sealed observation digest | `7d802950cb7ffa266ac19ed043d1b7b77a8057873a3a52061bbee745e51fdb17` |
+| Report SHA256 | `35493c1b427e375b3352d51e19a007d3602f23d6a45563ed14857dffb4f5c52f` |
+
+The immutable reobservation binding lives in
+`ci/codeai_external_evidence_reobserved_20261016.json`, **separate from** the
+historical reference constants, manifests and examples. The workflow downloads
+this exact new artifact and its GitHub metadata, checks the exact successful
+run, SHA and attempt, the unexpired artifact ID/name/digest, all three evidence
+file SHA256 digests, the sealed observation, the pinned non-gold prediction,
+and the aggregate test outcome. It reconstructs a new request revision and
+separately sealed ingestion receipt under the original restrictive v0.1 policy.
+
+The committed files contain binding metadata and aggregate-only observations.
+Raw test output, report, and process logs are downloaded only into the
+transient CI workspace and are never committed. The result is still
+**measured unresolved**, not a successful repair or an authorization for
+comparison, training, mutation or Git effects.
+
+The renewed GitHub Actions artifact itself is time-limited (as currently
+recorded, to 2026-10-30 UTC). Any future expiration remains a **real failed
+precondition**, not a reason to bypass the check. Renewal requires another
+independent, successful run and a newly reviewed exact provenance binding;
+previous receipts remain separate historical records.
