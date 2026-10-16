@@ -9,7 +9,7 @@ is NOT an observation axiom: it is derived by real original Site arrows
 to the same physical polygon, a dependent arbitrary-length segment
 induction and the localization inverse/face-spoke telescope.
 
-The raw 10-/12-leg rotated path is distinct from nil. Rotation proof
+The raw ten-or-twelve-leg rotated path is distinct from nil. Rotation proof
 terms remain Type-valued and support inverse, composition, and typed
 contexts. The historical original F54 and F55 3-cell presentations,
 interchange and phase/charge obstructions are not silently imported.
