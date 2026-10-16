@@ -1,4 +1,5 @@
 import Kuu.F112.FaceRewrite
+import Mathlib.Data.Bool.AllAny
 
 /-!
 # F112-B / genuine closed C60 polygon boundaries
@@ -218,6 +219,41 @@ def rawBoundaryStep (e : Edge) (v w : Dart)
   .forward (edgeJoins_start e v w h)
     (.backward (edgeJoins_finish e v w h) (.nil _))
 
+/-- Extract a PROPOSITIONAL edge incidence and actual cyclic endpoint
+join from the computably certified original polygon. This result is usable
+as a dependent witness in subsequent F42 source pasting. -/
+theorem polygonBoundary_segment_real (p : Polygon)
+    (x : Edge × (Dart × Dart))
+    (hx : x ∈ (polygonBoundaryEdges p).zip (polygonCyclicDarts p)) :
+    edgeJoins x.1 x.2.1 x.2.2 ∧ edgeOnFace x.1 p := by
+  have hall :
+      ((polygonBoundaryEdges p).zip (polygonCyclicDarts p)).all
+        (fun y => decide (edgeJoins y.1 y.2.1 y.2.2 ∧ edgeOnFace y.1 p)) =
+          true :=
+    (polygonBoundary_valid p).2.2.2.2
+  exact (List.all_iff_forall_prop.mp hall) x hx
+
+/-- Every enumerated side selects the specified true polygon itself,
+not an arbitrary adjacent label or an observationally collapsed face. -/
+theorem boundaryFaceSide_real (p : Polygon) (e : Edge)
+    (he : e ∈ polygonBoundaryEdges p) :
+    faceAt e (boundaryFaceSide e p) = p :=
+  (List.all_iff_forall_prop.mp (boundaryFaceChoices_valid p)) e he
+
+/-- Genuine proof-bearing raw F69 zigzag along ANY of the verified
+five/six polygon sides, with both real dart endpoints fixed in the type. -/
+def polygonBoundary_rawStep (p : Polygon)
+    (x : Edge × (Dart × Dart))
+    (hx : x ∈ (polygonBoundaryEdges p).zip (polygonCyclicDarts p)) :
+    Zigzag (Site.vertex x.2.1) (Site.vertex x.2.2) :=
+  rawBoundaryStep x.1 x.2.1 x.2.2 (polygonBoundary_segment_real p x hx).1
+
+/-- Two genuinely different polygons meet every real C60 physical edge.
+In particular adjacent F42 source presentations must never be identified. -/
+theorem everyPhysicalEdge_two_distinct_faces :
+    ∀ e : Edge, faceAt e false ≠ faceAt e true := by
+  decide
+
 /-- Independent Type-valued corner presentations on ALL five or six
 genuine sides of the specified polygon. No polygon is identified with
 its adjacent face, and the raw proof trees are not quotiented here. -/
@@ -242,5 +278,9 @@ theorem polygonCornerRewrites_length (p : Polygon) (i : Bool) :
 #print axioms edgeJoins_start
 #print axioms edgeJoins_finish
 #print axioms rawBoundaryStep
+#print axioms polygonBoundary_segment_real
+#print axioms boundaryFaceSide_real
+#print axioms polygonBoundary_rawStep
+#print axioms everyPhysicalEdge_two_distinct_faces
 #print axioms polygonCornerRewrites_length
 end Kuu.F112.Physical
