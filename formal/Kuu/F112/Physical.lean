@@ -159,7 +159,16 @@ def edgeOnFace (e : Edge) (f : Polygon) : Prop :=
 /-- The two declared real C60 polygon sites are incident to their edge. -/
 theorem each_edge_on_faces :
     ∀ (e : Edge) (side : Bool), edgeOnFace e (faceAt e side) := by
-  decide
+  intro e side
+  cases e with
+  | cross e =>
+    cases e <;> cases side <;>
+      simp [edgeOnFace, faceAt, incidentFaces, triangleEdges]
+  | around a =>
+    rcases a with ⟨v, s⟩
+    cases v <;> cases s <;> cases side <;>
+      simp [edgeOnFace, faceAt, cornerTriangle, aroundEndpoints,
+        incidentDart, Dart.edge, triangleEdges, slotIndex]
 
 /-- Actual endpoint dart belongs to its selected polygon. -/
 theorem incidentDart_endpoint :
