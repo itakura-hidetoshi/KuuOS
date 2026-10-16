@@ -107,6 +107,12 @@ orientation of the old icosahedral dart and of its around-vertex ordering. -/
 def edgeJoins (e : Edge) (v w : Dart) : Prop :=
   edgeEndpoints e = (v, w) ∨ edgeEndpoints e = (w, v)
 
+/-- Edge-to-polygon incidence is a finite, COMPUTABLE physical
+proposition; use its constructor cases rather than classical choice. -/
+instance edgeOnFace_decidable (e : Edge) (p : Polygon) :
+    Decidable (edgeOnFace e p) := by
+  cases e <;> cases p <;> dsimp [edgeOnFace] <;> infer_instance
+
 /-- Exact finite proposition checked on every one of the 32 genuine
 polygons: lengths, no repeated sides/corners, actual adjacency, actual
 incidence of EACH edge with the ORIGINAL face, and cyclic closure. -/
@@ -117,6 +123,11 @@ def polygonBoundaryValid (p : Polygon) : Prop :=
   (polygonBoundaryDarts p).Nodup ∧
   ((polygonBoundaryEdges p).zip (polygonCyclicDarts p)).all
     (fun x => decide (edgeJoins x.1 x.2.1 x.2.2 ∧ edgeOnFace x.1 p)) = true
+
+instance polygonBoundaryValid_decidable (p : Polygon) :
+    Decidable (polygonBoundaryValid p) := by
+  unfold polygonBoundaryValid
+  infer_instance
 
 theorem everyPentagonBoundary :
     ∀ v : Vertex, polygonBoundaryValid (.pentagon v) := by
@@ -149,6 +160,11 @@ def boundaryFaceSide (e : Edge) (p : Polygon) : Bool :=
 def boundaryFaceChoicesValid (p : Polygon) : Prop :=
   (polygonBoundaryEdges p).all
     (fun e => decide (faceAt e (boundaryFaceSide e p) = p)) = true
+
+instance boundaryFaceChoicesValid_decidable (p : Polygon) :
+    Decidable (boundaryFaceChoicesValid p) := by
+  unfold boundaryFaceChoicesValid
+  infer_instance
 
 theorem everyPentagonFaceChoice :
     ∀ v : Vertex, boundaryFaceChoicesValid (.pentagon v) := by
