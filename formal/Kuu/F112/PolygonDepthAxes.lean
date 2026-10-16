@@ -60,7 +60,9 @@ theorem polygonDepthAssoc_erase {p : Polygon}
     (c : PolygonDepthTree p n₃ m₃) :
     (polygonDepthAssoc a b c).erase =
       .node a.erase (.node b.erase c.erase) := by
-  simp [polygonDepthAssoc, PolygonDepthTree.erase]
+  unfold polygonDepthAssoc
+  rw [Nat.add_assoc n₁ n₂ n₃, Nat.add_assoc m₁ m₂ m₃]
+  rfl
 
 /-- The two axes can vary independently on the SAME genuine
 physical sector, without a fabricated change of physical face. -/
