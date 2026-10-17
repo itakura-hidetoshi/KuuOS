@@ -19,7 +19,7 @@ set_option autoImplicit false
 noncomputable section
 
 universe uA vA uB vB uC vC uD vD uE vE uF vF
-universe uP uX uY
+universe uP uX
 variable {A : Type uA} [Category.{vA} A]
 variable {B : Type uB} [Category.{vB} B]
 variable {C : Type uC} [Category.{vC} C]
@@ -31,7 +31,7 @@ variable {F : Type uF} [Category.{vF} F]
 with a genuinely heterogeneously equal proof-relevant F44
 quotient component, without losing either component. -/
 private theorem physicalPair_heq_of_heq
-    {P : Type uP} {X : Type uX} {Y : Type uY}
+    {P : Type uP} {X Y : Type uX}
     (physical : P) {x : X} {y : Y} (h : HEq x y) :
     HEq (physical, x) (physical, y) := by
   cases h
