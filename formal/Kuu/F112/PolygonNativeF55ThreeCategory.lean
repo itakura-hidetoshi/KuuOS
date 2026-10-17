@@ -57,7 +57,8 @@ abbrev NativeF55ThreeHom
     {pa pb : KuuNativeBlocks x y}
     {first : KuuNativeF45Tree p n m ma pa mb pb}
     {last : KuuNativeF45Tree p n' m' ma pa mb pb}
-    (u v : KuuNativeF45Tree.DepthRotationRoute p first last) : Type :=
+    (u v : KuuNativeF45Tree.DepthRotationRoute p first last) :
+    Type (max (max uD uE) (max vD vE)) :=
   Quot (nativeF55ShadowRel (u := u) (v := v))
 
 /-- No shadow coercion creates a new raw three-cell: every quotient
