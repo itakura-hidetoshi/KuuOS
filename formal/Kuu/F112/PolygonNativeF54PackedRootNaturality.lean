@@ -39,7 +39,7 @@ theorem KuuNativeF45Tree.LocalRotation.mapAxes_assoc_transport
       ((KuuNativeF45Tree.LocalRotation.assoc t₁ t₂ t₃).mapAxes F G) =
         KuuNativeF45Tree.LocalRotation.assoc
           (t₁.mapAxes F G) (t₂.mapAxes F G) (t₃.mapAxes F G) := by
-  rfl
+  simp [KuuNativeF45Tree.LocalRotation.mapAxes]
 
 /-- Transport full original root Sigma packet with actual
 source and target, exact intermediate tree, path and oriented edge. -/
