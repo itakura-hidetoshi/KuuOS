@@ -40,7 +40,7 @@ def KuuNativeF45Tree.realizePacket
     { tree : KuuNativeF45Tree p n m ma pa mb pb //
       tree.erasePhysical = physical ∧
         tree.axisHistories = (firstHistory, secondHistory) } := by
-  induction physical generalizing ma mb pa pb firstHistory secondHistory with
+  induction physical generalizing ma mb pa pb with
   | leaf item =>
       cases item with
       | mk sector firstDepth secondDepth =>
