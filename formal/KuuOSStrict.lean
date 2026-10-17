@@ -83,4 +83,5 @@ import Kuu.F112.PolygonNativeF41FunctorIdentity
 import Kuu.F112.PolygonNativeF41TraceFunctorIdentity
 import Kuu.F112.PolygonNativeF41FunctorCompositionPrimitives
 import Kuu.F112.PolygonNativeF41FunctorCompositionRoots
+import Kuu.F112.PolygonNativeF41FunctorCompositionAll
 /-! Current independent Kuu foundation. No legacy KUOS imports are permitted. -/
