@@ -41,7 +41,7 @@ theorem KuuF36ShapePath.toNative_map (F : A ⥤ B)
     {x y : A} (p : KuuF36ShapePath x y) :
     (p.map F).toNative = p.toNative.map F := by
   induction p with
-  | nil x => rfl
+  | nil => rfl
   | snoc p f ih =>
       change KuuNativePath.snoc (p.map F).toNative (F.map f) =
         KuuNativePath.snoc (p.toNative.map F) (F.map f)
@@ -87,7 +87,7 @@ theorem KuuF40ShapeBlocks.toNative_map (F : A ⥤ B)
     {x y : A} (p : KuuF40ShapeBlocks x y) :
     (p.map F).toNative = p.toNative.map F := by
   induction p with
-  | empty x => rfl
+  | empty => rfl
   | snoc p q ih =>
       change KuuNativeBlocks.snoc (p.map F).toNative (q.map F).toNative =
         KuuNativeBlocks.snoc (p.toNative.map F) (q.toNative.map F)
