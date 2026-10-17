@@ -188,8 +188,14 @@ theorem KuuNativeF45Tree.RotationChain.mapAxes_reverse
               ((edge.mapAxes F G).reverse)).append
               (prior.mapAxes F G).reverse) := by
                 rw [ih]
+                change
+                  (KuuNativeF45Tree.RotationChain.snoc (.refl _)
+                    (edge.reverse.mapAxes F G)).append
+                      (prior.mapAxes F G).reverse =
+                    (KuuNativeF45Tree.RotationChain.snoc (.refl _)
+                      ((edge.mapAxes F G).reverse)).append
+                      (prior.mapAxes F G).reverse
                 rw [KuuNativeF45Tree.RotationEdge.mapAxes_reverse]
-                rfl
 
 /-- The concrete north pentagon 2-step forward/backward return
 retains precisely TWO genuine Type-valued F54 rotation steps under
