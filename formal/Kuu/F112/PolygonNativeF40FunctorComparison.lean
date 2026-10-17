@@ -48,10 +48,10 @@ theorem KuuNativePath.length_map (H : C ⥤ D)
     {x y : C} (p : KuuNativePath x y) :
     (p.map H).length = p.length := by
   induction p with
-  | nil x => rfl
+  | nil =>
+      simp only [KuuNativePath.map, KuuNativePath.length]
   | snoc p f ih =>
-      change (p.map H).length + 1 = p.length + 1
-      rw [ih]
+      simp only [KuuNativePath.map, KuuNativePath.length, ih]
 
 /-- Constructor-wise strict concatenation compatibility, BEFORE
 any categorical composite or equality quotient is taken. -/
@@ -60,11 +60,10 @@ theorem KuuNativePath.map_append (H : C ⥤ D)
     (q : KuuNativePath y z) :
     (p.append q).map H = (p.map H).append (q.map H) := by
   induction q with
-  | nil y => rfl
+  | nil =>
+      simp only [KuuNativePath.append, KuuNativePath.map]
   | snoc q f ih =>
-      change KuuNativePath.snoc ((p.append q).map H) (H.map f) =
-        KuuNativePath.snoc ((p.map H).append (q.map H)) (H.map f)
-      rw [ih]
+      simp only [KuuNativePath.append, KuuNativePath.map, ih]
 
 /-- Genuine categorical evaluation of the WHOLE typed path maps
 naturally for every source/target category and every functor. -/
@@ -72,13 +71,12 @@ theorem KuuNativePath.composite_map (H : C ⥤ D)
     {x y : C} (p : KuuNativePath x y) :
     (p.map H).composite = H.map p.composite := by
   induction p with
-  | nil x =>
-      change (𝟙 (H.obj x)) = H.map (𝟙 x)
-      exact (H.map_id x).symm
+  | nil =>
+      simp only [KuuNativePath.map, KuuNativePath.composite,
+        Functor.map_id]
   | snoc p f ih =>
-      change (p.map H).composite ≫ H.map f =
-        H.map (p.composite ≫ f)
-      rw [ih, H.map_comp]
+      simp only [KuuNativePath.map, KuuNativePath.composite,
+        Functor.map_comp, ih]
 
 /-- F40 block-wise path functoriality: do not erase a single
 partition boundary or merge adjacent source paths. -/
@@ -94,10 +92,10 @@ theorem KuuNativeBlocks.blockCount_map (H : C ⥤ D)
     {x y : C} (p : KuuNativeBlocks x y) :
     (p.map H).blockCount = p.blockCount := by
   induction p with
-  | empty x => rfl
+  | empty =>
+      simp only [KuuNativeBlocks.map, KuuNativeBlocks.blockCount]
   | snoc p q ih =>
-      change (p.map H).blockCount + 1 = p.blockCount + 1
-      rw [ih]
+      simp only [KuuNativeBlocks.map, KuuNativeBlocks.blockCount, ih]
 
 /-- The positive F40 comparison strictly preserves *both* the
 original source block boundaries and their ordered concatenation. -/
@@ -106,11 +104,10 @@ theorem KuuNativeBlocks.map_append (H : C ⥤ D)
     (q : KuuNativeBlocks y z) :
     (p.append q).map H = (p.map H).append (q.map H) := by
   induction q with
-  | empty y => rfl
+  | empty =>
+      simp only [KuuNativeBlocks.append, KuuNativeBlocks.map]
   | snoc q r ih =>
-      change KuuNativeBlocks.snoc ((p.append q).map H) (r.map H) =
-        KuuNativeBlocks.snoc ((p.map H).append (q.map H)) (r.map H)
-      rw [ih]
+      simp only [KuuNativeBlocks.append, KuuNativeBlocks.map, ih]
 
 /-- The F36/F40 core square COMMUTES at the raw finite-path level:
 map every block THEN flatten = flatten THEN map every path arrow. -/
@@ -118,11 +115,12 @@ theorem KuuNativeBlocks.flatten_map (H : C ⥤ D)
     {x y : C} (p : KuuNativeBlocks x y) :
     (p.map H).flatten = p.flatten.map H := by
   induction p with
-  | empty x => rfl
+  | empty =>
+      simp only [KuuNativeBlocks.map, KuuNativeBlocks.flatten,
+        KuuNativePath.map]
   | snoc p q ih =>
-      change (p.map H).flatten.append (q.map H) =
-        (p.flatten.append q).map H
-      rw [ih, KuuNativePath.map_append]
+      simp only [KuuNativeBlocks.map, KuuNativeBlocks.flatten,
+        KuuNativePath.map_append, ih]
 
 /-- This second square COMMUTES at the actual original categorical
 Hom level, including identity and non-strict associative composition. -/
@@ -160,9 +158,11 @@ def KuuNativeOneStep.map (H : C ⥤ D)
       simpa only [KuuNativeBlocks.map, KuuNativePath.map_append]
         using (KuuNativeOneStep.split (p.map H) (q.map H) (r.map H))
   | insertNil p =>
-      exact .insertNil (p.map H)
+      simpa only [KuuNativeBlocks.map, KuuNativePath.map] using
+        (KuuNativeOneStep.insertNil (p.map H))
   | whisker h t ih =>
-      exact .whisker ih (t.map H)
+      simpa only [KuuNativeBlocks.map] using
+        (KuuNativeOneStep.whisker ih (t.map H))
 
 /-- Exact-Nat-depth native histories transport along the SAME
 functor without changing their full typed intermediate Blocks. -/
