@@ -88,9 +88,9 @@ theorem polygonDepthSquareLeftGeneral_trace
         (PolygonBracketRotation.assoc d.erase e.erase f.erase)).physicalTrace := by
   change
     (polygonDepthAssocNormalized a b c).physicalTrace.map
-      (fun ev => ev.leftContext (.node (.node d e) f).erase) ++
+      (fun ev => ev.leftContext (PolygonBracketTree.node (PolygonBracketTree.node d.erase e.erase) f.erase)) ++
     (polygonDepthAssocNormalized d e f).physicalTrace.map
-      (fun ev => ev.rightContext (.node a (.node b c)).erase) =
+      (fun ev => ev.rightContext (PolygonBracketTree.node a.erase (PolygonBracketTree.node b.erase c.erase))) =
     (polygonBracketSquareLeftFirst
       (PolygonBracketRotation.assoc a.erase b.erase c.erase)
       (PolygonBracketRotation.assoc d.erase e.erase f.erase)).physicalTrace
@@ -114,9 +114,9 @@ theorem polygonDepthSquareRightGeneral_trace
         (PolygonBracketRotation.assoc d.erase e.erase f.erase)).physicalTrace := by
   change
     (polygonDepthAssocNormalized d e f).physicalTrace.map
-      (fun ev => ev.rightContext (.node (.node a b) c).erase) ++
+      (fun ev => ev.rightContext (PolygonBracketTree.node (PolygonBracketTree.node a.erase b.erase) c.erase)) ++
     (polygonDepthAssocNormalized a b c).physicalTrace.map
-      (fun ev => ev.leftContext (.node d (.node e f)).erase) =
+      (fun ev => ev.leftContext (PolygonBracketTree.node d.erase (PolygonBracketTree.node e.erase f.erase))) =
     (polygonBracketSquareRightFirst
       (PolygonBracketRotation.assoc a.erase b.erase c.erase)
       (PolygonBracketRotation.assoc d.erase e.erase f.erase)).physicalTrace
