@@ -31,14 +31,16 @@ theorem KuuNativeOneStep.map_id_heq
     HEq (h.map (𝟭 A)) h := by
   induction h with
   | split p q r =>
-      simp [KuuNativeOneStep.map, KuuNativeBlocks.map_id,
-        KuuNativePath.map_id]
+      simp only [KuuNativeOneStep.map]
+      rw [KuuNativeBlocks.map_id p, KuuNativePath.map_id q,
+        KuuNativePath.map_id r]
   | insertNil p =>
-      simp [KuuNativeOneStep.map, KuuNativeBlocks.map_id,
-        KuuNativePath.map_id]
+      simp only [KuuNativeOneStep.map]
+      rw [KuuNativeBlocks.map_id p]
   | whisker h t ih =>
-      simp [KuuNativeOneStep.map, KuuNativeBlocks.map_id,
-        KuuNativePath.map_id, ih]
+      simp only [KuuNativeOneStep.map]
+      cases ih
+      rw [KuuNativePath.map_id t]
 
 /-- The same typed primitive proof comparison for composite functors.
 HEq records the intermediate endpoint reindexing explicitly. -/
@@ -49,14 +51,16 @@ theorem KuuNativeOneStep.map_comp_heq
     HEq (h.map (F ⋙ G)) ((h.map F).map G) := by
   induction h with
   | split p q r =>
-      simp [KuuNativeOneStep.map,
-        KuuNativeBlocks.map_comp, KuuNativePath.map_comp]
+      simp only [KuuNativeOneStep.map]
+      rw [KuuNativeBlocks.map_comp F G p, KuuNativePath.map_comp F G q,
+        KuuNativePath.map_comp F G r]
   | insertNil p =>
-      simp [KuuNativeOneStep.map,
-        KuuNativeBlocks.map_comp, KuuNativePath.map_comp]
+      simp only [KuuNativeOneStep.map]
+      rw [KuuNativeBlocks.map_comp F G p]
   | whisker h t ih =>
-      simp [KuuNativeOneStep.map,
-        KuuNativeBlocks.map_comp, KuuNativePath.map_comp, ih]
+      simp only [KuuNativeOneStep.map]
+      cases ih
+      rw [KuuNativePath.map_comp F G t]
 
 #print axioms KuuNativeOneStep.map_id_heq
 #print axioms KuuNativeOneStep.map_comp_heq
