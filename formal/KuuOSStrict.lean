@@ -46,4 +46,5 @@ import Kuu.F112.PolygonNativeF55ThreeCategory
 import Kuu.F112.PolygonNativeF55Target
 import Kuu.F112.PolygonNativeF55Receivers
 import Kuu.F112.PolygonNativeF55ChargeRigidity
+import Kuu.F112.PolygonNativeF55PhaseChoice
 /-! Current independent Kuu foundation. No legacy KUOS imports are permitted. -/
