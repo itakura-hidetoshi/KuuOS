@@ -11,8 +11,10 @@ charges or evaluation alone.
 The independent F55 PresentedCell has NINE raw Type-valued
 constructors. The dependent Nat casts prevent identifying a mapped
 pentagon boundary with the pentagon of mapped F45 trees by definition.
-This module makes that missing geometric generator lift explicit as
-DATA, then constructs a CONDITIONAL source action of two
+This module makes the missing pentagon generator lift and its raw
+shape certificate explicit as DATA. Its charges then FOLLOW FROM THE
+FREE GRAMMAR; they are not extra hypotheses. The module constructs a
+CONDITIONAL source action of two
 independent ordinary functors on every raw higher proof tree,
 preserving all original F54 depth-route boundaries, the two
 independent categorical Blocks axes, local 5/6 C60 sectors, and
@@ -34,6 +36,26 @@ variable {A : Type uA} [Category.{vA} A]
 variable {B : Type uB} [Category.{vB} B]
 variable {A₂ : Type uA₂} [Category.{vA₂} A₂]
 variable {B₂ : Type uB₂} [Category.{vB₂} B₂]
+
+/-- Rigidity of the RAW free F55 presentation: shape tag ONE can
+arise only from the pentagon constructor. Its first generator charge
+and phase are therefore canonical; no independent numerical
+calibration hypothesis is needed once the raw cell is certified to
+have pentagon shape. -/
+theorem KuuNativeF45Tree.DepthRotationRoute.PresentedCell.nativeShadow_of_pentagonTag
+    {p : Polygon} {a b : A} {x y : B}
+    {n n' m m' : Nat}
+    {ma mb : KuuNativeBlocks a b}
+    {pa pb : KuuNativeBlocks x y}
+    {first : KuuNativeF45Tree p n m ma pa mb pb}
+    {last : KuuNativeF45Tree p n' m' ma pa mb pb}
+    {r s : KuuNativeF45Tree.DepthRotationRoute p first last}
+    (cell : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p r s)
+    (h : cell.shapeTag = 1) :
+    cell.nativeShadow = (((1 : Int), (0 : Int)), (0 : ZMod 2)) := by
+  cases cell <;> norm_num
+    [KuuNativeF45Tree.DepthRotationRoute.PresentedCell.shapeTag,
+      KuuNativeF45Tree.DepthRotationRoute.PresentedCell.nativeShadow] at *
 
 /-- Explicit missing lift datum for the ORIGINAL-F54-SHAPED pentagon
 under two-axis transport. Source and target are the ACTUAL mapped
@@ -70,17 +92,6 @@ structure KuuNativeF55MappedPentagonData
       (t₃ : KuuNativeF45Tree p n₃ m₃ p₂ q₂ p₃ q₃)
       (t₄ : KuuNativeF45Tree p n₄ m₄ p₃ q₃ p₄ q₄),
       (pentagon p t₁ t₂ t₃ t₄).shapeTag = 1
-  pentagonShadow :
-    ∀ (p : Polygon) {a b : A} {x y : B}
-      {n₁ n₂ n₃ n₄ m₁ m₂ m₃ m₄ : Nat}
-      {p₀ p₁ p₂ p₃ p₄ : KuuNativeBlocks a b}
-      {q₀ q₁ q₂ q₃ q₄ : KuuNativeBlocks x y}
-      (t₁ : KuuNativeF45Tree p n₁ m₁ p₀ q₀ p₁ q₁)
-      (t₂ : KuuNativeF45Tree p n₂ m₂ p₁ q₁ p₂ q₂)
-      (t₃ : KuuNativeF45Tree p n₃ m₃ p₂ q₂ p₃ q₃)
-      (t₄ : KuuNativeF45Tree p n₄ m₄ p₃ q₃ p₄ q₄),
-      (pentagon p t₁ t₂ t₃ t₄).nativeShadow =
-        (((1 : Int), (0 : Int)), (0 : ZMod 2))
 
 /-- Interpret all genuine nine constructors in the raw typed F55
 source transported along the two independently selected categorical
@@ -173,7 +184,8 @@ theorem KuuNativeF45Tree.DepthRotationRoute.PresentedCell.nativeShadow_mapAxesGi
   induction cell with
   | ident _ => rfl
   | pentagon t₁ t₂ t₃ t₄ =>
-      exact data.pentagonShadow p t₁ t₂ t₃ t₄
+      exact (data.pentagon p t₁ t₂ t₃ t₄).nativeShadow_of_pentagonTag
+        (data.pentagonTag p t₁ t₂ t₃ t₄)
   | disjointSquare _ _ => rfl
   | symm c ih =>
       exact congrArg (fun z : KuuNativeF55Shadow => -z) ih
@@ -216,6 +228,7 @@ theorem KuuNativeF45Tree.DepthRotationRoute.PresentedCell.phase_mapAxesGivenPent
     (cell.mapAxesGivenPentagon F G data).nativeShadow.2 = cell.nativeShadow.2 :=
   congrArg Prod.snd (cell.nativeShadow_mapAxesGivenPentagon F G data)
 
+#print axioms KuuNativeF45Tree.DepthRotationRoute.PresentedCell.nativeShadow_of_pentagonTag
 #print axioms KuuNativeF55MappedPentagonData
 #print axioms KuuNativeF45Tree.DepthRotationRoute.PresentedCell.mapAxesGivenPentagon
 #print axioms KuuNativeF45Tree.DepthRotationRoute.PresentedCell.shapeTag_mapAxesGivenPentagon
