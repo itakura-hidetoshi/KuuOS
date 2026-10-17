@@ -45,11 +45,10 @@ def KuuNativeF45Tree.LocalRotation.mapAxes
       (before.mapAxes F G) (after.mapAxes F G) := by
   induction step with
   | assoc first second third =>
-      simpa only [KuuNativeF45Tree.mapAxes,
-        KuuNativeF45Tree.mapAxes_castDepths] using
-        (KuuNativeF45Tree.LocalRotation.assoc
-          (first.mapAxes F G) (second.mapAxes F G)
-          (third.mapAxes F G))
+      rw [KuuNativeF45Tree.mapAxes_castDepths]
+      exact KuuNativeF45Tree.LocalRotation.assoc
+        (first.mapAxes F G) (second.mapAxes F G)
+        (third.mapAxes F G)
   | leftContext step later ih =>
       simpa only [KuuNativeF45Tree.mapAxes] using
         (KuuNativeF45Tree.LocalRotation.leftContext
@@ -132,8 +131,8 @@ theorem KuuNativeF45Tree.RotationChain.length_mapAxes
   | refl =>
       rfl
   | snoc prior edge ih =>
-      simp only [KuuNativeF45Tree.RotationChain.mapAxes,
-        KuuNativeF45Tree.RotationChain.length, ih]
+      change (prior.mapAxes F G).length + 1 = prior.length + 1
+      exact congrArg Nat.succ ih
 
 /-- Finite F54 raw chain composition commutes EXACTLY with the
 constructed typed two-category transport, not only after shadow. -/
@@ -150,8 +149,14 @@ theorem KuuNativeF45Tree.RotationChain.mapAxes_append
   induction right with
   | refl => rfl
   | snoc prior edge ih =>
-      simp only [KuuNativeF45Tree.RotationChain.append,
-        KuuNativeF45Tree.RotationChain.mapAxes, ih]
+      change KuuNativeF45Tree.RotationChain.snoc
+          ((left.append prior).mapAxes F G) (edge.mapAxes F G) =
+        KuuNativeF45Tree.RotationChain.snoc
+          ((left.mapAxes F G).append (prior.mapAxes F G))
+          (edge.mapAxes F G)
+      exact congrArg
+        (fun z => KuuNativeF45Tree.RotationChain.snoc
+          z (edge.mapAxes F G)) ih
 
 /-- Forward/backward path reversal also commutes with actual source
 transport of the entire finite chain; backtracks remain nontrivial. -/
@@ -166,10 +171,25 @@ theorem KuuNativeF45Tree.RotationChain.mapAxes_reverse
   induction chain with
   | refl => rfl
   | snoc prior edge ih =>
-      simp only [KuuNativeF45Tree.RotationChain.reverse,
-        KuuNativeF45Tree.RotationChain.mapAxes,
-        KuuNativeF45Tree.RotationChain.mapAxes_append,
-        KuuNativeF45Tree.RotationEdge.mapAxes_reverse, ih]
+      change
+        (((KuuNativeF45Tree.RotationChain.snoc (.refl _)
+            edge.reverse).append prior.reverse).mapAxes F G) =
+          ((KuuNativeF45Tree.RotationChain.snoc (.refl _)
+              (edge.mapAxes F G)).append
+              (prior.mapAxes F G).reverse)
+      calc
+        (((KuuNativeF45Tree.RotationChain.snoc (.refl _)
+            edge.reverse).append prior.reverse).mapAxes F G) =
+            ((KuuNativeF45Tree.RotationChain.snoc (.refl _)
+              edge.reverse).mapAxes F G).append
+              (prior.reverse.mapAxes F G) :=
+                KuuNativeF45Tree.RotationChain.mapAxes_append F G _ _
+        _ = ((KuuNativeF45Tree.RotationChain.snoc (.refl _)
+              (edge.mapAxes F G)).append
+              (prior.mapAxes F G).reverse) := by
+                rw [ih]
+                rw [KuuNativeF45Tree.RotationEdge.mapAxes_reverse]
+                rfl
 
 /-- The concrete north pentagon 2-step forward/backward return
 retains precisely TWO genuine Type-valued F54 rotation steps under
