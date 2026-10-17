@@ -37,4 +37,5 @@ import Kuu.F112.PolygonNativeBlocks
 import Kuu.F112.NativeAxisTraces
 import Kuu.F112.PolygonNativeF45Source
 import Kuu.F112.PolygonNativeF54Rotation
+import Kuu.F112.PolygonNativeF54Chains
 /-! Current independent Kuu foundation. No legacy KUOS imports are permitted. -/
