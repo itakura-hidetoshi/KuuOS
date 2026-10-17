@@ -96,4 +96,6 @@ import Kuu.F112.PolygonNativeF45TraceSplit
 import Kuu.F112.PolygonNativeF45PhysicalRealization
 import Kuu.F112.PolygonNativeHistoricalProofBoundary
 import Kuu.F112.PolygonNativeHistoricalF45PhysicalComparison
+import Kuu.F112.PolygonNativeHistoricalEvidenceFunctorNaturality
+import Kuu.F112.PolygonNativeHistoricalPhysicalNatTrans
 /-! Current independent Kuu foundation. No legacy KUOS imports are permitted. -/
