@@ -175,7 +175,7 @@ theorem KuuNativeF45Tree.RotationChain.mapAxes_reverse
         (((KuuNativeF45Tree.RotationChain.snoc (.refl _)
             edge.reverse).append prior.reverse).mapAxes F G) =
           ((KuuNativeF45Tree.RotationChain.snoc (.refl _)
-              (edge.mapAxes F G)).append
+              ((edge.mapAxes F G).reverse)).append
               (prior.mapAxes F G).reverse)
       calc
         (((KuuNativeF45Tree.RotationChain.snoc (.refl _)
@@ -185,7 +185,7 @@ theorem KuuNativeF45Tree.RotationChain.mapAxes_reverse
               (prior.reverse.mapAxes F G) :=
                 KuuNativeF45Tree.RotationChain.mapAxes_append F G _ _
         _ = ((KuuNativeF45Tree.RotationChain.snoc (.refl _)
-              (edge.mapAxes F G)).append
+              ((edge.mapAxes F G).reverse)).append
               (prior.mapAxes F G).reverse) := by
                 rw [ih]
                 rw [KuuNativeF45Tree.RotationEdge.mapAxes_reverse]
