@@ -41,11 +41,12 @@ theorem KuuF36ShapePath.toNative_map (F : A ⥤ B)
     {x y : A} (p : KuuF36ShapePath x y) :
     (p.map F).toNative = p.toNative.map F := by
   induction p with
-  | nil => rfl
+  | nil =>
+      simp only [KuuF36ShapePath.map, KuuF36ShapePath.toNative,
+        KuuNativePath.map]
   | snoc p f ih =>
-      change KuuNativePath.snoc (p.map F).toNative (F.map f) =
-        KuuNativePath.snoc (p.toNative.map F) (F.map f)
-      rw [ih]
+      simp only [KuuF36ShapePath.map, KuuF36ShapePath.toNative,
+        KuuNativePath.map, ih]
 
 /-- The opposite direction of the equivalence is also NATURAL,
 not merely an agreement of scalar path lengths. -/
@@ -87,11 +88,12 @@ theorem KuuF40ShapeBlocks.toNative_map (F : A ⥤ B)
     {x y : A} (p : KuuF40ShapeBlocks x y) :
     (p.map F).toNative = p.toNative.map F := by
   induction p with
-  | empty => rfl
+  | empty =>
+      simp only [KuuF40ShapeBlocks.map, KuuF40ShapeBlocks.toNative,
+        KuuNativeBlocks.map]
   | snoc p q ih =>
-      change KuuNativeBlocks.snoc (p.map F).toNative (q.map F).toNative =
-        KuuNativeBlocks.snoc (p.toNative.map F) (q.toNative.map F)
-      rw [ih, KuuF36ShapePath.toNative_map]
+      simp only [KuuF40ShapeBlocks.map, KuuF40ShapeBlocks.toNative,
+        KuuNativeBlocks.map, KuuF36ShapePath.toNative_map, ih]
 
 theorem KuuF40ShapeBlocks.ofNative_map (F : A ⥤ B)
     {x y : A} (p : KuuNativeBlocks x y) :
