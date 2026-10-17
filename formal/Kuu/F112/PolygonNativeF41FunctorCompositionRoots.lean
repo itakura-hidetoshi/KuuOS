@@ -39,7 +39,7 @@ theorem KuuNativeOneStep.map_comp_split_heq
       (KuuNativeBlocks.snoc (KuuNativeBlocks.snoc p q) r).map F =
         KuuNativeBlocks.snoc
           (KuuNativeBlocks.snoc (p.map F) (q.map F)) (r.map F) := by
-    rfl
+    simp only [KuuNativeBlocks.map]
   have hmap :
       HEq (((KuuNativeOneStep.split p q r).map F).map G)
         ((KuuNativeOneStep.split
@@ -71,7 +71,8 @@ theorem KuuNativeOneStep.map_comp_insertNil_heq
     KuuNativeOneStep.map_heq_of_heq G
       ((KuuNativeOneStep.insertNil p).map F)
       (KuuNativeOneStep.insertNil (p.map F))
-      (by rfl) (by rfl)
+      (by rfl)
+      (by simp only [KuuNativeBlocks.map, KuuNativePath.map])
       (KuuNativeOneStep.map_insertNil_heq F p)
   exact
     (KuuNativeOneStep.map_insertNil_heq (F ⋙ G) p).trans
