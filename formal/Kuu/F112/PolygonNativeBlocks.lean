@@ -94,7 +94,9 @@ theorem polygonSectorTwoBlocks_flatten (p : Polygon)
     (i : PolygonBoundarySector p) :
     (polygonSectorTwoBlocks p i).flatten =
       polygonSectorNativeTwoStep p i := by
-  rfl
+  simp only [polygonSectorTwoBlocks, polygonSectorNativeTwoStep,
+    KuuNativeBlocks.flatten, KuuNativePath.append,
+    KuuNativePath.single]
 
 /-- The physical second axis flattens to precisely the actual
 direct incidence arrow, with no invented new original Site Hom. -/
@@ -102,7 +104,9 @@ theorem polygonSectorOneBlock_flatten (p : Polygon)
     (i : PolygonBoundarySector p) :
     (polygonSectorOneBlock p i).flatten =
       polygonSectorNativeDiagonal p i := by
-  rfl
+  simp only [polygonSectorOneBlock, polygonSectorNativeDiagonal,
+    KuuNativeBlocks.singleton, KuuNativeBlocks.flatten,
+    KuuNativePath.append]
 
 /-- The two original paths retain two and one independent REAL
 categorical arrow steps, respectively, before any quotient. -/
