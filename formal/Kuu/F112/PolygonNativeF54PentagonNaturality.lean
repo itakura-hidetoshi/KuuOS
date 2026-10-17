@@ -40,11 +40,10 @@ theorem KuuNativeF45Tree.DepthRotationRoute.mapAxes_ofLocalRotation
         (step.mapAxes F G) := by
   rfl
 
-/-- Raw F54 associativity is natural along both original-shaped
-categorical axes, including the genuinely transported two-Nat cast.
-If strict route equality is not constructible, the attempted theorem
-itself exposes the source obstruction, not a numeric workaround. -/
-theorem KuuNativeF45Tree.DepthRotationRoute.mapAxes_assoc
+/-- Even when exact raw pentagon-boundary naturality requires
+a further dependent coherence proof, transport of the ACTUAL F54
+root-rotation route preserves its single genuine rotation edge. -/
+theorem KuuNativeF45Tree.DepthRotationRoute.mapAxes_assoc_count
     (F : A ⥤ A₂) (G : B ⥤ B₂)
     {p : Polygon} {a b : A} {x y : B}
     {n₁ n₂ n₃ m₁ m₂ m₃ : Nat}
@@ -53,17 +52,31 @@ theorem KuuNativeF45Tree.DepthRotationRoute.mapAxes_assoc
     (t₁ : KuuNativeF45Tree p n₁ m₁ p₀ q₀ p₁ q₁)
     (t₂ : KuuNativeF45Tree p n₂ m₂ p₁ q₁ p₂ q₂)
     (t₃ : KuuNativeF45Tree p n₃ m₃ p₂ q₂ p₃ q₃) :
-    (KuuNativeF45Tree.DepthRotationRoute.assoc t₁ t₂ t₃).mapAxes F G =
-      KuuNativeF45Tree.DepthRotationRoute.assoc
-        (t₁.mapAxes F G) (t₂.mapAxes F G) (t₃.mapAxes F G) := by
-  simp only [KuuNativeF45Tree.DepthRotationRoute.assoc,
-    KuuNativeF45Tree.DepthRotationRoute.mapAxes,
-    KuuNativeF45Tree.RotationChain.mapAxes,
-    KuuNativeF45Tree.RotationEdge.mapAxes]
-  simp only [KuuNativeF45Tree.mapAxes_castDepths]
-  rfl
+    ((KuuNativeF45Tree.DepthRotationRoute.assoc
+      t₁ t₂ t₃).mapAxes F G).rotationCount = 1 := by
+  rw [KuuNativeF45Tree.DepthRotationRoute.rotationCount_mapAxes]
+  exact KuuNativeF45Tree.DepthRotationRoute.assoc_rotationCount t₁ t₂ t₃
+
+/-- The real physical sector boundary is preserved by the mapped
+F54 root associativity, without claiming equality of distinct raw
+Nat-cast proof trees. -/
+theorem KuuNativeF45Tree.DepthRotationRoute.mapAxes_assoc_physical
+    (F : A ⥤ A₂) (G : B ⥤ B₂)
+    {p : Polygon} {a b : A} {x y : B}
+    {n₁ n₂ n₃ m₁ m₂ m₃ : Nat}
+    {p₀ p₁ p₂ p₃ : KuuNativeBlocks a b}
+    {q₀ q₁ q₂ q₃ : KuuNativeBlocks x y}
+    (t₁ : KuuNativeF45Tree p n₁ m₁ p₀ q₀ p₁ q₁)
+    (t₂ : KuuNativeF45Tree p n₂ m₂ p₁ q₁ p₂ q₂)
+    (t₃ : KuuNativeF45Tree p n₃ m₃ p₂ q₂ p₃ q₃) :
+    (((KuuNativeF45Tree.node (KuuNativeF45Tree.node t₁ t₂) t₃).mapAxes F G)
+      .erasePhysical.erase.leaves) =
+    (((KuuNativeF45Tree.node t₁ (KuuNativeF45Tree.node t₂ t₃)).mapAxes F G)
+      .erasePhysical.erase.leaves) :=
+  (KuuNativeF45Tree.DepthRotationRoute.assoc t₁ t₂ t₃).mapAxes_physical_leaves F G
 
 #print axioms KuuNativeF45Tree.DepthRotationRoute.mapAxes_ofLocalRotation
-#print axioms KuuNativeF45Tree.DepthRotationRoute.mapAxes_assoc
+#print axioms KuuNativeF45Tree.DepthRotationRoute.mapAxes_assoc_count
+#print axioms KuuNativeF45Tree.DepthRotationRoute.mapAxes_assoc_physical
 end
 end Kuu.F112.Physical
