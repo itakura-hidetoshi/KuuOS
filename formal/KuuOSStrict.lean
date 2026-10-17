@@ -68,4 +68,5 @@ import Kuu.F112.PolygonNativeF54PackedCastRotation
 import Kuu.F112.PolygonNativeF54PackedRootNaturality
 import Kuu.F112.PolygonNativeF54RootStepNormalization
 import Kuu.F112.PolygonNativeF54RootTransportCancellation
+import Kuu.F112.PolygonNativeF44OrderedHistoricalComparison
 /-! Current independent Kuu foundation. No legacy KUOS imports are permitted. -/
