@@ -39,7 +39,33 @@ theorem KuuNativeF45Tree.LocalRotation.mapAxes_assoc_transport
       ((KuuNativeF45Tree.LocalRotation.assoc t₁ t₂ t₃).mapAxes F G) =
         KuuNativeF45Tree.LocalRotation.assoc
           (t₁.mapAxes F G) (t₂.mapAxes F G) (t₃.mapAxes F G) := by
-  simp [KuuNativeF45Tree.LocalRotation.mapAxes, cast_cast]
+  have ht := KuuNativeF45Tree.mapAxes_castDepths F G
+    (Nat.add_assoc n₁ n₂ n₃) (Nat.add_assoc m₁ m₂ m₃)
+    (KuuNativeF45Tree.node (KuuNativeF45Tree.node t₁ t₂) t₃)
+  have htype :
+      KuuNativeF45Tree.LocalRotation p
+        ((KuuNativeF45Tree.castDepths
+          (Nat.add_assoc n₁ n₂ n₃) (Nat.add_assoc m₁ m₂ m₃)
+          (KuuNativeF45Tree.node (KuuNativeF45Tree.node t₁ t₂) t₃)).mapAxes F G)
+        ((KuuNativeF45Tree.node t₁ (KuuNativeF45Tree.node t₂ t₃)).mapAxes F G) =
+      KuuNativeF45Tree.LocalRotation p
+        (KuuNativeF45Tree.castDepths
+          (Nat.add_assoc n₁ n₂ n₃) (Nat.add_assoc m₁ m₂ m₃)
+          ((KuuNativeF45Tree.node (KuuNativeF45Tree.node t₁ t₂) t₃).mapAxes F G))
+        ((KuuNativeF45Tree.node t₁ (KuuNativeF45Tree.node t₂ t₃)).mapAxes F G) :=
+    congrArg
+      (fun mid => KuuNativeF45Tree.LocalRotation p mid
+        ((KuuNativeF45Tree.node t₁ (KuuNativeF45Tree.node t₂ t₃)).mapAxes F G)) ht
+  change htype.mp
+    (htype.mpr (KuuNativeF45Tree.LocalRotation.assoc
+      (t₁.mapAxes F G) (t₂.mapAxes F G) (t₃.mapAxes F G))) =
+        KuuNativeF45Tree.LocalRotation.assoc
+          (t₁.mapAxes F G) (t₂.mapAxes F G) (t₃.mapAxes F G)
+  have lemma {X Y : Sort _} (h : X = Y) (v : Y) :
+      h.mp (h.mpr v) = v := by
+    cases h
+    rfl
+  exact lemma htype _
 
 /-- Transport full original root Sigma packet with actual
 source and target, exact intermediate tree, path and oriented edge. -/
