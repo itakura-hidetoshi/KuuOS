@@ -106,7 +106,7 @@ theorem polygonSectorOneBlock_flatten (p : Polygon)
       polygonSectorNativeDiagonal p i := by
   simp only [polygonSectorOneBlock, polygonSectorNativeDiagonal,
     KuuNativeBlocks.singleton, KuuNativeBlocks.flatten,
-    KuuNativePath.append]
+    KuuNativePath.single, KuuNativePath.append]
 
 /-- The two original paths retain two and one independent REAL
 categorical arrow steps, respectively, before any quotient. -/
