@@ -69,10 +69,10 @@ theorem KuuNativeF45Tree.DepthRotationRoute.mapAxes_assoc_physical
     (t₁ : KuuNativeF45Tree p n₁ m₁ p₀ q₀ p₁ q₁)
     (t₂ : KuuNativeF45Tree p n₂ m₂ p₁ q₁ p₂ q₂)
     (t₃ : KuuNativeF45Tree p n₃ m₃ p₂ q₂ p₃ q₃) :
-    (((KuuNativeF45Tree.node (KuuNativeF45Tree.node t₁ t₂) t₃).mapAxes F G)
-      .erasePhysical.erase.leaves) =
-    (((KuuNativeF45Tree.node t₁ (KuuNativeF45Tree.node t₂ t₃)).mapAxes F G)
-      .erasePhysical.erase.leaves) :=
+    ((KuuNativeF45Tree.node
+      (KuuNativeF45Tree.node t₁ t₂) t₃).mapAxes F G).erasePhysical.erase.leaves =
+    ((KuuNativeF45Tree.node t₁
+      (KuuNativeF45Tree.node t₂ t₃)).mapAxes F G).erasePhysical.erase.leaves :=
   (KuuNativeF45Tree.DepthRotationRoute.assoc t₁ t₂ t₃).mapAxes_physical_leaves F G
 
 #print axioms KuuNativeF45Tree.DepthRotationRoute.mapAxes_ofLocalRotation
