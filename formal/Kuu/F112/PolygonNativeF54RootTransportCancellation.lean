@@ -74,14 +74,19 @@ theorem nativePackedRootMappedRotation_eq_assoc
           (KuuNativeF45Tree.LocalRotation.assoc
             (t₁.mapAxes F G) (t₂.mapAxes F G) (t₃.mapAxes F G))) :=
       congrArg (Eq.mp (congrArg P h)) hmap
-    _ = _ := rootTransport_cancel h P _
+    _ = KuuNativeF45Tree.LocalRotation.assoc
+        (t₁.mapAxes F G) (t₂.mapAxes F G) (t₃.mapAxes F G) :=
+      rootTransport_cancel h P _
 
 /-- Discharge the exact F4-J normalization structure without an axiom. -/
 def nativeF54RootStepNormalization
     (F : A ⥤ C) (G : B ⥤ D) :
     KuuNativeF54RootStepNormalization F G where
-  step := fun _ t₁ t₂ t₃ =>
-    nativePackedRootMappedRotation_eq_assoc F G t₁ t₂ t₃
+  step := fun p {_a _b} {_x _y}
+    {_n₁ _n₂ _n₃ _m₁ _m₂ _m₃}
+    {_p₀ _p₁ _p₂ _p₃} {_q₀ _q₁ _q₂ _q₃}
+    t₁ t₂ t₃ =>
+      nativePackedRootMappedRotation_eq_assoc F G t₁ t₂ t₃
 
 #print axioms nativePackedRootMappedRotation_eq_assoc
 #print axioms nativeF54RootStepNormalization
