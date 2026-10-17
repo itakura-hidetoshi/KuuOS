@@ -16,11 +16,16 @@ open CategoryTheory
 set_option autoImplicit false
 noncomputable section
 
-universe uA vA uB vB uC vC uD vD
+universe uA vA uB vB uC vC uD vD u
 variable {A : Type uA} [Category.{vA} A]
 variable {B : Type uB} [Category.{vB} B]
 variable {C : Type uC} [Category.{vC} C]
 variable {D : Type uD} [Category.{vD} D]
+
+private theorem f54_eq_mp_mpr_cancel {U V : Sort u}
+    (h : U = V) (v : V) : h.mp (h.mpr v) = v := by
+  cases h
+  rfl
 
 /-- Normalize the actual proof-relevant root LocalRotation witness
 AFTER transporting its dependent source tree equality as one unit. -/
@@ -61,11 +66,7 @@ theorem KuuNativeF45Tree.LocalRotation.mapAxes_assoc_transport
       (t₁.mapAxes F G) (t₂.mapAxes F G) (t₃.mapAxes F G))) =
         KuuNativeF45Tree.LocalRotation.assoc
           (t₁.mapAxes F G) (t₂.mapAxes F G) (t₃.mapAxes F G)
-  have lemma {X Y : Sort _} (h : X = Y) (v : Y) :
-      h.mp (h.mpr v) = v := by
-    cases h
-    rfl
-  exact lemma htype _
+  exact f54_eq_mp_mpr_cancel htype _
 
 /-- Transport full original root Sigma packet with actual
 source and target, exact intermediate tree, path and oriented edge. -/
