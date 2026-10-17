@@ -200,10 +200,7 @@ theorem KuuNativeBlocks.singleton_flatten_eq_emptyPrefix {x y : C}
     (p : KuuNativePath x y) :
     (KuuNativeBlocks.singleton p).flatten =
       (KuuNativeBlocks.withEmptyPrefix p).flatten := by
-  change ((KuuNativePath.nil x).append p) =
-    (KuuNativePath.nil x).append ((KuuNativePath.nil x).append p)
-  exact (KuuNativePath.append_assoc (.nil x) (.nil x) p).symm.trans (by
-    rfl)
+  rfl
 
 #print axioms KuuNativePath.length_append
 #print axioms KuuNativePath.composite_append
