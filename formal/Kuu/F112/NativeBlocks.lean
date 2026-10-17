@@ -81,11 +81,10 @@ theorem KuuNativePath.composite_append {x y z : C}
     (p.append q).composite = p.composite ≫ q.composite := by
   induction q with
   | nil =>
-      change p.composite = p.composite ≫ 𝟙 _
-      exact (Category.comp_id _).symm
+      simp only [KuuNativePath.append, KuuNativePath.composite,
+        Category.comp_id]
   | snoc q f ih =>
-      change (p.append q).composite ≫ f =
-        p.composite ≫ (q.composite ≫ f)
+      simp only [KuuNativePath.append, KuuNativePath.composite]
       rw [ih, Category.assoc]
 
 theorem KuuNativePath.append_assoc {w x y z : C}
@@ -135,11 +134,16 @@ theorem KuuNativeBlocks.composite_eq_flatten {x y : C}
     p.composite = p.flatten.composite := by
   induction p with
   | empty =>
-      rfl
+      simp only [KuuNativeBlocks.composite,
+        KuuNativeBlocks.flatten, KuuNativePath.composite]
   | snoc p q ih =>
-      change p.composite ≫ q.composite =
-        (p.flatten.append q).composite
-      rw [KuuNativePath.composite_append, ih]
+      calc
+        (KuuNativeBlocks.snoc p q).composite =
+            p.composite ≫ q.composite := rfl
+        _ = p.flatten.composite ≫ q.composite := by rw [ih]
+        _ = (p.flatten.append q).composite :=
+          (KuuNativePath.composite_append _ _).symm
+        _ = (KuuNativeBlocks.snoc p q).flatten.composite := rfl
 
 /-- The precise original-shaped F40 associativity holds on raw
 block terms, not merely after category evaluation or a quotient. -/
@@ -162,11 +166,18 @@ theorem KuuNativeBlocks.flatten_append {x y z : C}
     (p.append q).flatten = p.flatten.append q.flatten := by
   induction q with
   | empty =>
-      rfl
+      simp only [KuuNativeBlocks.append, KuuNativeBlocks.flatten,
+        KuuNativePath.append]
   | snoc q r ih =>
-      change (p.append q).flatten.append r =
-        p.flatten.append (q.flatten.append r)
-      rw [ih, KuuNativePath.append_assoc]
+      calc
+        (p.append (KuuNativeBlocks.snoc q r)).flatten =
+            (p.append q).flatten.append r := rfl
+        _ = (p.flatten.append q.flatten).append r :=
+          congrArg (fun z => z.append r) ih
+        _ = p.flatten.append (q.flatten.append r) :=
+          KuuNativePath.append_assoc _ _ _
+        _ = p.flatten.append
+            (KuuNativeBlocks.snoc q r).flatten := rfl
 
 /-- One actual proof-carrying native path as an independently chosen
 block, retaining the block separator even if that path is empty. -/
@@ -201,6 +212,8 @@ theorem KuuNativeBlocks.singleton_flatten_eq_emptyPrefix {x y : C}
     (p : KuuNativePath x y) :
     (KuuNativeBlocks.singleton p).flatten =
       (KuuNativeBlocks.withEmptyPrefix p).flatten := by
+  change (KuuNativePath.nil x).append p =
+    ((KuuNativePath.nil x).append (KuuNativePath.nil x)).append p
   rfl
 
 #print axioms KuuNativePath.length_append
