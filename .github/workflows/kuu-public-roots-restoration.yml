@@ -1,0 +1,53 @@
+name: KuuOS Public Proof Roots Restoration
+
+on:
+  push:
+    branches: ['repair/restore-public-proof-roots']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: public-proof-roots-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  inventory:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Capture exact tracked source for dependency analysis
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/public-proof-roots
+          git rev-parse HEAD | tee artifacts/public-proof-roots/source-sha.txt
+          git archive --format=tar HEAD | gzip -n > artifacts/public-proof-roots/source.tar.gz
+          sha256sum artifacts/public-proof-roots/source.tar.gz
+          python3 - <<'PY'
+          import pathlib, tomllib
+          root = pathlib.Path('.')
+          old = tomllib.loads((root/'legacy/v5.291/lakefile.toml').read_text())
+          new = tomllib.loads((root/'lakefile.toml').read_text())
+          before = {r for lib in old['lean_lib'] for r in lib.get('roots', [])}
+          after = {r for lib in new['lean_lib'] for r in lib.get('roots', [])}
+          print('PREVIOUS_PUBLIC_ROOT_COUNT', len(before))
+          print('MISSING_PUBLIC_ROOT_COUNT', len(before-after))
+          print('\n'.join(sorted(before-after)))
+          PY
+      - name: Public API regression
+        run: python3 -m unittest discover -s tests -p test_public_root_restoration.py -v
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: public-proof-roots-${{ github.run_id }}
+          path: artifacts/public-proof-roots/
+          if-no-files-found: error
+          retention-days: 7
