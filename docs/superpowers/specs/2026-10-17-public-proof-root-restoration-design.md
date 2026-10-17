@@ -19,3 +19,7 @@ Read the complete tracked tree and classify actual import closures before finali
 ## Clarification: mathlib is not Gray
 
 All original and independent Lean proofs may use mathlib without restriction on import breadth. Both `import Mathlib` and imports of named submodules (e.g. `import Mathlib.CategoryTheory.Quotient`) are valid. Focused imports are only an optional build-performance preference, not a CI gate. Never infer a Gray dependency merely from mathlib usage. Only actual old Gray/F51/F77-dependent definitions must remain outside the independent `Kuu` foundation. No theorem rewriting, mathlib pin change, or user revalidation is entailed by this clarification.
+
+## One canonical formal entry (2026-10-17)
+
+The user rejected the apparent mathematical split between KuuOSFormal and KuuOSStrict. Publish the original 107 roots in the single existing Lake library and make `KuuOSFormal` the only recommended standard build. `KuuOSStrict` and `Kuu` are internal import modules, not additional public roots or distinct theorem authorities. The public aggregate keeps importing new and retained proof modules. A focused CI module build is merely an incremental build optimization; it neither demotes existing proofs nor changes their mathematical acceptance. Preserve every existing Lean theorem and the pending F112 import contract.

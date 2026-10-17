@@ -156,7 +156,7 @@ import KUOS.WORLD.KuuOSLifecycleStageV0_19
 /-!
 Public aggregate: retain every previously published proof and its original
 statement/assumptions, alongside the independent Kuu core. KuuOSStrict is the
-separate foundational entry; publishing retained proofs does not make their
+internal Kuu import aggregate; publishing retained proofs does not make their
 imports prerequisites of Kuu. Existing proof authority is not reset by this
 build-wiring repair. No theorem is reproved or renamed here.
 -/

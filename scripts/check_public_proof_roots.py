@@ -23,6 +23,8 @@ def check(root: Path) -> dict:
             errors.append('removed public roots: ' + ', '.join(missing))
         if len(published) != len(set(published)):
             errors.append('duplicate public roots')
+        if {'KuuOSStrict', 'Kuu'} & set(published):
+            errors.append('Kuu modules are internal modules, not separate published roots')
         for name in published:
             if not (root / 'formal' / (name.replace('.', '/') + '.lean')).is_file():
                 errors.append('missing public source: ' + name)

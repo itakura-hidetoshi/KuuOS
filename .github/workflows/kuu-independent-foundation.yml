@@ -62,7 +62,10 @@ jobs:
           lint: false
           use-mathlib-cache: true
           use-github-cache: true
-      - name: Check current mathematical foundation
+      # Focused incremental compilation of an internal import subgraph.
+      # It is NOT an alternative canonical build or a separate theorem authority.
+      # KuuOSFormal remains the single public aggregate, checked by normal Lean CI.
+      - name: Focused incremental Kuu module compilation
         shell: bash
         run: |
           set -euo pipefail

@@ -88,8 +88,8 @@ def check(root: Path) -> dict:
         elif libraries[0].get('srcDir') != 'formal':
             errors.append('current source directory must be formal')
         else:
-            if not {'KuuOSStrict', 'Kuu'} <= set(libraries[0].get('roots', [])):
-                errors.append('independent Kuu roots are missing from the public package')
+            if 'KuuOSFormal' not in libraries[0].get('roots', []):
+                errors.append('canonical KuuOSFormal root missing from the public package')
     except (OSError, tomllib.TOMLDecodeError) as exc:
         errors.append(f'configuration: {exc}')
     pending = sorted(current)

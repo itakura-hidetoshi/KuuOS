@@ -17,7 +17,7 @@ class FoundationBoundaryTest(unittest.TestCase):
 
     def base(self, source='import Kuu.Presentation\n'):
         return {
-            'lakefile.toml': 'name = "KuuOS"\ndefaultTargets = ["KuuOSFormal"]\n[[lean_lib]]\nname = "KuuOSFormal"\nsrcDir = "formal"\nroots = ["KuuOSFormal", "KuuOSStrict", "Kuu"]\n',
+            'lakefile.toml': 'name = "KuuOS"\ndefaultTargets = ["KuuOSFormal"]\n[[lean_lib]]\nname = "KuuOSFormal"\nsrcDir = "formal"\nroots = ["KuuOSFormal"]\n',
             'formal/KuuOSFormal.lean': 'import KuuOSStrict\n',
             'formal/KuuOSStrict.lean': source,
             'formal/Kuu.lean': 'import Kuu.Presentation\n',
