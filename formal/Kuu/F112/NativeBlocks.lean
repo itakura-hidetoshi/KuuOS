@@ -139,7 +139,8 @@ theorem KuuNativeBlocks.composite_eq_flatten {x y : C}
   | snoc p q ih =>
       calc
         (KuuNativeBlocks.snoc p q).composite =
-            p.composite ≫ q.composite := rfl
+            p.composite ≫ q.composite := by
+              simp only [KuuNativeBlocks.composite]
         _ = p.flatten.composite ≫ q.composite := by rw [ih]
         _ = (p.flatten.append q).composite :=
           (KuuNativePath.composite_append _ _).symm
@@ -172,7 +173,8 @@ theorem KuuNativeBlocks.flatten_append {x y z : C}
   | snoc q r ih =>
       calc
         (p.append (KuuNativeBlocks.snoc q r)).flatten =
-            (p.append q).flatten.append r := rfl
+            (p.append q).flatten.append r := by
+              simp only [KuuNativeBlocks.append, KuuNativeBlocks.flatten]
         _ = (p.flatten.append q.flatten).append r :=
           congrArg (fun z => z.append r) ih
         _ = p.flatten.append (q.flatten.append r) :=
