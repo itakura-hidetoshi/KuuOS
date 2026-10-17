@@ -41,4 +41,5 @@ import Kuu.F112.PolygonNativeF54Chains
 import Kuu.F112.PolygonNativeF54DepthRoutes
 import Kuu.F112.PolygonNativeF55Square
 import Kuu.F112.PolygonNativeF55Presented
+import Kuu.F112.PolygonNativeF55Shadow
 /-! Current independent Kuu foundation. No legacy KUOS imports are permitted. -/
