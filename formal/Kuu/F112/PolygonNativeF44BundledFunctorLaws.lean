@@ -188,7 +188,8 @@ theorem KuuNativeF44BundledExchange.histories_toExchange
     {a b : A} {x y : B} {n m : Nat}
     (s : KuuNativeF44BundledExchange a b x y n m) :
     s.histories.toExchange = s := by
-  apply KuuNativeF44BundledExchange.ext rfl rfl rfl rfl
+  apply KuuNativeF44BundledExchange.ext
+    (s := s.histories.toExchange) (t := s) rfl rfl rfl rfl
   exact heq_of_eq ((KuuNativeF44ExchangeClass.historyEquiv
     s.firstSource s.firstTarget s.secondSource s.secondTarget).symm_apply_apply s.execution)
 
@@ -201,7 +202,8 @@ theorem KuuNativeF44BundledHistories.toExchange_histories
   have h := (KuuNativeF44ExchangeClass.historyEquiv
     s.firstSource s.firstTarget s.secondSource s.secondTarget).apply_symm_apply
       (s.firstHistory, s.secondHistory)
-  apply KuuNativeF44BundledHistories.ext rfl rfl rfl rfl
+  apply KuuNativeF44BundledHistories.ext
+    (s := s.toExchange.histories) (t := s) rfl rfl rfl rfl
   · exact heq_of_eq (congrArg Prod.fst h)
   · exact heq_of_eq (congrArg Prod.snd h)
 
@@ -223,7 +225,9 @@ theorem KuuNativeF44BundledExchange.histories_mapAxes
     {a b : A} {x y : B} {n m : Nat}
     (s : KuuNativeF44BundledExchange a b x y n m) :
     (s.mapAxes F G).histories = s.histories.mapAxes F G := by
-  apply KuuNativeF44BundledHistories.ext rfl rfl rfl rfl
+  apply KuuNativeF44BundledHistories.ext
+    (s := (s.mapAxes F G).histories)
+    (t := s.histories.mapAxes F G) rfl rfl rfl rfl
   · exact heq_of_eq (congrArg Prod.fst (s.execution.histories_mapAxes F G))
   · exact heq_of_eq (congrArg Prod.snd (s.execution.histories_mapAxes F G))
 
