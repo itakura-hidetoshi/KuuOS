@@ -48,4 +48,5 @@ import Kuu.F112.PolygonNativeF55Receivers
 import Kuu.F112.PolygonNativeF55ChargeRigidity
 import Kuu.F112.PolygonNativeF55PhaseChoice
 import Kuu.F112.PolygonNativeF41ComparisonObstruction
+import Kuu.F112.PolygonNativeF45PropTraceComparison
 /-! Current independent Kuu foundation. No legacy KUOS imports are permitted. -/
