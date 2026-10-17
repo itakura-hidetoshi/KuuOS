@@ -62,4 +62,5 @@ import Kuu.F112.PolygonNativeF55NorthPentagonTransport
 import Kuu.F112.PolygonNativeF55UnitDepthPentagonTransport
 import Kuu.F112.PolygonNativeF55MixedDepthPentagonTransport
 import Kuu.F112.PolygonNativeF55SymbolicTailPentagon
+import Kuu.F112.PolygonNativeF54GeneralCastCoherence
 /-! Current independent Kuu foundation. No legacy KUOS imports are permitted. -/
