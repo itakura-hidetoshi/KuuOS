@@ -72,8 +72,8 @@ theorem KuuNativePath.composite_map (H : C ⥤ D)
     (p.map H).composite = H.map p.composite := by
   induction p with
   | nil =>
-      simp only [KuuNativePath.map, KuuNativePath.composite,
-        Functor.map_id]
+      simpa only [KuuNativePath.map, KuuNativePath.composite] using
+        (H.map_id x).symm
   | snoc p f ih =>
       simp only [KuuNativePath.map, KuuNativePath.composite,
         Functor.map_comp, ih]
