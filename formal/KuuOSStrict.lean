@@ -35,4 +35,5 @@ import Kuu.F112.PolygonDepthTraceCells
 import Kuu.F112.NativeBlocks
 import Kuu.F112.PolygonNativeBlocks
 import Kuu.F112.NativeAxisTraces
+import Kuu.F112.PolygonNativeF45Source
 /-! Current independent Kuu foundation. No legacy KUOS imports are permitted. -/
