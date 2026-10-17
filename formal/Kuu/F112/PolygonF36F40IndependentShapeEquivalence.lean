@@ -52,21 +52,19 @@ theorem KuuF36ShapePath.toNative_ofNative
     {x y : C} (p : KuuNativePath x y) :
     (KuuF36ShapePath.ofNative p).toNative = p := by
   induction p with
-  | nil => rfl
+  | nil =>
+      simp only [KuuF36ShapePath.ofNative, KuuF36ShapePath.toNative]
   | snoc p f ih =>
-      change KuuNativePath.snoc
-        (KuuF36ShapePath.ofNative p).toNative f = .snoc p f
-      rw [ih]
+      simp only [KuuF36ShapePath.ofNative, KuuF36ShapePath.toNative, ih]
 
 theorem KuuF36ShapePath.ofNative_toNative
     {x y : C} (p : KuuF36ShapePath x y) :
     KuuF36ShapePath.ofNative p.toNative = p := by
   induction p with
-  | nil => rfl
+  | nil =>
+      simp only [KuuF36ShapePath.ofNative, KuuF36ShapePath.toNative]
   | snoc p f ih =>
-      change KuuF36ShapePath.snoc
-        (KuuF36ShapePath.ofNative p.toNative) f = .snoc p f
-      rw [ih]
+      simp only [KuuF36ShapePath.ofNative, KuuF36ShapePath.toNative, ih]
 
 /-- REAL independent fiberwise Type equivalence of exact two-
 constructor presentations, not a historical KUOS type identity. -/
@@ -99,30 +97,35 @@ theorem KuuF36ShapePath.toNative_composite
     {x y : C} (p : KuuF36ShapePath x y) :
     p.toNative.composite = p.composite := by
   induction p with
-  | nil => rfl
+  | nil =>
+      simp only [KuuF36ShapePath.toNative, KuuNativePath.composite,
+        KuuF36ShapePath.composite]
   | snoc p f ih =>
-      change p.toNative.composite ≫ f = p.composite ≫ f
-      rw [ih]
+      simp only [KuuF36ShapePath.toNative, KuuNativePath.composite,
+        KuuF36ShapePath.composite, ih]
 
 theorem KuuF36ShapePath.toNative_length
     {x y : C} (p : KuuF36ShapePath x y) :
     p.toNative.length = p.length := by
   induction p with
-  | nil => rfl
+  | nil =>
+      simp only [KuuF36ShapePath.toNative, KuuNativePath.length,
+        KuuF36ShapePath.length]
   | snoc p f ih =>
-      change p.toNative.length + 1 = p.length + 1
-      rw [ih]
+      simp only [KuuF36ShapePath.toNative, KuuNativePath.length,
+        KuuF36ShapePath.length, ih]
 
 theorem KuuF36ShapePath.toNative_append
     {x y z : C} (p : KuuF36ShapePath x y)
     (q : KuuF36ShapePath y z) :
     (p.append q).toNative = p.toNative.append q.toNative := by
   induction q with
-  | nil => rfl
+  | nil =>
+      simp only [KuuF36ShapePath.append, KuuF36ShapePath.toNative,
+        KuuNativePath.append]
   | snoc q f ih =>
-      change KuuNativePath.snoc (p.append q).toNative f =
-        KuuNativePath.snoc (p.toNative.append q.toNative) f
-      rw [ih]
+      simp only [KuuF36ShapePath.append, KuuF36ShapePath.toNative,
+        KuuNativePath.append, ih]
 
 /-- Exactly the frozen F40 Grid.Blocks TWO-CONSTRUCTOR SHAPE over
 the independently defined F36 paths. Each snoc stores a WHOLE path. -/
@@ -145,23 +148,21 @@ theorem KuuF40ShapeBlocks.toNative_ofNative
     {x y : C} (p : KuuNativeBlocks x y) :
     (KuuF40ShapeBlocks.ofNative p).toNative = p := by
   induction p with
-  | empty => rfl
+  | empty =>
+      simp only [KuuF40ShapeBlocks.ofNative, KuuF40ShapeBlocks.toNative]
   | snoc p q ih =>
-      change KuuNativeBlocks.snoc
-        (KuuF40ShapeBlocks.ofNative p).toNative
-        (KuuF36ShapePath.ofNative q).toNative = .snoc p q
-      rw [ih, KuuF36ShapePath.toNative_ofNative]
+      simp only [KuuF40ShapeBlocks.ofNative, KuuF40ShapeBlocks.toNative,
+        KuuF36ShapePath.toNative_ofNative, ih]
 
 theorem KuuF40ShapeBlocks.ofNative_toNative
     {x y : C} (p : KuuF40ShapeBlocks x y) :
     KuuF40ShapeBlocks.ofNative p.toNative = p := by
   induction p with
-  | empty => rfl
+  | empty =>
+      simp only [KuuF40ShapeBlocks.toNative, KuuF40ShapeBlocks.ofNative]
   | snoc p q ih =>
-      change KuuF40ShapeBlocks.snoc
-        (KuuF40ShapeBlocks.ofNative p.toNative)
-        (KuuF36ShapePath.ofNative q.toNative) = .snoc p q
-      rw [ih, KuuF36ShapePath.ofNative_toNative]
+      simp only [KuuF40ShapeBlocks.toNative, KuuF40ShapeBlocks.ofNative,
+        KuuF36ShapePath.ofNative_toNative, ih]
 
 /-- Retains ALL original-shaped categorical Hom arrows, EVERY
 intermediate C object and ALL F40 segmentation boundaries. -/
@@ -197,41 +198,46 @@ theorem KuuF40ShapeBlocks.toNative_blockCount
     {x y : C} (p : KuuF40ShapeBlocks x y) :
     p.toNative.blockCount = p.blockCount := by
   induction p with
-  | empty => rfl
+  | empty =>
+      simp only [KuuF40ShapeBlocks.toNative, KuuNativeBlocks.blockCount,
+        KuuF40ShapeBlocks.blockCount]
   | snoc p q ih =>
-      change p.toNative.blockCount + 1 = p.blockCount + 1
-      rw [ih]
+      simp only [KuuF40ShapeBlocks.toNative, KuuNativeBlocks.blockCount,
+        KuuF40ShapeBlocks.blockCount, ih]
 
 theorem KuuF40ShapeBlocks.toNative_flatten
     {x y : C} (p : KuuF40ShapeBlocks x y) :
     p.flatten.toNative = p.toNative.flatten := by
   induction p with
-  | empty => rfl
+  | empty =>
+      simp only [KuuF40ShapeBlocks.flatten, KuuF36ShapePath.toNative,
+        KuuF40ShapeBlocks.toNative, KuuNativeBlocks.flatten]
   | snoc p q ih =>
-      change (p.flatten.append q).toNative =
-        p.toNative.flatten.append q.toNative
-      rw [KuuF36ShapePath.toNative_append, ih]
+      simp only [KuuF40ShapeBlocks.flatten, KuuF40ShapeBlocks.toNative,
+        KuuNativeBlocks.flatten, KuuF36ShapePath.toNative_append, ih]
 
 theorem KuuF40ShapeBlocks.toNative_composite
     {x y : C} (p : KuuF40ShapeBlocks x y) :
     p.toNative.composite = p.composite := by
   induction p with
-  | empty => rfl
+  | empty =>
+      simp only [KuuF40ShapeBlocks.toNative, KuuNativeBlocks.composite,
+        KuuF40ShapeBlocks.composite]
   | snoc p q ih =>
-      change p.toNative.composite ≫ q.toNative.composite =
-        p.composite ≫ q.composite
-      rw [ih, KuuF36ShapePath.toNative_composite]
+      simp only [KuuF40ShapeBlocks.toNative, KuuNativeBlocks.composite,
+        KuuF40ShapeBlocks.composite, KuuF36ShapePath.toNative_composite, ih]
 
 theorem KuuF40ShapeBlocks.toNative_append
     {x y z : C} (p : KuuF40ShapeBlocks x y)
     (q : KuuF40ShapeBlocks y z) :
     (p.append q).toNative = p.toNative.append q.toNative := by
   induction q with
-  | empty => rfl
+  | empty =>
+      simp only [KuuF40ShapeBlocks.append, KuuF40ShapeBlocks.toNative,
+        KuuNativeBlocks.append]
   | snoc q s ih =>
-      change KuuNativeBlocks.snoc (p.append q).toNative s.toNative =
-        KuuNativeBlocks.snoc (p.toNative.append q.toNative) s.toNative
-      rw [ih]
+      simp only [KuuF40ShapeBlocks.append, KuuF40ShapeBlocks.toNative,
+        KuuNativeBlocks.append, ih]
 
 /-- The HISTORICAL-shaped F40 raw block boundary is NEVER silently
 flattened away. Even a block containing an empty path remains data. -/
@@ -262,7 +268,7 @@ theorem KuuF40ShapeBlocks.oneBlock_flatten_eq_prependEmpty
   rw [KuuF40ShapeBlocks.toNative_flatten,
     KuuF40ShapeBlocks.toNative_flatten]
   simpa only [KuuF40ShapeBlocks.oneBlock, KuuF40ShapeBlocks.prependEmpty,
-    KuuF40ShapeBlocks.toNative,
+    KuuF40ShapeBlocks.toNative, KuuF36ShapePath.toNative,
     KuuNativeBlocks.singleton, KuuNativeBlocks.withEmptyPrefix] using
       (KuuNativeBlocks.singleton_flatten_eq_emptyPrefix p.toNative)
 
