@@ -63,7 +63,7 @@ theorem KuuNativePath.length_append {x y z : C}
     (p : KuuNativePath x y) (q : KuuNativePath y z) :
     (p.append q).length = p.length + q.length := by
   induction q with
-  | nil _ =>
+  | nil =>
       rfl
   | snoc q f ih =>
       change (p.append q).length + 1 = p.length + (q.length + 1)
@@ -71,15 +71,16 @@ theorem KuuNativePath.length_append {x y z : C}
 
 /-- Typed native category composite, independently of the uncollapsed
 source path tree (which retains each individual original arrow). -/
-def KuuNativePath.composite {x y : C} : KuuNativePath x y → (x ⟶ y)
-  | .nil x => 𝟙 x
-  | .snoc p f => p.composite ≫ f
+def KuuNativePath.composite :
+    ∀ {x y : C}, KuuNativePath x y → (x ⟶ y)
+  | _, _, .nil x => 𝟙 x
+  | _, _, .snoc p f => p.composite ≫ f
 
 theorem KuuNativePath.composite_append {x y z : C}
     (p : KuuNativePath x y) (q : KuuNativePath y z) :
     (p.append q).composite = p.composite ≫ q.composite := by
   induction q with
-  | nil _ =>
+  | nil =>
       change p.composite = p.composite ≫ 𝟙 _
       exact (Category.comp_id _).symm
   | snoc q f ih =>
@@ -92,7 +93,7 @@ theorem KuuNativePath.append_assoc {w x y z : C}
     (r : KuuNativePath y z) :
     (p.append q).append r = p.append (q.append r) := by
   induction r with
-  | nil _ =>
+  | nil =>
       rfl
   | snoc r f ih =>
       change KuuNativePath.snoc ((p.append q).append r) f =
@@ -115,17 +116,17 @@ def KuuNativeBlocks.append {x y z : C}
 
 /-- Crucially, the flattening only forgets subdivision boundaries,
 retaining the original ORDER of every native categorical arrow. -/
-def KuuNativeBlocks.flatten {x y : C} :
-    KuuNativeBlocks x y → KuuNativePath x y
-  | .empty x => .nil x
-  | .snoc p q => p.flatten.append q
+def KuuNativeBlocks.flatten :
+    ∀ {x y : C}, KuuNativeBlocks x y → KuuNativePath x y
+  | _, _, .empty x => .nil x
+  | _, _, .snoc p q => p.flatten.append q
 
 /-- Evaluate the original independent native blocks in the
 underlying category without collapsing their source syntax. -/
-def KuuNativeBlocks.composite {x y : C} :
-    KuuNativeBlocks x y → (x ⟶ y)
-  | .empty x => 𝟙 x
-  | .snoc p q => p.composite ≫ q.composite
+def KuuNativeBlocks.composite :
+    ∀ {x y : C}, KuuNativeBlocks x y → (x ⟶ y)
+  | _, _, .empty x => 𝟙 x
+  | _, _, .snoc p q => p.composite ≫ q.composite
 
 /-- Original F40-shaped law: evaluation of a block subdivision is
 EXACTLY evaluation of the ordered flattened categorical path. -/
@@ -133,7 +134,7 @@ theorem KuuNativeBlocks.composite_eq_flatten {x y : C}
     (p : KuuNativeBlocks x y) :
     p.composite = p.flatten.composite := by
   induction p with
-  | empty _ =>
+  | empty =>
       rfl
   | snoc p q ih =>
       change p.composite ≫ q.composite =
@@ -147,7 +148,7 @@ theorem KuuNativeBlocks.append_assoc {w x y z : C}
     (r : KuuNativeBlocks y z) :
     (p.append q).append r = p.append (q.append r) := by
   induction r with
-  | empty _ =>
+  | empty =>
       rfl
   | snoc r s ih =>
       change KuuNativeBlocks.snoc ((p.append q).append r) s =
@@ -160,7 +161,7 @@ theorem KuuNativeBlocks.flatten_append {x y z : C}
     (p : KuuNativeBlocks x y) (q : KuuNativeBlocks y z) :
     (p.append q).flatten = p.flatten.append q.flatten := by
   induction q with
-  | empty _ =>
+  | empty =>
       rfl
   | snoc q r ih =>
       change (p.append q).flatten.append r =
