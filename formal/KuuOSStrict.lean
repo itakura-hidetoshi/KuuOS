@@ -65,4 +65,5 @@ import Kuu.F112.PolygonNativeF55SymbolicTailPentagon
 import Kuu.F112.PolygonNativeF54GeneralCastCoherence
 import Kuu.F112.PolygonNativeF54GeneralRootReduction
 import Kuu.F112.PolygonNativeF54PackedCastRotation
+import Kuu.F112.PolygonNativeF54PackedRootNaturality
 /-! Current independent Kuu foundation. No legacy KUOS imports are permitted. -/
