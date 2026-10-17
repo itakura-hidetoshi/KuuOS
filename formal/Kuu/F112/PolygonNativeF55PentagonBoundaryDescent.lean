@@ -98,14 +98,14 @@ def KuuNativeF55PentagonBoundaryComparison.toMappedData
     (F : A ⥤ A₂) (G : B ⥤ B₂)
     (h : KuuNativeF55PentagonBoundaryComparison F G) :
     KuuNativeF55MappedPentagonData F G where
-  pentagon := fun p {a b} {x y}
-      {n₁ n₂ n₃ n₄ m₁ m₂ m₃ m₄}
-      {p₀ p₁ p₂ p₃ p₄} {q₀ q₁ q₂ q₃ q₄}
+  pentagon := fun p {_a _b} {_x _y}
+      {_n₁ _n₂ _n₃ _n₄ _m₁ _m₂ _m₃ _m₄}
+      {_p₀ _p₁ _p₂ _p₃ _p₄} {_q₀ _q₁ _q₂ _q₃ _q₄}
       t₁ t₂ t₃ t₄ =>
     (h.lift F G p t₁ t₂ t₃ t₄).1
-  pentagonTag := fun p {a b} {x y}
-      {n₁ n₂ n₃ n₄ m₁ m₂ m₃ m₄}
-      {p₀ p₁ p₂ p₃ p₄} {q₀ q₁ q₂ q₃ q₄}
+  pentagonTag := fun p {_a _b} {_x _y}
+      {_n₁ _n₂ _n₃ _n₄ _m₁ _m₂ _m₃ _m₄}
+      {_p₀ _p₁ _p₂ _p₃ _p₄} {_q₀ _q₁ _q₂ _q₃ _q₄}
       t₁ t₂ t₃ t₄ =>
     (h.lift F G p t₁ t₂ t₃ t₄).2
 
