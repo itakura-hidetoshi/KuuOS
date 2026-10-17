@@ -31,16 +31,16 @@ def KuuNativeAxisTrace.splitAppend
     (whole : KuuNativeAxisTrace (n + m) source target) :
     Σ middle : KuuNativeBlocks x y,
       Σ first : KuuNativeAxisTrace n source middle,
-        Σ second : KuuNativeAxisTrace m middle target,
-          first.append second = whole := by
+        { second : KuuNativeAxisTrace m middle target //
+          first.append second = whole } := by
   induction m generalizing target with
   | zero =>
-      exact ⟨target, whole, .refl target, rfl⟩
+      exact ⟨target, whole, ⟨.refl target, rfl⟩⟩
   | succ m ih =>
       cases whole with
       | snoc preceding step =>
-          rcases ih preceding with ⟨middle, first, second, hjoin⟩
-          refine ⟨middle, first, .snoc second step, ?_⟩
+          rcases ih preceding with ⟨middle, first, ⟨second, hjoin⟩⟩
+          refine ⟨middle, first, ⟨.snoc second step, ?_⟩⟩
           exact congrArg (fun t => KuuNativeAxisTrace.snoc t step) hjoin
 
 /-- Erasing only the Sigma wrappers recovers the ORIGINAL entire
