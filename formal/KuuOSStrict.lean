@@ -51,4 +51,5 @@ import Kuu.F112.PolygonNativeF41ComparisonObstruction
 import Kuu.F112.PolygonNativeF45PropTraceComparison
 import Kuu.F112.PolygonNativeF40FunctorComparison
 import Kuu.F112.PolygonNativeF45FunctorAxes
+import Kuu.F112.PolygonNativeF54FunctorChains
 /-! Current independent Kuu foundation. No legacy KUOS imports are permitted. -/
