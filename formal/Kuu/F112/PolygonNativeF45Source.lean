@@ -227,13 +227,15 @@ theorem northNativeF45TwoStages_leaves :
        firstFourPolygonSector (.pentagon .north) 1] := by
   rfl
 
-/-- The REAL first and second complete original-shaped native
-histories both have EXACT depth two; no single shared depth is used. -/
-theorem northNativeF45TwoStages_axis_depths :
-    (northNativeF45TwoStages.axisHistories.1.flatten_eq) ∧
-      (northNativeF45TwoStages.axisHistories.2.flatten_eq) :=
-  ⟨northNativeF45TwoStages.axisHistories.1.flatten_eq,
-    northNativeF45TwoStages.axisHistories.2.flatten_eq⟩
+/-- BOTH complete original-shaped native histories preserve
+their original ordered categorical arrows independently, even after
+the two composable source refinement stages. -/
+theorem northNativeF45TwoStages_axis_preserved :
+    northPentagonNativeDualAxisFrame.firstAxis.flatten =
+      northNativeF45FirstTwice.flatten ∧
+    northPentagonNativeDualAxisFrame.secondAxis.flatten =
+      northNativeF45SecondTwice.flatten :=
+  northNativeF45TwoStages.axis_flatten_preserved
 
 #print axioms KuuNativeF45Tree.axisHistories
 #print axioms KuuNativeF45Tree.erasePhysical
@@ -242,6 +244,6 @@ theorem northNativeF45TwoStages_axis_depths :
 #print axioms KuuNativeF45Tree.axis_composite_preserved
 #print axioms northNativeF45TwoStages
 #print axioms northNativeF45TwoStages_leaves
-#print axioms northNativeF45TwoStages_axis_depths
+#print axioms northNativeF45TwoStages_axis_preserved
 end
 end Kuu.F112.Physical
