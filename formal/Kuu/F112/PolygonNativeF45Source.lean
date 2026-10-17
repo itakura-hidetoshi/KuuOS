@@ -131,14 +131,14 @@ theorem KuuNativeF45Tree.erasePhysical_leaves
     {ma mb : KuuNativeBlocks a b}
     {pa pb : KuuNativeBlocks x y}
     (tree : KuuNativeF45Tree p n m ma pa mb pb) :
-    tree.erasePhysical.leaves = tree.sectors := by
+    tree.erasePhysical.erase.leaves = tree.sectors := by
   induction tree with
   | refl i ma pa =>
       rfl
   | leaf i order firstAxis secondAxis =>
       rfl
   | node first second ihFirst ihSecond =>
-      change first.erasePhysical.leaves ++ second.erasePhysical.leaves =
+      change first.erasePhysical.erase.leaves ++ second.erasePhysical.erase.leaves =
         first.sectors ++ second.sectors
       rw [ihFirst, ihSecond]
 
@@ -222,7 +222,7 @@ def northNativeF45TwoStages :
 /-- The physical projection of a true two-category ordered source
 node is a doubly Nat-indexed E7A tree over its genuine C60 sectors. -/
 theorem northNativeF45TwoStages_leaves :
-    northNativeF45TwoStages.erasePhysical.leaves =
+    northNativeF45TwoStages.erasePhysical.erase.leaves =
       [firstFourPolygonSector (.pentagon .north) 0,
        firstFourPolygonSector (.pentagon .north) 1] := by
   rfl
