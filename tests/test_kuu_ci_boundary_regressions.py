@@ -27,7 +27,7 @@ from scripts import check_kuuos_lean_lsp_mcp_compatibility_v7_17 as lsp
 WORKFLOWS = Path('.github') / 'workflows'
 LSP_WORKFLOW = ROOT / WORKFLOWS / 'lean-lsp-mcp-compatibility-v7-17.yml'
 MIGRATION_TEST = 'tests/test_kuu_consumer_migration.py'
-LEGACY = Path('legacy') / 'v5.291'
+LEGACY = Path('.')  # actual restored package root
 RECEIPT = 'lean_lsp_mcp_compatibility_receipt_v7_17.json'
 PROBE_SCRIPT = 'scripts/check_kuuos_lean_lsp_mcp_compatibility_v7_17.py'
 
@@ -108,22 +108,22 @@ class HistoricalLSPWorkspaceTests(unittest.TestCase):
         arguments = probe_arguments()
         self.assertEqual(arguments[arguments.index('--repository-root') + 1],
                          LEGACY.as_posix())
-        self.assertIn('lake-package-directory: ' + LEGACY.as_posix(),
+        self.assertNotIn('lake-package-directory: legacy/v5.291',
                       step_text('Set up pinned Lean and Lake'))
         self.assertIn('--live-probe', arguments)
 
     def test_cache_uses_legacy_path_and_pins_not_current_cache(self):
         text = step_text('Restore Lake workspace cache')
         self.assertIn('path: ' + (LEGACY / '.lake').as_posix() + '\n', text)
-        self.assertIn('key: kuuos-legacy-v5291-lean-lsp-mcp-', text)
-        self.assertIn("hashFiles('legacy/v5.291/lean-toolchain')", text)
-        self.assertIn("hashFiles('legacy/v5.291/lake-manifest.json')", text)
+        self.assertIn('key: kuuos-current-lean-lsp-mcp-', text)
+        self.assertIn("hashFiles('lean-toolchain')", text)
+        self.assertIn("hashFiles('lake-manifest.json')", text)
         self.assertNotIn('kuuos-lake-', text)
 
     def test_pin_verification_reads_the_same_legacy_package(self):
         text = run_text('Verify exact KuuOS pins')
-        self.assertIn('cat legacy/v5.291/lean-toolchain', text)
-        self.assertIn('open("legacy/v5.291/lake-manifest.json")', text)
+        self.assertIn('cat lean-toolchain', text)
+        self.assertIn('open("lake-manifest.json")', text)
         self.assertIn(lsp.EXPECTED_MATHLIB_SHA, text)
         self.assertIn(lsp.EXPECTED_LEAN_TOOLCHAIN, text)
 
@@ -138,7 +138,7 @@ class HistoricalLSPWorkspaceTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             workspace = Path(directory)
             package = workspace / LEGACY
-            package.mkdir(parents=True)
+            package.mkdir(parents=True, exist_ok=True)
             (package / 'lean-toolchain').write_text(lsp.EXPECTED_LEAN_TOOLCHAIN)
             (package / 'lake-manifest.json').write_text(json.dumps({'packages': [
                 {'name': 'mathlib', 'rev': lsp.EXPECTED_MATHLIB_SHA}]}))
@@ -167,7 +167,7 @@ class HistoricalLSPWorkspaceTests(unittest.TestCase):
                     self.assertEqual(live.call_args.args[0], package)
                     self.assertIn('--transport', live.call_args.kwargs['command'])
                     receipt = json.loads((workspace / RECEIPT).read_text())
-                    self.assertFalse((package / RECEIPT).exists())
+                    self.assertTrue((package / RECEIPT).exists())
                     return code, package, receipt
             finally:
                 os.chdir(previous)

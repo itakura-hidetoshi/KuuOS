@@ -72,7 +72,6 @@ jobs:
       - name: Set up pinned Lean and Lake
         uses: leanprover/lean-action@v1
         with:
-          lake-package-directory: legacy/v5.291
           auto-config: false
           build: false
           test: false
@@ -80,16 +79,16 @@ jobs:
           use-mathlib-cache: false
           use-github-cache: false
       - name: Resolve pinned dependencies
-        run: python3 scripts/run_formal_package.py --legacy -- update
+        run: lake update
       - name: Verify committed dependency manifest is canonical
-        run: git diff --exit-code -- lake-manifest.json legacy/v5.291/lake-manifest.json
+        run: git diff --exit-code -- lake-manifest.json
       - name: Fetch Mathlib olean cache
-        run: python3 scripts/run_formal_package.py --legacy -- exe cache get
+        run: lake exe cache get
       - name: Strictly compile Independent Verification formal root
         shell: bash
         run: |
           set -euo pipefail
-          python3 scripts/run_formal_package.py --legacy -- -KleanArgs=-DwarningAsError=true \
+          lake -KleanArgs=-DwarningAsError=true \
             -KleanArgs=-DsorryAsError=true \
             build KuuOSCodeAIIndependentVerificationV0_1 \
             2>&1 | tee codeai-independent-verification-v0-1-lean.log
@@ -97,7 +96,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          python3 scripts/run_formal_package.py --legacy -- -KleanArgs=-DwarningAsError=true \
+          lake -KleanArgs=-DwarningAsError=true \
             -KleanArgs=-DsorryAsError=true \
             build KuuOSFormal \
             2>&1 | tee codeai-independent-verification-v0-1-lean-root.log

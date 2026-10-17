@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
+import json
+
 import re
 
 from runtime.kuuos_gauge_field_self_organization_types_v0_60 import canonical_digest
@@ -134,10 +136,30 @@ def generate_repository_repair_candidates(
             "REGISTER_RUNTIME_VALIDATOR",
             validator,
         )
+    archived_roots = set()
+    archived_imports = set()
+    current_roots = set()
+    current_imports = set()
+    for path, text in texts.items():
+        if not path.startswith("manifests/") or not path.endswith(".json"):
+            continue
+        try:
+            payload = json.loads(text)
+        except (ValueError, TypeError):
+            continue
+        if not isinstance(payload, dict):
+            continue
+        is_archived = payload.get("formal_package", "current") == "legacy-v5.291"
+        roots = archived_roots if is_archived else current_roots
+        imports = archived_imports if is_archived else current_imports
+        if isinstance(payload.get("strict_formal_root"), str):
+            roots.add(payload["strict_formal_root"])
+        modules = payload.get("aggregate_lean_modules", [])
+        if isinstance(modules, list):
+            imports.update(m for m in modules if isinstance(m, str))
     for root_name in observation.missing_lake_roots:
-        if "import KuuOSStrict" in texts.get(LEAN_AGGREGATE_ROOT, ""):
-            if root_name not in {"KuuOSFormal", "KuuOSStrict", "Kuu"}:
-                continue  # defect remains visible; no unauthorized legacy repair
+        if root_name in archived_roots - current_roots:
+            continue
         add(
             LAKEFILE,
             _register_lake_root(texts.get(LAKEFILE, ""), root_name),
@@ -145,9 +167,8 @@ def generate_repository_repair_candidates(
             root_name,
         )
     for module in observation.missing_aggregate_imports:
-        if "import KuuOSStrict" in texts.get(LEAN_AGGREGATE_ROOT, ""):
-            if not (module == "KuuOSStrict" or module == "Kuu" or module.startswith("Kuu.")):
-                continue  # keep the obstruction, never import KUOS into Kuu
+        if module in archived_imports - current_imports:
+            continue
         add(
             LEAN_AGGREGATE_ROOT,
             _register_aggregate_import(texts.get(LEAN_AGGREGATE_ROOT, ""), module),

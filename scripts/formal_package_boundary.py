@@ -1,6 +1,6 @@
-"""Explicit package boundaries for current proofs and historical validation.
+"""Explicit package boundaries for live proofs and optional historical reproduction.
 
-The current Kuu root is never changed to satisfy a historical import check.
+Public KUOS proof roots are live; only the independent Kuu import closure is Gray-free.
 A historical artifact is checked against its recorded Git blob before use.
 This helper does not claim that a historical theorem has been ported.
 """
@@ -14,7 +14,6 @@ from collections.abc import Sequence
 
 CURRENT = 'current'
 LEGACY = 'legacy-v5.291'
-CURRENT_ROOTS = frozenset({'KuuOSFormal', 'KuuOSStrict', 'Kuu'})
 SNAPSHOT_BLOBS = {
     'formal/KuuOSFormal.lean': 'b01bee482bb8a34f3f5ccc2746028dda56ff35f2',
     'lakefile.toml': 'e4cc0839908ffbd2aefe2c672c8841fe6f2ff4aa',
@@ -63,7 +62,8 @@ def validate_targets(root: Path, package: str, targets: Sequence[str]) -> None:
     if not targets:
         raise ValueError('at least one explicit target is required')
     if package == CURRENT:
-        roots = CURRENT_ROOTS
+        config = tomllib.loads((package_directory(root, CURRENT) / 'lakefile.toml').read_text(encoding='utf-8'))
+        roots = {name for lib in config.get('lean_lib', []) for name in lib.get('roots', [])}
     elif package == LEGACY:
         config = tomllib.loads(historical_lakefile(root).read_text(encoding='utf-8'))
         roots = {name for lib in config.get('lean_lib', []) for name in lib.get('roots', [])}
@@ -73,5 +73,4 @@ def validate_targets(root: Path, package: str, targets: Sequence[str]) -> None:
         if not re.fullmatch(r'[A-Za-z_][A-Za-z0-9_]*(?:\.[A-Za-z_][A-Za-z0-9_]*)*', target):
             raise ValueError(f'invalid formal target: {target}')
         if not any(target == name or target.startswith(name + '.') for name in roots):
-            hint = '; historical targets require the explicit --legacy package' if package == CURRENT else ''
-            raise ValueError(f'{target} is not a target of {package}{hint}')
+            raise ValueError(f'{target} is not a published target of {package}')

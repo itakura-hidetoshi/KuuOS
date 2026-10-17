@@ -39,7 +39,6 @@ jobs:
       - name: Set up pinned Lean and Lake
         uses: leanprover/lean-action@v1
         with:
-          lake-package-directory: legacy/v5.291
           auto-config: false
           build: false
           test: false
@@ -47,14 +46,14 @@ jobs:
           use-mathlib-cache: false
           use-github-cache: false
       - name: Resolve pinned dependencies
-        run: python3 scripts/run_formal_package.py --legacy -- update
+        run: lake update
       - name: Verify dependency manifest
-        run: git diff --exit-code -- lake-manifest.json legacy/v5.291/lake-manifest.json
+        run: git diff --exit-code -- lake-manifest.json
       - name: Fetch Mathlib cache
-        run: python3 scripts/run_formal_package.py --legacy -- exe cache get
+        run: lake exe cache get
       - name: Strictly compile formal contract
         run: >-
-          python3 scripts/run_formal_package.py --legacy -- env lean
+          lake env lean
           -DwarningAsError=true
           -Dweak.sorryAsError=true
           formal/KUOS/CodeAI/FrozenCohortPredictionPackExecutionShardContractV0_1.lean

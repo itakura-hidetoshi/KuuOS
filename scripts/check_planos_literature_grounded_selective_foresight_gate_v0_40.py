@@ -108,7 +108,7 @@ def main() -> int:
     formal = ROOT / "formal/KUOS/PlanOS/LiteratureGroundedSelectiveForesightGateV0_40.lean"
     source_formal = ROOT / "formal/KUOS/PlanOS/ActOSInvocationReceiptV0_39.lean"
     formal_root = ROOT / "formal/KuuOSPlanOSV0_40.lean"
-    aggregate_root = ROOT / "legacy/v5.291/formal/KuuOSFormal.lean"
+    aggregate_root = ROOT / "formal/KuuOSFormal.lean"
     docs = ROOT / "docs/KUUOS_PLANOS_LITERATURE_GROUNDED_SELECTIVE_FORESIGHT_GATE_v0_40.md"
     manifest_path = ROOT / "manifests/kuuos_planos_literature_grounded_selective_foresight_gate_v0_40.json"
 

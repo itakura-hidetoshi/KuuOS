@@ -14,4 +14,4 @@ The user explicitly requests full correction of v5.292's blanket removal of the 
 
 ## Implementation boundary
 
-Read the complete tracked tree and classify actual import closures before finalizing Lake library ownership/default build targets. The initial inventory workflow intentionally runs a failing public-root regression and supplies the exact tracked source archive for analysis. It grants no extra write permissions. Completion requires compiled restored proofs, not only a passing metadata checker.
+Read the complete tracked tree and classify actual import closures before finalizing Lake library ownership/default build targets. The initial inventory workflow intentionally runs a failing public-root regression and supplies the exact tracked source archive for analysis. It grants no extra write permissions. Existing proof acceptance is preserved. The user explicitly rejects requiring repeated proof validation for this repair. Check our changed wiring and unchanged proof sources; do not impose new proof-acceptance conditions or demand work from the user.

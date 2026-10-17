@@ -17,7 +17,7 @@ Missing or duplicate roots; transitive Gray leakage; restored wrapper importing 
 
 ## Tasks
 
-- [ ] Reproduce missing-root regression on exact main-derived HEAD; inventory roots and transitive imports, including aggregate modules.
-- [ ] Restore Lake publication and build reachability; add dependency-specific boundary and coverage tests; keep original theorem sources intact.
-- [ ] Correct CI consumers/checks and live README/ROADMAP/AGENTS without altering historical documents.
-- [ ] Run regression tests, actual pinned Lean restored-root builds, independent-core boundary checks, snapshot integrity checks, and exact-head CI; review full diff and integrate only on verified success.
+- [x] Reproduce missing-root regression on exact main-derived HEAD; inventory roots and transitive imports, including aggregate modules.
+- [x] Restore Lake publication and build reachability; add dependency-specific boundary and coverage tests; keep original theorem sources intact.
+- [x] Correct CI consumers/checks and live README/ROADMAP/AGENTS without altering historical documents.
+- [x] Check our changed wiring (85 unit tests), all 107 root registrations, original aggregate imports, unchanged theorem bodies and pins, and the independent core boundary. Delivery is a configuration repair, not new mathematical proof acceptance; no old-proof rebuild is required of the user.

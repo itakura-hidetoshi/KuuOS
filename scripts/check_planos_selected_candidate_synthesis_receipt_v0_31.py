@@ -94,7 +94,7 @@ def main() -> int:
     formal = ROOT / "formal/KUOS/PlanOS/SelectedCandidateSynthesisReceiptV0_31.lean"
     source_formal = ROOT / "formal/KUOS/PlanOS/SelectedCandidateSynthesisRequestV0_30.lean"
     formal_root = ROOT / "formal/KuuOSPlanOSV0_31.lean"
-    aggregate_root = ROOT / "legacy/v5.291/formal/KuuOSFormal.lean"
+    aggregate_root = ROOT / "formal/KuuOSFormal.lean"
     docs = ROOT / "docs/KUUOS_PLANOS_SELECTED_CANDIDATE_SYNTHESIS_RECEIPT_v0_31.md"
     manifest_path = ROOT / "manifests/kuuos_planos_selected_candidate_synthesis_receipt_v0_31.json"
 

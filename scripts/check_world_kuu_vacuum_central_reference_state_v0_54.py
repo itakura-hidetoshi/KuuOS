@@ -80,7 +80,7 @@ def main() -> int:
         ROOT / manifest["aggregate_formal_root"],
         ("KUOS.WORLD.KuuVacuumCentralReferenceStateBridgeV0_54",),
     )
-    require_tokens(ROOT / "legacy/v5.291/lakefile.toml", ("KuuOSFormalV0_54",))
+    require_tokens(ROOT / "lakefile.toml", ("KuuOSFormalV0_54",))
 
     documentation = ROOT / manifest["documentation"]
     require_tokens(

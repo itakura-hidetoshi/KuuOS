@@ -21,7 +21,7 @@ def require_tokens(path: Path, tokens: tuple[str, ...]) -> None:
 
 def main() -> int:
     formal_root = ROOT / "formal/KuuOSPlanOSV0_23.lean"
-    aggregate_root = ROOT / "legacy/v5.291/formal/KuuOSFormal.lean"
+    aggregate_root = ROOT / "formal/KuuOSFormal.lean"
     formal = ROOT / "formal/KUOS/PlanOS/VacuumExpectationActivationAdmissionActOSHandoffV0_23.lean"
     source = ROOT / "formal/KUOS/PlanOS/VacuumExpectationCompilerMaterializationV0_22.lean"
     docs = ROOT / "docs/KUUOS_PLANOS_ACTIVATION_ADMISSION_ACTOS_HANDOFF_v0_23.md"

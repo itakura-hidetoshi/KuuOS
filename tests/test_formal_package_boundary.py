@@ -17,7 +17,7 @@ class FormalPackageBoundaryTests(unittest.TestCase):
             base = self.root / package
             base.mkdir(parents=True, exist_ok=True)
             (base / 'lakefile.toml').write_text(
-                '[[lean_lib]]\nname = "KuuOSFormal"\nroots = ["KuuOSFormal", "KUOS", "KuuOSOld"]\n')
+                '[[lean_lib]]\nname = "KuuOSFormal"\nroots = ["KuuOSFormal", "Kuu", "KuuOSStrict", "KUOS", "KuuOSOld"]\n')
             (base / 'lean-toolchain').write_text('leanprover/lean4:v4.30.0-rc2\n')
             (base / 'lake-manifest.json').write_text('{}\n')
         for name in ('formal/KuuOSFormal.lean', 'legacy/v5.291/formal/KuuOSFormal.lean'):
@@ -29,9 +29,8 @@ class FormalPackageBoundaryTests(unittest.TestCase):
         self.assertEqual(package_directory(self.root, CURRENT), self.root)
         validate_targets(self.root, CURRENT, ['KuuOSFormal', 'Kuu.Strict'])
 
-    def test_old_target_in_current_package_is_rejected(self):
-        with self.assertRaisesRegex(ValueError, 'legacy'):
-            validate_targets(self.root, CURRENT, ['KUOS.WORLD.Old'])
+    def test_retained_target_in_current_package_is_available(self):
+        validate_targets(self.root, CURRENT, ['KUOS.WORLD.Old'])
 
     def test_unknown_target_is_rejected_instead_of_fallback(self):
         with self.assertRaises(ValueError):
@@ -46,8 +45,8 @@ class FormalPackageBoundaryTests(unittest.TestCase):
     def test_new_core_cannot_be_built_as_legacy(self):
         path = self.root / 'legacy/v5.291/lakefile.toml'
         with patch.dict(SNAPSHOT_BLOBS, {'lakefile.toml': git_blob_sha(path.read_bytes())}):
-            with self.assertRaisesRegex(ValueError, 'not a target'):
-                validate_targets(self.root, LEGACY, ['Kuu.Strict'])
+            with self.assertRaisesRegex(ValueError, 'not a published target'):
+                validate_targets(self.root, LEGACY, ['NotAnArchivedRoot.Strict'])
 
     def test_historical_aggregate_does_not_read_current_imports(self):
         expected = git_blob_sha(b'import KUOS\n')

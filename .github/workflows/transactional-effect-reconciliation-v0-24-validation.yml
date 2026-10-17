@@ -90,7 +90,6 @@ jobs:
       - name: Set up pinned Lean and Lake
         uses: leanprover/lean-action@v1
         with:
-          lake-package-directory: legacy/v5.291
           auto-config: false
           build: false
           test: false
@@ -98,14 +97,14 @@ jobs:
           use-mathlib-cache: false
           use-github-cache: false
       - name: Resolve pinned dependencies
-        run: python3 scripts/run_formal_package.py --legacy -- update
+        run: lake update
       - name: Fetch Mathlib olean cache
-        run: python3 scripts/run_formal_package.py --legacy -- exe cache get
+        run: lake exe cache get
       - name: Strictly compile v0.24 formal module
         shell: bash
         run: |
           set -o pipefail
-          python3 scripts/run_formal_package.py --legacy -- -KleanArgs=-DwarningAsError=true \
+          lake -KleanArgs=-DwarningAsError=true \
             -KleanArgs=-DsorryAsError=true \
             build KUOS.OpenHorizon.TransactionalEffectReconciliationKernelV0_24 \
             2>&1 | tee transactional-effect-v0-24-lean-module.log
@@ -113,7 +112,7 @@ jobs:
         shell: bash
         run: |
           set -o pipefail
-          python3 scripts/run_formal_package.py --legacy -- -KleanArgs=-DwarningAsError=true \
+          lake -KleanArgs=-DwarningAsError=true \
             -KleanArgs=-DsorryAsError=true build KuuOSFormal \
             2>&1 | tee transactional-effect-v0-24-lean-root.log
       - name: Upload v0.24 diagnostics

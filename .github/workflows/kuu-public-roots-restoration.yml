@@ -1,6 +1,15 @@
 name: KuuOS Public Proof Roots Restoration
 
 on:
+  pull_request:
+    paths:
+      - 'lakefile.toml'
+      - 'formal/KuuOSFormal.lean'
+      - 'scripts/check_public_proof_roots.py'
+      - 'scripts/check_kuu_foundation.py'
+      - 'scripts/formal_package_boundary.py'
+      - 'tests/test_public_root_restoration.py'
+      - '.github/workflows/kuu-public-roots-restoration.yml'
   push:
     branches: ['repair/restore-public-proof-roots']
   workflow_dispatch:
@@ -13,7 +22,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  inventory:
+  wiring:
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
@@ -23,33 +32,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Capture exact tracked source for dependency analysis
-        shell: bash
+      - name: Check our root restoration without resetting existing proofs
         run: |
-          set -euo pipefail
-          mkdir -p artifacts/public-proof-roots
-          git rev-parse HEAD | tee artifacts/public-proof-roots/source-sha.txt
-          git archive --format=tar HEAD | gzip -n > artifacts/public-proof-roots/source.tar.gz
-          git fetch --depth=1 origin f4b4e7859d380019bc6dcab0ee97c3be84bbc285
-          git archive --format=tar f4b4e7859d380019bc6dcab0ee97c3be84bbc285 | gzip -n > artifacts/public-proof-roots/before.tar.gz
-          sha256sum artifacts/public-proof-roots/source.tar.gz
-          python3 - <<'PY'
-          import pathlib, tomllib
-          root = pathlib.Path('.')
-          old = tomllib.loads((root/'legacy/v5.291/lakefile.toml').read_text())
-          new = tomllib.loads((root/'lakefile.toml').read_text())
-          before = {r for lib in old['lean_lib'] for r in lib.get('roots', [])}
-          after = {r for lib in new['lean_lib'] for r in lib.get('roots', [])}
-          print('PREVIOUS_PUBLIC_ROOT_COUNT', len(before))
-          print('MISSING_PUBLIC_ROOT_COUNT', len(before-after))
-          print('\n'.join(sorted(before-after)))
-          PY
-      - name: Public API regression
-        run: python3 -m unittest discover -s tests -p test_public_root_restoration.py -v
-      - uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: public-proof-roots-${{ github.run_id }}
-          path: artifacts/public-proof-roots/
-          if-no-files-found: error
-          retention-days: 7
+          python3 -m unittest -v tests.test_public_root_restoration tests.test_kuu_foundation tests.test_formal_package_boundary
+          python3 scripts/check_public_proof_roots.py

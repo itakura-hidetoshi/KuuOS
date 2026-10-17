@@ -45,7 +45,7 @@ BASE_PATHS = (
 
 def contract_paths() -> tuple[str, ...]:
     paths = set(BASE_PATHS + MANIFESTS)
-    paths.update(("legacy/v5.291/formal/KuuOSFormal.lean", "legacy/v5.291/lakefile.toml"))
+    paths.update(("formal/KuuOSFormal.lean", "lakefile.toml"))
     for manifest in MANIFESTS:
         payload = json.loads((ROOT / manifest).read_text(encoding="utf-8"))
         for key in ("fixture", "tests", "validator", "documentation"):

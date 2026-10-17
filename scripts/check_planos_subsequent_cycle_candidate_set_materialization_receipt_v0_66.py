@@ -185,7 +185,7 @@ def main() -> int:
     runtime = ROOT / "runtime/kuuos_planos_subsequent_cycle_candidate_set_materialization_receipt_v0_66.py"
     formal = ROOT / "formal/KUOS/PlanOS/SubsequentCycleCandidateSetMaterializationReceiptV0_66.lean"
     formal_root = ROOT / "formal/KuuOSPlanOSV0_66.lean"
-    aggregate_root = ROOT / "legacy/v5.291/formal/KuuOSFormal.lean"
+    aggregate_root = ROOT / "formal/KuuOSFormal.lean"
     docs = ROOT / "docs/KUUOS_PLANOS_SUBSEQUENT_CYCLE_CANDIDATE_SET_MATERIALIZATION_RECEIPT_v0_66.md"
     manifest_path = ROOT / "manifests/kuuos_planos_subsequent_cycle_candidate_set_materialization_receipt_v0_66.json"
 

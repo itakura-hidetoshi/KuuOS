@@ -80,7 +80,7 @@ def main() -> int:
     )
     require_tokens(ROOT / manifest["aggregate_formal_root"], spine_tokens)
     require_tokens(ROOT / "formal/KUOS.lean", spine_tokens)
-    require_tokens(ROOT / "legacy/v5.291/lakefile.toml", (
+    require_tokens(ROOT / "lakefile.toml", (
         "KuuOSFormalV0_53", "KuuOSFormalV0_54", "KuuOSFormalV0_55",
         "KuuOSFormalV0_56", "KuuOSFormalV0_57", "KuuOSFormalV0_58",
         "KuuOSFourGreatCoreV0_59", "KuuOSFormalV0_59",

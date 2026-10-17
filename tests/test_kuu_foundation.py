@@ -1,4 +1,4 @@
-"""A return to the old formal namespace must fail before Lean compilation."""
+"""Actual Gray dependencies are rejected; existing non-Gray proof imports are retained."""
 import tempfile
 import unittest
 from pathlib import Path
@@ -17,8 +17,9 @@ class FoundationBoundaryTest(unittest.TestCase):
 
     def base(self, source='import Kuu.Presentation\n'):
         return {
-            'lakefile.toml': 'name = "KuuOS"\ndefaultTargets = ["KuuOSFormal"]\n[[lean_lib]]\nname = "KuuOSFormal"\nsrcDir = "formal"\nroots = ["KuuOSFormal", "Kuu"]\n',
-            'formal/KuuOSFormal.lean': source,
+            'lakefile.toml': 'name = "KuuOS"\ndefaultTargets = ["KuuOSFormal"]\n[[lean_lib]]\nname = "KuuOSFormal"\nsrcDir = "formal"\nroots = ["KuuOSFormal", "KuuOSStrict", "Kuu"]\n',
+            'formal/KuuOSFormal.lean': 'import KuuOSStrict\n',
+            'formal/KuuOSStrict.lean': source,
             'formal/Kuu.lean': 'import Kuu.Presentation\n',
             'formal/Kuu/Presentation.lean': 'import Mathlib.CategoryTheory.Quotient\n',
         }
@@ -27,11 +28,11 @@ class FoundationBoundaryTest(unittest.TestCase):
         self.assertTrue(check(self.fixture(self.base()))['ok'])
 
     def test_direct_legacy_import_is_rejected(self):
-        files = self.base('import KUOS.Old\n')
-        files['formal/KUOS/Old.lean'] = '-- Historical content\n'
+        files = self.base('import KUOS.GrayOld\n')
+        files['formal/KUOS/GrayOld.lean'] = '-- Historical Gray comparison\n'
         report = check(self.fixture(files))
         self.assertFalse(report['ok'])
-        self.assertIn('KUOS.Old', str(report['errors']))
+        self.assertIn('KUOS.GrayOld', str(report['errors']))
 
     def test_indirect_legacy_import_is_rejected(self):
         files = self.base()
@@ -91,6 +92,21 @@ class FoundationBoundaryTest(unittest.TestCase):
 
     def test_current_source_cannot_escape_formal_directory(self):
         self.assertFalse(check(self.fixture(self.base('import ../KUOS/Old\n')))['ok'])
+
+    def test_non_gray_existing_proof_can_be_used_without_namespace_ban(self):
+        files = self.base('import KUOS.ExistingTransport\n')
+        files['formal/KUOS/ExistingTransport.lean'] = 'import Mathlib\n'
+        self.assertTrue(check(self.fixture(files))['ok'])
+
+    def test_gray_cannot_hide_behind_a_non_gray_module_name(self):
+        files = self.base('import KUOS.ExistingTransport\n')
+        files['formal/KUOS/ExistingTransport.lean'] = 'import KUOS.GraySource\n'
+        files['formal/KUOS/GraySource.lean'] = 'import Mathlib\n'
+        self.assertFalse(check(self.fixture(files))['ok'])
+
+    def test_public_aggregate_cannot_become_a_core_dependency(self):
+        files = self.base('import KuuOSFormal\n')
+        self.assertFalse(check(self.fixture(files))['ok'])
 
 if __name__ == '__main__':
     unittest.main()

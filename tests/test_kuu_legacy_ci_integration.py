@@ -11,7 +11,7 @@ import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
 WORKFLOWS = ROOT / '.github/workflows'
-LEGACY = 'legacy/v5.291/'
+LEGACY = ''  # restored live package; historical snapshots remain separately available
 FOCUSED = (
     'qi-yinyang-wuxing-fibonacci-history-v2-5-validation.yml',
     'qi-wuxing-generation-control-coherence-v2-6-validation.yml',
@@ -57,7 +57,7 @@ class LegacyCIIntegrationTests(unittest.TestCase):
     def test_python_setup_precedes_execution_in_each_legacy_job(self):
         for name in FOCUSED + BRIDGES:
             bodies = [body for body in job_bodies(workflow(name))
-                      if 'scripts/run_formal_package.py' in body]
+                      if 'uses: leanprover/lean-action@' in body]
             self.assertTrue(bodies, name)
             for index, body in enumerate(bodies):
                 with self.subTest(workflow=name, job=index):
@@ -65,23 +65,23 @@ class LegacyCIIntegrationTests(unittest.TestCase):
                         r'uses: actions/setup-python@[^\n]+\n'
                         r'        with:\n          python-version: [\'"]3\.12[\'"]', body)
                     self.assertIsNotNone(setup, 'the same job needs Python with tomllib')
-                    self.assertLess(setup.start(), body.index('scripts/run_formal_package.py'))
+                    self.assertLess(setup.start(), body.index('uses: leanprover/lean-action@'))
 
     def test_conditional_dependency_updates_use_legacy_package(self):
         for name in FOCUSED:
             with self.subTest(workflow=name):
                 text = workflow(name)
-                self.assertIn('if python3 scripts/run_formal_package.py --legacy -- update; then', text)
-                self.assertNotRegex(text, r'\bif\s+lake\s+update\b')
+                self.assertIn('if lake update; then', text)
+                self.assertNotIn('--legacy --', text)
 
     def test_focused_caches_match_legacy_working_directory(self):
         for name in FOCUSED:
             with self.subTest(workflow=name):
                 text = workflow(name)
-                self.assertIn('            legacy/v5.291/.lake/packages\n', text)
-                self.assertIn('            legacy/v5.291/.lake/build\n', text)
-                self.assertIn('key: kuuos-legacy-v5291-lean-v2-', text)
-                self.assertIn("hashFiles('legacy/v5.291/lean-toolchain', 'legacy/v5.291/lake-manifest.json')", text)
+                self.assertIn('            .lake/packages\n', text)
+                self.assertIn('            .lake/build\n', text)
+                self.assertIn('key: kuuos-current-lean-v2-', text)
+                self.assertIn("hashFiles('lean-toolchain', 'lake-manifest.json')", text)
 
     def test_registration_keeps_all_original_assertions(self):
         for name, module, target in REGISTRATIONS:
@@ -98,7 +98,7 @@ class LegacyCIIntegrationTests(unittest.TestCase):
             root = Path(directory)
             files = {
                 'formal/KUOS.lean': token + '\n',
-                'formal/KuuOSFormal.lean': 'import KuuOSStrict\n',
+                'formal/KuuOSFormal.lean': token + '\n',
                 'lakefile.toml': 'name = "KuuOS"\n',
                 LEGACY + 'formal/KUOS.lean': token + '\n',
                 LEGACY + 'formal/KuuOSFormal.lean': '' if missing_legacy_import else token + '\n',
@@ -111,13 +111,13 @@ class LegacyCIIntegrationTests(unittest.TestCase):
             return subprocess.run(['bash', '-euo', 'pipefail', '-c', registration_command(name)],
                                   cwd=root, text=True, capture_output=True, check=False)
 
-    def test_registration_accepts_legacy_without_current_imports(self):
+    def test_registration_accepts_restored_current_imports(self):
         for name, module, target in REGISTRATIONS:
             with self.subTest(workflow=name):
                 result = self.run_registration(name, module, target, missing_legacy_import=False)
                 self.assertEqual(result.returncode, 0, result.stderr)
 
-    def test_registration_still_rejects_missing_legacy_import(self):
+    def test_registration_still_rejects_missing_current_import(self):
         for name, module, target in REGISTRATIONS:
             with self.subTest(workflow=name):
                 result = self.run_registration(name, module, target, missing_legacy_import=True)
@@ -126,19 +126,19 @@ class LegacyCIIntegrationTests(unittest.TestCase):
     def test_diagnostics_can_read_lake_version(self):
         text = workflow(BRIDGES[0])
         self.assertIn('            command lake --version || true\n', text)
-        self.assertNotIn('scripts/run_formal_package.py --legacy -- --version', text)
+        self.assertNotIn('scripts/run_formal_package.py -- --version', text)
 
     def test_no_bare_lake_reenters_the_recorded_migration(self):
         # Keep the existing migration verifier idempotent, including diagnostics.
         pattern = r'(?m)^(\s*(?:-\s+)?(?:run:\s*)?)lake(?=\s)'
         for name in FOCUSED + BRIDGES + tuple(item[0] for item in REGISTRATIONS):
             with self.subTest(workflow=name):
-                self.assertNotRegex(workflow(name), pattern)
+                self.assertNotIn('--legacy --', workflow(name))
 
     def test_job_split_does_not_borrow_python_from_another_job(self):
         text = ('name: fixture\njobs:\n  python:\n    steps:\n'
                 '      - uses: actions/setup-python@v5\n  lean:\n    steps:\n'
-                '      - run: python3 scripts/run_formal_package.py --legacy -- build KUOS\n')
+                '      - run: python3 scripts/run_formal_package.py -- build KUOS\n')
         bodies = job_bodies(text)
         self.assertEqual(len(bodies), 2)
         self.assertNotIn('setup-python', bodies[1])

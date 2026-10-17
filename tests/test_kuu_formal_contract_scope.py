@@ -42,4 +42,10 @@ class KuuFormalContractScopeTests(unittest.TestCase):
         observation=observe_repository_structure(self.snapshot(package='unknown'))
         self.assertEqual(observation.malformed_contracts,('manifests/old.json',))
 
+    def test_current_kuos_repair_is_not_suppressed_by_namespace(self):
+        snapshot = self.snapshot(package='current')
+        observation = observe_repository_structure(snapshot)
+        candidates = generate_repository_repair_candidates(snapshot, observation)
+        self.assertTrue(candidates)
+
 if __name__=='__main__':unittest.main()

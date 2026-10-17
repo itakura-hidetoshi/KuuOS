@@ -17,6 +17,5 @@
   "branch_suffixes_disjoint": true,
   "changed_paths_disjoint": true,
   "merge_normal_form_required": true,
-  "external_approval_required": false,
-  "formal_package": "legacy-v5.291"
+  "external_approval_required": false
 }

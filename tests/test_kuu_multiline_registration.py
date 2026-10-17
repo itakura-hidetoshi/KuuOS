@@ -43,7 +43,7 @@ class MultilineRegistrationTests(unittest.TestCase):
             for line in text.splitlines():
                 if re.search(r'\bgrep\b', line):
                     with self.subTest(path=name, line=line.strip()):
-                        self.assertNotRegex(line, r'(?<![\w/.])formal/[^\s]+\.lean')
+                        self.assertNotIn('legacy/v5.291/', line)
 
     def test_original_assertions_are_retained(self):
         for name, step, count in CASES:
@@ -55,7 +55,7 @@ class MultilineRegistrationTests(unittest.TestCase):
         # Use actual preserved source, but leave the current formal tree absent.
         body = command(name, step)
         logical = re.sub(r'\\\n\s*', ' ', body)
-        paths = re.findall(r'legacy/v5\.291/formal/[^\s]+\.lean', logical)
+        paths = re.findall(r'(?<![\w/])formal/[^\s]+\.lean', logical)
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
             (root / 'artifacts/diagnostics').mkdir(parents=True)
@@ -69,13 +69,13 @@ class MultilineRegistrationTests(unittest.TestCase):
                                     cwd=root, text=True, capture_output=True, check=False)
         return result, paths
 
-    def test_registration_succeeds_with_legacy_only(self):
+    def test_registration_succeeds_with_current_only(self):
         for name, step, _ in CASES:
             with self.subTest(path=name):
                 result, _ = self.run_registration(name, step)
                 self.assertEqual(result.returncode, 0, result.stderr)
 
-    def test_every_missing_legacy_input_is_rejected(self):
+    def test_every_missing_current_input_is_rejected(self):
         for name, step, _ in CASES:
             _, paths = self.run_registration(name, step)
             self.assertTrue(paths, 'registration must inspect the compiled legacy sources')
@@ -89,7 +89,7 @@ class MultilineRegistrationTests(unittest.TestCase):
             with self.subTest(path=name):
                 text = (ROOT / '.github/workflows' / name).read_text()
                 self.assertIn('command lake --version || true', text)
-                self.assertNotIn('scripts/run_formal_package.py --legacy -- --version', text)
+                self.assertNotIn('scripts/run_formal_package.py -- --version', text)
 
 
 if __name__ == '__main__':

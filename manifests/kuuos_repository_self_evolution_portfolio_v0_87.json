@@ -22,6 +22,5 @@
   "one_candidate_per_frontier": true,
   "deterministic_optimum": true,
   "stable_no_change_fixed_point": true,
-  "execution_authority_granted": false,
-  "formal_package": "legacy-v5.291"
+  "execution_authority_granted": false
 }

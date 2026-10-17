@@ -15,6 +15,5 @@
   "strict_score_descent": true,
   "finite_state_bound": true,
   "candidate_order_confluence_checked": true,
-  "external_approval_required": false,
-  "formal_package": "legacy-v5.291"
+  "external_approval_required": false
 }

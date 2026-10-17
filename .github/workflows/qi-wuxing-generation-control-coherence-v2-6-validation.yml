@@ -75,14 +75,13 @@ jobs:
           set -euo pipefail
           grep -Fq \
             'import KUOS.Architecture.QiYinYangWuxingFibonacciHistoryGeometryV2_5' \
-            legacy/v5.291/formal/KUOS/Architecture/QiWuxingGenerationControlCoherenceV2_6.lean
+            formal/KUOS/Architecture/QiWuxingGenerationControlCoherenceV2_6.lean
           grep -Fq \
             'import KUOS.Architecture.QiWuxingGenerationControlCoherenceV2_6' \
-            legacy/v5.291/formal/KuuOSQiWuxingGenerationControlCoherenceV2_6.lean
+            formal/KuuOSQiWuxingGenerationControlCoherenceV2_6.lean
       - name: Set up pinned Lean and Lake
         uses: leanprover/lean-action@v1
         with:
-          lake-package-directory: legacy/v5.291
           auto-config: false
           build: false
           test: false
@@ -94,15 +93,15 @@ jobs:
         uses: actions/cache@v5
         with:
           path: |
-            legacy/v5.291/.lake/packages
-            legacy/v5.291/.lake/build
-          key: kuuos-legacy-v5291-lean-v2-${{ runner.os }}-${{ hashFiles('legacy/v5.291/lean-toolchain', 'legacy/v5.291/lake-manifest.json') }}
+            .lake/packages
+            .lake/build
+          key: kuuos-current-lean-v2-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}
       - name: Resolve dependencies on cache miss
         if: steps.lean-cache.outputs.cache-hit != 'true'
         run: |
           set -euo pipefail
           for attempt in 1 2 3; do
-            if python3 scripts/run_formal_package.py --legacy -- update; then
+            if lake update; then
               break
             fi
             if [ "$attempt" -eq 3 ]; then
@@ -110,11 +109,11 @@ jobs:
             fi
             sleep $((attempt * 10))
           done
-          git diff --exit-code -- lake-manifest.json legacy/v5.291/lake-manifest.json
-          python3 scripts/run_formal_package.py --legacy -- exe cache get
+          git diff --exit-code -- lake-manifest.json
+          lake exe cache get
       - name: Strictly compile only the v2.6 module
         run: |
           set -euo pipefail
-          python3 scripts/run_formal_package.py --legacy -- -KleanArgs=-DwarningAsError=true \
+          lake -KleanArgs=-DwarningAsError=true \
             -KleanArgs=-DsorryAsError=true \
             build KUOS.Architecture.QiWuxingGenerationControlCoherenceV2_6

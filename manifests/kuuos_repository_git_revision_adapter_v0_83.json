@@ -17,6 +17,5 @@
   "single_parent_advance": true,
   "changed_paths_from_git_diff": true,
   "inventory_escape_rejected": true,
-  "external_approval_required": false,
-  "formal_package": "legacy-v5.291"
+  "external_approval_required": false
 }

@@ -21,7 +21,7 @@ def require_tokens(path: Path, tokens: tuple[str, ...]) -> None:
 
 def main() -> int:
     formal_root = ROOT / "formal/KuuOSVerifyOSV0_3.lean"
-    top_root = ROOT / "legacy/v5.291/formal/KuuOSFormal.lean"
+    top_root = ROOT / "formal/KuuOSFormal.lean"
     formal = ROOT / "formal/KUOS/VerifyOS/VacuumExpectationCommitVerificationReceiptV0_3.lean"
     observe = ROOT / "formal/KUOS/ObserveOS/VacuumExpectationIntakeCommitReceiptV0_3.lean"
     docs = ROOT / "docs/KUUOS_VERIFYOS_VACUUM_EXPECTATION_COMMIT_VERIFICATION_RECEIPT_v0_3.md"

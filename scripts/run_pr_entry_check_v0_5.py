@@ -74,7 +74,7 @@ REQUIRED_MARKERS = {
             "import KUOS.WORLD.TomitaConjugateAdjointClosedV0_58",
             "import KUOS.WORLD.FourGreatPhaseDynamicsCoreBridgeV0_59",
         ],
-        "legacy/v5.291/formal/KuuOSFormal.lean": [
+        "formal/KuuOSFormal.lean": [
             "import KUOS.WORLD.TomitaClosedGraphIsometryV0_57",
             "import KUOS.WORLD.TomitaConjugateAdjointClosedV0_58",
             "import KUOS.WORLD.FourGreatPhaseDynamicsCoreBridgeV0_59",

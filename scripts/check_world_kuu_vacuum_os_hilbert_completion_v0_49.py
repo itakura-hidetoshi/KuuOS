@@ -51,7 +51,7 @@ def main() -> int:
         ROOT / "formal/KUOS.lean",
         ("KUOS.WORLD.KuuVacuumOSHilbertCompletionBridgeV0_49",),
     )
-    require_tokens(ROOT / "legacy/v5.291/lakefile.toml", ("KuuOSFormalV0_49",))
+    require_tokens(ROOT / "lakefile.toml", ("KuuOSFormalV0_49",))
     require_tokens(
         ROOT / "docs/KU_WORLD_KUU_VACUUM_OS_HILBERT_COMPLETION_v0_49.md",
         ("Kū != zero vector", "modular time != physical time"),

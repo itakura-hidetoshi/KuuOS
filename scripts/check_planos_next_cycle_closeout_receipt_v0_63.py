@@ -122,7 +122,7 @@ def main() -> int:
     runtime = ROOT / "runtime/kuuos_planos_next_cycle_closeout_receipt_v0_63.py"
     formal = ROOT / "formal/KUOS/PlanOS/NextCycleCloseoutReceiptV0_63.lean"
     formal_root = ROOT / "formal/KuuOSPlanOSV0_63.lean"
-    aggregate_root = ROOT / "legacy/v5.291/formal/KuuOSFormal.lean"
+    aggregate_root = ROOT / "formal/KuuOSFormal.lean"
     docs = ROOT / "docs/KUUOS_PLANOS_NEXT_CYCLE_CLOSEOUT_RECEIPT_v0_63.md"
     manifest_path = ROOT / "manifests/kuuos_planos_next_cycle_closeout_receipt_v0_63.json"
 

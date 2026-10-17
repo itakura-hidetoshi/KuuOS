@@ -25,6 +25,5 @@
   "application_authorization_eligible_only": true,
   "patch_application_authority_granted": false,
   "commit_authority_granted": false,
-  "reference_mutation_authority_granted": false,
-  "formal_package": "legacy-v5.291"
+  "reference_mutation_authority_granted": false
 }

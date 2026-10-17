@@ -165,22 +165,16 @@ def tracked_sources(root: Path) -> dict[str,str]:
 
 
 def main() -> int:
+    """Compatibility CLI: the old blanket migration is superseded, not replayed."""
+    from scripts.check_public_proof_roots import check as check_public_roots
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--check', action='store_true')
-    args = parser.parse_args()
-    sources = tracked_sources(ROOT)
-    scope = json.loads((ROOT / "ci/kuu_legacy_consumer_scope.json").read_text(encoding="utf-8"))
-    paths = scope["paths"]
-    changes = bounded_plan(sources, paths)
-    # Idempotence matters: applying the plan must not progressively rewrite code.
-    if bounded_plan(dict(sources, **changes), paths):
-        raise ValueError('migration is not idempotent')
-    head = subprocess.check_output(['git','rev-parse','HEAD'], cwd=ROOT, text=True).strip()
-    base_tree = subprocess.check_output(['git','rev-parse','HEAD^{tree}'], cwd=ROOT, text=True).strip()
-    report = {'base_commit': head, 'base_tree': base_tree,
-              'changed_count': len(changes), 'changed_paths': list(changes)}
-    print('KUU_MIGRATION_RESULT=' + json.dumps(report, ensure_ascii=False))
-    return 1 if args.check and changes else 0
+    parser.parse_args()
+    report = check_public_roots(ROOT)
+    print('KUU_PUBLIC_ROOT_RESULT=' + json.dumps(report, ensure_ascii=False))
+    return 0 if report['ok'] else 1
 
 if __name__ == '__main__':
+    import sys
+    sys.path.insert(0, str(ROOT))
     raise SystemExit(main())

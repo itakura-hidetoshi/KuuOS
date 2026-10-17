@@ -77,7 +77,7 @@ def main() -> int:
     formal = ROOT / "formal/KUOS/PlanOS/ExternalCommitAuthorizationRequestV0_44.lean"
     source_formal = ROOT / "formal/KUOS/PlanOS/ExecutionReceiptV0_43.lean"
     formal_root = ROOT / "formal/KuuOSPlanOSV0_44.lean"
-    aggregate_root = ROOT / "legacy/v5.291/formal/KuuOSFormal.lean"
+    aggregate_root = ROOT / "formal/KuuOSFormal.lean"
     docs = ROOT / "docs/KUUOS_PLANOS_EXTERNAL_COMMIT_AUTHORIZATION_REQUEST_v0_44.md"
     manifest_path = ROOT / "manifests/kuuos_planos_external_commit_authorization_request_v0_44.json"
 

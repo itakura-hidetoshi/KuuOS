@@ -33,6 +33,5 @@
   "working_tree_write_performed": false,
   "reference_mutation_authority_granted": false,
   "reference_mutated": false,
-  "signing_performed": false,
-  "formal_package": "legacy-v5.291"
+  "signing_performed": false
 }

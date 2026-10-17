@@ -11,8 +11,8 @@ def main():
         [sys.executable, '-m', 'unittest', '-v', 'tests.test_kuu_foundation',
          'tests.test_kuu_consumer_migration', 'tests.test_formal_package_boundary',
          'tests.test_kuu_formal_contract_scope', 'tests.test_kuu_historical_manifest_scope',
-         'tests.test_kuu_legacy_ci_integration', 'tests.test_kuu_multiline_registration'],
-        [sys.executable, 'scripts/migrate_kuu_consumers.py', '--check'],
+         'tests.test_kuu_legacy_ci_integration', 'tests.test_kuu_multiline_registration', 'tests.test_public_root_restoration'],
+        [sys.executable, 'scripts/check_public_proof_roots.py'],
         [sys.executable, 'scripts/check_kuu_foundation.py', '--output', 'artifacts/kuu-foundation/dependencies.json'],
     ]:
         result = subprocess.run(command, cwd=ROOT, check=False)
@@ -30,7 +30,7 @@ def main():
         if result.returncode or result.stdout.strip() != sha:
             print(f'Legacy preservation check failed: {path}', file=sys.stderr)
             return 1
-    print('PASS: independent current dependency boundary and exact historical source snapshot')
+    print('PASS: repaired publication, independent core boundary, and unchanged proof snapshot')
     return 0
 
 if __name__ == '__main__':
