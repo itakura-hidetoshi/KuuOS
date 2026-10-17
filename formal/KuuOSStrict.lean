@@ -61,4 +61,5 @@ import Kuu.F112.PolygonNativeF55PentagonBoundaryDescent
 import Kuu.F112.PolygonNativeF55NorthPentagonTransport
 import Kuu.F112.PolygonNativeF55UnitDepthPentagonTransport
 import Kuu.F112.PolygonNativeF55MixedDepthPentagonTransport
+import Kuu.F112.PolygonNativeF55SymbolicTailPentagon
 /-! Current independent Kuu foundation. No legacy KUOS imports are permitted. -/
