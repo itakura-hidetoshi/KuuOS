@@ -148,14 +148,55 @@ theorem KuuNativeF54RootAssocComparison.long
       KuuNativeF45Tree.DepthRotationRoute.pentagonLong
         (t₁.mapAxes F G) (t₂.mapAxes F G)
         (t₃.mapAxes F G) (t₄.mapAxes F G) := by
-  dsimp only [KuuNativeF45Tree.DepthRotationRoute.pentagonLong]
-  simp only [KuuNativeF45Tree.DepthRotationRoute.mapAxes_trans]
-  rw [KuuNativeF45Tree.DepthRotationRoute.mapAxes_leftContext]
-  rw [KuuNativeF45Tree.DepthRotationRoute.mapAxes_rightContext]
-  rw [h.root p t₁ t₂ t₃]
-  rw [h.root p t₁ (KuuNativeF45Tree.node t₂ t₃) t₄]
-  rw [h.root p t₂ t₃ t₄]
-  rfl
+  have hl := h.root p t₁ t₂ t₃
+  have hm := h.root p t₁ (KuuNativeF45Tree.node t₂ t₃) t₄
+  have hr := h.root p t₂ t₃ t₄
+  have hleft :
+      (KuuNativeF45Tree.DepthRotationRoute.leftContext
+        (KuuNativeF45Tree.DepthRotationRoute.assoc t₁ t₂ t₃) t₄).mapAxes F G =
+        KuuNativeF45Tree.DepthRotationRoute.leftContext
+          (KuuNativeF45Tree.DepthRotationRoute.assoc
+            (t₁.mapAxes F G) (t₂.mapAxes F G) (t₃.mapAxes F G))
+          (t₄.mapAxes F G) := by
+    calc
+      _ = KuuNativeF45Tree.DepthRotationRoute.leftContext
+            ((KuuNativeF45Tree.DepthRotationRoute.assoc t₁ t₂ t₃).mapAxes F G)
+            (t₄.mapAxes F G) :=
+          KuuNativeF45Tree.DepthRotationRoute.mapAxes_leftContext F G _ _
+      _ = _ := congrArg
+          (fun z => KuuNativeF45Tree.DepthRotationRoute.leftContext
+            z (t₄.mapAxes F G)) hl
+  have hmiddle :
+      (KuuNativeF45Tree.DepthRotationRoute.assoc
+        t₁ (KuuNativeF45Tree.node t₂ t₃) t₄).mapAxes F G =
+      KuuNativeF45Tree.DepthRotationRoute.assoc
+        (t₁.mapAxes F G)
+        (KuuNativeF45Tree.node (t₂.mapAxes F G) (t₃.mapAxes F G))
+        (t₄.mapAxes F G) := by
+    simpa only [KuuNativeF45Tree.mapAxes] using hm
+  have hright :
+      (KuuNativeF45Tree.DepthRotationRoute.rightContext
+        t₁ (KuuNativeF45Tree.DepthRotationRoute.assoc t₂ t₃ t₄)).mapAxes F G =
+        KuuNativeF45Tree.DepthRotationRoute.rightContext
+          (t₁.mapAxes F G)
+          (KuuNativeF45Tree.DepthRotationRoute.assoc
+            (t₂.mapAxes F G) (t₃.mapAxes F G) (t₄.mapAxes F G)) := by
+    calc
+      _ = KuuNativeF45Tree.DepthRotationRoute.rightContext
+            (t₁.mapAxes F G)
+            ((KuuNativeF45Tree.DepthRotationRoute.assoc t₂ t₃ t₄).mapAxes F G) :=
+          KuuNativeF45Tree.DepthRotationRoute.mapAxes_rightContext F G _ _
+      _ = _ := congrArg
+          (fun z => KuuNativeF45Tree.DepthRotationRoute.rightContext
+            (t₁.mapAxes F G) z) hr
+  have hp := congrArg₂
+    (fun (u : _) (v : _) => KuuNativeF45Tree.DepthRotationRoute.trans u v)
+    hleft hmiddle
+  have hwhole := congrArg₂
+    (fun (u : _) (v : _) => KuuNativeF45Tree.DepthRotationRoute.trans u v)
+    hp hright
+  simpa only [KuuNativeF45Tree.DepthRotationRoute.pentagonLong,
+    KuuNativeF45Tree.DepthRotationRoute.mapAxes_trans] using hwhole
 
 /-- Root naturality similarly implies the independently proof-bearing
 TWO-rotation pentagon short route naturality with correct four
@@ -175,11 +216,27 @@ theorem KuuNativeF54RootAssocComparison.short
       KuuNativeF45Tree.DepthRotationRoute.pentagonShort
         (t₁.mapAxes F G) (t₂.mapAxes F G)
         (t₃.mapAxes F G) (t₄.mapAxes F G) := by
-  dsimp only [KuuNativeF45Tree.DepthRotationRoute.pentagonShort]
-  rw [KuuNativeF45Tree.DepthRotationRoute.mapAxes_trans]
-  rw [h.root p (KuuNativeF45Tree.node t₁ t₂) t₃ t₄]
-  rw [h.root p t₁ t₂ (KuuNativeF45Tree.node t₃ t₄)]
-  rfl
+  have hfirst := h.root p (KuuNativeF45Tree.node t₁ t₂) t₃ t₄
+  have hlast := h.root p t₁ t₂ (KuuNativeF45Tree.node t₃ t₄)
+  have hf :
+      (KuuNativeF45Tree.DepthRotationRoute.assoc
+        (KuuNativeF45Tree.node t₁ t₂) t₃ t₄).mapAxes F G =
+      KuuNativeF45Tree.DepthRotationRoute.assoc
+        (KuuNativeF45Tree.node (t₁.mapAxes F G) (t₂.mapAxes F G))
+        (t₃.mapAxes F G) (t₄.mapAxes F G) := by
+    simpa only [KuuNativeF45Tree.mapAxes] using hfirst
+  have hl :
+      (KuuNativeF45Tree.DepthRotationRoute.assoc
+        t₁ t₂ (KuuNativeF45Tree.node t₃ t₄)).mapAxes F G =
+      KuuNativeF45Tree.DepthRotationRoute.assoc
+        (t₁.mapAxes F G) (t₂.mapAxes F G)
+        (KuuNativeF45Tree.node (t₃.mapAxes F G) (t₄.mapAxes F G)) := by
+    simpa only [KuuNativeF45Tree.mapAxes] using hlast
+  have hc := congrArg₂
+    (fun (u : _) (v : _) => KuuNativeF45Tree.DepthRotationRoute.trans u v)
+    hf hl
+  simpa only [KuuNativeF45Tree.DepthRotationRoute.pentagonShort,
+    KuuNativeF45Tree.DepthRotationRoute.mapAxes_trans] using hc
 
 /-- REDUCE the F4-B TWO-axiom-shaped mathematical input to ONE
 primitive raw root coherence theorem, without fabricating a new
