@@ -52,8 +52,12 @@ def nativeF55FullShadowTarget (p : Polygon) :
   symm := fun z => -z
   trans := fun z w => z + w
   leftContext := fun z _ => z
-  rightContext := fun _ z => z
-  precompose := fun _ z => z
+  rightContext := by
+    intros
+    assumption
+  precompose := by
+    intros
+    assumption
   postcompose := fun z _ => z
 
 /-- A wholly independently specified F58-shaped SIGNED source
@@ -68,8 +72,12 @@ def nativeF55ChargeTarget (p : Polygon) :
   symm := fun z => -z
   trans := fun z w => z + w
   leftContext := fun z _ => z
-  rightContext := fun _ z => z
-  precompose := fun _ z => z
+  rightContext := by
+    intros
+    assumption
+  precompose := by
+    intros
+    assumption
   postcompose := fun z _ => z
 
 /-- All nine raw source constructors interpret into the full-phase
