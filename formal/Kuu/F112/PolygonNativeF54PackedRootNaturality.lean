@@ -62,6 +62,11 @@ def nativePackedRootMappedRotation
   have ht := KuuNativeF45Tree.mapAxes_castDepths F G
     (Nat.add_assoc n₁ n₂ n₃) (Nat.add_assoc m₁ m₂ m₃)
     (KuuNativeF45Tree.node (KuuNativeF45Tree.node t₁ t₂) t₃)
+  change KuuNativeF45Tree.LocalRotation p
+    (KuuNativeF45Tree.castDepths
+      (Nat.add_assoc n₁ n₂ n₃) (Nat.add_assoc m₁ m₂ m₃)
+      ((KuuNativeF45Tree.node (KuuNativeF45Tree.node t₁ t₂) t₃).mapAxes F G))
+    ((KuuNativeF45Tree.node t₁ (KuuNativeF45Tree.node t₂ t₃)).mapAxes F G)
   rw [← ht]
   exact (KuuNativeF45Tree.LocalRotation.assoc t₁ t₂ t₃).mapAxes F G
 
