@@ -51,7 +51,8 @@ theorem KuuNativeAxisTrace.map_id_heq
     HEq (h.map (𝟭 A)) h := by
   induction h with
   | refl p =>
-      simp [KuuNativeAxisTrace.map, KuuNativeBlocks.map_id]
+      simp only [KuuNativeAxisTrace.map]
+      rw [KuuNativeBlocks.map_id p]
   | snoc h step ih =>
       exact KuuNativeAxisTrace.snoc_heq_of_heq
         (h.map (𝟭 A)) h (step.map (𝟭 A)) step
