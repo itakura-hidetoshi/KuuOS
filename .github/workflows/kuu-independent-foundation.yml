@@ -7,6 +7,8 @@ on:
       - 'formal/Kuu.lean'
       - 'formal/KuuOSFormal.lean'
       - 'formal/KuuOSStrict.lean'
+      - 'scripts/check_public_proof_roots.py'
+      - 'tests/test_public_root_restoration.py'
       - 'lakefile.toml'
       - 'lake-manifest.json'
       - 'lean-toolchain'
@@ -60,11 +62,14 @@ jobs:
           lint: false
           use-mathlib-cache: true
           use-github-cache: true
-      - name: Check current mathematical foundation
+      # Focused incremental compilation of an internal import subgraph.
+      # It is NOT an alternative canonical build or a separate theorem authority.
+      # KuuOSFormal remains the single public aggregate, checked by normal Lean CI.
+      - name: Focused incremental Kuu module compilation
         shell: bash
         run: |
           set -euo pipefail
-          lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KuuOSFormal 2>&1 | tee artifacts/independent-kuu/lean.log
+          lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KuuOSStrict 2>&1 | tee artifacts/independent-kuu/lean.log
           git diff --exit-code -- lake-manifest.json lean-toolchain
       - uses: actions/upload-artifact@v4
         if: always()

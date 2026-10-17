@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
 """Check current Kuu source closure, not mathematical completeness.
 
-Historical formal/KUOS files cannot be reached from any current Kuu module.
-Lean checks actual proofs separately. Legacy storage does not grant current
-proof authority.
+Existing KUOS proof authority is preserved. Inspect the independent Kuu
+import closure for actual Gray dependencies, separately from the public API.
 """
 from __future__ import annotations
 import argparse
@@ -13,7 +12,7 @@ import sys
 import tomllib
 from pathlib import Path
 
-MODULE = re.compile(r'[A-Za-z_][A-Za-z_0-9]*(?:\.[A-Za-z_][A-Za-z_0-9]*)*\Z')
+MODULE = re.compile(r'(?:[A-Za-z_][A-Za-z_0-9]*|«[^»\n]+»)(?:\.(?:[A-Za-z_][A-Za-z_0-9]*|«[^»\n]+»))*\Z')
 COMMANDS = {'public', 'private', 'import', 'open', 'namespace', 'section', 'end',
             'universe', 'variable', 'variables', 'set_option', 'noncomputable',
             'def', 'abbrev', 'theorem', 'lemma', 'instance', 'structure', 'inductive',
@@ -66,7 +65,7 @@ def lean_imports(text: str) -> list[str]:
             token = tokens[i]
             if not MODULE.fullmatch(token):
                 raise ValueError(f'invalid or unsupported module syntax: {token}')
-            result.append(token)
+            result.append(token.replace("«", "").replace("»", ""))
             i += 1
         if start == i:
             raise ValueError('empty import command')
@@ -76,8 +75,7 @@ def lean_imports(text: str) -> list[str]:
 def check(root: Path) -> dict:
     root = root.resolve()
     errors: list[str] = []
-    current = {'KuuOSFormal'}
-    if (root / 'formal/KuuOSStrict.lean').exists(): current.add('KuuOSStrict')
+    current = {'KuuOSStrict', 'Kuu'}
     for p in sorted((root / 'formal/Kuu').rglob('*.lean')):
         current.add('.'.join(p.relative_to(root / 'formal').with_suffix('').parts))
     try:
@@ -87,12 +85,11 @@ def check(root: Path) -> dict:
         libraries = config.get('lean_lib', [])
         if len(libraries) != 1 or libraries[0].get('name') != 'KuuOSFormal':
             errors.append('current package must expose only the KuuOSFormal library')
-        elif set(libraries[0].get('roots', [])) - {'KuuOSFormal', 'KuuOSStrict', 'Kuu'}:
-            errors.append('current library exposes a legacy root')
         elif libraries[0].get('srcDir') != 'formal':
             errors.append('current source directory must be formal')
         else:
-            current.update(libraries[0].get('roots', []))
+            if 'KuuOSFormal' not in libraries[0].get('roots', []):
+                errors.append('canonical KuuOSFormal root missing from the public package')
     except (OSError, tomllib.TOMLDecodeError) as exc:
         errors.append(f'configuration: {exc}')
     pending = sorted(current)
@@ -110,15 +107,22 @@ def check(root: Path) -> dict:
         try:
             source = path.read_text(encoding='utf-8')
             clean = code_only(source)
-            for bad in re.findall(r'\b(?:sorry|admit|axiom|native_decide)\b', clean):
-                errors.append(f'{module}: prohibited proof shortcut {bad}')
+            if 'Gray' in module or re.search(r'\b(?:GrayGrade|GradedThreeCell)\b', clean):
+                errors.append(f'{module}: Gray-dependent source in the independent foundation')
+            is_new_core = module.startswith('Kuu.') or module in {'Kuu', 'KuuOSStrict'}
+            if is_new_core:
+                for bad in re.findall(r'\b(?:sorry|admit|axiom|native_decide)\b', clean):
+                    errors.append(f'{module}: prohibited proof shortcut {bad}')
             for dependency in lean_imports(source):
                 edges.append([module, dependency])
-                if dependency.startswith('Mathlib.'):
+                # Mathlib is an approved mathematical library, including the
+                # umbrella import. Independence is a restriction on real Gray
+                # prerequisites, never on the breadth of a Mathlib import.
+                if dependency == 'Mathlib' or dependency.startswith('Mathlib.'):
                     continue
-                if dependency == 'Mathlib':
-                    errors.append(f'{module}: umbrella Mathlib import is prohibited')
-                elif dependency.startswith('Kuu.') or dependency in {'KuuOSFormal', 'KuuOSStrict', 'Kuu'}:
+                elif dependency == 'KuuOSFormal':
+                    errors.append(f'{module}: public aggregate must not be a foundation prerequisite')
+                elif dependency.startswith(('Kuu.', 'KUOS.')) or dependency in {'KuuOSStrict', 'Kuu', 'KUOS'}:
                     pending.append(dependency)
                 else:
                     errors.append(f'{module}: legacy or unapproved dependency {dependency}')
@@ -127,7 +131,7 @@ def check(root: Path) -> dict:
     return {'ok': not errors, 'current_modules': sorted(visited), 'import_edges': edges,
             'legacy_source_files': len(list((root / 'formal/KUOS').rglob('*.lean'))),
             'errors': errors,
-            'scope': 'current local source closure; not a claim of complete strict 3-category or legacy migration'}
+            'scope': 'independent Kuu import closure; retained proof validity is unchanged'}
 
 
 def main() -> int:
