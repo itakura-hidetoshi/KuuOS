@@ -54,14 +54,9 @@ theorem KuuNativeF45Tree.DepthRotationRoute.PresentedCell.interpret_full_mapAxes
       (nativeF55FullShadowTarget (D := A₂) (E := B₂) p) =
     cell.interpret
       (nativeF55FullShadowTarget (D := A) (E := B) p) := by
-  calc
-    (cell.mapAxesGivenPentagon F G data).interpret
-        (nativeF55FullShadowTarget (D := A₂) (E := B₂) p) =
-        (cell.mapAxesGivenPentagon F G data).nativeShadow :=
-      (cell.mapAxesGivenPentagon F G data).interpret_full_eq_shadow
-    _ = cell.nativeShadow := cell.nativeShadow_mapAxesGivenPentagon F G data
-    _ = cell.interpret (nativeF55FullShadowTarget (D := A) (E := B) p) :=
-      cell.interpret_full_eq_shadow.symm
+  rw [(cell.mapAxesGivenPentagon F G data).interpret_full_eq_shadow,
+    cell.interpret_full_eq_shadow,
+    cell.nativeShadow_mapAxesGivenPentagon F G data]
 
 /-- Integer-charge-only target naturality is separately verified,
 not inferred from claiming an unproved old F58 source equivalence. -/
@@ -79,14 +74,9 @@ theorem KuuNativeF45Tree.DepthRotationRoute.PresentedCell.interpret_charge_mapAx
     (cell.mapAxesGivenPentagon F G data).interpret
       (nativeF55ChargeTarget (D := A₂) (E := B₂) p) =
     cell.interpret (nativeF55ChargeTarget (D := A) (E := B) p) := by
-  calc
-    (cell.mapAxesGivenPentagon F G data).interpret
-        (nativeF55ChargeTarget (D := A₂) (E := B₂) p) =
-      (cell.mapAxesGivenPentagon F G data).nativeShadow.1 :=
-        (cell.mapAxesGivenPentagon F G data).interpret_charge_eq_shadow_fst
-    _ = cell.nativeShadow.1 := cell.charge_mapAxesGivenPentagon F G data
-    _ = cell.interpret (nativeF55ChargeTarget (D := A) (E := B) p) :=
-      cell.interpret_charge_eq_shadow_fst.symm
+  rw [(cell.mapAxesGivenPentagon F G data).interpret_charge_eq_shadow_fst,
+    cell.interpret_charge_eq_shadow_fst,
+    cell.charge_mapAxesGivenPentagon F G data]
 
 /-- EVEN-phase calibration also commutes with all nine constructors.
 This is NOT the claim that the even target equals the odd target:
@@ -106,17 +96,9 @@ theorem KuuNativeF45Tree.DepthRotationRoute.PresentedCell.interpret_evenPhase_ma
       (nativeF55EvenPhaseTarget (D := A₂) (E := B₂) p) =
     cell.interpret
       (nativeF55EvenPhaseTarget (D := A) (E := B) p) := by
-  calc
-    (cell.mapAxesGivenPentagon F G data).interpret
-        (nativeF55EvenPhaseTarget (D := A₂) (E := B₂) p) =
-      ((cell.mapAxesGivenPentagon F G data).nativeShadow.1,
-          (0 : ZMod 2)) :=
-        (cell.mapAxesGivenPentagon F G data).interpret_evenPhase_eq_charge_zero
-    _ = (cell.nativeShadow.1, (0 : ZMod 2)) := by
-      rw [cell.charge_mapAxesGivenPentagon F G data]
-    _ = cell.interpret
-        (nativeF55EvenPhaseTarget (D := A) (E := B) p) :=
-      cell.interpret_evenPhase_eq_charge_zero.symm
+  rw [(cell.mapAxesGivenPentagon F G data).interpret_evenPhase_eq_charge_zero,
+    cell.interpret_evenPhase_eq_charge_zero,
+    cell.charge_mapAxesGivenPentagon F G data]
 
 /-- TRUE top C60 six-sector F55 square: even and odd recipients
 AGREE in both signed integer charges, but DIFFER in exchange phase
