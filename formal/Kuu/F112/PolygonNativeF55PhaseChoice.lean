@@ -80,17 +80,19 @@ theorem KuuNativeF45Tree.DepthRotationRoute.PresentedCell.interpret_evenPhase_eq
   | disjointSquare _ _ => rfl
   | symm c ih =>
       change
-        -(c.interpret (nativeF55EvenPhaseTarget (D := D) (E := E) p)) =
+        (nativeF55EvenPhaseTarget (D := D) (E := E) p).symm
+          (c.interpret (nativeF55EvenPhaseTarget (D := D) (E := E) p)) =
           (-c.nativeShadow.1, (0 : ZMod 2))
       rw [ih]
-      simp
+      simp [nativeF55EvenPhaseTarget]
   | trans c d ihc ihd =>
       change
-        c.interpret (nativeF55EvenPhaseTarget (D := D) (E := E) p) +
-          d.interpret (nativeF55EvenPhaseTarget (D := D) (E := E) p) =
+        (nativeF55EvenPhaseTarget (D := D) (E := E) p).trans
+          (c.interpret (nativeF55EvenPhaseTarget (D := D) (E := E) p))
+          (d.interpret (nativeF55EvenPhaseTarget (D := D) (E := E) p)) =
           (c.nativeShadow.1 + d.nativeShadow.1, (0 : ZMod 2))
       rw [ihc, ihd]
-      simp
+      simp [nativeF55EvenPhaseTarget]
   | leftContext c later ih => exact ih
   | rightContext earlier c ih => exact ih
   | precompose prior c ih => exact ih
