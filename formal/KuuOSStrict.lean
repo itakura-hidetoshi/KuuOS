@@ -93,4 +93,5 @@ import Kuu.F112.PolygonNativeF44TotalCategoryFunctor
 import Kuu.F112.PolygonNativeF45PhysicalHistoryFunctor
 import Kuu.F112.PolygonNativeF45PhysicalExecution
 import Kuu.F112.PolygonNativeF45TraceSplit
+import Kuu.F112.PolygonNativeF45PhysicalRealization
 /-! Current independent Kuu foundation. No legacy KUOS imports are permitted. -/
