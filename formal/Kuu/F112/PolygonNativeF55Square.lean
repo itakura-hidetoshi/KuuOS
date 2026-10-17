@@ -136,7 +136,7 @@ def KuuNativeF45Tree.DepthRotationRoute.firstPastingTag
     {before : KuuNativeF45Tree p n m ma pa mb pb}
     {after : KuuNativeF45Tree p n' m' ma pa mb pb} :
     KuuNativeF45Tree.DepthRotationRoute p before after → Nat
-  | .chain chain => chain.finalContextTag
+  | .chain storedPath => storedPath.finalContextTag
   | .castDepths _ _ _ => 0
   | .trans first _ => first.firstPastingTag
   | .leftContext _ _ => 1
