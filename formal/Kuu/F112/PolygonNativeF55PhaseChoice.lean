@@ -132,8 +132,8 @@ theorem KuuNativeF45Tree.DepthRotationRoute.PresentedCell.interpret_evenPhase_ch
   calc
     (cell.interpret
       (nativeF55EvenPhaseTarget (D := D) (E := E) p)).1 =
-      cell.nativeShadow.1 :=
-        congrArg Prod.fst cell.interpret_evenPhase_eq_charge_zero
+      cell.nativeShadow.1 := by
+        rw [cell.interpret_evenPhase_eq_charge_zero]
     _ = (cell.interpret
       (nativeF55FullShadowTarget (D := D) (E := E) p)).1 :=
         (congrArg Prod.fst cell.interpret_full_eq_shadow).symm
