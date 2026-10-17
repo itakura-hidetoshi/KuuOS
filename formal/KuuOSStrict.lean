@@ -89,4 +89,5 @@ import Kuu.F112.PolygonNativeF44FunctorCompositionLaws
 import Kuu.F112.PolygonNativeF44QuotientFunctorLaws
 import Kuu.F112.PolygonNativeF45ExchangePacketFunctorLaws
 import Kuu.F112.PolygonNativeF44BundledFunctorLaws
+import Kuu.F112.PolygonNativeF44TotalCategoryFunctor
 /-! Current independent Kuu foundation. No legacy KUOS imports are permitted. -/
