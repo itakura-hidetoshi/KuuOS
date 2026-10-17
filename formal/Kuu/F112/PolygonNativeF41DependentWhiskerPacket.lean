@@ -34,7 +34,8 @@ structure KuuNativeF41StepPacket {x y : A} where
 its actual index or constructor. -/
 def KuuNativeOneStep.toPacket
     {x y : A} {p q : KuuNativeBlocks x y}
-    (h : KuuNativeOneStep p q) : KuuNativeF41StepPacket :=
+    (h : KuuNativeOneStep p q) :
+    KuuNativeF41StepPacket (x := x) (y := y) :=
   ⟨p, q, h⟩
 
 /-- Every ordinary category functor transports the ENTIRE packet,
