@@ -75,4 +75,5 @@ import Kuu.F112.PolygonNativeF44ExchangeComposition
 import Kuu.F112.PolygonNativeF44ExchangeClassification
 import Kuu.F112.PolygonNativeF44FunctorTransport
 import Kuu.F112.PolygonNativeF44QuotientFunctorNaturality
+import Kuu.F112.PolygonNativeF45ExchangePacketNaturality
 /-! Current independent Kuu foundation. No legacy KUOS imports are permitted. -/
