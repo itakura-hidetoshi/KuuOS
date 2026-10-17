@@ -79,7 +79,20 @@ def KuuNativeF41StepPacket.whisker
   ⟨.snoc s.source t, .snoc s.target t,
     KuuNativeOneStep.whisker s.witness t⟩
 
+/-- The original native functor transport on a whiskered F41
+step has an exact constructor-shaped representative. The target is
+heterogeneous because source/target Blocks are dependent indices
+and map uses explicit Eq.mpr transports. -/
+theorem KuuNativeOneStep.map_whisker_heq
+    {B : Type*} [Category B] (F : A ⥤ B)
+    {x y z : A} {p q : KuuNativeBlocks x y}
+    (h : KuuNativeOneStep p q) (t : KuuNativePath y z) :
+    HEq ((KuuNativeOneStep.whisker h t).map F)
+      (KuuNativeOneStep.whisker (h.map F) (t.map F)) := by
+  simp [KuuNativeOneStep.map]
+
 #print axioms KuuNativeOneStep.whisker_heq_of_heq
+#print axioms KuuNativeOneStep.map_whisker_heq
 #print axioms KuuNativeOneStep.toPacket
 #print axioms KuuNativeF41StepPacket.map
 #print axioms KuuNativeF41StepPacket.whisker
