@@ -80,7 +80,41 @@ def nativeF54RootStepNormalization
     t₁ t₂ t₃ =>
       nativePackedRootMappedRotation_eq_assoc F G t₁ t₂ t₃
 
+/-- The F4-J strict raw F54 root comparison is now available
+for arbitrary independent Nat depths and arbitrary axis functors. -/
+def nativeF54RootAssocComparisonOfCancellation
+    (F : A ⥤ C) (G : B ⥤ D) :
+    KuuNativeF54RootAssocComparison F G :=
+  (nativeF54RootStepNormalization F G).toRootComparison F G
+
+/-- Both actual long and short pentagon boundary naturality
+equalities follow without independent assumptions. -/
+def nativeF55BoundaryComparisonOfCancellation
+    (F : A ⥤ C) (G : B ⥤ D) :
+    KuuNativeF55PentagonBoundaryComparison F G :=
+  (nativeF54RootStepNormalization F G).toBoundary F G
+
+/-- Unconditional F55 third-level action on the CHOSEN full-shadow
+quotient hom category. This does not assert historical Gray or
+unquotiented raw F55 equivalence. -/
+def nativeF55ThreeFunctorOfCancellation
+    (F : A ⥤ C) (G : B ⥤ D)
+    {p : Polygon} {a b : A} {x y : B}
+    {n n' m m' : Nat}
+    {ma mb : KuuNativeBlocks a b}
+    {pa pb : KuuNativeBlocks x y}
+    (first : KuuNativeF45Tree p n m ma pa mb pb)
+    (last : KuuNativeF45Tree p n' m' ma pa mb pb) :
+    (KuuNativeF45Tree.DepthRotationRoute p first last) ⥤
+      (KuuNativeF45Tree.DepthRotationRoute p
+        (first.mapAxes F G) (last.mapAxes F G)) :=
+  nativeF55ThreeFunctorOfRootStepNormalization
+    F G (nativeF54RootStepNormalization F G) first last
+
 #print axioms nativePackedRootMappedRotation_eq_assoc
 #print axioms nativeF54RootStepNormalization
+#print axioms nativeF54RootAssocComparisonOfCancellation
+#print axioms nativeF55BoundaryComparisonOfCancellation
+#print axioms nativeF55ThreeFunctorOfCancellation
 end
 end Kuu.F112.Physical
