@@ -82,4 +82,5 @@ import Kuu.F112.PolygonNativeF41DependentWhiskerPacket
 import Kuu.F112.PolygonNativeF41FunctorIdentity
 import Kuu.F112.PolygonNativeF41TraceFunctorIdentity
 import Kuu.F112.PolygonNativeF41FunctorCompositionPrimitives
+import Kuu.F112.PolygonNativeF41FunctorCompositionRoots
 /-! Current independent Kuu foundation. No legacy KUOS imports are permitted. -/
