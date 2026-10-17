@@ -53,6 +53,7 @@ theorem KuuNativeAxisTrace.map_id_heq
   | refl p =>
       simp only [KuuNativeAxisTrace.map]
       rw [KuuNativeBlocks.map_id p]
+      rfl
   | snoc h step ih =>
       exact KuuNativeAxisTrace.snoc_heq_of_heq
         (h.map (𝟭 A)) h (step.map (𝟭 A)) step
