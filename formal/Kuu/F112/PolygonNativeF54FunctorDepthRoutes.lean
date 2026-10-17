@@ -85,6 +85,8 @@ theorem KuuNativeF45Tree.DepthRotationRoute.rotationCount_mapAxes
       change (path.mapAxes F G).length = path.length
       exact path.length_mapAxes F G
   | castDepths hn hm tree =>
+      cases hn
+      cases hm
       rfl
   | trans left right ihLeft ihRight =>
       change (left.mapAxes F G).rotationCount +
@@ -106,9 +108,10 @@ theorem KuuNativeF45Tree.DepthRotationRoute.mapAxes_castDepths
     {pa pb : KuuNativeBlocks x y}
     (hn : n = n') (hm : m = m')
     (tree : KuuNativeF45Tree p n m ma pa mb pb) :
-    (KuuNativeF45Tree.DepthRotationRoute.castDepths hn hm tree).mapAxes F G =
-      KuuNativeF45Tree.DepthRotationRoute.castDepths hn hm
-        (tree.mapAxes F G) := by
+    HEq
+      ((KuuNativeF45Tree.DepthRotationRoute.castDepths hn hm tree).mapAxes F G)
+      (KuuNativeF45Tree.DepthRotationRoute.castDepths hn hm
+        (tree.mapAxes F G)) := by
   cases hn
   cases hm
   rfl
