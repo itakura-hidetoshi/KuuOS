@@ -342,8 +342,13 @@ theorem nativeF44UnitHistoryObservation_not_injective
   intro hinj
   apply nativeF44UnitOrders_ne ma pa
   apply hinj
-  rw [KuuNativeF44Ordered.fromF45Order_histories,
-    KuuNativeF44Ordered.fromF45Order_histories]
+  exact
+    (KuuNativeF44Ordered.fromF45Order_histories
+      .firstAxisFirst (KuuNativeAxisTrace.insertNilOnce ma)
+      (KuuNativeAxisTrace.insertNilOnce pa)).trans
+    (KuuNativeF44Ordered.fromF45Order_histories
+      .secondAxisFirst (KuuNativeAxisTrace.insertNilOnce ma)
+      (KuuNativeAxisTrace.insertNilOnce pa)).symm
 
 #print axioms KuuNativeF44Ordered
 #print axioms KuuNativeF44Ordered.firstHistory
