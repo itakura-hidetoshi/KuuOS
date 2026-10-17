@@ -53,7 +53,7 @@ theorem KuuNativeF45Tree.DepthRotationRoute.PresentedCell.nativeShadow_of_pentag
     (cell : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p r s)
     (h : cell.shapeTag = 1) :
     cell.nativeShadow = (((1 : Int), (0 : Int)), (0 : ZMod 2)) := by
-  cases cell <;> norm_num
+  cases cell <;> simp
     [KuuNativeF45Tree.DepthRotationRoute.PresentedCell.shapeTag,
       KuuNativeF45Tree.DepthRotationRoute.PresentedCell.nativeShadow] at *
 
