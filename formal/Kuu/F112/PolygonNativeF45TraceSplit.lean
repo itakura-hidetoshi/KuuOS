@@ -49,9 +49,9 @@ theorem KuuNativeAxisTrace.splitAppend_recompose
     {x y : C} (n m : Nat)
     {source target : KuuNativeBlocks x y}
     (whole : KuuNativeAxisTrace (n + m) source target) :
-    ((whole.splitAppend n m).2.1).append
-        ((whole.splitAppend n m).2.2.1) = whole :=
-  (whole.splitAppend n m).2.2.2
+    ((KuuNativeAxisTrace.splitAppend n m whole).2.1).append
+        ((KuuNativeAxisTrace.splitAppend n m whole).2.2.1) = whole :=
+  (KuuNativeAxisTrace.splitAppend n m whole).2.2.2
 
 /-- At an empty right-hand depth the chosen intermediate Blocks
 are the actual final Blocks and the whole evidence is unchanged. -/
@@ -59,7 +59,7 @@ theorem KuuNativeAxisTrace.splitAppend_zero
     {x y : C} (n : Nat)
     {source target : KuuNativeBlocks x y}
     (whole : KuuNativeAxisTrace (n + 0) source target) :
-    (whole.splitAppend n 0).1 = target := rfl
+    (KuuNativeAxisTrace.splitAppend n 0 whole).1 = target := rfl
 
 #print axioms KuuNativeAxisTrace.splitAppend
 #print axioms KuuNativeAxisTrace.splitAppend_recompose
