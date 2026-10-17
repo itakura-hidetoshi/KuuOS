@@ -60,7 +60,7 @@ theorem KuuNativeF45Tree.DepthRotationRoute.mapAxes_assoc
     KuuNativeF45Tree.DepthRotationRoute.mapAxes,
     KuuNativeF45Tree.RotationChain.mapAxes,
     KuuNativeF45Tree.RotationEdge.mapAxes]
-  rw [KuuNativeF45Tree.mapAxes_castDepths]
+  simp only [KuuNativeF45Tree.mapAxes_castDepths]
   rfl
 
 #print axioms KuuNativeF45Tree.DepthRotationRoute.mapAxes_ofLocalRotation
