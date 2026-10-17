@@ -115,11 +115,11 @@ def check(root: Path) -> dict:
                     errors.append(f'{module}: prohibited proof shortcut {bad}')
             for dependency in lean_imports(source):
                 edges.append([module, dependency])
-                if dependency.startswith('Mathlib.'):
+                # Mathlib is an approved mathematical library, including the
+                # umbrella import. Independence is a restriction on real Gray
+                # prerequisites, never on the breadth of a Mathlib import.
+                if dependency == 'Mathlib' or dependency.startswith('Mathlib.'):
                     continue
-                if dependency == 'Mathlib':
-                    if is_new_core:
-                        errors.append(f'{module}: umbrella Mathlib import is prohibited')
                 elif dependency == 'KuuOSFormal':
                     errors.append(f'{module}: public aggregate must not be a foundation prerequisite')
                 elif dependency.startswith(('Kuu.', 'KUOS.')) or dependency in {'KuuOSStrict', 'Kuu', 'KUOS'}:

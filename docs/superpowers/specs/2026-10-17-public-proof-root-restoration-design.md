@@ -15,3 +15,7 @@ The user explicitly requests full correction of v5.292's blanket removal of the 
 ## Implementation boundary
 
 Read the complete tracked tree and classify actual import closures before finalizing Lake library ownership/default build targets. The initial inventory workflow intentionally runs a failing public-root regression and supplies the exact tracked source archive for analysis. It grants no extra write permissions. Existing proof acceptance is preserved. The user explicitly rejects requiring repeated proof validation for this repair. Check our changed wiring and unchanged proof sources; do not impose new proof-acceptance conditions or demand work from the user.
+
+## Clarification: mathlib is not Gray
+
+All original and independent Lean proofs may use mathlib without restriction on import breadth. Both `import Mathlib` and `import Mathlib.*` are valid. Focused imports are only an optional build-performance preference, not a CI gate. Never infer a Gray dependency merely from mathlib usage. Only actual old Gray/F51/F77-dependent definitions must remain outside the independent `Kuu` foundation. No theorem rewriting, mathlib pin change, or user revalidation is entailed by this clarification.

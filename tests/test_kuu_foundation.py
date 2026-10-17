@@ -40,10 +40,26 @@ class FoundationBoundaryTest(unittest.TestCase):
         files['formal/Kuu/Hidden.lean'] = 'import KUOS.DependentOriginationC60KuuLocalUniversalDescentV5_249\n'
         self.assertFalse(check(self.fixture(files))['ok'])
 
-    def test_umbrella_mathlib_import_is_rejected(self):
+    def test_umbrella_mathlib_import_is_allowed(self):
         files = self.base()
         files['formal/Kuu/Presentation.lean'] = 'import Mathlib\n'
+        self.assertTrue(check(self.fixture(files))['ok'])
+
+    def test_mathlib_and_non_gray_import_can_coexist(self):
+        files = self.base('import Mathlib\nimport KUOS.ExistingTransport\n')
+        files['formal/KUOS/ExistingTransport.lean'] = 'import Mathlib.CategoryTheory.Functor.Basic\n'
+        self.assertTrue(check(self.fixture(files))['ok'])
+
+    def test_gray_still_rejected_with_full_mathlib_import(self):
+        files = self.base('import Mathlib\nimport KUOS.GraySource\n')
+        files['formal/KUOS/GraySource.lean'] = 'import Mathlib\n'
         self.assertFalse(check(self.fixture(files))['ok'])
+
+    def test_all_mathlib_import_styles_preserve_boundary(self):
+        files = self.base('import Mathlib Mathlib.CategoryTheory.Quotient\n')
+        report = check(self.fixture(files))
+        self.assertTrue(report['ok'], report['errors'])
+        self.assertIn(['KuuOSStrict', 'Mathlib'], report['import_edges'])
 
     def test_unused_current_module_is_also_checked(self):
         files = self.base()
