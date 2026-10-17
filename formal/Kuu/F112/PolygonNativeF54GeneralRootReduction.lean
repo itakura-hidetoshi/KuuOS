@@ -148,12 +148,14 @@ theorem KuuNativeF54RootAssocComparison.long
       KuuNativeF45Tree.DepthRotationRoute.pentagonLong
         (t₁.mapAxes F G) (t₂.mapAxes F G)
         (t₃.mapAxes F G) (t₄.mapAxes F G) := by
-  simp only [KuuNativeF45Tree.DepthRotationRoute.pentagonLong,
-    KuuNativeF45Tree.DepthRotationRoute.mapAxes_trans,
-    KuuNativeF45Tree.DepthRotationRoute.mapAxes_leftContext,
-    KuuNativeF45Tree.DepthRotationRoute.mapAxes_rightContext,
-    KuuNativeF45Tree.mapAxes,
-    h.root]
+  dsimp only [KuuNativeF45Tree.DepthRotationRoute.pentagonLong]
+  simp only [KuuNativeF45Tree.DepthRotationRoute.mapAxes_trans]
+  rw [KuuNativeF45Tree.DepthRotationRoute.mapAxes_leftContext]
+  rw [KuuNativeF45Tree.DepthRotationRoute.mapAxes_rightContext]
+  rw [h.root p t₁ t₂ t₃]
+  rw [h.root p t₁ (KuuNativeF45Tree.node t₂ t₃) t₄]
+  rw [h.root p t₂ t₃ t₄]
+  rfl
 
 /-- Root naturality similarly implies the independently proof-bearing
 TWO-rotation pentagon short route naturality with correct four
@@ -173,10 +175,11 @@ theorem KuuNativeF54RootAssocComparison.short
       KuuNativeF45Tree.DepthRotationRoute.pentagonShort
         (t₁.mapAxes F G) (t₂.mapAxes F G)
         (t₃.mapAxes F G) (t₄.mapAxes F G) := by
-  simp only [KuuNativeF45Tree.DepthRotationRoute.pentagonShort,
-    KuuNativeF45Tree.DepthRotationRoute.mapAxes_trans,
-    KuuNativeF45Tree.mapAxes,
-    h.root]
+  dsimp only [KuuNativeF45Tree.DepthRotationRoute.pentagonShort]
+  rw [KuuNativeF45Tree.DepthRotationRoute.mapAxes_trans]
+  rw [h.root p (KuuNativeF45Tree.node t₁ t₂) t₃ t₄]
+  rw [h.root p t₁ t₂ (KuuNativeF45Tree.node t₃ t₄)]
+  rfl
 
 /-- REDUCE the F4-B TWO-axiom-shaped mathematical input to ONE
 primitive raw root coherence theorem, without fabricating a new
