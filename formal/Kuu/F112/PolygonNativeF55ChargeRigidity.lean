@@ -145,8 +145,7 @@ theorem northNativeF55Pentagon_quotient_not_injective :
           nativeF55ThreeOf c) := by
   intro hinj
   exact northNativeF55PentagonWithUnit_raw_ne
-    (hinj northNativeF55PentagonCell northNativeF55PentagonWithUnit
-      northNativeF55Pentagon_quotient_eq_withUnit)
+    (hinj northNativeF55Pentagon_quotient_eq_withUnit)
 
 /-- The two signed charges observed through the E7Q2 independent
 F58-shaped target already determine each E7P4 quotient 3-arrow.
