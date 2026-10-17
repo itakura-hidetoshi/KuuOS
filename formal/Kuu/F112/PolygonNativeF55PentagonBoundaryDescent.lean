@@ -98,9 +98,15 @@ def KuuNativeF55PentagonBoundaryComparison.toMappedData
     (F : A ⥤ A₂) (G : B ⥤ B₂)
     (h : KuuNativeF55PentagonBoundaryComparison F G) :
     KuuNativeF55MappedPentagonData F G where
-  pentagon := fun p t₁ t₂ t₃ t₄ =>
+  pentagon := fun p {a b} {x y}
+      {n₁ n₂ n₃ n₄ m₁ m₂ m₃ m₄}
+      {p₀ p₁ p₂ p₃ p₄} {q₀ q₁ q₂ q₃ q₄}
+      t₁ t₂ t₃ t₄ =>
     (h.lift F G p t₁ t₂ t₃ t₄).1
-  pentagonTag := fun p t₁ t₂ t₃ t₄ =>
+  pentagonTag := fun p {a b} {x y}
+      {n₁ n₂ n₃ n₄ m₁ m₂ m₃ m₄}
+      {p₀ p₁ p₂ p₃ p₄} {q₀ q₁ q₂ q₃ q₄}
+      t₁ t₂ t₃ t₄ =>
     (h.lift F G p t₁ t₂ t₃ t₄).2
 
 /-- Consequently the already proved faithful third-level quotient
