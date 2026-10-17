@@ -54,7 +54,7 @@ lake build KuuOSFormal
 
 警告のエラー化は、Lakeライブラリの正式な設定`leanOptions = { warningAsError = true }`に固定しています。`-KleanArgs`という任意の設定キーだけに依存しません。Leanソース内の`sorry`・`admit`・新公理・`native_decide`は依存境界検査でも拒否します。
 
-公開rootの欠落とCIの保存先への誤迂回を検出する回帰確認、独立Kuuの実際の直接・間接依存確認、保存版の変更防止を行います。**mathlibは新旧すべてのLean4形式化で積極的に利用します。** `import Mathlib` と `import Mathlib.*` はどちらも許可します。個別importはビルド時間短縮のための任意の推奨にすぎず、包括importの禁止条件ではありません。Grayからの独立性は実際の依存と定義により判断し、mathlibの使用や`KUOS.*`というnamespaceだけを理由に拒否しません。
+公開rootの欠落とCIの保存先への誤迂回を検出する回帰確認、独立Kuuの実際の直接・間接依存確認、保存版の変更防止を行います。**mathlibは新旧すべてのLean4形式化で積極的に利用します。** `import Mathlib` と個別の `import Mathlib.CategoryTheory.Quotient` など、正式なmathlibモジュールのimportはどちらも許可します。個別importはビルド時間短縮のための任意の推奨にすぎず、包括importの禁止条件ではありません。Grayからの独立性は実際の依存と定義により判断し、mathlibの使用や`KUOS.*`というnamespaceだけを理由に拒否しません。
 
 ソース`fe9d720a36025a9fc259b70bf43b9f33b45891f2`では、[独立コアCI](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38827903551)が45件の当時のテストと644ジョブのLeanビルドに成功しています。以後の追加テスト・設定を含む統合判定は[PR #2338](https://github.com/itakura-hidetoshi/KuuOS/pull/2338)の対象headに結び付くCI結果を参照してください。過去の成功を新headの成功として扱いません。
 

@@ -18,4 +18,4 @@ Read the complete tracked tree and classify actual import closures before finali
 
 ## Clarification: mathlib is not Gray
 
-All original and independent Lean proofs may use mathlib without restriction on import breadth. Both `import Mathlib` and `import Mathlib.*` are valid. Focused imports are only an optional build-performance preference, not a CI gate. Never infer a Gray dependency merely from mathlib usage. Only actual old Gray/F51/F77-dependent definitions must remain outside the independent `Kuu` foundation. No theorem rewriting, mathlib pin change, or user revalidation is entailed by this clarification.
+All original and independent Lean proofs may use mathlib without restriction on import breadth. Both `import Mathlib` and imports of named submodules (e.g. `import Mathlib.CategoryTheory.Quotient`) are valid. Focused imports are only an optional build-performance preference, not a CI gate. Never infer a Gray dependency merely from mathlib usage. Only actual old Gray/F51/F77-dependent definitions must remain outside the independent `Kuu` foundation. No theorem rewriting, mathlib pin change, or user revalidation is entailed by this clarification.

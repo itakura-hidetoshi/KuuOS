@@ -34,7 +34,7 @@ F94–F97およびv5.291は、名称にKuu/Onlyを含んでいても間接的な
 
 ## mathlibの利用方針（2026-10-17改訂）
 
-Grayを空の原始定義から外す方針と、mathlibを使う方針は独立です。mathlibの圏論・双圏・simplicial set・局所化・ホモトピー・代数・位相の定理を積極的に再利用します。`import Mathlib` と個別の `import Mathlib.*` はいずれも認め、前者をCIで禁止しません。ビルド効率のために個別importを選ぶことは任意であり、証明の数学的正当性や公開権威の条件としません。独立Kuuに持ち込まないものは旧Gray/F51/F77を空の成立に不可欠とする実際の依存であり、mathlibではありません。既存定理の再証明は要求せず、元のLean/mathlib固定版を維持します。
+Grayを空の原始定義から外す方針と、mathlibを使う方針は独立です。mathlibの圏論・双圏・simplicial set・局所化・ホモトピー・代数・位相の定理を積極的に再利用します。`import Mathlib` と `import Mathlib.CategoryTheory.Quotient` など個別モジュール指定の双方を認め、前者をCIで禁止しません。ビルド効率のために個別importを選ぶことは任意であり、証明の数学的正当性や公開権威の条件としません。独立Kuuに持ち込まないものは旧Gray/F51/F77を空の成立に不可欠とする実際の依存であり、mathlibではありません。既存定理の再証明は要求せず、元のLean/mathlib固定版を維持します。
 
 ## 次の数学的義務
 
