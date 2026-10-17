@@ -47,9 +47,9 @@ def KuuNativeF45Tree.realizePacket
           exact ⟨.leaf sector .firstAxisFirst firstHistory secondHistory, rfl, rfl⟩
   | @node n₁ m₁ n₂ m₂ left right ihLeft ihRight =>
       rcases KuuNativeAxisTrace.splitAppend n₁ n₂ firstHistory with
-        ⟨middleFirst, firstLeft, firstRight, firstJoin⟩
+        ⟨middleFirst, firstLeft, ⟨firstRight, firstJoin⟩⟩
       rcases KuuNativeAxisTrace.splitAppend m₁ m₂ secondHistory with
-        ⟨middleSecond, secondLeft, secondRight, secondJoin⟩
+        ⟨middleSecond, secondLeft, ⟨secondRight, secondJoin⟩⟩
       rcases ihLeft firstLeft secondLeft with
         ⟨treeLeft, physicalLeft, historiesLeft⟩
       rcases ihRight firstRight secondRight with
