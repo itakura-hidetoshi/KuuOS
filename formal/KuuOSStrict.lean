@@ -52,4 +52,5 @@ import Kuu.F112.PolygonNativeF45PropTraceComparison
 import Kuu.F112.PolygonNativeF40FunctorComparison
 import Kuu.F112.PolygonNativeF45FunctorAxes
 import Kuu.F112.PolygonNativeF54FunctorChains
+import Kuu.F112.PolygonNativeF54FunctorDepthRoutes
 /-! Current independent Kuu foundation. No legacy KUOS imports are permitted. -/
