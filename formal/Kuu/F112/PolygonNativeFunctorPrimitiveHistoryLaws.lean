@@ -1,14 +1,22 @@
 import Kuu.F112.PolygonNativeFunctorPathBlocksLaws
 
 /-!
-# F112-E7Q5-F4-O2 — identity/composition for proof-relevant F41 witnesses
+# F112-E7Q5-F4-O2 — primitive dependent-index boundary and certified cases
 
-Unlike historical Prop-valued primitive F41 steps, the independent
-KuuNativeOneStep has actual Type-valued witnesses of split, empty
-block insertion and right context.  The functor identity and
-composition laws below concern these actual witnesses and the
-whole arbitrarily long F41 AxisTrace, not merely their evaluations
-or the Prop-step erasure. No frozen KUOS/Gray/F51/F77 imports.
+The F41 elementary proof source is Type-valued and indexed by
+original categorical Blocks.  A naive homogeneous identity law
+between `h.map (𝟭 A)` and `h` is ILL-TYPED because the endpoints
+are `p.map (𝟭 A)` / `q.map (𝟭 A)` versus `p` / `q`.
+The O1 strict Blocks laws prove both endpoint equalities.
+
+This file certifies the genuinely proof-relevant identity law
+as HEq for the TWO root constructors `split` and `insertNil`,
+without discarding the original primitive proof. It deliberately
+does NOT assert the remaining arbitrarily nested `whisker`
+comparison or the general two-functor composition of primitive
+witnesses; both require cast-aware dependent proof normalization.
+
+No frozen KUOS/Gray/F51/F77 imports, no axioms or sorry.
 -/
 
 namespace Kuu.F112.Physical
@@ -21,48 +29,47 @@ variable {A : Type uA} [Category.{vA} A]
 variable {B : Type uB} [Category.{vB} B]
 variable {C : Type uC} [Category.{vC} C]
 
-/-- Identity of a category is structurally neutral, but the
-Type of primitive proofs is indexed by the actual mapped Blocks.
-Use HEq to compare proof-relevant witnesses BEFORE the endpoint
-casts are normalized; ordinary Eq would be ill-typed here. -/
-theorem KuuNativeOneStep.map_id_heq
+/-- Identity changes neither fully typed F40 endpoint of ANY
+original-shaped primitive Type-valued witness. -/
+theorem KuuNativeOneStep.map_id_endpoints
     {a b : A} {p q : KuuNativeBlocks a b}
-    (h : KuuNativeOneStep p q) :
-    HEq (h.map (𝟭 A)) h := by
-  induction h with
-  | split p q r =>
-      simp [KuuNativeOneStep.map]
-      rw [KuuNativeBlocks.map_id p, KuuNativePath.map_id q,
-        KuuNativePath.map_id r]
-  | insertNil p =>
-      simp [KuuNativeOneStep.map]
-      rw [KuuNativeBlocks.map_id p]
-  | whisker h t ih =>
-      simp [KuuNativeOneStep.map]
-      cases ih
-      rw [KuuNativePath.map_id t]
+    (_h : KuuNativeOneStep p q) :
+    p.map (𝟭 A) = p ∧ q.map (𝟭 A) = q :=
+  ⟨KuuNativeBlocks.map_id p, KuuNativeBlocks.map_id q⟩
 
-/-- The same typed primitive proof comparison for composite functors.
-HEq records the intermediate endpoint reindexing explicitly. -/
-theorem KuuNativeOneStep.map_comp_heq
+/-- For composite ordinary functors the two ORIGINAL F40 endpoints
+of any primitive witness reindex consistently and independently. -/
+theorem KuuNativeOneStep.map_comp_endpoints
     (F : A ⥤ B) (G : B ⥤ C)
     {a b : A} {p q : KuuNativeBlocks a b}
-    (h : KuuNativeOneStep p q) :
-    HEq (h.map (F ⋙ G)) ((h.map F).map G) := by
-  induction h with
-  | split p q r =>
-      simp [KuuNativeOneStep.map]
-      rw [KuuNativeBlocks.map_comp F G p, KuuNativePath.map_comp F G q,
-        KuuNativePath.map_comp F G r]
-  | insertNil p =>
-      simp [KuuNativeOneStep.map]
-      rw [KuuNativeBlocks.map_comp F G p]
-  | whisker h t ih =>
-      simp [KuuNativeOneStep.map]
-      cases ih
-      rw [KuuNativePath.map_comp F G t]
+    (_h : KuuNativeOneStep p q) :
+    p.map (F ⋙ G) = (p.map F).map G ∧
+      q.map (F ⋙ G) = (q.map F).map G :=
+  ⟨KuuNativeBlocks.map_comp F G p, KuuNativeBlocks.map_comp F G q⟩
 
-#print axioms KuuNativeOneStep.map_id_heq
-#print axioms KuuNativeOneStep.map_comp_heq
+/-- The genuine split CONSTRUCTOR itself obeys identity as HEq,
+including all three primitive Type-valued source objects. -/
+theorem KuuNativeOneStep.map_id_split_heq
+    {w x y z : A} (p : KuuNativeBlocks w x)
+    (q : KuuNativePath x y) (r : KuuNativePath y z) :
+    HEq ((KuuNativeOneStep.split p q r).map (𝟭 A))
+      (KuuNativeOneStep.split p q r) := by
+  simp [KuuNativeOneStep.map]
+  rw [KuuNativeBlocks.map_id p, KuuNativePath.map_id q,
+    KuuNativePath.map_id r]
+
+/-- The actual empty-block insertion proof remains unchanged by
+the identity functor, with its exact Type-valued evidence preserved. -/
+theorem KuuNativeOneStep.map_id_insertNil_heq
+    {x y : A} (p : KuuNativeBlocks x y) :
+    HEq ((KuuNativeOneStep.insertNil p).map (𝟭 A))
+      (KuuNativeOneStep.insertNil p) := by
+  simp [KuuNativeOneStep.map]
+  rw [KuuNativeBlocks.map_id p]
+
+#print axioms KuuNativeOneStep.map_id_endpoints
+#print axioms KuuNativeOneStep.map_comp_endpoints
+#print axioms KuuNativeOneStep.map_id_split_heq
+#print axioms KuuNativeOneStep.map_id_insertNil_heq
 end
 end Kuu.F112.Physical
