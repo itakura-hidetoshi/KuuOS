@@ -66,4 +66,5 @@ import Kuu.F112.PolygonNativeF54GeneralCastCoherence
 import Kuu.F112.PolygonNativeF54GeneralRootReduction
 import Kuu.F112.PolygonNativeF54PackedCastRotation
 import Kuu.F112.PolygonNativeF54PackedRootNaturality
+import Kuu.F112.PolygonNativeF54RootStepNormalization
 /-! Current independent Kuu foundation. No legacy KUOS imports are permitted. -/
