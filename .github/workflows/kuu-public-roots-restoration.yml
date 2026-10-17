@@ -30,6 +30,8 @@ jobs:
           mkdir -p artifacts/public-proof-roots
           git rev-parse HEAD | tee artifacts/public-proof-roots/source-sha.txt
           git archive --format=tar HEAD | gzip -n > artifacts/public-proof-roots/source.tar.gz
+          git fetch --depth=1 origin f4b4e7859d380019bc6dcab0ee97c3be84bbc285
+          git archive --format=tar f4b4e7859d380019bc6dcab0ee97c3be84bbc285 | gzip -n > artifacts/public-proof-roots/before.tar.gz
           sha256sum artifacts/public-proof-roots/source.tar.gz
           python3 - <<'PY'
           import pathlib, tomllib
