@@ -68,9 +68,9 @@ theorem KuuNativeF44Ordered.firstHistory_append
           (h.append k).firstHistory step =
         KuuNativeAxisTrace.snoc
           (h.firstHistory.append k.firstHistory) step
-      exact congrArg (fun z => KuuNativeAxisTrace.snoc z step) ih
+      exact congrArg (fun z => KuuNativeAxisTrace.snoc z step) (ih h)
   | second k step ih =>
-      exact ih
+      exact ih h
 
 /-- Second history obeys the corresponding separate concatenation
 law even when first-axis steps are arbitrarily interleaved. -/
@@ -87,13 +87,13 @@ theorem KuuNativeF44Ordered.secondHistory_append
   | refl =>
       rfl
   | first k step ih =>
-      exact ih
+      exact ih h
   | second k step ih =>
       change KuuNativeAxisTrace.snoc
           (h.append k).secondHistory step =
         KuuNativeAxisTrace.snoc
           (h.secondHistory.append k.secondHistory) step
-      exact congrArg (fun z => KuuNativeAxisTrace.snoc z step) ih
+      exact congrArg (fun z => KuuNativeAxisTrace.snoc z step) (ih h)
 
 /-- Both proof-relevant native histories are exactly additive under
 arbitrary concatenation of original F44-shaped ordered words. -/
