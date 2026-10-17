@@ -78,4 +78,5 @@ import Kuu.F112.PolygonNativeF44QuotientFunctorNaturality
 import Kuu.F112.PolygonNativeF45ExchangePacketNaturality
 import Kuu.F112.PolygonNativeFunctorPathBlocksLaws
 import Kuu.F112.PolygonNativeFunctorPrimitiveHistoryLaws
+import Kuu.F112.PolygonNativeF41DependentWhiskerPacket
 /-! Current independent Kuu foundation. No legacy KUOS imports are permitted. -/
