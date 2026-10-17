@@ -99,16 +99,9 @@ theorem KuuNativeF45Tree.DepthRotationRoute.PresentedCell.interpret_full_eq_shad
   | pentagon _ _ _ _ => rfl
   | disjointSquare _ _ => rfl
   | symm c ih =>
-      change
-        -(c.interpret (nativeF55FullShadowTarget (D := D) (E := E) p)) =
-          -c.nativeShadow
-      rw [ih]
+      exact congrArg (fun z : KuuNativeF55Shadow => -z) ih
   | trans c d ihc ihd =>
-      change
-        c.interpret (nativeF55FullShadowTarget (D := D) (E := E) p) +
-          d.interpret (nativeF55FullShadowTarget (D := D) (E := E) p) =
-          c.nativeShadow + d.nativeShadow
-      rw [ihc, ihd]
+      exact congrArg₂ (fun z w : KuuNativeF55Shadow => z + w) ihc ihd
   | leftContext c later ih => exact ih
   | rightContext earlier c ih => exact ih
   | precompose prior c ih => exact ih
@@ -133,16 +126,9 @@ theorem KuuNativeF45Tree.DepthRotationRoute.PresentedCell.interpret_charge_eq_sh
   | pentagon _ _ _ _ => rfl
   | disjointSquare _ _ => rfl
   | symm c ih =>
-      change
-        -(c.interpret (nativeF55ChargeTarget (D := D) (E := E) p)) =
-          -c.nativeShadow.1
-      rw [ih]
+      exact congrArg (fun z : Int × Int => -z) ih
   | trans c d ihc ihd =>
-      change
-        c.interpret (nativeF55ChargeTarget (D := D) (E := E) p) +
-          d.interpret (nativeF55ChargeTarget (D := D) (E := E) p) =
-          c.nativeShadow.1 + d.nativeShadow.1
-      rw [ihc, ihd]
+      exact congrArg₂ (fun z w : Int × Int => z + w) ihc ihd
   | leftContext c later ih => exact ih
   | rightContext earlier c ih => exact ih
   | precompose prior c ih => exact ih
