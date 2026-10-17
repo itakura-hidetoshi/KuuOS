@@ -136,7 +136,7 @@ theorem KuuNativeF45Tree.exchangePacket_mapAxes_sectors
     {p : Polygon} {a b : A} {x y : B} {n m : Nat}
     {ma mb : KuuNativeBlocks a b}
     {pa pb : KuuNativeBlocks x y}
-    (tree : KuuNativeF45Tree p n m ma pa pb) :
+    (tree : KuuNativeF45Tree p n m ma pa mb pb) :
     (tree.mapAxes F G).exchangePacket.1.erase.leaves =
       tree.sectors := by
   calc
@@ -151,7 +151,7 @@ theorem KuuNativeF45Tree.exchangePacket_mapAxes_histories
     {p : Polygon} {a b : A} {x y : B} {n m : Nat}
     {ma mb : KuuNativeBlocks a b}
     {pa pb : KuuNativeBlocks x y}
-    (tree : KuuNativeF45Tree p n m ma pa pb) :
+    (tree : KuuNativeF45Tree p n m ma pa mb pb) :
     (tree.mapAxes F G).exchangePacket.2.histories =
       (tree.axisHistories.1.map F, tree.axisHistories.2.map G) := by
   calc
