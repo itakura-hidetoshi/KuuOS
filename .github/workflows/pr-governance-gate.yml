@@ -193,6 +193,30 @@ jobs:
           restore-keys: |
             kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-
 
+      # The canonical main workspace key can be absent when main was
+      # published with [skip ci]. In that case restore the already available
+      # leanprover/lean-action cache, whose documented key starts with lake-.
+      # This is restore-only; it neither adds a new CI job nor overwrites
+      # the trusted main cache. Lake checks all source dependencies as usual.
+      - name: Restore shared lean-action Lake cache on main cache miss
+        if: steps.lean-workspace-cache.outputs.cache-matched-key == ''
+        id: lean-action-workspace-cache
+        uses: actions/cache/restore@v5
+        with:
+          path: ./.lake
+          key: lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-${{ github.event.pull_request.head.sha || github.sha }}
+          restore-keys: |
+            lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-
+
+      - name: Report shared lean-action cache restore
+        if: steps.lean-workspace-cache.outputs.cache-matched-key == ''
+        shell: bash
+        env:
+          CACHE_MATCHED_KEY: ${{ steps.lean-action-workspace-cache.outputs.cache-matched-key }}
+        run: |
+          set -euo pipefail
+          echo "lean-action Lake cache matched key: ${CACHE_MATCHED_KEY:-none}"
+
       - name: Report Lake workspace cache restore
         shell: bash
         env:
@@ -238,13 +262,12 @@ jobs:
           use-mathlib-cache: false
           use-github-cache: false
 
-      # A restored trusted main .lake already contains the pinned Mathlib build
-      # and the compiled KuuOS dependency graph. Running `lake exe cache get`
-      # after that restore can refresh dependency mtimes and make Lake rebuild
-      # otherwise reusable KuuOS .olean files. Only fetch Mathlib when no Lake
-      # workspace cache was restored at all.
+      # Main and lean-action caches both contain pinned Mathlib and may
+      # contain prior KuuOS oleans. Avoid refreshing dependency mtimes when
+      # EITHER full workspace cache was restored. The PR-local build overlay
+      # is restored independently above and remains scoped to this PR.
       - name: Fetch Mathlib cache on Lake workspace cache miss
-        if: steps.lean-workspace-cache.outputs.cache-matched-key == ''
+        if: steps.lean-workspace-cache.outputs.cache-matched-key == '' && steps.lean-action-workspace-cache.outputs.cache-matched-key == ''
         shell: bash
         run: |
           set -euo pipefail
