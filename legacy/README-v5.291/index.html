@@ -1,0 +1,1863 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Boundary-aware governance architecture for relational AI systems">
+      
+      
+        <meta name="author" content="Hidetoshi Itakura">
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>KuuOS / 空OS - KuuOS / 空OS Public Core</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#kuuos-os" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="KuuOS / 空OS Public Core" class="md-header__button md-logo" aria-label="KuuOS / 空OS Public Core" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            KuuOS / 空OS Public Core
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              KuuOS / 空OS
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/itakura-hidetoshi/KuuOS" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    itakura-hidetoshi/KuuOS
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="KuuOS / 空OS Public Core" class="md-nav__button md-logo" aria-label="KuuOS / 空OS Public Core" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    KuuOS / 空OS Public Core
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/itakura-hidetoshi/KuuOS" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    itakura-hidetoshi/KuuOS
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Start Here
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Start Here
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../PUBLIC_DOCS_INDEX_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Public Docs Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QUICKSTART_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quickstart
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../EXTERNAL_REVIEW_GUIDE_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    External Review Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../WHY_KUUOS_EXISTS_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Why KuuOS Exists
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Architecture
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ARCHITECTURE_OVERVIEW_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ARCHITECTURE_DIAGRAM_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture Diagram
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../GOVERNANCE_FLOW_OVERVIEW_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Governance Flow Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../GOVERNANCE_DIAGRAM_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Governance Diagram
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../VALIDATOR_GRAPH_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Validator Graph
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Governance
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Governance
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../KUUOS_GOVERNANCE_MANIFESTO_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Governance Manifesto
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../BOUNDARY_AND_NONAUTHORITY_POLICY_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Boundary and Non-Authority Policy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../BOUNDARY_RISK_MODEL_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Boundary Risk Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CLAIM_LEVEL_TAXONOMY_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Claim Level Taxonomy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CONTRIBUTOR_REVIEW_WORKFLOW_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributor Review Workflow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Validation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Validation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../VALIDATION_COVERAGE_MATRIX_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Validation Coverage Matrix
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../REPRODUCIBILITY_MATRIX_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reproducibility Matrix
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../PUBLIC_AUDIT_CHECKLIST_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Public Audit Checklist
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../VALIDATOR_DEPENDENCY_OVERVIEW_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Validator Dependency Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../LEAN_COVERAGE_MAP_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lean Coverage Map
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Terminology
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Terminology
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../FORMAL_TERMINOLOGY_GLOSSARY_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Formal Terminology Glossary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../TERMINOLOGY_CROSS_REFERENCE_INDEX_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Terminology Cross Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Release
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Release
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../PUBLIC_RELEASE_PACKAGE_MANIFEST_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Public Release Package Manifest
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../V0_1_RELEASE_READINESS_CHECKLIST/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v0.1 Release Readiness Checklist
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Core
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../KUOS_CORE_GOVERNANCE_INDEX_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core Governance Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../KUOS_FOURFOLD_CORE_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fourfold Core
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../GOVERNANCE_RELEASE_GATE_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Governance Release Gate
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="kuuos-os">KuuOS / 空OS<a class="headerlink" href="#kuuos-os" title="Permanent link">&para;</a></h1>
+<p><a href="https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/pr-governance-gate.yml"><img alt="KuuOS PR Governance Gate" src="https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/pr-governance-gate.yml/badge.svg" /></a>
+<a href="https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/core_governance_validation.yml"><img alt="Core Governance" src="https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/core_governance_validation.yml/badge.svg" /></a>
+<a href="https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/kuuos_runtime_full_check.yml"><img alt="KuuOS Runtime Full Check" src="https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/kuuos_runtime_full_check.yml/badge.svg" /></a></p>
+<p><strong>KuuOS（空OS）</strong> は、<strong>空・縁起・関係・文脈・表現の交代可能性・高次圏論・obstruction-aware descent</strong> を数学的に扱う研究体系です。Lean 4による形式化と、別途検証が必要なAI推論ランタイム研究の双方を含みます。</p>
+<p><strong>研究・著作権者 / Founder and copyright holder:</strong> <strong>板倉英俊 / Hidetoshi Itakura</strong>。ソースコード・文書のライセンスは <a href="LICENSE">Apache License 2.0</a>（<code>Apache-2.0</code>）。<a href="NOTICE">NOTICE</a>・<a href="COPYRIGHT.md">COPYRIGHT.md</a>を参照してください。</p>
+<blockquote>
+<p><strong>空は、異なる原表示を無条件に同一視することではない。</strong> 文脈と保存量を明確にしたうえで、交換可能な表現を証明し、合成・輸送・貼り合わせが不整合ならその障害を残す。</p>
+</blockquote>
+<p>English: KuuOS is a research architecture for dependent origination, context-dependent presentations, exact categorical quotients, presentation replaceability, compositional coherence, and obstruction-preserving descent. The mathematical results are versioned Lean declarations; runtime use and empirical validity require independent evidence.</p>
+<h2 id="verified-formal-frontier-lean4">Verified formal frontier / Lean4の現在の正本<a class="headerlink" href="#verified-formal-frontier-lean4" title="Permanent link">&para;</a></h2>
+<p><strong>2026-10-16 JST GitHub MCP再確認：<code>v5.290 / F112</code> 第18段階までLean4で統合済み。</strong> F112第6段階（v5.278）で真正F69/F106物理交差証人を保持する任意有限長の経路圏、原F42/F43/F54/F55四境界F47ソースCat値図式・Grothendieck総圏を構成し、第7段階（v5.279）で元のF69頂点・辺・面の<strong>真正前向き入射射と形式的な逆向き射</strong>を別圏の自由zigzagへ配置しました。第8段階（v5.280）では、<strong>異なる実C60物理辺の共通F69サイトを保存した証人の反転</strong>、任意有限長の物理交差経路の逆順・連結反転則・二重反転恒等性、および元F69入射zigzagの正確な<strong>形式的逆向き経路</strong>を実装。<strong>元の証人付き自由経路は往復しても空経路にならない</strong>一方、完全な二整数荷電と独立ZMod2位相を保存する原F47ソース圏の輸送は<strong>両向きの往復で厳密な恒等関手</strong>となり、全Homに型付き<code>HEq</code>を与えます。これは元F69入射射に真の逆射を追加したことでも、元のF42/F54原語を同一視したことでもありません。F55比較補正射<code>Δ=(0,1;phase0)</code>の九生成子non-lift、F110位相のF77からの非復元、F68北五角形第2荷電<code>−5</code>の曲率障害は残り、原F42/F54/F55の完全な大域的実効3-descentは未証明です。</p>
+<p><strong>v5.282／F112第10段階（<a href="https://github.com/itakura-hidetoshi/KuuOS/pull/2318">数学PR #2318</a>）<strong>では、元F69半順序圏の<code>FreeGroupoid</code>とGabriel–Zisman局所化が普遍性によって圏同値となることを証明。原F69の前向き真正入射と形式的後向きにより生成された</strong>F113のraw自由zigzagの局所化核</strong>を<code>Functor.homRel</code>として定義し、mathlibの真の<code>Quotient</code>圏、厳密で一意な因子化、核の等式を忠実に保持する表現を構成しました。rawの二脚往復は非空ですが、この<strong>指定した核商で初めて恒等</strong>になります。</p>
+<p><strong>v5.283／F112第11段階（<a href="https://github.com/itakura-hidetoshi/KuuOS/pull/2319">数学PR #2319</a>）<strong>では、固定mathlibの</strong>実際の局所化生成子</strong>（真正F69前向き射・その形式的逆向き射）からF113のraw zigzagへ復号する<code>Prefunctor</code>と<code>Paths.lift</code>を構成し、局所化の全Homが元の有限zigzagの像になる<strong>充満性</strong>を証明しました。さらに<strong>本質的全射性</strong>と第10段階の<strong>忠実性</strong>から、(\operatorname{Zigzag}_{\mathrm{raw}}(F69)/\ker L\simeq F69[W^{-1}]\simeq\operatorname{FreeGroupoid}(F69)) を<strong>真の圏同値</strong>としてLean4で証明。<strong>元のraw zigzagそのものは同値と主張せず</strong>、原F69入射圏を改変しません。F55 Δ non-lift、F110位相非復元、F68北五角形第2荷電<code>−5</code>、F42/F54/F55全ソース実効descent未証明を引き続き保持します。</p>
+<p><strong>v5.284／F112第12段階（<a href="https://github.com/itakura-hidetoshi/KuuOS/pull/2321">数学PR #2321</a>）<strong>では、元F69で既存の</strong>真正360個の頂点–辺–面入射二単体</strong>と、元の前向き入射射で構成したF113 raw二脚zigzagを接続しました。実際の中間辺サイトを保持した<strong>raw二脚経路と原直接対角射のraw一脚経路は長さ2と1で非同一</strong>、しかし正確なF69 Gabriel–Zisman局所化とv5.283の忠実充満な<strong>局所化核商</strong>ではそれらの像が同じ射になることを証明。任意の<strong>真正</strong>F69中間サイトによる平行二脚spanも、局所化・核商で厳密整合します。これは<strong>F69入射1圏／そのnerveの二単体関係</strong>であり、元F42/F54/F55の真正Gray 2/3-cellのBeck–Chevalley整合性・大域実効descentを自動的に証明するものではありません。原F55 Δ non-lift、F110のF77位相非復元、F68北五角形の原第2荷電<code>−5</code>も残存します。</p>
+<p><strong>v5.285／F112第13段階（<a href="https://github.com/itakura-hidetoshi/KuuOS/pull/2323">数学PR #2323</a>）<strong>では、全90実物理辺の各々において元の二つの異なる五／六角形面サイトを使うF108源文脈を構成し、元C60実Quiver.Pathで360物理フラグ頂点と辺端点を接続。独立した奇次数</strong>原F42面2-cell</strong>の二表示を比較する<strong>原F47四境界ソース関手</strong>を作り、旧F54/F55回転木を保持した<strong>左・右Beck–Chevalley NatIso</strong>と、<strong>全F47三射の自然性</strong>を証明しました。特に原F43面交換3-Hom／原F54/F55回転境界3-Homで自然性を個別検証し、二整数荷電と独立ZMod2位相を完全に保存。F69の全360真正入射二単体の局所化kernel等号と元raw経路の非同一、原F51位相1、元F55九生成子Deltaの<strong>non-lift</strong>、F68北五角形原荷電<code>−5</code>が<strong>同時に保持</strong>されることを証明しました。<strong>境界：これは各真正F69フラグの同一物理辺に局所化された原F47ソースBCであり、全元F69頂点・面にF47繊維を与える大域図式や元F42/F54/F55有効3-descentは未証明</strong>です。</p>
+<p><strong>v5.286／F112第14段階（<a href="https://github.com/itakura-hidetoshi/KuuOS/pull/2325">数学PR #2325</a>）<strong>では、<strong>相異なる真正C60物理辺</strong>の交差証人<code>W : C60F112DistinctEdgeOverlap C i j</code>を必須とし、辺iで独立した原F42二面表示を変更後に実交差を越える経路と、実交差後に辺jで独立した原F42二面表示を変更する経路を、それぞれ</strong>原F43/F54/F55由来の四境界付きF47ソース関手</strong>として構成。<strong>全F47三射で二整数荷電と独立ZMod2位相の完全保存</strong>を証明し、二つの順序で得られるF47ソース関手の<strong>厳密等式</strong>、したがって関手圏の<strong>Beck–Chevalley NatIso</strong>を形式化しました。依存Homの<code>eqToHom</code>輸送を明示して等式を証明し、<strong>全Hom自然性、原F43面交換射・元F54/F55回転射の自然性、混合四境界平方の保存</strong>も証明。両方の原F42奇次数交換位相1、両辺の原F55九生成子Delta non-lift、F68北五角形の非ゼロ曲率荷電<code>−5</code>は同時に保持。<strong>この二セルは真正F69交差でガードされた原F47混合ソース圏の関手圏2セル</strong>です。全F69頂点／面の大域Cat値原F47繊維や元F42/F54/F55実効3-descent、F77からの原位相復元は主張しません。</p>
+<p><strong>v5.287／F112第15段階（<a href="https://github.com/itakura-hidetoshi/KuuOS/pull/2327">数学PR #2327</a>）<strong>では、F278で構成した</strong>真正F69物理交差証人付き任意有限長経路圏</strong>の同一実C60文脈<code>C</code>上、各物理辺に独立に選んだ原奇次数F42二面ソース表示族<code>P,Q</code>について<strong>完全Int×Int荷電＋独立ZMod2位相を保存する原F47四境界ソース変更関手</strong>を構成。第14段階の真正異辺交差にガードされたCat Beck–Chevalley等式を各一歩で用い、経路帰納法により<strong>任意有限長pathについて<code>L_i ⋙ T_Q(path) = T_P(path) ⋙ L_j</code></strong>を証明しました。これにより、二つの原F47 Cat値図式間の<strong>真の自然変換</strong>を構成し、任意経路連結との整合性を保証。さらに三つの独立表示族<code>P,Q,R</code>について、<strong>全自然変換の厳密Čech三重cocycle、自己表示変更が恒等自然変換であること</strong>をLean4で証明し、逆向き表示変更を明示した<strong>Cat値図式全体の自然同型</strong><code>c60F121WitnessedF47DiagramSourceNatIso</code>へ到達しました。<strong>この自然同型は証人付き交差経路圏の原F47混合商ソース図式の間に限る</strong>もので、元F69全頂点・面の原F47繊維や、原F42/F54/F55 raw構文の同一化、無条件の大域実効3-descentを意味しません。元F55 Delta九生成子non-lift、F110位相非復元とF68北五角形原第2荷電<code>−5</code>は保持します。</p>
+<p><strong>v5.288／F112第16段階（<a href="https://github.com/itakura-hidetoshi/KuuOS/pull/2329">数学PR #2329</a>）<strong>では、F278真正物理交差証人付き任意有限長経路圏上の原F47混合ソースCat値図式について、F121の</strong>二つの独立した原F42面表示family間の自然同型</strong>を固定mathlib <code>Grothendieck.map</code>で<strong>真正な総圏関手</strong>に持ち上げました。総圏の<strong>全対象と全Homの実物理交差経路baseをそのまま保存</strong>し、<code>Grothendieck.forget</code>との<strong>厳密可換性</strong>、同一表示の恒等functor、独立三表示<code>P,Q,R</code>間の<strong>総圏全体の厳密Čech cocycle</strong>を証明。逆表示変更と左右三角恒等式から<strong>総圏のCat同型</strong>と<code>Cat.equivOfIso</code>による<strong>圏同値</strong>をLeanで構成しました。元F47繊維でのInt×Int荷電と独立ZMod2位相を保持しつつ、<strong>両表示における旧F55九生成子Delta non-lift、原F68北五角形第2荷電<code>−5</code>と非ゼロ曲率、未修復vertex gauge不能</strong>を同時に証明。これは<strong>真正な証人付き物理交差経路圏上の原F47混合商ソース総圏</strong>についての結果であり、元F69全頂点・面の大域原F42/F54/F55三次stack／実効descentや元F113・原F42/F54 raw構文同一化を主張しません。</p>
+<p><strong>v5.289／F112第17段階（<a href="https://github.com/itakura-hidetoshi/KuuOS/pull/2331">数学PR #2331</a>）<strong>では、既存F281で検証した</strong>真正F69物理交差証人付き経路圏のmathlib Gabriel–Zisman局所化</strong>と、v5.287で得た任意有限長の原F47表示変更<strong>Cat値図式自然同型</strong>を接続しました。F281の二つの原F47図式の<strong>厳密局所化因子化</strong>から必要な<code>Localization.Lifting</code>を型付きで構成し、固定mathlib <code>Localization.liftNatIso</code>によって二つの局所化後原F47図式間の<strong>真の自然同型</strong>を構成。これを<code>Grothendieck.map</code>で<strong>局所化後の原F47混合ソース総圏</strong>へ持ち上げ、<strong>総圏の全対象と全Homの局所化済み物理経路baseが厳密に不変</strong>、<code>Grothendieck.forget</code>と射影が厳密可換であることを証明しました。さらに<code>Grothendieck.pre_comp_map</code>を用い、元の<strong>真正経路圏から局所化圏へのbase変更</strong>と原F47表示変更が厳密に交換する定理を証明し、局所化総圏の<strong>Cat同型と圏同値</strong>を構成しました。原F55九生成子Δ non-lift、F110/F77位相非復元、F68北五角形の原第2荷電<code>−5</code>・非ゼロ曲率・未修復vertex gauge障害は保持されます。<strong>元のF69入射半順序圏自体とは別の局所化</strong>であり、原F69全頂点・面のF42/F54/F55大域3-stackやraw原構文実効descentを証明したものではありません。</p>
+<p><strong>v5.290／F112第18段階（<a href="https://github.com/itakura-hidetoshi/KuuOS/pull/2333">数学PR #2333</a>）<strong>では、既証明F68の</strong>真正C60 60頂点–90物理辺–32原五／六角形面の整数鎖複体</strong>について、任意の補正cochain <code>γ</code> が<strong>全局所曲率</strong>を打ち消すための必要十分条件を、真正頂点Grayゲージ <code>φ</code> による<strong>明示アフィン表示</strong>として形式化しました：<code>ω_F68 + γ ∘ ∂₂ = 0 ↔ ∃ φ, γ = φ ∘ ∂₁ − A_σ</code>。すべての有効補正は<strong>非零</strong>で、元北五角形の第2整数曲率荷電<code>−5</code>を相殺するため、<strong>その境界での補正第2荷電は厳密に<code>+5</code></strong>。既存F55物理樹木修復を原点とする全補正のアフィン分類も証明しました。さらにv5.225 F71が要求する<strong>元F69全60頂点・90辺・32面Cat値入射図式が別途与えられる場合に限り</strong>、補正済みGray頂点ゲージと、全360真正元F69入射二単体のCat値整合性を備えた型付き仕様を構成。<strong>補正済み仕様のinhabited性 ⇔ F71元全入射Cat値拡張のinhabited性</strong>を証明しますが、<strong>後者の存在は主張しません</strong>。未修復の物理頂点ゲージdescentは不可能のままで、原F42/F54/F55 raw実効3-stack、旧F55九生成子Δ non-lift、F77位相非復元も未解決／保持です。局所化証人付き経路圏（v5.289）と元F69入射圏は<strong>異なる権威対象</strong>として区別します。</p>
+<p><strong>v5.281／F112第9段階（<a href="https://github.com/itakura-hidetoshi/KuuOS/pull/2316">数学PR #2316</a>）<strong>は、元のF69入射半順序圏そのものを変更せず、mathlibのGabriel–Zisman局所化 (C_{F69}[W^{-1}]) を構成して普遍因子化・一意性を証明しました。第7段階の真正F69前向き不等式／形式的逆向きによる</strong>自由zigzagをこの局所化へ型付き関手で写し</strong>、rawの反射的一歩が局所化後には恒等射に写ることを区別します。また、真正C60物理交差の<strong>証人付き経路圏の別の局所化</strong>において、完全なInt×Int整数荷電・独立ZMod2位相を保持する原F47 Cat値図式が全経路を同型に送ることと、その<strong>厳密で一意な因子化</strong>を証明。<strong>自由zigzag自体が局所化と圏同値であること、F69全サイト上の原F47図式、原F42/F54/F55の大域実効descentは未主張</strong>であり、F55 Δ non-lift、F110位相非復元、F68北五角形の第2荷電(-5)は保持します。</p>
+<table>
+<thead>
+<tr>
+<th>検証項目</th>
+<th>最新の確認済み権威</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Repository / canonical branch</td>
+<td><a href="https://github.com/itakura-hidetoshi/KuuOS"><code>itakura-hidetoshi/KuuOS</code></a> / <code>main</code></td>
+</tr>
+<tr>
+<td><strong>最新 theorem-bearing PR</strong></td>
+<td><strong><a href="https://github.com/itakura-hidetoshi/KuuOS/pull/2333">PR #2333 — v5.290 F112第18段階, MERGED</a></strong></td>
+</tr>
+<tr>
+<td><strong>Theorem-bearing merge SHA</strong></td>
+<td><strong><code>22ed69f8e8693b1fb1e42810a17179c7af06bd7a</code></strong>（PR #2333 数学squash SHA、canonical <code>main</code>一致確認済み）</td>
+</tr>
+<tr>
+<td>Exact tested source HEAD</td>
+<td><code>1aa53e3e046442236f172082b305d13d88b84ba9</code></td>
+</tr>
+<tr>
+<td>Exact-head proof CI</td>
+<td><a href="https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38805955595">GitHub Actions #38805955595</a> — <strong>completed SUCCESS</strong></td>
+</tr>
+<tr>
+<td>Strict Lean target</td>
+<td><code>KUOS.DependentOriginationC60KuuCurvedIncidenceSourceDescentCriterionV5_290</code> — <strong>9102/9102 SUCCESS</strong></td>
+</tr>
+<tr>
+<td>Governance / MCP</td>
+<td>Strict Lean・Governance・MCP Lean completion・MCP CI completion <strong>全SUCCESS</strong></td>
+</tr>
+<tr>
+<td>Changed-file audit</td>
+<td><strong>warning/error 0/0</strong>、<strong>12 <code>#print axioms</code></strong>、<code>sorryAx</code>なし（既存有限C60幾何<code>native_decide</code>公理への依存は保持）</td>
+</tr>
+<tr>
+<td>Pinned versions</td>
+<td><a href="lean-toolchain">Lean <code>v4.30.0-rc2</code></a>、<a href="lake-manifest.json">mathlib <code>5450b53e5ddc75d46418fabb605edbf36bd0beb6</code></a></td>
+</tr>
+<tr>
+<td>Separate verification only</td>
+<td><a href="https://github.com/itakura-hidetoshi/KuuOS/pull/1558">PR #1558 — Lean 4.31</a>: <strong>OPEN / DRAFT / NOT MERGED</strong>。正本へマージしない</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Authority rule:</strong> その時点の実<code>main</code> HEAD → 正確なLean定理・依存ファイル → 文書 → 同じsource HEADのCI・証跡 → 履歴、の順に確認してください。README・ROADMAPだけの更新でも<code>main</code> SHAは動きますが、<strong>数学的theorem-bearing SHAは変わりません</strong>。選択したLeanモジュールのCI成功は、リポジトリ全体・実行環境・AIモデルの検証を意味しません。<code>#print axioms</code>には通常の<code>propext</code>、<code>Classical.choice</code>、<code>Quot.sound</code>のほか、初期C60有限幾何に由来する<code>native_decide</code>の公理依存が含まれる場合があります。これらを<code>sorryAx</code>や新しく導入した未審査公理と混同しないでください。</p>
+<h2 id="mathematical-core">空＝型付きの表現交代可能性 / Mathematical core<a class="headerlink" href="#mathematical-core" title="Permanent link">&para;</a></h2>
+<p>F94–F95では、真正のC60経路<code>p,q</code>に沿う<strong>平行な原F51の3射</strong><code>f,g</code>について、意図的に構成されたF77商圏への観測<code>Q</code>が</p>
+<p>[
+\boxed{
+f\sim_{\mathrm{kuu}}g
+\iff Q(f)=Q(g)
+\iff \operatorname{charge}(f)=\operatorname{charge}(g)
+\in\mathbb{Z}\times\mathbb{Z}
+}
+]</p>
+<p>を満たします。<strong>二つの独立した整数荷電は消去されません。</strong> 元の交換位相（<code>ZMod 2</code>）は<strong>この明示的な商圏に写した後にだけ</strong>忘却されます。異なる原F42/F43やF54/F55の証明項が元の型で同じになるわけではありません。</p>
+<p>また各経路対に対するF95の真正の圏商<code>Q_{p,q}: \mathcal P(p,q)\to\mathcal K(p,q)</code>は、F94の交代可能性を保存する観測関手に対して<strong>一意の因子化</strong>を持ちます。</p>
+<p>[
+F=\overline F\circ Q_{p,q},\qquad \exists!\,\overline F
+\quad\text{（<code>F</code>が交代可能性を保存する場合）}.
+]</p>
+<p>この仮定は本質的です。局所的な一意因子化だけから、異なる物理パッチ間の無条件な大域貼り合わせは導けません。</p>
+<h3 id="do-not-collapse-the-layers">証明対象の区別 / Do not collapse the layers<a class="headerlink" href="#do-not-collapse-the-layers" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>層</th>
+<th>証明・操作できること</th>
+<th>誤って主張しないこと</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>原C60幾何</td>
+<td><strong>60頂点、90物理辺、32実多角形面（12五角形、20六角形）</strong>、360入射旗標、真正の有向<code>Quiver.Path</code></td>
+<td>入射旗標の<code>K₂,₂</code>四角形を新たなC60表面の正方形面とみなすこと</td>
+</tr>
+<tr>
+<td>原F42/F43/F51/F54/F55</td>
+<td>型付き2射・3射の原表示と独立した位相・荷電・曲率</td>
+<td>異なる原構文を無条件に等置すること、既存のF43に無かったF51の追加生成子を過去に遡って同一視すること</td>
+</tr>
+<tr>
+<td>F75–F83、F94–F112（第11段階）</td>
+<td>実C60原F42/F51二面関手とF77商圏、全90物理辺での実有限交差上Čech自然同型、<strong>物理交差の任意長履歴の厳密な経路独立性・閉路恒等性・制限前後の観測関手／自然変換成分の整合性</strong>。F110の原位相非復元・原F68非平坦曲率の障害も保持</td>
+<td>F77観測後の整合性を原F42/F54/F55の無条件大域貼り合わせや原位相復元、非ゼロ原物理曲率の消去とみなすこと</td>
+</tr>
+<tr>
+<td>実物理曲率</td>
+<td>F68の符号付き2-cochain、局所非平坦性、必要な非ゼロ修復</td>
+<td>全32面の有向和がゼロであることから個々の五角形・六角形が平坦だと推論すること</td>
+</tr>
+</tbody>
+</table>
+<p><strong>明示的なobstruction:</strong> 元の北五角形の第2整数荷電は<strong><code>−5</code></strong>です。F77観測後の比較射が追加荷電ゼロでも、この原F55物理曲率は消えません。修復を使うならF68の非ゼロ補正を明示的に扱う必要があります。</p>
+<h2 id="formal-milestones">Formal milestones / 証明済みの主要段階<a class="headerlink" href="#formal-milestones" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>範囲 / PR</th>
+<th>Lean4で証明した到達点（その型と仮定の範囲内）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>v4.00–v5.101</td>
+<td>presentation-sensitiveな局所化と障害、原<code>F/G/η/ε</code>、独立したforward/reverse swallowtail、<a href="formal/KUOS/DependentOriginationCoherentBiadjunctionActualLiftV5_101.lean">v5.101 coherent biadjunction</a></td>
+</tr>
+<tr>
+<td>v5.102–v5.154</td>
+<td>Native mates/adjunction、独立したF19/F28軸、有限合成・原F45/F54/F55の構成</td>
+</tr>
+<tr>
+<td>v5.155–v5.228</td>
+<td>真正のC60幾何・F42/F51/F55入射と曲率、有限アトラス・Čech・nerveの条件付き結果</td>
+</tr>
+<tr>
+<td><a href="https://github.com/itakura-hidetoshi/KuuOS/pull/2266">F75–F93 / #2248–#2266</a></td>
+<td>独立位相を忘却するF77圏商、F78 globular certificate、F80の商Hom tensor、モノイダル整合性、F93の比較tensorator等式</td>
+</tr>
+<tr>
+<td><a href="https://github.com/itakura-hidetoshi/KuuOS/pull/2268">F94–F95 / #2267–#2268</a></td>
+<td>正しい原F51境界上の荷電による交代可能性、真正の局所<code>CategoryTheory.Quotient</code>と普遍因子化</td>
+</tr>
+<tr>
+<td><a href="https://github.com/itakura-hidetoshi/KuuOS/pull/2272">F96–F99 / #2269–#2272</a></td>
+<td>F95水平・垂直双関手、4入力F98観測交換<code>NatIso</code>、F99左右<code>whiskering</code>関手の局所商圏へのdescent</td>
+</tr>
+<tr>
+<td><a href="https://github.com/itakura-hidetoshi/KuuOS/pull/2274">F100 / #2274</a></td>
+<td>左→右と右→左の実C60文脈順序をF77観測後に<code>NatIso</code>で比較。原F42の異なる括弧は同一視しない</td>
+</tr>
+<tr>
+<td><a href="https://github.com/itakura-hidetoshi/KuuOS/pull/2275">F101 / #2275</a></td>
+<td>4入力の文脈化された水平／垂直交換<code>NatIso</code>の可換四角形を自然変換の等式として証明</td>
+</tr>
+<tr>
+<td><a href="https://github.com/itakura-hidetoshi/KuuOS/pull/2276">F102 / #2276</a></td>
+<td>4入力の二重文脈順序LR/RLと水平／垂直HV/VHによる比較四角形の高次整合性</td>
+</tr>
+<tr>
+<td><a href="https://github.com/itakura-hidetoshi/KuuOS/pull/2277">F103 / #2277</a></td>
+<td>4経路の<strong>観測後五角形整合性</strong>、ゼロ追加荷電自然変換の一意性、F102比較経路の高次一意性</td>
+</tr>
+<tr>
+<td><a href="https://github.com/itakura-hidetoshi/KuuOS/pull/2278">F104 / #2278</a></td>
+<td><strong>同一原経路対上</strong>の有限左右文脈アトラスで厳密Čech 1-cocycle、任意長経路独立性、基準観測への比較と追加荷電障害</td>
+</tr>
+<tr>
+<td><a href="https://github.com/itakura-hidetoshi/KuuOS/pull/2279">F105 / #2279</a></td>
+<td><strong>異なる実C60物理辺</strong>のF95局所圏を<strong>与えられた重なり圏・制限関手</strong>で比較。<code>Int × Int</code>差のcocycle、条件付き貼り合わせと非ゼロ障害、北五角形曲率の保持</td>
+</tr>
+<tr>
+<td><a href="https://github.com/itakura-hidetoshi/KuuOS/pull/2280">F106 / #2280</a></td>
+<td>F69の真正の<strong>入射スター有限交差圏</strong>、部分集合による制限関手、共有頂点・共有実多角形面の存在証明。F95意味論は明示的な追加データ</td>
+</tr>
+<tr>
+<td><strong><a href="https://github.com/itakura-hidetoshi/KuuOS/pull/2281">F107 / #2281</a></strong></td>
+<td>原F42の対象ラベル・型付き原F51の射語を与え、<strong>二成分荷電の単位律・合成律からF95意味論関手を構成</strong>。原F51への持ち上げには別途<code>ZMod 2</code>位相整合性を要求し、原F42境界次数と位相合成の障害を証明</td>
+</tr>
+<tr>
+<td><strong><a href="https://github.com/itakura-hidetoshi/KuuOS/pull/2283">F108 第1段階 / v5.262 / #2283</a></strong></td>
+<td>実際の五角形・六角形面と型付き前後<code>Quiver.Path</code>から<strong>次数1の原F42面ラベル</strong>と原F51恒等語による局所F95/F51関手を構成。別途、原F43交換射の前後文脈化により<code>charge=(0,0), phase=1</code>の<strong>非恒等F51射</strong>を真正F69入射三角形の比較とともに構成（文脈経路の存在は入力）</td>
+</tr>
+<tr>
+<td><strong><a href="https://github.com/itakura-hidetoshi/KuuOS/pull/2284">F108 第2段階 / v5.263 / #2284</a></strong></td>
+<td>原C60正逆90辺から北基点→全60頂点、任意2頂点間の真正<code>Quiver.Path</code>を構成。F108の前後文脈経路の存在を証明して<strong>全90物理辺</strong>のF42/F95意味論を構成。保守的な原F51恒等語のスター全体への拡張と、独立した非恒等交換射の存在を区別</td>
+</tr>
+<tr>
+<td><strong><a href="https://github.com/itakura-hidetoshi/KuuOS/pull/2286">F108 第3段階 / v5.264 / #2286</a></strong></td>
+<td>真正F69入射半順序の頂点層→辺・面層の単調関手と<code>Bool</code> walking-arrowから、<strong>全スターHomに定義される非恒等の原F51関手</strong>を構成。実頂点→物理辺射が<code>charge=(0,0), phase=1</code>の原F43/F51交換3射へ写ることを証明。両上位面は選んだ一方の面由来の二つのF42水平合成表示を使う（面別F42は次段階）</td>
+</tr>
+<tr>
+<td><strong><a href="https://github.com/itakura-hidetoshi/KuuOS/pull/2288">F108 第4段階 / v5.265 / #2288</a></strong></td>
+<td>物理辺を挟む<strong>異なる二つの実多角形面</strong>の原F42生成子を、基点間の真正C60経路で共通開経路へ接続。両面を含む二つの水平合成語間の原F43/F51交換射は<code>charge=(0,0), phase=1</code>。全90物理辺の局所スター関手と両側の実入射三角形を構成。各面サイトへの独立F42対象割当ては未証明</td>
+</tr>
+<tr>
+<td><strong><a href="https://github.com/itakura-hidetoshi/KuuOS/pull/2289">F109 第1段階 / v5.266 / #2289</a></strong></td>
+<td>二面原F51スター関手の<strong>全Hom上の整数荷電ゼロ</strong>と、任意の真正有限物理交差上の<strong>二成分荷電差ゼロ</strong>を証明。独立位相1は原構文に保持。二面F42合成の次数0を証明</td>
+</tr>
+<tr>
+<td><strong><a href="https://github.com/itakura-hidetoshi/KuuOS/pull/2290">F109 第2段階 / v5.267 / #2290</a></strong></td>
+<td>上記のF42次数0から、全物理重なりでF77観測対象が同一の中性商対象になることを証明。F106の対象・荷電条件を実際に満たし、<strong>真のNatIsoおよび厳密な3パッチČech cocycle</strong>を構成（この特定の二面意味論について）</td>
+</tr>
+<tr>
+<td><strong><a href="https://github.com/itakura-hidetoshi/KuuOS/pull/2292">F110 第1段階 / v5.268 / #2292</a></strong></td>
+<td>実物理頂点→辺原F51射の位相1がF77観測後の<strong>等式輸送射</strong>に写ることを形式化。F109の真正F77物理Čech自然同型の追加荷電ゼロと、F68北五角形の原第2荷電<code>−5</code>・物理曲率非ゼロ・無補正頂点ゲージ不存在・必要な非ゼロ修復を同時に証明</td>
+</tr>
+<tr>
+<td><strong><a href="https://github.com/itakura-hidetoshi/KuuOS/pull/2293">F110 第2段階 / v5.269 / #2293</a></strong></td>
+<td>原Gray圏の位相1生成子と恒等射は異なるがF77商では同じ。F77射から全原位相を回復する関数は存在せず、<strong><code>F77→GrayGrade</code>の左逆関手による完全な原Gray復元も不可能</strong>。ただし追加ソースデータによる局所リフトは否定しない</td>
+</tr>
+<tr>
+<td><strong><a href="https://github.com/itakura-hidetoshi/KuuOS/pull/2295">F111 第1段階 / v5.270 / #2295</a></strong></td>
+<td>パッチの真正有限物理交差への所属証明を持つ型付き中間履歴を導入し、<strong>任意長のČech自然変換の経路独立性・閉路恒等性・追加整数荷電ゼロ・自然性・連結／分割整合性</strong>を証明。全90辺の実C60へ特殊化</td>
+</tr>
+<tr>
+<td><strong><a href="https://github.com/itakura-hidetoshi/KuuOS/pull/2296">F111 第2段階 / v5.271 / #2296</a></strong></td>
+<td>F106の真正幾何学的制限(J⊆I)に対する<strong>F77観測関手の対象／射／関手全体の一致</strong>を証明。F109自然同型の成分と<strong>異なる長さ・中間パッチ履歴の成分</strong>が制限前後で一致し、追加荷電ゼロを保存。全90辺へ特殊化</td>
+</tr>
+<tr>
+<td><strong><a href="https://github.com/itakura-hidetoshi/KuuOS/pull/2297">F111 第3段階 / v5.272 / #2297</a></strong></td>
+<td>真正C60有限物理交差の二段階包含<code>K⊆J⊆I</code>について、F106制限の対象・全Homの直接制限との一致、F109自然同型成分の二段階整合性、三つの集合で<strong>それぞれ異なる任意長Čech履歴の二つの比較等式</strong>、追加荷電ゼロを構成。全90実物理辺に特殊化。F77観測後の有限交差に限る</td>
+</tr>
+<tr>
+<td><strong><a href="https://github.com/itakura-hidetoshi/KuuOS/pull/2300">F112 第1段階 / v5.273 / #2300</a></strong></td>
+<td><strong>任意有限長の型付き真正C60物理交差制限列</strong>を帰納型として実装。原F106制限関手の全対象・射での端点直接制限への一致、列の連結、独立な二列・異なる任意長Čech履歴のF77観測射の異種等式<code>HEq</code>、高次cocycleと追加荷電ゼロ、全90実物理辺をLeanで確認。F110位相非復元を保存し、原F68北五角形荷電<code>−5</code>は独立のobstructionとして保持</td>
+</tr>
+<tr>
+<td><strong><a href="https://github.com/itakura-hidetoshi/KuuOS/pull/2302">F112 第2段階 / v5.274 / #2302</a></strong></td>
+<td><strong>二つの別々の実C60面サイトの独立した原F42境界型と奇次数を保存</strong>。原F43/F51交換射の荷電<code>(0,0)</code>・位相<code>1</code>・非恒等性を示し、F77商ではじめて恒等射に潰れることを証明。別の原F54/F55回転境界付き物理旗標射の実現、任意長F112制限列の観測後整合性、原F68北五角形の第2荷電<code>−5</code>と無補正ゲージ不存在を同時に保持。ソース側全大域descentは未主張</td>
+</tr>
+<tr>
+<td><strong><a href="https://github.com/itakura-hidetoshi/KuuOS/pull/2304">F112 第3段階 / v5.275 / #2304</a></strong></td>
+<td>二つの独立した実面サイトの任意の奇次数原F42二射と本物のF43交換射から、原F54回転境界・原F55物理旗標射を保持した<strong>真正のF47四境界ソース枠</strong>を構成。元のF43/F51完全Gray像の一致、F47混合圏の<strong>可換四角形</strong>、補正受信射<code>Δ=(0,1; phase 0)</code>の一意性、および元の九生成子F55の正確な型付き境界における<strong>non-lift定理</strong>を証明。全90物理辺へ特殊化。追加F47射を原F55に偽装せず、F68曲率<code>−5</code>は未解消</td>
+</tr>
+<tr>
+<td><strong><a href="https://github.com/itakura-hidetoshi/KuuOS/pull/2306">F112 第4段階 / v5.276 / #2306</a></strong></td>
+<td>同一真正物理辺の独立原F42表示間で、原F43/F44・F54/F55完全Gray像の一致を供給し、原F47四境界<strong>ソース表示変更関手</strong>、全Hom二整数荷電＋位相保存・忠実性、三表示の<code>HEq</code> Čech整合性と原F42/F54左右Beck–Chevalley自然同型、F55 non-liftの継承を証明</td>
+</tr>
+<tr>
+<td><strong><a href="https://github.com/itakura-hidetoshi/KuuOS/pull/2308">F112 第5段階 / v5.277 / #2308</a></strong></td>
+<td><strong>異なる実C60物理辺の真正F69入射スター交差</strong>を共有頂点・元五／六角形面の証人から構成。全Hom二整数荷電＋ZMod2位相を保存する<strong>交差証人付き局所F47表示変更関手</strong>・忠実性・可換四角形保存、三辺の実共通入射サイト上の<code>HEq</code> Čech整合性、元F55九生成子non-lift、F68北五角形原第2荷電<code>−5</code>を証明。大域F69→F47関手や実効ソースdescentは未証明</td>
+</tr>
+<tr>
+<td><strong><a href="https://github.com/itakura-hidetoshi/KuuOS/pull/2310">F112 第6段階 / v5.278 / #2310</a></strong></td>
+<td><strong>実F69入射交差証人付き任意有限長の真正C60物理辺の経路</strong>を帰納型・Mathlib圏として構成。原F42/F54/F55混合四境界F47圏の全Hom荷電＋位相保存・忠実な輸送と、経路連結＝関手合成、任意二経路の<strong>完全F47関手の一致</strong>とHomの<code>HEq</code>をLeanで証明。Cat値経路図式・Grothendieck総圏を構成する一方、辺位置を保存して元F69入射圏に投影する関手の<strong>NO-GO</strong>を証明。原F55補正射non-liftとF68北五角形第2荷電<code>−5</code>は残存</td>
+</tr>
+<tr>
+<td><strong><a href="https://github.com/itakura-hidetoshi/KuuOS/pull/2312">F112 第7段階 / v5.279 / #2312</a></strong></td>
+<td>元F69頂点・辺・面の<strong>実在する向き付き入射射／形式的逆向き射</strong>で生成した<strong>別個の自由zigzag圏</strong>を構成。真正F69/F106の二辺交差サイトを証人として<strong>二脚zigzag</strong>を作り、任意長の実交差証人付き経路から幾何学的zigzag圏への<strong>Mathlib関手</strong>を証明。原F47四境界ソースGrothendieck総圏をこの幾何学と関手で接続し、二整数荷電・位相保存を保持。元F69各サイトを固定するzigzag→元F69関手の<strong>NO-GO</strong>を証明。形式的逆向き射を元のF69射に捏造せず、原F55 non-lift／F68第2荷電<code>−5</code>／大域実効descent未証明を保持</td>
+</tr>
+<tr>
+<td><strong><a href="https://github.com/itakura-hidetoshi/KuuOS/pull/2314">F112 第8段階 / v5.280 / #2314</a></strong></td>
+<td><strong>異なる真正C60物理辺の実F69共通サイトを保持する交差証人の反転</strong>と任意有限長の証人付き経路の反転・連結逆順・二重反転をLeanで構成。別の自由F69ジグザグの形式的逆向き操作も実装。<strong>自由物理経路の往復は原証人を消去せず非空</strong>だが、原F47四境界ソース関手の往復は左右とも<strong>厳密な恒等関手</strong>となり、全Homで<code>HEq</code>を証明。元F69への逆射追加・元F42/F54原語の等置・F68曲率の平坦化は未主張</td>
+</tr>
+<tr>
+<td><strong><a href="https://github.com/itakura-hidetoshi/KuuOS/pull/2316">F112 第9段階 / v5.281 / #2316</a></strong></td>
+<td>元のF69入射圏の<strong>真正なmathlib局所化</strong>と局所化普遍性、自由F69 zigzagから局所化への型付き関手、自由原反射的一歩のnontrivial raw／局所化後恒等性を証明。独立した真正C60証人付き経路圏の全射を原F47 Cat図式が同型に送ることをF114左右逆で証明し、<strong>一意な原F47 Cat因子化</strong>を構成。完全二整数荷電とZMod2位相を保持する一方、raw構文同一化、全F69 Cat source gluing、F55 non-lift解除、F68曲率平坦化は未主張</td>
+</tr>
+<tr>
+<td><strong><a href="https://github.com/itakura-hidetoshi/KuuOS/pull/2318">F112 第10段階 / v5.282 / #2318</a></strong></td>
+<td>元のF69の自由groupoid完成と真正局所化の<strong>圏同値</strong>、元F113 raw zigzagから局所化への表現関手の<strong>厳密核<code>Functor.homRel</code></strong>によるmathlib商圏、厳密な普遍因子化・一意性・忠実性、真正元F69前向き射と形式的逆向き射のraw非空往復／核商後恒等性を証明。元raw構文は変更しない</td>
+</tr>
+<tr>
+<td><strong><a href="https://github.com/itakura-hidetoshi/KuuOS/pull/2319">F112 第11段階 / v5.283 / #2319</a></strong></td>
+<td>mathlib元F69局所化の<strong>全真正generator</strong>からF113 raw zigzagへ復号する<code>Prefunctor</code>＋<code>Paths.lift</code>を構成。型付き局所化パス全体の関手恒等性、<strong>Full／EssSurj</strong>を証明し、F116で確立した忠実性と合わせて<strong>raw自由zigzagの局所化核商と元F69局所化・元F69自由groupoid完成の圏同値</strong>に到達。元rawの直接圏同値、原F42/F54/F55の全域Cat値実効descent、F68曲率の平坦化は未主張</td>
+</tr>
+<tr>
+<td><strong><a href="https://github.com/itakura-hidetoshi/KuuOS/pull/2321">F112 第12段階 / v5.284 / #2321</a></strong></td>
+<td>元の360真正F69頂点→辺→面二単体を、F113のraw二脚経路と原対角一脚経路で具体化し、<strong>raw二脚≠raw対角</strong>（長さ2対1）、しかし<strong>元F69局所化とv5.283の正確な局所化核商では両者一致</strong>を証明。任意の実F69始終点を共有する並行二脚spanも局所化・核商で整合。元F69前向き射を改変せず、元F42/F54/F55高次Beck–ChevalleyやF68曲率消去は未主張</td>
+</tr>
+<tr>
+<td><strong><a href="https://github.com/itakura-hidetoshi/KuuOS/pull/2323">F112 第13段階 / v5.285 / #2323</a></strong></td>
+<td>すべての真正C60物理辺に実在する二つの原多角形面F42ソースを保持して、元の実Quiver.Pathを各360物理フラグ頂点へ接続。独立原F42奇次数面セルの間の原F47四境界比較関手で<strong>左・右F58原F42/F54/F55 Beck–Chevalley NatIso</strong>を実装し、全F47三射、原F43面交換、原F54/F55回転Homで自然性と完全Int×Int＋ZMod2保存を証明。全360入射二単体の核商整合とF51位相1、F55 Delta非lift、F68原曲率−5が同時に存在。<strong>辺局所</strong>であり、F69全サイトの大域原ソース3-descentは未主張</td>
+</tr>
+<tr>
+<td><strong><a href="https://github.com/itakura-hidetoshi/KuuOS/pull/2325">F112 第14段階 / v5.286 / #2325</a></strong></td>
+<td><strong>二つの相異なる実物理辺間の真正F69交差証人</strong>をガードとし、原F42二面表示の辺内変更と原F47ソースの交差辺輸送の<strong>二順序が厳密に同じF47ソース関手</strong>になることを証明。Catの<strong>Beck–Chevalley NatIso</strong>、全原F47三射／元F43面交換／原F54/F55回転射の自然性、混合四境界図式保存、完全Int×Int＋ZMod2保存を形式化。両辺の旧F55 Delta non-lift・F68北荷電<code>−5</code>を保持。<strong>交差ガードされたF47ソース関手圏2セルであり、原F69全域のF42/F54/F55大域実効descentではない</strong></td>
+</tr>
+<tr>
+<td><strong><a href="https://github.com/itakura-hidetoshi/KuuOS/pull/2327">F112 第15段階 / v5.287 / #2327</a></strong></td>
+<td>F278の<strong>真の物理交差証人付き任意有限経路圏</strong>上、各辺の独立原F42二面表示族<code>P,Q</code>の間で完全Int×Int＋独立ZMod2位相付きF47ソース変更関手を構成。v5.286の各ステップ真正異辺交差BCから<strong>任意有限長の経路に対する自然性と全Cat値F47図式間NatTrans</strong>、経路連結との整合性を帰納法で証明。三表示族<code>P,Q,R</code>の<strong>自然変換全体の厳密Čech cocycle、自己表示変更の単位則・明示的逆向き表示変更</strong>から<strong>F47ソース図式全体のNatIso</strong>を構成。元F69入射全サイトの大域Cat値原F47図式や原F42/F54/F55実効3-descentは未主張</td>
+</tr>
+<tr>
+<td><strong><a href="https://github.com/itakura-hidetoshi/KuuOS/pull/2329">F112 第16段階 / v5.288 / #2329</a></strong></td>
+<td>真正F69交差証人付き任意有限経路圏上の二つの原F47混合ソースCat図式間NatIsoを、mathlib Grothendieck.mapに通して<strong>全対象・全Homの原物理経路base保存、projectionとの厳密可換性、総圏Functorsのself恒等／三表示Čech cocycle</strong>を証明。さらに<strong>二つの真正Grothendieck総圏のCat同型・圏同値</strong>を構成。元F55 Delta non-lift（両表示）・F68曲率−5／未修復vertex gauge不能は継続。<strong>F69全サイトを対象とする大域原F42/F54/F55実効3-descentは未主張</strong></td>
+</tr>
+<tr>
+<td><strong><a href="https://github.com/itakura-hidetoshi/KuuOS/pull/2331">F112 第17段階 / v5.289 / #2331</a></strong></td>
+<td>元F69入射圏と別の<strong>真正証人付き経路圏の局所化</strong>において、原F47図式の厳密因子化を用い、独立原F42表示族間のF121 NatIsoをmathlib <strong>Localization.liftNatIso</strong>で局所化後へ持ち上げた。原F47 Grothendieck<strong>局所化総圏の対象・Homの局所化base保存と厳密射影可換性</strong>、mathlib<strong>Grothendieck.pre_comp_mapによる局所化前後のbase変更／原ソース表示変更の厳密可換性</strong>、局所化総圏の<strong>Cat同型・圏同値</strong>を証明。原F55 Delta non-lift、F68原曲率−5・未修復vertex gauge不能は保持。元F69全頂点/面の原F42/F54/F55実効3-descentは未主張</td>
+</tr>
+<tr>
+<td><strong><a href="https://github.com/itakura-hidetoshi/KuuOS/pull/2333">F112 第18段階 / v5.290 / #2333</a></strong></td>
+<td>真正C60物理90辺の補正<code>γ</code>について<strong>全32原面局所曲率打消し ⇔ 真正60頂点Grayゲージ<code>φ</code>による<code>γ=φ∘∂₁−A_σ</code></strong>をLean証明。F55既存canonical repairを基準とする全補正のアフィン表示、有効補正の必然的非零性と元北五角形補正第2荷電<code>+5</code>（元の原曲率<code>−5</code>は存続）を証明。F71全元F69入射Cat値図式を<strong>与えた場合に限る</strong>補正済みソースデータを構成し、<strong>新仕様のNonempty ⇔ F71 extensionのNonempty</strong>、全360真正F69入射二単体整合性、未修復descent不可能を同時に確定。<strong>全元F69 Cat図式自体の存在・raw原F42/F54/F55高次実効descentは未証明</strong></td>
+</tr>
+</tbody>
+</table>
+<p>特に最近のtheorem-bearingファイルは次のとおりです（各リンクは実際のLeanソース）。</p>
+<ul>
+<li><a href="formal/KUOS/DependentOriginationC60KuuTwoSidedContextCoherenceV5_254.lean">F100 — 二方向の観測順序</a></li>
+<li><a href="formal/KUOS/DependentOriginationC60KuuContextualMixedInterchangeSquareV5_255.lean">F101 — 文脈化4入力交換</a></li>
+<li><a href="formal/KUOS/DependentOriginationC60KuuFourInputDoubleContextCoherenceV5_256.lean">F102 — 二重文脈と交換の四角形</a></li>
+<li><a href="formal/KUOS/DependentOriginationC60KuuObservedContextPentagonV5_257.lean">F103 — 観測五角形と一意性</a></li>
+<li><a href="formal/KUOS/DependentOriginationC60KuuFiniteContextCechDescentV5_258.lean">F104 — 有限文脈Čech</a></li>
+<li><a href="formal/KUOS/DependentOriginationC60KuuPhysicalOverlapObstructionV5_259.lean">F105 — 異なる物理パッチ間の荷電障害</a></li>
+<li><a href="formal/KUOS/DependentOriginationC60KuuActualIncidenceOverlapRefinementV5_260.lean">F106 — 真正C60入射重なりと制限</a></li>
+<li><strong><a href="formal/KUOS/DependentOriginationC60KuuOriginalIncidenceWordLiftV5_261.lean">F107 — 原F42/F51の型付き語からのKuu意味論</a></strong></li>
+<li><strong><a href="formal/KUOS/DependentOriginationC60KuuPhysicalFlagSourceBridgeV5_262.lean">F108 第1段階 — 物理面F42/F51文脈と非ゼロ位相</a></strong></li>
+<li><strong><a href="formal/KUOS/DependentOriginationC60KuuAllPhysicalSourcePathsV5_263.lean">F108 第2段階 — 全60頂点の原Quiver.Pathと90物理辺の文脈</a></strong></li>
+<li><strong><a href="formal/KUOS/DependentOriginationC60KuuNontrivialPhysicalStarSourceFunctorV5_264.lean">F108 第3段階 — 原F51非恒等3射による真正C60入射スター関手</a></strong></li>
+<li><strong><a href="formal/KUOS/DependentOriginationC60KuuTwoActualFaceInterchangeV5_265.lean">F108 第4段階 — 二つの実隣接面の原F42/F51交換</a></strong></li>
+<li><strong><a href="formal/KUOS/DependentOriginationC60KuuTwoFacePhysicalOverlapCompatibilityV5_266.lean">F109 第1段階 — 真正C60物理重なりの整数荷電差ゼロ</a></strong></li>
+<li><strong><a href="formal/KUOS/DependentOriginationC60KuuTwoFaceObservedObjectCechV5_267.lean">F109 第2段階 — F77観測対象の一致とČech整合性</a></strong></li>
+<li><strong><a href="formal/KUOS/DependentOriginationC60KuuObservedGluingOriginalPhaseCurvatureV5_268.lean">F110 第1段階 — F77入射射・原F51位相・F68非平坦曲率の同時証明</a></strong></li>
+<li><strong><a href="formal/KUOS/DependentOriginationC60KuuPhaseReconstructionObstructionV5_269.lean">F110 第2段階 — F77からの完全位相復元関手の不存在</a></strong></li>
+<li><strong><a href="formal/KUOS/DependentOriginationC60KuuActualPhysicalFiniteCechHistoriesV5_270.lean">F111 第1段階 — 真正物理交差の任意長Čech歴史と閉路恒等性</a></strong></li>
+<li><strong><a href="formal/KUOS/DependentOriginationC60KuuActualPhysicalRefinementCechV5_271.lean">F111 第2段階 — 物理交差制限に沿った観測関手・Čech歴史の整合性</a></strong></li>
+<li><strong><a href="formal/KUOS/DependentOriginationC60KuuDoublePhysicalRefinementCechV5_272.lean">F111 第3段階 — 二段階物理制限と任意長Čech歴史の高次整合性</a></strong></li>
+<li><strong><a href="formal/KUOS/DependentOriginationC60KuuArbitraryPhysicalRefinementTowersV5_273.lean">F112 第1段階 — 任意有限長の真正C60物理制限列と高次Čech輸送</a></strong></li>
+<li><strong><a href="formal/KUOS/DependentOriginationC60KuuIndependentPhysicalFaceSiteSourceV5_274.lean">F112 第2段階 — 原F42別々の実面サイト・F51位相・F54/F55物理境界の同時保持</a></strong></li>
+<li><strong><a href="formal/KUOS/DependentOriginationC60KuuIndependentFaceMixedF55FrameV5_275.lean">F112 第3段階 — 独立F42面ソースから型付きF47四境界混合圏への実構成・一意補正とnon-lift</a></strong></li>
+<li><strong><a href="formal/KUOS/DependentOriginationC60KuuIndependentMixedPhysicalBaseChangeV5_276.lean">F112 第4段階 — 同一C60実物理辺の原F47ソース表示変更・全Hom Čech異種等式・左右Beck–Chevalley</a></strong></li>
+<li><strong><a href="formal/KUOS/DependentOriginationC60KuuCrossEdgePhysicalOverlapF47V5_277.lean">F112 第5段階 — 異なる実C60物理辺のF69交差証人・原F47局所表示変更・三辺共通サイトČech</a></strong></li>
+<li><strong><a href="formal/KUOS/DependentOriginationC60KuuWitnessedOverlapPathGrothendieckV5_278.lean">F112 第6段階 — 実交差証人付き任意有限経路圏・原F47 Cat値関手とGrothendieck総圏</a></strong></li>
+<li><strong><a href="formal/KUOS/DependentOriginationC60KuuWitnessedF69IncidenceZigzagV5_279.lean">F112 第7段階 — 真正F69入射zigzag圏・二脚実交差構成・F47 Grothendieckとの幾何学的接続</a></strong></li>
+<li><strong><a href="formal/KUOS/DependentOriginationC60KuuPhysicalZigzagReverseWitnessedSourceV5_280.lean">F112 第8段階 — 真正C60交差経路反転・元F69自由zigzag形式逆・完全位相付き原F47往復恒等性</a></strong></li>
+<li><strong><a href="formal/KUOS/DependentOriginationC60KuuOriginalIncidenceLocalizationF47FactorizationV5_281.lean">F112 第9段階 — 元F69入射の真正局所化普遍性・自由zigzagの型付き解釈・完全位相付きF47 Cat図式の一意な局所化因子化</a></strong></li>
+<li><strong><a href="formal/KUOS/DependentOriginationC60KuuF69ZigzagKernelQuotientFreeGroupoidV5_282.lean">F112 第10段階 — 元F69自由groupoid完成の普遍同値・F113生zigzag局所化核の正確なmathlib商圏</a></strong></li>
+<li><strong><a href="formal/KUOS/DependentOriginationC60KuuF69RawZigzagQuotientLocalizationEquivalenceV5_283.lean">F112 第11段階 — 実局所化生成子の復号・raw zigzagの充満性／本質的全射性・核商≃局所化≃自由groupoid圏同値</a></strong></li>
+<li><strong><a href="formal/KUOS/DependentOriginationC60KuuOriginalFlagTwoSimplexZigzagDescentV5_284.lean">F112 第12段階 — 真正C60/F69の全360非退化入射二単体、raw二脚と原対角の非同一、局所化・核商での二単体/平行span整合性</a></strong></li>
+<li><strong><a href="formal/KUOS/DependentOriginationC60KuuPhysicalFlagOriginalSourceBeckChevalleyV5_285.lean">F112 第13段階 — 真正C60物理フラグに固定した独立原F42/F54/F55四境界ソース、左右F58 Beck–Chevalley自然同型と全三射自然性・非lift／曲率障害</a></strong></li>
+<li><strong><a href="formal/KUOS/DependentOriginationC60KuuCrossEdgeOriginalSourceBeckChevalleyV5_286.lean">F112 第14段階 — 真正異辺物理交差にガードされた原F42表示変更と原F47輸送の厳密可換性・Cat Beck–Chevalley自然同型・混合四境界／曲率障害</a></strong></li>
+<li><strong><a href="formal/KUOS/DependentOriginationC60KuuWitnessedSourceDiagramBeckChevalleyV5_287.lean">F112 第15段階 — 任意有限長の真正F69交差経路上の原F47図式間自然性・三重Čech cocycleと完全位相付きCat値図式自然同型</a></strong></li>
+<li><strong><a href="formal/KUOS/DependentOriginationC60KuuWitnessedGrothendieckSourceEquivalenceV5_288.lean">F112 第16段階 — 真正物理交差経路上の独立原F42表示間Grothendieck総圏同型・圏同値、射影可換性・全経路保持・三重Čech cocycle・F55／F68障害</a></strong></li>
+<li><strong><a href="formal/KUOS/DependentOriginationC60KuuLocalizedWitnessedTotalSourceEquivalenceV5_289.lean">F112 第17段階 — 真正F69物理交差経路のGabriel–Zisman局所化へ原F47ソース自然同型を持ち上げ、総圏のCat同型／圏同値・局所化base射影・base変更Beck–Chevalley可換性を検証</a></strong></li>
+<li><strong><a href="formal/KUOS/DependentOriginationC60KuuCurvedIncidenceSourceDescentCriterionV5_290.lean">F112 第18段階 — 真正C60 F68曲率の全補正必要十分分類・北五角形補正荷電<code>+5</code>・F71元全入射ソースの条件付き補正descent仕様</a></strong></li>
+</ul>
+<p>詳細な歴史・公理・未解決課題は <strong><a href="ROADMAP.md">ROADMAP.md</a></strong> を参照してください。</p>
+<h2 id="what-remains-open">What remains open / 次の数学的課題<a class="headerlink" href="#what-remains-open" title="Permanent link">&para;</a></h2>
+<p><strong>F108第1〜第4段階、F109第1〜第2段階、F110第1〜第2段階、F111第1〜第3段階、F112第1〜第18段階をLean4で証明・マージ済みです。</strong> F112第6段階で真正C60物理交差証人付きの任意有限長経路圏と完全Gray値を保存するF47四境界ソースGrothendieck総圏、第7段階で元F69実入射に沿った別の自由zigzag圏への幾何学的関手を構成しました。<strong>第8段階は経路反転を幾何学の証人レベルまで構成し、経路往復が自由経路の等式としては非自明な一方、原F47ソース圏の完全荷電＋位相付き関手としては厳密に恒等になる</strong>ことを証明。元F69の逆射を捏造しておらず、元F55 non-lift・F68北五角形の第2荷電<code>−5</code>は保存されています。大域的原F42/F54/F55実効descentは未証明です。 <strong>第9段階v5.281は二つの局所化を分け、元F69入射射を反転させる局所化の普遍性と、元F47 Cat図式が証人付き経路圏の局所化を通る一意因子化を証明しました。</strong> <strong>第10〜11段階v5.282〜283では、真のF69局所化と元F69自由groupoidの普遍同値、F113のraw入射zigzagの正確な局所化核商、その局所化との充満・忠実・本質的全射を満たす圏同値を統合しました。</strong> <strong>第12段階v5.284では全360真正F69物理入射二単体のraw経路非同一と局所化・核商後の厳密二単体／平行span整合性を証明しました。</strong> <strong>第13段階v5.285では各360真正物理フラグに固定された原F47ソースの左右Beck–Chevalley自然同型を原F43/F55も含む全Homで検証しました。</strong> <strong>第14段階v5.286は、原F47辺内表示変更と真正異辺物理交差による再索引の二順序について完全位相付き関手等式・自然同型を証明しました。</strong> <strong>第15段階v5.287では、真正物理交差証人付き任意有限長経路圏の原F47 Cat値図式間で、表示変更の自然変換・三重cocycle・明示的逆向きによる自然同型まで証明しました。</strong> <strong>第16段階v5.288では完全位相付き原F47表示変更の自然同型を、同じ実物理経路baseを保存するGrothendieck総圏の圏同値へ昇格しました。</strong> <strong>第17段階v5.289では、証人付き物理交差圏の局所化にF47図式自然同型を持ち上げ、その局所化総圏のCat同型・圏同値とbase変更の厳密可換性を証明しました。</strong> <strong>第18段階v5.290では、全F68曲率を打ち消す任意の補正が真正頂点ゲージから導かれる必要十分なアフィン表示を持ち、必ず非零・北面補正第2荷電<code>+5</code>となることを示しました。</strong> <strong>第19段階v5.291では、GrayコラーではなくF94–F97の空の表示交代・普遍商を主体に、元F69の全182サイトを横断するKuu関手およびmathlibの<code>Over.mapFunctor</code>によるKuu切片Cat値図式とGrothendieck総圏を構成。真正90物理星への制限一致と全360フラグ合成、任意の空交代を尊重する観測の一意因子化を証明しました。</strong></p>
+<p><strong>次の未解決研究軸は、F112第20段階以降の</strong>元F69全60頂点・90辺・32実面に原F42/F54/F55ソースとして物理的に解釈できる<strong>Cat値繊維と制限関手を実際に与えられるか</strong>、および、その全F71入射拡張と局所化証人付き経路の原F47ソース総圏を原raw 2/3-cellレベルで比較するための<strong>追加整合データ</strong>です。v5.290で証明済みの必要十分性は真正C60の<strong>整数鎖複体上のGray 1-cochain補正</strong>と、<strong>独立に供給されたF71 Cat値全入射図式</strong>からなる条件付き仕様に限ります。<strong>原F47四境界ソースを90辺で厳密に保つF71全入射図式</strong>の存在は未証明であり、原F42/F54/F55 raw実効3-stack・F55 Delta non-lift解消・F77からの位相復元は含みません。F68原北曲率<code>−5</code>は零にならず、全補正は必ず非零で第2荷電<code>+5</code>を与えます。</p>
+<p><strong>空を主構造として優先し、Old Grayを復元・前提化しません。</strong> F94–F97の空の表示交代・普遍商・水平/垂直合成とF112第19段階のKuu切片図式が主体です。元のGray荷電・曲率は過去に証明した障害の記録としてのみ別置し、空の成立条件には含めません。復活を試みた旧<a href="https://github.com/itakura-hidetoshi/KuuOS/pull/2335">PR #2335</a>はCLOSED・未マージで、旧作業ブランチの該当2ファイルも削除済みです。</p>
+<h2 id="reasoning-route-and-runtime-boundary-os">Reasoning route and runtime boundary / 推論OSとの関係<a class="headerlink" href="#reasoning-route-and-runtime-boundary-os" title="Permanent link">&para;</a></h2>
+<p><code>observation → context/presentation → multiple inference paths → typed transport → 2-/3-cell comparison → compatibility check → descent or obstruction → authority check → minimal action → re-observation</code></p>
+<p>研究上のランタイム構成案は <strong><code>LLM + KuuOS reasoning runtime + formal authority layer</code></strong> です。Leanの定理が正しいことは、モデルの重み・対話システム・バックグラウンドエージェントの挙動が変わったこと、全リポジトリが実際に取り込まれたこと、臨床的・物理的・倫理的正当性が検証されたことを意味しません。結合実装は、正本SHAへの固定、明示的な権限・同意境界、観測と推測の区別、継続的な実測・再検証を別途必要とします。</p>
+<h2 id="reproduce-the-kuu-first-f112-v5291-theorem-bearing-result">Reproduce the Kuu-first F112 v5.291 theorem-bearing result / 空主体の形式証明<a class="headerlink" href="#reproduce-the-kuu-first-f112-v5291-theorem-bearing-result" title="Permanent link">&para;</a></h2>
+<p>新しい正本：<strong><a href="formal/KUOS/DependentOriginationC60KuuOnlyOriginalIncidenceDescentV5_291.lean">F112 part 19 v5.291 Kuu-only original incidence descent</a></strong>。F94–F97で構成した空の普遍商を出発点に、F69全入射に沿う空の原ソース関手と非定数の空切片圏図式・Grothendieck総圏を構成。これは<strong>空自身の商・sliceのdescent</strong>であり、旧F72 Grayコラーの復元でも、未実装の原F71全F47 rawソース3-stackでもありません。</p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/itakura-hidetoshi/KuuOS.git
+<span class="nb">cd</span><span class="w"> </span>KuuOS
+git<span class="w"> </span>checkout<span class="w"> </span>82049eaba680a90b6b32d6fc140c442fe80c35b5
+cat<span class="w"> </span>lean-toolchain
+lake<span class="w"> </span>exe<span class="w"> </span>cache<span class="w"> </span>get<span class="w">  </span><span class="c1"># 必要な場合のみ固定依存のキャッシュを使用</span>
+lake<span class="w"> </span>-KleanArgs<span class="o">=</span>-DwarningAsError<span class="o">=</span><span class="nb">true</span><span class="w"> </span>-KleanArgs<span class="o">=</span>-DsorryAsError<span class="o">=</span><span class="nb">true</span><span class="w"> </span>build<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>KUOS.DependentOriginationC60KuuOnlyOriginalIncidenceDescentV5_291
+</code></pre></div>
+<p><a href="https://github.com/itakura-hidetoshi/KuuOS/pull/2336">数学PR #2336</a> はexact source HEAD <code>3d06314390b038f3f6d8fd9b0f76a746c77c6b85</code> で<a href="https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38813904579">CI #38813904579</a> <strong>9077 jobs SUCCESS</strong>（変更ファイルwarning/error 0/0）。13件の <code>#print axioms</code> に <code>sorryAx</code> なし。Strict Lean・Governance・MCP Lean/CI完了証跡すべてSUCCESS後squash MERGED。数学merge SHAは <code>82049eaba680a90b6b32d6fc140c442fe80c35b5</code>。既存のC60幾何の<code>native_decide</code>公理依存は維持し新公理を加えていません。</p>
+<h2 id="historical-f112-v5290-theorem-bearing-result">Historical F112 v5.290 theorem-bearing result / 旧段階の再現<a class="headerlink" href="#historical-f112-v5290-theorem-bearing-result" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/itakura-hidetoshi/KuuOS.git
+<span class="nb">cd</span><span class="w"> </span>KuuOS
+git<span class="w"> </span>checkout<span class="w"> </span>22ed69f8e8693b1fb1e42810a17179c7af06bd7a
+cat<span class="w"> </span>lean-toolchain
+lake<span class="w"> </span>exe<span class="w"> </span>cache<span class="w"> </span>get<span class="w">  </span><span class="c1"># 必要な場合のみ、固定mathlibに対応するキャッシュを取得</span>
+lake<span class="w"> </span>-KleanArgs<span class="o">=</span>-DwarningAsError<span class="o">=</span><span class="nb">true</span><span class="w"> </span>-KleanArgs<span class="o">=</span>-DsorryAsError<span class="o">=</span><span class="nb">true</span><span class="w"> </span>build<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>KUOS.DependentOriginationC60KuuCurvedIncidenceSourceDescentCriterionV5_290
+</code></pre></div>
+<p><a href="https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38805955595">PR #2333のexact-source-head CI #38805955595</a> は <strong>9102/9102 SUCCESS</strong>。変更ファイルwarning/error 0/0、12件の<code>#print axioms</code>に<code>sorryAx</code>なし。Strict Lean・Governance・MCP Lean/CI完了証跡はすべてSUCCESS。検証済みsource HEAD <code>1aa53e3e046442236f172082b305d13d88b84ba9</code>、数学squashマージSHA <code>22ed69f8e8693b1fb1e42810a17179c7af06bd7a</code>。先行F112第17段階<a href="https://github.com/itakura-hidetoshi/KuuOS/pull/2331">PR #2331</a>の<a href="https://github.com/itakura-hidetoshi/KuuOS/actions/runs/38778674715">CI #38778674715</a>も <strong>9101/9101 SUCCESS</strong>、10件の<code>#print axioms</code>で<code>sorryAx</code>なし。F112第1〜17段階はすべてGREEN／マージ済みです。</p>
+<p>別の検証範囲である全形式化ターゲットや推論ランタイムを調べる場合は、それぞれ独立に実行してください（上記CIによる成功の保証はありません）。</p>
+<div class="highlight"><pre><span></span><code>lake<span class="w"> </span>-KleanArgs<span class="o">=</span>-DwarningAsError<span class="o">=</span><span class="nb">true</span><span class="w"> </span>-KleanArgs<span class="o">=</span>-DsorryAsError<span class="o">=</span><span class="nb">true</span><span class="w"> </span>build<span class="w"> </span>KuuOSFormal
+<span class="nv">PYTHONPATH</span><span class="o">=</span>.<span class="w"> </span>python3<span class="w"> </span>runtime/kuuos_current_check.py
+</code></pre></div>
+<p>参照 / References: <a href="ROADMAP.md">ROADMAP</a> · <a href="GOVERNANCE.md">GOVERNANCE</a> · <a href="CITATION.cff">CITATION</a> · <a href="LICENSE">LICENSE</a> · <a href="NOTICE">NOTICE</a> · <a href="COPYRIGHT.md">COPYRIGHT</a>。</p>
+<p><strong>Copyright © 2026 Hidetoshi Itakura / 板倉英俊. Apache-2.0.</strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.expand", "navigation.top", "toc.integrate"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>
