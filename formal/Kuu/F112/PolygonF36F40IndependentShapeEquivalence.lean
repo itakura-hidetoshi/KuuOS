@@ -52,7 +52,7 @@ theorem KuuF36ShapePath.toNative_ofNative
     {x y : C} (p : KuuNativePath x y) :
     (KuuF36ShapePath.ofNative p).toNative = p := by
   induction p with
-  | nil x => rfl
+  | nil => rfl
   | snoc p f ih =>
       change KuuNativePath.snoc
         (KuuF36ShapePath.ofNative p).toNative f = .snoc p f
@@ -62,7 +62,7 @@ theorem KuuF36ShapePath.ofNative_toNative
     {x y : C} (p : KuuF36ShapePath x y) :
     KuuF36ShapePath.ofNative p.toNative = p := by
   induction p with
-  | nil x => rfl
+  | nil => rfl
   | snoc p f ih =>
       change KuuF36ShapePath.snoc
         (KuuF36ShapePath.ofNative p.toNative) f = .snoc p f
@@ -99,7 +99,7 @@ theorem KuuF36ShapePath.toNative_composite
     {x y : C} (p : KuuF36ShapePath x y) :
     p.toNative.composite = p.composite := by
   induction p with
-  | nil x => rfl
+  | nil => rfl
   | snoc p f ih =>
       change p.toNative.composite ≫ f = p.composite ≫ f
       rw [ih]
@@ -108,7 +108,7 @@ theorem KuuF36ShapePath.toNative_length
     {x y : C} (p : KuuF36ShapePath x y) :
     p.toNative.length = p.length := by
   induction p with
-  | nil x => rfl
+  | nil => rfl
   | snoc p f ih =>
       change p.toNative.length + 1 = p.length + 1
       rw [ih]
@@ -118,7 +118,7 @@ theorem KuuF36ShapePath.toNative_append
     (q : KuuF36ShapePath y z) :
     (p.append q).toNative = p.toNative.append q.toNative := by
   induction q with
-  | nil x => rfl
+  | nil => rfl
   | snoc q f ih =>
       change KuuNativePath.snoc (p.append q).toNative f =
         KuuNativePath.snoc (p.toNative.append q.toNative) f
@@ -145,7 +145,7 @@ theorem KuuF40ShapeBlocks.toNative_ofNative
     {x y : C} (p : KuuNativeBlocks x y) :
     (KuuF40ShapeBlocks.ofNative p).toNative = p := by
   induction p with
-  | empty x => rfl
+  | empty => rfl
   | snoc p q ih =>
       change KuuNativeBlocks.snoc
         (KuuF40ShapeBlocks.ofNative p).toNative
@@ -156,7 +156,7 @@ theorem KuuF40ShapeBlocks.ofNative_toNative
     {x y : C} (p : KuuF40ShapeBlocks x y) :
     KuuF40ShapeBlocks.ofNative p.toNative = p := by
   induction p with
-  | empty x => rfl
+  | empty => rfl
   | snoc p q ih =>
       change KuuF40ShapeBlocks.snoc
         (KuuF40ShapeBlocks.ofNative p.toNative)
@@ -197,7 +197,7 @@ theorem KuuF40ShapeBlocks.toNative_blockCount
     {x y : C} (p : KuuF40ShapeBlocks x y) :
     p.toNative.blockCount = p.blockCount := by
   induction p with
-  | empty x => rfl
+  | empty => rfl
   | snoc p q ih =>
       change p.toNative.blockCount + 1 = p.blockCount + 1
       rw [ih]
@@ -206,7 +206,7 @@ theorem KuuF40ShapeBlocks.toNative_flatten
     {x y : C} (p : KuuF40ShapeBlocks x y) :
     p.flatten.toNative = p.toNative.flatten := by
   induction p with
-  | empty x => rfl
+  | empty => rfl
   | snoc p q ih =>
       change (p.flatten.append q).toNative =
         p.toNative.flatten.append q.toNative
@@ -216,7 +216,7 @@ theorem KuuF40ShapeBlocks.toNative_composite
     {x y : C} (p : KuuF40ShapeBlocks x y) :
     p.toNative.composite = p.composite := by
   induction p with
-  | empty x => rfl
+  | empty => rfl
   | snoc p q ih =>
       change p.toNative.composite ≫ q.toNative.composite =
         p.composite ≫ q.composite
@@ -227,7 +227,7 @@ theorem KuuF40ShapeBlocks.toNative_append
     (q : KuuF40ShapeBlocks y z) :
     (p.append q).toNative = p.toNative.append q.toNative := by
   induction q with
-  | empty x => rfl
+  | empty => rfl
   | snoc q s ih =>
       change KuuNativeBlocks.snoc (p.append q).toNative s.toNative =
         KuuNativeBlocks.snoc (p.toNative.append q.toNative) s.toNative
@@ -261,7 +261,10 @@ theorem KuuF40ShapeBlocks.oneBlock_flatten_eq_prependEmpty
     (KuuF40ShapeBlocks.prependEmpty p).flatten.toNative
   rw [KuuF40ShapeBlocks.toNative_flatten,
     KuuF40ShapeBlocks.toNative_flatten]
-  exact KuuNativeBlocks.singleton_flatten_eq_emptyPrefix p.toNative
+  simpa only [KuuF40ShapeBlocks.oneBlock, KuuF40ShapeBlocks.prependEmpty,
+    KuuF40ShapeBlocks.toNative,
+    KuuNativeBlocks.singleton, KuuNativeBlocks.withEmptyPrefix] using
+      (KuuNativeBlocks.singleton_flatten_eq_emptyPrefix p.toNative)
 
 #print axioms kuuF36ShapePathEquiv
 #print axioms KuuF36ShapePath.toNative_composite
