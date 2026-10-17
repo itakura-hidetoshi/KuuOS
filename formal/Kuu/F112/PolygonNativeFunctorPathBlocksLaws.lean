@@ -28,11 +28,10 @@ theorem KuuNativePath.map_id
     {a b : A} (p : KuuNativePath a b) :
     p.map (𝟭 A) = p := by
   induction p with
-  | nil a => rfl
+  | nil =>
+      simp only [KuuNativePath.map, Functor.id_obj]
   | snoc p f ih =>
-      change KuuNativePath.snoc (p.map (𝟭 A)) f =
-        KuuNativePath.snoc p f
-      rw [ih]
+      simp only [KuuNativePath.map, Functor.id_obj, Functor.id_map, ih]
 
 /-- The same raw finite-path source is compatible with arbitrary
 composable category functors, without evaluating its composite Hom. -/
@@ -41,11 +40,10 @@ theorem KuuNativePath.map_comp
     {a b : A} (p : KuuNativePath a b) :
     p.map (F ⋙ G) = (p.map F).map G := by
   induction p with
-  | nil a => rfl
+  | nil =>
+      simp only [KuuNativePath.map, Functor.comp_obj]
   | snoc p f ih =>
-      change KuuNativePath.snoc (p.map (F ⋙ G)) (G.map (F.map f)) =
-        KuuNativePath.snoc ((p.map F).map G) (G.map (F.map f))
-      rw [ih]
+      simp only [KuuNativePath.map, Functor.comp_obj, Functor.comp_map, ih]
 
 /-- Original-shaped F40 Blocks preserve every primitive native
 subdivision separator even along the identity functor. -/
@@ -53,11 +51,10 @@ theorem KuuNativeBlocks.map_id
     {a b : A} (p : KuuNativeBlocks a b) :
     p.map (𝟭 A) = p := by
   induction p with
-  | empty a => rfl
+  | empty =>
+      simp only [KuuNativeBlocks.map, Functor.id_obj]
   | snoc p q ih =>
-      change KuuNativeBlocks.snoc (p.map (𝟭 A)) (q.map (𝟭 A)) =
-        KuuNativeBlocks.snoc p q
-      rw [ih, KuuNativePath.map_id q]
+      simp only [KuuNativeBlocks.map, Functor.id_obj, KuuNativePath.map_id, ih]
 
 /-- Functor composition on F40 Blocks is also strictly compatible
 with both the original nested categorical paths and all partitions. -/
@@ -66,13 +63,11 @@ theorem KuuNativeBlocks.map_comp
     {a b : A} (p : KuuNativeBlocks a b) :
     p.map (F ⋙ G) = (p.map F).map G := by
   induction p with
-  | empty a => rfl
+  | empty =>
+      simp only [KuuNativeBlocks.map, Functor.comp_obj]
   | snoc p q ih =>
-      change KuuNativeBlocks.snoc
-          (p.map (F ⋙ G)) (q.map (F ⋙ G)) =
-        KuuNativeBlocks.snoc
-          ((p.map F).map G) ((q.map F).map G)
-      rw [ih, KuuNativePath.map_comp F G q]
+      simp only [KuuNativeBlocks.map, Functor.comp_obj,
+        KuuNativePath.map_comp, ih]
 
 #print axioms KuuNativePath.map_id
 #print axioms KuuNativePath.map_comp
