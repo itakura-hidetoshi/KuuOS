@@ -54,4 +54,5 @@ import Kuu.F112.PolygonNativeF45FunctorAxes
 import Kuu.F112.PolygonNativeF54FunctorChains
 import Kuu.F112.PolygonNativeF54FunctorDepthRoutes
 import Kuu.F112.PolygonNativeF55FunctorCells
+import Kuu.F112.PolygonNativeF55FunctorReceivers
 /-! Current independent Kuu foundation. No legacy KUOS imports are permitted. -/
