@@ -37,14 +37,14 @@ def KuuNativeF45Tree.realizePacket
     (physical : PolygonDepthTree p n m)
     (firstHistory : KuuNativeAxisTrace n ma mb)
     (secondHistory : KuuNativeAxisTrace m pa pb) :
-    Σ tree : KuuNativeF45Tree p n m ma pa mb pb,
+    { tree : KuuNativeF45Tree p n m ma pa mb pb //
       tree.erasePhysical = physical ∧
-        tree.axisHistories = (firstHistory, secondHistory) := by
+        tree.axisHistories = (firstHistory, secondHistory) } := by
   induction physical generalizing ma mb pa pb firstHistory secondHistory with
   | leaf item =>
       cases item with
       | mk sector firstDepth secondDepth =>
-          exact ⟨.leaf sector .firstAxisFirst firstHistory secondHistory, rfl, rfl⟩
+          exact ⟨.leaf sector .firstAxisFirst firstHistory secondHistory, ⟨rfl, rfl⟩⟩
   | @node n₁ m₁ n₂ m₂ left right ihLeft ihRight =>
       rcases KuuNativeAxisTrace.splitAppend n₁ n₂ firstHistory with
         ⟨middleFirst, firstLeft, ⟨firstRight, firstJoin⟩⟩
@@ -54,7 +54,7 @@ def KuuNativeF45Tree.realizePacket
         ⟨treeLeft, physicalLeft, historiesLeft⟩
       rcases ihRight firstRight secondRight with
         ⟨treeRight, physicalRight, historiesRight⟩
-      refine ⟨.node treeLeft treeRight, ?_, ?_⟩
+      refine ⟨.node treeLeft treeRight, ⟨?_, ?_⟩⟩
       · change PolygonDepthTree.node treeLeft.erasePhysical treeRight.erasePhysical =
           PolygonDepthTree.node left right
         rw [physicalLeft, physicalRight]
