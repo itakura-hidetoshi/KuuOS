@@ -71,4 +71,5 @@ import Kuu.F112.PolygonNativeF54RootTransportCancellation
 import Kuu.F112.PolygonNativeF44OrderedHistoricalComparison
 import Kuu.F112.PolygonNativeF45FullExecutionComparison
 import Kuu.F112.PolygonNativeF44AdjacentExchange
+import Kuu.F112.PolygonNativeF44ExchangeComposition
 /-! Current independent Kuu foundation. No legacy KUOS imports are permitted. -/
