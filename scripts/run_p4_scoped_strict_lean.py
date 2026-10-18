@@ -13,7 +13,6 @@ import os
 from pathlib import Path
 import subprocess
 import sys
-import tempfile
 
 ROOT = Path(__file__).resolve().parents[1]
 TARGET = "KuuOSFormal.HistoricalF36F40BridgeP4"
@@ -73,14 +72,18 @@ def main() -> int:
     # Its sole bytewise difference is allowing EXISTING historical linter
     # warnings, which still appear in the logs. All Lean definitions are
     # elaborated/kernel-checked under the same pinned source/mathlib.
-    temporary = None
+    # Stable configuration identity from the previous P4 build receipt.
+    # Changing the temporary lakefile path on every run needlessly invalidates
+    # Lake's build trace, even when neither the pinned sources nor flags change.
+    temporary = ROOT / "lakefile.p4-check-6p0wy05p.toml"
+    if temporary.exists():
+        print("ERROR: refuse to overwrite a preexisting P4 configuration", file=sys.stderr)
+        return 2
     try:
-        with tempfile.NamedTemporaryFile(
-            mode="w", encoding="utf-8", prefix="lakefile.p4-check-",
-            suffix=".toml", dir=ROOT, delete=False
-        ) as handle:
-            temporary = Path(handle.name)
-            handle.write(content.replace(OPTION, "leanOptions = { warningAsError = false }"))
+        temporary.write_text(
+            content.replace(OPTION, "leanOptions = { warningAsError = false }"),
+            encoding="utf-8"
+        )
         print("P4 phase A: typecheck all imported sources with sorryAsError; "
               "historical linter warnings remain visible", flush=True)
         rc = run([
@@ -88,8 +91,7 @@ def main() -> int:
             "-KleanArgs=-DsorryAsError=true", "build", TARGET
         ])
     finally:
-        if temporary is not None:
-            temporary.unlink(missing_ok=True)
+        temporary.unlink(missing_ok=True)
     if rc:
         return rc
 

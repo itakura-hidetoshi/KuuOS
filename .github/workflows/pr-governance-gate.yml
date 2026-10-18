@@ -169,7 +169,10 @@ jobs:
     needs: select
     if: needs.select.outputs.lean_required == 'true'
     runs-on: ubuntu-24.04
-    timeout-minutes: 30
+    # Only the genuine frozen-source F36/F40 bridge needs the large
+    # first historical dependency import graph. All other PRs retain the
+    # 30-minute Lean limit and the single KuuOSFormal authority.
+    timeout-minutes: ${{ github.event.pull_request.head.ref == 'formal/f112-p4-actual-historical-f36-f40-bridge' && 50 || 30 }}
     steps:
       - name: Check out repository
         uses: actions/checkout@v6
