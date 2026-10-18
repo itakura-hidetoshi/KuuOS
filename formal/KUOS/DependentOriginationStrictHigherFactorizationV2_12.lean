@@ -86,18 +86,18 @@ noncomputable def strictHigherLocalizationComparison
       CategoryTheory.Pseudofunctor.comp,
       CategoryTheory.Functor.toPseudofunctor,
       CategoryTheory.Functor.toPseudofunctor',
-      CategoryTheory.pseudofunctorOfIsLocallyDiscrete] <;>
-      ext Y <;>
-      simp
+      CategoryTheory.pseudofunctorOfIsLocallyDiscrete]
+    ext Y
+    simp
   naturality_comp f g := by
     apply Cat.Hom₂.ext
     simp [restrictHigherLocalizedSystem, strictLocalizedHigherSystem,
       CategoryTheory.Pseudofunctor.comp,
       CategoryTheory.Functor.toPseudofunctor,
       CategoryTheory.Functor.toPseudofunctor',
-      CategoryTheory.pseudofunctorOfIsLocallyDiscrete] <;>
-      ext X <;>
-      simp
+      CategoryTheory.pseudofunctorOfIsLocallyDiscrete]
+    ext X
+    simp
 
 /-- Every component of the strict comparison is an equivalence of categories.
 Indeed it is already an isomorphism in `Cat`, because it is a component of the
