@@ -79,12 +79,7 @@ noncomputable def strictHigherLocalizationComparison
       CategoryTheory.Pseudofunctor.comp,
       CategoryTheory.Functor.toPseudofunctor,
       CategoryTheory.Functor.toPseudofunctor',
-      CategoryTheory.pseudofunctorOfIsLocallyDiscrete] <;>
-      simp only [CategoryTheory.Cat.Hom.toNatTrans_comp,
-        CategoryTheory.Cat.Hom.toNatTrans_id,
-        CategoryTheory.Cat.whiskerRight_toNatTrans] <;>
-      ext X <;>
-      simp
+      CategoryTheory.pseudofunctorOfIsLocallyDiscrete]
   naturality_id X := by
     apply Cat.Hom₂.ext
     simp [restrictHigherLocalizedSystem, strictLocalizedHigherSystem,

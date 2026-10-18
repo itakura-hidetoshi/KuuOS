@@ -8,6 +8,23 @@ ROOT = Path(__file__).resolve().parents[1]
 # Each allowed current-source change is an exact, reviewable lint-only edit of
 # the frozen v5.291 bytes. All other historical theorem bytes must remain equal.
 LINT_ONLY_SOURCE_EDITS = {
+    "KUOS/DependentOriginationStrictHigherFactorizationV2_12.lean": (
+        ((          "    simp [restrictHigherLocalizedSystem, strictLocalizedHigherSystem," +
+          "      CategoryTheory.Pseudofunctor.comp," +
+          "      CategoryTheory.Functor.toPseudofunctor," +
+          "      CategoryTheory.Functor.toPseudofunctor'," +
+          "      CategoryTheory.pseudofunctorOfIsLocallyDiscrete] <;>" +
+          "      simp only [CategoryTheory.Cat.Hom.toNatTrans_comp," +
+          "        CategoryTheory.Cat.Hom.toNatTrans_id," +
+          "        CategoryTheory.Cat.whiskerRight_toNatTrans] <;>" +
+          "      ext X <;>" +
+          "      simp").encode("utf-8"),
+         (          "    simp [restrictHigherLocalizedSystem, strictLocalizedHigherSystem," +
+          "      CategoryTheory.Pseudofunctor.comp," +
+          "      CategoryTheory.Functor.toPseudofunctor," +
+          "      CategoryTheory.Functor.toPseudofunctor'," +
+          "      CategoryTheory.pseudofunctorOfIsLocallyDiscrete]").encode("utf-8")),
+    ),
     "KUOS/DependentOriginationContextualCoreV1_0.lean": (
         ("    simpa using D.transport_id_apply X x".encode("utf-8"), "    simp".encode("utf-8")),
         ("    simpa using D.transport_id_apply Y y".encode("utf-8"), "    simp".encode("utf-8")),
