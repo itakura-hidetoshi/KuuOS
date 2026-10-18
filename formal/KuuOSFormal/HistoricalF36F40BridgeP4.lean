@@ -1752,7 +1752,7 @@ open KUOS.DependentOriginationGrayC60PresentedFaceTwoCellsV5_190
 variable {a b : C} {x y : D} {n n' m m' : Nat}
 variable {ma mb : OldBlocks a b} {pa pb : OldBlocks x y}
 variable {first : OriginalF45BracketTree n m ma pa mb pb}
-variable {last : OriginalF45BracketTree n' m' ma pa pb}
+variable {last : OriginalF45BracketTree n' m' ma pa mb pb}
 variable {v w : IcosahedralDart} {p q : Quiver.Path v w}
 variable {α β : C60F42PresentedFaceCell p q}
 variable {r s : OriginalF45BracketTree.DepthRotationRoute first last}
