@@ -429,6 +429,117 @@ theorem nativeAxisTraceToHistorical_composite_eq
       (nativeBlocksToOld q).composite :=
   Trace.composite_eq (AxisTrace.toTrace (nativeAxisTraceToHistorical h))
 
+/-!
+## F112-P5-B — exact primitive image and choice-lift of old F45 evidence
+
+The converse to erasure does exist at the level of inhabited raw
+evidence: every ACTUAL old F42 generator is realized by at least one
+independent Type-valued primitive with exactly transported original
+F40 indices. The proof eliminates the historical Prop into Prop only.
+
+Classical.choice subsequently selects one witness in Type; this
+selection is intentionally NOT claimed to invert every native raw
+proof constructor. Exact-Nat-depth historical F45 histories are
+also realized, retaining each old intermediate block boundary.
+-/
+
+/-- Every actual historical F42 primitive move has a genuine native
+witness on the exactly inverse-translated original F40 Blocks.
+The elimination of old Prop evidence is INTO Prop (Nonempty). -/
+theorem historicalOneStep_nonempty_native
+    {x y : C} {p q : OldBlocks x y}
+    (h : HistoricalOneStep p q) :
+    Nonempty (KuuNativeOneStep (oldBlocksToNative p) (oldBlocksToNative q)) := by
+  induction h with
+  | split p q r =>
+      change Nonempty (KuuNativeOneStep
+        (.snoc (oldBlocksToNative p) (oldPathToNative (q.append r)))
+        (.snoc (.snoc (oldBlocksToNative p) (oldPathToNative q))
+          (oldPathToNative r)))
+      rw [oldPathToNative_append]
+      exact ⟨KuuNativeOneStep.split (oldBlocksToNative p)
+        (oldPathToNative q) (oldPathToNative r)⟩
+  | insertNil p =>
+      exact ⟨KuuNativeOneStep.insertNil (oldBlocksToNative p)⟩
+  | whisker h t ih =>
+      rcases ih with ⟨witness⟩
+      exact ⟨KuuNativeOneStep.whisker witness (oldPathToNative t)⟩
+
+/-- This is an exact existence characterization of original F42
+primitive operations, not an equivalence of their proof objects. -/
+theorem historicalOneStep_iff_nonempty_native
+    {x y : C} {p q : OldBlocks x y} :
+    HistoricalOneStep p q ↔
+      Nonempty (KuuNativeOneStep (oldBlocksToNative p) (oldBlocksToNative q)) := by
+  constructor
+  · exact historicalOneStep_nonempty_native
+  · rintro ⟨witness⟩
+    have old := nativeOneStepToHistorical witness
+    simpa only [nativeBlocksToOld_oldBlocksToNative] using old
+
+/-- A chosen independent primitive witness always exists, but it is
+NOT a canonical left inverse to proof-relevant native erasure. -/
+noncomputable def historicalOneStep_chooseNative
+    {x y : C} {p q : OldBlocks x y}
+    (h : HistoricalOneStep p q) :
+    KuuNativeOneStep (oldBlocksToNative p) (oldBlocksToNative q) :=
+  Classical.choice (historicalOneStep_nonempty_native h)
+
+/-- Every actual old F45 Type-valued history has an independent
+raw Type-valued representative of EXACTLY the same Nat length,
+with all intermediate old F40 block objects transported. -/
+theorem historicalAxisTrace_nonempty_native
+    {x y : C} {n : Nat} {p q : OldBlocks x y}
+    (h : HistoricalAxisTrace n p q) :
+    Nonempty (KuuNativeAxisTrace n (oldBlocksToNative p) (oldBlocksToNative q)) := by
+  induction h with
+  | refl p =>
+      exact ⟨KuuNativeAxisTrace.refl (oldBlocksToNative p)⟩
+  | snoc h step ih =>
+      rcases ih with ⟨history⟩
+      rcases historicalOneStep_nonempty_native step with ⟨primitive⟩
+      exact ⟨KuuNativeAxisTrace.snoc history primitive⟩
+
+/-- Choose one realization of the ORIGINAL F45 history. It keeps
+exact depth and boundaries, but independent primitive identity is
+not recovered after historical Prop erasure. -/
+noncomputable def historicalAxisTrace_chooseNative
+    {x y : C} {n : Nat} {p q : OldBlocks x y}
+    (h : HistoricalAxisTrace n p q) :
+    KuuNativeAxisTrace n (oldBlocksToNative p) (oldBlocksToNative q) :=
+  Classical.choice (historicalAxisTrace_nonempty_native h)
+
+/-- A stronger historical F45 conservation theorem: the ENTIRE
+ordered original F36 path is unchanged by a genuine old F45
+refinement history, not merely its final categorical composite.
+The proof transports to independent raw Kuu witnesses and back. -/
+theorem historicalAxisTrace_flatten_eq
+    {x y : C} {n : Nat} {p q : OldBlocks x y}
+    (h : HistoricalAxisTrace n p q) :
+    p.flatten = q.flatten := by
+  apply (oldPathEquivNative (C := C)).injective
+  change oldPathToNative p.flatten = oldPathToNative q.flatten
+  simpa only [oldBlocksToNative_flatten] using
+    (historicalAxisTrace_chooseNative h).flatten_eq
+
+/-- The source-level F45 invariant also holds on true C60 Site
+vertex/face incidence paths for arbitrary genuine physical sectors. -/
+theorem physicalC60HistoricalAxisTrace_flatten_eq
+    (p : Polygon) (i : PolygonBoundarySector p)
+    {n : Nat}
+    {s t : OldBlocks (Site.vertex (cyclicBoundaryDart p i.1.val)) (Site.face p)}
+    (h : HistoricalAxisTrace n s t) :
+    s.flatten = t.flatten :=
+  historicalAxisTrace_flatten_eq h
+
+#print axioms historicalOneStep_nonempty_native
+#print axioms historicalOneStep_iff_nonempty_native
+#print axioms historicalOneStep_chooseNative
+#print axioms historicalAxisTrace_nonempty_native
+#print axioms historicalAxisTrace_chooseNative
+#print axioms historicalAxisTrace_flatten_eq
+#print axioms physicalC60HistoricalAxisTrace_flatten_eq
+
 /-- The two distinct native primitive constructors on exactly the
 same original F40 double-nil boundaries erase to ONE historical F45
 Type history: the embedded F42 primitive evidence is Prop-valued. -/
