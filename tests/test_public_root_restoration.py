@@ -63,7 +63,13 @@ class RestoredWiringTests(unittest.TestCase):
         self.assertEqual(len(libraries), 1)
         self.assertEqual(libraries[0]['name'], 'KuuOSFormal')
         self.assertNotIn('KuuOSStrict', libraries[0]['roots'])
-        self.assertIn('+KuuOSStrict', libraries[0]['needs'])
+        self.assertNotIn('Kuu', libraries[0]['roots'])
+        # A module can be local to a library through its globs without being
+        # a published root; no distinct Lean library is introduced.
+        self.assertEqual(libraries[0].get('needs', []), [])
+        self.assertTrue(set(libraries[0]['roots']).issubset(set(libraries[0]['globs'])))
+        self.assertIn('KuuOSStrict', libraries[0]['globs'])
+        self.assertIn('Kuu.*', libraries[0]['globs'])
         workflow = (ROOT / '.github/workflows/kuu-independent-foundation.yml').read_text()
         self.assertIn('build +KuuOSStrict', workflow)
         self.assertNotIn('build KuuOSStrict', workflow)
