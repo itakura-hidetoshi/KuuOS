@@ -208,7 +208,7 @@ functor strictly inverting `W` admits a pointwise-equivalence strong comparison
 to the raw system. -/
 def InStrictSectorPointwiseEquivalenceSaturation
     (R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)) : Prop :=
-  ∃ (G : Context ⥤ Cat.{vH, uH}) (hG : W.IsInvertedBy G),
+  ∃ (G : Context ⥤ Cat.{vH, uH}) (_hG : W.IsInvertedBy G),
     Nonempty
       (HigherPointwiseEquivalenceComparison
         (strictRawHigherSystem G) R)

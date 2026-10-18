@@ -296,6 +296,11 @@ jobs:
               "build",
               *targets,
           ]
+          # P4 is a mixed old/new import closure: retained historical
+          # linter warnings are diagnostic, while new P4 is checked strictly.
+          # The source-only PR still runs the same one Lean check/job.
+          if targets == ["KuuOSFormal.HistoricalF36F40BridgeP4"]:
+              argv = ["python3", "scripts/run_p4_scoped_strict_lean.py"]
           print(shlex.join(argv))
           PY
           )"
