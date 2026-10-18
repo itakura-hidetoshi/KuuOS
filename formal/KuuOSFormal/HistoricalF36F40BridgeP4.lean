@@ -264,6 +264,11 @@ theorem nativePathToOld_map (F : C ⥤ D)
         F (nativePathToOld p) =
       nativePathToOld (p.map F) := by
   apply (oldPathEquivNative (C := D)).injective
+  change
+    oldPathToNative
+        (KUOS.DependentOriginationCoherentBiadjunctionFiniteModificationMatePathsV5_135.Finite.mapPath
+          F (nativePathToOld p)) =
+      oldPathToNative (nativePathToOld (p.map F))
   simp only [oldPathToNative_map, oldPathToNative_nativePathToOld]
 
 /-- The inverse real historical F40 Blocks reconstruction is natural
@@ -273,6 +278,8 @@ theorem nativeBlocksToOld_map (F : C ⥤ D)
     mapBlocks F (nativeBlocksToOld s) =
       nativeBlocksToOld (s.map F) := by
   apply (oldBlocksEquivNative (C := D)).injective
+  change oldBlocksToNative (mapBlocks F (nativeBlocksToOld s)) =
+    oldBlocksToNative (nativeBlocksToOld (s.map F))
   simp only [oldBlocksToNative_map, oldBlocksToNative_nativeBlocksToOld]
 
 #print axioms oldPathToNative_nativePathToOld
