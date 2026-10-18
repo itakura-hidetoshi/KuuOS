@@ -372,6 +372,30 @@ theorem nativeBlocksToOld_flatten {x y : C}
     oldBlocksToNative_nativeBlocksToOld,
     oldPathToNative_nativePathToOld]
 
+/-- Dependent F40 constructors require an explicit source equality:
+change cannot manufacture the equation of this indexed recursive map. -/
+theorem nativeBlocksToOld_snoc {x y z : C}
+    (p : KuuNativeBlocks x y) (q : KuuNativePath y z) :
+    nativeBlocksToOld (KuuNativeBlocks.snoc p q) =
+      Blocks.snoc (nativeBlocksToOld p) (nativePathToOld q) := by
+  simp only [nativeBlocksToOld]
+
+/-- The reverse constructor equation is also a proved equality, not
+an assumption identifying old and new types definitionally. -/
+theorem oldBlocksToNative_snoc {x y z : C}
+    (p : OldBlocks x y) (q : OldPath y z) :
+    oldBlocksToNative (Blocks.snoc p q) =
+      KuuNativeBlocks.snoc (oldBlocksToNative p) (oldPathToNative q) := by
+  simp only [oldBlocksToNative]
+
+theorem nativePathToOld_nil (x : C) :
+    nativePathToOld (KuuNativePath.nil x) = Path.nil x := by
+  simp only [nativePathToOld]
+
+theorem oldPathToNative_nil (x : C) :
+    oldPathToNative (Path.nil x) = KuuNativePath.nil x := by
+  simp only [oldPathToNative]
+
 /-- The independent Type-valued primitive refinement is realized as
 the SAME genuinely historical F42 Prop generator on original F40 Blocks.
 Only the split case needs P4's proved full-path concatenation lemma. -/
@@ -381,19 +405,15 @@ def nativeOneStepToHistorical {x y : C}
     HistoricalOneStep (nativeBlocksToOld p) (nativeBlocksToOld q) := by
   induction h with
   | split p q r =>
-      change HistoricalOneStep
-        (.snoc (nativeBlocksToOld p) (nativePathToOld (q.append r)))
-        (.snoc (.snoc (nativeBlocksToOld p) (nativePathToOld q))
-          (nativePathToOld r))
-      rw [nativePathToOld_append]
-      exact OneStep.split (nativeBlocksToOld p)
-        (nativePathToOld q) (nativePathToOld r)
+      simpa only [nativeBlocksToOld_snoc, nativePathToOld_append] using
+        (OneStep.split (nativeBlocksToOld p)
+          (nativePathToOld q) (nativePathToOld r))
   | insertNil p =>
-      change HistoricalOneStep (nativeBlocksToOld p)
-        (.snoc (nativeBlocksToOld p) (.nil _))
-      exact OneStep.insertNil (nativeBlocksToOld p)
+      simpa only [nativeBlocksToOld_snoc, nativePathToOld_nil] using
+        (OneStep.insertNil (nativeBlocksToOld p))
   | whisker h t ih =>
-      exact OneStep.whisker ih (nativePathToOld t)
+      simpa only [nativeBlocksToOld_snoc] using
+        (OneStep.whisker ih (nativePathToOld t))
 
 /-- Stronger than original F42 composite equality: every primitive
 erasure preserves the WHOLE original F36 ordered arrow path. -/
@@ -452,18 +472,17 @@ theorem historicalOneStep_nonempty_native
     Nonempty (KuuNativeOneStep (oldBlocksToNative p) (oldBlocksToNative q)) := by
   induction h with
   | split p q r =>
-      change Nonempty (KuuNativeOneStep
-        (.snoc (oldBlocksToNative p) (oldPathToNative (q.append r)))
-        (.snoc (.snoc (oldBlocksToNative p) (oldPathToNative q))
-          (oldPathToNative r)))
-      rw [oldPathToNative_append]
-      exact ⟨KuuNativeOneStep.split (oldBlocksToNative p)
-        (oldPathToNative q) (oldPathToNative r)⟩
+      simpa only [oldBlocksToNative_snoc, oldPathToNative_append] using
+        (Nonempty.intro (KuuNativeOneStep.split (oldBlocksToNative p)
+          (oldPathToNative q) (oldPathToNative r)))
   | insertNil p =>
-      exact ⟨KuuNativeOneStep.insertNil (oldBlocksToNative p)⟩
+      simpa only [oldBlocksToNative_snoc, oldPathToNative_nil] using
+        (Nonempty.intro (KuuNativeOneStep.insertNil (oldBlocksToNative p)))
   | whisker h t ih =>
       rcases ih with ⟨witness⟩
-      exact ⟨KuuNativeOneStep.whisker witness (oldPathToNative t)⟩
+      simpa only [oldBlocksToNative_snoc] using
+        (Nonempty.intro (KuuNativeOneStep.whisker witness
+          (oldPathToNative t)))
 
 /-- This is an exact existence characterization of original F42
 primitive operations, not an equivalence of their proof objects. -/
@@ -585,6 +604,10 @@ theorem physicalC60ActualF45Erasure_not_injective
             nativeAxisTraceToHistorical h) :=
   actualF45HistoryErasure_not_injective (polygonSectorTwoBlocks p i)
 
+#print axioms nativeBlocksToOld_snoc
+#print axioms oldBlocksToNative_snoc
+#print axioms nativePathToOld_nil
+#print axioms oldPathToNative_nil
 #print axioms nativePathToOld_append
 #print axioms nativeBlocksToOld_append
 #print axioms nativeBlocksToOld_flatten
