@@ -8,6 +8,9 @@ ROOT = Path(__file__).resolve().parents[1]
 # Each allowed current-source change is an exact, reviewable lint-only edit of
 # the frozen v5.291 bytes. All other historical theorem bytes must remain equal.
 LINT_ONLY_SOURCE_EDITS = {
+    "KUOS/DependentOriginationCoherentWeakHigherLocalizationV2_19.lean": (
+        ("    simpa [restrictHigherLocalizedSystem] using\n      alpha.naturality_naturality\n        ((higherPresentationUnitFunctor W).toPseudofunctor.map₂ η)".encode("utf-8"), "    simp [restrictHigherLocalizedSystem]".encode("utf-8")),
+    ),
     "KUOS/DependentOriginationPointwiseEquivalenceTransportV2_17.lean": (
         ("  ∃ (G : Context ⥤ Cat.{vH, uH}) (hG : W.IsInvertedBy G),\n    Nonempty\n      (HigherPointwiseEquivalenceComparison\n        (strictRawHigherSystem G) R)".encode("utf-8"), "  ∃ (G : Context ⥤ Cat.{vH, uH}) (_hG : W.IsInvertedBy G),\n    Nonempty\n      (HigherPointwiseEquivalenceComparison\n        (strictRawHigherSystem G) R)".encode("utf-8")),
     ),
