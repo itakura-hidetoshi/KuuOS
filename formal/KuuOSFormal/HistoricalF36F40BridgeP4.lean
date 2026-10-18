@@ -1,4 +1,5 @@
 import Kuu.F112.PolygonF36F40ShapeFunctorC60
+import KUOS.DependentOriginationGrayC60IntegralBoundaryLinearMapV5_159
 import KUOS.DependentOriginationGrayC60AllThirtyTwoFaceCycleV5_158
 import KUOS.DependentOriginationTruncatedIcosahedralFlagSquaresV5_154
 import KUOS.DependentOriginationCoherentBiadjunctionFiniteRectangularSubdivisionV5_137
@@ -1986,6 +1987,194 @@ end ActualF47
 #print axioms integralC60SurfaceBoundary_eq_zero
 #print axioms integralC60Surface_nonzero_cycle
 #print axioms ActualF47.frame_integral_boundary_zero_and_charge
+
+end GenuineOriginalC60Geometry
+
+
+/-!
+## F112-P12 — native/original integral chain orientation and kernel bridge
+
+F112-P11 independently certified a NONZERO 32-face integral chain
+whose boundary vanishes at EACH genuine old C60 physical edge.
+Historical F59-F8/F9 already contains the actual original oriented
+C60 Finsupp cellular complex. This unit compares the full INTEGER
+coefficients on every original physical edge in the two constructions.
+
+The independent hexagon cycles reverse every edge orientation
+relative to the original F59-F3 cycles, and the global P11 sign is
+OPPOSITE the historical face orientation basis. Each native signed
+face therefore contributes the NEGATIVE of its genuine original
+oriented face boundary. No equivalence of historical higher F55
+source 2/3-cells follows from this geometric chain comparison.
+
+We also bundle the actual source 32→90 integer boundary as a
+Mathlib Z-linear map, prove its nontrivial kernel, and certify the
+two original adjacent signed local face contributions CANCEL at
+each of the true 90 original physical edges.
+-/
+
+namespace GenuineOriginalC60Geometry
+
+open KUOS.DependentOriginationIcosahedralTruncationSeedV3_84
+open KUOS.DependentOriginationTruncatedIcosahedralEdgesV3_85
+open KUOS.DependentOriginationTruncatedIcosahedralHexagonsV3_86
+open KUOS.DependentOriginationGrayC60IntegerOrientedSurfaceCycleV5_159
+open KUOS.DependentOriginationGrayC60IntegralBoundaryLinearMapV5_159
+open KUOS.DependentOriginationGrayC60AllThirtyTwoFaceCycleV5_158
+
+set_option maxRecDepth 4096
+set_option maxHeartbeats 4000000
+
+/-- Each native signed whole-face coefficient is exactly plus or
+minus one; no zero or arbitrarily scaled face was inserted. -/
+theorem c60SurfaceFaceSign_sq_one :
+    ∀ p : Polygon, c60SurfaceFaceSign p * c60SurfaceFaceSign p = 1 := by
+  decide
+
+/-- Exact new-to-old INTEGER edge coefficient for EACH of the real
+12 pentagons and 20 hexagons, at EVERY one of the 90 original edges.
+The sign is the relative orientation of the two actual cyclic
+boundary conventions, not a mod-two or multiplicity statement. -/
+theorem native_original_face_edge_coefficient :
+    ∀ (p : Polygon) (e : TruncatedIcosahedralEdge),
+      faceOrientedEdgeCoefficient p e =
+        -(c60SurfaceFaceSign p) *
+          c60IntegerFaceEdgeCoefficient (polygonEquiv p) e := by
+  intro p e
+  revert e
+  fin_cases p <;> decide
+
+/-- Hence the globally oriented P11 native face is exactly the
+NEGATIVE of the historical F59-F8 original oriented face as
+a genuine integer-valued physical-edge coefficient function. -/
+theorem native_surface_face_signed_opposite_original
+    (p : Polygon) (e : TruncatedIcosahedralEdge) :
+    c60SurfaceFaceSign p * faceOrientedEdgeCoefficient p e =
+      -c60IntegerFaceEdgeCoefficient (polygonEquiv p) e := by
+  calc
+    c60SurfaceFaceSign p * faceOrientedEdgeCoefficient p e =
+      c60SurfaceFaceSign p *
+        (-(c60SurfaceFaceSign p) *
+          c60IntegerFaceEdgeCoefficient (polygonEquiv p) e) := by
+            rw [native_original_face_edge_coefficient]
+    _ = -(c60SurfaceFaceSign p * c60SurfaceFaceSign p) *
+          c60IntegerFaceEdgeCoefficient (polygonEquiv p) e := by ring
+    _ = -c60IntegerFaceEdgeCoefficient (polygonEquiv p) e := by
+      rw [c60SurfaceFaceSign_sq_one]
+      ring
+
+/-- The actual SIGNED integral contribution of one of the TWO
+genuine polygonal faces adjacent to a true physical C60 edge. -/
+def localSignedFaceContribution (e : Edge) (side : Bool) : ℤ :=
+  c60SurfaceFaceSign (faceAt e side) *
+    faceOrientedEdgeCoefficient (faceAt e side) (edgeEquiv e)
+
+/-- The true local orientability statement: the two distinct
+physical faces that meet at EVERY edge have exactly opposite
+signed integer contributions. In particular there is NO invented
+third face whose contribution is required for cancellation. -/
+theorem localSignedFaceContribution_cancel :
+    ∀ e : Edge,
+      localSignedFaceContribution e false +
+        localSignedFaceContribution e true = 0 := by
+  intro e
+  fin_cases e <;> decide
+
+/-- Each true physical edge contributes a nonzero unit coefficient
+from its first incident oriented face. Combined with cancellation
+this rules out the vacuous 0+0 interpretation of local gluing. -/
+theorem localSignedFaceContribution_first_sq_one :
+    ∀ e : Edge,
+      localSignedFaceContribution e false *
+        localSignedFaceContribution e false = 1 := by
+  intro e
+  fin_cases e <;> decide
+
+/-- A bona fide Z-LINEAR 32-to-90 boundary operator on the actual
+independent Kuu face coordinates and original historic edge Type.
+This is the fully typed additive/linear structure, not a scalar
+statement about a single surface total. -/
+def integralC60NativeBoundaryLinear :
+    (Polygon → ℤ) →ₗ[ℤ] (TruncatedIcosahedralEdge → ℤ) where
+  toFun := integralC60FaceBoundary
+  map_add' := by
+    intro x y
+    funext e
+    exact integralC60FaceBoundary_add x y e
+  map_smul' := by
+    intro n w
+    funext e
+    simp only [Pi.smul_apply, smul_eq_mul]
+    change integralC60FaceBoundary (fun p => n * w p) e =
+      n * integralC60FaceBoundary w e
+    simp only [integralC60FaceBoundary, mul_assoc, Finset.mul_sum]
+
+/-- Our independently constructed global oriented surface is
+an ACTUAL member of the kernel of this genuine Mathlib linear map. -/
+theorem c60SurfaceFaceSign_mem_native_linear_kernel :
+    c60SurfaceFaceSign ∈ integralC60NativeBoundaryLinear.ker := by
+  change integralC60FaceBoundary c60SurfaceFaceSign = 0
+  exact integralC60SurfaceBoundary_eq_zero
+
+/-- The genuine 32-to-90 integer boundary has NONTRIVIAL kernel;
+its witness uses the real north-pentagon coefficient +1 and cannot
+be the vacuous zero surface. -/
+theorem integralC60NativeBoundaryLinear_kernel_ne_bot :
+    integralC60NativeBoundaryLinear.ker ≠ ⊥ := by
+  intro h
+  have hm := c60SurfaceFaceSign_mem_native_linear_kernel
+  rw [h] at hm
+  have hz : c60SurfaceFaceSign = (0 : Polygon → ℤ) := by
+    simpa using hm
+  have hn := congrArg
+    (fun f : Polygon → ℤ => f (.pentagon .north)) hz
+  norm_num [c60SurfaceFaceSign] at hn
+
+namespace ActualF47
+
+open KUOS.DependentOriginationGrayC60MixedBoundaryThreeHomV5_195
+open KUOS.DependentOriginationGrayC60PresentedFaceTwoCellsV5_190
+
+variable {a b : C} {x y : D} {n n' m m' : Nat}
+variable {ma mb : OldBlocks a b} {pa pb : OldBlocks x y}
+variable {first : OriginalF45BracketTree n m ma pa mb pb}
+variable {last : OriginalF45BracketTree n' m' ma pa mb pb}
+variable {v w : IcosahedralDart} {p q : Quiver.Path v w}
+variable {α β : C60F42PresentedFaceCell p q}
+variable {r s : OriginalF45BracketTree.DepthRotationRoute first last}
+
+/-- Genuine local integer orientation cancellation on the EXACT
+physical edge stored in every calibrated original F47 four-boundary
+frame. The separate F42/F55 mixed source square keeps its nonzero
+(0,1) comparison charge and separate phase even though the original
+two physical polygon boundaries cancel locally. -/
+theorem frame_local_integral_cancellation_and_charge
+    (B : C60F47SquareFrame α β r s) :
+    (localSignedFaceContribution (frameKuuEdge B) false +
+      localSignedFaceContribution (frameKuuEdge B) true = 0) ∧
+    (c60F47FaceArrow B ≫ c60F47CompareAfter B =
+      c60F47CompareBefore B ≫ c60F47OriginalF55Arrow B) ∧
+    ((c60F47MixedGrayFunctor B).map
+      (c60F47CompareAfter B)).charge = ((0 : Int), (1 : Int)) ∧
+    ((c60F47MixedGrayFunctor B).map
+      (c60F47CompareAfter B)).phase = (0 : ZMod 2) :=
+  ⟨localSignedFaceContribution_cancel (frameKuuEdge B),
+    c60F47MixedOriginalBoundarySquare B,
+    (c60F47CompareAfter_native_components B).1,
+    (c60F47CompareAfter_native_components B).2⟩
+
+end ActualF47
+
+#print axioms c60SurfaceFaceSign_sq_one
+#print axioms native_original_face_edge_coefficient
+#print axioms native_surface_face_signed_opposite_original
+#print axioms localSignedFaceContribution
+#print axioms localSignedFaceContribution_cancel
+#print axioms localSignedFaceContribution_first_sq_one
+#print axioms integralC60NativeBoundaryLinear
+#print axioms c60SurfaceFaceSign_mem_native_linear_kernel
+#print axioms integralC60NativeBoundaryLinear_kernel_ne_bot
+#print axioms ActualF47.frame_local_integral_cancellation_and_charge
 
 end GenuineOriginalC60Geometry
 
