@@ -217,7 +217,7 @@ class GitHubStateStoreTests(unittest.TestCase):
             ("owner/../repo", TOKEN, BRANCH, PATH),
             (REPO, "", BRANCH, PATH),
             (REPO, TOKEN, "main", PATH),
-            (REPO, TOKEN, BRANCH, ".github/workflows/unsafe.yml"),
+            (REPO, TOKEN, BRANCH, ".github/workflows/kuuos-mgap-ci-reentry-poller-v1-2.yml"),
         ]:
             with self.subTest(repo=repo, branch=branch, path=path):
                 with self.assertRaisesRegex(RuntimeError, "state_store_invalid|state_store_token_missing"):
