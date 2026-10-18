@@ -1823,5 +1823,171 @@ end ActualF47
 
 end GenuineOriginalC60Geometry
 
+
+/-!
+## F112-P11 — genuine integral oriented C60 two-cycle
+
+P9 established original face-edge incidence and P10 the FULL actual
+historical five/six-edge boundary orders and endpoint orientations.
+
+This new theorem constructs an explicitly signed *integer* 2-chain on
+all 32 ORIGINAL C60 polygons. Its boundary uses the actual original
+90-edge Type and the transported original oriented edge constructors,
+not mod-two cancellation or a fictitious square-face carrier.
+
+The alternating signs on the four icosahedral face families and four
+vertex families are forced by requiring pairwise cancellation of each
+shared physical edge. The finite proof establishes this at every one
+of the ninety original C60 edges, stronger than the existing mod-two
+2-cycle. No claim about global topological homology generators,
+nonexistent F55 delta-lifts, or F68/F77 descent is introduced.
+-/
+
+namespace GenuineOriginalC60Geometry
+
+open KUOS.DependentOriginationIcosahedralTruncationSeedV3_84
+open KUOS.DependentOriginationTruncatedIcosahedralEdgesV3_85
+open KUOS.DependentOriginationTruncatedIcosahedralHexagonsV3_86
+open KUOS.DependentOriginationGrayC60AllThirtyTwoFaceCycleV5_158
+
+set_option maxRecDepth 4096
+set_option maxHeartbeats 4000000
+
+/-- Coefficient of a TRUE historical oriented physical edge in the
+free integral 1-chain on original C60 edges. Reversing orientation
+changes its integer coefficient, without changing the physical edge. -/
+def orientedEdgeIntegerCoefficient
+    (o : OrientedTruncatedIcosahedralEdge)
+    (e : TruncatedIcosahedralEdge) : Int :=
+  match o with
+  | .forward f => if f = e then 1 else 0
+  | .reverse f => if f = e then -1 else 0
+
+theorem orientedEdgeIntegerCoefficient_reverse
+    (o : OrientedTruncatedIcosahedralEdge)
+    (e : TruncatedIcosahedralEdge) :
+    orientedEdgeIntegerCoefficient (reverseHistoricalOrientation o) e =
+      -orientedEdgeIntegerCoefficient o e := by
+  cases o <;> simp [orientedEdgeIntegerCoefficient, reverseHistoricalOrientation]
+  <;> split <;> simp_all
+
+/-- An original physical edge's signed occurrence coefficient on
+the actual five- or six-side cyclic boundary of a real Kuu polygon,
+with every side transported to the historical C60 oriented-edge Type. -/
+def faceOrientedEdgeCoefficient (p : Polygon)
+    (e : TruncatedIcosahedralEdge) : Int :=
+  ((transportOrientedBoundary p).map
+    (fun o => orientedEdgeIntegerCoefficient o e)).sum
+
+/-- The consistent genuine surface orientation: north pentagon,
+all five lower pentagons, all five top hexagons and all five
+belt-lower hexagons get +1; the remaining 16 faces get -1.
+This is an explicit global choice, not a hidden existential axiom. -/
+def c60SurfaceFaceSign : Polygon → Int
+  | .pentagon .north => 1
+  | .pentagon .south => -1
+  | .pentagon (.upper _) => -1
+  | .pentagon (.lower _) => 1
+  | .hexagon (.top _) => 1
+  | .hexagon (.bottom _) => -1
+  | .hexagon (.beltUpper _) => -1
+  | .hexagon (.beltLower _) => 1
+
+/-- No real original polygon has zero coefficient in this 2-chain. -/
+theorem c60SurfaceFaceSign_nonzero :
+    ∀ p : Polygon, c60SurfaceFaceSign p ≠ 0 := by
+  decide
+
+/-- The boundary operator of a finite integral 2-chain on the true
+32-face carrier, evaluated at one genuine original 90-edge coordinate.
+The arbitrary integer weight function is the 2-chain itself. -/
+def integralC60FaceBoundary (weight : Polygon → Int)
+    (e : TruncatedIcosahedralEdge) : Int :=
+  ∑ p : Polygon, weight p * faceOrientedEdgeCoefficient p e
+
+/-- Boundary respects sums of arbitrary integral 32-face chains,
+rather than being an isolated numeric checksum. -/
+theorem integralC60FaceBoundary_add
+    (w₁ w₂ : Polygon → Int) (e : TruncatedIcosahedralEdge) :
+    integralC60FaceBoundary (fun p => w₁ p + w₂ p) e =
+      integralC60FaceBoundary w₁ e +
+        integralC60FaceBoundary w₂ e := by
+  unfold integralC60FaceBoundary
+  simp only [add_mul, Finset.sum_add_distrib]
+
+/-- The exact old-source C60 integral surface boundary vanishes at
+EACH true original physical edge. Unlike the mod-two result, every
+one of the 90 integer coefficients is proved zero independently.
+Each finite case is elaborated by the kernel, not native_decide. -/
+theorem integralC60SurfaceBoundary_zero :
+    ∀ e : TruncatedIcosahedralEdge,
+      integralC60FaceBoundary c60SurfaceFaceSign e = 0 := by
+  intro e
+  fin_cases e <;> decide
+
+/-- Strong pointwise zero of the INTEGER 1-chain, not merely a
+scalar total or parity equality on a counting invariant. -/
+theorem integralC60SurfaceBoundary_eq_zero :
+    integralC60FaceBoundary c60SurfaceFaceSign =
+      (fun _ : TruncatedIcosahedralEdge => (0 : Int)) := by
+  funext e
+  exact integralC60SurfaceBoundary_zero e
+
+/-- The signed 2-chain is demonstrably NONZERO: its genuine original
+north-pentagon coefficient is +1, while its entire 1-boundary is zero. -/
+theorem integralC60Surface_nonzero_cycle :
+    c60SurfaceFaceSign (.pentagon .north) = 1 ∧
+    integralC60FaceBoundary c60SurfaceFaceSign =
+      (fun _ : TruncatedIcosahedralEdge => (0 : Int)) :=
+  ⟨rfl, integralC60SurfaceBoundary_eq_zero⟩
+
+namespace ActualF47
+
+open KUOS.DependentOriginationGrayC60MixedBoundaryThreeHomV5_195
+open KUOS.DependentOriginationGrayC60PresentedFaceTwoCellsV5_190
+
+variable {a b : C} {x y : D} {n n' m m' : Nat}
+variable {ma mb : OldBlocks a b} {pa pb : OldBlocks x y}
+variable {first : OriginalF45BracketTree n m ma pa mb pb}
+variable {last : OriginalF45BracketTree n' m' ma pa mb pb}
+variable {v w : IcosahedralDart} {p q : Quiver.Path v w}
+variable {α β : C60F42PresentedFaceCell p q}
+variable {r s : OriginalF45BracketTree.DepthRotationRoute first last}
+
+/-- At any actual calibrated original F47 frame, the genuine physical
+edge has ZERO GLOBAL integer surface-boundary coefficient, while
+the separate original F42/F55 mixed four-boundary comparison retains
+its independently certified nonzero charge (0,1) and phase zero.
+Integral geometric closure is not an unproved F55 Delta-lift. -/
+theorem frame_integral_boundary_zero_and_charge
+    (B : C60F47SquareFrame α β r s) :
+    integralC60FaceBoundary c60SurfaceFaceSign B.edge = 0 ∧
+    (c60F47FaceArrow B ≫ c60F47CompareAfter B =
+      c60F47CompareBefore B ≫ c60F47OriginalF55Arrow B) ∧
+    ((c60F47MixedGrayFunctor B).map
+      (c60F47CompareAfter B)).charge = ((0 : Int), (1 : Int)) ∧
+    ((c60F47MixedGrayFunctor B).map
+      (c60F47CompareAfter B)).phase = (0 : ZMod 2) :=
+  ⟨integralC60SurfaceBoundary_zero B.edge,
+    c60F47MixedOriginalBoundarySquare B,
+    (c60F47CompareAfter_native_components B).1,
+    (c60F47CompareAfter_native_components B).2⟩
+
+end ActualF47
+
+#print axioms orientedEdgeIntegerCoefficient
+#print axioms orientedEdgeIntegerCoefficient_reverse
+#print axioms faceOrientedEdgeCoefficient
+#print axioms c60SurfaceFaceSign
+#print axioms c60SurfaceFaceSign_nonzero
+#print axioms integralC60FaceBoundary
+#print axioms integralC60FaceBoundary_add
+#print axioms integralC60SurfaceBoundary_zero
+#print axioms integralC60SurfaceBoundary_eq_zero
+#print axioms integralC60Surface_nonzero_cycle
+#print axioms ActualF47.frame_integral_boundary_zero_and_charge
+
+end GenuineOriginalC60Geometry
+
 end
 end KUOS.F112ActualHistoricalF36F40BridgeP4
