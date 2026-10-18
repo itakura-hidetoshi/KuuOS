@@ -647,8 +647,8 @@ def nativeTwoAxisToActualExchange
     (histories : KuuNativeAxisTrace n ma mb ×
       KuuNativeAxisTrace m pa pb) :
     ExchangeClass n m
-      (nativeBlocksToOld ma) (nativeBlocksToOld pa)
-      (nativeBlocksToOld mb) (nativeBlocksToOld pb) :=
+      (nativeBlocksToOld ma) (nativeBlocksToOld mb)
+      (nativeBlocksToOld pa) (nativeBlocksToOld pb) :=
   AxisTrace.pairToClass
     (nativeAxisTraceToHistorical histories.1,
       nativeAxisTraceToHistorical histories.2)
@@ -673,7 +673,7 @@ theorem actualExchange_twoAxis_flatten_eq
     {a b : C} {x y : D} {n m : Nat}
     {ma mb : OldBlocks a b}
     {pa pb : OldBlocks x y}
-    (c : ExchangeClass n m ma pa mb pb) :
+    (c : ExchangeClass n m ma mb pa pb) :
     ma.flatten = mb.flatten ∧ pa.flatten = pb.flatten :=
   ⟨historicalAxisTrace_flatten_eq c.axisTraces.1,
     historicalAxisTrace_flatten_eq c.axisTraces.2⟩
@@ -685,7 +685,7 @@ theorem actualExchange_nativeTwoAxis_nonempty
     {a b : C} {x y : D} {n m : Nat}
     {ma mb : OldBlocks a b}
     {pa pb : OldBlocks x y}
-    (c : ExchangeClass n m ma pa mb pb) :
+    (c : ExchangeClass n m ma mb pa pb) :
     Nonempty (
       KuuNativeAxisTrace n (oldBlocksToNative ma) (oldBlocksToNative mb) ×
       KuuNativeAxisTrace m (oldBlocksToNative pa) (oldBlocksToNative pb)) :=
@@ -774,7 +774,7 @@ theorem originalF19F28_exchange_rawPaths
     {a b : F19 F G} {x y : F28 aF bF aG bG}
     {n m : Nat}
     {ma mb : OldBlocks a b} {pa pb : OldBlocks x y}
-    (c : ExchangeClass n m ma pa mb pb) :
+    (c : ExchangeClass n m ma mb pa pb) :
     ma.flatten = mb.flatten ∧ pa.flatten = pb.flatten :=
   actualExchange_twoAxis_flatten_eq c
 
@@ -787,7 +787,7 @@ theorem originalF19F28_exchange_mate_compression_paths
     {a b : F19 F G} {x y : F28 aF bF aG bG}
     {n m : Nat}
     {ma mb : OldBlocks a b} {pa pb : OldBlocks x y}
-    (c : ExchangeClass n m ma pa mb pb) :
+    (c : ExchangeClass n m ma mb pa pb) :
     (mapBlocks (rightMateFunctor F G) ma).flatten =
       (mapBlocks (rightMateFunctor F G) mb).flatten ∧
     (mapBlocks (quotientCompositeFunctor aF bF aG bG) pa).flatten =
@@ -811,7 +811,7 @@ theorem originalF19F28_exchange_has_native_histories
     {a b : F19 F G} {x y : F28 aF bF aG bG}
     {n m : Nat}
     {ma mb : OldBlocks a b} {pa pb : OldBlocks x y}
-    (c : ExchangeClass n m ma pa mb pb) :
+    (c : ExchangeClass n m ma mb pa pb) :
     Nonempty (
       KuuNativeAxisTrace n (oldBlocksToNative ma) (oldBlocksToNative mb) ×
       KuuNativeAxisTrace m (oldBlocksToNative pa) (oldBlocksToNative pb)) :=
