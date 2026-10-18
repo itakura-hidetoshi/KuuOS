@@ -5,6 +5,8 @@ import KUOS.DependentOriginationCoherentBiadjunctionProofRelevantAxisTracesV5_14
 import KUOS.DependentOriginationCoherentBiadjunctionExchangeAxisPairEquivalenceV5_143
 import KUOS.DependentOriginationCoherentBiadjunctionChosenRightMateCategoriesV5_116
 import KUOS.DependentOriginationCoherentBiadjunctionCompressionKernelQuotientCategoryV5_125
+import KUOS.DependentOriginationGrayC60MixedBoundaryThreeHomV5_195
+import KUOS.DependentOriginationCoherentBiadjunctionOriginalF45DepthRotationInvariantsV5_152
 
 /-!
 # F112-E7Q5-F4-P4 — ACTUAL original F36 Chain.Path and F40 Grid.Blocks bridge
@@ -830,6 +832,183 @@ end GenuineF19F28
 #print axioms GenuineF19F28.originalF19F28_exchange_rawPaths
 #print axioms GenuineF19F28.originalF19F28_exchange_mate_compression_paths
 #print axioms GenuineF19F28.originalF19F28_exchange_has_native_histories
+
+
+/-!
+## F112-P7 — actual original F47 four-boundary square with two native axes
+
+Unlike an artificial face/rotation product, the historical F47 frame
+B stores a real truncated-icosahedron physical edge, an original F42
+face comparison between genuinely typed polygon cells, and an actual
+F55 rotation 3-arrow between TWO independently typed original F54
+routes, together with its proved full-native calibration.
+
+The two routes have the SAME original bracket-tree endpoints. Their
+F44 exchange classes admit independently reconstructed Kuu witnesses
+of exact original F19/F28 primitive depths (P5/P6). The original
+F55 route equations and F47 mixed source square remain genuine
+proofs with their separately typed four boundaries. The nonzero
+comparison charge is retained; no F47 ≌ independent Kuu equivalence
+or forbidden Gray import into KuuOSStrict is claimed.
+-/
+
+namespace GenuineOriginalF47
+open KUOS.DependentOriginationGrayC60MixedBoundaryThreeHomV5_195
+open KUOS.DependentOriginationGrayC60PresentedFaceTwoCellsV5_190
+open KUOS.DependentOriginationIcosahedralTruncationSeedV3_84
+
+variable {a b : C} {x y : D}
+variable {n n' m m' : Nat}
+variable {ma mb : OldBlocks a b} {pa pb : OldBlocks x y}
+variable {first : OriginalF45BracketTree n m ma pa mb pb}
+variable {last : OriginalF45BracketTree n' m' ma pa mb pb}
+variable {v w : IcosahedralDart} {p q : Quiver.Path v w}
+variable {α β : C60F42PresentedFaceCell p q}
+variable {r s : OriginalF45BracketTree.DepthRotationRoute first last}
+
+/-- A witness on an ACTUAL old F47 calibrated four-boundary frame.
+The complete original F42 face and F55 route arrows, physical edge,
+and four separate source positions are retained by the INDEX B.
+Each native axis is a genuine Type-valued refinement history over
+the original F19/F28 F40 blocks, not a numerical grade or a Bool site.
+
+The relation is intentionally one-way: historical F42 primitive
+proof irrelevance prevents recovering a unique native history. -/
+structure F47NativeBoundaryWitness
+    (B : C60F47SquareFrame α β r s) where
+  firstNative :
+    KuuNativeAxisTrace n (oldBlocksToNative ma) (oldBlocksToNative mb) ×
+      KuuNativeAxisTrace m (oldBlocksToNative pa) (oldBlocksToNative pb)
+  lastNative :
+    KuuNativeAxisTrace n' (oldBlocksToNative ma) (oldBlocksToNative mb) ×
+      KuuNativeAxisTrace m' (oldBlocksToNative pa) (oldBlocksToNative pb)
+  firstRouteF44 :
+    ExchangeClass.castDepths r.depthEq.1 r.depthEq.2
+      first.toExchangeClass = last.toExchangeClass
+  secondRouteF44 :
+    ExchangeClass.castDepths s.depthEq.1 s.depthEq.2
+      first.toExchangeClass = last.toExchangeClass
+  originalMixedSquare :
+    c60F47FaceArrow B ≫ c60F47CompareAfter B =
+      c60F47CompareBefore B ≫ c60F47OriginalF55Arrow B
+
+/-- Build the native witness over any ACTUAL calibrated F47 source
+frame, using previously proved reverse existence of historical F45
+histories. No original face or F55 rotation source is replaced. -/
+noncomputable def F47NativeBoundaryWitness.ofFrame
+    (B : C60F47SquareFrame α β r s) :
+    F47NativeBoundaryWitness B where
+  firstNative :=
+    (historicalAxisTrace_chooseNative first.axisHistories.1,
+      historicalAxisTrace_chooseNative first.axisHistories.2)
+  lastNative :=
+    (historicalAxisTrace_chooseNative last.axisHistories.1,
+      historicalAxisTrace_chooseNative last.axisHistories.2)
+  firstRouteF44 := r.toExchangeClass_eq
+  secondRouteF44 := s.toExchangeClass_eq
+  originalMixedSquare := c60F47MixedOriginalBoundarySquare B
+
+/-- The ACTUAL reconstructed first F19/F28 histories preserve both
+complete ordered original F36 words, derived from their native traces
+through the P4 constructor-level equivalences. This does not merely
+assert equality of their final categorical composite Homs. -/
+theorem F47NativeBoundaryWitness.first_raw_paths
+    {B : C60F47SquareFrame α β r s}
+    (packet : F47NativeBoundaryWitness B) :
+    ma.flatten = mb.flatten ∧ pa.flatten = pb.flatten := by
+  constructor
+  · apply (oldPathEquivNative (C := C)).injective
+    calc
+      oldPathToNative ma.flatten = (oldBlocksToNative ma).flatten :=
+        oldBlocksToNative_flatten ma
+      _ = (oldBlocksToNative mb).flatten :=
+        packet.firstNative.1.flatten_eq
+      _ = oldPathToNative mb.flatten :=
+        (oldBlocksToNative_flatten mb).symm
+  · apply (oldPathEquivNative (C := D)).injective
+    calc
+      oldPathToNative pa.flatten = (oldBlocksToNative pa).flatten :=
+        oldBlocksToNative_flatten pa
+      _ = (oldBlocksToNative pb).flatten :=
+        packet.firstNative.2.flatten_eq
+      _ = oldPathToNative pb.flatten :=
+        (oldBlocksToNative_flatten pb).symm
+
+/-- The same original F36 word conservation holds for the separately
+typed LAST F54/F55 bracket-tree endpoint, even if its two Nat depths
+differ syntactically before the proved F55 depth casts. -/
+theorem F47NativeBoundaryWitness.last_raw_paths
+    {B : C60F47SquareFrame α β r s}
+    (packet : F47NativeBoundaryWitness B) :
+    ma.flatten = mb.flatten ∧ pa.flatten = pb.flatten := by
+  constructor
+  · apply (oldPathEquivNative (C := C)).injective
+    calc
+      oldPathToNative ma.flatten = (oldBlocksToNative ma).flatten :=
+        oldBlocksToNative_flatten ma
+      _ = (oldBlocksToNative mb).flatten :=
+        packet.lastNative.1.flatten_eq
+      _ = oldPathToNative mb.flatten :=
+        (oldBlocksToNative_flatten mb).symm
+  · apply (oldPathEquivNative (C := D)).injective
+    calc
+      oldPathToNative pa.flatten = (oldBlocksToNative pa).flatten :=
+        oldBlocksToNative_flatten pa
+      _ = (oldBlocksToNative pb).flatten :=
+        packet.lastNative.2.flatten_eq
+      _ = oldPathToNative pb.flatten :=
+        (oldBlocksToNative_flatten pb).symm
+
+/-- The witness keeps BOTH independently typed actual F55 routes
+and the genuinely commuting mixed F47 source four-boundary square.
+The casted F44 equations are not claimed to identify original
+F42 face source objects with old F54 rotation source objects. -/
+theorem F47NativeBoundaryWitness.actual_square_and_routes
+    {B : C60F47SquareFrame α β r s}
+    (packet : F47NativeBoundaryWitness B) :
+    (ExchangeClass.castDepths r.depthEq.1 r.depthEq.2
+      first.toExchangeClass = last.toExchangeClass) ∧
+    (ExchangeClass.castDepths s.depthEq.1 s.depthEq.2
+      first.toExchangeClass = last.toExchangeClass) ∧
+    (c60F47FaceArrow B ≫ c60F47CompareAfter B =
+      c60F47CompareBefore B ≫ c60F47OriginalF55Arrow B) :=
+  ⟨packet.firstRouteF44, packet.secondRouteF44, packet.originalMixedSquare⟩
+
+/-- Even with both full original F36 words conserved and the F44
+route classes agreeing, the genuine MIXED F47 after-comparison keeps
+its independent, calibrated nonzero square charge and phase zero.
+The original F55/F42 three-Hom comparison is not erased by a Kuu
+primitive refinement history. -/
+theorem F47NativeBoundaryWitness.square_charge_retained
+    {B : C60F47SquareFrame α β r s}
+    (packet : F47NativeBoundaryWitness B) :
+    (c60F47FaceArrow B ≫ c60F47CompareAfter B =
+      c60F47CompareBefore B ≫ c60F47OriginalF55Arrow B) ∧
+    ((c60F47MixedGrayFunctor B).map
+      (c60F47CompareAfter B)).charge = ((0 : Int), (1 : Int)) ∧
+    ((c60F47MixedGrayFunctor B).map
+      (c60F47CompareAfter B)).phase = (0 : ZMod 2) :=
+  ⟨packet.originalMixedSquare,
+    (c60F47CompareAfter_native_components B).1,
+    (c60F47CompareAfter_native_components B).2⟩
+
+/-- Every actually calibrated F47 frame on an original physical edge
+admits this four-boundary/native-history witness with independently
+typed source axes. Existence is in Prop; no faithful inverse is inferred. -/
+theorem actualF47Frame_has_native_boundary
+    (B : C60F47SquareFrame α β r s) :
+    Nonempty (F47NativeBoundaryWitness B) :=
+  ⟨F47NativeBoundaryWitness.ofFrame B⟩
+
+#print axioms F47NativeBoundaryWitness
+#print axioms F47NativeBoundaryWitness.ofFrame
+#print axioms F47NativeBoundaryWitness.first_raw_paths
+#print axioms F47NativeBoundaryWitness.last_raw_paths
+#print axioms F47NativeBoundaryWitness.actual_square_and_routes
+#print axioms F47NativeBoundaryWitness.square_charge_retained
+#print axioms actualF47Frame_has_native_boundary
+
+end GenuineOriginalF47
 
 end
 end KUOS.F112ActualHistoricalF36F40BridgeP4
