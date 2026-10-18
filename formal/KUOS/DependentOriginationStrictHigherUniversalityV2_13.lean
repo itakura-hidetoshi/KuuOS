@@ -113,7 +113,7 @@ theorem strictSector_has_factorization_and_unique_ordinary_carrier
     HasHigherLocalizationFactorization (W := W)
         (strictRawHigherSystem G) ∧
       ∀ (E : LocalizedContext W ⥤ Cat.{vH, uH})
-        (hE : W.Q ⋙ E ≅ G),
+        (_hE : W.Q ⋙ E ≅ G),
         Nonempty (E ≅ strictLocalizedFunctor W G hG) := by
   constructor
   · exact strictSector_hasHigherLocalizationFactorization W G hG
