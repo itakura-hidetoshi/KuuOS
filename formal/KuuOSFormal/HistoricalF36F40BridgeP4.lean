@@ -1,4 +1,6 @@
 import Kuu.F112.PolygonF36F40ShapeFunctorC60
+import KUOS.DependentOriginationGrayC60AllThirtyTwoFaceCycleV5_158
+import KUOS.DependentOriginationTruncatedIcosahedralFlagSquaresV5_154
 import KUOS.DependentOriginationCoherentBiadjunctionFiniteRectangularSubdivisionV5_137
 import Kuu.F112.PolygonNativeF41ComparisonObstruction
 import KUOS.DependentOriginationCoherentBiadjunctionProofRelevantAxisTracesV5_142
@@ -1315,6 +1317,238 @@ end ActualF47
 #print axioms ActualF47.frameKuuEdge
 #print axioms ActualF47.frameKuuEdge_roundtrip
 #print axioms ActualF47.frameKuuEdge_endpoints
+
+end GenuineOriginalC60Geometry
+
+
+/-!
+## F112-P9 — authentic C60 face-edge incidence and original F47 boundaries
+
+This is an OLD-SIDE-only comparison against the genuine historical
+90-edge / 32-face C60 incidence carrier and all 32 original polygon
+boundary lists. The independent foundation remains Gray-free.
+
+P9-A compares actual face and edge membership, not just endpoint counts.
+P9-B connects both different physical incident faces and their real
+five/six-edge original boundary lists. P9-C reads those faces at the
+original F47 four-boundary frame without identifying its distinct
+F42 face and F54/F55 rotation sources.
+-/
+
+namespace GenuineOriginalC60Geometry
+
+open KUOS.DependentOriginationIcosahedralTruncationSeedV3_84
+open KUOS.DependentOriginationTruncatedIcosahedralEdgesV3_85
+open KUOS.DependentOriginationTruncatedIcosahedralFlagSquaresV5_154
+open KUOS.DependentOriginationGrayC60AllThirtyTwoFaceCycleV5_158
+
+/-- The full ordered list of three genuinely incident original edges
+of each triangle is preserved, not just its number of edges. -/
+theorem triangleEdges_equiv (t : Triangle) :
+    (triangleEdges t).map origEdgeEquiv =
+      icosahedralFaceEdges (triangleEquiv t) := by
+  cases t <;> rfl
+
+/-- Both OLD original triangular neighbors of each old edge coincide
+with the two separately constructed native C60 triangular neighbors. -/
+theorem originalIncidentFaces_equiv (e : OrigEdge) :
+    triangleEquiv (incidentFaces e).1 =
+      (icosahedralEdgeIncidentFaces (origEdgeEquiv e)).1 ∧
+    triangleEquiv (incidentFaces e).2 =
+      (icosahedralEdgeIncidentFaces (origEdgeEquiv e)).2 := by
+  cases e <;> exact ⟨rfl, rfl⟩
+
+/-- The actual old and new darts refer to the same original edge. -/
+theorem dartEdge_equiv (d : Dart) :
+    (dartEquiv d).edge = origEdgeEquiv d.edge := by
+  cases d <;> rfl
+
+/-- An individual genuine truncated vertex lies on the same real
+pentagon/hexagon in the independent and historical constructions. -/
+theorem dartOnFace_equiv (d : Dart) (f : Polygon) :
+    dartOnFace d f ↔
+      truncatedDartOnSeedFace (dartEquiv d) (polygonEquiv f) := by
+  cases f with
+  | pentagon v =>
+      change d.endpoint = v ↔ (dartEquiv d).endpoint = vertexEquiv v
+      rw [dartEndpoint_equiv]
+      exact ⟨fun h => congrArg vertexEquiv h, vertexEquiv.injective⟩
+  | hexagon t =>
+      change d.edge ∈ triangleEdges t ↔
+        (dartEquiv d).edge ∈ icosahedralFaceEdges (triangleEquiv t)
+      rw [dartEdge_equiv, ← triangleEdges_equiv t]
+      exact (List.mem_map_of_injective origEdgeEquiv.injective).symm
+
+/-- EXACT genuine 90-edge/32-face incidence preservation and reflection.
+In particular a cross edge is never on a pentagon; both endpoints
+are checked in the actual ORIGINAL F57 incidence relation. -/
+theorem edgeOnFace_equiv (e : Edge) (f : Polygon) :
+    edgeOnFace e f ↔
+      truncatedEdgeOnSeedFace (edgeEquiv e) (polygonEquiv f) := by
+  cases e with
+  | cross old =>
+      cases f with
+      | pentagon v =>
+          change False ↔
+            truncatedEdgeOnSeedFace (.cross (origEdgeEquiv old))
+              (.aroundVertex (vertexEquiv v))
+          constructor
+          · intro h
+            exact False.elim h
+          · intro h
+            exact (crossEdge_not_onAnyPentagon (origEdgeEquiv old) (vertexEquiv v)) h
+      | hexagon t =>
+          change old ∈ triangleEdges t ↔
+            (origEdgeEquiv old ∈ icosahedralFaceEdges (triangleEquiv t) ∧
+             origEdgeEquiv old ∈ icosahedralFaceEdges (triangleEquiv t))
+          rw [← triangleEdges_equiv t]
+          simp only [List.mem_map_of_injective origEdgeEquiv.injective, and_self]
+  | around a =>
+      cases f with
+      | pentagon v =>
+          change a.center = v ↔
+            (truncatedIcosahedralAroundEdgeEndpoints (aroundEquiv a)).1.endpoint =
+                vertexEquiv v ∧
+            (truncatedIcosahedralAroundEdgeEndpoints (aroundEquiv a)).2.endpoint =
+                vertexEquiv v
+          rw [truncatedIcosahedralAroundEdge_first_endpoint_center,
+            truncatedIcosahedralAroundEdge_second_endpoint_center]
+          change a.center = v ↔
+            (vertexEquiv a.center = vertexEquiv v ∧
+             vertexEquiv a.center = vertexEquiv v)
+          simp only [and_self]
+          exact ⟨fun h => congrArg vertexEquiv h, vertexEquiv.injective⟩
+      | hexagon t =>
+          change
+            (dartOnFace (edgeEndpoints (.around a)).1 (.hexagon t) ∧
+             dartOnFace (edgeEndpoints (.around a)).2 (.hexagon t)) ↔
+            (truncatedDartOnSeedFace
+                (truncatedIcosahedralEdgeEndpoints (edgeEquiv (.around a))).1
+                (polygonEquiv (.hexagon t)) ∧
+             truncatedDartOnSeedFace
+                (truncatedIcosahedralEdgeEndpoints (edgeEquiv (.around a))).2
+                (polygonEquiv (.hexagon t)))
+          rw [(edgeEndpoints_equiv (.around a)).1,
+            (edgeEndpoints_equiv (.around a)).2]
+          constructor
+          · rintro ⟨h₁, h₂⟩
+            exact ⟨(dartOnFace_equiv _ _).mp h₁,
+              (dartOnFace_equiv _ _).mp h₂⟩
+          · rintro ⟨h₁, h₂⟩
+            exact ⟨(dartOnFace_equiv _ _).mpr h₁,
+              (dartOnFace_equiv _ _).mpr h₂⟩
+
+/-- The 32 genuine historical face boundary LISTS and the separate
+original F57 edge-on-face incidence agree, for ALL physical edges
+and ALL face labels. This finite proof uses kernel reduction,
+not native_decide or an assumed combinatorial correspondence. -/
+set_option maxHeartbeats 4000000 in
+theorem historicalBoundary_mem_iff_incidence :
+    ∀ (e : TruncatedIcosahedralEdge)
+      (f : TruncatedIcosahedralSeedFace),
+      e ∈ kernelC60FullFaceBoundaryEdges f ↔
+        truncatedEdgeOnSeedFace e f := by
+  decide
+
+/-- Core P9 incidence descent: preservation AND reflection of
+membership in the ACTUAL five/six-edge original boundary lists. -/
+theorem edgeOnFace_iff_originalBoundary (e : Edge) (f : Polygon) :
+    edgeOnFace e f ↔
+      edgeEquiv e ∈ kernelC60FullFaceBoundaryEdges (polygonEquiv f) := by
+  rw [edgeOnFace_equiv]
+  exact (historicalBoundary_mem_iff_incidence (edgeEquiv e)
+    (polygonEquiv f)).symm
+
+/-- Independently selected physical faces are different, including
+the two distinct hexagons on each of the thirty cross edges. -/
+theorem native_edge_two_faces_ne :
+    ∀ e : Edge, faceAt e false ≠ faceAt e true := by
+  decide
+
+/-- BOTH native selected faces of EACH true physical C60 edge
+belong to the corresponding ORIGINAL historical face-boundary
+lists; those two original face labels remain DISTINCT. -/
+theorem two_actual_original_boundaries (e : Edge) :
+    edgeEquiv e ∈
+        kernelC60FullFaceBoundaryEdges (polygonEquiv (faceAt e false)) ∧
+    edgeEquiv e ∈
+        kernelC60FullFaceBoundaryEdges (polygonEquiv (faceAt e true)) ∧
+    polygonEquiv (faceAt e false) ≠ polygonEquiv (faceAt e true) := by
+  refine ⟨(edgeOnFace_iff_originalBoundary e (faceAt e false)).mp
+      (each_edge_on_faces e false),
+    (edgeOnFace_iff_originalBoundary e (faceAt e true)).mp
+      (each_edge_on_faces e true), ?_⟩
+  intro h
+  exact native_edge_two_faces_ne e (polygonEquiv.injective h)
+
+namespace ActualF47
+
+open KUOS.DependentOriginationGrayC60MixedBoundaryThreeHomV5_195
+open KUOS.DependentOriginationGrayC60PresentedFaceTwoCellsV5_190
+
+variable {a b : C} {x y : D} {n n' m m' : Nat}
+variable {ma mb : OldBlocks a b} {pa pb : OldBlocks x y}
+variable {first : OriginalF45BracketTree n m ma pa mb pb}
+variable {last : OriginalF45BracketTree n' m' ma pa mb pb}
+variable {v w : IcosahedralDart} {p q : Quiver.Path v w}
+variable {α β : C60F42PresentedFaceCell p q}
+variable {r s : OriginalF45BracketTree.DepthRotationRoute first last}
+
+/-- Both exact original polygonal faces adjacent to the original
+physical edge STORED IN an actual F47 calibrated four-boundary frame. -/
+def frameKuuFaces (B : C60F47SquareFrame α β r s) :
+    Polygon × Polygon :=
+  (faceAt (frameKuuEdge B) false, faceAt (frameKuuEdge B) true)
+
+/-- The actual F47 edge belongs to BOTH genuine old C60 boundary
+lists, and the two polygons remain different. No four-sided
+physical C60 face or F55 generator has been invented. -/
+theorem frame_original_boundary_pair (B : C60F47SquareFrame α β r s) :
+    B.edge ∈ kernelC60FullFaceBoundaryEdges
+      (polygonEquiv (frameKuuFaces B).1) ∧
+    B.edge ∈ kernelC60FullFaceBoundaryEdges
+      (polygonEquiv (frameKuuFaces B).2) ∧
+    polygonEquiv (frameKuuFaces B).1 ≠
+      polygonEquiv (frameKuuFaces B).2 := by
+  simpa only [frameKuuFaces, frameKuuEdge_roundtrip B] using
+    two_actual_original_boundaries (frameKuuEdge B)
+
+/-- True F47 geometric two-face data AND original F42/F55 four-boundary
+3-Hom square coexist. The nonzero after-comparison is retained;
+this is NOT a global original F55 lift or a source equivalence. -/
+theorem frame_boundary_pair_and_mixed_square
+    (B : C60F47SquareFrame α β r s) :
+    (B.edge ∈ kernelC60FullFaceBoundaryEdges
+        (polygonEquiv (frameKuuFaces B).1) ∧
+      B.edge ∈ kernelC60FullFaceBoundaryEdges
+        (polygonEquiv (frameKuuFaces B).2) ∧
+      polygonEquiv (frameKuuFaces B).1 ≠
+        polygonEquiv (frameKuuFaces B).2) ∧
+    (c60F47FaceArrow B ≫ c60F47CompareAfter B =
+      c60F47CompareBefore B ≫ c60F47OriginalF55Arrow B) ∧
+    ((c60F47MixedGrayFunctor B).map
+      (c60F47CompareAfter B)).charge = ((0 : Int), (1 : Int)) ∧
+    ((c60F47MixedGrayFunctor B).map
+      (c60F47CompareAfter B)).phase = (0 : ZMod 2) := by
+  exact ⟨frame_original_boundary_pair B,
+    c60F47MixedOriginalBoundarySquare B,
+    (c60F47CompareAfter_native_components B).1,
+    (c60F47CompareAfter_native_components B).2⟩
+
+end ActualF47
+
+#print axioms triangleEdges_equiv
+#print axioms originalIncidentFaces_equiv
+#print axioms dartEdge_equiv
+#print axioms dartOnFace_equiv
+#print axioms edgeOnFace_equiv
+#print axioms historicalBoundary_mem_iff_incidence
+#print axioms edgeOnFace_iff_originalBoundary
+#print axioms native_edge_two_faces_ne
+#print axioms two_actual_original_boundaries
+#print axioms ActualF47.frameKuuFaces
+#print axioms ActualF47.frame_original_boundary_pair
+#print axioms ActualF47.frame_boundary_pair_and_mixed_square
 
 end GenuineOriginalC60Geometry
 
