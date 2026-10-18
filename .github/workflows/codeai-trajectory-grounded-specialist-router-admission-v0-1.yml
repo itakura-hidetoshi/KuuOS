@@ -71,9 +71,10 @@ jobs:
             tests.test_kuuos_codeai_intent_aligned_dataflow_context_pack_v0_2 \
             tests.test_kuuos_codeai_temporal_holdout_replay_corpus_v0_1 \
             2>&1 | tee codeai-trajectory-grounded-specialist-router-admission-v0-1-tests.log
-      # Reuse trusted main artifacts and the previously compiled PR prefix.
-      # The central Governance Gate owns the full-library strict Lean proof check.
+      # PR only runs scoped Python checks. Exact-head Governance verifies every published Lean root.
+      # Focused Lean compilation with trusted-main cache is manual-only.
       - name: Restore trusted main Lake workspace (read-only)
+        if: github.event_name == 'workflow_dispatch'
         id: trusted-lake-workspace
         uses: actions/cache/restore@v5
         with:
@@ -81,16 +82,8 @@ jobs:
           key: kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-${{ github.event.pull_request.head.sha || github.sha }}
           restore-keys: |
             kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-
-      - name: Restore previously compiled PR Lean prefix (read-only)
-        if: github.event_name == 'pull_request'
-        uses: actions/cache/restore@v5
-        with:
-          path: .lake/build
-          key: kuuos-pr-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-pr${{ github.event.pull_request.number }}-${{ github.event.pull_request.head.sha }}
-          restore-keys: |
-            kuuos-pr-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-pr${{ github.event.pull_request.number }}-
-
       - name: Set up pinned Lean and Lake
+        if: github.event_name == 'workflow_dispatch'
         uses: leanprover/lean-action@v1
         with:
           auto-config: false
@@ -100,14 +93,16 @@ jobs:
           use-mathlib-cache: false
           use-github-cache: false
       - name: Resolve pinned dependencies on cache miss
-        if: steps.trusted-lake-workspace.outputs.cache-matched-key == ''
+        if: ${{ github.event_name == 'workflow_dispatch' && steps.trusted-lake-workspace.outputs.cache-matched-key == '' }}
         run: lake update
       - name: Verify committed dependency manifest is canonical
+        if: github.event_name == 'workflow_dispatch'
         run: git diff --exit-code -- lake-manifest.json
       - name: Fetch Mathlib olean cache on cache miss
-        if: steps.trusted-lake-workspace.outputs.cache-matched-key == ''
+        if: ${{ github.event_name == 'workflow_dispatch' && steps.trusted-lake-workspace.outputs.cache-matched-key == '' }}
         run: lake exe cache get
       - name: Strictly compile specialist router formal root
+        if: github.event_name == 'workflow_dispatch'
         shell: bash
         run: |
           set -euo pipefail

@@ -1,9 +1,9 @@
 """Regression: focused CodeAI CI must not rebuild the entire KuuOS proof package.
 
-The central Governance Gate retains strict aggregate Lean validation. All 49
-registered CodeAI Lean roots still receive their own strict, standalone
-feature check. The trusted-main and PR caches are restored read-only; only
-the central gate can publish a PR-local build-prefix cache.
+The central Governance Gate owns PR strict Lean validation. The 49
+registered CodeAI Lean roots remain available for strict focused manual
+validation; scoped Python checks continue to run on pull requests. No
+feature CI re-downloads the Lean workspace or re-builds Lean on a PR.
 """
 from pathlib import Path
 import re
@@ -13,7 +13,7 @@ import unittest
 ROOT = Path(__file__).resolve().parents[1]
 WORKFLOWS = ROOT / ".github" / "workflows"
 SHARED_PIN_FILES = ("lean-toolchain", "lake-manifest.json", "lakefile.toml")
-CACHE_CONDITION = "if: steps.trusted-lake-workspace.outputs.cache-matched-key == ''"
+MANUAL_CACHE_CONDITION = "if: ${{ github.event_name == 'workflow_dispatch' && steps.trusted-lake-workspace.outputs.cache-matched-key == '' }}"
 FOCUSED_ROOT_PATTERN = re.compile(r"(?m)^\s+build (KuuOSCodeAI[A-Za-z0-9_]+)\b")
 
 
@@ -47,12 +47,25 @@ class CodeAIDeduplicatedLeanCITests(unittest.TestCase):
                 self.assertNotIn("build KuuOSFormal", content,
                                  "the aggregate must be compiled once in Governance")
                 self.assertNotIn("Strictly compile repository formal baseline", content)
+                self.assertIn("Compile Python surfaces", content)
                 self.assertIn("Verify committed dependency manifest is canonical", content)
                 self.assertIn("Restore trusted main Lake workspace (read-only)", content)
-                self.assertIn("Restore previously compiled PR Lean prefix (read-only)", content)
+                self.assertNotIn("Restore previously compiled PR Lean prefix (read-only)", content)
                 self.assertIn("uses: actions/cache/restore@v5", content)
                 self.assertNotIn("uses: actions/cache/save@", content)
-                self.assertEqual(content.count(CACHE_CONDITION), 2)
+                self.assertEqual(content.count("if: github.event_name == 'workflow_dispatch'"), 4)
+                self.assertEqual(content.count(MANUAL_CACHE_CONDITION), 2)
+                self.assertIn(
+                    "if: github.event_name == 'workflow_dispatch'\n"
+                    "        uses: leanprover/lean-action@v1",
+                    content,
+                )
+                self.assertRegex(
+                    content,
+                    r"(?m)^      - name: Strictly compile [^\n]+ formal root\n"
+                    r"        if: github.event_name == 'workflow_dispatch'\n"
+                    r"        shell: bash",
+                )
                 self.assertIn("github.event.pull_request.number", content)
                 self.assertIn("  pull_request:\n    paths:\n", content)
                 paths = content.split("  pull_request:\n    paths:\n", 1)[1].split(
