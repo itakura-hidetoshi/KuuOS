@@ -135,7 +135,7 @@ component. -/
 def StoredV2_18NaturalityDetectorTargetObject
     {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H K : HigherLocalizationFactorization (W := W) R}
-    (alpha : HigherLocalizationFactorMorphism (W := W) H K) : Prop :=
+    (_alpha : HigherLocalizationFactorMorphism (W := W) H K) : Prop :=
   ∀ {X Y : Context} (f : X ⟶ Y),
     CatHom₂DetectorTargetObject
       (H.comparison.app (.mk X) ≫ R.map f.toLoc)
