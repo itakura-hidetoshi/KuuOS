@@ -22,6 +22,11 @@ _TERMINAL_CONCLUSIONS = {
 }
 
 
+def _terminal_conclusion(value: Any) -> bool:
+    """Treat malformed conclusion shapes as blockers, not Python exceptions."""
+    return isinstance(value, str) and value in _TERMINAL_CONCLUSIONS
+
+
 def _m(value: Any) -> Mapping[str, Any]:
     return value if isinstance(value, Mapping) else {}
 
@@ -85,7 +90,7 @@ def compile_completion_event(raw: Mapping[str, Any], *, event_name: str | None =
     if workflows and event["workflow_name"] not in workflows: blockers.append("workflow_not_allowlisted")
     if _SHA40.fullmatch(event["head_sha"]) is None: blockers.append("head_sha_invalid")
     if event["status"] != _COMPLETED: blockers.append("workflow_run_not_completed")
-    if event["conclusion"] not in _TERMINAL_CONCLUSIONS: blockers.append("workflow_conclusion_not_terminal")
+    if not _terminal_conclusion(event["conclusion"]): blockers.append("workflow_conclusion_not_terminal")
     event_packet = {"version":VERSION,"status":READY if not blockers else BLOCKED,"event":event,"event_digest":_digest(raw),"signal_is_success_evidence":False,"fresh_mcp_reobservation_required":True,"blockers":blockers,"boundary":{"github_event_is_wakeup_signal_only":True,"github_event_does_not_prove_ci_success":True,"mcp_fresh_observation_required_before_reentry":True,"reentry_does_not_grant_merge_or_write_authority":True}}
     reobserve_request: dict[str, Any] = {}
     if not blockers:

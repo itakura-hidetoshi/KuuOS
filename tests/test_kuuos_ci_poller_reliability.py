@@ -61,6 +61,32 @@ class ReliabilityTests(unittest.TestCase):
         with self.assertRaisesRegex(RuntimeError, 'state_identity_mismatch'):
             self.poll([run(101)])
 
+    def test_completed_run_with_unconfirmed_conclusion_never_advances_cursor(self):
+        for conclusion in (None, "", "in_progress", [], {}):
+            with self.subTest(conclusion=conclusion):
+                with self.assertRaisesRegex(RuntimeError, "source_workflow_conclusion_not_terminal"):
+                    self.poll([run(101, conclusion)])
+                self.assertEqual(poller._load_state(self.state), 100)
+
+    def test_malformed_job_and_step_conclusions_fail_closed(self):
+        for which in ("job", "step"):
+            for conclusion in ([], {}, None):
+                with self.subTest(which=which, conclusion=conclusion):
+                    result = jobs()
+                    item = result["jobs"][0] if which == "job" else result["jobs"][0]["steps"][0]
+                    item["conclusion"] = conclusion
+                    with self.assertRaisesRegex(RuntimeError, "source_exact_job_step_gate_blocked"):
+                        self.poll([run(101)], result)
+                    self.assertEqual(poller._load_state(self.state), 100)
+
+    def test_cancelled_other_job_with_invalid_conclusion_is_not_quarantined(self):
+        result = jobs()
+        result["jobs"][0]["name"] = "Unrelated completed job"
+        result["jobs"][0]["conclusion"] = []
+        with self.assertRaisesRegex(RuntimeError, "cancelled_jobs_not_terminal"):
+            self.poll([run(101, "cancelled")], result)
+        self.assertEqual(poller._load_state(self.state), 100)
+
     def test_cancelled_zero_jobs_is_quarantined_without_dispatch(self):
         summary, dispatch = self.poll([run(101, 'cancelled')], {'total_count': 0, 'jobs': []})
         self.assertEqual(summary.quarantined_run_ids, [101])
@@ -165,6 +191,22 @@ class ReliabilityTests(unittest.TestCase):
                 wrong['jobs'][0][field] = value
                 with self.assertRaisesRegex(RuntimeError, 'source_job_identity_mismatch'):
                     self.poll([run(101)], wrong)
+        self.assertEqual(poller._load_state(self.state), 100)
+
+    def test_duplicate_run_id_across_pages_fails_closed(self):
+        page1 = [run(i) for i in range(201, 301)]
+        page2 = [run(i) for i in range(101, 200)] + [run(201)]
+        def get(url):
+            if '/jobs?' in url:
+                raise AssertionError("A duplicated run window must never dispatch")
+            return {'total_count': 201,
+                    'workflow_runs': page2 if 'page=2' in url else page1}
+        with patch.object(poller, '_http_json', side_effect=get), patch.object(
+                poller, '_post_self_dispatch') as dispatch:
+            with self.assertRaisesRegex(RuntimeError, "source_runs_duplicate_id"):
+                poller.poll_once(state_file=self.state, target_repo='example/target',
+                                 dispatch_token='synthetic')
+        dispatch.assert_not_called()
         self.assertEqual(poller._load_state(self.state), 100)
 
     def test_run_page_count_drift_cannot_skip_deleted_offset_neighbor(self):

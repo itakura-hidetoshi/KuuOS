@@ -30,7 +30,10 @@ This removes the cross-repository secret from the fallback path while preserving
 
 `.github/workflows/kuuos-mgap-ci-reentry-poller-v1-2.yml` requests the GitHub Actions five-minute cron cadence. GitHub may delay scheduled workflows under platform load, so this is a bounded near-real-time fallback, not a hard real-time guarantee.
 
-Source reads remain unauthenticated. The poller pages through at most 1,000 workflow runs to reach the reviewed checkpoint and reads exact jobs for new candidates. It fails closed if the observed window cannot cover the checkpoint. Pending runs are included: the cursor stops before the oldest pending run, so a later completion cannot cause that older run to be skipped.
+Source reads remain unauthenticated. The poller pages through at most 1,000 workflow runs to reach the reviewed checkpoint and reads exact jobs for new candidates. It fails closed if the observed window cannot cover the checkpoint or if
+pagination returns duplicate run IDs. A completed run whose conclusion is missing
+or malformed also blocks checkpoint advancement rather than being marked
+ignored; the same rule applies to malformed job/step conclusion values. Pending runs are included: the cursor stops before the oldest pending run, so a later completion cannot cause that older run to be skipped.
 
 ## Source gate
 

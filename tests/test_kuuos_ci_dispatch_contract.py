@@ -158,6 +158,25 @@ class DispatchPayloadContractTests(unittest.TestCase):
                 self.assertIn(blocker, compiled["event_packet"]["blockers"])
                 self.assertEqual(compiled["reobserve_request"], {})
 
+    def test_malformed_conclusion_shapes_fail_closed_for_both_event_types(self):
+        for conclusion in (None, "", "in_progress", 7, [], {}):
+            with self.subTest(conclusion=conclusion):
+                envelope = copy.deepcopy(self.envelope)
+                envelope["completion"]["conclusion"] = conclusion
+                packet = self.compile(envelope)["event_packet"]
+                self.assertEqual(packet["status"], receiver.BLOCKED)
+                self.assertIn("workflow_conclusion_not_terminal", packet["blockers"])
+                workflow_run = {**self.run, "conclusion": conclusion}
+                raw = {
+                    "action": "completed",
+                    "repository": {"full_name": sender.SOURCE_REPO},
+                    "workflow_run": workflow_run,
+                }
+                direct = receiver.compile_completion_event(
+                    raw, event_name="workflow_run")["event_packet"]
+                self.assertEqual(direct["status"], receiver.BLOCKED)
+                self.assertIn("workflow_conclusion_not_terminal", direct["blockers"])
+
     def test_v2_verification_preserves_exact_run_and_required_names(self):
         packet = self.compile(self.envelope)["event_packet"]
         for field, value, blocker in (

@@ -35,6 +35,11 @@ _TERMINAL_CONCLUSIONS = {
 }
 
 
+def _terminal_conclusion(value: Any) -> bool:
+    """Malformed API conclusion values are never terminal observations."""
+    return isinstance(value, str) and value in _TERMINAL_CONCLUSIONS
+
+
 @dataclass(frozen=True)
 class PollSummary:
     version: str
@@ -216,7 +221,7 @@ def classify_run(
         reasons.append("run_event_not_pull_request")
     if str(run.get("status", "")) != "completed":
         reasons.append("workflow_not_completed")
-    if run.get("conclusion") not in _TERMINAL_CONCLUSIONS:
+    if not _terminal_conclusion(run.get("conclusion")):
         reasons.append("workflow_conclusion_not_terminal")
     if _SHA40.fullmatch(str(run.get("head_sha", "")).lower()) is None:
         reasons.append("head_sha_invalid")
@@ -245,7 +250,7 @@ def validate_exact_job_and_step(
     job = matches[0]
     if str(job.get("status", "")) != "completed":
         blockers.append("required_job_not_completed")
-    if job.get("conclusion") not in _TERMINAL_CONCLUSIONS:
+    if not _terminal_conclusion(job.get("conclusion")):
         blockers.append("required_job_conclusion_not_terminal")
     raw_steps = job.get("steps")
     steps = [dict(step) for step in raw_steps if isinstance(step, Mapping)] if isinstance(raw_steps, list) else []
@@ -256,7 +261,7 @@ def validate_exact_job_and_step(
     step = step_matches[0]
     if str(step.get("status", "")) != "completed":
         blockers.append("required_step_not_completed")
-    if step.get("conclusion") not in _TERMINAL_CONCLUSIONS:
+    if not _terminal_conclusion(step.get("conclusion")):
         blockers.append("required_step_conclusion_not_terminal")
     return not blockers, blockers, {"job": job, "step": step}
 
@@ -316,6 +321,8 @@ def _run_window(source_repo: str, workflow_file: str, previous: int) -> list[dic
         for run in raw:
             if not isinstance(run, Mapping) or type(run.get("id")) is not int or run["id"] <= 0:
                 raise RuntimeError("source_runs_response_invalid")
+            if run["id"] in runs:
+                raise RuntimeError("source_runs_duplicate_id")
             runs[run["id"]] = dict(run)
         if any(run_id <= previous for run_id in runs) or len(runs) >= total:
             return sorted(runs.values(), key=lambda run: run["id"])
@@ -395,6 +402,10 @@ def poll_once(
         if run.get("status") != "completed":
             pending.append(run_id)
             break
+        # Completed runs with an unconfirmed conclusion must never be
+        # checkpointed as ignored: their eventual result could be lost.
+        if not _terminal_conclusion(run.get("conclusion")):
+            raise RuntimeError(f"source_workflow_conclusion_not_terminal:{run_id}")
         classification, reasons = classify_run(run, source_repo=source_repo)
         if classification == "ignored":
             checkpoint(run_id, "ignored", ",".join(reasons))
@@ -406,7 +417,7 @@ def poll_once(
         # Only a complete, terminal cancelled observation may be quarantined.
         # It is never sent as a successful/verified required-check completion.
         if not ready and run.get("conclusion") == "cancelled" and blockers == ["required_job_cardinality:0"]:
-            if any(job.get("status") != "completed" or job.get("conclusion") not in _TERMINAL_CONCLUSIONS
+            if any(job.get("status") != "completed" or not _terminal_conclusion(job.get("conclusion"))
                    for job in jobs_payload["jobs"]):
                 raise RuntimeError("cancelled_jobs_not_terminal")
             checkpoint(run_id, "quarantined", "cancelled_without_required_job")
