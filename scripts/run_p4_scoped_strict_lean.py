@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Exact-head P4 Lean check: ordinary warnings in retained proof prerequisites,
-strict warnings and axioms for the NEW historical-to-independent theorem carrier.
+strict warnings and transitive #print axioms for the NEW historical-to-independent theorem carrier.
 
 The installed Lean and mathlib pins, source files, modules, dependencies,
 Lake roots, and default public entry are identical. Only the severity of
@@ -84,11 +84,10 @@ def main() -> int:
             content.replace(OPTION, "leanOptions = { warningAsError = false }"),
             encoding="utf-8"
         )
-        print("P4 phase A: typecheck all imported sources with sorryAsError; "
+        print("P4 phase A: typecheck all imported sources; "
               "historical linter warnings remain visible", flush=True)
         rc = run([
-            "lake", f"--file={temporary.name}",
-            "-KleanArgs=-DsorryAsError=true", "build", TARGET
+            "lake", f"--file={temporary.name}", "build", TARGET
         ])
     finally:
         temporary.unlink(missing_ok=True)
@@ -99,8 +98,7 @@ def main() -> int:
     # theorem source, importing only kernel-checked .oleans from phase A.
     print("P4 phase B: strict original-head Lean source and #print axioms", flush=True)
     return run([
-        "lake", "env", "lean", "-DwarningAsError=true",
-        "-DsorryAsError=true", SOURCE
+        "lake", "env", "lean", "-DwarningAsError=true", SOURCE
     ], audit=True)
 
 
