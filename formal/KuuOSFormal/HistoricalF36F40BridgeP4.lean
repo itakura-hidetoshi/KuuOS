@@ -1702,15 +1702,37 @@ theorem transportOrientedEdge_endpoints
   rcases h with h | h
   · have hs : (edgeEndpoints e).1 = v := congrArg Prod.fst h
     have ht : (edgeEndpoints e).2 = w := congrArg Prod.snd h
-    simp [transportOrientedEdge, hs,
-      (edgeEndpoints_equiv e).1, (edgeEndpoints_equiv e).2, ht]
+    have hsource := (edgeEndpoints_equiv e).1
+    have htarget := (edgeEndpoints_equiv e).2
+    change (if (edgeEndpoints e).1 = v then
+        (truncatedIcosahedralEdgeEndpoints (edgeEquiv e)).1
+      else (truncatedIcosahedralEdgeEndpoints (edgeEquiv e)).2) =
+        dartEquiv v ∧
+      (if (edgeEndpoints e).1 = v then
+        (truncatedIcosahedralEdgeEndpoints (edgeEquiv e)).2
+      else (truncatedIcosahedralEdgeEndpoints (edgeEquiv e)).1) =
+        dartEquiv w
+    rw [if_pos hs]
+    exact ⟨hsource.trans (congrArg dartEquiv hs),
+      htarget.trans (congrArg dartEquiv ht)⟩
   · have hs : (edgeEndpoints e).1 = w := congrArg Prod.fst h
     have ht : (edgeEndpoints e).2 = v := congrArg Prod.snd h
     have hreverse : ¬ (edgeEndpoints e).1 = v := by
       intro he
       exact native_edge_endpoints_ne e (he.trans ht.symm)
-    simp [transportOrientedEdge, hreverse,
-      (edgeEndpoints_equiv e).1, (edgeEndpoints_equiv e).2, hs, ht]
+    have hsource := (edgeEndpoints_equiv e).1
+    have htarget := (edgeEndpoints_equiv e).2
+    change (if (edgeEndpoints e).1 = v then
+        (truncatedIcosahedralEdgeEndpoints (edgeEquiv e)).1
+      else (truncatedIcosahedralEdgeEndpoints (edgeEquiv e)).2) =
+        dartEquiv v ∧
+      (if (edgeEndpoints e).1 = v then
+        (truncatedIcosahedralEdgeEndpoints (edgeEquiv e)).2
+      else (truncatedIcosahedralEdgeEndpoints (edgeEquiv e)).1) =
+        dartEquiv w
+    rw [if_neg hreverse]
+    exact ⟨htarget.trans (congrArg dartEquiv ht),
+      hsource.trans (congrArg dartEquiv hs)⟩
 
 /-- The complete genuine cyclic oriented boundary of an independent
 Kuu pentagon/hexagon, transported to the ORIGINAL source 90-edge Type.
