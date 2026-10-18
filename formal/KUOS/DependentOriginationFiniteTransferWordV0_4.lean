@@ -132,7 +132,10 @@ noncomputable def wordDecayProduct
   | [] => 1
   | t :: tail => D.decayFactor t * D.wordDecayProduct tail
 
-/-- The decay product of a finite word is exactly the decay factor at total time. -/
+/-- The decay product of a finite word is exactly the decay factor at total time.
+The linear-space instance is irrelevant to this statement: a product of gap
+factors depends only on the supplied gapped transport and the time word. -/
+omit [NormedSpace ℝ State] in
 theorem wordDecayProduct_eq_totalTime
     (D : ExponentiallyGappedVacuumTransport State)
     (word : TransferWord) :
