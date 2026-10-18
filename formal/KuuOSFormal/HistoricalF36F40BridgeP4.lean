@@ -1243,7 +1243,11 @@ theorem aroundEndpoints_equiv (a : AroundEdge) :
   rcases a with ⟨v, s⟩
   constructor
   · exact (incidentDart_equiv v s).symm
-  · rw [← slotNext_equiv s]
+  · change
+      icosahedralIncidentDartAt (vertexEquiv v)
+        (pentagonalSlotNext (slotEquiv s)) =
+        dartEquiv (incidentDart v (slotNext s))
+    rw [← slotNext_equiv s]
     exact (incidentDart_equiv v (slotNext s)).symm
 
 /-- All ninety physically realized independent edge incidences
