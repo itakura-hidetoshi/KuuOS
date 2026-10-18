@@ -1010,5 +1010,313 @@ theorem actualF47Frame_has_native_boundary
 
 end GenuineOriginalF47
 
+
+/-!
+## F112-P8 — exact independent Kuu ↔ original C60 combinatorial geometry
+
+The independent C60 physical seed and the historical F47 physics
+were constructed separately. All their 12 original vertices,
+30 original edges, 20 original triangles, 60 dart sites, 32
+polygon sites and 90 true C60 edges are now compared by genuine
+Mathlib Equiv maps, not by cardinalities, a Bool surrogate or
+an inferred isomorphism of the entire higher source category.
+
+The maps also commute with original oriented endpoints, the
+five-slot cyclic incident-dart order and every 90-edge pair
+of physical dart endpoints. Consequently the edge stored by
+ANY actually calibrated F47 four-boundary square is transported
+into an independent Kuu C60 physical edge with its EXACT
+incidence preserved. F42 face cells and F54/F55 routes remain
+independently typed original source witnesses.
+-/
+
+namespace GenuineOriginalC60Geometry
+
+open KUOS.DependentOriginationIcosahedralTruncationSeedV3_84
+open KUOS.DependentOriginationTruncatedIcosahedralEdgesV3_85
+
+/-- All twelve actual source vertices are matched constructor-wise. -/
+def vertexEquiv : Vertex ≃ IcosahedralVertex where
+  toFun
+    | .north => .north
+    | .south => .south
+    | .upper i => .upper i
+    | .lower i => .lower i
+  invFun
+    | .north => .north
+    | .south => .south
+    | .upper i => .upper i
+    | .lower i => .lower i
+  left_inv := by
+    intro v
+    cases v <;> rfl
+  right_inv := by
+    intro v
+    cases v <;> rfl
+
+/-- All six real original icosahedral edge families, retaining
+the original ordered ZMod 5 coordinate. -/
+def origEdgeEquiv : OrigEdge ≃ IcosahedralEdge where
+  toFun
+    | .northSpoke i => .northSpoke i
+    | .southSpoke i => .southSpoke i
+    | .upperRing i => .upperRing i
+    | .lowerRing i => .lowerRing i
+    | .crossAligned i => .crossAligned i
+    | .crossShifted i => .crossShifted i
+  invFun
+    | .northSpoke i => .northSpoke i
+    | .southSpoke i => .southSpoke i
+    | .upperRing i => .upperRing i
+    | .lowerRing i => .lowerRing i
+    | .crossAligned i => .crossAligned i
+    | .crossShifted i => .crossShifted i
+  left_inv := by
+    intro e
+    cases e <;> rfl
+  right_inv := by
+    intro e
+    cases e <;> rfl
+
+/-- All twenty original triangles, preserving their real incidence
+family and unchanged ZMod 5 rotational index. -/
+def triangleEquiv : Triangle ≃ IcosahedralFace where
+  toFun
+    | .top i => .top i
+    | .bottom i => .bottom i
+    | .beltUpper i => .beltUpper i
+    | .beltLower i => .beltLower i
+  invFun
+    | .top i => .top i
+    | .bottom i => .bottom i
+    | .beltUpper i => .beltUpper i
+    | .beltLower i => .beltLower i
+  left_inv := by
+    intro t
+    cases t <;> rfl
+  right_inv := by
+    intro t
+    cases t <;> rfl
+
+/-- The FIVE original cyclic pentagon slots, not an abstract
+equicardinality proof. -/
+def slotEquiv : Slot ≃ PentagonalSlot where
+  toFun
+    | .s0 => .s0
+    | .s1 => .s1
+    | .s2 => .s2
+    | .s3 => .s3
+    | .s4 => .s4
+  invFun
+    | .s0 => .s0
+    | .s1 => .s1
+    | .s2 => .s2
+    | .s3 => .s3
+    | .s4 => .s4
+  left_inv := by
+    intro s
+    cases s <;> rfl
+  right_inv := by
+    intro s
+    cases s <;> rfl
+
+/-- Historical and native pentagon cyclic-index functions agree
+EXACTLY, on every one of the five actual physical slots. -/
+theorem slotIndex_equiv (s : Slot) :
+    pentagonalSlotIndex (slotEquiv s) = slotIndex s := by
+  cases s <;> rfl
+
+/-- Historical and independent rotations have the SAME five-step
+successor on real incident darts, not an arbitrary permutation. -/
+theorem slotNext_equiv (s : Slot) :
+    slotEquiv (slotNext s) = pentagonalSlotNext (slotEquiv s) := by
+  cases s <;> rfl
+
+/-- Each actual physical C60 vertex is an original directed dart
+and the source choice of first versus second remains unchanged. -/
+def dartEquiv : Dart ≃ IcosahedralDart where
+  toFun
+    | .first e => .first (origEdgeEquiv e)
+    | .second e => .second (origEdgeEquiv e)
+  invFun
+    | .first e => .first (origEdgeEquiv.symm e)
+    | .second e => .second (origEdgeEquiv.symm e)
+  left_inv := by
+    intro d
+    cases d with
+    | first e => cases e <;> rfl
+    | second e => cases e <;> rfl
+  right_inv := by
+    intro d
+    cases d with
+    | first e => cases e <;> rfl
+    | second e => cases e <;> rfl
+
+/-- Actual 32 polygonal sites: the twelve vertex-origin pentagons
+and twenty triangle-origin hexagons are preserved without mixing. -/
+def polygonEquiv : Polygon ≃ TruncatedIcosahedralSeedFace where
+  toFun
+    | .pentagon v => .aroundVertex (vertexEquiv v)
+    | .hexagon t => .fromTriangle (triangleEquiv t)
+  invFun
+    | .aroundVertex v => .pentagon (vertexEquiv.symm v)
+    | .fromTriangle t => .hexagon (triangleEquiv.symm t)
+  left_inv := by
+    intro p
+    cases p with
+    | pentagon v => cases v <;> rfl
+    | hexagon t => cases t <;> rfl
+  right_inv := by
+    intro p
+    cases p with
+    | aroundVertex v => cases v <;> rfl
+    | fromTriangle t => cases t <;> rfl
+
+/-- The sixty around-pentagon edges carry BOTH their physical
+icosahedral center and their exact cyclic slot. -/
+def aroundEquiv : AroundEdge ≃ TruncatedIcosahedralAroundEdge where
+  toFun a := ⟨vertexEquiv a.center, slotEquiv a.slot⟩
+  invFun a := ⟨vertexEquiv.symm a.center, slotEquiv.symm a.slot⟩
+  left_inv := by
+    rintro ⟨v, s⟩
+    cases v <;> cases s <;> rfl
+  right_inv := by
+    rintro ⟨v, s⟩
+    cases v <;> cases s <;> rfl
+
+/-- True 90-edge C60 equivalence: 30 cross-dart edges and 60
+around-vertex consecutive-dart edges. No numerical-only argument. -/
+def edgeEquiv : Edge ≃ TruncatedIcosahedralEdge where
+  toFun
+    | .cross e => .cross (origEdgeEquiv e)
+    | .around a => .around (aroundEquiv a)
+  invFun
+    | .cross e => .cross (origEdgeEquiv.symm e)
+    | .around a => .around (aroundEquiv.symm a)
+  left_inv := by
+    intro e
+    cases e with
+    | cross e => cases e <;> rfl
+    | around a =>
+        rcases a with ⟨v,s⟩
+        cases v <;> cases s <;> rfl
+  right_inv := by
+    intro e
+    cases e with
+    | cross e => cases e <;> rfl
+    | around a =>
+        rcases a with ⟨v,s⟩
+        cases v <;> cases s <;> rfl
+
+/-- This is stronger than the equality of 30 old-edge counts:
+the exact first and second original endpoints agree. -/
+theorem origEdgeEndpoints_equiv (e : OrigEdge) :
+    (icosahedralEdgeEndpoints (origEdgeEquiv e)).1 =
+      vertexEquiv (endpoints e).1 ∧
+    (icosahedralEdgeEndpoints (origEdgeEquiv e)).2 =
+      vertexEquiv (endpoints e).2 := by
+  cases e <;> exact ⟨rfl, rfl⟩
+
+/-- The original endpoint vertex of EVERY independently constructed
+C60 dart is preserved by the nontrivial old/new equivalence. -/
+theorem dartEndpoint_equiv (d : Dart) :
+    (dartEquiv d).endpoint = vertexEquiv d.endpoint := by
+  cases d with
+  | first e => cases e <;> rfl
+  | second e => cases e <;> rfl
+
+/-- The cyclic order at all 12 original vertices and all 5 slots
+is literally preserved. Hence neither the pentagon orientation
+nor any of its dart-boundary incidence data is collapsed. -/
+theorem incidentDart_equiv (v : Vertex) (s : Slot) :
+    dartEquiv (incidentDart v s) =
+      icosahedralIncidentDartAt (vertexEquiv v) (slotEquiv s) := by
+  cases v <;> cases s <;> rfl
+
+/-- The actual old truncated around-edge preserves BOTH ordered
+real dart endpoints, derived from cyclic-slot compatibility. -/
+theorem aroundEndpoints_equiv (a : AroundEdge) :
+    (truncatedIcosahedralAroundEdgeEndpoints (aroundEquiv a)).1 =
+      dartEquiv (aroundEndpoints a).1 ∧
+    (truncatedIcosahedralAroundEdgeEndpoints (aroundEquiv a)).2 =
+      dartEquiv (aroundEndpoints a).2 := by
+  rcases a with ⟨v, s⟩
+  constructor
+  · exact (incidentDart_equiv v s).symm
+  · change
+      icosahedralIncidentDartAt (vertexEquiv v)
+        (pentagonalSlotNext (slotEquiv s)) =
+        dartEquiv (incidentDart v (slotNext s))
+    rw [← slotNext_equiv s]
+    exact (incidentDart_equiv v (slotNext s)).symm
+
+/-- All ninety physically realized independent edge incidences
+are transported to the ACTUAL old C60 ordered dart endpoints. -/
+theorem edgeEndpoints_equiv (e : Edge) :
+    (truncatedIcosahedralEdgeEndpoints (edgeEquiv e)).1 =
+      dartEquiv (edgeEndpoints e).1 ∧
+    (truncatedIcosahedralEdgeEndpoints (edgeEquiv e)).2 =
+      dartEquiv (edgeEndpoints e).2 := by
+  cases e with
+  | cross e => exact ⟨rfl, rfl⟩
+  | around a => exact aroundEndpoints_equiv a
+
+namespace ActualF47
+open KUOS.DependentOriginationGrayC60MixedBoundaryThreeHomV5_195
+open KUOS.DependentOriginationGrayC60PresentedFaceTwoCellsV5_190
+
+variable {a b : C} {x y : D} {n n' m m' : Nat}
+variable {ma mb : OldBlocks a b} {pa pb : OldBlocks x y}
+variable {first : OriginalF45BracketTree n m ma pa mb pb}
+variable {last : OriginalF45BracketTree n' m' ma pa mb pb}
+variable {v w : IcosahedralDart} {p q : Quiver.Path v w}
+variable {α β : C60F42PresentedFaceCell p q}
+variable {r s : OriginalF45BracketTree.DepthRotationRoute first last}
+
+/-- The REAL physical edge stored by an existing original F47
+four-boundary source frame, now reconstructed as a Kuu physical
+C60 edge (not an arbitrary member of Fin 90). -/
+def frameKuuEdge (B : C60F47SquareFrame α β r s) : Edge :=
+  edgeEquiv.symm B.edge
+
+/-- The actual F47 physical edge is recovered exactly, including
+its cross/around tag, and not merely its full native charge. -/
+theorem frameKuuEdge_roundtrip (B : C60F47SquareFrame α β r s) :
+    edgeEquiv (frameKuuEdge B) = B.edge :=
+  edgeEquiv.apply_symm_apply B.edge
+
+/-- Every real F47 boundary frame thus carries the same two
+ordered physical dart endpoints as its independent Kuu edge. -/
+theorem frameKuuEdge_endpoints (B : C60F47SquareFrame α β r s) :
+    (truncatedIcosahedralEdgeEndpoints B.edge).1 =
+      dartEquiv (edgeEndpoints (frameKuuEdge B)).1 ∧
+    (truncatedIcosahedralEdgeEndpoints B.edge).2 =
+      dartEquiv (edgeEndpoints (frameKuuEdge B)).2 := by
+  simpa only [frameKuuEdge_roundtrip] using
+    edgeEndpoints_equiv (frameKuuEdge B)
+
+end ActualF47
+
+#print axioms vertexEquiv
+#print axioms origEdgeEquiv
+#print axioms triangleEquiv
+#print axioms slotEquiv
+#print axioms slotIndex_equiv
+#print axioms slotNext_equiv
+#print axioms dartEquiv
+#print axioms polygonEquiv
+#print axioms aroundEquiv
+#print axioms edgeEquiv
+#print axioms origEdgeEndpoints_equiv
+#print axioms dartEndpoint_equiv
+#print axioms incidentDart_equiv
+#print axioms aroundEndpoints_equiv
+#print axioms edgeEndpoints_equiv
+#print axioms ActualF47.frameKuuEdge
+#print axioms ActualF47.frameKuuEdge_roundtrip
+#print axioms ActualF47.frameKuuEdge_endpoints
+
+end GenuineOriginalC60Geometry
+
 end
 end KUOS.F112ActualHistoricalF36F40BridgeP4
