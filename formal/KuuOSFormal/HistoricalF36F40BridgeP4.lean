@@ -1559,5 +1559,269 @@ end ActualF47
 
 end GenuineOriginalC60Geometry
 
+
+/-!
+## F112-P10 — exact historical C60 boundary order and true oriented cycles
+
+P9 verified equality of the *incidence relation* against all true
+historical 32-face lists. Here we keep the entire *ordered* five/six
+edge words. The original five-edge pentagons retain native order,
+but the original kernel-certified six-edge hexagons use the REVERSE
+native cyclic edge order. This is exposed, not silently identified.
+
+The historical oriented hexagon also reverses every native side
+orientation; the independent polygon boundary is certified to join
+the true pair of physical dart endpoints on every side. An existing
+calibrated original F47 frame retains the resulting ordered pair of
+real polygon boundaries, separately from its F42 and F54/F55 arrows.
+-/
+
+namespace GenuineOriginalC60Geometry
+
+open KUOS.DependentOriginationIcosahedralTruncationSeedV3_84
+open KUOS.DependentOriginationTruncatedIcosahedralEdgesV3_85
+open KUOS.DependentOriginationTruncatedIcosahedralHexagonsV3_86
+open KUOS.DependentOriginationTruncatedIcosahedralFlagSquaresV5_154
+open KUOS.DependentOriginationTruncatedIcosahedralKernelHexagonCyclesV5_157
+open KUOS.DependentOriginationGrayKernelHexagonIncidenceMultiplicityV5_157
+open KUOS.DependentOriginationGrayC60AllThirtyTwoFaceCycleV5_158
+
+set_option maxRecDepth 4096
+set_option maxHeartbeats 4000000
+
+/-- The independent executable ring-slot inverse and the independently
+kernel-certified original five-slot inverse agree at EVERY ZMod 5 index. -/
+theorem ringSlot_equiv_kernel :
+    ∀ i : Ring, slotEquiv (ringSlot i) = kernelCertifiedSlot i := by
+  decide
+
+/-- The original pentagonal five-edge word retains EXACT native order. -/
+theorem pentagon_ordered_boundary_equiv (v : Vertex) :
+    (polygonBoundaryEdges (.pentagon v)).map edgeEquiv =
+      truncatedIcosahedralPentagonBoundary (vertexEquiv v) := by
+  cases v <;> rfl
+
+/-- The original twenty six-edge hexagon words are the literal REVERSE
+of the transported independent hexagonal boundary lists, with the
+same underlying SIX physical edge constructors and cyclic indices. -/
+theorem hexagon_reversed_boundary_equiv (t : Triangle) :
+    (polygonBoundaryEdges (.hexagon t)).reverse.map edgeEquiv =
+      kernelC60HexagonBoundaryEdges (triangleEquiv t) := by
+  cases t with
+  | top i => revert i; decide
+  | bottom i => revert i; decide
+  | beltUpper i => revert i; decide
+  | beltLower i => revert i; decide
+
+/-- A genuine ordered old boundary associated to a native face.
+The hexagon reversal is essential mathematical data, not a quotient
+that forgets orientation; all five/six edge positions survive. -/
+def orderedBoundaryTransport : Polygon → List TruncatedIcosahedralEdge
+  | .pentagon v =>
+      (polygonBoundaryEdges (.pentagon v)).map edgeEquiv
+  | .hexagon t =>
+      (polygonBoundaryEdges (.hexagon t)).reverse.map edgeEquiv
+
+/-- Exact 32-face historical boundary-list equality (not equality
+of cardinalities or membership predicates). -/
+theorem orderedBoundaryTransport_eq_original (p : Polygon) :
+    orderedBoundaryTransport p =
+      kernelC60FullFaceBoundaryEdges (polygonEquiv p) := by
+  cases p with
+  | pentagon v => exact pentagon_ordered_boundary_equiv v
+  | hexagon t => exact hexagon_reversed_boundary_equiv t
+
+/-- A pentagon still has five boundary positions and a hexagon six,
+even after transporting its full word to the original source. -/
+theorem orderedBoundaryTransport_length (p : Polygon) :
+    (orderedBoundaryTransport p).length = polygonSideCount p := by
+  cases p with
+  | pentagon v =>
+      simpa only [orderedBoundaryTransport, List.length_map] using
+        pentagonBoundary_five v
+  | hexagon t =>
+      simpa only [orderedBoundaryTransport, List.length_map,
+        List.length_reverse] using hexagonBoundary_six t
+
+/-- Flip the direction of one TRUE ORIGINAL oriented edge, without
+changing its true physical edge or inventing a reverse C60 edge. -/
+def reverseHistoricalOrientation :
+    OrientedTruncatedIcosahedralEdge →
+      OrientedTruncatedIcosahedralEdge
+  | .forward e => .reverse e
+  | .reverse e => .forward e
+
+theorem reverseHistoricalOrientation_endpoints
+    (o : OrientedTruncatedIcosahedralEdge) :
+    (reverseHistoricalOrientation o).source = o.target ∧
+    (reverseHistoricalOrientation o).target = o.source := by
+  cases o <;> exact ⟨rfl, rfl⟩
+
+theorem reverseHistoricalOrientation_edge
+    (o : OrientedTruncatedIcosahedralEdge) :
+    (reverseHistoricalOrientation o).edge = o.edge := by
+  cases o <;> rfl
+
+/-- The original 90 physical edges retain distinct real endpoints
+after the existing P8 equivalence. -/
+theorem native_edge_endpoints_ne (e : Edge) :
+    (edgeEndpoints e).1 ≠ (edgeEndpoints e).2 := by
+  intro h
+  apply truncatedEdgeEndpoints_ne (edgeEquiv e)
+  calc
+    (truncatedIcosahedralEdgeEndpoints (edgeEquiv e)).1 =
+        dartEquiv (edgeEndpoints e).1 := (edgeEndpoints_equiv e).1
+    _ = dartEquiv (edgeEndpoints e).2 := congrArg dartEquiv h
+    _ = (truncatedIcosahedralEdgeEndpoints (edgeEquiv e)).2 :=
+      (edgeEndpoints_equiv e).2.symm
+
+/-- Orient a true historical edge in the direction of its given
+independent Kuu boundary starting dart. The choice is determined
+by the physical ordered endpoints (not by an arbitrary Bool flag). -/
+def transportOrientedEdge (e : Edge) (d : Dart) :
+    OrientedTruncatedIcosahedralEdge :=
+  if (edgeEndpoints e).1 = d then
+    .forward (edgeEquiv e)
+  else
+    .reverse (edgeEquiv e)
+
+/-- Transported orientation always remembers the SAME genuine edge. -/
+theorem transportOrientedEdge_edge (e : Edge) (d : Dart) :
+    (transportOrientedEdge e d).edge = edgeEquiv e := by
+  unfold transportOrientedEdge
+  split <;> rfl
+
+/-- On an actual native physical boundary segment, the transported
+historical source and target are the exact two original dart sites.
+This works in BOTH directions and uses the proved endpoint
+distinctness to rule out an incorrect orientation branch. -/
+theorem transportOrientedEdge_endpoints
+    (e : Edge) (v w : Dart) (h : edgeJoins e v w) :
+    (transportOrientedEdge e v).source = dartEquiv v ∧
+    (transportOrientedEdge e v).target = dartEquiv w := by
+  rcases h with h | h
+  · have hs : (edgeEndpoints e).1 = v := congrArg Prod.fst h
+    have ht : (edgeEndpoints e).2 = w := congrArg Prod.snd h
+    have hsource := (edgeEndpoints_equiv e).1
+    have htarget := (edgeEndpoints_equiv e).2
+    have hf : transportOrientedEdge e v =
+        .forward (edgeEquiv e) := by
+      simp [transportOrientedEdge, hs]
+    rw [hf]
+    exact ⟨hsource.trans (congrArg dartEquiv hs),
+      htarget.trans (congrArg dartEquiv ht)⟩
+  · have hs : (edgeEndpoints e).1 = w := congrArg Prod.fst h
+    have ht : (edgeEndpoints e).2 = v := congrArg Prod.snd h
+    have hreverse : ¬ (edgeEndpoints e).1 = v := by
+      intro he
+      exact native_edge_endpoints_ne e (he.trans ht.symm)
+    have hsource := (edgeEndpoints_equiv e).1
+    have htarget := (edgeEndpoints_equiv e).2
+    have hr : transportOrientedEdge e v =
+        .reverse (edgeEquiv e) := by
+      simp [transportOrientedEdge, hreverse]
+    rw [hr]
+    exact ⟨htarget.trans (congrArg dartEquiv ht),
+      hsource.trans (congrArg dartEquiv hs)⟩
+
+/-- The complete genuine cyclic oriented boundary of an independent
+Kuu pentagon/hexagon, transported to the ORIGINAL source 90-edge Type.
+All endpoint pairs are the original native polygonCyclicDarts pairs. -/
+def transportOrientedBoundary (p : Polygon) :
+    List OrientedTruncatedIcosahedralEdge :=
+  ((polygonBoundaryEdges p).zip (polygonCyclicDarts p)).map
+    (fun segment => transportOrientedEdge segment.1 segment.2.1)
+
+/-- Every REAL listed native segment transports its START and END,
+not merely its unlabelled physical edge. -/
+theorem transportOrientedBoundary_segment_endpoints
+    (p : Polygon) (x : Edge × (Dart × Dart))
+    (hx : x ∈ (polygonBoundaryEdges p).zip (polygonCyclicDarts p)) :
+    (transportOrientedEdge x.1 x.2.1).source = dartEquiv x.2.1 ∧
+    (transportOrientedEdge x.1 x.2.1).target = dartEquiv x.2.2 :=
+  transportOrientedEdge_endpoints x.1 x.2.1 x.2.2
+    (polygonBoundary_segment_real p x hx).1
+
+/-- The source-certified ORIGINAL oriented hexagon is EXACTLY the
+transported independent hexagon, read in reverse cyclic order with
+EVERY boundary edge direction flipped. This is stronger than both
+unoriented list equality and face-edge incidence equivalence. -/
+theorem hexagon_oriented_reverse_equiv (t : Triangle) :
+    ((transportOrientedBoundary (.hexagon t)).reverse.map
+        reverseHistoricalOrientation) =
+      (kernelCertifiedHexagonCycle (triangleEquiv t)).edges := by
+  cases t with
+  | top i => revert i; decide
+  | bottom i => revert i; decide
+  | beltUpper i => revert i; decide
+  | beltLower i => revert i; decide
+
+namespace ActualF47
+
+open KUOS.DependentOriginationGrayC60MixedBoundaryThreeHomV5_195
+open KUOS.DependentOriginationGrayC60PresentedFaceTwoCellsV5_190
+
+variable {a b : C} {x y : D} {n n' m m' : Nat}
+variable {ma mb : OldBlocks a b} {pa pb : OldBlocks x y}
+variable {first : OriginalF45BracketTree n m ma pa mb pb}
+variable {last : OriginalF45BracketTree n' m' ma pa mb pb}
+variable {v w : IcosahedralDart} {p q : Quiver.Path v w}
+variable {α β : C60F42PresentedFaceCell p q}
+variable {r s : OriginalF45BracketTree.DepthRotationRoute first last}
+
+/-- The exact F47 physical edge is present on both corresponding
+ORDERED old polygon boundary lists, with pentagon orientation
+unchanged and hexagon reverse order explicitly recorded. -/
+theorem frame_ordered_boundary_pair (B : C60F47SquareFrame α β r s) :
+    B.edge ∈ orderedBoundaryTransport (frameKuuFaces B).1 ∧
+    B.edge ∈ orderedBoundaryTransport (frameKuuFaces B).2 ∧
+    polygonEquiv (frameKuuFaces B).1 ≠
+      polygonEquiv (frameKuuFaces B).2 := by
+  simpa only [orderedBoundaryTransport_eq_original] using
+    frame_original_boundary_pair B
+
+/-- The ORIGINAL four-boundary F47 square and its complete charge/phase
+are retained alongside both actual ordered historical polygon
+boundaries. No old F55 Δ-lift or Gray-dependent independent Kuu
+foundation is implied by this new source geometry relation. -/
+theorem frame_ordered_boundary_and_square (B : C60F47SquareFrame α β r s) :
+    (B.edge ∈ orderedBoundaryTransport (frameKuuFaces B).1 ∧
+      B.edge ∈ orderedBoundaryTransport (frameKuuFaces B).2 ∧
+      polygonEquiv (frameKuuFaces B).1 ≠
+        polygonEquiv (frameKuuFaces B).2) ∧
+    (c60F47FaceArrow B ≫ c60F47CompareAfter B =
+      c60F47CompareBefore B ≫ c60F47OriginalF55Arrow B) ∧
+    ((c60F47MixedGrayFunctor B).map
+      (c60F47CompareAfter B)).charge = ((0 : Int), (1 : Int)) ∧
+    ((c60F47MixedGrayFunctor B).map
+      (c60F47CompareAfter B)).phase = (0 : ZMod 2) := by
+  exact ⟨frame_ordered_boundary_pair B,
+    c60F47MixedOriginalBoundarySquare B,
+    (c60F47CompareAfter_native_components B).1,
+    (c60F47CompareAfter_native_components B).2⟩
+
+end ActualF47
+
+#print axioms ringSlot_equiv_kernel
+#print axioms pentagon_ordered_boundary_equiv
+#print axioms hexagon_reversed_boundary_equiv
+#print axioms orderedBoundaryTransport
+#print axioms orderedBoundaryTransport_eq_original
+#print axioms orderedBoundaryTransport_length
+#print axioms reverseHistoricalOrientation
+#print axioms reverseHistoricalOrientation_endpoints
+#print axioms reverseHistoricalOrientation_edge
+#print axioms native_edge_endpoints_ne
+#print axioms transportOrientedEdge
+#print axioms transportOrientedEdge_edge
+#print axioms transportOrientedEdge_endpoints
+#print axioms transportOrientedBoundary
+#print axioms transportOrientedBoundary_segment_endpoints
+#print axioms hexagon_oriented_reverse_equiv
+#print axioms ActualF47.frame_ordered_boundary_pair
+#print axioms ActualF47.frame_ordered_boundary_and_square
+
+end GenuineOriginalC60Geometry
+
 end
 end KUOS.F112ActualHistoricalF36F40BridgeP4
