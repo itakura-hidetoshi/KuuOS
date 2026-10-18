@@ -21,6 +21,7 @@ jobs:
       python_count: ${{ steps.selection.outputs.python_count }}
       lean_required: ${{ steps.selection.outputs.lean_required }}
       full_audit_required: ${{ steps.selection.outputs.full_audit_required }}
+      lean_fastpath: ${{ steps.fastpath.outputs.enabled }}
       comparison_mode: ${{ steps.refs.outputs.mode }}
     steps:
       - name: Check out repository with history
@@ -109,6 +110,36 @@ jobs:
           path.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
           PY
 
+      - name: Classify certified one-file historical Lean fast path
+        id: fastpath
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+          s = json.loads(Path("artifacts/selection/selection.json").read_text())
+          py, selected = s.get("python_matrix", []), s.get("selected_checks", [])
+          known = {"workflow-integrity", "kuu-independent-foundation"}
+          fast = (
+              s.get("changed_paths") == ["formal/KuuOSFormal/HistoricalF36F40BridgeP4.lean"]
+              and s.get("lean_targets") == ["KuuOSFormal.HistoricalF36F40BridgeP4"]
+              and s.get("lean_required") is True
+              and s.get("full_audit_required") is False
+              and isinstance(py, list) and isinstance(selected, list)
+              and len(py) <= 2
+              and all(isinstance(x, dict) and x.get("id") in known
+                      and isinstance(x.get("command"), str) and x["command"] for x in py)
+              and len(selected) == len(py) + 1
+              and {x.get("id") for x in selected if isinstance(x, dict)}
+                  == {"lean-formal"} | {x["id"] for x in py}
+          )
+          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as f:
+              f.write(f"enabled={str(fast).lower()}\n")
+          print(f"Focused Lean single-source path: {fast}")
+          PY
+
       - name: Upload selection receipt
         uses: actions/upload-artifact@v4
         with:
@@ -117,10 +148,56 @@ jobs:
           if-no-files-found: error
           retention-days: 14
 
+      # Reuse this same Actions runner for the at most two authorized
+      # single-file static checks. No check is omitted, and other PRs
+      # retain the fail-closed parallel matrix.
+      - name: Python 3.12 for focused static checks
+        if: steps.fastpath.outputs.enabled == 'true'
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run selected static checks without another runner
+        if: steps.fastpath.outputs.enabled == 'true'
+        shell: bash
+        env:
+          PYTHONPATH: .
+          PYTHONUNBUFFERED: '1'
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          import subprocess
+          import sys
+          path = "artifacts/selection/selection.json"
+          checks = json.loads(Path(path).read_text())["python_matrix"]
+          if any(c["id"] not in {"workflow-integrity", "kuu-independent-foundation"} for c in checks):
+              raise SystemExit("invalid focused static check selection")
+          failed = False
+          for c in checks:
+              print("Checking:", c["id"], flush=True)
+              code = subprocess.run([sys.executable, "scripts/run_ci_check.py",
+                   "--check-id", c["id"], "--command", c["command"],
+                   "--selection", path], check=False).returncode
+              failed |= code != 0
+          if failed:
+              raise SystemExit("selected static check failed")
+          PY
+
+      - name: Upload inline static check receipts
+        if: always() && steps.fastpath.outputs.enabled == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: audit-check-fastpath-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/checks/
+          if-no-files-found: error
+          retention-days: 14
+
   python-checks:
     name: ${{ matrix.check.name }}
     needs: select
-    if: needs.select.outputs.python_count != '0'
+    if: needs.select.outputs.python_count != '0' && needs.select.outputs.lean_fastpath != 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 65
     strategy:
@@ -172,7 +249,7 @@ jobs:
     # Only the genuine frozen-source F36/F40 bridge needs the large
     # first historical dependency import graph. All other PRs retain the
     # 30-minute Lean limit and the single KuuOSFormal authority.
-    timeout-minutes: ${{ github.event.pull_request.head.ref == 'formal/f112-p4-actual-historical-f36-f40-bridge' && 50 || 30 }}
+    timeout-minutes: ${{ needs.select.outputs.lean_fastpath == 'true' && 50 || 30 }}
     steps:
       - name: Check out repository
         uses: actions/checkout@v6
@@ -337,81 +414,11 @@ jobs:
           if-no-files-found: warn
           retention-days: 14
 
-  chatgpt-lean-status-receipt:
-    name: Publish MCP Lean completion receipt
-    needs:
-      - select
-      - lean-formal
-    if: ${{ always() && github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository && needs.select.outputs.lean_required == 'true' }}
+  governance-gate:
+    name: Governance gate and audit summary
     permissions:
       contents: read
       statuses: write
-    runs-on: ubuntu-24.04
-    timeout-minutes: 2
-    steps:
-      - name: Publish exact-head Lean status receipt
-        env:
-          GH_TOKEN: ${{ github.token }}
-          REPOSITORY: ${{ github.repository }}
-          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
-          SOURCE_RESULT: ${{ needs.lean-formal.result }}
-          RUN_ID: ${{ github.run_id }}
-          RUN_ATTEMPT: ${{ github.run_attempt }}
-          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-        shell: bash
-        run: |
-          set -euo pipefail
-          case "${SOURCE_RESULT}" in
-            success)
-              state="success"
-              ;;
-            failure|cancelled)
-              state="failure"
-              ;;
-            *)
-              state="error"
-              ;;
-          esac
-          export STATUS_STATE="${state}"
-
-          payload="${RUNNER_TEMP}/chatgpt-lean-status-receipt.json"
-          python3 - "${payload}" <<'PY'
-          import json
-          import os
-          import pathlib
-          import sys
-
-          body = {
-              "state": os.environ["STATUS_STATE"],
-              "target_url": os.environ["RUN_URL"],
-              "description": (
-                  "exact-head Lean receipt; "
-                  f"run {os.environ['RUN_ID']} attempt {os.environ['RUN_ATTEMPT']}: "
-                  f"{os.environ['SOURCE_RESULT']}"
-              )[:140],
-              "context": "chatgpt-ci-receipt/KuuOS Strict Lean formal validation",
-          }
-          pathlib.Path(sys.argv[1]).write_text(
-              json.dumps(body, separators=(",", ":")) + "\n",
-              encoding="utf-8",
-          )
-          PY
-
-          curl --fail-with-body --silent --show-error \
-            --request POST \
-            --header "Accept: application/vnd.github+json" \
-            --header "Authorization: Bearer ${GH_TOKEN}" \
-            --header "X-GitHub-Api-Version: 2022-11-28" \
-            --header "Content-Type: application/json" \
-            --data-binary "@${payload}" \
-            "${GITHUB_API_URL}/repos/${REPOSITORY}/statuses/${HEAD_SHA}"
-
-          if [[ "${STATUS_STATE}" != "success" ]]; then
-            exit 1
-          fi
-
-  governance-gate:
-    name: Governance gate and audit summary
     needs:
       - select
       - python-checks
@@ -438,6 +445,7 @@ jobs:
           merge-multiple: true
 
       - name: Build audit summary
+        id: audit-summary
         shell: bash
         run: |
           set -euo pipefail
@@ -465,75 +473,63 @@ jobs:
           if-no-files-found: warn
           retention-days: 30
 
-
-  chatgpt-ci-status-receipt:
-    name: Publish MCP CI completion receipt
-    needs: governance-gate
-    if: ${{ always() && github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository }}
-    permissions:
-      contents: read
-      statuses: write
-    runs-on: ubuntu-24.04
-    timeout-minutes: 2
-    steps:
-      - name: Publish exact-head commit status receipt
+      # Keep both exact-head status contexts, but publish from this
+      # already-running job (success or failure), eliminating TWO runners.
+      - name: Publish Lean and CI completion receipts
+        if: ${{ always() && github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository }}
+        shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
           REPOSITORY: ${{ github.repository }}
           HEAD_SHA: ${{ github.event.pull_request.head.sha }}
-          SOURCE_RESULT: ${{ needs.governance-gate.result }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
           RUN_ID: ${{ github.run_id }}
           RUN_ATTEMPT: ${{ github.run_attempt }}
-          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-        shell: bash
+          SELECT_RESULT: ${{ needs.select.result }}
+          PYTHON_RESULT: ${{ needs.python-checks.result }}
+          LEAN_REQUIRED: ${{ needs.select.outputs.lean_required }}
+          LEAN_RESULT: ${{ needs.lean-formal.result }}
+          AUDIT_RESULT: ${{ steps.audit-summary.outcome }}
         run: |
           set -euo pipefail
-          case "${SOURCE_RESULT}" in
-            success)
-              state="success"
-              ;;
-            failure|cancelled)
-              state="failure"
-              ;;
-            *)
-              state="error"
-              ;;
-          esac
-          export STATUS_STATE="${state}"
-
-          payload="${RUNNER_TEMP}/chatgpt-ci-status-receipt.json"
-          python3 - "${payload}" <<'PY'
+          python3 - <<'PY'
           import json
           import os
-          import pathlib
+          import subprocess
           import sys
-
-          body = {
-              "state": os.environ["STATUS_STATE"],
-              "target_url": os.environ["RUN_URL"],
-              "description": (
-                  "exact-head terminal; "
-                  f"{os.environ['HEAD_SHA'][:12]} "
-                  f"run {os.environ['RUN_ID']} attempt {os.environ['RUN_ATTEMPT']}: "
-                  f"{os.environ['SOURCE_RESULT']}"
-              )[:140],
-              "context": "chatgpt-ci-receipt/KuuOS exact-head terminal",
-          }
-          pathlib.Path(sys.argv[1]).write_text(
-              json.dumps(body, separators=(",", ":")) + "\n",
-              encoding="utf-8",
-          )
+          e = os.environ
+          lean_required = e["LEAN_REQUIRED"] == "true"
+          lean_ok = e["LEAN_RESULT"] == "success"
+          passed = (e["SELECT_RESULT"] == "success"
+                    and e["AUDIT_RESULT"] == "success"
+                    and e["PYTHON_RESULT"] in {"success", "skipped"}
+                    and (not lean_required or lean_ok))
+          payloads = []
+          if lean_required:
+              payloads.append((
+                  "chatgpt-ci-receipt/KuuOS Strict Lean formal validation",
+                  "success" if lean_ok else "failure",
+                  f"exact-head Lean; run {e['RUN_ID']} attempt {e['RUN_ATTEMPT']}: {e['LEAN_RESULT']}"))
+          payloads.append((
+              "chatgpt-ci-receipt/KuuOS exact-head terminal",
+              "success" if passed else "failure",
+              f"exact-head terminal; {e['HEAD_SHA'][:12]} run {e['RUN_ID']} "
+              f"attempt {e['RUN_ATTEMPT']}: {'success' if passed else 'failure'}"))
+          url = f"{e['GITHUB_API_URL']}/repos/{e['REPOSITORY']}/statuses/{e['HEAD_SHA']}"
+          for context, state, desc in payloads:
+              body = json.dumps({"state": state, "context": context,
+                  "target_url": e["RUN_URL"], "description": desc[:140]},
+                  separators=(",", ":"))
+              proc = subprocess.run(["curl", "--fail-with-body", "--silent", "--show-error",
+                  "--request", "POST", "--header", "Accept: application/vnd.github+json",
+                  "--header", f"Authorization: Bearer {e['GH_TOKEN']}",
+                  "--header", "X-GitHub-Api-Version: 2022-11-28",
+                  "--header", "Content-Type: application/json",
+                  "--data-binary", "@-", url],
+                  input=body, text=True, stdout=subprocess.DEVNULL)
+              if proc.returncode:
+                  raise SystemExit(f"cannot publish {context}")
+              print(f"Published {context}: {state}")
+          if not passed:
+              sys.exit("exact-head CI audit unsuccessful")
           PY
-
-          curl --fail-with-body --silent --show-error \
-            --request POST \
-            --header "Accept: application/vnd.github+json" \
-            --header "Authorization: Bearer ${GH_TOKEN}" \
-            --header "X-GitHub-Api-Version: 2022-11-28" \
-            --header "Content-Type: application/json" \
-            --data-binary "@${payload}" \
-            "${GITHUB_API_URL}/repos/${REPOSITORY}/statuses/${HEAD_SHA}"
-
-          if [[ "${STATUS_STATE}" != "success" ]]; then
-            exit 1
-          fi

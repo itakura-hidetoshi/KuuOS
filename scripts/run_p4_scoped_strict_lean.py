@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 from pathlib import Path
 import subprocess
 import sys
@@ -63,7 +64,7 @@ def main() -> int:
         return 2
     original = (ROOT / SOURCE).read_text(encoding="utf-8")
     if ("set_option warningAsError true" not in original
-            or original.count("#print axioms ") < 15
+            or original.count("#print axioms ") < 20
             or any(item in original for item in (" by sorry", " by admit", "axiom "))):
         print("ERROR: P4 changed file lacks strict local lint / axiom audit", file=sys.stderr)
         return 2
@@ -84,11 +85,14 @@ def main() -> int:
             content.replace(OPTION, "leanOptions = { warningAsError = false }"),
             encoding="utf-8"
         )
-        print("P4 phase A: typecheck all imported sources; "
-              "historical linter warnings remain visible", flush=True)
-        rc = run([
-            "lake", f"--file={temporary.name}", "build", TARGET
-        ])
+        # Phase A checks the transitive imports; the newly changed theorem
+        # file is elaborated ONCE with strict warnings in phase B.
+        imports = re.findall(r"^import ([A-Za-z0-9_.]+)\s*$", original, re.MULTILINE)
+        if not imports or len(set(imports)) != len(imports):
+            print("ERROR: invalid/duplicate direct imports", file=sys.stderr)
+            return 2
+        print("P4/P5 phase A: kernel-check actual import closure", flush=True)
+        rc = run(["lake", f"--file={temporary.name}", "build", *imports])
     finally:
         temporary.unlink(missing_ok=True)
     if rc:
