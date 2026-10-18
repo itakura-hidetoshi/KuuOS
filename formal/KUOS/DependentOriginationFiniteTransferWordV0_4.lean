@@ -133,6 +133,9 @@ noncomputable def wordDecayProduct
   | t :: tail => D.decayFactor t * D.wordDecayProduct tail
 
 /-- The decay product of a finite word is exactly the decay factor at total time. -/
+-- The decay identity needs the normed additive structure, not an additional
+-- real vector-space instance. Keep it out of this theorem's implicit API.
+omit [NormedSpace ℝ State] in
 theorem wordDecayProduct_eq_totalTime
     (D : ExponentiallyGappedVacuumTransport State)
     (word : TransferWord) :

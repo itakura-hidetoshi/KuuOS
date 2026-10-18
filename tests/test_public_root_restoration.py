@@ -37,6 +37,13 @@ LINT_ONLY_SOURCE_EDITS = {
         ("def connectedReadout\n    (L : D.LinearTransferRealization)".encode("utf-8"), "def connectedReadout\n    (_L : D.LinearTransferRealization)".encode("utf-8")),
         ("def connectedReadoutTwoStep\n    (L : D.LinearTransferRealization)".encode("utf-8"), "def connectedReadoutTwoStep\n    (_L : D.LinearTransferRealization)".encode("utf-8")),
     ),
+    "KUOS/DependentOriginationFiniteTransferWordV0_4.lean": (
+        ("theorem wordDecayProduct_eq_totalTime".encode("utf-8"),
+         ("-- The decay identity needs the normed additive structure, not an additional\n"
+          "-- real vector-space instance. Keep it out of this theorem's implicit API.\n"
+          "omit [NormedSpace ℝ State] in\n"
+          "theorem wordDecayProduct_eq_totalTime").encode("utf-8")),
+    ),
 }
 
 class PublicRootRestorationTests(unittest.TestCase):
@@ -49,6 +56,18 @@ class PublicRootRestorationTests(unittest.TestCase):
                          'Existing public proofs were blanket-excluded from the current Lake package')
 
 class RestoredWiringTests(unittest.TestCase):
+    def test_internal_kuu_module_is_built_with_one_public_target(self):
+        config = tomllib.loads((ROOT / 'lakefile.toml').read_text())
+        self.assertEqual(config['defaultTargets'], ['KuuOSFormal'])
+        libraries = config['lean_lib']
+        self.assertEqual(len(libraries), 1)
+        self.assertEqual(libraries[0]['name'], 'KuuOSFormal')
+        self.assertNotIn('KuuOSStrict', libraries[0]['roots'])
+        self.assertIn('+KuuOSStrict', libraries[0]['needs'])
+        workflow = (ROOT / '.github/workflows/kuu-independent-foundation.yml').read_text()
+        self.assertIn('build +KuuOSStrict', workflow)
+        self.assertNotIn('build KuuOSStrict', workflow)
+
     def test_publication_and_consumer_routes_are_restored(self):
         from scripts.check_public_proof_roots import check
         report = check(ROOT)
