@@ -99,7 +99,7 @@ def factorComparisonAutomorphismSectionOfIso
     FactorComparisonAutomorphismSection (W := W) H where
   component X := factorComparisonAutomorphismComponentIso (W := W) g X
   naturality f := by
-    simpa [factorComparisonAutomorphismComponentIso] using g.hom.as.naturality f.toLoc
+    simp [factorComparisonAutomorphismComponentIso]
 
 /-- Assemble a coherent objectwise automorphism section into the corresponding
 invertible target modification. -/
@@ -290,7 +290,7 @@ def HigherFactorComparisonNontrivialAutomorphismSection
     {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) : Prop :=
   ∃ (H : HigherLocalizationFactorization (W := W) R)
-    (alpha : HigherLocalizationFactorMorphism (W := W) H U.chosen),
+    (_alpha : HigherLocalizationFactorMorphism (W := W) H U.chosen),
     HasNontrivialFactorComparisonAutomorphismSection (W := W) H
 
 /-- The v2.27 non-rigidity obstruction is exactly existence of a nonidentity

@@ -8,6 +8,10 @@ ROOT = Path(__file__).resolve().parents[1]
 # Each allowed current-source change is an exact, reviewable lint-only edit of
 # the frozen v5.291 bytes. All other historical theorem bytes must remain equal.
 LINT_ONLY_SOURCE_EDITS = {
+    "KUOS/DependentOriginationComparisonAutomorphismSectionsV2_28.lean": (
+        ("    simpa [factorComparisonAutomorphismComponentIso] using g.hom.as.naturality f.toLoc".encode("utf-8"), "    simp [factorComparisonAutomorphismComponentIso]".encode("utf-8")),
+        ("  ∃ (H : HigherLocalizationFactorization (W := W) R)\n    (alpha : HigherLocalizationFactorMorphism (W := W) H U.chosen),\n    HasNontrivialFactorComparisonAutomorphismSection (W := W) H".encode("utf-8"), "  ∃ (H : HigherLocalizationFactorization (W := W) R)\n    (_alpha : HigherLocalizationFactorMorphism (W := W) H U.chosen),\n    HasNontrivialFactorComparisonAutomorphismSection (W := W) H".encode("utf-8")),
+    ),
     "KUOS/DependentOriginationStoredTriangleCorrectionTorsorV2_27.lean": (
         ("  simp [storedTriangleCorrectionAct, Category.assoc]".encode("utf-8"), "  simp [storedTriangleCorrectionAct]".encode("utf-8")),
         ("  simp [storedTriangleCorrectionDifference, Category.assoc]".encode("utf-8"), "  simp [storedTriangleCorrectionDifference]".encode("utf-8")),
