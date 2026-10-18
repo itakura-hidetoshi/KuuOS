@@ -2,6 +2,9 @@ import Kuu.F112.PolygonF36F40ShapeFunctorC60
 import KUOS.DependentOriginationCoherentBiadjunctionFiniteRectangularSubdivisionV5_137
 import Kuu.F112.PolygonNativeF41ComparisonObstruction
 import KUOS.DependentOriginationCoherentBiadjunctionProofRelevantAxisTracesV5_142
+import KUOS.DependentOriginationCoherentBiadjunctionExchangeAxisPairEquivalenceV5_143
+import KUOS.DependentOriginationCoherentBiadjunctionChosenRightMateCategoriesV5_116
+import KUOS.DependentOriginationCoherentBiadjunctionCompressionKernelQuotientCategoryV5_125
 
 /-!
 # F112-E7Q5-F4-P4 — ACTUAL original F36 Chain.Path and F40 Grid.Blocks bridge
@@ -619,6 +622,214 @@ theorem physicalC60ActualF45Erasure_not_injective
 #print axioms actualF42PrimitiveErasure_not_injective
 #print axioms actualF45HistoryErasure_not_injective
 #print axioms physicalC60ActualF45Erasure_not_injective
+
+
+/-!
+## F112-P6 — actual F44 exchange quotient on independent Kuu two-axis histories
+
+P4 constructs real F36/F40 typed constructor equivalences. P5 proved both
+directions of existence for original F42 primitive steps and F45 histories,
+while exposing the actual F42 Prop-vs-Type information loss.
+
+This P6 uses the F46 theorem about the ACTUAL original F44 exchange
+quotient, not a fresh freely chosen quotient or a Boolean surrogate.
+The original historical F19 chosen-right-mate category and the F28
+compression-kernel quotient remain distinct axes throughout.
+-/
+
+/-- Two genuinely Type-valued independent axes are mapped to an
+ACTUAL original F44 generated interchange quotient class. All
+original finite F40 block indices and primitive depth counts survive. -/
+def nativeTwoAxisToActualExchange
+    {a b : C} {x y : D} {n m : Nat}
+    {ma mb : KuuNativeBlocks a b}
+    {pa pb : KuuNativeBlocks x y}
+    (histories : KuuNativeAxisTrace n ma mb ×
+      KuuNativeAxisTrace m pa pb) :
+    ExchangeClass n m
+      (nativeBlocksToOld ma) (nativeBlocksToOld pa)
+      (nativeBlocksToOld mb) (nativeBlocksToOld pb) :=
+  AxisTrace.pairToClass
+    (nativeAxisTraceToHistorical histories.1,
+      nativeAxisTraceToHistorical histories.2)
+
+/-- The actual F44 class remembers precisely the TWO historical F45
+histories produced by erasure, not just their composed Hom arrows. -/
+theorem nativeTwoAxisToActualExchange_axisTraces
+    {a b : C} {x y : D} {n m : Nat}
+    {ma mb : KuuNativeBlocks a b}
+    {pa pb : KuuNativeBlocks x y}
+    (histories : KuuNativeAxisTrace n ma mb ×
+      KuuNativeAxisTrace m pa pb) :
+    (nativeTwoAxisToActualExchange histories).axisTraces =
+      (nativeAxisTraceToHistorical histories.1,
+        nativeAxisTraceToHistorical histories.2) :=
+  AxisTrace.pairToClass_axisTraces _
+
+/-- The actual historical F44 exchange relation preserves both
+ordered original F36 Hom paths, not only their categorical evaluations.
+There is NO identification of the F19 and F28 categories. -/
+theorem actualExchange_twoAxis_flatten_eq
+    {a b : C} {x y : D} {n m : Nat}
+    {ma mb : OldBlocks a b}
+    {pa pb : OldBlocks x y}
+    (c : ExchangeClass n m ma pa mb pb) :
+    ma.flatten = mb.flatten ∧ pa.flatten = pb.flatten :=
+  ⟨historicalAxisTrace_flatten_eq c.axisTraces.1,
+    historicalAxisTrace_flatten_eq c.axisTraces.2⟩
+
+/-- Every ACTUAL original F44 exchange class has independently
+realizable original F19/F28 primitive histories, with exact depths
+and exactly transported F40 intermediate objects on both axes. -/
+theorem actualExchange_nativeTwoAxis_nonempty
+    {a b : C} {x y : D} {n m : Nat}
+    {ma mb : OldBlocks a b}
+    {pa pb : OldBlocks x y}
+    (c : ExchangeClass n m ma pa mb pb) :
+    Nonempty (
+      KuuNativeAxisTrace n (oldBlocksToNative ma) (oldBlocksToNative mb) ×
+      KuuNativeAxisTrace m (oldBlocksToNative pa) (oldBlocksToNative pb)) :=
+  ⟨(historicalAxisTrace_chooseNative c.axisTraces.1,
+      historicalAxisTrace_chooseNative c.axisTraces.2)⟩
+
+/-- F42 primitive proof irrelevance produces a real F44 NON-INJECTIVE
+two-axis map, even when the second axis is entirely unchanged. -/
+theorem nativeTwoAxisToActualExchange_not_injective_first
+    {a b : C} {x y : D}
+    (p : KuuNativeBlocks a b) (q : KuuNativeBlocks x y) :
+    ¬ Function.Injective
+      (fun histories :
+        KuuNativeAxisTrace 1
+          (nativeF41DoubleNilSource p) (nativeF41DoubleNilTarget p) ×
+        KuuNativeAxisTrace 0 q q =>
+        nativeTwoAxisToActualExchange histories) := by
+  intro hinj
+  have heq :
+      nativeTwoAxisToActualExchange
+          (nativeF41DoubleNilSplitTrace p, KuuNativeAxisTrace.refl q) =
+        nativeTwoAxisToActualExchange
+          (nativeF41DoubleNilInsertTrace p, KuuNativeAxisTrace.refl q) := by
+    change
+      AxisTrace.pairToClass
+          (nativeAxisTraceToHistorical (nativeF41DoubleNilSplitTrace p),
+            nativeAxisTraceToHistorical (KuuNativeAxisTrace.refl q)) =
+        AxisTrace.pairToClass
+          (nativeAxisTraceToHistorical (nativeF41DoubleNilInsertTrace p),
+            nativeAxisTraceToHistorical (KuuNativeAxisTrace.refl q))
+    rw [nativeDoubleNilHistoricalTrace_eq p]
+  exact nativeF41DoubleNilSplitTrace_ne_insert p
+    (congrArg Prod.fst (hinj heq))
+
+/-- Symmetrically, the genuine F28 axis can lose a distinct primitive
+Type witness while the original F19 axis is held fixed. -/
+theorem nativeTwoAxisToActualExchange_not_injective_second
+    {a b : C} {x y : D}
+    (p : KuuNativeBlocks a b) (q : KuuNativeBlocks x y) :
+    ¬ Function.Injective
+      (fun histories :
+        KuuNativeAxisTrace 0 p p ×
+        KuuNativeAxisTrace 1
+          (nativeF41DoubleNilSource q) (nativeF41DoubleNilTarget q) =>
+        nativeTwoAxisToActualExchange histories) := by
+  intro hinj
+  have heq :
+      nativeTwoAxisToActualExchange
+          (KuuNativeAxisTrace.refl p, nativeF41DoubleNilSplitTrace q) =
+        nativeTwoAxisToActualExchange
+          (KuuNativeAxisTrace.refl p, nativeF41DoubleNilInsertTrace q) := by
+    change
+      AxisTrace.pairToClass
+          (nativeAxisTraceToHistorical (KuuNativeAxisTrace.refl p),
+            nativeAxisTraceToHistorical (nativeF41DoubleNilSplitTrace q)) =
+        AxisTrace.pairToClass
+          (nativeAxisTraceToHistorical (KuuNativeAxisTrace.refl p),
+            nativeAxisTraceToHistorical (nativeF41DoubleNilInsertTrace q))
+    rw [nativeDoubleNilHistoricalTrace_eq q]
+  exact nativeF41DoubleNilSplitTrace_ne_insert q
+    (congrArg Prod.snd (hinj heq))
+
+namespace GenuineF19F28
+
+open KUOS.DependentOriginationCoherentBiadjunctionChosenRightMateCategoriesV5_116.Generic
+open KUOS.DependentOriginationCoherentBiadjunctionCompressionKernelQuotientCategoryV5_125.Generic
+
+universe uB vB wB uE vE wE
+variable {B : Type uB} [Bicategory.{wB, vB} B]
+variable {E : Type uE} [Bicategory.{wE, vE} E]
+
+/-- This is the ACTUAL historical F19 category whose Hom consists
+of original strong modifications between chosen mate presentations. -/
+abbrev F19 (F G : Pseudofunctor B E) :=
+  LeftMatePresentation F G
+
+/-- This is the ACTUAL mathlib category quotient by the F28 compression
+kernel congruence; it is not an unquotiented F26 comparison chain. -/
+abbrev F28 (aF bF aG bG : E) :=
+  compressionKernelCategory aF bF aG bG
+
+/-- Real F19/F28 two-axis primitive exchange classes preserve the full
+finite F36 paths separately on each historical source category. -/
+theorem originalF19F28_exchange_rawPaths
+    (F G : Pseudofunctor B E) (aF bF aG bG : E)
+    {a b : F19 F G} {x y : F28 aF bF aG bG}
+    {n m : Nat}
+    {ma mb : OldBlocks a b} {pa pb : OldBlocks x y}
+    (c : ExchangeClass n m ma pa mb pb) :
+    ma.flatten = mb.flatten ∧ pa.flatten = pb.flatten :=
+  actualExchange_twoAxis_flatten_eq c
+
+/-- The actual F19 chosen RIGHT-mate functor and the actual F28
+compression-quotient functor preserve BOTH original raw path words.
+This is a fact about two distinct functors on their original categories,
+not an invented F19/F28 equivalence or higher Gray descent. -/
+theorem originalF19F28_exchange_mate_compression_paths
+    (F G : Pseudofunctor B E) (aF bF aG bG : E)
+    {a b : F19 F G} {x y : F28 aF bF aG bG}
+    {n m : Nat}
+    {ma mb : OldBlocks a b} {pa pb : OldBlocks x y}
+    (c : ExchangeClass n m ma pa mb pb) :
+    (mapBlocks (rightMateFunctor F G) ma).flatten =
+      (mapBlocks (rightMateFunctor F G) mb).flatten ∧
+    (mapBlocks (quotientCompositeFunctor aF bF aG bG) pa).flatten =
+      (mapBlocks (quotientCompositeFunctor aF bF aG bG) pb).flatten := by
+  rcases originalF19F28_exchange_rawPaths F G aF bF aG bG c with ⟨h19, h28⟩
+  constructor
+  · simpa only [mapBlocks_flatten] using
+      congrArg
+        (KUOS.DependentOriginationCoherentBiadjunctionFiniteModificationMatePathsV5_135.Finite.mapPath
+          (rightMateFunctor F G)) h19
+  · simpa only [mapBlocks_flatten] using
+      congrArg
+        (KUOS.DependentOriginationCoherentBiadjunctionFiniteModificationMatePathsV5_135.Finite.mapPath
+          (quotientCompositeFunctor aF bF aG bG)) h28
+
+/-- Every genuine F19/F28 exchange class has Type-valued Kuu raw
+representatives on both independently typed axes. Existence is in Prop
+and makes no unproved claim of a faithful history equivalence. -/
+theorem originalF19F28_exchange_has_native_histories
+    (F G : Pseudofunctor B E) (aF bF aG bG : E)
+    {a b : F19 F G} {x y : F28 aF bF aG bG}
+    {n m : Nat}
+    {ma mb : OldBlocks a b} {pa pb : OldBlocks x y}
+    (c : ExchangeClass n m ma pa mb pb) :
+    Nonempty (
+      KuuNativeAxisTrace n (oldBlocksToNative ma) (oldBlocksToNative mb) ×
+      KuuNativeAxisTrace m (oldBlocksToNative pa) (oldBlocksToNative pb)) :=
+  actualExchange_nativeTwoAxis_nonempty c
+
+end GenuineF19F28
+
+#print axioms nativeTwoAxisToActualExchange
+#print axioms nativeTwoAxisToActualExchange_axisTraces
+#print axioms actualExchange_twoAxis_flatten_eq
+#print axioms actualExchange_nativeTwoAxis_nonempty
+#print axioms nativeTwoAxisToActualExchange_not_injective_first
+#print axioms nativeTwoAxisToActualExchange_not_injective_second
+#print axioms GenuineF19F28.F19
+#print axioms GenuineF19F28.F28
+#print axioms GenuineF19F28.originalF19F28_exchange_rawPaths
+#print axioms GenuineF19F28.originalF19F28_exchange_mate_compression_paths
+#print axioms GenuineF19F28.originalF19F28_exchange_has_native_histories
 
 end
 end KUOS.F112ActualHistoricalF36F40BridgeP4
