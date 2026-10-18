@@ -91,7 +91,7 @@ theorem transport_sub_vacuum
 
 /-- Vacuum-centered initial state associated with a supplied presentation. -/
 def centeredState
-    (L : D.LinearTransferRealization) (x : State) : State :=
+    (_L : D.LinearTransferRealization) (x : State) : State :=
   x - D.vacuum
 
 /-- A presentation is centered-excitatory when its vacuum-subtracted state lies in the gap sector. -/
@@ -105,7 +105,7 @@ The subtraction is performed at the transported state; linearity will identify
 this with transporting the centered initial state.
 -/
 def connectedReadout
-    (L : D.LinearTransferRealization)
+    (_L : D.LinearTransferRealization)
     (R : BoundedReadout State)
     (t : NNReal) (x : State) : ℝ :=
   R.readout (D.transport t x - D.vacuum)
@@ -136,7 +136,7 @@ theorem connected_readout_decay
 
 /-- Connected readout along two successive transfers. -/
 def connectedReadoutTwoStep
-    (L : D.LinearTransferRealization)
+    (_L : D.LinearTransferRealization)
     (R : BoundedReadout State)
     (s t : NNReal) (x : State) : ℝ :=
   R.readout (D.transport s (D.transport t x) - D.vacuum)
