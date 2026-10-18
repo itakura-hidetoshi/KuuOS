@@ -1704,15 +1704,10 @@ theorem transportOrientedEdge_endpoints
     have ht : (edgeEndpoints e).2 = w := congrArg Prod.snd h
     have hsource := (edgeEndpoints_equiv e).1
     have htarget := (edgeEndpoints_equiv e).2
-    change (if (edgeEndpoints e).1 = v then
-        (truncatedIcosahedralEdgeEndpoints (edgeEquiv e)).1
-      else (truncatedIcosahedralEdgeEndpoints (edgeEquiv e)).2) =
-        dartEquiv v ∧
-      (if (edgeEndpoints e).1 = v then
-        (truncatedIcosahedralEdgeEndpoints (edgeEquiv e)).2
-      else (truncatedIcosahedralEdgeEndpoints (edgeEquiv e)).1) =
-        dartEquiv w
-    rw [if_pos hs]
+    have hf : transportOrientedEdge e v =
+        .forward (edgeEquiv e) := by
+      simp [transportOrientedEdge, hs]
+    rw [hf]
     exact ⟨hsource.trans (congrArg dartEquiv hs),
       htarget.trans (congrArg dartEquiv ht)⟩
   · have hs : (edgeEndpoints e).1 = w := congrArg Prod.fst h
@@ -1722,15 +1717,10 @@ theorem transportOrientedEdge_endpoints
       exact native_edge_endpoints_ne e (he.trans ht.symm)
     have hsource := (edgeEndpoints_equiv e).1
     have htarget := (edgeEndpoints_equiv e).2
-    change (if (edgeEndpoints e).1 = v then
-        (truncatedIcosahedralEdgeEndpoints (edgeEquiv e)).1
-      else (truncatedIcosahedralEdgeEndpoints (edgeEquiv e)).2) =
-        dartEquiv v ∧
-      (if (edgeEndpoints e).1 = v then
-        (truncatedIcosahedralEdgeEndpoints (edgeEquiv e)).2
-      else (truncatedIcosahedralEdgeEndpoints (edgeEquiv e)).1) =
-        dartEquiv w
-    rw [if_neg hreverse]
+    have hr : transportOrientedEdge e v =
+        .reverse (edgeEquiv e) := by
+      simp [transportOrientedEdge, hreverse]
+    rw [hr]
     exact ⟨htarget.trans (congrArg dartEquiv ht),
       hsource.trans (congrArg dartEquiv hs)⟩
 
