@@ -1,4 +1,5 @@
 import Kuu.F112.PolygonF36F40ShapeFunctorC60
+import KUOS.DependentOriginationGrayC60NativeH2InfiniteOrderV5_161
 import KUOS.DependentOriginationGrayC60IntegralBoundaryLinearMapV5_159
 import KUOS.DependentOriginationGrayC60AllThirtyTwoFaceCycleV5_158
 import KUOS.DependentOriginationTruncatedIcosahedralFlagSquaresV5_154
@@ -2175,6 +2176,224 @@ end ActualF47
 #print axioms c60SurfaceFaceSign_mem_native_linear_kernel
 #print axioms integralC60NativeBoundaryLinear_kernel_ne_bot
 #print axioms ActualF47.frame_local_integral_cancellation_and_charge
+
+end GenuineOriginalC60Geometry
+
+
+/-!
+## F112-P13 — native signed C60 fundamental 2-chain into actual old H₂
+
+The independent P11 surface is a signed chain on all 32 native polygon
+generators. P12 proved, FACE-BY-FACE and EDGE-BY-EDGE, that
+the native signed boundary is the NEGATIVE of the original F59
+globally oriented 32-face integral boundary.
+
+This unit constructs a real Z-LINEAR map between the distinct
+native and original Finsupp face modules, changing the orientation
+on each original face by the exact P11 coefficient and transporting
+through P8's 32-face Equiv. It transports the complete P11 signed
+surface to the NEGATIVE of the genuine original F59 fundamental
+2-chain, and thence into the original Mathlib C60 H₂ via the
+already established original native homology-cycle isomorphism.
+
+All claims retain true 12+20 faces and 90 original physical edges.
+They neither invent a global F55 Δ-lift nor infer topological
+homeomorphism or new F68/F77 descent from an H₂ calculation.
+-/
+
+namespace GenuineOriginalC60Geometry
+
+open KUOS.DependentOriginationIcosahedralTruncationSeedV3_84
+open KUOS.DependentOriginationTruncatedIcosahedralEdgesV3_85
+open KUOS.DependentOriginationGrayC60IntegralBoundaryLinearMapV5_159
+open KUOS.DependentOriginationGrayC60NativeChainComplexV5_160
+open KUOS.DependentOriginationGrayC60NativeH2FundamentalClassV5_161
+open KUOS.DependentOriginationGrayC60NativeH2InfiniteOrderV5_161
+
+/-- Independent finite native C60 integer 2-chains: free abelian
+on the 12 pentagons and 20 genuine hexagons. -/
+abbrev NativeC60IntegralTwoChains := Polygon →₀ ℤ
+
+/-- Genuine P11 global surface as an actual Finsupp 2-chain on the
+native 32-face carrier, with +1/-1 on the physical polygon sites. -/
+def nativeP11FundamentalTwoChain : NativeC60IntegralTwoChains :=
+  ∑ p : Polygon, Finsupp.single p (c60SurfaceFaceSign p)
+
+/-- Every true native face has its original P11 orientation sign
+as its actual integer coefficient in the finite free 2-chain. -/
+theorem nativeP11FundamentalTwoChain_coeff (p : Polygon) :
+    nativeP11FundamentalTwoChain p = c60SurfaceFaceSign p := by
+  classical
+  simp [nativeP11FundamentalTwoChain]
+
+/-- In particular the native signed 2-chain is not zero: its
+original north-pentagon coefficient is exactly +1. -/
+theorem nativeP11FundamentalTwoChain_ne_zero :
+    nativeP11FundamentalTwoChain ≠ 0 := by
+  intro h
+  have hh := congrArg
+    (fun c : NativeC60IntegralTwoChains => c (.pentagon .north)) h
+  norm_num [nativeP11FundamentalTwoChain_coeff, c60SurfaceFaceSign] at hh
+
+/-- Actual Z-LINEAR orientation-correcting map from the INDEPENDENT
+native polygon 2-chain to the ACTUAL historical original C60 free
+face module. The coefficient at the corresponding original face
+is multiplied by NEGATIVE its P11 native orientation: exactly
+what the independently verified P12 signed-boundary comparison
+requires for the historical F59 face-cycle basis. -/
+def nativeP11ToOriginalFaceChain :
+    NativeC60IntegralTwoChains →ₗ[ℤ] C60IntegralTwoChains :=
+  Finsupp.linearCombination ℤ
+    (fun p : Polygon =>
+      Finsupp.single (polygonEquiv p) (-c60SurfaceFaceSign p))
+
+/-- Transport of one genuine native basis face with its arbitrary
+integer coefficient, not merely the cardinality of the 32-site type. -/
+theorem nativeP11ToOriginalFaceChain_single (p : Polygon) (z : ℤ) :
+    nativeP11ToOriginalFaceChain (Finsupp.single p z) =
+      z • Finsupp.single (polygonEquiv p) (-c60SurfaceFaceSign p) := by
+  simp [nativeP11ToOriginalFaceChain]
+
+/-- Exactly the transported native basis face has the same 90
+physical-edge boundary coefficients as the independent face
+under the proved P12 orientation comparison. -/
+theorem nativeP11ToOriginalFaceChain_single_boundary
+    (p : Polygon) (e : TruncatedIcosahedralEdge) :
+    (c60IntegralBoundaryTwo
+      (nativeP11ToOriginalFaceChain (Finsupp.single p (1 : ℤ)))) e =
+      faceOrientedEdgeCoefficient p e := by
+  rw [nativeP11ToOriginalFaceChain_single,
+    one_smul]
+  have hsingle :
+      Finsupp.single (polygonEquiv p) (-c60SurfaceFaceSign p) =
+        (-c60SurfaceFaceSign p) •
+          Finsupp.single (polygonEquiv p) (1 : ℤ) := by
+    simp
+  rw [hsingle, map_smul, c60IntegralBoundaryTwo_singleFace]
+  change (-c60SurfaceFaceSign p) *
+    c60IntegerFaceEdgeCoefficient (polygonEquiv p) e =
+      faceOrientedEdgeCoefficient p e
+  exact (native_original_face_edge_coefficient p e).symm
+
+/-- Its oriented 32-face fundamental sum is exactly the NEGATIVE
+of the original signed F59 fundamental 2-chain. This explicit
+relation uses all native face coefficients and the actual P8
+face Equiv; it is not a numerical equality of two total charges. -/
+theorem nativeP11ToOriginalFaceChain_fundamental :
+    nativeP11ToOriginalFaceChain nativeP11FundamentalTwoChain =
+      -c60IntegralFundamentalSurfaceChain := by
+  unfold nativeP11FundamentalTwoChain
+  rw [map_sum]
+  simp only [nativeP11ToOriginalFaceChain_single]
+  calc
+    (∑ p : Polygon,
+      c60SurfaceFaceSign p •
+        Finsupp.single (polygonEquiv p) (-c60SurfaceFaceSign p)) =
+        ∑ p : Polygon, -(Finsupp.single (polygonEquiv p) (1 : ℤ)) := by
+      apply Finset.sum_congr rfl
+      intro p _
+      have hs := c60SurfaceFaceSign_sq_one p
+      apply Finsupp.ext
+      intro f
+      simp [Finsupp.single_apply, hs, smul_eq_mul]
+      split <;> simp_all [hs]
+    _ = -(∑ p : Polygon,
+      Finsupp.single (polygonEquiv p) (1 : ℤ)) := by
+      rw [Finset.sum_neg_distrib]
+    _ = -(∑ f : TruncatedIcosahedralSeedFace,
+      Finsupp.single f (1 : ℤ)) := by
+      congr 1
+      apply Fintype.sum_equiv polygonEquiv
+      intro p
+      simp
+    _ = -c60IntegralFundamentalSurfaceChain := rfl
+
+/-- This is a true historical integer 2-cycle in the ORIGINAL
+free abelian 32-face → 90-edge cellular boundary map. -/
+theorem transportedNativeP11_original_boundary_zero :
+    c60IntegralBoundaryTwo
+      (nativeP11ToOriginalFaceChain nativeP11FundamentalTwoChain) = 0 := by
+  rw [nativeP11ToOriginalFaceChain_fundamental, map_neg,
+    c60IntegralBoundaryTwo_fundamental_zero, neg_zero]
+
+/-- Stronger: the transported native P11 surface belongs to the
+actual ORIGINAL Mathlib homological complex's degree-2 cycles,
+not merely to a detached integer coefficient predicate. -/
+theorem transportedNativeP11_mem_original_native_cycles :
+    nativeP11ToOriginalFaceChain nativeP11FundamentalTwoChain ∈
+      LinearMap.ker
+        (c60NativeIntegralCellularComplex.sc 2).g.hom := by
+  change (c60NativeIntegralCellularComplex.sc 2).g.hom
+    (nativeP11ToOriginalFaceChain nativeP11FundamentalTwoChain) = 0
+  rw [nativeP11ToOriginalFaceChain_fundamental, map_neg,
+    c60NativeH2_outgoing_fundamental_zero, neg_zero]
+
+/-- The genuine original degree-two Mathlib homology class of the
+transported independent Kuu signed surface, via the proved
+historical H₂-to-concrete-cycle isomorphism. -/
+def transportedNativeP11OriginalH2Class :
+    c60NativeIntegralCellularComplex.homology 2 :=
+  c60NativeH2ConcreteCycleIso.inv.hom
+    (⟨nativeP11ToOriginalFaceChain nativeP11FundamentalTwoChain,
+      transportedNativeP11_mem_original_native_cycles⟩ :
+      LinearMap.ker (c60NativeIntegralCellularComplex.sc 2).g.hom)
+
+/-- The new native surface H₂ class is EXACTLY the negative of the
+original F59 fundamental H₂ class, proving the orientation sign
+rather than pretending the two separately built words are equal. -/
+theorem transportedNativeP11OriginalH2Class_eq_neg :
+    transportedNativeP11OriginalH2Class =
+      -c60NativeH2FundamentalClass := by
+  have hi :
+      Function.Injective c60NativeH2ConcreteCycleIso.hom.hom :=
+    (ModuleCat.mono_iff_injective _).mp inferInstance
+  apply hi
+  change c60NativeH2ConcreteCycleIso.hom.hom
+    (c60NativeH2ConcreteCycleIso.inv.hom
+      (⟨nativeP11ToOriginalFaceChain nativeP11FundamentalTwoChain,
+        transportedNativeP11_mem_original_native_cycles⟩ :
+        LinearMap.ker
+          (c60NativeIntegralCellularComplex.sc 2).g.hom)) =
+      c60NativeH2ConcreteCycleIso.hom.hom
+        (-c60NativeH2FundamentalClass)
+  rw [Iso.hom_inv_id_apply, map_neg,
+    c60NativeH2ConcreteCycleIso_fundamental]
+  apply Subtype.ext
+  exact nativeP11ToOriginalFaceChain_fundamental
+
+/-- Its original H₂ class is nonzero, using the actual prior
+homological nonvanishing proof rather than adding a new axiom. -/
+theorem transportedNativeP11OriginalH2Class_ne_zero :
+    transportedNativeP11OriginalH2Class ≠ 0 := by
+  rw [transportedNativeP11OriginalH2Class_eq_neg]
+  exact neg_ne_zero.mpr c60NativeH2FundamentalClass_ne_zero
+
+/-- The transported independent C60 fundamental class has
+INFINITE INTEGER ORDER in the genuine existing historical H₂,
+not just a nonzero geometric boundary kernel representative. -/
+theorem transportedNativeP11OriginalH2Class_infinite_order :
+    Function.Injective (fun n : ℤ =>
+      n • transportedNativeP11OriginalH2Class) := by
+  intro m n h
+  apply c60NativeH2FundamentalClass_infinite_order
+  have hh := congrArg
+    (fun z : c60NativeIntegralCellularComplex.homology 2 => -z) h
+  simpa only [transportedNativeP11OriginalH2Class_eq_neg,
+    smul_neg, neg_neg] using hh
+
+#print axioms nativeP11FundamentalTwoChain
+#print axioms nativeP11FundamentalTwoChain_coeff
+#print axioms nativeP11FundamentalTwoChain_ne_zero
+#print axioms nativeP11ToOriginalFaceChain
+#print axioms nativeP11ToOriginalFaceChain_single
+#print axioms nativeP11ToOriginalFaceChain_single_boundary
+#print axioms nativeP11ToOriginalFaceChain_fundamental
+#print axioms transportedNativeP11_original_boundary_zero
+#print axioms transportedNativeP11_mem_original_native_cycles
+#print axioms transportedNativeP11OriginalH2Class
+#print axioms transportedNativeP11OriginalH2Class_eq_neg
+#print axioms transportedNativeP11OriginalH2Class_ne_zero
+#print axioms transportedNativeP11OriginalH2Class_infinite_order
 
 end GenuineOriginalC60Geometry
 
