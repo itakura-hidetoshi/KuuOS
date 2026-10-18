@@ -1340,6 +1340,7 @@ namespace GenuineOriginalC60Geometry
 open KUOS.DependentOriginationIcosahedralTruncationSeedV3_84
 open KUOS.DependentOriginationTruncatedIcosahedralEdgesV3_85
 open KUOS.DependentOriginationTruncatedIcosahedralFlagSquaresV5_154
+open KUOS.DependentOriginationTruncatedIcosahedralCrossHexagonFlagSquaresV5_157
 open KUOS.DependentOriginationGrayC60AllThirtyTwoFaceCycleV5_158
 
 /-- The full ordered list of three genuinely incident original edges
@@ -1372,7 +1373,8 @@ theorem dartOnFace_equiv (d : Dart) (f : Polygon) :
   | pentagon v =>
       change d.endpoint = v ↔ (dartEquiv d).endpoint = vertexEquiv v
       rw [dartEndpoint_equiv]
-      exact ⟨fun h => congrArg vertexEquiv h, vertexEquiv.injective⟩
+      exact ⟨fun h => congrArg vertexEquiv h,
+        fun h => vertexEquiv.injective h⟩
   | hexagon t =>
       change d.edge ∈ triangleEdges t ↔
         (dartEquiv d).edge ∈ icosahedralFaceEdges (triangleEquiv t)
@@ -1417,7 +1419,8 @@ theorem edgeOnFace_equiv (e : Edge) (f : Polygon) :
             (vertexEquiv a.center = vertexEquiv v ∧
              vertexEquiv a.center = vertexEquiv v)
           simp only [and_self]
-          exact ⟨fun h => congrArg vertexEquiv h, vertexEquiv.injective⟩
+          exact ⟨fun h => congrArg vertexEquiv h,
+        fun h => vertexEquiv.injective h⟩
       | hexagon t =>
           change
             (dartOnFace (edgeEndpoints (.around a)).1 (.hexagon t) ∧
@@ -1442,13 +1445,17 @@ theorem edgeOnFace_equiv (e : Edge) (f : Polygon) :
 original F57 edge-on-face incidence agree, for ALL physical edges
 and ALL face labels. This finite proof uses kernel reduction,
 not native_decide or an assumed combinatorial correspondence. -/
-set_option maxHeartbeats 4000000 in
 theorem historicalBoundary_mem_iff_incidence :
     ∀ (e : TruncatedIcosahedralEdge)
       (f : TruncatedIcosahedralSeedFace),
       e ∈ kernelC60FullFaceBoundaryEdges f ↔
         truncatedEdgeOnSeedFace e f := by
-  decide
+  intro e f
+  -- A single large 'decide' unfolds 90 × 32 cases into one proof,
+  -- overflowing Lean's elaborator recursion stack. Fix each genuine
+  -- face and let the kernel check just its 90 possible physical edges.
+  revert e
+  fin_cases f <;> decide
 
 /-- Core P9 incidence descent: preservation AND reflection of
 membership in the ACTUAL five/six-edge original boundary lists. -/
