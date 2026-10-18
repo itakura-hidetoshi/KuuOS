@@ -38,10 +38,12 @@ LINT_ONLY_SOURCE_EDITS = {
         ("def connectedReadoutTwoStep\n    (L : D.LinearTransferRealization)".encode("utf-8"), "def connectedReadoutTwoStep\n    (_L : D.LinearTransferRealization)".encode("utf-8")),
     ),
     "KUOS/DependentOriginationFiniteTransferWordV0_4.lean": (
-        ("theorem wordDecayProduct_eq_totalTime".encode("utf-8"),
+        (("/-- The decay product of a finite word is exactly the decay factor at total time. -/\n"
+          "theorem wordDecayProduct_eq_totalTime").encode("utf-8"),
          ("-- The decay identity needs the normed additive structure, not an additional\n"
           "-- real vector-space instance. Keep it out of this theorem's implicit API.\n"
           "omit [NormedSpace ℝ State] in\n"
+          "/-- The decay product of a finite word is exactly the decay factor at total time. -/\n"
           "theorem wordDecayProduct_eq_totalTime").encode("utf-8")),
     ),
 }
