@@ -4,6 +4,7 @@ on:
   workflow_dispatch:
   pull_request:
     paths:
+      # Shared Lean pins are validated by the central strict Governance Gate.
       - "runtime/kuuos_codeai_external_general_benchmark_swebench_verified_adapter_schema_v0_1.py"
       - "runtime/kuuos_codeai_external_general_benchmark_swebench_verified_adapter_checks_v0_1.py"
       - "runtime/kuuos_codeai_external_general_benchmark_swebench_verified_adapter_v0_1.py"
@@ -16,9 +17,6 @@ on:
       - "docs/KUUOS_CODEAI_EXTERNAL_GENERAL_BENCHMARK_SWEBENCH_VERIFIED_ADAPTER_v0_1.md"
       - "formal/KUOS/CodeAI/ExternalGeneralBenchmarkSWEBenchVerifiedAdapterV0_1.lean"
       - "formal/KuuOSCodeAIExternalGeneralBenchmarkSWEBenchVerifiedAdapterV0_1.lean"
-      - "lakefile.toml"
-      - "lake-manifest.json"
-      - "lean-toolchain"
       - ".github/workflows/codeai-external-general-benchmark-swebench-verified-adapter-v0-1.yml"
 
 permissions:
@@ -76,6 +74,25 @@ jobs:
             tests.test_kuuos_codeai_intent_aligned_dataflow_context_pack_v0_2 \
             tests.test_kuuos_codeai_temporal_holdout_replay_corpus_v0_1 \
             2>&1 | tee codeai-external-general-benchmark-swebench-verified-adapter-v0-1-tests.log
+      # Reuse trusted main artifacts and the previously compiled PR prefix.
+      # The central Governance Gate owns the full-library strict Lean proof check.
+      - name: Restore trusted main Lake workspace (read-only)
+        id: trusted-lake-workspace
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-${{ github.event.pull_request.head.sha || github.sha }}
+          restore-keys: |
+            kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-
+      - name: Restore previously compiled PR Lean prefix (read-only)
+        if: github.event_name == 'pull_request'
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake/build
+          key: kuuos-pr-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-pr${{ github.event.pull_request.number }}-${{ github.event.pull_request.head.sha }}
+          restore-keys: |
+            kuuos-pr-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-pr${{ github.event.pull_request.number }}-
+
       - name: Set up pinned Lean and Lake
         uses: leanprover/lean-action@v1
         with:
@@ -85,11 +102,13 @@ jobs:
           lint: false
           use-mathlib-cache: false
           use-github-cache: false
-      - name: Resolve pinned dependencies
+      - name: Resolve pinned dependencies on cache miss
+        if: steps.trusted-lake-workspace.outputs.cache-matched-key == ''
         run: lake update
       - name: Verify committed dependency manifest is canonical
         run: git diff --exit-code -- lake-manifest.json
-      - name: Fetch Mathlib olean cache
+      - name: Fetch Mathlib olean cache on cache miss
+        if: steps.trusted-lake-workspace.outputs.cache-matched-key == ''
         run: lake exe cache get
       - name: Strictly compile external benchmark formal root
         shell: bash
@@ -99,14 +118,6 @@ jobs:
             -KleanArgs=-DsorryAsError=true \
             build KuuOSCodeAIExternalGeneralBenchmarkSWEBenchVerifiedAdapterV0_1 \
             2>&1 | tee codeai-external-general-benchmark-swebench-verified-adapter-v0-1-lean.log
-      - name: Strictly compile repository formal baseline
-        shell: bash
-        run: |
-          set -euo pipefail
-          lake -KleanArgs=-DwarningAsError=true \
-            -KleanArgs=-DsorryAsError=true \
-            build KuuOSFormal \
-            2>&1 | tee codeai-external-general-benchmark-swebench-verified-adapter-v0-1-lean-root.log
       - name: Upload diagnostics
         if: ${{ failure() }}
         uses: actions/upload-artifact@v4
@@ -116,6 +127,5 @@ jobs:
             codeai-external-general-benchmark-swebench-verified-adapter-v0-1.log
             codeai-external-general-benchmark-swebench-verified-adapter-v0-1-tests.log
             codeai-external-general-benchmark-swebench-verified-adapter-v0-1-lean.log
-            codeai-external-general-benchmark-swebench-verified-adapter-v0-1-lean-root.log
           if-no-files-found: warn
           retention-days: 14

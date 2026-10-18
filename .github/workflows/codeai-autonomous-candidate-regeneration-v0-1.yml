@@ -4,6 +4,7 @@ on:
   workflow_dispatch:
   pull_request:
     paths:
+      # Shared Lean pins are validated by the central strict Governance Gate.
       - "runtime/kuuos_codeai_autonomous_candidate_regeneration_common_v0_1.py"
       - "runtime/kuuos_codeai_autonomous_candidate_regeneration_portfolio_v0_1.py"
       - "runtime/kuuos_codeai_autonomous_candidate_regeneration_preflight_v0_1.py"
@@ -28,9 +29,6 @@ on:
       - "docs/CodeAI/README.md"
       - "formal/KUOS/CodeAI/AutonomousCandidateRegenerationV0_1.lean"
       - "formal/KuuOSCodeAIAutonomousCandidateRegenerationV0_1.lean"
-      - "lakefile.toml"
-      - "lake-manifest.json"
-      - "lean-toolchain"
       - ".github/workflows/codeai-autonomous-candidate-regeneration-v0-1.yml"
 
 permissions:
@@ -90,6 +88,25 @@ jobs:
           PYTHONPATH=. python3 -m unittest \
             tests.test_kuuos_codeai_autonomous_candidate_regeneration_v0_1 \
             2>&1 | tee codeai-autonomous-candidate-regeneration-v0-1-tests.log
+      # Reuse trusted main artifacts and the previously compiled PR prefix.
+      # The central Governance Gate owns the full-library strict Lean proof check.
+      - name: Restore trusted main Lake workspace (read-only)
+        id: trusted-lake-workspace
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-${{ github.event.pull_request.head.sha || github.sha }}
+          restore-keys: |
+            kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-
+      - name: Restore previously compiled PR Lean prefix (read-only)
+        if: github.event_name == 'pull_request'
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake/build
+          key: kuuos-pr-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-pr${{ github.event.pull_request.number }}-${{ github.event.pull_request.head.sha }}
+          restore-keys: |
+            kuuos-pr-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-pr${{ github.event.pull_request.number }}-
+
       - name: Set up pinned Lean and Lake
         uses: leanprover/lean-action@v1
         with:
@@ -99,11 +116,13 @@ jobs:
           lint: false
           use-mathlib-cache: false
           use-github-cache: false
-      - name: Resolve pinned dependencies
+      - name: Resolve pinned dependencies on cache miss
+        if: steps.trusted-lake-workspace.outputs.cache-matched-key == ''
         run: lake update
       - name: Verify committed dependency manifest is canonical
         run: git diff --exit-code -- lake-manifest.json
-      - name: Fetch Mathlib olean cache
+      - name: Fetch Mathlib olean cache on cache miss
+        if: steps.trusted-lake-workspace.outputs.cache-matched-key == ''
         run: lake exe cache get
       - name: Strictly compile autonomous candidate regeneration formal root
         shell: bash
@@ -113,14 +132,6 @@ jobs:
             -KleanArgs=-DsorryAsError=true \
             build KuuOSCodeAIAutonomousCandidateRegenerationV0_1 \
             2>&1 | tee codeai-autonomous-candidate-regeneration-v0-1-lean.log
-      - name: Strictly compile repository formal baseline
-        shell: bash
-        run: |
-          set -euo pipefail
-          lake -KleanArgs=-DwarningAsError=true \
-            -KleanArgs=-DsorryAsError=true \
-            build KuuOSFormal \
-            2>&1 | tee codeai-autonomous-candidate-regeneration-v0-1-lean-root.log
       - name: Upload diagnostics
         if: ${{ failure() }}
         uses: actions/upload-artifact@v4
@@ -130,6 +141,5 @@ jobs:
             codeai-autonomous-candidate-regeneration-v0-1.log
             codeai-autonomous-candidate-regeneration-v0-1-tests.log
             codeai-autonomous-candidate-regeneration-v0-1-lean.log
-            codeai-autonomous-candidate-regeneration-v0-1-lean-root.log
           if-no-files-found: warn
           retention-days: 14
