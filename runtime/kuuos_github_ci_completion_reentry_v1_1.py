@@ -52,6 +52,16 @@ def _workflow_run_event(raw: Mapping[str, Any]) -> dict[str, Any]:
 
 def _repository_dispatch_event(raw: Mapping[str, Any]) -> dict[str, Any]:
     payload = _m(raw.get("client_payload"))
+    if "schema_version" in payload or "completion" in payload:
+        # Versioned envelopes must never fall back to possibly conflicting flat
+        # fields. Empty payloads fail the existing completion-field checks.
+        if (set(payload) == {"schema_version", "completion"}
+                and type(payload.get("schema_version")) is int
+                and payload["schema_version"] == 2
+                and isinstance(payload.get("completion"), Mapping)):
+            payload = payload["completion"]
+        else:
+            payload = {}
     return {"source":"repository_dispatch","action":"completed","repository":str(payload.get("repository","")),"run_id":_i(payload.get("run_id"),0),"workflow_name":str(payload.get("workflow_name","")),"head_sha":str(payload.get("head_sha","")).lower(),"head_branch":str(payload.get("head_branch","")),"status":str(payload.get("status","")),"conclusion":payload.get("conclusion"),"run_event":str(payload.get("run_event","")),"required_job_names":_names(payload.get("required_job_names")),"required_step_names":_names(payload.get("required_step_names"))}
 
 
@@ -106,20 +116,37 @@ def verify_fresh_reobservation(event_packet: Mapping[str, Any], *, observed_run:
     if not jobs: blockers.append("fresh_jobs_missing")
     if any(str(job.get("status","")) != _COMPLETED for job in jobs): blockers.append("observed_job_not_completed")
     required_jobs = _names(event.get("required_job_names"))
+    step_jobs = jobs
     if required_jobs:
-        by_name = {str(job.get("name","")):job for job in jobs}
-        for name in required_jobs:
-            job = by_name.get(name)
-            if job is None: blockers.append(f"required_job_missing:{name}")
-            elif str(job.get("status","")) != _COMPLETED: blockers.append(f"required_job_not_completed:{name}")
-    required_steps = _names(event.get("required_step_names")); all_steps = _steps(jobs)
+        step_jobs = []
+        for name in dict.fromkeys(required_jobs):
+            matches = [job for job in jobs if str(job.get("name", "")) == name]
+            if not matches:
+                blockers.append(f"required_job_missing:{name}")
+                continue
+            if len(matches) != 1:
+                blockers.append(f"required_job_cardinality:{name}:{len(matches)}")
+                continue
+            job = matches[0]
+            step_jobs.append(job)
+            if str(job.get("status","")) != _COMPLETED: blockers.append(f"required_job_not_completed:{name}")
+            elif not isinstance(job.get("conclusion"), str) or job["conclusion"] not in _TERMINAL_CONCLUSIONS:
+                blockers.append(f"required_job_conclusion_not_terminal:{name}")
+    required_steps = _names(event.get("required_step_names")); all_steps = _steps(step_jobs)
     if required_steps:
-        by_name = {str(step.get("name","")):step for step in all_steps}
         for name in required_steps:
-            step = by_name.get(name)
-            if step is None: blockers.append(f"required_step_missing:{name}")
-            elif str(step.get("status","")) != _COMPLETED: blockers.append(f"required_step_not_completed:{name}")
+            matches = [step for step in all_steps if str(step.get("name", "")) == name]
+            if not matches:
+                blockers.append(f"required_step_missing:{name}")
+                continue
+            if len(matches) != 1:
+                blockers.append(f"required_step_cardinality:{name}:{len(matches)}")
+                continue
+            step = matches[0]
+            if str(step.get("status","")) != _COMPLETED: blockers.append(f"required_step_not_completed:{name}")
             elif step.get("conclusion") is None: blockers.append(f"required_step_conclusion_missing:{name}")
+            elif not isinstance(step["conclusion"], str) or step["conclusion"] not in _TERMINAL_CONCLUSIONS:
+                blockers.append(f"required_step_conclusion_not_terminal:{name}")
     route = "blocked"
     if not blockers: route = "verified_success" if event.get("conclusion") == "success" else "verified_non_success"
     return {"version":VERSION,"status":VERIFIED if not blockers else VERIFY_BLOCKED,"route":route,"repository":event.get("repository"),"run_id":event.get("run_id"),"head_sha":event.get("head_sha"),"workflow_name":event.get("workflow_name"),"event_conclusion":event.get("conclusion"),"fresh_mcp_reobservation":True,"merge_authority_granted":False,"write_authority_granted":False,"blockers":blockers,"evidence_digest":_digest({"event_packet":packet,"observed_run":observed_run,"observed_jobs":jobs})}
