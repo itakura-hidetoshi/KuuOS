@@ -22,6 +22,7 @@ jobs:
       lean_required: ${{ steps.selection.outputs.lean_required }}
       full_audit_required: ${{ steps.selection.outputs.full_audit_required }}
       lean_fastpath: ${{ steps.fastpath.outputs.enabled }}
+      lean_f47_heavy: ${{ steps.fastpath.outputs.lean_f47_heavy }}
       comparison_mode: ${{ steps.refs.outputs.mode }}
     steps:
       - name: Check out repository with history
@@ -135,9 +136,16 @@ jobs:
               and {x.get("id") for x in selected if isinstance(x, dict)}
                   == {"lean-formal"} | {x["id"] for x in py}
           )
+          source = Path("formal/KuuOSFormal/HistoricalF36F40BridgeP4.lean")
+          direct_imports = set(source.read_text(encoding="utf-8").splitlines()) if fast else set()
+          heavy_f47 = fast and (
+              "import KUOS.DependentOriginationGrayC60MixedBoundaryThreeHomV5_195"
+              in direct_imports
+          )
           with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as f:
               f.write(f"enabled={str(fast).lower()}\n")
-          print(f"Focused Lean single-source path: {fast}")
+              f.write(f"lean_f47_heavy={str(heavy_f47).lower()}\n")
+          print(f"Focused Lean single-source path: {fast}; original F47: {heavy_f47}")
           PY
 
       - name: Upload selection receipt
@@ -246,10 +254,12 @@ jobs:
     needs: select
     if: needs.select.outputs.lean_required == 'true'
     runs-on: ubuntu-24.04
-    # Only the genuine frozen-source F36/F40 bridge needs the large
-    # first historical dependency import graph. All other PRs retain the
-    # 30-minute Lean limit and the single KuuOSFormal authority.
-    timeout-minutes: ${{ needs.select.outputs.lean_fastpath == 'true' && 50 || 30 }}
+    # Only the exact historical-F47 single-source import has the massive
+    # old F42/F54/F55 dependency spine. Cold builds get a larger ceiling,
+    # with a smaller internal checkpoint budget so incomplete work can be
+    # cached safely. Cached builds normally finish much faster.
+    # The normal canonical Lean/mathlib roots and strict source check remain.
+    timeout-minutes: ${{ needs.select.outputs.lean_f47_heavy == 'true' && 100 || (needs.select.outputs.lean_fastpath == 'true' && 50 || 30) }}
     steps:
       - name: Check out repository
         uses: actions/checkout@v6
@@ -317,8 +327,9 @@ jobs:
         uses: actions/cache/restore@v5
         with:
           path: .lake/build
-          key: kuuos-pr-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-pr${{ github.event.pull_request.number }}-${{ github.event.pull_request.head.sha }}
+          key: kuuos-pr-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-pr${{ github.event.pull_request.number }}-${{ github.event.pull_request.head.sha }}-${{ github.run_id }}-${{ github.run_attempt }}
           restore-keys: |
+            kuuos-pr-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-pr${{ github.event.pull_request.number }}-${{ github.event.pull_request.head.sha }}-
             kuuos-pr-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-pr${{ github.event.pull_request.number }}-
 
       - name: Report PR-local Lean build overlay restore
@@ -399,7 +410,7 @@ jobs:
         uses: actions/cache/save@v5
         with:
           path: .lake/build
-          key: kuuos-pr-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-pr${{ github.event.pull_request.number }}-${{ github.event.pull_request.head.sha }}
+          key: kuuos-pr-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-pr${{ github.event.pull_request.number }}-${{ github.event.pull_request.head.sha }}-${{ github.run_id }}-${{ github.run_attempt }}
 
       - name: Verify committed dependency manifest remains canonical
         shell: bash

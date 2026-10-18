@@ -11,6 +11,7 @@ from __future__ import annotations
 import json
 import os
 import re
+import signal
 from pathlib import Path
 import subprocess
 import sys
@@ -22,10 +23,38 @@ CONFIG = ROOT / "lakefile.toml"
 OPTION = "leanOptions = { warningAsError = true }"
 
 
-def run(cmd: list[str], *, audit: bool = False) -> int:
+def run(cmd: list[str], *, audit: bool = False,
+        build_budget_seconds: int | None = None) -> int:
     print("+ " + " ".join(cmd), flush=True)
     if not audit:
-        return subprocess.run(cmd, cwd=ROOT, check=False).returncode
+        # A first-time F47 dependency import can take longer than the
+        # old 50-minute Actions ceiling. Checkpoint at a smaller budget,
+        # stop ALL Lake/Lean writers, and save the valid prefix for a
+        # subsequent exact-head verification. This is a failed check,
+        # never a certificate of a proof that has not been elaborated.
+        proc = subprocess.Popen(cmd, cwd=ROOT, start_new_session=True)
+        try:
+            return proc.wait(timeout=build_budget_seconds)
+        except subprocess.TimeoutExpired:
+            print("ERROR: historical Lean dependency build checkpoint; "
+                  "terminating writers before saving reusable .lake/build",
+                  file=sys.stderr, flush=True)
+            try:
+                os.killpg(proc.pid, signal.SIGTERM)
+            except ProcessLookupError:
+                pass
+            try:
+                proc.wait(timeout=20)
+            except subprocess.TimeoutExpired:
+                pass
+            # The Lake parent can exit before all of its Lean children.
+            # Terminate any remaining group members before archiving.
+            try:
+                os.killpg(proc.pid, signal.SIGKILL)
+            except ProcessLookupError:
+                pass
+            proc.wait()
+            return 124
     process = subprocess.Popen(
         cmd, cwd=ROOT, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
         text=True, bufsize=1
@@ -92,7 +121,17 @@ def main() -> int:
             print("ERROR: invalid/duplicate direct imports", file=sys.stderr)
             return 2
         print("P4/P5 phase A: kernel-check actual import closure", flush=True)
-        rc = run(["lake", f"--file={temporary.name}", "build", *imports])
+        requires_f47 = (
+            "KUOS.DependentOriginationGrayC60MixedBoundaryThreeHomV5_195" in imports
+        )
+        # This runs strictly within the configured GitHub job ceiling;
+        # a cold, unfinished closure remains RED, with an archived,
+        # trace-checked prefix for the next iteration of the SAME PR.
+        budget_minutes = 78 if requires_f47 else 42
+        print(f"Historical Lean dependency build budget: {budget_minutes} min",
+              flush=True)
+        rc = run(["lake", f"--file={temporary.name}", "build", *imports],
+                 build_budget_seconds=budget_minutes * 60)
     finally:
         temporary.unlink(missing_ok=True)
     if rc:
