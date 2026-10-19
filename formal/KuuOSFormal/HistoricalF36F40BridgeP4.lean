@@ -2206,6 +2206,7 @@ namespace GenuineOriginalC60Geometry
 open KUOS.DependentOriginationIcosahedralTruncationSeedV3_84
 open KUOS.DependentOriginationTruncatedIcosahedralEdgesV3_85
 open KUOS.DependentOriginationGrayC60IntegralBoundaryLinearMapV5_159
+open KUOS.DependentOriginationGrayC60IntegerOrientedSurfaceCycleV5_159
 open KUOS.DependentOriginationGrayC60NativeChainComplexV5_160
 open KUOS.DependentOriginationGrayC60NativeH2FundamentalClassV5_161
 open KUOS.DependentOriginationGrayC60NativeH2InfiniteOrderV5_161
@@ -2224,7 +2225,7 @@ as its actual integer coefficient in the finite free 2-chain. -/
 theorem nativeP11FundamentalTwoChain_coeff (p : Polygon) :
     nativeP11FundamentalTwoChain p = c60SurfaceFaceSign p := by
   classical
-  simp [nativeP11FundamentalTwoChain]
+  simp [nativeP11FundamentalTwoChain, Finsupp.single_apply]
 
 /-- In particular the native signed 2-chain is not zero: its
 original north-pentagon coefficient is exactly +1. -/
@@ -2295,8 +2296,7 @@ theorem nativeP11ToOriginalFaceChain_fundamental :
       have hs := c60SurfaceFaceSign_sq_one p
       apply Finsupp.ext
       intro f
-      simp [Finsupp.single_apply, hs, smul_eq_mul]
-      split <;> simp_all [hs]
+      simp [Finsupp.single_apply, hs]
     _ = -(∑ p : Polygon,
       Finsupp.single (polygonEquiv p) (1 : ℤ)) := by
       rw [Finset.sum_neg_distrib]
@@ -2304,8 +2304,6 @@ theorem nativeP11ToOriginalFaceChain_fundamental :
       Finsupp.single f (1 : ℤ)) := by
       congr 1
       apply Fintype.sum_equiv polygonEquiv
-      intro p
-      simp
     _ = -c60IntegralFundamentalSurfaceChain := rfl
 
 /-- This is a true historical integer 2-cycle in the ORIGINAL
@@ -2323,10 +2321,12 @@ theorem transportedNativeP11_mem_original_native_cycles :
     nativeP11ToOriginalFaceChain nativeP11FundamentalTwoChain ∈
       LinearMap.ker
         (c60NativeIntegralCellularComplex.sc 2).g.hom := by
-  change (c60NativeIntegralCellularComplex.sc 2).g.hom
-    (nativeP11ToOriginalFaceChain nativeP11FundamentalTwoChain) = 0
-  rw [nativeP11ToOriginalFaceChain_fundamental, map_neg,
-    c60NativeH2_outgoing_fundamental_zero, neg_zero]
+  change (c60NativeIntegralCellularComplex.d 2
+    ((ComplexShape.down ℕ).next 2)).hom
+      (nativeP11ToOriginalFaceChain nativeP11FundamentalTwoChain) = 0
+  have hn : (ComplexShape.down ℕ).next 2 = 1 := by simp
+  rw [hn, c60NativeIntegralCellularComplex_d21]
+  exact transportedNativeP11_original_boundary_zero
 
 /-- The genuine original degree-two Mathlib homology class of the
 transported independent Kuu signed surface, via the proved
@@ -2356,7 +2356,7 @@ theorem transportedNativeP11OriginalH2Class_eq_neg :
           (c60NativeIntegralCellularComplex.sc 2).g.hom)) =
       c60NativeH2ConcreteCycleIso.hom.hom
         (-c60NativeH2FundamentalClass)
-  rw [Iso.hom_inv_id_apply, map_neg,
+  rw [Iso.inv_hom_id_apply, map_neg,
     c60NativeH2ConcreteCycleIso_fundamental]
   apply Subtype.ext
   exact nativeP11ToOriginalFaceChain_fundamental
@@ -2376,10 +2376,12 @@ theorem transportedNativeP11OriginalH2Class_infinite_order :
       n • transportedNativeP11OriginalH2Class) := by
   intro m n h
   apply c60NativeH2FundamentalClass_infinite_order
-  have hh := congrArg
-    (fun z : c60NativeIntegralCellularComplex.homology 2 => -z) h
-  simpa only [transportedNativeP11OriginalH2Class_eq_neg,
-    smul_neg, neg_neg] using hh
+  have hn : m • c60NativeH2FundamentalClass =
+      n • c60NativeH2FundamentalClass := by
+    apply neg_inj.mp
+    simpa only [transportedNativeP11OriginalH2Class_eq_neg,
+      smul_neg] using h
+  exact hn
 
 #print axioms nativeP11FundamentalTwoChain
 #print axioms nativeP11FundamentalTwoChain_coeff
