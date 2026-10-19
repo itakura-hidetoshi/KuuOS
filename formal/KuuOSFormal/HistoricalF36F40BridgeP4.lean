@@ -2382,9 +2382,11 @@ theorem transportedNativeP11OriginalH2Class_infinite_order :
     apply neg_inj.mp
     calc
       -(m • c60NativeH2FundamentalClass) =
-          m • (-c60NativeH2FundamentalClass) := (smul_neg m _).symm
+          m • (-c60NativeH2FundamentalClass) :=
+            (zsmul_neg c60NativeH2FundamentalClass m).symm
       _ = n • (-c60NativeH2FundamentalClass) := hneg
-      _ = -(n • c60NativeH2FundamentalClass) := smul_neg n _
+      _ = -(n • c60NativeH2FundamentalClass) :=
+        zsmul_neg c60NativeH2FundamentalClass n
   exact c60NativeH2FundamentalClass_infinite_order hbase
 
 #print axioms nativeP11FundamentalTwoChain
