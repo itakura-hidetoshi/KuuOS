@@ -46,6 +46,23 @@ free path:            distinct
 単に作用先が等しいことを根拠に、2本の経路の等式を追加しない。
 `Kuu.identityRelations` の下でも異なる経路の商像が異なることを証明する。
 
+### 2b. イベント数が等しくても経路は異なる
+
+同じ始点 `p` から、相生→相剋と相剋→相生の二つの経路を作る。
+
+```text
+p → S(p) → S³(p)           generationControlPath
+p → S²(p) → S³(p)          controlGenerationPath
+```
+
+両経路は始点、終点、長さ2が一致する。しかし中間頂点は
+`S(p) ≠ S²(p)` なので、mathlibの
+`Quiver.Path.obj_eq_of_cons_eq_cons` により経路は等しくならない。
+
+`pathShift` は両者を同じ `(+3, 2)` に写すため、
+「位相・イベント数」観測は自由経路の順序を忘れる。
+この区別も、`Kuu.identityRelations` の下で商に降りても保持される。
+
 ### 3. 忘却観測と合成の整合
 
 各型付き経路 `path : Path p q` に
