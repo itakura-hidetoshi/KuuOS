@@ -53,6 +53,7 @@ theorem p20DirectFundamentalClass_concrete_val :
             p19IndependentFundamentalCycle))).val := by
     simp [independentC60H2ConcreteCycleIso,
       p19IndependentFundamentalClass]
+    exact independentC60H2KernelPresentationIso_val _
   rw [hcompat]
   have hπ :
       independentC60H2FundamentalπIso.inv.hom
