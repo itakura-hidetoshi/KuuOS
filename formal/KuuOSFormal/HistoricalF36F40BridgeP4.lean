@@ -2215,7 +2215,7 @@ on the 12 pentagons and 20 genuine hexagons. -/
 abbrev NativeC60IntegralTwoChains := Polygon →₀ ℤ
 
 /-- Genuine P11 global surface as an actual Finsupp 2-chain on the
-native 32-face carrier, with +1/-1 on the physical polygon sites. -/
+native 32-face carrier, with +1 or -1 on the physical polygon sites. -/
 def nativeP11FundamentalTwoChain : NativeC60IntegralTwoChains :=
   ∑ p : Polygon, Finsupp.single p (c60SurfaceFaceSign p)
 
