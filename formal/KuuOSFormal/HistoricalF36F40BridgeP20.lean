@@ -52,7 +52,6 @@ theorem p20DirectFundamentalClass_concrete_val :
           ((independentC60IntegralCellularComplex.homologyπ 2)
             p19IndependentFundamentalCycle))).val := by
     simp [independentC60H2ConcreteCycleIso,
-      independentC60H2KernelPresentationIso,
       p19IndependentFundamentalClass]
   rw [hcompat]
   have hπ :
