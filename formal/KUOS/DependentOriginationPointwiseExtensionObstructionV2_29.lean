@@ -318,7 +318,7 @@ def HigherFactorComparisonCoherenceExtensionObstruction
     {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) : Prop :=
   ∃ (H : HigherLocalizationFactorization (W := W) R)
-    (alpha : HigherLocalizationFactorMorphism (W := W) H U.chosen),
+    (_alpha : HigherLocalizationFactorMorphism (W := W) H U.chosen),
     FactorComparisonCoherenceExtensionObstruction (W := W) H
 
 /-- If target modification rigidity already holds uniformly, then failure of
