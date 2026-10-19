@@ -1,4 +1,5 @@
 import Kuu.F112.PolygonF36F40ShapeFunctorC60
+import Mathlib.LinearAlgebra.Finsupp.Defs
 import KUOS.DependentOriginationGrayC60NativeH2InfiniteOrderV5_161
 import KUOS.DependentOriginationGrayC60IntegralBoundaryLinearMapV5_159
 import KUOS.DependentOriginationGrayC60AllThirtyTwoFaceCycleV5_158
@@ -2615,6 +2616,227 @@ theorem nativeC60BoundaryTwo_range_le_originalBoundaryOne_kernel :
 #print axioms nativeC60IntegralBoundaryTwo_kernel_transport
 #print axioms originalBoundaryOne_comp_nativeBoundaryTwo_zero
 #print axioms nativeC60BoundaryTwo_range_le_originalBoundaryOne_kernel
+
+end GenuineOriginalC60Geometry
+
+
+/-!
+## F112-P15 — exact signed face-coordinate equivalence and all-cycle kernel equivalence
+
+P8 proved genuine native/old correspondence of the 12 pentagons and
+20 hexagons. P11 proved that every native face has integer orientation
+sign with square one. P13 constructed the *actual* signed linear
+32-face transport T₂, and P14 proved d₂ᴺ = d₂ᴴ ∘ T₂ on arbitrary
+finitely supported face chains, not only on the fundamental cycle.
+
+P15 now constructs T₂'s inverse EXPLICITLY on the distinct historical
+face basis, using exactly the same original face equivalence and its
+proved sign involution. Two separate whole-linear-map equalities
+certify both inverses on every integer coefficient, and an honest
+Mathlib Z-linear equivalence identifies the COMPLETE real 32-face
+chain modules and their ALL-CYCLE kernels.
+
+Neither map is implemented by recasting the old Gray source into the
+independent foundation; this OLD-SIDE bridge preserves the true
+historical F42/F55 obstruction boundary.
+-/
+
+namespace GenuineOriginalC60Geometry
+
+open KUOS.DependentOriginationIcosahedralTruncationSeedV3_84
+open KUOS.DependentOriginationTruncatedIcosahedralEdgesV3_85
+open KUOS.DependentOriginationGrayC60IntegralBoundaryLinearMapV5_159
+open KUOS.DependentOriginationGrayC60IntegralChainComplexV5_160
+
+/-- Unsigned physical renaming of ALL true 32 face basis symbols,
+using Mathlib's existing Finsupp lift of the actual P8 equivalence,
+not a new proxy based on Fin 32. -/
+def nativeP11UnsignedFaceChainLinearEquiv :
+    NativeC60IntegralTwoChains ≃ₗ[ℤ] C60IntegralTwoChains :=
+  Finsupp.mapDomain.linearEquiv ℤ ℤ polygonEquiv
+
+/-- The independent inverse to the P13 signed forward face map.
+Every original historical face generator returns to its EXACT
+native pentagon or hexagon under the inverse P8 equivalence, with
+its physical whole-face sign reversed exactly as required by P13. -/
+def originalP11ToNativeFaceChain :
+    C60IntegralTwoChains →ₗ[ℤ] NativeC60IntegralTwoChains :=
+  Finsupp.linearCombination ℤ
+    (fun f : TruncatedIcosahedralSeedFace =>
+      Finsupp.single (polygonEquiv.symm f)
+        (-c60SurfaceFaceSign (polygonEquiv.symm f)))
+
+/-- On ALL original real historical face basis generators, the
+constructed inverse is exactly the typed signed native basis map. -/
+theorem originalP11ToNativeFaceChain_single
+    (f : TruncatedIcosahedralSeedFace) (z : ℤ) :
+    originalP11ToNativeFaceChain (Finsupp.single f z) =
+      z • Finsupp.single (polygonEquiv.symm f)
+        (-c60SurfaceFaceSign (polygonEquiv.symm f)) := by
+  simp [originalP11ToNativeFaceChain]
+
+/-- First entire Z-linear identity: historical→native after the
+P13 native→historical map returns EVERY original native 2-chain,
+including arbitrary independent coefficients and negative values.
+This verifies the TRUE orientations; it is not the underlying
+32-element equivalence alone. -/
+theorem originalP11ToNative_comp_nativeP11ToOriginal :
+    originalP11ToNativeFaceChain.comp nativeP11ToOriginalFaceChain =
+      LinearMap.id := by
+  apply Finsupp.lhom_ext
+  intro p z
+  change originalP11ToNativeFaceChain
+    (nativeP11ToOriginalFaceChain (Finsupp.single p z)) =
+      Finsupp.single p z
+  rw [nativeP11ToOriginalFaceChain_single, map_smul,
+    originalP11ToNativeFaceChain_single,
+    polygonEquiv.symm_apply_apply]
+  simp only [Finsupp.smul_single', neg_mul_neg,
+    c60SurfaceFaceSign_sq_one, mul_one]
+
+/-- Second entire Z-linear identity: native→historical after the
+explicit historical→native inverse is the identity on EVERY real
+historical face chain. This reverse identity must also be proved:
+injectivity by itself would not establish an equivalence. -/
+theorem nativeP11ToOriginal_comp_originalP11ToNative :
+    nativeP11ToOriginalFaceChain.comp originalP11ToNativeFaceChain =
+      LinearMap.id := by
+  apply Finsupp.lhom_ext
+  intro f z
+  change nativeP11ToOriginalFaceChain
+    (originalP11ToNativeFaceChain (Finsupp.single f z)) =
+      Finsupp.single f z
+  rw [originalP11ToNativeFaceChain_single, map_smul,
+    nativeP11ToOriginalFaceChain_single,
+    polygonEquiv.apply_symm_apply]
+  simp only [Finsupp.smul_single', neg_mul_neg,
+    c60SurfaceFaceSign_sq_one, mul_one]
+
+/-- Genuine signed Mathlib Z-LINEAR ISOMORPHISM of the independent
+and historical free integer two-chain modules on their actual
+12 pentagons and 20 hexagons, with the existing P13 forward map
+as its EXACT toLinearMap (rather than an unproven new alias). -/
+def nativeP11SignedFaceChainLinearEquiv :
+    NativeC60IntegralTwoChains ≃ₗ[ℤ] C60IntegralTwoChains where
+  __ := nativeP11ToOriginalFaceChain
+  invFun := originalP11ToNativeFaceChain
+  left_inv c := by
+    have h := congrArg
+      (fun L : NativeC60IntegralTwoChains →ₗ[ℤ]
+        NativeC60IntegralTwoChains => L c)
+      originalP11ToNative_comp_nativeP11ToOriginal
+    simpa only [LinearMap.comp_apply, LinearMap.id_apply] using h
+  right_inv c := by
+    have h := congrArg
+      (fun L : C60IntegralTwoChains →ₗ[ℤ]
+        C60IntegralTwoChains => L c)
+      nativeP11ToOriginal_comp_originalP11ToNative
+    simpa only [LinearMap.comp_apply, LinearMap.id_apply] using h
+
+/-- This signed equivalence literally transports the P11 nonzero
+fundamental surface chain to the NEGATIVE of the actual original
+F59 signed fundamental cycle, preserving all real face coordinates. -/
+theorem nativeP11SignedFaceChainLinearEquiv_fundamental :
+    nativeP11SignedFaceChainLinearEquiv nativeP11FundamentalTwoChain =
+      -c60IntegralFundamentalSurfaceChain :=
+  nativeP11ToOriginalFaceChain_fundamental
+
+/-- The NEW reverse direction of P14's closed-cycle transport:
+EVERY original historical closed integer two-chain pulls back
+through the proven signed inverse to an independent Kuu closed
+integer two-chain, not only multiples of a fundamental cycle. -/
+theorem originalP11ToNativeFaceChain_kernel_transport
+    (c : C60IntegralTwoChains)
+    (hc : c ∈ c60IntegralBoundaryTwo.ker) :
+    originalP11ToNativeFaceChain c ∈
+      nativeC60IntegralBoundaryTwo.ker := by
+  change nativeC60IntegralBoundaryTwo
+    (originalP11ToNativeFaceChain c) = 0
+  rw [nativeC60IntegralBoundaryTwo_commutes]
+  have h := congrArg
+    (fun L : C60IntegralTwoChains →ₗ[ℤ]
+      C60IntegralTwoChains => L c)
+    nativeP11ToOriginal_comp_originalP11ToNative
+  have heq : nativeP11ToOriginalFaceChain
+      (originalP11ToNativeFaceChain c) = c := by
+    simpa only [LinearMap.comp_apply, LinearMap.id_apply] using h
+  change c60IntegralBoundaryTwo
+    (nativeP11ToOriginalFaceChain (originalP11ToNativeFaceChain c)) = 0
+  rw [heq]
+  exact hc
+
+/-- F112-P15 central theorem: an actual Z-LINEAR EQUIVALENCE
+between ALL independently formed native closed integer 2-chains
+and ALL historical F59 original closed integer 2-chains, with
+no assumption that a particular fundamental cycle generates
+either entire kernel. Both kernels are actual Mathlib submodules
+of their distinct genuine 32-face free abelian groups. -/
+def nativeP11IntegralCycleKernelLinearEquiv :
+    LinearMap.ker nativeC60IntegralBoundaryTwo ≃ₗ[ℤ]
+      LinearMap.ker c60IntegralBoundaryTwo where
+  toFun x :=
+    ⟨nativeP11ToOriginalFaceChain x.1,
+      nativeC60IntegralBoundaryTwo_kernel_transport x.1 x.2⟩
+  invFun y :=
+    ⟨originalP11ToNativeFaceChain y.1,
+      originalP11ToNativeFaceChain_kernel_transport y.1 y.2⟩
+  left_inv x := by
+    apply Subtype.ext
+    have h := congrArg
+      (fun L : NativeC60IntegralTwoChains →ₗ[ℤ]
+        NativeC60IntegralTwoChains => L x.1)
+      originalP11ToNative_comp_nativeP11ToOriginal
+    simpa only [LinearMap.comp_apply, LinearMap.id_apply] using h
+  right_inv y := by
+    apply Subtype.ext
+    have h := congrArg
+      (fun L : C60IntegralTwoChains →ₗ[ℤ]
+        C60IntegralTwoChains => L y.1)
+      nativeP11ToOriginal_comp_originalP11ToNative
+    simpa only [LinearMap.comp_apply, LinearMap.id_apply] using h
+  map_add' x y := by
+    apply Subtype.ext
+    change nativeP11ToOriginalFaceChain (x.1 + y.1) =
+      nativeP11ToOriginalFaceChain x.1 +
+        nativeP11ToOriginalFaceChain y.1
+    exact map_add _ _ _
+  map_smul' z x := by
+    apply Subtype.ext
+    change nativeP11ToOriginalFaceChain (z • x.1) =
+      z • nativeP11ToOriginalFaceChain x.1
+    exact map_smul _ _ _
+
+/-- The actual nonzero independent oriented fundamental 2-cycle
+is sent to the negative original F59 fundamental 2-cycle UNDER
+the full kernel equivalence, not only under a raw face-coordinate
+map outside the space of cycles. -/
+theorem nativeP11IntegralCycleKernelLinearEquiv_fundamental :
+    (nativeP11IntegralCycleKernelLinearEquiv
+      (⟨nativeP11FundamentalTwoChain,
+        nativeP11FundamentalTwoChain_mem_new_kernel⟩ :
+        LinearMap.ker nativeC60IntegralBoundaryTwo)).1 =
+      -c60IntegralFundamentalSurfaceChain :=
+  nativeP11ToOriginalFaceChain_fundamental
+
+/-- A closed historical integral two-chain has a true independent
+Kuu preimage, and conversely, because the kernel map is an
+explicit Mathlib linear equivalence. No surjectivity assumption
+on the original F55 higher-cell transport is made. -/
+theorem nativeP11IntegralCycleKernelLinearEquiv_surjective :
+    Function.Surjective nativeP11IntegralCycleKernelLinearEquiv :=
+  nativeP11IntegralCycleKernelLinearEquiv.surjective
+
+#print axioms nativeP11UnsignedFaceChainLinearEquiv
+#print axioms originalP11ToNativeFaceChain
+#print axioms originalP11ToNativeFaceChain_single
+#print axioms originalP11ToNative_comp_nativeP11ToOriginal
+#print axioms nativeP11ToOriginal_comp_originalP11ToNative
+#print axioms nativeP11SignedFaceChainLinearEquiv
+#print axioms nativeP11SignedFaceChainLinearEquiv_fundamental
+#print axioms originalP11ToNativeFaceChain_kernel_transport
+#print axioms nativeP11IntegralCycleKernelLinearEquiv
+#print axioms nativeP11IntegralCycleKernelLinearEquiv_fundamental
+#print axioms nativeP11IntegralCycleKernelLinearEquiv_surjective
 
 end GenuineOriginalC60Geometry
 

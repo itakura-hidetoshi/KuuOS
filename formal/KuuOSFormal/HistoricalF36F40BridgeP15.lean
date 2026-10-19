@@ -189,6 +189,39 @@ theorem nativeC60IntegralClosedTwoChainLinearEquiv_fundamental_roundtrip :
         nativeP11FundamentalTwoChain_mem_new_kernel⟩ := by
   exact nativeC60IntegralClosedTwoChainLinearEquiv.symm_apply_apply _
 
+/-! ## P15 compatibility with the independently validated historical-face P15
+
+The P4-side P15 integrated through child PR #2358 and the P15 historical
+bridge of PR #2357 are two presentations of the same genuine signed chain
+maps. These are comparison theorems, not additional source F55 lifts. -/
+
+/-- Both genuine reverse integral-face maps are identical at the actual
+historical F59 integer Finsupp basis, not only on the fundamental cycle. -/
+theorem originalFaceChainToNativeP11_eq_originalP11ToNativeFaceChain :
+    originalFaceChainToNativeP11 = originalP11ToNativeFaceChain := by
+  rfl
+
+/-- The two full signed 32-face isomorphisms have literally identical
+transport on every independent integer face 2-chain. -/
+theorem nativeP11OriginalFaceChainLinearEquiv_agrees_P4
+    (c : NativeC60IntegralTwoChains) :
+    nativeP11OriginalFaceChainLinearEquiv c =
+      nativeP11SignedFaceChainLinearEquiv c := by
+  rfl
+
+/-- The independent implementations identify ALL closed native integral
+2-chains with the same historical kernel, pointwise on every cycle. -/
+theorem nativeC60IntegralClosedTwoChainLinearEquiv_agrees_P4
+    (c : nativeC60IntegralBoundaryTwo.ker) :
+    nativeC60IntegralClosedTwoChainLinearEquiv c =
+      nativeP11IntegralCycleKernelLinearEquiv c := by
+  apply Subtype.ext
+  rfl
+
+#print axioms originalFaceChainToNativeP11_eq_originalP11ToNativeFaceChain
+#print axioms nativeP11OriginalFaceChainLinearEquiv_agrees_P4
+#print axioms nativeC60IntegralClosedTwoChainLinearEquiv_agrees_P4
+
 #print axioms p15_negative_face_sign_square_one
 #print axioms originalFaceChainToNativeP11
 #print axioms originalFaceChainToNativeP11_single
