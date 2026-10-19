@@ -160,11 +160,6 @@ alter the underlying signed integer polygon chain. -/
     (z : LinearMap.ker
       (independentC60IntegralCellularComplex.sc 2).g.hom) :
     (independentC60H2KernelPresentationIso.hom.hom z).val = z.val := by
-  change ((LinearEquiv.ofEq
-    (LinearMap.ker (independentC60IntegralCellularComplex.sc 2).g.hom)
-    (LinearMap.ker nativeC60IntegralBoundaryTwo)
-    independentC60H2KernelSubmodule_eq) z :
-      NativeC60IntegralTwoChains) = z.val
   exact LinearEquiv.coe_ofEq_apply independentC60H2KernelSubmodule_eq z
 
 /-- Actual categorical H₂-to-native-kernel isomorphism, factored
