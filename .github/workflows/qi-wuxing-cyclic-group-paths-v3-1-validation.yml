@@ -4,6 +4,7 @@ on:
   workflow_dispatch:
   pull_request:
     paths:
+      - 'lakefile.toml'
       - 'formal/KuuOSFormal.lean'
       - 'formal/KUOS/Architecture/QiWuxingCyclicGroupPathsV3_1.lean'
       - 'formal/KuuOSQiWuxingCyclicGroupPathsV3_1.lean'
@@ -66,8 +67,7 @@ jobs:
       - name: Strict targeted compilation of both v3.1 modules
         run: |
           set -euo pipefail
-          lake lean formal/KUOS/Architecture/QiWuxingCyclicGroupPathsV3_1.lean -- \
-            -DwarningAsError=true -DsorryAsError=true
-          lake lean formal/KuuOSQiWuxingCyclicGroupPathsV3_1.lean -- \
-            -DwarningAsError=true -DsorryAsError=true
+          lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build \
+            +KUOS.Architecture.QiWuxingCyclicGroupPathsV3_1:olean \
+            +KuuOSQiWuxingCyclicGroupPathsV3_1:olean
           git diff --exit-code -- lake-manifest.json lean-toolchain
