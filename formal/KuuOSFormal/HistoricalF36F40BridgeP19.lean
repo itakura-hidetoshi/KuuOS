@@ -106,19 +106,21 @@ theorem p19IndependentHistoricalCyclesMap_sign :
       f p19IndependentFundamentalCycle)
     (HomologicalComplex.cyclesMap_i independentHistoricalC60ChainIso.hom 2)
   simp only [ModuleCat.comp_apply] at hnat
-  calc
-    (c60NativeIntegralCellularComplex.iCycles 2)
-        ((HomologicalComplex.cyclesMap independentHistoricalC60ChainIso.hom 2)
-          p19IndependentFundamentalCycle) =
+  -- Work in the explicit historical degree-two carrier. In particular,
+  -- do not leave the result type of the last `calc` step metavariable-valued.
+  have htransport :
       (independentHistoricalC60ChainIso.hom.f 2)
-        ((independentC60IntegralCellularComplex.iCycles 2)
-          p19IndependentFundamentalCycle) := hnat
-    _ = -c60IntegralFundamentalSurfaceChain := by
-      rw [p19IndependentFundamentalCycle_iCycles]
-      exact independentHistoricalC60ChainIso_fundamental_sign
-    _ = (c60NativeIntegralCellularComplex.iCycles 2)
-        (-c60NativeH2FundamentalCycle) := by
-      rw [map_neg, p19HistoricalFundamentalCycle_iCycles]
+          ((independentC60IntegralCellularComplex.iCycles 2)
+            p19IndependentFundamentalCycle) =
+        -c60IntegralFundamentalSurfaceChain := by
+    rw [p19IndependentFundamentalCycle_iCycles]
+    exact independentHistoricalC60ChainIso_fundamental_sign
+  have htarget :
+      -c60IntegralFundamentalSurfaceChain =
+        (c60NativeIntegralCellularComplex.iCycles 2)
+          (-c60NativeH2FundamentalCycle) := by
+    rw [map_neg, p19HistoricalFundamentalCycle_iCycles]
+  exact hnat.trans (htransport.trans htarget)
 
 /-- The direct fundamental class in the actual independent
 categorical H₂ object (zero incoming degree-three differential). -/
