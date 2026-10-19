@@ -18,7 +18,7 @@ all-chain boundary commutativity, not a claimed F55/Gray lift.
 
 The complex isomorphism, and the H₂ isomorphism obtained functorially
 from it, are genuine mathlib category-theoretic constructions.
--/ 
+-/
 
 namespace KUOS.F112ActualHistoricalF36F40BridgeP4
 namespace GenuineOriginalC60Geometry
@@ -53,18 +53,25 @@ theorem independentHistoricalC60DegreeIso_comm (n : ℕ) :
       (independentHistoricalC60DegreeIso n).hom := by
   cases n with
   | zero =>
+      -- The two common degree-1/0 carriers are definitionally the
+      -- *same* ModuleCat objects; close their categorical unit laws.
       simp [independentHistoricalC60DegreeIso,
-        c60NativeChainDifferential, independentC60ChainDifferential]
+        c60NativeChainDifferential, independentC60ChainDifferential] <;>
+        simp only [Category.id_comp, Category.comp_id]
   | succ n =>
       cases n with
       | zero =>
+          -- This is precisely P14: d₂ᴴ ∘ T₂ = d₂ᴺ on ALL chains.
           apply ModuleCat.hom_ext
           change c60IntegralBoundaryTwo.comp nativeP11ToOriginalFaceChain =
             nativeC60IntegralBoundaryTwo
           exact nativeC60IntegralBoundaryTwo_commutes.symm
       | succ n =>
+          -- All differentials from degree three upwards are zero.
+          -- Use the category unit identity, not integer arithmetic.
           simp [independentHistoricalC60DegreeIso,
-            c60NativeChainDifferential, independentC60ChainDifferential]
+            c60NativeChainDifferential, independentC60ChainDifferential] <;>
+            simp only [Category.id_comp, comp_zero, zero_comp]
 
 /-- F112-P18 main chain-level result: a genuine mathlib isomorphism
 of whole chain complexes, with its inverse constructed by mathlib
