@@ -235,7 +235,7 @@ def HigherWeakCoherentAlignmentPrinciple : Prop :=
 systems that carry an actual coherent datum. -/
 def HigherGlobalWeakStageIIIExistenceObstruction : Prop :=
   ∃ (R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context))
-    (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R),
+    (_U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R),
     HigherWeakEssentialUniquenessObstruction (W := W) R
 
 /-- Global witness of the fixed coherent route axis. -/
