@@ -123,6 +123,27 @@ theorem independentHistoricalC60ChainIso_fundamental_sign :
   rw [independentHistoricalC60ChainIso_two]
   exact nativeP11ToOriginalFaceChain_fundamental
 
+/-- The previously incomplete historical F59 H₂ classification follows
+from the *actual chain-complex isomorphism* and P17's kernel-level
+classification, not from abstract matching rank counts. -/
+def historicalC60H2IsoInteger :
+    c60NativeIntegralCellularComplex.homology 2 ≅ ModuleCat.of ℤ ℤ :=
+  independentHistoricalC60H2Iso.symm ≪≫ independentC60H2IsoInteger
+
+/-- Naturality of the true mathlib H₂ map on abstract cycles.
+This is the key compatibility needed to compare oriented fundamental
+homology representatives without confusing them with chain generators. -/
+theorem independentHistoricalC60H2_homologyπ_naturality :
+    independentC60IntegralCellularComplex.homologyπ 2 ≫
+      independentHistoricalC60H2Iso.hom =
+    HomologicalComplex.cyclesMap independentHistoricalC60ChainIso.hom 2 ≫
+      c60NativeIntegralCellularComplex.homologyπ 2 := by
+  exact HomologicalComplex.homologyπ_naturality
+    independentHistoricalC60ChainIso.hom 2
+
+#print axioms historicalC60H2IsoInteger
+#print axioms independentHistoricalC60H2_homologyπ_naturality
+
 #print axioms independentHistoricalC60DegreeIso
 #print axioms independentHistoricalC60DegreeIso_comm
 #print axioms independentHistoricalC60ChainIso
