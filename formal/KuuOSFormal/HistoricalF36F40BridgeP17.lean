@@ -1,6 +1,7 @@
 import KuuOSFormal.HistoricalF36F40BridgeP16
 import Mathlib.Algebra.Homology.ShortComplex.ModuleCat
 import Mathlib.Algebra.Homology.ShortComplex.HomologicalComplex
+import Mathlib.Algebra.Module.Submodule.Equiv
 
 /-!
 # F112-P17 — genuine independent-polygon C60 chain complex and Mathlib H₂
@@ -129,23 +130,41 @@ def independentC60H2FundamentalπIso :
 /-- Actual H₂ of the new independent-polygon complex is isomorphic
 to the concrete native integer kernel of P14 d₂: this is NOT an
 external free abstract Z-module replacing the Mathlib H₂ object. -/
-def independentC60H2ConcreteCycleIso :
-    independentC60IntegralCellularComplex.homology 2 ≅
-      ModuleCat.of ℤ (LinearMap.ker nativeC60IntegralBoundaryTwo) := by
-  -- The generic ShortComplex cycles iso initially targets ker(sc.g).
-  -- Normalize the type via the P17 degree-two ChainComplex.of_d identity.
-  convert (independentC60H2FundamentalπIso.symm ≪≫
-    (independentC60IntegralCellularComplex.sc 2).moduleCatCyclesIso) using 1
-  -- Convert the abstract short-complex kernel to the differential d₂,
-  -- then use the verified categorical ChainComplex.of_d equation.
-  simp only [ShortComplex.moduleCatLeftHomologyData_K]
-  change ModuleCat.of ℤ (LinearMap.ker nativeC60IntegralBoundaryTwo) =
-    ModuleCat.of ℤ (LinearMap.ker
-      (independentC60IntegralCellularComplex.d 2
-        ((ComplexShape.down ℕ).next 2)).hom)
+/-- Equality of the concrete native boundary kernel and the actual
+ShortComplex kernel; this is a theorem about the two true differentials,
+not a coercion silently inserted by `convert`. -/
+theorem independentC60H2KernelSubmodule_eq :
+    LinearMap.ker
+        (independentC60IntegralCellularComplex.sc 2).g.hom =
+      LinearMap.ker nativeC60IntegralBoundaryTwo := by
+  change LinearMap.ker
+    (independentC60IntegralCellularComplex.d 2
+      ((ComplexShape.down ℕ).next 2)).hom =
+        LinearMap.ker nativeC60IntegralBoundaryTwo
   have hn : (ComplexShape.down ℕ).next 2 = 1 := by simp
   rw [hn, independentC60IntegralCellularComplex_d21]
   rfl
+
+/-- This explicit Mathlib linear equivalence remembers the real
+submodule equality and preserves the underlying polygon chain.
+It replaces an opaque `convert`-generated cast of an isomorphism. -/
+noncomputable def independentC60H2KernelPresentationIso :
+    (independentC60IntegralCellularComplex.sc 2).moduleCatLeftHomologyData.K ≅
+      ModuleCat.of ℤ (LinearMap.ker nativeC60IntegralBoundaryTwo) :=
+  (LinearEquiv.ofEq
+    (LinearMap.ker
+      (independentC60IntegralCellularComplex.sc 2).g.hom)
+    (LinearMap.ker nativeC60IntegralBoundaryTwo)
+    independentC60H2KernelSubmodule_eq).toModuleIso
+
+/-- Actual categorical H₂-to-native-kernel isomorphism, factored
+through the explicit, underlying-chain-preserving kernel equivalence. -/
+def independentC60H2ConcreteCycleIso :
+    independentC60IntegralCellularComplex.homology 2 ≅
+      ModuleCat.of ℤ (LinearMap.ker nativeC60IntegralBoundaryTwo) :=
+  (independentC60H2FundamentalπIso.symm ≪≫
+    (independentC60IntegralCellularComplex.sc 2).moduleCatCyclesIso) ≪≫
+      independentC60H2KernelPresentationIso
 
 /-- F112-P17 main result: REAL categorical second homology of the
 independent-polygon 32-face C60 chain complex is canonically Z,
@@ -229,6 +248,8 @@ theorem independentC60H2FundamentalClass_infinite_order :
 #print axioms independentC60IntegralCellularComplex_d32
 #print axioms independentC60H2_incoming_zero
 #print axioms independentC60H2FundamentalπIso
+#print axioms independentC60H2KernelSubmodule_eq
+#print axioms independentC60H2KernelPresentationIso
 #print axioms independentC60H2ConcreteCycleIso
 #print axioms independentC60H2IsoInteger
 #print axioms independentC60H2FundamentalClass
