@@ -1,4 +1,5 @@
 import Kuu.F112.PolygonF36F40ShapeFunctorC60
+import Mathlib.LinearAlgebra.Finsupp.Defs
 import KUOS.DependentOriginationGrayC60NativeH2InfiniteOrderV5_161
 import KUOS.DependentOriginationGrayC60IntegralBoundaryLinearMapV5_159
 import KUOS.DependentOriginationGrayC60AllThirtyTwoFaceCycleV5_158
