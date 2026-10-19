@@ -67,6 +67,6 @@ jobs:
         run: |
           set -euo pipefail
           lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build \
-            KUOS.Architecture.QiWuxingCyclicGroupPathsV3_1 \
-            KuuOSQiWuxingCyclicGroupPathsV3_1
+            +KUOS.Architecture.QiWuxingCyclicGroupPathsV3_1:olean \
+            +KuuOSQiWuxingCyclicGroupPathsV3_1:olean
           git diff --exit-code -- lake-manifest.json lean-toolchain
