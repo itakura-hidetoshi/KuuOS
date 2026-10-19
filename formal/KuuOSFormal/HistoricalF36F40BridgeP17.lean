@@ -109,19 +109,6 @@ theorem independentC60IntegralCellularComplex_d32 :
     independentC60ChainDifferential
     independentC60ChainDifferential_comp_zero 2
 
-/-- The outgoing map of the ACTUAL native H₂ short complex is
-definitionally the original P14 integer polygon-to-physical-edge
-boundary after rewriting the proven degree-two differential. -/
-theorem independentC60H2_outgoing_eq_native :
-    (independentC60IntegralCellularComplex.sc 2).g.hom =
-      nativeC60IntegralBoundaryTwo := by
-  change (independentC60IntegralCellularComplex.d 2
-    ((ComplexShape.down ℕ).next 2)).hom =
-      nativeC60IntegralBoundaryTwo
-  have hn : (ComplexShape.down ℕ).next 2 = 1 := by simp
-  rw [hn, independentC60IntegralCellularComplex_d21]
-  rfl
-
 /-- Exact incoming zero map at degree two in Mathlib's
 short-complex homology presentation. -/
 theorem independentC60H2_incoming_zero :
@@ -145,9 +132,21 @@ external free abstract Z-module replacing the Mathlib H₂ object. -/
 def independentC60H2ConcreteCycleIso :
     independentC60IntegralCellularComplex.homology 2 ≅
       ModuleCat.of ℤ (LinearMap.ker nativeC60IntegralBoundaryTwo) := by
-  rw [← independentC60H2_outgoing_eq_native]
-  exact independentC60H2FundamentalπIso.symm ≪≫
-    (independentC60IntegralCellularComplex.sc 2).moduleCatCyclesIso
+  -- The generic ShortComplex cycles iso initially targets ker(sc.g).
+  -- Normalize the type via the P17 degree-two ChainComplex.of_d identity.
+  convert (independentC60H2FundamentalπIso.symm ≪≫
+    (independentC60IntegralCellularComplex.sc 2).moduleCatCyclesIso) using 1
+  -- The only residual equality is of the two concrete ModuleCat kernels.
+  simp only [ShortComplex.moduleCatLeftHomologyData_K]
+  first
+  | rfl
+  | simp [HomologicalComplex.sc, HomologicalComplex.shortComplexFunctor,
+      HomologicalComplex.shortComplexFunctor'_obj_g,
+      independentC60IntegralCellularComplex,
+      independentC60ChainObjects, independentC60ChainDifferential]
+  | simp [independentC60IntegralCellularComplex_d21,
+      independentC60IntegralCellularComplex, independentC60ChainObjects,
+      independentC60ChainDifferential]
 
 /-- F112-P17 main result: REAL categorical second homology of the
 independent-polygon 32-face C60 chain complex is canonically Z,
@@ -175,7 +174,17 @@ theorem independentC60H2FundamentalClass_coordinate :
   change nativeC60ClosedNorthCoefficient
     (independentC60H2ConcreteCycleIso.hom.hom
       independentC60H2FundamentalClass) = 1
-  rw [independentC60H2FundamentalClass, Iso.hom_inv_id_apply]
+  have hround :
+      independentC60H2ConcreteCycleIso.hom.hom
+        (independentC60H2ConcreteCycleIso.inv
+          (⟨nativeP11FundamentalTwoChain,
+            nativeP11FundamentalTwoChain_mem_new_kernel⟩ :
+            LinearMap.ker nativeC60IntegralBoundaryTwo)) =
+        (⟨nativeP11FundamentalTwoChain,
+          nativeP11FundamentalTwoChain_mem_new_kernel⟩ :
+          LinearMap.ker nativeC60IntegralBoundaryTwo) := by
+    exact independentC60H2ConcreteCycleIso.inv_hom_id_apply _
+  rw [independentC60H2FundamentalClass, hround]
   change nativeP11FundamentalTwoChain (.pentagon .north) = 1
   exact nativeC60FundamentalNorthCoefficient
 
@@ -185,10 +194,13 @@ theorem independentC60H2FundamentalClass_infinite_order :
       (fun n : ℤ => n • independentC60H2FundamentalClass) := by
   intro a b hab
   have hh := congrArg independentC60H2IsoInteger.hom.hom hab
-  rw [map_smul, map_smul,
+  change independentC60H2IsoInteger.hom.hom
+      (a • independentC60H2FundamentalClass) =
+    independentC60H2IsoInteger.hom.hom
+      (b • independentC60H2FundamentalClass) at hh
+  simpa only [(independentC60H2IsoInteger.hom.hom).map_smul,
     independentC60H2FundamentalClass_coordinate,
-    smul_eq_mul, smul_eq_mul, mul_one, mul_one] at hh
-  exact hh
+    smul_eq_mul, mul_one] using hh
 
 #print axioms independentC60ChainObjects
 #print axioms independentC60ChainDifferential
@@ -198,7 +210,6 @@ theorem independentC60H2FundamentalClass_infinite_order :
 #print axioms independentC60IntegralCellularComplex_d21
 #print axioms independentC60IntegralCellularComplex_d10
 #print axioms independentC60IntegralCellularComplex_d32
-#print axioms independentC60H2_outgoing_eq_native
 #print axioms independentC60H2_incoming_zero
 #print axioms independentC60H2FundamentalπIso
 #print axioms independentC60H2ConcreteCycleIso
