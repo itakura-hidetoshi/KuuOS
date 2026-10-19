@@ -45,6 +45,7 @@ theorem p20DirectClass_concreteKernel :
             p19IndependentFundamentalCycle))).val := by
     simp [independentC60H2ConcreteCycleIso,
       p19IndependentFundamentalClass]
+    exact independentC60H2KernelPresentationIso_val _
   rw [hcompat]
   change
     ((independentC60IntegralCellularComplex.sc 2).moduleCatCyclesIso.hom.hom
