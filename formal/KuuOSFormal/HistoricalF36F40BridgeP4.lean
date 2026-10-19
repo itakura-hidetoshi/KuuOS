@@ -2303,7 +2303,6 @@ theorem nativeP11ToOriginalFaceChain_fundamental :
     _ = -(∑ f : TruncatedIcosahedralSeedFace,
       Finsupp.single f (1 : ℤ)) := by
       congr 1
-      apply Fintype.sum_equiv polygonEquiv
     _ = -c60IntegralFundamentalSurfaceChain := rfl
 
 /-- This is a true historical integer 2-cycle in the ORIGINAL
@@ -2375,13 +2374,18 @@ theorem transportedNativeP11OriginalH2Class_infinite_order :
     Function.Injective (fun n : ℤ =>
       n • transportedNativeP11OriginalH2Class) := by
   intro m n h
-  apply c60NativeH2FundamentalClass_infinite_order
-  have hn : m • c60NativeH2FundamentalClass =
+  have hneg : m • (-c60NativeH2FundamentalClass) =
+      n • (-c60NativeH2FundamentalClass) := by
+    simpa only [transportedNativeP11OriginalH2Class_eq_neg] using h
+  have hbase : m • c60NativeH2FundamentalClass =
       n • c60NativeH2FundamentalClass := by
     apply neg_inj.mp
-    simpa only [transportedNativeP11OriginalH2Class_eq_neg,
-      smul_neg] using h
-  exact hn
+    calc
+      -(m • c60NativeH2FundamentalClass) =
+          m • (-c60NativeH2FundamentalClass) := (smul_neg m _).symm
+      _ = n • (-c60NativeH2FundamentalClass) := hneg
+      _ = -(n • c60NativeH2FundamentalClass) := smul_neg n _
+  exact c60NativeH2FundamentalClass_infinite_order hbase
 
 #print axioms nativeP11FundamentalTwoChain
 #print axioms nativeP11FundamentalTwoChain_coeff
