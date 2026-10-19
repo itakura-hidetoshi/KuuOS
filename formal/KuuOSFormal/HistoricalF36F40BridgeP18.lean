@@ -27,6 +27,8 @@ open CategoryTheory Limits
 open KUOS.DependentOriginationGrayC60IntegralBoundaryLinearMapV5_159
 open KUOS.DependentOriginationGrayC60IntegralChainComplexV5_160
 open KUOS.DependentOriginationGrayC60NativeChainComplexV5_160
+open KUOS.DependentOriginationGrayC60NativeH2FundamentalClassV5_161
+open KUOS.DependentOriginationGrayC60NativeH2InfiniteOrderV5_161
 
 set_option autoImplicit false
 set_option warningAsError true
@@ -178,6 +180,9 @@ theorem independentC60H2Fundamental_iCycles :
           LinearMap.ker nativeC60IntegralBoundaryTwo) := by
     unfold independentC60H2FundamentalClass
     exact independentC60H2ConcreteCycleIso.inv_hom_id_apply _
+  change (independentC60IntegralCellularComplex.sc 2).iCycles
+    (independentC60H2FundamentalπIso.inv
+      independentC60H2FundamentalClass) = nativeP11FundamentalTwoChain
   rw [← (independentC60IntegralCellularComplex.sc 2).moduleCatCyclesIso_hom_i]
   change
     (independentC60H2ConcreteCycleIso.hom.hom
@@ -192,6 +197,10 @@ theorem transportedNativeP11OriginalH2Class_iCycles :
       (c60NativeH2FundamentalπIso.inv
         transportedNativeP11OriginalH2Class) =
       nativeP11ToOriginalFaceChain nativeP11FundamentalTwoChain := by
+  change (c60NativeIntegralCellularComplex.sc 2).iCycles
+    (c60NativeH2FundamentalπIso.inv
+      transportedNativeP11OriginalH2Class) =
+      nativeP11ToOriginalFaceChain nativeP11FundamentalTwoChain
   rw [← (c60NativeIntegralCellularComplex.sc 2).moduleCatCyclesIso_hom_i]
   change
     (c60NativeH2ConcreteCycleIso.hom.hom
@@ -259,8 +268,18 @@ theorem independentHistoricalC60H2_fundamental_sign :
               f (independentC60H2FundamentalπIso.inv
                 independentC60H2FundamentalClass))
             independentHistoricalC60H2_homologyπ_naturality
-          simpa only [ModuleCat.comp_apply,
-            independentC60H2FundamentalπIso.inv_hom_id_apply] using hn
+          have hround :
+              (independentC60IntegralCellularComplex.homologyπ 2)
+                (independentC60H2FundamentalπIso.inv
+                  independentC60H2FundamentalClass) =
+                independentC60H2FundamentalClass := by
+            change independentC60H2FundamentalπIso.hom
+              (independentC60H2FundamentalπIso.inv
+                independentC60H2FundamentalClass) = _
+            exact independentC60H2FundamentalπIso.inv_hom_id_apply _
+          simp only [ModuleCat.comp_apply] at hn
+          rw [hround] at hn
+          exact hn
     _ = (c60NativeIntegralCellularComplex.homologyπ 2)
           (c60NativeH2FundamentalπIso.inv
             transportedNativeP11OriginalH2Class) := by
