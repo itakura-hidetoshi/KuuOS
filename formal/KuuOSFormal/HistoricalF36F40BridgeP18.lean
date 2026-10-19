@@ -189,8 +189,16 @@ theorem independentC60H2Fundamental_iCycles :
       (independentC60H2FundamentalπIso.inv
         independentC60H2FundamentalClass)).val =
       nativeP11FundamentalTwoChain
-  simpa [independentC60H2ConcreteCycleIso,
-    independentC60IntegralCellularComplex_d21] using
+  have hg :
+      (independentC60IntegralCellularComplex.sc 2).g.hom =
+        nativeC60IntegralBoundaryTwo := by
+    change (independentC60IntegralCellularComplex.d 2
+      ((ComplexShape.down ℕ).next 2)).hom =
+        nativeC60IntegralBoundaryTwo
+    have hn : (ComplexShape.down ℕ).next 2 = 1 := by simp
+    rw [hn, independentC60IntegralCellularComplex_d21]
+    rfl
+  simpa [independentC60H2ConcreteCycleIso, hg] using
     congrArg Subtype.val hker
 
 /-- The historical H₂ class represented by the transported genuine
