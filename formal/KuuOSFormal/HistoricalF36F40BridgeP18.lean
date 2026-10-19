@@ -77,8 +77,8 @@ theorem independentHistoricalC60DegreeIso_comm (n : ℕ) :
           -- The unit and zero maps reduce definitionally after
           -- unfolding their actual ModuleCat linear-map carriers.
           simp [independentHistoricalC60DegreeIso,
-            c60NativeChainDifferential, independentC60ChainDifferential] <;>
-            rfl
+            c60NativeChainDifferential, independentC60ChainDifferential]
+          rfl
 
 /-- F112-P18 main chain-level result: a genuine mathlib isomorphism
 of whole chain complexes, with its inverse constructed by mathlib
