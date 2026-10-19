@@ -71,7 +71,7 @@ theorem independentHistoricalC60DegreeIso_comm (n : ℕ) :
           -- Use the category unit identity, not integer arithmetic.
           simp [independentHistoricalC60DegreeIso,
             c60NativeChainDifferential, independentC60ChainDifferential] <;>
-            simp only [Category.id_comp, comp_zero, zero_comp]
+            simp only [Category.id_comp]
 
 /-- F112-P18 main chain-level result: a genuine mathlib isomorphism
 of whole chain complexes, with its inverse constructed by mathlib
