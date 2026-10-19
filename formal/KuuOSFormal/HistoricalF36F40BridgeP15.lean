@@ -202,5 +202,7 @@ theorem nativeC60IntegralClosedTwoChainLinearEquiv_fundamental_roundtrip :
 #print axioms nativeC60IntegralClosedTwoChainLinearEquiv_fundamental
 #print axioms nativeC60IntegralClosedTwoChainLinearEquiv_fundamental_roundtrip
 
+-- Close the anonymous noncomputable section before the named namespaces.
+end
 end GenuineOriginalC60Geometry
 end KUOS.F112ActualHistoricalF36F40BridgeP4
