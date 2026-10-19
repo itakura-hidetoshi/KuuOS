@@ -120,6 +120,7 @@ theorem p19IndependentHistoricalCyclesMap_sign :
         (c60NativeIntegralCellularComplex.iCycles 2)
           (-c60NativeH2FundamentalCycle) := by
     rw [map_neg, p19HistoricalFundamentalCycle_iCycles]
+    rfl
   exact hnat.trans (htransport.trans htarget)
 
 /-- The direct fundamental class in the actual independent
