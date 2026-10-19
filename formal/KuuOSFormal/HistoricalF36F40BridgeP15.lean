@@ -135,8 +135,10 @@ theorem originalClosedTwoChain_reverse_mem_native_kernel
     (hh : h ∈ c60IntegralBoundaryTwo.ker) :
     originalFaceChainToNativeP11 h ∈ nativeC60IntegralBoundaryTwo.ker := by
   change nativeC60IntegralBoundaryTwo (originalFaceChainToNativeP11 h) = 0
-  rw [nativeC60IntegralBoundaryTwo_commutes,
-    nativeP11ToOriginalFaceChain_right_inv]
+  rw [nativeC60IntegralBoundaryTwo_commutes]
+  change c60IntegralBoundaryTwo
+    (nativeP11ToOriginalFaceChain (originalFaceChainToNativeP11 h)) = 0
+  rw [nativeP11ToOriginalFaceChain_right_inv]
   exact hh
 
 /-- F112-P15 central result: the ENTIRE native integral 2-cycle
