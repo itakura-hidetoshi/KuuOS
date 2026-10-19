@@ -189,7 +189,8 @@ theorem independentC60H2Fundamental_iCycles :
       (independentC60H2FundamentalπIso.inv
         independentC60H2FundamentalClass)).val =
       nativeP11FundamentalTwoChain
-  simpa only [independentC60H2ConcreteCycleIso] using
+  simpa [independentC60H2ConcreteCycleIso,
+    independentC60IntegralCellularComplex_d21] using
     congrArg Subtype.val hker
 
 /-- The historical H₂ class represented by the transported genuine
@@ -229,24 +230,18 @@ theorem independentHistoricalC60CyclesMap_fundamental :
         independentC60H2FundamentalClass))
     (HomologicalComplex.cyclesMap_i
       independentHistoricalC60ChainIso.hom 2)
-  calc
-    (c60NativeIntegralCellularComplex.iCycles 2)
-      (HomologicalComplex.cyclesMap independentHistoricalC60ChainIso.hom 2
-        (independentC60H2FundamentalπIso.inv
-          independentC60H2FundamentalClass)) =
-        (independentHistoricalC60ChainIso.hom.f 2)
-          ((independentC60IntegralCellularComplex.iCycles 2)
-            (independentC60H2FundamentalπIso.inv
-              independentC60H2FundamentalClass)) := by
-              simpa only [ModuleCat.comp_apply] using hnatural
-    _ = nativeP11ToOriginalFaceChain nativeP11FundamentalTwoChain := by
-      rw [independentC60H2Fundamental_iCycles]
-      exact independentHistoricalC60ChainIso_fundamental_sign.trans
-        nativeP11ToOriginalFaceChain_fundamental.symm
-    _ = (c60NativeIntegralCellularComplex.iCycles 2)
-        (c60NativeH2FundamentalπIso.inv
-          transportedNativeP11OriginalH2Class) :=
-      transportedNativeP11OriginalH2Class_iCycles.symm
+  have hcycle := independentC60H2Fundamental_iCycles
+  have htransport := transportedNativeP11OriginalH2Class_iCycles
+  have hface :
+      (independentHistoricalC60ChainIso.hom.f 2)
+        nativeP11FundamentalTwoChain =
+      nativeP11ToOriginalFaceChain nativeP11FundamentalTwoChain := by
+    exact independentHistoricalC60ChainIso_fundamental_sign.trans
+      nativeP11ToOriginalFaceChain_fundamental.symm
+  simp only [ModuleCat.comp_apply] at hnatural
+  rw [hcycle] at hnatural
+  rw [hface] at hnatural
+  exact hnatural.trans htransport.symm
 
 /-- P18 signed HOMOLOGY theorem, stronger than the previously proved
 chain-level sign: the functorially induced H₂ morphism maps the
