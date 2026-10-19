@@ -41,12 +41,20 @@ theorem p20DirectFundamentalClass_concrete_val :
     (independentC60H2ConcreteCycleIso.hom.hom
       p19IndependentFundamentalClass).val =
         nativeP11FundamentalTwoChain := by
-  change
-    ((independentC60IntegralCellularComplex.sc 2).moduleCatCyclesIso.hom.hom
-      (independentC60H2FundamentalπIso.inv.hom
-        ((independentC60IntegralCellularComplex.homologyπ 2)
-          p19IndependentFundamentalCycle))).val =
-            nativeP11FundamentalTwoChain
+  -- P17's concrete-kernel isomorphism was transported through a
+  -- propositional equality of kernels. The two arrows cannot be
+  -- interchanged by `change` (which requires definitional equality).
+  have hcompat :
+      (independentC60H2ConcreteCycleIso.hom.hom
+        p19IndependentFundamentalClass).val =
+      ((independentC60IntegralCellularComplex.sc 2).moduleCatCyclesIso.hom.hom
+        (independentC60H2FundamentalπIso.inv.hom
+          ((independentC60IntegralCellularComplex.homologyπ 2)
+            p19IndependentFundamentalCycle))).val := by
+    simp [independentC60H2ConcreteCycleIso,
+      p19IndependentFundamentalClass,
+      independentC60IntegralCellularComplex_d21]
+  rw [hcompat]
   have hπ :
       independentC60H2FundamentalπIso.inv.hom
         ((independentC60IntegralCellularComplex.homologyπ 2)
