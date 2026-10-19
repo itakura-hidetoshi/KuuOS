@@ -75,7 +75,8 @@ theorem independentHistoricalC60DegreeIso_comm (n : ℕ) :
           apply LinearMap.ext
           intro c
           simp [independentHistoricalC60DegreeIso,
-            c60NativeChainDifferential, independentC60ChainDifferential]
+            c60NativeChainDifferential, independentC60ChainDifferential] <;>
+            simp only [ModuleCat.id_apply]
 
 /-- F112-P18 main chain-level result: a genuine mathlib isomorphism
 of whole chain complexes, with its inverse constructed by mathlib
