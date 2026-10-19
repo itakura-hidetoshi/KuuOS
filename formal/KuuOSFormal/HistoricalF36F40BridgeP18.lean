@@ -260,13 +260,13 @@ theorem independentHistoricalC60H2_fundamental_sign :
                 independentC60H2FundamentalClass))
             independentHistoricalC60H2_homologyπ_naturality
           simpa only [ModuleCat.comp_apply,
-            independentC60H2FundamentalπIso.hom_inv_id_apply] using hn
+            independentC60H2FundamentalπIso.inv_hom_id_apply] using hn
     _ = (c60NativeIntegralCellularComplex.homologyπ 2)
           (c60NativeH2FundamentalπIso.inv
             transportedNativeP11OriginalH2Class) := by
             rw [independentHistoricalC60CyclesMap_fundamental]
     _ = transportedNativeP11OriginalH2Class :=
-      c60NativeH2FundamentalπIso.hom_inv_id_apply _
+      c60NativeH2FundamentalπIso.inv_hom_id_apply _
     _ = -c60NativeH2FundamentalClass :=
       transportedNativeP11OriginalH2Class_eq_neg
 
