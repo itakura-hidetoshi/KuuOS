@@ -108,7 +108,7 @@ relationWordShift [generation, control]
 
 ```sh
 lake exe cache get
-lake build +KUOS.Architecture.QiWuxingCyclicGroupPathsV3_1:olean
+lake lean formal/KUOS/Architecture/QiWuxingCyclicGroupPathsV3_1.lean -- -DwarningAsError=true -DsorryAsError=true
 lake build KuuOSFormal
 ```
 
