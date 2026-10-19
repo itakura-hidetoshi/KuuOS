@@ -265,8 +265,6 @@ def exactUniversalRealizedRoundtripCounit :
     -- inside-out here; unlike `rw`, it can normalize these dependent
     -- subterms without constructing an ill-typed global rewrite motive.
     simp only [
-      exactUniversalRealizedRoundtrip_map_hom,
-      exactUniversalRealizedIdentityPseudofunctor_map_hom,
       CategoryTheory.Bicategory.InducedBicategory.bicategory_comp_hom]
     bicategory
 

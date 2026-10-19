@@ -95,7 +95,7 @@ theorem identityNaturality {a b : B} (f : a ⟶ b) :
         (λ_ (H.map (F.map f))).inv ≫
         (H.mapId (F.obj a)).inv ▷ H.map (F.map f) ≫
         (H.mapId (F.obj a)).hom ▷ H.map (F.map f)
-  simp only [Category.assoc, Bicategory.inv_hom_whiskerRight,
+  simp only [Bicategory.inv_hom_whiskerRight,
     Category.comp_id]
 
 /-- The postcomposed identity StrongTrans is canonically isomorphic to the
