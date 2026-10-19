@@ -154,6 +154,19 @@ noncomputable def independentC60H2KernelPresentationIso :
     (LinearMap.ker nativeC60IntegralBoundaryTwo)
     independentC60H2KernelSubmodule_eq).toModuleIso
 
+/-- The explicit Mathlib equality-of-submodules equivalence does not
+alter the underlying signed integer polygon chain. -/
+@[simp] theorem independentC60H2KernelPresentationIso_val
+    (z : LinearMap.ker
+      (independentC60IntegralCellularComplex.sc 2).g.hom) :
+    (independentC60H2KernelPresentationIso.hom.hom z).val = z.val := by
+  change ((LinearEquiv.ofEq
+    (LinearMap.ker (independentC60IntegralCellularComplex.sc 2).g.hom)
+    (LinearMap.ker nativeC60IntegralBoundaryTwo)
+    independentC60H2KernelSubmodule_eq) z :
+      NativeC60IntegralTwoChains) = z.val
+  exact LinearEquiv.coe_ofEq_apply independentC60H2KernelSubmodule_eq z
+
 /-- Actual categorical H₂-to-native-kernel isomorphism, factored
 through the explicit, underlying-chain-preserving kernel equivalence. -/
 def independentC60H2ConcreteCycleIso :
@@ -247,6 +260,7 @@ theorem independentC60H2FundamentalClass_infinite_order :
 #print axioms independentC60H2FundamentalπIso
 #print axioms independentC60H2KernelSubmodule_eq
 #print axioms independentC60H2KernelPresentationIso
+#print axioms independentC60H2KernelPresentationIso_val
 #print axioms independentC60H2ConcreteCycleIso
 #print axioms independentC60H2IsoInteger
 #print axioms independentC60H2FundamentalClass
