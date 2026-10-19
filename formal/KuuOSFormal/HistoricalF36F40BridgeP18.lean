@@ -53,11 +53,12 @@ theorem independentHistoricalC60DegreeIso_comm (n : ℕ) :
       (independentHistoricalC60DegreeIso n).hom := by
   cases n with
   | zero =>
-      -- The two common degree-1/0 carriers are definitionally the
-      -- *same* ModuleCat objects; close their categorical unit laws.
-      simp [independentHistoricalC60DegreeIso,
-        c60NativeChainDifferential, independentC60ChainDifferential] <;>
-        simp only [Category.id_comp, Category.comp_id]
+      -- Category-level units can conceal different reducible ModuleCat
+      -- presentations; prove the equality of the underlying linear maps.
+      apply ModuleCat.hom_ext
+      apply LinearMap.ext
+      intro c
+      rfl
   | succ n =>
       cases n with
       | zero =>
@@ -67,11 +68,14 @@ theorem independentHistoricalC60DegreeIso_comm (n : ℕ) :
             nativeC60IntegralBoundaryTwo
           exact nativeC60IntegralBoundaryTwo_commutes.symm
       | succ n =>
-          -- All differentials from degree three upwards are zero.
-          -- Use the category unit identity, not integer arithmetic.
+          -- Both differentials are zero at all degrees >= 3.
+          -- Pointwise computation also covers the n=0 case where
+          -- the degree-two target change of basis is nontrivial.
+          apply ModuleCat.hom_ext
+          apply LinearMap.ext
+          intro c
           simp [independentHistoricalC60DegreeIso,
-            c60NativeChainDifferential, independentC60ChainDifferential] <;>
-            simp only [Category.id_comp]
+            c60NativeChainDifferential, independentC60ChainDifferential]
 
 /-- F112-P18 main chain-level result: a genuine mathlib isomorphism
 of whole chain complexes, with its inverse constructed by mathlib
