@@ -66,7 +66,8 @@ jobs:
       - name: Strict targeted compilation of both v3.1 modules
         run: |
           set -euo pipefail
-          lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build \
-            +KUOS.Architecture.QiWuxingCyclicGroupPathsV3_1:olean \
-            +KuuOSQiWuxingCyclicGroupPathsV3_1:olean
+          lake lean formal/KUOS/Architecture/QiWuxingCyclicGroupPathsV3_1.lean -- \
+            -DwarningAsError=true -DsorryAsError=true
+          lake lean formal/KuuOSQiWuxingCyclicGroupPathsV3_1.lean -- \
+            -DwarningAsError=true -DsorryAsError=true
           git diff --exit-code -- lake-manifest.json lean-toolchain
