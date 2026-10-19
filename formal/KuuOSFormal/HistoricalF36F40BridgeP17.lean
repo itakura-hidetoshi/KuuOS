@@ -136,17 +136,12 @@ def independentC60H2ConcreteCycleIso :
   -- Normalize the type via the P17 degree-two ChainComplex.of_d identity.
   convert (independentC60H2FundamentalπIso.symm ≪≫
     (independentC60IntegralCellularComplex.sc 2).moduleCatCyclesIso) using 1
-  -- The only residual equality is of the two concrete ModuleCat kernels.
-  simp only [ShortComplex.moduleCatLeftHomologyData_K]
-  first
-  | rfl
-  | simp [HomologicalComplex.sc, HomologicalComplex.shortComplexFunctor,
-      HomologicalComplex.shortComplexFunctor'_obj_g,
-      independentC60IntegralCellularComplex,
-      independentC60ChainObjects, independentC60ChainDifferential]
-  | simp [independentC60IntegralCellularComplex_d21,
-      independentC60IntegralCellularComplex, independentC60ChainObjects,
-      independentC60ChainDifferential]
+  -- Normalize the exact outgoing index before interpreting the kernel
+  -- as a concrete native Finsupp submodule. This also preserves the
+  -- canonical additive-group and integer-module structures on the kernel.
+  have hn : (ComplexShape.down ℕ).next 2 = 1 := by simp
+  simp only [ShortComplex.moduleCatLeftHomologyData_K, hn,
+    independentC60IntegralCellularComplex_d21]
 
 /-- F112-P17 main result: REAL categorical second homology of the
 independent-polygon 32-face C60 chain complex is canonically Z,
@@ -198,9 +193,25 @@ theorem independentC60H2FundamentalClass_infinite_order :
       (a • independentC60H2FundamentalClass) =
     independentC60H2IsoInteger.hom.hom
       (b • independentC60H2FundamentalClass) at hh
-  simpa only [(independentC60H2IsoInteger.hom.hom).map_smul,
-    independentC60H2FundamentalClass_coordinate,
-    smul_eq_mul, mul_one] using hh
+  have ha :
+      independentC60H2IsoInteger.hom.hom
+        (a • independentC60H2FundamentalClass) = a := by
+    calc
+      _ = a • independentC60H2IsoInteger.hom.hom
+          independentC60H2FundamentalClass :=
+        (independentC60H2IsoInteger.hom.hom).map_smul a _
+      _ = a • (1 : ℤ) := by rw [independentC60H2FundamentalClass_coordinate]
+      _ = a := by simp
+  have hb :
+      independentC60H2IsoInteger.hom.hom
+        (b • independentC60H2FundamentalClass) = b := by
+    calc
+      _ = b • independentC60H2IsoInteger.hom.hom
+          independentC60H2FundamentalClass :=
+        (independentC60H2IsoInteger.hom.hom).map_smul b _
+      _ = b • (1 : ℤ) := by rw [independentC60H2FundamentalClass_coordinate]
+      _ = b := by simp
+  exact ha.symm.trans (hh.trans hb)
 
 #print axioms independentC60ChainObjects
 #print axioms independentC60ChainDifferential
