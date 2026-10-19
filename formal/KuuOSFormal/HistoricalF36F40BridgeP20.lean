@@ -52,8 +52,8 @@ theorem p20DirectFundamentalClass_concrete_val :
           ((independentC60IntegralCellularComplex.homologyπ 2)
             p19IndependentFundamentalCycle))).val := by
     simp [independentC60H2ConcreteCycleIso,
-      p19IndependentFundamentalClass,
-      independentC60IntegralCellularComplex_d21]
+      independentC60H2KernelPresentationIso,
+      p19IndependentFundamentalClass]
   rw [hcompat]
   have hπ :
       independentC60H2FundamentalπIso.inv.hom
@@ -67,6 +67,8 @@ theorem p20DirectFundamentalClass_concrete_val :
     exact independentC60H2FundamentalπIso.hom_inv_id_apply _
   rw [hπ]
   have h := p19IndependentFundamentalCycle_iCycles
+  change (independentC60IntegralCellularComplex.sc 2).iCycles
+    p19IndependentFundamentalCycle = nativeP11FundamentalTwoChain at h
   rw [← (independentC60IntegralCellularComplex.sc 2).moduleCatCyclesIso_hom_i] at h
   change
     ((independentC60IntegralCellularComplex.sc 2).moduleCatCyclesIso.hom.hom
