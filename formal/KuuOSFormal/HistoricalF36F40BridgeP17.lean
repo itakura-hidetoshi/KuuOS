@@ -136,12 +136,16 @@ def independentC60H2ConcreteCycleIso :
   -- Normalize the type via the P17 degree-two ChainComplex.of_d identity.
   convert (independentC60H2FundamentalπIso.symm ≪≫
     (independentC60IntegralCellularComplex.sc 2).moduleCatCyclesIso) using 1
-  -- Normalize the exact outgoing index before interpreting the kernel
-  -- as a concrete native Finsupp submodule. This also preserves the
-  -- canonical additive-group and integer-module structures on the kernel.
+  -- Convert the abstract short-complex kernel to the differential d₂,
+  -- then use the verified categorical ChainComplex.of_d equation.
+  simp only [ShortComplex.moduleCatLeftHomologyData_K]
+  change ModuleCat.of ℤ (LinearMap.ker nativeC60IntegralBoundaryTwo) =
+    ModuleCat.of ℤ (LinearMap.ker
+      (independentC60IntegralCellularComplex.d 2
+        ((ComplexShape.down ℕ).next 2)).hom)
   have hn : (ComplexShape.down ℕ).next 2 = 1 := by simp
-  simp only [ShortComplex.moduleCatLeftHomologyData_K, hn,
-    independentC60IntegralCellularComplex_d21]
+  rw [hn, independentC60IntegralCellularComplex_d21]
+  rfl
 
 /-- F112-P17 main result: REAL categorical second homology of the
 independent-polygon 32-face C60 chain complex is canonically Z,
@@ -193,25 +197,25 @@ theorem independentC60H2FundamentalClass_infinite_order :
       (a • independentC60H2FundamentalClass) =
     independentC60H2IsoInteger.hom.hom
       (b • independentC60H2FundamentalClass) at hh
-  have ha :
+  have hf (n : ℤ) :
       independentC60H2IsoInteger.hom.hom
-        (a • independentC60H2FundamentalClass) = a := by
-    calc
-      _ = a • independentC60H2IsoInteger.hom.hom
-          independentC60H2FundamentalClass :=
-        (independentC60H2IsoInteger.hom.hom).map_smul a _
-      _ = a • (1 : ℤ) := by rw [independentC60H2FundamentalClass_coordinate]
-      _ = a := by simp
-  have hb :
-      independentC60H2IsoInteger.hom.hom
-        (b • independentC60H2FundamentalClass) = b := by
-    calc
-      _ = b • independentC60H2IsoInteger.hom.hom
-          independentC60H2FundamentalClass :=
-        (independentC60H2IsoInteger.hom.hom).map_smul b _
-      _ = b • (1 : ℤ) := by rw [independentC60H2FundamentalClass_coordinate]
-      _ = b := by simp
-  exact ha.symm.trans (hh.trans hb)
+        (n • independentC60H2FundamentalClass) =
+      n • independentC60H2IsoInteger.hom.hom
+        independentC60H2FundamentalClass := by
+    have hlinear :=
+      (independentC60H2IsoInteger.hom.hom).map_smul
+        n independentC60H2FundamentalClass
+    rw [int_smul_eq_zsmul
+        (inferInstance : Module ℤ
+          (independentC60IntegralCellularComplex.homology 2))
+        n independentC60H2FundamentalClass] at hlinear
+    rw [int_smul_eq_zsmul
+        (inferInstance : Module ℤ ℤ)
+        n (independentC60H2IsoInteger.hom.hom
+          independentC60H2FundamentalClass)] at hlinear
+    exact hlinear
+  rw [hf a, hf b, independentC60H2FundamentalClass_coordinate] at hh
+  simpa using hh
 
 #print axioms independentC60ChainObjects
 #print axioms independentC60ChainDifferential
