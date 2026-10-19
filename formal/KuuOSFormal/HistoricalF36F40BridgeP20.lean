@@ -33,7 +33,6 @@ theorem p20DirectClass_concreteKernel :
         nativeP11FundamentalTwoChain_mem_new_kernel⟩ :
         LinearMap.ker nativeC60IntegralBoundaryTwo) := by
   apply Subtype.ext
-  unfold p19IndependentFundamentalClass
   -- P17's concrete-kernel isomorphism was transported through a
   -- propositional equality of kernels. The two arrows cannot be
   -- interchanged by `change` (which requires definitional equality).
@@ -44,10 +43,9 @@ theorem p20DirectClass_concreteKernel :
         (independentC60H2FundamentalπIso.inv.hom
           ((independentC60IntegralCellularComplex.homologyπ 2)
             p19IndependentFundamentalCycle))).val := by
-    unfold p19IndependentFundamentalClass
-    unfold independentC60H2ConcreteCycleIso
-    dsimp
-    rfl
+    simp [independentC60H2ConcreteCycleIso,
+      independentC60H2KernelPresentationIso,
+      p19IndependentFundamentalClass]
   rw [hcompat]
   change
     ((independentC60IntegralCellularComplex.sc 2).moduleCatCyclesIso.hom.hom
