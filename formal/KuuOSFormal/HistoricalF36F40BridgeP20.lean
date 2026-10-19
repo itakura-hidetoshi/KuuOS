@@ -18,6 +18,7 @@ open CategoryTheory Limits
 open KUOS.DependentOriginationGrayC60IntegralBoundaryLinearMapV5_159
 open KUOS.DependentOriginationGrayC60IntegralChainComplexV5_160
 open KUOS.DependentOriginationGrayC60NativeChainComplexV5_160
+open KUOS.DependentOriginationGrayC60NativeH2FundamentalClassV5_161
 
 set_option autoImplicit false
 set_option warningAsError true
@@ -33,12 +34,21 @@ theorem p20DirectClass_concreteKernel :
         LinearMap.ker nativeC60IntegralBoundaryTwo) := by
   apply Subtype.ext
   unfold p19IndependentFundamentalClass
-  change
-    ((independentC60IntegralCellularComplex.sc 2).moduleCatCyclesIso.hom.hom
-      (independentC60H2FundamentalπIso.inv
-        ((independentC60IntegralCellularComplex.homologyπ 2)
-          p19IndependentFundamentalCycle))).val =
-        nativeP11FundamentalTwoChain
+  -- P17's concrete-kernel isomorphism was transported through a
+  -- propositional equality of kernels. The two arrows cannot be
+  -- interchanged by `change` (which requires definitional equality).
+  have hcompat :
+      (independentC60H2ConcreteCycleIso.hom.hom
+        p19IndependentFundamentalClass).val =
+      ((independentC60IntegralCellularComplex.sc 2).moduleCatCyclesIso.hom.hom
+        (independentC60H2FundamentalπIso.inv.hom
+          ((independentC60IntegralCellularComplex.homologyπ 2)
+            p19IndependentFundamentalCycle))).val := by
+    unfold p19IndependentFundamentalClass
+    unfold independentC60H2ConcreteCycleIso
+    dsimp
+    rfl
+  rw [hcompat]
   change
     ((independentC60IntegralCellularComplex.sc 2).moduleCatCyclesIso.hom.hom
       (independentC60H2FundamentalπIso.inv
