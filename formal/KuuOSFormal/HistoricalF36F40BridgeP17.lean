@@ -205,15 +205,9 @@ theorem independentC60H2FundamentalClass_infinite_order :
     have hlinear :=
       (independentC60H2IsoInteger.hom.hom).map_smul
         n independentC60H2FundamentalClass
-    rw [int_smul_eq_zsmul
-        (inferInstance : Module ℤ
-          (independentC60IntegralCellularComplex.homology 2))
-        n independentC60H2FundamentalClass] at hlinear
-    rw [int_smul_eq_zsmul
-        (inferInstance : Module ℤ ℤ)
-        n (independentC60H2IsoInteger.hom.hom
-          independentC60H2FundamentalClass)] at hlinear
-    exact hlinear
+    first
+    | exact hlinear
+    | simpa only [int_smul_eq_zsmul] using hlinear
   rw [hf a, hf b, independentC60H2FundamentalClass_coordinate] at hh
   simpa using hh
 
