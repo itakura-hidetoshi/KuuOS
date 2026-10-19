@@ -1,21 +1,13 @@
 #!/usr/bin/env bash
-# Compile internal Kuu modules explicitly with the pinned Lean toolchain.
+# Compile only the independent Kuu import subgraph, using the pinned Lake
+# dependency graph instead of manually building .olean files.
 #
-# They are intentionally NOT additional public Lake roots. 'lake lean <file>'
-# elaborates a source in the project context, and '-o' writes its importable
-# .olean so the next internal file can import it on a clean checkout.
+# This is an incremental compilation target, not a new public theorem root.
+# The library's leanOptions already enables warningAsError=true. Lean v4.30.0-rc2
+# does NOT have a -DsorryAsError option. The foundation boundary checker and
+# theorem #print axioms audit enforce the no-sorry/no-new-axiom policy.
 set -euo pipefail
 
-mkdir -p .lake/build/lib/lean/Kuu
-
-for name in Presentation Strict Incidence Checks; do
-  lake lean "formal/Kuu/${name}.lean" -- \
-    -DwarningAsError=true -DsorryAsError=true \
-    -o ".lake/build/lib/lean/Kuu/${name}.olean"
-done
-
-lake lean formal/KuuOSStrict.lean -- \
-  -DwarningAsError=true -DsorryAsError=true \
-  -o .lake/build/lib/lean/KuuOSStrict.olean
+lake build +KuuOSStrict
 
 git diff --exit-code -- lake-manifest.json lean-toolchain lakefile.toml
