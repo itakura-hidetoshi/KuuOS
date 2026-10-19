@@ -185,10 +185,12 @@ theorem independentC60H2Fundamental_iCycles :
       independentC60H2FundamentalClass) = nativeP11FundamentalTwoChain
   rw [← (independentC60IntegralCellularComplex.sc 2).moduleCatCyclesIso_hom_i]
   change
-    (independentC60H2ConcreteCycleIso.hom.hom
-      independentC60H2FundamentalClass).val =
+    ((independentC60IntegralCellularComplex.sc 2).moduleCatCyclesIso.hom.hom
+      (independentC60H2FundamentalπIso.inv
+        independentC60H2FundamentalClass)).val =
       nativeP11FundamentalTwoChain
-  exact congrArg Subtype.val hker
+  simpa only [independentC60H2ConcreteCycleIso] using
+    congrArg Subtype.val hker
 
 /-- The historical H₂ class represented by the transported genuine
 native surface is exactly its signed historical integer 2-cycle. -/
@@ -208,7 +210,6 @@ theorem transportedNativeP11OriginalH2Class_iCycles :
       nativeP11ToOriginalFaceChain nativeP11FundamentalTwoChain
   unfold transportedNativeP11OriginalH2Class
   rw [Iso.inv_hom_id_apply]
-  rfl
 
 /-- The cycles map induced by the actual signed chain isomorphism
 carries the genuine P11 fundamental cycle to the historical cycle.
