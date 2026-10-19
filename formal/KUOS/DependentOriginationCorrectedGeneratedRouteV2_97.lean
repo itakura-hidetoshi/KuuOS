@@ -106,7 +106,7 @@ noncomputable def correctedGeneratedRouteWitness_of_correctable
       corrected_evaluation := ?_ }
   rw [witness.2.2, generatedLocalization2CellDifference_holonomy]
   apply Iso.ext
-  simp [Iso.trans_hom, Category.assoc]
+  simp
 
 /-- Proposition-level form: a generated route pair is correction-repairable
 exactly when the difference-loop holonomy is reachable by the supplied
