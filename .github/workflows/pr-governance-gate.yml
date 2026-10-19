@@ -136,31 +136,37 @@ jobs:
               and {x.get("id") for x in selected if isinstance(x, dict)}
                   == {"lean-formal"} | {x["id"] for x in py}
           )
-          # Heavy original F47 imports must receive a realistic deadline even
-          # when a P15 PR repairs several preserved historical source modules.
-          # The single-file fastpath classification above is independent:
-          # this guard only changes the time budget, NOT selected Lean targets,
-          # kernel checking, warning severity, or axiom verification.
+          # Any F112 historical bridge that transitively imports actual
+          # F47 needs the heavy dependency budget, including P16, P17, etc.
+          # This affects only the deadline: ALL selected Lean targets,
+          # kernel validation, warning severity, and axioms remain unchanged.
           changed = s.get("changed_paths", [])
           if not isinstance(changed, list) or not all(isinstance(x, str) for x in changed):
               raise SystemExit("invalid changed_paths for F47 workload classification")
-          original_p4 = Path("formal/KuuOSFormal/HistoricalF36F40BridgeP4.lean")
-          original_p15 = Path("formal/KuuOSFormal/HistoricalF36F40BridgeP15.lean")
-          original_imports = set(original_p4.read_text(encoding="utf-8").splitlines())
-          p15_depends_p4 = (
-              original_p15.is_file()
-              and "import KuuOSFormal.HistoricalF36F40BridgeP4"
-                  in original_p15.read_text(encoding="utf-8").splitlines()
-          )
-          changed_set = set(changed)
-          heavy_f47 = (
-              "import KUOS.DependentOriginationGrayC60MixedBoundaryThreeHomV5_195"
-                  in original_imports
-              and (
-                  fast
-                  or str(original_p4) in changed_set
-                  or (str(original_p15) in changed_set and p15_depends_p4)
-              )
+          f47_import = "import KUOS.DependentOriginationGrayC60MixedBoundaryThreeHomV5_195"
+          bridge_prefix = "import KuuOSFormal.HistoricalF36F40BridgeP"
+
+          def reaches_original_f47(path: Path, visited: set[Path]) -> bool:
+              if path in visited:
+                  return False
+              visited.add(path)
+              if not path.is_file():
+                  return False
+              lines = path.read_text(encoding="utf-8").splitlines()
+              if f47_import in lines:
+                  return True
+              for line in lines:
+                  if line.startswith(bridge_prefix):
+                      module = line.removeprefix("import ").strip()
+                      imported = Path("formal") / Path(*module.split(".")).with_suffix(".lean")
+                      if reaches_original_f47(imported, visited):
+                          return True
+              return False
+
+          heavy_f47 = fast or any(
+              reaches_original_f47(Path(path), set())
+              for path in changed
+              if path.startswith("formal/KuuOSFormal/HistoricalF36F40BridgeP")
           )
           with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as f:
               f.write(f"enabled={str(fast).lower()}\n")
