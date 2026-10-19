@@ -124,7 +124,7 @@ instance actualLiftHomFunctor_full
       ExactLiftableClassificationObject.{u, v, uH, vH, uW, uP}
         (W := W) A WorldLabel PresentationLabel) :
     (actualLiftHomFunctor (W := W) A X Y).Full where
-  map_surjective {f g} eta :=
+  map_surjective {_f _g} eta :=
     ⟨eta, rfl⟩
 
 /-! ## Essential surjectivity on 1-cells -/

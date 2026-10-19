@@ -106,9 +106,7 @@ noncomputable def restrictHigherLocalizedStrongTrans
   naturality f :=
     alpha.naturality ((higherPresentationUnitFunctor W).toPseudofunctor.map f)
   naturality_naturality η := by
-    simpa [restrictHigherLocalizedSystem] using
-      alpha.naturality_naturality
-        ((higherPresentationUnitFunctor W).toPseudofunctor.map₂ η)
+    simp [restrictHigherLocalizedSystem]
   naturality_id a := by
     apply Cat.Hom₂.ext
     simp [restrictHigherLocalizedSystem,

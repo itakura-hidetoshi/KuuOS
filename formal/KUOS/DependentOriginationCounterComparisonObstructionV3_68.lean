@@ -99,7 +99,7 @@ system. -/
 scalar.  The fiber vertex is retained so the composition rewrite below matches
 the exact dependent category instance appearing in Stage-II naturality. -/
 def counterSystemHomScalar
-    (X : OctahedralVertex) (p : C2) : C2 :=
+    (_X : OctahedralVertex) (p : C2) : C2 :=
   p
 
 /-- Scalarization reverses composition in the exact raw fiber category. -/

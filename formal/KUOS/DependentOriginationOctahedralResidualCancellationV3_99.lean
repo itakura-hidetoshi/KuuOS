@@ -315,7 +315,7 @@ theorem counterFactorization_localizedResidual_eq_zero
           counterFactorizationTwiceMappedPairAdd H A0 A1) := by
       ac_rfl
     _ = 0 := by
-      simp only [CharTwo.add_self_eq_zero, zero_add, add_zero]
+      simp only [CharTwo.add_self_eq_zero]
 
 theorem counterFactorizationRawEightCompositorAdd_eq_localized
     (H : HigherLocalizationFactorization

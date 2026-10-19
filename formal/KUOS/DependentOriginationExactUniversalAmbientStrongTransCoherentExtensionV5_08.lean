@@ -563,7 +563,7 @@ theorem higherLocalizedCanonicalStrongTransNaturalityOnSource_comp_coherence
   rw [higherLocalizedStrongTransNaturality_comp_hom]
   simp only
     [Category.assoc, Bicategory.whiskerLeft_inv_hom,
-      Iso.inv_hom_id_assoc, Category.comp_id]
+      Category.comp_id]
 
 /-- The four nonautomatic v4.96 one-cell coherence fields are canonically
 realized by the quotient-independent v5.07 naturality family. -/

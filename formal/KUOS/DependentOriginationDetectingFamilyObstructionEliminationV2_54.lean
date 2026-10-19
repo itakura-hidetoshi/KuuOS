@@ -158,7 +158,7 @@ naturality square admits a detecting family with subsingleton probe homs. -/
 def StoredV2_18NaturalityDetectingTargetFamily
     {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H K : HigherLocalizationFactorization (W := W) R}
-    (alpha : HigherLocalizationFactorMorphism (W := W) H K) : Prop :=
+    (_alpha : HigherLocalizationFactorMorphism (W := W) H K) : Prop :=
   ∀ {X Y : Context} (f : X ⟶ Y),
     CatHom₂DetectingTargetFamily
       (H.comparison.app (.mk X) ≫ R.map f.toLoc)

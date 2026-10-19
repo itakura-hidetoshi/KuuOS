@@ -128,8 +128,8 @@ def routeStep02 :
       (rawPath a01 ≫ rawPath b10)
       (rawPath a01 ≫ rawPath b11 ≫ inversePath b11 ≫ rawPath b10) := by
   exact counterReendpointCell
-    (by simp only [Category.assoc, Category.comp_id, Category.id_comp])
-    (by simp only [Category.assoc, Category.comp_id, Category.id_comp])
+    (by simp only [Category.comp_id])
+    (by simp only [Category.assoc])
     (generatedLocalization2CellWhiskerRight allMorphisms (rawPath b10)
       (generatedLocalization2CellWhiskerLeft allMorphisms (rawPath a01)
         (GeneratedLocalization2Cell.symm (forwardInverseCell b11))))
@@ -141,7 +141,7 @@ def routeStep03 :
       (rawPath (a01 ≫ b11) ≫ inversePath b11 ≫ rawPath b10) := by
   exact counterReendpointCell
     (by simp only [Category.assoc])
-    (by simp only [Category.assoc])
+    (by simp only [])
     (generatedLocalization2CellWhiskerRight allMorphisms
       (inversePath b11 ≫ rawPath b10)
       (GeneratedLocalization2Cell.symm (compositionCell a01 b11)))
@@ -153,8 +153,8 @@ def routeStep04 :
       (rawPath (a01 ≫ b11) ≫ inversePath b11 ≫ rawPath b10)
       (rawPath (a00 ≫ b01) ≫ inversePath b11 ≫ rawPath b10) := by
   exact counterReendpointCell
-    (by simp only [Category.assoc])
-    (by simp only [Category.assoc])
+    (by simp only [])
+    (by simp only [])
     (generatedLocalization2CellWhiskerRight allMorphisms
       (inversePath b11 ≫ rawPath b10)
       (parallelArrowCell (a01 ≫ b11) (a00 ≫ b01)))
@@ -165,7 +165,7 @@ def routeStep05 :
       (rawPath (a00 ≫ b01) ≫ inversePath b11 ≫ rawPath b10)
       (rawPath a00 ≫ rawPath b01 ≫ inversePath b11 ≫ rawPath b10) := by
   exact counterReendpointCell
-    (by simp only [Category.assoc])
+    (by simp only [])
     (by simp only [Category.assoc])
     (generatedLocalization2CellWhiskerRight allMorphisms
       (inversePath b11 ≫ rawPath b10)
@@ -178,8 +178,8 @@ def routeStep06 :
       (rawPath a00 ≫ inversePath a10 ≫ rawPath a10 ≫ rawPath b01 ≫
         inversePath b11 ≫ rawPath b10) := by
   exact counterReendpointCell
-    (by simp only [Category.assoc, Category.comp_id, Category.id_comp])
-    (by simp only [Category.assoc, Category.comp_id, Category.id_comp])
+    (by simp only [Category.comp_id])
+    (by simp only [Category.assoc])
     (generatedLocalization2CellWhiskerRight allMorphisms
       (rawPath b01 ≫ inversePath b11 ≫ rawPath b10)
       (generatedLocalization2CellWhiskerLeft allMorphisms (rawPath a00)
@@ -241,8 +241,8 @@ def routeStep10 :
         inversePath b11 ≫ rawPath b10)
       (rawPath a00 ≫ inversePath a10 ≫ rawPath a11 ≫ rawPath b10) := by
   exact counterReendpointCell
-    (by simp only [Category.assoc, Category.comp_id, Category.id_comp])
-    (by simp only [Category.assoc, Category.comp_id, Category.id_comp])
+    (by simp only [Category.assoc])
+    (by simp only [Category.assoc, Category.comp_id])
     (generatedLocalization2CellWhiskerRight allMorphisms (rawPath b10)
       (generatedLocalization2CellWhiskerLeft allMorphisms
         (rawPath a00 ≫ inversePath a10 ≫ rawPath a11)
@@ -291,8 +291,8 @@ def routeStep14 :
       (rawPath a00 ≫ inversePath a10 ≫ rawPath a10 ≫ rawPath b00)
       (rawPath a00 ≫ rawPath b00) := by
   exact counterReendpointCell
-    (by simp only [Category.assoc, Category.comp_id, Category.id_comp])
-    (by simp only [Category.assoc, Category.comp_id, Category.id_comp])
+    (by simp only [Category.assoc])
+    (by simp only [Category.comp_id])
     (generatedLocalization2CellWhiskerRight allMorphisms (rawPath b00)
       (generatedLocalization2CellWhiskerLeft allMorphisms (rawPath a00)
         (inverseForwardCell a10)))

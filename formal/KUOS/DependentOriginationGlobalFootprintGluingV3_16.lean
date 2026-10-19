@@ -79,7 +79,7 @@ def HasGloballyCompatibleLocalCorrectionFamily
       (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R) : Prop :=
   ∃ Qlocal :
-      ∀ s : ThreeQuotientRouteState W,
+      ∀ _s : ThreeQuotientRouteState W,
         GeneratedQuotientGaugeParameters W R D,
     (∀ s : ThreeQuotientRouteState W,
       Qlocal s ∈ quotientRouteCorrectionLocus W R D s) ∧
@@ -143,7 +143,7 @@ noncomputable def globalQuotientGaugeOfLocalFamily
       (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (Qlocal :
-      ∀ s : ThreeQuotientRouteState W,
+      ∀ _s : ThreeQuotientRouteState W,
         GeneratedQuotientGaugeParameters W R D) :
     GeneratedQuotientGaugeParameters W R D := by
   classical
@@ -170,7 +170,7 @@ theorem globalQuotientGaugeOfLocalFamily_value_eq
       (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (Qlocal :
-      ∀ s : ThreeQuotientRouteState W,
+      ∀ _s : ThreeQuotientRouteState W,
         GeneratedQuotientGaugeParameters W R D)
     (hPair :
       ∀ s t : ThreeQuotientRouteState W,
@@ -218,7 +218,7 @@ theorem globalQuotientGaugeOfLocalFamily_agreesOnRouteState
       (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (Qlocal :
-      ∀ s : ThreeQuotientRouteState W,
+      ∀ _s : ThreeQuotientRouteState W,
         GeneratedQuotientGaugeParameters W R D)
     (hPair :
       ∀ s t : ThreeQuotientRouteState W,
