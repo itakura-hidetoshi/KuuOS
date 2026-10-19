@@ -189,17 +189,12 @@ theorem independentC60H2Fundamental_iCycles :
       (independentC60H2FundamentalπIso.inv
         independentC60H2FundamentalClass)).val =
       nativeP11FundamentalTwoChain
-  have hg :
-      (independentC60IntegralCellularComplex.sc 2).g.hom =
-        nativeC60IntegralBoundaryTwo := by
-    change (independentC60IntegralCellularComplex.d 2
-      ((ComplexShape.down ℕ).next 2)).hom =
-        nativeC60IntegralBoundaryTwo
-    have hn : (ComplexShape.down ℕ).next 2 = 1 := by simp
-    rw [hn, independentC60IntegralCellularComplex_d21]
-    rfl
-  simpa [independentC60H2ConcreteCycleIso, hg] using
-    congrArg Subtype.val hker
+  -- The P17 isomorphism was obtained by a kernel-type conversion.
+  -- Ask Lean to expose that conversion as an equality goal, rather
+  -- than incorrectly identifying arrows with different source types.
+  convert congrArg Subtype.val hker using 1
+  all_goals simp [independentC60H2ConcreteCycleIso,
+    independentC60IntegralCellularComplex_d21]
 
 /-- The historical H₂ class represented by the transported genuine
 native surface is exactly its signed historical integer 2-cycle. -/
