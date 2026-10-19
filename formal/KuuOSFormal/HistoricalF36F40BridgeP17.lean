@@ -127,9 +127,6 @@ def independentC60H2FundamentalπIso :
   independentC60IntegralCellularComplex.isoHomologyπ 3 2
     (by simp) independentC60IntegralCellularComplex_d32
 
-/-- Actual H₂ of the new independent-polygon complex is isomorphic
-to the concrete native integer kernel of P14 d₂: this is NOT an
-external free abstract Z-module replacing the Mathlib H₂ object. -/
 /-- Equality of the concrete native boundary kernel and the actual
 ShortComplex kernel; this is a theorem about the two true differentials,
 not a coercion silently inserted by `convert`. -/
