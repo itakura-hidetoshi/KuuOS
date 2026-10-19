@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   pull_request:
     paths:
-      - 'formal/KUOS.lean'
+      - 'formal/KuuOSFormal.lean'
       - 'formal/KUOS/Architecture/QiWuxingCyclicGroupPathsV3_1.lean'
       - 'formal/KuuOSQiWuxingCyclicGroupPathsV3_1.lean'
       - 'docs/KUUOS_QI_WUXING_CYCLIC_GROUP_PATHS_v3_1.md'
@@ -35,7 +35,7 @@ jobs:
       - name: Check canonical aggregate and original proof roots
         run: |
           set -euo pipefail
-          grep -Fq 'import KUOS.Architecture.QiWuxingCyclicGroupPathsV3_1' formal/KUOS.lean
+          grep -Fq 'import KuuOSQiWuxingCyclicGroupPathsV3_1' formal/KuuOSFormal.lean
           grep -Fq 'import KUOS.Architecture.QiWuxingPhaseObservationUniversalPropertyV3_0' formal/KUOS/Architecture/QiWuxingCyclicGroupPathsV3_1.lean
           grep -Fq 'import Kuu.Presentation' formal/KUOS/Architecture/QiWuxingCyclicGroupPathsV3_1.lean
           python3 scripts/check_public_proof_roots.py
