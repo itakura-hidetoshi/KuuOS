@@ -108,12 +108,18 @@ relationWordShift [generation, control]
 
 ```sh
 lake exe cache get
-lake lean formal/KUOS/Architecture/QiWuxingCyclicGroupPathsV3_1.lean -- -DwarningAsError=true -DsorryAsError=true
+lake build +KUOS.Architecture.QiWuxingCyclicGroupPathsV3_1:olean
 lake build KuuOSFormal
 ```
 
 標準公開入口は従来どおり `KuuOSFormal` 一つ。
 増分チェックはその部分コンパイルであり、別の定理正本を作らない。
+
+Lakeの内部モジュール登録は `globs` によって行い、元の107個の公開 `roots` は不変である。
+`globs` には必要な独立Kuu基礎4ファイル、互換import集約 `KuuOSStrict`、今回のpublic wrapperを明示登録する。
+これらは同じ `KuuOSFormal` ライブラリに属し、新しい公開rootでも別の数学体系でもない。
+裸の名前 `lake build KuuOSStrict` は独立したターゲット名を要求するので誤りであり、
+`lake build +KuuOSStrict:olean` は登録済みの内部モジュールをコンパイルする。
 
 新モジュール：
 `formal/KUOS/Architecture/QiWuxingCyclicGroupPathsV3_1.lean`
