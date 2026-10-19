@@ -116,6 +116,48 @@ def twoGenerationPath (p : FivePhase) :
 @[simp] theorem twoGenerationPath_length (p : FivePhase) :
     (twoGenerationPath p).length = 2 := rfl
 
+/-- The two-step word "generation, then control" as a genuine typed path. -/
+def generationControlPath (p : FivePhase) :
+    Quiver.Path p (generationPhase (generationPhase (generationPhase p))) :=
+  ((Quiver.Path.nil : Quiver.Path p p).cons (Arrow.generation p)).cons
+    (Arrow.control (generationPhase p))
+
+/-- The two-step word "control, then generation" has the same endpoints. -/
+def controlGenerationPath (p : FivePhase) :
+    Quiver.Path p (generationPhase (generationPhase (generationPhase p))) :=
+  ((Quiver.Path.nil : Quiver.Path p p).cons (Arrow.control p)).cons
+    (Arrow.generation (generationPhase (generationPhase p)))
+
+@[simp] theorem generationControlPath_length (p : FivePhase) :
+    (generationControlPath p).length = 2 := rfl
+
+@[simp] theorem controlGenerationPath_length (p : FivePhase) :
+    (controlGenerationPath p).length = 2 := rfl
+
+/-- The first intermediate vertices after one generation and one control
+are distinct because 1 and 2 are different in the cyclic group of order 5. -/
+theorem generation_target_ne_control_target (p : FivePhase) :
+    generationPhase p ≠ generationPhase (generationPhase p) := by
+  intro h
+  have hshift : p + (1 : FivePhase) = p + 2 := by
+    calc
+      p + 1 = generationPhase p := rfl
+      _ = generationPhase (generationPhase p) := h
+      _ = controlPhase p := generation_twice_phase_eq_control p
+      _ = p + 2 := rfl
+  have h12 : (1 : FivePhase) = 2 := add_left_cancel hshift
+  exact (by decide : (1 : FivePhase) ≠ 2) h12
+
+/-- The order of two interactions survives in the typed free path itself:
+both paths have length two and the same endpoints, but different intermediate
+vertices and therefore cannot be equal. -/
+theorem mixed_typed_paths_distinct (p : FivePhase) :
+    generationControlPath p ≠ controlGenerationPath p := by
+  intro h
+  unfold generationControlPath controlGenerationPath at h
+  have hmid := Quiver.Path.obj_eq_of_cons_eq_cons h
+  exact generation_target_ne_control_target p hmid
+
 /-- Equal endpoints do not collapse different typed paths in the free category. -/
 theorem directControlPath_ne_twoGenerationPath (p : FivePhase) :
     directControlPath p ≠ twoGenerationPath p := by
@@ -161,6 +203,26 @@ theorem direct_control_two_generations_observation (p : FivePhase) :
     change (1 : Nat) = 2 at hcount
     omega
 
+/-- The phase-plus-event-count projection identifies the two mixed-order
+paths even though the typed paths themselves are unequal. -/
+theorem mixed_typed_paths_same_shift (p : FivePhase) :
+    pathShift (generationControlPath p) =
+      pathShift (controlGenerationPath p) := by
+  rfl
+
+/-- With only identity replacements, the independent Kuu quotient also
+preserves the distinction between the two differently ordered typed paths. -/
+theorem mixed_paths_survive_identity_presentation (p : FivePhase) :
+    (Kuu.project FivePhase (Kuu.identityRelations FivePhase)).map
+        (generationControlPath p) ≠
+      (Kuu.project FivePhase (Kuu.identityRelations FivePhase)).map
+        (controlGenerationPath p) := by
+  intro h
+  have heq :=
+    (Kuu.identity_projection_reflects
+      (generationControlPath p) (controlGenerationPath p)).mp h
+  exact mixed_typed_paths_distinct p heq
+
 /-- This free-path distinction also survives the independent Kuu
 presentation when only identity replacements are declared. -/
 theorem direct_control_survives_identity_presentation (p : FivePhase) :
@@ -200,6 +262,10 @@ theorem mixed_relation_words_same_state_action (state : WuxingFibonacciState) :
 #print axioms rotation_transitive
 #print axioms rotation_control_eq_generation_twice
 #print axioms directControlPath_ne_twoGenerationPath
+#print axioms generation_target_ne_control_target
+#print axioms mixed_typed_paths_distinct
+#print axioms mixed_typed_paths_same_shift
+#print axioms mixed_paths_survive_identity_presentation
 #print axioms pathShift_endpoint
 #print axioms pathShift_comp
 #print axioms direct_control_two_generations_observation
