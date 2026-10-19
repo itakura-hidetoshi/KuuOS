@@ -326,7 +326,7 @@ original one. -/
     (E : HigherRawSystemCoherentEquivalence R S)
     (Q : ExactHigherDependentOriginationPresentation
       (W := W) A R)
-    (T : ExactPresentationCoherentUniversalTarget
+    (_T : ExactPresentationCoherentUniversalTarget
       (W := W) A Q) :
     (transportExactPresentation (W := W) A E Q).carrier =
       Q.carrier :=

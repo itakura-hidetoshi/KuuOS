@@ -159,9 +159,6 @@ theorem presentationDescend_unique
   funext q
   refine Quotient.inductionOn q ?_
   intro p
-  change
-    candidate (Quotient.mk S p) =
-      presentationDescend S semantic hInvariant (Quotient.mk S p)
   rw [hcandidate]
   rfl
 

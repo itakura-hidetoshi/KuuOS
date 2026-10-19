@@ -174,7 +174,7 @@ theorem ExactUniversalRawMorphismTwoCell.hcomp_eq_exchange
         (W := W) A
         (ExactUniversalRawMorphism.comp (W := W) A f h) := by
   apply ExactUniversalRawMorphismTwoCell.ext
-  · simpa using horizontalIdentity f.raw h.raw
+  · simp
   · simpa using horizontalIdentity f.lift h.lift
 
 /-- Full interchange: horizontal composition carries vertical composites to the

@@ -139,8 +139,7 @@ theorem ExactUniversalRawMorphismTwoCell.triangle
   · simp only [
       ExactUniversalRawMorphismTwoCell.vcomp_lift,
       ExactUniversalRawMorphismTwoCell.whiskerLeft_lift,
-      ExactUniversalRawMorphismTwoCell.whiskerRight_lift,
-      ExactUniversalRawMorphism.id_lift
+      ExactUniversalRawMorphismTwoCell.whiskerRight_lift
     ]
     exact Bicategory.triangle f.lift g.lift
 
