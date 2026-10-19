@@ -20,6 +20,7 @@ namespace GenuineOriginalC60Geometry
 
 open CategoryTheory Limits
 open KUOS.DependentOriginationGrayC60NativeH2FundamentalClassV5_161
+open KUOS.DependentOriginationGrayC60NativeChainComplexV5_160
 
 set_option autoImplicit false
 set_option warningAsError true
@@ -57,27 +58,17 @@ theorem p21IndependentHistoricalH2_sign_smul (n : ℤ) :
     independentHistoricalC60H2Iso.hom.hom
         (n • independentC60H2FundamentalClass) =
       (-n) • c60NativeH2FundamentalClass := by
-  have hf :
-      independentHistoricalC60H2Iso.hom.hom
-          (n • independentC60H2FundamentalClass) =
-        n • independentHistoricalC60H2Iso.hom.hom
-          independentC60H2FundamentalClass := by
-    have hlinear :=
-      (independentHistoricalC60H2Iso.hom.hom).map_smul
-        n independentC60H2FundamentalClass
-    change independentHistoricalC60H2Iso.hom.hom
-        ((inferInstance : Module ℤ
-            (independentC60IntegralCellularComplex.homology 2)).smul
-          n independentC60H2FundamentalClass) =
+  calc
+    independentHistoricalC60H2Iso.hom.hom
+        (n • independentC60H2FundamentalClass) =
       n • independentHistoricalC60H2Iso.hom.hom
-        independentC60H2FundamentalClass at hlinear
-    rw [int_smul_eq_zsmul
-      (inferInstance : Module ℤ
-        (independentC60IntegralCellularComplex.homology 2))
-      n independentC60H2FundamentalClass] at hlinear
-    exact hlinear
-  rw [hf, p20P17HistoricalH2_fundamental_sign]
-  simpa only [smul_neg, neg_smul]
+        independentC60H2FundamentalClass := by
+          exact (independentHistoricalC60H2Iso.hom.hom).map_zsmul
+            n independentC60H2FundamentalClass
+    _ = n • (-c60NativeH2FundamentalClass) := by
+          rw [p20P17HistoricalH2_fundamental_sign]
+    _ = (-n) • c60NativeH2FundamentalClass := by
+          exact zsmul_neg' c60NativeH2FundamentalClass n
 
 /-- The real historical F59 fundamental H₂ class is of infinite
 integer order, proved from the original categorical H₂ ≅ ℤ and its
@@ -92,20 +83,8 @@ theorem p21HistoricalFundamentalClass_infinite_order :
           (n • c60NativeH2FundamentalClass) =
         n • historicalC60H2IsoInteger.hom.hom
           c60NativeH2FundamentalClass := by
-    have hlinear :=
-      (historicalC60H2IsoInteger.hom.hom).map_smul
-        n c60NativeH2FundamentalClass
-    change historicalC60H2IsoInteger.hom.hom
-        ((inferInstance : Module ℤ
-            (c60NativeIntegralCellularComplex.homology 2)).smul
-          n c60NativeH2FundamentalClass) =
-      n • historicalC60H2IsoInteger.hom.hom
-        c60NativeH2FundamentalClass at hlinear
-    rw [int_smul_eq_zsmul
-      (inferInstance : Module ℤ
-        (c60NativeIntegralCellularComplex.homology 2))
-      n c60NativeH2FundamentalClass] at hlinear
-    exact hlinear
+    exact (historicalC60H2IsoInteger.hom.hom).map_zsmul
+      n c60NativeH2FundamentalClass
   rw [hf a, hf b, p21HistoricalFundamentalClass_coordinate] at hh
   simpa [smul_eq_mul] using hh
 
