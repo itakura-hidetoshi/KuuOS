@@ -155,6 +155,126 @@ theorem independentHistoricalC60H2_homologyπ_naturality :
   exact HomologicalComplex.homologyπ_naturality
     independentHistoricalC60ChainIso.hom 2
 
+/-! ## The signed comparison on the *actual* fundamental H₂ classes
+
+The two incoming degree-three differentials vanish. We therefore use
+mathlib's categorical cycles, their monic inclusions into 2-chains,
+and homologyπ naturality. The sign is not inferred from equality of
+ranks or from a separately chosen ℤ-coordinate map. -/
+
+/-- The P17 native H₂ generator, lifted canonically through the zero-d₃
+homologyπ isomorphism, has precisely the genuine P11 polygon chain
+as underlying degree-two cycle. -/
+theorem independentC60H2Fundamental_iCycles :
+    (independentC60IntegralCellularComplex.iCycles 2)
+      (independentC60H2FundamentalπIso.inv
+        independentC60H2FundamentalClass) =
+      nativeP11FundamentalTwoChain := by
+  have hker :
+      independentC60H2ConcreteCycleIso.hom.hom
+        independentC60H2FundamentalClass =
+        (⟨nativeP11FundamentalTwoChain,
+          nativeP11FundamentalTwoChain_mem_new_kernel⟩ :
+          LinearMap.ker nativeC60IntegralBoundaryTwo) := by
+    unfold independentC60H2FundamentalClass
+    exact independentC60H2ConcreteCycleIso.inv_hom_id_apply _
+  rw [← (independentC60IntegralCellularComplex.sc 2).moduleCatCyclesIso_hom_i]
+  change
+    (independentC60H2ConcreteCycleIso.hom.hom
+      independentC60H2FundamentalClass).val =
+      nativeP11FundamentalTwoChain
+  exact congrArg Subtype.val hker
+
+/-- The historical H₂ class represented by the transported genuine
+native surface is exactly its signed historical integer 2-cycle. -/
+theorem transportedNativeP11OriginalH2Class_iCycles :
+    (c60NativeIntegralCellularComplex.iCycles 2)
+      (c60NativeH2FundamentalπIso.inv
+        transportedNativeP11OriginalH2Class) =
+      nativeP11ToOriginalFaceChain nativeP11FundamentalTwoChain := by
+  rw [← (c60NativeIntegralCellularComplex.sc 2).moduleCatCyclesIso_hom_i]
+  change
+    (c60NativeH2ConcreteCycleIso.hom.hom
+      transportedNativeP11OriginalH2Class).val =
+      nativeP11ToOriginalFaceChain nativeP11FundamentalTwoChain
+  unfold transportedNativeP11OriginalH2Class
+  rw [Iso.inv_hom_id_apply]
+  rfl
+
+/-- The cycles map induced by the actual signed chain isomorphism
+carries the genuine P11 fundamental cycle to the historical cycle.
+Faithfulness here is the mono property of mathlib's cycles inclusion. -/
+theorem independentHistoricalC60CyclesMap_fundamental :
+    HomologicalComplex.cyclesMap independentHistoricalC60ChainIso.hom 2
+      (independentC60H2FundamentalπIso.inv
+        independentC60H2FundamentalClass) =
+    c60NativeH2FundamentalπIso.inv
+      transportedNativeP11OriginalH2Class := by
+  apply (ModuleCat.mono_iff_injective
+    (c60NativeIntegralCellularComplex.iCycles 2)).mp inferInstance
+  have hnatural := congrArg
+    (fun f : independentC60IntegralCellularComplex.cycles 2 ⟶
+        c60NativeIntegralCellularComplex.X 2 =>
+      f (independentC60H2FundamentalπIso.inv
+        independentC60H2FundamentalClass))
+    (HomologicalComplex.cyclesMap_i
+      independentHistoricalC60ChainIso.hom 2)
+  calc
+    (c60NativeIntegralCellularComplex.iCycles 2)
+      (HomologicalComplex.cyclesMap independentHistoricalC60ChainIso.hom 2
+        (independentC60H2FundamentalπIso.inv
+          independentC60H2FundamentalClass)) =
+        (independentHistoricalC60ChainIso.hom.f 2)
+          ((independentC60IntegralCellularComplex.iCycles 2)
+            (independentC60H2FundamentalπIso.inv
+              independentC60H2FundamentalClass)) := by
+              simpa only [ModuleCat.comp_apply] using hnatural
+    _ = nativeP11ToOriginalFaceChain nativeP11FundamentalTwoChain := by
+      rw [independentC60H2Fundamental_iCycles]
+      exact independentHistoricalC60ChainIso_fundamental_sign.trans
+        nativeP11ToOriginalFaceChain_fundamental.symm
+    _ = (c60NativeIntegralCellularComplex.iCycles 2)
+        (c60NativeH2FundamentalπIso.inv
+          transportedNativeP11OriginalH2Class) :=
+      transportedNativeP11OriginalH2Class_iCycles.symm
+
+/-- P18 signed HOMOLOGY theorem, stronger than the previously proved
+chain-level sign: the functorially induced H₂ morphism maps the
+independent P11 generator to the negative historical F59 generator. -/
+theorem independentHistoricalC60H2_fundamental_sign :
+    independentHistoricalC60H2Iso.hom.hom
+      independentC60H2FundamentalClass =
+        -c60NativeH2FundamentalClass := by
+  calc
+    independentHistoricalC60H2Iso.hom
+      independentC60H2FundamentalClass =
+        (c60NativeIntegralCellularComplex.homologyπ 2)
+          (HomologicalComplex.cyclesMap
+            independentHistoricalC60ChainIso.hom 2
+              (independentC60H2FundamentalπIso.inv
+                independentC60H2FundamentalClass)) := by
+          have hn := congrArg
+            (fun f : independentC60IntegralCellularComplex.cycles 2 ⟶
+                c60NativeIntegralCellularComplex.homology 2 =>
+              f (independentC60H2FundamentalπIso.inv
+                independentC60H2FundamentalClass))
+            independentHistoricalC60H2_homologyπ_naturality
+          simpa only [ModuleCat.comp_apply,
+            independentC60H2FundamentalπIso.hom_inv_id_apply] using hn
+    _ = (c60NativeIntegralCellularComplex.homologyπ 2)
+          (c60NativeH2FundamentalπIso.inv
+            transportedNativeP11OriginalH2Class) := by
+            rw [independentHistoricalC60CyclesMap_fundamental]
+    _ = transportedNativeP11OriginalH2Class :=
+      c60NativeH2FundamentalπIso.hom_inv_id_apply _
+    _ = -c60NativeH2FundamentalClass :=
+      transportedNativeP11OriginalH2Class_eq_neg
+
+#print axioms independentC60H2Fundamental_iCycles
+#print axioms transportedNativeP11OriginalH2Class_iCycles
+#print axioms independentHistoricalC60CyclesMap_fundamental
+#print axioms independentHistoricalC60H2_fundamental_sign
+
 #print axioms historicalC60H2IsoInteger
 #print axioms independentHistoricalC60H2_homologyπ_naturality
 
