@@ -80,7 +80,7 @@ theorem lowerRank_task_occurs_before
   · subst j
     have hSelf :
         E.rank (E.tasks i) < E.rank (E.tasks i) := by
-      simpa [hj] using hRank
+      simp [hj] at hRank
     exact False.elim (Nat.lt_irrefl _ hSelf)
   · have hMono :
         E.rank (E.tasks i) ≤ E.rank (E.tasks j) :=

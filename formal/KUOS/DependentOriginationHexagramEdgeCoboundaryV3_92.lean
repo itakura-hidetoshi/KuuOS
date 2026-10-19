@@ -116,7 +116,7 @@ theorem counterFactorizationHexagramStarEdgeTotalCoboundaryAdd_eq_zero
           counterFactorizationHexagramOuterTipAdd H A0 A1 .t5) := by
             ac_rfl
     _ = 0 := by
-      simp only [CharTwo.add_self_eq_zero, zero_add, add_zero]
+      simp only [CharTwo.add_self_eq_zero]
 
 /-- The induced endpoint-coboundary total in the cyclic order of the inner
 hexagon.  The order follows x0,...,x5 from v3.88:

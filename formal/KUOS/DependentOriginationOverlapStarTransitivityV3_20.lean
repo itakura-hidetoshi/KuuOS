@@ -166,7 +166,7 @@ theorem not_abstractOverlapStarTransitive :
     hBC .bc
       (by simp [footprint])
       (by simp [footprint])
-  simpa [zeroSection, cFromA] using hEq
+  simp [zeroSection, cFromA] at hEq
 
 /-!
 ## Factorization frontier after v3.20
