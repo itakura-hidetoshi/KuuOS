@@ -67,5 +67,7 @@ jobs:
       - name: Strict targeted compilation of both v3.1 modules
         run: |
           set -euo pipefail
-          # warningAsError is set in lakefile.toml. There is no Lean\n          # 'sorryAsError' configuration option in this pinned toolchain.\n          # '+' selects modules within the one KuuOSFormal library.\n          lake build +KUOS.Architecture.QiWuxingCyclicGroupPathsV3_1 \\\n            +KuuOSQiWuxingCyclicGroupPathsV3_1
+          # warningAsError is already set by lakefile.toml. 'sorryAsError' is not supported.
+          # '+' explicitly selects modules of the existing KuuOSFormal library.
+          lake build +KUOS.Architecture.QiWuxingCyclicGroupPathsV3_1 +KuuOSQiWuxingCyclicGroupPathsV3_1
           git diff --exit-code -- lake-manifest.json lean-toolchain
