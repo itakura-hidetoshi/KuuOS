@@ -74,9 +74,12 @@ theorem independentHistoricalC60DegreeIso_comm (n : ℕ) :
           apply ModuleCat.hom_ext
           apply LinearMap.ext
           intro c
+          -- The residual term is (0.hom) ((𝟙 _).hom c) = 0.hom c.
+          -- Reduce the *hom field* of the categorical identity first;
+          -- ModuleCat.id_apply does not match this field projection.
           simp [independentHistoricalC60DegreeIso,
             c60NativeChainDifferential, independentC60ChainDifferential] <;>
-            simp only [ModuleCat.id_apply]
+            (first | rfl | simp only [ModuleCat.hom_id, LinearMap.id_apply])
 
 /-- F112-P18 main chain-level result: a genuine mathlib isomorphism
 of whole chain complexes, with its inverse constructed by mathlib
