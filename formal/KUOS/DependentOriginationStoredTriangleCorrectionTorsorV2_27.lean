@@ -111,7 +111,7 @@ theorem storedTriangleCorrectionAct_assoc
       storedTriangleCorrectionAct (W := W) C (g.trans h) := by
   apply (storedTriangleTargetCorrectionEquivIso (W := W) alpha).injective
   apply Iso.ext
-  simp [storedTriangleCorrectionAct, Category.assoc]
+  simp [storedTriangleCorrectionAct]
 
 /-- A correction has trivial difference from itself. -/
 theorem storedTriangleCorrectionDifference_self
@@ -145,7 +145,7 @@ theorem storedTriangleCorrectionDifference_trans
         (storedTriangleCorrectionDifference (W := W) D E) =
       storedTriangleCorrectionDifference (W := W) C E := by
   apply Iso.ext
-  simp [storedTriangleCorrectionDifference, Category.assoc]
+  simp [storedTriangleCorrectionDifference]
 
 /-- Acting by an automorphism produces exactly that automorphism as the
 correction difference.  This is freeness/transitivity in one direction. -/
@@ -158,8 +158,7 @@ theorem storedTriangleCorrectionDifference_act
     storedTriangleCorrectionDifference (W := W) C
         (storedTriangleCorrectionAct (W := W) C g) = g := by
   apply Iso.ext
-  simp [storedTriangleCorrectionDifference, storedTriangleCorrectionAct,
-    Category.assoc]
+  simp [storedTriangleCorrectionDifference, storedTriangleCorrectionAct]
 
 /-- Acting on `C` by its difference to `D` recovers `D`.  This is the converse
 freeness/transitivity statement. -/
@@ -172,8 +171,7 @@ theorem storedTriangleCorrectionAct_difference
         (storedTriangleCorrectionDifference (W := W) C D) = D := by
   apply (storedTriangleTargetCorrectionEquivIso (W := W) alpha).injective
   apply Iso.ext
-  simp [storedTriangleCorrectionAct, storedTriangleCorrectionDifference,
-    Category.assoc]
+  simp [storedTriangleCorrectionAct, storedTriangleCorrectionDifference]
 
 /-- Once a base correction is chosen, all correction solutions are exactly the
 invertible modification automorphisms of the target comparison StrongTrans.
@@ -294,7 +292,7 @@ def HigherFactorComparisonAutomorphismNonRigidity
     {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) : Prop :=
   ∃ (H : HigherLocalizationFactorization (W := W) R)
-    (alpha : HigherLocalizationFactorMorphism (W := W) H U.chosen),
+    (_alpha : HigherLocalizationFactorMorphism (W := W) H U.chosen),
     ¬ Subsingleton (H.comparison ≅ H.comparison)
 
 /-- Uniform target rigidity is exactly absence of its explicit non-rigidity
