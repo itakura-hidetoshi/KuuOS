@@ -2653,7 +2653,7 @@ using Mathlib's existing Finsupp lift of the actual P8 equivalence,
 not a new proxy based on Fin 32. -/
 def nativeP11UnsignedFaceChainLinearEquiv :
     NativeC60IntegralTwoChains ≃ₗ[ℤ] C60IntegralTwoChains :=
-  Finsupp.mapDomain.linearEquiv polygonEquiv
+  Finsupp.mapDomain.linearEquiv ℤ ℤ polygonEquiv
 
 /-- The independent inverse to the P13 signed forward face map.
 Every original historical face generator returns to its EXACT
@@ -2760,6 +2760,8 @@ theorem originalP11ToNativeFaceChain_kernel_transport
   have heq : nativeP11ToOriginalFaceChain
       (originalP11ToNativeFaceChain c) = c := by
     simpa only [LinearMap.comp_apply, LinearMap.id_apply] using h
+  change c60IntegralBoundaryTwo
+    (nativeP11ToOriginalFaceChain (originalP11ToNativeFaceChain c)) = 0
   rw [heq]
   exact hc
 
