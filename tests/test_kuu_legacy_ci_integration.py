@@ -142,7 +142,7 @@ class LegacyCIIntegrationTests(unittest.TestCase):
         self.assertIn('Warm latest F112 historical bridge for child PRs', text)
         self.assertIn('HistoricalF36F40BridgeP([0-9]+)', text)
         self.assertIn('bash scripts/build_lean4.sh --no-update --no-cache', text)
-        self.assertIn("if: steps.lake-workspace.outputs.cache-matched-key == ''", text)
+        self.assertIn('Resolve pinned Lake dependencies only when missing', text)
         self.assertIn('git diff --exit-code -- lake-manifest.json lean-toolchain', text)
 
     def test_child_pr_lean_checks_read_exact_base_before_fallback(self):
@@ -169,9 +169,32 @@ class LegacyCIIntegrationTests(unittest.TestCase):
         self.assertNotIn('use-github-cache: true', text)
         self.assertIn('use-github-cache: false', text)
         self.assertIn('use-mathlib-cache: false', text)
-        self.assertIn('Fetch pinned Mathlib only when BOTH workspace caches miss', text)
+        self.assertIn('Resolve pinned Lake dependencies only when missing', text)
         self.assertIn('build KuuOSStrict', text)
         self.assertIn('scripts/run_kuu_foundation_check.py', text)
+
+    def test_cold_cache_recovery_verifies_real_pinned_files(self):
+        # A prefix cache match is insufficient when the local Mathlib checkout
+        # or its compiled oleans are absent; keep the canonical pins unchanged.
+        for name in ('lean-formal-validation.yml', 'pr-governance-gate.yml',
+                     'kuu-independent-foundation.yml'):
+            with self.subTest(workflow=name):
+                text = workflow(name)
+                self.assertIn('Resolve pinned Lake dependencies only when missing', text)
+                self.assertIn('if [[ ! -d .lake/packages/mathlib ]]; then', text)
+                self.assertIn('lake update', text)
+                self.assertIn(
+                    'if [[ ! -f .lake/packages/mathlib/.lake/build/lib/lean/Mathlib.olean ]]; then',
+                    text)
+                self.assertIn('lake exe cache get', text)
+                self.assertIn('git diff --exit-code -- lake-manifest.json lean-toolchain',
+                              text)
+
+    def test_cancelled_lean_does_not_publish_incomplete_pr_cache(self):
+        text = workflow('pr-governance-gate.yml')
+        self.assertIn(
+            "if: always() && !cancelled() && github.event_name == 'pull_request'",
+            text)
 
     def test_no_bare_lake_reenters_the_recorded_migration(self):
         # Keep the existing migration verifier idempotent, including diagnostics.

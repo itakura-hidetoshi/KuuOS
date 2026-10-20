@@ -98,12 +98,22 @@ jobs:
           use-mathlib-cache: false
           use-github-cache: false
 
-      - name: Fetch pinned Mathlib only when BOTH workspace caches miss
-        if: steps.lean-workspace-cache.outputs.cache-matched-key == '' && steps.lean-action-workspace-cache.outputs.cache-matched-key == ''
+      # GitHub's prefix cache is not proof that the pinned checkout and its
+      # compiled Mathlib artifacts both exist. Verify the actual filesystem
+      # before skipping dependency initialization; warm paths do no refresh.
+      - name: Resolve pinned Lake dependencies only when missing
         shell: bash
         run: |
           set -euo pipefail
-          lake exe cache get
+          if [[ ! -d .lake/packages/mathlib ]]; then
+            echo "Cold cache: restore pinned Mathlib checkout"
+            lake update
+          fi
+          if [[ ! -f .lake/packages/mathlib/.lake/build/lib/lean/Mathlib.olean ]]; then
+            echo "Cold cache: fetch pinned Mathlib oleans"
+            lake exe cache get
+          fi
+          git diff --exit-code -- lake-manifest.json lean-toolchain
 
       - name: Report independent foundation cache origin
         shell: bash
