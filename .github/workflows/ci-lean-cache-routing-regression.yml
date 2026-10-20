@@ -1,0 +1,27 @@
+name: Lean CI Cache Routing Regression
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - '.github/workflows/codeai-*.yml'
+      - '.github/workflows/lean-formal-validation.yml'
+      - '.github/workflows/pr-governance-gate.yml'
+      - '.github/workflows/ci-lean-cache-routing-regression.yml'
+      - 'tests/test_ci_lean_cache_topology.py'
+      - 'docs/CI_LEAN_CACHE_TOPOLOGY.md'
+
+permissions:
+  contents: read
+
+jobs:
+  routing:
+    name: Check trusted Lake cache and strict target routing
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - name: Check cache key compatibility and canonical Lean authority
+        run: python3 -m unittest -v tests.test_ci_lean_cache_topology
