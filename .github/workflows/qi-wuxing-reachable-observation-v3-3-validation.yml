@@ -1,0 +1,71 @@
+name: Qi Wuxing Reachable Observation Category v3.3
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'formal/KUOS/Architecture/QiWuxingReachableObservationCategoryV3_3.lean'
+      - 'formal/KuuOSQiWuxingReachableObservationCategoryV3_3.lean'
+      - 'formal/KuuOSFormal.lean'
+      - 'lakefile.toml'
+      - 'docs/KUUOS_QI_WUXING_REACHABLE_OBSERVATION_CATEGORY_v3_3.md'
+      - '.github/workflows/qi-wuxing-reachable-observation-v3-3-validation.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: qi-wuxing-reachable-v33-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+env:
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+
+jobs:
+  focused-lean:
+    name: Strict v3.3 observation quotient Lean
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - name: Preserve canonical roots and v3.3 imports
+        run: |
+          set -euo pipefail
+          python3 scripts/check_public_proof_roots.py
+          grep -Fq 'import KuuOSQiWuxingReachableObservationCategoryV3_3' formal/KuuOSFormal.lean
+          grep -Fq 'import KUOS.Architecture.QiWuxingPathObservationCongruenceV3_2' formal/KUOS/Architecture/QiWuxingReachableObservationCategoryV3_3.lean
+      - name: Install pinned Lean
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Restore incremental Lean cache
+        id: cache
+        uses: actions/cache@v5
+        with:
+          path: |
+            .lake/packages
+            .lake/build
+          key: kuuos-current-lean-v2-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}
+      - name: Restore pinned mathlib only on cache miss
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: |
+          set -euo pipefail
+          lake update
+          git diff --exit-code -- lake-manifest.json lean-toolchain
+          lake exe cache get
+      - name: Incrementally compile both v3.3 modules and audit axioms
+        run: |
+          set -euo pipefail
+          lake build +KUOS.Architecture.QiWuxingReachableObservationCategoryV3_3:olean +KuuOSQiWuxingReachableObservationCategoryV3_3:olean 2>&1 | tee /tmp/qi-wuxing-v3-3-lean.log
+          if grep -q 'sorryAx' /tmp/qi-wuxing-v3-3-lean.log; then
+            echo 'ERROR: sorryAx in v3.3 theorem audit'
+            exit 1
+          fi
+          git diff --exit-code -- lake-manifest.json lean-toolchain
