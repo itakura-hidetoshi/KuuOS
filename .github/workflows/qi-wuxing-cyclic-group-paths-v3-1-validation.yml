@@ -1,0 +1,73 @@
+name: Qi Wuxing Cyclic Group and Typed Paths v3.1
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'scripts/check_kuu_internal_foundation_lean.sh'
+      - 'formal/KuuOSFormal.lean'
+      - 'formal/KUOS/Architecture/QiWuxingCyclicGroupPathsV3_1.lean'
+      - 'formal/KuuOSQiWuxingCyclicGroupPathsV3_1.lean'
+      - 'docs/KUUOS_QI_WUXING_CYCLIC_GROUP_PATHS_v3_1.md'
+      - '.github/workflows/qi-wuxing-cyclic-group-paths-v3-1-validation.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: qi-wuxing-group-paths-v31-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+env:
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+
+jobs:
+  focused-lean:
+    name: Targeted strict Lean and root wiring
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Check canonical aggregate and original proof roots
+        run: |
+          set -euo pipefail
+          grep -Fq 'import KuuOSQiWuxingCyclicGroupPathsV3_1' formal/KuuOSFormal.lean
+          grep -Fq 'import KUOS.Architecture.QiWuxingPhaseObservationUniversalPropertyV3_0' formal/KUOS/Architecture/QiWuxingCyclicGroupPathsV3_1.lean
+          grep -Fq 'import Kuu.Presentation' formal/KUOS/Architecture/QiWuxingCyclicGroupPathsV3_1.lean
+          python3 scripts/check_public_proof_roots.py
+      - name: Set up pinned Lean toolchain
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Restore dependency and incremental build cache
+        id: lean-cache
+        uses: actions/cache@v5
+        with:
+          path: |
+            .lake/packages
+            .lake/build
+          key: kuuos-current-lean-v2-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}
+      - name: Restore pinned mathlib on cache miss only
+        if: steps.lean-cache.outputs.cache-hit != 'true'
+        run: |
+          set -euo pipefail
+          lake update
+          git diff --exit-code -- lake-manifest.json lean-toolchain
+          lake exe cache get
+      - name: Strict targeted compilation of both v3.1 modules
+        run: |
+          set -euo pipefail
+          # warningAsError is already set by lakefile.toml. 'sorryAsError' is not supported.
+          # Registered buildable modules are selected via Lake facets, while public roots stay unchanged.
+          lake build +KUOS.Architecture.QiWuxingCyclicGroupPathsV3_1:olean +KuuOSQiWuxingCyclicGroupPathsV3_1:olean
+          git diff --exit-code -- lake-manifest.json lean-toolchain

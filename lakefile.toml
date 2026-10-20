@@ -119,4 +119,136 @@ roots = [
   "KuuOSRepositoryObjectMaterializationReceiptV0_95",
   "KuuOSGitHubMCPServerBridgeV0_1"
 ]
-leanOptions = { warningAsError = true }
+# Lean 4.30 Lake buildable-module registration; NOT extra published roots.
+# Retain all 107 historical roots as build targets, and recognize the
+# independent Kuu imports and the v3.1 public wrapper inside this same library.
+# 'roots' above remains the sole published-module authority boundary.
+globs = [
+  "KuuOSFormal",
+  "KUOS",
+  "KuuOSModularEvolutionMeshV0_1",
+  "KuuOSObserveOSV0_7",
+  "KuuOSVerifyOSV0_13",
+  "KuuOSVerifyOSV0_14",
+  "KuuOSVerifyOSV0_15",
+  "KuuOSCodeAIV0_1",
+  "KuuOSCodeAICandidatePatchV0_1",
+  "KuuOSCodeAIAutonomousUnifiedDiffCandidatesV0_1",
+  "KuuOSCodeAIAutonomousStructuredEditSynthesisV0_1",
+  "KuuOSCodeAIAutonomousCandidateRegenerationV0_1",
+  "KuuOSCodeAIAutonomousCandidatePortfolioSelectionV0_1",
+  "KuuOSCodeAIAutonomousIsolatedCandidateApplicationV0_1",
+  "KuuOSCodeAIAutonomousVerificationExecutionV0_1",
+  "KuuOSCodeAIVerificationGuidedCandidateRepairRegenerationV0_1",
+  "KuuOSCodeAIBoundedRepairCycleOrchestrationV0_1",
+  "KuuOSCodeAIRepairCycleContinuationAdmissionV0_1",
+  "KuuOSCodeAIRepairCycleAdmissionConsumptionV0_1",
+  "KuuOSCodeAIAdmissionGatedBoundedRepairCycleExecutionV0_1",
+  "KuuOSCodeAIIndependentVerificationV0_1",
+  "KuuOSCodeAIIndependentVerifierEnsembleV0_2",
+  "KuuOSCodeAISubtaskLevelVersionBoundMemoryV0_1",
+  "KuuOSCodeAITrajectoryGroundedSpecialistRouterAdmissionV0_1",
+  "KuuOSCodeAIEnvironmentCapsuleLivelockEfficiencyGateV0_1",
+  "KuuOSCodeAIReobservationBoundedContinuationProposalGateV0_1",
+  "KuuOSCodeAIExternalGeneralBenchmarkSWEBenchVerifiedAdapterV0_1",
+  "KuuOSCodeAIExternalCorpusAcquisitionFreezeReceiptV0_1",
+  "KuuOSCodeAIGoldPatchEnvironmentSmokeValidationV0_1",
+  "KuuOSCodeAIBoundedOfficialHarnessExecutionV0_1",
+  "KuuOSCodeAIExternalResultProcessEvidenceIngestionV0_1",
+  "KuuOSCodeAIBaselineVersusCodeAIAblationComparisonV0_1",
+  "KuuOSCodeAIAutonomousTrajectorySynthesisV0_1",
+  "KuuOSCodeAIAutonomousGitLifecycleV0_1",
+  "KuuOSCodeAIAutonomousGitEffectExecutionV0_1",
+  "KuuOSCodeAIAutonomousGitEffectReobservationV0_1",
+  "KuuOSCodeAIReobservationGatedGitLifecycleContinuationV0_1",
+  "KuuOSCodeAIBoundedAutonomousGitLifecycleLoopOrchestrationV0_1",
+  "KuuOSCodeAIDurableGitLifecycleLoopCheckpointPersistenceV0_1",
+  "KuuOSCodeAIDurableGitLifecycleLoopResumptionAdmissionV0_1",
+  "KuuOSCodeAIDurableGitLifecycleLoopResumptionConsumptionV0_1",
+  "KuuOSCodeAIDurableGitLifecycleLoopResumptionExecutionV0_1",
+  "KuuOSCodeAIGeneratedPatchErrorBaselineReplayEvaluationV0_1",
+  "KuuOSCodeAISelectiveRepositorySemanticContextPackV0_1",
+  "KuuOSCodeAIIntentAlignedDataflowContextPackV0_2",
+  "KuuOSCodeAITypedStructuredEditIRV0_1",
+  "KuuOSCodeAICandidateStaticAdmissibilityPreflightV0_1",
+  "KuuOSCodeAIEvidenceBearingCandidatePortfolioV0_1",
+  "KuuOSCodeAITypedErrorClassificationV0_1",
+  "KuuOSCodeAIIndependentTestStrengtheningV0_1",
+  "KuuOSCodeAIEvidenceWeightedSelectionAbstentionV0_1",
+  "KuuOSCodeAIVersionBoundRepairMemoryV0_1",
+  "KuuOSCodeAIMaintainabilityTrajectoryGateV0_1",
+  "KuuOSCodeAIGeneratedPatchErrorReductionComparativeReplayEvaluationV0_1",
+  "KuuOSCodeAITemporalHoldoutReplayCorpusV0_1",
+  "KuuOSCodeAIMinimalExternalAuthorityDependencyV0_1",
+  "KuuOSFormalV0_41",
+  "KuuOSFormalV0_42",
+  "KuuOSFormalV0_43",
+  "KuuOSFormalV0_44",
+  "KuuOSFormalV0_45",
+  "KuuOSFormalV0_46",
+  "KuuOSFormalV0_47",
+  "KuuOSFormalV0_48",
+  "KuuOSFormalV0_49",
+  "KuuOSFormalV0_50",
+  "KuuOSFormalV0_51",
+  "KuuOSFormalV0_52",
+  "KuuOSFormalV0_53",
+  "KuuOSFormalV0_54",
+  "KuuOSFormalV0_55",
+  "KuuOSFormalV0_56",
+  "KuuOSArakiCalculusV0_56",
+  "KuuOSFormalV0_57",
+  "KuuOSFormalV0_58",
+  "KuuOSFourGreatCoreV0_59",
+  "KuuOSFormalV0_59",
+  "KuuOSFormalV0_60",
+  "KuuOSFormalV0_61",
+  "KuuOSFormalV0_62",
+  "KuuOSFormalV0_69",
+  "KuuOSFormalV0_70",
+  "KuuOSFormalV0_71",
+  "KuuOSFormalV0_72",
+  "KuuOSMemoryEvaluationV0_73",
+  "KuuOSMemoryReviewV0_74",
+  "KuuOSMemoryApplicationV0_75",
+  "KuuOSMemoryRollbackV0_76",
+  "KuuOSSelfOrganizationV0_78",
+  "KuuOSRepositoryAlignmentV0_79",
+  "KuuOSRepositoryNormalFormV0_80",
+  "KuuOSRepositoryIncrementalV0_81",
+  "KuuOSRepositoryCertificateChainV0_82",
+  "KuuOSRepositoryGitRevisionV0_83",
+  "KuuOSRepositoryMergeCertificateV0_84",
+  "KuuOSRepositoryRevisionDagV0_85",
+  "KuuOSRepositoryFrontierCertificateV0_86",
+  "KuuOSRepositorySelfEvolutionPortfolioV0_87",
+  "KuuOSRepositorySelfEvolutionShadowV0_88",
+  "KuuOSRepositoryEvolutionAdmissionV0_89",
+  "KuuOSRepositoryExternalApprovalV0_90",
+  "KuuOSRepositoryApplicationAuthorizationV0_91",
+  "KuuOSRepositoryAtomicApplicationV0_92",
+  "KuuOSRepositoryCommitCandidateV0_93",
+  "KuuOSRepositoryObjectMaterializationAuthorizationV0_94",
+  "KuuOSRepositoryObjectMaterializationReceiptV0_95",
+  "KuuOSGitHubMCPServerBridgeV0_1",
+  "Kuu.*",
+  "KuuOSStrict",
+  "KuuOSQiWuxingCyclicGroupPathsV3_1"
+]
+
+# Keep strict compiler warnings, but do not require cosmetic rewriting of
+# byte-preserved historical proofs (unnecessary simpa, unused parameters and
+# automatically included section typeclass assumptions). The latter is the
+# exact Lean 4.30 `linter.unusedSectionVars` warning observed in existing v0.4.
+# Other warnings and all actual elaboration/type/proof errors remain fatal;
+# no axioms or historical proof files change.
+# Frozen v2.12 has unreachable fallback tactics and unnecessary `<;>` combinators.
+# These Batteries-provided style linters are registered only after some imports.
+# Use Lake's weak option prefix so core-only modules do not fail on unknown -D
+# flags; source proofs and all 107 public roots remain untouched.
+# Pinned mathlib's `linter.unusedTactic` rejects inert tactics in frozen v2.12;
+# suppress this style-only diagnostic with `weak.` without changing proof terms.
+# Pinned Lean also warns about unused simp lemma `Category.assoc` in the two
+# byte-preserved v2.26 correction proofs; weak.linter.unusedSimpArgs prevents
+# legacy style warnings from blocking strict compilation of the same theorems.
+leanOptions = { warningAsError = true, linter.unnecessarySimpa = false, linter.unusedVariables = false, linter.unusedSectionVars = false, weak.linter.unreachableTactic = false, weak.linter.unnecessarySeqFocus = false, weak.linter.unusedTactic = false, weak.linter.unusedSimpArgs = false }
