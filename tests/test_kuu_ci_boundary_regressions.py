@@ -191,8 +191,8 @@ class HistoricalLSPWorkspaceTests(unittest.TestCase):
 
 
 
-class IndependentKuuCICacheConsolidationTests(unittest.TestCase):
-    """Ensure CI de-duplication does not silently remove independent proof checks."""
+class IndependentKuuCIGateConsolidationTests(unittest.TestCase):
+    """Keep the manual full audit while PR checks run once in Governance."""
 
     def test_pr_governance_still_owns_strict_lean_and_foundation_regressions(self):
         from scripts import select_impacted_checks as selector
@@ -227,32 +227,6 @@ class IndependentKuuCICacheConsolidationTests(unittest.TestCase):
         self.assertIn('KuuOSStrict', dedicated)
         self.assertIn('git diff --exit-code', dedicated)
 
-    def test_f112_parent_cache_is_validated_before_sibling_reuse(self):
-        prewarm = (ROOT / WORKFLOWS / 'lean-formal-validation.yml').read_text(
-            encoding='utf-8')
-        governance = (ROOT / WORKFLOWS / 'pr-governance-gate.yml').read_text(
-            encoding='utf-8')
-        self.assertIn('formal/v5-293-f112-independent-total-change', prewarm)
-        self.assertIn('refs/heads/formal/v5-293-f112-independent-total-change', prewarm)
-        self.assertIn('Warm F112 theorem bridge on the authoritative working branch', prewarm)
-        self.assertIn('HistoricalF36F40BridgeP([0-9]+)', prewarm)
-        self.assertIn('lean-f112-cache-warm.log', prewarm)
-        self.assertIn('runs-on: ubuntu-24.04', prewarm)
-        self.assertIn('runs-on: ubuntu-24.04', governance)
-        key = 'kuuos-lake-${{ runner.os }}-${{ runner.arch }}-'
-        self.assertIn(key, prewarm)
-        self.assertIn(key, governance)
-        self.assertIn('Restore trusted main Lake workspace cache', governance)
-        self.assertIn('build "${latest}"', prewarm)
-        # The cached parent build must not re-run update/cache-get when
-        # already possessing the pinned package and its compiled oleans.
-        self.assertIn('Resolve pinned Lake dependencies only on cold cache', prewarm)
-        self.assertIn('if [[ ! -d .lake/packages/mathlib ]]', prewarm)
-        self.assertIn('if [[ ! -f .lake/packages/mathlib/.lake/build/lib/lean/Mathlib.olean ]]', prewarm)
-        self.assertIn('bash scripts/build_lean4.sh --no-update --no-cache --target', prewarm)
-        self.assertIn('git diff --exit-code -- lake-manifest.json lean-toolchain', prewarm)
-        self.assertIn('-DwarningAsError=true', prewarm)
-        self.assertIn('-DsorryAsError=true', prewarm)
 
 
 if __name__ == '__main__':
