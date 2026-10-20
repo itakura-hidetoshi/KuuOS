@@ -104,4 +104,5 @@ import Kuu.F112.PolygonNativeHigherDescentObstructions
 import Kuu.F112.PolygonNativeCalibratedDescentCriterion
 import Kuu.F112.PolygonNativeUniversalDescentCalibration
 import Kuu.F112.PolygonNativeFourBoundaryCalibration
+import Kuu.F112.PolygonNativeFourBoundaryChargeForgetNonfaithful
 /-! Current independent Kuu foundation. No legacy KUOS imports are permitted. -/
