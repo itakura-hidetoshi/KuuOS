@@ -60,6 +60,19 @@ jobs:
           key: kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-${{ github.sha }}
           restore-keys: |
             kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-
+      # The large Mathlib/package workspace is shared from main. F112
+      # publishes ONLY its own small .lake/build overlay after validation,
+      # rather than a duplicate multi-GB .lake archive on every P-stage.
+      - name: Restore prior verified F112 parent project build
+        if: github.event_name == 'push' && github.ref == 'refs/heads/formal/v5-293-f112-independent-total-change'
+        id: f112-parent-build
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake/build
+          key: kuuos-f112-base-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-${{ github.sha }}
+          restore-keys: |
+            kuuos-f112-base-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-
+
       # On a warm workspace, never run lake update or refresh Mathlib:
       # both can touch dependency files and invalidate reusable oleans.
       # A genuine cold workspace still fetches the pinned Mathlib cache.
@@ -159,14 +172,24 @@ jobs:
             build "${f112_targets[0]}" 2>&1 | tee lean-f112-bridge-cache-warm.log
           git diff --exit-code -- lake-manifest.json lean-toolchain
 
-      # Branch-shared caches are seeded ONLY after all strict builds above
-      # succeed. An unverified PR never writes the parent cache namespace.
-      - name: Save verified parent/main Lake workspace cache
-        if: success() && steps.lake-workspace.outputs.cache-hit != 'true'
+      # Only main owns the multi-GB package workspace. Child PRs read it
+      # but never upload it. The original cache key/path stay compatible.
+      - name: Save verified main Lake workspace cache
+        if: success() && github.event_name == 'push' && github.ref == 'refs/heads/main' && steps.lake-workspace.outputs.cache-hit != 'true'
         uses: actions/cache/save@v5
         with:
           path: .lake
           key: ${{ steps.lake-workspace.outputs.cache-primary-key }}
+
+      # A separate, fully validated F112 parent PUSH stores only 0.2 GB
+      # of local KuuOS oleans. This base-branch cache is visible to all
+      # child pull requests, unlike caches scoped to refs/pull/*/merge.
+      - name: Save verified F112 parent project build cache
+        if: success() && github.event_name == 'push' && github.ref == 'refs/heads/formal/v5-293-f112-independent-total-change' && steps.f112-parent-build.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v5
+        with:
+          path: .lake/build
+          key: ${{ steps.f112-parent-build.outputs.cache-primary-key }}
 
       - name: Upload formal validation log
         if: always()
