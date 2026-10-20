@@ -242,7 +242,8 @@ globs = [
 # exact Lean 4.30 `linter.unusedSectionVars` warning observed in existing v0.4.
 # Other warnings and all actual elaboration/type/proof errors remain fatal;
 # no axioms or historical proof files change.
-# The Lean 4.30 unreachableTactic linter reports intentionally retained
-# redundant fallback tactics in frozen v2.12 proofs; it is a style diagnostic
-# (not an incomplete proof). Do not edit historical theorem source.
-leanOptions = { warningAsError = true, linter.unnecessarySimpa = false, linter.unusedVariables = false, linter.unusedSectionVars = false, linter.unreachableTactic = false }
+# Frozen v2.12 has unreachable fallback tactics and unnecessary `<;>` combinators.
+# These Batteries-provided style linters are registered only after some imports.
+# Use Lake's weak option prefix so core-only modules do not fail on unknown -D
+# flags; source proofs and all 107 public roots remain untouched.
+leanOptions = { warningAsError = true, linter.unnecessarySimpa = false, linter.unusedVariables = false, linter.unusedSectionVars = false, weak.linter.unreachableTactic = false, weak.linter.unnecessarySeqFocus = false }
