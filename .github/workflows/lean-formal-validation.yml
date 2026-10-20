@@ -50,18 +50,35 @@ jobs:
           use-mathlib-cache: false
           use-github-cache: false
       - name: Restore Lake workspace cache
+        id: lake-workspace-cache
         uses: actions/cache@v5
         with:
           path: .lake
           key: kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-${{ github.sha }}
           restore-keys: |
             kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-
+      # Keep the trusted main .lake snapshot stable on warm-cache runs.
+      # A redundant 'lake update' or 'lake exe cache get' here may refresh
+      # dependency mtimes and trigger a wholesale KuuOSFormal rebuild.
+      # Both operations remain enabled when no valid dependency tree exists.
       - name: Compile pinned Lean 4 target
         shell: bash
+        env:
+          LAKE_CACHE_MATCHED_KEY: ${{ steps.lake-workspace-cache.outputs.cache-matched-key }}
         run: |
           set -euo pipefail
-          bash scripts/build_lean4.sh --target "$KUUOS_LEAN_TARGET" \
-            2>&1 | tee lean-formal-validation.log
+          if [[ -n "${LAKE_CACHE_MATCHED_KEY}" ]] &&
+             [[ -d .lake/packages/mathlib ]] &&
+             [[ -d .lake/build/lib/lean ]]; then
+            echo "Warm trusted main Lake cache: reuse pinned dependencies without updating mtimes"
+            bash scripts/build_lean4.sh --no-update --no-cache --target "$KUUOS_LEAN_TARGET" \
+              2>&1 | tee lean-formal-validation.log
+          else
+            echo "No usable Lake workspace cache: restore committed dependencies and Mathlib artifacts"
+            bash scripts/build_lean4.sh --target "$KUUOS_LEAN_TARGET" \
+              2>&1 | tee lean-formal-validation.log
+          fi
+          git diff --exit-code -- lean-toolchain lake-manifest.json
       # KuuOSFormal does not import every theorem-bearing DO frontier.
       # On trusted main only, compile the newest committed DO version chain
       # with exactly the same strict Lean options as PR validation. The
