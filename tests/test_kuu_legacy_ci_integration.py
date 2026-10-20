@@ -128,6 +128,43 @@ class LegacyCIIntegrationTests(unittest.TestCase):
         self.assertIn('            command lake --version || true\n', text)
         self.assertNotIn('scripts/run_formal_package.py --legacy -- --version', text)
 
+    def test_f112_parent_cache_is_seeded_only_after_strict_validation(self):
+        text = workflow('lean-formal-validation.yml')
+        self.assertIn('      - formal/v5-293-f112-independent-total-change\\n', text)
+        self.assertIn('runs-on: ubuntu-24.04', text)
+        self.assertIn('uses: actions/cache/restore@v5', text)
+        self.assertIn('uses: actions/cache/save@v5', text)
+        self.assertIn("if: success() && steps.lake-workspace.outputs.cache-hit != 'true'", text)
+        self.assertIn('Warm latest F112 historical bridge for child PRs', text)
+        self.assertIn('HistoricalF36F40BridgeP([0-9]+)', text)
+        self.assertIn('bash scripts/build_lean4.sh --no-update --no-cache', text)
+        self.assertIn("if: steps.lake-workspace.outputs.cache-matched-key == ''", text)
+        self.assertIn('git diff --exit-code -- lake-manifest.json lean-toolchain', text)
+
+    def test_child_pr_lean_checks_read_exact_base_before_fallback(self):
+        text = workflow('pr-governance-gate.yml')
+        self.assertIn('Restore validated parent/main Lake workspace cache', text)
+        self.assertIn('key: kuuos-lake-', text)
+        self.assertIn("hashFiles('lake-manifest.json') }}-${{ github.event.pull_request.base.sha || github.sha }}", text)
+        self.assertIn('uses: actions/cache/restore@v5', text)
+        self.assertIn('Save PR-local Lean build overlay', text)
+        self.assertIn('path: .lake/build', text)
+        self.assertIn('use-mathlib-cache: false', text)
+        self.assertIn('use-github-cache: false', text)
+
+    def test_independent_ci_restores_shared_cache_without_duplicate_save(self):
+        text = workflow('kuu-independent-foundation.yml')
+        self.assertIn('Restore base-branch Lake workspace (read-only)', text)
+        self.assertIn('Restore shared lean-action Lake snapshot (read-only)', text)
+        self.assertEqual(text.count('uses: actions/cache/restore@v5'), 2)
+        self.assertNotIn('uses: actions/cache/save@v5', text)
+        self.assertNotIn('use-github-cache: true', text)
+        self.assertIn('use-github-cache: false', text)
+        self.assertIn('use-mathlib-cache: false', text)
+        self.assertIn('Fetch pinned Mathlib only when BOTH workspace caches miss', text)
+        self.assertIn('build KuuOSStrict', text)
+        self.assertIn('scripts/run_kuu_foundation_check.py', text)
+
     def test_no_bare_lake_reenters_the_recorded_migration(self):
         # Keep the existing migration verifier idempotent, including diagnostics.
         pattern = r'(?m)^(\s*(?:-\s+)?(?:run:\s*)?)lake(?=\s)'
