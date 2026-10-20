@@ -94,7 +94,7 @@ CIはexact-headごとのLean検証、公理監査、独立基礎の依存境界�
 ## 研究計画と履歴
 
 - [現在のROADMAP](ROADMAP.md)
-- [F112独立移行の詳細記録](docs/F112_INDEPENDENT_MIGRATION_LEDGER.md)（初期の19段階移行表。後続のP段階についてはPR #2339を優先）
+- [F112独立移行の詳細記録](https://github.com/itakura-hidetoshi/KuuOS/blob/fdf1d281aa8af7caed488e5a2e41cd7c16140726/docs/F112_INDEPENDENT_MIGRATION_LEDGER.md)（初期の19段階移行表。後続のP段階についてはPR #2339を優先）
 - [独立基礎の設計](docs/superpowers/specs/2026-10-16-independent-kuu-foundation-design.md)と[実装時の境界](AGENTS.md)
 - [v5.291以前のREADME](docs/legacy/README-v5.291.md)・[ROADMAP](docs/legacy/ROADMAP-v5.291.md)
 
