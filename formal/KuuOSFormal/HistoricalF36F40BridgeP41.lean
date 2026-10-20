@@ -221,7 +221,7 @@ theorem HistoricalF42NativeAnnotated.originalFaceTrace
       simpa only [HistoricalF42NativeAnnotated.supports,
         historicalF42OriginalFaceTrace] using ih
   | trans w z ihw ihz =>
-      simpa only [HistoricalF42NativeAnnotated.supports,
+      simp only [HistoricalF42NativeAnnotated.supports,
         historicalF42OriginalFaceTrace, List.map_append,
         ihw, ihz]
   | whiskerLeft prior w ih =>
@@ -266,7 +266,8 @@ theorem HistoricalF42NativeAnnotated.originalWords_exact
   | trans w z ihw ihz =>
       simpa only [HistoricalF42NativeAnnotated.originalWords,
         HistoricalF42NativeAnnotated.supports,
-        historicalF42OriginalFaceTrace, List.map_append, ihw, ihz]
+        historicalF42OriginalFaceTrace, List.map_append] using
+        congrArg₂ (· ++ ·) ihw ihz
   | whiskerLeft prior w ih =>
       simpa only [HistoricalF42NativeAnnotated.originalWords,
         HistoricalF42NativeAnnotated.supports,
