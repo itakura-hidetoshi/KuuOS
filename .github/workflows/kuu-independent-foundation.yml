@@ -77,6 +77,17 @@ jobs:
           restore-keys: |
             lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-
 
+      # After packages from main, overlay only the strictly validated
+      # parent F112 local build. No PR-to-PR cache sharing is assumed.
+      - name: Restore validated F112 parent project build (read-only)
+        if: github.event_name == 'pull_request' && github.event.pull_request.base.ref == 'formal/v5-293-f112-independent-total-change'
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake/build
+          key: kuuos-f112-base-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-${{ github.event.pull_request.base.sha }}
+          restore-keys: |
+            kuuos-f112-base-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-
+
       - name: Set up pinned Lean without redundant cache update
         uses: leanprover/lean-action@v1
         with:
