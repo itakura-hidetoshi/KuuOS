@@ -53,15 +53,56 @@ jobs:
         run: python3 scripts/report_kuu_migration_consumers.py --output artifacts/independent-kuu
       - name: Independent source boundary and regressions
         run: python3 scripts/run_kuu_foundation_check.py
-      - name: Set up pinned Lean and cached dependencies
+      # Reuse a *validated base branch* workspace first. PR caches are
+      # scoped to their merge ref and cannot seed sibling child PRs.
+      # This is restore-only: do not upload a second 2+ GB Lake archive.
+      - name: Restore base-branch Lake workspace (read-only)
+        id: lean-workspace-cache
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-${{ github.event.pull_request.base.sha || github.sha }}
+          restore-keys: |
+            kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-
+
+      # Fallback for branches published with [skip ci]: legacy lean-action
+      # writes its own cache namespace. Reuse but NEVER rewrite it here.
+      - name: Restore shared lean-action Lake snapshot (read-only)
+        id: lean-action-workspace-cache
+        if: steps.lean-workspace-cache.outputs.cache-matched-key == ''
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-${{ github.event.pull_request.base.sha || github.sha }}
+          restore-keys: |
+            lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-
+
+      - name: Set up pinned Lean without redundant cache update
         uses: leanprover/lean-action@v1
         with:
           auto-config: false
           build: false
           test: false
           lint: false
-          use-mathlib-cache: true
-          use-github-cache: true
+          use-mathlib-cache: false
+          use-github-cache: false
+
+      - name: Fetch pinned Mathlib only when BOTH workspace caches miss
+        if: steps.lean-workspace-cache.outputs.cache-matched-key == '' && steps.lean-action-workspace-cache.outputs.cache-matched-key == ''
+        shell: bash
+        run: |
+          set -euo pipefail
+          lake exe cache get
+
+      - name: Report independent foundation cache origin
+        shell: bash
+        env:
+          BASE_LAKE_KEY: ${{ steps.lean-workspace-cache.outputs.cache-matched-key }}
+          SHARED_LAKE_KEY: ${{ steps.lean-action-workspace-cache.outputs.cache-matched-key }}
+        run: |
+          set -euo pipefail
+          echo "Base workspace: ${BASE_LAKE_KEY:-miss}"
+          echo "Lean-action fallback: ${SHARED_LAKE_KEY:-miss}"
       # Focused incremental compilation of an internal import subgraph.
       # It is NOT an alternative canonical build or a separate theorem authority.
       # KuuOSFormal remains the single public aggregate, checked by normal Lean CI.
