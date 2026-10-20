@@ -280,11 +280,13 @@ jobs:
     needs: select
     if: needs.select.outputs.lean_required == 'true'
     runs-on: ubuntu-24.04
-    # F112 P4/P15 with genuine historical F47 imports requires a longer
-    # cold-build ceiling even when multiple preserved source files are changed.
-    # The Lean targets, public roots, strict lints, and axiom audits are unchanged.
-    # Cached exact-head rebuilds generally use the shorter actual wall time.
-    timeout-minutes: ${{ needs.select.outputs.lean_f47_heavy == 'true' && 100 || (needs.select.outputs.lean_fastpath == 'true' && 50 || 30) }}
+    # Full-audit workflow/cache edits still build the entire KuuOSFormal
+    # public closure. The default 30-minute timeout cancelled the previous
+    # exact-head jobs at ~30m despite successful Lean progress. Allow full
+    # audits the same cold-cache ceiling as genuine F47 dependencies; warm
+    # runs still finish immediately when Lake can reuse validated oleans.
+    # This changes only the job wall-time ceiling, not its strict targets.
+    timeout-minutes: ${{ (needs.select.outputs.lean_f47_heavy == 'true' || needs.select.outputs.full_audit_required == 'true') && 100 || (needs.select.outputs.lean_fastpath == 'true' && 50 || 30) }}
     steps:
       - name: Check out repository
         uses: actions/checkout@v6
@@ -295,20 +297,20 @@ jobs:
           name: audit-selection-${{ github.run_id }}-${{ github.run_attempt }}
           path: artifacts/selection
 
-      # Restore the trusted default-branch Lake workspace before Lean setup.
-      # The main-branch lean-formal workflow owns the matching kuuos-lake-* cache
-      # and saves it only after strict compilation. Pull-request runs restore it
-      # read-only, so unchanged KuuOS .olean files do not need to be rebuilt.
-      - name: Restore trusted main Lake workspace cache
+      # Restore the multi-GB Mathlib/package workspace from main, using
+      # the exact base SHA if available and a validated prior main fallback.
+      # A separate smaller F112 base build overlay is applied below.
+      # All restored oleans are still checked by Lake.
+      - name: Restore validated parent/main Lake workspace cache
         id: lean-workspace-cache
         uses: actions/cache/restore@v5
         with:
           path: .lake
-          key: kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-${{ github.event.pull_request.head.sha || github.sha }}
+          key: kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-${{ github.event.pull_request.base.sha || github.sha }}
           restore-keys: |
             kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-
 
-      # The canonical main workspace key can be absent when main was
+      # The validated base/main workspace key can be absent when a branch was
       # published with [skip ci]. In that case restore the already available
       # leanprover/lean-action cache, whose documented key starts with lake-.
       # This is restore-only; it neither adds a new CI job nor overwrites
@@ -319,7 +321,7 @@ jobs:
         uses: actions/cache/restore@v5
         with:
           path: ./.lake
-          key: lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-${{ github.event.pull_request.head.sha || github.sha }}
+          key: lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-${{ github.event.pull_request.base.sha || github.sha }}
           restore-keys: |
             lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-
 
@@ -341,6 +343,28 @@ jobs:
           set -euo pipefail
           echo "Lake cache exact hit: ${CACHE_HIT:-false}"
           echo "Lake cache matched key: ${CACHE_MATCHED_KEY:-none}"
+
+      # Child F112 PRs reuse the strictly validated P-stage compiled
+      # module spine from their actual PR BASE branch. This is a ~0.2 GB
+      # project-only cache, layered over the shared main package workspace.
+      - name: Restore verified F112 parent project build overlay
+        if: github.event_name == 'pull_request' && github.event.pull_request.base.ref == 'formal/v5-293-f112-independent-total-change'
+        id: f112-parent-build-cache
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake/build
+          key: kuuos-f112-base-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-${{ github.event.pull_request.base.sha }}
+          restore-keys: |
+            kuuos-f112-base-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-
+
+      - name: Report F112 parent project build restore
+        if: github.event_name == 'pull_request' && github.event.pull_request.base.ref == 'formal/v5-293-f112-independent-total-change'
+        shell: bash
+        env:
+          CACHE_MATCHED_KEY: ${{ steps.f112-parent-build-cache.outputs.cache-matched-key }}
+        run: |
+          set -euo pipefail
+          echo "F112 parent project cache: ${CACHE_MATCHED_KEY:-miss}"
 
       # Overlay the most recent local project build from this PR only.  This
       # cache is never restored by main and therefore cannot contaminate the
@@ -378,16 +402,22 @@ jobs:
           use-mathlib-cache: false
           use-github-cache: false
 
-      # Main and lean-action caches both contain pinned Mathlib and may
-      # contain prior KuuOS oleans. Avoid refreshing dependency mtimes when
-      # EITHER full workspace cache was restored. The PR-local build overlay
-      # is restored independently above and remains scoped to this PR.
-      - name: Fetch Mathlib cache on Lake workspace cache miss
-        if: steps.lean-workspace-cache.outputs.cache-matched-key == '' && steps.lean-action-workspace-cache.outputs.cache-matched-key == ''
+      # GitHub's prefix cache is not proof that the pinned checkout and its
+      # compiled Mathlib artifacts both exist. Verify the actual filesystem
+      # before skipping dependency initialization; warm paths do no refresh.
+      - name: Resolve pinned Lake dependencies only when missing
         shell: bash
         run: |
           set -euo pipefail
-          lake exe cache get
+          if [[ ! -d .lake/packages/mathlib ]]; then
+            echo "Cold cache: restore pinned Mathlib checkout"
+            lake update
+          fi
+          if [[ ! -f .lake/packages/mathlib/.lake/build/lib/lean/Mathlib.olean ]]; then
+            echo "Cold cache: fetch pinned Mathlib oleans"
+            lake exe cache get
+          fi
+          git diff --exit-code -- lake-manifest.json lean-toolchain
 
       - name: Run selected Lean check
         shell: bash
@@ -431,7 +461,7 @@ jobs:
       # for the exact source files that produced it and remains scoped to this
       # pull request.  A changed source on the next head is still rebuilt by Lake.
       - name: Save PR-local Lean build overlay
-        if: always() && github.event_name == 'pull_request'
+        if: always() && !cancelled() && github.event_name == 'pull_request'
         uses: actions/cache/save@v5
         with:
           path: .lake/build

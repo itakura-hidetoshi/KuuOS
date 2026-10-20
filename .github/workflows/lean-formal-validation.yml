@@ -11,6 +11,9 @@ on:
   push:
     branches:
       - main
+      # Parent F112 is a real PR base: its validated .lake is visible
+      # to child PRs; PR-created caches cannot be shared with siblings.
+      - formal/v5-293-f112-independent-total-change
     paths:
       - "formal/**"
       - "scripts/build_lean4.sh"
@@ -32,7 +35,7 @@ env:
 
 jobs:
   formal:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     timeout-minutes: 120
     env:
       KUUOS_LEAN_TARGET: ${{ github.event_name == 'workflow_dispatch' && inputs.target || 'KuuOSFormal' }}
@@ -50,22 +53,57 @@ jobs:
           use-mathlib-cache: false
           use-github-cache: false
       - name: Restore Lake workspace cache
-        uses: actions/cache@v5
+        id: lake-workspace
+        uses: actions/cache/restore@v5
         with:
           path: .lake
           key: kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-${{ github.sha }}
           restore-keys: |
             kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-
-      - name: Compile pinned Lean 4 target
+      # The large Mathlib/package workspace is shared from main. F112
+      # publishes ONLY its own small .lake/build overlay after validation,
+      # rather than a duplicate multi-GB .lake archive on every P-stage.
+      - name: Restore prior verified F112 parent project build
+        if: github.event_name == 'push' && github.ref == 'refs/heads/formal/v5-293-f112-independent-total-change'
+        id: f112-parent-build
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake/build
+          key: kuuos-f112-base-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-${{ github.sha }}
+          restore-keys: |
+            kuuos-f112-base-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-
+
+      # GitHub's prefix cache is not proof that the pinned checkout and its
+      # compiled Mathlib artifacts both exist. Verify the actual filesystem
+      # before skipping dependency initialization; warm paths do no refresh.
+      - name: Resolve pinned Lake dependencies only when missing
         shell: bash
         run: |
           set -euo pipefail
-          bash scripts/build_lean4.sh --target "$KUUOS_LEAN_TARGET" \
+          if [[ ! -d .lake/packages/mathlib ]]; then
+            echo "Cold cache: restore pinned Mathlib checkout"
+            lake update
+          fi
+          if [[ ! -f .lake/packages/mathlib/.lake/build/lib/lean/Mathlib.olean ]]; then
+            echo "Cold cache: fetch pinned Mathlib oleans"
+            lake exe cache get
+          fi
+          git diff --exit-code -- lake-manifest.json lean-toolchain
+
+      - name: Compile pinned Lean 4 target without rewriting dependencies
+        shell: bash
+        env:
+          MATCHED_LAKE_KEY: ${{ steps.lake-workspace.outputs.cache-matched-key }}
+        run: |
+          set -euo pipefail
+          echo "Restored Lake workspace: ${MATCHED_LAKE_KEY:-cold-cache}"
+          bash scripts/build_lean4.sh --no-update --no-cache --target "$KUUOS_LEAN_TARGET" \
             2>&1 | tee lean-formal-validation.log
+          git diff --exit-code -- lake-manifest.json lean-toolchain
       # KuuOSFormal does not import every theorem-bearing DO frontier.
       # On trusted main only, compile the newest committed DO version chain
       # with exactly the same strict Lean options as PR validation. The
-      # actions/cache post-step then saves these .olean artifacts for NEW
+      # verified cache save then publishes these .olean artifacts for NEW
       # pull requests, not only later commits of an existing pull request.
       # No cached result is treated as proof: Lake still hashes every input
       # and rebuilds any changed modules on each PR's exact HEAD.
@@ -104,6 +142,62 @@ jobs:
             -KleanArgs=-DsorryAsError=true \
             build "${frontier_targets[@]}" 2>&1 | tee lean-frontier-cache-warm.log
 
+      # P24 (or the latest subsequently merged P-stage) is not a public
+      # aggregate import yet. Compile this real theorem spine on the
+      # F112 parent PUSH so sibling child PRs can read its validated oleans.
+      # Never create branch-shared caches from unverified pull_request runs.
+      - name: Warm latest F112 historical bridge for child PRs
+        if: github.event_name == 'push' && github.ref == 'refs/heads/formal/v5-293-f112-independent-total-change'
+        shell: bash
+        run: |
+          set -euo pipefail
+          mapfile -t f112_targets < <(
+            python3 - <<'PY'
+          from pathlib import Path
+          import re
+
+          root = Path("formal/KuuOSFormal")
+          candidates = []
+          for path in root.glob("HistoricalF36F40BridgeP*.lean"):
+              match = re.fullmatch(r"HistoricalF36F40BridgeP([0-9]+)\.lean", path.name)
+              if match:
+                  candidates.append((int(match.group(1)), path.stem))
+          if not candidates:
+              raise SystemExit("Missing canonical F112 historical bridge spine")
+          _, latest = max(candidates)
+          print(f"KuuOSFormal.{latest}")
+          PY
+          )
+          if (( ${#f112_targets[@]} != 1 )); then
+            echo "Expected exactly one canonical F112 bridge target" >&2
+            exit 1
+          fi
+          printf 'Warm F112 parent source: %s\n' "${f112_targets[0]}"
+          LEAN_ABORT_ON_PANIC=1 lake \
+            -KleanArgs=-DwarningAsError=true \
+            -KleanArgs=-DsorryAsError=true \
+            build "${f112_targets[0]}" 2>&1 | tee lean-f112-bridge-cache-warm.log
+          git diff --exit-code -- lake-manifest.json lean-toolchain
+
+      # Only main owns the multi-GB package workspace. Child PRs read it
+      # but never upload it. The original cache key/path stay compatible.
+      - name: Save verified main Lake workspace cache
+        if: success() && github.event_name == 'push' && github.ref == 'refs/heads/main' && steps.lake-workspace.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v5
+        with:
+          path: .lake
+          key: ${{ steps.lake-workspace.outputs.cache-primary-key }}
+
+      # A separate, fully validated F112 parent PUSH stores only 0.2 GB
+      # of local KuuOS oleans. This base-branch cache is visible to all
+      # child pull requests, unlike caches scoped to refs/pull/*/merge.
+      - name: Save verified F112 parent project build cache
+        if: success() && github.event_name == 'push' && github.ref == 'refs/heads/formal/v5-293-f112-independent-total-change' && steps.f112-parent-build.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v5
+        with:
+          path: .lake/build
+          key: ${{ steps.f112-parent-build.outputs.cache-primary-key }}
+
       - name: Upload formal validation log
         if: always()
         uses: actions/upload-artifact@v4
@@ -112,5 +206,6 @@ jobs:
           path: |
             lean-formal-validation.log
             lean-frontier-cache-warm.log
+            lean-f112-bridge-cache-warm.log
           if-no-files-found: warn
           retention-days: 14

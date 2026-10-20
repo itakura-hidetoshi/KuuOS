@@ -128,6 +128,83 @@ class LegacyCIIntegrationTests(unittest.TestCase):
         self.assertIn('            command lake --version || true\n', text)
         self.assertNotIn('scripts/run_formal_package.py --legacy -- --version', text)
 
+    def test_f112_parent_cache_is_seeded_only_after_strict_validation(self):
+        text = workflow('lean-formal-validation.yml')
+        self.assertIn('      - formal/v5-293-f112-independent-total-change\n', text)
+        self.assertIn('runs-on: ubuntu-24.04', text)
+        self.assertIn('uses: actions/cache/restore@v5', text)
+        self.assertIn('uses: actions/cache/save@v5', text)
+        self.assertIn('Save verified main Lake workspace cache', text)
+        self.assertIn('Save verified F112 parent project build cache', text)
+        self.assertIn('Restore prior verified F112 parent project build', text)
+        self.assertIn('path: .lake/build', text)
+        self.assertIn("steps.f112-parent-build.outputs.cache-primary-key", text)
+        self.assertIn('Warm latest F112 historical bridge for child PRs', text)
+        self.assertIn('HistoricalF36F40BridgeP([0-9]+)', text)
+        self.assertIn('bash scripts/build_lean4.sh --no-update --no-cache', text)
+        self.assertIn('Resolve pinned Lake dependencies only when missing', text)
+        self.assertIn('git diff --exit-code -- lake-manifest.json lean-toolchain', text)
+
+    def test_child_pr_lean_checks_read_exact_base_before_fallback(self):
+        text = workflow('pr-governance-gate.yml')
+        self.assertIn('Restore validated parent/main Lake workspace cache', text)
+        self.assertIn('key: kuuos-lake-', text)
+        self.assertIn("hashFiles('lake-manifest.json') }}-${{ github.event.pull_request.base.sha || github.sha }}", text)
+        self.assertIn('uses: actions/cache/restore@v5', text)
+        self.assertIn('Restore verified F112 parent project build overlay', text)
+        self.assertIn('kuuos-f112-base-build-', text)
+        self.assertIn('Save PR-local Lean build overlay', text)
+        self.assertIn('path: .lake/build', text)
+        self.assertIn('use-mathlib-cache: false', text)
+        self.assertIn('use-github-cache: false', text)
+
+    def test_independent_ci_restores_shared_cache_without_duplicate_save(self):
+        text = workflow('kuu-independent-foundation.yml')
+        self.assertIn('Restore base-branch Lake workspace (read-only)', text)
+        self.assertIn('Restore shared lean-action Lake snapshot (read-only)', text)
+        self.assertEqual(text.count('uses: actions/cache/restore@v5'), 3)
+        self.assertIn('Restore validated F112 parent project build (read-only)', text)
+        self.assertIn('kuuos-f112-base-build-', text)
+        self.assertNotIn('uses: actions/cache/save@v5', text)
+        self.assertNotIn('use-github-cache: true', text)
+        self.assertIn('use-github-cache: false', text)
+        self.assertIn('use-mathlib-cache: false', text)
+        self.assertIn('Resolve pinned Lake dependencies only when missing', text)
+        self.assertIn('build KuuOSStrict', text)
+        self.assertIn('scripts/run_kuu_foundation_check.py', text)
+
+    def test_cold_cache_recovery_verifies_real_pinned_files(self):
+        # A prefix cache match is insufficient when the local Mathlib checkout
+        # or its compiled oleans are absent; keep the canonical pins unchanged.
+        for name in ('lean-formal-validation.yml', 'pr-governance-gate.yml',
+                     'kuu-independent-foundation.yml'):
+            with self.subTest(workflow=name):
+                text = workflow(name)
+                self.assertIn('Resolve pinned Lake dependencies only when missing', text)
+                self.assertIn('if [[ ! -d .lake/packages/mathlib ]]; then', text)
+                self.assertIn('lake update', text)
+                self.assertIn(
+                    'if [[ ! -f .lake/packages/mathlib/.lake/build/lib/lean/Mathlib.olean ]]; then',
+                    text)
+                self.assertIn('lake exe cache get', text)
+                self.assertIn('git diff --exit-code -- lake-manifest.json lean-toolchain',
+                              text)
+
+    def test_full_audit_cold_build_has_sufficient_timeout(self):
+        # Workflow/cache changes select the whole strict aggregate even when
+        # the F47 source heuristic is false, so avoid the previous 30m kill.
+        text = workflow('pr-governance-gate.yml')
+        self.assertIn("needs.select.outputs.full_audit_required == 'true'", text)
+        self.assertIn("&& 100 ||", text)
+        self.assertIn("needs.select.outputs.lean_fastpath == 'true' && 50 || 30",
+                      text)
+
+    def test_cancelled_lean_does_not_publish_incomplete_pr_cache(self):
+        text = workflow('pr-governance-gate.yml')
+        self.assertIn(
+            "if: always() && !cancelled() && github.event_name == 'pull_request'",
+            text)
+
     def test_no_bare_lake_reenters_the_recorded_migration(self):
         # Keep the existing migration verifier idempotent, including diagnostics.
         pattern = r'(?m)^(\s*(?:-\s+)?(?:run:\s*)?)lake(?=\s)'
