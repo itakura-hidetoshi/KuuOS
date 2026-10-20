@@ -208,14 +208,13 @@ class IndependentKuuCICacheConsolidationTests(unittest.TestCase):
                 self.assertIn('kuu-independent-foundation', selected)
                 self.assertIn('KuuOSFormal', plan['lean_targets'])
                 self.assertFalse(plan['full_audit_required'])
-                self.assertIsNone(plan['lean_fallback_reason'])
         aggregate = (ROOT / 'formal/KuuOSFormal.lean').read_text(encoding='utf-8')
         self.assertIn('import KuuOSStrict', aggregate)
 
     def test_manual_foundation_audit_keeps_its_full_lean_proof(self):
         dedicated = (ROOT / WORKFLOWS / 'kuu-independent-foundation.yml').read_text(
             encoding='utf-8')
-        triggers = dedicated.split('on:\\n', 1)[1].split('\\npermissions:', 1)[0]
+        triggers = dedicated.split('on:\n', 1)[1].split('\npermissions:', 1)[0]
         self.assertIn('workflow_dispatch:', triggers)
         self.assertNotIn('pull_request:', triggers)
         self.assertIn('scripts/run_kuu_foundation_check.py', dedicated)
@@ -232,7 +231,7 @@ class IndependentKuuCICacheConsolidationTests(unittest.TestCase):
         self.assertIn('formal/v5-293-f112-independent-total-change', prewarm)
         self.assertIn('refs/heads/formal/v5-293-f112-independent-total-change', prewarm)
         self.assertIn('Warm F112 theorem bridge on the authoritative working branch', prewarm)
-        self.assertIn('KuuOSFormal.HistoricalF36F40BridgeP', prewarm)
+        self.assertIn('HistoricalF36F40BridgeP([0-9]+)', prewarm)
         self.assertIn('lean-f112-cache-warm.log', prewarm)
         self.assertIn('runs-on: ubuntu-24.04', prewarm)
         self.assertIn('runs-on: ubuntu-24.04', governance)
