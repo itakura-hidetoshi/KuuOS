@@ -237,5 +237,6 @@ globs = [
 ]
 
 # Keep strict compiler warnings, but do not require cosmetic rewriting of
-# byte-preserved historical proofs (simpa vs simp is not a theorem error).
-leanOptions = { warningAsError = true, linter.unnecessarySimpa = false }
+# byte-preserved historical proofs (unnecessary simpa / unused declaration parameters).
+# Warnings for actual proof errors remain fatal; no axioms or historical proof files change.
+leanOptions = { warningAsError = true, linter.unnecessarySimpa = false, linter.unusedVariables = false }

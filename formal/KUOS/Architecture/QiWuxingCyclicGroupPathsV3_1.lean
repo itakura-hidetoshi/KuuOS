@@ -166,7 +166,7 @@ theorem directControlPath_ne_twoGenerationPath (p : FivePhase) :
     congrArg
       (fun path : Quiver.Path p (generationPhase (generationPhase p)) =>
         path.length) h
-  rw [directControlPath_length, twoGenerationPath_length] at hlen
+  change (1 : Nat) = 2 at hlen
   omega
 
 /-- Observe a typed path only through its group displacement and event count. -/
@@ -247,7 +247,7 @@ despite retaining total event count. -/
 theorem mixed_relation_words_same_shift :
     relationWordShift [.generation, .control] =
       relationWordShift [.control, .generation] := by
-  simp [relationWordShift, add_assoc, add_comm, add_left_comm]
+  simp [relationWordShift, add_comm]
 
 /-- Equal additive shifts also give equal state actions: source words must
 still be retained when the event order matters. -/
