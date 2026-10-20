@@ -216,7 +216,11 @@ class IndependentKuuCICacheConsolidationTests(unittest.TestCase):
             encoding='utf-8')
         triggers = dedicated.split('on:\n', 1)[1].split('\npermissions:', 1)[0]
         self.assertIn('workflow_dispatch:', triggers)
-        self.assertNotIn('pull_request:', triggers)
+        self.assertIn('pull_request:', triggers)
+        # Keep the historical required check context without scheduling a
+        # second Lean runner on PRs. A conditional job skip is not a missing
+        # workflow result and the exact-head Governance checks still run.
+        self.assertIn("if: github.event_name == 'workflow_dispatch'", dedicated)
         self.assertIn('scripts/run_kuu_foundation_check.py', dedicated)
         self.assertIn('leanprover/lean-action@v1', dedicated)
         self.assertIn('Focused incremental Kuu module compilation', dedicated)
