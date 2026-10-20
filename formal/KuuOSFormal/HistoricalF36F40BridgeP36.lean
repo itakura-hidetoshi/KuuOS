@@ -48,6 +48,8 @@ open Kuu.F112.Physical
 open KUOS.DependentOriginationGrayC60MixedBoundaryThreeHomV5_195
 open KUOS.DependentOriginationGrayC60PresentedFaceTwoCellsV5_190
 open KUOS.DependentOriginationIcosahedralTruncationSeedV3_84
+open KUOS.DependentOriginationTruncatedIcosahedralEdgesV3_85
+open KUOS.DependentOriginationCoherentBiadjunctionInterleavingExchangeQuotientV5_141.Grid
 
 set_option autoImplicit false
 set_option warningAsError true
