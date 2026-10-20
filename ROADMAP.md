@@ -2,11 +2,23 @@
 
 > **2026-10-20 JST時点の確認記録。** canonical `main` の確認SHA：`a6f65142fef6324c6219867b6d5a0285a2b0004d`。F112研究親ブランチの確認SHA：`fdf1d281aa8af7caed488e5a2e41cd7c16140726`。SHAはこの日の観測値であり、将来の最新HEADを保証しません。現在値はそれぞれGitHubのbranch/PRで再観測してください。
 
-## 権威と完了の定義
+## 縁起からのpresentationと交代可能性
 
-1. **正本はリポジトリ・ブランチ・exact commit SHAで識別する。** `main` は公開統合正本、[F112親PR #2339](https://github.com/itakura-hidetoshi/KuuOS/pull/2339) の `formal/v5-293-f112-independent-total-change` はDraft・未マージの定理研究正本です。
+[旧README](docs/legacy/README-v5.291.md)の中心にあるのは、**空・縁起・関係・文脈・表現の交代可能性と、obstructionを残すdescent** です。
+
+> **空は、異なる原表示を無条件に同一視することではない。** 文脈と保存量を明確にしたうえで、交換可能な表現を証明し、合成・輸送・貼り合わせが不整合ならその障害を残す。
+
+**独立Kuuも、縁起から空を捉える一つのpresentationです。** Grayへの依存を取り除いたことは、独立Kuuを唯一・究極の空に格上げしません。旧F94–F95の荷電商、独立Kuuの指定関係商、Qiの観測圏、真正F112の異なるsourceも、それぞれの型・境界・関係・観測・仮定とともに理解します。どれも無条件には同一視せず、どれかを空そのものとして固定しません。
+
+数学的な仕事は、これらのpresentationの間で**何が保存され、どの条件でtransport・交換・降下・glueが成立するか、どこにobstructionが残るか**を、実際の射・関手・自然性・証明関連情報を用いて確かめることです。二つのpresentationが同値であるときにはその同値を証明し、同値でない場合には差異を保存します。**空の空も特別な高次型・唯一のメタpresentation・新しい固定公理にしません。**
+
+この位置づけを形式化の外へ追いやらず、選択した数学的対象・比較・証明に対する問いとして研究を進めます。現在のLeanソースが中論の全内容、あるいは空の空そのものを証明し尽くしたという主張はしません。
+
+## GitHub上の証明検証と正本管理
+
+1. **GitHub上の正本はリポジトリ・ブランチ・exact commit SHAで識別する。** これはファイルと証明の検証履歴の管理上の取り決めであり、空の唯一のpresentationを決めるものではありません。`main` は公開統合正本、[F112親PR #2339](https://github.com/itakura-hidetoshi/KuuOS/pull/2339) の `formal/v5-293-f112-independent-total-change` はDraft・未マージの定理研究正本です。
 2. **数学的な「証明済み」は実際のLean定理とその依存に限る。** `#print axioms` を確認し、`sorryAx`、新たな未証明公理、仮定のすり替えを許しません。CIのSUCCESSはexact-headに対応する検証の証拠ですが、定理の主張を拡張しません。
-3. **公開rootと既存定理は保全する。** `main` の現行`lakefile.toml`には以前からの107公開rootがあり、標準入口は `KuuOSFormal` の一つです。`KuuOSStrict` は内部import集約であり、第2の数学体系ではありません。Gray固有の歴史的証明も元の型・仮定で保持しますが、新しい独立Kuuの前提にはしません。
+3. **公開rootと既存定理は保全する。** `main` の現行`lakefile.toml`には以前からの107公開rootがあり、標準ビルド入口は `KuuOSFormal` です。ビルド入口は空の唯一性を示しません。`KuuOSStrict` は内部import集約です。Gray固有の歴史的証明も元の型・仮定で保持し、現在の独立Kuuの原始定義にはGrayを要求しません。
 4. **未マージの研究ブランチ上の結果はmainの成果と区別する。** 特定sourceが単独でstrict Leanビルドに成功していても、公開aggregateに取り込まれた、あるいは親PRがmainへ統合されたとは読み替えません。
 5. **数学／runtime／権限を混同しない。** Lean形式化、Python等の回帰テスト、LLMとの接続、物理現象の実証、外部行為の承認は別の義務です。
 
@@ -14,7 +26,7 @@
 
 | 領域 | 確認済み到達点 | 正本の場所 | 現在の扱い |
 |---|---|---|---|
-| Kuuの原始表示・普遍商 | 境界付き自由経路、指定交代の閉包、`project_exact`、適合観測の一意因子化、厳密2次比較、文脈切片・総圏 | [`formal/Kuu/`](formal/Kuu) | **main統合済み** |
+| 独立Kuuという一つのpresentation | 選んだ境界付き自由経路と指定関係に相対的な商、`project_exact`、適合観測の一意因子化、厳密2次比較、文脈切片・総圏 | [`formal/Kuu/`](formal/Kuu) | **main統合済み** |
 | 五行・Qi v3.1 | `ZMod 5` の巡回群作用、相生+1／相剋+2、型付き自由関係経路と順序の非崩壊 | [Lean v3.1](formal/KUOS/Architecture/QiWuxingCyclicGroupPathsV3_1.lean) · [#2366](https://github.com/itakura-hidetoshi/KuuOS/pull/2366) | **main統合済み** |
 | Qi v3.2 | 経路の位相変位・イベント数の合同を宣言した観測商、非忠実な観測例 | [Lean v3.2](formal/KUOS/Architecture/QiWuxingPathObservationCongruenceV3_2.lean) · [#2369](https://github.com/itakura-hidetoshi/KuuOS/pull/2369) | **main統合済み** |
 | Qi v3.3 | 到達可能観測圏、full/non-faithfulな観測、商関手がfull・faithful・essentially surjectiveであることによる圏同値 | [Lean v3.3](formal/KUOS/Architecture/QiWuxingReachableObservationCategoryV3_3.lean) · [#2371](https://github.com/itakura-hidetoshi/KuuOS/pull/2371) | **main統合済み** |
@@ -26,17 +38,17 @@
 
 **注意：** `H₀/H₁/H₂` はここで構成した**整数係数セル複体**の結果です。これだけでは歴史的F55の3-Hom、F68の符号付き曲率、F77の位相情報、あるいは任意の高次descentの成立・不成立は導けません。
 
-## A. 既に完了した独立基礎の切替（main）
+## A. mainで構成済みの独立Kuu presentation
 
-**完了したこと**
+**このpresentationで実際に構成・証明したこと**
 
 - 古い公開rootを一括してビルドから除外する措置を撤回し、既存107 rootと現行`formal/KUOS/` の公開証明を復旧・維持。
-- 空の原始定義を`Kuu.Presentation` の境界付き表示と**指定された交代**に置き、観測関手の等値性を原始商関係の代用にしない。
+- **独立Kuuの一つのpresentationとして**、`Kuu.Presentation` の境界付き表示と**指定された交代**から商を構成。観測関手の等値性を無条件な原始経路同一性の代わりにはしない。これは空の最終定義ではない。
 - `Kuu.Strict` の厳密な関手・自然変換比較、`Kuu.Incidence` の文脈依存の切片・総圏、指定なしの経路が崩壊しないテスト例を実装。
-- mathlibをそのまま使い、独立KuuからGray/F51/F77の実依存を外す。`import Mathlib`の禁止や`KUOS.*`全体の禁止は行わない。
+- mathlibを用い、**今回選んだ独立Kuu presentationの構成**からGray/F51/F77の実依存を外す。他のpresentationの価値や過去の型付き証明を否定しない。`import Mathlib`の禁止や`KUOS.*`全体の禁止は行わない。
 - Qi v3.1–v3.3を[canonical `KuuOSFormal`](formal/KuuOSFormal.lean) に統合。観測圏同値の成立と、元の履歴を忘れる非忠実性を同時に表現。
 
-**維持する条件：** 旧証明の再承認を新しい研究の前提にしない。既存定理の名前・型・仮定・実証範囲の変更は、個別の変更内容とその厳密検証でのみ行う。
+**維持する条件：** 旧証明の再承認を新しい研究の前提にしない。古いpresentationを単に新しいpresentationの劣った代用品として扱わない。どの定理も、その型・仮定・比較可能な範囲のもとで扱い、別presentationとの対応は必要なときに証明する。
 
 ## B. F112独立移行：P1–P26の到達点と次の義務
 
@@ -53,9 +65,9 @@
 
 P26の新規ソースは[Lean 1294/1294・公理監査6/6・`sorryAx`なし](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/39409634477)で検証済みです。ただし、**`KuuOSStrict` からの通常import登録は別の未了作業**です。個別ソースのstrictビルド、標準aggregate統合、親PRのmainマージを3つの別の判定として扱います。
 
-### B1. 優先：証明関連sourceの型付き比較
+### B1. 優先：異なるpresentation間の証明関連sourceの型付き比較
 
-- 歴史的F42/F45/F54/F55と独立Kuuのraw constructorを、実際の始域・終域・境界・中間履歴に沿って比較する。
+- 旧F42/F45/F54/F55と独立Kuuという**異なるpresentation**のraw constructorを、実際の始域・終域・境界・中間履歴に沿って比較する。比較の結果を先に同値と決めない。
 - Prop証拠への消去が非単射であることは**既に証明された障害**。失われた証明対象が逆写像だけで再生できるという偽の「同値」を作らず、必要に応じて**Type-valued witnessを保つ拡充された比較対象**を構成する。
 - F47の真正な3-Homと、F54の回転・四境界・同一物理面を含む高次sourceを型付きで実現し、globularity・貼り合わせ・interchangeを必要な範囲で**定理として**証明する。交換法則を未証明の公理として追加しない。
 - これが完成するまで、現在のF112局所移行を歴史的F112全19段階の完全移植と呼ばない。
@@ -73,13 +85,13 @@ P26の新規ソースは[Lean 1294/1294・公理監査6/6・`sorryAx`なし](htt
 - ビルド時間を理由に別の公開`KuuOSStrict`ライブラリや補助的な「厳密系」を権威化しない。Lakeの`+Module`個別ビルドは一つのパッケージにおける局所検証に過ぎない。
 - 親PR #2339をmainに統合するのは、未移植の義務と正確な数学的主張が明示され、旧rootを含む統合チェック・必要な公理監査・Governanceが**その統合対象HEADで**揃った後に限る。未完成の高次主張を完成済みと書き換えて進めない。
 
-## C. Qiの次の形式化
+## C. Qiというpresentationと他の表示との関係
 
-mainで完了したのは五行の**具体的な型付き経路・観測合同・到達可能観測圏との圏同値**です。
+mainで完了したのは五行の**具体的な型付き経路・観測合同・到達可能観測圏との圏同値**です。この圏同値は指定された観測合同に関するもので、空一般の唯一の観測圏を示すものではありません。
 
 今後の論点：
 
-1. イベント数や位相変位では区別できない**生成順序・局所履歴・文脈**を保存する観測器や比較を明示的に構成する。
+1. イベント数や位相変位では区別できない**生成順序・局所履歴・文脈**を保存する別presentationの観測器・比較を明示的に構成し、何を保持・消去するかを証明する。
 2. 指定する交代関係・観測器・商・降下可能性の各条件を分離し、観測による同一視を、宣言のない原始経路の同一性と混同しない。
 3. 五行モデルを他の物理・生物学的モデルに接続する場合は、写像、尺度、検証可能な意味、適用範囲を別途定義する。既存の巡回群表現の証明から実証的因果や臨床適用を自動的には導かない。
 
