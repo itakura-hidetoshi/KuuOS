@@ -16,7 +16,7 @@ edge is transported to a genuine *two-leg zigzag*
 
 with a proof of BOTH original/native endpoint correspondences.
 The historical reverse edge uses the opposite two-leg traversal, not
-an asserted inverse equality in raw Zigzag.
+an asserted inverse equality in raw Kuu.F112.Physical.Zigzag.
 
 By Mathlib Paths.lift, this genuine quiver map extends to ALL ORIGINAL
 Quiver.Path words, preserves original endpoints, identities and arbitrary
@@ -50,18 +50,18 @@ noncomputable section
 dart-to-dart morphism in the original native incidence category:
 it is a two-step formally reversible zigzag through its true edge. -/
 def historicalNativeEdgeForwardRaw (e : Edge) :
-    Zigzag (Site.vertex (edgeEndpoints e).1)
+    Kuu.F112.Physical.Zigzag (Site.vertex (edgeEndpoints e).1)
       (Site.vertex (edgeEndpoints e).2) :=
-  Zigzag.forward (flag_vertex_edge e false)
-    (Zigzag.backward (flag_vertex_edge e true) (.nil _))
+  Kuu.F112.Physical.Zigzag.forward (flag_vertex_edge e false)
+    (Kuu.F112.Physical.Zigzag.backward (flag_vertex_edge e true) (.nil _))
 
 /-- The original reverse physical arrow traverses the SAME actual
 edge using reversed order of the two real physical dart endpoint legs. -/
 def historicalNativeEdgeReverseRaw (e : Edge) :
-    Zigzag (Site.vertex (edgeEndpoints e).2)
+    Kuu.F112.Physical.Zigzag (Site.vertex (edgeEndpoints e).2)
       (Site.vertex (edgeEndpoints e).1) :=
-  Zigzag.forward (flag_vertex_edge e true)
-    (Zigzag.backward (flag_vertex_edge e false) (.nil _))
+  Kuu.F112.Physical.Zigzag.forward (flag_vertex_edge e true)
+    (Kuu.F112.Physical.Zigzag.backward (flag_vertex_edge e false) (.nil _))
 
 /-- Recover native FIRST dart endpoint of every old physical C60 edge
 by the explicit F112 original/native geometric equivalence. -/
@@ -87,7 +87,7 @@ theorem historicalOldEdgeSecondDart_native
 /-- A genuinely typed old FORWARD generator transported to its physical
 native two-leg zigzag, including old-to-native endpoint matching. -/
 def historicalOldForwardToRaw (old : TruncatedIcosahedralEdge) :
-    Zigzag (Site.vertex
+    Kuu.F112.Physical.Zigzag (Site.vertex
       (dartEquiv.symm (truncatedIcosahedralEdgeEndpoints old).1))
       (Site.vertex
       (dartEquiv.symm (truncatedIcosahedralEdgeEndpoints old).2)) := by
@@ -98,7 +98,7 @@ def historicalOldForwardToRaw (old : TruncatedIcosahedralEdge) :
 /-- The reversed old generator likewise has exactly the reversed
 two native dart endpoints and no raw backtrack cancellation. -/
 def historicalOldReverseToRaw (old : TruncatedIcosahedralEdge) :
-    Zigzag (Site.vertex
+    Kuu.F112.Physical.Zigzag (Site.vertex
       (dartEquiv.symm (truncatedIcosahedralEdgeEndpoints old).2))
       (Site.vertex
       (dartEquiv.symm (truncatedIcosahedralEdgeEndpoints old).1)) := by
@@ -110,7 +110,7 @@ def historicalOldReverseToRaw (old : TruncatedIcosahedralEdge) :
 The original arrow explicitly contains a genuine physical edge code
 and BOTH proofs of its old source/target; no arbitrary target is chosen. -/
 def historicalOldArrowToRaw {a b : IcosahedralDart} (f : a ⟶ b) :
-    Zigzag (Site.vertex (dartEquiv.symm a))
+    Kuu.F112.Physical.Zigzag (Site.vertex (dartEquiv.symm a))
       (Site.vertex (dartEquiv.symm b)) := by
   rcases f with ⟨f, ⟨ha, hb⟩⟩
   subst a
@@ -189,7 +189,7 @@ theorem historicalOldPaths_localized_factor
 source path exists for EVERY PAIR of actual C60 darts. -/
 theorem historicalF109AllDarts_native_raw_nonempty
     (a b : IcosahedralDart) :
-    Nonempty (Zigzag (Site.vertex (dartEquiv.symm a))
+    Nonempty (Kuu.F112.Physical.Zigzag (Site.vertex (dartEquiv.symm a))
         (Site.vertex (dartEquiv.symm b))) :=
   ⟨historicalOldPathsToRaw.map (c60F109EveryDartToDart a b)⟩
 
@@ -208,7 +208,7 @@ a relation may appear only after the specified localization. -/
 theorem historicalNativeForwardReverse_raw_ne_nil (e : Edge) :
     append (historicalNativeEdgeForwardRaw e)
       (historicalNativeEdgeReverseRaw e) ≠
-        Zigzag.nil (Site.vertex (edgeEndpoints e).1) := by
+        Kuu.F112.Physical.Zigzag.nil (Site.vertex (edgeEndpoints e).1) := by
   intro h
   cases h
 
