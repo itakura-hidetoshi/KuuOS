@@ -333,7 +333,11 @@ theorem northHexagonFourCorrection_charge_zero :
   change northHexagonOddShadow.1 - northHexagonEvenShadow.1 =
     ((0 : Int), (0 : Int))
   rw [← northHexagonEvenOddShadow_charge_eq]
-  simp
+  apply Prod.ext
+  · change northHexagonEvenShadow.1.1 - northHexagonEvenShadow.1.1 = (0 : Int)
+    exact sub_self _
+  · change northHexagonEvenShadow.1.2 - northHexagonEvenShadow.1.2 = (0 : Int)
+    exact sub_self _
 
 /-- The same comparison correction has NONZERO ZMod2 phase, on the
 actual six-sector C60 raw source rather than a fabricated square. -/
