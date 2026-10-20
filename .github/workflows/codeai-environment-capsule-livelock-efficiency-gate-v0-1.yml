@@ -74,6 +74,24 @@ jobs:
             tests.test_kuuos_codeai_intent_aligned_dataflow_context_pack_v0_2 \
             tests.test_kuuos_codeai_temporal_holdout_replay_corpus_v0_1 \
             2>&1 | tee codeai-environment-capsule-livelock-efficiency-gate-v0-1-tests.log
+      # Restore only main-validated Lake artifacts; do not save from PR jobs.
+      # PR local build artifacts may then overlay the trusted baseline.
+      - name: Restore trusted main Lake workspace (read-only)
+        id: trusted-lake-cache
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-${{ github.event.pull_request.head.sha || github.sha }}
+          restore-keys: |
+            kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-
+      - name: Restore PR-local Lean build overlay (read-only)
+        if: github.event_name == 'pull_request'
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake/build
+          key: kuuos-pr-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-pr${{ github.event.pull_request.number }}-${{ github.event.pull_request.head.sha }}
+          restore-keys: |
+            kuuos-pr-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-pr${{ github.event.pull_request.number }}-
       - name: Set up pinned Lean and Lake
         uses: leanprover/lean-action@v1
         with:
@@ -83,11 +101,13 @@ jobs:
           lint: false
           use-mathlib-cache: false
           use-github-cache: false
-      - name: Resolve pinned dependencies
+      - name: Resolve pinned dependencies (cold cache only)
+        if: steps.trusted-lake-cache.outputs.cache-matched-key == ''
         run: lake update
       - name: Verify committed dependency manifest is canonical
         run: git diff --exit-code -- lake-manifest.json
-      - name: Fetch Mathlib olean cache
+      - name: Fetch Mathlib olean cache (cold cache only)
+        if: steps.trusted-lake-cache.outputs.cache-matched-key == ''
         run: lake exe cache get
       - name: Strictly compile environment-efficiency formal root
         shell: bash
@@ -97,7 +117,10 @@ jobs:
             -KleanArgs=-DsorryAsError=true \
             build KuuOSCodeAIEnvironmentCapsuleLivelockEfficiencyGateV0_1 \
             2>&1 | tee codeai-environment-capsule-livelock-efficiency-gate-v0-1-lean.log
+      # PR-wide canonical KuuOSFormal proof is verified by PR Governance.
+      # Preserve an independent full baseline for manual dispatch only.
       - name: Strictly compile repository formal baseline
+        if: github.event_name == 'workflow_dispatch'
         shell: bash
         run: |
           set -euo pipefail
