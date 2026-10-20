@@ -142,7 +142,13 @@ theorem nativeF41EvidenceBundle_historical_not_injective
     ¬ Function.Injective
       (fun witness : NativeF41EvidenceBundle p => witness.historical) := by
   intro hinj
-  have heq := hinj (nativeF41DoubleNil_toHistorical_eq p)
+  have heq :
+      (nativeF41EvidenceBundleEquiv p)
+          (nativeF41DoubleNilSplitTrace p) =
+        (nativeF41EvidenceBundleEquiv p)
+          (nativeF41DoubleNilInsertTrace p) := by
+    apply hinj
+    exact nativeF41DoubleNil_toHistorical_eq p
   have hraw := congrArg
     (fun witness : NativeF41EvidenceBundle p => witness.raw) heq
   exact nativeF41DoubleNilSplitTrace_ne_insert p hraw
