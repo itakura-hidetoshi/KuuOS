@@ -130,7 +130,7 @@ class LegacyCIIntegrationTests(unittest.TestCase):
 
     def test_f112_parent_cache_is_seeded_only_after_strict_validation(self):
         text = workflow('lean-formal-validation.yml')
-        self.assertIn('      - formal/v5-293-f112-independent-total-change\\n', text)
+        self.assertIn('      - formal/v5-293-f112-independent-total-change\n', text)
         self.assertIn('runs-on: ubuntu-24.04', text)
         self.assertIn('uses: actions/cache/restore@v5', text)
         self.assertIn('uses: actions/cache/save@v5', text)
