@@ -109,4 +109,5 @@ import Kuu.F112.PolygonPhysicalF47SourcePacket
 import Kuu.F112.PolygonPhysicalFourBoundaryChargeFunctor
 import Kuu.F112.PolygonPhysicalMixedFaceRotationNonlift
 import Kuu.F112.PolygonPhysicalMixedFourBoundaryThreeCategory
+import Kuu.F112.PolygonPhysicalMixedChargeFunctorNonfaithful
 /-! Current independent Kuu foundation. No legacy KUOS imports are permitted. -/
