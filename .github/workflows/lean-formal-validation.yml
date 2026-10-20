@@ -54,7 +54,7 @@ jobs:
           use-github-cache: false
       - name: Restore Lake workspace cache
         id: lake-workspace
-        uses: actions/cache@v5
+        uses: actions/cache/restore@v5
         with:
           path: .lake
           key: kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-${{ github.sha }}
@@ -83,7 +83,7 @@ jobs:
       # KuuOSFormal does not import every theorem-bearing DO frontier.
       # On trusted main only, compile the newest committed DO version chain
       # with exactly the same strict Lean options as PR validation. The
-      # actions/cache post-step then saves these .olean artifacts for NEW
+      # verified cache save then publishes these .olean artifacts for NEW
       # pull requests, not only later commits of an existing pull request.
       # No cached result is treated as proof: Lake still hashes every input
       # and rebuilds any changed modules on each PR's exact HEAD.
@@ -158,6 +158,15 @@ jobs:
             -KleanArgs=-DsorryAsError=true \
             build "${f112_targets[0]}" 2>&1 | tee lean-f112-bridge-cache-warm.log
           git diff --exit-code -- lake-manifest.json lean-toolchain
+
+      # Branch-shared caches are seeded ONLY after all strict builds above
+      # succeed. An unverified PR never writes the parent cache namespace.
+      - name: Save verified parent/main Lake workspace cache
+        if: success() && steps.lake-workspace.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v5
+        with:
+          path: .lake
+          key: ${{ steps.lake-workspace.outputs.cache-primary-key }}
 
       - name: Upload formal validation log
         if: always()
