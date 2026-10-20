@@ -139,7 +139,7 @@ jobs:
           root = Path("formal/KuuOSFormal")
           candidates = []
           for path in root.glob("HistoricalF36F40BridgeP*.lean"):
-              match = re.fullmatch(r"HistoricalF36F40BridgeP([0-9]+)\\.lean", path.name)
+              match = re.fullmatch(r"HistoricalF36F40BridgeP([0-9]+)\.lean", path.name)
               if match:
                   candidates.append((int(match.group(1)), path.stem))
           if not candidates:
@@ -152,10 +152,10 @@ jobs:
             echo "Expected exactly one canonical F112 bridge target" >&2
             exit 1
           fi
-          printf 'Warm F112 parent source: %s\\n' "${f112_targets[0]}"
-          LEAN_ABORT_ON_PANIC=1 lake \\
-            -KleanArgs=-DwarningAsError=true \\
-            -KleanArgs=-DsorryAsError=true \\
+          printf 'Warm F112 parent source: %s\n' "${f112_targets[0]}"
+          LEAN_ABORT_ON_PANIC=1 lake \
+            -KleanArgs=-DwarningAsError=true \
+            -KleanArgs=-DsorryAsError=true \
             build "${f112_targets[0]}" 2>&1 | tee lean-f112-bridge-cache-warm.log
           git diff --exit-code -- lake-manifest.json lean-toolchain
 
