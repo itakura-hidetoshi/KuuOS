@@ -234,7 +234,8 @@ globs = [
   "Kuu.*",
   "KuuOSStrict",
   "KuuOSQiWuxingCyclicGroupPathsV3_1",
-  "KuuOSQiWuxingPathObservationCongruenceV3_2"
+  "KuuOSQiWuxingPathObservationCongruenceV3_2",
+  "KuuOSQiWuxingReachableObservationCategoryV3_3"
 ]
 
 # Keep strict compiler warnings, but do not require cosmetic rewriting of
