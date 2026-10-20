@@ -191,6 +191,57 @@ class CiAuditSelectorV01Tests(unittest.TestCase):
             roots = fn(lakefile)
         self.assertEqual(roots, {"KUOS", "Top"})
 
+    def test_globbed_native_leaf_is_a_direct_strict_lake_target(self) -> None:
+        """The sole public lean_lib also declares Kuu.* in its globs."""
+        fn = selector.select_lean_targets
+        with tempfile.TemporaryDirectory() as tmp:
+            root = pathlib.Path(tmp)
+            formal = root / "formal"
+            leaf = formal / "Kuu" / "F112"
+            leaf.mkdir(parents=True)
+            (leaf / "NewProof.lean").write_text(
+                "import Mathlib\ntheorem leaf_ok : True := by trivial\n",
+                encoding="utf-8",
+            )
+            (formal / "KuuOSFormal.lean").write_text(
+                "def oldRoot : Nat := 1\n", encoding="utf-8",
+            )
+            lakefile = root / "lakefile.toml"
+            lakefile.write_text(
+                'name = "Example"\n[[lean_lib]]\nname = "KuuOSFormal"\n'
+                'roots = ["KuuOSFormal"]\nglobs = ["Kuu.*"]\n',
+                encoding="utf-8",
+            )
+            targets, reason = fn(
+                ["formal/Kuu/F112/NewProof.lean"],
+                formal_root=formal,
+                lakefile_path=lakefile,
+            )
+        self.assertIsNone(reason)
+        self.assertEqual(targets, ["+Kuu.F112.NewProof"])
+
+    def test_glob_strict_descendants_excludes_root(self) -> None:
+        roots = {"Kuu.+"}
+        self.assertTrue(selector._is_buildable_lean_module("Kuu.F112.Phase", roots))
+        self.assertFalse(selector._is_buildable_lean_module("Kuu", roots))
+        self.assertEqual(
+            selector._lean_build_target("Kuu.F112.Phase", roots),
+            "+Kuu.F112.Phase",
+        )
+
+    def test_missing_glob_module_fails_closed_to_full_target(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            formal = pathlib.Path(tmp) / "formal"
+            formal.mkdir()
+            (formal / "KuuOSFormal.lean").write_text("def x : Nat := 1\n")
+            targets, reason = selector.select_lean_targets(
+                ["formal/Kuu/F112/Missing.lean"],
+                formal_root=formal,
+                library_roots={"KuuOSFormal", "Kuu.*"},
+            )
+        self.assertEqual(targets, ["KuuOSFormal"])
+        self.assertIsNotNone(reason)
+
     def test_lean_target_selection_falls_back_for_toolchain_changes(self) -> None:
         fn = getattr(selector, "select_lean_targets", None)
         self.assertIsNotNone(fn, "select_lean_targets must exist")
