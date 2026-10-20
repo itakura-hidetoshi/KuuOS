@@ -62,7 +62,7 @@ theorem historicalF42TransportedPhysicalTriangle_distinct
 /-- The old genuine physical face is precisely the transported
 native triangle's polygon. -/
 theorem historicalF42TransportedPhysicalTriangle_face
-    (e : Edge) (endpointSide historicalSide : Bool) :
+    (e : Edge) (historicalSide : Bool) :
     polygonEquiv.symm (historicalF42EdgeSelectedFace e historicalSide) =
       faceAt e (historicalF42NativeSide e historicalSide) :=
   historicalF42NativeSide_spec e historicalSide
