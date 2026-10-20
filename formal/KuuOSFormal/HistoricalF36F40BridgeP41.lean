@@ -44,6 +44,7 @@ open Kuu.F112.Physical
 open KUOS.DependentOriginationIcosahedralTruncationSeedV3_84
 open KUOS.DependentOriginationTruncatedIcosahedralEdgesV3_85
 open KUOS.DependentOriginationGrayC60PresentedFaceTwoCellsV5_190
+open KUOS.DependentOriginationGrayC60AllThirtyTwoFaceCycleV5_158
 
 set_option autoImplicit false
 set_option warningAsError true
@@ -109,13 +110,13 @@ def historicalF42OriginalFaceTrace :
     {a b : IcosahedralDart} → {p q : Quiver.Path a b} →
       C60F42PresentedFaceCell p q →
         List TruncatedIcosahedralSeedFace
-  | _, _, .ident _ => []
-  | _, _, .physicalFace f => [f]
-  | _, _, .symm w => historicalF42OriginalFaceTrace w
-  | _, _, .trans w v =>
+  | _, _, _, _, .ident _ => []
+  | _, _, _, _, .physicalFace f => [f]
+  | _, _, _, _, .symm w => historicalF42OriginalFaceTrace w
+  | _, _, _, _, .trans w v =>
       historicalF42OriginalFaceTrace w ++ historicalF42OriginalFaceTrace v
-  | _, _, .whiskerLeft _ w => historicalF42OriginalFaceTrace w
-  | _, _, .whiskerRight w _ => historicalF42OriginalFaceTrace w
+  | _, _, _, _, .whiskerLeft _ w => historicalF42OriginalFaceTrace w
+  | _, _, _, _, .whiskerRight w _ => historicalF42OriginalFaceTrace w
 
 /-- Genuine native C60 proof-carrying ANNOTATION of all SIX
 constructors of the ACTUAL historical F42 Type-valued raw source.
@@ -166,15 +167,15 @@ def historicalF42Annotate :
     {a b : IcosahedralDart} → {p q : Quiver.Path a b} →
     (cell : C60F42PresentedFaceCell p q) →
       HistoricalF42NativeAnnotated cell
-  | _, _, .ident p => .ident p
-  | _, _, .physicalFace f => .physicalFace f
+  | _, _, _, _, .ident p => .ident p
+  | _, _, _, _, .physicalFace f => .physicalFace f
       (historicalF42CanonicalFaceSupport f)
-  | _, _, .symm w => .symm (historicalF42Annotate w)
-  | _, _, .trans w z =>
+  | _, _, _, _, .symm w => .symm (historicalF42Annotate w)
+  | _, _, _, _, .trans w z =>
       .trans (historicalF42Annotate w) (historicalF42Annotate z)
-  | _, _, .whiskerLeft prior w =>
+  | _, _, _, _, .whiskerLeft prior w =>
       .whiskerLeft prior (historicalF42Annotate w)
-  | _, _, .whiskerRight w suffix =>
+  | _, _, _, _, .whiskerRight w suffix =>
       .whiskerRight (historicalF42Annotate w) suffix
 
 /-- Retain every native Type-valued physical-face fan/disk
