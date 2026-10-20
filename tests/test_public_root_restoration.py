@@ -118,7 +118,7 @@ class RestoredWiringTests(unittest.TestCase):
         source = (ROOT / 'formal/KUOS/DependentOriginationWeakCoherentTwoAxisObstructionV2_42.lean').read_text(
             encoding='utf-8')
         self.assertIn(
-            "    (_U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R),\\n".replace('\\n', '\n') +
+            "    (_U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R),\\n"
             "    HigherWeakEssentialUniquenessObstruction (W := W) R",
             source)
         self.assertNotIn('set_option linter.unusedVariables false', source)
