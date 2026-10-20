@@ -199,6 +199,16 @@ class LegacyCIIntegrationTests(unittest.TestCase):
         self.assertIn("needs.select.outputs.lean_fastpath == 'true' && 50 || 30",
                       text)
 
+    def test_kudos_formal_aggregate_import_gets_cold_build_budget(self):
+        # An import-only KuuOSStrict change can select full KuuOSFormal
+        # without having historical F47 in the *changed path* set.
+        text = workflow('pr-governance-gate.yml')
+        self.assertIn('lean_aggregate_heavy: ${{ steps.fastpath.outputs.lean_aggregate_heavy }}', text)
+        self.assertIn('aggregate_heavy = "KuuOSFormal" in lean_targets', text)
+        self.assertIn('lean_aggregate_heavy={str(aggregate_heavy).lower()}', text)
+        self.assertIn("needs.select.outputs.lean_aggregate_heavy == 'true'", text)
+        self.assertIn("needs.select.outputs.lean_fastpath == 'true' && 50 || 30", text)
+
     def test_cancelled_lean_does_not_publish_incomplete_pr_cache(self):
         text = workflow('pr-governance-gate.yml')
         self.assertIn(

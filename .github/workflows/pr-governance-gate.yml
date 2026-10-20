@@ -23,6 +23,7 @@ jobs:
       full_audit_required: ${{ steps.selection.outputs.full_audit_required }}
       lean_fastpath: ${{ steps.fastpath.outputs.enabled }}
       lean_f47_heavy: ${{ steps.fastpath.outputs.lean_f47_heavy }}
+      lean_aggregate_heavy: ${{ steps.fastpath.outputs.lean_aggregate_heavy }}
       comparison_mode: ${{ steps.refs.outputs.mode }}
     steps:
       - name: Check out repository with history
@@ -168,10 +169,15 @@ jobs:
               for path in changed
               if path.startswith("formal/KuuOSFormal/HistoricalF36F40BridgeP")
           )
+          lean_targets = s.get("lean_targets", [])
+          if not isinstance(lean_targets, list) or not all(isinstance(t, str) for t in lean_targets):
+              raise SystemExit("invalid lean_targets for aggregate-workload classification")
+          aggregate_heavy = "KuuOSFormal" in lean_targets
           with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as f:
               f.write(f"enabled={str(fast).lower()}\n")
               f.write(f"lean_f47_heavy={str(heavy_f47).lower()}\n")
-          print(f"Focused Lean single-source path: {fast}; original F47: {heavy_f47}")
+              f.write(f"lean_aggregate_heavy={str(aggregate_heavy).lower()}\n")
+          print(f"Focused Lean single-source path: {fast}; original F47: {heavy_f47}; full aggregate: {aggregate_heavy}")
           PY
 
       - name: Upload selection receipt
@@ -285,8 +291,10 @@ jobs:
     # exact-head jobs at ~30m despite successful Lean progress. Allow full
     # audits the same cold-cache ceiling as genuine F47 dependencies; warm
     # runs still finish immediately when Lake can reuse validated oleans.
+    # Import-only changes to KuuOSStrict also select the entire KuuOSFormal
+    # closure; they must not silently inherit a 30-minute cold-cache limit.
     # This changes only the job wall-time ceiling, not its strict targets.
-    timeout-minutes: ${{ (needs.select.outputs.lean_f47_heavy == 'true' || needs.select.outputs.full_audit_required == 'true') && 100 || (needs.select.outputs.lean_fastpath == 'true' && 50 || 30) }}
+    timeout-minutes: ${{ (needs.select.outputs.lean_f47_heavy == 'true' || needs.select.outputs.full_audit_required == 'true' || needs.select.outputs.lean_aggregate_heavy == 'true') && 100 || (needs.select.outputs.lean_fastpath == 'true' && 50 || 30) }}
     steps:
       - name: Check out repository
         uses: actions/checkout@v6
