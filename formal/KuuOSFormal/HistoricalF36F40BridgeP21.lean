@@ -63,8 +63,9 @@ theorem p21IndependentHistoricalH2_sign_smul (n : ℤ) :
         (n • independentC60H2FundamentalClass) =
       n • independentHistoricalC60H2Iso.hom.hom
         independentC60H2FundamentalClass := by
-          exact (independentHistoricalC60H2Iso.hom.hom).map_zsmul
-            n independentC60H2FundamentalClass
+          simpa only [Int.cast_smul_eq_zsmul] using
+            (map_intCast_smul (independentHistoricalC60H2Iso.hom.hom)
+              ℤ ℤ n independentC60H2FundamentalClass)
     _ = n • (-c60NativeH2FundamentalClass) := by
           rw [p20P17HistoricalH2_fundamental_sign]
     _ = (-n) • c60NativeH2FundamentalClass := by
@@ -83,8 +84,9 @@ theorem p21HistoricalFundamentalClass_infinite_order :
           (n • c60NativeH2FundamentalClass) =
         n • historicalC60H2IsoInteger.hom.hom
           c60NativeH2FundamentalClass := by
-    exact (historicalC60H2IsoInteger.hom.hom).map_zsmul
-      n c60NativeH2FundamentalClass
+    simpa only [Int.cast_smul_eq_zsmul] using
+      (map_intCast_smul (historicalC60H2IsoInteger.hom.hom)
+        ℤ ℤ n c60NativeH2FundamentalClass)
   rw [hf a, hf b, p21HistoricalFundamentalClass_coordinate] at hh
   simpa [smul_eq_mul] using hh
 
