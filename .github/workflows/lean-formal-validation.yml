@@ -60,11 +60,29 @@ jobs:
           key: kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-${{ github.sha }}
           restore-keys: |
             kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-
+      # Do not run `lake update` or fetch the entire mathlib cache on
+      # EVERY verified workspace hit: those operations can update file
+      # timestamps and trigger large redundant Lean dependency rebuilds.
+      # Cold-cache runs still restore the pinned manifest and upstream oleans.
+      - name: Resolve pinned Lake dependencies only on cold cache
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ ! -d .lake/packages/mathlib ]]; then
+            echo "Missing pinned mathlib checkout: running lake update"
+            lake update
+          fi
+          if [[ ! -f .lake/packages/mathlib/.lake/build/lib/lean/Mathlib.olean ]]; then
+            echo "Missing pinned mathlib .olean cache: fetching artifacts"
+            lake exe cache get
+          fi
+          git diff --exit-code -- lake-manifest.json lean-toolchain
+
       - name: Compile pinned Lean 4 target
         shell: bash
         run: |
           set -euo pipefail
-          bash scripts/build_lean4.sh --target "$KUUOS_LEAN_TARGET" \
+          bash scripts/build_lean4.sh --no-update --no-cache --target "$KUUOS_LEAN_TARGET" \
             2>&1 | tee lean-formal-validation.log
       # KuuOSFormal does not import every theorem-bearing DO frontier.
       # On trusted main only, compile the newest committed DO version chain
