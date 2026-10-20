@@ -18,6 +18,7 @@ on:
       - "formal/KuuOSCodeAIAutonomousUnifiedDiffCandidatesV0_1.lean"
       - "formal/KuuOSCodeAICandidatePatchV0_1.lean"
       - "lakefile.toml"
+      - 'scripts/ci_codeai_lean_scope.py'
       - "lake-manifest.json"
       - "lean-toolchain"
       - ".github/workflows/codeai-autonomous-unified-diff-candidates-v0-1.yml"
@@ -71,9 +72,24 @@ jobs:
           PYTHONPATH=. python3 -m unittest \
             tests.test_kuuos_codeai_autonomous_unified_diff_candidates_v0_1 \
             2>&1 | tee codeai-autonomous-unified-diff-v0-1-tests.log
+      - name: Determine whether this CodeAI Lean target is impacted
+        id: lean-scope
+        shell: bash
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          set -euo pipefail
+          if [[ "$EVENT_NAME" == "pull_request" ]]; then
+            python3 scripts/ci_codeai_lean_scope.py --workflow ".github/workflows/codeai-autonomous-unified-diff-candidates-v0-1.yml" \
+              --base "$PR_BASE_SHA" --head HEAD --github-output "$GITHUB_OUTPUT"
+          else
+            echo 'needed=true' >> "$GITHUB_OUTPUT"
+          fi
       # Restore only main-validated Lake artifacts; do not save from PR jobs.
       # PR local build artifacts may then overlay the trusted baseline.
       - name: Restore trusted main Lake workspace (read-only)
+        if: steps.lean-scope.outputs.needed == 'true'
         id: trusted-lake-cache
         uses: actions/cache/restore@v5
         with:
@@ -82,7 +98,7 @@ jobs:
           restore-keys: |
             kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-
       - name: Restore PR-local Lean build overlay (read-only)
-        if: github.event_name == 'pull_request'
+        if: github.event_name == 'pull_request' && steps.lean-scope.outputs.needed == 'true'
         uses: actions/cache/restore@v5
         with:
           path: .lake/build
@@ -90,6 +106,7 @@ jobs:
           restore-keys: |
             kuuos-pr-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-pr${{ github.event.pull_request.number }}-
       - name: Set up pinned Lean and Lake
+        if: steps.lean-scope.outputs.needed == 'true'
         uses: leanprover/lean-action@v1
         with:
           auto-config: false
@@ -99,14 +116,16 @@ jobs:
           use-mathlib-cache: false
           use-github-cache: false
       - name: Resolve pinned dependencies (cold cache only)
-        if: steps.trusted-lake-cache.outputs.cache-matched-key == ''
+        if: steps.lean-scope.outputs.needed == 'true' && steps.trusted-lake-cache.outputs.cache-matched-key == ''
         run: lake update
       - name: Verify committed dependency manifest is canonical
+        if: steps.lean-scope.outputs.needed == 'true'
         run: git diff --exit-code -- lake-manifest.json
       - name: Fetch Mathlib olean cache (cold cache only)
-        if: steps.trusted-lake-cache.outputs.cache-matched-key == ''
+        if: steps.lean-scope.outputs.needed == 'true' && steps.trusted-lake-cache.outputs.cache-matched-key == ''
         run: lake exe cache get
       - name: Strictly compile autonomous unified diff formal root
+        if: steps.lean-scope.outputs.needed == 'true'
         shell: bash
         run: |
           set -euo pipefail
