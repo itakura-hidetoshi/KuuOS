@@ -190,5 +190,44 @@ class HistoricalLSPWorkspaceTests(unittest.TestCase):
                       step_text('Upload compatibility receipt'))
 
 
+
+class IndependentKuuCIGateConsolidationTests(unittest.TestCase):
+    """Keep the manual full audit while PR checks run once in Governance."""
+
+    def test_pr_governance_still_owns_strict_lean_and_foundation_regressions(self):
+        from scripts import select_impacted_checks as selector
+
+        registry = selector.load_registry(selector.DEFAULT_REGISTRY)
+        for changed in ('formal/Kuu/F112/Physical.lean',
+                        'formal/KuuOSStrict.lean'):
+            with self.subTest(changed=changed):
+                plan = selector.select(registry, [changed], None)
+                selected = {item['id'] for item in plan['selected_checks']}
+                self.assertTrue(plan['lean_required'])
+                self.assertIn('lean-formal', selected)
+                self.assertIn('kuu-independent-foundation', selected)
+                self.assertIn('KuuOSFormal', plan['lean_targets'])
+                self.assertFalse(plan['full_audit_required'])
+        aggregate = (ROOT / 'formal/KuuOSFormal.lean').read_text(encoding='utf-8')
+        self.assertIn('import KuuOSStrict', aggregate)
+
+    def test_manual_foundation_audit_keeps_its_full_lean_proof(self):
+        dedicated = (ROOT / WORKFLOWS / 'kuu-independent-foundation.yml').read_text(
+            encoding='utf-8')
+        triggers = dedicated.split('on:\n', 1)[1].split('\npermissions:', 1)[0]
+        self.assertIn('workflow_dispatch:', triggers)
+        self.assertIn('pull_request:', triggers)
+        # Keep the historical required check context without scheduling a
+        # second Lean runner on PRs. A conditional job skip is not a missing
+        # workflow result and the exact-head Governance checks still run.
+        self.assertIn("if: github.event_name == 'workflow_dispatch'", dedicated)
+        self.assertIn('scripts/run_kuu_foundation_check.py', dedicated)
+        self.assertIn('leanprover/lean-action@v1', dedicated)
+        self.assertIn('Focused incremental Kuu module compilation', dedicated)
+        self.assertIn('KuuOSStrict', dedicated)
+        self.assertIn('git diff --exit-code', dedicated)
+
+
+
 if __name__ == '__main__':
     unittest.main()
