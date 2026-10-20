@@ -287,12 +287,36 @@ def p23FullyNativeH2IsoInteger :
       ModuleCat.of ℤ ℤ :=
   p23FullyNativeIndependentH2Iso ≪≫ independentC60H2IsoInteger
 
+/-- The actual historical H₂ comparison, constructed from the two
+existing functorially induced homology isomorphisms. -/
+def p23FullyNativeHistoricalH2Iso :
+    p23FullyNativeIntegralCellularComplex.homology 2 ≅
+      c60NativeIntegralCellularComplex.homology 2 :=
+  p23FullyNativeIndependentH2Iso ≪≫ independentHistoricalC60H2Iso
+
+/-- Mathlib's homology functor proves that this composed H₂ map is
+exactly the map induced by the composed, fully native chain isomorphism. -/
+theorem p23FullyNativeHistoricalH2Iso_homologyMap :
+    p23FullyNativeHistoricalH2Iso.hom =
+      (HomologicalComplex.homologyMapIso
+        p23FullyNativeHistoricalChainIso 2).hom := by
+  change
+    HomologicalComplex.homologyMap
+        p23FullyNativeIndependentChainIso.hom 2 ≫
+      HomologicalComplex.homologyMap
+        independentHistoricalC60ChainIso.hom 2 =
+      HomologicalComplex.homologyMap
+        (p23FullyNativeIndependentChainIso.hom ≫
+          independentHistoricalC60ChainIso.hom) 2
+  exact (HomologicalComplex.homologyMap_comp
+    p23FullyNativeIndependentChainIso.hom
+    independentHistoricalC60ChainIso.hom 2).symm
+
 /-- Preserve P22's original signed naturality for EVERY H₂ class
 after replacing both lower chain carriers by genuine independent types. -/
 theorem p23FullyNativeHistoricalH2_sign_all
     (x : p23FullyNativeIntegralCellularComplex.homology 2) :
-    (HomologicalComplex.homologyMapIso
-        p23FullyNativeHistoricalChainIso 2).hom.hom x =
+    p23FullyNativeHistoricalH2Iso.hom.hom x =
       (-(p23FullyNativeH2IsoInteger.hom.hom x)) •
         c60NativeH2FundamentalClass := by
   change independentHistoricalC60H2Iso.hom.hom
@@ -311,6 +335,7 @@ theorem p23FullyNativeHistoricalH2_sign_all
 #print axioms p23FullyNativeIndependentChainIso
 #print axioms p23FullyNativeHistoricalChainIso
 #print axioms p23FullyNativeH2IsoInteger
+#print axioms p23FullyNativeHistoricalH2Iso_homologyMap
 #print axioms p23FullyNativeHistoricalH2_sign_all
 
 end
