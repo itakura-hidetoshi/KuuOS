@@ -248,4 +248,7 @@ globs = [
 # flags; source proofs and all 107 public roots remain untouched.
 # Pinned mathlib's `linter.unusedTactic` rejects inert tactics in frozen v2.12;
 # suppress this style-only diagnostic with `weak.` without changing proof terms.
-leanOptions = { warningAsError = true, linter.unnecessarySimpa = false, linter.unusedVariables = false, linter.unusedSectionVars = false, weak.linter.unreachableTactic = false, weak.linter.unnecessarySeqFocus = false, weak.linter.unusedTactic = false }
+# Pinned Lean also warns about unused simp lemma `Category.assoc` in the two
+# byte-preserved v2.26 correction proofs; weak.linter.unusedSimpArgs prevents
+# legacy style warnings from blocking strict compilation of the same theorems.
+leanOptions = { warningAsError = true, linter.unnecessarySimpa = false, linter.unusedVariables = false, linter.unusedSectionVars = false, weak.linter.unreachableTactic = false, weak.linter.unnecessarySeqFocus = false, weak.linter.unusedTactic = false, weak.linter.unusedSimpArgs = false }
