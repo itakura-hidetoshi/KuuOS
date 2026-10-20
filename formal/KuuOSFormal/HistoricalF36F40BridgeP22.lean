@@ -80,7 +80,7 @@ theorem p22HistoricalH2Class_reconstruction
         ℤ ℤ (-(historicalC60H2IsoInteger.hom.hom y))
         c60NativeH2FundamentalClass)
   rw [hs, p21HistoricalFundamentalClass_coordinate]
-  simp [smul_eq_mul]
+  simp
 
 /-- The actual signed C60 chain-level equivalence induces an H₂
 isomorphism that preserves the independently defined integral
