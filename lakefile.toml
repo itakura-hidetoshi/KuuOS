@@ -237,6 +237,9 @@ globs = [
 ]
 
 # Keep strict compiler warnings, but do not require cosmetic rewriting of
-# byte-preserved historical proofs (unnecessary simpa / unused declaration parameters).
-# Warnings for actual proof errors remain fatal; no axioms or historical proof files change.
-leanOptions = { warningAsError = true, linter.unnecessarySimpa = false, linter.unusedVariables = false }
+# byte-preserved historical proofs (unnecessary simpa, unused parameters and
+# automatically included section typeclass assumptions). The latter is the
+# exact Lean 4.30 `linter.unusedSectionVars` warning observed in existing v0.4.
+# Other warnings and all actual elaboration/type/proof errors remain fatal;
+# no axioms or historical proof files change.
+leanOptions = { warningAsError = true, linter.unnecessarySimpa = false, linter.unusedVariables = false, linter.unusedSectionVars = false }
