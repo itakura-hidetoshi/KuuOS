@@ -242,4 +242,7 @@ globs = [
 # exact Lean 4.30 `linter.unusedSectionVars` warning observed in existing v0.4.
 # Other warnings and all actual elaboration/type/proof errors remain fatal;
 # no axioms or historical proof files change.
-leanOptions = { warningAsError = true, linter.unnecessarySimpa = false, linter.unusedVariables = false, linter.unusedSectionVars = false }
+# The Lean 4.30 unreachableTactic linter reports intentionally retained
+# redundant fallback tactics in frozen v2.12 proofs; it is a style diagnostic
+# (not an incomplete proof). Do not edit historical theorem source.
+leanOptions = { warningAsError = true, linter.unnecessarySimpa = false, linter.unusedVariables = false, linter.unusedSectionVars = false, linter.unreachableTactic = false }
