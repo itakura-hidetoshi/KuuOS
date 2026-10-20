@@ -48,8 +48,10 @@ def p24NativeVertexAugmentation :
 theorem p24NativeVertexAugmentation_single
     (d : Dart) (z : ℤ) :
     p24NativeVertexAugmentation (Finsupp.single d z) = z := by
+  -- Expose the underlying domain-congruence equivalence before rewriting:
+  -- `rw` does not automatically unfold the named native transport.
   change c60IntegralVertexAugmentation
-      (p23NativeZeroToHistorical (Finsupp.single d z)) = z
+      ((Finsupp.domLCongr dartEquiv) (Finsupp.single d z)) = z
   rw [Finsupp.domLCongr_single, c60IntegralVertexAugmentation_single]
 
 /-- Transport the original primal-tree edge path into a genuine
