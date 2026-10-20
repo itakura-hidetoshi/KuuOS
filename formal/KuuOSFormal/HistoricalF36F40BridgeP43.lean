@@ -70,9 +70,11 @@ theorem historicalF42NativeFace_exists
       polygonEquiv.symm (historicalF42EdgeSelectedFace e side) =
         faceAt e j := by
   have hi := historicalF42EdgeActual_native_incidence e side
-  exact (nativeC60IncidentFace_iff_twoChoices e
-    (polygonEquiv.symm (historicalF42EdgeSelectedFace e side))).mp hi
-      |>.elim (fun h => ⟨false, h⟩) (fun h => ⟨true, h⟩)
+  rcases (nativeC60IncidentFace_iff_twoChoices e
+    (polygonEquiv.symm (historicalF42EdgeSelectedFace e side))).mp hi with
+    h | h
+  · exact ⟨false, h⟩
+  · exact ⟨true, h⟩
 
 /-- The native face-side index for an ACTUAL historical edge/face
 source is read from its true independent C60 polygon, rather than
