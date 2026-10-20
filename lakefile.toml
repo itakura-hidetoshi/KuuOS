@@ -233,7 +233,8 @@ globs = [
   "KuuOSGitHubMCPServerBridgeV0_1",
   "Kuu.*",
   "KuuOSStrict",
-  "KuuOSQiWuxingCyclicGroupPathsV3_1"
+  "KuuOSQiWuxingCyclicGroupPathsV3_1",
+  "KuuOSQiWuxingPathObservationCongruenceV3_2"
 ]
 
 # Keep strict compiler warnings, but do not require cosmetic rewriting of
