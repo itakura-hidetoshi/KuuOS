@@ -190,6 +190,15 @@ class LegacyCIIntegrationTests(unittest.TestCase):
                 self.assertIn('git diff --exit-code -- lake-manifest.json lean-toolchain',
                               text)
 
+    def test_full_audit_cold_build_has_sufficient_timeout(self):
+        # Workflow/cache changes select the whole strict aggregate even when
+        # the F47 source heuristic is false, so avoid the previous 30m kill.
+        text = workflow('pr-governance-gate.yml')
+        self.assertIn("needs.select.outputs.full_audit_required == 'true'", text)
+        self.assertIn("&& 100 ||", text)
+        self.assertIn("needs.select.outputs.lean_fastpath == 'true' && 50 || 30",
+                      text)
+
     def test_cancelled_lean_does_not_publish_incomplete_pr_cache(self):
         text = workflow('pr-governance-gate.yml')
         self.assertIn(

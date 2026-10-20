@@ -280,11 +280,13 @@ jobs:
     needs: select
     if: needs.select.outputs.lean_required == 'true'
     runs-on: ubuntu-24.04
-    # F112 P4/P15 with genuine historical F47 imports requires a longer
-    # cold-build ceiling even when multiple preserved source files are changed.
-    # The Lean targets, public roots, strict lints, and axiom audits are unchanged.
-    # Cached exact-head rebuilds generally use the shorter actual wall time.
-    timeout-minutes: ${{ needs.select.outputs.lean_f47_heavy == 'true' && 100 || (needs.select.outputs.lean_fastpath == 'true' && 50 || 30) }}
+    # Full-audit workflow/cache edits still build the entire KuuOSFormal
+    # public closure. The default 30-minute timeout cancelled the previous
+    # exact-head jobs at ~30m despite successful Lean progress. Allow full
+    # audits the same cold-cache ceiling as genuine F47 dependencies; warm
+    # runs still finish immediately when Lake can reuse validated oleans.
+    # This changes only the job wall-time ceiling, not its strict targets.
+    timeout-minutes: ${{ (needs.select.outputs.lean_f47_heavy == 'true' || needs.select.outputs.full_audit_required == 'true') && 100 || (needs.select.outputs.lean_fastpath == 'true' && 50 || 30) }}
     steps:
       - name: Check out repository
         uses: actions/checkout@v6
