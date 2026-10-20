@@ -244,6 +244,13 @@ class IndependentKuuCICacheConsolidationTests(unittest.TestCase):
         self.assertIn(key, governance)
         self.assertIn('Restore trusted main Lake workspace cache', governance)
         self.assertIn('build "${latest}"', prewarm)
+        # The cached parent build must not re-run update/cache-get when
+        # already possessing the pinned package and its compiled oleans.
+        self.assertIn('Resolve pinned Lake dependencies only on cold cache', prewarm)
+        self.assertIn('if [[ ! -d .lake/packages/mathlib ]]', prewarm)
+        self.assertIn('if [[ ! -f .lake/packages/mathlib/.lake/build/lib/lean/Mathlib.olean ]]', prewarm)
+        self.assertIn('bash scripts/build_lean4.sh --no-update --no-cache --target', prewarm)
+        self.assertIn('git diff --exit-code -- lake-manifest.json lean-toolchain', prewarm)
         self.assertIn('-DwarningAsError=true', prewarm)
         self.assertIn('-DsorryAsError=true', prewarm)
 
