@@ -320,7 +320,7 @@ def HigherFactorComparisonArrowwiseCoherenceObstruction
     {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) : Prop :=
   ∃ (H : HigherLocalizationFactorization (W := W) R)
-    (alpha : HigherLocalizationFactorMorphism (W := W) H U.chosen),
+    (_alpha : HigherLocalizationFactorMorphism (W := W) H U.chosen),
     FactorComparisonArrowwiseCoherenceObstruction (W := W) H
 
 theorem higherArrowwiseCoherenceObstruction_iff_extensionObstruction

@@ -267,11 +267,11 @@ noncomputable def transportEquiv
   left_inv := by
     intro x
     rw [← D.transport_comp_apply f (inv f) x]
-    simpa using D.transport_id_apply X x
+    simp
   right_inv := by
     intro y
     rw [← D.transport_comp_apply (inv f) f y]
-    simpa using D.transport_id_apply Y y
+    simp
 
 /-- Therefore a groupoid contextual presentation cannot exhibit irreversible transport. -/
 theorem not_irreversibleAt

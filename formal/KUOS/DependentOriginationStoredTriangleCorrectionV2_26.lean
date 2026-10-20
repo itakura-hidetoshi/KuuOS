@@ -138,7 +138,7 @@ theorem presentationOfStoredCorrection_ofPresentation
         (W := W) (storedTriangleTargetCorrectionOfPresentation (W := W) P) = P := by
   ext X
   simp [factorModificationTrianglePresentationOfStoredCorrection,
-    storedTriangleTargetCorrectionOfPresentation, Category.assoc]
+    storedTriangleTargetCorrectionOfPresentation]
 
 /-- Reapplying the stored family and then cancelling it recovers the original
 pointwise correction. -/
@@ -152,7 +152,7 @@ theorem storedCorrectionOfPresentation_ofStoredCorrection
         (factorModificationTrianglePresentationOfStoredCorrection (W := W) C) = C := by
   ext X
   simp [factorModificationTrianglePresentationOfStoredCorrection,
-    storedTriangleTargetCorrectionOfPresentation, Category.assoc]
+    storedTriangleTargetCorrectionOfPresentation]
 
 /-- Exact data-level equivalence between stored-family target corrections and
 arbitrary coherent modification-triangle presentations. -/

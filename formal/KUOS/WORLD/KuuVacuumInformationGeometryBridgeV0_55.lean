@@ -162,7 +162,7 @@ variable {Central : WorldKuuVacuumCentralReferenceStateBridge K}
 
 /-- The tangent excitation represented on the completed Hilbert space. -/
 def vacuumTangentExcitation
-    (Geom : WorldKuuVacuumInformationGeometryBridge Central)
+    (_Geom : WorldKuuVacuumInformationGeometryBridge Central)
     (u : I.Tangent) : M.H :=
   Central.excitationVector (H.tangentObservable u)
 

@@ -107,7 +107,7 @@ theorem zeroDenominatorNotDefined
   intro hDefined
   have hPositive : 0 < ratio.denominator :=
     hShape.defined_iff_positive_denominator.mp hDefined
-  simpa [hZero] using hPositive
+  simp [hZero] at hPositive
 
 structure Receipt where
   routeReceiptRecorded : Bool

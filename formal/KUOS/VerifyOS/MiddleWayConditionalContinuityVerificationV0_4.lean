@@ -115,14 +115,14 @@ theorem minority_evidence_is_not_erased
 
 theorem supersession_preserves_predecessor
     (certificate : MiddleWayContinuityCertificate)
-    (kind : certificate.transitionKind = .supersedeWithLineage) :
+    (_kind : certificate.transitionKind = .supersedeWithLineage) :
     certificate.predecessorReference ∈ certificate.resultingLineage := by
   exact certificate.predecessorPreserved
 
 theorem termination_does_not_deny_lineage
     (certificate : MiddleWayContinuityCertificate)
     (valid : MiddleWayContinuityCertificateValid certificate)
-    (kind : certificate.transitionKind = .terminate) :
+    (_kind : certificate.transitionKind = .terminate) :
     certificate.terminationDoesNotEraseHistory := by
   exact valid.termination_preserves_history
 

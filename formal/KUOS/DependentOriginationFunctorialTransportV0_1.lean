@@ -35,7 +35,7 @@ def transport
     (D : FunctorialTransportSystem Context)
     (X : Context) (x : D.state.obj X) :
     D.transport (𝟙 X) x = x := by
-  simpa [transport] using congrFun (D.state.map_id X) x
+  simp [transport]
 
 /-- Transport along a composite relation is composition of transports. -/
 theorem transport_comp_apply
@@ -44,7 +44,7 @@ theorem transport_comp_apply
     (f : X ⟶ Y) (g : Y ⟶ Z) (x : D.state.obj X) :
     D.transport (f ≫ g) x =
       D.transport g (D.transport f x) := by
-  simpa [transport] using congrFun (D.state.map_comp f g) x
+  simp [transport]
 
 /--
 A semantic/readout layer invariant under admissible transport.

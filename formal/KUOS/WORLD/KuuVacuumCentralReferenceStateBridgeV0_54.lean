@@ -145,7 +145,7 @@ variable {K : WorldKuuVacuumOSHilbertCompletionBridge Mix}
 
 /-- The single central reference state used by the v0.54 analytic spine. -/
 def centralReferenceState
-    (Central : WorldKuuVacuumCentralReferenceStateBridge K)
+    (_Central : WorldKuuVacuumCentralReferenceStateBridge K)
     (observable : B.A) : ℂ :=
   K.vacuumState observable
 
@@ -163,7 +163,7 @@ def vacuumTwoPoint
 
 /-- Excitation vector generated from the central vacuum. -/
 def excitationVector
-    (Central : WorldKuuVacuumCentralReferenceStateBridge K)
+    (_Central : WorldKuuVacuumCentralReferenceStateBridge K)
     (observable : B.A) : M.H :=
   M.representation observable K.kuuVacuum
 
@@ -171,20 +171,20 @@ def excitationVector
 def excitedState
     (Central : WorldKuuVacuumCentralReferenceStateBridge K)
     (creator : B.A)
-    (nonzeroWeight : Central.vacuumTwoPoint creator creator ≠ 0)
+    (_nonzeroWeight : Central.vacuumTwoPoint creator creator ≠ 0)
     (observable : B.A) : ℂ :=
   Central.centralReferenceState (star creator * observable * creator) /
     Central.vacuumTwoPoint creator creator
 
 /-- Local Araki entropy understood relative to the central vacuum state. -/
 def vacuumRelativeEntropyLocal
-    (Central : WorldKuuVacuumCentralReferenceStateBridge K)
+    (_Central : WorldKuuVacuumCentralReferenceStateBridge K)
     (region : W.Region) : ENNReal :=
   E.localRelativeEntropy region
 
 /-- Global Araki entropy understood relative to the central vacuum state. -/
 def vacuumRelativeEntropyGlobal
-    (Central : WorldKuuVacuumCentralReferenceStateBridge K) : ENNReal :=
+    (_Central : WorldKuuVacuumCentralReferenceStateBridge K) : ENNReal :=
   E.globalRelativeEntropy
 
 variable (Central : WorldKuuVacuumCentralReferenceStateBridge K)

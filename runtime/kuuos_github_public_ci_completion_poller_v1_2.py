@@ -35,6 +35,11 @@ _TERMINAL_CONCLUSIONS = {
 }
 
 
+def _terminal_conclusion(value: Any) -> bool:
+    """Malformed API conclusion values are never terminal observations."""
+    return isinstance(value, str) and value in _TERMINAL_CONCLUSIONS
+
+
 @dataclass(frozen=True)
 class PollSummary:
     version: str
@@ -48,6 +53,8 @@ class PollSummary:
     dispatched_run_ids: list[int]
     ignored_run_ids: list[int]
     bootstrap_primed: bool
+    quarantined_run_ids: list[int]
+    pending_run_ids: list[int]
     wakeup_is_success_evidence: bool
     fresh_mcp_reobservation_required: bool
 
@@ -84,7 +91,7 @@ def _http_json(url: str) -> dict[str, Any]:
         with urllib.request.urlopen(request, timeout=20) as response:
             payload = json.loads(response.read().decode("utf-8"))
     except (urllib.error.HTTPError, urllib.error.URLError, TimeoutError) as exc:
-        raise RuntimeError(f"source_github_api_read_failed:{url}:{exc}") from exc
+        raise RuntimeError(f"source_github_api_read_failed:{type(exc).__name__}") from None
     if not isinstance(payload, dict):
         raise RuntimeError(f"source_github_api_payload_not_object:{url}")
     return payload
@@ -101,6 +108,10 @@ def _post_self_dispatch(target_repo: str, token: str, payload: Mapping[str, Any]
         ensure_ascii=False,
         separators=(",", ":"),
     ).encode("utf-8")
+    if len(payload) > 10:
+        raise RuntimeError("self_dispatch_payload_too_many_properties")
+    if len(body) >= 65536:
+        raise RuntimeError("self_dispatch_payload_too_large")
     request = urllib.request.Request(
         url,
         data=body,
@@ -117,42 +128,52 @@ def _post_self_dispatch(target_repo: str, token: str, payload: Mapping[str, Any]
         with urllib.request.urlopen(request, timeout=20) as response:
             if response.status not in {200, 201, 202, 204}:
                 raise RuntimeError(f"self_dispatch_unexpected_status:{response.status}")
-    except (urllib.error.HTTPError, urllib.error.URLError, TimeoutError) as exc:
-        raise RuntimeError(f"self_dispatch_failed:{exc}") from exc
+    except urllib.error.HTTPError as exc:
+        request_id = str(exc.headers.get("X-GitHub-Request-Id", "")) if exc.headers else ""
+        request_id = re.sub(r"[^a-zA-Z0-9:-]", "", request_id)[:100]
+        raise RuntimeError(f"self_dispatch_failed:http_{exc.code}:request_id={request_id}") from None
+    except (urllib.error.URLError, TimeoutError) as exc:
+        raise RuntimeError(f"self_dispatch_failed:{type(exc).__name__}") from None
 
 
-def _load_state(path: pathlib.Path) -> int | None:
+def _validate_state(payload: Any) -> int:
+    if not isinstance(payload, Mapping):
+        raise RuntimeError("state_invalid:expected_object")
+    expected = {"version": VERSION, "source_repo": SOURCE_REPO,
+                "source_workflow": SOURCE_WORKFLOW_NAME, "canonical_base": CANONICAL_BASE}
+    if any(payload.get(key) != value for key, value in expected.items()):
+        raise RuntimeError("state_identity_mismatch")
+    value = payload.get("last_processed_run_id")
+    if type(value) is not int or value < 0:
+        raise RuntimeError("state_invalid:cursor")
+    return value
+
+
+def _load_state(path: pathlib.Path) -> int:
     if not path.is_file():
-        return None
+        raise RuntimeError("state_missing:explicit_reviewed_checkpoint_required")
     try:
         payload = json.loads(path.read_text(encoding="utf-8"))
     except (json.JSONDecodeError, OSError):
-        return None
-    if not isinstance(payload, dict):
-        return None
-    value = _i(payload.get("last_processed_run_id"), -1)
-    return value if value >= 0 else None
+        raise RuntimeError("state_invalid:unreadable_checkpoint") from None
+    return _validate_state(payload)
 
 
-def _save_state(path: pathlib.Path, run_id: int) -> None:
+def _state_payload(run_id: int, outcome: Mapping[str, Any] | None = None) -> dict[str, Any]:
+    payload = {"version": VERSION, "last_processed_run_id": run_id,
+               "source_repo": SOURCE_REPO, "source_workflow": SOURCE_WORKFLOW_NAME,
+               "canonical_base": CANONICAL_BASE}
+    if outcome is not None:
+        payload["last_outcome"] = dict(outcome)
+    _validate_state(payload)
+    return payload
+
+
+def _save_state(path: pathlib.Path, run_id: int, outcome: Mapping[str, Any] | None = None) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     tmp = path.with_suffix(path.suffix + ".tmp")
-    tmp.write_text(
-        json.dumps(
-            {
-                "version": VERSION,
-                "last_processed_run_id": int(run_id),
-                "source_repo": SOURCE_REPO,
-                "source_workflow": SOURCE_WORKFLOW_NAME,
-                "canonical_base": CANONICAL_BASE,
-            },
-            ensure_ascii=False,
-            indent=2,
-            sort_keys=True,
-        )
-        + "\n",
-        encoding="utf-8",
-    )
+    tmp.write_text(json.dumps(_state_payload(run_id, outcome), ensure_ascii=False,
+                              indent=2, sort_keys=True) + "\n", encoding="utf-8")
     os.replace(tmp, path)
 
 
@@ -200,7 +221,7 @@ def classify_run(
         reasons.append("run_event_not_pull_request")
     if str(run.get("status", "")) != "completed":
         reasons.append("workflow_not_completed")
-    if run.get("conclusion") not in _TERMINAL_CONCLUSIONS:
+    if not _terminal_conclusion(run.get("conclusion")):
         reasons.append("workflow_conclusion_not_terminal")
     if _SHA40.fullmatch(str(run.get("head_sha", "")).lower()) is None:
         reasons.append("head_sha_invalid")
@@ -229,7 +250,7 @@ def validate_exact_job_and_step(
     job = matches[0]
     if str(job.get("status", "")) != "completed":
         blockers.append("required_job_not_completed")
-    if job.get("conclusion") not in _TERMINAL_CONCLUSIONS:
+    if not _terminal_conclusion(job.get("conclusion")):
         blockers.append("required_job_conclusion_not_terminal")
     raw_steps = job.get("steps")
     steps = [dict(step) for step in raw_steps if isinstance(step, Mapping)] if isinstance(raw_steps, list) else []
@@ -240,7 +261,7 @@ def validate_exact_job_and_step(
     step = step_matches[0]
     if str(step.get("status", "")) != "completed":
         blockers.append("required_step_not_completed")
-    if step.get("conclusion") not in _TERMINAL_CONCLUSIONS:
+    if not _terminal_conclusion(step.get("conclusion")):
         blockers.append("required_step_conclusion_not_terminal")
     return not blockers, blockers, {"job": job, "step": step}
 
@@ -250,7 +271,7 @@ def make_dispatch_payload(run: Mapping[str, Any]) -> dict[str, Any]:
     pr_number = 0
     if isinstance(pulls, list) and pulls:
         pr_number = _i(_m(pulls[0]).get("number"), 0)
-    return {
+    completion = {
         "repository": SOURCE_REPO,
         "run_id": _i(run.get("id"), 0),
         "workflow_name": SOURCE_WORKFLOW_NAME,
@@ -267,18 +288,83 @@ def make_dispatch_payload(run: Mapping[str, Any]) -> dict[str, Any]:
         "fresh_mcp_reobservation_required": True,
         "source_transport": "public_github_rest_poll_then_kuuos_self_dispatch",
     }
+    return {"schema_version": 2, "completion": completion}
 
 
 def _workflow_runs_url(source_repo: str, workflow_file: str) -> str:
     encoded = urllib.parse.quote(workflow_file, safe="")
     return (
         f"https://api.github.com/repos/{source_repo}/actions/workflows/{encoded}/runs"
-        "?event=pull_request&status=completed&per_page=50"
+        "?event=pull_request&per_page=100"
     )
 
 
-def _jobs_url(source_repo: str, run_id: int) -> str:
-    return f"https://api.github.com/repos/{source_repo}/actions/runs/{run_id}/jobs?filter=latest&per_page=100"
+def _jobs_url(source_repo: str, run_id: int, attempt: int) -> str:
+    return f"https://api.github.com/repos/{source_repo}/actions/runs/{run_id}/attempts/{attempt}/jobs?per_page=100"
+
+
+def _run_window(source_repo: str, workflow_file: str, previous: int) -> list[dict[str, Any]]:
+    """Read through the cursor before processing; never silently truncate backlog."""
+    runs: dict[int, dict[str, Any]] = {}
+    expected_total: int | None = None
+    for page in range(1, 11):
+        payload = _http_json(_workflow_runs_url(source_repo, workflow_file) + f"&page={page}")
+        raw = payload.get("workflow_runs")
+        total = payload.get("total_count")
+        if not isinstance(raw, list) or type(total) is not int or total < 0:
+            raise RuntimeError("source_runs_response_invalid")
+        if expected_total is not None and total != expected_total:
+            raise RuntimeError("source_runs_count_changed")
+        expected_total = total
+        if len(raw) > 100 or len(raw) > total:
+            raise RuntimeError("source_runs_response_invalid")
+        for run in raw:
+            if not isinstance(run, Mapping) or type(run.get("id")) is not int or run["id"] <= 0:
+                raise RuntimeError("source_runs_response_invalid")
+            if run["id"] in runs:
+                raise RuntimeError("source_runs_duplicate_id")
+            runs[run["id"]] = dict(run)
+        if any(run_id <= previous for run_id in runs) or len(runs) >= total:
+            return sorted(runs.values(), key=lambda run: run["id"])
+        if len(raw) < 100:
+            raise RuntimeError("source_runs_response_incomplete")
+    raise RuntimeError("source_run_window_exceeded:checkpoint_not_advanced")
+
+
+def _complete_jobs(source_repo: str, run: Mapping[str, Any]) -> dict[str, Any]:
+    run_id = run["id"]
+    attempt = run.get("run_attempt")
+    if type(attempt) is not int or attempt <= 0:
+        raise RuntimeError("source_run_attempt_invalid")
+    jobs: list[Mapping[str, Any]] = []
+    job_ids: set[int] = set()
+    total: int | None = None
+    for page in range(1, 11):
+        payload = _http_json(_jobs_url(source_repo, run_id, attempt) + f"&page={page}")
+        raw = payload.get("jobs")
+        count = payload.get("total_count")
+        if (not isinstance(raw, list) or type(count) is not int or count < 0
+                or any(not isinstance(job, Mapping) for job in raw)
+                or (total is not None and count != total)):
+            raise RuntimeError("source_jobs_response_incomplete")
+        total = count
+        for job in raw:
+            job_id = job.get("id")
+            if type(job_id) is not int or job_id <= 0:
+                raise RuntimeError("source_job_id_invalid")
+            if job_id in job_ids:
+                raise RuntimeError("source_jobs_duplicate_id")
+            job_ids.add(job_id)
+            if (job.get("run_id") != run_id
+                    or str(job.get("head_sha", "")).lower() != str(run.get("head_sha", "")).lower()
+                    or ("run_attempt" in job and job["run_attempt"] != attempt)):
+                raise RuntimeError("source_job_identity_mismatch")
+        jobs.extend(raw)
+        if len(jobs) == total:
+            return {"total_count": total, "jobs": jobs}
+        if len(raw) < 100 or len(jobs) > total:
+            raise RuntimeError("source_jobs_response_incomplete")
+    raise RuntimeError("source_jobs_response_incomplete")
 
 
 def poll_once(
@@ -288,74 +374,75 @@ def poll_once(
     dispatch_token: str,
     source_repo: str = SOURCE_REPO,
     workflow_file: str = SOURCE_WORKFLOW_FILE,
+    state_store: Any = None,
 ) -> PollSummary:
-    runs_payload = _http_json(_workflow_runs_url(source_repo, workflow_file))
-    raw_runs = runs_payload.get("workflow_runs")
-    runs = [dict(run) for run in raw_runs if isinstance(run, Mapping)] if isinstance(raw_runs, list) else []
-    runs.sort(key=lambda run: _i(run.get("id"), 0))
-    previous = _load_state(state_file)
-    if previous is None:
-        latest = max((_i(run.get("id"), 0) for run in runs), default=0)
-        _save_state(state_file, latest)
-        return PollSummary(
-            VERSION,
-            "KUUOS_PUBLIC_CI_POLLER_BOOTSTRAP_PRIMED",
-            source_repo,
-            SOURCE_WORKFLOW_NAME,
-            CANONICAL_BASE,
-            0,
-            latest,
-            0,
-            [],
-            [],
-            True,
-            False,
-            True,
-        )
-
+    if source_repo != SOURCE_REPO or workflow_file != SOURCE_WORKFLOW_FILE:
+        raise RuntimeError("source_identity_override_not_supported")
+    previous = _validate_state(state_store.load()) if state_store is not None else _load_state(state_file)
+    runs = _run_window(source_repo, workflow_file, previous)
     last_processed = previous
     dispatched: list[int] = []
     ignored: list[int] = []
+    quarantined: list[int] = []
+    pending: list[int] = []
     examined = 0
+
+    def checkpoint(run_id: int, disposition: str, reason: str = "") -> None:
+        outcome = {"run_id": run_id, "disposition": disposition, "reason": reason}
+        if state_store is not None:
+            state_store.save(_state_payload(run_id, outcome))
+        _save_state(state_file, run_id, outcome)
+
     for run in runs:
-        run_id = _i(run.get("id"), 0)
+        run_id = run["id"]
         if run_id <= previous:
             continue
         examined += 1
-        classification, _ = classify_run(run, source_repo=source_repo)
+        # A lower-ID run can complete later. Do not cross it with a scalar cursor.
+        if run.get("status") != "completed":
+            pending.append(run_id)
+            break
+        # Completed runs with an unconfirmed conclusion must never be
+        # checkpointed as ignored: their eventual result could be lost.
+        if not _terminal_conclusion(run.get("conclusion")):
+            raise RuntimeError(f"source_workflow_conclusion_not_terminal:{run_id}")
+        classification, reasons = classify_run(run, source_repo=source_repo)
         if classification == "ignored":
+            checkpoint(run_id, "ignored", ",".join(reasons))
             ignored.append(run_id)
-            last_processed = max(last_processed, run_id)
+            last_processed = run_id
             continue
-        jobs_payload = _http_json(_jobs_url(source_repo, run_id))
+        jobs_payload = _complete_jobs(source_repo, run)
         ready, blockers, _ = validate_exact_job_and_step(jobs_payload)
+        # Only a complete, terminal cancelled observation may be quarantined.
+        # It is never sent as a successful/verified required-check completion.
+        if not ready and run.get("conclusion") == "cancelled" and blockers == ["required_job_cardinality:0"]:
+            if any(job.get("status") != "completed" or not _terminal_conclusion(job.get("conclusion"))
+                   for job in jobs_payload["jobs"]):
+                raise RuntimeError("cancelled_jobs_not_terminal")
+            checkpoint(run_id, "quarantined", "cancelled_without_required_job")
+            quarantined.append(run_id)
+            last_processed = run_id
+            continue
         if not ready:
-            raise RuntimeError(
-                "source_exact_job_step_gate_blocked:"
-                + str(run_id)
-                + ":"
-                + ",".join(blockers)
-            )
-        payload = make_dispatch_payload(run)
-        _post_self_dispatch(target_repo, dispatch_token, payload)
+            raise RuntimeError("source_exact_job_step_gate_blocked:" + str(run_id) + ":" + ",".join(blockers))
+        _post_self_dispatch(target_repo, dispatch_token, make_dispatch_payload(run))
+        # A failed POST never advances state. A failed checkpoint stops this poll;
+        # a retry can duplicate only the in-flight notification (at-least-once).
+        checkpoint(run_id, "dispatched")
         dispatched.append(run_id)
-        last_processed = max(last_processed, run_id)
+        last_processed = run_id
 
-    _save_state(state_file, last_processed)
     return PollSummary(
-        VERSION,
-        "KUUOS_PUBLIC_CI_POLLER_READY",
-        source_repo,
-        SOURCE_WORKFLOW_NAME,
-        CANONICAL_BASE,
-        previous,
-        last_processed,
-        examined,
-        dispatched,
-        ignored,
-        False,
-        False,
-        True,
+        version=VERSION,
+        status="KUUOS_PUBLIC_CI_POLLER_WAITING" if pending else "KUUOS_PUBLIC_CI_POLLER_READY",
+        source_repo=source_repo, source_workflow=SOURCE_WORKFLOW_NAME,
+        canonical_base=CANONICAL_BASE, previous_run_id=previous,
+        final_run_id=last_processed, examined_new_runs=examined,
+        dispatched_run_ids=dispatched, ignored_run_ids=ignored,
+        bootstrap_primed=False, quarantined_run_ids=quarantined,
+        pending_run_ids=pending, wakeup_is_success_evidence=False,
+        fresh_mcp_reobservation_required=True,
     )
 
 
@@ -434,7 +521,7 @@ def _self_check() -> None:
     failed_run["conclusion"] = "failure"
     classification, blockers = classify_run(failed_run)
     assert classification == "candidate" and blockers == []
-    payload = make_dispatch_payload(failed_run)
+    payload = make_dispatch_payload(failed_run)["completion"]
     assert payload["wakeup_is_success_evidence"] is False
     assert payload["fresh_mcp_reobservation_required"] is True
     assert payload["required_step_names"] == [REQUIRED_STEP]
@@ -450,6 +537,7 @@ def main() -> int:
     parser.add_argument("--target-repo", default=os.environ.get("GITHUB_REPOSITORY", ""))
     parser.add_argument("--dispatch-token-env", default="GITHUB_TOKEN")
     parser.add_argument("--summary-file")
+    parser.add_argument("--durable-state", action="store_true")
     args = parser.parse_args()
 
     if args.self_check:
@@ -458,10 +546,20 @@ def main() -> int:
         return 0
 
     token = os.environ.get(args.dispatch_token_env, "")
+    state_store = None
+    if args.durable_state:
+        if args.target_repo != os.environ.get("GITHUB_REPOSITORY"):
+            raise RuntimeError("durable_state_target_must_be_current_repository")
+        if __package__:
+            from .kuuos_ci_poller_state import GitHubStateStore
+        else:
+            from kuuos_ci_poller_state import GitHubStateStore
+        state_store = GitHubStateStore(args.target_repo, token)
     summary = poll_once(
         state_file=pathlib.Path(args.state_file),
         target_repo=args.target_repo,
         dispatch_token=token,
+        state_store=state_store,
     )
     payload = asdict(summary)
     rendered = json.dumps(payload, ensure_ascii=False, indent=2, sort_keys=True)
