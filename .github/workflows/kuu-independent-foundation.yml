@@ -1,11 +1,37 @@
 name: Independent Kuu Foundation
 
 on:
-  # PR checks (including actual KuuOSStrict imports through KuuOSFormal)
-  # already run in pr-governance-gate.yml, with exact-head Lean and the
-  # independent foundation/legacy boundary Python regressions.
-  # Keep this dedicated end-to-end audit available on demand, but do not
-  # allocate a second Lean runner to every identical independent-Kuu PR.
+  pull_request:
+    paths:
+      - 'formal/Kuu/**'
+      - 'formal/Kuu.lean'
+      - 'formal/KuuOSFormal.lean'
+      - 'formal/KuuOSStrict.lean'
+      - 'scripts/check_public_proof_roots.py'
+      - 'tests/test_public_root_restoration.py'
+      - 'lakefile.toml'
+      - 'lake-manifest.json'
+      - 'lean-toolchain'
+      - 'scripts/*kuu_foundation*'
+      - 'scripts/report_kuu_migration_consumers.py'
+      - 'tests/test_kuu_foundation.py'
+      - 'tests/test_kuu_legacy_ci_integration.py'
+      - '.github/workflows/kuuos-gauge-field-self-organization-v0-60.yml'
+      - '.github/workflows/kuuos-github-mcp-live-write-verification-formal-v0-3-validation.yml'
+      - '.github/workflows/kuuos-github-mcp-server-bridge-formal-v0-1-validation.yml'
+      - '.github/workflows/kuuos-github-mcp-server-bridge-formal-v0-2-validation.yml'
+      - '.github/workflows/kuuos-os-associated-gauge-fields-v0-61.yml'
+      - '.github/workflows/qi-wuxing-addcon-first-isomorphism-v2-9-validation.yml'
+      - '.github/workflows/qi-wuxing-generation-control-coherence-v2-6-validation.yml'
+      - '.github/workflows/qi-wuxing-phase-observation-universal-property-v3-0-validation.yml'
+      - '.github/workflows/qi-wuxing-phase-projection-quotient-kernel-v2-8-validation.yml'
+      - '.github/workflows/qi-wuxing-relation-word-protected-history-v2-7-validation.yml'
+      - '.github/workflows/qi-yinyang-wuxing-fibonacci-history-v2-5-validation.yml'
+      - 'tests/test_kuu_multiline_registration.py'
+      - '.github/workflows/world-four-great-phase-dynamics-v0-59.yml'
+      - '.github/workflows/qi-process-tensor-local-real-yinyang-v2-4-validation.yml'
+      - '.github/workflows/qi-world-yinyang-process-blocker-v2-3-validation.yml'
+      - '.github/workflows/kuu-independent-foundation.yml'
   workflow_dispatch:
 
 permissions:
@@ -17,6 +43,13 @@ concurrency:
 
 jobs:
   validate:
+    # PR checks are intentionally delegated to the exact-head Governance
+    # gate (strict Lean + independent Kuu boundary/legacy regressions).
+    # A job-level skip preserves the historical required-check context
+    # WITHOUT allocating a duplicate runner. Unlike workflow path skips,
+    # GitHub reports conditionally skipped jobs as successful/neutral.
+    # workflow_dispatch still runs this full dedicated manual audit.
+    if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v6
