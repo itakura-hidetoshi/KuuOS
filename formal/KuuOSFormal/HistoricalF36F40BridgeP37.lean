@@ -170,26 +170,12 @@ def historicalF47FourBoundaryGauge
   rotationAfter := N.compareBefore + N.rotationValue -
     historicalF47RotationCoordinates B
   face_law := by
-    change historicalF47FaceCoordinates B +
-      (N.faceValue - historicalF47FaceCoordinates B) =
-        (0 : KuuNativeF55Shadow) + N.faceValue
     abel
   rotation_law := by
-    change historicalF47RotationCoordinates B +
-      (N.compareBefore + N.rotationValue -
-        historicalF47RotationCoordinates B) =
-      N.compareBefore + N.rotationValue
     abel
   before_law := by
-    change (0 : KuuNativeF55Shadow) + N.compareBefore =
-      (0 : KuuNativeF55Shadow) + N.compareBefore
     rfl
   after_law := by
-    change historicalF47AfterCoordinates B +
-      (N.compareBefore + N.rotationValue -
-        historicalF47RotationCoordinates B) =
-        (N.faceValue - historicalF47FaceCoordinates B) +
-          N.compareAfter
     rw [historicalF47After_eq_rotation_sub_face B,
       nativeCalibratedAfter_eq_sub N hN]
     abel
