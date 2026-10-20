@@ -8,6 +8,16 @@ ROOT = Path(__file__).resolve().parents[1]
 # Each allowed current-source change is an exact, reviewable lint-only edit of
 # the frozen v5.291 bytes. All other historical theorem bytes must remain equal.
 LINT_ONLY_SOURCE_EDITS = {
+    "KUOS/DependentOriginationWeakCoherentTwoAxisObstructionV2_42.lean": (
+        (("def HigherGlobalWeakStageIIIExistenceObstruction : Prop :=\n"
+          "  ∃ (R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context))\n"
+          "    (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R),\n"
+          "    HigherWeakEssentialUniquenessObstruction (W := W) R").encode("utf-8"),
+         ("def HigherGlobalWeakStageIIIExistenceObstruction : Prop :=\n"
+          "  ∃ (R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context))\n"
+          "    (_U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R),\n"
+          "    HigherWeakEssentialUniquenessObstruction (W := W) R").encode("utf-8")),
+    ),
     "KUOS/DependentOriginationSingleDetectorObstructionEliminationV2_53.lean": (
         ("def StoredV2_18NaturalityDetectorTargetObject\n    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}\n    {H K : HigherLocalizationFactorization (W := W) R}\n    (alpha : HigherLocalizationFactorMorphism (W := W) H K) : Prop :=".encode("utf-8"), "def StoredV2_18NaturalityDetectorTargetObject\n    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}\n    {H K : HigherLocalizationFactorization (W := W) R}\n    (_alpha : HigherLocalizationFactorMorphism (W := W) H K) : Prop :=".encode("utf-8")),
     ),
@@ -104,6 +114,15 @@ class PublicRootRestorationTests(unittest.TestCase):
                          'Existing public proofs were blanket-excluded from the current Lake package')
 
 class RestoredWiringTests(unittest.TestCase):
+    def test_stage_iii_existence_keeps_coherent_witness_without_unused_name(self):
+        source = (ROOT / 'formal/KUOS/DependentOriginationWeakCoherentTwoAxisObstructionV2_42.lean').read_text(
+            encoding='utf-8')
+        self.assertIn(
+            "    (_U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R),\\n".replace('\\n', '\n') +
+            "    HigherWeakEssentialUniquenessObstruction (W := W) R",
+            source)
+        self.assertNotIn('set_option linter.unusedVariables false', source)
+
     def test_internal_kuu_module_is_built_with_one_public_target(self):
         config = tomllib.loads((ROOT / 'lakefile.toml').read_text())
         self.assertEqual(config['defaultTargets'], ['KuuOSFormal'])
