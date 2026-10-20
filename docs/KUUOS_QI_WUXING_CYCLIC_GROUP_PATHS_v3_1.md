@@ -108,12 +108,16 @@ relationWordShift [generation, control]
 
 ```sh
 lake exe cache get
-lake lean formal/KUOS/Architecture/QiWuxingCyclicGroupPathsV3_1.lean -- -DwarningAsError=true -DsorryAsError=true
+# 増分検証: 同一ライブラリ内のv3.1モジュールと公開ラッパー
+lake build +KUOS.Architecture.QiWuxingCyclicGroupPathsV3_1:olean \
+  +KuuOSQiWuxingCyclicGroupPathsV3_1:olean
+# すべての公開数学・runtimeとの結合を確認するときの標準入口
 lake build KuuOSFormal
 ```
 
 標準公開入口は従来どおり `KuuOSFormal` 一つ。
 増分チェックはその部分コンパイルであり、別の定理正本を作らない。
+`warningAsError=true` は `lakefile.toml` で指定する。存在しない `sorryAsError` オプションは指定せず、`#print axioms` とCI公理監査によって `sorryAx` の不在を検証する。
 
 
 新モジュール：
