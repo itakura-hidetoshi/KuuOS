@@ -295,10 +295,10 @@ jobs:
           name: audit-selection-${{ github.run_id }}-${{ github.run_attempt }}
           path: artifacts/selection
 
-      # Restore the exact PR BASE SHA from its own branch scope first,
-      # then fall back to the default main cache. The F112 parent is a
-      # legitimate shared cache scope for its child PRs; sibling PR caches
-      # are NOT shared. All restored oleans are still checked by Lake.
+      # Restore the multi-GB Mathlib/package workspace from main, using
+      # the exact base SHA if available and a validated prior main fallback.
+      # A separate smaller F112 base build overlay is applied below.
+      # All restored oleans are still checked by Lake.
       - name: Restore validated parent/main Lake workspace cache
         id: lean-workspace-cache
         uses: actions/cache/restore@v5
@@ -341,6 +341,28 @@ jobs:
           set -euo pipefail
           echo "Lake cache exact hit: ${CACHE_HIT:-false}"
           echo "Lake cache matched key: ${CACHE_MATCHED_KEY:-none}"
+
+      # Child F112 PRs reuse the strictly validated P-stage compiled
+      # module spine from their actual PR BASE branch. This is a ~0.2 GB
+      # project-only cache, layered over the shared main package workspace.
+      - name: Restore verified F112 parent project build overlay
+        if: github.event_name == 'pull_request' && github.event.pull_request.base.ref == 'formal/v5-293-f112-independent-total-change'
+        id: f112-parent-build-cache
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake/build
+          key: kuuos-f112-base-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-${{ github.event.pull_request.base.sha }}
+          restore-keys: |
+            kuuos-f112-base-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-
+
+      - name: Report F112 parent project build restore
+        if: github.event_name == 'pull_request' && github.event.pull_request.base.ref == 'formal/v5-293-f112-independent-total-change'
+        shell: bash
+        env:
+          CACHE_MATCHED_KEY: ${{ steps.f112-parent-build-cache.outputs.cache-matched-key }}
+        run: |
+          set -euo pipefail
+          echo "F112 parent project cache: ${CACHE_MATCHED_KEY:-miss}"
 
       # Overlay the most recent local project build from this PR only.  This
       # cache is never restored by main and therefore cannot contaminate the
