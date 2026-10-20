@@ -68,6 +68,6 @@ jobs:
         run: |
           set -euo pipefail
           # warningAsError is already set by lakefile.toml. 'sorryAsError' is not supported.
-          # Use source-path module facets for internal modules outside listed roots.
-          lake build formal/KUOS/Architecture/QiWuxingCyclicGroupPathsV3_1.lean:olean formal/KuuOSQiWuxingCyclicGroupPathsV3_1.lean:olean
+          # Registered buildable modules are selected via Lake facets, while public roots stay unchanged.
+          lake build +KUOS.Architecture.QiWuxingCyclicGroupPathsV3_1:olean +KuuOSQiWuxingCyclicGroupPathsV3_1:olean
           git diff --exit-code -- lake-manifest.json lean-toolchain
