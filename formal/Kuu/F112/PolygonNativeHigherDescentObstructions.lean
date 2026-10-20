@@ -128,11 +128,23 @@ theorem northHexagon_noSharedChargeOnlyPhaseDescent :
       _ = northHexagonOddShadow.2 := h.odd_agrees
   exact northHexagonEvenOddShadow_phase_ne hphase
 
+/-- Even a specific proposed signed-charge phase decoder cannot fit
+the two actual F55 calibrations simultaneously. This is the
+pointwise form of the typed non-descent certificate. -/
+theorem northHexagon_noSharedChargeOnlyPhaseDecoder
+    (decode : (Int × Int) → ZMod 2) :
+    ¬ (decode northHexagonEvenShadow.1 = northHexagonEvenShadow.2 ∧
+       decode northHexagonOddShadow.1 = northHexagonOddShadow.2) := by
+  rintro ⟨heven, hodd⟩
+  exact northHexagon_noSharedChargeOnlyPhaseDescent
+    ⟨⟨decode, heven, hodd⟩⟩
+
 #print axioms nativeF41DoubleNil_splitPredicate_noDescent
 #print axioms northPentagon_splitPredicate_noDescent
 #print axioms northHexagonEvenOddShadow_charge_eq
 #print axioms northHexagonEvenOddShadow_phase_ne
 #print axioms northHexagon_noSharedChargeOnlyPhaseDescent
+#print axioms northHexagon_noSharedChargeOnlyPhaseDecoder
 
 end
 end Kuu.F112.Physical
