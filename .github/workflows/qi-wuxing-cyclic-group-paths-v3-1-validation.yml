@@ -24,7 +24,7 @@ env:
 jobs:
   focused-lean:
     name: Targeted strict Lean and root wiring
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     timeout-minutes: 25
     steps:
       - uses: actions/checkout@v6
