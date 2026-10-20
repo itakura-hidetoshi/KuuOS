@@ -103,7 +103,7 @@ theorem p23NativeBoundaryOne_commutes :
           ((Finsupp.domLCongr edgeEquiv) (Finsupp.single e z))
       rw [Finsupp.domLCongr_single, c60IntegralBoundaryOne_singleEdge]
 
-/-- The signed five-/six-sided native polygon boundary expressed
+/-- The signed five- or six-sided native polygon boundary expressed
 directly in the native 90-edge coefficient type. The coefficient is
 computed from the certified native polygon orientation (P10–P14). -/
 def p23NativeFaceBoundary (p : Polygon) : p23NativeOneChains :=
@@ -160,7 +160,7 @@ theorem p23NativeBoundaryOne_comp_boundaryTwo_zero :
   apply LinearMap.ext
   intro c
   apply p23NativeZeroToHistorical.injective
-  rw [map_zero]
+  rw [LinearMap.zero_apply, map_zero]
   calc
     p23NativeZeroToHistorical
         ((p23NativeBoundaryOne.comp p23NativeBoundaryTwo) c) =
