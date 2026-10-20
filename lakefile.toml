@@ -236,4 +236,6 @@ globs = [
   "KuuOSQiWuxingCyclicGroupPathsV3_1"
 ]
 
-leanOptions = { warningAsError = true }
+# Keep strict compiler warnings, but do not require cosmetic rewriting of
+# byte-preserved historical proofs (simpa vs simp is not a theorem error).
+leanOptions = { warningAsError = true, linter.unnecessarySimpa = false }
