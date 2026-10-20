@@ -3,6 +3,7 @@ from __future__ import annotations
 
 from pathlib import Path
 import re
+from scripts.ci_codeai_lean_scope import workflow_pr_paths, needs_targeted_lean
 import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -23,6 +24,9 @@ class LakeCacheRoutingTests(unittest.TestCase):
             with self.subTest(workflow=path.name):
                 text = path.read_text(encoding="utf-8")
                 self.assertEqual(text.count("id: trusted-lake-cache"), 1)
+                self.assertEqual(text.count("id: lean-scope"), 1)
+                self.assertIn("python3 scripts/ci_codeai_lean_scope.py", text)
+                self.assertIn("if: steps.lean-scope.outputs.needed == 'true'", text)
                 self.assertIn("uses: actions/cache/restore@v5", text)
                 self.assertIn("path: .lake\n", text)
                 self.assertIn("path: .lake/build\n", text)
@@ -32,7 +36,7 @@ class LakeCacheRoutingTests(unittest.TestCase):
                 self.assertIn("hashFiles('lean-toolchain')", text)
                 self.assertLess(text.index("id: trusted-lake-cache"),
                                 text.index("uses: leanprover/lean-action@v1"))
-                self.assertIn("if: steps.trusted-lake-cache.outputs.cache-matched-key == ''\n"
+                self.assertIn("steps.trusted-lake-cache.outputs.cache-matched-key == ''\n"
                               "        run: lake update", text)
                 self.assertIn("if: steps.trusted-lake-cache.outputs.cache-matched-key == ''\n"
                               "        run: lake exe cache get", text)
@@ -42,6 +46,16 @@ class LakeCacheRoutingTests(unittest.TestCase):
                 self.assertIn("build KuuOSFormal", text)
                 self.assertIn("-DwarningAsError=true", text)
                 self.assertIn("-DsorryAsError=true", text)
+
+    def test_codeai_lean_scope_retains_domain_changes(self):
+        codeai = (WORKFLOWS / "codeai-autonomous-trajectory-synthesis-envelope-v0-1.yml")
+        patterns = workflow_pr_paths(codeai.read_text(encoding="utf-8"))
+        self.assertIn("lakefile.toml", patterns)
+        self.assertTrue(needs_targeted_lean(["runtime/kuuos_codeai_autonomous_trajectory_synthesis_envelope_v0_1.py"], patterns))
+        self.assertTrue(needs_targeted_lean([codeai.relative_to(ROOT).as_posix()], patterns))
+        self.assertFalse(needs_targeted_lean(["lakefile.toml", "lean-toolchain"], patterns))
+        self.assertTrue(needs_targeted_lean([], patterns))  # unknown diff is fail-closed
+        self.assertTrue(needs_targeted_lean(["lakefile.toml"], []))
 
     def test_canonical_main_saves_a_warm_lake_cache(self):
         text = (WORKFLOWS / "lean-formal-validation.yml").read_text(encoding="utf-8")

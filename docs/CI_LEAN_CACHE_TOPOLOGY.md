@@ -31,7 +31,7 @@ does not merge the independent F112 or Qi v3.3 lines.
 3. **Cold fallback:** only when the main cache is absent, update dependencies,
    verify the committed manifest and download the pinned Mathlib cache.
    Cached dependencies are still verified against the committed manifest.
-4. **On each pull request:** CodeAI Python/unit tests and strict subsystem
+4. **Scope-aware routing:** a small fail-closed path observer compares the exact PR
    Lean targets are preserved; the *redundant* full `KuuOSFormal` build is
    skipped in each of the 49 jobs. The existing PR Governance Strict Lean
    job remains the canonical integrated build and publishes exact-head receipts.
@@ -60,3 +60,12 @@ The changed-source exact-head CI is required before merge. The measured
 13-minute root build is an observed example, **not** a guaranteed speedup;
 real latency depends on cache restore time, CI queueing, and changed imports.
 
+
+## Why scope-aware routing matters
+
+The main `.lake` GitHub Actions archive measured about **2714 MB compressed**
+on an exact-head PR validation run. Loading that archive for 49 CodeAI jobs
+triggered solely by `lakefile.toml` would unnecessarily transfer over 100 GB.
+Each individual workflow still reports its Python/runtime checks; only its
+unrelated Lean cache and subsystem target can be omitted. The globally
+authoritative PR Governance lean job remains required.
