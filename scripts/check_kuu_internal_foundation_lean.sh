@@ -8,6 +8,8 @@
 # theorem #print axioms audit enforce the no-sorry/no-new-axiom policy.
 set -euo pipefail
 
-lake build +KuuOSStrict
+# The internal module is not a registered Lake library root.
+# Lean 4.30 Lake explicitly supports *source file* targets regardless of roots.
+lake build formal/KuuOSStrict.lean:olean
 
 git diff --exit-code -- lake-manifest.json lean-toolchain lakefile.toml
