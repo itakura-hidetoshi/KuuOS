@@ -141,7 +141,7 @@ theorem observationDescent_hom_injective (p q : FivePhase) :
         ((Kuu.project FivePhase shiftObservationRelations).obj p ⟶
           (Kuu.project FivePhase shiftObservationRelations).obj q) →
         (pathObservationFunctor.obj p ⟶ pathObservationFunctor.obj q)) := by
-  intro f g h
+  intro f g
   refine Quot.inductionOn₂ f g ?_
   intro f' g' hfg
   change pathObservationFunctor.map f' =
