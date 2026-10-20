@@ -246,4 +246,6 @@ globs = [
 # These Batteries-provided style linters are registered only after some imports.
 # Use Lake's weak option prefix so core-only modules do not fail on unknown -D
 # flags; source proofs and all 107 public roots remain untouched.
-leanOptions = { warningAsError = true, linter.unnecessarySimpa = false, linter.unusedVariables = false, linter.unusedSectionVars = false, weak.linter.unreachableTactic = false, weak.linter.unnecessarySeqFocus = false }
+# Pinned mathlib's `linter.unusedTactic` rejects inert tactics in frozen v2.12;
+# suppress this style-only diagnostic with `weak.` without changing proof terms.
+leanOptions = { warningAsError = true, linter.unnecessarySimpa = false, linter.unusedVariables = false, linter.unusedSectionVars = false, weak.linter.unreachableTactic = false, weak.linter.unnecessarySeqFocus = false, weak.linter.unusedTactic = false }
