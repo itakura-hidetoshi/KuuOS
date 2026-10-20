@@ -101,4 +101,6 @@ import Kuu.F112.PolygonNativeHistoricalPhysicalNatTrans
 import Kuu.F112.PolygonF36F40IndependentShapeEquivalence
 import Kuu.F112.PolygonF36F40ShapeFunctorC60
 import Kuu.F112.PolygonNativeHigherDescentObstructions
+import Kuu.F112.PolygonNativeCalibratedDescentCriterion
+import Kuu.F112.PolygonNativeUniversalDescentCalibration
 /-! Current independent Kuu foundation. No legacy KUOS imports are permitted. -/
