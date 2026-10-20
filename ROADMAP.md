@@ -40,7 +40,7 @@
 
 ## B. F112独立移行：P1–P26の到達点と次の義務
 
-[F112親PR #2339](https://github.com/itakura-hidetoshi/KuuOS/pull/2339) は引き続きDraftです。[初期19段階移行の記録](docs/F112_INDEPENDENT_MIGRATION_LEDGER.md)は歴史的義務の整理として保持します。後続のP段階の進捗・確定SHAは、親PRとその子PR・exact-head CIを優先します。
+[F112親PR #2339](https://github.com/itakura-hidetoshi/KuuOS/pull/2339) は引き続きDraftです。[初期19段階移行の記録](https://github.com/itakura-hidetoshi/KuuOS/blob/fdf1d281aa8af7caed488e5a2e41cd7c16140726/docs/F112_INDEPENDENT_MIGRATION_LEDGER.md)は歴史的義務の整理として保持します。後続のP段階の進捗・確定SHAは、親PRとその子PR・exact-head CIを優先します。
 
 | 段階 | 形式化されたこと | まだ主張できないこと |
 |---|---|---|
@@ -115,6 +115,6 @@ lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KuuOS
 
 READMEは[現在の利用可能範囲](README.md)を示し、このROADMAPは**証明済み／研究ブランチ上の検証済み／未証明／CI未確認**を区別します。exact-headの状況が変わったら、該当する定理・PR・CIの根拠を示して両方を更新します。
 
-[親F112研究PR #2339](https://github.com/itakura-hidetoshi/KuuOS/pull/2339) · [P26 #2373](https://github.com/itakura-hidetoshi/KuuOS/pull/2373) · [F112詳細移行記録](docs/F112_INDEPENDENT_MIGRATION_LEDGER.md) · [旧ROADMAP](docs/legacy/ROADMAP-v5.291.md) · [実装時の境界](AGENTS.md)
+[親F112研究PR #2339](https://github.com/itakura-hidetoshi/KuuOS/pull/2339) · [P26 #2373](https://github.com/itakura-hidetoshi/KuuOS/pull/2373) · [F112詳細移行記録](https://github.com/itakura-hidetoshi/KuuOS/blob/fdf1d281aa8af7caed488e5a2e41cd7c16140726/docs/F112_INDEPENDENT_MIGRATION_LEDGER.md) · [旧ROADMAP](docs/legacy/ROADMAP-v5.291.md) · [実装時の境界](AGENTS.md)
 
 **Copyright © 2026 Hidetoshi Itakura / 板倉英俊. Apache-2.0.**
