@@ -48,6 +48,7 @@ open KUOS.DependentOriginationC60KuuAllPhysicalSourcePathsV5_263
 set_option autoImplicit false
 set_option warningAsError true
 set_option maxHeartbeats 2000000
+set_option maxRecDepth 4096
 noncomputable section
 
 /-- TRUE independent original C60 edge/face incidence determines
@@ -58,7 +59,11 @@ theorem nativeC60IncidentFace_iff_twoChoices :
     ∀ (e : Edge) (p : Polygon),
       edgeOnFace e p ↔
         p = faceAt e false ∨ p = faceAt e true := by
-  decide
+  -- Enumerate only the 90 genuine physical edges first. This keeps
+  -- each subsequent 32-polygon finite incidence check small enough for
+  -- kernel reduction; one global 90 × 32 `decide` exhausts recursion.
+  intro e
+  fin_cases e <;> decide
 
 /-- For any old face choice, its exact independent Kuu polygon
 lies on one of the two ACTUAL independently indexed native faces
