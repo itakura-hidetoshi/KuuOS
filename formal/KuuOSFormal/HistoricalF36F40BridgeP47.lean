@@ -166,30 +166,24 @@ theorem historicalF42LocalizationDescent_iff_actualFaces :
   constructor
   · rintro ⟨F, hF⟩ face
     have hface := c60F42EveryPhysicalFace_relation_sounds face
-    have hh := congrArg (fun g => F.map g) hface
-    calc
-      historicalOldPathsToLocalization.map
-          (c60F41PhysicalFaceBoundaryLoop face).2 =
+    have hh :
+        (CategoryTheory.Quotient.functor c60F42OriginalFaceHomRel ⋙ F).map
+            (c60F41PhysicalFaceBoundaryLoop face).2 =
+          (CategoryTheory.Quotient.functor c60F42OriginalFaceHomRel ⋙ F).map
+            (Quiver.Path.nil :
+              Quiver.Path (c60F41PhysicalFaceBoundaryLoop face).1
+                (c60F41PhysicalFaceBoundaryLoop face).1) := by
+      change F.map ((CategoryTheory.Quotient.functor
+        c60F42OriginalFaceHomRel).map
+          (c60F41PhysicalFaceBoundaryLoop face).2) =
         F.map ((CategoryTheory.Quotient.functor
-          c60F42OriginalFaceHomRel).map
-            (c60F41PhysicalFaceBoundaryLoop face).2) := by
-          simpa only [Functor.comp_map] using
-            (Functor.congr_hom hF
-              (c60F41PhysicalFaceBoundaryLoop face).2).symm
-      _ = F.map ((CategoryTheory.Quotient.functor
           c60F42OriginalFaceHomRel).map
             (Quiver.Path.nil :
               Quiver.Path (c60F41PhysicalFaceBoundaryLoop face).1
-                (c60F41PhysicalFaceBoundaryLoop face).1)) := hh
-      _ = historicalOldPathsToLocalization.map
-          (Quiver.Path.nil :
-            Quiver.Path (c60F41PhysicalFaceBoundaryLoop face).1
-              (c60F41PhysicalFaceBoundaryLoop face).1) := by
-          simpa only [Functor.comp_map] using
-            (Functor.congr_hom hF
-              (Quiver.Path.nil :
-                Quiver.Path (c60F41PhysicalFaceBoundaryLoop face).1
-                  (c60F41PhysicalFaceBoundaryLoop face).1))
+                (c60F41PhysicalFaceBoundaryLoop face).1))
+      exact congrArg (fun g => F.map g) hface
+    rw [hF] at hh
+    exact hh
   · intro hfaces
     exact ⟨historicalF42FaceQuotientToLocalization hfaces,
       historicalF42FaceQuotient_factors hfaces⟩
