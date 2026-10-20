@@ -190,5 +190,60 @@ class HistoricalLSPWorkspaceTests(unittest.TestCase):
                       step_text('Upload compatibility receipt'))
 
 
+
+class IndependentKuuCICacheConsolidationTests(unittest.TestCase):
+    """Ensure CI de-duplication does not silently remove independent proof checks."""
+
+    def test_pr_governance_still_owns_strict_lean_and_foundation_regressions(self):
+        from scripts import select_impacted_checks as selector
+
+        registry = selector.load_registry(selector.DEFAULT_REGISTRY)
+        for changed in ('formal/Kuu/F112/Physical.lean',
+                        'formal/KuuOSStrict.lean'):
+            with self.subTest(changed=changed):
+                plan = selector.select(registry, [changed], None)
+                selected = {item['id'] for item in plan['selected_checks']}
+                self.assertTrue(plan['lean_required'])
+                self.assertIn('lean-formal', selected)
+                self.assertIn('kuu-independent-foundation', selected)
+                self.assertIn('KuuOSFormal', plan['lean_targets'])
+                self.assertFalse(plan['full_audit_required'])
+                self.assertIsNone(plan['lean_fallback_reason'])
+        aggregate = (ROOT / 'formal/KuuOSFormal.lean').read_text(encoding='utf-8')
+        self.assertIn('import KuuOSStrict', aggregate)
+
+    def test_manual_foundation_audit_keeps_its_full_lean_proof(self):
+        dedicated = (ROOT / WORKFLOWS / 'kuu-independent-foundation.yml').read_text(
+            encoding='utf-8')
+        triggers = dedicated.split('on:\\n', 1)[1].split('\\npermissions:', 1)[0]
+        self.assertIn('workflow_dispatch:', triggers)
+        self.assertNotIn('pull_request:', triggers)
+        self.assertIn('scripts/run_kuu_foundation_check.py', dedicated)
+        self.assertIn('leanprover/lean-action@v1', dedicated)
+        self.assertIn('Focused incremental Kuu module compilation', dedicated)
+        self.assertIn('KuuOSStrict', dedicated)
+        self.assertIn('git diff --exit-code', dedicated)
+
+    def test_f112_parent_cache_is_validated_before_sibling_reuse(self):
+        prewarm = (ROOT / WORKFLOWS / 'lean-formal-validation.yml').read_text(
+            encoding='utf-8')
+        governance = (ROOT / WORKFLOWS / 'pr-governance-gate.yml').read_text(
+            encoding='utf-8')
+        self.assertIn('formal/v5-293-f112-independent-total-change', prewarm)
+        self.assertIn('refs/heads/formal/v5-293-f112-independent-total-change', prewarm)
+        self.assertIn('Warm F112 theorem bridge on the authoritative working branch', prewarm)
+        self.assertIn('KuuOSFormal.HistoricalF36F40BridgeP', prewarm)
+        self.assertIn('lean-f112-cache-warm.log', prewarm)
+        self.assertIn('runs-on: ubuntu-24.04', prewarm)
+        self.assertIn('runs-on: ubuntu-24.04', governance)
+        key = 'kuuos-lake-${{ runner.os }}-${{ runner.arch }}-'
+        self.assertIn(key, prewarm)
+        self.assertIn(key, governance)
+        self.assertIn('Restore trusted main Lake workspace cache', governance)
+        self.assertIn('build "${latest}"', prewarm)
+        self.assertIn('-DwarningAsError=true', prewarm)
+        self.assertIn('-DsorryAsError=true', prewarm)
+
+
 if __name__ == '__main__':
     unittest.main()
