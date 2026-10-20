@@ -93,6 +93,12 @@ def completed_nonlean_checks(pages: object, run_id: int, attempt: int, sha: str)
     selection = [job for job in jobs if job['name'] == 'Select impacted audit checks']
     if len(selection) != 1 or selection[0].get('conclusion') != 'success':
         return False
+    # Never change the comparison base past a RED or cancelled Lean proof.
+    # Otherwise a newly added, never-typechecked module on that prior
+    # commit disappears from the next exact-head Lean target selection.
+    strict = [job for job in jobs if job['name'] == 'Strict Lean formal validation']
+    if len(strict) != 1 or strict[0].get('conclusion') != 'success':
+        return False
     nonlean = [job for job in jobs if job['name'] not in IGNORED_JOBS]
     return (bool(nonlean)
             and any(job.get('conclusion') == 'success' for job in nonlean)
@@ -113,7 +119,8 @@ def select_base(args: argparse.Namespace) -> str | None:
             run_id, attempt, sha = run.get('id'), run.get('run_attempt'), run.get('head_sha')
             if (type(run_id) is not int or run_id <= 0 or run_id == args.current_run_id
                     or type(attempt) is not int or attempt <= 0 or not full_sha(sha)
-                    or run.get('status') != 'completed' or run.get('event') != 'pull_request'
+                    or run.get('status') != 'completed' or run.get('conclusion') != 'success'
+                    or run.get('event') != 'pull_request'
                     or run.get('head_branch') != args.branch or run.get('path') != WORKFLOW):
                 continue
             head_repo, prs = run.get('head_repository'), run.get('pull_requests')
