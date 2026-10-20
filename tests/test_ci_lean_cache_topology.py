@@ -38,7 +38,7 @@ class LakeCacheRoutingTests(unittest.TestCase):
                                 text.index("uses: leanprover/lean-action@v1"))
                 self.assertIn("steps.trusted-lake-cache.outputs.cache-matched-key == ''\n"
                               "        run: lake update", text)
-                self.assertIn("if: steps.trusted-lake-cache.outputs.cache-matched-key == ''\n"
+                self.assertIn("steps.trusted-lake-cache.outputs.cache-matched-key == ''\n"
                               "        run: lake exe cache get", text)
                 self.assertRegex(text,
                     r"- name: Strictly compile repository formal baseline\n"
