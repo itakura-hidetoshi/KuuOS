@@ -1,5 +1,8 @@
 import KuuOSStrict
 import KUOS
+import KuuOSQiWuxingCyclicGroupPathsV3_1
+import KuuOSQiWuxingPathObservationCongruenceV3_2
+import KuuOSQiWuxingReachableObservationCategoryV3_3
 import KUOS.WORLD.BimoduleSectorFusionCategoryBridgeV0_40
 import KUOS.VerifyOS.VacuumExpectationCommitVerificationReceiptV0_3
 import KUOS.LearnOS.VacuumExpectationVerificationFutureOnlyDeltaV0_3

@@ -138,8 +138,10 @@ class RestoredWiringTests(unittest.TestCase):
         self.assertIn('KuuOSStrict', libraries[0]['globs'])
         self.assertIn('Kuu.*', libraries[0]['globs'])
         workflow = (ROOT / '.github/workflows/kuu-independent-foundation.yml').read_text()
-        self.assertIn('build +KuuOSStrict', workflow)
-        self.assertNotIn('build KuuOSStrict', workflow)
+        self.assertIn('scripts/check_kuu_internal_foundation_lean.sh', workflow)
+        compiler = (ROOT / 'scripts/check_kuu_internal_foundation_lean.sh').read_text()
+        self.assertIn('lake build +KuuOSStrict:olean', compiler)
+        self.assertNotIn('lake build KuuOSStrict', compiler)
 
     def test_publication_and_consumer_routes_are_restored(self):
         from scripts.check_public_proof_roots import check

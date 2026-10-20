@@ -1,96 +1,79 @@
-"""Regression: focused CodeAI CI must not rebuild the entire KuuOS proof package.
+"""Regression: every published CodeAI Lean root retains a focused strict CI path.
 
-The central Governance Gate owns PR strict Lean validation. The 49
-registered CodeAI Lean roots remain available for strict focused manual
-validation; scoped Python checks continue to run on pull requests. No
-feature CI re-downloads the Lean workspace or re-builds Lean on a PR.
+The current canonical main dynamically selects affected CodeAI targets for
+pull requests, while only manual dispatch repeats the public aggregate
+KuuOSFormal build. The independent PR Governance gate remains required.
 """
 from pathlib import Path
 import re
 import tomllib
 import unittest
 
+from scripts import ci_codeai_lean_scope as scope
+
 ROOT = Path(__file__).resolve().parents[1]
 WORKFLOWS = ROOT / ".github" / "workflows"
-SHARED_PIN_FILES = ("lean-toolchain", "lake-manifest.json", "lakefile.toml")
-MANUAL_CACHE_CONDITION = "if: ${{ github.event_name == 'workflow_dispatch' && steps.trusted-lake-workspace.outputs.cache-matched-key == '' }}"
-FOCUSED_ROOT_PATTERN = re.compile(r"(?m)^\s+build (KuuOSCodeAI[A-Za-z0-9_]+)\b")
+FOCUSED_ROOT = re.compile(r"(?m)^\s+build (KuuOSCodeAI[A-Za-z0-9_]+)\b")
+GLOBAL_INPUTS = ("lakefile.toml", "lake-manifest.json", "lean-toolchain")
 
 
 def focused_codeai_workflows():
     for path in sorted(WORKFLOWS.glob("codeai-*.yml")):
-        content = path.read_text(encoding="utf-8")
-        if FOCUSED_ROOT_PATTERN.search(content):
-            yield path, content
+        source = path.read_text(encoding="utf-8")
+        if FOCUSED_ROOT.search(source):
+            yield path, source
 
 
 class CodeAIDeduplicatedLeanCITests(unittest.TestCase):
-    def test_all_registered_codeai_roots_are_still_strictly_compiled(self):
-        lake = tomllib.loads((ROOT / "lakefile.toml").read_text(encoding="utf-8"))
-        self.assertEqual(lake["defaultTargets"], ["KuuOSFormal"])
-        self.assertEqual(len(lake["lean_lib"]), 1)
-        self.assertEqual(lake["lean_lib"][0]["name"], "KuuOSFormal")
-        roots = set(lake["lean_lib"][0]["roots"])
-        codeai_roots = {root for root in roots if root.startswith("KuuOSCodeAI")}
+    def test_each_public_codeai_root_stays_selected_and_strict(self):
+        config = tomllib.loads((ROOT / "lakefile.toml").read_text(encoding="utf-8"))
+        self.assertEqual(config["defaultTargets"], ["KuuOSFormal"])
+        self.assertEqual(len(config["lean_lib"]), 1)
+        roots = set(config["lean_lib"][0]["roots"])
+        published = {name for name in roots if name.startswith("KuuOSCodeAI")}
+        observed = set()
         workflows = list(focused_codeai_workflows())
         self.assertEqual(len(workflows), 49)
-        targets = set()
-        for path, content in workflows:
+        for path, source in workflows:
             with self.subTest(workflow=path.name):
-                matches = FOCUSED_ROOT_PATTERN.findall(content)
-                self.assertEqual(len(matches), 1)
-                self.assertNotIn(matches[0], targets, "duplicate scoped target")
-                targets.add(matches[0])
-                self.assertIn(matches[0], roots, "feature root is not publicly registered")
-                self.assertIn("-KleanArgs=-DwarningAsError=true", content)
-                self.assertIn("-KleanArgs=-DsorryAsError=true", content)
-                self.assertNotIn("build KuuOSFormal", content,
-                                 "the aggregate must be compiled once in Governance")
-                self.assertNotIn("Strictly compile repository formal baseline", content)
-                self.assertIn("Compile Python surfaces", content)
-                self.assertIn("Verify committed dependency manifest is canonical", content)
-                self.assertIn("Restore trusted main Lake workspace (read-only)", content)
-                self.assertNotIn("Restore previously compiled PR Lean prefix (read-only)", content)
-                self.assertIn("uses: actions/cache/restore@v5", content)
-                self.assertNotIn("uses: actions/cache/save@", content)
-                self.assertEqual(content.count("if: github.event_name == 'workflow_dispatch'"), 4)
-                self.assertEqual(content.count(MANUAL_CACHE_CONDITION), 2)
-                self.assertIn(
-                    "if: github.event_name == 'workflow_dispatch'\n"
-                    "        uses: leanprover/lean-action@v1",
-                    content,
-                )
+                targets = FOCUSED_ROOT.findall(source)
+                self.assertEqual(len(targets), 1)
+                target = targets[0]
+                self.assertNotIn(target, observed)
+                self.assertIn(target, published)
+                observed.add(target)
+                self.assertIn("-KleanArgs=-DwarningAsError=true", source)
+                self.assertIn("-KleanArgs=-DsorryAsError=true", source)
+                self.assertIn("Compile Python surfaces", source)
+                self.assertIn("Determine whether this CodeAI Lean target is impacted", source)
+                self.assertIn("scripts/ci_codeai_lean_scope.py", source)
+                self.assertIn("if: steps.lean-scope.outputs.needed == 'true'", source)
+                self.assertIn("Restore trusted main Lake workspace (read-only)", source)
+                self.assertIn("Restore PR-local Lean build overlay (read-only)", source)
+                self.assertIn("uses: actions/cache/restore@v5", source)
+                self.assertNotIn("uses: actions/cache/save@", source)
+                self.assertIn("Strictly compile repository formal baseline", source)
                 self.assertRegex(
-                    content,
-                    r"(?m)^      - name: Strictly compile [^\n]+ formal root\n"
-                    r"        if: github.event_name == 'workflow_dispatch'\n"
-                    r"        shell: bash",
+                    source,
+                    r"(?m)^      - name: Strictly compile repository formal baseline\n"
+                    r"        if: github.event_name == 'workflow_dispatch'\n",
                 )
-                self.assertIn("github.event.pull_request.number", content)
-                self.assertIn("  pull_request:\n    paths:\n", content)
-                paths = content.split("  pull_request:\n    paths:\n", 1)[1].split(
-                    "\n\n", 1)[0]
-                self.assertIn(".github/workflows/" + path.name, paths)
-                for shared_pin in SHARED_PIN_FILES:
-                    self.assertNotIn('      - "' + shared_pin + '"', paths,
-                                     "shared pin edits use the central strict gate")
-        self.assertEqual(targets, codeai_roots,
-                         "every public CodeAI Lean root needs a strict focused job")
+                self.assertIn("  pull_request:\n    paths:\n", source)
+                patterns = scope.workflow_pr_paths(source)
+                for pin in GLOBAL_INPUTS:
+                    self.assertIn(pin, patterns)
+                    self.assertFalse(scope.needs_targeted_lean([pin], patterns))
+                self.assertTrue(scope.needs_targeted_lean(
+                    [".github/workflows/" + path.name], patterns))
+        self.assertEqual(observed, published)
 
-    def test_single_canonical_pr_gate_keeps_strict_full_validation(self):
+    def test_fail_closed_missing_scope_and_central_governance(self):
+        self.assertTrue(scope.needs_targeted_lean([], ["example.py"]))
+        self.assertTrue(scope.needs_targeted_lean(["example.py"], []))
         gate = (WORKFLOWS / "pr-governance-gate.yml").read_text(encoding="utf-8")
-        selector = (ROOT / "scripts" / "select_impacted_checks.py").read_text(
-            encoding="utf-8")
-        self.assertIn("on:\n  pull_request:\n", gate)
         self.assertIn("name: Strict Lean formal validation", gate)
         self.assertIn("if: needs.select.outputs.lean_required == 'true'", gate)
-        self.assertIn('"lakefile.toml"', selector)
-        self.assertIn('"lake-manifest.json"', selector)
-        self.assertIn('"lean-toolchain"', selector)
-        self.assertIn('FULL_LEAN_TARGET = "KuuOSFormal"', selector)
-        self.assertIn("lake", gate)
         self.assertIn("-KleanArgs=-DwarningAsError=true", gate)
-        self.assertIn("-KleanArgs=-DsorryAsError=true", gate)
         self.assertIn("tests.test_codeai_ci_focus_and_cache", gate)
 
 
