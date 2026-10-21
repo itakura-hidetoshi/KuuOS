@@ -1,4 +1,4 @@
-import Kuu.F112.PolygonNativeF45FunctorAxes
+import Kuu.F112.PolygonNativeF54FunctorChains
 
 /-!
 # F112-P54 — positive functorial transport of independent F54 rotations
@@ -28,50 +28,16 @@ variable {B : Type uB} [Category.{vB} B]
 variable {C : Type uC} [Category.{vC} C]
 variable {D : Type uD} [Category.{vD} D]
 
-/-- Transport an entire genuinely typed F54-shaped associator,
-including arbitrary left/right source contexts and both Nat-index
-equality transports, along independently selected categorical axes.
-The output is a *rotation witness*, never merely equality of erasures. -/
-def KuuNativeF45Tree.LocalRotation.mapAxes
-    (F : A ⥤ C) (G : B ⥤ D)
-    {p : Polygon} {a b : A} {x y : B}
-    {n m : Nat}
-    {ma mb : KuuNativeBlocks a b}
-    {pa pb : KuuNativeBlocks x y}
-    {before after : KuuNativeF45Tree p n m ma pa mb pb}
-    (step : KuuNativeF45Tree.LocalRotation p before after) :
-    KuuNativeF45Tree.LocalRotation p
-      (before.mapAxes F G) (after.mapAxes F G) := by
-  induction step with
-  | assoc first second third =>
-      rw [KuuNativeF45Tree.mapAxes_castDepths]
-      exact KuuNativeF45Tree.LocalRotation.assoc
-        (first.mapAxes F G) (second.mapAxes F G)
-        (third.mapAxes F G)
-  | leftContext step later ih =>
-      simpa only [KuuNativeF45Tree.mapAxes] using
-        (KuuNativeF45Tree.LocalRotation.leftContext ih (later.mapAxes F G))
-  | rightContext earlier step ih =>
-      simpa only [KuuNativeF45Tree.mapAxes] using
-        (KuuNativeF45Tree.LocalRotation.rightContext (earlier.mapAxes F G) ih)
+/-!
+The existing E7Q5-E1 module PolygonNativeF54FunctorChains already
+proves LocalRotation.mapAxes and LocalRotation.mapAxes_sectors on
+the full original-shaped, two-axis dependent source. P54 must reuse
+those canonical Lean constants rather than independently redeclare
+the same fully-qualified names in separate import branches.
 
-/-- The resulting typed F54 rotation retains both exact boundaries
-of the complete ORDERED physical C60 sector list, through arbitrary
-independent functors on both original-shaped categorical axes. -/
-theorem KuuNativeF45Tree.LocalRotation.mapAxes_sectors
-    (F : A ⥤ C) (G : B ⥤ D)
-    {p : Polygon} {a b : A} {x y : B} {n m : Nat}
-    {ma mb : KuuNativeBlocks a b}
-    {pa pb : KuuNativeBlocks x y}
-    {before after : KuuNativeF45Tree p n m ma pa mb pb}
-    (step : KuuNativeF45Tree.LocalRotation p before after) :
-    (before.mapAxes F G).sectors = (after.mapAxes F G).sectors := by
-  calc
-    (before.mapAxes F G).sectors = before.sectors :=
-      KuuNativeF45Tree.sectors_mapAxes F G before
-    _ = after.sectors := step.sectors_eq
-    _ = (after.mapAxes F G).sectors :=
-      (KuuNativeF45Tree.sectors_mapAxes F G after).symm
+The following two theorems are P54's genuinely additional results:
+preservation of complete physical leaves and both primitive axes.
+-/
 
 /-- The independent native F54 rotation is still real at the
 complete C60 physical leaf carrier, even after both functor maps. -/
