@@ -44,11 +44,10 @@ def KuuNativeF45Tree.LocalRotation.mapAxes
       (before.mapAxes F G) (after.mapAxes F G) := by
   induction step with
   | assoc first second third =>
-      simpa only [KuuNativeF45Tree.mapAxes_castDepths,
-        KuuNativeF45Tree.mapAxes] using
-        (KuuNativeF45Tree.LocalRotation.assoc
-          (first.mapAxes F G) (second.mapAxes F G)
-          (third.mapAxes F G))
+      rw [KuuNativeF45Tree.mapAxes_castDepths]
+      exact KuuNativeF45Tree.LocalRotation.assoc
+        (first.mapAxes F G) (second.mapAxes F G)
+        (third.mapAxes F G)
   | leftContext step later ih =>
       simpa only [KuuNativeF45Tree.mapAxes] using
         (KuuNativeF45Tree.LocalRotation.leftContext ih (later.mapAxes F G))
