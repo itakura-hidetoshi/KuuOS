@@ -83,16 +83,24 @@ theorem p49_old_arrow_endpoints_on_face
   | forward old =>
       have hp := edgeFace_endpoints (edgeEquiv.symm old) face he
       constructor
-      · rw [historicalOldEdgeFirstDart_native]
+      · change dartOnFace
+          (dartEquiv.symm (truncatedIcosahedralEdgeEndpoints old).1) face
+        rw [historicalOldEdgeFirstDart_native]
         exact hp.1
-      · rw [historicalOldEdgeSecondDart_native]
+      · change dartOnFace
+          (dartEquiv.symm (truncatedIcosahedralEdgeEndpoints old).2) face
+        rw [historicalOldEdgeSecondDart_native]
         exact hp.2
   | reverse old =>
       have hp := edgeFace_endpoints (edgeEquiv.symm old) face he
       constructor
-      · rw [historicalOldEdgeSecondDart_native]
+      · change dartOnFace
+          (dartEquiv.symm (truncatedIcosahedralEdgeEndpoints old).2) face
+        rw [historicalOldEdgeSecondDart_native]
         exact hp.2
-      · rw [historicalOldEdgeFirstDart_native]
+      · change dartOnFace
+          (dartEquiv.symm (truncatedIcosahedralEdgeEndpoints old).1) face
+        rw [historicalOldEdgeFirstDart_native]
         exact hp.1
 
 /-- One genuinely typed OLD original quiver arrow transports its
@@ -140,41 +148,53 @@ theorem p49_old_path_incidence_comp {a b c : IcosahedralDart}
       (p48_originalPathWithinPolygon face p &&
         p48_originalPathWithinPolygon face q) := by
   induction q with
-  | nil => simp [p48_originalPathWithinPolygon]
+  | nil =>
+      simp only [Quiver.Path.comp_nil, p48_originalPathWithinPolygon,
+        Bool.and_true]
   | cons q f ih =>
+      rw [Quiver.Path.comp_cons]
       change
-        p48_originalPathWithinPolygon face ((p.comp q).cons f) =
-          p48_originalPathWithinPolygon face p &&
-            p48_originalPathWithinPolygon face (q.cons f)
-      simp only [p48_originalPathWithinPolygon, ih, Bool.and_assoc]
+        (p48_originalPathWithinPolygon face (p.comp q) &&
+          decide (edgeOnFace (p48_originalArrowNativeEdge f) face)) =
+          (p48_originalPathWithinPolygon face p &&
+            (p48_originalPathWithinPolygon face q &&
+              decide (edgeOnFace (p48_originalArrowNativeEdge f) face)))
+      rw [ih, Bool.and_assoc]
 
-/-- A source-original path entirely within the selected genuine
-C60 polygon has a canonical face-spoke cone equality in F69.
-The proof is induction on the ACTUAL old Quiver.Path constructor. -/
-theorem p49_old_path_localized_cone
-    {a b : IcosahedralDart} (p : Quiver.Path a b)
-    (face : Polygon)
-    (hp : p48_originalPathWithinPolygon face p = true)
-    (ha : Site.vertex (dartEquiv.symm a) ≤ Site.face face)
-    (hb : Site.vertex (dartEquiv.symm b) ≤ Site.face face) :
-    historicalOldPathsToLocalization.map p ≫
-      siteLocalizationQ.map (homOfLE hb) =
-        siteLocalizationQ.map (homOfLE ha) := by
+/-- An original path with actual real polygon boundary incidences
+is compatible with the polygon's physical spokes after localization.
+The source is the real Quiver.Path, not a replacement raw word. -/
+theorem p49_old_path_localized_cone :
+    ∀ {a b : IcosahedralDart} (p : Quiver.Path a b)
+      (face : Polygon),
+      p48_originalPathWithinPolygon face p = true →
+      (ha : Site.vertex (dartEquiv.symm a) ≤ Site.face face) →
+      (hb : Site.vertex (dartEquiv.symm b) ≤ Site.face face) →
+      historicalOldPathsToLocalization.map p ≫
+        siteLocalizationQ.map (homOfLE hb) =
+          siteLocalizationQ.map (homOfLE ha) := by
+  intro a b p
   induction p with
   | nil =>
-      simpa only [historicalOldPathsToLocalization,
-        historicalOldPathsToRaw, Paths.lift_nil,
-        Functor.comp_map, Category.id_comp]
+      intro face hp ha hb
+      change zigzagLocalizationFunctor.map
+          (𝟙 (historicalOldQuiverToRaw.obj _)) ≫
+          siteLocalizationQ.map (homOfLE hb) =
+            siteLocalizationQ.map (homOfLE ha)
+      rw [zigzagLocalizationFunctor.map_id, Category.id_comp]
+      exact congrArg siteLocalizationQ.map (Subsingleton.elim _ _)
   | cons p f ih =>
+      intro face hp ha hb
       have hsplit :
           p48_originalPathWithinPolygon face p = true ∧
-            decide (edgeOnFace (p48_originalArrowNativeEdge f) face) = true :=
-        Bool.and_eq_true.mp hp
+            decide (edgeOnFace (p48_originalArrowNativeEdge f) face) = true := by
+        simpa only [p48_originalPathWithinPolygon,
+          Bool.and_eq_true] using hp
       have he : edgeOnFace (p48_originalArrowNativeEdge f) face :=
         of_decide_eq_true hsplit.2
       have hc : Site.vertex (dartEquiv.symm _) ≤ Site.face face :=
         (p49_old_arrow_endpoints_on_face f face he).1
-      have h1 := ih hsplit.1 ha hc
+      have h1 := ih face hsplit.1 ha hc
       have h2 := p49_old_arrow_localized_cone f face he hc hb
       rw [← Quiver.Path.comp_toPath_eq_cons,
         historicalOldPaths_localized_comp, Category.assoc, h2]
