@@ -138,8 +138,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KuuOSStrict 2>&1 | tee artifacts/independent-kuu/lean.log
-          git diff --exit-code -- lake-manifest.json lean-toolchain
+          bash scripts/check_kuu_internal_foundation_lean.sh 2>&1 | tee artifacts/independent-kuu/lean.log
       - uses: actions/upload-artifact@v4
         if: always()
         with:
