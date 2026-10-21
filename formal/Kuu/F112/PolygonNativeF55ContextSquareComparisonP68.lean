@@ -98,9 +98,8 @@ def KuuNativeF45Tree.DepthRotationRoute.SquareComparable.toSquareOnlyCell
       let w := h.toSquareOnlyCell
       let z := k.toSquareOnlyCell
       ⟨.trans w.1 z.1, by
-        change w.1.squareOnly && z.1.squareOnly = true
-        rw [w.2, z.2]
-        rfl⟩
+        simp only [KuuNativeF45Tree.DepthRotationRoute.PresentedCell.squareOnly,
+          w.2, z.2]⟩
   | _, _, .square left right => ⟨.disjointSquare left right, rfl⟩
 
 /-- The context-closed Type carrier yields a Setoid only by the
@@ -121,9 +120,8 @@ def nativeF55ContextSquareRouteSetoid
     (fun h => h.elim (fun w => ⟨⟨.symm w.1, w.2⟩⟩)),
     (fun h k => h.elim (fun w => k.elim (fun z =>
       ⟨⟨.trans w.1 z.1, by
-        change w.1.squareOnly && z.1.squareOnly = true
-        rw [w.2, z.2]
-        rfl⟩⟩)))⟩
+        simp only [KuuNativeF45Tree.DepthRotationRoute.PresentedCell.squareOnly,
+          w.2, z.2]⟩⟩)))⟩
 
 /-- Context-closed comparison classes on actual F54 route objects:
 this is NOT the P64 higher-Hom structural-unit quotient. -/
