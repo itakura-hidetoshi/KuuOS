@@ -213,12 +213,30 @@ theorem nativeF55StructuralUnit_preserves_raw_shadow
       ((nativeF55StructuralUnitToShadow first last).map
         ((nativeF55StructuralUnitQuotientFunctor first last).map
           raw.toNativeRawEdge.toPath)) = raw.nativeShadow := by
-  have h := nativeF55StructuralUnit_shadow_factor first last
-  have hmap := congrArg
-    (fun functor => functor.map raw.toNativeRawEdge.toPath) h
-  simpa only [Functor.comp_map, nativeF55RawPathsToShadow_generator,
-    nativeF55ThreeEval_of] using
-    congrArg nativeF55ThreeEval hmap
+  have hmap :
+      (nativeF55StructuralUnitToShadow first last).map
+        ((nativeF55StructuralUnitQuotientFunctor first last).map
+          raw.toNativeRawEdge.toPath) =
+      (nativeF55RawPathsToShadow first last).map
+        raw.toNativeRawEdge.toPath := by
+    simpa only [Functor.comp_map] using
+      congrArg
+        (fun F : NativeF55RawPathCategory first last ⥤
+            (KuuNativeF45Tree.DepthRotationRoute p first last) =>
+          F.map raw.toNativeRawEdge.toPath)
+        (nativeF55StructuralUnit_shadow_factor first last)
+  calc
+    nativeF55ThreeEval
+        ((nativeF55StructuralUnitToShadow first last).map
+          ((nativeF55StructuralUnitQuotientFunctor first last).map
+            raw.toNativeRawEdge.toPath)) =
+        nativeF55ThreeEval
+          ((nativeF55RawPathsToShadow first last).map
+            raw.toNativeRawEdge.toPath) :=
+      congrArg nativeF55ThreeEval hmap
+    _ = raw.nativeShadow := by
+      rw [nativeF55RawPathsToShadow_generator]
+      rfl
 
 #print axioms nativeF55StructuralUnitHomRel
 #print axioms nativeF55StructuralUnitCongruence
