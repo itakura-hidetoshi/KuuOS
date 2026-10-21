@@ -70,11 +70,15 @@ theorem p51_oriented_single_edge_word
   | forward old =>
       change p51_oldPathPhysicalEdges
         ((c60F41ForwardArrow old).toPath) = [old]
-      simp [p51_oldPathPhysicalEdges, Quiver.Hom.toPath]
+      simp only [p51_oldPathPhysicalEdges, Quiver.Hom.toPath]
+      change (OrientedTruncatedIcosahedralEdge.forward old).edge = old
+      rfl
   | reverse old =>
       change p51_oldPathPhysicalEdges
         ((c60F41ReverseArrow old).toPath) = [old]
-      simp [p51_oldPathPhysicalEdges, Quiver.Hom.toPath]
+      simp only [p51_oldPathPhysicalEdges, Quiver.Hom.toPath]
+      change (OrientedTruncatedIcosahedralEdge.reverse old).edge = old
+      rfl
 
 /-- The P48 Boolean source-path incidence predicate equals the
 all-edges-on-face finite Boolean check, for EVERY historical source
@@ -94,7 +98,8 @@ theorem p51_oldPathWithinPolygon_eq_all :
       intro face
       simp only [p48_originalPathWithinPolygon, p51_oldPathPhysicalEdges,
         List.all_append, List.all_cons, List.all_nil, Bool.and_true,
-        p48_originalArrowNativeEdge, ih] <;> rfl
+        p48_originalArrowNativeEdge, ih]
+      rfl
 
 /-- Each actual historical oriented hexagon side is on the very
 original C60 physical hexagon, regardless of traversal direction.
