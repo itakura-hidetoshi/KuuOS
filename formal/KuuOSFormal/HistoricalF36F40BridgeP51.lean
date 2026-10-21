@@ -41,12 +41,12 @@ noncomputable section
 /-- The actual physical edge sequence of any genuine old C60 free
 Quiver.Path: unlike \`Quiver.Path.toList\`, this tracks arrow *codes*
 and keeps multiple arrows between the same two physical darts. -/
-def p51_oldPathPhysicalEdges :
-    {a b : IcosahedralDart} → Quiver.Path a b →
-      List TruncatedIcosahedralEdge
-  | _, _, .nil => []
-  | _, _, .cons p f =>
-      p51_oldPathPhysicalEdges p ++ [f.1.edge]
+def p51_oldPathPhysicalEdges {a b : IcosahedralDart}
+    (p : Quiver.Path a b) : List TruncatedIcosahedralEdge :=
+  match p with
+  | .nil => []
+  | .cons prior f =>
+      p51_oldPathPhysicalEdges prior ++ [f.1.edge]
 
 /-- Exact edge-word concatenation, independent of any representative
 or equality of vertices in the genuine 60-object old quiver. -/
@@ -68,13 +68,13 @@ theorem p51_oriented_single_edge_word
     p51_oldPathPhysicalEdges (c60F41OrientedPath oe) = [oe.edge] := by
   cases oe with
   | forward old =>
-      simp [c60F41OrientedPath, Quiver.Hom.toPath,
-        c60F41ForwardArrow, p51_oldPathPhysicalEdges,
-        OrientedTruncatedIcosahedralEdge.edge]
+      change p51_oldPathPhysicalEdges
+        ((c60F41ForwardArrow old).toPath) = [old]
+      simp [p51_oldPathPhysicalEdges, Quiver.Hom.toPath]
   | reverse old =>
-      simp [c60F41OrientedPath, Quiver.Hom.toPath,
-        c60F41ReverseArrow, p51_oldPathPhysicalEdges,
-        OrientedTruncatedIcosahedralEdge.edge]
+      change p51_oldPathPhysicalEdges
+        ((c60F41ReverseArrow old).toPath) = [old]
+      simp [p51_oldPathPhysicalEdges, Quiver.Hom.toPath]
 
 /-- The P48 Boolean source-path incidence predicate equals the
 all-edges-on-face finite Boolean check, for EVERY historical source
@@ -94,7 +94,7 @@ theorem p51_oldPathWithinPolygon_eq_all :
       intro face
       simp only [p48_originalPathWithinPolygon, p51_oldPathPhysicalEdges,
         List.all_append, List.all_cons, List.all_nil, Bool.and_true,
-        p48_originalArrowNativeEdge, ih]
+        p48_originalArrowNativeEdge, ih] <;> rfl
 
 /-- Each actual historical oriented hexagon side is on the very
 original C60 physical hexagon, regardless of traversal direction.
