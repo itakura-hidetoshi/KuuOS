@@ -62,9 +62,10 @@ theorem nativeF55RawPathsToShadow_generator
       cell.toNativeRawEdge.toPath = phi.map cell.toNativeRawEdge
   exact CategoryTheory.Paths.lift_toPath phi cell.toNativeRawEdge
 
-/-- Typed free-path functoriality with fully specified domain objects.
-The source is the Mathlib Paths category, never the bare raw quiver
-vertex, which has no CategoryStruct. -/
+/-- Functorial composition of actual typed free paths. A raw quiver
+edge has the same vertex endpoints as a path, but NOT the same Hom
+type as the Paths category. Explicit Quiver.Path arguments avoid
+ambiguous Quiver/Category Hom inference on the reducible Paths type. -/
 theorem nativeF55RawPathsToShadow_mapTypedComp
     {p : Polygon} {a b : D} {x y : E}
     {n n' m m' : Nat}
@@ -73,14 +74,17 @@ theorem nativeF55RawPathsToShadow_mapTypedComp
     (first : KuuNativeF45Tree p n m ma pa mb pb)
     (last : KuuNativeF45Tree p n' m' ma pa mb pb)
     {r s t : KuuNativeF45Tree.DepthRotationRoute p first last}
-    (f : (⟨r⟩ : NativeF55RawPathCategory first last) ⟶
-      (⟨s⟩ : NativeF55RawPathCategory first last))
-    (g : (⟨s⟩ : NativeF55RawPathCategory first last) ⟶
-      (⟨t⟩ : NativeF55RawPathCategory first last)) :
-    (nativeF55RawPathsToShadow first last).map (f ≫ g) =
-      (nativeF55RawPathsToShadow first last).map f ≫
-        (nativeF55RawPathsToShadow first last).map g :=
-  (nativeF55RawPathsToShadow first last).map_comp f g
+    (f : Quiver.Path
+      (⟨r⟩ : NativeF55RawRouteVertex first last)
+      (⟨s⟩ : NativeF55RawRouteVertex first last))
+    (g : Quiver.Path
+      (⟨s⟩ : NativeF55RawRouteVertex first last)
+      (⟨t⟩ : NativeF55RawRouteVertex first last)) :
+    (nativeF55RawPathsToShadow first last).map (f.comp g) =
+      nativeF55ThreeComp
+        ((nativeF55RawPathsToShadow first last).map f)
+        ((nativeF55RawPathsToShadow first last).map g) := by
+  exact (nativeF55RawPathsToShadow first last).map_comp f g
 
 /-- The COMPLETE independent nine-constructor raw F55 cell
 normalization commutes with the selected shadow observer:
@@ -111,15 +115,17 @@ theorem KuuNativeF45Tree.DepthRotationRoute.PresentedCell.toNativeStrictPath_sha
   | symm c _ =>
       exact nativeF55RawPathsToShadow_generator _ _ (.symm c)
   | trans c d ihc ihd =>
-      -- The generic change tactic cannot infer the path-category
-      -- endpoints from a standalone Quiver.Path.comp inside Functor.map.
-      -- This lemma fixes both vertices before map elaboration.
+      -- The source and target in the composition law are full *paths*,
+      -- not the original raw one-edge Quiver.Hom relation. The target
+      -- category composition is nativeF55ThreeComp, not an inferred ≫.
       calc
-        _ = (nativeF55RawPathsToShadow first last).map c.toNativeStrictPath ≫
-              (nativeF55RawPathsToShadow first last).map d.toNativeStrictPath :=
+        _ = nativeF55ThreeComp
+              ((nativeF55RawPathsToShadow first last).map c.toNativeStrictPath)
+              ((nativeF55RawPathsToShadow first last).map d.toNativeStrictPath) :=
           nativeF55RawPathsToShadow_mapTypedComp first last
             c.toNativeStrictPath d.toNativeStrictPath
-        _ = nativeF55ThreeOf c ≫ nativeF55ThreeOf d := by rw [ihc, ihd]
+        _ = nativeF55ThreeComp (nativeF55ThreeOf c) (nativeF55ThreeOf d) := by
+          rw [ihc, ihd]
         _ = nativeF55ThreeOf (.trans c d) := rfl
   | leftContext c later _ =>
       exact nativeF55RawPathsToShadow_generator _ _
