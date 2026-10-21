@@ -1,6 +1,6 @@
 # KuuOS / 空OS — Formal Research Roadmap
 
-**更新：2026-10-22 JST。C60以前の縁起一般理論を維持し、F112-P68までのType値交換比較、context閉包商と未解決の高次Hom輸送を反映。**
+**更新：2026-10-22 JST。C60以前の縁起一般理論を維持し、F112-P71までの型付き高次射輸送、選択証拠付き合成、原shadowの輸送商への因子化障害を反映。**
 
 > **一般理論 → C60による具体的検証 → 一般理論の改善・strict高次化 → (∞,3)-hyperdescent。**
 > 
@@ -14,13 +14,13 @@
 | --- | --- |
 | 公開統合正本 | [`main`](https://github.com/itakura-hidetoshi/KuuOS/tree/main)。歴史的`formal/KUOS/`と現行`formal/Kuu/`、Qiを**同一Leanパッケージ**に含む。 |
 | 独立Kuu F112研究 | [親PR #2339](https://github.com/itakura-hidetoshi/KuuOS/pull/2339)は**MERGED**。かつての`formal/v5-293-f112-independent-total-change`は移行作業の履歴であり、現在の正本はmain。 |
-| F112確認範囲 | **P68 [#2439](https://github.com/itakura-hidetoshi/KuuOS/pull/2439)までmain統合済み**。P67 #2438：Lean 9675/9675・13宣言公理監査、P68 #2439：Lean 9676/9676・16宣言公理監査。両者`sorryAx`なし、exact-head Governance・公開root保全・completion receipts 2/2 SUCCESS。P68統合SHA `ddaa2232f05439fafb32aaf6825c5b6d9fa2f7c3`。 |
+| F112確認範囲 | **P71 [#2444](https://github.com/itakura-hidetoshi/KuuOS/pull/2444)までmain統合済み**。P69 #2441：Lean 9677/9677・公理監査６件、P70 #2442：9678/9678・10件、P71 #2444：9679/9679・８件。全PRで`sorryAx`なし、exact-head Governance・107公開root保全・completion receipts 2/2 SUCCESS。P71統合SHA `7102544f3e7334bdf28f25db930175281ebc4869`。 |
 | 既存定理の証拠 | 実際のLean宣言・型と仮定・`#print axioms`・対応するexact-head CI。`sorryAx`、`sorry`、`admit`、新たな未証明公理による補完は禁止。 |
 | 数学的区別 | raw Type-valued証拠、Prop証明、選択した商、観測、物理的解釈は互いに無条件には同一視しない。 |
 | 公開入口・toolchain | `lake build KuuOSFormal`（`lake build`も同じ）。既存107公開rootは維持。Lean `v4.30.0-rc2`、pinned mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`。 |
 | 別レーン | PR #1558（Lean 4.31）はvalidation-only、Draft・未マージ。Lean/mathlibの正式な固定環境は上記のまま。 |
 
-GitHub正本・Lean成果・README/ROADMAP・CI・歴史的スナップショットにはそれぞれ異なる役割があります。**P68までのmain統合はGitHub上のMERGED commitとCIを根拠に確認済み**であり、文書編集そのものを数学的証明の代わりとはしません。
+GitHub正本・Lean成果・README/ROADMAP・CI・歴史的スナップショットにはそれぞれ異なる役割があります。**P71までのmain統合はGitHub上のMERGED commitとCIを根拠に確認済み**であり、文書編集そのものを数学的証明の代わりとはしません。
 
 ## 1. 最初から存在する一般理論を研究の幹として継承する
 
@@ -74,8 +74,11 @@ KuuOSの原初の問いは、C60の60頂点・90辺・32面ではなく、**関�
 | **F112 P66** [#2436](https://github.com/itakura-hidetoshi/KuuOS/pull/2436) | P64の商関手は元の型付きF54経路**対象に単射**であり、任意の真正F54局所回転対の左先・右先交換経路は商圏でも異なる対象。真正C60六角形についても非同一性を証明。一方で両対象を結ぶF55 disjointSquare 3射は残り、その選択された交換位相は非零。 | **F54対象の厳密interchangeはP62–P65の3射単位合同だけでは導出不能**。適切な2-route比較、必要条件、その新たな関係で何が失われるかを先に定理化する。global strict 3/n不可能性とは言わない。 |
 | **F112 P67** [#2438](https://github.com/itakura-hidetoshi/KuuOS/pull/2438) | ４構成子（単位・対称・推移・真正disjoint-square）の**Type値F54経路比較証拠**を構成。各証拠から真正F55 raw cellへ写像できる。比較の存在命題だけをSetoid化し、商クラス等号の必要十分性、実C60での左右順序同一視、同一視する任意の目標写像の非単射性、元の非零交換位相とraw履歴の存続を証明。 | クラス等号は具体的raw証明を一意に選ばない。P67関係が全contextに閉じることや全Hom輸送は未証明。 |
 | **F112 P68** [#2439](https://github.com/itakura-hidetoshi/KuuOS/pull/2439) | ９構成子を検査し、五角形原始生成元を除く**squareOnlyの証明依存Type値rawセル**からcontext閉包比較商を構成。P67商→P68商、左右F54 contextのwell-definedな写像と代表元整合、真正C60交換比較を証明。 | P67商との同値・忠実性は未証明。route対象の商だけでは3-Homのtransport・globular strict 3圏・全interchangeを得ない。 |
+| **F112 P69** [#2441](https://github.com/itakura-hidetoshi/KuuOS/pull/2441) | P68比較クラス上のF54代表経路とType値F55 raw 3-cellを保持する高次射の依存型構造。元raw証明項保存と、クラス等号から得られるsquareOnly証拠の存在を証明。 | クラス等号から証明項を正準に選ぶこと・高次Homの代表元独立な合成は未証明。 |
+| **F112 P70** [#2442](https://github.com/itakura-hidetoshi/KuuOS/pull/2442) | 両端squareOnly証拠で選択した代表元変更と、中間比較証拠付きの高次射の合成を構成。原raw履歴と選択shadowの加法公式。実C60の恒等射（位相0）は交換正方形に沿って輸送すると位相1となり、両端の比較クラスは同じ。 | 合成は比較証拠の**選択依存**。原shadowを経路クラス等号だけから一意に復元してはならない。 |
+| **F112 P71** [#2444](https://github.com/itakura-hidetoshi/KuuOS/pull/2444) | P70の選択証拠付き代表元変更から輸送同値・Setoid・商を構成。商等号の必要十分条件、同値な高次射でraw shadowが異なる場合には無補正のshadow readoutが全代表元上で商へ降下しないという一般的必要条件/no-goを証明。真正C60の輸送同値と位相差を確認。 | **原shadowの無補正な因子化に関する限定no-go**。補正付き・gradedな輸送、全Homの高次coherence、strict 3/n圏は未証明であり不可能とも主張しない。 |
 
-P58–P68の新規ソースは**canonical mainに存在**します。[P58](formal/Kuu/F112/PolygonNativeF55RawStrictificationBoundary.lean)、[P59](formal/Kuu/F112/PolygonNativeF55RawVerticalNormalizationP59.lean)、[P60正規化関手](formal/Kuu/F112/PolygonNativeF55RawPathNormalizerFunctorP60.lean)、[P61](formal/Kuu/F112/PolygonNativeF55HorizontalStrictPathBoundaryP61.lean)、[P62](formal/Kuu/F112/PolygonNativeF55TypedUnitCongruenceP62.lean)、[P63](formal/Kuu/F112/PolygonNativeF55ContextPathActionsP63.lean)、[P64](formal/Kuu/F112/PolygonNativeF55StructuralUnitQuotientP64.lean)。追加[P65](formal/Kuu/F112/PolygonNativeF55ContextUnitDescentP65.lean)・[P66](formal/Kuu/F112/PolygonNativeF55C60InterchangeRouteObstructionP66.lean)・[P67](formal/Kuu/F112/PolygonNativeF55TypedSquareRouteComparisonP67.lean)・[P68](formal/Kuu/F112/PolygonNativeF55ContextSquareComparisonP68.lean)もmainにある。raw Type値の歴史、経路対象、単位合同関係、square比較クラス、選択shadowの役割と等号を混同しない。
+P58–P71の新規ソースは**canonical mainに存在**します。[P58](formal/Kuu/F112/PolygonNativeF55RawStrictificationBoundary.lean)、[P59](formal/Kuu/F112/PolygonNativeF55RawVerticalNormalizationP59.lean)、[P60正規化関手](formal/Kuu/F112/PolygonNativeF55RawPathNormalizerFunctorP60.lean)、[P61](formal/Kuu/F112/PolygonNativeF55HorizontalStrictPathBoundaryP61.lean)、[P62](formal/Kuu/F112/PolygonNativeF55TypedUnitCongruenceP62.lean)、[P63](formal/Kuu/F112/PolygonNativeF55ContextPathActionsP63.lean)、[P64](formal/Kuu/F112/PolygonNativeF55StructuralUnitQuotientP64.lean)。追加[P65](formal/Kuu/F112/PolygonNativeF55ContextUnitDescentP65.lean)・[P66](formal/Kuu/F112/PolygonNativeF55C60InterchangeRouteObstructionP66.lean)・[P67](formal/Kuu/F112/PolygonNativeF55TypedSquareRouteComparisonP67.lean)・[P68](formal/Kuu/F112/PolygonNativeF55ContextSquareComparisonP68.lean)もmainにある。raw Type値の歴史、経路対象、単位合同関係、square比較クラス、選択shadowの役割と等号を混同しない。 追加[P69](formal/Kuu/F112/PolygonNativeF55HigherHomTransportBoundaryP69.lean)・[P70](formal/Kuu/F112/PolygonNativeF55HigherHomRepresentativeTransportP70.lean)・[P71](formal/Kuu/F112/PolygonNativeF55HigherTransportQuotientP71.lean)もmain統合済み。
 
 ## 3. 最優先の新規数学：局所proof-relevant strict 3圏
 
@@ -87,7 +90,7 @@ P58–P68の新規ソースは**canonical mainに存在**します。[P58](forma
 2. **合成・単位・結合律**：`\circ_i`を定義し、すべての定義可能な段階でstrictな左右単位・結合の等式を証明する。元のraw語のliteralな等式とは混同しない。
 3. **全interchange**：異なる`i<j`方向の合成について、弱いinterchanger 3射ではなく厳密な等式を証明する。Gray圏のcoherenceを証明の代用品にしない。
 4. **非自明性・source情報**：raw証拠、原F54/F55履歴、位相・曲率・障害を失うか否かを**個別の保存/非保存定理**で記載する。単に全3射を同一視した圏ではこの研究目標を達成しない。
-5. **最小の整合関係またはno-go**：P62–P65で3-Homの単位合同商と左右context降下、P66でF54交換経路対象の区別、P67でType値square比較と情報損失、P68でsquareOnlyのcontext閉包比較を証明済み。次のP69以降ではこの経路クラス間で元の非零F55交換3射をどのような型付きHomとして輸送できるか、そのtransportの代表元独立性・source/target・水平結合・交換律を実証する。証拠を消すshadow商やGrayで代用しない。
+5. **最小の整合関係またはno-go**：P62–P68で3-Homの単位合同・context作用とF54比較を構成。P69は元Type値raw高次射を保持するパッケージ、P70は選択した比較証拠による代表元変更・合成、P71は輸送商への原shadow無補正因子化の明示的障害を証明済み。P72以降は、選択位相の補正データを含む輸送・多重合成のcoherence、正しい高次Hom商の必要条件・情報保存／損失を判定する。数値shadow等号やGrayをstrict interchangeの代わりとしない。
 
 **完了基準:** 本物の3-cellと全globular境界、合成・単位・結合・交換のLean定理、`#print axioms`、情報保存/損失定理、exact-head CI。**自由path 1圏を作っただけ、2次元のstrict interchangeだけ、Gray圏の可逆interchangerだけでは未完了**です。
 
@@ -170,7 +173,7 @@ P58–P68の新規ソースは**canonical mainに存在**します。[P58](forma
 
 ## 10. 実装優先順位、CI、既存成果の保存
 
-**次の証明作業の優先順位:** P67のType値square比較とP68のcontext閉包を基礎に、**P69：F54比較クラス上の型付きF55 3-Hom輸送の構成条件・情報保存／obstruction** → 水平２変数合成の代表元独立性・結合律・厳密interchangeの定理あるいはno-go → 局所strict 3圏 → 既存W/J/Hの比較と大域strict 3/n圏 → `(\infty,3)`モデル橋 → hyperdescent。C60以前からの一般理論を継承する。
+**次の証明作業の優先順位:** P69–P71のType値高次射・証拠選択型輸送・原shadow無補正因子化の限定no-goを継承 → **P72：補正付き位相輸送と証拠依存coherenceの構成／必要条件、実C60非零交換正方形の保存** → 代表元独立な高次Homと水平２変数合成・全interchange（成立定理またはno-go） → 局所strict 3圏 → 既存W/J/Hと大域strict 3/n圏の比較 → `(\infty,3)`モデル橋 → hyperdescent。C60導入以前からの縁起一般理論を並行して継承する。
 
 **絶対に行わないこと:** Gray圏でstrict 3圏の未証明法則を置換して完了と言うこと、旧約107公開rootの一括削除、歴史的な数学を`legacy/`だけに押し込むこと、strict性を得るために全raw証拠を無条件に潰すこと、未証明の存在条件を新公理へ置くこと、exact-head CIと公理監査を通さず未検証成果をmainに統合すること。
 
@@ -199,6 +202,9 @@ lake build KuuOSFormal # warningAsErrorはlakefile.toml既定。sorryAxは#print
 - [F112-P66 #2436](https://github.com/itakura-hidetoshi/KuuOS/pull/2436) — genuine C60 disjoint-square F54 route objects remain distinct and odd 3-cell survives（9674/9674 Lean SUCCESS）
 - [F112-P67 #2438](https://github.com/itakura-hidetoshi/KuuOS/pull/2438) — Type-valued F54 square witness and exact comparison class / noninjective strict-target boundary（9675/9675 SUCCESS）
 - [F112-P68 #2439](https://github.com/itakura-hidetoshi/KuuOS/pull/2439) — context-closed squareOnly Type witness and exact F54 class context actions（9676/9676 SUCCESS）
+- [F112-P69 #2441](https://github.com/itakura-hidetoshi/KuuOS/pull/2441) — original proof-relevant F55 3-cell package over F54 comparison classes（9677/9677 SUCCESS）
+- [F112-P70 #2442](https://github.com/itakura-hidetoshi/KuuOS/pull/2442) — witness-indexed higher-arrow transport and genuine C60 phase change（9678/9678 SUCCESS）
+- [F112-P71 #2444](https://github.com/itakura-hidetoshi/KuuOS/pull/2444) — transport quotient and exact original chosen-shadow no-factor theorem（9679/9679 SUCCESS）
 - [`AGENTS.md`](AGENTS.md) — 現行のpublic root・mathlib・Gray依存・ビルド境界
 - [`formal/KUOS/`](formal/KUOS/) — 過去から継続する一般的なLean数学
 - [`formal/Kuu/`](formal/Kuu/) — 現在の独立Kuuの具体的な構成
