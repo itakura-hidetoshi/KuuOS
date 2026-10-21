@@ -27,6 +27,11 @@ class DispatchPayloadContractTests(unittest.TestCase):
             "event": "pull_request",
             "pull_requests": [{"number": 7}],
         }
+        # Keep the original incomplete input as a negative fixture. Positive
+        # round trips use a separate, explicitly synthetic coherent observation.
+        self.incomplete_run = copy.deepcopy(self.run)
+        self.run["head_repository"] = {"full_name": sender.SOURCE_REPO}
+        self.run["pull_requests"][0]["base"] = {"ref": sender.CANONICAL_BASE}
         self.completion = {
             "repository": sender.SOURCE_REPO,
             "run_id": 42,
@@ -82,6 +87,23 @@ class DispatchPayloadContractTests(unittest.TestCase):
         self.assertLessEqual(len(payload), 10)
         self.assertLess(len(json.dumps(payload).encode("utf-8")), 65536)
         self.assertEqual(len(payload["completion"]), 15)
+
+    def test_original_incomplete_sender_fixture_is_rejected_not_repaired(self):
+        self.assertEqual(sender.classify_run(self.incomplete_run)[0], "unresolved")
+        with self.assertRaisesRegex(RuntimeError, "source_run_not_dispatchable"):
+            sender.make_dispatch_payload(self.incomplete_run)
+
+    def test_each_missing_identity_field_remains_a_negative_fixture(self):
+        for field in ("head_repository", "base"):
+            with self.subTest(field=field):
+                run = copy.deepcopy(self.run)
+                if field == "head_repository":
+                    del run[field]
+                else:
+                    del run["pull_requests"][0][field]
+                self.assertEqual(sender.classify_run(run)[0], "unresolved")
+                with self.assertRaisesRegex(RuntimeError, "source_run_not_dispatchable"):
+                    sender.make_dispatch_payload(run)
 
     def test_real_sender_payload_compiles_to_exact_bounded_reobservation(self):
         compiled = self.compile(sender.make_dispatch_payload(self.run))

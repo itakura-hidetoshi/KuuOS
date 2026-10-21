@@ -177,34 +177,200 @@ def _save_state(path: pathlib.Path, run_id: int, outcome: Mapping[str, Any] | No
     os.replace(tmp, path)
 
 
-def _run_base_ref(run: Mapping[str, Any]) -> str:
-    pulls = run.get("pull_requests")
-    if not isinstance(pulls, list):
-        return ""
-    for raw in pulls:
-        pull = _m(raw)
-        base = _m(pull.get("base"))
-        ref = str(base.get("ref", ""))
-        if ref:
-            return ref
-    return ""
+@dataclass(frozen=True)
+class _RepositoryIdentity:
+    full_name: str | None
+    name: str | None
+    id: int | None
+    node_id: str | None
 
 
-def _same_repository_head(run: Mapping[str, Any], source_repo: str) -> bool:
-    head_repo = _m(run.get("head_repository"))
-    full_name = str(head_repo.get("full_name", ""))
-    if full_name:
-        return full_name == source_repo
-    pulls = run.get("pull_requests")
-    if not isinstance(pulls, list):
+@dataclass(frozen=True)
+class _RunIdentity:
+    repository: str
+    run_id: int
+    workflow_name: str
+    head_sha: str
+    head_branch: str
+    status: str
+    conclusion: str
+    event: str
+    pr_number: int
+    base_ref: str
+
+
+@dataclass(frozen=True)
+class _RunAssessment:
+    disposition: str
+    reasons: tuple[str, ...]
+    identity: _RunIdentity | None = None
+
+
+def _branch_ref(value: Any) -> bool:
+    """Conservative ASCII subset of Git branch refs; unsupported is unresolved."""
+    return (isinstance(value, str) and value != "HEAD"
+            and re.fullmatch(r"[A-Za-z0-9_][A-Za-z0-9_./-]*", value) is not None
+            and ".." not in value
+            and all(part and not part.startswith(".")
+                    and not part.endswith((".", ".lock")) for part in value.split("/")))
+
+
+def _repository_full_name(value: Any) -> bool:
+    if not isinstance(value, str) or value.count("/") != 1:
         return False
-    for raw in pulls:
-        head = _m(_m(raw).get("head"))
-        repo = _m(head.get("repo"))
-        candidate = str(repo.get("full_name", ""))
-        if candidate:
-            return candidate == source_repo
+    owner, name = value.split("/")
+    # Ordinary GitHub logins, plus the managed-user enterprise suffix.
+    # Unsupported owner shapes are unresolved, never checkpointable forks.
+    return (len(owner) <= 39
+            and re.fullmatch(r"[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*(?:_[A-Za-z0-9]{3,8})?", owner) is not None
+            and re.fullmatch(r"[A-Za-z0-9_.-]+", name) is not None
+            and name not in {".", ".."})
+
+
+def _repository_identity(raw: Any, label: str, *, require_full_name: bool = False) -> _RepositoryIdentity:
+    if not isinstance(raw, Mapping) or not raw:
+        raise ValueError(label + "_invalid")
+    full_name = raw.get("full_name")
+    if "full_name" in raw or require_full_name:
+        if not _repository_full_name(full_name):
+            raise ValueError(label + "_full_name_invalid")
+    if "url" in raw:
+        url = raw["url"]
+        prefix = "https://api.github.com/repos/"
+        if not isinstance(url, str) or not url.startswith(prefix):
+            raise ValueError(label + "_url_invalid")
+        url_name = url[len(prefix):]
+        if not _repository_full_name(url_name):
+            raise ValueError(label + "_url_invalid")
+        if full_name is not None and full_name != url_name:
+            raise ValueError(label + "_url_mismatch")
+        full_name = url_name
+    name = raw.get("name")
+    if "name" in raw:
+        if (not isinstance(name, str) or re.fullmatch(r"[A-Za-z0-9_.-]+", name) is None
+                or name in {".", ".."}):
+            raise ValueError(label + "_name_invalid")
+        if full_name is not None and name != full_name.split("/")[1]:
+            raise ValueError(label + "_name_mismatch")
+    repo_id = raw.get("id")
+    if "id" in raw and (type(repo_id) is not int or repo_id <= 0):
+        raise ValueError(label + "_id_invalid")
+    node_id = raw.get("node_id")
+    if "node_id" in raw and (not isinstance(node_id, str) or not node_id
+                             or any(c.isspace() for c in node_id)):
+        raise ValueError(label + "_node_id_invalid")
+    if full_name is None and name is None and repo_id is None and node_id is None:
+        raise ValueError(label + "_identity_missing")
+    return _RepositoryIdentity(full_name, name, repo_id, node_id)
+
+
+def _repository_matches(observed: _RepositoryIdentity, expected: _RepositoryIdentity, label: str) -> _RepositoryIdentity:
+    if observed.full_name is not None and observed.full_name != expected.full_name:
+        raise ValueError(label + "_full_name_mismatch")
+    expected_name = expected.full_name.split("/")[1] if expected.full_name else expected.name
+    if observed.name is not None and expected_name is not None and observed.name != expected_name:
+        raise ValueError(label + "_name_mismatch")
+    for field in ("id", "node_id"):
+        left, right = getattr(observed, field), getattr(expected, field)
+        if left is not None and right is not None and left != right:
+            raise ValueError(label + "_" + field + "_mismatch")
+    # Compact REST association objects may omit full_name. Bind them only to
+    # their already validated run endpoint, retaining all supplied identities
+    # for cross-comparison (including base versus head on a fork).
+    return _RepositoryIdentity(observed.full_name or expected.full_name,
+                               observed.name or expected_name,
+                               observed.id if observed.id is not None else expected.id,
+                               observed.node_id if observed.node_id is not None else expected.node_id)
+
+
+def _repository_contradiction(left: _RepositoryIdentity, right: _RepositoryIdentity) -> bool:
+    if left.full_name is None or right.full_name is None:
+        return False
+    same_name = left.full_name == right.full_name
+    for field in ("id", "node_id"):
+        a, b = getattr(left, field), getattr(right, field)
+        if a is not None and b is not None and (a == b) != same_name:
+            return True
     return False
+
+
+def _assess_run(
+    run: Mapping[str, Any], *, source_repo: str = SOURCE_REPO,
+    workflow_name: str = SOURCE_WORKFLOW_NAME, canonical_base: str = CANONICAL_BASE,
+) -> _RunAssessment:
+    """Validate one coherent observation. Never infer a missing PR association."""
+    if not isinstance(run, Mapping):
+        return _RunAssessment("unresolved", ("run_not_object",))
+    if run.get("status") != "completed":
+        return _RunAssessment("unresolved", ("workflow_not_completed",))
+    if not _terminal_conclusion(run.get("conclusion")):
+        return _RunAssessment("unresolved", ("workflow_conclusion_not_terminal",))
+    try:
+        run_id = run.get("id")
+        if type(run_id) is not int or run_id <= 0:
+            raise ValueError("run_id_invalid")
+        sha = run.get("head_sha")
+        if not isinstance(sha, str) or _SHA40.fullmatch(sha.lower()) is None:
+            raise ValueError("head_sha_invalid")
+        head_ref = run.get("head_branch")
+        if not _branch_ref(head_ref):
+            raise ValueError("head_branch_invalid")
+        for field in ("name", "event"):
+            if not isinstance(run.get(field), str) or not run[field].strip():
+                raise ValueError("run_" + field + "_invalid")
+        source = _RepositoryIdentity(source_repo, source_repo.split("/")[1], None, None)
+        repositories = [source]
+        if "repository" in run:
+            source = _repository_identity(run["repository"], "source_repository", require_full_name=True)
+            source = _repository_matches(source, repositories[0], "source_repository")
+            repositories.append(source)
+        head_repo = _repository_identity(run.get("head_repository"), "head_repository", require_full_name=True)
+        repositories.append(head_repo)
+        pulls = run.get("pull_requests")
+        if not isinstance(pulls, list) or len(pulls) != 1 or not isinstance(pulls[0], Mapping):
+            raise ValueError("pull_request_association_not_unique")
+        pull = pulls[0]
+        number = pull.get("number")
+        if type(number) is not int or number <= 0:
+            raise ValueError("pull_request_number_invalid")
+        if "url" in pull and pull["url"] != f"https://api.github.com/repos/{source_repo}/pulls/{number}":
+            raise ValueError("pull_request_url_mismatch")
+        base = pull.get("base")
+        if not isinstance(base, Mapping) or not _branch_ref(base.get("ref")):
+            raise ValueError("pull_request_base_ref_invalid")
+        if "repo" in base:
+            base_repo = _repository_identity(base["repo"], "pull_request_base_repository")
+            base_repo = _repository_matches(base_repo, source, "pull_request_base_repository")
+            repositories.append(base_repo)
+        if "head" in pull:
+            head = pull["head"]
+            if not isinstance(head, Mapping) or not head:
+                raise ValueError("pull_request_head_invalid")
+            if "sha" in head and (not isinstance(head["sha"], str) or head["sha"].lower() != sha.lower()):
+                raise ValueError("pull_request_head_sha_mismatch")
+            if "ref" in head and head["ref"] != head_ref:
+                raise ValueError("pull_request_head_ref_mismatch")
+            if "repo" in head:
+                association_repo = _repository_identity(head["repo"], "pull_request_head_repository")
+                association_repo = _repository_matches(association_repo, head_repo, "pull_request_head_repository")
+                repositories.append(association_repo)
+        if any(_repository_contradiction(left, right)
+               for index, left in enumerate(repositories) for right in repositories[index + 1:]):
+            raise ValueError("repository_identity_contradiction")
+    except ValueError as exc:
+        return _RunAssessment("unresolved", (str(exc),))
+    identity = _RunIdentity(source_repo, run_id, run["name"], sha.lower(), head_ref,
+                            run["status"], run["conclusion"], run["event"], number, base["ref"])
+    reasons = []
+    if identity.workflow_name != workflow_name:
+        reasons.append("workflow_name_mismatch")
+    if identity.event != "pull_request":
+        reasons.append("run_event_not_pull_request")
+    if identity.base_ref != canonical_base:
+        reasons.append("canonical_base_mismatch")
+    if head_repo.full_name != source_repo:
+        reasons.append("head_repository_not_source_repository")
+    return _RunAssessment("ignored" if reasons else "candidate", tuple(reasons), identity)
 
 
 def classify_run(
@@ -214,24 +380,9 @@ def classify_run(
     workflow_name: str = SOURCE_WORKFLOW_NAME,
     canonical_base: str = CANONICAL_BASE,
 ) -> tuple[str, list[str]]:
-    reasons: list[str] = []
-    if str(run.get("name", "")) != workflow_name:
-        reasons.append("workflow_name_mismatch")
-    if str(run.get("event", "")) != "pull_request":
-        reasons.append("run_event_not_pull_request")
-    if str(run.get("status", "")) != "completed":
-        reasons.append("workflow_not_completed")
-    if not _terminal_conclusion(run.get("conclusion")):
-        reasons.append("workflow_conclusion_not_terminal")
-    if _SHA40.fullmatch(str(run.get("head_sha", "")).lower()) is None:
-        reasons.append("head_sha_invalid")
-    if _run_base_ref(run) != canonical_base:
-        reasons.append("canonical_base_mismatch")
-    if not _same_repository_head(run, source_repo):
-        reasons.append("head_repository_not_source_repository")
-    if reasons:
-        return "ignored", reasons
-    return "candidate", []
+    assessment = _assess_run(run, source_repo=source_repo, workflow_name=workflow_name,
+                             canonical_base=canonical_base)
+    return assessment.disposition, list(assessment.reasons)
 
 
 def validate_exact_job_and_step(
@@ -267,23 +418,26 @@ def validate_exact_job_and_step(
 
 
 def make_dispatch_payload(run: Mapping[str, Any]) -> dict[str, Any]:
-    pulls = run.get("pull_requests")
-    pr_number = 0
-    if isinstance(pulls, list) and pulls:
-        pr_number = _i(_m(pulls[0]).get("number"), 0)
+    return _dispatch_payload(_assess_run(run))
+
+
+def _dispatch_payload(assessment: _RunAssessment) -> dict[str, Any]:
+    if assessment.disposition != "candidate" or assessment.identity is None:
+        raise RuntimeError("source_run_not_dispatchable:" + assessment.disposition + ":" + ",".join(assessment.reasons))
+    identity = assessment.identity
     completion = {
-        "repository": SOURCE_REPO,
-        "run_id": _i(run.get("id"), 0),
-        "workflow_name": SOURCE_WORKFLOW_NAME,
-        "head_sha": str(run.get("head_sha", "")).lower(),
-        "head_branch": str(run.get("head_branch", "")),
-        "status": str(run.get("status", "")),
-        "conclusion": run.get("conclusion"),
-        "run_event": str(run.get("event", "")),
+        "repository": identity.repository,
+        "run_id": identity.run_id,
+        "workflow_name": identity.workflow_name,
+        "head_sha": identity.head_sha,
+        "head_branch": identity.head_branch,
+        "status": identity.status,
+        "conclusion": identity.conclusion,
+        "run_event": identity.event,
         "required_job_names": [REQUIRED_JOB],
         "required_step_names": [REQUIRED_STEP],
-        "source_pr_number": pr_number,
-        "source_base_ref": CANONICAL_BASE,
+        "source_pr_number": identity.pr_number,
+        "source_base_ref": identity.base_ref,
         "wakeup_is_success_evidence": False,
         "fresh_mcp_reobservation_required": True,
         "source_transport": "public_github_rest_poll_then_kuuos_self_dispatch",
@@ -406,9 +560,11 @@ def poll_once(
         # checkpointed as ignored: their eventual result could be lost.
         if not _terminal_conclusion(run.get("conclusion")):
             raise RuntimeError(f"source_workflow_conclusion_not_terminal:{run_id}")
-        classification, reasons = classify_run(run, source_repo=source_repo)
-        if classification == "ignored":
-            checkpoint(run_id, "ignored", ",".join(reasons))
+        assessment = _assess_run(run, source_repo=source_repo)
+        if assessment.disposition not in {"candidate", "ignored"} or assessment.identity is None:
+            raise RuntimeError(f"source_run_metadata_unresolved:{run_id}:" + ",".join(assessment.reasons))
+        if assessment.disposition == "ignored":
+            checkpoint(run_id, "ignored", ",".join(assessment.reasons))
             ignored.append(run_id)
             last_processed = run_id
             continue
@@ -426,7 +582,7 @@ def poll_once(
             continue
         if not ready:
             raise RuntimeError("source_exact_job_step_gate_blocked:" + str(run_id) + ":" + ",".join(blockers))
-        _post_self_dispatch(target_repo, dispatch_token, make_dispatch_payload(run))
+        _post_self_dispatch(target_repo, dispatch_token, _dispatch_payload(assessment))
         # A failed POST never advances state. A failed checkpoint stops this poll;
         # a retry can duplicate only the in-flight notification (at-least-once).
         checkpoint(run_id, "dispatched")
@@ -503,6 +659,10 @@ def _self_check() -> None:
     assert classification == "ignored" and "canonical_base_mismatch" in reasons
     forked = dict(good_run)
     forked["head_repository"] = {"full_name": "someone/fork"}
+    classification, reasons = classify_run(forked)
+    assert classification == "unresolved"  # Original contradictory fixture.
+    forked["pull_requests"] = [{"number": 2018, "base": {"ref": CANONICAL_BASE},
+                                "head": {"sha": sha, "repo": {"full_name": "someone/fork"}}}]
     classification, reasons = classify_run(forked)
     assert classification == "ignored" and "head_repository_not_source_repository" in reasons
     missing_step = {
