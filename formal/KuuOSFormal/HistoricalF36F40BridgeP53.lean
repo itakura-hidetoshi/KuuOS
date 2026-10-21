@@ -63,13 +63,11 @@ No premise is needed for any of the twenty triangles. -/
 theorem p53_allOriginalHexagonWordsExact :
     p52_allOriginalHexagonWordsExact := by
   intro t
-  simp [c60F41HexagonBoundaryLoop,
-    p51_oldPathPhysicalEdges_comp,
-    p51_oriented_single_edge_word,
-    p53_edgeWord_eqmpr_source,
-    p53_edgeWord_eqmp_target,
-    OrientedHexagonCycle.edges,
-    List.append_assoc]
+  simp only [c60F41HexagonBoundaryLoop, OrientedHexagonCycle.edges]
+  set_option pp.all true in
+    trace_state
+  set_option pp.proofs true in
+    trace_state
 
 /-- All thirty-two original F41/F42 physical face relations now
 localize unconditionally to the independent F69 physical site. -/
@@ -101,6 +99,7 @@ theorem p53_originalF42Quotient_factor :
 #print axioms p53_originalF42QuotientToLocalization
 #print axioms p53_originalF42Quotient_factor
 
+end
 end ActualF47
 end GenuineOriginalC60Geometry
 end KUOS.F112ActualHistoricalF36F40BridgeP4
