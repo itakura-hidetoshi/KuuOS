@@ -1,6 +1,6 @@
 # KuuOS / 空OS — Formal Research Roadmap
 
-**更新：2026-10-21 JST。研究史を訂正し、C60以前からの縁起の一般化を主軸に戻したロードマップ。**
+**更新：2026-10-22 JST。C60以前からの一般理論を継承し、main統合済みF112-P62までの検証結果とstrict化の未解決境界を反映。**
 
 > **一般理論 → C60による具体的検証 → 一般理論の改善・strict高次化 → (∞,3)-hyperdescent。**
 > 
@@ -13,14 +13,14 @@
 | 区分 | 正確な位置づけ |
 | --- | --- |
 | 公開統合正本 | [`main`](https://github.com/itakura-hidetoshi/KuuOS/tree/main)。歴史的`formal/KUOS/`と現行`formal/Kuu/`、Qiを**同一Leanパッケージ**に含む。 |
-| 独立Kuu F112研究 | [Draft親PR #2339](https://github.com/itakura-hidetoshi/KuuOS/pull/2339)、`formal/v5-293-f112-independent-total-change`。mainとは別の研究ブランチ。 |
-| F112確認範囲 | 2026-10-21の観測では子PR [P58 #2421](https://github.com/itakura-hidetoshi/KuuOS/pull/2421)まで研究親に統合済み。最新のHEAD・CIは動くため、PR・コミットから再確認する。 |
+| 独立Kuu F112研究 | [親PR #2339](https://github.com/itakura-hidetoshi/KuuOS/pull/2339)は**MERGED**。かつての`formal/v5-293-f112-independent-total-change`は移行作業の履歴であり、現在の正本はmain。 |
+| F112確認範囲 | **P62 [#2429](https://github.com/itakura-hidetoshi/KuuOS/pull/2429)までmainへ統合済み**。P62のLeanビルド9670/9670、10宣言の公理監査（`sorryAx`なし）、Governance SUCCESS、両completion receipt SUCCESSを確認。統合SHA `3ad3b691d2f5fc261f098891d62b9ae2f19c4b65`。 |
 | 既存定理の証拠 | 実際のLean宣言・型と仮定・`#print axioms`・対応するexact-head CI。`sorryAx`、`sorry`、`admit`、新たな未証明公理による補完は禁止。 |
 | 数学的区別 | raw Type-valued証拠、Prop証明、選択した商、観測、物理的解釈は互いに無条件には同一視しない。 |
 | 公開入口・toolchain | `lake build KuuOSFormal`（`lake build`も同じ）。既存107公開rootは維持。Lean `v4.30.0-rc2`、pinned mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`。 |
-| 別レーン | PR #1558（Lean 4.31）はvalidation-only、Draft・未マージ。F112親PR #2339もDraftのまま扱う。 |
+| 別レーン | PR #1558（Lean 4.31）はvalidation-only、Draft・未マージ。Lean/mathlibの正式な固定環境は上記のまま。 |
 
-GitHub正本・Lean成果・README/ROADMAP・CI・歴史的スナップショットにはそれぞれ異なる役割があります。**ドキュメント編集は新しい数学的証明やF112のmain統合を意味しません。**
+GitHub正本・Lean成果・README/ROADMAP・CI・歴史的スナップショットにはそれぞれ異なる役割があります。**P62のmain統合はGitHub上のMERGED commitとCIを根拠に確認済み**であり、文書編集そのものを数学的証明の代わりとはしません。
 
 ## 1. 最初から存在する一般理論を研究の幹として継承する
 
@@ -35,7 +35,7 @@ KuuOSの原初の問いは、C60の60頂点・90辺・32面ではなく、**関�
 | v2.0 | [PresentationUniversality v2.0](formal/KUOS/DependentOriginationPresentationUniversalityV2_0.lean) | `W`局所化の普遍因子化と普遍的carrier間の圏同値。`W`を同型へ送るという明示的な仮定が必要。 |
 | v2.1–v2.7 | [WJCategoryEquivalence v2.7](formal/KUOS/DependentOriginationWJCategoryEquivalenceV2_7.lean) | `W`-invertingな文脈系の`J`-descentと局所化上のType値sheaf圏の同値。一般`H`は別課題。 |
 | v2.8–v2.13 | [HigherStackDescent v2.8](formal/KUOS/DependentOriginationHigherStackDescentV2_8.lean)、[StrictHigherUniversality v2.13](formal/KUOS/DependentOriginationStrictHigherUniversalityV2_13.lean) | Cat値stackの被覆descentの同値判定と、強い`W.IsInvertedBy`下でのCat値局所化普遍性。任意弱擬関手の高次局所化や`(∞,3)`-hyperdescentまで証明したわけではない。 |
-| v4.00–v5.36 | [旧ROADMAP `2](docs/legacy/ROADMAP-v5.291.md#2-obstruction-localization-and-exact-classification-foundations--v400v536) | 明示的な非因子化・capacity/incidence障害、presentation-sensitive descent、exact-universal分類、actual-liftへ進む一般的条件。結果の有効範囲は各Lean型に相対的。 |
+| v4.00–v5.36 | [旧ROADMAP §2](docs/legacy/ROADMAP-v5.291.md#2-obstruction-localization-and-exact-classification-foundations--v400v536) | 明示的な非因子化・capacity/incidence障害、presentation-sensitive descent、exact-universal分類、actual-liftへ進む一般的条件。結果の有効範囲は各Lean型に相対的。 |
 | v5.37–v5.101 | [CoherentBiadjunctionActualLift v5.101](formal/KUOS/DependentOriginationCoherentBiadjunctionActualLiftV5_101.lean) | 元の`F,G,η,ε`、前後triangulatorとswallowtailの両方を**同一original datum**で証明。これは任意のrawソースのstrict 3圏への自動的な昇格ではない。 |
 | v5.102–v5.153 | [F44交換類 v5.141](formal/KUOS/DependentOriginationCoherentBiadjunctionInterleavingExchangeQuotientV5_141.lean)、[F55高次cell v5.152](formal/KUOS/DependentOriginationCoherentBiadjunctionOriginalF45PresentedRotationCellsV5_152.lean)、[F56非忠実性 v5.153](formal/KUOS/DependentOriginationCoherentBiadjunctionOriginalF45ObservedHigherCellNonfaithfulnessV5_153.lean) | 選択した2軸のraw/quotient、有限高次証拠、normal form、異なるrawの観測像一致と非復元を証明。Gray的なweak合成をstrict 3圏の完成と読まない。 |
 
@@ -61,11 +61,15 @@ KuuOSの原初の問いは、C60の60頂点・90辺・32面ではなく、**関�
 | --- | --- | --- |
 | 独立基礎`Kuu.Presentation`、`Kuu.Strict`、`Kuu.Incidence` | 選択した自由経路の指定関係商・観測因子化、functor/natural transformationの**strict 2次元法則**、文脈切片・総圏。 | 証明関連3射を保持した局所strict 3圏の全公理。 |
 | F112 P1–P26 | 原幾何とF69 zigzag・局所化、整数chain/ホモロジー、raw証拠の非降下、別位相への非一意性を実際のC60に構成。 | 類似した観測結果から全raw高次証拠の復元を仮定しない。 |
-| F112 P27–P53 | 研究親[PR #2339](https://github.com/itakura-hidetoshi/KuuOS/pull/2339)上で歴史的ソースの独立比較と真正面relatorの整理を継続。P53は全32原面relatorを用いる原F42面商→F69の無条件因子化に到達。 | 別presentationの原3-Hom全体を勝手に同型としない。 |
+| F112 P27–P53 | [統合済み親PR #2339](https://github.com/itakura-hidetoshi/KuuOS/pull/2339)で歴史的ソースの独立比較と真正面relatorを整理。P53は全32原面relatorを用いる原F42面商→F69の無条件因子化に到達。 | 別presentationの原3-Hom全体を勝手に同型としない。 |
 | F112 P54–P57 | [P55 #2417](https://github.com/itakura-hidetoshi/KuuOS/pull/2417)、[P56 #2418](https://github.com/itakura-hidetoshi/KuuOS/pull/2418)、[P57 #2419](https://github.com/itakura-hidetoshi/KuuOS/pull/2419)・[#2420](https://github.com/itakura-hidetoshi/KuuOS/pull/2420)：raw F55の九生成子、完全source transport、水平自然性、選んだshadowの忠実な圏関手、非復元と別位相のobstruction。 | chosen shadowが唯一の空であることや、raw 3-cellがすでにstrict 3圏であること。 |
-| **F112 P58** [#2421](https://github.com/itakura-hidetoshi/KuuOS/pull/2421) | **全raw F55項について左右strict単位律がliteralには失敗し、全合成可能三項についてraw結合律の二括弧が区別される**ことを構文の数え上げで証明。Mathlibの独立した自由経路圏を構成。 | 自由経路圏が非自明な3-Homを保持する大域strict 3圏である、という未証明の飛躍。 |
+| **F112 P58** [#2421](https://github.com/itakura-hidetoshi/KuuOS/pull/2421) | **raw F55のliteral単位律・結合律の失敗**を構文の数え上げで証明し、mathlib自由経路圏を別途構成。 | raw証拠とstrict経路の同一視は禁止。 |
+| **F112 P59** [#2423](https://github.com/itakura-hidetoshi/KuuOS/pull/2423) | ９構成子の垂直正規化：raw単位→空経路、raw垂直合成→連結、その他７構成子→個別生成辺。 | 垂直strict化から水平単位・交換は導けない。 |
+| **F112 P60** [#2424](https://github.com/itakura-hidetoshi/KuuOS/pull/2424)・[#2425](https://github.com/itakura-hidetoshi/KuuOS/pull/2425)・[修復 #2428](https://github.com/itakura-hidetoshi/KuuOS/pull/2428) | mathlib自由経路正規化関手と、選択された`(ℤ×ℤ)×ℤ/2ℤ` shadowへの整合性。raw証明履歴が一般に非復元であることを区別。 | 数値shadow商をstrict 3圏の完成形にしない。 |
+| **F112 P61** [#2426](https://github.com/itakura-hidetoshi/KuuOS/pull/2426) | 水平合成の垂直正規形は２辺。raw単位同士を水平合成すると長さ２で、空経路とはliteralに異なる。selected shadowでは値0。 | P61は現presentationの障害であり、大域strict 3圏no-goではない。 |
+| **F112 P62** [#2429](https://github.com/itakura-hidetoshi/KuuOS/pull/2429) | ９構成子の再帰的な**単位生成構文**から、同じ型付きF54両端を持つ自由経路の関係を生成。反射・対称・推移・垂直合成の合同性、選択された観測への健全性、P61水平単位と空経路の**関係上の同値**をLean4で証明。真正C60 pentagon/hexagon生成子は単位生成構文から除外。 | 水平合成の任意の代表元に対する合同性、結合律、全interchange、global strict 3/nは未証明。 |
 
-P58の[P58の実際のソース](https://github.com/itakura-hidetoshi/KuuOS/blob/formal/v5-293-f112-independent-total-change/formal/Kuu/F112/PolygonNativeF55RawStrictificationBoundary.lean)は**F112研究ブランチ**にあり、`main`にはまだ存在しません。上表のP段階は研究親内の成果であって、`main`に既に含まれるとは主張しません。
+P58–P62のソースは**canonical mainに存在**します。[P58](formal/Kuu/F112/PolygonNativeF55RawStrictificationBoundary.lean)、[P59](formal/Kuu/F112/PolygonNativeF55RawVerticalNormalizationP59.lean)、[P60正規化関手](formal/Kuu/F112/PolygonNativeF55RawPathNormalizerFunctorP60.lean)、[P61](formal/Kuu/F112/PolygonNativeF55HorizontalStrictPathBoundaryP61.lean)、[P62](formal/Kuu/F112/PolygonNativeF55TypedUnitCongruenceP62.lean)。P62は証明依存raw項を潰す商ではなく、特定のunit-only生成経路に対する**型付き関係**を追加した段階である。
 
 ## 3. 最優先の新規数学：局所proof-relevant strict 3圏
 
@@ -77,7 +81,7 @@ P58の[P58の実際のソース](https://github.com/itakura-hidetoshi/KuuOS/blob
 2. **合成・単位・結合律**：`\circ_i`を定義し、すべての定義可能な段階でstrictな左右単位・結合の等式を証明する。元のraw語のliteralな等式とは混同しない。
 3. **全interchange**：異なる`i<j`方向の合成について、弱いinterchanger 3射ではなく厳密な等式を証明する。Gray圏のcoherenceを証明の代用品にしない。
 4. **非自明性・source情報**：raw証拠、原F54/F55履歴、位相・曲率・障害を失うか否かを**個別の保存/非保存定理**で記載する。単に全3射を同一視した圏ではこの研究目標を達成しない。
-5. **最小の整合関係またはno-go**：P58で証明したraw law obstructionを出発点とし、どの明示した関係ならstrict化が成立するかを構成する。望む非自明な情報と両立しなければ、不可能性・必要条件・obstructionを定理として保持する。
+5. **最小の整合関係またはno-go**：P58のraw law obstructionとP61の水平単位obstructionに対し、P62のunit-only型付き合同関係を開始点にする。次段階では、左右contextの作用が**任意の垂直合成**と両立するための自然性・代表元独立性、水平合成の単位・結合・交換を段階的に検証する。証拠を保てない箇所では必要条件・損失・obstructionを定理として残す。
 
 **完了基準:** 本物の3-cellと全globular境界、合成・単位・結合・交換のLean定理、`#print axioms`、情報保存/損失定理、exact-head CI。**自由path 1圏を作っただけ、2次元のstrict interchangeだけ、Gray圏の可逆interchangerだけでは未完了**です。
 
@@ -160,9 +164,9 @@ P58の[P58の実際のソース](https://github.com/itakura-hidetoshi/KuuOS/blob
 
 ## 10. 実装優先順位、CI、既存成果の保存
 
-**次の証明作業の優先順位:** F112-P58の**実際のraw strict-law obstruction** → 最小限で証拠を保つ厳密3次元合成候補・必要条件／no-go → 既存一般的W/J/H普遍性との比較 → 大域化 → 高次`n` → `(\infty,3)`モデル橋 → hyperdescent。並行してC60以前の一般理論の既存定理を使い続けます。
+**次の証明作業の優先順位:** F112-P62の**単位生成型付き合同関係** → P63の左右context作用の垂直関手性・合同関係との整合条件 → 水平合成の代表元独立性・結合律・全interchangeの証明義務／明示obstruction → 局所strict 3圏 → 既存一般的W/J/H普遍性との比較 → 大域化 → 高次`n` → `(\infty,3)`モデル橋 → hyperdescent。C60以前の一般理論の既存定理は引き続き利用します。
 
-**絶対に行わないこと:** Gray圏でstrict 3圏の未証明法則を置換して完了と言うこと、旧約107公開rootの一括削除、歴史的な数学を`legacy/`だけに押し込むこと、strict性を得るために全raw証拠を無条件に潰すこと、未証明の存在条件を新公理へ置くこと、F112親PR #2339をmainに勝手にマージすること。
+**絶対に行わないこと:** Gray圏でstrict 3圏の未証明法則を置換して完了と言うこと、旧約107公開rootの一括削除、歴史的な数学を`legacy/`だけに押し込むこと、strict性を得るために全raw証拠を無条件に潰すこと、未証明の存在条件を新公理へ置くこと、exact-head CIと公理監査を通さず未検証成果をmainに統合すること。
 
 **証明と検証:** `formal/KuuOSFormal.lean`を通常の公開入口として維持。部分ビルドは同一パッケージの開発時の時間短縮だけです。対象ファイル全文・import閉包・mathlib定理・Lean形式の原因を調べ、正本コミットのexact-head CIと`#print axioms`を確認します。共有cacheと重複ジョブ削減を進めても、必要な公理監査・検証を抜きません。
 
@@ -170,7 +174,7 @@ P58の[P58の実際のソース](https://github.com/itakura-hidetoshi/KuuOS/blob
 python3 scripts/check_public_proof_roots.py
 python3 scripts/run_kuu_foundation_check.py
 lake exe cache get   # キャッシュが本当に不足する場合だけ
-lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KuuOSFormal
+lake build KuuOSFormal # warningAsErrorはlakefile.toml既定。sorryAxは#print axiomsで確認。
 ~~~
 
 `KuuOSStrict`は内部import集約にすぎず、旧定理やmathlibを使わない特殊な「空の正本」ではありません。Lean4の証明／runtime／AI入出力／権限・行為／実証データはそれぞれ異なる保証範囲です。
@@ -179,8 +183,10 @@ lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KuuOS
 
 - [現行README](README.md) — 研究の目的・全体像・成果の入り口
 - [旧README v5.291](docs/legacy/README-v5.291.md)、[旧ROADMAP v5.291](docs/legacy/ROADMAP-v5.291.md) — 長い一般的・歴史的証明台帳と原型
-- [F112親PR #2339](https://github.com/itakura-hidetoshi/KuuOS/pull/2339) — 現在の独立Kuu/C60作業正本（Draft、未マージ）
+- [F112親PR #2339](https://github.com/itakura-hidetoshi/KuuOS/pull/2339) — 移行済み履歴（MERGED）。公開正本はmain。
 - [F112-P58 #2421](https://github.com/itakura-hidetoshi/KuuOS/pull/2421) — raw strict-law obstructionと別の自由path envelope
+- [F112-P61 #2426](https://github.com/itakura-hidetoshi/KuuOS/pull/2426) — 水平単位の非strictな自由経路境界
+- [F112-P62 #2429](https://github.com/itakura-hidetoshi/KuuOS/pull/2429) — identity-generated typed path relation（main統合、9670/9670 Lean SUCCESS）
 - [`AGENTS.md`](AGENTS.md) — 現行のpublic root・mathlib・Gray依存・ビルド境界
 - [`formal/KUOS/`](formal/KUOS/) — 過去から継続する一般的なLean数学
 - [`formal/Kuu/`](formal/Kuu/) — 現在の独立Kuuの具体的な構成
