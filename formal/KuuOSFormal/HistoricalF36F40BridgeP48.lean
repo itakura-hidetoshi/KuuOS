@@ -65,9 +65,9 @@ theorem p48_localized_incidence_span_cone
     exact congrArg siteLocalizationQ.map (Subsingleton.elim _ _)
   change siteLocalizationQ.map (homOfLE hu) ≫ (B.inv ≫ 𝟙 _) ≫
     siteLocalizationQ.map (homOfLE (le_trans hv hw)) = _
-  rw [Category.comp_id, Category.assoc, ← hvz,
-    ← Category.assoc B.inv B.hom, B.inv_hom_id,
-    Category.id_comp]
+  simp only [Category.comp_id]
+  rw [← hvz, ← Category.assoc B.inv B.hom,
+    B.inv_hom_id, Category.id_comp]
   exact huz
 
 /-- Select the ACTUAL physical C60 edge of each original, genuinely
@@ -94,7 +94,31 @@ theorem p48_allOriginalFaceBoundaries_incident :
       p48_originalPathWithinPolygon (polygonEquiv.symm face)
         (c60F41PhysicalFaceBoundaryLoop face).2 = true := by
   intro face
-  fin_cases face <;> decide
+  cases face with
+  | aroundVertex v =>
+      cases v with
+      | north => decide
+      | south => decide
+      | upper i =>
+          revert i
+          decide
+      | lower i =>
+          revert i
+          decide
+  | fromTriangle t =>
+      cases t with
+      | top i =>
+          revert i
+          decide
+      | bottom i =>
+          revert i
+          decide
+      | beltUpper i =>
+          revert i
+          decide
+      | beltLower i =>
+          revert i
+          decide
 
 /-- The true original F41 base dart of EVERY physical pentagon and
 hexagon belongs to the corresponding independent Kuu polygon. This
@@ -105,7 +129,31 @@ theorem p48_allOriginalFaceBases_incident :
         (dartEquiv.symm (c60F41PhysicalFaceBoundaryLoop face).1)
         (polygonEquiv.symm face) := by
   intro face
-  fin_cases face <;> decide
+  cases face with
+  | aroundVertex v =>
+      cases v with
+      | north => decide
+      | south => decide
+      | upper i =>
+          revert i
+          decide
+      | lower i =>
+          revert i
+          decide
+  | fromTriangle t =>
+      cases t with
+      | top i =>
+          revert i
+          decide
+      | bottom i =>
+          revert i
+          decide
+      | beltUpper i =>
+          revert i
+          decide
+      | beltLower i =>
+          revert i
+          decide
 
 #print axioms p48_localized_incidence_span_cone
 #print axioms p48_originalArrowNativeEdge
