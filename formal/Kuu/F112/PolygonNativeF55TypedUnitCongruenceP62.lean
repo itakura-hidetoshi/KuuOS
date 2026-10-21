@@ -166,11 +166,11 @@ theorem NativeF55UnitPathRel.prepend
     {first : KuuNativeF45Tree p n m ma pa mb pb}
     {last : KuuNativeF45Tree p n' m' ma pa mb pb}
     {r s t : NativeF55RawRouteVertex first last}
-    (prefix : Quiver.Path r s) {f g : Quiver.Path s t}
+    (headPath : Quiver.Path r s) {f g : Quiver.Path s t}
     (h : NativeF55UnitPathRel first last f g) :
     NativeF55UnitPathRel first last
-      (prefix.comp f) (prefix.comp g) :=
-  .comp (.refl prefix) h
+      (headPath.comp f) (headPath.comp g) :=
+  .comp (.refl headPath) h
 
 /-- Congruence is also stable under arbitrary typed suffixes. -/
 theorem NativeF55UnitPathRel.append
