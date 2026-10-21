@@ -42,8 +42,12 @@ variable {D : Type uD} [Category.{vD} D]
 variable {E : Type uE} [Category.{vE} E]
 
 /-- A purely proof-relevant word of original F55 edges, each carrying
-an explicit witness of P62's identity-only syntactic criterion.
-Importantly, neither shadow zero nor the numerical observer is used.
+an explicit witness of P62's identity-only syntactic criterion AND
+an atomic-normalization certificate (P59 leaves this generator as one
+edge). This extra condition is ESSENTIAL: a raw ident constructor is
+a singleton source generator but normalizes to nil, so P62 never erases
+its original singleton raw path indiscriminately.
+Neither shadow zero nor the numerical observer is used.
 The path grammar is typed over the ORIGINAL double-Nat F54 route vertices. -/
 inductive NativeF55UnitWord
     {p : Polygon} {a b : D} {x y : E}
@@ -59,7 +63,8 @@ inductive NativeF55UnitWord
   | generator
       {u v : KuuNativeF45Tree.DepthRotationRoute p first last}
       (cell : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p u v)
-      (h : cell.unitOnly = true) :
+      (h : cell.unitOnly = true)
+      (hAtomic : cell.toNativeStrictPath = cell.toNativeRawEdge.toPath) :
       NativeF55UnitWord first last cell.toNativeRawEdge.toPath
   | comp
       {r s t : NativeF55RawRouteVertex first last}
@@ -69,7 +74,9 @@ inductive NativeF55UnitWord
       NativeF55UnitWord first last (f.comp g)
 
 /-- For ALL nine proof constructors, unit-only syntax has a
-normal form in the certified unit-generator WORD grammar.
+normal form in the certified, atomically normalized unit-generator
+WORD grammar. Raw ident maps directly to nil and raw trans is
+flattened; neither is falsely declared an erasable raw singleton.
 The vertical trans node is replaced by actual path concatenation;
 the seven other constructors remain their original typed generators. -/
 theorem KuuNativeF45Tree.DepthRotationRoute.PresentedCell.unitOnly_normalized_word
@@ -86,18 +93,18 @@ theorem KuuNativeF45Tree.DepthRotationRoute.PresentedCell.unitOnly_normalized_wo
   | _, _, .ident route, _ => .nil ⟨route⟩
   | _, _, .pentagon _ _ _ _, h => by cases h
   | _, _, .disjointSquare _ _, h => by cases h
-  | _, _, .symm cell, h => .generator (.symm cell) h
+  | _, _, .symm cell, h => .generator (.symm cell) h rfl
   | _, _, .trans left right, h =>
       .comp (left.unitOnly_normalized_word (Bool.and_elim_left h))
         (right.unitOnly_normalized_word (Bool.and_elim_right h))
   | _, _, .leftContext cell later, h =>
-      .generator (.leftContext cell later) h
+      .generator (.leftContext cell later) h rfl
   | _, _, .rightContext earlier cell, h =>
-      .generator (.rightContext earlier cell) h
+      .generator (.rightContext earlier cell) h rfl
   | _, _, .precompose prior cell, h =>
-      .generator (.precompose prior cell) h
+      .generator (.precompose prior cell) h rfl
   | _, _, .postcompose cell suffix, h =>
-      .generator (.postcompose cell suffix) h
+      .generator (.postcompose cell suffix) h rfl
 
 /-- Every unit-generated word has identical endpoints AND is related
 to the genuine categorical unit in P62's original path congruence.
@@ -119,10 +126,12 @@ theorem NativeF55UnitWord.related_nil
   induction h with
   | nil r =>
       exact ⟨rfl, .refl _⟩
-  | generator cell hc =>
+  | generator cell hc hAtomic =>
       have heq := cell.unitOnly_endpoints hc
       cases heq
-      exact ⟨rfl, .structuralUnit _ cell hc⟩
+      refine ⟨rfl, ?_⟩
+      simpa only [hAtomic] using
+        (NativeF55UnitPathRel.structuralUnit _ cell hc)
   | comp hf hg ihf ihg =>
       rcases ihf with ⟨heq₁, h₁⟩
       rcases ihg with ⟨heq₂, h₂⟩
@@ -154,11 +163,11 @@ theorem nativeF55LeftContextPathFunctor_unitWord
       simpa only [Functor.map_id] using
         (NativeF55UnitWord.nil
           ((nativeF55LeftContextPathFunctor first last later).obj r))
-  | generator cell hc =>
+  | generator cell hc hAtomic =>
       rw [nativeF55LeftContextPathFunctor_map_raw]
       exact .generator (.leftContext cell later)
         (by simpa only [KuuNativeF45Tree.DepthRotationRoute.PresentedCell.unitOnly_leftContext]
-              using hc)
+              using hc) rfl
   | comp hf hg ihf ihg =>
       rw [nativeF55LeftContextPathFunctor_map_comp]
       exact .comp ihf ihg
@@ -185,11 +194,11 @@ theorem nativeF55RightContextPathFunctor_unitWord
       simpa only [Functor.map_id] using
         (NativeF55UnitWord.nil
           ((nativeF55RightContextPathFunctor earlier first last).obj r))
-  | generator cell hc =>
+  | generator cell hc hAtomic =>
       rw [nativeF55RightContextPathFunctor_map_raw]
       exact .generator (.rightContext earlier cell)
         (by simpa only [KuuNativeF45Tree.DepthRotationRoute.PresentedCell.unitOnly_rightContext]
-              using hc)
+              using hc) rfl
   | comp hf hg ihf ihg =>
       rw [nativeF55RightContextPathFunctor_map_comp]
       exact .comp ihf ihg
