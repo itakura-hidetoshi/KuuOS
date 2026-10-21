@@ -1,5 +1,6 @@
 """Regression: retiring Gray as foundation must not unpublish existing proofs."""
 from pathlib import Path
+import hashlib
 import tomllib
 import unittest
 
@@ -104,6 +105,36 @@ LINT_ONLY_SOURCE_EDITS = {
     ),
 }
 
+# Lean4 proof repairs already integrated into canonical main (ea9a1d539c8c1e0bbf524171b7222a33a9104d79).
+# These are exact Git blob object IDs, NOT a blanket exception for all source
+# edits. The frozen v5.291 archive remains untouched; changing a repaired
+# theorem requires an explicit review and updating its pinned blob ID.
+PINNED_REPAIRED_CURRENT_PROOF_BLOBS = {
+    "KUOS/DependentOriginationAbstractPresentationDescentV4_49.lean": "452b8485f401478bc11c642f463786efa3c1fc5e",
+    "KUOS/DependentOriginationArbitraryFactorizationScalarV3_72.lean": "b433ca2ded5e50ed662e36a661cca63a3b97f436",
+    "KUOS/DependentOriginationCantorCriticalExponentV4_34.lean": "2e8f81af6feaf2a1a2c4f6f0e5fa442a24c62bab",
+    "KUOS/DependentOriginationCorrectedGeneratedRouteV2_97.lean": "2f04b822519e7e4817a3a3661d6bb642d220e4b2",
+    "KUOS/DependentOriginationCounterComparisonObstructionV3_68.lean": "3f953183a00b511f96a575dd97d9e039ce9772db",
+    "KUOS/DependentOriginationExactLiftableActualLiftLocalHomEquivalenceV5_43.lean": "73a3d4922bd856e41e1c4f58b161e0b82b5076e6",
+    "KUOS/DependentOriginationExactUniversalAmbientStrongTransCoherentExtensionV5_08.lean": "e169d3b5e548e4f39b952f415a554ad7f1d07b7d",
+    "KUOS/DependentOriginationExactUniversalGlobalCounitStrongTransV4_88.lean": "cc243caf513f1459dc437ebe3a108e1333178318",
+    "KUOS/DependentOriginationExactUniversalMappingBicategoryV4_69.lean": "5a4222e66af3ee27bdf31455bb0da6fb6d8bb1a3",
+    "KUOS/DependentOriginationExactUniversalMappingCoherenceV4_68.lean": "7d7b85ecc1c5d2112811d227d7b20ad267f12516",
+    "KUOS/DependentOriginationExactUniversalMappingHorizontalV4_64.lean": "e895cb3e66d00d633cce20e300d4b77658e5a4fa",
+    "KUOS/DependentOriginationExactUniversalTargetNaturalityV4_55.lean": "ea24d7e7cc4ab5227780258b4fd198d6d0210cda",
+    "KUOS/DependentOriginationFiveRouteFactorizationV2_98.lean": "9e0cc6652f73dfaf570182a2a0911ced1e2b4a36",
+    "KUOS/DependentOriginationGeneratedCorrectionGaugeNormalFormV2_99.lean": "7f5bd9068d8d5fa0a954e868fcbeb7e7f8169bab",
+    "KUOS/DependentOriginationGeneratedFactorizationV2_68.lean": "b85952f2530326e80f52cd825e9ec5d8f2be0c54",
+    "KUOS/DependentOriginationGeneratedHolonomyCountermodelLoopV2_69.lean": "faed2213a8ea885e9e9fbfb5b62258da99780b44",
+    "KUOS/DependentOriginationGlobalFootprintGluingV3_16.lean": "69f879ee77246a1730b5f62f5581a1e68bb75dd5",
+    "KUOS/DependentOriginationHexagramEdgeCoboundaryV3_92.lean": "974ce0aabae6838c75a59046a17b3b9dfd8c5412",
+    "KUOS/DependentOriginationLowerRankFinitenessV3_45.lean": "014b58970d36a6dacd23dcc80085a6976a50972b",
+    "KUOS/DependentOriginationOctahedralResidualCancellationV3_99.lean": "54feaa22583365d9cf0269b89e48fa88d642aa77",
+    "KUOS/DependentOriginationOverlapStarTransitivityV3_20.lean": "b2ceb0928735266c3d2590d38201afa0ea88e51b",
+    "KUOS/DependentOriginationReassociatedSourceCounitInterchangerV5_77.lean": "d2f982cda906296ddc15acdcdc6f5ec248a51878",
+    "KUOS/DependentOriginationStrongTransPostcompositionIdentityTriangulatorV5_63.lean": "168cb60903b3ea7b5a87c0ae6cb9d2791b684598",
+}
+
 class PublicRootRestorationTests(unittest.TestCase):
     def test_every_previous_public_root_remains_published(self):
         old = tomllib.loads((ROOT / 'legacy/v5.291/lakefile.toml').read_text())
@@ -152,13 +183,14 @@ class RestoredWiringTests(unittest.TestCase):
         self.assertEqual(report['previous_public_roots'], 107)
 
     def test_original_theorem_files_preserve_archived_bytes_except_exact_lint_edits(self):
-        # Keep every frozen historical source untouched. Only the exact
-        # reviewed linter corrections listed above are accepted in current.
+        # Frozen historical bytes remain the baseline. Only exact lint edits
+        # or individually pinned, already integrated proof repairs are accepted.
         before = ROOT / 'legacy/v5.291/formal'
         self.assertTrue(before.is_dir(), 'historical proof snapshot missing')
         archived = list(before.rglob('*.lean'))
         self.assertTrue(archived, 'historical proof snapshot empty')
         seen = set()
+        seen_repairs = set()
         for old in archived:
             rel = old.relative_to(before)
             if rel.as_posix() == 'KuuOSFormal.lean':
@@ -172,8 +204,22 @@ class RestoredWiringTests(unittest.TestCase):
                     self.assertEqual(expected.count(old_fragment), 1,
                                      f'unique archived lint edit required: {rel}')
                     expected = expected.replace(old_fragment, new_fragment, 1)
-                self.assertEqual((ROOT / 'formal' / rel).read_bytes(), expected,
-                                 f'unapproved mathematical source change: {rel}')
+                current = (ROOT / 'formal' / rel).read_bytes()
+                if rel.as_posix() in PINNED_REPAIRED_CURRENT_PROOF_BLOBS:
+                    seen_repairs.add(rel.as_posix())
+                    # Compare bytes to the exact reviewed Git blob, not merely
+                    # to an unverified filename or a permissive exception.
+                    git_blob_sha = hashlib.sha1(
+                        f'blob {len(current)}'.encode('ascii') + bytes([0]) + current
+                    ).hexdigest()
+                    self.assertEqual(
+                        git_blob_sha, PINNED_REPAIRED_CURRENT_PROOF_BLOBS[rel.as_posix()],
+                        f'unreviewed Lean4 proof repair: {rel}')
+                else:
+                    self.assertEqual(current, expected,
+                                     f'unapproved mathematical source change: {rel}')
+        self.assertEqual(seen_repairs, set(PINNED_REPAIRED_CURRENT_PROOF_BLOBS),
+                         'pinned reviewed Lean4 repairs must all remain published')
         self.assertEqual(seen, set(LINT_ONLY_SOURCE_EDITS),
                          'reviewed lint edit targets must all exist in historical roots')
 
