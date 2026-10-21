@@ -121,7 +121,8 @@ theorem p53_allOriginalHexagonWordsExact :
                exact c60F41OrientedPath C.e5) = [C.e5.edge] :=
     p53_edgeWord_oriented_reindex C.e5 C.h45
   simp only [c60F41HexagonBoundaryLoop, p53_edgeWord_closed_transport,
-    p51_oldPathPhysicalEdges_comp, p51_oriented_single_edge_word]
+    p51_oldPathPhysicalEdges_comp, p51_oriented_single_edge_word,
+    List.append_assoc]
   change [C.e0.edge] ++
       (p51_oldPathPhysicalEdges
           (show Quiver.Path C.e0.target C.e1.target from
