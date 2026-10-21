@@ -94,10 +94,15 @@ theorem KuuNativeF45Tree.DepthRotationRoute.PresentedCell.toNativeStrictPath_sha
       change (nativeF55RawPathsToShadow first last).map
           (c.toNativeStrictPath.comp d.toNativeStrictPath) =
         nativeF55ThreeOf (.trans c d)
-      have hcomp := (nativeF55RawPathsToShadow first last).map_comp
-        c.toNativeStrictPath d.toNativeStrictPath
-      rw [hcomp, ihc, ihd]
-      rfl
+      -- Quiver.Path.comp is definitionally the composition of Paths.
+      -- An explicit calc uses map_comp without relying on rw to
+      -- discover the syntactically different CategoryStruct.comp.
+      calc
+        _ = (nativeF55RawPathsToShadow first last).map c.toNativeStrictPath ≫
+              (nativeF55RawPathsToShadow first last).map d.toNativeStrictPath :=
+          (nativeF55RawPathsToShadow first last).map_comp _ _
+        _ = nativeF55ThreeOf c ≫ nativeF55ThreeOf d := by rw [ihc, ihd]
+        _ = nativeF55ThreeOf (.trans c d) := rfl
   | leftContext c later _ =>
       exact nativeF55RawPathsToShadow_generator _ _
         (.leftContext c later)
