@@ -143,7 +143,7 @@ theorem p53_allOriginalHexagonWordsExact :
         p51_oldPathPhysicalEdges
           (show Quiver.Path C.e4.target C.e5.target from
             by rw [C.h45]
-               exact c60F41OrientedPath C.e5)))) =
+               exact c60F41OrientedPath C.e5))))) =
         C.edges.map OrientedTruncatedIcosahedralEdge.edge
   rw [h01, h12, h23, h34, h45]
   rfl
