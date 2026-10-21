@@ -44,7 +44,10 @@ variable {E : Type uE} [Category.{vE} E]
 /-- A purely proof-relevant word of original F55 edges, each carrying
 an explicit witness of P62's identity-only syntactic criterion AND
 an atomic-normalization certificate (P59 leaves this generator as one
-edge). This extra condition is ESSENTIAL: a raw ident constructor is
+edge). The two independent predicates must BOTH be checked on the genuine
+source term before a word generator may be erased by P62: a zero
+selected shadow by itself does not certify an erasable generator.
+This extra condition is ESSENTIAL: a raw ident constructor is
 a singleton source generator but normalizes to nil, so P62 never erases
 its original singleton raw path indiscriminately.
 Neither shadow zero nor the numerical observer is used.
