@@ -187,10 +187,13 @@ theorem northHexagonNativeIdentityTransport_changes_chosen_shadow :
     northHexagonNativeIdentityHigherArrowOverClasses.raw.nativeShadow ≠
       northHexagonNativeIdentityTransportedHigherArrow.raw.nativeShadow := by
   intro h
-  have hp := congrArg (fun z : KuuNativeF55Shadow => z.2) h
-  have hid := northHexagonNativeIdentityHigherArrow_phase_zero
-  rw [hid] at hp
-  exact northHexagonNativeIdentityTransportedHigherArrow_phase_nonzero hp.symm
+  apply northHexagonNativeIdentityTransportedHigherArrow_phase_nonzero
+  calc
+    northHexagonNativeIdentityTransportedHigherArrow.raw.nativeShadow.2 =
+        northHexagonNativeIdentityHigherArrowOverClasses.raw.nativeShadow.2 :=
+      congrArg (fun z : KuuNativeF55Shadow => z.2) h.symm
+    _ = (0 : ZMod 2) :=
+      northHexagonNativeIdentityHigherArrow_phase_zero
 
 #print axioms NativeF55HigherArrowOverClasses.changeRepresentatives
 #print axioms NativeF55HigherArrowOverClasses.changeRepresentatives_raw
