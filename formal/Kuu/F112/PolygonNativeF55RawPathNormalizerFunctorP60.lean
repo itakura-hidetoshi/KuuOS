@@ -60,11 +60,9 @@ normalization for every one of the nine raw F55 constructors. -/
     {r s : KuuNativeF45Tree.DepthRotationRoute p first last}
     (raw : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p r s) :
     (nativeF55RawPathNormalizer first last).map
-        (raw.toPath : Quiver.Path
-          (⟨r⟩ : NativeF55RawRouteVertex first last)
-          (⟨s⟩ : NativeF55RawRouteVertex first last)) =
+        (raw.toNativeRawEdge.toPath) =
       raw.toNativeStrictPath := by
-  exact CategoryTheory.Paths.lift_toPath _ raw
+  exact CategoryTheory.Paths.lift_toPath _ raw.toNativeRawEdge
 
 /-- A SINGLE raw identity generator is sent to the strict categorical
 identity: source syntax is not equated with the identity. -/
@@ -77,7 +75,7 @@ theorem nativeF55RawPathNormalizer_map_raw_ident
     (last : KuuNativeF45Tree p n' m' ma pa mb pb)
     (r : KuuNativeF45Tree.DepthRotationRoute p first last) :
     (nativeF55RawPathNormalizer first last).map
-      ((KuuNativeF45Tree.DepthRotationRoute.PresentedCell.ident r).toPath) =
+      ((KuuNativeF45Tree.DepthRotationRoute.PresentedCell.ident r).toNativeRawEdge.toPath) =
       (𝟙 (⟨r⟩ : NativeF55RawRouteVertex first last)) := by
   rw [nativeF55RawPathNormalizer_map_raw]
   rfl
@@ -96,9 +94,9 @@ theorem nativeF55RawPathNormalizer_map_raw_trans_eq_composite
     (f : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p r s)
     (g : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p s t) :
     (nativeF55RawPathNormalizer first last).map
-      ((KuuNativeF45Tree.DepthRotationRoute.PresentedCell.trans f g).toPath) =
+      ((KuuNativeF45Tree.DepthRotationRoute.PresentedCell.trans f g).toNativeRawEdge.toPath) =
     (nativeF55RawPathNormalizer first last).map
-      (f.toPath.comp g.toPath) := by
+      (f.toNativeRawEdge.toPath.comp g.toNativeRawEdge.toPath) := by
   rw [nativeF55RawPathNormalizer_map_raw,
     KuuNativeF45Tree.DepthRotationRoute.PresentedCell.toNativeStrictPath_trans]
   rw [Functor.map_comp,
@@ -119,7 +117,7 @@ theorem nativeF55RawPathNormalizer_notInjective_on_raw_generators
     (f : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p r s) :
     ¬ Function.Injective
       (fun c : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p r s =>
-        (nativeF55RawPathNormalizer first last).map c.toPath) := by
+        (nativeF55RawPathNormalizer first last).map c.toNativeRawEdge.toPath) := by
   intro hinj
   have hSource :
       Function.Injective

@@ -51,17 +51,16 @@ theorem nativeF55RawPathsToShadow_generator
     {r s : KuuNativeF45Tree.DepthRotationRoute p first last}
     (cell : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p r s) :
     (nativeF55RawPathsToShadow first last).map
-      ((cell :
-          (⟨r⟩ : NativeF55RawRouteVertex first last) ⟶
-          (⟨s⟩ : NativeF55RawRouteVertex first last)).toPath) =
+      (cell.toNativeRawEdge.toPath) =
       nativeF55ThreeOf cell := by
   let phi :
       NativeF55RawRouteVertex first last ⥤q
         (KuuNativeF45Tree.DepthRotationRoute p first last) :=
     { obj := fun vertex => vertex.route
       map := fun {_X _Y} raw => nativeF55ThreeOf raw }
-  change (CategoryTheory.Paths.lift phi).map cell.toPath = phi.map cell
-  exact CategoryTheory.Paths.lift_toPath phi cell
+  change (CategoryTheory.Paths.lift phi).map
+      cell.toNativeRawEdge.toPath = phi.map cell.toNativeRawEdge
+  exact CategoryTheory.Paths.lift_toPath phi cell.toNativeRawEdge
 
 /-- The COMPLETE independent nine-constructor raw F55 cell
 normalization commutes with the selected shadow observer:
