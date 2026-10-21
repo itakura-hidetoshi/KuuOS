@@ -47,16 +47,8 @@ theorem p50_old_supported_loop_localizes
       (W := (⊤ : MorphismProperty Site)) (homOfLE ha) (by trivial)
   have h := p49_old_path_localized_cone p face hp ha ha
   change historicalOldPathsToLocalization.map p ≫ A.hom = A.hom at h
-  calc
-    historicalOldPathsToLocalization.map p =
-        historicalOldPathsToLocalization.map p ≫ 𝟙 _ :=
-          (Category.comp_id _).symm
-    _ = historicalOldPathsToLocalization.map p ≫
-        (A.hom ≫ A.inv) := by rw [A.hom_inv_id]
-    _ = (historicalOldPathsToLocalization.map p ≫ A.hom) ≫
-        A.inv := (Category.assoc _ _ _).symm
-    _ = A.hom ≫ A.inv := congrArg (fun f => f ≫ A.inv) h
-    _ = 𝟙 _ := A.hom_inv_id
+  apply (Iso.cancel_iso_hom_right _ _ A).mp
+  simpa only [Category.id_comp] using h
 
 /-- Every ACTUAL original v3.85 historical C60 pentagon's full
 five-arrow, based F41 source Quiver.Path stays entirely inside
