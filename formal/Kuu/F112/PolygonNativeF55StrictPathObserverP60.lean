@@ -124,6 +124,7 @@ theorem KuuNativeF45Tree.DepthRotationRoute.PresentedCell.toNativeStrictPath_sha
                 c.toNativeStrictPath d.toNativeStrictPath
         _ = nativeF55ThreeComp (nativeF55ThreeOf c) (nativeF55ThreeOf d) := by
               rw [c.toNativeStrictPath_shadow, d.toNativeStrictPath_shadow]
+              rfl
         _ = nativeF55ThreeOf (.trans c d) := rfl
   | _, _, .leftContext c later => by
       exact nativeF55RawPathsToShadow_generator _ _ (.leftContext c later)
