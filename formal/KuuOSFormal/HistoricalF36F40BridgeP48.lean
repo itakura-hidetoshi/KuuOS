@@ -118,13 +118,13 @@ theorem p48_allOriginalFaceBoundaries_incident :
       | top i =>
           dsimp [c60F41PhysicalFaceBoundaryLoop,
             c60F41HexagonBoundaryLoop, truncatedIcosahedralHexagonCycle]
-          simp only [p48_oldSlotOfIndex_eq_nativeSlot]
+          try simp only [p48_oldSlotOfIndex_eq_nativeSlot]
           revert i
           decide +kernel
       | bottom i =>
           dsimp [c60F41PhysicalFaceBoundaryLoop,
             c60F41HexagonBoundaryLoop, truncatedIcosahedralHexagonCycle]
-          simp only [p48_oldSlotOfIndex_eq_nativeSlot]
+          try simp only [p48_oldSlotOfIndex_eq_nativeSlot]
           revert i
           decide +kernel
       | beltUpper i =>
@@ -159,13 +159,13 @@ theorem p48_allOriginalFaceBases_incident :
       | top i =>
           dsimp [c60F41PhysicalFaceBoundaryLoop,
             c60F41HexagonBoundaryLoop, truncatedIcosahedralHexagonCycle]
-          simp only [p48_oldSlotOfIndex_eq_nativeSlot]
+          try simp only [p48_oldSlotOfIndex_eq_nativeSlot]
           revert i
           decide +kernel
       | bottom i =>
           dsimp [c60F41PhysicalFaceBoundaryLoop,
             c60F41HexagonBoundaryLoop, truncatedIcosahedralHexagonCycle]
-          simp only [p48_oldSlotOfIndex_eq_nativeSlot]
+          try simp only [p48_oldSlotOfIndex_eq_nativeSlot]
           revert i
           decide +kernel
       | beltUpper i =>
