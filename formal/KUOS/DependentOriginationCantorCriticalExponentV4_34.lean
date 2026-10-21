@@ -86,8 +86,7 @@ theorem cantorCriticalExponent_lt_one :
 /-- Ternary scaling to the critical exponent equals binary scaling. -/
 theorem three_rpow_cantorCriticalExponent :
     (3 : ℝ) ^ cantorCriticalExponentReal = 2 := by
-  simpa [cantorCriticalExponentReal] using
-    (Real.rpow_logb (b := 3) (x := 2)
+  exact (Real.rpow_logb (b := 3) (x := 2)
       (by norm_num : (0 : ℝ) < 3)
       (by norm_num : (3 : ℝ) ≠ 1)
       (by norm_num : (0 : ℝ) < 2))

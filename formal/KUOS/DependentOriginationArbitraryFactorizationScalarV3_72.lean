@@ -120,7 +120,6 @@ theorem counterFactorizationEdgeScalarAt_comp
   rw [← Quiver.Hom.comp_toLoc] at h
   set_option backward.isDefEq.respectTransparency false in
     simp only [counterSystem_map_morphism_eq,
-      counterSystem_eqToHom_eq_one,
       counterSystem_mapComp_inv_app] at h
   have hScalar := congrArg (fun k => counterSystemHomScalar Z k) h
   simp only [counterSystemHomScalar_comp] at hScalar

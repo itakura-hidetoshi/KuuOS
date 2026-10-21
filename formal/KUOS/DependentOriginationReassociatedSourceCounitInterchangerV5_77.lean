@@ -134,11 +134,8 @@ paste as its component: there is no new 2-cell choice. -/
       (sourceCounitReassociatedComponentIso D X).hom := by
   simp only [sourceCounitReassociatedInterchangerIso,
     sourceCounitReassociatedComponentIso,
-    Iso.trans_hom, Iso.symm_hom,
-    Pseudofunctor.StrongTrans.homCategory_comp_as_app,
-    Pseudofunctor.StrongTrans.associator_inv_as_app,
-    Pseudofunctor.StrongTrans.associator_hom_as_app,
-    unitSelfCounitWhiskeredComparisonIso_hom_app]
+    Iso.trans_hom, Iso.symm_hom
+    ]
   rfl
 
 end IncoherentBiadjunctionDatum

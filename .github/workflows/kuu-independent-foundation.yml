@@ -43,6 +43,13 @@ concurrency:
 
 jobs:
   validate:
+    # PR checks are intentionally delegated to the exact-head Governance
+    # gate (strict Lean + independent Kuu boundary/legacy regressions).
+    # A job-level skip preserves the historical required-check context
+    # WITHOUT allocating a duplicate runner. Unlike workflow path skips,
+    # GitHub reports conditionally skipped jobs as successful/neutral.
+    # workflow_dispatch still runs this full dedicated manual audit.
+    if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v6
@@ -53,15 +60,77 @@ jobs:
         run: python3 scripts/report_kuu_migration_consumers.py --output artifacts/independent-kuu
       - name: Independent source boundary and regressions
         run: python3 scripts/run_kuu_foundation_check.py
-      - name: Set up pinned Lean and cached dependencies
+      # Reuse a *validated base branch* workspace first. PR caches are
+      # scoped to their merge ref and cannot seed sibling child PRs.
+      # This is restore-only: do not upload a second 2+ GB Lake archive.
+      - name: Restore base-branch Lake workspace (read-only)
+        id: lean-workspace-cache
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-${{ github.event.pull_request.base.sha || github.sha }}
+          restore-keys: |
+            kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-
+
+      # Fallback for branches published with [skip ci]: legacy lean-action
+      # writes its own cache namespace. Reuse but NEVER rewrite it here.
+      - name: Restore shared lean-action Lake snapshot (read-only)
+        id: lean-action-workspace-cache
+        if: steps.lean-workspace-cache.outputs.cache-matched-key == ''
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-${{ github.event.pull_request.base.sha || github.sha }}
+          restore-keys: |
+            lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-
+
+      # After packages from main, overlay only the strictly validated
+      # parent F112 local build. No PR-to-PR cache sharing is assumed.
+      - name: Restore validated F112 parent project build (read-only)
+        if: github.event_name == 'pull_request' && github.event.pull_request.base.ref == 'formal/v5-293-f112-independent-total-change'
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake/build
+          key: kuuos-f112-base-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-${{ github.event.pull_request.base.sha }}
+          restore-keys: |
+            kuuos-f112-base-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-
+
+      - name: Set up pinned Lean without redundant cache update
         uses: leanprover/lean-action@v1
         with:
           auto-config: false
           build: false
           test: false
           lint: false
-          use-mathlib-cache: true
-          use-github-cache: true
+          use-mathlib-cache: false
+          use-github-cache: false
+
+      # GitHub's prefix cache is not proof that the pinned checkout and its
+      # compiled Mathlib artifacts both exist. Verify the actual filesystem
+      # before skipping dependency initialization; warm paths do no refresh.
+      - name: Resolve pinned Lake dependencies only when missing
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ ! -d .lake/packages/mathlib ]]; then
+            echo "Cold cache: restore pinned Mathlib checkout"
+            lake update
+          fi
+          if [[ ! -f .lake/packages/mathlib/.lake/build/lib/lean/Mathlib.olean ]]; then
+            echo "Cold cache: fetch pinned Mathlib oleans"
+            lake exe cache get
+          fi
+          git diff --exit-code -- lake-manifest.json lean-toolchain
+
+      - name: Report independent foundation cache origin
+        shell: bash
+        env:
+          BASE_LAKE_KEY: ${{ steps.lean-workspace-cache.outputs.cache-matched-key }}
+          SHARED_LAKE_KEY: ${{ steps.lean-action-workspace-cache.outputs.cache-matched-key }}
+        run: |
+          set -euo pipefail
+          echo "Base workspace: ${BASE_LAKE_KEY:-miss}"
+          echo "Lean-action fallback: ${SHARED_LAKE_KEY:-miss}"
       # Focused incremental compilation of an internal import subgraph.
       # It is NOT an alternative canonical build or a separate theorem authority.
       # KuuOSFormal remains the single public aggregate, checked by normal Lean CI.
@@ -69,7 +138,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          bash scripts/check_kuu_internal_foundation_lean.sh 2>&1 | tee artifacts/independent-kuu/lean.log
+          lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KuuOSStrict 2>&1 | tee artifacts/independent-kuu/lean.log
           git diff --exit-code -- lake-manifest.json lean-toolchain
       - uses: actions/upload-artifact@v4
         if: always()

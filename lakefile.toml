@@ -125,6 +125,7 @@ roots = [
 # 'roots' above remains the sole published-module authority boundary.
 globs = [
   "KuuOSFormal",
+  "KuuOSFormal.*",
   "KUOS",
   "KuuOSModularEvolutionMeshV0_1",
   "KuuOSObserveOSV0_7",

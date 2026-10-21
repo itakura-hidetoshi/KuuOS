@@ -155,13 +155,42 @@ def _load_lean_library_roots(lakefile_path: pathlib.Path = LAKEFILE) -> set[str]
         if not isinstance(values, list) or not all(isinstance(value, str) for value in values):
             raise ValueError(f"lean_lib roots must be a string list in {lakefile_path}")
         roots.update(values)
+        # Lake's declared module globs also belong to this *same* lean_lib.
+        # In particular "Kuu.*" builds standalone Kuu.F112 modules even
+        # though the sole public library root is KuuOSFormal.
+        globs = library.get("globs", [])
+        if not isinstance(globs, list) or not all(isinstance(glob, str) for glob in globs):
+            raise ValueError(f"lean_lib globs must be a string list in {lakefile_path}")
+        roots.update(globs)
     if not roots:
         raise ValueError(f"no Lean library roots declared in {lakefile_path}")
     return roots
 
 
 def _is_buildable_lean_module(module: str, library_roots: set[str]) -> bool:
-    return any(module == root or module.startswith(f"{root}.") for root in library_roots)
+    # Lake globs use the suffixes .* (root and descendants) and
+    # .+ (strict descendants).  A module admitted by either is buildable
+    # with "lake build +Module.Name", without a new public library root.
+    for root in library_roots:
+        if root.endswith(".*"):
+            prefix = root[:-2]
+            if module == prefix or module.startswith(f"{prefix}."):
+                return True
+        elif root.endswith(".+"):
+            if module.startswith(f"{root[:-2]}."):
+                return True
+        elif module == root or module.startswith(f"{root}."):
+            return True
+    return False
+
+
+def _lean_build_target(module: str, library_roots: set[str]) -> str:
+    # A root's submodules retain the legacy target syntax.  Glob-only
+    # modules require Lake's explicit module target prefix (+).
+    if any(module == root or module.startswith(f"{root}.")
+           for root in library_roots if not root.endswith((".*", ".+"))):
+        return module
+    return f"+{module}"
 
 
 def _is_full_library_aggregate(module: str, imports: set[str]) -> bool:
@@ -259,7 +288,8 @@ def select_lean_targets(
                 module, module_imports.get(module, set())
             )
         )
-        return [FULL_LEAN_TARGET, *changed_buildable]
+        return [FULL_LEAN_TARGET,
+                *(_lean_build_target(module, library_roots) for module in changed_buildable)]
 
     if force_full_reason is not None:
         return full_targets_with_changed_modules(), force_full_reason
@@ -278,7 +308,7 @@ def select_lean_targets(
                     )
 
     targets = sorted(
-        module
+        _lean_build_target(module, library_roots)
         for module in closure
         if _is_buildable_lean_module(module, library_roots)
         and not _is_full_library_aggregate(module, module_imports.get(module, set()))

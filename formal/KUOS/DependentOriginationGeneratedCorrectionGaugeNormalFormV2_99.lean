@@ -73,7 +73,7 @@ theorem rightCorrection_eq_iff_eq_parallelIsoDefectIso
     simpa [parallelIsoDefectIso, Category.assoc] using h'
   · intro h
     rw [h]
-    simp [parallelIsoDefectIso, Category.assoc]
+    simp [parallelIsoDefectIso]
 
 /-- Equivalent defect-vanishing form of the same right-correction equation. -/
 theorem rightCorrection_eq_iff_correctedDefect_trivial
@@ -167,7 +167,7 @@ theorem generatedRouteCorrectionReachable_iff_rightCorrection
   · rintro ⟨c, hc, heffect⟩
     refine ⟨c, hc, ?_⟩
     rw [heffect, generatedLocalization2CellDifference_holonomy]
-    simp [Category.assoc]
+    simp
   · rintro ⟨c, hc, hcorr⟩
     refine ⟨c, hc, ?_⟩
     rw [generatedLocalization2CellDifference_holonomy]

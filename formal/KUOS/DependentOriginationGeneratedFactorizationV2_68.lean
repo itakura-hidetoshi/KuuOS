@@ -151,7 +151,6 @@ noncomputable def coherentGeneratedPresentationComparisonDataOfPathIndependent
         (generatedPresentationRepresentativeCell W g)).hom.toNatTrans.naturality
         ((generatedLocalization2CellEvaluationIso W R D
           (generatedPresentationRepresentativeCell W f)).hom.toNatTrans.app A)
-    simp only [freePathEvaluator_map_ordinary] at hnat
     set_option backward.isDefEq.respectTransparency false in
       simp only [Cat.Hom.id_toFunctor, Cat.Hom.comp_toFunctor,
         Functor.id_obj, Functor.id_map, Functor.comp_obj,

@@ -47,13 +47,15 @@ class ComparisonHistoryTests(unittest.TestCase):
         self.head = self.commit('Lean-only follow-up')
         self.run = {
             'id': 101, 'head_sha': self.candidate, 'status': 'completed',
+            'conclusion': 'success',
             'event': 'pull_request', 'head_branch': 'feature', 'run_attempt': 1,
             'path': '.github/workflows/pr-governance-gate.yml',
             'head_repository': {'full_name': 'example/project'},
             'pull_requests': [{'base': {'sha': self.base}}],
         }
         self.jobs = [self.job(1, 'Select impacted audit checks'),
-                     self.job(2, 'Independent boundary regression')]
+                     self.job(2, 'Independent boundary regression'),
+                     self.job(3, 'Strict Lean formal validation')]
         self.fixture = {'workflow_runs': [self.run], 'pages': [self.page(self.jobs)]}
         self.gh = self.root / 'gh'
         self.gh.write_text('#!' + sys.executable + '\n' + '''
@@ -149,18 +151,34 @@ else:
         self.assert_mode()
 
     def test_failure_on_second_page_is_not_hidden(self):
-        first = self.jobs + [self.job(i) for i in range(3, 101)]
+        first = self.jobs + [self.job(i) for i in range(4, 101)]
         second = [self.job(101, conclusion='failure')]
         self.fixture['pages'] = [self.page(first, 101), self.page(second, 101)]
         self.assert_mode()
 
     def test_complete_paginated_success_retains_fast_path(self):
-        first = self.jobs + [self.job(i) for i in range(3, 101)]
+        first = self.jobs + [self.job(i) for i in range(4, 101)]
         self.fixture['pages'] = [self.page(first, 101), self.page([self.job(101)], 101)]
         self.assert_mode('validated-lean-incremental')
 
     def test_duplicate_jobs_cannot_satisfy_total_count(self):
         self.fixture['pages'] = [self.page(self.jobs, 4), self.page(self.jobs, 4)]
+        self.assert_mode()
+
+    def test_prior_cancelled_run_cannot_skip_uncertified_lean_source(self):
+        self.run['conclusion'] = 'cancelled'
+        self.assert_mode()
+
+    def test_prior_failed_run_cannot_skip_uncertified_lean_source(self):
+        self.run['conclusion'] = 'failure'
+        self.assert_mode()
+
+    def test_prior_cancelled_strict_lean_cannot_skip_first_source(self):
+        self.jobs[2]['conclusion'] = 'cancelled'
+        self.assert_mode()
+
+    def test_missing_prior_strict_lean_proof_disallows_incremental(self):
+        self.jobs.pop()
         self.assert_mode()
 
     def test_skipped_only_checks_are_not_success_evidence(self):
