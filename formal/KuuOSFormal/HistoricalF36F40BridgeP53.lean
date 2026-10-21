@@ -82,6 +82,19 @@ The proof is by equality induction, not by decoupling the endpoints. -/
   cases h
   exact p51_oriented_single_edge_word e
 
+/-- The genuine physical edge word is independent of any equality
+transport between fully indexed old free-path types. This directly
+handles the Eq.mpr transports emitted by the historical F41 `rw`
+construction, whose opaque equality proofs need not be unfolded. -/
+@[simp] theorem p53_edgeWord_cast_path
+    {a b a' b' : IcosahedralDart}
+    (h : Quiver.Path a b = Quiver.Path a' b')
+    (p : Quiver.Path a b) :
+    p51_oldPathPhysicalEdges (Eq.mpr h p) =
+      p51_oldPathPhysicalEdges p := by
+  cases h
+  rfl
+
 /-- Every historical F41 six-edge hexagon path has exactly the
 same ordered physical edge word as its genuine oriented polygonal
 cycle, at the actual historical base dart and in its true orientation.
@@ -92,10 +105,10 @@ theorem p53_allOriginalHexagonWordsExact :
   simp only [c60F41HexagonBoundaryLoop,
     p53_edgeWord_closed_transport,
     p51_oldPathPhysicalEdges_comp,
-    p53_edgeWord_oriented_reindex,
+    p53_edgeWord_cast_path,
     p51_oriented_single_edge_word,
     OrientedHexagonCycle.edges,
-    List.map_cons, List.map_nil, List.nil_append,
+    List.map_cons, List.map_nil,
     List.append_assoc]
 
 /-- All thirty-two original F41/F42 physical face relations now
@@ -125,6 +138,7 @@ theorem p53_originalF42Quotient_factor :
 #print axioms p53_edgeWord_eqmp_target
 #print axioms p53_edgeWord_closed_transport
 #print axioms p53_edgeWord_oriented_reindex
+#print axioms p53_edgeWord_cast_path
 #print axioms p53_allOriginalHexagonWordsExact
 #print axioms p53_allOriginalFacesLocalize
 #print axioms p53_originalF42QuotientToLocalization
