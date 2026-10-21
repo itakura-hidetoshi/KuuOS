@@ -225,6 +225,23 @@ class RestoredWiringTests(unittest.TestCase):
         self.assertEqual(pinned_seen, set(PR2339_INTEGRATED_PROOF_BLOBS),
                          'every preexisting integrated proof exception is explicit and accounted for')
 
+    def test_f55_path_functor_composition_has_actual_path_homs(self):
+        # Regression for PR #2428: Paths V is a type synonym of V.
+        # Bare category Hom notation can resolve to a raw Quiver.Hom
+        # rather than the intended Quiver.Path. The Lean proof's
+        # exact argument types must remain explicit at this boundary.
+        source = (
+            ROOT / 'formal/Kuu/F112/PolygonNativeF55StrictPathObserverP60.lean'
+        ).read_text(encoding='utf-8')
+        self.assertIn('theorem nativeF55RawPathsToShadow_mapTypedComp', source)
+        typed = source.split(
+            'theorem nativeF55RawPathsToShadow_mapTypedComp', 1
+        )[1].split('/-- The COMPLETE independent nine-constructor', 1)[0]
+        self.assertIn('(f : Quiver.Path', typed)
+        self.assertIn('(g : Quiver.Path', typed)
+        self.assertIn('nativeF55ThreeComp', typed)
+        self.assertIn('.map_comp f g', typed)
+
     def test_lean_mathlib_pins_are_unchanged(self):
         for name in ('lean-toolchain', 'lake-manifest.json'):
             self.assertEqual((ROOT / name).read_bytes(),

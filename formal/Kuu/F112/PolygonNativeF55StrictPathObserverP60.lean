@@ -62,59 +62,78 @@ theorem nativeF55RawPathsToShadow_generator
       cell.toNativeRawEdge.toPath = phi.map cell.toNativeRawEdge
   exact CategoryTheory.Paths.lift_toPath phi cell.toNativeRawEdge
 
-/-- The COMPLETE independent nine-constructor raw F55 cell
-normalization commutes with the selected shadow observer:
-canonical empty paths and concatenation account for raw identity
-and vertical paste, and all seven other constructors remain genuine
-singleton paths under Mathlib's free-path functor. This equality is
-ONLY in the selected proof-term quotient, never in raw syntax. -/
+/-- Functorial composition of actual typed free paths. A raw quiver
+edge has the same vertex endpoints as a path, but NOT the same Hom
+type as the Paths category. Explicit Quiver.Path arguments avoid
+ambiguous Quiver/Category Hom inference on the reducible Paths type. -/
+theorem nativeF55RawPathsToShadow_mapTypedComp
+    {p : Polygon} {a b : D} {x y : E}
+    {n n' m m' : Nat}
+    {ma mb : KuuNativeBlocks a b}
+    {pa pb : KuuNativeBlocks x y}
+    (first : KuuNativeF45Tree p n m ma pa mb pb)
+    (last : KuuNativeF45Tree p n' m' ma pa mb pb)
+    {r s t : KuuNativeF45Tree.DepthRotationRoute p first last}
+    (f : Quiver.Path
+      (⟨r⟩ : NativeF55RawRouteVertex first last)
+      (⟨s⟩ : NativeF55RawRouteVertex first last))
+    (g : Quiver.Path
+      (⟨s⟩ : NativeF55RawRouteVertex first last)
+      (⟨t⟩ : NativeF55RawRouteVertex first last)) :
+    (nativeF55RawPathsToShadow first last).map (f.comp g) =
+      nativeF55ThreeComp
+        ((nativeF55RawPathsToShadow first last).map f)
+        ((nativeF55RawPathsToShadow first last).map g) := by
+  exact (nativeF55RawPathsToShadow first last).map_comp f g
+
+/-- Complete source-recursive proof that every one of the NINE
+independent raw F55 constructors commutes with the chosen quotient
+observer after the P59 strict free-path normalization.  Dependent F54
+depths/trees are refined BY pattern matching rather than frozen in a
+tactic induction context: trans can change the indexed raw route
+witnesses without mixing first/last metavariables.  This equality
+holds solely in the selected quotient, never in raw syntax. -/
 theorem KuuNativeF45Tree.DepthRotationRoute.PresentedCell.toNativeStrictPath_shadow
     {p : Polygon} {a b : D} {x y : E}
     {n n' m m' : Nat}
     {ma mb : KuuNativeBlocks a b}
     {pa pb : KuuNativeBlocks x y}
     {first : KuuNativeF45Tree p n m ma pa mb pb}
-    {last : KuuNativeF45Tree p n' m' ma pa mb pb}
-    {r s : KuuNativeF45Tree.DepthRotationRoute p first last}
-    (cell : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p r s) :
-    (nativeF55RawPathsToShadow first last).map cell.toNativeStrictPath =
-      nativeF55ThreeOf cell := by
-  induction cell with
-  | ident route =>
-      rfl
-  | pentagon t₁ t₂ t₃ t₄ =>
+    {last : KuuNativeF45Tree p n' m' ma pa mb pb} :
+    ∀ {r s : KuuNativeF45Tree.DepthRotationRoute p first last}
+      (cell : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p r s),
+      (nativeF55RawPathsToShadow first last).map cell.toNativeStrictPath =
+        nativeF55ThreeOf cell
+  | _, _, .ident _ => rfl
+  | _, _, .pentagon t₁ t₂ t₃ t₄ => by
       exact nativeF55RawPathsToShadow_generator _ _
         (.pentagon t₁ t₂ t₃ t₄)
-  | disjointSquare left right =>
+  | _, _, .disjointSquare left right => by
       exact nativeF55RawPathsToShadow_generator _ _
         (.disjointSquare left right)
-  | symm c _ =>
+  | _, _, .symm c => by
       exact nativeF55RawPathsToShadow_generator _ _ (.symm c)
-  | trans c d ihc ihd =>
-      change (nativeF55RawPathsToShadow first last).map
-          (c.toNativeStrictPath.comp d.toNativeStrictPath) =
-        nativeF55ThreeOf (.trans c d)
-      -- Quiver.Path.comp is definitionally the composition of Paths.
-      -- An explicit calc uses map_comp without relying on rw to
-      -- discover the syntactically different CategoryStruct.comp.
+  | _, _, .trans c d => by
       calc
-        _ = (nativeF55RawPathsToShadow first last).map c.toNativeStrictPath ≫
-              (nativeF55RawPathsToShadow first last).map d.toNativeStrictPath :=
-          (nativeF55RawPathsToShadow first last).map_comp _ _
-        _ = nativeF55ThreeOf c ≫ nativeF55ThreeOf d := by rw [ihc, ihd]
+        (nativeF55RawPathsToShadow first last).map
+            (c.toNativeStrictPath.comp d.toNativeStrictPath) =
+          nativeF55ThreeComp
+            ((nativeF55RawPathsToShadow first last).map c.toNativeStrictPath)
+            ((nativeF55RawPathsToShadow first last).map d.toNativeStrictPath) :=
+              nativeF55RawPathsToShadow_mapTypedComp first last
+                c.toNativeStrictPath d.toNativeStrictPath
+        _ = nativeF55ThreeComp (nativeF55ThreeOf c) (nativeF55ThreeOf d) := by
+              rw [c.toNativeStrictPath_shadow, d.toNativeStrictPath_shadow]
+              rfl
         _ = nativeF55ThreeOf (.trans c d) := rfl
-  | leftContext c later _ =>
-      exact nativeF55RawPathsToShadow_generator _ _
-        (.leftContext c later)
-  | rightContext earlier c _ =>
-      exact nativeF55RawPathsToShadow_generator _ _
-        (.rightContext earlier c)
-  | precompose prior c _ =>
-      exact nativeF55RawPathsToShadow_generator _ _
-        (.precompose prior c)
-  | postcompose c suffix _ =>
-      exact nativeF55RawPathsToShadow_generator _ _
-        (.postcompose c suffix)
+  | _, _, .leftContext c later => by
+      exact nativeF55RawPathsToShadow_generator _ _ (.leftContext c later)
+  | _, _, .rightContext earlier c => by
+      exact nativeF55RawPathsToShadow_generator _ _ (.rightContext earlier c)
+  | _, _, .precompose prior c => by
+      exact nativeF55RawPathsToShadow_generator _ _ (.precompose prior c)
+  | _, _, .postcompose c suffix => by
+      exact nativeF55RawPathsToShadow_generator _ _ (.postcompose c suffix)
 
 /-- The FULL selected charge and odd exchange phase of an arbitrary
 normalized raw cell are therefore the original raw source shadow,
@@ -170,6 +189,7 @@ theorem nativeF55RawPathsToShadow_notInjectiveAt
   have hlength := congrArg Quiver.Path.length (hinj hmap)
   simp at hlength
 
+#print axioms nativeF55RawPathsToShadow_mapTypedComp
 #print axioms nativeF55RawPathsToShadow_generator
 #print axioms nativeF55RawPathsToShadow_notInjectiveAt
 #print axioms KuuNativeF45Tree.DepthRotationRoute.PresentedCell.toNativeStrictPath_shadow
