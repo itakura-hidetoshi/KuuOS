@@ -76,8 +76,9 @@ C60では元の正二十面体に由来する**60 Dart、90 Edge、32 Polygon（
 - [F112-P63 #2431](https://github.com/itakura-hidetoshi/KuuOS/pull/2431)：９構成子の再帰から`unitOnly`のF54始終点が同一であることを証明。mathlibの`Paths.lift`で左右contextの**証明依存raw自由経路関手**を構成し、垂直合成と単位生成構文の保存、context付きraw単位とstrict単位のP62関係を証明。raw生成履歴は消去しない。
 - [F112-P64 #2432](https://github.com/itakura-hidetoshi/KuuOS/pull/2432)：P62の明示的な型付き合同関係をmathlibの`Congruence`・`CategoryTheory.Quotient`で**実際の垂直商圏**として構成。商圏の射の等号とP62関係の必要十分性、P61水平単位の商圏上の単位等式、選択されたshadow観測の因子化、raw生成元の観測量保存を証明。**選択shadowと一致するraw証明項を一括同一視する商ではない。**
 - [F112-P65 #2434](https://github.com/itakura-hidetoshi/KuuOS/pull/2434)：P59によって**単一の生成辺として残る**unit-only raw証明セルを明示的に区別し、真正C60の証明履歴を保持する型付きunit wordを構成。P62関係の全５規則がP63の左右context関手で保存されることを証明し、mathlib `CategoryTheory.Quotient.lift`によりP64の最小商圏へ**左右２つの関手を実際に降下**させた。商関手との等式を双方で証明。raw `ident`生成辺全体の無条件消去やshadow値による同一視は行わない。
+- [F112-P66 #2436](https://github.com/itakura-hidetoshi/KuuOS/pull/2436)：P64の単位生成合同商は**3射の射集合に作用し、F54の経路対象を同一視しない**ことを一般の２軸Nat深さで証明。実C60六角形の左右順序の異なるF54回転経路は商圏上でも異なる対象であり、それらを結ぶ真正F55交換正方形3射は残存する。選択されたshadowの交換位相`1 : ZMod 2`も非零のまま保存。これはP62〜P65だけから**厳密なinterchange等式を導けない**という現在のpresentationの具体的障害であり、一般的strict 3圏の不可能性定理ではない。
 
-**次の数学的関門はP66以降の水平双関手性とinterchangeです。** P65までに左右contextそれぞれが最小の商圏へ降下することは証明済みです。しかし、２変数の水平合成を定義し、その代表元独立性・水平結合律・両順序の厳密な交換法則が成立することは別問題です。これらを真正F54境界・原raw履歴・C60曲率の情報を保ったまま証明し、成立しない場合はobstructionを明示します。global strict 3/n圏およびhyperdescentは未完成です。
+**次の数学的関門はP67以降のF54経路比較・水平双関手性です。** P65では商圏への左右context降下、P66では真正C60の異なる回転順序がP64の経路対象として区別され、非自明な交換正方形3射が存続することを証明しました。したがって、strict interchangeには、3射の単位合同関係とは別に、**F54経路対象間の適切な比較・必要条件・合法な型付き関係**が必要です。その同一視で失う原履歴・非零位相を明示するまでは、２変数の水平合成・全結合律・interchangeの完成を主張しません。大域strict 3/n圏とhyperdescentは引き続き未証明です。
 
 ## 五行・Qiも別の具体的presentation
 
@@ -98,7 +99,7 @@ mainで統合済みのQi v3.1–v3.3では`FivePhase = ZMod 5`を用い、相生
 
 ## 正本、ビルド、検証
 
-- **公開統合正本：** [`main`](https://github.com/itakura-hidetoshi/KuuOS/tree/main)。[親PR #2339](https://github.com/itakura-hidetoshi/KuuOS/pull/2339)はMERGED。2026-10-22 JST、P65 [#2434](https://github.com/itakura-hidetoshi/KuuOS/pull/2434)はexact-head Governance SUCCESS・Lean **9673/9673**・P65公理監査11件で`sorryAx`なし・completion receipts 2/2 SUCCESSを確認後にsquash MERGED。P65統合SHA：`8aa477cf3c25bf36927d2ae0247855e95edc1246`。以後の最新HEADはGitHubで確認します。
+- **公開統合正本：** [`main`](https://github.com/itakura-hidetoshi/KuuOS/tree/main)。[F112親PR #2339](https://github.com/itakura-hidetoshi/KuuOS/pull/2339)はMERGED。2026-10-22 JST、P65 [#2434](https://github.com/itakura-hidetoshi/KuuOS/pull/2434)（9673/9673）に続き、P66 [#2436](https://github.com/itakura-hidetoshi/KuuOS/pull/2436)もexact-head Governance SUCCESS・Lean **9674/9674**・P66公理監査7宣言に`sorryAx`なし・completion receipts 2/2 SUCCESSを確認してsquash MERGED。P66統合SHA：`d41cfe8d24f430d9ae2dba49bceea1b834e7faaa`。以後のHEADはGitHubで再確認します。
 - **唯一の通常ビルド入口：** `lake build` = `lake build KuuOSFormal`。既存**107公開root**と独立Kuu・Qiを一つのパッケージで保持。`KuuOSStrict`は内部import集約で、独立した権威や「唯一の空」ではありません。
 - **ツールチェーン：** Lean `v4.30.0-rc2`、mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`。PR #1558（Lean 4.31）はvalidation-only・未マージ。
 - **証明の判定：** 実際のLean宣言とその型・仮定、`#print axioms`、対象commitのexact-head CIを根拠とします。`sorryAx`、`sorry`、`admit`や未証明の新公理で目標を埋めません。歴史的なmathlib/finite `native_decide`依存は正確に区別します。
