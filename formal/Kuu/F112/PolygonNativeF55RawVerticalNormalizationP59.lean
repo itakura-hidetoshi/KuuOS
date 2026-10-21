@@ -34,6 +34,23 @@ universe uD vD uE vE
 variable {D : Type uD} [Category.{vD} D]
 variable {E : Type uE} [Category.{vE} E]
 
+/-- Give a native F55 proof-relevant raw cell its explicit typed
+edge in the independent native F54 route quiver. Quiver.Hom.toPath
+is defined on quiver arrows, not as a field of PresentedCell. This
+is only a definitional presentation change: no quotient is applied. -/
+def KuuNativeF45Tree.DepthRotationRoute.PresentedCell.toNativeRawEdge
+    {p : Polygon} {a b : D} {x y : E}
+    {n n' m m' : Nat}
+    {ma mb : KuuNativeBlocks a b}
+    {pa pb : KuuNativeBlocks x y}
+    {first : KuuNativeF45Tree p n m ma pa mb pb}
+    {last : KuuNativeF45Tree p n' m' ma pa mb pb}
+    {r s : KuuNativeF45Tree.DepthRotationRoute p first last}
+    (cell : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p r s) :
+    (⟨r⟩ : NativeF55RawRouteVertex first last) ⟶
+      (⟨s⟩ : NativeF55RawRouteVertex first last) :=
+  cell
+
 /-- One exact proof-recursive vertical normalization:
 only the distinguished raw unit and raw vertical-paste constructor
 become structural categorical operations. The other seven real
@@ -53,7 +70,7 @@ def KuuNativeF45Tree.DepthRotationRoute.PresentedCell.toNativeStrictPath
   | _, _, .ident _ => .nil
   | _, _, .trans left right =>
       (left.toNativeStrictPath).comp right.toNativeStrictPath
-  | _, _, raw => raw.toPath
+  | _, _, raw => (raw.toNativeRawEdge).toPath
 
 /-- Strict unit is true for the *normalized path*, not for the
 raw source proof tree (which P58 proves unequal). -/
@@ -166,6 +183,7 @@ theorem northHexagonNativeF55SquareCell_normalized_length :
     northHexagonNativeF55SquareCell.toNativeStrictPath.length = 1 := by
   rfl
 
+#print axioms KuuNativeF45Tree.DepthRotationRoute.PresentedCell.toNativeRawEdge
 #print axioms KuuNativeF45Tree.DepthRotationRoute.PresentedCell.toNativeStrictPath
 #print axioms KuuNativeF45Tree.DepthRotationRoute.PresentedCell.toNativeStrictPath_ident
 #print axioms KuuNativeF45Tree.DepthRotationRoute.PresentedCell.toNativeStrictPath_trans
