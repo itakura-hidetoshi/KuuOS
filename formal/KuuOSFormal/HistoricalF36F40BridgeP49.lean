@@ -124,20 +124,40 @@ theorem p49_old_arrow_localized_cone
       change zigzagToLocalization (historicalOldForwardToRaw old) ≫
         siteLocalizationQ.map (homOfLE hb) =
           siteLocalizationQ.map (homOfLE ha)
-      simpa only [historicalOldForwardToRaw,
-        historicalNativeEdgeForwardRaw,
-        historicalOldEdgeFirstDart_native,
-        historicalOldEdgeSecondDart_native] using hnative
+      cases old with
+      | cross oe =>
+          cases oe <;>
+            simpa [historicalOldForwardToRaw,
+              historicalNativeEdgeForwardRaw,
+              historicalOldEdgeFirstDart_native,
+              historicalOldEdgeSecondDart_native] using hnative
+      | around ae =>
+          rcases ae with ⟨v, s⟩
+          cases v <;> cases s <;>
+            simpa [historicalOldForwardToRaw,
+              historicalNativeEdgeForwardRaw,
+              historicalOldEdgeFirstDart_native,
+              historicalOldEdgeSecondDart_native] using hnative
   | reverse old =>
       have hnative :=
         p49_native_reverse_edge_cone (edgeEquiv.symm old) face he
       change zigzagToLocalization (historicalOldReverseToRaw old) ≫
         siteLocalizationQ.map (homOfLE hb) =
           siteLocalizationQ.map (homOfLE ha)
-      simpa only [historicalOldReverseToRaw,
-        historicalNativeEdgeReverseRaw,
-        historicalOldEdgeFirstDart_native,
-        historicalOldEdgeSecondDart_native] using hnative
+      cases old with
+      | cross oe =>
+          cases oe <;>
+            simpa [historicalOldReverseToRaw,
+              historicalNativeEdgeReverseRaw,
+              historicalOldEdgeFirstDart_native,
+              historicalOldEdgeSecondDart_native] using hnative
+      | around ae =>
+          rcases ae with ⟨v, s⟩
+          cases v <;> cases s <;>
+            simpa [historicalOldReverseToRaw,
+              historicalNativeEdgeReverseRaw,
+              historicalOldEdgeFirstDart_native,
+              historicalOldEdgeSecondDart_native] using hnative
 
 /-- The EXISTING P48 old source path incidence certificate is stable
 under full nontrivial old Quiver.Path composition, not just one edge. -/
@@ -153,13 +173,9 @@ theorem p49_old_path_incidence_comp {a b c : IcosahedralDart}
         Bool.and_true]
   | cons q f ih =>
       rw [Quiver.Path.comp_cons]
-      change
-        (p48_originalPathWithinPolygon face (p.comp q) &&
-          decide (edgeOnFace (p48_originalArrowNativeEdge f) face)) =
-          (p48_originalPathWithinPolygon face p &&
-            (p48_originalPathWithinPolygon face q &&
-              decide (edgeOnFace (p48_originalArrowNativeEdge f) face)))
-      rw [ih, Bool.and_assoc]
+      simpa only [p48_originalPathWithinPolygon, Bool.and_assoc] using
+        congrArg (fun x : Bool =>
+          x && decide (edgeOnFace (p48_originalArrowNativeEdge f) face)) ih
 
 /-- An original path with actual real polygon boundary incidences
 is compatible with the polygon's physical spokes after localization.
