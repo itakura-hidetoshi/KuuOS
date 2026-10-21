@@ -124,6 +124,7 @@ import Kuu.F112.PolygonNativeF55StructuralUnitQuotientP64
 import Kuu.F112.PolygonNativeF55ContextUnitDescentP65
 import Kuu.F112.PolygonNativeF55C60InterchangeRouteObstructionP66
 import Kuu.F112.PolygonNativeF55TypedSquareRouteComparisonP67
+import Kuu.F112.PolygonNativeF55ContextSquareComparisonP68
 /-! Internal independent Kuu import aggregate. No KUOS or legacy sources
 are imported into the independent foundation. The unique public aggregate
 remains KuuOSFormal; this is not a separate mathematical authority. -/
