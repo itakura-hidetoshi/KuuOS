@@ -134,6 +134,19 @@ theorem p51_all_six_original_hexagon_edges_supported
   exact decide_eq_true
     (p48_allOriginalHexagonOrientedEdges_incident t oe hoe)
 
+/-- The actual original old path's complete ordered physical edge word
+gives a sufficient and NECESSARY geometric support criterion. No
+abstract list of unrelated edges is substituted for the source path. -/
+theorem p51_oldPath_supported_of_all_edges
+    {a b : IcosahedralDart} (p : Quiver.Path a b)
+    (face : Polygon)
+    (h : ∀ old ∈ p51_oldPathPhysicalEdges p,
+      edgeOnFace (edgeEquiv.symm old) face) :
+    p48_originalPathWithinPolygon face p = true := by
+  rw [p51_oldPathWithinPolygon_eq_all, List.all_eq_true]
+  intro old ho
+  exact decide_eq_true (h old ho)
+
 /-- A finite original hexagonal source path is F69-face-supported
 as soon as its certified true old 6-edge word agrees with the true
 oriented F41 geometric hexagon word. This separates the remaining
@@ -154,6 +167,7 @@ theorem p51_original_hexagon_support_of_exact_edge_word
 #print axioms p51_oldPathPhysicalEdges_comp
 #print axioms p51_oriented_single_edge_word
 #print axioms p51_oldPathWithinPolygon_eq_all
+#print axioms p51_oldPath_supported_of_all_edges
 #print axioms p51_actual_hexagon_oriented_step_support
 #print axioms p51_all_six_original_hexagon_edges_supported
 #print axioms p51_original_hexagon_support_of_exact_edge_word
