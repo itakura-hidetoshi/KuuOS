@@ -7,12 +7,14 @@ P66 proved that the P62--P65 structural-unit quotient changes F55
 HIGHER HOMs but does not equate the two distinct, physically genuine
 F54 route objects forming a disjoint interchange square.
 
-This file introduces a DIFFERENT and explicit presentation of route
-comparison. Its four constructors are reflexivity, symmetry,
+This file introduces a DIFFERENT and explicit TYPE-valued witness
+of route comparison. Its four constructors are reflexivity, symmetry,
 transitivity, and the original typed F54 disjoint-rotation square.
-Every comparison PROOF reconstructs a genuine Type-valued nine-
-constructor F55 raw proof cell; no charge or parity determines its
-existence and no F54 route equality is assumed in the source.
+Every witness constructs a genuine Type-valued nine-constructor F55
+raw proof cell. The Setoid uses only Nonempty of this witness TYPE,
+since quotients require a Prop relation. Quotient equality therefore
+does NOT choose a specific proof history. No charge or parity
+determines witness existence, and no F54 source-route equality is assumed.
 
 The resulting Setoid quotient realizes strict equality of square-
 related route CLASSES and reflects exactly this generated relation.
@@ -45,8 +47,8 @@ universe uD vD uE vE uT
 variable {D : Type uD} [Category.{vD} D]
 variable {E : Type uE} [Category.{vE} E]
 
-/-- The LEAST explicitly generated typed equivalence of original F54
-routes containing each genuine disjoint-context rotation square.
+/-- The inductively generated TYPE-valued comparison of original F54 routes
+containing each genuine disjoint-context rotation square.
 Unlike full F55 connectedness, no unrelated pentagon is an initial
 generator. No numerical shadow can create a comparison witness. -/
 inductive KuuNativeF45Tree.DepthRotationRoute.SquareComparable (p : Polygon) :
@@ -56,7 +58,8 @@ inductive KuuNativeF45Tree.DepthRotationRoute.SquareComparable (p : Polygon) :
       {first : KuuNativeF45Tree p n m ma pa mb pb}
       {last : KuuNativeF45Tree p n' m' ma pa mb pb},
       KuuNativeF45Tree.DepthRotationRoute p first last →
-      KuuNativeF45Tree.DepthRotationRoute p first last → Prop where
+      KuuNativeF45Tree.DepthRotationRoute p first last →
+      Type (max (max uD uE) (max vD vE)) where
   | refl
       {a b : D} {x y : E} {n n' m m' : Nat}
       {ma mb : KuuNativeBlocks a b}
@@ -96,9 +99,9 @@ inductive KuuNativeF45Tree.DepthRotationRoute.SquareComparable (p : Polygon) :
         (KuuNativeF45Tree.DepthRotationRoute.squareLeftFirst left right)
         (KuuNativeF45Tree.DepthRotationRoute.squareRightFirst left right)
 
-/-- Crucial witness-lifting theorem: EVERY allowed new route equality
-has a constructed genuine F55 raw 3-cell joining its exact typed F54
-boundary routes. A free-floating phase value cannot provide a lift. -/
+/-- Proof-relevant lift: every TYPE-valued comparison witness produces
+an actual genuine F55 raw 3-cell at precisely its original F54 boundaries.
+Quotient equality supplies only mere existence, not a chosen witness. -/
 def KuuNativeF45Tree.DepthRotationRoute.SquareComparable.toPresentedCell
     {p : Polygon} {a b : D} {x y : E}
     {n n' m m' : Nat}
@@ -124,10 +127,12 @@ def nativeF55SquareRouteSetoid
     (first : KuuNativeF45Tree p n m ma pa mb pb)
     (last : KuuNativeF45Tree p n' m' ma pa mb pb) :
     Setoid (KuuNativeF45Tree.DepthRotationRoute p first last) where
-  r := fun u v => KuuNativeF45Tree.DepthRotationRoute.SquareComparable p u v
-  iseqv := ⟨(fun u => .refl u),
-    (fun h => .symm h),
-    (fun h k => .trans h k)⟩
+  r := fun u v => Nonempty
+    (KuuNativeF45Tree.DepthRotationRoute.SquareComparable p u v)
+  iseqv := ⟨
+    (fun u => ⟨.refl u⟩),
+    (fun h => h.elim (fun w => ⟨.symm w⟩)),
+    (fun h k => h.elim (fun w => k.elim (fun z => ⟨.trans w z⟩)))⟩
 
 /-- A separate comparison presentation on F54 route OBJECTS.
 Its quotient equality cannot be confused with source route equality
@@ -167,12 +172,29 @@ theorem nativeF55SquareRouteClass_eq_iff
     (u v : KuuNativeF45Tree.DepthRotationRoute p first last) :
     nativeF55SquareRouteClass first last u =
       nativeF55SquareRouteClass first last v ↔
-      KuuNativeF45Tree.DepthRotationRoute.SquareComparable p u v := by
+      Nonempty (KuuNativeF45Tree.DepthRotationRoute.SquareComparable p u v) := by
   constructor
   · intro h
     exact _root_.Quotient.exact h
   · intro h
     exact _root_.Quotient.sound h
+
+/-- Equality in the selected route quotient implies the existence
+of a real typed F55 proof, but NOT a canonical recovered Type-valued
+proof term. This is the exact Prop/Type information boundary. -/
+theorem nativeF55SquareRouteClass_eq_has_higher_witness
+    {p : Polygon} {a b : D} {x y : E}
+    {n n' m m' : Nat}
+    {ma mb : KuuNativeBlocks a b}
+    {pa pb : KuuNativeBlocks x y}
+    (first : KuuNativeF45Tree p n m ma pa mb pb)
+    (last : KuuNativeF45Tree p n' m' ma pa mb pb)
+    (u v : KuuNativeF45Tree.DepthRotationRoute p first last)
+    (h : nativeF55SquareRouteClass first last u =
+      nativeF55SquareRouteClass first last v) :
+    Nonempty (KuuNativeF45Tree.DepthRotationRoute.PresentedCell p u v) := by
+  rcases (nativeF55SquareRouteClass_eq_iff first last u v).1 h with ⟨w⟩
+  exact ⟨w.toPresentedCell⟩
 
 /-- The genuine disjoint-square relation turns two original
 F54 orderings into equal CLASSES but never literal raw-route equality. -/
@@ -194,7 +216,7 @@ theorem nativeF55SquareRouteClass_orders_eq
       (KuuNativeF45Tree.node leftAfter rightAfter)
       (KuuNativeF45Tree.DepthRotationRoute.squareRightFirst left right) := by
   apply (nativeF55SquareRouteClass_eq_iff _ _ _ _).2
-  exact .square left right
+  exact ⟨.square left right⟩
 
 /-- Any strict-square object presentation on the original F54 routes
 must LOSE injectivity. This is a necessary condition; it is not a
@@ -279,6 +301,7 @@ theorem northHexagonNativeSquare_witness_history_noncollapse :
 #print axioms NativeF55SquareRouteClasses
 #print axioms nativeF55SquareRouteClass
 #print axioms nativeF55SquareRouteClass_eq_iff
+#print axioms nativeF55SquareRouteClass_eq_has_higher_witness
 #print axioms nativeF55SquareRouteClass_orders_eq
 #print axioms nativeF55SquareStrictTarget_notInjective
 #print axioms nativeF55SquareRouteClass_notInjective
