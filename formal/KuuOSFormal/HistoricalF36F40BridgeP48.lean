@@ -116,17 +116,19 @@ theorem p48_allOriginalFaceBoundaries_incident :
   | fromTriangle t =>
       cases t with
       | top i =>
-          dsimp [c60F41PhysicalFaceBoundaryLoop,
-            c60F41HexagonBoundaryLoop, truncatedIcosahedralHexagonCycle]
-          try simp only [p48_oldSlotOfIndex_eq_nativeSlot]
-          revert i
-          decide +kernel
+          simp only [c60F41PhysicalFaceBoundaryLoop,
+            c60F41HexagonBoundaryLoop, truncatedIcosahedralHexagonCycle,
+            p48_oldSlotOfIndex_eq_nativeSlot]
+          all_goals (
+            revert i
+            decide +kernel)
       | bottom i =>
-          dsimp [c60F41PhysicalFaceBoundaryLoop,
-            c60F41HexagonBoundaryLoop, truncatedIcosahedralHexagonCycle]
-          try simp only [p48_oldSlotOfIndex_eq_nativeSlot]
-          revert i
-          decide +kernel
+          simp only [c60F41PhysicalFaceBoundaryLoop,
+            c60F41HexagonBoundaryLoop, truncatedIcosahedralHexagonCycle,
+            p48_oldSlotOfIndex_eq_nativeSlot]
+          all_goals (
+            revert i
+            decide +kernel)
       | beltUpper i =>
           revert i
           decide +kernel
@@ -157,17 +159,19 @@ theorem p48_allOriginalFaceBases_incident :
   | fromTriangle t =>
       cases t with
       | top i =>
-          dsimp [c60F41PhysicalFaceBoundaryLoop,
-            c60F41HexagonBoundaryLoop, truncatedIcosahedralHexagonCycle]
-          try simp only [p48_oldSlotOfIndex_eq_nativeSlot]
-          revert i
-          decide +kernel
+          simp only [c60F41PhysicalFaceBoundaryLoop,
+            c60F41HexagonBoundaryLoop, truncatedIcosahedralHexagonCycle,
+            p48_oldSlotOfIndex_eq_nativeSlot]
+          all_goals (
+            revert i
+            decide +kernel)
       | bottom i =>
-          dsimp [c60F41PhysicalFaceBoundaryLoop,
-            c60F41HexagonBoundaryLoop, truncatedIcosahedralHexagonCycle]
-          try simp only [p48_oldSlotOfIndex_eq_nativeSlot]
-          revert i
-          decide +kernel
+          simp only [c60F41PhysicalFaceBoundaryLoop,
+            c60F41HexagonBoundaryLoop, truncatedIcosahedralHexagonCycle,
+            p48_oldSlotOfIndex_eq_nativeSlot]
+          all_goals (
+            revert i
+            decide +kernel)
       | beltUpper i =>
           revert i
           decide +kernel
