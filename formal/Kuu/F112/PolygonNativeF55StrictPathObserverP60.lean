@@ -63,6 +63,71 @@ theorem nativeF55RawPathsToShadow_generator
   change (CategoryTheory.Paths.lift phi).map cell.toPath = phi.map cell
   exact CategoryTheory.Paths.lift_toPath phi cell
 
+/-- The COMPLETE independent nine-constructor raw F55 cell
+normalization commutes with the selected shadow observer:
+canonical empty paths and concatenation account for raw identity
+and vertical paste, and all seven other constructors remain genuine
+singleton paths under Mathlib's free-path functor. This equality is
+ONLY in the selected proof-term quotient, never in raw syntax. -/
+theorem KuuNativeF45Tree.DepthRotationRoute.PresentedCell.toNativeStrictPath_shadow
+    {p : Polygon} {a b : D} {x y : E}
+    {n n' m m' : Nat}
+    {ma mb : KuuNativeBlocks a b}
+    {pa pb : KuuNativeBlocks x y}
+    {first : KuuNativeF45Tree p n m ma pa mb pb}
+    {last : KuuNativeF45Tree p n' m' ma pa mb pb}
+    {r s : KuuNativeF45Tree.DepthRotationRoute p first last}
+    (cell : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p r s) :
+    (nativeF55RawPathsToShadow first last).map cell.toNativeStrictPath =
+      nativeF55ThreeOf cell := by
+  induction cell with
+  | ident route =>
+      rfl
+  | pentagon t₁ t₂ t₃ t₄ =>
+      exact nativeF55RawPathsToShadow_generator _ _
+        (.pentagon t₁ t₂ t₃ t₄)
+  | disjointSquare left right =>
+      exact nativeF55RawPathsToShadow_generator _ _
+        (.disjointSquare left right)
+  | symm c _ =>
+      exact nativeF55RawPathsToShadow_generator _ _ (.symm c)
+  | trans c d ihc ihd =>
+      change (nativeF55RawPathsToShadow first last).map
+          (c.toNativeStrictPath ≫ d.toNativeStrictPath) =
+        nativeF55ThreeOf (.trans c d)
+      rw [Functor.map_comp, ihc, ihd]
+      rfl
+  | leftContext c later _ =>
+      exact nativeF55RawPathsToShadow_generator _ _
+        (.leftContext c later)
+  | rightContext earlier c _ =>
+      exact nativeF55RawPathsToShadow_generator _ _
+        (.rightContext earlier c)
+  | precompose prior c _ =>
+      exact nativeF55RawPathsToShadow_generator _ _
+        (.precompose prior c)
+  | postcompose c suffix _ =>
+      exact nativeF55RawPathsToShadow_generator _ _
+        (.postcompose c suffix)
+
+/-- The FULL selected charge and odd exchange phase of an arbitrary
+normalized raw cell are therefore the original raw source shadow,
+not a replacement determined by an unproved historical comparison. -/
+theorem KuuNativeF45Tree.DepthRotationRoute.PresentedCell.toNativeStrictPath_shadow_eval
+    {p : Polygon} {a b : D} {x y : E}
+    {n n' m m' : Nat}
+    {ma mb : KuuNativeBlocks a b}
+    {pa pb : KuuNativeBlocks x y}
+    {first : KuuNativeF45Tree p n m ma pa mb pb}
+    {last : KuuNativeF45Tree p n' m' ma pa mb pb}
+    {r s : KuuNativeF45Tree.DepthRotationRoute p first last}
+    (cell : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p r s) :
+    nativeF55ThreeEval
+      ((nativeF55RawPathsToShadow first last).map cell.toNativeStrictPath) =
+      cell.nativeShadow := by
+  rw [cell.toNativeStrictPath_shadow]
+  rfl
+
 /-- The chosen quotient cannot distinguish the length-zero
 identity path from the length-one genuine F55 raw identity GENERATOR.
 No blanket claim about the original Type-valued source equality. -/
@@ -101,6 +166,8 @@ theorem nativeF55RawPathsToShadow_notInjectiveAt
 
 #print axioms nativeF55RawPathsToShadow_generator
 #print axioms nativeF55RawPathsToShadow_notInjectiveAt
+#print axioms KuuNativeF45Tree.DepthRotationRoute.PresentedCell.toNativeStrictPath_shadow
+#print axioms KuuNativeF45Tree.DepthRotationRoute.PresentedCell.toNativeStrictPath_shadow_eval
 
 end
 end Kuu.F112.Physical
