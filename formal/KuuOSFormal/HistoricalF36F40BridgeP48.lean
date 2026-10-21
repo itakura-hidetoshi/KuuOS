@@ -146,7 +146,7 @@ theorem p48_allOriginalHexagonOrientedEdges_incident
       kernelC60FullFaceBoundaryEdges (.fromTriangle t) := by
     change oe.edge ∈ (kernelCertifiedHexagonCycle t).edges.map
       OrientedTruncatedIcosahedralEdge.edge
-    exact List.mem_map_of_mem _ h
+    exact List.mem_map_of_mem h
   exact p48_allOriginalBoundaryEdges_incident _ _ hm
 
 /-- The true original F41 base dart of EVERY physical pentagon and
