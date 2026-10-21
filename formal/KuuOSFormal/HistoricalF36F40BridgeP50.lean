@@ -20,6 +20,7 @@ open CategoryTheory
 open Kuu.F112.Physical
 open KUOS.DependentOriginationIcosahedralTruncationSeedV3_84
 open KUOS.DependentOriginationTruncatedIcosahedralEdgesV3_85
+open KUOS.DependentOriginationTruncatedIcosahedralHexagonsV3_86
 open KUOS.DependentOriginationGrayC60NativePathFunctorV5_189
 
 set_option autoImplicit false
@@ -46,9 +47,16 @@ theorem p50_old_supported_loop_localizes
       (W := (⊤ : MorphismProperty Site)) (homOfLE ha) (by trivial)
   have h := p49_old_path_localized_cone p face hp ha ha
   change historicalOldPathsToLocalization.map p ≫ A.hom = A.hom at h
-  have hh := congrArg (fun f => f ≫ A.inv) h
-  simpa only [Category.assoc, A.hom_inv_id,
-    Category.id_comp, Category.comp_id] using hh
+  calc
+    historicalOldPathsToLocalization.map p =
+        historicalOldPathsToLocalization.map p ≫ 𝟙 _ :=
+          (Category.comp_id _).symm
+    _ = historicalOldPathsToLocalization.map p ≫
+        (A.hom ≫ A.inv) := by rw [A.hom_inv_id]
+    _ = (historicalOldPathsToLocalization.map p ≫ A.hom) ≫
+        A.inv := (Category.assoc _ _ _).symm
+    _ = A.hom ≫ A.inv := congrArg (fun f => f ≫ A.inv) h
+    _ = 𝟙 _ := A.hom_inv_id
 
 /-- Every ACTUAL original v3.85 historical C60 pentagon's full
 five-arrow, based F41 source Quiver.Path stays entirely inside
