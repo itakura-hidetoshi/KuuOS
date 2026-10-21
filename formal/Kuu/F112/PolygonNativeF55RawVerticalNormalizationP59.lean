@@ -97,7 +97,9 @@ theorem KuuNativeF45Tree.DepthRotationRoute.PresentedCell.toNativeStrictPath_rig
     (f : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p r s) :
     (KuuNativeF45Tree.DepthRotationRoute.PresentedCell.trans f (.ident s)).toNativeStrictPath =
       f.toNativeStrictPath := by
-  simp only [toNativeStrictPath_trans, toNativeStrictPath_ident, Quiver.Path.comp_nil]
+  simp only [KuuNativeF45Tree.DepthRotationRoute.PresentedCell.toNativeStrictPath_trans,
+    KuuNativeF45Tree.DepthRotationRoute.PresentedCell.toNativeStrictPath_ident,
+    Quiver.Path.comp_nil]
 
 theorem KuuNativeF45Tree.DepthRotationRoute.PresentedCell.toNativeStrictPath_leftUnit
     {p : Polygon} {a b : D} {x y : E}
@@ -110,7 +112,9 @@ theorem KuuNativeF45Tree.DepthRotationRoute.PresentedCell.toNativeStrictPath_lef
     (f : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p r s) :
     (KuuNativeF45Tree.DepthRotationRoute.PresentedCell.trans (.ident r) f).toNativeStrictPath =
       f.toNativeStrictPath := by
-  simp only [toNativeStrictPath_trans, toNativeStrictPath_ident, Quiver.Path.nil_comp]
+  simp only [KuuNativeF45Tree.DepthRotationRoute.PresentedCell.toNativeStrictPath_trans,
+    KuuNativeF45Tree.DepthRotationRoute.PresentedCell.toNativeStrictPath_ident,
+    Quiver.Path.nil_comp]
 
 /-- True strict associativity of the NORMALIZED path representation.
 P58 proves the underlying two raw F55 syntax trees remain unequal. -/
@@ -129,7 +133,8 @@ theorem KuuNativeF45Tree.DepthRotationRoute.PresentedCell.toNativeStrictPath_ass
       (KuuNativeF45Tree.DepthRotationRoute.PresentedCell.trans f g) h).toNativeStrictPath =
     (KuuNativeF45Tree.DepthRotationRoute.PresentedCell.trans
       f (KuuNativeF45Tree.DepthRotationRoute.PresentedCell.trans g h)).toNativeStrictPath := by
-  simp only [toNativeStrictPath_trans, Quiver.Path.comp_assoc]
+  simp only [KuuNativeF45Tree.DepthRotationRoute.PresentedCell.toNativeStrictPath_trans,
+    Quiver.Path.comp_assoc]
 
 /-- A strictly normalized source observation cannot be inverted to
 recover EVERY original proof tree. This follows for each inhabited
