@@ -52,7 +52,7 @@ def KuuNativeF45Tree.DepthRotationRoute.PresentedCell.toNativeStrictPath
         (⟨s⟩ : NativeF55RawRouteVertex first last)
   | _, _, .ident _ => .nil
   | _, _, .trans left right =>
-      left.toNativeStrictPath |>.comp right.toNativeStrictPath
+      (left.toNativeStrictPath).comp right.toNativeStrictPath
   | _, _, raw => raw.toPath
 
 /-- Strict unit is true for the *normalized path*, not for the
