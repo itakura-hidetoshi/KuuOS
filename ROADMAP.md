@@ -65,7 +65,7 @@ KuuOSの原初の問いは、C60の60頂点・90辺・32面ではなく、**関�
 | F112 P54–P57 | [P55 #2417](https://github.com/itakura-hidetoshi/KuuOS/pull/2417)、[P56 #2418](https://github.com/itakura-hidetoshi/KuuOS/pull/2418)、[P57 #2419](https://github.com/itakura-hidetoshi/KuuOS/pull/2419)・[#2420](https://github.com/itakura-hidetoshi/KuuOS/pull/2420)：raw F55の九生成子、完全source transport、水平自然性、選んだshadowの忠実な圏関手、非復元と別位相のobstruction。 | chosen shadowが唯一の空であることや、raw 3-cellがすでにstrict 3圏であること。 |
 | **F112 P58** [#2421](https://github.com/itakura-hidetoshi/KuuOS/pull/2421) | **全raw F55項について左右strict単位律がliteralには失敗し、全合成可能三項についてraw結合律の二括弧が区別される**ことを構文の数え上げで証明。Mathlibの独立した自由経路圏を構成。 | 自由経路圏が非自明な3-Homを保持する大域strict 3圏である、という未証明の飛躍。 |
 
-P58の[実際のソース](formal/Kuu/F112/PolygonNativeF55RawStrictificationBoundary.lean)は**F112研究ブランチ**にあり、現段階でmainからの相対リンクではなく[研究親ブランチ](https://github.com/itakura-hidetoshi/KuuOS/tree/formal/v5-293-f112-independent-total-change/formal/Kuu/F112)から参照してください。上表のP段階は研究親内の成果であって、`main`に既に含まれるとは主張しません。
+P58の[P58の実際のソース](https://github.com/itakura-hidetoshi/KuuOS/blob/formal/v5-293-f112-independent-total-change/formal/Kuu/F112/PolygonNativeF55RawStrictificationBoundary.lean)は**F112研究ブランチ**にあり、`main`にはまだ存在しません。上表のP段階は研究親内の成果であって、`main`に既に含まれるとは主張しません。
 
 ## 3. 最優先の新規数学：局所proof-relevant strict 3圏
 
