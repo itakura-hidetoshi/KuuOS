@@ -71,14 +71,14 @@ theorem p51_oriented_single_edge_word
       change p51_oldPathPhysicalEdges
         ((c60F41ForwardArrow old).toPath) = [old]
       simp only [p51_oldPathPhysicalEdges, Quiver.Hom.toPath]
-      change (OrientedTruncatedIcosahedralEdge.forward old).edge = old
-      rfl
+      simp only [List.nil_append, c60F41ForwardArrow,
+        OrientedTruncatedIcosahedralEdge.edge]
   | reverse old =>
       change p51_oldPathPhysicalEdges
         ((c60F41ReverseArrow old).toPath) = [old]
       simp only [p51_oldPathPhysicalEdges, Quiver.Hom.toPath]
-      change (OrientedTruncatedIcosahedralEdge.reverse old).edge = old
-      rfl
+      simp only [List.nil_append, c60F41ReverseArrow,
+        OrientedTruncatedIcosahedralEdge.edge]
 
 /-- The P48 Boolean source-path incidence predicate equals the
 all-edges-on-face finite Boolean check, for EVERY historical source
