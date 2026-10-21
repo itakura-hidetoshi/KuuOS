@@ -120,6 +120,7 @@ import Kuu.F112.PolygonNativeF55RawPathNormalizerFunctorP60
 import Kuu.F112.PolygonNativeF55HorizontalStrictPathBoundaryP61
 import Kuu.F112.PolygonNativeF55TypedUnitCongruenceP62
 import Kuu.F112.PolygonNativeF55ContextPathActionsP63
+import Kuu.F112.PolygonNativeF55StructuralUnitQuotientP64
 /-! Internal independent Kuu import aggregate. No KUOS or legacy sources
 are imported into the independent foundation. The unique public aggregate
 remains KuuOSFormal; this is not a separate mathematical authority. -/
