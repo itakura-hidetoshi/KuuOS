@@ -82,19 +82,6 @@ The proof is by equality induction, not by decoupling the endpoints. -/
   cases h
   exact p51_oriented_single_edge_word e
 
-/-- The genuine physical edge word is independent of any equality
-transport between fully indexed old free-path types. This directly
-handles the Eq.mpr transports emitted by the historical F41 `rw`
-construction, whose opaque equality proofs need not be unfolded. -/
-@[simp] theorem p53_edgeWord_cast_path
-    {a b a' b' : IcosahedralDart}
-    (h : Quiver.Path a b = Quiver.Path a' b')
-    (p : Quiver.Path a b) :
-    p51_oldPathPhysicalEdges (Eq.mpr h p) =
-      p51_oldPathPhysicalEdges p := by
-  cases h
-  rfl
-
 /-- Every historical F41 six-edge hexagon path has exactly the
 same ordered physical edge word as its genuine oriented polygonal
 cycle, at the actual historical base dart and in its true orientation.
@@ -102,14 +89,63 @@ No premise is needed for any of the twenty triangles. -/
 theorem p53_allOriginalHexagonWordsExact :
     p52_allOriginalHexagonWordsExact := by
   intro t
-  simp only [c60F41HexagonBoundaryLoop,
-    p53_edgeWord_closed_transport,
-    p51_oldPathPhysicalEdges_comp,
-    p53_edgeWord_cast_path,
-    p51_oriented_single_edge_word,
-    OrientedHexagonCycle.edges,
-    List.map_cons, List.map_nil,
-    List.append_assoc]
+  let C := truncatedIcosahedralHexagonCycle t
+  have h01 :
+      p51_oldPathPhysicalEdges
+          (show Quiver.Path C.e0.target C.e1.target from
+            by rw [C.h01]
+               exact c60F41OrientedPath C.e1) = [C.e1.edge] :=
+    p53_edgeWord_oriented_reindex C.e1 C.h01
+  have h12 :
+      p51_oldPathPhysicalEdges
+          (show Quiver.Path C.e1.target C.e2.target from
+            by rw [C.h12]
+               exact c60F41OrientedPath C.e2) = [C.e2.edge] :=
+    p53_edgeWord_oriented_reindex C.e2 C.h12
+  have h23 :
+      p51_oldPathPhysicalEdges
+          (show Quiver.Path C.e2.target C.e3.target from
+            by rw [C.h23]
+               exact c60F41OrientedPath C.e3) = [C.e3.edge] :=
+    p53_edgeWord_oriented_reindex C.e3 C.h23
+  have h34 :
+      p51_oldPathPhysicalEdges
+          (show Quiver.Path C.e3.target C.e4.target from
+            by rw [C.h34]
+               exact c60F41OrientedPath C.e4) = [C.e4.edge] :=
+    p53_edgeWord_oriented_reindex C.e4 C.h34
+  have h45 :
+      p51_oldPathPhysicalEdges
+          (show Quiver.Path C.e4.target C.e5.target from
+            by rw [C.h45]
+               exact c60F41OrientedPath C.e5) = [C.e5.edge] :=
+    p53_edgeWord_oriented_reindex C.e5 C.h45
+  simp only [c60F41HexagonBoundaryLoop, p53_edgeWord_closed_transport,
+    p51_oldPathPhysicalEdges_comp, p51_oriented_single_edge_word]
+  change [C.e0.edge] ++
+      (p51_oldPathPhysicalEdges
+          (show Quiver.Path C.e0.target C.e1.target from
+            by rw [C.h01]
+               exact c60F41OrientedPath C.e1) ++
+        (p51_oldPathPhysicalEdges
+          (show Quiver.Path C.e1.target C.e2.target from
+            by rw [C.h12]
+               exact c60F41OrientedPath C.e2) ++
+        (p51_oldPathPhysicalEdges
+          (show Quiver.Path C.e2.target C.e3.target from
+            by rw [C.h23]
+               exact c60F41OrientedPath C.e3) ++
+        (p51_oldPathPhysicalEdges
+          (show Quiver.Path C.e3.target C.e4.target from
+            by rw [C.h34]
+               exact c60F41OrientedPath C.e4) ++
+        p51_oldPathPhysicalEdges
+          (show Quiver.Path C.e4.target C.e5.target from
+            by rw [C.h45]
+               exact c60F41OrientedPath C.e5))))) =
+        C.edges.map OrientedTruncatedIcosahedralEdge.edge
+  rw [h01, h12, h23, h34, h45]
+  rfl
 
 /-- All thirty-two original F41/F42 physical face relations now
 localize unconditionally to the independent F69 physical site. -/
@@ -138,7 +174,6 @@ theorem p53_originalF42Quotient_factor :
 #print axioms p53_edgeWord_eqmp_target
 #print axioms p53_edgeWord_closed_transport
 #print axioms p53_edgeWord_oriented_reindex
-#print axioms p53_edgeWord_cast_path
 #print axioms p53_allOriginalHexagonWordsExact
 #print axioms p53_allOriginalFacesLocalize
 #print axioms p53_originalF42QuotientToLocalization
