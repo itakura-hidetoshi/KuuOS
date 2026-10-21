@@ -1,6 +1,6 @@
 import Kuu.F112.PolygonNativeF55HorizontalFunctoriality
 import Mathlib.CategoryTheory.PathCategory.Basic
-import Mathlib.Tactic.Omega
+import Lean.Elab.Tactic.Omega
 
 /-!
 # F112-P58 — strictification boundary of independent raw F55 proof trees
