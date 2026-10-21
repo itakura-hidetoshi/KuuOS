@@ -76,7 +76,10 @@ theorem nativeF55RawPathNormalizer_map_raw_ident
     (r : KuuNativeF45Tree.DepthRotationRoute p first last) :
     (nativeF55RawPathNormalizer first last).map
       ((KuuNativeF45Tree.DepthRotationRoute.PresentedCell.ident r).toNativeRawEdge.toPath) =
-      (𝟙 (⟨r⟩ : NativeF55RawRouteVertex first last)) := by
+      (Quiver.Path.nil :
+        Quiver.Path
+          (⟨r⟩ : NativeF55RawRouteVertex first last)
+          (⟨r⟩ : NativeF55RawRouteVertex first last)) := by
   rw [nativeF55RawPathNormalizer_map_raw]
   rfl
 
@@ -99,10 +102,11 @@ theorem nativeF55RawPathNormalizer_map_raw_trans_eq_composite
       (f.toNativeRawEdge.toPath.comp g.toNativeRawEdge.toPath) := by
   rw [nativeF55RawPathNormalizer_map_raw,
     KuuNativeF45Tree.DepthRotationRoute.PresentedCell.toNativeStrictPath_trans]
-  rw [Functor.map_comp,
-    nativeF55RawPathNormalizer_map_raw,
-    nativeF55RawPathNormalizer_map_raw]
-  rfl
+  -- The source is a Quiver.Path.comp, not a syntactic Category.comp.
+  -- Apply map_comp as an equation instead of rewriting a missing ≫.
+  simpa only [nativeF55RawPathNormalizer_map_raw] using
+    ((nativeF55RawPathNormalizer first last).map_comp
+      (f.toNativeRawEdge.toPath) (g.toNativeRawEdge.toPath)).symm
 
 /-- Genuine noninjectivity on every inhabited raw Hom persists for
 the functor acting on the *original* singleton generators. -/

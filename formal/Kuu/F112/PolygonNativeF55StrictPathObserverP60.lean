@@ -92,9 +92,11 @@ theorem KuuNativeF45Tree.DepthRotationRoute.PresentedCell.toNativeStrictPath_sha
       exact nativeF55RawPathsToShadow_generator _ _ (.symm c)
   | trans c d ihc ihd =>
       change (nativeF55RawPathsToShadow first last).map
-          (c.toNativeStrictPath ≫ d.toNativeStrictPath) =
+          (c.toNativeStrictPath.comp d.toNativeStrictPath) =
         nativeF55ThreeOf (.trans c d)
-      rw [Functor.map_comp, ihc, ihd]
+      have hcomp := (nativeF55RawPathsToShadow first last).map_comp
+        c.toNativeStrictPath d.toNativeStrictPath
+      rw [hcomp, ihc, ihd]
       rfl
   | leftContext c later _ =>
       exact nativeF55RawPathsToShadow_generator _ _
