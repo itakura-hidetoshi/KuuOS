@@ -86,6 +86,14 @@ def p48_originalPathWithinPolygon (face : Polygon) :
       p48_originalPathWithinPolygon face prior &&
         decide (edgeOnFace (p48_originalArrowNativeEdge f) face)
 
+/-- The historical noncomputable inverse of the five cyclic slots
+is IDENTICAL to the independent Kuu explicit computable ring-slot choice.
+This is a consequence of actual slot-index injectivity, not an axiom. -/
+theorem p48_oldSlotOfIndex_eq_nativeSlot (i : IcosahedralRingIndex) :
+    pentagonalSlotOfIndex i = slotEquiv (ringSlot i) := by
+  apply pentagonalSlotIndex_bijective.1
+  rw [pentagonalSlotIndex_ofIndex, slotIndex_equiv, slotIndex_ringSlot]
+
 /-- All 32 ACTUAL original pentagon/hexagon source boundary loops,
 including the historically reversed hexagonal orientation, use ONLY
 edges incident to their exact matching independent C60 polygon. -/
@@ -108,9 +116,15 @@ theorem p48_allOriginalFaceBoundaries_incident :
   | fromTriangle t =>
       cases t with
       | top i =>
+          dsimp [c60F41PhysicalFaceBoundaryLoop,
+            c60F41HexagonBoundaryLoop, truncatedIcosahedralHexagonCycle]
+          simp only [p48_oldSlotOfIndex_eq_nativeSlot]
           revert i
           decide +kernel
       | bottom i =>
+          dsimp [c60F41PhysicalFaceBoundaryLoop,
+            c60F41HexagonBoundaryLoop, truncatedIcosahedralHexagonCycle]
+          simp only [p48_oldSlotOfIndex_eq_nativeSlot]
           revert i
           decide +kernel
       | beltUpper i =>
@@ -143,9 +157,15 @@ theorem p48_allOriginalFaceBases_incident :
   | fromTriangle t =>
       cases t with
       | top i =>
+          dsimp [c60F41PhysicalFaceBoundaryLoop,
+            c60F41HexagonBoundaryLoop, truncatedIcosahedralHexagonCycle]
+          simp only [p48_oldSlotOfIndex_eq_nativeSlot]
           revert i
           decide +kernel
       | bottom i =>
+          dsimp [c60F41PhysicalFaceBoundaryLoop,
+            c60F41HexagonBoundaryLoop, truncatedIcosahedralHexagonCycle]
+          simp only [p48_oldSlotOfIndex_eq_nativeSlot]
           revert i
           decide +kernel
       | beltUpper i =>
@@ -155,6 +175,7 @@ theorem p48_allOriginalFaceBases_incident :
           revert i
           decide +kernel
 
+#print axioms p48_oldSlotOfIndex_eq_nativeSlot
 #print axioms p48_localized_incidence_span_cone
 #print axioms p48_originalArrowNativeEdge
 #print axioms p48_originalPathWithinPolygon
