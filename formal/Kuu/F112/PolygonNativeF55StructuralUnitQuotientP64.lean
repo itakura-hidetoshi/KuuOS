@@ -51,7 +51,7 @@ def nativeF55StructuralUnitHomRel
     {pa pb : KuuNativeBlocks x y}
     (first : KuuNativeF45Tree p n m ma pa mb pb)
     (last : KuuNativeF45Tree p n' m' ma pa mb pb) :
-    CategoryTheory.HomRel (NativeF55RawPathCategory first last) :=
+    HomRel (NativeF55RawPathCategory first last) :=
   fun {_r _s} f g => NativeF55UnitPathRel first last f g
 
 /-- P62's independently defined five-constructor relation satisfies
