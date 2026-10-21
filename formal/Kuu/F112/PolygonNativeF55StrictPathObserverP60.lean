@@ -103,7 +103,10 @@ theorem KuuNativeF45Tree.DepthRotationRoute.PresentedCell.toNativeStrictPath_sha
     (cell : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p r s) :
     (nativeF55RawPathsToShadow first last).map cell.toNativeStrictPath =
       nativeF55ThreeOf cell := by
-  induction cell with
+  -- Generalize dependent F54 route indices. The trans case introduces
+  -- fresh Nat depths, block contexts and original endpoint trees;
+  -- retaining the outer fixed ones produces incompatible quotient Hom types.
+  induction cell generalizing n n' m m' ma mb pa pb first last with
   | ident route =>
       rfl
   | pentagon t₁ t₂ t₃ t₄ =>
