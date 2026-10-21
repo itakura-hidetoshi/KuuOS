@@ -66,7 +66,15 @@ physical edge code exactly, including on reversed arrows. -/
 theorem p51_oriented_single_edge_word
     (oe : OrientedTruncatedIcosahedralEdge) :
     p51_oldPathPhysicalEdges (c60F41OrientedPath oe) = [oe.edge] := by
-  cases oe <;> rfl
+  cases oe with
+  | forward old =>
+      simp [c60F41OrientedPath, Quiver.Hom.toPath,
+        c60F41ForwardArrow, p51_oldPathPhysicalEdges,
+        OrientedTruncatedIcosahedralEdge.edge]
+  | reverse old =>
+      simp [c60F41OrientedPath, Quiver.Hom.toPath,
+        c60F41ReverseArrow, p51_oldPathPhysicalEdges,
+        OrientedTruncatedIcosahedralEdge.edge]
 
 /-- The P48 Boolean source-path incidence predicate equals the
 all-edges-on-face finite Boolean check, for EVERY historical source
@@ -79,13 +87,14 @@ theorem p51_oldPathWithinPolygon_eq_all :
           (fun old => decide (edgeOnFace (edgeEquiv.symm old) face)) := by
   intro a b p
   induction p with
-  | nil => intro face; rfl
+  | nil =>
+      intro face
+      simp [p48_originalPathWithinPolygon, p51_oldPathPhysicalEdges]
   | cons p f ih =>
       intro face
       simp only [p48_originalPathWithinPolygon, p51_oldPathPhysicalEdges,
         List.all_append, List.all_cons, List.all_nil, Bool.and_true,
-        p48_originalArrowNativeEdge]
-      rw [ih]
+        p48_originalArrowNativeEdge, ih]
 
 /-- Each actual historical oriented hexagon side is on the very
 original C60 physical hexagon, regardless of traversal direction.
@@ -96,17 +105,17 @@ theorem p51_actual_hexagon_oriented_step_support
     p48_originalPathWithinPolygon
       (polygonEquiv.symm (.fromTriangle t))
       (c60F41OrientedPath oe) = true := by
+  rw [p51_oldPathWithinPolygon_eq_all,
+    p51_oriented_single_edge_word]
   cases oe with
   | forward old =>
-      change decide (edgeOnFace (edgeEquiv.symm old)
-        (polygonEquiv.symm (.fromTriangle t))) = true
-      exact decide_eq_true
-        (p48_allOriginalHexagonOrientedEdges_incident t (.forward old) h)
+      simpa [OrientedTruncatedIcosahedralEdge.edge] using
+        (decide_eq_true
+          (p48_allOriginalHexagonOrientedEdges_incident t (.forward old) h))
   | reverse old =>
-      change decide (edgeOnFace (edgeEquiv.symm old)
-        (polygonEquiv.symm (.fromTriangle t))) = true
-      exact decide_eq_true
-        (p48_allOriginalHexagonOrientedEdges_incident t (.reverse old) h)
+      simpa [OrientedTruncatedIcosahedralEdge.edge] using
+        (decide_eq_true
+          (p48_allOriginalHexagonOrientedEdges_incident t (.reverse old) h))
 
 /-- Every original C60 hexagon's complete ORDERED SIX edge codes
 are genuine edge-on-polygon incidences. This uses actual P48 geometry,
