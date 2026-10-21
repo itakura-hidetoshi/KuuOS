@@ -154,8 +154,18 @@ theorem nativeF55ThreeHorizontal_mapAxesNative
         (g.mapAxesGivenPentagon F G
           (nativeF55MappedDataFromRootCancellation F G)) := by
   apply nativeF55ThreeEval_injective
-  simp only [NativeF55ThreeHom.mapAxesGivenPentagon_eval,
-    nativeF55ThreeEval_horizontal]
+  -- Explicitly instantiate the dependent horizontal-evaluation theorem:
+  -- the transported route boundaries are definitionally normalized,
+  -- but an uninstantiated simp rewrite may leave this instance untouched.
+  have hHorizontal :=
+    nativeF55ThreeEval_horizontal
+      (f.mapAxesGivenPentagon F G
+        (nativeF55MappedDataFromRootCancellation F G))
+      (g.mapAxesGivenPentagon F G
+        (nativeF55MappedDataFromRootCancellation F G))
+  simp only [NativeF55ThreeHom.mapAxesGivenPentagon_eval] at hHorizontal
+  simpa only [NativeF55ThreeHom.mapAxesGivenPentagon_eval,
+    nativeF55ThreeEval_horizontal] using hHorizontal.symm
 
 /-- Actual Mathlib functor of independently typed native F54
 rotation-route objects and independently presented nine-generator
