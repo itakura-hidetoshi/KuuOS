@@ -56,6 +56,32 @@ preserves its entire ordered list of true physical edge codes. -/
   cases h
   rfl
 
+/-- Transport at the closure of a genuine based path leaves its
+ordered edge word unchanged; the original F41 construction performs
+exactly this equality rewrite at its sixth endpoint. -/
+@[simp] theorem p53_edgeWord_closed_transport
+    {a b : IcosahedralDart} (h : b = a)
+    (p : Quiver.Path a b) :
+    p51_oldPathPhysicalEdges
+        (show Quiver.Path a a from h ▸ p) =
+      p51_oldPathPhysicalEdges p := by
+  cases h
+  rfl
+
+/-- The historical F41 generator's dependent rewrite of a single
+oriented edge retains that edge's exact original physical code.
+The proof is by equality induction, not by decoupling the endpoints. -/
+@[simp] theorem p53_edgeWord_oriented_reindex
+    {a : IcosahedralDart}
+    (e : OrientedTruncatedIcosahedralEdge)
+    (h : a = e.source) :
+    p51_oldPathPhysicalEdges
+        (show Quiver.Path a e.target from
+          by rw [h]
+             exact c60F41OrientedPath e) = [e.edge] := by
+  cases h
+  exact p51_oriented_single_edge_word e
+
 /-- Every historical F41 six-edge hexagon path has exactly the
 same ordered physical edge word as its genuine oriented polygonal
 cycle, at the actual historical base dart and in its true orientation.
@@ -63,11 +89,14 @@ No premise is needed for any of the twenty triangles. -/
 theorem p53_allOriginalHexagonWordsExact :
     p52_allOriginalHexagonWordsExact := by
   intro t
-  simp only [c60F41HexagonBoundaryLoop, OrientedHexagonCycle.edges]
-  set_option pp.all true in
-    trace_state
-  set_option pp.proofs true in
-    trace_state
+  simp only [c60F41HexagonBoundaryLoop,
+    p53_edgeWord_closed_transport,
+    p51_oldPathPhysicalEdges_comp,
+    p53_edgeWord_oriented_reindex,
+    p51_oriented_single_edge_word,
+    OrientedHexagonCycle.edges,
+    List.map_cons, List.map_nil, List.nil_append,
+    List.append_assoc]
 
 /-- All thirty-two original F41/F42 physical face relations now
 localize unconditionally to the independent F69 physical site. -/
@@ -94,6 +123,8 @@ theorem p53_originalF42Quotient_factor :
 
 #print axioms p53_edgeWord_eqmpr_source
 #print axioms p53_edgeWord_eqmp_target
+#print axioms p53_edgeWord_closed_transport
+#print axioms p53_edgeWord_oriented_reindex
 #print axioms p53_allOriginalHexagonWordsExact
 #print axioms p53_allOriginalFacesLocalize
 #print axioms p53_originalF42QuotientToLocalization
