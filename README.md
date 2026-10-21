@@ -79,8 +79,11 @@ C60では元の正二十面体に由来する**60 Dart、90 Edge、32 Polygon（
 - [F112-P66 #2436](https://github.com/itakura-hidetoshi/KuuOS/pull/2436)：P64の単位生成合同商は**3射の射集合に作用し、F54の経路対象を同一視しない**ことを一般の２軸Nat深さで証明。実C60六角形の左右順序の異なるF54回転経路は商圏上でも異なる対象であり、それらを結ぶ真正F55交換正方形3射は残存する。選択されたshadowの交換位相`1 : ZMod 2`も非零のまま保存。これはP62〜P65だけから**厳密なinterchange等式を導けない**という現在のpresentationの具体的障害であり、一般的strict 3圏の不可能性定理ではない。
 - [F112-P67 #2438](https://github.com/itakura-hidetoshi/KuuOS/pull/2438)：真正F54のdisjoint-square比較を**Type値の証拠**として構成し、各比較証拠から元の型付きF55 raw 3-cellを復元。比較クラスの等号はこの証拠の`Nonempty`と同値であり、具体的証明履歴を選ぶ操作ではない。実C60の左先・右先回転順序が比較クラスで等しくなる一方、元のF54経路は異なり、**その同一視を行う任意の写像は単射になれない**ことを証明。選択された非零交換位相とraw証明履歴は別データとして保持。
 - [F112-P68 #2439](https://github.com/itakura-hidetoshi/KuuOS/pull/2439)：全９構成子を再帰的に検査し、真正五角形生成元を含まない**squareOnly**なF55 raw証拠をType値で保持するcontext閉包比較を構成。P67比較クラスから新クラスへの写像、**左右F54 contextの商上の作用**と元の経路への正確な整合、実C60六角形の交換比較をLean4で証明。五角形生成元はsquareOnlyの原始生成元から除外。P67とP68が同値であることや全3-Homの輸送までは主張しない。
+- [F112-P69 #2441](https://github.com/itakura-hidetoshi/KuuOS/pull/2441)：P68のF54比較クラスを始点・終点に持つ型付きF55高次射パッケージを構成。元の２つのF54代表経路と真正F55 raw 3-cellをType値で保持し、元の履歴保存と比較クラス等号から得られる比較証拠の存在を証明。**代表元の一意な選択・新しい高次圏の全合成は未証明。**
+- [F112-P70 #2442](https://github.com/itakura-hidetoshi/KuuOS/pull/2442)：選択された真正squareOnly比較証拠による**両端代表元の輸送**と、中間比較証拠を指定した**高次射の合成**をType値raw F55構文で実装。選択shadowの加法公式を証明。実C60六角形では同じ商クラスを両端に持つ恒等3射（位相0）が交換正方形で輸送されると、元のraw証明項の位相が1に変化することを証明。**選択証拠に依存した合成を、代表元独立な全合成と混同しない。**
+- [F112-P71 #2444](https://github.com/itakura-hidetoshi/KuuOS/pull/2444)：P70代表元変更から生成する高次射の輸送同値関係と商を構成し、商での等号の必要十分性を証明。輸送同値な元の高次射でraw shadowが異なれば、**元の数値shadowを全代表元で保つ商への因子化は不可能**という限定されたno-goを証明。真正C60の位相差と輸送同値を接続。ただし補正付き・gradedな高次Homは否定しない。
 
-**次の数学的関門はP69以降の商対象に対応する高次Hom輸送と真のinterchangeです。** P67で証明関連F54経路の型付き比較、P68で左右contextに閉じた別の比較presentationまで構成しました。しかし、経路クラスの等号だけから真正F55 3射の新しい型付きHom、垂直・水平合成、結合律・全交換律が自動的に生じるわけではありません。C60の五角形と非零交換正方形の原証拠を追跡しながら、必要な追加合同関係・保存条件・obstructionを定式化します。大域strict 3/n圏と(∞,3)-hyperdescentは未証明です。
+**次の数学的関門はP72以降の補正付き高次輸送とcoherenceです。** P69では真のF55 raw証明を保持する経路クラス上の高次射、P70では選択した比較証拠を使う代表元輸送・合成、P71では輸送商への原shadowの厳密な因子化障害まで証明しました。対象クラスの等号はraw履歴や選択位相の不変性を与えません。次は、位相補正を伴うreadout、代表元変更の合成に関するcoherence、型付き高次Homの代表元独立性を証明するか、正確なobstructionを残します。大域strict 3/n圏と(∞,3)-hyperdescentは未証明です。
 
 ## 五行・Qiも別の具体的presentation
 
@@ -101,7 +104,7 @@ mainで統合済みのQi v3.1–v3.3では`FivePhase = ZMod 5`を用い、相生
 
 ## 正本、ビルド、検証
 
-- **公開統合正本：** [`main`](https://github.com/itakura-hidetoshi/KuuOS/tree/main)。F112親PR #2339はMERGED。2026-10-22 JST、P67 [#2438](https://github.com/itakura-hidetoshi/KuuOS/pull/2438) はLean **9675/9675**、公理監査13件で`sorryAx`なし。P68 [#2439](https://github.com/itakura-hidetoshi/KuuOS/pull/2439) はLean **9676/9676**、公理監査16件で`sorryAx`なし。両PRともexact-head Governance、107公開root保全、completion receipts 2/2 SUCCESS後にsquash MERGED。P68統合commit：`ddaa2232f05439fafb32aaf6825c5b6d9fa2f7c3`。以降の最新HEADはGitHubで再確認します。
+- **公開統合正本：** [`main`](https://github.com/itakura-hidetoshi/KuuOS/tree/main)。F112親PR #2339はMERGED。2026-10-22 JST、P69 [#2441](https://github.com/itakura-hidetoshi/KuuOS/pull/2441)：Lean **9677/9677**・公理監査６件、P70 [#2442](https://github.com/itakura-hidetoshi/KuuOS/pull/2442)：Lean **9678/9678**・監査10件、P71 [#2444](https://github.com/itakura-hidetoshi/KuuOS/pull/2444)：Lean **9679/9679**・監査８件。全PRで`sorryAx`なし、exact-head Governance・公開root保全・両completion receipts SUCCESSの後にsquash MERGED。P71統合SHA：`7102544f3e7334bdf28f25db930175281ebc4869`。以降はGitHubで最新HEADを確認します。
 - **唯一の通常ビルド入口：** `lake build` = `lake build KuuOSFormal`。既存**107公開root**と独立Kuu・Qiを一つのパッケージで保持。`KuuOSStrict`は内部import集約で、独立した権威や「唯一の空」ではありません。
 - **ツールチェーン：** Lean `v4.30.0-rc2`、mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`。PR #1558（Lean 4.31）はvalidation-only・未マージ。
 - **証明の判定：** 実際のLean宣言とその型・仮定、`#print axioms`、対象commitのexact-head CIを根拠とします。`sorryAx`、`sorry`、`admit`や未証明の新公理で目標を埋めません。歴史的なmathlib/finite `native_decide`依存は正確に区別します。
