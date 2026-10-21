@@ -99,27 +99,8 @@ theorem nativeF55RawPathsToShadow_notInjectiveAt
   have hlength := congrArg Quiver.Path.length (hinj hmap)
   simp at hlength
 
-/-- Concrete realization of the observer no-lift at the actual
-north C60 pentagon, with its original F54 source/target routes. -/
-theorem northNativeF55RawPathsToShadow_notInjective :
-    ¬ Function.Injective
-      (fun path :
-        Quiver.Path
-          (⟨northNativeF45PentagonShort⟩ :
-            NativeF55RawRouteVertex northNativeF45PentagonShort
-              northNativeF45PentagonShort)
-          (⟨northNativeF45PentagonShort⟩ :
-            NativeF55RawRouteVertex northNativeF45PentagonShort
-              northNativeF45PentagonShort) =>
-        (nativeF55RawPathsToShadow
-          northNativeF45PentagonShort northNativeF45PentagonShort).map path) :=
-  nativeF55RawPathsToShadow_notInjectiveAt
-    northNativeF45PentagonShort northNativeF45PentagonShort
-    northNativeF45PentagonShort
-
 #print axioms nativeF55RawPathsToShadow_generator
 #print axioms nativeF55RawPathsToShadow_notInjectiveAt
-#print axioms northNativeF55RawPathsToShadow_notInjective
 
 end
 end Kuu.F112.Physical
