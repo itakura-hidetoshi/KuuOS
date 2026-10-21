@@ -129,7 +129,10 @@ theorem KuuNativeF45Tree.DepthRotationRoute.PresentedCell.ne_assoc_raw
     (f : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p r s)
     (g : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p s t)
     (h : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p t u) :
-    (.trans (.trans f g) h) ≠ (.trans f (.trans g h)) := by
+    (KuuNativeF45Tree.DepthRotationRoute.PresentedCell.trans
+      (KuuNativeF45Tree.DepthRotationRoute.PresentedCell.trans f g) h) ≠
+    (KuuNativeF45Tree.DepthRotationRoute.PresentedCell.trans
+      f (KuuNativeF45Tree.DepthRotationRoute.PresentedCell.trans g h)) := by
   intro heq
   have hc := congrArg
     (fun z : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p r u =>
@@ -188,7 +191,7 @@ def nativeF55RawPathsToShadow
       (KuuNativeF45Tree.DepthRotationRoute p first last) :=
   CategoryTheory.Paths.lift {
     obj := fun v => v.route
-    map := fun {X Y} cell => nativeF55ThreeOf cell
+    map := fun {_X _Y} cell => nativeF55ThreeOf cell
   }
 
 #print axioms KuuNativeF45Tree.DepthRotationRoute.PresentedCell.nodeCount
