@@ -97,28 +97,28 @@ theorem p48_allOriginalFaceBoundaries_incident :
   cases face with
   | aroundVertex v =>
       cases v with
-      | north => decide
-      | south => decide
+      | north => decide +kernel
+      | south => decide +kernel
       | upper i =>
           revert i
-          decide
+          decide +kernel
       | lower i =>
           revert i
-          decide
+          decide +kernel
   | fromTriangle t =>
       cases t with
       | top i =>
           revert i
-          decide
+          decide +kernel
       | bottom i =>
           revert i
-          decide
+          decide +kernel
       | beltUpper i =>
           revert i
-          decide
+          decide +kernel
       | beltLower i =>
           revert i
-          decide
+          decide +kernel
 
 /-- The true original F41 base dart of EVERY physical pentagon and
 hexagon belongs to the corresponding independent Kuu polygon. This
@@ -132,28 +132,28 @@ theorem p48_allOriginalFaceBases_incident :
   cases face with
   | aroundVertex v =>
       cases v with
-      | north => decide
-      | south => decide
+      | north => decide +kernel
+      | south => decide +kernel
       | upper i =>
           revert i
-          decide
+          decide +kernel
       | lower i =>
           revert i
-          decide
+          decide +kernel
   | fromTriangle t =>
       cases t with
       | top i =>
           revert i
-          decide
+          decide +kernel
       | bottom i =>
           revert i
-          decide
+          decide +kernel
       | beltUpper i =>
           revert i
-          decide
+          decide +kernel
       | beltLower i =>
           revert i
-          decide
+          decide +kernel
 
 #print axioms p48_localized_incidence_span_cone
 #print axioms p48_originalArrowNativeEdge
