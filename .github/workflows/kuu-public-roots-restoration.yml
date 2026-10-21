@@ -1,0 +1,38 @@
+name: KuuOS Public Proof Roots Restoration
+
+on:
+  pull_request:
+    paths:
+      - 'lakefile.toml'
+      - 'formal/KuuOSFormal.lean'
+      - 'scripts/check_public_proof_roots.py'
+      - 'scripts/check_kuu_foundation.py'
+      - 'scripts/formal_package_boundary.py'
+      - 'tests/test_public_root_restoration.py'
+      - '.github/workflows/kuu-public-roots-restoration.yml'
+  push:
+    branches: ['repair/restore-public-proof-roots']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: public-proof-roots-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  wiring:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Check our root restoration without resetting existing proofs
+        run: |
+          python3 -m unittest -v tests.test_public_root_restoration tests.test_kuu_foundation tests.test_formal_package_boundary
+          python3 scripts/check_public_proof_roots.py

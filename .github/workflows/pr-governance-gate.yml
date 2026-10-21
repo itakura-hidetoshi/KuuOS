@@ -32,7 +32,11 @@ jobs:
           fetch-depth: 0
 
       - name: Test exact comparison commit resolution
-        run: python3 -m unittest -v tests.test_kuu_ci_comparison_refs tests.test_ci_comparison_history
+        run: >-
+          python3 -m unittest -v
+          tests.test_kuu_ci_comparison_refs
+          tests.test_ci_comparison_history
+          tests.test_codeai_ci_focus_and_cache
 
       - name: Resolve comparison refs
         id: refs

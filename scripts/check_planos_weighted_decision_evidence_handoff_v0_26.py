@@ -138,7 +138,7 @@ def main() -> int:
     formal = ROOT / "formal/KUOS/PlanOS/WeightedDecisionEvidenceHandoffV0_26.lean"
     source_formal = ROOT / "formal/KUOS/PlanOS/PathIntegralCandidateWeightingV0_25.lean"
     formal_root = ROOT / "formal/KuuOSPlanOSV0_26.lean"
-    aggregate_root = ROOT / "legacy/v5.291/formal/KuuOSFormal.lean"
+    aggregate_root = ROOT / "formal/KuuOSFormal.lean"
     docs = ROOT / "docs/KUUOS_PLANOS_WEIGHTED_DECISION_EVIDENCE_HANDOFF_v0_26.md"
     manifest_path = ROOT / "manifests/kuuos_planos_weighted_decision_evidence_handoff_v0_26.json"
 

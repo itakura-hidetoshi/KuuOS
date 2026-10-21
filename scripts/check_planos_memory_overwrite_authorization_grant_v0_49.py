@@ -70,7 +70,7 @@ def main() -> int:
     runtime = ROOT / "runtime/kuuos_planos_memory_overwrite_authorization_grant_v0_49.py"
     formal = ROOT / "formal/KUOS/PlanOS/MemoryOverwriteAuthorizationGrantV0_49.lean"
     formal_root = ROOT / "formal/KuuOSPlanOSV0_49.lean"
-    aggregate_root = ROOT / "legacy/v5.291/formal/KuuOSFormal.lean"
+    aggregate_root = ROOT / "formal/KuuOSFormal.lean"
     docs = ROOT / "docs/KUUOS_PLANOS_MEMORY_OVERWRITE_AUTHORIZATION_GRANT_v0_49.md"
     manifest_path = ROOT / "manifests/kuuos_planos_memory_overwrite_authorization_grant_v0_49.json"
 

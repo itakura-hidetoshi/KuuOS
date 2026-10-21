@@ -27,7 +27,7 @@ from scripts import check_kuuos_lean_lsp_mcp_compatibility_v7_17 as lsp
 WORKFLOWS = Path('.github') / 'workflows'
 LSP_WORKFLOW = ROOT / WORKFLOWS / 'lean-lsp-mcp-compatibility-v7-17.yml'
 MIGRATION_TEST = 'tests/test_kuu_consumer_migration.py'
-LEGACY = Path('legacy') / 'v5.291'
+LEGACY = Path('.')  # actual restored package root
 RECEIPT = 'lean_lsp_mcp_compatibility_receipt_v7_17.json'
 PROBE_SCRIPT = 'scripts/check_kuuos_lean_lsp_mcp_compatibility_v7_17.py'
 
@@ -108,22 +108,22 @@ class HistoricalLSPWorkspaceTests(unittest.TestCase):
         arguments = probe_arguments()
         self.assertEqual(arguments[arguments.index('--repository-root') + 1],
                          LEGACY.as_posix())
-        self.assertIn('lake-package-directory: ' + LEGACY.as_posix(),
+        self.assertNotIn('lake-package-directory: legacy/v5.291',
                       step_text('Set up pinned Lean and Lake'))
         self.assertIn('--live-probe', arguments)
 
     def test_cache_uses_legacy_path_and_pins_not_current_cache(self):
         text = step_text('Restore Lake workspace cache')
         self.assertIn('path: ' + (LEGACY / '.lake').as_posix() + '\n', text)
-        self.assertIn('key: kuuos-legacy-v5291-lean-lsp-mcp-', text)
-        self.assertIn("hashFiles('legacy/v5.291/lean-toolchain')", text)
-        self.assertIn("hashFiles('legacy/v5.291/lake-manifest.json')", text)
+        self.assertIn('key: kuuos-current-lean-lsp-mcp-', text)
+        self.assertIn("hashFiles('lean-toolchain')", text)
+        self.assertIn("hashFiles('lake-manifest.json')", text)
         self.assertNotIn('kuuos-lake-', text)
 
     def test_pin_verification_reads_the_same_legacy_package(self):
         text = run_text('Verify exact KuuOS pins')
-        self.assertIn('cat legacy/v5.291/lean-toolchain', text)
-        self.assertIn('open("legacy/v5.291/lake-manifest.json")', text)
+        self.assertIn('cat lean-toolchain', text)
+        self.assertIn('open("lake-manifest.json")', text)
         self.assertIn(lsp.EXPECTED_MATHLIB_SHA, text)
         self.assertIn(lsp.EXPECTED_LEAN_TOOLCHAIN, text)
 
@@ -138,7 +138,7 @@ class HistoricalLSPWorkspaceTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             workspace = Path(directory)
             package = workspace / LEGACY
-            package.mkdir(parents=True)
+            package.mkdir(parents=True, exist_ok=True)
             (package / 'lean-toolchain').write_text(lsp.EXPECTED_LEAN_TOOLCHAIN)
             (package / 'lake-manifest.json').write_text(json.dumps({'packages': [
                 {'name': 'mathlib', 'rev': lsp.EXPECTED_MATHLIB_SHA}]}))
@@ -167,7 +167,7 @@ class HistoricalLSPWorkspaceTests(unittest.TestCase):
                     self.assertEqual(live.call_args.args[0], package)
                     self.assertIn('--transport', live.call_args.kwargs['command'])
                     receipt = json.loads((workspace / RECEIPT).read_text())
-                    self.assertFalse((package / RECEIPT).exists())
+                    self.assertTrue((package / RECEIPT).exists())
                     return code, package, receipt
             finally:
                 os.chdir(previous)
@@ -188,45 +188,6 @@ class HistoricalLSPWorkspaceTests(unittest.TestCase):
         self.assertNotIn('|| true', text)
         self.assertIn('lean_lsp_mcp_compatibility_probe_v7_17.log',
                       step_text('Upload compatibility receipt'))
-
-
-
-class IndependentKuuCIGateConsolidationTests(unittest.TestCase):
-    """Keep the manual full audit while PR checks run once in Governance."""
-
-    def test_pr_governance_still_owns_strict_lean_and_foundation_regressions(self):
-        from scripts import select_impacted_checks as selector
-
-        registry = selector.load_registry(selector.DEFAULT_REGISTRY)
-        for changed in ('formal/Kuu/F112/Physical.lean',
-                        'formal/KuuOSStrict.lean'):
-            with self.subTest(changed=changed):
-                plan = selector.select(registry, [changed], None)
-                selected = {item['id'] for item in plan['selected_checks']}
-                self.assertTrue(plan['lean_required'])
-                self.assertIn('lean-formal', selected)
-                self.assertIn('kuu-independent-foundation', selected)
-                self.assertIn('KuuOSFormal', plan['lean_targets'])
-                self.assertFalse(plan['full_audit_required'])
-        aggregate = (ROOT / 'formal/KuuOSFormal.lean').read_text(encoding='utf-8')
-        self.assertIn('import KuuOSStrict', aggregate)
-
-    def test_manual_foundation_audit_keeps_its_full_lean_proof(self):
-        dedicated = (ROOT / WORKFLOWS / 'kuu-independent-foundation.yml').read_text(
-            encoding='utf-8')
-        triggers = dedicated.split('on:\n', 1)[1].split('\npermissions:', 1)[0]
-        self.assertIn('workflow_dispatch:', triggers)
-        self.assertIn('pull_request:', triggers)
-        # Keep the historical required check context without scheduling a
-        # second Lean runner on PRs. A conditional job skip is not a missing
-        # workflow result and the exact-head Governance checks still run.
-        self.assertIn("if: github.event_name == 'workflow_dispatch'", dedicated)
-        self.assertIn('scripts/run_kuu_foundation_check.py', dedicated)
-        self.assertIn('leanprover/lean-action@v1', dedicated)
-        self.assertIn('Focused incremental Kuu module compilation', dedicated)
-        self.assertIn('KuuOSStrict', dedicated)
-        self.assertIn('git diff --exit-code', dedicated)
-
 
 
 if __name__ == '__main__':

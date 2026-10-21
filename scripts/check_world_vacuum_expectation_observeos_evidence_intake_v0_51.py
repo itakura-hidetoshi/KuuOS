@@ -60,7 +60,7 @@ def main() -> int:
         ROOT / "formal/KUOS.lean",
         ("KUOS.WORLD.VacuumExpectationObserveOSEvidenceIntakeBridgeV0_51",),
     )
-    require_tokens(ROOT / "legacy/v5.291/lakefile.toml", ("KuuOSFormalV0_51",))
+    require_tokens(ROOT / "lakefile.toml", ("KuuOSFormalV0_51",))
     require_tokens(
         ROOT / "docs/KU_WORLD_VACUUM_EXPECTATION_OBSERVEOS_EVIDENCE_INTAKE_v0_51.md",
         (

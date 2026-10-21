@@ -107,7 +107,7 @@ def main() -> int:
     runtime = ROOT / "runtime/kuuos_planos_subsequent_cycle_replan_request_v0_64.py"
     formal = ROOT / "formal/KUOS/PlanOS/SubsequentCycleReplanRequestV0_64.lean"
     formal_root = ROOT / "formal/KuuOSPlanOSV0_64.lean"
-    aggregate_root = ROOT / "legacy/v5.291/formal/KuuOSFormal.lean"
+    aggregate_root = ROOT / "formal/KuuOSFormal.lean"
     docs = ROOT / "docs/KUUOS_PLANOS_SUBSEQUENT_CYCLE_REPLAN_REQUEST_v0_64.md"
     manifest_path = ROOT / "manifests/kuuos_planos_subsequent_cycle_replan_request_v0_64.json"
 

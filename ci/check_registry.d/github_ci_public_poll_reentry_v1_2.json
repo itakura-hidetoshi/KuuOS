@@ -4,7 +4,7 @@
     "github-ci-public-poll-reentry-v1-2": {
       "name": "KuuOS GitHub Public CI Poll Reentry v1.2",
       "runner": "python",
-      "command": "python3 runtime/kuuos_github_public_ci_completion_poller_v1_2.py --self-check",
+      "command": "python3 -m unittest discover -s tests -p 'test_kuuos_ci_*.py' -v",
       "group": "github-mcp",
       "tier": "integration",
       "paths": [
@@ -13,9 +13,16 @@
         "formal/KuuOSGitHubMCPServerBridgeV0_1.lean",
         "docs/KUUOS_GITHUB_PUBLIC_CI_COMPLETION_POLLER_v1_2.md",
         ".github/workflows/kuuos-mgap-ci-reentry-poller-v1-2.yml",
-        "ci/check_registry.d/github_ci_public_poll_reentry_v1_2.json"
+        "ci/check_registry.d/github_ci_public_poll_reentry_v1_2.json",
+        "runtime/kuuos_ci_poller_state.py",
+        "tests/test_kuuos_ci_poller_state.py",
+        "tests/test_kuuos_ci_poller_reliability.py",
+        "tests/test_kuuos_ci_dispatch_contract.py",
+        "runtime/kuuos_github_ci_completion_reentry_v1_1.py"
       ],
-      "depends_on": ["github-ci-completion-reentry-v1-1"],
+      "depends_on": [
+        "github-ci-completion-reentry-v1-1"
+      ],
       "timeout_minutes": 10,
       "pr_required": true,
       "full_audit_member": true

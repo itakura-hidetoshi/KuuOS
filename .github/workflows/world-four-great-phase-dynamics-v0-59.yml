@@ -92,7 +92,6 @@ jobs:
       - name: Set up pinned Lean and Lake
         uses: leanprover/lean-action@v1
         with:
-          lake-package-directory: legacy/v5.291
           auto-config: false
           build: false
           test: false
@@ -104,26 +103,26 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          python3 scripts/run_formal_package.py --legacy -- update 2>&1 | tee artifacts/diagnostics/lake-update.log
+          lake update 2>&1 | tee artifacts/diagnostics/lake-update.log
 
       - name: Verify committed manifest is canonical
         shell: bash
         run: |
           set -euo pipefail
-          git diff --exit-code -- lake-manifest.json legacy/v5.291/lake-manifest.json \
+          git diff --exit-code -- lake-manifest.json \
             2>&1 | tee artifacts/diagnostics/manifest-diff.log
 
       - name: Fetch Mathlib olean cache
         shell: bash
         run: |
           set -euo pipefail
-          python3 scripts/run_formal_package.py --legacy -- exe cache get 2>&1 | tee artifacts/diagnostics/mathlib-cache.log
+          lake exe cache get 2>&1 | tee artifacts/diagnostics/mathlib-cache.log
 
       - name: Build WORLD v0.59 strict roots
         shell: bash
         run: |
           set -euo pipefail
-          python3 scripts/run_formal_package.py --legacy -- -KleanArgs=-DwarningAsError=true \
+          lake -KleanArgs=-DwarningAsError=true \
             -KleanArgs=-DsorryAsError=true \
             build KuuOSFourGreatCoreV0_59 KuuOSFormalV0_59 \
             2>&1 | tee artifacts/diagnostics/world-v059-build.log
@@ -135,10 +134,10 @@ jobs:
           {
             grep -Fq \
               'import KUOS.WORLD.FourGreatPhaseDynamicsCoreBridgeV0_59' \
-              legacy/v5.291/formal/KuuOSFormal.lean
+              formal/KuuOSFormal.lean
             grep -Fq \
               'import KUOS.WORLD.FourGreatPhaseDynamicsCoreBridgeV0_59' \
-              legacy/v5.291/formal/KUOS.lean
+              formal/KUOS.lean
             echo 'PASS: WORLD v0.59 aggregate formal registration'
           } 2>&1 | tee artifacts/diagnostics/formal-registration.log
 

@@ -10,7 +10,8 @@ rev = "v4.30.0-rc2"
 [[lean_lib]]
 name = "KuuOSFormal"
 srcDir = "formal"
-roots = ["KuuOSFormal",
+roots = [
+  "KuuOSFormal",
   "KUOS",
   "KuuOSModularEvolutionMeshV0_1",
   "KuuOSObserveOSV0_7",
@@ -118,10 +119,12 @@ roots = ["KuuOSFormal",
   "KuuOSRepositoryObjectMaterializationReceiptV0_95",
   "KuuOSGitHubMCPServerBridgeV0_1"
 ]
-# All historical published roots remain untouched; these glob patterns
-# additionally make the INTERNAL Kuu modules and one-library validation
-# children buildable without advertising a second public Lean library.
+# Lean 4.30 Lake buildable-module registration; NOT extra published roots.
+# Retain all 107 historical roots as build targets, and recognize the
+# independent Kuu imports and the v3.1 public wrapper inside this same library.
+# 'roots' above remains the sole published-module authority boundary.
 globs = [
+  "KuuOSFormal",
   "KuuOSFormal.*",
   "KUOS",
   "KuuOSModularEvolutionMeshV0_1",
@@ -231,5 +234,24 @@ globs = [
   "KuuOSGitHubMCPServerBridgeV0_1",
   "Kuu.*",
   "KuuOSStrict",
+  "KuuOSQiWuxingCyclicGroupPathsV3_1",
+  "KuuOSQiWuxingPathObservationCongruenceV3_2",
+  "KuuOSQiWuxingReachableObservationCategoryV3_3"
 ]
-leanOptions = { warningAsError = true }
+
+# Keep strict compiler warnings, but do not require cosmetic rewriting of
+# byte-preserved historical proofs (unnecessary simpa, unused parameters and
+# automatically included section typeclass assumptions). The latter is the
+# exact Lean 4.30 `linter.unusedSectionVars` warning observed in existing v0.4.
+# Other warnings and all actual elaboration/type/proof errors remain fatal;
+# no axioms or historical proof files change.
+# Frozen v2.12 has unreachable fallback tactics and unnecessary `<;>` combinators.
+# These Batteries-provided style linters are registered only after some imports.
+# Use Lake's weak option prefix so core-only modules do not fail on unknown -D
+# flags; source proofs and all 107 public roots remain untouched.
+# Pinned mathlib's `linter.unusedTactic` rejects inert tactics in frozen v2.12;
+# suppress this style-only diagnostic with `weak.` without changing proof terms.
+# Pinned Lean also warns about unused simp lemma `Category.assoc` in the two
+# byte-preserved v2.26 correction proofs; weak.linter.unusedSimpArgs prevents
+# legacy style warnings from blocking strict compilation of the same theorems.
+leanOptions = { warningAsError = true, linter.unnecessarySimpa = false, linter.unusedVariables = false, linter.unusedSectionVars = false, weak.linter.unreachableTactic = false, weak.linter.unnecessarySeqFocus = false, weak.linter.unusedTactic = false, weak.linter.unusedSimpArgs = false }

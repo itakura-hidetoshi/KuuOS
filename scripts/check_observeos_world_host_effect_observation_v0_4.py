@@ -22,7 +22,7 @@ def require_tokens(path: Path, tokens: tuple[str, ...]) -> None:
 def main() -> int:
     formal = ROOT / "formal/KUOS/ObserveOS/WorldHostEffectObservationReceiptV0_4.lean"
     formal_root = ROOT / "formal/KuuOSObserveOSV0_4.lean"
-    aggregate_root = ROOT / "legacy/v5.291/formal/KuuOSFormal.lean"
+    aggregate_root = ROOT / "formal/KuuOSFormal.lean"
     docs = ROOT / "docs/KUUOS_OBSERVEOS_WORLD_HOST_EFFECT_OBSERVATION_v0_4.md"
     manifest_path = ROOT / "manifests/kuuos_observeos_world_host_effect_observation_v0_4.json"
     workflow = ROOT / ".github/workflows/evidence-cycle-os-validation.yml"

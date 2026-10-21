@@ -22,6 +22,11 @@ _TERMINAL_CONCLUSIONS = {
 }
 
 
+def _terminal_conclusion(value: Any) -> bool:
+    """Treat malformed conclusion shapes as blockers, not Python exceptions."""
+    return isinstance(value, str) and value in _TERMINAL_CONCLUSIONS
+
+
 def _m(value: Any) -> Mapping[str, Any]:
     return value if isinstance(value, Mapping) else {}
 
@@ -52,6 +57,16 @@ def _workflow_run_event(raw: Mapping[str, Any]) -> dict[str, Any]:
 
 def _repository_dispatch_event(raw: Mapping[str, Any]) -> dict[str, Any]:
     payload = _m(raw.get("client_payload"))
+    if "schema_version" in payload or "completion" in payload:
+        # Versioned envelopes must never fall back to possibly conflicting flat
+        # fields. Empty payloads fail the existing completion-field checks.
+        if (set(payload) == {"schema_version", "completion"}
+                and type(payload.get("schema_version")) is int
+                and payload["schema_version"] == 2
+                and isinstance(payload.get("completion"), Mapping)):
+            payload = payload["completion"]
+        else:
+            payload = {}
     return {"source":"repository_dispatch","action":"completed","repository":str(payload.get("repository","")),"run_id":_i(payload.get("run_id"),0),"workflow_name":str(payload.get("workflow_name","")),"head_sha":str(payload.get("head_sha","")).lower(),"head_branch":str(payload.get("head_branch","")),"status":str(payload.get("status","")),"conclusion":payload.get("conclusion"),"run_event":str(payload.get("run_event","")),"required_job_names":_names(payload.get("required_job_names")),"required_step_names":_names(payload.get("required_step_names"))}
 
 
@@ -75,7 +90,7 @@ def compile_completion_event(raw: Mapping[str, Any], *, event_name: str | None =
     if workflows and event["workflow_name"] not in workflows: blockers.append("workflow_not_allowlisted")
     if _SHA40.fullmatch(event["head_sha"]) is None: blockers.append("head_sha_invalid")
     if event["status"] != _COMPLETED: blockers.append("workflow_run_not_completed")
-    if event["conclusion"] not in _TERMINAL_CONCLUSIONS: blockers.append("workflow_conclusion_not_terminal")
+    if not _terminal_conclusion(event["conclusion"]): blockers.append("workflow_conclusion_not_terminal")
     event_packet = {"version":VERSION,"status":READY if not blockers else BLOCKED,"event":event,"event_digest":_digest(raw),"signal_is_success_evidence":False,"fresh_mcp_reobservation_required":True,"blockers":blockers,"boundary":{"github_event_is_wakeup_signal_only":True,"github_event_does_not_prove_ci_success":True,"mcp_fresh_observation_required_before_reentry":True,"reentry_does_not_grant_merge_or_write_authority":True}}
     reobserve_request: dict[str, Any] = {}
     if not blockers:
@@ -106,20 +121,37 @@ def verify_fresh_reobservation(event_packet: Mapping[str, Any], *, observed_run:
     if not jobs: blockers.append("fresh_jobs_missing")
     if any(str(job.get("status","")) != _COMPLETED for job in jobs): blockers.append("observed_job_not_completed")
     required_jobs = _names(event.get("required_job_names"))
+    step_jobs = jobs
     if required_jobs:
-        by_name = {str(job.get("name","")):job for job in jobs}
-        for name in required_jobs:
-            job = by_name.get(name)
-            if job is None: blockers.append(f"required_job_missing:{name}")
-            elif str(job.get("status","")) != _COMPLETED: blockers.append(f"required_job_not_completed:{name}")
-    required_steps = _names(event.get("required_step_names")); all_steps = _steps(jobs)
+        step_jobs = []
+        for name in dict.fromkeys(required_jobs):
+            matches = [job for job in jobs if str(job.get("name", "")) == name]
+            if not matches:
+                blockers.append(f"required_job_missing:{name}")
+                continue
+            if len(matches) != 1:
+                blockers.append(f"required_job_cardinality:{name}:{len(matches)}")
+                continue
+            job = matches[0]
+            step_jobs.append(job)
+            if str(job.get("status","")) != _COMPLETED: blockers.append(f"required_job_not_completed:{name}")
+            elif not isinstance(job.get("conclusion"), str) or job["conclusion"] not in _TERMINAL_CONCLUSIONS:
+                blockers.append(f"required_job_conclusion_not_terminal:{name}")
+    required_steps = _names(event.get("required_step_names")); all_steps = _steps(step_jobs)
     if required_steps:
-        by_name = {str(step.get("name","")):step for step in all_steps}
         for name in required_steps:
-            step = by_name.get(name)
-            if step is None: blockers.append(f"required_step_missing:{name}")
-            elif str(step.get("status","")) != _COMPLETED: blockers.append(f"required_step_not_completed:{name}")
+            matches = [step for step in all_steps if str(step.get("name", "")) == name]
+            if not matches:
+                blockers.append(f"required_step_missing:{name}")
+                continue
+            if len(matches) != 1:
+                blockers.append(f"required_step_cardinality:{name}:{len(matches)}")
+                continue
+            step = matches[0]
+            if str(step.get("status","")) != _COMPLETED: blockers.append(f"required_step_not_completed:{name}")
             elif step.get("conclusion") is None: blockers.append(f"required_step_conclusion_missing:{name}")
+            elif not isinstance(step["conclusion"], str) or step["conclusion"] not in _TERMINAL_CONCLUSIONS:
+                blockers.append(f"required_step_conclusion_not_terminal:{name}")
     route = "blocked"
     if not blockers: route = "verified_success" if event.get("conclusion") == "success" else "verified_non_success"
     return {"version":VERSION,"status":VERIFIED if not blockers else VERIFY_BLOCKED,"route":route,"repository":event.get("repository"),"run_id":event.get("run_id"),"head_sha":event.get("head_sha"),"workflow_name":event.get("workflow_name"),"event_conclusion":event.get("conclusion"),"fresh_mcp_reobservation":True,"merge_authority_granted":False,"write_authority_granted":False,"blockers":blockers,"evidence_digest":_digest({"event_packet":packet,"observed_run":observed_run,"observed_jobs":jobs})}

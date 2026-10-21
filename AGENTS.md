@@ -1,13 +1,15 @@
-# KuuOS current formal architecture
+# KuuOS: independent foundation and retained public mathematics
 
-The current mathematical foundation is `formal/Kuu/`, reached only through `formal/KuuOSFormal.lean` -> `KuuOSStrict`. The root Lake package exposes only these roots.
+The user's 2026-10-17 correction supersedes the blanket exclusion of old public roots in the 2026-10-16 migration design. Removing Gray as the basis of Kuu does NOT retire any other previously proved theorem.
 
-- Start from boundary-typed generating graphs, declared replacement relations and their universal quotient. Prove composition, units and strict interchange directly.
-- Do not import `KUOS.*`, F51, F77, GrayGrade, GradedThreeCell, phase-reconstruction carriers or historical observation kernels into the current foundation, directly OR transitively.
-- Do not solve this prohibition by renaming an old module, adding a phase factor, replacing physical geometry by a convenient proxy, or asserting a desired equation as an axiom.
-- `legacy/v5.291/` is a separately reproducible snapshot. Existing `formal/KUOS/` files are historical compatibility mirrors, not the current build surface or theorem authority. A theorem proved there is not automatically a theorem of the new independent theory.
-- Changing the current foundation requires `python3 scripts/check_kuu_foundation.py`, `python3 -m unittest discover -s tests -p test_kuu_foundation.py` and the pinned strict Lean build. Do not weaken these checks to restore legacy dependencies.
-- Preserve Lean v4.30.0-rc2 and the committed mathlib manifest. PR #1558 remains validation-only, draft and unmerged.
-- No `sorry`, `admit`, new axioms or `native_decide` in the independent core. Check `#print axioms` and exact-source-head CI before merge.
-- Do not call the existing strict two-dimensional comparison calculus a completed proof-relevant global strict 3-category. That requires separately constructed 3-cells, boundaries, all compositions and coherence proofs.
-- Copyright of KuuOS: Hidetoshi Itakura / 板倉英俊. Preserve existing license and attribution.
+- There is **one canonical public formal entry**, `formal/KuuOSFormal.lean`. `formal/Kuu/` is part of that same theorem library. `formal/KuuOSStrict.lean` remains an INTERNAL import aggregate for source/CI compatibility, not another theorem authority or public Lake root. Check real transitive dependencies, never require GrayGrade, GradedThreeCell, Gray/F51/F77 evaluation or phase-reconstruction to define Kuu.
+- **Mathlib is welcome and encouraged** throughout existing and new Lean4 proofs, including `import Mathlib` and targeted `import Mathlib.CategoryTheory.Quotient` (and other named submodules). Favor focused imports for incremental build speed when convenient, but never prohibit the umbrella import or interpret it as a Gray dependency. Reuse mathlib category theory, bicategories, (∞-)category/simplicial tools, localization, homotopy, algebra and topology whenever mathematically appropriate.
+- `formal/KuuOSFormal.lean` is the PUBLIC aggregate: all existing proven modules plus the new Kuu modules. `lakefile.toml` retains the 107 previous public roots, without publishing KuuOSStrict or Kuu as additional standalone roots. `lake build` and `lake build KuuOSFormal` are the same canonical build. Targeted compilation of an internal module is merely a build optimization.
+- `formal/KUOS/` and the retained public roots are live source and established mathematics, with their original stated assumptions. The KUOS namespace is NOT a Gray-dependency test. Check actual dependencies when changing the core.
+- `legacy/v5.291` is an immutable reproducibility copy, not a demotion of the matching live proofs. Do not require the user to re-prove or revalidate existing results because of our build-wiring mistakes.
+- Use `python3 scripts/check_public_proof_roots.py` and existing regressions to check OUR wiring changes. They do not reset proof acceptance. A focused dependency scan is an engineering check inside the same unified theorem library, never a distinct mathematical authority.
+- All ordinary retained consumers use the current repository package. Explicit `--legacy` remains only for intentionally reproducing a recorded snapshot. Preserve unrelated runtime permissions and evidence bindings.
+- Do not infer old/new source-type equality from a restored import, and do not equate all raw proof histories. Scope every actual mathematical claim to its statement.
+- Preserve Lean v4.30.0-rc2, the committed mathlib manifest, original theorem bodies and names, copyright and licenses. No sorry/admit/new axioms in new proofs. PR #1558 stays validation-only; #2339 remains separate.
+
+Copyright Hidetoshi Itakura / 板倉英俊. Apache-2.0.

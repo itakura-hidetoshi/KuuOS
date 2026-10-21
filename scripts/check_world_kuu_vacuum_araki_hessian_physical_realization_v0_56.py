@@ -78,7 +78,7 @@ def main() -> int:
     require_tokens(ROOT / manifest["calculus_root"], ("ArakiBoundedExponentialArcCalculusV0_56",))
     require_tokens(ROOT / manifest["formal_root"], ("KuuVacuumArakiHessianOSTransportV0_56",))
     require_tokens(ROOT / manifest["aggregate_formal_root"], ("KUOS.WORLD.KuuVacuumArakiHessianOSTransportV0_56",))
-    require_tokens(ROOT / "legacy/v5.291/lakefile.toml", ("KuuOSArakiCalculusV0_56", "KuuOSFormalV0_56"))
+    require_tokens(ROOT / "lakefile.toml", ("KuuOSArakiCalculusV0_56", "KuuOSFormalV0_56"))
     require_tokens(
         ROOT / manifest["documentation"],
         (

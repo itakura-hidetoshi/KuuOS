@@ -105,7 +105,7 @@ def main() -> int:
     runtime = ROOT / "runtime/kuuos_planos_truth_authority_authorization_grant_v0_53.py"
     formal = ROOT / "formal/KUOS/PlanOS/TruthAuthorityAuthorizationGrantV0_53.lean"
     formal_root = ROOT / "formal/KuuOSPlanOSV0_53.lean"
-    aggregate_root = ROOT / "legacy/v5.291/formal/KuuOSFormal.lean"
+    aggregate_root = ROOT / "formal/KuuOSFormal.lean"
     docs = ROOT / "docs/KUUOS_PLANOS_TRUTH_AUTHORITY_AUTHORIZATION_GRANT_v0_53.md"
     manifest_path = ROOT / "manifests/kuuos_planos_truth_authority_authorization_grant_v0_53.json"
 

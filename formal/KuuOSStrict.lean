@@ -110,4 +110,10 @@ import Kuu.F112.PolygonPhysicalFourBoundaryChargeFunctor
 import Kuu.F112.PolygonPhysicalMixedFaceRotationNonlift
 import Kuu.F112.PolygonPhysicalMixedFourBoundaryThreeCategory
 import Kuu.F112.PolygonPhysicalMixedChargeFunctorNonfaithful
-/-! Current independent Kuu foundation. No legacy KUOS imports are permitted. -/
+import Kuu.F112.PolygonNativeF54FunctorRotation
+import Kuu.F112.PolygonNativeF55HorizontalFunctoriality
+import Kuu.F112.PolygonNativeF55RawStrictificationBoundary
+import Kuu.F112.PolygonNativeF55UnconditionalDescentObstructionP57
+/-! Internal independent Kuu import aggregate. No KUOS or legacy sources
+are imported into the independent foundation. The unique public aggregate
+remains KuuOSFormal; this is not a separate mathematical authority. -/

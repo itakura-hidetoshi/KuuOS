@@ -18,6 +18,5 @@
   "changed_paths_exact": true,
   "revision_replay_rejected": true,
   "bounded_sequence_length": true,
-  "external_approval_required": false,
-  "formal_package": "legacy-v5.291"
+  "external_approval_required": false
 }

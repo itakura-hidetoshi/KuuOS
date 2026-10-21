@@ -66,7 +66,7 @@ def main() -> int:
     formal = ROOT / "formal/KUOS/PlanOS/MaterializationAuthorizationGrantV0_35.lean"
     source_formal = ROOT / "formal/KUOS/PlanOS/MaterializationAuthorizationRequestReceiptV0_34.lean"
     formal_root = ROOT / "formal/KuuOSPlanOSV0_35.lean"
-    aggregate_root = ROOT / "legacy/v5.291/formal/KuuOSFormal.lean"
+    aggregate_root = ROOT / "formal/KuuOSFormal.lean"
     docs = ROOT / "docs/KUUOS_PLANOS_MATERIALIZATION_AUTHORIZATION_GRANT_v0_35.md"
     manifest_path = ROOT / "manifests/kuuos_planos_materialization_authorization_grant_v0_35.json"
 

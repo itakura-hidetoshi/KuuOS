@@ -125,7 +125,7 @@ def main() -> int:
     runtime = ROOT / "runtime/kuuos_planos_blocker_release_authorization_grant_v0_57.py"
     formal = ROOT / "formal/KUOS/PlanOS/BlockerReleaseAuthorizationGrantV0_57.lean"
     formal_root = ROOT / "formal/KuuOSPlanOSV0_57.lean"
-    aggregate_root = ROOT / "legacy/v5.291/formal/KuuOSFormal.lean"
+    aggregate_root = ROOT / "formal/KuuOSFormal.lean"
     docs = ROOT / "docs/KUUOS_PLANOS_BLOCKER_RELEASE_AUTHORIZATION_GRANT_v0_57.md"
     manifest_path = ROOT / "manifests/kuuos_planos_blocker_release_authorization_grant_v0_57.json"
 

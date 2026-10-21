@@ -132,12 +132,10 @@ noncomputable def wordDecayProduct
   | [] => 1
   | t :: tail => D.decayFactor t * D.wordDecayProduct tail
 
-/- The decay product of a finite word is exactly the decay factor at total time.
-The linear-space instance is irrelevant to this statement: a product of gap
-factors depends only on the supplied gapped transport and the time word.
-Use an ordinary comment here because a Lean docstring must precede its
-declaration directly rather than the `omit ... in` command. -/
+-- The decay identity needs the normed additive structure, not an additional
+-- real vector-space instance. Keep it out of this theorem's implicit API.
 omit [NormedSpace ℝ State] in
+/-- The decay product of a finite word is exactly the decay factor at total time. -/
 theorem wordDecayProduct_eq_totalTime
     (D : ExponentiallyGappedVacuumTransport State)
     (word : TransferWord) :

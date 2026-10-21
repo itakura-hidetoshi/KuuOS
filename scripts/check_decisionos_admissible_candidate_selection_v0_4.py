@@ -43,7 +43,7 @@ def validate_workflow_link(workflow: Path, cumulative_runner: Path) -> None:
 
 def main() -> int:
     formal_root = ROOT / "formal/KuuOSDecisionOSV0_4.lean"
-    aggregate_root = ROOT / "legacy/v5.291/formal/KuuOSFormal.lean"
+    aggregate_root = ROOT / "formal/KuuOSFormal.lean"
     formal = ROOT / "formal/KUOS/DecisionOS/VacuumExpectationAdmissibleCandidateSelectionV0_4.lean"
     source = ROOT / "formal/KUOS/PlanOS/VacuumExpectationHysteresisConstraintDecisionHandoffV0_20.lean"
     docs = ROOT / "docs/KUUOS_DECISIONOS_ADMISSIBLE_CANDIDATE_SELECTION_v0_4.md"

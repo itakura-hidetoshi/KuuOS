@@ -22,7 +22,7 @@ def require_tokens(path: Path, tokens: tuple[str, ...]) -> None:
 def main() -> int:
     formal = ROOT / "formal/KUOS/WORLD/VacuumExpectationHostEffectAtomicCommitIntakeV0_52.lean"
     formal_root = ROOT / "formal/KuuOSFormalV0_52.lean"
-    aggregate_root = ROOT / "legacy/v5.291/formal/KuuOSFormal.lean"
+    aggregate_root = ROOT / "formal/KuuOSFormal.lean"
     docs = ROOT / "docs/KU_WORLD_HOST_EFFECT_INTAKE_v0_52.md"
     manifest_path = ROOT / "manifests/world_vacuum_expectation_host_effect_intake_v0_52.json"
     workflow = ROOT / ".github/workflows/kuuos_runtime_full_check.yml"
@@ -34,7 +34,7 @@ def main() -> int:
     require_tokens(formal_root, (import_token,))
     require_tokens(aggregate_root, (import_token,))
     require_tokens(ROOT / "formal/KUOS.lean", (import_token,))
-    require_tokens(ROOT / "legacy/v5.291/lakefile.toml", ("KuuOSFormalV0_52",))
+    require_tokens(ROOT / "lakefile.toml", ("KuuOSFormalV0_52",))
     require_tokens(
         formal,
         (

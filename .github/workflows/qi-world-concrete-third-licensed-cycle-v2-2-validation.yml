@@ -106,7 +106,6 @@ jobs:
       - name: Set up pinned Lean and Lake
         uses: leanprover/lean-action@v1
         with:
-          lake-package-directory: legacy/v5.291
           auto-config: false
           build: false
           test: false
@@ -114,16 +113,16 @@ jobs:
           use-mathlib-cache: false
           use-github-cache: false
       - name: Resolve pinned dependencies
-        run: python3 scripts/run_formal_package.py --legacy -- update
+        run: lake update
       - name: Verify lockfile stability
-        run: git diff --exit-code -- lake-manifest.json legacy/v5.291/lake-manifest.json
+        run: git diff --exit-code -- lake-manifest.json
       - name: Fetch Mathlib olean cache
-        run: python3 scripts/run_formal_package.py --legacy -- exe cache get
+        run: lake exe cache get
       - name: Strictly compile v2.2 formal module
         shell: bash
         run: |
           set -o pipefail
-          python3 scripts/run_formal_package.py --legacy -- -KleanArgs=-DwarningAsError=true \
+          lake -KleanArgs=-DwarningAsError=true \
             -KleanArgs=-DsorryAsError=true \
             build KUOS.Architecture.QiWorldConcreteThirdLicensedCycleMaterializationV2_2 \
             2>&1 | tee v2-2-lean-module.log
@@ -131,7 +130,7 @@ jobs:
         shell: bash
         run: |
           set -o pipefail
-          python3 scripts/run_formal_package.py --legacy -- -KleanArgs=-DwarningAsError=true \
+          lake -KleanArgs=-DwarningAsError=true \
             -KleanArgs=-DsorryAsError=true build KuuOSFormal \
             2>&1 | tee v2-2-lean-root.log
       - name: Upload v2.2 diagnostics
