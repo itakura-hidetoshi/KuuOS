@@ -67,9 +67,12 @@ C60では元の正二十面体に由来する**60 Dart、90 Edge、32 Polygon（
 - [`Kuu.Presentation`](formal/Kuu/Presentation.lean)：選ばれた境界付き自由経路と明示的な関係に相対的な商、核、観測関手の因子化。
 - [`Kuu.Strict`](formal/Kuu/Strict.lean)：関手・自然変換の結合律、単位律、2次元のstrict interchange。**これはglobal proof-relevant strict 3圏の証明ではありません。**
 - [`Kuu.Incidence`](formal/Kuu/Incidence.lean)：文脈に沿う切片図式とGrothendieck総圏。
-- [F112研究親PR #2339](https://github.com/itakura-hidetoshi/KuuOS/pull/2339)：Grayを基礎にしない真正C60のF42/F54/F55・局所化・型付き高次証拠の研究。**Draft / OPEN、mainには未マージ**。
+- [F112親PR #2339](https://github.com/itakura-hidetoshi/KuuOS/pull/2339)：Grayを原始基礎としない真正C60のF42/F54/F55、局所化、型付き高次証拠の移行。**MERGED：現在はmainに統合済み**。
 - [F112-P56 #2418](https://github.com/itakura-hidetoshi/KuuOS/pull/2418)–[P57 #2420](https://github.com/itakura-hidetoshi/KuuOS/pull/2420)：独立F55九生成子のraw輸送、水平自然性、selected shadowのfaithfulnessと失われるraw情報を区別。
-- [F112-P58 #2421](https://github.com/itakura-hidetoshi/KuuOS/pull/2421)：raw F55構文はそのままでは**strictな左右単位律・結合律を満たさない**ことを実際のnode-countで証明。別途Mathlibの**自由経路圏**を構成したが、raw F55をstrict 3圏へ昇格したという意味ではない。
+- [F112-P58 #2421](https://github.com/itakura-hidetoshi/KuuOS/pull/2421)：raw F55構文はそのままでは**strictな左右単位律・結合律を満たさない**ことをnode-countで証明。mathlibの自由経路圏を別途構成。
+- [F112-P59 #2423](https://github.com/itakura-hidetoshi/KuuOS/pull/2423)、[P60 #2424](https://github.com/itakura-hidetoshi/KuuOS/pull/2424)・[#2425](https://github.com/itakura-hidetoshi/KuuOS/pull/2425)、[修復 #2428](https://github.com/itakura-hidetoshi/KuuOS/pull/2428)：垂直raw単位・合成を自由経路の空経路・連結へ正規化し、残る７種を証明依存生成辺として保持。自由経路の正規化関手と選択されたshadow観測への因子化を証明。数値観測からraw履歴は一般には復元できない。
+- [F112-P61 #2426](https://github.com/itakura-hidetoshi/KuuOS/pull/2426)：垂直正規化された水平合成は２辺の経路。２つのraw単位セルを水平合成しても空経路にはならないという**限定された水平単位律obstruction**を示す。大域strict 3圏の不可能性ではない。
+- [F112-P62 #2429](https://github.com/itakura-hidetoshi/KuuOS/pull/2429)：９構成子を再帰的に検査した**単位生成raw構文**だけを対象に、型付き自由経路合同関係を生成。垂直経路合成との整合性と選択されたshadowへの健全性を証明し、P61の水平単位経路と空経路がこの関係で結ばれることを証明。真正C60の五角形・六角形生成元は単位構文から除外。**水平合成の全関手性・交換律・大域strict 3圏はなお未証明。**
 
 **ここに次の数学的関門があります。** nontrivialなraw 3-cell、境界、原履歴、位相・曲率を正当に保持したまま、0/1/2/3射と全合成・全交換律が厳密な等式となる構造を構成・証明することです。できない箇所では、必要な制限、何が失われるか、何が不可能かを定理として示します。
 
@@ -92,7 +95,7 @@ mainで統合済みのQi v3.1–v3.3では`FivePhase = ZMod 5`を用い、相生
 
 ## 正本、ビルド、検証
 
-- **公開統合正本：** [`main`](https://github.com/itakura-hidetoshi/KuuOS/tree/main)。研究F112は[Draft親PR #2339](https://github.com/itakura-hidetoshi/KuuOS/pull/2339)の`formal/v5-293-f112-independent-total-change`で進め、**mainへ勝手に統合しません**。2026-10-21の確認時点ではF112-P58 #2421まで親へ統合されています。最新HEADはGitHubで再確認してください。
+- **公開統合正本：** [`main`](https://github.com/itakura-hidetoshi/KuuOS/tree/main)。F112移行[親PR #2339](https://github.com/itakura-hidetoshi/KuuOS/pull/2339)は**MERGED**。2026-10-22 JST時点でP62 [#2429](https://github.com/itakura-hidetoshi/KuuOS/pull/2429)をexact-head CI（Lean **9670/9670**、P62公理監査`sorryAx`なし、completion receipts 2/2）確認後にsquash merge済み。P62統合commit：`3ad3b691d2f5fc261f098891d62b9ae2f19c4b65`。以降の最新HEADはGitHubで再確認する。
 - **唯一の通常ビルド入口：** `lake build` = `lake build KuuOSFormal`。既存**107公開root**と独立Kuu・Qiを一つのパッケージで保持。`KuuOSStrict`は内部import集約で、独立した権威や「唯一の空」ではありません。
 - **ツールチェーン：** Lean `v4.30.0-rc2`、mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`。PR #1558（Lean 4.31）はvalidation-only・未マージ。
 - **証明の判定：** 実際のLean宣言とその型・仮定、`#print axioms`、対象commitのexact-head CIを根拠とします。`sorryAx`、`sorry`、`admit`や未証明の新公理で目標を埋めません。歴史的なmathlib/finite `native_decide`依存は正確に区別します。
@@ -101,7 +104,7 @@ mainで統合済みのQi v3.1–v3.3では`FivePhase = ZMod 5`を用い、相生
 ~~~bash
 python3 scripts/run_kuu_foundation_check.py
 lake exe cache get  # 初回・必要なキャッシュがないときだけ
-lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KuuOSFormal
+lake build KuuOSFormal # warningAsErrorはlakefile.tomlで既定設定。sorryAxは#print axiomsで監査。
 ~~~
 
 AI推論runtimeの方向は **観測 → 文脈・複数presentation → 輸送と2/3-cell比較 → 整合する場合のdescent/glue、しない場合のobstruction保持 → 権限確認 → 行為または再観測** です。この推論設計も実行保証・臨床的実証・全LLM出力の形式的正しさとは区別します。
