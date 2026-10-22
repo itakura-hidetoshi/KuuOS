@@ -55,14 +55,14 @@ letters cannot commute past each other even after the same
 surrounding prefix and suffix are appended. This statement
 uses ORIGINAL source order, not numeric F55 charges. -/
 private theorem p88_false_true_blocks_do_not_commute
-    (prefix leftMiddle rightMiddle suffix : List Bool)
+    (front leftMiddle rightMiddle suffix : List Bool)
     (hl : leftMiddle ≠ [])
     (hr : rightMiddle ≠ []) :
-    prefix ++ leftMiddle.map (fun _ => false) ++
+    front ++ leftMiddle.map (fun _ => false) ++
         rightMiddle.map (fun _ => true) ++ suffix ≠
-      prefix ++ rightMiddle.map (fun _ => true) ++
+      front ++ rightMiddle.map (fun _ => true) ++
         leftMiddle.map (fun _ => false) ++ suffix := by
-  induction prefix with
+  induction front with
   | nil =>
       intro h
       cases leftMiddle with
