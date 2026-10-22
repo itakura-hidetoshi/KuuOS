@@ -180,11 +180,12 @@ theorem NativeF55HigherArrowOverClasses.transport_twice_shadow
         congrArg (fun z : KuuNativeF55Shadow =>
           left₁.1.nativeShadow + (arrow.raw.nativeShadow + z))
           (add_left_comm _ _ _)
+  simp only [NativeF55HigherArrowOverClasses.changeRepresentatives_shadow,
+    NativeF55SquareOnlyCell.vcomp_shadow, add_assoc]
   first
-  | simpa only [NativeF55HigherArrowOverClasses.changeRepresentatives_shadow,
-      NativeF55SquareOnlyCell.vcomp_shadow, add_assoc] using h
-  | simpa only [NativeF55HigherArrowOverClasses.changeRepresentatives_shadow,
-      NativeF55SquareOnlyCell.vcomp_shadow, add_assoc] using h.symm
+  | exact h
+  | exact h.symm
+  | rfl
 
 /-- Additive cancellation for the genuine full F55 shadow group,
 with the old bridge term retained and canceled explicitly. -/
