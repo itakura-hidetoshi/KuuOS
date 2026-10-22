@@ -129,10 +129,10 @@ theorem nativeF55P87FourClass_eq_implies_path
     (f g : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p u v)
     (h : nativeF55P87FourClass first last f =
       nativeF55P87FourClass first last g) :
-    NativeF55P86ContextPathRel first last
+    NativeF55P87ClosedPathRel first last
       f.toNativeStrictPath g.toNativeStrictPath := by
   obtain ⟨w⟩ := (nativeF55P87FourClass_eq_iff first last f g).mp h
-  exact w.p86_sound
+  exact w.p87_sound
 
 /-- The full selected (Int × Int) × ZMod 2 original F55 shadow
 descends exactly from actual P86 Type-valued source witnesses. -/
