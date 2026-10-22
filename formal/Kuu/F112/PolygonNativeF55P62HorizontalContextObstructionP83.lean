@@ -76,7 +76,6 @@ theorem KuuNativeF45Tree.DepthRotationRoute.PresentedCell.p83_unitOnly_signature
       have hd : d.unitOnly = true := Bool.and_elim_right h
       change c.p82ContextSignature + d.p82ContextSignature = 0
       rw [ihc hc, ihd hd]
-      rfl
   | leftContext c later ih =>
       change c.unitOnly = true at h
       change (if c.unitOnly then 0 else if c.shapeTag == 4 then 1 else 2) = (0 : Nat)
@@ -103,7 +102,8 @@ def nativeF55P83PathSignature
     {r s : NativeF55RawRouteVertex first last}
     (path : Quiver.Path r s) : Nat :=
   Quiver.Path.addWeight
-    (fun {r s} (edge : r ⟶ s) => edge.p82ContextSignature) path
+    (fun {u v : NativeF55RawRouteVertex first last} (edge : u ⟶ v) =>
+      KuuNativeF45Tree.DepthRotationRoute.PresentedCell.p82ContextSignature edge) path
 
 /-- P83 signature of the literal empty Mathlib path is zero. -/
 @[simp] theorem nativeF55P83PathSignature_nil
@@ -167,26 +167,26 @@ theorem KuuNativeF45Tree.DepthRotationRoute.PresentedCell.p83_normalized_signatu
       raw.p82ContextSignature := by
   induction raw with
   | ident route =>
-      exact nativeF55P83PathSignature_nil first last ⟨route⟩
+      exact nativeF55P83PathSignature_nil _ _ ⟨route⟩
   | pentagon _ _ _ _ =>
-      exact nativeF55P83PathSignature_raw first last _
+      exact nativeF55P83PathSignature_raw _ _ _
   | disjointSquare _ _ =>
-      exact nativeF55P83PathSignature_raw first last _
+      exact nativeF55P83PathSignature_raw _ _ _
   | symm c ih =>
-      exact nativeF55P83PathSignature_raw first last _
+      exact nativeF55P83PathSignature_raw _ _ _
   | trans c d ihc ihd =>
-      change nativeF55P83PathSignature first last
+      change nativeF55P83PathSignature _ _
         (c.toNativeStrictPath.comp d.toNativeStrictPath) =
           c.p82ContextSignature + d.p82ContextSignature
       rw [nativeF55P83PathSignature_comp, ihc, ihd]
   | leftContext c later ih =>
-      exact nativeF55P83PathSignature_raw first last _
+      exact nativeF55P83PathSignature_raw _ _ _
   | rightContext earlier c ih =>
-      exact nativeF55P83PathSignature_raw first last _
+      exact nativeF55P83PathSignature_raw _ _ _
   | precompose prior c ih =>
-      exact nativeF55P83PathSignature_raw first last _
+      exact nativeF55P83PathSignature_raw _ _ _
   | postcompose c suffix ih =>
-      exact nativeF55P83PathSignature_raw first last _
+      exact nativeF55P83PathSignature_raw _ _ _
 
 /-- ALL FIVE constructors of the original P62 typed path
 congruence preserve the genuinely additive P83 SOURCE-signature.
