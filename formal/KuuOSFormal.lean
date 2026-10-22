@@ -9,6 +9,8 @@ import Kuu.F112.PolygonNativeF55P86ContextFourCell
 import Kuu.F112.PolygonNativeF55P87ClosedFourCellCore
 import Kuu.F112.PolygonNativeF55P87ClosedPathCongruence
 import Kuu.F112.PolygonNativeF55P87ClosedHorizontalCategory
+import Kuu.F112.PolygonNativeF55P88InterchangeWordInvariant
+import Kuu.F112.PolygonNativeF55P88InterchangeObstruction
 import KUOS
 import KuuOSQiWuxingCyclicGroupPathsV3_1
 import KuuOSQiWuxingPathObservationCongruenceV3_2
