@@ -76,10 +76,12 @@ theorem KuuNativeF45Tree.DepthRotationRoute.PresentedCell.p91_pentagonCharge_eq_
   | precompose prior c ih =>
       change ((prior.rotationCount + _ : Nat) : Int) -
         ((prior.rotationCount + _ : Nat) : Int) = c.nativeShadow.1.1
+      simp only [Nat.cast_add]
       omega
   | postcompose c suffix ih =>
       change ((_ + suffix.rotationCount : Nat) : Int) -
         ((_ + suffix.rotationCount : Nat) : Int) = c.nativeShadow.1.1
+      simp only [Nat.cast_add]
       omega
 
 /-- This is an exact necessary constraint on an actual ORIGINAL
