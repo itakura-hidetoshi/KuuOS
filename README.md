@@ -90,8 +90,9 @@ C60では元の正二十面体に由来する**60 Dart、90 Edge、32 Polygon（
 - [F112-P77 #2452](https://github.com/itakura-hidetoshi/KuuOS/pull/2452)：真正九構成子F55 raw 3証明間に**Type値の八生成規則による縦4-cell証拠**（反射・対称・推移・左右whisker・左右単位・結合）を構成。P59正規化経路と選択shadowへの健全性を**別々に証明**し、P62単位合同と接続。4-cell証拠の存在だけを関係とする正確なSetoid・商を作り、実C60のraw非同一な二証明間の4-cellを構成。全ての同値shadow・同値経路から証拠が得られるとは言わない。
 - [F112-P78 #2453](https://github.com/itakura-hidetoshi/KuuOS/pull/2453)：P77の**真正4-cell合同による縦合成のwell-definedness**を証明し、元のF54経路上に、P77商をHomとする別の明示的Mathlib `Category`構造を実装。単位・結合はP77のraw4-cell証拠から証明し、正規化経路と全shadow観測の合成保存を証明。**局所的な厳密な縦合成のみ**であり、水平interchange・大域strict 3/nは未証明。
 - [F112-P79 #2455](https://github.com/itakura-hidetoshi/KuuOS/pull/2455)：**P77のraw4-cell合同では水平単位律を満たせないことを証明**。元F55の真の恒等3射２つを水平合成したraw証明のP59正規化経路長は２、結果経路のraw恒等3射は０。したがってP77のType値4-cellは存在せず、その厳密商クラスも非同一。左右contextの単位も同様に長さ１対０で障害がある。一方、P62の構文由来`unitOnly`経路合同ではすべて関係すること、両raw証明のfull shadowは一致することを示し、真正C60六角形の二つの独立F54 associatorで具体化。**P77の厳密な経路等号を保ったまま水平単位4-cellを追加することは不可能**だが、より弱いP62相対の証拠付きcoherenceは排除しない。
+- [F112-P80 #2457](https://github.com/itakura-hidetoshi/KuuOS/pull/2457)：P79の厳密P59経路等号に関するno-goを保持したまま、**新しいType値raw4-cell presentation**に、旧P77証拠の明示的埋込み・水平単位・左右context単位の３生成規則を追加し、反射・対称・推移・左右縦whiskerへ閉じた。全証拠についてP62の構文由来単位経路**合同への健全性**と、F55原full shadow保存を独立に証明。実証拠存在によるSetoid・商のexact kernel、縦合成の4-cell適合性、shadow readoutの因子化を構成。真正C60で**旧P77商は非同一、新P80商は同一**と証明。P80は選択された新presentationであり、元raw歴史やP77 no-goを消してはいない。
 
-**次の数学的関門はP80以降の証拠付き水平単位補正とP62相対coherenceです。** P76の比較証拠付き輸送、P77のraw Type値4-cell、P78のその商の厳密な局所縦合成に続き、P79では元の水平合成の単位律がP77の4-cell合同へ降下しないという**真正の否定定理**を得た。同時にP62の構文的単位経路合同では比較できることも構成した。今後はP62-relativeな型付き追加4-cell比較言語を構成し、原F55証明履歴を保持して左右contextと水平合成への適合性・strict interchangeを証明するか、残るobstructionを明示する。局所の全strict 3圏法則、大域strict n圏、(∞,3)-hyperdescentは未証明。
+**次の数学的関門はP81以降のP80商における局所縦Categoryと水平合成の証拠依存coherenceです。** P79では旧P77のpath-equalityを保つ4-cell商に水平単位の確定障害があると証明し、P80では比較証拠を新たに生成する**別の**Type値presentationを構成した。新P80はP62の構文的合同に健全であり、元full shadowを保持するが、**P59自由経路そのものの等号を保存するとは言わない**。次は新4-cell商で縦Categoryを構成してから、全F55水平合成における4-cell互換性とstrict interchangeを直接証明またはobstructionとして分離する。大域strict 3/n圏および(∞,3)-hyperdescentは未証明。
 
 ## 五行・Qiも別の具体的presentation
 
@@ -112,7 +113,7 @@ mainで統合済みのQi v3.1–v3.3では`FivePhase = ZMod 5`を用い、相生
 
 ## 正本、ビルド、検証
 
-- **公開統合正本：** [`main`](https://github.com/itakura-hidetoshi/KuuOS/tree/main)。F112親PR #2339はMERGED。P72〜P75の公理監査済み成果を保持し、2026-10-22 JST、P76 [#2451](https://github.com/itakura-hidetoshi/KuuOS/pull/2451)：Lean **9684/9684**・11宣言、P77 [#2452](https://github.com/itakura-hidetoshi/KuuOS/pull/2452)：Lean **9685/9685**・13宣言、P78 [#2453](https://github.com/itakura-hidetoshi/KuuOS/pull/2453)：Lean **9686/9686**・８宣言を追加統合。いずれも新規`sorryAx`なし、exact-head Governance・107公開root保全・completion receipts 2/2 SUCCESS後にsquash MERGED。P78統合SHA：`53f43971228e909a42965dabaa46874381c917e8`。
+- **公開統合正本：** [`main`](https://github.com/itakura-hidetoshi/KuuOS/tree/main)。F112親PR #2339はMERGED。既存P72〜P78までの確定成果を保持し、P79 [#2455](https://github.com/itakura-hidetoshi/KuuOS/pull/2455)はLean **9687/9687**・17宣言、P80 [#2457](https://github.com/itakura-hidetoshi/KuuOS/pull/2457)はLean **9688/9688**・14宣言。両PRとも`sorryAx`なし、対象ファイルLeanエラー・警告0、exact-head Governance・107公開root保全・completion receipts 2/2 SUCCESS後にsquash MERGED。P80統合SHA：`c72785a2ccb9dcb499504579cf35aeaec985b6fe`。
 - **唯一の通常ビルド入口：** `lake build` = `lake build KuuOSFormal`。既存**107公開root**と独立Kuu・Qiを一つのパッケージで保持。`KuuOSStrict`は内部import集約で、独立した権威や「唯一の空」ではありません。
 - **ツールチェーン：** Lean `v4.30.0-rc2`、mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`。PR #1558（Lean 4.31）はvalidation-only・未マージ。
 - **証明の判定：** 実際のLean宣言とその型・仮定、`#print axioms`、対象commitのexact-head CIを根拠とします。`sorryAx`、`sorry`、`admit`や未証明の新公理で目標を埋めません。歴史的なmathlib/finite `native_decide`依存は正確に区別します。
