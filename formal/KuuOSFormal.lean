@@ -11,6 +11,7 @@ import Kuu.F112.PolygonNativeF55P87ClosedPathCongruence
 import Kuu.F112.PolygonNativeF55P87ClosedHorizontalCategory
 import Kuu.F112.PolygonNativeF55P88InterchangeWordInvariant
 import Kuu.F112.PolygonNativeF55P88InterchangeObstruction
+import Kuu.F112.PolygonNativeF55P89InterchangeFourCell
 import KUOS
 import KuuOSQiWuxingCyclicGroupPathsV3_1
 import KuuOSQiWuxingPathObservationCongruenceV3_2
