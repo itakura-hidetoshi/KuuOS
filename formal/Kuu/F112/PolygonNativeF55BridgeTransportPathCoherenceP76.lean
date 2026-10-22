@@ -150,9 +150,29 @@ theorem NativeF55HigherArrowOverClasses.transport_twice_shadow
         (right₁.vcomp right₂)).raw.nativeShadow := by
   simp only [NativeF55HigherArrowOverClasses.changeRepresentatives_shadow,
     NativeF55SquareOnlyCell.vcomp_shadow, add_assoc]
-  rw [add_left_comm left₂.1.nativeShadow left₁.1.nativeShadow,
-    add_left_comm left₂.1.nativeShadow arrow.raw.nativeShadow,
-    add_left_comm left₂.1.nativeShadow right₁.1.nativeShadow]
+  calc
+    left₂.1.nativeShadow +
+        (left₁.1.nativeShadow +
+          (arrow.raw.nativeShadow +
+            (right₁.1.nativeShadow + right₂.1.nativeShadow))) =
+      left₁.1.nativeShadow +
+        (left₂.1.nativeShadow +
+          (arrow.raw.nativeShadow +
+            (right₁.1.nativeShadow + right₂.1.nativeShadow))) :=
+      add_left_comm _ _ _
+    _ = left₁.1.nativeShadow +
+        (arrow.raw.nativeShadow +
+          (left₂.1.nativeShadow +
+            (right₁.1.nativeShadow + right₂.1.nativeShadow))) :=
+      congrArg (fun z : KuuNativeF55Shadow => left₁.1.nativeShadow + z)
+        (add_left_comm _ _ _)
+    _ = left₁.1.nativeShadow +
+        (arrow.raw.nativeShadow +
+          (right₁.1.nativeShadow +
+            (left₂.1.nativeShadow + right₂.1.nativeShadow))) :=
+      congrArg (fun z : KuuNativeF55Shadow =>
+        left₁.1.nativeShadow + (arrow.raw.nativeShadow + z))
+        (add_left_comm _ _ _)
 
 /-- Additive cancellation for the genuine full F55 shadow group,
 with the old bridge term retained and canceled explicitly. -/
@@ -162,12 +182,12 @@ private theorem nativeF55_bridge_group_cancel
   rw [sub_eq_add_neg]
   calc
     a + (b + c) = a + ((h + -h) + (b + c)) := by simp
-    _ = a + (h + (-h + (b + c))) := by simp only [add_assoc]
+    _ = a + (h + (-h + (b + c))) := by simp only [add_assoc] <;> rfl
     _ = a + (h + ((b + c) + -h)) := by
       rw [add_comm (-h) (b + c)]
     _ = a + (h + ((c + b) + -h)) := by
       rw [add_comm b c]
-    _ = a + (h + (c + (b + -h))) := by simp only [add_assoc]
+    _ = a + (h + (c + (b + -h))) := by simp only [add_assoc] <;> rfl
 
 /-- EXACT full selected-shadow DEFECT of the two ways of
 transporting a genuine P70 bridge composite. It records all four
@@ -214,7 +234,7 @@ theorem NativeF55HigherArrowOverClasses.bridgeTransport_shadow_defect
             (newBridge.1.nativeShadow + leftG.1.nativeShadow)) -
               oldBridge.1.nativeShadow))) :=
       nativeF55_bridge_group_cancel _ _ _ _
-    _ = _ := by simp only [add_assoc]
+    _ = _ := by simp only [add_assoc] <;> rfl
 
 /-- If the newly chosen genuine middle square comparison WITNESSES
 have the same full F55 shadow as the old bridge, the two complete
