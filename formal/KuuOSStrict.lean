@@ -131,6 +131,7 @@ import Kuu.F112.PolygonNativeF55HigherTransportQuotientP71
 import Kuu.F112.PolygonNativeF55TransportShadowCocycleP72
 import Kuu.F112.PolygonNativeF55PentagonChargeTransportDescentP73
 import Kuu.F112.PolygonNativeF55LinearChargeDescentP74
+import Kuu.F112.PolygonNativeF55GradedTransportCoherenceP75
 /-! Internal independent Kuu import aggregate. No KUOS or legacy sources
 are imported into the independent foundation. The unique public aggregate
 remains KuuOSFormal; this is not a separate mathematical authority. -/
