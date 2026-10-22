@@ -14,7 +14,7 @@
 | --- | --- |
 | 公開統合正本 | [`main`](https://github.com/itakura-hidetoshi/KuuOS/tree/main)。歴史的`formal/KUOS/`と現行`formal/Kuu/`、Qiを**同一Leanパッケージ**に含む。 |
 | 独立Kuu F112研究 | [親PR #2339](https://github.com/itakura-hidetoshi/KuuOS/pull/2339)は**MERGED**。かつての`formal/v5-293-f112-independent-total-change`は移行作業の履歴であり、現在の正本はmain。 |
-| F112確認範囲 | **P80 [#2457](https://github.com/itakura-hidetoshi/KuuOS/pull/2457)までmain統合済み**。P76：Lean 9684/9684・公理監査11件、P77：9685/9685・13件、P78：9686/9686・８件、P79：9687/9687・17件、P80：9688/9688・14件。全PRで`sorryAx`なし・対象Lean警告/エラー0・exact-head Governance SUCCESS・107公開root保全・completion receipts 2/2 SUCCESS。P80統合SHA `c72785a2ccb9dcb499504579cf35aeaec985b6fe`。 |
+| F112確認範囲 | **P81 [#2459](https://github.com/itakura-hidetoshi/KuuOS/pull/2459)までmain統合済み**。P76：Lean 9684/9684・公理監査11件、P77：9685/9685・13件、P78：9686/9686・８件、P79：9687/9687・17件、P80：9688/9688・14件。全PRで`sorryAx`なし・対象Lean警告/エラー0・exact-head Governance SUCCESS・107公開root保全・completion receipts 2/2 SUCCESS。P80統合SHA `c72785a2ccb9dcb499504579cf35aeaec985b6fe`。 |
 | 既存定理の証拠 | 実際のLean宣言・型と仮定・`#print axioms`・対応するexact-head CI。`sorryAx`、`sorry`、`admit`、新たな未証明公理による補完は禁止。 |
 | 数学的区別 | raw Type-valued証拠、Prop証明、選択した商、観測、物理的解釈は互いに無条件には同一視しない。 |
 | 公開入口・toolchain | `lake build KuuOSFormal`（`lake build`も同じ）。既存107公開rootは維持。Lean `v4.30.0-rc2`、pinned mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`。 |
