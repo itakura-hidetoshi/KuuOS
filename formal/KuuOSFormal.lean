@@ -2,6 +2,7 @@ import KuuOSStrict
 import Kuu.F112.PolygonNativeF55P80UnitFourVerticalCategoryP81
 import Kuu.F112.PolygonNativeF55P80HorizontalContextObstructionP82
 import Kuu.F112.PolygonNativeF55P62HorizontalContextObstructionP83
+import Kuu.F112.PolygonNativeF55P80HorizontalPathCongruenceP84
 import KUOS
 import KuuOSQiWuxingCyclicGroupPathsV3_1
 import KuuOSQiWuxingPathObservationCongruenceV3_2
