@@ -17,6 +17,7 @@ import Kuu.F112.PolygonNativeF55P90AssociatorSourceBoundary
 import Kuu.F112.PolygonNativeF55P90TripleRouteNaturalityBoundary
 import Kuu.F112.PolygonNativeF55P91RotationDefectConstraint
 import Kuu.F112.PolygonNativeF55P91FullWitnessRouteQuotient
+import Kuu.F112.PolygonNativeF55P91HorizontalRouteCongruence
 import KUOS
 import KuuOSQiWuxingCyclicGroupPathsV3_1
 import KuuOSQiWuxingPathObservationCongruenceV3_2
