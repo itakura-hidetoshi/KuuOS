@@ -344,11 +344,14 @@ theorem northHexagonNativeP80_noFreePathReadout :
   rintro ⟨readout, hread⟩
   have h :=
     congrArg readout northHexagonNativeHorizontalUnit_P80_class_eq
-  rw [hread northHexagonNativeHorizontalRawIdentityPair,
-    hread northHexagonNativeHorizontalStrictIdentity] at h
+  have hPaths :
+      northHexagonNativeHorizontalRawIdentityPair.toNativeStrictPath =
+        northHexagonNativeHorizontalStrictIdentity.toNativeStrictPath := by
+    exact (hread northHexagonNativeHorizontalRawIdentityPair).symm.trans
+      (h.trans (hread northHexagonNativeHorizontalStrictIdentity))
   exact (KuuNativeF45Tree.DepthRotationRoute.PresentedCell.horizontal_identities_not_normalized_unit
     northHexagonNativeLeftF54UnitRoute
-    northHexagonNativeRightF54UnitRoute) h
+    northHexagonNativeRightF54UnitRoute) hPaths
 
 #print axioms nativeF55P80_comp_congr
 #print axioms nativeF55P80VerticalComp
