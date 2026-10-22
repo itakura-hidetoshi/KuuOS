@@ -124,8 +124,8 @@ inductive NativeF55P86ContextPathRel
       NativeF55P86ContextPathRel
         (KuuNativeF45Tree.node first later)
         (KuuNativeF45Tree.node last later)
-        (.leftContext f later).toNativeStrictPath
-        (.leftContext g later).toNativeStrictPath
+        (KuuNativeF45Tree.DepthRotationRoute.PresentedCell.leftContext f later).toNativeStrictPath
+        (KuuNativeF45Tree.DepthRotationRoute.PresentedCell.leftContext g later).toNativeStrictPath
   | rightContext
 
       {k l n n' m m' : Nat}
@@ -140,8 +140,8 @@ inductive NativeF55P86ContextPathRel
       NativeF55P86ContextPathRel
         (KuuNativeF45Tree.node earlier first)
         (KuuNativeF45Tree.node earlier last)
-        (.rightContext earlier f).toNativeStrictPath
-        (.rightContext earlier g).toNativeStrictPath
+        (KuuNativeF45Tree.DepthRotationRoute.PresentedCell.rightContext earlier f).toNativeStrictPath
+        (KuuNativeF45Tree.DepthRotationRoute.PresentedCell.rightContext earlier g).toNativeStrictPath
   | precompose
 
       {n₁ n₂ n₃ m₁ m₂ m₃ : Nat}
@@ -155,8 +155,8 @@ inductive NativeF55P86ContextPathRel
       {f g : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p r s}
       (witness : NativeF55P85HorizontalFourCell f g) :
       NativeF55P86ContextPathRel first last
-        (.precompose prior f).toNativeStrictPath
-        (.precompose prior g).toNativeStrictPath
+        (KuuNativeF45Tree.DepthRotationRoute.PresentedCell.precompose prior f).toNativeStrictPath
+        (KuuNativeF45Tree.DepthRotationRoute.PresentedCell.precompose prior g).toNativeStrictPath
   | postcompose
 
       {n₁ n₂ n₃ m₁ m₂ m₃ : Nat}
@@ -170,8 +170,8 @@ inductive NativeF55P86ContextPathRel
       (witness : NativeF55P85HorizontalFourCell f g)
       (suffix : KuuNativeF45Tree.DepthRotationRoute p middle last) :
       NativeF55P86ContextPathRel first last
-        (.postcompose f suffix).toNativeStrictPath
-        (.postcompose g suffix).toNativeStrictPath
+        (KuuNativeF45Tree.DepthRotationRoute.PresentedCell.postcompose f suffix).toNativeStrictPath
+        (KuuNativeF45Tree.DepthRotationRoute.PresentedCell.postcompose g suffix).toNativeStrictPath
   | horizontalLeft
 
       {n n' m m' k k' l l' : Nat}
