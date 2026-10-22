@@ -85,8 +85,9 @@ C60では元の正二十面体に由来する**60 Dart、90 Edge、32 Polygon（
 - [F112-P72 #2446](https://github.com/itakura-hidetoshi/KuuOS/pull/2446)：P70の**選択された真正比較証拠**による代表元輸送・中間経路のbridge合成で、元raw shadowに加わる成分を明示して補正。２段階の輸送で補正値が整合する加法cocycle公式と、真正C60交換正方形で補正前位相1・補正後位相0を証明。補正は証拠選択に依存し、P71無補正shadowの商への因子化ではない。
 - [F112-P73 #2447](https://github.com/itakura-hidetoshi/KuuOS/pull/2447)：P68の`squareOnly`判定を全９raw構成子で帰納的に解析し、比較証拠の**五角形chargeが0**であることを証明。P70の左右代表元変更とbridge付き合成、P71輸送同値の全４生成規則で元の五角形整数chargeが保存されることを示し、P71商上の真正なcharge観測関数を構成。真正C60の非零交換位相とは独立に成立。
 - [F112-P74 #2448](https://github.com/itakura-hidetoshi/KuuOS/pull/2448)：元の整数線形観測`a×五角形charge + b×交換charge`について、**元の交換chargeを1だけ変化させる輸送が存在する固定されたP71商では、全代表元と一致する無補正readoutが存在する必要十分条件は`b=0`**と証明。十分性はP73の五角形chargeから構成し、必要性は実際の輸送同値と加法性から導出。真正C60交換正方形で交換charge 0→1を確認。すべてのgraded高次観測を分類したとは主張しない。
+- [F112-P75 #2450](https://github.com/itakura-hidetoshi/KuuOS/pull/2450)：P71の輸送４生成規則を**真正のType値graded輸送履歴**として持ち上げ、元F55 shadow全３座標（五角形整数・交換整数・奇偶位相）の加法gradeを保持。輸送履歴に対するshadow加法の健全性、固定raw両端でのgrade一意性、閉路grade0、Prop値P71輸送関係とgraded証拠の存在の必要十分性を証明。真正C60の交換正方形でgradeの交換整数+1・奇位相非零を確認。**raw履歴の同一視、全3-Hom構成、strict interchangeを主張しない。**
 
-**次の数学的関門はP75以降の証拠graded高次Homとcoherenceです。** P72では選択比較証拠付きのshadow補正・２段階cocycle、P73では五角形chargeの無補正降下、P74では真正交換chargeの+1輸送が存在する商上の整数線形観測量の降下を係数条件として分類しました。**raw履歴・比較証拠の選択・商等号を混同しない**ため、次はgraded/torsor型の高次Hom候補と輸送証拠の変更に関するcoherence条件、双変数水平合成・真のstrict interchangeを検証します。局所・大域strict 3/n圏と(∞,3)-hyperdescentの完成は主張しません。
+**次の数学的関門はP76以降のgraded高次Homの合成整合性とraw source coherenceです。** P72の補正cocycle・P73五角形charge降下・P74整数線形降下分類を踏まえ、P75でType値の真正輸送履歴をgrade付きで保持し、その全４生成規則上の加法整合性・grade一意性・閉路grade0を証明しました。gradeの一致はraw 3証明履歴の一致を意味しません。**次は真正bridge縦合成と左右代表元変更の両立、原3-cellの結合法則・単位・交換を保証する最小合同とその型付きcoherence、双変数水平合成を検証**します。局所・大域strict 3/n圏および(∞,3)-hyperdescentは未証明です。
 
 ## 五行・Qiも別の具体的presentation
 
@@ -107,7 +108,7 @@ mainで統合済みのQi v3.1–v3.3では`FivePhase = ZMod 5`を用い、相生
 
 ## 正本、ビルド、検証
 
-- **公開統合正本：** [`main`](https://github.com/itakura-hidetoshi/KuuOS/tree/main)。F112親PR #2339はMERGED。2026-10-22 JST、P72 [#2446](https://github.com/itakura-hidetoshi/KuuOS/pull/2446)：Lean **9680/9680**・６宣言、P73 [#2447](https://github.com/itakura-hidetoshi/KuuOS/pull/2447)：Lean **9681/9681**・９宣言、P74 [#2448](https://github.com/itakura-hidetoshi/KuuOS/pull/2448)：Lean **9682/9682**・７宣言。いずれも公理監査`sorryAx`なし、exact-head Governance・既存公開root保全・completion receipts 2/2 SUCCESS後にsquash MERGED。P74統合SHA：`154d744fe5c8c1db49aeb2e6fd3e1682bce95d47`。最新HEADはGitHubで再確認する。
+- **公開統合正本：** [`main`](https://github.com/itakura-hidetoshi/KuuOS/tree/main)。F112親PR #2339はMERGED。2026-10-22 JST、P72 [#2446](https://github.com/itakura-hidetoshi/KuuOS/pull/2446)：Lean **9680/9680**・６宣言、P73 [#2447](https://github.com/itakura-hidetoshi/KuuOS/pull/2447)：Lean **9681/9681**・９宣言、P74 [#2448](https://github.com/itakura-hidetoshi/KuuOS/pull/2448)：Lean **9682/9682**・７宣言。いずれも公理監査`sorryAx`なし、exact-head Governance・既存公開root保全・completion receipts 2/2 SUCCESS後にsquash MERGED。P75 [#2450](https://github.com/itakura-hidetoshi/KuuOS/pull/2450)：Lean **9683/9683**・９宣言も同じ検証条件でsquash MERGED。最新確認統合SHA：`38e0580336a8b854af96e95f55fe363519cb3d87`。
 - **唯一の通常ビルド入口：** `lake build` = `lake build KuuOSFormal`。既存**107公開root**と独立Kuu・Qiを一つのパッケージで保持。`KuuOSStrict`は内部import集約で、独立した権威や「唯一の空」ではありません。
 - **ツールチェーン：** Lean `v4.30.0-rc2`、mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`。PR #1558（Lean 4.31）はvalidation-only・未マージ。
 - **証明の判定：** 実際のLean宣言とその型・仮定、`#print axioms`、対象commitのexact-head CIを根拠とします。`sorryAx`、`sorry`、`admit`や未証明の新公理で目標を埋めません。歴史的なmathlib/finite `native_decide`依存は正確に区別します。
