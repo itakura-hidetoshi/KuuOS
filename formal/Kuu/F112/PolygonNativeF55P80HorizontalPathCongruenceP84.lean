@@ -241,7 +241,7 @@ def nativeF55P84HorizontalHomRel
     {ma mb : KuuNativeBlocks a b}
     {pa pb : KuuNativeBlocks x y}
     (first : KuuNativeF45Tree p n m ma pa mb pb)
-    (last : KuuNativeF45Tree p n' m' ma mb pb) :
+    (last : KuuNativeF45Tree p n' m' ma pa mb pb) :
     HomRel (NativeF55RawPathCategory first last) :=
   fun {_r _s} f g => NativeF55P84HorizontalPathRel first last f g
 
