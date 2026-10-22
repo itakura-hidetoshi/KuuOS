@@ -9,8 +9,8 @@ its proof-generated free-path congruence.
 
 Here we prove a GENUINE proof-relevant vertical Category on the P87
 source four-cell quotient, exactly witnessed by source P87 certificates.
-All four original F55 F54 route actions (binary contexts, pre-/post-
-composition) now map P87 classes TO P87 classes, and the original
+All four original F55 F54 route actions (binary contexts, route
+precomposition and postcomposition) now map P87 classes TO P87 classes, and the original
 horizontal F55 operation descends to a TOTAL well-defined binary
 map **P87 × P87 → P87** on each compatible pair of dependent
 hom types. Previous P85/P86 constructions only mapped old input
