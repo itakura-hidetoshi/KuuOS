@@ -86,8 +86,11 @@ C60では元の正二十面体に由来する**60 Dart、90 Edge、32 Polygon（
 - [F112-P73 #2447](https://github.com/itakura-hidetoshi/KuuOS/pull/2447)：P68の`squareOnly`判定を全９raw構成子で帰納的に解析し、比較証拠の**五角形chargeが0**であることを証明。P70の左右代表元変更とbridge付き合成、P71輸送同値の全４生成規則で元の五角形整数chargeが保存されることを示し、P71商上の真正なcharge観測関数を構成。真正C60の非零交換位相とは独立に成立。
 - [F112-P74 #2448](https://github.com/itakura-hidetoshi/KuuOS/pull/2448)：元の整数線形観測`a×五角形charge + b×交換charge`について、**元の交換chargeを1だけ変化させる輸送が存在する固定されたP71商では、全代表元と一致する無補正readoutが存在する必要十分条件は`b=0`**と証明。十分性はP73の五角形chargeから構成し、必要性は実際の輸送同値と加法性から導出。真正C60交換正方形で交換charge 0→1を確認。すべてのgraded高次観測を分類したとは主張しない。
 - [F112-P75 #2450](https://github.com/itakura-hidetoshi/KuuOS/pull/2450)：P71の輸送４生成規則を**真正のType値graded輸送履歴**として持ち上げ、元F55 shadow全３座標（五角形整数・交換整数・奇偶位相）の加法gradeを保持。輸送履歴に対するshadow加法の健全性、固定raw両端でのgrade一意性、閉路grade0、Prop値P71輸送関係とgraded証拠の存在の必要十分性を証明。真正C60の交換正方形でgradeの交換整数+1・奇位相非零を確認。**raw履歴の同一視、全3-Hom構成、strict interchangeを主張しない。**
+- [F112-P76 #2451](https://github.com/itakura-hidetoshi/KuuOS/pull/2451)：真正F55 squareOnly比較証拠の縦合成、二段階代表元輸送と合成比較の**正規化自由経路・全選択shadowでの整合性**を証明。旧bridgeと新bridgeの差分を実証拠の加法として正確に記録し、**比較経路の等号を明示的に仮定した場合に限り**合成経路等号を導出。真正C60交換正方形のraw履歴は単位左合成と異なるが、正規化経路・shadowは一致。raw 4-cellの無条件存在やstrict interchangeは未証明。
+- [F112-P77 #2452](https://github.com/itakura-hidetoshi/KuuOS/pull/2452)：真正九構成子F55 raw 3証明間に**Type値の八生成規則による縦4-cell証拠**（反射・対称・推移・左右whisker・左右単位・結合）を構成。P59正規化経路と選択shadowへの健全性を**別々に証明**し、P62単位合同と接続。4-cell証拠の存在だけを関係とする正確なSetoid・商を作り、実C60のraw非同一な二証明間の4-cellを構成。全ての同値shadow・同値経路から証拠が得られるとは言わない。
+- [F112-P78 #2453](https://github.com/itakura-hidetoshi/KuuOS/pull/2453)：P77の**真正4-cell合同による縦合成のwell-definedness**を証明し、元のF54経路上に、P77商をHomとする別の明示的Mathlib `Category`構造を実装。単位・結合はP77のraw4-cell証拠から証明し、正規化経路と全shadow観測の合成保存を証明。**局所的な厳密な縦合成のみ**であり、水平interchange・大域strict 3/nは未証明。
 
-**次の数学的関門はP76以降のgraded高次Homの合成整合性とraw source coherenceです。** P72の補正cocycle・P73五角形charge降下・P74整数線形降下分類を踏まえ、P75でType値の真正輸送履歴をgrade付きで保持し、その全４生成規則上の加法整合性・grade一意性・閉路grade0を証明しました。gradeの一致はraw 3証明履歴の一致を意味しません。**次は真正bridge縦合成と左右代表元変更の両立、原3-cellの結合法則・単位・交換を保証する最小合同とその型付きcoherence、双変数水平合成を検証**します。局所・大域strict 3/n圏および(∞,3)-hyperdescentは未証明です。
+**次の数学的関門はP79以降の水平双変数合成とinterchangeです。** P76では選択bridgeの差分と条件付き正規化経路整合性を得て、P77で真正Type値raw4-cellの最小生成言語と商を構成、P78でその4-cell商上の厳密な**局所縦合成**を証明しました。raw証明履歴は元のType値ソースで保持し、4-cellの存在もshadow等号と同一視しません。次は左右contextおよび水平合成がP77の4-cell合同を保存すること、真正C60の双変数interchangeとより高次のcoherenceを証明するか明示的障害を抽出します。大域strict 3/n圏と(∞,3)-hyperdescentは未証明です。
 
 ## 五行・Qiも別の具体的presentation
 
@@ -108,7 +111,7 @@ mainで統合済みのQi v3.1–v3.3では`FivePhase = ZMod 5`を用い、相生
 
 ## 正本、ビルド、検証
 
-- **公開統合正本：** [`main`](https://github.com/itakura-hidetoshi/KuuOS/tree/main)。F112親PR #2339はMERGED。2026-10-22 JST、P72 [#2446](https://github.com/itakura-hidetoshi/KuuOS/pull/2446)：Lean **9680/9680**・６宣言、P73 [#2447](https://github.com/itakura-hidetoshi/KuuOS/pull/2447)：Lean **9681/9681**・９宣言、P74 [#2448](https://github.com/itakura-hidetoshi/KuuOS/pull/2448)：Lean **9682/9682**・７宣言。いずれも公理監査`sorryAx`なし、exact-head Governance・既存公開root保全・completion receipts 2/2 SUCCESS後にsquash MERGED。P75 [#2450](https://github.com/itakura-hidetoshi/KuuOS/pull/2450)：Lean **9683/9683**・９宣言も同じ検証条件でsquash MERGED。最新確認統合SHA：`38e0580336a8b854af96e95f55fe363519cb3d87`。
+- **公開統合正本：** [`main`](https://github.com/itakura-hidetoshi/KuuOS/tree/main)。F112親PR #2339はMERGED。P72〜P75の公理監査済み成果を保持し、2026-10-22 JST、P76 [#2451](https://github.com/itakura-hidetoshi/KuuOS/pull/2451)：Lean **9684/9684**・11宣言、P77 [#2452](https://github.com/itakura-hidetoshi/KuuOS/pull/2452)：Lean **9685/9685**・13宣言、P78 [#2453](https://github.com/itakura-hidetoshi/KuuOS/pull/2453)：Lean **9686/9686**・８宣言を追加統合。いずれも新規`sorryAx`なし、exact-head Governance・107公開root保全・completion receipts 2/2 SUCCESS後にsquash MERGED。P78統合SHA：`53f43971228e909a42965dabaa46874381c917e8`。
 - **唯一の通常ビルド入口：** `lake build` = `lake build KuuOSFormal`。既存**107公開root**と独立Kuu・Qiを一つのパッケージで保持。`KuuOSStrict`は内部import集約で、独立した権威や「唯一の空」ではありません。
 - **ツールチェーン：** Lean `v4.30.0-rc2`、mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`。PR #1558（Lean 4.31）はvalidation-only・未マージ。
 - **証明の判定：** 実際のLean宣言とその型・仮定、`#print axioms`、対象commitのexact-head CIを根拠とします。`sorryAx`、`sorry`、`admit`や未証明の新公理で目標を埋めません。歴史的なmathlib/finite `native_decide`依存は正確に区別します。
