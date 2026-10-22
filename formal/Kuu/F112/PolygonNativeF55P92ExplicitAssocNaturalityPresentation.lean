@@ -61,7 +61,7 @@ inductive NativeF55P92AssocComparison (p : Polygon) :
       KuuNativeF45Tree.DepthRotationRoute p first last →
       Type (max (max uD uE) (max vD vE)) where
   | original
-      {n n' m m' : Nat}
+      {a b : D} {x y : E} {n n' m m' : Nat}
       {ma mb : KuuNativeBlocks a b}
       {pa pb : KuuNativeBlocks x y}
       {first : KuuNativeF45Tree p n m ma pa mb pb}
@@ -70,8 +70,7 @@ inductive NativeF55P92AssocComparison (p : Polygon) :
       (cell : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p r s) :
       NativeF55P92AssocComparison p r s
   | assocNaturality
-
-    {p : Polygon} {a b : D} {x y : E}
+      {a b : D} {x y : E}
     {n₁ n₁' n₂ n₂' n₃ n₃' m₁ m₁' m₂ m₂' m₃ m₃' : Nat}
     {p₀ p₁ p₂ p₃ : KuuNativeBlocks a b}
     {q₀ q₁ q₂ q₃ : KuuNativeBlocks x y}
@@ -88,7 +87,7 @@ inductive NativeF55P92AssocComparison (p : Polygon) :
         (nativeF54P90AssocNaturalityLeftRoute u v w)
         (nativeF54P90AssocNaturalityRightRoute u v w)
   | refl
-      {n n' m m' : Nat}
+      {a b : D} {x y : E} {n n' m m' : Nat}
       {ma mb : KuuNativeBlocks a b}
       {pa pb : KuuNativeBlocks x y}
       {first : KuuNativeF45Tree p n m ma pa mb pb}
