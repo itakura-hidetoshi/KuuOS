@@ -346,8 +346,13 @@ theorem nativeF55P93TripleClass_assocNaturality
   refine _root_.Quotient.inductionOn U (fun u => ?_)
   refine _root_.Quotient.inductionOn V (fun v => ?_)
   refine _root_.Quotient.inductionOn W (fun w => ?_)
-  rw [nativeF55P93TripleLeftClass_spec,
-    nativeF55P93TripleRightClass_spec]
+  -- Quotient induction exposes `⟦u⟧`, which is definitionally,
+  -- but not syntactically, the P92B class constructor. The P91C
+  -- representative equations are definitional reductions (rfl).
+  change nativeF55P92AssocRouteClass _ _
+      (nativeF54P90AssocNaturalityLeftRoute u v w) =
+    nativeF55P92AssocRouteClass _ _
+      (nativeF54P90AssocNaturalityRightRoute u v w)
   exact nativeF55P92_assocNaturality_new_class_eq u v w
 
 /-- At true original F54 unit inputs the context-word observer
