@@ -117,7 +117,7 @@ objects, with proof-generated P77 4-cell classes as Homs. The
 Category structure is explicit instead of a global instance, so
 the existing E7P4/P64 presentations retain their independent
 authority and remain usable without typeclass ambiguity. -/
-def nativeF55RawFourVerticalCategory
+@[reducible] def nativeF55RawFourVerticalCategory
     {p : Polygon} {a b : D} {x y : E}
     {n n' m m' : Nat}
     {ma mb : KuuNativeBlocks a b}
