@@ -347,6 +347,48 @@ theorem nativeF55P84Horizontal_shadow_factor
       intro r s f g h
       exact NativeF55P84HorizontalPathRel.shadow_sound h)
 
+/-- Natural comparison of the OLD P62 quotient into the DISTINCT
+P84 quotient, obtained by Mathlib's universal property and the
+actual witness inclusion NativeF55UnitPathRel.toP84. Old P62
+equalities are preserved without changing either source relation. -/
+def nativeF55P62ToP84Horizontal
+    {p : Polygon} {a b : D} {x y : E}
+    {n n' m m' : Nat}
+    {ma mb : KuuNativeBlocks a b}
+    {pa pb : KuuNativeBlocks x y}
+    (first : KuuNativeF45Tree p n m ma pa mb pb)
+    (last : KuuNativeF45Tree p n' m' ma pa mb pb) :
+    NativeF55StructuralUnitCategory first last ⥤
+      NativeF55P84HorizontalCategory first last :=
+  CategoryTheory.Quotient.lift
+    (nativeF55StructuralUnitHomRel first last)
+    (nativeF55P84HorizontalQuotientFunctor first last)
+    (by
+      intro r s f g h
+      exact (nativeF55P84HorizontalQuotient_map_eq_iff first last f g).2
+        (NativeF55UnitPathRel.toP84 h))
+
+/-- EXACT commuting triangle on every original, typed proof-labelled
+F55 free path: raw -> OLD P62 -> NEW P84 equals raw -> NEW P84.
+This is a functor identity, not just a same-shadow observation. -/
+theorem nativeF55P62ToP84Horizontal_factor
+    {p : Polygon} {a b : D} {x y : E}
+    {n n' m m' : Nat}
+    {ma mb : KuuNativeBlocks a b}
+    {pa pb : KuuNativeBlocks x y}
+    (first : KuuNativeF45Tree p n m ma pa mb pb)
+    (last : KuuNativeF45Tree p n' m' ma pa mb pb) :
+    nativeF55StructuralUnitQuotientFunctor first last ⋙
+      nativeF55P62ToP84Horizontal first last =
+      nativeF55P84HorizontalQuotientFunctor first last := by
+  exact CategoryTheory.Quotient.lift_spec
+    (nativeF55StructuralUnitHomRel first last)
+    (nativeF55P84HorizontalQuotientFunctor first last)
+    (by
+      intro r s f g h
+      exact (nativeF55P84HorizontalQuotient_map_eq_iff first last f g).2
+        (NativeF55UnitPathRel.toP84 h))
+
 /-- Every chosen genuine P80 four-cell certificate is now respected
 as an ACTUAL new P84 path-level comparison after horizontal
 application to any independent original raw 3-proof. -/
@@ -394,6 +436,72 @@ theorem nativeF55P84_oldLeftUnit_horizontal_related
       (f.horizontal (.ident v)).toNativeStrictPath := by
   rcases nativeF55P82_oldLeftUnit_witness f with ⟨h⟩
   exact .horizontalLeft h (.ident v)
+
+/-- The P82/P83 obstructed source horizontal comparison becomes
+literal EQUALITY in the new Mathlib P84 quotient. Unlike the P80
+quotient, this is explicitly a quotient of raw P59 free paths. -/
+theorem nativeF55P84_oldLeftUnit_horizontal_quotient_eq
+    {p : Polygon} {a b : D} {x y : E}
+    {n n' m m' k k' l l' : Nat}
+    {p₀ p₁ p₂ : KuuNativeBlocks a b}
+    {q₀ q₁ q₂ : KuuNativeBlocks x y}
+    {leftBefore : KuuNativeF45Tree p n m p₀ q₀ p₁ q₁}
+    {leftAfter : KuuNativeF45Tree p n' m' p₀ q₀ p₁ q₁}
+    {rightBefore : KuuNativeF45Tree p k l p₁ q₁ p₂ q₂}
+    {rightAfter : KuuNativeF45Tree p k' l' p₁ q₁ p₂ q₂}
+    {u u' : KuuNativeF45Tree.DepthRotationRoute p leftBefore leftAfter}
+    (f : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p u u')
+    (v : KuuNativeF45Tree.DepthRotationRoute p rightBefore rightAfter) :
+    (nativeF55P84HorizontalQuotientFunctor
+      (KuuNativeF45Tree.node leftBefore rightBefore)
+      (KuuNativeF45Tree.node leftAfter rightAfter)).map
+      ((KuuNativeF45Tree.DepthRotationRoute.PresentedCell.trans
+        (.ident u) f).horizontal (.ident v)).toNativeStrictPath =
+    (nativeF55P84HorizontalQuotientFunctor
+      (KuuNativeF45Tree.node leftBefore rightBefore)
+      (KuuNativeF45Tree.node leftAfter rightAfter)).map
+      (f.horizontal (.ident v)).toNativeStrictPath := by
+  exact (nativeF55P84HorizontalQuotient_map_eq_iff _ _ _ _).2
+    (nativeF55P84_oldLeftUnit_horizontal_related f v)
+
+/-- The old P62 quotient is provably STRICTER on the P82/P83
+comparison, while the new P84 quotient equates those exact raw paths.
+Both claims are direct theorems of their independently defined kernels. -/
+theorem nativeF55P84_oldLeftUnit_old_ne_new_eq
+    {p : Polygon} {a b : D} {x y : E}
+    {n n' m m' k k' l l' : Nat}
+    {p₀ p₁ p₂ : KuuNativeBlocks a b}
+    {q₀ q₁ q₂ : KuuNativeBlocks x y}
+    {leftBefore : KuuNativeF45Tree p n m p₀ q₀ p₁ q₁}
+    {leftAfter : KuuNativeF45Tree p n' m' p₀ q₀ p₁ q₁}
+    {rightBefore : KuuNativeF45Tree p k l p₁ q₁ p₂ q₂}
+    {rightAfter : KuuNativeF45Tree p k' l' p₁ q₁ p₂ q₂}
+    {u u' : KuuNativeF45Tree.DepthRotationRoute p leftBefore leftAfter}
+    (f : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p u u')
+    (v : KuuNativeF45Tree.DepthRotationRoute p rightBefore rightAfter)
+    (hNonUnit : f.unitOnly = false)
+    (hNotTrans : f.shapeTag ≠ 4) :
+    (nativeF55StructuralUnitQuotientFunctor
+      (KuuNativeF45Tree.node leftBefore rightBefore)
+      (KuuNativeF45Tree.node leftAfter rightAfter)).map
+      ((KuuNativeF45Tree.DepthRotationRoute.PresentedCell.trans
+        (.ident u) f).horizontal (.ident v)).toNativeStrictPath ≠
+    (nativeF55StructuralUnitQuotientFunctor
+      (KuuNativeF45Tree.node leftBefore rightBefore)
+      (KuuNativeF45Tree.node leftAfter rightAfter)).map
+      (f.horizontal (.ident v)).toNativeStrictPath ∧
+    (nativeF55P84HorizontalQuotientFunctor
+      (KuuNativeF45Tree.node leftBefore rightBefore)
+      (KuuNativeF45Tree.node leftAfter rightAfter)).map
+      ((KuuNativeF45Tree.DepthRotationRoute.PresentedCell.trans
+        (.ident u) f).horizontal (.ident v)).toNativeStrictPath =
+    (nativeF55P84HorizontalQuotientFunctor
+      (KuuNativeF45Tree.node leftBefore rightBefore)
+      (KuuNativeF45Tree.node leftAfter rightAfter)).map
+      (f.horizontal (.ident v)).toNativeStrictPath := by
+  exact ⟨nativeF55P83_horizontal_oldLeftUnit_P62Quot_ne
+    f v hNonUnit hNotTrans,
+    nativeF55P84_oldLeftUnit_horizontal_quotient_eq f v⟩
 
 /-- PHYSICAL north C60 specialization: a genuinely new P84 path
 witness exists exactly where P83 proved that NO old P62 witness
@@ -450,6 +558,10 @@ theorem northNativeP84_horizontal_related_but_not_P62 :
 #print axioms nativeF55P84HorizontalQuotient_map_eq_iff
 #print axioms nativeF55P84HorizontalToShadow
 #print axioms nativeF55P84Horizontal_shadow_factor
+#print axioms nativeF55P62ToP84Horizontal
+#print axioms nativeF55P62ToP84Horizontal_factor
+#print axioms nativeF55P84_oldLeftUnit_horizontal_quotient_eq
+#print axioms nativeF55P84_oldLeftUnit_old_ne_new_eq
 #print axioms nativeF55P84_horizontalLeft_related
 #print axioms nativeF55P84_oldLeftUnit_horizontal_related
 #print axioms northNativeP84_horizontal_related_but_not_P62
