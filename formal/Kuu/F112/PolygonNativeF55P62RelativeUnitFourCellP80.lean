@@ -184,7 +184,7 @@ variable {f g : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p u v}
 /-- The correct P80 notion of soundness: EVERY chosen Type-valued
 4-cell witness maps to the independently source-generated P62
 structural-unit path congruence, NOT to equality of raw free paths.
-The induction covers ALL eight genuinely specified constructors. -/
+The induction covers ALL nine genuinely specified constructors. -/
 theorem NativeF55P80UnitFourCell.p62_sound
     (h : NativeF55P80UnitFourCell f g) :
     NativeF55UnitPathRel first last
@@ -230,7 +230,7 @@ theorem NativeF55P80UnitFourCell.shadow_sound
 /-- This new 4-cell relation remains a genuine VERTICAL source
 congruence. Each witness is retained, not reconstructed from P62
 Prop equality or a scalar grade. -/
-theorem nativeF55P80UnitFour_comp_congr
+def nativeF55P80UnitFour_comp_congr
     (h : NativeF55P80UnitFourCell f g)
     {w : KuuNativeF45Tree.DepthRotationRoute p first last}
     {r s : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p v w}
