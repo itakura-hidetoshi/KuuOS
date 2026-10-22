@@ -99,10 +99,12 @@ theorem nativeF54P90_assoc_cast_source_ne
       KuuNativeF45Tree.node first
         (KuuNativeF45Tree.node second third) := by
   intro heq
-  have h := congrArg KuuNativeF45Tree.p90LeftRootNodes heq
-  simp only [KuuNativeF45Tree.p90LeftRootNodes_castDepths,
-    KuuNativeF45Tree.p90LeftRootNodes,
-    KuuNativeF45Tree.p90InternalNodes] at h
+  have hcounts : first.p90InternalNodes + second.p90InternalNodes + 1 =
+      first.p90InternalNodes := by
+    simpa only [KuuNativeF45Tree.p90LeftRootNodes_castDepths,
+      KuuNativeF45Tree.p90LeftRootNodes,
+      KuuNativeF45Tree.p90InternalNodes] using
+      (congrArg KuuNativeF45Tree.p90LeftRootNodes heq)
   omega
 
 /-- Full original ordered physical sector projection identifies
