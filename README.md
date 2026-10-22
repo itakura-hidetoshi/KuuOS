@@ -89,8 +89,9 @@ C60では元の正二十面体に由来する**60 Dart、90 Edge、32 Polygon（
 - [F112-P76 #2451](https://github.com/itakura-hidetoshi/KuuOS/pull/2451)：真正F55 squareOnly比較証拠の縦合成、二段階代表元輸送と合成比較の**正規化自由経路・全選択shadowでの整合性**を証明。旧bridgeと新bridgeの差分を実証拠の加法として正確に記録し、**比較経路の等号を明示的に仮定した場合に限り**合成経路等号を導出。真正C60交換正方形のraw履歴は単位左合成と異なるが、正規化経路・shadowは一致。raw 4-cellの無条件存在やstrict interchangeは未証明。
 - [F112-P77 #2452](https://github.com/itakura-hidetoshi/KuuOS/pull/2452)：真正九構成子F55 raw 3証明間に**Type値の八生成規則による縦4-cell証拠**（反射・対称・推移・左右whisker・左右単位・結合）を構成。P59正規化経路と選択shadowへの健全性を**別々に証明**し、P62単位合同と接続。4-cell証拠の存在だけを関係とする正確なSetoid・商を作り、実C60のraw非同一な二証明間の4-cellを構成。全ての同値shadow・同値経路から証拠が得られるとは言わない。
 - [F112-P78 #2453](https://github.com/itakura-hidetoshi/KuuOS/pull/2453)：P77の**真正4-cell合同による縦合成のwell-definedness**を証明し、元のF54経路上に、P77商をHomとする別の明示的Mathlib `Category`構造を実装。単位・結合はP77のraw4-cell証拠から証明し、正規化経路と全shadow観測の合成保存を証明。**局所的な厳密な縦合成のみ**であり、水平interchange・大域strict 3/nは未証明。
+- [F112-P79 #2455](https://github.com/itakura-hidetoshi/KuuOS/pull/2455)：**P77のraw4-cell合同では水平単位律を満たせないことを証明**。元F55の真の恒等3射２つを水平合成したraw証明のP59正規化経路長は２、結果経路のraw恒等3射は０。したがってP77のType値4-cellは存在せず、その厳密商クラスも非同一。左右contextの単位も同様に長さ１対０で障害がある。一方、P62の構文由来`unitOnly`経路合同ではすべて関係すること、両raw証明のfull shadowは一致することを示し、真正C60六角形の二つの独立F54 associatorで具体化。**P77の厳密な経路等号を保ったまま水平単位4-cellを追加することは不可能**だが、より弱いP62相対の証拠付きcoherenceは排除しない。
 
-**次の数学的関門はP79以降の水平双変数合成とinterchangeです。** P76では選択bridgeの差分と条件付き正規化経路整合性を得て、P77で真正Type値raw4-cellの最小生成言語と商を構成、P78でその4-cell商上の厳密な**局所縦合成**を証明しました。raw証明履歴は元のType値ソースで保持し、4-cellの存在もshadow等号と同一視しません。次は左右contextおよび水平合成がP77の4-cell合同を保存すること、真正C60の双変数interchangeとより高次のcoherenceを証明するか明示的障害を抽出します。大域strict 3/n圏と(∞,3)-hyperdescentは未証明です。
+**次の数学的関門はP80以降の証拠付き水平単位補正とP62相対coherenceです。** P76の比較証拠付き輸送、P77のraw Type値4-cell、P78のその商の厳密な局所縦合成に続き、P79では元の水平合成の単位律がP77の4-cell合同へ降下しないという**真正の否定定理**を得た。同時にP62の構文的単位経路合同では比較できることも構成した。今後はP62-relativeな型付き追加4-cell比較言語を構成し、原F55証明履歴を保持して左右contextと水平合成への適合性・strict interchangeを証明するか、残るobstructionを明示する。局所の全strict 3圏法則、大域strict n圏、(∞,3)-hyperdescentは未証明。
 
 ## 五行・Qiも別の具体的presentation
 
