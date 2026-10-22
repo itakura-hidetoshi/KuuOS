@@ -149,10 +149,25 @@ theorem NativeF55HigherArrowOverClasses.transport_twice_shadow
       (arrow.changeRepresentatives (left₂.vcomp left₁)
         (right₁.vcomp right₂)).raw.nativeShadow := by
   simp only [NativeF55HigherArrowOverClasses.changeRepresentatives_shadow,
-    NativeF55SquareOnlyCell.vcomp_shadow]
+    NativeF55SquareOnlyCell.vcomp_shadow, add_assoc]
   rw [add_left_comm left₂.1.nativeShadow left₁.1.nativeShadow,
     add_left_comm left₂.1.nativeShadow arrow.raw.nativeShadow,
     add_left_comm left₂.1.nativeShadow right₁.1.nativeShadow]
+
+/-- Additive cancellation for the genuine full F55 shadow group,
+with the old bridge term retained and canceled explicitly. -/
+private theorem nativeF55_bridge_group_cancel
+    (a b c h : KuuNativeF55Shadow) :
+    a + (b + c) = a + (h + (c + (b - h))) := by
+  rw [sub_eq_add_neg]
+  calc
+    a + (b + c) = a + ((h + -h) + (b + c)) := by simp
+    _ = a + (h + (-h + (b + c))) := by simp only [add_assoc]
+    _ = a + (h + ((b + c) + -h)) := by
+      rw [add_comm (-h) (b + c)]
+    _ = a + (h + ((c + b) + -h)) := by
+      rw [add_comm b c]
+    _ = a + (h + (c + (b + -h))) := by simp only [add_assoc]
 
 /-- EXACT full selected-shadow DEFECT of the two ways of
 transporting a genuine P70 bridge composite. It records all four
@@ -185,15 +200,20 @@ theorem NativeF55HigherArrowOverClasses.bridgeTransport_shadow_defect
             (newBridge.1.nativeShadow + leftG.1.nativeShadow) -
               oldBridge.1.nativeShadow) := by
   simp only [NativeF55HigherArrowOverClasses.changeRepresentatives_shadow,
-    NativeF55HigherArrowOverClasses.composeWithBridge_shadow, sub_eq_add_neg]
+    NativeF55HigherArrowOverClasses.composeWithBridge_shadow]
   calc
-    _ = (oldBridge.1.nativeShadow + -oldBridge.1.nativeShadow) +
-      (outerLeft.1.nativeShadow +
-        (f.raw.nativeShadow +
-          (rightF.1.nativeShadow +
-            (newBridge.1.nativeShadow +
-              (leftG.1.nativeShadow +
-                (g.raw.nativeShadow + outerRight.1.nativeShadow)))))) := by simp
+    _ = (outerLeft.1.nativeShadow + f.raw.nativeShadow) +
+      ((rightF.1.nativeShadow +
+        (newBridge.1.nativeShadow + leftG.1.nativeShadow)) +
+          (g.raw.nativeShadow + outerRight.1.nativeShadow)) := by
+      simp only [add_assoc]
+    _ = (outerLeft.1.nativeShadow + f.raw.nativeShadow) +
+      (oldBridge.1.nativeShadow +
+        ((g.raw.nativeShadow + outerRight.1.nativeShadow) +
+          ((rightF.1.nativeShadow +
+            (newBridge.1.nativeShadow + leftG.1.nativeShadow)) -
+              oldBridge.1.nativeShadow))) :=
+      nativeF55_bridge_group_cancel _ _ _ _
     _ = _ := by simp only [add_assoc]
 
 /-- If the newly chosen genuine middle square comparison WITNESSES
