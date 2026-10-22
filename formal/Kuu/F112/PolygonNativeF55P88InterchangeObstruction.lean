@@ -207,9 +207,12 @@ theorem KuuNativeF45Tree.DepthRotationRoute.PresentedCell.p88_word_nil_iff_unitO
     (raw : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p u v) :
     raw.p88InterchangeWord = [] ↔ raw.unitOnly = true := by
   induction raw with
-  | ident _ => decide
-  | pentagon _ _ _ _ => decide
-  | disjointSquare _ _ => decide
+  | ident _ => simp [KuuNativeF45Tree.DepthRotationRoute.PresentedCell.p88InterchangeWord,
+      KuuNativeF45Tree.DepthRotationRoute.PresentedCell.unitOnly]
+  | pentagon _ _ _ _ => simp [KuuNativeF45Tree.DepthRotationRoute.PresentedCell.p88InterchangeWord,
+      KuuNativeF45Tree.DepthRotationRoute.PresentedCell.unitOnly]
+  | disjointSquare _ _ => simp [KuuNativeF45Tree.DepthRotationRoute.PresentedCell.p88InterchangeWord,
+      KuuNativeF45Tree.DepthRotationRoute.PresentedCell.unitOnly]
   | symm c ih => exact ih
   | trans c d ihc ihd =>
       change c.p88InterchangeWord ++ d.p88InterchangeWord = [] ↔
@@ -218,7 +221,7 @@ theorem KuuNativeF45Tree.DepthRotationRoute.PresentedCell.p88_word_nil_iff_unitO
       · intro h
         have hc : c.p88InterchangeWord = [] := by
           cases hword : c.p88InterchangeWord with
-          | nil => exact hword
+          | nil => rfl
           | cons b bs =>
               rw [hword] at h
               cases h
