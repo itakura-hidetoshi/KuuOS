@@ -183,7 +183,7 @@ P58–P80の新規ソースは**canonical mainに存在**します。[P58](forma
 
 ## 10. 実装優先順位、CI、既存成果の保存
 
-**次の証明作業の優先順位:** P79の確定した旧P77水平単位no-goとP80のP62-relative Type値単位4-cell新presentationを継承 → **P81：新P80商上の縦Categoryを真正4-cellの左右whisker・単位・結合から構成し、source商等号がP62に健全であることを保持** → P82：全F55水平合成の新4-cell互換性と双変数interchangeの真の証明またはobstruction → 局所strict 3圏全法則 → C60以前のW/J/H・縁起一般理論との比較 → 大域strict 3/n → (∞,3)-hyperdescent。Grayを再導入せず独立Kuuを一つのpresentationとして扱う。
+**次の証明作業の優先順位:** P79旧P77水平単位no-go、P80のP62相対Type値raw4-cell、P81の新商厳密局所縦CategoryおよびP77→P80全射・C60非単射を継承 → **P82：元F55水平合成が新P80全4-cell生成規則に適合するか、構成子別に真のType値比較証拠を証明し、2変数strict interchangeまたは具体的障害を明示する** → 局所strict 3圏全法則 → C60以前のW/J/H・縁起一般化成果との比較 → 大域strict 3/n → (∞,3)-hyperdescent。独立Kuuを唯一の空にせず一つのpresentationとして保持し、Grayを使用しない。
 
 **絶対に行わないこと:** Gray圏でstrict 3圏の未証明法則を置換して完了と言うこと、旧約107公開rootの一括削除、歴史的な数学を`legacy/`だけに押し込むこと、strict性を得るために全raw証拠を無条件に潰すこと、未証明の存在条件を新公理へ置くこと、exact-head CIと公理監査を通さず未検証成果をmainに統合すること。
 
