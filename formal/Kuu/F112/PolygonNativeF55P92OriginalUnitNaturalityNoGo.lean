@@ -50,7 +50,7 @@ def KuuNativeF45Tree.DepthRotationRoute.p92UnitContextWords
   induction route with
   | chain path =>
       cases path with
-      | refl tree => exact [([] : List Bool)]
+      | refl => exact [([] : List Bool)]
       | snoc path edge => exact []
   | castDepths hn hm tree => exact []
   | trans left right ihLeft ihRight => exact ihLeft ++ ihRight
