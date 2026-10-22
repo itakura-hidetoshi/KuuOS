@@ -79,11 +79,11 @@ inductive NativeF55RawVerticalFourCell
       NativeF55RawVerticalFourCell first last f h
   | leftWhisker
       {u v w : KuuNativeF45Tree.DepthRotationRoute p first last}
-      (prefix : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p u v)
+      (prior : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p u v)
       {f g : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p v w}
       (h : NativeF55RawVerticalFourCell first last f g) :
       NativeF55RawVerticalFourCell first last
-        (.trans prefix f) (.trans prefix g)
+        (.trans prior f) (.trans prior g)
   | rightWhisker
       {u v w : KuuNativeF45Tree.DepthRotationRoute p first last}
       {f g : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p u v}
@@ -128,10 +128,10 @@ theorem NativeF55RawVerticalFourCell.path_sound
   | refl raw => rfl
   | symm h ih => exact ih.symm
   | trans hfg hgh ihfg ihgh => exact ihfg.trans ihgh
-  | leftWhisker prefix h ih =>
+  | leftWhisker prior h ih =>
       simpa only [
         KuuNativeF45Tree.DepthRotationRoute.PresentedCell.toNativeStrictPath_trans]
-        using congrArg (fun z => prefix.toNativeStrictPath.comp z) ih
+        using congrArg (fun z => prior.toNativeStrictPath.comp z) ih
   | rightWhisker h suffix ih =>
       simpa only [
         KuuNativeF45Tree.DepthRotationRoute.PresentedCell.toNativeStrictPath_trans]
@@ -150,8 +150,8 @@ theorem NativeF55RawVerticalFourCell.shadow_sound
   | refl raw => rfl
   | symm h ih => exact ih.symm
   | trans hfg hgh ihfg ihgh => exact ihfg.trans ihgh
-  | leftWhisker prefix h ih =>
-      change prefix.nativeShadow + _ = prefix.nativeShadow + _
+  | leftWhisker prior h ih =>
+      change prior.nativeShadow + _ = prior.nativeShadow + _
       rw [ih]
   | rightWhisker h suffix ih =>
       change _ + suffix.nativeShadow = _ + suffix.nativeShadow
