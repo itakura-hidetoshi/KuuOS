@@ -1,5 +1,4 @@
 import Kuu.F112.PolygonNativeF55PentagonChargeTransportDescentP73
-import Mathlib.Tactic.Omega
 
 /-!
 # F112-P74 — necessary and sufficient descent of signed linear charges
