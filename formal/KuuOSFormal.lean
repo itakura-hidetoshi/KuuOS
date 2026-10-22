@@ -14,6 +14,7 @@ import Kuu.F112.PolygonNativeF55P88InterchangeObstruction
 import Kuu.F112.PolygonNativeF55P89InterchangeFourCell
 import Kuu.F112.PolygonNativeF55P89StrictHorizontalCategory
 import Kuu.F112.PolygonNativeF55P90AssociatorSourceBoundary
+import Kuu.F112.PolygonNativeF55P90TripleRouteNaturalityBoundary
 import KUOS
 import KuuOSQiWuxingCyclicGroupPathsV3_1
 import KuuOSQiWuxingPathObservationCongruenceV3_2
