@@ -148,9 +148,16 @@ theorem NativeF55HigherArrowOverClasses.transport_twice_shadow
       left₂ right₂).raw.nativeShadow =
       (arrow.changeRepresentatives (left₂.vcomp left₁)
         (right₁.vcomp right₂)).raw.nativeShadow := by
-  simp only [NativeF55HigherArrowOverClasses.changeRepresentatives_shadow,
-    NativeF55SquareOnlyCell.vcomp_shadow, add_assoc]
-  calc
+  have h :
+      left₂.1.nativeShadow +
+        (left₁.1.nativeShadow +
+          (arrow.raw.nativeShadow +
+            (right₁.1.nativeShadow + right₂.1.nativeShadow))) =
+      left₁.1.nativeShadow +
+        (arrow.raw.nativeShadow +
+          (right₁.1.nativeShadow +
+            (left₂.1.nativeShadow + right₂.1.nativeShadow))) := by
+    calc
     left₂.1.nativeShadow +
         (left₁.1.nativeShadow +
           (arrow.raw.nativeShadow +
@@ -173,6 +180,11 @@ theorem NativeF55HigherArrowOverClasses.transport_twice_shadow
       congrArg (fun z : KuuNativeF55Shadow =>
         left₁.1.nativeShadow + (arrow.raw.nativeShadow + z))
         (add_left_comm _ _ _)
+  first
+  | simpa only [NativeF55HigherArrowOverClasses.changeRepresentatives_shadow,
+      NativeF55SquareOnlyCell.vcomp_shadow, add_assoc] using h
+  | simpa only [NativeF55HigherArrowOverClasses.changeRepresentatives_shadow,
+      NativeF55SquareOnlyCell.vcomp_shadow, add_assoc] using h.symm
 
 /-- Additive cancellation for the genuine full F55 shadow group,
 with the old bridge term retained and canceled explicitly. -/
@@ -226,7 +238,7 @@ theorem NativeF55HigherArrowOverClasses.bridgeTransport_shadow_defect
       ((rightF.1.nativeShadow +
         (newBridge.1.nativeShadow + leftG.1.nativeShadow)) +
           (g.raw.nativeShadow + outerRight.1.nativeShadow)) := by
-      simp only [add_assoc]
+      simp only [add_assoc] <;> rfl
     _ = (outerLeft.1.nativeShadow + f.raw.nativeShadow) +
       (oldBridge.1.nativeShadow +
         ((g.raw.nativeShadow + outerRight.1.nativeShadow) +
