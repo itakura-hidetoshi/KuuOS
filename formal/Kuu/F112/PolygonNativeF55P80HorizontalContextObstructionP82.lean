@@ -11,7 +11,7 @@ on ORIGINAL F55 3-proof syntax, independently of any numerical shadow.
 We construct an additional finite source-syntactic receiver. It observes
 whether a non-unit 3-cell nested under a left context is a literal raw
 vertical composite, before any P59 normalization. The receiver respects
-all seven old P77 comparison constructors and all nine P80 constructors,
+all eight old P77 comparison constructors and all nine P80 constructors,
 including the three newly selected unit certificates.
 
 For every non-unit non-trans raw proof f and every compatible right
