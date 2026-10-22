@@ -136,6 +136,7 @@ import Kuu.F112.PolygonNativeF55BridgeTransportPathCoherenceP76
 import Kuu.F112.PolygonNativeF55RawVerticalFourCellP77
 import Kuu.F112.PolygonNativeF55RawFourVerticalCategoryP78
 import Kuu.F112.PolygonNativeF55RawFourHorizontalUnitObstructionP79
+import Kuu.F112.PolygonNativeF55P62RelativeUnitFourCellP80
 /-! Internal independent Kuu import aggregate. No KUOS or legacy sources
 are imported into the independent foundation. The unique public aggregate
 remains KuuOSFormal; this is not a separate mathematical authority. -/
