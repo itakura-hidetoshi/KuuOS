@@ -79,7 +79,7 @@ F54 route objects and the new proof-relevant P86 four-cell quotient. -/
       (NativeF55P86ContextFourCell.old
         (NativeF55P85HorizontalFourCell.old
         (NativeF55P80UnitFourCell.old
-          (NativeF55RawVerticalFourCell.leftUnit raw))))⟩
+          (NativeF55RawVerticalFourCell.leftUnit raw)))))⟩
   comp_id := by
     intro X Y f
     refine Quot.inductionOn f (fun raw => ?_)
@@ -90,7 +90,7 @@ F54 route objects and the new proof-relevant P86 four-cell quotient. -/
       (NativeF55P86ContextFourCell.old
         (NativeF55P85HorizontalFourCell.old
         (NativeF55P80UnitFourCell.old
-          (NativeF55RawVerticalFourCell.rightUnit raw))))⟩
+          (NativeF55RawVerticalFourCell.rightUnit raw)))))⟩
   assoc := by
     intro W X Y Z f g h
     refine Quot.inductionOn f (fun a => ?_)
@@ -105,7 +105,7 @@ F54 route objects and the new proof-relevant P86 four-cell quotient. -/
       (NativeF55P86ContextFourCell.old
         (NativeF55P85HorizontalFourCell.old
         (NativeF55P80UnitFourCell.old
-          (NativeF55RawVerticalFourCell.assoc a b c))))⟩
+          (NativeF55RawVerticalFourCell.assoc a b c)))))⟩
 
 /-- Vertical original full F55 shadow remains additive on
 P86's chosen proof-relevant strict local vertical category. -/
