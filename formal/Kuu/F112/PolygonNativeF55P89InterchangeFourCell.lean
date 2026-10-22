@@ -71,8 +71,10 @@ inductive NativeF55P89InterchangeFourCell
       (g₁ : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p v₀ v₁)
       (g₂ : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p v₁ v₂) :
       NativeF55P89InterchangeFourCell
-        ((.trans f₁ f₂).horizontal (.trans g₁ g₂))
-        (.trans (f₁.horizontal g₁) (f₂.horizontal g₂))
+        ((KuuNativeF45Tree.DepthRotationRoute.PresentedCell.trans f₁ f₂).horizontal
+          (KuuNativeF45Tree.DepthRotationRoute.PresentedCell.trans g₁ g₂))
+        (KuuNativeF45Tree.DepthRotationRoute.PresentedCell.trans
+          (f₁.horizontal g₁) (f₂.horizontal g₂))
   | refl
 
       {n n' m m' : Nat}
