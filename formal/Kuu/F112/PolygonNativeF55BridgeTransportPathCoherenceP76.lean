@@ -158,28 +158,28 @@ theorem NativeF55HigherArrowOverClasses.transport_twice_shadow
           (right₁.1.nativeShadow +
             (left₂.1.nativeShadow + right₂.1.nativeShadow))) := by
     calc
-    left₂.1.nativeShadow +
-        (left₁.1.nativeShadow +
-          (arrow.raw.nativeShadow +
-            (right₁.1.nativeShadow + right₂.1.nativeShadow))) =
-      left₁.1.nativeShadow +
-        (left₂.1.nativeShadow +
-          (arrow.raw.nativeShadow +
-            (right₁.1.nativeShadow + right₂.1.nativeShadow))) :=
-      add_left_comm _ _ _
-    _ = left₁.1.nativeShadow +
-        (arrow.raw.nativeShadow +
+      left₂.1.nativeShadow +
+          (left₁.1.nativeShadow +
+            (arrow.raw.nativeShadow +
+              (right₁.1.nativeShadow + right₂.1.nativeShadow))) =
+        left₁.1.nativeShadow +
           (left₂.1.nativeShadow +
-            (right₁.1.nativeShadow + right₂.1.nativeShadow))) :=
-      congrArg (fun z : KuuNativeF55Shadow => left₁.1.nativeShadow + z)
-        (add_left_comm _ _ _)
-    _ = left₁.1.nativeShadow +
-        (arrow.raw.nativeShadow +
-          (right₁.1.nativeShadow +
-            (left₂.1.nativeShadow + right₂.1.nativeShadow))) :=
-      congrArg (fun z : KuuNativeF55Shadow =>
-        left₁.1.nativeShadow + (arrow.raw.nativeShadow + z))
-        (add_left_comm _ _ _)
+            (arrow.raw.nativeShadow +
+              (right₁.1.nativeShadow + right₂.1.nativeShadow))) :=
+        add_left_comm _ _ _
+      _ = left₁.1.nativeShadow +
+          (arrow.raw.nativeShadow +
+            (left₂.1.nativeShadow +
+              (right₁.1.nativeShadow + right₂.1.nativeShadow))) :=
+        congrArg (fun z : KuuNativeF55Shadow => left₁.1.nativeShadow + z)
+          (add_left_comm _ _ _)
+      _ = left₁.1.nativeShadow +
+          (arrow.raw.nativeShadow +
+            (right₁.1.nativeShadow +
+              (left₂.1.nativeShadow + right₂.1.nativeShadow))) :=
+        congrArg (fun z : KuuNativeF55Shadow =>
+          left₁.1.nativeShadow + (arrow.raw.nativeShadow + z))
+          (add_left_comm _ _ _)
   first
   | simpa only [NativeF55HigherArrowOverClasses.changeRepresentatives_shadow,
       NativeF55SquareOnlyCell.vcomp_shadow, add_assoc] using h
