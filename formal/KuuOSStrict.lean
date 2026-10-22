@@ -128,6 +128,7 @@ import Kuu.F112.PolygonNativeF55ContextSquareComparisonP68
 import Kuu.F112.PolygonNativeF55HigherHomTransportBoundaryP69
 import Kuu.F112.PolygonNativeF55HigherHomRepresentativeTransportP70
 import Kuu.F112.PolygonNativeF55HigherTransportQuotientP71
+import Kuu.F112.PolygonNativeF55TransportShadowCocycleP72
 /-! Internal independent Kuu import aggregate. No KUOS or legacy sources
 are imported into the independent foundation. The unique public aggregate
 remains KuuOSFormal; this is not a separate mathematical authority. -/
