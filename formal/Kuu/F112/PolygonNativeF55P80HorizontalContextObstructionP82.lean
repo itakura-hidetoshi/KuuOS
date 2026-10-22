@@ -188,7 +188,7 @@ theorem nativeF55P82_horizontal_oldLeftUnit_noFourCell
     (hNonUnit : f.unitOnly = false)
     (hNotTrans : f.shapeTag ≠ 4) :
     ¬ Nonempty (NativeF55P80UnitFourCell
-      ((.trans (.ident u) f).horizontal (.ident v))
+      ((KuuNativeF45Tree.DepthRotationRoute.PresentedCell.trans (.ident u) f).horizontal (.ident v))
       (f.horizontal (.ident v))) := by
   rintro ⟨certificate⟩
   have hs := certificate.p82_signature_sound
@@ -224,7 +224,7 @@ theorem nativeF55P82_horizontal_oldLeftUnit_class_ne
     nativeF55P80UnitFourClass
       (KuuNativeF45Tree.node leftBefore rightBefore)
       (KuuNativeF45Tree.node leftAfter rightAfter)
-      ((.trans (.ident u) f).horizontal (.ident v)) ≠
+      ((KuuNativeF45Tree.DepthRotationRoute.PresentedCell.trans (.ident u) f).horizontal (.ident v)) ≠
     nativeF55P80UnitFourClass
       (KuuNativeF45Tree.node leftBefore rightBefore)
       (KuuNativeF45Tree.node leftAfter rightAfter)
@@ -255,7 +255,7 @@ and a compatible typed right source unit exhibit failure of P80's
 original horizontal representative independence. -/
 theorem northNativeP82_horizontal_oldLeftUnit_noFourCell :
     ¬ Nonempty (NativeF55P80UnitFourCell
-      ((.trans (.ident northNativeF45PentagonLong)
+      ((KuuNativeF45Tree.DepthRotationRoute.PresentedCell.trans (.ident northNativeF45PentagonLong)
         northNativeF55PentagonCell).horizontal
         (.ident northNativeP82RightUnitRoute))
       (northNativeF55PentagonCell.horizontal
