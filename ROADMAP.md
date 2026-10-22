@@ -1,6 +1,6 @@
 # KuuOS / 空OS — Formal Research Roadmap
 
-**更新：2026-10-22 JST。C60以前の縁起一般理論・107公開rootを維持。F112-P80までの真正F55 raw4-cell、P77水平単位no-goと別presentationでのP62-relative Type値単位補正を反映。**
+**更新：2026-10-22 JST。C60以前の縁起一般理論・107公開rootを保持し、F112-P81までのP62相対Type値raw4-cellと厳密局所縦Category、P77→P80全射・真正C60非単射性を反映。**
 
 > **一般理論 → C60による具体的検証 → 一般理論の改善・strict高次化 → (∞,3)-hyperdescent。**
 > 
@@ -14,13 +14,13 @@
 | --- | --- |
 | 公開統合正本 | [`main`](https://github.com/itakura-hidetoshi/KuuOS/tree/main)。歴史的`formal/KUOS/`と現行`formal/Kuu/`、Qiを**同一Leanパッケージ**に含む。 |
 | 独立Kuu F112研究 | [親PR #2339](https://github.com/itakura-hidetoshi/KuuOS/pull/2339)は**MERGED**。かつての`formal/v5-293-f112-independent-total-change`は移行作業の履歴であり、現在の正本はmain。 |
-| F112確認範囲 | **P80 [#2457](https://github.com/itakura-hidetoshi/KuuOS/pull/2457)までmain統合済み**。P76：Lean 9684/9684・公理監査11件、P77：9685/9685・13件、P78：9686/9686・８件、P79：9687/9687・17件、P80：9688/9688・14件。全PRで`sorryAx`なし・対象Lean警告/エラー0・exact-head Governance SUCCESS・107公開root保全・completion receipts 2/2 SUCCESS。P80統合SHA `c72785a2ccb9dcb499504579cf35aeaec985b6fe`。 |
+| F112確認範囲 | **P81 [#2459](https://github.com/itakura-hidetoshi/KuuOS/pull/2459)までmain統合済み**。P79：Lean 9687/9687・公理監査17件、P80：9688/9688・14件、P81：9689/9689・13件。各PRの新規`sorryAx`なし・対象エラー/警告0・exact-head Governance・107公開root保全・completion receipts 2/2 SUCCESS。P81統合SHA `5c9925528d8a90239375104a2ac1a5e71e483559`。P81は単一公開`KuuOSFormal`から直接import済み。 |
 | 既存定理の証拠 | 実際のLean宣言・型と仮定・`#print axioms`・対応するexact-head CI。`sorryAx`、`sorry`、`admit`、新たな未証明公理による補完は禁止。 |
 | 数学的区別 | raw Type-valued証拠、Prop証明、選択した商、観測、物理的解釈は互いに無条件には同一視しない。 |
 | 公開入口・toolchain | `lake build KuuOSFormal`（`lake build`も同じ）。既存107公開rootは維持。Lean `v4.30.0-rc2`、pinned mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`。 |
 | 別レーン | PR #1558（Lean 4.31）はvalidation-only、Draft・未マージ。Lean/mathlibの正式な固定環境は上記のまま。 |
 
-GitHub正本・Lean成果・README/ROADMAP・CI・歴史的スナップショットには異なる役割がある。**P80までのmain統合はGitHub上のMERGED commitとexact-head CIにより確認済み**。文書編集を数学的証明の代替とせず、C60以前の縁起一般化成果も維持する。
+GitHub正本・Lean成果・README/ROADMAP・CI・歴史的スナップショットには異なる役割がある。**P81までのmain統合はGitHub上のMERGED commitとexact-head CIにより確認済み**。文書編集を数学的証明の代替とせず、C60以前の縁起一般化成果も維持する。
 
 ## 1. 最初から存在する一般理論を研究の幹として継承する
 
@@ -86,8 +86,9 @@ KuuOSの原初の問いは、C60の60頂点・90辺・32面ではなく、**関�
 | **F112 P78** [#2453](https://github.com/itakura-hidetoshi/KuuOS/pull/2453) | P77 source4-cell合同への縦合成の適合性から、元のF54 route上のHomをP77商とする**明示的Mathlib Category**を構成。原raw単位・合成および真正4-cell結合証拠による厳密な縦単位・結合法則。P59正規化自由経路とfull shadowの厳密加法性も証明。 | 既存Categoryインスタンスを置換しない独立presentation。水平二変数合成・interchange、4-cell間coherence、大域strict 3/n・hyperdescentは未証明。 |
 | **F112 P79** [#2455](https://github.com/itakura-hidetoshi/KuuOS/pull/2455) | 元のF55水平恒等合成と合成後恒等のP59経路長が２対０であることから、P77 Type値raw4-cell**非存在**と厳密商クラス非同一性を証明。左右F54 context単位も１対０の障害。全shadowの一致だけではraw4-cellが得られず、P62の構文由来単位合同では各対を比較できる。真正C60六角形の独立左右F54回転を用いて具体化。 | P77の厳密path等号を保つ4-cell拡張で水平単位律を満たすことは不可能。P80で別のP62-relative Type値4-cell候補を構成済み。大域strict 3/nやhyperdescentの不可能性とは異なる。 |
 | **F112 P80** [#2457](https://github.com/itakura-hidetoshi/KuuOS/pull/2457) | 旧P77の真正Type値4-cellを保持したうえで、水平単位・左右context単位を**新たなType値4-cell生成規則**として明示し、反射/対称/推移/左右縦whisker閉包を構成。全生成規則のP62構文的unit-path合同への健全性と原full F55 shadow保存、縦合成適合性、実証拠存在をexact kernelとするSetoid商・shadow因子化を証明。真正C60で旧P77商の非同一性と新P80商の同一性を併記。 | 新しい比較は選択されたpresentationであり、旧P77 path equalityのno-goを覆さない。新商上の局所縦Category、一般水平2変数合成互換性・interchange、大域strict 3/n・hyperdescentは未証明。 |
+| **F112 P81** [#2459](https://github.com/itakura-hidetoshi/KuuOS/pull/2459) | 新P80のType値4-cellに基づく縦合成well-definednessと厳密な局所Mathlib `Category`を構成。原F55 full shadowの合成保存・単位零、旧P77→P80の実証拠由来全射・縦合成/全shadow保存、真正C60での非単射性、P59厳密自由経路readoutの新商への非降下をLeanで証明。 | 単一公開KuuOSFormalへ直接import。旧P77・P79の障害を保持。水平双変数合成・interchange、4-cell間coherence、大域strict 3/n・hyperdescentは未証明。 |
 
-P58–P80の新規ソースは**canonical mainに存在**します。[P58](formal/Kuu/F112/PolygonNativeF55RawStrictificationBoundary.lean)、[P59](formal/Kuu/F112/PolygonNativeF55RawVerticalNormalizationP59.lean)、[P60正規化関手](formal/Kuu/F112/PolygonNativeF55RawPathNormalizerFunctorP60.lean)、[P61](formal/Kuu/F112/PolygonNativeF55HorizontalStrictPathBoundaryP61.lean)、[P62](formal/Kuu/F112/PolygonNativeF55TypedUnitCongruenceP62.lean)、[P63](formal/Kuu/F112/PolygonNativeF55ContextPathActionsP63.lean)、[P64](formal/Kuu/F112/PolygonNativeF55StructuralUnitQuotientP64.lean)。追加[P65](formal/Kuu/F112/PolygonNativeF55ContextUnitDescentP65.lean)・[P66](formal/Kuu/F112/PolygonNativeF55C60InterchangeRouteObstructionP66.lean)・[P67](formal/Kuu/F112/PolygonNativeF55TypedSquareRouteComparisonP67.lean)・[P68](formal/Kuu/F112/PolygonNativeF55ContextSquareComparisonP68.lean)もmainにある。raw Type値の歴史、経路対象、単位合同関係、square比較クラス、選択shadowの役割と等号を混同しない。 追加[P69](formal/Kuu/F112/PolygonNativeF55HigherHomTransportBoundaryP69.lean)・[P70](formal/Kuu/F112/PolygonNativeF55HigherHomRepresentativeTransportP70.lean)・[P71](formal/Kuu/F112/PolygonNativeF55HigherTransportQuotientP71.lean)・[P72](formal/Kuu/F112/PolygonNativeF55TransportShadowCocycleP72.lean)・[P73](formal/Kuu/F112/PolygonNativeF55PentagonChargeTransportDescentP73.lean)・[P74](formal/Kuu/F112/PolygonNativeF55LinearChargeDescentP74.lean)・[P75](formal/Kuu/F112/PolygonNativeF55GradedTransportCoherenceP75.lean)もmain統合済み。 追加[P76](formal/Kuu/F112/PolygonNativeF55BridgeTransportPathCoherenceP76.lean)・[P77](formal/Kuu/F112/PolygonNativeF55RawVerticalFourCellP77.lean)・[P78](formal/Kuu/F112/PolygonNativeF55RawFourVerticalCategoryP78.lean)もmain統合済み。 追加[P79](formal/Kuu/F112/PolygonNativeF55RawFourHorizontalUnitObstructionP79.lean)もmainへ統合済み。 追加[P80](formal/Kuu/F112/PolygonNativeF55P62RelativeUnitFourCellP80.lean)もmain統合済み。
+P58–P81の新規ソースは**canonical mainに存在**します。[P58](formal/Kuu/F112/PolygonNativeF55RawStrictificationBoundary.lean)、[P59](formal/Kuu/F112/PolygonNativeF55RawVerticalNormalizationP59.lean)、[P60正規化関手](formal/Kuu/F112/PolygonNativeF55RawPathNormalizerFunctorP60.lean)、[P61](formal/Kuu/F112/PolygonNativeF55HorizontalStrictPathBoundaryP61.lean)、[P62](formal/Kuu/F112/PolygonNativeF55TypedUnitCongruenceP62.lean)、[P63](formal/Kuu/F112/PolygonNativeF55ContextPathActionsP63.lean)、[P64](formal/Kuu/F112/PolygonNativeF55StructuralUnitQuotientP64.lean)。追加[P65](formal/Kuu/F112/PolygonNativeF55ContextUnitDescentP65.lean)・[P66](formal/Kuu/F112/PolygonNativeF55C60InterchangeRouteObstructionP66.lean)・[P67](formal/Kuu/F112/PolygonNativeF55TypedSquareRouteComparisonP67.lean)・[P68](formal/Kuu/F112/PolygonNativeF55ContextSquareComparisonP68.lean)もmainにある。raw Type値の歴史、経路対象、単位合同関係、square比較クラス、選択shadowの役割と等号を混同しない。 追加[P69](formal/Kuu/F112/PolygonNativeF55HigherHomTransportBoundaryP69.lean)・[P70](formal/Kuu/F112/PolygonNativeF55HigherHomRepresentativeTransportP70.lean)・[P71](formal/Kuu/F112/PolygonNativeF55HigherTransportQuotientP71.lean)・[P72](formal/Kuu/F112/PolygonNativeF55TransportShadowCocycleP72.lean)・[P73](formal/Kuu/F112/PolygonNativeF55PentagonChargeTransportDescentP73.lean)・[P74](formal/Kuu/F112/PolygonNativeF55LinearChargeDescentP74.lean)・[P75](formal/Kuu/F112/PolygonNativeF55GradedTransportCoherenceP75.lean)もmain統合済み。 追加[P76](formal/Kuu/F112/PolygonNativeF55BridgeTransportPathCoherenceP76.lean)・[P77](formal/Kuu/F112/PolygonNativeF55RawVerticalFourCellP77.lean)・[P78](formal/Kuu/F112/PolygonNativeF55RawFourVerticalCategoryP78.lean)もmain統合済み。 追加[P79](formal/Kuu/F112/PolygonNativeF55RawFourHorizontalUnitObstructionP79.lean)もmainへ統合済み。 追加[P80](formal/Kuu/F112/PolygonNativeF55P62RelativeUnitFourCellP80.lean)もmain統合済み。 追加[P81](formal/Kuu/F112/PolygonNativeF55P80UnitFourVerticalCategoryP81.lean)もmainに存在し、単一公開`KuuOSFormal`から直接import済み。
 
 ## 3. 最優先の新規数学：局所proof-relevant strict 3圏
 
@@ -99,7 +100,7 @@ P58–P80の新規ソースは**canonical mainに存在**します。[P58](forma
 2. **合成・単位・結合律**：`\circ_i`を定義し、すべての定義可能な段階でstrictな左右単位・結合の等式を証明する。元のraw語のliteralな等式とは混同しない。
 3. **全interchange**：異なる`i<j`方向の合成について、弱いinterchanger 3射ではなく厳密な等式を証明する。Gray圏のcoherenceを証明の代用品にしない。
 4. **非自明性・source情報**：raw証拠、原F54/F55履歴、位相・曲率・障害を失うか否かを**個別の保存/非保存定理**で記載する。単に全3射を同一視した圏ではこの研究目標を達成しない。
-5. **最小の整合関係またはno-go**：P77の真正raw4-cell・P78局所縦CategoryではP59自由経路等号を保存するため、P79で水平単位律の不可能性を証明。P80ではこの障害を消去せず、旧P77の4-cellと水平・左右contextの単位比較を**新しく生成**する別presentationを採用。その全証拠をP62の構文由来unit-path合同に降下させ、F55全shadow保存と原raw履歴の保持を証明。**P81以降に新商の縦Category、水平合成の真正4-cell合同互換性、strict interchangeおよび必要な高次coherenceを構築**し、成否を厳密に判定する。
+5. **最小の整合関係またはno-go**：P77のraw4-cell/P78旧縦CategoryではP59自由経路等号を保存するため、P79で元水平単位律の障害が確定した。P80はそれを維持した別presentationとして水平・左右context単位のType値4-cellを明示的に追加し、P62構文的合同に健全。P81は新P80商上で厳密な局所縦Categoryを構成し、P77→P80全射・C60非単射性とP59厳密path readoutの新商への非降下を証明した。P82で全水平構成子の4-cell合同適合性とstrict interchangeを検証し、成立しない部分には具体的obstructionを示す。
 
 **完了基準:** 本物の3-cellと全globular境界、合成・単位・結合・交換のLean定理、`#print axioms`、情報保存/損失定理、exact-head CI。**自由path 1圏を作っただけ、2次元のstrict interchangeだけ、Gray圏の可逆interchangerだけでは未完了**です。
 
@@ -182,7 +183,7 @@ P58–P80の新規ソースは**canonical mainに存在**します。[P58](forma
 
 ## 10. 実装優先順位、CI、既存成果の保存
 
-**次の証明作業の優先順位:** P79の確定した旧P77水平単位no-goとP80のP62-relative Type値単位4-cell新presentationを継承 → **P81：新P80商上の縦Categoryを真正4-cellの左右whisker・単位・結合から構成し、source商等号がP62に健全であることを保持** → P82：全F55水平合成の新4-cell互換性と双変数interchangeの真の証明またはobstruction → 局所strict 3圏全法則 → C60以前のW/J/H・縁起一般理論との比較 → 大域strict 3/n → (∞,3)-hyperdescent。Grayを再導入せず独立Kuuを一つのpresentationとして扱う。
+**次の証明作業の優先順位:** P79旧P77水平単位no-go、P80のP62相対Type値raw4-cell、P81の新商厳密局所縦CategoryおよびP77→P80全射・C60非単射を継承 → **P82：元F55水平合成が新P80全4-cell生成規則に適合するか、構成子別に真のType値比較証拠を証明し、2変数strict interchangeまたは具体的障害を明示する** → 局所strict 3圏全法則 → C60以前のW/J/H・縁起一般化成果との比較 → 大域strict 3/n → (∞,3)-hyperdescent。独立Kuuを唯一の空にせず一つのpresentationとして保持し、Grayを使用しない。
 
 **絶対に行わないこと:** Gray圏でstrict 3圏の未証明法則を置換して完了と言うこと、旧約107公開rootの一括削除、歴史的な数学を`legacy/`だけに押し込むこと、strict性を得るために全raw証拠を無条件に潰すこと、未証明の存在条件を新公理へ置くこと、exact-head CIと公理監査を通さず未検証成果をmainに統合すること。
 
@@ -223,6 +224,7 @@ lake build KuuOSFormal # warningAsErrorはlakefile.toml既定。sorryAxは#print
 - [F112-P78 #2453](https://github.com/itakura-hidetoshi/KuuOS/pull/2453) — strictly associative local vertical category on actual raw 4-cell classes（9686/9686 SUCCESS）
 - [F112-P79 #2455](https://github.com/itakura-hidetoshi/KuuOS/pull/2455) — original raw F55 horizontal-unit obstruction for P77 four-cell quotient, positive P62-relative witness and physical C60 specialization（9687/9687 SUCCESS）
 - [F112-P80 #2457](https://github.com/itakura-hidetoshi/KuuOS/pull/2457) — Type-valued P62-relative horizontal/context unit 4-cell presentation, original source shadow conservation, exact witness quotient and real C60 strict enlargement（9688/9688 SUCCESS）
+- [F112-P81 #2459](https://github.com/itakura-hidetoshi/KuuOS/pull/2459) — P62-relative P80 source four-cell strict local vertical category, surjective P77→P80 comparison, genuine C60 noninjectivity and no exact free-path readout（9689/9689 SUCCESS）
 - [`AGENTS.md`](AGENTS.md) — 現行のpublic root・mathlib・Gray依存・ビルド境界
 - [`formal/KUOS/`](formal/KUOS/) — 過去から継続する一般的なLean数学
 - [`formal/Kuu/`](formal/Kuu/) — 現在の独立Kuuの具体的な構成
