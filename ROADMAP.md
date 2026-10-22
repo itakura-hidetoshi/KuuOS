@@ -100,7 +100,7 @@ P58–P81の新規ソースは**canonical mainに存在**します。[P58](forma
 2. **合成・単位・結合律**：`\circ_i`を定義し、すべての定義可能な段階でstrictな左右単位・結合の等式を証明する。元のraw語のliteralな等式とは混同しない。
 3. **全interchange**：異なる`i<j`方向の合成について、弱いinterchanger 3射ではなく厳密な等式を証明する。Gray圏のcoherenceを証明の代用品にしない。
 4. **非自明性・source情報**：raw証拠、原F54/F55履歴、位相・曲率・障害を失うか否かを**個別の保存/非保存定理**で記載する。単に全3射を同一視した圏ではこの研究目標を達成しない。
-5. **最小の整合関係またはno-go**：P77の真正raw4-cell・P78局所縦CategoryではP59自由経路等号を保存するため、P79で水平単位律の不可能性を証明。P80ではこの障害を消去せず、旧P77の4-cellと水平・左右contextの単位比較を**新しく生成**する別presentationを採用。その全証拠をP62の構文由来unit-path合同に降下させ、F55全shadow保存と原raw履歴の保持を証明。**P81以降に新商の縦Category、水平合成の真正4-cell合同互換性、strict interchangeおよび必要な高次coherenceを構築**し、成否を厳密に判定する。
+5. **最小の整合関係またはno-go**：P77のraw4-cell/P78旧縦CategoryではP59自由経路等号を保存するため、P79で元水平単位律の障害が確定した。P80はそれを維持した別presentationとして水平・左右context単位のType値4-cellを明示的に追加し、P62構文的合同に健全。P81は新P80商上で厳密な局所縦Categoryを構成し、P77→P80全射・C60非単射性とP59厳密path readoutの新商への非降下を証明した。P82で全水平構成子の4-cell合同適合性とstrict interchangeを検証し、成立しない部分には具体的obstructionを示す。
 
 **完了基準:** 本物の3-cellと全globular境界、合成・単位・結合・交換のLean定理、`#print axioms`、情報保存/損失定理、exact-head CI。**自由path 1圏を作っただけ、2次元のstrict interchangeだけ、Gray圏の可逆interchangerだけでは未完了**です。
 
@@ -224,6 +224,7 @@ lake build KuuOSFormal # warningAsErrorはlakefile.toml既定。sorryAxは#print
 - [F112-P78 #2453](https://github.com/itakura-hidetoshi/KuuOS/pull/2453) — strictly associative local vertical category on actual raw 4-cell classes（9686/9686 SUCCESS）
 - [F112-P79 #2455](https://github.com/itakura-hidetoshi/KuuOS/pull/2455) — original raw F55 horizontal-unit obstruction for P77 four-cell quotient, positive P62-relative witness and physical C60 specialization（9687/9687 SUCCESS）
 - [F112-P80 #2457](https://github.com/itakura-hidetoshi/KuuOS/pull/2457) — Type-valued P62-relative horizontal/context unit 4-cell presentation, original source shadow conservation, exact witness quotient and real C60 strict enlargement（9688/9688 SUCCESS）
+- [F112-P81 #2459](https://github.com/itakura-hidetoshi/KuuOS/pull/2459) — P62-relative P80 source four-cell strict local vertical category, surjective P77→P80 comparison, genuine C60 noninjectivity and no exact free-path readout（9689/9689 SUCCESS）
 - [`AGENTS.md`](AGENTS.md) — 現行のpublic root・mathlib・Gray依存・ビルド境界
 - [`formal/KUOS/`](formal/KUOS/) — 過去から継続する一般的なLean数学
 - [`formal/Kuu/`](formal/Kuu/) — 現在の独立Kuuの具体的な構成
