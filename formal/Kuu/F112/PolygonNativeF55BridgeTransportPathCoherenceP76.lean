@@ -150,7 +150,7 @@ theorem NativeF55HigherArrowOverClasses.transport_twice_shadow
         (right₁.vcomp right₂)).raw.nativeShadow := by
   simp only [NativeF55HigherArrowOverClasses.changeRepresentatives_shadow,
     NativeF55SquareOnlyCell.vcomp_shadow]
-  abel
+  abel_nf
 
 /-- EXACT full selected-shadow DEFECT of the two ways of
 transporting a genuine P70 bridge composite. It records all four
@@ -184,7 +184,7 @@ theorem NativeF55HigherArrowOverClasses.bridgeTransport_shadow_defect
               oldBridge.1.nativeShadow) := by
   simp only [NativeF55HigherArrowOverClasses.changeRepresentatives_shadow,
     NativeF55HigherArrowOverClasses.composeWithBridge_shadow]
-  abel
+  abel_nf
 
 /-- If the newly chosen genuine middle square comparison WITNESSES
 have the same full F55 shadow as the old bridge, the two complete
