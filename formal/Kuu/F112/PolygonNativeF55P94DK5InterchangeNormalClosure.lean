@@ -66,6 +66,13 @@ genuine interchange relation, using the pinned mathlib kernel. -/
 def nativeK5PNNormalClosure : AddSubgroup NativeF55P94CWord :=
   AddSubgroup.normalClosure nativeK5PNRelators
 
+/-- Expose the normality of the explicitly named normal closure to
+mathlib's quotient-group typeclass search. A named def is otherwise
+opaque to synthesis, even though its unfolding is normal. -/
+instance nativeK5PNNormalClosure_normal : nativeK5PNNormalClosure.Normal := by
+  unfold nativeK5PNNormalClosure
+  infer_instance
+
 /-- The exact original physical 4-cell witnesses this relator:
 its SOURCE 3-proof ordered word difference is the generator above. -/
 theorem northK5P94AInterchange_actual_relator :
@@ -175,7 +182,7 @@ def nativeK5PNCorrectedShadow :
 theorem nativeK5PNCorrectedShadow_spec (w : NativeF55P94CWord) :
     nativeK5PNCorrectedShadow (nativeK5PNCorrectedClass w) =
       nativeF55P94CWordToShadow w := by
-  exact QuotientAddGroup.lift_mk' nativeK5PNNormalClosure_le_shadow_ker w
+  exact QuotientAddGroup.lift_mk' nativeK5PNNormalClosure nativeK5PNNormalClosure_le_shadow_ker w
 
 /-- P94C3's second S3 observer kills the NEW naturality word,
 and hence the required P/N commutator, retaining original P/S
@@ -205,7 +212,7 @@ def nativeK5PNCorrectedS3 :
 theorem nativeK5PNCorrectedS3_spec (w : NativeF55P94CWord) :
     nativeK5PNCorrectedS3 (nativeK5PNCorrectedClass w) =
       nativeF55P94CWordToS3 w := by
-  exact QuotientAddGroup.lift_mk' nativeK5PNNormalClosure_le_S3_ker w
+  exact QuotientAddGroup.lift_mk' nativeK5PNNormalClosure nativeK5PNNormalClosure_le_S3_ker w
 
 /-- P and the ORIGINAL odd-phase six-sector S do not commute even
 AFTER imposing the genuine P94A P/N interchange relation. The
