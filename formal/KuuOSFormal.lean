@@ -25,6 +25,7 @@ import Kuu.F112.PolygonNativeF55P93OriginalToAssocNonfaithfulness
 import Kuu.F112.PolygonNativeF55P93AssocFourCellCoherence
 import Kuu.F112.PolygonNativeF55P93FourQuotientStrictInterchange
 import Kuu.F112.PolygonNativeF55P94UnitFourCellPresentation
+import Kuu.F112.PolygonNativeF55P94UnitFourQuotientHorizontalCategory
 import KUOS
 import KuuOSQiWuxingCyclicGroupPathsV3_1
 import KuuOSQiWuxingPathObservationCongruenceV3_2
