@@ -34,6 +34,7 @@ import Kuu.F112.PolygonNativeF55P94DK5FiveStageTypedShell
 import Kuu.F112.PolygonNativeF55P94DK5NineGenuineFaceCells
 import Kuu.F112.PolygonNativeF55P94DK5NineFaceAnchoredBoundaries
 import Kuu.F112.PolygonNativeF55P94DK5InterchangeWordNoDescent
+import Kuu.F112.PolygonNativeF55P94DK5InterchangeNormalClosure
 import KUOS
 import KuuOSQiWuxingCyclicGroupPathsV3_1
 import KuuOSQiWuxingPathObservationCongruenceV3_2
