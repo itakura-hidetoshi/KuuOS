@@ -270,11 +270,13 @@ theorem NativeF55P93AssocFourCell.shadow_sound
         f.nativeShadow + (g.nativeShadow + h.nativeShadow)
       exact add_assoc _ _ _
   | leftWhisker prior witness ih =>
-      change prior.nativeShadow + _ = prior.nativeShadow + _
-      rw [ih]
+      -- Native shadow is compiled to a dependent recursor; use
+      -- congrArg, not rw on syntactically reduced recursive terms.
+      exact congrArg
+        (fun z : KuuNativeF55Shadow => prior.nativeShadow + z) ih
   | rightWhisker witness suffix ih =>
-      change _ + suffix.nativeShadow = _ + suffix.nativeShadow
-      rw [ih]
+      exact congrArg
+        (fun z : KuuNativeF55Shadow => z + suffix.nativeShadow) ih
   | leftContext witness later ih => exact ih
   | rightContext earlier witness ih => exact ih
   | precompose prior witness ih => exact ih
