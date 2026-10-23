@@ -552,8 +552,8 @@ theorem nativeF55P94Group_odd_phase_no_null_fourCell
     {r : KuuNativeF45Tree.DepthRotationRoute p first last}
     (f : NativeF55P92AssocComparison p r r)
     (hodd : f.nativeShadow.2 ≠ (0 : ZMod 2)) :
-    ¬ NativeF55P94GroupFourCell f (.refl r) := by
-  intro w
+    ¬ Nonempty (NativeF55P94GroupFourCell f (.refl r)) := by
+  rintro ⟨w⟩
   have hs := congrArg (fun sh : KuuNativeF55Shadow => sh.2) w.shadow_sound
   change f.nativeShadow.2 = (0 : ZMod 2) at hs
   exact hodd hs
@@ -570,8 +570,8 @@ theorem nativeF55P94Group_three_odd_square_phase_obstruction
     (hf : f.nativeShadow.2 = (1 : ZMod 2))
     (hg : g.nativeShadow.2 = (1 : ZMod 2))
     (hh : h.nativeShadow.2 = (1 : ZMod 2)) :
-    ¬ NativeF55P94GroupFourCell (.trans (.trans f g) h) (.refl r₀) := by
-  intro w
+    ¬ Nonempty (NativeF55P94GroupFourCell (.trans (.trans f g) h) (.refl r₀)) := by
+  rintro ⟨w⟩
   have hs := congrArg (fun sh : KuuNativeF55Shadow => sh.2) w.shadow_sound
   change (f.nativeShadow.2 + g.nativeShadow.2) + h.nativeShadow.2 =
     (0 : ZMod 2) at hs
