@@ -219,14 +219,15 @@ theorem nativeC60GaugeEquivalent_trans
   rcases hfn with ⟨phi, rfl⟩
   rcases hnl with ⟨psi, rfl⟩
   refine ⟨fun s => phi s + psi s, ?_⟩
-  exact (nativeC60GaugeTransform_comp field phi psi).symm
+  exact nativeC60GaugeTransform_comp field phi psi
 
 /-- Genuine gauge classes, not graph-connected-component classes. -/
 def nativeC60GaugeSetoid : Setoid (NativeC60IncidenceGaugeField A) where
   r := nativeC60GaugeEquivalent
-  iseqv := ⟨nativeC60GaugeEquivalent_refl,
-    fun _ _ => nativeC60GaugeEquivalent_symm,
-    fun _ _ _ => nativeC60GaugeEquivalent_trans⟩
+  iseqv := ⟨
+    nativeC60GaugeEquivalent_refl,
+    (fun _ _ h => nativeC60GaugeEquivalent_symm h),
+    (fun _ _ _ h₁ h₂ => nativeC60GaugeEquivalent_trans h₁ h₂)⟩
 
 abbrev NativeC60GaugeClasses (A : Type u) [AddCommGroup A] :=
   Quotient (nativeC60GaugeSetoid (A := A))
