@@ -157,7 +157,23 @@ theorem NativeK5TypedShellingDatum.cycle_word
   simp only [NativeK5TypedShellingDatum.cycle,
     NativeF55P92AssocComparison.p94cGroupWord,
     nativeK5GraphShellingWord]
-  simp [d.face_word, nativeK5GraphShellingStep, nativeK5FaceTagOfFin]
+  apply congrArg₂ (fun (u v : NativeF55P94CWord) => u + v)
+  · apply congrArg₂ (fun (u v : NativeF55P94CWord) => u + v)
+    · apply congrArg₂ (fun (u v : NativeF55P94CWord) => u + v)
+      · apply congrArg₂ (fun (u v : NativeF55P94CWord) => u + v)
+        · apply congrArg₂ (fun (u v : NativeF55P94CWord) => u + v)
+          · apply congrArg₂ (fun (u v : NativeF55P94CWord) => u + v)
+            · apply congrArg₂ (fun (u v : NativeF55P94CWord) => u + v)
+              · apply congrArg₂ (fun (u v : NativeF55P94CWord) => u + v)
+                · simpa only [nativeK5GraphShellingStep, nativeK5FaceTagOfFin] using d.face_word 0
+                · simpa only [nativeK5GraphShellingStep, nativeK5FaceTagOfFin] using d.face_word 1
+              · simpa only [nativeK5GraphShellingStep, nativeK5FaceTagOfFin] using d.face_word 2
+            · simpa only [nativeK5GraphShellingStep, nativeK5FaceTagOfFin] using d.face_word 3
+          · simpa only [nativeK5GraphShellingStep, nativeK5FaceTagOfFin] using d.face_word 4
+        · simpa only [nativeK5GraphShellingStep, nativeK5FaceTagOfFin] using d.face_word 5
+      · simpa only [nativeK5GraphShellingStep, nativeK5FaceTagOfFin] using d.face_word 6
+    · simpa only [nativeK5GraphShellingStep, nativeK5FaceTagOfFin] using d.face_word 7
+  · simpa only [nativeK5GraphShellingStep, nativeK5FaceTagOfFin] using d.face_word 8
 
 theorem NativeK5TypedShellingDatum.cycle_NCount_one
     (d : NativeK5TypedShellingDatum t1 t2 t3 t4 t5) :
