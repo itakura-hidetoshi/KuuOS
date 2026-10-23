@@ -103,7 +103,7 @@ matching the outward orientation of the WHOLE K₅ 2-sphere. The
 quadrilateral generator always has ZERO P92B full shadow, but its
 orientation still matters for noncommutative coherence. -/
 def nativeK5FaceReverseOrientation (f : Fin 9) : Bool :=
-  f.val = 2 || f.val = 5 || f.val = 7 || f.val = 8
+  f.val == 2 || f.val == 5 || f.val == 7 || f.val == 8
 
 def nativeK5FaceCycleFromLegs (f : Fin 9) : List (Fin 14) :=
   let long := nativeK5FaceLongGraphVertices f
