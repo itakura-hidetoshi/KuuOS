@@ -27,6 +27,7 @@ import Kuu.F112.PolygonNativeF55P93FourQuotientStrictInterchange
 import Kuu.F112.PolygonNativeF55P94UnitFourCellPresentation
 import Kuu.F112.PolygonNativeF55P94UnitFourQuotientHorizontalCategory
 import Kuu.F112.PolygonNativeF55P94CPentagonPastingBoundary
+import Kuu.F112.PolygonNativeF55P94CPentagonPastingBoundary
 import KUOS
 import KuuOSQiWuxingCyclicGroupPathsV3_1
 import KuuOSQiWuxingPathObservationCongruenceV3_2
