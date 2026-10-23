@@ -224,10 +224,17 @@ theorem nativeC60GaugeEquivalent_trans
 /-- Genuine gauge classes, not graph-connected-component classes. -/
 def nativeC60GaugeSetoid : Setoid (NativeC60IncidenceGaugeField A) where
   r := nativeC60GaugeEquivalent
-  iseqv := ⟨
-    nativeC60GaugeEquivalent_refl,
-    (fun _ _ h => nativeC60GaugeEquivalent_symm h),
-    (fun _ _ _ h₁ h₂ => nativeC60GaugeEquivalent_trans h₁ h₂)⟩
+  iseqv := {
+    refl := by
+      intro field
+      exact nativeC60GaugeEquivalent_refl field
+    symm := by
+      intro field next h
+      exact nativeC60GaugeEquivalent_symm h
+    trans := by
+      intro field next last hfn hnl
+      exact nativeC60GaugeEquivalent_trans hfn hnl
+  }
 
 abbrev NativeC60GaugeClasses (A : Type u) [AddCommGroup A] :=
   Quotient (nativeC60GaugeSetoid (A := A))
