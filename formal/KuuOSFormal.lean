@@ -29,6 +29,7 @@ import Kuu.F112.PolygonNativeF55P94UnitFourQuotientHorizontalCategory
 import Kuu.F112.PolygonNativeF55P94CPentagonPastingBoundary
 import Kuu.F112.PolygonNativeF55P94GroupoidFourCellCompletion
 import Kuu.F112.PolygonNativeF55P94CGroupoidFourPresentation
+import Kuu.F112.PolygonNativeF55P94CNonabelianWordObstruction
 import KUOS
 import KuuOSQiWuxingCyclicGroupPathsV3_1
 import KuuOSQiWuxingPathObservationCongruenceV3_2
