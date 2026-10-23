@@ -7,7 +7,7 @@ import Mathlib.Tactic
 Gauge transport is primary: choose an arbitrary type I of local
 presentations rather than a K5 graph. Their transition words lie
 in the original noncommutative free group of P/S/N source 3-cell
-letters. Gauge frames act covariantly on transition words.
+letters. Gauge frames act covariantly on transition words. We use\nthe left-to-right source composition convention of the native\nP92B word (rather than the WORLD target-first convention).
 
 The resulting non-Abelian triangular transport defect is conjugated
 under a frame change. Its independent integer naturality count and
@@ -56,8 +56,7 @@ theorem nativeF55GaugeConjugate_comp
     (g h w : NativeF55GaugeGroup) :
     nativeF55GaugeConjugate (g + h) w =
       nativeF55GaugeConjugate g (nativeF55GaugeConjugate h w) := by
-  simp only [nativeF55GaugeConjugate, sub_eq_add_neg]
-  group
+  simp [nativeF55GaugeConjugate, sub_eq_add_neg, neg_add_rev, add_assoc]
 
 /-- Any type of local presentations is admitted: there is no
 dependence on vertices, edges or a globally preferred chart. -/
@@ -82,8 +81,7 @@ theorem nativeF55GaugeTransport_comp
     nativeF55GaugeTransport g i j u +
       nativeF55GaugeTransport g j k v =
     nativeF55GaugeTransport g i k (u + v) := by
-  simp only [nativeF55GaugeTransport, sub_eq_add_neg]
-  group
+  simp [nativeF55GaugeTransport, sub_eq_add_neg, neg_add_rev, add_assoc]
 
 def nativeF55GaugeChangeConnection
     {I : Type uI}
@@ -111,12 +109,11 @@ theorem nativeF55GaugeTriangleDefect_covariant
       (nativeF55GaugeChangeConnection g A) i j k =
       nativeF55GaugeConjugate (g i)
         (nativeF55GaugeTriangleDefect A i j k) := by
-  simp only [nativeF55GaugeTriangleDefect,
+  simp [nativeF55GaugeTriangleDefect,
     nativeF55GaugeChangeConnection,
     nativeF55GaugeTransport,
     nativeF55GaugeConjugate,
-    sub_eq_add_neg]
-  group
+    sub_eq_add_neg, neg_add_rev, add_assoc]
 
 /-- The P94D3H new naturality count is a GENUINE class function
 on this group-word gauge receiver. It is not a gauge-fixed count. -/
