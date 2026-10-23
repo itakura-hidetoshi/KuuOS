@@ -382,8 +382,17 @@ theorem nativeK5NineAnchoredFaceFormalWord_NCount_one :
     nativeK5NaturalityCount
       (nativeK5NineAnchoredFaceFormalWord t1 t2 t3 t4 t5) = 1 := by
   simp only [nativeK5NineAnchoredFaceFormalWord, map_add]
-  simp [← nativeK5AnchoredFaceNCount, nativeK5AnchoredFaceNCount_exact,
-    nativeK5FaceExpectedNCount]
+  change
+    nativeK5AnchoredFaceNCount t1 t2 t3 t4 t5 .square0 +
+    nativeK5AnchoredFaceNCount t1 t2 t3 t4 t5 .square1 +
+    nativeK5AnchoredFaceNCount t1 t2 t3 t4 t5 .square2 +
+    nativeK5AnchoredFaceNCount t1 t2 t3 t4 t5 .pentagon3 +
+    nativeK5AnchoredFaceNCount t1 t2 t3 t4 t5 .pentagon4 +
+    nativeK5AnchoredFaceNCount t1 t2 t3 t4 t5 .pentagon5 +
+    nativeK5AnchoredFaceNCount t1 t2 t3 t4 t5 .pentagon6 +
+    nativeK5AnchoredFaceNCount t1 t2 t3 t4 t5 .pentagon7 +
+    nativeK5AnchoredFaceNCount t1 t2 t3 t4 t5 .pentagon8 = 1
+  simp [nativeK5AnchoredFaceNCount_exact, nativeK5FaceExpectedNCount]
 
 /-- ALL old F55 signed/odd shadow coordinates vanish on precisely
 the same nine oriented actual source faces, although N-charge
@@ -415,8 +424,9 @@ theorem nativeK5NineAnchoredFaceFormalWord_quotient_nonzero :
       (nativeK5NineAnchoredFaceFormalWord t1 t2 t3 t4 t5) ≠ 0 := by
   intro h
   have hh := congrArg (nativeK5P94ATypedNCount (D := D) (E := E)) h
-  simpa only [nativeK5P94ATypedNCount_spec, map_zero,
-    nativeK5NineAnchoredFaceFormalWord_NCount_one] using hh
+  simp only [nativeK5P94ATypedNCount_spec, map_zero,
+    nativeK5NineAnchoredFaceFormalWord_NCount_one] at hh
+  norm_num at hh
 
 /-- Conditional, precisely scoped 4D filling obstruction.
 If some genuinely typed P94C2 comparison had THIS exact nine-face
