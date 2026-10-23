@@ -257,7 +257,32 @@ orientation sign of its exact K₅ face. This does NOT infer 4-cell. -/
 theorem nativeK5AnchoredFace_fullShadow (tag : NativeK5FaceTag) :
     (nativeK5AnchoredFace t1 t2 t3 t4 t5 tag).2.2.2.nativeShadow =
       nativeK5CandidateFaceShadow (nativeK5FaceTagFin tag) := by
-  cases tag <;> rfl
+  cases tag with
+  | square0 => rfl
+  | square1 => rfl
+  | square2 =>
+      change -(nativeK5NaturalitySquare2 t1 t2 t3 t4 t5).nativeShadow =
+        (0 : KuuNativeF55Shadow)
+      rw [nativeK5NaturalitySquare2_shadow]
+      simp
+  | pentagon3 => rfl
+  | pentagon4 => rfl
+  | pentagon5 =>
+      change -(nativeK5PentagonFace5 t1 t2 t3 t4 t5).nativeShadow =
+        (((-1 : Int), (0 : Int)), (0 : ZMod 2))
+      rw [nativeK5PentagonFace5_shadow]
+      simp
+  | pentagon6 => rfl
+  | pentagon7 =>
+      change -(nativeK5PentagonFace7 t1 t2 t3 t4 t5).nativeShadow =
+        (((-1 : Int), (0 : Int)), (0 : ZMod 2))
+      rw [nativeK5PentagonFace7_shadow]
+      simp
+  | pentagon8 =>
+      change -(nativeK5PentagonFace8 t1 t2 t3 t4 t5).nativeShadow =
+        (((-1 : Int), (0 : Int)), (0 : ZMod 2))
+      rw [nativeK5PentagonFace8_shadow]
+      simp
 
 /-- Nonnegative actual primitive original F54 rotation counts of
 both sides of EACH anchored P92B 3-cell. Oriented reversed faces
