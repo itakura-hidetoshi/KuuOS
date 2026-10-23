@@ -42,6 +42,7 @@ import Kuu.F112.PolygonNativeF55P94DK5GroupoidPeifferDescent
 import Kuu.F112.PolygonNativeF55P94DK5OrientedNaturalityObstruction
 import Kuu.F112.PolygonNativeF55P94DK5GlobalNineFaceShelling
 import Kuu.F112.PolygonNativeF55P94DK5TypedPentagonatorBoundary
+import Kuu.F112.PolygonNativeF55P94DK5ShellingNoncommutativeGap
 import KUOS
 import KuuOSQiWuxingCyclicGroupPathsV3_1
 import KuuOSQiWuxingPathObservationCongruenceV3_2
