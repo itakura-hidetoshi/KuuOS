@@ -45,6 +45,7 @@ import Kuu.F112.PolygonNativeF55P94DK5TypedPentagonatorBoundary
 import Kuu.F112.PolygonNativeF55P94DK5ShellingNoncommutativeGap
 import Kuu.F112.PolygonNativeF55P94DK5NineActualF54GlobalRoutes
 import Kuu.F112.PolygonNativeF55P94DK5NineTypedWhiskeredFaces
+import Kuu.F112.PolygonNativeF55P94DK5NineFaceSeamObstruction
 import KUOS
 import KuuOSQiWuxingCyclicGroupPathsV3_1
 import KuuOSQiWuxingPathObservationCongruenceV3_2
