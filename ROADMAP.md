@@ -55,6 +55,11 @@ KuuOSの原初の問いは、C60の60頂点・90辺・32面ではなく、**関�
 
 ## 2. C60という後発の具体的検証：成果と不足を明確化する
 
+### C60グラフ主体の表示からゲージ表示への移行（F112・Qi v3.4）
+
+[移行監査と数学的区別](docs/C60_GAUGE_PRESENTATION_MIGRATION.md)を参照。C60の60/90/32/360真正幾何および歴史的グラフ・Quiver・全no-goは破棄せず、**現行の前向きcoherence／descent判断をグラフ一致に委ねない**。[原C60サイトのゲージ軌道・閉路積分・32面の曲率](formal/Kuu/F112/PolygonNativeC60PhysicalGaugeAtlas.lean)、[真正F55/P92Bの9面から定義するK₅の非可換ゲージと保存される自然性数+1](formal/Kuu/F112/PolygonNativeC60K5TypedGaugeCoherence.lean)、[真正12五角形の五行巡回群ゲージ](formal/KUOS/Architecture/QiWuxingNativeC60GaugeV3_4.lean)への前向き置換を進める。[PR #2510](https://github.com/itakura-hidetoshi/KuuOS/pull/2510)はexact-head CIとマージ完了まで提案である。P94D3IはPR #2507としてmainに統合済み（merge SHA `e7fc499381cdf7a53442b293fd742ff61ff3ee53`）；#2508はCLOSED・未マージ。真正全球面3-cell、4次元pentagonator、strict 3/n、hyperdescentは独立した未解決義務として維持する。
+
+
 真正C60幾何は原正二十面体から導いた60 Dart、90 Edge、32 Polygon（12五角形・20六角形）、360入射flagsを持ちます。一般的に進めていた高次法則・descent・障害の議論を、**見せかけの任意の例ではなく、検証可能な有限物理的入射上で試す**ために選んだpresentationです。
 
 | 具体的な到達段階 | 本当にある成果 | なお必要なもの |
