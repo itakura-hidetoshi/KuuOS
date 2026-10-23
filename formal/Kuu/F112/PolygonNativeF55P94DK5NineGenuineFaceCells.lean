@@ -153,6 +153,33 @@ def nativeK5PentagonFace7_oriented :=
 def nativeK5PentagonFace8_oriented :=
   NativeF55P92AssocComparison.symm (nativeK5PentagonFace8 t1 t2 t3 t4 t5)
 
+/-- A concrete source 3-cell `symm` reverses the pentagon shadow;
+this is a typed proof-term operation, not numerical sign assignment. -/
+theorem nativeK5PentagonFace5_oriented_shadow :
+    (nativeK5PentagonFace5_oriented t1 t2 t3 t4 t5).nativeShadow =
+      - (((1 : Int), (0 : Int)), (0 : ZMod 2)) := by
+  change -(nativeK5PentagonFace5 t1 t2 t3 t4 t5).nativeShadow =
+    - (((1 : Int), (0 : Int)), (0 : ZMod 2))
+  rw [nativeK5PentagonFace5_shadow]
+
+/-- A concrete source 3-cell `symm` reverses the pentagon shadow;
+this is a typed proof-term operation, not numerical sign assignment. -/
+theorem nativeK5PentagonFace7_oriented_shadow :
+    (nativeK5PentagonFace7_oriented t1 t2 t3 t4 t5).nativeShadow =
+      - (((1 : Int), (0 : Int)), (0 : ZMod 2)) := by
+  change -(nativeK5PentagonFace7 t1 t2 t3 t4 t5).nativeShadow =
+    - (((1 : Int), (0 : Int)), (0 : ZMod 2))
+  rw [nativeK5PentagonFace7_shadow]
+
+/-- A concrete source 3-cell `symm` reverses the pentagon shadow;
+this is a typed proof-term operation, not numerical sign assignment. -/
+theorem nativeK5PentagonFace8_oriented_shadow :
+    (nativeK5PentagonFace8_oriented t1 t2 t3 t4 t5).nativeShadow =
+      - (((1 : Int), (0 : Int)), (0 : ZMod 2)) := by
+  change -(nativeK5PentagonFace8 t1 t2 t3 t4 t5).nativeShadow =
+    - (((1 : Int), (0 : Int)), (0 : ZMod 2))
+  rw [nativeK5PentagonFace8_shadow]
+
 /-- Actual nine genuine proof-term shadows cancel under the outward
 K₅ orientation. This still does NOT assert all nine differently
 typed 3-cells form a pastable spherical composite or admit a 4D
@@ -168,13 +195,15 @@ theorem nativeK5NineGenuineFaceShadows_balance :
     (nativeK5NaturalitySquare1 t1 t2 t3 t4 t5).nativeShadow +
     (nativeK5NaturalitySquare2 t1 t2 t3 t4 t5).nativeShadow =
       (0 : KuuNativeF55Shadow) := by
-  simp [nativeK5PentagonFace3_shadow, nativeK5PentagonFace4_shadow,
-    nativeK5PentagonFace5_shadow, nativeK5PentagonFace6_shadow,
-    nativeK5PentagonFace7_shadow, nativeK5PentagonFace8_shadow,
-    nativeK5NaturalitySquare0_shadow, nativeK5NaturalitySquare1_shadow,
-    nativeK5NaturalitySquare2_shadow,
-    nativeK5PentagonFace5_oriented, nativeK5PentagonFace7_oriented,
-    nativeK5PentagonFace8_oriented, NativeF55P92AssocComparison.nativeShadow]
+  simp only [nativeK5PentagonFace3_shadow,
+    nativeK5PentagonFace4_shadow,
+    nativeK5PentagonFace5_oriented_shadow,
+    nativeK5PentagonFace6_shadow,
+    nativeK5PentagonFace7_oriented_shadow,
+    nativeK5PentagonFace8_oriented_shadow,
+    nativeK5NaturalitySquare0_shadow,
+    nativeK5NaturalitySquare1_shadow,
+    nativeK5NaturalitySquare2_shadow]
   abel
 
 #print axioms nativeK5PentagonFace3
@@ -195,6 +224,9 @@ theorem nativeK5NineGenuineFaceShadows_balance :
 #print axioms nativeK5NaturalitySquare0_shadow
 #print axioms nativeK5NaturalitySquare1_shadow
 #print axioms nativeK5NaturalitySquare2_shadow
+#print axioms nativeK5PentagonFace5_oriented_shadow
+#print axioms nativeK5PentagonFace7_oriented_shadow
+#print axioms nativeK5PentagonFace8_oriented_shadow
 #print axioms nativeK5NineGenuineFaceShadows_balance
 
 end FiveNativeStages
