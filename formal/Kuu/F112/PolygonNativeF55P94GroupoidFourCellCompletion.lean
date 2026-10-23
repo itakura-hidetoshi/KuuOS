@@ -13,10 +13,11 @@ numerical F55 charge.
 
 This DISTINCT 4-cell presentation embeds every genuine P94A Type
 witness, closes its dependent whiskers and horizontal contexts, and
-adds three explicitly named reversible-3-proof relations:
+adds TWO explicitly named reversible-3-proof relations:
   inverseLeft : symm(f);f => refl
   inverseRight: f;symm(f) => refl
-  inverseCongr: every 4-proof f~g transports to symm(f)~symm(g)
+The inverseCongr comparison is then DERIVED using group cancellation and
+existing four-dimensional whiskering/associativity; it is NOT adjoined.
 
 Prove every constructor preserves the entire signed F55 shadow,
 take the proof-relevant quotient, construct a genuine Mathlib Groupoid
@@ -262,17 +263,6 @@ inductive NativeF55P94GroupFourCell
       {r s : KuuNativeF45Tree.DepthRotationRoute p first last}
       (f : NativeF55P92AssocComparison p r s) :
       NativeF55P94GroupFourCell (.trans f (.symm f)) (.refl r)
-  | inverseCongr
-      {n n' m m' : Nat}
-      {ma mb : KuuNativeBlocks a b}
-      {pa pb : KuuNativeBlocks x y}
-      {first : KuuNativeF45Tree p n m ma pa mb pb}
-      {last : KuuNativeF45Tree p n' m' ma pa mb pb}
-      {r s : KuuNativeF45Tree.DepthRotationRoute p first last}
-      {f g : NativeF55P92AssocComparison p r s}
-      (w : NativeF55P94GroupFourCell f g) :
-      NativeF55P94GroupFourCell (.symm f) (.symm g)
-
 /-- The nonabelian groupoid completion does NOT forget pentagon
 integer, exchange square integer, or genuine C60 odd ZMod2 phase. -/
 theorem NativeF55P94GroupFourCell.shadow_sound
@@ -325,8 +315,35 @@ theorem NativeF55P94GroupFourCell.shadow_sound
   | inverseRight f =>
       change f.nativeShadow + (-f.nativeShadow) = 0
       exact add_neg_cancel _
-  | inverseCongr witness ih =>
-      exact congrArg (fun z : KuuNativeF55Shadow => -z) ih
+
+/-- Inversion preserves equality of 3-proofs by a CONSTRUCTED
+group-theoretic 4-pasting: its source compares
+f⁻¹ → f⁻¹;(g;g⁻¹) → (f⁻¹;g);g⁻¹
+→ (f⁻¹;f);g⁻¹ → id;g⁻¹ → g⁻¹.
+No new inverse-congruence generator or Lean axiom is needed. -/
+def NativeF55P94GroupFourCell.inverseCongr
+    {p : Polygon} {a b : D} {x y : E}
+    {n n' m m' : Nat}
+    {ma mb : KuuNativeBlocks a b}
+    {pa pb : KuuNativeBlocks x y}
+    {first : KuuNativeF45Tree p n m ma pa mb pb}
+    {last : KuuNativeF45Tree p n' m' ma pa mb pb}
+    {r s : KuuNativeF45Tree.DepthRotationRoute p first last}
+    {f g : NativeF55P92AssocComparison p r s}
+    (w : NativeF55P94GroupFourCell f g) :
+    NativeF55P94GroupFourCell (.symm f) (.symm g) :=
+  .trans
+    (.symm
+      (.trans
+        (.leftWhisker (.symm f) (.inverseRight g))
+        (.verticalRightUnit (.symm f))))
+    (.trans
+      (.symm (.verticalAssoc (.symm f) g (.symm g)))
+      (.trans
+        (.rightWhisker (.leftWhisker (.symm f) (.symm w)) (.symm g))
+        (.trans
+          (.rightWhisker (.inverseLeft f) (.symm g))
+          (.verticalLeftUnit (.symm g)))))
 
 variable {p : Polygon} {a b : D} {x y : E}
 variable {n n' m m' : Nat}
@@ -571,6 +588,7 @@ theorem northHexagonNativeF55P94Group_original_square_odd_phase :
 
 #print axioms NativeF55P94GroupFourCell
 #print axioms NativeF55P94GroupFourCell.shadow_sound
+#print axioms NativeF55P94GroupFourCell.inverseCongr
 #print axioms nativeF55P94GroupFourSetoid
 #print axioms NativeF55P94GroupFourClasses
 #print axioms nativeF55P94GroupFourClass_eq_iff
