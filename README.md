@@ -62,6 +62,11 @@ C60以前からの縁起の一般理論（v0 → v1 → v2 → v4/v5）
 
 ## 現在のC60・独立Kuu実験とstrict 3圏の未解決境界
 
+### C60の現在の前向き表示：入射グラフよりゲージ接続と真正Type値証拠を優先
+
+[ゲージ移行方針・数学的監査](docs/C60_GAUGE_PRESENTATION_MIGRATION.md)を研究規則とする。真正C60の60 Dart・90 Edge・32 Polygon・360 flagsを変更せず、**入射グラフの隣接やK₅の組合せ論的な貼り合わせを高次coherenceの証明と取り違えない**。代わりに、[真正C60サイトのゲージ場と32面の曲率](formal/Kuu/F112/PolygonNativeC60PhysicalGaugeAtlas.lean)、[真正Type値9面の非可換K₅ゲージ障害](formal/Kuu/F112/PolygonNativeC60K5TypedGaugeCoherence.lean)、[Qi v3.4の\(\mathbb Z/5\mathbb Z\)位相枠](formal/KUOS/Architecture/QiWuxingNativeC60GaugeV3_4.lean)を前向きの比較表示として構成する（[実装PR #2510](https://github.com/itakura-hidetoshi/KuuOS/pull/2510)、GREEN・マージまでは提案）。有限グラフや歴史的Quiverは**真正な幾何・既存証明の保存レーン**に維持し、旧no-goやC60の非零曲率を消さない。特に、9面の全球面Type値3-cellと4次元pentagonator coherenceは未証明である。
+
+
 C60では元の正二十面体に由来する**60 Dart、90 Edge、32 Polygon（12五角形・20六角形）、360 incidence flags**を用います。この有限幾何は、以前に構築した高次理論を**具体的・真正な境界と証拠のもとで試験する場**です。
 
 - [`Kuu.Presentation`](formal/Kuu/Presentation.lean)：選ばれた境界付き自由経路と明示的な関係に相対的な商、核、観測関手の因子化。
