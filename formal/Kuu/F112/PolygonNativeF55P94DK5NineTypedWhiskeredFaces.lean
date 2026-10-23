@@ -90,7 +90,7 @@ variable
 global rewrite step: the source and target are actual dependent
 F54 route witnesses with the SAME original 13→0 F45 trees.
 All nine constructors are original face proof terms transported by
-actual pre-/postcomposition of original F54 edges. -/
+actual precomposition and postcomposition of original F54 edges. -/
 def nativeK5WhiskeredActualFace (step : NativeK5WhiskeredFaceTag) :
     Σ r : NativeK5GlobalRoute t1 t2 t3 t4 t5,
       Σ s : NativeK5GlobalRoute t1 t2 t3 t4 t5,
