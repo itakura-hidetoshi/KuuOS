@@ -147,8 +147,8 @@ def nativeF55P93Horizontal
       rcases hl with ⟨w⟩
       exact ⟨NativeF55P93AssocFourCell.horizontalLeft w right⟩)
 
-/-- P85×P85→P86 binary operation computes on the SAME original
-source raw F55 proofs, never an invented replacement proof label. -/
+/-- P92B×P92B→P93C binary operation computes on the SAME original
+F54 route-typed NEW P92B 3-proofs, not a shadow replacement. -/
 @[simp] theorem nativeF55P93Horizontal_raw
     {n n' m m' k k' l l' : Nat}
     {p₀ p₁ p₂ : KuuNativeBlocks a b}
@@ -168,8 +168,8 @@ source raw F55 proofs, never an invented replacement proof label. -/
 
 
 
-/-- The complete ORIGINAL full shadow of a two-sided horizontal
-pasting computes additively on arbitrary P87 quotient classes.
+/-- The complete signed F55 shadow of a two-sided horizontal
+pasting computes additively on arbitrary NEW P93C quotient classes.
 This is a preservation theorem, not proof of interchange. -/
 theorem nativeF55P93Horizontal_shadow
     {n n' m m' k k' l l' : Nat}
@@ -191,8 +191,8 @@ theorem nativeF55P93Horizontal_shadow
   refine Quot.inductionOn g (fun right => ?_)
   rfl
 
-/-- Strict interchange for FOUR ARBITRARY typed P89 quotient classes:
-horizontal preserves vertical pasting as equality in the SAME P89
+/-- Strict interchange for FOUR ARBITRARY typed P93C quotient classes:
+horizontal preserves vertical pasting as equality in the SAME P93C
 quotient. This is the strict bifunctoriality part of the local
 higher structure, not yet the entire globular strict 3-category. -/
 theorem nativeF55P93_interchange
@@ -227,7 +227,7 @@ theorem nativeF55P93_interchange
     nativeF55P93AssocFourClass _ _
       (NativeF55P92AssocComparison.trans
         (a.horizontal c) (b.horizontal d))
-  exact nativeF55P93_interchange_quotient_eq a b c d
+  exact Quot.sound ⟨NativeF55P93AssocFourCell.interchange a b c d⟩
 
 /-- The genuine P89 original-four-class quotient maps into
 P93C FOUR-class space only when its OLD raw 3-proof exists.
