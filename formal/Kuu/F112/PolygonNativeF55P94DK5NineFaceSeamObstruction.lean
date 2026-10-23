@@ -119,9 +119,18 @@ theorem nativeK5WhiskeredFace_next_route_ne
     congrArg Prod.fst
       (nativeK5WhiskeredFaceRootCounts_exact t1 t2 t3 t4 t5
         (nativeK5WhiskeredFaceNext tag))
-  rw [htarget, hsource] at hh
+  have hcount :
+      (nativeK5WhiskeredFaceRootCounts tag).2 =
+        (nativeK5WhiskeredFaceRootCounts (nativeK5WhiskeredFaceNext tag)).1 := by
+    calc
+      _ = (nativeK5WhiskeredActualFace t1 t2 t3 t4 t5 tag).2.1.rootLeftRotationCount :=
+        htarget.symm
+      _ = (nativeK5WhiskeredActualFace t1 t2 t3 t4 t5
+            (nativeK5WhiskeredFaceNext tag)).1.rootLeftRotationCount := by
+        exact hh
+      _ = _ := hsource
   cases tag <;>
-    simp [nativeK5WhiskeredFaceRootCounts, nativeK5WhiskeredFaceNext] at hh
+    simp [nativeK5WhiskeredFaceRootCounts, nativeK5WhiskeredFaceNext] at hcount
 
 /-- A separate, explicitly UNINHABITED-by-default source of
 missing TYPE-valued F54 seam comparisons, one for every
@@ -153,7 +162,7 @@ oriented +1 N-charge to remain the EXACT global word. -/
 theorem NativeK5WhiskeredFaceSeamEvidence.link_word
     (d : NativeK5WhiskeredFaceSeamEvidence t1 t2 t3 t4 t5)
     (tag : NativeK5WhiskeredFaceTag) :
-    (d.link tag).p94cGroupWord =
+    (NativeK5WhiskeredFaceSeamEvidence.link t1 t2 t3 t4 t5 d tag).p94cGroupWord =
       (nativeK5WhiskeredActualFace t1 t2 t3 t4 t5 tag).2.2.p94cGroupWord := by
   change
     (nativeK5WhiskeredActualFace t1 t2 t3 t4 t5 tag).2.2.p94cGroupWord +
