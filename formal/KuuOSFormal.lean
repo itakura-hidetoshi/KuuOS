@@ -30,6 +30,8 @@ import Kuu.F112.PolygonNativeF55P94CPentagonPastingBoundary
 import Kuu.F112.PolygonNativeF55P94GroupoidFourCellCompletion
 import Kuu.F112.PolygonNativeF55P94CGroupoidFourPresentation
 import Kuu.F112.PolygonNativeF55P94CNonabelianWordObstruction
+import Kuu.F112.PolygonNativeF55P94DK5FiveStageTypedShell
+import Kuu.F112.PolygonNativeF55P94DK5NineGenuineFaceCells
 import KUOS
 import KuuOSQiWuxingCyclicGroupPathsV3_1
 import KuuOSQiWuxingPathObservationCongruenceV3_2
