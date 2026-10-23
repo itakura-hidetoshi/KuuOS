@@ -107,6 +107,10 @@ theorem nativeC60Gauge_sheng_ke_distinct :
     rotation (1 : FivePhase) ≠ rotation (2 : FivePhase) :=
   rotation_generation_ne_control
 
+/-- Exact injectivity of the existing original C60 five-slot index. -/
+theorem nativeC60SlotIndex_injective : Function.Injective slotIndex := by
+  decide
+
 /-- The full five-sector local physical chart is still a
 permutation, with no missing or additional dart slots. -/
 theorem nativeC60GaugeSlot_surjective
@@ -115,7 +119,7 @@ theorem nativeC60GaugeSlot_surjective
     Function.Surjective (nativeC60GaugeSlot frame v) := by
   intro s
   refine ⟨(rotation (frame v)).symm (slotIndex s), ?_⟩
-  apply slotIndex_injective
+  apply nativeC60SlotIndex_injective
   rw [nativeC60GaugeSlot_index]
   simpa using (rotation (frame v)).apply_symm_apply (slotIndex s)
 
@@ -126,6 +130,7 @@ theorem nativeC60GaugeSlot_surjective
 #print axioms nativeC60GaugeSheng_index
 #print axioms nativeC60GaugeKe_index
 #print axioms nativeC60Gauge_sheng_ke_distinct
+#print axioms nativeC60SlotIndex_injective
 #print axioms nativeC60GaugeSlot_surjective
 
 end
