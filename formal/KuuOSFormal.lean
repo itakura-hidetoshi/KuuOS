@@ -32,6 +32,7 @@ import Kuu.F112.PolygonNativeF55P94CGroupoidFourPresentation
 import Kuu.F112.PolygonNativeF55P94CNonabelianWordObstruction
 import Kuu.F112.PolygonNativeF55P94DK5FiveStageTypedShell
 import Kuu.F112.PolygonNativeF55P94DK5NineGenuineFaceCells
+import Kuu.F112.PolygonNativeF55P94DK5NineFaceAnchoredBoundaries
 import KUOS
 import KuuOSQiWuxingCyclicGroupPathsV3_1
 import KuuOSQiWuxingPathObservationCongruenceV3_2
