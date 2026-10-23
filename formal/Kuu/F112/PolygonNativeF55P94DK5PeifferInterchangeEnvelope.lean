@@ -47,7 +47,7 @@ theorem nativeK5Interchange_word_defect_conjugate
     (a b c d : NativeF55P94CWord) :
     ((a + b) + (c + d)) - ((a + c) + (b + d)) =
       a + ((b + c) - (c + b)) - a := by
-  add_group
+  simp [sub_eq_add_neg, neg_add_rev, add_assoc]
 
 /-- Algebraic envelope of all ordered interchange commutators.
 It is NOT asserted that every pair is realizable by typed F45
@@ -170,7 +170,7 @@ theorem nativeK5PNPeifferConjugate_zero
     nativeK5PNPeifferConjugate g 0 = 0 := by
   apply Subtype.ext
   change g + (0 : NativeF55P94CWord) - g = 0
-  add_group
+  simp [sub_eq_add_neg, neg_add_rev, add_assoc]
 
 theorem nativeK5PNPeifferConjugate_add
     (g : NativeF55P94CWord)
@@ -182,14 +182,14 @@ theorem nativeK5PNPeifferConjugate_add
   change g + ((r : NativeF55P94CWord) + (s : NativeF55P94CWord)) - g =
     (g + (r : NativeF55P94CWord) - g) +
       (g + (s : NativeF55P94CWord) - g)
-  add_group
+  simp [sub_eq_add_neg, neg_add_rev, add_assoc]
 
 theorem nativeK5PNPeifferConjugate_identity
     (r : NativeK5PNPeifferKernel) :
     nativeK5PNPeifferConjugate 0 r = r := by
   apply Subtype.ext
   change (0 : NativeF55P94CWord) + r - 0 = r
-  add_group
+  simp [sub_eq_add_neg, neg_add_rev, add_assoc]
 
 theorem nativeK5PNPeifferConjugate_comp
     (g h : NativeF55P94CWord)
@@ -199,7 +199,7 @@ theorem nativeK5PNPeifferConjugate_comp
   apply Subtype.ext
   change (g + h) + (r : NativeF55P94CWord) - (g + h) =
     g + (h + (r : NativeF55P94CWord) - h) - g
-  add_group
+  simp [sub_eq_add_neg, neg_add_rev, add_assoc]
 
 /-- Crossed-module boundary equivariance is an ACTUAL equality
 in the noncommutative free group. -/
