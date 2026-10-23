@@ -121,7 +121,7 @@ roots = [
 ]
 # Lean 4.30 Lake buildable-module registration; NOT extra published roots.
 # Retain all 107 historical roots as build targets, and recognize the
-# independent Kuu imports and the Qi v3.1-v3.4 wrappers inside the SAME 107-root library.
+# independent Kuu imports and the v3.1 public wrapper inside this same library.
 # 'roots' above remains the sole published-module authority boundary.
 globs = [
   "KuuOSFormal",
@@ -236,8 +236,7 @@ globs = [
   "KuuOSStrict",
   "KuuOSQiWuxingCyclicGroupPathsV3_1",
   "KuuOSQiWuxingPathObservationCongruenceV3_2",
-  "KuuOSQiWuxingReachableObservationCategoryV3_3",
-  "KuuOSQiWuxingNativeC60GaugeV3_4"
+  "KuuOSQiWuxingReachableObservationCategoryV3_3"
 ]
 
 # Keep strict compiler warnings, but do not require cosmetic rewriting of
