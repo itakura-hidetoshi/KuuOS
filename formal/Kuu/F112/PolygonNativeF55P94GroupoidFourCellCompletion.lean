@@ -528,6 +528,47 @@ def nativeF55P94Group_original_pentagon_inverse_cancel
           t₁ t₂ t₃ t₄)) :=
   .inverseRight _
 
+/-- The groupoid completion cannot contract a genuine closed
+P92B 3-proof carrying nonzero odd C60 phase to the identity:
+the obstruction follows from the actual FOUR-witness shadow theorem. -/
+theorem nativeF55P94Group_odd_phase_no_null_fourCell
+    {r : KuuNativeF45Tree.DepthRotationRoute p first last}
+    (f : NativeF55P92AssocComparison p r r)
+    (hodd : f.nativeShadow.2 ≠ (0 : ZMod 2)) :
+    ¬ NativeF55P94GroupFourCell f (.refl r) := by
+  intro w
+  have hs := congrArg (fun sh : KuuNativeF55Shadow => sh.2) w.shadow_sound
+  change f.nativeShadow.2 = (0 : ZMod 2) at hs
+  exact hodd hs
+
+/-- Three cyclically composable odd-phase 3-proofs leave one unit of
+odd phase, even in the newly established genuine groupoid. This is
+a conditional typed obstruction relevant to the THREE square faces
+of K5; it does NOT assume those global K5 face whiskers are constructed. -/
+theorem nativeF55P94Group_three_odd_square_phase_obstruction
+    {r₀ r₁ r₂ : KuuNativeF45Tree.DepthRotationRoute p first last}
+    (f : NativeF55P92AssocComparison p r₀ r₁)
+    (g : NativeF55P92AssocComparison p r₁ r₂)
+    (h : NativeF55P92AssocComparison p r₂ r₀)
+    (hf : f.nativeShadow.2 = (1 : ZMod 2))
+    (hg : g.nativeShadow.2 = (1 : ZMod 2))
+    (hh : h.nativeShadow.2 = (1 : ZMod 2)) :
+    ¬ NativeF55P94GroupFourCell (.trans (.trans f g) h) (.refl r₀) := by
+  intro w
+  have hs := congrArg (fun sh : KuuNativeF55Shadow => sh.2) w.shadow_sound
+  change (f.nativeShadow.2 + g.nativeShadow.2) + h.nativeShadow.2 =
+    (0 : ZMod 2) at hs
+  rw [hf, hg, hh] at hs
+  exact (by decide : ((1 : ZMod 2) + 1) + 1 ≠ 0) hs
+
+/-- The physically genuine C60 source disjoint-square cell used in
+the preceding obstruction retains its original odd phase. -/
+theorem northHexagonNativeF55P94Group_original_square_odd_phase :
+    (NativeF55P92AssocComparison.original
+       northHexagonNativeF55SquareCell).nativeShadow.2 ≠ (0 : ZMod 2) := by
+  change northHexagonNativeF55SquareCell.nativeShadow.2 ≠ (0 : ZMod 2)
+  exact northHexagonNativeF55SquareCell_phase_nonzero
+
 #print axioms NativeF55P94GroupFourCell
 #print axioms NativeF55P94GroupFourCell.shadow_sound
 #print axioms nativeF55P94GroupFourSetoid
@@ -541,6 +582,9 @@ def nativeF55P94Group_original_pentagon_inverse_cancel
 #print axioms nativeF55P94GroupVerticalCategory
 #print axioms nativeF55P94GroupoidCategory
 #print axioms nativeF55P94Group_original_pentagon_inverse_cancel
+#print axioms nativeF55P94Group_odd_phase_no_null_fourCell
+#print axioms nativeF55P94Group_three_odd_square_phase_obstruction
+#print axioms northHexagonNativeF55P94Group_original_square_odd_phase
 
 end
 end Kuu.F112.Physical
