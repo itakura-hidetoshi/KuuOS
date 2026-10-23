@@ -110,7 +110,7 @@ def nativeF55P94CPentagonPastingShort :
 /-- Actual TYPE-valued 4-cell comparison in the already declared P94A
 presentation. It is a concrete pentagon-boundary instance of the
 structural 3-proof associator, NOT an invented full pentagonator. -/
-theorem nativeF55P94CPentagonPasting_fourCell :
+def nativeF55P94CPentagonPasting_fourCell :
     NativeF55P94UnitFourCell
       (nativeF55P94CPentagonPastingLong t₁ t₂ t₃ t₄)
       (nativeF55P94CPentagonPastingShort t₁ t₂ t₃ t₄) :=
@@ -154,7 +154,7 @@ theorem nativeF55P94CPentagon_class_shadow :
 
 /-- The same TYPE-witness pasting is present at the original, genuinely
 sector-labelled north C60 four-stage F45 pentagon. -/
-theorem northNativeF55P94C_pentagon_pasting_fourCell :
+def northNativeF55P94C_pentagon_pasting_fourCell :
     NativeF55P94UnitFourCell
       (nativeF55P94CPentagonPastingLong
         northNativeF45FirstStage northNativeF45SecondStage
@@ -183,4 +183,5 @@ theorem northNativeF55P94C_original_route_obstruction :
 #print axioms northNativeF55P94C_pentagon_pasting_fourCell
 #print axioms northNativeF55P94C_original_route_obstruction
 
+end
 end Kuu.F112.Physical
