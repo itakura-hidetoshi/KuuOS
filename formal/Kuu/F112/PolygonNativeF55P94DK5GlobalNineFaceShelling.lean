@@ -82,8 +82,8 @@ structure NativeK5GraphShellingStep where
   source : Fin 9
   target : Fin 9
   face : Fin 9
-  prefix : List (Fin 14)
-  suffix : List (Fin 14)
+  prePath : List (Fin 14)
+  postPath : List (Fin 14)
   deriving Repr
 
 /-- One complete outward global K₅ shelling, in cyclic order:
@@ -107,9 +107,9 @@ glue of the corresponding original oriented P94D3A face graph legs. -/
 theorem nativeK5GraphShellingStep_exact (k : Fin 9) :
     let s := nativeK5GraphShellingStep k
     nativeK5GlobalMonotonePath s.source =
-        s.prefix ++ nativeK5OutwardInput s.face ++ s.suffix ∧
+        s.prePath ++ nativeK5OutwardInput s.face ++ s.postPath ∧
       nativeK5GlobalMonotonePath s.target =
-        s.prefix ++ nativeK5OutwardOutput s.face ++ s.suffix := by
+        s.prePath ++ nativeK5OutwardOutput s.face ++ s.postPath := by
   fin_cases k <;> decide
 
 /-- The target of each step is literally the next step's source. -/
