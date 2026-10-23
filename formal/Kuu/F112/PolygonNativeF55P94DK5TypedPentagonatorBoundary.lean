@@ -155,11 +155,9 @@ theorem NativeK5TypedShellingDatum.cycle_word
     d.cycle.p94cGroupWord =
       nativeK5GraphShellingWord t1 t2 t3 t4 t5 := by
   simp only [NativeK5TypedShellingDatum.cycle,
-    NativeF55P92AssocComparison.p94cGroupWord]
-  rw [d.face_word 0, d.face_word 1, d.face_word 2,
-    d.face_word 3, d.face_word 4, d.face_word 5,
-    d.face_word 6, d.face_word 7, d.face_word 8]
-  rfl
+    NativeF55P92AssocComparison.p94cGroupWord,
+    nativeK5GraphShellingWord]
+  simp [d.face_word, nativeK5GraphShellingStep, nativeK5FaceTagOfFin]
 
 theorem NativeK5TypedShellingDatum.cycle_NCount_one
     (d : NativeK5TypedShellingDatum t1 t2 t3 t4 t5) :
