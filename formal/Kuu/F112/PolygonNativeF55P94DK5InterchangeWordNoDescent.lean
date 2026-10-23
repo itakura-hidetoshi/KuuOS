@@ -1,4 +1,5 @@
 import Kuu.F112.PolygonNativeF55P94DK5NineFaceAnchoredBoundaries
+import Kuu.F112.PolygonNativeF55P94GroupoidFourCellCompletion
 import Mathlib.GroupTheory.FreeGroup.Basic
 import Mathlib.Tactic
 
