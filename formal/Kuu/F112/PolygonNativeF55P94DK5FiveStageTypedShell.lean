@@ -238,37 +238,106 @@ theorem nativeK5TypedVertex_sectors
   fin_cases i <;>
     simp [nativeK5TypedVertex, KuuNativeF45Tree.sectors, List.append_assoc]
 
-/-- Directed elementary edges have their TRUE Tamari forward
-orientation; the nine face cycles use both directions. -/
-def nativeK5TypedEdgeEndpoints (e : Fin 21) : Fin 14 × Fin 14 :=
-  match e.val with
-  | 0 => (1, 0)
-  | 1 => (2, 0)
-  | 2 => (5, 0)
-  | 3 => (3, 1)
-  | 4 => (6, 1)
-  | 5 => (4, 2)
-  | 6 => (7, 2)
-  | 7 => (4, 3)
-  | 8 => (9, 3)
-  | 9 => (10, 4)
-  | 10 => (6, 5)
-  | 11 => (8, 5)
-  | 12 => (11, 6)
-  | 13 => (8, 7)
-  | 14 => (12, 7)
-  | 15 => (13, 8)
-  | 16 => (10, 9)
-  | 17 => (11, 9)
-  | 18 => (12, 10)
-  | 19 => (13, 11)
-  | 20 => (13, 12)
-  | _ => (0, 1)
+/-- A computationally closed twenty-one-constructor Type of ACTUAL
+one-step Tamari rotation edges. Unlike `Fin 21` plus `fin_cases`,
+elimination from this genuine inductive Type into a dependent
+Type-valued F54 route is permitted by Lean's recursor. -/
+inductive NativeK5TypedEdgeTag where
+  | e0
+  | e1
+  | e2
+  | e3
+  | e4
+  | e5
+  | e6
+  | e7
+  | e8
+  | e9
+  | e10
+  | e11
+  | e12
+  | e13
+  | e14
+  | e15
+  | e16
+  | e17
+  | e18
+  | e19
+  | e20
+  deriving DecidableEq
 
-/-- EACH of the 21 elementary K₅ edges is an ACTUAL old-shaped
-F54 double-depth TYPE-valued one-step route; no shadow-level
-edge is substituted for an execution proof. -/
-def nativeK5TypedEdgeRoute
+/-- Finite enumeration is an *index adapter*, not a proof eliminating
+a proposition into a Type. Exact order follows the K₅ graph. -/
+def nativeK5TypedEdgeTagOfFin (e : Fin 21) : NativeK5TypedEdgeTag :=
+  match e.val with
+  | 0 => .e0
+  | 1 => .e1
+  | 2 => .e2
+  | 3 => .e3
+  | 4 => .e4
+  | 5 => .e5
+  | 6 => .e6
+  | 7 => .e7
+  | 8 => .e8
+  | 9 => .e9
+  | 10 => .e10
+  | 11 => .e11
+  | 12 => .e12
+  | 13 => .e13
+  | 14 => .e14
+  | 15 => .e15
+  | 16 => .e16
+  | 17 => .e17
+  | 18 => .e18
+  | 19 => .e19
+  | _ => .e20
+
+/-- Exact genuinely oriented elementary edges (source, target). -/
+def nativeK5TaggedEdgeEndpoints (e : NativeK5TypedEdgeTag) :
+    Fin 14 × Fin 14 :=
+  match e with
+  | .e0 => (1, 0)
+  | .e1 => (2, 0)
+  | .e2 => (5, 0)
+  | .e3 => (3, 1)
+  | .e4 => (6, 1)
+  | .e5 => (4, 2)
+  | .e6 => (7, 2)
+  | .e7 => (4, 3)
+  | .e8 => (9, 3)
+  | .e9 => (10, 4)
+  | .e10 => (6, 5)
+  | .e11 => (8, 5)
+  | .e12 => (11, 6)
+  | .e13 => (8, 7)
+  | .e14 => (12, 7)
+  | .e15 => (13, 8)
+  | .e16 => (10, 9)
+  | .e17 => (11, 9)
+  | .e18 => (12, 10)
+  | .e19 => (13, 11)
+  | .e20 => (13, 12)
+
+/-- Retain the Fin-indexed public endpoints while delegating
+dependent construction to the true Type-valued edge constructors. -/
+def nativeK5TypedEdgeEndpoints (e : Fin 21) : Fin 14 × Fin 14 :=
+  nativeK5TaggedEdgeEndpoints (nativeK5TypedEdgeTagOfFin e)
+
+/-- All 21 typed edges give the exact computed unoriented K₅ graph.
+This checks that no artificial or omitted rotation entered the
+finite enumeration, not merely that the two lists have length 21. -/
+def nativeK5TypedUndirectedEdges : List (Fin 14 × Fin 14) :=
+  (List.finRange 21).map (fun e =>
+    let edge := nativeK5TypedEdgeEndpoints e
+    if edge.1.val < edge.2.val then edge else (edge.2, edge.1))
+
+theorem nativeK5TypedUndirectedEdges_exact :
+    nativeK5TypedUndirectedEdges = nativeK5GraphEdges := by
+  decide
+
+/-- EACH elementary edge has an ACTUAL old F54 proof-relevant route,
+including all independent F19/F28 depth casts and native contexts. -/
+def nativeK5TaggedEdgeRoute
     {p : Polygon} {a b : D} {x y : E}
     {n₁ n₂ n₃ n₄ n₅ m₁ m₂ m₃ m₄ m₅ : Nat}
     {p₀ p₁ p₂ p₃ p₄ p₅ : KuuNativeBlocks a b}
@@ -278,13 +347,13 @@ def nativeK5TypedEdgeRoute
     (t3 : KuuNativeF45Tree p n₃ m₃ p₂ q₂ p₃ q₃)
     (t4 : KuuNativeF45Tree p n₄ m₄ p₃ q₃ p₄ q₄)
     (t5 : KuuNativeF45Tree p n₅ m₅ p₄ q₄ p₅ q₅)
-    (e : Fin 21) :
+    (e : NativeK5TypedEdgeTag) :
     KuuNativeF45Tree.DepthRotationRoute p
       (nativeK5TypedVertex t1 t2 t3 t4 t5
-        (nativeK5TypedEdgeEndpoints e).1).2.2
+        (nativeK5TaggedEdgeEndpoints e).1).2.2
       (nativeK5TypedVertex t1 t2 t3 t4 t5
-        (nativeK5TypedEdgeEndpoints e).2).2.2 := by
-  fin_cases e
+        (nativeK5TaggedEdgeEndpoints e).2).2.2 := by
+  cases e
   · exact (.rightContext t1 (.rightContext t2 (.assoc t3 t4 t5)))
   · exact (.rightContext t1 (.assoc t2 t3 (.node t4 t5)))
   · exact (.assoc t1 t2 (.node t3 (.node t4 t5)))
@@ -307,8 +376,44 @@ def nativeK5TypedEdgeRoute
   · exact (.leftContext (.assoc (.node t1 t2) t3 t4) t5)
   · exact (.leftContext (.leftContext (.assoc t1 t2 t3) t4) t5)
 
-/-- Every one of the 21 Type-valued routes contains exactly ONE
-primitive associator rotation, not just a pair of matching endpoints. -/
+/-- The primary Fin-indexed interface remains unchanged for
+future nine-face and higher-cell glue. No `fin_cases` in Type. -/
+def nativeK5TypedEdgeRoute
+    {p : Polygon} {a b : D} {x y : E}
+    {n₁ n₂ n₃ n₄ n₅ m₁ m₂ m₃ m₄ m₅ : Nat}
+    {p₀ p₁ p₂ p₃ p₄ p₅ : KuuNativeBlocks a b}
+    {q₀ q₁ q₂ q₃ q₄ q₅ : KuuNativeBlocks x y}
+    (t1 : KuuNativeF45Tree p n₁ m₁ p₀ q₀ p₁ q₁)
+    (t2 : KuuNativeF45Tree p n₂ m₂ p₁ q₁ p₂ q₂)
+    (t3 : KuuNativeF45Tree p n₃ m₃ p₂ q₂ p₃ q₃)
+    (t4 : KuuNativeF45Tree p n₄ m₄ p₃ q₃ p₄ q₄)
+    (t5 : KuuNativeF45Tree p n₅ m₅ p₄ q₄ p₅ q₅)
+    (e : Fin 21) :
+    KuuNativeF45Tree.DepthRotationRoute p
+      (nativeK5TypedVertex t1 t2 t3 t4 t5
+        (nativeK5TypedEdgeEndpoints e).1).2.2
+      (nativeK5TypedVertex t1 t2 t3 t4 t5
+        (nativeK5TypedEdgeEndpoints e).2).2.2 :=
+  nativeK5TaggedEdgeRoute t1 t2 t3 t4 t5
+    (nativeK5TypedEdgeTagOfFin e)
+
+/-- One and ONLY one actual F54 primitive rotation per tagged edge. -/
+theorem nativeK5TaggedEdgeRoute_rotationCount
+    {p : Polygon} {a b : D} {x y : E}
+    {n₁ n₂ n₃ n₄ n₅ m₁ m₂ m₃ m₄ m₅ : Nat}
+    {p₀ p₁ p₂ p₃ p₄ p₅ : KuuNativeBlocks a b}
+    {q₀ q₁ q₂ q₃ q₄ q₅ : KuuNativeBlocks x y}
+    (t1 : KuuNativeF45Tree p n₁ m₁ p₀ q₀ p₁ q₁)
+    (t2 : KuuNativeF45Tree p n₂ m₂ p₁ q₁ p₂ q₂)
+    (t3 : KuuNativeF45Tree p n₃ m₃ p₂ q₂ p₃ q₃)
+    (t4 : KuuNativeF45Tree p n₄ m₄ p₃ q₃ p₄ q₄)
+    (t5 : KuuNativeF45Tree p n₅ m₅ p₄ q₄ p₅ q₅)
+    (e : NativeK5TypedEdgeTag) :
+    (nativeK5TaggedEdgeRoute t1 t2 t3 t4 t5 e).rotationCount = 1 := by
+  cases e <;> rfl
+
+/-- The same primitive count on all original Fin-indexed edges,
+obtained from the Type-valued tag proof without recursing on Prop. -/
 theorem nativeK5TypedEdgeRoute_rotationCount
     {p : Polygon} {a b : D} {x y : E}
     {n₁ n₂ n₃ n₄ n₅ m₁ m₂ m₃ m₄ m₅ : Nat}
@@ -320,8 +425,9 @@ theorem nativeK5TypedEdgeRoute_rotationCount
     (t4 : KuuNativeF45Tree p n₄ m₄ p₃ q₃ p₄ q₄)
     (t5 : KuuNativeF45Tree p n₅ m₅ p₄ q₄ p₅ q₅)
     (e : Fin 21) :
-    (nativeK5TypedEdgeRoute t1 t2 t3 t4 t5 e).rotationCount = 1 := by
-  fin_cases e <;> rfl
+    (nativeK5TypedEdgeRoute t1 t2 t3 t4 t5 e).rotationCount = 1 :=
+  nativeK5TaggedEdgeRoute_rotationCount t1 t2 t3 t4 t5
+    (nativeK5TypedEdgeTagOfFin e)
 
 /-- The FIFTH actual north C60 pentagon side has physical index 4,
 which was not represented in P94C1's four-side pentagon. -/
