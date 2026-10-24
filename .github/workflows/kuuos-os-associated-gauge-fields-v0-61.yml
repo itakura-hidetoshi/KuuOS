@@ -48,10 +48,34 @@ env:
 jobs:
   os-gauge-v061:
     name: OS gauge fields v0.61 runtime and Lean
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     timeout-minutes: 120
     steps:
       - uses: actions/checkout@v6
+      # PR Governance handles the integrated strict KuuOSFormal build.
+      # Keep this required check's runtime/registration validation on all
+      # triggers; delegate only unrelated root/Lake/doc Lean recompilation.
+      - name: Select subsystem Lean scope (fail closed)
+        id: lean-scope
+        shell: bash
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+        run: |
+          set -euo pipefail
+          if [[ "${EVENT_NAME}" == "workflow_dispatch" ]]; then
+            echo "needed=true" >> "${GITHUB_OUTPUT}"
+          elif [[ -z "${BASE_SHA:-}" ]]; then
+            echo "needed=true" >> "${GITHUB_OUTPUT}"
+          else
+            python3 scripts/ci_codeai_lean_scope.py \
+              --workflow .github/workflows/kuuos-os-associated-gauge-fields-v0-61.yml \
+              --base "${BASE_SHA}" --head HEAD \
+              --github-output "${GITHUB_OUTPUT}" \
+              --delegated-path formal/KuuOSFormal.lean \
+              --delegated-path formal/KUOS.lean \
+              --delegated-path docs/KUUOS_OS_ASSOCIATED_GAUGE_FIELDS_v0_61.md
+          fi
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -72,7 +96,27 @@ jobs:
           grep -Fq 'import KUOS.WORLD.KuuOSOSAssociatedGaugeFieldsV0_61' formal/KUOS.lean
           grep -Fq 'import KUOS.WORLD.KuuOSOSAssociatedGaugeFieldsV0_61' formal/KuuOSFormal.lean
           grep -Fq '"KuuOSFormalV0_61"' lakefile.toml
+      # Read-only restoration of the validated main/base Lake workspace:
+      # the shared Lean build remains separately checked by exact-head CI.
+      - name: Restore trusted main Lake workspace (read-only)
+        id: trusted-lake-cache
+        if: steps.lean-scope.outputs.needed == 'true'
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-${{ github.event.pull_request.base.sha || github.sha }}
+          restore-keys: |
+            kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-
+
+      - name: Report trusted Lake cache origin
+        if: steps.lean-scope.outputs.needed == 'true'
+        shell: bash
+        env:
+          CACHE_KEY: ${{ steps.trusted-lake-cache.outputs.cache-matched-key }}
+        run: echo "Trusted main Lake cache: ${CACHE_KEY:-miss}"
+
       - name: Set up pinned Lean and Lake
+        if: steps.lean-scope.outputs.needed == 'true'
         uses: leanprover/lean-action@v1
         with:
           auto-config: false
@@ -81,20 +125,31 @@ jobs:
           lint: false
           use-mathlib-cache: false
           use-github-cache: false
-      - name: Resolve pinned dependencies
-        run: lake update
-      - name: Verify committed manifest is canonical
-        run: git diff --exit-code -- lake-manifest.json
-      - name: Fetch Mathlib olean cache
-        run: lake exe cache get
+
+      - name: Resolve pinned dependencies only when missing
+        if: steps.lean-scope.outputs.needed == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ ! -d .lake/packages/mathlib ]]; then
+            lake update
+          fi
+          if [[ ! -f .lake/packages/mathlib/.lake/build/lib/lean/Mathlib.olean ]]; then
+            lake exe cache get
+          fi
+          git diff --exit-code -- lake-manifest.json lean-toolchain
       - name: Build v0.61 formal root
+        if: steps.lean-scope.outputs.needed == 'true'
         shell: bash
         run: |
           set -o pipefail
           lake -KleanArgs=-DwarningAsError=true \
             -KleanArgs=-DsorryAsError=true \
             build KuuOSFormalV0_61 2>&1 | tee os-gauge-v061-build.log
+      # Canonical aggregate is compiled in PR Governance and main Lean CI.
+      # Explicit manual dispatch remains an independent full check.
       - name: Build aggregate formal root
+        if: github.event_name == 'workflow_dispatch'
         shell: bash
         run: |
           set -o pipefail
