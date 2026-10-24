@@ -9,6 +9,7 @@ on:
       - "manifests/kuuos_modular_evolution_mesh_v0_1.json"
       - "schemas/kuuos_module_manifest_v0_1.schema.json"
       - "scripts/check_modular_evolution_mesh_v0_1.py"
+      - 'scripts/ci_subsystem_lean_scope.py'
       - "tests/test_modular_evolution_mesh_v0_1.py"
       - "docs/KUUOS_MODULAR_EVOLUTION_MESH_v0_1.md"
       - "formal/KUOS/Modular/**"
@@ -52,7 +53,7 @@ jobs:
           elif [[ -z "${BASE_SHA:-}" ]]; then
             echo "needed=true" >> "${GITHUB_OUTPUT}"
           else
-            python3 scripts/ci_codeai_lean_scope.py \
+            PYTHONPATH=. python3 scripts/ci_subsystem_lean_scope.py \
               --workflow .github/workflows/modular-evolution-mesh-v0-1.yml \
               --base "${BASE_SHA}" --head HEAD \
               --github-output "${GITHUB_OUTPUT}" \
