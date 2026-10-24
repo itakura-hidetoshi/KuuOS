@@ -242,15 +242,6 @@ theorem nativeK5TenHistoryWord_noElevenDescent
       _ = (nativeK5TenPastingRightThenLeft P).historyWord := hF _
   exact hneq heq
 
-/-- Failure of original 10D free-history descent for the specific
-original independent primitive ten-cell exchange. -/
-theorem nativeK5PrimitiveTenHistory_noElevenDescent
-    {q t : NativeK5StructuralNineCell p e d}
-    (P : NativeK5StructuralTenCell p q t)
-    (hne : (nativeK5TenPastingLeftThenRight P).historyWord ≠
-      (nativeK5TenPastingRightThenLeft P).historyWord) :=
-  nativeK5TenHistoryWord_noElevenDescent P hne
-
 end LocalElevenCellQuotient
 
 #print axioms NativeK5StructuralElevenCell.setoid
