@@ -63,8 +63,8 @@ theorem NativeF54StructuralSeam.contextDepthTrace_sound
       change (u.contextDepthTrace ++ v.contextDepthTrace) ++ z.contextDepthTrace =
         u.contextDepthTrace ++ (v.contextDepthTrace ++ z.contextDepthTrace)
       exact List.append_assoc _ _ _
-  | leftUnit r => simp [KuuNativeF45Tree.DepthRotationRoute.contextDepthTrace]
-  | rightUnit r => simp [KuuNativeF45Tree.DepthRotationRoute.contextDepthTrace]
+  | leftUnit r => rfl
+  | rightUnit r => rfl
   | precompose u w ih =>
       change u.contextDepthTrace ++ _ = u.contextDepthTrace ++ _
       exact congrArg (fun xs : List Nat => u.contextDepthTrace ++ xs) ih
