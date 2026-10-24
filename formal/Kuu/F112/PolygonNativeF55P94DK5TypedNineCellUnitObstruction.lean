@@ -278,10 +278,10 @@ theorem NativeK5CoreNineCell.unitCount_sound
       change e.unitCount + (0 : ℤ) = e.unitCount
       exact add_zero _
   | eightInverseLeft e =>
-      change e.unitCount + e.unitCoun-t = (0 : ℤ)
+      change e.unitCount + -e.unitCount = (0 : ℤ)
       exact add_neg_cancel _
   | eightInverseRight e =>
-      change e.unitCoun-t + e.unitCount = (0 : ℤ)
+      change -e.unitCount + e.unitCount = (0 : ℤ)
       exact neg_add_cancel _
   | eightVerticalLeft _ suffix ih =>
       exact congrArg (fun t : ℤ => t + suffix.unitCount) ih
