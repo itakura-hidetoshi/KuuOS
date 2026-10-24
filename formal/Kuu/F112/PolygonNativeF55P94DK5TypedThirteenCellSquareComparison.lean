@@ -261,7 +261,7 @@ inductive NativeK5CoreThirteenCell (p : Polygon) :
       {P Q R : NativeK5StructuralTenCell p q t}
       {H K : NativeK5StructuralElevenCell p P Q}
       {U V : NativeK5StructuralTwelveCell p H K}
-      (R : NativeK5CoreThirteenCell p U V)
+      (proof : NativeK5CoreThirteenCell p U V)
       (suffix : NativeK5StructuralElevenCell p Q R) :
       NativeK5CoreThirteenCell p (.elevenVerticalLeft U suffix) (.elevenVerticalLeft V suffix)
   | elevenVerticalRight
@@ -281,7 +281,7 @@ inductive NativeK5CoreThirteenCell (p : Polygon) :
       {H K : NativeK5StructuralElevenCell p Q R}
       {U V : NativeK5StructuralTwelveCell p H K}
       (prior : NativeK5StructuralElevenCell p P Q)
-      (R : NativeK5CoreThirteenCell p U V) :
+      (proof : NativeK5CoreThirteenCell p U V) :
       NativeK5CoreThirteenCell p (.elevenVerticalRight prior U) (.elevenVerticalRight prior V)
   | elevenSymmRespect
       {a b : D} {x y : E} {n n' m m' : Nat}
@@ -473,7 +473,7 @@ inductive NativeK5CoreThirteenCell (p : Polygon) :
 /-- Every conservative 13D constructor conserves the selected
 noncommutative universal free-group history of original 12D terms. -/
 theorem NativeK5CoreThirteenCell.historyWord_sound
-    {a b : D} {x y : E} {n n' m m' : Nat}
+    {p : Polygon} {a b : D} {x y : E} {n n' m m' : Nat}
     {ma mb : KuuNativeBlocks a b} {pa pb : KuuNativeBlocks x y}
     {first : KuuNativeF45Tree p n m ma pa mb pb}
     {last : KuuNativeF45Tree p n' m' ma pa mb pb}
@@ -533,7 +533,7 @@ theorem NativeK5CoreThirteenCell.historyWord_sound
 
 /-- Every conservative 13D constructor preserves signed count. -/
 theorem NativeK5CoreThirteenCell.squareCount_sound
-    {a b : D} {x y : E} {n n' m m' : Nat}
+    {p : Polygon} {a b : D} {x y : E} {n n' m m' : Nat}
     {ma mb : KuuNativeBlocks a b} {pa pb : KuuNativeBlocks x y}
     {first : KuuNativeF45Tree p n m ma pa mb pb}
     {last : KuuNativeF45Tree p n' m' ma pa mb pb}
@@ -752,7 +752,7 @@ inductive NativeK5StructuralThirteenCell (p : Polygon) :
       {P Q R : NativeK5StructuralTenCell p q t}
       {H K : NativeK5StructuralElevenCell p P Q}
       {U V : NativeK5StructuralTwelveCell p H K}
-      (R : NativeK5StructuralThirteenCell p U V)
+      (proof : NativeK5StructuralThirteenCell p U V)
       (suffix : NativeK5StructuralElevenCell p Q R) :
       NativeK5StructuralThirteenCell p (.elevenVerticalLeft U suffix) (.elevenVerticalLeft V suffix)
   | elevenVerticalRight
@@ -772,7 +772,7 @@ inductive NativeK5StructuralThirteenCell (p : Polygon) :
       {H K : NativeK5StructuralElevenCell p Q R}
       {U V : NativeK5StructuralTwelveCell p H K}
       (prior : NativeK5StructuralElevenCell p P Q)
-      (R : NativeK5StructuralThirteenCell p U V) :
+      (proof : NativeK5StructuralThirteenCell p U V) :
       NativeK5StructuralThirteenCell p (.elevenVerticalRight prior U) (.elevenVerticalRight prior V)
   | elevenSymmRespect
       {a b : D} {x y : E} {n n' m m' : Nat}
@@ -964,7 +964,7 @@ inductive NativeK5StructuralThirteenCell (p : Polygon) :
 /-- Newly adjoined 13D equality preserves the signed integer
 12D count even where chosen free history does NOT descend. -/
 theorem NativeK5StructuralThirteenCell.squareCount_sound
-    {a b : D} {x y : E} {n n' m m' : Nat}
+    {p : Polygon} {a b : D} {x y : E} {n n' m m' : Nat}
     {ma mb : KuuNativeBlocks a b} {pa pb : KuuNativeBlocks x y}
     {first : KuuNativeF45Tree p n m ma pa mb pb}
     {last : KuuNativeF45Tree p n' m' ma pa mb pb}
