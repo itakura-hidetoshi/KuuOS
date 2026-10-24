@@ -11,6 +11,7 @@ on:
       - 'runtime/kuuos_os_curvature_holonomy_v0_61.py'
       - 'tests/test_kuuos_os_*_v0_61.py'
       - 'scripts/check_kuuos_os_associated_gauge_fields_v0_61.py'
+      - 'scripts/ci_subsystem_lean_scope.py'
       - 'docs/KUUOS_OS_ASSOCIATED_GAUGE_FIELDS_v0_61.md'
       - 'manifests/kuuos_os_associated_gauge_fields_v0_61.json'
       - 'formal/KUOS/WORLD/KuuOSOSAssociatedGaugeFieldsV0_61.lean'
@@ -26,6 +27,7 @@ on:
       - 'runtime/kuuos_os_curvature_holonomy_v0_61.py'
       - 'tests/test_kuuos_os_*_v0_61.py'
       - 'scripts/check_kuuos_os_associated_gauge_fields_v0_61.py'
+      - 'scripts/ci_subsystem_lean_scope.py'
       - 'docs/KUUOS_OS_ASSOCIATED_GAUGE_FIELDS_v0_61.md'
       - 'manifests/kuuos_os_associated_gauge_fields_v0_61.json'
       - 'formal/KUOS/WORLD/KuuOSOSAssociatedGaugeFieldsV0_61.lean'
@@ -68,7 +70,7 @@ jobs:
           elif [[ -z "${BASE_SHA:-}" ]]; then
             echo "needed=true" >> "${GITHUB_OUTPUT}"
           else
-            python3 scripts/ci_codeai_lean_scope.py \
+            PYTHONPATH=. python3 scripts/ci_subsystem_lean_scope.py \
               --workflow .github/workflows/kuuos-os-associated-gauge-fields-v0-61.yml \
               --base "${BASE_SHA}" --head HEAD \
               --github-output "${GITHUB_OUTPUT}" \
