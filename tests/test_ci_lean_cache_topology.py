@@ -4,6 +4,7 @@ from __future__ import annotations
 from pathlib import Path
 import re
 from scripts.ci_codeai_lean_scope import workflow_pr_paths, needs_targeted_lean
+from scripts.ci_subsystem_lean_scope import needs_subsystem_lean
 import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -71,7 +72,8 @@ class LakeCacheRoutingTests(unittest.TestCase):
             with self.subTest(workflow=name):
                 text = (WORKFLOWS / name).read_text(encoding="utf-8")
                 self.assertIn("Select subsystem Lean scope (fail closed)", text)
-                self.assertIn("python3 scripts/ci_codeai_lean_scope.py", text)
+                self.assertIn("PYTHONPATH=. python3 scripts/ci_subsystem_lean_scope.py", text)
+                self.assertIn("'scripts/ci_subsystem_lean_scope.py'", text)
                 self.assertIn("--delegated-path formal/KuuOSFormal.lean", text)
                 self.assertIn("--delegated-path formal/KUOS.lean", text)
                 self.assertIn("Restore trusted main Lake workspace (read-only)", text)
@@ -99,15 +101,15 @@ class LakeCacheRoutingTests(unittest.TestCase):
 
                 patterns = workflow_pr_paths(text)
                 delegated = ["formal/KuuOSFormal.lean", "formal/KUOS.lean", doc_path]
-                self.assertFalse(needs_targeted_lean(
+                self.assertFalse(needs_subsystem_lean(
                     ["formal/KuuOSFormal.lean"], patterns, delegated))
-                self.assertFalse(needs_targeted_lean(
+                self.assertFalse(needs_subsystem_lean(
                     ["formal/KUOS.lean", "lakefile.toml"], patterns, delegated))
-                self.assertFalse(needs_targeted_lean(
+                self.assertFalse(needs_subsystem_lean(
                     [doc_path], patterns, delegated))
-                self.assertTrue(needs_targeted_lean(
+                self.assertTrue(needs_subsystem_lean(
                     [".github/workflows/" + name], patterns, delegated))
-                self.assertTrue(needs_targeted_lean(
+                self.assertTrue(needs_subsystem_lean(
                     [], patterns, delegated))  # unknown diff fails closed
 
     def test_canonical_main_saves_a_warm_lake_cache(self):
