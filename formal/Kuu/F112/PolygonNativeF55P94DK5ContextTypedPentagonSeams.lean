@@ -107,7 +107,7 @@ def nativeK5Pentagon8TargetContextSeam :
 
 /-- k=5 pentagon3 outward source 7→6: exactly the original
 rightContext pentagon long route in the t1 context, under the
-true e20/e18/e9 typed-prefix and a real identity suffix at 0. -/
+true e20/e18/e9 typed-preRoute and a real identity suffix at 0. -/
 def nativeK5Pentagon3SourceContextSeam :
     NativeF54StructuralSeam p
       (nativeK5TypedGlobalF54Route t1 t2 t3 t4 t5 7)
@@ -118,7 +118,7 @@ def nativeK5Pentagon3SourceContextSeam :
   let b := KuuNativeF45Tree.DepthRotationRoute.assoc t2 (.node t3 t4) t5
   let c := KuuNativeF45Tree.DepthRotationRoute.rightContext t2
     (KuuNativeF45Tree.DepthRotationRoute.assoc t3 t4 t5)
-  let prefix := KuuNativeF45Tree.DepthRotationRoute.trans
+  let preRoute := KuuNativeF45Tree.DepthRotationRoute.trans
     (e .e20) (.trans (e .e18) (e .e9))
   let tail := KuuNativeF45Tree.DepthRotationRoute.trans
     (e .e7) (.trans (e .e3) (e .e0))
@@ -129,7 +129,7 @@ def nativeK5Pentagon3SourceContextSeam :
       (.postcompose (.rightContextTrans t1 a b) (e .e0))
   change NativeF54StructuralSeam p
     (.trans (e .e20) (.trans (e .e18) (.trans (e .e9) tail)))
-    (.trans prefix
+    (.trans preRoute
       (.trans (.rightContext t1 (.trans (.trans a b) c))
         (.chain (.refl _))))
   exact .trans
@@ -138,10 +138,10 @@ def nativeK5Pentagon3SourceContextSeam :
     (.trans
       (.symm (.reassoc (e .e20) (.trans (e .e18) (e .e9)) tail))
       (.trans
-        (.precompose prefix (.symm (.reassoc (e .e7) (e .e3) (e .e0))))
+        (.precompose preRoute (.symm (.reassoc (e .e7) (e .e3) (e .e0))))
         (.trans
-          (.precompose prefix (.symm hc))
-          (.precompose prefix (.symm (.rightUnit _))))))
+          (.precompose preRoute (.symm hc))
+          (.precompose preRoute (.symm (.rightUnit _))))))
 
 /-- k=5 pentagon3 outward target 6 is its original right-context
 pentagon short route. No charge-changing correction is inserted. -/
@@ -152,12 +152,12 @@ def nativeK5Pentagon3TargetContextSeam :
   let e := nativeK5TaggedEdgeRoute t1 t2 t3 t4 t5
   let a := KuuNativeF45Tree.DepthRotationRoute.assoc (.node t2 t3) t4 t5
   let b := KuuNativeF45Tree.DepthRotationRoute.assoc t2 t3 (.node t4 t5)
-  let prefix := KuuNativeF45Tree.DepthRotationRoute.trans
+  let preRoute := KuuNativeF45Tree.DepthRotationRoute.trans
     (e .e20) (.trans (e .e18) (e .e9))
   let tail := KuuNativeF45Tree.DepthRotationRoute.trans (e .e5) (e .e1)
   change NativeF54StructuralSeam p
     (.trans (e .e20) (.trans (e .e18) (.trans (e .e9) tail)))
-    (.trans prefix
+    (.trans preRoute
       (.trans (.rightContext t1 (.trans a b)) (.chain (.refl _))))
   exact .trans
     (.precompose (e .e20)
@@ -165,8 +165,8 @@ def nativeK5Pentagon3TargetContextSeam :
     (.trans
       (.symm (.reassoc (e .e20) (.trans (e .e18) (e .e9)) tail))
       (.trans
-        (.precompose prefix (.symm (.rightContextTrans t1 a b)))
-        (.precompose prefix (.symm (.rightUnit _)))))
+        (.precompose preRoute (.symm (.rightContextTrans t1 a b)))
+        (.precompose preRoute (.symm (.rightUnit _)))))
 
 /-- Genuinely Type-valued outward K5 face k=3 in the new source
 extension, preserving the source P92B pentagon8 generator. -/
