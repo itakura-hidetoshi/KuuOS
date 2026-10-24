@@ -1205,7 +1205,6 @@ theorem nativeK5ThirteenExchange_fourteenRelativeNecessity
     {P Q : NativeK5StructuralTenCell p q t}
     {H K : NativeK5StructuralElevenCell p P Q}
     {U V : NativeK5StructuralTwelveCell p H K}
-    {T S : NativeK5StructuralThirteenCell p U V}
     (W : NativeK5StructuralThirteenCell p U V)
     (hword : (nativeK5ThirteenPastingLeftThenRight W).historyWord ≠ (nativeK5ThirteenPastingRightThenLeft W).historyWord) :
     Nonempty (NativeK5StructuralFourteenCell p (nativeK5ThirteenPastingLeftThenRight W) (nativeK5ThirteenPastingRightThenLeft W)) ∧
@@ -1233,7 +1232,6 @@ theorem nativeK5ThirteenSquareExchange_fourteenRelativeNecessity
     {q t : NativeK5StructuralNineCell p e d}
     {P Q : NativeK5StructuralTenCell p q t}
     {H K : NativeK5StructuralElevenCell p P Q}
-    {U V : NativeK5StructuralTwelveCell p H K}
     (X : NativeK5StructuralTwelveCell p H K) :
     Nonempty (NativeK5StructuralFourteenCell p
       (nativeK5ThirteenPastingLeftThenRight (NativeK5StructuralThirteenCell.squareExchange X))
@@ -1264,7 +1262,6 @@ theorem nativeK5ThirteenExchange_fourteenNoCoreRetraction
     {P Q : NativeK5StructuralTenCell p q t}
     {H K : NativeK5StructuralElevenCell p P Q}
     {U V : NativeK5StructuralTwelveCell p H K}
-    {T S : NativeK5StructuralThirteenCell p U V}
     (W : NativeK5StructuralThirteenCell p U V)
     (hword : (nativeK5ThirteenPastingLeftThenRight W).historyWord ≠ (nativeK5ThirteenPastingRightThenLeft W).historyWord) :
     ¬ Nonempty
@@ -1291,7 +1288,6 @@ theorem nativeK5ThirteenSquareExchange_fourteenNoCoreRetraction
     {q t : NativeK5StructuralNineCell p e d}
     {P Q : NativeK5StructuralTenCell p q t}
     {H K : NativeK5StructuralElevenCell p P Q}
-    {U V : NativeK5StructuralTwelveCell p H K}
     (X : NativeK5StructuralTwelveCell p H K) :
     ¬ Nonempty
       (NativeK5StructuralFourteenCell p
