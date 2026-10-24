@@ -107,7 +107,8 @@ jobs:
         shell: bash
         env:
           CACHE_KEY: ${{ steps.trusted-lake-cache.outputs.cache-matched-key }}
-        run: echo "Trusted main Lake cache: ${CACHE_KEY:-miss}"
+        run: |
+          echo "Trusted main Lake cache: ${CACHE_KEY:-miss}"
 
       - name: Set up pinned Lean and Lake
         if: steps.lean-scope.outputs.needed == 'true'
