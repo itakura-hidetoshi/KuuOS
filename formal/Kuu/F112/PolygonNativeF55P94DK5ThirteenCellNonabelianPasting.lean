@@ -325,7 +325,6 @@ theorem nativeK5Thirteen_noFiniteCoreFiller
     {e d : NativeK5StructuralEightCell p h k}
     {q t : NativeK5StructuralNineCell p e d}
     {P Q : NativeK5StructuralTenCell p q t}
-    {H K : NativeK5StructuralElevenCell p P Q}
     (X : NativeK5StructuralElevenCell p P Q)
     (n : Nat) :
     ¬ Nonempty
@@ -368,7 +367,6 @@ theorem nativeK5Thirteen_noFiniteCoreRetraction
     {e d : NativeK5StructuralEightCell p h k}
     {q t : NativeK5StructuralNineCell p e d}
     {P Q : NativeK5StructuralTenCell p q t}
-    {H K : NativeK5StructuralElevenCell p P Q}
     (X : NativeK5StructuralElevenCell p P Q)
     (n : Nat) :
     ¬ Nonempty
@@ -410,7 +408,6 @@ theorem nativeK5Thirteen_originObserverSeparation
     {e d : NativeK5StructuralEightCell p h k}
     {q t : NativeK5StructuralNineCell p e d}
     {P Q : NativeK5StructuralTenCell p q t}
-    {H K : NativeK5StructuralElevenCell p P Q}
     (X : NativeK5StructuralElevenCell p P Q) :
     (∃ F : NativeK5ThirteenCellTwelveClasses
       (.trans (nativeK5ElevenPastingLeftThenRight X)
