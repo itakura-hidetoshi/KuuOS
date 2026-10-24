@@ -208,6 +208,55 @@ theorem nativeK5TargetSevenPasting_raw_ne
   exact nativeK5TargetSevenPasting_history_ne w v (congrArg
     NativeK5StructuralSevenCell.historyGroup heq)
 
+/-- An additive (abelian) 7D comparison-generator count. It
+records how many target/source primitive comparisons are used,
+but deliberately forgets their noncommutative ordering and the
+conjugation action of original six-cell inversion. -/
+def NativeK5StructuralSevenCell.comparisonCharge
+    {p : Polygon} {a b : D} {x y : E} {n n' m m' : Nat}
+    {ma mb : KuuNativeBlocks a b} {pa pb : KuuNativeBlocks x y}
+    {first : KuuNativeF45Tree p n m ma pa mb pb}
+    {last : KuuNativeF45Tree p n' m' ma pa mb pb}
+    {r s : KuuNativeF45Tree.DepthRotationRoute p first last}
+    {f g : NativeF55StructuralComparison p r s}
+    {alpha beta : NativeK5StructuralFourCell p f g}
+    {w z : NativeK5StructuralFiveCell p alpha beta}
+    {u v : NativeK5StructuralSixCell p w z}
+    (h : NativeK5StructuralSevenCell p u v) : ℤ :=
+  match h with
+  | .core _ => 0
+  | .targetComparison _ _ => 1
+  | .sourceComparison _ _ => 1
+  | .symm h => -h.comparisonCharge
+  | .trans h k => h.comparisonCharge + k.comparisonCharge
+  | .verticalLeft h _ => h.comparisonCharge
+  | .verticalRight _ h => h.comparisonCharge
+  | .inverseRespect h => h.comparisonCharge
+  | .fiveVerticalLeft h _ => h.comparisonCharge
+  | .fiveVerticalRight _ h => h.comparisonCharge
+  | .fiveInverseRespect h => h.comparisonCharge
+  | .precompose _ h => h.comparisonCharge
+  | .postcompose h _ => h.comparisonCharge
+
+/-- Additive comparison charge gives IDENTICAL values on both
+source-dependent 7D pasting orders for EVERY comparison h.
+The nonabelian S₃ obstruction above survives this equality. -/
+theorem nativeK5SevenPasting_abelianBlind
+    {p : Polygon} {a b : D} {x y : E} {n n' m m' : Nat}
+    {ma mb : KuuNativeBlocks a b} {pa pb : KuuNativeBlocks x y}
+    {first : KuuNativeF45Tree p n m ma pa mb pb}
+    {last : KuuNativeF45Tree p n' m' ma pa mb pb}
+    {r s : KuuNativeF45Tree.DepthRotationRoute p first last}
+    {f g : NativeF55StructuralComparison p r s}
+    {alpha beta : NativeK5StructuralFourCell p f g}
+    {w z : NativeK5StructuralFiveCell p alpha beta}
+    {u v : NativeK5StructuralSixCell p w z}
+    (h : NativeK5StructuralSevenCell p u v) :
+    (nativeK5SevenPastingLeftThenRight h).comparisonCharge =
+      (nativeK5SevenPastingRightThenLeft h).comparisonCharge := rfl
+
+#print axioms NativeK5StructuralSevenCell.comparisonCharge
+#print axioms nativeK5SevenPasting_abelianBlind
 #print axioms NativeK5StructuralSevenCell.historyGroup
 #print axioms nativeK5SevenPastingLeftThenRight
 #print axioms nativeK5SevenPastingRightThenLeft
