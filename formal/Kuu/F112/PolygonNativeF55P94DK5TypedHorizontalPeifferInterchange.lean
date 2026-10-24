@@ -193,8 +193,8 @@ theorem nativeK5IndependentPentagonator_no_oldWordFaithfulFourCell
       (nativeK5NineReorientedExtendedCycle t1 t2 t3 t4 t5).p94cGroupWord)
     (hv : v.p94cGroupWord =
       (nativeK5ReorientedStructuralIdentity t1 t2 t3 t4 t5).p94cGroupWord) :
-    ¬ NativeF55P94CGroupFourCell u v := by
-  intro w
+    ¬ Nonempty (NativeF55P94CGroupFourCell u v) := by
+  rintro ⟨w⟩
   have hn : (3 : ℤ) = 0 := by
     calc
       (3 : ℤ) = nativeK5NaturalityCount u.p94cGroupWord := by
