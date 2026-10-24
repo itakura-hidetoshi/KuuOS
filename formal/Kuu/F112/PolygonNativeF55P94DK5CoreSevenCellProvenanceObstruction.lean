@@ -273,29 +273,45 @@ theorem NativeK5CoreSevenCell.squareProvenance_sound
   | symm _ ih => exact ih.symm
   | trans _ _ ih₁ ih₂ => exact ih₁.trans ih₂
   | verticalLeft witness suffix ih =>
-      simpa only [NativeK5StructuralSixCell.squareProvenance] using
-        congrArg (fun t : ℤ => t + suffix.squareProvenance selectTarget) ih
+      change witness.squareProvenance selectTarget +
+          suffix.squareProvenance selectTarget =
+        _ + suffix.squareProvenance selectTarget
+      exact congrArg (fun t : ℤ => t + suffix.squareProvenance selectTarget) ih
   | verticalRight lead witness ih =>
-      simpa only [NativeK5StructuralSixCell.squareProvenance] using
-        congrArg (fun t : ℤ => lead.squareProvenance selectTarget + t) ih
+      change lead.squareProvenance selectTarget +
+          witness.squareProvenance selectTarget =
+        lead.squareProvenance selectTarget + _
+      exact congrArg (fun t : ℤ => lead.squareProvenance selectTarget + t) ih
   | verticalAssoc u v h =>
       change (u.squareProvenance selectTarget + v.squareProvenance selectTarget) +
         h.squareProvenance selectTarget =
         u.squareProvenance selectTarget +
           (v.squareProvenance selectTarget + h.squareProvenance selectTarget)
       exact add_assoc _ _ _
-  | verticalLeftUnit _ => simp [NativeK5StructuralSixCell.squareProvenance]
-  | verticalRightUnit _ => simp [NativeK5StructuralSixCell.squareProvenance]
-  | inverseLeft _ => simp [NativeK5StructuralSixCell.squareProvenance]
-  | inverseRight _ => simp [NativeK5StructuralSixCell.squareProvenance]
+  | verticalLeftUnit u =>
+      change 0 + u.squareProvenance selectTarget =
+        u.squareProvenance selectTarget
+      exact zero_add _
+  | verticalRightUnit u =>
+      change u.squareProvenance selectTarget + 0 =
+        u.squareProvenance selectTarget
+      exact add_zero _
+  | inverseLeft u =>
+      change u.squareProvenance selectTarget +
+        -u.squareProvenance selectTarget = 0
+      exact add_neg_cancel _
+  | inverseRight u =>
+      change -u.squareProvenance selectTarget +
+        u.squareProvenance selectTarget = 0
+      exact neg_add_cancel _
   | inverseRespect witness ih =>
-      simpa only [NativeK5StructuralSixCell.squareProvenance] using
-        congrArg (fun t : ℤ => -t) ih
+      change -witness.squareProvenance selectTarget = -_
+      exact congrArg (fun t : ℤ => -t) ih
   | fiveVerticalLeft witness suffix ih => exact ih
   | fiveVerticalRight lead witness ih => exact ih
   | fiveInverseRespect witness ih =>
-      simpa only [NativeK5StructuralSixCell.squareProvenance] using
-        congrArg (fun t : ℤ => -t) ih
+      change -witness.squareProvenance selectTarget = -_
+      exact congrArg (fun t : ℤ => -t) ih
   | precompose prior witness ih => exact ih
   | postcompose witness suffix ih => exact ih
 
