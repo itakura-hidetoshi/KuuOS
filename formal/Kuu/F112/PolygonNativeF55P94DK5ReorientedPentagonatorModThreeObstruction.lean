@@ -74,7 +74,7 @@ theorem nativeK5ReorientedPentagonatorModThree_zero :
     (nativeK5NineReorientedWord t1 t2 t3 t4 t5) : ℤ) : ZMod 3)) = 0
   rw [← nativeK5NineReorientedExtendedCycle_word,
     nativeK5NineReorientedExtendedCycle_NCount_three]
-  norm_num
+  exact (by decide : (3 : ZMod 3) = 0)
 
 /-- The historical original 9-face formal word has N=1, so
 it remains a genuine NONZERO class in the mod-three receiver. -/
