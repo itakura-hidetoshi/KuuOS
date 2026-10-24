@@ -91,7 +91,7 @@ not predictions or guarantees about all future runner/cache conditions.
   They now run on the same Ubuntu 24.04 image as the main/governance
   cache publisher.
 - A fail-closed source-path classifier reuses the tested
-  `scripts/ci_codeai_lean_scope.py` implementation and excludes
+  `scripts/ci_subsystem_lean_scope.py` implementation (which reuses the\n  unchanged CodeAI parser and diff helper) and excludes
   only paths whose Lean proof obligations belong to the central
   `pr-governance-gate.yml`: `formal/KuuOSFormal.lean`,
   `formal/KUOS.lean`, global Lake inputs, and the respective
