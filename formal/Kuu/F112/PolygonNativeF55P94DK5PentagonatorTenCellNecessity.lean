@@ -126,7 +126,7 @@ theorem nativeK5PentagonatorTen_coreNoRetraction :
 /-- The noncommutative 9D history does not descend across the
 genuine physical ten-cell comparison, even though integer
 diamond count does. -/
-theorem nativeK5PentagonatorTen_historyNoDescent :=
+def nativeK5PentagonatorTen_historyNoDescent :=
   nativeK5NineHistoryWord_noTenDescent
     (nativeK5PentagonatorEightTargetSeven t1 t2 t3 t4 t5)
 
