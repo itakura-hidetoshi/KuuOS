@@ -172,13 +172,9 @@ theorem NativeK5StructuralFourCell.wordRelator_mem
         (D := D) (E := E)).add_mem ihLeft ihRight
       simpa [sub_eq_add_neg, add_assoc] using ht
   | precompose prior witness ih =>
-      have hc :
-          prior.p94cGroupWord +
-            (_ : NativeF55P94CWord) - prior.p94cGroupWord ∈
-            nativeK5UniversalPentagonatorKernel (D := D) (E := E) := by
-        exact (inferInstance :
+      have hc := (inferInstance :
           (nativeK5UniversalPentagonatorKernel (D := D) (E := E)).Normal).conj_mem
-          _ ih prior.p94cGroupWord
+        _ ih prior.p94cGroupWord
       simpa [NativeF55StructuralComparison.p94cGroupWord,
         sub_eq_add_neg, neg_add_rev, add_assoc] using hc
   | postcompose witness suffix ih =>
