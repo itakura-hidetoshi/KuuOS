@@ -263,7 +263,7 @@ def NativeK5SquarePolicySixCell.cancelLeft
         (.trans (.verticalRight (.symm j) u)
           (.trans (.symm (.core (.verticalAssoc (.symm j) j z)))
             (.trans (.verticalLeft (.core (.inverseRight j)) z)
-              (.core (.verticalLeftUnit z))))))
+              (.core (.verticalLeftUnit z)))))))
 
 /-- Cancellation on the RIGHT by an original genuine five-cell.
 No quotient equality is substituted for actual 6D evidence. -/
@@ -287,7 +287,7 @@ def NativeK5SquarePolicySixCell.cancelRight
         (.trans (.verticalLeft u (.symm j))
           (.trans (.core (.verticalAssoc z j (.symm j)))
             (.trans (.verticalRight z (.core (.inverseLeft j)))
-              (.core (.verticalRightUnit z))))))
+              (.core (.verticalRightUnit z)))))))
 
 #print axioms NativeK5SquarePolicySixCell
 #print axioms NativeK5SquarePolicySixCell.toFull
