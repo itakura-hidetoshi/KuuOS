@@ -64,7 +64,16 @@ C60以前からの縁起の一般理論（v0 → v1 → v2 → v4/v5）
 
 ### C60の現在の前向き表示：入射グラフよりゲージ接続と真正Type値証拠を優先
 
-[ゲージ移行方針・数学的監査](docs/C60_GAUGE_PRESENTATION_MIGRATION.md)を研究規則とする。真正C60の60 Dart・90 Edge・32 Polygon・360 flagsを変更せず、**入射グラフの隣接やK₅の組合せ論的な貼り合わせを高次coherenceの証明と取り違えない**。代わりに、[真正C60サイトのゲージ場と32面の曲率](formal/Kuu/F112/PolygonNativeC60PhysicalGaugeAtlas.lean)、[真正Type値9面の非可換K₅ゲージ障害](formal/Kuu/F112/PolygonNativeC60K5TypedGaugeCoherence.lean)、[Qi v3.4の\(\mathbb Z/5\mathbb Z\)位相枠](formal/KUOS/Architecture/QiWuxingNativeC60GaugeV3_4.lean)を前向きの比較表示として構成する（[実装PR #2510](https://github.com/itakura-hidetoshi/KuuOS/pull/2510)、GREEN・マージまでは提案）。有限グラフや歴史的Quiverは**真正な幾何・既存証明の保存レーン**に維持し、旧no-goやC60の非零曲率を消さない。特に、9面の全球面Type値3-cellと4次元pentagonator coherenceは未証明である。
+[ゲージ移行方針・数学的監査](docs/C60_GAUGE_PRESENTATION_MIGRATION.md)を研究規則とする。真正C60の60 Dart・90 Edge・32 Polygon・360 flagsを変更せず、入射グラフの隣接やK₅の組合せ論的貼り合わせを高次coherenceの証明と取り違えない。[真正C60ゲージ場と32面曲率](formal/Kuu/F112/PolygonNativeC60PhysicalGaugeAtlas.lean)、[真正P92Bの非可換ゲージ障害](formal/Kuu/F112/PolygonNativeC60K5TypedGaugeCoherence.lean)、[Qi v3.4の位相枠](formal/KUOS/Architecture/QiWuxingNativeC60GaugeV3_4.lean)を比較表示として使う（[PR #2510](https://github.com/itakura-hidetoshi/KuuOS/pull/2510) MERGED）。有限グラフや歴史的Quiver、旧no-go、非零曲率は保存する。元のK₅形式的9面語と、実際のF54依存型境界を貼り合わせた3-cellを混同しない。
+
+### 2026-10-24：真正K₅九面の向き・非可換境界・独立4次元生成子
+
+[P94D3Q #2519](https://github.com/itakura-hidetoshi/KuuOS/pull/2519)・[P94D3R #2520](https://github.com/itakura-hidetoshi/KuuOS/pull/2520)は、P92Bの反転した自然性square2の真正F54構造的seamと、従来の全球shellingの向きの不整合を明示した。既存shellingに必要な構造的seamを仮定で埋めず、文脈深さ列の保存不変量により、その構造的presentationでの不可能性をLeanで証明した。8面の実Type値貼り合わせと反転square2は同じ始終F54経路を持つ平行3-cellであり、自然性数はそれぞれ+2、−1。
+
+[P94D3S #2521](https://github.com/itakura-hidetoshi/KuuOS/pull/2521)は**square2の3-cell向きを明示的に再反転**し、元の面順序を保った真正Type値9面閉路を別の構造的presentation上に構成した。旧形式的9面語を `W_old`、最初の7面の群語を `S`、旧反転square2の語を `q` とすると、`W_old` の自然性数は1、真正貼り合わせ `W_typed` は3である。さらに非可換順序を保持して `W_typed · W_old⁻¹ = S · q⁻² · S⁻¹`、相対自然性数+2を証明した。**元の自然性数1の語自体が貼り合わせ可能になったとは主張しない。**
+
+[P94D3T #2522](https://github.com/itakura-hidetoshi/KuuOS/pull/2522)は、この**実際に構成した**自然性数3の9面Type値3-cellを境界に持つ、別の独立4-cell生成子を宣言し、その完全な非可換語と旧P94A四射relatorの正規閉包をmathlibで構成した。旧核の真の拡大、旧F55 signed/odd shadowの降下、自然性数の非降下、共役作用・境界同変性・**正規核の代数的Peiffer恒等式**をLeanで証明した。生成子の宣言とその正規核の代数的Peifferは、**新しい4-cell Type値文法の任意whiskering/interchange coherenceの証明ではない**。旧P92Bへのdescent、元の形式的 `W_old` の真正4次元充填、局所・大域strict 3/n圏、`(∞,3)`-hyperdescentは未解決として残る。
+
 
 
 C60では元の正二十面体に由来する**60 Dart、90 Edge、32 Polygon（12五角形・20六角形）、360 incidence flags**を用います。この有限幾何は、以前に構築した高次理論を**具体的・真正な境界と証拠のもとで試験する場**です。
