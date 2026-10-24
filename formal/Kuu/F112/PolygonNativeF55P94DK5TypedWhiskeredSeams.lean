@@ -182,7 +182,7 @@ presentation*, conditional on actual seams, not in old P94A/P94C2.
 This is a constructor and NOT a Peiffer-coherence theorem. -/
 def NativeK5TypedSeamWitness.independentPentagonator
     (w : NativeK5TypedSeamWitness t1 t2 t3 t4 t5) :
-    NativeK5IndependentPentagonator w.toShellingDatum
+    NativeK5IndependentPentagonator t1 t2 t3 t4 t5 w.toShellingDatum
       w.toShellingDatum.cycle
       (NativeF55P92AssocComparison.refl
         (w.toShellingDatum.routes 0)) :=
@@ -196,7 +196,8 @@ theorem NativeK5TypedSeamWitness.no_old_Peiffer_filler
       w.toShellingDatum.cycle
       (NativeF55P92AssocComparison.refl
         (w.toShellingDatum.routes 0))) : False :=
-  w.toShellingDatum.no_P94C2_filling four
+  NativeK5TypedShellingDatum.no_P94C2_filling t1 t2 t3 t4 t5
+    w.toShellingDatum four
 
 #print axioms nativeK5TypedFacePrefix
 #print axioms nativeK5TypedFaceSuffix
