@@ -152,6 +152,51 @@ inductive NativeF54StructuralSeam (p : Polygon) :
         (.rightContext earlier (.trans u v))
         (.trans (.rightContext earlier u) (.rightContext earlier v))
 
+  | leftContextUnit
+      {a b : D} {x y : E}
+      {n m k l : Nat}
+      {ma mb mc : KuuNativeBlocks a b}
+      {pa pb pc : KuuNativeBlocks x y}
+      (earlier : KuuNativeF45Tree p n m ma pa mb pb)
+      (later : KuuNativeF45Tree p k l mb pb mc pc) :
+      NativeF54StructuralSeam p
+        (.leftContext (.chain (.refl earlier)) later)
+        (.chain (.refl (.node earlier later)))
+  | rightContextUnit
+      {a b : D} {x y : E}
+      {n m k l : Nat}
+      {ma mb mc : KuuNativeBlocks a b}
+      {pa pb pc : KuuNativeBlocks x y}
+      (earlier : KuuNativeF45Tree p n m ma pa mb pb)
+      (later : KuuNativeF45Tree p k l mb pb mc pc) :
+      NativeF54StructuralSeam p
+        (.rightContext earlier (.chain (.refl later)))
+        (.chain (.refl (.node earlier later)))
+  | leftContextCongruence
+      {a b : D} {x y : E}
+      {n n' m m' k l : Nat}
+      {ma mb mc : KuuNativeBlocks a b}
+      {pa pb pc : KuuNativeBlocks x y}
+      {first : KuuNativeF45Tree p n m ma pa mb pb}
+      {last : KuuNativeF45Tree p n' m' ma pa mb pb}
+      {r s : KuuNativeF45Tree.DepthRotationRoute p first last}
+      (w : NativeF54StructuralSeam p r s)
+      (later : KuuNativeF45Tree p k l mb pb mc pc) :
+      NativeF54StructuralSeam p
+        (.leftContext r later) (.leftContext s later)
+  | rightContextCongruence
+      {a b : D} {x y : E}
+      {k l n n' m m' : Nat}
+      {ma mb mc : KuuNativeBlocks a b}
+      {pa pb pc : KuuNativeBlocks x y}
+      (earlier : KuuNativeF45Tree p k l ma pa mb pb)
+      {first : KuuNativeF45Tree p n m mb pb mc pc}
+      {last : KuuNativeF45Tree p n' m' mb pb mc pc}
+      {r s : KuuNativeF45Tree.DepthRotationRoute p first last}
+      (w : NativeF54StructuralSeam p r s) :
+      NativeF54StructuralSeam p
+        (.rightContext earlier r) (.rightContext earlier s)
+
 /-- Source-level soundness of every structural generator: no
 real original F54 primitive rotation is added or removed. -/
 theorem NativeF54StructuralSeam.rotationCount_sound
@@ -190,6 +235,10 @@ theorem NativeF54StructuralSeam.rotationCount_sound
       change u.rotationCount + v.rotationCount =
         u.rotationCount + v.rotationCount
       rfl
+  | leftContextUnit earlier later => rfl
+  | rightContextUnit earlier later => rfl
+  | leftContextCongruence w later ih => exact ih
+  | rightContextCongruence earlier w ih => exact ih
 
 /-- A separate extension of original Type-valued P92B 3-cells:
 a structural seam is explicitly tagged, never coerced to P92B. -/
