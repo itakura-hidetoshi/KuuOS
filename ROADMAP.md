@@ -57,7 +57,19 @@ KuuOSの原初の問いは、C60の60頂点・90辺・32面ではなく、**関�
 
 ### C60グラフ主体の表示からゲージ表示への移行（F112・Qi v3.4）
 
-[移行監査と数学的区別](docs/C60_GAUGE_PRESENTATION_MIGRATION.md)を参照。C60の60/90/32/360真正幾何および歴史的グラフ・Quiver・全no-goは破棄せず、**現行の前向きcoherence／descent判断をグラフ一致に委ねない**。[原C60サイトのゲージ軌道・閉路積分・32面の曲率](formal/Kuu/F112/PolygonNativeC60PhysicalGaugeAtlas.lean)、[真正F55/P92Bの9面から定義するK₅の非可換ゲージと保存される自然性数+1](formal/Kuu/F112/PolygonNativeC60K5TypedGaugeCoherence.lean)、[真正12五角形の五行巡回群ゲージ](formal/KUOS/Architecture/QiWuxingNativeC60GaugeV3_4.lean)への前向き置換を進める。[PR #2510](https://github.com/itakura-hidetoshi/KuuOS/pull/2510)はexact-head CIとマージ完了まで提案である。P94D3IはPR #2507としてmainに統合済み（merge SHA `e7fc499381cdf7a53442b293fd742ff61ff3ee53`）；#2508はCLOSED・未マージ。真正全球面3-cell、4次元pentagonator、strict 3/n、hyperdescentは独立した未解決義務として維持する。
+[移行監査と数学的区別](docs/C60_GAUGE_PRESENTATION_MIGRATION.md)を参照。真正C60の60/90/32/360有限幾何、歴史的グラフ・Quiver、全no-goは保存する。前向きcoherence／descentをグラフ一致から導くことは禁止。[C60のゲージ接続と曲率](formal/Kuu/F112/PolygonNativeC60PhysicalGaugeAtlas.lean)、[真正P92Bから得たK₅非可換ゲージと旧形式的9面語の自然性数+1](formal/Kuu/F112/PolygonNativeC60K5TypedGaugeCoherence.lean)、[五行群ゲージ](formal/KUOS/Architecture/QiWuxingNativeC60GaugeV3_4.lean)は現在の比較presentationである。[PR #2510](https://github.com/itakura-hidetoshi/KuuOS/pull/2510)はMERGED。元の9面形式的語（+1）と、証明済みの補正後真正Type値9面閉路（+3）を同一視しない。4DのType値interchange・global strict 3/n・hyperdescentは未解決。
+
+### 最新の厳密境界：F112-P94D3Q–T（2026-10-24・main統合済み）
+
+| PR | 真正な数学的成果 | 引き続き未証明の境界 |
+| --- | --- | --- |
+| [#2519 P94D3Q](https://github.com/itakura-hidetoshi/KuuOS/pull/2519) | 最後のsquare2の元P92B `symm` 証拠をF54構造的seamで保持。文脈深さ列が構造的seam全生成子で保存されること、旧shellingに必要な逆向きseamが存在しないことをLean証明。 | 元の9面shellingのType値貼り合わせ・P92Bへの新seam降下。 |
+| [#2520 P94D3R](https://github.com/itakura-hidetoshi/KuuOS/pull/2520) | 既存8面の真正Type値貼り合わせとsquare2が同じF54境界を持つ平行3-cellであることを構成。自然性数+2と−1、群語の非同一性、旧構造的9面datumのno-goを証明。 | 同じ群語や高次4-cellの存在を影の一致から推定しない。 |
+| [#2521 P94D3S](https://github.com/itakura-hidetoshi/KuuOS/pull/2521) | square2の3-cellだけを正しく反転して、元の面順序で実Type値9面閉路を構成。完全非可換群語を保ち `ν_N(W_typed)=3`、旧形式的 `ν_N(W_old)=1`、`W_typed W_old⁻¹=S q⁻² S⁻¹` をLeanで証明。旧full shadowは双方0。 | `W_old`をそのままType値化したという主張は禁止。旧P94A/P94C2充填も不可能。 |
+| [#2522 P94D3T](https://github.com/itakura-hidetoshi/KuuOS/pull/2522) | 真正 `W_typed` を境界とする別のType値独立4-cell生成子を宣言。元の全typed 4-cell relatorと新語のmathlib正規閉包で、真の拡大・旧shadow降下・N非降下・共役作用・境界同変性・代数的Peiffer crossed-moduleを証明。 | 生成子の宣言≠任意Type値4-cell whiskering/interchangeのcoherence証明。これは次の独立課題。 |
+
+**次（P94D3U以降）:** 正規核の代数的Peifferと実Type値4-cell生成子を区別したまま、生成子に対する左右whiskeringの型付きsource、二つの4次元貼り合わせ順序の境界・Peiffer coherenceの存在条件またはnon-liftを証明する。現在のP94D3S/Tの `N=3` の境界で得た結論を、旧形式的 `N=1` のWに無断で移植しない。さらに旧P92Bへのdescent、既存P87/88/89のno-goとstrict合成、一般W/J/H、局所／大域strict 3/n、`(∞,3)`-hyperdescentへ進む。
+
 
 
 真正C60幾何は原正二十面体から導いた60 Dart、90 Edge、32 Polygon（12五角形・20六角形）、360入射flagsを持ちます。一般的に進めていた高次法則・descent・障害の議論を、**見せかけの任意の例ではなく、検証可能な有限物理的入射上で試す**ために選んだpresentationです。
@@ -201,7 +213,7 @@ P58–P91の新規ソースは**canonical mainに存在**します。[P58](forma
 
 ## 10. 実装優先順位、CI、既存成果の保存
 
-**次の証明作業の優先順位:** P87/P88旧presentation no-go、P89新presentation strict interchange、P90A/B真正F54三項bracketingとassoc自然性raw境界を保持。**P91A [#2481](https://github.com/itakura-hidetoshi/KuuOS/pull/2481)完了**：元F55九構成子の回転数差・五角形charge一致、P90比較証拠の必要な五角形電荷0と奇位相条件。**P91B [#2482](https://github.com/itakura-hidetoshi/KuuOS/pull/2482)完了**：原F55存在exact kernelのroute-object商、P67旧商との比較、pentagonによる回転数非降下、P90比較slot存在との正確な同値。**次はP91C/P92**：真正F55九構成子からP90 associator自然性slotを実際に充足できるか、型付き具体的なF54生成規則ごとに正の証拠または保存不変量によるobstructionを検証する。新生成子が必要でも既存原F54/F55やodd C60位相を改竄せず、新presentationで証拠追加と高次coherenceを分離する。さらに水平結合律・globularity、局所strict 3圏全公理、C60以前のW/J/Hとの橋、大域strict 3/n、(∞,3)-hyperdescent。Grayを使用せず、独立Kuuは空の一presentationとする。
+**次の証明作業の優先順位:** P87/P88旧presentationのno-go、P89新presentationでの選択strict interchange、P90–P94の元F45/F54/F55/P92Bの依存型証拠を保持する。P91A/B以降は既にmainに統合済みであり、現在は**P94D3T [#2522](https://github.com/itakura-hidetoshi/KuuOS/pull/2522)までMERGED**。続くP94D3Uでは、独立pentagonatorの新Type値4-cell生成子に対する4次元whiskering／interchange・Peifferの本来のcoherenceを、数学的に必要な生成子・critical pair・descent obstructionとともに証明する。正規閉包の群論的Peifferは完成済みだが、型付き4次元coherenceを完成扱いしない。元のK₅形式的Wの自然性数1、真正補正後のType値Wの自然性数3、全旧no-goを保存。さらに局所・大域strict 3/n圏、C60以前のW/J/Hへの輸送、`(∞,3)`-hyperdescentを目指す。Grayを再導入せず、独立KuuとC60は縁起の複数presentationの一つとして扱う。
 
 **絶対に行わないこと:** Gray圏でstrict 3圏の未証明法則を置換して完了と言うこと、旧約107公開rootの一括削除、歴史的な数学を`legacy/`だけに押し込むこと、strict性を得るために全raw証拠を無条件に潰すこと、未証明の存在条件を新公理へ置くこと、exact-head CIと公理監査を通さず未検証成果をmainに統合すること。
 
