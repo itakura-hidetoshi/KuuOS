@@ -173,7 +173,7 @@ def nativeK5EightUnitLeftFirst
     NativeK5StructuralEightCell p
       (.trans (.trans (.core (.refl u)) h) (.core (.refl v))) h :=
   .trans
-    (.core (.sevenVerticalLeft (.sevenLeftUnit h) (.core (.refl v))))
+    (.core (.sevenVerticalLeft (t := u) (.sevenLeftUnit h) (.core (.refl v))))
     (.core (.sevenRightUnit h))
 
 /-- Normalize the RIGHT unit on the outer seven-cell expression
