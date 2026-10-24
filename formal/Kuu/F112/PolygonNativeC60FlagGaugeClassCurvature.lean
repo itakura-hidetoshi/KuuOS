@@ -114,6 +114,13 @@ theorem nativeC60DiagonalGauge_not_equivalent_zero
       nativeC60FlagGaugeCurvature
         (fun _ _ _ => (0 : A)) e false false = 0 :=
     nativeC60ZeroIncidenceGaugeField_flagCurvature e false false
+  -- CongrArg preserves a beta-redex; normalize it before 'rw'.
+  change
+    nativeC60FlagGaugeCurvature
+        (fun _ _ _ => (0 : A)) e false false =
+      nativeC60FlagGaugeCurvature
+        (nativeC60GaugeTransform
+          (nativeC60DiagonalIncidenceGaugeField a) phi) e false false at heq
   rw [hzero, nativeC60FlagGaugeCurvature_invariant,
     nativeC60DiagonalIncidenceGaugeField_flagCurvature] at heq
   exact ha (neg_eq_zero.mp heq.symm)
