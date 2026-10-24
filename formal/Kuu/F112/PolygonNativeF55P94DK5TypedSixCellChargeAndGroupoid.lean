@@ -11,7 +11,7 @@ groupoid of 4-cell objects and 5-cell quotient morphisms.
 
 A new SIGNED integer observer counts fundamental 5D interchanger
 generators, rather than treating equality of old Peiffer *images*
-as evidence of a 6-cell. It is proved sound for ALL sixteen 6-cell
+as evidence of a 6-cell. It is proved sound for ALL 6-cell
 constructors, including independent naturality 6-cells and both
 5-cell horizontal squares. The count descends to the proof-evidence
 quotient; unequal counts strictly obstruct any source-typed 6-cell.
@@ -85,9 +85,9 @@ theorem NativeK5StructuralSixCell.charge_sound
   | verticalLeft witness suffix ih =>
       simpa only [NativeK5StructuralFiveCell.interchangerCharge] using
         congrArg (fun t : ℤ => t + suffix.interchangerCharge) ih
-  | verticalRight prefix witness ih =>
+  | verticalRight lead witness ih =>
       simpa only [NativeK5StructuralFiveCell.interchangerCharge] using
-        congrArg (fun t : ℤ => prefix.interchangerCharge + t) ih
+        congrArg (fun t : ℤ => lead.interchangerCharge + t) ih
   | verticalAssoc a b c =>
       change (a.interchangerCharge + b.interchangerCharge) +
         c.interchangerCharge =
