@@ -279,7 +279,7 @@ theorem nativeK5TwelveSquareExchange_pastingRaw_ne
   exact nativeK5TwelveSquareExchange_pastingWord_ne H
     (congrArg NativeK5StructuralTwelveCell.historyWord h)
 
-/-- The actual C60 five-stage K₅ 11D comparison produces a 12D
+/- The actual C60 five-stage K₅ 11D comparison produces a 12D
 critical pair. The two paths have the same original dependent 11D
 endpoints, but are not equal as raw 12D proof terms. -/
 section GenuineFiveStage
