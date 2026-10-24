@@ -1005,38 +1005,12 @@ theorem NativeK5StructuralThirteenCell.squareCount_sound
   | eightVerticalRight prior _ ih => exact ih
   | eightInverseRespect _ ih => exact ih
 
-/-- Relative necessity on the exact genuine 12D square generator. -/
-theorem nativeK5TwelveExchange_thirteenRelativeNecessity
-    {a b : D} {x y : E} {n n' m m' : Nat}
-    {ma mb : KuuNativeBlocks a b} {pa pb : KuuNativeBlocks x y}
-    {first : KuuNativeF45Tree p n m ma pa mb pb}
-    {last : KuuNativeF45Tree p n' m' ma pa mb pb}
-    {r s : KuuNativeF45Tree.DepthRotationRoute p first last}
-    {f g : NativeF55StructuralComparison p r s}
-    {alpha beta : NativeK5StructuralFourCell p f g}
-    {w z : NativeK5StructuralFiveCell p alpha beta}
-    {u v : NativeK5StructuralSixCell p w z}
-    {h k : NativeK5StructuralSevenCell p u v}
-    {e d : NativeK5StructuralEightCell p h k}
-    {q t : NativeK5StructuralNineCell p e d}
-    {P Q : NativeK5StructuralTenCell p q t}
-    {H K : NativeK5StructuralElevenCell p P Q}
-    (W : NativeK5StructuralTwelveCell p H K) :
-    Nonempty (NativeK5StructuralThirteenCell p
-      (nativeK5TwelvePastingLeftThenRight (NativeK5StructuralTwelveCell.squareExchange W))
-      (nativeK5TwelvePastingRightThenLeft (NativeK5StructuralTwelveCell.squareExchange W))) ∧
-    ¬ Nonempty (NativeK5CoreThirteenCell p
-      (nativeK5TwelvePastingLeftThenRight (NativeK5StructuralTwelveCell.squareExchange W))
-      (nativeK5TwelvePastingRightThenLeft (NativeK5StructuralTwelveCell.squareExchange W))) := by
-  constructor
-  · exact ⟨.squareExchange (NativeK5StructuralTwelveCell.squareExchange W)⟩
-  · rintro ⟨R⟩
-    exact nativeK5TwelveSquareExchange_pastingWord_ne W R.historyWord_sound
 
-/-- No boundary-preserving retraction to the named conservative
-13D grammar for the independently adjoined exchange critical pair. -/
-theorem nativeK5TwelveExchange_thirteenNoCoreRetraction
-    {a b : D} {x y : E} {n n' m m' : Nat}
+/-- For an arbitrary original 12D witness, the new independent 13D
+square always compares its two pastings. An obstruction to a
+conservative filler additionally needs unequal selected histories. -/
+theorem nativeK5TwelveExchange_thirteenRelativeNecessity
+    {p : Polygon} {a b : D} {x y : E} {n n' m m' : Nat}
     {ma mb : KuuNativeBlocks a b} {pa pb : KuuNativeBlocks x y}
     {first : KuuNativeF45Tree p n m ma pa mb pb}
     {last : KuuNativeF45Tree p n' m' ma pa mb pb}
@@ -1050,18 +1024,100 @@ theorem nativeK5TwelveExchange_thirteenNoCoreRetraction
     {q t : NativeK5StructuralNineCell p e d}
     {P Q : NativeK5StructuralTenCell p q t}
     {H K : NativeK5StructuralElevenCell p P Q}
-    (W : NativeK5StructuralTwelveCell p H K) :
+    (W : NativeK5StructuralTwelveCell p H K)
+    (hword : (nativeK5TwelvePastingLeftThenRight W).historyWord ≠
+      (nativeK5TwelvePastingRightThenLeft W).historyWord) :
+    Nonempty (NativeK5StructuralThirteenCell p
+      (nativeK5TwelvePastingLeftThenRight W) (nativeK5TwelvePastingRightThenLeft W)) ∧
+    ¬ Nonempty (NativeK5CoreThirteenCell p
+      (nativeK5TwelvePastingLeftThenRight W) (nativeK5TwelvePastingRightThenLeft W)) := by
+  constructor
+  · exact ⟨.squareExchange W⟩
+  · rintro ⟨proof⟩
+    exact hword proof.historyWord_sound
+
+/-- Fully unconditional result on the original independent 12D
+squareExchange generator, certified by an existing S₃ witness. -/
+theorem nativeK5TwelveSquareExchange_thirteenRelativeNecessity
+    {p : Polygon} {a b : D} {x y : E} {n n' m m' : Nat}
+    {ma mb : KuuNativeBlocks a b} {pa pb : KuuNativeBlocks x y}
+    {first : KuuNativeF45Tree p n m ma pa mb pb}
+    {last : KuuNativeF45Tree p n' m' ma pa mb pb}
+    {r s : KuuNativeF45Tree.DepthRotationRoute p first last}
+    {f g : NativeF55StructuralComparison p r s}
+    {alpha beta : NativeK5StructuralFourCell p f g}
+    {w z : NativeK5StructuralFiveCell p alpha beta}
+    {u v : NativeK5StructuralSixCell p w z}
+    {h k : NativeK5StructuralSevenCell p u v}
+    {e d : NativeK5StructuralEightCell p h k}
+    {q t : NativeK5StructuralNineCell p e d}
+    {P Q : NativeK5StructuralTenCell p q t}
+    (X : NativeK5StructuralElevenCell p P Q) :
+    Nonempty (NativeK5StructuralThirteenCell p
+      (nativeK5TwelvePastingLeftThenRight (NativeK5StructuralTwelveCell.squareExchange X))
+      (nativeK5TwelvePastingRightThenLeft (NativeK5StructuralTwelveCell.squareExchange X))) ∧
+    ¬ Nonempty (NativeK5CoreThirteenCell p
+      (nativeK5TwelvePastingLeftThenRight (NativeK5StructuralTwelveCell.squareExchange X))
+      (nativeK5TwelvePastingRightThenLeft (NativeK5StructuralTwelveCell.squareExchange X))) :=
+  nativeK5TwelveExchange_thirteenRelativeNecessity
+    (NativeK5StructuralTwelveCell.squareExchange X)
+    (nativeK5TwelveSquareExchange_pastingWord_ne X)
+
+/-- Boundary-preserving retraction of the independent 13D comparison
+onto the named conservative grammar is impossible at this exact pair. -/
+theorem nativeK5TwelveExchange_thirteenNoCoreRetraction
+    {p : Polygon} {a b : D} {x y : E} {n n' m m' : Nat}
+    {ma mb : KuuNativeBlocks a b} {pa pb : KuuNativeBlocks x y}
+    {first : KuuNativeF45Tree p n m ma pa mb pb}
+    {last : KuuNativeF45Tree p n' m' ma pa mb pb}
+    {r s : KuuNativeF45Tree.DepthRotationRoute p first last}
+    {f g : NativeF55StructuralComparison p r s}
+    {alpha beta : NativeK5StructuralFourCell p f g}
+    {w z : NativeK5StructuralFiveCell p alpha beta}
+    {u v : NativeK5StructuralSixCell p w z}
+    {h k : NativeK5StructuralSevenCell p u v}
+    {e d : NativeK5StructuralEightCell p h k}
+    {q t : NativeK5StructuralNineCell p e d}
+    {P Q : NativeK5StructuralTenCell p q t}
+    {H K : NativeK5StructuralElevenCell p P Q}
+    (W : NativeK5StructuralTwelveCell p H K)
+    (hword : (nativeK5TwelvePastingLeftThenRight W).historyWord ≠
+      (nativeK5TwelvePastingRightThenLeft W).historyWord) :
     ¬ Nonempty
       (NativeK5StructuralThirteenCell p
-        (nativeK5TwelvePastingLeftThenRight (NativeK5StructuralTwelveCell.squareExchange W))
-        (nativeK5TwelvePastingRightThenLeft (NativeK5StructuralTwelveCell.squareExchange W)) →
+        (nativeK5TwelvePastingLeftThenRight W) (nativeK5TwelvePastingRightThenLeft W) →
        NativeK5CoreThirteenCell p
-        (nativeK5TwelvePastingLeftThenRight (NativeK5StructuralTwelveCell.squareExchange W))
-        (nativeK5TwelvePastingRightThenLeft (NativeK5StructuralTwelveCell.squareExchange W))) := by
+        (nativeK5TwelvePastingLeftThenRight W) (nativeK5TwelvePastingRightThenLeft W)) := by
   rintro ⟨retract⟩
   obtain ⟨⟨newThirteen⟩, noCore⟩ :=
-    nativeK5TwelveExchange_thirteenRelativeNecessity W
+    nativeK5TwelveExchange_thirteenRelativeNecessity W hword
   exact noCore ⟨retract newThirteen⟩
+
+theorem nativeK5TwelveSquareExchange_thirteenNoCoreRetraction
+    {p : Polygon} {a b : D} {x y : E} {n n' m m' : Nat}
+    {ma mb : KuuNativeBlocks a b} {pa pb : KuuNativeBlocks x y}
+    {first : KuuNativeF45Tree p n m ma pa mb pb}
+    {last : KuuNativeF45Tree p n' m' ma pa mb pb}
+    {r s : KuuNativeF45Tree.DepthRotationRoute p first last}
+    {f g : NativeF55StructuralComparison p r s}
+    {alpha beta : NativeK5StructuralFourCell p f g}
+    {w z : NativeK5StructuralFiveCell p alpha beta}
+    {u v : NativeK5StructuralSixCell p w z}
+    {h k : NativeK5StructuralSevenCell p u v}
+    {e d : NativeK5StructuralEightCell p h k}
+    {q t : NativeK5StructuralNineCell p e d}
+    {P Q : NativeK5StructuralTenCell p q t}
+    (X : NativeK5StructuralElevenCell p P Q) :
+    ¬ Nonempty
+      (NativeK5StructuralThirteenCell p
+        (nativeK5TwelvePastingLeftThenRight (NativeK5StructuralTwelveCell.squareExchange X))
+        (nativeK5TwelvePastingRightThenLeft (NativeK5StructuralTwelveCell.squareExchange X)) →
+       NativeK5CoreThirteenCell p
+        (nativeK5TwelvePastingLeftThenRight (NativeK5StructuralTwelveCell.squareExchange X))
+        (nativeK5TwelvePastingRightThenLeft (NativeK5StructuralTwelveCell.squareExchange X))) :=
+  nativeK5TwelveExchange_thirteenNoCoreRetraction
+    (NativeK5StructuralTwelveCell.squareExchange X)
+    (nativeK5TwelveSquareExchange_pastingWord_ne X)
 
 #print axioms NativeK5CoreThirteenCell
 #print axioms NativeK5CoreThirteenCell.historyWord_sound
@@ -1070,6 +1126,8 @@ theorem nativeK5TwelveExchange_thirteenNoCoreRetraction
 #print axioms NativeK5StructuralThirteenCell.squareCount_sound
 #print axioms nativeK5TwelveExchange_thirteenRelativeNecessity
 #print axioms nativeK5TwelveExchange_thirteenNoCoreRetraction
+#print axioms nativeK5TwelveSquareExchange_thirteenRelativeNecessity
+#print axioms nativeK5TwelveSquareExchange_thirteenNoCoreRetraction
 
 end
 end Kuu.F112.Physical
