@@ -62,8 +62,10 @@ theorem NativeK5StructuralSixCell.totalSquareProvenance_trans
     (v : NativeK5StructuralSixCell p z q) :
     (NativeK5StructuralSixCell.trans u v).totalSquareProvenance =
       u.totalSquareProvenance + v.totalSquareProvenance := by
-  simp only [NativeK5StructuralSixCell.totalSquareProvenance,
-    NativeK5StructuralSixCell.squareProvenance]
+  change (u.squareProvenance true + v.squareProvenance true) +
+      (u.squareProvenance false + v.squareProvenance false) =
+    (u.squareProvenance true + u.squareProvenance false) +
+      (v.squareProvenance true + v.squareProvenance false)
   abel
 
 /-- Reversing a genuine 6D proof negates its total 6D provenance. -/
@@ -79,8 +81,8 @@ theorem NativeK5StructuralSixCell.totalSquareProvenance_symm
     (u : NativeK5StructuralSixCell p w z) :
     (NativeK5StructuralSixCell.symm u).totalSquareProvenance =
       -u.totalSquareProvenance := by
-  simp only [NativeK5StructuralSixCell.totalSquareProvenance,
-    NativeK5StructuralSixCell.squareProvenance]
+  change (-u.squareProvenance true) + (-u.squareProvenance false) =
+    -(u.squareProvenance true + u.squareProvenance false)
   abel
 
 /-- Original 5D inversion congruence also negates 6D square
@@ -97,8 +99,8 @@ theorem NativeK5StructuralSixCell.totalSquareProvenance_fiveInverse
     (u : NativeK5StructuralSixCell p w z) :
     (NativeK5StructuralSixCell.inverseRespect u).totalSquareProvenance =
       -u.totalSquareProvenance := by
-  simp only [NativeK5StructuralSixCell.totalSquareProvenance,
-    NativeK5StructuralSixCell.squareProvenance]
+  change (-u.squareProvenance true) + (-u.squareProvenance false) =
+    -(u.squareProvenance true + u.squareProvenance false)
   abel
 
 /-- Independently specified typed 7D grammar of genuine 6D
