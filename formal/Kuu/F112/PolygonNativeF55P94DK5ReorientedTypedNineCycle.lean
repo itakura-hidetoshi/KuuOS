@@ -232,7 +232,7 @@ theorem nativeK5NineReorientedWord_relative_correction :
   let q := (nativeK5AnchoredFace t1 t2 t3 t4 t5 .square2).2.2.2.p94cGroupWord
   let a := (nativeK5AnchoredFace t1 t2 t3 t4 t5 .pentagon4).2.2.2.p94cGroupWord
   change (s + (-q) + a) + -(s + q + a) = s + (-q) + (-q) + (-s)
-  group
+  simp [neg_add_rev, add_assoc]
 
 /-- The correction changes the old integer N-charge by +2.
 The +1 historical result remains unchanged and distinct. -/
