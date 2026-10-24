@@ -303,7 +303,6 @@ theorem nativeK5EightUnitPair_noCoreNine
     {alpha beta : NativeK5StructuralFourCell p f g}
     {w z : NativeK5StructuralFiveCell p alpha beta}
     {u v : NativeK5StructuralSixCell p w z}
-    {h k : NativeK5StructuralSevenCell p u v}
     (h0 : NativeK5StructuralSevenCell p u v) :
     ¬ Nonempty (NativeK5CoreNineCell p
       (nativeK5EightUnitLeftFirst h0)
@@ -447,8 +446,9 @@ theorem NativeK5StructuralNineCell.unitCount_sound
     e.unitCount = d.unitCount := by
   induction q with
   | core w => exact w.unitCount_sound
-  | unitDiamond h => exact (nativeK5EightUnitPair_sameInteger h).1.trans
-      (nativeK5EightUnitPair_sameInteger h).2.symm
+  | unitDiamond h =>
+      obtain ⟨hl, hr⟩ := nativeK5EightUnitPair_sameInteger h
+      exact hl.trans hr.symm
   | symm _ ih => exact ih.symm
   | trans _ _ ih₁ ih₂ => exact ih₁.trans ih₂
   | verticalLeft _ suffix ih =>
@@ -470,7 +470,6 @@ theorem nativeK5EightUnitPair_nineRelativeNecessity
     {alpha beta : NativeK5StructuralFourCell p f g}
     {w z : NativeK5StructuralFiveCell p alpha beta}
     {u v : NativeK5StructuralSixCell p w z}
-    {h k : NativeK5StructuralSevenCell p u v}
     (h0 : NativeK5StructuralSevenCell p u v) :
     Nonempty (NativeK5StructuralNineCell p
       (nativeK5EightUnitLeftFirst h0)
