@@ -11,6 +11,7 @@ on:
       - 'runtime/kuuos_gauge_field_self_organization_v0_60.py'
       - 'tests/test_kuuos_gauge_field_*_v0_60.py'
       - 'scripts/check_kuuos_gauge_field_self_organization_v0_60.py'
+      - 'scripts/ci_subsystem_lean_scope.py'
       - 'docs/KUUOS_GAUGE_FIELD_SELF_ORGANIZATION_v0_60.md'
       - 'manifests/kuuos_gauge_field_self_organization_v0_60.json'
       - 'formal/KUOS/WORLD/KuuOSGaugeFieldSelfOrganizationV0_60.lean'
@@ -26,6 +27,7 @@ on:
       - 'runtime/kuuos_gauge_field_self_organization_v0_60.py'
       - 'tests/test_kuuos_gauge_field_*_v0_60.py'
       - 'scripts/check_kuuos_gauge_field_self_organization_v0_60.py'
+      - 'scripts/ci_subsystem_lean_scope.py'
       - 'docs/KUUOS_GAUGE_FIELD_SELF_ORGANIZATION_v0_60.md'
       - 'manifests/kuuos_gauge_field_self_organization_v0_60.json'
       - 'formal/KUOS/WORLD/KuuOSGaugeFieldSelfOrganizationV0_60.lean'
@@ -68,7 +70,7 @@ jobs:
           elif [[ -z "${BASE_SHA:-}" ]]; then
             echo "needed=true" >> "${GITHUB_OUTPUT}"
           else
-            python3 scripts/ci_codeai_lean_scope.py \
+            PYTHONPATH=. python3 scripts/ci_subsystem_lean_scope.py \
               --workflow .github/workflows/kuuos-gauge-field-self-organization-v0-60.yml \
               --base "${BASE_SHA}" --head HEAD \
               --github-output "${GITHUB_OUTPUT}" \
