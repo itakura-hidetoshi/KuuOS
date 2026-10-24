@@ -226,20 +226,20 @@ theorem nativeK5NaturalitySquare2WhiskeredTarget_trace :
 /-- No structural-seam proof can invert the real square2 source
 without changing the underlying oriented P92B generator. -/
 theorem nativeK5NaturalitySquare2NoOutwardSourceSeam :
-    ¬ NativeF54StructuralSeam p
+    ¬ Nonempty (NativeF54StructuralSeam p
       (nativeK5TypedGlobalF54Route t1 t2 t3 t4 t5 5)
-      (nativeK5WhiskeredFaceSource t1 t2 t3 t4 t5 .square2) := by
-  intro s
+      (nativeK5WhiskeredFaceSource t1 t2 t3 t4 t5 .square2)) := by
+  rintro ⟨s⟩
   have h := NativeF54StructuralSeam.contextDepthTrace_sound s
   rw [nativeK5NaturalitySquare2ShellingSource_trace,
       nativeK5NaturalitySquare2WhiskeredSource_trace] at h
   exact (by decide : ([2, 0, 0, 1] : List Nat) ≠ [0, 1, 0, 1]) h
 
 theorem nativeK5NaturalitySquare2NoOutwardTargetSeam :
-    ¬ NativeF54StructuralSeam p
+    ¬ Nonempty (NativeF54StructuralSeam p
       (nativeK5TypedGlobalF54Route t1 t2 t3 t4 t5 1)
-      (nativeK5WhiskeredFaceTarget t1 t2 t3 t4 t5 .square2) := by
-  intro s
+      (nativeK5WhiskeredFaceTarget t1 t2 t3 t4 t5 .square2)) := by
+  rintro ⟨s⟩
   have h := NativeF54StructuralSeam.contextDepthTrace_sound s
   rw [nativeK5NaturalitySquare2ShellingTarget_trace,
       nativeK5NaturalitySquare2WhiskeredTarget_trace] at h
