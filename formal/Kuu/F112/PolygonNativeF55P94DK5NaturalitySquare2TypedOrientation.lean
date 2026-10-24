@@ -64,7 +64,9 @@ theorem NativeF54StructuralSeam.contextDepthTrace_sound
         u.contextDepthTrace ++ (v.contextDepthTrace ++ z.contextDepthTrace)
       exact List.append_assoc _ _ _
   | leftUnit r => rfl
-  | rightUnit r => rfl
+  | rightUnit r =>
+      change r.contextDepthTrace ++ [] = r.contextDepthTrace
+      exact List.append_nil _
   | precompose u w ih =>
       change u.contextDepthTrace ++ _ = u.contextDepthTrace ++ _
       exact congrArg (fun xs : List Nat => u.contextDepthTrace ++ xs) ih
