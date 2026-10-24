@@ -107,8 +107,8 @@ inductive NativeK5CoreTenCell (p : Polygon) :
       {w z : NativeK5StructuralFiveCell p alpha beta}
       {u v : NativeK5StructuralSixCell p w z}
       {h k : NativeK5StructuralSevenCell p u v}
-      {e d t x : NativeK5StructuralEightCell p h k}
-      (q : NativeK5StructuralNineCell p e d) (z : NativeK5StructuralNineCell p d t) (y : NativeK5StructuralNineCell p t x) :
+      {e d t j : NativeK5StructuralEightCell p h k}
+      (q : NativeK5StructuralNineCell p e d) (z : NativeK5StructuralNineCell p d t) (y : NativeK5StructuralNineCell p t j) :
       NativeK5CoreTenCell p (.trans (.trans q z) y) (.trans q (.trans z y))
   | nineLeftUnit
       {a b : D} {x y : E} {n n' m m' : Nat}
