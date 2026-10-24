@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import fnmatch
+from collections.abc import Iterable
 import pathlib
 import re
 import subprocess
@@ -37,11 +38,19 @@ def workflow_pr_paths(source: str) -> list[str]:
     return patterns
 
 
-def needs_targeted_lean(changed: list[str], patterns: list[str]) -> bool:
-    """A path already checked by PR Governance alone does not activate CodeAI Lean."""
+def needs_targeted_lean(
+    changed: list[str],
+    patterns: list[str],
+    delegated_paths: Iterable[str] = (),
+) -> bool:
+    """Paths validated by canonical Governance need not recompile in a subsystem."""
     if not changed or not patterns:
         return True  # fail-closed on missing data
-    relevant = [pattern for pattern in patterns if pattern not in GLOBAL_LEAN_INPUTS]
+    delegated = set(delegated_paths)
+    relevant = [
+        pattern for pattern in patterns
+        if pattern not in GLOBAL_LEAN_INPUTS and pattern not in delegated
+    ]
     if not relevant:
         return True  # fail-closed if a workflow has no own scope
     return any(fnmatch.fnmatchcase(path, pattern) for path in changed for pattern in relevant)
@@ -72,6 +81,10 @@ def main() -> int:
     parser.add_argument("--base", required=True)
     parser.add_argument("--head", default="HEAD")
     parser.add_argument("--github-output", type=pathlib.Path, required=True)
+    parser.add_argument(
+        "--delegated-path", action="append", default=[],
+        help="Exact workflow path already validated by canonical PR/main CI",
+    )
     args = parser.parse_args()
 
     # When the diff cannot be proved, do the full targeted Lean check instead.
@@ -79,7 +92,7 @@ def main() -> int:
         source = args.workflow.read_text(encoding="utf-8")
         patterns = workflow_pr_paths(source)
         changed = changed_paths(args.base, args.head)
-        needed = needs_targeted_lean(changed, patterns)
+        needed = needs_targeted_lean(changed, patterns, args.delegated_path)
         detail = f"changed={len(changed)}, scoped_paths={len(patterns)}"
     except (OSError, subprocess.SubprocessError, ValueError) as exc:
         needed = True
