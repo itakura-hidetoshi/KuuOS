@@ -106,7 +106,7 @@ inductive NativeK5CoreFourteenCell (p : Polygon) :
       {H K : NativeK5StructuralElevenCell p P Q}
       {U V : NativeK5StructuralTwelveCell p H K}
       {T S Z : NativeK5StructuralThirteenCell p U V}
-      (proof : NativeK5CoreFourteenCell p T S) (next : NativeK5CoreFourteenCell p S Z) :
+      (proof : NativeK5CoreFourteenCell p T S) (following : NativeK5CoreFourteenCell p S Z) :
       NativeK5CoreFourteenCell p T Z
   | thirteenAssoc
       {a b : D} {x y : E} {n n' m m' : Nat}
@@ -779,7 +779,7 @@ inductive NativeK5StructuralFourteenCell (p : Polygon) :
       {H K : NativeK5StructuralElevenCell p P Q}
       {U V : NativeK5StructuralTwelveCell p H K}
       {T S Z : NativeK5StructuralThirteenCell p U V}
-      (proof : NativeK5StructuralFourteenCell p T S) (next : NativeK5StructuralFourteenCell p S Z) :
+      (proof : NativeK5StructuralFourteenCell p T S) (following : NativeK5StructuralFourteenCell p S Z) :
       NativeK5StructuralFourteenCell p T Z
   | thirteenVerticalLeft
       {a b : D} {x y : E} {n n' m m' : Nat}
