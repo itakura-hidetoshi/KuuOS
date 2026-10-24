@@ -133,13 +133,13 @@ BOUNDARY-PRESERVING into the explicit conservative 7D core,
 it would contradict the actual C60 K5 fine-provenance obstruction.
 No assertion is made about unconstructed old P92B 7D carriers. -/
 theorem nativeK5Pentagonator_targetCoreSevenNoRetraction :
-    ¬ (NativeK5StructuralSevenCell p
+    ¬ Nonempty (NativeK5StructuralSevenCell p
       (nativeK5PentagonatorSevenTargetDirect t1 t2 t3 t4 t5)
       (nativeK5PentagonatorSevenTargetViaSource t1 t2 t3 t4 t5) →
       NativeK5CoreSevenCell p
         (nativeK5PentagonatorSevenTargetDirect t1 t2 t3 t4 t5)
         (nativeK5PentagonatorSevenTargetViaSource t1 t2 t3 t4 t5)) := by
-  intro transport
+  rintro ⟨transport⟩
   obtain ⟨⟨seven⟩, noCore⟩ :=
     nativeK5Pentagonator_targetSevenCellIndependence t1 t2 t3 t4 t5
   exact noCore ⟨transport seven⟩
