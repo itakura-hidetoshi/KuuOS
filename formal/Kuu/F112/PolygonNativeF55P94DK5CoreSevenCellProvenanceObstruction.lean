@@ -273,14 +273,8 @@ theorem NativeK5CoreSevenCell.squareProvenance_sound
   | symm _ ih => exact ih.symm
   | trans _ _ ih₁ ih₂ => exact ih₁.trans ih₂
   | verticalLeft witness suffix ih =>
-      change witness.squareProvenance selectTarget +
-          suffix.squareProvenance selectTarget =
-        _ + suffix.squareProvenance selectTarget
       exact congrArg (fun t : ℤ => t + suffix.squareProvenance selectTarget) ih
   | verticalRight lead witness ih =>
-      change lead.squareProvenance selectTarget +
-          witness.squareProvenance selectTarget =
-        lead.squareProvenance selectTarget + _
       exact congrArg (fun t : ℤ => lead.squareProvenance selectTarget + t) ih
   | verticalAssoc u v h =>
       change (u.squareProvenance selectTarget + v.squareProvenance selectTarget) +
@@ -305,12 +299,10 @@ theorem NativeK5CoreSevenCell.squareProvenance_sound
         u.squareProvenance selectTarget = 0
       exact neg_add_cancel _
   | inverseRespect witness ih =>
-      change -witness.squareProvenance selectTarget = -_
       exact congrArg (fun t : ℤ => -t) ih
   | fiveVerticalLeft witness suffix ih => exact ih
   | fiveVerticalRight lead witness ih => exact ih
   | fiveInverseRespect witness ih =>
-      change -witness.squareProvenance selectTarget = -_
       exact congrArg (fun t : ℤ => -t) ih
   | precompose prior witness ih => exact ih
   | postcompose witness suffix ih => exact ih
