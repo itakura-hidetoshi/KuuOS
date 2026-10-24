@@ -45,6 +45,7 @@ import Kuu.F112.PolygonNativeF55P94DK5TypedPentagonatorBoundary
 import Kuu.F112.PolygonNativeF55P94DK5ShellingNoncommutativeGap
 import Kuu.F112.PolygonNativeF55P94DGaugeCovariantHolonomy
 import Kuu.F112.PolygonNativeC60PhysicalGaugeAtlas
+import Kuu.F112.PolygonNativeC60FlagGaugeClassCurvature
 import Kuu.F112.PolygonNativeC60K5TypedGaugeCoherence
 import KUOS
 import KuuOSQiWuxingCyclicGroupPathsV3_1
