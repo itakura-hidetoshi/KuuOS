@@ -187,11 +187,11 @@ def NativeK5StructuralFourCell.setoid
     {last : KuuNativeF45Tree p n' m' ma pa mb pb}
     {r s : KuuNativeF45Tree.DepthRotationRoute p first last} :
     Setoid (NativeF55StructuralComparison p r s) where
-  r f g := Nonempty (NativeK5StructuralFourCell p f g)
+  r := fun f g => Nonempty (NativeK5StructuralFourCell p f g)
   iseqv := ⟨
     (fun f => ⟨.refl f⟩),
-    (fun _ _ ⟨w⟩ => ⟨.symm w⟩),
-    (fun _ _ _ ⟨u⟩ ⟨v⟩ => ⟨.trans u v⟩)⟩
+    (fun h => h.elim (fun w => ⟨.symm w⟩)),
+    (fun h k => h.elim (fun w => k.elim (fun v => ⟨.trans w v⟩)))⟩
 
 /-- The original complete source-typed mod-three observer descends
 to the actual new 4-cell quotient, NOT merely to the algebraic
