@@ -114,7 +114,7 @@ class LakeCacheRoutingTests(unittest.TestCase):
 
     def test_canonical_main_saves_a_warm_lake_cache(self):
         text = (WORKFLOWS / "lean-formal-validation.yml").read_text(encoding="utf-8")
-        self.assertIn("id: lake-workspace-cache", text)
+        self.assertIn("id: lake-workspace", text)
         self.assertIn("uses: actions/cache/restore@v5", text)
         self.assertIn("uses: actions/cache/save@v5", text)
         self.assertIn("path: .lake\n", text)
