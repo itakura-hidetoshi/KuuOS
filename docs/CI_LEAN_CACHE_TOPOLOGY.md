@@ -69,3 +69,61 @@ triggered solely by `lakefile.toml` would unnecessarily transfer over 100 GB.
 Each individual workflow still reports its Python/runtime checks; only its
 unrelated Lean cache and subsystem target can be omitted. The globally
 authoritative PR Governance lean job remains required.
+
+## 2026-10-24 — C60 gauge / modular CI speed repair
+
+### Observed bottleneck
+
+The prior Gauge-field v0.60, OS-Associated Gauge Fields v0.61, and
+Modular Evolution Mesh dedicated workflows separately executed
+`lake update`, `lake exe cache get`, a strict subsystem Lean build,
+and a *second* `lake build KuuOSFormal`. This occurred even when a
+pull request changed only the canonical `formal/KuuOSFormal.lean`
+import aggregate. Observed representative PR runs lasted roughly
+67–78 minutes; by comparison the validated main Lean CI completed
+its aggregate in roughly 3.5 minutes. These are observations,
+not predictions or guarantees about all future runner/cache conditions.
+
+### Repair and exact-head responsibilities
+
+- The three dedicated workflows retain their existing check contexts,
+  runtime/unit/manifest validation and strict subsystem Lake targets.
+  They now run on the same Ubuntu 24.04 image as the main/governance
+  cache publisher.
+- A fail-closed source-path classifier reuses the tested
+  `scripts/ci_codeai_lean_scope.py` implementation and excludes
+  only paths whose Lean proof obligations belong to the central
+  `pr-governance-gate.yml`: `formal/KuuOSFormal.lean`,
+  `formal/KUOS.lean`, global Lake inputs, and the respective
+  documentation file. A genuine subsystem change, workflow edit,
+  missing diff, or classifier failure still runs the dedicated
+  strict Lean check. The workflows continue running the runtime
+  validation even on a Lean-scope skip.
+- If subsystem Lean is required, the workflow restores only the
+  trusted main/base `kuuos-lake-*` workspace, **read-only**,
+  using the exact publisher key prefix, pinned toolchain hash,
+  manifest hash and base SHA. Only a verified absence of Mathlib
+  checkout or compiled `Mathlib.olean` triggers the corresponding
+  `lake update` or `lake exe cache get`. Every run checks that
+  `lake-manifest.json` and `lean-toolchain` remain unchanged.
+- The automatic second aggregate build is delegated to the existing
+  exact-head Governance Strict Lean job on PRs and the main-push
+  `lean-formal-validation.yml` job. It is NOT dropped from the
+  mathematics: a manually dispatched dedicated workflow still
+  builds `KuuOSFormal` independently.
+- No PR modifies or writes a trusted default-branch Lake archive.
+  Cached oleans are never treated as proof; Lake rebuilds changed
+  modules and the strict `warningAsError` / `sorryAsError`
+  options remain on all executed Lean targets. No root/module,
+  pinned dependency, historical no-go or theorem changes.
+
+These steps preserve required-check names: we do not remove the
+`pull_request` workflow trigger with a path filter, which can
+otherwise leave a required check permanently pending. The
+subsystem's source-scoped Lean *steps* are conditionally omitted,
+with the required runtime check still completing.
+
+Regression: `python3 -m unittest -v tests.test_ci_lean_cache_topology`.
+
+Post-change times must be read from the new exact-head workflow runs;
+the historical 67–78 minute durations are not a guaranteed ratio.
