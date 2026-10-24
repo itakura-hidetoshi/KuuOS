@@ -267,8 +267,7 @@ theorem nativeK5ThirteenSquareExchange_pastingWord_ne
     {q t : NativeK5StructuralNineCell p e d}
     {P Q : NativeK5StructuralTenCell p q t}
     {H K : NativeK5StructuralElevenCell p P Q}
-    {U V : NativeK5StructuralTwelveCell p H K}
-    (T : NativeK5StructuralTwelveCell p U V) :
+    (T : NativeK5StructuralTwelveCell p H K) :
     (nativeK5ThirteenPastingLeftThenRight
       (NativeK5StructuralThirteenCell.squareExchange T)).historyWord ≠
     (nativeK5ThirteenPastingRightThenLeft
@@ -297,8 +296,7 @@ theorem nativeK5ThirteenSquareExchange_pastingRaw_ne
     {q t : NativeK5StructuralNineCell p e d}
     {P Q : NativeK5StructuralTenCell p q t}
     {H K : NativeK5StructuralElevenCell p P Q}
-    {U V : NativeK5StructuralTwelveCell p H K}
-    (T : NativeK5StructuralTwelveCell p U V) :
+    (T : NativeK5StructuralTwelveCell p H K) :
     nativeK5ThirteenPastingLeftThenRight
       (NativeK5StructuralThirteenCell.squareExchange T) ≠
     nativeK5ThirteenPastingRightThenLeft
