@@ -46,6 +46,7 @@ import Kuu.F112.PolygonNativeF55P94DK5TypedGlobalF54Routes
 import Kuu.F112.PolygonNativeF55P94DK5TypedWhiskeredSeams
 import Kuu.F112.PolygonNativeF55P94DK5TypedStructuralSeam
 import Kuu.F112.PolygonNativeF55P94DK5MoreTypedPentagonSeams
+import Kuu.F112.PolygonNativeF55P94DK5ContextTypedPentagonSeams
 import Kuu.F112.PolygonNativeF55P94DK5ShellingNoncommutativeGap
 import Kuu.F112.PolygonNativeF55P94DGaugeCovariantHolonomy
 import Kuu.F112.PolygonNativeC60PhysicalGaugeAtlas

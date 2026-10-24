@@ -122,6 +122,36 @@ inductive NativeF54StructuralSeam (p : Polygon) :
       (v : KuuNativeF45Tree.DepthRotationRoute p t₂ t₃) :
       NativeF54StructuralSeam p (.trans r v) (.trans s v)
 
+
+  | leftContextTrans
+      {a b : D} {x y : E}
+      {n₁ n₂ n₃ m₁ m₂ m₃ k l : Nat}
+      {ma mb mc : KuuNativeBlocks a b}
+      {pa pb pc : KuuNativeBlocks x y}
+      {t₁ : KuuNativeF45Tree p n₁ m₁ ma pa mb pb}
+      {t₂ : KuuNativeF45Tree p n₂ m₂ ma pa mb pb}
+      {t₃ : KuuNativeF45Tree p n₃ m₃ ma pa mb pb}
+      (u : KuuNativeF45Tree.DepthRotationRoute p t₁ t₂)
+      (v : KuuNativeF45Tree.DepthRotationRoute p t₂ t₃)
+      (later : KuuNativeF45Tree p k l mb pb mc pc) :
+      NativeF54StructuralSeam p
+        (.leftContext (.trans u v) later)
+        (.trans (.leftContext u later) (.leftContext v later))
+  | rightContextTrans
+      {a b : D} {x y : E}
+      {k l n₁ n₂ n₃ m₁ m₂ m₃ : Nat}
+      {ma mb mc : KuuNativeBlocks a b}
+      {pa pb pc : KuuNativeBlocks x y}
+      (earlier : KuuNativeF45Tree p k l ma pa mb pb)
+      {t₁ : KuuNativeF45Tree p n₁ m₁ mb pb mc pc}
+      {t₂ : KuuNativeF45Tree p n₂ m₂ mb pb mc pc}
+      {t₃ : KuuNativeF45Tree p n₃ m₃ mb pb mc pc}
+      (u : KuuNativeF45Tree.DepthRotationRoute p t₁ t₂)
+      (v : KuuNativeF45Tree.DepthRotationRoute p t₂ t₃) :
+      NativeF54StructuralSeam p
+        (.rightContext earlier (.trans u v))
+        (.trans (.rightContext earlier u) (.rightContext earlier v))
+
 /-- Source-level soundness of every structural generator: no
 real original F54 primitive rotation is added or removed. -/
 theorem NativeF54StructuralSeam.rotationCount_sound
@@ -152,6 +182,14 @@ theorem NativeF54StructuralSeam.rotationCount_sound
   | postcompose w v ih =>
       change _ + v.rotationCount = _ + v.rotationCount
       exact congrArg (fun k : Nat => k + v.rotationCount) ih
+  | leftContextTrans u v later =>
+      change u.rotationCount + v.rotationCount =
+        u.rotationCount + v.rotationCount
+      rfl
+  | rightContextTrans earlier u v =>
+      change u.rotationCount + v.rotationCount =
+        u.rotationCount + v.rotationCount
+      rfl
 
 /-- A separate extension of original Type-valued P92B 3-cells:
 a structural seam is explicitly tagged, never coerced to P92B. -/
