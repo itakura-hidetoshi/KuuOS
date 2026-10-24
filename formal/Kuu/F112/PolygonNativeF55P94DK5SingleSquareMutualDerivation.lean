@@ -73,7 +73,7 @@ def NativeK5SquarePolicySixCell.mixedLeftThenRight
     (.trans (.verticalRight a (.interchangerRightNaturality alpha' v))
       (.trans (.symm (.core (.verticalAssoc a i d)))
         (.trans (.verticalLeft (.interchangerLeftNaturality w beta) d)
-          (.core (.verticalAssoc j e d))))
+          (.core (.verticalAssoc j e d)))))
 
 /-- The SECOND two-variable source-typed 6D naturality cube is
 also independently derived from the two naturality generators,
@@ -101,7 +101,7 @@ def NativeK5SquarePolicySixCell.mixedRightThenLeft
     (.trans (.verticalRight a (.interchangerLeftNaturality w beta'))
       (.trans (.symm (.core (.verticalAssoc a i d)))
         (.trans (.verticalLeft (.interchangerRightNaturality alpha v) d)
-          (.core (.verticalAssoc j e d))))
+          (.core (.verticalAssoc j e d)))))
 
 /-- ONE target-square 6D filler produces a genuine source-square
 6D filler by two mixed naturality cubes and left cancellation.
