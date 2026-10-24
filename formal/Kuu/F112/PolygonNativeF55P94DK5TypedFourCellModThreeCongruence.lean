@@ -113,10 +113,10 @@ inductive NativeK5StructuralFourCell (p : Polygon) :
       {first : KuuNativeF45Tree p n m ma pa mb pb}
       {last : KuuNativeF45Tree p n' m' ma pa mb pb}
       {r s t : KuuNativeF45Tree.DepthRotationRoute p first last}
-      (prefix : NativeF55StructuralComparison p r s)
+      (prior : NativeF55StructuralComparison p r s)
       {f g : NativeF55StructuralComparison p s t}
       (w : NativeK5StructuralFourCell p f g) :
-      NativeK5StructuralFourCell p (.trans prefix f) (.trans prefix g)
+      NativeK5StructuralFourCell p (.trans prior f) (.trans prior g)
   | postcompose
       {a b : D} {x y : E} {n n' m m' : Nat}
       {ma mb : KuuNativeBlocks a b} {pa pb : KuuNativeBlocks x y}
@@ -160,14 +160,14 @@ theorem NativeK5StructuralFourCell.modThree_sound
   | refl _ => rfl
   | symm _ ih => exact ih.symm
   | trans _ _ ih₁ ih₂ => exact ih₁.trans ih₂
-  | precompose prefix witness ih =>
+  | precompose prior witness ih =>
       change nativeK5NaturalityCountModThree
-        (prefix.p94cGroupWord + _) =
+        (prior.p94cGroupWord + _) =
         nativeK5NaturalityCountModThree
-        (prefix.p94cGroupWord + _)
+        (prior.p94cGroupWord + _)
       simpa only [map_add] using congrArg
         (fun z : ZMod 3 =>
-          nativeK5NaturalityCountModThree prefix.p94cGroupWord + z) ih
+          nativeK5NaturalityCountModThree prior.p94cGroupWord + z) ih
   | postcompose witness suffix ih =>
       change nativeK5NaturalityCountModThree
         (_ + suffix.p94cGroupWord) =
