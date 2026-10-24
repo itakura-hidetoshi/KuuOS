@@ -369,7 +369,7 @@ inductive NativeK5CoreTwelveCell (p : Polygon) :
       {w z : NativeK5StructuralFiveCell p alpha beta}
       {u v : NativeK5StructuralSixCell p w z}
       {h k l : NativeK5StructuralSevenCell p u v}
-      {e d : NativeK5StructuralEightCell p h k}
+      {e d : NativeK5StructuralEightCell p k l}
       {q t : NativeK5StructuralNineCell p e d}
       {P Q : NativeK5StructuralTenCell p q t}
       (prior : NativeK5StructuralEightCell p h k)
@@ -777,7 +777,7 @@ inductive NativeK5StructuralTwelveCell (p : Polygon) :
       {w z : NativeK5StructuralFiveCell p alpha beta}
       {u v : NativeK5StructuralSixCell p w z}
       {h k l : NativeK5StructuralSevenCell p u v}
-      {e d : NativeK5StructuralEightCell p h k}
+      {e d : NativeK5StructuralEightCell p k l}
       {q t : NativeK5StructuralNineCell p e d}
       {P Q : NativeK5StructuralTenCell p q t}
       (prior : NativeK5StructuralEightCell p h k)
