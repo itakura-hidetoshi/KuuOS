@@ -37,6 +37,7 @@ jobs:
           tests.test_kuu_ci_comparison_refs
           tests.test_ci_comparison_history
           tests.test_codeai_ci_focus_and_cache
+          tests.test_ci_f112_additive_root_route
 
       - name: Resolve comparison refs
         id: refs
