@@ -216,6 +216,19 @@ def nativeK5FifteenCharge
     (nativeK5FifteenCriticalLeft W)
     (nativeK5FifteenCriticalRight W)
 
+/-- On the original source-typed C60 fiber, signed square count
+descends for EVERY raw 14-cell witness, not only the critical pair. -/
+theorem nativeK5Fifteen_charge_factors
+    (W : NativeK5StructuralThirteenCell p U V) :
+    ∃ F : NativeK5FifteenFourteenClasses W → ℤ,
+      ∀ R : NativeK5FifteenFourteenFiber W,
+        F (nativeK5FifteenClass W R) = R.squareCount := by
+  exact nativeObserverFifteen_charge_factors
+    (nativeK5FifteenHistoryObserver W)
+    (nativeK5FifteenChargeObserver W)
+    (nativeK5FifteenCriticalLeft W)
+    (nativeK5FifteenCriticalRight W)
+
 theorem nativeK5Fifteen_chargeDescent
     (W : NativeK5StructuralThirteenCell p U V) :
     nativeK5FifteenCharge W
@@ -308,6 +321,7 @@ end GenuineFiveStage
 #print axioms NativeK5FifteenFourteenClasses
 #print axioms nativeK5Fifteen_quotient_eq
 #print axioms nativeK5FifteenCharge
+#print axioms nativeK5Fifteen_charge_factors
 #print axioms nativeK5Fifteen_chargeDescent
 #print axioms nativeK5Fifteen_historyNoDescent
 #print axioms nativeK5PentagonatorFifteen_relativeNecessity
