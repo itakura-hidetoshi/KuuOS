@@ -269,14 +269,6 @@ theorem nativeK5PentagonatorFifteen_relativeNecessity :
   nativeK5Fifteen_relativeNecessity
     (nativeK5PentagonatorFourteenExchangeThirteen t1 t2 t3 t4 t5)
 
-/-- At the genuine five-F45-stage K5, the original raw witnesses
-are still unequal. Equality arises only after the independent quotient. -/
-theorem nativeK5PentagonatorFifteen_raw_ne :
-    nativeK5PentagonatorFifteenLeftFirst t1 t2 t3 t4 t5 ≠
-      nativeK5PentagonatorFifteenRightFirst t1 t2 t3 t4 t5 := by
-  exact nativeK5Fifteen_raw_ne
-    (nativeK5PentagonatorFourteenExchangeThirteen t1 t2 t3 t4 t5)
-
 theorem nativeK5PentagonatorFifteen_quotient_eq :
     nativeK5FifteenClass
       (nativeK5PentagonatorFourteenExchangeThirteen t1 t2 t3 t4 t5)
@@ -319,7 +311,6 @@ end GenuineFiveStage
 #print axioms nativeK5Fifteen_chargeDescent
 #print axioms nativeK5Fifteen_historyNoDescent
 #print axioms nativeK5PentagonatorFifteen_relativeNecessity
-#print axioms nativeK5PentagonatorFifteen_raw_ne
 #print axioms nativeK5PentagonatorFifteen_quotient_eq
 #print axioms nativeK5PentagonatorFifteen_historyNoDescent
 
