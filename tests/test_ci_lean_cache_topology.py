@@ -197,6 +197,13 @@ class LakeCacheRoutingTests(unittest.TestCase):
         self.assertIn("Save PR-local Lean build overlay", gate)
         self.assertIn('FULL_LEAN_TARGET = "KuuOSFormal"', selector)
         self.assertIn('"lakefile.toml",', selector)
+        # The additive F112 `:olean` fast path must not inherit the
+        # unrelated 30-minute wall-time cap: typed coherence elaboration
+        # can exceed it even with all dependencies already compiled.
+        self.assertIn("lean_f112_heavy: ${{ steps.fastpath.outputs.lean_f112_heavy }}", gate)
+        self.assertIn('p.startswith("formal/Kuu/F112/") and p.endswith(".lean")', gate)
+        self.assertIn("f.write(f\\"lean_f112_heavy=", gate)
+        self.assertIn("needs.select.outputs.lean_f112_heavy == 'true'", gate)
 
 
 if __name__ == "__main__":
