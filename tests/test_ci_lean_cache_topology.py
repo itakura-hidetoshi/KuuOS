@@ -224,5 +224,45 @@ class LakeCacheRoutingTests(unittest.TestCase):
         self.assertIn('--target "${f112_targets[0]}"', main)
 
 
+    def test_governance_rerun_recovers_only_same_run_exact_head_receipts(self):
+        import json
+        import tempfile
+
+        from scripts.build_audit_summary import collect_receipts
+
+        gate = (WORKFLOWS / "pr-governance-gate.yml").read_text(encoding="utf-8")
+        self.assertEqual(gate.count("pattern: audit-selection-${{ github.run_id }}-*"), 3)
+        self.assertIn("pattern: audit-check-*-${{ github.run_id }}-*", gate)
+        self.assertIn("--run-id '${{ github.run_id }}'", gate)
+        self.assertIn("--git-sha '${{ github.sha }}'", gate)
+
+        with tempfile.TemporaryDirectory() as root_name:
+            root = Path(root_name)
+            def write(attempt, check, status, *, sha="merge-sha", run="7"):
+                folder = root / f"audit-check-{check}-7-{attempt}" / check
+                folder.mkdir(parents=True, exist_ok=True)
+                (folder / "receipt.json").write_text(json.dumps({
+                    "check_id": check, "run_id": run, "git_sha": sha,
+                    "selection_digest": "selection-sha",
+                    "run_attempt": str(attempt), "status": status,
+                }), encoding="utf-8")
+
+            write(1, "lean-formal", "failed")
+            write(2, "lean-formal", "passed")
+            write(1, "python", "passed")
+            kwargs = dict(run_id="7", git_sha="merge-sha",
+                          selection_digest="selection-sha")
+            receipts = collect_receipts(root, **kwargs)
+            self.assertEqual(receipts["lean-formal"]["status"], "passed")
+            self.assertEqual(receipts["python"]["run_attempt"], "1")
+            write(3, "lean-formal", "failed")
+            self.assertEqual(
+                collect_receipts(root, **kwargs)["lean-formal"]["status"], "failed"
+            )
+            write(4, "lean-formal", "passed", sha="another-sha")
+            with self.assertRaisesRegex(ValueError, "mismatched git_sha"):
+                collect_receipts(root, **kwargs)
+
+
 if __name__ == "__main__":
     unittest.main()
