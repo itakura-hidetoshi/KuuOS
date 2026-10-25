@@ -325,16 +325,26 @@ theorem nativeK5PentagonatorFifteen_raw_ne :
 
 end GenuineFiveStage
 
+-- Audit each newly declared computation and theorem, not just selected claims.
+#print axioms NativeK5FourteenHistoryWord
+#print axioms nativeK5FourteenExchangeLetter
+#print axioms nativeK5FourteenInverseFrame
 #print axioms NativeK5StructuralFourteenCell.historyWord
 #print axioms NativeK5StructuralFourteenCell.squareCount
 #print axioms nativeK5FourteenPastingLeftThenRight
 #print axioms nativeK5FourteenPastingRightThenLeft
+#print axioms nativeK5FourteenPasting_leftWord
+#print axioms nativeK5FourteenPasting_rightWord
 #print axioms nativeK5FourteenPasting_integerBlind
 #print axioms nativeK5FourteenExchangeFrame_noncommute
 #print axioms nativeK5FourteenSquareExchange_pastingWord_ne
 #print axioms nativeK5FourteenSquareExchange_pastingRaw_ne
 #print axioms nativeK5Fourteen_noFiniteCoreFiller
 #print axioms nativeK5Fourteen_noFiniteCoreRetraction
+#print axioms nativeK5PentagonatorFifteenExchangeFourteen
+#print axioms nativeK5PentagonatorFifteenLeftFirst
+#print axioms nativeK5PentagonatorFifteenRightFirst
+#print axioms nativeK5PentagonatorFifteen_integerBlind
 #print axioms nativeK5PentagonatorFifteen_history_ne
 #print axioms nativeK5PentagonatorFifteen_raw_ne
 
