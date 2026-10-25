@@ -282,8 +282,11 @@ jobs:
       - name: Download selection receipt
         uses: actions/download-artifact@v5
         with:
-          name: audit-selection-${{ github.run_id }}-${{ github.run_attempt }}
+          # Failed-jobs rerun may not rerun the successful selector.
+          # Recover only an artifact from this workflow run (same pinned SHA).
+          pattern: audit-selection-${{ github.run_id }}-*
           path: artifacts/selection
+          merge-multiple: true
 
       - name: Run selected check
         shell: bash
@@ -327,8 +330,11 @@ jobs:
       - name: Download selection receipt
         uses: actions/download-artifact@v5
         with:
-          name: audit-selection-${{ github.run_id }}-${{ github.run_attempt }}
+          # Failed-jobs rerun may not rerun the successful selector.
+          # Recover only an artifact from this workflow run (same pinned SHA).
+          pattern: audit-selection-${{ github.run_id }}-*
           path: artifacts/selection
+          merge-multiple: true
 
       # Restore the multi-GB Mathlib/package workspace from main, using
       # the exact base SHA if available and a validated prior main fallback.
@@ -541,16 +547,20 @@ jobs:
         continue-on-error: true
         uses: actions/download-artifact@v5
         with:
-          name: audit-selection-${{ github.run_id }}-${{ github.run_attempt }}
+          # Failed-jobs rerun may not rerun the successful selector.
+          # Recover only an artifact from this workflow run (same pinned SHA).
+          pattern: audit-selection-${{ github.run_id }}-*
           path: artifacts/selection
+          merge-multiple: true
 
       - name: Download check receipts
         continue-on-error: true
         uses: actions/download-artifact@v5
         with:
-          pattern: audit-check-*-${{ github.run_id }}-${{ github.run_attempt }}
+          # Do not let a stale attempt overwrite a newer receipt.
+          pattern: audit-check-*-${{ github.run_id }}-*
           path: artifacts/receipts
-          merge-multiple: true
+          merge-multiple: false
 
       - name: Build audit summary
         id: audit-summary
@@ -561,6 +571,8 @@ jobs:
             --selection artifacts/selection/selection.json \
             --receipts-root artifacts/receipts \
             --output-dir artifacts/summary \
+            --run-id '${{ github.run_id }}' \
+            --git-sha '${{ github.sha }}' \
             --python-result '${{ needs.python-checks.result }}' \
             --lean-result '${{ needs.lean-formal.result }}'
 
