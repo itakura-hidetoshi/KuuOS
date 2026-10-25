@@ -292,16 +292,20 @@ theorem nativeFifteenFamily_noFiniteCoreRetraction
           (left i) (right i) →
         NativeConservativeTower
           (NativeObserverCoreFifteenCell history charge)
-          n (left i) (right i)) :=
-  NativeConservativeTower.no_finite_retraction
-    history
-    (fun {x y} (h : NativeObserverCoreFifteenCell history charge x y) =>
-      h.history_sound)
-    (NativeFifteenFamilyCell.exchange i) hword n
+          n (left i) (right i)) := by
+  -- The indexed fifteen-cell family lives in Type (max u v w), whereas
+  -- its conservative core lives in Type (max u v).  Do not instantiate
+  -- the dimension-polymorphic no_finite_retraction with two different
+  -- relation universes.  Apply the actual independent exchange and use
+  -- the already-proved filler obstruction directly, in Prop.
+  rintro ⟨retract⟩
+  exact (nativeFifteenFamily_noFiniteCoreFiller
+    history charge left right chargeEq i hword n)
+      ⟨retract (NativeFifteenFamilyCell.exchange i)⟩
 
 /-- Singleton families recover AO's single independent exchange,
 including the Type-valued witnesses, by structural recursion. -/
-theorem nativeFifteenSingleton_toAO
+def nativeFifteenSingleton_toAO
     {A : Type u} {W : Type v}
     (history : A → W) (charge : A → ℤ)
     (left right : A) (hcharge : charge left = charge right)
@@ -318,7 +322,7 @@ theorem nativeFifteenSingleton_toAO
 
 /-- Conversely AO's original independent comparison is represented
 by the singleton indexed family, without identifying raw 14D terms. -/
-theorem nativeFifteenSingleton_fromAO
+def nativeFifteenSingleton_fromAO
     {A : Type u} {W : Type v}
     (history : A → W) (charge : A → ℤ)
     (left right : A) (hcharge : charge left = charge right)
