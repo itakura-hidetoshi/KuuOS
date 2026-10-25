@@ -204,6 +204,24 @@ class LakeCacheRoutingTests(unittest.TestCase):
         self.assertIn('p.startswith("formal/Kuu/F112/") and p.endswith(".lean")', gate)
         self.assertIn('f.write(f"lean_f112_heavy=', gate)
         self.assertIn("needs.select.outputs.lean_f112_heavy == 'true'", gate)
+        self.assertIn("timeout --signal=TERM --kill-after=30s 75m", gate)
+        self.assertIn("if: always() && !cancelled()", gate)
+
+    def test_known_lean_library_suggestions_panic_is_not_kernel_bypass(self):
+        wrapper = (ROOT / "scripts" / "build_lean4.sh").read_text(encoding="utf-8")
+        self.assertIn("env -u LEAN_ABORT_ON_PANIC lake", wrapper)
+        self.assertIn("build_status=${PIPESTATUS[0]}", wrapper)
+        self.assertIn("-KleanArgs=-DwarningAsError=true", wrapper)
+        self.assertIn("-KleanArgs=-DsorryAsError=true", wrapper)
+        self.assertIn("grep -F 'PANIC at '", wrapper)
+        self.assertIn("SymbolFrequency|SineQuaNon", wrapper)
+
+        main = (WORKFLOWS / "lean-formal-validation.yml").read_text(encoding="utf-8")
+        self.assertIn(
+            'bash scripts/build_lean4.sh --no-update --no-cache --target "$target"',
+            main,
+        )
+        self.assertIn('--target "${f112_targets[0]}"', main)
 
 
 if __name__ == "__main__":
