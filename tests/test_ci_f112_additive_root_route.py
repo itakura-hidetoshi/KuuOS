@@ -20,6 +20,7 @@ class AdditiveF112RootRouteTests(unittest.TestCase):
         (self.root / "formal").mkdir()
         self.root_file = self.root / "formal/KuuOSFormal.lean"
         self.root_file.write_text("import Kuu.Presentation\n", encoding="utf-8")
+        (self.root / "formal/Unrelated.lean").write_text("def stale := 0\n", encoding="utf-8")
         self.git("add", ".")
         self.git("commit", "-qm", "base root")
         self.base = self.git("rev-parse", "HEAD")
@@ -124,18 +125,11 @@ class AdditiveF112RootRouteTests(unittest.TestCase):
         self.assertEqual(self.choose()[0], self.selection["lean_targets"])
 
     def test_hidden_deletion_falls_back(self):
-        # The full name-status diff catches D even if the upper selector
-        # only included AC/MR paths.
-        self.git("checkout", "main", "--", "formal/KuuOSFormal.lean")
-        self.root_file.write_text("import Kuu.F112.NewF112Proof\n")
-        other = self.root / "formal/Unrelated.lean"
-        other.write_text("def stale := 0\n")
+        # Even if an upstream changed-path selector filters deletions,
+        # the independent full name-status diff catches this removed file.
+        (self.root / "formal/Unrelated.lean").unlink()
         self.head_commit()
-        previous = self.head
-        other.unlink()
-        self.head_commit()
-        self.selection["comparison_head"] = self.head
-        self.assertNotEqual(previous, self.head)
+        self.selection = self.receipt(["NewF112Proof"])
         self.assertEqual(self.choose()[0], self.selection["lean_targets"])
 
     def test_unknown_diff_or_full_audit_falls_back(self):
