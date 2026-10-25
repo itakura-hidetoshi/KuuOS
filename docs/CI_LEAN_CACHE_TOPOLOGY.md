@@ -128,3 +128,60 @@ Regression: `python3 -m unittest -v tests.test_ci_lean_cache_topology`.
 
 Post-change times must be read from the new exact-head workflow runs;
 the historical 67–78 minute durations are not a guaranteed ratio.
+
+
+## 2026-10-25 — Qi v3.1–v3.3 and CapabilityOS v0.60 source routing
+
+### Observed redundant work
+
+On F112-P94D3AN PR #2543, modifying
+`formal/KuuOSFormal.lean` solely to expose a newly proved F112 module
+triggered four unrelated dedicated proof jobs in parallel with the canonical
+exact-head Governance strict build: Qi v3.1, Qi v3.2, Qi v3.3 and CapabilityOS
+v0.60. The dedicated Qi jobs used one frozen
+`kuuos-current-lean-v2-...` archive keyed only by toolchain/manifest; those
+checks could not publish a fresh verified main cache to the same immutable
+key. The CapabilityOS workflow redundantly compiled
+`lake build KuuOSFormal` even though Governance already owns that proof check.
+
+### New route and cache authority
+
+- Each of the four dedicated workflows now uses the existing
+  `scripts/ci_subsystem_lean_scope.py` classifier with an exact-PR-base to
+  checked-out-merge-HEAD diff. Failures, missing/unknown diffs, workflow
+  changes and genuine subsystem module changes select the dedicated Lean
+  path **fail closed**. Manual dispatch also retains its Lean checks.
+- The canonical public `formal/KuuOSFormal.lean` import aggregate, pinned
+  Lake inputs and the corresponding documentation changes are delegated to
+  the exact-head Governance Lean check. **Static import/root preservation
+  assertions are never skipped**; CapabilityOS runtime/unit/manifest checks
+  continue for all triggering PRs.
+- The selected dedicated Lean path restores the verified **main** `.lake`
+  workspace with the same `kuuos-lake-{os}-{arch}-{toolchain}-{manifest}`
+  namespace and archive **path** as the publisher
+  (`.github/workflows/lean-formal-validation.yml`). On an actual cache
+  miss, it runs `lake update` and/or `lake exe cache get` only for missing
+  pinned dependencies. It rechecks manifest/toolchain integrity.
+- Dedicated Qi and CapabilityOS workflows become **read-only** cache
+  consumers; only main and Governance publish their respective main/PR
+  artifacts. CapabilityOS no longer builds the full aggregate a second time
+  on PRs or normal main pushes; explicit manual dispatch still does.
+- Qi workflows now explicitly pass the repository's pinned strict
+  `warningAsError` and `sorryAsError` options to the original two
+  buildable `:olean` module targets, retaining the v3.2/v3.3 `sorryAx`
+  log checks. No theorem, mathlib/Lean pin, C60 gauge data, public-root set
+  or Gray policy is changed.
+
+### Regression and expected effect
+
+`python3 -m unittest -v tests.test_ci_lean_cache_topology` tests the
+source-only/aggregate-only cases, unknown-diff fail-closed behavior,
+workflow-edit revalidation, cache compatibility and preserved strict flags.
+Four dedicated Lean downloads/compilations are avoided on an F112-only
+import PR, while the central full library check remains required. Actual
+elapsed time and restored-cache keys must be measured from subsequent
+GitHub Actions runs; these are not assumed speedup percentages.
+
+The current change deliberately does **not** weaken the expensive
+`KuuOSFormal` build in PR Governance: it remains the authority-bearing
+exact-HEAD strict Lean gate, with all 107 public proof roots retained.
