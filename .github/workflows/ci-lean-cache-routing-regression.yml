@@ -11,6 +11,8 @@ on:
       - 'tests/test_ci_lean_cache_topology.py'
       - 'scripts/ci_codeai_lean_scope.py'
       - 'scripts/ci_subsystem_lean_scope.py'
+      - 'scripts/select_lean_import_only_route.py'
+      - 'tests/test_ci_f112_additive_root_route.py'
       - 'docs/CI_LEAN_CACHE_TOPOLOGY.md'
 
 permissions:
@@ -26,4 +28,7 @@ jobs:
         with:
           persist-credentials: false
       - name: Check cache key compatibility and canonical Lean authority
-        run: python3 -m unittest -v tests.test_ci_lean_cache_topology
+        run: >-
+          python3 -m unittest -v
+          tests.test_ci_lean_cache_topology
+          tests.test_ci_f112_additive_root_route
