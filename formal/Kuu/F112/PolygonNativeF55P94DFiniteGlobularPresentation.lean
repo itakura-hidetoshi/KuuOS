@@ -6,7 +6,7 @@ import Mathlib.Tactic
 
 Instead of ad hoc new files for geometric 16-, 17-, ...-cells, this
 module represents every FINITE cutoff N simultaneously. Dimension 14
-is the ORIGINAL dependent C60 raw 14-cell fiber. Dimension 15 is the
+is the universe-lifted ORIGINAL dependent C60 raw 14-cell fiber. Dimension 15 is the
 ACTUAL AQ Type-valued fifteen-cell syntax, carried together with its
 two original dependent fourteen-cell endpoints.
 
@@ -42,8 +42,8 @@ noncomputable section
 universe u v w uD vD uE vE
 
 /-- The finite globular carriers, counted RELATIVE TO GEOMETRIC 14D:
-  0 = actual raw 14D proof;
-  1 = the Sigma type of (two original 14D endpoints, actual 15D proof);
+  0 = ULift of the actual raw 14D proof (universe bookkeeping only);
+  1 = the Sigma type of (two ULift 14D endpoints, actual 15D proof);
   k+2 = independently supplied (16+k)D data only for k < N.
 Beyond the finite cutoff, the carrier is empty by construction.
 The higher-level data are NOT automatically inhabited. -/
@@ -51,8 +51,9 @@ def NativeFiniteAVCell
     (A : Type u) (Edge : A → A → Type v)
     (N : Nat) (Higher : Fin N → Type (max u v)) :
     Nat → Type (max u v)
-  | 0 => A
-  | 1 => Σ endpoints : A × A, Edge endpoints.1 endpoints.2
+  | 0 => ULift.{v} A
+  | 1 => Σ endpoints : ULift.{v} A × ULift.{v} A,
+      Edge endpoints.1.down endpoints.2.down
   | Nat.succ (Nat.succ k) =>
       if h : k < N then Higher ⟨k, h⟩ else PEmpty
 
@@ -196,17 +197,17 @@ ORIGINAL two 14D endpoints at the bottom of any finite extension. -/
 def mkFifteen
     (T : NativeFiniteAVPresentation A Edge N)
     {x y : A} (edge : Edge x y) : T.Cell 1 :=
-  ⟨(x, y), edge⟩
+  ⟨(ULift.up x, ULift.up y), edge⟩
 
 theorem mkFifteen_source
     (T : NativeFiniteAVPresentation A Edge N)
     {x y : A} (edge : Edge x y) :
-    T.source 0 (T.mkFifteen edge) = x := rfl
+    T.source 0 (T.mkFifteen edge) = (ULift.up x : ULift.{v} A) := rfl
 
 theorem mkFifteen_target
     (T : NativeFiniteAVPresentation A Edge N)
     {x y : A} (edge : Edge x y) :
-    T.target 0 (T.mkFifteen edge) = y := rfl
+    T.target 0 (T.mkFifteen edge) = (ULift.up y : ULift.{v} A) := rfl
 
 /-- A parallel pair of explicit 15D proofs is a legitimate 16D
 BOUNDARY, but the existence of its 16D filler remains a separate
@@ -322,7 +323,7 @@ theorem finiteObserverDescent_iff
 
 end NativeFiniteAVCongruence
 
-/-- The ORIGINAL SOURCE-DEPENDENT C60 physical carrier, specialized
+/-! The ORIGINAL SOURCE-DEPENDENT C60 physical carrier, specialized
 WITHOUT a new cell constructor or erasure of its typed boundaries. -/
 section C60PhysicalFinite
 
@@ -366,7 +367,7 @@ theorem nativeK5AVPhysicalFifteen_source
     {N : Nat} (T : NativeK5AVPhysicalFinitePresentation W N)
     {R S : NativeK5FifteenFourteenFiber W}
     (cell : NativeK5AQFifteenCell W R S) :
-    T.source 0 (nativeK5AVPhysicalFifteen W T cell) = R :=
+    T.source 0 (nativeK5AVPhysicalFifteen W T cell) = ULift.up R :=
   T.mkFifteen_source cell
 
 theorem nativeK5AVPhysicalFifteen_target
@@ -374,7 +375,7 @@ theorem nativeK5AVPhysicalFifteen_target
     {N : Nat} (T : NativeK5AVPhysicalFinitePresentation W N)
     {R S : NativeK5FifteenFourteenFiber W}
     (cell : NativeK5AQFifteenCell W R S) :
-    T.target 0 (nativeK5AVPhysicalFifteen W T cell) = S :=
+    T.target 0 (nativeK5AVPhysicalFifteen W T cell) = ULift.up S :=
   T.mkFifteen_target cell
 
 /-- AU supplies TWO ACTUAL 15D Type proofs of the same dependent
