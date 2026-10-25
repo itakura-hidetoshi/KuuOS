@@ -202,7 +202,7 @@ class LakeCacheRoutingTests(unittest.TestCase):
         # can exceed it even with all dependencies already compiled.
         self.assertIn("lean_f112_heavy: ${{ steps.fastpath.outputs.lean_f112_heavy }}", gate)
         self.assertIn('p.startswith("formal/Kuu/F112/") and p.endswith(".lean")', gate)
-        self.assertIn("f.write(f\\"lean_f112_heavy=", gate)
+        self.assertIn('f.write(f"lean_f112_heavy=', gate)
         self.assertIn("needs.select.outputs.lean_f112_heavy == 'true'", gate)
 
 
