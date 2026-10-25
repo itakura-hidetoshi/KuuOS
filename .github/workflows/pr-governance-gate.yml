@@ -485,6 +485,13 @@ jobs:
           print(shlex.join(argv))
           PY
           )"
+          # Keep the 100-minute runner budget for saving the exact-head
+          # compiled dependency prefix.  An uncompleted Lean subprocess
+          # exits nonzero (124): the audit stays RED and may be retried.
+          # This avoids GitHub job cancellation losing all valid oleans.
+          if [[ "${{ needs.select.outputs.lean_f112_heavy }}" == "true" || "${{ needs.select.outputs.lean_f47_heavy }}" == "true" || "${{ needs.select.outputs.lean_aggregate_heavy }}" == "true" || "${{ needs.select.outputs.full_audit_required }}" == "true" ]]; then
+            LEAN_COMMAND="timeout --signal=TERM --kill-after=30s 75m ${LEAN_COMMAND}"
+          fi
           echo "Lean command: ${LEAN_COMMAND}"
           python3 scripts/run_ci_check.py \
             --check-id lean-formal \
