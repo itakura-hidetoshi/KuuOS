@@ -23,6 +23,7 @@ jobs:
       full_audit_required: ${{ steps.selection.outputs.full_audit_required }}
       lean_fastpath: ${{ steps.fastpath.outputs.enabled }}
       lean_f47_heavy: ${{ steps.fastpath.outputs.lean_f47_heavy }}
+      lean_f112_heavy: ${{ steps.fastpath.outputs.lean_f112_heavy }}
       lean_aggregate_heavy: ${{ steps.fastpath.outputs.lean_aggregate_heavy }}
       comparison_mode: ${{ steps.refs.outputs.mode }}
     steps:
@@ -189,11 +190,19 @@ jobs:
           if not isinstance(lean_targets, list) or not all(isinstance(t, str) for t in lean_targets):
               raise SystemExit("invalid lean_targets for aggregate-workload classification")
           aggregate_heavy = "KuuOSFormal" in lean_targets
+          # A genuine source-dependent F112 term can take longer than 30m
+          # to elaborate under pinned Lean even when its :olean is the only
+          # changed module. A larger timeout is a ceiling, not additional work.
+          f112_heavy = any(
+              p.startswith("formal/Kuu/F112/") and p.endswith(".lean")
+              for p in changed
+          )
           with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as f:
               f.write(f"enabled={str(fast).lower()}\n")
               f.write(f"lean_f47_heavy={str(heavy_f47).lower()}\n")
+              f.write(f"lean_f112_heavy={str(f112_heavy).lower()}\n")
               f.write(f"lean_aggregate_heavy={str(aggregate_heavy).lower()}\n")
-          print(f"Focused Lean single-source path: {fast}; original F47: {heavy_f47}; full aggregate: {aggregate_heavy}")
+          print(f"Focused Lean single-source path: {fast}; original F47: {heavy_f47}; F112 dependent source: {f112_heavy}; full aggregate: {aggregate_heavy}")
           PY
 
       - name: Upload selection receipt
@@ -310,7 +319,7 @@ jobs:
     # Import-only changes to KuuOSStrict also select the entire KuuOSFormal
     # closure; they must not silently inherit a 30-minute cold-cache limit.
     # This changes only the job wall-time ceiling, not its strict targets.
-    timeout-minutes: ${{ (needs.select.outputs.lean_f47_heavy == 'true' || needs.select.outputs.full_audit_required == 'true' || needs.select.outputs.lean_aggregate_heavy == 'true') && 100 || (needs.select.outputs.lean_fastpath == 'true' && 50 || 30) }}
+    timeout-minutes: ${{ (needs.select.outputs.lean_f47_heavy == 'true' || needs.select.outputs.lean_f112_heavy == 'true' || needs.select.outputs.full_audit_required == 'true' || needs.select.outputs.lean_aggregate_heavy == 'true') && 100 || (needs.select.outputs.lean_fastpath == 'true' && 50 || 30) }}
     steps:
       - name: Check out repository
         uses: actions/checkout@v6
