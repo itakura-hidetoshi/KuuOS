@@ -281,8 +281,13 @@ theorem nativeK5AYRaw_no_descent (W : NativeK5StructuralThirteenCell p U V) :
       ∀ x, f (Quotient.mk (nativeC60AXSetoid (nativeK5AXKuuSignature W)) x) =
         nativeK5AYRawLeading W x) := by
   intro hf
-  have hs := (nativeC60AXDescent_iff (nativeK5AXKuuSignature W)
-    (nativeK5AYRawLeading W)).mp hf
+  -- Give the local theorem its full binder: with `have hs :=`, Lean
+  -- keeps the implicit endpoints as metavariables instead of treating
+  -- them as the universally quantified variables of `NativeC60AYRespects`.
+  have hs : NativeC60AYRespects (nativeK5AXKuuSignature W)
+      (nativeK5AYRawLeading W) :=
+    (nativeC60AXDescent_iff (nativeK5AXKuuSignature W)
+      (nativeK5AYRawLeading W)).mp hf
   have ht := (nativeK5AXDeclaredNaturality W (nativeK5AQExchange W [])).observer_sound
     (nativeK5AYRawLeading W) hs
   change true = false at ht
