@@ -117,6 +117,7 @@ import Kuu.F112.PolygonNativeF55P94DFiniteGlobularPresentation
 import Kuu.F112.PolygonNativeF55P94DFiniteCoherenceObstruction
 import Kuu.F112.PolygonNativeC60FiniteRelativeKuuExtension
 import Kuu.F112.PolygonNativeC60FiniteObserverDescent
+import Kuu.F112.PolygonNativeC60FiniteTwoSidedGaugeHolonomy
 import Kuu.F112.PolygonNativeF55P94DK5ShellingNoncommutativeGap
 import Kuu.F112.PolygonNativeF55P94DGaugeCovariantHolonomy
 import Kuu.F112.PolygonNativeC60PhysicalGaugeAtlas
