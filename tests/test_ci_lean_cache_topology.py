@@ -264,5 +264,27 @@ class LakeCacheRoutingTests(unittest.TestCase):
                 collect_receipts(root, **kwargs)
 
 
+    def test_fifteen_cell_modules_audit_every_new_constant(self):
+        import re
+
+        for stem in (
+            "PolygonNativeF55P94DObserverFifteenCellDescent",
+            "PolygonNativeF55P94DK5FifteenCellPhysicalBridge",
+        ):
+            with self.subTest(module=stem):
+                source = (
+                    ROOT / "formal" / "Kuu" / "F112" / f"{stem}.lean"
+                ).read_text(encoding="utf-8")
+                names = set(re.findall(
+                    r"^(?:inductive|theorem|def|abbrev) ([A-Za-z0-9_.]+)",
+                    source, flags=re.MULTILINE,
+                ))
+                audited = set(re.findall(
+                    r"^#print axioms ([A-Za-z0-9_.]+)",
+                    source, flags=re.MULTILINE,
+                ))
+                self.assertEqual(names, audited)
+
+
 if __name__ == "__main__":
     unittest.main()
