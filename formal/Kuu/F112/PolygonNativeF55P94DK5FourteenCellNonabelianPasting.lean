@@ -86,6 +86,7 @@ def NativeK5StructuralFourteenCell.historyWord
   | .eightVerticalLeft X _ => X.historyWord
   | .eightVerticalRight _ X => X.historyWord
   | .eightInverseRespect X => X.historyWord
+  termination_by structural R
 
 /-- Scalar fourteen-cell exchange count, forgetting noncommutative
 word order; not a substitute for raw proof equality. -/
@@ -130,6 +131,7 @@ def NativeK5StructuralFourteenCell.squareCount
   | .eightVerticalLeft X _ => X.squareCount
   | .eightVerticalRight _ X => X.squareCount
   | .eightInverseRespect X => X.squareCount
+  termination_by structural R
 
 section GenuineFourteenPasting
 
