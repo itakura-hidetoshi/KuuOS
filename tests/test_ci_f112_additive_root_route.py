@@ -21,6 +21,19 @@ class AdditiveF112RootRouteTests(unittest.TestCase):
         self.root_file = self.root / "formal/KuuOSFormal.lean"
         self.root_file.write_text("import Kuu.Presentation\n", encoding="utf-8")
         (self.root / "formal/Unrelated.lean").write_text("def stale := 0\n", encoding="utf-8")
+        # All overlay candidates exist in the BASE: added controls fail closed.
+        for path in (
+            ".github/workflows/lean-formal-validation.yml",
+            ".github/workflows/pr-governance-gate.yml",
+            "scripts/build_audit_summary.py",
+            "scripts/build_lean4.sh",
+            "scripts/select_lean_import_only_route.py",
+            "tests/test_ci_lean_cache_topology.py",
+            "tests/test_ci_f112_additive_root_route.py",
+        ):
+            control = self.root / path
+            control.parent.mkdir(parents=True, exist_ok=True)
+            control.write_text("baseline control\n", encoding="utf-8")
         self.git("add", ".")
         self.git("commit", "-qm", "base root")
         self.base = self.git("rev-parse", "HEAD")
@@ -87,6 +100,66 @@ class AdditiveF112RootRouteTests(unittest.TestCase):
             "+Kuu.F112.NewF112Proof:olean",
             "+Kuu.F112.SecondProof:olean",
         ])
+
+    def test_audited_ci_overlay_keeps_full_governance(self):
+        overlay = [
+            ".github/workflows/lean-formal-validation.yml",
+            ".github/workflows/pr-governance-gate.yml",
+            "scripts/build_audit_summary.py",
+            "scripts/build_lean4.sh",
+            "scripts/select_lean_import_only_route.py",
+            "tests/test_ci_lean_cache_topology.py",
+            "tests/test_ci_f112_additive_root_route.py",
+        ]
+        for path in overlay:
+            (self.root / path).write_text("patched control\n", encoding="utf-8")
+        self.head_commit()
+        self.selection = self.receipt(["NewF112Proof"])
+        self.selection["changed_paths"] = sorted(
+            self.selection["changed_paths"] + overlay
+        )
+        self.selection["full_audit_required"] = True
+        self.selection["unmapped_paths"] = [
+            "scripts/select_lean_import_only_route.py",
+        ]
+        self.selection["full_audit_trigger_paths"] = [
+            ".github/workflows/pr-governance-gate.yml",
+            "scripts/build_audit_summary.py",
+            "scripts/select_lean_import_only_route.py",
+        ]
+        self.assertEqual(self.choose(), (
+            ["+KuuOSFormal:olean", "+Kuu.F112.NewF112Proof:olean"],
+            "verified-additive-f112-audited-ci-overlay-olean",
+        ))
+        self.selection["unmapped_paths"].append("scripts/unknown_selector.py")
+        self.assertEqual(self.choose()[0], self.selection["lean_targets"])
+        self.selection["unmapped_paths"].pop()
+        # Regression: never downgrade unrelated full-audit authority.
+        self.selection["full_audit_trigger_paths"].append("ci/new_controller.json")
+        self.assertEqual(self.choose()[0], self.selection["lean_targets"])
+
+    def test_unrelated_lean_change_rejects_ci_overlay(self):
+        path = "scripts/build_audit_summary.py"
+        (self.root / path).write_text("patched control\n", encoding="utf-8")
+        (self.root / "formal/Unrelated.lean").write_text(
+            "def stale := 42\n", encoding="utf-8"
+        )
+        self.head_commit()
+        self.selection = self.receipt(["NewF112Proof"])
+        self.selection["changed_paths"] += [path, "formal/Unrelated.lean"]
+        self.selection["full_audit_required"] = True
+        self.selection["full_audit_trigger_paths"] = [path]
+        self.assertEqual(self.choose()[0], self.selection["lean_targets"])
+
+    def test_deleted_control_fails_closed(self):
+        path = "scripts/build_audit_summary.py"
+        (self.root / path).unlink()
+        self.head_commit()
+        self.selection = self.receipt(["NewF112Proof"])
+        self.selection["changed_paths"].append(path)
+        self.selection["full_audit_required"] = True
+        self.selection["full_audit_trigger_paths"] = [path]
+        self.assertEqual(self.choose()[0], self.selection["lean_targets"])
 
     def test_root_comment_edit_falls_back(self):
         self.root_file.write_text(
