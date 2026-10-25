@@ -119,6 +119,9 @@ class AdditiveF112RootRouteTests(unittest.TestCase):
             self.selection["changed_paths"] + overlay
         )
         self.selection["full_audit_required"] = True
+        self.selection["unmapped_paths"] = [
+            "scripts/select_lean_import_only_route.py",
+        ]
         self.selection["full_audit_trigger_paths"] = [
             ".github/workflows/pr-governance-gate.yml",
             "scripts/build_audit_summary.py",
@@ -128,6 +131,9 @@ class AdditiveF112RootRouteTests(unittest.TestCase):
             ["+KuuOSFormal:olean", "+Kuu.F112.NewF112Proof:olean"],
             "verified-additive-f112-audited-ci-overlay-olean",
         ))
+        self.selection["unmapped_paths"].append("scripts/unknown_selector.py")
+        self.assertEqual(self.choose()[0], self.selection["lean_targets"])
+        self.selection["unmapped_paths"].pop()
         # Regression: never downgrade unrelated full-audit authority.
         self.selection["full_audit_trigger_paths"].append("ci/new_controller.json")
         self.assertEqual(self.choose()[0], self.selection["lean_targets"])

@@ -74,9 +74,12 @@ def choose_lean_targets(
         return fallback("comparison-not-full-pr")
     if selection.get("validated_lean_incremental"):
         return fallback("incremental-diff")
-    if any(selection.get(key) for key in (
-        "unknown_paths", "unmapped_paths"
-    )):
+    if selection.get("unknown_paths"):
+        return fallback("unknown-paths")
+    unmapped = selection.get("unmapped_paths", [])
+    if (not isinstance(unmapped, list)
+            or any(not isinstance(path, str) or path not in APPROVED_CI_OVERLAY
+                   for path in unmapped)):
         return fallback("unclassified-paths")
 
     base, head = selection.get("comparison_base"), selection.get("comparison_head")
