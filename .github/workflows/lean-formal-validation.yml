@@ -137,10 +137,14 @@ jobs:
             exit 1
           fi
           printf 'Warm canonical theorem modules: %s\n' "${frontier_targets[*]}"
-          LEAN_ABORT_ON_PANIC=1 lake \
-            -KleanArgs=-DwarningAsError=true \
-            -KleanArgs=-DsorryAsError=true \
-            build "${frontier_targets[@]}" 2>&1 | tee lean-frontier-cache-warm.log
+          # The strict build entrypoint quarantines ONLY the known 4.30
+          # auxiliary LibrarySuggestions export-index panic. Kernel errors,
+          # sorry, warnings, and other panics still fail closed.
+          : > lean-frontier-cache-warm.log
+          for target in "${frontier_targets[@]}"; do
+            bash scripts/build_lean4.sh --no-update --no-cache --target "$target" \
+              2>&1 | tee -a lean-frontier-cache-warm.log
+          done
 
       # P24 (or the latest subsequently merged P-stage) is not a public
       # aggregate import yet. Compile this real theorem spine on the
@@ -173,10 +177,8 @@ jobs:
             exit 1
           fi
           printf 'Warm F112 parent source: %s\n' "${f112_targets[0]}"
-          LEAN_ABORT_ON_PANIC=1 lake \
-            -KleanArgs=-DwarningAsError=true \
-            -KleanArgs=-DsorryAsError=true \
-            build "${f112_targets[0]}" 2>&1 | tee lean-f112-bridge-cache-warm.log
+          bash scripts/build_lean4.sh --no-update --no-cache \
+            --target "${f112_targets[0]}" 2>&1 | tee lean-f112-bridge-cache-warm.log
           git diff --exit-code -- lake-manifest.json lean-toolchain
 
       # Only main owns the multi-GB package workspace. Child PRs read it
