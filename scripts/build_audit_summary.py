@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import pathlib
 import sys
@@ -17,6 +18,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--output-dir", type=pathlib.Path, required=True)
     parser.add_argument("--python-result", default="unknown")
     parser.add_argument("--lean-result", default="unknown")
+    parser.add_argument("--run-id")
+    parser.add_argument("--git-sha")
     return parser.parse_args()
 
 
@@ -24,21 +27,55 @@ def load_json(path: pathlib.Path) -> dict[str, Any]:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
-def collect_receipts(root: pathlib.Path) -> dict[str, dict[str, Any]]:
+def collect_receipts(
+    root: pathlib.Path,
+    *,
+    run_id: str | None = None,
+    git_sha: str | None = None,
+    selection_digest: str | None = None,
+) -> dict[str, dict[str, Any]]:
+    """Select the latest NUMERIC attempt per check, never a stale success.
+
+    Re-running failed jobs does not re-upload artifacts from successful jobs.
+    The receipts remain confined to the same workflow run, same PR merge SHA,
+    and byte-identical selection; any provenance mismatch fails closed.
+    """
     receipts: dict[str, dict[str, Any]] = {}
+    attempts: dict[str, int] = {}
     if not root.exists():
         return receipts
     for path in sorted(root.rglob("receipt.json")):
         try:
             receipt = load_json(path)
         except (OSError, json.JSONDecodeError) as exc:
-            print(f"WARNING: cannot read receipt {path}: {exc}", file=sys.stderr)
-            continue
+            raise ValueError(f"unreadable check receipt {path}: {exc}") from exc
         check_id = receipt.get("check_id")
-        if isinstance(check_id, str) and check_id:
+        attempt_raw = receipt.get("run_attempt")
+        if not isinstance(check_id, str) or not check_id:
+            raise ValueError(f"missing check ID in receipt {path}")
+        try:
+            attempt = int(attempt_raw)
+        except (TypeError, ValueError) as exc:
+            raise ValueError(f"invalid attempt in receipt {path}") from exc
+        if attempt < 1 or str(attempt) != str(attempt_raw):
+            raise ValueError(f"noncanonical attempt in receipt {path}")
+        for field, expected in (
+            ("run_id", run_id),
+            ("git_sha", git_sha),
+            ("selection_digest", selection_digest),
+        ):
+            if expected is not None and receipt.get(field) != expected:
+                raise ValueError(
+                    f"mismatched {field} in {path}: "
+                    "cannot reuse receipt from another authority"
+                )
+        previous = attempts.get(check_id, 0)
+        if attempt == previous:
+            raise ValueError(f"duplicate same-attempt receipt for {check_id}")
+        if attempt > previous:
+            attempts[check_id] = attempt
             receipts[check_id] = receipt
     return receipts
-
 
 def markdown_report(summary: dict[str, Any]) -> str:
     lines = [
@@ -101,7 +138,17 @@ def main() -> int:
         print(f"ERROR: cannot load selection: {exc}", file=sys.stderr)
         return 2
 
-    receipts = collect_receipts(args.receipts_root)
+    try:
+        selection_digest = hashlib.sha256(args.selection.read_bytes()).hexdigest()
+        receipts = collect_receipts(
+            args.receipts_root,
+            run_id=args.run_id,
+            git_sha=args.git_sha,
+            selection_digest=selection_digest,
+        )
+    except (OSError, ValueError) as exc:
+        print(f"ERROR: invalid check receipt provenance: {exc}", file=sys.stderr)
+        return 2
     expected_checks = [item["id"] for item in selection.get("selected_checks", [])]
     missing = sorted(set(expected_checks) - set(receipts))
     failed = sorted(
