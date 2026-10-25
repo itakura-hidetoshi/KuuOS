@@ -1,5 +1,4 @@
 import Kuu.F112.PolygonNativeF55P94DConservativeTowerDescent
-import Mathlib.Tactic
 
 /-!
 # F112-P94D3AO — dimension-polymorphic conservative 15-cell descent
@@ -158,6 +157,22 @@ def nativeObserverFifteenCharge
     rcases related with ⟨h⟩
     exact h.charge_sound)
 
+/-- The INTEGER observer factors on ALL raw fourteen-cell witnesses,
+not merely on the selected exchange pair.  Quotient.lift computes on
+Quotient.mk by definitional equality, with no choice of representative. -/
+theorem nativeObserverFifteen_charge_factors
+    {A : Type u} {W : Type v}
+    (history : A → W) (charge : A → ℤ)
+    (left right : A) :
+    ∃ F : NativeObserverFifteenClasses history charge left right → ℤ,
+      ∀ x : A,
+        F (Quotient.mk
+          (NativeObserverExtendedFifteenCell.setoid history charge left right)
+          x) = charge x := by
+  refine ⟨nativeObserverFifteenCharge history charge left right, ?_⟩
+  intro x
+  rfl
+
 /-- An actual Type-valued independent 15-cell implies equality of
 the ORIGINAL raw 14-cell witnesses only AFTER the 15D quotient. -/
 theorem nativeObserverFifteen_square_quotient_eq
@@ -260,6 +275,7 @@ theorem nativeObserverFifteen_noFiniteCoreRetraction
 #print axioms NativeObserverExtendedFifteenCell.charge_sound
 #print axioms NativeObserverExtendedFifteenCell.setoid
 #print axioms nativeObserverFifteenCharge
+#print axioms nativeObserverFifteen_charge_factors
 #print axioms nativeObserverFifteen_square_quotient_eq
 #print axioms nativeObserverFifteen_factors_iff
 #print axioms nativeObserverFifteen_history_noDescent
