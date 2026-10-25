@@ -274,6 +274,7 @@ theorem nativeObserverFifteen_noFiniteCoreRetraction
 #print axioms NativeObserverExtendedFifteenCell
 #print axioms NativeObserverExtendedFifteenCell.charge_sound
 #print axioms NativeObserverExtendedFifteenCell.setoid
+#print axioms NativeObserverFifteenClasses
 #print axioms nativeObserverFifteenCharge
 #print axioms nativeObserverFifteen_charge_factors
 #print axioms nativeObserverFifteen_square_quotient_eq
