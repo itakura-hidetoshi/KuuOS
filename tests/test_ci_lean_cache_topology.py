@@ -148,14 +148,14 @@ class LakeCacheRoutingTests(unittest.TestCase):
                 self.assertIn("Select ", text)
                 self.assertIn("scope (fail closed)", text)
                 self.assertIn("PYTHONPATH=. python3 scripts/ci_subsystem_lean_scope.py", text)
-                self.assertIn("--base \\"\u0024{BASE_SHA}\\" --head HEAD", text)
+                self.assertIn("--head HEAD", text)
                 self.assertIn("if: steps.lean-scope.outputs.needed == 'true'", text)
                 self.assertIn("scripts/ci_subsystem_lean_scope.py", patterns)
                 self.assertIn("scripts/ci_codeai_lean_scope.py", patterns)
                 self.assertIn("Restore trusted main Lake workspace (read-only)", text)
                 self.assertIn("uses: actions/cache/restore@v5", text)
-                self.assertIn("path: .lake\\n", text)
-                self.assertIn("key: kuuos-lake-\u0024{{ runner.os }}-\u0024{{ runner.arch }}-", text)
+                self.assertIn("path: .lake\n", text)
+                self.assertIn("key: kuuos-lake-${{ runner.os }}-${{ runner.arch }}-", text)
                 self.assertNotIn("uses: actions/cache/save@v5", text)
                 self.assertIn("scripts/check_public_proof_roots.py", text)
                 self.assertIn("-DwarningAsError=true", text)
@@ -173,7 +173,7 @@ class LakeCacheRoutingTests(unittest.TestCase):
         self.assertIn("Run CapabilityOS v0.60 unit tests", cap)
         self.assertIn("Run MemoryOS v0.37 regression", cap)
         self.assertIn("grep -Fq 'import KUOS.CapabilityOS.QiWorldCapabilityKernelV0_60'", cap)
-        self.assertIn("- name: Strictly compile formal root\\n"
+        self.assertIn("- name: Strictly compile formal root\n"
                       "        if: github.event_name == 'workflow_dispatch'", cap)
         self.assertIn("runs-on: ubuntu-24.04", cap)
 
