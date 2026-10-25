@@ -319,6 +319,7 @@ end GenuineFiveStage
 #print axioms nativeK5Fifteen_noFiniteCoreFiller
 #print axioms nativeK5Fifteen_noFiniteCoreRetraction
 #print axioms NativeK5FifteenFourteenClasses
+#print axioms nativeK5FifteenClass
 #print axioms nativeK5Fifteen_quotient_eq
 #print axioms nativeK5FifteenCharge
 #print axioms nativeK5Fifteen_charge_factors
