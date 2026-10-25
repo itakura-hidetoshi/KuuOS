@@ -128,3 +128,117 @@ Regression: `python3 -m unittest -v tests.test_ci_lean_cache_topology`.
 
 Post-change times must be read from the new exact-head workflow runs;
 the historical 67–78 minute durations are not a guaranteed ratio.
+
+
+## 2026-10-25 — Qi v3.1–v3.3 and CapabilityOS v0.60 source routing
+
+### Observed redundant work
+
+On F112-P94D3AN PR #2543, modifying
+`formal/KuuOSFormal.lean` solely to expose a newly proved F112 module
+triggered four unrelated dedicated proof jobs in parallel with the canonical
+exact-head Governance strict build: Qi v3.1, Qi v3.2, Qi v3.3 and CapabilityOS
+v0.60. The dedicated Qi jobs used one frozen
+`kuuos-current-lean-v2-...` archive keyed only by toolchain/manifest; those
+checks could not publish a fresh verified main cache to the same immutable
+key. The CapabilityOS workflow redundantly compiled
+`lake build KuuOSFormal` even though Governance already owns that proof check.
+
+### New route and cache authority
+
+- Each of the four dedicated workflows now uses the existing
+  `scripts/ci_subsystem_lean_scope.py` classifier with an exact-PR-base to
+  checked-out-merge-HEAD diff. Failures, missing/unknown diffs, workflow
+  changes and genuine subsystem module changes select the dedicated Lean
+  path **fail closed**. Manual dispatch also retains its Lean checks.
+- The canonical public `formal/KuuOSFormal.lean` import aggregate, pinned
+  Lake inputs and the corresponding documentation changes are delegated to
+  the exact-head Governance Lean check. **Static import/root preservation
+  assertions are never skipped**; CapabilityOS runtime/unit/manifest checks
+  continue for all triggering PRs.
+- The selected dedicated Lean path restores the verified **main** `.lake`
+  workspace with the same `kuuos-lake-{os}-{arch}-{toolchain}-{manifest}`
+  namespace and archive **path** as the publisher
+  (`.github/workflows/lean-formal-validation.yml`). On an actual cache
+  miss, it runs `lake update` and/or `lake exe cache get` only for missing
+  pinned dependencies. It rechecks manifest/toolchain integrity.
+- Dedicated Qi and CapabilityOS workflows become **read-only** cache
+  consumers; only main and Governance publish their respective main/PR
+  artifacts. CapabilityOS no longer builds the full aggregate a second time
+  on PRs or normal main pushes; explicit manual dispatch still does.
+- Qi workflows now explicitly pass the repository's pinned strict
+  `warningAsError` and `sorryAsError` options to the original two
+  buildable `:olean` module targets, retaining the v3.2/v3.3 `sorryAx`
+  log checks. No theorem, mathlib/Lean pin, C60 gauge data, public-root set
+  or Gray policy is changed.
+
+### Regression and expected effect
+
+`python3 -m unittest -v tests.test_ci_lean_cache_topology` tests the
+source-only/aggregate-only cases, unknown-diff fail-closed behavior,
+workflow-edit revalidation, cache compatibility and preserved strict flags.
+Four dedicated Lean downloads/compilations are avoided on an F112-only
+import PR, while the central full library check remains required. Actual
+elapsed time and restored-cache keys must be measured from subsequent
+GitHub Actions runs; these are not assumed speedup percentages.
+
+The current change deliberately does **not** weaken the expensive
+`KuuOSFormal` build in PR Governance: it remains the authority-bearing
+exact-HEAD strict Lean gate, with all 107 public proof roots retained.
+
+
+## 2026-10-25 — Strictly certified additive F112 import-only .olean route
+
+### Why the standard library build is excessive for one additive import
+
+The independent F112 P94D3AN PR #2543 modified only
+`formal/Kuu/F112/PolygonNativeF55P94DK5FourteenCellNonabelianPasting.lean`
+(new theorem source) and `formal/KuuOSFormal.lean` (public import).
+The existing selector correctly included `KuuOSFormal`, but Lake treats that
+bare name as the **full lean_lib target**, checking all 107 historical root
+modules and thousands of unchanged transitive targets again. The canonical
+main-push validation is still responsible for that full library closure.
+
+### Bounded, git-certified PR-only optimization
+
+`scripts/select_lean_import_only_route.py` is run after the original CI
+registry/impact selection, **before uploading the selection receipt**. It
+independently rechecks the exact base-to-head Git diff including deletion
+statuses, requiring all of the following simultaneously:
+
+- A normal complete PR comparison (not a partial/incremental comparison),
+  complete 40-hex Git SHAs, no unknown/unmapped/full-audit paths.
+- Exactly one MODIFIED `formal/KuuOSFormal.lean` and one or more ADDED
+  `formal/Kuu/F112/*.lean` files; no other files, deletions, renames or
+  modified existing F112 sources.
+- The entire diff of `formal/KuuOSFormal.lean` contains **only added
+  `import Kuu.F112.Module` lines**. Their names are exactly the
+  new files, and the original selector has also selected the public root
+  and every new F112 module as Lean build targets.
+
+Only for this narrow proof-preserving case does the selected command become
+`lake ... build +KuuOSFormal:olean +Kuu.F112.Module:olean`, with the same
+strict warning/sorry options. This elaborates the **actual modified public
+root and every new theorem source on the exact PR HEAD** using Lake's normal
+dependency hashes. It does not merely run a parser, grep or cached receipt.
+
+For all other cases, the previously selected **full `KuuOSFormal`
+lean_lib build** is executed unchanged, including modified source files,
+mixed edits, toolchain/mathlib/library changes, workflow changes, uncertain
+diffs and explicit full audits. The original selection and the actual
+execution targets/route are both retained in the JSON audit receipt.
+
+No new axioms, `sorry`, Gray, public roots or dependency version changes.
+The 107 historical proof roots remain registered and retained. Main-push
+`lean-formal-validation.yml` continues to run the full strict library build,
+so the scoped PR path does not replace the canonical post-merge regression.
+
+### Verification
+
+`python3 -m unittest -v tests.test_ci_f112_additive_root_route`
+uses real temporary Git repositories to assert positive additive cases and
+negative cases (deletions, mixed docs, altered root text, invalid SHAs,
+incomplete selections, non-new F112 source and full audits).
+The tests run both in the PR selection preflight and in the cache-routing
+regression workflow. Measured latency improvement requires a later real F112
+PR run and is not estimated from the synthetic regression.

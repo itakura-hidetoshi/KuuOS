@@ -112,6 +112,71 @@ class LakeCacheRoutingTests(unittest.TestCase):
                 self.assertTrue(needs_subsystem_lean(
                     [], patterns, delegated))  # unknown diff fails closed
 
+    def test_qi_three_stages_and_capability_are_scoped_and_cache_read_only(self):
+        """Aggregate-only F112 PRs must not start four redundant Lean builds.
+
+        The canonical PR Governance job still owns the strict public-root build.
+        Dedicated workflows retain static public-root/import assertions and,
+        for CapabilityOS, all runtime/unit regressions on every matching PR.
+        """
+        specs = {
+            "qi-wuxing-cyclic-group-paths-v3-1-validation.yml": (
+                "formal/KUOS/Architecture/QiWuxingCyclicGroupPathsV3_1.lean",
+                ["formal/KuuOSFormal.lean",
+                 "docs/KUUOS_QI_WUXING_CYCLIC_GROUP_PATHS_v3_1.md"],
+            ),
+            "qi-wuxing-path-observation-v3-2-validation.yml": (
+                "formal/KUOS/Architecture/QiWuxingPathObservationCongruenceV3_2.lean",
+                ["formal/KuuOSFormal.lean",
+                 "docs/KUUOS_QI_WUXING_PATH_OBSERVATION_CONGRUENCE_v3_2.md"],
+            ),
+            "qi-wuxing-reachable-observation-v3-3-validation.yml": (
+                "formal/KUOS/Architecture/QiWuxingReachableObservationCategoryV3_3.lean",
+                ["formal/KuuOSFormal.lean",
+                 "docs/KUUOS_QI_WUXING_REACHABLE_OBSERVATION_CATEGORY_v3_3.md"],
+            ),
+            "capabilityos-qi-world-v0-60-validation.yml": (
+                "formal/KUOS/CapabilityOS/QiWorldCapabilityKernelV0_60.lean",
+                ["formal/KuuOSFormal.lean", "formal/KUOS.lean",
+                 "docs/KUUOS_CAPABILITYOS_QI_WORLD_KERNEL_v0_60.md"],
+            ),
+        }
+        for name, (owned_source, delegated) in specs.items():
+            with self.subTest(workflow=name):
+                text = (WORKFLOWS / name).read_text(encoding="utf-8")
+                patterns = workflow_pr_paths(text)
+                self.assertIn("Select ", text)
+                self.assertIn("scope (fail closed)", text)
+                self.assertIn("PYTHONPATH=. python3 scripts/ci_subsystem_lean_scope.py", text)
+                self.assertIn("--head HEAD", text)
+                self.assertIn("if: steps.lean-scope.outputs.needed == 'true'", text)
+                self.assertIn("scripts/ci_subsystem_lean_scope.py", patterns)
+                self.assertIn("scripts/ci_codeai_lean_scope.py", patterns)
+                self.assertIn("Restore trusted main Lake workspace (read-only)", text)
+                self.assertIn("uses: actions/cache/restore@v5", text)
+                self.assertIn("path: .lake\n", text)
+                self.assertIn("key: kuuos-lake-${{ runner.os }}-${{ runner.arch }}-", text)
+                self.assertNotIn("uses: actions/cache/save@v5", text)
+                self.assertIn("scripts/check_public_proof_roots.py", text)
+                self.assertIn("-DwarningAsError=true", text)
+                self.assertIn("-DsorryAsError=true", text)
+                self.assertIn("git diff --exit-code -- lake-manifest.json lean-toolchain", text)
+                self.assertTrue(needs_subsystem_lean([owned_source], patterns, delegated))
+                self.assertTrue(needs_subsystem_lean([".github/workflows/" + name], patterns, delegated))
+                self.assertTrue(needs_subsystem_lean(["scripts/ci_subsystem_lean_scope.py"], patterns, delegated))
+                self.assertTrue(needs_subsystem_lean([], patterns, delegated))
+                self.assertFalse(needs_subsystem_lean(["formal/KuuOSFormal.lean"], patterns, delegated))
+                self.assertFalse(needs_subsystem_lean(["formal/KuuOSFormal.lean", "lakefile.toml"], patterns, delegated))
+                self.assertFalse(needs_subsystem_lean([delegated[-1]], patterns, delegated))
+
+        cap = (WORKFLOWS / "capabilityos-qi-world-v0-60-validation.yml").read_text(encoding="utf-8")
+        self.assertIn("Run CapabilityOS v0.60 unit tests", cap)
+        self.assertIn("Run MemoryOS v0.37 regression", cap)
+        self.assertIn("grep -Fq 'import KUOS.CapabilityOS.QiWorldCapabilityKernelV0_60'", cap)
+        self.assertIn("- name: Strictly compile formal root\n"
+                      "        if: github.event_name == 'workflow_dispatch'", cap)
+        self.assertIn("runs-on: ubuntu-24.04", cap)
+
     def test_canonical_main_saves_a_warm_lake_cache(self):
         text = (WORKFLOWS / "lean-formal-validation.yml").read_text(encoding="utf-8")
         self.assertIn("id: lake-workspace", text)
@@ -132,6 +197,13 @@ class LakeCacheRoutingTests(unittest.TestCase):
         self.assertIn("Save PR-local Lean build overlay", gate)
         self.assertIn('FULL_LEAN_TARGET = "KuuOSFormal"', selector)
         self.assertIn('"lakefile.toml",', selector)
+        # The additive F112 `:olean` fast path must not inherit the
+        # unrelated 30-minute wall-time cap: typed coherence elaboration
+        # can exceed it even with all dependencies already compiled.
+        self.assertIn("lean_f112_heavy: ${{ steps.fastpath.outputs.lean_f112_heavy }}", gate)
+        self.assertIn('p.startswith("formal/Kuu/F112/") and p.endswith(".lean")', gate)
+        self.assertIn('f.write(f"lean_f112_heavy=', gate)
+        self.assertIn("needs.select.outputs.lean_f112_heavy == 'true'", gate)
 
 
 if __name__ == "__main__":

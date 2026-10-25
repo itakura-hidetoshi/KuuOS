@@ -19,6 +19,8 @@ on:
       - "lakefile.toml"
       - "lake-manifest.json"
       - "lean-toolchain"
+      - "scripts/ci_subsystem_lean_scope.py"
+      - "scripts/ci_codeai_lean_scope.py"
       - ".github/workflows/capabilityos-qi-world-v0-60-validation.yml"
   pull_request:
     paths:
@@ -35,6 +37,8 @@ on:
       - "lakefile.toml"
       - "lake-manifest.json"
       - "lean-toolchain"
+      - "scripts/ci_subsystem_lean_scope.py"
+      - "scripts/ci_codeai_lean_scope.py"
       - ".github/workflows/capabilityos-qi-world-v0-60-validation.yml"
 
 permissions:
@@ -49,7 +53,7 @@ env:
 
 jobs:
   validate:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     timeout-minutes: 120
     steps:
       - uses: actions/checkout@v6
@@ -94,11 +98,41 @@ jobs:
           set -euo pipefail
           PYTHONPATH=. python3 scripts/check_memoryos_predictive_shielded_memory_v0_37.py \
             2>&1 | tee -a capabilityos-v0-60-runtime.log
+      # On a PR changing only the public aggregate, exact-head Governance
+      # already compiles the formal closure; retain runtime and static checks.
+      - name: Preserve original public roots and CapabilityOS import
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/check_public_proof_roots.py
+          grep -Fq 'import KUOS.CapabilityOS.QiWorldCapabilityKernelV0_60' formal/KUOS.lean
+
+      - name: Select subsystem Lean scope (fail closed)
+        id: lean-scope
+        shell: bash
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          set -euo pipefail
+          if [[ "${EVENT_NAME}" != "pull_request" ]]; then
+            echo "needed=true" >> "${GITHUB_OUTPUT}"
+          else
+            PYTHONPATH=. python3 scripts/ci_subsystem_lean_scope.py \
+              --workflow .github/workflows/capabilityos-qi-world-v0-60-validation.yml \
+              --base "${BASE_SHA}" --head HEAD \
+              --github-output "${GITHUB_OUTPUT}" \
+              --delegated-path formal/KuuOSFormal.lean \
+              --delegated-path formal/KUOS.lean \
+              --delegated-path docs/KUUOS_CAPABILITYOS_QI_WORLD_KERNEL_v0_60.md
+          fi
+
       # Restore the multi-GB Mathlib/package workspace from main, using
       # the exact base SHA if available and a validated prior main fallback.
       # A separate smaller F112 base build overlay is applied below.
       # All restored oleans are still checked by Lake.
-      - name: Restore validated parent/main Lake workspace cache
+      - name: Restore trusted main Lake workspace (read-only)
+        if: steps.lean-scope.outputs.needed == 'true'
         id: lean-workspace-cache
         uses: actions/cache/restore@v5
         with:
@@ -113,7 +147,7 @@ jobs:
       # This is restore-only; it neither adds a new CI job nor overwrites
       # the trusted main cache. Lake checks all source dependencies as usual.
       - name: Restore shared lean-action Lake cache on main cache miss
-        if: steps.lean-workspace-cache.outputs.cache-matched-key == ''
+        if: steps.lean-scope.outputs.needed == 'true' && steps.lean-workspace-cache.outputs.cache-matched-key == ''
         id: lean-action-workspace-cache
         uses: actions/cache/restore@v5
         with:
@@ -123,7 +157,7 @@ jobs:
             lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-
 
       - name: Report shared lean-action cache restore
-        if: steps.lean-workspace-cache.outputs.cache-matched-key == ''
+        if: steps.lean-scope.outputs.needed == 'true' && steps.lean-workspace-cache.outputs.cache-matched-key == ''
         shell: bash
         env:
           CACHE_MATCHED_KEY: ${{ steps.lean-action-workspace-cache.outputs.cache-matched-key }}
@@ -132,6 +166,7 @@ jobs:
           echo "lean-action Lake cache matched key: ${CACHE_MATCHED_KEY:-none}"
 
       - name: Report Lake workspace cache restore
+        if: steps.lean-scope.outputs.needed == 'true'
         shell: bash
         env:
           CACHE_HIT: ${{ steps.lean-workspace-cache.outputs.cache-hit }}
@@ -146,7 +181,7 @@ jobs:
       # trusted default-branch Lake workspace.  It lets a RED Lean iteration
       # reuse the successfully compiled dependency prefix on the next head.
       - name: Restore PR-local Lean build overlay
-        if: github.event_name == 'pull_request'
+        if: github.event_name == 'pull_request' && steps.lean-scope.outputs.needed == 'true'
         id: lean-pr-build-cache
         uses: actions/cache/restore@v5
         with:
@@ -157,7 +192,7 @@ jobs:
             kuuos-pr-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-pr${{ github.event.pull_request.number }}-
 
       - name: Report PR-local Lean build overlay restore
-        if: github.event_name == 'pull_request'
+        if: github.event_name == 'pull_request' && steps.lean-scope.outputs.needed == 'true'
         shell: bash
         env:
           CACHE_HIT: ${{ steps.lean-pr-build-cache.outputs.cache-hit }}
@@ -168,6 +203,7 @@ jobs:
           echo "PR build cache matched key: ${CACHE_MATCHED_KEY:-none}"
 
       - name: Set up pinned Lean and Lake
+        if: steps.lean-scope.outputs.needed == 'true'
         uses: leanprover/lean-action@v1
         with:
           auto-config: false
@@ -178,6 +214,7 @@ jobs:
           use-github-cache: false
       # Follow the already validated exact-pinned central Lean setup.
       - name: Resolve pinned Lake dependencies only if missing
+        if: steps.lean-scope.outputs.needed == 'true'
         shell: bash
         run: |
           set -euo pipefail
@@ -189,6 +226,7 @@ jobs:
           fi
           git diff --exit-code -- lake-manifest.json lean-toolchain
       - name: Strictly compile CapabilityOS v0.60 formal module
+        if: steps.lean-scope.outputs.needed == 'true'
         shell: bash
         run: |
           set -euo pipefail
@@ -196,23 +234,17 @@ jobs:
             -KleanArgs=-DsorryAsError=true \
             build KUOS.CapabilityOS.QiWorldCapabilityKernelV0_60 \
             2>&1 | tee capabilityos-v0-60-lean-module.log
+      # Full integrated proof check is owned by PR Governance and main-push Lean CI.
       - name: Strictly compile formal root
+        if: github.event_name == 'workflow_dispatch'
         shell: bash
         run: |
           set -euo pipefail
           lake -KleanArgs=-DwarningAsError=true \
             -KleanArgs=-DsorryAsError=true build KuuOSFormal \
             2>&1 | tee capabilityos-v0-60-lean-root.log
-      # Save only the local project build, never the package tree.  Even when
-      # the selected target is RED, the compiled dependency prefix is valid
-      # for the exact source files that produced it and remains scoped to this
-      # pull request.  A changed source on the next head is still rebuilt by Lake.
-      - name: Save PR-local Lean build overlay
-        if: always() && !cancelled() && github.event_name == 'pull_request'
-        uses: actions/cache/save@v5
-        with:
-          path: .lake/build
-          key: kuuos-pr-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-pr${{ github.event.pull_request.number }}-${{ github.event.pull_request.head.sha }}-${{ github.run_id }}-${{ github.run_attempt }}
+      # Read-only PR consumer: the central exact-head Governance job is the
+      # sole writer of PR project overlays and main owns trusted .lake caches.
 
       - name: Upload CapabilityOS v0.60 diagnostics
         if: ${{ failure() }}
