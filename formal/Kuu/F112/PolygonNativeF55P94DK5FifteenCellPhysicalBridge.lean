@@ -76,14 +76,27 @@ def nativeK5FifteenCriticalRight
   nativeK5FourteenPastingRightThenLeft
     (NativeK5StructuralFourteenCell.squareExchange W)
 
+/-- Name the exact original 14-cell free-word observer once.
+This abbreviation retains the unmodified source-dependent fiber. -/
+abbrev nativeK5FifteenHistoryObserver
+    (W : NativeK5StructuralThirteenCell p U V) :
+    NativeK5FifteenFourteenFiber W → NativeK5FourteenHistoryWord :=
+  fun R => R.historyWord
+
+/-- The independent signed observer on the same exact 14-cell fiber. -/
+abbrev nativeK5FifteenChargeObserver
+    (W : NativeK5StructuralThirteenCell p U V) :
+    NativeK5FifteenFourteenFiber W → ℤ :=
+  fun R => R.squareCount
+
 /-- Source-dependent fifteen-cell conservative grammar on original 14D proofs.
 Its observer-compatibility atom is explicit and maximal. -/
 abbrev NativeK5FifteenCorePresentation
     (W : NativeK5StructuralThirteenCell p U V)
     (X Y : NativeK5FifteenFourteenFiber W) :=
   NativeObserverCoreFifteenCell
-    (fun R : NativeK5FifteenFourteenFiber W => R.historyWord)
-    (fun R : NativeK5FifteenFourteenFiber W => R.squareCount) X Y
+    (nativeK5FifteenHistoryObserver W)
+    (nativeK5FifteenChargeObserver W) X Y
 
 /-- Extended, genuine Type-valued 15D syntax on the exact original fiber.
 Its new squareExchange is an independent constructor, not raw equality. -/
@@ -91,8 +104,8 @@ abbrev NativeK5FifteenExtendedPresentation
     (W : NativeK5StructuralThirteenCell p U V)
     (X Y : NativeK5FifteenFourteenFiber W) :=
   NativeObserverExtendedFifteenCell
-    (fun R : NativeK5FifteenFourteenFiber W => R.historyWord)
-    (fun R : NativeK5FifteenFourteenFiber W => R.squareCount)
+    (nativeK5FifteenHistoryObserver W)
+    (nativeK5FifteenChargeObserver W)
     (nativeK5FifteenCriticalLeft W)
     (nativeK5FifteenCriticalRight W) X Y
 
@@ -106,6 +119,13 @@ def nativeK5FifteenSquareExchange
   .squareExchange
     (nativeK5FourteenPasting_integerBlind
       (NativeK5StructuralFourteenCell.squareExchange W))
+
+/-- The two original fourteen-cell witnesses remain distinct before
+quotienting. The added fifteen-cell comparison is NOT a raw equality. -/
+theorem nativeK5Fifteen_raw_ne
+    (W : NativeK5StructuralThirteenCell p U V) :
+    nativeK5FifteenCriticalLeft W ≠ nativeK5FifteenCriticalRight W := by
+  exact nativeK5FourteenSquareExchange_pastingRaw_ne W
 
 /-- The extended 15D evidence exists and the maximal conservative
 observer grammar cannot fill the SAME original boundary. -/
@@ -133,8 +153,8 @@ theorem nativeK5Fifteen_noFiniteCoreFiller
       (nativeK5FifteenCriticalLeft W)
       (nativeK5FifteenCriticalRight W)) :=
   nativeObserverFifteen_noFiniteCoreFiller
-    (fun R : NativeK5FifteenFourteenFiber W => R.historyWord)
-    (fun R : NativeK5FifteenFourteenFiber W => R.squareCount)
+    (nativeK5FifteenHistoryObserver W)
+    (nativeK5FifteenChargeObserver W)
     (nativeK5FourteenSquareExchange_pastingWord_ne W) depth
 
 /-- Independently generated fifteen-cell evidence cannot be retracted
@@ -150,8 +170,8 @@ theorem nativeK5Fifteen_noFiniteCoreRetraction
          depth (nativeK5FifteenCriticalLeft W)
          (nativeK5FifteenCriticalRight W)) :=
   nativeObserverFifteen_noFiniteCoreRetraction
-    (fun R : NativeK5FifteenFourteenFiber W => R.historyWord)
-    (fun R : NativeK5FifteenFourteenFiber W => R.squareCount)
+    (nativeK5FifteenHistoryObserver W)
+    (nativeK5FifteenChargeObserver W)
     (nativeK5FifteenCriticalLeft W)
     (nativeK5FifteenCriticalRight W)
     (nativeK5FourteenPasting_integerBlind
@@ -162,8 +182,8 @@ theorem nativeK5Fifteen_noFiniteCoreRetraction
 abbrev NativeK5FifteenFourteenClasses
     (W : NativeK5StructuralThirteenCell p U V) :=
   NativeObserverFifteenClasses
-    (fun R : NativeK5FifteenFourteenFiber W => R.historyWord)
-    (fun R : NativeK5FifteenFourteenFiber W => R.squareCount)
+    (nativeK5FifteenHistoryObserver W)
+    (nativeK5FifteenChargeObserver W)
     (nativeK5FifteenCriticalLeft W)
     (nativeK5FifteenCriticalRight W)
 
@@ -179,8 +199,8 @@ theorem nativeK5Fifteen_quotient_eq
     nativeK5FifteenClass W (nativeK5FifteenCriticalLeft W) =
     nativeK5FifteenClass W (nativeK5FifteenCriticalRight W) :=
   nativeObserverFifteen_square_quotient_eq
-    (fun R : NativeK5FifteenFourteenFiber W => R.historyWord)
-    (fun R : NativeK5FifteenFourteenFiber W => R.squareCount)
+    (nativeK5FifteenHistoryObserver W)
+    (nativeK5FifteenChargeObserver W)
     (nativeK5FifteenCriticalLeft W)
     (nativeK5FifteenCriticalRight W)
     (nativeK5FourteenPasting_integerBlind
@@ -191,8 +211,8 @@ def nativeK5FifteenCharge
     (W : NativeK5StructuralThirteenCell p U V) :
     NativeK5FifteenFourteenClasses W → ℤ :=
   nativeObserverFifteenCharge
-    (fun R : NativeK5FifteenFourteenFiber W => R.historyWord)
-    (fun R : NativeK5FifteenFourteenFiber W => R.squareCount)
+    (nativeK5FifteenHistoryObserver W)
+    (nativeK5FifteenChargeObserver W)
     (nativeK5FifteenCriticalLeft W)
     (nativeK5FifteenCriticalRight W)
 
@@ -212,8 +232,8 @@ theorem nativeK5Fifteen_historyNoDescent
       ∀ R : NativeK5FifteenFourteenFiber W,
         F (nativeK5FifteenClass W R) = R.historyWord :=
   nativeObserverFifteen_history_noDescent
-    (fun R : NativeK5FifteenFourteenFiber W => R.historyWord)
-    (fun R : NativeK5FifteenFourteenFiber W => R.squareCount)
+    (nativeK5FifteenHistoryObserver W)
+    (nativeK5FifteenChargeObserver W)
     (nativeK5FifteenCriticalLeft W)
     (nativeK5FifteenCriticalRight W)
     (nativeK5FourteenPasting_integerBlind
@@ -249,6 +269,14 @@ theorem nativeK5PentagonatorFifteen_relativeNecessity :
   nativeK5Fifteen_relativeNecessity
     (nativeK5PentagonatorFourteenExchangeThirteen t1 t2 t3 t4 t5)
 
+/-- At the genuine five-F45-stage K5, the original raw witnesses
+are still unequal. Equality arises only after the independent quotient. -/
+theorem nativeK5PentagonatorFifteen_raw_ne :
+    nativeK5PentagonatorFifteenLeftFirst t1 t2 t3 t4 t5 ≠
+      nativeK5PentagonatorFifteenRightFirst t1 t2 t3 t4 t5 := by
+  exact nativeK5Fifteen_raw_ne
+    (nativeK5PentagonatorFourteenExchangeThirteen t1 t2 t3 t4 t5)
+
 theorem nativeK5PentagonatorFifteen_quotient_eq :
     nativeK5FifteenClass
       (nativeK5PentagonatorFourteenExchangeThirteen t1 t2 t3 t4 t5)
@@ -276,9 +304,12 @@ end GenuineFiveStage
 #print axioms NativeK5FifteenFourteenFiber
 #print axioms nativeK5FifteenCriticalLeft
 #print axioms nativeK5FifteenCriticalRight
+#print axioms nativeK5FifteenHistoryObserver
+#print axioms nativeK5FifteenChargeObserver
 #print axioms NativeK5FifteenCorePresentation
 #print axioms NativeK5FifteenExtendedPresentation
 #print axioms nativeK5FifteenSquareExchange
+#print axioms nativeK5Fifteen_raw_ne
 #print axioms nativeK5Fifteen_relativeNecessity
 #print axioms nativeK5Fifteen_noFiniteCoreFiller
 #print axioms nativeK5Fifteen_noFiniteCoreRetraction
@@ -288,6 +319,7 @@ end GenuineFiveStage
 #print axioms nativeK5Fifteen_chargeDescent
 #print axioms nativeK5Fifteen_historyNoDescent
 #print axioms nativeK5PentagonatorFifteen_relativeNecessity
+#print axioms nativeK5PentagonatorFifteen_raw_ne
 #print axioms nativeK5PentagonatorFifteen_quotient_eq
 #print axioms nativeK5PentagonatorFifteen_historyNoDescent
 
