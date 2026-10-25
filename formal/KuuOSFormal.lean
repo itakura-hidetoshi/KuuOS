@@ -116,6 +116,7 @@ import Kuu.F112.PolygonNativeF55P94DK5TypedFifteenNaturalityCoherenceBoundary
 import Kuu.F112.PolygonNativeF55P94DFiniteGlobularPresentation
 import Kuu.F112.PolygonNativeF55P94DFiniteCoherenceObstruction
 import Kuu.F112.PolygonNativeC60FiniteRelativeKuuExtension
+import Kuu.F112.PolygonNativeC60FiniteObserverDescent
 import Kuu.F112.PolygonNativeF55P94DK5ShellingNoncommutativeGap
 import Kuu.F112.PolygonNativeF55P94DGaugeCovariantHolonomy
 import Kuu.F112.PolygonNativeC60PhysicalGaugeAtlas
@@ -199,8 +200,8 @@ import KUOS.WORLD.KuuOSConnectionCandidateGaugeInvarianceV0_62
 import KUOS.WORLD.KuuOSConnectionReviewCoreV0_63
 import KUOS.WORLD.KuuOSConnectionEvaluationCoreV0_64
 import KUOS.WORLD.KuuOSConnectionStagingV0_65
-import KUOS.WORLD.KuuOSConnectionShadowV0_66
 import KUOS.WORLD.KuuOSFiniteGaugeValidationV0_67
+import KUOS.WORLD.KuuOSConnectionShadowV0_66
 import KUOS.WORLD.KuuOSConnectionEvidenceV0_68
 import KUOS.WORLD.KuuOSConnectionEvidenceReviewV0_69
 import KUOS.WORLD.KuuOSModuleBundleSelfOrganizationV0_70
