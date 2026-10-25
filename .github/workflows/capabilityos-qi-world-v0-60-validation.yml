@@ -131,7 +131,7 @@ jobs:
       # the exact base SHA if available and a validated prior main fallback.
       # A separate smaller F112 base build overlay is applied below.
       # All restored oleans are still checked by Lake.
-      - name: Restore validated parent/main Lake workspace cache
+      - name: Restore trusted main Lake workspace (read-only)
         if: steps.lean-scope.outputs.needed == 'true'
         id: lean-workspace-cache
         uses: actions/cache/restore@v5
