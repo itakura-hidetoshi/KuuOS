@@ -39,30 +39,27 @@ def nativeK5FourteenExchangeLetter : NativeK5FourteenHistoryWord :=
 def nativeK5FourteenInverseFrame : NativeK5FourteenHistoryWord :=
   FreeGroup.of (1 : Fin 2)
 
-section GenuineFourteenPasting
-
-variable {p : Polygon} {a b : D} {x y : E} {n n' m m' : Nat}
-variable {ma mb : KuuNativeBlocks a b} {pa pb : KuuNativeBlocks x y}
-variable {first : KuuNativeF45Tree p n m ma pa mb pb}
-variable {last : KuuNativeF45Tree p n' m' ma pa mb pb}
-variable {r s : KuuNativeF45Tree.DepthRotationRoute p first last}
-variable {f g : NativeF55StructuralComparison p r s}
-variable {alpha beta : NativeK5StructuralFourCell p f g}
-variable {w z : NativeK5StructuralFiveCell p alpha beta}
-variable {u v : NativeK5StructuralSixCell p w z}
-variable {h k : NativeK5StructuralSevenCell p u v}
-variable {e d : NativeK5StructuralEightCell p h k}
-variable {q t : NativeK5StructuralNineCell p e d}
-variable {P Q : NativeK5StructuralTenCell p q t}
-variable {H K : NativeK5StructuralElevenCell p P Q}
-variable {U V : NativeK5StructuralTwelveCell p H K}
-variable {A B : NativeK5StructuralThirteenCell p U V}
-
 /-- A chosen free-group observer of the ACTUAL fourteen-cell syntax.
 Thirteen-cell inversion whiskering acts by B-conjugation. This observer
 is not claimed to factor through a future fifteen-cell quotient. -/
 def NativeK5StructuralFourteenCell.historyWord
-    (R : NativeK5StructuralFourteenCell p A B) :
+    {p : Polygon} {a b : D} {x y : E} {n n' m m' : Nat}
+    {ma mb : KuuNativeBlocks a b} {pa pb : KuuNativeBlocks x y}
+    {first : KuuNativeF45Tree p n m ma pa mb pb}
+    {last : KuuNativeF45Tree p n' m' ma pa mb pb}
+    {r s : KuuNativeF45Tree.DepthRotationRoute p first last}
+    {f g : NativeF55StructuralComparison p r s}
+    {alpha beta : NativeK5StructuralFourCell p f g}
+    {w z : NativeK5StructuralFiveCell p alpha beta}
+    {u v : NativeK5StructuralSixCell p w z}
+    {h k : NativeK5StructuralSevenCell p u v}
+    {e d : NativeK5StructuralEightCell p h k}
+    {q t : NativeK5StructuralNineCell p e d}
+    {P Q : NativeK5StructuralTenCell p q t}
+    {H K : NativeK5StructuralElevenCell p P Q}
+    {U V : NativeK5StructuralTwelveCell p H K}
+    {T S : NativeK5StructuralThirteenCell p U V}
+    (R : NativeK5StructuralFourteenCell p T S) :
     NativeK5FourteenHistoryWord :=
   match R with
   | .core _ => 1
@@ -93,7 +90,23 @@ def NativeK5StructuralFourteenCell.historyWord
 /-- Scalar fourteen-cell exchange count, forgetting noncommutative
 word order; not a substitute for raw proof equality. -/
 def NativeK5StructuralFourteenCell.squareCount
-    (R : NativeK5StructuralFourteenCell p A B) : ℤ :=
+    {p : Polygon} {a b : D} {x y : E} {n n' m m' : Nat}
+    {ma mb : KuuNativeBlocks a b} {pa pb : KuuNativeBlocks x y}
+    {first : KuuNativeF45Tree p n m ma pa mb pb}
+    {last : KuuNativeF45Tree p n' m' ma pa mb pb}
+    {r s : KuuNativeF45Tree.DepthRotationRoute p first last}
+    {f g : NativeF55StructuralComparison p r s}
+    {alpha beta : NativeK5StructuralFourCell p f g}
+    {w z : NativeK5StructuralFiveCell p alpha beta}
+    {u v : NativeK5StructuralSixCell p w z}
+    {h k : NativeK5StructuralSevenCell p u v}
+    {e d : NativeK5StructuralEightCell p h k}
+    {q t : NativeK5StructuralNineCell p e d}
+    {P Q : NativeK5StructuralTenCell p q t}
+    {H K : NativeK5StructuralElevenCell p P Q}
+    {U V : NativeK5StructuralTwelveCell p H K}
+    {T S : NativeK5StructuralThirteenCell p U V}
+    (R : NativeK5StructuralFourteenCell p T S) : ℤ :=
   match R with
   | .core _ => 0
   | .squareExchange _ => 1
@@ -117,6 +130,25 @@ def NativeK5StructuralFourteenCell.squareCount
   | .eightVerticalLeft X _ => X.squareCount
   | .eightVerticalRight _ X => X.squareCount
   | .eightInverseRespect X => X.squareCount
+
+section GenuineFourteenPasting
+
+variable {p : Polygon} {a b : D} {x y : E} {n n' m m' : Nat}
+variable {ma mb : KuuNativeBlocks a b} {pa pb : KuuNativeBlocks x y}
+variable {first : KuuNativeF45Tree p n m ma pa mb pb}
+variable {last : KuuNativeF45Tree p n' m' ma pa mb pb}
+variable {r s : KuuNativeF45Tree.DepthRotationRoute p first last}
+variable {f g : NativeF55StructuralComparison p r s}
+variable {alpha beta : NativeK5StructuralFourCell p f g}
+variable {w z : NativeK5StructuralFiveCell p alpha beta}
+variable {u v : NativeK5StructuralSixCell p w z}
+variable {h k : NativeK5StructuralSevenCell p u v}
+variable {e d : NativeK5StructuralEightCell p h k}
+variable {q t : NativeK5StructuralNineCell p e d}
+variable {P Q : NativeK5StructuralTenCell p q t}
+variable {H K : NativeK5StructuralElevenCell p P Q}
+variable {U V : NativeK5StructuralTwelveCell p H K}
+variable {A B : NativeK5StructuralThirteenCell p U V}
 
 /-- Original fourteen-cell left-first pasting, from A;A⁻¹ to B;B⁻¹
 as genuinely dependent THIRTEEN-cell endpoints. -/
