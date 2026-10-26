@@ -116,10 +116,10 @@ theorem nativeK5BKExchange_no_sixteen_cell
     (W : NativeK5StructuralThirteenCell p U V)
     (word : List Bool)
     (T : NativeC60AXSignature (nativeK5AXBaseLayer W)) :
-    ¬ NativeC60AXStep T
+    ¬ Nonempty (NativeC60AXStep T
         (nativeK5BKExchangeForward W word)
-        (nativeK5BKExchangeBackward W word) := by
-  intro cell
+        (nativeK5BKExchangeBackward W word)) := by
+  rintro ⟨cell⟩
   exact (nativeK5BKExchange_boundary_ne W word) cell.boundary
 
 /-- No strict quotient of an original physical AX signature can
@@ -157,7 +157,7 @@ theorem nativeK5BKExchange_no_strict_morphism
   obtain ⟨cell, _⟩ := nativeC60BAStep_surjective T R
     (nativeK5BKExchangeForward W word)
     (nativeK5BKExchangeBackward W word) morphism
-  exact (nativeK5BKExchange_no_sixteen_cell W word T) cell
+  exact (nativeK5BKExchange_no_sixteen_cell W word T) ⟨cell⟩
 
 /-- Neither can there be an isomorphism; changing the selected
 parallel Kuu replacement does NOT repair the incompatible boundary. -/
