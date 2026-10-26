@@ -99,8 +99,13 @@ theorem nativeC60BUGluing_frame {L : NativeC60AXLayer.{u}}
         (nativeC60BGRawContext S F word r)
         (nativeC60BCMapClosedStep S F word bridge) := by
   unfold nativeC60BTStrictGluing
-  rw [nativeC60BUBridgeHomEquiv_frame S F R word stable q r,
-    nativeC60BDStrictContext_step S F R word stable]
+  exact (nativeC60BUBridgeHomEquiv_frame S F R word stable q r
+      (nativeC60AZStrictStep (nativeC60BCClosedSignature S F) R bridge)).trans
+    (congrArg
+      (nativeC60BTBridgeHomEquiv (nativeC60BCClosedSignature S F) R
+        (nativeC60BGRawContext S F word q)
+        (nativeC60BGRawContext S F word r)).toFun
+      (nativeC60BDStrictContext_step S F R word stable bridge))
 
 /-- Every finite genuine AQ word preserves SELECTED bridge
 replaceability, precisely under BD's selected relation congruence. -/
@@ -118,20 +123,20 @@ theorem nativeC60BUBridge_replaceable_transport
   apply (nativeC60AZStrictStep_exact (nativeC60BCClosedSignature S F) R
     (nativeC60BCMapClosedStep S F word k)
     (nativeC60BCMapClosedStep S F word k')).mp
-  calc
-    nativeC60AZStrictStep (nativeC60BCClosedSignature S F) R
-        (nativeC60BCMapClosedStep S F word k) =
+  have hstrict := (nativeC60AZStrictStep_exact
+    (nativeC60BCClosedSignature S F) R k k').mpr hk
+  have hmapped :
       (nativeC60BDStrictContext S F R word stable).map
-        (nativeC60AZStrictStep (nativeC60BCClosedSignature S F) R k) :=
-          (nativeC60BDStrictContext_step S F R word stable k).symm
-    _ = (nativeC60BDStrictContext S F R word stable).map
+          (nativeC60AZStrictStep (nativeC60BCClosedSignature S F) R k) =
+        (nativeC60BDStrictContext S F R word stable).map
           (nativeC60AZStrictStep (nativeC60BCClosedSignature S F) R k') :=
-      congrArg (fun t => (nativeC60BDStrictContext S F R word stable).map t)
-        ((nativeC60AZStrictStep_exact (nativeC60BCClosedSignature S F) R
-          k k').mpr hk)
-    _ = nativeC60AZStrictStep (nativeC60BCClosedSignature S F) R
-          (nativeC60BCMapClosedStep S F word k') :=
-      nativeC60BDStrictContext_step S F R word stable k'
+    congrArg
+      (fun t : (nativeC60AZStrictProject
+          (nativeC60BCClosedSignature S F) R).obj ⟨a⟩ ⟶
+        (nativeC60AZStrictProject
+          (nativeC60BCClosedSignature S F) R).obj ⟨b⟩ =>
+        (nativeC60BDStrictContext S F R word stable).map t) hstrict
+  simpa only [nativeC60BDStrictContext_step] using hmapped
 
 /-- BT's EXACT bridge-choice relation continues to hold for the two
 contextual outputs. In particular this does not silently identify
@@ -156,16 +161,21 @@ theorem nativeC60BUGluing_choice_transport
         (nativeC60BGRawContext S F word q)
         (nativeC60BGRawContext S F word r)
         (nativeC60BCMapClosedStep S F word k') := by
-  calc
-    _ = (nativeC60BDStrictContext S F R word stable).map
-        (nativeC60BTStrictGluing (nativeC60BCClosedSignature S F)
-          R q r k) :=
-            (nativeC60BUGluing_frame S F R word stable q r k).symm
-    _ = (nativeC60BDStrictContext S F R word stable).map
-        (nativeC60BTStrictGluing (nativeC60BCClosedSignature S F)
-          R q r k') :=
-      congrArg (fun t => (nativeC60BDStrictContext S F R word stable).map t) hk
-    _ = _ := nativeC60BUGluing_frame S F R word stable q r k'
+  have hmapped :
+      (nativeC60BDStrictContext S F R word stable).map
+          (nativeC60BTStrictGluing (nativeC60BCClosedSignature S F)
+            R q r k) =
+        (nativeC60BDStrictContext S F R word stable).map
+          (nativeC60BTStrictGluing (nativeC60BCClosedSignature S F)
+            R q r k') :=
+    congrArg
+      (fun t : (nativeC60AZStrictProject
+          (nativeC60BCClosedSignature S F) R).obj ⟨q.1.2⟩ ⟶
+        (nativeC60AZStrictProject
+          (nativeC60BCClosedSignature S F) R).obj ⟨r.1.2⟩ =>
+        (nativeC60BDStrictContext S F R word stable).map t) hk
+  exact (nativeC60BUGluing_frame S F R word stable q r k).symm.trans
+    (hmapped.trans (nativeC60BUGluing_frame S F R word stable q r k'))
 
 /-- The canonical no-extra-relations strict Kuu quotient transports
 bridge replacement with NO hypothesis, for every finite AQ word. -/
@@ -258,23 +268,20 @@ theorem nativeC60BUBridge_replaceable_reflect
       (nativeC60BCMapClosedStep S F word k)
       (nativeC60BCMapClosedStep S F word k')) :
     NativeC60BUBridgeReplaceable S F R k k' := by
-  apply (nativeC60AZStrictStep_exact (nativeC60BCClosedSignature S F) R
-    k k').mp
-  apply faithful
-  calc
-    (nativeC60BDStrictContext S F R word stable).map
-        (nativeC60AZStrictStep (nativeC60BCClosedSignature S F) R k) =
-      nativeC60AZStrictStep (nativeC60BCClosedSignature S F) R
-        (nativeC60BCMapClosedStep S F word k) :=
-      nativeC60BDStrictContext_step S F R word stable k
-    _ = nativeC60AZStrictStep (nativeC60BCClosedSignature S F) R
-          (nativeC60BCMapClosedStep S F word k') :=
-      (nativeC60AZStrictStep_exact (nativeC60BCClosedSignature S F) R
-        (nativeC60BCMapClosedStep S F word k)
-        (nativeC60BCMapClosedStep S F word k')).mpr hk
-    _ = (nativeC60BDStrictContext S F R word stable).map
-        (nativeC60AZStrictStep (nativeC60BCClosedSignature S F) R k') :=
-      (nativeC60BDStrictContext_step S F R word stable k').symm
+  have hcontext := (nativeC60AZStrictStep_exact
+    (nativeC60BCClosedSignature S F) R
+    (nativeC60BCMapClosedStep S F word k)
+    (nativeC60BCMapClosedStep S F word k')).mpr hk
+  have hmapped :
+      (nativeC60BDStrictContext S F R word stable).map
+          (nativeC60AZStrictStep (nativeC60BCClosedSignature S F) R k) =
+        (nativeC60BDStrictContext S F R word stable).map
+          (nativeC60AZStrictStep (nativeC60BCClosedSignature S F) R k') := by
+    simpa only [nativeC60BDStrictContext_step] using hcontext
+  exact (nativeC60AZStrictStep_exact
+    (nativeC60BCClosedSignature S F) R k k').mp
+      (faithful (nativeC60AZStrictStep (nativeC60BCClosedSignature S F) R k)
+        (nativeC60AZStrictStep (nativeC60BCClosedSignature S F) R k') hmapped)
 
 /-- Under selected descent and faithful strict Hom transport, each
 fixed word preserves AND reflects precisely the bridge classes. -/
