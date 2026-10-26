@@ -93,15 +93,15 @@ theorem nativeK5BLTwoFrame_stages
 composition, without inventing a commutation of opposite whiskerings. -/
 theorem nativeK5BLTwoFrame_extend
     (W : NativeK5StructuralThirteenCell p U V)
-    (prefix outer inner : List Bool) :
-    nativeK5BLTwoFrame W (prefix ++ outer) inner =
+    (front outer inner : List Bool) :
+    nativeK5BLTwoFrame W (front ++ outer) inner =
       nativeC60BGRawContext
-        (nativeK5AXKuuSignature W) (nativeK5BCFrame W) prefix
+        (nativeK5AXKuuSignature W) (nativeK5BCFrame W) front
         (nativeK5BLTwoFrame W outer inner) := by
   simpa only [nativeK5BLTwoFrame, List.append_assoc] using
     (nativeC60BGRawContext_append
       (nativeK5AXKuuSignature W) (nativeK5BCFrame W)
-      prefix (outer ++ inner) (nativeK5BLParallelSeed W))
+      front (outer ++ inner) (nativeK5BLParallelSeed W))
 
 /-- Both genuinely source-dependent fourteen-cell boundaries agree
 AFTER BOTH frames. The raw 16D term supplies this equality. -/
