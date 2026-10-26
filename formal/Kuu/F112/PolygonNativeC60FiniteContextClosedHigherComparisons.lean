@@ -420,11 +420,19 @@ theorem nativeK5BCContextualPacked_raw_ne
           (nativeK5AUNaturalityViaTarget W (nativeK5AQExchange W []))) := by
   rw [nativeK5BCContext_pack, nativeK5BCContext_pack]
   intro h
-  apply nativeK5BCContextualNaturality_raw_ne W steps
-  -- A Sigma's proof component is DEPENDENT on its endpoint pair.
-  -- Ordinary congrArg to a nondependent codomain cannot project it.
-  cases h
-  rfl
+  -- The dependent Sigma proof projection is not a nondependent function.
+  -- Use AY's actual uniformly typed Bool raw discriminator instead.
+  have ht := congrArg (nativeK5AYRawLeading W) h
+  change nativeK5AXLeadingConservative W
+      (nativeK5AQContextCell W steps
+        (nativeK5AUNaturalityViaSource W (nativeK5AQExchange W []))) =
+    nativeK5AXLeadingConservative W
+      (nativeK5AQContextCell W steps
+        (nativeK5AUNaturalityViaTarget W (nativeK5AQExchange W []))) at ht
+  rw [nativeK5BCLeading_context W steps,
+      nativeK5BCLeading_context W steps] at ht
+  change true = false at ht
+  cases ht
 
 /-- Any further finite tower of independently specified AX signatures
 inherits the ENTIRE original Peiffer boundary of this physical extension,
