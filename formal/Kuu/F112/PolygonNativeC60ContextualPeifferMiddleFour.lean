@@ -213,7 +213,9 @@ theorem nativeC60BIHolonomy_context_obstruction {L : NativeC60AXLayer.{u}}
           (nativeC60BGRawContext S F word r).2)) :
     ¬ NativeC60BIAllContextPeifferReplacement S F H := by
   intro hall
-  have hp := (nativeC60BIAllContext_iff_peiffer S F H hl hr).mp hall
+  have hp : NativeC60BBPeifferSound (nativeC60BCClosedSignature S F)
+      (nativeC60AZNoRelations (nativeC60BCClosedSignature S F)) H :=
+    (nativeC60BIAllContext_iff_peiffer S F H hl hr).mp hall
   exact (nativeC60BBPeiffer_holonomy_obstruction
     (nativeC60BCClosedSignature S F)
     (nativeC60AZNoRelations (nativeC60BCClosedSignature S F))
