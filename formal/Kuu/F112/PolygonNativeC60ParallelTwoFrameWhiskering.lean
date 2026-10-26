@@ -191,6 +191,125 @@ theorem nativeK5BLParallelFrameMismatch_no_gate
   intro he
   exact hne (nativeK5BLParallelFrameGate W Hh side he outer inner)
 
+/-- Left-spine length is defined on the ORIGINAL dependent 14D
+free syntax, not on histories or on a quotient. It detects the
+unremoved associativity parentheses of genuine geometric pasting. -/
+def nativeK5BLFourteenLeftDepth
+    {A B : NativeK5StructuralThirteenCell p U V} :
+    NativeK5StructuralFourteenCell p A B → Nat
+  | .trans c _ => nativeK5BLFourteenLeftDepth c + 1
+  | _ => 0
+
+/-- The two bracketings of three original 14D raw proofs are not
+definitionally or propositionally identical in the free syntax.
+The proof uses structural left-spine length, not a scalar shadow. -/
+theorem nativeK5BLFourteen_assoc_raw_ne
+    {A B C X : NativeK5StructuralThirteenCell p U V}
+    (c₁ : NativeK5StructuralFourteenCell p A B)
+    (c₂ : NativeK5StructuralFourteenCell p B C)
+    (c₃ : NativeK5StructuralFourteenCell p C X) :
+    NativeK5StructuralFourteenCell.trans c₁ (.trans c₂ c₃) ≠
+      NativeK5StructuralFourteenCell.trans (.trans c₁ c₂) c₃ := by
+  intro heq
+  have hd := congrArg
+    (fun c : NativeK5StructuralFourteenCell p A X =>
+      nativeK5BLFourteenLeftDepth c) heq
+  change nativeK5BLFourteenLeftDepth c₁ + 1 =
+    nativeK5BLFourteenLeftDepth c₁ + 1 + 1 at hd
+  omega
+
+/-- The ACTUAL left/right physical AQ frames do NOT commute as raw
+14D syntax. They are two opposite parenthesizations of the same
+three true 14D proof terms. -/
+theorem nativeK5BLPhysicalFrames_raw_ne
+    (W : NativeK5StructuralThirteenCell p U V)
+    (R : NativeK5FifteenFourteenFiber W) :
+    nativeK5AQWhiskerLeft W (nativeK5AQWhiskerRight W R) ≠
+      nativeK5AQWhiskerRight W (nativeK5AQWhiskerLeft W R) :=
+  nativeK5BLFourteen_assoc_raw_ne
+    (nativeK5AQLeftFrame W) R (nativeK5AQRightFrame W)
+
+/-- The opposite frame orders have the SAME noncommutative history
+value (associativity of the ambient group), despite their raw
+14D inequality. Equality of observed words is not raw coherence. -/
+theorem nativeK5BLPhysicalFrames_history_eq
+    (W : NativeK5StructuralThirteenCell p U V)
+    (R : NativeK5FifteenFourteenFiber W) :
+    (nativeK5AQWhiskerLeft W
+      (nativeK5AQWhiskerRight W R)).historyWord =
+      (nativeK5AQWhiskerRight W
+        (nativeK5AQWhiskerLeft W R)).historyWord := by
+  change (nativeK5AQLeftFrame W).historyWord *
+      (R.historyWord * (nativeK5AQRightFrame W).historyWord) =
+    ((nativeK5AQLeftFrame W).historyWord * R.historyWord) *
+      (nativeK5AQRightFrame W).historyWord
+  group
+
+/-- The actual 15D AU-compatible grammar can transport a physical
+15D proof through both frame orders, but the resulting 15D objects
+remember their DIFFERENT original 14D source boundaries. -/
+def nativeK5BLMixedLeftRight
+    (W : NativeK5StructuralThirteenCell p U V)
+    {R S : NativeK5FifteenFourteenFiber W}
+    (cell : NativeK5AQFifteenCell W R S) :
+    (nativeK5AXBaseLayer W).Total :=
+  nativeK5AXPack W
+    (nativeK5AQWhiskerCell W true
+      (nativeK5AQWhiskerCell W false cell))
+
+def nativeK5BLMixedRightLeft
+    (W : NativeK5StructuralThirteenCell p U V)
+    {R S : NativeK5FifteenFourteenFiber W}
+    (cell : NativeK5AQFifteenCell W R S) :
+    (nativeK5AXBaseLayer W).Total :=
+  nativeK5AXPack W
+    (nativeK5AQWhiskerCell W false
+      (nativeK5AQWhiskerCell W true cell))
+
+/-- Unlike each internal AU source/target pair, the TWO swapped-frame
+images of even the same 15D proof do not have a parallel 14D boundary. -/
+theorem nativeK5BLMixed_boundary_ne
+    (W : NativeK5StructuralThirteenCell p U V)
+    {R S : NativeK5FifteenFourteenFiber W}
+    (cell : NativeK5AQFifteenCell W R S) :
+    (nativeK5BLMixedLeftRight W cell).1 ≠
+      (nativeK5BLMixedRightLeft W cell).1 := by
+  intro heq
+  have hs := congrArg
+    (fun z : (nativeK5AXBaseLayer W).Obj ×
+        (nativeK5AXBaseLayer W).Obj => z.1.down) heq
+  exact (nativeK5BLPhysicalFrames_raw_ne W R) hs
+
+/-- An obstruction to a NAIVE reordering of the two true context
+frames: no AX signature on the ORIGINAL physical layer can compare
+these nonparallel 15D terms by a typed 16D step. It does NOT rule
+out either ordered AU naturality comparison already provided by BC. -/
+theorem nativeK5BLMixed_no_sixteen
+    (W : NativeK5StructuralThirteenCell p U V)
+    {R S : NativeK5FifteenFourteenFiber W}
+    (cell : NativeK5AQFifteenCell W R S)
+    (T : NativeC60AXSignature (nativeK5AXBaseLayer W)) :
+    ¬ Nonempty (NativeC60AXStep T
+        (nativeK5BLMixedLeftRight W cell)
+        (nativeK5BLMixedRightLeft W cell)) := by
+  rintro ⟨compare⟩
+  exact (nativeK5BLMixed_boundary_ne W cell) compare.boundary
+
+/-- Specialize that genuine boundary obstruction to the SAME
+nontrivial source-side AU naturality proof used in our positive
+two-frame 16D comparison. The asymmetry is strictly about SWITCHING
+frame order, not a general no-go between parallel evidence. -/
+theorem nativeK5BLParallelAU_swapped_no_sixteen
+    (W : NativeK5StructuralThirteenCell p U V)
+    (T : NativeC60AXSignature (nativeK5AXBaseLayer W)) :
+    ¬ Nonempty (NativeC60AXStep T
+      (nativeK5BLMixedLeftRight W
+        (nativeK5AUNaturalityViaSource W (nativeK5AQExchange W [])))
+      (nativeK5BLMixedRightLeft W
+        (nativeK5AUNaturalityViaSource W (nativeK5AQExchange W [])))) :=
+  nativeK5BLMixed_no_sixteen W
+    (nativeK5AUNaturalityViaSource W (nativeK5AQExchange W [])) T
+
 end OriginalC60
 
 #print axioms nativeK5BLParallelSeed
@@ -204,6 +323,15 @@ end OriginalC60
 #print axioms nativeK5BLTwoFrameLoop_not_refl
 #print axioms nativeK5BLParallelFrameGate
 #print axioms nativeK5BLParallelFrameMismatch_no_gate
+#print axioms nativeK5BLFourteenLeftDepth
+#print axioms nativeK5BLFourteen_assoc_raw_ne
+#print axioms nativeK5BLPhysicalFrames_raw_ne
+#print axioms nativeK5BLPhysicalFrames_history_eq
+#print axioms nativeK5BLMixedLeftRight
+#print axioms nativeK5BLMixedRightLeft
+#print axioms nativeK5BLMixed_boundary_ne
+#print axioms nativeK5BLMixed_no_sixteen
+#print axioms nativeK5BLParallelAU_swapped_no_sixteen
 
 end
 end Kuu.F112.Physical
