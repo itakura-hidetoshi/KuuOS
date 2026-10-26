@@ -76,6 +76,7 @@ theorem nativeC60BGRawContext_cons {L : NativeC60AXLayer.{u}}
       nativeC60BCMapClosedStep S F [side]
         (nativeC60BCMapClosedStep S F rest f)⟩
   rw [nativeC60BEMapClosedStep_cons S F side rest f]
+  simp only [nativeC60BCContextTotal]
 
 /-- Exact composition on the whole RAW dependent higher-term bundle.
 This stronger statement avoids ill-typed homogeneous comparisons between
@@ -345,7 +346,7 @@ theorem nativeK5BGPhysicalPeifferSquare_all
 
 end PhysicalC60
 
-#print axioms nativeC60BGRawArrowBundle
+#print axioms NativeC60BGRawArrowBundle
 #print axioms nativeC60BGRawContext
 #print axioms nativeC60BGRawContext_nil
 #print axioms nativeC60BGRawContext_cons
