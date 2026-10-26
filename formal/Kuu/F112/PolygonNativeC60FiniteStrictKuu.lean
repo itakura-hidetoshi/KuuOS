@@ -433,7 +433,7 @@ def nativeK5AZFiniteStrictModels (W : NativeK5StructuralThirteenCell p U V)
 No assertion that arbitrary optional higher relations preserve this label. -/
 theorem nativeK5AZStrictPhysicalLabel_survives (W : NativeK5StructuralThirteenCell p U V) :
     let S := nativeK5AXKuuSignature W
-    let R : NativeC60AZParallelRelation S := fun {_ _} _ _ => False
+    let R : NativeC60AZParallelRelation S := nativeC60AZNoRelations S
     let weight : ∀ {x y}, S.Gen x y → NativeK5ASPeifferKernel W :=
       nativeC60AZConstantWeight S (nativeK5ASPhysicalDefect W [])
     let h : NativeC60AZWeightsRespect S R weight := by intro x y c d h; exact h.elim
