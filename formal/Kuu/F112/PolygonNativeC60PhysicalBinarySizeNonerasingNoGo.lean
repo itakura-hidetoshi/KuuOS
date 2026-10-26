@@ -135,7 +135,7 @@ theorem nativeK5BPSourceSize_iter
     nativeK5BPSourceSize W (nativeK5BPIter W side n x) =
       nativeK5BPSourceSize W x + n * nativeK5BPFrameCost W side := by
   induction n with
-  | zero => rfl
+  | zero => simp only [nativeK5BPIter, Nat.zero_mul, Nat.add_zero]
   | succ n ih =>
       change nativeK5BPSourceSize W
         (nativeK5BCContext W [side] (nativeK5BPIter W side n x)) = _
