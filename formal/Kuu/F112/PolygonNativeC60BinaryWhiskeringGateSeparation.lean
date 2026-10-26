@@ -211,6 +211,103 @@ def nativeC60BNPrefixedFirst {L : NativeC60AXLayer.{u}}
     intro x y c a
     exact nativeC60BCMapClosedStep S F fixed c
 
+/-- The first ordered Peiffer route for a unary-prefixed candidate
+is precisely the existing strict C60 context action on the first
+proof-carrying input, with BOTH exact dependent endpoints retained. -/
+theorem nativeC60BNPrefixedFirstRL {L : NativeC60AXLayer.{u}}
+    (S : NativeC60AXSignature L) (F : Bool → NativeC60BCFrame L)
+    (fixed : List Bool) (q r : NativeC60BGRawArrowBundle S F) :
+    nativeC60BGHorizontalRLBundle S F
+      (nativeC60BNPrefixedFirst S F fixed) q r =
+        nativeC60BEArrowContext S F fixed (nativeC60BNStrictify S F q) := by
+  rcases q with ⟨⟨a, b⟩, f⟩
+  rcases r with ⟨⟨c, d⟩, g⟩
+  rw [nativeC60BEArrowContext_realize S F fixed f]
+  change (⟨(nativeC60BCContextTotal F fixed a,
+        nativeC60BCContextTotal F fixed b),
+      nativeC60AZStrictStep (nativeC60BCClosedSignature S F)
+        (nativeC60AZNoRelations (nativeC60BCClosedSignature S F))
+        (.trans (nativeC60BCMapClosedStep S F fixed f) (.refl _))⟩ :
+      NativeC60BEStrictArrowBundle S F) =
+    ⟨(nativeC60BCContextTotal F fixed a,
+        nativeC60BCContextTotal F fixed b),
+      nativeC60AZStrictStep (nativeC60BCClosedSignature S F)
+        (nativeC60AZNoRelations (nativeC60BCClosedSignature S F))
+        (nativeC60BCMapClosedStep S F fixed f)⟩
+  simp only [nativeC60AZStrictStep_comp, nativeC60AZStrictStep_refl,
+    Category.comp_id]
+
+/-- The reverse ordered Peiffer route is the same strict unary action.
+Its free raw 16D syntax is NOT declared equal to the first route. -/
+theorem nativeC60BNPrefixedFirstLR {L : NativeC60AXLayer.{u}}
+    (S : NativeC60AXSignature L) (F : Bool → NativeC60BCFrame L)
+    (fixed : List Bool) (q r : NativeC60BGRawArrowBundle S F) :
+    nativeC60BGHorizontalLRBundle S F
+      (nativeC60BNPrefixedFirst S F fixed) q r =
+        nativeC60BEArrowContext S F fixed (nativeC60BNStrictify S F q) := by
+  rcases q with ⟨⟨a, b⟩, f⟩
+  rcases r with ⟨⟨c, d⟩, g⟩
+  rw [nativeC60BEArrowContext_realize S F fixed f]
+  change (⟨(nativeC60BCContextTotal F fixed a,
+        nativeC60BCContextTotal F fixed b),
+      nativeC60AZStrictStep (nativeC60BCClosedSignature S F)
+        (nativeC60AZNoRelations (nativeC60BCClosedSignature S F))
+        (.trans (.refl _) (nativeC60BCMapClosedStep S F fixed f))⟩ :
+      NativeC60BEStrictArrowBundle S F) =
+    ⟨(nativeC60BCContextTotal F fixed a,
+        nativeC60BCContextTotal F fixed b),
+      nativeC60AZStrictStep (nativeC60BCClosedSignature S F)
+        (nativeC60AZNoRelations (nativeC60BCClosedSignature S F))
+        (nativeC60BCMapClosedStep S F fixed f)⟩
+  simp only [nativeC60AZStrictStep_comp, nativeC60AZStrictStep_refl,
+    Category.id_comp]
+
+/-- SHARPNESS: a prefix by the SAME generating frame commutes with its
+own context action on full strict arrow bundles. Both Peiffer orders
+pass the singleton gate. This does NOT imply the OPPOSITE gate. -/
+theorem nativeC60BNPrefixedFirst_same_gate {L : NativeC60AXLayer.{u}}
+    (S : NativeC60AXSignature L) (F : Bool → NativeC60BCFrame L)
+    (side : Bool) :
+    NativeC60BGWhiskeringEquivariant S F
+      (nativeC60BNPrefixedFirst S F [side]) [side] := by
+  constructor
+  · intro q r
+    calc
+      nativeC60BEArrowContext S F [side]
+          (nativeC60BGHorizontalRLBundle S F
+            (nativeC60BNPrefixedFirst S F [side]) q r) =
+        nativeC60BEArrowContext S F [side]
+          (nativeC60BEArrowContext S F [side]
+            (nativeC60BNStrictify S F q)) :=
+          congrArg _ (nativeC60BNPrefixedFirstRL S F [side] q r)
+      _ = nativeC60BEArrowContext S F [side]
+            (nativeC60BNStrictify S F
+              (nativeC60BGRawContext S F [side] q)) :=
+          congrArg _ (nativeC60BNStrictify_context S F [side] q)
+      _ = nativeC60BGHorizontalRLBundle S F
+            (nativeC60BNPrefixedFirst S F [side])
+            (nativeC60BGRawContext S F [side] q)
+            (nativeC60BGRawContext S F [side] r) :=
+          (nativeC60BNPrefixedFirstRL S F [side] _ _).symm
+  · intro q r
+    calc
+      nativeC60BEArrowContext S F [side]
+          (nativeC60BGHorizontalLRBundle S F
+            (nativeC60BNPrefixedFirst S F [side]) q r) =
+        nativeC60BEArrowContext S F [side]
+          (nativeC60BEArrowContext S F [side]
+            (nativeC60BNStrictify S F q)) :=
+          congrArg _ (nativeC60BNPrefixedFirstLR S F [side] q r)
+      _ = nativeC60BEArrowContext S F [side]
+            (nativeC60BNStrictify S F
+              (nativeC60BGRawContext S F [side] q)) :=
+          congrArg _ (nativeC60BNStrictify_context S F [side] q)
+      _ = nativeC60BGHorizontalLRBundle S F
+            (nativeC60BNPrefixedFirst S F [side])
+            (nativeC60BGRawContext S F [side] q)
+            (nativeC60BGRawContext S F [side] r) :=
+          (nativeC60BNPrefixedFirstLR S F [side] _ _).symm
+
 section Physical
 
 variable {D : Type uD} [Category.{vD} D]
@@ -285,6 +382,31 @@ theorem nativeK5BNRightPrefixed_no_left_gate
     nativeK5BCContext W [false] (nativeK5BCContext W [true] a)
   exact (nativeK5BNFrames_swap_raw_ne W a).symm
 
+/-- EXACT two-generator separation on actual physical C60:
+the genuine LEFT-prefixed candidate passes its own LEFT gate but
+fails RIGHT; the RIGHT-prefixed candidate passes RIGHT but fails LEFT.
+Thus success of one BG generator does NOT imply the other. -/
+theorem nativeK5BNPhysical_singleton_gates_independent
+    (W : NativeK5StructuralThirteenCell p U V) :
+    (NativeC60BGWhiskeringEquivariant
+        (nativeK5AXKuuSignature W) (nativeK5BCFrame W)
+        (nativeK5BNPrefixedFirst W true) [true] ∧
+      ¬ NativeC60BGWhiskeringEquivariant
+        (nativeK5AXKuuSignature W) (nativeK5BCFrame W)
+        (nativeK5BNPrefixedFirst W true) [false]) ∧
+    (NativeC60BGWhiskeringEquivariant
+        (nativeK5AXKuuSignature W) (nativeK5BCFrame W)
+        (nativeK5BNPrefixedFirst W false) [false] ∧
+      ¬ NativeC60BGWhiskeringEquivariant
+        (nativeK5AXKuuSignature W) (nativeK5BCFrame W)
+        (nativeK5BNPrefixedFirst W false) [true]) :=
+  ⟨⟨nativeC60BNPrefixedFirst_same_gate
+        (nativeK5AXKuuSignature W) (nativeK5BCFrame W) true,
+      nativeK5BNLeftPrefixed_no_right_gate W⟩,
+    ⟨nativeC60BNPrefixedFirst_same_gate
+        (nativeK5AXKuuSignature W) (nativeK5BCFrame W) false,
+      nativeK5BNRightPrefixed_no_left_gate W⟩⟩
+
 /-- The one-sided frame obstruction rules out EVERY finite-context
 BG equivariance for either prefixed physical candidate, since each
 already fails ONE of BG's TWO actual generating tests. -/
@@ -312,11 +434,15 @@ end Physical
 #print axioms nativeC60BNFirst_peiffer
 #print axioms nativeC60BNFirst_all_context_peiffer
 #print axioms nativeC60BNPrefixedFirst
+#print axioms nativeC60BNPrefixedFirstRL
+#print axioms nativeC60BNPrefixedFirstLR
+#print axioms nativeC60BNPrefixedFirst_same_gate
 #print axioms nativeK5BNPrefixedFirst
 #print axioms nativeK5BNFrames_swap_raw_ne
 #print axioms nativeK5BNLeftPrefixed_no_right_gate
 #print axioms nativeK5BNRightPrefixed_no_left_gate
 #print axioms nativeK5BNPrefixed_not_all_BG
+#print axioms nativeK5BNPhysical_singleton_gates_independent
 
 end
 end Kuu.F112.Physical
