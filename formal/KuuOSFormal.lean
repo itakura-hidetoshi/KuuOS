@@ -122,6 +122,7 @@ import Kuu.F112.PolygonNativeC60FiniteStrictKuu
 import Kuu.F112.PolygonNativeC60FiniteStrictBoundaryTransport
 import Kuu.F112.PolygonNativeC60FiniteStrictHorizontalPeiffer
 import Kuu.F112.PolygonNativeC60FiniteContextClosedHigherComparisons
+import Kuu.F112.PolygonNativeC60FiniteContextStrictFunctorDescent
 import Kuu.F112.PolygonNativeF55P94DK5ShellingNoncommutativeGap
 import Kuu.F112.PolygonNativeF55P94DGaugeCovariantHolonomy
 import Kuu.F112.PolygonNativeC60PhysicalGaugeAtlas
