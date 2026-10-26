@@ -257,6 +257,7 @@ theorem nativeC60CDReverse_strict_inverses
           _ = (nativeC60CAChainStrictFrame S F word
                 (nativeC60CDReverse S F rest) ≫ 𝟙 _) ≫
                   nativeC60CAChainStrictFrame S F word rest := by
+                    simp only [nativeC60CDNegArrow, nativeC60CDPosArrow]
                     rw [nativeC60AZStrictStep_inv_right]
           _ = nativeC60CAChainStrictFrame S F word
                 (nativeC60CDReverse S F rest) ≫
@@ -301,6 +302,7 @@ theorem nativeC60CDReverse_strict_inverses
           _ = (nativeC60CAChainStrictFrame S F word
                 (nativeC60CDReverse S F rest) ≫ 𝟙 _) ≫
                   nativeC60CAChainStrictFrame S F word rest := by
+                    simp only [nativeC60CDPosArrow, nativeC60CDNegArrow]
                     rw [nativeC60AZStrictStep_inv_left]
           _ = nativeC60CAChainStrictFrame S F word
                 (nativeC60CDReverse S F rest) ≫
