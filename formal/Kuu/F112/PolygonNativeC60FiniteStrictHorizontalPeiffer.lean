@@ -316,6 +316,35 @@ theorem nativeC60BBHorizontal_middleFour {L : NativeC60AXLayer.{u}}
           nativeC60AZStrictStep S R (nativeC60BBHorizontalRL H f' g') := by
           simp only [nativeC60BBHorizontalRL, nativeC60AZStrictStep_comp]
 
+/-- The exact converse: the *real* middle-four equation forces the
+Peiffer square, by testing vertical composites with two identity comparisons.
+Consequently the Peiffer condition is both necessary AND sufficient when
+whiskering is individually functorial. -/
+theorem nativeC60BBHorizontal_middleFour_iff {L : NativeC60AXLayer.{u}}
+    (S : NativeC60AXSignature L) (R : NativeC60AZParallelRelation S)
+    (H : NativeC60BBWhiskering S)
+    (hf : NativeC60BBWhiskeringFunctorial S R H) :
+    (∀ {a b e c d k : L.Total}
+      (f : NativeC60AXStep S a b) (f' : NativeC60AXStep S b e)
+      (g : NativeC60AXStep S c d) (g' : NativeC60AXStep S d k),
+      nativeC60AZStrictStep S R
+          (nativeC60BBHorizontalRL H (.trans f f') (.trans g g')) =
+        nativeC60AZStrictStep S R (nativeC60BBHorizontalRL H f g) ≫
+          nativeC60AZStrictStep S R (nativeC60BBHorizontalRL H f' g')) ↔
+      NativeC60BBPeifferSound S R H := by
+  constructor
+  · intro h a b c d f g
+    have hm := h (.refl a) f g (.refl d)
+    change nativeC60AZStrictStep S R (H.right f c) ≫
+        nativeC60AZStrictStep S R (H.left b g) =
+      nativeC60AZStrictStep S R (H.left a g) ≫
+        nativeC60AZStrictStep S R (H.right f d)
+    simpa only [nativeC60BBHorizontalRL, nativeC60AZStrictStep_comp,
+      hf.right_trans, hf.left_trans, hf.right_refl, hf.left_refl,
+      Category.id_comp, Category.comp_id] using hm
+  · intro hp a b e c d k f f' g g'
+    exact nativeC60BBHorizontal_middleFour S R H hf hp f f' g g'
+
 /-- The horizontal strict arrow preserves the pair of identities when
 both actual whiskerings preserve identities. -/
 theorem nativeC60BBStrictHorizontal_id {L : NativeC60AXLayer.{u}}
@@ -505,6 +534,7 @@ end PhysicalC60
 #print axioms nativeC60BBStrictInterchange_iff
 #print axioms NativeC60BBWhiskeringFunctorial
 #print axioms nativeC60BBHorizontal_middleFour
+#print axioms nativeC60BBHorizontal_middleFour_iff
 #print axioms nativeC60BBStrictHorizontal_id
 #print axioms nativeC60BBStrictHorizontal_comp
 #print axioms nativeC60BBPeiffer_holonomy_obstruction
