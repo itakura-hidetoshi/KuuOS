@@ -145,6 +145,7 @@ import Kuu.F112.PolygonNativeC60FreeBridgeHolonomyPrefixObstruction
 import Kuu.F112.PolygonNativeC60FreeBridgeAtomicCompleteness
 import Kuu.F112.PolygonNativeC60ReducedWordTwoStepReflection
 import Kuu.F112.PolygonNativeC60UnboundedTypedPositiveChains
+import Kuu.F112.PolygonNativeC60TypedSignedCancellation
 import Kuu.F112.PolygonNativeF55P94DK5ShellingNoncommutativeGap
 import Kuu.F112.PolygonNativeF55P94DGaugeCovariantHolonomy
 import Kuu.F112.PolygonNativeC60PhysicalGaugeAtlas
