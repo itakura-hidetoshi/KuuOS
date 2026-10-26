@@ -65,7 +65,7 @@ inductive NativeC60AZStrictRel {L : NativeC60AXLayer.{u}}
       Quiver.Path x y → Quiver.Path x y → Prop where
   | ident (x : L.Total) : NativeC60AZStrictRel S R
       (nativeC60AZRawArrow S (.refl x))
-        (𝟙 (⟨x⟩ : Kuu.Raw (NativeC60AZStrictObj S)))
+        (Quiver.Path.nil : Quiver.Path (⟨x⟩ : NativeC60AZStrictObj S) ⟨x⟩)
   | compose {x y z : L.Total} (c : NativeC60AXStep S x y)
       (d : NativeC60AXStep S y z) : NativeC60AZStrictRel S R
       (nativeC60AZRawArrow S (.trans c d))
@@ -73,11 +73,11 @@ inductive NativeC60AZStrictRel {L : NativeC60AXLayer.{u}}
   | inverseLeft {x y : L.Total} (c : NativeC60AXStep S x y) :
       NativeC60AZStrictRel S R
         (nativeC60AZRawArrow S c ≫ nativeC60AZRawArrow S (.symm c))
-        (𝟙 (⟨x⟩ : Kuu.Raw (NativeC60AZStrictObj S)))
+        (Quiver.Path.nil : Quiver.Path (⟨x⟩ : NativeC60AZStrictObj S) ⟨x⟩)
   | inverseRight {x y : L.Total} (c : NativeC60AXStep S x y) :
       NativeC60AZStrictRel S R
         (nativeC60AZRawArrow S (.symm c) ≫ nativeC60AZRawArrow S c)
-        (𝟙 (⟨y⟩ : Kuu.Raw (NativeC60AZStrictObj S)))
+        (Quiver.Path.nil : Quiver.Path (⟨y⟩ : NativeC60AZStrictObj S) ⟨y⟩)
   | declared {x y : L.Total} {c d : NativeC60AXStep S x y} (h : R c d) :
       NativeC60AZStrictRel S R (nativeC60AZRawArrow S c) (nativeC60AZRawArrow S d)
 
@@ -104,7 +104,7 @@ variable (R : NativeC60AZParallelRelation S)
 theorem nativeC60AZStrictStep_refl (x : L.Total) :
     nativeC60AZStrictStep S R (.refl x) = 𝟙 ((nativeC60AZStrictProject S R).obj ⟨x⟩) := by
   calc
-    _ = (nativeC60AZStrictProject S R).map (𝟙 (⟨x⟩ : Kuu.Raw (NativeC60AZStrictObj S))) :=
+    _ = (nativeC60AZStrictProject S R).map (Quiver.Path.nil : Quiver.Path (⟨x⟩ : NativeC60AZStrictObj S) ⟨x⟩) :=
       Kuu.declared_replacement (NativeC60AZStrictRel S R) (.ident x)
     _ = _ := (nativeC60AZStrictProject S R).map_id ⟨x⟩
 
@@ -125,7 +125,7 @@ theorem nativeC60AZStrictStep_inv_left {x y : L.Total} (c : NativeC60AXStep S x 
     _ = (nativeC60AZStrictProject S R).map
         (nativeC60AZRawArrow S c ≫ nativeC60AZRawArrow S (.symm c)) :=
       ((nativeC60AZStrictProject S R).map_comp _ _).symm
-    _ = (nativeC60AZStrictProject S R).map (𝟙 (⟨x⟩ : Kuu.Raw (NativeC60AZStrictObj S))) :=
+    _ = (nativeC60AZStrictProject S R).map (Quiver.Path.nil : Quiver.Path (⟨x⟩ : NativeC60AZStrictObj S) ⟨x⟩) :=
       Kuu.declared_replacement (NativeC60AZStrictRel S R) (.inverseLeft c)
     _ = _ := (nativeC60AZStrictProject S R).map_id ⟨x⟩
 
@@ -136,7 +136,7 @@ theorem nativeC60AZStrictStep_inv_right {x y : L.Total} (c : NativeC60AXStep S x
     _ = (nativeC60AZStrictProject S R).map
         (nativeC60AZRawArrow S (.symm c) ≫ nativeC60AZRawArrow S c) :=
       ((nativeC60AZStrictProject S R).map_comp _ _).symm
-    _ = (nativeC60AZStrictProject S R).map (𝟙 (⟨y⟩ : Kuu.Raw (NativeC60AZStrictObj S))) :=
+    _ = (nativeC60AZStrictProject S R).map (Quiver.Path.nil : Quiver.Path (⟨y⟩ : NativeC60AZStrictObj S) ⟨y⟩) :=
       Kuu.declared_replacement (NativeC60AZStrictRel S R) (.inverseRight c)
     _ = _ := (nativeC60AZStrictProject S R).map_id ⟨y⟩
 
@@ -343,11 +343,17 @@ theorem nativeC60AZHigherHolonomy_iff {L : NativeC60AXLayer.{u}}
 
 /-- A finite plan's final stage adds no unrequested higher relation.
 False here means no optional declaration, not an identification of Kuu with absence. -/
+/-- The empty OPTIONAL higher signature, independent of the meaning of Kuu.
+Writing the implicit endpoints at declaration level avoids extra binders
+being introduced by recursive equation elaboration. -/
+def nativeC60AZNoRelations {L : NativeC60AXLayer.{u}}
+    (S : NativeC60AXSignature L) {x y : L.Total}
+    (_c _d : NativeC60AXStep S x y) : Prop := False
+
 def nativeC60AZNextRelations {L : NativeC60AXLayer.{u}}
     (S : NativeC60AXSignature L) :
     (N : Nat) → NativeC60AXPlan (nativeC60AXNext L S) N → NativeC60AZParallelRelation S
-  | 0, _ => fun {a b : L.Total}
-      (_c : NativeC60AXStep S a b) (_d : NativeC60AXStep S a b) => False
+  | 0, _ => nativeC60AZNoRelations S
   | _ + 1, p => nativeC60AZHigherRelations S p.1
 
 /-- Actual strict carrier, realization, and lower-boundary functor, not a
@@ -501,6 +507,7 @@ end GenuineFiveStage
 #print axioms nativeC60AZStrictHolonomy_iff
 #print axioms nativeC60AZHigherRelations
 #print axioms nativeC60AZHigherHolonomy_iff
+#print axioms nativeC60AZNoRelations
 #print axioms nativeC60AZNextRelations
 #print axioms NativeC60AZStrictModel
 #print axioms nativeC60AZBuildStrictModel
