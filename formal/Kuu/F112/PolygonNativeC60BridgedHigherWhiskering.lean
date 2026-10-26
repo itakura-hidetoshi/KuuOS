@@ -119,9 +119,11 @@ comparison. Matching only the lower 14D pair is weaker. -/
 def nativeC60BSSameSourceBridge {L : NativeC60AXLayer.{u}}
     (S : NativeC60AXSignature L) (F : Bool → NativeC60BCFrame L)
     (q r : NativeC60BGRawArrowBundle S F) (h : q.1.1 = r.1.1) :
-    NativeC60AXStep (nativeC60BCClosedSignature S F) q.1.1 r.1.1 := by
-  cases h
-  exact .refl _
+    NativeC60AXStep (nativeC60BCClosedSignature S F) q.1.1 r.1.1 :=
+  Eq.ndrec
+    (motive := fun target : L.Total =>
+      NativeC60AXStep (nativeC60BCClosedSignature S F) q.1.1 target)
+    (.refl q.1.1) h
 
 /-- A same-15D-source pair is a special case of BR's typed bridged
 operation; the two 16D proofs remain separate in the input. -/
