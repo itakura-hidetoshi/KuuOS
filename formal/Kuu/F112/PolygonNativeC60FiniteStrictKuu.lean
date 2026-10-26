@@ -34,20 +34,23 @@ noncomputable section
 
 universe u v w uD vD uE vE
 
-/-- A type synonym prevents changing the quiver on the original raw carrier. -/
-def NativeC60AZStrictObj {L : NativeC60AXLayer.{u}}
-    (_S : NativeC60AXSignature L) : Type u := L.Total
+/-- A signature-indexed carrier. Keeping the signature in the type, rather
+than unfolding to L.Total, makes the Quiver instance synthesizable and
+prevents comparisons from two different signatures being conflated. -/
+structure NativeC60AZStrictObj {L : NativeC60AXLayer.{u}}
+    (_S : NativeC60AXSignature L) where
+  val : L.Total
 
 instance nativeC60AZStrictQuiver {L : NativeC60AXLayer.{u}}
     (S : NativeC60AXSignature L) : Quiver (NativeC60AZStrictObj S) where
-  Hom x y := NativeC60AXStep S x y
+  Hom x y := NativeC60AXStep S x.val y.val
 
 /-- Encode an existing dependent proof as a one-letter typed path. -/
 def nativeC60AZRawArrow {L : NativeC60AXLayer.{u}}
     (S : NativeC60AXSignature L) {x y : L.Total}
     (c : NativeC60AXStep S x y) :
-    (x : Kuu.Raw (NativeC60AZStrictObj S)) ⟶
-      (y : Kuu.Raw (NativeC60AZStrictObj S)) :=
+    (⟨x⟩ : Kuu.Raw (NativeC60AZStrictObj S)) ⟶
+      (⟨y⟩ : Kuu.Raw (NativeC60AZStrictObj S)) :=
   (Paths.of (NativeC60AZStrictObj S)).map c
 
 /-- Optional equalities only between comparisons with the same exact boundary. -/
@@ -60,17 +63,20 @@ inductive NativeC60AZStrictRel {L : NativeC60AXLayer.{u}}
     (S : NativeC60AXSignature L) (R : NativeC60AZParallelRelation S) :
     {x y : Kuu.Raw (NativeC60AZStrictObj S)} → (x ⟶ y) → (x ⟶ y) → Prop where
   | ident (x : L.Total) : NativeC60AZStrictRel S R
-      (nativeC60AZRawArrow S (.refl x)) (𝟙 x)
+      (nativeC60AZRawArrow S (.refl x))
+        (𝟙 (⟨x⟩ : Kuu.Raw (NativeC60AZStrictObj S)))
   | compose {x y z : L.Total} (c : NativeC60AXStep S x y)
       (d : NativeC60AXStep S y z) : NativeC60AZStrictRel S R
       (nativeC60AZRawArrow S (.trans c d))
       (nativeC60AZRawArrow S c ≫ nativeC60AZRawArrow S d)
   | inverseLeft {x y : L.Total} (c : NativeC60AXStep S x y) :
       NativeC60AZStrictRel S R
-        (nativeC60AZRawArrow S c ≫ nativeC60AZRawArrow S (.symm c)) (𝟙 x)
+        (nativeC60AZRawArrow S c ≫ nativeC60AZRawArrow S (.symm c))
+        (𝟙 (⟨x⟩ : Kuu.Raw (NativeC60AZStrictObj S)))
   | inverseRight {x y : L.Total} (c : NativeC60AXStep S x y) :
       NativeC60AZStrictRel S R
-        (nativeC60AZRawArrow S (.symm c) ≫ nativeC60AZRawArrow S c) (𝟙 y)
+        (nativeC60AZRawArrow S (.symm c) ≫ nativeC60AZRawArrow S c)
+        (𝟙 (⟨y⟩ : Kuu.Raw (NativeC60AZStrictObj S)))
   | declared {x y : L.Total} {c d : NativeC60AXStep S x y} (h : R c d) :
       NativeC60AZStrictRel S R (nativeC60AZRawArrow S c) (nativeC60AZRawArrow S d)
 
@@ -86,7 +92,7 @@ def nativeC60AZStrictProject {L : NativeC60AXLayer.{u}}
 def nativeC60AZStrictStep {L : NativeC60AXLayer.{u}}
     (S : NativeC60AXSignature L) (R : NativeC60AZParallelRelation S)
     {x y : L.Total} (c : NativeC60AXStep S x y) :
-    (nativeC60AZStrictProject S R).obj x ⟶ (nativeC60AZStrictProject S R).obj y :=
+    (nativeC60AZStrictProject S R).obj ⟨x⟩ ⟶ (nativeC60AZStrictProject S R).obj ⟨y⟩ :=
   (nativeC60AZStrictProject S R).map (nativeC60AZRawArrow S c)
 
 section StrictRealization
@@ -95,11 +101,11 @@ variable {L : NativeC60AXLayer.{u}} (S : NativeC60AXSignature L)
 variable (R : NativeC60AZParallelRelation S)
 
 theorem nativeC60AZStrictStep_refl (x : L.Total) :
-    nativeC60AZStrictStep S R (.refl x) = 𝟙 ((nativeC60AZStrictProject S R).obj x) := by
+    nativeC60AZStrictStep S R (.refl x) = 𝟙 ((nativeC60AZStrictProject S R).obj ⟨x⟩) := by
   calc
-    _ = (nativeC60AZStrictProject S R).map (𝟙 x) :=
+    _ = (nativeC60AZStrictProject S R).map (𝟙 (⟨x⟩ : Kuu.Raw (NativeC60AZStrictObj S))) :=
       Kuu.declared_replacement (NativeC60AZStrictRel S R) (.ident x)
-    _ = _ := (nativeC60AZStrictProject S R).map_id x
+    _ = _ := (nativeC60AZStrictProject S R).map_id ⟨x⟩
 
 theorem nativeC60AZStrictStep_comp {x y z : L.Total}
     (c : NativeC60AXStep S x y) (d : NativeC60AXStep S y z) :
@@ -113,25 +119,25 @@ theorem nativeC60AZStrictStep_comp {x y z : L.Total}
 
 theorem nativeC60AZStrictStep_inv_left {x y : L.Total} (c : NativeC60AXStep S x y) :
     nativeC60AZStrictStep S R c ≫ nativeC60AZStrictStep S R (.symm c) =
-      𝟙 ((nativeC60AZStrictProject S R).obj x) := by
+      𝟙 ((nativeC60AZStrictProject S R).obj ⟨x⟩) := by
   calc
     _ = (nativeC60AZStrictProject S R).map
         (nativeC60AZRawArrow S c ≫ nativeC60AZRawArrow S (.symm c)) :=
       ((nativeC60AZStrictProject S R).map_comp _ _).symm
-    _ = (nativeC60AZStrictProject S R).map (𝟙 x) :=
+    _ = (nativeC60AZStrictProject S R).map (𝟙 (⟨x⟩ : Kuu.Raw (NativeC60AZStrictObj S))) :=
       Kuu.declared_replacement (NativeC60AZStrictRel S R) (.inverseLeft c)
-    _ = _ := (nativeC60AZStrictProject S R).map_id x
+    _ = _ := (nativeC60AZStrictProject S R).map_id ⟨x⟩
 
 theorem nativeC60AZStrictStep_inv_right {x y : L.Total} (c : NativeC60AXStep S x y) :
     nativeC60AZStrictStep S R (.symm c) ≫ nativeC60AZStrictStep S R c =
-      𝟙 ((nativeC60AZStrictProject S R).obj y) := by
+      𝟙 ((nativeC60AZStrictProject S R).obj ⟨y⟩) := by
   calc
     _ = (nativeC60AZStrictProject S R).map
         (nativeC60AZRawArrow S (.symm c) ≫ nativeC60AZRawArrow S c) :=
       ((nativeC60AZStrictProject S R).map_comp _ _).symm
-    _ = (nativeC60AZStrictProject S R).map (𝟙 y) :=
+    _ = (nativeC60AZStrictProject S R).map (𝟙 (⟨y⟩ : Kuu.Raw (NativeC60AZStrictObj S))) :=
       Kuu.declared_replacement (NativeC60AZStrictRel S R) (.inverseRight c)
-    _ = _ := (nativeC60AZStrictProject S R).map_id y
+    _ = _ := (nativeC60AZStrictProject S R).map_id ⟨y⟩
 
 theorem nativeC60AZStrictStep_declared {x y : L.Total}
     {c d : NativeC60AXStep S x y} (h : R c d) :
@@ -147,9 +153,9 @@ theorem nativeC60AZStrictStep_exact {x y : L.Total} (c d : NativeC60AXStep S x y
 
 /-- The previous raw cells, including their boundaries, remain distinct objects. -/
 theorem nativeC60AZStrictObj_injective :
-    Function.Injective (fun x : L.Total => (nativeC60AZStrictProject S R).obj x) := by
+    Function.Injective (fun x : L.Total => (nativeC60AZStrictProject S R).obj ⟨x⟩) := by
   intro x y h
-  exact congrArg (fun z : NativeC60AZStrictSpace S R => z.as) h
+  exact congrArg (fun z : NativeC60AZStrictSpace S R => z.as.val) h
 
 /-- Realization has strict associativity; raw parenthesizations need not be equal. -/
 theorem nativeC60AZStrictStep_assoc {a b c d : L.Total}
@@ -162,7 +168,7 @@ theorem nativeC60AZStrictStep_assoc {a b c d : L.Total}
 /-- A genuine functor reads BOTH original lower endpoints. -/
 def nativeC60AZBoundaryPrefunctor :
     NativeC60AZStrictObj S ⥤q Discrete (L.Obj × L.Obj) where
-  obj x := Discrete.mk x.1
+  obj x := Discrete.mk x.val.1
   map c := eqToHom (congrArg Discrete.mk c.boundary)
 
 def nativeC60AZStrictBoundary :
@@ -172,7 +178,7 @@ def nativeC60AZStrictBoundary :
     (by intro x y f g h; exact Subsingleton.elim _ _)
 
 theorem nativeC60AZStrictBoundary_obj (x : L.Total) :
-    (nativeC60AZStrictBoundary S R).obj ((nativeC60AZStrictProject S R).obj x) =
+    (nativeC60AZStrictBoundary S R).obj ((nativeC60AZStrictProject S R).obj ⟨x⟩) =
       Discrete.mk x.1 := rfl
 
 /-- Necessary AND sufficient factorization through this declared strict quotient. -/
@@ -182,8 +188,11 @@ theorem nativeC60AZStrictObserver_iff {C : Type v} [Category.{w} C]
       nativeC60AZStrictProject S R ⋙ G = F) ↔
         Kuu.Respects (NativeC60AZStrictRel S R) F := by
   constructor
-  · rintro ⟨G, rfl⟩ x y f g h
-    exact congrArg G.map (Kuu.declared_replacement (NativeC60AZStrictRel S R) h)
+  · rintro ⟨H, hF⟩ x y f g hr
+    have heq := congrArg (fun k => H.map k)
+      (Kuu.declared_replacement (NativeC60AZStrictRel S R) hr)
+    rw [← hF]
+    exact heq
   · intro h
     exact ⟨Kuu.descend _ F h, Kuu.descend_spec _ F h⟩
 
@@ -336,7 +345,7 @@ False here means no optional declaration, not an identification of Kuu with abse
 def nativeC60AZNextRelations {L : NativeC60AXLayer.{u}}
     (S : NativeC60AXSignature L) :
     (N : Nat) → NativeC60AXPlan (nativeC60AXNext L S) N → NativeC60AZParallelRelation S
-  | 0, _ => fun {_ _} _ _ => False
+  | 0, _ => fun {x y} (_c _d : NativeC60AXStep S x y) => False
   | _ + 1, p => nativeC60AZHigherRelations S p.1
 
 /-- Actual strict carrier, realization, and lower-boundary functor, not a
@@ -359,7 +368,7 @@ def nativeC60AZBuildStrictModel {L : NativeC60AXLayer.{u}}
     (S : NativeC60AXSignature L) (R : NativeC60AZParallelRelation S) :
     NativeC60AZStrictModel S R where
   carrier := Cat.of (NativeC60AZStrictSpace S R)
-  obj := (nativeC60AZStrictProject S R).obj
+  obj := fun x => (nativeC60AZStrictProject S R).obj ⟨x⟩
   map := nativeC60AZStrictStep S R
   map_refl := nativeC60AZStrictStep_refl S R
   map_trans := nativeC60AZStrictStep_comp S R
@@ -425,9 +434,11 @@ theorem nativeK5AZStrictPhysicalLabel_survives (W : NativeK5StructuralThirteenCe
         (nativeK5AXDeclaredNaturality W (nativeK5AQExchange W []))) ≠ 1 := by
   dsimp only
   rw [nativeC60AZStrictHolonomy_arrow]
-  intro h
-  have hh := congrArg MulOpposite.unop h
-  exact nativeK5ASPhysicalDefect_base_ne_one W hh
+  change (MulOpposite.op (nativeK5ASPhysicalDefect W []) :
+    (NativeK5ASPeifferKernel W)ᵐᵒᵖ) ≠ 1
+  intro heq
+  exact nativeK5ASPhysicalDefect_base_ne_one W
+    (congrArg MulOpposite.unop heq)
 
 end PhysicalC60
 
