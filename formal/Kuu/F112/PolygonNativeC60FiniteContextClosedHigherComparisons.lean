@@ -420,9 +420,11 @@ theorem nativeK5BCContextualPacked_raw_ne
           (nativeK5AUNaturalityViaTarget W (nativeK5AQExchange W []))) := by
   rw [nativeK5BCContext_pack, nativeK5BCContext_pack]
   intro h
-  have heq := congrArg
-    (fun c : (nativeK5AXBaseLayer W).Total => c.2.down) h
-  exact nativeK5BCContextualNaturality_raw_ne W steps heq
+  apply nativeK5BCContextualNaturality_raw_ne W steps
+  -- A Sigma's proof component is DEPENDENT on its endpoint pair.
+  -- Ordinary congrArg to a nondependent codomain cannot project it.
+  cases h
+  rfl
 
 /-- Any further finite tower of independently specified AX signatures
 inherits the ENTIRE original Peiffer boundary of this physical extension,
