@@ -200,7 +200,10 @@ theorem nativeC60BHReplacement_all_iff_base {L : NativeC60AXLayer.{u}}
           (nativeC60BBHorizontalLR H q.2 r.2)) := by
   constructor
   · intro h
-    simpa only [nativeC60BGRawContext_nil S F] using h []
+    rcases q with ⟨⟨a, b⟩, f⟩
+    rcases r with ⟨⟨c, d⟩, g⟩
+    simpa only [nativeC60BGRawContext, nativeC60BCContextTotal,
+      nativeC60BEMapClosedStep_nil] using (h [])
   · intro h word
     exact nativeC60BHReplacement_transport S F H word (he word) q r h
 
