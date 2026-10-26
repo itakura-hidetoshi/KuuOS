@@ -47,7 +47,16 @@ theorem nativeC60BEShiftGen_cons {L : NativeC60AXLayer.{u}}
   rcases g with ⟨inner, a, b, ⟨gen, hx, hy⟩⟩
   cases hx
   cases hy
-  rfl
+  -- The two implementations contain the same context word, base endpoints,
+  -- and selected generator. Their remaining fibers are proof propositions.
+  apply Sigma.ext
+  · rfl
+  · apply Sigma.ext
+    · rfl
+    · apply Sigma.ext
+      · rfl
+      · apply Subtype.ext
+        rfl
 
 /-- Identity context acts as the ACTUAL identity on Type-valued
 AX higher syntax; no quotient or proof-term collapse is needed. -/
