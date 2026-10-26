@@ -97,67 +97,42 @@ theorem nativeC60BDContextRawFunctor_respects_iff
     let P := nativeC60BDContextRawFunctor S F R steps
     cases rel with
     | ident a =>
-        calc
-          P.map (nativeC60AZRawArrow T (.refl a)) =
-              nativeC60AZStrictStep T R
-                (nativeC60BCMapClosedStep S F steps (.refl a)) :=
-              nativeC60BDContextRawFunctor_arrow S F R steps _
-          _ = 𝟙 ((nativeC60AZStrictProject T R).obj
-                ⟨nativeC60BCContextTotal F steps a⟩) :=
-              nativeC60AZStrictStep_refl T R _
-          _ = P.map Quiver.Path.nil := rfl
+        have hi :
+            P.map (nativeC60AZRawArrow T (.refl a)) =
+              𝟙 (P.obj ⟨a⟩) := by
+          rw [nativeC60BDContextRawFunctor_arrow]
+          exact nativeC60AZStrictStep_refl T R _
+        exact hi.trans (P.map_id ⟨a⟩).symm
     | compose c d =>
-        calc
-          P.map (nativeC60AZRawArrow T (.trans c d)) =
-              nativeC60AZStrictStep T R
-                (nativeC60BCMapClosedStep S F steps (.trans c d)) :=
-              nativeC60BDContextRawFunctor_arrow S F R steps _
-          _ = nativeC60AZStrictStep T R
-                (nativeC60BCMapClosedStep S F steps c) ≫
-              nativeC60AZStrictStep T R
-                (nativeC60BCMapClosedStep S F steps d) :=
-              nativeC60AZStrictStep_comp T R _ _
-          _ = P.map ((nativeC60AZRawArrow T c).comp
-                (nativeC60AZRawArrow T d)) := by
-              rw [P.map_comp]
-              rw [nativeC60BDContextRawFunctor_arrow,
-                  nativeC60BDContextRawFunctor_arrow]
+        have hc :
+            P.map (nativeC60AZRawArrow T (.trans c d)) =
+              P.map (nativeC60AZRawArrow T c) ≫
+                P.map (nativeC60AZRawArrow T d) := by
+          rw [nativeC60BDContextRawFunctor_arrow,
+            nativeC60BDContextRawFunctor_arrow,
+            nativeC60BDContextRawFunctor_arrow]
+          exact nativeC60AZStrictStep_comp T R _ _
+        exact hc.trans (P.map_comp _ _).symm
     | inverseLeft c =>
-        calc
-          P.map ((nativeC60AZRawArrow T c).comp
-              (nativeC60AZRawArrow T (.symm c))) =
+        have hi :
             P.map (nativeC60AZRawArrow T c) ≫
-              P.map (nativeC60AZRawArrow T (.symm c)) :=
-              P.map_comp _ _
-          _ = nativeC60AZStrictStep T R
-                (nativeC60BCMapClosedStep S F steps c) ≫
-              nativeC60AZStrictStep T R
-                (.symm (nativeC60BCMapClosedStep S F steps c)) := by
-              rw [nativeC60BDContextRawFunctor_arrow,
-                nativeC60BDContextRawFunctor_arrow]
-              rfl
-          _ = 𝟙 ((nativeC60AZStrictProject T R).obj
-                ⟨nativeC60BCContextTotal F steps _⟩) :=
-              nativeC60AZStrictStep_inv_left T R _
-          _ = P.map Quiver.Path.nil := rfl
+              P.map (nativeC60AZRawArrow T (.symm c)) =
+                𝟙 _ := by
+          simpa only [nativeC60BDContextRawFunctor_arrow,
+            nativeC60BCMapClosedStep_symm] using
+              (nativeC60AZStrictStep_inv_left T R
+                (nativeC60BCMapClosedStep S F steps c))
+        exact ((P.map_comp _ _).trans hi).trans (P.map_id _).symm
     | inverseRight c =>
-        calc
-          P.map ((nativeC60AZRawArrow T (.symm c)).comp
-              (nativeC60AZRawArrow T c)) =
+        have hi :
             P.map (nativeC60AZRawArrow T (.symm c)) ≫
-              P.map (nativeC60AZRawArrow T c) :=
-              P.map_comp _ _
-          _ = nativeC60AZStrictStep T R
-                (.symm (nativeC60BCMapClosedStep S F steps c)) ≫
-              nativeC60AZStrictStep T R
-                (nativeC60BCMapClosedStep S F steps c) := by
-              rw [nativeC60BDContextRawFunctor_arrow,
-                nativeC60BDContextRawFunctor_arrow]
-              rfl
-          _ = 𝟙 ((nativeC60AZStrictProject T R).obj
-                ⟨nativeC60BCContextTotal F steps _⟩) :=
-              nativeC60AZStrictStep_inv_right T R _
-          _ = P.map Quiver.Path.nil := rfl
+              P.map (nativeC60AZRawArrow T c) =
+                𝟙 _ := by
+          simpa only [nativeC60BDContextRawFunctor_arrow,
+            nativeC60BCMapClosedStep_symm] using
+              (nativeC60AZStrictStep_inv_right T R
+                (nativeC60BCMapClosedStep S F steps c))
+        exact ((P.map_comp _ _).trans hi).trans (P.map_id _).symm
     | declared hcd =>
         simpa only [nativeC60BDContextRawFunctor_arrow] using h _ _ hcd
 
