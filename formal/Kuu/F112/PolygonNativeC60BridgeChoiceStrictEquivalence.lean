@@ -67,6 +67,8 @@ def nativeC60BTBridgeHomEquiv {L : NativeC60AXLayer.{u}}
           nativeC60AZStrictStep T R (.symm r.2) = k
     simp only [Category.assoc, nativeC60AZStrictStep_inv_left,
       Category.id_comp, Category.comp_id]
+    rw [← Category.assoc, nativeC60AZStrictStep_inv_left T R q.2,
+      Category.id_comp]
   right_inv := by
     intro t
     change nativeC60AZStrictStep T R (.symm q.2) ≫
@@ -75,6 +77,8 @@ def nativeC60BTBridgeHomEquiv {L : NativeC60AXLayer.{u}}
           nativeC60AZStrictStep T R r.2 = t
     simp only [Category.assoc, nativeC60AZStrictStep_inv_right,
       Category.id_comp, Category.comp_id]
+    rw [← Category.assoc, nativeC60AZStrictStep_inv_right T R q.2,
+      Category.id_comp]
 
 /-- The genuinely two-input BS bridge operation interpreted as a
 COMPLETE selected strict arrow, without choosing raw representatives
