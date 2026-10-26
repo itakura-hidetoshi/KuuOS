@@ -222,6 +222,12 @@ theorem nativeC60BNPrefixedFirstRL {L : NativeC60AXLayer.{u}}
         nativeC60BEArrowContext S F fixed (nativeC60BNStrictify S F q) := by
   rcases q with ⟨⟨a, b⟩, f⟩
   rcases r with ⟨⟨c, d⟩, g⟩
+  change nativeC60BGHorizontalRLBundle S F
+    (nativeC60BNPrefixedFirst S F fixed) ⟨(a, b), f⟩ ⟨(c, d), g⟩ =
+      nativeC60BEArrowContext S F fixed
+        (⟨(a, b), nativeC60AZStrictStep (nativeC60BCClosedSignature S F)
+          (nativeC60AZNoRelations (nativeC60BCClosedSignature S F)) f⟩ :
+          NativeC60BEStrictArrowBundle S F)
   rw [nativeC60BEArrowContext_realize S F fixed f]
   change (⟨(nativeC60BCContextTotal F fixed a,
         nativeC60BCContextTotal F fixed b),
@@ -247,6 +253,12 @@ theorem nativeC60BNPrefixedFirstLR {L : NativeC60AXLayer.{u}}
         nativeC60BEArrowContext S F fixed (nativeC60BNStrictify S F q) := by
   rcases q with ⟨⟨a, b⟩, f⟩
   rcases r with ⟨⟨c, d⟩, g⟩
+  change nativeC60BGHorizontalLRBundle S F
+    (nativeC60BNPrefixedFirst S F fixed) ⟨(a, b), f⟩ ⟨(c, d), g⟩ =
+      nativeC60BEArrowContext S F fixed
+        (⟨(a, b), nativeC60AZStrictStep (nativeC60BCClosedSignature S F)
+          (nativeC60AZNoRelations (nativeC60BCClosedSignature S F)) f⟩ :
+          NativeC60BEStrictArrowBundle S F)
   rw [nativeC60BEArrowContext_realize S F fixed f]
   change (⟨(nativeC60BCContextTotal F fixed a,
         nativeC60BCContextTotal F fixed b),
