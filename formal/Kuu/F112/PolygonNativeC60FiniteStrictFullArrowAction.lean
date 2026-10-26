@@ -34,6 +34,17 @@ theorem nativeC60BEShiftGen_nil {L : NativeC60AXLayer.{u}}
   rcases g with ⟨word, a, b, ⟨gen, hx, hy⟩⟩
   rfl
 
+/-- The finite shift records EXACTLY the original context word with
+the new prefix. This computation is independent of dependent endpoint
+certificates. -/
+theorem nativeC60BEShiftGen_word {L : NativeC60AXLayer.{u}}
+    (S : NativeC60AXSignature L) (F : Bool → NativeC60BCFrame L)
+    (word : List Bool) {x y : L.Total}
+    (g : (nativeC60BCClosedSignature S F).Gen x y) :
+    (nativeC60BCShiftGen S F word g).1 = word ++ g.1 := by
+  rcases g with ⟨inner, a, b, ⟨gen, hx, hy⟩⟩
+  rfl
+
 /-- One outer letter acts by exactly the same raw generator as
 successive inner-word transport and one-letter transport. -/
 theorem nativeC60BEShiftGen_cons {L : NativeC60AXLayer.{u}}
@@ -47,16 +58,12 @@ theorem nativeC60BEShiftGen_cons {L : NativeC60AXLayer.{u}}
   rcases g with ⟨inner, a, b, ⟨gen, hx, hy⟩⟩
   cases hx
   cases hy
-  -- The two implementations contain the same context word, base endpoints,
-  -- and selected generator. Their remaining fibers are proof propositions.
+  -- The word component is reduced by the actual BC shift equation.
   apply Sigma.ext
-  · rfl
-  · apply Sigma.ext
-    · rfl
-    · apply Sigma.ext
-      · rfl
-      · apply Subtype.ext
-        rfl
+  · rw [nativeC60BEShiftGen_word, nativeC60BEShiftGen_word,
+      nativeC60BEShiftGen_word]
+    rfl
+  · apply HEq.rfl
 
 /-- Identity context acts as the ACTUAL identity on Type-valued
 AX higher syntax; no quotient or proof-term collapse is needed. -/
@@ -285,6 +292,7 @@ theorem nativeK5BEPhysicalArrowContext_target_peiffer
 end PhysicalC60
 
 #print axioms nativeC60BEShiftGen_nil
+#print axioms nativeC60BEShiftGen_word
 #print axioms nativeC60BEShiftGen_cons
 #print axioms nativeC60BEMapClosedStep_nil
 #print axioms nativeC60BEMapClosedStep_cons
