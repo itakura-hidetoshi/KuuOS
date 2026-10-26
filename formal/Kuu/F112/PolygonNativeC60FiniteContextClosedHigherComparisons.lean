@@ -101,21 +101,13 @@ def nativeC60BCShiftGen {L : NativeC60AXLayer.{u}}
     (gen : (nativeC60BCClosedSignature S F).Gen x y) :
     (nativeC60BCClosedSignature S F).Gen
       (nativeC60BCContextTotal F outer x)
-      (nativeC60BCContextTotal F outer y) := by
-  rcases gen with ⟨inner, a, b, ⟨g, hx, hy⟩⟩
-  refine ⟨outer ++ inner, a, b, ⟨g, ?_, ?_⟩⟩
-  · calc
-      nativeC60BCContextTotal F outer x =
-          nativeC60BCContextTotal F outer (nativeC60BCContextTotal F inner a) :=
-        congrArg (nativeC60BCContextTotal F outer) hx
-      _ = nativeC60BCContextTotal F (outer ++ inner) a :=
-        (nativeC60BCContextTotal_append F outer inner a).symm
-  · calc
-      nativeC60BCContextTotal F outer y =
-          nativeC60BCContextTotal F outer (nativeC60BCContextTotal F inner b) :=
-        congrArg (nativeC60BCContextTotal F outer) hy
-      _ = nativeC60BCContextTotal F (outer ++ inner) b :=
-        (nativeC60BCContextTotal_append F outer inner b).symm
+      (nativeC60BCContextTotal F outer y) :=
+  ⟨outer ++ gen.1, gen.2.1, gen.2.2.1,
+    ⟨gen.2.2.2.1,
+      ⟨(congrArg (nativeC60BCContextTotal F outer) gen.2.2.2.2.1).trans
+          (nativeC60BCContextTotal_append F outer gen.1 gen.2.1).symm,
+        (congrArg (nativeC60BCContextTotal F outer) gen.2.2.2.2.2).trans
+          (nativeC60BCContextTotal_append F outer gen.1 gen.2.2.1).symm⟩⟩⟩
 
 /-- Transport every actual original AX Type-valued comparison through a
 finite C60 context, INTO the independent context-closed 16D presentation. -/
