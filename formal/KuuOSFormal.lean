@@ -119,6 +119,7 @@ import Kuu.F112.PolygonNativeC60FiniteRelativeKuuExtension
 import Kuu.F112.PolygonNativeC60FiniteObserverDescent
 import Kuu.F112.PolygonNativeC60FiniteTwoSidedGaugeHolonomy
 import Kuu.F112.PolygonNativeC60FiniteStrictKuu
+import Kuu.F112.PolygonNativeC60FiniteStrictBoundaryTransport
 import Kuu.F112.PolygonNativeF55P94DK5ShellingNoncommutativeGap
 import Kuu.F112.PolygonNativeF55P94DGaugeCovariantHolonomy
 import Kuu.F112.PolygonNativeC60PhysicalGaugeAtlas
@@ -224,7 +225,7 @@ import KUOS.WORLD.KuuOSRepositoryMergeCertificateV0_84
 import KUOS.WORLD.KuuOSRepositoryRevisionDagV0_85
 import KUOS.WORLD.KuuOSRepositoryFrontierCertificateV0_86
 import KUOS.WORLD.KuuOSRepositorySelfEvolutionPortfolioV0_87
-import KUOS.WORLD.KuuOSRepositorySelfEvolutionShadowV0_88
+import KUOS.WORLD.KuuOSRepositoryEvolutionShadowV0_88
 import KUOS.WORLD.KuuOSRepositoryEvolutionAdmissionV0_89
 import KUOS.WORLD.KuuOSRepositoryExternalApprovalV0_90
 import KUOS.WORLD.KuuOSRepositoryApplicationAuthorizationV0_91
