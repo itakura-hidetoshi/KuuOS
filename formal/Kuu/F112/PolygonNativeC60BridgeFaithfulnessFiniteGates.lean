@@ -111,7 +111,7 @@ theorem nativeC60BVShiftGen_injective
   have hp :
       (nativeC60BVGeneratorCode S F g).2 =
         (nativeC60BVGeneratorCode S F h).2 :=
-    congrArg Prod.snd hc
+    congrArg (fun code : NativeC60BVGeneratorCode S => code.2) hc
   exact Prod.ext hw hp
 
 /-- Full Hom faithfulness can be checked entirely on REAL original
