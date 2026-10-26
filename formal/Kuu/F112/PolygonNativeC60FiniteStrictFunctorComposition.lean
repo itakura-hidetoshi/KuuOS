@@ -143,7 +143,7 @@ theorem nativeK5BFPhysicalStrictContext_composed_peiffer
     (outer inner : List Bool)
     (c : (nativeK5AXBaseLayer W).Total) :
     nativeK5AXPeiffer W
-      (((nativeK5BDPhysicalStrictContext W inner ⋙
+      ((nativeK5BDPhysicalStrictContext W inner ⋙
         nativeK5BDPhysicalStrictContext W outer).obj
         ((nativeC60AZStrictProject (nativeK5BCSignature W)
           (nativeC60AZNoRelations (nativeK5BCSignature W))).obj ⟨c⟩)).as.val =
