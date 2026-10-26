@@ -209,6 +209,25 @@ def NativeC60BXStrictFreeFaithful
     (nativeC60BWFreeStrictHolonomy S F).map f =
       (nativeC60BWFreeStrictHolonomy S F).map g → f = g
 
+/-- Exact strict functor reading of a REAL original sixteen-
+dimensional higher comparison, rather than an inferred scalar
+projection. We use this explicit interface to avoid rewriting
+dependent quotient functor expressions by heuristic simplification. -/
+theorem nativeC60BXFreeStrictHolonomy_step
+    {L : NativeC60AXLayer.{u}}
+    (S : NativeC60AXSignature L) (F : Bool → NativeC60BCFrame L)
+    {a b : L.Total}
+    (c : NativeC60AXStep (nativeC60BCClosedSignature S F) a b) :
+    (nativeC60BWFreeStrictHolonomy S F).map
+        (nativeC60AZStrictStep (nativeC60BCClosedSignature S F)
+          (nativeC60AZNoRelations (nativeC60BCClosedSignature S F)) c) =
+      MulOpposite.op (nativeC60BWFreeHolonomy S F c) :=
+  nativeC60AZStrictHolonomy_arrow
+    (nativeC60BCClosedSignature S F)
+    (nativeC60AZNoRelations (nativeC60BCClosedSignature S F))
+    (nativeC60BWFreeWeight S F)
+    (nativeC60BWFreeWeight_noRelations_sound S F) c
+
 /-- Necessary-and-sufficient completeness criterion by actual BA
 representability of all strict higher arrows. This statement does
 NOT assume or assert that the criterion itself holds. -/
@@ -225,19 +244,18 @@ theorem nativeC60BXFullFreeComplete_iff_strict_faithful
     obtain ⟨d, rfl⟩ := nativeC60BAStep_surjective T R a b g
     apply (nativeC60AZStrictStep_exact T R c d).mpr
     apply complete c d
-    have hw : MulOpposite.op (nativeC60BWFreeHolonomy S F c) =
-        MulOpposite.op (nativeC60BWFreeHolonomy S F d) := by
-      simpa only [nativeC60BWFreeStrictHolonomy,
-        nativeC60AZStrictHolonomy_arrow] using hmap
-    exact congrArg MulOpposite.unop hw
+    rw [nativeC60BXFreeStrictHolonomy_step S F c,
+      nativeC60BXFreeStrictHolonomy_step S F d] at hmap
+    exact congrArg MulOpposite.unop hmap
   · intro faithful a b c d hw
     apply (nativeC60AZStrictStep_exact T R c d).mp
     apply faithful
     have hh : MulOpposite.op (nativeC60BWFreeHolonomy S F c) =
         MulOpposite.op (nativeC60BWFreeHolonomy S F d) :=
       congrArg MulOpposite.op hw
-    simpa only [nativeC60BWFreeStrictHolonomy,
-      nativeC60AZStrictHolonomy_arrow] using hh
+    rw [nativeC60BXFreeStrictHolonomy_step S F c,
+      nativeC60BXFreeStrictHolonomy_step S F d]
+    exact hh
 
 /-- The complete missing obstruction as an EXISTENTIAL pair of
 different strict bridges with identical full noncommutative words.
@@ -262,7 +280,7 @@ theorem nativeC60BXFullFreeComplete_iff_no_invisible_gap
     by_contra hne
     exact hgap ⟨a, b, c, d, hne, heq⟩
 
-/-- If and ONLY IF the still-open complete higher-word reflection
+/-- If the still-open complete higher-word reflection
 obligation is established, BW's unconditional free-word transport
 proves faithful strict bridge transport for EVERY finite AQ context.
 This implication does not insert the obligation as a new axiom. -/
@@ -359,6 +377,7 @@ end PhysicalC60
 #print axioms nativeC60BXAtomicFreeComplete
 #print axioms nativeC60BXAtomicContext_replaceable_iff
 #print axioms nativeC60BXAtomicContext_strict_eq_iff
+#print axioms nativeC60BXFreeStrictHolonomy_step
 #print axioms nativeC60BXFullFreeComplete_iff_strict_faithful
 #print axioms nativeC60BXFullFreeComplete_iff_no_invisible_gap
 #print axioms nativeC60BXComplete_implies_all_context_faithful
