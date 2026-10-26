@@ -191,9 +191,9 @@ theorem nativeC60BYPositiveFreeWord_injective
       (nativeC60BYPositiveSigned S ys)
       (nativeC60BYPositiveSigned_reduced S xs)
       (nativeC60BYPositiveSigned_reduced S ys) h
-  exact (List.map_injective
+  exact (List.map_inj_right
     (fun (a b : NativeC60BVGeneratorCode S)
-      (h : (a, true) = (b, true)) => (Prod.mk.inj h).1)) hs
+      (h : (a, true) = (b, true)) => (Prod.mk.inj h).1)).mp hs
 
 /-- The fully typed vertical composite of TWO independent genuine
 BC primitive 16D generators evaluates to the exact ordered TWO-LETTER
