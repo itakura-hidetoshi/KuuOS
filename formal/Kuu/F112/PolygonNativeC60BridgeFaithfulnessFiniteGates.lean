@@ -71,7 +71,6 @@ theorem nativeC60BVGeneratorCode_injective
   intro g h heq
   rcases g with ⟨wg, ag, bg, ⟨gg, hxg, hyg⟩⟩
   rcases h with ⟨wh, ah, bh, ⟨gh, hxh, hyh⟩⟩
-  change (wg, ⟨ag, bg, gg⟩) = (wh, ⟨ah, bh, gh⟩) at heq
   cases heq
   rfl
 
@@ -105,9 +104,15 @@ theorem nativeC60BVShiftGen_injective
   have hc := congrArg (nativeC60BVGeneratorCode S F) heq
   rw [nativeC60BVGeneratorCode_shift S F word g,
     nativeC60BVGeneratorCode_shift S F word h] at hc
-  apply Prod.ext
-  · exact (List.append_right_inj word).mp (congrArg Prod.fst hc)
-  · exact congrArg Prod.snd hc
+  have hw :
+      (nativeC60BVGeneratorCode S F g).1 =
+        (nativeC60BVGeneratorCode S F h).1 :=
+    (List.append_right_inj word).mp (congrArg Prod.fst hc)
+  have hp :
+      (nativeC60BVGeneratorCode S F g).2 =
+        (nativeC60BVGeneratorCode S F h).2 :=
+    congrArg Prod.snd hc
+  exact Prod.ext hw hp
 
 /-- Full Hom faithfulness can be checked entirely on REAL original
 raw16D comparison pairs, because BA proves each strict arrow has a
@@ -199,7 +204,8 @@ theorem nativeC60BVNoRelations_nil_faithful
   intro a b f g h
   change (nativeC60BDNoRelations_strictFunctor S F []).map f =
     (nativeC60BDNoRelations_strictFunctor S F []).map g at h
-  simpa only [nativeC60BFStrictFunctor_nil, Functor.id_map] using h
+  rw [nativeC60BFStrictFunctor_nil S F] at h
+  exact h
 
 /-- FINITE REDUCTION: full strict-Hom faithfulness for ALL genuine AQ
 words is EQUIVALENT to the two TRUE physical singleton gates.
@@ -236,7 +242,8 @@ theorem nativeC60BVNoRelations_all_faithful_iff_letters
                 ((nativeC60BDNoRelations_strictFunctor S F rest).map f) =
               (nativeC60BDNoRelations_strictFunctor S F [side]).map
                 ((nativeC60BDNoRelations_strictFunctor S F rest).map g) := by
-          simpa only [nativeC60BFStrictFunctor_cons, Functor.comp_map] using h
+          rw [nativeC60BFStrictFunctor_cons S F side rest] at h
+          exact h
         have hinner :
             (nativeC60BDNoRelations_strictFunctor S F rest).map f =
               (nativeC60BDNoRelations_strictFunctor S F rest).map g := by
