@@ -358,6 +358,64 @@ theorem nativeK5BDPhysicalStrictContext_obj_append
         (nativeC60AZNoRelations (nativeK5BCSignature W))).obj ⟨x⟩)
     (nativeC60BCContextTotal_append (nativeK5BCFrame W) outer inner c).symm
 
+/-- The genuine C60 strict functor is covariant on the original
+NONCOMMUTATIVE AS Peiffer kernel at every raw proof-carrying object. This is
+an equality in the normal Peiffer group, not a replacement relation. -/
+theorem nativeK5BDPhysicalStrictContext_peiffer
+    (W : NativeK5StructuralThirteenCell p U V)
+    (steps : List Bool)
+    (c : (nativeK5AXBaseLayer W).Total) :
+    nativeK5AXPeiffer W
+      ((nativeK5BDPhysicalStrictContext W steps).obj
+        ((nativeC60AZStrictProject (nativeK5BCSignature W)
+          (nativeC60AZNoRelations (nativeK5BCSignature W))).obj ⟨c⟩)).as.val =
+      nativeK5ASPeifferAct W (nativeK5ATGaugeWord W steps)
+        (nativeK5AXPeiffer W c) := by
+  change nativeK5AXPeiffer W (nativeK5BCContext W steps c) =
+    nativeK5ASPeifferAct W (nativeK5ATGaugeWord W steps)
+      (nativeK5AXPeiffer W c)
+  exact nativeK5BCContext_peiffer W steps c
+
+/-- The actual physical BC signature makes BB's binary exchange problem
+a precise necessary-and-sufficient *selected replacement* condition.
+No binary whiskering is fabricated from the unary context functors. -/
+theorem nativeK5BDPhysicalMiddleFour_iff_replaceable
+    (W : NativeK5StructuralThirteenCell p U V)
+    (Hh : NativeC60BBWhiskering (nativeK5BCSignature W))
+    (hf : NativeC60BBWhiskeringFunctorial
+      (nativeK5BCSignature W)
+      (nativeC60AZNoRelations (nativeK5BCSignature W)) Hh) :
+    (∀ {a b e c d k : (nativeK5AXBaseLayer W).Total}
+      (f : NativeC60AXStep (nativeK5BCSignature W) a b)
+      (f' : NativeC60AXStep (nativeK5BCSignature W) b e)
+      (g : NativeC60AXStep (nativeK5BCSignature W) c d)
+      (g' : NativeC60AXStep (nativeK5BCSignature W) d k),
+      nativeC60AZStrictStep (nativeK5BCSignature W)
+          (nativeC60AZNoRelations (nativeK5BCSignature W))
+          (nativeC60BBHorizontalRL Hh (.trans f f') (.trans g g')) =
+        nativeC60AZStrictStep (nativeK5BCSignature W)
+          (nativeC60AZNoRelations (nativeK5BCSignature W))
+          (nativeC60BBHorizontalRL Hh f g) ≫
+        nativeC60AZStrictStep (nativeK5BCSignature W)
+          (nativeC60AZNoRelations (nativeK5BCSignature W))
+          (nativeC60BBHorizontalRL Hh f' g')) ↔
+      ∀ {a b c d : (nativeK5AXBaseLayer W).Total}
+        (f : NativeC60AXStep (nativeK5BCSignature W) a b)
+        (g : NativeC60AXStep (nativeK5BCSignature W) c d),
+        Kuu.Replaceable (nativeC60AZStrictRelations
+          (nativeK5BCSignature W)
+          (nativeC60AZNoRelations (nativeK5BCSignature W)))
+          (nativeC60AZRawArrow (nativeK5BCSignature W)
+            (nativeC60BBHorizontalRL Hh f g))
+          (nativeC60AZRawArrow (nativeK5BCSignature W)
+            (nativeC60BBHorizontalLR Hh f g)) :=
+  (nativeC60BBHorizontal_middleFour_iff
+      (nativeK5BCSignature W)
+      (nativeC60AZNoRelations (nativeK5BCSignature W)) Hh hf).trans
+    (nativeC60BBPeiffer_iff_replaceable
+      (nativeK5BCSignature W)
+      (nativeC60AZNoRelations (nativeK5BCSignature W)) Hh)
+
 /-- Next independently selected higher generators still determine the EXACT
 remaining descent condition on physical C60 strict arrows. -/
 theorem nativeK5BDPhysicalNextContext_iff
@@ -405,6 +463,8 @@ end PhysicalC60
 #print axioms nativeK5BDPhysicalStrictContext_arrow
 #print axioms nativeK5BDContextualStrictObjects_ne
 #print axioms nativeK5BDPhysicalStrictContext_obj_append
+#print axioms nativeK5BDPhysicalStrictContext_peiffer
+#print axioms nativeK5BDPhysicalMiddleFour_iff_replaceable
 #print axioms nativeK5BDPhysicalNextContext_iff
 
 end
