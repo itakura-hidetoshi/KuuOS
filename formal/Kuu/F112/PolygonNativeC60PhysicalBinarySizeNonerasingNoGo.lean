@@ -199,7 +199,7 @@ theorem nativeK5BPNonerasing_no_singleton_BG
     (nativeK5BPIter W side n x)
   rw [nativeK5BPSourceSize_iter W side n (Hh.obj x x)] at hsz
   rw [nativeK5BPSourceSize_iter W side n x] at hbound
-  rw [hsz] at hbound
+  rw [← hsz] at hbound
   have hcost : 1 ≤ nativeK5BPFrameCost W side :=
     nativeK5BPFrameCost_pos W side
   have hiter : n ≤ n * nativeK5BPFrameCost W side := by
