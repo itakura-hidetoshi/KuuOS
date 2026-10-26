@@ -190,10 +190,19 @@ theorem nativeC60AZStrictObserver_iff {C : Type v} [Category.{w} C]
         Kuu.Respects (NativeC60AZStrictRel S R) F := by
   constructor
   · rintro ⟨H, hF⟩ x y f g hr
-    have heq := congrArg (fun k => H.map k)
-      (Kuu.declared_replacement (NativeC60AZStrictRel S R) hr)
-    rw [← hF]
-    exact heq
+    have heq :
+        H.map ((nativeC60AZStrictProject S R).map f) =
+          H.map ((nativeC60AZStrictProject S R).map g) :=
+      congrArg
+        (fun k : (nativeC60AZStrictProject S R).obj x ⟶
+            (nativeC60AZStrictProject S R).obj y => H.map k)
+        (Kuu.declared_replacement (NativeC60AZStrictRel S R) hr)
+    have hh :
+        (nativeC60AZStrictProject S R ⋙ H).map f =
+          (nativeC60AZStrictProject S R ⋙ H).map g := by
+      simpa only [Functor.comp_map] using heq
+    rw [hF] at hh
+    exact hh
   · intro h
     exact ⟨Kuu.descend _ F h, Kuu.descend_spec _ F h⟩
 
