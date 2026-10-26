@@ -69,14 +69,14 @@ inductive NativeC60AZStrictRel {L : NativeC60AXLayer.{u}}
   | compose {x y z : L.Total} (c : NativeC60AXStep S x y)
       (d : NativeC60AXStep S y z) : NativeC60AZStrictRel S R
       (nativeC60AZRawArrow S (.trans c d))
-      (nativeC60AZRawArrow S c ≫ nativeC60AZRawArrow S d)
+      ((nativeC60AZRawArrow S c).comp (nativeC60AZRawArrow S d))
   | inverseLeft {x y : L.Total} (c : NativeC60AXStep S x y) :
       NativeC60AZStrictRel S R
-        (nativeC60AZRawArrow S c ≫ nativeC60AZRawArrow S (.symm c))
+        ((nativeC60AZRawArrow S c).comp (nativeC60AZRawArrow S (.symm c)))
         (Quiver.Path.nil : Quiver.Path (⟨x⟩ : NativeC60AZStrictObj S) ⟨x⟩)
   | inverseRight {x y : L.Total} (c : NativeC60AXStep S x y) :
       NativeC60AZStrictRel S R
-        (nativeC60AZRawArrow S (.symm c) ≫ nativeC60AZRawArrow S c)
+        ((nativeC60AZRawArrow S (.symm c)).comp (nativeC60AZRawArrow S c))
         (Quiver.Path.nil : Quiver.Path (⟨y⟩ : NativeC60AZStrictObj S) ⟨y⟩)
   | declared {x y : L.Total} {c d : NativeC60AXStep S x y} (h : R c d) :
       NativeC60AZStrictRel S R (nativeC60AZRawArrow S c) (nativeC60AZRawArrow S d)
@@ -114,7 +114,7 @@ theorem nativeC60AZStrictStep_comp {x y z : L.Total}
       nativeC60AZStrictStep S R c ≫ nativeC60AZStrictStep S R d := by
   calc
     _ = (nativeC60AZStrictProject S R).map
-        (nativeC60AZRawArrow S c ≫ nativeC60AZRawArrow S d) :=
+        ((nativeC60AZRawArrow S c).comp (nativeC60AZRawArrow S d)) :=
       Kuu.declared_replacement (NativeC60AZStrictRel S R) (.compose c d)
     _ = _ := (nativeC60AZStrictProject S R).map_comp _ _
 
@@ -123,7 +123,7 @@ theorem nativeC60AZStrictStep_inv_left {x y : L.Total} (c : NativeC60AXStep S x 
       𝟙 ((nativeC60AZStrictProject S R).obj ⟨x⟩) := by
   calc
     _ = (nativeC60AZStrictProject S R).map
-        (nativeC60AZRawArrow S c ≫ nativeC60AZRawArrow S (.symm c)) :=
+        ((nativeC60AZRawArrow S c).comp (nativeC60AZRawArrow S (.symm c))) :=
       ((nativeC60AZStrictProject S R).map_comp _ _).symm
     _ = (nativeC60AZStrictProject S R).map (Quiver.Path.nil : Quiver.Path (⟨x⟩ : NativeC60AZStrictObj S) ⟨x⟩) :=
       Kuu.declared_replacement (NativeC60AZStrictRel S R) (.inverseLeft c)
@@ -134,7 +134,7 @@ theorem nativeC60AZStrictStep_inv_right {x y : L.Total} (c : NativeC60AXStep S x
       𝟙 ((nativeC60AZStrictProject S R).obj ⟨y⟩) := by
   calc
     _ = (nativeC60AZStrictProject S R).map
-        (nativeC60AZRawArrow S (.symm c) ≫ nativeC60AZRawArrow S c) :=
+        ((nativeC60AZRawArrow S (.symm c)).comp (nativeC60AZRawArrow S c)) :=
       ((nativeC60AZStrictProject S R).map_comp _ _).symm
     _ = (nativeC60AZStrictProject S R).map (Quiver.Path.nil : Quiver.Path (⟨y⟩ : NativeC60AZStrictObj S) ⟨y⟩) :=
       Kuu.declared_replacement (NativeC60AZStrictRel S R) (.inverseRight c)
