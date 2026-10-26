@@ -45,6 +45,8 @@ theorem nativeC60BEShiftGen_cons {L : NativeC60AXLayer.{u}}
       nativeC60BCShiftGen S F [side]
         (nativeC60BCShiftGen S F rest g) := by
   rcases g with ⟨inner, a, b, ⟨gen, hx, hy⟩⟩
+  cases hx
+  cases hy
   rfl
 
 /-- Identity context acts as the ACTUAL identity on Type-valued
@@ -59,15 +61,18 @@ theorem nativeC60BEMapClosedStep_nil {L : NativeC60AXLayer.{u}}
       change NativeC60AXStep.atom (nativeC60BCShiftGen S F [] g) =
         NativeC60AXStep.atom g
       rw [nativeC60BEShiftGen_nil S F g]
+      rfl
   | refl _ => rfl
   | symm c ih =>
       change NativeC60AXStep.symm (nativeC60BCMapClosedStep S F [] c) =
         NativeC60AXStep.symm c
       rw [ih]
+      rfl
   | trans c d ih ik =>
       change NativeC60AXStep.trans (nativeC60BCMapClosedStep S F [] c)
           (nativeC60BCMapClosedStep S F [] d) = NativeC60AXStep.trans c d
       rw [ih, ik]
+      rfl
 
 /-- Arbitrary long contexts admit an exact raw one-letter recursion on
 EVERY typed 16D comparison, including inverse and vertical composites. -/
@@ -85,6 +90,7 @@ theorem nativeC60BEMapClosedStep_cons {L : NativeC60AXLayer.{u}}
         NativeC60AXStep.atom
           (nativeC60BCShiftGen S F [side] (nativeC60BCShiftGen S F rest g))
       rw [nativeC60BEShiftGen_cons S F side rest g]
+      rfl
   | refl _ => rfl
   | symm c ih =>
       change NativeC60AXStep.symm (nativeC60BCMapClosedStep S F (side :: rest) c) =
@@ -92,6 +98,7 @@ theorem nativeC60BEMapClosedStep_cons {L : NativeC60AXLayer.{u}}
           (nativeC60BCMapClosedStep S F [side]
             (nativeC60BCMapClosedStep S F rest c))
       rw [ih]
+      rfl
   | trans c d ih ik =>
       change NativeC60AXStep.trans (nativeC60BCMapClosedStep S F (side :: rest) c)
           (nativeC60BCMapClosedStep S F (side :: rest) d) =
@@ -101,6 +108,7 @@ theorem nativeC60BEMapClosedStep_cons {L : NativeC60AXLayer.{u}}
           (nativeC60BCMapClosedStep S F [side]
             (nativeC60BCMapClosedStep S F rest d))
       rw [ih, ik]
+      rfl
 
 /-- The carrier keeps BOTH original 15D endpoints and the full
 strict 16D arrow. It is the previously proved BA arrow bundle. -/
@@ -171,15 +179,8 @@ theorem nativeC60BEArrowContext_cons {L : NativeC60AXLayer.{u}}
   rw [nativeC60BEArrowContext_realize S F rest]
   rw [nativeC60BEArrowContext_realize S F [side]]
   rw [nativeC60BEArrowContext_realize S F (side :: rest)]
-  change (⟨_, nativeC60AZStrictStep (nativeC60BCClosedSignature S F)
-      (nativeC60AZNoRelations (nativeC60BCClosedSignature S F))
-      (nativeC60BCMapClosedStep S F (side :: rest) c)⟩ :
-        NativeC60BEStrictArrowBundle S F) =
-    ⟨_, nativeC60AZStrictStep (nativeC60BCClosedSignature S F)
-      (nativeC60AZNoRelations (nativeC60BCClosedSignature S F))
-      (nativeC60BCMapClosedStep S F [side]
-        (nativeC60BCMapClosedStep S F rest c))⟩
   rw [nativeC60BEMapClosedStep_cons S F side rest c]
+  rfl
 
 /-- ONE proof by finite-context induction: genuine full-arrow action
 on the strict Kuu quotient obeys concatenation in the correct order. -/
