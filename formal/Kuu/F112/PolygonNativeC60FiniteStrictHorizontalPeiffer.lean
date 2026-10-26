@@ -293,6 +293,8 @@ theorem nativeC60BBHorizontal_middleFour {L : NativeC60AXLayer.{u}}
         nativeC60AZStrictStep S R (H.right f' c)) ≫
       (nativeC60AZStrictStep S R (H.left e g) ≫
         nativeC60AZStrictStep S R (H.left e g')) := by
+          change nativeC60AZStrictStep S R
+            (.trans (H.right (.trans f f') c) (H.left e (.trans g g'))) = _
           rw [nativeC60AZStrictStep_comp, hf.right_trans f f' c,
             hf.left_trans e g g']
     _ = nativeC60AZStrictStep S R (H.right f c) ≫
