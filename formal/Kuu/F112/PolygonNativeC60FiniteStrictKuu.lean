@@ -49,9 +49,9 @@ instance nativeC60AZStrictQuiver {L : NativeC60AXLayer.{u}}
 def nativeC60AZRawArrow {L : NativeC60AXLayer.{u}}
     (S : NativeC60AXSignature L) {x y : L.Total}
     (c : NativeC60AXStep S x y) :
-    (⟨x⟩ : Kuu.Raw (NativeC60AZStrictObj S)) ⟶
-      (⟨y⟩ : Kuu.Raw (NativeC60AZStrictObj S)) :=
-  (Paths.of (NativeC60AZStrictObj S)).map c
+    Quiver.Path (⟨x⟩ : NativeC60AZStrictObj S)
+      (⟨y⟩ : NativeC60AZStrictObj S) :=
+  Quiver.Hom.toPath c
 
 /-- Optional equalities only between comparisons with the same exact boundary. -/
 def NativeC60AZParallelRelation {L : NativeC60AXLayer.{u}}
@@ -61,7 +61,8 @@ def NativeC60AZParallelRelation {L : NativeC60AXLayer.{u}}
 /-- Declared laws, independent of numerical or group-valued evaluation. -/
 inductive NativeC60AZStrictRel {L : NativeC60AXLayer.{u}}
     (S : NativeC60AXSignature L) (R : NativeC60AZParallelRelation S) :
-    {x y : Kuu.Raw (NativeC60AZStrictObj S)} → (x ⟶ y) → (x ⟶ y) → Prop where
+    {x y : NativeC60AZStrictObj S} →
+      Quiver.Path x y → Quiver.Path x y → Prop where
   | ident (x : L.Total) : NativeC60AZStrictRel S R
       (nativeC60AZRawArrow S (.refl x))
         (𝟙 (⟨x⟩ : Kuu.Raw (NativeC60AZStrictObj S)))
@@ -345,7 +346,8 @@ False here means no optional declaration, not an identification of Kuu with abse
 def nativeC60AZNextRelations {L : NativeC60AXLayer.{u}}
     (S : NativeC60AXSignature L) :
     (N : Nat) → NativeC60AXPlan (nativeC60AXNext L S) N → NativeC60AZParallelRelation S
-  | 0, _ => fun {x y} (_c _d : NativeC60AXStep S x y) => False
+  | 0, _ => fun {a b : L.Total}
+      (_c : NativeC60AXStep S a b) (_d : NativeC60AXStep S a b) => False
   | _ + 1, p => nativeC60AZHigherRelations S p.1
 
 /-- Actual strict carrier, realization, and lower-boundary functor, not a
