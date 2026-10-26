@@ -127,8 +127,8 @@ theorem nativeC60BXAtomicFreeComplete
       (nativeC60BCClosedSignature S F)
       (nativeC60AZNoRelations (nativeC60BCClosedSignature S F))
       (.atom g) (.atom g)).mp rfl
-  · intro h
-    exact nativeC60BWFreeHolonomy_eq_of_replaceable S F (.atom g) (.atom h) h
+  · intro hrel
+    exact nativeC60BWFreeHolonomy_eq_of_replaceable S F (.atom g) (.atom h) hrel
 
 /-- Every finite AQ context reflects equality of two actual
 positive ATOMIC higher-generator strict arrows, not merely their
@@ -218,7 +218,7 @@ theorem nativeC60BXFullFreeComplete_iff_strict_faithful
     NativeC60BXFullFreeComplete S F ↔
       NativeC60BXStrictFreeFaithful S F := by
   let T := nativeC60BCClosedSignature S F
-  let R := nativeC60AZNoRelations T
+  let R : NativeC60AZParallelRelation T := nativeC60AZNoRelations T
   constructor
   · intro complete a b f g hmap
     obtain ⟨c, rfl⟩ := nativeC60BAStep_surjective T R a b f
