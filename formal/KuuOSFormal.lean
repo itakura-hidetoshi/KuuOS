@@ -138,6 +138,7 @@ import Kuu.F112.PolygonNativeC60PhysicalBinarySizeNonerasingNoGo
 import Kuu.F112.PolygonNativeC60SharedContextProofEnvelope
 import Kuu.F112.PolygonNativeC60SharedRawPairDescentObstruction
 import Kuu.F112.PolygonNativeC60BridgedHigherWhiskering
+import Kuu.F112.PolygonNativeC60BridgeChoiceStrictEquivalence
 import Kuu.F112.PolygonNativeF55P94DK5ShellingNoncommutativeGap
 import Kuu.F112.PolygonNativeF55P94DGaugeCovariantHolonomy
 import Kuu.F112.PolygonNativeC60PhysicalGaugeAtlas
