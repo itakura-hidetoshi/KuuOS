@@ -118,7 +118,7 @@ theorem nativeC60BZChainCodes_injective
     Function.Injective (fun p : NativeC60BZPositiveChain S F a tail =>
       nativeC60BZChainCodes S F p) := by
   intro p q h
-  induction p generalizing q with
+  induction p with
   | nil a =>
       cases q
       rfl
@@ -133,7 +133,7 @@ theorem nativeC60BZChainCodes_injective
           have hg : g = g' :=
             nativeC60BVGeneratorCode_injective S F hhead
           cases hg
-          have hrest : rest = rest' := ih rest' htail
+          have hrest : rest = rest' := ih htail
           cases hrest
           rfl
 
