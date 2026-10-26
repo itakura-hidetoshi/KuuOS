@@ -335,13 +335,9 @@ theorem nativeC60BBHorizontal_middleFour_iff {L : NativeC60AXLayer.{u}}
   constructor
   · intro h a b c d f g
     have hm := h (.refl a) f g (.refl d)
-    change nativeC60AZStrictStep S R (H.right f c) ≫
-        nativeC60AZStrictStep S R (H.left b g) =
-      nativeC60AZStrictStep S R (H.left a g) ≫
-        nativeC60AZStrictStep S R (H.right f d)
-    simpa only [nativeC60BBHorizontalRL, nativeC60AZStrictStep_comp,
-      hf.right_trans, hf.left_trans, hf.right_refl, hf.left_refl,
-      Category.id_comp, Category.comp_id] using hm
+    simpa only [nativeC60BBHorizontalRL, nativeC60BBHorizontalLR,
+      nativeC60AZStrictStep_comp, hf.right_trans, hf.left_trans,
+      hf.right_refl, hf.left_refl, Category.id_comp, Category.comp_id] using hm
   · intro hp a b e c d k f f' g g'
     exact nativeC60BBHorizontal_middleFour S R H hf hp f f' g g'
 
