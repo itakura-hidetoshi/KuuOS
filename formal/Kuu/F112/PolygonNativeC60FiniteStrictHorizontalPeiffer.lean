@@ -241,6 +241,156 @@ theorem nativeC60BBStrictInterchange_iff {L : NativeC60AXLayer.{u}}
     unfold nativeC60BBStrictHorizontalRL nativeC60BBStrictHorizontalLR
     exact hp _ _
 
+/-- Separate functoriality of both whiskering directions. Even when the two
+directions descend, these unit/composition laws do NOT hold automatically. -/
+structure NativeC60BBWhiskeringFunctorial {L : NativeC60AXLayer.{u}}
+    (S : NativeC60AXSignature L) (R : NativeC60AZParallelRelation S)
+    (H : NativeC60BBWhiskering S) : Prop where
+  left_refl : ∀ (a x : L.Total),
+    nativeC60AZStrictStep S R (H.left a (.refl x)) =
+      𝟙 ((nativeC60AZStrictProject S R).obj ⟨H.obj a x⟩)
+  right_refl : ∀ (x a : L.Total),
+    nativeC60AZStrictStep S R (H.right (.refl x) a) =
+      𝟙 ((nativeC60AZStrictProject S R).obj ⟨H.obj x a⟩)
+  left_trans : ∀ (a : L.Total) {x y z : L.Total}
+    (f : NativeC60AXStep S x y) (g : NativeC60AXStep S y z),
+    nativeC60AZStrictStep S R (H.left a (.trans f g)) =
+      nativeC60AZStrictStep S R (H.left a f) ≫
+        nativeC60AZStrictStep S R (H.left a g)
+  right_trans : ∀ {x y z : L.Total}
+    (f : NativeC60AXStep S x y) (g : NativeC60AXStep S y z)
+    (a : L.Total),
+    nativeC60AZStrictStep S R (H.right (.trans f g) a) =
+      nativeC60AZStrictStep S R (H.right f a) ≫
+        nativeC60AZStrictStep S R (H.right g a)
+
+/-- Proper middle-four: interchange of horizontal with vertical composites.
+The proof genuinely uses both whiskering functorialities AND the Peiffer square.
+It does not promote unproved raw equality to strict equality. -/
+theorem nativeC60BBHorizontal_middleFour {L : NativeC60AXLayer.{u}}
+    (S : NativeC60AXSignature L) (R : NativeC60AZParallelRelation S)
+    (H : NativeC60BBWhiskering S)
+    (hf : NativeC60BBWhiskeringFunctorial S R H)
+    (hp : NativeC60BBPeifferSound S R H)
+    {a b e c d k : L.Total}
+    (f : NativeC60AXStep S a b) (f' : NativeC60AXStep S b e)
+    (g : NativeC60AXStep S c d) (g' : NativeC60AXStep S d k) :
+    nativeC60AZStrictStep S R
+        (nativeC60BBHorizontalRL H (.trans f f') (.trans g g')) =
+      nativeC60AZStrictStep S R (nativeC60BBHorizontalRL H f g) ≫
+        nativeC60AZStrictStep S R (nativeC60BBHorizontalRL H f' g') := by
+  have hpe :
+      nativeC60AZStrictStep S R (H.right f' c) ≫
+          nativeC60AZStrictStep S R (H.left e g) =
+        nativeC60AZStrictStep S R (H.left b g) ≫
+          nativeC60AZStrictStep S R (H.right f' d) := by
+    simpa only [nativeC60BBHorizontalRL, nativeC60BBHorizontalLR,
+      nativeC60AZStrictStep_comp] using hp f' g
+  calc
+    nativeC60AZStrictStep S R
+        (nativeC60BBHorizontalRL H (.trans f f') (.trans g g')) =
+      (nativeC60AZStrictStep S R (H.right f c) ≫
+        nativeC60AZStrictStep S R (H.right f' c)) ≫
+      (nativeC60AZStrictStep S R (H.left e g) ≫
+        nativeC60AZStrictStep S R (H.left e g')) := by
+          rw [nativeC60AZStrictStep_comp, hf.right_trans f f' c,
+            hf.left_trans e g g']
+    _ = nativeC60AZStrictStep S R (H.right f c) ≫
+        ((nativeC60AZStrictStep S R (H.right f' c) ≫
+            nativeC60AZStrictStep S R (H.left e g)) ≫
+          nativeC60AZStrictStep S R (H.left e g')) := by
+          simp only [Category.assoc]
+    _ = nativeC60AZStrictStep S R (H.right f c) ≫
+        ((nativeC60AZStrictStep S R (H.left b g) ≫
+            nativeC60AZStrictStep S R (H.right f' d)) ≫
+          nativeC60AZStrictStep S R (H.left e g')) := by
+          rw [hpe]
+    _ = (nativeC60AZStrictStep S R (H.right f c) ≫
+            nativeC60AZStrictStep S R (H.left b g)) ≫
+          (nativeC60AZStrictStep S R (H.right f' d) ≫
+            nativeC60AZStrictStep S R (H.left e g')) := by
+          simp only [Category.assoc]
+    _ = nativeC60AZStrictStep S R (nativeC60BBHorizontalRL H f g) ≫
+          nativeC60AZStrictStep S R (nativeC60BBHorizontalRL H f' g') := by
+          simp only [nativeC60BBHorizontalRL, nativeC60AZStrictStep_comp]
+
+/-- The horizontal strict arrow preserves the pair of identities when
+both actual whiskerings preserve identities. -/
+theorem nativeC60BBStrictHorizontal_id {L : NativeC60AXLayer.{u}}
+    (S : NativeC60AXSignature L) (R : NativeC60AZParallelRelation S)
+    (H : NativeC60BBWhiskering S)
+    (hc : NativeC60BBWhiskeringCongruent S R H)
+    (hf : NativeC60BBWhiskeringFunctorial S R H)
+    (a c : L.Total) :
+    nativeC60BBStrictHorizontalRL S R H hc
+        (𝟙 ((nativeC60AZStrictProject S R).obj ⟨a⟩))
+        (𝟙 ((nativeC60AZStrictProject S R).obj ⟨c⟩)) =
+      𝟙 ((nativeC60AZStrictProject S R).obj ⟨H.obj a c⟩) := by
+  have hu :
+      nativeC60AZStrictStep S R
+        (nativeC60BBHorizontalRL H (.refl a) (.refl c)) =
+        𝟙 ((nativeC60AZStrictProject S R).obj ⟨H.obj a c⟩) := by
+    change nativeC60AZStrictStep S R
+      (.trans (H.right (.refl a) c) (H.left a (.refl c))) = _
+    rw [nativeC60AZStrictStep_comp, hf.right_refl, hf.left_refl, Category.id_comp]
+  calc
+    nativeC60BBStrictHorizontalRL S R H hc
+        (𝟙 ((nativeC60AZStrictProject S R).obj ⟨a⟩))
+        (𝟙 ((nativeC60AZStrictProject S R).obj ⟨c⟩)) =
+      nativeC60BBStrictHorizontalRL S R H hc
+        (nativeC60AZStrictStep S R (.refl a))
+        (nativeC60AZStrictStep S R (.refl c)) := by
+          rw [nativeC60AZStrictStep_refl, nativeC60AZStrictStep_refl]
+    _ = nativeC60AZStrictStep S R
+        (nativeC60BBHorizontalRL H (.refl a) (.refl c)) :=
+          nativeC60BBStrictHorizontalRL_raw S R H hc _ _
+    _ = _ := hu
+
+/-- Genuine all-hom-set middle-four interchange, not merely equality of
+the two uncomposed Peiffer paths. BA representatives remove arbitrary
+choices; the interchange equation is proved after strict realization. -/
+theorem nativeC60BBStrictHorizontal_comp {L : NativeC60AXLayer.{u}}
+    (S : NativeC60AXSignature L) (R : NativeC60AZParallelRelation S)
+    (H : NativeC60BBWhiskering S)
+    (hc : NativeC60BBWhiskeringCongruent S R H)
+    (hf : NativeC60BBWhiskeringFunctorial S R H)
+    (hp : NativeC60BBPeifferSound S R H)
+    {a b e c d k : L.Total}
+    (f : (nativeC60AZStrictProject S R).obj ⟨a⟩ ⟶
+      (nativeC60AZStrictProject S R).obj ⟨b⟩)
+    (f' : (nativeC60AZStrictProject S R).obj ⟨b⟩ ⟶
+      (nativeC60AZStrictProject S R).obj ⟨e⟩)
+    (g : (nativeC60AZStrictProject S R).obj ⟨c⟩ ⟶
+      (nativeC60AZStrictProject S R).obj ⟨d⟩)
+    (g' : (nativeC60AZStrictProject S R).obj ⟨d⟩ ⟶
+      (nativeC60AZStrictProject S R).obj ⟨k⟩) :
+    nativeC60BBStrictHorizontalRL S R H hc (f ≫ f') (g ≫ g') =
+      nativeC60BBStrictHorizontalRL S R H hc f g ≫
+        nativeC60BBStrictHorizontalRL S R H hc f' g' := by
+  obtain ⟨f₀, rfl⟩ := nativeC60BAStep_surjective S R a b f
+  obtain ⟨f₁, rfl⟩ := nativeC60BAStep_surjective S R b e f'
+  obtain ⟨g₀, rfl⟩ := nativeC60BAStep_surjective S R c d g
+  obtain ⟨g₁, rfl⟩ := nativeC60BAStep_surjective S R d k g'
+  calc
+    nativeC60BBStrictHorizontalRL S R H hc
+        (nativeC60AZStrictStep S R f₀ ≫ nativeC60AZStrictStep S R f₁)
+        (nativeC60AZStrictStep S R g₀ ≫ nativeC60AZStrictStep S R g₁) =
+      nativeC60BBStrictHorizontalRL S R H hc
+        (nativeC60AZStrictStep S R (.trans f₀ f₁))
+        (nativeC60AZStrictStep S R (.trans g₀ g₁)) := by
+          rw [nativeC60AZStrictStep_comp, nativeC60AZStrictStep_comp]
+    _ = nativeC60AZStrictStep S R
+        (nativeC60BBHorizontalRL H (.trans f₀ f₁) (.trans g₀ g₁)) :=
+          nativeC60BBStrictHorizontalRL_raw S R H hc _ _
+    _ = nativeC60AZStrictStep S R (nativeC60BBHorizontalRL H f₀ g₀) ≫
+          nativeC60AZStrictStep S R (nativeC60BBHorizontalRL H f₁ g₁) :=
+          nativeC60BBHorizontal_middleFour S R H hf hp f₀ f₁ g₀ g₁
+    _ = nativeC60BBStrictHorizontalRL S R H hc
+          (nativeC60AZStrictStep S R f₀) (nativeC60AZStrictStep S R g₀) ≫
+        nativeC60BBStrictHorizontalRL S R H hc
+          (nativeC60AZStrictStep S R f₁) (nativeC60AZStrictStep S R g₁) := by
+          rw [nativeC60BBStrictHorizontalRL_raw, nativeC60BBStrictHorizontalRL_raw]
+
 /-- A noncommutative receiver can witness failure, but it never DEFINES
 the strict quotient or its selected replacement relation. -/
 theorem nativeC60BBPeiffer_holonomy_obstruction
@@ -351,6 +501,10 @@ end PhysicalC60
 #print axioms NativeC60BBPeifferSound
 #print axioms nativeC60BBPeiffer_iff_replaceable
 #print axioms nativeC60BBStrictInterchange_iff
+#print axioms NativeC60BBWhiskeringFunctorial
+#print axioms nativeC60BBHorizontal_middleFour
+#print axioms nativeC60BBStrictHorizontal_id
+#print axioms nativeC60BBStrictHorizontal_comp
 #print axioms nativeC60BBPeiffer_holonomy_obstruction
 #print axioms nativeC60BBUpperGenerator_left
 #print axioms nativeC60BBUpperGenerator_right
