@@ -55,16 +55,13 @@ theorem nativeC60BEShiftGen_cons {L : NativeC60AXLayer.{u}}
     nativeC60BCShiftGen S F (side :: rest) g =
       nativeC60BCShiftGen S F [side]
         (nativeC60BCShiftGen S F rest g) := by
-  rcases g with ⟨inner, a, b, ⟨gen, hx, hy⟩⟩
-  cases hx
-  cases hy
-  -- The word component is reduced by the actual BC shift equation.
-  apply Sigma.ext
-  · rw [nativeC60BEShiftGen_word, nativeC60BEShiftGen_word,
-      nativeC60BEShiftGen_word]
-    rfl
-  · simp only [nativeC60BCShiftGen]
-    exact HEq.rfl
+  rcases g with ⟨inner, a, b, ⟨gen, hxy⟩⟩
+  cases hxy with
+  | intro hx hy =>
+      cases hx
+      cases hy
+      -- The internal And.rec now reduces on its actual constructor.
+      simp only [nativeC60BCShiftGen]
 
 /-- Identity context acts as the ACTUAL identity on Type-valued
 AX higher syntax; no quotient or proof-term collapse is needed. -/
