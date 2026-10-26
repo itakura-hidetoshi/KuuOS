@@ -60,8 +60,15 @@ theorem nativeC60BEShiftGen_cons {L : NativeC60AXLayer.{u}}
   | intro hx hy =>
       cases hx
       cases hy
-      -- The internal And.rec now reduces on its actual constructor.
-      simp only [nativeC60BCShiftGen]
+      -- The SECOND shift also scrutinizes the proof pair produced by the
+      -- first shift. Make that proof pair a constructor before reduction.
+      cases (nativeC60BCShiftGen S F rest
+        (⟨inner, a, b, ⟨gen, rfl, rfl⟩⟩ :
+          (nativeC60BCClosedSignature S F).Gen
+            (nativeC60BCContextTotal F inner a)
+            (nativeC60BCContextTotal F inner b))).2.2.2.2 with
+      | intro _ _ =>
+          simp only [nativeC60BCShiftGen]
 
 /-- Identity context acts as the ACTUAL identity on Type-valued
 AX higher syntax; no quotient or proof-term collapse is needed. -/
