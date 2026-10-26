@@ -188,6 +188,23 @@ theorem nativeC60BCClosedObserver_sound {L : NativeC60AXLayer.{u}}
   rw [hx, hy]
   exact hcontext steps (hbase g)
 
+/-- Exact, rather than merely sufficient, condition for an observer to
+descend through the independently declared C60 context closure. -/
+theorem nativeC60BCClosedObserver_iff {L : NativeC60AXLayer.{u}}
+    (S : NativeC60AXSignature L) (F : Bool → NativeC60BCFrame L)
+    {B : Type v} (obs : L.Total → B) :
+    NativeC60AYRespects (nativeC60BCClosedSignature S F) obs ↔
+      ∀ (steps : List Bool) {a b : L.Total} (g : S.Gen a b),
+        obs (nativeC60BCContextTotal F steps a) =
+          obs (nativeC60BCContextTotal F steps b) := by
+  constructor
+  · intro h steps a b g
+    exact h (nativeC60BCGen S F steps g)
+  · intro h x y gen
+    rcases gen with ⟨steps, a, b, ⟨g, hx, hy⟩⟩
+    rw [hx, hy]
+    exact h steps g
+
 section PhysicalC60
 
 variable {D : Type uD} [Category.{vD} D]
@@ -322,6 +339,8 @@ theorem nativeK5BCSignature_peiffer
   · intro a b g
     exact nativeK5AXPeiffer_step_sound W (.atom g)
   · intro steps a b h
+    change nativeK5AXPeiffer W (nativeK5BCContext W steps a) =
+      nativeK5AXPeiffer W (nativeK5BCContext W steps b)
     rw [nativeK5BCContext_peiffer W steps a,
       nativeK5BCContext_peiffer W steps b]
     exact congrArg (nativeK5ASPeifferAct W (nativeK5ATGaugeWord W steps)) h
@@ -341,6 +360,69 @@ theorem nativeK5BCContextualNaturality_peiffer
         (nativeK5AXPack W (nativeK5AUNaturalityViaTarget W cell))) :=
   (nativeK5BCContextualNaturality W steps cell).observer_sound
     (nativeK5AXPeiffer W) (nativeK5BCSignature_peiffer W)
+
+/-- The original AX raw discriminator is invariant under BOTH actually
+constructed AQ whiskerings: no contextual action erases the first
+conservative-vs-exchange constructor of a 15D witness. -/
+theorem nativeK5BCLeading_whisker
+    (W : NativeK5StructuralThirteenCell p U V)
+    (side : Bool) {R S : NativeK5FifteenFourteenFiber W}
+    (cell : NativeK5AQFifteenCell W R S) :
+    nativeK5AXLeadingConservative W (nativeK5AQWhiskerCell W side cell) =
+      nativeK5AXLeadingConservative W cell := by
+  cases cell with
+  | conservative base => rfl
+  | exchange steps => rfl
+  | symm h => rfl
+  | trans h k =>
+      cases h <;> rfl
+
+theorem nativeK5BCLeading_context
+    (W : NativeK5StructuralThirteenCell p U V)
+    (steps : List Bool)
+    {R S : NativeK5FifteenFourteenFiber W}
+    (cell : NativeK5AQFifteenCell W R S) :
+    nativeK5AXLeadingConservative W (nativeK5AQContextCell W steps cell) =
+      nativeK5AXLeadingConservative W cell := by
+  induction steps with
+  | nil => rfl
+  | cons side rest ih =>
+      change nativeK5AXLeadingConservative W
+        (nativeK5AQWhiskerCell W side (nativeK5AQContextCell W rest cell)) =
+          nativeK5AXLeadingConservative W cell
+      rw [nativeK5BCLeading_whisker W side _, ih]
+
+/-- Although their noncommutative Peiffer evaluations agree, the actual
+two 15D AU naturality routes at the original AQ physical exchange remain
+DISTINCT raw proof terms after ANY finite word of genuine 14D contexts. -/
+theorem nativeK5BCContextualNaturality_raw_ne
+    (W : NativeK5StructuralThirteenCell p U V)
+    (steps : List Bool) :
+    nativeK5AQContextCell W steps
+        (nativeK5AUNaturalityViaSource W (nativeK5AQExchange W [])) ≠
+      nativeK5AQContextCell W steps
+        (nativeK5AUNaturalityViaTarget W (nativeK5AQExchange W [])) := by
+  intro heq
+  have ht := congrArg (nativeK5AXLeadingConservative W) heq
+  rw [nativeK5BCLeading_context W steps,
+      nativeK5BCLeading_context W steps] at ht
+  change true = false at ht
+  cases ht
+
+theorem nativeK5BCContextualPacked_raw_ne
+    (W : NativeK5StructuralThirteenCell p U V)
+    (steps : List Bool) :
+    nativeK5BCContext W steps
+        (nativeK5AXPack W
+          (nativeK5AUNaturalityViaSource W (nativeK5AQExchange W []))) ≠
+      nativeK5BCContext W steps
+        (nativeK5AXPack W
+          (nativeK5AUNaturalityViaTarget W (nativeK5AQExchange W []))) := by
+  rw [nativeK5BCContext_pack, nativeK5BCContext_pack]
+  intro h
+  have heq := congrArg
+    (fun c : (nativeK5AXBaseLayer W).Total => c.2.down) h
+  exact nativeK5BCContextualNaturality_raw_ne W steps heq
 
 /-- Any further finite tower of independently specified AX signatures
 inherits the ENTIRE original Peiffer boundary of this physical extension,
@@ -372,6 +454,7 @@ end PhysicalC60
 #print axioms nativeC60BCMapClosedStep_trans
 #print axioms nativeC60BCMapClosedStep_symm
 #print axioms nativeC60BCClosedObserver_sound
+#print axioms nativeC60BCClosedObserver_iff
 #print axioms nativeK5BCFrame
 #print axioms nativeK5BCContext
 #print axioms nativeK5BCContext_pack
@@ -383,6 +466,10 @@ end PhysicalC60
 #print axioms nativeK5BCContext_peiffer
 #print axioms nativeK5BCSignature_peiffer
 #print axioms nativeK5BCContextualNaturality_peiffer
+#print axioms nativeK5BCLeading_whisker
+#print axioms nativeK5BCLeading_context
+#print axioms nativeK5BCContextualNaturality_raw_ne
+#print axioms nativeK5BCContextualPacked_raw_ne
 #print axioms nativeK5BCFinitePeifferDescents
 
 end
