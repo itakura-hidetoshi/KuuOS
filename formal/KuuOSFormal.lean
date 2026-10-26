@@ -150,6 +150,7 @@ import Kuu.F112.PolygonNativeC60TypedSignedReducedReflection
 import Kuu.F112.PolygonNativeC60AllTypedSignedNormalization
 import Kuu.F112.PolygonNativeC60AllRawStrictReflection
 import Kuu.F112.PolygonNativeC60GeometricSixteenDescentObstruction
+import Kuu.F112.PolygonNativeC60TypedDiamondGeometricCoherence
 import Kuu.F112.PolygonNativeF55P94DK5ShellingNoncommutativeGap
 import Kuu.F112.PolygonNativeF55P94DGaugeCovariantHolonomy
 import Kuu.F112.PolygonNativeC60PhysicalGaugeAtlas
