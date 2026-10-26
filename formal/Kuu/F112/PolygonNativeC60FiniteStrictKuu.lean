@@ -288,27 +288,72 @@ theorem nativeC60AZRawHolonomy_respects_iff :
   · intro h x y f g rel
     cases rel with
     | ident a =>
-        rw [nativeC60AZRawHolonomy_arrow, (nativeC60AZRawHolonomy S weight).map_id]
+        rw [nativeC60AZRawHolonomy_arrow]
+        change MulOpposite.op (1 : G) = (1 : Gᵐᵒᵖ)
         rfl
     | compose c d =>
-        rw [(nativeC60AZRawHolonomy S weight).map_comp,
-          nativeC60AZRawHolonomy_arrow, nativeC60AZRawHolonomy_arrow,
-          nativeC60AZRawHolonomy_arrow]
-        rfl
+        have hc :
+            (nativeC60AZRawHolonomy S weight).map
+                ((nativeC60AZRawArrow S c).comp (nativeC60AZRawArrow S d)) =
+              (nativeC60AZRawHolonomy S weight).map (nativeC60AZRawArrow S c) ≫
+                (nativeC60AZRawHolonomy S weight).map (nativeC60AZRawArrow S d) :=
+          (nativeC60AZRawHolonomy S weight).map_comp _ _
+        calc
+          (nativeC60AZRawHolonomy S weight).map
+              (nativeC60AZRawArrow S (.trans c d)) =
+              MulOpposite.op
+                (nativeC60AZHolonomy S weight c * nativeC60AZHolonomy S weight d) := by
+                  rw [nativeC60AZRawHolonomy_arrow, nativeC60AZHolonomy_trans]
+          _ = (nativeC60AZRawHolonomy S weight).map (nativeC60AZRawArrow S c) ≫
+                (nativeC60AZRawHolonomy S weight).map (nativeC60AZRawArrow S d) := by
+                  simp only [nativeC60AZRawHolonomy_arrow]
+                  rfl
+          _ = (nativeC60AZRawHolonomy S weight).map
+                ((nativeC60AZRawArrow S c).comp (nativeC60AZRawArrow S d)) := hc.symm
     | inverseLeft c =>
-        rw [(nativeC60AZRawHolonomy S weight).map_comp,
-          nativeC60AZRawHolonomy_arrow, nativeC60AZRawHolonomy_arrow,
-          (nativeC60AZRawHolonomy S weight).map_id]
-        change MulOpposite.op (nativeC60AZHolonomy S weight c *
-          (nativeC60AZHolonomy S weight c)⁻¹) = MulOpposite.op (1 : G)
-        rw [mul_inv_cancel]
+        have hc :
+            (nativeC60AZRawHolonomy S weight).map
+                ((nativeC60AZRawArrow S c).comp
+                  (nativeC60AZRawArrow S (.symm c))) =
+              (nativeC60AZRawHolonomy S weight).map (nativeC60AZRawArrow S c) ≫
+                (nativeC60AZRawHolonomy S weight).map
+                  (nativeC60AZRawArrow S (.symm c)) :=
+          (nativeC60AZRawHolonomy S weight).map_comp _ _
+        calc
+          (nativeC60AZRawHolonomy S weight).map
+              ((nativeC60AZRawArrow S c).comp
+                (nativeC60AZRawArrow S (.symm c))) =
+              (nativeC60AZRawHolonomy S weight).map (nativeC60AZRawArrow S c) ≫
+                (nativeC60AZRawHolonomy S weight).map
+                  (nativeC60AZRawArrow S (.symm c)) := hc
+          _ = MulOpposite.op (nativeC60AZHolonomy S weight c *
+                (nativeC60AZHolonomy S weight c)⁻¹) := by
+                  simp only [nativeC60AZRawHolonomy_arrow, nativeC60AZHolonomy_symm]
+                  rfl
+          _ = (1 : Gᵐᵒᵖ) := by rw [mul_inv_cancel]; rfl
+          _ = (nativeC60AZRawHolonomy S weight).map Quiver.Path.nil := rfl
     | inverseRight c =>
-        rw [(nativeC60AZRawHolonomy S weight).map_comp,
-          nativeC60AZRawHolonomy_arrow, nativeC60AZRawHolonomy_arrow,
-          (nativeC60AZRawHolonomy S weight).map_id]
-        change MulOpposite.op ((nativeC60AZHolonomy S weight c)⁻¹ *
-          nativeC60AZHolonomy S weight c) = MulOpposite.op (1 : G)
-        rw [inv_mul_cancel]
+        have hc :
+            (nativeC60AZRawHolonomy S weight).map
+                ((nativeC60AZRawArrow S (.symm c)).comp
+                  (nativeC60AZRawArrow S c)) =
+              (nativeC60AZRawHolonomy S weight).map
+                  (nativeC60AZRawArrow S (.symm c)) ≫
+                (nativeC60AZRawHolonomy S weight).map (nativeC60AZRawArrow S c) :=
+          (nativeC60AZRawHolonomy S weight).map_comp _ _
+        calc
+          (nativeC60AZRawHolonomy S weight).map
+              ((nativeC60AZRawArrow S (.symm c)).comp
+                (nativeC60AZRawArrow S c)) =
+              (nativeC60AZRawHolonomy S weight).map
+                  (nativeC60AZRawArrow S (.symm c)) ≫
+                (nativeC60AZRawHolonomy S weight).map (nativeC60AZRawArrow S c) := hc
+          _ = MulOpposite.op ((nativeC60AZHolonomy S weight c)⁻¹ *
+                nativeC60AZHolonomy S weight c) := by
+                  simp only [nativeC60AZRawHolonomy_arrow, nativeC60AZHolonomy_symm]
+                  rfl
+          _ = (1 : Gᵐᵒᵖ) := by rw [inv_mul_cancel]; rfl
+          _ = (nativeC60AZRawHolonomy S weight).map Quiver.Path.nil := rfl
     | declared hcd =>
         rw [nativeC60AZRawHolonomy_arrow, nativeC60AZRawHolonomy_arrow]
         exact congrArg MulOpposite.op (h _ _ hcd)
@@ -454,7 +499,8 @@ theorem nativeK5AZStrictPhysicalLabel_survives (W : NativeK5StructuralThirteenCe
     let h : NativeC60AZWeightsRespect S R weight := by intro x y c d h; exact h.elim
     (nativeC60AZStrictHolonomy S R weight h).map
       (nativeC60AZStrictStep S R
-        (nativeK5AXDeclaredNaturality W (nativeK5AQExchange W []))) ≠ 1 := by
+        (nativeK5AXDeclaredNaturality W (nativeK5AQExchange W []))) ≠
+        (1 : (NativeK5ASPeifferKernel W)ᵐᵒᵖ) := by
   dsimp only
   rw [nativeC60AZStrictHolonomy_arrow]
   change (MulOpposite.op (nativeK5ASPhysicalDefect W []) :
