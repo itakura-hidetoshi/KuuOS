@@ -89,7 +89,7 @@ def nativeC60BRRawKernelSetoid {L : NativeC60AXLayer.{u}}
     Setoid (NativeC60BQSharedProof S F) where
   r z z' := nativeC60BRRawPair S F z = nativeC60BRRawPair S F z'
   iseqv := ⟨fun _ => rfl,
-    fun _ _ h => h.symm, fun _ _ _ h k => h.trans k⟩
+    fun h => h.symm, fun h k => h.trans k⟩
 
 /-- Proof-relevant exact raw-pair DESCENT target.
 No observational or Peiffer quotient has been inserted. -/
@@ -200,6 +200,23 @@ theorem nativeC60BRSourceBoundary_iff_exists {L : NativeC60AXLayer.{u}}
   · rintro ⟨out, hfirst, hsecond⟩
     exact hfirst.symm.trans hsecond
 
+/-- Exact raw sixteen-dimensional transport preserves a shared
+original lower source pair: BOTH typed 15D object projections matter. -/
+theorem nativeC60BRRawSourceBoundary_frame
+    {L : NativeC60AXLayer.{u}}
+    (S : NativeC60AXSignature L) (F : Bool → NativeC60BCFrame L)
+    (word : List Bool)
+    (q r : NativeC60BGRawArrowBundle S F)
+    (h : q.1.1.1 = r.1.1.1) :
+    (nativeC60BGRawContext S F word q).1.1.1 =
+      (nativeC60BGRawContext S F word r).1.1.1 := by
+  rcases q with ⟨⟨a, b⟩, cf⟩
+  rcases r with ⟨⟨c, d⟩, cg⟩
+  change a.1 = c.1 at h
+  change (nativeC60BCContextTotal F word a).1 =
+    (nativeC60BCContextTotal F word c).1
+  exact nativeC60BCContextTotal_boundary F word h
+
 /-- Matching of the FULL original lower boundary pairs is preserved
 by each genuine AQ frame, not merely by observed Peiffer charges. -/
 theorem nativeC60BRSourceBoundaryCompatible_frame
@@ -211,12 +228,7 @@ theorem nativeC60BRSourceBoundaryCompatible_frame
       (nativeC60BQFrame S F word z) := by
   dsimp only [NativeC60BRSourceBoundaryCompatible] at h ⊢
   rw [nativeC60BQDecodeFirst_frame, nativeC60BQDecodeSecond_frame]
-  rcases nativeC60BQDecodeFirst S F z with ⟨⟨a, b⟩, cell⟩
-  rcases nativeC60BQDecodeSecond S F z with ⟨⟨c, d⟩, cell'⟩
-  change a.1 = c.1 at h
-  change (nativeC60BCContextTotal F word a).1 =
-    (nativeC60BCContextTotal F word c).1
-  exact nativeC60BCContextTotal_boundary F word h
+  exact nativeC60BRRawSourceBoundary_frame S F word _ _ h
 
 section OriginalC60
 
@@ -336,6 +348,7 @@ end OriginalC60
 #print axioms nativeC60BRDescend_frame
 #print axioms NativeC60BRSourceBoundaryCompatible
 #print axioms nativeC60BRSourceBoundary_iff_exists
+#print axioms nativeC60BRRawSourceBoundary_frame
 #print axioms nativeC60BRSourceBoundaryCompatible_frame
 #print axioms nativeK5BRIncompatiblePair
 #print axioms nativeK5BRIncompatiblePair_no_flat_source
