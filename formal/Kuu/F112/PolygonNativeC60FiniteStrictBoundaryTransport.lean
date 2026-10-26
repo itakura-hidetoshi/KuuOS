@@ -137,16 +137,19 @@ theorem nativeC60BADescent_unique_iff {L : NativeC60AXLayer.{u}}
 /-- A raw syntactic discriminator, kept outside the strict quotient. -/
 def nativeC60BARawUnitTag {L : NativeC60AXLayer.{u}}
     (S : NativeC60AXSignature L) (c : (nativeC60AXNext L S).Total) : Bool :=
-  match c.2 with
-  | .refl _ => true
-  | _ => false
+  c.2.fold (K := fun _ _ => Bool)
+    (fun {_ _} _ => false)
+    (fun _ => true)
+    (fun _ => false)
+    (fun _ _ => false)
 
 theorem nativeC60BARawUnit_ne {L : NativeC60AXLayer.{u}}
     (S : NativeC60AXSignature L) (x : L.Total) :
     (⟨(x, x), NativeC60AXStep.refl x⟩ : (nativeC60AXNext L S).Total) ≠
       ⟨(x, x), NativeC60AXStep.trans (.refl x) (.refl x)⟩ := by
   intro h
-  have ht : true = false := congrArg (nativeC60BARawUnitTag S) h
+  have ht := congrArg (nativeC60BARawUnitTag S) h
+  change true = false at ht
   cases ht
 
 /-- The strict unit law identifies these two raw representatives. -/
