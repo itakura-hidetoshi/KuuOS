@@ -176,7 +176,8 @@ theorem nativeK5BJPhysicalPeiffer_context_eq_iff
   rw [nativeK5BCContext_peiffer W word a,
       nativeK5BCContext_peiffer W word b]
   constructor
-  · exact nativeK5BJPeifferAct_injective W (nativeK5ATGaugeWord W word)
+  · intro h
+    exact (nativeK5BJPeifferAct_injective W (nativeK5ATGaugeWord W word)) h
   · intro h
     exact congrArg (nativeK5ASPeifferAct W (nativeK5ATGaugeWord W word)) h
 
