@@ -63,7 +63,8 @@ theorem nativeC60BEShiftGen_cons {L : NativeC60AXLayer.{u}}
   · rw [nativeC60BEShiftGen_word, nativeC60BEShiftGen_word,
       nativeC60BEShiftGen_word]
     rfl
-  · apply HEq.rfl
+  · simp only [nativeC60BCShiftGen]
+    exact HEq.rfl
 
 /-- Identity context acts as the ACTUAL identity on Type-valued
 AX higher syntax; no quotient or proof-term collapse is needed. -/
