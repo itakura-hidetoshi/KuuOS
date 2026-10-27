@@ -69,7 +69,7 @@ theorem nativeK5DHCodeIndex_prefix
         (nativeK5AXKuuSignature W) shift code) =
       nativeK5CZCodeIndex W code := by
   rcases code with ⟨word, data⟩
-  rfl
+  dsimp [nativeC60BWCodePrefix, nativeK5CZCodeIndex]
 
 /-- Complete 16D proof code of each original CZ n-generator, not
 only its parity, persists under physical finite inner framing. -/
@@ -148,14 +148,9 @@ theorem nativeK5DHInnerPrefixStrict_CZ
   apply nativeC60COHolonomy_injective S F outer
     (nativeK5CHSource W (shift ++ inner) (nativeK5CKConservativeRefl W R))
   rw [nativeK5DFInnerPrefixStrictEquiv_BW]
-  change
-    nativeC60BWFreePrefix S (outer ++ shift)
-      (nativeC60CNEmbed S F base
-        ((FreeGroup.map (nativeK5CZLetter W R inner)) (FreeGroup.of n))) =
-    nativeC60COHolonomy S F outer _ 
-      (nativeC60COEmbed S F outer targetBase
-        ((FreeGroup.map (nativeK5CZLetter W R (shift ++ inner))) (FreeGroup.of n)))
-  rw [FreeGroup.map.of, FreeGroup.map.of, nativeC60COEmbed_holonomy_apply]
+  rw [nativeK5DAFreeNat_of_original_letter W R inner outer n,
+    nativeK5DAFreeNat_of_original_letter W R (shift ++ inner) outer n]
+  rw [nativeC60CORetraction_embed, nativeC60COEmbed_holonomy_apply]
   calc
     nativeC60BWFreePrefix S (outer ++ shift)
         (nativeC60CNEmbed S F base
