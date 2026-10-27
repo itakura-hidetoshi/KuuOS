@@ -95,7 +95,8 @@ theorem nativeK5CIFirstMiddle_context
     nativeK5CIFirstMiddle W (nativeK5AQContextCell W word cell) =
       (nativeK5CIFirstMiddle W cell).map (nativeK5AQContext W word) := by
   induction word with
-  | nil => rfl
+  | nil =>
+      cases nativeK5CIFirstMiddle W cell <;> rfl
   | cons side rest ih =>
       change nativeK5CIFirstMiddle W
           (nativeK5AQWhiskerCell W side (nativeK5AQContextCell W rest cell)) =
@@ -171,14 +172,12 @@ theorem nativeK5CIWhisker_injective
         NativeK5StructuralFourteenCell.trans S
           (nativeK5AQRightFrame W) at h
       injection h with hRS
-      exact hRS
   | true =>
       change NativeK5StructuralFourteenCell.trans
           (nativeK5AQLeftFrame W) R =
         NativeK5StructuralFourteenCell.trans
           (nativeK5AQLeftFrame W) S at h
       injection h with hRS
-      exact hRS
 
 /-- Arbitrary finite physical AQ context retains injectivity on the
 original 14D proof fiber. No group-valued collapse is used. -/
