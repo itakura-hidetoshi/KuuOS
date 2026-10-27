@@ -173,7 +173,69 @@ theorem nativeC60CWOriginal_loop_complete_CN_of_pairs {A B : L.Total}
   rw [← hpairs]
   exact nativeC60CWPairChain_complete_CN S F base pairs
 
+
 end OriginalTypedPairs
+
+section OuterContextObstruction
+
+variable {L : NativeC60AXLayer.{uCW}}
+variable (S : NativeC60AXSignature L) (F : Bool → NativeC60BCFrame L)
+
+/-- Missing physical all-loop condition, made precise WITHOUT adopting
+it as an axiom: every ACTUAL original framed signed loop must have a
+complete-holonomy lift to finite typed original BC parallel pairs,
+before outer finite AQ framing. CT/CU endpoint rigidity alone does not
+give this all-generator unprefix claim. -/
+def NativeC60CWOuterPairCodeComplete
+    (outer : List Bool) (A B : L.Total) : Prop :=
+  ∀ path : NativeC60CASignedChain S F
+      (nativeC60BCContextTotal F outer A)
+      (nativeC60BCContextTotal F outer A),
+    ∃ pairs : List ((nativeC60BCClosedSignature S F).Gen A B ×
+      (nativeC60BCClosedSignature S F).Gen A B),
+      FreeGroup.mk (nativeC60CAChainSignedCodes S F path) =
+        nativeC60BWFreePrefix S outer
+          (nativeC60BWFreeHolonomy S F
+            (nativeC60CAChainStep S F (nativeC60CWPairChain S F pairs)))
+
+/-- Precisely isolates the remaining geometric obstruction:
+an exact ORIGINAL typed pair lift of ALL outer-framed strict loops
+forces the actual CN strict kernel to be trivial. The premise is
+NOT derived here, nor is it confused with CV's two-boundary incidence.
+This uses CR's complete necessary-and-sufficient kernel witness test. -/
+theorem nativeC60CWStrict_kernel_trivial_of_outer_pair_codes
+    (outer : List Bool) {A B : L.Total}
+    (base : (nativeC60BCClosedSignature S F).Gen A B)
+    (hlift : NativeC60CWOuterPairCodeComplete S F outer A B) :
+    ¬ ∃ k : NativeC60CPKernel S F outer base, k ≠ 1 := by
+  intro hkernel
+  obtain ⟨path, hdecode, hfull⟩ :=
+    (nativeC60CRKernel_nontrivial_iff_signed S F outer base).mp hkernel
+  obtain ⟨pairs, hfactor⟩ := hlift path
+  let q := nativeC60CWPairChain S F pairs
+  have hunprefix :
+      nativeC60BXFreeUnprefix S outer
+        (FreeGroup.mk (nativeC60CAChainSignedCodes S F path)) =
+      nativeC60BWFreeHolonomy S F (nativeC60CAChainStep S F q) := by
+    rw [hfactor]
+    exact nativeC60BXFreeUnprefix_prefix S outer _
+  have hpair_decode :
+      nativeC60CNRetraction S F base
+        (nativeC60BWFreeHolonomy S F (nativeC60CAChainStep S F q)) = 1 := by
+    simpa only [hunprefix] using hdecode
+  have hpair_full :
+      nativeC60BWFreeHolonomy S F (nativeC60CAChainStep S F q) = 1 := by
+    calc
+      _ = nativeC60CNEmbed S F base
+            (nativeC60CNRetraction S F base
+              (nativeC60BWFreeHolonomy S F
+                (nativeC60CAChainStep S F q))) :=
+          (nativeC60CWPairChain_complete_CN S F base pairs).symm
+      _ = 1 := by rw [hpair_decode, map_one]
+  apply hfull
+  rw [hfactor, hpair_full, map_one]
+
+end OuterContextObstruction
 
 #print axioms nativeC60CWPairChain
 #print axioms nativeC60CWPairChain_codes
