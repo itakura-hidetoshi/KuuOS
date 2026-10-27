@@ -66,7 +66,7 @@ theorem nativeC60DGKernelFailure_iff_pair
       intro hc
       exact hk ((nativeC60DCFiber_iff_kernel_le q f).mp hc)
     unfold NativeC60DCFiberCompatible at hbad
-    push_neg at hbad
+    push Not at hbad
     exact hbad
   · rintro ⟨x, y, hq, hf⟩ hk
     have hc : NativeC60DCFiberCompatible q f :=
@@ -132,9 +132,9 @@ theorem nativeC60DGFreeBool_failure_iff
       (∃ x y : G, q x = q y ∧ r x ≠ r y) ∨
       r x0 ≠ FreeGroup.of false ∨
       r x1 ≠ FreeGroup.of true := by
-  rw [nativeC60DGFreeBool_exact_naturality_iff q r hq x0 x1 h0 h1]
-  rw [not_and_or, not_and_or, nativeC60DGKernelFailure_iff_pair]
   simp only [ne_eq]
+  rw [nativeC60DGFreeBool_exact_naturality_iff q r hq x0 x1 h0 h1]
+  simp only [not_and_or, nativeC60DGKernelFailure_iff_pair, or_assoc]
 
 end ExactFreeTwoLetterCriterion
 
