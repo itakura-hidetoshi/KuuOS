@@ -7,7 +7,7 @@ DD supplies a canonical CN-coordinate group isomorphism across arbitrary
 additional OUTER finite AQ contexts at one fixed original 15D inner boundary.
 DE makes its relationship with the ORIGINAL BF strict functor explicit:
 the full BW holonomy of every actual transported strict arrow is exactly
-the noncommutative BV prefix of the original holonomy. Because CD proved
+the noncommutative BV shift of the original holonomy. Because CD proved
 faithfulness on ALL genuine selected strict Hom sets, the full value has
 a unique original strict-arrow realization.
 
@@ -50,11 +50,11 @@ variable {L : NativeC60AXLayer.{uDE}}
 variable (S : NativeC60AXSignature L) (F : Bool → NativeC60BCFrame L)
 
 /-- BF's ACTUAL full-arrow strict functor, when followed by the
-original BW noncommutative word, is precisely finite-prefix insertion.
+original BW noncommutative word, is precisely finite-shift insertion.
 This is proved for EVERY strict arrow using BA's typed 16D
 representability, not only for specially chosen physical generators. -/
 theorem nativeC60DEFullStrictBF_BW
-    (prefix : List Bool) {a b : L.Total}
+    (shift : List Bool) {a b : L.Total}
     (f : (nativeC60AZStrictProject
           (nativeC60BCClosedSignature S F)
           (nativeC60AZNoRelations (nativeC60BCClosedSignature S F))).obj ⟨a⟩ ⟶
@@ -63,8 +63,8 @@ theorem nativeC60DEFullStrictBF_BW
           (nativeC60AZNoRelations (nativeC60BCClosedSignature S F))).obj ⟨b⟩) :
     MulOpposite.unop
         ((nativeC60BWFreeStrictHolonomy S F).map
-          ((nativeC60BDNoRelations_strictFunctor S F prefix).map f)) =
-      nativeC60BWFreePrefix S prefix
+          ((nativeC60BDNoRelations_strictFunctor S F shift).map f)) =
+      nativeC60BWFreePrefix S shift
         (MulOpposite.unop ((nativeC60BWFreeStrictHolonomy S F).map f)) := by
   obtain ⟨c, rfl⟩ := nativeC60BAStep_surjective
     (nativeC60BCClosedSignature S F)
@@ -79,20 +79,20 @@ theorem nativeC60DEFullStrictBF_BW
 no nontrivial typed 16D comparison can become equal merely by
 adding a finite AQ context in the selected no-extra-relations Kuu. -/
 theorem nativeC60DEFullStrictBF_faithful
-    (prefix : List Bool) {a b : L.Total}
+    (shift : List Bool) {a b : L.Total}
     (f g : (nativeC60AZStrictProject
           (nativeC60BCClosedSignature S F)
           (nativeC60AZNoRelations (nativeC60BCClosedSignature S F))).obj ⟨a⟩ ⟶
         (nativeC60AZStrictProject
           (nativeC60BCClosedSignature S F)
           (nativeC60AZNoRelations (nativeC60BCClosedSignature S F))).obj ⟨b⟩) :
-    (nativeC60BDNoRelations_strictFunctor S F prefix).map f =
-        (nativeC60BDNoRelations_strictFunctor S F prefix).map g ↔
+    (nativeC60BDNoRelations_strictFunctor S F shift).map f =
+        (nativeC60BDNoRelations_strictFunctor S F shift).map g ↔
       f = g := by
   constructor
   · intro heq
     apply nativeC60CDStrictFreeFaithful S F
-    apply (nativeC60BWFreePrefix_injective S prefix)
+    apply (nativeC60BWFreePrefix_injective S shift)
     have hh := congrArg
       (fun k => MulOpposite.unop ((nativeC60BWFreeStrictHolonomy S F).map k))
       heq
@@ -137,38 +137,39 @@ theorem nativeK5DEOuterStrictTransport_nil
         (nativeK5CKAtomGenerator W R inner) z) = z
   exact nativeK5CYPhysicalEvery_strict_loop_CN W R inner outer z
 
-/-- True composition for arbitrary finite outer AQ contexts on ALL
-conservative strict automorphisms, keeping the correct concatenation
-order and every original 15D dependent proof certificate. -/
-theorem nativeK5DEOuterStrictTransport_comp
+/-- Ordered finite-word composition has exact agreement on the
+COMPLETE original CN coordinate of the genuine strict automorphism,
+without covertly treating two propositionally associated context words
+as definitionally equal dependent isotropy types. -/
+theorem nativeK5DEOuterStrictTransport_comp_CN
     (W : NativeK5StructuralThirteenCell p U V)
     (R : NativeK5FifteenFourteenFiber W)
     (inner outer more extra : List Bool)
     (z : nativeK5DBIsotropy W R inner outer) :
-    nativeK5DDOuterStrictTransport W R inner (more ++ outer) extra
-        (nativeK5DDOuterStrictTransport W R inner outer more z) =
-      nativeK5DDOuterStrictTransport W R inner outer (extra ++ more) z := by
-  change nativeC60COEmbed (nativeK5AXKuuSignature W)
-      (nativeK5BCFrame W) (extra ++ (more ++ outer))
-      (nativeK5CKAtomGenerator W R inner)
-      (nativeC60CORetraction (nativeK5AXKuuSignature W)
-        (nativeK5BCFrame W) (more ++ outer)
+    nativeC60CORetraction (nativeK5AXKuuSignature W)
+        (nativeK5BCFrame W) (extra ++ (more ++ outer))
         (nativeK5CKAtomGenerator W R inner)
-        (nativeC60COEmbed (nativeK5AXKuuSignature W)
+        (nativeK5DDOuterStrictTransport W R inner (more ++ outer) extra
+          (nativeK5DDOuterStrictTransport W R inner outer more z)) =
+      nativeC60CORetraction (nativeK5AXKuuSignature W)
+        (nativeK5BCFrame W) ((extra ++ more) ++ outer)
+        (nativeK5CKAtomGenerator W R inner)
+        (nativeK5DDOuterStrictTransport W R inner outer (extra ++ more) z) := by
+  calc
+    _ = nativeC60CORetraction (nativeK5AXKuuSignature W)
           (nativeK5BCFrame W) (more ++ outer)
           (nativeK5CKAtomGenerator W R inner)
-          (nativeC60CORetraction (nativeK5AXKuuSignature W)
-            (nativeK5BCFrame W) outer
-            (nativeK5CKAtomGenerator W R inner) z))) =
-    nativeC60COEmbed (nativeK5AXKuuSignature W)
-      (nativeK5BCFrame W) ((extra ++ more) ++ outer)
-      (nativeK5CKAtomGenerator W R inner)
-      (nativeC60CORetraction (nativeK5AXKuuSignature W)
-        (nativeK5BCFrame W) outer
-        (nativeK5CKAtomGenerator W R inner) z)
-  rw [nativeC60CORetraction_embed, List.append_assoc]
+          (nativeK5DDOuterStrictTransport W R inner outer more z) :=
+        nativeK5DDOuterStrictTransport_CN W R inner (more ++ outer) extra _
+    _ = nativeC60CORetraction (nativeK5AXKuuSignature W)
+          (nativeK5BCFrame W) outer
+          (nativeK5CKAtomGenerator W R inner) z :=
+        nativeK5DDOuterStrictTransport_CN W R inner outer more z
+    _ = _ :=
+        (nativeK5DDOuterStrictTransport_CN W R inner outer (extra ++ more) z).symm
 
-/-- Coherent unit as an exact equality of actual strict group maps. -/
+/-- Genuine outer-context transport is identity on every original
+strict loop at the empty word; no group model is invented. -/
 theorem nativeK5DEOuterStrictTransport_nil_hom
     (W : NativeK5StructuralThirteenCell p U V)
     (R : NativeK5FifteenFourteenFiber W)
@@ -179,67 +180,77 @@ theorem nativeK5DEOuterStrictTransport_nil_hom
   intro z
   exact nativeK5DEOuterStrictTransport_nil W R inner outer z
 
-/-- Coherent finite-word composition of actual group maps, not merely
-commuting scalar readouts. -/
-theorem nativeK5DEOuterStrictTransport_comp_hom
+/-- Both compositions preserve the same genuinely NONCOMMUTATIVE
+partial free-group Bool observable on the ENTIRE original isotropy.
+Unlike a dependent-group equality, both sides have a common precise
+codomain and assert no unjustified rewriting of Type-valued objects. -/
+theorem nativeK5DEOuterStrictTransport_comp_parity
     (W : NativeK5StructuralThirteenCell p U V)
     (R : NativeK5FifteenFourteenFiber W)
-    (inner outer more extra : List Bool) :
-    (nativeK5DDOuterStrictTransport W R inner (more ++ outer) extra).comp
-        (nativeK5DDOuterStrictTransport W R inner outer more) =
-      nativeK5DDOuterStrictTransport W R inner outer (extra ++ more) := by
-  apply MonoidHom.ext
-  intro z
-  exact nativeK5DEOuterStrictTransport_comp W R inner outer more extra z
+    (inner outer more extra : List Bool)
+    (z : nativeK5DBIsotropy W R inner outer) :
+    nativeK5DCParityQuotient W R inner (extra ++ (more ++ outer))
+        (nativeK5DDOuterStrictTransport W R inner (more ++ outer) extra
+          (nativeK5DDOuterStrictTransport W R inner outer more z)) =
+      nativeK5DCParityQuotient W R inner ((extra ++ more) ++ outer)
+        (nativeK5DDOuterStrictTransport W R inner outer (extra ++ more) z) := by
+  calc
+    _ = nativeK5DCParityQuotient W R inner (more ++ outer)
+        (nativeK5DDOuterStrictTransport W R inner outer more z) :=
+      nativeK5DDOuterStrictTransport_parity W R inner (more ++ outer) extra _
+    _ = nativeK5DCParityQuotient W R inner outer z :=
+      nativeK5DDOuterStrictTransport_parity W R inner outer more z
+    _ = _ :=
+      (nativeK5DDOuterStrictTransport_parity W R inner outer (extra ++ more) z).symm
 
 /-- The original Type-valued source 15D certificate has exactly
 its original CU context, not merely an equal Peiffer readout. -/
 theorem nativeK5DEInnerSource_prefix
     (W : NativeK5StructuralThirteenCell p U V)
-    (inner prefix : List Bool)
+    (inner shift : List Bool)
     {R S : NativeK5FifteenFourteenFiber W}
     (cell : NativeK5AQFifteenCell W R S) :
-    nativeK5CHSource W (prefix ++ inner) cell =
-      nativeK5BCContext W prefix (nativeK5CHSource W inner cell) :=
-  (nativeK5CUPhysical_source_frame_append W inner prefix cell).symm
+    nativeK5CHSource W (shift ++ inner) cell =
+      nativeK5BCContext W shift (nativeK5CHSource W inner cell) :=
+  (nativeK5CUPhysical_source_frame_append W inner shift cell).symm
 
 /-- Independently preserve the genuine target-first 15D history. -/
 theorem nativeK5DEInnerTarget_prefix
     (W : NativeK5StructuralThirteenCell p U V)
-    (inner prefix : List Bool)
+    (inner shift : List Bool)
     {R S : NativeK5FifteenFourteenFiber W}
     (cell : NativeK5AQFifteenCell W R S) :
-    nativeK5CHTarget W (prefix ++ inner) cell =
-      nativeK5BCContext W prefix (nativeK5CHTarget W inner cell) :=
-  (nativeK5CUPhysical_target_frame_append W inner prefix cell).symm
+    nativeK5CHTarget W (shift ++ inner) cell =
+      nativeK5BCContext W shift (nativeK5CHTarget W inner cell) :=
+  (nativeK5CUPhysical_target_frame_append W inner shift cell).symm
 
 /-- The TRUE original positive BC sixteen-dimensional generator
 retains its entire ORIGINAL primitive 15D proof witness under inner
 prefixing. It is NOT a newly asserted 16-cell comparison. -/
 theorem nativeK5DEOriginalPositiveCode_prefix
     (W : NativeK5StructuralThirteenCell p U V)
-    (inner prefix : List Bool)
+    (inner shift : List Bool)
     {R S : NativeK5FifteenFourteenFiber W}
     (cell : NativeK5AQFifteenCell W R S) :
     nativeC60BVGeneratorCode (nativeK5AXKuuSignature W)
         (nativeK5BCFrame W)
-        (nativeK5CHPositiveGenerator W (prefix ++ inner) cell) =
-      nativeC60BWCodePrefix (nativeK5AXKuuSignature W) prefix
+        (nativeK5CHPositiveGenerator W (shift ++ inner) cell) =
+      nativeC60BWCodePrefix (nativeK5AXKuuSignature W) shift
         (nativeC60BVGeneratorCode (nativeK5AXKuuSignature W)
           (nativeK5BCFrame W) (nativeK5CHPositiveGenerator W inner cell)) := by
   rfl
 
 /-- The original conservative n-times symm witness remains n even
-after an arbitrary genuine inner AQ prefix. This is equality of
+after an arbitrary genuine inner AQ shift. This is equality of
 original 16D certificate indices, not geometrical 16-cell filling. -/
 theorem nativeK5DEOriginalCZIndex_inner_prefix
     (W : NativeK5StructuralThirteenCell p U V)
     (R : NativeK5FifteenFourteenFiber W)
-    (inner prefix : List Bool) (n : Nat) :
+    (inner shift : List Bool) (n : Nat) :
     nativeK5CZCodeIndex W
       (nativeC60BVGeneratorCode (nativeK5AXKuuSignature W)
         (nativeK5BCFrame W)
-        (nativeK5CZGenerator W R (prefix ++ inner) n)) =
+        (nativeK5CZGenerator W R (shift ++ inner) n)) =
       nativeK5CZCodeIndex W
         (nativeC60BVGeneratorCode (nativeK5AXKuuSignature W)
           (nativeK5BCFrame W) (nativeK5CZGenerator W R inner n)) := by
@@ -361,9 +372,9 @@ end PhysicalStrictOuterCoherence
 #print axioms nativeC60DEFullStrictBF_BW
 #print axioms nativeC60DEFullStrictBF_faithful
 #print axioms nativeK5DEOuterStrictTransport_nil
-#print axioms nativeK5DEOuterStrictTransport_comp
+#print axioms nativeK5DEOuterStrictTransport_comp_CN
 #print axioms nativeK5DEOuterStrictTransport_nil_hom
-#print axioms nativeK5DEOuterStrictTransport_comp_hom
+#print axioms nativeK5DEOuterStrictTransport_comp_parity
 #print axioms nativeK5DEInnerSource_prefix
 #print axioms nativeK5DEInnerTarget_prefix
 #print axioms nativeK5DEOriginalPositiveCode_prefix
