@@ -180,6 +180,7 @@ import Kuu.F112.PolygonNativeC60FiniteAQPartialGaugeNaturality
 import Kuu.F112.PolygonNativeC60TypedInnerBFParityNaturality
 import Kuu.F112.PolygonNativeC60InnerPrefixStrictTransport
 import Kuu.F112.PolygonNativeC60InnerPrefixParityObstruction
+import Kuu.F112.PolygonNativeC60InnerPrefixTypedCZTransport
 import Kuu.F112.PolygonNativeF55P94DK5ShellingNoncommutativeGap
 import Kuu.F112.PolygonNativeF55P94DGaugeCovariantHolonomy
 import Kuu.F112.PolygonNativeC60PhysicalGaugeAtlas
