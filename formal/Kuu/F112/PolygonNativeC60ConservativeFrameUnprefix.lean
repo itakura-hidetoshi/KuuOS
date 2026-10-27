@@ -72,6 +72,9 @@ theorem nativeC60CXFramePairs_holonomy (outer : List Bool)
       simp
   | cons gh rest ih =>
       rcases gh with ⟨g, h⟩
+      -- The induction hypothesis must use the SAME expanded List.map
+      -- presentation as the unfolded framed-tail word.
+      dsimp only [nativeC60CXFramePairs] at ih
       simp only [nativeC60CXFramePairs, List.map_cons]
       rw [nativeC60CWPairChain_holonomy_cons S F
             (nativeC60BCShiftGen S F outer g)
@@ -230,6 +233,12 @@ theorem nativeK5CXFramed_conservative_generator_unprefix
   refine ⟨original, ?_⟩
   apply nativeC60BVGeneratorCode_injective
     (nativeK5AXKuuSignature W) (nativeK5BCFrame W)
+  -- The injectivity goal contains a function wrapper; expose the
+  -- true generator-code application before using the shift lemma.
+  change nativeC60BVGeneratorCode (nativeK5AXKuuSignature W)
+    (nativeK5BCFrame W)
+    (nativeC60BCShiftGen (nativeK5AXKuuSignature W)
+      (nativeK5BCFrame W) outer original) = _
   rw [nativeC60BVGeneratorCode_shift]
   rfl
 
@@ -267,6 +276,7 @@ theorem nativeK5CXPhysical_outer_pair_codes_complete
             (nativeC60CWPairChain S F
               (nativeC60CXFramePairs S F outer original))) := by
         rw [← hframed, horiginal]
+        rfl
     _ = nativeC60BWFreePrefix S outer
           (nativeC60BWFreeHolonomy S F
             (nativeC60CAChainStep S F (nativeC60CWPairChain S F original))) :=
