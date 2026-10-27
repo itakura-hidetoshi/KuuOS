@@ -92,6 +92,7 @@ theorem nativeC60DEFullStrictBF_faithful
   constructor
   · intro heq
     apply nativeC60CDStrictFreeFaithful S F
+    apply MulOpposite.unop_injective
     apply (nativeC60BWFreePrefix_injective S shift)
     have hh := congrArg
       (fun k => MulOpposite.unop ((nativeC60BWFreeStrictHolonomy S F).map k))
