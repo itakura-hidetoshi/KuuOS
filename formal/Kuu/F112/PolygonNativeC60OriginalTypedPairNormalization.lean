@@ -92,10 +92,54 @@ def NativeC60CVSignedGaugeSector.to_CW_four_form
       | bb pairs =>
           exact False.elim (hAB rfl)
 
+
+/-- EXACT A-based loop factorization, retaining the original signed
+16D chain itself and every original dependent BC generator certificate.
+This is Type-valued: the normal-form pair list exists as data, rather
+than a mere code-level equality or a Prop-to-Type elimination. -/
+def NativeC60CVSignedGaugeSector.closedSource_pairs
+    {A B : L.Total} (hAB : A ≠ B)
+    {path : NativeC60CASignedChain S F A A}
+    (certificate : NativeC60CVSignedGaugeSector S F A B path) :
+    Σ pairs : List ((nativeC60BCClosedSignature S F).Gen A B ×
+      (nativeC60BCClosedSignature S F).Gen A B),
+      nativeC60CWPairChain S F pairs = path := by
+  have form : NativeC60CWTypedFourForm S F A B path :=
+    certificate.to_CW_four_form S F hAB
+  cases form with
+  | aa pairs =>
+      exact ⟨pairs, rfl⟩
+  | ab g pairs =>
+      exact False.elim (hAB rfl)
+  | ba g pairs =>
+      exact False.elim (hAB rfl)
+  | bb pairs =>
+      exact False.elim (hAB rfl)
+
+/-- Every original sector loop at the actual unframed A/B boundary has
+a complete BW/CN recovery, with zero additional 16-cell relations.
+The framed strict kernel still requires exact OUTER AQ unprefix lifts. -/
+theorem NativeC60CVSignedGaugeSector.closedSource_complete_CN
+    {A B : L.Total} (hAB : A ≠ B)
+    (base : (nativeC60BCClosedSignature S F).Gen A B)
+    {path : NativeC60CASignedChain S F A A}
+    (certificate : NativeC60CVSignedGaugeSector S F A B path) :
+    nativeC60CNEmbed S F base
+        (nativeC60CNRetraction S F base
+          (nativeC60BWFreeHolonomy S F
+            (nativeC60CAChainStep S F path))) =
+      nativeC60BWFreeHolonomy S F (nativeC60CAChainStep S F path) := by
+  obtain ⟨pairs, hpairs⟩ :=
+    certificate.closedSource_pairs S F hAB
+  rw [← hpairs]
+  exact nativeC60CWPairChain_complete_CN S F base pairs
+
 end TypedFourForms
 
 #print axioms nativeC60CWTargetPairChain
 #print axioms NativeC60CVSignedGaugeSector.to_CW_four_form
+#print axioms NativeC60CVSignedGaugeSector.closedSource_pairs
+#print axioms NativeC60CVSignedGaugeSector.closedSource_complete_CN
 
 end
 end Kuu.F112.Physical
