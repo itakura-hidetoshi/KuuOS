@@ -183,6 +183,7 @@ theorem nativeK5DICZIndex_prefix
     nativeK5CZCodeIndex W
         (nativeC60BWCodePrefix (nativeK5AXKuuSignature W) shift code) =
       nativeK5CZCodeIndex W code := by
+  rcases code with ⟨word, payload⟩
   rfl
 
 /-- In particular EVERY NON-CZ certificate remains non-CZ, and every
