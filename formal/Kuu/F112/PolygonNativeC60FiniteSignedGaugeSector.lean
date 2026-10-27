@@ -81,34 +81,34 @@ def nativeC60CVSignedGaugeSector_of_incidence
     (hnoInA : ∀ {z : L.Total},
       (nativeC60BCClosedSignature S F).Gen z A → False) :
     ∀ {x y : L.Total} (p : NativeC60CASignedChain S F x y),
-      Sum (x = A) (x = B) → NativeC60CVSignedGaugeSector S F A B p := by
+      PSum (x = A) (x = B) → NativeC60CVSignedGaugeSector S F A B p := by
   intro x y path
   induction path with
   | nil x =>
       intro hx
       rcases hx with hA | hB
-      · subst x
+      · cases hA
         exact .nilSource
-      · subst x
+      · cases hB
         exact .nilTarget
   | pos g tail ih =>
       intro hx
       rcases hx with hA | hB
-      · subst x
+      · cases hA
         have hmiddle := houtA g
         cases hmiddle
-        exact .positive g tail (ih (Sum.inr rfl))
-      · subst x
+        exact .positive g tail (ih (PSum.inr rfl))
+      · cases hB
         exact False.elim (hnoOutB g)
   | neg g tail ih =>
       intro hx
       rcases hx with hA | hB
-      · subst x
+      · cases hA
         exact False.elim (hnoInA g)
-      · subst x
+      · cases hB
         have hmiddle := hinB g
         cases hmiddle
-        exact .negative g tail (ih (Sum.inl rfl))
+        exact .negative g tail (ih (PSum.inl rfl))
 
 /-- Every sector certificate records the exact original final 15D
 endpoint as one of the two endpoints; no third proof object arises. -/
@@ -277,7 +277,7 @@ def nativeK5CVAll_finite_signed_gauge_sector
     {x y : (nativeK5AXBaseLayer W).Total}
     (path : NativeC60CASignedChain (nativeK5AXKuuSignature W)
       (nativeK5BCFrame W) x y)
-    (hstart : Sum
+    (hstart : PSum
       (x = nativeK5BCContext W outer
         (nativeK5CHSource W inner (nativeK5CKConservativeRefl W R)))
       (x = nativeK5BCContext W outer
@@ -311,7 +311,7 @@ theorem nativeK5CVAll_finite_signed_endpoint_two
     {x y : (nativeK5AXBaseLayer W).Total}
     (path : NativeC60CASignedChain (nativeK5AXKuuSignature W)
       (nativeK5BCFrame W) x y)
-    (hstart : Sum
+    (hstart : PSum
       (x = nativeK5BCContext W outer
         (nativeK5CHSource W inner (nativeK5CKConservativeRefl W R)))
       (x = nativeK5BCContext W outer
@@ -350,7 +350,7 @@ theorem nativeK5CVOriginal_signed_loop_complete_code
         (nativeC60BVGeneratorCode (nativeK5AXKuuSignature W)
           (nativeK5BCFrame W) entry.1, entry.2))) := by
   let cert := nativeK5CVAll_finite_signed_gauge_sector
-    W R inner outer path (Sum.inl rfl)
+    W R inner outer path (PSum.inl rfl)
   exact ⟨cert.originalLetters, cert.full_holonomy
     (nativeK5AXKuuSignature W) (nativeK5BCFrame W)⟩
 
