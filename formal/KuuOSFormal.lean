@@ -176,6 +176,7 @@ import Kuu.F112.PolygonNativeC60ConservativeFreeRank
 import Kuu.F112.PolygonNativeC60DoubleSymmDescentObstruction
 import Kuu.F112.PolygonNativeC60ExactCNBWDescentClassification
 import Kuu.F112.PolygonNativeC60PartialGaugeDescentParity
+import Kuu.F112.PolygonNativeC60FiniteAQPartialGaugeNaturality
 import Kuu.F112.PolygonNativeF55P94DK5ShellingNoncommutativeGap
 import Kuu.F112.PolygonNativeF55P94DGaugeCovariantHolonomy
 import Kuu.F112.PolygonNativeC60PhysicalGaugeAtlas
