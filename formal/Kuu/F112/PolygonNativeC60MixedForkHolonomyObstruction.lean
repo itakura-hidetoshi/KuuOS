@@ -264,7 +264,6 @@ theorem nativeK5CKPhysical_parallel_generators_ne
       nativeK5CKConservativeRefl W R =
         nativeK5CKConservativeAtom W R := by
     cases hc
-    rfl
   exact nativeK5CKConservatives_raw_ne W R hinput
 
 /-- An ACTUAL original C60 signed two-edge loop with TWO unequal
@@ -295,10 +294,12 @@ theorem nativeK5CKPhysical_no_mixed_fork_receiver
       (NativeC60CKMixedForkRelation (nativeK5AXKuuSignature W)
         (nativeK5BCFrame W)) := by
   intro hc
-  have hparallel :=
+  let R := nativeK5FifteenCriticalLeft W
+  have hparallel :
+      ∀ {a b : (nativeK5AXBaseLayer W).Total}
+        (g h : (nativeK5BCSignature W).Gen a b), g = h :=
     (nativeC60CKFork_relation_compatible_iff
       (nativeK5AXKuuSignature W) (nativeK5BCFrame W)).mp hc
-  let R := nativeK5FifteenCriticalLeft W
   exact nativeK5CKPhysical_parallel_generators_ne W R []
     (hparallel (nativeK5CKReflGenerator W R [])
       (nativeK5CKAtomGenerator W R []))
