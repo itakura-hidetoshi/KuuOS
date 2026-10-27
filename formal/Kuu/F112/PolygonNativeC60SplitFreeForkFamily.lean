@@ -139,9 +139,8 @@ theorem nativeC60CNRetraction_comp_embed {L : NativeC60AXLayer.{u}}
   change nativeC60CNRetraction S F base
       (nativeC60CNEmbed S F base (FreeGroup.of i)) = FreeGroup.of i
   simp only [nativeC60CNEmbed, FreeGroup.lift_apply_of, map_mul, map_inv]
-  change nativeC60CNDecodeLetter S F base (nativeC60CNLetterCode S F base i) *
-      (nativeC60CNDecodeLetter S F base (nativeC60BVGeneratorCode S F base))⁻¹ =
-    FreeGroup.of i
+  -- Evaluating a lifted homomorphism on `of` uses its theorem, not defeq.
+  simp only [nativeC60CNRetraction, FreeGroup.lift_apply_of]
   rw [nativeC60CNDecodeLetter_letter, nativeC60CNDecodeLetter_base]
   simp
 
@@ -281,6 +280,21 @@ variable {P Q : NativeK5StructuralTenCell p q t}
 variable {H K : NativeK5StructuralElevenCell p P Q}
 variable {U V : NativeK5StructuralTwelveCell p H K}
 
+/-- A raw syntax discriminator on the ORIGINAL conservative input.
+This is used only to separate actual certificates, never to quotient them. -/
+def nativeK5CNInputReversedCore
+    (W : NativeK5StructuralThirteenCell p U V)
+    {R S : NativeK5FifteenFourteenFiber W} : NativeK5AQFifteenCell W R S → Bool
+  | .conservative (.symm _) => true
+  | _ => false
+
+/-- Read the original input inside a COMPLETE BC provenance code.
+The uniform Bool codomain avoids eliminating across dependent AU endpoints. -/
+def nativeK5CNCodeReversedCore
+    (W : NativeK5StructuralThirteenCell p U V)
+    (code : NativeC60BVGeneratorCode (nativeK5AXKuuSignature W)) : Bool :=
+  nativeK5CNInputReversedCore W code.2.2.2.2.2.val
+
 /-- A THIRD genuine conservative 15D certificate on the same original
 14D boundary. The inverse-of-reflexivity core is retained as Type syntax. -/
 def nativeK5CNConservativeReverseRefl
@@ -305,7 +319,9 @@ theorem nativeK5CNReverse_ne_atom
   intro heq
   have hc := congrArg (nativeC60BVGeneratorCode
     (nativeK5AXKuuSignature W) (nativeK5BCFrame W)) heq
-  cases hc
+  have htag := congrArg (nativeK5CNCodeReversedCore W) hc
+  change true = false at htag
+  cases htag
 
 theorem nativeK5CNReverse_ne_refl
     (W : NativeK5StructuralThirteenCell p U V)
@@ -314,7 +330,9 @@ theorem nativeK5CNReverse_ne_refl
   intro heq
   have hc := congrArg (nativeC60BVGeneratorCode
     (nativeK5AXKuuSignature W) (nativeK5BCFrame W)) heq
-  cases hc
+  have htag := congrArg (nativeK5CNCodeReversedCore W) hc
+  change true = false at htag
+  cases htag
 
 /-- First physical letter relative to the original atom base certificate. -/
 def nativeK5CNReflLetter
