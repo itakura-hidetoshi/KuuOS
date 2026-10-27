@@ -156,6 +156,12 @@ theorem nativeK5CZGenerator_injective
     nativeK5CZCodeIndex W
       (nativeC60BVGeneratorCode (nativeK5AXKuuSignature W)
         (nativeK5BCFrame W) gen)) h
+  change nativeK5CZCodeIndex W
+      (nativeC60BVGeneratorCode (nativeK5AXKuuSignature W)
+        (nativeK5BCFrame W) (nativeK5CZGenerator W R inner n)) =
+    nativeK5CZCodeIndex W
+      (nativeC60BVGeneratorCode (nativeK5AXKuuSignature W)
+        (nativeK5BCFrame W) (nativeK5CZGenerator W R inner m)) at hc
   rw [nativeK5CZCodeIndex_generator, nativeK5CZCodeIndex_generator] at hc
   exact Option.some.inj hc
 
@@ -170,6 +176,12 @@ theorem nativeK5CZGenerator_ne_atom
     nativeK5CZCodeIndex W
       (nativeC60BVGeneratorCode (nativeK5AXKuuSignature W)
         (nativeK5BCFrame W) gen)) h
+  change nativeK5CZCodeIndex W
+      (nativeC60BVGeneratorCode (nativeK5AXKuuSignature W)
+        (nativeK5BCFrame W) (nativeK5CZGenerator W R inner n)) =
+    nativeK5CZCodeIndex W
+      (nativeC60BVGeneratorCode (nativeK5AXKuuSignature W)
+        (nativeK5BCFrame W) (nativeK5CKAtomGenerator W R inner)) at hc
   rw [nativeK5CZCodeIndex_generator, nativeK5CZCodeIndex_atom] at hc
   cases hc
 
