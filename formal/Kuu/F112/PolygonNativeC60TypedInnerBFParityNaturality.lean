@@ -81,11 +81,28 @@ theorem nativeC60DEFullStrictBF_BW
           ((nativeC60BWFreeStrictHolonomy S F).map
             (nativeC60AZStrictStep (nativeC60BCClosedSignature S F)
               (nativeC60AZNoRelations (nativeC60BCClosedSignature S F)) c)))
-  rw [nativeC60BDStrictContext_step,
-    nativeC60BXFreeStrictHolonomy_step,
-    nativeC60BXFreeStrictHolonomy_step,
-    nativeC60BWFreeHolonomy_frame]
-  rfl
+  rw [nativeC60BDStrictContext_step]
+  calc
+    MulOpposite.unop
+        ((nativeC60BWFreeStrictHolonomy S F).map
+          (nativeC60AZStrictStep (nativeC60BCClosedSignature S F)
+            (nativeC60AZNoRelations (nativeC60BCClosedSignature S F))
+            (nativeC60BCMapClosedStep S F shift c))) =
+      nativeC60BWFreeHolonomy S F
+        (nativeC60BCMapClosedStep S F shift c) := by
+      exact congrArg MulOpposite.unop
+        (nativeC60BXFreeStrictHolonomy_step S F
+          (nativeC60BCMapClosedStep S F shift c))
+    _ = nativeC60BWFreePrefix S shift (nativeC60BWFreeHolonomy S F c) :=
+      nativeC60BWFreeHolonomy_frame S F shift c
+    _ = nativeC60BWFreePrefix S shift
+          (MulOpposite.unop
+            ((nativeC60BWFreeStrictHolonomy S F).map
+              (nativeC60AZStrictStep (nativeC60BCClosedSignature S F)
+                (nativeC60AZNoRelations (nativeC60BCClosedSignature S F)) c))) := by
+      exact congrArg (nativeC60BWFreePrefix S shift)
+        (congrArg MulOpposite.unop
+          (nativeC60BXFreeStrictHolonomy_step S F c)).symm
 
 /-- The full BF map is faithful on EVERY genuine strict Hom set:
 no nontrivial typed 16D comparison can become equal merely by
