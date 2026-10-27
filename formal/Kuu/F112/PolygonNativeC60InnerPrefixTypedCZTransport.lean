@@ -70,6 +70,7 @@ theorem nativeK5DHCodeIndex_prefix
       nativeK5CZCodeIndex W code := by
   rcases code with ⟨word, data⟩
   dsimp [nativeC60BWCodePrefix, nativeK5CZCodeIndex]
+  rfl
 
 /-- Complete 16D proof code of each original CZ n-generator, not
 only its parity, persists under physical finite inner framing. -/
