@@ -124,10 +124,10 @@ theorem nativeC60DJQuotientParity_mk
     (h : r.comp e.toMonoidHom = q)
     (hq : Function.Surjective q) (hr : Function.Surjective r)
     (x : G) :
-    (QuotientGroup.quotientKerEquivOfSurjective hr)
+    (QuotientGroup.quotientKerEquivOfSurjective r hr)
         (nativeC60DJQuotientTransport q r e h
           ((QuotientGroup.mk' q.ker) x)) =
-      (QuotientGroup.quotientKerEquivOfSurjective hq)
+      (QuotientGroup.quotientKerEquivOfSurjective q hq)
         ((QuotientGroup.mk' q.ker) x) := by
   rw [nativeC60DJQuotientTransport_mk]
   change (QuotientGroup.kerLift r)
@@ -144,8 +144,8 @@ theorem nativeC60DJQuotientParity_equiv
     (h : r.comp e.toMonoidHom = q)
     (hq : Function.Surjective q) (hr : Function.Surjective r) :
     (nativeC60DJQuotientTransport q r e h).trans
-        (QuotientGroup.quotientKerEquivOfSurjective hr) =
-      QuotientGroup.quotientKerEquivOfSurjective hq := by
+        (QuotientGroup.quotientKerEquivOfSurjective r hr) =
+      QuotientGroup.quotientKerEquivOfSurjective q hq := by
   apply MulEquiv.ext
   intro x
   obtain ⟨z, rfl⟩ := QuotientGroup.mk'_surjective q.ker x
@@ -270,6 +270,7 @@ def nativeK5DJParityQuotientEquiv
         (nativeK5DCParityQuotient W R inner outer).ker) ≃*
       FreeGroup Bool :=
   QuotientGroup.quotientKerEquivOfSurjective
+    (nativeK5DCParityQuotient W R inner outer)
     (nativeK5DCParityQuotient_surjective W R inner outer)
 
 /-- Final genuine strict quotient descent: quotient transport followed
