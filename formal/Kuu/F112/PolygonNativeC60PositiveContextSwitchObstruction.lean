@@ -96,7 +96,7 @@ theorem nativeK5CIFirstMiddle_context
       (nativeK5CIFirstMiddle W cell).map (nativeK5AQContext W word) := by
   induction word with
   | nil =>
-      cases nativeK5CIFirstMiddle W cell <;> rfl
+      cases cell <;> rfl
   | cons side rest ih =>
       change nativeK5CIFirstMiddle W
           (nativeK5AQWhiskerCell W side (nativeK5AQContextCell W rest cell)) =
