@@ -96,6 +96,7 @@ def nativeC60DQTriangleSeventeenSignature
     intro x y g
     rcases g with ⟨a, b, c, d, r⟩
     rw [r.property.1, r.property.2]
+    rfl
 
 /-- The original three-step 16D zigzag stores BOTH the chosen
 forward atom, its reverse, and the same original atom again. -/
@@ -294,6 +295,12 @@ theorem nativeC60DQDiamond_no_seventeen_all_trees
     exact (nativeC60CFDiamond_distinct_midpoint_no_strict S F [] q hne)
       ((nativeC60CDAll_raw_free_eq_iff_strict S F [] _ _).mp hf)
   intro hframed
+  change nativeC60BWFreeHolonomy S F
+      (nativeC60BCMapClosedStep S F (nativeK5DOTreeWord tree)
+        (nativeC60CFDiamondLeft S F q)) =
+    nativeC60BWFreeHolonomy S F
+      (nativeC60BCMapClosedStep S F (nativeK5DOTreeWord tree)
+        (nativeC60CFDiamondRight S F q)) at hframed
   rw [nativeC60BWFreeHolonomy_frame S F (nativeK5DOTreeWord tree)
       (nativeC60CFDiamondLeft S F q),
     nativeC60BWFreeHolonomy_frame S F (nativeK5DOTreeWord tree)
@@ -328,7 +335,10 @@ theorem nativeC60DQSeventeenRoundtrip_strict_id
         (nativeC60DQTriangleSeventeenSignature S F)
         (nativeC60AZNoRelations (nativeC60DQTriangleSeventeenSignature S F))).obj
         ⟨nativeC60DQPackSixteen S F (nativeC60DQRawZigzag S F g)⟩) :=
-  nativeC60AZStrictStep_inv_left _ _ _
+  nativeC60AZStrictStep_inv_left
+    (nativeC60DQTriangleSeventeenSignature S F)
+    (nativeC60AZNoRelations (nativeC60DQTriangleSeventeenSignature S F))
+    (nativeC60DQZigzagSeventeen S F g)
 
 section OriginalPhysicalC60
 
