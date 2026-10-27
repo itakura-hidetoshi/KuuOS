@@ -101,9 +101,9 @@ def NativeC60CVSignedGaugeSector.closedSource_pairs
     {A B : L.Total} (hAB : A ≠ B)
     {path : NativeC60CASignedChain S F A A}
     (certificate : NativeC60CVSignedGaugeSector S F A B path) :
-    Σ pairs : List ((nativeC60BCClosedSignature S F).Gen A B ×
-      (nativeC60BCClosedSignature S F).Gen A B),
-      nativeC60CWPairChain S F pairs = path := by
+    {pairs : List ((nativeC60BCClosedSignature S F).Gen A B ×
+      (nativeC60BCClosedSignature S F).Gen A B) //
+      nativeC60CWPairChain S F pairs = path} := by
   have form : NativeC60CWTypedFourForm S F A B path :=
     certificate.to_CW_four_form S F hAB
   cases form with
