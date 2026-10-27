@@ -130,11 +130,11 @@ theorem nativeC60DJQuotientParity_mk
       (QuotientGroup.quotientKerEquivOfSurjective q hq)
         ((QuotientGroup.mk' q.ker) x) := by
   rw [nativeC60DJQuotientTransport_mk]
-  change (QuotientGroup.kerLift r)
-      ((QuotientGroup.mk' r.ker) (e x)) =
-    (QuotientGroup.kerLift q) ((QuotientGroup.mk' q.ker) x)
-  rw [QuotientGroup.kerLift_mk, QuotientGroup.kerLift_mk]
-  exact DFunLike.congr_fun h x
+  -- The pinned kerLift_mk theorem matches the canonical quotient
+  -- coercion; mk' has the same value but is not its syntactic pattern.
+  change (QuotientGroup.kerLift r) ((e x : H) : H ⧸ r.ker) =
+    (QuotientGroup.kerLift q) ((x : G) : G ⧸ q.ker)
+  simpa only [QuotientGroup.kerLift_mk] using (DFunLike.congr_fun h x)
 
 /-- Strong descent: the induced quotient equivalence becomes IDENTICAL
 on the canonical common Q receiver, as an equality of true MulEquivs,
