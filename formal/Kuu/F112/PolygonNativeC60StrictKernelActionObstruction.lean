@@ -50,7 +50,7 @@ theorem nativeC60CQGenericKernelPart_ne_one_iff
     apply hk
     apply Subtype.ext
     change z * (i (r z))⁻¹ = 1
-    rw [hz]
+    rw [hz, split (r z)]
     group
   · intro hz hk
     have hv : (nativeC60CPGenericKernelPart r i split z : G) = 1 := by
@@ -94,7 +94,7 @@ theorem nativeC60CQGenericAction_trivial_iff
       i x * (k : G) = (i x * (k : G) * (i x)⁻¹) * i x := by group
       _ = (k : G) * i x := by rw [hv]
   · intro h x
-    apply MulAut.ext
+    apply MulEquiv.ext
     intro k
     apply Subtype.ext
     change ((nativeC60CPGenericAction r i x) k : G) = (k : G)
@@ -233,7 +233,7 @@ theorem nativeC60CQAction_trivial_iff_letters
           MulAut (NativeC60CPKernel S F word base)) := by
       apply FreeGroup.ext_hom
       intro j
-      apply MulAut.ext
+      apply MulEquiv.ext
       intro k
       apply Subtype.ext
       change ((nativeC60CPAction S F word base (FreeGroup.of j)) k :
