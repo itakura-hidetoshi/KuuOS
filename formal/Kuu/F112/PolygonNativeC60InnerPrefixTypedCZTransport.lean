@@ -9,7 +9,7 @@ the two tests by tracking the ORIGINAL 14D/15D witness and the complete
 16D generator code, rather than inspecting only scalar parity values.
 
 Under arbitrary finite inner shift, BV/CU preserve both precise dependent
-15D boundaries and shift the original BC generator provenance. The
+15D boundaries and shift genuine CZ and excluded-atom BC generator provenance. The
 actual physical conservative atom generator and every genuine CZ symm-depth
 generator have exactly covariant complete BW codes. The noncommutative
 CN mixed-fork free word therefore has exact prefix covariance, and
@@ -58,19 +58,6 @@ variable {q t : NativeK5StructuralNineCell p e d}
 variable {P Q : NativeK5StructuralTenCell p q t}
 variable {H K : NativeK5StructuralElevenCell p P Q}
 variable {U V : NativeK5StructuralTwelveCell p H K}
-
-/-- The genuine native Type-valued conservative proof depth does not
-depend on its finite AQ frame word. No identification of proof trees. -/
-theorem nativeK5DHCodeIndex_prefix
-    (W : NativeK5StructuralThirteenCell p U V)
-    (shift : List Bool)
-    (code : NativeC60BVGeneratorCode (nativeK5AXKuuSignature W)) :
-    nativeK5CZCodeIndex W (nativeC60BWCodePrefix
-        (nativeK5AXKuuSignature W) shift code) =
-      nativeK5CZCodeIndex W code := by
-  rcases code with ⟨word, data⟩
-  dsimp [nativeC60BWCodePrefix, nativeK5CZCodeIndex]
-  rfl
 
 /-- Complete 16D proof code of each original CZ n-generator, not
 only its parity, persists under physical finite inner framing. -/
@@ -256,7 +243,6 @@ theorem nativeK5DHInnerPrefix_full_parity_iff_kernel
 
 end GenuinePhysicalC60
 
-#print axioms nativeK5DHCodeIndex_prefix
 #print axioms nativeK5DHCZCode_inner_shift
 #print axioms nativeK5DHBaseCode_inner_shift
 #print axioms nativeK5DHCZCNFree_inner_shift
