@@ -315,8 +315,8 @@ theorem nativeK5CUPhysical_source_frame_append
     nativeK5BCContext W outer (nativeK5CHSource W inner cell) =
       nativeK5CHSource W (outer ++ inner) cell := by
   unfold nativeK5CHSource nativeK5BCContext
-  exact nativeC60BCContextTotal_append (nativeK5BCFrame W) outer inner
-    (nativeK5AXPack W (nativeK5AUNaturalityViaSource W cell))
+  exact (nativeC60BCContextTotal_append (nativeK5BCFrame W) outer inner
+    (nativeK5AXPack W (nativeK5AUNaturalityViaSource W cell))).symm
 
 /-- Both sides of the proof-bearing original naturality square receive
 the same exact concatenated context, without imposing interchange. -/
@@ -328,8 +328,8 @@ theorem nativeK5CUPhysical_target_frame_append
     nativeK5BCContext W outer (nativeK5CHTarget W inner cell) =
       nativeK5CHTarget W (outer ++ inner) cell := by
   unfold nativeK5CHTarget nativeK5BCContext
-  exact nativeC60BCContextTotal_append (nativeK5BCFrame W) outer inner
-    (nativeK5AXPack W (nativeK5AUNaturalityViaTarget W cell))
+  exact (nativeC60BCContextTotal_append (nativeK5BCFrame W) outer inner
+    (nativeK5AXPack W (nativeK5AUNaturalityViaTarget W cell))).symm
 
 /-- The rigidity remains valid at the actual outer-AQ-framed strict
 isotropy basepoint, the object used by the original CO/CP/CQ/CR series. -/
