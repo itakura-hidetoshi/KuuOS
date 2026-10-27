@@ -90,7 +90,7 @@ theorem nativeC60DDFreePrefix_append
         (nativeC60BWCodePrefix S outer code)) =
     FreeGroup.of (nativeC60BWCodePrefix S (more ++ outer) code)
   exact congrArg FreeGroup.of
-    (nativeC60DDCodePrefix_append S F more outer code).symm
+    (nativeC60DDCodePrefix_append S more outer code).symm
 
 /-- Original Type-valued raw sixteen-dimensional proof witnesses
 obey exact two-context covariance of their ENTIRE BW free word. -/
