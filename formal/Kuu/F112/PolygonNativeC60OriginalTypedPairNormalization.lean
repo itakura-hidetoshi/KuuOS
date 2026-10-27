@@ -61,7 +61,7 @@ inductive NativeC60CWTypedFourForm (A B : L.Total) :
 
 /-- CV's arbitrary finite typed signed certificate admits one of the
 four exact original normal forms whenever A and B are distinct. -/
-theorem NativeC60CVSignedGaugeSector.to_CW_four_form
+def NativeC60CVSignedGaugeSector.to_CW_four_form
     {A B : L.Total} (hAB : A ≠ B)
     {x y : L.Total} {path : NativeC60CASignedChain S F x y}
     (certificate : NativeC60CVSignedGaugeSector S F A B path) :
