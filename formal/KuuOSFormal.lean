@@ -186,6 +186,7 @@ import Kuu.F112.PolygonNativeC60StrictParityQuotientTransport
 import Kuu.F112.PolygonNativeC60ParityQuotientComposition
 import Kuu.F112.PolygonNativeC60StrictCompositionKernelCocycle
 import Kuu.F112.PolygonNativeC60StrictCompositionFromFullCN
+import Kuu.F112.PolygonNativeC60FiniteStrictPrefixAction
 import Kuu.F112.PolygonNativeF55P94DK5ShellingNoncommutativeGap
 import Kuu.F112.PolygonNativeF55P94DGaugeCovariantHolonomy
 import Kuu.F112.PolygonNativeC60PhysicalGaugeAtlas
