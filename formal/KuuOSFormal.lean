@@ -165,6 +165,7 @@ import Kuu.F112.PolygonNativeC60StrictIsotropySemidirectProduct
 import Kuu.F112.PolygonNativeC60StrictKernelActionObstruction
 import Kuu.F112.PolygonNativeC60TypedKernelCompleteness
 import Kuu.F112.PolygonNativeC60OffTargetStrictKernelAction
+import Kuu.F112.PolygonNativeC60ConservativeSourceTargetRigidity
 import Kuu.F112.PolygonNativeF55P94DK5ShellingNoncommutativeGap
 import Kuu.F112.PolygonNativeF55P94DGaugeCovariantHolonomy
 import Kuu.F112.PolygonNativeC60PhysicalGaugeAtlas
