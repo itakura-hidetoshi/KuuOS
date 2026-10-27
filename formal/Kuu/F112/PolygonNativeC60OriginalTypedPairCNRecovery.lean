@@ -143,8 +143,18 @@ theorem nativeC60CWPairChain_complete_CN {A B : L.Total}
   | cons gh rest ih =>
       rcases gh with ⟨g, h⟩
       rw [nativeC60CWPairChain_holonomy_cons S F g h rest]
-      simp only [map_mul]
-      rw [nativeC60CWParallel_pair_reconstruct S F base g h, ih]
+      calc
+        _ = nativeC60CNEmbed S F base
+              (nativeC60CNRetraction S F base
+                (FreeGroup.of (nativeC60BVGeneratorCode S F g) *
+                  (FreeGroup.of (nativeC60BVGeneratorCode S F h))⁻¹)) *
+            nativeC60CNEmbed S F base
+              (nativeC60CNRetraction S F base
+                (nativeC60BWFreeHolonomy S F
+                  (nativeC60CAChainStep S F (nativeC60CWPairChain S F rest)))) := by
+            rw [map_mul, map_mul]
+        _ = _ := by
+          rw [nativeC60CWParallel_pair_reconstruct S F base g h, ih]
 
 /-- Exact complete-code pair normality is sufficient for actual CN
 reconstruction on an arbitrary original typed A-based 16D loop. -/
