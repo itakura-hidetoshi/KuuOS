@@ -171,6 +171,7 @@ import Kuu.F112.PolygonNativeC60FiniteSignedGaugeSector
 import Kuu.F112.PolygonNativeC60OriginalTypedPairCNRecovery
 import Kuu.F112.PolygonNativeC60OriginalTypedPairNormalization
 import Kuu.F112.PolygonNativeC60ConservativeFrameUnprefix
+import Kuu.F112.PolygonNativeC60PhysicalFreeIsotropy
 import Kuu.F112.PolygonNativeF55P94DK5ShellingNoncommutativeGap
 import Kuu.F112.PolygonNativeF55P94DGaugeCovariantHolonomy
 import Kuu.F112.PolygonNativeC60PhysicalGaugeAtlas
