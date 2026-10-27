@@ -324,6 +324,8 @@ theorem nativeK5CJTarget_source_forces_word_eq
     x.1.1.down) h
   have ht := congrArg (fun x : (nativeK5AXBaseLayer W).Total =>
     x.1.2.down) h
+  unfold nativeK5CHTarget nativeK5CHSource at hs ht
+  rw [nativeK5BCContext_pack W xs _, nativeK5BCContext_pack W ys _] at hs ht
   change nativeK5AQContext W xs (nativeK5CJStart W R) =
     nativeK5AQContext W ys (nativeK5CJStart W R') at hs
   change nativeK5AQContext W xs (nativeK5CJFinish W S) =
