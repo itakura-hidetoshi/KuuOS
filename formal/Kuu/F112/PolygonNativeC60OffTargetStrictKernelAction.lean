@@ -122,8 +122,7 @@ theorem nativeC60CSOffTargetFork_decode_zero
     (FreeGroup.of (nativeC60BVGeneratorCode S F g) *
       (FreeGroup.of (nativeC60BVGeneratorCode S F h))⁻¹) = 1
   rw [map_mul, map_inv]
-  change nativeC60CNDecodeLetter S F base (nativeC60BVGeneratorCode S F g) *
-    (nativeC60CNDecodeLetter S F base (nativeC60BVGeneratorCode S F h))⁻¹ = 1
+  simp only [nativeC60CNRetraction, FreeGroup.lift_apply_of]
   rw [nativeC60CSOffTarget_decode_zero S F base g hc,
     nativeC60CSOffTarget_decode_zero S F base h hc]
   simp
@@ -230,7 +229,7 @@ theorem nativeC60CSOffTargetFork_free_noncommute
   have hAC : nativeC60CNLetterCode S F base j ≠
       nativeC60BVGeneratorCode S F g :=
     nativeC60CSOffTargetCode_ne_parallel S F base g hc j.val
-  have h := nativeC60CSFourLetterForks_noncommute
+  have hnoncomm := nativeC60CSFourLetterForks_noncommute
     (nativeC60CNLetterCode S F base j)
     (nativeC60BVGeneratorCode S F base)
     (nativeC60BVGeneratorCode S F g)
@@ -245,7 +244,7 @@ theorem nativeC60CSOffTargetFork_free_noncommute
       (FreeGroup.of (nativeC60BVGeneratorCode S F h))⁻¹) *
     (FreeGroup.of (nativeC60CNLetterCode S F base j) *
       (FreeGroup.of (nativeC60BVGeneratorCode S F base))⁻¹)
-  exact h
+  exact hnoncomm
 
 /-- Genuine nontriviality of the ACTUAL CP kernel conjugation action,
 using the independent true-kernel original typed loop and the original
@@ -268,16 +267,16 @@ theorem nativeC60CSOffTargetFork_action_nontrivial
     (nativeC60CORetraction S F word base)
     (nativeC60COEmbed S F word base) (FreeGroup.of j) k
   intro heq
-  have h := congrArg (nativeC60COHolonomy S F word a) heq
+  have hhol := congrArg (nativeC60COHolonomy S F word a) heq
   change nativeC60COHolonomy S F word a
       (nativeC60COEmbed S F word base (FreeGroup.of j) *
         nativeC60CORawLoop S F word (nativeC60CKMixedFork S F g h)) =
     nativeC60COHolonomy S F word a
       (nativeC60CORawLoop S F word (nativeC60CKMixedFork S F g h) *
-        nativeC60COEmbed S F word base (FreeGroup.of j)) at h
+        nativeC60COEmbed S F word base (FreeGroup.of j)) at hhol
   simp only [map_mul, nativeC60COEmbed_holonomy_apply,
-    nativeC60CORawLoop_holonomy] at h
-  have hdown := congrArg (nativeC60BXFreeUnprefix S word) h
+    nativeC60CORawLoop_holonomy] at hhol
+  have hdown := congrArg (nativeC60BXFreeUnprefix S word) hhol
   simp only [map_mul, nativeC60BXFreeUnprefix_prefix] at hdown
   exact (nativeC60CSOffTargetFork_free_noncommute S F base j g h hc hgh) hdown
 
