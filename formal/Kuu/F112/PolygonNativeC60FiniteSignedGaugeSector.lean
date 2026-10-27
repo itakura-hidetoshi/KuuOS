@@ -68,7 +68,7 @@ inductive NativeC60CVSignedGaugeSector {L : NativeC60AXLayer.{uCV}}
 
 /-- The four exact incidence laws suffice for the entire finite signed
 language, including arbitrary intermediate ORIGINAL 15D Types. -/
-theorem nativeC60CVSignedGaugeSector_of_incidence
+def nativeC60CVSignedGaugeSector_of_incidence
     {L : NativeC60AXLayer.{uCV}}
     (S : NativeC60AXSignature L) (F : Bool → NativeC60BCFrame L)
     (A B : L.Total)
@@ -81,7 +81,7 @@ theorem nativeC60CVSignedGaugeSector_of_incidence
     (hnoInA : ∀ {z : L.Total},
       (nativeC60BCClosedSignature S F).Gen z A → False) :
     ∀ {x y : L.Total} (p : NativeC60CASignedChain S F x y),
-      (x = A ∨ x = B) → NativeC60CVSignedGaugeSector S F A B p := by
+      Sum (x = A) (x = B) → NativeC60CVSignedGaugeSector S F A B p := by
   intro x y path
   induction path with
   | nil x =>
@@ -97,7 +97,7 @@ theorem nativeC60CVSignedGaugeSector_of_incidence
       · subst x
         have hmiddle := houtA g
         cases hmiddle
-        exact .positive g tail (ih (Or.inr rfl))
+        exact .positive g tail (ih (Sum.inr rfl))
       · subst x
         exact False.elim (hnoOutB g)
   | neg g tail ih =>
@@ -108,7 +108,7 @@ theorem nativeC60CVSignedGaugeSector_of_incidence
       · subst x
         have hmiddle := hinB g
         cases hmiddle
-        exact .negative g tail (ih (Or.inl rfl))
+        exact .negative g tail (ih (Sum.inl rfl))
 
 /-- Every sector certificate records the exact original final 15D
 endpoint as one of the two endpoints; no third proof object arises. -/
@@ -270,17 +270,18 @@ theorem nativeK5CVFramed_incoming_unique_source
 /-- For EVERY finite genuinely typed signed 16D path starting in
 either framed original physical 15D endpoint, one constructs a
 complete Type-valued two-boundary gauge-sector certificate. -/
-theorem nativeK5CVAll_finite_signed_gauge_sector
+def nativeK5CVAll_finite_signed_gauge_sector
     (W : NativeK5StructuralThirteenCell p U V)
     (R : NativeK5FifteenFourteenFiber W)
     (inner outer : List Bool)
     {x y : (nativeK5AXBaseLayer W).Total}
     (path : NativeC60CASignedChain (nativeK5AXKuuSignature W)
       (nativeK5BCFrame W) x y)
-    (hstart : x = nativeK5BCContext W outer
-        (nativeK5CHSource W inner (nativeK5CKConservativeRefl W R)) ∨
-      x = nativeK5BCContext W outer
-        (nativeK5CHTarget W inner (nativeK5CKConservativeRefl W R))) :
+    (hstart : Sum
+      (x = nativeK5BCContext W outer
+        (nativeK5CHSource W inner (nativeK5CKConservativeRefl W R)))
+      (x = nativeK5BCContext W outer
+        (nativeK5CHTarget W inner (nativeK5CKConservativeRefl W R)))) :
     NativeC60CVSignedGaugeSector
       (nativeK5AXKuuSignature W) (nativeK5BCFrame W)
       (nativeK5BCContext W outer
@@ -310,10 +311,11 @@ theorem nativeK5CVAll_finite_signed_endpoint_two
     {x y : (nativeK5AXBaseLayer W).Total}
     (path : NativeC60CASignedChain (nativeK5AXKuuSignature W)
       (nativeK5BCFrame W) x y)
-    (hstart : x = nativeK5BCContext W outer
-        (nativeK5CHSource W inner (nativeK5CKConservativeRefl W R)) ∨
-      x = nativeK5BCContext W outer
-        (nativeK5CHTarget W inner (nativeK5CKConservativeRefl W R))) :
+    (hstart : Sum
+      (x = nativeK5BCContext W outer
+        (nativeK5CHSource W inner (nativeK5CKConservativeRefl W R)))
+      (x = nativeK5BCContext W outer
+        (nativeK5CHTarget W inner (nativeK5CKConservativeRefl W R)))) :
     y = nativeK5BCContext W outer
         (nativeK5CHSource W inner (nativeK5CKConservativeRefl W R)) ∨
       y = nativeK5BCContext W outer
@@ -348,7 +350,7 @@ theorem nativeK5CVOriginal_signed_loop_complete_code
         (nativeC60BVGeneratorCode (nativeK5AXKuuSignature W)
           (nativeK5BCFrame W) entry.1, entry.2))) := by
   let cert := nativeK5CVAll_finite_signed_gauge_sector
-    W R inner outer path (Or.inl rfl)
+    W R inner outer path (Sum.inl rfl)
   exact ⟨cert.originalLetters, cert.full_holonomy
     (nativeK5AXKuuSignature W) (nativeK5BCFrame W)⟩
 
