@@ -104,7 +104,7 @@ theorem nativeC60DDRawHolonomy_two_prefix
           (nativeC60BWFreeHolonomy S F c)) := by
   rw [nativeC60BWFreeHolonomy_frame]
   exact (DFunLike.congr_fun
-    (nativeC60DDFreePrefix_append S F more outer)
+    (nativeC60DDFreePrefix_append S more outer)
     (nativeC60BWFreeHolonomy S F c)).symm
 
 /-- BX really removes the two AQ contexts in reverse order: even a
@@ -300,7 +300,7 @@ theorem nativeK5DDOuterStrictTransport_BW
   rw [nativeC60COEmbed_holonomy_apply] at hz
   rw [← hz]
   exact (DFunLike.congr_fun
-    (nativeC60DDFreePrefix_append S F more outer)
+    (nativeC60DDFreePrefix_append S more outer)
     (nativeC60CNEmbed S F base coord)).symm
 
 /-- Nontrivial parity is preserved NATURALLY on the WHOLE actual
