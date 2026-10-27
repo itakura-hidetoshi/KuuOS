@@ -183,12 +183,11 @@ theorem nativeK5DICZIndex_prefix
     nativeK5CZCodeIndex W
         (nativeC60BWCodePrefix (nativeK5AXKuuSignature W) shift code) =
       nativeK5CZCodeIndex W code := by
-  have hpayload :
-      (nativeC60BWCodePrefix (nativeK5AXKuuSignature W) shift code).2 =
-        code.2 := by
-    rfl
-  unfold nativeK5CZCodeIndex
-  rw [hpayload]
+  -- The CZ discriminator is a dependent match on the ORIGINAL 15D cell.
+  -- Expose the full unchanged proof witness before reducing the match;
+  -- rewriting only an enclosing dependent Sigma would be ill-typed.
+  rcases code with ⟨word, a0, b0, R, T, cell, ha, hb⟩
+  cases cell <;> rfl
 
 /-- In particular EVERY NON-CZ certificate remains non-CZ, and every
 CZ certificate retains its ORIGINAL exact symm-depth before projection. -/
