@@ -217,7 +217,7 @@ theorem nativeC60CMForkIter_holonomy
         (FreeGroup.of (nativeC60BVGeneratorCode S F g) *
           (FreeGroup.of (nativeC60BVGeneratorCode S F h))⁻¹) ^ (n + 1)
       rw [ih, pow_succ']
-      group
+      exact (mul_assoc _ _ _).symm
 
 /-- A character of the complete ORIGINAL 16D noncommutative free group.
 It counts the distinguished FULL higher generator certificate, without
@@ -324,7 +324,8 @@ theorem nativeC60CMForkIter_no_strict_nil
     calc
       _ = FreeGroup.mk (nativeC60CAChainSignedCodes S F
           (nativeC60CMForkIter S F g h n)) :=
-        (nativeC60CAChain_holonomy S F _).symm
+        nativeC60CAChain_holonomy S F
+          (nativeC60CMForkIter S F g h n)
       _ = FreeGroup.mk (nativeC60CAChainSignedCodes S F
           (NativeC60CASignedChain.nil a)) := hfree
       _ = 1 := rfl
