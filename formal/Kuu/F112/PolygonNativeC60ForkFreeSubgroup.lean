@@ -132,6 +132,15 @@ theorem nativeC60CMForkPower_holonomy_injective
         (nativeC60CAChainStep S F
           (nativeC60CMForkPowerChain S F g h n))) := by
   intro m n heq
+  -- Lean's rewrite search does not beta-reduce the anonymous function
+  -- from Function.Injective automatically; expose its value first.
+  change
+    nativeC60BWFreeHolonomy S F
+        (nativeC60CAChainStep S F
+          (nativeC60CMForkPowerChain S F g h m)) =
+      nativeC60BWFreeHolonomy S F
+        (nativeC60CAChainStep S F
+          (nativeC60CMForkPowerChain S F g h n)) at heq
   rw [nativeC60CMForkPower_holonomy S F g h m,
       nativeC60CMForkPower_holonomy S F g h n] at heq
   have hc := congrArg
