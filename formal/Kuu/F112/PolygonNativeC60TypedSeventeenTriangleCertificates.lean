@@ -335,10 +335,13 @@ theorem nativeC60DQSeventeenRoundtrip_strict_id
         (nativeC60DQTriangleSeventeenSignature S F)
         (nativeC60AZNoRelations (nativeC60DQTriangleSeventeenSignature S F))).obj
         ⟨nativeC60DQPackSixteen S F (nativeC60DQRawZigzag S F g)⟩) :=
-  nativeC60AZStrictStep_inv_left
-    (nativeC60DQTriangleSeventeenSignature S F)
-    (nativeC60AZNoRelations (nativeC60DQTriangleSeventeenSignature S F))
-    (nativeC60DQZigzagSeventeen S F g)
+  by
+    unfold nativeC60DQSeventeenRoundtrip
+    rw [nativeC60AZStrictStep_comp]
+    exact nativeC60AZStrictStep_inv_left
+      (nativeC60DQTriangleSeventeenSignature S F)
+      (nativeC60AZNoRelations (nativeC60DQTriangleSeventeenSignature S F))
+      (nativeC60DQZigzagSeventeen S F g)
 
 section OriginalPhysicalC60
 
