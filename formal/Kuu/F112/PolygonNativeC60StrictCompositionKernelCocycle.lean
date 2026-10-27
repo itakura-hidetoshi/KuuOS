@@ -181,6 +181,23 @@ def nativeK5DLOneStageStrict
       nativeK5DBIsotropy W R ((more ++ shift) ++ inner) outer :=
   nativeK5DFInnerPrefixStrictEquiv W R inner outer (more ++ shift)
 
+/-- Transporting an ORIGINAL strict isomorphism along a genuine
+equality of finite AQ context lists preserves its complete DC value.
+This is dependent equality elimination, not an observer quotient
+chosen to identify distinct original 15D Type-valued proofs. -/
+theorem nativeK5DLContextReassoc_parity
+    (W : NativeK5StructuralThirteenCell p U V)
+    (R : NativeK5FifteenFourteenFiber W)
+    (inner outer : List Bool)
+    {a b : List Bool} (h : a = b)
+    (e : nativeK5DBIsotropy W R inner outer ≃*
+      nativeK5DBIsotropy W R b outer)
+    (z : nativeK5DBIsotropy W R inner outer) :
+    nativeK5DCParityQuotient W R a outer ((h.symm ▸ e) z) =
+      nativeK5DCParityQuotient W R b outer (e z) := by
+  cases h
+  rfl
+
 /-- Retain the actual original DC free-group readout for the two-stage
 strict arrow; the proof is DK's physically established genuine two-step
 naturality with only list reassociation at the *type* boundary. -/
@@ -192,7 +209,16 @@ theorem nativeK5DLTwoStageStrict_parity
     nativeK5DCParityQuotient W R ((more ++ shift) ++ inner) outer
         (nativeK5DLTwoStageStrict W R inner outer shift more z) =
       nativeK5DCParityQuotient W R inner outer z := by
-  simpa only [nativeK5DLTwoStageStrict, List.append_assoc] using
+  let step := (nativeK5DFInnerPrefixStrictEquiv W R inner outer shift).trans
+    (nativeK5DFInnerPrefixStrictEquiv W R (shift ++ inner) outer more)
+  have hcontext :
+      nativeK5DCParityQuotient W R ((more ++ shift) ++ inner) outer
+          (nativeK5DLTwoStageStrict W R inner outer shift more z) =
+        nativeK5DCParityQuotient W R (more ++ (shift ++ inner)) outer
+          (step z) := by
+    exact nativeK5DLContextReassoc_parity W R inner outer
+      (List.append_assoc more shift inner) step z
+  exact hcontext.trans
     (nativeK5DKInnerPrefix_strict_twostep_parity W R inner outer shift more z)
 
 /-- The direct route is parity-natural by DI on the whole original CN
@@ -380,6 +406,7 @@ end GenuinePhysicalC60
 #print axioms nativeC60DLStrictDefect_trivial_iff
 #print axioms nativeK5DLTwoStageStrict
 #print axioms nativeK5DLOneStageStrict
+#print axioms nativeK5DLContextReassoc_parity
 #print axioms nativeK5DLTwoStageStrict_parity
 #print axioms nativeK5DLOneStageStrict_parity
 #print axioms nativeK5DLStrictRoutes_parity_hom
