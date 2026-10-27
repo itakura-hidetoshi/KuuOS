@@ -69,6 +69,18 @@ theorem nativeC60DEFullStrictBF_BW
   obtain ⟨c, rfl⟩ := nativeC60BAStep_surjective
     (nativeC60BCClosedSignature S F)
     (nativeC60AZNoRelations (nativeC60BCClosedSignature S F)) a b f
+  change MulOpposite.unop
+      ((nativeC60BWFreeStrictHolonomy S F).map
+        ((nativeC60BDStrictContext S F
+          (nativeC60AZNoRelations (nativeC60BCClosedSignature S F))
+          shift (nativeC60BDNoRelations_context S F shift)).map
+          (nativeC60AZStrictStep (nativeC60BCClosedSignature S F)
+            (nativeC60AZNoRelations (nativeC60BCClosedSignature S F)) c))) =
+      nativeC60BWFreePrefix S shift
+        (MulOpposite.unop
+          ((nativeC60BWFreeStrictHolonomy S F).map
+            (nativeC60AZStrictStep (nativeC60BCClosedSignature S F)
+              (nativeC60AZNoRelations (nativeC60BCClosedSignature S F)) c)))
   rw [nativeC60BDStrictContext_step,
     nativeC60BXFreeStrictHolonomy_step,
     nativeC60BXFreeStrictHolonomy_step,
