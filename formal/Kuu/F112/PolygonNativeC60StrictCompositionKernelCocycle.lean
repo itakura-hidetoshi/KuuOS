@@ -166,7 +166,8 @@ def nativeK5DLTwoStageStrict
     (inner outer shift more : List Bool) :
     nativeK5DBIsotropy W R inner outer ≃*
       nativeK5DBIsotropy W R ((more ++ shift) ++ inner) outer := by
-  simpa only [List.append_assoc] using
+  -- Explicit dependent transport, not simp on the group-valued object.
+  exact (List.append_assoc more shift inner).symm ▸
     ((nativeK5DFInnerPrefixStrictEquiv W R inner outer shift).trans
       (nativeK5DFInnerPrefixStrictEquiv W R (shift ++ inner) outer more))
 
