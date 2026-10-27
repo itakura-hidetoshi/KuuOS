@@ -364,7 +364,7 @@ theorem nativeK5DLShiftLetter_twoStep_BVCode
       nativeK5DIShiftLetter_code W R inner shift j,
       nativeK5DIShiftLetter_code W R inner (more ++ shift) j]
   exact (nativeC60DDCodePrefix_append
-    (nativeK5AXKuuSignature W) (nativeK5BCFrame W) more shift
+    (nativeK5AXKuuSignature W) more shift
     (nativeC60BVGeneratorCode (nativeK5AXKuuSignature W)
       (nativeK5BCFrame W) j.val)).symm
 
