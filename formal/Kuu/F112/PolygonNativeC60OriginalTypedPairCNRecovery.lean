@@ -244,6 +244,8 @@ end OuterContextObstruction
 #print axioms nativeC60CWPairChain_holonomy_cons
 #print axioms nativeC60CWPairChain_complete_CN
 #print axioms nativeC60CWOriginal_loop_complete_CN_of_pairs
+#print axioms NativeC60CWOuterPairCodeComplete
+#print axioms nativeC60CWStrict_kernel_trivial_of_outer_pair_codes
 
 end
 end Kuu.F112.Physical
