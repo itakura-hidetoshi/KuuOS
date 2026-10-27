@@ -176,6 +176,7 @@ import Kuu.F112.PolygonNativeC60ConservativeFreeRank
 import Kuu.F112.PolygonNativeC60DoubleSymmDescentObstruction
 import Kuu.F112.PolygonNativeC60ExactCNBWDescentClassification
 import Kuu.F112.PolygonNativeC60PartialGaugeDescentParity
+import Kuu.F112.PolygonNativeC60FiniteAQPartialGaugeNaturality
 import Kuu.F112.PolygonNativeF55P94DK5ShellingNoncommutativeGap
 import Kuu.F112.PolygonNativeF55P94DGaugeCovariantHolonomy
 import Kuu.F112.PolygonNativeC60PhysicalGaugeAtlas
@@ -346,4 +347,3 @@ internal Kuu import aggregate; publishing retained proofs does not make their
 imports prerequisites of Kuu. Existing proof authority is not reset by this
 build-wiring repair. No theorem is reproved or renamed here.
 -/
-import Kuu.F112.PolygonNativeC60FiniteAQPartialGaugeNaturality
