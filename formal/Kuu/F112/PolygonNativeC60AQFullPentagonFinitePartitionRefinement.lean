@@ -212,13 +212,19 @@ theorem nativeC60ERSequential_comparison (word : List Bool)
     nativeC60ERCanonicalRepartition S F word start left right h := by
   apply MulEquiv.ext
   intro p
-  obtain ⟨x, rfl⟩ :=
-    (nativeC60EQSequentialNormalForm S F word r start left).surjective p
-  change nativeC60EQSequentialNormalForm S F word r start right x =
-    nativeC60ERCanonicalRepartition S F word start left right h
-      (nativeC60EQSequentialNormalForm S F word r start left x)
-  exact (DFunLike.congr_fun
-    (nativeC60ERSequential_naturality S F word r start left right h) x).symm
+  let eLeft := nativeC60EQSequentialNormalForm S F word r start left
+  let eRight := nativeC60EQSequentialNormalForm S F word r start right
+  obtain ⟨x, rfl⟩ := eLeft.surjective p
+  have hnat := DFunLike.congr_fun
+    (nativeC60ERSequential_naturality S F word r start left right h) x
+  change (eLeft.symm.trans eRight) (eLeft x) =
+    nativeC60ERCanonicalRepartition S F word start left right h (eLeft x)
+  calc
+    (eLeft.symm.trans eRight) (eLeft x) =
+        eRight (eLeft.symm (eLeft x)) := rfl
+    _ = eRight x := by rw [MulEquiv.symm_apply_apply]
+    _ = nativeC60ERCanonicalRepartition S F word start left right h
+          (eLeft x) := hnat.symm
 
 /-- No residual obstruction is lost, identified or twisted by
 a change of finite block partition. This is EQUALITY of the
@@ -263,10 +269,10 @@ theorem nativeC60ERRepartition_coordinate (word : List Bool)
   exact heq
 
 /-- Any adjacent pair of finite integer blocks may be grouped
-at an arbitrary prefix and suffix without changing total rank. -/
-theorem nativeC60ERAdjacentSum (prefix suffix : List ℕ) (a b : ℕ) :
-    (prefix ++ (a + b) :: suffix).sum =
-      (prefix ++ a :: b :: suffix).sum := by
+at an arbitrary front and suffix without changing total rank. -/
+theorem nativeC60ERAdjacentSum (front suffix : List ℕ) (a b : ℕ) :
+    (front ++ (a + b) :: suffix).sum =
+      (front ++ a :: b :: suffix).sum := by
   simp only [List.sum_append, List.sum_cons]
   omega
 
@@ -275,16 +281,16 @@ isomorphic to splitting the consecutive blocks a, then b at ANY
 place in the finite list. This re-partitioning is canonical and
 preserves all integer-charge and residual coordinates. -/
 def nativeC60ERAdjacentRefinement (word : List Bool)
-    (start : ℕ) (prefix suffix : List ℕ) (a b : ℕ) :
-    (nativeC60EQChargeTower (prefix ++ (a + b) :: suffix) ×
+    (start : ℕ) (front suffix : List ℕ) (a b : ℕ) :
+    (nativeC60EQChargeTower (front ++ (a + b) :: suffix) ×
       (nativeC60EBAbelianReceiver S F word
-        (start + (prefix ++ (a + b) :: suffix).sum)).ker) ≃*
-    (nativeC60EQChargeTower (prefix ++ a :: b :: suffix) ×
+        (start + (front ++ (a + b) :: suffix).sum)).ker) ≃*
+    (nativeC60EQChargeTower (front ++ a :: b :: suffix) ×
       (nativeC60EBAbelianReceiver S F word
-        (start + (prefix ++ a :: b :: suffix).sum)).ker) :=
+        (start + (front ++ a :: b :: suffix).sum)).ker) :=
   nativeC60ERCanonicalRepartition S F word start
-    (prefix ++ (a + b) :: suffix) (prefix ++ a :: b :: suffix)
-    (nativeC60ERAdjacentSum prefix suffix a b)
+    (front ++ (a + b) :: suffix) (front ++ a :: b :: suffix)
+    (nativeC60ERAdjacentSum front suffix a b)
 
 /-- Grouping or refining an adjacent finite rank block anywhere
 commutes STRICTLY with the true, separately constructed sequential
@@ -292,15 +298,15 @@ C60 AQ decomposition. -/
 theorem nativeC60ERAdjacentRefinement_naturality (word : List Bool)
     {x y : (nativeC60DQSeventeenLayer S F).Total}
     (r : (nativeC60DQTriangleSeventeenSignature S F).Gen x y)
-    (start : ℕ) (prefix suffix : List ℕ) (a b : ℕ) :
+    (start : ℕ) (front suffix : List ℕ) (a b : ℕ) :
     (nativeC60EQSequentialNormalForm S F word r start
-      (prefix ++ (a + b) :: suffix)).trans
-      (nativeC60ERAdjacentRefinement S F word start prefix suffix a b) =
+      (front ++ (a + b) :: suffix)).trans
+      (nativeC60ERAdjacentRefinement S F word start front suffix a b) =
       nativeC60EQSequentialNormalForm S F word r start
-        (prefix ++ a :: b :: suffix) :=
+        (front ++ a :: b :: suffix) :=
   nativeC60ERSequential_naturality S F word r start
-    (prefix ++ (a + b) :: suffix) (prefix ++ a :: b :: suffix)
-    (nativeC60ERAdjacentSum prefix suffix a b)
+    (front ++ (a + b) :: suffix) (front ++ a :: b :: suffix)
+    (nativeC60ERAdjacentSum front suffix a b)
 
 end GenuineAQRankRefinement
 
