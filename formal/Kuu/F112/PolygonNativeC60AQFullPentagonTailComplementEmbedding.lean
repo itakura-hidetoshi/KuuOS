@@ -62,6 +62,7 @@ theorem nativeC60EGTailShift_initial_zero
   change (Finsupp.mapDomain (fun j : ℕ => n + j) v) i.val = 0
   apply Finsupp.mapDomain_notin_range
   rintro ⟨j, hj⟩
+  change n + j = i.val at hj
   have hi : i.val < n := i.isLt
   omega
 
@@ -71,6 +72,7 @@ theorem nativeC60EGTailShift_injective (n : ℕ) :
   intro v w h
   have hshift : Function.Injective (fun j : ℕ => n + j) := by
     intro i j hij
+    change n + i = n + j at hij
     omega
   change (Finsupp.mapDomain (fun j : ℕ => n + j) v) =
     (Finsupp.mapDomain (fun j : ℕ => n + j) w) at h
