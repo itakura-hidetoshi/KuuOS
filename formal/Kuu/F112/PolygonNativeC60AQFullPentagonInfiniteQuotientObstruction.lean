@@ -203,8 +203,9 @@ theorem nativeC60DZDefectPower_injective (word : List Bool)
       (fun n : ℕ => (nativeC60DZOutsideDefectClass S F word r) ^ n) := by
   intro m n h
   have hh := congrArg (nativeC60DZImageCharacter S F word) h
+  -- The first rewrite of the character's defect value simplifies
+  -- both sides; repeating that lemma is an invalid second rw.
   rw [map_pow, map_pow,
-    nativeC60DZImageCharacter_defect_one S F word r,
     nativeC60DZImageCharacter_defect_one S F word r] at hh
   have hi := congrArg Multiplicative.toAdd hh
   rw [nativeC60DZIntegerGeneratorPower m,
