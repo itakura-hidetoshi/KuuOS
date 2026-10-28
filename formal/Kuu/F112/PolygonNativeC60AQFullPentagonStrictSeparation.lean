@@ -59,14 +59,16 @@ def nativeC60DYClosedAtomPrefix :
   | _, _, .symm _ => none
   | _, _, .trans _ _ => none
 
-/-- A first-argument context tag on exactly the post-whiskered
-18D associator. Every other full 18D constructor has zero charge. -/
+/-- Read the first 17D atom tag of an 18D associator, through any
+finite chain of right-post-whiskerings. The left-pre constructor has
+zero charge. Structural recursion avoids a fragile nested match. -/
 def nativeC60DYPostAssocPrefix :
     ∀ {x y : (nativeC60DVClosedEighteenLayer S F).Total},
       (nativeC60DVClosedEighteenSignature S F).Gen x y →
         Option (List Bool)
-  | _, _, .post (.assoc f _ _) _ => nativeC60DYClosedAtomPrefix S F f
-  | _, _, _ => none
+  | _, _, .assoc f _ _ => nativeC60DYClosedAtomPrefix S F f
+  | _, _, .post r _ => nativeC60DYPostAssocPrefix S F r
+  | _, _, .pre _ _ => none
 
 /-- A mapped original raw17D path cannot be an atomic closed path
 with a tag longer than its entire transported AQ context word. -/
@@ -103,26 +105,19 @@ theorem nativeC60DYPostAssocPrefix_transport_ne
     nativeC60DYPostAssocPrefix S F
         (nativeC60DVTransportEighteenGen S F word r) ≠
       some (false :: word) := by
-  cases r with
+  induction r with
   | assoc f g h =>
+      change nativeC60DYClosedAtomPrefix S F
+        (nativeC60DVSeventeenWordMap S F word f) ≠ some (false :: word)
+      exact nativeC60DYClosedAtomPrefix_transport_ne S F word f
+  | post r k ih =>
+      change nativeC60DYPostAssocPrefix S F
+          (nativeC60DVTransportEighteenGen S F word r) ≠
+            some (false :: word)
+      exact ih
+  | pre h r ih =>
       change (none : Option (List Bool)) ≠ some (false :: word)
       simp
-  | pre h r =>
-      change (none : Option (List Bool)) ≠ some (false :: word)
-      simp
-  | post r k =>
-      cases r with
-      | assoc f g h =>
-          change nativeC60DYClosedAtomPrefix S F
-            (nativeC60DVSeventeenWordMap S F word f) ≠
-              some (false :: word)
-          exact nativeC60DYClosedAtomPrefix_transport_ne S F word f
-      | pre h r =>
-          change (none : Option (List Bool)) ≠ some (false :: word)
-          simp
-      | post r h =>
-          change (none : Option (List Bool)) ≠ some (false :: word)
-          simp
 
 /-- A selected full 18D letter carries integer charge one exactly
 when its genuine proof code has the extra context prefix. -/
@@ -191,9 +186,10 @@ theorem nativeC60DYImageKernel_le_character_ker (word : List Bool) :
   rw [nativeC60DYCharacter_transport_one S F word,
     nativeC60DYCharacter_transport_one S F word]
 
-/-- Exact charge of ANY full-closed pentagon defect: its ONLY
-charged 18D letter is the first long-route post-associator.
-The other two long-route and both short-route letters charge zero. -/
+/-- Exact charge of ANY full-closed pentagon defect. The two
+long-route associator-spine charges are balanced by the last short
+associator; the first short associator and pre-whisker charge zero.
+Their uncancelled signed difference is the first path's tag. -/
 theorem nativeC60DYCharacter_full_pentagon
     (word : List Bool)
     {a b c d e : (nativeC60DQSeventeenLayer S F).Total}
@@ -220,7 +216,8 @@ theorem nativeC60DYCharacter_full_pentagon
           FreeGroup.of (⟨_, _, .assoc f g (.trans h k)⟩ :
             NativeC60DVCompleteEighteenCode S F))⁻¹)) = _
   simp only [map_mul, map_inv, nativeC60DYCharacter_of]
-  simp [nativeC60DYCodeCharge, nativeC60DYPostAssocPrefix]
+  simp [nativeC60DYCodeCharge, nativeC60DYPostAssocPrefix,
+    nativeC60DYClosedAtomPrefix, mul_assoc] <;> group
 
 /-- An actual contextual CLOSED 17D atom with an explicitly DIFFERENT
 AQ tag. No new geometric cell or additional type assumption is used. -/
@@ -263,7 +260,8 @@ theorem nativeC60DYOutsidePentagon_charge_one
       Multiplicative.ofAdd (1 : ℤ) := by
   unfold nativeC60DYOutsidePentagonDefect
   rw [nativeC60DYCharacter_full_pentagon S F word]
-  rfl
+  simp [nativeC60DYOutsideSeventeenAtom,
+    nativeC60DYClosedAtomPrefix, nativeC60BCGen]
 
 /-- The full target pentagon relation REALLY supplies this defect. -/
 theorem nativeC60DYOutsidePentagon_mem_full
