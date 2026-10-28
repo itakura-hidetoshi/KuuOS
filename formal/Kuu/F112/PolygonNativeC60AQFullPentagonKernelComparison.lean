@@ -161,10 +161,26 @@ theorem nativeC60DXImagePairs_subset_full (word : List Bool) :
     nativeC60DVSeventeenWordMap S F word h,
     nativeC60DVSeventeenWordMap S F word k, ?_⟩
   apply Prod.ext
-  · rw [nativeC60DVFullWordTransport_natural S F word
+  · change (nativeC60DVFullWordTransport S F word)
+        (nativeC60DSFreeWord S F (nativeC60DRPentagonLong S F f g h k)) =
+      nativeC60DVClosedFreeWord S F
+        (nativeC60DXClosedPentagonLong S F
+          (nativeC60DVSeventeenWordMap S F word f)
+          (nativeC60DVSeventeenWordMap S F word g)
+          (nativeC60DVSeventeenWordMap S F word h)
+          (nativeC60DVSeventeenWordMap S F word k))
+    rw [nativeC60DVFullWordTransport_natural S F word
       (nativeC60DRPentagonLong S F f g h k),
       nativeC60DXTransportPentagonLong S F word f g h k]
-  · rw [nativeC60DVFullWordTransport_natural S F word
+  · change (nativeC60DVFullWordTransport S F word)
+        (nativeC60DSFreeWord S F (nativeC60DRPentagonShort S F f g h k)) =
+      nativeC60DVClosedFreeWord S F
+        (nativeC60DXClosedPentagonShort S F
+          (nativeC60DVSeventeenWordMap S F word f)
+          (nativeC60DVSeventeenWordMap S F word g)
+          (nativeC60DVSeventeenWordMap S F word h)
+          (nativeC60DVSeventeenWordMap S F word k))
+    rw [nativeC60DVFullWordTransport_natural S F word
       (nativeC60DRPentagonShort S F f g h k),
       nativeC60DXTransportPentagonShort S F word f g h k]
 
