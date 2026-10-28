@@ -97,22 +97,21 @@ def nativeC60ETLocalPath_trans {xs ys zs : List ℕ} :
       .step m (nativeC60ETLocalPath_trans tail q)
 
 /-- Reverse the ordered local history and each of its generators. -/
-def nativeC60ETLocalPath_reverse {xs ys : List ℕ}
-    (p : NativeC60ETLocalPath xs ys) : NativeC60ETLocalPath ys xs := by
-  induction p with
-  | refl xs => exact .refl xs
-  | step m tail ih =>
-      exact nativeC60ETLocalPath_trans ih
+def nativeC60ETLocalPath_reverse {xs ys : List ℕ} :
+    NativeC60ETLocalPath xs ys → NativeC60ETLocalPath ys xs
+  | .refl xs => .refl xs
+  | .step m tail =>
+      nativeC60ETLocalPath_trans (nativeC60ETLocalPath_reverse tail)
         (.step (nativeC60ETLocalMove_reverse m) (.refl _))
 
 /-- Lift a full finite local path behind a fixed leading block. -/
-def nativeC60ETLocalPath_cons (c : ℕ) {xs ys : List ℕ}
-    (p : NativeC60ETLocalPath xs ys) :
-    NativeC60ETLocalPath (c :: xs) (c :: ys) := by
-  induction p with
-  | refl xs => exact .refl (c :: xs)
-  | step m tail ih =>
-      exact .step (nativeC60ETLocalMove_cons c m) ih
+def nativeC60ETLocalPath_cons (c : ℕ) {xs ys : List ℕ} :
+    NativeC60ETLocalPath xs ys →
+      NativeC60ETLocalPath (c :: xs) (c :: ys)
+  | .refl xs => .refl (c :: xs)
+  | .step m tail =>
+      .step (nativeC60ETLocalMove_cons c m)
+        (nativeC60ETLocalPath_cons c tail)
 
 /-- Every LOCAL path preserves the exact total finite rank. -/
 def nativeC60ETLocalPath_rankEq {xs ys : List ℕ}
@@ -124,12 +123,12 @@ def nativeC60ETLocalPath_rankEq {xs ys : List ℕ}
 
 /-- A local path is also an ES partition path, but not conversely by
 a single step. This forgetful map retains endpoints and rank evidence. -/
-def nativeC60ETLocalToES {xs ys : List ℕ}
-    (p : NativeC60ETLocalPath xs ys) : NativeC60ESPartitionPath xs ys := by
-  induction p with
-  | refl xs => exact .refl xs
-  | step move tail ih =>
-      exact .step (nativeC60ETLocalMove_rankEq move) ih
+def nativeC60ETLocalToES {xs ys : List ℕ} :
+    NativeC60ETLocalPath xs ys → NativeC60ESPartitionPath xs ys
+  | .refl xs => .refl xs
+  | .step move tail =>
+      .step (nativeC60ETLocalMove_rankEq move)
+        (nativeC60ETLocalToES tail)
 
 /-- A rank-zero insertion is necessary to connect [] to [0].
 The explicit witness is one primitive local operation, not a global jump. -/
