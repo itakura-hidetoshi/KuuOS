@@ -249,7 +249,7 @@ variable {E : Type uE} [Category.{vE} E]
 variable {p : Polygon} {a b : D} {x y : E} {n n' m m' : Nat}
 variable {ma mb : KuuNativeBlocks a b} {pa pb : KuuNativeBlocks x y}
 variable {first : KuuNativeF45Tree p n m ma pa mb pb}
-variable {last : KuuNativeF45Tree p n' m' ma mb pb}
+variable {last : KuuNativeF45Tree p n' m' ma pa mb pb}
 variable {r s : KuuNativeF45Tree.DepthRotationRoute p first last}
 variable {f g : NativeF55StructuralComparison p r s}
 variable {alpha beta : NativeK5StructuralFourCell p f g}
