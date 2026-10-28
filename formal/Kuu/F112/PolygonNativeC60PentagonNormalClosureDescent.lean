@@ -364,7 +364,8 @@ theorem nativeC60DTPentagon_receiver_factor_iff
         ρ (nativeC60DSFreeWord S F (nativeC60DRPentagonLong S F f g i k)) =
           ρ (nativeC60DSFreeWord S F
             (nativeC60DRPentagonShort S F f g i k)) := by
-  rw [nativeC60DTQuotient_factor_iff]
+  refine (nativeC60DTQuotient_factor_iff
+    (nativeC60DTPentagonPairs S F) ρ).trans ?_
   constructor
   · intro hall a b c d e f g i k
     exact hall _ (nativeC60DTPentagon_pair_mem S F f g i k)
