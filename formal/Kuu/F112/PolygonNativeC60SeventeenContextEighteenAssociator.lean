@@ -234,8 +234,18 @@ theorem nativeC60DRTreeSeventeenTransport_refinement
     (nativeK5DOTreeWord_eq_of_steps_eq hsteps ▸
       nativeC60DRTreeSeventeenTransport S F left p) =
       nativeC60DRTreeSeventeenTransport S F right p := by
-  cases nativeK5DOTreeWord_eq_of_steps_eq hsteps
-  rfl
+  have hdep :
+      ∀ {w₁ w₂ : List Bool} (hw : w₁ = w₂),
+        (hw ▸ nativeC60BCMapOriginalStep
+          (nativeC60DQTriangleSeventeenSignature S F)
+          (nativeC60DRSeventeenFrame S F) w₁ p) =
+        nativeC60BCMapOriginalStep
+          (nativeC60DQTriangleSeventeenSignature S F)
+          (nativeC60DRSeventeenFrame S F) w₂ p := by
+    intro w₁ w₂ hw
+    cases hw
+    rfl
+  exact hdep (nativeK5DOTreeWord_eq_of_steps_eq hsteps)
 
 /-- For any C60 AQ context tree, AU's ACTUAL physical 16D zigzag
 obtains a constructed TYPE-VALUED 17D contextual triangle certificate
