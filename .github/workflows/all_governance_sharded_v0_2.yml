@@ -38,11 +38,13 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - name: Build exact audit selection for integrity receipt
+        run: python3 scripts/build_full_audit_selection_v0_2.py --output artifacts/selection/selection.json --count 8
       - name: Run full integrity scan
         env:
           KUUOS_FULL_WORKFLOW_SCAN: '1'
           PYTHONPATH: .
-        run: python3 scripts/run_ci_check.py --check-id workflow-integrity --command 'python3 scripts/check_workflow_consolidation_integrity.py'
+        run: python3 scripts/run_ci_check.py --check-id workflow-integrity --selection artifacts/selection/selection.json --command 'python3 scripts/check_workflow_consolidation_integrity.py'
       - name: Upload integrity receipt
         if: always()
         uses: actions/upload-artifact@v4
@@ -66,6 +68,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - name: Build exact audit selection for shard receipt
+        run: python3 scripts/build_full_audit_selection_v0_2.py --output artifacts/selection/selection.json --count 8
       - name: Run shard
         env:
           PYTHONPATH: .
