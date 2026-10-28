@@ -197,6 +197,7 @@ import Kuu.F112.PolygonNativeC60AQGaugePentagonDescent
 import Kuu.F112.PolygonNativeC60AQTypedEighteenTransport
 import Kuu.F112.PolygonNativeC60AQCrossPentagonKernelDescent
 import Kuu.F112.PolygonNativeC60AQFullPentagonKernelComparison
+import Kuu.F112.PolygonNativeC60AQQuotientObstruction
 import Kuu.F112.PolygonNativeF55P94DK5ShellingNoncommutativeGap
 import Kuu.F112.PolygonNativeF55P94DGaugeCovariantHolonomy
 import Kuu.F112.PolygonNativeC60PhysicalGaugeAtlas
