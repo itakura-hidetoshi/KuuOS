@@ -216,8 +216,11 @@ theorem nativeC60DYCharacter_full_pentagon
           FreeGroup.of (⟨_, _, .assoc f g (.trans h k)⟩ :
             NativeC60DVCompleteEighteenCode S F))⁻¹)) = _
   simp only [map_mul, map_inv, nativeC60DYCharacter_of]
-  simp [nativeC60DYCodeCharge, nativeC60DYPostAssocPrefix,
-    nativeC60DYClosedAtomPrefix, mul_assoc] <;> group
+  by_cases htag : nativeC60DYClosedAtomPrefix S F f = some (false :: word)
+  · simp [htag, nativeC60DYCodeCharge, nativeC60DYPostAssocPrefix,
+      nativeC60DYClosedAtomPrefix, mul_assoc] <;> group
+  · simp [htag, nativeC60DYCodeCharge, nativeC60DYPostAssocPrefix,
+      nativeC60DYClosedAtomPrefix, mul_assoc] <;> group
 
 /-- An actual contextual CLOSED 17D atom with an explicitly DIFFERENT
 AQ tag. No new geometric cell or additional type assumption is used. -/
