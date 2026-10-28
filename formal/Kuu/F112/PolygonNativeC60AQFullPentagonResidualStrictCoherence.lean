@@ -121,11 +121,12 @@ theorem nativeC60EMTwoStage_residual (word : List Bool)
     (nativeC60EKTwoStage S F word r n m k x).2.2 =
       (nativeC60EKOneStage S F word r n m k x).2.2 := by
   apply Subtype.ext
-  change
-    ((nativeC60EJCumulativeDirectProduct S F word r (n + m) k
-      ((nativeC60EJCumulativeDirectProduct S F word r n m x).2)).2).1 =
-    ((nativeC60EJCumulativeDirectProduct S F word r n (m + k) x).2).1
-  exact nativeC60EMCumulativeResidual_underlying S F word r n m k x
+  have h := nativeC60EMCumulativeResidual_underlying S F word r n m k x
+  first
+  | simpa [nativeC60EKTwoStage, nativeC60EKOneStage, Nat.add_assoc] using h
+  | 
+    cases Nat.add_assoc n m k
+    simpa [nativeC60EKTwoStage, nativeC60EKOneStage] using h
 
 /-- EM upgrades EK/EL's coordinate and fiber results to exact
 agreement of the entire actual two-stage and one-stage split. -/
