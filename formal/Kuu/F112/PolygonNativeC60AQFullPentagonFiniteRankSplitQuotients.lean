@@ -61,7 +61,7 @@ theorem nativeC60EEFiniteExtension_apply (n : ℕ)
     nativeC60EEFiniteExtension n v i.val = v i := by
   change (Finsupp.mapDomain (fun j : Fin n => j.val)
     ((Finsupp.linearEquivFunOnFinite ℤ ℤ (Fin n)).symm v)) i.val = v i
-  rw [Finsupp.mapDomain_apply_of_injective Fin.val_injective]
+  rw [Finsupp.mapDomain_apply Fin.val_injective]
   rfl
 
 variable {L : NativeC60AXLayer.{u}}
@@ -104,7 +104,12 @@ theorem nativeC60EEReceiver_coordinate (word : List Bool)
     (i : Fin n) :
     ((nativeC60EBAbelianReceiver S F word n) x.toMul) i =
       Multiplicative.ofAdd (nativeC60EDAbelianizedCoordinate S F word i.val x) := by
-  rfl
+  change ((Abelianization.lift (nativeC60EBFiniteReceiver S F word n)) x.toMul) i =
+    (Abelianization.lift (nativeC60EBKernelCharacter S F word i.val)) x.toMul
+  induction x.toMul using QuotientGroup.induction_on with
+  | H k =>
+      simp only [Abelianization.lift_apply_of]
+      rfl
 
 /-- The EB finite receiver evaluated on the EE section reproduces
 ANY finite vector, including all zero, positive, and negative charges. -/
@@ -115,6 +120,9 @@ theorem nativeC60EEFiniteSection_rightInverse (word : List Bool)
     (nativeC60EBAbelianReceiver S F word n)
       (nativeC60EEFiniteSection S F word r n v) = v := by
   funext i
+  change ((nativeC60EBAbelianReceiver S F word n)
+      ((nativeC60EDFiniteSupportEmbedding S F word r
+        (nativeC60EEFiniteExtension n (fun j => (v j).toAdd))).toMul)) i = v i
   rw [nativeC60EEReceiver_coordinate S F word n
     (nativeC60EDFiniteSupportEmbedding S F word r
       (nativeC60EEFiniteExtension n (fun j => (v j).toAdd))) i]
