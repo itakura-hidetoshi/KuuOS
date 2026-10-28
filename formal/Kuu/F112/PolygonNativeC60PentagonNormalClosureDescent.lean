@@ -215,6 +215,14 @@ original noncommutative 18D free evidence. -/
 def nativeC60DTPentagonNormalClosure : Subgroup (NativeC60DTFullFree S F) :=
   nativeC60DTNormalClosure (nativeC60DTPentagonPairs S F)
 
+/-- Explicit normality at the C60-specific typeclass target, avoiding
+Lean's bounded reducibility search through two independent definitions.
+The proof is inherited from the universal minimal normal closure,
+not added as an axiom or separate geometric relation. -/
+instance nativeC60DTPentagonNormalClosure_normal :
+    (nativeC60DTPentagonNormalClosure S F).Normal :=
+  nativeC60DTNormalClosure_normal (nativeC60DTPentagonPairs S F)
+
 /-- The full pentagon-normal-closure quotient is explicitly a newly
 chosen relative Kuu group presentation. It is NOT a declaration of
 genuine original geometric C60 19D fillers. -/
