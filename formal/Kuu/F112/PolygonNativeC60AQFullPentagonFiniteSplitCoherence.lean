@@ -97,7 +97,6 @@ def nativeC60EKTwoStage (word : List Bool)
       (nativeC60EBAbelianReceiver S F word ((n + m) + k)).ker ≃*
         (nativeC60EBAbelianReceiver S F word (n + (m + k))).ker := by
     rw [← Nat.add_assoc n m k]
-    exact MulEquiv.refl _
   exact
     ((nativeC60EJCumulativeDirectProduct S F word r n m).trans
       (MulEquiv.prodCongr
