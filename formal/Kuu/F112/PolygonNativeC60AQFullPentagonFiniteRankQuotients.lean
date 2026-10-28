@@ -1,5 +1,6 @@
 import Kuu.F112.PolygonNativeC60AQFullPentagonIndependentContextCharges
 import Mathlib.GroupTheory.Abelianization.Defs
+import Mathlib.Algebra.Group.TypeTags.Basic
 
 /-!
 # F112-P94D3EB — arbitrary finite-rank abelian quotients of genuine AQ obstruction kernels
@@ -91,7 +92,7 @@ theorem nativeC60EBIntegerUnit_zpow (z : ℤ) :
   calc
     (Multiplicative.ofAdd (1 : ℤ)) ^ z =
         Multiplicative.ofAdd (z • (1 : ℤ)) :=
-          (Multiplicative.ofAdd_zsmul z (1 : ℤ)).symm
+          (ofAdd_zsmul z (1 : ℤ)).symm
     _ = Multiplicative.ofAdd z := by simp [Int.zsmul_eq_mul]
 
 /-- Every signed power of a true kernel defect has exactly its own
