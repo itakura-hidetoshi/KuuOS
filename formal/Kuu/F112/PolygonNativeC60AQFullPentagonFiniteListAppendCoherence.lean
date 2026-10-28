@@ -11,7 +11,7 @@ append three lists) as equality of the real group isomorphisms,
 transporting only the canonical List.append_assoc equality.
 
 Each split still uses EJ's actual kernel and genuine finite integer
-receivers. The proof is by induction on the prefix length, not an
+receivers. The proof is by induction on the front length, not an
 assumption that arbitrary ordered decompositions already agree.
 All finite lengths and zero blocks are covered. The terminal
 factor remains the genuine abelianized AQ character subgroup,
@@ -43,11 +43,11 @@ variable (S : NativeC60AXSignature L) (F : Bool → NativeC60BCFrame L)
 /-- The honest cumulative rank does not depend on where a finite
 ordered list is divided into two consecutive sublists. -/
 theorem nativeC60EQFinalRank_append (start : ℕ)
-    (prefix suffix : List ℕ) :
-    nativeC60EQFinalRank start (prefix ++ suffix) =
+    (front suffix : List ℕ) :
+    nativeC60EQFinalRank start (front ++ suffix) =
       nativeC60EQFinalRank
-        (nativeC60EQFinalRank start prefix) suffix := by
-  induction prefix generalizing start with
+        (nativeC60EQFinalRank start front) suffix := by
+  induction front generalizing start with
   | nil => rfl
   | cons rank tail ih =>
       change nativeC60EQFinalRank (start + rank) (tail ++ suffix) =
@@ -55,22 +55,22 @@ theorem nativeC60EQFinalRank_append (start : ℕ)
           (nativeC60EQFinalRank (start + rank) tail) suffix
       exact ih (start + rank)
 
-/-- Given a genuine recursively split prefix tower, CONTINUE
+/-- Given a genuine recursively split front tower, CONTINUE
 splitting its ACTUAL final kernel by the finite suffix list.
 There are no chosen coordinate representatives. -/
 def nativeC60EQAppendTail (word : List Bool)
     {a b : (nativeC60DQSeventeenLayer S F).Total}
     (r : (nativeC60DQTriangleSeventeenSignature S F).Gen a b)
     (start : ℕ) :
-    (prefix suffix : List ℕ) →
-      nativeC60EQBlocks S F word start prefix ≃*
-        nativeC60EQBlocks S F word start (prefix ++ suffix)
+    (front suffix : List ℕ) →
+      nativeC60EQBlocks S F word start front ≃*
+        nativeC60EQBlocks S F word start (front ++ suffix)
   | [], suffix =>
       nativeC60EQIteratedDirectProduct S F word r start suffix
-  | rank :: prefix, suffix =>
+  | rank :: front, suffix =>
       MulEquiv.prodCongr
         (MulEquiv.refl (Fin rank → Multiplicative ℤ))
-        (nativeC60EQAppendTail word r (start + rank) prefix suffix)
+        (nativeC60EQAppendTail word r (start + rank) front suffix)
 
 /-- MAIN APPEND LAW: splitting the initial list and then its
 ACTUAL terminal AQ kernel along a suffix is STRICTLY identical
@@ -78,11 +78,11 @@ to splitting the concatenated list in one recursive procedure. -/
 theorem nativeC60EQIterated_append (word : List Bool)
     {a b : (nativeC60DQSeventeenLayer S F).Total}
     (r : (nativeC60DQTriangleSeventeenSignature S F).Gen a b)
-    (start : ℕ) (prefix suffix : List ℕ) :
-    (nativeC60EQIteratedDirectProduct S F word r start prefix).trans
-      (nativeC60EQAppendTail S F word r start prefix suffix) =
-      nativeC60EQIteratedDirectProduct S F word r start (prefix ++ suffix) := by
-  induction prefix generalizing start with
+    (start : ℕ) (front suffix : List ℕ) :
+    (nativeC60EQIteratedDirectProduct S F word r start front).trans
+      (nativeC60EQAppendTail S F word r start front suffix) =
+      nativeC60EQIteratedDirectProduct S F word r start (front ++ suffix) := by
+  induction front generalizing start with
   | nil =>
       apply MulEquiv.ext
       intro x
