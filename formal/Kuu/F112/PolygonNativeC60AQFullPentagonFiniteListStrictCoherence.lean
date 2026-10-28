@@ -97,25 +97,39 @@ theorem nativeC60EQSequentialNormalForm_eq_oneStep (word : List Bool)
       have hEM :=
         nativeC60EMTwoStage_eq_OneStage
           S F word r start rank tail.sum x
-      calc
-        nativeC60EQSequentialNormalForm S F word r start (rank :: tail) x =
-            ((a0,
-              (nativeC60EQSequentialNormalForm S F word r
-                (start + rank) tail y).1),
-             cast ((nativeC60EQSequentialNormalForm S F word r
-                (start + rank) tail y).2)) := by
-              rfl
-        _ = ((a0,
+      have hbase :
+          nativeC60EQSequentialNormalForm S F word r
+            start (rank :: tail) x =
+          ((a0,
               (nativeC60EQOneStepNormalForm S F word r
                 (start + rank) tail y).1),
              cast ((nativeC60EQOneStepNormalForm S F word r
-                (start + rank) tail y).2)) := by rw [htail]
-        _ = post (nativeC60EKTwoStage S F word r start rank tail.sum x) := by
-              rfl
-        _ = post (nativeC60EKOneStage S F word r start rank tail.sum x) :=
-              congrArg post hEM
-        _ = nativeC60EQOneStepNormalForm S F word r start (rank :: tail) x := by
-              rfl
+                (start + rank) tail y).2)) := by
+        calc
+          nativeC60EQSequentialNormalForm S F word r start (rank :: tail) x =
+              ((a0,
+                (nativeC60EQSequentialNormalForm S F word r
+                  (start + rank) tail y).1),
+               cast ((nativeC60EQSequentialNormalForm S F word r
+                  (start + rank) tail y).2)) := by rfl
+          _ = ((a0,
+                (nativeC60EQOneStepNormalForm S F word r
+                  (start + rank) tail y).1),
+               cast ((nativeC60EQOneStepNormalForm S F word r
+                  (start + rank) tail y).2)) := by rw [htail]
+      have hpost :
+          ((a0,
+              (nativeC60EQOneStepNormalForm S F word r
+                (start + rank) tail y).1),
+             cast ((nativeC60EQOneStepNormalForm S F word r
+                (start + rank) tail y).2)) =
+          post (nativeC60EKTwoStage S F word r start rank tail.sum x) := by
+        rfl
+      have hlast :
+          post (nativeC60EKOneStage S F word r start rank tail.sum x) =
+            nativeC60EQOneStepNormalForm S F word r start (rank :: tail) x := by
+        rfl
+      exact hbase.trans (hpost.trans ((congrArg post hEM).trans hlast))
 
 /-- Every arbitrary FINITE decomposition comparison is literally
 the identity group equivalence on the full finite integer coordinate
