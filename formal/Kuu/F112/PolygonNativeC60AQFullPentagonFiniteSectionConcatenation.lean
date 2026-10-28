@@ -39,6 +39,7 @@ theorem nativeC60EMFiniteExtension_after (rank : ℕ)
   apply Finsupp.mapDomain_notin_range
   rintro ⟨j, hj⟩
   have hlt : j.val < rank := j.isLt
+  change j.val = i at hj
   omega
 
 /-- A shifted finite integer vector is zero before its start. -/
