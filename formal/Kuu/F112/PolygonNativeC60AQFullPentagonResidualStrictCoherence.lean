@@ -34,6 +34,18 @@ section ResidualStrictCoherence
 variable {L : NativeC60AXLayer.{u}}
 variable (S : NativeC60AXSignature L) (F : Bool → NativeC60BCFrame L)
 
+/-- Reindexing an honest finite AQ character kernel along an equality
+of rank parameters leaves its underlying abelianization class fixed.
+The proof generalizes both indices BEFORE dependent elimination. -/
+private theorem nativeC60EMKernelRankCast_val (word : List Bool)
+    {p q : ℕ} (hpq : p = q)
+    (z : (nativeC60EBAbelianReceiver S F word p).ker) :
+    ((show (nativeC60EBAbelianReceiver S F word p).ker ≃*
+        (nativeC60EBAbelianReceiver S F word q).ker from by
+          rw [← hpq]) z).1 = z.1 := by
+  cases hpq
+  rfl
+
 /-- The actual one-stage tail receiver is the concatenation of
 the first finite block and the next receiver of its genuine
 first-stage residual. There is no chosen quotient presentation. -/
@@ -121,12 +133,23 @@ theorem nativeC60EMTwoStage_residual (word : List Bool)
     (nativeC60EKTwoStage S F word r n m k x).2.2 =
       (nativeC60EKOneStage S F word r n m k x).2.2 := by
   apply Subtype.ext
-  have h := nativeC60EMCumulativeResidual_underlying S F word r n m k x
-  first
-  | simpa [nativeC60EKTwoStage, nativeC60EKOneStage, Nat.add_assoc] using h
-  | 
-    cases Nat.add_assoc n m k
-    simpa [nativeC60EKTwoStage, nativeC60EKOneStage] using h
+  let y := (nativeC60EJCumulativeDirectProduct S F word r n m x).2
+  let z := (nativeC60EJCumulativeDirectProduct S F word r (n + m) k y).2
+  have htrans :
+      ((nativeC60EKTwoStage S F word r n m k x).2.2).1 = z.1 := by
+    change
+      ((show (nativeC60EBAbelianReceiver S F word ((n + m) + k)).ker ≃*
+          (nativeC60EBAbelianReceiver S F word (n + (m + k))).ker from by
+          rw [← Nat.add_assoc n m k]) z).1 = z.1
+    exact nativeC60EMKernelRankCast_val S F word (Nat.add_assoc n m k) z
+  have hone :
+      ((nativeC60EKOneStage S F word r n m k x).2.2).1 =
+        ((nativeC60EJCumulativeDirectProduct S F word r n (m + k) x).2).1 := by
+    rfl
+  have hres := nativeC60EMCumulativeResidual_underlying S F word r n m k x
+  change z.1 =
+    ((nativeC60EJCumulativeDirectProduct S F word r n (m + k) x).2).1 at hres
+  exact htrans.trans (hres.trans hone.symm)
 
 /-- EM upgrades EK/EL's coordinate and fiber results to exact
 agreement of the entire actual two-stage and one-stage split. -/
