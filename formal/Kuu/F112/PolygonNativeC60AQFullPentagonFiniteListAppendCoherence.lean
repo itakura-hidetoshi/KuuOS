@@ -159,6 +159,24 @@ theorem nativeC60EQAppend_associativity (word : List Bool)
     (nativeC60EQIterated_append S F word r start
       first (second ++ third)) x
   change
+    nativeC60EQAppendTail S F word r start first second
+      (nativeC60EQIteratedDirectProduct S F word r start first x) =
+      nativeC60EQIteratedDirectProduct S F word r start (first ++ second) x
+    at hfirst
+  change
+    nativeC60EQAppendTail S F word r start (first ++ second) third
+      (nativeC60EQIteratedDirectProduct S F word r
+        start (first ++ second) x) =
+      nativeC60EQIteratedDirectProduct S F word r
+        start ((first ++ second) ++ third) x
+    at hsecond
+  change
+    nativeC60EQAppendTail S F word r start first (second ++ third)
+      (nativeC60EQIteratedDirectProduct S F word r start first x) =
+      nativeC60EQIteratedDirectProduct S F word r
+        start (first ++ (second ++ third)) x
+    at hwhole
+  change
     nativeC60EQBlockListCast S F word start
       (List.append_assoc first second third)
       (nativeC60EQAppendTail S F word r start
