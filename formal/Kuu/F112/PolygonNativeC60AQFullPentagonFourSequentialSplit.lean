@@ -118,21 +118,37 @@ theorem nativeC60EPTailOneStage_eq_oneStage (word : List Bool)
     (n m k l q : ℕ) :
     nativeC60EPTailOneStage S F word r n m k l q =
       nativeC60EOOneStage S F word r n m k l q := by
-  apply MulEquiv.ext
-  intro x
-  have h := nativeC60EMTwoStage_eq_OneStage
-    S F word r n m (k + (l + q)) x
-  have hk := nativeC60EMTwoStage_eq_OneStage
-    S F word r (n + m) k (l + q)
-      ((nativeC60EJCumulativeDirectProduct S F word r n m x).2)
-  simp only [nativeC60EPTailOneStage, nativeC60EOOneStage,
-    nativeC60ENOneStage, nativeC60EKOneStage,
-    nativeC60EOGroupedStage, nativeC60ENLastTwoSplit,
-    nativeC60EKFiniteCoordinateSplit,
-    nativeC60EKTwoStage, nativeC60EJCumulativeDirectProduct,
-    nativeC60EPResidualAssoc,
-    MulEquiv.trans_apply, MulEquiv.prodCongr_apply] at *
-  exact h
+  let post :
+      (nativeC60EPInt m ×
+        (nativeC60EPInt k ×
+          (nativeC60EPInt (l + q) ×
+            (nativeC60EBAbelianReceiver S F word
+              (n + (m + (k + (l + q))))).ker))) ≃*
+      (nativeC60EPInt m ×
+        (nativeC60EPInt k ×
+          (nativeC60EPInt l ×
+            (nativeC60EPInt q ×
+              (nativeC60EBAbelianReceiver S F word
+                (n + (m + (k + (l + q))))).ker)))) :=
+    MulEquiv.prodCongr (MulEquiv.refl (nativeC60EPInt m))
+      (MulEquiv.prodCongr (MulEquiv.refl (nativeC60EPInt k))
+        (nativeC60ENLastTwoSplit l q))
+  have hfactor :
+      nativeC60EPTailOneStage S F word r n m k l q =
+        (nativeC60ENTailPairStage S F word r n m k (l + q)).trans post := by
+    apply MulEquiv.ext
+    intro x
+    rfl
+  calc
+    nativeC60EPTailOneStage S F word r n m k l q =
+        (nativeC60ENTailPairStage S F word r n m k (l + q)).trans post :=
+      hfactor
+    _ = (nativeC60ENFirstThenGrouped S F word r n m k (l + q)).trans post := by
+      rw [nativeC60ENTailPair_eq_firstGrouped]
+    _ = (nativeC60ENOneStage S F word r n m k (l + q)).trans post := by
+      rw [nativeC60ENFirstGrouped_eq_oneStage]
+    _ = nativeC60EOOneStage S F word r n m k l q := by
+      rfl
 
 /-- The original four individual finite EJ splittings and ONE
 genuine cumulative split yield the identical full five-factor
