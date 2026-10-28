@@ -67,7 +67,7 @@ def nativeC60DYPostAssocPrefix :
       (nativeC60DVClosedEighteenSignature S F).Gen x y →
         Option (List Bool)
   | _, _, .assoc f _ _ => nativeC60DYClosedAtomPrefix S F f
-  | _, _, .post r _ => nativeC60DYPostAssocPrefix S F r
+  | _, _, .post r _ => nativeC60DYPostAssocPrefix r
   | _, _, .pre _ _ => none
 
 /-- A mapped original raw17D path cannot be an atomic closed path
