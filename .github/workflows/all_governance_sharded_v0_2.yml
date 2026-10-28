@@ -96,13 +96,15 @@ jobs:
         continue-on-error: true
         uses: actions/download-artifact@v5
         with:
-          pattern: full-audit-*-${{ github.run_id }}-${{ github.run_attempt }}
+          # Read all attempts from THIS workflow run only; keep each receipt
+          # in its own artifact directory so reruns never overwrite provenance.
+          pattern: full-audit-*-${{ github.run_id }}-*
           path: artifacts/receipts
-          merge-multiple: true
+          merge-multiple: false
       - name: Build selection
         run: python3 scripts/build_full_audit_selection_v0_2.py --output artifacts/selection/selection.json --count 8
       - name: Build audit summary
-        run: python3 scripts/build_audit_summary.py --selection artifacts/selection/selection.json --receipts-root artifacts/receipts --output-dir artifacts/summary
+        run: python3 scripts/build_audit_summary.py --selection artifacts/selection/selection.json --receipts-root artifacts/receipts --output-dir artifacts/summary --run-id "${{ github.run_id }}" --git-sha "${{ github.sha }}"
       - name: Upload summary
         if: always()
         uses: actions/upload-artifact@v4
