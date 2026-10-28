@@ -154,8 +154,6 @@ theorem nativeC60ESCanonicalRepartition_diamond (word : List Bool)
       (nativeC60ERCanonicalRepartition S F word start mid₂ zs h4) := by
   rw [nativeC60ESCanonicalRepartition_comp S F word r start xs mid₁ zs h1 h2]
   rw [nativeC60ESCanonicalRepartition_comp S F word r start xs mid₂ zs h3 h4]
-  have heq : h1.trans h2 = h3.trans h4 := Subsingleton.elim _ _
-  rw [heq]
 
 end FiniteAQPartitionGroupoid
 
