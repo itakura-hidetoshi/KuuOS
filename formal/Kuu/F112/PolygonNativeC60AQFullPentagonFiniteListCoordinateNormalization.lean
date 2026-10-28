@@ -97,7 +97,7 @@ variable (S : NativeC60AXSignature L) (F : Bool → NativeC60BCFrame L)
 
 /-- Rank reassociation transported within the same genuine
 C60 AQ kernel family. There is no quotient identification. -/
-private def nativeC60EQResidualRankAssoc (word : List Bool)
+def nativeC60EQResidualRankAssoc (word : List Bool)
     (start rank tailSum : ℕ) :
     (nativeC60EBAbelianReceiver S F word ((start + rank) + tailSum)).ker ≃*
       (nativeC60EBAbelianReceiver S F word
