@@ -324,9 +324,14 @@ theorem nativeC60EAOutsideClass_ne_one
     nativeC60EAOutsideClass S F word i r ≠ 1 := by
   intro hh
   have h := congrArg (nativeC60EAImageCharacter S F word i) hh
-  rw [nativeC60EACharacter_orthogonal S F word r i i, if_pos rfl,
-    map_one] at h
-  have hnonzero := congrArg Multiplicative.toAdd h
+  have hval :
+      (nativeC60EAImageCharacter S F word i)
+        (nativeC60EAOutsideClass S F word i r) =
+          Multiplicative.ofAdd (1 : ℤ) := by
+    simpa using nativeC60EACharacter_orthogonal S F word r i i
+  have hbad : Multiplicative.ofAdd (1 : ℤ) = (1 : Multiplicative ℤ) :=
+    hval.symm.trans (h.trans (map_one (nativeC60EAImageCharacter S F word i)))
+  have hnonzero := congrArg Multiplicative.toAdd hbad
   norm_num at hnonzero
 
 /-- ACTUAL distinct AQ context tags yield pairwise distinct nontrivial
@@ -341,9 +346,9 @@ theorem nativeC60EAOutsideClass_injective (word : List Bool)
   have h := congrArg (nativeC60EAImageCharacter S F word i) heq
   rw [nativeC60EACharacter_orthogonal S F word r i i,
     nativeC60EACharacter_orthogonal S F word r i j] at h
-  have hn : (1 : ℕ) ≠ 0 := by omega
-  simp [hne] at h
-  have hs := congrArg Multiplicative.toAdd h
+  have hbad : Multiplicative.ofAdd (1 : ℤ) = (1 : Multiplicative ℤ) := by
+    simpa only [if_pos rfl, if_neg hne] using h
+  have hs := congrArg Multiplicative.toAdd hbad
   norm_num at hs
 
 /-- Each of the distinct contextual classes also generates a truly
@@ -358,7 +363,7 @@ theorem nativeC60EAOutsideClass_powers_injective (word : List Bool)
   have hh := congrArg (nativeC60EAImageCharacter S F word i) h
   rw [map_pow, map_pow,
     nativeC60EACharacter_orthogonal S F word r i i] at hh
-  simp only [if_pos rfl] at hh
+  simp only [if_pos rfl, ite_true] at hh
   have ha := congrArg Multiplicative.toAdd hh
   rw [nativeC60DZIntegerGeneratorPower m,
     nativeC60DZIntegerGeneratorPower n] at ha
