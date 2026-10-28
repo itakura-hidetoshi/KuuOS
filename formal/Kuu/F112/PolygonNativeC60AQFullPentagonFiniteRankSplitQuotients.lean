@@ -108,7 +108,6 @@ theorem nativeC60EEReceiver_coordinate (word : List Bool)
     (Abelianization.lift (nativeC60EBKernelCharacter S F word i.val)) x.toMul
   induction x.toMul using QuotientGroup.induction_on with
   | H k =>
-      simp only [Abelianization.lift_apply_of]
       rfl
 
 /-- The EB finite receiver evaluated on the EE section reproduces
@@ -129,7 +128,7 @@ theorem nativeC60EEFiniteSection_rightInverse (word : List Bool)
   rw [nativeC60EDCoordinate_finiteSupport S F word r
     (nativeC60EEFiniteExtension n (fun j => (v j).toAdd)) i.val]
   rw [nativeC60EEFiniteExtension_apply]
-  exact Multiplicative.ofAdd_toAdd (v i)
+  exact ofAdd_toAdd (v i)
 
 /-- MAIN EE THEOREM: an actual split epimorphism of GROUPS, not
 just a set-theoretic right inverse, for every finite rank.
