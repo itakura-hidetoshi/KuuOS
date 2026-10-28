@@ -93,17 +93,21 @@ def nativeC60EKTwoStage (word : List Bool)
       (Fin m → Multiplicative ℤ) ×
         ((Fin k → Multiplicative ℤ) ×
           (nativeC60EBAbelianReceiver S F word (n + (m + k))).ker) := by
-  have h :
-      (nativeC60EBAbelianReceiver S F word n).ker ≃*
-        (Fin m → Multiplicative ℤ) ×
-          ((Fin k → Multiplicative ℤ) ×
-            (nativeC60EBAbelianReceiver S F word ((n + m) + k)).ker) :=
-    (nativeC60EJCumulativeDirectProduct S F word r n m).trans
+  let residualAssoc :
+      (nativeC60EBAbelianReceiver S F word ((n + m) + k)).ker ≃*
+        (nativeC60EBAbelianReceiver S F word (n + (m + k))).ker := by
+    rw [← Nat.add_assoc n m k]
+    exact MulEquiv.refl _
+  exact
+    ((nativeC60EJCumulativeDirectProduct S F word r n m).trans
       (MulEquiv.prodCongr
         (MulEquiv.refl (Fin m → Multiplicative ℤ))
-        (nativeC60EJCumulativeDirectProduct S F word r (n + m) k))
-  rw [← Nat.add_assoc n m k]
-  exact h
+        (nativeC60EJCumulativeDirectProduct S F word r (n + m) k))).trans
+      (MulEquiv.prodCongr
+        (MulEquiv.refl (Fin m → Multiplicative ℤ))
+        (MulEquiv.prodCongr
+          (MulEquiv.refl (Fin k → Multiplicative ℤ))
+          residualAssoc))
 
 /-- A ONE-STEP true group isomorphism, using the actual m+k
 receiver, split by the canonical finite tuple equivalence and the
@@ -209,10 +213,12 @@ theorem nativeC60EKCoherence_head (word : List Bool)
     (i : Fin m) :
     ((nativeC60EKTwoStage S F word r n m k x).1) i =
       ((nativeC60EKOneStage S F word r n m k x).1) i := by
-  have h := nativeC60EKReceiver_head S F word n m k x i
-  simpa [nativeC60EKTwoStage, nativeC60EKOneStage,
-    nativeC60EKFiniteCoordinateSplit,
-    nativeC60EJCumulativeDirectProduct_fst] using h
+  change ((nativeC60EJCumulativeDirectProduct S F word r n m x).1) i =
+    ((nativeC60EJCumulativeDirectProduct S F word r n (m + k) x).1)
+      (Fin.castAdd k i)
+  rw [nativeC60EJCumulativeDirectProduct_fst,
+    nativeC60EJCumulativeDirectProduct_fst]
+  exact nativeC60EKReceiver_head S F word n m k x i
 
 /-- The group isomorphism comparing the two constructions
 preserves the ACTUAL first m coordinate values. -/
