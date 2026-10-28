@@ -118,6 +118,7 @@ theorem nativeC60EHTailShift_apply
   change (Finsupp.mapDomain (fun k : ℕ => n + k) v) (n + j) = v j
   have hshift : Function.Injective (fun k : ℕ => n + k) := by
     intro a b hab
+    change n + a = n + b at hab
     omega
   rw [Finsupp.mapDomain_apply hshift]
 
