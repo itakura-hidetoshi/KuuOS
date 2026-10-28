@@ -102,7 +102,8 @@ def nativeC60EKTwoStage (word : List Bool)
       (MulEquiv.prodCongr
         (MulEquiv.refl (Fin m → Multiplicative ℤ))
         (nativeC60EJCumulativeDirectProduct S F word r (n + m) k))
-  simpa only [Nat.add_assoc] using h
+  rw [← Nat.add_assoc n m k]
+  exact h
 
 /-- A ONE-STEP true group isomorphism, using the actual m+k
 receiver, split by the canonical finite tuple equivalence and the
@@ -120,10 +121,12 @@ def nativeC60EKOneStage (word : List Bool)
       (nativeC60EKFiniteCoordinateSplit m k)
       (MulEquiv.refl
         ((nativeC60EBAbelianReceiver S F word (n + (m + k))).ker)))).trans
-          (MulEquiv.prodAssoc
-            (Fin m → Multiplicative ℤ)
-            (Fin k → Multiplicative ℤ)
-            ((nativeC60EBAbelianReceiver S F word (n + (m + k))).ker))
+          (MulEquiv.prodAssoc :
+            ((Fin m → Multiplicative ℤ) × (Fin k → Multiplicative ℤ)) ×
+              (nativeC60EBAbelianReceiver S F word (n + (m + k))).ker ≃*
+            (Fin m → Multiplicative ℤ) ×
+              ((Fin k → Multiplicative ℤ) ×
+                (nativeC60EBAbelianReceiver S F word (n + (m + k))).ker))
 
 /-- The actual change of coordinates from the single deletion to
 the sequential deletion; it is a bona fide GROUP ISOMORPHISM,
@@ -172,9 +175,12 @@ theorem nativeC60EKReceiver_sameCoordinate (word : List Bool)
     (h : i.val = j.val) :
     ((nativeC60EBAbelianReceiver S F word p) x) i =
       ((nativeC60EBAbelianReceiver S F word q) x) j := by
-  rw [nativeC60EEReceiver_coordinate S F word p (Additive.ofMul x) i]
-  rw [nativeC60EEReceiver_coordinate S F word q (Additive.ofMul x) j]
-  rw [h]
+  have hfirst :=
+    nativeC60EEReceiver_coordinate S F word p (Additive.ofMul x) i
+  have hsecond :=
+    nativeC60EEReceiver_coordinate S F word q (Additive.ofMul x) j
+  rw [h] at hfirst
+  exact hfirst.trans hsecond.symm
 
 /-- The first block of an m+k receiver is exactly the actual
 EH first-m receiver, for every original class x in C_n. -/
