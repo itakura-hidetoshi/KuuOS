@@ -24,6 +24,8 @@ result = subprocess.run(
         "scripts/run_ci_check.py",
         "--check-id",
         check_id,
+        "--selection",
+        "artifacts/selection/selection.json",
         "--command",
         command,
     ],
