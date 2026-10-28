@@ -81,8 +81,8 @@ theorem nativeC60DSCode_injective
   intro g h heq
   have hpair : (⟨y, g⟩ : Σ z : (nativeC60DREighteenLayer S F).Total,
       (nativeC60DREighteenAssocSignature S F).Gen x z) =
-      ⟨y, h⟩ := (Sigma.mk.inj heq).2
-  exact (Sigma.mk.inj hpair).2
+      ⟨y, h⟩ := eq_of_heq (Sigma.mk.inj heq).2
+  exact eq_of_heq (Sigma.mk.inj hpair).2
 
 /-- Each original 18D primitive is sent to its own independent
 noncommutative free letter, with all 17D/16D dependent evidence. -/
@@ -464,13 +464,15 @@ def nativeC60DSDeclaredPentagonNineteenSignature
     (k : NativeC60AXStep (nativeC60DQTriangleSeventeenSignature S F) d e) :
     NativeC60AXSignature (nativeC60DSNineteenLayer S F) where
   Gen := fun x y =>
-    x = nativeC60DSPackEighteen S F
-      (nativeC60DRPentagonLong S F f g h k) ∧
-    y = nativeC60DSPackEighteen S F
-      (nativeC60DRPentagonShort S F f g h k)
+    { z : (nativeC60DSNineteenLayer S F).Total //
+      z = x ∧
+      x = nativeC60DSPackEighteen S F
+        (nativeC60DRPentagonLong S F f g h k) ∧
+      y = nativeC60DSPackEighteen S F
+        (nativeC60DRPentagonShort S F f g h k) }
   boundary := by
     intro x y r
-    rcases r with ⟨hx, hy⟩
+    rcases r with ⟨z, hz, hx, hy⟩
     rw [hx, hy]
     rfl
 
@@ -490,7 +492,9 @@ def nativeC60DSDeclaredPentagonNineteen
       (nativeC60DSPackEighteen S F (nativeC60DRPentagonLong S F f g h k))
       (nativeC60DSPackEighteen S F
         (nativeC60DRPentagonShort S F f g h k)) :=
-  .atom ⟨rfl, rfl⟩
+  .atom ⟨nativeC60DSPackEighteen S F
+    (nativeC60DRPentagonLong S F f g h k),
+    ⟨rfl, rfl, rfl⟩⟩
 
 /-- Exact cost of explicitly ADDING this relative 19D filler:
 the resulting signature CANNOT preserve the COMPLETE original
