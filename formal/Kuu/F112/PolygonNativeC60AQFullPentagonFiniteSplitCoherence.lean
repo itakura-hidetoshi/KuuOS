@@ -209,12 +209,10 @@ theorem nativeC60EKCoherence_head (word : List Bool)
     (i : Fin m) :
     ((nativeC60EKTwoStage S F word r n m k x).1) i =
       ((nativeC60EKOneStage S F word r n m k x).1) i := by
-  change ((nativeC60EJCumulativeDirectProduct S F word r n m x).1) i =
-    ((nativeC60EJCumulativeDirectProduct S F word r n (m + k) x).1)
-      (Fin.castAdd k i)
-  rw [nativeC60EJCumulativeDirectProduct_fst,
-    nativeC60EJCumulativeDirectProduct_fst]
-  exact nativeC60EKReceiver_head S F word n m k x i
+  have h := nativeC60EKReceiver_head S F word n m k x i
+  simpa [nativeC60EKTwoStage, nativeC60EKOneStage,
+    nativeC60EKFiniteCoordinateSplit,
+    nativeC60EJCumulativeDirectProduct_fst] using h
 
 /-- The group isomorphism comparing the two constructions
 preserves the ACTUAL first m coordinate values. -/
