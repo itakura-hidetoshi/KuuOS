@@ -128,9 +128,6 @@ theorem nativeC60ESPathEquiv_independent (word : List Bool)
       nativeC60ESPathEquiv S F word start q := by
   rw [nativeC60ESPathEquiv_eq_canonical S F word r start p,
       nativeC60ESPathEquiv_eq_canonical S F word r start q]
-  have h : nativeC60ESPathRankEq p = nativeC60ESPathRankEq q :=
-    Subsingleton.elim _ _
-  rw [h]
 
 /-- Every closed finite repartition loop has identity monodromy,
 even on the residual subgroup: there is no hidden residual
