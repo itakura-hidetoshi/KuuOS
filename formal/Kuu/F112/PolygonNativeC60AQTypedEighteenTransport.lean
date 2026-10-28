@@ -318,8 +318,14 @@ theorem nativeC60DVActualTree_step_refinement
         (nativeK5DOTreeWord left) p) =
       nativeC60DVTransportEighteenStep S F
         (nativeK5DOTreeWord right) p := by
-  cases nativeK5DOTreeWord_eq_of_steps_eq h
-  rfl
+  have hdep :
+      ∀ {w₁ w₂ : List Bool} (hw : w₁ = w₂),
+        (hw ▸ nativeC60DVTransportEighteenStep S F w₁ p) =
+          nativeC60DVTransportEighteenStep S F w₂ p := by
+    intro w₁ w₂ hw
+    cases hw
+    rfl
+  exact hdep (nativeK5DOTreeWord_eq_of_steps_eq h)
 
 end ActualAQSeventeenToEighteen
 
