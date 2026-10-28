@@ -245,7 +245,7 @@ theorem nativeC60DVFullWordTransport_of
     (word : List Bool) (code : NativeC60DSCompleteEighteenCode S F) :
     (nativeC60DVFullWordTransport S F word) (FreeGroup.of code) =
       FreeGroup.of (nativeC60DVTransportCompleteCode S F word code) := by
-  exact FreeGroup.lift_apply_of _ _
+  simp only [nativeC60DVFullWordTransport, FreeGroup.lift_apply_of]
 
 /-- A commuting square of ENTIRE ORIGINAL noncommutative 18D free
 evidence, not merely length or Peiffer shadows. It is a naturality
