@@ -147,18 +147,8 @@ theorem nativeC60EOGroupedStage_eq_oneStage (word : List Bool)
     (n m k l q : ℕ) :
     nativeC60EOGroupedStage S F word r n m k l q =
       nativeC60EOOneStage S F word r n m k l q := by
-  apply MulEquiv.ext
-  intro x
-  change
-    (MulEquiv.prodCongr (MulEquiv.refl (nativeC60EOInt m))
-      (MulEquiv.prodCongr (MulEquiv.refl (nativeC60EOInt k))
-        (nativeC60ENLastTwoSplit l q)))
-      (nativeC60ENThreeStage S F word r n m k (l + q) x) =
-    (MulEquiv.prodCongr (MulEquiv.refl (nativeC60EOInt m))
-      (MulEquiv.prodCongr (MulEquiv.refl (nativeC60EOInt k))
-        (nativeC60ENLastTwoSplit l q)))
-      (nativeC60ENOneStage S F word r n m k (l + q) x)
-  rw [nativeC60ENThreeStage_eq_oneStage]
+  simpa only [nativeC60EOGroupedStage, nativeC60EOOneStage,
+    nativeC60ENThreeStage_eq_oneStage]
 
 /-- Regard the honest one-stage split in the FIRST pentagon vertex,
 by inverting the genuine group product associator on all four typed
@@ -173,17 +163,7 @@ def nativeC60EOLeftBracketedStage (word : List Bool)
           (nativeC60EBAbelianReceiver S F word
             (n + (m + (k + (l + q))))).ker)) :=
   (nativeC60EOOneStage S F word r n m k l q).trans
-    (nativeC60EOPentagonTwoEdges :
-      (((nativeC60EOInt m × nativeC60EOInt k) × nativeC60EOInt l) ×
-        (nativeC60EOInt q ×
-          (nativeC60EBAbelianReceiver S F word
-            (n + (m + (k + (l + q))))).ker)) ≃*
-      (nativeC60EOInt m ×
-        (nativeC60EOInt k ×
-          (nativeC60EOInt l ×
-            (nativeC60EOInt q ×
-              (nativeC60EBAbelianReceiver S F word
-                (n + (m + (k + (l + q))))).ker)))).symm
+    nativeC60EOPentagonTwoEdges.symm
 
 /-- The THREE-edge pentagon path, precomposed with the actual
 C60 AQ finite splitting into the first pentagon vertex. -/
