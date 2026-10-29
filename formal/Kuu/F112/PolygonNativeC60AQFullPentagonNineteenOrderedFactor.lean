@@ -128,7 +128,7 @@ theorem nativeC60EXPentagon_full_ratio_factor
       (nativeC60DSPackEighteen S F
         (nativeC60DRPentagonShort S F f g h k))) :
     ∃ (x y : (nativeC60DSNineteenLayer S F).Total) (atom : T.Gen x y)
-      (prefix middle suffix : NativeC60DTFullFree S F),
+      (before middle after : NativeC60DTFullFree S F),
       NativeC60EWAtomOccursOn T atom filler ∧
       (middle =
           (nativeC60DSNineteenHolonomy S F x)⁻¹ *
@@ -141,12 +141,12 @@ theorem nativeC60EXPentagon_full_ratio_factor
           (nativeC60DRPentagonLong S F f g h k))⁻¹ *
         nativeC60DSFreeWord S F
           (nativeC60DRPentagonShort S F f g h k) =
-          prefix * middle * suffix := by
-  obtain ⟨x, y, atom, prefix, middle, suffix, hocc, hsign,
+          before * middle * after := by
+  obtain ⟨x, y, atom, before, middle, after, hocc, hsign,
       hnon, heq⟩ :=
     nativeC60EXPentagon_has_ordered_bad_factor
       S F f g h k T filler
-  refine ⟨x, y, atom, prefix, middle, suffix,
+  refine ⟨x, y, atom, before, middle, after,
     hocc, hsign, hnon, ?_⟩
   rw [← nativeC60EXPentagon_defect_eq_full_ratio S F f g h k T filler]
   exact heq
