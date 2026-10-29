@@ -110,17 +110,16 @@ theorem nativeC60FGCompleteCode_injective_iff_generators
   · intro hcode x y g h hgh
     apply nativeC60DSCode_injective S F
     apply hcode
-    change (⟨nativeC60DVTransportEighteenObj S F word x,
-      nativeC60DVTransportEighteenObj S F word y,
-      nativeC60DVTransportEighteenGen S F word g⟩ :
-        NativeC60DVCompleteEighteenCode S F) =
-      ⟨nativeC60DVTransportEighteenObj S F word x,
-        nativeC60DVTransportEighteenObj S F word y,
-        nativeC60DVTransportEighteenGen S F word h⟩
-    cases hgh
-    rfl
+    exact congrArg
+      (fun z : (nativeC60DVClosedEighteenSignature S F).Gen
+        (nativeC60DVTransportEighteenObj S F word x)
+        (nativeC60DVTransportEighteenObj S F word y) =>
+        (⟨nativeC60DVTransportEighteenObj S F word x,
+          nativeC60DVTransportEighteenObj S F word y, z⟩ :
+          NativeC60DVCompleteEighteenCode S F)) hgh
   · intro hgen
-    exact nativeC60FGCompleteCode_injective_of_gen S F word hctx hgen
+    exact nativeC60FGCompleteCode_injective_of_gen S F word hctx
+      (fun {x y} => hgen (x := x) (y := y))
 
 /-- FC's pinned free-group equivalence lifts this exact ACTUAL
 dependent 18D generator criterion to the whole ordered signed
