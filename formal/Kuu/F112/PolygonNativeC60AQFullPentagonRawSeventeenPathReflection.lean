@@ -62,6 +62,27 @@ theorem nativeC60FFBCOriginalAtom_injective
     eq_of_heq (Sigma.mk.inj hcode).2
   exact eq_of_heq (Sigma.mk.inj hpair).2
 
+/-- Recover the ACTUAL intermediate dependent lower object and the
+left raw subpath of a compositional proof; none for other constructors.
+The dependent Sigma retains the entire original boundary type. -/
+def nativeC60FFTransLeftCode {M : NativeC60AXLayer.{u}}
+    (T : NativeC60AXSignature M)
+    {a b : M.Total} (p : NativeC60AXStep T a b) :
+    Option (Σ mid : M.Total, NativeC60AXStep T a mid) :=
+  match p with
+  | .trans (y := mid) h _ => some ⟨mid, h⟩
+  | _ => none
+
+/-- The right raw subpath likewise remembers the same intermediate
+object and the entire original dependent target proof. -/
+def nativeC60FFTransRightCode {M : NativeC60AXLayer.{u}}
+    (T : NativeC60AXSignature M)
+    {a b : M.Total} (p : NativeC60AXStep T a b) :
+    Option (Σ mid : M.Total, NativeC60AXStep T mid b) :=
+  match p with
+  | .trans (y := mid) _ h => some ⟨mid, h⟩
+  | _ => none
+
 /-- The actual original-to-context-closed raw proof map reflects
 equality of ALL original 17D proof constructors on each dependent
 Hom fiber, under an explicit injective context action on full 16D
@@ -73,14 +94,13 @@ theorem nativeC60FFBCOriginalStep_injective
       Function.Injective (fun p : NativeC60AXStep S a b =>
         nativeC60BCMapOriginalStep S F word p) := by
   intro a b p q heq
-  induction p generalizing q with
+  induction p with
   | atom g =>
       cases q with
       | atom h =>
           have hg : g = h := by
             apply nativeC60FFBCOriginalAtom_injective S F word
-            injection heq with hgen
-            exact hgen
+            injection heq
           cases hg
           rfl
       | refl _ => cases heq
@@ -100,8 +120,7 @@ theorem nativeC60FFBCOriginalStep_injective
           have hp :
               nativeC60BCMapOriginalStep S F word p =
                 nativeC60BCMapOriginalStep S F word q := by
-            injection heq with hp
-            exact hp
+            injection heq
           have hp' : p = q := ih hp
           cases hp'
           rfl
@@ -112,11 +131,24 @@ theorem nativeC60FFBCOriginalStep_injective
       | refl _ => cases heq
       | symm _ => cases heq
       | trans q r =>
-          injection heq with hmiddle hleft hright
-          have hmid : _ := hctx hmiddle
+          have hleftSigma := Option.some.inj
+            (congrArg
+              (nativeC60FFTransLeftCode (nativeC60BCClosedSignature S F))
+              heq)
+          have hrightSigma := Option.some.inj
+            (congrArg
+              (nativeC60FFTransRightCode (nativeC60BCClosedSignature S F))
+              heq)
+          have hmid := hctx (congrArg Sigma.fst hleftSigma)
           cases hmid
-          have hpl : p = q := ihp hleft
-          have htr : t = r := iht hright
+          have hl : nativeC60BCMapOriginalStep S F word p =
+              nativeC60BCMapOriginalStep S F word q :=
+            eq_of_heq (Sigma.mk.inj hleftSigma).2
+          have hr : nativeC60BCMapOriginalStep S F word t =
+              nativeC60BCMapOriginalStep S F word r :=
+            eq_of_heq (Sigma.mk.inj hrightSigma).2
+          have hpl : p = q := ihp hl
+          have htr : t = r := iht hr
           cases hpl
           cases htr
           rfl
