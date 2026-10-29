@@ -76,25 +76,29 @@ one original chosen root per ACTUALLY RECEIVED target image
 full target B. No finite or countable assumptions. -/
 noncomputable def nativeC60FYSourceEquivActiveSumImage
     {A : Type u} {B : Type v} (f : A → B) :
-    A ≃ Sum (nativeC60FSActiveLetters f) (Set.range f) where
-  toFun a :=
-    if ha : a ∈ nativeC60FSActiveLetters f
-    then Sum.inl ⟨a, ha⟩
-    else Sum.inr ⟨f a, ⟨a, rfl⟩⟩
-  invFun
-    | .inl a => a.1
-    | .inr b => nativeC60FQImageRoot f b
-  left_inv := by
-    intro a
+    A ≃ Sum (nativeC60FSActiveLetters f) (Set.range f) := by
+  classical
+  refine
+    { toFun := fun a =>
+        if ha : a ∈ nativeC60FSActiveLetters f
+        then Sum.inl ⟨a, ha⟩
+        else Sum.inr ⟨f a, ⟨a, rfl⟩⟩
+      invFun := fun z =>
+        match z with
+        | .inl a => a.1
+        | .inr b => nativeC60FQImageRoot f b
+      left_inv := ?_
+      right_inv := ?_ }
+  · intro a
     by_cases ha : a ∈ nativeC60FSActiveLetters f
-    · simp [ha]
+    · simp only [dif_pos ha]
     · have hroot : a = nativeC60FQLetterRoot f a := by
-        have hn : ¬ (a ≠ nativeC60FQLetterRoot f a) := by
-          simpa only [nativeC60FSActiveLetters, Set.mem_setOf_eq] using ha
-        exact not_ne.mp hn
+        by_contra hne
+        apply ha
+        change a ≠ nativeC60FQLetterRoot f a
+        exact hne
       simpa only [dif_neg ha, nativeC60FQLetterRoot] using hroot.symm
-  right_inv := by
-    intro z
+  · intro z
     cases z with
     | inl a =>
       rcases a with ⟨a, ha⟩
@@ -102,14 +106,19 @@ noncomputable def nativeC60FYSourceEquivActiveSumImage
     | inr b =>
       have hnot :
           nativeC60FQImageRoot f b ∉ nativeC60FSActiveLetters f := by
-        change ¬ nativeC60FQImageRoot f b ≠
-          nativeC60FQLetterRoot f (nativeC60FQImageRoot f b)
-        exact not_ne.mpr (nativeC60FYImageRoot_fixed f b).symm
+        intro hactive
+        change nativeC60FQImageRoot f b ≠
+          nativeC60FQLetterRoot f (nativeC60FQImageRoot f b) at hactive
+        exact hactive (nativeC60FYImageRoot_fixed f b).symm
+      have hb :
+          (⟨f (nativeC60FQImageRoot f b),
+            ⟨nativeC60FQImageRoot f b, rfl⟩⟩ : Set.range f) = b :=
+        Subtype.ext (nativeC60FQImageRoot_maps_to_image f b)
       simpa only [dif_neg hnot] using
         (congrArg
           (Sum.inr : Set.range f →
             Sum (nativeC60FSActiveLetters f) (Set.range f))
-          (Subtype.ext (nativeC60FQImageRoot_maps_to_image f b)))
+          hb)
 
 /-- Countability is EXACTLY the two-component compatibility
 condition: both actual nonroot original letters AND the chosen
@@ -125,7 +134,15 @@ theorem nativeC60FYSource_countable_iff_active_and_image_countable
   · intro h
     letI : Countable
       (Sum (nativeC60FSActiveLetters f) (Set.range f)) := h
-    exact ⟨Sum.inl_injective.countable, Sum.inr_injective.countable⟩
+    exact ⟨
+      (show Function.Injective
+        (Sum.inl : nativeC60FSActiveLetters f →
+          Sum (nativeC60FSActiveLetters f) (Set.range f)) from
+        Sum.inl_injective).countable,
+      (show Function.Injective
+        (Sum.inr : Set.range f →
+          Sum (nativeC60FSActiveLetters f) (Set.range f)) from
+        Sum.inr_injective).countable⟩
   · rintro ⟨hleft, hright⟩
     letI : Countable (nativeC60FSActiveLetters f) := hleft
     letI : Countable (Set.range f) := hright
