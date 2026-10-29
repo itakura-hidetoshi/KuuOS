@@ -422,6 +422,8 @@ import Kuu.F112.PolygonNativeC60AQFullPentagonConstructorSectorSeparation
 
 import Kuu.F112.PolygonNativeC60AQFullPentagonConstructorPathInjectivity
 
+import Kuu.F112.PolygonNativeC60AQFullPentagonRecursiveGeneratorReflection
+
 /-!
 Public aggregate: retain every previously published proof and its original
 statement/assumptions, alongside the independent Kuu core. KuuOSStrict is the
