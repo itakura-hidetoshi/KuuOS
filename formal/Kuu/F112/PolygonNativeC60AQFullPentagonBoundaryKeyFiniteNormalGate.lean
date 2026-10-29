@@ -326,8 +326,8 @@ theorem nativeC60FSReceiver_boundaryKey_iff
   constructor
   · intro all key a b _ _ hab
     exact all a b hab
-  · intro local a b hab
-    exact local (nativeC60FSSourceKey S F word a)
+  · intro hlocal a b hab
+    exact hlocal (nativeC60FSSourceKey S F word a)
       a b rfl
       (nativeC60FSSourceKey_eq_of_collision S F word hab).symm hab
 
