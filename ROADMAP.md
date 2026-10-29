@@ -1,6 +1,6 @@
 # KuuOS / 空OS — Formal Research Roadmap
 
-**更新：2026-10-29 JST。最新のLean統合段階は F112-P94D3FM / [PR #2685](https://github.com/itakura-hidetoshi/KuuOS/pull/2685) MERGED。** 定理squash SHA `e75911af42d352b4d99474209ff55c2211ef07b5`（docs-only同期前）。exact-source-head Strict Lean **9954/9954 SUCCESS**、Checks **40 SUCCESS / 1 SKIPPED**、Governance SUCCESS、FMの11定理は`propext`・`Classical.choice`・`Quot.sound`のみ・`sorryAx`なし。FMはFK/FLの**別の15D構成子保存輸送**から、元15D AX Total・真正17D全有限文脈・元完全18D Type値コード・非可換自由群輸送の**全有限AQ語での単射性**をLean証明。FJの**元の選択輸送は全非空文脈で非単射**という定理を保持する。FIの一般忠実性条件、107公開root、独立Kuu/strict空、DS no-go、Gray非再導入を維持。次は F112-P94D3FN（仮称）。
+**更新：2026-10-29 JST。最新のLean統合段階は F112-P94D3FN / [PR #2687](https://github.com/itakura-hidetoshi/KuuOS/pull/2687) MERGED。** 定理squash SHA `117e9eedf84bd7ddbd8264ce61ca2c16a305b229`（docs-only同期前）。exact-source-head Strict Lean **9955/9955 SUCCESS**、Checks **40 SUCCESS / 1 SKIPPED**、Governance SUCCESS、FN新規定理の公理依存は`propext`・`Classical.choice`・`Quot.sound`のみ・`sorryAx`なし。**旧輸送＝構成子忘却∘新輸送**を同じ14D境界のproof-bearing 15D AX Totalで非空の全有限AQ語へ拡張、忘却の冪等性・非単射性・全有限語の自然性を証明。元の同じ15D証拠ペアを別々の真正17D identity／18D reflexive-associator型に埋め込み、旧像衝突と新像分離、旧18D受信コードだけから新受信コード2像を後処理復元することの不可能性、旧非可換核の2文字元と新別自由群2文字元の消滅／生存を証明。**全旧新高次生成子間の比較関手、旧全kernel正規生成表示、元幾何19D充填は未証明**。107公開root・FJ no-go・DS・独立Kuu/strict空・Gray非再導入を保持。次は F112-P94D3FO（仮称）。
 
 <details>
 <summary>旧更新記録：2026-10-23 / F112-P91B（歴史的な検証receipt。現在の最終段階ではない）</summary>
@@ -21,16 +21,16 @@
 | --- | --- |
 | 公開統合正本 | [`main`](https://github.com/itakura-hidetoshi/KuuOS/tree/main)。歴史的`formal/KUOS/`と現行`formal/Kuu/`、Qiを**同一Leanパッケージ**に含む。 |
 | 独立Kuu F112研究 | [親PR #2339](https://github.com/itakura-hidetoshi/KuuOS/pull/2339)は**MERGED**。かつての`formal/v5-293-f112-independent-total-change`は移行作業の履歴であり、現在の正本はmain。 |
-| 現在のF112検証範囲（2026-10-29） | **P94D3FM [#2685](https://github.com/itakura-hidetoshi/KuuOS/pull/2685)までmain統合済み。** 定理SHA `e75911af42d352b4d99474209ff55c2211ef07b5`、Strict Lean **9954/9954 SUCCESS**、Checks **40 SUCCESS / 1 SKIPPED**、Governance SUCCESS、`sorryAx`なし。FMの新しい15D/17D/18D全有限文脈忠実性とFJ旧15D輸送の非単射性は**異なるpresentationの真正Lean定理**として両立する。 |
+| 現在のF112検証範囲（2026-10-29） | **P94D3FN [#2687](https://github.com/itakura-hidetoshi/KuuOS/pull/2687)までmain統合済み。** 定理SHA `117e9eedf84bd7ddbd8264ce61ca2c16a305b229`、Strict Lean **9955/9955 SUCCESS**、Checks **40 SUCCESS / 1 SKIPPED**、Governance SUCCESS、`sorryAx`なし。元15Dの完全証拠忘却の非空有限文脈因子化、17D/18D選択Type値証拠の旧衝突と新分離をFNで形式化。FJ旧輸送の非単射性とFM別輸送の全有限語単射性を同時保持。 |
 | F112以前の確認範囲（2026-10-23時点の履歴） | **P91Bまでmain統合済み（当時）**。P89B：9702/9702・13/13公理監査、P90A：9703/9703・7/7、P90B：9704/9704・7/7、**P91A：9705/9705・4/4**、**P91B：9706/9706・13/13**。新規`sorryAx`なし、変更ファイルLeanエラー/警告0、107公開root保全、exact-head Governanceとcompletion receipts 2/2 SUCCESS。P91A統合SHA `153361ebc9bf4303ed9c79e931c768fc99a885af`、P91B統合SHA `8fd61aad78943f6c9c630a585450eac2b5246f90`。唯一の公開入口`KuuOSFormal`に両モジュールを直接import。 |
 | 既存定理の証拠 | 実際のLean宣言・型と仮定・`#print axioms`・対応するexact-head CI。`sorryAx`、`sorry`、`admit`、新たな未証明公理による補完は禁止。 |
 | 数学的区別 | raw Type-valued証拠、Prop証明、選択した商、観測、物理的解釈は互いに無条件には同一視しない。 |
 | 公開入口・toolchain | `lake build KuuOSFormal`（`lake build`も同じ）。既存107公開rootは維持。Lean `v4.30.0-rc2`、pinned mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`。 |
 | 別レーン | PR #1558（Lean 4.31）はvalidation-only、Draft・未マージ。Lean/mathlibの正式な固定環境は上記のまま。 |
 
-GitHub正本・Lean成果・README/ROADMAP・CI・歴史的スナップショットには異なる役割がある。**P94D3FMまでのmain統合はGitHub上のMERGED commitで、当該Lean定理のPR exact-head CIを独立に確認済み**。P91BやFL以前のCI数値は以前のreceiptとして保持する。文書編集を数学的証明の代替とせず、C60以前の縁起一般化成果も維持する。
+GitHub正本・Lean成果・README/ROADMAP・CI・歴史的スナップショットには異なる役割がある。**P94D3FNまでのmain統合はGitHub上のMERGED commitで、当該Lean定理のPR exact-source-head CIを独立確認済み**。P91BとFI–FMの数値は各時点の独立receiptとして保持。文書は証明の代替ではなく、C60以前の縁起一般化成果も維持する。
 
-## 0A. 2026-10-29現在の証明フロンティア：EX–FM
+## 0A. 2026-10-29現在の証明フロンティア：EX–FN
 
 **研究の主題：** 元の14D–18D依存型・非可換証拠を保存し、実際のC60有限AQ文脈での17D輸送 `C_w`、完全18Dコード写像 `f_w`、非可換自由群準同型 `τ_w` の**単射性・核・obstruction・相対商への降下**を区別して形式化する。C60は縁起の一般理論を取り替える唯一のモデルではない。現段階の18D生成子・19D候補は、元の幾何的19D充填や大域strict 3圏の完成証明ではない。
 
@@ -55,6 +55,7 @@ GitHub正本・Lean成果・README/ROADMAP・CI・歴史的スナップショッ
 | FK / [#2681](https://github.com/itakura-hidetoshi/KuuOS/pull/2681) | 既存`nativeK5AQWhiskerCell`を上書きせず、同じ14D幾何作用上の別の保守的15D構成子保存whiskeringとAX frameを構成。元14D左右raw whiskeringの単射性、新旧frameの`onObj`一致、FJの元15D`refl/atom`証拠の新輸送での区別を証明。全依存型raw15D経路hについて**`old(h)=forget(new(h))`**、逆の後処理復元不能性、全有限語で新輸送はFJ証拠を区別し非空語で旧輸送は衝突することを証明。9952/9952 SUCCESS | FK段階では全Hom単射性未証明だったが、後続FLで解決。FK当時未証明だった新17D/18D忠実性は後続FMで解決。元のFJの障害、DS no-go、19D幾何充填や全核の分類は不変 |
 | FL / [#2683](https://github.com/itakura-hidetoshi/KuuOS/pull/2683) | 保守的core`refl/atom/symm/trans`、独立exchange添字、外側`symm/trans`を元14D依存境界ごと等式反映。可変中間14Dを`Sigma`で復元し、exchange添字は`Option`射影と`HEq`で復元。FKの別15D輸送は全Homファイバー・全有限AQ語・新frame `onCell`で単射。9953/9953 SUCCESS | 当時未証明だった全`mapTotal`・17D文脈・18D自由群忠実性は後続FMで別frameについて証明済み。元FJ非単射性は保持 |
 | FM / [#2685](https://github.com/itakura-hidetoshi/KuuOS/pull/2685) | 新15D `onObj/onCell`から元AX `mapTotal`単射性を導出。真の16D raw `atom/refl/symm/trans`の全構成子等式反映は、元generator provenanceの単射性と可変中間15D Type値の`Sigma`反映による。17D真正singletonと全有限文脈の単射性を証明し、FIの同値から新18D完全コード・非可換自由群輸送の全有限AQ語単射性と自明核を証明。9954/9954 SUCCESS | FJ旧輸送の非単射性・旧全核分類未解決は保持。新旧高次証拠を比較する自然な射、元の幾何19D充填、全strict n圏・hyperdescentは未証明 |
+| FN / [#2687](https://github.com/itakura-hidetoshi/KuuOS/pull/2687) | 元14D依存境界を保持する完全15D AX Totalの構成子忘却写像を定義し、冪等・非単射・各frameと全有限語の忘却自然性・非空有限語の厳密`old=forget∘new`因子化を証明。旧新の別17D identity／18D assoc-refl完全コードの元同一15D証拠ペアについて、旧非空語の衝突・新全語の分離、旧受信18Dコードからの新受信両像の後処理復元不能、旧2文字欠損の共通核・新2文字欠損の全有限語生存を証明。9955/9955 SUCCESS | 別旧新高次signatureの全生成子をつなぐ比較関手は未構成。旧全kernel正規生成・元幾何19D充填・大域strict 3/n・hyperdescentは未証明 |
 
 主な正本Leanソース：
 
@@ -65,6 +66,7 @@ GitHub正本・Lean成果・README/ROADMAP・CI・歴史的スナップショッ
 - [FK: ConstructorPreservingWhisker](formal/Kuu/F112/PolygonNativeC60AQFullPentagonConstructorPreservingWhisker.lean) — 14D境界一致の別15D輸送、原保守的構成子履歴の保存、旧輸送への厳密忘却因子化、有限文脈でのFJ証拠分離。
 - [FL: FullDependentWhiskerReflection](formal/Kuu/F112/PolygonNativeC60AQFullPentagonFullDependentWhiskerReflection.lean) — 保守的4構成子・独立exchange・外側2構成子の全依存型Hom等式反映、可変中間14D Sigma復元、任意有限文脈と代替frame onCell単射性。
 - [FM: AlternativeFullFaithfulness](formal/Kuu/F112/PolygonNativeC60AQFullPentagonAlternativeFullFaithfulness.lean) — 真正15D `mapTotal`・全有限AQ文脈、17D閉包raw16D証拠の全構成子反映、元18D完全コード・非可換自由群輸送の全有限語単射性、自明核。
+- [FN: OldNewTypedFaithfulnessComparison](formal/Kuu/F112/PolygonNativeC60AQFullPentagonOldNewTypedFaithfulnessComparison.lean) — 全15D構成子忘却の冪等性／自然性／非空語因子化、新旧別17D・18D選択Type値証拠ペアの衝突対照・復元不能、旧／新非可換欠損の消失／生存。
 - [FG: GeneratorFaithfulnessGate](formal/Kuu/F112/PolygonNativeC60AQFullPentagonGeneratorFaithfulnessGate.lean)、[FG: ConstructorSectorSeparation](formal/Kuu/F112/PolygonNativeC60AQFullPentagonConstructorSectorSeparation.lean)、[FG: ConstructorPathInjectivity](formal/Kuu/F112/PolygonNativeC60AQFullPentagonConstructorPathInjectivity.lean)。
 
 ### 0A.2 数学的な論理境界（何が必要十分で、何が未充足か）
@@ -83,12 +85,12 @@ FIはさらに全入れ子構成子列から非可換FreeGroupへの準同型 $S
 
 `\operatorname{Injective}(\tau_w)\Rightarrow\operatorname{Injective}(C_w)` はFF/FDの必要条件、逆向きはFI #2676で証明済み。**FJ #2679では、具体的`S=nativeK5AXKuuSignature W`、`F=nativeK5BCFrame W`において `Injective(τ_w) ↔ w=[]` を証明**。ここで保守的15D証拠の元の`refl`と`atom`を区別したまま、真のwhiskeringが両者を同じ`atom`へ再構成することが衝突の原因である。一般抽象frameについてのFI同値と、選択物理presentationについてのFJ非単射性は矛盾しない。FCの「非自明核 iff コード衝突」とFGの「異種構成子間の衝突なし」は両立する。原pentagonは元のDV自由群像で非零のまま残り、選択したDX相対商では消える。**DSの完全証拠保存no-goを維持**する。
 
-### 0A.3 次に形式化すべきこと — F112-P94D3FN（仮称）
+### 0A.3 次に形式化すべきこと — F112-P94D3FO（仮称）
 
-1. **新旧15D Type値比較から17Dへ**：FKの厳密な`old(h)=forget(new(h))`を維持し、FMの新しい全`mapTotal`・17D単射性に基づき、旧FJの情報損失がどの依存型16D/17D文脈・生成子で保たれるかを個別に検証する。異なる証拠source/target型を勝手に同一視した忘却関手は作らない。
-2. **存在と不可能性の正確な境界**：新FMでは全有限文脈の18D完全コード・非可換自由群写像が単射、旧FJでは全非空文脈が非単射。この差から、旧出力だけを受ける新証拠の復元射が存在する場合の必要条件とFJ二証拠による正確なobstructionを検証する。既存FKの15D復元不能性を高次へ無条件に移植しない。
-3. **全核・descentとgeometricity**：旧FJの全非空文脈に共通する非自明2文字元が**全核を正規生成する**かは未証明。新FMで選択された核が自明だからといって元の幾何で19D充填が存在するわけではない。相対商・履歴の忘却と真正Type値19D幾何充填を明確に分離する。
-4. **19Dと高次構造の権威境界**：元C60の真正19D Type値充填、異なる元高次証拠の同一性、局所・大域strict 3/n圏、`(∞,3)`-hyperdescentは別の未解決目標。DS/旧presentationのno-goと107公開root、Gray非再導入を維持。
+1. **高次旧新比較の成立範囲**：FNは**完全proof-bearing 15D Total**における旧＝忘却∘新の非空全有限語因子化と、別々の17D identity／18D assoc-reflの具体的2証拠対照を証明した。次は両閉包signatureが異なることを保ち、元16D生成子と依存型source/targetの比較射が構成できるための必要十分な生成子整合・境界条件を調べる。FNの2証拠不可能性をあらゆる比較関手のno-goとして一般化しない。
+2. **旧非可換全核の正規生成表示**：FJで全非空AQ語が殺す共通非自明2文字元と、FNで分離した選択17D/18Dコード証拠を維持する。一方、**旧の全核がその1元の正規閉包に一致することは未証明**。完全18Dコードファイバーのすべての衝突対から生じる差語の正規生成、文脈ごとの依存境界、Mathlib FreeGroup.map のexact kernel条件を精査する。
+3. **presentation相対的descent・obstruction**：FNの旧受信18Dコードから新受信2像を復元できないことは、選択された同じ15D証拠ペアで成立した厳密no-recovery。一般の観測・受信器が何を保存すればfull noncommutative historyが降下するか、条件付きdescentを全生成子と相互作用で形式化する。新側の自明kernelと元C60の真正19D充填は別命題。
+4. **19Dと高次構造の権威境界**：元のC60幾何における真正19D Type値充填、異なる元高次証拠の同一性、局所・大域strict 3/n圏、`(∞,3)`-hyperdescentは未解決。旧FJ/DSのno-go、107公開root、Gray非再導入、strict空と独立Kuuのpresentation区別を維持する。
 
 **完了判定：** 新Lean宣言の全型・依存境界、`#print axioms`、`sorryAx`なし、固定環境、changed Lean file全文・import閉包・pinned mathlib APIの照合、PR exact-headでworkflow/job/Lean stepがすべて`completed SUCCESS`。**queued / in_progressをSUCCESSとしない。** CI緑は数学的な追加仮定を消さない。docs-only編集は必要な文書・root検査を通すが、新しいLean定理を変更していないのにStrict Leanを再実行することを要件にはしない。
 
@@ -283,7 +285,7 @@ P58–P91の新規ソースは**canonical mainに存在**します。[P58](forma
 
 ## 10. 実装優先順位、CI、既存成果の保存
 
-**次の証明作業の優先順位（2026-10-29）：F112-P94D3FN（仮称）。** FM [#2685](https://github.com/itakura-hidetoshi/KuuOS/pull/2685)までmainにMERGED。FK/FLの同じ14D物理境界上に構成した**別**の15D構成子保存輸送は、FMで完全15D `mapTotal`、真正17D raw16D文脈、FIの18D完全コード・非可換自由群輸送まで**任意有限AQ語で単射**と証明（9954/9954 Strict Lean SUCCESS）。旧FJの全非空語非単射性と共通非自明2文字核は同時に保持。次は新旧別presentation間のType値比較射・忘却・情報障害の厳密化。DS、F45/F54/F55/P92B、真正Type値自然性数3と旧形式数1、W/J/H一般理論、strict 3/n・hyperdescentの未解決性を保持し、Grayを再導入せず、独立KuuやC60を唯一の空としない。
+**次の証明作業の優先順位（2026-10-29）：F112-P94D3FO（仮称）。** FN [#2687](https://github.com/itakura-hidetoshi/KuuOS/pull/2687)までmainにMERGED。非空全有限AQ語で`old15D=forget∘new15D`（完全AX Total）を証明し、元15D `refl/atom` の同じソース証拠を旧新それぞれの真正17D identityと18D完全reflexive-associatorコードに保持して、旧出力衝突／新出力分離・18D後処理復元不能・異なる2文字非可換欠損の旧消失／新生存を証明。次は**全閉包生成子での比較の正確な可否**と、**旧全kernelの正規生成表示**を検討する。FJ旧非空語no-goとFM新全語忠実性、DS、F45/F54/F55/P92B、真正自然性数3、W/J/H一般理論、strict 3/n・hyperdescent未解決を維持し、Gray圏再導入や独立Kuuを唯一の空とすることを避ける。
 
 **絶対に行わないこと:** Gray圏でstrict 3圏の未証明法則を置換して完了と言うこと、旧約107公開rootの一括削除、歴史的な数学を`legacy/`だけに押し込むこと、strict性を得るために全raw証拠を無条件に潰すこと、未証明の存在条件を新公理へ置くこと、exact-head CIと公理監査を通さず未検証成果をmainに統合すること。
 
@@ -350,6 +352,7 @@ lake build KuuOSFormal # warningAsErrorはlakefile.toml既定。sorryAxは#print
 - [FK #2681](https://github.com/itakura-hidetoshi/KuuOS/pull/2681) — 元の14D境界を保つ15D構成子保存whiskering、元14D raw作用単射性、旧輸送への忘却因子化、逆復元不能性、FJ証拠の全有限語保存（9952/9952 Strict Lean SUCCESS、12 Checks SUCCESS / 1 SKIPPED）。
 - [FL #2683](https://github.com/itakura-hidetoshi/KuuOS/pull/2683) — 元14D境界を維持するFKの構成子保存15D全Homファイバー単射性、全有限AQ文脈単射性、代替frame `onCell`単射性（9953/9953 Strict Lean SUCCESS、40 Checks SUCCESS / 1 SKIPPED、Governance SUCCESS、`sorryAx`なし）。
 - [FM #2685](https://github.com/itakura-hidetoshi/KuuOS/pull/2685) — FK/FL別frameから真正17D・18D非可換完全輸送へ単射性を転送。9954/9954 Strict Lean SUCCESS、40 Checks SUCCESS / 1 SKIPPED、Governance SUCCESS、`sorryAx`なし。
+- [FN #2687](https://github.com/itakura-hidetoshi/KuuOS/pull/2687) — 完全15D AX Totalと選択17D/18D Type値ペアの新旧相対比較、全非空語忘却因子化、18D no-recovery、非可換2文字欠損対照（9955/9955 Strict Lean SUCCESS、40 Checks SUCCESS / 1 SKIPPED、Governance SUCCESS、`sorryAx`なし）。
 - [`AGENTS.md`](AGENTS.md) — 現行のpublic root・mathlib・Gray依存・ビルド境界
 - [`formal/KUOS/`](formal/KUOS/) — 過去から継続する一般的なLean数学
 - [`formal/Kuu/`](formal/Kuu/) — 現在の独立Kuuの具体的な構成
