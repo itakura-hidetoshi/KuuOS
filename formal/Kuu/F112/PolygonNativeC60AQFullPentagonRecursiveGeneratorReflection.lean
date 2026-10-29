@@ -404,9 +404,12 @@ theorem nativeC60FICompleteCode_reflection
             some (nativeC60DVTransportCompleteCode S F word
               (nativeC60DSCode S F s)) at hinner
           have hr := ih (nativeC60DSCode S F s) (Option.some.inj hinner)
-          have hsrc := nativeC60FFDVTransportEighteenObj_injective S F word hctx
-            (congrArg (fun code : NativeC60DVCompleteEighteenCode S F =>
-              code.1) heq)
+          have hsrc :
+              (nativeC60DSCode S F (.post r h)).1 =
+                (nativeC60DSCode S F (.post s k)).1 := by
+            apply nativeC60FFDVTransportEighteenObj_injective S F word hctx
+            exact congrArg (fun code : NativeC60DVCompleteEighteenCode S F =>
+              code.1) heq
           have hparts := Option.some.inj
             (congrArg (nativeC60FIRawTransParts S F) hsrc)
           exact nativeC60FIPostCode_congr S F hr (Prod.mk.inj hparts).2
@@ -430,9 +433,12 @@ theorem nativeC60FICompleteCode_reflection
             some (nativeC60DVTransportCompleteCode S F word
               (nativeC60DSCode S F s)) at hinner
           have hr := ih (nativeC60DSCode S F s) (Option.some.inj hinner)
-          have hsrc := nativeC60FFDVTransportEighteenObj_injective S F word hctx
-            (congrArg (fun code : NativeC60DVCompleteEighteenCode S F =>
-              code.1) heq)
+          have hsrc :
+              (nativeC60DSCode S F (.pre h r)).1 =
+                (nativeC60DSCode S F (.pre k s)).1 := by
+            apply nativeC60FFDVTransportEighteenObj_injective S F word hctx
+            exact congrArg (fun code : NativeC60DVCompleteEighteenCode S F =>
+              code.1) heq
           have hparts := Option.some.inj
             (congrArg (nativeC60FIRawTransParts S F) hsrc)
           exact nativeC60FIPreCode_congr S F hr (Prod.mk.inj hparts).1
