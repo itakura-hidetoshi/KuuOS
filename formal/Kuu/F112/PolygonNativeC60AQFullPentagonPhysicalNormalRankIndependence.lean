@@ -233,6 +233,62 @@ theorem nativeC60FWAnyNormalGenerators_cover_active
   intro a ha
   exact nativeC60FWAnyNormalGenerators_detect_every_active f R hR a ha
 
+/-- EXACT characterization of WHICH collections of actual source
+letters suffice for a FULL rooted normal presentation. The source
+letter set T can be infinite and may include redundant chosen roots:
+its rooted relators normally generate the whole original full kernel
+IFF it contains EVERY genuinely nonroot original active letter.
+
+This is an inclusion-minimality theorem for the rooted presentation;
+it does not conflate rooted-presentation minimality with cardinal
+minimality among arbitrary non-rooted normal presentations. -/
+theorem nativeC60FWRootedNormalGeneration_iff_active_subset
+    {A : Type u} {B : Type v} (f : A → B) (T : Set A) :
+    Subgroup.normalClosure (Set.image (nativeC60FSRootedRelator f) T) =
+      (FreeGroup.map f).ker ↔
+    nativeC60FSActiveLetters f ⊆ T := by
+  constructor
+  · intro hnormal a ha
+    by_contra hanot
+    have hmissing :
+        nativeC60FSRootedRelator f a ∉
+          Subgroup.normalClosure
+            (Set.image (nativeC60FSRootedRelator f) T) :=
+      nativeC60FWRootedRelator_outside_subfamily_normalClosure
+        f a ha T hanot
+    have hrootKer :
+        nativeC60FSRootedRelator f a ∈
+          (FreeGroup.map f).ker := by
+      rw [nativeC60FSFreeMap_kernel_eq_active f]
+      exact Subgroup.subset_normalClosure
+        (nativeC60FSActiveRelator_mem f a ha)
+    rw [← hnormal] at hrootKer
+    exact hmissing hrootKer
+  · intro hactive
+    apply le_antisymm
+    · apply Subgroup.normalClosure_le_normal
+      rintro z ⟨b, _hb, rfl⟩
+      rw [nativeC60FQFreeMap_kernel_eq_rooted f]
+      exact nativeC60FQRootedDefect_mem f b
+    · rw [nativeC60FSFreeMap_kernel_eq_active f]
+      apply Subgroup.normalClosure_le_normal
+      rintro z ⟨b, hb, rfl⟩
+      exact Subgroup.subset_normalClosure ⟨b, hactive hb, rfl⟩
+
+/-- A rigorous cardinal UPPER gate: if the genuinely active source
+letters are countable, the entire original noncommutative free-map
+kernel has a countable normal presentation. This does NOT claim
+that the actual old-FJ physical active alphabet has been proved
+countable; FU proves an infinite injection, not this upper gate. -/
+theorem nativeC60FWKernel_countably_normalGenerated_of_active_countable
+    {A : Type u} {B : Type v} (f : A → B)
+    (hc : (nativeC60FSActiveLetters f).Countable) :
+    ∃ R : Set (FreeGroup A), R.Countable ∧
+      (FreeGroup.map f).ker = Subgroup.normalClosure R := by
+  exact ⟨nativeC60FSActiveRelators f,
+    hc.image (nativeC60FSRootedRelator f),
+    nativeC60FSFreeMap_kernel_eq_active f⟩
+
 end GeneralNormalIndependence
 
 #print axioms nativeC60FWLetterRoot_idempotent
@@ -244,6 +300,8 @@ end GeneralNormalIndependence
 #print axioms nativeC60FWActiveRootedRelators_injectiveOn
 #print axioms nativeC60FWAnyNormalGenerators_detect_every_active
 #print axioms nativeC60FWAnyNormalGenerators_cover_active
+#print axioms nativeC60FWRootedNormalGeneration_iff_active_subset
+#print axioms nativeC60FWKernel_countably_normalGenerated_of_active_countable
 
 end
 end Kuu.F112.Physical
