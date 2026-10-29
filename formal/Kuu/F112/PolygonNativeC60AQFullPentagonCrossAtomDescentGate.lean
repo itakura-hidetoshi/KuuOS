@@ -114,12 +114,12 @@ theorem nativeC60FAImageNormal_le_iff_atoms
     have hpair :
         (τ (nativeC60EYPrimitiveDefect T obs a), (1 : H)) ∈
           nativeC60FASelectedImagePairs T obs A τ := by
-      change (τ (nativeC60EYPrimitiveDefect T obs a), τ (1 : G)) ∈
-        nativeC60DWPairImage (nativeC60EYSelectedPairs T obs A) τ
-      exact nativeC60DWPairImage_mem
+      have hmem := nativeC60DWPairImage_mem
         (nativeC60EYSelectedPairs T obs A) τ
         (nativeC60EYPrimitiveDefect T obs a, (1 : G))
-        ⟨a, ha, rfl⟩
+        (show (nativeC60EYPrimitiveDefect T obs a, (1 : G)) ∈
+          nativeC60EYSelectedPairs T obs A from ⟨a, ha, rfl⟩)
+      simpa only [map_one] using hmem
     have hm := hall _ hpair
     simpa using hm
   · intro hall pair hp
