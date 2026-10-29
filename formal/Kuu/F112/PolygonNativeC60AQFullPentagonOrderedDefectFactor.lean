@@ -147,17 +147,17 @@ theorem nativeC60EXBadAtom_factor
         simpa using h'
       · rw [nativeC60EXFoldDefect_symm, hfactor]
         group
-  | transLeft _ ih =>
+  | @transLeft x₀ y₀ z₀ pLeft pRight h ih =>
       obtain ⟨a, b, g, front, mid, back, hocc, hsign, hnon, hfactor⟩ := ih
       refine ⟨a, b, g, front, mid,
-        back * nativeC60EXFoldDefect T obs _, .transLeft hocc,
+        back * nativeC60EXFoldDefect T obs pRight, .transLeft hocc,
         hsign, hnon, ?_⟩
       rw [nativeC60EXFoldDefect_trans, hfactor]
       group
-  | transRight _ ih =>
+  | @transRight x₀ y₀ z₀ pLeft pRight h ih =>
       obtain ⟨a, b, g, front, mid, back, hocc, hsign, hnon, hfactor⟩ := ih
       refine ⟨a, b, g,
-        nativeC60EXFoldDefect T obs _ * front,
+        nativeC60EXFoldDefect T obs pLeft * front,
         mid, back, .transRight hocc, hsign, hnon, ?_⟩
       rw [nativeC60EXFoldDefect_trans, hfactor]
       group
