@@ -225,7 +225,7 @@ theorem nativeC60FXAnyNormalGenerators_cardinal_lower
     nativeC60FXRationalActiveSpan_top f R hR
   have hrank :
       Module.rank ℚ (Submodule.span ℚ S) ≤ #S :=
-    Submodule.rank_span_le S
+    rank_span_le S
   rw [htop] at hrank
   calc
     #(nativeC60FSActiveLetters f) =
