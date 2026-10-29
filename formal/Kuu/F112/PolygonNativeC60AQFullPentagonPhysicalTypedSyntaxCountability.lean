@@ -91,24 +91,21 @@ is introduced. -/
 noncomputable def nativeC60GADecodeRaw
     {L : NativeC60AXLayer.{u}} (S : NativeC60AXSignature L) :
     NativeC60GAPlainRawSyntax (NativeC60GAOriginalAtomTotal S) L.Total →
-      Option (NativeC60GAOriginalPathTotal S) := by
-  classical
-  intro e
-  induction e with
-  | atom token =>
-      rcases token with ⟨x, y, g⟩
-      exact some ⟨(x, y), .atom g⟩
-  | refl x =>
-      exact some ⟨(x, x), .refl x⟩
-  | symm _ ih =>
-      exact ih.bind (fun ⟨⟨x, y⟩, p⟩ =>
-        some ⟨(y, x), .symm p⟩)
-  | trans _ _ ih ik =>
-      exact ih.bind (fun ⟨⟨x, y⟩, p⟩ =>
-        ik.bind (fun ⟨⟨z, w⟩, q⟩ =>
-          if h : y = z then
-            some ⟨(x, w), .trans p (h.symm ▸ q)⟩
-          else none))
+      Option (NativeC60GAOriginalPathTotal S)
+  | .atom ⟨x, y, g⟩ => some ⟨(x, y), .atom g⟩
+  | .refl x => some ⟨(x, x), .refl x⟩
+  | .symm h =>
+      (nativeC60GADecodeRaw S h).bind
+        (fun ⟨⟨x, y⟩, p⟩ => some ⟨(y, x), .symm p⟩)
+  | .trans h k => by
+      classical
+      exact (nativeC60GADecodeRaw S h).bind
+        (fun ⟨⟨x, y⟩, p⟩ =>
+          (nativeC60GADecodeRaw S k).bind
+            (fun ⟨⟨z, w⟩, q⟩ =>
+              if hz : y = z then
+                some ⟨(x, w), .trans p (hz.symm ▸ q)⟩
+              else none))
 
 /-- The partial decoder is an EXACT LEFT INVERSE on every
 original dependent raw proof, including arbitrary raw
@@ -122,22 +119,9 @@ theorem nativeC60GADecode_encodeRaw
   | atom g => rfl
   | refl a => rfl
   | symm h ih =>
-      change
-        (nativeC60GADecodeRaw S (nativeC60GAEncodeRaw S h)).bind
-          (fun ⟨⟨a, b⟩, q⟩ => some ⟨(b, a), .symm q⟩) = _
-      rw [ih]
-      rfl
+      simp [nativeC60GAEncodeRaw, nativeC60GADecodeRaw, ih]
   | trans h k ih ik =>
-      change
-        (nativeC60GADecodeRaw S (nativeC60GAEncodeRaw S h)).bind
-          (fun ⟨⟨a, b⟩, p⟩ =>
-            (nativeC60GADecodeRaw S (nativeC60GAEncodeRaw S k)).bind
-              (fun ⟨⟨c, d⟩, q⟩ =>
-                if heq : b = c then
-                  some ⟨(a, d), .trans p (heq.symm ▸ q)⟩
-                else none)) = _
-      rw [ih, ik]
-      simp
+      simp [nativeC60GAEncodeRaw, nativeC60GADecodeRaw, ih, ik]
 
 /-- The full original AXStep dependent Sigma type is Countable
 as soon as its original source/target objects and primitive
