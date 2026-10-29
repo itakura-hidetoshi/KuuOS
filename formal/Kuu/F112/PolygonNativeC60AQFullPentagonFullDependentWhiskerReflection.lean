@@ -106,6 +106,17 @@ variable {P Q : NativeK5StructuralTenCell p q t}
 variable {H K : NativeK5StructuralElevenCell p P Q}
 variable {U V : NativeK5StructuralTwelveCell p H K}
 
+/-- A fully dependent, boundary-preserving package for each ORIGINAL
+independent AQ exchange. A source index equality yields equality of
+packages without trying to eliminate equality inside fixed endpoints. -/
+def nativeK5FLExchangePack
+    (W : NativeK5StructuralThirteenCell p U V)
+    (steps : List Bool) :
+    Σ pair : NativeK5FifteenFourteenFiber W × NativeK5FifteenFourteenFiber W,
+      NativeK5AQFifteenCell W pair.1 pair.2 :=
+  ⟨(nativeK5AQLeft W steps, nativeK5AQRight W steps),
+    NativeFifteenFamilyCell.exchange steps⟩
+
 /-- Full source/target-fixed conservative Hom injection. Unlike FJ's
 flattening operation, the FK core map preserves all FOUR constructors.
 The trans case explicitly reflects its variable intermediate 14D
@@ -206,8 +217,10 @@ theorem nativeK5FLWhiskerCell_injective
           have hsteps : side :: steps = side :: other := by
             injection heq
           have htail : steps = other := (List.cons.inj hsteps).2
-          cases htail
-          rfl
+          have hpack : nativeK5FLExchangePack W steps =
+              nativeK5FLExchangePack W other :=
+            congrArg (nativeK5FLExchangePack W) htail
+          exact eq_of_heq (Sigma.mk.inj hpack).2
       | symm _ => cases heq
       | trans _ _ => cases heq
   | symm h ih =>
@@ -285,7 +298,7 @@ theorem nativeK5FLBCFrame_onCell_injective
     (a b : (nativeK5AXBaseLayer W).Obj) :
     Function.Injective ((nativeK5FKBCFrame W side).onCell (a := a) (b := b)) := by
   intro h k heq
-  apply ULift.up_injective
+  apply ULift.down_injective
   apply nativeK5FLWhiskerCell_injective W side
   exact congrArg ULift.down heq
 
