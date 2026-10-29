@@ -25,7 +25,7 @@ set_option maxRecDepth 8192
 set_option maxHeartbeats 4000000
 noncomputable section
 
-universe u uD vD uE vE
+universe u v uD vD uE vE
 
 /-! The pinned mathlib Countable deriving handler cannot infer
 the heterogeneous original S.Gen x y fiber cardinal hypotheses
