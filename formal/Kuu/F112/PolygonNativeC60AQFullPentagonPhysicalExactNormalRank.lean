@@ -49,7 +49,7 @@ Copyright Hidetoshi Itakura / 板倉英俊. Apache-2.0.
 
 namespace Kuu.F112.Physical
 
-open CategoryTheory
+open CategoryTheory Cardinal
 set_option autoImplicit false
 set_option warningAsError true
 set_option maxRecDepth 8192
@@ -150,7 +150,8 @@ theorem nativeC60FXRationalActiveSpan_top
     have hzZero :
         (Submodule.mkQ P)
           (((nativeC60FXRationalActiveCoordinate f) z).toAdd) = 0 := by
-      exact (Submodule.Quotient.mk_eq_zero).mpr hzP
+      exact (Submodule.Quotient.mk_eq_zero (p := P)
+        (x := ((nativeC60FXRationalActiveCoordinate f) z).toAdd)).mpr hzP
     simp only [hzZero, map_zero]
     rfl
   have hnormal : Subgroup.normalClosure R ≤ q.ker :=
@@ -185,7 +186,9 @@ theorem nativeC60FXRationalActiveSpan_top
     have hmem :
         ((nativeC60FXRationalActiveCoordinate f)
           (nativeC60FSRootedRelator f a.1)).toAdd ∈ P :=
-      (Submodule.Quotient.mk_eq_zero).mp hqZero
+      (Submodule.Quotient.mk_eq_zero (p := P)
+        (x := ((nativeC60FXRationalActiveCoordinate f)
+          (nativeC60FSRootedRelator f a.1)).toAdd)).mp hqZero
     simpa only [
       nativeC60FXRationalActiveCoordinate_rooted f a.1 a.2] using hmem
   change P = ⊤
