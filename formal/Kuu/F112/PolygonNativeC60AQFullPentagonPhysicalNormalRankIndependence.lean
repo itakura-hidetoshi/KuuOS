@@ -289,6 +289,43 @@ theorem nativeC60FWKernel_countably_normalGenerated_of_active_countable
     hc.image (nativeC60FSRootedRelator f),
     nativeC60FSFreeMap_kernel_eq_active f⟩
 
+/-- EXACT countable normal-generation gate for ANY original full
+noncommutative free-group map. The converse does not rely on a
+countable source alphabet: EACH word has FV's finite original-letter
+support, so the union of supports of a countable family of arbitrary
+normal relators is countable. Every active source letter must be
+detected by SOME proposed relator (FW coverage), hence belongs to
+that union. The reverse follows from the canonical FS presentation.
+The result is conditional: actual physical FJ source countability is
+not asserted. -/
+theorem nativeC60FWKernel_countableNormal_iff_activeCountable
+    {A : Type u} {B : Type v} (f : A → B) :
+    (∃ R : Set (FreeGroup A), R.Countable ∧
+      (FreeGroup.map f).ker = Subgroup.normalClosure R) ↔
+      (nativeC60FSActiveLetters f).Countable := by
+  classical
+  constructor
+  · rintro ⟨R, hRcount, hRnormal⟩
+    have hsupportCountable :
+        (⋃ z ∈ R,
+          (↑(nativeC60FVWordSupport z) : Set A)).Countable := by
+      apply (Set.Countable.biUnion_iff hRcount).2
+      intro z _hz
+      exact Finset.countable_toSet (nativeC60FVWordSupport z)
+    apply hsupportCountable.mono
+    intro a ha
+    obtain ⟨z, hz, hnonzero⟩ :=
+      nativeC60FWAnyNormalGenerators_detect_every_active
+        f R hRnormal a ha
+    have haSupport : a ∈ nativeC60FVWordSupport z := by
+      by_contra hnot
+      exact hnonzero (nativeC60FVWordSupport_outside z a hnot)
+    exact Set.mem_iUnion.mpr
+      ⟨z, Set.mem_iUnion.mpr ⟨hz, haSupport⟩⟩
+  · intro hcountable
+    exact nativeC60FWKernel_countably_normalGenerated_of_active_countable
+      f hcountable
+
 end GeneralNormalIndependence
 
 #print axioms nativeC60FWLetterRoot_idempotent
@@ -302,6 +339,7 @@ end GeneralNormalIndependence
 #print axioms nativeC60FWAnyNormalGenerators_cover_active
 #print axioms nativeC60FWRootedNormalGeneration_iff_active_subset
 #print axioms nativeC60FWKernel_countably_normalGenerated_of_active_countable
+#print axioms nativeC60FWKernel_countableNormal_iff_activeCountable
 
 end
 end Kuu.F112.Physical
