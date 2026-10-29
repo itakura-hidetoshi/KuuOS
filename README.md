@@ -10,18 +10,18 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 **研究・著作権者 / Founder and copyright holder:** 板倉英俊 / Hidetoshi Itakura. [LICENSE](LICENSE) · [NOTICE](NOTICE) · [COPYRIGHT](COPYRIGHT.md) · [CITATION](CITATION.cff).
 
-## 最新の研究状態 — 2026-10-29 JST / F112-P94D3FM
+## 最新の研究状態 — 2026-10-29 JST / F112-P94D3FN
 
-**C60は縁起一般理論の起点ではなく、原証拠・非可換ゲージ・descentの検証場です。** FJで証明済みの**旧選択AQ15D輸送の非単射性**を変更せず、FK・FL・FMは同じ真正14D物理境界上の**別の構成子保存AQ輸送**について、15D全依存型Hom・元AX Total・真正17D文脈・元完全18Dコードと非可換自由群輸送の**全有限文脈での単射性**をLean4で証明しました。二つのpresentation間の証拠忘却はFKの方向にのみ成立し、元の幾何的19D充填・大域strict 3/n圏・`(∞,3)`-hyperdescentを得たわけではありません。
+**C60は縁起一般理論の起点ではなく、原証拠・非可換ゲージ・descentの検証場です。** FJが示した元15D選択輸送の非単射性と、FK–FMが構成・証明した別の15D構成子保存輸送の全有限文脈での忠実性を同時に保持します。FN [#2687](https://github.com/itakura-hidetoshi/KuuOS/pull/2687)では**同じ元14D境界を持つ完全15D Type値証拠**について、旧輸送＝構成子忘却∘新輸送を**非空有限AQ文脈すべて**に拡張し、17D identity・18D完全コードでは両presentationの型を混同しない選択証拠ペア比較と旧出力からの新受信コード復元不能性を証明しました。元の幾何的19D充填、大域strict 3/n圏、`(∞,3)`-hyperdescentを得たわけではありません。
 
 | 項目 | 2026-10-29に確認した状態 |
 | --- | --- |
 | 定理の正本 | [`main`](https://github.com/itakura-hidetoshi/KuuOS/tree/main)。公開統合入口は [`formal/KuuOSFormal.lean`](formal/KuuOSFormal.lean)（既存107公開rootを維持） |
-| 直近の定理統合点 | **F112-P94D3FM / [PR #2685](https://github.com/itakura-hidetoshi/KuuOS/pull/2685) MERGED**。定理squash SHA `e75911af42d352b4d99474209ff55c2211ef07b5`。FK/FLの別輸送について真正17D全有限文脈と18D完全コード・非可換自由群輸送の単射性を証明。元FJ [#2679](https://github.com/itakura-hidetoshi/KuuOS/pull/2679) の旧輸送非単射性を保持。 |
+| 直近の定理統合点 | **F112-P94D3FN / [PR #2687](https://github.com/itakura-hidetoshi/KuuOS/pull/2687) MERGED**。定理squash SHA `117e9eedf84bd7ddbd8264ce61ca2c16a305b229`。FNの新旧比較は同一の元15D証拠ペアを別々の17D・18D相対presentationで読む比較であり、任意の旧新高次証拠間の全functorを捏造しない。FJ旧輸送のno-goを保持。 |
 | Lean / mathlib | `v4.30.0-rc2` / `5450b53e5ddc75d46418fabb605edbf36bd0beb6` |
-| PR #2685の証明検証 | exact-source-head Strict Lean **9954/9954 SUCCESS**、Checks **40 SUCCESS / 1 SKIPPED**、Governance SUCCESS、変更Lean warning/error 0/0、`sorryAx`なし。FMの新規11定理の`#print axioms`は `propext`・`Classical.choice`・`Quot.sound`のみ。 |
+| PR #2687の証明検証 | exact-source-head Strict Lean **9955/9955 SUCCESS**、Checks **40 SUCCESS / 1 SKIPPED**、Governance SUCCESS、変更Lean warning/error 0/0、`sorryAx`なし。FNの`#print axioms`は `propext`・`Classical.choice`・`Quot.sound`のみ。 |
 | 基礎・presentation | strict空を中心に据えるが、独立Kuuも空の一つのpresentation。`KuuOSStrict`は**内部import集約**であり、別の正本でも「唯一の空」でもない。Gray圏を新しいstrict証明の根拠として再導入しない |
-| 次の定理作業 | **F112-P94D3FN（仮称）**：旧FJ／新FMの17D・18D Type値証拠を混同しない比較射・忘却の可換条件、完全非可換核の差、真の物理文脈に相対的な忠実性・descentの境界を追加形式化する。旧FJの全核の正規生成表示と元の19D幾何充填は未解決。 |
+| 次の定理作業 | **F112-P94D3FO（仮称）**：FNの選択17D/18D比較を一般化できる型付き比較境界、旧非可換自由群輸送の**全kernelの正規生成表示**（FJの単一2文字元だけと同一視しない）、および厳密なdescentの必要十分条件を検討する。真正19D幾何充填・高次strict化は別課題。 |
 
 ### 現行のC60 Type値証拠・非可換核の到達点
 
@@ -39,6 +39,7 @@ English: KuuOS develops a general mathematical program for dependent origination
 | FK [#2681](https://github.com/itakura-hidetoshi/KuuOS/pull/2681) | 同じ元14D依存境界の上に、新しい保守的15D証拠の`refl/atom/symm/trans`構成子保存whiskeringおよび別のAX frameを構成。元の14D左右raw-whiskering単射性、FJの2証拠の新輸送による分離、**旧輸送 = 構成子忘却 ∘ 新輸送** の全raw15D経路についての同値、逆の復元不能性をLean証明。新輸送は全有限AQ語でFJ証拠の区別を保つ | FK段階で未証明だった全依存型Hom単射性はFLで証明済み。元のFJ非単射性・全核・19D幾何の障害は残る |
 | FL [#2683](https://github.com/itakura-hidetoshi/KuuOS/pull/2683) | FKの別15D輸送で保守的core全構成子・独立`exchange`添字・外側`symm/trans`を型付きで等式反映。可変14D中間境界を`Sigma`で復元し、交換は`Option`射影と`HEq`で復元。全Homファイバー・任意有限AQ語・代替frame `onCell`単射性を証明。9953/9953 SUCCESS | FL時点で未解決だった新frameの`mapTotal`と17D/18Dへの忠実性は後続FM [#2685](https://github.com/itakura-hidetoshi/KuuOS/pull/2685)で解決。FJ旧no-goを保持 |
 | FM [#2685](https://github.com/itakura-hidetoshi/KuuOS/pull/2685) | FK・FL別AQ輸送に対し、元14D `onObj`と全15D `onCell`の単射性を合成して`mapTotal`単射性を証明。16D raw構文の`atom/refl/symm/trans`を真の依存型中間境界・元generator provenanceを保って反映し、DR 17Dの全有限AQ文脈作用の単射性を確立。FIの同値から完全18Dコード・非可換自由群輸送の全有限文脈単射性と自明核を証明。9954/9954 SUCCESS | 旧FJ frameの非空文脈非単射性は変更なし。旧核の完全正規生成表示、旧新17D/18D間の自然比較、幾何19D充填・全strict高次構造は未証明 |
+| FN [#2687](https://github.com/itakura-hidetoshi/KuuOS/pull/2687) | 保守的15D構成子忘却の冪等性・非単射性、全proof-bearing AX Total上での旧frame＝忘却∘新frame、全有限文脈での忘却の自然性、**非空全有限語での旧文脈＝忘却∘新文脈**をLean証明。17D identity・18D `assoc(refl,refl,refl)`の選択した真正Type値2証拠について旧像衝突／新像分離、旧受信18Dコードだけから新受信両像を復元する関数の不可能性、別々の非可換2文字元の旧核消滅／新全有限文脈生存を証明。9955/9955 SUCCESS | 旧新**全17D/18D閉包生成子**間の自然な比較関手は未構成。旧全kernelの正規生成表示・元19D幾何充填・全strict高次構造も未証明 |
 
 実際のDV完全コード写像を `f_w`、その非可換自由群準同型を `τ_w`、17D文脈対象作用を `C_w` とすると、証明済みの**条件の分離**は次です。
 
@@ -52,7 +53,7 @@ $$
 
 後続FI [#2676](https://github.com/itakura-hidetoshi/KuuOS/pull/2676)で、この三セクター条件を元の17D文脈対象作用の単射性へ正確に還元しました。すなわち任意の固定有限文脈 $w$ について **$\operatorname{Injective}(\tau_w)\iff\operatorname{Injective}(f_w)\iff\operatorname{Injective}(C_w)$**。後続FJ [#2679](https://github.com/itakura-hidetoshi/KuuOS/pull/2679)は、具体的に`S=nativeK5AXKuuSignature W`、`F=nativeK5BCFrame W`とした**選択物理AQモデル**で、`C_w`（従って`τ_w`）は任意の**非空**有限語で**非単射**と証明しました。一方、空語での単射性はFIから従います。
 
-**依然として未証明：** FJの旧輸送とFMの別輸送を17D/18Dまで**同じType値証拠の上で**比較する自然な射・高次coherence、旧FJの非可換核の完全な正規生成表示、任意の別presentationでの忠実性、元のC60幾何における真正19D Type値充填、異なる高次証拠の同一性、大域strict 3/n圏、`(∞,3)`-hyperdescent。**DSの完全証拠保存no-go**と旧P62/P77/P80/P87/P88の各presentation固有の障害を保持します。
+**依然として未証明：** FNで選んだ17D identity・18D reflexive-associatorの**2証拠以外**について、旧新の異なる閉包生成子Type値全体をつなぐ構成子保存比較関手や自然性・higher coherence、旧FJの非可換自由群核の完全な正規生成表示、任意の別presentationでの忠実性、元のC60幾何での真正19D Type値充填、異なる高次証拠の同一性、大域strict 3/n圏、`(∞,3)`-hyperdescent。**DSの完全証拠保存no-go**と旧P62/P77/P80/P87/P88の各presentation固有の障害を維持します。
 
 より具体的な優先順位とLeanファイルへの導線は[ROADMAP](ROADMAP.md)を参照してください。以下の長いP58–P91記録は歴史的な検証台帳として保持しており、**現在の最終段階ではありません**。
 
@@ -189,7 +190,7 @@ mainで統合済みのQi v3.1–v3.3では`FivePhase = ZMod 5`を用い、相生
 
 ## これからの証明目標：strict 3/n圏から(∞,3)-hyperdescentへ
 
-**直近のF112-P94D3FN（仮称）：** FLの全15D Hom単射性からFM [#2685](https://github.com/itakura-hidetoshi/KuuOS/pull/2685)は、選択した別AQ frameの15D `mapTotal`、真のDR17D raw16D文脈、元の完全18Dコードと非可換自由群輸送の**全有限文脈での単射性**を証明しました。次は、FKで証明した15D旧輸送への忘却因子化を17D/18Dの正確な依存型・履歴を保つ比較として拡張できる条件を検査し、旧FJ核と新FM自明核のpresentation相対的な差を定理化します。**旧FJの非単射性を削除・取消さず、19D幾何充填を断言しません。**
+**直近のF112-P94D3FO（仮称）：** FN [#2687](https://github.com/itakura-hidetoshi/KuuOS/pull/2687) は、FKの15D旧輸送への忘却因子化を**非空の任意有限AQ文脈における完全proof-bearing AX Total**へ拡張し、17D identityおよび18D reflexive-associatorの具体的な対応2証拠では旧受信像の一致／別輸送の区別、任意の旧受信コード後処理による新受信コード両方の復元不能性をLean証明しました。次は、両受信側の異なるType値生成子を同一視しない比較の一般化条件と、旧自由群核の正規生成表示を検討します。**元のFJ非単射性・DS no-go・幾何19D未証明は保持**します。
 
 1. **一般理論の継承と照合：** 上記の`W/J/H`、普遍性、stack、scaled-horn、obstruction、actual-liftの定理を保持し、strict化に必要な強化・比較条件を洗い出す。
 2. **局所strict 3圏：** 真正C60を含む具体例および一般的な文脈ソースに対して、証明関連3射のデータと厳密なinterchangeを形式化する。raw自由構文・path envelope・選択した商を混同しない。
@@ -202,7 +203,7 @@ mainで統合済みのQi v3.1–v3.3では`FivePhase = ZMod 5`を用い、相生
 
 ## 正本、ビルド、検証
 
-- **最新の統合証明receipt（2026-10-29）：** [F112-P94D3FM #2685](https://github.com/itakura-hidetoshi/KuuOS/pull/2685) squash MERGED。定理SHA `e75911af42d352b4d99474209ff55c2211ef07b5`、PR exact-head Strict Lean **9954/9954 SUCCESS**・Checks **40 SUCCESS / 1 SKIPPED**・Governance SUCCESS。新規11定理の公理依存は`propext`・`Classical.choice`・`Quot.sound`のみ、`sorryAx`なし。FLの9953/9953、FKの9952/9952、FJの9951/9951、FI完全反映の9950/9950は履歴として保持。
+- **最新の統合証明receipt（2026-10-29）：** [F112-P94D3FN #2687](https://github.com/itakura-hidetoshi/KuuOS/pull/2687) squash MERGED。定理SHA `117e9eedf84bd7ddbd8264ce61ca2c16a305b229`、PR exact-head Strict Lean **9955/9955 SUCCESS**・Checks **40 SUCCESS / 1 SKIPPED**・Governance SUCCESS。FNの新規公理依存は`propext`・`Classical.choice`・`Quot.sound`のみ、`sorryAx`なし。FMの9954/9954、FLの9953/9953、FKの9952/9952、FJの9951/9951、FI完全反映の9950/9950は履歴として維持。
 - **文書・CIのauthority境界：** theorem-carrierはcanonical `main`上のLean宣言とその型・公理依存であり、README/ROADMAPの到達点やCIの緑表示は証明そのものの代わりではありません。docs-only変更に不要なStrict Leanを再実行して数学の成立を水増ししません。歴史的CI数値は下記の時点別台帳として保存します。
 
 - **以前の統合・CI履歴（P79以降、各時点のreceipt）：** [`main`](https://github.com/itakura-hidetoshi/KuuOS/tree/main)。F112親PR #2339はMERGED。P79 #2455：Lean **9687/9687**・17宣言、P80 #2457：**9688/9688**・14宣言、P81 [#2459](https://github.com/itakura-hidetoshi/KuuOS/pull/2459)：**9689/9689**・13宣言を`KuuOSFormal`統合入口で検証し、いずれも新規`sorryAx`なし・変更ファイルLeanエラー/警告0・107公開root保全・exact-head Governance・completion receipts 2/2 SUCCESS後にsquash MERGED。P81統合SHA `5c9925528d8a90239375104a2ac1a5e71e483559`。続くP82 [#2461](https://github.com/itakura-hidetoshi/KuuOS/pull/2461)は **9690/9690**・新規公理監査**10/10**（`sorryAx`なし）・変更ファイルLeanエラー/警告0・107公開root保全・exact-head Governance・completion receipts **2/2 SUCCESS**後にsquash MERGED。P82統合SHA `f7a876996cebd940ea3d8bbacaa75e51ac781422`。P83 [#2463](https://github.com/itakura-hidetoshi/KuuOS/pull/2463)：**9691/9691**・公理監査**10/10**（`sorryAx`なし、標準的`propext`・`Classical.choice`・`Quot.sound`のみ）・変更ファイルLeanエラー/警告0・107公開root保全・exact-head Governance・completion receipts **2/2 SUCCESS**後にsquash MERGED。P83統合SHA `7bd530e28551881198c3c61e22b6163c9025753e`。P84 [#2465](https://github.com/itakura-hidetoshi/KuuOS/pull/2465)は **9692/9692**・新規公理監査**18/18**（`sorryAx`なし、標準的`propext`・`Classical.choice`・`Quot.sound`のみ）・変更ファイルLeanエラー/警告0・107公開root保全・exact-head Governance・completion receipts **2/2 SUCCESS**後にsquash MERGED。P84統合SHA `90be8065f5b4b682f239c7bfd220e48ab2c97f27`。P85 [#2467](https://github.com/itakura-hidetoshi/KuuOS/pull/2467)は **9693/9693**・新規公理監査**18/18**（`sorryAx`なし、標準的`propext`・`Classical.choice`・`Quot.sound`のみ）・変更ファイルLeanエラー/警告0・107公開root保全・exact-head Governance・completion receipts **2/2 SUCCESS**後にsquash MERGED。P85統合SHA `19c787422a3c234c0a4e5e8777d1730deb56313e`。P86 [#2469](https://github.com/itakura-hidetoshi/KuuOS/pull/2469)は **9695/9695**・新規公理監査**37/37**（`sorryAx`なし、標準的`propext`・`Classical.choice`・`Quot.sound`のみ）・新規Leanエラー/警告0・107公開root保全・exact-head Governance・completion receipts **2/2 SUCCESS**後にsquash MERGED。P86数学統合SHA `2efbce7af262c9c8203bc7e3fc6c24a3c6139e73`。P87 [#2471](https://github.com/itakura-hidetoshi/KuuOS/pull/2471)は **9698/9698**・新規公理監査 **39/39**（`sorryAx`なし。`propext`・`Classical.choice`・`Quot.sound`のみ）・変更ファイルLeanエラー/警告0・107公開root全件保全・exact-head Governance・completion receipts **2/2 SUCCESS**後にsquash MERGED。P87数学統合SHA `32cbcd465a932d0b66524ab56026880d6fdf1227`。P87の3モジュールも単一公開入口`formal/KuuOSFormal.lean`から直接import。P88 [#2473](https://github.com/itakura-hidetoshi/KuuOS/pull/2473)は **9700/9700**・新規公理監査**18/18**（`sorryAx`なし）・変更ファイルLeanエラー/警告0・107公開root保全・exact-head Governance [#39769469429](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/39769469429) SUCCESS・completion receipts **2/2 SUCCESS**後にsquash MERGED（SHA `2eef23640dcc4f30144d2a7b13489c0d72165d99`）。P88A/Bも同じ公開入口から直接import。P89A [#2475](https://github.com/itakura-hidetoshi/KuuOS/pull/2475)は **9701/9701**・公理監査**10/10**、P89B [#2476](https://github.com/itakura-hidetoshi/KuuOS/pull/2476)は **9702/9702**・公理監査**13/13**（いずれも`sorryAx`なし・変更ファイルLeanエラー/警告0・107公開root保全・exact-head Governance SUCCESS・completion receipts **2/2 SUCCESS**）。P89A統合SHA `cab73a59bae36824c3dcb9a4a1b9ab3bcd804b06`、P89B統合SHA `59fa3d761c8133c621114d01c9567d4e2d09ad99`。P90A [#2478](https://github.com/itakura-hidetoshi/KuuOS/pull/2478)は **9703/9703**・公理監査**7/7**・統合SHA `4f77b8e7043b62d9cd95ee2505f28f272fe5684b`、P90B [#2479](https://github.com/itakura-hidetoshi/KuuOS/pull/2479)は **9704/9704**・公理監査**7/7**・統合SHA `43de1eaf5676614b879517bf0ca0e24207fc0f83`。両方とも`sorryAx`なし・Lean警告/エラー0・107公開root保全・exact-head Governance・completion receipts 2/2 SUCCESS。全モジュールを公開`KuuOSFormal`に直接importし、`KuuOSStrict`は内部集約のみ。
