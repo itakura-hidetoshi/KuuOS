@@ -1,6 +1,6 @@
 # KuuOS / 空OS — Formal Research Roadmap
 
-**更新：2026-10-30 JST。最新のLean統合段階は F112-P94D3FW / [PR #2704](https://github.com/itakura-hidetoshi/KuuOS/pull/2704) MERGED。** 定理squash SHA `c38d6216f91dc3ff51737e628249958a4f67fd19`、source HEAD `718dce896623f0ee59cc6b3badf80944f219447a`、source/merge-test tree一致。exact-head [Strict Lean #40962885185](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/40962885185) **9039/9039 SUCCESS**、Governance **30/30 completed・失敗0**、FW12宣言の公理依存は標準`propext`・`Classical.choice`・`Quot.sound`のみ、`sorryAx`なし・変更Lean warning/error 0/0。FV [#2702](https://github.com/itakura-hidetoshi/KuuOS/pull/2702) は全kernel有限正規生成 iff active有限、FU [#2700](https://github.com/itakura-hidetoshi/KuuOS/pull/2700) は旧FJ真正物理18D active source字母の無限性を形式化。FWは根付き正規生成系のexact inclusion minimality、全active差語のnormal irredundancy、任意正規生成族のactive整数座標被覆、**全kernel可算正規生成 iff active元字母集合が可算**を証明。物理的active元字母の可算性、任意群語による最小正規生成数の正確な濃度、真正19D幾何充填・global strict/hyperdescentは未証明です。
+**更新：2026-10-30 JST。最新のLean統合段階は F112-P94D3FX / [PR #2706](https://github.com/itakura-hidetoshi/KuuOS/pull/2706) MERGED。** 定理squash SHA `54af3433f4a120539a028c10117b37a4c09f0297`、source HEAD `fd8b48bdd24da7188b3cf8aa37780fd2aa9f0b73`、source/merge-test Git tree一致。exact-source-head [Strict Lean #40966176703](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/40966176703) **9040/9040 SUCCESS**、Governance **30/30 completed・失敗0**、FX新規7宣言の依存は標準`propext`・`Classical.choice`・`Quot.sound`のみ、`sorryAx`なし、変更Lean warning/error 0/0。FW [#2704](https://github.com/itakura-hidetoshi/KuuOS/pull/2704) の非冗長rooted正規生成系を出発点に、FXは任意の元source自由群写像 `f:A→B` の全kernelの**最小正規生成濃度が非自明根付き元文字集合の濃度`#D_f`と正確に等しい**と証明。任意の非rooted群語族Rでも、正常生成するなら`#D_f≤#R`を有理数有限支持自由加群rankで証明し、上界を実際のrooted生成族で達成。旧FJ真正物理18Dのactive文字型はFUにより無限だが、可算・非可算の正確な濃度、核自身の自由基底、真正19D幾何充填・global strict/hyperdescentは未証明。
 
 <details>
 <summary>旧更新記録：2026-10-23 / F112-P91B（歴史的な検証receipt。現在の最終段階ではない）</summary>
@@ -21,16 +21,16 @@
 | --- | --- |
 | 公開統合正本 | [`main`](https://github.com/itakura-hidetoshi/KuuOS/tree/main)。歴史的`formal/KUOS/`と現行`formal/Kuu/`、Qiを**同一Leanパッケージ**に含む。 |
 | 独立Kuu F112研究 | [親PR #2339](https://github.com/itakura-hidetoshi/KuuOS/pull/2339)は**MERGED**。かつての`formal/v5-293-f112-independent-total-change`は移行作業の履歴であり、現在の正本はmain。 |
-| 現在のF112検証範囲（2026-10-30） | **P94D3FW [#2704](https://github.com/itakura-hidetoshi/KuuOS/pull/2704)までmain統合済み。** 定理SHA `c38d6216f91dc3ff51737e628249958a4f67fd19`、Strict Lean **9039/9039 SUCCESS**、Governance 30/30 completed・失敗0、FW12宣言の依存は標準3公理のみで`sorryAx`なし。一般の`FreeGroup.map f`全核に対してrooted関係族が全核を正規生成 iff その元字母添字集合が全active文字を含む、各active差語は他の全rooted関係語の正規閉包の外にある、任意正規生成族は全active整数座標を検出する、全核可算正規生成 iff active元字母集合が可算、を形式化。FU/FVの旧FJ真正物理18D全非空AQ文脈の非有限正規生成性は保持。 |
+| 現在のF112検証範囲（2026-10-30） | **P94D3FX [#2706](https://github.com/itakura-hidetoshi/KuuOS/pull/2706)までmain統合済み。** 定理SHA `54af3433f4a120539a028c10117b37a4c09f0297`、Strict Lean **9040/9040 SUCCESS**、Governance 30/30 completed・失敗0、FX新規7宣言の依存は標準3公理のみで`sorryAx`なし。一般の元noncommutative `FreeGroup.map f`全kernelについて**任意の正規生成集合の濃度下界＝`#D_f`**と、実際のrooted正規生成族による**濃度上界`#D_f`達成**を証明。FU/FVにより旧FJ真正物理18Dの全非空AQ文脈でその最小正規生成濃度が無限と判明するが、元active Type値字母の正確な濃度は未決定。 |
 | F112以前の確認範囲（2026-10-23時点の履歴） | **P91Bまでmain統合済み（当時）**。P89B：9702/9702・13/13公理監査、P90A：9703/9703・7/7、P90B：9704/9704・7/7、**P91A：9705/9705・4/4**、**P91B：9706/9706・13/13**。新規`sorryAx`なし、変更ファイルLeanエラー/警告0、107公開root保全、exact-head Governanceとcompletion receipts 2/2 SUCCESS。P91A統合SHA `153361ebc9bf4303ed9c79e931c768fc99a885af`、P91B統合SHA `8fd61aad78943f6c9c630a585450eac2b5246f90`。唯一の公開入口`KuuOSFormal`に両モジュールを直接import。 |
 | 既存定理の証拠 | 実際のLean宣言・型と仮定・`#print axioms`・対応するexact-head CI。`sorryAx`、`sorry`、`admit`、新たな未証明公理による補完は禁止。 |
 | 数学的区別 | raw Type-valued証拠、Prop証明、選択した商、観測、物理的解釈は互いに無条件には同一視しない。 |
 | 公開入口・toolchain | `lake build KuuOSFormal`（`lake build`も同じ）。既存107公開rootは維持。Lean `v4.30.0-rc2`、pinned mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`。 |
 | 別レーン | PR #1558（Lean 4.31）はvalidation-only、Draft・未マージ。Lean/mathlibの正式な固定環境は上記のまま。 |
 
-GitHub正本・Lean成果・README/ROADMAP・CI・歴史的スナップショットには異なる役割がある。**P94D3FWまでの正本統合は、GitHubのMERGED commit、exact-source-head Strict Lean/Governance、source/merge-test Git tree一致で確認済み**。FV（9038）、FU（9037）、FT（9036）、FS（9035）、FR（9034）、FQ（9033）、FP（9032）、FO（9956/9956）およびFN（9955/9955）・旧FI–FMの数値は各時点の独立receiptとして保持。文書はLean定理の代替ではなく、C60以前の縁起一般理論・presentationも保持する。
+GitHub正本・Lean成果・README/ROADMAP・CI・歴史的スナップショットには異なる役割がある。**P94D3FXまでの正本統合は、GitHubのMERGED commit、exact-source-head Strict Lean/Governance、source/merge-test Git tree一致で確認済み**。FW（9039）、FV（9038）、FU（9037）、FT（9036）、FS（9035）、FR（9034）、FQ（9033）、FP（9032）、FO（9956/9956）およびFN（9955/9955）・旧FI–FMの数値は各時点の独立receiptとして保持。文書はLean定理の代替ではなく、C60以前の縁起一般理論・presentationも保持する。
 
-## 0A. 2026-10-30現在の証明フロンティア：EX–FW
+## 0A. 2026-10-30現在の証明フロンティア：EX–FX
 
 **研究の主題：** 元の14D–18D依存型・非可換証拠を保存し、実際のC60有限AQ文脈での17D輸送 `C_w`、完全18Dコード写像 `f_w`、非可換自由群準同型 `τ_w` の**単射性・核・obstruction・相対商への降下**を区別して形式化する。C60は縁起の一般理論を取り替える唯一のモデルではない。現段階の18D生成子・19D候補は、元の幾何的19D充填や大域strict 3圏の完成証明ではない。
 
@@ -65,6 +65,7 @@ GitHub正本・Lean成果・README/ROADMAP・CI・歴史的スナップショッ
 | FU / [#2700](https://github.com/itakura-hidetoshi/KuuOS/pull/2700) | 元の真正DR依存型18Dアルファベットで、各17D元対象`a`について`(.post)^n (.assoc refl refl refl)`を実際に生成し、全nで元の17D証拠保持・元コード単射と全再帰深さ`n+1`を証明。元17Dの真のAQ context-object衝突から任意nで異なる元18Dコードが実DV受信完全コード像で一致することを、FTの受信`post`内側コード/suffix等式と依存型に沿って証明。旧FJ物理15D `conservative refl`対`atom`を実例化し、**全非空物理AQ文脈で、各深さに根付き代表元と異なる元コードが存在**。その元コードを深さ別に選びNat→実際のactive root source型の単射を作り、**真正物理FJの非自明rooted字母Subtypeが無限**とLean証明。9037 scoped Strict Lean SUCCESS、11宣言公理監査（うち塔の元source単射・深さ・衝突の5宣言は無公理） | **無限active-root字母の存在だけでは核の有限正規生成は否定していない**。別の有限群語族が正規閉包として全核を生成する可能性の排除、最小独立正規ランク、単一FJ欠損全核生成、真正19D幾何充填は未証明 |
 | FV / [#2702](https://github.com/itakura-hidetoshi/KuuOS/pull/2702) | 真正非可換自由群写像 `FreeGroup.map f` の**全kernelの有限正規生成 iff 非自明な像ファイバーrootと異なる元文字集合が有限**を証明。任意の全群語を4ケース自由群帰納法で有限の元文字支持に局所化し、任意有限個の群語の支持和集合は有限。支持外の非自明rooted核relatorを選び、特定の1 source字母だけ+1、その他0となる整数座標`FreeGroup.lift`群準同型で検出する。この準同型は任意の有限関係語とその**全正規閉包**を消す一方、選択したrooted核relatorを消さない。よって有限の任意群語ではkernel全体を正規生成できない。実DV18D版の厳密同値とFUの真正物理全非空文脈無限active根付き字母を接続し、**旧FJの全非空有限物理AQ文脈で元18D DV全核は非有限正規生成**。9038 scoped Strict Lean SUCCESS、10公理監査、Governance SUCCESS | 元noncommutative source kernelはそのまま。**最小正規生成数の正確な濃度・独立basisは未証明**。単一FJ欠損全kernel生成、真の19D Type値幾何充填・global strict n / hyperdescentも未証明 |
 | FW / [#2704](https://github.com/itakura-hidetoshi/KuuOS/pull/2704) | 選択FQ像ファイバー根の冪等性・非active性、FV整数座標の**active根付き差語対角+1／非対角0**、任意の添字集合Tが根付き関係語で全kernel正規生成 iff `D_f⊆T` をLean証明。各active根付き関係語は他の全rooted関係語のnormal closureに属さず、全FS rooted familyは非冗長・単射。さらに任意の全kernel正規生成集合Rは全active元字母の座標を検出し、FV有限元字母支持を集計して**全核可算正規生成 iff `D_f` 可算**を証明。9039/9039 Strict Lean SUCCESS、12宣言公理監査、Governance 30/30 SUCCESS | 真正18D元Type値証拠と非可換自由群は不変。rooted familyの非冗長性を**任意群語生成族の正確な最小Cardinal**や核自身の自由基底と同一視しない。旧FJ物理active sourceの可算性、既知FJ単一欠損から全核を正規生成する定理、幾何的19D filler・global strict/hyperdescentは未証明 |
+| FX / [#2706](https://github.com/itakura-hidetoshi/KuuOS/pull/2706) | 元の非可換自由群に対し、active元文字を基底にする有理数有限支持自由加群 `D_f→₀ℚ` への群準同型を構成。rooted差語は正確に標準基底に移る。全核を正規生成する任意の群語Rが、その座標像の線形spanで割った商空間を零化するため、全標準基底が元のspan内に入り、spanは全自由加群と等しい。**mathlib自由加群rankと生成span rankの上界から`#D_f≤#R`を有限・無限の全濃度で証明**。FWの根付き差語族単射性により `#R₀=#D_f` の上界を実際に達成し、**全kernelの最小正規生成Cardinal＝`#D_f`**を形式化。9040/9040 SUCCESS・7公理監査・Governance 30/30 SUCCESS | 座標像だけが可換で、元のsigned非可換自由群・Type値18D証拠は不変。旧FJ真正物理元文字の可算／非可算・元kernel自身の自由基底・既知1欠損による全核生成・真正幾何19D充填・global strict/hyperdescentは別の未証明問題 |
 
 主な正本Leanソース：
 
@@ -85,6 +86,7 @@ GitHub正本・Lean成果・README/ROADMAP・CI・歴史的スナップショッ
 - [FU: PhysicalInfiniteRootSupport](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalInfiniteRootSupport.lean) — 真正DR 18D `post` 再帰towerの任意自然数深さ構成、元17D文脈衝突からの型付き全深さDVコード衝突、旧FJ真正物理AQ全非空文脈での無限の元sourceファイバー根付き字母。
 - [FV: PhysicalNonFiniteNormalKernel](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNonFiniteNormalKernel.lean) — 任意元free-group群語と有限群語集合のsupport検出器、正規閉包を消す整数値coordinate `FreeGroup.lift`、一般自由群核のfinite-normal iff finite-activeの正確な必要十分条件、旧FJ全非空真正物理18D kernelの非有限正規生成。
 - [FW: PhysicalNormalRankIndependence](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNormalRankIndependence.lean) — 根付き正規生成系の非冗長性、任意正規生成族による全active文字検出、可算正規生成のexact iff。
+- [FX: PhysicalExactNormalRank](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalExactNormalRank.lean) — 元の非可換全核の最小正規生成Cardinalを一般の `FreeGroup.map f` で正確に同定。
 - [FG: GeneratorFaithfulnessGate](formal/Kuu/F112/PolygonNativeC60AQFullPentagonGeneratorFaithfulnessGate.lean)、[FG: ConstructorSectorSeparation](formal/Kuu/F112/PolygonNativeC60AQFullPentagonConstructorSectorSeparation.lean)、[FG: ConstructorPathInjectivity](formal/Kuu/F112/PolygonNativeC60AQFullPentagonConstructorPathInjectivity.lean)。
 
 ### 0A.2 数学的な論理境界（何が必要十分で、何が未充足か）
@@ -124,12 +126,12 @@ FIはさらに全入れ子構成子列から非可換FreeGroupへの準同型 $S
 
 `\operatorname{Injective}(\tau_w)\Rightarrow\operatorname{Injective}(C_w)` はFF/FDの必要条件、逆向きはFI #2676で証明済み。**FJ #2679では、具体的`S=nativeK5AXKuuSignature W`、`F=nativeK5BCFrame W`において `Injective(τ_w) ↔ w=[]` を証明**。ここで保守的15D証拠の元の`refl`と`atom`を区別したまま、真のwhiskeringが両者を同じ`atom`へ再構成することが衝突の原因である。一般抽象frameについてのFI同値と、選択物理presentationについてのFJ非単射性は矛盾しない。FCの「非自明核 iff コード衝突」とFGの「異種構成子間の衝突なし」は両立する。原pentagonは元のDV自由群像で非零のまま残り、選択したDX相対商では消える。**DSの完全証拠保存no-goを維持**する。
 
-### 0A.3 次に形式化すべきこと — F112-P94D3FX（仮称）
+### 0A.3 次に形式化すべきこと — F112-P94D3FY（仮称）
 
-1. **任意群語による最小正規生成数の正確な濃度**：FWは有限正規生成 iff active有限、可算正規生成 iff active可算、rooted添字族のnormal irredundancyまで証明済み。次は任意の非rooted群語を許す最小正規生成Cardinalがactive元字母の濃度と一致するか、有限activeの場合の下界を含め、自由可換化・ℤ座標の張る部分群・有理ベクトル空間のrankと有限支持を用いて形式化する。旧FJ真正物理元18D字母の濃度は別の依存型証明義務であり、無限性から可算上界を推測しない。
-2. **非冗長なrooted表示から任意正規生成族のminimal cardinalへ**：FWで各active root relatorは他の全rooted relatorsの正規閉包の外にあること、および任意の全kernel正規生成集合Rが全active整数座標を検出することを証明済み。これを任意群語の全座標にわたる群論的span・Cardinal下界へ強化する。根付き正規生成集合のinclusion-minimalityと核そのものの自由基底・relator moduleの自由性は別の主張。
-3. **旧FJ非忠実性と別FK–FM忠実性の相対比較**：FV/FWの非有限正規核・normal irredundancyは旧FJ真正物理frameへ適用するが、別presentation FK–FMの忠実輸送の自明核と混同しない。FWの可算性 iff は一般定理であり、真正FJのactive source文字型が可算かどうかは未証明。FP/FTの実輸送像上の一意受信器と非全射の全標的拡張も別扱い。
-4. **真正高次幾何の独立証明義務**：元C60幾何の19D Type値充填、全旧新17D/18D閉包signature間の自然比較、局所・大域strict 3/nおよび(∞,3)-hyperdescentはFWの一般自由群定理から従わない。旧DS/FJ/FN no-go、107公開root、Gray非再導入、strict空中心と独立Kuu一presentationの区別を維持する。
+1. **旧FJ真正物理18D active字母型の濃度**：FXで一般`FreeGroup.map f` kernelの最小正規生成Cardinal=`#D_f`を全有限・無限濃度で決定した。次は物理的な`nativeC60DVTransportCompleteCode`の元Type値18D alphabetに特殊化し、依存14D–17D元証拠構文・カテゴリパラメータの濃度を保持して`D_f`そのものの正確な濃度を解析する。FUにより全非空有限AQ文脈で無限下界は成立するが、可算上界には追加の型仮定と単射／全射構成が必要。
+2. **自由核基底とrooted正規生成の区別**：FWのrooted非冗長性とFXの任意群語最小正規生成濃度は既証明。これだけでは元kernel自身の自由群基底・自由次数、群環のrelation module、独立な高次Type値の生成基底までは主張できない。元非可換kernelのNielsen–Schreier系とrooted関係語のconjugacy interactionsが必要なら別定理として証明する。
+3. **旧FJ非忠実性と別FK–FM忠実性の相対比較**：FX一般定理は旧FJの元18D非忠実fullDV輸送に適用でき、FUの無限active支持と併せて無限最小正規生成濃度を確定する。一方、別FK–FM忠実presentationでは核は自明。両者のType値証拠や根代表元を無条件に同一視せず、元sourceコード型の正確な濃度は追加検証する。
+4. **真正高次幾何の独立証明義務**：FXの有理数線形spanと元の非可換kernel rankは代数的定理であり、元C60の19D Type値幾何充填、全旧新17D/18D比較、local/global strict 3/nおよび(∞,3)-hyperdescentの証明にはならない。旧DS/FJ/FN no-go、107公開root、Gray非再導入、strict空中心と独立Kuu一presentationの区別を保持する。
 
 **完了判定：** 新Lean宣言の全型・依存境界、`#print axioms`、`sorryAx`なし、固定環境、changed Lean file全文・import閉包・pinned mathlib APIの照合、PR exact-headでworkflow/job/Lean stepがすべて`completed SUCCESS`。**queued / in_progressをSUCCESSとしない。** CI緑は数学的な追加仮定を消さない。docs-only編集は必要な文書・root検査を通すが、新しいLean定理を変更していないのにStrict Leanを再実行することを要件にはしない。
 
