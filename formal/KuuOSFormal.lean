@@ -446,6 +446,7 @@ import Kuu.F112.PolygonNativeC60AQFullPentagonPhysicalInfiniteRootSupport
 import Kuu.F112.PolygonNativeC60AQFullPentagonPhysicalNonFiniteNormalKernel
 import Kuu.F112.PolygonNativeC60AQFullPentagonPhysicalNormalRankIndependence
 import Kuu.F112.PolygonNativeC60AQFullPentagonPhysicalExactNormalRank
+import Kuu.F112.PolygonNativeC60AQFullPentagonPhysicalSourceCardinality
 
 /-!
 Public aggregate: retain every previously published proof and its original
