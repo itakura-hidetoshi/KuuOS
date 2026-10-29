@@ -448,6 +448,7 @@ import Kuu.F112.PolygonNativeC60AQFullPentagonPhysicalNormalRankIndependence
 import Kuu.F112.PolygonNativeC60AQFullPentagonPhysicalExactNormalRank
 import Kuu.F112.PolygonNativeC60AQFullPentagonPhysicalSourceCardinality
 import Kuu.F112.PolygonNativeC60AQFullPentagonPhysicalRawCountabilityGate
+import Kuu.F112.PolygonNativeC60AQFullPentagonPhysicalTypedSyntaxCountability
 
 /-!
 Public aggregate: retain every previously published proof and its original
