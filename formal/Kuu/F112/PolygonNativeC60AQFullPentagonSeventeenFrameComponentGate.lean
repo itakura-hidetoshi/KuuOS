@@ -94,10 +94,10 @@ theorem nativeC60FEAllSeventeenContexts_injective_of_frame_parts
   constructor
   · exact nativeC60FEFrame_mapTotal_injective
       (nativeC60DRSeventeenFrame S F false)
-      (hobj false) (hcell false)
+      (hobj false) (fun {a b} => hcell false (a := a) (b := b))
   · exact nativeC60FEFrame_mapTotal_injective
       (nativeC60DRSeventeenFrame S F true)
-      (hobj true) (hcell true)
+      (hobj true) (fun {a b} => hcell true (a := a) (b := b))
 
 /-- A concrete sufficient condition for full original 18D CODE
 injectivity ON THE GENUINE REFLEXIVE-ASSOCIATOR FAMILY, not a
