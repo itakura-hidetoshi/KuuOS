@@ -28,12 +28,12 @@ noncomputable section
 
 universe u uD vD uE vE
 
-/-- Derive countability from the ACTUAL indexed free path constructors
+/- Derive countability from the ACTUAL indexed free path constructors
 atom/refl/symm/trans. This is an additive instance for previously
 defined raw syntax; the original inductive is not replaced. -/
 deriving instance Countable for NativeC60AXStep
 
-/-- Derive countability for the ACTUAL indexed recursive 18D
+/- Derive countability for the ACTUAL indexed recursive 18D
 assoc/post/pre construction, retaining every dependent path argument. -/
 deriving instance Countable for NativeC60DREighteenAssocGen
 
@@ -66,10 +66,16 @@ theorem nativeC60FZEighteenObject_countable_of_rawSeventeen
       Countable (NativeC60AXStep (nativeC60DQTriangleSeventeenSignature S F) a b)) :
     Countable (nativeC60DREighteenLayer S F).Total := by
   have htotal := nativeC60FZRawSeventeenTotal_countable S F hobjects hpaths
-  change Countable (Σ a : (nativeC60DQSeventeenLayer S F).Total,
-    Σ b : (nativeC60DQSeventeenLayer S F).Total,
-      NativeC60AXStep (nativeC60DQTriangleSeventeenSignature S F) a b)
-  exact htotal
+  letI : Countable (nativeC60DQSeventeenLayer S F).Total := hobjects
+  letI : ∀ a b : (nativeC60DQSeventeenLayer S F).Total,
+    Countable (NativeC60AXStep (nativeC60DQTriangleSeventeenSignature S F) a b) :=
+    hpaths
+  change Countable
+    (Σ endpoints : ((nativeC60DQSeventeenLayer S F).Total ×
+      (nativeC60DQSeventeenLayer S F).Total),
+      NativeC60AXStep (nativeC60DQTriangleSeventeenSignature S F)
+        endpoints.1 endpoints.2)
+  infer_instance
 
 /-- Precise sufficient gate for the full original proof-relevant
 18D alphabet: Countable endpoints and Countable indexed actual
