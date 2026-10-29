@@ -246,6 +246,82 @@ theorem nativeC60FIActualTree_distinct_spines_not_mem
   nativeC60FIDistinct_spines_defect_not_mem_DVKernel S F
     (nativeK5DOTreeWord tree) hspine
 
+
+/-- A noncommutative FreeGroup of complete finite, recursively
+ordered original assoc/post/pre constructor histories. It forgets
+raw17D PATH ARGUMENTS but retains all nested constructor order,
+unlike an abelian or parity charge. This is an auxiliary
+necessary invariant, never the full physical 18D receiver. -/
+def nativeC60FIOriginalSpineHom :
+    NativeC60DTFullFree S F →*
+      FreeGroup (List NativeC60FGConstructorTag) :=
+  FreeGroup.map (nativeC60FIOriginalCodeSpine S F)
+
+def nativeC60FIClosedSpineHom :
+    NativeC60DVClosedFullFree S F →*
+      FreeGroup (List NativeC60FGConstructorTag) :=
+  FreeGroup.map (nativeC60FIClosedCodeSpine S F)
+
+/-- TRUE noncommutative whole-word NATURALITY:
+The complete original nested constructor-spine observable factors
+exactly through the actual DV map into the separately declared
+context-CLOSED 18D evidence, for every signed, ordered finite
+original free word and every C60 AQ context word. -/
+theorem nativeC60FIWholeSpineHom_natural
+    (word : List Bool) (z : NativeC60DTFullFree S F) :
+    (nativeC60FIClosedSpineHom S F)
+        ((nativeC60DVFullWordTransport S F word) z) =
+      (nativeC60FIOriginalSpineHom S F) z := by
+  rw [nativeC60FCTransport_eq_freeMap S F word]
+  change
+    FreeGroup.map (nativeC60FIClosedCodeSpine S F)
+        (FreeGroup.map (nativeC60DVTransportCompleteCode S F word) z) =
+      FreeGroup.map (nativeC60FIOriginalCodeSpine S F) z
+  rw [FreeGroup.map.comp]
+  have hcomp :
+      (nativeC60FIClosedCodeSpine S F) ∘
+        (nativeC60DVTransportCompleteCode S F word) =
+      nativeC60FIOriginalCodeSpine S F := by
+    funext code
+    exact nativeC60FICompleteCodeSpine_transport S F word code
+  rw [hcomp]
+
+/-- NEW GROUP-LEVEL OBSTRUCTION: The ENTIRE genuine original DV
+full noncommutative free-word kernel lies inside the kernel of the
+original nested-constructor-spine free-group receiver. This is
+STRICTLY a necessary kernel restriction, NOT a claim that the two
+kernels are equal, nor a normal-generation classification. -/
+theorem nativeC60FIDVKernel_le_recursive_spine_kernel
+    (word : List Bool) :
+    (nativeC60DVFullWordTransport S F word).ker ≤
+      (nativeC60FIOriginalSpineHom S F).ker := by
+  intro z hz
+  apply MonoidHom.mem_ker.mpr
+  calc
+    (nativeC60FIOriginalSpineHom S F) z =
+        (nativeC60FIClosedSpineHom S F)
+          ((nativeC60DVFullWordTransport S F word) z) :=
+      (nativeC60FIWholeSpineHom_natural S F word z).symm
+    _ = 1 := by rw [MonoidHom.mem_ker.mp hz, map_one]
+
+/-- Every signed source 18D word killed by actual DV transport
+already has trivial FULL NONCOMMUTATIVE NESTED-SHAPE free word:
+its potentially nontrivial original 17D payload must therefore
+reside entirely inside shape-neutral fibers. -/
+theorem nativeC60FIKernel_signedWord_spine_neutral
+    (word : List Bool)
+    (xs : List (NativeC60DSCompleteEighteenCode S F × Bool))
+    (hker : FreeGroup.mk xs ∈
+      (nativeC60DVFullWordTransport S F word).ker) :
+    FreeGroup.mk (xs.map (fun z =>
+        (nativeC60FIOriginalCodeSpine S F z.1, z.2))) =
+      (1 : FreeGroup (List NativeC60FGConstructorTag)) := by
+  have hspine :
+      (nativeC60FIOriginalSpineHom S F) (FreeGroup.mk xs) = 1 :=
+    MonoidHom.mem_ker.mp
+      (nativeC60FIDVKernel_le_recursive_spine_kernel S F word hker)
+  simpa only [nativeC60FIOriginalSpineHom, FreeGroup.map.mk] using hspine
+
 end FullRecursiveEighteenConstructorSpine
 
 #print axioms nativeC60FIOriginalConstructorSpine
@@ -263,6 +339,11 @@ end FullRecursiveEighteenConstructorSpine
 #print axioms nativeC60FIDistinct_spines_defect_not_mem_DVKernel
 #print axioms nativeC60FICodeFiberKernel_preserves_spine
 #print axioms nativeC60FIActualTree_distinct_spines_not_mem
+#print axioms nativeC60FIOriginalSpineHom
+#print axioms nativeC60FIClosedSpineHom
+#print axioms nativeC60FIWholeSpineHom_natural
+#print axioms nativeC60FIDVKernel_le_recursive_spine_kernel
+#print axioms nativeC60FIKernel_signedWord_spine_neutral
 
 end
 end Kuu.F112.Physical
