@@ -1,6 +1,6 @@
 # KuuOS / 空OS — Formal Research Roadmap
 
-**更新：2026-10-29 JST。最新のLean統合段階は F112-P94D3FG / [PR #2672](https://github.com/itakura-hidetoshi/KuuOS/pull/2672) MERGED。** 直近の証明統合SHAは `1131294516ea1ba8bfa0d64c13bd8a25c2c662d9`（docs更新前のスナップショット）。FGのPR exact-headはStrict Lean **9947/9947 SUCCESS**、Checks **39 SUCCESS / 1 SKIPPED**、Governance **30/30 SUCCESS**、変更Lean warning/error 0/0、`sorryAx`なし。次の証明作業は**F112-P94D3FH（予定）**。独立Kuuとstrict空、旧定理、107公開root、全旧no-goを保持し、Gray圏へ戻らない。
+**更新：2026-10-29 JST。最新のLean統合段階は F112-P94D3FI / [PR #2675](https://github.com/itakura-hidetoshi/KuuOS/pull/2675) MERGED。** 証明統合SHA `4c139f2cd40c1b2b153ba16455b9f42f590b7adf`（docs-only同期前の正本）。FIのexact-head Strict Lean **9949/9949 SUCCESS**、Checks **40 SUCCESS / 1 SKIPPED**、新規`sorryAx`なし。FHは可変内側18D生成子の条件付き反映、FIは全再帰構成子列の無条件保存と非可換核包含を証明。次は**F112-P94D3FJ（予定）**。107公開root、strict/独立Kuu、DS no-go、Gray非再導入を保持。
 
 <details>
 <summary>旧更新記録：2026-10-23 / F112-P91B（歴史的な検証receipt。現在の最終段階ではない）</summary>
@@ -21,16 +21,16 @@
 | --- | --- |
 | 公開統合正本 | [`main`](https://github.com/itakura-hidetoshi/KuuOS/tree/main)。歴史的`formal/KUOS/`と現行`formal/Kuu/`、Qiを**同一Leanパッケージ**に含む。 |
 | 独立Kuu F112研究 | [親PR #2339](https://github.com/itakura-hidetoshi/KuuOS/pull/2339)は**MERGED**。かつての`formal/v5-293-f112-independent-total-change`は移行作業の履歴であり、現在の正本はmain。 |
-| 現在のF112検証範囲（2026-10-29） | **P94D3FG [#2672](https://github.com/itakura-hidetoshi/KuuOS/pull/2672)までmain統合済み。** 直近証明スナップショットSHA `1131294516ea1ba8bfa0d64c13bd8a25c2c662d9`。PR exact-head Strict Lean **9947/9947 SUCCESS**、Checks **39 SUCCESS / 1 SKIPPED**、Governance **30/30 SUCCESS**、`sorryAx`なし。EX–FGの実定理・仮定・未証明条件は後述 §0A に記録。 |
+| 現在のF112検証範囲（2026-10-29） | **P94D3FI [#2675](https://github.com/itakura-hidetoshi/KuuOS/pull/2675)までmain統合済み。** 証明SHA `4c139f2cd40c1b2b153ba16455b9f42f590b7adf`、Strict Lean **9949/9949 SUCCESS**、Checks **40 SUCCESS / 1 SKIPPED**。FH・FIの条件・未証明は§0Aに記録。 |
 | F112以前の確認範囲（2026-10-23時点の履歴） | **P91Bまでmain統合済み（当時）**。P89B：9702/9702・13/13公理監査、P90A：9703/9703・7/7、P90B：9704/9704・7/7、**P91A：9705/9705・4/4**、**P91B：9706/9706・13/13**。新規`sorryAx`なし、変更ファイルLeanエラー/警告0、107公開root保全、exact-head Governanceとcompletion receipts 2/2 SUCCESS。P91A統合SHA `153361ebc9bf4303ed9c79e931c768fc99a885af`、P91B統合SHA `8fd61aad78943f6c9c630a585450eac2b5246f90`。唯一の公開入口`KuuOSFormal`に両モジュールを直接import。 |
 | 既存定理の証拠 | 実際のLean宣言・型と仮定・`#print axioms`・対応するexact-head CI。`sorryAx`、`sorry`、`admit`、新たな未証明公理による補完は禁止。 |
 | 数学的区別 | raw Type-valued証拠、Prop証明、選択した商、観測、物理的解釈は互いに無条件には同一視しない。 |
 | 公開入口・toolchain | `lake build KuuOSFormal`（`lake build`も同じ）。既存107公開rootは維持。Lean `v4.30.0-rc2`、pinned mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`。 |
 | 別レーン | PR #1558（Lean 4.31）はvalidation-only、Draft・未マージ。Lean/mathlibの正式な固定環境は上記のまま。 |
 
-GitHub正本・Lean成果・README/ROADMAP・CI・歴史的スナップショットには異なる役割がある。**P94D3FGまでのmain統合はGitHub上のMERGED commitで、当該Lean定理のPR exact-head CIを別に確認済み**。P91Bの数値は以前のreceiptとして下表・参照台帳に残す。文書編集を数学的証明の代替とせず、C60以前の縁起一般化成果も維持する。
+GitHub正本・Lean成果・README/ROADMAP・CI・歴史的スナップショットには異なる役割がある。**P94D3FIまでのmain統合はGitHub上のMERGED commitで、当該Lean定理のPR exact-head CIを別に確認済み**。P91Bの数値は以前のreceiptとして下表・参照台帳に残す。文書編集を数学的証明の代替とせず、C60以前の縁起一般化成果も維持する。
 
-## 0A. 2026-10-29現在の証明フロンティア：EX–FG
+## 0A. 2026-10-29現在の証明フロンティア：EX–FI
 
 **研究の主題：** 元の14D–18D依存型・非可換証拠を保存し、実際のC60有限AQ文脈での17D輸送 `C_w`、完全18Dコード写像 `f_w`、非可換自由群準同型 `τ_w` の**単射性・核・obstruction・相対商への降下**を区別して形式化する。C60は縁起の一般理論を取り替える唯一のモデルではない。現段階の18D生成子・19D候補は、元の幾何的19D充填や大域strict 3圏の完成証明ではない。
 
@@ -48,11 +48,14 @@ GitHub正本・Lean成果・README/ROADMAP・CI・歴史的スナップショッ
 | FE / [#2670](https://github.com/itakura-hidetoshi/KuuOS/pull/2670) | 反射的associatorコード族の衝突と17D文脈対象衝突の必要十分条件。任意有限文脈対象作用の単射性は2つの単独frameの`mapTotal`単射性と同値。`onObj`・依存型`onCell`単射性はその十分条件 | 2つのframeが実際に単射であることは未証明 |
 | FF / [#2671](https://github.com/itakura-hidetoshi/KuuOS/pull/2671) | 実17D文脈対象作用の単射性を仮定すると、原raw17Dのatom/refl/symm/trans全構成子の等式反映、元18D対象の両端点・raw17D履歴を含む単射性。空文脈の18D対象単射性は無条件 | 18D**対象**から18D**生成子**全体の単射性は従わない |
 | FG / [#2672](https://github.com/itakura-hidetoshi/KuuOS/pull/2672) | 実DV輸送は18Dの`assoc/post/pre`構成子タグを無条件に保存。異セクター間の完全コード衝突と2文字核を排除。全コード・非可換自由群輸送の単射性は3セクター各々の忠実性と同値。17D文脈作用の単射性を仮定すると、元`assoc`3経路と、固定内側生成子の`pre/post`経路引数の単射性を証明 | 変動する内側18D生成子の再帰的反映と各セクターの忠実性成立は未証明 |
+| FH / [#2674](https://github.com/itakura-hidetoshi/KuuOS/pull/2674) | 元のraw17D外側`pre/post`経路と可変内側18D生成子を同時に扱い、17D文脈対象作用と元の固定内側ファイバーの単射性を仮定した共同反映。Strict Lean 9948/9948 SUCCESS | 仮定の全C60文脈での充足は未証明 |
+| FI / [#2675](https://github.com/itakura-hidetoshi/KuuOS/pull/2675) | 全入れ子`post/pre`→終端`assoc`の構成子列・深さを任意有限AQ文脈で無条件保存。非可換自由群の構成子列準同型の自然性および $\ker(\tau_w)\subseteq\ker(S_{\mathrm{orig}})$ を証明。Strict Lean 9949/9949 SUCCESS | 同一構成子列のraw17D引数復元や全核分類は未証明 |
 
 主な正本Leanソース：
 
 - [FC: CompleteCodeFiberKernel](formal/Kuu/F112/PolygonNativeC60AQFullPentagonCodeFiberKernel.lean)、[FD: SeventeenContextFiberObstruction](formal/Kuu/F112/PolygonNativeC60AQFullPentagonSeventeenContextFiberObstruction.lean)、[FE: SeventeenExactFiberGate](formal/Kuu/F112/PolygonNativeC60AQFullPentagonSeventeenExactFiberGate.lean)。
 - [FF: RawSeventeenPathReflection](formal/Kuu/F112/PolygonNativeC60AQFullPentagonRawSeventeenPathReflection.lean)、[FF: EighteenObjectReflectionGate](formal/Kuu/F112/PolygonNativeC60AQFullPentagonEighteenObjectReflectionGate.lean)。
+- [FH: RecursiveGeneratorReflection](formal/Kuu/F112/PolygonNativeC60AQFullPentagonRecursiveGeneratorReflection.lean)、[FI: DeepConstructorSpineObstruction](formal/Kuu/F112/PolygonNativeC60AQFullPentagonDeepConstructorSpineObstruction.lean)。
 - [FG: GeneratorFaithfulnessGate](formal/Kuu/F112/PolygonNativeC60AQFullPentagonGeneratorFaithfulnessGate.lean)、[FG: ConstructorSectorSeparation](formal/Kuu/F112/PolygonNativeC60AQFullPentagonConstructorSectorSeparation.lean)、[FG: ConstructorPathInjectivity](formal/Kuu/F112/PolygonNativeC60AQFullPentagonConstructorPathInjectivity.lean)。
 
 ### 0A.2 数学的な論理境界（何が必要十分で、何が未充足か）
@@ -65,13 +68,15 @@ $$
 \iff I_{\mathrm{assoc}}(w)\land I_{\mathrm{post}}(w)\land I_{\mathrm{pre}}(w).
 $$
 
+FIはさらに全入れ子構成子列から非可換FreeGroupへの準同型 $S_{\mathrm{orig}}$、文脈閉包先 $S_{\mathrm{closed}}$ を構成し、**$S_{\mathrm{closed}}\circ\tau_w=S_{\mathrm{orig}}$** と **$\ker(\tau_w)\subseteq\ker(S_{\mathrm{orig}})$** を無条件に証明した。元raw17D引数を消す補助observerであり、FIの包含は全核分類・全コード単射性を意味しない。
+
 各 `I` は**その構成子セクター内の完全依存型コードの単射性**を表す。いずれの`I`も任意のframeについて無条件に成立するとは未証明。一方、`C_w`の単射性を**仮定した場合**には、全コードの単射性と端点固定の元18D生成子写像の単射性が同値になる（FGの別定理）。元の証拠とDXで選択した相対商、元raw経路と商クラス、17D対象と18D生成子は独立に区別する。
 
 特に `\operatorname{Injective}(\tau_w)\Rightarrow\operatorname{Injective}(C_w)` はFF/FDの**必要条件**であり、その逆は未証明。FCの「非自明核 iff コード衝突」とFGの「異種構成子間の衝突なし」は両立する。原pentagonは元のDV自由群像で非零のまま残り、選択したDX相対商では消える。**DSの完全証拠保存no-goを維持**する。
 
-### 0A.3 次に形式化すべきこと — F112-P94D3FH（予定）
+### 0A.3 次に形式化すべきこと — F112-P94D3FJ（予定）
 
-1. **可変な内側18D生成子の帰納的反映**：`NativeC60DREighteenAssocGen` の`assoc/post/pre`の依存型source/targetを保持し、FGで証明済みの17D経路引数単射性に、内側`pre/post`再帰生成子の反映を接続する。特定の受信器・固定端点での必要条件を明示する。
+1. **同一再帰構成子列内部の可変inner-generator忠実性**：FHの固定内側ファイバー条件付き帰納的反映を、FIの全再帰列保存と接続する。元raw17D source/targetと`post/pre`中間境界を保持して追加条件を定式化し、構成子列保存だけから全コード単射性を推論しない。
 2. **真の単独17D frameの検証**：実際の`nativeC60DRSeventeenFrame`で、`onObj`およびすべての依存型`onCell`ファイバーの単射性を構成から証明するか、元のType値の異なる対象/経路から明示的な衝突を与える。空文脈の結果から任意文脈へ飛躍しない。
 3. **完全コードと全自由群への昇格条件**：必要なgenerator gateを立証できた文脈に限り、FC・FGのexact iffから元の全18D非可換自由群輸送の単射性を導く。成立しない場合は元完全コード衝突と2文字核を提示し、核全体の正規生成表示を推定で埋めない。
 4. **19Dと高次構造の権威境界**：元のC60での真正19D Type値充填、異なる元高次証拠の同一性、局所・大域strict 3/n圏、`(∞,3)`-hyperdescentは別の未解決目標。DS/旧presentationのno-goを取消さない。
@@ -124,7 +129,7 @@ KuuOSの原初の問いは、C60の60頂点・90辺・32面ではなく、**関�
 | [#2521 P94D3S](https://github.com/itakura-hidetoshi/KuuOS/pull/2521) | square2の3-cellだけを正しく反転して、元の面順序で実Type値9面閉路を構成。完全非可換群語を保ち `ν_N(W_typed)=3`、旧形式的 `ν_N(W_old)=1`、`W_typed W_old⁻¹=S q⁻² S⁻¹` をLeanで証明。旧full shadowは双方0。 | `W_old`をそのままType値化したという主張は禁止。旧P94A/P94C2充填も不可能。 |
 | [#2522 P94D3T](https://github.com/itakura-hidetoshi/KuuOS/pull/2522) | 真正 `W_typed` を境界とする別のType値独立4-cell生成子を宣言。元の全typed 4-cell relatorと新語のmathlib正規閉包で、真の拡大・旧shadow降下・N非降下・共役作用・境界同変性・代数的Peiffer crossed-moduleを証明。 | 生成子の宣言≠任意Type値4-cell whiskering/interchangeのcoherence証明。これは次の独立課題。 |
 
-**P94D3T当時の次段階の記録（P94D3U以降はその後進展済み）：** 当時の課題は、正規核の代数的Peifferと実Type値4-cell生成子を区別し、左右whiskeringのsource・高次coherenceを形式化することだった。以後の進展は本書§0AのEX–FGに更新した。**旧形式的自然性数1と真正補正後のType値自然性数3を同一視しない**という境界、旧P92BおよびP87/P88/P89の各presentation差異、一般W/J/H、局所・大域strict 3/n、`(∞,3)`-hyperdescentへの長期目標は引き続き有効。
+**P94D3T当時の次段階の記録（P94D3U以降はその後進展済み）：** 当時の課題は、正規核の代数的Peifferと実Type値4-cell生成子を区別し、左右whiskeringのsource・高次coherenceを形式化することだった。以後の進展は本書§0AのEX–FIに更新した。**旧形式的自然性数1と真正補正後のType値自然性数3を同一視しない**という境界、旧P92BおよびP87/P88/P89の各presentation差異、一般W/J/H、局所・大域strict 3/n、`(∞,3)`-hyperdescentへの長期目標は引き続き有効。
 
 
 
@@ -269,7 +274,7 @@ P58–P91の新規ソースは**canonical mainに存在**します。[P58](forma
 
 ## 10. 実装優先順位、CI、既存成果の保存
 
-**次の証明作業の優先順位（2026-10-29）：F112-P94D3FH（予定）。** F112-P94D3FG [#2672](https://github.com/itakura-hidetoshi/KuuOS/pull/2672)までmainにMERGED。まず18D `assoc/post/pre`の**セクター内忠実性**、特に可変な内側`pre/post`生成子の帰納的Type値比較と、真正C60 17D frameの`onObj/onCell`単射性または衝突障害を検証する。次に、その条件を満たす対象についてのみ元のDV全コード・非可換自由群へ昇格する。P87/P88旧presentationのno-go、P89選択strict interchange、P90–P94の真正F45/F54/F55/P92B依存型履歴、旧形式的K₅自然性数1と真正補正後Type値自然性数3の差異は保持。局所・大域strict 3/n、既存W/J/Hへの比較、`(∞,3)`-hyperdescentを長期的に追う。Grayを再導入せず、独立KuuもC60も唯一の空とはしない。
+**次の証明作業の優先順位（2026-10-29）：F112-P94D3FJ（予定）。** FI [#2675](https://github.com/itakura-hidetoshi/KuuOS/pull/2675)までmainにMERGED。FHの内側ファイバー条件付き反映とFIの全再帰構成子列保存・非可換核包含を前提に、残る同一構成子列内の元raw17D Type値データと真正C60 singleton 17D frameの`onObj/onCell`単射性または具体的衝突を検証する。根拠のない全コード単射性や全核分類へ飛躍しない。旧P87/P88 no-go、P89選択strict interchange、P90–P94の真正F45/F54/F55/P92B履歴、K₅旧形式的自然性数1と真正Type値自然性数3の違いを保持。Gray圏を再導入せず、独立KuuやC60を唯一の空としない。
 
 **絶対に行わないこと:** Gray圏でstrict 3圏の未証明法則を置換して完了と言うこと、旧約107公開rootの一括削除、歴史的な数学を`legacy/`だけに押し込むこと、strict性を得るために全raw証拠を無条件に潰すこと、未証明の存在条件を新公理へ置くこと、exact-head CIと公理監査を通さず未検証成果をmainに統合すること。
 
@@ -329,6 +334,8 @@ lake build KuuOSFormal # warningAsErrorはlakefile.toml既定。sorryAxは#print
 - [FD #2669](https://github.com/itakura-hidetoshi/KuuOS/pull/2669)・[FE #2670](https://github.com/itakura-hidetoshi/KuuOS/pull/2670) — 17D対象文脈fiber衝突と18D反射的associatorコード、2文字核、単独frame条件。
 - [FF #2671](https://github.com/itakura-hidetoshi/KuuOS/pull/2671) — 実17D raw証拠の等式反映と完全18D対象単射性の明示的条件。
 - [FG #2672](https://github.com/itakura-hidetoshi/KuuOS/pull/2672) — 18D全コードと固定端点generator gate・3構成子セクターの正確な同値、異種セクター衝突の排除、元17D `assoc/pre/post`経路引数単射性（9947/9947 Strict Lean SUCCESS、39 Checks SUCCESS / 1 SKIPPED）。
+- [FH #2674](https://github.com/itakura-hidetoshi/KuuOS/pull/2674) — 条件付き可変inner-generator反映（9948/9948 Strict Lean SUCCESS）。
+- [FI #2675](https://github.com/itakura-hidetoshi/KuuOS/pull/2675) — 全再帰構成子列保存と全DV核の非可換spine-kernelへの包含（9949/9949 Strict Lean SUCCESS）。
 - [`AGENTS.md`](AGENTS.md) — 現行のpublic root・mathlib・Gray依存・ビルド境界
 - [`formal/KUOS/`](formal/KUOS/) — 過去から継続する一般的なLean数学
 - [`formal/Kuu/`](formal/Kuu/) — 現在の独立Kuuの具体的な構成
