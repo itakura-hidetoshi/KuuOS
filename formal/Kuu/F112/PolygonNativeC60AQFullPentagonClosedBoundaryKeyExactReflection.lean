@@ -320,7 +320,9 @@ theorem nativeC60FTFullCode_image_eq_iff_boundaryKey_eq
       nativeC60FSSourceKey S F word b := by
   constructor
   · exact nativeC60FSSourceKey_eq_of_collision S F word
-  · exact nativeC60FTClosedObservedKey_injective S F
+  · intro hkey
+    apply nativeC60FTClosedObservedKey_injective S F
+    exact hkey
 
 /-- Key-only collision pair presentation of ORIGINAL 18D code
 letters: no extra input transport-equality premise is needed. -/
