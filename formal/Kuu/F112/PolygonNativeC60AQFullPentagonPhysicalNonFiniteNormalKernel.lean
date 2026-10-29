@@ -173,7 +173,7 @@ theorem nativeC60FVActiveRoot_coordinate
   have hroot : nativeC60FQLetterRoot f a ≠ a := Ne.symm ha
   simp only [nativeC60FSRootedRelator, map_mul, map_inv,
     nativeC60FVLetterCoordinate, FreeGroup.lift_apply_of,
-    if_pos rfl, if_neg hroot, inv_one, mul_one]
+    if_pos rfl, if_neg hroot, ite_true, inv_one, mul_one]
 
 /-- The same nonroot original two-letter relator has NONTRIVIAL
 integer coordinate, so it cannot lie in any normal subgroup
