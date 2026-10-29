@@ -428,6 +428,8 @@ import Kuu.F112.PolygonNativeC60AQFullPentagonDeepConstructorSpineObstruction
 
 import Kuu.F112.PolygonNativeC60AQFullPentagonPhysicalWhiskerNoninjectivity
 
+import Kuu.F112.PolygonNativeC60AQFullPentagonConstructorPreservingWhisker
+
 /-!
 Public aggregate: retain every previously published proof and its original
 statement/assumptions, alongside the independent Kuu core. KuuOSStrict is the
