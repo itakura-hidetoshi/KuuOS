@@ -132,7 +132,7 @@ theorem nativeC60EXBadAtom_factor
   | atom g hne =>
       refine ⟨_, _, g, 1, (obs _)⁻¹ * obs _, 1,
         .atom, Or.inl rfl, ?_, ?_⟩
-      · exact nativeC60EXAtomicDefect_ne_one T obs hne
+      · exact nativeC60EXAtomicDefect_ne_one obs hne
       · simp [nativeC60EXFoldDefect_atom]
   | symm _ ih =>
       obtain ⟨a, b, g, front, mid, back, hocc, hsign, hnon, hfactor⟩ := ih
