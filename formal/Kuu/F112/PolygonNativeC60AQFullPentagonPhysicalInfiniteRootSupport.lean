@@ -62,14 +62,14 @@ def nativeC60FUTowerLeft
     (a : (nativeC60DQSeventeenLayer S F).Total) :
     Nat → NativeC60FGOriginal17Step S F a a
   | 0 => .trans (.trans (.refl a) (.refl a)) (.refl a)
-  | n + 1 => .trans (nativeC60FUTowerLeft S F a n) (.refl a)
+  | n + 1 => .trans (nativeC60FUTowerLeft a n) (.refl a)
 
 /-- Distinct right-bracketed raw17D target at each recursive depth. -/
 def nativeC60FUTowerRight
     (a : (nativeC60DQSeventeenLayer S F).Total) :
     Nat → NativeC60FGOriginal17Step S F a a
   | 0 => .trans (.refl a) (.trans (.refl a) (.refl a))
-  | n + 1 => .trans (nativeC60FUTowerRight S F a n) (.refl a)
+  | n + 1 => .trans (nativeC60FUTowerRight a n) (.refl a)
 
 /-- Genuine typed original DR 18D generator with arbitrary n nested
 post constructors; the inner dependent source and target remain
@@ -81,7 +81,7 @@ def nativeC60FUTowerGen
         (nativeC60DRPackSeventeen S F (nativeC60FUTowerLeft S F a n))
         (nativeC60DRPackSeventeen S F (nativeC60FUTowerRight S F a n))
   | 0 => .assoc (.refl a) (.refl a) (.refl a)
-  | n + 1 => .post (nativeC60FUTowerGen S F a n) (.refl a)
+  | n + 1 => .post (nativeC60FUTowerGen a n) (.refl a)
 
 /-- An ORIGINAL complete dependent 18D code, not a charge,
 abelian quotient, lower graph generator, or a new filler. -/
@@ -119,7 +119,7 @@ theorem nativeC60FUTowerCode_depth
         (nativeC60FIOriginalCodeSpine S F
           (nativeC60FUTowerCode S F a n)).length + 1 =
           (n + 1) + 1
-      exact congrArg Nat.succ (nativeC60FUTowerCode_depth S F a n)
+      exact congrArg Nat.succ (nativeC60FUTowerCode_depth a n)
 
 /-- Naturality of EACH full post-whiskered original 18D code
 collision: if the ACTUAL true DR 17D context maps a,b to equal
@@ -139,7 +139,7 @@ theorem nativeC60FUTowerCode_collision
           (nativeC60FUTowerCode S F b n)
   | 0 => nativeC60FDContextCollision_codes S F word hab
   | n + 1 => by
-      have hinner := nativeC60FUTowerCode_collision S F word hab n
+      have hinner := nativeC60FUTowerCode_collision word hab n
       have hsuf :
           nativeC60DVPackClosedSeventeen S F
               (NativeC60AXStep.refl
@@ -231,10 +231,10 @@ theorem nativeC60FUActiveTowerLetter_mem
           (nativeC60FUTowerCode S F b n) := by
       intro hr
       exact hcodes.1 (hleft.trans (hroots.trans hr.symm))
-    simpa [nativeC60FUActiveTowerLetter, hleft,
-      nativeC60FSActiveLetters] using hright
-  · simpa [nativeC60FUActiveTowerLetter, hleft,
-      nativeC60FSActiveLetters] using hleft
+    simpa only [nativeC60FUActiveTowerLetter, if_pos hleft,
+      nativeC60FSActiveLetters, Set.mem_setOf_eq] using hright
+  · simpa only [nativeC60FUActiveTowerLetter, if_neg hleft,
+      nativeC60FSActiveLetters, Set.mem_setOf_eq] using hleft
 
 /-- The selected non-root code has the SAME exact original recursive
 depth n+1 as both its witness letters; the selection never changes
@@ -250,9 +250,9 @@ theorem nativeC60FUActiveTowerLetter_depth
       nativeC60FQLetterRoot
         (nativeC60DVTransportCompleteCode S F word)
         (nativeC60FUTowerCode S F a n)
-  · simpa [nativeC60FUActiveTowerLetter, hleft]
+  · simpa only [nativeC60FUActiveTowerLetter, if_pos hleft]
       using nativeC60FUTowerCode_depth S F b n
-  · simpa [nativeC60FUActiveTowerLetter, hleft]
+  · simpa only [nativeC60FUActiveTowerLetter, if_neg hleft]
       using nativeC60FUTowerCode_depth S F a n
 
 /-- No nontrivial original lower 17D context collision can occur
