@@ -35,17 +35,17 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 実際のDV完全コード写像を `f_w`、その非可換自由群準同型を `τ_w`、17D文脈対象作用を `C_w` とすると、証明済みの**条件の分離**は次です。
 
-$
+$$
 \operatorname{Injective}(\tau_w)
 \iff \operatorname{Injective}(f_w)
 \iff I_{\mathrm{assoc}}(w)\land I_{\mathrm{post}}(w)\land I_{\mathrm{pre}}(w).
-$
+$$
 
 ここで `I` は**各構成子セクターの完全コード写像が単射であるという未充足の条件**です。`\operatorname{Injective}(C_w)` を仮定した場合には、全コード単射性と元の端点固定18D生成子写像の単射性の同値も証明済みです。この仮定や3セクターの成立自体は証明したことにしません。
 
 **依然として未証明：** 任意の実C60 frameの17D対象/依存型Hom作用の単射性、DV完全18Dコードの無条件単射性、可変内側`pre/post`生成子の全反映、元の自由群核の完全な正規生成表示、元の幾何での19D Type値充填、異なる高次証拠の同一性、大域strict 3/n圏、`(∞,3)`-hyperdescent。**DSの完全証拠保存no-go**および旧P62/P77/P80/P87/P88の各presentationに固有の障害は維持します。
 
-より具体的な優先順位とLeanファイルへの導線は[ROADMAP](ROADMAP.md#0a-2026-10-29現在の証明フロンティアexfg)を参照してください。以下の長いP58–P91記録は歴史的な検証台帳として保持しており、**現在の最終段階ではありません**。
+より具体的な優先順位とLeanファイルへの導線は[ROADMAP](ROADMAP.md)を参照してください。以下の長いP58–P91記録は歴史的な検証台帳として保持しており、**現在の最終段階ではありません**。
 
 ## 研究の全体像：一般理論が先、C60は後から導入した検証の場
 
