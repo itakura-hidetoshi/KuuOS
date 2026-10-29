@@ -74,8 +74,9 @@ the selected source generator a contributes 1, all OTHER
 source letters contribute 0. The codomain is written in
 multiplicative notation to preserve the Group-hom interface. -/
 def nativeC60FVLetterCoordinate
-    {A : Type u} (a : A) : FreeGroup A →* Multiplicative ℤ :=
-  FreeGroup.lift
+    {A : Type u} (a : A) : FreeGroup A →* Multiplicative ℤ := by
+  classical
+  exact FreeGroup.lift
     (fun b : A => if b = a then Multiplicative.ofAdd (1 : ℤ) else 1)
 
 /-- A full ordered signed FreeGroup word depends on only FINITELY
@@ -136,8 +137,9 @@ theorem nativeC60FVWordSupport_outside
 family R of arbitrary original free-group words. This construction
 does not presuppose that R consists of two-letter rooted defects. -/
 noncomputable def nativeC60FVFiniteRelatorsSupport
-    {A : Type u} (R : Set (FreeGroup A)) (hR : R.Finite) : Finset A :=
-  hR.toFinset.biUnion (fun z => nativeC60FVWordSupport z)
+    {A : Type u} (R : Set (FreeGroup A)) (hR : R.Finite) : Finset A := by
+  classical
+  exact hR.toFinset.biUnion (fun z => nativeC60FVWordSupport z)
 
 /-- Every original integer coordinate outside the combined
 finite source support annihilates EVERY arbitrary relator of R. -/
@@ -151,7 +153,10 @@ theorem nativeC60FVFiniteRelatorsSupport_outside
     (Set.Finite.mem_toFinset hR).mpr hz
   have haWord : a ∉ nativeC60FVWordSupport z := by
     intro hword
-    exact ha (Finset.mem_biUnion.mpr ⟨z, hzFin, hword⟩)
+    apply ha
+    change a ∈ hR.toFinset.biUnion
+      (fun x => nativeC60FVWordSupport x)
+    exact Finset.mem_biUnion.mpr ⟨z, hzFin, hword⟩
   exact nativeC60FVWordSupport_outside z a haWord
 
 /-- The coordinate detector maps a *NONROOT* original source
