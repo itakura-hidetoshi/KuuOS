@@ -241,8 +241,7 @@ theorem nativeC60EYNineteen_no_full_evidence_retraction
     ¬ ∃ retraction : NativeC60DTQuotient
         (nativeC60EYSelectedPairs T
           (nativeC60DSNineteenHolonomy S F)
-          (nativeC60EYPathAtoms T filler)) →
-        * NativeC60DTFullFree S F,
+          (nativeC60EYPathAtoms T filler)) →* NativeC60DTFullFree S F,
       retraction.comp (QuotientGroup.mk'
         (nativeC60DTNormalClosure
           (nativeC60EYSelectedPairs T
