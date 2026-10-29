@@ -220,6 +220,177 @@ theorem nativeK5FKBCFrame_distinguishes_FJ_pair
   exact (nativeK5FKWhisker_preserves_FJ_separation W R side)
     (congrArg ULift.down hp)
 
+
+/-- A DEFINED, constructor-wise forgetting map on the original
+genuine Type-valued 15D grammar: preserve exchange and outer signed
+composites, but flatten the inner conservative evidence to its
+compatible observer atom. This is exactly the information loss
+FJ detected, not a new axiom or quotient. -/
+def nativeK5FKForgetConservativeCell
+    (W : NativeK5StructuralThirteenCell p U V)
+    {R S : NativeK5FifteenFourteenFiber W}
+    (h : NativeK5AQFifteenCell W R S) :
+    NativeK5AQFifteenCell W R S := by
+  induction h with
+  | conservative base =>
+      exact .conservative (.atom base.history_sound base.charge_sound)
+  | exchange steps => exact .exchange steps
+  | symm _ ih => exact .symm ih
+  | trans _ _ ih1 ih2 => exact .trans ih1 ih2
+
+/-- Exact ORIGINAL-versus-ALTERNATIVE presentation comparison:
+the old whiskering is obtained by FIRST using the constructor-
+preserving proof transport, THEN forgetting conservative core
+construction history. The comparison holds for ALL original
+dependent raw15D paths, not only FJ's two selected witnesses.
+This is not the reverse factorization, which FK disproves. -/
+theorem nativeK5FKOriginalWhisker_factors_through_alternative
+    (W : NativeK5StructuralThirteenCell p U V)
+    (side : Bool) {R S : NativeK5FifteenFourteenFiber W}
+    (h : NativeK5AQFifteenCell W R S) :
+    nativeK5AQWhiskerCell W side h =
+      nativeK5FKForgetConservativeCell W
+        (nativeK5FKWhiskerCell W side h) := by
+  induction h with
+  | conservative base => rfl
+  | exchange steps => rfl
+  | symm h ih =>
+      change NativeFifteenFamilyCell.symm
+          (nativeK5AQWhiskerCell W side h) =
+        NativeFifteenFamilyCell.symm
+          (nativeK5FKForgetConservativeCell W
+            (nativeK5FKWhiskerCell W side h))
+      rw [ih]
+  | trans h k ih ik =>
+      change NativeFifteenFamilyCell.trans
+          (nativeK5AQWhiskerCell W side h)
+          (nativeK5AQWhiskerCell W side k) =
+        NativeFifteenFamilyCell.trans
+          (nativeK5FKForgetConservativeCell W
+            (nativeK5FKWhiskerCell W side h))
+          (nativeK5FKForgetConservativeCell W
+            (nativeK5FKWhiskerCell W side k))
+      rw [ih, ik]
+
+/-- Preserve the entire typed original 15D history under an
+arbitrary finite chronological physical AQ context in the
+separately selected constructor-preserving presentation.
+The original 14D context action and its boundaries are unchanged. -/
+def nativeK5FKContextCell
+    (W : NativeK5StructuralThirteenCell p U V)
+    (word : List Bool) {R S : NativeK5FifteenFourteenFiber W}
+    (h : NativeK5AQFifteenCell W R S) :
+    NativeK5AQFifteenCell W
+      (nativeK5AQContext W word R)
+      (nativeK5AQContext W word S) := by
+  induction word with
+  | nil => exact h
+  | cons side rest ih => exact nativeK5FKWhiskerCell W side ih
+
+/-- Original conservative reflexivity remains a REFLEXIVITY
+constructor after EVERY finite physical context, including empty. -/
+theorem nativeK5FKContext_conservative_refl
+    (W : NativeK5StructuralThirteenCell p U V)
+    (R : NativeK5FifteenFourteenFiber W)
+    (word : List Bool) :
+    nativeK5FKContextCell W word (nativeK5FJConservativeRefl W R) =
+      (NativeFifteenFamilyCell.conservative
+        (NativeObserverCoreFifteenCell.refl
+          (nativeK5AQContext W word R))) := by
+  induction word with
+  | nil => rfl
+  | cons side rest ih =>
+      change
+        nativeK5FKWhiskerCell W side
+          (nativeK5FKContextCell W rest (nativeK5FJConservativeRefl W R)) =
+        NativeFifteenFamilyCell.conservative
+          (NativeObserverCoreFifteenCell.refl
+            (nativeK5AQWhisker W side
+              (nativeK5AQContext W rest R)))
+      rw [ih]
+      rfl
+
+/-- Original conservative atom stays an ATOM after EVERY finite
+context: the original core-constructor distinction remains visible. -/
+theorem nativeK5FKContext_conservative_atom
+    (W : NativeK5StructuralThirteenCell p U V)
+    (R : NativeK5FifteenFourteenFiber W)
+    (word : List Bool) :
+    nativeK5FKContextCell W word (nativeK5FJConservativeAtom W R) =
+      (NativeFifteenFamilyCell.conservative
+        (NativeObserverCoreFifteenCell.atom rfl rfl)) := by
+  induction word with
+  | nil => rfl
+  | cons side rest ih =>
+      change
+        nativeK5FKWhiskerCell W side
+          (nativeK5FKContextCell W rest (nativeK5FJConservativeAtom W R)) =
+        NativeFifteenFamilyCell.conservative
+          (NativeObserverCoreFifteenCell.atom rfl rfl)
+      rw [ih]
+      rfl
+
+/-- No finite AQ word erases the selected FJ conservative
+refl-versus-atom difference in the ALTERNATIVE Type-valued
+presentation, even though FJ's ORIGINAL transport does. -/
+theorem nativeK5FKContext_preserves_FJ_separation
+    (W : NativeK5StructuralThirteenCell p U V)
+    (R : NativeK5FifteenFourteenFiber W)
+    (word : List Bool) :
+    nativeK5FKContextCell W word (nativeK5FJConservativeRefl W R) ≠
+      nativeK5FKContextCell W word (nativeK5FJConservativeAtom W R) := by
+  rw [nativeK5FKContext_conservative_refl W R word,
+    nativeK5FKContext_conservative_atom W R word]
+  intro heq
+  cases heq
+
+/-- In the ORIGINAL selected physical 15D proof transport, the
+SAME source refl/atom pair collapses after EVERY nonempty context.
+This is a constructor-level derivation, prior to the 17D/18D
+obstructions already formalized in FJ. -/
+theorem nativeK5FKOriginalContext_FJ_collision_nonempty
+    (W : NativeK5StructuralThirteenCell p U V)
+    (R : NativeK5FifteenFourteenFiber W)
+    (word : List Bool) (hne : word ≠ []) :
+    nativeK5AQContextCell W word (nativeK5FJConservativeRefl W R) =
+      nativeK5AQContextCell W word (nativeK5FJConservativeAtom W R) := by
+  revert hne
+  induction word with
+  | nil =>
+      intro hnil
+      exact (hnil rfl).elim
+  | cons side rest ih =>
+      intro _
+      cases rest with
+      | nil =>
+          exact nativeK5FJWhisker_conservative_collision W R side
+      | cons next tail =>
+          change
+            nativeK5AQWhiskerCell W side
+              (nativeK5AQContextCell W (next :: tail)
+                (nativeK5FJConservativeRefl W R)) =
+            nativeK5AQWhiskerCell W side
+              (nativeK5AQContextCell W (next :: tail)
+                (nativeK5FJConservativeAtom W R))
+          exact congrArg
+            (nativeK5AQWhiskerCell W side) (ih (by simp))
+
+/-- Exact operational distinction between the two SAME-boundary
+physical AQ presentations on a common, fixed original witness
+pair for EVERY nonempty finite context: the old proof syntax
+collapses and the new one does not. No claim is made about ALL
+possible witness pairs or injectivity of the whole alternative. -/
+theorem nativeK5FKOriginal_vs_alternative_nonempty
+    (W : NativeK5StructuralThirteenCell p U V)
+    (R : NativeK5FifteenFourteenFiber W)
+    (word : List Bool) (hne : word ≠ []) :
+    nativeK5AQContextCell W word (nativeK5FJConservativeRefl W R) =
+        nativeK5AQContextCell W word (nativeK5FJConservativeAtom W R) ∧
+      nativeK5FKContextCell W word (nativeK5FJConservativeRefl W R) ≠
+        nativeK5FKContextCell W word (nativeK5FJConservativeAtom W R) :=
+  ⟨nativeK5FKOriginalContext_FJ_collision_nonempty W R word hne,
+    nativeK5FKContext_preserves_FJ_separation W R word⟩
+
 end PhysicalConstructorPreservingWhisker
 
 #print axioms nativeK5FKRawFourteenWhisker_injective
@@ -232,6 +403,14 @@ end PhysicalConstructorPreservingWhisker
 #print axioms nativeK5FKBCFrame
 #print axioms nativeK5FKBCFrame_onObj_eq_original
 #print axioms nativeK5FKBCFrame_distinguishes_FJ_pair
+#print axioms nativeK5FKForgetConservativeCell
+#print axioms nativeK5FKOriginalWhisker_factors_through_alternative
+#print axioms nativeK5FKContextCell
+#print axioms nativeK5FKContext_conservative_refl
+#print axioms nativeK5FKContext_conservative_atom
+#print axioms nativeK5FKContext_preserves_FJ_separation
+#print axioms nativeK5FKOriginalContext_FJ_collision_nonempty
+#print axioms nativeK5FKOriginal_vs_alternative_nonempty
 
 end
 end Kuu.F112.Physical
