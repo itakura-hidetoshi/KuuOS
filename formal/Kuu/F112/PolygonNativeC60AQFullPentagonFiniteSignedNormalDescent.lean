@@ -197,14 +197,15 @@ theorem nativeC60EYSigned_mem_normal
     (a : NativeC60EYSignedPrimitive T) (ha : a.primitive ∈ A) :
     nativeC60EYSignedDefect T obs a ∈
       nativeC60DTNormalClosure (nativeC60EYSelectedPairs T obs A) := by
-  by_cases h : a.backwards = true
-  · simp only [nativeC60EYSignedDefect, h, ite_true]
-    exact (nativeC60DTNormalClosure
-      (nativeC60EYSelectedPairs T obs A)).inv_mem
+  cases h : a.backwards with
+  | false =>
+      simpa [nativeC60EYSignedDefect, h] using
         (nativeC60EYPrimitive_mem_normal T obs A a.primitive ha)
-  · have hf : a.backwards = false := Bool.eq_false_iff.mpr h
-    simp only [nativeC60EYSignedDefect, hf, Bool.false_eq_true, ↓reduceIte]
-    exact nativeC60EYPrimitive_mem_normal T obs A a.primitive ha
+  | true =>
+      simpa [nativeC60EYSignedDefect, h] using
+        ((nativeC60DTNormalClosure
+          (nativeC60EYSelectedPairs T obs A)).inv_mem
+          (nativeC60EYPrimitive_mem_normal T obs A a.primitive ha))
 
 /-- Finite induction on the ordered signed list; arbitrary
 noncommutative multiplication is retained in original order. -/
