@@ -441,6 +441,7 @@ import Kuu.F112.PolygonNativeC60AQFullPentagonCompleteKernelImageFirstIsomorphis
 import Kuu.F112.PolygonNativeC60AQFullPentagonRootedSectorKernelClassification
 import Kuu.F112.PolygonNativeC60AQFullPentagonRecursiveSpineKernelLocalization
 import Kuu.F112.PolygonNativeC60AQFullPentagonBoundaryKeyFiniteNormalGate
+import Kuu.F112.PolygonNativeC60AQFullPentagonClosedBoundaryKeyExactReflection
 
 /-!
 Public aggregate: retain every previously published proof and its original
