@@ -131,9 +131,10 @@ theorem nativeC60EZConjugatedNormal_eq
       (nativeC60EZConjugatedSelectedPairs T obs A c) c⁻¹ hc
     have hreduce :
         c⁻¹ * (c * nativeC60EYPrimitiveDefect T obs a * c⁻¹) *
-          (c⁻¹)⁻¹ = nativeC60EYPrimitiveDefect T obs a := by
+          c = nativeC60EYPrimitiveDefect T obs a := by
       group
-    simpa [hreduce] using hback
+    rw [hreduce] at hback
+    exact hback
 
 /-- The ordered finite product of ORIGINAL signed typed atomic defects
 intertwines the inner gauge action. Reordering would invalidate this. -/
