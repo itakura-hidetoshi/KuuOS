@@ -190,8 +190,10 @@ theorem nativeC60FPFullReceiver_image_unique_iff
         nativeC60DVTransportCompleteCode S F word a =
           nativeC60DVTransportCompleteCode S F word b →
         receiver (FreeGroup.of a) = receiver (FreeGroup.of b) := by
-  rw [nativeC60FCTransport_eq_freeMap S F word]
-  exact nativeC60FPFreeMap_receiver_image_unique_iff _ receiver
+  simpa only [NativeC60FPFullImage,
+    nativeC60FCTransport_eq_freeMap S F word] using
+      (nativeC60FPFreeMap_receiver_image_unique_iff
+        (nativeC60DVTransportCompleteCode S F word) receiver)
 
 end FullDependentEighteenCode
 
