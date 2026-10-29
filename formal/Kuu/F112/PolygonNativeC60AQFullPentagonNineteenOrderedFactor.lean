@@ -86,6 +86,10 @@ theorem nativeC60EXPentagon_defect_ne_one
       filler ≠ 1 := by
   rw [nativeC60EXPentagon_defect_eq_full_ratio S F f g h k T filler]
   exact nativeC60EXAtomicDefect_ne_one
+    (x := nativeC60DSPackEighteen S F
+      (nativeC60DRPentagonLong S F f g h k))
+    (y := nativeC60DSPackEighteen S F
+      (nativeC60DRPentagonShort S F f g h k))
     (nativeC60DSNineteenHolonomy S F)
     (nativeC60DSPentagon_free_ne S F f g h k)
 
