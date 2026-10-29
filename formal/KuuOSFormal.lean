@@ -432,6 +432,8 @@ import Kuu.F112.PolygonNativeC60AQFullPentagonConstructorPreservingWhisker
 
 import Kuu.F112.PolygonNativeC60AQFullPentagonFullDependentWhiskerReflection
 
+import Kuu.F112.PolygonNativeC60AQFullPentagonAlternativeFullFaithfulness
+
 /-!
 Public aggregate: retain every previously published proof and its original
 statement/assumptions, alongside the independent Kuu core. KuuOSStrict is the
