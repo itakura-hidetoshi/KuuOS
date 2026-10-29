@@ -131,8 +131,12 @@ theorem nativeK5FJBaseRefl_ne_atom
     nativeK5FJBaseRefl W R ≠ nativeK5FJBaseAtom W R := by
   intro heq
   apply nativeK5FJConservativeRefl_ne_atom W R
-  exact congrArg
-    (fun o : (nativeK5AXBaseLayer W).Total => o.2.down) heq
+  have hproof :
+      (ULift.up (nativeK5FJConservativeRefl W R) :
+        (nativeK5AXBaseLayer W).Hom (ULift.up R) (ULift.up R)) =
+      ULift.up (nativeK5FJConservativeAtom W R) :=
+    eq_of_heq (Sigma.mk.inj heq).2
+  exact congrArg ULift.down hproof
 
 /-- Both distinct true source AX totals have equal images under
 the original genuine C60 one-letter physical base frame. -/
