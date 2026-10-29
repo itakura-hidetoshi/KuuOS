@@ -1,6 +1,6 @@
 # KuuOS / 空OS — Formal Research Roadmap
 
-**更新：2026-10-29 JST。最新Lean統合段階は F112-P94D3FR / [PR #2694](https://github.com/itakura-hidetoshi/KuuOS/pull/2694) MERGED。** 定理squash SHA `e277a95ce48b5afcc00fdd4a13a5fff49a294c26`（統合直後のmain HEAD）。exact-source-head [Strict Lean #40875118260](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/40875118260) **9034 scoped jobs SUCCESS**、Governance **30/30 jobs completed・失敗0**、新規FR12宣言は`propext`・`Classical.choice`・`Quot.sound`以内、`sorryAx`なし、変更Lean warning/error 0/0。FO [#2689](https://github.com/itakura-hidetoshi/KuuOS/pull/2689)の全コード衝突核、FP [#2690](https://github.com/itakura-hidetoshi/KuuOS/pull/2690)の正規商≃実像と受信器一意降下、FQ [#2692](https://github.com/itakura-hidetoshi/KuuOS/pull/2692)の根付き差語と元3セクター分類を保持。FRで真正18Dの**任意深さの再帰spine**ごとに全衝突対・根付き関係・全核正規閉包を完全分解し、spine内の受信器衝突一致 iff 実像上の一意降下、また真の`post/pre`内側18D輸送像が異なる場合の外側衝突の排除を証明しました。固定17D依存境界での必要条件であって全raw17D経路の自動復元ではありません。既知の単一FJ欠損での全核生成、有限・独立・最小正規生成性、真正19D幾何充填は未証明。FJ旧輸送非忠実性・FK–FM別輸送忠実性、DS、107公開root、strict空/独立Kuuの区別、Gray非再導入、Lean/mathlib固定を維持。次はF112-P94D3FS（仮称）。
+**更新：2026-10-29 JST。最新Lean統合段階は F112-P94D3FS / [PR #2696](https://github.com/itakura-hidetoshi/KuuOS/pull/2696) MERGED。** 定理squash SHA `b0d192824ec56d0bd36db6c1726860a8de49da61`（統合直後のmain HEAD）。exact-source-head [Strict Lean #40877837402](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/40877837402) **9035 scoped jobs SUCCESS**、Governance **30/30 completed・失敗0**。FS新規14宣言の公理依存は`propext`・`Classical.choice`・`Quot.sound`の範囲のみ、`sorryAx`なし、変更Lean warning/error 0/0。FO [#2689](https://github.com/itakura-hidetoshi/KuuOS/pull/2689)全衝突全核、FP [#2690](https://github.com/itakura-hidetoshi/KuuOS/pull/2690)正規商≃実際の輸送像、FQ [#2692](https://github.com/itakura-hidetoshi/KuuOS/pull/2692)根付き正規生成と3セクター、FR [#2694](https://github.com/itakura-hidetoshi/KuuOS/pull/2694)完全再帰spine局所化を保持。FSでは真正18Dの完全再帰spine、実際の依存型輸送始域・終域、全`post/pre`内側輸送コードを保持する境界キーを構成し、全実衝突の同一キー局所化・元非可換全核の正規閉包表示・異なるキーの2文字核障害・キー内衝突に対する受信器像上一意降下の必要十分条件をLean形式化しました。別レーンで、任意の `FreeGroup.map f` の全核は非自明根付き差語だけで正規生成され、その支持が有限なら有限正規生成となることを無条件の含意として証明。**真正物理C60 18Dの有限支持・境界キー一致の十分性・最小正規ランク・単一FJ欠損の全核生成・幾何19D Type値充填は未証明**。FJ旧非忠実性と別FK–FM忠実性、DS/旧no-go、107公開root、独立Kuu/strict空の区別、Gray非再導入、Lean/mathlib pinを維持。次はF112-P94D3FT（仮称）。
 
 <details>
 <summary>旧更新記録：2026-10-23 / F112-P91B（歴史的な検証receipt。現在の最終段階ではない）</summary>
@@ -21,16 +21,16 @@
 | --- | --- |
 | 公開統合正本 | [`main`](https://github.com/itakura-hidetoshi/KuuOS/tree/main)。歴史的`formal/KUOS/`と現行`formal/Kuu/`、Qiを**同一Leanパッケージ**に含む。 |
 | 独立Kuu F112研究 | [親PR #2339](https://github.com/itakura-hidetoshi/KuuOS/pull/2339)は**MERGED**。かつての`formal/v5-293-f112-independent-total-change`は移行作業の履歴であり、現在の正本はmain。 |
-| 現在のF112検証範囲（2026-10-29） | **P94D3FR [#2694](https://github.com/itakura-hidetoshi/KuuOS/pull/2694)までmain統合済み。** 定理SHA `e277a95ce48b5afcc00fdd4a13a5fff49a294c26`、Strict Lean **9034 scoped jobs SUCCESS**、Governance **30/30 completed・失敗0**、FR12宣言の公理依存は標準3公理以内・`sorryAx`なし。FO全コード衝突による全核、FP正規商≃実際の輸送像、FQ根付き生成・先頭3セクター分割、FR任意深さの再帰spine内の全核・rooted relationsの完全分割、spine別受信器一意降下、および真の依存型 `post/pre` 内側コード相違による外側衝突の排除が正本。FJと別FK–FMの異なるpresentationを保持。 |
+| 現在のF112検証範囲（2026-10-29） | **P94D3FS [#2696](https://github.com/itakura-hidetoshi/KuuOS/pull/2696)までmain統合済み。** 定理SHA `b0d192824ec56d0bd36db6c1726860a8de49da61`、Strict Lean **9035 scoped jobs SUCCESS**、Governance **30/30 completed・失敗0**、FS14宣言の公理依存は標準3公理以内、`sorryAx`なし。元18D全再帰spine＋実受信始域/終域＋内側post/pre完全18Dコードの境界キーによる全衝突の局所化・全核正規閉包、任意fの非自明根付き差語による全核表示、有限active supportを仮定した有限正規生成を証明。物理18Dへの有限性仮定の充足は未証明。 |
 | F112以前の確認範囲（2026-10-23時点の履歴） | **P91Bまでmain統合済み（当時）**。P89B：9702/9702・13/13公理監査、P90A：9703/9703・7/7、P90B：9704/9704・7/7、**P91A：9705/9705・4/4**、**P91B：9706/9706・13/13**。新規`sorryAx`なし、変更ファイルLeanエラー/警告0、107公開root保全、exact-head Governanceとcompletion receipts 2/2 SUCCESS。P91A統合SHA `153361ebc9bf4303ed9c79e931c768fc99a885af`、P91B統合SHA `8fd61aad78943f6c9c630a585450eac2b5246f90`。唯一の公開入口`KuuOSFormal`に両モジュールを直接import。 |
 | 既存定理の証拠 | 実際のLean宣言・型と仮定・`#print axioms`・対応するexact-head CI。`sorryAx`、`sorry`、`admit`、新たな未証明公理による補完は禁止。 |
 | 数学的区別 | raw Type-valued証拠、Prop証明、選択した商、観測、物理的解釈は互いに無条件には同一視しない。 |
 | 公開入口・toolchain | `lake build KuuOSFormal`（`lake build`も同じ）。既存107公開rootは維持。Lean `v4.30.0-rc2`、pinned mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`。 |
 | 別レーン | PR #1558（Lean 4.31）はvalidation-only、Draft・未マージ。Lean/mathlibの正式な固定環境は上記のまま。 |
 
-GitHub正本・Lean成果・README/ROADMAP・CI・歴史的スナップショットには異なる役割がある。**P94D3FRまでのmain統合はGitHubのMERGED commitと exact-head Strict Lean/Governanceを独立確認済み**。FQ（9033 scoped jobs）、FP（9032 scoped jobs）、FO（9956/9956）、FN（9955/9955）および旧P91B・FI–FMの数値は各時点の独立receiptとして保持。文書はLean定理の代替ではなく、C60以前の縁起一般理論も維持する。
+GitHub正本・Lean成果・README/ROADMAP・CI・歴史的スナップショットには異なる役割がある。**P94D3FSまでのmain統合はGitHubのMERGED commitと exact-head Strict Lean/Governanceを独立確認済み**。FR（9034 scoped jobs）、FQ（9033）、FP（9032）、FO（9956/9956）、FN（9955/9955）、旧P91B・FI–FMの数値は各時点の独立receiptとして保持。文書はLean定理の代替ではなく、C60以前の縁起一般理論も維持する。
 
-## 0A. 2026-10-29現在の証明フロンティア：EX–FR
+## 0A. 2026-10-29現在の証明フロンティア：EX–FS
 
 **研究の主題：** 元の14D–18D依存型・非可換証拠を保存し、実際のC60有限AQ文脈での17D輸送 `C_w`、完全18Dコード写像 `f_w`、非可換自由群準同型 `τ_w` の**単射性・核・obstruction・相対商への降下**を区別して形式化する。C60は縁起の一般理論を取り替える唯一のモデルではない。現段階の18D生成子・19D候補は、元の幾何的19D充填や大域strict 3圏の完成証明ではない。
 
@@ -60,6 +60,7 @@ GitHub正本・Lean成果・README/ROADMAP・CI・歴史的スナップショッ
 | FP / [#2690](https://github.com/itakura-hidetoshi/KuuOS/pull/2690) | FOの全衝突正規閉包による商群と元の実DV輸送の**像部分群**との第一同型定理、商代表元の輸送像一致、全衝突での受信器一致 iff 実像上の**一意な因子化**を証明。全射なら全標的拡張が一意、非全射 `Empty→Bool` では標的全体への拡張が非一意となる反例を証明。独立FJ/FK/FL/FMの核境界を再確認。PR #2690 exact-head Strict Lean 9032 scoped jobs SUCCESS、11宣言の公理監査、Governance 30/30 SUCCESS | 正規商の同型先は**実際の像**であり標的全体ではない。無条件の全射性・有限/最小正規生成集合・真正19D Type値幾何充填は主張しない |
 | FQ / [#2692](https://github.com/itakura-hidetoshi/KuuOS/pull/2692) | 任意 `f:A→B` について**実際の像各ファイバーから元source文字代表元を選び**、元の全コード衝突差語の正規閉包＝各 `a` と代表元 `r_f(a)` の2文字差語の正規閉包を証明。真正C60完全18DではFGの構成子タグ輸送を使い、全衝突対は3つの元`assoc/post/pre`同一セクター内で完全に分類され、3族和集合の正規閉包＝元DV全核。根付き根のタグ保存、根付き商≃真正輸送像、セクター内3受信器一致 iff 実像上の一意な因子化を証明。9033 scoped Strict Lean SUCCESS、13宣言公理監査、Governance SUCCESS | 根代表元は選択的・非構成的。1関係/元source文字という表示は、有限・独立・最小正規生成や全標的の同型／一意性を意味しない。再帰的内側生成子のセクター内部分類、単一FJ欠損の全核生成、元の真正19D幾何充填は未証明 |
 | FR / [#2694](https://github.com/itakura-hidetoshi/KuuOS/pull/2694) | FIの完全再帰spine不変性を用い、元の18D完全コードの全衝突対集合を任意有限の同一`post/pre/.../assoc`構成子列の局所衝突族の和集合に**厳密分解**し、FOの全核がこれらすべての局所衝突差語の正規閉包であることを証明。FQファイバーrootは完全spineを保存、根付き全関係も完全spineに分割され全核を生成。受信器はspine内の全衝突で一致することと実DV像への一意な因子化が同値であり、各sourceコードとその根との一致だけでも必要十分。FHの真の依存型内側コード抽出で固定17D境界の外側`post/pre`衝突→輸送された内側18Dコード一致、対偶の内側不一致→外側非衝突を無条件に証明。9034 scoped Strict Lean SUCCESS、12公理監査、Governance SUCCESS | 完全spineはraw17D引数や境界等号まで記録せず、同一spine内の衝突の完全な幾何学的分類は未証明。生成系の有限・独立・最小性、FJ既知1元による全核生成、元の幾何的19D Type値充填も未証明 |
+| FS / [#2696](https://github.com/itakura-hidetoshi/KuuOS/pull/2696) | 元の完全18Dの**任意深さの再帰spine**と、実際に輸送された始域・終域（元17D raw pathを含む）および全`post/pre`内側の依存型18D完全コードを保持するboundary keyを新設。全実コード衝突が同一キーに局所化すること、同一キー内の**実衝突差語集合**の正規閉包＝全DV FreeGroup核、異なるキーでは実2文字核所属不能、実像上の受信器一意降下 iff 全キー内衝突一致を証明。FQのrooted relationsをさらに**元文字≠根の非恒等関係だけ**へ縮約しても任意 `FreeGroup.map f` の全核正規閉包は不変。非自明根付き元が有限なら有限正規生成となり、元文字型が有限な場合はその十分条件を充足。9035 scoped Strict Lean SUCCESS、14公理監査／Governance SUCCESS | **境界キー一致⇒完全コード像一致は未証明**。元物理C60完全18Dに対する有限なactive supportは未証明。生成族の独立性・最小性・単一FJ欠損の全核生成・元の真正19D Type値幾何充填は未証明 |
 
 主な正本Leanソース：
 
@@ -75,6 +76,7 @@ GitHub正本・Lean成果・README/ROADMAP・CI・歴史的スナップショッ
 - [FP: CompleteKernelImageFirstIsomorphism](formal/Kuu/F112/PolygonNativeC60AQFullPentagonCompleteKernelImageFirstIsomorphism.lean) — 原の18D全核正規商と実DV輸送像の群同型、代表元可換性、実像上受信器の一意因子化、全射の場合の標的拡張一意性と非全射反例。
 - [FQ: RootedSectorKernelClassification](formal/Kuu/F112/PolygonNativeC60AQFullPentagonRootedSectorKernelClassification.lean) — FO全衝突核から像ファイバー根代表元への正規生成縮約、真正18D `assoc/post/pre` 衝突3族の厳密和集合分解、根付き同型と3セクター受信器降下 iff。
 - [FR: RecursiveSpineKernelLocalization](formal/Kuu/F112/PolygonNativeC60AQFullPentagonRecursiveSpineKernelLocalization.lean) — 元の完全18D再帰構成子列による真の全衝突群・根付き生成族の正規核分割、像上受信器のspine別・根付き降下必要十分条件、FHの元依存型`post/pre`内側像による外側衝突障害。
+- [FS: BoundaryKeyFiniteNormalGate](formal/Kuu/F112/PolygonNativeC60AQFullPentagonBoundaryKeyFiniteNormalGate.lean) — 元の全再帰spine、実輸送17D raw境界・内側post/pre完全18Dコードからなる依存型boundary key、同一キー衝突の全核正規閉包と相違障害、非自明root-relator supportによる厳密全核表示および有限支持なら有限正規生成の条件付き定理。
 - [FG: GeneratorFaithfulnessGate](formal/Kuu/F112/PolygonNativeC60AQFullPentagonGeneratorFaithfulnessGate.lean)、[FG: ConstructorSectorSeparation](formal/Kuu/F112/PolygonNativeC60AQFullPentagonConstructorSectorSeparation.lean)、[FG: ConstructorPathInjectivity](formal/Kuu/F112/PolygonNativeC60AQFullPentagonConstructorPathInjectivity.lean)。
 
 ### 0A.2 数学的な論理境界（何が必要十分で、何が未充足か）
@@ -97,17 +99,20 @@ FIはさらに全入れ子構成子列から非可換FreeGroupへの準同型 $S
 
 **FRによる完全再帰spineの局所化（2026-10-29）：** 真正18D元コードの任意深さの`post/pre/.../assoc`再帰列を`σ`とする。全衝突集合は `⋃_{σ} R_{w,σ}` に等しく、**`ker(τ_w)=⟪⋃_{σ}R_{w,σ}⟫`** を証明済み。ここで各 `R_{w,σ}` は完全に同じ元再帰列を持つコード対の実際の輸送像一致だけから定め、**正規閉包は同一の元非可換自由群で取る**。FQの実受信ファイバー根 `r_w(a)` は全spineを保存し、`[a][r_w(a)]⁻¹` による生成系も全spine別に分解できる。実像上の一意な受信器因子化は各spine内の全衝突一致と同値、また各元codeとその選択根での一致とも同値。FHの真正依存型`post/pre`内側コード抽出から、**固定された元17D型付き境界で外側code同士が衝突するなら内側18D輸送codeも一致する**。内側輸送像が異なるなら外側衝突不能。この条件は17D文脈作用の単射性を仮定しないが、同一spineの元raw17D引数までの無条件等号反映や、有限生成性を証明したものではない。
 
+**FSで加えた依存型boundary keyと有限支持ゲート（2026-10-29）：** 真正18D元コード `a` に対して、その実DV輸送像から完全再帰spine、17D raw Type値経路を含む受信始域/終域、完全依存型 `post/pre` 内側18D受信コードを抽出して `K_w(a)` とする。実衝突 `f_w(a)=f_w(b)` は **`K_w(a)=K_w(b)` を必ず含意**し、全衝突集合は同一キー内の**実衝突集合**の和集合として正確に局所化する。元DV全核はその和集合から得られる差語の最小正規閉包である。**逆向き `K_w(a)=K_w(b)⇒f_w(a)=f_w(b)` は未証明**であり、境界キーだけで全元証拠を同一視しない。さらに任意の元文字写像 `f:A→B` とFQの根代表 `r_f(a)` に対して、`ker(FreeGroup.map f)=⟪[a][r_f(a)]⁻¹ | a≠r_f(a)⟫` を証明した。集合 `{a | a≠r_f(a)}` が有限なら全核は有限個の関係で正規生成されるが、**真正FJ物理18Dコードでこの集合が有限とは証明していない**。
+
+
 
 
 
 `\operatorname{Injective}(\tau_w)\Rightarrow\operatorname{Injective}(C_w)` はFF/FDの必要条件、逆向きはFI #2676で証明済み。**FJ #2679では、具体的`S=nativeK5AXKuuSignature W`、`F=nativeK5BCFrame W`において `Injective(τ_w) ↔ w=[]` を証明**。ここで保守的15D証拠の元の`refl`と`atom`を区別したまま、真のwhiskeringが両者を同じ`atom`へ再構成することが衝突の原因である。一般抽象frameについてのFI同値と、選択物理presentationについてのFJ非単射性は矛盾しない。FCの「非自明核 iff コード衝突」とFGの「異種構成子間の衝突なし」は両立する。原pentagonは元のDV自由群像で非零のまま残り、選択したDX相対商では消える。**DSの完全証拠保存no-goを維持**する。
 
-### 0A.3 次に形式化すべきこと — F112-P94D3FS（仮称）
+### 0A.3 次に形式化すべきこと — F112-P94D3FT（仮称）
 
-1. **完全再帰spine内の真の依存型衝突の精密分類**：FRは全spineごとの全核正規生成と、固定17D境界の `post/pre` 内側輸送像一致の必要性を確立した。次は元17D raw経路とその両端点、途中の依存型境界、変動する内側18D生成子の衝突を個別に抽出・再構成し、実際のframeにおける同一spine codeの同値条件を調べる。単なるspine一致を全code一致と混同しない。
-2. **根付き衝突生成族の有限性・独立性・最小性**：FQ/FRの正規生成関係は各元文字につき選択したファイバー根への差語だが、元生成子型は無限の場合がある。有限の例や追加の有限性条件、無限正規ランクの障害を具体的な観測・写像・独立受信器に基づいて調べる。単一既知FJ欠損による全核正規生成は未証明。
-3. **非全射・像上受信器と標的全体の区別**：FP/FRでは実際のDV輸送像上の一意な群準同型降下が保証されるが、未使用の標的コードへの拡張は別途選択が必要で、非全射の標的全体に一意性は一般にはない。これを保ったままpresentationの比較・独立性へ進む。
-4. **真正幾何と高次比較の別証明義務**：原C60の真正19D Type値幾何充填、旧新異なる17D/18D閉包signatureの全生成子間比較射、局所・大域strict 3/n、(∞,3)-hyperdescentは未証明。FJ/FN/DS旧no-go、107公開root、Gray非再導入、strict空を中心に保持し独立Kuuを一つのpresentationとする区別を維持する。
+1. **境界キー一致の十分条件と元raw依存型証拠の再構成**：FSは実衝突から同一キーへの必要条件を証明したが、同一キー内で元17D経路・途中の依存型境界・可変内側18Dコードがどこまで復元されるか未解決。実際のclosed targetのraw構文と全コンストラクタを解析し、キーの成分から全像を復元できるための正確な条件を証明する。必要条件を自動的に同値とは読まない。
+2. **有限正規生成の必要性・非有限性障害**：FSは任意fについて有限active root supportなら有限正規生成という十分条件を証明した。次は原物理FJのroot supportが有限か無限かを、完全18D元コードの具体的ファイバー構造・独立性に基づき調べる。例や追加仮定を明示して、必要条件・有限/無限正規ランクの反例・最小性の境界を探る。単一既知FJ二文字欠損が全核を正規生成するとは未証明。
+3. **像上の受信器と全標的の継続的区別**：FP/FSは実像上の降下の一意性を保証するが、非全射で未使用の標的コードへの群値の任意拡張の一意性は主張しない。旧FJと別FK–FMの元Type値アルファベットも混同しない。
+4. **真正高次幾何の独立した未証明課題**：元C60の真正19D Type値幾何充填、全旧新17D/18D閉包signatureの自然比較、局所大域strict 3/n、(∞,3)-hyperdescentは別の証明義務。FJ/FN/DSの旧no-go、107公開root、Gray非再導入、strict空中心と独立Kuu一presentationの区別を保持。
 
 **完了判定：** 新Lean宣言の全型・依存境界、`#print axioms`、`sorryAx`なし、固定環境、changed Lean file全文・import閉包・pinned mathlib APIの照合、PR exact-headでworkflow/job/Lean stepがすべて`completed SUCCESS`。**queued / in_progressをSUCCESSとしない。** CI緑は数学的な追加仮定を消さない。docs-only編集は必要な文書・root検査を通すが、新しいLean定理を変更していないのにStrict Leanを再実行することを要件にはしない。
 
@@ -374,6 +379,7 @@ lake build KuuOSFormal # warningAsErrorはlakefile.toml既定。sorryAxは#print
 - [FP #2690](https://github.com/itakura-hidetoshi/KuuOS/pull/2690) — `FreeGroup(A)/N≃*im(τ)`、真正DV輸送像上の受信器一意因子化、標的全射時の一意性と非全射での非一意反例、FJ/FM境界を保持（[Strict Lean #40869674642](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/40869674642) 9032 scoped jobs SUCCESS、Governance 30/30完了、11宣言の標準3公理監査、sorryAxなし）。
 - [FQ #2692](https://github.com/itakura-hidetoshi/KuuOS/pull/2692) — 真正完全18Dの像ファイバー根付き生成系、元`assoc/post/pre`の完全衝突集合3セクター分解、根付き商≃実像、3セクター受信器一致 iff 像上の一意降下をLean形式化。[Strict Lean #40872152257](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/40872152257) 9033 scoped jobs SUCCESS、13公理監査は標準3公理のみ、Governance 30/30 completed SUCCESS、warning/error 0/0、sorryAxなし。
 - [FR #2694](https://github.com/itakura-hidetoshi/KuuOS/pull/2694) — 完全再帰`post/pre/.../assoc` spineによる真正18D衝突族の全和集合・元非可換全核正規閉包、根付き族のspine保存・分割、spine別／根付き受信器の実像上の一意降下、固定依存境界での外側`post/pre`衝突から内側18D輸送コード一致の必然性。[Strict Lean #40875118260](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/40875118260) 9034 scoped jobs SUCCESS、Governance 30/30 complete SUCCESS、12公理監査（標準3公理以内、内側抽出4本は公理依存なし）、sorryAxなし・warning/error 0/0。
+- [FS #2696](https://github.com/itakura-hidetoshi/KuuOS/pull/2696) — 真正18Dの元全再帰spine・実受信始域/終域・全post/pre内側コードからなるType値境界キー、全実衝突の同一キー局所化、差語正規閉包＝全核、キー相違時の2文字核障害、キー内受信器衝突一致 iff 実像上の一意因子化をLean形式化。任意FreeGroup.mapの非自明根付き差語による全核表示、有限active supportなら有限正規生成となる条件付き定理を含む。[Strict Lean #40877837402](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/40877837402) 9035 scoped jobs SUCCESS、Governance 30/30 completed SUCCESS、14宣言公理監査は標準3公理以内・`sorryAx`なし、warning/error 0/0。
 - [`AGENTS.md`](AGENTS.md) — 現行のpublic root・mathlib・Gray依存・ビルド境界
 - [`formal/KUOS/`](formal/KUOS/) — 過去から継続する一般的なLean数学
 - [`formal/Kuu/`](formal/Kuu/) — 現在の独立Kuuの具体的な構成
