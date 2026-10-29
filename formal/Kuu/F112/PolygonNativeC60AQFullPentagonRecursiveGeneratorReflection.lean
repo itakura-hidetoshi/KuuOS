@@ -235,8 +235,9 @@ def nativeC60FIRawTransParts
   | atom _ => exact none
   | refl _ => exact none
   | symm _ => exact none
-  | trans p q => exact some
-      (nativeC60DRPackSeventeen S F p, nativeC60DRPackSeventeen S F q)
+  | trans p q =>
+      exact some (nativeC60DRPackSeventeen S F p,
+        nativeC60DRPackSeventeen S F q)
 
 /-- The entire original assoc code is determined by its raw source,
 with ALL four endpoints and ALL three paths allowed to vary. -/
