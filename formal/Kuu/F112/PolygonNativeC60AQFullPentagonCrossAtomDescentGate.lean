@@ -65,9 +65,7 @@ theorem nativeC60FAPath_defect_transport
     (τ : G →* H) {x y : L.Total} (p : NativeC60AXStep T x y) :
     nativeC60EXFoldDefect T (fun a => τ (obs a)) p =
       τ (nativeC60EXFoldDefect T obs p) := by
-  rw [nativeC60EXFoldDefect_eq_endpoints,
-    nativeC60EXFoldDefect_eq_endpoints]
-  simp only [map_mul, map_inv]
+  simp only [nativeC60EXFoldDefect_eq_endpoints, map_mul, map_inv]
 
 /-- Strong finite-list statement: the TRANSPORTED ordered signed
 primitive defects are exactly the transported entire original group
