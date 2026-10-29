@@ -418,6 +418,8 @@ import Kuu.F112.PolygonNativeC60AQFullPentagonEighteenObjectReflectionGate
 
 import Kuu.F112.PolygonNativeC60AQFullPentagonGeneratorFaithfulnessGate
 
+import Kuu.F112.PolygonNativeC60AQFullPentagonConstructorSectorSeparation
+
 /-!
 Public aggregate: retain every previously published proof and its original
 statement/assumptions, alongside the independent Kuu core. KuuOSStrict is the
