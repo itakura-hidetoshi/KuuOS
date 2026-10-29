@@ -86,7 +86,7 @@ theorem nativeC60EXPentagon_defect_ne_one
       filler ≠ 1 := by
   rw [nativeC60EXPentagon_defect_eq_full_ratio S F f g h k T filler]
   exact nativeC60EXAtomicDefect_ne_one
-    T (nativeC60DSNineteenHolonomy S F)
+    (nativeC60DSNineteenHolonomy S F)
     (nativeC60DSPentagon_free_ne S F f g h k)
 
 /-- The particular 19D filler admits a complete ordered
