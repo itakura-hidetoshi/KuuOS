@@ -436,6 +436,8 @@ import Kuu.F112.PolygonNativeC60AQFullPentagonAlternativeFullFaithfulness
 
 import Kuu.F112.PolygonNativeC60AQFullPentagonOldNewTypedFaithfulnessComparison
 
+import Kuu.F112.PolygonNativeC60AQFullPentagonCompleteKernelNormalClosure
+
 /-!
 Public aggregate: retain every previously published proof and its original
 statement/assumptions, alongside the independent Kuu core. KuuOSStrict is the
