@@ -256,6 +256,136 @@ theorem nativeK5FJPhysicalSingleton_fullWord_not_injective
   exact nativeK5FJSeventeenRefl_ne_atom W R
     (hctx (nativeK5FJSeventeenFrame_collision W R side))
 
+
+/-- The SAME pair of distinct original 17D proof-carrying objects
+collides in every NONEMPTY finite chronological physical context:
+once a singleton whiskering identifies them, each additional outer
+action preserves the equality. No external frame injectivity premise. -/
+theorem nativeK5FJPhysical_nonempty_context_collision
+    (W : NativeK5StructuralThirteenCell p U V)
+    (R : NativeK5FifteenFourteenFiber W)
+    (word : List Bool)
+    (hne : word ≠ []) :
+    nativeC60BCContextTotal
+        (nativeC60DRSeventeenFrame (nativeK5AXKuuSignature W)
+          (nativeK5BCFrame W)) word (nativeK5FJSeventeenRefl W R) =
+      nativeC60BCContextTotal
+        (nativeC60DRSeventeenFrame (nativeK5AXKuuSignature W)
+          (nativeK5BCFrame W)) word (nativeK5FJSeventeenAtom W R) := by
+  revert hne
+  induction word with
+  | nil =>
+      intro hnil
+      exact (hnil rfl).elim
+  | cons side rest ih =>
+      intro _
+      cases rest with
+      | nil =>
+          change
+            (nativeC60DRSeventeenFrame (nativeK5AXKuuSignature W)
+              (nativeK5BCFrame W) side).mapTotal
+              (nativeK5FJSeventeenRefl W R) =
+            (nativeC60DRSeventeenFrame (nativeK5AXKuuSignature W)
+              (nativeK5BCFrame W) side).mapTotal
+              (nativeK5FJSeventeenAtom W R)
+          exact nativeK5FJSeventeenFrame_collision W R side
+      | cons next tail =>
+          change
+            (nativeC60DRSeventeenFrame (nativeK5AXKuuSignature W)
+              (nativeK5BCFrame W) side).mapTotal
+                (nativeC60BCContextTotal
+                  (nativeC60DRSeventeenFrame (nativeK5AXKuuSignature W)
+                    (nativeK5BCFrame W)) (next :: tail)
+                      (nativeK5FJSeventeenRefl W R)) =
+            (nativeC60DRSeventeenFrame (nativeK5AXKuuSignature W)
+              (nativeK5BCFrame W) side).mapTotal
+                (nativeC60BCContextTotal
+                  (nativeC60DRSeventeenFrame (nativeK5AXKuuSignature W)
+                    (nativeK5BCFrame W)) (next :: tail)
+                      (nativeK5FJSeventeenAtom W R))
+          exact congrArg
+            ((nativeC60DRSeventeenFrame (nativeK5AXKuuSignature W)
+              (nativeK5BCFrame W) side).mapTotal)
+            (ih (by simp))
+
+/-- Original whole signed noncommutative 18D DV transport is
+nonfaithful for EVERY nonempty actual finite physical AQ word.
+This derives the exact consequence of the now EXPLICIT original
+Type-valued singleton collision, via the FI full code/context gate. -/
+theorem nativeK5FJPhysical_nonempty_fullWord_not_injective
+    (W : NativeK5StructuralThirteenCell p U V)
+    (R : NativeK5FifteenFourteenFiber W)
+    (word : List Bool) (hne : word ≠ []) :
+    ¬ Function.Injective
+      (nativeC60DVFullWordTransport
+        (nativeK5AXKuuSignature W) (nativeK5BCFrame W) word) := by
+  intro hinj
+  have hctx := (nativeC60FIFullFree_injective_iff_context
+      (nativeK5AXKuuSignature W) (nativeK5BCFrame W) word).mp hinj
+  exact nativeK5FJSeventeenRefl_ne_atom W R
+    (hctx (nativeK5FJPhysical_nonempty_context_collision W R word hne))
+
+/-- EXACT finite-word criterion for the ACTUAL original K5 AQ
+physical presentation (with its canonical inhabited fourteen-cell
+source fiber): only the EMPTY context has faithful full DV
+noncommutative free-group transport. Nonempty contexts preserve
+their geometric boundary but erase original core constructor
+history in the selected 15D proof grammar. -/
+theorem nativeK5FJPhysical_fullWord_injective_iff_nil
+    (W : NativeK5StructuralThirteenCell p U V)
+    (word : List Bool) :
+    Function.Injective
+        (nativeC60DVFullWordTransport
+          (nativeK5AXKuuSignature W) (nativeK5BCFrame W) word) ↔
+      word = [] := by
+  constructor
+  · intro hinj
+    by_contra hne
+    exact (nativeK5FJPhysical_nonempty_fullWord_not_injective W
+      (nativeK5FifteenCriticalLeft W) word hne) hinj
+  · intro hnil
+    cases hnil
+    exact nativeC60FIFullFree_nil_injective
+      (nativeK5AXKuuSignature W) (nativeK5BCFrame W)
+
+/-- A concrete ORIGINAL, genuinely signed two-letter noncommutative
+defect between reflexive assoc codes based on the distinct
+source-typed 17D identities. Independent of the receiving context. -/
+def nativeK5FJPhysicalUniversalDefect
+    (W : NativeK5StructuralThirteenCell p U V)
+    (R : NativeK5FifteenFourteenFiber W) :
+    NativeC60DTFullFree (nativeK5AXKuuSignature W) (nativeK5BCFrame W) :=
+  nativeC60FCCodeFiberDefect
+    (nativeK5AXKuuSignature W) (nativeK5BCFrame W)
+    (nativeC60FDAssocReflCode
+      (nativeK5AXKuuSignature W) (nativeK5BCFrame W)
+      (nativeK5FJSeventeenRefl W R))
+    (nativeC60FDAssocReflCode
+      (nativeK5AXKuuSignature W) (nativeK5BCFrame W)
+      (nativeK5FJSeventeenAtom W R))
+
+/-- The SAME original nonidentity two-letter element is killed by
+EVERY nonempty real finite AQ context. We do not identify this
+with the full kernel normal-closure, nor silently add a 19D filler. -/
+theorem nativeK5FJPhysicalUniversalDefect_all_nonempty
+    (W : NativeK5StructuralThirteenCell p U V)
+    (R : NativeK5FifteenFourteenFiber W) :
+    nativeK5FJPhysicalUniversalDefect W R ≠ 1 ∧
+      ∀ (word : List Bool), word ≠ [] →
+        (nativeC60DVFullWordTransport
+          (nativeK5AXKuuSignature W) (nativeK5BCFrame W) word)
+            (nativeK5FJPhysicalUniversalDefect W R) = 1 := by
+  constructor
+  · exact (nativeC60FDContextCollision_nontrivial_kernel
+      (nativeK5AXKuuSignature W) (nativeK5BCFrame W) [false]
+      (nativeK5FJSeventeenRefl_ne_atom W R)
+      (nativeK5FJSeventeenFrame_collision W R false)).1
+  · intro word hne
+    exact (nativeC60FDContextCollision_nontrivial_kernel
+      (nativeK5AXKuuSignature W) (nativeK5BCFrame W) word
+      (nativeK5FJSeventeenRefl_ne_atom W R)
+      (nativeK5FJPhysical_nonempty_context_collision W R word hne)).2
+
 end ActualPhysicalSingletonCollision
 
 #print axioms nativeK5FJConservativeRefl_ne_atom
@@ -268,6 +398,11 @@ end ActualPhysicalSingletonCollision
 #print axioms nativeK5FJSeventeenFrame_collision
 #print axioms nativeK5FJSeventeenFrame_not_injective
 #print axioms nativeK5FJPhysicalSingleton_fullWord_not_injective
+#print axioms nativeK5FJPhysical_nonempty_context_collision
+#print axioms nativeK5FJPhysical_nonempty_fullWord_not_injective
+#print axioms nativeK5FJPhysical_fullWord_injective_iff_nil
+#print axioms nativeK5FJPhysicalUniversalDefect
+#print axioms nativeK5FJPhysicalUniversalDefect_all_nonempty
 
 end
 end Kuu.F112.Physical
