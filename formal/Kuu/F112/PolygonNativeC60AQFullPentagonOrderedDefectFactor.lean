@@ -84,7 +84,10 @@ theorem nativeC60EXFoldDefect_eq_endpoints :
   induction p with
   | atom g => rfl
   | refl x =>
-      simp [nativeC60EXFoldDefect]
+      calc
+        nativeC60EXFoldDefect T obs (.refl x) = 1 :=
+          nativeC60EXFoldDefect_refl T obs x
+        _ = (obs x)⁻¹ * obs x := by simp
   | symm p ih =>
       rw [nativeC60EXFoldDefect_symm, ih]
       group
@@ -109,12 +112,12 @@ In particular, this is NOT an equality of raw Type-valued histories. -/
 def NativeC60EXNoncommutativeFactor
     {x y : L.Total} (p : NativeC60AXStep T x y) : Prop :=
   ∃ (a b : L.Total) (g : T.Gen a b)
-    (prefix middle suffix : G),
+    (before middle after : G),
       NativeC60EWAtomOccursOn T g p ∧
       (middle = (obs a)⁻¹ * obs b ∨
        middle = ((obs a)⁻¹ * obs b)⁻¹) ∧
       middle ≠ 1 ∧
-      nativeC60EXFoldDefect T obs p = prefix * middle * suffix
+      nativeC60EXFoldDefect T obs p = before * middle * after
 
 /-- Strengthen EW's proof-relevant bad-atom certificate into an
 ORDERED decomposition of the full noncommutative path defect.
