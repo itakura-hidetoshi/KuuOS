@@ -422,7 +422,7 @@ theorem nativeK5FNNoNewEighteenRecovery_from_old
         (nativeK5AXKuuSignature W) (nativeK5BCFrame W) →
       NativeC60DVCompleteEighteenCode
         (nativeK5AXKuuSignature W) (nativeK5FKBCFrame W)) :
-    ¬
+    ¬ (
       (decode (nativeC60DVTransportCompleteCode
           (nativeK5AXKuuSignature W) (nativeK5BCFrame W) word
           (nativeC60FDAssocReflCode (nativeK5AXKuuSignature W)
@@ -438,7 +438,7 @@ theorem nativeK5FNNoNewEighteenRecovery_from_old
         nativeC60DVTransportCompleteCode
           (nativeK5AXKuuSignature W) (nativeK5FKBCFrame W) word
           (nativeC60FDAssocReflCode (nativeK5AXKuuSignature W)
-            (nativeK5FKBCFrame W) (nativeK5FNNewSeventeenAtom W R))) := by
+            (nativeK5FKBCFrame W) (nativeK5FNNewSeventeenAtom W R)))) := by
   rintro ⟨hrefl, hatom⟩
   apply nativeK5FNNewEighteenAssocReflCode_separates W R word
   calc
