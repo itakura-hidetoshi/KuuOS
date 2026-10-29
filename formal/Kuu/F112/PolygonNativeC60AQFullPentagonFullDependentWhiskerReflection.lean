@@ -186,6 +186,45 @@ theorem nativeK5FLCoreWhisker_injective
           cases ht
           rfl
 
+/-- Independent family exchange index, if and only if the proof is
+directly an exchange constructor. No quotient or boundary erasure. -/
+def nativeK5FLExchangeIndex
+    (W : NativeK5StructuralThirteenCell p U V)
+    {R S : NativeK5FifteenFourteenFiber W}
+    (cell : NativeK5AQFifteenCell W R S) : Option (List Bool) :=
+  match cell with
+  | .exchange index => some index
+  | _ => none
+
+/-- A concrete exchange index identifies its raw proof constructor
+heterogeneously, even when the dependent 14D endpoints are variable. -/
+theorem nativeK5FLExchangeIndex_sound
+    (W : NativeK5StructuralThirteenCell p U V)
+    {R S : NativeK5FifteenFourteenFiber W}
+    (cell : NativeK5AQFifteenCell W R S)
+    {index : List Bool}
+    (hindex : nativeK5FLExchangeIndex W cell = some index) :
+    HEq cell (nativeK5AQExchange W index) := by
+  cases cell with
+  | conservative _ => cases hindex
+  | exchange actual =>
+      have heq : actual = index := Option.some.inj hindex
+      cases heq
+      rfl
+  | symm _ => cases hindex
+  | trans _ _ => cases hindex
+
+/-- The new FK transport preserves the entire independent exchange
+index by left-prefixing; the other constructor sectors remain none. -/
+theorem nativeK5FLExchangeIndex_whisker
+    (W : NativeK5StructuralThirteenCell p U V)
+    (side : Bool)
+    {R S : NativeK5FifteenFourteenFiber W}
+    (cell : NativeK5AQFifteenCell W R S) :
+    nativeK5FLExchangeIndex W (nativeK5FKWhiskerCell W side cell) =
+      (nativeK5FLExchangeIndex W cell).map (List.cons side) := by
+  cases cell <;> rfl
+
 /-- COMPLETE original physical Type-valued 15D dependent Hom fiber
 injection for the new FK presentation, with the independently adjoined
 exchange and outer proof constructors included. This says nothing
@@ -211,18 +250,21 @@ theorem nativeK5FLWhiskerCell_injective
       | symm _ => cases heq
       | trans _ _ => cases heq
   | exchange steps =>
-      cases k with
-      | conservative _ => cases heq
-      | exchange other =>
-          have hsteps : side :: steps = side :: other := by
-            injection heq
-          have htail : steps = other := (List.cons.inj hsteps).2
-          have hpack : nativeK5FLExchangePack W steps =
-              nativeK5FLExchangePack W other :=
-            congrArg (nativeK5FLExchangePack W) htail
-          exact eq_of_heq (Sigma.mk.inj hpack).2
-      | symm _ => cases heq
-      | trans _ _ => cases heq
+      have hcode : some (side :: steps) =
+          (nativeK5FLExchangeIndex W k).map (List.cons side) := by
+        simpa only [nativeK5FLExchangeIndex_whisker] using
+          congrArg (nativeK5FLExchangeIndex W) heq
+      cases hki : nativeK5FLExchangeIndex W k with
+      | none =>
+          simp [hki] at hcode
+      | some other =>
+          have hp : side :: steps = side :: other := by
+            simpa [hki] using hcode
+          have hsteps : steps = other := (List.cons.inj hp).2
+          have hsource : HEq k (nativeK5AQExchange W other) :=
+            nativeK5FLExchangeIndex_sound W k hki
+          cases hsteps
+          exact eq_of_heq hsource.symm
   | symm h ih =>
       cases k with
       | conservative _ => cases heq
