@@ -122,9 +122,22 @@ theorem nativeC60GADecode_encodeRaw
   | atom g => rfl
   | refl a => rfl
   | symm h ih =>
-      simp [nativeC60GAEncodeRaw, nativeC60GADecodeRaw, ih]
+      change
+        (nativeC60GADecodeRaw S (nativeC60GAEncodeRaw S h)).bind
+          (fun ⟨⟨a, b⟩, q⟩ => some ⟨(b, a), .symm q⟩) = _
+      rw [ih]
+      rfl
   | trans h k ih ik =>
-      simp [nativeC60GAEncodeRaw, nativeC60GADecodeRaw, ih, ik]
+      change
+        (nativeC60GADecodeRaw S (nativeC60GAEncodeRaw S h)).bind
+          (fun ⟨⟨a, b⟩, p⟩ =>
+            (nativeC60GADecodeRaw S (nativeC60GAEncodeRaw S k)).bind
+              (fun ⟨⟨c, d⟩, q⟩ =>
+                if heq : b = c then
+                  some ⟨(a, d), .trans p (heq.symm ▸ q)⟩
+                else none)) = _
+      rw [ih, ik]
+      simp
 
 /-- The full original AXStep dependent Sigma type is Countable
 as soon as its original source/target objects and primitive
