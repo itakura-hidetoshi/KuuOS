@@ -49,17 +49,23 @@ Sigma code, not a quotient or a lossy invariant. -/
 def nativeC60FHClosedPostInnerCode
     (code : NativeC60DVCompleteEighteenCode S F) :
     Option (NativeC60DVCompleteEighteenCode S F) :=
-  match code.2.2 with
-  | .post r _ => some ⟨_, _, r⟩
-  | _ => none
+  by
+    rcases code with ⟨x, y, g⟩
+    cases g with
+    | assoc _ _ _ => exact none
+    | post r h => exact some ⟨_, _, r⟩
+    | pre h r => exact none
 
 /-- The analogous full dependent inner code for pre-whiskering. -/
 def nativeC60FHClosedPreInnerCode
     (code : NativeC60DVCompleteEighteenCode S F) :
     Option (NativeC60DVCompleteEighteenCode S F) :=
-  match code.2.2 with
-  | .pre _ r => some ⟨_, _, r⟩
-  | _ => none
+  by
+    rcases code with ⟨x, y, g⟩
+    cases g with
+    | assoc _ _ _ => exact none
+    | post r h => exact none
+    | pre h r => exact some ⟨_, _, r⟩
 
 /-- Post-whiskering with BOTH the original inner 18D generator and
 the original 17D suffix allowed to vary, over fixed exact lower
