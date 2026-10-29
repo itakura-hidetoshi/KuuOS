@@ -151,19 +151,6 @@ theorem nativeC60FUTowerCode_collision
                   (nativeC60DRSeventeenFrame S F) word b)) :=
         congrArg (fun x => nativeC60DVPackClosedSeventeen S F
           (NativeC60AXStep.refl x)) hab
-      change
-        nativeC60FTClosedCode S F
-          (.post (nativeC60DVTransportEighteenGen S F word
-            (nativeC60FUTowerGen S F a n))
-            (NativeC60AXStep.refl
-              (nativeC60BCContextTotal
-                (nativeC60DRSeventeenFrame S F) word a))) =
-          nativeC60FTClosedCode S F
-          (.post (nativeC60DVTransportEighteenGen S F word
-            (nativeC60FUTowerGen S F b n))
-            (NativeC60AXStep.refl
-              (nativeC60BCContextTotal
-                (nativeC60DRSeventeenFrame S F) word b)))
       exact nativeC60FTClosedPostCode_congr S F hinner hsuf
 
 /-- At every n a genuine lower 17D context collision produces
