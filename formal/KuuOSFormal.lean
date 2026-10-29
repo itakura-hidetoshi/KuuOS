@@ -406,6 +406,9 @@ import KUOS.WORLD.KuuOSLifecycleStageV0_17
 import KUOS.WORLD.KuuOSLifecycleStageV0_18
 import KUOS.WORLD.KuuOSLifecycleStageV0_19
 
+import Kuu.F112.PolygonNativeC60AQFullPentagonSeventeenContextFiberObstruction
+import Kuu.F112.PolygonNativeC60AQFullPentagonPhysicalSeventeenContextBoundary
+
 /-!
 Public aggregate: retain every previously published proof and its original
 statement/assumptions, alongside the independent Kuu core. KuuOSStrict is the
