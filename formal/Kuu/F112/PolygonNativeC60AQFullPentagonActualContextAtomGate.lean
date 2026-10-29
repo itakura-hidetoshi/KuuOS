@@ -184,8 +184,8 @@ theorem nativeC60FAActualContext_pentagon_ratio_quotient_one
           nativeC60DSFreeWord S F
             (nativeC60DRPentagonShort S F f g h k))) = 1 := by
   apply MonoidHom.mem_ker.mp
-  rw [nativeC60DTQuotient_kernel
-    (nativeC60DXFullClosedPentagonPairs S F)]
+  rw [QuotientGroup.ker_mk'
+    (nativeC60DXFullClosedPentagonNormalClosure S F)]
   exact nativeC60FAActualContext_pentagon_ratio_mem_full
     S F word f g h k
 
