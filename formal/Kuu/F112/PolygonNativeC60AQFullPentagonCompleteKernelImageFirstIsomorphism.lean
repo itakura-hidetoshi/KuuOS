@@ -146,6 +146,38 @@ theorem nativeC60FPWholeTarget_extension_not_unique_example :
     intro e
     exact Empty.elim e
 
+/-- Once a full-target extension exists for an arbitrary group homomorphism,
+its restriction to the *actual image* is automatically the unique factor.
+The definition never changes the image subtype along a hom equality. -/
+theorem nativeC60FPHom_image_unique_of_extension
+    {X : Type u} {Y : Type v} {G : Type w}
+    [Group X] [Group Y] [Group G]
+    (φ : X →* Y) (receiver : X →* G)
+    (target : Y →* G) (htarget : target.comp φ = receiver) :
+    ∃! induced : φ.range →* G,
+      induced.comp φ.rangeRestrict = receiver := by
+  let induced : φ.range →* G :=
+    target.comp (Subgroup.subtype φ.range)
+  have hdesc : induced.comp φ.rangeRestrict = receiver := by
+    apply MonoidHom.ext
+    intro z
+    change target (φ z) = receiver z
+    exact DFunLike.congr_fun htarget z
+  refine ⟨induced, hdesc, ?_⟩
+  intro alternative halternative
+  apply MonoidHom.ext
+  rintro ⟨b, hb⟩
+  obtain ⟨a, ha⟩ := hb
+  have hx : φ.rangeRestrict a = (⟨b, ⟨a, ha⟩⟩ : φ.range) :=
+    Subtype.ext ha
+  calc
+    alternative ⟨b, ⟨a, ha⟩⟩ =
+        alternative (φ.rangeRestrict a) := congrArg alternative hx.symm
+    _ = receiver a := DFunLike.congr_fun halternative a
+    _ = induced (φ.rangeRestrict a) :=
+      (DFunLike.congr_fun hdesc a).symm
+    _ = induced ⟨b, ⟨a, ha⟩⟩ := congrArg induced hx
+
 section FullDependentEighteenCode
 
 variable {L : NativeC60AXLayer.{u}}
@@ -190,10 +222,29 @@ theorem nativeC60FPFullReceiver_image_unique_iff
         nativeC60DVTransportCompleteCode S F word a =
           nativeC60DVTransportCompleteCode S F word b →
         receiver (FreeGroup.of a) = receiver (FreeGroup.of b) := by
-  simpa only [NativeC60FPFullImage,
-    nativeC60FCTransport_eq_freeMap S F word] using
-      (nativeC60FPFreeMap_receiver_image_unique_iff
-        (nativeC60DVTransportCompleteCode S F word) receiver)
+  constructor
+  · rintro ⟨induced, hinduced, _⟩ a b hab
+    have ha := DFunLike.congr_fun hinduced (FreeGroup.of a)
+    have hb := DFunLike.congr_fun hinduced (FreeGroup.of b)
+    change induced ((nativeC60DVFullWordTransport S F word).rangeRestrict
+      (FreeGroup.of a)) = receiver (FreeGroup.of a) at ha
+    change induced ((nativeC60DVFullWordTransport S F word).rangeRestrict
+      (FreeGroup.of b)) = receiver (FreeGroup.of b) at hb
+    have hsame :
+        (nativeC60DVFullWordTransport S F word).rangeRestrict
+            (FreeGroup.of a) =
+          (nativeC60DVFullWordTransport S F word).rangeRestrict
+            (FreeGroup.of b) := by
+      apply Subtype.ext
+      simpa only [nativeC60FCTransport_eq_freeMap S F word,
+        FreeGroup.map.of] using congrArg FreeGroup.of hab
+    exact ha.symm.trans ((congrArg induced hsame).trans hb)
+  · intro compatible
+    obtain ⟨target, htarget⟩ :=
+      (nativeC60FOReceiver_descends_iff_code_fibers
+        S F word receiver).mpr compatible
+    exact nativeC60FPHom_image_unique_of_extension
+      (nativeC60DVFullWordTransport S F word) receiver target htarget
 
 end FullDependentEighteenCode
 
@@ -260,6 +311,7 @@ example :
 #print axioms nativeC60FPWholeTarget_extension_not_unique_example
 #print axioms nativeC60FPFullTransportFirstIso
 #print axioms nativeC60FPFullTransportFirstIso_mk
+#print axioms nativeC60FPHom_image_unique_of_extension
 #print axioms nativeC60FPFullReceiver_image_unique_iff
 #print axioms nativeK5FPOriginalFullTransport_kernel_ne_bot
 #print axioms nativeK5FPAlternativeFullTransport_kernel_eq_bot
