@@ -61,6 +61,27 @@ inductive NativeC60EWBadAtomOn
       (h : NativeC60EWBadAtomOn T obs q) :
       NativeC60EWBadAtomOn T obs (.trans p q)
 
+/-- A particular original dependent generator occurs as an atom of
+this precise signed/composite path; inverse and order of composition
+remain present in the occurrence certificate. -/
+inductive NativeC60EWAtomOccursOn
+    {L : NativeC60AXLayer.{u}}
+    (T : NativeC60AXSignature L)
+    {a b : L.Total} (g : T.Gen a b) :
+    {x y : L.Total} → NativeC60AXStep T x y → Prop where
+  | atom : NativeC60EWAtomOccursOn T g (.atom g)
+  | symm {x y : L.Total} {p : NativeC60AXStep T x y}
+      (h : NativeC60EWAtomOccursOn T g p) :
+      NativeC60EWAtomOccursOn T g (.symm p)
+  | transLeft {x y z : L.Total}
+      {p : NativeC60AXStep T x y} {q : NativeC60AXStep T y z}
+      (h : NativeC60EWAtomOccursOn T g p) :
+      NativeC60EWAtomOccursOn T g (.trans p q)
+  | transRight {x y z : L.Total}
+      {p : NativeC60AXStep T x y} {q : NativeC60AXStep T y z}
+      (h : NativeC60EWAtomOccursOn T g q) :
+      NativeC60EWAtomOccursOn T g (.trans p q)
+
 /-- If a SPECIFIC dependent path has no bad primitive atom anywhere
 in its own signed/composite syntax, then the observer agrees at its
 endpoints. Proof proceeds by structural induction on that path. -/
@@ -123,6 +144,31 @@ theorem nativeC60EWBadOnPath_has_generator
   | transLeft _ ih => exact ih
   | transRight _ ih => exact ih
 
+/-- PATH-SPECIFIC EXTRACTION: identify the actual original primitive
+generator, prove that it occurs INSIDE the supplied dependent signed
+path, and prove it changes the observer. The occurrence is not an
+unrelated generator in the ambient 19D signature. -/
+theorem nativeC60EWBadOnPath_exact_atom
+    {L : NativeC60AXLayer.{u}}
+    (T : NativeC60AXSignature L)
+    {B : Type v} (obs : L.Total → B)
+    {x y : L.Total} {p : NativeC60AXStep T x y}
+    (h : NativeC60EWBadAtomOn T obs p) :
+    ∃ (a b : L.Total) (g : T.Gen a b),
+      NativeC60EWAtomOccursOn T g p ∧ obs a ≠ obs b := by
+  induction h with
+  | atom g hne =>
+      exact ⟨_, _, g, .atom, hne⟩
+  | symm _ ih =>
+      obtain ⟨a, b, g, hg, hne⟩ := ih
+      exact ⟨a, b, g, .symm hg, hne⟩
+  | transLeft _ ih =>
+      obtain ⟨a, b, g, hg, hne⟩ := ih
+      exact ⟨a, b, g, .transLeft hg, hne⟩
+  | transRight _ ih =>
+      obtain ⟨a, b, g, hg, hne⟩ := ih
+      exact ⟨a, b, g, .transRight hg, hne⟩
+
 /-- No bad primitive in the actual concatenation implies equality
 of the original observation on the whole composite's boundaries,
 including both true dependent intermediate endpoints. -/
@@ -137,9 +183,11 @@ theorem nativeC60EWNoBadComposite_sound
   nativeC60EWNoBadOnPath_sound T obs (.trans p q) h
 
 #print axioms NativeC60EWBadAtomOn
+#print axioms NativeC60EWAtomOccursOn
 #print axioms nativeC60EWNoBadOnPath_sound
 #print axioms nativeC60EWBadOnPath_of_endpoint_ne
 #print axioms nativeC60EWBadOnPath_has_generator
+#print axioms nativeC60EWBadOnPath_exact_atom
 #print axioms nativeC60EWNoBadComposite_sound
 
 end
