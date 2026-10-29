@@ -54,21 +54,23 @@ variable (S : NativeC60AXSignature L) (F : Bool → NativeC60BCFrame L)
 code, retaining its complete source/target in the enclosing code. -/
 def nativeC60FGOriginalConstructorTag
     (code : NativeC60DSCompleteEighteenCode S F) :
-    NativeC60FGConstructorTag :=
-  match code.2.2 with
-  | .assoc _ _ _ => .assoc
-  | .post _ _ => .post
-  | .pre _ _ => .pre
+    NativeC60FGConstructorTag := by
+  rcases code with ⟨x, y, g⟩
+  cases g with
+  | assoc _ _ _ => exact .assoc
+  | post _ _ => exact .post
+  | pre _ _ => exact .pre
 
 /-- Tag of the ACTUAL separately context-CLOSED receiving
 DV complete dependent 18D code; no shadow quotient is involved. -/
 def nativeC60FGClosedConstructorTag
     (code : NativeC60DVCompleteEighteenCode S F) :
-    NativeC60FGConstructorTag :=
-  match code.2.2 with
-  | .assoc _ _ _ => .assoc
-  | .post _ _ => .post
-  | .pre _ _ => .pre
+    NativeC60FGConstructorTag := by
+  rcases code with ⟨x, y, g⟩
+  cases g with
+  | assoc _ _ _ => exact .assoc
+  | post _ _ => exact .post
+  | pre _ _ => exact .pre
 
 /-- Native DV transport of each original dependent assoc/post/pre
 code PRESERVES its actual original constructor category exactly,
