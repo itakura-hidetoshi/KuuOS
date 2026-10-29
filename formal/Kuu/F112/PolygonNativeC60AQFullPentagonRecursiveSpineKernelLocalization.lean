@@ -1,3 +1,4 @@
+import Kuu.F112.PolygonNativeC60AQFullPentagonDeepConstructorSpineObstruction
 import Kuu.F112.PolygonNativeC60AQFullPentagonRootedSectorKernelClassification
 
 /-!
