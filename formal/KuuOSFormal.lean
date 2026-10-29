@@ -438,6 +438,7 @@ import Kuu.F112.PolygonNativeC60AQFullPentagonOldNewTypedFaithfulnessComparison
 
 import Kuu.F112.PolygonNativeC60AQFullPentagonCompleteKernelNormalClosure
 import Kuu.F112.PolygonNativeC60AQFullPentagonCompleteKernelImageFirstIsomorphism
+import Kuu.F112.PolygonNativeC60AQFullPentagonRootedSectorKernelClassification
 
 /-!
 Public aggregate: retain every previously published proof and its original
