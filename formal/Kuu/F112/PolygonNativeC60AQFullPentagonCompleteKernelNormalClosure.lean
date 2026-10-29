@@ -104,7 +104,7 @@ theorem nativeC60FOFreeMap_ker_eq_normalClosure
     (FreeGroup.map f).ker = nativeC60FOFiberNormalClosure f := by
   classical
   let project : FreeGroup A →* NativeC60FOFiberQuotient f :=
-    nativeC60DTQuotientMap (nativeC60FOFiberPairs f)
+    QuotientGroup.mk' (nativeC60FOFiberNormalClosure f)
   have hproject : ∀ a b : A, f a = f b →
       project (FreeGroup.of a) = project (FreeGroup.of b) := by
     intro a b hab
