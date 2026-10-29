@@ -137,10 +137,10 @@ theorem nativeC60EYOrderedDefect_eq_EX :
   | atom g =>
       simp [nativeC60EYOrderedDefect, nativeC60EYSignedAtoms,
         nativeC60EYSignedDefect, nativeC60EYPrimitiveDefect,
-        nativeC60EXFoldDefect]
+        nativeC60EXFoldDefect, NativeC60AXStep.fold]
   | refl a =>
       simp [nativeC60EYOrderedDefect, nativeC60EYSignedAtoms,
-        nativeC60EXFoldDefect]
+        nativeC60EXFoldDefect, NativeC60AXStep.fold]
   | symm p ih =>
       change (((nativeC60EYSignedAtoms T p).reverse.map
         (nativeC60EYFlip T)).map
