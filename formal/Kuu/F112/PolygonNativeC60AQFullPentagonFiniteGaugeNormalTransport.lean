@@ -129,12 +129,17 @@ theorem nativeC60EZConjugatedNormal_eq
       simpa using hmem
     have hback := nativeC60EZConjugation_stable_DT
       (nativeC60EZConjugatedSelectedPairs T obs A c) c⁻¹ hc
+    have hback' :
+        c⁻¹ * (c * nativeC60EYPrimitiveDefect T obs a * c⁻¹) *
+          c ∈ nativeC60DTNormalClosure
+            (nativeC60EZConjugatedSelectedPairs T obs A c) := by
+      simpa only [inv_inv] using hback
     have hreduce :
         c⁻¹ * (c * nativeC60EYPrimitiveDefect T obs a * c⁻¹) *
           c = nativeC60EYPrimitiveDefect T obs a := by
       group
-    rw [hreduce] at hback
-    exact hback
+    rw [hreduce] at hback'
+    simpa using hback'
 
 /-- The ordered finite product of ORIGINAL signed typed atomic defects
 intertwines the inner gauge action. Reordering would invalidate this. -/
