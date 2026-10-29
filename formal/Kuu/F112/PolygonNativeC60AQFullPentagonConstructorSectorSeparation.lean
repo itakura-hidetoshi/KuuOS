@@ -156,6 +156,54 @@ theorem nativeC60FGActualTree_cross_constructor_not_mem
   nativeC60FGCrossConstructor_defect_not_mem_DVKernel S F
     (nativeK5DOTreeWord tree) ht
 
+/-- Faithfulness of the entire ORIGINAL dependent complete-code DV
+map inside ONE actual original constructor sector. This is a proof
+obligation, not an assumption that arbitrary C60 frames satisfy it. -/
+def NativeC60FGSectorFaithful
+    (word : List Bool) (tag : NativeC60FGConstructorTag) : Prop :=
+  ∀ a b : NativeC60DSCompleteEighteenCode S F,
+    nativeC60FGOriginalConstructorTag S F a = tag →
+    nativeC60FGOriginalConstructorTag S F b = tag →
+    nativeC60DVTransportCompleteCode S F word a =
+      nativeC60DVTransportCompleteCode S F word b → a = b
+
+/-- Exact localization: full DV complete-code injectivity is
+equivalent to faithfulness within EACH of the three ACTUAL
+assoc, post and pre generator sectors. There are NO cross-sector
+code collisions by the preceding genuine constructor theorem. -/
+theorem nativeC60FGCompleteCode_injective_iff_three_sectors
+    (word : List Bool) :
+    Function.Injective (nativeC60DVTransportCompleteCode S F word) ↔
+      NativeC60FGSectorFaithful S F word .assoc ∧
+      NativeC60FGSectorFaithful S F word .post ∧
+      NativeC60FGSectorFaithful S F word .pre := by
+  constructor
+  · intro hinj
+    exact ⟨(fun a b _ _ hab => hinj hab),
+      (fun a b _ _ hab => hinj hab),
+      (fun a b _ _ hab => hinj hab)⟩
+  · rintro ⟨ha, hpost, hpre⟩ a b hab
+    have htag := nativeC60FGCollision_preserves_constructor S F word hab
+    cases htag0 : nativeC60FGOriginalConstructorTag S F a with
+    | assoc =>
+        exact ha a b htag0 (htag0 ▸ htag.symm) hab
+    | post =>
+        exact hpost a b htag0 (htag0 ▸ htag.symm) hab
+    | pre =>
+        exact hpre a b htag0 (htag0 ▸ htag.symm) hab
+
+/-- FC transports the exact three-sector obstruction localization
+through the REAL noncommutative FreeGroup.map of complete 18D codes,
+not a quotient, parity observer, or geometric 19D filler. -/
+theorem nativeC60FGFullFree_injective_iff_three_sectors
+    (word : List Bool) :
+    Function.Injective (nativeC60DVFullWordTransport S F word) ↔
+      NativeC60FGSectorFaithful S F word .assoc ∧
+      NativeC60FGSectorFaithful S F word .post ∧
+      NativeC60FGSectorFaithful S F word .pre :=
+  (nativeC60FCTransport_injective_iff_code S F word).trans
+    (nativeC60FGCompleteCode_injective_iff_three_sectors S F word)
+
 end ActualConstructorSectors
 
 #print axioms NativeC60FGConstructorTag
@@ -166,6 +214,9 @@ end ActualConstructorSectors
 #print axioms nativeC60FGCrossConstructor_codes_ne
 #print axioms nativeC60FGCrossConstructor_defect_not_mem_DVKernel
 #print axioms nativeC60FGActualTree_cross_constructor_not_mem
+#print axioms NativeC60FGSectorFaithful
+#print axioms nativeC60FGCompleteCode_injective_iff_three_sectors
+#print axioms nativeC60FGFullFree_injective_iff_three_sectors
 
 end
 end Kuu.F112.Physical
