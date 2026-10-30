@@ -100,9 +100,14 @@ private noncomputable instance nativeGJ2CountableDepthRotationRoute
 section OriginalNineConstructors
 
 variable {D : Type uD} [Category.{vD} D] [Countable D]
-variable [∀ a b : D, Countable (a ⟶ b)]
+variable [hhomD : ∀ a b : D, Countable (a ⟶ b)]
 variable {E : Type uE} [Category.{vE} E] [Countable E]
-variable [∀ x y : E, Countable (x ⟶ y)]
+variable [hhomE : ∀ x y : E, Countable (x ⟶ y)]
+
+/- Both independent input Hom-fiber Countable assumptions must
+be present during the generated constructor-encoding declarations.
+They do NOT follow from Countable D/E alone. -/
+include hhomD hhomE
 
 /- Derive a faithful Nat code (plus injectivity theorem) for the
 ACTUAL dependent nine-constructor F55 Type-valued proof grammar.
