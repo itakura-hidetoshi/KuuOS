@@ -75,8 +75,8 @@ theorem nativeGK4H_rawGrade_compose
     (u : KuuNativeF45Tree.DepthRotationRoute p t₁ t₂)
     (v : KuuNativeF45Tree.DepthRotationRoute p t₂ t₃) :
     nativeGK4GRawGrade t₁ t₃ (.trans u v) =
-      nativeGK4GRawGrade t₁ t₂ u &&
-        nativeGK4GRawGrade t₂ t₃ v := by
+      (nativeGK4GRawGrade t₁ t₂ u &&
+        nativeGK4GRawGrade t₂ t₃ v) := by
   change decide (u.rotationCount + v.rotationCount = 0) =
     (decide (u.rotationCount = 0) && decide (v.rotationCount = 0))
   by_cases hu : u.rotationCount = 0
@@ -97,7 +97,7 @@ def nativeGK4H_p92Compose
   _root_.Quotient.liftOn₂ u v
     (fun r s => nativeF55P92AssocRouteClass t₁ t₃ (.trans r s))
     (by
-      intro r r' s s' hrr' hss'
+      intro r s r' s' hrr' hss'
       apply _root_.Quotient.sound
       exact hrr'.elim (fun firstCell => hss'.elim (fun secondCell =>
         ⟨NativeF55P92AssocComparison.trans
@@ -149,7 +149,7 @@ def nativeGK4H_structuralCompose
   _root_.Quotient.liftOn₂ u v
     (fun r s => nativeGK4EStructuralRouteClass t₁ t₃ (.trans r s))
     (by
-      intro r r' s s' hrr' hss'
+      intro r s r' s' hrr' hss'
       apply _root_.Quotient.sound
       exact hrr'.elim (fun firstCell => hss'.elim (fun secondCell =>
         ⟨NativeF55StructuralComparison.trans
@@ -172,7 +172,7 @@ theorem nativeGK4H_p92Grade_compose
     (u : NativeF55P92AssocRouteClasses t₁ t₂)
     (v : NativeF55P92AssocRouteClasses t₂ t₃) :
     nativeGK4GP92Grade t₁ t₃ (nativeGK4H_p92Compose t₁ t₂ t₃ u v) =
-      nativeGK4GP92Grade t₁ t₂ u && nativeGK4GP92Grade t₂ t₃ v := by
+      (nativeGK4GP92Grade t₁ t₂ u && nativeGK4GP92Grade t₂ t₃ v) := by
   refine _root_.Quotient.inductionOn u ?_
   intro r
   refine _root_.Quotient.inductionOn v ?_
@@ -186,8 +186,8 @@ theorem nativeGK4H_structuralGrade_compose
     (v : NativeGK4EStructuralRouteClasses t₂ t₃) :
     nativeGK4GStructuralGrade t₁ t₃
         (nativeGK4H_structuralCompose t₁ t₂ t₃ u v) =
-      nativeGK4GStructuralGrade t₁ t₂ u &&
-        nativeGK4GStructuralGrade t₂ t₃ v := by
+      (nativeGK4GStructuralGrade t₁ t₂ u &&
+        nativeGK4GStructuralGrade t₂ t₃ v) := by
   refine _root_.Quotient.inductionOn u ?_
   intro r
   refine _root_.Quotient.inductionOn v ?_
@@ -305,12 +305,12 @@ Boolean grade. This is an exact obstruction, not an observer-created
 3-cell or a category-theoretic statement about a different quotient. -/
 theorem nativeGK4H_p92Grade_cannot_reflect_unit
     (r : KuuNativeF45Tree.DepthRotationRoute p t₁ t₂) :
-    nativeGK4GP92Grade t₁ t₂
+    (nativeGK4GP92Grade t₁ t₂
         (nativeGK4H_p92Compose t₁ t₁ t₂
           (nativeGK4H_p92Unit t₁)
           (nativeF55P92AssocRouteClass t₁ t₂ r)) =
       nativeGK4GP92Grade t₁ t₂
-        (nativeF55P92AssocRouteClass t₁ t₂ r) ∧
+        (nativeF55P92AssocRouteClass t₁ t₂ r)) ∧
     nativeGK4H_p92Compose t₁ t₁ t₂
         (nativeGK4H_p92Unit t₁)
         (nativeF55P92AssocRouteClass t₁ t₂ r) ≠
@@ -364,7 +364,7 @@ theorem nativeGK4H_physical_north_bool_multiplicative
       nativeGK4GP92Grade nativeGK4FPhysicalNorthTriple
           nativeGK4FPhysicalNorthTriple u &&
         nativeGK4GP92Grade nativeGK4FPhysicalNorthTriple
-          nativeGK4FPhysicalNorthTriple v :=
+          nativeGK4FPhysicalNorthTriple v) :=
   nativeGK4H_p92Grade_compose _ _ _ u v
 
 #print axioms nativeGK4H_raw_rotationCount_compose
