@@ -45,8 +45,8 @@ raw proof constructor histories are never quotiented. -/
 abbrev NativeC60GDCoreAtomTotal
     {A : Type u} {H : Type v}
     (history : A → H) (charge : A → ℤ) : Type u :=
-  Σ ep : A × A,
-    history ep.1 = history ep.2 ∧ charge ep.1 = charge ep.2
+  { ep : A × A //
+    history ep.1 = history ep.2 ∧ charge ep.1 = charge ep.2 }
 
 /-- The original entire indexed observer-conservative 15D
 proof total, NOT its quotient or free-word history observer. -/
@@ -63,7 +63,7 @@ def nativeC60GDEncodeCore
     (history : A → H) (charge : A → ℤ) :
     {x y : A} → NativeObserverCoreFifteenCell history charge x y →
       NativeC60GAPlainRawSyntax (NativeC60GDCoreAtomTotal history charge) A
-  | _, _, .atom hword hcharge => .atom ⟨(_, _), ⟨hword, hcharge⟩⟩
+  | x, y, .atom hword hcharge => .atom ⟨(x, y), ⟨hword, hcharge⟩⟩
   | _, _, .refl x => .refl x
   | _, _, .symm h => .symm (nativeC60GDEncodeCore history charge h)
   | _, _, .trans h k =>
