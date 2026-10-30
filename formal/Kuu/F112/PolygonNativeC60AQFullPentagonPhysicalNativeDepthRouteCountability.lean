@@ -270,11 +270,11 @@ theorem nativeGIDecode_encodeLocal
   | assoc first second third =>
       simp [nativeGIEncodeLocal, nativeGIDecodeLocal]
   | leftContext step later ih =>
-      simp [nativeGIEncodeLocal, nativeGIDecodeLocal,
-        nativeGIPackTree, ih, nativeGILocalLeftExact_eq]
+      simp [nativeGIEncodeLocal, nativeGIDecodeLocal, ih]
+      exact nativeGILocalLeftExact_eq step later
   | rightContext earlier step ih =>
-      simp [nativeGIEncodeLocal, nativeGIDecodeLocal,
-        nativeGIPackTree, ih, nativeGILocalRightExact_eq]
+      simp [nativeGIEncodeLocal, nativeGIDecodeLocal, ih]
+      exact nativeGILocalRightExact_eq earlier step
 
 /-- Countably many original well-typed three-stage assoc atoms,
 not merely countably many numeric depth vectors. -/
