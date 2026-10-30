@@ -72,7 +72,7 @@ abbrev NativeGICastDepthToken
     (E : Type uE) [Category.{vE} E] :
     Type (max (max uD uE) (max vD vE)) :=
   Σ raw : NativeGHOriginalF45Total p D E,
-    Σ n' : Nat, Σ m' : Nat, (raw.1.n = n') × (raw.1.m = m')
+    Σ n' : Nat, Σ m' : Nat, (raw.1.n = n') ∧ (raw.1.m = m')
 
 /-- Original chain/cast/trans/left-context/right-context finite syntax.
 The primitive tokens carry complete original F45 proof data. -/
@@ -120,7 +120,7 @@ def nativeGIEncodeDepth
   | _, _, _, _, _, _, _, _, _, _, _, _, _, _, .chain path =>
       .chain (nativeGIPackChain path)
   | _, _, _, _, _, _, _, _, _, _, _, _, _, _, .castDepths hn hm tree =>
-      .castDepths ⟨nativeGIPackTree tree, _, _, (hn, hm)⟩
+      .castDepths ⟨nativeGIPackTree tree, _, _, ⟨hn, hm⟩⟩
   | _, _, _, _, _, _, _, _, _, _, _, _, _, _, .trans first second =>
       .trans (nativeGIEncodeDepth first) (nativeGIEncodeDepth second)
   | _, _, _, _, _, _, _, _, _, _, _, _, _, _, .leftContext route later =>
@@ -267,7 +267,7 @@ noncomputable def nativeGIDecodeDepth
       some ⟨⟨a, b, x, y, ma, pa, mb, pb, n, n, m, m,
         first, last⟩, .chain chain⟩
   | .castDepths ⟨⟨⟨a, b, x, y, n, m, ma, pa, mb, pb⟩,
-      tree⟩, n', m', (hn, hm)⟩ =>
+      tree⟩, n', m', ⟨hn, hm⟩⟩ =>
       some ⟨⟨a, b, x, y, ma, pa, mb, pb, n, n', m, m',
         tree, KuuNativeF45Tree.castDepths hn hm tree⟩,
         .castDepths hn hm tree⟩
@@ -375,13 +375,13 @@ theorem nativeGIDecode_encodeDepth
         nativeGIPackTree]
   | trans left right ihLeft ihRight =>
       simp [nativeGIEncodeDepth, nativeGIDecodeDepth,
-        ihLeft, ihRight, nativeGIDepthTransExact_eq]
+        ihLeft, ihRight] <;> exact nativeGIDepthTransExact_eq left right
   | leftContext route later ih =>
-      simp [nativeGIEncodeDepth, nativeGIDecodeDepth,
-        ih, nativeGIDepthLeftExact_eq]
+      simp [nativeGIEncodeDepth, nativeGIDecodeDepth, ih] <;>
+        exact nativeGIDepthLeftExact_eq route later
   | rightContext earlier route ih =>
-      simp [nativeGIEncodeDepth, nativeGIDecodeDepth,
-        ih, nativeGIDepthRightExact_eq]
+      simp [nativeGIEncodeDepth, nativeGIDecodeDepth, ih] <;>
+        exact nativeGIDepthRightExact_eq earlier route
 
 /-- The complete original two-Nat proof-transport constructor tokens
 are Countable, including the actual dependent F45 proof and BOTH
