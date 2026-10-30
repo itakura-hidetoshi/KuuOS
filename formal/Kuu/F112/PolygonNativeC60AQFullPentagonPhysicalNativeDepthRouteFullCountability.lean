@@ -373,7 +373,8 @@ theorem nativeGIDecode_encodeDepth
   | castDepths hn hm tree =>
       cases hn
       cases hm
-      rfl
+      simp [nativeGIEncodeDepth, nativeGIDecodeDepth,
+        nativeGIPackTree, KuuNativeF45Tree.castDepths]
   | trans left right ihLeft ihRight =>
       simp [nativeGIEncodeDepth, nativeGIDecodeDepth,
         ihLeft, ihRight] <;> exact nativeGIDepthTransExact_eq left right
