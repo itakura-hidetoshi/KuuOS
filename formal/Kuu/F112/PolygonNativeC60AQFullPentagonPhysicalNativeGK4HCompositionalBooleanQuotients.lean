@@ -361,7 +361,7 @@ theorem nativeGK4H_physical_north_bool_multiplicative
         (nativeGK4H_p92Compose
           nativeGK4FPhysicalNorthTriple nativeGK4FPhysicalNorthTriple
           nativeGK4FPhysicalNorthTriple u v) =
-      nativeGK4GP92Grade nativeGK4FPhysicalNorthTriple
+      (nativeGK4GP92Grade nativeGK4FPhysicalNorthTriple
           nativeGK4FPhysicalNorthTriple u &&
         nativeGK4GP92Grade nativeGK4FPhysicalNorthTriple
           nativeGK4FPhysicalNorthTriple v) :=
