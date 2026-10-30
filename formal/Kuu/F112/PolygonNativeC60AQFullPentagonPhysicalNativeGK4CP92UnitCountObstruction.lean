@@ -282,6 +282,25 @@ theorem nativeGK4C_no_structural_P92B_return_of_tree
   exact nativeGK4C_no_all_seam_P92B_of_tree tree
     ⟨nativeGK4RestrictReturnToSeams ret⟩
 
+/-! ### ACTUAL C60 physical specialization, not a merely formal tree. -/
+
+/-- The independent C60 north hexagon contains the genuine original
+F45 native stage at sector 0. Its new structural left-unit seam is
+not realizable in the original P92B presentation. -/
+theorem nativeGK4C_physical_north_hexagon_no_all_seam_P92B :
+    ¬ Nonempty (NativeGK4SeamP92Realization
+      (.hexagon (.top 0)) Site Site) := by
+  exact nativeGK4C_no_all_seam_P92B_of_tree (northHexagonNativeUnit 0)
+
+/-- Therefore even an arbitrary boundary-preserving total
+StructuralComparison-to-P92B return cannot exist on this genuine
+physical C60 hexagon, independently of injectivity requirements. -/
+theorem nativeGK4C_physical_north_hexagon_no_return :
+    ¬ Nonempty (NativeGK4StructuralP92Return
+      (.hexagon (.top 0)) Site Site) := by
+  exact nativeGK4C_no_structural_P92B_return_of_tree
+    (northHexagonNativeUnit 0)
+
 #print axioms KuuNativeF45Tree.DepthRotationRoute.gk4cUnitCount
 #print axioms nativeGK4C_unitCount_trans
 #print axioms nativeGK4C_unitCount_leftContext
@@ -295,6 +314,8 @@ theorem nativeGK4C_no_structural_P92B_return_of_tree
 #print axioms nativeGK4C_rightUnit_no_P92B
 #print axioms nativeGK4C_no_all_seam_P92B_of_tree
 #print axioms nativeGK4C_no_structural_P92B_return_of_tree
+#print axioms nativeGK4C_physical_north_hexagon_no_all_seam_P92B
+#print axioms nativeGK4C_physical_north_hexagon_no_return
 
 end
 end Kuu.F112.Physical
