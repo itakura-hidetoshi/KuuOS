@@ -39,6 +39,15 @@ universe uD vD uE vE
 /-! Actual unmodified, proof-relevant native source types receive
 local Countable instances only from explicitly small D/E categories. -/
 
+/-- Original F19/F28-style Blocks have countable dependent fibers
+ONLY when the input category objects and each Hom fiber are countable. -/
+private noncomputable instance nativeGJ2CountableBlocks
+    {D : Type uD} [Category.{vD} D]
+    [Countable D] [∀ a b : D, Countable (a ⟶ b)]
+    {a b : D} : Countable (KuuNativeBlocks a b) :=
+  nativeGFOriginalBlocksFiber_countable
+    inferInstance (fun _ _ => inferInstance) a b
+
 private noncomputable instance nativeGJ2CountableF45
     {p : Polygon}
     {D : Type uD} [Category.{vD} D]
@@ -95,9 +104,10 @@ variable [∀ a b : D, Countable (a ⟶ b)]
 variable {E : Type uE} [Category.{vE} E] [Countable E]
 variable [∀ x y : E, Countable (x ⟶ y)]
 
-/-- Derive a faithful Nat code (plus injectivity theorem) for the
+/- Derive a faithful Nat code (plus injectivity theorem) for the
 ACTUAL dependent nine-constructor F55 Type-valued proof grammar.
-No scalar observer, quotient or invented 3-cell operation appears. -/
+The command is a deriving declaration, not a theorem declaration,
+so this is an ordinary comment rather than a doc-comment. -/
 deriving instance Countable for KuuNativeF45Tree.DepthRotationRoute.PresentedCell
 
 end OriginalNineConstructors
