@@ -258,8 +258,8 @@ noncomputable def nativeGGDecodeAxisTrace {C : Type u}
       (NativeGFOriginalBlocksTotal C) (NativeGGOriginalOneStepTotal C) →
     Option (NativeGGOriginalAxisTraceTotal C)
   | .refl ⟨x, y, p⟩ => some ⟨x, y, 0, p, p, .refl p⟩
-  | .snoc prefix step =>
-      (nativeGGDecodeAxisTrace prefix).bind
+  | .snoc priorCode step =>
+      (nativeGGDecodeAxisTrace priorCode).bind
         (fun prior => nativeGGAxisTraceAppendExact prior step)
 
 /-- The exact append of two correctly matching genuine original
