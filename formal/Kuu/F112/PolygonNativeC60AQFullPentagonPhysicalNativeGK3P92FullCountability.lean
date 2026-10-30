@@ -41,7 +41,7 @@ theorem nativeGK3P92TransExact_eq
       (nativeGK3PackP92 right : NativeGKOriginalP92Total p D E) =
     some (nativeGK3PackP92 (.trans left right) :
       NativeGKOriginalP92Total p D E) := by
-  simp [nativeGK3P92TransExact, nativeGK3PackP92]
+  simp [nativeGK3P92TransExact, nativeGK3PackP92, nativeGJ2PackRoute]
 
 theorem nativeGK3P92LeftExact_eq
     {p : Polygon}
@@ -61,7 +61,8 @@ theorem nativeGK3P92LeftExact_eq
       (nativeGIPackTree later) =
     some (nativeGK3PackP92 (.leftContext cell later) :
       NativeGKOriginalP92Total p D E) := by
-  simp [nativeGK3P92LeftExact, nativeGK3PackP92, nativeGIPackTree]
+  simp [nativeGK3P92LeftExact, nativeGK3PackP92,
+    nativeGJ2PackRoute, nativeGIPackTree]
 
 theorem nativeGK3P92RightExact_eq
     {p : Polygon}
@@ -81,7 +82,8 @@ theorem nativeGK3P92RightExact_eq
       (nativeGK3PackP92 cell : NativeGKOriginalP92Total p D E) =
     some (nativeGK3PackP92 (.rightContext earlier cell) :
       NativeGKOriginalP92Total p D E) := by
-  simp [nativeGK3P92RightExact, nativeGK3PackP92, nativeGIPackTree]
+  simp [nativeGK3P92RightExact, nativeGK3PackP92,
+    nativeGJ2PackRoute, nativeGIPackTree]
 
 theorem nativeGK3P92PreExact_eq
     {p : Polygon}
@@ -124,9 +126,6 @@ theorem nativeGK3P92PostExact_eq
     some (nativeGK3PackP92 (.postcompose cell suffix) :
       NativeGKOriginalP92Total p D E) := by
   simp [nativeGK3P92PostExact, nativeGJ2PackRoute, nativeGK3PackP92]
-
-/-- Faithful primitive pentagon code evaluates to the ACTUAL
-original four-F45-tree primitive 3-cell, including both F54 paths. -/
 
 /-- Faithful inverse on ALL nine constructors of the distinct original
 P92B Type-valued comparison proof, with no omitted witness. -/
@@ -211,7 +210,7 @@ theorem nativeGK3P92OriginalTotal_countable
     exact Option.some.inj hs
   exact hinj.countable
 
-/-- Every original F55 dependent proof fiber is Countable at its
+/-- Every original P92B dependent proof fiber is Countable at its
 actual fully parallel F54 Type-valued source and target. -/
 theorem nativeGK3P92OriginalFiber_countable
     {p : Polygon}
@@ -238,7 +237,7 @@ theorem nativeGK3P92OriginalFiber_countable
     exact eq_of_heq (Sigma.mk.inj h).2
   exact hinj.countable
 
-/-- The ACTUAL original raw F55 total on true physical C60 Site
+/-- The ACTUAL original raw P92B total on true physical C60 Site
 axes is unconditionally Countable, retaining the complete proof. -/
 theorem nativeGK3PhysicalP92Total_countable (p : Polygon) :
     Countable (NativeGKOriginalP92Total p Site Site) :=
@@ -249,7 +248,7 @@ theorem nativeGK3PhysicalP92Total_countable (p : Polygon) :
     nativeC60GEPhysicalIncidenceHom_countable
 
 /-- Each actual parallel C60 F54 raw route pair has a Countable
-original F55 nine-constructor proof fiber, without quotienting. -/
+original P92B nine-constructor proof fiber, without quotienting. -/
 theorem nativeGK3PhysicalP92Fiber_countable
     (p : Polygon)
     {a b x y : Site}
@@ -266,7 +265,7 @@ theorem nativeGK3PhysicalP92Fiber_countable
     nativeC60GEPhysicalSite_countable
     nativeC60GEPhysicalIncidenceHom_countable r s
 
-/-- All true physical C60 polygons carry Countable original F55
+/-- All true physical C60 polygons carry Countable original P92B
 proof totals with full independent two-axis history. -/
 theorem nativeGK3PhysicalAllPolygonP92_countable :
     Countable (Σ p : Polygon,
