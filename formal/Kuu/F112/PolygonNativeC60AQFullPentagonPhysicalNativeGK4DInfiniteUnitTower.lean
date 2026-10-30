@@ -72,6 +72,8 @@ theorem nativeGK4DUnitTower_injective
   have hcount := congrArg
     (fun route : KuuNativeF45Tree.DepthRotationRoute p tree tree =>
       route.gk4cUnitCount) hij
+  change (nativeGK4DUnitTower tree i).gk4cUnitCount =
+    (nativeGK4DUnitTower tree j).gk4cUnitCount at hcount
   rw [nativeGK4DUnitTower_count, nativeGK4DUnitTower_count] at hcount
   omega
 
@@ -154,7 +156,7 @@ theorem nativeGK4DUnitTower_exact_cardinality
     {ma mb : KuuNativeBlocks a b}
     {pa pb : KuuNativeBlocks x y}
     (tree : KuuNativeF45Tree p n m ma pa mb pb) :
-    #(KuuNativeF45Tree.DepthRotationRoute p tree tree) = ℵ₀ := by
+    Cardinal.mk (KuuNativeF45Tree.DepthRotationRoute p tree tree) = ℵ₀ := by
   letI : Countable (KuuNativeF45Tree.DepthRotationRoute p tree tree) :=
     nativeGIOriginalDepthFiber_countable
       hobjD hhomD hobjE hhomE tree tree
@@ -175,7 +177,7 @@ theorem nativeGK4D_physical_north_unitTower_injective :
 C60 north-hexagon F45 stage has exact cardinality aleph-null,
 despite the finite 60-dart / 32-face physical test geometry. -/
 theorem nativeGK4D_physical_north_unitTower_aleph0 :
-    #(KuuNativeF45Tree.DepthRotationRoute (.hexagon (.top 0))
+    Cardinal.mk (KuuNativeF45Tree.DepthRotationRoute (.hexagon (.top 0))
       (northHexagonNativeUnit 0) (northHexagonNativeUnit 0)) = ℵ₀ :=
   nativeGK4DUnitTower_exact_cardinality
     nativeC60GEPhysicalSite_countable
