@@ -53,6 +53,31 @@ abbrev NativeGK4StructuralP92Return
   ∀ cell : NativeGK3OriginalStructuralTotal p D E,
     NativeF55P92AssocComparison p cell.1.1.2 cell.1.2
 
+/-- Any complete seam realization extends by ORIGINAL structural
+induction. The full typed endpoints are implicit indices of EACH
+recursive invocation (not fixed section variables), so trans may
+recurse across an intermediate F54 route. -/
+def nativeGK4InterpretStructural
+    {p : Polygon}
+    {D : Type uD} [Category.{vD} D]
+    {E : Type uE} [Category.{vE} E]
+    (h : NativeGK4SeamP92Realization p D E)
+    {a b : D} {x y : E}
+    {ma mb : KuuNativeBlocks a b}
+    {pa pb : KuuNativeBlocks x y}
+    {n n' m m' : Nat}
+    {first : KuuNativeF45Tree p n m ma pa mb pb}
+    {last : KuuNativeF45Tree p n' m' ma pa mb pb}
+    {r s : KuuNativeF45Tree.DepthRotationRoute p first last}
+    (cell : NativeF55StructuralComparison p r s) :
+    NativeF55P92AssocComparison p r s :=
+  match cell with
+  | .original p92 => p92
+  | .structural seam => h (nativeGK2PackSeam seam)
+  | .trans left right =>
+      .trans (nativeGK4InterpretStructural h left)
+        (nativeGK4InterpretStructural h right)
+
 section Extension
 
 variable {p : Polygon}
@@ -65,19 +90,6 @@ variable {n n' m m' : Nat}
 variable {first : KuuNativeF45Tree p n m ma pa mb pb}
 variable {last : KuuNativeF45Tree p n' m' ma pa mb pb}
 variable {r s t : KuuNativeF45Tree.DepthRotationRoute p first last}
-
-/-- Any complete seam realization extends by ORIGINAL structural
-induction. This does not identify P92B and structural presentations. -/
-def nativeGK4InterpretStructural
-    (h : NativeGK4SeamP92Realization p D E)
-    (cell : NativeF55StructuralComparison p r s) :
-    NativeF55P92AssocComparison p r s :=
-  match cell with
-  | .original p92 => p92
-  | .structural seam => h (nativeGK2PackSeam seam)
-  | .trans left right =>
-      .trans (nativeGK4InterpretStructural h left)
-        (nativeGK4InterpretStructural h right)
 
 /-- The original P92B input is retained literally, not quotiented. -/
 theorem nativeGK4InterpretStructural_original
@@ -141,4 +153,5 @@ theorem nativeGK4Structural_return_nonempty_iff_seams
 #print axioms nativeGK4RestrictReturnToSeams
 #print axioms nativeGK4Structural_return_nonempty_iff_seams
 
+end
 end Kuu.F112.Physical
