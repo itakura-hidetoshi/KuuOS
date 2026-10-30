@@ -78,8 +78,8 @@ noncomputable def nativeC60GDDecodeCore
     (history : A → H) (charge : A → ℤ) :
     NativeC60GAPlainRawSyntax (NativeC60GDCoreAtomTotal history charge) A →
       Option (NativeC60GDOriginalCoreTotal history charge)
-  | .atom ⟨⟨x, y⟩, ⟨hword, hcharge⟩⟩ =>
-      some ⟨(x, y), .atom hword hcharge⟩
+  | .atom atom =>
+      some ⟨atom.1, .atom atom.2.1 atom.2.2⟩
   | .refl x => some ⟨(x, x), .refl x⟩
   | .symm h =>
       (nativeC60GDDecodeCore history charge h).bind
