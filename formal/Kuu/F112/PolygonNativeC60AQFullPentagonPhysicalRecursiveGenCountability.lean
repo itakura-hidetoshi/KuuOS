@@ -197,10 +197,10 @@ theorem nativeC60GBDecode_encodeGen
         nativeC60GBDecodeAssoc]
   | post r h ih =>
       simp [nativeC60GBDecodeGen, nativeC60GBEncodeGen, ih,
-        nativeC60GBDecodePost]
+        nativeC60GBDecodePost, nativeC60DRPackSeventeen]
   | pre h r ih =>
       simp [nativeC60GBDecodeGen, nativeC60GBEncodeGen, ih,
-        nativeC60GBDecodePre]
+        nativeC60GBDecodePre, nativeC60DRPackSeventeen]
 
 /-- All original 18D recursively typed generators are Countable
 under countability of the ACTUAL complete raw17D path total;
