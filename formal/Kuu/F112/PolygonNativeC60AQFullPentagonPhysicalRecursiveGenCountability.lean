@@ -181,6 +181,16 @@ noncomputable def nativeC60GBDecodeGen
       (nativeC60GBDecodeGen S F r).bind
         (fun rr => nativeC60GBDecodePre S F h rr)
 
+/-- Eliminating a proof of endpoint conjunction does not change
+a value which does not depend on either proof component. This
+closes the genuine dependent Sigma-decoder reflexive case without
+assuming any equality between distinct Type-valued witnesses. -/
+private theorem nativeC60GBAndRec_const
+    {p q : Prop} {α : Type u} (x : α) (h : p ∧ q) :
+    And.rec (fun (_ : p) (_ : q) => x) h = x := by
+  cases h
+  rfl
+
 /-- Strict faithfulness: decode-encode is the identity on
 EVERY original recursively indexed 18D generator. No quotient,
 proposition-only truncation or encoding irreversibility. -/
@@ -198,11 +208,11 @@ theorem nativeC60GBDecode_encodeGen
   | post r h ih =>
       simp only [nativeC60GBDecodeGen, nativeC60GBEncodeGen]
       rw [ih]
-      simp [nativeC60GBDecodePost, nativeC60DRPackSeventeen]
+      simp [nativeC60GBDecodePost, nativeC60DRPackSeventeen, nativeC60GBAndRec_const]
   | pre h r ih =>
       simp only [nativeC60GBDecodeGen, nativeC60GBEncodeGen]
       rw [ih]
-      simp [nativeC60GBDecodePre, nativeC60DRPackSeventeen]
+      simp [nativeC60GBDecodePre, nativeC60DRPackSeventeen, nativeC60GBAndRec_const]
 
 /-- All original 18D recursively typed generators are Countable
 under countability of the ACTUAL complete raw17D path total;
