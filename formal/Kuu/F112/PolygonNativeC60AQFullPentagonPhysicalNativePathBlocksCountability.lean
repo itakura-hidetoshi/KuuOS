@@ -90,7 +90,7 @@ theorem nativeGFDecode_encodePath {C : Type u} [Category.{v} C]
     nativeGFDecodePath (nativeGFEncodePath p) =
       some (⟨x, y, p⟩ : NativeGFOriginalPathTotal C) := by
   induction p with
-  | nil x => rfl
+  | nil => simp [nativeGFEncodePath, nativeGFDecodePath]
   | snoc p f ih =>
       simp [nativeGFEncodePath, nativeGFDecodePath, ih]
 
@@ -191,7 +191,7 @@ theorem nativeGFDecode_encodeBlocks
     nativeGFDecodeBlocks (nativeGFEncodeBlocks b) =
       some (⟨x, y, b⟩ : NativeGFOriginalBlocksTotal C) := by
   induction b with
-  | empty x => rfl
+  | empty => simp [nativeGFEncodeBlocks, nativeGFDecodeBlocks]
   | snoc b q ih =>
       simp [nativeGFEncodeBlocks, nativeGFDecodeBlocks, ih]
 
