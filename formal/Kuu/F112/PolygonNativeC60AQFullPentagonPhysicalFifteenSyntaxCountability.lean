@@ -103,8 +103,9 @@ theorem nativeC60GDDecode_encodeCore
     {x y : A} (p : NativeObserverCoreFifteenCell history charge x y) :
     nativeC60GDDecodeCore history charge (nativeC60GDEncodeCore history charge p) =
       some (⟨(x, y), p⟩ : NativeC60GDOriginalCoreTotal history charge) := by
-  induction p generalizing x y with
-  | atom hword hcharge => rfl
+  induction p with
+  | atom hword hcharge =>
+      simp [nativeC60GDEncodeCore, nativeC60GDDecodeCore]
   | refl a => rfl
   | symm h ih =>
       simp [nativeC60GDDecodeCore, nativeC60GDEncodeCore, ih]
