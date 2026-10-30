@@ -180,10 +180,10 @@ theorem nativeGK3StructuralDecode_encode
   induction cell with
   | original p92 =>
       simp [nativeGK3StructuralEncode, nativeGK3StructuralDecode,
-        nativeGK3PackP92, nativeGK3PackStructural]
+        nativeGK3PackP92, nativeGK3PackStructural] <;> rfl
   | structural seam =>
       simp [nativeGK3StructuralEncode, nativeGK3StructuralDecode,
-        nativeGK2PackSeam, nativeGK3PackStructural]
+        nativeGK2PackSeam, nativeGK3PackStructural] <;> rfl
   | trans left right ihLeft ihRight =>
       simp [nativeGK3StructuralEncode, nativeGK3StructuralDecode,
         ihLeft, ihRight]
