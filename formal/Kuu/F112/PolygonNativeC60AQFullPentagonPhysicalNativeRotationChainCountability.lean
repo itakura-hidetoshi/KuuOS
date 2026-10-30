@@ -246,11 +246,11 @@ theorem nativeGIDecode_encodeChain
       some (⟨⟨a, b, x, y, n, m, ma, pa, mb, pb⟩,
         first, last, chain⟩ : NativeGIOriginalChainTotal p D E) := by
   induction chain with
-  | refl tree =>
+  | refl =>
       simp [nativeGIEncodeChain, nativeGIDecodeChain, nativeGIPackTree]
   | snoc prior edge ih =>
-      simp [nativeGIEncodeChain, nativeGIDecodeChain,
-        ih, nativeGIChainAppendExact_eq]
+      simp [nativeGIEncodeChain, nativeGIDecodeChain, ih]
+      exact nativeGIChainAppendExact_eq prior edge
 
 theorem nativeGIOriginalChainTotal_countable
     {p : Polygon}
