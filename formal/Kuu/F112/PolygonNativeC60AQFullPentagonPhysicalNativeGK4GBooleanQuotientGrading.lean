@@ -238,7 +238,6 @@ theorem nativeGK4GPositiveTower_rotationCount
     (nativeGK4DUnitTower before k).rotationCount = 2
   rw [nativeGK4FBacktrack_rotationCount,
     nativeGK4GUnitTower_rotationCount]
-  omega
 
 /-- An explicit SECTION of the structural quotient's Bool grade.
 false witnesses a genuine original 2-edge backtrack; true witnesses
@@ -265,7 +264,7 @@ def nativeGK4GP92Section
 Bool, conditional ONLY on an actual typed original LocalRotation. -/
 theorem nativeGK4GStructuralSection_rightInverse
     (rot : KuuNativeF45Tree.LocalRotation p before after) :
-    Function.RightInverse (nativeGK4GStructuralGrade before before)
+    Function.LeftInverse (nativeGK4GStructuralGrade before before)
       (nativeGK4GStructuralSection rot) := by
   intro grade
   cases grade <;> rfl
@@ -274,7 +273,7 @@ theorem nativeGK4GStructuralSection_rightInverse
 represented truth values, without inventing a strict 3-cell. -/
 theorem nativeGK4GP92Section_rightInverse
     (rot : KuuNativeF45Tree.LocalRotation p before after) :
-    Function.RightInverse (nativeGK4GP92Grade before before)
+    Function.LeftInverse (nativeGK4GP92Grade before before)
       (nativeGK4GP92Section rot) := by
   intro grade
   cases grade <;> rfl
@@ -383,11 +382,11 @@ end RealRotation
 /-- The two quotient gradings are compatibly and explicitly split
 onto Bool by the ACTUAL north C60 triple F54 associator rotation. -/
 theorem nativeGK4G_physical_north_split_grading :
-    Function.RightInverse
+    Function.LeftInverse
       (nativeGK4GStructuralGrade
         nativeGK4FPhysicalNorthTriple nativeGK4FPhysicalNorthTriple)
       (nativeGK4GStructuralSection northHexagonNativeLeftRotation) ∧
-    Function.RightInverse
+    Function.LeftInverse
       (nativeGK4GP92Grade
         nativeGK4FPhysicalNorthTriple nativeGK4FPhysicalNorthTriple)
       (nativeGK4GP92Section northHexagonNativeLeftRotation) :=
