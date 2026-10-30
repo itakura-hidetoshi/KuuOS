@@ -98,25 +98,24 @@ Type-valued leaves, primitive order and two independent histories. -/
 def nativeGHEncodeF45
     {p : Polygon}
     {D : Type uD} [Category.{vD} D]
-    {E : Type uE} [Category.{vE} E]
-    {a b : D} {x y : E} {n m : Nat}
-    {ma mb : KuuNativeBlocks a b}
-    {pa pb : KuuNativeBlocks x y}
-    (tree : KuuNativeF45Tree p n m ma pa mb pb) :
+    {E : Type uE} [Category.{vE} E] :
+    {a b : D} → {x y : E} → {n m : Nat} →
+    {ma mb : KuuNativeBlocks a b} →
+    {pa pb : KuuNativeBlocks x y} →
+    KuuNativeF45Tree p n m ma pa mb pb →
     NativeGHF45PlainSyntax p
       (NativeGFOriginalBlocksTotal D)
       (NativeGFOriginalBlocksTotal E)
       (NativeGGOriginalAxisTraceTotal D)
-      (NativeGGOriginalAxisTraceTotal E) := by
-  induction tree with
-  | refl sector first second =>
-      exact .refl sector ⟨_, _, first⟩ ⟨_, _, second⟩
-  | leaf sector order first second =>
-      exact .leaf sector order
+      (NativeGGOriginalAxisTraceTotal E)
+  | _, _, _, _, _, _, _, _, _, _, .refl sector first second =>
+      .refl sector ⟨_, _, first⟩ ⟨_, _, second⟩
+  | _, _, _, _, _, _, _, _, _, _, .leaf sector order first second =>
+      .leaf sector order
         ⟨_, _, _, _, _, first⟩
         ⟨_, _, _, _, _, second⟩
-  | node first second ihFirst ihSecond =>
-      exact .node ihFirst ihSecond
+  | _, _, _, _, _, _, _, _, _, _, .node first second =>
+      .node (nativeGHEncodeF45 first) (nativeGHEncodeF45 second)
 
 /-- Partial node composition: accept only identical two-category
 objects AND original intermediate Blocks, with no invented Hom.
@@ -240,7 +239,10 @@ noncomputable def nativeGHDecodeF45At
   exact (nativeGHDecodeF45 code).bind (fun ⟨boundary, tree⟩ =>
     if h : boundary = (⟨a, b, x, y, n, m, ma, pa, mb, pb⟩ :
         NativeGHF45Boundary D E) then
-      some (h ▸ tree)
+      some (Eq.ndrec
+        (motive := fun q : NativeGHF45Boundary D E =>
+          KuuNativeF45Tree p q.n q.m q.ma q.pa q.mb q.pb)
+        tree h)
     else none)
 
 /-- Exact indexed left inverse at ANY original dependent F45
