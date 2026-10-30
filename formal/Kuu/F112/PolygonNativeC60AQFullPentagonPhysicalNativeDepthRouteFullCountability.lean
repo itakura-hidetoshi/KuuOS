@@ -371,8 +371,9 @@ theorem nativeGIDecode_encodeDepth
   | chain chain =>
       simp [nativeGIEncodeDepth, nativeGIDecodeDepth, nativeGIPackChain]
   | castDepths hn hm tree =>
-      simp [nativeGIEncodeDepth, nativeGIDecodeDepth,
-        nativeGIPackTree]
+      cases hn
+      cases hm
+      rfl
   | trans left right ihLeft ihRight =>
       simp [nativeGIEncodeDepth, nativeGIDecodeDepth,
         ihLeft, ihRight] <;> exact nativeGIDepthTransExact_eq left right
