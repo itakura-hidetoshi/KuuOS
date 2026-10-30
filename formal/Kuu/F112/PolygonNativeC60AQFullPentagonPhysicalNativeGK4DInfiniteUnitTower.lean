@@ -136,6 +136,33 @@ theorem nativeGK4DUnitTower_structural_not_P92B
 
 end Tower
 
+/-- Exact original full Type-valued F54 fiber cardinality: under
+explicit Countable objects and EACH categorical Hom fiber, any
+INHABITED original F45 stage has countably infinitely many
+original F54 route witnesses from itself to itself. The upper
+bound is the previously formalized GI fully dependent decoder;
+the lower bound is the actual injective tower proved above. -/
+theorem nativeGK4DUnitTower_exact_cardinality
+    {p : Polygon}
+    {D : Type uD} [Category.{vD} D]
+    {E : Type uE} [Category.{vE} E]
+    (hobjD : Countable D)
+    (hhomD : ∀ a b : D, Countable (a ⟶ b))
+    (hobjE : Countable E)
+    (hhomE : ∀ x y : E, Countable (x ⟶ y))
+    {a b : D} {x y : E} {n m : Nat}
+    {ma mb : KuuNativeBlocks a b}
+    {pa pb : KuuNativeBlocks x y}
+    (tree : KuuNativeF45Tree p n m ma pa mb pb) :
+    #(KuuNativeF45Tree.DepthRotationRoute p tree tree) = ℵ₀ := by
+  letI : Countable (KuuNativeF45Tree.DepthRotationRoute p tree tree) :=
+    nativeGIOriginalDepthFiber_countable
+      hobjD hhomD hobjE hhomE tree tree
+  letI : Infinite (KuuNativeF45Tree.DepthRotationRoute p tree tree) :=
+    Infinite.of_injective (nativeGK4DUnitTower tree)
+      (nativeGK4DUnitTower_injective tree)
+  exact Cardinal.mk_eq_aleph0 _
+
 /-! Actual finite C60 north-hexagon F45 witness, no model substitution. -/
 
 /-- An explicit Nat-injective family of full original F54 proof
@@ -143,6 +170,19 @@ routes on an ACTUAL physical Site×Site north hexagon. -/
 theorem nativeGK4D_physical_north_unitTower_injective :
     Function.Injective (nativeGK4DUnitTower (northHexagonNativeUnit 0)) :=
   nativeGK4DUnitTower_injective (northHexagonNativeUnit 0)
+
+/-- The ORIGINAL fully typed F54 route fiber at the actual
+C60 north-hexagon F45 stage has exact cardinality aleph-null,
+despite the finite 60-dart / 32-face physical test geometry. -/
+theorem nativeGK4D_physical_north_unitTower_aleph0 :
+    #(KuuNativeF45Tree.DepthRotationRoute (.hexagon (.top 0))
+      (northHexagonNativeUnit 0) (northHexagonNativeUnit 0)) = ℵ₀ :=
+  nativeGK4DUnitTower_exact_cardinality
+    nativeC60GEPhysicalSite_countable
+    nativeC60GEPhysicalIncidenceHom_countable
+    nativeC60GEPhysicalSite_countable
+    nativeC60GEPhysicalIncidenceHom_countable
+    (northHexagonNativeUnit 0)
 
 /-- Every pair of C60 tower stages is structurally connected. -/
 theorem nativeGK4D_physical_north_unitTower_structural_exists
@@ -172,7 +212,9 @@ theorem nativeGK4D_physical_north_unitTower_separation
 #print axioms nativeGK4DUnitTower_connect
 #print axioms nativeGK4DUnitTower_structural_exists
 #print axioms nativeGK4DUnitTower_structural_not_P92B
+#print axioms nativeGK4DUnitTower_exact_cardinality
 #print axioms nativeGK4D_physical_north_unitTower_injective
+#print axioms nativeGK4D_physical_north_unitTower_aleph0
 #print axioms nativeGK4D_physical_north_unitTower_structural_exists
 #print axioms nativeGK4D_physical_north_unitTower_separation
 
