@@ -277,6 +277,11 @@ theorem nativeGK3PhysicalAllPolygonP92_countable :
   infer_instance
 
 
+#print axioms nativeGK3P92TransExact_eq
+#print axioms nativeGK3P92LeftExact_eq
+#print axioms nativeGK3P92RightExact_eq
+#print axioms nativeGK3P92PreExact_eq
+#print axioms nativeGK3P92PostExact_eq
 #print axioms nativeGK3P92Decode_encode
 #print axioms nativeGK3P92OriginalTotal_countable
 #print axioms nativeGK3P92OriginalFiber_countable
