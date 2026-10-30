@@ -92,7 +92,7 @@ def nativeGKInterpretP92Naturality
       n₁, n₁', n₂, n₂', n₃, n₃',
       m₁, m₁', m₂, m₂', m₃, m₃',
       firstBefore, firstAfter, secondBefore, secondAfter,
-      thirdBefore, thirdAfter, (u, v, w)⟩
+      thirdBefore, thirdAfter, u, v, w⟩
   exact
     ⟨⟨nativeGJ2PackRoute (nativeF54P90AssocNaturalityLeftRoute u v w),
       nativeF54P90AssocNaturalityRightRoute u v w⟩,
