@@ -156,7 +156,7 @@ theorem nativeGK4DUnitTower_exact_cardinality
     {ma mb : KuuNativeBlocks a b}
     {pa pb : KuuNativeBlocks x y}
     (tree : KuuNativeF45Tree p n m ma pa mb pb) :
-    Cardinal.mk (KuuNativeF45Tree.DepthRotationRoute p tree tree) = ℵ₀ := by
+    Cardinal.mk (KuuNativeF45Tree.DepthRotationRoute p tree tree) = Cardinal.aleph0 := by
   letI : Countable (KuuNativeF45Tree.DepthRotationRoute p tree tree) :=
     nativeGIOriginalDepthFiber_countable
       hobjD hhomD hobjE hhomE tree tree
@@ -178,7 +178,7 @@ C60 north-hexagon F45 stage has exact cardinality aleph-null,
 despite the finite 60-dart / 32-face physical test geometry. -/
 theorem nativeGK4D_physical_north_unitTower_aleph0 :
     Cardinal.mk (KuuNativeF45Tree.DepthRotationRoute (.hexagon (.top 0))
-      (northHexagonNativeUnit 0) (northHexagonNativeUnit 0)) = ℵ₀ :=
+      (northHexagonNativeUnit 0) (northHexagonNativeUnit 0)) = Cardinal.aleph0 :=
   nativeGK4DUnitTower_exact_cardinality
     nativeC60GEPhysicalSite_countable
     nativeC60GEPhysicalIncidenceHom_countable
