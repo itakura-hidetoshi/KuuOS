@@ -267,10 +267,10 @@ noncomputable def nativeGIDecodeDepth
       some ⟨⟨a, b, x, y, ma, pa, mb, pb, n, n, m, m,
         first, last⟩, .chain chain⟩
   | .castDepths ⟨⟨⟨a, b, x, y, n, m, ma, pa, mb, pb⟩,
-      tree⟩, n', m', ⟨⟨hn, hm⟩⟩⟩ =>
+      tree⟩, n', m', gradeProof⟩ =>
       some ⟨⟨a, b, x, y, ma, pa, mb, pb, n, n', m, m',
-        tree, KuuNativeF45Tree.castDepths hn hm tree⟩,
-        .castDepths hn hm tree⟩
+        tree, KuuNativeF45Tree.castDepths gradeProof.down.1 gradeProof.down.2 tree⟩,
+        .castDepths gradeProof.down.1 gradeProof.down.2 tree⟩
   | .trans first second =>
       (nativeGIDecodeDepth first).bind (fun rawFirst =>
         (nativeGIDecodeDepth second).bind (fun rawSecond =>
