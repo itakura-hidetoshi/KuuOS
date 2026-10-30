@@ -65,7 +65,7 @@ about the ACTUAL physical Site category, not arbitrary D/E Hom. -/
 theorem nativeC60GEPhysicalIncidenceHom_countable (s t : Site) :
     Countable (s ⟶ t) := inferInstance
 
-/-- True physical incidence zigzags are FINITE proof-bearing
+/- True physical incidence zigzags are FINITE proof-bearing
 forward/reverse paths. A finite alphabet of actual C60 sites
 gives Countable paths even though path lengths are unbounded. -/
 deriving instance Countable for Zigzag
@@ -84,18 +84,18 @@ is a subtype of Fin 6, so is Countable. -/
 theorem nativeC60GEPolygonBoundarySector_countable (p : Polygon) :
     Countable (PolygonBoundarySector p) := inferInstance
 
-/-- Original finite bracket trees on a genuine C60 polygon have
+/- Original finite bracket trees on a genuine C60 polygon have
 Countable recursive syntax, retaining exact source sectors. -/
 deriving instance Countable for PolygonBracketTree
 
 theorem nativeC60GEPolygonBracketTree_countable (p : Polygon) :
     Countable (PolygonBracketTree p) := inferInstance
 
-/-- Genuine F54-shaped contextual elementary associations keep
+/- Genuine F54-shaped contextual elementary associations keep
 their dependent original bracket-tree source/target indices. -/
 deriving instance Countable for PolygonBracketRotation
 
-/-- Finite route syntax, including ident, trans and both contexts. -/
+/- Finite route syntax, including ident, trans and both contexts. -/
 deriving instance Countable for PolygonBracketRoute
 
 theorem nativeC60GEPolygonBracketRoute_countable
