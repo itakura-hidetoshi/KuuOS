@@ -55,7 +55,7 @@ theorem nativeGK2TransExact_eq
       (nativeGK2PackSeam right : NativeGK2OriginalSeamTotal p D E) =
     some (nativeGK2PackSeam (.trans left right) :
       NativeGK2OriginalSeamTotal p D E) := by
-  simp [nativeGK2TransExact, nativeGK2PackSeam]
+  simp [nativeGK2TransExact, nativeGK2PackSeam, nativeGJ2PackRoute]
 
 theorem nativeGK2LeftExact_eq
     {p : Polygon}
@@ -75,7 +75,7 @@ theorem nativeGK2LeftExact_eq
       (nativeGIPackTree later) =
     some (nativeGK2PackSeam (.leftContextCongruence cell later) :
       NativeGK2OriginalSeamTotal p D E) := by
-  simp [nativeGK2LeftExact, nativeGK2PackSeam, nativeGIPackTree]
+  simp [nativeGK2LeftExact, nativeGK2PackSeam, nativeGJ2PackRoute, nativeGIPackTree]
 
 theorem nativeGK2RightExact_eq
     {p : Polygon}
@@ -95,7 +95,7 @@ theorem nativeGK2RightExact_eq
       (nativeGK2PackSeam cell : NativeGK2OriginalSeamTotal p D E) =
     some (nativeGK2PackSeam (.rightContextCongruence earlier cell) :
       NativeGK2OriginalSeamTotal p D E) := by
-  simp [nativeGK2RightExact, nativeGK2PackSeam, nativeGIPackTree]
+  simp [nativeGK2RightExact, nativeGK2PackSeam, nativeGJ2PackRoute, nativeGIPackTree]
 
 theorem nativeGK2PreExact_eq
     {p : Polygon}
@@ -163,7 +163,7 @@ theorem nativeGK2Decode_encodeStructural
         nativeGJ2PackRoute, nativeGK2PackSeam]
   | symm w ih =>
       simp [nativeGK2EncodeStructural, nativeGK2DecodeStructural,
-        ih, nativeGK2PackSeam]
+        ih, nativeGK2PackSeam, nativeGJ2PackRoute]
   | trans w v ihw ihv =>
       simp [nativeGK2EncodeStructural, nativeGK2DecodeStructural,
         ihw, ihv]
