@@ -453,6 +453,7 @@ import Kuu.F112.PolygonNativeC60AQFullPentagonPhysicalRecursiveGenCountability
 import Kuu.F112.PolygonNativeC60AQFullPentagonPhysicalLowerAXCountability
 import Kuu.F112.PolygonNativeC60AQFullPentagonPhysicalFifteenSyntaxCountability
 import Kuu.F112.PolygonNativeC60AQFullPentagonPhysicalFourteenSourceCountability
+import Kuu.F112.PolygonNativeC60AQFullPentagonPhysicalNativePathBlocksCountability
 
 /-!
 Public aggregate: retain every previously published proof and its original
