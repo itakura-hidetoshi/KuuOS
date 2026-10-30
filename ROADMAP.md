@@ -1,6 +1,6 @@
 # KuuOS / 空OS — Formal Research Roadmap
 
-**更新：2026-10-30 JST。最新のLean統合段階は F112-P94D3GG / [PR #2723](https://github.com/itakura-hidetoshi/KuuOS/pull/2723) MERGED。** 定理squash SHA `5bdd7dcf6550660f632ae655b58e8559c7899c57`、PR exact-source HEAD `8bf0e8ea26ef60728c79608de2d42f6e6c631479`、source/merge-test GitHub比較の差分ファイルなし。[Strict Lean #41026975324](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41026975324) **9049/9049 SUCCESS**、Governance **30/30 completed SUCCESS**、12新定理の公理監査は`propext`・`Classical.choice`・`Quot.sound`のみ、`sorryAx`なし、変更Lean warning/error 0/0。真の`KuuNativeOneStep`三構成子`split/insertNil/whisker`と元`KuuNativeAxisTrace`の`refl/snoc`任意深さType値証拠を、元path/blocks・中間block分割・全カテゴリーHom・元始域終域・Nat深さを保持する有限構文へ忠実符号化しました。部分復号は元の型不整合な中間境界を拒否し、実際の元Type値証拠では厳密な`decode(encode h)=some⟨元境界,h⟩`をLeanで証明。局所可算カテゴリーの明示条件`Countable C`と`∀ x y:C, Countable (x ⟶ y)`下で全OneStep／AxisTrace original totalおよび各fiber Countableを証明。実C60 `Site`ではGE/GFによって無条件に成立。次GHは真の`KuuNativeF45Tree`、その後F55/7D～13D・原14Dへ進む。一般D/EカテゴリーHomや原14D可算性はまだ未証明であり、GDの旧FJ exact`ℵ₀`は原14D可算性条件付きのまま。
+**更新：2026-10-30 JST。最新のLean統合段階は F112-P94D3GH / [PR #2725](https://github.com/itakura-hidetoshi/KuuOS/pull/2725) MERGED。** 定理squash SHA `330aa4f6d63f5530b93f8d7b5182563b88c0555a`、PR exact-source HEAD `d426eeb2a95aef5c561a160e44c24c12b085a95e`、source/merge-test GitHub比較の差分ファイル0。[Strict Lean #41030788233](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41030788233) **3689/3689 scoped SUCCESS**、Governance gate / exact-head terminal completed SUCCESS、GH8定理の公理監査は`propext`・`Classical.choice`・`Quot.sound`のみ、`sorryAx`なし、変更Lean warning/error 0/0。真の元`KuuNativeF45Tree`の`refl/leaf/node`、元のC60 sector、二順序、独立D/E二軸Trace、全中間Blocks・Nat深さを失わない有限構文・依存型部分復号・完全左逆をLeanで証明。一般D/Eでは対象と**全Homファイバー**の可算性が明示条件、真正C60 `Site×Site`および全32 Polygonで無条件Countable。次は元`DepthRotationRoute`・F55・7D～13Dを経て原14Dへ進む。真正14D `NativeK5FifteenFourteenFiber W`、任意D/E Hom、19D filler、global strict n・hyperdescentは未証明。
 
 <details>
 <summary>旧更新記録：2026-10-23 / F112-P91B（歴史的な検証receipt。現在の最終段階ではない）</summary>
@@ -21,16 +21,16 @@
 | --- | --- |
 | 公開統合正本 | [`main`](https://github.com/itakura-hidetoshi/KuuOS/tree/main)。歴史的`formal/KUOS/`と現行`formal/Kuu/`、Qiを**同一Leanパッケージ**に含む。 |
 | 独立Kuu F112研究 | [親PR #2339](https://github.com/itakura-hidetoshi/KuuOS/pull/2339)は**MERGED**。かつての`formal/v5-293-f112-independent-total-change`は移行作業の履歴であり、現在の正本はmain。 |
-| 現在のF112検証範囲（2026-10-30） | **F112-P94D3GG [#2723](https://github.com/itakura-hidetoshi/KuuOS/pull/2723)までmain統合済み。** 定理SHA `5bdd7dcf6550660f632ae655b58e8559c7899c57`、Strict Lean **9049/9049 SUCCESS**、Governance 30/30、GG12定理の公理依存は標準3公理のみで`sorryAx`なし。GF #2721は元path／blocks総体・全fiberのCountableを局所可算カテゴリーと実C60で証明。GGは元`OneStep`・`AxisTrace`の完全Type値証拠・中間分割履歴・任意長・全indexed fiberを**明示的な対象/Hom可算性条件**からCountableと形式化し、実F112 C60 `Site`へ無条件適用。GD #2717の真正14D Countableを仮定した原15D–18D sourceおよび旧FJ非空AQ核exact正規生成Cardinal`ℵ₀`はなお条件付き。 |
+| 現在のF112検証範囲（2026-10-30） | **F112-P94D3GH [#2725](https://github.com/itakura-hidetoshi/KuuOS/pull/2725)までmain統合済み。** 定理SHA `330aa4f6d63f5530b93f8d7b5182563b88c0555a`、Strict Lean **3689/3689 scoped SUCCESS**、Governance gate SUCCESS、GH8定理の公理依存は標準3公理のみで`sorryAx`なし。GFは元Path/Blocks、GGは元OneStep/AxisTrace、GHは元F45 Treeの全Type値履歴・中間境界・任意有限bracketing・全indexed fiberを**対象と各Homの局所可算性を明示して**証明。真正C60 `Site×Site`ではGE–GGによって無条件適用。GDの元14D Countableを仮定した元15D–18D sourceと旧FJ非空AQ核exact正規生成Cardinal`ℵ₀`はなお条件付き。 |
 | F112以前の確認範囲（2026-10-23時点の履歴） | **P91Bまでmain統合済み（当時）**。P89B：9702/9702・13/13公理監査、P90A：9703/9703・7/7、P90B：9704/9704・7/7、**P91A：9705/9705・4/4**、**P91B：9706/9706・13/13**。新規`sorryAx`なし、変更ファイルLeanエラー/警告0、107公開root保全、exact-head Governanceとcompletion receipts 2/2 SUCCESS。P91A統合SHA `153361ebc9bf4303ed9c79e931c768fc99a885af`、P91B統合SHA `8fd61aad78943f6c9c630a585450eac2b5246f90`。唯一の公開入口`KuuOSFormal`に両モジュールを直接import。 |
 | 既存定理の証拠 | 実際のLean宣言・型と仮定・`#print axioms`・対応するexact-head CI。`sorryAx`、`sorry`、`admit`、新たな未証明公理による補完は禁止。 |
 | 数学的区別 | raw Type-valued証拠、Prop証明、選択した商、観測、物理的解釈は互いに無条件には同一視しない。 |
 | 公開入口・toolchain | `lake build KuuOSFormal`（`lake build`も同じ）。既存107公開rootは維持。Lean `v4.30.0-rc2`、pinned mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`。 |
 | 別レーン | PR #1558（Lean 4.31）はvalidation-only、Draft・未マージ。Lean/mathlibの正式な固定環境は上記のまま。 |
 
-GitHub正本・Lean成果・README/ROADMAP・CI・歴史的スナップショットには異なる役割がある。**GGまでの正本統合はGitHub MERGED commit・exact-source HEAD Strict Lean/Governance SUCCESS・source/merge-test差分ファイル0で確認済み**。GG（9049）、GF（9048）、GE（9047）、GD（9046）、GC（9045）、GB（9044）、GA（9968・別scope）等は独立した時点のCI receiptとして保持。有限C60 SiteでのOneStep/AxisTrace Countableは任意input D/E Homや原14D fiber Countableの無条件証明ではない。文書はLean定理の代替ではなく、C60以前の一般縁起理論、strict空中心と独立Kuuの別presentation、Gray非再導入を保持する。
+GitHub正本・Lean成果・README/ROADMAP・CI・歴史的スナップショットには異なる役割がある。**GHまでの正本統合はMERGED SHA・exact-source HEAD Strict Lean/Governance SUCCESS・source/merge-test差分ファイル0で確認済み**。GH（3689 scoped）、GG（9049）、GF（9048）、GE（9047）、GD（9046）、GC（9045）、GB（9044）、GA（9968・別scope）等は各時点の独立CI receipt。有限C60 `Site×Site`でのF45 Tree可算性から任意カテゴリーD/E Homや真正14D fiberの可算性を無条件に推論しない。文書はLean定理の代替ではなく、C60以前の一般縁起理論、strict空中心と独立Kuuの別presentation、Gray非再導入を保持する。
 
-## 0A. 2026-10-30現在の証明フロンティア：EX–GB
+## 0A. 2026-10-30現在の証明フロンティア：EX–GH
 
 **研究の主題：** 元の14D–18D依存型・非可換証拠を保存し、実際のC60有限AQ文脈での17D輸送 `C_w`、完全18Dコード写像 `f_w`、非可換自由群準同型 `τ_w` の**単射性・核・obstruction・相対商への降下**を区別して形式化する。C60は縁起の一般理論を取り替える唯一のモデルではない。現段階の18D生成子・19D候補は、元の幾何的19D充填や大域strict 3圏の完成証明ではない。
 
@@ -75,6 +75,7 @@ GitHub正本・Lean成果・README/ROADMAP・CI・歴史的スナップショッ
 | GE / [#2719](https://github.com/itakura-hidetoshi/KuuOS/pull/2719) | 元の真正F112物理C60のDart 60・Edge 90・Polygon 32・Site 182、すべての元Site incidence HomのCountable、元の依存型Zigzag全ファイバー＋full source/target total、およびC60 polygon bracket tree・typed primitive rotation・raw route＋full endpoint totalのCountableを証明。**有限のC60添字だけでなく任意有限長の元raw構文**を保持。9047/9047 Strict Lean SUCCESS、12公理監査標準3公理以内、Governance 30/30 | 元14D直接derivingは実7D–13D証拠のCountableインスタンスが未確立で失敗。今回GEで元14D Countableを宣言しない。sourceカテゴリーHomと原下位証拠の正確な条件がGF以降の課題。 |
 | GF / [#2721](https://github.com/itakura-hidetoshi/KuuOS/pull/2721) | 元のsource/target・全実カテゴリーHomを保持する`KuuNativePath`と、各原射列に加え空blockを含む独立した原分割を保存する`KuuNativeBlocks`について、可算Objと全Hom可算を前提に有限構文符号化・部分依存型復号・厳密左逆、full original totalと全indexed fiber Countableを証明。**実F112 C60 `Site`についてはGEが証明済みのCountable/Homを使ってpath/blocksおよび元の独立二軸`PolygonNativeDualAxisFrame`全sector総体Countableを無条件に形式化**。9048/9048 Strict Lean SUCCESS、13宣言標準3公理監査、Governance 30/30 SUCCESS | 元7D–13Dの比較証拠・F45/F55・14D fiberおよび任意D/EカテゴリーHomのCountableは未証明。flattened pathと原block分割を同一視せず、旧FJ／別FK–FMの区別を保持。 |
 | GG / [#2723](https://github.com/itakura-hidetoshi/KuuOS/pull/2723) | 元の`KuuNativeOneStep`三構成子（`split/insertNil/whisker`）と`KuuNativeAxisTrace`任意有限深さ（`refl/snoc`）を、全元カテゴリーHom・本当の中間Blocks・全始域終域・Nat深さ・全元Type値証拠を保存する有限コードへ符号化。型不整合なcompositionを拒否する部分復号と`decode∘encode`厳密左逆をLean証明。一般カテゴリーで**対象可算・各Hom可算を明示仮定**して元OneStep／AxisTrace totalと全indexed fiber Countable。実C60 SiteについてGE/GFから無条件に導出。**9049/9049 Strict Lean SUCCESS、12標準3公理監査、Governance 30/30 SUCCESS** | 元F45 Tree、F55、7D～14D Type値証拠のCountableは未証明。一般カテゴリーD/EのHomは有限C60から無条件に可算にならず、旧FJ exact`ℵ₀`の元14D Countable条件を保持。 |
+| GH / [#2725](https://github.com/itakura-hidetoshi/KuuOS/pull/2725) | 真の元`KuuNativeF45Tree` `refl/leaf/node`について、実C60 sector・二種類の実行順序・独立D/Eカテゴリーの元AxisTrace・全中間Blocks・Nat深さ・完全bracketingを保持する有限再帰符号化。依存型不整合を拒否する部分復号／indexed全境界検査／厳密左逆。元Obj/Homが可算な一般D/E下で全F45元Type値totalと各fiber Countable、実C60 `Site×Site`と全Polygonで無条件。**3689/3689 scoped Strict Lean SUCCESS、8標準3公理監査、Governance gate SUCCESS** | 元`DepthRotationRoute`、F55、7D～14D全証拠型のCountableと任意D/E Homは未証明。GDの旧FJ exact`ℵ₀`に必要な元14D条件は残る。 |
 
 主な正本Leanソース：
 
@@ -141,12 +142,12 @@ FIはさらに全入れ子構成子列から非可換FreeGroupへの準同型 $S
 
 `\operatorname{Injective}(\tau_w)\Rightarrow\operatorname{Injective}(C_w)` はFF/FDの必要条件、逆向きはFI #2676で証明済み。**FJ #2679では、具体的`S=nativeK5AXKuuSignature W`、`F=nativeK5BCFrame W`において `Injective(τ_w) ↔ w=[]` を証明**。ここで保守的15D証拠の元の`refl`と`atom`を区別したまま、真のwhiskeringが両者を同じ`atom`へ再構成することが衝突の原因である。一般抽象frameについてのFI同値と、選択物理presentationについてのFJ非単射性は矛盾しない。FCの「非自明核 iff コード衝突」とFGの「異種構成子間の衝突なし」は両立する。原pentagonは元のDV自由群像で非零のまま残り、選択したDX相対商では消える。**DSの完全証拠保存no-goを維持**する。
 
-### 0A.3 次に形式化すべきこと — F112-P94D3GH（仮称）
+### 0A.3 次に形式化すべきこと — F112-P94D3GI（仮称）
 
-1. **元F45の二軸Treeへ可算性を伝播**：GGは元`KuuNativeOneStep`/`KuuNativeAxisTrace`の全構文・全依存型fiberを局所可算カテゴリーと実C60 `Site`について証明した。GHでは元の`KuuNativeF45Tree`の`refl/leaf/node`構成子、実多角形sectorと`KuuNativeF45Order`の二順序、二つの元カテゴリーD/Eの独立AxisTrace、中間BlocksとNat深さを完全保存する有限構文の符号化・部分復号を構成する。一般D/Eには明示的な対象/Hom可算性条件を付し、元F45 total/fiber可算性を証明する。
-2. **F45 rotationからF55、7D～13Dへ**：元F45 treeの次には`KuuNativeF45Tree.DepthRotationRoute`と`NativeF55StructuralComparison`、さらに元4D～13D原証拠の全構成子を読む。元source proof historyを消したscalarや観測同値、既存商への変換ではなく、元の依存型境界と全Type値証拠に基づく条件付きCountableを実装する。
-3. **旧FJ正規生成濃度のauthority境界**：GDの真正旧FJ非空AQ核のexact最小正規生成Cardinal`ℵ₀`は元14D `NativeK5FifteenFourteenFiber W` Countableを仮定する。GE/GF/GGの実C60有限幾何からのZigzag・Path・Blocks・OneStep・AxisTrace可算性は、この元14D全体の仮定をまだ除去しない。一般D/EのHomや元F45/F55/7D～13D Type値証拠の必要な可算性条件を段階的に証明する。
-4. **独立した証明義務の維持**：GGは元1-step/axis-trace自由構文の可算性定理であり、原14Dの無条件Countable、旧FJ kernel自由群基底、真正19D幾何filler、旧新17D/18D全比較、global strict n、`(∞,3)`-hyperdescentの存在は示さない。固定Lean/mathlib、107公開root、保護PR #1558 Draft/OPEN/未マージ、strict空中心と独立Kuu presentationの区別、Gray非再導入を保持する。
+1. **元F45のDepthRotationRouteへ可算性を伝播**：GH #2725は元`KuuNativeF45Tree`の三構成子、D/E独立二軸、実C60 sector、全中間Blocks・Nat深さを保持した厳密encode/decodeとCountableを完了した。GIでは元`KuuNativeF45Tree.DepthRotationRoute`の全構成子・回転元証拠・途中tree・依存型端点を読み、型不一致を拒否する有限再帰符号化と原Type値全total／fiber可算性を、D/E対象/Hom可算性を明示して証明する。
+2. **F55比較、元4D～13Dへ**：GIの次は元`NativeF55StructuralComparison`の全構成子・比較履歴・二つの経路・原F45境界を保持してCountableを導く。さらに元4D～13D原証拠の全構成子と各Hom依存性を精査し、14Dへ必要な真正Type値Countableを段階的に構築する。scalarや商への忘却ではなく原証拠を完全保存する。
+3. **旧FJ正規生成濃度のauthority境界**：GDの真正旧FJ非空AQ核のexact最小正規生成Cardinal`ℵ₀`は元14D `NativeK5FifteenFourteenFiber W` Countableを明示仮定する。GE/GF/GG/GHの真正C60 `Site`での幾何・Zigzag・Path・Blocks・OneStep・AxisTrace・F45 Tree可算性だけでは、この14D条件を除去できない。任意D/EのHom可算性も一般には別条件。
+4. **独立した証明義務の維持**：GHは真の元F45 Treeの条件付き可算性であり、未証明の原14D無条件Countable、旧FJ kernel自由群基底、真正19D filler、旧新高次全比較、大域strict n、`(∞,3)`-hyperdescentの存在を示さない。固定Lean/mathlib、107公開root、保護PR #1558 Draft/OPEN/未マージ、strict空中心と独立Kuu presentationの区別、Gray非再導入を保持する。
 
 **完了判定：** 新Lean宣言の全型・依存境界、`#print axioms`、`sorryAx`なし、固定環境、changed Lean file全文・import閉包・pinned mathlib APIの照合、PR exact-headでworkflow/job/Lean stepがすべて`completed SUCCESS`。**queued / in_progressをSUCCESSとしない。** CI緑は数学的な追加仮定を消さない。docs-only編集は必要な文書・root検査を通すが、新しいLean定理を変更していないのにStrict Leanを再実行することを要件にはしない。
 
