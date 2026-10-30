@@ -79,6 +79,19 @@ inductive NativeGILocalPlainSyntax (p : Polygon)
       (step : NativeGILocalPlainSyntax p Root Tree)
   deriving Countable
 
+/-- A complete, explicitly indexed original F45 source token.
+Do not ask unification to guess its ten dependent boundary fields. -/
+def nativeGIPackTree
+    {p : Polygon}
+    {D : Type uD} [Category.{vD} D]
+    {E : Type uE} [Category.{vE} E]
+    {a b : D} {x y : E} {n m : Nat}
+    {ma mb : KuuNativeBlocks a b}
+    {pa pb : KuuNativeBlocks x y}
+    (tree : KuuNativeF45Tree p n m ma pa mb pb) :
+    NativeGHOriginalF45Total p D E :=
+  ⟨⟨a, b, x, y, n, m, ma, pa, mb, pb⟩, tree⟩
+
 /-- Faithfully encode every original local rotation constructor.
 Nested contexts preserve the full original subrotation recursively. -/
 def nativeGIEncodeLocal
@@ -97,9 +110,9 @@ def nativeGIEncodeLocal
       .assoc ⟨_, _, _, _, _, _, _, _, _, _, _, _,
         _, _, _, _, _, _, (first, second, third)⟩
   | _, _, _, _, _, _, _, _, _, _, _, _, .leftContext step later =>
-      .leftContext (nativeGIEncodeLocal step) ⟨_, later⟩
+      .leftContext (nativeGIEncodeLocal step) (nativeGIPackTree later)
   | _, _, _, _, _, _, _, _, _, _, _, _, .rightContext earlier step =>
-      .rightContext ⟨_, earlier⟩ (nativeGIEncodeLocal step)
+      .rightContext (nativeGIPackTree earlier) (nativeGIEncodeLocal step)
 
 /-- Local left contextualization checks the actual D/E categorical
 objects and both original intermediate Blocks for exact equality. -/
@@ -258,10 +271,10 @@ theorem nativeGIDecode_encodeLocal
       simp [nativeGIEncodeLocal, nativeGIDecodeLocal]
   | leftContext step later ih =>
       simp [nativeGIEncodeLocal, nativeGIDecodeLocal,
-        ih, nativeGILocalLeftExact_eq]
+        nativeGIPackTree, ih, nativeGILocalLeftExact_eq]
   | rightContext earlier step ih =>
       simp [nativeGIEncodeLocal, nativeGIDecodeLocal,
-        ih, nativeGILocalRightExact_eq]
+        nativeGIPackTree, ih, nativeGILocalRightExact_eq]
 
 /-- Countably many original well-typed three-stage assoc atoms,
 not merely countably many numeric depth vectors. -/
