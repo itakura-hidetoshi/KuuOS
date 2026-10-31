@@ -126,7 +126,7 @@ theorem nativeGK4AORotationChain_sound
     (chain : KuuNativeF45Tree.RotationChain p before after) :
     nativeGK4AOIntegralCongruence chain.gk4ahMatrix := by
   induction chain with
-  | refl _ => exact nativeGK4AOIntegralCongruence_one
+  | refl => exact nativeGK4AOIntegralCongruence_one
   | snoc path edge ih =>
       change nativeGK4AOIntegralCongruence
         (nativeGK4AHMul path.gk4ahMatrix edge.gk4ahMatrix)
