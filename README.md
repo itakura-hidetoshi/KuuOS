@@ -14,6 +14,14 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新の研究追補 — 2026-10-31 JST / F112-P94D3GK4AZ
+
+**Sanov型整数せん断変換の真正ping-pong自由積単射 — [GK4AZ定理PR #2836](https://github.com/itakura-hidetoshi/KuuOS/pull/2836) MERGED。** [新Lean証明](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4AZShearFreeProduct.lean)・[全証明記録](docs/formal/GK4AZ-shear-free-product-pingpong-injectivity.md)。元F54の真正多項式生成子`C=[[1,1],[0,1]]`、`F=C⁻¹`、`R(4)=[[1,0],[4,1]]`を整数座標`(u,v)↦(2u,v)`で移し、`U_n(x,y)=(x+2ny,y)`、`L_n(x,y)=(x,y+2nx)`を得る。[GK4AY PR #2835](https://github.com/itakura-hidetoshi/KuuOS/pull/2835) MERGEDで、二つの互いに素な非空錐`H={|x|>|y|}`・`V={|y|>|x|}`に対し、**全非零整数n（負も含む）で`U_n(V)⊆H`、`L_n(H)⊆V`**、可逆性、加法合成をLean証明。[GK4AY詳細](docs/formal/GK4AY-integral-shear-pingpong.md)。
+
+GK4AZでは二つの`Multiplicative ℤ →* Equiv.Perm(ℤ×ℤ)`を実構成し、pairwise cone条件・巡回群の3元以上条件を証明。**固定mathlibの`Monoid.CoprodI.lift_injective_of_ping_pong`を適用して、`ℤ*ℤ ↪ Perm(ℤ²)`をLean4で証明した。Sanov自由性を新公理として仮定していない。** 初回CIの`Equiv.ext`／`Function`・`Pointwise`・`Cardinal`のスコープと逆作用簡約の誤りは変更Lean全文を確認して修正。GK4AY exact-source `2a74c109ade0fa898c334b5f4a3e58a0e80ae3fb`、squash `2218521799c635e627300b0434d9e57d40352d94`、[CI #41211527398](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41211527398) **3788/3788 SUCCESS**。GK4AZ final exact-source `1d77015d43f5e6a37ea17a17f7cf811b3ace5a03`、squash `16585324b45863be3a4cc3faabbf59bb9be7cda8`、[CI #41212234574](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41212234574) **3789/3789 SUCCESS**。両PR Governance SUCCESS、標準3公理以内・sorryAx0・変更Lean warning/error0/0、公開root107・固定pin・#1558 Draft/OPEN/未マージ維持。
+
+**次はGK4BA（未証明）：** 上記`ℤ*ℤ`自由性と真正F54全依存型経路`P_r(X)`とのsource-word評価可換性をLean証明し、**`P_u(4)=P_v(4)⇒P_u(X)=P_v(X)`**を全真正経路へ移す。現時点では自由積の実Lean定理と、元F54の多項式全族一点決定性は異なる命題。元Type値3-cell・Q圏公理・既存K_AIへの全族降下・単一旧類ファイバー無限性は未証明。
+
 ## 最新の研究追補 — 2026-10-31 JST / F112-P94D3GK4AX
 
 **真正F54多項式行列の有限評価決定性と旧AF/AH二評価の次数obstruction — [定理PR #2833](https://github.com/itakura-hidetoshi/KuuOS/pull/2833) MERGED。** [Lean証明](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4AXFiniteEvaluationDeterminacy.lean)・[証明記録](docs/formal/GK4AX-finite-evaluation-polynomial-determinacy.md)。GK4AV/GK4AWの元Type値実経路の多項式行列 `P_r(X)∈Mat₂(ℤ[X])` と本物の `β(r)=backwardCount` の次数上界から、固定mathlib `Polynomial.eq_of_natDegree_lt_card_of_eval_eq` により、**相異なるN個の整数評価が一致し `N>max(β(u),β(v))` なら `P_u(X)=P_v(X)`** を証明。真正F54全依存型経路、元P92B存在商Q、独立構造商Sに**別々に形式化**。特に `β(u),β(v)≤1` なら旧AF=`P(1)`／AH=`P(4)` の二行列一致から多項式全体が一致する。二評価一致と多項式相異の**仮定が成立するなら `max β≥2` が必要**であることもLean証明したが、そのような反例の存在は主張しない。

@@ -3,6 +3,14 @@
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK4AZ / 2026-10-31 JST
+
+**元F54多項式生成子の整数再スケールと、真正Sanov自由積のLean形式化 — [GK4AY #2835](https://github.com/itakura-hidetoshi/KuuOS/pull/2835)・[GK4AZ #2836](https://github.com/itakura-hidetoshi/KuuOS/pull/2836) ともにMERGED。** [GK4AY Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4AYShearPingPong.lean)・[GK4AZ Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4AZShearFreeProduct.lean)・[AY記録](docs/formal/GK4AY-integral-shear-pingpong.md)・[AZ記録](docs/formal/GK4AZ-shear-free-product-pingpong-injectivity.md)。GK4AV旧生成子`C=[[1,1],[0,1]]`と`R(4)=[[1,0],[4,1]]`を整数座標`(u,v)↦(2u,v)`で転送すると、二つの整数可逆せん断`U_n(x,y)=(x+2ny,y)`、`L_n(x,y)=(x,y+2nx)`が現れる。GK4AYで二つの非空・非交差開錐`H:|x|>|y|`、`V:|y|>|x|`と**すべての非零整数nに対する`U_n(V)⊆H`、`L_n(H)⊆V`**をLean4証明。GK4AZで`Multiplicative ℤ`の2つの群準同型を`Equiv.Perm(ℤ×ℤ)`へ実構成し、固定mathlib`Monoid.CoprodI.lift_injective_of_ping_pong`による**`ℤ*ℤ → Perm(ℤ²)`単射**をLean証明。外部Sanov定理の未証明仮定ではない。
+
+**exact-source receipts：** GK4AY source`2a74c109ade0fa898c334b5f4a3e58a0e80ae3fb`・test-merge`0dfcdde494bdaa3bfd253f3e72582a10f851f39e`・tree`4308276ef4434e69dfad7d1e952197b64982da6a`、squash`2218521799c635e627300b0434d9e57d40352d94`、[CI #41211527398](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41211527398) **3788/3788 SUCCESS・Governance SUCCESS**。GK4AZ初回Lean不成功の記法・scoped instance・等式展開を全文修正。最終source`1d77015d43f5e6a37ea17a17f7cf811b3ace5a03`・test-merge`cf1aa3d2a6335abde8b6006242fc7f334cd82484`・tree`b21f63a14261e655f689048137639cacbedf08b5`、squash`16585324b45863be3a4cc3faabbf59bb9be7cda8`、[CI #41212234574](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41212234574) **3789/3789 SUCCESS・Governance SUCCESS**。新規Lean2ファイル・29宣言公理表示、標準3公理以内、sorryAx0、変更Lean warning/error0/0。root107とLean/mathlib pin維持、Gray非再導入、保護PR#1558 Draft OPEN未マージ。
+
+**次GK4BA — 未証明の橋：** 真正F54`DepthRotationRoute`各構成子を2生成子自由積語へ忠実に構文輸送し、`P_r(4)`と整数せん断群作用の評価可換性、さらに多項式`P_r(X)`との語評価可換性を証明して、`P_u(4)=P_v(4)⇒P_u(X)=P_v(X)`を真正F54全経路へ引き上げること。現在のAZ自由積単射を、この最終結論と**同一視しない**。既存K_AIへの全族降下、元Q自体の結合律/単位律、固定旧類ファイバー無限性、真正14D無条件Countable、19D filler、global strict、hyperdescent未証明のまま。
+
 ## 最新のLean定理統合 — F112-P94D3GK4AX / 2026-10-31 JST
 
 **有限N点での真正多項式行列決定性と、AF/AH二評価に関する次数下界 — [定理PR #2833](https://github.com/itakura-hidetoshi/KuuOS/pull/2833) MERGED。** [新Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4AXFiniteEvaluationDeterminacy.lean)・[exact-source証明記録](docs/formal/GK4AX-finite-evaluation-polynomial-determinacy.md)。GK4AVの元F54 `P_r(X)∈Mat₂(ℤ[X])`、GK4AWの高次係数消失、GK4ADの本物のbackwardCount `β(r)` をそのまま保持。固定mathlib `Polynomial.eq_of_natDegree_lt_card_of_eval_eq` により、任意の相異なる整数パラメータN点での行列一致と `N>max(β(u),β(v))` から、多項式行列全四成分の一致を証明。元F54完全依存型経路・原P92B存在商Q・独立Structural商Sの**それぞれで別々に成立**。旧AF=`P(1)`・AH=`P(4)` の2点は、`max β<2` で完全決定的。真正F54で両旧行列が一致しても多項式が異なるなら `2≤max β` が必要と証明。**衝突例そのものの存在は未証明であり主張しない。**
