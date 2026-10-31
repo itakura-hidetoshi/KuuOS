@@ -106,6 +106,16 @@ theorem nativeGK4BAWord_eq_implies_polynomial
   have h2 := congrArg
     (fun w : NativeGK4BAWord =>
       nativeGK4BAPolyWordAction w ((0 : Polynomial Int), 1)) h
+  -- Lean4 keeps the congrArg application as an unreduced lambda
+  -- application. Expose the exact observer applications before rewriting.
+  change nativeGK4BAPolyWordAction u.gk4baWord
+      ((1 : Polynomial Int), 0) =
+    nativeGK4BAPolyWordAction v.gk4baWord
+      ((1 : Polynomial Int), 0) at h1
+  change nativeGK4BAPolyWordAction u.gk4baWord
+      ((0 : Polynomial Int), 1) =
+    nativeGK4BAPolyWordAction v.gk4baWord
+      ((0 : Polynomial Int), 1) at h2
   rw [nativeGK4BAPolyRoute_action u, nativeGK4BAPolyRoute_action v] at h1 h2
   have h11 : u.gk4avPolynomial.1.1 = v.gk4avPolynomial.1.1 := by
     have ht := congrArg Prod.fst h1
