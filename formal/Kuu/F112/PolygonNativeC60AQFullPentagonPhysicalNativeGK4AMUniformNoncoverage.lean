@@ -164,6 +164,13 @@ theorem nativeGK4AMOdd_not_family (d : Nat) (i : Fin ((d + 1) + 1)) :
       nativeGK4AKDecoder
         (nativeGK4AJFiberMatrix before before
           (nativeGK4AKOldTarget rot (d + 1)) z)) h
+  change nativeGK4AKDecoder
+      (nativeGK4AJFiberMatrix before before
+        (nativeGK4AKOldTarget rot (d + 1)) (nativeGK4AMOddFiberPoint rot d)) =
+    nativeGK4AKDecoder
+      (nativeGK4AJFiberMatrix before before
+        (nativeGK4AKOldTarget rot (d + 1))
+        (nativeGK4AKFiberPoint rot (d + 1) i)) at hd
   rw [nativeGK4AMOddFiberPoint_decoder rot d] at hd
   change (-88 - 192 * (d : Int)) =
     nativeGK4AKDecoder
