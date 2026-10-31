@@ -14,6 +14,15 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新の研究追補 — 2026-11-01 JST / F112-P94D3GK4BC
+
+**既存K_AI上の真正全多項式行列が合成・単位を保存し、MathlibのFunctorとなることをLean4で証明 — [定理PR #2847](https://github.com/itakura-hidetoshi/KuuOS/pull/2847) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4BCPolynomialFunctorAI.lean)・[厳密な証明記録](docs/formal/GK4BC-polynomial-functoriality-ai.md)。GK4BBの既存二次kernel `K_AI` への `Quotient.lift` で定義した `P̄` について、**`P̄(u∘v)=P̄(u)·P̄(v)`、`P̄(id)=I₂`** を、真正元P92B代表元の非可換行列観測保存から証明。さらに任意整数`t`の評価積保存、`t=4`で元AH積回収、一対象の整数多項式行列値圏、真のK_AI→多項式値Mathlib関手、独立構造商Sとの可換図式まで9宣言で形式化。元Qの未証明圏公理・Type値3-cellを仮定せず、関手のfaithfulnessも主張しない。
+
+**exact-source：** source `f93b85e7a8759e6f32760ab975f6728483e1df8e`、test-merge `d2d061ef95a5c5bb68111af7cf2708d54d3ea639`、両Git tree `7b944c445e213662db7355e68989d29d774dca93` 完全一致、[CI #41253944040](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41253944040) **Strict Lean 3797/3797・Governance SUCCESS**、公理依存標準3以内・sorryAx0。squash正本 `b9ae3569a167c89b9b04d83ab53aceaf58412050`。Lean v4.30.0-rc2、mathlib 5450b53e5ddc75d46418fabb605edbf36bd0beb6、公開root107、strict空中心・独立Kuu一presentation・Gray非再導入・保護PR #1558 Draft/OPEN/未マージ維持。
+
+**限界：** 多項式Functorのfaithfulness、元Qの結合律/左右単位、元Type値歴史的同値、固定単一旧類ファイバー無限性、算術slice全域到達、真正14D無条件Countable、19D filler、global strict、hyperdescentは未証明。先行GK4BB欄は履歴として残す。
+
+
 ## 最新の研究追補 — 2026-11-01 JST / F112-P94D3GK4BB
 
 **既存二次kernel `K_AI`への真正F54多項式行列全族の降下をLean4で証明 — [定理PR #2845](https://github.com/itakura-hidetoshi/KuuOS/pull/2845) MERGED。** [新Lean定理](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4BBPolynomialDescentAI.lean)・[exact-source証明記録](docs/formal/GK4BB-existing-KAI-polynomial-descent.md)。GK4BAの**`P_u(4)=P_v(4) ⇔ P_u(X)=P_v(X)`**が示す一点決定性と、既存`K_AI`が`M_AH=P(4)`を実観測成分として保持する事実から、元P92B存在商Qの多項式`P_r(X)∈Mat₂(ℤ[X])`が既存`NativeGK4SKernelClasses (nativeGK4AIP92Family …)`へ降下することを、明示的`Quotient.lift`で証明。元Q代表元での元値一致、`X=4`評価でのAH厳密回収、多項式値一致`↔`AH一致、降下の一意性、別の独立構造商SからK_AIへの既存比較との可換性を**6宣言**で形式化した。これは`K_AI`クラス自体のAH一意性や元Type値3-cell生成を意味しない。

@@ -3,6 +3,15 @@
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK4BC / 2026-11-01 JST
+
+**真正元F54の全多項式行列のK_AI関手性 — [定理PR #2847](https://github.com/itakura-hidetoshi/KuuOS/pull/2847) MERGED。** [新規Lean形式化](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4BCPolynomialFunctorAI.lean)、[full-source証明記録](docs/formal/GK4BC-polynomial-functoriality-ai.md)。GK4BBの既存第二商への多項式降下が**K_AI合成を非可換多項式行列積に送り、K_AI単位を単位行列へ送る**ことを証明。元P92B商Qについては積・単位の**観測値保存のみ**を使い、Q自身の未証明圏公理は仮定しない。任意整数での評価積保存、`t=4`旧AH成分積回収、非可換行列値の一対象Category、真のK_AI→値圏Functor、独立構造商S→K_AI→値圏の可換性を計9宣言で形式化。Functorのfaithfulnessや元Type値3-cellを創作しない。
+
+**exact-source evidence：** source `f93b85e7a8759e6f32760ab975f6728483e1df8e`、test-merge `d2d061ef95a5c5bb68111af7cf2708d54d3ea639`、Git tree `7b944c445e213662db7355e68989d29d774dca93` 両者一致、[CI #41253944040](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41253944040) **Lean 3797/3797・Governance terminal SUCCESS**、9宣言公理依存は標準3以内、sorryAx0、squash `b9ae3569a167c89b9b04d83ab53aceaf58412050`。Lean v4.30.0-rc2／mathlib 5450b53e5ddc75d46418fabb605edbf36bd0beb6、公開root107と保護#1558 Draft/OPEN未マージ維持。
+
+**未証明：** 元Q自身の圏公理、元Type値完全同値、K_AI→多項式値のfaithfulness、固定単一旧類ファイバー無限性、算術slice全域到達、真正14D無条件Countable、19D filler、global strict、hyperdescent。strict空中心・独立Kuu一presentation、Gray非再導入。次段階候補は整数評価の関手間可換性・新たなobstructionの研究とし、未検証の内容を定理と呼ばない。
+
+
 ## 最新のLean定理統合 — F112-P94D3GK4BB / 2026-11-01 JST
 
 **全多項式行列`P(X)`の既存K_AIへの真のkernel降下 — [定理PR #2845](https://github.com/itakura-hidetoshi/KuuOS/pull/2845) MERGED。** [Lean新規ソース](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4BBPolynomialDescentAI.lean)／[詳細証明とCI](docs/formal/GK4BB-existing-KAI-polynomial-descent.md)。GK4BAが証明した真正元F54/元Q/独立Sの`t=4`一点決定性を使い、既存`K_AI`の観測値`O_AI=(O_AE,M_AF,M_AH)`が元AH成分を保持するため、元P92B存在商の全多項式行列が**既存**`NativeGK4SKernelClasses (nativeGK4AIP92Family …)`へ`Quotient.lift`で降下することを形式化。元Q代表計算、評価4によるAH回収、**多項式値一致 iff AH成分一致（K_AIの元類一致iffではない）**、一意性、独立S→K_AI三角図式の厳密可換を6定理・定義で確認。追加Type値3-cellなし、元Qの未証明圏公理は使用しない。
