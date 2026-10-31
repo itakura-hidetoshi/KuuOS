@@ -162,7 +162,11 @@ theorem nativeGK4AV_trans
     (t₂ : KuuNativeF45Tree p n₂ m₂ p₁ q₁ p₂ q₂)
     (t₃ : KuuNativeF45Tree p n₃ m₃ p₂ q₂ p₃ q₃) :
     (KuuNativeF45Tree.DepthRotationRoute.assoc t₁ t₂ t₃).gk4avPolynomial =
-      nativeGK4AVOne := nativeGK4AVCastForward
+      nativeGK4AVOne := by
+  change nativeGK4AVMul nativeGK4AVCast
+    (nativeGK4AVMul nativeGK4AVOne nativeGK4AVForward) = nativeGK4AVOne
+  rw [nativeGK4AVMul_leftUnit]
+  exact nativeGK4AVCastForward
 
 theorem nativeGK4AV_horizontal
     {n n' m m' k k' l l' : Nat}
@@ -219,12 +223,17 @@ theorem nativeGK4AV_original_sound
   induction cell with
   | ident route => rfl
   | pentagon a b c d =>
-      change nativeGK4AVOne = nativeGK4AVOne
-      rfl
+      simp only [KuuNativeF45Tree.DepthRotationRoute.pentagonLong,
+        KuuNativeF45Tree.DepthRotationRoute.pentagonShort,
+        nativeGK4AV_trans, nativeGK4AV_leftContext,
+        nativeGK4AV_rightContext, nativeGK4AV_assoc,
+        nativeGK4AVMul_leftUnit, nativeGK4AVMul_rightUnit]
   | disjointSquare left right =>
-      change nativeGK4AVMul nativeGK4AVForward nativeGK4AVForward =
-        nativeGK4AVMul nativeGK4AVForward nativeGK4AVForward
-      rfl
+      simp only [KuuNativeF45Tree.DepthRotationRoute.squareLeftFirst,
+        KuuNativeF45Tree.DepthRotationRoute.squareRightFirst,
+        nativeGK4AV_trans, nativeGK4AV_leftContext,
+        nativeGK4AV_rightContext,
+        KuuNativeF45Tree.DepthRotationRoute.ofLocalRotation]
   | symm cell ih => exact ih.symm
   | trans left right ihLeft ihRight => exact ihLeft.trans ihRight
   | leftContext cell later ih => exact ih
