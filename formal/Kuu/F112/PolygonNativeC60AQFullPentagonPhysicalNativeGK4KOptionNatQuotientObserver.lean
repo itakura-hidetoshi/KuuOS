@@ -144,11 +144,9 @@ theorem nativeGK4KP92Option_grade
       nativeGK4GP92Grade first last q := by
   refine _root_.Quotient.inductionOn q ?_
   intro route
-  by_cases hz : route.rotationCount = 0
-  · simp [nativeGK4KP92Option_class, nativeGK4KRawOption,
-      nativeGK4GP92Grade_class, nativeGK4GRawGrade, hz]
-  · simp [nativeGK4KP92Option_class, nativeGK4KRawOption,
-      nativeGK4GP92Grade_class, nativeGK4GRawGrade, hz]
+  change (if route.rotationCount = 0 then some route.gk4jLeafCount else none).isSome =
+    decide (route.rotationCount = 0)
+  by_cases hz : route.rotationCount = 0 <;> simp [hz]
 
 /-- Every value some n on the TRUE original P92B quotient has n > 0;
 the numeric part is never the additive identity. -/
@@ -158,11 +156,12 @@ theorem nativeGK4KP92Option_some_pos
   revert hk
   refine _root_.Quotient.inductionOn q ?_
   intro route hk
+  change (if route.rotationCount = 0 then some route.gk4jLeafCount else none) = some k at hk
   by_cases hz : route.rotationCount = 0
   · have hleaves : route.gk4jLeafCount = k := by
-      simpa [nativeGK4KP92Option_class, nativeGK4KRawOption, hz] using hk
+      simpa [hz] using hk
     simpa only [hleaves] using (nativeGK4J_leafCount_pos route)
-  · simp [nativeGK4KP92Option_class, nativeGK4KRawOption, hz] at hk
+  · simp [hz] at hk
 
 /-- The ambient Option Nat unit some 0 is absent from EVERY actual
 original P92B hom-fiber, not merely a selected zero-chain class. -/
