@@ -211,8 +211,6 @@ variable {D : Type uD} [Category.{vD} D]
 variable {E : Type uE} [Category.{vE} E]
 variable {B : Type uB}
 variable (observe : NativeGK4OObserverFamily p D E B)
-variable (hprim : NativeGK4OPrimitiveInvariant observe)
-variable (hkernel : NativeGK4OKernelCongruence observe)
 variable {a b : D} {x y : E} {n n' m m' : Nat}
 variable {ma mb : KuuNativeBlocks a b} {pa pb : KuuNativeBlocks x y}
 variable {first : KuuNativeF45Tree p n m ma pa mb pb}
@@ -222,6 +220,8 @@ variable {r s : KuuNativeF45Tree.DepthRotationRoute p first last}
 /-- FULL typed structural recursion: 7 selected primitive checks,
 3 equality constructors, 4 transport/congruence constructors. -/
 theorem nativeGK4O_all_seams_of_seven
+    (hprim : NativeGK4OPrimitiveInvariant observe)
+    (hkernel : NativeGK4OKernelCongruence observe)
     (seam : NativeF54StructuralSeam p r s) :
     nativeGK4ORead observe r = nativeGK4ORead observe s := by
   induction seam with
@@ -232,23 +232,23 @@ theorem nativeGK4O_all_seams_of_seven
   | trans w v ihw ihv =>
       exact ihw.trans ihv
   | reassoc u v w =>
-      exact hprim (.reassoc u v w) (by rfl)
+      exact hprim (.reassoc u v w) (by simp [nativeGK4OIsPrimitive])
   | leftUnit route =>
-      exact hprim (.leftUnit route) (by rfl)
+      exact hprim (.leftUnit route) (by simp [nativeGK4OIsPrimitive])
   | rightUnit route =>
-      exact hprim (.rightUnit route) (by rfl)
+      exact hprim (.rightUnit route) (by simp [nativeGK4OIsPrimitive])
   | precompose prior w ih =>
       exact hkernel.precompose prior ih
   | postcompose w suffix ih =>
       exact hkernel.postcompose suffix ih
   | leftContextTrans u v later =>
-      exact hprim (.leftContextTrans u v later) (by rfl)
+      exact hprim (.leftContextTrans u v later) (by simp [nativeGK4OIsPrimitive])
   | rightContextTrans earlier u v =>
-      exact hprim (.rightContextTrans earlier u v) (by rfl)
+      exact hprim (.rightContextTrans earlier u v) (by simp [nativeGK4OIsPrimitive])
   | leftContextUnit earlier later =>
-      exact hprim (.leftContextUnit earlier later) (by rfl)
+      exact hprim (.leftContextUnit earlier later) (by simp [nativeGK4OIsPrimitive])
   | rightContextUnit earlier later =>
-      exact hprim (.rightContextUnit earlier later) (by rfl)
+      exact hprim (.rightContextUnit earlier later) (by simp [nativeGK4OIsPrimitive])
   | leftContextCongruence w later ih =>
       exact hkernel.leftContext later ih
   | rightContextCongruence earlier w ih =>
@@ -301,12 +301,10 @@ theorem nativeGK4O_global_factor_iff_full
     (observe : NativeGK4OObserverFamily p D E B) :
     NativeGK4OGlobalFactors observe ↔ NativeGK4OFullInvariant observe := by
   constructor
-  · intro hfactor
-    intro a b x y n n' m m' ma mb pa pb first last r s seam
+  · intro hfactor a b x y n n' m m' ma mb pa pb first last r s seam
     exact ((nativeGK4N_observer_factor_iff_seam first last
       (observe first last)).mp (hfactor first last)) r s seam
-  · intro hfull
-    intro a b x y n n' m m' ma mb pa pb first last
+  · intro hfull a b x y n n' m m' ma mb pa pb first last
     apply (nativeGK4N_observer_factor_iff_seam first last
       (observe first last)).mpr
     intro r s seam
@@ -379,7 +377,7 @@ theorem nativeGK4O_option_fails_primitive
   intro hprim
   let unit : KuuNativeF45Tree.DepthRotationRoute p tree tree :=
     .chain (.refl tree)
-  have h := hprim (NativeF54StructuralSeam.leftUnit unit) (by rfl)
+  have h := hprim (NativeF54StructuralSeam.leftUnit unit) (by simp [nativeGK4OIsPrimitive])
   change (some (2 : Nat) : Option Nat) = some 1 at h
   exact (by decide : (some (2 : Nat) : Option Nat) ≠ some 1) h
 
@@ -387,7 +385,7 @@ theorem nativeGK4O_option_fails_primitive
 unconditional Type-valued seam obstruction already at the primitive
 level, without any global kernel assumption. -/
 theorem nativeGK4O_physical_north_option_obstruction :
-    ¬ NativeGK4NSeamInvariant
+    ¬ nativeGK4NSeamInvariant
         nativeGK4FPhysicalNorthTriple nativeGK4FPhysicalNorthTriple
         (nativeGK4KP92Option
           nativeGK4FPhysicalNorthTriple nativeGK4FPhysicalNorthTriple) := by
