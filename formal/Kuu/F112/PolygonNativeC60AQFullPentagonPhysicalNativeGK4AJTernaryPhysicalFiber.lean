@@ -160,6 +160,8 @@ theorem nativeGK4AJClass0_ne_1 : nativeGK4AJClass0 rot ≠ nativeGK4AJClass1 rot
   have hm := congrArg
     (fun z : NativeGK4SKernelClasses (nativeGK4AIP92Family p D E) before before =>
       (nativeGK4AIKernelValue before before z).2) h
+  change (nativeGK4AIKernelValue before before (nativeGK4AJClass0 rot)).2 =
+    (nativeGK4AIKernelValue before before (nativeGK4AJClass1 rot)).2 at hm
   rw [nativeGK4AJClass0_matrix, nativeGK4AJClass1_matrix] at hm
   have hentry := congrArg (fun q : NativeGK4AHMatrix => q.1.1) hm
   change (-23 : Int) = (1561 : Int) at hentry
@@ -170,6 +172,8 @@ theorem nativeGK4AJClass0_ne_2 : nativeGK4AJClass0 rot ≠ nativeGK4AJClass2 rot
   have hm := congrArg
     (fun z : NativeGK4SKernelClasses (nativeGK4AIP92Family p D E) before before =>
       (nativeGK4AIKernelValue before before z).2) h
+  change (nativeGK4AIKernelValue before before (nativeGK4AJClass0 rot)).2 =
+    (nativeGK4AIKernelValue before before (nativeGK4AJClass2 rot)).2 at hm
   rw [nativeGK4AJClass0_matrix, nativeGK4AJClass2_matrix] at hm
   have hentry := congrArg (fun q : NativeGK4AHMatrix => q.1.1) hm
   change (-23 : Int) = (-599 : Int) at hentry
@@ -180,6 +184,8 @@ theorem nativeGK4AJClass1_ne_2 : nativeGK4AJClass1 rot ≠ nativeGK4AJClass2 rot
   have hm := congrArg
     (fun z : NativeGK4SKernelClasses (nativeGK4AIP92Family p D E) before before =>
       (nativeGK4AIKernelValue before before z).2) h
+  change (nativeGK4AIKernelValue before before (nativeGK4AJClass1 rot)).2 =
+    (nativeGK4AIKernelValue before before (nativeGK4AJClass2 rot)).2 at hm
   rw [nativeGK4AJClass1_matrix, nativeGK4AJClass2_matrix] at hm
   have hentry := congrArg (fun q : NativeGK4AHMatrix => q.1.1) hm
   change (1561 : Int) = (-599 : Int) at hentry
@@ -205,7 +211,8 @@ theorem nativeGK4AJClass0_forget_eq_2 :
 /-- A stronger obstruction than GK4AI: the forgetful has a fiber
 containing THREE DISTINCT original attained K_AI classes, all on
 one and the SAME original fully typed self-Hom. -/
-theorem nativeGK4AJ_three_classes_one_fiber :
+theorem nativeGK4AJ_three_classes_one_fiber
+    (rot : KuuNativeF45Tree.LocalRotation p before after) :
     ∃ x y z : NativeGK4SKernelClasses
         (nativeGK4AIP92Family p D E) before before,
       x ≠ y ∧ x ≠ z ∧ y ≠ z ∧
