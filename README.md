@@ -13,6 +13,20 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新の研究状態 — 2026-10-31 JST / F112-P94D3GK4AD
+
+**真正三成分観測の残余非忠実性を非可換原F54履歴で解決 — [定理PR #2793](https://github.com/itakura-hidetoshi/KuuOS/pull/2793) MERGED：** [非可換順序付き履歴不変量Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4ADOrderedHistoryInvariant.lean)・[三成分観測の真正非忠実性Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4ADTripleNonfaithfulness.lean)を**append-only新規Lean2ファイル・36宣言**で証明。元F54の**実Type値`castDepths`と`RotationEdge.backward`の順序**を、`((castCharge,backwardCount),orderedMoment) : (Int×Nat)×Int`で記録。真正非可換演算`(c,b,m)⋄(d,e,n)=(c+d,b+e,m+n+c*e)`、単位`(0,0,0)`を構成。元の真正F54 assocが含む1 cast・1 forwardはこの値で単位になる一方、castとbackwardの順序は交換できない。**元F55全9、元P92B全9（本物のassocNaturalityを含む）、構造seam全14、拡張構造比較全3の実Type値構成子を個別帰納法でsoundness検証**し、新観測を`Q`元P92B証拠存在商と`S`独立構造商へ**別個に降下**。実`Q→S`可換、構造合成保存、構造単位も証明。原Type値3-cellを観測一致から生成しない。
+
+**GK4ADの新しい真正反例：** 実`rot:LocalRotation p before after`から、元F54真正前後物理回転backtrack`B`と本物の`castDepths rfl rfl`経路`C`を用い、**実型付き自己経路`u=C;B`と`v=B;C`**を構成。元GK4AA三成分観測は**`O_AA(u)=O_AA(v)=((false,-1),1)`**と一致。しかし順序付き不変量は**`M(u)=0`、`M(v)=-1`**。この違いは全構造seamの下でも保存されるため**`[u]_S≠[v]_S`**、一方真正`K_AA`第二商では同一類となる。よって**真正独立構造圏`S→K_AA`比較関手は元F54局所回転を持つ任意の型付き自己Homで非忠実**。本当のC60北側六角形についても無条件に証明。これはGK4ACの別の`K_AA→K_X`忘却ファイバーの`Nat`完全同値とは異なる問題であり、両結果を混同しない。
+
+**定理検証正本：** 定理squash SHA＝定理マージ直後canonical main HEAD `62586f3d26a2ad78e466ceef8a9473b8e0566f3a`、final exact-source HEAD `c2a1d6746cc4a07cdc28048b308d663b17044e4a`。[Strict Lean・Governance #41179319781](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41179319781) **Strict Lean 3745/3745 SUCCESS、Governance 5/5 SUCCESS、36宣言`#print axioms`標準3公理以内、sorryAxなし、変更Lean warning/error 0/0**。[詳細証明と検証記録](docs/formal/GK4AD-ordered-F54-history-triple-nonfaithfulness.md)。Lean v4.30.0-rc2・mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、公開root107、strict空中心・独立Kuu一presentation、Gray非導入、保護PR #1558 Draft/OPEN/未マージを保持。
+
+**次段階GK4AE（未証明）：** 新しい順序付きmomentを追加する四成分の真正観測kernel商を構成して`S`との比較と旧`K_AA`への忘却を定理化し、その観測でも残る別の情報損失が存在するかを判定。元P92B商の結合律・単位、歴史的完全型付き同値、真正14D無条件Countable、19D filler、global strict n、hyperdescentは引き続き未証明。
+
+> 以下のGK4AC以前の「最新・次候補」は歴史時点の記録。現在の形式化frontierはGK4AD。
+
+---
+
 ## 最新の研究状態 — 2026-10-31 JST / F112-P94D3GK4AC
 
 **真正F54前向き回転rankによる逆回転0障害の除去と完全Natファイバー同値 — [定理PR #2791](https://github.com/itakura-hidetoshi/KuuOS/pull/2791) MERGED：** [GK4AC実F45左結合rank Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4ACForwardRank.lean)と[GK4AC真正第二商ファイバー同値Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4ACExactPositiveFiber.lean)を**append-only新規2Leanファイル・26宣言**で形式化。元F45の二圏・四Blocks・二Nat depth・型付き葉を保持し、`L(refl/leaf)=1`、`L(node A B)=L(A)+L(B)>0`と、`W(node A B)=W(A)+W(B)+L(A)`の真正自然数値**左結合rank**を構築。元の実`LocalRotation.assoc`で`((A B) C)→(A (B C))`は`W`を厳密に`L(A)≥1`だけ減少。元`LocalRotation`全3構成子、実`RotationEdge`・中間木`RotationChain`、二Nat cast、元`DepthRotationRoute`のchain/trans/左右文脈を元Type値のまま帰納法で検証して、**`backwardCount(r)=0 ⇒ W(last)+rotationCount(r)≤W(first)`**を証明。従って**真正F54の型付き自己経路で逆回転数0なら物理回転数も0**。
