@@ -11,6 +11,17 @@ English: KuuOS develops a general mathematical program for dependent origination
 **研究・著作権者 / Founder and copyright holder:** 板倉英俊 / Hidetoshi Itakura. [LICENSE](LICENSE) · [NOTICE](NOTICE) · [COPYRIGHT](COPYRIGHT.md) · [CITATION](CITATION.cff).
 
 
+
+## 最新の研究状態 — 2026-10-31 JST / F112-P94D3GK4R
+
+**最新の定理統合 GK4R [#2769](https://github.com/itakura-hidetoshi/KuuOS/pull/2769) MERGED：** [Lean定理](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4RObservedUnitsVsSourceNoGo.lean) で、GK4Qの真正P92B商由来到達観測像に対し、**GK4G Boolean像は結合律と左右単位を満たす**一方、**GK4K `Option Nat`像は結合律を満たすが左右単位が存在しない**ことをLean4で形式化した。Boolean像の単位は真の元P92Bゼロ経路 `nativeGK4H_p92Unit` の観測値`true`であり、任意の実F45境界の左右で単位として作用する。しかし**元P92B商そのものでは、任意候補の左右単位不存在（GK4J）が保持される**。非忠実な観測は単位律を元商へ反射しない。GK4K `Option Nat`像は`some 0`を含まず、真正GK4D単位塔から`some 1`を含む。任意の候補`none`は吸収的で、`some n (n>0)`は`some 1`との合成が`some(n+1)`になるので、左右単位候補はすべて排除される。真正物理C60北側六角形でも無条件の対照定理を証明。**像上の結合律は元P92B商の結合律の証明ではなく、元Type値3-cellや独立構造商と混同しない。** 定理squash SHA `02ababa76701f85f8b67812da8b49687fe17d127`、exact-source HEAD `966409d715e677cc86555cab2912ee16384ac6a6`、[CI #41164652884](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41164652884) **Strict Lean 3723/3723 SUCCESS・Governance 5/5 completed SUCCESS**、19宣言標準3公理以内、sorryAxなし、変更Lean warning/error **0/0**。[詳細なGK4R検証記録](docs/formal/GK4R-observed-unit-contrast.md)。
+
+**次の研究候補 GK4S（未実装）：** GK4Q観測像と元P92B商を観測kernelで割った真正商との同値・普遍性を型付きで確立し、像での代数則が元商へ反射しない正確な障害を追う。元P92B結合律・単位、完全歴史的Type値同型、真正14D無条件Countable、19D filler、global strict n、hyperdescentは未証明を維持。strict空中心、独立Kuu一presentation、Lean/mathlib pin、公開root 107、保護PR #1558 Draft/OPEN/未マージを維持。
+
+> 以下のGK4Q以前を「最新」と呼ぶ記載は、その時点の研究履歴として保持。現行の定理正本は本GK4R段落を優先する。
+
+---
+
 ## 最新の研究状態 — 2026-10-31 JST / F112-P94D3GK4Q
 
 **最新の定理統合 GK4Q [#2767](https://github.com/itakura-hidetoshi/KuuOS/pull/2767)：** [GK4Q Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4QDependentObservationImage.lean) は、元P92B商の任意の型付き観測関数族の**真正到達像**を各F45境界で構成し、その射影の全射性を証明。GK4Pの真正F54合成・左右文脈の3観測則から、GK4Hの**実P92B商合成**とP93の**実左右文脈作用**を観測像上へ誘導し、3作用の射影整合性・一意性を示した。値側の演算が結合的な場合は**像上のみ**結合律が成立する。これは元P92B商の結合律・単位律の証明ではない。GK4K実`Option Nat`像は`some 0`を含まず、構造商への降下は真正F54単位seamで引き続き阻害される。定理squash SHA＝現証明正本 `454d4c6a5c9b42b93bab6191a3d0c6043fd8a1a2`、exact-source `5f66b13637b6a905486b627b6a27872235a441f4`、[CI #41163191778](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41163191778) **Strict Lean 3722/3722・Governance 5/5 SUCCESS**、17宣言`#print axioms`、`sorryAx`なし、変更ファイルwarning/error 0/0。詳細は[GK4Q検証記録](docs/formal/GK4Q-dependent-observer-image.md)。
