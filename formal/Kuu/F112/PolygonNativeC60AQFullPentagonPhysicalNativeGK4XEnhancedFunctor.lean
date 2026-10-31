@@ -272,6 +272,7 @@ theorem nativeGK4XEnhancedStructural_castTower_injective :
   rw [nativeGK4XEnhancedStructural_castTower tree i,
     nativeGK4XEnhancedStructural_castTower tree j] at hij
   have hcast := congrArg Prod.snd hij
+  change (i : Int) = (j : Int) at hcast
   exact_mod_cast hcast
 
 /-- The *actual K_enhanced* second quotient of original P92B classes
