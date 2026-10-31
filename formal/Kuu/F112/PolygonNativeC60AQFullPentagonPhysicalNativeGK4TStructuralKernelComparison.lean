@@ -113,7 +113,9 @@ this is not restricted to a chosen F54 representative. -/
       nativeGK4SKernelClass observe first last q := by
   refine _root_.Quotient.inductionOn q ?_
   intro route
-  simpa only [nativeGK4EP92ToStructural_class, nativeGK4TComparison_route]
+  -- Both genuine quotient lifts compute definitionally on their own mk.
+  -- simp only does not unfold the nested lifts in this eta-expanded goal.
+  rfl
 
 /-- The commuting triangle as an equality of genuine typed maps. -/
 theorem nativeGK4TComparison_triangle
