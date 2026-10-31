@@ -14,6 +14,14 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新の研究追補 — 2026-11-01 JST / F112-P94D3GK4BB
+
+**既存二次kernel `K_AI`への真正F54多項式行列全族の降下をLean4で証明 — [定理PR #2845](https://github.com/itakura-hidetoshi/KuuOS/pull/2845) MERGED。** [新Lean定理](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4BBPolynomialDescentAI.lean)・[exact-source証明記録](docs/formal/GK4BB-existing-KAI-polynomial-descent.md)。GK4BAの**`P_u(4)=P_v(4) ⇔ P_u(X)=P_v(X)`**が示す一点決定性と、既存`K_AI`が`M_AH=P(4)`を実観測成分として保持する事実から、元P92B存在商Qの多項式`P_r(X)∈Mat₂(ℤ[X])`が既存`NativeGK4SKernelClasses (nativeGK4AIP92Family …)`へ降下することを、明示的`Quotient.lift`で証明。元Q代表元での元値一致、`X=4`評価でのAH厳密回収、多項式値一致`↔`AH一致、降下の一意性、別の独立構造商SからK_AIへの既存比較との可換性を**6宣言**で形式化した。これは`K_AI`クラス自体のAH一意性や元Type値3-cell生成を意味しない。
+
+**exact-source：** HEAD`9617a45e331a52abd22ad2586be5216bc3360b7d`、test-merge`67840fc1e5404a453d360c3cdfd22e96a66d67e9`、両Git tree`579a1630f3226a98bf2d4ec3a0de979f6dc426f1`一致、[CI #41253344455](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41253344455) **Strict Lean 3796/3796・Governance SUCCESS**、標準3公理以内・sorryAx0・変更Lean error/warning0/0。squash正本SHA`2db3201782457854f7b5fdaeeeba4b086a273228`。固定Lean v4.30.0-rc2／mathlib 5450b53e5ddc75d46418fabb605edbf36bd0beb6、公開root107、strict空中心・独立Kuu一presentation・Gray非再導入、保護PR #1558 Draft/OPEN/未マージ維持。
+
+**数学的な限界：** `K_AI`の元類がAHだけで一意になること、元Qの未証明結合律/左右単位、元Type値歴史的完全同値、単一固定旧類ファイバー無限性、算術slice全域到達、真正14D無条件Countable、19D filler、global strict、hyperdescentは引き続き未証明。先行GK4BA欄の「次GK4BB（未証明）」は過去のスナップショットであり、この最新欄が現在の正本。
+
 ## 最新の研究追補 — 2026-11-01 JST / F112-P94D3GK4BA
 
 **真正元F54依存型経路の全多項式行列は旧AH一点評価 `t=4` だけで決定する — [定理PR #2840](https://github.com/itakura-hidetoshi/KuuOS/pull/2840)・[#2838](https://github.com/itakura-hidetoshi/KuuOS/pull/2838)・[canonical-main統合 #2843](https://github.com/itakura-hidetoshi/KuuOS/pull/2843) 全MERGED。** [最終Lean定理](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4BAOnePointDeterminacy.lean)・[全文証明/CI記録](docs/formal/GK4BA-original-t4-one-point-polynomial-determinacy.md)。
