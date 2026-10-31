@@ -269,11 +269,9 @@ theorem nativeGK4O_full_iff_seven_of_kernel
     NativeGK4OFullInvariant observe ↔
       NativeGK4OPrimitiveInvariant observe := by
   constructor
-  · intro hfull
-    intro a b x y n n' m m' ma mb pa pb first last r s seam _
+  · intro hfull a b x y n n' m m' ma mb pa pb first last r s seam _
     exact hfull seam
-  · intro hprim
-    intro a b x y n n' m m' ma mb pa pb first last r s seam
+  · intro hprim a b x y n n' m m' ma mb pa pb first last r s seam
     exact nativeGK4O_all_seams_of_seven observe hprim hkernel seam
 
 /-- Uniform existence of genuine GK4E structural factors across
