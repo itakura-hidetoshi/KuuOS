@@ -2,6 +2,24 @@
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK4AU / 2026-10-31 JST
+
+**真正F54の整数パラメータ行列族を構成し、既存AF・AHの厳密な回収と合同条件の必要十分性をLean4証明 — [定理PR #2827](https://github.com/itakura-hidetoshi/KuuOS/pull/2827) MERGED。** 元cast C=[[1,1],[0,1]]、forward F=[[1,-1],[0,1]]、backward R(t)=[[1,0],[t,1]]を同じ真正F54のType値経路上で評価する。値はInt→整数2×2行列であり、既存AHの行列積を点ごとに再利用。元F55の9・P92Bの9・独立seamの14・拡張比較の3構成子に対する**族全体の等式保存**を証明し、元Qと独立Sへ別々に降下、S合成・単位も保存した。
+
+**全経路・元Q・独立Sで M_r(1)=M_AF(r)、M_r(4)=M_AH(r)、任意整数tでdet M_r(t)=1。** 既存二観測を置換せず、一つの族の二評価として回収する。任意整数法kでs≡t(mod k)なら全真正経路でM_r(s)≡M_r(t)(mod k)が全成分に成立する。
+
+**真正局所回転rotを持つ同じ自己Homでは逆も成立： (∀r, M_r(s)≡M_r(t) mod k) ⇔ s≡t(mod k) ⇔ k∣(t−s)。** 本物のforward/backward往復BのM_B(t)=[[1−t,−1],[t,1]]がパラメータを検出する。元Q・独立Sでも別々に必要十分性を証明し、真正C60 northで具体化した。従ってAF/AH間で全経路に普遍的に使える法は**k∣3**に限る。これは同じ経路に対する異なる観測の比較であり、GK4ATの固定旧q内二経路の法48／法12一致とは別の量化である。パラメータからS上の観測写像への単射性も証明したが、一つの観測の忠実性は主張しない。
+
+**GK4AU exact-source：** source `4c96aa69f2e081d1e299a1ce5019aad31ac58b4a`、実CI checkout `1300b74e21d2c1b67617449df7810d568e975694`、定理squash `cf4679813e7f767af7d44bbd273de18661e3c2cf`、共通tree `5719f12b9bb2718a1dc9cfce40bb65d63578a7e2`。[CI #41204182959](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41204182959) **Strict Lean3781/3781・Governance5/5 SUCCESS、新規2Lean・55宣言標準3公理以内、sorryAx0、変更Lean warning/error0/0**。[詳細証明・文脈を保持する署名修正・CI記録](docs/formal/GK4AU-parametric-family-sharp-modulus.md)。固定Lean v4.30.0-rc2／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、公開root107、strict空中心・独立Kuu一presentation、Gray非再導入、保護PR #1558 Draft／OPEN／未マージ。
+
+**境界：族全体の既存K_AIへの降下は未証明。** t=1,4の二点での一致から全族の一致を生成しない。GK4ATまでの厳格sliceを維持し、固定単一旧q無限ファイバー・算術slice全域到達・元Q圏公理・歴史的完全型付き同値・14D無条件Countable・19D filler・global strict・hyperdescentは未証明のまま。
+
+**次はGK4AV（候補・未形式化）。** 整数係数多項式行列への真正族の持ち上げ、評価との整合、次数と元backwardCountの関係を検討する。
+
+> 以下のGK4AT以前の「最新・次候補」は歴史スナップショット。現行frontierはGK4AU。
+
+---
+
 ## 最新のLean定理統合 — F112-P94D3GK4AT / 2026-10-31 JST
 
 **真正F54の第一行列AFと第二行列AHが全成分で法3に一致することをLean4証明 — [定理PR #2825](https://github.com/itakura-hidetoshi/KuuOS/pull/2825) MERGED。** C・Fは同一、後退生成子の左下だけが1と4で異なることから、固定mathlibのInt.ModEqを用いて真正RotationEdge・RotationChain・DepthRotationRoute全5構成子上の整合性を証明。元P92B Qと独立構造Sへ別々に降下し、真正K_AIと任意固定旧K_AG類qに適用した。旧qが既に保持するAF行列P(q)により **M_AH≡P(q)(mod3)** が全成分で強制される。
