@@ -13,6 +13,20 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新の研究状態 — 2026-10-31 JST / F112-P94D3GK4AF
+
+**元F54の真の2×2整数行列履歴から四成分観測の残余非忠実性を証明 — [定理PR #2797](https://github.com/itakura-hidetoshi/KuuOS/pull/2797) MERGED：** [GK4AF真正行列不変量Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4AFMatrixInvariant.lean)・[GK4AF真正S→K_AE非忠実性Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4AFResidualNonfaithfulness.lean)を**append-only新規2Leanファイル・42宣言**で証明。元F54の真のType値 `castDepths`を`C=[[1,1],[0,1]]`、正方向実`LocalRotation`を`F=[[1,-1],[0,1]]`、負方向実回転を`R=[[1,0],[1,1]]`に写す**非可換整数2×2行列積**を導入。4成分の環等式で結合律、左右単位、**元F54の本物のassocの1 cast・1 forwardに対応する`C*F=I`**を証明。元の`RotationEdge`・中間木`RotationChain`・5構成子`DepthRotationRoute`の全依存型履歴を保持したまま、**本来のF55全9・P92B全9（実assocNaturalityを含む）・F54構造seam全14・拡張構造比較全3**のType値証拠の帰納法ですべて保存性を検証。元P92B存在商`Q`と独立構造商`S`へ**別々に降下**、正準`Q→S`比較との可換性・真正S合成の行列積保存を形式化。元P92Bの未証明圏公理や数字からType値3-cellを製造する仮定を使わない。
+
+**GK4AFの真正反例（四成分では不忠実）：** 実`rot:LocalRotation p before after`がある場合、元F54の真の二Nat cast自己経路`C`と実前後回転backtrack`B=F*R`から**真正元F54型付き自己経路`u=C;B;B;C`と`v=B;C;C;B`**を構成。元GK4AEの**四成分`O_AE(u)=O_AE(v)=(false,-2,2,-2)`は完全一致**。しかし新しい行列値は**`M(u)=[[0,-1],[1,1]]`、`M(v)=[[-1,-1],[3,2]]`**で相異なる。全構造seamで行列値が保存されるため、**`[u]_S≠[v]_S`**である一方、真正第二商`K_AE`では像が一致する。したがって**本物の比較関手`S→K_AE`は実F54局所回転を持つ任意の型付き自己Homで非忠実**。真正C60北側六角形でも無条件に証明。これはGK4ACの異なる`K_AA→K_X`の完全`Nat`ファイバー、GK4ADの`S→K_AA`非忠実、GK4AEの`K_AE→K_AA`非忠実とそれぞれ両立する。
+
+**定理検証正本：** 定理squash SHA＝定理マージ直後canonical main HEAD `53526634b254907320426876bd0f19cd5a05f768`、最終exact-source HEAD `0ba7499f91ef1420f705d35ec46097f3aff634d1`。[CI #41182480085](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41182480085) **Strict Lean 3751/3751 SUCCESS、Governance 5/5 SUCCESS、42宣言`#print axioms`標準3公理以内、sorryAxなし、変更Lean warning/error 0/0**。[詳細証明・Lean修正・CI receipt](docs/formal/GK4AF-matrix-history-four-observer-nonfaithfulness.md)。Lean v4.30.0-rc2／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、公開root107、strict空中心・独立Kuu一presentation、Gray非導入、保護PR #1558 Draft/OPEN/未マージ維持。
+
+**次段階GK4AG（未証明）：** 真正四成分観測`O_AE`と新行列値`M`を合わせたさらなる第二kernel商を構成し、元の`S`・`Q`と異なる観測商を保った比較・忘却関手を検証する。**行列値を追加した後の全域faithfulnessは主張しない**。元P92B Qの結合律・左右単位、歴史的完全型付き同値、真正14D無条件Countable、19D filler、global strict n、hyperdescentも未証明。
+
+> 以下のGK4AE以前の「最新・次候補」は歴史時点の記録。現行frontierはGK4AF。
+
+---
+
 ## 最新の研究状態 — 2026-10-31 JST / F112-P94D3GK4AE
 
 **元F54四成分非可換観測・真正第二kernel圏・順序moment忘却の非忠実性 — [定理PR #2795](https://github.com/itakura-hidetoshi/KuuOS/pull/2795) MERGED：** [GK4AE元四成分観測Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4AEFourObserver.lean)、[元F54観測同定・真正比較Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4AEComparison.lean)、[真正四成分第二kernel圏Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4AEKernelCategory.lean)、[真正順序moment忘却関手Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4AEKernelForgetful.lean)を**append-only新規Lean4ファイル・69宣言**で証明。
