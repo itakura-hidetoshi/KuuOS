@@ -144,7 +144,8 @@ theorem nativeGK4ABFiber_eq_iff_backward
   constructor
   · intro h
     exact congrArg (nativeGK4ABFiberBackward first middle target) h
-  · exact nativeGK4ABFiberBackward_injective first middle target
+  · intro h
+    exact nativeGK4ABFiberBackward_injective first middle target h
 
 /-- Every TRUE forgetful fiber embeds in Nat regardless of any
 global countability assumptions on D/E or source raw F54 proofs. -/
@@ -226,6 +227,9 @@ theorem nativeGK4ABLocalFiber_zero_or_tower
     let k := nativeGK4ABKernelBackward before before z.1 - 1
     refine ⟨k, ?_⟩
     apply nativeGK4ABLocalFiberBackward_injective rot
+    change nativeGK4ABKernelBackward before before z.1 =
+      nativeGK4ABKernelBackward before before
+        (nativeGK4AABalancedTowerForgetFiber rot k).1
     rw [nativeGK4ABBalancedTower_backward]
     dsimp [k]
     omega
@@ -293,6 +297,8 @@ theorem nativeGK4ABLocalFiber_backward_range :
     rcases hk with hp | ⟨hk, hex⟩
     · let j := k - 1
       refine ⟨nativeGK4AABalancedTowerForgetFiber rot j, ?_⟩
+      change nativeGK4ABKernelBackward before before
+        (nativeGK4AABalancedTowerForgetFiber rot j).1 = k
       rw [nativeGK4ABBalancedTower_backward]
       dsimp [j]
       omega
