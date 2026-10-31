@@ -276,7 +276,7 @@ def nativeGK4YEnhancedKernelComparisonFunctor
       nativeGK4YEnhancedKernelUnit X.2.2
     exact nativeGK4U_comparison_preserves_unit
       (nativeGK4XEnhancedP92Family p D E)
-      X.2.2 (nativeGK4XEnhancedSeamInvariant X.2.2)
+      X.2.2 (nativeGK4XEnhancedSeamInvariant X.2.2 X.2.2)
   map_comp := by
     intro X Y Z f g
     change nativeGK4XEnhancedComparison X.2.2 Z.2.2
