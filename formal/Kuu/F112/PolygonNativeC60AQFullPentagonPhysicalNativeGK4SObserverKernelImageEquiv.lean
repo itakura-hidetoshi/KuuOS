@@ -70,9 +70,9 @@ def nativeGK4SKernelSetoid :
     Setoid (NativeF55P92AssocRouteClasses first last) where
   r := fun q r => observe first last q = observe first last r
   iseqv := ⟨
-    (fun _ => rfl),
-    (fun _ _ h => h.symm),
-    (fun _ _ _ hab hbc => hab.trans hbc)⟩
+    (by intro q; rfl),
+    (by intro q r h; exact h.symm),
+    (by intro q r s hqr hrs; exact hqr.trans hrs)⟩
 
 /-- SECOND quotient: ORIGINAL P92B classes modulo their precise
 observational equality, NOT quotient of raw F54 routes and NOT GK4E. -/
