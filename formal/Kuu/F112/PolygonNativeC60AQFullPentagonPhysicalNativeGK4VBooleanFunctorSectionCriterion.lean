@@ -165,13 +165,15 @@ theorem nativeGK4V_physical_north_faithful_iff_section_exhaustive :
 /-- Two REAL source morphisms of differing grades have distinct
 Boolean kernel images in the actual C60 physical north context. -/
 theorem nativeGK4V_physical_north_two_distinct_kernel_images :
-    (nativeGK4UBoolKernelComparisonFunctor (.hexagon (.top 0))
-        northHexagonNativeFrame.firstAxis northHexagonNativeFrame.firstAxis
-        northHexagonNativeFrame.secondAxis northHexagonNativeFrame.secondAxis).map
+    nativeGK4TComparison (nativeGK4OBooleanFamily _ _ _)
+      nativeGK4FPhysicalNorthTriple nativeGK4FPhysicalNorthTriple
+      (nativeGK4N_boolean_seam_invariant
+        nativeGK4FPhysicalNorthTriple nativeGK4FPhysicalNorthTriple)
       (nativeGK4GStructuralSection northHexagonNativeLeftRotation true) ≠
-    (nativeGK4UBoolKernelComparisonFunctor (.hexagon (.top 0))
-        northHexagonNativeFrame.firstAxis northHexagonNativeFrame.firstAxis
-        northHexagonNativeFrame.secondAxis northHexagonNativeFrame.secondAxis).map
+    nativeGK4TComparison (nativeGK4OBooleanFamily _ _ _)
+      nativeGK4FPhysicalNorthTriple nativeGK4FPhysicalNorthTriple
+      (nativeGK4N_boolean_seam_invariant
+        nativeGK4FPhysicalNorthTriple nativeGK4FPhysicalNorthTriple)
       (nativeGK4GStructuralSection northHexagonNativeLeftRotation false) := by
   intro heq
   have hg :=
