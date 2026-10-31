@@ -13,6 +13,18 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新の研究状態 — 2026-10-31 JST / F112-P94D3GK4T
+
+**最新の定理統合 GK4T [#2773](https://github.com/itakura-hidetoshi/KuuOS/pull/2773) MERGED：** [新規Lean定理](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4TStructuralKernelComparison.lean) は、真正元P92B証拠存在商 `Q`、独立GK4E構造比較商 `S`、GK4Sの二段目観測kernel商 `K_O=Q/∼_O`という**相異なる3種類のauthority**を維持し、正準全射`π:Q→S`と`κ:Q→K_O`を可換にする比較写像`F:S→K_O`について、**存在 ⇔ 任意の真正F54 Type値構造seamで観測値が等しい（全14生成子の保存）**を証明。GK4Lの真正πファイバー一定性、GK4Nの任意B値観測降下必要十分条件、GK4Sの観測kernel商等式判定を連結し、`Quotient.lift`で比較写像を**代表元の恣意的選択なしに構成**。GK4E正準全射による一意性、`∃!`必要十分条件、比較写像の全射、**単射 ⇔ 観測等式が独立構造商等式を反映**、GK4Qの真正到達観測像への可換三角形も形式化。**真正GK4G Booleanでは全F45境界で比較写像が一意に存在するが、GK4K `Option Nat`では真正F54左単位seamの`some 2 ≠ some 1`により任意の実F45自己stageで存在しない**。真正C60北側六角形で無条件対照と、元P92B→Boolean kernel商の**非単射性**を同時に証明。これは元P92Bの結合律・単位律、元P92B Type値3-cellの観測値からの生成、独立構造商と観測kernel商の無条件同型を主張しない。
+
+定理squash SHA＝マージ直後のcanonical `main` HEAD `74a22a0dfe54e253740a82374dca41240a0c93d9`、exact-source HEAD `e02ea84432050d55bc6672339d049a8bb6189bc0`、[CI #41166852221](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41166852221) **Strict Lean 3725/3725 SUCCESS／Governance 5/5 completed SUCCESS**。新規17宣言の`#print axioms`は`propext`・`Classical.choice`・`Quot.sound`以内、`sorryAx`なし、変更Lean warning/error **0/0**。[GK4T検証記録](docs/formal/GK4T-structural-to-kernel-comparison.md)を追加。公開root107維持、Lean v4.30.0-rc2／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、strict空中心・独立Kuuは一presentation、Gray非再導入、保護PR #1558 Draft/OPEN/未マージを維持。
+
+**後続研究候補（未証明）：** 構造商と観測kernel商での合成の整合性を、独立GK4Iの真正構造合成およびGK4P/GK4Sの観測則に対する明示的な条件付き主張として検討。元P92B商の結合律・左右単位、別合成、歴史的完全型付き同値、真正14D無条件Countable、19D filler、global strict n、hyperdescentは引き続き未証明。
+
+> 以下のGK4S以前の「最新」「次候補」記載はそれぞれの歴史的スナップショットとして保持。現行frontierはこのGK4Tを優先する。
+
+---
+
 ## 最新の研究状態 — 2026-10-31 JST / F112-P94D3GK4S
 
 **最新の定理統合 GK4S [#2771](https://github.com/itakura-hidetoshi/KuuOS/pull/2771) MERGED：** [Lean定理](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4SObserverKernelImageEquiv.lean) で、元F55/P92Bの**真正証拠存在商**の任意B値観測`O`について、独立D/Eカテゴリー・全Blocks・二Nat深さを保持した各F45境界上で、観測kernel関係`q∼r ⇔ O(q)=O(r)`を真正Setoidとして定義。その**元P92B商を更に観測kernelで割った二段目の商**`Q/∼_O`とGK4Qの**真正到達観測像**`Im(O)`の型付き同値 `Q/∼_O ≃ Im(O)` を、正準射・単射・全射の厳密証明から構成。**任意の型Cへの観測kernel因子分解の存在⇔観測値の等しいP92B類で写像値も等しい**を必要十分条件として証明し、因子の一意性も確定。GK4Pの真正合成観測則を用いて二段目の商にGK4Q像上の合成を輸送し、元GK4H P92B合成の射影整合性と、値域演算が結合的な場合の**二段目商上でのみの結合律**を証明。GK4Hの真正左単位障害が示す**異なる元P92B類の同一Boolean観測**から、元P92B→Boolean観測kernel商の正準射はすべての実F45 stageで**単射でない**と示し、真正C60北側六角形でも無条件例を確定。**観測値の等しさから元Type値P92B 3-cellを生成しない。二段目の観測kernel商は独立GK4E構造比較商とは別物であり、観測商の結合律・単位律を元P92Bへ反射しない。** 定理squash SHA `fb4508617d2561c31fd41ffd9927881e7b2c3148`、exact-source HEAD `deed48339f16e80dc27e2cddf0d653cf62c12313`、[CI #41165728126](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41165728126) **Strict Lean 3724/3724 SUCCESS・Governance 5/5 completed SUCCESS**、新規17宣言標準3公理以内、sorryAxなし、変更Lean warning/error **0/0**。[GK4S検証記録](docs/formal/GK4S-observer-kernel-image-equivalence.md)を追加。
