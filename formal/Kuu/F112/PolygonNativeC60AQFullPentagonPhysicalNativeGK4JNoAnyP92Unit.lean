@@ -94,8 +94,12 @@ theorem nativeGK4J_leafCount_pos
     (route : KuuNativeF45Tree.DepthRotationRoute p first last) :
     0 < route.gk4jLeafCount := by
   induction route with
-  | chain _ => decide
-  | castDepths _ _ _ => decide
+  | chain _ =>
+      change (0 : Nat) < 1
+      omega
+  | castDepths _ _ _ =>
+      change (0 : Nat) < 1
+      omega
   | trans left right ihLeft ihRight =>
       change 0 < left.gk4jLeafCount + right.gk4jLeafCount
       omega
@@ -191,14 +195,14 @@ theorem nativeGK4JOriginal_zero_leafCount_sound
   | precompose prior cell ih =>
       intro hzero
       have hsub := ih (by
-        change prior.rotationCount + _ = 0 at hzero
+        simp only [KuuNativeF45Tree.DepthRotationRoute.rotationCount] at hzero ⊢
         omega)
       simpa only [nativeGK4J_leafCount_trans] using
         congrArg (fun k : Nat => prior.gk4jLeafCount + k) hsub
   | postcompose cell suffix ih =>
       intro hzero
       have hsub := ih (by
-        change _ + suffix.rotationCount = 0 at hzero
+        simp only [KuuNativeF45Tree.DepthRotationRoute.rotationCount] at hzero ⊢
         omega)
       simpa only [nativeGK4J_leafCount_trans] using
         congrArg (fun k : Nat => k + suffix.gk4jLeafCount) hsub
@@ -235,14 +239,14 @@ theorem nativeGK4JP92B_zero_leafCount_sound
   | precompose prior cell ih =>
       intro hzero
       have hsub := ih (by
-        change prior.rotationCount + _ = 0 at hzero
+        simp only [KuuNativeF45Tree.DepthRotationRoute.rotationCount] at hzero ⊢
         omega)
       simpa only [nativeGK4J_leafCount_trans] using
         congrArg (fun k : Nat => prior.gk4jLeafCount + k) hsub
   | postcompose cell suffix ih =>
       intro hzero
       have hsub := ih (by
-        change _ + suffix.rotationCount = 0 at hzero
+        simp only [KuuNativeF45Tree.DepthRotationRoute.rotationCount] at hzero ⊢
         omega)
       simpa only [nativeGK4J_leafCount_trans] using
         congrArg (fun k : Nat => k + suffix.gk4jLeafCount) hsub
