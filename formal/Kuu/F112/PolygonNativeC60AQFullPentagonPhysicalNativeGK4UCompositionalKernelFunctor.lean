@@ -289,9 +289,9 @@ theorem nativeGK4UBoolKernelCompose_assoc
     (nativeGK4OBooleanFamily p D E) Bool.and
     (nativeGK4PIdentityAction p D E Bool)
     (nativeGK4PIdentityAction p D E Bool)
-    nativeGK4P_boolean_laws
+    nativeGK4P_boolean_laws t₁ t₂ t₃ t₄
     (by intro x y z; cases x <;> cases y <;> cases z <;> rfl)
-    t₁ t₂ t₃ t₄ u v w
+    u v w
 
 /-- The true Boolean observer-kernel unit is a LEFT identity,
 as witnessed by the original GK4R image-level unit under the proven
