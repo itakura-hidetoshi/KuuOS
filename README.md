@@ -12,6 +12,17 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+
+## 最新の研究状態 — 2026-10-31 JST / F112-P94D3GK4S
+
+**最新の定理統合 GK4S [#2771](https://github.com/itakura-hidetoshi/KuuOS/pull/2771) MERGED：** [Lean定理](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4SObserverKernelImageEquiv.lean) で、元F55/P92Bの**真正証拠存在商**の任意B値観測`O`について、独立D/Eカテゴリー・全Blocks・二Nat深さを保持した各F45境界上で、観測kernel関係`q∼r ⇔ O(q)=O(r)`を真正Setoidとして定義。その**元P92B商を更に観測kernelで割った二段目の商**`Q/∼_O`とGK4Qの**真正到達観測像**`Im(O)`の型付き同値 `Q/∼_O ≃ Im(O)` を、正準射・単射・全射の厳密証明から構成。**任意の型Cへの観測kernel因子分解の存在⇔観測値の等しいP92B類で写像値も等しい**を必要十分条件として証明し、因子の一意性も確定。GK4Pの真正合成観測則を用いて二段目の商にGK4Q像上の合成を輸送し、元GK4H P92B合成の射影整合性と、値域演算が結合的な場合の**二段目商上でのみの結合律**を証明。GK4Hの真正左単位障害が示す**異なる元P92B類の同一Boolean観測**から、元P92B→Boolean観測kernel商の正準射はすべての実F45 stageで**単射でない**と示し、真正C60北側六角形でも無条件例を確定。**観測値の等しさから元Type値P92B 3-cellを生成しない。二段目の観測kernel商は独立GK4E構造比較商とは別物であり、観測商の結合律・単位律を元P92Bへ反射しない。** 定理squash SHA `fb4508617d2561c31fd41ffd9927881e7b2c3148`、exact-source HEAD `deed48339f16e80dc27e2cddf0d653cf62c12313`、[CI #41165728126](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41165728126) **Strict Lean 3724/3724 SUCCESS・Governance 5/5 completed SUCCESS**、新規17宣言標準3公理以内、sorryAxなし、変更Lean warning/error **0/0**。[GK4S検証記録](docs/formal/GK4S-observer-kernel-image-equivalence.md)を追加。
+
+**次の研究候補 GK4T（未実装）：** **GK4Eの真正独立F54構造比較商 → 元P92B観測kernel二段目商**という向きの比較写像が存在する必要十分条件を、GK4Nの真正seam保存条件と接続して証明。Boolean観測では可能で、GK4K `Option Nat`では真正左単位seamが阻害するという対照を正確に述べる。元P92B結合律・単位、完全Type値同型、真正14D無条件Countable、19D filler、global strict n、hyperdescentは未証明。strict空中心／独立Kuu一presentation、固定Lean/mathlib pin、公開root107、保護PR #1558 Draft/OPEN/未マージを維持。
+
+> 以下のGK4R以前の「最新」「次段階」表記は当時の歴史的研究スナップショットとして保持。現在の定理frontierはこのGK4Sを優先する。
+
+---
+
 ## 最新の研究状態 — 2026-10-31 JST / F112-P94D3GK4R
 
 **最新の定理統合 GK4R [#2769](https://github.com/itakura-hidetoshi/KuuOS/pull/2769) MERGED：** [Lean定理](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4RObservedUnitsVsSourceNoGo.lean) で、GK4Qの真正P92B商由来到達観測像に対し、**GK4G Boolean像は結合律と左右単位を満たす**一方、**GK4K `Option Nat`像は結合律を満たすが左右単位が存在しない**ことをLean4で形式化した。Boolean像の単位は真の元P92Bゼロ経路 `nativeGK4H_p92Unit` の観測値`true`であり、任意の実F45境界の左右で単位として作用する。しかし**元P92B商そのものでは、任意候補の左右単位不存在（GK4J）が保持される**。非忠実な観測は単位律を元商へ反射しない。GK4K `Option Nat`像は`some 0`を含まず、真正GK4D単位塔から`some 1`を含む。任意の候補`none`は吸収的で、`some n (n>0)`は`some 1`との合成が`some(n+1)`になるので、左右単位候補はすべて排除される。真正物理C60北側六角形でも無条件の対照定理を証明。**像上の結合律は元P92B商の結合律の証明ではなく、元Type値3-cellや独立構造商と混同しない。** 定理squash SHA `02ababa76701f85f8b67812da8b49687fe17d127`、exact-source HEAD `966409d715e677cc86555cab2912ee16384ac6a6`、[CI #41164652884](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41164652884) **Strict Lean 3723/3723 SUCCESS・Governance 5/5 completed SUCCESS**、19宣言標準3公理以内、sorryAxなし、変更Lean warning/error **0/0**。[詳細なGK4R検証記録](docs/formal/GK4R-observed-unit-contrast.md)。
