@@ -13,6 +13,20 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新の研究状態 — 2026-10-31 JST / F112-P94D3GK4AP
+
+**真正の固定旧観測類qで、第二整数行列の右上成分の法4剰余が旧charge・backwardCountから一意に決定されることをLean4証明 — [定理PR #2817](https://github.com/itakura-hidetoshi/KuuOS/pull/2817) MERGED。** [元F54の旧GK4AD・新GK4AHの型付き結合合同式Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4APLinkedObserverResidue.lean)・[固定q算術sliceとΓ₁(4)内部の到達不能行列Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4APFixedFiberArithmeticSlice.lean)をappend-only新規2Leanで形式化。元F54真正二Nat cast・forward/backward RotationEdge、途中木RotationChain、元DepthRotationRoute全5構成子、元Q・独立S、真正K_AIと元の従属忘却Fiberまで証明した。GK4AOの`det M=1`・対角1 mod4・左下0 mod4というΓ₁(4)制約を**保持**し、さらに第二行列`M_AH=[[a,b],[c,d]]`の**`b ≡ charge_AD(r) + backwardCount_AD(r) (mod4)`**という新しい非可換観測compatibilityを証明。したがって旧`K_AG`類`q`を固定すると、`Fiber(q)`全体の実到達行列の右上成分剰余が`ρ(q)=charge(q)+backwardCount(q)`に固定される。
+
+**Γ₁(4)内部の真正到達障害：** `Γ₁(4)^(q)={M∈Γ₁(4) | b(M)≡ρ(q)(mod4)}`とおくと、**`AttainedMatrix(q) ⊆ Γ₁(4)^(q) ⊊ Γ₁(4)`が任意のqで成立**。実際に`N(q)=[[1,ρ(q)+1],[0,1]]`は行列式1でΓ₁(4)に属するが、`Fiber(q)`には絶対に到達しないとLean証明。任意の固定q-fiberはこの算術slice内へ単射で埋め込まれ、実際に到達した部分像とのみEquiv。Γ₁(4)全域、slice全域の到達可能性、単一固定ファイバーの無限性は**未証明**。
+
+**GK4AP exact-source正本：** 最終source HEAD `7431559538875af41f332230d7796181601bf012`、CI test-merge checkout `7b5634cc4cdeaff2e75bf551208fa4cd81eb73db`、定理squash・マージ直後canonical main `13363c70ea953a18dc0acaa5d4a138090990f576`、三者共通Git tree `8d89572c86d281eba3ac068c2b1de7d2abcaca31`。[CI #41195563521](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41195563521) **Strict Lean 3772/3772 SUCCESS、Governance 5/5 SUCCESS、新規25宣言は標準3公理以内、sorryAx0、変更Lean warning/error0/0**。[GK4AP詳細証明・Lean4記法修正とexact-source CI receipt](docs/formal/GK4AP-fixed-fiber-charge-upper-right-congruence.md)。Lean v4.30.0-rc2、mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、公開root107、strict空中心、独立Kuu一presentation、Gray非再導入、保護PR #1558 Draft／OPEN／未マージ。
+
+**次候補GK4AQ（未証明）：** `Γ₁(4)^(q)`内部の真の到達可能値を非可換履歴でさらに制限するか、固定された同一qファイバーで無限個の異なる元F54経路の行列像を構成できるかを独立検討する。GK4ANの`Fin(2k+1) ↪ Fiber(q_k)`、GK4ALの全ファイバー可算性、GK4AMの正数kでの`¬FamilyCovers(k)`は引き続き維持。元Q圏公理・歴史的完全型付き同値・真正14D・19D filler・global strict・hyperdescentは未証明のまま。
+
+> 以下のGK4AO以前の「最新・次候補」は歴史時点のスナップショット。現行frontierはGK4AP。
+
+---
+
 ## 最新の研究状態 — 2026-10-31 JST / F112-P94D3GK4AO
 
 **元F54真正第二整数行列における行列式1・`Γ₁(4)`合同障害をLean4で証明 — [定理PR #2815](https://github.com/itakura-hidetoshi/KuuOS/pull/2815) MERGED。** [真正F54の行列式・合同条件Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4AOIntegralCongruence.lean)と[実到達行列の制約・具体的到達不能例Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4AORestrictedMatrixImage.lean)をappend-only新規2Leanで形式化。既存GK4AHの実元二Nat cast `C=[[1,1],[0,1]]`、実前後RotationEdge評価 `F=[[1,-1],[0,1]]`・`R4=[[1,0],[4,1]]` を用い、厳密な行列積の整数多項式展開から**任意の真正元F54行列 `M=[[a,b],[c,d]]` は `ad-bc=1`, `a≡d≡1(mod 4)`, `c≡0(mod 4)`** とLean4証明。元RotationEdge／中間木RotationChain／元F54経路全5構成子から、元P92B存在商Qと独立構造商Sへ別々に降下し、真正`K_AI`と任意の旧`K_AG`類`q`上の本当の`Fiber(q)`へ伝播。**GK4ALの到達第二行列値集合は`Γ₁(4)`型の合同条件を満たす部分に含まれる**。一方、行列式1の `[[1,0],[1,1]]` は左下成分が4の倍数でないので、**どの真正型付きHom／旧qファイバーでも到達不能**。これは行列式1だけでは不十分という具体的証明であり、`Γ₁(4)`の全行列が到達可能とは主張しない。実到達集合に対する制限付きの正確なfiber image EquivもLean4で構築。
