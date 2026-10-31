@@ -13,6 +13,20 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新の研究状態 — 2026-10-31 JST / F112-P94D3GK4AL
+
+**すべての真正K_AI→K_AG忘却ファイバーの可算性と条件付き有限行列正規形 — [定理PR #2809](https://github.com/itakura-hidetoshi/KuuOS/pull/2809) MERGED。** [全元F45依存型Homの真正ファイバー可算性Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4ALCountableFibers.lean)・[真正有限族の第二行列正規形と被覆条件Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4ALFiniteMatrixNormalForms.lean)をappend-only新規2Leanファイルで形式化。任意の元F45 source/target・任意旧K_AG類qに対し、真正従属型 `Fiber(q)={z:K_AI | U_AI,AG(z)=q}` から整数2×2行列への単射を持つため、**`Countable Fiber(q)`** をLean証明。さらに全K_AI型付きHomもCountable、各Fiberは実際に到達した第二行列の集合と正確にEquiv。任意の元F54 LocalRotationの真正自己Homおよび物理C60北側六角形について、**任意kで同じ到達旧類q_kのファイバーは可算、かつ`Fin(k+1) ↪ Fiber(q_k)`**をLean4で証明。構成したk+1行列の完全な有限正規形を定理化し、それらが**ファイバー全体を尽くすこと**は「到達第二行列像がその有限族で被覆されること」と必要十分であると証明。全体との`Fin(k+1) ≃ Fiber(q_k)`はその追加被覆条件の下で**のみ**成立。固定単一ファイバーの無限性、被覆条件そのもの、全整数行列到達性、`S→K_AI`全域忠実性は**未証明**。
+
+**前段GK4AKも正本へ同期 — [定理PR #2807](https://github.com/itakura-hidetoshi/KuuOS/pull/2807) MERGED：** 元F54真正の `W_k(j)=B^(6j);C;B^(12(k-j));C;B^(6j)` は旧四成分と第一行列が同じで、第二行列の整数decoder **`4b+2e-2a-c=8-192(k-j)`** で添字を分離。任意kで一つの真正到達ファイバーへの`Fin(k+1)`埋め込みを証明し、異なるkの旧類q_kも区別した。したがって**ファイバー径に一様な有限上界はない**。GK4AK [CI #41188601545](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41188601545) Strict Lean **3763/3763 SUCCESS**、Governance 5/5 SUCCESS、標準3公理のみ、sorryAx 0。[GK4AK証明・独立receipt](docs/formal/GK4AK-unbounded-finite-forgetful-fibers.md)。
+
+**GK4AL exact-source正本：** final source HEAD `ef696a52c417306d3c7c37cfcc32dd3ba0e0aa44`、定理squash＝定理統合直後main HEAD `6bbf03a04ee972399d54828d915e8f739698bcd5`、[CI #41190283756](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41190283756) **Strict Lean 3765/3765 SUCCESS・Governance 5/5 SUCCESS・新規公理表示14宣言は標準3のみ・sorryAx 0・変更Lean warning/error 0/0**。[GK4AL詳細証明・Mathlib補題名修正・CI receipt](docs/formal/GK4AL-countable-typed-fibers-finite-matrix-normal-forms.md)。固定Lean v4.30.0-rc2／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、公開root107・strict空中心／独立Kuu一presentation・Gray非再導入・保護PR #1558 Draft／OPEN／未マージ。
+
+**次候補GK4AM（未証明）：** 固定された旧K_AG類一つに無限個の真正異なる第二行列を載せられるか、または追加到達制限から有限族非網羅性・正確な像を明らかにする。任意大有限下界から単一無限ファイバーを推論しない。元Qの結合律・単位律、歴史的完全型付き同値、真正14D無条件Countable、19D filler、global strict n、hyperdescentも未証明のまま。
+
+> 以下のGK4AJ以前の「最新・次候補」は当時の歴史スナップショット。現行frontierはGK4AL。
+
+---
+
 ## 最新の研究状態 — 2026-10-31 JST / F112-P94D3GK4AJ
 
 **真正忘却ファイバーの三類下界・第二行列到達像の正確な同値 — [定理PR #2805](https://github.com/itakura-hidetoshi/KuuOS/pull/2805) MERGED：** [元F54真正三経路Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4AJTernaryPhysicalFiber.lean)・[真正第二行列ファイバー同値Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4AJExactMatrixFiber.lean)をappend-only新規2Leanファイル・**公理表示35宣言**で形式化。元F54の本当の二Nat cast `C`と実`LocalRotation`の前後2回転backtrack `B`を用いる3つの**同一型付き自己Hom**の経路 `w0=C;B¹²;C`、`w1=B³;C;B⁶;C;B³`、`w2=B⁶;C²;B⁶`について、元四成分観測が三者とも厳密に**`(false,-22,12,-132)`**、旧GK4AF行列も三者とも**`[[1,2],[0,1]]`**になることをLean証明。旧行列に表現由来の`B1³=-I`・`B1⁶=I`があるため同一の旧第二商`K_AG`類となる。しかし真正Type値比較全F55/P92B/独立構造seamを保存する第二行列`M_AH`は、`w0=[[-23,-34],[-48,-71]]`、`w1=[[1561,638],[-2640,-1079]]`、`w2=[[-599,-274],[1104,505]]`で**pairwise異なる**。従って新`K_AI`に**相異なる少なくとも3類が一つの実旧`K_AG`忘却ファイバー上に存在**することをLean4で証明。元LocalRotationを持つ任意の真正自己Hom・物理C60北側六角形に特殊化した。
