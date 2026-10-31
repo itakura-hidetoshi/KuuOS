@@ -292,9 +292,7 @@ theorem nativeGK4YBooleanUnitFiber_aleph0 :
   letI : Countable
       (NativeGK4SKernelClasses (nativeGK4XEnhancedP92Family p D E)
         tree tree) :=
-    Countable.of_injective
-      (nativeGK4YEnhancedKernelValue tree tree)
-      (nativeGK4YEnhancedKernelValue_injective tree tree)
+    (nativeGK4YEnhancedKernelValue_injective tree tree).countable
   letI : Countable (NativeGK4YBooleanUnitFiber tree) := inferInstance
   letI : Infinite (NativeGK4YBooleanUnitFiber tree) :=
     Infinite.of_injective (nativeGK4YCastTowerUnitFiber tree)
