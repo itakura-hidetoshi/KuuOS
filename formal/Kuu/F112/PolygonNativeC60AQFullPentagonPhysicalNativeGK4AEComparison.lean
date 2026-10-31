@@ -230,7 +230,7 @@ theorem nativeGK4AEComparison_eq_iff_components
       congrArg (fun z : NativeGK4AEValue => z.2.2) h⟩
   · rintro ⟨htriple, hm⟩
     apply Prod.ext
-    · have htr := congrArg Prod.fst htriple
+    · have htr := congrArg (fun z : NativeGK4AAValue => z.1.1) htriple
       exact htr
     · apply Prod.ext
       · have hp := (nativeGK4AEQuadStructural_forget first last u).trans
@@ -300,7 +300,7 @@ def nativeGK4AEForgetMomentValueFunctor :
 #print axioms nativeGK4AEComparison_eq_iff
 #print axioms nativeGK4AEComparison_surjective
 #print axioms nativeGK4AEComparison_eq_iff_components
-#print axioms nativeGK4AEValuePoint
+#print axioms NativeGK4AEValuePoint
 #print axioms nativeGK4AEValueCategory
 #print axioms nativeGK4AEValueFunctor
 #print axioms nativeGK4AEForgetMomentValueFunctor
