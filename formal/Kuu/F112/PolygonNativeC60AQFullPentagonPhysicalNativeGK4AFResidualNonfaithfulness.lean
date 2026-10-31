@@ -120,6 +120,7 @@ theorem nativeGK4AFP92Classes_ne :
     (nativeGK4AFWordBCCB rot).gk4afMatrix at hv
   rw [nativeGK4AFWordCBBC_matrix, nativeGK4AFWordBCCB_matrix] at hv
   have hentry := congrArg (fun m : NativeGK4AFMatrix => m.1.1) hv
+  change (0 : Int) = (-1 : Int) at hentry
   omega
 
 /-- In the independently larger structural proof-existence quotient
@@ -136,6 +137,7 @@ theorem nativeGK4AFStructuralClasses_ne :
     (nativeGK4AFWordBCCB rot).gk4afMatrix at hv
   rw [nativeGK4AFWordCBBC_matrix, nativeGK4AFWordBCCB_matrix] at hv
   have hentry := congrArg (fun m : NativeGK4AFMatrix => m.1.1) hv
+  change (0 : Int) = (-1 : Int) at hentry
   omega
 
 /-- The genuine P92B second observational K_AE DOES identify them,
