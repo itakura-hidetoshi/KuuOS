@@ -2,6 +2,22 @@
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK4AT / 2026-10-31 JST
+
+**真正F54の第一行列AFと第二行列AHが全成分で法3に一致することをLean4証明 — [定理PR #2825](https://github.com/itakura-hidetoshi/KuuOS/pull/2825) MERGED。** C・Fは同一、後退生成子の左下だけが1と4で異なることから、固定mathlibのInt.ModEqを用いて真正RotationEdge・RotationChain・DepthRotationRoute全5構成子上の整合性を証明。元P92B Qと独立構造Sへ別々に降下し、真正K_AIと任意固定旧K_AG類qに適用した。旧qが既に保持するAF行列P(q)により **M_AH≡P(q)(mod3)** が全成分で強制される。
+
+**今回は非冗長な新obstruction：AttainedMatrix(q) ⊆ Γ_AT(q) ⊊ Γ_AS(q)=Γ_AR(q) ⊊ Γ_AQ(q)。** Γ_ATは従前ASの全条件と第一行列mod3の連言。既存忘却全射から取った実到達Mを算術的にM·U(16)へ移すとAS条件は保つが、mod3一致を保てば第一列がmod3で零となりdet=1に矛盾する。従って任意旧qで真の包含。**移動後の行列を元F54経路として実現するとは主張しない。** 真正Fiberから新sliceへの埋込みも証明した。
+
+**同一旧q内の合同精度：左上・左下・右下は法48、右上は法12で一致。** 既存の法16（右上のみ法4）と新しい法3を、固定mathlibの互いに素な法の合同定理で結合した。全成分が法48になるという主張ではない。
+
+**GK4AT exact-source：** source `7b79d067a9b8aa8174df7357860de839d3ba6b29`、実CI checkout `91aabe754c4660cbddf9fd77c33f69459dc4bbcb`、定理squash `895f6520a4ea2afc06d75f626ff0b721c73d89de`、三者共通tree `8847ec9b69cbeb5e416919c2cb5daabcb18494e2`。[CI #41201974238](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41201974238) **Strict Lean3779/3779・Governance5/5 SUCCESS、新規2Lean・28宣言標準3公理以内、sorryAx0、変更Lean warning/error0/0**。[詳細証明と修正・CI記録](docs/formal/GK4AT-cross-matrix-mod3-strict-slices-mod48.md)。Lean v4.30.0-rc2／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、公開root107維持、strict空中心・独立Kuu一presentation・Gray非再導入、保護PR #1558 Draft／OPEN／未マージ。
+
+**次はGK4AU（未形式化候補）。** 第一・第二行列の共通整数パラメータ付き観測を、真正比較証拠の保存から調べる。単一固定旧qの無限ファイバー、算術slice全域到達、元Q圏公理、歴史的完全型付き同値、14D無条件Countable、19D filler、global strict、hyperdescentは未証明。
+
+> 以下のGK4AS以前の「最新・次候補」は歴史スナップショット。現行frontierはGK4AT。
+
+---
+
 **最新のLean定理統合 — F112-P94D3GK4AS / [定理PR #2823](https://github.com/itakura-hidetoshi/KuuOS/pull/2823) MERGED（2026-10-31 JST）。** [真正F54右下対角mod16・trace・同一算術slice Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4ASForcedLowerDiagonal.lean)をappend-only新規1Leanファイル・18宣言で形式化。旧GK4AD値v=((charge,beta),moment)、三角数T(β)、ρ=charge+β、s=moment+T(β)、真正第二整数行列M=[[a,b],[c,d]]において、従前の **ad−bc=1, a≡1+4s(mod16), b≡ρ(mod4), c≡4β(mod16), d≡1(mod4)** から整数証人を**明示構成**し、**d≡1+4(ρβ−s)(mod16)** をLean4証明。左上との加法により **tr(M)≡2+4ρβ(mod16)** も導出。元F54 RotationEdge／RotationChain／DepthRotationRoute全5構成子、元F55/P92B実Type値比較を継承した元Q・独立S、真正K_AI、任意旧qの実従属忘却Fiberへ適用。観測値一致からType値比較は追加せず、元Q圏公理も仮定しない。
 
 **新しい算術障害ではないことを定理で確定：** 行列式から**右下合同はGK4AR条件により既に強制される**ので、全整数行列に対し新AS predicate iff 旧AR predicate、任意固定旧qで **Γ_AS(q)=Γ_AR(q)**。これまでの真正な厳格境界は **AttainedMatrix(q)⊆Γ_AS(q)=Γ_AR(q)⊊Γ_AQ(q)** と正確に書ける。AS⊊ARは成立せず、算術slice全域の到達性・固定単一無限ファイバーは主張しない。元GK4AN有限下界、GK4AL可算性、GK4AM正k有限族非網羅は維持。
