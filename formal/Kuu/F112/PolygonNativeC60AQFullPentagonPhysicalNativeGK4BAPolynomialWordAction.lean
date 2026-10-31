@@ -210,6 +210,7 @@ theorem nativeGK4BAPolyWordAction_backward (z : NativeGK4BAPolyVector) :
   simp [nativeGK4BAPolyFactors, nativeGK4BAPolyLowerHom,
     nativeGK4BAPolyLowerPerm, nativeGK4BAPolyLowerShear,
     nativeGK4BAPolyMatAction, nativeGK4AVBackward]
+  exact add_comm _ _
 
 theorem nativeGK4BAPolyWordAction_unit (z : NativeGK4BAPolyVector) :
     nativeGK4BAPolyWordAction nativeGK4BAWordOne z =
