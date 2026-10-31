@@ -24,6 +24,8 @@ Copyright © 2026 Hidetoshi Itakura / 板倉英俊. Apache-2.0.
 -/
 
 namespace Kuu.F112.Physical
+open Cardinal
+open scoped Function Pointwise
 set_option autoImplicit false
 set_option warningAsError true
 set_option maxRecDepth 8192
@@ -35,11 +37,13 @@ written multiplicatively, into integer permutations. -/
 def nativeGK4AZUpperHom : Multiplicative Int →* Equiv.Perm (Int × Int) where
   toFun h := nativeGK4AYUpperPerm (Multiplicative.toAdd h)
   map_one' := by
-    ext z
+    apply Equiv.ext
+    intro z
     change nativeGK4AYUpperShear 0 z = z
     exact nativeGK4AYUpperShear_zero z
   map_mul' a b := by
-    ext z
+    apply Equiv.ext
+    intro z
     change nativeGK4AYUpperShear
       (Multiplicative.toAdd a + Multiplicative.toAdd b) z =
       nativeGK4AYUpperShear (Multiplicative.toAdd a)
@@ -50,11 +54,13 @@ def nativeGK4AZUpperHom : Multiplicative Int →* Equiv.Perm (Int × Int) where
 def nativeGK4AZLowerHom : Multiplicative Int →* Equiv.Perm (Int × Int) where
   toFun h := nativeGK4AYLowerPerm (Multiplicative.toAdd h)
   map_one' := by
-    ext z
+    apply Equiv.ext
+    intro z
     change nativeGK4AYLowerShear 0 z = z
     exact nativeGK4AYLowerShear_zero z
   map_mul' a b := by
-    ext z
+    apply Equiv.ext
+    intro z
     change nativeGK4AYLowerShear
       (Multiplicative.toAdd a + Multiplicative.toAdd b) z =
       nativeGK4AYLowerShear (Multiplicative.toAdd a)
@@ -118,9 +124,6 @@ theorem nativeGK4AZPingPong :
     exact hh
   have hz' : (nativeGK4AZFactors i h)⁻¹ • z ∈ nativeGK4AZCones j :=
     (Set.mem_smul_set_iff_inv_smul_mem).mp hz
-  have hz0 :
-      (nativeGK4AZFactors i h) •
-        ((nativeGK4AZFactors i h)⁻¹ • z) = z := by simp
   cases i <;> cases j
   · exact (hij rfl).elim
   ·
@@ -130,7 +133,10 @@ theorem nativeGK4AZPingPong :
       ((nativeGK4AZUpperHom h)⁻¹ • z) hz'
     change nativeGK4AYHorizontal
       ((nativeGK4AZUpperHom h) • ((nativeGK4AZUpperHom h)⁻¹ • z)) at hs
-    simpa only [hz0] using hs
+    have hr : (nativeGK4AZUpperHom h) •
+      ((nativeGK4AZUpperHom h)⁻¹ • z) = z := by simp
+    rw [hr] at hs
+    exact hs
   ·
     change nativeGK4AYHorizontal ((nativeGK4AZLowerHom h)⁻¹ • z) at hz'
     have hs := nativeGK4AYLower_maps_horizontal
@@ -138,7 +144,10 @@ theorem nativeGK4AZPingPong :
       ((nativeGK4AZLowerHom h)⁻¹ • z) hz'
     change nativeGK4AYVertical
       ((nativeGK4AZLowerHom h) • ((nativeGK4AZLowerHom h)⁻¹ • z)) at hs
-    simpa only [hz0] using hs
+    have hr : (nativeGK4AZLowerHom h) •
+      ((nativeGK4AZLowerHom h)⁻¹ • z) = z := by simp
+    rw [hr] at hs
+    exact hs
   · exact (hij rfl).elim
 
 /-- Formal Sanov free-product theorem for the EXACT integral shears:
