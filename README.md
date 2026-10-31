@@ -13,6 +13,22 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新の研究状態 — 2026-10-31 JST / F112-P94D3GK4AE
+
+**元F54四成分非可換観測・真正第二kernel圏・順序moment忘却の非忠実性 — [定理PR #2795](https://github.com/itakura-hidetoshi/KuuOS/pull/2795) MERGED：** [GK4AE元四成分観測Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4AEFourObserver.lean)、[元F54観測同定・真正比較Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4AEComparison.lean)、[真正四成分第二kernel圏Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4AEKernelCategory.lean)、[真正順序moment忘却関手Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4AEKernelForgetful.lean)を**append-only新規Lean4ファイル・69宣言**で証明。
+
+元F54真正Type値経路から四成分`O_AE(r)=(physicalGrade, castCharge, backwardCount, orderedMoment)`を構成。値域`Bool × ((Int×Nat)×Int)`の積は`(g,(c,b,m))⋄(h,(d,e,n))=(g&&h,(c+d,b+e,m+n+c*e))`であり、**非可換**。本来のF55全9、元P92B全9（実assocNaturality）、独立構造seam全14、拡張構造比較全3の実Type値保存証明を前提として、**元P92B証拠存在商Qと独立構造比較商Sへ別々に降下**し、元F54全構成子で合成・左右文脈の整合性を証明。さらにGK4ADで構成した順序付き観測の最初の2成分が**元GK4W castChargeおよびGK4Z backwardCountと本当に一致**することを、元RotationEdge/RotationChain/DepthRotationRouteに対する完全帰納法で証明。観測値の一致から元Type値P92B 3-cellは生成しない。
+
+**新しい第二kernel商`K_AE`**は元`Q`から四成分観測値一致で構成した真正GK4S商であり、元`Q`の未証明圏公理を使わずに**Mathlibの結合律・左右単位を四成分値の非可換積から形式化**。`S→K_AE`比較はHom全射、`K_AE→`四成分値圏はHom単射。第四成分だけを忘れる**真正Mathlib関手`K_AE→K_AA`**を構成し、元の`S→K_AA`との可換性およびHom全射を証明。本物の元F54 Type値経路`u=cast;backtrack`、`v=backtrack;cast`では`O_AA(u)=O_AA(v)=((false,-1),1)`だが`orderedMoment(u)=0`、`orderedMoment(v)=-1`。したがって**`[u]_{K_AE}≠[v]_{K_AE}`なのに`K_AA`へは同一視され、真正`K_AE→K_AA`忘却関手は任意の実F54局所回転を持つ型付きself-Homで非忠実**。真正C60北側六角形にも特殊化。GK4ADの`S→K_AA`非忠実性、GK4ACの別の`K_AA→K_X`完全ファイバー同値とは区別する。**`S→K_AE`の全域忠実性は未証明**として保持する。
+
+**定理検証正本：** 最終exact-source HEAD `26ae50769b959e2d9b0a27af6196773f9d952deb`、定理squash SHA＝マージ直後canonical main HEAD `1480dc47852cfe6a3224e0811e7dec1a377d01b3`。[Strict Lean/Governance #41181371095](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41181371095) **3749/3749 Strict Lean SUCCESS、Governance 5/5 SUCCESS、69宣言`#print axioms`標準3公理以内、sorryAx 0、変更Lean warning/error 0/0**。[証明・数学的権限境界・Lean記法修正履歴](docs/formal/GK4AE-four-component-observer-kernel-refinement.md)。Lean v4.30.0-rc2・mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、公開root107、strict空中心・独立Kuu一presentation、Gray非導入、保護PR #1558 Draft/OPEN/未マージ保持。
+
+**次段階GK4AF（未証明）：** 四成分観測の同一値ファイバー内で真に異なる元構造商`S`類が残るか、元F54の文脈位置・非可換高次順序・原Type値履歴を用いて忠実性／障害を判定する。元P92B`Q`の結合律・左右単位、歴史的完全型付き同値、真正14D無条件Countable、19D filler、global strict n、hyperdescentは引き続き未証明。
+
+> 以下のGK4AD以前の「最新」「次段階」は歴史記録。現在の形式化frontierはGK4AE。
+
+---
+
 ## 最新の研究状態 — 2026-10-31 JST / F112-P94D3GK4AD
 
 **真正三成分観測の残余非忠実性を非可換原F54履歴で解決 — [定理PR #2793](https://github.com/itakura-hidetoshi/KuuOS/pull/2793) MERGED：** [非可換順序付き履歴不変量Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4ADOrderedHistoryInvariant.lean)・[三成分観測の真正非忠実性Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4ADTripleNonfaithfulness.lean)を**append-only新規Lean2ファイル・36宣言**で証明。元F54の**実Type値`castDepths`と`RotationEdge.backward`の順序**を、`((castCharge,backwardCount),orderedMoment) : (Int×Nat)×Int`で記録。真正非可換演算`(c,b,m)⋄(d,e,n)=(c+d,b+e,m+n+c*e)`、単位`(0,0,0)`を構成。元の真正F54 assocが含む1 cast・1 forwardはこの値で単位になる一方、castとbackwardの順序は交換できない。**元F55全9、元P92B全9（本物のassocNaturalityを含む）、構造seam全14、拡張構造比較全3の実Type値構成子を個別帰納法でsoundness検証**し、新観測を`Q`元P92B証拠存在商と`S`独立構造商へ**別個に降下**。実`Q→S`可換、構造合成保存、構造単位も証明。原Type値3-cellを観測一致から生成しない。
