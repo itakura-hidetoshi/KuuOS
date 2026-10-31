@@ -253,10 +253,10 @@ def nativeGK4AEEnhancedKernelComparisonFunctor
     NativeGK4IStage p ma mb pa pb ⥤
       NativeGK4AEEnhancedKernelStage p ma mb pa pb where
   obj X := ⟨X⟩
-  map := fun {X Y} f => nativeGK4AEQuadComparison X.2.2 Y.2.2 f
+  map := fun {X Y} f => nativeGK4AEComparison X.2.2 Y.2.2 f
   map_id := by
     intro X
-    change nativeGK4AEQuadComparison X.2.2 X.2.2
+    change nativeGK4AEComparison X.2.2 X.2.2
         (nativeGK4H_structuralUnit X.2.2) =
       nativeGK4AEEnhancedKernelUnit X.2.2
     exact nativeGK4U_comparison_preserves_unit
@@ -264,11 +264,11 @@ def nativeGK4AEEnhancedKernelComparisonFunctor
       X.2.2 (nativeGK4AEQuadSeamInvariant X.2.2 X.2.2)
   map_comp := by
     intro X Y Z f g
-    change nativeGK4AEQuadComparison X.2.2 Z.2.2
+    change nativeGK4AEComparison X.2.2 Z.2.2
         (nativeGK4H_structuralCompose X.2.2 Y.2.2 Z.2.2 f g) =
       nativeGK4AEEnhancedKernelCompose X.2.2 Y.2.2 Z.2.2
-        (nativeGK4AEQuadComparison X.2.2 Y.2.2 f)
-        (nativeGK4AEQuadComparison Y.2.2 Z.2.2 g)
+        (nativeGK4AEComparison X.2.2 Y.2.2 f)
+        (nativeGK4AEComparison Y.2.2 Z.2.2 g)
     exact nativeGK4U_comparison_preserves_compose
       (nativeGK4AEQuadP92Family p D E) nativeGK4AECombine
       (nativeGK4PIdentityAction p D E (NativeGK4AEValue))
@@ -291,7 +291,7 @@ theorem nativeGK4AEComparisonFunctor_surjective_hom
     Function.Surjective
       (fun f : X ⟶ Y =>
         (nativeGK4AEEnhancedKernelComparisonFunctor p ma mb pa pb).map f) := by
-  exact nativeGK4AEQuadComparison_surjective X.2.2 Y.2.2
+  exact nativeGK4AEComparison_surjective X.2.2 Y.2.2
 
 /-- The *genuine second kernel quotient* admits a faithful
 observational functor into the separate ambient Bool×Int value
@@ -347,7 +347,7 @@ theorem nativeGK4AEComparison_value_factor_map
     (nativeGK4AEEnhancedKernelValueFunctor p ma mb pa pb).map
         ((nativeGK4AEEnhancedKernelComparisonFunctor p ma mb pa pb).map f) =
       (nativeGK4AEValueFunctor p ma mb pa pb).map f := by
-  exact nativeGK4AEQuadComparison_value X.2.2 Y.2.2 f
+  exact nativeGK4AEComparison_value X.2.2 Y.2.2 f
 
 theorem nativeGK4AEComparison_value_factor_obj
     {D : Type uD} [Category.{vD} D]
@@ -380,7 +380,7 @@ theorem nativeGK4AEComparisonFunctor_injective_iff_enhanced
       Function.Injective
       (fun f : X ⟶ Y =>
         (nativeGK4AEValueFunctor p ma mb pa pb).map f) := by
-  exact nativeGK4AEQuadComparison_injective_iff X.2.2 Y.2.2
+  exact nativeGK4AEComparison_injective_iff X.2.2 Y.2.2
 
 #print axioms nativeGK4AEEnhancedKernelUnit
 #print axioms nativeGK4AEEnhancedKernelCompose
