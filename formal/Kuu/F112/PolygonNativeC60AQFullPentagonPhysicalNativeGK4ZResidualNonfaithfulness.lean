@@ -91,7 +91,7 @@ def nativeGK4ZBalancedStep :
     (nativeGK4ZBalancedStep rot).gk4wCastCharge = (0 : Int) := by
   rw [nativeGK4ZBalancedStep, nativeGK4W_charge_trans,
     nativeGK4W_charge_trans, nativeGK4WCastRoute_charge,
-    nativeGK4WCastRoute_charge, nativeGK4ZBacktrack_charge]
+    nativeGK4ZBacktrack_charge]
   omega
 
 /-- Recursively concatenate ACTUAL balanced F54 proof words to the
@@ -146,7 +146,7 @@ theorem nativeGK4ZBalancedTower_observation (k : Nat) :
   · change decide ((nativeGK4ZBalancedTower rot k).rotationCount = 0) = false
     rw [nativeGK4ZBalancedTower_rotation]
     have hk : 2 * (k + 1) ≠ (0 : Nat) := by omega
-    simp only [hk, decide_False]
+    simp [hk]
   · exact nativeGK4ZBalancedTower_charge rot k
 
 /-- These original source proofs are GENUINELY DIFFERENT in the
@@ -179,7 +179,8 @@ theorem nativeGK4ZBalancedTower_comparison_constant (i j : Nat) :
 
 /-- MAIN no-go: actual S->K_X comparison is NOT injective at EVERY
 original F45 tree with a witnessed TRUE F54 local rotation. -/
-theorem nativeGK4ZEnhancedComparison_not_injective :
+theorem nativeGK4ZEnhancedComparison_not_injective
+    (rot : KuuNativeF45Tree.LocalRotation p before after) :
     ¬ Function.Injective
       (nativeGK4XEnhancedComparison before before) := by
   intro hinj
@@ -191,14 +192,15 @@ theorem nativeGK4ZEnhancedComparison_not_injective :
 /-- A TRUE residual fiber of genuine independent structural
 classes with precisely the SAME GK4X enhanced value (false,-2).
 It is not a synthetic raw word equivalence and not the full S Hom. -/
-abbrev NativeGK4ZResidualStructuralFiber :=
-  {s : NativeGK4EStructuralRouteClasses before before //
-    nativeGK4XEnhancedStructural before before s = (false, (-2 : Int))}
+abbrev NativeGK4ZResidualStructuralFiber
+    (tree : KuuNativeF45Tree p n m ma pa mb pb) :=
+  {s : NativeGK4EStructuralRouteClasses tree tree //
+    nativeGK4XEnhancedStructural tree tree s = (false, (-2 : Int))}
 
 /-- Actual F54 balanced towers land in the SAME original structural
 enhanced-observation fiber with original complete Type-valued proofs. -/
 def nativeGK4ZResidualTowerFiber (k : Nat) :
-    NativeGK4ZResidualStructuralFiber rot :=
+    NativeGK4ZResidualStructuralFiber before :=
   ⟨nativeGK4EStructuralRouteClass before before
       (nativeGK4ZBalancedTower rot k),
     nativeGK4ZBalancedTower_observation rot k⟩
@@ -230,14 +232,14 @@ physical original S Hom countability. No generic D/E countability
 hypothesis is silently dropped. -/
 theorem nativeGK4Z_physical_north_residual_fiber_aleph0 :
     Cardinal.mk (NativeGK4ZResidualStructuralFiber
-      northHexagonNativeLeftRotation) = Cardinal.aleph0 := by
+      nativeGK4FPhysicalNorthTriple) = Cardinal.aleph0 := by
   letI : Countable (NativeGK4EStructuralRouteClasses
       nativeGK4FPhysicalNorthTriple nativeGK4FPhysicalNorthTriple) :=
     (nativeGK4G_physical_north_structural_countable_and_graded).1
   letI : Countable (NativeGK4ZResidualStructuralFiber
-      northHexagonNativeLeftRotation) := inferInstance
+      nativeGK4FPhysicalNorthTriple) := inferInstance
   letI : Infinite (NativeGK4ZResidualStructuralFiber
-      northHexagonNativeLeftRotation) :=
+      nativeGK4FPhysicalNorthTriple) :=
     Infinite.of_injective (nativeGK4ZResidualTowerFiber
       northHexagonNativeLeftRotation)
       (nativeGK4ZResidualTowerFiber_injective northHexagonNativeLeftRotation)
