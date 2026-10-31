@@ -205,6 +205,15 @@ theorem nativeGK4AEComparison_eq_iff
     apply Subtype.ext
     simpa only [nativeGK4AEComparison_value] using h
 
+theorem nativeGK4AEComparison_injective_iff :
+    Function.Injective (nativeGK4AEComparison first last) ↔
+      Function.Injective (nativeGK4AEQuadStructural first last) := by
+  constructor
+  · intro hinj u v h
+    exact hinj ((nativeGK4AEComparison_eq_iff first last u v).mpr h)
+  · intro hinj u v h
+    exact hinj ((nativeGK4AEComparison_eq_iff first last u v).mp h)
+
 theorem nativeGK4AEComparison_surjective :
     Function.Surjective (nativeGK4AEComparison first last) := by
   exact nativeGK4TComparison_surjective
@@ -298,6 +307,7 @@ def nativeGK4AEForgetMomentValueFunctor :
 #print axioms nativeGK4AEComparison
 #print axioms nativeGK4AEComparison_value
 #print axioms nativeGK4AEComparison_eq_iff
+#print axioms nativeGK4AEComparison_injective_iff
 #print axioms nativeGK4AEComparison_surjective
 #print axioms nativeGK4AEComparison_eq_iff_components
 #print axioms NativeGK4AEValuePoint
