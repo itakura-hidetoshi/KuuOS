@@ -13,6 +13,20 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新の研究状態 — 2026-10-31 JST / F112-P94D3GK4AQ
+
+**元F54第二整数行列の左下成分が真正旧backwardCountの4倍に法16で一致することをLean4証明 — [定理PR #2819](https://github.com/itakura-hidetoshi/KuuOS/pull/2819) MERGED。** [元F54全構成子の下左mod16合同証明Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4AQLowerLeftResidue.lean)・[任意旧qのGK4AP算術slice内部にあるさらに厳格な障害Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4AQStrictLowerSlice.lean) をappend-only新規2Leanファイル・公理表示27宣言で形式化。真正GK4AH整数2×2行列`M=[[a,b],[c,d]]`と元GK4AD非可換Type値履歴のbackwardCount `β(r)`について、**`c≡4β(r)(mod16)`** を元forward/backward RotationEdge・実RotationChain・二Nat cast・trans・左右contextから直接帰納的に証明。元F55/P92B/構造seamの実Type値比較保存性を保持し、元P92B存在商Qと独立Sへ別々に降下、真正K_AI・全元F45依存型Hom・任意固定旧K_AG類qの忘却ファイバーへ伝播した。GK4AOの`det=1`・Γ₁(4)合同条件およびGK4APの**右上`b≡charge+β(mod4)`をすべて維持**。
+
+**同じ旧qでの厳格な算術slice：** `ρ(q)=charge(q)+β(q)`とすれば、**`AttainedMatrix(q) ⊆ Γ₁(4)^(q,16) ⊊ Γ₁(4)^(q) ⊊ Γ₁(4)`**。ここで`Γ₁(4)^(q,16)`は従来の右上`b≡ρ(q)(mod4)`に加えて左下`c≡4β(q)(mod16)`を課す。実際、`N(q)=[[1,ρ(q)],[4(β(q)+1),1+4(β(q)+1)ρ(q)]]`は**従来GK4APのq依存sliceには属するが、今回の左下mod16制約を破るため同じ真正Fiber(q)では到達不能**とLean4証明。全qについてこの真の包含を確立。新slice内の**実到達部分集合だけ**との正確なFiber Equivも形式化。固定単一ファイバーの無限性やslice全域到達は未証明。
+
+**GK4AQ exact-source正本：** 最終source HEAD `916381bd659e8fdf2a8b3ab951c5e1a33b8e8eb6`、CI test-merge checkout `7cd2220d26109490c52f7b7be663e8916959a194`、定理squash・マージ直後main `3297bbc78b4cc7309505bb43dacf800121493967`、共通Git tree `6a561b27089c7f06260d4e1aa63fbc4c2668b7da`。[CI #41197378209](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41197378209) **Strict Lean 3774/3774 SUCCESS、Governance 5/5 SUCCESS、新規27宣言標準3公理以内、sorryAx0、変更Lean warning/error0/0**。[GK4AQ詳細証明・初回Lean結合律正規化修正・CI receipt](docs/formal/GK4AQ-lower-left-mod16-fixed-fiber-arithmetic-slices.md)。Lean v4.30.0-rc2／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、公開root107維持、strict空中心・独立Kuu一presentation、Gray非再導入、保護PR #1558 Draft／OPEN／未マージ。
+
+**次のGK4AR候補（未証明）：** 旧orderedMomentと第二行列対角成分の法16の関係を検証するか、元F54真正経路を同一の旧qに無限個保持できるかを、実Type値証拠と正確な算術slice内で調べる。GK4ANの任意`Fin(2k+1)↪Fiber(q_k)`、GK4ALの全ファイバーCountable、GK4AMの`∀k>0,¬FamilyCovers(k)`を維持。元Q圏公理・歴史的完全同値・真正14D・19D filler・global strict・hyperdescentは別問題。
+
+> 以下のGK4AP以前の「最新・次候補」は歴史スナップショット。現行frontierはGK4AQ。
+
+---
+
 ## 最新の研究状態 — 2026-10-31 JST / F112-P94D3GK4AP
 
 **真正の固定旧観測類qで、第二整数行列の右上成分の法4剰余が旧charge・backwardCountから一意に決定されることをLean4証明 — [定理PR #2817](https://github.com/itakura-hidetoshi/KuuOS/pull/2817) MERGED。** [元F54の旧GK4AD・新GK4AHの型付き結合合同式Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4APLinkedObserverResidue.lean)・[固定q算術sliceとΓ₁(4)内部の到達不能行列Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4APFixedFiberArithmeticSlice.lean)をappend-only新規2Leanで形式化。元F54真正二Nat cast・forward/backward RotationEdge、途中木RotationChain、元DepthRotationRoute全5構成子、元Q・独立S、真正K_AIと元の従属忘却Fiberまで証明した。GK4AOの`det M=1`・対角1 mod4・左下0 mod4というΓ₁(4)制約を**保持**し、さらに第二行列`M_AH=[[a,b],[c,d]]`の**`b ≡ charge_AD(r) + backwardCount_AD(r) (mod4)`**という新しい非可換観測compatibilityを証明。したがって旧`K_AG`類`q`を固定すると、`Fiber(q)`全体の実到達行列の右上成分剰余が`ρ(q)=charge(q)+backwardCount(q)`に固定される。
