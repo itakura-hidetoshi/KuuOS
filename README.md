@@ -13,6 +13,22 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新の研究状態 — 2026-10-31 JST / F112-P94D3GK4AT
+
+**真正F54の第一行列AFと第二行列AHが全成分で法3に一致することをLean4証明 — [定理PR #2825](https://github.com/itakura-hidetoshi/KuuOS/pull/2825) MERGED。** C・Fは同一、後退生成子の左下だけが1と4で異なることから、固定mathlibのInt.ModEqを用いて真正RotationEdge・RotationChain・DepthRotationRoute全5構成子上の整合性を証明。元P92B Qと独立構造Sへ別々に降下し、真正K_AIと任意固定旧K_AG類qに適用した。旧qが既に保持するAF行列P(q)により **M_AH≡P(q)(mod3)** が全成分で強制される。
+
+**今回は非冗長な新obstruction：AttainedMatrix(q) ⊆ Γ_AT(q) ⊊ Γ_AS(q)=Γ_AR(q) ⊊ Γ_AQ(q)。** Γ_ATは従前ASの全条件と第一行列mod3の連言。既存忘却全射から取った実到達Mを算術的にM·U(16)へ移すとAS条件は保つが、mod3一致を保てば第一列がmod3で零となりdet=1に矛盾する。従って任意旧qで真の包含。**移動後の行列を元F54経路として実現するとは主張しない。** 真正Fiberから新sliceへの埋込みも証明した。
+
+**同一旧q内の合同精度：左上・左下・右下は法48、右上は法12で一致。** 既存の法16（右上のみ法4）と新しい法3を、固定mathlibの互いに素な法の合同定理で結合した。全成分が法48になるという主張ではない。
+
+**GK4AT exact-source：** source `7b79d067a9b8aa8174df7357860de839d3ba6b29`、実CI checkout `91aabe754c4660cbddf9fd77c33f69459dc4bbcb`、定理squash `895f6520a4ea2afc06d75f626ff0b721c73d89de`、三者共通tree `8847ec9b69cbeb5e416919c2cb5daabcb18494e2`。[CI #41201974238](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41201974238) **Strict Lean3779/3779・Governance5/5 SUCCESS、新規2Lean・28宣言標準3公理以内、sorryAx0、変更Lean warning/error0/0**。[詳細証明と修正・CI記録](docs/formal/GK4AT-cross-matrix-mod3-strict-slices-mod48.md)。Lean v4.30.0-rc2／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、公開root107維持、strict空中心・独立Kuu一presentation・Gray非再導入、保護PR #1558 Draft／OPEN／未マージ。
+
+**次はGK4AU（未形式化候補）。** 第一・第二行列の共通整数パラメータ付き観測を、真正比較証拠の保存から調べる。単一固定旧qの無限ファイバー、算術slice全域到達、元Q圏公理、歴史的完全型付き同値、14D無条件Countable、19D filler、global strict、hyperdescentは未証明。
+
+> 以下のGK4AS以前の「最新・次候補」は歴史スナップショット。現行frontierはGK4AT。
+
+---
+
 ## 最新の研究状態 — 2026-10-31 JST / F112-P94D3GK4AS
 
 **真正F54第二整数行列の右下成分mod16が既存GK4AO〜GK4AR条件から強制されることをLean4で形式化 — [定理PR #2823](https://github.com/itakura-hidetoshi/KuuOS/pull/2823) MERGED。** [新規GK4AS証明Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4ASForcedLowerDiagonal.lean) 1ファイル・18宣言。旧GK4ADのcharge χ、backwardCount β、orderedMoment m、三角数T(β)=β(β−1)/2、ρ=χ+β、s=m+T(β)に対して、真正GK4AH行列M=[[a,b],[c,d]]は **d≡1+4(ρβ−s) (mod16)** を満たす。行列式ad−bc=1、GK4ARの左上a≡1+4s(mod16)、GK4APの右上b≡ρ(mod4)、GK4AQの左下c≡4β(mod16)、GK4AOのd≡1(mod4)の**既存整数証人**を結合し、新しい右下整数証人を明示構成した。さらに **tr(M)=a+d≡2+4ρβ(mod16)** を証明。orderedMomentは対角和で相殺される。
