@@ -223,17 +223,25 @@ theorem nativeGK4AV_original_sound
   induction cell with
   | ident route => rfl
   | pentagon a b c d =>
-      simp only [KuuNativeF45Tree.DepthRotationRoute.pentagonLong,
-        KuuNativeF45Tree.DepthRotationRoute.pentagonShort,
-        nativeGK4AV_trans, nativeGK4AV_leftContext,
-        nativeGK4AV_rightContext, nativeGK4AV_assoc,
-        nativeGK4AVMul_leftUnit, nativeGK4AVMul_rightUnit]
+      -- The raw F54 pentagon contains 3 vs 2 genuine associators.
+      -- Its polynomial image sees the same ordered neutral factor.
+      let v : NativeGK4AVValue :=
+        nativeGK4AVMul nativeGK4AVCast
+          (nativeGK4AVMul nativeGK4AVOne nativeGK4AVForward)
+      change nativeGK4AVMul (nativeGK4AVMul v v) v =
+        nativeGK4AVMul v v
+      have hv : v = nativeGK4AVOne := by
+        dsimp [v]
+        rw [nativeGK4AVMul_leftUnit]
+        exact nativeGK4AVCastForward
+      simp only [hv, nativeGK4AVMul_leftUnit]
   | disjointSquare left right =>
-      simp only [KuuNativeF45Tree.DepthRotationRoute.squareLeftFirst,
-        KuuNativeF45Tree.DepthRotationRoute.squareRightFirst,
-        nativeGK4AV_trans, nativeGK4AV_leftContext,
-        nativeGK4AV_rightContext,
-        KuuNativeF45Tree.DepthRotationRoute.ofLocalRotation]
+      -- Each genuinely typed forward edge contributes ONE*F, irrespective
+      -- of which physical context is rotated first.
+      let v : NativeGK4AVValue :=
+        nativeGK4AVMul nativeGK4AVOne nativeGK4AVForward
+      change nativeGK4AVMul v v = nativeGK4AVMul v v
+      rfl
   | symm cell ih => exact ih.symm
   | trans left right ihLeft ihRight => exact ihLeft.trans ihRight
   | leftContext cell later ih => exact ih
