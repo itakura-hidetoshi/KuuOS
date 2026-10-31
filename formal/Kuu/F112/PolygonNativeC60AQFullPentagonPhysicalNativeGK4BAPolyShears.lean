@@ -89,6 +89,21 @@ def nativeGK4BAPolyUpperHom :
       abel
     · rfl
 
+/-- Explicit scalar-addition law in Z[X]^2, separated from the
+bundled permutation group-hom kernel proof. -/
+theorem nativeGK4BAPolyLowerShear_add (m n : Int)
+    (z : NativeGK4BAPolyVector) :
+    nativeGK4BAPolyLowerShear (m + n) z =
+      nativeGK4BAPolyLowerShear m (nativeGK4BAPolyLowerShear n z) := by
+  rcases z with ⟨x, y⟩
+  apply Prod.ext
+  · rfl
+  · change y + Polynomial.C (m + n) * Polynomial.X * x =
+      y + Polynomial.C n * Polynomial.X * x +
+        Polynomial.C m * Polynomial.X * x
+    rw [map_add]
+    ring
+
 /-- Lower polynomial shear as the second cyclic group hom. -/
 def nativeGK4BAPolyLowerHom :
     Multiplicative Int →* Equiv.Perm NativeGK4BAPolyVector where
@@ -102,16 +117,13 @@ def nativeGK4BAPolyLowerHom :
       simp
   map_mul' m n := by
     apply Equiv.ext
-    intro ⟨x, y⟩
-    apply Prod.ext
-    · rfl
-    · change y + Polynomial.C
-          (Multiplicative.toAdd m + Multiplicative.toAdd n) *
-          Polynomial.X * x =
-          y + Polynomial.C (Multiplicative.toAdd n) * Polynomial.X * x +
-            Polynomial.C (Multiplicative.toAdd m) * Polynomial.X * x
-      simp only [map_add, add_mul]
-      abel
+    intro z
+    change nativeGK4BAPolyLowerShear
+        (Multiplicative.toAdd m + Multiplicative.toAdd n) z =
+      nativeGK4BAPolyLowerShear (Multiplicative.toAdd m)
+        (nativeGK4BAPolyLowerShear (Multiplicative.toAdd n) z)
+    exact nativeGK4BAPolyLowerShear_add _ _ z
+
 
 /-- Universal polynomial target attached to EXACTLY the prior
 GK4AZ indexed two-cyclic free-product source. -/
@@ -196,6 +208,7 @@ theorem nativeGK4BAPolyWordAction_unit (z : NativeGK4BAPolyVector) :
 #print axioms nativeGK4BAPolyUpperPerm
 #print axioms nativeGK4BAPolyLowerPerm
 #print axioms nativeGK4BAPolyUpperHom
+#print axioms nativeGK4BAPolyLowerShear_add
 #print axioms nativeGK4BAPolyLowerHom
 #print axioms nativeGK4BAPolyFactors
 #print axioms nativeGK4BAPolyWordAction
