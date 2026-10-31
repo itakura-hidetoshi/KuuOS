@@ -180,7 +180,8 @@ theorem nativeGK4BDKAIIntegerEvaluation_four_triangle
   · intro X
     rfl
   · intro X Y f
-    exact nativeGK4BDKAIIntegerEvaluation_four_map p ma mb pa pb X Y f
+    simpa only [eqToHom_refl, Category.id_comp, Category.comp_id] using
+      (nativeGK4BDKAIIntegerEvaluation_four_map p ma mb pa pb X Y f)
 
 /-- The independent structural S is evaluated at ANY integer t
 via the genuine K_AI comparison and the already existing original
