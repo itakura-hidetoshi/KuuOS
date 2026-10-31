@@ -2,6 +2,16 @@
 
 
 
+**最新のLean定理統合 — F112-P94D3GK4AN / [定理PR #2813](https://github.com/itakura-hidetoshi/KuuOS/pull/2813) MERGED（2026-10-31 JST）。** [GK4AN真正奇数半backtrack族Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4ANShiftedOddFamily.lean)・[真正Fin(2k+1)忘却ファイバー埋め込みLean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4ANDoubledFiniteFibers.lean) をappend-only新規2Lean・新規16宣言で証明。実元F54の`P=B⁶`、`H=B³`、真の二Nat cast `C` を用い、**偶数族 `Even(j,d)=Pʲ C P²ᵈ C Pʲ`（j+d=k）、奇数族 `Odd(j,d)=Pʲ H C P²ᵈ⁺¹ C H Pʲ`（j+d+1=k）** を一つの実旧観測類 `q_k` の元F45依存型自己Homへ構成。旧四成分および第一行列は全経路で同一、独立した第二行列のdecoderは偶数族 `8-192d`、奇数族 `-88-192d`、合同差96で全て分離。GK4AKの`Fin(k+1)`と新規`Fin k`を真のファイバー内で結合し、固定mathlibの`finSumFinEquiv`により**`∀ k : Nat, Fin(2*k+1) ↪ Fiber(q_k)`** をLean4形式化。さらに**任意の同じファイバーはCountable**で、真正C60北側六角形にも無条件特殊化。k別の有限下界は1,3,5,7,9,…で、**各固定ファイバーが無限という意味ではない**。GK4ALの全ファイバー可算性、GK4AMの全正kについて`¬FamilyCovers(k)`を保持。
+
+**GK4AN exact-source証明正本：** source HEAD `7b122beae70e0d069c0b922f7b429d0da1b930f8`、CI checkout `3c8699e452fbf84598d7339118c02c1cddc04e53`、定理squash・マージ直後canonical main `d95fdece191605e413423c6efede04ac739b611c`、三者共通Git tree `70653a884faf43a83f9de7db846d858576b366e3`。[CI #41193236442](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41193236442) **Strict Lean 3769/3769 SUCCESS、Governance 5/5 SUCCESS、新規16宣言標準3公理以内、sorryAx0、変更Lean warning/error0/0**。[GK4AN完全証明・型付き経路・Lean4修正・CI receipt](docs/formal/GK4AN-doubled-finite-typed-fiber-lower-bound.md)。固定Lean v4.30.0-rc2、mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、公開root107、strict空中心、独立Kuu一presentation、Gray圏は再導入しない。保護PR #1558 Draft／OPEN／未マージを維持。
+
+**次段階GK4AO候補（未証明）：** 単一固定旧類に無限個の真正K_AIクラスが存在するかをさらに検討し、新しい2×2整数行列の到達必要条件（行列式・合同式）を元F54の全構成子と真正比較証拠から証明する。存在範囲と不存在範囲を分け、無条件の完全有限正規形／任意行列到達性を主張しない。元Qの圏公理、真正14D、19D filler、global strictおよびhyperdescentは未証明として保持。
+
+> 以下のGK4AM以前の「最新・次候補」は歴史時点の記録。現行frontierはGK4AN。
+
+---
+
 **最新のLean定理統合 — F112-P94D3GK4AM / [定理PR #2811](https://github.com/itakura-hidetoshi/KuuOS/pull/2811) MERGED（2026-10-31 JST）。** [元F54真正k=1非網羅性Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4AMNoncoverage.lean)と[全正数k非網羅性Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4AMUniformNoncoverage.lean)をappend-only新規2Lean、25宣言で形式化。GK4AJの真正3点経路から`B³;C;B⁶;C;B³`をGK4AKの実旧類`q_1`ファイバーに置き、第二行列decoder`-88`がGK4AKの`-184, 8`のどちらとも一致しないことをLean証明。これによりGK4ALの**`FamilyCovers(1)`は偽**。さらに`H=B³`、`P=B⁶`、`V_d=H;C;P^(2d+1);C;H`の本物の型付きsourceによって、すべての`k=d+1>0`で旧四成分・第一行列は真の`q_k`と一致、第二行列decoder`-88-192d`は既存有限族の`8-192(k-j)`と異なる。従って**`∀k>0, ¬FamilyCovers(k)`**を元LocalRotationがある任意文脈と真正C60北側六角形にLean証明した。到達可能行列像の外ではなく、**実際に到達するq_kファイバーの内部**での非網羅性である。
 
 **GK4AM exact-source検証：** source HEAD `661cee6a92152f64d09ab8a72e6373f3db9cba6c`、CI checkout SHA `8a38ef1efcc072d478e19e372c31aa1ab16fc79b`、定理squash・統合直後canonical main HEAD `6ef7ccacce400f9ead9fadc5e92354c2c18397e7`、三者のGit tree `f5c5595b08e19261d74a615ad31247d8e0a5a8b8`で一致。[CI #41191976426](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41191976426) **Strict Lean 3767/3767 SUCCESS、Governance 5/5 SUCCESS、標準3公理のみ、sorryAx0、変更Lean warning/error0/0**。[GK4AM詳細証明・初回elaboration修正と最終receipt](docs/formal/GK4AM-uniform-positive-finite-family-noncoverage.md)。公開root107、Lean v4.30.0-rc2、mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、strict空中心・独立Kuu一presentation、Grayなし、保護PR #1558 Draft/open/unmerged。
