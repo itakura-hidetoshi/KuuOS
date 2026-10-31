@@ -202,10 +202,11 @@ theorem nativeGK4BAIntegerWordAction_add
       nativeGK4BAIntAdd
         (nativeGK4BAIntegerWordAction w z)
         (nativeGK4BAIntegerWordAction w t) := by
-  induction w using Monoid.CoprodI.induction_on with
+  induction w using Monoid.CoprodI.induction_on generalizing z t with
   | one =>
       simp [nativeGK4BAIntegerWordAction_one, nativeGK4BAIntAdd]
   | of i m =>
+      simp only [nativeGK4BAIntegerWordAction, Monoid.CoprodI.lift_of]
       cases i with
       | false =>
           change nativeGK4AYUpperShear (Multiplicative.toAdd m)
