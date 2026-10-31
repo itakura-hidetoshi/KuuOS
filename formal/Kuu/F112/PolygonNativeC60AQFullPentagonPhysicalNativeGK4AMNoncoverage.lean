@@ -80,6 +80,12 @@ theorem nativeGK4AMMiddle_not_family (i : Fin (1 + 1)) :
     (fun z : nativeGK4AJOldFiber before before (nativeGK4AKOldTarget rot 1) =>
       nativeGK4AKDecoder
         (nativeGK4AJFiberMatrix before before (nativeGK4AKOldTarget rot 1) z)) h
+  change nativeGK4AKDecoder
+      (nativeGK4AJFiberMatrix before before
+        (nativeGK4AKOldTarget rot 1) (nativeGK4AMMiddleFiberPoint rot)) =
+    nativeGK4AKDecoder
+      (nativeGK4AJFiberMatrix before before
+        (nativeGK4AKOldTarget rot 1) (nativeGK4AKFiberPoint rot 1 i)) at hd
   rw [nativeGK4AMMiddle_decoder rot] at hd
   change (-88 : Int) =
     nativeGK4AKDecoder
