@@ -13,6 +13,22 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新の研究状態 — 2026-10-31 JST / F112-P94D3GK4AA
+
+**真正三成分観測・第二kernel圏 [定理PR #2787](https://github.com/itakura-hidetoshi/KuuOS/pull/2787) MERGED：** [三成分観測](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4AAThreeComponentObserver.lean)／[真正商間比較](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4AATripleComparison.lean)／[三成分kernel圏](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4AAKernelCategory.lean)／[真正忘却関手](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4AAKernelForgetful.lean)を**append-only Lean4ファイル・72宣言**で証明。GK4Xの`(Bool,castCharge)`とGK4Zの元F54真正後向き回転Type値証拠個数を組み合わせ、**`O_AA(r)=((grade(r),castCharge(r)),backwardCount(r))`**を、元P92B証拠存在商`Q`と独立F54構造比較商`S`に**別個に降下**させた。元F54の合成・左右文脈・実全14構造seam保存・元Q→S可換性・単位観測を形式化（GK4Zの元F55全9・P92B全9・構造seam全14・拡張比較全3のsoundnessを継承）。観測値一致から元Type値3-cellを生成しない。
+
+**真正第二商`K_AA`の圏と4関手：** 元P92B商`Q`とは別の**三成分観測kernel第二商**で、実到達観測値上の合成を使うMathlib Categoryの結合律・左右単位を証明。`S→K_AA`比較Functor（各Hom全射）、`K_AA→(Bool×Int)×Nat`値域Functor（各Hom単射）、別の`K_AA→K_X`忘却Functor（各Hom全射）、`S→(Bool×Int)×Nat`真正観測Functorを構成し、対象・射の厳密な因子化を証明。**元P92Bの結合律・左右単位は使わない**。
+
+**新しい厳密な可算無限ファイバー：** GK4Zの真正F54 balanced回転塔`R_k`は`O_AA([R_k]_S)=((false,-2),k+1)`で、`K_AA`の異なる商類へ**Nat単射**。旧GK4X`K_X`では全段が同じ`(false,-2)`に写る。したがって**実局所回転証拠を持つ任意のF45自己Homにおいて忘却関手`K_AA→K_X`は非忠実**、その`R_0`像上の真正二段商ファイバーは**`Cardinal.aleph0`**。上界は`K_AA→(Bool×Int)×Nat`単射、下界は実Type値塔から。真正C60北六角形でも無条件に成立。**これは`S→K_AA`の非忠実性を示すものではなく、同比較の全域忠実性は引き続き未証明**。
+
+**定理検証正本：** theorem squash SHA＝マージ直後canonical main HEAD `78a4ea2ea9fff4b7b04a0b7076e39e9898d0ffe3`、最終exact-source HEAD `b5096469f96d371df4e52bf7124f9cf9eb5b6ac6`、[CI #41175744716](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41175744716) **Strict Lean 3740/3740 SUCCESS、Governance 5/5 SUCCESS、72件`#print axioms`標準3公理以内、sorryAxなし、変更Lean warning/error 0/0**。[証明と修正理由の詳細](docs/formal/GK4AA-triple-observer-kernel-refinement.md)。Lean v4.30.0-rc2／固定mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`。公開root107、strict空中心・独立Kuu一presentation、Gray再導入なし、保護PR #1558 Draft/OPEN/未マージを維持。
+
+**次段階GK4AB（未証明）：** 三成分の同一観測値でなお異なる独立構造商類が存在するか、条件付き忠実性が成立するかを真正元F54証拠・seamから判定。元P92Bの結合律・左右単位、歴史的完全型付き同値、真正14D無条件Countable、19D filler、global strict n、hyperdescentは未証明。
+
+> 以下のGK4Z以前の「最新・次候補」は統合時点の歴史記録。現行定理frontierはGK4AA。
+
+---
+
 ## 最新の研究状態 — 2026-10-31 JST / F112-P94D3GK4Z
 
 **最新定理GK4Z [PR #2785](https://github.com/itakura-hidetoshi/KuuOS/pull/2785) MERGED：** [真正逆向きF54物理回転数の不変量](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4ZBackwardCountInvariant.lean)・[同一強化観測値の無限残余構造商ファイバー](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4ZResidualNonfaithfulness.lean)を新規Lean2ファイル・**40宣言**で証明。元F54の**実Type値`RotationEdge.backward`構成子の個数**を`backwardCount : original DepthRotationRoute → Nat`とし、chain・実Nat cast・縦合成・左右文脈を全て元の依存型のまま検証。**元F55全9構成子、独立元P92B全9構成子（真正associator-naturality含む）、F54構造seam全14構成子、拡張構造比較全3構成子**について個別帰納法で不変性を証明し、元P92B証拠存在商`Q`と独立構造比較商`S`に**それぞれ別個に降下**。元のType値3-cellを観測一致から生成しない。
