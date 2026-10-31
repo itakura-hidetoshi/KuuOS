@@ -13,6 +13,19 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新の研究追補 — 2026-10-31 JST / F112-P94D3GK4AW
+
+**真正元F54整数多項式行列の高次係数消失と、物理backtrackでの次数上界達成をLean4で証明 — [定理PR #2831](https://github.com/itakura-hidetoshi/KuuOS/pull/2831) MERGED。** [新規GK4AW Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4AWPolynomialCoeffSharp.lean)・[詳細検証記録](docs/formal/GK4AW-polynomial-coefficients-backtrack-sharp.md)。GK4AVで証明した元backwardCount β(r) による各成分の次数上界から、固定mathlib Polynomial.natDegree_le_iff_coeff_eq_zero を使い、**すべての n>β(r) について、多項式行列 P_r(X) の全4成分の X^n 係数が0**となることを証明。実際の元F54依存型経路、元P92B存在商Q、独立構造商Sを別々に保持した。
+
+真正LocalRotationに由来する元F54二辺の実backtrack B では **P_B(X)=[[1-X,-1],[X,1]]、β(B)=1、natDegree(P_B,21)=1**。したがって従来の次数上界が少なくとも一つの真正経路で鋭い。実C60北側で無条件に証明。**一般の全経路に対する等号は主張しない。** 元Type値3-cellを観測一致から生成しない。
+
+**定理正本と検証：** 最終source HEAD f4c4de036bfd6d52814e313d5699c5a8fad4b9ae、実test-merge 64dff6e436cba4484412b6d35de1b5cc7aafa6fb、共通Git tree 70db370eb1a46c9db32ddf9a4e98593fdf73db28、定理squash / 統合直後main eb9b5235be076e8a1eb6e12bb501672b3a2a9b0d。[CI #41207446279](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41207446279) は **Strict Lean 3784/3784、Governance 5/5 terminal SUCCESS**。新規10宣言の公理依存は標準3公理以内、sorryAx0、変更Lean warning/error0/0。公開root107・固定Lean/mathlib・保護PR #1558 Draft/OPEN/未マージ維持。
+
+**次段階（未証明）：** 二点評価 (t=1,4) が一致して多項式全体のみ異なる元F54経路の存在は未証明。特に t=4 の C と R(4) はSanov自由生成対の対角共役であるため、**逆にこの三生成子ではそのような二点反例が存在しない可能性**を検査する。Sanov型の単射を元F54・Leanへ形式化するまで断定しない。既存K_AI全族降下、固定ファイバー無限性、算術slice全域到達、元Q圏公理、14D/19D/global strict/hyperdescentは未証明。
+
+_以下のGK4AV「最新」見出しは当該PR時点の履歴スナップショット。現在のfrontierは上記GK4AW。_
+
+
 ## 最新の研究状態 — 2026-10-31 JST / F112-P94D3GK4AV
 
 **元F54の真正整数多項式2×2行列不変量を構成し、元backwardCountによる全4成分の次数上界をLean4で証明 — [定理PR #2829](https://github.com/itakura-hidetoshi/KuuOS/pull/2829) MERGED。** [型付きF54多項式不変量・全比較保存Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4AVPolynomialInvariant.lean)と[評価・行列式・次数証明Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4AVDegreeEvaluation.lean)をappend-only新規2Leanファイル・65公理依存表示宣言で実装。元F54の真正cast C=[[1,1],[0,1]]、forward F=[[1,-1],[0,1]]、backward R(X)=[[1,0],[X,1]]を**ℤ[X]係数の非可換2×2行列積**に評価し、真正RotationEdge・中間木RotationChain・元DepthRotationRoute全5構成子、元F55 9/P92B 9/独立seam14/拡張3比較の全**Type値証拠**を保存。元Qと独立Sに**別々に**降下、S合成と単位も保存。元Qの未証明圏公理は使わない。
