@@ -13,6 +13,20 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新の研究状態 — 2026-10-31 JST / F112-P94D3GK4W
+
+**最新定理GK4W [PR #2779](https://github.com/itakura-hidetoshi/KuuOS/pull/2779) MERGED：** [真正cast-charge不変量](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4WCastChargeInvariant.lean)・[真正構造商の無限Boolean fiberと非忠実性](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4WCastTowerNonfaithfulness.lean)を新規Lean2ファイルで証明。元F54構成子の**真の`castDepths`個数**と**真の物理回転数**の差を整数不変量 `charge(r)=castCount(r)-rotationCount(r)` として定義。元F55全9構成子（真正pentagonの3対2回転差にはcastも3対2）、新しい元P92B全9構成子（真正associator-naturalityを含む）、別個のF54構造seam全14構成子、拡張構造比較3構成子を**実Type値証拠帰納法**で検証し、chargeが独立GK4E構造比較商で保存されることを証明。元P92Bの3-cellを観測値から生成せず、元Q（証拠存在商）・独立S（構造比較商）・GK4S二段K_Bool（観測kernel商）のauthorityを分離。
+
+**GK4Vで未解決だった忠実性問題を決定：** 実F54の`.castDepths rfl rfl tree`（charge 1、物理回転0）と真の`.chain (.refl tree)`（charge 0、物理回転0）は**構造商`S`では異なる**がGK4G Boolean gradeはともに`true`。GK4Vの`F(u)=F(v) ⇔ grade(u)=grade(v)`を利用し、GK4U構造圏→二段Boolean観測kernel圏の真正関手は**任意の実F45自己Homで非単射（非忠実）**とLean証明。これは元P92B→Boolean商の古い非単射性からの不正な反射ではない。さらに同じ真正castを`k`回合成する元F54 towerを構成し、**`charge(T_k)=k`、全`rotationCount(T_k)=0`、異なる`k`の独立構造商類は相異なる**と証明。真正C60北側六角形のBoolean-true独立構造商ファイバーは、既存の真正構造Hom CountableとこのNat単射から **cardinality `aleph0`** と証明。これは真正14Dの無条件Countableや元Q→Sの各ファイバーの可算性を主張しない。
+
+**検証正本：** 定理squash SHA（マージ直後main HEAD）`a19ae676144ac5f1e40bd9443f43e776afcb9915`、exact-source PR HEAD `86b0ed53f0e214513f02050a34ff1e39d7fd2160`、[Strict Lean/Governance CI #41170191145](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41170191145) **3730/3730 Strict Lean SUCCESS、Governance 5/5 completed SUCCESS、30新規宣言`#print axioms`標準3公理以内、sorryAxなし、変更Lean warning/error 0/0**。[詳細GK4W receipt](docs/formal/GK4W-cast-charge-structural-nonfaithfulness.md)。Lean v4.30.0-rc2・mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、公開root107維持、strict空中心・独立Kuu一presentation、Gray再導入なし、保護PR #1558 Draft/OPEN/未マージを保持。
+
+**次の研究候補 GK4X（未証明）：** 真正構造商上に降下したcast-chargeとBooleanを組み合わせた**charge強化観測**の合成・単位保存を調べ、何を保ち何を失うかを分類。元P92B商の結合律・左右単位・別合成、歴史的P92B/F19/F28/F54/F55完全型付き同値、真正14D無条件Countable、元19D filler、global strict n、hyperdescentは未証明のまま。
+
+> 以下のGK4V以前の「最新」「次候補」記述は歴史的記録。現行の定理frontierはGK4W。
+
+---
+
 ## 最新の研究状態 — 2026-10-31 JST / F112-P94D3GK4V
 
 **最新の定理統合 GK4V [#2777](https://github.com/itakura-hidetoshi/KuuOS/pull/2777) MERGED：** [GK4V観測kernel定理](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4VBooleanFaithfulnessCriterion.lean)・[GK4V関手とC60判定](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4VBooleanFunctorSectionCriterion.lean)。元P92Bの真正Type値比較存在商`Q`、独立GK4E構造比較商`S`、GK4S二段目Boolean観測kernel商`K_Bool`の権限境界を保持し、**GK4Uの真正比較射`F:S→K_Bool`で`F(u)=F(v) ⇔ grade(u)=grade(v)`**を型付き全F45境界で証明。**`F`の各Homでの単射性 ⇔ 独立構造商GK4G Boolean gradingの同一Hom上の単射性**を確定。実際の`K_Bool`からGK4I一対象Boolean圏へのMathlib関手を構成して**各Homで単射**と証明し、GK4U比較関手と合成した際、GK4Iの既存Boolean gradingと**対象・射写像で厳密に一致**することを証明。これによって元P92B→Boolean kernel商の既知の非単射性を、独立構造商→kernel商の非単射性へ誤って反射しない。
