@@ -11,7 +11,9 @@ open CategoryTheory
 set_option autoImplicit false
 set_option warningAsError true
 set_option maxRecDepth 8192
-set_option maxHeartbeats 4000000
+set_option maxHeartbeats 100000
+-- A bounded elaboration budget makes any expensive tactic fail locally
+-- with its real source position rather than losing the runner to shutdown.
 noncomputable section
 
 abbrev NativeGK4BAPolyVector := Polynomial Int × Polynomial Int
