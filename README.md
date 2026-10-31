@@ -13,6 +13,18 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新の研究状態 — 2026-10-31 JST / F112-P94D3GK4AO
+
+**元F54真正第二整数行列における行列式1・`Γ₁(4)`合同障害をLean4で証明 — [定理PR #2815](https://github.com/itakura-hidetoshi/KuuOS/pull/2815) MERGED。** [真正F54の行列式・合同条件Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4AOIntegralCongruence.lean)と[実到達行列の制約・具体的到達不能例Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4AORestrictedMatrixImage.lean)をappend-only新規2Leanで形式化。既存GK4AHの実元二Nat cast `C=[[1,1],[0,1]]`、実前後RotationEdge評価 `F=[[1,-1],[0,1]]`・`R4=[[1,0],[4,1]]` を用い、厳密な行列積の整数多項式展開から**任意の真正元F54行列 `M=[[a,b],[c,d]]` は `ad-bc=1`, `a≡d≡1(mod 4)`, `c≡0(mod 4)`** とLean4証明。元RotationEdge／中間木RotationChain／元F54経路全5構成子から、元P92B存在商Qと独立構造商Sへ別々に降下し、真正`K_AI`と任意の旧`K_AG`類`q`上の本当の`Fiber(q)`へ伝播。**GK4ALの到達第二行列値集合は`Γ₁(4)`型の合同条件を満たす部分に含まれる**。一方、行列式1の `[[1,0],[1,1]]` は左下成分が4の倍数でないので、**どの真正型付きHom／旧qファイバーでも到達不能**。これは行列式1だけでは不十分という具体的証明であり、`Γ₁(4)`の全行列が到達可能とは主張しない。実到達集合に対する制限付きの正確なfiber image EquivもLean4で構築。
+
+**GK4AO exact-source正本：** final source HEAD `4ec9d203faf04b55052eda50ee62e9049653f846`、CI test-merge checkout `4707d513eff5c9efa345956a3b867e6cf0816336`、定理squash・定理統合直後main `d8e471901e47a34c1e4a56058789e27a3f937552`、三者共通Git tree `46662c1bba4d875a0da646980957e161fe97ddf3`。[CI #41194437867](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41194437867) **Strict Lean 3770/3770 SUCCESS・Governance 5/5 SUCCESS・新規27宣言標準3公理以内・sorryAx0・変更Lean warning/error0/0**。[GK4AO詳細証明・Lean記法修正・exact-source receipt](docs/formal/GK4AO-determinant-congruence-attained-matrix-obstructions.md)。Lean v4.30.0-rc2／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、公開root107、strict空中心・独立Kuu一presentation、Gray非再導入、保護PR #1558 Draft／OPEN／未マージ維持。
+
+**次候補GK4AP（未証明）：** 真正旧類を固定して無限に異なる新行列を実現できるか、または新しい算術合同部分群内部のより強い到達制約を証明する。GK4ANの`Fin(2k+1)↪Fiber(q_k)`、GK4AL全ファイバーCountable、GK4AM正数kの有限族非網羅性と整合する。固定単一無限ファイバー、`Γ₁(4)`全域到達、元P92B Q圏公理、歴史的完全型付き同値、真正14D無条件Countable、19D filler、global strict、hyperdescentは引き続き未証明。
+
+> 以下のGK4AN以前の「最新・次候補」は歴史スナップショット。現行frontierはGK4AO。
+
+---
+
 ## 最新の研究状態 — 2026-10-31 JST / F112-P94D3GK4AN
 
 **真正忘却ファイバーの有限下界を `k+1` から `2k+1` へ厳密に強化 — [定理PR #2813](https://github.com/itakura-hidetoshi/KuuOS/pull/2813) MERGED。** [真正F54奇数半backtrack族Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4ANShiftedOddFamily.lean)・[偶奇統合Fin(2k+1)埋め込みLean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4ANDoubledFiniteFibers.lean)をappend-only新規2Leanで構成。元F54 LocalRotationの真正 `B`、元二Nat cast `C`、`P=B⁶`、`H=B³` から、既存の偶数経路 `Pʲ C P²ᵈ C Pʲ`（j+d=k）と新規の奇数経路 `Pʲ H C P²ᵈ⁺¹ C H Pʲ`（j+d+1=k）を同一の実旧`q_k`ファイバーへ入れる。旧GK4AG観測全値を一致させたまま、GK4AH第二行列decoderは**偶数側 `8-192d`、奇数側 `-88-192d`** となり、偶奇各族内・族間の衝突が無い。この真の型付きsourceから**`∀k, Fin(2*k+1) ↪ Fiber(q_k)`**と **`Countable Fiber(q_k)`** をLean4証明。C60真正北六角形への無条件特殊化も証明。これは同一`q_k`内の有限下界であり、固定単一ファイバーの無限性、全体濃度や完全有限正規形は主張しない。
