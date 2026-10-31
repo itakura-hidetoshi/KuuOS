@@ -13,6 +13,20 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新の研究状態 — 2026-10-31 JST / F112-P94D3GK4AJ
+
+**真正忘却ファイバーの三類下界・第二行列到達像の正確な同値 — [定理PR #2805](https://github.com/itakura-hidetoshi/KuuOS/pull/2805) MERGED：** [元F54真正三経路Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4AJTernaryPhysicalFiber.lean)・[真正第二行列ファイバー同値Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4AJExactMatrixFiber.lean)をappend-only新規2Leanファイル・**公理表示35宣言**で形式化。元F54の本当の二Nat cast `C`と実`LocalRotation`の前後2回転backtrack `B`を用いる3つの**同一型付き自己Hom**の経路 `w0=C;B¹²;C`、`w1=B³;C;B⁶;C;B³`、`w2=B⁶;C²;B⁶`について、元四成分観測が三者とも厳密に**`(false,-22,12,-132)`**、旧GK4AF行列も三者とも**`[[1,2],[0,1]]`**になることをLean証明。旧行列に表現由来の`B1³=-I`・`B1⁶=I`があるため同一の旧第二商`K_AG`類となる。しかし真正Type値比較全F55/P92B/独立構造seamを保存する第二行列`M_AH`は、`w0=[[-23,-34],[-48,-71]]`、`w1=[[1561,638],[-2640,-1079]]`、`w2=[[-599,-274],[1104,505]]`で**pairwise異なる**。従って新`K_AI`に**相異なる少なくとも3類が一つの実旧`K_AG`忘却ファイバー上に存在**することをLean4で証明。元LocalRotationを持つ任意の真正自己Hom・物理C60北側六角形に特殊化した。
+
+**一般の完全なファイバー値分類：** 任意の元F45型付きHom上の真正第二商の任意`x,y:K_AI`で、`x=y ↔ U_AI,AG(x)=U_AI,AG(y) ∧ M_AH(x)=M_AH(y)`を証明。固定された**実際に到達可能**な旧K_AG類`q`について、真正の型付き`Fiber(q)={x:K_AI | U(x)=q}`を構成し、第二行列観測が**そのFiber内で単射**であること、さらに`Fiber(q) ≃ {M_AH(x) | x∈Fiber(q)}`をMathlib `Equiv.ofBijective`で厳密に証明した。全整数2×2行列が実現するとは主張せず、元P92B Q自身の未証明圏公理、元`S→K_AI`の全域忠実性、歴史的完全同値、Gray圏、hyperdescentとは区別する。
+
+**exact-source正本：** 最終定理source HEAD `537d38346b0fae76e7c4ca01bd2b010073211539`、定理squash SHA＝定理マージ直後canonical main HEAD `cf859a9eb1f77a3b36dcabd3319b795b43e96101`。[CI #41187062144](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41187062144) **Strict Lean 3761/3761 SUCCESS、Governance 5/5 SUCCESS、35宣言公理依存標準3以内、sorryAx 0、変更Lean warning/error 0/0**。前段[CI #41186504054](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41186504054)の初回DNS失敗から同じsourceで再試行し、Lean記法の`congrArg`関数適用展開と元`rot`引数束縛を修正。[詳細証明・元F54経路・CI修正・receipt](docs/formal/GK4AJ-ternary-forgetful-fiber-exact-matrix-image.md)。Lean v4.30.0-rc2、mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、公開root107、strict空中心・独立Kuu一presentation、Gray再導入なし、保護PR #1558 Draft・OPEN・未マージ維持。
+
+**次段階GK4AK（未証明）：** 三類から任意に大きな有限ファイバーへの構成・到達可能第二行列値の正規形、または元`S→K_AI`自体の忠実性／残余障害を元F54真正経路と比較証拠から独立検討する。元P92B Q自身の結合律・単位律、歴史的完全型付き同値、真正14D無条件Countable、19D filler、global strict n、hyperdescentは引き続き未証明。
+
+> 以下のGK4AI以前の「最新・次候補」はその時点の歴史的記録。現行frontierはGK4AJ。
+
+---
+
 ## 最新の研究状態 — 2026-10-31 JST / F112-P94D3GK4AI
 
 **真正二行列積観測の第二kernel圏と忘却関手をLean4で証明 — [定理PR #2803](https://github.com/itakura-hidetoshi/KuuOS/pull/2803) MERGED：** [GK4AI元Q/S積観測Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4AIProductObservation.lean)・[真正第二kernel圏Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4AIKernelCategory.lean)・[K_AI→K_AG忘却関手Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4AIForgetful.lean)をappend-only新規3Leanファイル・**公理表示47宣言**で形式化。元F54の四成分観測 `O_AE` と元GK4AF／GK4AHの非可換整数2×2行列値を合わせた**真正積観測 `O_AI(r)=(O_AE(r),M_AF(r),M_AH(r))`**を構成。元F55全9・元P92B全9（真正assocNaturality）、独立構造seam全14、拡張比較全3の実Type値保存性を成分ごとに継承し、元P92B存在商`Q`と独立構造商`S`へ別々に降下、正準`Q→S`可換性、元F54合成・左右文脈を証明した。値域は旧非可換積と第二行列積の直積であり、結合律・左右単位を厳密に形式化。
