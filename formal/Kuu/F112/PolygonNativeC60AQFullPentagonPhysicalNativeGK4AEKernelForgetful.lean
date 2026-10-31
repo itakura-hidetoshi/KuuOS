@@ -56,6 +56,8 @@ def nativeGK4AEForgetMoment :
       intro q r h
       apply (nativeGK4SKernelClass_eq_iff
         (nativeGK4AATripleP92Family p D E) t₁ t₂ q r).mpr
+      change nativeGK4AATripleP92 t₁ t₂ q =
+        nativeGK4AATripleP92 t₁ t₂ r
       rw [← nativeGK4AEQuadP92_forget t₁ t₂ q,
         ← nativeGK4AEQuadP92_forget t₁ t₂ r]
       exact congrArg nativeGK4AEForgetValue h)
@@ -104,6 +106,15 @@ theorem nativeGK4AEForgetMoment_compose
           (nativeGK4AEForgetMoment t₂ t₃ v) := by
   refine _root_.Quotient.inductionOn₂ u v ?_
   intro q r
+  change nativeGK4AEForgetMoment t₁ t₃
+      (nativeGK4AEEnhancedKernelCompose t₁ t₂ t₃
+        (nativeGK4SKernelClass (nativeGK4AEQuadP92Family p D E) t₁ t₂ q)
+        (nativeGK4SKernelClass (nativeGK4AEQuadP92Family p D E) t₂ t₃ r)) =
+    nativeGK4AAEnhancedKernelCompose t₁ t₂ t₃
+      (nativeGK4AEForgetMoment t₁ t₂
+        (nativeGK4SKernelClass (nativeGK4AEQuadP92Family p D E) t₁ t₂ q))
+      (nativeGK4AEForgetMoment t₂ t₃
+        (nativeGK4SKernelClass (nativeGK4AEQuadP92Family p D E) t₂ t₃ r))
   rw [nativeGK4AEEnhancedKernelCompose_class,
     nativeGK4AEForgetMoment_class,
     nativeGK4AEForgetMoment_class,
