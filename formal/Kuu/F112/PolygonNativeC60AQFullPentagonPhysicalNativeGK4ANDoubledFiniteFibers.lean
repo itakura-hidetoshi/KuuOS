@@ -88,7 +88,8 @@ def nativeGK4AN2kPlusOneFiberEmbedding (k : Nat) :
 
 /-- Every finite k has a truly attained q_k with 2k+1 distinct
 K_AI classes, while the entire q_k fiber remains Countable. -/
-theorem nativeGK4AN_doubled_finite_countable_fiber (k : Nat) :
+theorem nativeGK4AN_doubled_finite_countable_fiber
+    (rot : KuuNativeF45Tree.LocalRotation p before after) (k : Nat) :
     ∃ q : NativeGK4SKernelClasses (nativeGK4AGP92Family p D E)
         before before,
       Countable (nativeGK4AJOldFiber before before q) ∧
