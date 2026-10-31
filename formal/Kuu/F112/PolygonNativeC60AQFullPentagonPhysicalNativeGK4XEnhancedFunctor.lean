@@ -265,8 +265,12 @@ theorem nativeGK4XEnhancedStructural_castTower_injective :
         (nativeGK4EStructuralRouteClass tree tree
           (nativeGK4WCastTower tree k))) := by
   intro i j hij
-  rw [nativeGK4XEnhancedStructural_castTower,
-    nativeGK4XEnhancedStructural_castTower] at hij
+  change nativeGK4XEnhancedStructural tree tree
+      (nativeGK4EStructuralRouteClass tree tree (nativeGK4WCastTower tree i)) =
+    nativeGK4XEnhancedStructural tree tree
+      (nativeGK4EStructuralRouteClass tree tree (nativeGK4WCastTower tree j)) at hij
+  rw [nativeGK4XEnhancedStructural_castTower tree i,
+    nativeGK4XEnhancedStructural_castTower tree j] at hij
   have hcast := congrArg Prod.snd hij
   exact_mod_cast hcast
 
