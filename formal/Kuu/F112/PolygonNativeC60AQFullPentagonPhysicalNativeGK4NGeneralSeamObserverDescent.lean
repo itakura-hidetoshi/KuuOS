@@ -278,8 +278,8 @@ raw zero-rotation F54 routes whose ORIGINAL P92B GK4K Option Nat
 observations are respectively some 2 and some 1. -/
 theorem nativeGK4N_genuine_leftUnit_option_obstruction :
     ∃ (r s : KuuNativeF45Tree.DepthRotationRoute p tree tree),
-      NativeF54StructuralSeam p r s ∧
-      nativeGK4KP92Option tree tree
+      ∃ (_seam : NativeF54StructuralSeam p r s),
+        nativeGK4KP92Option tree tree
           (nativeF55P92AssocRouteClass tree tree r) ≠
         nativeGK4KP92Option tree tree
           (nativeF55P92AssocRouteClass tree tree s) := by
@@ -347,8 +347,8 @@ theorem nativeGK4N_physical_north_leftUnit_option_obstruction :
     ∃ (r s : KuuNativeF45Tree.DepthRotationRoute
           (.hexagon (.top 0))
           nativeGK4FPhysicalNorthTriple nativeGK4FPhysicalNorthTriple),
-      NativeF54StructuralSeam (.hexagon (.top 0)) r s ∧
-      nativeGK4KP92Option
+      ∃ (_seam : NativeF54StructuralSeam (.hexagon (.top 0)) r s),
+        nativeGK4KP92Option
           nativeGK4FPhysicalNorthTriple nativeGK4FPhysicalNorthTriple
           (nativeF55P92AssocRouteClass
             nativeGK4FPhysicalNorthTriple nativeGK4FPhysicalNorthTriple r) ≠
