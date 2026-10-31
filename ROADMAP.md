@@ -2,6 +2,19 @@
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK4AW / 2026-10-31 JST
+
+**係数全消失と真正backtrackでの次数上界達成 — [定理PR #2831](https://github.com/itakura-hidetoshi/KuuOS/pull/2831) MERGED。** [Lean証明](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4AWPolynomialCoeffSharp.lean)、[exact-source 証明記録](docs/formal/GK4AW-polynomial-coefficients-backtrack-sharp.md)。GK4AV多項式行列 P_r(X)∈Mat₂(ℤ[X]) の全成分の次数上界 natDegree(P_r,ij)≤β(r) から、固定mathlibの Polynomial.natDegree_le_iff_coeff_eq_zero により **∀n>β(r), coeff_n P_r,ij=0（全i,j）** を証明。元F54完全依存型経路、元P92B存在商Q、独立Sそれぞれの独立した証明を保持する。
+
+実元LocalRotationのforward/backward本物のbacktrack B に対し、**P_B(X)=[[1-X,-1],[X,1]]、元β(B)=1、左下成分のnatDegree(X)=1=β(B)**。実C60北側へ無条件特殊化。元F54・F55/P92B/structural seamの既存全証拠を上書きせず、証明済みGK4AV不変量を再利用。新規Lean1ファイル・10公理表示宣言、sorryAxなし、標準3公理以内、公開root107維持。
+
+**exact-source証拠：** source f4c4de036bfd6d52814e313d5699c5a8fad4b9ae、test-merge 64dff6e436cba4484412b6d35de1b5cc7aafa6fb、squash eb9b5235be076e8a1eb6e12bb501672b3a2a9b0d、共通tree 70db370eb1a46c9db32ddf9a4e98593fdf73db28。[CI #41207446279](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41207446279) **Strict Lean 3784/3784 SUCCESS、Governance 5/5 SUCCESS、変更Lean warning/error 0/0**。Lean v4.30.0-rc2、mathlib 5450b53e5ddc75d46418fabb605edbf36bd0beb6、保護PR #1558 Draft/OPEN/未マージ。
+
+**次の研究境界：** 二点評価で区別不能だが全多項式では区別できるという真正経路候補の存在は未証明。C と R(4) のSanov型自由性から、t=4 評価が既にこの語の全情報を保持する可能性をまず数学的に判定する（Leanでは未形式化）。反例の存在を仮定しない。既存K_AI全族降下、固定旧類ファイバー無限性、算術slice全域到達、元Q圏公理、歴史完全型付き同値、真正14D無条件Countable、19D filler、global strict、hyperdescentを保留する。
+
+_以降のGK4AV「最新」見出しは当時の履歴記録であり、現frontierはGK4AW。_
+
+
 ## 最新のLean定理統合 — F112-P94D3GK4AV / 2026-10-31 JST
 
 **真正F54のℤ[X]係数SL₂多項式観測と次数の元backwardCount上界 — [定理PR #2829](https://github.com/itakura-hidetoshi/KuuOS/pull/2829) MERGED。** [多項式行列の真正経路不変量Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4AVPolynomialInvariant.lean)・[評価・次数・行列式Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4AVDegreeEvaluation.lean)をappend-only新規2Lean・65宣言で形式化。元F54真のcast C=[[1,1],[0,1]]・forward F=[[1,-1],[0,1]]・backward R(X)=[[1,0],[X,1]]の**非可換多項式行列積**を元RotationEdge・中間木RotationChain・DepthRotationRoute全5構成子に定義し、元F55 9、P92B 9、独立構造seam14、拡張比較3の**元Type値証拠**上で全多項式行列の等式保存を証明。元Q・独立Sへ別々に降下し、独立Sの合成・単位を保存。元Q自身の未証明圏公理は仮定しない。
