@@ -13,6 +13,15 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+
+## 最新の研究追補 — 2026-10-31 JST / F112-P94D3GK4AX
+
+**真正F54多項式行列の有限評価決定性と旧AF/AH二評価の次数obstruction — [定理PR #2833](https://github.com/itakura-hidetoshi/KuuOS/pull/2833) MERGED。** [Lean証明](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4AXFiniteEvaluationDeterminacy.lean)・[証明記録](docs/formal/GK4AX-finite-evaluation-polynomial-determinacy.md)。GK4AV/GK4AWの元Type値実経路の多項式行列 `P_r(X)∈Mat₂(ℤ[X])` と本物の `β(r)=backwardCount` の次数上界から、固定mathlib `Polynomial.eq_of_natDegree_lt_card_of_eval_eq` により、**相異なるN個の整数評価が一致し `N>max(β(u),β(v))` なら `P_u(X)=P_v(X)`** を証明。真正F54全依存型経路、元P92B存在商Q、独立構造商Sに**別々に形式化**。特に `β(u),β(v)≤1` なら旧AF=`P(1)`／AH=`P(4)` の二行列一致から多項式全体が一致する。二評価一致と多項式相異の**仮定が成立するなら `max β≥2` が必要**であることもLean証明したが、そのような反例の存在は主張しない。
+
+**exact-source証拠：** 最終source HEAD `0dcf281ee6433674f30a7f56be337061eecf6a72`、test-merge `f4033c6fc438b5f54f29b56d79bbec0d750a3ce1`、両Git tree `2f7a50aaa539b01b717df841e6580289f1847f25` 完全一致、定理squash `222a7d003312ac1274211292d301897e62f2032e`。[CI #41208604553](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41208604553) **Strict Lean 3785/3785・Governance SUCCESS**、12宣言公理依存標準3以内、sorryAx0、変更Lean警告/エラー0/0。固定Lean `v4.30.0-rc2`／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、公開root107、strict空中心・独立Kuu一presentation・Gray非導入、保護PR #1558 Draft/OPEN/未マージを維持。
+
+**次段階GK4AY（未形式化）：** 旧AHの**一点評価 `P_u(4)=P_v(4)` だけで任意の元F54多項式行列一致を結論できるか**を、Sanov自由部分群／pin済mathlibのping-pong補題を通して検証する。標準的群論では `C=[[1,1],[0,1]]` と `R(4)=[[1,0],[4,1]]` を実対角共役すればSanov自由生成子となり、`F=C⁻¹` なので、この単射性が有力。**ただし元F54経路→自由群語のLean輸送とSanov忠実性は未証明**。二評価衝突の存在を仮定したり、旧K_AIへの多項式全族降下・元Qの未証明圏公理・Type値3-cellを補ったりしない。
+
 ## 最新の研究追補 — 2026-10-31 JST / F112-P94D3GK4AW
 
 **真正元F54整数多項式行列の高次係数消失と、物理backtrackでの次数上界達成をLean4で証明 — [定理PR #2831](https://github.com/itakura-hidetoshi/KuuOS/pull/2831) MERGED。** [新規GK4AW Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4AWPolynomialCoeffSharp.lean)・[詳細検証記録](docs/formal/GK4AW-polynomial-coefficients-backtrack-sharp.md)。GK4AVで証明した元backwardCount β(r) による各成分の次数上界から、固定mathlib Polynomial.natDegree_le_iff_coeff_eq_zero を使い、**すべての n>β(r) について、多項式行列 P_r(X) の全4成分の X^n 係数が0**となることを証明。実際の元F54依存型経路、元P92B存在商Q、独立構造商Sを別々に保持した。

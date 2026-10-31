@@ -2,6 +2,15 @@
 
 
 
+
+## 最新のLean定理統合 — F112-P94D3GK4AX / 2026-10-31 JST
+
+**有限N点での真正多項式行列決定性と、AF/AH二評価に関する次数下界 — [定理PR #2833](https://github.com/itakura-hidetoshi/KuuOS/pull/2833) MERGED。** [新Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4AXFiniteEvaluationDeterminacy.lean)・[exact-source証明記録](docs/formal/GK4AX-finite-evaluation-polynomial-determinacy.md)。GK4AVの元F54 `P_r(X)∈Mat₂(ℤ[X])`、GK4AWの高次係数消失、GK4ADの本物のbackwardCount `β(r)` をそのまま保持。固定mathlib `Polynomial.eq_of_natDegree_lt_card_of_eval_eq` により、任意の相異なる整数パラメータN点での行列一致と `N>max(β(u),β(v))` から、多項式行列全四成分の一致を証明。元F54完全依存型経路・原P92B存在商Q・独立Structural商Sの**それぞれで別々に成立**。旧AF=`P(1)`・AH=`P(4)` の2点は、`max β<2` で完全決定的。真正F54で両旧行列が一致しても多項式が異なるなら `2≤max β` が必要と証明。**衝突例そのものの存在は未証明であり主張しない。**
+
+**exact-source検証：** HEAD `0dcf281ee6433674f30a7f56be337061eecf6a72`、test-merge `f4033c6fc438b5f54f29b56d79bbec0d750a3ce1`、Git tree双方 `2f7a50aaa539b01b717df841e6580289f1847f25`、squash `222a7d003312ac1274211292d301897e62f2032e`。[CI #41208604553](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41208604553) **Strict Lean 3785/3785 SUCCESS、Governance SUCCESS、12宣言標準3公理以内、sorryAx0、変更Lean warning/error 0/0**。追加Lean1ファイル、旧定理・imports・全元Type値証明は無変更、公開root107、固定pin維持、保護PR #1558 Draft・OPEN・未マージ。
+
+**次の研究frontier GK4AY（未証明）：** 4評価一点の普遍忠実性 `P_u(4)=P_v(4) ⇒ P_u(X)=P_v(X)` を、Sanov自由群（`C`,`R(4)` の実対角共役）と固定mathlib ping-pong補題に基づき真正F54構文へ厳密に移す。元F54のforward `F=C⁻¹` に注意。外部群論として自由性が知られていることと**KuuOSでのLean形式化完了**は区別する。既存K_AIへの多項式全族降下、固定旧類ファイバー無限性、算術slice全到達、元Qの圏公理、真正14D無条件Countable、19D filler、global strict、hyperdescentはなお未証明。
+
 ## 最新のLean定理統合 — F112-P94D3GK4AW / 2026-10-31 JST
 
 **係数全消失と真正backtrackでの次数上界達成 — [定理PR #2831](https://github.com/itakura-hidetoshi/KuuOS/pull/2831) MERGED。** [Lean証明](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4AWPolynomialCoeffSharp.lean)、[exact-source 証明記録](docs/formal/GK4AW-polynomial-coefficients-backtrack-sharp.md)。GK4AV多項式行列 P_r(X)∈Mat₂(ℤ[X]) の全成分の次数上界 natDegree(P_r,ij)≤β(r) から、固定mathlibの Polynomial.natDegree_le_iff_coeff_eq_zero により **∀n>β(r), coeff_n P_r,ij=0（全i,j）** を証明。元F54完全依存型経路、元P92B存在商Q、独立Sそれぞれの独立した証明を保持する。
