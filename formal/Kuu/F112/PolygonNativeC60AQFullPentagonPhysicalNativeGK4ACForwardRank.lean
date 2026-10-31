@@ -264,11 +264,13 @@ theorem KuuNativeF45Tree.DepthRotationRoute.gk4acNoBackward_bound
   | leftContext path later ih =>
       have hr := ih hback
       have hleaf := path.gk4acLeafCount_eq
-      simp only [KuuNativeF45Tree.gk4acLeftRank_node]
+      simp only [KuuNativeF45Tree.gk4acLeftRank_node,
+        KuuNativeF45Tree.DepthRotationRoute.rotationCount]
       omega
   | rightContext earlier path ih =>
       have hr := ih hback
-      simp only [KuuNativeF45Tree.gk4acLeftRank_node]
+      simp only [KuuNativeF45Tree.gk4acLeftRank_node,
+        KuuNativeF45Tree.DepthRotationRoute.rotationCount]
       omega
 
 /-- NO original F54 typed self-route can have positive physical
