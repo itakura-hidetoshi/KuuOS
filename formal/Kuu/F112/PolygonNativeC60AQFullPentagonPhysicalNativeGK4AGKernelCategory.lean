@@ -157,6 +157,15 @@ theorem nativeGK4AGKernelValue_compose
           (nativeGK4AGKernelValue t₂ t₃ v) := by
   refine _root_.Quotient.inductionOn₂ u v ?_
   intro q r
+  change nativeGK4AGKernelValue t₁ t₃
+      (nativeGK4AGKernelCompose t₁ t₂ t₃
+        (nativeGK4SKernelClass (nativeGK4AGP92Family p D E) t₁ t₂ q)
+        (nativeGK4SKernelClass (nativeGK4AGP92Family p D E) t₂ t₃ r)) =
+    nativeGK4AGCombine
+      (nativeGK4AGKernelValue t₁ t₂
+        (nativeGK4SKernelClass (nativeGK4AGP92Family p D E) t₁ t₂ q))
+      (nativeGK4AGKernelValue t₂ t₃
+        (nativeGK4SKernelClass (nativeGK4AGP92Family p D E) t₂ t₃ r))
   rw [nativeGK4AGKernelCompose_class,
     nativeGK4AGKernelValue_class, nativeGK4AGKernelValue_class,
     nativeGK4AGKernelValue_class]
