@@ -67,6 +67,14 @@ theorem nativeGK4VKernelGrade_compose
         nativeGK4VKernelGrade t₂ t₃ v) := by
   refine _root_.Quotient.inductionOn₂ u v ?_
   intro q r
+  change nativeGK4VKernelGrade t₁ t₃
+      (nativeGK4UBoolKernelCompose t₁ t₂ t₃
+        (nativeGK4SKernelClass (nativeGK4OBooleanFamily p D E) t₁ t₂ q)
+        (nativeGK4SKernelClass (nativeGK4OBooleanFamily p D E) t₂ t₃ r)) =
+    (nativeGK4VKernelGrade t₁ t₂
+        (nativeGK4SKernelClass (nativeGK4OBooleanFamily p D E) t₁ t₂ q) &&
+     nativeGK4VKernelGrade t₂ t₃
+        (nativeGK4SKernelClass (nativeGK4OBooleanFamily p D E) t₂ t₃ r))
   simpa only [nativeGK4UBoolKernelCompose_class,
     nativeGK4VKernelGrade_class] using
     (nativeGK4H_p92Grade_compose t₁ t₂ t₃ q r)
