@@ -13,6 +13,20 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新の研究状態 — 2026-10-31 JST / F112-P94D3GK4AC
+
+**真正F54前向き回転rankによる逆回転0障害の除去と完全Natファイバー同値 — [定理PR #2791](https://github.com/itakura-hidetoshi/KuuOS/pull/2791) MERGED：** [GK4AC実F45左結合rank Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4ACForwardRank.lean)と[GK4AC真正第二商ファイバー同値Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4ACExactPositiveFiber.lean)を**append-only新規2Leanファイル・26宣言**で形式化。元F45の二圏・四Blocks・二Nat depth・型付き葉を保持し、`L(refl/leaf)=1`、`L(node A B)=L(A)+L(B)>0`と、`W(node A B)=W(A)+W(B)+L(A)`の真正自然数値**左結合rank**を構築。元の実`LocalRotation.assoc`で`((A B) C)→(A (B C))`は`W`を厳密に`L(A)≥1`だけ減少。元`LocalRotation`全3構成子、実`RotationEdge`・中間木`RotationChain`、二Nat cast、元`DepthRotationRoute`のchain/trans/左右文脈を元Type値のまま帰納法で検証して、**`backwardCount(r)=0 ⇒ W(last)+rotationCount(r)≤W(first)`**を証明。従って**真正F54の型付き自己経路で逆回転数0なら物理回転数も0**。
+
+**GK4ABの唯一の残余障害を解消：** 真正K_AA第二商のself-Homでは`backwardCount=0⇒Boolean grade=true`。一方GK4Zの元F54本物のbalanced tower`R_k`は旧`K_X`にすべて`(false,-2)`で写る。したがって旧`[R_0]_{K_X}`上の本物の`K_AA→K_X`忘却ファイバーに**GK4ABが残した`backwardCount=0`の例外は存在しない**。GK4ABで既に証明した正階層完全正規形と合わせて、**真の元F54 Type値towerの写像`k↦[R_k]_{K_AA}`から`Nat ≃ Fiber(K_AA→K_X,[R_0])`の真正Lean Equivを構成**。実各ファイバー類の添字は一意。真正C60北側六角形も無条件に同じ同値とzero層空性を証明。これは`S→K_AA`の全域faithfulnessを主張しない。`Q`元P92B証拠存在商、`S`独立構造商、`K_AA/K_X`異なる二段目kernel商のauthorityを維持し、観測一致から元Type値P92B 3-cellを生成しない。
+
+**定理検証正本：** 定理squash＝マージ直後canonical main HEAD `f77277798860d4bbd8fbb6d557e7fefb7870f314`、最終exact-source HEAD `9f7ad594782025cc55f0d0bf01f1bd6ed984e6a3`。[Strict Lean/Governance CI #41178066934](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41178066934) **3743/3743 Strict Lean SUCCESS、Governance 5/5 SUCCESS、26件`#print axioms`標準3公理以内、sorryAxなし、変更Lean warning/error 0/0**。[証明・CI記法修正記録](docs/formal/GK4AC-forward-left-rank-exact-fiber.md)。Lean v4.30.0-rc2、mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`。公開root107、strict空中心・独立Kuu一presentation、Gray非導入、保護PR #1558 Draft/OPEN/未マージ保持。
+
+**次段階GK4AD（未証明）：** 真正`S→K_AA`が元F54構造商射に忠実か、さらに保存されない元Type値履歴・非忠実性が存在するかを独立に検証。元P92B Qの結合律・左右単位、歴史的完全型付き同値、真正14D無条件Countable、19D filler、global strict n、hyperdescentは未証明。
+
+> 以下のGK4AB以前の「最新」「次段階」は歴史記録。現行の証明frontierはGK4AC。
+
+---
+
 ## 最新の研究状態 — 2026-10-31 JST / F112-P94D3GK4AB
 
 **真正逆回転数ファイバー正規形 [定理PR #2789](https://github.com/itakura-hidetoshi/KuuOS/pull/2789) MERGED：** [GK4AB新規Lean形式証明](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4ABBackwardFiberNormalForm.lean)で、真正F54元Type値経路・元P92B商`Q`・独立構造商`S`・異なる二つの二段目観測kernel商`K_AA`と`K_X`を保持したまま、**全ての実F45型付き境界・任意の旧`K_X`類`q`**に対する実忘却ファイバー`F_q={z:K_AA | ForgetBackward(z)=q}`を分類。新しい`beta(z)=backwardCount(z):Nat`が**`F_q`上で単射**であり、真正Equiv `F_q ≃ Set.range(beta) ⊆ Nat` をLean4で証明。ゆえに元D/E圏の一般Countableを仮定せず、**すべての真正二段kernel忘却ファイバーがCountable**。`K_AA`圏の合成ではbetaが加法的、単位は0。**元P92B商Qを圏にしていない**。
