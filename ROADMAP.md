@@ -2,6 +2,20 @@
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK4AV / 2026-10-31 JST
+
+**真正F54のℤ[X]係数SL₂多項式観測と次数の元backwardCount上界 — [定理PR #2829](https://github.com/itakura-hidetoshi/KuuOS/pull/2829) MERGED。** [多項式行列の真正経路不変量Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4AVPolynomialInvariant.lean)・[評価・次数・行列式Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4AVDegreeEvaluation.lean)をappend-only新規2Lean・65宣言で形式化。元F54真のcast C=[[1,1],[0,1]]・forward F=[[1,-1],[0,1]]・backward R(X)=[[1,0],[X,1]]の**非可換多項式行列積**を元RotationEdge・中間木RotationChain・DepthRotationRoute全5構成子に定義し、元F55 9、P92B 9、独立構造seam14、拡張比較3の**元Type値証拠**上で全多項式行列の等式保存を証明。元Q・独立Sへ別々に降下し、独立Sの合成・単位を保存。元Q自身の未証明圏公理は仮定しない。
+
+**主要数学定理：** 真正経路rと元Q・独立Sで **eval_t P_r(X)=M_GK4AU(r,t)（任意整数t）、P_r(1)=M_AF(r)、P_r(4)=M_AH(r)、det P_r(X)=1∈ℤ[X]**。さらに元GK4ADの真正backwardCount β(r)を保持し、**すべての成分i,jについてnatDegree(P_r,ij)≤β(r)** を固定mathlibのPolynomial.natDegree_mul_le_of_leとnatDegree_add_le_of_degree_leで証明。これは上界であり普遍的な等号や全算術候補到達は主張しない。既存K_AIが保持する2評価から全多項式の等式を推測せず、その商への全族降下は別の未証明問題。GK4ATの厳格固定旧q slice、法48/12、GK4AUパラメータ合同必要十分条件を維持。
+
+**GK4AV exact-source正本：** final source 66d2c7cd4975d32b481a90dde160716ffed00cfa、実CI test-merge cea32d3ff12550ff0847b6283f07ae0c2271043f、定理squash・統合直後main 5fa543a03d39687426844efe117e2473a2b1e939、全Git tree f2304229aa5bdafa3b78ef345b1c0975b72b7de7一致。[CI #41206335465](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41206335465) **Strict Lean3783/3783 SUCCESS、Governance5/5 SUCCESS・65宣言標準3公理のみ・sorryAx0・変更Lean warning/error0/0**。[GK4AV真正多項式証明・3回のCI検証・定義簡約と数学的等式の差の記録](docs/formal/GK4AV-polynomial-matrix-degree-backwardcount.md)。固定Lean v4.30.0-rc2／mathlib 5450b53e5ddc75d46418fabb605edbf36bd0beb6、root107・strict空中心・独立Kuu一presentation・Grayなし、保護PR #1558 Draft／OPEN／未マージを維持。
+
+**GK4AW候補（未形式化）：** 係数消失条件の明示化、真正backtrackでの次数上界鋭さ、2評価だけ一致しても多項式全体が異なる本物のType値経路の存在性を慎重に調べる。固定旧q無限ファイバー、K_AIへの全多項式降下、元Q自身の結合律・左右単位、14D無条件Countable、19D filler、global strict、hyperdescentは未証明。
+
+> 以下のGK4AU以前の「最新・次候補」は歴史スナップショット。現行frontierはGK4AV。
+
+---
+
 ## 最新のLean定理統合 — F112-P94D3GK4AU / 2026-10-31 JST
 
 **真正F54の整数パラメータ行列族を構成し、既存AF・AHの厳密な回収と合同条件の必要十分性をLean4証明 — [定理PR #2827](https://github.com/itakura-hidetoshi/KuuOS/pull/2827) MERGED。** 元cast C=[[1,1],[0,1]]、forward F=[[1,-1],[0,1]]、backward R(t)=[[1,0],[t,1]]を同じ真正F54のType値経路上で評価する。値はInt→整数2×2行列であり、既存AHの行列積を点ごとに再利用。元F55の9・P92Bの9・独立seamの14・拡張比較の3構成子に対する**族全体の等式保存**を証明し、元Qと独立Sへ別々に降下、S合成・単位も保存した。

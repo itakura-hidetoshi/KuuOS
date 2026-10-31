@@ -13,6 +13,20 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新の研究状態 — 2026-10-31 JST / F112-P94D3GK4AV
+
+**元F54の真正整数多項式2×2行列不変量を構成し、元backwardCountによる全4成分の次数上界をLean4で証明 — [定理PR #2829](https://github.com/itakura-hidetoshi/KuuOS/pull/2829) MERGED。** [型付きF54多項式不変量・全比較保存Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4AVPolynomialInvariant.lean)と[評価・行列式・次数証明Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4AVDegreeEvaluation.lean)をappend-only新規2Leanファイル・65公理依存表示宣言で実装。元F54の真正cast C=[[1,1],[0,1]]、forward F=[[1,-1],[0,1]]、backward R(X)=[[1,0],[X,1]]を**ℤ[X]係数の非可換2×2行列積**に評価し、真正RotationEdge・中間木RotationChain・元DepthRotationRoute全5構成子、元F55 9/P92B 9/独立seam14/拡張3比較の全**Type値証拠**を保存。元Qと独立Sに**別々に**降下、S合成と単位も保存。元Qの未証明圏公理は使わない。
+
+**多項式の厳密な結論：** 任意の真正型付きr、さらに元Q・独立Sで、**P_r(t)=M_GK4AU(r,t)（全整数t）、P_r(1)=M_AF(r)、P_r(4)=M_AH(r)、det P_r(X)=1∈ℤ[X]**。旧GK4ADの真正backwardCount β(r)に対し、**全4成分のPolynomial.natDegree(P_r,ij)≤β(r)** を固定mathlibのnatDegree加法・乗法上界で帰納的に証明。これは次数の上界であってすべての経路で等号を主張しない。多項式族が既存K_AIに降下するとは仮定せず、GK4ATまでの固定旧q算術sliceと法48／法12制約・GK4AUの合同必要十分条件を保持する。
+
+**GK4AV exact-source：** source HEAD 66d2c7cd4975d32b481a90dde160716ffed00cfa、実CI checkout cea32d3ff12550ff0847b6283f07ae0c2271043f、定理squash／統合直後main 5fa543a03d39687426844efe117e2473a2b1e939、三者同Git tree f2304229aa5bdafa3b78ef345b1c0975b72b7de7。[CI #41206335465](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41206335465) **Strict Lean3783/3783 SUCCESS、Governance5/5 SUCCESS、65宣言標準3公理以内、sorryAx0・変更Lean warning/error0/0**。[GK4AV証明・Polynomialでのdefinitional equality修正・CI記録](docs/formal/GK4AV-polynomial-matrix-degree-backwardcount.md)。Lean v4.30.0-rc2／mathlib 5450b53e5ddc75d46418fabb605edbf36bd0beb6、公開root107、strict空中心・独立Kuu一presentation、Gray非再導入、保護PR #1558 Draft・OPEN・未マージを維持。
+
+**次はGK4AW（未形式化候補）：** 元backwardCountより高い次数係数の消失と真正backtrackによる上界の鋭さ、旧t=1,4評価だけでは区別できない多項式履歴の存在性を別々に研究する。固定旧q無限ファイバー、K_AIへの多項式全族降下、算術全域到達、元Q自身の圏公理、14D無条件Countable、19D filler、global strict・hyperdescent等は未証明。
+
+> 以下のGK4AU以前の「最新・次候補」は歴史スナップショット。現行frontierはGK4AV。
+
+---
+
 ## 最新の研究状態 — 2026-10-31 JST / F112-P94D3GK4AU
 
 **真正F54の整数パラメータ行列族を構成し、既存AF・AHの厳密な回収と合同条件の必要十分性をLean4証明 — [定理PR #2827](https://github.com/itakura-hidetoshi/KuuOS/pull/2827) MERGED。** 元cast C=[[1,1],[0,1]]、forward F=[[1,-1],[0,1]]、backward R(t)=[[1,0],[t,1]]を同じ真正F54のType値経路上で評価する。値はInt→整数2×2行列であり、既存AHの行列積を点ごとに再利用。元F55の9・P92Bの9・独立seamの14・拡張比較の3構成子に対する**族全体の等式保存**を証明し、元Qと独立Sへ別々に降下、S合成・単位も保存した。
