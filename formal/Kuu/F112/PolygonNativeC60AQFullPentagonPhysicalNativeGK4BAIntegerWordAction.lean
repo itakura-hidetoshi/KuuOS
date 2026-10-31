@@ -25,7 +25,8 @@ open CategoryTheory
 set_option autoImplicit false
 set_option warningAsError true
 set_option maxRecDepth 8192
-set_option maxHeartbeats 4000000
+set_option maxHeartbeats 100000
+-- Tight, local elaboration budget for precise Lean failure diagnostics.
 noncomputable section
 universe uD vD uE vE
 
