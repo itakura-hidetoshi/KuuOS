@@ -170,7 +170,7 @@ def nativeGK4QImageCompose
       observe t₁ t₃ (nativeGK4H_p92Compose t₁ t₂ t₃ r s) =
           combine (observe t₁ t₂ r) (observe t₂ t₃ s) :=
         nativeGK4Q_map_compose observe combine leftAction rightAction laws t₁ t₂ t₃ r s
-      _ = combine u.val v.val := by rw [hr, hs]⟩
+      _ = combine u.val v.val := congrArg₂ combine hr hs⟩
 
 /-- The image operation is a STRICT observable factor of actual P92B composition. -/
 theorem nativeGK4QImageCompose_ofClass
@@ -276,7 +276,7 @@ def nativeGK4QImageLeftContext
           (nativeF55P93LeftContextClass later q) =
         leftAction later (observe first last q) :=
         nativeGK4Q_map_leftContext observe combine leftAction rightAction laws first last later q
-      _ = leftAction later u.val := by rw [hq]⟩
+      _ = leftAction later u.val := congrArg (leftAction later) hq⟩
 
 /-- The left image action is a strict factor of ACTUAL P93 whiskering. -/
 theorem nativeGK4QImageLeftContext_ofClass
@@ -324,7 +324,7 @@ def nativeGK4QImageRightContext
           (nativeF55P93RightContextClass earlier q) =
         rightAction earlier (observe first last q) :=
         nativeGK4Q_map_rightContext observe combine leftAction rightAction laws earlier first last q
-      _ = rightAction earlier u.val := by rw [hq]⟩
+      _ = rightAction earlier u.val := congrArg (rightAction earlier) hq⟩
 
 /-- The right image action is a strict factor of actual P93 whiskering. -/
 theorem nativeGK4QImageRightContext_ofClass
@@ -416,7 +416,7 @@ theorem nativeGK4QOptionImage_no_zero
   intro hz
   exact nativeGK4KP92Option_no_zero first last q (hq.trans hz)
 
-/-- The generic no-zero theorem specializes to the genuine physical C60 north
+/- The generic no-zero theorem specializes to the genuine physical C60 north
 triple by using nativeGK4FPhysicalNorthTriple as both endpoints. -/
 
 #print axioms NativeGK4QImage
