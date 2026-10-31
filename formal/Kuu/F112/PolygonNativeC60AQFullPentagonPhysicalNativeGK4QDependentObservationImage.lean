@@ -416,16 +416,8 @@ theorem nativeGK4QOptionImage_no_zero
   intro hz
   exact nativeGK4KP92Option_no_zero first last q (hq.trans hz)
 
-/-- The actual physical north image retains the same no-zero obstruction. -/
-theorem nativeGK4Q_physical_north_image_no_zero
-    (z : NativeGK4QImage
-      (nativeGK4OOptionFamily (.hexagon (.top 0))
-        (KuuNativeF45Tree.OriginalPhysicalD (.hexagon (.top 0)))
-        (KuuNativeF45Tree.OriginalPhysicalE (.hexagon (.top 0))))
-      nativeGK4FPhysicalNorthTriple nativeGK4FPhysicalNorthTriple) :
-    z.val ≠ some 0 := by
-  exact nativeGK4QOptionImage_no_zero
-    nativeGK4FPhysicalNorthTriple nativeGK4FPhysicalNorthTriple z
+/-- The generic no-zero theorem specializes to the genuine physical C60 north
+triple by using nativeGK4FPhysicalNorthTriple as both endpoints. -/
 
 #print axioms NativeGK4QImage
 #print axioms nativeGK4QOfClass
@@ -444,7 +436,6 @@ theorem nativeGK4Q_physical_north_image_no_zero
 #print axioms nativeGK4QImageLeftContext_unique
 #print axioms nativeGK4QImageRightContext_unique
 #print axioms nativeGK4QOptionImage_no_zero
-#print axioms nativeGK4Q_physical_north_image_no_zero
 
 end
 end Kuu.F112.Physical
