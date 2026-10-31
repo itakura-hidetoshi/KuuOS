@@ -13,6 +13,20 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新の研究状態 — 2026-10-31 JST / F112-P94D3GK4Z
+
+**最新定理GK4Z [PR #2785](https://github.com/itakura-hidetoshi/KuuOS/pull/2785) MERGED：** [真正逆向きF54物理回転数の不変量](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4ZBackwardCountInvariant.lean)・[同一強化観測値の無限残余構造商ファイバー](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4ZResidualNonfaithfulness.lean)を新規Lean2ファイル・**40宣言**で証明。元F54の**実Type値`RotationEdge.backward`構成子の個数**を`backwardCount : original DepthRotationRoute → Nat`とし、chain・実Nat cast・縦合成・左右文脈を全て元の依存型のまま検証。**元F55全9構成子、独立元P92B全9構成子（真正associator-naturality含む）、F54構造seam全14構成子、拡張構造比較全3構成子**について個別帰納法で不変性を証明し、元P92B証拠存在商`Q`と独立構造比較商`S`に**それぞれ別個に降下**。元のType値3-cellを観測一致から生成しない。
+
+**GK4X/GK4Y強化観測の残余非忠実性を具体的に証明：** 真正F54前向き＋後向き物理回転backtrack`B`は`rotationCount=2`、`backwardCount=1`、`castCharge=-2`。実`castDepths rfl rfl`を2個加えたbalanced loop`C`は`backwardCount=1`・`castCharge=0`・`rotationCount=2`。元F54証拠経路`R_0=B, R_{k+1}=C;R_k`を構成し、**`backwardCount(R_k)=k+1`、`castCharge(R_k)=-2`、`rotationCount(R_k)=2(k+1)`、`O_X([R_k]_S)=(false,-2)`**を全Nat kでLean証明。後向き回転不変量により`[R_i]_S ≠ [R_j]_S`（i≠j）であり、GK4X/K_Xの実二段目強化観測kernel商では全段**同じ像**。したがって、**実F54 local rotationを持つ任意の文脈で、真正GK4Yの構造圏→強化kernel圏比較関手は非忠実**。真正C60北側六角形では、この**同一強化観測値`(false,-2)`に対応する独立構造商の残余ファイバーは厳密に`Cardinal.aleph0`**と実構造Hom可算性とNat単射から証明。さらに実二段目kernelのある1類へ相異なる構造商類が無限個写ることを構成。この結果は元P92B商`Q`の結合律・単位律、元14D無条件Countable、19D fillerを主張しない。
+
+**検証正本：** 定理squash＝定理マージ直後のcanonical `main` HEAD `f9e0c45fc18d2c1951b1c05579a3b90b87d00e5a`、final exact-source PR HEAD `85e393966e9040cb62c8dbff8eeea6104f912576`、[Strict Lean/Governance #41174633574](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41174633574) **3736/3736 SUCCESS、Governance 5/5 SUCCESS、40新宣言`#print axioms`標準3公理以内・sorryAxなし・変更Lean warning/error 0/0**。[GK4Z定理・修正記録](docs/formal/GK4Z-backward-residual-obstruction.md)。Lean v4.30.0-rc2、mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、公開root107、strict空中心・独立Kuu一presentation、Gray非導入、保護PR #1558 Draft/OPEN/未マージを維持。
+
+**次段階GK4AA（未証明）：** 逆向き実F54回転数も組み込んだ`(Boolean,castCharge,backwardCount)`を真正P92B商・独立構造商・二段kernel商間の観測関手として検討し、まだ残る情報損失を分類。元P92B結合律・単位律、歴史的完全型付き同値、真正14D無条件Countable、19D filler、global strict n、hyperdescentは未証明。
+
+> 以下のGK4Y以前の「最新・次候補」は当時の記録。現在の形式化frontierはGK4Z。
+
+---
+
 ## 最新の研究状態 — 2026-10-31 JST / F112-P94D3GK4Y
 
 **最新のLean定理統合 GK4Y [PR #2783](https://github.com/itakura-hidetoshi/KuuOS/pull/2783) MERGED：** [真正強化観測kernel圏](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4YEnhancedKernelCategory.lean)と[強化kernel→Boolean kernel忘却関手・可算無限ファイバー](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4YEnhancedKernelForgetful.lean)を**新規Lean2ファイル／39宣言**で形式化。元P92Bの真正Type値証拠存在商`Q`、独立GK4E構造比較商`S`、GK4Sの**相異なる二段目観測kernel商**`K_X = Q/∼_{(Bool,charge)}`と`K_B = Q/∼_{Bool}`を明確に区別。真正F45全型付き境界上で、**Homを実際の`K_X`第二商とする新しいMathlib Category**を構築。合成はGK4S真正到達観測像からの輸送、単位は元P92Bゼロ経路の実二段目商類、結合律は`(b,c)·(d,e)=(b&&d,c+e)`による。元`Q`で未証明の結合律・左右単位を仮定せず、**`K_X`上だけの左右単位律・結合律**をLeanで証明。
