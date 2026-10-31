@@ -62,6 +62,7 @@ theorem nativeGK4APLinked_mul
   change A.1.1 * B.1.2 + A.1.2 * B.2.2 =
     (u.1.1 + v.1.1) + (((u.1.2 + v.1.2 : Nat) : Int)) +
       4 * (tu + tv + au * B.1.2 + A.1.2 * dv)
+  simp only [nativeGK4APOldUpperResidue] at htu htv
   rw [hau, hdv, htu, htv]
   push_cast
   ring
@@ -196,6 +197,8 @@ theorem nativeGK4APFiber_sound
   rw [z.2] at hvalue
   have hcharge := congrArg
     (fun v : NativeGK4AGValue => v.1.2) hvalue
+  change (nativeGK4AGKernelValue first last target).1.2 =
+    (nativeGK4AIKernelValue first last z.1).1.1.2 at hcharge
   change nativeGK4APLinked
     ((nativeGK4AGKernelValue first last target).1.2)
     ((nativeGK4AIKernelValue first last z.1).2)
