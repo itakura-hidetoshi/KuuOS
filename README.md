@@ -13,6 +13,20 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新の研究状態 — 2026-10-31 JST / F112-P94D3GK4AB
+
+**真正逆回転数ファイバー正規形 [定理PR #2789](https://github.com/itakura-hidetoshi/KuuOS/pull/2789) MERGED：** [GK4AB新規Lean形式証明](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4ABBackwardFiberNormalForm.lean)で、真正F54元Type値経路・元P92B商`Q`・独立構造商`S`・異なる二つの二段目観測kernel商`K_AA`と`K_X`を保持したまま、**全ての実F45型付き境界・任意の旧`K_X`類`q`**に対する実忘却ファイバー`F_q={z:K_AA | ForgetBackward(z)=q}`を分類。新しい`beta(z)=backwardCount(z):Nat`が**`F_q`上で単射**であり、真正Equiv `F_q ≃ Set.range(beta) ⊆ Nat` をLean4で証明。ゆえに元D/E圏の一般Countableを仮定せず、**すべての真正二段kernel忘却ファイバーがCountable**。`K_AA`圏の合成ではbetaが加法的、単位は0。**元P92B商Qを圏にしていない**。
+
+**真正balanced towerの正値完全正規形：** 真正F54のType値`LocalRotation`証拠を持つ任意の元F45自己Homで、GK4Zの実物理前後回転・castDepthsにより構成した`R_k`は`O_X(R_k)=(false,-2)`、`O_AA(R_k)=((false,-2),k+1)`を満たす。旧`K_X`の実`[R_0]`類上の`K_AA`ファイバーでは、**後向き回転数が正である任意の商類`z`が、ただ一つの`[R_k]_{K_AA}`に一致**すると証明。`beta(z)=0`の層は存在しても高々**1類**。さらに**tower全射 iff このゼロ階層類が存在しない**という必要十分条件、実到達逆回転数範囲の厳密な式、真正C60北六角形での正値正規形を証明した。**ゼロ階層が実際に空であるかはGK4ABでは未証明**。元`S→K_AA`の全域忠実性も未証明のまま。
+
+**定理検証正本：** 定理squash SHA（定理マージ直後のcanonical main HEAD）`decd01552f25d5367d775eaaa3ec43609e6ae619`、最終exact-source PR HEAD `0972b7c6943fec53c39b8122420f8c277a14772c`、[CI #41176694544](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41176694544) **Strict Lean 3741/3741 SUCCESS、Governance 5/5 SUCCESS、新規20宣言の`#print axioms`標準3公理以内、sorryAxなし、変更Lean warning/error 0/0**。[詳細証明・Lean記法修正記録](docs/formal/GK4AB-backward-fiber-normal-form.md)。Lean v4.30.0-rc2／固定mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、公開root107、strict空中心・独立Kuu一presentation、Gray非導入、保護PR #1558 Draft/OPEN/未マージを保持。
+
+**次段階GK4AC（未証明）：** 真正F45二分木の左結合rankなどを用い、**後向き回転0かつ前向き回転正の自己経路が不可能**であることを、型付き実F54局所回転・cast・trans・左右文脈の全構成子で検証。これが得られればGK4ABの唯一のゼロ障害を除き、当該`K_AA→K_X`ファイバーの`Nat`完全正規形を証明できる。元`S→K_AA`忠実性、元P92B商の結合律・単位律、歴史的完全型付き同値、真正14D無条件Countable、19D filler、global strict n、hyperdescentは依然未証明。
+
+> 以下のGK4AA以前の「最新・次候補」は歴史記録。現在の形式化frontierはGK4AB。
+
+---
+
 ## 最新の研究状態 — 2026-10-31 JST / F112-P94D3GK4AA
 
 **真正三成分観測・第二kernel圏 [定理PR #2787](https://github.com/itakura-hidetoshi/KuuOS/pull/2787) MERGED：** [三成分観測](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4AAThreeComponentObserver.lean)／[真正商間比較](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4AATripleComparison.lean)／[三成分kernel圏](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4AAKernelCategory.lean)／[真正忘却関手](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4AAKernelForgetful.lean)を**append-only Lean4ファイル・72宣言**で証明。GK4Xの`(Bool,castCharge)`とGK4Zの元F54真正後向き回転Type値証拠個数を組み合わせ、**`O_AA(r)=((grade(r),castCharge(r)),backwardCount(r))`**を、元P92B証拠存在商`Q`と独立F54構造比較商`S`に**別個に降下**させた。元F54の合成・左右文脈・実全14構造seam保存・元Q→S可換性・単位観測を形式化（GK4Zの元F55全9・P92B全9・構造seam全14・拡張比較全3のsoundnessを継承）。観測値一致から元Type値3-cellを生成しない。
