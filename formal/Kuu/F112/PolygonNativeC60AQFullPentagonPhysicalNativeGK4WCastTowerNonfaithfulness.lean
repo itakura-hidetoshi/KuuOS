@@ -139,7 +139,7 @@ typed castDepths self-routes, without inventing external 3-cells. -/
 def nativeGK4WCastTower : Nat →
     KuuNativeF45Tree.DepthRotationRoute p tree tree
   | 0 => .chain (.refl tree)
-  | k + 1 => .trans (nativeGK4WCastRoute tree) (nativeGK4WCastTower tree k)
+  | k + 1 => .trans (nativeGK4WCastRoute tree) (nativeGK4WCastTower k)
 
 /-- Signed charge of every truly typed F54 cast tower is EXACTLY k. -/
 theorem nativeGK4WCastTower_charge (k : Nat) :
