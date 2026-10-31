@@ -13,6 +13,20 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新の研究状態 — 2026-10-31 JST / F112-P94D3GK4V
+
+**最新の定理統合 GK4V [#2777](https://github.com/itakura-hidetoshi/KuuOS/pull/2777) MERGED：** [GK4V観測kernel定理](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4VBooleanFaithfulnessCriterion.lean)・[GK4V関手とC60判定](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4VBooleanFunctorSectionCriterion.lean)。元P92Bの真正Type値比較存在商`Q`、独立GK4E構造比較商`S`、GK4S二段目Boolean観測kernel商`K_Bool`の権限境界を保持し、**GK4Uの真正比較射`F:S→K_Bool`で`F(u)=F(v) ⇔ grade(u)=grade(v)`**を型付き全F45境界で証明。**`F`の各Homでの単射性 ⇔ 独立構造商GK4G Boolean gradingの同一Hom上の単射性**を確定。実際の`K_Bool`からGK4I一対象Boolean圏へのMathlib関手を構成して**各Homで単射**と証明し、GK4U比較関手と合成した際、GK4Iの既存Boolean gradingと**対象・射写像で厳密に一致**することを証明。これによって元P92B→Boolean kernel商の既知の非単射性を、独立構造商→kernel商の非単射性へ誤って反射しない。
+
+**真正C60北側F45 tripleの完全判定条件：** GK4Gの**真正zero-route unit塔（true）と2物理回転backtrack（false）**からなる実Boolean sectionが全構造商自己Homを復元できることと、GK4U比較関手のそのHomにおける単射性が**必要十分**。実2射は構造商において異なるBoolean gradeを持ち、GK4Vでも像が異なることを証明。**同一Boolean gradeで異なる構造商2射の存在、または2sectionによる全構造商復元は未証明**なので、忠実・不忠実いずれも無条件には結論しない。これは型付きno-goの未解消のobstructionを正確に局所化した成果。
+
+定理squash SHA＝直後のcanonical `main` HEAD `77c70548e85aa55d1fb958d9d1a4c8bb40b148a9`、exact-source HEAD `c62b8e8194d5b2cf583eb8b21d17e5990938fd59`、[CI #41169230707](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41169230707) **Strict Lean 3728/3728 SUCCESS・Governance 5/5 completed SUCCESS**。追加16宣言は`#print axioms`で`propext`・`Classical.choice`・`Quot.sound`以内、`sorryAx`なし、変更Lean warning/error 0/0。[GK4V検証記録](docs/formal/GK4V-boolean-faithfulness-criterion.md)。公開root107、Lean v4.30.0-rc2、mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、strict空中心・独立Kuu一presentation、Gray非再導入、保護PR #1558 Draft/OPEN/未マージを維持。
+
+**次の研究候補 GK4W（未証明）：** 真正F54構造商内の**同一Boolean grade・異なる2射**の構成、あるいは既存2sectionによるHom全域復元を、元Type値証拠の全構成子と幾何を保持して検証。元P92B結合律・左右単位・別合成、歴史的型付き完全同値、真正14D無条件Countable、元19D filler、global strict n・hyperdescentは未証明として保持。
+
+> 以下のGK4U以前の「最新」「次段階」は歴史的記録。現行の定理frontierはGK4Vを優先する。
+
+---
+
 ## 最新の研究状態 — 2026-10-31 JST / F112-P94D3GK4U
 
 **最新の定理統合 GK4U [#2775](https://github.com/itakura-hidetoshi/KuuOS/pull/2775) MERGED：** [Lean定理](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4UCompositionalKernelFunctor.lean) で、元P92B証拠存在商`Q`、独立GK4E構造比較商`S`、GK4S観測kernel二段目商`K_O`の**3種類のauthorityを同一視せず**、元GK4Hの真正合成保存射影`π:Q→S`とGK4Sの合成保存射影`κ:Q→K_O`の双方と可換な任意の比較写像`F:S→K_O`が**必然的に合成を保存**すると証明。GK4Pの真正F54合成・左右文脈観測則の下で、任意の真のF45三境界に対する**合成保存比較写像3つの存在 iff 全3境界でGK4Nの全真正Type値F54構造seam保存**という必要十分条件を形式化。合成整合性のための追加障害を偽って仮定しない。構造商の真正単位は比較写像で**元P92Bゼロ経路の観測kernel類**へ写るが、元P92Bの単位律は主張しない。
