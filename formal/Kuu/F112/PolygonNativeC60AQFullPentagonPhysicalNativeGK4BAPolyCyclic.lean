@@ -33,15 +33,15 @@ def nativeGK4BAPolyUpperPerm (n : Int) : Equiv.Perm NativeGK4BAPolyVector where
     intro ⟨x, y⟩
     apply Prod.ext
     · change x + Polynomial.C n * y + Polynomial.C (-n) * y = x
-      rw [map_neg]
-      ring
+      simp only [map_neg, neg_mul]
+      simp
     · rfl
   right_inv := by
     intro ⟨x, y⟩
     apply Prod.ext
     · change x + Polynomial.C (-n) * y + Polynomial.C n * y = x
-      rw [map_neg]
-      ring
+      simp only [map_neg, neg_mul]
+      simp
     · rfl
 
 def nativeGK4BAPolyLowerPerm (n : Int) : Equiv.Perm NativeGK4BAPolyVector where
@@ -53,16 +53,16 @@ def nativeGK4BAPolyLowerPerm (n : Int) : Equiv.Perm NativeGK4BAPolyVector where
     · rfl
     · change y + Polynomial.C n * Polynomial.X * x +
           Polynomial.C (-n) * Polynomial.X * x = y
-      rw [map_neg]
-      ring
+      simp only [map_neg, neg_mul]
+      simp
   right_inv := by
     intro ⟨x, y⟩
     apply Prod.ext
     · rfl
     · change y + Polynomial.C (-n) * Polynomial.X * x +
           Polynomial.C n * Polynomial.X * x = y
-      rw [map_neg]
-      ring
+      simp only [map_neg, neg_mul]
+      simp
 
 /-- Upper polynomial shear as actual infinite-cyclic group hom. -/
 def nativeGK4BAPolyUpperHom :
@@ -83,8 +83,8 @@ def nativeGK4BAPolyUpperHom :
           (Multiplicative.toAdd m + Multiplicative.toAdd n) * y =
           x + Polynomial.C (Multiplicative.toAdd n) * y +
             Polynomial.C (Multiplicative.toAdd m) * y
-      rw [map_add]
-      ring
+      simp only [map_add, add_mul]
+      abel
     · rfl
 
 /-- Lower polynomial shear as the second cyclic group hom. -/
@@ -108,8 +108,8 @@ def nativeGK4BAPolyLowerHom :
           Polynomial.X * x =
           y + Polynomial.C (Multiplicative.toAdd n) * Polynomial.X * x +
             Polynomial.C (Multiplicative.toAdd m) * Polynomial.X * x
-      rw [map_add]
-      ring
+      simp only [map_add, add_mul]
+      abel
 
 #print axioms nativeGK4BAPolyUpperShear
 #print axioms nativeGK4BAPolyLowerShear
