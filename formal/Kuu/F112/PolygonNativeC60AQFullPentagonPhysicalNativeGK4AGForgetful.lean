@@ -87,6 +87,15 @@ theorem nativeGK4AGForgetMatrix_compose
       (nativeGK4AGForgetMatrix t₂ t₃ v) := by
   refine _root_.Quotient.inductionOn₂ u v ?_
   intro q r
+  change nativeGK4AGForgetMatrix t₁ t₃
+      (nativeGK4AGKernelCompose t₁ t₂ t₃
+        (nativeGK4SKernelClass (nativeGK4AGP92Family p D E) t₁ t₂ q)
+        (nativeGK4SKernelClass (nativeGK4AGP92Family p D E) t₂ t₃ r)) =
+    nativeGK4AEEnhancedKernelCompose t₁ t₂ t₃
+      (nativeGK4AGForgetMatrix t₁ t₂
+        (nativeGK4SKernelClass (nativeGK4AGP92Family p D E) t₁ t₂ q))
+      (nativeGK4AGForgetMatrix t₂ t₃
+        (nativeGK4SKernelClass (nativeGK4AGP92Family p D E) t₂ t₃ r))
   rw [nativeGK4AGKernelCompose_class,
     nativeGK4AGForgetMatrix_class, nativeGK4AGForgetMatrix_class,
     nativeGK4AGForgetMatrix_class, nativeGK4AEEnhancedKernelCompose_class]
