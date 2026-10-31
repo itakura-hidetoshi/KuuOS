@@ -137,7 +137,7 @@ theorem nativeGK4AMOddClass_forget (d : Nat) :
   rw [nativeGK4AIForgetMatrix_comparison]
   apply (nativeGK4AGComparison_eq_iff before before _ _).mpr
   rw [nativeGK4AMOddWord_oldValue, nativeGK4AKWord_oldValue]
-  rfl
+  simp only [Nat.zero_add]
 
 /-- Truly attained new point over the same old q_(d+1). -/
 def nativeGK4AMOddFiberPoint (d : Nat) :
