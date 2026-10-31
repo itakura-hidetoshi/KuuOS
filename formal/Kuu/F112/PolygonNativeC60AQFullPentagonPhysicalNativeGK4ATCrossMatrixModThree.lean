@@ -52,18 +52,24 @@ theorem nativeGK4ATModThree_mul
   exact ⟨(ha.mul he).add (hb.mul hg), (ha.mul hf).add (hb.mul hh),
     (hc.mul he).add (hd.mul hg), (hc.mul hf).add (hd.mul hh)⟩
 
+/-- Explicitly unfold the custom predicate before normalization;
+instance synthesis alone does not expose its decidable conjunction. -/
 theorem nativeGK4ATModThree_one :
-    nativeGK4ATModThree nativeGK4AFOne nativeGK4AHOne := by decide
+    nativeGK4ATModThree nativeGK4AFOne nativeGK4AHOne := by
+  norm_num [nativeGK4ATModThree, Int.ModEq, nativeGK4AFOne, nativeGK4AHOne]
 
 theorem nativeGK4ATModThree_cast :
-    nativeGK4ATModThree nativeGK4AFCast nativeGK4AHCast := by decide
+    nativeGK4ATModThree nativeGK4AFCast nativeGK4AHCast := by
+  norm_num [nativeGK4ATModThree, Int.ModEq, nativeGK4AFCast, nativeGK4AHCast]
 
 theorem nativeGK4ATModThree_forward :
-    nativeGK4ATModThree nativeGK4AFForward nativeGK4AHForward := by decide
+    nativeGK4ATModThree nativeGK4AFForward nativeGK4AHForward := by
+  norm_num [nativeGK4ATModThree, Int.ModEq, nativeGK4AFForward, nativeGK4AHForward]
 
 /-- The essential original-generator compatibility: 1 = 4 mod3. -/
 theorem nativeGK4ATModThree_backward :
-    nativeGK4ATModThree nativeGK4AFBackward nativeGK4AHBackward := by decide
+    nativeGK4ATModThree nativeGK4AFBackward nativeGK4AHBackward := by
+  norm_num [nativeGK4ATModThree, Int.ModEq, nativeGK4AFBackward, nativeGK4AHBackward]
 
 section GenuineOriginalDependentSource
 variable {p : Polygon}
