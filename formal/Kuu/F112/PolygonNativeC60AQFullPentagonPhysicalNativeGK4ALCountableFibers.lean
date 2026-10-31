@@ -53,9 +53,7 @@ theorem nativeGK4ALFiberCountable
     (target : NativeGK4SKernelClasses
       (nativeGK4AGP92Family p D E) first last) :
     Countable (nativeGK4AJOldFiber first last target) := by
-  exact Countable.of_injective
-    (nativeGK4AJFiberMatrix first last target)
-    (nativeGK4AJFiberMatrix_injective first last target)
+  exact (nativeGK4AJFiberMatrix_injective first last target).countable
 
 /-- Canonical carrier of actual attained matrix values above q.
 This is generally a proper subset of all integer matrices. -/
@@ -78,9 +76,7 @@ countable: its genuine full joint observation is injective. -/
 theorem nativeGK4ALKernelHomCountable :
     Countable (NativeGK4SKernelClasses
       (nativeGK4AIP92Family p D E) first last) := by
-  exact Countable.of_injective
-    (nativeGK4AIKernelValue first last)
-    (nativeGK4AIKernelValue_injective first last)
+  exact (nativeGK4AIKernelValue_injective first last).countable
 
 end AllTypedFibers
 
