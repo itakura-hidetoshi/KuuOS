@@ -147,9 +147,10 @@ theorem nativeGK4BAP92_onePoint_determines
         nativeGK4AVPolyEval 4 (nativeGK4AVP92Value first last r)) :
     nativeGK4AVP92Value first last q =
       nativeGK4AVP92Value first last r := by
+  revert h4
   refine _root_.Quotient.inductionOn₂ q r ?_
-  intro u v
-  exact nativeGK4BARoute_onePoint_determines u v
+  intro u v h4
+  exact nativeGK4BARoute_onePoint_determines u v h4
 
 theorem nativeGK4BAP92_AH_determines
     (q r : NativeF55P92AssocRouteClasses first last)
@@ -174,9 +175,10 @@ theorem nativeGK4BAStructural_onePoint_determines
         nativeGK4AVPolyEval 4 (nativeGK4AVStructuralValue first last r)) :
     nativeGK4AVStructuralValue first last q =
       nativeGK4AVStructuralValue first last r := by
+  revert h4
   refine _root_.Quotient.inductionOn₂ q r ?_
-  intro u v
-  exact nativeGK4BARoute_onePoint_determines u v
+  intro u v h4
+  exact nativeGK4BARoute_onePoint_determines u v h4
 
 theorem nativeGK4BAStructural_AH_determines
     (q r : NativeGK4EStructuralRouteClasses first last)
