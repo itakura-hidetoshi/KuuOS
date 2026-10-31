@@ -14,6 +14,16 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新の研究追補 — 2026-11-01 JST / F112-P94D3GK4BA
+
+**真正元F54依存型経路の全多項式行列は旧AH一点評価 `t=4` だけで決定する — [定理PR #2840](https://github.com/itakura-hidetoshi/KuuOS/pull/2840)・[#2838](https://github.com/itakura-hidetoshi/KuuOS/pull/2838)・[canonical-main統合 #2843](https://github.com/itakura-hidetoshi/KuuOS/pull/2843) 全MERGED。** [最終Lean定理](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4BAOnePointDeterminacy.lean)・[全文証明/CI記録](docs/formal/GK4BA-original-t4-one-point-polynomial-determinacy.md)。
+
+GK4AY/GK4AZの実Leanで証明したSanov型 `ℤ*ℤ ↪ Perm(ℤ²)` を、元F54の全依存型 `RotationEdge`・`RotationChain`・`DepthRotationRoute` の元構成子へ輸送した。元多項式行列 `P_r(X)∈Mat₂(ℤ[X])` と本物の自由積語の多項式作用／整数`t=4`作用が可換であり、**`P_u(4)=P_v(4) ⇔ P_u(X)=P_v(X)`** を任意の同じ元Type値型付き始点・終点の経路についてLean4形式化。元P92B存在商Qと別の独立構造商Sでも、それぞれ同じ一点決定性を証明。旧AF/AH二評価一致なのに多項式が異なるという以前の研究候補は**不存在**。ただし、これは元Type値経路の同一性や新たな3-cell証拠ではない。
+
+**exact-source CI:** #2840 source `b0c480e3da157a04cb8af9eefeed8d7fac788fac`、[CI #41250464410](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41250464410) **3793/3793 SUCCESS**、squash `435e6282e492724df7d851ff1bf3a40d4a4f1621`。#2838は最初作業ブランチへマージされたため、同一証明のmain統合#2843 source `5e1b355e5a417c554ba607b1b819aa66778cabde`、[CI #41252864048](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41252864048) **3795/3795 SUCCESS**、squash=canonical main `c4e20c3f2676dc8033010cfa024678b345649a38` を独立確認。2件ともGovernance SUCCESS・変更Lean warning/error0/0、標準3公理以内・sorryAx0、source/test-merge Git tree一致。公開root107、Lean/mathlib固定、strict空中心・独立Kuu一presentation、Gray非再導入、保護PR #1558 Draft/OPEN/未マージを維持。
+
+**次GK4BB（未Lean証明）：** 既存`K_AI`のkernel観測には`M_AH=P(4)`が含まれるため、GK4BAから全多項式族が既存`K_AI`へ代表元独立に降下することが従う。明示的`Quotient.lift`と元Q/Sとの可換性、一意性を形式化する。元Q自身の未証明圏公理やType値3-cellを作らない。
+
 ## 最新の研究追補 — 2026-10-31 JST / F112-P94D3GK4AZ
 
 **Sanov型整数せん断変換の真正ping-pong自由積単射 — [GK4AZ定理PR #2836](https://github.com/itakura-hidetoshi/KuuOS/pull/2836) MERGED。** [新Lean証明](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4AZShearFreeProduct.lean)・[全証明記録](docs/formal/GK4AZ-shear-free-product-pingpong-injectivity.md)。元F54の真正多項式生成子`C=[[1,1],[0,1]]`、`F=C⁻¹`、`R(4)=[[1,0],[4,1]]`を整数座標`(u,v)↦(2u,v)`で移し、`U_n(x,y)=(x+2ny,y)`、`L_n(x,y)=(x,y+2nx)`を得る。[GK4AY PR #2835](https://github.com/itakura-hidetoshi/KuuOS/pull/2835) MERGEDで、二つの互いに素な非空錐`H={|x|>|y|}`・`V={|y|>|x|}`に対し、**全非零整数n（負も含む）で`U_n(V)⊆H`、`L_n(H)⊆V`**、可逆性、加法合成をLean証明。[GK4AY詳細](docs/formal/GK4AY-integral-shear-pingpong.md)。
