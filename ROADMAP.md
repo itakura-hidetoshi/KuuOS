@@ -2,6 +2,18 @@
 
 
 
+**最新のLean定理統合 — F112-P94D3GK4AS / [定理PR #2823](https://github.com/itakura-hidetoshi/KuuOS/pull/2823) MERGED（2026-10-31 JST）。** [真正F54右下対角mod16・trace・同一算術slice Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4ASForcedLowerDiagonal.lean)をappend-only新規1Leanファイル・18宣言で形式化。旧GK4AD値v=((charge,beta),moment)、三角数T(β)、ρ=charge+β、s=moment+T(β)、真正第二整数行列M=[[a,b],[c,d]]において、従前の **ad−bc=1, a≡1+4s(mod16), b≡ρ(mod4), c≡4β(mod16), d≡1(mod4)** から整数証人を**明示構成**し、**d≡1+4(ρβ−s)(mod16)** をLean4証明。左上との加法により **tr(M)≡2+4ρβ(mod16)** も導出。元F54 RotationEdge／RotationChain／DepthRotationRoute全5構成子、元F55/P92B実Type値比較を継承した元Q・独立S、真正K_AI、任意旧qの実従属忘却Fiberへ適用。観測値一致からType値比較は追加せず、元Q圏公理も仮定しない。
+
+**新しい算術障害ではないことを定理で確定：** 行列式から**右下合同はGK4AR条件により既に強制される**ので、全整数行列に対し新AS predicate iff 旧AR predicate、任意固定旧qで **Γ_AS(q)=Γ_AR(q)**。これまでの真正な厳格境界は **AttainedMatrix(q)⊆Γ_AS(q)=Γ_AR(q)⊊Γ_AQ(q)** と正確に書ける。AS⊊ARは成立せず、算術slice全域の到達性・固定単一無限ファイバーは主張しない。元GK4AN有限下界、GK4AL可算性、GK4AM正k有限族非網羅は維持。
+
+**GK4AS exact-source正本：** source HEAD b702e5b586c86751693d40fd0508c767b77bb735、定理squash／統合直後main 6fe4784a704e2da1e20a6c3204509a2357d028a9、共通Git tree ecb50d22ea0d68aa7146ffe768fe9c5e0314328d。[CI #41199914582](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41199914582) **Strict Lean 3777/3777 SUCCESS・Governance 5/5 SUCCESS・18宣言標準3公理のみ・sorryAx0・変更Lean warning/error0/0**。[GK4AS詳細証明とCI receipt](docs/formal/GK4AS-forced-lower-right-mod16-trace-and-slice-equivalence.md)。Lean v4.30.0-rc2／mathlib 5450b53e5ddc75d46418fabb605edbf36bd0beb6、公開root107、strict空中心・独立Kuu一presentation・Grayなし、保護PR #1558はDraft／OPEN／未マージ。
+
+**次段階GK4AT候補（未形式化）：** 法32以上の高精度合同と本当の非可換Type値履歴を探索し、**独立で非冗長な**新obstructionが存在するかを検討する。既存行列式だけが強制する合同を独立の新制約と誤認しない。固定旧q無限ファイバー、元Q自身の結合律・左右単位、歴史的完全型付き同値、真正14D無条件Countable、19D filler、global strict、hyperdescentは未証明。
+
+> 以下のGK4AR以前の「最新・次候補」は歴史的スナップショット。現行frontierはGK4AS。
+
+---
+
 **最新のLean定理統合 — F112-P94D3GK4AR / [定理PR #2821](https://github.com/itakura-hidetoshi/KuuOS/pull/2821) MERGED（2026-10-31 JST）。** [真正元F54三角数と対角orderedMoment合同式Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4ARDiagonalMoment.lean)および[GK4AQ内部の厳格q依存算術slice Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4ARStrictDiagonalSlice.lean)をappend-only新規2Lean・33宣言で証明。実元F54の真のLocalRotation forward/backward辺・RotationChain・二Nat castおよびDepthRotationRoute全5構成子、元F55/P92B全比較証拠、別の独立Sを保存。旧GK4AD`((charge,beta),moment)`に対して、整数三角数`T(0)=0, T(n+1)=T(n)+n`の`T(a+b)=T(a)+T(b)+ab`と`2T(n)=n(n-1)`をLeanで証明し、**新GK4AH実整数行列の左上`M.11≡1+4*(moment+T(beta))(mod16)`**が成立することを、旧Heisenberg結合の`charge_A*beta_B`と右上×左下交差項を比較して証明。元P92B存在商Q・独立構造商Sへ別々に降下し、真正K_AI・任意旧K_AG類qの実従属Fiberへ伝播。GK4AOのdet1・Γ₁(4)、GK4APの右上`b≡charge+beta(mod4)`、GK4AQの左下`c≡4beta(mod16)`はすべて保持する。
 
 **GK4ARの真正固定ファイバー障害：** `Γ_AR(q)`を前段`Γ_AQ(q)`に左上のorderedMoment対角mod16を課した集合として、**任意旧qで`AttainedMatrix(q) ⊆ Γ_AR(q) ⊊ Γ_AQ(q)`**をLean4形式化。真の包含は`rho=charge(q)+beta(q)`とし、旧AQ条件に属する2つの算術行列 `Base=[[1+4rho*beta,rho],[4beta,1]]`、`Twist=Base*[[5,4],[16,13]]`の左上成分が`Twist.11-Base.11=4+16rho(beta+1)`で法16において4違うため、両者が同じ新AR条件を同時に満たせないことから証明。任意qの旧AQ内に新AR外の**到達不能**行列を構成し、実到達像だけへの正確なdependent-fiber embedding/Equivも確立。**二算術行列が真正元F54経路により到達するという主張はしない**。固定単一無限ファイバーやslice全域到達性は未証明。

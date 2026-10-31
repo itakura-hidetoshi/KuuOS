@@ -13,6 +13,20 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新の研究状態 — 2026-10-31 JST / F112-P94D3GK4AS
+
+**真正F54第二整数行列の右下成分mod16が既存GK4AO〜GK4AR条件から強制されることをLean4で形式化 — [定理PR #2823](https://github.com/itakura-hidetoshi/KuuOS/pull/2823) MERGED。** [新規GK4AS証明Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4ASForcedLowerDiagonal.lean) 1ファイル・18宣言。旧GK4ADのcharge χ、backwardCount β、orderedMoment m、三角数T(β)=β(β−1)/2、ρ=χ+β、s=m+T(β)に対して、真正GK4AH行列M=[[a,b],[c,d]]は **d≡1+4(ρβ−s) (mod16)** を満たす。行列式ad−bc=1、GK4ARの左上a≡1+4s(mod16)、GK4APの右上b≡ρ(mod4)、GK4AQの左下c≡4β(mod16)、GK4AOのd≡1(mod4)の**既存整数証人**を結合し、新しい右下整数証人を明示構成した。さらに **tr(M)=a+d≡2+4ρβ(mod16)** を証明。orderedMomentは対角和で相殺される。
+
+**重要：これは独立の新obstructionではない。** 任意の整数2×2行列に対してGK4AS全条件とGK4AR全条件は必要十分に同値であり、任意固定旧qの算術sliceは **Γ_AS(q)=Γ_AR(q)**。従前の厳格包含 **AttainedMatrix(q) ⊆ Γ_AS(q)=Γ_AR(q) ⊊ Γ_AQ(q)** は維持するが、AS⊊ARという誤った包含は主張しない。元F54真正forward/backward RotationEdge・RotationChain・元DepthRotationRoute全5構成子、実P92B Q、独立S、真正K_AIと全旧qファイバーへの成立をLean4で証明済み。元Type値3-cellを観測値一致から生成せず、算術slice全域到達や固定無限ファイバーも仮定しない。
+
+**GK4AS exact-source正本：** source HEAD b702e5b586c86751693d40fd0508c767b77bb735、定理squash／統合直後main HEAD 6fe4784a704e2da1e20a6c3204509a2357d028a9、両者同Git tree ecb50d22ea0d68aa7146ffe768fe9c5e0314328d。[CI #41199914582](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41199914582) **Strict Lean 3777/3777 SUCCESS・Governance 5/5 SUCCESS・18宣言公理標準3以内・sorryAx0・変更Lean warning/error0/0**。[GK4AS詳細証明・exact-source CI記録](docs/formal/GK4AS-forced-lower-right-mod16-trace-and-slice-equivalence.md)。Lean v4.30.0-rc2・mathlib 5450b53e5ddc75d46418fabb605edbf36bd0beb6、公開root107、strict空中心・独立Kuu一presentation・Gray非再導入、保護PR #1558はDraft／OPEN／未マージ。
+
+**次候補GK4AT（未形式化）：** 法32以上の高精度合同または別の真正Type値観測による**非冗長な**obstructionを調査する。固定一旧qの無限ファイバー・元Q圏公理・歴史的完全型付き同値・14D無条件Countable・19D filler・global strict・hyperdescentは未証明。GK4AN有限下界、GK4AL全ファイバーCountable、GK4AM正k有限族非網羅結果を保持。
+
+> 以下のGK4AR以前の「最新・次候補」は歴史スナップショット。現行frontierはGK4AS。
+
+---
+
 ## 最新の研究状態 — 2026-10-31 JST / F112-P94D3GK4AR
 
 **真正F54の非可換orderedMomentが第二整数行列の左上成分の法16剰余を決定することをLean4で証明 — [定理PR #2821](https://github.com/itakura-hidetoshi/KuuOS/pull/2821) MERGED。** [元F54全構成子の三角数・orderedMoment対角合同証明Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4ARDiagonalMoment.lean)・[任意旧qのGK4AQ内さらに厳格な算術slice Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4ARStrictDiagonalSlice.lean)をappend-only新規2Leanファイル・33宣言で形式化。旧GK4ADの `v=((charge,beta),moment)`、元GK4AH整数行列`M=[[a,b],[c,d]]`について、**`a≡1+4*(moment+binomial(beta,2))(mod16)`**を元F54真正forward/backward RotationEdge、中間F45木RotationChain、二Nat cast／trans／左右contextの全5構成子上で証明。三角数`T(0)=0, T(n+1)=T(n)+n`の加法コサイクル`T(u+v)=T(u)+T(v)+uv`と`2T(n)=n(n-1)`をLeanで証明し、旧Heisenberg履歴と本当のGK4AH非可換行列積の交差項が一致することを確認。元F55/P92Bの実Type値比較証拠を保持して元Q・独立Sへ別々に降下させ、真正K_AIと任意の固定旧K_AG類`q`の`Fiber(q)`へ伝播した。**GK4AO行列式1／Γ₁(4)、GK4AP右上mod4、GK4AQ左下mod16はすべて維持。**
