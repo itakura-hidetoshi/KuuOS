@@ -3,6 +3,14 @@
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK4BB / 2026-11-01 JST
+
+**全多項式行列`P(X)`の既存K_AIへの真のkernel降下 — [定理PR #2845](https://github.com/itakura-hidetoshi/KuuOS/pull/2845) MERGED。** [Lean新規ソース](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4BBPolynomialDescentAI.lean)／[詳細証明とCI](docs/formal/GK4BB-existing-KAI-polynomial-descent.md)。GK4BAが証明した真正元F54/元Q/独立Sの`t=4`一点決定性を使い、既存`K_AI`の観測値`O_AI=(O_AE,M_AF,M_AH)`が元AH成分を保持するため、元P92B存在商の全多項式行列が**既存**`NativeGK4SKernelClasses (nativeGK4AIP92Family …)`へ`Quotient.lift`で降下することを形式化。元Q代表計算、評価4によるAH回収、**多項式値一致 iff AH成分一致（K_AIの元類一致iffではない）**、一意性、独立S→K_AI三角図式の厳密可換を6定理・定義で確認。追加Type値3-cellなし、元Qの未証明圏公理は使用しない。
+
+**exact-source証拠：** 最終source`9617a45e331a52abd22ad2586be5216bc3360b7d`、CI test-merge`67840fc1e5404a453d360c3cdfd22e96a66d67e9`、Git tree`579a1630f3226a98bf2d4ec3a0de979f6dc426f1`完全一致、[CI #41253344455](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41253344455) **Strict Lean 3796/3796 SUCCESS・Governance SUCCESS**、6宣言すべて標準3公理以内、sorryAx0、変更Lean error/warning0/0。定理squash`2db3201782457854f7b5fdaeeeba4b086a273228`。Lean v4.30.0-rc2／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、公開root107と#1558 Draft/OPEN未マージ維持。
+
+**残る課題：** 既存K_AIへの降下をK_AI自体のfaithfulnessや元Q= S同一性と取り違えない。元Qの結合律/左右単位、固定旧類ファイバー無限性、算術slice全域到達、真正14D無条件Countable、19D filler、global strict、hyperdescentは未証明。前欄に記録したGK4BB未形式化は当時の履歴であり、本欄の証明を最新の正本とする。
+
 ## 最新のLean定理統合 — F112-P94D3GK4BA / 2026-11-01 JST
 
 **`t=4`一点評価は真正F54整数多項式行列全体を決定 — [#2840](https://github.com/itakura-hidetoshi/KuuOS/pull/2840)、[#2838](https://github.com/itakura-hidetoshi/KuuOS/pull/2838)、[canonical main #2843](https://github.com/itakura-hidetoshi/KuuOS/pull/2843) MERGED。** [多項式作用Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4BAPolynomialWordAction.lean)・[整数作用Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4BAIntegerWordAction.lean)・[一点決定性Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4BAOnePointDeterminacy.lean)・[詳細記録](docs/formal/GK4BA-original-t4-one-point-polynomial-determinacy.md)。GK4AZ `ℤ*ℤ → Perm(ℤ²)` の形式単射性から、元F54のcast/forward/backward、実RotationChain全構成子、DepthRotationRoute全5構成子の語を構成。多項式と整数の非可換行列作用を同一の真正語へ輸送し、偶数第一座標格子の作用を整数加法性で全格子へ拡張して、**`P_u(4)=P_v(4) ⇔ P_u(X)=P_v(X)`** を証明。P92B存在商Qと独立構造商Sへも別々に形式化。旧AF/AH二評価衝突で多項式差が生じることは不可能。元Type値3-cellの生成や元Qの未証明圏公理は使わない。
