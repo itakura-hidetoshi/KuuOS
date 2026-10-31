@@ -248,6 +248,10 @@ variable {ma mb : KuuNativeBlocks a b} {pa pb : KuuNativeBlocks x y}
 variable {before after : KuuNativeF45Tree p n m ma pa mb pb}
 variable (rot : KuuNativeF45Tree.LocalRotation p before after)
 
+-- The sharp converses require this REAL source witness even when
+-- their conclusion mentions only the self-Hom at before.
+include rot
+
 /-- An ACTUAL self-route, using the same typed LocalRotation witness
 forward and backward. Its lower-left entry is exactly the parameter. -/
 theorem nativeGK4AUBacktrack_matrix (t : Int) :
