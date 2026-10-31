@@ -1,0 +1,1696 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Boundary-aware governance architecture for relational AI systems">
+      
+      
+        <meta name="author" content="Hidetoshi Itakura">
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
+    
+    
+      
+        <title>KuuOS Lean CI — pinned cache topology and incremental compilation - KuuOS / 空OS Public Core</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.57a0d79d.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#kuuos-lean-ci-pinned-cache-topology-and-incremental-compilation" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="KuuOS / 空OS Public Core" class="md-header__button md-logo" aria-label="KuuOS / 空OS Public Core" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            KuuOS / 空OS Public Core
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              KuuOS Lean CI — pinned cache topology and incremental compilation
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/itakura-hidetoshi/KuuOS" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    itakura-hidetoshi/KuuOS
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="KuuOS / 空OS Public Core" class="md-nav__button md-logo" aria-label="KuuOS / 空OS Public Core" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    KuuOS / 空OS Public Core
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/itakura-hidetoshi/KuuOS" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    itakura-hidetoshi/KuuOS
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Start Here
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Start Here
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PUBLIC_DOCS_INDEX_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Public Docs Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../QUICKSTART_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quickstart
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../EXTERNAL_REVIEW_GUIDE_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    External Review Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../WHY_KUUOS_EXISTS_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Why KuuOS Exists
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Architecture
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ARCHITECTURE_OVERVIEW_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ARCHITECTURE_DIAGRAM_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture Diagram
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../GOVERNANCE_FLOW_OVERVIEW_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Governance Flow Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../GOVERNANCE_DIAGRAM_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Governance Diagram
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../VALIDATOR_GRAPH_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Validator Graph
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Governance
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Governance
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../KUUOS_GOVERNANCE_MANIFESTO_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Governance Manifesto
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../BOUNDARY_AND_NONAUTHORITY_POLICY_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Boundary and Non-Authority Policy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../BOUNDARY_RISK_MODEL_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Boundary Risk Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../CLAIM_LEVEL_TAXONOMY_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Claim Level Taxonomy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../CONTRIBUTOR_REVIEW_WORKFLOW_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributor Review Workflow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Validation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Validation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../VALIDATION_COVERAGE_MATRIX_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Validation Coverage Matrix
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../REPRODUCIBILITY_MATRIX_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reproducibility Matrix
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PUBLIC_AUDIT_CHECKLIST_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Public Audit Checklist
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../VALIDATOR_DEPENDENCY_OVERVIEW_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Validator Dependency Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../LEAN_COVERAGE_MAP_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lean Coverage Map
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Terminology
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Terminology
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../FORMAL_TERMINOLOGY_GLOSSARY_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Formal Terminology Glossary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../TERMINOLOGY_CROSS_REFERENCE_INDEX_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Terminology Cross Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Release
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Release
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PUBLIC_RELEASE_PACKAGE_MANIFEST_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Public Release Package Manifest
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../V0_1_RELEASE_READINESS_CHECKLIST/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v0.1 Release Readiness Checklist
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Core
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../KUOS_CORE_GOVERNANCE_INDEX_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core Governance Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../KUOS_FOURFOLD_CORE_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fourfold Core
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../GOVERNANCE_RELEASE_GATE_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Governance Release Gate
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="kuuos-lean-ci-pinned-cache-topology-and-incremental-compilation">KuuOS Lean CI — pinned cache topology and incremental compilation<a class="headerlink" href="#kuuos-lean-ci-pinned-cache-topology-and-incremental-compilation" title="Permanent link">&para;</a></h1>
+<p><strong>2026-10-20 / build infrastructure only.</strong> This optimization changes no Lean theorem,
+no 107 publicly retained roots, no pinned Lean/mathlib/Batteries dependency and
+does not merge the independent F112 or Qi v3.3 lines.</p>
+<h2 id="observed-bottleneck-pr-2371-original-workflows">Observed bottleneck (PR #2371, original workflows)<a class="headerlink" href="#observed-bottleneck-pr-2371-original-workflows" title="Permanent link">&para;</a></h2>
+<ul>
+<li>CodeAI independent workflows ran <code>lake update</code>, <code>lake exe cache get</code>,
+  a strict subsystem Lean build, <strong>and</strong> a second strict <code>lake build KuuOSFormal</code>.</li>
+<li>Example: <code>CodeAI Bounded Autonomous Git Lifecycle Loop Orchestration</code>
+  on the tested exact head downloaded 8297 mathlib cache files and ran the
+  full root around 09:12:49–09:26:21 UTC, over 13 minutes.</li>
+<li>In contrast, PR Governance restored trusted <code>kuuos-lake-*</code> from main and
+  its own PR-local build overlay, then validated the changed root incrementally.</li>
+<li>A successful original Qi v3.3 focused build restored the immutable
+  <code>kuuos-current-lean-v2-*</code> archive; it could not update that primary key.</li>
+</ul>
+<h2 id="new-paths-and-responsibilities">New paths and responsibilities<a class="headerlink" href="#new-paths-and-responsibilities" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>Trusted main cache owner:</strong> <code>.github/workflows/lean-formal-validation.yml</code>
+   remains the sole writer of the <code>kuuos-lake-*</code> snapshot containing <code>.lake</code>.
+   On a cache hit with an actual package/build tree it invokes
+   <code>scripts/build_lean4.sh --no-update --no-cache</code> to avoid unnecessary
+   <code>lake update</code> and mathlib cache unpacking. Cold misses preserve the
+   original update/cache/full compile path. Main also warms the newest DO frontier.</li>
+<li><strong>CodeAI scoped check consumers (49 workflows):</strong> each restores <code>.lake</code>
+   from trusted main with <code>actions/cache/restore@v5</code>, then optionally restores
+   a same-PR <code>.lake/build</code> overlay previously saved by Governance. No CodeAI
+   workflow writes these caches. Pinned Lean setup is unchanged.</li>
+<li><strong>Cold fallback:</strong> only when the main cache is absent, update dependencies,
+   verify the committed manifest and download the pinned Mathlib cache.
+   Cached dependencies are still verified against the committed manifest.</li>
+<li><strong>Scope-aware routing:</strong> a small fail-closed path observer compares the exact PR
+   Lean targets are preserved; the <em>redundant</em> full <code>KuuOSFormal</code> build is
+   skipped in each of the 49 jobs. The existing PR Governance Strict Lean
+   job remains the canonical integrated build and publishes exact-head receipts.
+   <code>workflow_dispatch</code> continues to run full <code>KuuOSFormal</code> in each subsystem
+   for explicit independent regression testing.</li>
+</ol>
+<h2 id="cache-compatibility-and-safety">Cache compatibility and safety<a class="headerlink" href="#cache-compatibility-and-safety" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Main key = <code>kuuos-lake-{runner.os}-{runner.arch}-{hash(lean-toolchain)}-{hash(lake-manifest)}-{main SHA}</code>.
+  The restore-only consumers reuse exactly the same <strong>path</strong> (<code>.lake</code>),
+  avoiding incompatible cache archive versions.</li>
+<li>PR build key = <code>kuuos-pr-build-{os}-{arch}-{toolchain}-{manifest}-pr{number}-{head SHA}</code>.
+  PR build overlays are constrained to the same PR and are read-only in
+  subsystem workflows. No PR cache may overwrite the trusted main namespace.</li>
+<li>Lake still compares source/dependency timestamps and manifests and rebuilds
+  changed modules. <strong>Cache reuse never constitutes proof verification.</strong></li>
+<li><code>warningAsError</code>, <code>sorryAsError</code> and <code>#print axioms</code> policies are unchanged.</li>
+<li>A cache miss does not silently pass: dependencies are downloaded, checks
+  remain strict, and a failed build fails the owning workflow.</li>
+</ul>
+<h2 id="regression">Regression<a class="headerlink" href="#regression" title="Permanent link">&para;</a></h2>
+<p><code>python3 -m unittest -v tests.test_ci_lean_cache_topology</code></p>
+<p>The changed-source exact-head CI is required before merge. The measured
+13-minute root build is an observed example, <strong>not</strong> a guaranteed speedup;
+real latency depends on cache restore time, CI queueing, and changed imports.</p>
+<h2 id="why-scope-aware-routing-matters">Why scope-aware routing matters<a class="headerlink" href="#why-scope-aware-routing-matters" title="Permanent link">&para;</a></h2>
+<p>The main <code>.lake</code> GitHub Actions archive measured about <strong>2714 MB compressed</strong>
+on an exact-head PR validation run. Loading that archive for 49 CodeAI jobs
+triggered solely by <code>lakefile.toml</code> would unnecessarily transfer over 100 GB.
+Each individual workflow still reports its Python/runtime checks; only its
+unrelated Lean cache and subsystem target can be omitted. The globally
+authoritative PR Governance lean job remains required.</p>
+<h2 id="2026-10-24-c60-gauge-modular-ci-speed-repair">2026-10-24 — C60 gauge / modular CI speed repair<a class="headerlink" href="#2026-10-24-c60-gauge-modular-ci-speed-repair" title="Permanent link">&para;</a></h2>
+<h3 id="observed-bottleneck">Observed bottleneck<a class="headerlink" href="#observed-bottleneck" title="Permanent link">&para;</a></h3>
+<p>The prior Gauge-field v0.60, OS-Associated Gauge Fields v0.61, and
+Modular Evolution Mesh dedicated workflows separately executed
+<code>lake update</code>, <code>lake exe cache get</code>, a strict subsystem Lean build,
+and a <em>second</em> <code>lake build KuuOSFormal</code>. This occurred even when a
+pull request changed only the canonical <code>formal/KuuOSFormal.lean</code>
+import aggregate. Observed representative PR runs lasted roughly
+67–78 minutes; by comparison the validated main Lean CI completed
+its aggregate in roughly 3.5 minutes. These are observations,
+not predictions or guarantees about all future runner/cache conditions.</p>
+<h3 id="repair-and-exact-head-responsibilities">Repair and exact-head responsibilities<a class="headerlink" href="#repair-and-exact-head-responsibilities" title="Permanent link">&para;</a></h3>
+<ul>
+<li>The three dedicated workflows retain their existing check contexts,
+  runtime/unit/manifest validation and strict subsystem Lake targets.
+  They now run on the same Ubuntu 24.04 image as the main/governance
+  cache publisher.</li>
+<li>A fail-closed source-path classifier reuses the tested
+  <code>scripts/ci_subsystem_lean_scope.py</code> implementation (which reuses the
+  unchanged CodeAI parser and diff helper) and excludes
+  only paths whose Lean proof obligations belong to the central
+  <code>pr-governance-gate.yml</code>: <code>formal/KuuOSFormal.lean</code>,
+  <code>formal/KUOS.lean</code>, global Lake inputs, and the respective
+  documentation file. A genuine subsystem change, workflow edit,
+  missing diff, or classifier failure still runs the dedicated
+  strict Lean check. The workflows continue running the runtime
+  validation even on a Lean-scope skip.</li>
+<li>If subsystem Lean is required, the workflow restores only the
+  trusted main/base <code>kuuos-lake-*</code> workspace, <strong>read-only</strong>,
+  using the exact publisher key prefix, pinned toolchain hash,
+  manifest hash and base SHA. Only a verified absence of Mathlib
+  checkout or compiled <code>Mathlib.olean</code> triggers the corresponding
+  <code>lake update</code> or <code>lake exe cache get</code>. Every run checks that
+  <code>lake-manifest.json</code> and <code>lean-toolchain</code> remain unchanged.</li>
+<li>The automatic second aggregate build is delegated to the existing
+  exact-head Governance Strict Lean job on PRs and the main-push
+  <code>lean-formal-validation.yml</code> job. It is NOT dropped from the
+  mathematics: a manually dispatched dedicated workflow still
+  builds <code>KuuOSFormal</code> independently.</li>
+<li>No PR modifies or writes a trusted default-branch Lake archive.
+  Cached oleans are never treated as proof; Lake rebuilds changed
+  modules and the strict <code>warningAsError</code> / <code>sorryAsError</code>
+  options remain on all executed Lean targets. No root/module,
+  pinned dependency, historical no-go or theorem changes.</li>
+</ul>
+<p>These steps preserve required-check names: we do not remove the
+<code>pull_request</code> workflow trigger with a path filter, which can
+otherwise leave a required check permanently pending. The
+subsystem's source-scoped Lean <em>steps</em> are conditionally omitted,
+with the required runtime check still completing.</p>
+<p>Regression: <code>python3 -m unittest -v tests.test_ci_lean_cache_topology</code>.</p>
+<p>Post-change times must be read from the new exact-head workflow runs;
+the historical 67–78 minute durations are not a guaranteed ratio.</p>
+<h2 id="2026-10-25-qi-v31v33-and-capabilityos-v060-source-routing">2026-10-25 — Qi v3.1–v3.3 and CapabilityOS v0.60 source routing<a class="headerlink" href="#2026-10-25-qi-v31v33-and-capabilityos-v060-source-routing" title="Permanent link">&para;</a></h2>
+<h3 id="observed-redundant-work">Observed redundant work<a class="headerlink" href="#observed-redundant-work" title="Permanent link">&para;</a></h3>
+<p>On F112-P94D3AN PR #2543, modifying
+<code>formal/KuuOSFormal.lean</code> solely to expose a newly proved F112 module
+triggered four unrelated dedicated proof jobs in parallel with the canonical
+exact-head Governance strict build: Qi v3.1, Qi v3.2, Qi v3.3 and CapabilityOS
+v0.60. The dedicated Qi jobs used one frozen
+<code>kuuos-current-lean-v2-...</code> archive keyed only by toolchain/manifest; those
+checks could not publish a fresh verified main cache to the same immutable
+key. The CapabilityOS workflow redundantly compiled
+<code>lake build KuuOSFormal</code> even though Governance already owns that proof check.</p>
+<h3 id="new-route-and-cache-authority">New route and cache authority<a class="headerlink" href="#new-route-and-cache-authority" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Each of the four dedicated workflows now uses the existing
+  <code>scripts/ci_subsystem_lean_scope.py</code> classifier with an exact-PR-base to
+  checked-out-merge-HEAD diff. Failures, missing/unknown diffs, workflow
+  changes and genuine subsystem module changes select the dedicated Lean
+  path <strong>fail closed</strong>. Manual dispatch also retains its Lean checks.</li>
+<li>The canonical public <code>formal/KuuOSFormal.lean</code> import aggregate, pinned
+  Lake inputs and the corresponding documentation changes are delegated to
+  the exact-head Governance Lean check. <strong>Static import/root preservation
+  assertions are never skipped</strong>; CapabilityOS runtime/unit/manifest checks
+  continue for all triggering PRs.</li>
+<li>The selected dedicated Lean path restores the verified <strong>main</strong> <code>.lake</code>
+  workspace with the same <code>kuuos-lake-{os}-{arch}-{toolchain}-{manifest}</code>
+  namespace and archive <strong>path</strong> as the publisher
+  (<code>.github/workflows/lean-formal-validation.yml</code>). On an actual cache
+  miss, it runs <code>lake update</code> and/or <code>lake exe cache get</code> only for missing
+  pinned dependencies. It rechecks manifest/toolchain integrity.</li>
+<li>Dedicated Qi and CapabilityOS workflows become <strong>read-only</strong> cache
+  consumers; only main and Governance publish their respective main/PR
+  artifacts. CapabilityOS no longer builds the full aggregate a second time
+  on PRs or normal main pushes; explicit manual dispatch still does.</li>
+<li>Qi workflows now explicitly pass the repository's pinned strict
+  <code>warningAsError</code> and <code>sorryAsError</code> options to the original two
+  buildable <code>:olean</code> module targets, retaining the v3.2/v3.3 <code>sorryAx</code>
+  log checks. No theorem, mathlib/Lean pin, C60 gauge data, public-root set
+  or Gray policy is changed.</li>
+</ul>
+<h3 id="regression-and-expected-effect">Regression and expected effect<a class="headerlink" href="#regression-and-expected-effect" title="Permanent link">&para;</a></h3>
+<p><code>python3 -m unittest -v tests.test_ci_lean_cache_topology</code> tests the
+source-only/aggregate-only cases, unknown-diff fail-closed behavior,
+workflow-edit revalidation, cache compatibility and preserved strict flags.
+Four dedicated Lean downloads/compilations are avoided on an F112-only
+import PR, while the central full library check remains required. Actual
+elapsed time and restored-cache keys must be measured from subsequent
+GitHub Actions runs; these are not assumed speedup percentages.</p>
+<p>The current change deliberately does <strong>not</strong> weaken the expensive
+<code>KuuOSFormal</code> build in PR Governance: it remains the authority-bearing
+exact-HEAD strict Lean gate, with all 107 public proof roots retained.</p>
+<h2 id="2026-10-25-strictly-certified-additive-f112-import-only-olean-route">2026-10-25 — Strictly certified additive F112 import-only .olean route<a class="headerlink" href="#2026-10-25-strictly-certified-additive-f112-import-only-olean-route" title="Permanent link">&para;</a></h2>
+<h3 id="why-the-standard-library-build-is-excessive-for-one-additive-import">Why the standard library build is excessive for one additive import<a class="headerlink" href="#why-the-standard-library-build-is-excessive-for-one-additive-import" title="Permanent link">&para;</a></h3>
+<p>The independent F112 P94D3AN PR #2543 modified only
+<code>formal/Kuu/F112/PolygonNativeF55P94DK5FourteenCellNonabelianPasting.lean</code>
+(new theorem source) and <code>formal/KuuOSFormal.lean</code> (public import).
+The existing selector correctly included <code>KuuOSFormal</code>, but Lake treats that
+bare name as the <strong>full lean_lib target</strong>, checking all 107 historical root
+modules and thousands of unchanged transitive targets again. The canonical
+main-push validation is still responsible for that full library closure.</p>
+<h3 id="bounded-git-certified-pr-only-optimization">Bounded, git-certified PR-only optimization<a class="headerlink" href="#bounded-git-certified-pr-only-optimization" title="Permanent link">&para;</a></h3>
+<p><code>scripts/select_lean_import_only_route.py</code> is run after the original CI
+registry/impact selection, <strong>before uploading the selection receipt</strong>. It
+independently rechecks the exact base-to-head Git diff including deletion
+statuses, requiring all of the following simultaneously:</p>
+<ul>
+<li>A normal complete PR comparison (not a partial/incremental comparison),
+  complete 40-hex Git SHAs, no unknown/unmapped/full-audit paths.</li>
+<li>Exactly one MODIFIED <code>formal/KuuOSFormal.lean</code> and one or more ADDED
+  <code>formal/Kuu/F112/*.lean</code> files; no other files, deletions, renames or
+  modified existing F112 sources.</li>
+<li>The entire diff of <code>formal/KuuOSFormal.lean</code> contains <strong>only added
+  <code>import Kuu.F112.Module</code> lines</strong>. Their names are exactly the
+  new files, and the original selector has also selected the public root
+  and every new F112 module as Lean build targets.</li>
+</ul>
+<p>Only for this narrow proof-preserving case does the selected command become
+<code>lake ... build +KuuOSFormal:olean +Kuu.F112.Module:olean</code>, with the same
+strict warning/sorry options. This elaborates the <strong>actual modified public
+root and every new theorem source on the exact PR HEAD</strong> using Lake's normal
+dependency hashes. It does not merely run a parser, grep or cached receipt.</p>
+<p>For all other cases, the previously selected <strong>full <code>KuuOSFormal</code>
+lean_lib build</strong> is executed unchanged, including modified source files,
+mixed edits, toolchain/mathlib/library changes, workflow changes, uncertain
+diffs and explicit full audits. The original selection and the actual
+execution targets/route are both retained in the JSON audit receipt.</p>
+<p>No new axioms, <code>sorry</code>, Gray, public roots or dependency version changes.
+The 107 historical proof roots remain registered and retained. Main-push
+<code>lean-formal-validation.yml</code> continues to run the full strict library build,
+so the scoped PR path does not replace the canonical post-merge regression.</p>
+<h3 id="verification">Verification<a class="headerlink" href="#verification" title="Permanent link">&para;</a></h3>
+<p><code>python3 -m unittest -v tests.test_ci_f112_additive_root_route</code>
+uses real temporary Git repositories to assert positive additive cases and
+negative cases (deletions, mixed docs, altered root text, invalid SHAs,
+incomplete selections, non-new F112 source and full audits).
+The tests run both in the PR selection preflight and in the cache-routing
+regression workflow. Measured latency improvement requires a later real F112
+PR run and is not estimated from the synthetic regression.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.expand", "navigation.top", "toc.integrate"], "search": "../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+    
+  </body>
+</html>
