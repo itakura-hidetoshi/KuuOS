@@ -9,7 +9,7 @@ Let C be the true double-Nat castDepths self-route and B the true
 two-edge forward/backward original F54 LocalRotation backtrack.
 u=C;B^6;C and v=B^3;C^2;B^3 are truly fully dependent typed
 F54 self-routes. BOTH original GK4AE four-component observations
-coincide at (false,-2,6,-6); BOTH prior GK4AF integer matrix values
+coincide at (false,-10,6,-30); BOTH prior GK4AF integer matrix values
 coincide at [[1,2],[0,1]], so K_AG identifies their images.
 
 The independently proved new alternate F54 matrix assigns
@@ -84,13 +84,13 @@ theorem nativeGK4AHWords_sameFour :
 theorem nativeGK4AHWordCB6C_quad :
     nativeGK4AEQuadStructural before before
       (nativeGK4EStructuralRouteClass before before (nativeGK4AHWordCB6C rot)) =
-      (false, (((-2 : Int), (6 : Nat)), (-6 : Int))) := by
+      (false, (((-10 : Int), (6 : Nat)), (-30 : Int))) := by
   rfl
 
 theorem nativeGK4AHWordB3C2B3_quad :
     nativeGK4AEQuadStructural before before
       (nativeGK4EStructuralRouteClass before before (nativeGK4AHWordB3C2B3 rot)) =
-      (false, (((-2 : Int), (6 : Nat)), (-6 : Int))) := by
+      (false, (((-10 : Int), (6 : Nat)), (-30 : Int))) := by
   rfl
 
 /-- Original GK4AF representation has B^3=-I and B^6=I, hence
