@@ -10,6 +10,19 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 **研究・著作権者 / Founder and copyright holder:** 板倉英俊 / Hidetoshi Itakura. [LICENSE](LICENSE) · [NOTICE](NOTICE) · [COPYRIGHT](COPYRIGHT.md) · [CITATION](CITATION.cff).
 
+
+## 最新の研究状態 — 2026-10-31 JST / F112-P94D3GK4Q
+
+**最新の定理統合 GK4Q [#2767](https://github.com/itakura-hidetoshi/KuuOS/pull/2767)：** [GK4Q Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4QDependentObservationImage.lean) は、元P92B商の任意の型付き観測関数族の**真正到達像**を各F45境界で構成し、その射影の全射性を証明。GK4Pの真正F54合成・左右文脈の3観測則から、GK4Hの**実P92B商合成**とP93の**実左右文脈作用**を観測像上へ誘導し、3作用の射影整合性・一意性を示した。値側の演算が結合的な場合は**像上のみ**結合律が成立する。これは元P92B商の結合律・単位律の証明ではない。GK4K実`Option Nat`像は`some 0`を含まず、構造商への降下は真正F54単位seamで引き続き阻害される。定理squash SHA＝現証明正本 `454d4c6a5c9b42b93bab6191a3d0c6043fd8a1a2`、exact-source `5f66b13637b6a905486b627b6a27872235a441f4`、[CI #41163191778](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41163191778) **Strict Lean 3722/3722・Governance 5/5 SUCCESS**、17宣言`#print axioms`、`sorryAx`なし、変更ファイルwarning/error 0/0。詳細は[GK4Q検証記録](docs/formal/GK4Q-dependent-observer-image.md)。
+
+**直前の定理統合 GK4P [#2765](https://github.com/itakura-hidetoshi/KuuOS/pull/2765)：** [GK4P Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4PCompositionalObserverKernel.lean) は、真正F54合成・左右文脈の3観測則から、GK4Oで明示仮定とした**4つの等式kernel互換性**を導いた。これらの条件下で真正構造商への降下は基本7seam保存と必要十分。GK4G Boolean観測とGK4K `Option Nat`観測はともにkernel互換だが、後者は真正左単位seamの`some 2 ≠ some 1`によって**降下しない**。PR #2765 squash `ffba5bbc8934c9e3d2a2a4a1367b2e5a9cc2419f`、Strict Lean 3721/3721 SUCCESS。成果記録 [GK4P](docs/formal/GK4P-compositional-observer-kernel.md)。
+
+**最新正本の境界：** strict空を中心に、独立Kuuは一つのpresentation。元Type値のF55/P92B比較と独立GK4E構造比較商を混同しない。公開root 107維持、Lean v4.30.0-rc2、mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、保護PR #1558 Draft/open/unmerged。元P92B結合律・単位、真正14Dの無条件Countable、19D filler、global strict n、hyperdescentは未証明。**次の研究候補 GK4R**は像上の単位の存在/障害を元商と区別して精密化すること。
+
+> 以下の「GK4O」を最新と呼ぶ記述や旧「次のGK4P」予定は、その時点の歴史的研究記録として保持する。現在の到達点は本GK4Q段落を優先する。
+
+---
+
 ## 最新の研究状態 — 2026-10-31 JST / F112-P94D3GK4O
 
 **最新の定理統合 GK4O [#2763](https://github.com/itakura-hidetoshi/KuuOS/pull/2763)：** GK4Nの**任意の元P92B商B値観測が独立構造商へ降下する必要十分条件＝全14真正F54 Type値構造seamの保存**を、型付き文脈間の観測関数族に拡張して整理した。真のF54 StructuralSeam全14のうち、**基本生成子7種類（reassoc・leftUnit・rightUnit・leftContextTrans・rightContextTrans・leftContextUnit・rightContextUnit）**を選び、残る反射・対称・推移3種類は等式の一般法則、前合成・後合成・左右context合同4種類は**観測値の等式kernelに対する4つの明示的な輸送互換条件**から導く。これら**4つのkernel compatibilityを追加仮定として明示した場合に限り**、`全14 seam保存 ⇔ 基本7 seam保存`を原F54 Type値seam全構成子の完全依存型帰納法で証明。さらにGK4Nの真正GK4E正準商全射による降下必要十分条件へ接続し、**同じ明示仮定の下で観測関数族の全境界での構造商降下 ⇔ 基本7条件**を確定。単一F45境界では左右contextが境界・Blocksを変更するため、**全F45・全Blocks・二Nat深さにわたる元P92B証拠存在商の観測関数族**を実際に定義。真のGK4G Boolean観測は全構造seamを保存し構造商へ降下する。一方、元GK4Kの`Option Nat`原始項数観測は、**真正F54左単位seamただ一つで`some 2≠some 1`となり、基本7条件の段階で既に不成立**。真正C60北側六角形F45三重Treeでも元GK4Nの局所obstructionが無条件に成立。**4つのkernel compatibilityが任意の観測に自動成立するとは主張せず、7生成子が最小であることも未証明**。元P92B結合律・別合成、歴史的完全型付き同型、真正14D無条件Countable、元19D filler、global strict n・hyperdescentは未証明。定理squash SHA `1370dce5a2a55a89ad4758911aea23597ce34050`、exact-source HEAD `b18ced002802ff865966c8a5e7a29501bd19a227`、[Strict Lean/Governance #41159766444](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41159766444) **3720/3720 scoped SUCCESS・Governance 5/5 completed SUCCESS**、新規17宣言公理依存`propext`・`Classical.choice`・`Quot.sound`以内、sorryAxなし、変更Lean warning/error **0/0**。
