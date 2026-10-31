@@ -53,7 +53,7 @@ theorem nativeGK4AQForbiddenLowerMatrix_gamma (v : NativeGK4ADValue) :
     ring
   · simp [nativeGK4AQForbiddenLowerMatrix]
   · simp [nativeGK4AQForbiddenLowerMatrix]
-  · simp [nativeGK4AQForbiddenLowerMatrix]
+  · simp [nativeGK4AQForbiddenLowerMatrix] <;> ring
 
 /-- The matrix is also legal in the PREVIOUS stronger GK4AP
 q-dependent slice, with exactly the required upper-right residue. -/
