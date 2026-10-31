@@ -157,7 +157,8 @@ variable (rot : KuuNativeF45Tree.LocalRotation p before after)
 
 /-- The forgetful map K_AA->K_X is non-injective on any witnessed
 genuine original F54 local-rotation self-Hom. -/
-theorem nativeGK4AAForgetBackward_not_injective :
+theorem nativeGK4AAForgetBackward_not_injective
+    (rot : KuuNativeF45Tree.LocalRotation p before after) :
     ¬ Function.Injective (nativeGK4AAForgetBackward before before) := by
   intro hinj
   have hsame := nativeGK4AABalancedTower_forget_constant rot 0 1
