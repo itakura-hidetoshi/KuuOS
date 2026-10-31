@@ -13,6 +13,20 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新の研究状態 — 2026-10-31 JST / F112-P94D3GK4AI
+
+**真正二行列積観測の第二kernel圏と忘却関手をLean4で証明 — [定理PR #2803](https://github.com/itakura-hidetoshi/KuuOS/pull/2803) MERGED：** [GK4AI元Q/S積観測Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4AIProductObservation.lean)・[真正第二kernel圏Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4AIKernelCategory.lean)・[K_AI→K_AG忘却関手Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4AIForgetful.lean)をappend-only新規3Leanファイル・**公理表示47宣言**で形式化。元F54の四成分観測 `O_AE` と元GK4AF／GK4AHの非可換整数2×2行列値を合わせた**真正積観測 `O_AI(r)=(O_AE(r),M_AF(r),M_AH(r))`**を構成。元F55全9・元P92B全9（真正assocNaturality）、独立構造seam全14、拡張比較全3の実Type値保存性を成分ごとに継承し、元P92B存在商`Q`と独立構造商`S`へ別々に降下、正準`Q→S`可換性、元F54合成・左右文脈を証明した。値域は旧非可換積と第二行列積の直積であり、結合律・左右単位を厳密に形式化。
+
+**新第二kernel圏・関手・真正C60非忠実性：** 元`Q`の新観測等値kernelによる別の真正第二商`K_AI`を、到達可能な値域imageの積からMathlib Categoryとして構成し、**元Q自身の未証明結合律・単位律を使用しない**。元`S→K_AI`比較Functorは各Hom全射、`K_AI→`新組観測値圏はHom単射。旧第二商`K_AG`への真正**忘却Functor`K_AI→K_AG`**は各Hom全射で、単位・合成と`S→K_AG`比較を保存、さらに既存`K_AG→K_AE`との複合可換性を証明。GK4AHの本物の元F54依存型自己経路`u=C;B⁶;C`、`v=B³;C²;B³`は旧四成分`(false,-10,6,-30)`と旧行列`[[1,2],[0,1]]`が一致するが、新行列は`[[-11,-16],[-24,-35]]`と`[[-155,-64],[264,109]]`で異なる。ゆえに**新`K_AI`では二類が異なり、旧`K_AG`で像が等しい**。`K_AI→K_AG`は任意の実F54 LocalRotationを持つ自己Homと真正C60北側六角形で**非忠実**。ただし`S→K_AI`の全域忠実性は**未証明**。
+
+**exact-source正本：** 最終定理source HEAD `7c6f5822d6ae1285dd4350473ff88eddd583f4e0`、定理squash SHA＝定理マージ直後canonical main HEAD `74a2e656afd72a4796fd322d7602f9f904e0a15a`。[CI #41185737418](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41185737418) **Strict Lean 3759/3759 SUCCESS・Governance 5/5 SUCCESS・47宣言標準3公理以内・sorryAx 0・変更Lean warning/error 0/0**。新規3Leanファイルの初回exact-source検証で成功。[GK4AI詳細証明・圏／比較の権限境界・検証記録](docs/formal/GK4AI-two-matrix-kernel-forgetful-refinement.md)。Lean v4.30.0-rc2／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`固定、公開root107、strict空中心／独立Kuu一presentation、Gray非再導入、保護PR #1558 Draft・OPEN・未マージ維持。
+
+**次段階GK4AJ（未証明）：** 元`S→K_AI`自体の忠実性を、真正F54型付きsourceと元Type値比較証拠から独立検討する。二行列値でも残る構造衝突、または有限生成文脈に限定した正確な忠実性条件を検証する。元P92B Q圏公理、歴史的完全型付き同値、真正14D無条件Countable、19D filler、global strict n、hyperdescentは未証明として保持。
+
+> 以下のGK4AH以前の「最新・次段階」は歴史時点の記録。現行frontierはGK4AI。
+
+---
+
 ## 最新の研究状態 — 2026-10-31 JST / F112-P94D3GK4AH
 
 **真正積観測への構造比較の残余非忠実性を証明 — [定理PR #2801](https://github.com/itakura-hidetoshi/KuuOS/pull/2801) MERGED：** [第二行列表現Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4AHAlternativeMatrixInvariant.lean)・[真正F54反例Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4AHJointResidualNonfaithfulness.lean)をappend-only新規2Leanファイル・公理表示48宣言で形式化。元GK4AGの積観測 O_AG=(O_AE,M_AF) の全値が一致しながら、独立構造商Sの元Type値経路が真に異なる反例を得た。元F54の二Nat cast C、実LocalRotationの前後2回転backtrack Bで真正同型付き自己経路 u=C;B⁶;C、v=B³;C²;B³ を構成。**O_AE(u)=O_AE(v)=(false,-10,6,-30)**、旧GK4AF行列 **M_AF(u)=M_AF(v)=[[1,2],[0,1]]** だが、新しい第二行列は **M_AH(u)=[[-11,-16],[-24,-35]]** と **M_AH(v)=[[-155,-64],[264,109]]** に分離する。新しい後向き行列R4=[[1,0],[4,1]]と正方向F=[[1,-1],[0,1]]、cast C=[[1,1],[0,1]]は真正assocの C*F=I を保持しつつ旧Bの B³=-I・B⁶=I という表現依存の有限位数を回避。
