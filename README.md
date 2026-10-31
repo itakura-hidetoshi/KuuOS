@@ -13,6 +13,22 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新の研究状態 — 2026-10-31 JST / F112-P94D3GK4Y
+
+**最新のLean定理統合 GK4Y [PR #2783](https://github.com/itakura-hidetoshi/KuuOS/pull/2783) MERGED：** [真正強化観測kernel圏](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4YEnhancedKernelCategory.lean)と[強化kernel→Boolean kernel忘却関手・可算無限ファイバー](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4YEnhancedKernelForgetful.lean)を**新規Lean2ファイル／39宣言**で形式化。元P92Bの真正Type値証拠存在商`Q`、独立GK4E構造比較商`S`、GK4Sの**相異なる二段目観測kernel商**`K_X = Q/∼_{(Bool,charge)}`と`K_B = Q/∼_{Bool}`を明確に区別。真正F45全型付き境界上で、**Homを実際の`K_X`第二商とする新しいMathlib Category**を構築。合成はGK4S真正到達観測像からの輸送、単位は元P92Bゼロ経路の実二段目商類、結合律は`(b,c)·(d,e)=(b&&d,c+e)`による。元`Q`で未証明の結合律・左右単位を仮定せず、**`K_X`上だけの左右単位律・結合律**をLeanで証明。
+
+**3つの真正関手：** GK4I独立構造圏`S→K_X`比較Mathlib Functor（各Hom全射）、`K_X→Bool×Int`真正観測値Functor（各Hom単射・忠実、真正到達値のみ）、および**別個の二段目商間の`U:K_X→K_B`忘却Functor**（各Hom全射）を構成。対象・射双方で、`S→K_X→Bool×Int`がGK4Xの強化観測関手、`S→K_X→K_B`がGK4Uの旧Boolean関手に**厳密一致**すると証明。`S→K_X`の全域忠実性は未証明のまま。`U`については**すべての実在F45自己Homで非単射／非忠実**と証明。
+
+**新しい可算無限定理：** GK4Wの**真正F54 `castDepths`塔**は`K_X`でも全部異なるが、`U`で全段が**旧Booleanの実ゼロ経路単位商類**に写る。この**真正二段目忘却写像の単位ファイバーは任意の実F45自己stageで厳密に`Cardinal.aleph0`**と形式化。上界は`K_X`から`Bool×Int`への真正単射と固定mathlibの`Function.Injective.countable`、下界はNat添字の実F54塔の単射から導出する。従来必要だったD/Eの全対象・Homの一般Countable仮定はこの結論には不要。真正C60北側六角形は無条件の実例。**これは元P92B商から独立構造商へのファイバーや真正14Dの無条件Countableを証明したものではない**。
+
+定理squash SHA／マージ直後のcanonical `main` HEAD `986398ddace9566ef3df2f9852118a69bef267a8`、最終exact-source PR HEAD `c3adaa17fc3786f5c2fa067452167b270341caaf`、[Strict Lean/Governance CI #41173575821](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41173575821) **3734/3734 SUCCESS、Governance 5/5 SUCCESS、39宣言`#print axioms`標準3公理以内、`sorryAx`なし、変更Lean warning/error 0/0**。[GK4Y証明・検証記録](docs/formal/GK4Y-enhanced-kernel-category-forgetful.md)。Lean v4.30.0-rc2、mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、公開root107、strict空中心／独立Kuu一presentation、Grayなし、保護PR #1558 Draft/OPEN/未マージを維持。
+
+**次段階GK4Z（未証明）：** GK4Y強化構造比較関手`S→K_X`の残存faithfulness obstructionを、同一`(Boolean,cast-charge)`観測値を持つ相異なる真正構造商類の有無として調査。真正元P92B結合律・左右単位、歴史的完全Type値同値、真正14D無条件Countable、19D filler、global strict n、hyperdescentには拡張しない。
+
+> 以下のGK4X以前の「最新・次候補」はそれぞれの歴史的スナップショット。現行の定理frontierはGK4Y。
+
+---
+
 ## 最新の研究状態 — 2026-10-31 JST / F112-P94D3GK4X
 
 **最新の定理統合 GK4X [PR #2781](https://github.com/itakura-hidetoshi/KuuOS/pull/2781) MERGED：** [GK4X強化観測Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4XEnhancedObserver.lean) と[GK4X型付き関手・真正観測kernel比較Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4XEnhancedFunctor.lean)を新規追加。GK4Wで元F55全9・P92B全9・F54独立構造seam全14・拡張比較全3にわたるType値帰納法で証明した**実cast-charge = original `castDepths`個数 − 物理回転数**を、元P92B証拠存在商`Q`と独立GK4E構造商`S`の**両方へ別々に降下**。両商での原F54合成に対する加法性、`Q→S`の正準射との可換性、構造商単位のcharge 0を証明。元P92Bの未証明の結合律・単位律は使わない。
