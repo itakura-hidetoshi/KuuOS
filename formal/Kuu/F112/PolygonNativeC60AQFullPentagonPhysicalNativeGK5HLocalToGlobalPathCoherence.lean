@@ -91,8 +91,7 @@ theorem nativeGK5HChangeIso_trans
 /-- A formal groupoid identity: an actual whole NatIso square
 remains commutative when both path Iso witnesses are inverted. -/
 private theorem nativeGK5HReverseSquare
-    {A B X Y : Type uC} [Category.{vC} A] [Category.{vC} B]
-    [Category.{vC} X] [Category.{vC} Y]
+    {A B : Type uC} [Category.{vC} A] [Category.{vC} B]
     {L₀ L₁ R₀ R₁ : A ⥤ B}
     (P : L₀ ≅ L₁) (Q : R₀ ≅ R₁)
     (φ₀ : L₀ ≅ R₀) (φ₁ : L₁ ≅ R₁)
@@ -127,7 +126,7 @@ theorem nativeGK5HLocalStep_implies_allPaths
   | reverse q ih =>
       simpa only [nativeGK5DPathIso, nativeGK5GChangePath,
         nativeGK5HChangeIso_symm] using
-        (nativeGK5HReverseSquare
+        (nativeGK5HReverseSquare (A := D i) (B := D j)
           (nativeGK5DPathIso (nativeGK5GChangePath e q))
           (nativeGK5GChangeIso e (nativeGK5DPathIso q))
           (nativeGK5GChangeTreeIso e _)
