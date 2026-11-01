@@ -14,6 +14,19 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK5J / 2026-11-02 JST
+
+**真正な点別圏同値のwhole NatIso可換性について、有限書換え経路の選択に依存しない端点障害と標準経路判定の必要十分性をLean4で証明 — [定理PR #2915](https://github.com/itakura-hidetoshi/KuuOS/pull/2915) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5JEndpointObstructionCanonicalization.lean)・[正式証明記録](docs/formal/GK5J-endpoint-only-finite-path-coherence.md)。
+
+**数学的成果：** 同一の型付き始終点を持つ任意の真正GK5D有限経路`p,q:a→b`について`WholeNatIsoSquare(e,p) ↔ WholeNatIsoSquare(e,q)`を無条件に証明。元圏族Cと変更後圏族Dの双方で既証明の真正`nativeGK5DPath_independent`を使用した。GK5Dの実正規化＋逆転で構成される**一つの標準経路**を同じ型付き葉列を持つ各端点対で検査する`EndpointCompatible`を導入し、`PathCompatible ↔ EndpointCompatible ↔ StepCompatible`を真正whole Mathlib NatIso等式として証明。GK5I三原子associatorの無条件結果を、**その同じ端点間の任意有限経路**へ拡張した。
+
+**厳密な未証明範囲：** 条件が端点・標準経路へ還元されても障害の全消滅は未証明。任意部分木associator、左右unitor、左右whiskeringの全局所整合性を無条件に示したわけではない。GK5Hの一般無条件全経路自然性は依然保留。元F45無条件faithfulness・source-Q圏公理・raw Type値高次セル・global Gray・無制限hyperdescentも未証明。
+
+**exact-source：** source `66ed8f1f54b06a133d7bc73a2be1d8ec17e4ee85`／squash `e7ad9bf2e9757bc8b722fc447c7ca7641bbe69d2`／一致Git tree `aa036d080033ea2aac5f6efb4a9182a04b8f4828`。[CI #41362213858](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41362213858) **Strict Lean 3831/3831、Independent Kuu・Workflow integrity・Governance terminalすべてSUCCESS**。4/4公理監査は標準`propext/Classical.choice/Quot.sound`のみ、sorryAx0、Lean errors/warnings0/0。Lean v4.30.0-rc2・mathlib固定・root107・保護PR #1558 Draft/OPEN・strict空中心／独立Kuu一presentation保持。
+
+**次の研究GK5K（候補）：** 任意有限部分木でのassociator整合性を、`Φ_a,Φ_b,Φ_c`の真正自然性、点別圏同値の合成比較`unitIso`、whiskering interchangeから証明。続いて左右unitorと両whiskeringを検証し、全generatorが無条件で可換となった後に限りGK5Hの全経路定理へ適用する。以下GK5I以前の歴史的成果を削除せず保持。
+
+
 ## 最新のLean定理統合 — F112-P94D3GK5I / 2026-11-02 JST
 
 **真正な点別圏同値による三原子associatorのwhole NatIso可換性をLean4で無条件証明 — [定理PR #2913](https://github.com/itakura-hidetoshi/KuuOS/pull/2913) MERGED。** [新規Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5IGeneratorCoherence.lean)・[正式証明記録](docs/formal/GK5I-three-atom-associator-generator-coherence.md)。
