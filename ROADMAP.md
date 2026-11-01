@@ -3,6 +3,16 @@
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK4BY / 2026-11-01 JST
+
+**実Mathlib pentagonの全5経路と、4位置での単位挿入の正逆NatTrans自然性・inverse triangleを形式化 — [定理PR #2893](https://github.com/itakura-hidetoshi/KuuOS/pull/2893) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4BYChosenInverseUnitInsertionPentagonInverse.lean)・[正式証明記録](docs/formal/GK4BY-pentagon-unit-insertion-inverse-unitor-coherence.md)。
+
+**F112-P94D3GK4BY数学的到達点：** 真正標的`R,S,L`の前・中2か所・後に1つの`𝟭`を挿入して、Mathlibのunitorとwhiskeringによる4つの実NatIsoを構成。GK4BWの真の5経路A〜Eとの**4×5=20 whole NatIso等式**を証明し、各位置・各経路について正方向20・逆方向20のwhole NatTrans可換四角をGK4BU自然性により厳密証明。左右逆unitorとinverse associator–unitor triangleも、本物の同型・射・NatTransで形式化。逆triangleの2経路が同じwhole NatTransへ至る。**22公開宣言／22公理監査**。GK4BM任意選択逆`Q_T`とGK4BP明示逆`P_T`を定義同一視しない。
+
+**独立検証：** final source `68257c0caf07d6f5be7d8f4aaf88d00e00846faa`／test-merge `fcedab4a7e98d406bbc15cdb707f4d762ab95bd5`／**一致Git tree `153e61366cfb20882c384abd11d1c9c9f6c66206`**。[CI #41301271737](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41301271737) **Strict Lean 3820/3820、Independent Kuu／Workflow integrity／Governance terminal全SUCCESS**。公理は`propext, Classical.choice, Quot.sound`のみ、sorryAx0、変更Lean warning/error0/0。初回に最終証明で`True∧True`と`rfl`の不一致を検出し、Lean4の型に合わせ`simp`で修復後、ファイル全文を再検証。定理squash/main HEAD `a5978505b29ecaea3e80eab105d273fac1ebcb43`。
+
+**次GK4BZ候補：** 2個以上の単位を挿入した有限5段以上の標的変更の順序・括弧付けcoherence、または可証な有界有限段帰納原理。元F45商S無条件faithfulness、source-Q圏公理、raw F54/F55/P92B Type値高次セル、全整数行列到達、global Gray、高次hyperdescentは未証明境界。Lean v4.30.0-rc2、mathlib pin `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、root107、保護#1558 Draft/OPEN、strict空中心・独立Kuu一presentation維持。以下過去の全記録を保持。
+
 ## 最新のLean定理統合 — F112-P94D3GK4BX / 2026-11-01 JST
 
 **五経路pentagonの本物の標的自然変換整合性、全NatTransの左右貼り合わせ一致、Mathlib左右unitorとassociator–unitor triangleを完成 — [PR #2891](https://github.com/itakura-hidetoshi/KuuOS/pull/2891) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4BXChosenInversePentagonNaturalityUnitorTriangle.lean)・[正式証明記録](docs/formal/GK4BX-four-target-pentagon-nattrans-unitor-triangle.md)。
