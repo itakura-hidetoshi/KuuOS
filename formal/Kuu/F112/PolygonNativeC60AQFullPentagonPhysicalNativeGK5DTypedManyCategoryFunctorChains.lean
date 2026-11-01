@@ -353,9 +353,10 @@ theorem nativeGK5DPathIso_eqToIso :
       (p : NativeGK5DTypedPath C a b),
       nativeGK5DPathIso p = eqToIso (nativeGK5DPathEq p)
   | _, _, _, _, .refl _ => by
-      rfl
+      simp only [nativeGK5DPathIso, nativeGK5DPathEq, eqToIso_refl]
   | _, _, _, _, .basic h => by
-      exact nativeGK5DStepIso_eqToIso h
+      simpa only [nativeGK5DPathIso, nativeGK5DPathEq] using
+        (nativeGK5DStepIso_eqToIso h)
   | _, _, _, _, .reverse p => by
       simpa only [nativeGK5DPathIso, nativeGK5DPathEq,
         nativeGK5DPathIso_eqToIso p, nativeGK5DEqToIso_symm]
