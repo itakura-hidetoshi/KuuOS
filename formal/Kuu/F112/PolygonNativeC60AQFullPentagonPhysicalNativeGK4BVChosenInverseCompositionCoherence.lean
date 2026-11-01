@@ -130,8 +130,7 @@ private theorem nativeGK4BVGaugeComposition
     Functor.isoWhiskerRight_hom, Functor.associator_hom_app,
     NatTrans.comp_app, Functor.whiskerLeft_app, Functor.whiskerRight_app,
     Iso.symm_hom, Functor.associator_inv_app, Functor.map_comp]
-  simp only [Category.assoc, k2.hom.naturality (hc.hom.app X),
-    hCancel, Category.id_comp, Category.comp_id]
+  simp [Category.assoc, k2.hom.naturality (hc.hom.app X), hCancel]
   have hHa := ha.hom.naturality (k0.inv.app X)
   change aS.map (aR.map (k0.inv.app X)) ≫
       ha.hom.app (q0.obj X) =
