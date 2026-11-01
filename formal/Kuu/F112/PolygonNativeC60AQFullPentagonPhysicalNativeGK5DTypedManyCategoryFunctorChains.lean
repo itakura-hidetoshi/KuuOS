@@ -350,7 +350,7 @@ theorem nativeGK5DPathIso_eqToIso
     {i j : I} {a b : NativeGK5DTypedTree C i j}
     (p : NativeGK5DTypedPath C a b) :
     nativeGK5DPathIso p = eqToIso (nativeGK5DPathEq p) := by
-  induction p with
+  induction p generalizing a b with
   | refl _ => rfl
   | basic h => exact nativeGK5DStepIso_eqToIso h
   | reverse p ih =>
