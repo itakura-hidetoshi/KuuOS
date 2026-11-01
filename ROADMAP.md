@@ -3,6 +3,16 @@
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK5B / 2026-11-01 JST
+
+**GK5Aの有限木直接比較から、真正Mathlib associator・左右unitor・whiskeringの証拠付き書換え経路、whole NatIso経路独立性、有限語正規化compatibilityへ進展 — [定理PR #2899](https://github.com/itakura-hidetoshi/KuuOS/pull/2899) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5BFiniteTreeRewritePathCoherence.lean)・[正式証明記録](docs/formal/GK5B-finite-tree-rewrite-path-coherence.md)。
+
+**F112-P94D3GK5Bの数学的到達点：** 固定標的圏`T`の任意有限二分endofunctor木に対し、依存型`RewriteStep`（真の`Functor.associator/leftUnitor/rightUnitor`・左右whiskering）と`RewritePath`（恒等・1ステップ・逆経路・連結）を構成。経路を**実NatIsoで評価**し、`pathIso p=eqToIso(pathEq p)`を構造帰納法で証明したため、同じ型付き始点終点の**任意の二経路がwhole NatIsoの等式として一致**。すべての実書換え経路が元の順序付き葉列を保持することを証明し、GK5A有限リスト標準化との正規化NatIsoも**葉列等式による真正`eqToIso`輸送**まで保存。GK4BU/GK5Aの選択逆関手比較`Θ`と標的NatTrans可換四角・左右の全貼り合わせの経路独立性、別順序の単位除去・associatorからなる実二経路の等式も証明。17公開宣言・2依存型帰納構文。**任意の木から標準木へ書換え経路が存在することまでは未証明**と正確に区別する。
+
+**検証：** final source `afa157901a4cd9c3b6303a419f36055dad7c6ded`／test-merge `859461456c1fbda8b4b2520e411cec4daff1bccc`／一致tree `0cef5f92477213381c90d5d069e5ea66f7738319`。[exact-source CI #41306352193](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41306352193) **Strict Lean 3823/3823、Independent Kuu・Workflow integrity・Governance terminal全SUCCESS**。17/17公理監査は`propext, Classical.choice, Quot.sound`のみ、sorryAx0、変更Lean error/warning0/0。初回CIのLean4型記法`RewriteStep → A ≅ B`のパーサ解釈と2回目の`rw`後の余分な`rfl`を、固定版Mathlib／Lean elaborationに基づき修復。定理squash／main当時HEAD `8a8abead7636024d50c748887336d27037d30cbf`。
+
+**GK5C候補：** 書換え経路の証拠付き到達性（任意有限木→正規化された右結合の葉列木）を真のassociator/unitorから構成し、GK5B正規化比較への接続を証明する。次に任意有限多圏鎖への拡張可能性を評価。現時点の証明は固定標的`T`の有限endofunctor木・**実在する経路**に限定。元F45商S無条件faithfulness、元source-Q圏公理、raw F54/F55/P92B Type値高次セル、全整数行列到達、global Gray、無制限hyperdescentは未証明。Lean v4.30.0-rc2／mathlib pin `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、root107、保護PR #1558 Draft/OPEN、strict空中心・独立Kuuは一presentation。以下過去記録全保持。
+
 ## 最新のLean定理統合 — F112-P94D3GK5A / 2026-11-01 JST
 
 **GK4BZの14通り限定から任意有限二分木へ：実Mathlib endofunctor列のwhole NatIso帰納的pasting、全木標的NatTrans自然性、葉列一致に関する両端`eqToIso`輸送を証明 — [定理PR #2897](https://github.com/itakura-hidetoshi/KuuOS/pull/2897) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5AFiniteEndofunctorTreeCoherence.lean)・[正式証明記録](docs/formal/GK5A-inductive-finite-endofunctor-tree-coherence.md)。
