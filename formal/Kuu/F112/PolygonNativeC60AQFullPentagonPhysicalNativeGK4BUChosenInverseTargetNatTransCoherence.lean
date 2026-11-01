@@ -195,9 +195,11 @@ theorem nativeGK4BUChosenInverse_targetNat_square
       _ = (leftK ≫ eR.hom) ≫ (γ ≫ ν') := by simp only [Category.assoc]
       _ = (leftK ≫ eR.hom) ≫ (ν ≫ ζ) := by rw [hright]
       _ = ((leftK ≫ eR.hom) ≫ ν) ≫ ζ := by simp only [Category.assoc]
+  dsimp only [α, ζ, leftK, leftK', ν, ν', eR, eR',
+    cR, cR', aR, aR', qU, qT, kU, kT, δ, ε] at hpasted
   simpa only [nativeGK4BTChosenInverse_targetNatIso, Iso.trans_hom,
     Functor.isoWhiskerLeft_hom, Functor.isoWhiskerRight_hom,
-    Iso.symm_hom] using hpasted
+    Iso.symm_hom, Category.assoc] using hpasted
 
 end ChosenInverseTargetNatTrans
 
