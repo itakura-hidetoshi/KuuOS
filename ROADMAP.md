@@ -3,6 +3,15 @@
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK4BD / 2026-11-01 JST
+
+**整数評価の実Functorとt=4での旧AH観測関手一致 — [定理PR #2849](https://github.com/itakura-hidetoshi/KuuOS/pull/2849) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4BDIntegerEvaluationFunctor.lean)・[証明記録](docs/formal/GK4BD-integer-evaluation-functor-ah-triangle.md)。GK4AVの多項式行列とAHの整数行列を、それぞれ非可換行列積で一対象Mathlib Categoryにして、任意`t∈ℤ`の成分評価をMathlib Functorとして実構成。GK4BCの真正K_AI→多項式値関手との合成、既存K_AI旧AH成分関手の別構成、**`P̄ ⋙ eval_4 = F_AH` を依存型HomすべてでFunctor全体の等式として証明**。独立元構造商Sを介した任意整数tのGK4AU観測一致とt=4のGK4AH回収も形式化。新規10宣言。元Q自身の未証明結合律・単位律や元Type値3-cellは使用しない。
+
+**exact-source証拠：** 最終source `e1ac6051a020b352aea28bd10f91071d7d64cb64`、test-merge `c92e96270309238ef05f4679b010c5bb8ce2fded`、完全一致するtree `50948f48c413b0c1bed56229ba40ab8e8acbe05c`、[CI #41254632718](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41254632718) **Lean 3798/3798・Governance terminal SUCCESS**。全10宣言が標準3公理以内、sorryAx0。初回Functor.extの`eqToHom`依存等式輸送を正規化してLean修正。定理squash `1ebc72839b29e50e649484766cdf8c7741df4a1e`。Lean v4.30.0-rc2／pinned mathlib 5450b53e5ddc75d46418fabb605edbf36bd0beb6、root107・#1558 Draft OPEN未マージ、strict空中心・独立Kuu一presentation・Gray再導入なし。
+
+**次の候補GK4BE（未形式化）：** t=4での元AH観測値が一致すれば任意の整数評価tの値が一致するというGK4BA一点決定性を、**既存K_AIの評価関手間のHom核包含と条件付き普遍性**として証明する。元K_AIクラス自体の同一性・faithfulnessは主張しない。固定単一旧類ファイバー無限性、算術slice全域到達、元Q自身の圏公理、真正14D無条件Countable、19D filler、global strict、hyperdescentは未証明。
+
+
 ## 最新のLean定理統合 — F112-P94D3GK4BC / 2026-11-01 JST
 
 **真正元F54の全多項式行列のK_AI関手性 — [定理PR #2847](https://github.com/itakura-hidetoshi/KuuOS/pull/2847) MERGED。** [新規Lean形式化](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4BCPolynomialFunctorAI.lean)、[full-source証明記録](docs/formal/GK4BC-polynomial-functoriality-ai.md)。GK4BBの既存第二商への多項式降下が**K_AI合成を非可換多項式行列積に送り、K_AI単位を単位行列へ送る**ことを証明。元P92B商Qについては積・単位の**観測値保存のみ**を使い、Q自身の未証明圏公理は仮定しない。任意整数での評価積保存、`t=4`旧AH成分積回収、非可換行列値の一対象Category、真のK_AI→値圏Functor、独立構造商S→K_AI→値圏の可換性を計9宣言で形式化。Functorのfaithfulnessや元Type値3-cellを創作しない。

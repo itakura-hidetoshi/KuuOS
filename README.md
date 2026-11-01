@@ -14,6 +14,15 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新の研究追補 — 2026-11-01 JST / F112-P94D3GK4BD
+
+**真正K_AIの全多項式行列関手から任意整数tの評価関手を構成し、t=4で元AH観測関手と厳密一致することをLean4で証明 — [定理PR #2849](https://github.com/itakura-hidetoshi/KuuOS/pull/2849) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4BDIntegerEvaluationFunctor.lean)・[exact-source証明記録](docs/formal/GK4BD-integer-evaluation-functor-ah-triangle.md)。多項式行列Mat₂(ℤ[X])および整数行列Mat₂(ℤ)の各非可換行列積をHom合成とする一対象圏を区別して、全整数tの`eval_t`を真のMathlib Functorとして構成。既存GK4BCのK_AI→多項式値Functorに合成し、**`(P̄ ⋙ eval_4) = oldAHFunctor`** を真のFunctor等式としてLean証明。元構造商S→K_AIとの全整数t可換性、元SのAH t=4一致も証明。新規10宣言。元Q自身の未証明圏公理・元Type値3-cell・faithfulnessは主張しない。
+
+**exact-source：** 最終source `e1ac6051a020b352aea28bd10f91071d7d64cb64`、test-merge `c92e96270309238ef05f4679b010c5bb8ce2fded`、Git tree `50948f48c413b0c1bed56229ba40ab8e8acbe05c` 完全一致。[CI #41254632718](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41254632718) **Strict Lean 3798/3798・Governance terminal SUCCESS**。10宣言公理依存は標準3以内、sorryAx0。初回のFunctor.extによるeqToHom輸送のelaboration mismatchは、`eqToHom_refl` と圏の単位律を用いて修正した。定理squash `1ebc72839b29e50e649484766cdf8c7741df4a1e`。Lean v4.30.0-rc2、mathlib 5450b53e5ddc75d46418fabb605edbf36bd0beb6、root107、strict空中心・独立Kuu一presentation、Gray非再導入、保護PR #1558 Draft／OPEN／未マージ維持。
+
+**限界：** 全整数評価の関手性は実際の元F54経路が任意の行列へ到達することを意味せず、K_AI→多項式Functorのfaithfulness、元Qの圏公理、元Type値完全同値、固定単一旧類ファイバー無限性、算術slice全域到達、真正14D無条件Countable、19D filler、global strict、hyperdescentは未証明。以前のGK4BC以降の推奨予定は履歴として維持する。
+
+
 ## 最新の研究追補 — 2026-11-01 JST / F112-P94D3GK4BC
 
 **既存K_AI上の真正全多項式行列が合成・単位を保存し、MathlibのFunctorとなることをLean4で証明 — [定理PR #2847](https://github.com/itakura-hidetoshi/KuuOS/pull/2847) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4BCPolynomialFunctorAI.lean)・[厳密な証明記録](docs/formal/GK4BC-polynomial-functoriality-ai.md)。GK4BBの既存二次kernel `K_AI` への `Quotient.lift` で定義した `P̄` について、**`P̄(u∘v)=P̄(u)·P̄(v)`、`P̄(id)=I₂`** を、真正元P92B代表元の非可換行列観測保存から証明。さらに任意整数`t`の評価積保存、`t=4`で元AH積回収、一対象の整数多項式行列値圏、真のK_AI→多項式値Mathlib関手、独立構造商Sとの可換図式まで9宣言で形式化。元Qの未証明圏公理・Type値3-cellを仮定せず、関手のfaithfulnessも主張しない。
