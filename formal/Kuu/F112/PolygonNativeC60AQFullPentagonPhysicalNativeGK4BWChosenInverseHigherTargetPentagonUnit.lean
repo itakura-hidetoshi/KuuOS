@@ -248,7 +248,7 @@ theorem nativeGK4BWChosenInverse_threeLastTarget_square
       (Functor.whiskerLeft (R ⋙ S) τ))
 
 
-/-- Actual four-target comparison: all five Catalan bracketings
+/- Actual four-target comparison: all five Catalan bracketings
 carry genuine Mathlib NatIso values and explicit GK4BV transports. -/
 section FourTargetPentagon
 variable {X : Type uX} [Category.{vX} X]
@@ -400,7 +400,7 @@ theorem nativeGK4BWChosenInverse_fourTarget_pentagon
     nativeGK4BWChosenInverse_four_pathC_eq_direct,
     nativeGK4BWChosenInverse_four_pathD_eq_direct,
     nativeGK4BWChosenInverse_four_pathE_eq_direct]
-  all_goals rfl
+  all_goals simp
 
 end FourTargetPentagon
 
