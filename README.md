@@ -14,6 +14,16 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK4BP / 2026-11-01 JST
+
+**真正元F45独立構造商のAH核両立関手圏から旧AH実到達像への、明示的な逆Mathlib関手と標的自然変換への厳密整合性をLean4で形式化 — [定理PR #2875](https://github.com/itakura-hidetoshi/KuuOS/pull/2875) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4BPExplicitInverseTargetNaturality.lean)・[正式証明記録](docs/formal/GK4BP-explicit-inverse-target-naturality.md)。GK4BKの真正実到達AH因子化`Factor(H)`を、任意の元AH核両立`S⥤T`関手`H,K`と実自然変換`η:H⟶K`に拡張し、元F45型付き境界`X.original`上の`η.hom.app`と真正元構造射前像`s`から自然性を証明。`Factor_T: Compatible(S,T) ⥤ (A_att⥤T)`という**独立に明示構成した本物のMathlib Functor**を取得、恒等・垂直合成を保存。GK4BMの`asEquivalence`が任意に選ぶ逆関手と**定義上同一とは主張しない**。
+
+**厳密な双方向整合性：** `Factor_T ⋙ C_T`は各兼容対象`H`をwhole-Functor等式で`H`へ戻し、`C_T ⋙ Factor_T`は各真正実到達AH関手`G`をGK4BK一意性でwhole-Functor等式として`G`へ戻す（対象レベルの両三角）。元構造上の実自然変換成分も完全に回復。`R:T⥤U`に対して`R_*^{compatible} ⋙ Factor_U = Factor_T ⋙ R_*^{attained}`を**whole Mathlib Functorの厳密等式**で証明し、Homのright-whiskering、任意の`ρ:R⟶R'`の**whole NatTrans自然性四角**まで形式化（14宣言）。新明示逆関手についての**global unit/counit NatIsoとその三角恒等式は未実装**であり、対象レベルの等式と区別する。
+
+**exact-source：** source HEAD `8637e2af4545d1143b0c7a85c13e0d7fda15a9b5`、test-merge HEAD `e6a88e87350aab3c27e27466c0d2e8ec00f308f6`、**一致tree `8cecacbfab355d00c05fbf7c9b313fb8315fc725`**。[CI #41276846796](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41276846796) **Strict Lean 3811/3811・Governance terminal SUCCESS**、独立Kuu／Workflow integrity SUCCESS、全14宣言の公理依存`propext`／`Classical.choice`／`Quot.sound`以内、sorryAx0、changed Lean warning/error0/0。定理squash・main統合HEAD `8c0f7a166d4156aefcc66b7e002501bcebba4cff`。Lean v4.30.0-rc2／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、公開root107、保護PR #1558 Draft/OPEN/未マージ。
+
+**次GK4BQ：** 明示逆関手`Factor_T`とGK4BM前向き関手`C_T`の**真正natural unit/counit isomorphisms**、三角恒等式とGK4BMの任意選択quasi-inverseとの適切な自然同型による比較を研究。元Sの無条件忠実性、元Q圏公理、raw F54/F55/P92B Type値3-cell、全整数行列到達、高次global strict/hyperdescentは未解決のまま。以下のGK4BO以前の記録は保存する。
+
 ## 最新のLean定理統合 — F112-P94D3GK4BO / 2026-11-01 JST
 
 **真正AH核両立関手圏における標的自然性を、一つのMathlib関手と厳密な交換法則として形式化 — [定理PR #2873](https://github.com/itakura-hidetoshi/KuuOS/pull/2873) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4BOTargetActionFunctor.lean)・[正式証明記録](docs/formal/GK4BO-target-action-functor-interchange.md)。GK4BNの任意の標的関手`R:T⥤U`による真正後合成、および標的自然変換`ρ:R⟶R'`から得られる`NatTrans`を、`(T⥤U) ⥤ (Compatible(S,T)⥤Compatible(S,U))`という**一個の真正Mathlib Functor**に統合。元F45依存型独立構造商Sと旧AH**実到達像A**、真正`ObjectProperty.FullSubcategory`を変更せず、自然変換の恒等・垂直合成を関手公理として証明した（12宣言）。
