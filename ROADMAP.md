@@ -3,6 +3,15 @@
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK4BG / 2026-11-01 JST
+
+**元F54真正型付きK_AIのAH観測残余障害を、固定AHファイバーと実到達AE像の正確な全単射で分類 — [定理PR #2856](https://github.com/itakura-hidetoshi/KuuOS/pull/2856) MERGED。** [Lean形式化](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4BGResidualAEFiber.lean)、[exact-source証明記録](docs/formal/GK4BG-exact-ah-fiber-residual-ae.md)。GK4BA〜GK4BEで旧AH行列が全多項式と旧AF行列を決めることから、**AH固定時のK_AI類一致 iff 旧AE値一致**を証明。元F54依存型の始点・終点を固定し、各AH値の真のK_AIファイバーと実到達AE値像のEquivおよび非自明性必要十分条件を形式化。後退回転数0の真正自己HomではGK4AC rankからgradeが必ずtrueとなり、AH一致の下で残余障害は旧AD履歴だけという条件付き同値を証明。12宣言。実際のAH衝突の存在や不存在、元Type値3-cellなどを創作しない。
+
+**exact-source：** source `1375b66b29c2dc13d92abb42305c610abf17f5cf`、test-merge `db1160da9054d99c702944694b693f7eea4e3496`、共通Git tree `139e402b8f21d16ab3da577379eb840bf6246e26`、[CI #41258432374](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41258432374) **Strict Lean 3801/3801・Governance terminal SUCCESS**、12宣言標準3公理以内・sorryAx0。初回の大宇宙Subtypeの型指定誤りを正しい宇宙レベルに修正、exact-sourceで全文検証。定理squash `b7c172c39a3e55ee18dfb7215b6c4237fff00c5d`。Lean v4.30.0-rc2／pinned mathlib 5450b53e5ddc75d46418fabb605edbf36bd0beb6、公開root107・strict空中心・独立Kuu一presentation・Gray非再導入、保護#1558 Draft／OPEN／未マージ維持。
+
+**次GK4BH（未形式化）：** GK4BAの真正自由積語の決定性と元GK4AD順序付き履歴が整合するか検証し、AH固定像の実際の非自明性の有無、あるいは真正AH観測のfaithfulnessを厳密に決着させる。原始の型付き元F54経路から導かない記号積による反例は禁止。元Q圏公理、元Type値完全同値、固定単一旧類ファイバー無限性、算術slice全域到達、真正14D無条件Countable、19D filler、global strict、hyperdescentは未証明のまま。
+
+
 ## 最新のLean定理統合 — F112-P94D3GK4BF / 2026-11-01 JST
 
 **真正K_AIのAH観測の実到達像にCategory構造と任意整数評価Functorを構成 — [定理PR #2854](https://github.com/itakura-hidetoshi/KuuOS/pull/2854) MERGED。** [正式Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4BFAttainedAHCategory.lean)・[証明記録](docs/formal/GK4BF-attained-ah-category-evaluation-factor.md)。元F54依存型境界を維持する`NativeGK4BFAttainedAHStage`のHomはGK4BEの実到達AH行列Subtypeで、元K_AI代表射の合成を実証拠として非可換行列積が閉じる。単位・結合律をMathlib Categoryで証明。**K_AI→AH到達像はHom全射、AH到達像→全整数行列はHom単射**で、後者との合成は旧AH Functorと関手等式として一致。前者のfaithfulnessを事実とせず、Hom単射性`↔`旧AH一致から元K_AI射の等式を回復できることを条件付き定理で分類。任意`t∈ℤ`の整数評価も真のFunctorとしてAH到達像を通じて一意に因子化し、`t=4`はAH包含に一致する。新規16宣言。元Q自身の未証明圏公理・元Type値3-cellは一切追加しない。
