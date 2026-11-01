@@ -14,6 +14,16 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK5C / 2026-11-01 JST
+
+**任意有限endofunctor木から右結合の標準葉列木への本物のassociator/unitor書換え経路を帰納的に実構成し、任意2木の到達可能性が順序付き葉列一致と必要十分であることをLean4で証明 — [定理PR #2901](https://github.com/itakura-hidetoshi/KuuOS/pull/2901) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5CFiniteTreeNormalizationReachability.lean)・[正式証明記録](docs/formal/GK5C-constructive-finite-tree-normalization-reachability.md)。GK5A/GK5Bの固定標的`T`における真正有限endofunctor木を対象とし、元F45構造商・旧AH実到達圏・真の核両立部分圏・任意選択逆`Q_T`と明示逆`P_T`の区別は保持する。
+
+**数学的成果：** 実書換え経路の左右whiskeringを帰納構成し、真正`Functor.associator/leftUnitor`による標準木のリスト連結経路、`rightUnitor.symm`による葉の拡張を組み合わせて、**任意有限木`t`から標準木`treeOfList(leaves t)`へ型付き真正経路を構成**。`pathIso(normalizePath(t))`を終点での本物の`eqToIso`輸送後にGK5Bの正規化NatIsoとwhole NatIso等式で一致させた。さらに**`Nonempty(RewritePath(a,b)) ↔ leaves(a)=leaves(b)`**を証明。逆方向は両木の正規化経路を合成・逆転して明示構成し、GK5Bの既証明経路独立性から任意の同じ型付き2経路がwhole NatIsoで一致する。GK4BU/GK5Aの選択逆関手`Θ`に対し、構成済み正規化経路と同葉比較経路の真正whole NatTrans四角、および両端の厳密`eqToIso`輸送も形式化（公開13宣言）。
+
+**exact-source：** source `502c1e0f7d2d4e2adc68e6a55fd6d2018b626de1`／test-merge `e464e79ac0302db61f8ab74e71533b39fbd5f0e5`／一致Git tree `1e20f44546642bf3ceb3f834b8d05eff28269ded`。[CI #41307401462](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41307401462) **Strict Lean 3824/3824、Independent Kuu・Workflow integrity・Governance terminal全SUCCESS**。公開13/13宣言の`#print axioms`は標準3公理`propext/Classical.choice/Quot.sound`以内、sorryAx0、変更Lean error/warning0/0。定理squash・main当時HEAD `73ea3ac3e6f6c86d8ec7a21dff011a6a34d6d46f`。
+
+**次の研究GK5D（仮称）：** 今回の固定`T`の有限endofunctor木の証明付き到達性・coherenceを普遍性として整理するか、複数の標的圏をまたぐ依存型有限関手鎖への段階的拡張を検討。元F45商の無条件faithfulness、source-Q圏公理、raw F54/F55/P92B Type値高次セル、全整数行列到達、global Gray、無制限hyperdescentは未証明境界。Lean v4.30.0-rc2、mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、公開root107、保護PR #1558 Draft/OPEN/未マージ、strict空中心・独立Kuu一presentationを維持。以下GK5B以前の記録は全て保持する。
+
 ## 最新のLean定理統合 — F112-P94D3GK5B / 2026-11-01 JST
 
 **任意有限endofunctor木に対する本物のMathlib associator・左右unitor書換え経路を証拠付きで実構成し、同じ型付き始点・終点の全経路がwhole NatIsoとして一致することをLean4で証明 — [定理PR #2899](https://github.com/itakura-hidetoshi/KuuOS/pull/2899) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5BFiniteTreeRewritePathCoherence.lean)・[正式証明記録](docs/formal/GK5B-finite-tree-rewrite-path-coherence.md)。対象は固定した一つの真正Mathlib標的圏`T`での有限`T⥤T`二分木。元F45依存型構造商・実到達AH圏・GK4BM真のAH核両立部分圏・任意選択逆`Q_T`と明示逆`P_T`の区別を維持する。
