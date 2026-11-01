@@ -248,8 +248,8 @@ theorem nativeGK4BNPostcomp_nat_square_app
     (G : NativeGK4BFAttainedAHStage p ma mb pa pb ⥤ T) :
     ((nativeGK4BNPostcompCompatibleNat p ma mb pa pb ρ).app
       ((nativeGK4BMPrecompositionLift (T := T) p ma mb pa pb).obj G)).hom =
-    (nativeGK4BMPrecompositionLift (T := U) p ma mb pa pb).map
-      ((nativeGK4BNPostcompAttainedNat p ma mb pa pb ρ).app G) := rfl
+    ((nativeGK4BMPrecompositionLift (T := U) p ma mb pa pb).map
+      ((nativeGK4BNPostcompAttainedNat p ma mb pa pb ρ).app G)).hom := rfl
 
 /-- The same target-category naturality holds as an equality
 of whole NATURAL TRANSFORMATIONS between precomposed functors,
