@@ -96,7 +96,7 @@ theorem nativeGK4BHZeroRotation_rank_eq
   induction route with
   | chain path =>
       cases path with
-      | refl _ => rfl
+      | refl => rfl
       | snoc prior edge =>
           change prior.length + 1 = 0 at hzero
           omega
