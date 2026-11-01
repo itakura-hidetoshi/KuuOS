@@ -14,6 +14,16 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK5I / 2026-11-02 JST
+
+**真正な点別圏同値による三原子associatorのwhole NatIso可換性をLean4で無条件証明 — [定理PR #2913](https://github.com/itakura-hidetoshi/KuuOS/pull/2913) MERGED。** [新規Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5IGeneratorCoherence.lean)・[正式証明記録](docs/formal/GK5I-three-atom-associator-generator-coherence.md)。
+
+**数学的成果：** GK5Gの真正圏同値`e_i:C_i≌D_i`と関手`F:C_i⥤C_j`、`G:C_j⥤C_k`、`H:C_k⥤C_l`について、実Mathlib associatorの`(F⋙G)⋙H → F⋙(G⋙H)`を含む三原子木の書換え`s`で`StepIso(changeStep(e,s)) ≪≫ Φ_right = Φ_left ≪≫ ChangeIso(e,StepIso(s))`を**whole Mathlib NatIso**として証明。前向き・逆向き実`Equivalence`三角律、whiskered NatIsoのwhole NatTrans像、中間圏の実unitIso逆成分による二段合成NatIso評価もLean4で監査。必要な`unitIso.hom_inv_id_app`の打ち消しは`congrArg`で正しい合成位置に適用し、`Functor.id_obj`と`Category.comp_id`で依存型端点を解決した。**これは三つのatomic leafのみであり、任意部分木・左右unitor・whiskeringの全generatorの局所条件の無条件証明ではない。** GK5H局所↔大域定理を適用して無条件の全有限経路自然性まで断言しない。
+
+**exact-source：** source HEAD `821c7478e59e16882e8e784d4e55a42f30b3e1c0`／test-merge `bcf2db825671a93883580feaf3528675143b9438`／一致Git tree `df6d182933268c03e355c3734eeeb4b121563bf4`。[CI #41360499866](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41360499866) **Strict Lean 3830/3830・Independent Kuu・Workflow integrity・Governance terminalすべてSUCCESS**。5/5`#print axioms`は標準3公理`propext/Classical.choice/Quot.sound`以内、sorryAx0、新公理0、変更Lean error/warning0/0。定理squash/main当時HEAD `7fe47b2cdf886c22a2f18746b1a01bb839a1a0f6`。
+
+**次の研究GK5I続編／GK5J（候補）：** 三原子associatorを任意の有限部分木`a,b,c`へ拡張する（非自明な`Φ_a,Φ_b,Φ_c`の自然性を保持する）。その後、左右unitor・whiskeringの実Mathlib三角律/交換律を証明してGK5H`StepCompatible`をすべて消去できるか検証する。現時点ではこれらは未証明。元F45無条件faithfulness、source-Q圏公理、raw F54/F55/P92B Type値高次セル、任意整数行列到達、global Gray、無制限hyperdescent、universe変動任意鎖は未証明。GK4BM任意選択逆`Q`とGK4BP明示逆`P`は同一視せずGK4BQ真正`κ`で比較。Lean v4.30.0-rc2・固定mathlib・root107・保護PR #1558 Draft/OPEN/未マージ・strict空中心・独立Kuu一presentation維持。以下GK5H以前の全記録を保持。
+
 ## 最新のLean定理統合 — F112-P94D3GK5H / 2026-11-02 JST
 
 **GK5Gの真正圏同値による有限木比較NatIsoについて、全有限実書換え経路の自然性と基本ステップの局所可換性が必要十分であることをLean4で証明 — [定理PR #2911](https://github.com/itakura-hidetoshi/KuuOS/pull/2911) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5HLocalToGlobalPathCoherence.lean)・[正式証明記録](docs/formal/GK5H-local-to-global-pointwise-equivalence-path-coherence.md)。
