@@ -40,6 +40,22 @@ set_option maxHeartbeats 4000000
 noncomputable section
 universe uD vD uE vE uT vT uU vU uV vV
 
+universe uC vC
+
+/-- Equality transport commutes with heterogeneously equal
+morphisms. The two endpoint equalities are not assumed rfl. -/
+private theorem nativeGK4BUEqToHom_square
+    {C : Type uC} [Category.{vC} C]
+    {A B A' B' : C}
+    (h : A = B) (h' : A' = B')
+    (f : A ⟶ A') (g : B ⟶ B')
+    (hh : HEq f g) :
+    f ≫ eqToHom h' = eqToHom h ≫ g := by
+  cases h
+  cases h'
+  simpa only [eqToHom_refl, Category.comp_id, Category.id_comp] using
+    (eq_of_heq hh)
+
 section ChosenInverseTargetNatTrans
 variable {D : Type uD} [Category.{vD} D]
 variable {E : Type uE} [Category.{vE} E]
@@ -110,9 +126,18 @@ theorem nativeGK4BUExplicitInverse_middleTransport
       Functor.whiskerLeft
         (nativeGK4BPExplicitInverseFunctor (T := T) p ma mb pa pb)
         (nativeGK4BNPostcompAttainedNat p ma mb pa pb ρ) := by
-  simpa only [eqToIso_refl, Iso.refl_hom, Category.comp_id,
-    Category.id_comp] using
-      (nativeGK4BPExplicitInverse_targetNat_square p ma mb pa pb ρ).symm
+  simpa only [eqToIso.hom] using
+    nativeGK4BUEqToHom_square
+      (nativeGK4BPExplicitInverse_target_square p ma mb pa pb R)
+      (nativeGK4BPExplicitInverse_target_square p ma mb pa pb R')
+      (Functor.whiskerRight
+        (nativeGK4BNPostcompCompatibleNat p ma mb pa pb ρ)
+        (nativeGK4BPExplicitInverseFunctor (T := U) p ma mb pa pb))
+      (Functor.whiskerLeft
+        (nativeGK4BPExplicitInverseFunctor (T := T) p ma mb pa pb)
+        (nativeGK4BNPostcompAttainedNat p ma mb pa pb ρ))
+      (HEq.of_eq
+        (nativeGK4BPExplicitInverse_targetNat_square p ma mb pa pb ρ).symm)
 
 /-- GK4BU main typed target-natural-transformation square.
 Theta_R is the original GK4BT whole NatIso for the arbitrary
@@ -149,27 +174,27 @@ theorem nativeGK4BUChosenInverse_targetNat_square
   let β := Functor.whiskerRight δ pU
   let γ := Functor.whiskerLeft pT ε
   let ζ := Functor.whiskerLeft qT ε
-  let λ := Functor.whiskerLeft cR kU.hom
-  let λ' := Functor.whiskerLeft cR' kU.hom
+  let leftK := Functor.whiskerLeft cR kU.hom
+  let leftK' := Functor.whiskerLeft cR' kU.hom
   let ν := Functor.whiskerRight kT.inv aR
   let ν' := Functor.whiskerRight kT.inv aR'
-  have hleft : α ≫ λ' = λ ≫ β :=
+  have hleft : α ≫ leftK' = leftK ≫ β :=
     nativeGK4BUChosenInverse_leftInterchange p ma mb pa pb ρ
   have hmiddle : β ≫ eR'.hom = eR.hom ≫ γ :=
     nativeGK4BUExplicitInverse_middleTransport p ma mb pa pb ρ
   have hright : γ ≫ ν' = ν ≫ ζ :=
     nativeGK4BUChosenInverse_rightInterchange p ma mb pa pb ρ
-  change α ≫ ((λ' ≫ eR'.hom) ≫ ν') =
-    ((λ ≫ eR.hom) ≫ ν) ≫ ζ
+  change α ≫ ((leftK' ≫ eR'.hom) ≫ ν') =
+    ((leftK ≫ eR.hom) ≫ ν) ≫ ζ
   calc
-    α ≫ ((λ' ≫ eR'.hom) ≫ ν') =
-      ((α ≫ λ') ≫ eR'.hom) ≫ ν' := by simp only [Category.assoc]
-    _ = ((λ ≫ β) ≫ eR'.hom) ≫ ν' := by rw [hleft]
-    _ = (λ ≫ (β ≫ eR'.hom)) ≫ ν' := by simp only [Category.assoc]
-    _ = (λ ≫ (eR.hom ≫ γ)) ≫ ν' := by rw [hmiddle]
-    _ = (λ ≫ eR.hom) ≫ (γ ≫ ν') := by simp only [Category.assoc]
-    _ = (λ ≫ eR.hom) ≫ (ν ≫ ζ) := by rw [hright]
-    _ = ((λ ≫ eR.hom) ≫ ν) ≫ ζ := by simp only [Category.assoc]
+    α ≫ ((leftK' ≫ eR'.hom) ≫ ν') =
+      ((α ≫ leftK') ≫ eR'.hom) ≫ ν' := by simp only [Category.assoc]
+    _ = ((leftK ≫ β) ≫ eR'.hom) ≫ ν' := by rw [hleft]
+    _ = (leftK ≫ (β ≫ eR'.hom)) ≫ ν' := by simp only [Category.assoc]
+    _ = (leftK ≫ (eR.hom ≫ γ)) ≫ ν' := by rw [hmiddle]
+    _ = (leftK ≫ eR.hom) ≫ (γ ≫ ν') := by simp only [Category.assoc]
+    _ = (leftK ≫ eR.hom) ≫ (ν ≫ ζ) := by rw [hright]
+    _ = ((leftK ≫ eR.hom) ≫ ν) ≫ ζ := by simp only [Category.assoc]
 
 end ChosenInverseTargetNatTrans
 
