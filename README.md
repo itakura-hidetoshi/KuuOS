@@ -14,6 +14,16 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK5B / 2026-11-01 JST
+
+**任意有限endofunctor木に対する本物のMathlib associator・左右unitor書換え経路を証拠付きで実構成し、同じ型付き始点・終点の全経路がwhole NatIsoとして一致することをLean4で証明 — [定理PR #2899](https://github.com/itakura-hidetoshi/KuuOS/pull/2899) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5BFiniteTreeRewritePathCoherence.lean)・[正式証明記録](docs/formal/GK5B-finite-tree-rewrite-path-coherence.md)。対象は固定した一つの真正Mathlib標的圏`T`での有限`T⥤T`二分木。元F45依存型構造商・実到達AH圏・GK4BM真のAH核両立部分圏・任意選択逆`Q_T`と明示逆`P_T`の区別を維持する。
+
+**数学的成果：** 新しい依存型`NativeGK5BRewriteStep`と`NativeGK5BRewritePath`に真の`Functor.associator`、`leftUnitor`、`rightUnitor`、左右whiskering、経路反転・連結を保持し、各ステップ／経路の**実whole Mathlib NatIso**を構成。構造帰納法で`pathIso(p)=eqToIso(pathEq(p))`と証明し、**任意の同じ始点終点を持つ2経路のwhole NatIsoが厳密一致**することを確立した。さらに全経路の順序付き葉列保存、GK5A有限語への`eqToIso`付き正規化の経路整合性、選択逆関手`Θ`のGK4BU真正whole NatTrans可換四角と左右貼り合わせの経路独立性、両端の明示的輸送を形式化。単位除去と括弧変更の順序を入れ替える**実際の二経路**も個別に構成・whole NatIso一致を証明（17公開宣言＋2新帰納型）。証明範囲は**存在する書換え経路についての経路独立性**であり、任意木間の書換え経路の構成可能性までは主張しない。
+
+**exact-source：** final source HEAD `afa157901a4cd9c3b6303a419f36055dad7c6ded`、test-merge `859461456c1fbda8b4b2520e411cec4daff1bccc`、**一致Git tree `0cef5f92477213381c90d5d069e5ea66f7738319`**。[CI #41306352193](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41306352193) **Strict Lean 3823/3823 SUCCESS、Independent Kuu／Workflow integrity／Governance terminalすべてSUCCESS**。17/17 `#print axioms`は標準3公理`propext, Classical.choice, Quot.sound`以内、sorryAx0、変更Lean error/warning0/0。初回CIの`→ A ≅ B`型記法を括弧付きで修正し、2回目CIの`rw`後の余分な`rfl`を除去。証明仮定・主張は緩めず、全文を再検証。定理squash／当時canonical main HEAD `8a8abead7636024d50c748887336d27037d30cbf`。
+
+**次のGK5C候補：** GK5Bでは現存する経路の一致を証明したため、今度は任意有限木から右結合の葉列標準木へ**真正associator/unitor経路を実際に構成する正規化到達性**を検討する。原Sの無条件faithfulness、source-Q圏公理、raw F54/F55/P92B Type値高次セル、全整数行列到達、global Gray/hyperdescentは未証明境界。Lean v4.30.0-rc2、mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、公開root107、保護PR #1558 Draft／OPEN／未マージ、strict空中心・独立Kuu一presentationを維持。以下GK5A以前の歴史記録は削除しない。
+
 ## 最新のLean定理統合 — F112-P94D3GK5A / 2026-11-01 JST
 
 **五段14経路の個別証明を超え、任意有限二分木における実endofunctorの結合・単位挿入・選択逆関手比較を構造帰納法で形式化 — [定理PR #2897](https://github.com/itakura-hidetoshi/KuuOS/pull/2897) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5AFiniteEndofunctorTreeCoherence.lean)・[正式証明記録](docs/formal/GK5A-inductive-finite-endofunctor-tree-coherence.md)。対象は固定された一つの真正Mathlib標的圏`T`の有限`T⥤T`関手列であり、元F45型付き構造商・旧AH実到達像・真正核両立部分圏・GK4BM任意選択逆`Q_T`と明示逆`P_T`の比較境界は保持する。
