@@ -14,6 +14,16 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK5E / 2026-11-02 JST
+
+**GK5Dの異種圏間型付き有限関手木に、GK4BMの任意選択逆関手の真正whole NatIso比較を帰納的に貼り合わせ、直接比較との全体等式・任意実書換え経路のwhole NatTrans自然性・両端eqToIso輸送をLean4で証明 — [定理PR #2905](https://github.com/itakura-hidetoshi/KuuOS/pull/2905) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5EHeterogeneousChosenInverseCoherence.lean)・[正式証明記録](docs/formal/GK5E-heterogeneous-chosen-inverse-tree-coherence.md)。
+
+**数学的成果：** `C : I → Cat.{vC,uC}`の同一universe pair内の真正圏族について、`NativeGK5DTypedTree C i j`の全有限深度の木から、元GK4BWの真正associator/whiskering/輸送による比較`Θ_recursive(t)`を構成し、任意選択逆`Q`のGK4BT直接比較`Θ_direct(R_t)`とwhole NatIsoで厳密一致。全同型付き始終点の標的NatTrans`ρ`についてGK4BUの真正whole NatTrans squareを証明し、実GK5D associator・unitor・whiskering書換え経路、任意2経路のwhole NatIso独立性、全木の構成済み正規化経路、同葉2木の具体経路に適用。whole NatIsoの両端`eqToIso`輸送、および三段異種圏associatorの実NatTrans四角も証明（12公理監査対象）。
+
+**exact-source：** source `df2160c0eac86dd51593c969b039a251f89213f8`／test-merge `9518d0a823d9541e73cc721bb758bec9ef58ad2a`／一致Git tree `716543f2fad563767b598a464730165f7641daca`。[CI #41341736451](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41341736451) **Strict Lean 3826/3826、Independent Kuu・Workflow integrity・Governance terminal全SUCCESS**。12/12件の`#print axioms`は標準3公理`propext/Classical.choice/Quot.sound`のみ、sorryAx0、変更Lean error/warning0/0。定理squash・main当時HEAD `25476845f43750450ef36ace772244a222c5fec6`。
+
+**次の研究GK5F（候補）：** 異種圏族そのもののpresentation/index変更に関する型付き自然性・同値輸送の構成可能性を検討。今回のGK5Eで証明したのは既存の圏族の同じ始点・終点を持つ真正有限関手木と書換えに関する選択逆比較。任意選択逆`Q_T`はGK4BP明示逆`P_T`と定義的同一ではなく、GK4BQ真正`κ_T`を経由する。異なるuniverse levelをまたぐ任意合成、元F45無条件faithfulness、原source-Q圏公理、raw F54/F55/P92B高次Typeセル、全整数行列到達、global Gray、無制限hyperdescentは未証明。Lean v4.30.0-rc2、mathlib pin、root107、保護PR #1558 Draft/OPEN/未マージ、strict空中心・独立Kuu一presentationを維持。以下GK5D以前の履歴は全保持する。
+
 ## 最新のLean定理統合 — F112-P94D3GK5D / 2026-11-02 JST
 
 **固定標的`T`の有限endofunctor木（GK5A/B/C）から、異なる真正Mathlib圏を順次通る型付き有限関手鎖へ一般化：任意有限木の本物の正規化経路、到達可能性の必要十分条件、whole NatIso経路独立性をLean4で証明 — [定理PR #2903](https://github.com/itakura-hidetoshi/KuuOS/pull/2903) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5DTypedManyCategoryFunctorChains.lean)・[正式証明記録](docs/formal/GK5D-many-category-typed-functor-chain-reachability.md)。
