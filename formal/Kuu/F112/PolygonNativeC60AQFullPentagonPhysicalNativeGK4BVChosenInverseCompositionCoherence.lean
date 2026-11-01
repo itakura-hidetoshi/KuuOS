@@ -305,7 +305,10 @@ theorem nativeGK4BVChosenInverse_composition_coherence
             (nativeGK4BNPostcompAttained p ma mb pa pb (R ⋙ S)) := by
     simpa only [nativeGK4BVChosenInverse_twoTargetCompositeIso,
       nativeGK4BVExplicitInverse_twoTargetCompositeIso,
-      nativeGK4BTChosenInverse_targetNatIso, Iso.trans_assoc] using h
+      nativeGK4BTChosenInverse_targetNatIso,
+      nativeGK4BVWhiskerRight_eqToIso,
+      nativeGK4BVWhiskerLeft_eqToIso,
+      Iso.trans_assoc] using h
   rw [hfold, nativeGK4BVExplicitInverse_twoTarget_eq_direct]
   rfl
 
