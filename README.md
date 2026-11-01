@@ -692,6 +692,14 @@ $$
 
 より具体的な優先順位とLeanファイルへの導線は[ROADMAP](ROADMAP.md)を参照してください。以下の長いP58–P91記録は歴史的な検証台帳として保持しており、**現在の最終段階ではありません**。
 
+## 最新のLean定理統合 — F112-P94D3GK4BI / 2026-11-01 JST
+
+**既存K_AIと真正実到達AH行列圏のMathlib圏同値を構成 — [定理PR #2861](https://github.com/itakura-hidetoshi/KuuOS/pull/2861) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4BIAttainedAHCategoryEquivalence.lean)・[正式証明記録](docs/formal/GK4BI-genuine-attained-ah-category-equivalence.md)。GK4BFで構成した元F54型付きHomの**実際に到達した**AH行列圏と既存第二kernel圏`K_AI`について、GK4BHの各Hom全単射を使い、真正F45境界を保持する対象Equiv、Hom Equivと両側逆、全忠実性、対象全射、Mathlib `Functor.IsEquivalence`を構成。**`nativeGK4BIAttainedAHEquivalence`** は真の `CategoryTheory.Equivalence` であり、その順方向は旧 `nativeGK4BFImageFunctor` と定義的に一致。逆Mathlib Functor、自然なunit/counit同型と三角恒等式までLean証明済み。全整数行列圏への同値、元Type値F54 raw経路の同一性、独立構造商Sの忠実性、元Q自身の未証明圏公理は主張しない。
+
+**exact-source：** 最終source HEAD `e880646a2811e98ffc6cb04436520cdc7b4bd952`、test-merge HEAD `99e46f575cec532700870f7b4112d6a9c0092518`、**両者同一tree** `2d2e043b69a2f09f98196a0dc4a3826ccf7e1b04`、[CI #41263880913](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41263880913) **Strict Lean 3804/3804 SUCCESS、Governance terminal SUCCESS**。変更Lean1ファイルの14宣言が標準3公理 `propext`・`Classical.choice`・`Quot.sound` 以内（対象同値は公理依存なし）、sorryAx0、変更ファイルerror/warning 0/0。初回CIでは型クラス値を返す定義のLean4透明性規則によるエラーをpinned mathlib APIと照合し、`@[implicit_reducible]`で修正、再検証成功。定理squash SHA／当時canonical main `87f60307fc1441a8d7a8040758e9271f65ca3283`。
+
+**残存境界：** 元Q圏公理、独立S→K_AI忠実性、元Type値完全同値、全整数行列到達、真正14D無条件Countable、19D filler、global strict、hyperdescent未証明。Lean v4.30.0-rc2／pinned mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、公開root107、保護PR #1558 Draft・OPEN・未マージ、strict空中心・独立Kuuは一presentation、Gray再導入なし。旧GK4BH欄の「次GK4BI」はその時点の履歴とし、この欄が確定済みの最新結果。
+
 ## 最新のLean定理統合 — F112-P94D3GK4BH / 2026-11-01 JST
 
 **元F54真正型付きK_AIの旧AH観測忠実性を、first jet・物理rank・Boolean gradeから証明 — [前半 #2858](https://github.com/itakura-hidetoshi/KuuOS/pull/2858)、[後半 #2859](https://github.com/itakura-hidetoshi/KuuOS/pull/2859) ともにMERGED。** [first jet Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4BHFirstJetADRecovery.lean)・[grade/rank忠実性Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4BHGradeRankFaithfulness.lean)・[正式証明記録](docs/formal/GK4BH-first-jet-grade-rank-ah-faithfulness.md)。真正F54の元多項式行列の係数から、旧GK4ADの符号付きcast charge・後退数・非可換順序付きmomentを復元し、GK4BAのt=4一点決定性で元AH一致から旧AD一致を証明。さらに実F54の後退数≤原始回転数とzero-rotationの元左rank保存、GK4AC前進rank不等式により **Boolean grade=true iff 後退数0かつ元始終点rank一致** を形式化した。
