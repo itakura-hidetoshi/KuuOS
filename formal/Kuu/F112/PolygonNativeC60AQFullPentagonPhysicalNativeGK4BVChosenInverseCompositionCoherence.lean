@@ -113,6 +113,8 @@ theorem nativeGK4BVChosenInverse_composition_coherence
     nativeGK4BTChosenInverse_targetNatIso,
     Functor.associator, Functor.isoWhiskerLeft,
     Functor.isoWhiskerRight]
+  simp only [eqToHom_app, eqToHom_map, eqToHom_refl,
+    Category.comp_id, Category.id_comp]
 
 end TwoTargetChosenInverse
 
