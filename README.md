@@ -14,6 +14,16 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK5A / 2026-11-01 JST
+
+**五段14経路の個別証明を超え、任意有限二分木における実endofunctorの結合・単位挿入・選択逆関手比較を構造帰納法で形式化 — [定理PR #2897](https://github.com/itakura-hidetoshi/KuuOS/pull/2897) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5AFiniteEndofunctorTreeCoherence.lean)・[正式証明記録](docs/formal/GK5A-inductive-finite-endofunctor-tree-coherence.md)。対象は固定された一つの真正Mathlib標的圏`T`の有限`T⥤T`関手列であり、元F45型付き構造商・旧AH実到達像・真正核両立部分圏・GK4BM任意選択逆`Q_T`と明示逆`P_T`の比較境界は保持する。
+
+**数学的成果：** 新帰納型`NativeGK5AFiniteTargetTree T`の単位・葉関手・二分貼り合わせを真正Mathlib関手に評価し、各節点でGK4BWの**実binaryPasting NatIso**を再帰構成。`nativeGK5AChosenInverse_treeIso_eq_direct`で**任意有限深度・任意括弧付けのwhole NatIsoが直接`Θ_(eval t)`と厳密一致**することを証明。GK4BUの真正標的自然変換に対するwhole NatTrans可換四角、任意深度の結合・左右単位則も証明。さらに`List (T⥤T)`と葉列への正規化、連結のwhole Functor等式、同じ順序の葉列を持つ任意二分木の比較が**両端`eqToIso`輸送を明記したwhole NatIso等式**になることを形式化。単なる定義上の同一視や原raw高次セルの仮定ではない。
+
+**exact-source：** 最終source HEAD `c87edb4788dc07060372f9f5d6a97b1891d8a706`、test-merge `ccc48981a02a8ff233cf66db36ada860f33a4ca8`、**一致Git tree `c792db3e45f8aa05f8cd084af6e9a37e7f07c3ca`**。[CI #41304610405](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41304610405) **Strict Lean 3822/3822 SUCCESS、Independent Kuu・Workflow integrity・Governance terminal全SUCCESS**、新規16宣言に`#print axioms`16件、標準3公理`propext/Classical.choice/Quot.sound`以内、sorryAx0、変更Lean error/warning0/0。初回CIで空リストの左単位則に`simp`が不足したため、固定版Mathlib `Functor.id_comp`を明示し、仮定・結論を弱めず全ソース再検証。定理squash／当時main HEAD `6a74bc9ea979cd524e37d2fb13b9486fd5583d69`。
+
+**次の研究GK5B（仮称）：** 任意有限木のassoc/unitor書換え経路の証拠付き正規化、または圏をまたぐ依存型有限標的鎖への範囲拡大。証明済みなのは固定標的`T`のendofunctor木であり、無制限多圏鎖・元Sの無条件faithfulness・source-Q圏公理・raw F54/F55/P92B Type値高次セル・全整数行列到達・global Gray/hyperdescentとは区別する。Lean v4.30.0-rc2、mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、root107、保護PR #1558 Draft/OPEN、strict空中心・独立Kuu一presentationを維持。以下GK4BZ以前の歴史記録はすべて保持する。
+
 ## 最新のLean定理統合 — F112-P94D3GK4BZ / 2026-11-01 JST
 
 **五段の任意標的変更におけるCatalan数14の真正NatIso貼り合わせ、二つの独立した単位関手の削除順序の全NatIso等式、全14経路に共通なwhole NatTrans変換をLean4で形式化 — [定理PR #2895](https://github.com/itakura-hidetoshi/KuuOS/pull/2895) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4BZFiveTargetTwoUnitCoherence.lean)・[正式証明記録](docs/formal/GK4BZ-five-stage-fourteen-path-double-unit-coherence.md)。GK4BMの任意選択逆`Q_T`、GK4BP明示逆`P_T`、GK4BQ真正比較`κ_T:Q_T≅P_T`はそのまま、strictな`Q_T=P_T`は仮定しない。
