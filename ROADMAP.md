@@ -3,6 +3,16 @@
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK4BS / 2026-11-01 JST
+
+**GK4BRの具体的unit/counit標的整合性をwhole Mathlib NatTrans/Homの厳密等式へ強化し、GK4BQのadjointified unitが具体的unitとwhole NatIsoで厳密一致することを証明 — [定理PR #2881](https://github.com/itakura-hidetoshi/KuuOS/pull/2881) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4BSWholeTargetNatTransCoherence.lean)・[正式証明記録](docs/formal/GK4BS-whole-target-nattrans-adjointified-unit.md)。元F45型付き独立構造商`S`から旧AH**実到達**行列圏`A_att`への真正観測`F:S⥤A_att`、元AH観測核に両立する真正`ObjectProperty.FullSubcategory`である`Comp_T`、GK4BMの前向き`C_T`、GK4BPの明示逆関手`P_T`、GK4BQの`η_T:𝟭≅C_T⋙P_T`と`ε_T:P_T⋙C_T≅𝟭`を保持する。任意の標的関手`R:T⥤U`に対する`whiskerRight(η_T.hom.app G,R)=η_U.hom.app(R_*^A.obj G)`、対応するcounitの**真正Comp_U Hom全体**の等式を証明。任意の実標的自然変換`ρ:R⟶R'`に対する**whole NatTransの可換四角**、両自然同型の逆変換、二段標的関手`R:T⥤U`・`Q:U⥤V`へのwhole自然性まで証明した。
+
+**adjointificationのobstruction解消（この構成に限定）：** 一般には`Equivalence.mk`の`adjointifyη`が元のunitを変更し得るが、GK4BQの**実前向き三角恒等式**を各実到達AH対象の`X.original`に制限すると、元F45構造射の真正圏同値前向き`C_T`と具体的counitの恒等成分により、`adjustedUnit.app X ≫ 𝟙=𝟙`が得られる。`Category.comp_id`とMathlib自然同型のextensionalityから、**`nativeGK4BQTriangleUnitIso = nativeGK4BQExplicitUnitIso`をwhole NatIsoの等式として証明**。この等式によってGK4BQの**実際にadjointify済みのunit**へ任意Rの後合成・whole target-`ρ` NatTrans可換性・二段標的変更を輸送した。新規13宣言、各`#print axioms`。GK4BMの任意選択`asEquivalence`逆関手のstrict標的自然性は主張せず、比較は既証明の自然同型までとする。元S無条件faithfulness、原Q category laws、raw Type値F54/F55/P92B 3-cell、全整数行列到達、Gray reconstruction、hyperdescentも導出しない。
+
+**exact-source：** source HEAD `f39afbe1fb74e1ec7569f28828a62a890ef61503`、test-merge HEAD `8558cd9fd472d520b84ebd4bc3ce7a35c0404651`、**一致Git tree `eca8979b53d1dbf50fb8dd83cf7290584c7b3d59`**。[CI #41281159070](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41281159070) **Strict Lean 3814/3814 SUCCESS・Governance terminal SUCCESS・Independent Kuu SUCCESS**。公理依存は標準3公理`propext`・`Classical.choice`・`Quot.sound`以内、sorryAx0、変更Lean error/warning0/0。最初の8宣言は初回CI成功、追加した5宣言の三角成分に対する`simp only`・`calc`の依存型elaborationを、`Category.comp_id`と`Eq.trans`の明示証明に変更して、全文・既存imports・依存署名・pinned mathlib APIを保ったまま修正。定理squash/main統合時HEAD `584606a21dffc8e755d01ebfd6c4522e734a83bb`。Lean v4.30.0-rc2、mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、公開root107、保護PR #1558 Draft/OPEN/未マージ、strict空中心、独立Kuu一presentation、Gray非再導入。
+
+**次GK4BT：** GK4BOで証明済みの真正標的自然変換の恒等・垂直合成・水平交換と、GK4BSのwhole unit/counit可換四角を統合し、厳密な型付き自然変換族のinterchangeを形式化。任意選択quasi-inverseの自然性が必要なら、GK4BQの比較NatIsoを挟んだtransportを用いる。実際に存在しないsource高次cellや一律hyperdescentを作らない。以下GK4BR以前の成果は履歴として保持する。
+
 ## 最新のLean定理統合 — F112-P94D3GK4BR / 2026-11-01 JST
 
 **GK4BQで得た明示因子逆関手の真正natural unit/counitの、標的関手と標的自然変換に関する有界な整合性をLean4形式化 — [定理PR #2879](https://github.com/itakura-hidetoshi/KuuOS/pull/2879) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4BRUnitCounitTargetCoherence.lean)・[正式証明記録](docs/formal/GK4BR-unit-counit-target-naturality.md)。元F45依存型独立構造商`S`と真正**実到達**旧AH圏`A_att`における観測`F:S⥤A_att`、GK4BMの`ObjectProperty.FullSubcategory`である`Comp_T`、GK4BPの明示的因子関手`P_T`、GK4BQの具体的unit/counit`η_T:𝟭≅C_T⋙P_T`・`ε_T:P_T⋙C_T≅𝟭`を引き継ぎ、一切弱めずに標的関手`R:T⥤U`への可換性を証明。具体的unit/counitのHom・逆Hom成分は実対象で恒等射であり、任意の`R`による`map_id`保存から、**外側のGK4BQ whole NatIsoがもつ具体的成分**にも標的自然性が成立する。
