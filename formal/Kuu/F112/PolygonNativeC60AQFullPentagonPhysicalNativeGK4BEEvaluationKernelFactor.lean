@@ -245,10 +245,23 @@ theorem nativeGK4BEFunctor_family_kernel_iff_four
         (nativeGK4BDOldAHFunctor p ma mb pa pb).map v := by
   constructor
   · intro h
-    simpa only [← nativeGK4BDKAIIntegerEvaluation_four_triangle] using h 4
+    calc
+      (nativeGK4BDOldAHFunctor p ma mb pa pb).map u =
+          (nativeGK4BDKAIIntegerEvaluationFunctor p ma mb pa pb 4).map u :=
+        (nativeGK4BDKAIIntegerEvaluation_four_map p ma mb pa pb X Y u).symm
+      _ = (nativeGK4BDKAIIntegerEvaluationFunctor p ma mb pa pb 4).map v :=
+        h 4
+      _ = (nativeGK4BDOldAHFunctor p ma mb pa pb).map v :=
+        nativeGK4BDKAIIntegerEvaluation_four_map p ma mb pa pb X Y v
   · intro h t
     apply nativeGK4BEFunctor_four_kernel_subset p ma mb pa pb X Y u v t
-    simpa only [nativeGK4BDKAIIntegerEvaluation_four_triangle] using h
+    calc
+      (nativeGK4BDKAIIntegerEvaluationFunctor p ma mb pa pb 4).map u =
+          (nativeGK4BDOldAHFunctor p ma mb pa pb).map u :=
+        nativeGK4BDKAIIntegerEvaluation_four_map p ma mb pa pb X Y u
+      _ = (nativeGK4BDOldAHFunctor p ma mb pa pb).map v := h
+      _ = (nativeGK4BDKAIIntegerEvaluationFunctor p ma mb pa pb 4).map v :=
+        (nativeGK4BDKAIIntegerEvaluation_four_map p ma mb pa pb X Y v).symm
 
 /-- Even the full polynomial functor on K_AI and the genuine old
 AH functor have precisely the SAME per-Hom kernel; this says
