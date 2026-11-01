@@ -77,6 +77,53 @@ private theorem nativeGK4BVSymm_eqToIso
 
 end AbstractEqualityTransport
 
+universe uA0 vA0 uA1 vA1 uA2 vA2 uB0 vB0 uB1 vB1 uB2 vB2
+section AbstractGaugeComposition
+variable {A0 : Type uA0} [Category.{vA0} A0]
+variable {A1 : Type uA1} [Category.{vA1} A1]
+variable {A2 : Type uA2} [Category.{vA2} A2]
+variable {B0 : Type uB0} [Category.{vB0} B0]
+variable {B1 : Type uB1} [Category.{vB1} B1]
+variable {B2 : Type uB2} [Category.{vB2} B2]
+
+/-- General two-stage gauge cancellation in genuine Mathlib
+functor categories. The middle k1.symm and k1 are pasted
+through associators and whiskering; this is exactly the
+2-categorical coherence required to transport strict P to
+arbitrary-choice Q without inventing extra source cells. -/
+private theorem nativeGK4BVGaugeComposition
+    (wholeC : A0 ⥤ A2) (wholeA : B0 ⥤ B2)
+    (cR : A0 ⥤ A1) (cS : A1 ⥤ A2)
+    (aR : B0 ⥤ B1) (aS : B1 ⥤ B2)
+    (p0 q0 : A0 ⥤ B0) (p1 q1 : A1 ⥤ B1) (p2 q2 : A2 ⥤ B2)
+    (k0 : q0 ≅ p0) (k1 : q1 ≅ p1) (k2 : q2 ≅ p2)
+    (hc : wholeC ≅ cR ⋙ cS) (ha : aR ⋙ aS ≅ wholeA)
+    (hR : cR ⋙ p1 ≅ p0 ⋙ aR)
+    (hS : cS ⋙ p2 ≅ p1 ⋙ aS) :
+    Functor.isoWhiskerRight hc q2 ≪≫
+      Functor.associator cR cS q2 ≪≫
+      Functor.isoWhiskerLeft cR
+        (Functor.isoWhiskerLeft cS k2 ≪≫ hS ≪≫
+          Functor.isoWhiskerRight k1.symm aS) ≪≫
+      (Functor.associator cR q1 aS).symm ≪≫
+      Functor.isoWhiskerRight
+        (Functor.isoWhiskerLeft cR k1 ≪≫ hR ≪≫
+          Functor.isoWhiskerRight k0.symm aR) aS ≪≫
+      Functor.associator q0 aR aS ≪≫
+      Functor.isoWhiskerLeft q0 ha =
+    Functor.isoWhiskerLeft wholeC k2 ≪≫
+      (Functor.isoWhiskerRight hc p2 ≪≫
+        Functor.associator cR cS p2 ≪≫
+        Functor.isoWhiskerLeft cR hS ≪≫
+        (Functor.associator cR p1 aS).symm ≪≫
+        Functor.isoWhiskerRight hR aS ≪≫
+        Functor.associator p0 aR aS ≪≫
+        Functor.isoWhiskerLeft p0 ha) ≪≫
+      Functor.isoWhiskerRight k0.symm wholeA := by
+  cat_disch
+
+end AbstractGaugeComposition
+
 section TwoTargetChosenInverse
 variable {D : Type uD} [Category.{vD} D]
 variable {E : Type uE} [Category.{vE} E]
@@ -193,7 +240,6 @@ theorem nativeGK4BVExplicitInverse_twoTarget_eq_direct
     nativeGK4BVWhiskerLeft_eqToIso,
     nativeGK4BVWhiskerRight_eqToIso,
     nativeGK4BVSymm_eqToIso, eqToIso_trans]
-  rfl
 
 /-- Pseudonatural composition: the directly constructed GK4BT
 comparison Theta_(R⋙S) is exactly the honestly whiskered
@@ -206,14 +252,32 @@ theorem nativeGK4BVChosenInverse_composition_coherence
     (R : T ⥤ U) (S : U ⥤ V) :
     nativeGK4BVChosenInverse_twoTargetCompositeIso p ma mb pa pb R S =
       nativeGK4BTChosenInverse_targetNatIso p ma mb pa pb (R ⋙ S) := by
-  apply Iso.ext
-  ext H X
-  simp [nativeGK4BVChosenInverse_twoTargetCompositeIso,
+  have h := nativeGK4BVGaugeComposition
+    (nativeGK4BNPostcompCompatible p ma mb pa pb (R ⋙ S))
+    (nativeGK4BNPostcompAttained p ma mb pa pb (R ⋙ S))
+    (nativeGK4BNPostcompCompatible p ma mb pa pb R)
+    (nativeGK4BNPostcompCompatible p ma mb pa pb S)
+    (nativeGK4BNPostcompAttained p ma mb pa pb R)
+    (nativeGK4BNPostcompAttained p ma mb pa pb S)
+    (nativeGK4BPExplicitInverseFunctor (T := T) p ma mb pa pb)
+    (nativeGK4BMCompatibleReverseFunctor (T := T) p ma mb pa pb)
+    (nativeGK4BPExplicitInverseFunctor (T := U) p ma mb pa pb)
+    (nativeGK4BMCompatibleReverseFunctor (T := U) p ma mb pa pb)
+    (nativeGK4BPExplicitInverseFunctor (T := V) p ma mb pa pb)
+    (nativeGK4BMCompatibleReverseFunctor (T := V) p ma mb pa pb)
+    (nativeGK4BQChosenInverseComparisonIso (T := T) p ma mb pa pb)
+    (nativeGK4BQChosenInverseComparisonIso (T := U) p ma mb pa pb)
+    (nativeGK4BQChosenInverseComparisonIso (T := V) p ma mb pa pb)
+    (eqToIso (nativeGK4BNPostcompCompatible_comp p ma mb pa pb R S))
+    (eqToIso (nativeGK4BVAttainedTarget_comp p ma mb pa pb R S).symm)
+    (eqToIso (nativeGK4BPExplicitInverse_target_square p ma mb pa pb R))
+    (eqToIso (nativeGK4BPExplicitInverse_target_square p ma mb pa pb S))
+  simpa only [nativeGK4BVChosenInverse_twoTargetCompositeIso,
+    nativeGK4BVExplicitInverse_twoTargetCompositeIso,
     nativeGK4BTChosenInverse_targetNatIso,
-    Functor.associator, Functor.isoWhiskerLeft,
-    Functor.isoWhiskerRight]
-  simp only [eqToHom_app, eqToHom_map, eqToHom_refl,
-    Category.comp_id, Category.id_comp]
+    nativeGK4BVWhiskerRight_eqToIso,
+    nativeGK4BVWhiskerLeft_eqToIso,
+    nativeGK4BVExplicitInverse_twoTarget_eq_direct] using h
 
 end TwoTargetChosenInverse
 
