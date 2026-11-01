@@ -114,12 +114,12 @@ theorem nativeGK5IAssociator_atoms
             (e k).unitIso.inv.app Y)) := by
               simp only [Functor.map_comp]
       _ = 𝟙 _ := by
-        simp only [Iso.hom_inv_id_app, Functor.map_id]
+        simp
   dsimp only [Y] at hMapCancel
   simp only [Equivalence.unit, Equivalence.unitInv]
   congr 1
   congr 1
-  simpa only [Category.assoc, hMapCancel, Category.comp_id]
+  simp [Category.assoc, hMapCancel]
 
 #print axioms nativeGK5IForwardTriangle
 #print axioms nativeGK5IInverseTriangle
