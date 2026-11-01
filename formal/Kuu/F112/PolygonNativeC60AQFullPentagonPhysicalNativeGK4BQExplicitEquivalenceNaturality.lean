@@ -66,6 +66,7 @@ noncomputable def nativeGK4BQAttainedUnitComponent
       (nativeGK4BKPreimage p ma mb pa pb X Y f))
   simp only [Category.comp_id, Category.id_comp]
   rw [nativeGK4BKPreimage_spec]
+  rfl
 
 /-- At each compatible original structural functor H, the
 explicitly chosen factor followed by original observation is
