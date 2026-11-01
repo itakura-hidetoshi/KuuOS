@@ -75,6 +75,9 @@ theorem nativeGK5IAssociator_generator
   dsimp [nativeGK5DStepIso, nativeGK5GChangeStep,
     nativeGK5GChangeTreeIso, nativeGK5GChangeTree,
     nativeGK5GChangeCompIso]
+  simp only [eqToHom_app, eqToHom_refl, Category.id_comp,
+    Category.comp_id, Functor.comp_obj, Functor.comp_map,
+    Functor.map_comp, Category.assoc]
   cat_disch
 
 #print axioms nativeGK5IForwardTriangle
