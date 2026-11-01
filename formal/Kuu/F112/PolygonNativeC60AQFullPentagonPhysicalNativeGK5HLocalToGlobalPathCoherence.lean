@@ -119,7 +119,8 @@ theorem nativeGK5HLocalStep_implies_allPaths
   | refl a =>
       simp only [nativeGK5DPathIso, nativeGK5GChangePath,
         nativeGK5GChangeIso, Functor.isoWhiskerRight_refl,
-        Functor.isoWhiskerLeft_refl, Iso.refl_trans, Iso.trans_refl]
+        Functor.isoWhiskerLeft_refl, Iso.refl_trans]
+      exact (Iso.trans_refl (nativeGK5GChangeTreeIso e a)).symm
   | basic s =>
       simpa only [nativeGK5DPathIso, nativeGK5GChangePath] using
         hlocal s
