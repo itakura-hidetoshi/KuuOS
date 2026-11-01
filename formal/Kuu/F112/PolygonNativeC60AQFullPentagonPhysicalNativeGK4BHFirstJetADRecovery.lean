@@ -1,4 +1,5 @@
 import Kuu.F112.PolygonNativeC60AQFullPentagonPhysicalNativeGK4BGResidualAEFiber
+import Kuu.F112.PolygonNativeC60AQFullPentagonPhysicalNativeGK4ARDiagonalMoment
 import Mathlib.Algebra.Polynomial.Coeff
 import Mathlib.Tactic
 
@@ -40,10 +41,10 @@ F54 history and the full original polynomial-matrix observer. -/
 def nativeGK4BHJetLinked
     (d : NativeGK4ADValue) (M : NativeGK4AVValue) : Prop :=
   M.1.1.coeff 0 = 1 ∧
-  M.1.2.coeff 0 = d.1.1 ∧
+  M.1.2.coeff 0 = d.1.1 + (d.1.2 : Int) ∧
   M.2.1.coeff 0 = 0 ∧
   M.2.2.coeff 0 = 1 ∧
-  M.1.1.coeff 1 = d.2 ∧
+  M.1.1.coeff 1 = d.2 + nativeGK4ARTriangle d.1.2 ∧
   M.2.1.coeff 1 = (d.1.2 : Int)
 
 /-- The first jet of a genuine ordered product obeys precisely the
@@ -60,36 +61,39 @@ theorem nativeGK4BHJetLinked_mul
   change
     (A.1.1 * B.1.1 + A.1.2 * B.2.1).coeff 0 = 1 ∧
     (A.1.1 * B.1.2 + A.1.2 * B.2.2).coeff 0 =
-      d.1.1 + e.1.1 ∧
+      d.1.1 + e.1.1 + (((d.1.2 + e.1.2 : Nat) : Int)) ∧
     (A.2.1 * B.1.1 + A.2.2 * B.2.1).coeff 0 = 0 ∧
     (A.2.1 * B.1.2 + A.2.2 * B.2.2).coeff 0 = 1 ∧
     (A.1.1 * B.1.1 + A.1.2 * B.2.1).coeff 1 =
-      d.2 + e.2 + d.1.1 * (e.1.2 : Int) ∧
+      d.2 + e.2 + d.1.1 * (e.1.2 : Int) +
+        nativeGK4ARTriangle (d.1.2 + e.1.2) ∧
     (A.2.1 * B.1.1 + A.2.2 * B.2.1).coeff 1 =
       (((d.1.2 + e.1.2 : Nat) : Int))
+  have htri := nativeGK4ARTriangle_add d.1.2 e.1.2
   refine ⟨?_, ?_, ?_, ?_, ?_, ?_⟩
   all_goals
     simp only [Polynomial.coeff_add,
       Polynomial.mul_coeff_zero, Polynomial.mul_coeff_one,
       ha11, ha12, ha21, ha22, ha11one, ha21one,
-      hb11, hb12, hb21, hb22, hb11one, hb21one] <;>
+      hb11, hb12, hb21, hb22, hb11one, hb21one,
+      htri, Nat.cast_add] <;>
       push_cast <;> ring
 
 theorem nativeGK4BHJetLinked_one :
     nativeGK4BHJetLinked nativeGK4ADZero nativeGK4AVOne := by
-  simp [nativeGK4BHJetLinked, nativeGK4ADZero, nativeGK4AVOne, Polynomial.coeff_one]
+  simp [nativeGK4BHJetLinked, nativeGK4ADZero, nativeGK4AVOne, Polynomial.coeff_one, nativeGK4ARTriangle]
 
 theorem nativeGK4BHJetLinked_cast :
     nativeGK4BHJetLinked nativeGK4ADCast nativeGK4AVCast := by
-  simp [nativeGK4BHJetLinked, nativeGK4ADCast, nativeGK4AVCast, Polynomial.coeff_one]
+  simp [nativeGK4BHJetLinked, nativeGK4ADCast, nativeGK4AVCast, Polynomial.coeff_one, nativeGK4ARTriangle]
 
 theorem nativeGK4BHJetLinked_forward :
     nativeGK4BHJetLinked nativeGK4ADForward nativeGK4AVForward := by
-  simp [nativeGK4BHJetLinked, nativeGK4ADForward, nativeGK4AVForward, Polynomial.coeff_one]
+  simp [nativeGK4BHJetLinked, nativeGK4ADForward, nativeGK4AVForward, Polynomial.coeff_one, nativeGK4ARTriangle]
 
 theorem nativeGK4BHJetLinked_backward :
     nativeGK4BHJetLinked nativeGK4ADBackward nativeGK4AVBackward := by
-  simp [nativeGK4BHJetLinked, nativeGK4ADBackward, nativeGK4AVBackward, Polynomial.coeff_one]
+  simp [nativeGK4BHJetLinked, nativeGK4ADBackward, nativeGK4AVBackward, Polynomial.coeff_one, nativeGK4ARTriangle]
 
 section ActualOriginalF54
 variable {p : Polygon}
@@ -153,17 +157,29 @@ theorem nativeGK4BHAD_eq_of_polynomial_eq
     u.gk4adValue = v.gk4adValue := by
   obtain ⟨_, huc, _, _, hum, hub⟩ := nativeGK4BHJet_route u
   obtain ⟨_, hvc, _, _, hvm, hvb⟩ := nativeGK4BHJet_route v
-  apply Prod.ext
-  · apply Prod.ext
-    · exact huc.symm.trans
-        ((congrArg (fun M : NativeGK4AVValue => M.1.2.coeff 0) hP).trans hvc)
-    · have hb : (u.gk4adValue.1.2 : Int) =
-          (v.gk4adValue.1.2 : Int) :=
-        hub.symm.trans
-          ((congrArg (fun M : NativeGK4AVValue => M.2.1.coeff 1) hP).trans hvb)
-      exact_mod_cast hb
-  · exact hum.symm.trans
+  have hbInt : (u.gk4adValue.1.2 : Int) =
+      (v.gk4adValue.1.2 : Int) :=
+    hub.symm.trans
+      ((congrArg (fun M : NativeGK4AVValue => M.2.1.coeff 1) hP).trans hvb)
+  have hb : u.gk4adValue.1.2 = v.gk4adValue.1.2 := by
+    exact_mod_cast hbInt
+  have hcPlus :
+      u.gk4adValue.1.1 + (u.gk4adValue.1.2 : Int) =
+        v.gk4adValue.1.1 + (v.gk4adValue.1.2 : Int) :=
+    huc.symm.trans
+      ((congrArg (fun M : NativeGK4AVValue => M.1.2.coeff 0) hP).trans hvc)
+  have hc : u.gk4adValue.1.1 = v.gk4adValue.1.1 := by
+    rw [hbInt] at hcPlus
+    omega
+  have hmPlus :
+      u.gk4adValue.2 + nativeGK4ARTriangle u.gk4adValue.1.2 =
+        v.gk4adValue.2 + nativeGK4ARTriangle v.gk4adValue.1.2 :=
+    hum.symm.trans
       ((congrArg (fun M : NativeGK4AVValue => M.1.1.coeff 1) hP).trans hvm)
+  have hm : u.gk4adValue.2 = v.gk4adValue.2 := by
+    rw [hb] at hmPlus
+    omega
+  exact Prod.ext (Prod.ext hc hb) hm
 
 /-- GK4BA's full-original free-product one-point determinacy now
 forces ALSO the old ordered noncommutative AD history. -/
