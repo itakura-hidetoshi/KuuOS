@@ -3,6 +3,16 @@
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK5D / 2026-11-02 JST
+
+**GK5Cの固定標的圏`T`上の有限endofunctor木の正規化・経路独立性を、真正Mathlibの複数圏間の任意有限型付き関手鎖へ拡張 — [定理PR #2903](https://github.com/itakura-hidetoshi/KuuOS/pull/2903) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5DTypedManyCategoryFunctorChains.lean)・[正式証明記録](docs/formal/GK5D-many-category-typed-functor-chain-reachability.md)。
+
+**GK5D数学的到達点：** `C : I → Cat.{vT,uT}`を用い、`TypedWord C i j`と`TypedTree C i j`として関手の出発圏・到着圏と中間圏をLean依存型で保持。真正Functor合成・結合律・単位律と等式の完全な型付き輸送を証明。`TypedStep`は実`Functor.associator/leftUnitor/rightUnitor`と左右iso-whiskeringを保持し、`TypedPath`は恒等・逆転・経路連結を保持する。全有限木を右結合の標準依存型葉列木へ実際に正規化する経路を帰納的に構成。`Nonempty(TypedPath C a b) ↔ TypedLeaves(a)=TypedLeaves(b)`および全同始終点書換え経路のwhole NatIso厳密一致をLean4で証明。終点の`eqToIso`輸送と真正三段異種圏associatorも形式化。16件公理監査。
+
+**検証：** 最終source HEAD `143c4e379c7dc4b41533411f510ef25c4ccad2aa`／test-merge `70db965347e98854e3a4eee591e647a980b13aca`／一致tree `08b422bbd30ed335858eaf07f9753e67687b9f4f`。[exact-source CI #41330331080](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41330331080) **Strict Lean 3825/3825・Independent Kuu・Workflow integrity・Governance terminal全SUCCESS**。16/16公理監査は標準`propext/Classical.choice/Quot.sound`のみ、sorryAx0、変更Lean error/warning0/0。定理squash／main当時HEAD `cedb7970477393d625f00fc4e4cd5941c4e824f1`。最終Lean修正では依存型経路の始終点添字が関わる再帰証明について、コンストラクタごとの添字付き再帰と明示的定義方程式の簡約を用いた。
+
+**次GK5E候補：** 異種圏間の選択逆関手と標的NatTransの自然性を、実際に型整合的なcompatibilityを保持して展開。GK4BM任意選択逆`Q_T`とGK4BP明示逆`P_T`は同一視せずGK4BQの`κ_T`で比較する。GK5Dは同一universe pair内の有限合成に限る。元F45無条件faithfulness、source-Q圏公理、raw F54/F55/P92B Type値高次セル、全整数行列到達、global Gray、無制限hyperdescentおよび異なるuniverse levelの任意連鎖は未証明。Lean v4.30.0-rc2、mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、root107、保護#1558 Draft/open/unmerged、strict空中心・独立Kuu一presentation維持。以下の全履歴を保持する。
+
 ## 最新のLean定理統合 — F112-P94D3GK5C / 2026-11-01 JST
 
 **既存書換え経路の独立性GK5Bを、全有限木の真正正規化到達性へ拡張：順序付き葉列の等号と書換え経路の存在の必要十分条件をLean4で証明 — [PR #2901](https://github.com/itakura-hidetoshi/KuuOS/pull/2901) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5CFiniteTreeNormalizationReachability.lean)・[正式証明記録](docs/formal/GK5C-constructive-finite-tree-normalization-reachability.md)。

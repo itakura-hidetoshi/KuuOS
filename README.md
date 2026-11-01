@@ -14,6 +14,16 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK5D / 2026-11-02 JST
+
+**固定標的`T`の有限endofunctor木（GK5A/B/C）から、異なる真正Mathlib圏を順次通る型付き有限関手鎖へ一般化：任意有限木の本物の正規化経路、到達可能性の必要十分条件、whole NatIso経路独立性をLean4で証明 — [定理PR #2903](https://github.com/itakura-hidetoshi/KuuOS/pull/2903) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5DTypedManyCategoryFunctorChains.lean)・[正式証明記録](docs/formal/GK5D-many-category-typed-functor-chain-reachability.md)。
+
+**数学的成果：** `C : I → Cat.{vT,uT}`の真正圏族に対し、始点・終点を依存型添字に持つ`TypedWord C i j`と`TypedTree C i j`を構成。単位・原子・型整合的貼合せに本物の`Functor.associator/leftUnitor/rightUnitor`、左右iso-whiskeringを用いて、全有限深度の標準右結合木への具体的書換え経路を帰納構成した。任意の同じ始点終点を持つ木`a,b`について`Nonempty(TypedPath C a b) ↔ TypedLeaves(a)=TypedLeaves(b)`を証明し、あらゆる実経路のwhole NatIsoが構成的正規化比較と一致する。順序付き**依存型葉列の等号**は偶然等しい合成関手という意味論的同値とは区別する。真正三段異種圏associatorも実NatIsoとして検証。
+
+**exact-source：** 最終source `143c4e379c7dc4b41533411f510ef25c4ccad2aa`／test-merge `70db965347e98854e3a4eee591e647a980b13aca`／一致Git tree `08b422bbd30ed335858eaf07f9753e67687b9f4f`。[CI #41330331080](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41330331080) **Strict Lean 3825/3825、Independent Kuu・Workflow integrity・Governance terminal全SUCCESS**。16/16件の`#print axioms`は標準3公理`propext/Classical.choice/Quot.sound`以内、sorryAx0、変更Lean error/warning0/0。定理squash・main当時HEAD `cedb7970477393d625f00fc4e4cd5941c4e824f1`。
+
+**次の研究GK5E（候補）：** 異種圏間の選択逆関手比較の型付き自然性・両端`eqToIso`輸送を、正確なcompatibility仮定の下で調べる。今回の証明は同一universe pair内の型付き有限関手鎖であり、異なるuniverse間の無制限合成、元F45の無条件faithfulness、原source-Q圏公理、raw F54/F55/P92B高次セル、全整数行列到達、global Gray、無制限hyperdescentは含まない。任意選択逆`Q_T`と明示逆`P_T`は定義的同一ではなく`κ_T`で比較する。Lean v4.30.0-rc2・mathlib pin不変、公開root107、保護PR #1558 Draft/OPEN/未マージ、strict空中心・独立Kuu一presentationを維持。以下GK5C以前の履歴は全保持する。
+
 ## 最新のLean定理統合 — F112-P94D3GK5C / 2026-11-01 JST
 
 **任意有限endofunctor木から右結合の標準葉列木への本物のassociator/unitor書換え経路を帰納的に実構成し、任意2木の到達可能性が順序付き葉列一致と必要十分であることをLean4で証明 — [定理PR #2901](https://github.com/itakura-hidetoshi/KuuOS/pull/2901) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5CFiniteTreeNormalizationReachability.lean)・[正式証明記録](docs/formal/GK5C-constructive-finite-tree-normalization-reachability.md)。GK5A/GK5Bの固定標的`T`における真正有限endofunctor木を対象とし、元F45構造商・旧AH実到達圏・真の核両立部分圏・任意選択逆`Q_T`と明示逆`P_T`の区別は保持する。
