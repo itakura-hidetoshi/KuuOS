@@ -3,6 +3,16 @@
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK4BU / 2026-11-01 JST
+
+**GK4BTの任意選択逆関手比較`Θ_R`に対する標的自然変換`ρ:R⟶R'`のwhole Mathlib NatTrans可換四角をLean4形式化 — [定理PR #2885](https://github.com/itakura-hidetoshi/KuuOS/pull/2885) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4BUChosenInverseTargetNatTransCoherence.lean)・[正式証明記録](docs/formal/GK4BU-chosen-inverse-target-nattrans-coherence.md)。元F45依存型構造商`S`、真正到達旧AH観測圏`A_att`、実`Comp_T`全充満部分圏を固定。GK4BQの比較`κ_T:Q_T≅P_T`、GK4BPの厳密`P_T`標的可換性、GK4BO/GK4BTのターゲット自然変換法則により、**`(ρ_*^Comp ▷ Q_U) ≫ Θ_R'.hom = Θ_R.hom ≫ (Q_T ◁ ρ_*^A)`という本物のwhole NatTrans等式**を証明した。
+
+**obstructionを隠さない証明：** `R`と`R'`の厳密因子逆関手四角から生じる`eqToIso`を単純化で消さず、HEqで関連づけた実射の`eqToHom`輸送可換性を一般補題として帰納的に証明。さらに`κ_U`／`κ_T.inv`の左右Mathlib whiskeringで二つのinterchangeを貼り、厳密な型付き可換四角を得た。恒等変換、垂直合成、水平二経路、二段標的変更`T→U→V`の第1／第2ターゲット関手変動の整合性まで示す（公開9宣言＋private補題1件）。任意選択`Q_T`のstrict自然性、および`Θ_(R⋙Q)`の**合成因子分解の完全一致**は未証明として区別する。
+
+**exact-source：** source `d49f8df5021562590e70db2640221aa20e7bc10d`、test-merge `3fe8cd56d664c5571f8b991adb6d6b6b5e5ca7c9`、一致Git tree `d5f8b4cf33e8a5f072b936c2c4391b998ed72afd`。[CI #41284678233](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41284678233) **Strict Lean 3816/3816・Independent Kuu・Governance terminal SUCCESS**、標準3公理`propext/Classical.choice/Quot.sound`以内、sorryAx0、changed Lean warnings/errors 0/0。定理squash/main HEAD `118d5f2f4121cdc4465f8407ef5b6684ddeace94`。Lean v4.30.0-rc2／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、公開root107、保護PR #1558 Draft/OPEN/未マージ、strict空中心・独立Kuu一presentation・Gray非再導入。
+
+**次の課題：** `Θ_(R⋙Q)`と二段`Θ_R`／`Θ_Q`の貼り合わせの一致を、必要なassociator／`eqToIso`輸送込みで証明できるか検証する。原S無条件faithfulness、原Q category laws、raw F54/F55/P92B Type値higher cells、全整数行列到達、global Gray/hyperdescentは継続して不成立境界とする。以下GK4BT以前の履歴を完全維持する。
+
 ## 最新のLean定理統合 — F112-P94D3GK4BT / 2026-11-01 JST
 
 **実到達AH関手圏・元F45構造商AH核両立充満部分圏の標的自然変換について、恒等・垂直合成・水平交換と、whole adjointified unit/counitの可換性を統合。任意選択逆関手の標的自然性を真正Mathlib NatIsoにより示す — [定理PR #2883](https://github.com/itakura-hidetoshi/KuuOS/pull/2883) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4BTTargetInterchangeChosenInverse.lean)・[正式証明記録](docs/formal/GK4BT-target-interchange-chosen-inverse-transport.md)。既存GK4BJの元F45依存型独立構造商`S`から旧AH**実到達像**`A_att`への元観測関手`F:S⥤A_att`、GK4BMの真正`Comp_T=ObjectProperty.FullSubcategory`、元観測の前合成`C_T`、GK4BPの明示的因子逆関手`P_T`、GK4BQの実unit/counitと両triangle、GK4BSの**adjointify後unitと具体的unitのwhole NatIso厳密一致**を変更せず保持。GK4BOの本物の標的関手圏作用により、`ρ:R⟶R'`、`σ:R'⟶R''`の垂直合成に対するwhole NatTransの貼り合わせ可換式をunit/counit双方で形式化。さらに`ρ:R⟶R'`・`σ:Q⟶Q'`（`T→U→V`）の**水平二経路の厳密interchange**を、実到達AH側・Comp側の**whole target NatTrans両方**について示し、合成後のunit/counitの真正可換四角を証明した。
