@@ -36,6 +36,47 @@ set_option maxHeartbeats 4000000
 noncomputable section
 universe uD vD uE vE uT vT uU vU uV vV
 
+universe uB vB uC vC uF vF uG vG
+section AbstractEqualityTransport
+variable {B : Type uB} [Category.{vB} B]
+variable {C : Type uC} [Category.{vC} C]
+variable {F : Type uF} [Category.{vF} F]
+variable {G : Type uG} [Category.{vG} G]
+
+/-- Pinned Mathlib's actual functor associator is the
+canonical natural isomorphism of its definitional associativity. -/
+private theorem nativeGK4BVAssociator_eqToIso
+    (A : B ⥤ C) (W : C ⥤ F) (Z : F ⥤ G) :
+    Functor.associator A W Z = eqToIso (Functor.assoc A W Z) := by
+  apply Iso.ext
+  ext X
+  rfl
+
+/-- Equality transports commute with honest left whiskering. -/
+private theorem nativeGK4BVWhiskerLeft_eqToIso
+    (A : B ⥤ C) {W Z : C ⥤ F} (h : W = Z) :
+    Functor.isoWhiskerLeft A (eqToIso h) =
+      eqToIso (congrArg (fun K : C ⥤ F => A ⋙ K) h) := by
+  cases h
+  simp only [eqToIso_refl, Functor.isoWhiskerLeft_refl]
+
+/-- Equality transports commute with honest right whiskering. -/
+private theorem nativeGK4BVWhiskerRight_eqToIso
+    {A W : B ⥤ C} (h : A = W) (Z : C ⥤ F) :
+    Functor.isoWhiskerRight (eqToIso h) Z =
+      eqToIso (congrArg (fun K : B ⥤ C => K ⋙ Z) h) := by
+  cases h
+  simp only [eqToIso_refl, Functor.isoWhiskerRight_refl]
+
+/-- Reversing an equality reverses its genuine Mathlib iso. -/
+private theorem nativeGK4BVSymm_eqToIso
+    {A W : B} (h : A = W) :
+    (eqToIso h).symm = eqToIso h.symm := by
+  cases h
+  rfl
+
+end AbstractEqualityTransport
+
 section TwoTargetChosenInverse
 variable {D : Type uD} [Category.{vD} D]
 variable {E : Type uE} [Category.{vE} E]
@@ -96,46 +137,63 @@ noncomputable def nativeGK4BVChosenInverse_twoTargetCompositeIso
     (fun W => nativeGK4BMCompatibleReverseFunctor (T := T) p ma mb pa pb ⋙ W)
     (nativeGK4BVAttainedTarget_comp p ma mb pa pb R S).symm)
 
-/-- Objectwise component of the exact compatible target-composition
-equality transport, at the attained physical AH endpoint. -/
-theorem nativeGK4BVCompatibleCompositionTransport_app
-    (p : Polygon) (ma mb : KuuNativeBlocks a b)
+/-- For the EXPLICIT GK4BP inverse P only: the
+two-stage comparison is built solely from the strict target
+equality squares, canonical associators, and their transports.
+There is no arbitrary-choice Q in this isomorphism. -/
+noncomputable def nativeGK4BVExplicitInverse_twoTargetCompositeIso
+    (p : Polygon)
+    (ma mb : KuuNativeBlocks a b)
     (pa pb : KuuNativeBlocks x y)
-    (R : T ⥤ U) (S : U ⥤ V)
-    (H : NativeGK4BMCompatibleFunctorCategory (T := T) p ma mb pa pb)
-    (X : NativeGK4BFAttainedAHStage p ma mb pa pb) :
-    (((eqToIso (congrArg
-      (fun W => W ⋙ nativeGK4BMCompatibleReverseFunctor (T := V) p ma mb pa pb)
-      (nativeGK4BNPostcompCompatible_comp p ma mb pa pb R S))).hom.app H).app X) =
-      𝟙 _ := by
-  simp only [eqToIso.hom, eqToHom_app, eqToHom_refl]
+    (R : T ⥤ U) (S : U ⥤ V) :
+    (nativeGK4BNPostcompCompatible p ma mb pa pb (R ⋙ S) ⋙
+      nativeGK4BPExplicitInverseFunctor (T := V) p ma mb pa pb) ≅
+    (nativeGK4BPExplicitInverseFunctor (T := T) p ma mb pa pb ⋙
+      nativeGK4BNPostcompAttained p ma mb pa pb (R ⋙ S)) :=
+  eqToIso (congrArg
+    (fun W => W ⋙ nativeGK4BPExplicitInverseFunctor (T := V) p ma mb pa pb)
+    (nativeGK4BNPostcompCompatible_comp p ma mb pa pb R S)) ≪≫
+  Functor.associator
+    (nativeGK4BNPostcompCompatible p ma mb pa pb R)
+    (nativeGK4BNPostcompCompatible p ma mb pa pb S)
+    (nativeGK4BPExplicitInverseFunctor (T := V) p ma mb pa pb) ≪≫
+  Functor.isoWhiskerLeft
+    (nativeGK4BNPostcompCompatible p ma mb pa pb R)
+    (eqToIso (nativeGK4BPExplicitInverse_target_square p ma mb pa pb S)) ≪≫
+  (Functor.associator
+    (nativeGK4BNPostcompCompatible p ma mb pa pb R)
+    (nativeGK4BPExplicitInverseFunctor (T := U) p ma mb pa pb)
+    (nativeGK4BNPostcompAttained p ma mb pa pb S)).symm ≪≫
+  Functor.isoWhiskerRight
+    (eqToIso (nativeGK4BPExplicitInverse_target_square p ma mb pa pb R))
+    (nativeGK4BNPostcompAttained p ma mb pa pb S) ≪≫
+  Functor.associator
+    (nativeGK4BPExplicitInverseFunctor (T := T) p ma mb pa pb)
+    (nativeGK4BNPostcompAttained p ma mb pa pb R)
+    (nativeGK4BNPostcompAttained p ma mb pa pb S) ≪≫
+  eqToIso (congrArg
+    (fun W => nativeGK4BPExplicitInverseFunctor (T := T) p ma mb pa pb ⋙ W)
+    (nativeGK4BVAttainedTarget_comp p ma mb pa pb R S).symm)
 
-/-- The strict explicit GK4BP inverse square has identity
-objectwise morphisms after equality transport, on the actual
-attained-AH objects and compatible functors only. -/
-theorem nativeGK4BVExplicitInverseTransport_app
-    (p : Polygon) (ma mb : KuuNativeBlocks a b)
+/-- The two-stage STRICT explicit inverse transport equals
+the DIRECT GK4BP target-square equality transport. Unlike
+the chosen inverse Q, all isomorphisms here originate in
+real equalities; proof irrelevance makes the final witness
+canonical, without equating choice inverses. -/
+theorem nativeGK4BVExplicitInverse_twoTarget_eq_direct
+    (p : Polygon)
+    (ma mb : KuuNativeBlocks a b)
     (pa pb : KuuNativeBlocks x y)
-    (S : U ⥤ V)
-    (H : NativeGK4BMCompatibleFunctorCategory (T := U) p ma mb pa pb)
-    (X : NativeGK4BFAttainedAHStage p ma mb pa pb) :
-    (((eqToIso (nativeGK4BPExplicitInverse_target_square
-      p ma mb pa pb S)).hom.app H).app X) = 𝟙 _ := by
-  simp only [eqToIso.hom, eqToHom_app, eqToHom_refl]
-
-/-- The attained-AH two-target functor equality transport
-has identity components at each real compatible source object. -/
-theorem nativeGK4BVAttainedCompositionTransport_app
-    (p : Polygon) (ma mb : KuuNativeBlocks a b)
-    (pa pb : KuuNativeBlocks x y)
-    (R : T ⥤ U) (S : U ⥤ V)
-    (H : NativeGK4BMCompatibleFunctorCategory (T := T) p ma mb pa pb)
-    (X : NativeGK4BFAttainedAHStage p ma mb pa pb) :
-    (((eqToIso (congrArg
-      (fun W => nativeGK4BMCompatibleReverseFunctor (T := T) p ma mb pa pb ⋙ W)
-      (nativeGK4BVAttainedTarget_comp p ma mb pa pb R S).symm)).hom.app H).app X) =
-      𝟙 _ := by
-  simp only [eqToIso.hom, eqToHom_app, eqToHom_refl]
+    (R : T ⥤ U) (S : U ⥤ V) :
+    nativeGK4BVExplicitInverse_twoTargetCompositeIso p ma mb pa pb R S =
+      eqToIso (nativeGK4BPExplicitInverse_target_square
+        p ma mb pa pb (R ⋙ S)) := by
+  simp only [nativeGK4BVExplicitInverse_twoTargetCompositeIso,
+    nativeGK4BVAssociator_eqToIso,
+    nativeGK4BVWhiskerLeft_eqToIso,
+    nativeGK4BVWhiskerRight_eqToIso,
+    nativeGK4BVSymm_eqToIso, eqToIso_trans]
+  rfl
 
 /-- Pseudonatural composition: the directly constructed GK4BT
 comparison Theta_(R⋙S) is exactly the honestly whiskered
@@ -161,9 +219,8 @@ end TwoTargetChosenInverse
 
 #print axioms nativeGK4BVAttainedTarget_comp
 #print axioms nativeGK4BVChosenInverse_twoTargetCompositeIso
-#print axioms nativeGK4BVCompatibleCompositionTransport_app
-#print axioms nativeGK4BVExplicitInverseTransport_app
-#print axioms nativeGK4BVAttainedCompositionTransport_app
+#print axioms nativeGK4BVExplicitInverse_twoTargetCompositeIso
+#print axioms nativeGK4BVExplicitInverse_twoTarget_eq_direct
 #print axioms nativeGK4BVChosenInverse_composition_coherence
 
 end
