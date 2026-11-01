@@ -131,12 +131,17 @@ private theorem nativeGK4BVGaugeComposition
       aS.map (k1.inv.app (cR.obj X)) ≫
         aS.map (k1.hom.app (cR.obj X)) = 𝟙 _ := by
     rw [← aS.map_comp, Iso.inv_hom_id_app, aS.map_id]
+  have hCancel_assoc {Z : B2}
+      (f : aS.obj (p1.obj (cR.obj X)) ⟶ Z) :
+      aS.map (k1.inv.app (cR.obj X)) ≫
+        (aS.map (k1.hom.app (cR.obj X)) ≫ f) = f := by
+    rw [← Category.assoc, hCancel, Category.id_comp]
+  simp only [Category.id_comp, Category.comp_id]
+  simp only [← Category.assoc]
   rw [k2.hom.naturality (hc.hom.app X)]
-  rw [hCancel]
-  simp only [Category.id_comp, Category.comp_id, Category.assoc]
-  change _ ≫ (aR ⋙ aS).map (k0.inv.app X) ≫
-      ha.hom.app (q0.obj X) = _
+  simp only [Category.assoc, hCancel_assoc, Category.id_comp, Category.comp_id]
   rw [ha.hom.naturality (k0.inv.app X)]
+  simp only [Category.assoc]
 
 end AbstractGaugeComposition
 
