@@ -119,8 +119,10 @@ theorem nativeGK5IAssociator_atoms
   simp only [Equivalence.unit, Equivalence.unitInv]
   congr 1
   congr 1
-  trace_state
-  simp [Category.assoc, hMapCancel]
+  let f0 := (e l).functor.map
+    (H.map (G.map ((e j).unitIso.inv.app (F.obj ((e i).inverse.obj X)))))
+  have hz := congrArg (fun m => f0 ≫ m) hMapCancel
+  simpa only [Category.comp_id] using hz.symm
 
 #print axioms nativeGK5IForwardTriangle
 #print axioms nativeGK5IInverseTriangle
