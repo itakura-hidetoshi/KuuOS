@@ -3,6 +3,16 @@
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK4BQ / 2026-11-01 JST
+
+**元F45依存型独立構造商SのAH核両立充満関手圏と真正実到達旧AH像A_attの間で、明示GK4BP逆関手の真正natural unit/counit Iso、両三角、GK4BM選択逆関手との自然同型を形式化 — [定理PR #2877](https://github.com/itakura-hidetoshi/KuuOS/pull/2877) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4BQExplicitEquivalenceNaturality.lean)・[正式証明記録](docs/formal/GK4BQ-explicit-equivalence-unit-counit.md)。既存`C_T:(A_att⥤T)⥤Compatible(S,T)`とGK4BPの明示`P_T:Compatible(S,T)⥤(A_att⥤T)`を一切変更せず、`𝟭≅C_T⋙P_T`と`P_T⋙C_T≅𝟭`の**whole Mathlib NatIso**を元F45型付きHomの真の前像と既証明GK4BK因子射保存から実構成。両Isoは各到達AH対象・元S対象の成分だけでなく、各Homと関手圏間の全実自然変換に対する自然性を備える。単純な「対象レベルの逆向き三角」を真のunit/counit自然同型へ強化した。
+
+**三角coherenceと任意選択逆の境界：** `CategoryTheory.Equivalence.mk`で元unitをadjointifyし、**真正Mathlib圏同値として前向き・逆向き両triangle恒等式**を証明。`Equivalence`のforward/inverseは既存`C_T`・明示`P_T`に定義的一致（各々の`_functor`/`_inverse`定理）。しかしGK4BMの`asEquivalence`による別の任意選択quasi-inverseとの比較は、pinned Mathlibの`Iso.isoInverseOfIsoFunctor`による**whole自然同型**で行い、二つの逆関手の定義同一性は仮定しない。12新規Lean宣言、全て`#print axioms`済。whole Functor恒等等式そのものは今回は主張せず、型依存輸送によるobstructionを明示した上で必要な真の自然Isoを証明した。
+
+**exact-source CI：** source HEAD `b95a97ae2db1db770fe3fa3bfc8e92253040ca20`、test-merge HEAD `a3ed6f0cd3984cc31719258debdcb677c21b44b9`、**一致Git tree `8069956b19234e3aa33934840ea99d27970ff0b2`**。[CI #41279066499](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41279066499) **Strict Lean 3812/3812 SUCCESS、Governance terminal SUCCESS、Independent Kuu SUCCESS、Workflow integrity SUCCESS**。全12宣言は標準3公理`propext`/`Classical.choice`/`Quot.sound`以内、sorryAx0、changed Lean warning/error0/0。初期whole Functor等式の`Eq.recOn`型輸送、未修飾`comp_id/id_comp`・`Equivalence.mk`の名前解決、最後の反射律を全ソースで修正した。定理squash/main統合HEAD `d273406321365fbb5b32e82e651be64e16fde9bd`。Lean v4.30.0-rc2、mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、公開root107、保護PR #1558 Draft/OPEN/未マージ、strict空中心・独立Kuu一presentation・Gray非再導入。
+
+**次GK4BR：** 新しい具体的unit/counitおよびMathlib adjointify後のunitの、任意標的関手`R:T⥤U`・標的自然変換`ρ:R⟶R'`へのcompatibilityとcoherenceを、既存GK4BO/GK4BPのstrict squareに接続して型付き検証。選択逆関手の自然性は**自然同型による比較**の範囲で扱い、元S無条件faithfulness、元Q圏公理、raw Type値F54/F55/P92B source、全整数行列到達、14D Countable/19D filler、global strict/hyperdescentは未証明境界として保持。以下GK4BP以前の記録を全て保存する。
+
 ## 最新のLean定理統合 — F112-P94D3GK4BP / 2026-11-01 JST
 
 **真正旧AH実到達像への具体的因子関手を、元AH核両立充満部分圏からの「明示的逆Mathlib関手」に拡張し、標的自然性をwhiskeringまで厳密証明 — [定理PR #2875](https://github.com/itakura-hidetoshi/KuuOS/pull/2875) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4BPExplicitInverseTargetNaturality.lean)・[正式証明記録](docs/formal/GK4BP-explicit-inverse-target-naturality.md)。GK4BJの元F45型付き独立構造商`S`から真正実到達旧AH行列圏`A_att`への元観測関手`F`、GK4BKの元核互換`H:S⥤T`の一意因子化、GK4BLの自然変換降下、GK4BMの圏同値、GK4BN・GK4BOの標的自然性をすべて保持。任意の兼容`H,K`と元真正自然変換`η:H⟶K`に対し、新しい`FactorNat(η)`を元境界成分`η.hom.app X.original`で構成、任意の到達AH射の実元構造前像における自然性を証明。これを`Factor_T: Compatible(S,T)⥤(A_att⥤T)`という**一つの真正Mathlib関手**にまとめ、恒等と垂直合成を厳密保存した。
