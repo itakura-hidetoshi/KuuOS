@@ -3,6 +3,15 @@
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK4BF / 2026-11-01 JST
+
+**真正K_AIのAH観測の実到達像にCategory構造と任意整数評価Functorを構成 — [定理PR #2854](https://github.com/itakura-hidetoshi/KuuOS/pull/2854) MERGED。** [正式Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4BFAttainedAHCategory.lean)・[証明記録](docs/formal/GK4BF-attained-ah-category-evaluation-factor.md)。元F54依存型境界を維持する`NativeGK4BFAttainedAHStage`のHomはGK4BEの実到達AH行列Subtypeで、元K_AI代表射の合成を実証拠として非可換行列積が閉じる。単位・結合律をMathlib Categoryで証明。**K_AI→AH到達像はHom全射、AH到達像→全整数行列はHom単射**で、後者との合成は旧AH Functorと関手等式として一致。前者のfaithfulnessを事実とせず、Hom単射性`↔`旧AH一致から元K_AI射の等式を回復できることを条件付き定理で分類。任意`t∈ℤ`の整数評価も真のFunctorとしてAH到達像を通じて一意に因子化し、`t=4`はAH包含に一致する。新規16宣言。元Q自身の未証明圏公理・元Type値3-cellは一切追加しない。
+
+**exact-source：** source `a52a701341cc369b2211ea8111c83441b156b9ac`、test-merge `5875ff8652c124de7964568cdc79f05462335070`、共通Git tree `78971c18d8a155fc4498fa402945826fec1d3565`。[CI #41256478785](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41256478785) **Strict Lean 3800/3800 SUCCESS・Governance terminal SUCCESS**、16宣言は標準3公理以内、sorryAx0、定理squash `8c41653a55c28439bd4b1ec0ade255d34d41ef20`。Lean v4.30.0-rc2／pinned mathlib 5450b53e5ddc75d46418fabb605edbf36bd0beb6、root107、保護#1558 Draft OPEN未マージ、strict空中心・独立Kuu一presentation、Gray再導入なし。
+
+**次GK4BG（未形式化）：** 元の型付きK_AIにおいてAH観測で失われる情報の厳密な非自明性を、実在する異なるK_AI類が同一AH値へ写るかというobstructionとして調べる。元Qの圏公理・Type値完全同値、固定単一旧類ファイバー無限性、算術slice全域到達、真正14D無条件Countable、19D filler、global strict、hyperdescentは未証明のまま。
+
+
 ## 最新のLean定理統合 — F112-P94D3GK4BE / 2026-11-01 JST
 
 **元F54型付き経路に由来するK_AIの評価関手の核一致と、実到達AH像での唯一の因子化 — [定理PR #2851](https://github.com/itakura-hidetoshi/KuuOS/pull/2851) MERGED。** [新規Lean定理](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4BEEvaluationKernelFactor.lean)・[証明とLean4修正理由](docs/formal/GK4BE-evaluation-kernel-attained-ah-factorization.md)。各真正Homで`ker(P̄)=ker(eval₄∘P̄)=⋂_{t∈ℤ}ker(evalₜ∘P̄)`を形式化。旧AH関手の核が全整数評価関手の核に包含されること、その逆の共通核一致、元Q／独立Sへの別個の一点決定性を証明。**元AH値の真の到達像だけ**をSubtype証拠で構成し、`evalₜ`がその像を通って代表元に依存せず一意に因子化し、`t=4`は元AH値へ戻ることを証明。定理・型16宣言。元Q圏公理・Type値3-cell・K_AI faithfulness・任意行列到達は主張しない。
