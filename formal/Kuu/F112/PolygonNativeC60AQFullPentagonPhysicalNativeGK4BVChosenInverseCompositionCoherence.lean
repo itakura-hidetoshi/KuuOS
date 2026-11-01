@@ -120,6 +120,8 @@ private theorem nativeGK4BVGaugeComposition
         Functor.associator p0 aR aS ≪≫
         Functor.isoWhiskerLeft p0 ha) ≪≫
       Functor.isoWhiskerRight k0.symm wholeA := by
+  apply Iso.ext
+  ext X
   cat_disch
 
 end AbstractGaugeComposition
