@@ -210,11 +210,8 @@ theorem nativeGK4BSAdjointifiedUnit_component_hom
   have hX := congrArg (fun φ => φ.hom.app X.original) h
   change ((nativeGK4BQTriangleUnitIso p ma mb pa pb).hom.app G).app X ≫
       𝟙 (G.obj X) = 𝟙 (G.obj X) at hX
-  calc
-    ((nativeGK4BQTriangleUnitIso p ma mb pa pb).hom.app G).app X =
-        ((nativeGK4BQTriangleUnitIso p ma mb pa pb).hom.app G).app X ≫
-          𝟙 (G.obj X) := (Category.comp_id _).symm
-    _ = 𝟙 (G.obj X) := hX
+  exact (Category.comp_id
+    (((nativeGK4BQTriangleUnitIso p ma mb pa pb).hom.app G).app X)).symm.trans hX
 
 /-- The original concrete GK4BQ unit is ALREADY half-adjoint
 for the true explicit inverse. Consequently Mathlib's
