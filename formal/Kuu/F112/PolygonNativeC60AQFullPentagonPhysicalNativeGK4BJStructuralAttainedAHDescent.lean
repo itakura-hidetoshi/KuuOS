@@ -115,6 +115,7 @@ theorem nativeGK4BJStructuralAH_surjective_hom
   refine ⟨s, ?_⟩
   change (nativeGK4BFImageFunctor p ma mb pa pb).map
       ((nativeGK4AIComparisonFunctor p ma mb pa pb).map s) = z
+  change (nativeGK4AIComparisonFunctor p ma mb pa pb).map s = q at hs
   rw [hs]
   exact hq
 
