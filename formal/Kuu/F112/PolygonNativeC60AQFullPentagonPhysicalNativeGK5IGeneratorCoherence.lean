@@ -90,8 +90,16 @@ theorem nativeGK5IAssociator_generator
     NatTrans.comp_app, Functor.whiskerLeft_app, Functor.whiskerRight_app,
     nativeGK5IChangeCompIso_hom_app,
     Functor.comp_obj, Functor.comp_map, Category.id_comp,
-    Category.comp_id, Functor.map_comp, Category.assoc]
-  cat_disch
+    Category.comp_id, Functor.map_comp, Functor.associator_hom_app,
+    Functor.map_id, Category.assoc]
+  let u := (nativeGK5DTreeComposite b).map
+    ((e j).unitIso.inv.app
+      ((nativeGK5DTreeComposite a).obj ((e i).inverse.obj X)))
+  have hC := (nativeGK5GChangeTreeIso e c).hom.naturality
+    ((e k).functor.map u)
+  have hK := (e k).unitIso.inv.naturality u
+  simp [nativeGK5GChangeAtom, Functor.comp_obj, Functor.comp_map,
+    Category.assoc, hC, hK, u]
 
 #print axioms nativeGK5IForwardTriangle
 #print axioms nativeGK5IInverseTriangle
