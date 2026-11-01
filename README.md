@@ -14,6 +14,16 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK4BZ / 2026-11-01 JST
+
+**五段の任意標的変更におけるCatalan数14の真正NatIso貼り合わせ、二つの独立した単位関手の削除順序の全NatIso等式、全14経路に共通なwhole NatTrans変換をLean4で形式化 — [定理PR #2895](https://github.com/itakura-hidetoshi/KuuOS/pull/2895) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4BZFiveTargetTwoUnitCoherence.lean)・[正式証明記録](docs/formal/GK4BZ-five-stage-fourteen-path-double-unit-coherence.md)。GK4BMの任意選択逆`Q_T`、GK4BP明示逆`P_T`、GK4BQ真正比較`κ_T:Q_T≅P_T`はそのまま、strictな`Q_T=P_T`は仮定しない。
+
+**数学的成果：** 真正標的5段`R:T⥤U, S:U⥤V, L:V⥤W, M:W⥤X, N:X⥤Y`に対し、**5+2+2+5=14**の二分木括弧付けをGK4BWの真正binary pasting・GK4BV・GK4BTから全て実NatIsoとして構成。各々が直接の`Θ_(R⋙S⋙L⋙M⋙N)`とwhole NatIsoで厳密一致し、`Fin 14`索引の一つの定理と標的自然変換whole可換四角に統合。さらに`R⋙𝟭 U⋙S⋙𝟭 V⋙L`の**2個の独立した単位を左右どちらから先に除去しても、実Mathlib unitor/whiskeringで構成したwhole NatIsoが一致**することを証明。各除去順序のGK4BU選択逆比較NatTrans四角とその左右貼り合わせ全体が、全14経路で厳密一致（公開42宣言）。
+
+**exact-source：** source HEAD `cc92f709586bac91d03aa1d190832a354470639c`、test-merge `8bb1421585e6a0d48bee4b459e9d29121d86ec3e`、**一致Git tree `ed8de1cf7bb61632e2daf0b264887410f76ef6eb`**。[CI #41303246207](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41303246207) **Strict Lean 3821/3821 SUCCESS・Independent Kuu／Workflow integrity／Governance terminal全SUCCESS**、42/42宣言の`#print axioms`は`propext, Classical.choice, Quot.sound`以内、sorryAx0、変更Lean error/warning0/0。定理squash／当時main HEAD `4ac0281675db8ae00b92e0e71bbe21027ddd6afb`。
+
+**次の研究候補：** 有限長・同一標的のendofunctor鎖での帰納的coherence、2単位の隣接配置における除去順序、真のNatIso合成に関する標的自然性の強化。原F45圏Sの無条件忠実性、source-Q圏公理、raw F54/F55/P92B Type値高次セル、全整数行列到達、global Gray／高次hyperdescentは未証明境界として保持。Lean v4.30.0-rc2、mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、公開root107、保護PR #1558 Draft／OPEN／未マージ、strict空中心・独立Kuu一presentationを維持。以下GK4BY以前の記録は削除しない。
+
 ## 最新のLean定理統合 — F112-P94D3GK4BY / 2026-11-01 JST
 
 **標的変更の3段連鎖に単位関手を挿入する4位置×GK4BW pentagonの5実経路について、任意選択逆関手の真正whole NatIsoの完全一致、正逆unitorによる40件のwhole NatTrans四角、逆associator–unitor triangleをLean4で証明 — [定理PR #2893](https://github.com/itakura-hidetoshi/KuuOS/pull/2893) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4BYChosenInverseUnitInsertionPentagonInverse.lean)・[正式証明記録](docs/formal/GK4BY-pentagon-unit-insertion-inverse-unitor-coherence.md)。

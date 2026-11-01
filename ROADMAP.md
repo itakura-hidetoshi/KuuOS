@@ -3,6 +3,16 @@
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK4BZ / 2026-11-01 JST
+
+**真正Mathlib関手圏における五段標的変更の14通り全括弧付け、二つの独立単位の除去順序交換、全14経路でのwhole NatIso/NatTrans整合性をLean4で形式化 — [PR #2895](https://github.com/itakura-hidetoshi/KuuOS/pull/2895) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4BZFiveTargetTwoUnitCoherence.lean)・[正式証明記録](docs/formal/GK4BZ-five-stage-fourteen-path-double-unit-coherence.md)。
+
+**F112-P94D3GK4BZ数学的到達点：** 標的5段`R,S,L,M,N`の二分括弧付け**Catalan14**を、既存GK4BV two-target/GK4BW binary pastingから**実際のNatIso14個**として構成。各`_eq_direct`と`Fin 14`索引定理により、全経路が`Θ_(R⋙S⋙L⋙M⋙N)`とwhole NatIsoで一致。任意第1段の標的NatTransのwhole可換四角もuniformに証明。さらに真の五段`R⋙𝟭 U⋙S⋙𝟭 V⋙L`から、独立2単位を除去する順序A/BのMathlib NatIsoをwhiskeringと左右unitorで実構成し、**u_A=u_B**をwhole NatIsoで証明。全14経路に対して双方のwhole可換四角とその左右NatTrans貼り合わせの順序不変性を証明（42宣言）。選択`Q_T`と明示`P_T`の定義同一性、raw高次セルを仮定しない。
+
+**検証：** source `cc92f709586bac91d03aa1d190832a354470639c`／test-merge `8bb1421585e6a0d48bee4b459e9d29121d86ec3e`／一致Git tree `ed8de1cf7bb61632e2daf0b264887410f76ef6eb`。[exact-source CI #41303246207](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41303246207) **Strict Lean 3821/3821、Independent Kuu・Workflow integrity・Governance terminal全SUCCESS**。新規42/42公理監査は標準`propext/Classical.choice/Quot.sound`のみ、sorryAx0、変更Lean error/warning0/0。定理squash/main当時HEAD `4ac0281675db8ae00b92e0e71bbe21027ddd6afb`。
+
+**次の段階：** 有界有限長endofunctor鎖の再帰的二段貼り合わせと直接比較の帰納的定理、隣接二単位の真正unitor順序交換、任意NatIso二段合成とtarget-NatTrans改変を検討。元F45独立構造圏Sの無条件faithfulness、source-Q圏公理、raw F54/F55/P92BのType値高次セル、全整数行列到達、global Gray、無制限hyperdescentは未証明境界。Lean v4.30.0-rc2、mathlib pin `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、root107、保護PR #1558 Draft/OPEN/未マージ。strict空中心・独立Kuu一presentationを保ち、全過去履歴を保持する。
+
 ## 最新のLean定理統合 — F112-P94D3GK4BY / 2026-11-01 JST
 
 **実Mathlib pentagonの全5経路と、4位置での単位挿入の正逆NatTrans自然性・inverse triangleを形式化 — [定理PR #2893](https://github.com/itakura-hidetoshi/KuuOS/pull/2893) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4BYChosenInverseUnitInsertionPentagonInverse.lean)・[正式証明記録](docs/formal/GK4BY-pentagon-unit-insertion-inverse-unitor-coherence.md)。
