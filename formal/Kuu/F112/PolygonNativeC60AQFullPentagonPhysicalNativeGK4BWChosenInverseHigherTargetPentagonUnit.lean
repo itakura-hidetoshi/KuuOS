@@ -247,6 +247,199 @@ theorem nativeGK4BWChosenInverse_threeLastTarget_square
     (nativeGK4BUChosenInverse_targetNat_square p ma mb pa pb
       (Functor.whiskerLeft (R ⋙ S) τ))
 
+
+/-- Actual four-target comparison: all five Catalan bracketings
+carry genuine Mathlib NatIso values and explicit GK4BV transports. -/
+section FourTargetPentagon
+variable {X : Type uX} [Category.{vX} X]
+
+/-- Four-target pasting vertex pathA, with its genuine nested GK4BV comparisons. -/
+noncomputable def nativeGK4BWChosenInverse_four_pathA
+    (p : Polygon) (ma mb : KuuNativeBlocks a b)
+    (pa pb : KuuNativeBlocks x y)
+    (R : T ⥤ U) (S : U ⥤ V) (L : V ⥤ W) (M : W ⥤ X) :
+    (nativeGK4BNPostcompCompatible p ma mb pa pb (R ⋙ S ⋙ L ⋙ M) ⋙
+      nativeGK4BMCompatibleReverseFunctor (T := X) p ma mb pa pb) ≅
+    (nativeGK4BMCompatibleReverseFunctor (T := T) p ma mb pa pb ⋙
+      nativeGK4BNPostcompAttained p ma mb pa pb (R ⋙ S ⋙ L ⋙ M)) :=
+  nativeGK4BWChosenInverse_binaryPasting p ma mb pa pb (R ⋙ S ⋙ L) M
+    (nativeGK4BWChosenInverse_threeLeft p ma mb pa pb R S L) (nativeGK4BTChosenInverse_targetNatIso p ma mb pa pb M)
+
+/-- Full typed four-target vertex pathA is the SAME direct chosen-inverse Θ. -/
+theorem nativeGK4BWChosenInverse_four_pathA_eq_direct
+    (p : Polygon) (ma mb : KuuNativeBlocks a b)
+    (pa pb : KuuNativeBlocks x y)
+    (R : T ⥤ U) (S : U ⥤ V) (L : V ⥤ W) (M : W ⥤ X) :
+    nativeGK4BWChosenInverse_four_pathA p ma mb pa pb R S L M =
+      nativeGK4BTChosenInverse_targetNatIso p ma mb pa pb (R ⋙ S ⋙ L ⋙ M) := by
+  simp only [nativeGK4BWChosenInverse_four_pathA,
+    nativeGK4BWChosenInverse_threeLeft_eq_direct,
+    nativeGK4BWChosenInverse_binaryPasting_ofTheta,
+    nativeGK4BVChosenInverse_composition_coherence]
+  all_goals rfl
+
+/-- Four-target pasting vertex pathB, with its genuine nested GK4BV comparisons. -/
+noncomputable def nativeGK4BWChosenInverse_four_pathB
+    (p : Polygon) (ma mb : KuuNativeBlocks a b)
+    (pa pb : KuuNativeBlocks x y)
+    (R : T ⥤ U) (S : U ⥤ V) (L : V ⥤ W) (M : W ⥤ X) :
+    (nativeGK4BNPostcompCompatible p ma mb pa pb (R ⋙ S ⋙ L ⋙ M) ⋙
+      nativeGK4BMCompatibleReverseFunctor (T := X) p ma mb pa pb) ≅
+    (nativeGK4BMCompatibleReverseFunctor (T := T) p ma mb pa pb ⋙
+      nativeGK4BNPostcompAttained p ma mb pa pb (R ⋙ S ⋙ L ⋙ M)) :=
+  nativeGK4BWChosenInverse_binaryPasting p ma mb pa pb (R ⋙ S ⋙ L) M
+    (nativeGK4BWChosenInverse_threeRight p ma mb pa pb R S L) (nativeGK4BTChosenInverse_targetNatIso p ma mb pa pb M)
+
+/-- Full typed four-target vertex pathB is the SAME direct chosen-inverse Θ. -/
+theorem nativeGK4BWChosenInverse_four_pathB_eq_direct
+    (p : Polygon) (ma mb : KuuNativeBlocks a b)
+    (pa pb : KuuNativeBlocks x y)
+    (R : T ⥤ U) (S : U ⥤ V) (L : V ⥤ W) (M : W ⥤ X) :
+    nativeGK4BWChosenInverse_four_pathB p ma mb pa pb R S L M =
+      nativeGK4BTChosenInverse_targetNatIso p ma mb pa pb (R ⋙ S ⋙ L ⋙ M) := by
+  simp only [nativeGK4BWChosenInverse_four_pathB,
+    nativeGK4BWChosenInverse_threeRight_eq_direct,
+    nativeGK4BWChosenInverse_binaryPasting_ofTheta,
+    nativeGK4BVChosenInverse_composition_coherence]
+  all_goals rfl
+
+/-- Four-target pasting vertex pathC, with its genuine nested GK4BV comparisons. -/
+noncomputable def nativeGK4BWChosenInverse_four_pathC
+    (p : Polygon) (ma mb : KuuNativeBlocks a b)
+    (pa pb : KuuNativeBlocks x y)
+    (R : T ⥤ U) (S : U ⥤ V) (L : V ⥤ W) (M : W ⥤ X) :
+    (nativeGK4BNPostcompCompatible p ma mb pa pb (R ⋙ S ⋙ L ⋙ M) ⋙
+      nativeGK4BMCompatibleReverseFunctor (T := X) p ma mb pa pb) ≅
+    (nativeGK4BMCompatibleReverseFunctor (T := T) p ma mb pa pb ⋙
+      nativeGK4BNPostcompAttained p ma mb pa pb (R ⋙ S ⋙ L ⋙ M)) :=
+  nativeGK4BWChosenInverse_binaryPasting p ma mb pa pb (R ⋙ S) (L ⋙ M)
+    (nativeGK4BVChosenInverse_twoTargetCompositeIso p ma mb pa pb R S) (nativeGK4BVChosenInverse_twoTargetCompositeIso p ma mb pa pb L M)
+
+/-- Full typed four-target vertex pathC is the SAME direct chosen-inverse Θ. -/
+theorem nativeGK4BWChosenInverse_four_pathC_eq_direct
+    (p : Polygon) (ma mb : KuuNativeBlocks a b)
+    (pa pb : KuuNativeBlocks x y)
+    (R : T ⥤ U) (S : U ⥤ V) (L : V ⥤ W) (M : W ⥤ X) :
+    nativeGK4BWChosenInverse_four_pathC p ma mb pa pb R S L M =
+      nativeGK4BTChosenInverse_targetNatIso p ma mb pa pb (R ⋙ S ⋙ L ⋙ M) := by
+  simp only [nativeGK4BWChosenInverse_four_pathC,
+    nativeGK4BVChosenInverse_composition_coherence,
+    nativeGK4BWChosenInverse_binaryPasting_ofTheta,
+    nativeGK4BVChosenInverse_composition_coherence]
+  all_goals rfl
+
+/-- Four-target pasting vertex pathD, with its genuine nested GK4BV comparisons. -/
+noncomputable def nativeGK4BWChosenInverse_four_pathD
+    (p : Polygon) (ma mb : KuuNativeBlocks a b)
+    (pa pb : KuuNativeBlocks x y)
+    (R : T ⥤ U) (S : U ⥤ V) (L : V ⥤ W) (M : W ⥤ X) :
+    (nativeGK4BNPostcompCompatible p ma mb pa pb (R ⋙ S ⋙ L ⋙ M) ⋙
+      nativeGK4BMCompatibleReverseFunctor (T := X) p ma mb pa pb) ≅
+    (nativeGK4BMCompatibleReverseFunctor (T := T) p ma mb pa pb ⋙
+      nativeGK4BNPostcompAttained p ma mb pa pb (R ⋙ S ⋙ L ⋙ M)) :=
+  nativeGK4BWChosenInverse_binaryPasting p ma mb pa pb R (S ⋙ L ⋙ M)
+    (nativeGK4BTChosenInverse_targetNatIso p ma mb pa pb R) (nativeGK4BWChosenInverse_threeLeft p ma mb pa pb S L M)
+
+/-- Full typed four-target vertex pathD is the SAME direct chosen-inverse Θ. -/
+theorem nativeGK4BWChosenInverse_four_pathD_eq_direct
+    (p : Polygon) (ma mb : KuuNativeBlocks a b)
+    (pa pb : KuuNativeBlocks x y)
+    (R : T ⥤ U) (S : U ⥤ V) (L : V ⥤ W) (M : W ⥤ X) :
+    nativeGK4BWChosenInverse_four_pathD p ma mb pa pb R S L M =
+      nativeGK4BTChosenInverse_targetNatIso p ma mb pa pb (R ⋙ S ⋙ L ⋙ M) := by
+  simp only [nativeGK4BWChosenInverse_four_pathD,
+    nativeGK4BWChosenInverse_threeLeft_eq_direct,
+    nativeGK4BWChosenInverse_binaryPasting_ofTheta,
+    nativeGK4BVChosenInverse_composition_coherence]
+  all_goals rfl
+
+/-- Four-target pasting vertex pathE, with its genuine nested GK4BV comparisons. -/
+noncomputable def nativeGK4BWChosenInverse_four_pathE
+    (p : Polygon) (ma mb : KuuNativeBlocks a b)
+    (pa pb : KuuNativeBlocks x y)
+    (R : T ⥤ U) (S : U ⥤ V) (L : V ⥤ W) (M : W ⥤ X) :
+    (nativeGK4BNPostcompCompatible p ma mb pa pb (R ⋙ S ⋙ L ⋙ M) ⋙
+      nativeGK4BMCompatibleReverseFunctor (T := X) p ma mb pa pb) ≅
+    (nativeGK4BMCompatibleReverseFunctor (T := T) p ma mb pa pb ⋙
+      nativeGK4BNPostcompAttained p ma mb pa pb (R ⋙ S ⋙ L ⋙ M)) :=
+  nativeGK4BWChosenInverse_binaryPasting p ma mb pa pb R (S ⋙ L ⋙ M)
+    (nativeGK4BTChosenInverse_targetNatIso p ma mb pa pb R) (nativeGK4BWChosenInverse_threeRight p ma mb pa pb S L M)
+
+/-- Full typed four-target vertex pathE is the SAME direct chosen-inverse Θ. -/
+theorem nativeGK4BWChosenInverse_four_pathE_eq_direct
+    (p : Polygon) (ma mb : KuuNativeBlocks a b)
+    (pa pb : KuuNativeBlocks x y)
+    (R : T ⥤ U) (S : U ⥤ V) (L : V ⥤ W) (M : W ⥤ X) :
+    nativeGK4BWChosenInverse_four_pathE p ma mb pa pb R S L M =
+      nativeGK4BTChosenInverse_targetNatIso p ma mb pa pb (R ⋙ S ⋙ L ⋙ M) := by
+  simp only [nativeGK4BWChosenInverse_four_pathE,
+    nativeGK4BWChosenInverse_threeRight_eq_direct,
+    nativeGK4BWChosenInverse_binaryPasting_ofTheta,
+    nativeGK4BVChosenInverse_composition_coherence]
+  all_goals rfl
+
+/-- The actual FIVE vertices of the four-target pentagon agree
+as WHOLE Mathlib natural isomorphisms.  Each vertex first pastes
+genuine two-stage and three-stage comparisons, with no strictness
+postulate on the separately chosen inverse. -/
+theorem nativeGK4BWChosenInverse_fourTarget_pentagon
+    (p : Polygon) (ma mb : KuuNativeBlocks a b)
+    (pa pb : KuuNativeBlocks x y)
+    (R : T ⥤ U) (S : U ⥤ V) (L : V ⥤ W) (M : W ⥤ X) :
+    nativeGK4BWChosenInverse_four_pathA p ma mb pa pb R S L M =
+      nativeGK4BWChosenInverse_four_pathB p ma mb pa pb R S L M ∧
+    nativeGK4BWChosenInverse_four_pathB p ma mb pa pb R S L M =
+      nativeGK4BWChosenInverse_four_pathC p ma mb pa pb R S L M ∧
+    nativeGK4BWChosenInverse_four_pathC p ma mb pa pb R S L M =
+      nativeGK4BWChosenInverse_four_pathD p ma mb pa pb R S L M ∧
+    nativeGK4BWChosenInverse_four_pathD p ma mb pa pb R S L M =
+      nativeGK4BWChosenInverse_four_pathE p ma mb pa pb R S L M := by
+  simp only [
+    nativeGK4BWChosenInverse_four_pathA_eq_direct,
+    nativeGK4BWChosenInverse_four_pathB_eq_direct,
+    nativeGK4BWChosenInverse_four_pathC_eq_direct,
+    nativeGK4BWChosenInverse_four_pathD_eq_direct,
+    nativeGK4BWChosenInverse_four_pathE_eq_direct]
+  all_goals rfl
+
+end FourTargetPentagon
+
+/-- Actual three-way horizontal target natural transformation,
+built by TWO right-whiskers and a final left-whisker. -/
+def nativeGK4BWTargetNat_threeHorizontal
+    {R R' : T ⥤ U} (ρ : R ⟶ R')
+    {S S' : U ⥤ V} (σ : S ⟶ S')
+    {L L' : V ⥤ W} (τ : L ⟶ L') :
+    (R ⋙ S ⋙ L) ⟶ (R' ⋙ S' ⋙ L') :=
+  Functor.whiskerRight (Functor.whiskerRight ρ S) L ≫
+    Functor.whiskerRight (Functor.whiskerLeft R' σ) L ≫
+      Functor.whiskerLeft (R' ⋙ S') τ
+
+/-- Three simultaneous target natural transformations preserve
+the comparison even when the source and target use DIFFERENT
+three-stage bracketings.  This is the actual GK4BU modification
+transported through GK4BV, not an assumed strict inverse. -/
+theorem nativeGK4BWChosenInverse_threeHorizontal_square
+    (p : Polygon) (ma mb : KuuNativeBlocks a b)
+    (pa pb : KuuNativeBlocks x y)
+    {R R' : T ⥤ U} (ρ : R ⟶ R')
+    {S S' : U ⥤ V} (σ : S ⟶ S')
+    {L L' : V ⥤ W} (τ : L ⟶ L') :
+    Functor.whiskerRight
+        (nativeGK4BNPostcompCompatibleNat p ma mb pa pb
+          (nativeGK4BWTargetNat_threeHorizontal ρ σ τ))
+        (nativeGK4BMCompatibleReverseFunctor (T := W) p ma mb pa pb) ≫
+      (nativeGK4BWChosenInverse_threeRight p ma mb pa pb R' S' L').hom =
+    (nativeGK4BWChosenInverse_threeLeft p ma mb pa pb R S L).hom ≫
+      Functor.whiskerLeft
+        (nativeGK4BMCompatibleReverseFunctor (T := T) p ma mb pa pb)
+        (nativeGK4BNPostcompAttainedNat p ma mb pa pb
+          (nativeGK4BWTargetNat_threeHorizontal ρ σ τ)) := by
+  simpa only [nativeGK4BWChosenInverse_threeRight_eq_direct,
+    nativeGK4BWChosenInverse_threeLeft_eq_direct] using
+    (nativeGK4BUChosenInverse_targetNat_square p ma mb pa pb
+      (nativeGK4BWTargetNat_threeHorizontal ρ σ τ))
+
 end TargetThreeAndUnits
 
 #print axioms nativeGK4BWChosenInverse_binaryPasting
@@ -261,6 +454,20 @@ end TargetThreeAndUnits
 #print axioms nativeGK4BWChosenInverse_threeFirstTarget_square
 #print axioms nativeGK4BWChosenInverse_threeMiddleTarget_square
 #print axioms nativeGK4BWChosenInverse_threeLastTarget_square
+
+#print axioms nativeGK4BWChosenInverse_four_pathA
+#print axioms nativeGK4BWChosenInverse_four_pathA_eq_direct
+#print axioms nativeGK4BWChosenInverse_four_pathB
+#print axioms nativeGK4BWChosenInverse_four_pathB_eq_direct
+#print axioms nativeGK4BWChosenInverse_four_pathC
+#print axioms nativeGK4BWChosenInverse_four_pathC_eq_direct
+#print axioms nativeGK4BWChosenInverse_four_pathD
+#print axioms nativeGK4BWChosenInverse_four_pathD_eq_direct
+#print axioms nativeGK4BWChosenInverse_four_pathE
+#print axioms nativeGK4BWChosenInverse_four_pathE_eq_direct
+#print axioms nativeGK4BWChosenInverse_fourTarget_pentagon
+#print axioms nativeGK4BWTargetNat_threeHorizontal
+#print axioms nativeGK4BWChosenInverse_threeHorizontal_square
 
 end
 end Kuu.F112.Physical
