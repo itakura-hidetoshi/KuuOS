@@ -137,6 +137,7 @@ theorem nativeGK4BWChosenInverse_threeLeft_eq_direct
   simp only [nativeGK4BWChosenInverse_threeLeft,
     nativeGK4BVChosenInverse_composition_coherence,
     nativeGK4BWChosenInverse_binaryPasting_ofTheta]
+  all_goals rfl
 
 /-- The right-first genuine three-target pasting gives the same
 direct whole NatIso, with no strictness postulate on choice inverse. -/
