@@ -692,6 +692,16 @@ $$
 
 より具体的な優先順位とLeanファイルへの導線は[ROADMAP](ROADMAP.md)を参照してください。以下の長いP58–P91記録は歴史的な検証台帳として保持しており、**現在の最終段階ではありません**。
 
+## 最新のLean定理統合 — F112-P94D3GK4BH / 2026-11-01 JST
+
+**元F54真正型付きK_AIの旧AH観測忠実性を、first jet・物理rank・Boolean gradeから証明 — [前半 #2858](https://github.com/itakura-hidetoshi/KuuOS/pull/2858)、[後半 #2859](https://github.com/itakura-hidetoshi/KuuOS/pull/2859) ともにMERGED。** [first jet Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4BHFirstJetADRecovery.lean)・[grade/rank忠実性Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4BHGradeRankFaithfulness.lean)・[正式証明記録](docs/formal/GK4BH-first-jet-grade-rank-ah-faithfulness.md)。真正F54の元多項式行列の係数から、旧GK4ADの符号付きcast charge・後退数・非可換順序付きmomentを復元し、GK4BAのt=4一点決定性で元AH一致から旧AD一致を証明。さらに実F54の後退数≤原始回転数とzero-rotationの元左rank保存、GK4AC前進rank不等式により **Boolean grade=true iff 後退数0かつ元始終点rank一致** を形式化した。
+
+**主定理：** `nativeGK4BHKernel_AH_injective` は既存の第二kernel圏 `K_AI` の任意の型付きHomでAH値一致からHom等号を導く。旧AH関手の各Hom単射 `nativeGK4BHOldAHFunctor_injective_hom` と、実到達AH像へのGK4BF関手の各Hom全単射 `nativeGK4BHImageFunctor_bijective_hom` が成立。固定AHファイバーは高々一元、GK4BGの残余AH衝突は存在しない。**元Type値F54経路自身の同一性、独立構造商Sの忠実性、全整数行列圏への全射は含意しない。**
+
+**exact-source：** #2858 source `d7aa7798a4a39e7450532dab02f0910c1c073adb`、test-merge `77fb5d2eefbc7fa1ae2c5d7b5e48ad990e092882`、tree `d1c3413213a8b8469cf8c8da93d71778035ae512`、[CI #41260074882](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41260074882) **Strict Lean 3802/3802・Governance SUCCESS**、12宣言、squash `93db9b5f77c8554f9fc52a7c7f057188de1b83a0`。#2859 source `2c16bad8e8a893c66dda68c28da1625c82bf6f83`、test-merge `3ae76d2513ad9748ff111fafe3754f5717373bbd`、tree `f87b3edba4497d24229339cd6c71685986c9e84e`、[CI #41260689362](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41260689362) **Strict Lean 3803/3803・Governance SUCCESS**、12宣言、squash `d4c435af91f4b4d9f605ee8739b6b758b79003d0`。合計24宣言は標準3公理以内、sorryAx0。canonical main `d4c435af91f4b4d9f605ee8739b6b758b79003d0`。Lean v4.30.0-rc2、mathlib 5450b53e5ddc75d46418fabb605edbf36bd0beb6、公開root107、保護#1558 Draft／OPEN／未マージ維持。
+
+**次GK4BI：** 既存の各Hom全単射と同じ真正型付き対象表示を使い、`K_AI ≌ 実到達AH行列圏` のMathlib圏同値を構成。逆Hom写像、逆関手の単位・合成保存と自然unit/counitを証明する。元Q圏公理、S忠実性、元Type値完全同値、全整数行列到達、真正14D無条件Countable、19D filler、global strict、hyperdescentはなお未証明。旧GK4BG欄の「GK4BH未形式化」は当時の履歴であり、この最新欄が現在の到達点を記録する。
+
 ## 研究の全体像：一般理論が先、C60は後から導入した検証の場
 
 研究は二つの相互に照らし合う方向から進みます。
