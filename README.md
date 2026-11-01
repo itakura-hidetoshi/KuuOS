@@ -14,6 +14,14 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK4BL / 2026-11-01 JST
+
+**実到達AH像への自然変換の一意降下と、precomposition関手のMathlib FullyFaithfulを証明 — [定理PR #2867](https://github.com/itakura-hidetoshi/KuuOS/pull/2867) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4BLNaturalTransformationDescent.lean)・[正式証明記録](docs/formal/GK4BL-natural-transformation-attained-ah-descent.md)。GK4BJで確立した元F45依存型独立構造商`S`から**実到達**旧AH像圏`A_AH^att`への対象全射・各Hom全射関手`F:S⥤A_AH^att`について、任意の標的Mathlib圏`T`と任意の関手`G,H:A_AH^att⥤T`に対し、**`Nat(G,H) ≃ Nat(F ⋙ G,F ⋙ H)`**を元の型付きF45対象と真正S-Hom実前像から構成。自然変換の実降下、その自然性を全実到達AH射で証明し、`whiskerLeft`との両側逆、自然変換Equiv、**`nativeGK4BLPrecomposition_fullyFaithful`**、逆降下の恒等・垂直合成保存までLean4で形式化した。さらにGK4BKの証明済み普遍性と組み合わせ、precompositionの対象像が**元構造商AH観測核両立Functorに正確に一致**し、その因子関手が厳密に一意であることを証明（14宣言）。ここで`F ⋙ G`は通常の数学記法では`G ∘ F`、**S自身のfaithfulnessは未証明**。
+
+**exact-source：** 最終source HEAD `552ceba6d198ae5dea904f54180eec8fc06837ff`、test-merge HEAD `2cc93f9a9999ef2a5ec0f6595b276e82f25ba14f`、**共通Git tree `bd5c5b367fee25b02d0b748dc1be835cd17b6a6e`**、[CI #41268260288](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41268260288) **Strict Lean 3807/3807 SUCCESS・Governance terminal SUCCESS**、新規14宣言の公理依存は`propext`・`Classical.choice`・`Quot.sound`以内、sorryAx0、変更Lean warning/error0/0。定理squash／main当時HEAD `de974ee81059215aab4e32ea74c2ced273d1284c`。Lean v4.30.0-rc2、pinned mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、公開root107、保護PR #1558 Draft／OPEN／未マージ維持、strict空中心・独立Kuu一presentation・Gray非再導入。
+
+**次GK4BM：** GK4BKの対象像`iff AH-kernel-compatible`とGK4BLの自然変換全忠実性を、**実到達AH圏のFunctor圏とS→TのAH核両立Functorのfull subcategory間の真正Mathlib圏同値**へ組み立てる。元構造商Sとの無条件圏同値や元Type値経路等号、元Q圏公理、全整数行列到達、真正14D無条件Countable、19D filler、global strict・hyperdescentは未証明のまま。以下のGK4BK以前の研究欄は当時の履歴として保持する。
+
 ## 最新のLean定理統合 — F112-P94D3GK4BK / 2026-11-01 JST
 
 **真正独立構造商Sから実到達AH像への普遍因子化をMathlib関手の厳密等式・一意性まで形式化 — [定理PR #2865](https://github.com/itakura-hidetoshi/KuuOS/pull/2865) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4BKUniversalAHFactorization.lean)・[正式証明記録](docs/formal/GK4BK-universal-attained-ah-kernel-factorization.md)。GK4BJで証明済みの元F45依存型独立構造商`S`から**真正実到達**旧AH行列圏`A_AH^att`への対象全射・各Hom全射関手`F`について、**任意の標的Mathlib圏T、任意の実Functor `H:S⥤T`** を対象に、元構造商の旧AH観測値が等しい全型付きHom対をHも同一視する条件を定式化。全元構造商Homの実前像を利用し、代表元に依存しない因子関手`G:A_AH^att⥤T`を実構成して単位・合成保存、**関手全体の等式`F ⋙ G = H`**、必要条件・十分条件、**`∃!G`の厳密一意性**をLeanで証明した（14宣言）。これは一般1圏のobserver-kernel universal descentであり、元SのAH忠実性、raw Type値経路同一性、元Q圏公理、全整数行列到達、高次hyperdescentを主張しない。
