@@ -103,9 +103,14 @@ theorem nativeGK5IAssociator_atoms
         (e k).unitIso.inv.app (G.obj (F.obj ((e i).inverse.obj X))) =
           𝟙 (G.obj (F.obj ((e i).inverse.obj X))) :=
     (e k).unitIso.hom_inv_id_app _
-  simpa only [Equivalence.unit, Equivalence.unitInv,
-    Category.assoc, ← Functor.map_comp, hCancel,
-    Functor.map_id, Category.comp_id]
+  first
+  | simpa only [Equivalence.unit, Equivalence.unitInv,
+      Category.assoc, hCancel, Category.comp_id]
+  | 
+    simp only [Equivalence.unit, Equivalence.unitInv]
+    congr 1
+    congr 1
+    simp [Category.assoc, hCancel]
 
 #print axioms nativeGK5IForwardTriangle
 #print axioms nativeGK5IInverseTriangle
