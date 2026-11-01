@@ -58,8 +58,6 @@ theorem nativeGK5KChangeCompNat_right
   simp only [NatTrans.comp_app, Functor.whiskerLeft_app,
     nativeGK5IChangeCompIso_hom_app]
   dsimp [nativeGK5GChangeNat, nativeGK5GChangeAtom]
-  simp only [Functor.comp_obj, Functor.comp_map,
-    Functor.whiskerLeft_app, Functor.whiskerRight_app]
   simpa only [Functor.map_comp] using
     congrArg (fun f => (e k).functor.map f) hβ.symm
 
