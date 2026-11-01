@@ -65,47 +65,45 @@ theorem nativeGK5IChangeCompIso_hom_app
   dsimp [nativeGK5GChangeCompIso, nativeGK5GChangeAtom]
   simp
 
-/-- A real three-stage change of categories commutes with the
-genuine Mathlib associator, as a WHOLE natural isomorphism.
-This is a basic GK5H generator, with arbitrary finite subtrees. -/
-theorem nativeGK5IAssociator_generator
+/-- The first finite heterogeneous three-ATOM associator case.
+Real equivalence units at the two intermediate categories are
+compared by the naturality of the inverse unitIso, not a postulated
+strict equality of pointwise equivalences. -/
+theorem nativeGK5IAssociator_atoms
     {i j k l : I}
-    (a : NativeGK5DTypedTree C i j)
-    (b : NativeGK5DTypedTree C j k)
-    (c : NativeGK5DTypedTree C k l) :
+    (F : C i ⥤ C j) (G : C j ⥤ C k) (H : C k ⥤ C l) :
     nativeGK5DStepIso
-        (nativeGK5GChangeStep e (NativeGK5DTypedStep.assoc a b c)) ≪≫
+        (nativeGK5GChangeStep e
+          (NativeGK5DTypedStep.assoc
+            (NativeGK5DTypedTree.atom F)
+            (NativeGK5DTypedTree.atom G)
+            (NativeGK5DTypedTree.atom H))) ≪≫
       nativeGK5GChangeTreeIso e
-        (NativeGK5DTypedTree.paste a (.paste b c)) =
+        (NativeGK5DTypedTree.paste (.atom F) (.paste (.atom G) (.atom H))) =
     nativeGK5GChangeTreeIso e
-        (NativeGK5DTypedTree.paste (.paste a b) c) ≪≫
+        (NativeGK5DTypedTree.paste (.paste (.atom F) (.atom G)) (.atom H)) ≪≫
       nativeGK5GChangeIso e
-        (nativeGK5DStepIso (NativeGK5DTypedStep.assoc a b c)) := by
+        (nativeGK5DStepIso (NativeGK5DTypedStep.assoc
+          (NativeGK5DTypedTree.atom F)
+          (NativeGK5DTypedTree.atom G)
+          (NativeGK5DTypedTree.atom H))) := by
   apply Iso.ext
   ext X
-  simp only [nativeGK5DStepIso, nativeGK5GChangeStep,
-    nativeGK5GChangeTreeIso, nativeGK5GChangeTree,
-    nativeGK5GChangeIso, Iso.trans_hom,
-    Functor.isoWhiskerLeft_hom, Functor.isoWhiskerRight_hom,
-    NatTrans.comp_app, Functor.whiskerLeft_app, Functor.whiskerRight_app,
-    nativeGK5IChangeCompIso_hom_app,
-    Functor.comp_obj, Functor.comp_map, Category.id_comp,
-    Category.comp_id, Functor.map_comp, Functor.associator_hom_app,
-    Functor.map_id, Category.assoc]
-  let u := (nativeGK5DTreeComposite b).map
-    ((e j).unitIso.inv.app
-      ((nativeGK5DTreeComposite a).obj ((e i).inverse.obj X)))
-  have hC := (nativeGK5GChangeTreeIso e c).hom.naturality
-    ((e k).functor.map u)
+  let u := G.map ((e j).unitIso.inv.app (F.obj ((e i).inverse.obj X)))
   have hK := (e k).unitIso.inv.naturality u
-  simp [nativeGK5GChangeAtom, Functor.comp_obj, Functor.comp_map,
-    Category.assoc, hC, hK, u]
+  simp [nativeGK5DStepIso, nativeGK5GChangeStep,
+    nativeGK5GChangeTreeIso, nativeGK5GChangeTree,
+    nativeGK5GChangeAtom, nativeGK5GChangeIso,
+    nativeGK5IChangeCompIso_hom_app,
+    Functor.comp_obj, Functor.comp_map,
+    Functor.associator_hom_app,
+    Functor.map_comp, Category.assoc, hK, u]
 
 #print axioms nativeGK5IForwardTriangle
 #print axioms nativeGK5IInverseTriangle
 #print axioms nativeGK5IChangeIso_hom
 #print axioms nativeGK5IChangeCompIso_hom_app
-#print axioms nativeGK5IAssociator_generator
+#print axioms nativeGK5IAssociator_atoms
 
 end BasicGeneratorCoherence
 end
