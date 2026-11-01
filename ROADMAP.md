@@ -3,6 +3,16 @@
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK5C / 2026-11-01 JST
+
+**既存書換え経路の独立性GK5Bを、全有限木の真正正規化到達性へ拡張：順序付き葉列の等号と書換え経路の存在の必要十分条件をLean4で証明 — [PR #2901](https://github.com/itakura-hidetoshi/KuuOS/pull/2901) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5CFiniteTreeNormalizationReachability.lean)・[正式証明記録](docs/formal/GK5C-constructive-finite-tree-normalization-reachability.md)。
+
+**GK5C数学的到達点：** 固定標的圏`T`の有限`T⥤T`二分木に対して、実際のassociator・左右unitor・whiskeringステップを維持した`nativeGK5CAppendPath`と`nativeGK5CNormalizePath`を帰納構成。全有限木`t`から標準右結合木`treeOfList(leaves t)`への型付き実書換え経路が存在する。正規化の実whole NatIsoとGK5B標準`eqToIso`比較が終点等式輸送を含め厳密一致する。さらに任意`a,b`について**`Nonempty(RewritePath T a b) ↔ leaves a=leaves b`**を証明し、左から右にはGK5B葉列保存、右から左には両側正規化・逆転による具体経路を使用。GK5B経路独立性およびGK4BU/GK5A選択逆比較に接続し、標準化経路・同葉経路それぞれのwhole NatTrans可換性、全NatIsoの両端等式輸送を形式化（13宣言）。
+
+**検証：** 最終source HEAD `502c1e0f7d2d4e2adc68e6a55fd6d2018b626de1`／test-merge `e464e79ac0302db61f8ab74e71533b39fbd5f0e5`／一致tree `1e20f44546642bf3ceb3f834b8d05eff28269ded`。[exact-source CI #41307401462](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41307401462) **Strict Lean 3824/3824、Independent Kuu・Workflow integrity・Governance terminal全SUCCESS**。13/13公理監査は標準`propext, Classical.choice, Quot.sound`のみ、sorryAx0、変更Lean errors/warnings0/0。定理squash/main当時HEAD `73ea3ac3e6f6c86d8ec7a21dff011a6a34d6d46f`。
+
+**次GK5D候補：** 有限木の正規化経路を保つ関手的普遍性、あるいは異なる標的圏をまたぐ有限列の型付き一般化を検討。GK5Cの到達性は固定標的`T`のendofunctor木に限定。元S無条件忠実性、source-Q圏公理、raw F54/F55/P92B Type値高次セル、全整数行列到達、global Gray、無制限hyperdescentは未証明。Lean v4.30.0-rc2、mathlib pin `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、公開root107、保護PR #1558 Draft/OPEN/未マージ、strict空中心・独立Kuu一presentationを維持。以下過去の全研究記録を保持する。
+
 ## 最新のLean定理統合 — F112-P94D3GK5B / 2026-11-01 JST
 
 **GK5Aの有限木直接比較から、真正Mathlib associator・左右unitor・whiskeringの証拠付き書換え経路、whole NatIso経路独立性、有限語正規化compatibilityへ進展 — [定理PR #2899](https://github.com/itakura-hidetoshi/KuuOS/pull/2899) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5BFiniteTreeRewritePathCoherence.lean)・[正式証明記録](docs/formal/GK5B-finite-tree-rewrite-path-coherence.md)。
