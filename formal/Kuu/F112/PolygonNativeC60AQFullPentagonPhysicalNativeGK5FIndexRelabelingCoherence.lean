@@ -97,7 +97,8 @@ theorem nativeGK5FWordComposite_reindex
   | empty _ => rfl
   | cons F xs ih =>
       change F ⋙ nativeGK5DWordComposite (nativeGK5FWordReindex f C xs) =
-        F ⋙ nativeGK5DWordComposite xs
+        F ⋙ nativeGK5DWordComposite
+          (C := fun z : I => C (f z)) xs
       rw [ih]
 
 /-- Index relabeling does not change the genuine WHOLE composite
@@ -112,7 +113,8 @@ theorem nativeGK5FTreeComposite_reindex
   | paste left right hl hr =>
       change nativeGK5DTreeComposite (nativeGK5FTreeReindex f C left) ⋙
           nativeGK5DTreeComposite (nativeGK5FTreeReindex f C right) =
-        nativeGK5DTreeComposite left ⋙ nativeGK5DTreeComposite right
+        nativeGK5DTreeComposite (C := fun z : I => C (f z)) left ⋙
+          nativeGK5DTreeComposite (C := fun z : I => C (f z)) right
       rw [hl, hr]
 
 /-- The entire ordered typed leaf word commutes exactly with
@@ -165,6 +167,7 @@ theorem nativeGK5FWordReindex_id
           (nativeGK5FWordReindex (id : I → I) C xs) =
         NativeGK5DTypedWord.cons F xs
       rw [ih]
+      rfl
 
 /-- Reclassification by identity preserves all finite binary trees. -/
 theorem nativeGK5FTreeReindex_id
@@ -180,6 +183,7 @@ theorem nativeGK5FTreeReindex_id
           (nativeGK5FTreeReindex (id : I → I) C b) =
         NativeGK5DTypedTree.paste a b
       rw [ha, hb]
+      rfl
 
 /-- Successive reclassifications f then g are identical as FULL
 dependent finite words to reclassification by their composite. -/
