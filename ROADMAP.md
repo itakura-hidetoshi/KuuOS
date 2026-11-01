@@ -3,6 +3,19 @@
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK5K / 2026-11-02 JST
+
+**GK5J端点障害判定から実局所coherenceへ：真正点別圏同値の非strict二段合成NatIso `χ_{R,S}`が右関手自然変換に関してwhole NatTrans/whole NatIsoで自然であることを形式証明 — [定理PR #2917](https://github.com/itakura-hidetoshi/KuuOS/pull/2917) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5KCompositorNaturality.lean)・[正式証明記録](docs/formal/GK5K-pointwise-equivalence-compositor-right-naturality.md)。
+
+**証明済：** 任意`R:C_i⥤C_j`・`β:S⟶T`・点別圏同値`e_i:C_i≌D_i`で、`whiskerLeft(Change R,ChangeNat β) ≫ χ(R,T).hom = χ(R,S).hom ≫ ChangeNat(whiskerLeft R β)`を実whole Mathlib NatTransで証明。任意の本物の`β:S≅T`に対するwhole NatIso版も`Iso.ext`で実証。中間圏`unitIso.inv`を厳密逆として消去せず、GK5I component lemmaと本物の`β.naturality`に基づく。
+
+**正確な境界：** 今回はcompositorの**右自然性**2定理のみ。左自然性と二変数相互作用、任意部分木associator、unitor、whiskeringsの一般無条件coherenceはまだ未証明。GK5H/GK5Jの条件付きpath/step/endpoint必要十分性を全消滅へすり替えない。元source-Q、raw Type高次セル、Gray、無制限descentを広げない。
+
+**検証：** source HEAD `41e17a8f06749215c9fb8bf0f74df74a47af3af3`／定理squash `9d63868a33c864ba00c596966b2a0d001df211e7`／一致Git tree `6e870e81a6068592c0677d02e246bfc7428b0fe8`。[CI #41363398263](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41363398263) Strict Lean **3832/3832**・Independent Kuu・Workflow integrity・Governance **SUCCESS**。公理監査2/2、標準三公理のみ、sorryAx0。重複`simp only`のLean elaborationエラー1件を、元ソース全文・importsと固定API確認後に修正。固定Lean/mathlib・root107・保護#1558 Draft/OPEN／append-only、strict空中心／独立Kuu一presentation維持。
+
+**次GK5L：** `unitIso.inv`の自然性を左変数`α:R⟶R'`に適用し、右/左両者のwhole NatIso二変数interchangeを証明。その後任意有限部分木の`Φ_a,Φ_b,Φ_c`を含むassociator及びunitor/whiskering局所可換性を個別に解消し、すべて終わった場合にのみGK5H/GK5Jから無仮定全有限path整合性へ進む。既存全研究記録を維持。
+
+
 ## 最新のLean定理統合 — F112-P94D3GK5J / 2026-11-02 JST
 
 **GK5H局所↔全有限経路の障害を、GK5D標準経路で判定する端点only obstructionへ厳密還元 — [定理PR #2915](https://github.com/itakura-hidetoshi/KuuOS/pull/2915) MERGED。** [新規Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5JEndpointObstructionCanonicalization.lean)・[正式証明記録](docs/formal/GK5J-endpoint-only-finite-path-coherence.md)。
