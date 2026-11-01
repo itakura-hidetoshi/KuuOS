@@ -87,7 +87,9 @@ theorem nativeGK5AListComposite_append
       nativeGK5AListComposite xs ⋙ nativeGK5AListComposite ys := by
   induction xs with
   | nil =>
-      simp [nativeGK5AListComposite]
+      change nativeGK5AListComposite ys =
+        (𝟭 T) ⋙ nativeGK5AListComposite ys
+      exact (Functor.id_comp (nativeGK5AListComposite ys)).symm
   | cons R xs ih =>
       change R ⋙ nativeGK5AListComposite (xs ++ ys) =
         (R ⋙ nativeGK5AListComposite xs) ⋙ nativeGK5AListComposite ys
