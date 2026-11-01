@@ -67,13 +67,13 @@ def nativeGK4BOTargetActionCompatible
   map_id := by
     intro R
     apply NatTrans.ext
-    intro H
+    funext H
     apply ObjectProperty.hom_ext
     rfl
   map_comp := by
     intro R R' R'' ρ σ
     apply NatTrans.ext
-    intro H
+    funext H
     apply ObjectProperty.hom_ext
     rfl
 
