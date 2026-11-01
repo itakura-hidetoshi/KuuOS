@@ -192,6 +192,93 @@ theorem nativeGK4BSWholeCounit_twoTargets
   ext X
   exact (nativeGK4BRCounit_twoTargets p ma mb pa pb H R Q X).symm
 
+
+/-- The ADJOINTIFIED unit of GK4BQ's genuine Equivalence has
+identity components at every genuinely attained AH object.
+The proof uses the actual forward triangle, not any unsupported
+definitional equality of source functors: the genuine counit
+at the original typed F45 representative is an identity Hom. -/
+theorem nativeGK4BSAdjointifiedUnit_component_hom
+    (p : Polygon)
+    (ma mb : KuuNativeBlocks a b)
+    (pa pb : KuuNativeBlocks x y)
+    (G : NativeGK4BFAttainedAHStage p ma mb pa pb ⥤ T)
+    (X : NativeGK4BFAttainedAHStage p ma mb pa pb) :
+    ((nativeGK4BQTriangleUnitIso p ma mb pa pb).hom.app G).app X =
+      𝟙 (G.obj X) := by
+  have h := nativeGK4BQForward_triangle p ma mb pa pb G
+  have hX := congrArg (fun φ => φ.hom.app X.original) h
+  change ((nativeGK4BQTriangleUnitIso p ma mb pa pb).hom.app G).app X ≫
+      𝟙 (G.obj X) = 𝟙 (G.obj X) at hX
+  simpa only [Category.comp_id] using hX
+
+/-- The original concrete GK4BQ unit is ALREADY half-adjoint
+for the true explicit inverse. Consequently Mathlib's
+adjointification leaves its whole NatIso literally equal,
+although this equality was not presumed in GK4BQ/GK4BR. -/
+theorem nativeGK4BSAdjointifiedUnit_eq_concrete
+    (p : Polygon)
+    (ma mb : KuuNativeBlocks a b)
+    (pa pb : KuuNativeBlocks x y) :
+    nativeGK4BQTriangleUnitIso (T := T) p ma mb pa pb =
+      nativeGK4BQExplicitUnitIso (T := T) p ma mb pa pb := by
+  apply Iso.ext
+  ext G X
+  exact (nativeGK4BSAdjointifiedUnit_component_hom p ma mb pa pb G X).trans
+    (nativeGK4BRUnitComponent_hom p ma mb pa pb G X).symm
+
+/-- The ADJOINTIFIED genuine unit, not just its raw precursor,
+commutes with arbitrary target postcomposition as equality
+of WHOLE NatTrans Homs. -/
+theorem nativeGK4BSAdjointifiedUnit_postcompose
+    (p : Polygon)
+    (ma mb : KuuNativeBlocks a b)
+    (pa pb : KuuNativeBlocks x y)
+    (G : NativeGK4BFAttainedAHStage p ma mb pa pb ⥤ T)
+    (R : T ⥤ U) :
+    Functor.whiskerRight
+      ((nativeGK4BQTriangleUnitIso (T := T) p ma mb pa pb).hom.app G) R =
+    (nativeGK4BQTriangleUnitIso (T := U) p ma mb pa pb).hom.app
+      ((nativeGK4BNPostcompAttained p ma mb pa pb R).obj G) := by
+  rw [nativeGK4BSAdjointifiedUnit_eq_concrete (T := T) p ma mb pa pb,
+      nativeGK4BSAdjointifiedUnit_eq_concrete (T := U) p ma mb pa pb]
+  exact nativeGK4BSWholeUnit_postcompose p ma mb pa pb G R
+
+/-- The GK4BQ ADJOINTIFIED unit has a full Mathlib NatTrans
+target-rho square, not only a componentwise identity. -/
+theorem nativeGK4BSAdjointifiedUnit_targetNat_square
+    (p : Polygon)
+    (ma mb : KuuNativeBlocks a b)
+    (pa pb : KuuNativeBlocks x y)
+    {R R' : T ⥤ U} (ρ : R ⟶ R')
+    (G : NativeGK4BFAttainedAHStage p ma mb pa pb ⥤ T) :
+    (nativeGK4BNPostcompAttainedNat p ma mb pa pb ρ).app G ≫
+      (nativeGK4BQTriangleUnitIso (T := U) p ma mb pa pb).hom.app
+        ((nativeGK4BNPostcompAttained p ma mb pa pb R').obj G) =
+    (nativeGK4BQTriangleUnitIso (T := U) p ma mb pa pb).hom.app
+      ((nativeGK4BNPostcompAttained p ma mb pa pb R).obj G) ≫
+      (nativeGK4BNPostcompAttainedNat p ma mb pa pb ρ).app
+        ((nativeGK4BMPrecompositionLift (T := T) p ma mb pa pb ⋙
+          nativeGK4BPExplicitInverseFunctor (T := T) p ma mb pa pb).obj G) := by
+  rw [nativeGK4BSAdjointifiedUnit_eq_concrete (T := U) p ma mb pa pb]
+  exact nativeGK4BSWholeUnit_targetNat_square p ma mb pa pb ρ G
+
+/-- Two successive target functors also preserve the genuine
+ADJOINTIFIED unit on the whole attained-AH NatTrans Hom. -/
+theorem nativeGK4BSAdjointifiedUnit_twoTargets
+    (p : Polygon)
+    (ma mb : KuuNativeBlocks a b)
+    (pa pb : KuuNativeBlocks x y)
+    (G : NativeGK4BFAttainedAHStage p ma mb pa pb ⥤ T)
+    (R : T ⥤ U) (Q : U ⥤ V) :
+    Functor.whiskerRight
+      ((nativeGK4BQTriangleUnitIso (T := T) p ma mb pa pb).hom.app G) (R ⋙ Q) =
+    (nativeGK4BQTriangleUnitIso (T := V) p ma mb pa pb).hom.app
+      ((nativeGK4BNPostcompAttained p ma mb pa pb (R ⋙ Q)).obj G) := by
+  rw [nativeGK4BSAdjointifiedUnit_eq_concrete (T := T) p ma mb pa pb,
+      nativeGK4BSAdjointifiedUnit_eq_concrete (T := V) p ma mb pa pb]
+  exact nativeGK4BSWholeUnit_twoTargets p ma mb pa pb G R Q
+
 end WholeTargetNaturality
 
 #print axioms nativeGK4BSWholeUnit_postcompose
@@ -202,6 +289,11 @@ end WholeTargetNaturality
 #print axioms nativeGK4BSWholeCounitInv_postcompose
 #print axioms nativeGK4BSWholeUnit_twoTargets
 #print axioms nativeGK4BSWholeCounit_twoTargets
+#print axioms nativeGK4BSAdjointifiedUnit_component_hom
+#print axioms nativeGK4BSAdjointifiedUnit_eq_concrete
+#print axioms nativeGK4BSAdjointifiedUnit_postcompose
+#print axioms nativeGK4BSAdjointifiedUnit_targetNat_square
+#print axioms nativeGK4BSAdjointifiedUnit_twoTargets
 
 end
 end Kuu.F112.Physical
