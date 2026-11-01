@@ -86,6 +86,7 @@ theorem nativeGK5HChangeIso_trans
   simp only [nativeGK5GChangeIso, Iso.trans_hom,
     Functor.isoWhiskerLeft_hom, Functor.isoWhiskerRight_hom,
     Functor.whiskerLeft_comp, Functor.whiskerRight_comp]
+  rfl
 
 /-- A formal groupoid identity: an actual whole NatIso square
 remains commutative when both path Iso witnesses are inverted. -/
@@ -97,10 +98,13 @@ private theorem nativeGK5HReverseSquare
     (φ₀ : L₀ ≅ R₀) (φ₁ : L₁ ≅ R₁)
     (h : P ≪≫ φ₁ = φ₀ ≪≫ Q) :
     P.symm ≪≫ φ₀ = φ₁ ≪≫ Q.symm := by
+  have h' : φ₀ = (P ≪≫ φ₁) ≪≫ Q.symm := by
+    calc
+      φ₀ = (φ₀ ≪≫ Q) ≪≫ Q.symm := by simp
+      _ = (P ≪≫ φ₁) ≪≫ Q.symm := by rw [h]
   calc
     P.symm ≪≫ φ₀ =
-      P.symm ≪≫ (φ₀ ≪≫ Q ≪≫ Q.symm) := by simp
-    _ = P.symm ≪≫ (P ≪≫ φ₁ ≪≫ Q.symm) := by rw [h]
+      P.symm ≪≫ ((P ≪≫ φ₁) ≪≫ Q.symm) := by rw [h']
     _ = φ₁ ≪≫ Q.symm := by simp [Iso.trans_assoc]
 
 /-- The non-vacuous finite-path GLUING implication:
@@ -115,8 +119,7 @@ theorem nativeGK5HLocalStep_implies_allPaths
   | refl a =>
       simp only [nativeGK5DPathIso, nativeGK5GChangePath,
         nativeGK5GChangeIso, Functor.isoWhiskerRight_refl,
-        Functor.isoWhiskerLeft_refl]
-      simp
+        Functor.isoWhiskerLeft_refl, Iso.refl_trans, Iso.trans_refl]
   | basic s =>
       simpa only [nativeGK5DPathIso, nativeGK5GChangePath] using
         hlocal s
