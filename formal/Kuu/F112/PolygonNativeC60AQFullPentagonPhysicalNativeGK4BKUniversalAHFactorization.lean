@@ -220,11 +220,10 @@ theorem nativeGK4BKFactor_functor
     (h : nativeGK4BKAHKernelCompatible p ma mb pa pb H) :
     nativeGK4BJStructuralAHFunctor p ma mb pa pb ⋙
       nativeGK4BKFactorFunctor p ma mb pa pb H h = H := by
-  refine CategoryTheory.Functor.ext (fun X => rfl) ?_
+  apply CategoryTheory.Functor.toPrefunctor_injective
+  refine Prefunctor.ext (fun X => rfl) ?_
   intro X Y f
-  simpa only [Functor.comp_map, eqToHom_refl,
-    Category.id_comp, Category.comp_id] using
-      (nativeGK4BKFactor_map p ma mb pa pb H h X Y f)
+  exact nativeGK4BKFactor_map p ma mb pa pb H h X Y f
 
 /-- The converse: ANY categorical factorization through the
 actually attained AH image must respect the true original
