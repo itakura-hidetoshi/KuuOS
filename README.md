@@ -14,6 +14,16 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK4BW / 2026-11-01 JST
+
+**GK4BVの任意選択逆関手の二段標的合成の厳密整合性を、三段結合・四段pentagon・左右単位則・三方向の標的自然変換に拡張 — [定理PR #2889](https://github.com/itakura-hidetoshi/KuuOS/pull/2889) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4BWChosenInverseHigherTargetPentagonUnit.lean)・[正式証明記録](docs/formal/GK4BW-chosen-inverse-target-pentagon-unit-coherence.md)。既存F45依存型構造商`S`、実到達旧AH観測圏`A_att`、真のAH核両立全充満部分圏`Comp_T`を固定し、GK4BMの任意選択逆`Q_T`とGK4BPの明示因子逆`P_T`を定義上同一視せずGK4BQの`κ_T:Q_T≅P_T`を用いる。
+
+**型付き高次標的coherence：** 任意の`R:T⥤U`、`S:U⥤V`、`L:V⥤W`で、`(R,S)`を先に貼る3段NatIsoと`(S,L)`を先に貼る3段NatIsoを実際のMathlib比較として構成し、両方が直接の`Θ_(R⋙S⋙L)`に一致することを証明。さらに4段`R,S,L,M`の**5つの実NatIso括弧経路**それぞれを構成して`Θ_(R⋙S⋙L⋙M)`との厳密等式を示し、5頂点のpentagon整合性を証明した。二段比較に標的単位`𝟭`を挿入する**左右単位則**、第1/第2/第3段の本物の標的自然変換四角、3変換の水平合成について**左括弧から右括弧へまたぐwhole NatTrans可換四角**も形式化した（公開25宣言）。
+
+**exact-source：** source `0097f7a692d8f74a61367b148dd325ba03e54091`、test-merge `80a21116fac82f0b3c58bb809c205fb9ad36db98`、一致Git tree `13afe4f849a7b5024ac57d5f2a754351a71258cb`。[CI #41297928591](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41297928591) **Strict Lean 3818/3818 SUCCESS・Independent Kuu・Workflow integrity・Governance terminal SUCCESS**、25公開宣言すべて`#print axioms`で標準3公理`propext/Classical.choice/Quot.sound`以内、`sorryAx`0、変更Lean error/warning 0/0。定理squash/main HEAD `91b2a9f9dd8287952defbf4657a76bbffc9d28bc`。
+
+**次の研究GK4BX（仮称）：** 4段pentagonに対する独立の標的自然変換・unit coherenceを整理し、Mathlibの本物のunitor／associatorと選択逆比較のcompatibilityをさらに形式化する。原Sの無条件faithfulness、source-Q圏公理、raw F54/F55/P92B Type値高次セル、全整数行列到達、global Gray/hyperdescentの未証明境界を維持する。Lean v4.30.0-rc2、mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、公開root107、保護PR #1558 Draft/OPEN/未マージ、strict空中心・独立Kuu一presentation・Gray非再導入。以下GK4BV以前の履歴は保持する。
+
 ## 最新のLean定理統合 — F112-P94D3GK4BV / 2026-11-01 JST
 
 **GK4BTで得た任意選択逆関手の真正標的変更NatIso `Θ_R`について、二段標的変更の貼り合わせ同型が直接の`Θ_(R⋙L)`とwhole Mathlib NatIsoで厳密に一致することをLean4で証明 — [定理PR #2887](https://github.com/itakura-hidetoshi/KuuOS/pull/2887) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4BVChosenInverseCompositionCoherence.lean)・[正式証明記録](docs/formal/GK4BV-two-target-chosen-inverse-composition-coherence.md)。元F45の依存型独立構造商`S`、旧AHの真正実到達像`A_att`、GK4BMの厳密なAH核両立`ObjectProperty.FullSubcategory` `Comp_T`、明示因子逆`P_T`、任意選択逆`Q_T`を一切変更しない。GK4BQの`κ_T:Q_T≅P_T`、GK4BPの明示逆の厳密標的可換性、GK4BUの標的自然変換方向のwhole可換四角を再利用した。
