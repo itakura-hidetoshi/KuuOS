@@ -3,6 +3,16 @@
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK4BW / 2026-11-01 JST
+
+**任意選択逆関手`Q_T`の本物の標的変更比較`Θ_R`に対し、三段結合・4段5頂点pentagon・単位則・三方向の標的自然変換までLean4形式化 — [PR #2889](https://github.com/itakura-hidetoshi/KuuOS/pull/2889) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4BWChosenInverseHigherTargetPentagonUnit.lean)・[正式記録](docs/formal/GK4BW-chosen-inverse-target-pentagon-unit-coherence.md)。元F45型付き源`S`、真正実到達`A_att`、AH核両立`Comp_T`、明示因子逆`P_T`、任意選択逆`Q_T`のauthorityを維持する。
+
+**証明定理：** 全射関手圏の`NatIso`を引数にとる真正二段貼り合わせ演算を定義し、GK4BVの二段比較との厳密一致を確認。3段では`((R⋙S)⋙L)`と`(R⋙(S⋙L))`のどちらからも`Θ_(R⋙S⋙L)`を得る。4段では括弧付けの5経路をそれぞれ**実NatIsoとして構成**、直接`Θ`との等式を5個証明して4辺のpentagon可換性をwhole NatIso等式で結論する。左右単位`𝟭`、第1/第2/第3標的変換の可換性、そして三段標的変換水平合成と括弧付け変更を同時に含むwhole NatTrans四角も証明した。GK4BU／GK4BVの厳密輸送を利用し、選択逆`Q_T`のstrict標的自然性を仮定していない（公開25宣言）。
+
+**exact-source：** source `0097f7a692d8f74a61367b148dd325ba03e54091`、test-merge `80a21116fac82f0b3c58bb809c205fb9ad36db98`、一致Git tree `13afe4f849a7b5024ac57d5f2a754351a71258cb`。[CI #41297928591](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41297928591) **Strict Lean 3818/3818 SUCCESS・Independent Kuu・Workflow integrity・Governance terminal SUCCESS**、25公開宣言すべて`#print axioms`で標準3公理`propext/Classical.choice/Quot.sound`以内、`sorryAx`0、変更Lean error/warning 0/0。定理squash/main HEAD `91b2a9f9dd8287952defbf4657a76bbffc9d28bc`。
+
+**次GK4BX（仮称）：** 本物のunitor／associatorの境界を維持しつつ、pentagonにおける自然変換と単位の高次compatibilityを追加検証する。Lean v4.30.0-rc2、mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、公開root107、保護PR #1558 Draft/OPEN/未マージ、Gray非導入。元Sの無条件faithfulness、source-Q category laws、raw F54/F55/P92B Type値高次セル、unattained integer matrices、global Gray/hyperdescentは未証明として保持。以下GK4BV以前の履歴をすべて保持する。
+
 ## 最新のLean定理統合 — F112-P94D3GK4BV / 2026-11-01 JST
 
 **任意選択逆関手`Q_T`の標的比較`Θ_R`について、二段標的変更による合成NatIsoと直接の`Θ_(R⋙L)`が厳密に一致することをLean4で証明 — [定理PR #2887](https://github.com/itakura-hidetoshi/KuuOS/pull/2887) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4BVChosenInverseCompositionCoherence.lean)・[正式証明記録](docs/formal/GK4BV-two-target-chosen-inverse-composition-coherence.md)。元F45依存型`S`、真正実到達`A_att`、元観測のAH核両立`Comp_T`、GK4BM任意選択逆`Q_T`とGK4BP明示因子逆`P_T`を維持し、GK4BQの`κ_T:Q_T≅P_T`で比較する。
