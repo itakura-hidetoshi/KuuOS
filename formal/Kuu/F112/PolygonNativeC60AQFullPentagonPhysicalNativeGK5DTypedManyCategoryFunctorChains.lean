@@ -345,20 +345,24 @@ theorem nativeGK5DStepIso_eqToIso
         (nativeGK5DWhiskerLeft_eqToIso
           (nativeGK5DTreeComposite a) (nativeGK5DStepEq h))
 
-/-- Every actual finite typed rewrite path has canonical whole NatIso. -/
-theorem nativeGK5DPathIso_eqToIso
-    {i j : I} {a b : NativeGK5DTypedTree C i j}
-    (p : NativeGK5DTypedPath C a b) :
-    nativeGK5DPathIso p = eqToIso (nativeGK5DPathEq p) := by
-  induction p generalizing a b with
-  | refl _ => rfl
-  | basic h => exact nativeGK5DStepIso_eqToIso h
-  | reverse p ih =>
-      simpa only [nativeGK5DPathIso, nativeGK5DPathEq, ih,
-        nativeGK5DEqToIso_symm]
-  | trans p q ihp ihq =>
+/-- Every actual finite typed rewrite path has canonical whole NatIso.
+The explicitly indexed motive is reduced by constructor-pattern recursion:
+a separate tactic induction leaves the source/target tree indices opaque. -/
+theorem nativeGK5DPathIso_eqToIso :
+    ∀ {i j : I} {a b : NativeGK5DTypedTree C i j}
+      (p : NativeGK5DTypedPath C a b),
+      nativeGK5DPathIso p = eqToIso (nativeGK5DPathEq p)
+  | _, _, _, _, .refl _ => by
+      rfl
+  | _, _, _, _, .basic h => by
+      exact nativeGK5DStepIso_eqToIso h
+  | _, _, _, _, .reverse p => by
       simpa only [nativeGK5DPathIso, nativeGK5DPathEq,
-        ihp, ihq, eqToIso_trans]
+        nativeGK5DPathIso_eqToIso p, nativeGK5DEqToIso_symm]
+  | _, _, _, _, .trans p q => by
+      simpa only [nativeGK5DPathIso, nativeGK5DPathEq,
+        nativeGK5DPathIso_eqToIso p, nativeGK5DPathIso_eqToIso q,
+        eqToIso_trans]
 
 /-- Arbitrary different-category paths with IDENTICAL typed endpoints
 give equal genuine WHOLE Mathlib natural isomorphisms. -/
