@@ -3,6 +3,15 @@
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK4BE / 2026-11-01 JST
+
+**元F54型付き経路に由来するK_AIの評価関手の核一致と、実到達AH像での唯一の因子化 — [定理PR #2851](https://github.com/itakura-hidetoshi/KuuOS/pull/2851) MERGED。** [新規Lean定理](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4BEEvaluationKernelFactor.lean)・[証明とLean4修正理由](docs/formal/GK4BE-evaluation-kernel-attained-ah-factorization.md)。各真正Homで`ker(P̄)=ker(eval₄∘P̄)=⋂_{t∈ℤ}ker(evalₜ∘P̄)`を形式化。旧AH関手の核が全整数評価関手の核に包含されること、その逆の共通核一致、元Q／独立Sへの別個の一点決定性を証明。**元AH値の真の到達像だけ**をSubtype証拠で構成し、`evalₜ`がその像を通って代表元に依存せず一意に因子化し、`t=4`は元AH値へ戻ることを証明。定理・型16宣言。元Q圏公理・Type値3-cell・K_AI faithfulness・任意行列到達は主張しない。
+
+**exact-source:** source `1721e3c02a93a011f63f932af589cce89aac01f6`、test-merge `bbe7b3b17c05e9077f465543c15f737d6a332db7`、完全一致するtree `41b55bcc9f437ce987815f61dd269b8d90cab8d8`、[CI #41255562142](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41255562142) **Strict Lean 3799/3799 SUCCESS・Governance terminal SUCCESS**、標準3公理以内、sorryAx0。初回の`Functor`観測核比較における`simp only`の非書換えを、Homごとの旧AH比較補題からの`calc`で修正。定理squash `9249514545fcaa542538f82cdfc1f6e7b740112e`。固定Lean v4.30.0-rc2／mathlib 5450b53e5ddc75d46418fabb605edbf36bd0beb6、root107・#1558 Draft OPEN未マージ、strict空中心・独立Kuu一presentation・Gray非再導入。
+
+**次GK4BF（未形式化）候補：** 真正K_AIのHomごとに得られたAH到達像を、元K_AIの合成・単位と整合する圏へ組み立て、到達像への関手の核・忠実性を正確に分類する。元K_AIや元Qの同一性ではなく、評価4観測で失われる情報をobstructionとして明記する。元Q自身の圏公理、元Type値歴史的完全同値、固定単一旧類ファイバー無限性、算術slice全域到達、真正14D無条件Countable、19D filler、global strict、hyperdescentは未証明のまま。
+
+
 ## 最新のLean定理統合 — F112-P94D3GK4BD / 2026-11-01 JST
 
 **整数評価の実Functorとt=4での旧AH観測関手一致 — [定理PR #2849](https://github.com/itakura-hidetoshi/KuuOS/pull/2849) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4BDIntegerEvaluationFunctor.lean)・[証明記録](docs/formal/GK4BD-integer-evaluation-functor-ah-triangle.md)。GK4AVの多項式行列とAHの整数行列を、それぞれ非可換行列積で一対象Mathlib Categoryにして、任意`t∈ℤ`の成分評価をMathlib Functorとして実構成。GK4BCの真正K_AI→多項式値関手との合成、既存K_AI旧AH成分関手の別構成、**`P̄ ⋙ eval_4 = F_AH` を依存型HomすべてでFunctor全体の等式として証明**。独立元構造商Sを介した任意整数tのGK4AU観測一致とt=4のGK4AH回収も形式化。新規10宣言。元Q自身の未証明結合律・単位律や元Type値3-cellは使用しない。
