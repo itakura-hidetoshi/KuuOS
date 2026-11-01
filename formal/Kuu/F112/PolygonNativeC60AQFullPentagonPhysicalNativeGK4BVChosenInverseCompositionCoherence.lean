@@ -294,12 +294,20 @@ theorem nativeGK4BVChosenInverse_composition_coherence
     (eqToIso (nativeGK4BVAttainedTarget_comp p ma mb pa pb R S).symm)
     (eqToIso (nativeGK4BPExplicitInverse_target_square p ma mb pa pb R))
     (eqToIso (nativeGK4BPExplicitInverse_target_square p ma mb pa pb S))
-  simpa only [nativeGK4BVChosenInverse_twoTargetCompositeIso,
-    nativeGK4BVExplicitInverse_twoTargetCompositeIso,
-    nativeGK4BTChosenInverse_targetNatIso,
-    nativeGK4BVWhiskerRight_eqToIso,
-    nativeGK4BVWhiskerLeft_eqToIso,
-    nativeGK4BVExplicitInverse_twoTarget_eq_direct] using h
+  have hfold :
+      nativeGK4BVChosenInverse_twoTargetCompositeIso p ma mb pa pb R S =
+        Functor.isoWhiskerLeft
+            (nativeGK4BNPostcompCompatible p ma mb pa pb (R ⋙ S))
+            (nativeGK4BQChosenInverseComparisonIso (T := V) p ma mb pa pb) ≪≫
+          nativeGK4BVExplicitInverse_twoTargetCompositeIso p ma mb pa pb R S ≪≫
+          Functor.isoWhiskerRight
+            (nativeGK4BQChosenInverseComparisonIso (T := T) p ma mb pa pb).symm
+            (nativeGK4BNPostcompAttained p ma mb pa pb (R ⋙ S)) := by
+    simpa only [nativeGK4BVChosenInverse_twoTargetCompositeIso,
+      nativeGK4BVExplicitInverse_twoTargetCompositeIso,
+      nativeGK4BTChosenInverse_targetNatIso, Iso.trans_assoc] using h
+  rw [hfold, nativeGK4BVExplicitInverse_twoTarget_eq_direct]
+  rfl
 
 end TwoTargetChosenInverse
 
