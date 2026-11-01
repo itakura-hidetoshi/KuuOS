@@ -14,6 +14,16 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK4BV / 2026-11-01 JST
+
+**GK4BTで得た任意選択逆関手の真正標的変更NatIso `Θ_R`について、二段標的変更の貼り合わせ同型が直接の`Θ_(R⋙L)`とwhole Mathlib NatIsoで厳密に一致することをLean4で証明 — [定理PR #2887](https://github.com/itakura-hidetoshi/KuuOS/pull/2887) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4BVChosenInverseCompositionCoherence.lean)・[正式証明記録](docs/formal/GK4BV-two-target-chosen-inverse-composition-coherence.md)。元F45の依存型独立構造商`S`、旧AHの真正実到達像`A_att`、GK4BMの厳密なAH核両立`ObjectProperty.FullSubcategory` `Comp_T`、明示因子逆`P_T`、任意選択逆`Q_T`を一切変更しない。GK4BQの`κ_T:Q_T≅P_T`、GK4BPの明示逆の厳密標的可換性、GK4BUの標的自然変換方向のwhole可換四角を再利用した。
+
+**二段比較の完全一致：** 任意の`R:T⥤U`、`L:U⥤V`について、`eqToIso`による両端の厳密標的合成輸送、3か所のMathlib `Functor.associator`、`Θ_R`と`Θ_L`の左右whiskeringを貼り合わせた真正NatIso `Θ²_(R,L)` を構成し、**`Θ²_(R,L)=Θ_(R⋙L)`というwhole NatIsoの等式**を証明した。まず明示`P`の二段輸送が直接輸送`eqToIso`と一致することを証明し、一般ゲージ補題では`κ_V`の自然性、`κ_U.inv`と`κ_U.hom`の相殺、`κ_T.inv`の自然性を元の型のまま示して、結果を任意選択`Q`へ移送した（公開5宣言・private5補題）。`Q_T`の定義的strict標的自然性は仮定しない。
+
+**exact-source：** source HEAD `6fd24887dee2ef1ec9b4760f2caa6a2160437a40`、test-merge `eab1c47bf15ee3d4f661fc44b93f10dece7264fb`、**一致Git tree `c06899e9f85283ed280bb120b123bc379c76f4e4`**。[CI #41296105367](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41296105367) **Strict Lean 3817/3817 SUCCESS・Independent Kuu・Workflow integrity・Governance terminal SUCCESS**、全5公開宣言の公理依存は`propext`／`Classical.choice`／`Quot.sound`以内、sorryAx0、changed Lean warnings/errors0/0。定理squash/main HEAD `b9818a9c74ca159c4a2ffce134a163e03df58246`。Lean v4.30.0-rc2、mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、公開root107、保護PR #1558 Draft/OPEN/未マージ。
+
+**次の研究GK4BW（仮称）：** GK4BVの二段標的合成・GK4BUの標的自然変換を統合し、三段合成のpentagon型coherenceとunit coherenceがどこまで真に導かれるか、associatorと等式輸送を保持して検証する。元Sの無条件忠実性、原Q圏公理、raw F54/F55/P92B Type値高次セル、全整数行列到達、global Gray/hyperdescentは未証明境界のまま維持する。以下GK4BU以前の履歴を変更しない。
+
 ## 最新のLean定理統合 — F112-P94D3GK4BU / 2026-11-01 JST
 
 **GK4BMの任意選択逆関手を比較するGK4BTの自然同型について、任意の標的自然変換 `ρ:R⟶R'` に関するwhole Mathlib NatTrans可換四角をLean4で証明 — [定理PR #2885](https://github.com/itakura-hidetoshi/KuuOS/pull/2885) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4BUChosenInverseTargetNatTransCoherence.lean)・[正式証明記録](docs/formal/GK4BU-chosen-inverse-target-nattrans-coherence.md)。GK4BJの元F45型付き観測関手、旧AH**実到達**圏`A_att`、GK4BMの真正AH核両立`ObjectProperty.FullSubcategory`である`Comp_T`をそのまま使用。GK4BMの任意選択逆`Q_T`とGK4BPの明示因子逆`P_T`のGK4BQ比較`κ_T:Q_T≅P_T`を利用し、GK4BTで構成済みの`Θ_R:R_*^Comp⋙Q_U≅Q_T⋙R_*^A`が**標的自然変換方向にも整合**することを、実圏のwhole NatTrans等式として形式化した。
