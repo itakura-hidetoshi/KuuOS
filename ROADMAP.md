@@ -3,6 +3,14 @@
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK4BM / 2026-11-01 JST
+
+**真正実到達AH像上の関手圏と、元F45独立構造商のAH核両立関手充満部分圏との真正Mathlib圏同値を証明 — [定理PR #2869](https://github.com/itakura-hidetoshi/KuuOS/pull/2869) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4BMCompatibleFunctorCategoryEquivalence.lean)・[正式証明記録](docs/formal/GK4BM-compatible-functor-category-equivalence.md)。任意の標的Mathlib圏`T`について、既存GK4BJ関手`F:S⥤A_AH^att`（元真正F45型付き独立構造商`S`→**実到達**旧AH行列圏）を前合成する関手が、`S⥤T`の**元AH観測核両立関手からなる真正`ObjectProperty.FullSubcategory`**への`Mathlib Functor.IsEquivalence`を構成することをLean4で証明した。GK4BKの各Hの厳密一意因子化で対象全射、GK4BLの自然変換降下Equivで全忠実性を証明し、`nativeGK4BMCompatibleFunctorEquivalence`で**真の`CategoryTheory.Equivalence`、逆Mathlib関手、unit/counit自然同型と三角恒等式**まで構成した。**`Fun(A_AH^att,T) ≌ Fun_AH-compatible(S,T)`**（15宣言）。対象は元AH観測核と両立する`S→T`関手に厳密に限定し、`S≌A_AH^att`や`S→T`全体との圏同値・raw F54 Type値3-cellの同一性は主張していない。
+
+**exact-source：** source HEAD `5d80f02ad6fc470801b8779e1b88b19d2e966fbd`、test-merge HEAD `1209c1b1faab70b9190b3c489969721768ca987b`、**共通Git tree `6379880c8eeab06dfa1debb0f6e32eedfb3914e4`**。[CI #41269022170](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41269022170) **Strict Lean 3808/3808 SUCCESS・Governance terminal SUCCESS**、変更Lean1ファイルの15公理監査宣言は標準3公理`propext`・`Classical.choice`・`Quot.sound`以内、sorryAx0、warning/error0/0。定理squash／main統合時HEAD `c0625a9981756fa33c8309687c300dba973dcd8e`。Lean v4.30.0-rc2、pinned mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、公開root107維持、保護PR #1558 Draft／OPEN／未マージ、strict空中心・独立Kuu一presentation・Gray非再導入。
+
+**次GK4BN：** GK4BMの真正圏同値について、標的圏`T`から`U`への任意の実関手による後合成の**compatibility保存・precompositionとの可換性・自然変換レベルの整合性**を形式化し、標的圏に関する2-自然性の正確な境界を評価する。元Q圏公理、S忠実性、全整数行列到達、真正14D無条件Countable、19D filler、global strict・hyperdescentは引き続き未証明。下段のGK4BL以前は当時の歴史的記録として残す。
+
 ## 最新のLean定理統合 — F112-P94D3GK4BL / 2026-11-01 JST
 
 **実到達AH像への自然変換の一意降下と、precomposition関手のMathlib FullyFaithfulを証明 — [定理PR #2867](https://github.com/itakura-hidetoshi/KuuOS/pull/2867) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4BLNaturalTransformationDescent.lean)・[正式証明記録](docs/formal/GK4BL-natural-transformation-attained-ah-descent.md)。GK4BJで確立した元F45依存型独立構造商`S`から**実到達**旧AH像圏`A_AH^att`への対象全射・各Hom全射関手`F:S⥤A_AH^att`について、任意の標的Mathlib圏`T`と任意の関手`G,H:A_AH^att⥤T`に対し、**`Nat(G,H) ≃ Nat(F ⋙ G,F ⋙ H)`**を元の型付きF45対象と真正S-Hom実前像から構成。自然変換の実降下、その自然性を全実到達AH射で証明し、`whiskerLeft`との両側逆、自然変換Equiv、**`nativeGK4BLPrecomposition_fullyFaithful`**、逆降下の恒等・垂直合成保存までLean4で形式化した。さらにGK4BKの証明済み普遍性と組み合わせ、precompositionの対象像が**元構造商AH観測核両立Functorに正確に一致**し、その因子関手が厳密に一意であることを証明（14宣言）。ここで`F ⋙ G`は通常の数学記法では`G ∘ F`、**S自身のfaithfulnessは未証明**。
