@@ -14,6 +14,15 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新の研究追補 — 2026-11-01 JST / F112-P94D3GK4BF
+
+**元F54完全依存型経路の真正K_AI各Homの実到達AH行列を合成・単位付きMathlib Categoryとし、各Hom全射・整数行列値への忠実包含・任意整数評価関手の因子化をLean4で証明 — [定理PR #2854](https://github.com/itakura-hidetoshi/KuuOS/pull/2854) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4BFAttainedAHCategory.lean)・[exact-source証明記録](docs/formal/GK4BF-attained-ah-category-evaluation-factor.md)。既存GK4BEの実在証拠付き`NativeGK4BEAttainedAH`を型付きHomに採用し、真正K_AI合成を使った閉性と整数行列積の結合律・単位律を証明。**`K_AI → AH_attained → Mat₂(ℤ)`** の前段は各Hom全射、後段は各Hom単射、合成は既存旧AH観測関手と完全に一致。前段のfaithfulnessは仮定しないで、その必要十分条件を障害判定として形式化。すべての整数`t`でGK4BEの一意評価を真のFunctorにし、K_AI評価関手の因子化、`t=4`での包含への一致を全関手等式として**16宣言**で形式化。元Qの未証明圏公理・Type値3-cell生成・任意行列到達は主張しない。
+
+**exact-source：** source `a52a701341cc369b2211ea8111c83441b156b9ac`、test-merge `5875ff8652c124de7964568cdc79f05462335070`、両Git tree `78971c18d8a155fc4498fa402945826fec1d3565` 完全一致。[CI #41256478785](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41256478785) **Strict Lean 3800/3800・Governance terminal SUCCESS**、標準3公理以内・sorryAx0。定理squash `8c41653a55c28439bd4b1ec0ade255d34d41ef20`。固定Lean v4.30.0-rc2／mathlib 5450b53e5ddc75d46418fabb605edbf36bd0beb6、公開root107、strict空中心・独立Kuu一presentation、Gray非再導入、保護PR #1558 Draft/OPEN未マージ維持。
+
+**未証明：** 前段のfaithfulnessや元K_AI・元Type値歴史的完全同値、旧類固定単一ファイバー無限性、算術slice全域到達、元Q結合律・左右単位、真正14D無条件Countable、19D filler、global strict、hyperdescent。以前の研究欄は履歴として保持する。
+
+
 ## 最新の研究追補 — 2026-11-01 JST / F112-P94D3GK4BE
 
 **真正K_AI上の全多項式観測・旧AH一点評価`t=4`・全整数評価の共通核が一致し、到達AH像上で任意整数評価が一意に因子化 — [定理PR #2851](https://github.com/itakura-hidetoshi/KuuOS/pull/2851) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4BEEvaluationKernelFactor.lean)・[証明／修正記録](docs/formal/GK4BE-evaluation-kernel-attained-ah-factorization.md)。GK4BA一点決定性、GK4BB `Quotient.lift`、GK4BC関手性、GK4BD整数評価関手を結合して、同じ真正型付きHomの`u,v∈K_AI`に対する **`P̄(u)=P̄(v) ⇔ ev₄(P̄u)=ev₄(P̄v) ⇔ ∀t∈ℤ, evₜ(P̄u)=evₜ(P̄v)`** をLean4証明。各Homで真に到達する元AH行列の像のみを構成し、任意整数評価の代表元独立な写像とその一意性、`t=4`での恒等回収、元Q・独立Sでの別個の一点決定性を**16宣言**で形式化。これはK_AI類自体の同一性、faithfulnessや全整数行列への到達を意味しない。
