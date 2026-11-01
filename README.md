@@ -14,6 +14,16 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK4BX / 2026-11-01 JST
+
+**GK4BWの四段pentagon全5経路に対する標的自然変換のwhole NatTrans整合性と、Mathlibの本物の左右unitor／associator–unitor triangleとの混合coherenceをLean4で形式化 — [定理PR #2891](https://github.com/itakura-hidetoshi/KuuOS/pull/2891) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4BXChosenInversePentagonNaturalityUnitorTriangle.lean)・[正式証明記録](docs/formal/GK4BX-four-target-pentagon-nattrans-unitor-triangle.md)。真正F45構造商、実到達旧AH像、AH核両立部分圏、任意選択逆関手`Q_T`、明示逆`P_T`と自然同型`κ_T:Q_T≅P_T`を変更しない。
+
+**数学的成果：** 四つの標的自然変換`ρ,σ,τ,υ`を実whiskeringと垂直合成で合成し、四段標的変更の5つの真正GK4BW NatIso経路それぞれにwhole NatTrans可換四角を証明。さらに5経路の左右貼り合わせがそれぞれ**NatTrans全体の厳密等式**で一致する。GK4BWの左右単位比較を固定版Mathlib `Functor.leftUnitor`／`Functor.rightUnitor`の本物の射に接続し、`Functor.associator`とunitorの**triangleをwhole NatTrans等式**として証明。中間単位挿入の左括弧・右括弧による`Θ`比較および両可換四角も証明した（**公開15宣言**）。
+
+**exact-source：** source HEAD `c1e5376acd72e85792efdd08b4b0be7dcfa1fe58`、test-merge `85149ae8920de7add72e9e44ac238daa66fb8537`、**一致Git tree `5a7e38f4c37b8e9687930e58a66f5a31e5cf10bc`**。[CI #41299912825](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41299912825) **Strict Lean 3819/3819 SUCCESS、Independent Kuu／Workflow integrity／Governance terminal SUCCESS**。新規15宣言すべて`#print axioms`で標準3公理`propext/Classical.choice/Quot.sound`以内、sorryAx0、変更Lean error/warning0/0。定理squash・canonical main HEAD `19058c78848ffa1198f1f1ea52889ab3b97c1970`。
+
+**次の研究GK4BY（仮称）：** 真正逆unitorの自然性・単位挿入位置を増やした有限段混合coherence・一般有限段へ至る条件を調べる。ただし原Sの無条件faithfulness、source-Q圏公理、raw F54/F55/P92B Type値高次セル、全整数行列到達、global Gray/hyperdescentは未証明境界。Lean v4.30.0-rc2／pinned mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、root107、保護PR #1558 Draft/OPEN、strict空中心・独立Kuuは一presentation。以下GK4BW以前の履歴を完全保持する。
+
 ## 最新のLean定理統合 — F112-P94D3GK4BW / 2026-11-01 JST
 
 **GK4BVの任意選択逆関手の二段標的合成の厳密整合性を、三段結合・四段pentagon・左右単位則・三方向の標的自然変換に拡張 — [定理PR #2889](https://github.com/itakura-hidetoshi/KuuOS/pull/2889) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4BWChosenInverseHigherTargetPentagonUnit.lean)・[正式証明記録](docs/formal/GK4BW-chosen-inverse-target-pentagon-unit-coherence.md)。既存F45依存型構造商`S`、実到達旧AH観測圏`A_att`、真のAH核両立全充満部分圏`Comp_T`を固定し、GK4BMの任意選択逆`Q_T`とGK4BPの明示因子逆`P_T`を定義上同一視せずGK4BQの`κ_T:Q_T≅P_T`を用いる。
