@@ -226,7 +226,6 @@ theorem nativeGK5BPath_independent
     (p q : NativeGK5BRewritePath T a b) :
     nativeGK5BPathIso p = nativeGK5BPathIso q := by
   rw [nativeGK5BPathIso_eqToIso p, nativeGK5BPathIso_eqToIso q]
-  rfl
 
 /-- Every genuine individual step respects the ordered leaf
 sequence, including associator, left/right unit and whiskering. -/
