@@ -848,7 +848,7 @@ theorem nativeGK4BYChosenInverse_inverseTriangle_twoPaths
             (Functor.associator R (𝟭 U) S).inv))) := by
   rw [nativeGK4BYTargetNat_inverseUnitor_triangle R S]
   simp only [nativeGK4BWChosenInverse_threeAssociativity]
-  exact ⟨rfl, rfl⟩
+  all_goals simp
 
 end ActualInverseUnitorTriangle
 
