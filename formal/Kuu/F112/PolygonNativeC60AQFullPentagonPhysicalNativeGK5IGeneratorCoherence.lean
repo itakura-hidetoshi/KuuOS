@@ -103,17 +103,22 @@ theorem nativeGK5IAssociator_atoms
         (e k).unitIso.inv.app (G.obj (F.obj ((e i).inverse.obj X))) =
           𝟙 (G.obj (F.obj ((e i).inverse.obj X))) :=
     (e k).unitIso.hom_inv_id_app _
-  first
-  | simpa only [Equivalence.unit, Equivalence.unitInv,
-      Category.assoc, hCancel, Category.comp_id]
-  | 
-    simp only [Equivalence.unit, Equivalence.unitInv]
-    congr 1
-    congr 1
-    trace_state
-    first
-    | rfl
-    | simpa only [Category.assoc, hCancel, Category.comp_id]
+  let Y : C k := G.obj (F.obj ((e i).inverse.obj X))
+  have hMapCancel :
+      (e l).functor.map (H.map ((e k).unitIso.hom.app Y)) ≫
+        (e l).functor.map (H.map ((e k).unitIso.inv.app Y)) =
+          𝟙 _ := by
+    calc
+      _ = (e l).functor.map
+          (H.map ((e k).unitIso.hom.app Y ≫
+            (e k).unitIso.inv.app Y)) := by
+              simp only [Functor.map_comp]
+      _ = 𝟙 _ := by
+        simp only [hCancel, Functor.map_id]
+  simp only [Equivalence.unit, Equivalence.unitInv]
+  congr 1
+  congr 1
+  simpa only [Category.assoc, hMapCancel, Category.comp_id]
 
 #print axioms nativeGK5IForwardTriangle
 #print axioms nativeGK5IInverseTriangle
