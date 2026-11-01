@@ -138,6 +138,7 @@ private theorem nativeGK4BVGaugeComposition
     rw [← Category.assoc, hCancel, Category.id_comp]
   simp only [Category.id_comp, Category.comp_id]
   simp only [← Category.assoc]
+  simp only [Category.id_comp, Category.comp_id]
   rw [k2.hom.naturality (hc.hom.app X)]
   simp only [Category.assoc, hCancel_assoc, Category.id_comp, Category.comp_id]
   rw [ha.hom.naturality (k0.inv.app X)]
