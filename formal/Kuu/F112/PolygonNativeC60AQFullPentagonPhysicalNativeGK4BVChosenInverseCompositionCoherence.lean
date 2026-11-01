@@ -122,6 +122,9 @@ private theorem nativeGK4BVGaugeComposition
       Functor.isoWhiskerRight k0.symm wholeA := by
   apply Iso.ext
   ext X
+  simp only [Iso.trans_hom, Functor.isoWhiskerLeft_hom,
+    Functor.isoWhiskerRight_hom, Functor.associator_hom_app,
+    NatTrans.comp_app, Functor.whiskerLeft_app, Functor.whiskerRight_app]
   cat_disch
 
 end AbstractGaugeComposition
