@@ -98,8 +98,13 @@ theorem nativeGK5IAssociator_atoms
     Functor.comp_obj, Functor.comp_map,
     Functor.associator_hom_app,
     Functor.map_comp, Category.assoc, hK, u]
-  simp only [Category.assoc, ← Functor.map_comp,
-    Equivalence.unit, Equivalence.unitInv, Iso.hom_inv_id_app,
+  have hCancel :
+      (e k).unitIso.hom.app (G.obj (F.obj ((e i).inverse.obj X))) ≫
+        (e k).unitIso.inv.app (G.obj (F.obj ((e i).inverse.obj X))) =
+          𝟙 (G.obj (F.obj ((e i).inverse.obj X))) :=
+    (e k).unitIso.hom_inv_id_app _
+  simpa only [Equivalence.unit, Equivalence.unitInv,
+    Category.assoc, ← Functor.map_comp, hCancel,
     Functor.map_id, Category.comp_id]
 
 #print axioms nativeGK5IForwardTriangle
