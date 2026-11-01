@@ -96,6 +96,47 @@ noncomputable def nativeGK4BVChosenInverse_twoTargetCompositeIso
     (fun W => nativeGK4BMCompatibleReverseFunctor (T := T) p ma mb pa pb ⋙ W)
     (nativeGK4BVAttainedTarget_comp p ma mb pa pb R S).symm)
 
+/-- Objectwise component of the exact compatible target-composition
+equality transport, at the attained physical AH endpoint. -/
+theorem nativeGK4BVCompatibleCompositionTransport_app
+    (p : Polygon) (ma mb : KuuNativeBlocks a b)
+    (pa pb : KuuNativeBlocks x y)
+    (R : T ⥤ U) (S : U ⥤ V)
+    (H : NativeGK4BMCompatibleFunctorCategory (T := T) p ma mb pa pb)
+    (X : NativeGK4BFAttainedAHStage p ma mb pa pb) :
+    (((eqToIso (congrArg
+      (fun W => W ⋙ nativeGK4BMCompatibleReverseFunctor (T := V) p ma mb pa pb)
+      (nativeGK4BNPostcompCompatible_comp p ma mb pa pb R S))).hom.app H).app X) =
+      𝟙 _ := by
+  simp only [eqToIso.hom, eqToHom_app, eqToHom_refl]
+
+/-- The strict explicit GK4BP inverse square has identity
+objectwise morphisms after equality transport, on the actual
+attained-AH objects and compatible functors only. -/
+theorem nativeGK4BVExplicitInverseTransport_app
+    (p : Polygon) (ma mb : KuuNativeBlocks a b)
+    (pa pb : KuuNativeBlocks x y)
+    (S : U ⥤ V)
+    (H : NativeGK4BMCompatibleFunctorCategory (T := U) p ma mb pa pb)
+    (X : NativeGK4BFAttainedAHStage p ma mb pa pb) :
+    (((eqToIso (nativeGK4BPExplicitInverse_target_square
+      p ma mb pa pb S)).hom.app H).app X) = 𝟙 _ := by
+  simp only [eqToIso.hom, eqToHom_app, eqToHom_refl]
+
+/-- The attained-AH two-target functor equality transport
+has identity components at each real compatible source object. -/
+theorem nativeGK4BVAttainedCompositionTransport_app
+    (p : Polygon) (ma mb : KuuNativeBlocks a b)
+    (pa pb : KuuNativeBlocks x y)
+    (R : T ⥤ U) (S : U ⥤ V)
+    (H : NativeGK4BMCompatibleFunctorCategory (T := T) p ma mb pa pb)
+    (X : NativeGK4BFAttainedAHStage p ma mb pa pb) :
+    (((eqToIso (congrArg
+      (fun W => nativeGK4BMCompatibleReverseFunctor (T := T) p ma mb pa pb ⋙ W)
+      (nativeGK4BVAttainedTarget_comp p ma mb pa pb R S).symm)).hom.app H).app X) =
+      𝟙 _ := by
+  simp only [eqToIso.hom, eqToHom_app, eqToHom_refl]
+
 /-- Pseudonatural composition: the directly constructed GK4BT
 comparison Theta_(R⋙S) is exactly the honestly whiskered
 two-step comparison, including both strict target-action
@@ -120,6 +161,9 @@ end TwoTargetChosenInverse
 
 #print axioms nativeGK4BVAttainedTarget_comp
 #print axioms nativeGK4BVChosenInverse_twoTargetCompositeIso
+#print axioms nativeGK4BVCompatibleCompositionTransport_app
+#print axioms nativeGK4BVExplicitInverseTransport_app
+#print axioms nativeGK4BVAttainedCompositionTransport_app
 #print axioms nativeGK4BVChosenInverse_composition_coherence
 
 end
