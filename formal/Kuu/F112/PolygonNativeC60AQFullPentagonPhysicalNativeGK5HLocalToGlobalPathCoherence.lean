@@ -176,6 +176,21 @@ theorem nativeGK5HAllPaths_iff_localStep :
   ⟨nativeGK5HAllPaths_implies_localStep e,
     nativeGK5HLocalStep_implies_allPaths e⟩
 
+/-- The actual WHOLE Mathlib NatTrans equation requested for
+every proof-relevant path, with the precise generator-level
+compatibility condition exposed rather than silently postulated.
+This is the hom projection of the stronger whole NatIso square. -/
+theorem nativeGK5HPathNatTrans_square_of_local
+    (hlocal : NativeGK5HStepCompatible (C := C) (D := D) e)
+    {i j : I} {a b : NativeGK5DTypedTree C i j}
+    (q : NativeGK5DTypedPath C a b) :
+    (nativeGK5DPathIso (nativeGK5GChangePath e q)).hom ≫
+      (nativeGK5GChangeTreeIso e b).hom =
+    (nativeGK5GChangeTreeIso e a).hom ≫
+      (nativeGK5GChangeIso e (nativeGK5DPathIso q)).hom := by
+  have h := nativeGK5HLocalStep_implies_allPaths e hlocal q
+  simpa only [Iso.trans_hom] using congrArg Iso.hom h
+
 /-- A specific actual GK5D normalization route inherits the
 whole NatIso pseudonaturality square under the exact local
 coherence hypothesis; no path existence assumption is needed. -/
@@ -197,6 +212,7 @@ theorem nativeGK5HNormalizePath_square
 #print axioms nativeGK5HLocalStep_implies_allPaths
 #print axioms nativeGK5HAllPaths_implies_localStep
 #print axioms nativeGK5HAllPaths_iff_localStep
+#print axioms nativeGK5HPathNatTrans_square_of_local
 #print axioms nativeGK5HNormalizePath_square
 
 end LocalToGlobal
