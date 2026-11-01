@@ -3,6 +3,16 @@
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK4BX / 2026-11-01 JST
+
+**五経路pentagonの本物の標的自然変換整合性、全NatTransの左右貼り合わせ一致、Mathlib左右unitorとassociator–unitor triangleを完成 — [PR #2891](https://github.com/itakura-hidetoshi/KuuOS/pull/2891) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4BXChosenInversePentagonNaturalityUnitorTriangle.lean)・[正式証明記録](docs/formal/GK4BX-four-target-pentagon-nattrans-unitor-triangle.md)。
+
+**F112-P94D3GK4BX（証明済み）：** 任意の4標的自然変換`ρ,σ,τ,υ`から作る真正Mathlib水平`ν`について、GK4BWの5つの実NatIso経路A〜Eを動かすwhole可換四角5件を証明。5経路の左貼り合わせ・右貼り合わせはそれぞれwhole NatTransとして等しい。Mathlib `Functor.leftUnitor`・`Functor.rightUnitor`の実homとGK4BW単位比較、`Functor.associator`を伴う真正triangle、二通りの中間単位挿入と選択逆比較の可換四角を確認。GK4BUのmodification、GK4BVの二段比較、GK4BWの三段・四段比較を追加の高次公理なしに結合した（公開15宣言）。任意選択`Q_T`と明示`P_T`は厳密同一視しない。
+
+**検証：** source `c1e5376acd72e85792efdd08b4b0be7dcfa1fe58`／test-merge `85149ae8920de7add72e9e44ac238daa66fb8537`／一致tree `5a7e38f4c37b8e9687930e58a66f5a31e5cf10bc`。[exact-head CI #41299912825](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41299912825) **Strict Lean 3819/3819、Independent Kuu、Workflow integrity、Governance terminalすべてSUCCESS**。15/15公理監査は標準`propext, Classical.choice, Quot.sound`以内、sorryAx0、Lean error/warning0/0。squash/main `19058c78848ffa1198f1f1ea52889ab3b97c1970`。
+
+**GK4BY候補：** 逆unitor自然変換・さらに任意位置への単位挿入とpentagonの混合coherenceを、既存の実圏構造に限って調査する。全整数行列到達、元構造圏忠実性、raw F54/F55/P92Bの追加Type値高次セル、source-Q圏公理、global Gray・無制限hyperdescentは未証明。strict空中心・独立Kuu一presentation、Lean v4.30.0-rc2、mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、root107、保護PR #1558 Draft/OPEN/未マージ。過去の研究記録は削除・上書きせず以下に保持する。
+
 ## 最新のLean定理統合 — F112-P94D3GK4BW / 2026-11-01 JST
 
 **任意選択逆関手`Q_T`の本物の標的変更比較`Θ_R`に対し、三段結合・4段5頂点pentagon・単位則・三方向の標的自然変換までLean4形式化 — [PR #2889](https://github.com/itakura-hidetoshi/KuuOS/pull/2889) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4BWChosenInverseHigherTargetPentagonUnit.lean)・[正式記録](docs/formal/GK4BW-chosen-inverse-target-pentagon-unit-coherence.md)。元F45型付き源`S`、真正実到達`A_att`、AH核両立`Comp_T`、明示因子逆`P_T`、任意選択逆`Q_T`のauthorityを維持する。
