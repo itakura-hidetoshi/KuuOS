@@ -3,6 +3,16 @@
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK5H / 2026-11-02 JST
+
+**GK5Gの圏同値変更NatIsoについて、basic generatorでのwhole NatIso可換性と全有限実書換え経路での可換性が必要十分となる厳密なobstruction criterionをLean4で証明 — [定理PR #2911](https://github.com/itakura-hidetoshi/KuuOS/pull/2911) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5HLocalToGlobalPathCoherence.lean)・[正式証明記録](docs/formal/GK5H-local-to-global-pointwise-equivalence-path-coherence.md)。
+
+**GK5H数学的到達点と未解決条件：** 固定universe pair内の真正圏族`C,D:I→Cat.{vC,uC}`、指定された点別Mathlib圏同値`e_i:C_i≌D_i`、GK5G全有限木`Φ_t`、GK5D実構造書換えを保持。各`NativeGK5DTypedStep`での`StepIso(changeStep s) ≪≫ Φ_b = Φ_a ≪≫ ChangeIso(StepIso(s))`を`StepCompatible e`、任意実Pathでの対応whole NatIsoを`PathCompatible e`と定義し、**`PathCompatible e ↔ StepCompatible e`**をLean4で証明。真のIsoの逆・合成・結合律から局所→全有限経路への構成的gluing、全→基本経路の必要性を証明し、局所条件下のwhole NatTrans hom可換式およびGK5D構成済み正規化経路のwhole NatIsoを証明した（7公理監査対象）。**StepCompatible eの無条件成立はこの段階で証明していない**。従って全経路pseudonaturalityも無条件ではない。
+
+**検証：** 最終source `e5720da9e5908e58d78688dd7a0dda5ae396b86c`／test-merge `a37e8a54078ba797f420a48a1f9f15acd21c6d0a`／一致tree `6d2e16da4f3a3f0686e724eab7eb8617958ed2ac`。[exact-source CI #41351958262](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41351958262) **Strict Lean 3829/3829、Independent Kuu・選択影響監査・Governance terminal SUCCESS**。7/7件公理監査は標準`propext, Classical.choice, Quot.sound`のみ、sorryAx0、変更Lean error/warning0/0。定理squash/main当時HEAD `d8ac072dab926283dfd2117bad384993ceecab58`。初回CIの証明構造上の3不一致を本物のIso合成/逆/恒等律で修正。次の型クラス停止は`D i ⥤ D j`を明示して解消。一度だけ親キャッシュ復元のインフラ異常が起きたがfailed-job再実行で同source検証が成功。
+
+**次GK5I候補：** 残った局所obstructionの真偽判定を、実Mathlibのassociator・left/rightUnitor・isoWhiskerの各構成子について、`Equivalence.functor_unitIso_comp`や対応する三角律・unit/counit自然性・whiskering interchangeで検証する。全generatorの無条件compatibilityがLeanで証明されれば、GK5Hを適用して無条件の全有限経路whole NatIso/whole NatTrans自然性を得る。自動消滅を未証明のまま仮定しない。元F45無条件faithfulness・source-Q圏公理・raw F54/F55/P92B Type高次セル・全整数行列到達・global Gray・無制限hyperdescent・universe変動任意鎖は未証明。GK4BM任意`Q`とGK4BP明示`P`は別表示で`κ`により比較。Lean v4.30.0-rc2・固定mathlib・root107・保護PR #1558 Draft/OPEN/未マージ・strict空中心・独立Kuu一presentationを維持。以下既存履歴を削除しない。
+
 ## 最新のLean定理統合 — F112-P94D3GK5G / 2026-11-02 JST
 
 **index再標識GK5Fから真正な圏の実体変更へ：点別の実圏同値`e_i:C_i≌D_i`による全有限型付き関手木のwhole NatIso比較をLean4で構成 — [定理PR #2909](https://github.com/itakura-hidetoshi/KuuOS/pull/2909) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5GPointwiseCategoryEquivalenceChange.lean)・[正式証明記録](docs/formal/GK5G-pointwise-category-equivalence-finite-tree-coherence.md)。
