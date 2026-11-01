@@ -14,6 +14,15 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新の研究追補 — 2026-11-01 JST / F112-P94D3GK4BG
+
+**真正第二kernel K_AIのAH固定ファイバーは、同じ型付きHomと同じAH値で実際に到達する旧AE観測値の像と全単射になることをLean4で証明 — [定理PR #2856](https://github.com/itakura-hidetoshi/KuuOS/pull/2856) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4BGResidualAEFiber.lean)・[証明／Lean宇宙修正記録](docs/formal/GK4BG-exact-ah-fiber-residual-ae.md)。GK4BAの一点決定性からAH一致が元GK4AF行列一致を強制するため、同じ真の型付きHomで **`M_AH(u)=M_AH(v)` の下、`u=v ↔ O_AE(u)=O_AE(v)`** を証明。さらに固定AH値の元K_AIファイバーと**実到達**残余AE像の双方向全単射、非自明ファイバーと異なる実到達AE値が存在することの必要十分条件を証明。GK4ACの真正F54物理rank制約を用い、後退回転数0の自己Homではgradeが`true`で、AH一致時の残余差は旧GK4AD順序付き履歴に限られると形式化。計12宣言。**同じAHの相異なるK_AI類の存在／不存在はなお未証明**であり、観測から元Type値3-cellを生成しない。
+
+**exact-source：** 最終source `1375b66b29c2dc13d92abb42305c610abf17f5cf`、test-merge `db1160da9054d99c702944694b693f7eea4e3496`、Git tree `139e402b8f21d16ab3da577379eb840bf6246e26` 完全一致。[CI #41258432374](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41258432374) **Strict Lean 3801/3801・Governance terminal SUCCESS**、12宣言すべて標準3公理以内、sorryAx0。初回の実到達固定ファイバーに小さい`Type`を指定した宇宙レベル不一致を、元F54 Homの宇宙を保持する`Type (max (max uD uE) (max vD vE))`へ修正して全文再検証。定理squash `b7c172c39a3e55ee18dfb7215b6c4237fff00c5d`。Lean v4.30.0-rc2／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、root107・strict空中心・独立Kuu一presentation、Gray非再導入、保護#1558 Draft／OPEN／未マージ維持。
+
+**限界：** 真のAH非忠実性もAH忠実性も断言しない。元Q圏公理・元Type値完全同値・固定単一旧類ファイバー無限性・算術slice全域到達・真正14D無条件Countable・19D filler・global strict・hyperdescentも未証明。以前の研究欄は履歴として残す。
+
+
 ## 最新の研究追補 — 2026-11-01 JST / F112-P94D3GK4BF
 
 **元F54完全依存型経路の真正K_AI各Homの実到達AH行列を合成・単位付きMathlib Categoryとし、各Hom全射・整数行列値への忠実包含・任意整数評価関手の因子化をLean4で証明 — [定理PR #2854](https://github.com/itakura-hidetoshi/KuuOS/pull/2854) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4BFAttainedAHCategory.lean)・[exact-source証明記録](docs/formal/GK4BF-attained-ah-category-evaluation-factor.md)。既存GK4BEの実在証拠付き`NativeGK4BEAttainedAH`を型付きHomに採用し、真正K_AI合成を使った閉性と整数行列積の結合律・単位律を証明。**`K_AI → AH_attained → Mat₂(ℤ)`** の前段は各Hom全射、後段は各Hom単射、合成は既存旧AH観測関手と完全に一致。前段のfaithfulnessは仮定しないで、その必要十分条件を障害判定として形式化。すべての整数`t`でGK4BEの一意評価を真のFunctorにし、K_AI評価関手の因子化、`t=4`での包含への一致を全関手等式として**16宣言**で形式化。元Qの未証明圏公理・Type値3-cell生成・任意行列到達は主張しない。
