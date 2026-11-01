@@ -3,6 +3,16 @@
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK5E / 2026-11-02 JST
+
+**異種圏有限木の任意選択逆関手比較をGK4BW真正NatIso貼合せから帰納構成し、全同始終点実書換え経路のwhole NatTrans自然性・経路独立性・両端輸送へ拡張 — [定理PR #2905](https://github.com/itakura-hidetoshi/KuuOS/pull/2905) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5EHeterogeneousChosenInverseCoherence.lean)・[正式証明記録](docs/formal/GK5E-heterogeneous-chosen-inverse-tree-coherence.md)。
+
+**GK5E数学的到達点：** GK5Dの`C : I → Cat.{vC,uC}`、型付き`Tree C i j`、実Path/NormalizePathを保持。各葉にGK4BTの選択逆比較`Θ_R`、各内部節点にGK4BWの本物のNatIso二段貼合せを置き、任意有限深度の`Θ_recursive(t)`を構成。`nativeGK5EChosenInverse_treeIso_eq_direct`で、複合した真正関手に対する`Θ_direct(R_t)`とのwhole NatIso厳密等式を構造帰納法で証明。GK4BUの任意標的NatTrans`ρ`可換四角を、全有限木・全実書換え経路・GK5D構成済み正規化・同じ順序付き型付き葉列の任意2木へ拡張。二経路が誘導するwhole NatTrans貼合せは完全一致、whole NatIsoの両端`eqToIso`輸送も保持。真正三段異種圏associatorの具体的可換四角も実証。任意選択逆`Q_T`と明示逆`P_T`は定義的に等置しない。
+
+**検証：** 最終source `df2160c0eac86dd51593c969b039a251f89213f8`／test-merge `9518d0a823d9541e73cc721bb758bec9ef58ad2a`／一致tree `716543f2fad563767b598a464730165f7641daca`。[exact-source CI #41341736451](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41341736451) **Strict Lean 3826/3826、Independent Kuu・Workflow integrity・Governance terminal全SUCCESS**。12/12件の公理監査は標準`propext, Classical.choice, Quot.sound`のみ、sorryAx0、変更Lean error/warning0/0。定理squash/main当時HEAD `25476845f43750450ef36ace772244a222c5fec6`。初回CIの三段associator具体例で依存型`PathIso(basic step)`と`StepIso(step)`の定義方程式が自動簡約されないLean4 elaborationを、`simpa only [nativeGK5DPathIso]`で明示修正した（他定理・仮定は変更なし）。
+
+**次GK5F候補：** 圏族のindex再標識やgenuine family morphismの下での比較自然性と必要なobstructionを形式化する。GK5Eは同一universe pair内の固定圏族の有限構造書換えに限り、異なるuniverse levelの任意鎖・元F45無条件faithfulness・source-Q圏公理・raw F54/F55/P92B Type高次セル・全整数行列到達・global Gray・無制限hyperdescentを含まない。Lean v4.30.0-rc2、固定mathlib、root107、保護PR #1558 Draft/open/unmerged、strict空中心・独立Kuu一presentation維持。以下全履歴を保持する。
+
 ## 最新のLean定理統合 — F112-P94D3GK5D / 2026-11-02 JST
 
 **GK5Cの固定標的圏`T`上の有限endofunctor木の正規化・経路独立性を、真正Mathlibの複数圏間の任意有限型付き関手鎖へ拡張 — [定理PR #2903](https://github.com/itakura-hidetoshi/KuuOS/pull/2903) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5DTypedManyCategoryFunctorChains.lean)・[正式証明記録](docs/formal/GK5D-many-category-typed-functor-chain-reachability.md)。
