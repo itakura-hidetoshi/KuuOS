@@ -110,7 +110,10 @@ theorem nativeGK5IAssociator_atoms
     simp only [Equivalence.unit, Equivalence.unitInv]
     congr 1
     congr 1
-    simp [Category.assoc, hCancel]
+    trace_state
+    first
+    | rfl
+    | simpa only [Category.assoc, hCancel, Category.comp_id]
 
 #print axioms nativeGK5IForwardTriangle
 #print axioms nativeGK5IInverseTriangle
