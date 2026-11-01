@@ -130,8 +130,16 @@ private theorem nativeGK4BVGaugeComposition
     Functor.isoWhiskerRight_hom, Functor.associator_hom_app,
     NatTrans.comp_app, Functor.whiskerLeft_app, Functor.whiskerRight_app,
     Iso.symm_hom, Functor.associator_inv_app, Functor.map_comp]
-  simp [Category.assoc, k2.hom.naturality (hc.hom.app X),
-    ha.hom.naturality (k0.inv.app X), hCancel]
+  simp only [Category.assoc, k2.hom.naturality (hc.hom.app X),
+    hCancel, Category.id_comp, Category.comp_id]
+  have hHa := ha.hom.naturality (k0.inv.app X)
+  change aS.map (aR.map (k0.inv.app X)) ≫
+      ha.hom.app (q0.obj X) =
+    ha.hom.app (p0.obj X) ≫ wholeA.map (k0.inv.app X) at hHa
+  simpa only [Category.assoc] using
+    congrArg
+      (fun f => p2.map (hc.hom.app X) ≫ hS.hom.app (cR.obj X) ≫
+        aS.map (hR.hom.app X) ≫ f) hHa
 end AbstractGaugeComposition
 
 section TwoTargetChosenInverse
