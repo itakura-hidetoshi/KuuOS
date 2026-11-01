@@ -93,7 +93,7 @@ theorem nativeGK5IAssociator_atoms
   have hK := (e k).unitIso.inv.naturality u
   simp [nativeGK5DStepIso, nativeGK5GChangeStep,
     nativeGK5GChangeTreeIso, nativeGK5GChangeTree,
-    nativeGK5GChangeAtom, nativeGK5GChangeIso,
+    nativeGK5DTreeComposite, nativeGK5GChangeAtom, nativeGK5GChangeIso,
     nativeGK5IChangeCompIso_hom_app,
     Functor.comp_obj, Functor.comp_map,
     Functor.associator_hom_app,
