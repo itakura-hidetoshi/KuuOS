@@ -335,9 +335,10 @@ theorem nativeGK5EChosenInverse_threeStage_associator_square
           (nativeGK5DStepIso (NativeGK5DTypedStep.assoc
             (NativeGK5DTypedTree.atom F)
             (NativeGK5DTypedTree.atom G)
-            (NativeGK5DTypedTree.atom H))).hom) :=
-  nativeGK5EChosenInverse_rewritePath_square p ma mb pa pb
-    (.basic (.assoc (.atom F) (.atom G) (.atom H)))
+            (NativeGK5DTypedTree.atom H))).hom) := by
+  simpa only [nativeGK5DPathIso] using
+    (nativeGK5EChosenInverse_rewritePath_square p ma mb pa pb
+      (.basic (.assoc (.atom F) (.atom G) (.atom H))))
 
 end HeterogeneousChosenInverse
 
