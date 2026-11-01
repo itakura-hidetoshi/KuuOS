@@ -14,6 +14,16 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK4BR / 2026-11-01 JST
+
+**GK4BQの真正natural unit/counit Isoが、任意の標的関手・標的自然変換・二段標的変更と整合することをLean4で形式化 — [定理PR #2879](https://github.com/itakura-hidetoshi/KuuOS/pull/2879) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4BRUnitCounitTargetCoherence.lean)・[正式証明記録](docs/formal/GK4BR-unit-counit-target-naturality.md)。元F45依存型独立構造商`S`、旧AH**実到達**圏`A_att`、GK4BMの真正AH核両立充満部分圏`Comp_T`を変更せず、前向き観測`C_T`とGK4BP**明示的**因子逆関手`P_T`に対するGK4BQの具体的`η_T:𝟭≅C_T⋙P_T`・`ε_T:P_T⋙C_T≅𝟭`を対象とした。任意の`R:T⥤U`について到達AH対象上のunit、元F45型付き構造対象上のcounitが`R.map`と可換であることを証明し、**whole NatIsoの具体的成分への作用**、任意の標的自然変換`ρ:R⟶R'`の実射で構成した**可換四角**、二段の標的変更`T→U→V`の整合性まで12宣言で証明した。
+
+**成立範囲：** GK4BRはあくまで**具体的GK4BQ unit/counitの成分別標的自然性**を型付きMathlib射の厳密等式として確立した。GK4BQの`Equivalence.mk`が**adjointifyしたunit全体**についてのtarget-varying modificationや、GK4BMの任意選択`asEquivalence`逆関手のstrict標的自然性を推論しない。元Sの無条件忠実性、元Q圏公理、raw F54/F55/P92B Type値3-cell、全整数行列到達、global Gray/hyperdescentも未証明のまま維持する。
+
+**exact-source：** source HEAD `90e7bb94fb3c977408356c845ba02bba4ec6cebf`、test-merge HEAD `bf3ac16a13dc88efa7a14af655328612b0610aa8`、**一致Git tree `fc4f5faaa54f093f44a50e2a9dbf1ed6e1631ebb`**。[CI #41279800486](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41279800486) **Strict Lean 3813/3813、Governance terminal SUCCESS、独立Kuu/Workflow integrity SUCCESS**。12宣言の公理依存は`propext`・`Classical.choice`・`Quot.sound`以内、sorryAx0、changed Lean warning/error0/0。定理squash/main統合時HEAD `761e1fe327b1c0dfac1052e53a08bd0989566088`。Lean v4.30.0-rc2、mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、公開root107、保護PR #1558 Draft/OPEN/未マージ。
+
+**次GK4BS：** 得られた標的自然変換ごとの可換四角を、依存型輸送を明示したMathlib whole NatTrans/modified coherenceへ拡張し、adjointify後のunitについて成立する自然性の正確な範囲とobstructionを特定する。以下のGK4BQ以前は履歴として完全に保持する。
+
 ## 最新のLean定理統合 — F112-P94D3GK4BQ / 2026-11-01 JST
 
 **真正元F45依存型独立構造商のAH核両立関手圏と旧AH実到達像の間で、GK4BPの明示逆関手のnatural unit/counit同型、両triangle coherence、およびGK4BM選択逆関手との自然同型をLean4で証明 — [定理PR #2877](https://github.com/itakura-hidetoshi/KuuOS/pull/2877) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4BQExplicitEquivalenceNaturality.lean)・[正式証明記録](docs/formal/GK4BQ-explicit-equivalence-unit-counit.md)。元の真正観測`F:S⥤A_att`を前合成する`C_T:(A_att⥤T)⥤Compatible(S,T)`と、GK4BPで**明示的に構成済みの**因子化逆関手`P_T`について、元F45構造射の実前像およびGK4BK因子射保存を使って、**真正`𝟭≅C_T⋙P_T`、`P_T⋙C_T≅𝟭`のwhole Mathlib NatIso**を構成。単なる対象等式ではなく、到達AH上の全Hom、元S上の全Hom、対象間の自然変換を含む。
