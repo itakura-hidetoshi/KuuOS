@@ -14,6 +14,14 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK4BK / 2026-11-01 JST
+
+**真正独立構造商Sから実到達AH像への普遍因子化をMathlib関手の厳密等式・一意性まで形式化 — [定理PR #2865](https://github.com/itakura-hidetoshi/KuuOS/pull/2865) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4BKUniversalAHFactorization.lean)・[正式証明記録](docs/formal/GK4BK-universal-attained-ah-kernel-factorization.md)。GK4BJで証明済みの元F45依存型独立構造商`S`から**真正実到達**旧AH行列圏`A_AH^att`への対象全射・各Hom全射関手`F`について、**任意の標的Mathlib圏T、任意の実Functor `H:S⥤T`** を対象に、元構造商の旧AH観測値が等しい全型付きHom対をHも同一視する条件を定式化。全元構造商Homの実前像を利用し、代表元に依存しない因子関手`G:A_AH^att⥤T`を実構成して単位・合成保存、**関手全体の等式`F ⋙ G = H`**、必要条件・十分条件、**`∃!G`の厳密一意性**をLeanで証明した（14宣言）。これは一般1圏のobserver-kernel universal descentであり、元SのAH忠実性、raw Type値経路同一性、元Q圏公理、全整数行列到達、高次hyperdescentを主張しない。
+
+**exact-source：** 最終source `2aec9d7e09d70c2cee938387345a6b4a80841faa`、test-merge `9760cb4dd85798d55d7b40eaa8ad833310a0e151`、**一致Git tree `97a9a139e87794c5803b6654a9e9441f0638cb03`**、[CI #41267046208](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41267046208) **Strict Lean 3806/3806・Governance terminal SUCCESS**、新規14宣言標準3公理`propext`・`Classical.choice`・`Quot.sound`以内、sorryAx0、変更Lean warning/error0/0。Lean4依存型Functor.extの`eqToHom`輸送で初回〜第4回CIに検証失敗があり、pinned mathlibの`Functor.toPrefunctor_injective`と`Prefunctor.ext`により**同一の厳密関手等式**を証明して全ファイルを再検証。定理squash/main当時HEAD `693ffe9acd64fea561d7058b844e85ee2d869609`。Lean v4.30.0-rc2／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、公開root107、保護PR #1558 Draft・OPEN・未マージ維持、strict空中心・独立Kuu一presentation・Gray非再導入。
+
+**次GK4BL：** GK4BKの対象関手に関する普遍性を**自然変換のAH核降下と自然性**へ拡張し、実到達AH圏から任意TへのFunctor圏とSからTへのAH核両立Functorの比較を精密化する。元Type値高次証拠やhyperdescentと同一視せずobstructionを残す。以下のGK4BJ以前の「次GK4BK」は当時の履歴記録であり、現在のfrontierは本欄とする。
+
 ## 最新のLean定理統合 — F112-P94D3GK4BJ / 2026-11-01 JST
 
 **独立構造商S→真正実到達AH行列圏のFull・EssSurjおよび正確な観測核と圏同値条件を証明 — [定理PR #2863](https://github.com/itakura-hidetoshi/KuuOS/pull/2863) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4BJStructuralAttainedAHDescent.lean)・[正式証明記録](docs/formal/GK4BJ-structural-attained-ah-exact-descent.md)。既存の真正F45境界型付き独立構造商`S`から既存第二kernel圏`K_AI`へのGK4AI関手と、GK4BIによる`K_AI ≌ 実到達AH行列圏`の正方向関手を**元のまま合成**。`nativeGK4BJStructuralAHFunctor`は実到達AH像に対して対象全射・各Hom全射であり、Mathlib `Full`・`EssSurj`を実証した。
