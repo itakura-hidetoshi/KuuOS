@@ -107,7 +107,8 @@ theorem nativeGK4BGKernelAH_eq_class_iff_AE_eq
 
 /-- Every typed K_AI arrow with exactly old AH matrix A.
 Unattained A yields an EMPTY fiber, not a fictional witness. -/
-def NativeGK4BGFixedAHFiber (A : NativeGK4AHMatrix) : Type :=
+def NativeGK4BGFixedAHFiber (A : NativeGK4AHMatrix) :
+    Type (max (max uD uE) (max vD vE)) :=
   {z : NativeGK4SKernelClasses
        (nativeGK4AIP92Family p D E) first last //
      (nativeGK4AIKernelValue first last z).2 = A}
