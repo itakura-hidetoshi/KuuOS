@@ -14,6 +14,16 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK4BJ / 2026-11-01 JST
+
+**独立構造商S→真正実到達AH行列圏のFull・EssSurjおよび正確な観測核と圏同値条件を証明 — [定理PR #2863](https://github.com/itakura-hidetoshi/KuuOS/pull/2863) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4BJStructuralAttainedAHDescent.lean)・[正式証明記録](docs/formal/GK4BJ-structural-attained-ah-exact-descent.md)。既存の真正F45境界型付き独立構造商`S`から既存第二kernel圏`K_AI`へのGK4AI関手と、GK4BIによる`K_AI ≌ 実到達AH行列圏`の正方向関手を**元のまま合成**。`nativeGK4BJStructuralAHFunctor`は実到達AH像に対して対象全射・各Hom全射であり、Mathlib `Full`・`EssSurj`を実証した。
+
+**正確なkernel：** 同じ元Type値型付き始終点の任意の構造商射`u,v`について、**合成関手像が一致 iff 元構造商の実際の旧AH観測`nativeGK4AHStructuralValue u = nativeGK4AHStructuralValue v`**（`nativeGK4BJStructuralAH_eq_iff`）。したがって**`S → 実到達AH`が真の圏同値 iff 元構造商AH観測が全Homで単射**（`nativeGK4BJStructuralAH_isEquivalence_iff`）。Full・EssSurjは無条件証明したが、**S上のAH単射性自体は主張していない**。元Q圏公理、元Type値F54 raw等号、未到達の全整数行列、真正14D無条件Countable、19D filler、global strict、hyperdescent等は未証明のまま。
+
+**exact-source：** source `84b6480c102bd4a27d597eb5c38602b9fac25594`、test-merge `b0ca6b57911c7032a807756eb0434f44e6d687ce`、**共通Git tree `5e949087e6a3dd85a623b1d5e3285622f2089d4e`**、[CI #41264909942](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41264909942) **Strict Lean 3805/3805 SUCCESS・Governance terminal SUCCESS**、変更Lean1ファイル10宣言、標準3公理以内、sorryAx0、warning/error0/0、定理squash `70ca44e911b59ef0a51f27318a3e5b7d2f099c09`。初回CIの`Function.Surjective`由来lambdaラッパーと`rw`照合不一致は、`change`で依存型等式を正規化して全文再検証。固定Lean v4.30.0-rc2、mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、公開root107、保護PR #1558 Draft・OPEN・未マージ維持、strict空中心・独立Kuu一presentation・Gray非再導入。
+
+**次GK4BK：** これらのFull・対象全射・厳密観測kernelを使い、元構造商から任意の標的圏へのAH-kernel-compatible関手が**実到達AH圏を通って因子化するための普遍性**を、元型付き境界・合成・単位・必要な一意性まで形式化する。高次hyperdescentとは区別する。旧GK4BI欄はその時点の履歴として残す。
+
 ## 最新の研究追補 — 2026-11-01 JST / F112-P94D3GK4BG
 
 **真正第二kernel K_AIのAH固定ファイバーは、同じ型付きHomと同じAH値で実際に到達する旧AE観測値の像と全単射になることをLean4で証明 — [定理PR #2856](https://github.com/itakura-hidetoshi/KuuOS/pull/2856) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4BGResidualAEFiber.lean)・[証明／Lean宇宙修正記録](docs/formal/GK4BG-exact-ah-fiber-residual-ae.md)。GK4BAの一点決定性からAH一致が元GK4AF行列一致を強制するため、同じ真の型付きHomで **`M_AH(u)=M_AH(v)` の下、`u=v ↔ O_AE(u)=O_AE(v)`** を証明。さらに固定AH値の元K_AIファイバーと**実到達**残余AE像の双方向全単射、非自明ファイバーと異なる実到達AE値が存在することの必要十分条件を証明。GK4ACの真正F54物理rank制約を用い、後退回転数0の自己Homではgradeが`true`で、AH一致時の残余差は旧GK4AD順序付き履歴に限られると形式化。計12宣言。**同じAHの相異なるK_AI類の存在／不存在はなお未証明**であり、観測から元Type値3-cellを生成しない。
