@@ -14,6 +14,15 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新の研究追補 — 2026-11-01 JST / F112-P94D3GK4BE
+
+**真正K_AI上の全多項式観測・旧AH一点評価`t=4`・全整数評価の共通核が一致し、到達AH像上で任意整数評価が一意に因子化 — [定理PR #2851](https://github.com/itakura-hidetoshi/KuuOS/pull/2851) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4BEEvaluationKernelFactor.lean)・[証明／修正記録](docs/formal/GK4BE-evaluation-kernel-attained-ah-factorization.md)。GK4BA一点決定性、GK4BB `Quotient.lift`、GK4BC関手性、GK4BD整数評価関手を結合して、同じ真正型付きHomの`u,v∈K_AI`に対する **`P̄(u)=P̄(v) ⇔ ev₄(P̄u)=ev₄(P̄v) ⇔ ∀t∈ℤ, evₜ(P̄u)=evₜ(P̄v)`** をLean4証明。各Homで真に到達する元AH行列の像のみを構成し、任意整数評価の代表元独立な写像とその一意性、`t=4`での恒等回収、元Q・独立Sでの別個の一点決定性を**16宣言**で形式化。これはK_AI類自体の同一性、faithfulnessや全整数行列への到達を意味しない。
+
+**exact-source：** source `1721e3c02a93a011f63f932af589cce89aac01f6`、test-merge `bbe7b3b17c05e9077f465543c15f737d6a332db7`、Git tree `41b55bcc9f437ce987815f61dd269b8d90cab8d8` 完全一致、[CI #41255562142](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41255562142) **Strict Lean 3799/3799・Governance terminal SUCCESS**、全16宣言は標準3公理以内・sorryAx0。初回CIのFunctor核比較`simp`不一致は、既存`nativeGK4BDKAIIntegerEvaluation_four_map`のHom等式を明示する`calc`へ修正して解消。定理squash `9249514545fcaa542538f82cdfc1f6e7b740112e`。Lean v4.30.0-rc2／pinned mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、公開root107、strict空中心・独立Kuu一presentation・Gray非再導入、保護PR #1558 Draft/OPEN/未マージ維持。
+
+**authority・限界：** 旧AHによる観測核一致は元Type値経路の同一性／3-cell生成／元Qの未証明圏公理を含まない。固定単一旧類ファイバー無限性、算術slice全域到達、真正14D無条件Countable、19D filler、global strict、hyperdescentも未証明。以前のGK4BDまでの研究欄は履歴として残す。
+
+
 ## 最新の研究追補 — 2026-11-01 JST / F112-P94D3GK4BD
 
 **真正K_AIの全多項式行列関手から任意整数tの評価関手を構成し、t=4で元AH観測関手と厳密一致することをLean4で証明 — [定理PR #2849](https://github.com/itakura-hidetoshi/KuuOS/pull/2849) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4BDIntegerEvaluationFunctor.lean)・[exact-source証明記録](docs/formal/GK4BD-integer-evaluation-functor-ah-triangle.md)。多項式行列Mat₂(ℤ[X])および整数行列Mat₂(ℤ)の各非可換行列積をHom合成とする一対象圏を区別して、全整数tの`eval_t`を真のMathlib Functorとして構成。既存GK4BCのK_AI→多項式値Functorに合成し、**`(P̄ ⋙ eval_4) = oldAHFunctor`** を真のFunctor等式としてLean証明。元構造商S→K_AIとの全整数t可換性、元SのAH t=4一致も証明。新規10宣言。元Q自身の未証明圏公理・元Type値3-cell・faithfulnessは主張しない。
