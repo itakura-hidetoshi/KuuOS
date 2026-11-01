@@ -72,25 +72,24 @@ theorem nativeGK4BHJetLinked_mul
     simp only [Polynomial.coeff_add,
       Polynomial.mul_coeff_zero, Polynomial.mul_coeff_one,
       ha11, ha12, ha21, ha22, ha11one, ha21one,
-      hb11, hb12, hb21, hb22, hb11one, hb21one]
-    push_cast
-    ring
+      hb11, hb12, hb21, hb22, hb11one, hb21one] <;>
+      push_cast <;> ring
 
 theorem nativeGK4BHJetLinked_one :
     nativeGK4BHJetLinked nativeGK4ADZero nativeGK4AVOne := by
-  simp [nativeGK4BHJetLinked, nativeGK4ADZero, nativeGK4AVOne]
+  simp [nativeGK4BHJetLinked, nativeGK4ADZero, nativeGK4AVOne, Polynomial.coeff_one]
 
 theorem nativeGK4BHJetLinked_cast :
     nativeGK4BHJetLinked nativeGK4ADCast nativeGK4AVCast := by
-  simp [nativeGK4BHJetLinked, nativeGK4ADCast, nativeGK4AVCast]
+  simp [nativeGK4BHJetLinked, nativeGK4ADCast, nativeGK4AVCast, Polynomial.coeff_one]
 
 theorem nativeGK4BHJetLinked_forward :
     nativeGK4BHJetLinked nativeGK4ADForward nativeGK4AVForward := by
-  simp [nativeGK4BHJetLinked, nativeGK4ADForward, nativeGK4AVForward]
+  simp [nativeGK4BHJetLinked, nativeGK4ADForward, nativeGK4AVForward, Polynomial.coeff_one]
 
 theorem nativeGK4BHJetLinked_backward :
     nativeGK4BHJetLinked nativeGK4ADBackward nativeGK4AVBackward := by
-  simp [nativeGK4BHJetLinked, nativeGK4ADBackward, nativeGK4AVBackward]
+  simp [nativeGK4BHJetLinked, nativeGK4ADBackward, nativeGK4AVBackward, Polynomial.coeff_one]
 
 section ActualOriginalF54
 variable {p : Polygon}
