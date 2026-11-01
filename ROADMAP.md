@@ -3,6 +3,16 @@
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK5F / 2026-11-02 JST
+
+**真正Mathlib異種圏有限木の型付きindex再標識により、任意の`f:I→J`に対する全関手評価・標準木・実書換え経路・whole NatIsoの両端輸送・GK5E選択逆比較を保つことをLean4で証明 — [定理PR #2907](https://github.com/itakura-hidetoshi/KuuOS/pull/2907) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5FIndexRelabelingCoherence.lean)・[正式証明記録](docs/formal/GK5F-typed-index-relabeling-chosen-inverse-coherence.md)。
+
+**GK5F数学的到達点：** index写像`f:I→J`と圏族`C:J→Cat.{vC,uC}`を用い、元の圏が変わらない引き戻し`C∘f`上の型付き有限語・木・基本書換え・実経路を圏族`C`へ依存型再標識。任意有限深度にわたる葉順序、語の連結、実whole Functor評価、標準右結合木、再標識の恒等律と合成律をLean等式で証明。全GK5D実Mathlib associator/unitor/whiskering経路に対して、始点/終点の本物の`eqToIso`を用いたwhole NatIso完全一致を証明。GK5Dの同葉構成経路の保存も検証。GK5Eの選択逆比較`Θ`について、任意`f`下のwhole NatIso双端輸送と実再標識経路に沿うwhole NatTrans可換四角を証明（19公理監査）。
+
+**検証：** 最終source `994efa8b163cb621c07c4ec4a11e3d0639ee6b72`／test-merge `30acfe41a36d70b9a6dee86bdccfd4cc034d8b2b`／一致tree `6373e48c6f2bdce6d367b1d916130ca100db3767`。[exact-source CI #41347640760](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41347640760) **Strict Lean 3827/3827・Independent Kuu・Workflow integrity・Governance terminal全SUCCESS**。19/19の`#print axioms`は標準`propext, Classical.choice, Quot.sound`のみ、sorryAx0、変更Lean error/warning0/0。定理squash/main当時HEAD `aa689ddac8c5f9036fe2a4185eb537882b9c44fb`。初回Lean CIでは、異なるindex型`I/J`の暗黙圏族引数誤推論2件と、書換え後の反射等式未処理2件を、ソース全体と固定Mathlib/GK5D定義に基づき修正。
+
+**次GK5G候補：** index再標識だけでなく、圏族の実体が変わる明示的な点別関手・同値の型付き輸送と、その自然性/必要なobstructionを検討する。非単射index写像の葉列等号反映、圏族間の無条件同一視、全universe間変更はGK5Fの対象外。GK4BMの任意選択逆`Q_T`とGK4BP明示逆`P_T`は定義的に同一ではなくGK4BQ真正NatIso`κ_T`のみで接続。元F45無条件faithfulness、source-Q圏公理、raw F54/F55/P92B Type値高次セル、任意整数行列到達、global Gray、無制限hyperdescentは未証明。Lean v4.30.0-rc2・固定mathlib・root107・保護PR #1558 Draft/OPEN/未マージ、strict空中心・独立Kuu一presentationを維持。以下の全履歴を保持する。
+
 ## 最新のLean定理統合 — F112-P94D3GK5E / 2026-11-02 JST
 
 **異種圏有限木の任意選択逆関手比較をGK4BW真正NatIso貼合せから帰納構成し、全同始終点実書換え経路のwhole NatTrans自然性・経路独立性・両端輸送へ拡張 — [定理PR #2905](https://github.com/itakura-hidetoshi/KuuOS/pull/2905) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5EHeterogeneousChosenInverseCoherence.lean)・[正式証明記録](docs/formal/GK5E-heterogeneous-chosen-inverse-tree-coherence.md)。
