@@ -112,7 +112,7 @@ are retained as genuine constructed proof objects. -/
 noncomputable def nativeGK5BStepIso :
     ∀ {a b : NativeGK5AFiniteTargetTree T},
       NativeGK5BRewriteStep T a b →
-        nativeGK5ATreeComposite a ≅ nativeGK5ATreeComposite b
+        (nativeGK5ATreeComposite a ≅ nativeGK5ATreeComposite b)
   | _, _, .assoc a b c =>
       Functor.associator (nativeGK5ATreeComposite a)
         (nativeGK5ATreeComposite b) (nativeGK5ATreeComposite c)
@@ -144,7 +144,7 @@ It is built by composing REAL Mathlib associators and unitors. -/
 noncomputable def nativeGK5BPathIso :
     ∀ {a b : NativeGK5AFiniteTargetTree T},
       NativeGK5BRewritePath T a b →
-        nativeGK5ATreeComposite a ≅ nativeGK5ATreeComposite b
+        (nativeGK5ATreeComposite a ≅ nativeGK5ATreeComposite b)
   | _, _, .refl _ => Iso.refl _
   | _, _, .basic h => nativeGK5BStepIso h
   | _, _, .reverse p => (nativeGK5BPathIso p).symm
