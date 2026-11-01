@@ -3,6 +3,16 @@
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK5I / 2026-11-02 JST
+
+**GK5Hで残った真正圏同値比較`Φ`の局所obstructionのうち、三原子associatorのwhole Mathlib NatIso可換性をLean4で無条件解決 — [定理PR #2913](https://github.com/itakura-hidetoshi/KuuOS/pull/2913) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5IGeneratorCoherence.lean)・[正式証明記録](docs/formal/GK5I-three-atom-associator-generator-coherence.md)。
+
+**GK5I数学的到達点：** 真正圏族`C,D:I→Cat.{vC,uC}`と点別圏同値`e_i:C_i≌D_i`を固定し、任意の合成可能な三原子関手`F,G,H`に対し、GK5Dの実associator書換え`s : ((atom F ⋆ atom G) ⋆ atom H) → (atom F ⋆ (atom G ⋆ atom H))`の`StepIso(changeStep s) ≪≫ Φ_right = Φ_left ≪≫ ChangeIso(StepIso s)`を実whole NatIsoで証明。実Mathlib equivalenceの二つの三角律、whiskeringのwhole NatTrans式、二段合成比較の`unitIso.inv`成分を補題として導出し、最終的な`unitIso.hom_inv_id_app`を`congrArg`で正しい位置へ移して真の合成の打ち消しをLeanで確認した。**任意の部分木associator、左右unitor、左右whiskeringという全basic generatorへの拡張は未証明**。GK5Hの全有限経路の無条件coherenceは、これらの局所条件消滅を証明した後にのみ成立する。
+
+**検証：** 最終source HEAD `821c7478e59e16882e8e784d4e55a42f30b3e1c0`／test-merge `bcf2db825671a93883580feaf3528675143b9438`／一致Git tree `df6d182933268c03e355c3734eeeb4b121563bf4`。[exact-source CI #41360499866](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41360499866) **Strict Lean 3830/3830、Independent Kuu・Workflow integrity・Governance terminal全SUCCESS**。5/5件の`#print axioms`は標準`propext/Classical.choice/Quot.sound`のみ、sorryAx0、新公理なし、変更Lean error/warning0/0。定理squash/main当時HEAD `7fe47b2cdf886c22a2f18746b1a01bb839a1a0f6`。Lean4修正では元ファイル全文・imports・GK5G/GK5H signatures・mathlib pinを確認、固定mathlibの`Functor.id_obj`等を用い、残存ゴールの完全な型を再観測して解消した。
+
+**次GK5I続編／GK5J：** 真正`Φ_a,Φ_b,Φ_c`を持つ任意有限部分木のassociator、左右unitor、二種類のwhiskeringを個別にwhole NatIsoで証明し、GK5H局所必要十分条件から無条件全有限経路自然性を得る。別の任意選択逆`Q_T`と明示逆`P_T`は定義的同一とせず、既証明GK4BQ`κ_T`でのみ比較。元F45無条件faithfulness・source-Q圏公理・raw F54/F55/P92B Type値高次セル・任意整数行列到達・global Gray・無制限hyperdescent・universe変動任意鎖は引き続き未証明。Lean v4.30.0-rc2、mathlib固定、root107、保護PR #1558 Draft/OPEN/未マージ、strict空中心・独立Kuu一presentationを維持。以下の全履歴は削除しない。
+
 ## 最新のLean定理統合 — F112-P94D3GK5H / 2026-11-02 JST
 
 **GK5Gの圏同値変更NatIsoについて、basic generatorでのwhole NatIso可換性と全有限実書換え経路での可換性が必要十分となる厳密なobstruction criterionをLean4で証明 — [定理PR #2911](https://github.com/itakura-hidetoshi/KuuOS/pull/2911) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5HLocalToGlobalPathCoherence.lean)・[正式証明記録](docs/formal/GK5H-local-to-global-pointwise-equivalence-path-coherence.md)。
