@@ -3,6 +3,19 @@
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK5J / 2026-11-02 JST
+
+**GK5H局所↔全有限経路の障害を、GK5D標準経路で判定する端点only obstructionへ厳密還元 — [定理PR #2915](https://github.com/itakura-hidetoshi/KuuOS/pull/2915) MERGED。** [新規Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5JEndpointObstructionCanonicalization.lean)・[正式証明記録](docs/formal/GK5J-endpoint-only-finite-path-coherence.md)。
+
+**証明済：** 真正圏族`C,D:I→Cat.{vC,uC}`、各`e_i:C_i≌D_i`について、同じ型付き端点を持つあらゆる証拠付き有限経路`p,q`の全NatIso可換条件は`Square(e,p)↔Square(e,q)`（無条件）。証明は元と移動後の両圏族で真正GK5D経路独立性を適用。`EndpointCompatible`を各同葉端点対の構成済み正規化＋逆転標準経路の全NatIso可換性と定め、`PathCompatible ↔ EndpointCompatible ↔ StepCompatible`を真正Lean4で証明。GK5I三原子associatorの同じ端点を結ぶ任意Pathに関しても無条件Squareが成立する。
+
+**境界：** `EndpointCompatible`の無条件成立は証明していない。任意有限部分木associator、左右unitor、左右whiskeringの局所obstructionは残る。端点onlyは障害の**依存対象**を特定するものであり、障害消滅や有限個チェックへの退化ではない。元F45/source-Q/raw Type high-cell/global Gray/unrestricted descentを拡張しない。
+
+**検証：** source `66ed8f1f54b06a133d7bc73a2be1d8ec17e4ee85`、定理squash `e7ad9bf2e9757bc8b722fc447c7ca7641bbe69d2`、同一Git tree `aa036d080033ea2aac5f6efb4a9182a04b8f4828`。[CI #41362213858](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41362213858) Strict Lean **3831/3831**・Independent Kuu・Workflow integrity・Governance **SUCCESS**。4/4 `#print axioms`は標準三公理だけ、sorryAx0。固定Lean/mathlib・root107・保護#1558 Draft/OPEN・append-only、strict空中心／独立Kuu一presentation維持。
+
+**次GK5K：** `Φ_a,Φ_b,Φ_c`を伴う任意部分木associatorへGK5Iを拡張するため、真正圏同値の中間unitIso比較に関する自然性とwhiskering interchangeを補題化。その後左右unitor/whiskeringの全generator squareを個別に証明し、はじめてGK5H/GK5Jから無仮定の全有限Path NatIso/NatTrans自然性へ接続する。以下過去の証明履歴は全保持。
+
+
 ## 最新のLean定理統合 — F112-P94D3GK5I / 2026-11-02 JST
 
 **GK5Hで残った真正圏同値比較`Φ`の局所obstructionのうち、三原子associatorのwhole Mathlib NatIso可換性をLean4で無条件解決 — [定理PR #2913](https://github.com/itakura-hidetoshi/KuuOS/pull/2913) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5IGeneratorCoherence.lean)・[正式証明記録](docs/formal/GK5I-three-atom-associator-generator-coherence.md)。
