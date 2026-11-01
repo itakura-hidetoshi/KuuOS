@@ -99,7 +99,8 @@ theorem nativeGK5IAssociator_atoms
     Functor.associator_hom_app,
     Functor.map_comp, Category.assoc, hK, u]
   simp only [Category.assoc, ← Functor.map_comp,
-    Iso.hom_inv_id_app, Functor.map_id, Category.comp_id]
+    Equivalence.unit, Iso.hom_inv_id_app,
+    Functor.map_id, Category.comp_id]
 
 #print axioms nativeGK5IForwardTriangle
 #print axioms nativeGK5IInverseTriangle
