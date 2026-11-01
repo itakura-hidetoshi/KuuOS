@@ -14,6 +14,16 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK4BY / 2026-11-01 JST
+
+**標的変更の3段連鎖に単位関手を挿入する4位置×GK4BW pentagonの5実経路について、任意選択逆関手の真正whole NatIsoの完全一致、正逆unitorによる40件のwhole NatTrans四角、逆associator–unitor triangleをLean4で証明 — [定理PR #2893](https://github.com/itakura-hidetoshi/KuuOS/pull/2893) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4BYChosenInverseUnitInsertionPentagonInverse.lean)・[正式証明記録](docs/formal/GK4BY-pentagon-unit-insertion-inverse-unitor-coherence.md)。
+
+**数学的成果：** 真正`R:T⥤U`、`S:U⥤V`、`L:V⥤W`の前・中2か所・後のいずれかに`𝟭`を挿入し、固定版Mathlibの本物の`Functor.leftUnitor`、`Functor.rightUnitor`、whiskeringから4つの実NatIsoを構成。各挿入についてGK4BWで構成した**5つの実pentagon比較がすべて`Θ_(R⋙S⋙L)`とwhole NatIsoで厳密一致（20等式）**。さらに4×5経路のunitor.hom・.inv各々についてGK4BUの真正whole NatTrans可換四角を証明（正方向20・逆方向20）。実inverse associator–unitor triangle、その左右3段貼り合わせの可換性と結果の一致も証明。22公開宣言。選択逆`Q_T`と明示逆`P_T`の定義的同一性は仮定しない。
+
+**exact-source：** final source HEAD `68257c0caf07d6f5be7d8f4aaf88d00e00846faa`、test-merge `fcedab4a7e98d406bbc15cdb707f4d762ab95bd5`、**一致Git tree `153e61366cfb20882c384abd11d1c9c9f6c66206`**。[CI #41301271737](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41301271737) **Strict Lean 3820/3820 SUCCESS・Independent Kuu・Workflow integrity・Governance terminal SUCCESS**。公開22/22宣言の公理依存は標準3公理`propext/Classical.choice/Quot.sound`のみ、sorryAx0、変更Lean error/warning0/0。初回CIの簡約後`True∧True`に`rfl`を適用した1か所を`simp`で修正し、全文を再検証。定理squash/main HEAD `a5978505b29ecaea3e80eab105d273fac1ebcb43`。
+
+**次のGK4BZ（仮称）：** 複数単位の独立挿入と括弧付け変更の有限段coherence、条件付き有限段帰納的整理を検討。元F45構造圏Sの無条件忠実性、元source-Q圏公理、raw F54/F55/P92BのType値高次セル、未到達整数行列、global Gray、無制限hyperdescentは未証明。Lean v4.30.0-rc2／pinned mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、公開root107、保護PR #1558 Draft／OPEN／未マージ、strict空中心・独立Kuu一presentationを維持。以下GK4BX以前の履歴を完全保持する。
+
 ## 最新のLean定理統合 — F112-P94D3GK4BX / 2026-11-01 JST
 
 **GK4BWの四段pentagon全5経路に対する標的自然変換のwhole NatTrans整合性と、Mathlibの本物の左右unitor／associator–unitor triangleとの混合coherenceをLean4で形式化 — [定理PR #2891](https://github.com/itakura-hidetoshi/KuuOS/pull/2891) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4BXChosenInversePentagonNaturalityUnitorTriangle.lean)・[正式証明記録](docs/formal/GK4BX-four-target-pentagon-nattrans-unitor-triangle.md)。真正F45構造商、実到達旧AH像、AH核両立部分圏、任意選択逆関手`Q_T`、明示逆`P_T`と自然同型`κ_T:Q_T≅P_T`を変更しない。
