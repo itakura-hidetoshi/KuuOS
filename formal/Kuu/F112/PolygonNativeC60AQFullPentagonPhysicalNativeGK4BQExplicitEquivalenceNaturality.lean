@@ -64,7 +64,7 @@ noncomputable def nativeGK4BQAttainedUnitComponent
   change G.map f ≫ 𝟙 _ =
     𝟙 _ ≫ G.map ((nativeGK4BJStructuralAHFunctor p ma mb pa pb).map
       (nativeGK4BKPreimage p ma mb pa pb X Y f))
-  simp only [comp_id, id_comp]
+  simp only [Category.comp_id, Category.id_comp]
   rw [nativeGK4BKPreimage_spec]
 
 /-- At each compatible original structural functor H, the
@@ -86,7 +86,7 @@ noncomputable def nativeGK4BQCompatibleCounitComponent
       change (nativeGK4BJStructuralAHFunctor p ma mb pa pb ⋙
           nativeGK4BKFactorFunctor p ma mb pa pb H.obj H.property).map f ≫ 𝟙 _ =
         𝟙 _ ≫ H.obj.map f
-      simp only [comp_id, id_comp]
+      simp only [Category.comp_id, Category.id_comp]
       exact nativeGK4BKFactor_map p ma mb pa pb H.obj H.property X Y f)
   exact {
     hom := ObjectProperty.homMk i.hom
@@ -143,7 +143,7 @@ noncomputable def nativeGK4BQExplicitFunctorEquivalence
     (pa pb : KuuNativeBlocks x y) :
     (NativeGK4BFAttainedAHStage p ma mb pa pb ⥤ T) ≌
       NativeGK4BMCompatibleFunctorCategory (T := T) p ma mb pa pb :=
-  Equivalence.mk
+  CategoryTheory.Equivalence.mk
     (nativeGK4BMPrecompositionLift (T := T) p ma mb pa pb)
     (nativeGK4BPExplicitInverseFunctor (T := T) p ma mb pa pb)
     (nativeGK4BQExplicitUnitIso p ma mb pa pb)
