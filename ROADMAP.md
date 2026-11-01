@@ -3,6 +3,16 @@
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK5G / 2026-11-02 JST
+
+**index再標識GK5Fから真正な圏の実体変更へ：点別の実圏同値`e_i:C_i≌D_i`による全有限型付き関手木のwhole NatIso比較をLean4で構成 — [定理PR #2909](https://github.com/itakura-hidetoshi/KuuOS/pull/2909) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5GPointwiseCategoryEquivalenceChange.lean)・[正式証明記録](docs/formal/GK5G-pointwise-category-equivalence-finite-tree-coherence.md)。
+
+**GK5G数学的到達点：** 元圏族`C,D:I→Cat.{vC,uC}`、任意の指定済み真正Mathlib圏同値`e:∀i,C i≌D i`の下で、異種圏関手`R:C i⥤C j`を`(e i).inverse ⋙ R ⋙ (e j).functor`へ輸送し、全依存型有限語・二分木・実associator/unitor/whiskering書換え・恒等/逆転/連結経路を構成。順序付き葉列と語の連結、真正の構成済み同葉到達性を保持した。**単位ではe.counitIso.symm、二段貼合せでは中間圏e.unitIso.symm**を使い、実Mathlib whole NatIso`eval_D(changeTree t)≅e_i.inverse ⋙ eval_C t ⋙ e_j.functor`を全有限深度で帰納的に構成。GK5Eの任意選択逆`Q`に関する実whole NatIsoの直接一致と、変更した真正Path/正規化に沿うwhole NatTrans可換性を証明（18公理監査）。各木比較の全Pathに関する追加のpseudonaturalityおよび異なる圏族間の選択逆比較はGK5Gで**未証明**と明示。
+
+**検証：** source HEAD `f73df31ab5882252d234698f6494209eb1a8b9a6`／test-merge HEAD `8f9359b5f179a2d464e260b7dfabf02892e58e04`／一致tree `e2fecce2fac527add607e9d32862816a40e79098`。[exact-source CI #41349023211](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41349023211) **Strict Lean 3828/3828、Independent Kuu・Workflow integrity・Governance terminal全SUCCESS**。18/18`#print axioms`は標準`propext, Classical.choice, Quot.sound`のみ、sorryAx0、変更Lean error/warning0/0。初回CIで成功。定理squash/main当時HEAD `6e87d84cdbec825a9ff656fc4c4b2170b138fc3c`。
+
+**次GK5H候補：** 任意実GK5Dの書換え経路`q:a→b`について、圏同値による`Φ`比較NatIsoを使うwhole NatTransのpath-naturality式`PathIso(changePath(q)).hom ≫ Φ_b.hom = Φ_a.hom ≫ ChangeIso(PathIso(q)).hom`を真正unit/counit三角律で確認し、必要なら選択逆`Θ`との整合を別定理とする。圏同値は厳密逆ではなく、GK5Gが証明していない厳密等式や無制限cross-family比較を主張しない。元F45無条件faithfulness、source-Q圏公理、raw F54/F55/P92B Type値高次セル、任意整数行列到達、global Gray、無制限hyperdescent、変動universe任意鎖は未証明。任意選択逆`Q_T`と明示逆`P_T`はGK4BQの真正`κ_T`でのみ比較。固定Lean v4.30.0-rc2・mathlib pin・root107・保護PR #1558 Draft/OPEN/未マージ・strict空中心・独立Kuu一presentationを維持。以下過去の全履歴を保持する。
+
 ## 最新のLean定理統合 — F112-P94D3GK5F / 2026-11-02 JST
 
 **真正Mathlib異種圏有限木の型付きindex再標識により、任意の`f:I→J`に対する全関手評価・標準木・実書換え経路・whole NatIsoの両端輸送・GK5E選択逆比較を保つことをLean4で証明 — [定理PR #2907](https://github.com/itakura-hidetoshi/KuuOS/pull/2907) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5FIndexRelabelingCoherence.lean)・[正式証明記録](docs/formal/GK5F-typed-index-relabeling-chosen-inverse-coherence.md)。
