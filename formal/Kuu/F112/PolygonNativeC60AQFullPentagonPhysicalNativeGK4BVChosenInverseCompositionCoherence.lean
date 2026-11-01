@@ -122,26 +122,16 @@ private theorem nativeGK4BVGaugeComposition
       Functor.isoWhiskerRight k0.symm wholeA := by
   apply Iso.ext
   ext X
-  simp only [Iso.trans_hom, Functor.isoWhiskerLeft_hom,
-    Functor.isoWhiskerRight_hom, Functor.associator_hom_app,
-    NatTrans.comp_app, Functor.whiskerLeft_app, Functor.whiskerRight_app,
-    Iso.symm_hom, Functor.associator_inv_app,
-    Category.id_comp, Category.comp_id, Functor.map_comp, Category.assoc]
   have hCancel :
       aS.map (k1.inv.app (cR.obj X)) ≫
         aS.map (k1.hom.app (cR.obj X)) = 𝟙 _ := by
     rw [← aS.map_comp, Iso.inv_hom_id_app, aS.map_id]
-  have hCancel_assoc {Z : B2}
-      (f : aS.obj (p1.obj (cR.obj X)) ⟶ Z) :
-      aS.map (k1.inv.app (cR.obj X)) ≫
-        (aS.map (k1.hom.app (cR.obj X)) ≫ f) = f := by
-    rw [← Category.assoc, hCancel, Category.id_comp]
-  try simp only [Category.id_comp, Category.comp_id]
-  rw [k2.hom.naturality (hc.hom.app X)]
-  try simp only [Category.assoc, hCancel_assoc, Category.id_comp, Category.comp_id]
-  rw [ha.hom.naturality (k0.inv.app X)]
-  try simp only [Category.assoc]
-
+  simp only [Iso.trans_hom, Functor.isoWhiskerLeft_hom,
+    Functor.isoWhiskerRight_hom, Functor.associator_hom_app,
+    NatTrans.comp_app, Functor.whiskerLeft_app, Functor.whiskerRight_app,
+    Iso.symm_hom, Functor.associator_inv_app, Functor.map_comp]
+  simp [Category.assoc, k2.hom.naturality (hc.hom.app X),
+    ha.hom.naturality (k0.inv.app X), hCancel]
 end AbstractGaugeComposition
 
 section TwoTargetChosenInverse
