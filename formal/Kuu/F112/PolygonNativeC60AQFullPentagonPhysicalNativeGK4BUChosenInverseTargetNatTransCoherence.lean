@@ -136,7 +136,7 @@ theorem nativeGK4BUExplicitInverse_middleTransport
       (Functor.whiskerLeft
         (nativeGK4BPExplicitInverseFunctor (T := T) p ma mb pa pb)
         (nativeGK4BNPostcompAttainedNat p ma mb pa pb ρ))
-      (HEq.of_eq
+      (heq_of_eq
         (nativeGK4BPExplicitInverse_targetNat_square p ma mb pa pb ρ).symm)
 
 /-- GK4BU main typed target-natural-transformation square.
@@ -184,17 +184,20 @@ theorem nativeGK4BUChosenInverse_targetNat_square
     nativeGK4BUExplicitInverse_middleTransport p ma mb pa pb ρ
   have hright : γ ≫ ν' = ν ≫ ζ :=
     nativeGK4BUChosenInverse_rightInterchange p ma mb pa pb ρ
-  change α ≫ ((leftK' ≫ eR'.hom) ≫ ν') =
-    ((leftK ≫ eR.hom) ≫ ν) ≫ ζ
-  calc
-    α ≫ ((leftK' ≫ eR'.hom) ≫ ν') =
-      ((α ≫ leftK') ≫ eR'.hom) ≫ ν' := by simp only [Category.assoc]
-    _ = ((leftK ≫ β) ≫ eR'.hom) ≫ ν' := by rw [hleft]
-    _ = (leftK ≫ (β ≫ eR'.hom)) ≫ ν' := by simp only [Category.assoc]
-    _ = (leftK ≫ (eR.hom ≫ γ)) ≫ ν' := by rw [hmiddle]
-    _ = (leftK ≫ eR.hom) ≫ (γ ≫ ν') := by simp only [Category.assoc]
-    _ = (leftK ≫ eR.hom) ≫ (ν ≫ ζ) := by rw [hright]
-    _ = ((leftK ≫ eR.hom) ≫ ν) ≫ ζ := by simp only [Category.assoc]
+  have hpasted : α ≫ ((leftK' ≫ eR'.hom) ≫ ν') =
+    ((leftK ≫ eR.hom) ≫ ν) ≫ ζ := by
+    calc
+      α ≫ ((leftK' ≫ eR'.hom) ≫ ν') =
+        ((α ≫ leftK') ≫ eR'.hom) ≫ ν' := by simp only [Category.assoc]
+      _ = ((leftK ≫ β) ≫ eR'.hom) ≫ ν' := by rw [hleft]
+      _ = (leftK ≫ (β ≫ eR'.hom)) ≫ ν' := by simp only [Category.assoc]
+      _ = (leftK ≫ (eR.hom ≫ γ)) ≫ ν' := by rw [hmiddle]
+      _ = (leftK ≫ eR.hom) ≫ (γ ≫ ν') := by simp only [Category.assoc]
+      _ = (leftK ≫ eR.hom) ≫ (ν ≫ ζ) := by rw [hright]
+      _ = ((leftK ≫ eR.hom) ≫ ν) ≫ ζ := by simp only [Category.assoc]
+  simpa only [nativeGK4BTChosenInverse_targetNatIso, Iso.trans_hom,
+    Functor.isoWhiskerLeft_hom, Functor.isoWhiskerRight_hom,
+    Iso.symm_hom] using hpasted
 
 end ChosenInverseTargetNatTrans
 
