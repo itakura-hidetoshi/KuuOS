@@ -3,6 +3,16 @@
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK4BR / 2026-11-01 JST
+
+**GK4BQで得た明示因子逆関手の真正natural unit/counitの、標的関手と標的自然変換に関する有界な整合性をLean4形式化 — [定理PR #2879](https://github.com/itakura-hidetoshi/KuuOS/pull/2879) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4BRUnitCounitTargetCoherence.lean)・[正式証明記録](docs/formal/GK4BR-unit-counit-target-naturality.md)。元F45依存型独立構造商`S`と真正**実到達**旧AH圏`A_att`における観測`F:S⥤A_att`、GK4BMの`ObjectProperty.FullSubcategory`である`Comp_T`、GK4BPの明示的因子関手`P_T`、GK4BQの具体的unit/counit`η_T:𝟭≅C_T⋙P_T`・`ε_T:P_T⋙C_T≅𝟭`を引き継ぎ、一切弱めずに標的関手`R:T⥤U`への可換性を証明。具体的unit/counitのHom・逆Hom成分は実対象で恒等射であり、任意の`R`による`map_id`保存から、**外側のGK4BQ whole NatIsoがもつ具体的成分**にも標的自然性が成立する。
+
+**ρと合成に対する型付き交換：** 任意`ρ:R⟶R'`に関する`nativeGK4BNPostcompAttainedNat`・`nativeGK4BNPostcompCompatibleNat`の実自然変換を使い、実到達AH対象上のunitと元真正F45構造対象上のcounitの可換四角を**型付き射の等式**で証明。さらに`R:T⥤U`・`Q:U⥤V`の二段標的変更で`Q.map (R.map ...)`との整合性を証明（新規12宣言、各`#print axioms`）。これは**具体的な未調整unit/counitの成分別標的自然性**である。`Equivalence.mk`の**adjointified unit**についての全標的を横断するmodificationや、GK4BMの任意選択quasi-inverseの定義上の標的自然性は未証明として保持。元S無条件faithfulness、原Q category laws、raw F54/F55/P92B Type値高次セル、全整数行列到達、Gray/global strict/hyperdescentも導出しない。
+
+**exact-source：** source `90e7bb94fb3c977408356c845ba02bba4ec6cebf`、test-merge `bf3ac16a13dc88efa7a14af655328612b0610aa8`、**一致Git tree `fc4f5faaa54f093f44a50e2a9dbf1ed6e1631ebb`**。[CI #41279800486](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41279800486) **Strict Lean 3813/3813・Governance terminal SUCCESS・Independent Kuu SUCCESS・Workflow integrity SUCCESS**。公理依存は標準3公理`propext/Classical.choice/Quot.sound`以内、sorryAx0、changed Lean errors/warnings0/0。定理squash/main統合時HEAD `761e1fe327b1c0dfac1052e53a08bd0989566088`。Lean v4.30.0-rc2、mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、公開root107、保護PR #1558 Draft/OPEN/未マージ、strict空中心・独立Kuu一presentation・Gray非再導入。
+
+**次GK4BS：** GK4BRの対象ごとに証明された実射の標的可換性を、どこまでMathlibのwhole NatTrans levelの型付き厳密等式として提示できるか検証する。`Equivalence.mk`によるadjointification後のunitの標的自然性について、明示した型輸送または自然同型を伴うcoherenceを研究し、厳密性のobstructionを正確に記録する。以下のGK4BQ以前を全て歴史的記録として保持する。
+
 ## 最新のLean定理統合 — F112-P94D3GK4BQ / 2026-11-01 JST
 
 **元F45依存型独立構造商SのAH核両立充満関手圏と真正実到達旧AH像A_attの間で、明示GK4BP逆関手の真正natural unit/counit Iso、両三角、GK4BM選択逆関手との自然同型を形式化 — [定理PR #2877](https://github.com/itakura-hidetoshi/KuuOS/pull/2877) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4BQExplicitEquivalenceNaturality.lean)・[正式証明記録](docs/formal/GK4BQ-explicit-equivalence-unit-counit.md)。既存`C_T:(A_att⥤T)⥤Compatible(S,T)`とGK4BPの明示`P_T:Compatible(S,T)⥤(A_att⥤T)`を一切変更せず、`𝟭≅C_T⋙P_T`と`P_T⋙C_T≅𝟭`の**whole Mathlib NatIso**を元F45型付きHomの真の前像と既証明GK4BK因子射保存から実構成。両Isoは各到達AH対象・元S対象の成分だけでなく、各Homと関手圏間の全実自然変換に対する自然性を備える。単純な「対象レベルの逆向き三角」を真のunit/counit自然同型へ強化した。
