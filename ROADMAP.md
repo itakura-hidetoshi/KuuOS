@@ -3,6 +3,16 @@
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK5A / 2026-11-01 JST
+
+**GK4BZの14通り限定から任意有限二分木へ：実Mathlib endofunctor列のwhole NatIso帰納的pasting、全木標的NatTrans自然性、葉列一致に関する両端`eqToIso`輸送を証明 — [定理PR #2897](https://github.com/itakura-hidetoshi/KuuOS/pull/2897) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5AFiniteEndofunctorTreeCoherence.lean)・[正式証明記録](docs/formal/GK5A-inductive-finite-endofunctor-tree-coherence.md)。
+
+**F112-P94D3GK5A到達点：** 1つの標的Mathlib圏`T`について有限木の`unit/atom/paste`を真正`T⥤T`に評価し、GK4BWの型付きbinaryPasting NatIsoを内部節点で再帰構成。**構造帰納法によって任意有限木の貼り合わせ`Θ_tree=Θ_direct`をwhole NatIsoの厳密等式で証明**。任意2木間の真正標的NatTransのmodification、任意深度のassociativityと左右unitを証明。葉列を空単位の有限リストへ正規化し、リスト連結のwhole Functor等式、等しい葉列が与えるfunctor等式、**その等式の両端を`eqToIso`で明確に輸送したchosen-inverse全NatIso整合性**を形式化。真正元F45構造・実到達旧AH・GK4BM核両立充満部分圏に限定し、任意選択`Q_T`と明示`P_T`を定義的に同一視しない。
+
+**検証：** 最終source `c87edb4788dc07060372f9f5d6a97b1891d8a706`／test-merge `ccc48981a02a8ff233cf66db36ada860f33a4ca8`／**一致tree `c792db3e45f8aa05f8cd084af6e9a37e7f07c3ca`**。[exact-source CI #41304610405](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41304610405) **Strict Lean 3822/3822、Independent Kuu／Workflow integrity／Governance terminal全SUCCESS**。新規16宣言の公理依存は標準`propext, Classical.choice, Quot.sound`のみ、sorryAx0、変更Lean error/warning0/0。初回CIの空リスト結合基底における`simp`不足を固定版`Functor.id_comp`の明示適用で修正し、全文再検証。定理squash／当時main `6a74bc9ea979cd524e37d2fb13b9486fd5583d69`。
+
+**GK5B候補：** 任意有限木のassociator/unitorの「書換え列」そのものを実Mathlib NatIsoとNatTransで可視化・正規化し、順序非依存性を証明する。さらに可能なら圏をまたぐ有限列への依存型一般化を検討。現在の一般定理は**固定Tのendofunctor有限木**に限定され、元S無条件忠実性・source-Q圏公理・raw F54/F55/P92B Type値高次セル・全整数行列到達・global Gray・unbounded hyperdescentは未証明境界。Lean v4.30.0-rc2、mathlib pin `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、公開root107、保護PR #1558 Draft/OPEN/未マージ。strict空中心・独立Kuu一presentation、以下過去の全研究記録を保持する。
+
 ## 最新のLean定理統合 — F112-P94D3GK4BZ / 2026-11-01 JST
 
 **真正Mathlib関手圏における五段標的変更の14通り全括弧付け、二つの独立単位の除去順序交換、全14経路でのwhole NatIso/NatTrans整合性をLean4で形式化 — [PR #2895](https://github.com/itakura-hidetoshi/KuuOS/pull/2895) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4BZFiveTargetTwoUnitCoherence.lean)・[正式証明記録](docs/formal/GK4BZ-five-stage-fourteen-path-double-unit-coherence.md)。
