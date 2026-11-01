@@ -14,6 +14,16 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK5F / 2026-11-02 JST
+
+**GK5D/GK5Eの真正異種圏依存型有限関手木・選択逆NatIsoに対し、任意のindex写像`f:I→J`による再標識が型付き葉列・評価・書換え経路・両端eqToIso輸送・選択逆比較を保存することをLean4で証明 — [定理PR #2907](https://github.com/itakura-hidetoshi/KuuOS/pull/2907) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5FIndexRelabelingCoherence.lean)・[正式証明記録](docs/formal/GK5F-typed-index-relabeling-chosen-inverse-coherence.md)。
+
+**数学的成果：** `C:J→Cat.{vC,uC}`および任意`f:I→J`について、引戻し圏族`i↦C(f i)`の本物の`TypedWord/TypedTree/TypedStep/TypedPath`を元圏族`C`へ構成的に再標識。全有限木について型付き語の連結・真正全関手評価・順序付き葉列・右結合標準木を保持し、index再標識の恒等律と合成律を厳密等号として証明。実Mathlibのassociator・unitor・whiskering・逆転・経路連結からなる全実経路のwhole NatIsoは、始点/終点の真正`eqToIso`輸送後に元経路と厳密一致。GK5Dの構成的同葉到達性を再標識後の具体Pathに移し、GK5EのGK4BM任意選択逆`Q`比較のwhole NatIso両端輸送および実Pathに沿うwhole NatTrans自然性を証明（19公理監査対象）。
+
+**exact-source：** source `994efa8b163cb621c07c4ec4a11e3d0639ee6b72`／test-merge `30acfe41a36d70b9a6dee86bdccfd4cc034d8b2b`／一致Git tree `6373e48c6f2bdce6d367b1d916130ca100db3767`。[CI #41347640760](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41347640760) **Strict Lean 3827/3827、Independent Kuu・Workflow integrity・Governance terminal全SUCCESS**。19/19件の`#print axioms`は標準`propext/Classical.choice/Quot.sound`以内、sorryAx0、変更Lean error/warning0/0。定理squash/main当時HEAD `aa689ddac8c5f9036fe2a4185eb537882b9c44fb`。
+
+**次の研究GK5G（候補）：** index再標識と**圏の実際の変更**を区別し、圏族間の明示的な対象ごとの比較関手・同値・自然同型を持つ場合の型付き輸送とobstructionを検討。GK5Fでは圏の実体`C(f i)`を変えないため、非単射`f`からの葉列等号反映、無関係な圏族の同型、異なるuniverseの任意合成は主張しない。任意選択逆`Q_T`と明示逆`P_T`は定義的に同一視せずGK4BQの`κ_T`のみで比較。元F45の無条件faithfulness、source-Q圏公理、raw F54/F55/P92B Type値高次セル、全整数行列到達、global Gray、無制限hyperdescentは未証明。固定Lean v4.30.0-rc2/mathlib、root107、保護PR #1558 Draft/OPEN/未マージ、strict空中心・独立Kuu一presentationを維持。以下GK5E以前の履歴はすべて保持する。
+
 ## 最新のLean定理統合 — F112-P94D3GK5E / 2026-11-02 JST
 
 **GK5Dの異種圏間型付き有限関手木に、GK4BMの任意選択逆関手の真正whole NatIso比較を帰納的に貼り合わせ、直接比較との全体等式・任意実書換え経路のwhole NatTrans自然性・両端eqToIso輸送をLean4で証明 — [定理PR #2905](https://github.com/itakura-hidetoshi/KuuOS/pull/2905) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5EHeterogeneousChosenInverseCoherence.lean)・[正式証明記録](docs/formal/GK5E-heterogeneous-chosen-inverse-tree-coherence.md)。
