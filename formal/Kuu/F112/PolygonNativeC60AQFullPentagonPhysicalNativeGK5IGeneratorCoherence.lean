@@ -54,6 +54,17 @@ theorem nativeGK5IChangeIso_hom
     (nativeGK5GChangeIso e α).hom =
       nativeGK5GChangeNat e α.hom := rfl
 
+/-- Exact genuine pointwise component of the GK5G middle
+equivalence cancellation. Both structural endpoint eqToIso factors
+are retained but simplify to the real unitIso inverse component. -/
+theorem nativeGK5IChangeCompIso_hom_app
+    {i j k : I} (R : C i ⥤ C j) (S : C j ⥤ C k) (X : D i) :
+    (nativeGK5GChangeCompIso e R S).hom.app X =
+      (e k).functor.map
+        (S.map ((e j).unitIso.inv.app (R.obj ((e i).inverse.obj X)))) := by
+  dsimp [nativeGK5GChangeCompIso, nativeGK5GChangeAtom]
+  simp
+
 /-- A real three-stage change of categories commutes with the
 genuine Mathlib associator, as a WHOLE natural isomorphism.
 This is a basic GK5H generator, with arbitrary finite subtrees. -/
@@ -72,17 +83,20 @@ theorem nativeGK5IAssociator_generator
         (nativeGK5DStepIso (NativeGK5DTypedStep.assoc a b c)) := by
   apply Iso.ext
   ext X
-  dsimp [nativeGK5DStepIso, nativeGK5GChangeStep,
+  simp only [nativeGK5DStepIso, nativeGK5GChangeStep,
     nativeGK5GChangeTreeIso, nativeGK5GChangeTree,
-    nativeGK5GChangeCompIso]
-  simp only [eqToHom_app, eqToHom_refl, Category.id_comp,
-    Category.comp_id, Functor.comp_obj, Functor.comp_map,
-    Functor.map_comp, Category.assoc]
+    nativeGK5GChangeIso, Iso.trans_hom,
+    Functor.isoWhiskerLeft_hom, Functor.isoWhiskerRight_hom,
+    NatTrans.comp_app, Functor.whiskerLeft_app, Functor.whiskerRight_app,
+    nativeGK5IChangeCompIso_hom_app,
+    Functor.comp_obj, Functor.comp_map, Category.id_comp,
+    Category.comp_id, Functor.map_comp, Category.assoc]
   cat_disch
 
 #print axioms nativeGK5IForwardTriangle
 #print axioms nativeGK5IInverseTriangle
 #print axioms nativeGK5IChangeIso_hom
+#print axioms nativeGK5IChangeCompIso_hom_app
 #print axioms nativeGK5IAssociator_generator
 
 end BasicGeneratorCoherence
