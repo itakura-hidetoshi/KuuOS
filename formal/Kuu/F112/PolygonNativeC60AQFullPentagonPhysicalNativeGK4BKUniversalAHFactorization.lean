@@ -186,6 +186,7 @@ noncomputable def nativeGK4BKFactorFunctor
           (nativeGK4BJStructuralAHFunctor p ma mb pa pb).map_comp sf sg
         _ = f ≫ g := by
           rw [nativeGK4BKPreimage_spec, nativeGK4BKPreimage_spec]
+          rfl
     have heq := nativeGK4BKLiftHom_independent
       p ma mb pa pb H h X Z (f ≫ g) (sf ≫ sg) hfg
     calc
@@ -223,8 +224,9 @@ theorem nativeGK4BKFactor_functor
   · intro X
     rfl
   · intro X Y f
-    simpa only [eqToHom_refl, Category.id_comp, Category.comp_id] using
-      nativeGK4BKFactor_map p ma mb pa pb H h X Y f
+    change (nativeGK4BKFactorFunctor p ma mb pa pb H h).map
+      ((nativeGK4BJStructuralAHFunctor p ma mb pa pb).map f) = H.map f
+    exact nativeGK4BKFactor_map p ma mb pa pb H h X Y f
 
 /-- The converse: ANY categorical factorization through the
 actually attained AH image must respect the true original
@@ -247,7 +249,8 @@ theorem nativeGK4BKKernelNecessary
       (nativeGK4BJStructuralAHFunctor p ma mb pa pb ⋙ G).map f =
         (nativeGK4BJStructuralAHFunctor p ma mb pa pb ⋙ G).map g := by
     exact hgg
-  simpa only [hg] using hcomp
+  cases hg
+  exact hcomp
 
 /-- Exact existence criterion: compatibility with the genuine
 original S-side AH observation kernel is both NECESSARY and SUFFICIENT
