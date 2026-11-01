@@ -201,12 +201,124 @@ theorem nativeGK4BUChosenInverse_targetNat_square
     Functor.isoWhiskerLeft_hom, Functor.isoWhiskerRight_hom,
     Iso.symm_hom, Category.assoc] using hpasted
 
+/-- The chosen-inverse transport square sends the REAL identity
+target NatTrans to identity whiskering on both functor categories. -/
+theorem nativeGK4BUChosenInverse_targetNat_id
+    (p : Polygon)
+    (ma mb : KuuNativeBlocks a b)
+    (pa pb : KuuNativeBlocks x y)
+    (R : T ⥤ U) :
+    Functor.whiskerRight
+        (𝟙 (nativeGK4BNPostcompCompatible p ma mb pa pb R))
+        (nativeGK4BMCompatibleReverseFunctor (T := U) p ma mb pa pb) ≫
+      (nativeGK4BTChosenInverse_targetNatIso p ma mb pa pb R).hom =
+    (nativeGK4BTChosenInverse_targetNatIso p ma mb pa pb R).hom ≫
+      Functor.whiskerLeft
+        (nativeGK4BMCompatibleReverseFunctor (T := T) p ma mb pa pb)
+        (𝟙 (nativeGK4BNPostcompAttained p ma mb pa pb R)) := by
+  simpa only [nativeGK4BOTargetActionCompatible_map_id,
+    nativeGK4BTAttainedNat_id] using
+    (nativeGK4BUChosenInverse_targetNat_square p ma mb pa pb (𝟙 R))
+
+/-- The source and target target-transformation actions preserve
+vertical composition, and the WHOLE choice-comparison square
+respects that composition, without strict Q target naturality. -/
+theorem nativeGK4BUChosenInverse_targetNat_vertical
+    (p : Polygon)
+    (ma mb : KuuNativeBlocks a b)
+    (pa pb : KuuNativeBlocks x y)
+    {R R' R'' : T ⥤ U}
+    (ρ : R ⟶ R') (σ : R' ⟶ R'') :
+    Functor.whiskerRight
+        (nativeGK4BNPostcompCompatibleNat p ma mb pa pb ρ ≫
+          nativeGK4BNPostcompCompatibleNat p ma mb pa pb σ)
+        (nativeGK4BMCompatibleReverseFunctor (T := U) p ma mb pa pb) ≫
+      (nativeGK4BTChosenInverse_targetNatIso p ma mb pa pb R'').hom =
+    (nativeGK4BTChosenInverse_targetNatIso p ma mb pa pb R).hom ≫
+      Functor.whiskerLeft
+        (nativeGK4BMCompatibleReverseFunctor (T := T) p ma mb pa pb)
+        (nativeGK4BNPostcompAttainedNat p ma mb pa pb ρ ≫
+          nativeGK4BNPostcompAttainedNat p ma mb pa pb σ) := by
+  simpa only [nativeGK4BTCompatibleNat_comp, nativeGK4BTAttainedNat_comp]
+    using (nativeGK4BUChosenInverse_targetNat_square p ma mb pa pb (ρ ≫ σ))
+
+/-- The WHOLE Θ comparison square respects both horizontal
+pasting presentations of genuine target transformations.
+The attained-AH target action is a real Mathlib NatTrans. -/
+theorem nativeGK4BUChosenInverse_targetNat_horizontal
+    (p : Polygon)
+    (ma mb : KuuNativeBlocks a b)
+    (pa pb : KuuNativeBlocks x y)
+    {R R' : T ⥤ U} (ρ : R ⟶ R')
+    {Q Q' : U ⥤ V} (σ : Q ⟶ Q') :
+    Functor.whiskerRight
+        (nativeGK4BNPostcompCompatibleNat p ma mb pa pb
+          (Functor.whiskerRight ρ Q ≫ Functor.whiskerLeft R' σ))
+        (nativeGK4BMCompatibleReverseFunctor (T := V) p ma mb pa pb) ≫
+      (nativeGK4BTChosenInverse_targetNatIso p ma mb pa pb (R' ⋙ Q')).hom =
+    (nativeGK4BTChosenInverse_targetNatIso p ma mb pa pb (R ⋙ Q)).hom ≫
+      Functor.whiskerLeft
+        (nativeGK4BMCompatibleReverseFunctor (T := T) p ma mb pa pb)
+        (nativeGK4BNPostcompAttainedNat p ma mb pa pb
+          (Functor.whiskerLeft R σ ≫ Functor.whiskerRight ρ Q')) := by
+  simpa only [nativeGK4BTAttained_horizontal_interchange p ma mb pa pb ρ σ]
+    using (nativeGK4BUChosenInverse_targetNat_square p ma mb pa pb
+      (Functor.whiskerRight ρ Q ≫ Functor.whiskerLeft R' σ))
+
+/-- In a two-step target change T --R--> U --Q--> V,
+variation of the FIRST stage also preserves the chosen-inverse
+comparison as a genuine typed whole NatTrans square. -/
+theorem nativeGK4BUChosenInverse_firstTarget_whisker
+    (p : Polygon)
+    (ma mb : KuuNativeBlocks a b)
+    (pa pb : KuuNativeBlocks x y)
+    {R R' : T ⥤ U} (ρ : R ⟶ R')
+    (Q : U ⥤ V) :
+    Functor.whiskerRight
+        (nativeGK4BNPostcompCompatibleNat p ma mb pa pb
+          (Functor.whiskerRight ρ Q))
+        (nativeGK4BMCompatibleReverseFunctor (T := V) p ma mb pa pb) ≫
+      (nativeGK4BTChosenInverse_targetNatIso p ma mb pa pb (R' ⋙ Q)).hom =
+    (nativeGK4BTChosenInverse_targetNatIso p ma mb pa pb (R ⋙ Q)).hom ≫
+      Functor.whiskerLeft
+        (nativeGK4BMCompatibleReverseFunctor (T := T) p ma mb pa pb)
+        (nativeGK4BNPostcompAttainedNat p ma mb pa pb
+          (Functor.whiskerRight ρ Q)) :=
+  nativeGK4BUChosenInverse_targetNat_square p ma mb pa pb
+    (Functor.whiskerRight ρ Q)
+
+/-- In a two-step target change T --R--> U --Q--> V,
+variation of the SECOND stage preserves the whole Θ square. -/
+theorem nativeGK4BUChosenInverse_secondTarget_whisker
+    (p : Polygon)
+    (ma mb : KuuNativeBlocks a b)
+    (pa pb : KuuNativeBlocks x y)
+    (R : T ⥤ U)
+    {Q Q' : U ⥤ V} (σ : Q ⟶ Q') :
+    Functor.whiskerRight
+        (nativeGK4BNPostcompCompatibleNat p ma mb pa pb
+          (Functor.whiskerLeft R σ))
+        (nativeGK4BMCompatibleReverseFunctor (T := V) p ma mb pa pb) ≫
+      (nativeGK4BTChosenInverse_targetNatIso p ma mb pa pb (R ⋙ Q')).hom =
+    (nativeGK4BTChosenInverse_targetNatIso p ma mb pa pb (R ⋙ Q)).hom ≫
+      Functor.whiskerLeft
+        (nativeGK4BMCompatibleReverseFunctor (T := T) p ma mb pa pb)
+        (nativeGK4BNPostcompAttainedNat p ma mb pa pb
+          (Functor.whiskerLeft R σ)) :=
+  nativeGK4BUChosenInverse_targetNat_square p ma mb pa pb
+    (Functor.whiskerLeft R σ)
+
 end ChosenInverseTargetNatTrans
 
 #print axioms nativeGK4BUChosenInverse_leftInterchange
 #print axioms nativeGK4BUChosenInverse_rightInterchange
 #print axioms nativeGK4BUExplicitInverse_middleTransport
 #print axioms nativeGK4BUChosenInverse_targetNat_square
+#print axioms nativeGK4BUChosenInverse_targetNat_id
+#print axioms nativeGK4BUChosenInverse_targetNat_vertical
+#print axioms nativeGK4BUChosenInverse_targetNat_horizontal
+#print axioms nativeGK4BUChosenInverse_firstTarget_whisker
+#print axioms nativeGK4BUChosenInverse_secondTarget_whisker
 
 end
 end Kuu.F112.Physical
