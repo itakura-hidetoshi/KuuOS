@@ -138,7 +138,7 @@ theorem nativeGK4BIImage_obj_surjective
 
 /-- The actual category-image functor meets exactly the Mathlib
 faithful/full/essentially-surjective criterion for equivalence. -/
-noncomputable def nativeGK4BIImageIsEquivalence
+@[implicit_reducible] noncomputable def nativeGK4BIImageIsEquivalence
     (p : Polygon)
     (ma mb : KuuNativeBlocks a b)
     (pa pb : KuuNativeBlocks x y) :
