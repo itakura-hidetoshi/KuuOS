@@ -14,6 +14,19 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK5K / 2026-11-02 JST
+
+**真正な点別圏同値の非strict二段合成比較`χ`について、右側関手の任意自然変換に関するwhole Mathlib NatTrans自然性とwhole NatIso整合性をLean4で証明 — [定理PR #2917](https://github.com/itakura-hidetoshi/KuuOS/pull/2917) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5KCompositorNaturality.lean)・[正式証明記録](docs/formal/GK5K-pointwise-equivalence-compositor-right-naturality.md)。
+
+**数学的成果：** 任意の真正`R:C_i⥤C_j`、`S,T:C_j⥤C_k`、`β:S⟶T`と指定済み`e_i:C_i≌D_i`について、GK5Gの真正非strict compositor `χ_{R,S}:Change(R)⋙Change(S)≅Change(R⋙S)`が右側の`β`の変更と可換。`whiskerLeft(Change(R),ChangeNat(β)) ≫ χ_{R,T}.hom = χ_{R,S}.hom ≫ ChangeNat(whiskerLeft(R,β))`をwhole NatTransで証明し、任意`β:S≅T`のwhole NatIso版も別定理として実証。証明は中間圏の本物の`unitIso.inv`を保持し、固定Mathlib `β.naturality`と`Functor.map_comp`を使用。
+
+**境界：** 二段合成比較の**右側自然性だけ**が今回の無条件新証明。左側自然性、任意部分木のassociator、左右unitor・左右whiskeringの無条件局所整合性は未証明。GK5H/GK5Jの全有限経路無条件自然性は依然未達。元source-Q、F45無条件faithfulness、raw Type高次セル、Gray、無制限hyperdescentも未証明。
+
+**exact-source：** final source `41e17a8f06749215c9fb8bf0f74df74a47af3af3`／定理squash `9d63868a33c864ba00c596966b2a0d001df211e7`／一致Git tree `6e870e81a6068592c0677d02e246bfc7428b0fe8`。[CI #41363398263](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41363398263) **Strict Lean 3832/3832・Independent Kuu・Workflow integrity・Governance terminal全SUCCESS**。2/2の`#print axioms`は標準`propext/Classical.choice/Quot.sound`のみ、sorryAx0・新公理0・Lean error/warning0/0。初回CIの重複`simp only`を除去した最終ソースで成功。Lean v4.30.0-rc2・固定mathlib・root107・保護#1558 Draft/OPEN/未マージ・strict空中心／独立Kuu一presentationを維持。
+
+**次の研究GK5L：** 中間`unitIso.inv.naturality`で`α:R⟶R'`に関するcompositor左側自然性を証明し、右側結果と合成して二変数interchangeを構成。その後GK5I三原子associatorの一般部分木への拡張、左右unitor/whiskeringの検証へ進む。GK5J以前の研究履歴は全保持。
+
+
 ## 最新のLean定理統合 — F112-P94D3GK5J / 2026-11-02 JST
 
 **真正な点別圏同値のwhole NatIso可換性について、有限書換え経路の選択に依存しない端点障害と標準経路判定の必要十分性をLean4で証明 — [定理PR #2915](https://github.com/itakura-hidetoshi/KuuOS/pull/2915) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5JEndpointObstructionCanonicalization.lean)・[正式証明記録](docs/formal/GK5J-endpoint-only-finite-path-coherence.md)。
