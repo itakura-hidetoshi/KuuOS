@@ -14,6 +14,16 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK4BO / 2026-11-01 JST
+
+**真正AH核両立関手圏における標的自然性を、一つのMathlib関手と厳密な交換法則として形式化 — [定理PR #2873](https://github.com/itakura-hidetoshi/KuuOS/pull/2873) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4BOTargetActionFunctor.lean)・[正式証明記録](docs/formal/GK4BO-target-action-functor-interchange.md)。GK4BNの任意の標的関手`R:T⥤U`による真正後合成、および標的自然変換`ρ:R⟶R'`から得られる`NatTrans`を、`(T⥤U) ⥤ (Compatible(S,T)⥤Compatible(S,U))`という**一個の真正Mathlib Functor**に統合。元F45依存型独立構造商Sと旧AH**実到達像A**、真正`ObjectProperty.FullSubcategory`を変更せず、自然変換の恒等・垂直合成を関手公理として証明した（12宣言）。
+
+**厳密な自然性・交換：** GK4BMの前向き圏同値と真正到達AH側の`Functor.whiskeringRight`との自然変換四角を**whole NatTransの等式**として確認し、`ρ:R⟶R'`、`σ:Q⟶Q'`の二段標的変更について**Mathlib`Functor.whiskerLeft_comp_whiskerRight`の真正交換法則**を形式化。対象・Homの全関手恒等・合成もGK4BNと整合させた。これは**有界な関手圏の自然変換の数学**であり、元raw F54 Type値3-cell、高次hyperdescent、Gray構造を追加しない。
+
+**exact-source：** source HEAD `83bfde427ef364647863278a895c6c7d5ac14c77`、test-merge `f8772428faebd26217bed45235293213ad173cd2`、**一致tree `b6e5f2e5d3b70b9ad130529de2011b85c721d71a`**。[CI #41275594655](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41275594655) **Strict Lean 3810/3810・Governance terminal SUCCESS**、独立Kuu/Workflow integrity SUCCESS、全12宣言は標準3公理`propext/Classical.choice/Quot.sound`以内、sorryAx0、変更Lean warning/error0/0。初回CIの2か所は`NatTrans.ext`適用後に関数等式を`intro`で処理した誤りを`funext`へ修正、定理・仮定は不変。定理squash `57a089b6a22d38cf0c707973aa81671aaaf2f1df`。Lean v4.30.0-rc2／pinned mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、公開root107・保護PR #1558 Draft/OPEN/未マージ。
+
+**次GK4BP：** 明示的GK4BK因子関手と自然変換降下の標的自然性を、GK4BMのunit/counitとの整合まで**成立する範囲に限って**厳密化する。特に明示因子化のstrict等式と、任意に選んだquasi-inverseの自然同型を区別する。元Sの無条件忠実性、原Q圏公理、raw F54/F55/P92B値の未充填、高次global strict/hyperdescentは未証明のまま保持。以下のGK4BN以前は履歴として保存する。
+
 ## 最新のLean定理統合 — F112-P94D3GK4BN / 2026-11-01 JST
 
 **真正実到達AH観測による関手圏同値の「標的圏に関する自然性」を、任意の標的関手・自然変換・恒等・合成までLean4で形式化 — [定理PR #2871](https://github.com/itakura-hidetoshi/KuuOS/pull/2871) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK4BNTargetPostcompositionNaturality.lean)・[正式証明記録](docs/formal/GK4BN-target-postcomposition-naturality.md)。既存GK4BMの真正圏同値`Fun(A_AH^att,T) ≌ Fun_AH-compatible(S,T)`の正方向関手`C_T`について、任意の標的圏`T,U`・実関手`R:T⥤U`により、元独立構造商の**AH核両立性が無条件に保存される**ことを証明。GK4BJの真正元F45依存型観測`F:S⥤A_AH^att`とpinned Mathlibの右whiskeringを使い、実到達AH関手圏と**真正`ObjectProperty.FullSubcategory`であるAH核両立関手圏**上のターゲット後合成関手を実構成した。
