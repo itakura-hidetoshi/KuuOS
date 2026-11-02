@@ -56,6 +56,15 @@ theorem nativeGK5TUnitComparison_whole (i : I) :
     nativeGK5QChangeAtom_comp, Equivalence.trans,
     Functor.comp_map, Functor.map_comp, Category.assoc]
 
+/-- The genuine GK5Q structural tree comparison at a unit
+has the same typed source and target, hence its actual eqToIso
+is reflexive. This is a proof about the unit TREE, distinct
+from strictifying the equivalence unit/counit. -/
+theorem nativeGK5TUnitTreeComparison_refl (i : I) :
+    nativeGK5QTreeComparison e g (.unit i) = Iso.refl _ := by
+  simp [nativeGK5QTreeComparison, nativeGK5GChangeTree,
+    nativeGK5DTreeComposite]
+
 /-- Actual whole recursive Phi compatibility for each empty tree
 is precisely the nonstrict unit/counit composition law above. -/
 theorem nativeGK5TUnitPhi_compatible (i : I) :
@@ -64,7 +73,7 @@ theorem nativeGK5TUnitPhi_compatible (i : I) :
   simpa only [nativeGK5RSequentialCompositePhi,
     nativeGK5RSequentialPhi, nativeGK5RDirectCompositePhi,
     nativeGK5GChangeTreeIso, nativeGK5GChangeTree,
-    nativeGK5DTreeComposite, nativeGK5QTreeComparison,
+    nativeGK5DTreeComposite, nativeGK5TUnitTreeComparison_refl,
     Iso.refl_trans, Iso.trans_refl, Iso.trans_assoc] using
       (nativeGK5TUnitComparison_whole e g i)
 
@@ -133,6 +142,7 @@ theorem nativeGK5TEmptyWordObstruction_refl
       (nativeGK5TUnitPhi_compatible e g i))
 
 #print axioms nativeGK5TUnitComparison_whole
+#print axioms nativeGK5TUnitTreeComparison_refl
 #print axioms nativeGK5TUnitPhi_compatible
 #print axioms nativeGK5TAllUnits
 #print axioms nativeGK5TOneLeafObstruction_refl
