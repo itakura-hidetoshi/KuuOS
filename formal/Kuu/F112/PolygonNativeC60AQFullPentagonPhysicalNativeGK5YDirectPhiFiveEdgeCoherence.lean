@@ -385,6 +385,127 @@ theorem nativeGK5YDefect43_refl
   rw [nativeGK5YEdge43_whole]
   simp only [Iso.self_symm_id]
 
+
+/-- The P0->P1 genuine four-stage direct-Phi edge is the actual
+GK5W triple associativity under a further real category equivalence
+k, via whole NatIso post-whiskering and both actual GK5U comparisons.
+No composite equivalence record is identified strictly. -/
+theorem nativeGK5YEdge01_whole
+    {i j : I} (t : NativeGK5DTypedTree C i j) :
+    nativeGK5XDirectPhi0 e g h k t ≪≫
+      nativeGK5XEdge01 e g h k (nativeGK5DTreeComposite t) =
+    nativeGK5XDirectPhi1 e g h k t := by
+  let P : ∀ x : I, C x ≌ F x :=
+    fun x : I => ((e x).trans (g x)).trans (h x)
+  let Q : ∀ x : I, C x ≌ F x :=
+    fun x : I => (e x).trans ((g x).trans (h x))
+  let U : NativeGK5DTypedTree F i j :=
+    nativeGK5GChangeTree h
+      (nativeGK5GChangeTree g (nativeGK5GChangeTree e t))
+  have hAtom : ∀ {x y : I} (R : C x ⥤ C y),
+      nativeGK5GChangeAtom P R = nativeGK5GChangeAtom Q R := by
+    intro x y R
+    exact nativeGK5VChangeAtom_assoc e g h R
+  have hPhi :
+      (eqToIso (congrArg nativeGK5DTreeComposite
+          (nativeGK5WLeftTreeEq e g h t)) ≪≫
+        nativeGK5GChangeTreeIso P t) ≪≫
+        eqToIso (hAtom (nativeGK5DTreeComposite t)) =
+      eqToIso (congrArg nativeGK5DTreeComposite
+          (nativeGK5WRightTreeEq e g h t)) ≪≫
+        nativeGK5GChangeTreeIso Q t := by
+    simpa only [P, Q, nativeGK5WLeftDirectPhi,
+      nativeGK5WRightDirectPhi, nativeGK5WLeftTreeIso,
+      nativeGK5WRightTreeIso, nativeGK5VAssocAtomIso] using
+        (nativeGK5WAllTrees_direct_assoc_whole e g h t)
+  have hpost :=
+    nativeGK5YPostCoherent P Q k hAtom t U
+      (nativeGK5WLeftTreeEq e g h t)
+      (nativeGK5WRightTreeEq e g h t) hPhi
+  simpa only [nativeGK5XDirectPhi0, nativeGK5XDirectPhi1,
+    nativeGK5XEdge01, nativeGK5YPostDirect, P, Q, U] using hpost
+
+/-- The nonstrict source-valued direct-Phi edge defect P0->P1
+unconditionally vanishes for every actual finite typed tree. -/
+theorem nativeGK5YDefect01_refl
+    {i j : I} (t : NativeGK5DTypedTree C i j) :
+    nativeGK5XDefect01 e g h k t = Iso.refl _ := by
+  unfold nativeGK5XDefect01
+  rw [nativeGK5YEdge01_whole]
+  simp only [Iso.self_symm_id]
+
+/-- The fifth direct-Phi edge defect vanishes by the CERTIFIED
+GK5X genuine whole-NatIso pentagon, combined with the already
+proved four edge defects. No new high cell or extra hypothesis. -/
+theorem nativeGK5YDefect23_refl
+    {i j : I} (t : NativeGK5DTypedTree C i j) :
+    nativeGK5XDefect23 e g h k t = Iso.refl _ := by
+  have hPentagon := nativeGK5XDirectDefectPentagon_whole e g h k t
+  simpa only [nativeGK5YDefect01_refl, nativeGK5YDefect12_refl,
+    nativeGK5YDefect04_refl, nativeGK5YDefect43_refl,
+    Iso.refl_trans, Iso.trans_refl] using hPentagon
+
+/-- The P2->P3 whole Mathlib NatIso square follows exactly from
+the proven genuine relative direct-Phi defect obstruction being refl. -/
+theorem nativeGK5YEdge23_whole
+    {i j : I} (t : NativeGK5DTypedTree C i j) :
+    nativeGK5XDirectPhi2 e g h k t ≪≫
+      nativeGK5XEdge23 e g h k (nativeGK5DTreeComposite t) =
+    nativeGK5XDirectPhi3 e g h k t := by
+  have h := congrArg
+    (fun iso => iso ≪≫ nativeGK5XDirectPhi3 e g h k t)
+    (nativeGK5YDefect23_refl e g h k t)
+  simpa only [nativeGK5XDefect23, Iso.trans_assoc,
+    Iso.symm_self_id, Iso.trans_refl, Iso.refl_trans] using h
+
+/-- Every one of the FIVE true four-stage direct-Phi associator
+edges commutes as a whole Mathlib NatIso, unconditionally on all
+finite genuine GK5D typed functor trees. -/
+theorem nativeGK5YAllFiveEdges_whole
+    {i j : I} (t : NativeGK5DTypedTree C i j) :
+    (nativeGK5XDirectPhi0 e g h k t ≪≫
+        nativeGK5XEdge01 e g h k (nativeGK5DTreeComposite t) =
+      nativeGK5XDirectPhi1 e g h k t) ∧
+    (nativeGK5XDirectPhi1 e g h k t ≪≫
+        nativeGK5XEdge12 e g h k (nativeGK5DTreeComposite t) =
+      nativeGK5XDirectPhi2 e g h k t) ∧
+    (nativeGK5XDirectPhi2 e g h k t ≪≫
+        nativeGK5XEdge23 e g h k (nativeGK5DTreeComposite t) =
+      nativeGK5XDirectPhi3 e g h k t) ∧
+    (nativeGK5XDirectPhi0 e g h k t ≪≫
+        nativeGK5XEdge04 e g h k (nativeGK5DTreeComposite t) =
+      nativeGK5XDirectPhi4 e g h k t) ∧
+    (nativeGK5XDirectPhi4 e g h k t ≪≫
+        nativeGK5XEdge43 e g h k (nativeGK5DTreeComposite t) =
+      nativeGK5XDirectPhi3 e g h k t) := by
+  exact ⟨nativeGK5YEdge01_whole e g h k t,
+    nativeGK5YEdge12_whole e g h k t,
+    nativeGK5YEdge23_whole e g h k t,
+    nativeGK5YEdge04_whole e g h k t,
+    nativeGK5YEdge43_whole e g h k t⟩
+
+/-- Unconditional complete five-edge relative obstruction
+trivialization for all true Mathlib composite equivalences. -/
+theorem nativeGK5YAllFiveDefects_refl
+    {i j : I} (t : NativeGK5DTypedTree C i j) :
+    nativeGK5XDefect01 e g h k t = Iso.refl _ ∧
+    nativeGK5XDefect12 e g h k t = Iso.refl _ ∧
+    nativeGK5XDefect23 e g h k t = Iso.refl _ ∧
+    nativeGK5XDefect04 e g h k t = Iso.refl _ ∧
+    nativeGK5XDefect43 e g h k t = Iso.refl _ := by
+  exact ⟨nativeGK5YDefect01_refl e g h k t,
+    nativeGK5YDefect12_refl e g h k t,
+    nativeGK5YDefect23_refl e g h k t,
+    nativeGK5YDefect04_refl e g h k t,
+    nativeGK5YDefect43_refl e g h k t⟩
+
+#print axioms nativeGK5YEdge01_whole
+#print axioms nativeGK5YDefect01_refl
+#print axioms nativeGK5YDefect23_refl
+#print axioms nativeGK5YEdge23_whole
+#print axioms nativeGK5YAllFiveEdges_whole
+#print axioms nativeGK5YAllFiveDefects_refl
+
 #print axioms nativeGK5YEdge12_whole
 #print axioms nativeGK5YEdge04_whole
 #print axioms nativeGK5YEdge43_whole
