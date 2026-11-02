@@ -259,6 +259,7 @@ theorem nativeGK5AMP89_no_structural_lift_of_leftContext
 
 #print axioms NativeF55P92AssocComparison.gk5amContextParity
 #print axioms NativeF55P92AssocComparison.gk5amHorizontal_contextParity
+#print axioms NativeF55P92AssocComparison.gk5amTrans_contextParity
 #print axioms NativeF55P93AssocFourCell.gk5amContextParity_sound
 #print axioms nativeGK5AMLeftContextUnit_no_P93
 #print axioms nativeGK5AMRightContextUnit_no_P93
