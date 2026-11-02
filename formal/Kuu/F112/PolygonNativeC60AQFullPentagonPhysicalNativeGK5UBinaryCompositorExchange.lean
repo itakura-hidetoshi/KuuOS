@@ -87,7 +87,6 @@ theorem nativeGK5UTheta_paste
   dsimp only [nativeGK5QTreeComparison]
   rw [nativeGK5UHorizontalEqToIso]
   congr 1
-  apply Subsingleton.elim
 
 /-- Real compositional compatibility of a pointwise genuine
 category equivalence's nonstrict middle unit. The whole
@@ -112,6 +111,80 @@ theorem nativeGK5UBinaryCompositor_whole
     nativeGK5QAtomComparison, nativeGK5QChangeAtom_comp,
     nativeGK5GChangeAtom, Equivalence.trans,
     Functor.comp_map, Functor.map_comp, Category.assoc]
+
+/-- A genuine WHOLE Mathlib NatIso middle-compositor pasting
+square for arbitrary real recursively transported left and right
+functors and their actual comparison NatIsos. This statement
+keeps both nonstrict equivalence units and ALL source/target
+functor categories; it is the local binary induction bridge. -/
+private theorem nativeGK5UGenericPaste
+    {i j k : I} (R : C i ⥤ C j) (S : C j ⥤ C k)
+    {A : D i ⥤ D j} {B : D j ⥤ D k}
+    {A' : E i ⥤ E j} {B' : E j ⥤ E k}
+    (α : A ≅ nativeGK5GChangeAtom e R)
+    (β : B ≅ nativeGK5GChangeAtom e S)
+    (γ : A' ≅ nativeGK5GChangeAtom g A)
+    (δ : B' ≅ nativeGK5GChangeAtom g B) :
+    (nativeGK5UHorizontalIso γ δ ≪≫
+      nativeGK5GChangeCompIso g A B) ≪≫
+      nativeGK5GChangeIso g
+        (nativeGK5UHorizontalIso α β ≪≫
+          nativeGK5GChangeCompIso e R S) ≪≫
+      nativeGK5QAtomComparison e g (R ⋙ S) =
+    nativeGK5UHorizontalIso
+        (γ ≪≫ nativeGK5GChangeIso g α ≪≫
+          nativeGK5QAtomComparison e g R)
+        (δ ≪≫ nativeGK5GChangeIso g β ≪≫
+          nativeGK5QAtomComparison e g S) ≪≫
+      nativeGK5GChangeCompIso
+        (fun h : I => (e h).trans (g h)) R S := by
+  calc
+    _ = nativeGK5UHorizontalIso γ δ ≪≫
+          ((nativeGK5GChangeCompIso g A B ≪≫
+            nativeGK5GChangeIso g (nativeGK5UHorizontalIso α β)) ≪≫
+            (nativeGK5GChangeIso g
+              (nativeGK5GChangeCompIso e R S) ≪≫
+              nativeGK5QAtomComparison e g (R ⋙ S))) := by
+          simp only [nativeGK5HChangeIso_trans, Iso.trans_assoc]
+    _ = nativeGK5UHorizontalIso γ δ ≪≫
+          ((nativeGK5UHorizontalIso
+              (nativeGK5GChangeIso g α)
+              (nativeGK5GChangeIso g β) ≪≫
+              nativeGK5GChangeCompIso g
+                (nativeGK5GChangeAtom e R)
+                (nativeGK5GChangeAtom e S)) ≪≫
+            (nativeGK5GChangeIso g
+              (nativeGK5GChangeCompIso e R S) ≪≫
+              nativeGK5QAtomComparison e g (R ⋙ S))) := by
+          rw [← nativeGK5LChangeCompIso_both g α β]
+    _ = nativeGK5UHorizontalIso γ δ ≪≫
+          (nativeGK5UHorizontalIso
+              (nativeGK5GChangeIso g α)
+              (nativeGK5GChangeIso g β) ≪≫
+            (nativeGK5UHorizontalIso
+              (nativeGK5QAtomComparison e g R)
+              (nativeGK5QAtomComparison e g S) ≪≫
+              nativeGK5GChangeCompIso
+                (fun h : I => (e h).trans (g h)) R S)) := by
+          simp only [Iso.trans_assoc]
+          rw [nativeGK5UBinaryCompositor_whole e g R S]
+    _ = nativeGK5UHorizontalIso
+          (γ ≪≫ nativeGK5GChangeIso g α ≪≫
+            nativeGK5QAtomComparison e g R)
+          (δ ≪≫ nativeGK5GChangeIso g β ≪≫
+            nativeGK5QAtomComparison e g S) ≪≫
+          nativeGK5GChangeCompIso
+            (fun h : I => (e h).trans (g h)) R S := by
+          simp only [Iso.trans_assoc]
+          rw [nativeGK5UHorizontalIso_trans γ
+            (nativeGK5GChangeIso g α) δ
+            (nativeGK5GChangeIso g β)]
+          rw [nativeGK5UHorizontalIso_trans
+            (γ ≪≫ nativeGK5GChangeIso g α)
+            (nativeGK5QAtomComparison e g R)
+            (δ ≪≫ nativeGK5GChangeIso g β)
+            (nativeGK5QAtomComparison e g S)]
+          simp only [Iso.trans_assoc]
 
 /-- The genuine sequential/composite *recursive* Phi comparison
 at a binary tree with exactly two real typed atomic leaves.
