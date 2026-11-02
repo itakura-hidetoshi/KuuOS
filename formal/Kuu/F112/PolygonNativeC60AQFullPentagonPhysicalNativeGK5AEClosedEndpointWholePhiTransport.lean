@@ -37,8 +37,59 @@ noncomputable section
 universe uI vC uC
 
 section FiveCycleTrueEndpointTransport
-variable {I : Type uI} (f : I → I)
-variable (C : I → Cat.{vC,uC})
+variable {I : Type uI}
+
+/-- A general genuinely typed pullback cast for an arbitrary
+variable index map g with a PROOF of g=id. Crucially this equality
+is not reduced by pretending an arbitrary composite f^5 is a variable. -/
+private def nativeGK5AEGenericPullback
+    (g : I → I) (C : I → Cat.{vC,uC})
+    (hg : g = id)
+    {i j : I} (t : NativeGK5DTypedTree C i j) :
+    NativeGK5DTypedTree (fun x : I => C (g x)) i j := by
+  have hfamily : (fun x : I => C (g x)) = C := by
+    funext x
+    exact congrArg C (congrFun hg x)
+  exact cast (congrArg
+    (fun F : I → Cat.{vC,uC} => NativeGK5DTypedTree F i j)
+    hfamily.symm) t
+
+/-- The genuine type equality of BOTH dependent tree endpoints
+arises from congrFun on hg, not a false definitional equality. -/
+private theorem nativeGK5AEGenericEndpointTypeEq
+    (g : I → I) (C : I → Cat.{vC,uC})
+    (hg : g = id) (i j : I) :
+    NativeGK5DTypedTree C (g i) (g j) =
+    NativeGK5DTypedTree C i j := by
+  have hi : g i = i := congrFun hg i
+  have hj : g j = j := congrFun hg j
+  rw [hi, hj]
+
+/-- Actual typed endpoint cast for any proved identity index map. -/
+private def nativeGK5AEGenericEndpointCast
+    (g : I → I) (C : I → Cat.{vC,uC})
+    (hg : g = id) {i j : I}
+    (u : NativeGK5DTypedTree C (g i) (g j)) :
+    NativeGK5DTypedTree C i j :=
+  cast (nativeGK5AEGenericEndpointTypeEq g C hg i j) u
+
+/-- Genuine typed pullback, ONE actual GK5F reindexing, and both
+endpoint casts compose to the identity on every finite typed tree.
+Here cases hg is valid: g is a true variable, unlike f^5. -/
+private theorem nativeGK5AEGenericRoundtrip
+    (g : I → I) (C : I → Cat.{vC,uC})
+    (hg : g = id) {i j : I}
+    (t : NativeGK5DTypedTree C i j) :
+    nativeGK5AEGenericEndpointCast g C hg
+      (nativeGK5FTreeReindex g C
+        (nativeGK5AEGenericPullback g C hg t)) = t := by
+  cases hg
+  simp [nativeGK5AEGenericEndpointCast,
+    nativeGK5AEGenericEndpointTypeEq,
+    nativeGK5AEGenericPullback,
+    nativeGK5FTreeReindex_id]
+
+variable (f : I → I) (C : I → Cat.{vC,uC})
 variable (hf : nativeGK5ADFiveIndex f = id)
 
 /-- Explicit genuine Eq.rec transport of a full typed tree from the
@@ -47,42 +98,43 @@ def nativeGK5AEOriginalAsFivePullback
     {i j : I} (t : NativeGK5DTypedTree C i j) :
     NativeGK5DTypedTree
       (fun x : I => C (nativeGK5ADFiveIndex f x)) i j :=
-  cast (congrArg
-    (fun F : I → Cat.{vC,uC} => NativeGK5DTypedTree F i j)
-    (nativeGK5ADFiveFamily_closed f C hf).symm) t
+  nativeGK5AEGenericPullback (nativeGK5ADFiveIndex f) C hf t
 
-/-- Actual dependent endpoint type equality, not an unproved
-definitional identification of C(f^5 i) with C i. -/
-theorem nativeGK5AEEndpointTreeTypeEq (i j : I) :
+/-- Public actual dependent endpoint type equality for f^5=id;
+the equality proof is an EXPLICIT parameter of the theorem. -/
+theorem nativeGK5AEEndpointTreeTypeEq
+    (hf : nativeGK5ADFiveIndex f = id) (i j : I) :
     NativeGK5DTypedTree C
       (nativeGK5ADFiveIndex f i) (nativeGK5ADFiveIndex f j) =
-    NativeGK5DTypedTree C i j := by
-  rw [nativeGK5ADFiveIndex_closed f hf i,
-    nativeGK5ADFiveIndex_closed f hf j]
+    NativeGK5DTypedTree C i j :=
+  nativeGK5AEGenericEndpointTypeEq
+    (nativeGK5ADFiveIndex f) C hf i j
 
-/-- Execute the real five GK5F steps; then explicitly cast BOTH
-indexed endpoints back to the original typed-tree source/target. -/
+/-- Execute the real five GK5F steps, then explicitly cast BOTH
+indexed endpoints back to the original typed-tree source and target. -/
 def nativeGK5AEClosedFiveTree
     {i j : I} (t : NativeGK5DTypedTree C i j) :
     NativeGK5DTypedTree C i j :=
-  cast (nativeGK5AEEndpointTreeTypeEq f C hf i j)
+  nativeGK5AEGenericEndpointCast (nativeGK5ADFiveIndex f) C hf
     (nativeGK5ADFiveTreeReindex f C
       (nativeGK5AEOriginalAsFivePullback f C hf t))
 
-/-- The complete fivefold dependent-tree reclassification really
-returns the entire ORIGINAL typed tree after the family and both
-endpoint transports. No quotient and no source-path collapse. -/
+/-- Complete fivefold dependent-tree reclassification returns
+the entire ORIGINAL typed tree after the family and both endpoint
+transports. The proof uses the real GK5AD five-step fusion equality. -/
 theorem nativeGK5AEClosedFiveTree_eq
     {i j : I} (t : NativeGK5DTypedTree C i j) :
     nativeGK5AEClosedFiveTree f C hf t = t := by
-  cases hf
-  simp [nativeGK5AEClosedFiveTree,
-    nativeGK5AEOriginalAsFivePullback,
-    nativeGK5AEEndpointTreeTypeEq,
-    nativeGK5ADFiveTreeReindex_eq,
-    nativeGK5FTreeReindex_id]
+  change nativeGK5AEGenericEndpointCast
+      (nativeGK5ADFiveIndex f) C hf
+      (nativeGK5ADFiveTreeReindex f C
+        (nativeGK5AEGenericPullback (nativeGK5ADFiveIndex f) C hf t)) = t
+  rw [nativeGK5ADFiveTreeReindex_eq]
+  exact nativeGK5AEGenericRoundtrip
+    (nativeGK5ADFiveIndex f) C hf t
 
 #print axioms nativeGK5AEClosedFiveTree_eq
+#print axioms nativeGK5AEEndpointTreeTypeEq
 
 end FiveCycleTrueEndpointTransport
 
