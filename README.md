@@ -14,6 +14,19 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK5N / 2026-11-02 JST
+
+**真正点別圏同値の左右unitor局所障害を任意の型付き有限部分木で無条件解消 — [定理PR #2923](https://github.com/itakura-hidetoshi/KuuOS/pull/2923) MERGED。** [新規Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5NArbitraryTreeUnitors.lean)・[正式証明記録](docs/formal/GK5N-arbitrary-tree-pointwise-equivalence-unitors.md)。
+
+**数学的成果：** 真正圏族`C,D:I→Cat.{vC,uC}`、点別圏同値`e_i:C_i≌D_i`、任意有限型付き木`a`のGK5G whole NatIso比較`Φ_a`を保持し、GK5Dの`leftUnit a`・`rightUnit a`が真正whole Mathlib NatIso四角`StepIso(ChangeStep(e,s)) ≪≫ Φ_{right} = Φ_{left} ≪≫ ChangeIso(e,StepIso(s))`を**それぞれ無条件に満たす**ことをLean4で証明。任意whole関手のleft/right unit三角律も別定理として証明し、前者は実`Equivalence.inverse_counitInv_comp`、後者は`Equivalence.counitInv_functor_comp`、いずれも実unit/counitと中間`unitIso.symm`を保持。任意非自明`Φ_a`への輸送は左右unitorの真正自然性・Mathlib isoWhiskering交換則で構成。**新規4定理**。
+
+**未証明境界：** GK5Mの全associatorと今回の全左右unitorが解決したが、GK5Dの`whiskerLeft`・`whiskerRight`という両基本generatorの無条件整合性は未証明。従ってGK5H/GK5Jの**全有限経路無条件whole NatIso/NatTrans**はまだ宣言しない。元F45無条件faithfulness、source-Q圏公理、raw Type値高次セル、global Gray、unrestricted hyperdescentも未証明。
+
+**exact-source：** source `37503ddfc78c92e5236708ef33bd052d630bbae5`／定理squash `b5ed97010beecbada2c2d21955cc5d45cfbc8dfc`／一致Git tree `ebd6fc8276cc670807f84c02313c7d51af850b72`。[CI #41368603907](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41368603907) **Strict Lean 3835/3835、Independent Kuu・Workflow integrity・Governance terminalすべてSUCCESS**。公理監査4/4は`propext/Classical.choice/Quot.sound`のみ、sorryAx0、新公理0、変更Lean error/warning0/0。Lean4の二重`map_comp`と恒等射の依存型端点、Iso交換合成の括弧位置をCIの全ゴールから分析して修正。Lean v4.30.0-rc2/mathlib pin・root107・保護#1558 Draft/OPEN・append-only、strict空中心／独立Kuu一presentation維持。
+
+**次の研究GK5O：** `whiskerLeft`/`whiskerRight`のwhole NatIso局所四角を、既証明GK5K/GK5L compositor両変数自然性・Mathlib isoWhiskering interchange・子ステップの帰納法で証明。全5構成子が無条件で可換となった後に限りGK5H/GK5Jから全有限経路whole NatIso/NatTrans自然性を導く。以下GK5M以前の全記録保持。
+
+
 ## 最新のLean定理統合 — F112-P94D3GK5M / 2026-11-02 JST
 
 **真正点別圏同値の局所associator障害を、三原子から任意の型付き有限部分木へ拡張して無条件に解消 — [定理PR #2921](https://github.com/itakura-hidetoshi/KuuOS/pull/2921) MERGED。** [新規Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5MArbitraryTreeAssociator.lean)・[正式証明記録](docs/formal/GK5M-arbitrary-finite-subtree-associator-coherence.md)。
