@@ -9,7 +9,7 @@
 
 ## Definitive mathematical result and exact scope
 
-The only changed theorem file is the new append-only [PolygonNativeC60AQFullPentagonPhysicalNativeGK5VTripleNatIsoAssociativity.lean](../../formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5VTripleNatIsoAssociativity.lean), **252 lines**. All previous Lean definitions and proof obligations are preserved, with no replacement, weakening or newly assumed hypothesis.
+The only changed theorem file is the new append-only [PolygonNativeC60AQFullPentagonPhysicalNativeGK5VTripleNatIsoAssociativity.lean](../../formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5VTripleNatIsoAssociativity.lean), **251 lines**. All previous Lean definitions and proof obligations are preserved, with no replacement, weakening or newly assumed hypothesis.
 
 Given genuinely indexed Mathlib category equivalences
 
@@ -72,7 +72,7 @@ Iso.refl ((h i).inverse ⋙ R ⋙ (h j).functor) =
 
 The cause is exactly a **missing definition in `simp only`**, not a mathematical counterexample: `nativeGK5GChangeAtom` expands to the displayed genuine conjugation functor but `simp only` does not unfold an unlisted name. Explicitly adding `nativeGK5GChangeAtom` to the same simplification list closes the goal. The original genuine quasi-inverses, GK5Q comparisons and Phi constructors remain unchanged. No `sorry`, `admit`, extra axiom, weakened premise or strictification was introduced.
 
-All **252 lines** of the changed source, its imports, GK5G atom/tree and NatIso transports, GK5H iso functoriality, GK5Q atomic and tree comparisons, GK5R sequential/direct recursive Phi, GK5U unconditional whole NatIso theorem, and pinned Mathlib `Functor.assoc`/`EqToHom`/`Whiskering` API were inspected. The subsequent exact-source CI [#41400557979](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41400557979) is terminal SUCCESS. All **12/12** public `#print axioms` show only **`propext`, `Classical.choice`, `Quot.sound`**; **`sorryAx=0`**, changed Lean **errors/warnings=0/0**.
+All **251 lines** of the changed source, its imports, GK5G atom/tree and NatIso transports, GK5H iso functoriality, GK5Q atomic and tree comparisons, GK5R sequential/direct recursive Phi, GK5U unconditional whole NatIso theorem, and pinned Mathlib `Functor.assoc`/`EqToHom`/`Whiskering` API were inspected. The subsequent exact-source CI [#41400557979](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41400557979) is terminal SUCCESS. All **12/12** public `#print axioms` show only **`propext`, `Classical.choice`, `Quot.sound`**; **`sorryAx=0`**, changed Lean **errors/warnings=0/0**.
 
 Pinned upstream references: [Equivalence.lean](https://github.com/leanprover-community/mathlib4/blob/5450b53e5ddc75d46418fabb605edbf36bd0beb6/Mathlib/CategoryTheory/Equivalence.lean), [EqToHom.lean](https://github.com/leanprover-community/mathlib4/blob/5450b53e5ddc75d46418fabb605edbf36bd0beb6/Mathlib/CategoryTheory/EqToHom.lean), [Whiskering.lean](https://github.com/leanprover-community/mathlib4/blob/5450b53e5ddc75d46418fabb605edbf36bd0beb6/Mathlib/CategoryTheory/Whiskering.lean).
 
