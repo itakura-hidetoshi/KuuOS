@@ -3,6 +3,19 @@
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK5M / 2026-11-02 JST
+
+**三原子associatorから真正任意有限部分木associatorへ：点別圏同値のwhole NatIso局所整合性を無条件証明 — [定理PR #2921](https://github.com/itakura-hidetoshi/KuuOS/pull/2921) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5MArbitraryTreeAssociator.lean)・[正式証明記録](docs/formal/GK5M-arbitrary-finite-subtree-associator-coherence.md)。
+
+**証明済：** GK5G genuine comparator `χ`の任意3関手compositor-associator whole NatIso結合整合性をGK5Iから抽出。`a,b,c`を任意の有限型付き異種圏GK5D部分木とした`NativeGK5JPathSquare e (.basic (.assoc a b c))`を、非自明な再帰的`Φ_c`のwhole NatTrans自然性と真正中間`unitIso.inv.naturality`を合成位置に適用して無条件証明。追加したprivate bridgeは任意`φ:S≅ChangeAtom(e,R)`についてのunit-naturality比較で、新公理は用いない（公開新定理2件）。
+
+**残存条件：** 真正associator全生成子は解消。ただし左右unitor/左右whiskeringの生成子条件は残存。GK5Hの`StepCompatible e`そのもの及び全経路`PathCompatible e`の無条件成立をこの段階で主張しない。元F45/source-Q/raw Type高次セル/Gray/無制限descentは未証明。
+
+**検証記録：** final source `56692513432a1b1f0ad744871dc6bfd2989117b4`／squash `3d7397eaa7d9db905cf2eec3d6dc33022c3e9079`／同一Git tree `9f6994ad162fd003dca2cfc58ccad59243b129be`。[CI #41366413951](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41366413951) **Strict Lean 3834/3834、Independent Kuu・Workflow integrity・Governance SUCCESS**。2/2 public `#print axioms` は標準三公理のみ、sorryAx0、Lean error/warning0/0。形式化では本物のunit/NatIso自然性のmapを分離し、`congrArg`で共通合成下の可換性を証明。固定Lean/mathlib、公開root107、保護#1558 Draft/open、append-only、strict空中心／独立Kuu一presentationを維持。
+
+**次GK5N：** 全有限型付き木の`leftUnit`/`rightUnit`比較を真正counit/unit三角律で無条件証明し、両側whisker下でbasic-step whole NatIso可換性を再帰的に保持する補題を検証。すべての基本ステップが完了した後にのみGK5H/GK5Jで全有限Path NatIso/NatTransの無条件成立へ進む。以下過去の歴史的証明記録を全保持。
+
+
 ## 最新のLean定理統合 — F112-P94D3GK5L / 2026-11-02 JST
 
 **真正点別圏同値の二段compositorの左変数自然性と二変数のwhole NatIso interchangeを実Lean4で証明 — [定理PR #2919](https://github.com/itakura-hidetoshi/KuuOS/pull/2919) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5LTwoVariableCompositorNaturality.lean)・[正式証明記録](docs/formal/GK5L-two-variable-equivalence-compositor-interchange.md)。
