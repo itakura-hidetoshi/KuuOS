@@ -58,7 +58,41 @@ theorem nativeGK5UBinaryCompositor_whole
     nativeGK5GChangeAtom, Equivalence.trans,
     Functor.comp_map, Functor.map_comp, Category.assoc]
 
+/-- The genuine sequential/composite *recursive* Phi comparison
+at a binary tree with exactly two real typed atomic leaves.
+This now evaluates the actual GK5G binary compositor in all
+three genuinely equivalent category families. -/
+theorem nativeGK5UTwoAtomPhi_compatible
+    {i j k : I} (R : C i ⥤ C j) (S : C j ⥤ C k) :
+    nativeGK5RSequentialCompositePhi e g
+        (.paste (.atom R) (.atom S)) =
+      nativeGK5RDirectCompositePhi e g
+        (.paste (.atom R) (.atom S)) := by
+  apply Iso.ext
+  ext X
+  simp [nativeGK5RSequentialCompositePhi,
+    nativeGK5RSequentialPhi, nativeGK5RDirectCompositePhi,
+    nativeGK5GChangeTreeIso, nativeGK5GChangeTree,
+    nativeGK5DTreeComposite, nativeGK5QTreeComparison,
+    nativeGK5GChangeIso, nativeGK5GChangeAtom,
+    nativeGK5QAtomComparison, nativeGK5QChangeAtom_comp,
+    nativeGK5GChangeCompIso, Equivalence.trans,
+    Functor.comp_map, Functor.map_comp, Category.assoc]
+
+/-- The true relative whole NatIso obstruction is trivial at
+every genuine two-atom binary tree, not merely as a conditional
+compilation target. -/
+theorem nativeGK5UTwoAtomObstruction_refl
+    {i j k : I} (R : C i ⥤ C j) (S : C j ⥤ C k) :
+    nativeGK5RPhiObstruction e g
+      (.paste (.atom R) (.atom S)) = Iso.refl _ :=
+  (nativeGK5RPhiObstruction_refl_iff e g
+    (.paste (.atom R) (.atom S))).mpr
+    (nativeGK5UTwoAtomPhi_compatible e g R S)
+
 #print axioms nativeGK5UBinaryCompositor_whole
+#print axioms nativeGK5UTwoAtomPhi_compatible
+#print axioms nativeGK5UTwoAtomObstruction_refl
 
 end GenuineTwoStageCompositor
 end
