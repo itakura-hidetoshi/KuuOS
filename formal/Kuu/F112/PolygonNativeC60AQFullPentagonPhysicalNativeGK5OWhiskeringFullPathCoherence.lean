@@ -66,6 +66,16 @@ private theorem nativeGK5OWhiskerRight_of_square
         Functor.isoWhiskerRight β (nativeGK5GChangeAtom e Sc) :=
     (Functor.isoWhiskerLeft_trans_isoWhiskerRight β φc).symm
   have hcomp := nativeGK5LChangeCompIso_left e (nativeGK5DStepIso s) Sc
+  have hD :
+      nativeGK5DPathIso
+        (NativeGK5DTypedPath.basic
+          (NativeGK5DTypedStep.whiskerRight
+            (nativeGK5GChangeStep e s) (nativeGK5GChangeTree e c))) =
+        Functor.isoWhiskerRight α Tc := by
+    rfl
+  have hSwap := congrArg
+    (fun t => Functor.isoWhiskerRight φa Tc ≪≫
+      t ≪≫ nativeGK5GChangeCompIso e Rb Sc) hinter
   dsimp only [NativeGK5JPathSquare, nativeGK5DPathIso,
     nativeGK5GChangePath, nativeGK5DStepIso, nativeGK5GChangeStep,
     nativeGK5GChangeTreeIso, nativeGK5GChangeTree,
@@ -76,9 +86,7 @@ private theorem nativeGK5OWhiskerRight_of_square
     _ = (Functor.isoWhiskerRight (α ≪≫ φb) Tc ≪≫
            Functor.isoWhiskerLeft (nativeGK5GChangeAtom e Rb) φc) ≪≫
           nativeGK5GChangeCompIso e Rb Sc := by
-            simp only [nativeGK5DPathIso, nativeGK5GChangePath,
-              nativeGK5GChangeStep, nativeGK5DStepIso,
-              Functor.isoWhiskerRight_trans, Iso.trans_assoc]
+            simp only [hD, Functor.isoWhiskerRight_trans, Iso.trans_assoc]
     _ = (Functor.isoWhiskerRight (φa ≪≫ β) Tc ≪≫
            Functor.isoWhiskerLeft (nativeGK5GChangeAtom e Rb) φc) ≪≫
           nativeGK5GChangeCompIso e Rb Sc := by rw [hchild]
@@ -86,8 +94,8 @@ private theorem nativeGK5OWhiskerRight_of_square
            Functor.isoWhiskerLeft (nativeGK5GChangeAtom e Ra) φc) ≪≫
           Functor.isoWhiskerRight β (nativeGK5GChangeAtom e Sc)) ≪≫
           nativeGK5GChangeCompIso e Rb Sc := by
-            simp only [Functor.isoWhiskerRight_trans, Iso.trans_assoc]
-            rw [hinter]
+            simpa only [Functor.isoWhiskerRight_trans, Iso.trans_assoc]
+              using hSwap
     _ = ((Functor.isoWhiskerRight φa Tc ≪≫
            Functor.isoWhiskerLeft (nativeGK5GChangeAtom e Ra) φc) ≪≫
            nativeGK5GChangeCompIso e Ra Sc) ≪≫
@@ -97,6 +105,7 @@ private theorem nativeGK5OWhiskerRight_of_square
                (fun t => (Functor.isoWhiskerRight φa Tc ≪≫
                   Functor.isoWhiskerLeft (nativeGK5GChangeAtom e Ra) φc) ≪≫ t)
                hcomp
+    _ = _ := by simp only [Iso.trans_assoc]
 
 /-- A genuine child basic NatIso square remains coherent upon
 left-whiskering by any real finite typed subtree. Uses the opposite
@@ -128,6 +137,13 @@ private theorem nativeGK5OWhiskerLeft_of_square
         Functor.isoWhiskerLeft (nativeGK5GChangeAtom e Ra) α :=
     Functor.isoWhiskerLeft_trans_isoWhiskerRight φa α
   have hcomp := nativeGK5KChangeCompIso_right e Ra (nativeGK5DStepIso s)
+  have hD :
+      nativeGK5DPathIso
+        (NativeGK5DTypedPath.basic
+          (NativeGK5DTypedStep.whiskerLeft
+            (nativeGK5GChangeTree e a) (nativeGK5GChangeStep e s))) =
+        Functor.isoWhiskerLeft Ta α := by
+    rfl
   dsimp only [NativeGK5JPathSquare, nativeGK5DPathIso,
     nativeGK5GChangePath, nativeGK5DStepIso, nativeGK5GChangeStep,
     nativeGK5GChangeTreeIso, nativeGK5GChangeTree,
@@ -140,9 +156,7 @@ private theorem nativeGK5OWhiskerLeft_of_square
           Functor.isoWhiskerLeft (nativeGK5GChangeAtom e Ra) α) ≪≫
           Functor.isoWhiskerLeft (nativeGK5GChangeAtom e Ra) φc) ≪≫
           nativeGK5GChangeCompIso e Ra Sc := by
-            simpa only [nativeGK5DPathIso, nativeGK5GChangePath,
-              nativeGK5GChangeStep, nativeGK5DStepIso,
-              Iso.trans_assoc] using
+            simpa only [hD, Iso.trans_assoc] using
               congrArg (fun t =>
                 t ≪≫ Functor.isoWhiskerLeft (nativeGK5GChangeAtom e Ra) φc ≪≫
                   nativeGK5GChangeCompIso e Ra Sc) hinter
@@ -173,6 +187,7 @@ private theorem nativeGK5OWhiskerLeft_of_square
                    (nativeGK5DTreeComposite (nativeGK5GChangeTree e b)) ≪≫
                  Functor.isoWhiskerLeft (nativeGK5GChangeAtom e Ra) φb) ≪≫ t)
               hcomp
+    _ = _ := by simp only [Iso.trans_assoc]
 
 /-- Every *actual* GK5D associator/unitor/contextual whiskering
 generator is unconditionally coherent as a whole Mathlib NatIso.
