@@ -262,6 +262,80 @@ theorem nativeGK5UTwoLeafPhi_compatible
   (nativeGK5RPhiObstruction_refl_iff e g t).mp
     (nativeGK5UTwoLeafObstruction_refl e g R S t h)
 
+/-- Actual two-stage recursive whole Mathlib Phi at any
+pasted finite typed subtrees is determined by their two genuine
+Phi values and the real compositor of the composite equivalence.
+The proof uses the exact GK5L/GK5U naturality paste, rather
+than atom-by-atom expansion of a giant component formula. -/
+theorem nativeGK5USequentialPhi_paste
+    {i j k : I} (left : NativeGK5DTypedTree C i j)
+    (right : NativeGK5DTypedTree C j k) :
+    nativeGK5RSequentialCompositePhi e g (.paste left right) =
+      nativeGK5UHorizontalIso
+        (nativeGK5RSequentialCompositePhi e g left)
+        (nativeGK5RSequentialCompositePhi e g right) ≪≫
+      nativeGK5GChangeCompIso
+        (fun h : I => (e h).trans (g h))
+        (nativeGK5DTreeComposite left)
+        (nativeGK5DTreeComposite right) := by
+  simpa only [nativeGK5RSequentialCompositePhi,
+    nativeGK5RSequentialPhi, nativeGK5GChangeTreeIso,
+    nativeGK5GChangeTree, nativeGK5DTreeComposite,
+    nativeGK5UHorizontalIso, Iso.trans_assoc] using
+      (nativeGK5UGenericPaste e g
+        (nativeGK5DTreeComposite left)
+        (nativeGK5DTreeComposite right)
+        (nativeGK5GChangeTreeIso e left)
+        (nativeGK5GChangeTreeIso e right)
+        (nativeGK5GChangeTreeIso g (nativeGK5GChangeTree e left))
+        (nativeGK5GChangeTreeIso g (nativeGK5GChangeTree e right)))
+
+/-- The separately constructed TRUE single-stage recursive
+Phi has exactly the same pasted form. The GK5Q whole tree
+comparison uses real eqToIso, and its horizontal composition
+identity is GK5UTheta_paste, not a strictification hypothesis. -/
+theorem nativeGK5UDirectPhi_paste
+    {i j k : I} (left : NativeGK5DTypedTree C i j)
+    (right : NativeGK5DTypedTree C j k) :
+    nativeGK5RDirectCompositePhi e g (.paste left right) =
+      nativeGK5UHorizontalIso
+        (nativeGK5RDirectCompositePhi e g left)
+        (nativeGK5RDirectCompositePhi e g right) ≪≫
+      nativeGK5GChangeCompIso
+        (fun h : I => (e h).trans (g h))
+        (nativeGK5DTreeComposite left)
+        (nativeGK5DTreeComposite right) := by
+  calc
+    _ = (nativeGK5UHorizontalIso
+            (nativeGK5QTreeComparison e g left)
+            (nativeGK5QTreeComparison e g right) ≪≫
+          nativeGK5UHorizontalIso
+            (nativeGK5GChangeTreeIso
+              (fun h : I => (e h).trans (g h)) left)
+            (nativeGK5GChangeTreeIso
+              (fun h : I => (e h).trans (g h)) right)) ≪≫
+          nativeGK5GChangeCompIso
+            (fun h : I => (e h).trans (g h))
+            (nativeGK5DTreeComposite left)
+            (nativeGK5DTreeComposite right) := by
+          simp only [nativeGK5RDirectCompositePhi,
+            nativeGK5GChangeTreeIso, nativeGK5GChangeTree,
+            nativeGK5DTreeComposite, nativeGK5UTheta_paste,
+            Iso.trans_assoc]
+    _ = nativeGK5UHorizontalIso
+          (nativeGK5QTreeComparison e g left ≪≫
+            nativeGK5GChangeTreeIso
+              (fun h : I => (e h).trans (g h)) left)
+          (nativeGK5QTreeComparison e g right ≪≫
+            nativeGK5GChangeTreeIso
+              (fun h : I => (e h).trans (g h)) right) ≪≫
+          nativeGK5GChangeCompIso
+            (fun h : I => (e h).trans (g h))
+            (nativeGK5DTreeComposite left)
+            (nativeGK5DTreeComposite right) := by
+          rw [nativeGK5UHorizontalIso_trans]
+    _ = _ := rfl
+
 /-- Candidate FULL finite typed tree recursive Phi coherence from
 genuine category equivalence composition, with no new premises.
 The binary case explicitly retains the two true recursive child
@@ -274,37 +348,8 @@ theorem nativeGK5UAllTrees_unconditional :
   | unit i => exact nativeGK5TUnitPhi_compatible e g i
   | atom R => exact nativeGK5SAtomPhi_compatible e g R
   | paste left right hl hr =>
-      apply Iso.ext
-      ext X
-      have hleft := congrArg (fun α => α.hom.app X) hl
-      have hright := congrArg (fun α => α.hom.app
-        ((nativeGK5GChangeAtom g
-          (nativeGK5GChangeAtom e
-            (nativeGK5DTreeComposite left))).obj X)) hr
-      have hNatG :=
-        (nativeGK5GChangeTreeIso g
-          (nativeGK5GChangeTree e right)).hom.naturality
-            ((nativeGK5GChangeTreeIso g
-              (nativeGK5GChangeTree e left)).hom.app X)
-      have hNatUnit :=
-        ((g _).unitIso.inv).naturality
-          ((nativeGK5GChangeTreeIso e left).hom.app
-            ((g _).inverse.obj X))
-      have hNatE :=
-        (nativeGK5GChangeTreeIso e right).hom.naturality
-          ((g _).unitIso.inv.app
-            ((nativeGK5DTreeComposite
-              (nativeGK5GChangeTree e left)).obj
-                ((g _).inverse.obj X)))
-      simp [nativeGK5RSequentialCompositePhi,
-        nativeGK5RSequentialPhi, nativeGK5RDirectCompositePhi,
-        nativeGK5GChangeTreeIso, nativeGK5GChangeTree,
-        nativeGK5DTreeComposite, nativeGK5QTreeComparison,
-        nativeGK5GChangeIso, nativeGK5GChangeAtom,
-        nativeGK5QAtomComparison, nativeGK5QChangeAtom_comp,
-        nativeGK5GChangeCompIso, Equivalence.trans,
-        Functor.comp_map, Functor.map_comp, Category.assoc] at hleft hright hNatG hNatUnit hNatE ⊢
-      all_goals simp_all [Category.assoc]
+      rw [nativeGK5USequentialPhi_paste e g left right,
+        nativeGK5UDirectPhi_paste e g left right, hl, hr]
 
 /-- Unconditional vanishing of the actual relative whole NatIso
 obstruction on EVERY genuine finite dependently typed tree,
@@ -326,6 +371,8 @@ theorem nativeGK5UNonemptyCons :
     (nativeGK5UAllObstructions_refl e g)
 
 #print axioms nativeGK5UTheta_paste
+#print axioms nativeGK5USequentialPhi_paste
+#print axioms nativeGK5UDirectPhi_paste
 #print axioms nativeGK5UBinaryCompositor_whole
 #print axioms nativeGK5UAllTrees_unconditional
 #print axioms nativeGK5UAllObstructions_refl
