@@ -14,6 +14,16 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — GK5AM＋Qi v4.6／真正北C60のP80文脈単位・P87/P89全構造的4-cell非descent／2026-11-03 JST
+
+**[Qi v4.6統合PR #2987](https://github.com/itakura-hidetoshi/KuuOS/pull/2987) MERGED。** 独立Kuu GK5ALの**P87/P89全構成子構造的移送⇔元P80三原始単位の移送**と、独立GK5AMの選択P93で保存される`ZMod2`文脈parityによる**左右文脈単位の実no-go**を、真正北C60の隣接第1・第2F45ステージ上へ型付きで適用。元二Nat F54単位経路、実F55 3-cell履歴、実P87左右4-cell証拠を保持したまま、`fivefoldGK5ANorthLeft_no_selectedP93`／`Right_no_selectedP93`により、構造的`φ`像を結ぶ選択P93実4-cellの**非存在**を証明した。元P87 4-cellは両方とも実在し、`.original f`と構造的`φ f`を同一視しない。[Qi Lean全文](formal/KUOS/Architecture/QiWuxingGK5AMNorthContextNonDescentV4_6.lean)。
+
+**旧Qi v4.5の条件が真正北C60で不成立と確定：** `fivefoldGK5ANorthPrimitiveBoundary_empty`で**北C60三単位互換族が非居住**、`NorthP87Boundary_empty`／`NorthP89Boundary_empty`で旧P87/P89全構造的4-cell移送族も非居住。三単位証明書を引数として必要とするQi v4.5物理P89→P93四セル商比較は、北C60では証明書を供給できない。任意の集合写像や別の拡張presentationまで否定しない。元P89水平interchange単独とP93像はGK5AKどおり成立。真正第五around Edge/Dart閉路と物理的に反転する04・43の方向は別型のまま保存し、`fivefoldGK5ANorthPhysicalOrientationAndNoDescent`で同時に成立。[正式証明記録](docs/formal/GK5AM-Qi-v4_6-north-P80-context-structural-no-descent.md)。
+
+**検証確定：** exact-source [CI #41528006975](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41528006975) **10157/10157 Strict Lean SUCCESS**、新規10/10公理監査は`propext`・`Classical.choice`・`Quot.sound`の範囲内、Lean errors/warnings 0/0、Governance **30/30 terminal SUCCESS**。source／test-merge／squash Git tree `2563ac8ddb6c95ac0c831f33dacec194c9572745`完全一致。定理squash `c3cb37293640b119453a29271b3436b9db2b5c9a`。固定Lean v4.30.0-rc2／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、root107、保護#1558 Draft/OPEN未マージ。
+
+**次GK5AN（候補）：** 現行P93の歴史的ソースを変更せず、元P80左右文脈単位に対応する**真正型付き新4-cell構成子**を別presentationに最小追加する修復可能性を独立Kuu Leanで検討。追加によってparity障害をどう解消し、P87/P89全移送や比較反映の残存条件がどこへ移るかを証明する。以下GK5AM・GK5AL・Qi v4.5以前の全履歴維持。
+
 ## 最新のLean定理統合 — F112-P94D3GK5AM／P80左右文脈単位の選択P93への構造的非descentをZMod2で実証／2026-11-03 JST
 
 **[独立Kuu GK5AM定理PR #2984](https://github.com/itakura-hidetoshi/KuuOS/pull/2984) MERGED。** GK5AL／Qi v4.5がP87・P89の構造的4-cell移送を元P80の三単位に完全帰着したことを受け、選択P92Bの原始Type値3-cellに新しい `ZMod 2` **文脈parity** `gk5amContextParity`を構成。元F55とP92B新規assocNaturalityは0、左右context構成子は各1加算、縦合成は加算。真正P92B水平合成は左右contextを1回ずつ含みmod2で相殺される。実P93の**全16構成子**についてparity保存 `gk5amContextParity_sound` をLean4で証明。
