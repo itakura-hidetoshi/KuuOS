@@ -14,6 +14,17 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK5P / 2026-11-02 JST
+
+**型付きindex relabelingと真正点別圏同値のword/tree交換可換性を形式証明、GK5O全有限経路の無条件whole NatIso/NatTrans自然性をrelabeling・二段圏同値・Mathlib合成圏同値へ拡張 — [定理PR #2927](https://github.com/itakura-hidetoshi/KuuOS/pull/2927) MERGED。** [Lean4全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5PIndexChangeNaturality.lean)・[GK5P正式証明記録](docs/formal/GK5P-typed-index-change-exchange-composite-path-naturality.md)。
+
+**数学的成果：** 任意（非単射も可）のindex写像`f:I→J`と真正Mathlib圏同値族`e_j:C_j≌D_j`について、`Reindex_f(Change_(e∘f)(t))=Change_e(Reindex_f(t))`を依存型有限word/treeの厳密等式として帰納証明し、全順序付き型付き葉語の一致も確定。さらにGK5F経路relabelingとGK5O無条件自然性を組み合わせたwhole NatIso/NatTrans式、pullback圏族側の式、逐次変換第二段の式、実Mathlib `(e_i).trans(g_i)`合成圏同値の式を証明（公開11定理）。**ただし二段変換と一段合成の再帰比較`Φ`どうしの非strict比較NatIso構成は未証明であり、strict同一視しない。**
+
+**CI・構造的エラー修正：** 最終source `dfddaaf30139c60911f29115708eb83cabc308a4`、squash `ac063e7bef086288eb7728c761b3f9573bd2ad43`、両者のGit tree `57ca56906655dd26014ea62ef9ffa514ea4cf023` 一致。[CI #41380573456](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41380573456) **Strict Lean 3837/3837、Independent Kuu・Workflow integrity・GovernanceすべてSUCCESS**。公開11/11 `#print axioms`標準三公理のみ・sorryAx0・新公理0。初回失敗の原因をLean全文・imports・依存シグネチャ・固定Mathlibで追跡し、indexを跨ぐ`ChangeAtom`の定義展開と、`nativeGK5DPathIso`のpullback圏族`C∘f`の明示で修正。既存ソースの弱化・上書きなし、root107・Lean v4.30.0-rc2・mathlib pin・保護PR #1558 Draft/OPENを維持。
+
+**次GK5Q候補：** 本物の`(e.trans g)`合成と逐次共役を結ぶ非strict whole NatIsoを構成し、unit/counit/compositor整合性と再帰的`Φ`比較を別定理で検証する。元F45・source-Q・raw Type高次セル・Gray・無制限hyperdescentは依然証明範囲外。以下GK5O以前の履歴は全保持。
+
+
 ## 最新のLean定理統合 — F112-P94D3GK5O / 2026-11-02 JST
 
 **真正な点別圏同値に関する有限型付き書換え経路のwhole NatIso・NatTrans自然性を無条件証明 — [定理PR #2925](https://github.com/itakura-hidetoshi/KuuOS/pull/2925) MERGED。** [Lean4ソース全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5OWhiskeringFullPathCoherence.lean)・[GK5O正式証明記録](docs/formal/GK5O-unconditional-whiskering-finite-path-coherence.md)。
