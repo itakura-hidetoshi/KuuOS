@@ -141,13 +141,8 @@ theorem NativeF55P93AssocFourCell.gk5aoRouteActionFlag_sound
       change (f.gk5aoRouteActionFlag || false) = f.gk5aoRouteActionFlag
       cases f.gk5aoRouteActionFlag <;> rfl
   | verticalAssoc f g h =>
-      change (f.gk5aoRouteActionFlag || g.gk5aoRouteActionFlag) ||
-        h.gk5aoRouteActionFlag =
-        f.gk5aoRouteActionFlag ||
-          (g.gk5aoRouteActionFlag || h.gk5aoRouteActionFlag)
-      cases f.gk5aoRouteActionFlag <;>
-        cases g.gk5aoRouteActionFlag <;>
-          cases h.gk5aoRouteActionFlag <;> rfl
+      simp only [NativeF55P92AssocComparison.gk5aoTrans_flag]
+      exact Bool.or_assoc _ _ _
   | leftWhisker prior w ih =>
       exact congrArg (fun z : Bool => prior.gk5aoRouteActionFlag || z) ih
   | rightWhisker w suffix ih =>
@@ -251,13 +246,8 @@ theorem NativeF55P94UnitFourCell.gk5aoZeroHorizontal_sound
       change (f.gk5aoRouteActionFlag || false) = f.gk5aoRouteActionFlag
       cases f.gk5aoRouteActionFlag <;> rfl
   | verticalAssoc f g h =>
-      change (f.gk5aoRouteActionFlag || g.gk5aoRouteActionFlag) ||
-        h.gk5aoRouteActionFlag =
-        f.gk5aoRouteActionFlag ||
-          (g.gk5aoRouteActionFlag || h.gk5aoRouteActionFlag)
-      cases f.gk5aoRouteActionFlag <;>
-        cases g.gk5aoRouteActionFlag <;>
-          cases h.gk5aoRouteActionFlag <;> rfl
+      simp only [NativeF55P92AssocComparison.gk5aoTrans_flag]
+      exact Bool.or_assoc _ _ _
   | leftWhisker prior w ih =>
       exact congrArg (fun z : Bool => prior.gk5aoRouteActionFlag || z) (ih hz)
   | rightWhisker w suffix ih =>
