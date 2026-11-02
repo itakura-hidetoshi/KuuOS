@@ -14,6 +14,19 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK5O / 2026-11-02 JST
+
+**真正な点別圏同値に関する有限型付き書換え経路のwhole NatIso・NatTrans自然性を無条件証明 — [定理PR #2925](https://github.com/itakura-hidetoshi/KuuOS/pull/2925) MERGED。** [Lean4ソース全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5OWhiskeringFullPathCoherence.lean)・[GK5O正式証明記録](docs/formal/GK5O-unconditional-whiskering-finite-path-coherence.md)。
+
+**数学的成果：** GK5Dの5種の実基本書換え`assoc`・`leftUnit`・`rightUnit`・`whiskerRight`・`whiskerLeft`がすべて、GK5Gの真正点別Mathlib圏同値`e_i:C_i≌D_i`による再帰比較`Φ_t`と無条件に可換であることを、whole Mathlib NatIso等式として証明。GK5Mで任意有限型付き部分木associator、GK5Nで左右unitor、GK5Oで両文脈whiskeringの子square保存を確定した。最後の2種は本物のMathlib isoWhiskeringの交換・合成律およびGK5K/GK5Lで証明済みの非strict compositorの両変数自然性を使用。`nativeGK5OAllBasicSteps`から`nativeGK5OStepCompatible`を無条件証明し、GK5Hの既証明local-to-globalにより`nativeGK5OAllFinitePaths : NativeGK5HPathCompatible e`を得た。任意の有限型付き経路`q:a⇒b`について`PathIso(ChangePath(e,q)) ≪≫ Φ_b = Φ_a ≪≫ ChangeIso(e,PathIso(q))`が無条件に成立し、そのwhole NatTrans版とGK5J endpoint-only標準経路条件の無条件成立も証明。選択逆をstrict逆と同一視していない。
+
+**Lean4記法の構造的修正：** 変更Leanファイル全文、imports、依存シグネチャ、固定Mathlib原典とCIの全elaborationゴールを再確認。誤った`change`（定義的等号と真正`Iso.trans_assoc`の区別）、右結合の`≪≫`、不要な長さ1`PathIso`経由、文脈下のwhiskering交換`congrArg`適用、`dsimp`後の非終端`simp only`による未完了goalsを分析。GK5Hと完全に一致する直接`StepIso`四角へ構造を変更し、最終3ゴールをMathlib結合律と`all_goals rfl`で厳密に閉じた。仮定は一切弱めず、新公理・sorryは追加していない。
+
+**exact-source検証：** final source `b0068afd2e19117413cbe1cea202b84e004ec9b4`／定理squash `dcbdf90631e60673c0156961b4e7ed90e430ad82`／一致Git tree `f01662fe10c98f3f3c795ef2cf4fea704cabea31`。[CI #41374135005](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41374135005) **Strict Lean 3836/3836、Independent Kuu・Workflow integrity・Governance terminal全SUCCESS**。公開5/5定理の`#print axioms`は`propext/Classical.choice/Quot.sound`のみ、sorryAx0。固定Lean v4.30.0-rc2・pinned mathlib 5450b53e5ddc75d46418fabb605edbf36bd0beb6、root107維持、保護PR #1558 Draft/OPEN/未マージ、strict空中心・独立Kuu一presentation・append-onlyを継続。
+
+**証明境界と次GK5P：** この無条件結果は**固定universes対の真正Mathlib圏族に対する有限GK5D型付き経路**に限定する。元F45無条件faithfulness、source-Q圏公理、raw F54/F55/P92B Type高次セル、global Gray、無制限hyperdescentは未証明。次は圏同値の合成・型付きindex relabelingなどの可換性を、今回の全有限経路証明を維持しつつ別定理として検証する。以下GK5N以前の履歴は全保持。
+
+
 ## 最新のLean定理統合 — F112-P94D3GK5N / 2026-11-02 JST
 
 **真正点別圏同値の左右unitor局所障害を任意の型付き有限部分木で無条件解消 — [定理PR #2923](https://github.com/itakura-hidetoshi/KuuOS/pull/2923) MERGED。** [新規Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5NArbitraryTreeUnitors.lean)・[正式証明記録](docs/formal/GK5N-arbitrary-tree-pointwise-equivalence-unitors.md)。

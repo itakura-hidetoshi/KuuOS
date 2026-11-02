@@ -3,6 +3,19 @@
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK5O / 2026-11-02 JST
+
+**GK5Hの局所障害が全5基本generatorで無条件に解消。任意の有限型付き書換え経路のwhole Mathlib NatIso/NatTrans自然性を形式証明 — [PR #2925](https://github.com/itakura-hidetoshi/KuuOS/pull/2925) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5OWhiskeringFullPathCoherence.lean)・[正式証明記録](docs/formal/GK5O-unconditional-whiskering-finite-path-coherence.md)。
+
+**新規無条件定理5件：** `nativeGK5OAllBasicSteps`は実GK5D生成子`assoc`（GK5M）・左右`Unit`（GK5N）・左右whiskering（GK5O）を真正StepIso四角への帰納法で証明。`nativeGK5OStepCompatible`はGK5H局所条件の無仮定成立。`nativeGK5OAllFinitePaths`はGK5H local-to-globalと本物のMathlib groupoid結合・反転から任意の証拠付き有限経路についてwhole NatIso可換を無条件証明。`nativeGK5OAllFinitePaths_natTrans`はwhole NatTrans hom版。`nativeGK5OEndpointCompatible`はGK5Jの同一型付き葉列を持つ端点対に対する構成済み標準経路の無条件整合性。圏同値のunit/counitを保持し、別presentationをstrictに混同しない。
+
+**Lean4原因記録：** ファイル全文・imports・依存のGK5G/H/K/L/M/N・pinned Mathlibのwhiskering/Isoを確認。`change`で非定義的な`Iso.trans_assoc`を強制できず失敗したため、GK5H直接StepIsoへ整列。右結合演算子`≪≫`と実`Functor.isoWhiskerLeft_trans`/`isoWhiskerRight_trans`、真正`congrArg`を使用。診断`trace_state`で、`dsimp only`後の`simp only`が証明を閉じずに残していた3ゴールを確認。最終的に`try simp only [...]; all_goals rfl`へ修正、診断記法は最終ソースから除去。新規公理0、sorryAx0、既存定理・仮定の弱化なし。
+
+**正本とCI：** source `b0068afd2e19117413cbe1cea202b84e004ec9b4`、squash `dcbdf90631e60673c0156961b4e7ed90e430ad82`、一致Git tree `f01662fe10c98f3f3c795ef2cf4fea704cabea31`。[CI #41374135005](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41374135005) **3836/3836 Strict Lean・Independent Kuu・Workflow integrity・Governance terminal SUCCESS**。5/5公理監査は標準三公理のみ。固定Lean/mathlib・root107・保護PR #1558 Draft/OPEN・append-only、strict空中心／独立Kuu一presentation不変。
+
+**未証明境界・次GK5P：** 本結果は固定universesの真正点別圏同値と有限型付きGK5D書換え経路に対するもの。元F45/source-Q/raw高次セル/Gray/無制限descentは未証明と明示。次研究は圏同値の合成・文脈索引のrelabeling等を別個に定式化し、今回の局所・大域無条件成果を損なわない。以下全履歴維持。
+
+
 ## 最新のLean定理統合 — F112-P94D3GK5N / 2026-11-02 JST
 
 **GK5M任意部分木associatorに続き、真正左右unitorの全有限型付き木whole NatIso整合性を無条件証明 — [定理PR #2923](https://github.com/itakura-hidetoshi/KuuOS/pull/2923) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5NArbitraryTreeUnitors.lean)・[正式証明記録](docs/formal/GK5N-arbitrary-tree-pointwise-equivalence-unitors.md)。
