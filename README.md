@@ -14,6 +14,16 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK5AH＋Qi v4.1／原始履歴を潰さない型付き比較ファイバーと真正C60の向き／2026-11-02 JST
+
+**独立Kuu [GK5AH定理PR #2970](https://github.com/itakura-hidetoshi/KuuOS/pull/2970) MERGED。** 真正北C60の独立再構成F54-shaped二Nat・二圏の原始Type値経路を全て保持する`NativeGK5AHNorthHistoryFiber`と同値`nativeGK5AHNorthHistoryEquiv`を構成。元F55 **9構成子**の実3セルを`NativeGK5AHOriginalComparison`で選択P92B `.original`へ型付き埋込みし、原始long/shortが**非同一なのに高次比較を持ち同じP92B商類になる**ことを証明。全原始履歴のP92B商からの復元不能・任意観測の正確なdescent iff・元F55やP92B比較を等式へ送る任意解釈の非単射を定理化。`NativeGK5AHWholeCandidate`は真正GK5AF whole NatIsoへの**明示条件付き候補**であり、一般存在や履歴感知functorを仮定しない。[Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5AHTypedHistoryComparisonInterface.lean)。
+
+**[Qi v4.1統合PR #2971](https://github.com/itakura-hidetoshi/KuuOS/pull/2971) MERGED。** 元`FivePhase=ZMod5`、実北C60第五`around Edge/Dart`端点、カテゴリー04・43辺の**物理逆向き**を保持。物理Dart端点と**全原始履歴ファイバー**との対は単射だが、P92B商類への忘却後は非単射・原履歴復元不能。whole NatIsoを加えた場合の追加障害は**両真正whole経路に一致する解釈候補が与えられた場合のみ**である。Edge=NatIsoや一般higher fillerは主張しない。[Qi Lean全文](formal/KUOS/Architecture/QiWuxingGK5AHTypedNorthHistoryBridgeV4_1.lean)。
+
+**確定exact-source Strict Lean／公理監査：** [GK5AH #41455439373](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41455439373) **9220/9220・10/10公理チェックSUCCESS**、[Qi v4.1 #41456275350](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41456275350) **10147/10147・6/6公理チェックSUCCESS**。計16個の新`#print axioms`は全て`{propext, Classical.choice, Quot.sound}`以内、Lean error/warning 0/0、`-DsorryAsError=true`、Governance／独立Kuu SUCCESS。source/squash treeはGK5AH `701b4b52118caad84c927878b49b5a1e969d5469`、Qi `691cf902f3c0d27f693d62ca75a75abbe48d7fe6`とそれぞれ完全一致。固定Lean v4.30.0-rc2、mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、公開root107、保護PR #1558 Draft/open/未マージ。Qi旧v2.5/v3.7の`native_decide`公理が全て消えたとの主張はしない。[正式証明記録](docs/formal/GK5AH-Qi-v4_1-typed-original-history-physical-orientation.md)。
+
+**次GK5AI：** すでに存在する型付きraw履歴とF55証拠を保持したまま、**proof-relevant**なカテゴリーwhole NatIsoへの解釈・高次セル互換性とC60物理04/43方向整合を構成できるか検証する。無条件functor／higher filler／gluingは未証明。以下GK5AG／Qi v4.0以前の履歴を全て保持。
+
 ## 最新のLean定理統合 — F112-P94D3GK5AG＋Qi v4.0／原始F54履歴とC60五角形whole NatIsoの型付き非descent／2026-11-02 JST
 
 **[独立Kuu GK5AG定理PR #2967](https://github.com/itakura-hidetoshi/KuuOS/pull/2967) MERGED。** 真正北C60の独立再構成F54-shaped Type-valued四段経路（元のF19/F28系2本のNat depth・F45 Blocksを保持）は**long回転3段とshort回転2段の異なるraw証拠**を持ち、原始9構成子F55のpentagonセルによって比較されるが、source経路としては同一でない。選択P92Bの`original`比較は同じ存在商類を与える。`nativeGK5AGNorthFactor_throughP92_iff`で任意のsource観測がP92Bへdescentする**必要十分条件**を証明し、`NorthNoP92HistoryRetraction`と`NorthRotationCount_noP92Descent`で**商から原始F54回転数3/2を復元できない**ことを証明。真正GK5AFのカテゴリーwhole NatIso両経路と、元F55・P92B比較を`NativeGK5AGParallelEvidence`の**異なる型付き証拠**としてまとめ、両whole NatIsoに一致する任意解釈が単射でないこと、逆に原始履歴を保持したtagでは単射であることを証明。**元F54と凍結旧KUOS F54実装の無条件同値やEdge=NatIso/higher fillerは仮定しない。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5AGOriginalHistoryComparisonFiber.lean)。
