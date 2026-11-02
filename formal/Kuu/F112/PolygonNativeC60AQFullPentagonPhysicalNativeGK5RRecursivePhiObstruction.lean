@@ -236,6 +236,56 @@ theorem nativeGK5RPhiObstruction_refl_iff
     rw [nativeGK5RPhiObstruction, ← h]
     simp only [Iso.symm_self_id]
 
+/-- Vanishing of the whole recursive Phi obstruction is invariant
+under every genuine finite typed rewrite path. The proof uses the
+actual invertible whole Mathlib NatIso image of the path, NOT a
+claimed equality of unrelated categorical presentations. -/
+theorem nativeGK5RPhiObstruction_refl_iff_of_path
+    {i j : I} {a b : NativeGK5DTypedTree C i j}
+    (q : NativeGK5DTypedPath C a b) :
+    nativeGK5RPhiObstruction e g a = Iso.refl _ ↔
+      nativeGK5RPhiObstruction e g b = Iso.refl _ := by
+  let P := nativeGK5GChangeIso
+    (fun k : I => (e k).trans (g k)) (nativeGK5DPathIso q)
+  have hsq : P ≪≫ nativeGK5RPhiObstruction e g b =
+      nativeGK5RPhiObstruction e g a ≪≫ P :=
+    nativeGK5RPhiObstruction_path_square e g q
+  constructor
+  · intro ha
+    rw [ha, Iso.refl_trans] at hsq
+    have hh := congrArg (fun t => P.symm ≪≫ t) hsq
+    simpa only [← Iso.trans_assoc, Iso.symm_self_id,
+      Iso.refl_trans] using hh
+  · intro hb
+    rw [hb, Iso.trans_refl] at hsq
+    have hh := congrArg (fun t => t ≪≫ P.symm) hsq
+    simpa only [Iso.trans_assoc, Iso.self_symm_id,
+      Iso.trans_refl] using hh.symm
+
+/-- The canonical GK5D normalization route preserves AND reflects
+vanishing of the whole recursive Phi obstruction. Hence any
+remaining nontriviality can be checked on the genuinely typed
+right-associated normal form, without asserting it always vanishes. -/
+theorem nativeGK5RPhiObstruction_normalization_iff
+    {i j : I} (t : NativeGK5DTypedTree C i j) :
+    nativeGK5RPhiObstruction e g t = Iso.refl _ ↔
+      nativeGK5RPhiObstruction e g
+        (nativeGK5DTreeOfWord (nativeGK5DTreeLeaves t)) = Iso.refl _ :=
+  nativeGK5RPhiObstruction_refl_iff_of_path e g
+    (nativeGK5DNormalizePath t)
+
+/-- More strongly, any two finite typed presentations with the
+SAME ordered and dependently typed leaf word have the SAME yes/no
+answer for the nonstrict recursive-Phi coherence obstruction.
+This follows from GK5D's actual constructed comparison path. -/
+theorem nativeGK5RPhiObstruction_sameLeaves_iff
+    {i j : I} (a b : NativeGK5DTypedTree C i j)
+    (h : nativeGK5DTreeLeaves a = nativeGK5DTreeLeaves b) :
+    nativeGK5RPhiObstruction e g a = Iso.refl _ ↔
+      nativeGK5RPhiObstruction e g b = Iso.refl _ :=
+  nativeGK5RPhiObstruction_refl_iff_of_path e g
+    (nativeGK5DPathBetweenOfSameLeaves a b h)
+
 #print axioms nativeGK5RSequentialPhi
 #print axioms nativeGK5RSequentialCompositePhi
 #print axioms nativeGK5RDirectCompositePhi
@@ -245,6 +295,9 @@ theorem nativeGK5RPhiObstruction_refl_iff
 #print axioms nativeGK5RDirectCompositePhi_path_square
 #print axioms nativeGK5RPhiObstruction_path_square
 #print axioms nativeGK5RPhiObstruction_refl_iff
+#print axioms nativeGK5RPhiObstruction_refl_iff_of_path
+#print axioms nativeGK5RPhiObstruction_normalization_iff
+#print axioms nativeGK5RPhiObstruction_sameLeaves_iff
 
 end TwoStageRecursivePhi
 end
