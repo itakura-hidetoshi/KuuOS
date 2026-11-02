@@ -3,6 +3,18 @@
 
 
 
+## GK5AN／Qi v4.7 完了 — 旧P93非移送性を保持し、既存P94AへP89全13構成子・真正北C60物理四セル商を無条件移送／2026-11-03 JST
+
+**独立Kuu [GK5AN PR #2989](https://github.com/itakura-hidetoshi/KuuOS/pull/2989) MERGED。** 重要な既存構成を再確認：歴史的`NativeF55P94UnitFourCell`（P94A）はすでにP93全16規則を旧証拠として保持し、P80三原始単位`horizontalUnit`／`leftContextUnit`／`rightContextUnit`を**選択的4-cell生成元**として備える。P93の歴史ソースを修正せず、元F55全9 3-cellのGK5AI構造的`φ`像上に、真のP77縦8→P80 9→P85 8→P86 12→P87 12→P89 13構成子の**全Type-valued 4-cell移送**を帰納構成。`nativeGK5ANP87P89ToP94_unconditional`はP87・P89構造的**P94A**移送が無条件存在することを証明。現行**P93**へのGK5AM no-goは当然そのまま成立し、移送先の違いを混同しない。[新規Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5ANStructuralP89ToP94A.lean)。
+
+**P89商・新たなobstruction：** 元P89 4-cell存在商→選択P94A四セル存在商への**無条件真正写像**、代表元仕様、元C60整数電荷・奇数ZMod2位相保存を構成。**単射 ⇔ 任意P94A比較の元P89実4-cellへの反映**は必要十分条件として証明したが、反映そのものの無条件成立を主張しない。旧P93左右文脈単位`φ`像の4-cell非存在と、P94Aの実4-cell存在を同じ原始型で証明。P93→P94A既存商は文脈例で**非単射**、従って新生成元の同一視を完全透明化。新P94A一意最小性は未証明。
+
+**Qi v4.7 [PR #2990](https://github.com/itakura-hidetoshi/KuuOS/pull/2990) MERGED。** 北C60の元二Nat F54長3／短2、真の二圏Site・第五around physical`Dart×Dart`と04/43物理逆向きのもと、**元P89四セル商→物理Dart×選択P94A四セル商を無条件構成**。`fivefoldGK5ANP94NorthPhysical_injective_iff_reflect`が正確な比較反映条件、`NorthPhysicalShadow_commutes`が全三成分signed/odd保存。`NorthLeftRepair`／`NorthRightRepair`で旧P93 non-descentとP94A liftを同時証明。[Qi Lean全文](formal/KUOS/Architecture/QiWuxingGK5ANP94NorthPhysicalRepairV4_7.lean)。
+
+**CI確定：** GK5AN [#41530901808](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41530901808) **9232/9232 SUCCESS・15/15新公理監査**。Qi v4.7 [#41531748938](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41531748938) **10159/10159 SUCCESS・8/8公理監査、Governance30/30 SUCCESS**。Qi初回revision DAGジョブのGitHub成果物転送`ECONNRESET`を該当ジョブのみ再実行しattempt2 terminal SUCCESS。新23件の公理依存は`propext/Classical.choice/Quot.sound`以内、Lean error/warning/sorryAx0。source/test-merge Git treeは独立`802633ba63dcd2ddc714362afecddaef274558fd`／Qi`184e6306a8bee3da8ba01ddf9cdf03748771b307`で一致、squash `d7b6f00ffb14add6bd3b115c1ca80fc7090567f4`／`f42892267735287a243f103c6d3268a853fb671d`。固定Lean v4.30.0-rc2／mathlib`5450b53e5ddc75d46418fabb605edbf36bd0beb6`、root107、保護#1558 Draft/open未マージ。[正式証明記録](docs/formal/GK5AN-Qi-v4_7-P89-structural-P94A-repair.md)。
+
+**次GK5AO：** 選択P94A三原始単位の最小独立性とhorizontalUnitの左右contextUnitからの導出可否、既存P89→P94Aの比較反映・非忠実性の証拠を検証。元P93非存在定理、源F54/F55 Type値履歴・strict 空authority・物理向きを保持。全過去の研究記録を削除しない。
+
 ## Qi v4.6 完了 — 真正北C60のP80文脈単位のP93構造的非descent・旧P87/P89全移送非存在／2026-11-03 JST
 
 **Qi v4.6 [PR #2987](https://github.com/itakura-hidetoshi/KuuOS/pull/2987) MERGED。** 独立GK5AMの`ZMod2`文脈parity no-goを、元の実北C60第1・第2F45ステージ上の二Nat F54型付き単位経路に適用。元P80左右単位は元P87の真正Type値4-cell証拠として存在する一方、GK5AIの構造的`φ`像を結ぶ現行P93実4-cellは**両方とも非存在**。`fivefoldGK5ANorthSource_exists_target_fails`で元証拠存在と標的証拠非存在を同時形式化。北C60専用`FivefoldGK5ALNorthPrimitiveBoundary`は不可能、従って元P87構造的移送族およびP89全13構成子の構造的移送族も存在しない。元P89水平interchange単独の選択P93像は従来通り無条件。Qi v4.5の物理Dart付き四セル商写像には必要な三単位証明書が供給できず、**この特定の証明書付き構成**は北C60で実体化不能。任意の無関係な集合写像や別presentationを一括否定しない。

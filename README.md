@@ -14,6 +14,18 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK5AN＋Qi v4.7／現行P93 no-goを保持し、既存P94AへのP89全構造的4-cell移送と真正北C60物理比較を無条件構成／2026-11-03 JST
+
+**[独立Kuu GK5AN定理PR #2989](https://github.com/itakura-hidetoshi/KuuOS/pull/2989) MERGED。** GK5AM／Qi v4.6で、旧P80の左右文脈単位4-cellは元P87に実在する一方、そのGK5AI構造的`φ`像を結ぶ**現行P93C 4-cellが存在せず**、P89全13構成子の完全な構造移送が不可能と証明済み。今回、**過去に独立定義済みの真正P94A`NativeF55P94UnitFourCell`** がP93の全証拠を保持し、P80の`horizontalUnit`・`leftContextUnit`・`rightContextUnit`の3構成子を明示追加していたことを利用。P94Aを新規定義し直すこともP93履歴を書き換えることもなく、元P77→P80→P85→P86→P87→P89の全Type値4-cell構成子を構造的`φ`像へ再帰移送し、`nativeGK5ANP87P89ToP94_unconditional`で**P87/P89完全P94A移送族の無条件存在**を証明。[Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5ANStructuralP89ToP94A.lean)。
+
+**真正商写像・比較反映・実修復：** 元P89四セル存在商→既存P94A四セル存在商の**無条件写像** `nativeGK5ANP89ToP94FourClassMap`、真の代表元仕様、符号付きpentagon/square整数電荷・C60奇数ZMod2位相の完全保存を証明。`nativeGK5ANP89ToP94_injective_iff_reflect`で**単射性 ⇔ 任意の実選択P94A 4-cellを元P89の実4-cellへ反映可能**との正確な必要十分条件を得たが、無条件単射は主張しない。さらに旧P93の左右文脈単位**非存在**と新P94A実証拠の**存在**を同じ型付き元F54/F55始終点で同時証明。P93→P94A既存商写像は実文脈例で**非単射**と証明され、修復で新しく商上の同一視が生じることも明示。
+
+**[Qi v4.7真正北C60統合PR #2990](https://github.com/itakura-hidetoshi/KuuOS/pull/2990) MERGED。** 元二Nat独立F45ステージ・真の北C60 F54長3／短2経路、第五around-edge`Dart×Dart`、物理的逆向きの04/43を保存したまま、**物理Dart×P94A四セル商の無条件P89写像**を構築。元P93の実no-goとP94Aの真正liftの両立、実代表元・単射性⇔比較反映・全signed/odd shadow保存を型付きで証明。[Qi Lean全文](formal/KUOS/Architecture/QiWuxingGK5ANP94NorthPhysicalRepairV4_7.lean)。
+
+**exact-source公理監査：** 独立GK5AN [CI #41530901808](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41530901808) **9232/9232 Strict Lean SUCCESS・新15/15公理監査**（中核8件は追加公理依存なし）。Qi v4.7 [CI #41531748938](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41531748938) **10159/10159 SUCCESS・新8/8公理監査**。追加公理依存はすべて`{propext, Classical.choice, Quot.sound}`内、errors/warnings/sorryAx 0、Governance30/30 terminal SUCCESS。Qi初回の成果物ダウンロード`ECONNRESET`は失敗ジョブのみ再実行してattempt2 SUCCESS。source/test-merge/squash Git treeは独立`802633ba63dcd2ddc714362afecddaef274558fd`、Qi`184e6306a8bee3da8ba01ddf9cdf03748771b307`で完全一致。squash独立`d7b6f00ffb14add6bd3b115c1ca80fc7090567f4`、Qi`f42892267735287a243f103c6d3268a853fb671d`。固定Lean v4.30.0-rc2／mathlib`5450b53e5ddc75d46418fabb605edbf36bd0beb6`、root107、保護PR #1558 Draft/OPEN未マージ。[正式証明記録](docs/formal/GK5AN-Qi-v4_7-P89-structural-P94A-repair.md)。
+
+**次GK5AO：** 旧P93に無い元P80三単位のうち水平単位が左右文脈単位から導出可能か、追加生成元の真正独立性・必要性とP89→P94A比較反映条件を、別の型付き不変量で解析する。P94Aが全拡張中で絶対最小・一意とは主張しない。以下GK5AM・Qi v4.6および従前の研究履歴を完全保存。
+
 ## 最新のLean定理統合 — GK5AM＋Qi v4.6／真正北C60のP80文脈単位・P87/P89全構造的4-cell非descent／2026-11-03 JST
 
 **[Qi v4.6統合PR #2987](https://github.com/itakura-hidetoshi/KuuOS/pull/2987) MERGED。** 独立Kuu GK5ALの**P87/P89全構成子構造的移送⇔元P80三原始単位の移送**と、独立GK5AMの選択P93で保存される`ZMod2`文脈parityによる**左右文脈単位の実no-go**を、真正北C60の隣接第1・第2F45ステージ上へ型付きで適用。元二Nat F54単位経路、実F55 3-cell履歴、実P87左右4-cell証拠を保持したまま、`fivefoldGK5ANorthLeft_no_selectedP93`／`Right_no_selectedP93`により、構造的`φ`像を結ぶ選択P93実4-cellの**非存在**を証明した。元P87 4-cellは両方とも実在し、`.original f`と構造的`φ f`を同一視しない。[Qi Lean全文](formal/KUOS/Architecture/QiWuxingGK5AMNorthContextNonDescentV4_6.lean)。
