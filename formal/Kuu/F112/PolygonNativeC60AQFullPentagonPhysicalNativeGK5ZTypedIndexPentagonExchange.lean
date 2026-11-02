@@ -75,7 +75,7 @@ fourfold actual pullback change and the fourfold reindexed change. -/
 theorem nativeGK5ZFourComposite_reindex
     {i j : I}
     (t : NativeGK5DTypedTree (fun x : I => C (f x)) i j) :
-    nativeGK5DTreeComposite
+    nativeGK5DTreeComposite (C := fun x : I => G (f x))
       (nativeGK5XFourTree
         (fun x : I => e (f x)) (fun x : I => g (f x))
         (fun x : I => h (f x)) (fun x : I => k (f x)) t) =
@@ -97,7 +97,7 @@ equality of independently recursive nonstrict Phi witnesses. -/
 noncomputable def nativeGK5ZSourceIso
     {i j : I}
     (t : NativeGK5DTypedTree (fun x : I => C (f x)) i j) :
-    nativeGK5DTreeComposite
+    nativeGK5DTreeComposite (C := fun x : I => G (f x))
       (nativeGK5XFourTree
         (fun x : I => e (f x)) (fun x : I => g (f x))
         (fun x : I => h (f x)) (fun x : I => k (f x)) t) ≅
@@ -150,7 +150,7 @@ theorem nativeGK5ZTreeComposite_reindex
     {i j : I}
     (t : NativeGK5DTypedTree (fun x : I => C (f x)) i j) :
     nativeGK5DTreeComposite (nativeGK5FTreeReindex f C t) =
-      nativeGK5DTreeComposite t :=
+      nativeGK5DTreeComposite (C := fun x : I => C (f x)) t :=
   nativeGK5FTreeComposite_reindex f C t
 
 /-- Exact WHOLE EqToIso associator exchange for pentagon edge 01;
@@ -161,7 +161,7 @@ theorem nativeGK5ZEdge01_reindex
     nativeGK5XEdge01
         (fun x : I => e (f x)) (fun x : I => g (f x))
         (fun x : I => h (f x)) (fun x : I => k (f x))
-        (nativeGK5DTreeComposite t) =
+        (nativeGK5DTreeComposite (C := fun x : I => C (f x)) t) =
       nativeGK5XEdge01 e g h k
         (nativeGK5DTreeComposite (nativeGK5FTreeReindex f C t)) := by
   rw [nativeGK5FTreeComposite_reindex f C t]
@@ -175,7 +175,7 @@ theorem nativeGK5ZEdge12_reindex
     nativeGK5XEdge12
         (fun x : I => e (f x)) (fun x : I => g (f x))
         (fun x : I => h (f x)) (fun x : I => k (f x))
-        (nativeGK5DTreeComposite t) =
+        (nativeGK5DTreeComposite (C := fun x : I => C (f x)) t) =
       nativeGK5XEdge12 e g h k
         (nativeGK5DTreeComposite (nativeGK5FTreeReindex f C t)) := by
   rw [nativeGK5FTreeComposite_reindex f C t]
@@ -189,7 +189,7 @@ theorem nativeGK5ZEdge23_reindex
     nativeGK5XEdge23
         (fun x : I => e (f x)) (fun x : I => g (f x))
         (fun x : I => h (f x)) (fun x : I => k (f x))
-        (nativeGK5DTreeComposite t) =
+        (nativeGK5DTreeComposite (C := fun x : I => C (f x)) t) =
       nativeGK5XEdge23 e g h k
         (nativeGK5DTreeComposite (nativeGK5FTreeReindex f C t)) := by
   rw [nativeGK5FTreeComposite_reindex f C t]
@@ -203,7 +203,7 @@ theorem nativeGK5ZEdge04_reindex
     nativeGK5XEdge04
         (fun x : I => e (f x)) (fun x : I => g (f x))
         (fun x : I => h (f x)) (fun x : I => k (f x))
-        (nativeGK5DTreeComposite t) =
+        (nativeGK5DTreeComposite (C := fun x : I => C (f x)) t) =
       nativeGK5XEdge04 e g h k
         (nativeGK5DTreeComposite (nativeGK5FTreeReindex f C t)) := by
   rw [nativeGK5FTreeComposite_reindex f C t]
@@ -217,7 +217,7 @@ theorem nativeGK5ZEdge43_reindex
     nativeGK5XEdge43
         (fun x : I => e (f x)) (fun x : I => g (f x))
         (fun x : I => h (f x)) (fun x : I => k (f x))
-        (nativeGK5DTreeComposite t) =
+        (nativeGK5DTreeComposite (C := fun x : I => C (f x)) t) =
       nativeGK5XEdge43 e g h k
         (nativeGK5DTreeComposite (nativeGK5FTreeReindex f C t)) := by
   rw [nativeGK5FTreeComposite_reindex f C t]
@@ -233,23 +233,23 @@ theorem nativeGK5ZPullbackPentagon_whole
     (nativeGK5XEdge01
         (fun x : I => e (f x)) (fun x : I => g (f x))
         (fun x : I => h (f x)) (fun x : I => k (f x))
-        (nativeGK5DTreeComposite t) ≪≫
+        (nativeGK5DTreeComposite (C := fun x : I => C (f x)) t) ≪≫
       nativeGK5XEdge12
         (fun x : I => e (f x)) (fun x : I => g (f x))
         (fun x : I => h (f x)) (fun x : I => k (f x))
-        (nativeGK5DTreeComposite t)) ≪≫
+        (nativeGK5DTreeComposite (C := fun x : I => C (f x)) t)) ≪≫
       nativeGK5XEdge23
         (fun x : I => e (f x)) (fun x : I => g (f x))
         (fun x : I => h (f x)) (fun x : I => k (f x))
-        (nativeGK5DTreeComposite t) =
+        (nativeGK5DTreeComposite (C := fun x : I => C (f x)) t) =
     nativeGK5XEdge04
         (fun x : I => e (f x)) (fun x : I => g (f x))
         (fun x : I => h (f x)) (fun x : I => k (f x))
-        (nativeGK5DTreeComposite t) ≪≫
+        (nativeGK5DTreeComposite (C := fun x : I => C (f x)) t) ≪≫
       nativeGK5XEdge43
         (fun x : I => e (f x)) (fun x : I => g (f x))
         (fun x : I => h (f x)) (fun x : I => k (f x))
-        (nativeGK5DTreeComposite t) := by
+        (nativeGK5DTreeComposite (C := fun x : I => C (f x)) t) := by
   rw [nativeGK5ZEdge01_reindex f e g h k t,
     nativeGK5ZEdge12_reindex f e g h k t,
     nativeGK5ZEdge23_reindex f e g h k t,
@@ -266,23 +266,23 @@ theorem nativeGK5ZPullbackPentagon_natTrans
     ((nativeGK5XEdge01
         (fun x : I => e (f x)) (fun x : I => g (f x))
         (fun x : I => h (f x)) (fun x : I => k (f x))
-        (nativeGK5DTreeComposite t) ≪≫
+        (nativeGK5DTreeComposite (C := fun x : I => C (f x)) t) ≪≫
       nativeGK5XEdge12
         (fun x : I => e (f x)) (fun x : I => g (f x))
         (fun x : I => h (f x)) (fun x : I => k (f x))
-        (nativeGK5DTreeComposite t)) ≪≫
+        (nativeGK5DTreeComposite (C := fun x : I => C (f x)) t)) ≪≫
       nativeGK5XEdge23
         (fun x : I => e (f x)) (fun x : I => g (f x))
         (fun x : I => h (f x)) (fun x : I => k (f x))
-        (nativeGK5DTreeComposite t)).hom =
+        (nativeGK5DTreeComposite (C := fun x : I => C (f x)) t)).hom =
     (nativeGK5XEdge04
         (fun x : I => e (f x)) (fun x : I => g (f x))
         (fun x : I => h (f x)) (fun x : I => k (f x))
-        (nativeGK5DTreeComposite t) ≪≫
+        (nativeGK5DTreeComposite (C := fun x : I => C (f x)) t) ≪≫
       nativeGK5XEdge43
         (fun x : I => e (f x)) (fun x : I => g (f x))
         (fun x : I => h (f x)) (fun x : I => k (f x))
-        (nativeGK5DTreeComposite t)).hom :=
+        (nativeGK5DTreeComposite (C := fun x : I => C (f x)) t)).hom :=
   congrArg Iso.hom (nativeGK5ZPullbackPentagon_whole f e g h k t)
 
 /-- The five GENUINE original category equivalence direct recursive
@@ -292,7 +292,7 @@ equality with the separately constructed pullback direct Phi. -/
 noncomputable def nativeGK5ZTransportedPhi0
     {i j : I}
     (t : NativeGK5DTypedTree (fun x : I => C (f x)) i j) :
-    nativeGK5DTreeComposite
+    nativeGK5DTreeComposite (C := fun x : I => G (f x))
       (nativeGK5XFourTree
         (fun x : I => e (f x)) (fun x : I => g (f x))
         (fun x : I => h (f x)) (fun x : I => k (f x)) t) ≅
@@ -305,7 +305,7 @@ noncomputable def nativeGK5ZTransportedPhi0
 noncomputable def nativeGK5ZTransportedPhi1
     {i j : I}
     (t : NativeGK5DTypedTree (fun x : I => C (f x)) i j) :
-    nativeGK5DTreeComposite
+    nativeGK5DTreeComposite (C := fun x : I => G (f x))
       (nativeGK5XFourTree
         (fun x : I => e (f x)) (fun x : I => g (f x))
         (fun x : I => h (f x)) (fun x : I => k (f x)) t) ≅
@@ -318,7 +318,7 @@ noncomputable def nativeGK5ZTransportedPhi1
 noncomputable def nativeGK5ZTransportedPhi2
     {i j : I}
     (t : NativeGK5DTypedTree (fun x : I => C (f x)) i j) :
-    nativeGK5DTreeComposite
+    nativeGK5DTreeComposite (C := fun x : I => G (f x))
       (nativeGK5XFourTree
         (fun x : I => e (f x)) (fun x : I => g (f x))
         (fun x : I => h (f x)) (fun x : I => k (f x)) t) ≅
@@ -331,7 +331,7 @@ noncomputable def nativeGK5ZTransportedPhi2
 noncomputable def nativeGK5ZTransportedPhi3
     {i j : I}
     (t : NativeGK5DTypedTree (fun x : I => C (f x)) i j) :
-    nativeGK5DTreeComposite
+    nativeGK5DTreeComposite (C := fun x : I => G (f x))
       (nativeGK5XFourTree
         (fun x : I => e (f x)) (fun x : I => g (f x))
         (fun x : I => h (f x)) (fun x : I => k (f x)) t) ≅
@@ -344,7 +344,7 @@ noncomputable def nativeGK5ZTransportedPhi3
 noncomputable def nativeGK5ZTransportedPhi4
     {i j : I}
     (t : NativeGK5DTypedTree (fun x : I => C (f x)) i j) :
-    nativeGK5DTreeComposite
+    nativeGK5DTreeComposite (C := fun x : I => G (f x))
       (nativeGK5XFourTree
         (fun x : I => e (f x)) (fun x : I => g (f x))
         (fun x : I => h (f x)) (fun x : I => k (f x)) t) ≅
@@ -473,13 +473,13 @@ reindexed whole NatIso 01 edge, not a strict equivalence record. -/
 noncomputable def nativeGK5ZTransportedDefect01
     {i j : I}
     (t : NativeGK5DTypedTree (fun x : I => C (f x)) i j) :
-    nativeGK5DTreeComposite
+    nativeGK5DTreeComposite (C := fun x : I => G (f x))
       (nativeGK5XFourTree
         (fun x : I => e (f x)) (fun x : I => g (f x))
         (fun x : I => h (f x)) (fun x : I => k (f x)) t) ≅
-      nativeGK5DTreeComposite
-        (nativeGK5XFourTree
-          (fun x : I => e (f x)) (fun x : I => g (f x))
+      nativeGK5DTreeComposite (C := fun x : I => G (f x))
+      (nativeGK5XFourTree
+        (fun x : I => e (f x)) (fun x : I => g (f x))
           (fun x : I => h (f x)) (fun x : I => k (f x)) t) :=
   (nativeGK5ZTransportedPhi0 f e g h k t ≪≫
     nativeGK5XEdge01 e g h k
@@ -501,13 +501,13 @@ reindexed whole NatIso 12 edge, not a strict equivalence record. -/
 noncomputable def nativeGK5ZTransportedDefect12
     {i j : I}
     (t : NativeGK5DTypedTree (fun x : I => C (f x)) i j) :
-    nativeGK5DTreeComposite
+    nativeGK5DTreeComposite (C := fun x : I => G (f x))
       (nativeGK5XFourTree
         (fun x : I => e (f x)) (fun x : I => g (f x))
         (fun x : I => h (f x)) (fun x : I => k (f x)) t) ≅
-      nativeGK5DTreeComposite
-        (nativeGK5XFourTree
-          (fun x : I => e (f x)) (fun x : I => g (f x))
+      nativeGK5DTreeComposite (C := fun x : I => G (f x))
+      (nativeGK5XFourTree
+        (fun x : I => e (f x)) (fun x : I => g (f x))
           (fun x : I => h (f x)) (fun x : I => k (f x)) t) :=
   (nativeGK5ZTransportedPhi1 f e g h k t ≪≫
     nativeGK5XEdge12 e g h k
@@ -529,13 +529,13 @@ reindexed whole NatIso 23 edge, not a strict equivalence record. -/
 noncomputable def nativeGK5ZTransportedDefect23
     {i j : I}
     (t : NativeGK5DTypedTree (fun x : I => C (f x)) i j) :
-    nativeGK5DTreeComposite
+    nativeGK5DTreeComposite (C := fun x : I => G (f x))
       (nativeGK5XFourTree
         (fun x : I => e (f x)) (fun x : I => g (f x))
         (fun x : I => h (f x)) (fun x : I => k (f x)) t) ≅
-      nativeGK5DTreeComposite
-        (nativeGK5XFourTree
-          (fun x : I => e (f x)) (fun x : I => g (f x))
+      nativeGK5DTreeComposite (C := fun x : I => G (f x))
+      (nativeGK5XFourTree
+        (fun x : I => e (f x)) (fun x : I => g (f x))
           (fun x : I => h (f x)) (fun x : I => k (f x)) t) :=
   (nativeGK5ZTransportedPhi2 f e g h k t ≪≫
     nativeGK5XEdge23 e g h k
@@ -557,13 +557,13 @@ reindexed whole NatIso 04 edge, not a strict equivalence record. -/
 noncomputable def nativeGK5ZTransportedDefect04
     {i j : I}
     (t : NativeGK5DTypedTree (fun x : I => C (f x)) i j) :
-    nativeGK5DTreeComposite
+    nativeGK5DTreeComposite (C := fun x : I => G (f x))
       (nativeGK5XFourTree
         (fun x : I => e (f x)) (fun x : I => g (f x))
         (fun x : I => h (f x)) (fun x : I => k (f x)) t) ≅
-      nativeGK5DTreeComposite
-        (nativeGK5XFourTree
-          (fun x : I => e (f x)) (fun x : I => g (f x))
+      nativeGK5DTreeComposite (C := fun x : I => G (f x))
+      (nativeGK5XFourTree
+        (fun x : I => e (f x)) (fun x : I => g (f x))
           (fun x : I => h (f x)) (fun x : I => k (f x)) t) :=
   (nativeGK5ZTransportedPhi0 f e g h k t ≪≫
     nativeGK5XEdge04 e g h k
@@ -585,13 +585,13 @@ reindexed whole NatIso 43 edge, not a strict equivalence record. -/
 noncomputable def nativeGK5ZTransportedDefect43
     {i j : I}
     (t : NativeGK5DTypedTree (fun x : I => C (f x)) i j) :
-    nativeGK5DTreeComposite
+    nativeGK5DTreeComposite (C := fun x : I => G (f x))
       (nativeGK5XFourTree
         (fun x : I => e (f x)) (fun x : I => g (f x))
         (fun x : I => h (f x)) (fun x : I => k (f x)) t) ≅
-      nativeGK5DTreeComposite
-        (nativeGK5XFourTree
-          (fun x : I => e (f x)) (fun x : I => g (f x))
+      nativeGK5DTreeComposite (C := fun x : I => G (f x))
+      (nativeGK5XFourTree
+        (fun x : I => e (f x)) (fun x : I => g (f x))
           (fun x : I => h (f x)) (fun x : I => k (f x)) t) :=
   (nativeGK5ZTransportedPhi4 f e g h k t ≪≫
     nativeGK5XEdge43 e g h k
