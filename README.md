@@ -14,6 +14,16 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK5AD＋Qi v3.7／五段index・真正C60閉路・全五whole Φ／2026-11-02 JST
+
+**[GK5AD定理PR #2958](https://github.com/itakura-hidetoshi/KuuOS/pull/2958) MERGED。** 任意index自己写像`f:I→I`について、真正GK5Fの**五回連続する完全依存型木reindexing**と合成写像`f⁵`でのreindexingの型付き全木等式をLean4証明。GK5AA/GK5ACの実Mathlib独立再帰whole NatIso`Φ`の五括弧`P0..P4`すべてについて、**両端の実source／target `eqToIso`輸送を保持した五段経路の一致**を`nativeGK5ADFiveDirectPhi0..4_reindex_whole`・`AllFiveDirectPhi_reindex_whole`で証明。別途`f⁵=id`の下でindexと実圏族の閉路も証明し、依存型の始点終点を定義上同一視しない。[Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5ADFiveStepIndexPhiHolonomy.lean)。
+
+**[Qi v3.7定理PR #2959](https://github.com/itakura-hidetoshi/KuuOS/pull/2959) MERGED。** 既存の共通`FivefoldIndex=FivePhase=ZMod 5`上の相生`+1`が**五回で恒等**、実C60`Slot`で`slotNext`を五回すると同じ物理スロットへ復帰することをLean4で証明。既存の真正ゲージ`fivefoldSlotEquiv frame v : FivefoldIndex ≃ Slot`で**五段の物理進行と五段の位相再分類が可換**。第五の実C60`around`辺が元の出発`Dart`に戻ることも原始`Edge`／`Dart`の端点等式として検証。圏族と実Mathlib圏同値を**同じゲージで再分類**し、`fivefoldPhysicalDirectPhi0..4_five_whole`／`AllFivePhi_five_whole`で五つの独立再帰whole Φの五段経路整合性を証明。[Qi v3.7 Lean全文](formal/KUOS/Architecture/QiWuxingGK5ADFivePhaseHolonomyV3_7.lean)を唯一の公開`KuuOSFormal`へimport 1行で統合。独立KuuからQiへの依存逆転なし、公開root107維持。**物理EdgeとカテゴリーNatIso、元raw高次証拠の無条件同一視は行わない。** [正式統合証明記録](docs/formal/GK5AD-Qi-v3_7-five-step-C60-whole-Phi-holonomy.md)。
+
+**Lean4全文エラー解析と確定CI：** GK5AD初回[CI #41433175273](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41433175273)の`f(f(f(f(f z))))`と命名`f⁵`のdefinitional表示、及び`f⁵=id`を依存型の定義上の等式に誤用する箇所を、全体の実`eqToIso`比較へ修正。最終exact-source [CI #41434118220](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41434118220) **Strict Lean 3851/3851、10/10公理監査 SUCCESS**。source`f1e7a6c3d9ba905963e9ddcc07ab6ac207dd6fe5`／squash`e6a4826082dcacb43088c63247bc346c892c9182`／Git tree一致`74d92a2fafb055fb0e449844040854ddb4005cec`。Qi v3.7 exact-source [CI #41435151217](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41435151217) **Strict Lean 10139/10139、13/13公理監査 SUCCESS**、`KuuOSFormal`全文も成功。source`939b4a4e4a42c056f2e65fe595cd17404f0c3e91`／squash`b08f7bd34edce9111e4c4db0619e8b796a13061d`／Git tree一致`b91f7df649386f96fb9a2f3d076df2ac650a2964`。**両定理とも`sorryAx=0`、Lean errors/warnings 0/0、23件の公理依存は`propext/Classical.choice/Quot.sound`以内、Independent Kuu・Workflow integrity・Governance SUCCESS**。固定Lean v4.30.0-rc2／mathlib`5450b53e5ddc75d46418fabb605edbf36bd0beb6`、same-root107、保護PR #1558 Draft/OPEN/未マージ維持。
+
+**次GK5AE：** 五段`(+1)^5=id`で生じる依存型始点・終点の等式輸送を、元の型付き木とwhole Φの閉路比較として明示的に構成し、真正五角形のカテゴリー五辺の向きも保持して高次obstructionの有無を吟味する。以下GK5AC、Qi v3.6、GK5AB、Qi v3.5を含む全研究履歴を保持。
+
 ## 最新のLean定理統合 — F112-P94D3GK5AC＋Qi v3.6／五fold再帰Φの単位・合成と真正五行C60ゲージ／2026-11-02 JST
 
 **GK5AC [定理PR #2955](https://github.com/itakura-hidetoshi/KuuOS/pull/2955) MERGED。** GK5Fの全有限依存型木`reindex_id`、GK5AAの実whole NatIso自然性、GK5ABの二段index合成自然性を統合し、真正Mathlib圏同値について**単一再帰`Φ`と全五括弧`P0..P4`の独立再帰`Φ`が恒等index写像で両端の実`eqToIso`を介して元の`Φ`へ一致する単位則**を証明。真正準逆・unit/counit・middle compositorはstrict化しない。[GK5AC Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5ACIdentityReindexPhiAction.lean)。
