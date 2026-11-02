@@ -148,8 +148,7 @@ theorem nativeGK5UAllTrees_unconditional :
         nativeGK5GChangeIso, nativeGK5GChangeAtom,
         nativeGK5QAtomComparison, nativeGK5QChangeAtom_comp,
         nativeGK5GChangeCompIso, Equivalence.trans,
-        Functor.comp_map, Functor.map_comp, Category.assoc] at
-          hleft hright ⊢
+        Functor.comp_map, Functor.map_comp, Category.assoc] at hleft hright ⊢
 
 /-- Unconditional vanishing of the actual relative whole NatIso
 obstruction on EVERY genuine finite dependently typed tree,
