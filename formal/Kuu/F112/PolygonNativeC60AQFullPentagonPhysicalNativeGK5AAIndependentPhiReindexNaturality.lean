@@ -221,5 +221,236 @@ theorem nativeGK5AASinglePhi_reindex_whole
 #print axioms nativeGK5AASinglePhi_reindex_whole
 
 end SingleChangePhiReindex
+
+section IndependentFourfoldPhiReindex
+variable {I : Type uI} {J : Type uJ}
+variable (f : I → J)
+variable {C D E F G : J → Cat.{vC,uC}}
+variable (e : ∀ j : J, C j ≌ D j)
+variable (g : ∀ j : J, D j ≌ E j)
+variable (h : ∀ j : J, E j ≌ F j)
+variable (k : ∀ j : J, F j ≌ G j)
+
+/-- True whole NatIso comparison of TWO distinct nonstrict recursive
+Phi witnesses under arbitrary dependent reindexing.
+The source tree is a genuine fourfold Equivalence change; the
+two source equalities pI and pJ are actual typed-tree certificates.
+They must be carried through whole EqToIso boundary transports,
+and are NOT identified definitionally across different index types. -/
+private theorem nativeGK5AAFourfoldPhiBridge
+    (a : ∀ j : J, C j ≌ G j)
+    {i j : I}
+    (t : NativeGK5DTypedTree (fun x : I => C (f x)) i j)
+    (pI :
+      nativeGK5XFourTree (fun x : I => e (f x))
+        (fun x : I => g (f x)) (fun x : I => h (f x))
+        (fun x : I => k (f x)) t =
+      nativeGK5GChangeTree (fun x : I => a (f x)) t)
+    (pJ :
+      nativeGK5XFourTree e g h k
+        (nativeGK5FTreeReindex f C t) =
+      nativeGK5GChangeTree a (nativeGK5FTreeReindex f C t)) :
+    (eqToIso (congrArg nativeGK5DTreeComposite pI) ≪≫
+      nativeGK5GChangeTreeIso (fun x : I => a (f x)) t) ≪≫
+        eqToIso (nativeGK5AASingleTargetEq f a t) =
+      nativeGK5ZSourceIso f e g h k t ≪≫
+        (eqToIso (congrArg nativeGK5DTreeComposite pJ) ≪≫
+          nativeGK5GChangeTreeIso a
+            (nativeGK5FTreeReindex f C t)) := by
+  have hfront :
+      eqToIso (congrArg nativeGK5DTreeComposite pI) ≪≫
+        eqToIso (nativeGK5AASingleSourceEq f a t) =
+      nativeGK5ZSourceIso f e g h k t ≪≫
+        eqToIso (congrArg nativeGK5DTreeComposite pJ) := by
+    simp only [nativeGK5ZSourceIso, eqToIso_trans]
+    exact congrArg eqToIso (Subsingleton.elim _ _)
+  calc
+    _ = eqToIso (congrArg nativeGK5DTreeComposite pI) ≪≫
+        (nativeGK5GChangeTreeIso (fun x : I => a (f x)) t ≪≫
+          eqToIso (nativeGK5AASingleTargetEq f a t)) := by
+            simp only [Iso.trans_assoc]
+    _ = eqToIso (congrArg nativeGK5DTreeComposite pI) ≪≫
+        (eqToIso (nativeGK5AASingleSourceEq f a t) ≪≫
+          nativeGK5GChangeTreeIso a
+            (nativeGK5FTreeReindex f C t)) := by
+              rw [nativeGK5AASinglePhi_reindex_whole f a t]
+    _ = (eqToIso (congrArg nativeGK5DTreeComposite pI) ≪≫
+        eqToIso (nativeGK5AASingleSourceEq f a t)) ≪≫
+          nativeGK5GChangeTreeIso a
+            (nativeGK5FTreeReindex f C t) := by
+              simp only [Iso.trans_assoc]
+    _ = (nativeGK5ZSourceIso f e g h k t ≪≫
+        eqToIso (congrArg nativeGK5DTreeComposite pJ)) ≪≫
+          nativeGK5GChangeTreeIso a
+            (nativeGK5FTreeReindex f C t) := by
+              rw [hfront]
+    _ = _ := by simp only [Iso.trans_assoc]
+
+/-- GK5AA: independently and genuinely RECURSIVE fourfold direct
+Phi for P0 over the pullback I-indexed family agrees with the
+J-indexed independently direct Phi after the actual two whole EqToIso
+reclassification boundaries. No injectivity, no unit strictification. -/
+theorem nativeGK5AAFourDirectPhi0_reindex_whole
+    {i j : I}
+    (t : NativeGK5DTypedTree (fun x : I => C (f x)) i j) :
+    nativeGK5XDirectPhi0
+        (fun x : I => e (f x)) (fun x : I => g (f x))
+        (fun x : I => h (f x)) (fun x : I => k (f x)) t ≪≫
+      eqToIso (nativeGK5AASingleTargetEq f
+        (nativeGK5XBracket0 e g h k) t) =
+    nativeGK5ZTransportedPhi0 f e g h k t := by
+  simpa only [nativeGK5XDirectPhi0,
+    nativeGK5ZTransportedPhi0] using
+    nativeGK5AAFourfoldPhiBridge f e g h k
+      (nativeGK5XBracket0 e g h k) t
+      (nativeGK5XFourTreeEq0
+        (fun x : I => e (f x)) (fun x : I => g (f x))
+        (fun x : I => h (f x)) (fun x : I => k (f x)) t)
+      (nativeGK5XFourTreeEq0 e g h k
+        (nativeGK5FTreeReindex f C t))
+
+/-- GK5AA: independently and genuinely RECURSIVE fourfold direct
+Phi for P1 over the pullback I-indexed family agrees with the
+J-indexed independently direct Phi after the actual two whole EqToIso
+reclassification boundaries. No injectivity, no unit strictification. -/
+theorem nativeGK5AAFourDirectPhi1_reindex_whole
+    {i j : I}
+    (t : NativeGK5DTypedTree (fun x : I => C (f x)) i j) :
+    nativeGK5XDirectPhi1
+        (fun x : I => e (f x)) (fun x : I => g (f x))
+        (fun x : I => h (f x)) (fun x : I => k (f x)) t ≪≫
+      eqToIso (nativeGK5AASingleTargetEq f
+        (nativeGK5XBracket1 e g h k) t) =
+    nativeGK5ZTransportedPhi1 f e g h k t := by
+  simpa only [nativeGK5XDirectPhi1,
+    nativeGK5ZTransportedPhi1] using
+    nativeGK5AAFourfoldPhiBridge f e g h k
+      (nativeGK5XBracket1 e g h k) t
+      (nativeGK5XFourTreeEq1
+        (fun x : I => e (f x)) (fun x : I => g (f x))
+        (fun x : I => h (f x)) (fun x : I => k (f x)) t)
+      (nativeGK5XFourTreeEq1 e g h k
+        (nativeGK5FTreeReindex f C t))
+
+/-- GK5AA: independently and genuinely RECURSIVE fourfold direct
+Phi for P2 over the pullback I-indexed family agrees with the
+J-indexed independently direct Phi after the actual two whole EqToIso
+reclassification boundaries. No injectivity, no unit strictification. -/
+theorem nativeGK5AAFourDirectPhi2_reindex_whole
+    {i j : I}
+    (t : NativeGK5DTypedTree (fun x : I => C (f x)) i j) :
+    nativeGK5XDirectPhi2
+        (fun x : I => e (f x)) (fun x : I => g (f x))
+        (fun x : I => h (f x)) (fun x : I => k (f x)) t ≪≫
+      eqToIso (nativeGK5AASingleTargetEq f
+        (nativeGK5XBracket2 e g h k) t) =
+    nativeGK5ZTransportedPhi2 f e g h k t := by
+  simpa only [nativeGK5XDirectPhi2,
+    nativeGK5ZTransportedPhi2] using
+    nativeGK5AAFourfoldPhiBridge f e g h k
+      (nativeGK5XBracket2 e g h k) t
+      (nativeGK5XFourTreeEq2
+        (fun x : I => e (f x)) (fun x : I => g (f x))
+        (fun x : I => h (f x)) (fun x : I => k (f x)) t)
+      (nativeGK5XFourTreeEq2 e g h k
+        (nativeGK5FTreeReindex f C t))
+
+/-- GK5AA: independently and genuinely RECURSIVE fourfold direct
+Phi for P3 over the pullback I-indexed family agrees with the
+J-indexed independently direct Phi after the actual two whole EqToIso
+reclassification boundaries. No injectivity, no unit strictification. -/
+theorem nativeGK5AAFourDirectPhi3_reindex_whole
+    {i j : I}
+    (t : NativeGK5DTypedTree (fun x : I => C (f x)) i j) :
+    nativeGK5XDirectPhi3
+        (fun x : I => e (f x)) (fun x : I => g (f x))
+        (fun x : I => h (f x)) (fun x : I => k (f x)) t ≪≫
+      eqToIso (nativeGK5AASingleTargetEq f
+        (nativeGK5XBracket3 e g h k) t) =
+    nativeGK5ZTransportedPhi3 f e g h k t := by
+  simpa only [nativeGK5XDirectPhi3,
+    nativeGK5ZTransportedPhi3] using
+    nativeGK5AAFourfoldPhiBridge f e g h k
+      (nativeGK5XBracket3 e g h k) t
+      (nativeGK5XFourTreeEq3
+        (fun x : I => e (f x)) (fun x : I => g (f x))
+        (fun x : I => h (f x)) (fun x : I => k (f x)) t)
+      (nativeGK5XFourTreeEq3 e g h k
+        (nativeGK5FTreeReindex f C t))
+
+/-- GK5AA: independently and genuinely RECURSIVE fourfold direct
+Phi for P4 over the pullback I-indexed family agrees with the
+J-indexed independently direct Phi after the actual two whole EqToIso
+reclassification boundaries. No injectivity, no unit strictification. -/
+theorem nativeGK5AAFourDirectPhi4_reindex_whole
+    {i j : I}
+    (t : NativeGK5DTypedTree (fun x : I => C (f x)) i j) :
+    nativeGK5XDirectPhi4
+        (fun x : I => e (f x)) (fun x : I => g (f x))
+        (fun x : I => h (f x)) (fun x : I => k (f x)) t ≪≫
+      eqToIso (nativeGK5AASingleTargetEq f
+        (nativeGK5XBracket4 e g h k) t) =
+    nativeGK5ZTransportedPhi4 f e g h k t := by
+  simpa only [nativeGK5XDirectPhi4,
+    nativeGK5ZTransportedPhi4] using
+    nativeGK5AAFourfoldPhiBridge f e g h k
+      (nativeGK5XBracket4 e g h k) t
+      (nativeGK5XFourTreeEq4
+        (fun x : I => e (f x)) (fun x : I => g (f x))
+        (fun x : I => h (f x)) (fun x : I => k (f x)) t)
+      (nativeGK5XFourTreeEq4 e g h k
+        (nativeGK5FTreeReindex f C t))
+
+/-- All FIVE independent direct recursive Φ computations,
+constructed separately in I and J, exchange with arbitrary
+(noninjective allowed) truly typed dependent index maps. -/
+theorem nativeGK5AAAllFiveDirectPhi_reindex_whole
+    {i j : I}
+    (t : NativeGK5DTypedTree (fun x : I => C (f x)) i j) :
+    (nativeGK5XDirectPhi0
+        (fun x : I => e (f x)) (fun x : I => g (f x))
+        (fun x : I => h (f x)) (fun x : I => k (f x)) t ≪≫
+        eqToIso (nativeGK5AASingleTargetEq f
+          (nativeGK5XBracket0 e g h k) t) =
+      nativeGK5ZTransportedPhi0 f e g h k t) ∧
+    (nativeGK5XDirectPhi1
+        (fun x : I => e (f x)) (fun x : I => g (f x))
+        (fun x : I => h (f x)) (fun x : I => k (f x)) t ≪≫
+        eqToIso (nativeGK5AASingleTargetEq f
+          (nativeGK5XBracket1 e g h k) t) =
+      nativeGK5ZTransportedPhi1 f e g h k t) ∧
+    (nativeGK5XDirectPhi2
+        (fun x : I => e (f x)) (fun x : I => g (f x))
+        (fun x : I => h (f x)) (fun x : I => k (f x)) t ≪≫
+        eqToIso (nativeGK5AASingleTargetEq f
+          (nativeGK5XBracket2 e g h k) t) =
+      nativeGK5ZTransportedPhi2 f e g h k t) ∧
+    (nativeGK5XDirectPhi3
+        (fun x : I => e (f x)) (fun x : I => g (f x))
+        (fun x : I => h (f x)) (fun x : I => k (f x)) t ≪≫
+        eqToIso (nativeGK5AASingleTargetEq f
+          (nativeGK5XBracket3 e g h k) t) =
+      nativeGK5ZTransportedPhi3 f e g h k t) ∧
+    (nativeGK5XDirectPhi4
+        (fun x : I => e (f x)) (fun x : I => g (f x))
+        (fun x : I => h (f x)) (fun x : I => k (f x)) t ≪≫
+        eqToIso (nativeGK5AASingleTargetEq f
+          (nativeGK5XBracket4 e g h k) t) =
+      nativeGK5ZTransportedPhi4 f e g h k t) := by
+  exact ⟨nativeGK5AAFourDirectPhi0_reindex_whole f e g h k t,
+    nativeGK5AAFourDirectPhi1_reindex_whole f e g h k t,
+    nativeGK5AAFourDirectPhi2_reindex_whole f e g h k t,
+    nativeGK5AAFourDirectPhi3_reindex_whole f e g h k t,
+    nativeGK5AAFourDirectPhi4_reindex_whole f e g h k t⟩
+
+#print axioms nativeGK5AAFourDirectPhi0_reindex_whole
+#print axioms nativeGK5AAFourDirectPhi1_reindex_whole
+#print axioms nativeGK5AAFourDirectPhi2_reindex_whole
+#print axioms nativeGK5AAFourDirectPhi3_reindex_whole
+#print axioms nativeGK5AAFourDirectPhi4_reindex_whole
+#print axioms nativeGK5AAAllFiveDirectPhi_reindex_whole
+
+end IndependentFourfoldPhiReindex
+
 end
 end Kuu.F112.Physical
