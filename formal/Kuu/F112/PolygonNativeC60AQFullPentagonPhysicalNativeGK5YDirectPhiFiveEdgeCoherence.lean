@@ -80,6 +80,178 @@ private theorem nativeGK5YLiftThree
 
 end ThreeInFour
 
+
+section GenuinePostcontext
+variable {I : Type uI} {A B T : I → Cat.{vC,uC}}
+variable (p q : ∀ i : I, A i ≌ B i)
+variable (z : ∀ i : I, B i ≌ T i)
+
+/-- Transport of equality-induced whole Mathlib NatIso through a
+real third equivalence, with both genuine whiskerings preserved. -/
+private theorem nativeGK5YChangeIso_eqToIso
+    {i j : I} {R S : B i ⥤ B j} (h : R = S) :
+    nativeGK5GChangeIso z (eqToIso h) =
+      eqToIso (congrArg (nativeGK5GChangeAtom z) h) := by
+  cases h
+  simp only [eqToIso_refl, nativeGK5GChangeIso, nativeGK5GChangeAtom,
+    Functor.isoWhiskerRight_refl, Functor.isoWhiskerLeft_refl]
+
+/-- Genuine GK5G recursive Phi is natural along an equality of
+complete typed trees, with no strictification of its unit/counit. -/
+private theorem nativeGK5YTreePhi_eqToIso_square
+    {i j : I} {u v : NativeGK5DTypedTree B i j} (h : u = v) :
+    eqToIso (congrArg
+      (fun x : NativeGK5DTypedTree B i j =>
+        nativeGK5DTreeComposite (nativeGK5GChangeTree z x)) h) ≪≫
+      nativeGK5GChangeTreeIso z v =
+    nativeGK5GChangeTreeIso z u ≪≫
+      nativeGK5GChangeIso z
+        (eqToIso (congrArg nativeGK5DTreeComposite h)) := by
+  cases h
+  simp only [congrArg, eqToIso_refl, Iso.refl_trans, Iso.trans_refl,
+    nativeGK5GChangeIso, nativeGK5GChangeAtom,
+    Functor.isoWhiskerRight_refl, Functor.isoWhiskerLeft_refl]
+
+/-- A pointwise actual atom equality between two real equivalences
+induces an atom equality after right composition with z. -/
+private theorem nativeGK5YPostAtomEq
+    (hAtom : ∀ {i j : I} (R : A i ⥤ A j),
+      nativeGK5GChangeAtom p R = nativeGK5GChangeAtom q R)
+    {i j : I} (R : A i ⥤ A j) :
+    nativeGK5GChangeAtom (fun x : I => (p x).trans (z x)) R =
+      nativeGK5GChangeAtom (fun x : I => (q x).trans (z x)) R := by
+  calc
+    _ = nativeGK5GChangeAtom z (nativeGK5GChangeAtom p R) :=
+      (nativeGK5QChangeAtom_comp p z R).symm
+    _ = nativeGK5GChangeAtom z (nativeGK5GChangeAtom q R) :=
+      congrArg (nativeGK5GChangeAtom z) (hAtom R)
+    _ = _ := nativeGK5QChangeAtom_comp q z R
+
+/-- A natural whole equality-induced comparison commutes with the
+genuine GK5Q two-stage atomic theta, even after the additional
+nonstrict equivalence z. -/
+private theorem nativeGK5YPostAtomSquare
+    (hAtom : ∀ {i j : I} (R : A i ⥤ A j),
+      nativeGK5GChangeAtom p R = nativeGK5GChangeAtom q R)
+    {i j : I} (R : A i ⥤ A j) :
+    nativeGK5GChangeIso z (eqToIso (hAtom R)) ≪≫
+      nativeGK5QAtomComparison q z R =
+    nativeGK5QAtomComparison p z R ≪≫
+      eqToIso (nativeGK5YPostAtomEq p q z hAtom R) := by
+  rw [nativeGK5YChangeIso_eqToIso z (hAtom R)]
+  simp only [nativeGK5QAtomComparison, eqToIso_trans]
+
+/-- Independently direct genuine two-stage Phi, with a changed
+source tree u whose equality with the p-transported tree is proved
+rather than silently assumed. -/
+private noncomputable def nativeGK5YPostDirect
+    (a : ∀ i : I, A i ≌ B i)
+    {i j : I} (t : NativeGK5DTypedTree A i j)
+    (u : NativeGK5DTypedTree B i j)
+    (hu : u = nativeGK5GChangeTree a t) :
+    nativeGK5DTreeComposite (nativeGK5GChangeTree z u) ≅
+      nativeGK5GChangeAtom (fun x : I => (a x).trans (z x))
+        (nativeGK5DTreeComposite t) :=
+  eqToIso (congrArg nativeGK5DTreeComposite
+      ((congrArg (nativeGK5GChangeTree z) hu).trans
+        (nativeGK5QChangeTree_comp a z t))) ≪≫
+    nativeGK5GChangeTreeIso
+      (fun x : I => (a x).trans (z x)) t
+
+/-- Actual GK5U normalization of the preceding direct two-stage
+recursive Phi through the true middle unit and the whole NatIso
+map of the already established original direct Phi. -/
+private theorem nativeGK5YPostDirect_normalize
+    (a : ∀ i : I, A i ≌ B i)
+    {i j : I} (t : NativeGK5DTypedTree A i j)
+    (u : NativeGK5DTypedTree B i j)
+    (hu : u = nativeGK5GChangeTree a t) :
+    nativeGK5YPostDirect z a t u hu =
+      (nativeGK5GChangeTreeIso z u ≪≫
+        nativeGK5GChangeIso z
+          (eqToIso (congrArg nativeGK5DTreeComposite hu) ≪≫
+            nativeGK5GChangeTreeIso a t)) ≪≫
+        nativeGK5QAtomComparison a z (nativeGK5DTreeComposite t) := by
+  calc
+    _ = eqToIso (congrArg nativeGK5DTreeComposite
+        (congrArg (nativeGK5GChangeTree z) hu)) ≪≫
+        nativeGK5RDirectCompositePhi a z t := by
+          simp only [nativeGK5YPostDirect, nativeGK5RDirectCompositePhi,
+            nativeGK5QTreeComparison, eqToIso_trans, Iso.trans_assoc]
+    _ = eqToIso (congrArg nativeGK5DTreeComposite
+        (congrArg (nativeGK5GChangeTree z) hu)) ≪≫
+        nativeGK5RSequentialCompositePhi a z t := by
+          rw [nativeGK5UAllTrees_unconditional a z t]
+    _ = ((eqToIso (congrArg nativeGK5DTreeComposite
+          (congrArg (nativeGK5GChangeTree z) hu)) ≪≫
+        nativeGK5GChangeTreeIso z (nativeGK5GChangeTree a t)) ≪≫
+        nativeGK5GChangeIso z (nativeGK5GChangeTreeIso a t)) ≪≫
+        nativeGK5QAtomComparison a z (nativeGK5DTreeComposite t) := by
+          rfl
+    _ = ((nativeGK5GChangeTreeIso z u ≪≫
+        nativeGK5GChangeIso z
+          (eqToIso (congrArg nativeGK5DTreeComposite hu))) ≪≫
+        nativeGK5GChangeIso z (nativeGK5GChangeTreeIso a t)) ≪≫
+        nativeGK5QAtomComparison a z (nativeGK5DTreeComposite t) := by
+          rw [nativeGK5YTreePhi_eqToIso_square z hu]
+    _ = _ := by
+      simp only [nativeGK5HChangeIso_trans, Iso.trans_assoc]
+
+/-- Genuine postcomposition contextual coherence: if two real
+recursive Phi comparisons agree up to the equality-induced whole
+atom NatIso, the direct recursive Phi for their compositions with
+any third genuine equivalence z agrees with no additional premise. -/
+private theorem nativeGK5YPostCoherent
+    (hAtom : ∀ {i j : I} (R : A i ⥤ A j),
+      nativeGK5GChangeAtom p R = nativeGK5GChangeAtom q R)
+    {i j : I} (t : NativeGK5DTypedTree A i j)
+    (u : NativeGK5DTypedTree B i j)
+    (hp : u = nativeGK5GChangeTree p t)
+    (hq : u = nativeGK5GChangeTree q t)
+    (hPhi :
+      (eqToIso (congrArg nativeGK5DTreeComposite hp) ≪≫
+        nativeGK5GChangeTreeIso p t) ≪≫
+        eqToIso (hAtom (nativeGK5DTreeComposite t)) =
+      eqToIso (congrArg nativeGK5DTreeComposite hq) ≪≫
+        nativeGK5GChangeTreeIso q t) :
+    nativeGK5YPostDirect z p t u hp ≪≫
+        eqToIso (nativeGK5YPostAtomEq p q z hAtom
+          (nativeGK5DTreeComposite t)) =
+      nativeGK5YPostDirect z q t u hq := by
+  let Wp := eqToIso (congrArg nativeGK5DTreeComposite hp) ≪≫
+    nativeGK5GChangeTreeIso p t
+  let Wq := eqToIso (congrArg nativeGK5DTreeComposite hq) ≪≫
+    nativeGK5GChangeTreeIso q t
+  let α := eqToIso (hAtom (nativeGK5DTreeComposite t))
+  let θp := nativeGK5QAtomComparison p z (nativeGK5DTreeComposite t)
+  let θq := nativeGK5QAtomComparison q z (nativeGK5DTreeComposite t)
+  let β := eqToIso (nativeGK5YPostAtomEq p q z hAtom
+    (nativeGK5DTreeComposite t))
+  let ι := nativeGK5GChangeTreeIso z u
+  have hmap : nativeGK5GChangeIso z Wp ≪≫
+      nativeGK5GChangeIso z α =
+    nativeGK5GChangeIso z Wq := by
+    rw [← nativeGK5HChangeIso_trans]
+    exact congrArg (nativeGK5GChangeIso z) hPhi
+  have hsquare : nativeGK5GChangeIso z α ≪≫ θq = θp ≪≫ β :=
+    nativeGK5YPostAtomSquare p q z hAtom
+      (nativeGK5DTreeComposite t)
+  calc
+    _ = (ι ≪≫ nativeGK5GChangeIso z Wp) ≪≫ (θp ≪≫ β) := by
+      rw [nativeGK5YPostDirect_normalize]
+      simp only [Wp, θp, β, Iso.trans_assoc]
+    _ = (ι ≪≫ nativeGK5GChangeIso z Wp) ≪≫
+        (nativeGK5GChangeIso z α ≪≫ θq) := by rw [hsquare]
+    _ = (ι ≪≫ (nativeGK5GChangeIso z Wp ≪≫
+        nativeGK5GChangeIso z α)) ≪≫ θq := by
+          simp only [Iso.trans_assoc]
+    _ = (ι ≪≫ nativeGK5GChangeIso z Wq) ≪≫ θq := by rw [hmap]
+    _ = nativeGK5YPostDirect z q t u hq := by
+      rw [nativeGK5YPostDirect_normalize]
+      rfl
+
+end GenuinePostcontext
+
 section FourGroupEdges
 variable {I : Type uI} {C D E F G : I → Cat.{vC,uC}}
 variable (e : ∀ i : I, C i ≌ D i)
