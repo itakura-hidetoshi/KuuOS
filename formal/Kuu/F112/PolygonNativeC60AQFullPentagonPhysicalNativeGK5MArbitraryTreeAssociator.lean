@@ -112,7 +112,7 @@ private theorem nativeGK5MUnitComparisonNaturality
           φ.hom.app ((e k).functor.obj Z)) ≫
           (e l).functor.map (R.map ((e k).unitIso.inv.app Z)) := by
             rw [hPhi]
-    _ = _ := rfl
+    _ = _ := by simp only [Category.assoc]
 
 /-- GK5M target: arbitrary genuinely dependent-typed subtree
 associator, with their nontrivial recursive Phi_a,Phi_b,Phi_c.
@@ -132,16 +132,25 @@ theorem nativeGK5MAssociator_subtrees
   have hBridge :=
     nativeGK5MUnitComparisonNaturality e
       (nativeGK5GChangeTreeIso e c) g
-  simp only [Category.assoc] at hBridge
-  simp [NativeGK5JPathSquare, nativeGK5DPathIso,
+  have hPref := congrArg
+    (fun z =>
+      (nativeGK5DTreeComposite (nativeGK5GChangeTree e c)).map
+          ((nativeGK5DTreeComposite (nativeGK5GChangeTree e b)).map
+            ((nativeGK5GChangeTreeIso e a).hom.app X)) ≫
+        (nativeGK5DTreeComposite (nativeGK5GChangeTree e c)).map
+          ((nativeGK5GChangeTreeIso e b).hom.app
+            ((e j).functor.obj
+              ((nativeGK5DTreeComposite a).obj ((e i).inverse.obj X)))) ≫
+        z) hBridge
+  simpa [NativeGK5JPathSquare, nativeGK5DPathIso,
     nativeGK5DStepIso, nativeGK5GChangePath,
     nativeGK5GChangeStep, nativeGK5GChangeTreeIso,
     nativeGK5GChangeTree, nativeGK5DTreeComposite,
     nativeGK5GChangeAtom, nativeGK5GChangeIso,
     nativeGK5IChangeCompIso_hom_app,
     Functor.associator_hom_app, Functor.comp_obj,
-    Functor.comp_map, Functor.map_comp, Category.assoc]
-  rw [hBridge]
+    Functor.comp_map, Functor.map_comp, Category.assoc, g]
+    using hPref
 
 #print axioms nativeGK5MCompositor_associator
 #print axioms nativeGK5MAssociator_subtrees
