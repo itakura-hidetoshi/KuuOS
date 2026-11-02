@@ -179,6 +179,7 @@ private theorem nativeGK5UGenericPaste
               nativeGK5GChangeCompIso
                 (fun h : I => (e h).trans (g h)) R S)) := by
           rw [nativeGK5UBinaryCompositor_whole e g R S]
+          all_goals rfl
     _ = nativeGK5UHorizontalIso
           (γ ≪≫ nativeGK5GChangeIso g α ≪≫
             nativeGK5QAtomComparison e g R)
@@ -186,7 +187,7 @@ private theorem nativeGK5UGenericPaste
             nativeGK5QAtomComparison e g S) ≪≫
           nativeGK5GChangeCompIso
             (fun h : I => (e h).trans (g h)) R S := by
-          simp only [Iso.trans_assoc]
+          simp only [← Iso.trans_assoc]
           rw [nativeGK5UHorizontalIso_trans γ
             (nativeGK5GChangeIso g α) δ
             (nativeGK5GChangeIso g β)]
