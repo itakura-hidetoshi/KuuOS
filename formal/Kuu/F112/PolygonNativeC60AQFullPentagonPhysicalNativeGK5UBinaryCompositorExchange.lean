@@ -141,6 +141,11 @@ theorem nativeGK5UAllTrees_unconditional :
         ((nativeGK5GChangeAtom g
           (nativeGK5GChangeAtom e
             (nativeGK5DTreeComposite left))).obj X)) hr
+      have hNatG :=
+        (nativeGK5GChangeTreeIso g
+          (nativeGK5GChangeTree e right)).hom.naturality
+            ((nativeGK5GChangeTreeIso g
+              (nativeGK5GChangeTree e left)).hom.app X)
       simp [nativeGK5RSequentialCompositePhi,
         nativeGK5RSequentialPhi, nativeGK5RDirectCompositePhi,
         nativeGK5GChangeTreeIso, nativeGK5GChangeTree,
@@ -148,7 +153,8 @@ theorem nativeGK5UAllTrees_unconditional :
         nativeGK5GChangeIso, nativeGK5GChangeAtom,
         nativeGK5QAtomComparison, nativeGK5QChangeAtom_comp,
         nativeGK5GChangeCompIso, Equivalence.trans,
-        Functor.comp_map, Functor.map_comp, Category.assoc] at hleft hright ⊢
+        Functor.comp_map, Functor.map_comp, Category.assoc] at hleft hright hNatG ⊢
+      all_goals simp_all [Category.assoc]
 
 /-- Unconditional vanishing of the actual relative whole NatIso
 obstruction on EVERY genuine finite dependently typed tree,
