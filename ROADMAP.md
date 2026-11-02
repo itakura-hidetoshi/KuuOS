@@ -3,6 +3,16 @@
 
 
 
+## GK5AD／Qi v3.7 完了 — 五行五段・真正C60閉路と全五独立whole Φの実型付き交換／2026-11-02 JST
+
+**独立Kuu [GK5AD定理PR #2958](https://github.com/itakura-hidetoshi/KuuOS/pull/2958) MERGED。** 任意`f:I→I`について真のGK5F依存型木`unit/atom/paste`を五回異なるindex家族でreindexし、`nativeGK5ADFiveTreeReindex_eq`で合成`f⁵`への再分類と実型付き木等式を証明。`nativeGK5ADFiveTreeFusion_whole`でsource/target whole EqToIsoの逆相殺、`nativeGK5ADFiveDirectPhi0..4_reindex_whole`と`nativeGK5ADAllFiveDirectPhi_reindex_whole`で**元GK5AA・GK5ACの全五独立再帰whole Φ**が、逐次五段と合成一段で真正両端`eqToIso`輸送を介して一致。`f⁵=id`は命題上の別証明とし、`nativeGK5ADFiveIndex_closed`／`FiveFamily_closed`でindex・実圏族を閉じるが、高次元の原始Type証拠を厳密同一視しない。[Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5ADFiveStepIndexPhiHolonomy.lean)。
+
+**[Qi v3.7定理PR #2959](https://github.com/itakura-hidetoshi/KuuOS/pull/2959) MERGED。** Qi v3.5/v3.6の既存`FivefoldIndex=FivePhase=ZMod 5`と真正C60`FivefoldIndex ≃ Slot`ゲージを使用し、`nativeGK5ADFiveIndex fivefoldPhaseReindexOne=id`、実`slotNext`五歩閉路、五歩のゲージ自然性、原始第五`around`辺による物理出発`Dart`への復帰、同一ゲージに基づく圏族閉路を証明。すべての五括弧に`fivefoldPhysicalDirectPhi0..4_five_whole`・`AllFivePhi_five_whole`でGK5AD whole NatIsoの五段交換を適用。[Lean全文](formal/KUOS/Architecture/QiWuxingGK5ADFivePhaseHolonomyV3_7.lean)と[正式証明記録](docs/formal/GK5AD-Qi-v3_7-five-step-C60-whole-Phi-holonomy.md)を追加、唯一の公開集約`KuuOSFormal`へimportを1行追加し、独立Kuu→Qi逆依存なし・root107維持。物理Edge・NatIso・raw source historyは型・権限・履歴を保持して区別。
+
+**Lean4全文診断・独立CI：** GK5AD初回CI #41433175273で`f⁵`の展開関数と命名`def`の表示差、および`f⁵=id`を依存型indexの定義上の等式に誤用したことによる型不一致を確認。命題を不正に弱めず、実`eqToIso`source/target境界と`Iso.trans_assoc`を明示して修正。最終exact-source [CI #41434118220](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41434118220) **Strict Lean 3851/3851、10/10公理監査SUCCESS**。定理source`f1e7a6c3d9ba905963e9ddcc07ab6ac207dd6fe5`／squash`e6a4826082dcacb43088c63247bc346c892c9182`／Git tree同一`74d92a2fafb055fb0e449844040854ddb4005cec`。Qi v3.7最終exact-source [CI #41435151217](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41435151217) **Strict Lean 10139/10139、13/13公理監査SUCCESS、KuuOSFormalを含む全build成功**。source`939b4a4e4a42c056f2e65fe595cd17404f0c3e91`／squash`b08f7bd34edce9111e4c4db0619e8b796a13061d`／Git tree同一`b91f7df649386f96fb9a2f3d076df2ac650a2964`。**両定理23/23監査`propext/Classical.choice/Quot.sound`以内、sorryAx0、Lean errors/warnings0、Independent Kuu・Workflow integrity・Governance terminal SUCCESS**。固定Lean v4.30.0-rc2／mathlib`5450b53e5ddc75d46418fabb605edbf36bd0beb6`／root107・保護#1558 Draft/open維持。
+
+**次GK5AE：** 五段閉路から元の各indexに戻る際の実依存型cast／whole EqToIsoの端点輸送を明示し、GK5AC単位・GK5AD五段合成と真正カテゴリー五角形各辺（逆向き04・43を保持）との正確な関係を形式化する。許可なく元raw高次証拠を潰すのでなく、残存obstructionを型付き証明する。以下GK5AC・Qi v3.6・GK5AB・Qi v3.5以前の全履歴維持。
+
 ## GK5AC／Qi v3.6 完了 — 五独立再帰Φのindex単位・合成、五行C60ゲージ交換／2026-11-02 JST
 
 **[GK5AC定理PR #2955](https://github.com/itakura-hidetoshi/KuuOS/pull/2955) MERGED。** GK5ABの任意二段index写像の合成自然性に、GK5F `nativeGK5FTreeReindex_id`とGK5AA `nativeGK5AAFourDirectPhi0..4_reindex_whole`を適用し、**五つの独立再帰whole Φの恒等写像における単位則**を証明。`nativeGK5ACSinglePhi_unit_whole`／`SourceIso_unit_whole`／`FourDirectPhi0..4_unit_whole`／`AllFiveDirectPhi_unit_whole`が、各source/target実`eqToIso`境界を閉じる。元のMathlib圏同値の準逆・unit/counit・compositorのstrict化はしていない。[Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5ACIdentityReindexPhiAction.lean)。
