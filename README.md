@@ -14,6 +14,16 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK5X / 2026-11-02 JST
+
+**四段の真正Mathlib圏同値の五通りの括弧付けによるwhole NatIso pentagon可換性、五つの独立した直接再帰的Φから定まる相対障害の二経路整合性を、全有限型付き木でLean4証明 — [定理PR #2943](https://github.com/itakura-hidetoshi/KuuOS/pull/2943) MERGED。** [Lean4全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5XFourStageDirectPhiPentagon.lean)・[GK5X正式証明記録](docs/formal/GK5X-four-stage-direct-phi-relative-defect-pentagon.md)。
+
+**数学的成果：** 真正圏同値`e:C≌D, g:D≌E, h:E≌F, k:F≌G`の五括弧付け`P0=(((eg)h)k)`、`P1=((e(gh))k)`、`P2=(e((gh)k))`、`P3=(e(g(hk)))`、`P4=((eg)(hk))`を本物のMathlib `Equivalence.trans`として保持。全型付き木`t`に五つの独立な直接`nativeGK5GChangeTreeIso Pj t`を含む`nativeGK5XDirectPhi0..4`を構成。真のFunctor結合等式に由来するwhole `eqToIso`辺`α01,α12,α23,α04,α43`について、**`nativeGK5XPentagon_whole`：`(α01 ≪≫ α12) ≪≫ α23 = α04 ≪≫ α43`**、whole NatTrans版を証明。さらに各辺の相対自己同型`Δij(t)=Φ_i(t) ≪≫ αij ≪≫ Φ_j(t).symm`について**`nativeGK5XDirectDefectPentagon_whole`：`Δ01 ≪≫ Δ12 ≪≫ Δ23 = Δ04 ≪≫ Δ43`**と二経路間の相対障害`Iso.refl`を証明。**各辺`Δij=Iso.refl`の無条件消滅は未証明**であり、完全な四段direct`Φ`辺整合性の強い条件とは混同しない。圏同値レコード全体をstrict同一視しない。
+
+**Lean4全文・エラー理由：** 新規Lean476行のみ。初回CIは全五括弧・五木等式・五直接Φ・構造pentagonが通過したが、最終相対障害の`simp only [Iso.trans_assoc]`が全鎖を右結合し、中間`Φ_j.symm ≪≫ Φ_j`の相殺が構文上現れず1件エラー。真の`Iso.ext`・`Iso.trans_hom`・`Category.assoc`に移して修正し、仮定・結論・unit/counitを弱めず成功。source `c4201dd8226208582a7333b5caba21cf97d90e81`、squash `7261d8c309a9b700681740d81509f3e5629e780a`、一致Git tree `c96a18ea74ad9864f5f084f6d8c17df215da1af2`。[CI #41404999549](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41404999549) **Strict Lean 3845/3845、監査20/20標準`propext/Classical.choice/Quot.sound`のみ、sorryAx0、Lean errors/warnings0、Independent Kuu・Workflow integrity・Governance SUCCESS**。固定Lean v4.30.0-rc2・mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、root107、strict空中心・独立Kuu一presentation・保護#1558 Draft/OPEN維持。
+
+**次GK5Y：** 五辺それぞれの真正whole direct`Φ`自然比較を証明して`Δij=Iso.refl`を無条件化。GK5W・GK5U・GK5Qの真のunit/compositor/whiskering定理を使用し、後続でGK5F型付きindex reindexing交換へ。以下GK5W以前の履歴は全保持。
+
 ## 最新のLean定理統合 — F112-P94D3GK5W / 2026-11-02 JST
 
 **三つの真正Mathlib点別圏同値`e,g,h`の左右括弧付けについて、各括弧付けで独立に作った直接再帰的whole NatIso `Φ`の結合整合性を、全有限型付き木で無条件Lean4証明 — [定理PR #2941](https://github.com/itakura-hidetoshi/KuuOS/pull/2941) MERGED。** [Lean4全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5WIndependentDirectTriplePhiCoherence.lean)・[GK5W正式証明記録](docs/formal/GK5W-independent-direct-recursive-triple-phi-coherence.md)。
