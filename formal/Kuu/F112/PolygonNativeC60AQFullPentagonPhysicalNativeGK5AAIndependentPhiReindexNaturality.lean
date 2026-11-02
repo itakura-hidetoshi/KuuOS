@@ -135,8 +135,8 @@ theorem nativeGK5AASinglePhi_reindex_whole
         nativeGK5FTreeReindex, nativeGK5DTreeComposite,
         eqToIso_refl, Iso.refl_trans, Iso.trans_refl]
   | paste left right hl hr =>
-      let pR := nativeGK5FTreeComposite_reindex f C left
-      let pS := nativeGK5FTreeComposite_reindex f C right
+      let pR := (nativeGK5FTreeComposite_reindex f C left).symm
+      let pS := (nativeGK5FTreeComposite_reindex f C right).symm
       let pA := nativeGK5AASingleSourceEq f e left
       let pB := nativeGK5AASingleSourceEq f e right
       have hhorizontal :=
