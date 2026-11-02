@@ -14,6 +14,16 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK5AB／二段index写像の全五独立再帰Φ経路非依存／2026-11-02 JST
+
+**任意（非単射も許容）の連続index写像 `I → J → K` と全有限真正GK5D型付き木について、GK5AAで独立に構成された全五括弧 `P0..P4` のMathlib whole NatIso `Φ` が、逐次reindexingと合成reindexingの双方で同じ真正source/target `eqToIso`経路比較を満たすことをLean4で形式証明。** [定理PR #2953](https://github.com/itakura-hidetoshi/KuuOS/pull/2953) **MERGED**。 [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5ABTwoStageIndexPhiCoherence.lean)・[正式証明記録](docs/formal/GK5AB-two-stage-index-fivefold-recursive-phi-coherence.md)。
+
+**証明の核心：** GK5Fの`nativeGK5FTreeReindex_comp`により実型付き木の二段再分類を合成再分類へ結び、`nativeGK5ABSourceIso_comp_whole`・`TwoStagePhi_comp_whole`でsource／targetの真正`eqToIso`境界を貼る。**`nativeGK5ABFourDirectPhi0..4_indexComp_whole`**で五つの移送Φ、さらに`nativeGK5ABComposeSquares`とGK5AAの五つの独立再帰Φ自然性を合成して、**`nativeGK5ABFourDirectPhi0..4_recursiveComp_whole`**で独立再帰構成そのものの二段自然性を証明。真正選択準逆・unit/counit/compositorをstrict化せず、raw F54/F55/P92B Type高次セルやunrestricted hyperdescentは主張しない。
+
+**exact-source検証：** [CI #41425340984](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41425340984) **terminal SUCCESS**、Strict Lean **3849/3849**、公開`#print axioms`**12/12**はいずれも`propext / Classical.choice / Quot.sound`のみ、`sorryAx=0`、Lean errors/warnings **0/0**、Independent Kuu・Workflow integrity・GovernanceもSUCCESS。初回CIの`No goals to be solved`は`eqToIso_trans`の`simp only`後に残る余分な`exact`が原因であり、削除のみで解消。最終source `678c34881fe6e3c0bef52a1866d4d10f81a9557e`／squash・マージ後main `d47347cdc571f68a9853cc0559de651451602c66`／**Git tree完全一致** `562bd210549f9feb1daef27c08eae32110d378e1`・Lean blob一致 `7ed1cf73a8e81a724fee90a6b193f0a84e9ac84e`。固定Lean v4.30.0-rc2／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、公開root107維持・保護#1558 Draft/OPEN。
+
+**次GK5AC：** index恒等写像のwhole Φ自然性とGK5ABの合成自然性を統合し、Qi v3.5共通FivePhaseへの型付きcompatibleな橋を検証する。**以下GK5AA・Qi v3.5を含む従来の研究履歴を全保持。**
+
 ## 最新のLean定理統合 — F112-P94D3GK5AA／任意index再分類下の独立再帰Φ／2026-11-02 JST
 
 **任意のindex写像`f:I→J`（非単射も許容）について、真正Mathlib圏同値のGK5G再帰的whole NatIso `Φ`とGK5F/GK5Pの型付きreindexingが、source/target両側の実`eqToIso`境界を介して交換することを証明。さらにGK5X/GK5Yの五通りの括弧付け`P0..P4`について、I側で独立に再帰構成した五つの直接`Φ`と、GK5ZのJ側から移送した五つの直接`Φ`の完全whole NatIso一致を無条件にLean4証明 — [定理PR #2949](https://github.com/itakura-hidetoshi/KuuOS/pull/2949) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5AAIndependentPhiReindexNaturality.lean)・[正式証明記録](docs/formal/GK5AA-independent-recursive-phi-fivefold-reindex-naturality.md)。
