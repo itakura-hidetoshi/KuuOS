@@ -14,6 +14,16 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK5W / 2026-11-02 JST
+
+**三つの真正Mathlib点別圏同値`e,g,h`の左右括弧付けについて、各括弧付けで独立に作った直接再帰的whole NatIso `Φ`の結合整合性を、全有限型付き木で無条件Lean4証明 — [定理PR #2941](https://github.com/itakura-hidetoshi/KuuOS/pull/2941) MERGED。** [Lean4全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5WIndependentDirectTriplePhiCoherence.lean)・[GK5W正式証明記録](docs/formal/GK5W-independent-direct-recursive-triple-phi-coherence.md)。
+
+**数学的成果：** GK5Vの共通逐次`Φ`から、真正`(e.trans g).trans h`と`e.trans(g.trans h)`の各`nativeGK5GChangeTreeIso`を使う**独立直接`Φ`**に拡張。`nativeGK5WLeftTreeEq`／`RightTreeEq`／`TreeAssociator_whole`で型付き木の構造的比較を保持。`nativeGK5WAtomComparison_natIso`はGK5Q原子比較について任意whole Mathlib NatIsoの自然性を新規証明（単なる`eqToIso`経路限定ではない）。GK5Uを双方へ適用した`nativeGK5WLeftDirect_eq_recursive`・`RightDirect_eq_recursive`を結合し、**`nativeGK5WAllTrees_direct_assoc_whole`：`Φ_left_direct ≪≫ α = Φ_right_direct`**を全木で証明。**`nativeGK5WDirectObstruction_refl`**で実相対NatIso障害が全木で`Iso.refl`。真正unit/counit・選択準逆・中間compositorをstrict化せず保持。圏同値レコード全体の等式、raw Type高次セル、Gray、hyperdescentは主張しない。
+
+**Lean4エラー理由と検証：** 新規Leanソース421行のみ、公開12件。初回CIは右側直接`Φ`で`Iso.trans_assoc`後に`rw [← hnatural]`の部分式が見つからない構文的結合問題。実whole NatIso自然性を周囲の結合で`congrArg`した後、`simpa only [Iso.trans_assoc]`で閉じた。定理・仮定を弱めず修正。source `40873490bf58b87f2e5554cda8c5db9586dea5bf`、squash `30e4ffb22638e6834dad016265212cb4a9673016`、一致Git tree `a8c9e05f4a6a796d9e75249fee1d80f23161e511`。[CI #41402574594](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41402574594) **Strict Lean 3844/3844・Independent Kuu・Workflow integrity・Governance SUCCESS**、12/12公理監査は標準`propext/Classical.choice/Quot.sound`のみ、sorryAx0、errors/warnings0。固定Lean v4.30.0-rc2・mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、root107・strict空中心・独立Kuu一presentation・#1558 Draft/OPEN維持。
+
+**次GK5X：** 真正四段合成の五括弧付けの**独立直接`Φ`**をpentagon whole NatIsoで統合し、後続でGK5F型付きindex reindexingと交換。以下GK5V以前の履歴は全保持。
+
 ## 最新のLean定理統合 — F112-P94D3GK5V / 2026-11-02 JST
 
 **真正な三段のMathlib圏同値`e,g,h`について、二通りの括弧付けに伴うwhole NatIso比較が全有限型付き木の実際の再帰的`Φ`上で一致することを証明 — [定理PR #2939](https://github.com/itakura-hidetoshi/KuuOS/pull/2939) MERGED。** [Lean4全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5VTripleNatIsoAssociativity.lean)・[GK5V正式証明記録](docs/formal/GK5V-three-stage-whole-natiso-associativity.md)。
