@@ -3,6 +3,16 @@
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK5AA／独立再帰Φの全五括弧index自然性／2026-11-02 JST
+
+**任意（非単射を含む）`f:I→J`における、真のMathlib圏同値GK5G再帰`Φ`とGK5F/GK5Pの型付きreindexingのwhole NatIso交換、およびGK5X/GK5Y五括弧`P0..P4`の独立direct`Φ`とGK5Z元J側移送版`Φ`の完全一致をLean4形式証明 — [定理PR #2949](https://github.com/itakura-hidetoshi/KuuOS/pull/2949) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5AAIndependentPhiReindexNaturality.lean)・[正式記録](docs/formal/GK5AA-independent-recursive-phi-fivefold-reindex-naturality.md)。
+
+**定理：** `nativeGK5AASingleSourceEq`／`SingleTargetEq`／`SinglePhi_reindex_whole`が全有限型付き木unit/atom/pasteと真正選択準逆・unit/counit/compositorを保存。private `Horizontal_natural`・`CompIso_natural`・`CompIso_index`でI/J表現とwhole NatIso水平合成を正しく合わせる。`FourfoldPhiBridge`に`eqToIso_trans`と各GK5X四段型付き木証拠を貼り、**`FourDirectPhi0..4_reindex_whole`・`AllFiveDirectPhi_reindex_whole`**で元I側独立直接再帰Phi=元J側の実source移送Phiを無条件に証明。元source-Q、raw Type高次セル、F45無条件faithfulness、Gray、unrestricted hyperdescentは導かない。
+
+**CI・全文エラー理由：** 新規Lean455行のみ、9件公開宣言。初期型不一致は`C:=fun i:I=>C(f i)`の暗黙家族推論、pasteの真の水平whiskering・middle unit compositor自然性、`Iso.trans_assoc`の右結合正規化が原因。五fold`eqToIso_trans`後の過剰`exact`を削除。最終exact-source `f897f05521f9a22942f467b4f095a5bf5323206b`、squash `337a6e73265a939e7621df4afb3d6ed2f2401907`、同一Lean blob `3f28ef12dc77f456d232ac406eb4c8533a2aada2`。Qi v3.5文書並行統合のため全repo treeは不一致、**sourceとマージ後のLean bytesは完全一致**。[CI #41421856599](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41421856599) **Strict Lean 3848/3848、9/9公理監査`propext/Classical.choice/Quot.sound`のみ、sorryAx0、error/warning0、Independent Kuu・Workflow integrity・Governance terminal SUCCESS**。Lean v4.30.0-rc2・mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`／root107／append-only・strict空中心・独立Kuu一presentation／#1558 Draft/open/unmerged継続。
+
+**次GK5AB：** 二段index再分類`I→J→K`のidentity/compositionと全五独立direct`Φ`のwhole NatIso境界経路非依存を形式化し、Qi v3.5共通FivePhase上の物理C60・GK5五角形と交換。以下Qi v3.5および旧履歴すべて保持。
+
 ## 新規統合 — Qi v3.5／五行・真正C60五角形・GK5高次五角形の共通型／2026-11-02 JST
 
 **[定理PR #2950](https://github.com/itakura-hidetoshi/KuuOS/pull/2950) MERGED。** 五行`FivePhase=ZMod 5`を唯一の**共通座標型**として用い、12真正C60五角形の各`Slot`に対するゲージ依存の実`FivePhase ≃ Slot`、相生`+1`と物理`slotNext`の可換性、元`Dart`・`Edge.around`の正確な端点一致を証明。さらに真正Mathlib4圏同値の5括弧付け`P0..P4`を同じ位相`0..4`で選び、**同じ`FivefoldEdge`が実C60辺とwhole NatIso辺の両方を型付きで選択**。物理円周と反対向きの`04/43`も正確に保持。GK5Xの真正pentagonおよびGK5Yの**全5辺direct`Φ`可換性**を新しい共通インターフェースで証明した。
