@@ -3,6 +3,16 @@
 
 
 
+## GK5AO／Qi v4.8 完了 — P94A水平単位の独立性と真正北C60最小4-cell証拠／2026-11-03 JST
+
+**独立Kuu [GK5AO #2992](https://github.com/itakura-hidetoshi/KuuOS/pull/2992) MERGED。** 既存P94Aの三原始単位のうち`horizontalUnit`が、P93全16四セル規則と残る`leftContextUnit`／`rightContextUnit`およびすべての閉包から導出できるかを解析。原始P92Bの新しいBoolean不変量は、元F55／P92B assocNaturality／reflでfalse、symm保存・transはOR・左右context保持、precompose/postcomposeでtrue。真正水平3セル合成はtrue、F54水平経路の厳密なreflはfalse。全P93構成子は不変量を保存し、**P93水平単位4-cellの非存在**を証明。P94A全19構成子の原始証明履歴から`horizontalUnit`出現回数をNatで再帰構成し、回数0なら上記不変量が保存されることを証明。従って水平単位を正規化するどのP94A真正4-cellにも**水平単位生成元が少なくとも1回必要**、既存の明示証拠は**ちょうど1回**。P94Aという特定presentationでの最小性であり、全高次presentationの絶対最小性ではない。[GK5AO Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5AOHorizontalUnitNecessity.lean)。
+
+**Qi v4.8 [PR #2993](https://github.com/itakura-hidetoshi/KuuOS/pull/2993) MERGED。** 真正北C60第1/第2F45ステージの原始二Nat F54実単位に上記P93非存在／P94A一回証拠／全証拠下界を適用。独立Kuu→Qi方向と物理第五around `Dart×Dart`閉路、反転04/43カテゴリー物理向き、既存の無条件P89→P94A四セル商比較を維持。[Qi Lean全文](formal/KUOS/Architecture/QiWuxingGK5AONorthHorizontalUnitMinimalityV4_8.lean)。
+
+**CIと証明正本：** 独立 [#41535105425](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41535105425) **9234/9234 Strict Lean SUCCESS**、新9件公理監査は6件追加公理なし・残3件は`propext,Quot.sound`のみ、Governance30/30。Qi [#41535996482](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41535996482) **10161/10161 SUCCESS**、新6件は`propext,Classical.choice,Quot.sound`以内、Governance30/30。Lean error/warning/sorryAx 0、source/test-merge Git treeはGK5AO`ec761b6d152436d26510973fea1272910bfc5ead`／Qi`3debd91b5d3d6d94fd8981e040809aa46b7bef1b`で一致。squash GK5AO`1fd104e6a6bfca4e3b4887987076877e5da881cc`／Qi`b06589f8d8e08eb0e16cf3fffb37012a41d50bd1`。Lean v4.30.0-rc2／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`固定、root107、保護#1558 Draft/OPEN未マージ。[正式証明記録](docs/formal/GK5AO-Qi-v4_8-P94A-horizontalUnit-minimality.md)。
+
+**次GK5AP：** 左右の文脈単位各々の独立性を、水平単位ともう一方の文脈単位を許した閉包に対する新不変量で検証し、既存P89→P94A商の比較反映境界を探る。以下GK5AN／Qi v4.7以前の全研究履歴保持。
+
 ## GK5AN／Qi v4.7 完了 — 旧P93非移送性を保持し、既存P94AへP89全13構成子・真正北C60物理四セル商を無条件移送／2026-11-03 JST
 
 **独立Kuu [GK5AN PR #2989](https://github.com/itakura-hidetoshi/KuuOS/pull/2989) MERGED。** 重要な既存構成を再確認：歴史的`NativeF55P94UnitFourCell`（P94A）はすでにP93全16規則を旧証拠として保持し、P80三原始単位`horizontalUnit`／`leftContextUnit`／`rightContextUnit`を**選択的4-cell生成元**として備える。P93の歴史ソースを修正せず、元F55全9 3-cellのGK5AI構造的`φ`像上に、真のP77縦8→P80 9→P85 8→P86 12→P87 12→P89 13構成子の**全Type-valued 4-cell移送**を帰納構成。`nativeGK5ANP87P89ToP94_unconditional`はP87・P89構造的**P94A**移送が無条件存在することを証明。現行**P93**へのGK5AM no-goは当然そのまま成立し、移送先の違いを混同しない。[新規Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5ANStructuralP89ToP94A.lean)。
