@@ -79,6 +79,7 @@ private theorem nativeGK5OWhiskerRight_of_square
   dsimp only [NativeGK5OStepSquare, nativeGK5GChangeStep,
     nativeGK5DStepIso, nativeGK5GChangeTreeIso,
     nativeGK5GChangeTree, nativeGK5DTreeComposite]
+  trace_state
   calc
     _ = (Functor.isoWhiskerRight (α ≪≫ φb) Tc ≪≫
            Functor.isoWhiskerLeft (nativeGK5GChangeAtom e Rb) φc) ≪≫
@@ -135,6 +136,7 @@ private theorem nativeGK5OWhiskerLeft_of_square
   dsimp only [NativeGK5OStepSquare, nativeGK5GChangeStep,
     nativeGK5DStepIso, nativeGK5GChangeTreeIso,
     nativeGK5GChangeTree, nativeGK5DTreeComposite]
+  trace_state
   calc
     _ = ((Functor.isoWhiskerRight φa
             (nativeGK5DTreeComposite (nativeGK5GChangeTree e b)) ≪≫
