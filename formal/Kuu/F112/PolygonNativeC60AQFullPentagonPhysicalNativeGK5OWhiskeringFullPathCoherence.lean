@@ -79,12 +79,11 @@ private theorem nativeGK5OWhiskerRight_of_square
   dsimp only [NativeGK5OStepSquare, nativeGK5GChangeStep,
     nativeGK5DStepIso, nativeGK5GChangeTreeIso,
     nativeGK5GChangeTree, nativeGK5DTreeComposite]
-  trace_state
   calc
     _ = (Functor.isoWhiskerRight (α ≪≫ φb) Tc ≪≫
            Functor.isoWhiskerLeft (nativeGK5GChangeAtom e Rb) φc) ≪≫
           nativeGK5GChangeCompIso e Rb Sc := by
-             simp only [nativeGK5GChangeStep, nativeGK5DStepIso,
+             simpa only [nativeGK5GChangeStep, nativeGK5DStepIso,
               Functor.isoWhiskerRight_trans, Iso.trans_assoc]
     _ = (Functor.isoWhiskerRight (φa ≪≫ β) Tc ≪≫
            Functor.isoWhiskerLeft (nativeGK5GChangeAtom e Rb) φc) ≪≫
@@ -104,7 +103,7 @@ private theorem nativeGK5OWhiskerRight_of_square
                (fun t => (Functor.isoWhiskerRight φa Tc ≪≫
                   Functor.isoWhiskerLeft (nativeGK5GChangeAtom e Ra) φc) ≪≫ t)
                hcomp
-    _ = _ := by simp only [Iso.trans_assoc]
+    _ = _ := by simpa only [Iso.trans_assoc]
 
 /-- A genuine child basic NatIso square remains coherent upon
 left-whiskering by any real finite typed subtree. Uses the opposite
@@ -136,7 +135,6 @@ private theorem nativeGK5OWhiskerLeft_of_square
   dsimp only [NativeGK5OStepSquare, nativeGK5GChangeStep,
     nativeGK5DStepIso, nativeGK5GChangeTreeIso,
     nativeGK5GChangeTree, nativeGK5DTreeComposite]
-  trace_state
   calc
     _ = ((Functor.isoWhiskerRight φa
             (nativeGK5DTreeComposite (nativeGK5GChangeTree e b)) ≪≫
@@ -175,7 +173,7 @@ private theorem nativeGK5OWhiskerLeft_of_square
                    (nativeGK5DTreeComposite (nativeGK5GChangeTree e b)) ≪≫
                  Functor.isoWhiskerLeft (nativeGK5GChangeAtom e Ra) φb) ≪≫ t)
               hcomp
-    _ = _ := by simp only [Iso.trans_assoc]
+    _ = _ := by simpa only [Iso.trans_assoc]
 
 /-- Every *actual* GK5D associator/unitor/contextual whiskering
 generator is unconditionally coherent as a whole Mathlib NatIso.
