@@ -24,6 +24,7 @@ Copyright (c) 2026 Hidetoshi Itakura / 板倉英俊. Apache-2.0.
 -/
 
 namespace KUOS.Architecture.WuxingPentagonUnified
+open KUOS.Architecture.WuxingCyclicPaths
 open Kuu.F112.Physical
 open CategoryTheory
 set_option autoImplicit false
@@ -112,7 +113,7 @@ theorem fivefoldPhasePhysicalPhi0_comp_whole
         (nativeGK5XBracket0
           (fun p : FivefoldIndex => e₁ (fivefoldSlotEquiv frame v p)) (fun p : FivefoldIndex => e₂ (fivefoldSlotEquiv frame v p))
           (fun p : FivefoldIndex => e₃ (fivefoldSlotEquiv frame v p)) (fun p : FivefoldIndex => e₄ (fivefoldSlotEquiv frame v p))) t)) ≪≫
-      eqToIso (nativeGK5AASingleTargetEq fivefoldSlotEquiv frame v
+      eqToIso (nativeGK5AASingleTargetEq (fivefoldSlotEquiv frame v)
         (nativeGK5XBracket0 e₁ e₂ e₃ e₄)
         (nativeGK5FTreeReindex fivefoldPhaseReindexOne
           (fun p : FivefoldIndex => C (fivefoldSlotEquiv frame v p)) t))) ≪≫
@@ -121,7 +122,7 @@ theorem fivefoldPhasePhysicalPhi0_comp_whole
           (nativeGK5XBracket0 e₁ e₂ e₃ e₄)
           (nativeGK5DTreeComposite s))
         (nativeGK5FTreeReindex_comp
-          fivefoldPhaseReindexOne fivefoldSlotEquiv frame v C t)) =
+          fivefoldPhaseReindexOne (fivefoldSlotEquiv frame v) C t)) =
     nativeGK5ZTransportedPhi0
       (fun p : FivefoldIndex =>
         fivefoldSlotEquiv frame v (fivefoldPhaseReindexOne p))
@@ -146,7 +147,7 @@ theorem fivefoldPhasePhysicalPhi1_comp_whole
         (nativeGK5XBracket1
           (fun p : FivefoldIndex => e₁ (fivefoldSlotEquiv frame v p)) (fun p : FivefoldIndex => e₂ (fivefoldSlotEquiv frame v p))
           (fun p : FivefoldIndex => e₃ (fivefoldSlotEquiv frame v p)) (fun p : FivefoldIndex => e₄ (fivefoldSlotEquiv frame v p))) t)) ≪≫
-      eqToIso (nativeGK5AASingleTargetEq fivefoldSlotEquiv frame v
+      eqToIso (nativeGK5AASingleTargetEq (fivefoldSlotEquiv frame v)
         (nativeGK5XBracket1 e₁ e₂ e₃ e₄)
         (nativeGK5FTreeReindex fivefoldPhaseReindexOne
           (fun p : FivefoldIndex => C (fivefoldSlotEquiv frame v p)) t))) ≪≫
@@ -155,7 +156,7 @@ theorem fivefoldPhasePhysicalPhi1_comp_whole
           (nativeGK5XBracket1 e₁ e₂ e₃ e₄)
           (nativeGK5DTreeComposite s))
         (nativeGK5FTreeReindex_comp
-          fivefoldPhaseReindexOne fivefoldSlotEquiv frame v C t)) =
+          fivefoldPhaseReindexOne (fivefoldSlotEquiv frame v) C t)) =
     nativeGK5ZTransportedPhi1
       (fun p : FivefoldIndex =>
         fivefoldSlotEquiv frame v (fivefoldPhaseReindexOne p))
@@ -180,7 +181,7 @@ theorem fivefoldPhasePhysicalPhi2_comp_whole
         (nativeGK5XBracket2
           (fun p : FivefoldIndex => e₁ (fivefoldSlotEquiv frame v p)) (fun p : FivefoldIndex => e₂ (fivefoldSlotEquiv frame v p))
           (fun p : FivefoldIndex => e₃ (fivefoldSlotEquiv frame v p)) (fun p : FivefoldIndex => e₄ (fivefoldSlotEquiv frame v p))) t)) ≪≫
-      eqToIso (nativeGK5AASingleTargetEq fivefoldSlotEquiv frame v
+      eqToIso (nativeGK5AASingleTargetEq (fivefoldSlotEquiv frame v)
         (nativeGK5XBracket2 e₁ e₂ e₃ e₄)
         (nativeGK5FTreeReindex fivefoldPhaseReindexOne
           (fun p : FivefoldIndex => C (fivefoldSlotEquiv frame v p)) t))) ≪≫
@@ -189,7 +190,7 @@ theorem fivefoldPhasePhysicalPhi2_comp_whole
           (nativeGK5XBracket2 e₁ e₂ e₃ e₄)
           (nativeGK5DTreeComposite s))
         (nativeGK5FTreeReindex_comp
-          fivefoldPhaseReindexOne fivefoldSlotEquiv frame v C t)) =
+          fivefoldPhaseReindexOne (fivefoldSlotEquiv frame v) C t)) =
     nativeGK5ZTransportedPhi2
       (fun p : FivefoldIndex =>
         fivefoldSlotEquiv frame v (fivefoldPhaseReindexOne p))
@@ -214,7 +215,7 @@ theorem fivefoldPhasePhysicalPhi3_comp_whole
         (nativeGK5XBracket3
           (fun p : FivefoldIndex => e₁ (fivefoldSlotEquiv frame v p)) (fun p : FivefoldIndex => e₂ (fivefoldSlotEquiv frame v p))
           (fun p : FivefoldIndex => e₃ (fivefoldSlotEquiv frame v p)) (fun p : FivefoldIndex => e₄ (fivefoldSlotEquiv frame v p))) t)) ≪≫
-      eqToIso (nativeGK5AASingleTargetEq fivefoldSlotEquiv frame v
+      eqToIso (nativeGK5AASingleTargetEq (fivefoldSlotEquiv frame v)
         (nativeGK5XBracket3 e₁ e₂ e₃ e₄)
         (nativeGK5FTreeReindex fivefoldPhaseReindexOne
           (fun p : FivefoldIndex => C (fivefoldSlotEquiv frame v p)) t))) ≪≫
@@ -223,7 +224,7 @@ theorem fivefoldPhasePhysicalPhi3_comp_whole
           (nativeGK5XBracket3 e₁ e₂ e₃ e₄)
           (nativeGK5DTreeComposite s))
         (nativeGK5FTreeReindex_comp
-          fivefoldPhaseReindexOne fivefoldSlotEquiv frame v C t)) =
+          fivefoldPhaseReindexOne (fivefoldSlotEquiv frame v) C t)) =
     nativeGK5ZTransportedPhi3
       (fun p : FivefoldIndex =>
         fivefoldSlotEquiv frame v (fivefoldPhaseReindexOne p))
@@ -248,7 +249,7 @@ theorem fivefoldPhasePhysicalPhi4_comp_whole
         (nativeGK5XBracket4
           (fun p : FivefoldIndex => e₁ (fivefoldSlotEquiv frame v p)) (fun p : FivefoldIndex => e₂ (fivefoldSlotEquiv frame v p))
           (fun p : FivefoldIndex => e₃ (fivefoldSlotEquiv frame v p)) (fun p : FivefoldIndex => e₄ (fivefoldSlotEquiv frame v p))) t)) ≪≫
-      eqToIso (nativeGK5AASingleTargetEq fivefoldSlotEquiv frame v
+      eqToIso (nativeGK5AASingleTargetEq (fivefoldSlotEquiv frame v)
         (nativeGK5XBracket4 e₁ e₂ e₃ e₄)
         (nativeGK5FTreeReindex fivefoldPhaseReindexOne
           (fun p : FivefoldIndex => C (fivefoldSlotEquiv frame v p)) t))) ≪≫
@@ -257,7 +258,7 @@ theorem fivefoldPhasePhysicalPhi4_comp_whole
           (nativeGK5XBracket4 e₁ e₂ e₃ e₄)
           (nativeGK5DTreeComposite s))
         (nativeGK5FTreeReindex_comp
-          fivefoldPhaseReindexOne fivefoldSlotEquiv frame v C t)) =
+          fivefoldPhaseReindexOne (fivefoldSlotEquiv frame v) C t)) =
     nativeGK5ZTransportedPhi4
       (fun p : FivefoldIndex =>
         fivefoldSlotEquiv frame v (fivefoldPhaseReindexOne p))
@@ -281,7 +282,7 @@ theorem fivefoldPhasePhysicalAllFivePhi_comp_whole
         (nativeGK5XBracket0
           (fun p : FivefoldIndex => e₁ (fivefoldSlotEquiv frame v p)) (fun p : FivefoldIndex => e₂ (fivefoldSlotEquiv frame v p))
           (fun p : FivefoldIndex => e₃ (fivefoldSlotEquiv frame v p)) (fun p : FivefoldIndex => e₄ (fivefoldSlotEquiv frame v p))) t)) ≪≫
-      eqToIso (nativeGK5AASingleTargetEq fivefoldSlotEquiv frame v
+      eqToIso (nativeGK5AASingleTargetEq (fivefoldSlotEquiv frame v)
         (nativeGK5XBracket0 e₁ e₂ e₃ e₄)
         (nativeGK5FTreeReindex fivefoldPhaseReindexOne
           (fun p : FivefoldIndex => C (fivefoldSlotEquiv frame v p)) t))) ≪≫
@@ -290,7 +291,7 @@ theorem fivefoldPhasePhysicalAllFivePhi_comp_whole
           (nativeGK5XBracket0 e₁ e₂ e₃ e₄)
           (nativeGK5DTreeComposite s))
         (nativeGK5FTreeReindex_comp
-          fivefoldPhaseReindexOne fivefoldSlotEquiv frame v C t)) =
+          fivefoldPhaseReindexOne (fivefoldSlotEquiv frame v) C t)) =
     nativeGK5ZTransportedPhi0
       (fun p : FivefoldIndex =>
         fivefoldSlotEquiv frame v (fivefoldPhaseReindexOne p))
@@ -302,7 +303,7 @@ theorem fivefoldPhasePhysicalAllFivePhi_comp_whole
         (nativeGK5XBracket1
           (fun p : FivefoldIndex => e₁ (fivefoldSlotEquiv frame v p)) (fun p : FivefoldIndex => e₂ (fivefoldSlotEquiv frame v p))
           (fun p : FivefoldIndex => e₃ (fivefoldSlotEquiv frame v p)) (fun p : FivefoldIndex => e₄ (fivefoldSlotEquiv frame v p))) t)) ≪≫
-      eqToIso (nativeGK5AASingleTargetEq fivefoldSlotEquiv frame v
+      eqToIso (nativeGK5AASingleTargetEq (fivefoldSlotEquiv frame v)
         (nativeGK5XBracket1 e₁ e₂ e₃ e₄)
         (nativeGK5FTreeReindex fivefoldPhaseReindexOne
           (fun p : FivefoldIndex => C (fivefoldSlotEquiv frame v p)) t))) ≪≫
@@ -311,7 +312,7 @@ theorem fivefoldPhasePhysicalAllFivePhi_comp_whole
           (nativeGK5XBracket1 e₁ e₂ e₃ e₄)
           (nativeGK5DTreeComposite s))
         (nativeGK5FTreeReindex_comp
-          fivefoldPhaseReindexOne fivefoldSlotEquiv frame v C t)) =
+          fivefoldPhaseReindexOne (fivefoldSlotEquiv frame v) C t)) =
     nativeGK5ZTransportedPhi1
       (fun p : FivefoldIndex =>
         fivefoldSlotEquiv frame v (fivefoldPhaseReindexOne p))
@@ -323,7 +324,7 @@ theorem fivefoldPhasePhysicalAllFivePhi_comp_whole
         (nativeGK5XBracket2
           (fun p : FivefoldIndex => e₁ (fivefoldSlotEquiv frame v p)) (fun p : FivefoldIndex => e₂ (fivefoldSlotEquiv frame v p))
           (fun p : FivefoldIndex => e₃ (fivefoldSlotEquiv frame v p)) (fun p : FivefoldIndex => e₄ (fivefoldSlotEquiv frame v p))) t)) ≪≫
-      eqToIso (nativeGK5AASingleTargetEq fivefoldSlotEquiv frame v
+      eqToIso (nativeGK5AASingleTargetEq (fivefoldSlotEquiv frame v)
         (nativeGK5XBracket2 e₁ e₂ e₃ e₄)
         (nativeGK5FTreeReindex fivefoldPhaseReindexOne
           (fun p : FivefoldIndex => C (fivefoldSlotEquiv frame v p)) t))) ≪≫
@@ -332,7 +333,7 @@ theorem fivefoldPhasePhysicalAllFivePhi_comp_whole
           (nativeGK5XBracket2 e₁ e₂ e₃ e₄)
           (nativeGK5DTreeComposite s))
         (nativeGK5FTreeReindex_comp
-          fivefoldPhaseReindexOne fivefoldSlotEquiv frame v C t)) =
+          fivefoldPhaseReindexOne (fivefoldSlotEquiv frame v) C t)) =
     nativeGK5ZTransportedPhi2
       (fun p : FivefoldIndex =>
         fivefoldSlotEquiv frame v (fivefoldPhaseReindexOne p))
@@ -344,7 +345,7 @@ theorem fivefoldPhasePhysicalAllFivePhi_comp_whole
         (nativeGK5XBracket3
           (fun p : FivefoldIndex => e₁ (fivefoldSlotEquiv frame v p)) (fun p : FivefoldIndex => e₂ (fivefoldSlotEquiv frame v p))
           (fun p : FivefoldIndex => e₃ (fivefoldSlotEquiv frame v p)) (fun p : FivefoldIndex => e₄ (fivefoldSlotEquiv frame v p))) t)) ≪≫
-      eqToIso (nativeGK5AASingleTargetEq fivefoldSlotEquiv frame v
+      eqToIso (nativeGK5AASingleTargetEq (fivefoldSlotEquiv frame v)
         (nativeGK5XBracket3 e₁ e₂ e₃ e₄)
         (nativeGK5FTreeReindex fivefoldPhaseReindexOne
           (fun p : FivefoldIndex => C (fivefoldSlotEquiv frame v p)) t))) ≪≫
@@ -353,7 +354,7 @@ theorem fivefoldPhasePhysicalAllFivePhi_comp_whole
           (nativeGK5XBracket3 e₁ e₂ e₃ e₄)
           (nativeGK5DTreeComposite s))
         (nativeGK5FTreeReindex_comp
-          fivefoldPhaseReindexOne fivefoldSlotEquiv frame v C t)) =
+          fivefoldPhaseReindexOne (fivefoldSlotEquiv frame v) C t)) =
     nativeGK5ZTransportedPhi3
       (fun p : FivefoldIndex =>
         fivefoldSlotEquiv frame v (fivefoldPhaseReindexOne p))
@@ -365,7 +366,7 @@ theorem fivefoldPhasePhysicalAllFivePhi_comp_whole
         (nativeGK5XBracket4
           (fun p : FivefoldIndex => e₁ (fivefoldSlotEquiv frame v p)) (fun p : FivefoldIndex => e₂ (fivefoldSlotEquiv frame v p))
           (fun p : FivefoldIndex => e₃ (fivefoldSlotEquiv frame v p)) (fun p : FivefoldIndex => e₄ (fivefoldSlotEquiv frame v p))) t)) ≪≫
-      eqToIso (nativeGK5AASingleTargetEq fivefoldSlotEquiv frame v
+      eqToIso (nativeGK5AASingleTargetEq (fivefoldSlotEquiv frame v)
         (nativeGK5XBracket4 e₁ e₂ e₃ e₄)
         (nativeGK5FTreeReindex fivefoldPhaseReindexOne
           (fun p : FivefoldIndex => C (fivefoldSlotEquiv frame v p)) t))) ≪≫
@@ -374,7 +375,7 @@ theorem fivefoldPhasePhysicalAllFivePhi_comp_whole
           (nativeGK5XBracket4 e₁ e₂ e₃ e₄)
           (nativeGK5DTreeComposite s))
         (nativeGK5FTreeReindex_comp
-          fivefoldPhaseReindexOne fivefoldSlotEquiv frame v C t)) =
+          fivefoldPhaseReindexOne (fivefoldSlotEquiv frame v) C t)) =
     nativeGK5ZTransportedPhi4
       (fun p : FivefoldIndex =>
         fivefoldSlotEquiv frame v (fivefoldPhaseReindexOne p))
