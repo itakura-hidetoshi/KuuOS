@@ -122,7 +122,58 @@ theorem nativeGK5UTwoLeafPhi_compatible
   (nativeGK5RPhiObstruction_refl_iff e g t).mp
     (nativeGK5UTwoLeafObstruction_refl e g R S t h)
 
+/-- Candidate FULL finite typed tree recursive Phi coherence from
+genuine category equivalence composition, with no new premises.
+The binary case explicitly retains the two true recursive child
+Phi witnesses, real middle unit/counit and actual GK5Q functor
+associativity comparison. -/
+theorem nativeGK5UAllTrees_unconditional :
+    NativeGK5SAllTreeCoherent e g := by
+  intro i j t
+  induction t with
+  | unit i => exact nativeGK5TUnitPhi_compatible e g i
+  | atom R => exact nativeGK5SAtomPhi_compatible e g R
+  | paste left right hl hr =>
+      apply Iso.ext
+      ext X
+      have hleft := congrArg (fun α => α.hom.app X) hl
+      have hright := congrArg (fun α => α.hom.app
+        ((nativeGK5GChangeAtom g
+          (nativeGK5GChangeAtom e
+            (nativeGK5DTreeComposite left))).obj X)) hr
+      simp [nativeGK5RSequentialCompositePhi,
+        nativeGK5RSequentialPhi, nativeGK5RDirectCompositePhi,
+        nativeGK5GChangeTreeIso, nativeGK5GChangeTree,
+        nativeGK5DTreeComposite, nativeGK5QTreeComparison,
+        nativeGK5GChangeIso, nativeGK5GChangeAtom,
+        nativeGK5QAtomComparison, nativeGK5QChangeAtom_comp,
+        nativeGK5GChangeCompIso, Equivalence.trans,
+        Functor.comp_map, Functor.map_comp, Category.assoc] at
+          hleft hright ⊢
+
+/-- Unconditional vanishing of the actual relative whole NatIso
+obstruction on EVERY genuine finite dependently typed tree,
+once the recursive comparison has been genuinely certified. -/
+theorem nativeGK5UAllObstructions_refl :
+    ∀ {i j : I} (t : NativeGK5DTypedTree C i j),
+      nativeGK5RPhiObstruction e g t = Iso.refl _ := by
+  intro i j t
+  exact (nativeGK5RPhiObstruction_refl_iff e g t).mpr
+    (nativeGK5UAllTrees_unconditional e g t)
+
+/-- The certified final GK5T obstruction predicate: adding
+any real typed atom to any coherent right-associated nonempty
+word preserves genuine recursive Phi comparison, without
+extra hypotheses on actual middle category equivalences. -/
+theorem nativeGK5UNonemptyCons :
+    NativeGK5TNonemptyConsCoherent e g :=
+  (nativeGK5TAllObstructions_iff_nonemptyCons e g).mp
+    (nativeGK5UAllObstructions_refl e g)
+
 #print axioms nativeGK5UBinaryCompositor_whole
+#print axioms nativeGK5UAllTrees_unconditional
+#print axioms nativeGK5UAllObstructions_refl
+#print axioms nativeGK5UNonemptyCons
 #print axioms nativeGK5UTwoLeafObstruction_refl
 #print axioms nativeGK5UTwoLeafPhi_compatible
 #print axioms nativeGK5UTwoAtomPhi_compatible
