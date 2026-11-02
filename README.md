@@ -14,6 +14,16 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK5AL＋Qi v4.5／P87・P89構造移送のP80三単位への完全還元／2026-11-03 JST
+
+**[独立Kuu GK5AL定理PR #2982](https://github.com/itakura-hidetoshi/KuuOS/pull/2982) MERGED。** GK5AKで未充足だったP87→選択P93の構造的4-cell移送条件を、真正元P77→P80→P85→P86→P87の**全構成子・全型付き証拠**から分解した。旧P77の8構成子はGK5AJで無条件に移送可能、各層の閉包規則も対応するP93の実4-cell構成子で保存可能。残る基底は元P80で**追加された3単位** `horizontalUnit`・`leftContextUnit`・`rightContextUnit` だけと証明。厳密な必要十分条件 `nativeGK5ALP87Structural_nonempty_iff_primitive` および `nativeGK5ALP89Structural_nonempty_iff_primitive` により、**P89全13構成子の構造的移送族が存在 ⇔ P87移送族が存在 ⇔ 元P80の三単位に真正P93型付き移送族が存在**を公理非依存で証明。任意の一単位で移送不能な証拠があれば全P87/P89移送が不可能という厳密な条件付きobstructionも追加。**この段階で三単位の移送可能性を無条件に主張しない。** [GK5AL Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5ALPrimitiveUnitObstruction.lean)。
+
+**[Qi v4.5真正北C60統合PR #2983](https://github.com/itakura-hidetoshi/KuuOS/pull/2983) MERGED。** 真正北C60隣接F45二ステージの原始二Nat F54単位経路上で、三つの旧P80実4-cell生成元を各々構築し、**元P87の真正4-cell証拠は存在**すると証明。その構造的`φ`像の選択P93比較には、上記三単位の明示互換性が別途必要である。実`Site`二圏・第五物理`Dart×Dart`のP89/P93四セル商比較写像・単射性⇔比較反映・全整数pentagon/square/奇数ZMod2位相保存を、三単位境界条件の下で構成した。物理04/43逆向き・`.original f`と構造的`φ f`の区別を維持。[Qi全文](formal/KUOS/Architecture/QiWuxingGK5ALNorthPrimitiveObstructionV4_5.lean)。
+
+**exact-source CI・正式記録：** GK5AL [#41521504514](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41521504514) **9228/9228**、新10/10公理監査は**追加公理ゼロ**・Governance 30/30 SUCCESS。Qi v4.5 [#41522484049](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41522484049) **10155/10155**、新9/9公理監査は `propext/Classical.choice/Quot.sound` のみ、Governance SUCCESS。source/test-merge Git tree完全一致、squashはGK5AL `b253d1541b8bf0f57f3fbaebcf331791e57bbb59`・Qi `c454fbb05dde2bd48a2c53a33f0420dc118ed34e`。固定Lean v4.30.0-rc2／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、root107、保護#1558 Draft/OPEN未マージ。[正式証明記録](docs/formal/GK5AL-Qi-v4_5-primitive-P80-unit-structural-boundary.md)。
+
+**次GK5AM：** 元P80左右文脈単位の構造的P93移送が本当に可能か、P92Bの文脈parityなどType-valued 4-cell不変量を使って厳密に判定する。現在のGK5ALは条件付き必要十分定理であり、後続の未検証証明を先取りしない。以下GK5AK／Qi v4.4以前の履歴をすべて保持。
+
 ## 最新のLean定理統合 — F112-P94D3GK5AK＋Qi v4.4／元P89水平interchangeのP93型付き移送と旧P87境界・C60物理比較／2026-11-03 JST
 
 **[独立Kuu GK5AK定理PR #2979](https://github.com/itakura-hidetoshi/KuuOS/pull/2979) MERGED。** GK5AI元F55 **全9構成子**のType-valued P92B構造的翻訳とGK5AJ元P77縦4-cell（8構成子）移送を継承。今回、元P89水平interchange 4-cellを、選択P93Cの**真正Type-valued interchange証拠**へ無条件に構成する`nativeGK5AKInterchangeStructural`を追加。一方、元P89の全13構成子から選択P93Cの*構造的*3セル像を結ぶ4-cellを移送するには、旧P87の元4-cell証拠を`.original`像ではなく構造的`φ`像へ運ぶ型付き条件が残る。`nativeGK5AKP89Structural_nonempty_iff_P87`により、**P89全体のType-valued移送族が存在する ⇔ 実旧P87移送族が存在する**ことを、全13構成子の帰納構成と制限で証明。旧P87条件が無条件に成立すると主張しない。明示条件付きで真正P89/P93の四セル存在商の写像を構成し、`nativeGK5AKFourClassInjective_iff_reflect`で単射性と任意の実選択P93四セルの元P89への反映が同値と証明。元F55符号付きpentagon/square整数電荷・奇数ZMod2位相も保存。[Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5AKInterchangeFourCellBoundary.lean)。
