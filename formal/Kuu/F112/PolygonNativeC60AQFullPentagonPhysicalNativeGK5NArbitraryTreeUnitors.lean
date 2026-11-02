@@ -58,7 +58,8 @@ theorem nativeGK5NLeft_unitLaw
       (e j).functor.map (R.map (𝟙 ((e i).inverse.obj X))) =
         𝟙 ((e j).functor.obj (R.obj ((e i).inverse.obj X))) := by
     simp
-  exact hMap.trans hMapId
+  simpa only [Equivalence.counitInv, Equivalence.unitInv,
+    Functor.map_comp] using hMap.trans hMapId
 
 /-- True right-unit pseudofunctor law for ANY whole Mathlib functor R.
 Here the second triangle cancels a counit inverse with a mapped
