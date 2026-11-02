@@ -3,6 +3,17 @@
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK5P / 2026-11-02 JST
+
+**GK5F型付きindex reclassificationとGK5G真正点別圏同値changeの交換則を依存型word/treeの厳密等式として証明し、GK5Oの無条件whole Mathlib NatIso/NatTrans有限経路自然性をrelabel・pullback・逐次変換・実Mathlib合成圏同値に適用 — [PR #2927](https://github.com/itakura-hidetoshi/KuuOS/pull/2927) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5PIndexChangeNaturality.lean)・[証明記録](docs/formal/GK5P-typed-index-change-exchange-composite-path-naturality.md)。
+
+**公開11定理：** `nativeGK5PChangeWord_reindex`、`nativeGK5PChangeTree_reindex`、`nativeGK5PChangeTreeLeaves_reindex` は、非単射も含む任意index写像の下で順序・中間型を保持する厳密交換則。残る8定理はGK5O全有限経路定理を真正GK5F relabel済み経路、pullback圏族、逐次点別圏同値、`Equivalence.trans`で合成した真の圏同値へ適用するwhole NatIso／NatTrans自然性（各2定理）。**二段の再帰`Φ`と単一合成`Φ`の直接比較は未証明**であり、圏同値のstrictificationや高次セルの新設は行わない。
+
+**Lean4診断・確定CI：** 初回`rw [ih]`後の型付き`ChangeAtom`頭部不一致は、実定義の`simp only [nativeGK5GChangeAtom]`で解消。NatTrans式では外側`C:J→Cat`と`C∘f:I→Cat`の推論衝突があり、`nativeGK5GChangeIso`だけでなく内側`nativeGK5DPathIso`にもpullback圏族を明記。全文・imports・依存シグネチャ・固定Mathlibを確認。source `dfddaaf30139c60911f29115708eb83cabc308a4`／squash `ac063e7bef086288eb7728c761b3f9573bd2ad43`／同一tree `57ca56906655dd26014ea62ef9ffa514ea4cf023`。[CI #41380573456](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41380573456) **3837/3837 Strict Lean／Independent Kuu／Workflow integrity／Governance terminal SUCCESS**、公理監査11/11標準三公理のみ、sorryAx0、新公理0、エラー／警告0。固定Lean/mathlib、root107、append-only、strict空中心・独立Kuu一presentation、保護PR #1558 Draft/OPEN継続。
+
+**次GK5Qの正確なobstruction：** 合成した圏同値と逐次共役の*実際の非strict比較NatIso*を構成し、そのcompositor、unit/counit、whole finite typed pathとの整合性を新たに証明する。元F45無条件faithfulness・source-Q圏公理・raw F54/F55/P92B高次セル・Gray・unbounded hyperdescentは対象外。以下のGK5O以前の全履歴を削除せず保持。
+
+
 ## 最新のLean定理統合 — F112-P94D3GK5O / 2026-11-02 JST
 
 **GK5Hの局所障害が全5基本generatorで無条件に解消。任意の有限型付き書換え経路のwhole Mathlib NatIso/NatTrans自然性を形式証明 — [PR #2925](https://github.com/itakura-hidetoshi/KuuOS/pull/2925) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5OWhiskeringFullPathCoherence.lean)・[正式証明記録](docs/formal/GK5O-unconditional-whiskering-finite-path-coherence.md)。
