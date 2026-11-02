@@ -72,4 +72,28 @@ An actual `NativeF55P94UnitFourCell.horizontalUnit u v` has count exactly one. `
 
 The GK5AN unconditional full original P89→P94A structural map remains proven: all original P80/P85/P86/P87/P89 genuine four-cell evidence lifts through GK5AI's constructor-recursive `φ` into P94A. The new GK5AO nonredundancy result does not prove the quotient map globally injective; comparison reflection back to actual P89 witnesses remains a precise **iff** and an explicit potential obstruction. No `.original f = φ f` is invented, no P92B associator-naturality is backported into old original F55, and no physical C60 Edge is equated to a Mathlib whole NatIso.
 
-**Next research:** instantiate the minimum horizontal primitive count on the genuine first/second north C60 F45 stages, retain the real fifth-around Dart pair and reverse 04/43 orientations, then test whether any further P89→P94A quotient-reflection obstruction survives. Qi v4.8 is independently audited before it can be described as completed.
+**Next research:** investigate independence of the P94A left/right context-unit generators (even with the horizontalUnit and opposite context-unit available), then test whether any further P89→P94A quotient-reflection obstruction survives. No global reflection is claimed.
+
+
+## 5. Qi v4.8 — genuine north C60 horizontal-unit minimum (merged)
+
+| Evidence | Verified |
+| --- | --- |
+| Qi integration PR | [#2993](https://github.com/itakura-hidetoshi/KuuOS/pull/2993) **MERGED** |
+| Final exact-source HEAD | `2cb6602d763cf534d77e945148c7f261739c5a4a` |
+| Qi squash SHA | `b06589f8d8e08eb0e16cf3fffb37012a41d50bd1` |
+| Identical source/test-merge tree | `3debd91b5d3d6d94fd8981e040809aa46b7bef1b` |
+| Exact-source CI | [#41535996482](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41535996482) **terminal SUCCESS** |
+| Strict Lean / KuuOSFormal | **10161 / 10161 SUCCESS** |
+| Six new `#print axioms` | **6 / 6**, only `propext`, `Classical.choice`, `Quot.sound` |
+| PR Governance | **30 / 30 terminal SUCCESS** |
+| Changed Lean diagnostics | errors/warnings/sorryAx **0/0/0** |
+| Files | New Qi module, one additive KuuOSFormal import |
+
+Qi v4.8 [typed Lean source](../../formal/KUOS/Architecture/QiWuxingGK5AONorthHorizontalUnitMinimalityV4_8.lean) applies the independent GK5AO theorem to the ACTUAL first and second adjacent north C60 F45 stages. Their source F54 unit routes retain both independent Nat depth coordinates and two native Site categories.
+
+`fivefoldGK5AONorthP93Horizontal_noFourCell` proves there is no selected P93 Type-valued 4-cell normalizing the horizontal composite of the two selected P92B identity 3-proofs. `fivefoldGK5AONorthP94HorizontalCertificate` supplies the honest new P94A four-cell with exactly **one** `horizontalUnit` constructor; `fivefoldGK5AONorthP94AllCertificates_needHorizontal` proves every genuine four-cell of the same type requires at least one. `fivefoldGK5AONorthHorizontal_minimality` combines the absence, existence, and exact minimum.
+
+`fivefoldGK5AONorthPhysicalHorizontalMinimality` retains the actual physical north fifth-around Dart closure, the formerly proven unconditional north P89→P94A full structural four-cell lift, and both physically reversed categorical 04/43 edges while asserting this primitive count. None of these physical witnesses independently creates a missing P93 four-cell.
+
+**Scope:** All 19 constructors and proof histories of the *existing* P94A presentation were included. The theorem establishes primitive minimality relative to this source proof syntax, not absolute minimality across all possible higher-cell models. Full P89→P94A quotient faithfulness remains governed by the previously proved exact comparison-reflection iff.
