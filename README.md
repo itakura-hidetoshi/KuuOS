@@ -14,6 +14,16 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK5AI＋Qi v4.2／元F55高次セル証拠の構造的翻訳と真正C60物理・whole NatIso非忠実性／2026-11-02 JST
+
+**独立Kuu [GK5AI定理PR #2973](https://github.com/itakura-hidetoshi/KuuOS/pull/2973) MERGED。** 真正北C60の依存型F54 3/2段経路を維持し、元F55 **9構成子**のType値3セルを**構造的再帰**で選択P92B Type値比較へ写す `nativeGK5AIOriginalToP92Structural` を新たに構成。ident→refl、pentagon/square→original、symm/trans・左右context・前後composeを構造保存する。真正F55 pentagonセル `c` と `trans c (ident short)` は**同じF54始終点でも異なる3証拠**で、P92B構造的Type値像も異なる。一方、P92B存在商類・whole Mathlib NatIso等式に落とすと両者は区別不能。`NativeGK5AIOriginalWholeCellPacket` はF55原始証拠・P92B構造的証拠・GK5AFの実whole NatIso等式を別型で保持し、原始証拠を含むpacketは単射だがEq-only写像は非単射である。P92B追加`assocNaturality`の実北C60単位例には元F55 9構成子からの**前像なし**をP92Aにより証明。全高次4セル整合性や一般F54→NatIso functorは未証明。[GK5AI Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5AIStructuralF55WholeCellBridge.lean)。
+
+**[Qi v4.2統合PR #2974](https://github.com/itakura-hidetoshi/KuuOS/pull/2974) MERGED。** 既存`FivefoldIndex=ZMod5`、真正北C60第五`around Edge/Dart`端点とカテゴリー04/43の物理逆向きを維持。両方の**全F54始終点履歴**・P92B商と商類一致証明・真正GK5AF whole NatIso値と等式証明を併せた観測でも、二つの異なる原始**F55高次セル証拠**は復元できない。一方、P92Bの構造的Type-valued比較証拠はこの2例を区別し、元F55証拠をタグとして保持する物理/whole packetは単射。[Qi v4.2 Lean全文](formal/KUOS/Architecture/QiWuxingGK5AIPhysicalThreeCellHistoryV4_2.lean)。Edge=NatIso等式や無条件higher fillerは主張しない。
+
+**確定exact-source Lean4・公理監査：** GK5AI [CI #41459203872](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41459203872) **9222/9222、12/12新公理監査SUCCESS**、Qi v4.2 [CI #41460152297](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41460152297) **10149/10149、7/7新公理監査SUCCESS**。計19の新`#print axioms`は全て`{propext, Classical.choice, Quot.sound}`以内で、新構造写像自体は公理依存なし。Lean error/warning/sorryAx新規0、Governance／Independent Kuu SUCCESS。GK5AI source/squash共通tree `61477b023c4431439e2a6560fb8d795095ec6530`、Qi v4.2 `6de09c82a164f2cf8c1ce0b5a9cb32e9ae48833c`。固定Lean v4.30.0-rc2／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、公開root107、保護#1558 Draft/OPEN未マージ。既存Qi全体の`native_decide`公理消滅は主張しない。[正式証明記録](docs/formal/GK5AI-Qi-v4_2-structural-original-F55-three-cell-history.md)。
+
+**次GK5AJ：** 元F55証拠の構造的P92B翻訳に対し、higher 4-cell/whiskering/同型・relation-level compatibilityを検証。元の厳密型付き証拠・物理逆向き・独立Kuu／strict空権限境界を保持し、無条件higher filler／global descent／Gray復元を導入しない。以下GK5AH／Qi v4.1以前の全研究履歴を保持。
+
 ## 最新のLean定理統合 — F112-P94D3GK5AH＋Qi v4.1／原始履歴を潰さない型付き比較ファイバーと真正C60の向き／2026-11-02 JST
 
 **独立Kuu [GK5AH定理PR #2970](https://github.com/itakura-hidetoshi/KuuOS/pull/2970) MERGED。** 真正北C60の独立再構成F54-shaped二Nat・二圏の原始Type値経路を全て保持する`NativeGK5AHNorthHistoryFiber`と同値`nativeGK5AHNorthHistoryEquiv`を構成。元F55 **9構成子**の実3セルを`NativeGK5AHOriginalComparison`で選択P92B `.original`へ型付き埋込みし、原始long/shortが**非同一なのに高次比較を持ち同じP92B商類になる**ことを証明。全原始履歴のP92B商からの復元不能・任意観測の正確なdescent iff・元F55やP92B比較を等式へ送る任意解釈の非単射を定理化。`NativeGK5AHWholeCandidate`は真正GK5AF whole NatIsoへの**明示条件付き候補**であり、一般存在や履歴感知functorを仮定しない。[Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5AHTypedHistoryComparisonInterface.lean)。
