@@ -144,7 +144,8 @@ theorem nativeGK5PPullbackPath_natTrans
     (nativeGK5GChangeTreeIso (fun z : I => e (f z)) a).hom ≫
       (nativeGK5GChangeIso
         (C := fun z : I => C (f z)) (D := fun z : I => D (f z))
-        (fun z : I => e (f z)) (nativeGK5DPathIso q)).hom :=
+        (fun z : I => e (f z))
+        (nativeGK5DPathIso (C := fun z : I => C (f z)) q)).hom :=
   nativeGK5OAllFinitePaths_natTrans (fun z : I => e (f z)) q
 
 end IndexChangeExchange
