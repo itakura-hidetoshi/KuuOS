@@ -156,7 +156,19 @@ private theorem nativeGK5UGenericPaste
             (nativeGK5GChangeIso g
               (nativeGK5GChangeCompIso e R S) ≪≫
               nativeGK5QAtomComparison e g (R ⋙ S))) := by
+          dsimp only [nativeGK5UHorizontalIso]
           rw [← nativeGK5LChangeCompIso_both g α β]
+    _ = nativeGK5UHorizontalIso γ δ ≪≫
+          (nativeGK5UHorizontalIso
+              (nativeGK5GChangeIso g α)
+              (nativeGK5GChangeIso g β) ≪≫
+            ((nativeGK5GChangeCompIso g
+                (nativeGK5GChangeAtom e R)
+                (nativeGK5GChangeAtom e S) ≪≫
+              nativeGK5GChangeIso g
+                (nativeGK5GChangeCompIso e R S)) ≪≫
+              nativeGK5QAtomComparison e g (R ⋙ S))) := by
+          simp only [Iso.trans_assoc]
     _ = nativeGK5UHorizontalIso γ δ ≪≫
           (nativeGK5UHorizontalIso
               (nativeGK5GChangeIso g α)
@@ -166,7 +178,6 @@ private theorem nativeGK5UGenericPaste
               (nativeGK5QAtomComparison e g S) ≪≫
               nativeGK5GChangeCompIso
                 (fun h : I => (e h).trans (g h)) R S)) := by
-          simp only [Iso.trans_assoc]
           rw [nativeGK5UBinaryCompositor_whole e g R S]
     _ = nativeGK5UHorizontalIso
           (γ ≪≫ nativeGK5GChangeIso g α ≪≫
@@ -184,7 +195,7 @@ private theorem nativeGK5UGenericPaste
             (nativeGK5QAtomComparison e g R)
             (δ ≪≫ nativeGK5GChangeIso g β)
             (nativeGK5QAtomComparison e g S)]
-          simp only [Iso.trans_assoc]
+          all_goals simp only [Iso.trans_assoc]
 
 /-- The genuine sequential/composite *recursive* Phi comparison
 at a binary tree with exactly two real typed atomic leaves.
