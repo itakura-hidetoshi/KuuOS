@@ -184,8 +184,7 @@ theorem nativeGK5AQBadPair_exists_iff_not_injective
     {pa pb : KuuNativeBlocks x y}
     (first : KuuNativeF45Tree p n m ma pa mb pb)
     (last : KuuNativeF45Tree p n' m' ma pa mb pb)
-    (r s : KuuNativeF45Tree.DepthRotationRoute p first last}
-    :
+    (r s : KuuNativeF45Tree.DepthRotationRoute p first last) :
     (∃ f g : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p r s,
       nativeGK5AQBadPair first last f g) ↔
       ¬ Function.Injective
