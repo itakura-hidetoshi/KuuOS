@@ -146,6 +146,16 @@ theorem nativeGK5UAllTrees_unconditional :
           (nativeGK5GChangeTree e right)).hom.naturality
             ((nativeGK5GChangeTreeIso g
               (nativeGK5GChangeTree e left)).hom.app X)
+      have hNatUnit :=
+        ((g _).unitIso.inv).naturality
+          ((nativeGK5GChangeTreeIso e left).hom.app
+            ((g _).inverse.obj X))
+      have hNatE :=
+        (nativeGK5GChangeTreeIso e right).hom.naturality
+          ((g _).unitIso.inv.app
+            ((nativeGK5DTreeComposite
+              (nativeGK5GChangeTree e left)).obj
+                ((g _).inverse.obj X)))
       simp [nativeGK5RSequentialCompositePhi,
         nativeGK5RSequentialPhi, nativeGK5RDirectCompositePhi,
         nativeGK5GChangeTreeIso, nativeGK5GChangeTree,
@@ -153,7 +163,7 @@ theorem nativeGK5UAllTrees_unconditional :
         nativeGK5GChangeIso, nativeGK5GChangeAtom,
         nativeGK5QAtomComparison, nativeGK5QChangeAtom_comp,
         nativeGK5GChangeCompIso, Equivalence.trans,
-        Functor.comp_map, Functor.map_comp, Category.assoc] at hleft hright hNatG ⊢
+        Functor.comp_map, Functor.map_comp, Category.assoc] at hleft hright hNatG hNatUnit hNatE ⊢
       all_goals simp_all [Category.assoc]
 
 /-- Unconditional vanishing of the actual relative whole NatIso
