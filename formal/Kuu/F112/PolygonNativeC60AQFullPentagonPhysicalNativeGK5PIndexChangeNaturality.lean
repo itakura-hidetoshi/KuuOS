@@ -53,6 +53,7 @@ theorem nativeGK5PChangeWord_reindex
   | cons R xs ih =>
       simp only [nativeGK5GChangeWord, nativeGK5FWordReindex]
       rw [ih]
+      simp only [nativeGK5GChangeAtom]
 
 /-- The same exact exchange for complete heterogeneous binary trees,
 including every unit, atom, and genuinely typed intermediate category.
@@ -141,8 +142,9 @@ theorem nativeGK5PPullbackPath_natTrans
         (nativeGK5GChangePath (fun z : I => e (f z)) q)).hom ≫
       (nativeGK5GChangeTreeIso (fun z : I => e (f z)) b).hom =
     (nativeGK5GChangeTreeIso (fun z : I => e (f z)) a).hom ≫
-      (nativeGK5GChangeIso (fun z : I => e (f z))
-        (nativeGK5DPathIso q)).hom :=
+      (nativeGK5GChangeIso
+        (C := fun z : I => C (f z)) (D := fun z : I => D (f z))
+        (fun z : I => e (f z)) (nativeGK5DPathIso q)).hom :=
   nativeGK5OAllFinitePaths_natTrans (fun z : I => e (f z)) q
 
 end IndexChangeExchange
