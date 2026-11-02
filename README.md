@@ -14,6 +14,20 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK5AQ＋Qi v4.10／P89→P94A真正比較反射の障害核・北C60物理フレーム非依存性／2026-11-03 JST
+
+**[独立Kuu GK5AQ PR #2998](https://github.com/itakura-hidetoshi/KuuOS/pull/2998) MERGED、[Qi v4.10 PR #2999](https://github.com/itakura-hidetoshi/KuuOS/pull/2999) MERGED。** 元F55真正3-cell `f,g` に対して、選択P94Aで `FourCell(φf,φg)` が存在するが元P89で `FourCell(f,g)` が存在しない、という**実際の型付き非反射ペア**を定義。その存在と**元P89→選択P94A四セル商写像の非単射性は必要十分**である。非反射ペアはP89同値代表の変更に対して安定で、元のpentagon・square・odd ZMod2位相の全三成分shadowは一致する。このshadow一致だけでは非反射ペアは構成できない。
+
+**三原始単位との区別：** GK5AO／GK5APで個別必要性を証明したP94Aの`horizontalUnit`・`leftContextUnit`・`rightContextUnit`については、元P89側に対応する真正P80四セル証拠がすべて存在し、その原始単位自体は非反射ペアにはならない。他方、北C60三段の新規P92B `assocNaturality`は元F55に証拠のない実Typeで、元F55→P92Bの総逆復元は不可能。ただし**それだけでP89→P94A商写像の非単射性を主張しない**。
+
+**Qi v4.10：** 同じ真正北C60元F54 long/short歴史で、物理`Dart×Dart`付き商写像が非単射となることと上記非反射ペアの存在を同値に証明。任意の北C60物理フレーム・第五辺indexで単射性判定は共通であり、物理観測値の付加では元P89の欠けたhigher four-cellを補えない。第五around Dart閉路、反転04・43、GK5ANの真正構造移送、Qi v4.9の三単位最小性は維持。
+
+**CI正本：** GK5AQ [Governance #41544750455](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41544750455) **Strict Lean 9238/9238、30/30 SUCCESS**、squash `b668e879f56f949dae95c86fe6ffd6bb1c3cbf04`。Qi v4.10 [Governance #41545634041](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41545634041) **Strict Lean 10165/10165、30/30 SUCCESS**、squash `127ec02c99b254522c21e8359549a84bb6ceeff8`。新公理なし、sorryAxなし。既存P93／P94A不変更、公開root107・固定Lean/mathlib・保護PR #1558 Draft/openを維持。
+
+**[正式証明記録](docs/formal/GK5AQ-Qi-v4_10-P89-P94A-reflection-obstruction-kernel.md)** · [GK5AQ Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5AQP89P94ReflectionObstruction.lean) · [Qi v4.10 Lean](formal/KUOS/Architecture/QiWuxingGK5AQNorthP89P94ReflectionObstructionV4_10.lean)。**次の課題GK5AR（仮称）：** 元P89比較反射に必要な具体的正規形／障害を解析し、真正非反射ペアの構成または不存在の十分条件を検証。無条件非単射・単射はいずれも未主張。
+
+---
+
 ## 最新のLean定理統合 — F112-P94D3GK5AP＋Qi v4.9／P94A三単位生成元の個別独立性・真正北C60統合／2026-11-03 JST
 
 **[独立Kuu GK5AP PR #2995](https://github.com/itakura-hidetoshi/KuuOS/pull/2995) MERGED、[Qi v4.9 PR #2996](https://github.com/itakura-hidetoshi/KuuOS/pull/2996) MERGED。** GK5AOの水平単位最小性（回数1）に続き、現行P94Aの`leftContextUnit`と`rightContextUnit`についても、互いの単位と`horizontalUnit`をすべて許した**全19構成子**の真正Type値付き4-cell帰納法で、**それぞれ少なくとも1回必要、明示証拠はちょうど1回**をLean4で証明した。
