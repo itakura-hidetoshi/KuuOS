@@ -3,6 +3,16 @@
 
 
 
+## Qi v4.6 完了 — 真正北C60のP80文脈単位のP93構造的非descent・旧P87/P89全移送非存在／2026-11-03 JST
+
+**Qi v4.6 [PR #2987](https://github.com/itakura-hidetoshi/KuuOS/pull/2987) MERGED。** 独立GK5AMの`ZMod2`文脈parity no-goを、元の実北C60第1・第2F45ステージ上の二Nat F54型付き単位経路に適用。元P80左右単位は元P87の真正Type値4-cell証拠として存在する一方、GK5AIの構造的`φ`像を結ぶ現行P93実4-cellは**両方とも非存在**。`fivefoldGK5ANorthSource_exists_target_fails`で元証拠存在と標的証拠非存在を同時形式化。北C60専用`FivefoldGK5ALNorthPrimitiveBoundary`は不可能、従って元P87構造的移送族およびP89全13構成子の構造的移送族も存在しない。元P89水平interchange単独の選択P93像は従来通り無条件。Qi v4.5の物理Dart付き四セル商写像には必要な三単位証明書が供給できず、**この特定の証明書付き構成**は北C60で実体化不能。任意の無関係な集合写像や別presentationを一括否定しない。
+
+**物理・圏方向保持：** 真正北C60第五around-edge `Dart×Dart`閉路、実04/43辺の物理逆向きを`fivefoldGK5ANorthPhysicalOrientationAndNoDescent`で構造的非descentと併記。元F54/F55 3セル履歴、独立Kuu→Qi・strict 空 authorityを崩さない。[形式化全文](formal/KUOS/Architecture/QiWuxingGK5AMNorthContextNonDescentV4_6.lean)。
+
+**Lean4検証・公理監査：** exact-source [#41528006975](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41528006975) **10157/10157 SUCCESS**、新10/10 `#print axioms`は`propext`／`Classical.choice`／`Quot.sound`のみ、Lean error/warning0、Governance30/30成功。source/test-merge/squash Git tree `2563ac8ddb6c95ac0c831f33dacec194c9572745`一致、squash `c3cb37293640b119453a29271b3436b9db2b5c9a`。Lean v4.30.0-rc2／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`固定、公開root107・保護PR #1558 Draft/open未マージ。[正式証明記録](docs/formal/GK5AM-Qi-v4_6-north-P80-context-structural-no-descent.md)。
+
+**次GK5AN：** 歴史的P93ソースを保存したまま、左右contextUnitに必要な真正型付き4セルを**新しい拡張presentation**で導入する最小修復と、既存P80/P87/P89証拠の全移送・比較反映・新しいobstructionを独立Leanで解析。未証明の修復、無条件higher filler、Gray復元を先取りしない。以下GK5AM／Qi v4.5以前の履歴維持。
+
 ## GK5AM 完了 — 選択P92B/P93文脈parityと旧P80左右単位の実構造的no-go／2026-11-03 JST
 
 **独立Kuu [GK5AM #2984](https://github.com/itakura-hidetoshi/KuuOS/pull/2984) MERGED。** GK5ALで同定された元P80 `horizontalUnit`・`leftContextUnit`・`rightContextUnit`三基底のうち、左右文脈単位の構造的`φ`像へ**現行P93型付き4-cellが存在しない**ことを、真正P92B原始3-cellの独立`ZMod2`文脈parity不変量で証明。左右contextは1、元F55原子／P92B assocNaturality／identは0、縦合成は加法、真正水平合成は2つのcontextでmod2相殺。選択P93実**全16 4セル構成子**がparityを保存することを再帰証明。元P80文脈単位の源・標的`φ`像はparity1／0であり4-cellなし。旧P87の元証拠の存在とは矛盾しない。GK5AL必要十分条件により実型付き文脈が存在する範囲で **旧P87／P89の完全構造的移送族の非存在**に到達。任意別presentationへの拡張可能性、P89水平interchange単独の無条件移送、実C60物理Dartの正当性は否定しない。[Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5AMContextParityNoStructuralLift.lean)。
