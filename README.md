@@ -14,6 +14,19 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK5T / 2026-11-02 JST
+
+**真正な`Equivalence.trans`のcounit/unit合成についてwhole Mathlib NatIso整合性を無条件に証明し、GK5SのUnitCoherentを解決。全有限型付き木の再帰的`Φ`障害の残存条件を「2個以上の原子を持つ非空cons-paste」の1種類へ必要十分に還元 — [定理PR #2935](https://github.com/itakura-hidetoshi/KuuOS/pull/2935) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5TUnitCounitCompositeCoherence.lean)・[正式証明記録](docs/formal/GK5T-composite-unit-counit-nonempty-cons-obstruction.md)。
+
+**数学的成果：** 真正点別圏同値`e_i:C_i≌D_i`、`g_i:D_i≌E_i`について、GK5Gの実`ChangeUnitIso`とGK5Qの`Θ_(id)`を保持した`Unit_g ≪≫ ChangeIso_g(Unit_e) ≪≫ Θ_(id) = Unit_(e.trans g)`を真正whole Mathlib NatIso等式として証明。GK5Qのunit木`TreeComparison`が構造的`Iso.refl`であることを別補題で証明し、`nativeGK5TAllUnits : NativeGK5SUnitCoherent e g`を無条件確定。さらに任意の**全型付き葉語が空**の木、単一原子の型付き葉語を持つ木、左右unitorで単位を挿入した原子木について相対障害`Ω_t=Iso.refl`と実再帰`Φ`二構成の等式を証明。cons-pasteの空tailは無条件に解消。
+
+**残余obstructionの厳密化：** `nativeGK5TAllTrees_iff_cons`、`nativeGK5TAllObstructions_iff_cons`を証明して従来必要だったUnitCoherent前提を完全除去。さらに`NativeGK5TNonemptyConsCoherent`を、真正の2個以上の原子`R,S`を持つ`paste(atom R,TreeOfWord(cons S w))`についての真の`Φ`比較の帰納的条件として定義。`nativeGK5TCons_iff_nonempty`から**`(∀t,Ω_t=Iso.refl) ↔ NativeGK5TNonemptyConsCoherent e g`**をLean4で証明した。**右辺の無条件成立は未証明**であり、元F45/source-Q/raw Type高次セル/Gray/unrestricted hyperdescentにも拡大しない。
+
+**CI・Lean4全文診断：** 初回exact-source CIで真正unit/counit全NatIso定理自体は標準公理のみで成功したが、下流でGK5Q unit木の`eqToIso`を消去せず1件の型不一致が残存。修正ではそのunit木の構造的`Iso.refl`を独立補題で証明し、定義的等号の`change`とMathlibの真正`eqToIso`等式を区別した。Lean全文276行、imports、GK5G/Q/R/Sシグネチャ、固定mathlibの`Equivalence.trans`・`Whiskering`・`Iso`を確認。source `99b0d90fec347b38e2ba04b9f9909f6d1589b58a`／定理squash `d6d83f63f4e5d72badf8d6b6ef7f65bd7435c3c4`／一致Git tree `a018fb3ccbfa4631cf4c1cc40932486e5c73f9a0`。[CI #41389108271](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41389108271) **Strict Lean 3841/3841・Independent Kuu・Governance terminal SUCCESS**、公開17/17`#print axioms`は`propext/Classical.choice/Quot.sound`のみ、sorryAx0、Lean errors/warnings0/0。
+
+**次GK5U：** 少なくとも2個の真正型付き原子を含む二項`ChangeCompIso`の整合性を、GK5K/GK5Lの中間unitの自然性と実再帰`Φ`を使って別証明する。成功後に限りGK5Tの必要十分条件から全木`Ω_t=Iso.refl`が導ける。固定Lean v4.30.0-rc2・mathlib 5450b53e5ddc75d46418fabb605edbf36bd0beb6・root107・append-only・strict空中心・独立Kuu一presentation・保護PR #1558 Draft/open継続。以下GK5S以前の記録は全保持。
+
+
 ## 最新のLean定理統合 — F112-P94D3GK5S / 2026-11-02 JST
 
 **逐次圏同値と合成圏同値の真正再帰的`Φ`が原子木で無条件に一致することをLean4で証明し、全有限型付き木のobstruction消滅を「単位整合性＋右結合標準形cons-paste整合性」へ正確に必要十分還元 — [定理PR #2933](https://github.com/itakura-hidetoshi/KuuOS/pull/2933) MERGED。** [Lean4全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5SAtomicPhiNormalFormCriterion.lean)・[GK5S正式証明記録](docs/formal/GK5S-atomic-recursive-phi-normalform-unit-cons-criterion.md)。
