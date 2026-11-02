@@ -14,6 +14,16 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK5Z / 2026-11-02 JST
+
+**任意のindex写像`f:I→J`（非単射を含む）について、真正Mathlib圏同値の四段型付き木変換とGK5F reindexingの厳密交換を証明。五つの真の圏同値括弧付け／whole NatIso辺のpullback保存、五つの`J`側独立direct再帰`Φ`を明示的`eqToIso`で`I`側へ移送した際のpentagon全五辺の可換性・相対障害消滅をLean4で検証 — [定理PR #2947](https://github.com/itakura-hidetoshi/KuuOS/pull/2947) MERGED。** [Lean4全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5ZTypedIndexPentagonExchange.lean)・[正式証明記録](docs/formal/GK5Z-typed-index-five-edge-direct-phi-pentagon-exchange.md)。
+
+**数学的成果：** `nativeGK5ZFourTree_reindex`で四段の真正`ChangeTree`と`TreeReindex`の完全依存型木等式、`nativeGK5ZFourComposite_reindex`と`SourceIso`でwhole関手等式・真正whole EqToIsoを構成。`nativeGK5ZBracket0..4_reindex`は五つの実`Equivalence.trans`表示の点別pullback整合性、`nativeGK5ZEdge01/12/23/04/43_reindex`は**同じ型付き原子**におけるwhole NatIso辺の厳密交換。`nativeGK5ZPullbackPentagon_whole`と`natTrans`は三辺・二辺の真のpentagonを保持。`nativeGK5ZTransportedPhi0..4`はGK5Xの**J側独立直接`Φ`をwhole source`eqToIso`で移送**したもの。`nativeGK5ZAllFiveEdges_reindex_whole`と`nativeGK5ZAllFiveDefects_reindex_refl`で移送後の全五辺が可換で、各相対障害`Iso.refl`。**I側で別に再帰構成した直接`Φ`との等式はまだ主張せず、次GK5AAで検証する。** 真正準逆・unit/counit・compositorはstrict化せず、元source-Q/F45/raw Type高次セル/Gray/unrestricted hyperdescentは対象外。
+
+**Lean4全文・exact-source監査：** 新規Lean**640行**、`#print axioms`**32件**、既存Lean変更なし。最初は`nativeGK5DTreeComposite t`が`I` pullback家族と`J`正本家族を取り違えたため、全ファイルの明示`(C := fun x : I => C (f x))`を修正。さらに型付きtree端点が命題上等しいことを無条件のNatIso等式と混同せず、同じ原子上の厳密辺一致＋真正`eqToIso`源移送に分離。最後のexact-source [CI #41411785125](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41411785125)は**初回にキャッシュ復元のインフラ失敗**があり、同一ソースをGitHub Actionsで再実行して**attempt 2 terminal SUCCESS**。Strict Lean **3847/3847**、公理監査**32/32**は`propext/Classical.choice/Quot.sound`のみ、sorryAx0、errors/warnings0、Independent Kuu・Workflow integrity・Governance SUCCESS。source `3e87d8998596c810a4cc31cc544574c1ef5c478c`／squash `18eeafd4a656b02a992feeb62f3481aa4c330371`／一致tree `39e17d0305f12b52bfdbf408d0f155e0baba610a`。固定Lean v4.30.0-rc2・mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`・root107、strict空中心・独立Kuu一presentation、保護#1558 Draft/open維持。
+
+**次GK5AA：** `I` pullback上で独立に作る五つの再帰的直接`Φ`と、GK5Zの`J`側から移送した五つの`Φ`のwhole NatIso交換を、GK5FとGK5Gのunit/atom/paste再帰および完全な型付き`eqToIso`境界で証明する。その後、index写像の合成自然性へ拡張。以下GK5Y以前の全履歴を保持。
+
 ## 最新のLean定理統合 — F112-P94D3GK5Y / 2026-11-02 JST
 
 **四段の真正Mathlib点別圏同値の五通りの括弧付けについて、各々独立の直接再帰的whole NatIso `Φ`の五辺すべてを無条件に可換化。GK5Xの相対障害`Δ01/12/23/04/43`が任意の有限GK5D型付き関手木で個別に`Iso.refl`であることをLean4証明 — [定理PR #2945](https://github.com/itakura-hidetoshi/KuuOS/pull/2945) MERGED。** [Lean4全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5YDirectPhiFiveEdgeCoherence.lean)・[GK5Y正式証明記録](docs/formal/GK5Y-unconditional-five-direct-phi-edge-coherence.md)。
