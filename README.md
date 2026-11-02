@@ -14,6 +14,17 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK5S / 2026-11-02 JST
+
+**逐次圏同値と合成圏同値の真正再帰的`Φ`が原子木で無条件に一致することをLean4で証明し、全有限型付き木のobstruction消滅を「単位整合性＋右結合標準形cons-paste整合性」へ正確に必要十分還元 — [定理PR #2933](https://github.com/itakura-hidetoshi/KuuOS/pull/2933) MERGED。** [Lean4全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5SAtomicPhiNormalFormCriterion.lean)・[GK5S正式証明記録](docs/formal/GK5S-atomic-recursive-phi-normalform-unit-cons-criterion.md)。
+
+**新規証明：** 真正Mathlib圏同値族`e_i:C_i≌D_i`・`g_i:D_i≌E_i`のまま、GK5G再帰`Φ`とGK5Q構造NatIsoを厳密に保持。実`Functor.isoWhiskerRight_refl`／`isoWhiskerLeft_refl`による`nativeGK5SChangeIso_refl`を証明して、任意`R:C_i⥤C_j`の`nativeGK5SAtomPhi_compatible`及び`nativeGK5SAtomObstruction_refl`を無条件に確定。さらに`NativeGK5SAllTreeCoherent e g ↔ (NativeGK5SUnitCoherent e g ∧ NativeGK5SConsCoherent e g)`、同値な全木`Ω_t=Iso.refl`条件をLean4で証明。二つの局所条件は真正unit/counitと`paste(atom R,TreeOfWord w)`の残存比較**義務**であり、無条件成立を主張しない。GK5Rの既証明GK5D正規化経路だけで任意有限型付き木へ還元する。
+
+**CIと構造的診断：** 最終source `c0654eddf52b5f63d4d647aba79238155a4aa820`、定理squash `9c705a0d21aed2bee51c4d82b1d0d0d08bab0283`、一致Git tree `71e00d954a725d79160c10656a54473662bd67d1`。[CI #41386958561](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41386958561) **Strict Lean 3840/3840・Independent Kuu・Workflow integrity・Governance terminal SUCCESS**、公開10/10`#print axioms`は`propext/Classical.choice/Quot.sound`のみ、sorryAx0、Lean errors/warnings0/0。初回CIで`ChangeIso`入れ子whiskeringと`TreeComposite(atom R)`を`simp only`で十分に展開できなかった構造を、Lean全文・imports・固定Mathlibから確認し、型付き恒等NatIso補題と実評価式の簡約で修正。既存の定理・仮定・ソースを弱めない。
+
+**次GK5T：** 真正`(e.trans g).counitIso`と二項`ChangeCompIso`の中間unitの整合性を独立に証明して`NativeGK5SUnitCoherent`と`NativeGK5SConsCoherent`を解消する。達成後に限り全木の`Ω_t=Iso.refl`へ進む。固定Lean v4.30.0-rc2・mathlib 5450b53e5ddc75d46418fabb605edbf36bd0beb6・root107・append-only・strict空中心・独立Kuu一presentation・保護#1558 Draft/open維持。以下GK5R以前の全記録保持。
+
+
 ## 最新のLean定理統合 — F112-P94D3GK5R / 2026-11-02 JST
 
 **真正再帰的`Φ`の逐次圏同値と単一合成圏同値との差をwhole Mathlib NatIso自己同型obstructionとして構成し、すべての有限型付き経路に沿う共役自然性・正規化による消滅判定の必要十分条件をLean4で証明 — [定理PR #2931](https://github.com/itakura-hidetoshi/KuuOS/pull/2931) MERGED。** [Lean4全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5RRecursivePhiObstruction.lean)・[GK5R正式証明記録](docs/formal/GK5R-recursive-phi-obstruction-path-normalization.md)。
