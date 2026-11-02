@@ -48,10 +48,14 @@ theorem nativeGK5NLeft_unitLaw
       Functor.leftUnitor (nativeGK5GChangeAtom e R) := by
   apply Iso.ext
   ext X
+  have hTriangle := (e i).inverse_counitInv_comp X
+  have hMap := congrArg (fun t => (e j).functor.map (R.map t)) hTriangle
   simp [nativeGK5GChangeUnitIso, nativeGK5GChangeIso,
     nativeGK5GChangeAtom, nativeGK5IChangeCompIso_hom_app,
-    Equivalence.inverse_counitInv_comp, Functor.leftUnitor_hom_app,
+    Functor.leftUnitor_hom_app,
     Functor.comp_map, Functor.map_comp, Category.assoc]
+  simpa only [Equivalence.counitInv, Equivalence.unitInv,
+    Functor.map_comp, Functor.map_id] using hMap
 
 /-- True right-unit pseudofunctor law for ANY whole Mathlib functor R.
 Here the second triangle cancels a counit inverse with a mapped
@@ -88,8 +92,12 @@ private theorem nativeGK5NLeft_unitor_withPhi
     ext X
     simp
   rw [hnat, ← nativeGK5NLeft_unitLaw e R]
-  simp only [Iso.trans_assoc,
-    Functor.isoWhiskerLeft_trans_isoWhiskerRight]
+  have hinter := Functor.isoWhiskerLeft_trans_isoWhiskerRight
+    (nativeGK5GChangeUnitIso e i) φ
+  simpa only [Iso.trans_assoc] using
+    congrArg (fun t =>
+      t ≪≫ nativeGK5GChangeCompIso e (𝟭 (C i)) R ≪≫
+        nativeGK5GChangeIso e (Functor.leftUnitor R)) hinter
 
 /-- RIGHT unitor comparison with arbitrary genuine Phi, using the
 naturality of the actual right unitor and the genuine right triangle. -/
@@ -126,7 +134,7 @@ theorem nativeGK5NLeftUnit_subtree
     Iso.trans_assoc] using
     (nativeGK5NLeft_unitor_withPhi e
       (nativeGK5DTreeComposite a)
-      (nativeGK5GChangeTreeIso e a)).symm
+      (nativeGK5GChangeTreeIso e a))
 
 /-- Genuine GK5D right unitor square for every arbitrarily deep
 dependently typed finite subtree, with its actual recursive Phi. -/
@@ -142,7 +150,7 @@ theorem nativeGK5NRightUnit_subtree
     Iso.trans_assoc] using
     (nativeGK5NRight_unitor_withPhi e
       (nativeGK5DTreeComposite a)
-      (nativeGK5GChangeTreeIso e a)).symm
+      (nativeGK5GChangeTreeIso e a))
 
 #print axioms nativeGK5NLeft_unitLaw
 #print axioms nativeGK5NRight_unitLaw
