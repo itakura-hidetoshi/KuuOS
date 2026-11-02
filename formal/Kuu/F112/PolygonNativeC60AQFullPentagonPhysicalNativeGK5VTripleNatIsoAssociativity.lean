@@ -76,7 +76,7 @@ private theorem nativeGK5VChangeIso_eqToIso
     nativeGK5GChangeIso h (eqToIso p) =
       eqToIso (congrArg (nativeGK5GChangeAtom h) p) := by
   cases p
-  simp only [eqToIso_refl, nativeGK5GChangeIso,
+  simp only [eqToIso_refl, nativeGK5GChangeIso, nativeGK5GChangeAtom,
     Functor.isoWhiskerRight_refl, Functor.isoWhiskerLeft_refl]
 
 /-- The core three-equivalence cocycle: two ways of combining true
