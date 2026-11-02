@@ -14,6 +14,18 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK5AE＋Qi v3.8／元whole Φへの閉路復帰／2026-11-02 JST
+
+**[GK5AE定理PR #2961](https://github.com/itakura-hidetoshi/KuuOS/pull/2961) MERGED。** 真正GK5ADの五回reindexingと`f⁵=id`に対し、元のGK5D全有限依存型木を実`Eq.rec/cast`でpullback圏族へ移し、実五段reindexing後に**始点・終点の両方を型付きcast**して元の木へ戻る`nativeGK5AEClosedFiveTree_eq`をLean4証明。五つの独立再帰`Φ_{P0..P4}`が、source/targetの真正`eqToIso`を介して**元のwhole NatIso**に戻る`nativeGK5AEFourDirectPhi0..4_return_whole`・`AllFiveDirectPhi_return_whole`を証明。新規[GK5AE Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5AEClosedEndpointWholePhiTransport.lean)。
+
+**[Qi v3.8定理PR #2962](https://github.com/itakura-hidetoshi/KuuOS/pull/2962) MERGED。** 既存`FivefoldIndex=FivePhase=ZMod5`と真正C60ゲージから、五回の相生index進行後に元の圏族・元の五つのwhole`Φ`が復帰する`fivefoldPhysicalPhi0..4_original_return_whole`・`AllFivePhi_original_return_whole`を証明。同時に元の物理第五`around Edge`の`Dart`閉合と、真正カテゴリーNatIso五角形`01;12;23=04;43`、04/43の逆向きを**別々の型付き証拠**として保持。`KuuOSFormal`に[Qi v3.8 Lean全文](formal/KUOS/Architecture/QiWuxingGK5AEOriginalPhiReturnV3_8.lean)のimportを1行追加、公開root107維持・独立Kuu→Qi逆依存なし。[正式証明記録](docs/formal/GK5AE-Qi-v3_8-original-whole-phi-endpoint-return.md)。
+
+**Lean4全文修正・exact-source：** GK5AE初回[CI #41439603061](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41439603061)では、Lean4が証明本文だけの`hf`を定理引数に採らず、かつ複合関数`f⁵=id`への直接`cases`が依存型消去に失敗した。一般の変数写像`g=id`についてcast往復補題を先に証明して解決。[確定CI #41440045396](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41440045396) **Strict Lean 3852/3852、8/8公理監査SUCCESS**。source`ca746c6fcc62432daf569073e592e1e198aede1a`／squash`942634d99c0801232585aa85148854c44118f13c`、同一tree`d6170372d2596a6ae2e1c8e8e690e445ed4a50cc`・同一Lean blob`5abfa16e15bff69690b40110252c78763eaabe04`。
+
+**Qi v3.8の公理監査強化：** 初回[CI #41440796065](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41440796065)はLean 10141/10141成功だったが、元Qi v2.5の`fivePhase_natCast_five`（`native_decide`使用）を介する追加公理`fivePhase_natCast_five._native.native_decide.ax_1_1`が新Φ定理へ伝播することを検出。旧定理は上書きせず、新Qi v3.8にカーネル検証の`decide`による`fivefoldPhaseNatCastFive_kernel`、`FiveIndex_id_kernel`、`LastPhysicalSide_closed_kernel`を追加し、全五Φへ適用して追加公理を遮断。[確定CI #41441533987](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41441533987) **Strict Lean 10141/10141、11/11公理監査SUCCESS**。source`d0d8794b12108ebf417b377c954977976a3c70b7`／squash`8c09269d95428f703471d0e0ed06943798399690`、同一tree`86f38e836db5fdf7da092bc468c680dca5206edc`。**今回の新定理2件は公理依存が`propext/Classical.choice/Quot.sound`以内・`sorryAx=0`・Lean errors/warnings0/0・Independent Kuu／Governance SUCCESS。** これは**過去Qi v2.5/v3.7の公理依存全体が修正済みという意味ではない**。固定Lean v4.30.0-rc2／mathlib`5450b53e5ddc75d46418fabb605edbf36bd0beb6`、same-root107、保護PR #1558 Draft/OPEN/未マージ維持。
+
+**次GK5AF（候補）：** 五歩のカテゴリーpentagon経路と真正C60物理辺閉路が持つ異なる証拠型の間で、実際に構成できる比較・できない高次gluing obstructionを型付きで判定する。元F54/F55/P92Bの高次Type履歴を`FivePhase`の基数だけで同一視しない。以下GK5AD・Qi v3.7を含む旧研究履歴を全保持。
+
 ## 最新のLean定理統合 — F112-P94D3GK5AD＋Qi v3.7／五段index・真正C60閉路・全五whole Φ／2026-11-02 JST
 
 **[GK5AD定理PR #2958](https://github.com/itakura-hidetoshi/KuuOS/pull/2958) MERGED。** 任意index自己写像`f:I→I`について、真正GK5Fの**五回連続する完全依存型木reindexing**と合成写像`f⁵`でのreindexingの型付き全木等式をLean4証明。GK5AA/GK5ACの実Mathlib独立再帰whole NatIso`Φ`の五括弧`P0..P4`すべてについて、**両端の実source／target `eqToIso`輸送を保持した五段経路の一致**を`nativeGK5ADFiveDirectPhi0..4_reindex_whole`・`AllFiveDirectPhi_reindex_whole`で証明。別途`f⁵=id`の下でindexと実圏族の閉路も証明し、依存型の始点終点を定義上同一視しない。[Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5ADFiveStepIndexPhiHolonomy.lean)。
