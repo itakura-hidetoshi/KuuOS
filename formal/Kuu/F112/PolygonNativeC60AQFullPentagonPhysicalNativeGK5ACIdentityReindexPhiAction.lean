@@ -44,7 +44,7 @@ private theorem nativeGK5ACCancelEqToIso
     eqToIso p ≪≫ eqToIso q = Iso.refl a := by
   cases p
   cases q
-  rfl
+  simp only [eqToIso_refl, Iso.refl_trans]
 
 section SingleEquivalenceUnit
 variable {I : Type uI} {C D : I → Cat.{vC,uC}}
@@ -73,15 +73,26 @@ theorem nativeGK5ACSinglePhi_unit_whole
         (nativeGK5FTreeReindex_id C t)) = Iso.refl _ :=
     nativeGK5ACCancelEqToIso _ _
   calc
-    _ = (nativeGK5GChangeTreeIso e t ≪≫
-          eqToIso (nativeGK5AASingleTargetEq (id : I → I) e t)) ≪≫
+    _ = (nativeGK5GChangeTreeIso e t ≪≫ eqToIso (nativeGK5AASingleTargetEq (id : I → I) e t)) ≪≫
           eqToIso (congrArg
-            (fun s : NativeGK5DTypedTree C i j =>
-              nativeGK5GChangeAtom e (nativeGK5DTreeComposite s))
-            (nativeGK5FTreeReindex_id C t)) := by
-              rw [hnat]
+        (fun s : NativeGK5DTypedTree C i j =>
+          nativeGK5GChangeAtom e (nativeGK5DTreeComposite s))
+        (nativeGK5FTreeReindex_id C t)) := by
+            exact congrArg
+              (fun iso => iso ≪≫ eqToIso (congrArg
+        (fun s : NativeGK5DTypedTree C i j =>
+          nativeGK5GChangeAtom e (nativeGK5DTreeComposite s))
+        (nativeGK5FTreeReindex_id C t))) hnat.symm
+    _ = nativeGK5GChangeTreeIso e t ≪≫
+          (eqToIso (nativeGK5AASingleTargetEq (id : I → I) e t) ≪≫ eqToIso (congrArg
+        (fun s : NativeGK5DTypedTree C i j =>
+          nativeGK5GChangeAtom e (nativeGK5DTreeComposite s))
+        (nativeGK5FTreeReindex_id C t))) := by
+            simp only [Iso.trans_assoc]
+    _ = nativeGK5GChangeTreeIso e t ≪≫ Iso.refl _ := by
+            exact congrArg (fun iso => nativeGK5GChangeTreeIso e t ≪≫ iso) hcancel
     _ = nativeGK5GChangeTreeIso e t := by
-          simp only [Iso.trans_assoc, hcancel, Iso.trans_refl]
+            simp only [Iso.trans_refl]
 
 end SingleEquivalenceUnit
 
@@ -146,17 +157,31 @@ theorem nativeGK5ACFourDirectPhi0_unit_whole
         (nativeGK5FTreeReindex_id C t)) = Iso.refl _ :=
     nativeGK5ACCancelEqToIso _ _
   calc
-    _ = (nativeGK5XDirectPhi0 e₁ e₂ e₃ e₄ t ≪≫
-          eqToIso (nativeGK5AASingleTargetEq (id : I → I)
+    _ = (nativeGK5XDirectPhi0 e₁ e₂ e₃ e₄ t ≪≫ eqToIso (nativeGK5AASingleTargetEq (id : I → I)
         (nativeGK5XBracket0 e₁ e₂ e₃ e₄) t)) ≪≫
           eqToIso (congrArg
         (fun s : NativeGK5DTypedTree C i j =>
           nativeGK5GChangeAtom (nativeGK5XBracket0 e₁ e₂ e₃ e₄)
             (nativeGK5DTreeComposite s))
         (nativeGK5FTreeReindex_id C t)) := by
-            rw [hnat]
+            exact congrArg
+              (fun iso => iso ≪≫ eqToIso (congrArg
+        (fun s : NativeGK5DTypedTree C i j =>
+          nativeGK5GChangeAtom (nativeGK5XBracket0 e₁ e₂ e₃ e₄)
+            (nativeGK5DTreeComposite s))
+        (nativeGK5FTreeReindex_id C t))) hnat.symm
+    _ = nativeGK5XDirectPhi0 e₁ e₂ e₃ e₄ t ≪≫
+          (eqToIso (nativeGK5AASingleTargetEq (id : I → I)
+        (nativeGK5XBracket0 e₁ e₂ e₃ e₄) t) ≪≫ eqToIso (congrArg
+        (fun s : NativeGK5DTypedTree C i j =>
+          nativeGK5GChangeAtom (nativeGK5XBracket0 e₁ e₂ e₃ e₄)
+            (nativeGK5DTreeComposite s))
+        (nativeGK5FTreeReindex_id C t))) := by
+            simp only [Iso.trans_assoc]
+    _ = nativeGK5XDirectPhi0 e₁ e₂ e₃ e₄ t ≪≫ Iso.refl _ := by
+            exact congrArg (fun iso => nativeGK5XDirectPhi0 e₁ e₂ e₃ e₄ t ≪≫ iso) hcancel
     _ = nativeGK5XDirectPhi0 e₁ e₂ e₃ e₄ t := by
-          simp only [Iso.trans_assoc, hcancel, Iso.trans_refl]
+            simp only [Iso.trans_refl]
 
 
 /-- Pentagon vertex P1: independently recursive genuine whole Φ
@@ -192,17 +217,31 @@ theorem nativeGK5ACFourDirectPhi1_unit_whole
         (nativeGK5FTreeReindex_id C t)) = Iso.refl _ :=
     nativeGK5ACCancelEqToIso _ _
   calc
-    _ = (nativeGK5XDirectPhi1 e₁ e₂ e₃ e₄ t ≪≫
-          eqToIso (nativeGK5AASingleTargetEq (id : I → I)
+    _ = (nativeGK5XDirectPhi1 e₁ e₂ e₃ e₄ t ≪≫ eqToIso (nativeGK5AASingleTargetEq (id : I → I)
         (nativeGK5XBracket1 e₁ e₂ e₃ e₄) t)) ≪≫
           eqToIso (congrArg
         (fun s : NativeGK5DTypedTree C i j =>
           nativeGK5GChangeAtom (nativeGK5XBracket1 e₁ e₂ e₃ e₄)
             (nativeGK5DTreeComposite s))
         (nativeGK5FTreeReindex_id C t)) := by
-            rw [hnat]
+            exact congrArg
+              (fun iso => iso ≪≫ eqToIso (congrArg
+        (fun s : NativeGK5DTypedTree C i j =>
+          nativeGK5GChangeAtom (nativeGK5XBracket1 e₁ e₂ e₃ e₄)
+            (nativeGK5DTreeComposite s))
+        (nativeGK5FTreeReindex_id C t))) hnat.symm
+    _ = nativeGK5XDirectPhi1 e₁ e₂ e₃ e₄ t ≪≫
+          (eqToIso (nativeGK5AASingleTargetEq (id : I → I)
+        (nativeGK5XBracket1 e₁ e₂ e₃ e₄) t) ≪≫ eqToIso (congrArg
+        (fun s : NativeGK5DTypedTree C i j =>
+          nativeGK5GChangeAtom (nativeGK5XBracket1 e₁ e₂ e₃ e₄)
+            (nativeGK5DTreeComposite s))
+        (nativeGK5FTreeReindex_id C t))) := by
+            simp only [Iso.trans_assoc]
+    _ = nativeGK5XDirectPhi1 e₁ e₂ e₃ e₄ t ≪≫ Iso.refl _ := by
+            exact congrArg (fun iso => nativeGK5XDirectPhi1 e₁ e₂ e₃ e₄ t ≪≫ iso) hcancel
     _ = nativeGK5XDirectPhi1 e₁ e₂ e₃ e₄ t := by
-          simp only [Iso.trans_assoc, hcancel, Iso.trans_refl]
+            simp only [Iso.trans_refl]
 
 
 /-- Pentagon vertex P2: independently recursive genuine whole Φ
@@ -238,17 +277,31 @@ theorem nativeGK5ACFourDirectPhi2_unit_whole
         (nativeGK5FTreeReindex_id C t)) = Iso.refl _ :=
     nativeGK5ACCancelEqToIso _ _
   calc
-    _ = (nativeGK5XDirectPhi2 e₁ e₂ e₃ e₄ t ≪≫
-          eqToIso (nativeGK5AASingleTargetEq (id : I → I)
+    _ = (nativeGK5XDirectPhi2 e₁ e₂ e₃ e₄ t ≪≫ eqToIso (nativeGK5AASingleTargetEq (id : I → I)
         (nativeGK5XBracket2 e₁ e₂ e₃ e₄) t)) ≪≫
           eqToIso (congrArg
         (fun s : NativeGK5DTypedTree C i j =>
           nativeGK5GChangeAtom (nativeGK5XBracket2 e₁ e₂ e₃ e₄)
             (nativeGK5DTreeComposite s))
         (nativeGK5FTreeReindex_id C t)) := by
-            rw [hnat]
+            exact congrArg
+              (fun iso => iso ≪≫ eqToIso (congrArg
+        (fun s : NativeGK5DTypedTree C i j =>
+          nativeGK5GChangeAtom (nativeGK5XBracket2 e₁ e₂ e₃ e₄)
+            (nativeGK5DTreeComposite s))
+        (nativeGK5FTreeReindex_id C t))) hnat.symm
+    _ = nativeGK5XDirectPhi2 e₁ e₂ e₃ e₄ t ≪≫
+          (eqToIso (nativeGK5AASingleTargetEq (id : I → I)
+        (nativeGK5XBracket2 e₁ e₂ e₃ e₄) t) ≪≫ eqToIso (congrArg
+        (fun s : NativeGK5DTypedTree C i j =>
+          nativeGK5GChangeAtom (nativeGK5XBracket2 e₁ e₂ e₃ e₄)
+            (nativeGK5DTreeComposite s))
+        (nativeGK5FTreeReindex_id C t))) := by
+            simp only [Iso.trans_assoc]
+    _ = nativeGK5XDirectPhi2 e₁ e₂ e₃ e₄ t ≪≫ Iso.refl _ := by
+            exact congrArg (fun iso => nativeGK5XDirectPhi2 e₁ e₂ e₃ e₄ t ≪≫ iso) hcancel
     _ = nativeGK5XDirectPhi2 e₁ e₂ e₃ e₄ t := by
-          simp only [Iso.trans_assoc, hcancel, Iso.trans_refl]
+            simp only [Iso.trans_refl]
 
 
 /-- Pentagon vertex P3: independently recursive genuine whole Φ
@@ -284,17 +337,31 @@ theorem nativeGK5ACFourDirectPhi3_unit_whole
         (nativeGK5FTreeReindex_id C t)) = Iso.refl _ :=
     nativeGK5ACCancelEqToIso _ _
   calc
-    _ = (nativeGK5XDirectPhi3 e₁ e₂ e₃ e₄ t ≪≫
-          eqToIso (nativeGK5AASingleTargetEq (id : I → I)
+    _ = (nativeGK5XDirectPhi3 e₁ e₂ e₃ e₄ t ≪≫ eqToIso (nativeGK5AASingleTargetEq (id : I → I)
         (nativeGK5XBracket3 e₁ e₂ e₃ e₄) t)) ≪≫
           eqToIso (congrArg
         (fun s : NativeGK5DTypedTree C i j =>
           nativeGK5GChangeAtom (nativeGK5XBracket3 e₁ e₂ e₃ e₄)
             (nativeGK5DTreeComposite s))
         (nativeGK5FTreeReindex_id C t)) := by
-            rw [hnat]
+            exact congrArg
+              (fun iso => iso ≪≫ eqToIso (congrArg
+        (fun s : NativeGK5DTypedTree C i j =>
+          nativeGK5GChangeAtom (nativeGK5XBracket3 e₁ e₂ e₃ e₄)
+            (nativeGK5DTreeComposite s))
+        (nativeGK5FTreeReindex_id C t))) hnat.symm
+    _ = nativeGK5XDirectPhi3 e₁ e₂ e₃ e₄ t ≪≫
+          (eqToIso (nativeGK5AASingleTargetEq (id : I → I)
+        (nativeGK5XBracket3 e₁ e₂ e₃ e₄) t) ≪≫ eqToIso (congrArg
+        (fun s : NativeGK5DTypedTree C i j =>
+          nativeGK5GChangeAtom (nativeGK5XBracket3 e₁ e₂ e₃ e₄)
+            (nativeGK5DTreeComposite s))
+        (nativeGK5FTreeReindex_id C t))) := by
+            simp only [Iso.trans_assoc]
+    _ = nativeGK5XDirectPhi3 e₁ e₂ e₃ e₄ t ≪≫ Iso.refl _ := by
+            exact congrArg (fun iso => nativeGK5XDirectPhi3 e₁ e₂ e₃ e₄ t ≪≫ iso) hcancel
     _ = nativeGK5XDirectPhi3 e₁ e₂ e₃ e₄ t := by
-          simp only [Iso.trans_assoc, hcancel, Iso.trans_refl]
+            simp only [Iso.trans_refl]
 
 
 /-- Pentagon vertex P4: independently recursive genuine whole Φ
@@ -330,17 +397,31 @@ theorem nativeGK5ACFourDirectPhi4_unit_whole
         (nativeGK5FTreeReindex_id C t)) = Iso.refl _ :=
     nativeGK5ACCancelEqToIso _ _
   calc
-    _ = (nativeGK5XDirectPhi4 e₁ e₂ e₃ e₄ t ≪≫
-          eqToIso (nativeGK5AASingleTargetEq (id : I → I)
+    _ = (nativeGK5XDirectPhi4 e₁ e₂ e₃ e₄ t ≪≫ eqToIso (nativeGK5AASingleTargetEq (id : I → I)
         (nativeGK5XBracket4 e₁ e₂ e₃ e₄) t)) ≪≫
           eqToIso (congrArg
         (fun s : NativeGK5DTypedTree C i j =>
           nativeGK5GChangeAtom (nativeGK5XBracket4 e₁ e₂ e₃ e₄)
             (nativeGK5DTreeComposite s))
         (nativeGK5FTreeReindex_id C t)) := by
-            rw [hnat]
+            exact congrArg
+              (fun iso => iso ≪≫ eqToIso (congrArg
+        (fun s : NativeGK5DTypedTree C i j =>
+          nativeGK5GChangeAtom (nativeGK5XBracket4 e₁ e₂ e₃ e₄)
+            (nativeGK5DTreeComposite s))
+        (nativeGK5FTreeReindex_id C t))) hnat.symm
+    _ = nativeGK5XDirectPhi4 e₁ e₂ e₃ e₄ t ≪≫
+          (eqToIso (nativeGK5AASingleTargetEq (id : I → I)
+        (nativeGK5XBracket4 e₁ e₂ e₃ e₄) t) ≪≫ eqToIso (congrArg
+        (fun s : NativeGK5DTypedTree C i j =>
+          nativeGK5GChangeAtom (nativeGK5XBracket4 e₁ e₂ e₃ e₄)
+            (nativeGK5DTreeComposite s))
+        (nativeGK5FTreeReindex_id C t))) := by
+            simp only [Iso.trans_assoc]
+    _ = nativeGK5XDirectPhi4 e₁ e₂ e₃ e₄ t ≪≫ Iso.refl _ := by
+            exact congrArg (fun iso => nativeGK5XDirectPhi4 e₁ e₂ e₃ e₄ t ≪≫ iso) hcancel
     _ = nativeGK5XDirectPhi4 e₁ e₂ e₃ e₄ t := by
-          simp only [Iso.trans_assoc, hcancel, Iso.trans_refl]
+            simp only [Iso.trans_refl]
 
 /-- The five unit squares form the actual pentagon-wise unit
 law of the same whole NatIso reindexing action whose general
