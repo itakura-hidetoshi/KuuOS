@@ -65,16 +65,17 @@ theorem nativeGK5SAtomPhi_compatible
   have hs :
       nativeGK5RSequentialPhi e g (.atom R) = Iso.refl _ := by
     simp only [nativeGK5RSequentialPhi, nativeGK5GChangeTreeIso,
-      nativeGK5GChangeTree, nativeGK5GChangeIso,
-      Functor.isoWhiskerRight_refl, Functor.isoWhiskerLeft_refl,
-      Iso.refl_trans]
+      nativeGK5GChangeTree, nativeGK5DTreeComposite]
+    rw [nativeGK5SChangeIso_refl g (nativeGK5GChangeAtom e R)]
+    simp only [Iso.refl_trans]
   have htheta :
       nativeGK5QTreeComparison e g (.atom R) =
         nativeGK5QAtomComparison e g R := by
     rfl
   simp only [nativeGK5RSequentialCompositePhi,
-    nativeGK5RDirectCompositePhi, hs,
-    nativeGK5GChangeTreeIso, Iso.refl_trans, Iso.trans_refl, htheta]
+    nativeGK5RDirectCompositePhi, hs, htheta,
+    nativeGK5GChangeTreeIso, nativeGK5GChangeTree,
+    nativeGK5DTreeComposite, Iso.refl_trans, Iso.trans_refl]
 
 /-- Hence the true target-valued whole NatIso obstruction is
 unconditionally trivial on EVERY genuinely typed atomic leaf. -/
