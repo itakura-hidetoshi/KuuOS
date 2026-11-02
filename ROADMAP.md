@@ -3,6 +3,16 @@
 
 
 
+## GK5AF／Qi v3.9 完了 — 二経路whole Φと原始C60逆向き・履歴obstruction／2026-11-02 JST
+
+**[独立Kuu GK5AF PR #2964](https://github.com/itakura-hidetoshi/KuuOS/pull/2964) MERGED。** 真正Mathlib四段圏同値の五括弧、独立再帰`Φ₀..`、GK5X/GK5Yの実NatIsoを保持。カテゴリー五角形の`01;12;23`と`04;43`の二経路を実際のwhole NatIsoとして定義し、`nativeGK5AFPaths_whole`、`nativeGK5AFDirectLong_whole`／`DirectShort_whole`で全有限GK5D型付き木上の比較を証明。`nativeGK5AFClosedBothRoutes_whole`はGK5AEの五段reindexing後の元の圏族／始点／終点への真正castと両経路のwhole `EqToIso`交換図式を証明。**これは物理C60のEdge・Dartや原始F54/F55/P92B raw Type証拠とNatIsoの同一視ではない。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5AFClosedWholePentagonInterchange.lean)。
+
+**[Qi v3.9 PR #2965](https://github.com/itakura-hidetoshi/KuuOS/pull/2965) MERGED。** 元`FivePhase=ZMod5`、C60真の`Dart/Edge`と既存ゲージ・元Qi v3.1の自由型付き経路を使用。`fivefoldOriginalDart_phase_injective`の真正C60位相→Dart単射、`fivefoldGK5AFBothReverseObstructions`のカテゴリー04/43に対する**物理正方向へ偽装する端点比較の不可能性**を証明。原始の異なる`generationControlPath`／`controlGenerationPath`は`pathShift:FivePhase×Nat`が等しい。`fivefoldGK5AFHistoryFactor_noFaithfulReturn`は**任意のshiftを介する観測は非単射**という普遍的因子化no-go、`fivefoldGK5AFPhysicalWholePhiHistory_obstruction`は**元の実C60 Dart対・位相/事象数・両whole NatIsoを加えても元の自由経路の順序は復元不能**と証明。正しく逆向き処理した比較や追加の履歴感知証拠は未排除。Gray復元や無条件higher filler存在・不存在は推論しない。[Qi v3.9 Lean全文](formal/KUOS/Architecture/QiWuxingGK5AFPhysicalCategoricalObstructionV3_9.lean)を唯一の公開`KuuOSFormal`へ1 import追加、root107維持。
+
+**確定CI／公理監査：** GK5AF [#41445005972](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41445005972) **3853/3853, 4/4**、Qi v3.9 [#41446051070](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41446051070) **10143/10143, 6/6** Strict Lean／標準公理監査SUCCESS。両exact-source／squash Git tree完全一致（GK5AF `c9eec57f8c7b51a75ae250438f4c94d828567322`／Qi v3.9 `90de4448eebd5a4726950c0f1d86fd5557dd3146`）。GK5AF source`5a0608708595df166968b2852dc74273151bc301`／squash`40b87e2951ff1b7f2e5ee3e8208643b01b2b9c76`。Qi source`2e8cbb07cc723a7dc166bae0f2fa4e3f1d82b37e`／squash`978002076144634c79e6e1f882f80049a18bb997`。10/10の新定理は`propext/Classical.choice/Quot.sound`以内、`sorryAx=0`、Lean error/warning0、GovernanceとIndependent Kuu SUCCESS。古いQi v2.5/v3.7の`native_decide`依存は全体修正済みとは主張しない。[正式記録](docs/formal/GK5AF-Qi-v3_9-physical-categorical-history-obstructions.md)。Lean v4.30.0-rc2、mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、保護#1558 Draft/open未マージ維持。
+
+**次GK5AG（候補）：** 旧F54/F55/P92B原始Type証拠を保持した**歴史感知の向き付き比較データ**を型として構成し、各局所互換性と必要なhigher filler／descent／obstructionの正確な可否を追う。既存五角形・C60の単なる基数一致や物理位相射影からは高次歴史の同一性を推論しない。以下GK5AE/Qi v3.8以前の全研究正本を保持。
+
 ## GK5AE／Qi v3.8 完了 — 五歩後の元のwhole Φ復帰・真正両端cast・公理依存再監査／2026-11-02 JST
 
 **独立Kuu [定理PR #2961](https://github.com/itakura-hidetoshi/KuuOS/pull/2961) MERGED。** `f:I→I`と実証拠`f⁵=id`について、元のGK5D依存型木から圏族`C∘f⁵`への明示`Eq.rec`、真正GK5AD五段reindexing、両端indexの実型付きcastによる元の全有限木復帰を`nativeGK5AEClosedFiveTree_eq`で証明。さらに`nativeGK5AEFourDirectPhi0..4_return_whole`・`AllFiveDirectPhi_return_whole`で五つの独立再帰NatIso Φが**両端の真正`eqToIso`を通じ元のwhole値へ戻る**。圏同値のunit/counitやraw source Type履歴の同一視なし。[Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5AEClosedEndpointWholePhiTransport.lean)。
