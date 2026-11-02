@@ -3,6 +3,14 @@
 
 
 
+## GK5AM 完了 — 選択P92B/P93文脈parityと旧P80左右単位の実構造的no-go／2026-11-03 JST
+
+**独立Kuu [GK5AM #2984](https://github.com/itakura-hidetoshi/KuuOS/pull/2984) MERGED。** GK5ALで同定された元P80 `horizontalUnit`・`leftContextUnit`・`rightContextUnit`三基底のうち、左右文脈単位の構造的`φ`像へ**現行P93型付き4-cellが存在しない**ことを、真正P92B原始3-cellの独立`ZMod2`文脈parity不変量で証明。左右contextは1、元F55原子／P92B assocNaturality／identは0、縦合成は加法、真正水平合成は2つのcontextでmod2相殺。選択P93実**全16 4セル構成子**がparityを保存することを再帰証明。元P80文脈単位の源・標的`φ`像はparity1／0であり4-cellなし。旧P87の元証拠の存在とは矛盾しない。GK5AL必要十分条件により実型付き文脈が存在する範囲で **旧P87／P89の完全構造的移送族の非存在**に到達。任意別presentationへの拡張可能性、P89水平interchange単独の無条件移送、実C60物理Dartの正当性は否定しない。[Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5AMContextParityNoStructuralLift.lean)。
+
+**exact-source検証：** [CI #41525719415](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41525719415) **9230/9230 Strict Lean SUCCESS**、新8/8公理監査`{propext,Classical.choice,Quot.sound}`のみ、sorryAx0・error/warning0、Governance 30/30 SUCCESS。初回`change`型正規化失敗を、再帰子の無差別展開ではなく明示`gk5amTrans_contextParity`の型付きconstructor lawと水平保存則で修正。Qi v4.5・前正式文書を同一sourceへ取り込み、source/test-merge tree `cd9c2468e237fcb71178d5e566d0b7c8846601b2`完全一致。squash `8f67d37798d21b25b0d0f54c53e0a9e48a8dcbbb`、Lean v4.30.0-rc2／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、root107、保護#1558 Draft/open維持。[正式証明記録](docs/formal/GK5AM-context-parity-original-P80-unit-no-P93-structural-lift.md)。
+
+**次Qi v4.6:** 真正北C60の第1・第2F45由来の実P80左右文脈単位にno-goを適用し、北C60での三原始単位互換族の非存在／物理Dart付き比較がなぜ条件付きに留まるかを証明する。物理04/43逆向き・二Nat原始履歴・独立Kuu→Qiの権限境界を保持し、新しいP93拡張の必要性を局所obstructionとして記録。以下GK5AL／Qi v4.5以前の研究履歴を保存。
+
 ## GK5AL／Qi v4.5 完了 — 元P87/P89構造的4-cell移送のP80三単位基底への帰着／2026-11-03 JST
 
 **独立Kuu [GK5AL PR #2982](https://github.com/itakura-hidetoshi/KuuOS/pull/2982) MERGED。** 元P77(8構成子)→P80(9; `horizontalUnit`／`leftContextUnit`／`rightContextUnit`追加)→P85(8)→P86(12)→P87(12)→P89(13)の真正Type-valued4セル履歴を全文解析。GK5AJの元P77→選択P93無条件移送と、P80/P85/P86/P87の全再帰閉包のP93互換性から、**P87構造的移送族の存在⇔旧P80三原始単位移送族の存在** `nativeGK5ALP87Structural_nonempty_iff_primitive` を証明。GK5AKを合成し **P89全13構成子移送存在⇔元P80三単位移送存在** `nativeGK5ALP89Structural_nonempty_iff_primitive` も証明。一つの実単位に移送不能証拠があれば全体を阻害。まだ無条件の実反例／全移送は主張しない。基底元P80と選択P93の`.original f`／構造`φ f`を厳密に区別。[Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5ALPrimitiveUnitObstruction.lean)。
