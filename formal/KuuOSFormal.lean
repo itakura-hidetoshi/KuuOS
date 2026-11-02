@@ -477,6 +477,7 @@ import Kuu.F112.PolygonNativeC60AQFullPentagonPhysicalNativeGK5ALPrimitiveUnitOb
 import Kuu.F112.PolygonNativeC60AQFullPentagonPhysicalNativeGK5AMContextParityNoStructuralLift
 import Kuu.F112.PolygonNativeC60AQFullPentagonPhysicalNativeGK5ANStructuralP89ToP94A
 import Kuu.F112.PolygonNativeC60AQFullPentagonPhysicalNativeGK5AOHorizontalUnitNecessity
+import Kuu.F112.PolygonNativeC60AQFullPentagonPhysicalNativeGK5APContextUnitIndependence
 
 /-!
 Public aggregate: retain every previously published proof and its original
