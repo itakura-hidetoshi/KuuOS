@@ -275,9 +275,9 @@ theorem nativeGK5AQNorthStructuralPhi_not_surjective :
 function can exist for that genuinely typed north slot, even
 before requiring it to be a section of the structural map. -/
 theorem nativeGK5AQNorthNoTotalEvidenceRecovery :
-    ¬ (nativeGK5AQNorthUnitAssocSelected →
+    ¬ Nonempty (nativeGK5AQNorthUnitAssocSelected →
       nativeGK5AQNorthUnitAssocOriginal) := by
-  intro recover
+  rintro ⟨recover⟩
   have old := recover nativeGK5AINorthAddedUnitAssocCell
   exact (nativeF55P92_original_unit_naturality_no_filler
     northNativeF45FirstStage
