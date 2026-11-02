@@ -3,6 +3,16 @@
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK5X / 2026-11-02 JST
+
+**四つの真正Mathlib圏同値の五括弧付けpentagonと五つの独立direct再帰的`Φ`の相対障害pentagonの全有限型付き木整合性をLean4で証明 — [定理PR #2943](https://github.com/itakura-hidetoshi/KuuOS/pull/2943) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5XFourStageDirectPhiPentagon.lean)・[正式証明記録](docs/formal/GK5X-four-stage-direct-phi-relative-defect-pentagon.md)。
+
+**証明の厳密な境界：** 五つの実Mathlib `Equivalence.trans`括弧付け`P0..P4`、各々の独立した真正GK5G`ChangeTreeIso`から作る`DirectPhi0..4`、五つの実whole NatIso結合辺`Edge01/12/23/04/43`を構築。`nativeGK5XPentagon_whole`／`natTrans`で真の三辺経路と二辺経路が一致。`nativeGK5XDirectDefectPentagon_whole`／`obstruction_refl`／`natTrans`で相対直接`Φ`障害`Δij=(Φ_i ≪≫ Edgeij) ≪≫ Φ_j.symm`の両経路の積一致および経路差`Iso.refl`を証明。**各`Δij`自身が`Iso.refl`とは証明していない。** 完全な四段独立direct`Φ`辺可換化は次GK5Yの別義務。選択準逆・unit/counitをstrict扱いせず、元source-Q/raw Type高次セル/F45無条件faithfulness/Gray/unrestricted hyperdescentは範囲外。
+
+**Lean4全文・検証：** 新規Lean476行のみ・既存ファイル無変更。初回CIでは五角形本体は成功したが相対障害貼り合わせで`simp only [Iso.trans_assoc]`の右結合化が中間逆同型との相殺を隠し型不一致に。真の`Iso.ext`および`Iso.trans_hom`／`Category.assoc`を使い解消。最終source `c4201dd8226208582a7333b5caba21cf97d90e81`／squash `7261d8c309a9b700681740d81509f3e5629e780a`／Git tree完全一致 `c96a18ea74ad9864f5f084f6d8c17df215da1af2`。[CI #41404999549](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41404999549) **Strict Lean 3845/3845、20/20公理監査標準三公理のみ、sorryAx0、errors/warnings0、Independent Kuu・Workflow integrity・Governance SUCCESS**。固定Lean v4.30.0-rc2・mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、root107／strict空中心／独立Kuu一presentation、保護PR #1558 Draft/OPEN維持。
+
+**次GK5Y：** 真正全五辺のdirect `Φ`比較における個別相対障害の消滅を、GK5W/GK5U/GK5Q非strict whole NatIso自然性から構成。その後GK5F型付きindex reindexingへ。以下すべての旧記録を保持。
+
 ## 最新のLean定理統合 — F112-P94D3GK5W / 2026-11-02 JST
 
 **三段真正圏同値`e,g,h`について、左右各自の直接再帰`Φ`が実whole Mathlib NatIso結合比較を介して一致することを全有限型付き木でLean4証明 — [定理PR #2941](https://github.com/itakura-hidetoshi/KuuOS/pull/2941) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5WIndependentDirectTriplePhiCoherence.lean)・[正式記録](docs/formal/GK5W-independent-direct-recursive-triple-phi-coherence.md)。
