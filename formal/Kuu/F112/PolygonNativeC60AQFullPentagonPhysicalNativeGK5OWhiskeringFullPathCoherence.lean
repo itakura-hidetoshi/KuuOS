@@ -37,6 +37,16 @@ section FullGeneratorCoherence
 variable {I : Type uI} {C D : I → Cat.{vC,uC}}
 variable (e : ∀ i : I, C i ≌ D i)
 
+/-- The exact GK5H basic-step comparison, before embedding it as
+a proof-relevant length-one finite path. -/
+private def NativeGK5OStepSquare
+    {i j : I} {a b : NativeGK5DTypedTree C i j}
+    (s : NativeGK5DTypedStep C a b) : Prop :=
+  nativeGK5DStepIso (nativeGK5GChangeStep e s) ≪≫
+    nativeGK5GChangeTreeIso e b =
+  nativeGK5GChangeTreeIso e a ≪≫
+    nativeGK5GChangeIso e (nativeGK5DStepIso s)
+
 /-- A genuine child basic NatIso square remains coherent upon
 right-whiskering by any real finite typed subtree. This compares
 three actual pastings: child square, Mathlib isoWhisker interchange,
@@ -45,9 +55,8 @@ private theorem nativeGK5OWhiskerRight_of_square
     {i j k : I} {a b : NativeGK5DTypedTree C i j}
     (s : NativeGK5DTypedStep C a b)
     (c : NativeGK5DTypedTree C j k)
-    (hs : NativeGK5JPathSquare e (NativeGK5DTypedPath.basic s)) :
-    NativeGK5JPathSquare e
-      (NativeGK5DTypedPath.basic (NativeGK5DTypedStep.whiskerRight s c)) := by
+    (hs : NativeGK5OStepSquare e s) :
+    NativeGK5OStepSquare e (NativeGK5DTypedStep.whiskerRight s c) := by
   let Ra := nativeGK5DTreeComposite a
   let Rb := nativeGK5DTreeComposite b
   let Sc := nativeGK5DTreeComposite c
@@ -57,36 +66,26 @@ private theorem nativeGK5OWhiskerRight_of_square
   let φa := nativeGK5GChangeTreeIso e a
   let φb := nativeGK5GChangeTreeIso e b
   let φc := nativeGK5GChangeTreeIso e c
-  have hchild : α ≪≫ φb = φa ≪≫ β := by
-    simpa only [NativeGK5JPathSquare, nativeGK5DPathIso,
-      nativeGK5GChangePath, α, β, φa, φb] using hs
+  have hchild : α ≪≫ φb = φa ≪≫ β := hs
   have hinter : Functor.isoWhiskerRight β Tc ≪≫
         Functor.isoWhiskerLeft (nativeGK5GChangeAtom e Rb) φc =
       Functor.isoWhiskerLeft (nativeGK5GChangeAtom e Ra) φc ≪≫
         Functor.isoWhiskerRight β (nativeGK5GChangeAtom e Sc) :=
     (Functor.isoWhiskerLeft_trans_isoWhiskerRight β φc).symm
   have hcomp := nativeGK5LChangeCompIso_left e (nativeGK5DStepIso s) Sc
-  have hD :
-      nativeGK5DPathIso
-        (NativeGK5DTypedPath.basic
-          (NativeGK5DTypedStep.whiskerRight
-            (nativeGK5GChangeStep e s) (nativeGK5GChangeTree e c))) =
-        Functor.isoWhiskerRight α Tc := by
-    rfl
   have hSwap := congrArg
     (fun t => Functor.isoWhiskerRight φa Tc ≪≫
       t ≪≫ nativeGK5GChangeCompIso e Rb Sc) hinter
-  dsimp only [NativeGK5JPathSquare, nativeGK5DPathIso,
-    nativeGK5GChangePath, nativeGK5DStepIso, nativeGK5GChangeStep,
-    nativeGK5GChangeTreeIso, nativeGK5GChangeTree,
-    nativeGK5DTreeComposite]
-  simp only [nativeGK5GChangePath, nativeGK5DPathIso,
-    nativeGK5GChangeStep, nativeGK5DStepIso]
+  dsimp only [NativeGK5OStepSquare, nativeGK5GChangeStep,
+    nativeGK5DStepIso, nativeGK5GChangeTreeIso,
+    nativeGK5GChangeTree, nativeGK5DTreeComposite]
+  simp only [nativeGK5GChangeStep, nativeGK5DStepIso]
   calc
     _ = (Functor.isoWhiskerRight (α ≪≫ φb) Tc ≪≫
            Functor.isoWhiskerLeft (nativeGK5GChangeAtom e Rb) φc) ≪≫
           nativeGK5GChangeCompIso e Rb Sc := by
-            simp only [hD, Functor.isoWhiskerRight_trans, Iso.trans_assoc]
+             simp only [nativeGK5GChangeStep, nativeGK5DStepIso,
+              Functor.isoWhiskerRight_trans, Iso.trans_assoc]
     _ = (Functor.isoWhiskerRight (φa ≪≫ β) Tc ≪≫
            Functor.isoWhiskerLeft (nativeGK5GChangeAtom e Rb) φc) ≪≫
           nativeGK5GChangeCompIso e Rb Sc := by rw [hchild]
@@ -115,9 +114,8 @@ private theorem nativeGK5OWhiskerLeft_of_square
     (a : NativeGK5DTypedTree C i j)
     {b c : NativeGK5DTypedTree C j k}
     (s : NativeGK5DTypedStep C b c)
-    (hs : NativeGK5JPathSquare e (NativeGK5DTypedPath.basic s)) :
-    NativeGK5JPathSquare e
-      (NativeGK5DTypedPath.basic (NativeGK5DTypedStep.whiskerLeft a s)) := by
+    (hs : NativeGK5OStepSquare e s) :
+    NativeGK5OStepSquare e (NativeGK5DTypedStep.whiskerLeft a s) := by
   let Ra := nativeGK5DTreeComposite a
   let Sb := nativeGK5DTreeComposite b
   let Sc := nativeGK5DTreeComposite c
@@ -127,9 +125,7 @@ private theorem nativeGK5OWhiskerLeft_of_square
   let φa := nativeGK5GChangeTreeIso e a
   let φb := nativeGK5GChangeTreeIso e b
   let φc := nativeGK5GChangeTreeIso e c
-  have hchild : α ≪≫ φc = φb ≪≫ β := by
-    simpa only [NativeGK5JPathSquare, nativeGK5DPathIso,
-      nativeGK5GChangePath, α, β, φb, φc] using hs
+  have hchild : α ≪≫ φc = φb ≪≫ β := hs
   have hinter :
       Functor.isoWhiskerLeft Ta α ≪≫
         Functor.isoWhiskerRight φa (nativeGK5DTreeComposite (nativeGK5GChangeTree e c)) =
@@ -137,26 +133,18 @@ private theorem nativeGK5OWhiskerLeft_of_square
         Functor.isoWhiskerLeft (nativeGK5GChangeAtom e Ra) α :=
     Functor.isoWhiskerLeft_trans_isoWhiskerRight φa α
   have hcomp := nativeGK5KChangeCompIso_right e Ra (nativeGK5DStepIso s)
-  have hD :
-      nativeGK5DPathIso
-        (NativeGK5DTypedPath.basic
-          (NativeGK5DTypedStep.whiskerLeft
-            (nativeGK5GChangeTree e a) (nativeGK5GChangeStep e s))) =
-        Functor.isoWhiskerLeft Ta α := by
-    rfl
-  dsimp only [NativeGK5JPathSquare, nativeGK5DPathIso,
-    nativeGK5GChangePath, nativeGK5DStepIso, nativeGK5GChangeStep,
-    nativeGK5GChangeTreeIso, nativeGK5GChangeTree,
-    nativeGK5DTreeComposite]
-  simp only [nativeGK5GChangePath, nativeGK5DPathIso,
-    nativeGK5GChangeStep, nativeGK5DStepIso]
+  dsimp only [NativeGK5OStepSquare, nativeGK5GChangeStep,
+    nativeGK5DStepIso, nativeGK5GChangeTreeIso,
+    nativeGK5GChangeTree, nativeGK5DTreeComposite]
+  simp only [nativeGK5GChangeStep, nativeGK5DStepIso]
   calc
     _ = ((Functor.isoWhiskerRight φa
             (nativeGK5DTreeComposite (nativeGK5GChangeTree e b)) ≪≫
           Functor.isoWhiskerLeft (nativeGK5GChangeAtom e Ra) α) ≪≫
           Functor.isoWhiskerLeft (nativeGK5GChangeAtom e Ra) φc) ≪≫
           nativeGK5GChangeCompIso e Ra Sc := by
-            simpa only [hD, Iso.trans_assoc] using
+            simpa only [nativeGK5GChangeStep, nativeGK5DStepIso,
+              Iso.trans_assoc] using
               congrArg (fun t =>
                 t ≪≫ Functor.isoWhiskerLeft (nativeGK5GChangeAtom e Ra) φc ≪≫
                   nativeGK5GChangeCompIso e Ra Sc) hinter
@@ -195,10 +183,19 @@ Constructor-pattern recursion retains the genuine typed endpoints. -/
 theorem nativeGK5OAllBasicSteps :
     ∀ {i j : I} {a b : NativeGK5DTypedTree C i j}
         (s : NativeGK5DTypedStep C a b),
-      NativeGK5JPathSquare e (NativeGK5DTypedPath.basic s)
-  | _, _, _, _, .assoc a b c => nativeGK5MAssociator_subtrees e a b c
-  | _, _, _, _, .leftUnit a => nativeGK5NLeftUnit_subtree e a
-  | _, _, _, _, .rightUnit a => nativeGK5NRightUnit_subtree e a
+      NativeGK5OStepSquare e s
+  | _, _, _, _, .assoc a b c => by
+      simpa only [NativeGK5OStepSquare, NativeGK5JPathSquare,
+        nativeGK5DPathIso, nativeGK5GChangePath] using
+        (nativeGK5MAssociator_subtrees e a b c)
+  | _, _, _, _, .leftUnit a => by
+      simpa only [NativeGK5OStepSquare, NativeGK5JPathSquare,
+        nativeGK5DPathIso, nativeGK5GChangePath] using
+        (nativeGK5NLeftUnit_subtree e a)
+  | _, _, _, _, .rightUnit a => by
+      simpa only [NativeGK5OStepSquare, NativeGK5JPathSquare,
+        nativeGK5DPathIso, nativeGK5GChangePath] using
+        (nativeGK5NRightUnit_subtree e a)
   | _, _, _, _, .whiskerRight s c =>
       nativeGK5OWhiskerRight_of_square e s c (nativeGK5OAllBasicSteps s)
   | _, _, _, _, .whiskerLeft a s =>
@@ -209,8 +206,7 @@ the basic-generator square as a hypothesis. -/
 theorem nativeGK5OStepCompatible :
     NativeGK5HStepCompatible (C := C) (D := D) e := by
   intro i j a b s
-  simpa only [NativeGK5JPathSquare, nativeGK5DPathIso,
-    nativeGK5GChangePath] using (nativeGK5OAllBasicSteps e s)
+  exact nativeGK5OAllBasicSteps e s
 
 /-- From real local coherence and GK5H's already proved exact gluing,
 ALL genuine finite typed rewrite paths have the whole Mathlib NatIso
