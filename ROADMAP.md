@@ -3,6 +3,17 @@
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK5S / 2026-11-02 JST
+
+**真の逐次／合成圏同値に対して、再帰的whole NatIso `Φ`の原子木整合性を無条件証明し、全有限型付き木の整合性を真正unitとcanonical cons-pasteの二条件へ必要十分還元 — [PR #2933](https://github.com/itakura-hidetoshi/KuuOS/pull/2933) MERGED。** [Lean4全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5SAtomicPhiNormalFormCriterion.lean)・[GK5S正式証明記録](docs/formal/GK5S-atomic-recursive-phi-normalform-unit-cons-criterion.md)。
+
+**証明内容：** `nativeGK5SChangeIso_refl`は実Mathlibの二つのiso-whiskering恒等則。`nativeGK5SAtomPhi_compatible`と`nativeGK5SAtomObstruction_refl`は任意の`R:C_i⥤C_j`の二段／単一`Φ`比較および相対whole NatIso障害`Ω_(atom R)`の無条件消滅。さらに`NativeGK5SAllTreeCoherent`、`NativeGK5SUnitCoherent`、`NativeGK5SConsCoherent`を明示的な命題として定義。`nativeGK5SNormalWords_of_unit_cons`は完全依存型wordの`empty/cons`帰納、`nativeGK5SAllTrees_of_unit_cons`はGK5R本物の標準経路による全木へのgluing、`nativeGK5SAllTrees_iff_unit_cons`と`nativeGK5SAllObstructions_iff_unit_cons`は正確な必要十分同値。**残存unit/cons命題が無条件に真だとは証明しておらず、全木`Ω_t`消滅はまだ未確定。** 中間圏のunit/counitをstrictに潰していない。
+
+**CI・Lean4エラー原因：** 変更Lean全文195行、GK5R/G/Q/D依存の真の型、固定Mathlib`Whiskering`・`Iso`・`EqToHom`を確認。最初の`simp only`は二重`ChangeIso`恒等律と原子`TreeComposite`の本物の評価を十分展開できず2ゴールを残した。型付き`nativeGK5SChangeIso_refl`の書換えと`nativeGK5GChangeTree`／`nativeGK5DTreeComposite`の定義展開で修正。exact-source `c0654eddf52b5f63d4d647aba79238155a4aa820`、squash `9c705a0d21aed2bee51c4d82b1d0d0d08bab0283`、一致Git tree `71e00d954a725d79160c10656a54473662bd67d1`。[CI #41386958561](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41386958561) **Strict Lean 3840/3840、Independent Kuu、workflow integrity、Governance terminal SUCCESS**、公理監査10/10標準`propext/Classical.choice/Quot.sound`のみ、sorryAx0、error/warning0。固定Lean v4.30.0-rc2、mathlib 5450b53e5ddc75d46418fabb605edbf36bd0beb6、root107、保護#1558 Draft/open、append-only維持。
+
+**次GK5Tで埋めるべき真のobstruction：** `NativeGK5SUnitCoherent`についてMathlib`Equivalence.trans`の真正counit合成の三角律とGK5G`ChangeUnitIso`を比較。さらに`NativeGK5SConsCoherent`について右結合標準形の原子追加の`ChangeCompIso`と中間unit自然性を証明。その両方が成功した場合にだけGK5Sから全有限型付き木の無条件`Ω_t=Iso.refl`を得る。元F45/source-Q/raw Type値高次セル/Gray/unrestricted hyperdescentは範囲外。以下のGK5R以前の歴史的記録を保持。
+
+
 ## 最新のLean定理統合 — F112-P94D3GK5R / 2026-11-02 JST
 
 **GK5Qの二段/合成圏同値のwhole経路比較を、真正GK5G再帰`Φ`二構成の相対NatIso obstructionへ拡張。有限型付き経路での共役保存と、正規化・同葉語二木の消滅判定iffをLean4で証明 — [定理PR #2931](https://github.com/itakura-hidetoshi/KuuOS/pull/2931) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5RRecursivePhiObstruction.lean)・[正式証明記録](docs/formal/GK5R-recursive-phi-obstruction-path-normalization.md)。
