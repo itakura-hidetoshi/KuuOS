@@ -74,12 +74,12 @@ private theorem nativeGK5OWhiskerRight_of_square
     nativeGK5GChangeStep, nativeGK5DStepIso]
   change
     Functor.isoWhiskerRight α Tc ≪≫
-      ((Functor.isoWhiskerRight φb Tc ≪≫
-          Functor.isoWhiskerLeft (nativeGK5GChangeAtom e Rb) φc) ≪≫
-        nativeGK5GChangeCompIso e Rb Sc) =
-    ((Functor.isoWhiskerRight φa Tc ≪≫
-        Functor.isoWhiskerLeft (nativeGK5GChangeAtom e Ra) φc) ≪≫
-       nativeGK5GChangeCompIso e Ra Sc) ≪≫
+      (Functor.isoWhiskerRight φb Tc ≪≫
+        Functor.isoWhiskerLeft (nativeGK5GChangeAtom e Rb) φc ≪≫
+          nativeGK5GChangeCompIso e Rb Sc) =
+    (Functor.isoWhiskerRight φa Tc ≪≫
+        Functor.isoWhiskerLeft (nativeGK5GChangeAtom e Ra) φc ≪≫
+          nativeGK5GChangeCompIso e Ra Sc) ≪≫
       nativeGK5GChangeIso e (Functor.isoWhiskerRight (nativeGK5DStepIso s) Sc)
   calc
     _ = (Functor.isoWhiskerRight (α ≪≫ φb) Tc ≪≫
@@ -143,14 +143,14 @@ private theorem nativeGK5OWhiskerLeft_of_square
     nativeGK5GChangeStep, nativeGK5DStepIso]
   change
     Functor.isoWhiskerLeft Ta α ≪≫
-      ((Functor.isoWhiskerRight φa
+      (Functor.isoWhiskerRight φa
          (nativeGK5DTreeComposite (nativeGK5GChangeTree e c)) ≪≫
-        Functor.isoWhiskerLeft (nativeGK5GChangeAtom e Ra) φc) ≪≫
-        nativeGK5GChangeCompIso e Ra Sc) =
-    ((Functor.isoWhiskerRight φa
+        Functor.isoWhiskerLeft (nativeGK5GChangeAtom e Ra) φc ≪≫
+          nativeGK5GChangeCompIso e Ra Sc) =
+    (Functor.isoWhiskerRight φa
          (nativeGK5DTreeComposite (nativeGK5GChangeTree e b)) ≪≫
-        Functor.isoWhiskerLeft (nativeGK5GChangeAtom e Ra) φb) ≪≫
-        nativeGK5GChangeCompIso e Ra Sb) ≪≫
+        Functor.isoWhiskerLeft (nativeGK5GChangeAtom e Ra) φb ≪≫
+          nativeGK5GChangeCompIso e Ra Sb) ≪≫
       nativeGK5GChangeIso e (Functor.isoWhiskerLeft Ra (nativeGK5DStepIso s))
   calc
     _ = ((Functor.isoWhiskerRight φa
