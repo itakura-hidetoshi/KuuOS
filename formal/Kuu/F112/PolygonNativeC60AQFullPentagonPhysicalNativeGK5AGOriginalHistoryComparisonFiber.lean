@@ -7,6 +7,10 @@ import Mathlib.Tactic
 F112-P94D3GK5AG — original north-C60 F54/F55/P92B history
 versus genuinely independent Mathlib whole-NatIso pentagon.
 
+The F54/F55 source here is the independently reconstructed NATIVE
+old-F54-shaped Type-valued grammar, not an asserted equivalence to
+the frozen historical KUOS F54/F55 implementation.
+
 A source F54 3-step pentagon path and 2-step pentagon path
 are different in the original doubly Nat-dependent, two-category
 Type-valued grammar. An actual original F55 3-cell witnesses
@@ -111,14 +115,20 @@ theorem nativeGK5AGNorthNoP92HistoryRetraction :
         ∀ route : NativeGK5AGNorthHistory,
           recover (nativeGK5AGNorthP92Class route) = route := by
   rintro ⟨recover, hreturn⟩
-  apply nativeGK5AGNorthOriginalHistories_distinct
-  calc
-    northNativeF45PentagonLong =
-        recover (nativeGK5AGNorthP92Class northNativeF45PentagonLong) :=
-      (hreturn _).symm
-    _ = recover (nativeGK5AGNorthP92Class northNativeF45PentagonShort) :=
-      congrArg recover nativeGK5AGNorthP92Classes_equal
-    _ = northNativeF45PentagonShort := hreturn _
+  have hl :
+      recover (nativeGK5AGNorthP92Class northNativeF45PentagonLong) =
+        (northNativeF45PentagonLong : NativeGK5AGNorthHistory) :=
+    hreturn _
+  have hs :
+      recover (nativeGK5AGNorthP92Class northNativeF45PentagonShort) =
+        (northNativeF45PentagonShort : NativeGK5AGNorthHistory) :=
+    hreturn _
+  have hmap :
+      recover (nativeGK5AGNorthP92Class northNativeF45PentagonLong) =
+        recover (nativeGK5AGNorthP92Class northNativeF45PentagonShort) :=
+    congrArg recover nativeGK5AGNorthP92Classes_equal
+  exact nativeGK5AGNorthOriginalHistories_distinct
+    (hl.symm.trans (hmap.trans hs))
 
 /-- EXACT descent criterion to the original P92B existence
 quotient, for arbitrary target type T: a readout factors if and
