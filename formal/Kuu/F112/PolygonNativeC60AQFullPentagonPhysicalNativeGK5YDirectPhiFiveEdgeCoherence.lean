@@ -56,9 +56,24 @@ private theorem nativeGK5YLiftThree
         (p.trans (nativeGK5WRightTreeEq a b c t))) ≪≫
       nativeGK5GChangeTreeIso
         (fun x : I => (a x).trans ((b x).trans (c x))) t := by
+  have hleft :
+      eqToIso (congrArg nativeGK5DTreeComposite
+        (p.trans (nativeGK5WLeftTreeEq a b c t))) =
+      eqToIso (congrArg nativeGK5DTreeComposite p) ≪≫
+        eqToIso (congrArg nativeGK5DTreeComposite
+          (nativeGK5WLeftTreeEq a b c t)) :=
+    (eqToIso_trans _ _).symm
+  have hright :
+      eqToIso (congrArg nativeGK5DTreeComposite
+        (p.trans (nativeGK5WRightTreeEq a b c t))) =
+      eqToIso (congrArg nativeGK5DTreeComposite p) ≪≫
+        eqToIso (congrArg nativeGK5DTreeComposite
+          (nativeGK5WRightTreeEq a b c t)) :=
+    (eqToIso_trans _ _).symm
+  rw [hleft, hright]
   simpa only [nativeGK5WLeftDirectPhi, nativeGK5WRightDirectPhi,
     nativeGK5WLeftTreeIso, nativeGK5WRightTreeIso,
-    eqToIso_trans, Iso.trans_assoc] using
+    Iso.trans_assoc] using
     congrArg
       (fun iso => eqToIso (congrArg nativeGK5DTreeComposite p) ≪≫ iso)
       (nativeGK5WAllTrees_direct_assoc_whole a b c t)
@@ -161,7 +176,7 @@ theorem nativeGK5YDefect12_refl
     nativeGK5XDefect12 e g h k t = Iso.refl _ := by
   unfold nativeGK5XDefect12
   rw [nativeGK5YEdge12_whole]
-  simp only [Iso.symm_self_id]
+  simp only [Iso.self_symm_id]
 
 /-- Genuine independently assembled source automorphism vanishes
 along the full P0->P4 direct-Phi associativity edge. -/
@@ -170,7 +185,7 @@ theorem nativeGK5YDefect04_refl
     nativeGK5XDefect04 e g h k t = Iso.refl _ := by
   unfold nativeGK5XDefect04
   rw [nativeGK5YEdge04_whole]
-  simp only [Iso.symm_self_id]
+  simp only [Iso.self_symm_id]
 
 /-- Genuine independently assembled source automorphism vanishes
 along the full P4->P3 direct-Phi associativity edge. -/
@@ -179,7 +194,7 @@ theorem nativeGK5YDefect43_refl
     nativeGK5XDefect43 e g h k t = Iso.refl _ := by
   unfold nativeGK5XDefect43
   rw [nativeGK5YEdge43_whole]
-  simp only [Iso.symm_self_id]
+  simp only [Iso.self_symm_id]
 
 #print axioms nativeGK5YEdge12_whole
 #print axioms nativeGK5YEdge04_whole
