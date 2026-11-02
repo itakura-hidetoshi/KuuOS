@@ -365,8 +365,16 @@ theorem nativeGK5WRightDirect_eq_recursive
         nativeGK5QAtomComparison e
           (fun k : I => (g k).trans (h k))
           (nativeGK5DTreeComposite t) := by
-            simp only [Iso.trans_assoc]
-            rw [← hnatural]
+            simpa only [Iso.trans_assoc] using
+              congrArg (fun β =>
+                ((nativeGK5GChangeTreeIso h
+                    (nativeGK5GChangeTree g (nativeGK5GChangeTree e t)) ≪≫
+                  nativeGK5GChangeIso h
+                    (nativeGK5GChangeTreeIso g (nativeGK5GChangeTree e t))) ≪≫
+                  β) ≪≫
+                  nativeGK5QAtomComparison e
+                    (fun k : I => (g k).trans (h k))
+                    (nativeGK5DTreeComposite t)) hnatural.symm
     _ = nativeGK5VRightPhi e g h t := by
       simp only [nativeGK5VRightPhi, nativeGK5VThreeStageSequentialPhi,
         Iso.trans_assoc]
