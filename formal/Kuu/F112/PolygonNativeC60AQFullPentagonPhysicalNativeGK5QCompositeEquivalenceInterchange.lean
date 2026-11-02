@@ -118,6 +118,17 @@ noncomputable def nativeGK5QTreeComparison
   eqToIso (congrArg (fun x => nativeGK5DTreeComposite x)
     (nativeGK5QChangeTree_comp e g t))
 
+/-- The real whole-NatIso conjugation sends the actual identity Iso
+of any whole functor to the actual identity Iso of its changed functor.
+The inner right- and outer left-whiskering must both be simplified. -/
+private theorem nativeGK5QChangeIso_refl
+    {i j : I} (R : C i ⥤ C j) :
+    nativeGK5GChangeIso e (Iso.refl R) =
+      Iso.refl (nativeGK5GChangeAtom e R) := by
+  change Functor.isoWhiskerLeft (e i).inverse
+    (Functor.isoWhiskerRight (Iso.refl R) (e j).functor) = Iso.refl _
+  simp only [Functor.isoWhiskerRight_refl, Functor.isoWhiskerLeft_refl]
+
 /-- The genuine atomic NatIso comparison commutes with the image
 of any equality-induced NatIso, no assumption of strict inverses.
 This applies in particular to every certified GK5D path NatIso. -/
@@ -129,9 +140,11 @@ theorem nativeGK5QAtomComparison_eqToIso_square
       nativeGK5GChangeIso
         (fun k : I => (e k).trans (g k)) (eqToIso h) := by
   cases h
-  simp only [eqToIso_refl, nativeGK5GChangeIso]
-  simp only [Functor.isoWhiskerRight_refl, Functor.isoWhiskerLeft_refl,
-    Iso.refl_trans, Iso.trans_refl]
+  simp only [eqToIso_refl]
+  rw [nativeGK5QChangeIso_refl e R]
+  rw [nativeGK5QChangeIso_refl g (nativeGK5GChangeAtom e R)]
+  rw [nativeGK5QChangeIso_refl (fun k : I => (e k).trans (g k)) R]
+  simp only [Iso.refl_trans, Iso.trans_refl]
 
 /-- Substitution with a REAL whole NatIso interpretation of ANY
 proof-relevant finite typed path gives atomic change-composition
