@@ -3,6 +3,17 @@
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK5Q / 2026-11-02 JST
+
+**GK5Pで独立に証明した逐次・合成圏同値の全有限経路自然性を一つの真正NatIso比較squareに接続 — [定理PR #2929](https://github.com/itakura-hidetoshi/KuuOS/pull/2929) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5QCompositeEquivalenceInterchange.lean)・[正式証明記録](docs/formal/GK5Q-composite-equivalence-finite-path-comparison.md)。
+
+**公開11定理：** `nativeGK5QChangeAtom_comp`と`nativeGK5QAtomComparison`は、真正Mathlib`Equivalence.trans`と`Functor.assoc`に基づくwhole関手同一性・whole NatIso比較。`nativeGK5QChangeWord_comp`、`nativeGK5QChangeTree_comp`、`nativeGK5QChangeTreeLeaves_comp`は有限依存型word/tree/順序付き葉語の合成交換等式。`nativeGK5QTreeComparison`は各実有限木の両側評価を真正whole NatIsoで比較。`nativeGK5QAtomComparison_eqToIso_square`、`nativeGK5QAtomComparison_path_square`は原子および任意GK5D有限Pathの`eqToIso`変換の比較自然性。`nativeGK5QAllFinitePaths_composition_square`、`nativeGK5QAllFinitePaths_composition_natTrans`、`nativeGK5QNormalization_composition_square`は二段・一段経路を真正whole NatIso／NatTrans squareで可換にする無条件証明。選択逆をstrict同一視しない。
+
+**CIエラー構造診断：** 初期版は`eqToIso_refl`後の入れ子`ChangeIso`にある`isoWhiskerRight/isoWhiskerLeft`の恒等律を証明せず、`simp only`が閉じない未解決ゴールを残した。Lean全文・GK5D/GK5G/GK5P・固定Mathlib原典を読み、補題`nativeGK5QChangeIso_refl`を実際の圏族とsource/targetを保持して追加。3つの`ChangeIso`を個別`rw`して`Iso.refl_trans`と`Iso.trans_refl`で閉じた。最終source `7cfc57438469d1cd65935fd5320bb80186f67ded`、squash `602ee6495da908a0bd499b939396036fd2e6f777`、source/squash一致tree `50212fa5169cbe8e4c332a7eb670236b29f21b52`。[CI #41382919068](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41382919068) **Strict Lean 3838/3838、Independent Kuu、Workflow integrity、Governanceすべてterminal SUCCESS**、公理監査11/11標準`propext/Classical.choice/Quot.sound`のみ、sorryAx0、error/warning0。Lean v4.30.0-rc2、pinned mathlib 5450b53e5ddc75d46418fabb605edbf36bd0beb6、root107、保護#1558 Draft/OPEN維持。
+
+**次GK5Rの未証明obstruction：** 上記`eqToIso`は同一の型付き木/Pathを二通りに再結合した構造比較であり、GK5Gの**実再帰whole比較`Φ`の二段・一段pseudofunctor比較**ではない。今後、真正unit/counit・中間`ChangeCompIso`を保持した比較NatIsoと有限木での再帰pasting自然性を別証明する。元F45/source-Q/raw Type高次セル/Gray/無制限hyperdescentは引き続き未証明。以下履歴は全保持。
+
+
 ## 最新のLean定理統合 — F112-P94D3GK5P / 2026-11-02 JST
 
 **GK5F型付きindex reclassificationとGK5G真正点別圏同値changeの交換則を依存型word/treeの厳密等式として証明し、GK5Oの無条件whole Mathlib NatIso/NatTrans有限経路自然性をrelabel・pullback・逐次変換・実Mathlib合成圏同値に適用 — [PR #2927](https://github.com/itakura-hidetoshi/KuuOS/pull/2927) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5PIndexChangeNaturality.lean)・[証明記録](docs/formal/GK5P-typed-index-change-exchange-composite-path-naturality.md)。

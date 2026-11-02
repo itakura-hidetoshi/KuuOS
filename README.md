@@ -14,6 +14,17 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK5Q / 2026-11-02 JST
+
+**真正点別圏同値の逐次変換とMathlib合成変換を、実whole NatIso・全有限型付き経路の可換squareで結ぶ定理 — [定理PR #2929](https://github.com/itakura-hidetoshi/KuuOS/pull/2929) MERGED。** [Lean4全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5QCompositeEquivalenceInterchange.lean)・[正式証明記録](docs/formal/GK5Q-composite-equivalence-finite-path-comparison.md)。
+
+**新規数学的成果：** 真正圏同値族`e_i:C_i≌D_i`、`g_i:D_i≌E_i`について、Mathlib本来の`(e_i).trans(g_i)`のfunctorとinverseの合成を保持。`Change_g(Change_e(R))`と`Change_(e.trans g)(R)`を実`Functor.assoc`に基づく`eqToIso`から真正whole NatIsoで比較し、依存型有限word/treeの合成等式、順序付き葉語の保存、端点のwhole NatIso、任意の証拠付き有限GK5D経路に対する二段／一段のwhole NatIso比較可換square、whole NatTrans版、正規化経路版をLean4で証明（公開11件）。**厳密な境界：** GK5Gの再帰的`Φ`比較を逐次合成と単一合成の間で直接比較するより強いcompositor/unit/counitの整合性は未証明であり、別研究へ残す。
+
+**Lean4全文診断とCI：** 原子的比較の`cases h`後に残る入れ子の`isoWhiskerRight`・`isoWhiskerLeft`を単一`simp only`では解消できない構造を再確認。固定mathlibの恒等律を型付きprivate補題`nativeGK5QChangeIso_refl`として抽出し、`e`・`g`・`e.trans g`の3段階で`rw`、最後に`Iso.refl_trans`／`Iso.trans_refl`で閉じた。CIが指摘した行だけでなく、Lean全文228行、imports、GK5D/GK5G/GK5Pシグネチャ、固定Mathlib原典を検証。最終source `7cfc57438469d1cd65935fd5320bb80186f67ded`／squash `602ee6495da908a0bd499b939396036fd2e6f777`／同一Git tree `50212fa5169cbe8e4c332a7eb670236b29f21b52`。[exact-source CI #41382919068](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41382919068) **Strict Lean 3838/3838 SUCCESS、Independent Kuu・Workflow integrity・Governance全SUCCESS**、公開11/11`#print axioms`は`propext/Classical.choice/Quot.sound`のみ、sorryAx0、Lean errors/warnings0/0。仮定の弱化・古いソースの上書きはなし。
+
+**維持条件と次GK5R：** 固定Lean v4.30.0-rc2、mathlib 5450b53e5ddc75d46418fabb605edbf36bd0beb6、root107、same-root/append-only、strict空中心・独立Kuu一presentation、保護PR #1558 Draft/OPEN/未マージを保持。次は逐次と合成の**再帰的`Φ`本体**に対する非strict whole NatIso比較・unit/counit・compositor整合性を個別証明する。元F45/source-Q/raw高次Typeセル/Gray/無制限hyperdescentは今回の証明範囲外。以下GK5P以前の全履歴は保持。
+
+
 ## 最新のLean定理統合 — F112-P94D3GK5P / 2026-11-02 JST
 
 **型付きindex relabelingと真正点別圏同値のword/tree交換可換性を形式証明、GK5O全有限経路の無条件whole NatIso/NatTrans自然性をrelabeling・二段圏同値・Mathlib合成圏同値へ拡張 — [定理PR #2927](https://github.com/itakura-hidetoshi/KuuOS/pull/2927) MERGED。** [Lean4全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5PIndexChangeNaturality.lean)・[GK5P正式証明記録](docs/formal/GK5P-typed-index-change-exchange-composite-path-naturality.md)。
