@@ -14,6 +14,16 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK5AA／任意index再分類下の独立再帰Φ／2026-11-02 JST
+
+**任意のindex写像`f:I→J`（非単射も許容）について、真正Mathlib圏同値のGK5G再帰的whole NatIso `Φ`とGK5F/GK5Pの型付きreindexingが、source/target両側の実`eqToIso`境界を介して交換することを証明。さらにGK5X/GK5Yの五通りの括弧付け`P0..P4`について、I側で独立に再帰構成した五つの直接`Φ`と、GK5ZのJ側から移送した五つの直接`Φ`の完全whole NatIso一致を無条件にLean4証明 — [定理PR #2949](https://github.com/itakura-hidetoshi/KuuOS/pull/2949) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5AAIndependentPhiReindexNaturality.lean)・[正式証明記録](docs/formal/GK5AA-independent-recursive-phi-fivefold-reindex-naturality.md)。
+
+**数学的核心：** `nativeGK5AASinglePhi_reindex_whole`はunit/atom/paste全有限依存型木の真の再帰`Φ`自然性。`nativeGK5AAHorizontal_natural`と`nativeGK5AACompIso_natural`がwhole NatIsoの水平whiskeringと真正Mathlib中間unitIso由来のcompositorを保存し、選択準逆・unit/counitのstrict化不要。`nativeGK5AAFourfoldPhiBridge`はGK5Zの四段source `eqToIso`と二種類のGK5X木等式を`eqToIso_trans`で貼り、**`nativeGK5AAFourDirectPhi0..4_reindex_whole`および`nativeGK5AAAllFiveDirectPhi_reindex_whole`**で全五括弧付けの**独立再帰版と移送版**の差を解消。固定universe・真正有限GK5D型付き木で成立し、raw F54/F55/P92B Type高次セル、元source-Q、Gray、無制限hyperdescentは含まない。
+
+**全文Lean4エラー構造・監査：** 新規Lean**455行**のみ変更、公開`#print axioms`**9件**。初回はI/J index家族の暗黙引数とpasteのwhole水平NatIso・真正compositor自然性が未解決。GK5G unit・pasteの再帰を全文点検して、実水平合成自然性・compositor自然性・等式proof irrelevanceと`Iso.trans_assoc`による正規化で修正。五fold追加時は`simp only [eqToIso_trans]`でゴールが解消済みなのに続く`exact`が`No goals to be solved`を生んだため冗長タクティクを削除。**最終CI #41421856599はStrict Lean 3848/3848、9/9公理監査`propext/Classical.choice/Quot.sound`のみ、sorryAx0、Lean errors/warnings0、Independent Kuu・Workflow integrity・Governance SUCCESS**。[CI](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41421856599)。最終source `f897f05521f9a22942f467b4f095a5bf5323206b`／squash `337a6e73265a939e7621df4afb3d6ed2f2401907`／**Leanファイルblob SHA同一**`3f28ef12dc77f456d232ac406eb4c8533a2aada2`。独立Qi v3.5文書#2951が並行してmainに入ったため**リポジトリ全体Git treeはsource/squashで異なる**が、exact-sourceとマージ後Lean本文は完全一致。固定Lean v4.30.0-rc2・mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`／root107・strict空中心・独立Kuu一presentation・保護#1558 Draft/OPEN。
+
+**次GK5AB：** 任意`I→J→K`連続index写像に対する五fold独立`Φ`のreindexing合成自然性（identity・composition・whole NatIso境界経路非依存）を証明し、Qi v3.5の共通五行・C60・GK5型とのcompatibilityへ接続。以下のQi v3.5および過去すべての履歴を全保持。
+
 ## 新規統合 — Qi v3.5／五行・真正C60五角形・GK5高次五角形の共通型／2026-11-02 JST
 
 **[定理PR #2950](https://github.com/itakura-hidetoshi/KuuOS/pull/2950) MERGED。** 五行`FivePhase=ZMod 5`を唯一の**共通座標型**として用い、12真正C60五角形の各`Slot`に対するゲージ依存の実`FivePhase ≃ Slot`、相生`+1`と物理`slotNext`の可換性、元`Dart`・`Edge.around`の正確な端点一致を証明。さらに真正Mathlib4圏同値の5括弧付け`P0..P4`を同じ位相`0..4`で選び、**同じ`FivefoldEdge`が実C60辺とwhole NatIso辺の両方を型付きで選択**。物理円周と反対向きの`04/43`も正確に保持。GK5Xの真正pentagonおよびGK5Yの**全5辺direct`Φ`可換性**を新しい共通インターフェースで証明した。
