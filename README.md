@@ -14,6 +14,16 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK5Y / 2026-11-02 JST
+
+**四段の真正Mathlib点別圏同値の五通りの括弧付けについて、各々独立の直接再帰的whole NatIso `Φ`の五辺すべてを無条件に可換化。GK5Xの相対障害`Δ01/12/23/04/43`が任意の有限GK5D型付き関手木で個別に`Iso.refl`であることをLean4証明 — [定理PR #2945](https://github.com/itakura-hidetoshi/KuuOS/pull/2945) MERGED。** [Lean4全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5YDirectPhiFiveEdgeCoherence.lean)・[GK5Y正式証明記録](docs/formal/GK5Y-unconditional-five-direct-phi-edge-coherence.md)。
+
+**真正whole NatIso数学成果：** GK5Wの無条件三段独立direct `Φ`結合整合性を、完全型付き木の真正`eqToIso_trans`で貼り合わせ、三辺`P1→P2`、`P0→P4`、`P4→P3`を個別に証明。追加の`nativeGK5YPostCoherent`は、真の非strict圏同値による後合成でもwhole NatIso再帰`Φ`比較が保存されることを、GK5U二段無条件定理・GK5Q原子NatIso比較・GK5HのNatIso合成則を用いて実証。これをGK5W三段結合に適用して`P0→P1`の個別障害を消滅。GK5Xの真正pentagon式と既証明の四辺から残る`P2→P3`の障害を消去。**`nativeGK5YAllFiveEdges_whole`と`nativeGK5YAllFiveDefects_refl`で、五つのwhole NatIso辺等式および全五個`Δij=Iso.refl`を無条件確定。** 真正選択準逆・unit/counit・中間compositorは保持、圏同値レコード全体のstrict等号は不使用。元source-Q/raw Type高次セル/F45無条件faithfulness/Gray/無制限hyperdescentは未証明。
+
+**Lean4全文診断・検証：** 新規Leanソース**518行**のみ、公開12宣言。初回はGK5W構造的tree NatIsoと`eqToIso_trans`の明示分解が不足し、逆Iso相殺の`Iso.symm_self_id`／`Iso.self_symm_id`の向きにも誤り。次に非strict後合成の再帰`Φ`で、`simp only`のeqToIso合成、`nativeGK5RSequentialCompositePhi`の明示展開、`Iso.trans_assoc`、let-bound NatIsoの形が残ったため、真正whole NatIso`congrArg`で修正。仮定・結論を弱めず修正し、新公理・sorry不使用。最終exact-source `852abc541b2c825f9b7564c26c690d60b7b4571d`／定理squash `6731a67cca6fd0b09184af1dd04311d38469bf13`／一致Git tree `c3d095159c97b71c8a683886cd3ca47532884915`。[CI #41408805373](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41408805373) **Strict Lean 3846/3846・12/12公理監査`propext/Classical.choice/Quot.sound`のみ・sorryAx0・errors/warnings0・Independent Kuu／Governance SUCCESS**。固定Lean v4.30.0-rc2・mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、root107・strict空中心・独立Kuu一presentation・保護#1558 Draft/OPEN維持。
+
+**次GK5Z：** 完全に閉じた五辺直接`Φ`pentagonとGK5Fの任意index reindexing（非単射含む）との真正whole NatIso交換則へ進む。その後、有限長圏同値合成のassociahedron整合性を検討。以下GK5X以前のすべての履歴を保持。
+
 ## 最新のLean定理統合 — F112-P94D3GK5X / 2026-11-02 JST
 
 **四段の真正Mathlib圏同値の五通りの括弧付けによるwhole NatIso pentagon可換性、五つの独立した直接再帰的Φから定まる相対障害の二経路整合性を、全有限型付き木でLean4証明 — [定理PR #2943](https://github.com/itakura-hidetoshi/KuuOS/pull/2943) MERGED。** [Lean4全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5XFourStageDirectPhiPentagon.lean)・[GK5X正式証明記録](docs/formal/GK5X-four-stage-direct-phi-relative-defect-pentagon.md)。
