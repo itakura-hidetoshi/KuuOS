@@ -57,6 +57,7 @@ private theorem nativeGK5YLiftThree
       nativeGK5GChangeTreeIso
         (fun x : I => (a x).trans ((b x).trans (c x))) t := by
   simpa only [nativeGK5WLeftDirectPhi, nativeGK5WRightDirectPhi,
+    nativeGK5WLeftTreeIso, nativeGK5WRightTreeIso,
     eqToIso_trans, Iso.trans_assoc] using
     congrArg
       (fun iso => eqToIso (congrArg nativeGK5DTreeComposite p) ≪≫ iso)
