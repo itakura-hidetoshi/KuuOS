@@ -422,9 +422,10 @@ theorem nativeGK5XDirectDefectPentagon_whole
   have hglue := congrArg (fun α =>
       (nativeGK5XDirectPhi0 e g h k t ≪≫ α) ≪≫
         (nativeGK5XDirectPhi3 e g h k t).symm) hp
-  simpa only [nativeGK5XDefect01, nativeGK5XDefect12,
+  apply Iso.ext
+  simpa [nativeGK5XDefect01, nativeGK5XDefect12,
     nativeGK5XDefect23, nativeGK5XDefect04, nativeGK5XDefect43,
-    Iso.trans_assoc, Iso.symm_self_id, Iso.trans_refl] using hglue
+    Iso.trans_hom, Category.assoc] using congrArg Iso.hom hglue
 
 /-- The genuine higher relative automorphism between both
 pentagon defect paths is unconditionally the identity NatIso. -/
