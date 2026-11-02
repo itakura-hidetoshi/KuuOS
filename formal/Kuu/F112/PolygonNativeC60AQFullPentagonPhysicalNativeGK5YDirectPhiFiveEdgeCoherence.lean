@@ -172,12 +172,27 @@ private theorem nativeGK5YPostDirect_normalize
           (eqToIso (congrArg nativeGK5DTreeComposite hu) ≪≫
             nativeGK5GChangeTreeIso a t)) ≪≫
         nativeGK5QAtomComparison a z (nativeGK5DTreeComposite t) := by
+  have hsplit :
+      eqToIso (congrArg nativeGK5DTreeComposite
+        ((congrArg (nativeGK5GChangeTree z) hu).trans
+          (nativeGK5QChangeTree_comp a z t))) =
+      eqToIso (congrArg nativeGK5DTreeComposite
+        (congrArg (nativeGK5GChangeTree z) hu)) ≪≫
+        nativeGK5QTreeComparison a z t :=
+    (eqToIso_trans _ _).symm
   calc
+    _ = (eqToIso (congrArg nativeGK5DTreeComposite
+        (congrArg (nativeGK5GChangeTree z) hu)) ≪≫
+        nativeGK5QTreeComparison a z t) ≪≫
+        nativeGK5GChangeTreeIso
+          (fun x : I => (a x).trans (z x)) t := by
+          simpa only [nativeGK5YPostDirect] using
+            congrArg (fun iso => iso ≪≫ nativeGK5GChangeTreeIso
+              (fun x : I => (a x).trans (z x)) t) hsplit
     _ = eqToIso (congrArg nativeGK5DTreeComposite
         (congrArg (nativeGK5GChangeTree z) hu)) ≪≫
         nativeGK5RDirectCompositePhi a z t := by
-          simp only [nativeGK5YPostDirect, nativeGK5RDirectCompositePhi,
-            nativeGK5QTreeComparison, eqToIso_trans, Iso.trans_assoc]
+          simp only [nativeGK5RDirectCompositePhi, Iso.trans_assoc]
     _ = eqToIso (congrArg nativeGK5DTreeComposite
         (congrArg (nativeGK5GChangeTree z) hu)) ≪≫
         nativeGK5RSequentialCompositePhi a z t := by
@@ -187,7 +202,8 @@ private theorem nativeGK5YPostDirect_normalize
         nativeGK5GChangeTreeIso z (nativeGK5GChangeTree a t)) ≪≫
         nativeGK5GChangeIso z (nativeGK5GChangeTreeIso a t)) ≪≫
         nativeGK5QAtomComparison a z (nativeGK5DTreeComposite t) := by
-          rfl
+          simp only [nativeGK5RSequentialCompositePhi,
+            nativeGK5RSequentialPhi, Iso.trans_assoc]
     _ = ((nativeGK5GChangeTreeIso z u ≪≫
         nativeGK5GChangeIso z
           (eqToIso (congrArg nativeGK5DTreeComposite hu))) ≪≫
@@ -238,8 +254,9 @@ private theorem nativeGK5YPostCoherent
       (nativeGK5DTreeComposite t)
   calc
     _ = (ι ≪≫ nativeGK5GChangeIso z Wp) ≪≫ (θp ≪≫ β) := by
-      rw [nativeGK5YPostDirect_normalize]
-      simp only [Wp, θp, β, Iso.trans_assoc]
+      simpa only [Wp, θp, β, ι, Iso.trans_assoc] using
+        congrArg (fun iso => iso ≪≫ β)
+          (nativeGK5YPostDirect_normalize z p t u hp)
     _ = (ι ≪≫ nativeGK5GChangeIso z Wp) ≪≫
         (nativeGK5GChangeIso z α ≪≫ θq) := by rw [hsquare]
     _ = (ι ≪≫ (nativeGK5GChangeIso z Wp ≪≫
@@ -247,8 +264,8 @@ private theorem nativeGK5YPostCoherent
           simp only [Iso.trans_assoc]
     _ = (ι ≪≫ nativeGK5GChangeIso z Wq) ≪≫ θq := by rw [hmap]
     _ = nativeGK5YPostDirect z q t u hq := by
-      rw [nativeGK5YPostDirect_normalize]
-      rfl
+      simpa only [Wq, θq, ι] using
+        (nativeGK5YPostDirect_normalize z q t u hq).symm
 
 end GenuinePostcontext
 
