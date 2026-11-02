@@ -54,15 +54,27 @@ private theorem nativeGK5UHorizontalIso_trans
   simp [nativeGK5UHorizontalIso, Functor.map_comp,
     Category.assoc]
 
+/-- Whole Mathlib horizontal pasting of actual equality-induced
+NatIsos is again precisely the equality-induced NatIso of the
+composed functors. This keeps the proof of the equality separate
+from the equality itself and uses only category functoriality. -/
+private theorem nativeGK5UHorizontalEqToIso
+    {A B T : Type uC} [Category.{vC} A] [Category.{vC} B]
+    [Category.{vC} T] {F F' : A ⥤ B} {G G' : B ⥤ T}
+    (p : F = F') (q : G = G') :
+    nativeGK5UHorizontalIso (eqToIso p) (eqToIso q) =
+      eqToIso (congrArg₂ Functor.comp p q) := by
+  cases p
+  cases q
+  simp only [nativeGK5UHorizontalIso, eqToIso_refl,
+    Functor.isoWhiskerRight_refl, Functor.isoWhiskerLeft_refl,
+    Iso.refl_trans]
+
 section GenuineTwoStageCompositor
 variable {I : Type uI} {C D E : I → Cat.{vC,uC}}
 variable (e : ∀ i : I, C i ≌ D i)
 variable (g : ∀ i : I, D i ≌ E i)
 
-/-- Real compositional compatibility of a pointwise genuine
-category equivalence's nonstrict middle unit. The whole
-Mathlib NatIso square compares the two real middle-unit
-cancelations, not just their endpoint functors. -/
 /-- GK5Q's structural eqToIso is genuinely compatible with
 binary tree pasting. Each side is an actual whole Mathlib NatIso,
 not a strict equality of the nontrivial GK5G recursive Phi. -/
@@ -72,11 +84,15 @@ theorem nativeGK5UTheta_paste
     nativeGK5QTreeComparison e g (.paste a b) =
       nativeGK5UHorizontalIso (nativeGK5QTreeComparison e g a)
         (nativeGK5QTreeComparison e g b) := by
-  apply Iso.ext
-  ext X
-  simp [nativeGK5UHorizontalIso, nativeGK5QTreeComparison,
-    nativeGK5GChangeTree, nativeGK5DTreeComposite]
+  dsimp only [nativeGK5QTreeComparison]
+  rw [nativeGK5UHorizontalEqToIso]
+  congr 1
+  apply Subsingleton.elim
 
+/-- Real compositional compatibility of a pointwise genuine
+category equivalence's nonstrict middle unit. The whole
+Mathlib NatIso square compares the two real middle-unit
+cancelations, not just their endpoint functors. -/
 theorem nativeGK5UBinaryCompositor_whole
     {i j k : I} (R : C i ⥤ C j) (S : C j ⥤ C k) :
     (nativeGK5GChangeCompIso g
