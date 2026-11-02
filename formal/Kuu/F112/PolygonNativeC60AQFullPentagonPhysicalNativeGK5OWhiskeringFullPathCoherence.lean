@@ -72,20 +72,13 @@ private theorem nativeGK5OWhiskerRight_of_square
     nativeGK5DTreeComposite]
   simp only [nativeGK5GChangePath, nativeGK5DPathIso,
     nativeGK5GChangeStep, nativeGK5DStepIso]
-  change
-    Functor.isoWhiskerRight α Tc ≪≫
-      (Functor.isoWhiskerRight φb Tc ≪≫
-        Functor.isoWhiskerLeft (nativeGK5GChangeAtom e Rb) φc ≪≫
-          nativeGK5GChangeCompIso e Rb Sc) =
-    (Functor.isoWhiskerRight φa Tc ≪≫
-        Functor.isoWhiskerLeft (nativeGK5GChangeAtom e Ra) φc ≪≫
-          nativeGK5GChangeCompIso e Ra Sc) ≪≫
-      nativeGK5GChangeIso e (Functor.isoWhiskerRight (nativeGK5DStepIso s) Sc)
   calc
     _ = (Functor.isoWhiskerRight (α ≪≫ φb) Tc ≪≫
            Functor.isoWhiskerLeft (nativeGK5GChangeAtom e Rb) φc) ≪≫
           nativeGK5GChangeCompIso e Rb Sc := by
-            simp only [Functor.isoWhiskerRight_trans, Iso.trans_assoc]
+            simp only [nativeGK5DPathIso, nativeGK5GChangePath,
+              nativeGK5GChangeStep, nativeGK5DStepIso,
+              Functor.isoWhiskerRight_trans, Iso.trans_assoc]
     _ = (Functor.isoWhiskerRight (φa ≪≫ β) Tc ≪≫
            Functor.isoWhiskerLeft (nativeGK5GChangeAtom e Rb) φc) ≪≫
           nativeGK5GChangeCompIso e Rb Sc := by rw [hchild]
@@ -141,24 +134,15 @@ private theorem nativeGK5OWhiskerLeft_of_square
     nativeGK5DTreeComposite]
   simp only [nativeGK5GChangePath, nativeGK5DPathIso,
     nativeGK5GChangeStep, nativeGK5DStepIso]
-  change
-    Functor.isoWhiskerLeft Ta α ≪≫
-      (Functor.isoWhiskerRight φa
-         (nativeGK5DTreeComposite (nativeGK5GChangeTree e c)) ≪≫
-        Functor.isoWhiskerLeft (nativeGK5GChangeAtom e Ra) φc ≪≫
-          nativeGK5GChangeCompIso e Ra Sc) =
-    (Functor.isoWhiskerRight φa
-         (nativeGK5DTreeComposite (nativeGK5GChangeTree e b)) ≪≫
-        Functor.isoWhiskerLeft (nativeGK5GChangeAtom e Ra) φb ≪≫
-          nativeGK5GChangeCompIso e Ra Sb) ≪≫
-      nativeGK5GChangeIso e (Functor.isoWhiskerLeft Ra (nativeGK5DStepIso s))
   calc
     _ = ((Functor.isoWhiskerRight φa
             (nativeGK5DTreeComposite (nativeGK5GChangeTree e b)) ≪≫
           Functor.isoWhiskerLeft (nativeGK5GChangeAtom e Ra) α) ≪≫
           Functor.isoWhiskerLeft (nativeGK5GChangeAtom e Ra) φc) ≪≫
           nativeGK5GChangeCompIso e Ra Sc := by
-            simpa only [Iso.trans_assoc] using
+            simpa only [nativeGK5DPathIso, nativeGK5GChangePath,
+              nativeGK5GChangeStep, nativeGK5DStepIso,
+              Iso.trans_assoc] using
               congrArg (fun t =>
                 t ≪≫ Functor.isoWhiskerLeft (nativeGK5GChangeAtom e Ra) φc ≪≫
                   nativeGK5GChangeCompIso e Ra Sc) hinter
