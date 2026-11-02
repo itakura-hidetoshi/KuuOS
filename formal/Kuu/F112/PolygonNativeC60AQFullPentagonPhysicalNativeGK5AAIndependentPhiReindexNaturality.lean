@@ -214,7 +214,7 @@ theorem nativeGK5AASinglePhi_reindex_whole
       simpa only [nativeGK5GChangeTreeIso,
         nativeGK5GChangeTree, nativeGK5FTreeReindex,
         nativeGK5DTreeComposite, hsource, htarget, hK0,
-        H0, H1, K0, K1, PS, PT] using hchain
+        H0, H1, K0, K1, PS, PT, Iso.trans_assoc] using hchain
 
 #print axioms nativeGK5AASingleSourceEq
 #print axioms nativeGK5AASingleTargetEq
