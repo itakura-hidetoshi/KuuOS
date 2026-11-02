@@ -14,6 +14,17 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK5R / 2026-11-02 JST
+
+**真正再帰的`Φ`の逐次圏同値と単一合成圏同値との差をwhole Mathlib NatIso自己同型obstructionとして構成し、すべての有限型付き経路に沿う共役自然性・正規化による消滅判定の必要十分条件をLean4で証明 — [定理PR #2931](https://github.com/itakura-hidetoshi/KuuOS/pull/2931) MERGED。** [Lean4全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5RRecursivePhiObstruction.lean)・[GK5R正式証明記録](docs/formal/GK5R-recursive-phi-obstruction-path-normalization.md)。
+
+**数学的成果：** 真正点別圏同値`e_i:C_i≌D_i`・`g_i:D_i≌E_i`について、GK5Gの本物の再帰的`Φ_g(Change_e t) ≪≫ ChangeIso_g(Φ_e t)`とGK5Qの原子比較`Θ`を貼り合わせた逐次比較、およびGK5Q木の端点比較と真正`Φ_(e.trans g)(t)`を貼り合わせた直接比較を独立に構成。両者の差`Ω_t`を合成圏同値で輸送したwhole関手の実NatIso自己同型として定義。**すべての有限型付き経路q:a⇒bで`ChangeIso_(e.trans g)(PathIso q) ≪≫ Ω_b = Ω_a ≪≫ ChangeIso_(e.trans g)(PathIso q)`を無条件に証明**し、`Ω_t=Iso.refl`と二つの再帰`Φ`比較の等式との必要十分性、任意経路沿いの消滅 iff、標準正規化沿いのiff、同じ順序付き依存型葉語を持つ任意二木でのiffを確定。**ただし`Ω_t`の全木での無条件消滅は未証明**であり、真正unit/counit/compositorの追加整合性証明が必要。
+
+**exact-source検証：** source `697ecf1aaed54adf31045cadfe596358e59e1691`／定理squash `8796e6287cb85a0a2cc6fbec1f2374b204e2c124`／一致Git tree `b6e884b99912661f13c5128945e55f5d8fcb1870`。[CI #41384592915](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41384592915) **Strict Lean 3839/3839、Independent Kuu・Governance terminal SUCCESS**。公開12/12`#print axioms`標準`propext/Classical.choice/Quot.sound`のみ、sorryAx0、新公理0、Lean errors/warnings0/0。Lean全文・imports・GK5D/G/H/O/Qのシグネチャと固定mathlib Iso結合・反転律を検証。固定Lean v4.30.0-rc2／mathlib 5450b53e5ddc75d46418fabb605edbf36bd0beb6、root107、append-only、保護#1558 Draft/OPEN、strict空中心・独立Kuu一presentation維持。
+
+**次GK5S候補：** 正規化によりobstruction消滅判定を型付き順序付き葉語へ還元した。真の`Φ`の再帰単位・二項合成比較について、圏同値のunit/counit・compositor整合性を個別に証明して全消滅の可能性を検証する。元F45/source-Q/raw高次Typeセル/Gray/unrestricted hyperdescentは証明範囲外。以下GK5Q以前の歴史的記録は保持。
+
+
 ## 最新のLean定理統合 — F112-P94D3GK5Q / 2026-11-02 JST
 
 **真正点別圏同値の逐次変換とMathlib合成変換を、実whole NatIso・全有限型付き経路の可換squareで結ぶ定理 — [定理PR #2929](https://github.com/itakura-hidetoshi/KuuOS/pull/2929) MERGED。** [Lean4全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5QCompositeEquivalenceInterchange.lean)・[正式証明記録](docs/formal/GK5Q-composite-equivalence-finite-path-comparison.md)。
