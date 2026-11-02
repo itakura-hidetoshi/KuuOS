@@ -59,6 +59,61 @@ theorem nativeGK5MCompositor_associator
     Iso.refl_trans, Iso.trans_refl, Iso.trans_assoc] using
     (nativeGK5IAssociator_atoms e R S T)
 
+/-- Transport a morphism across the genuine middle equivalence's
+inverse unit and an entirely arbitrary Mathlib NatIso phi. This
+naturality bridge is the exact non-strict step that arises when
+three recursively evaluated heterogeneous subtrees are rebracketed.
+It is proved using ONLY actual equivalence unit naturality and
+the naturality of phi; no cancellation or strictification. -/
+private theorem nativeGK5MUnitComparisonNaturality
+    {k l : I} {R : C k ⥤ C l} {S : D k ⥤ D l}
+    (φ : S ≅ nativeGK5GChangeAtom e R)
+    {Y Z : C k} (f : Y ⟶ Z) :
+    φ.hom.app ((e k).functor.obj Y) ≫
+        (e l).functor.map (R.map ((e k).unitIso.inv.app Y)) ≫
+        (e l).functor.map (R.map f) =
+      S.map ((e k).functor.map f) ≫
+        φ.hom.app ((e k).functor.obj Z) ≫
+        (e l).functor.map (R.map ((e k).unitIso.inv.app Z)) := by
+  have hUnit := (e k).unitIso.inv.naturality f
+  have hMapped :
+      (e l).functor.map (R.map ((e k).unitIso.inv.app Y)) ≫
+          (e l).functor.map (R.map f) =
+        (e l).functor.map
+            (R.map ((e k).inverse.map ((e k).functor.map f))) ≫
+          (e l).functor.map (R.map ((e k).unitIso.inv.app Z)) := by
+    have ht :=
+      congrArg (fun u => (e l).functor.map (R.map u)) hUnit.symm
+    simpa only [Functor.comp_map, Functor.id_map,
+      Functor.map_comp] using ht
+  have hPhi :
+      S.map ((e k).functor.map f) ≫
+          φ.hom.app ((e k).functor.obj Z) =
+        φ.hom.app ((e k).functor.obj Y) ≫
+          (e l).functor.map
+            (R.map ((e k).inverse.map ((e k).functor.map f))) := by
+    simpa only [nativeGK5GChangeAtom, Functor.comp_map] using
+      φ.hom.naturality ((e k).functor.map f)
+  calc
+    _ = φ.hom.app ((e k).functor.obj Y) ≫
+          ((e l).functor.map (R.map ((e k).unitIso.inv.app Y)) ≫
+            (e l).functor.map (R.map f)) := by simp only [Category.assoc]
+    _ = φ.hom.app ((e k).functor.obj Y) ≫
+          ((e l).functor.map
+            (R.map ((e k).inverse.map ((e k).functor.map f))) ≫
+            (e l).functor.map (R.map ((e k).unitIso.inv.app Z))) := by
+              rw [hMapped]
+    _ = (φ.hom.app ((e k).functor.obj Y) ≫
+          (e l).functor.map
+            (R.map ((e k).inverse.map ((e k).functor.map f)))) ≫
+          (e l).functor.map (R.map ((e k).unitIso.inv.app Z)) := by
+            simp only [Category.assoc]
+    _ = (S.map ((e k).functor.map f) ≫
+          φ.hom.app ((e k).functor.obj Z)) ≫
+          (e l).functor.map (R.map ((e k).unitIso.inv.app Z)) := by
+            rw [hPhi]
+    _ = _ := rfl
+
 /-- GK5M target: arbitrary genuinely dependent-typed subtree
 associator, with their nontrivial recursive Phi_a,Phi_b,Phi_c.
 Unlike GK5I this is NOT restricted to three atomic leaves. -/
@@ -74,9 +129,10 @@ theorem nativeGK5MAssociator_subtrees
   ext X
   let g := (nativeGK5DTreeComposite b).map
     ((e j).unitIso.inv.app ((nativeGK5DTreeComposite a).obj ((e i).inverse.obj X)))
-  have hPhiC := (nativeGK5GChangeTreeIso e c).hom.naturality
-    ((e k).functor.map g)
-  have hUnitK := (e k).unitIso.inv.naturality g
+  have hBridge :=
+    nativeGK5MUnitComparisonNaturality e
+      (nativeGK5GChangeTreeIso e c) g
+  simp only [Category.assoc] at hBridge
   simp [NativeGK5JPathSquare, nativeGK5DPathIso,
     nativeGK5DStepIso, nativeGK5GChangePath,
     nativeGK5GChangeStep, nativeGK5GChangeTreeIso,
@@ -84,9 +140,8 @@ theorem nativeGK5MAssociator_subtrees
     nativeGK5GChangeAtom, nativeGK5GChangeIso,
     nativeGK5IChangeCompIso_hom_app,
     Functor.associator_hom_app, Functor.comp_obj,
-    Functor.comp_map, Functor.map_comp,
-    Category.assoc, hPhiC, hUnitK, g]
-  cat_disch
+    Functor.comp_map, Functor.map_comp, Category.assoc]
+  rw [hBridge]
 
 #print axioms nativeGK5MCompositor_associator
 #print axioms nativeGK5MAssociator_subtrees
