@@ -14,6 +14,19 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK5M / 2026-11-02 JST
+
+**真正点別圏同値の局所associator障害を、三原子から任意の型付き有限部分木へ拡張して無条件に解消 — [定理PR #2921](https://github.com/itakura-hidetoshi/KuuOS/pull/2921) MERGED。** [新規Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5MArbitraryTreeAssociator.lean)・[正式証明記録](docs/formal/GK5M-arbitrary-finite-subtree-associator-coherence.md)。
+
+**数学的成果：** GK5Gの真正点別圏同値`e_i:C_i≌D_i`と本物のMathlib nonstrict二段合成比較`χ`について、任意3関手`R,S,T`のcompositor結合整合性をGK5Iの既証明三原子associatorからwhole NatIsoで導出した。さらに**任意有限深度・異種圏の型付き部分木`a,b,c`**に対し、GK5Dの真正基本書換え`assoc(a,b,c)`について`StepIso(changeStep(e,s)) ≪≫ Φ_{right}=Φ_{left} ≪≫ ChangeIso(e,StepIso(s))`を無条件にLean4で証明。原子に限らない再帰的`Φ_a,Φ_b,Φ_c`を実際に保持し、第三部分木の`Φ_c.hom.naturality`と中間圏の真正`unitIso.inv.naturality`を合成写像上で貼り合わせる独立補題を構成した。圏同値をstrictな逆に置き換えていない。
+
+**厳密な境界：** 任意部分木associatorは解決したが、GK5Dの左右unitorおよび左右whiskering全generatorの無条件可換性は**未証明**。従ってGK5H/GK5Jの全有限経路無仮定whole NatIso/NatTransはまだ断言しない。元F45無条件faithfulness、source-Q圏公理、raw F54/F55/P92B Type高次セル、global Gray、unrestricted hyperdescentも未証明。
+
+**exact-source：** source `56692513432a1b1f0ad744871dc6bfd2989117b4`／定理squash `3d7397eaa7d9db905cf2eec3d6dc33022c3e9079`／一致Git tree `9f6994ad162fd003dca2cfc58ccad59243b129be`。[CI #41366413951](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41366413951) **Strict Lean 3834/3834、Independent Kuu・Workflow integrity・Governance terminal全SUCCESS**。2/2の`#print axioms`は`propext/Classical.choice/Quot.sound`のみ、sorryAx0・追加公理0・error/warning0/0。Lean4の括弧付けと`rw`位置不一致を、元ファイル全文・imports・固定mathlib APIを確認し、真正`congrArg`で修正。固定Lean v4.30.0-rc2/mathlib 5450b53e5ddc75d46418fabb605edbf36bd0beb6・root107・保護#1558 Draft/open・strict空中心／独立Kuu一presentation維持。
+
+**次の研究GK5N：** 真正`leftUnit a`・`rightUnit a`でのunit/counit三角律と再帰`Φ_a`の可換性、次いで両側whiskeringの局所整合性を個別に形式証明。**全generator**の無条件障害消滅が証明されたときのみGK5H/GK5Jから全有限経路自然性へ進む。以下GK5L以前の全研究記録を削除せず保持。
+
+
 ## 最新のLean定理統合 — F112-P94D3GK5L / 2026-11-02 JST
 
 **GK5K右変数自然性を左変数と二変数へ拡張：真正な点別圏同値による非strict二段合成比較のwhole NatTrans/whole NatIso左自然性および両変数のwhole NatIso interchangeをLean4で無条件証明 — [定理PR #2919](https://github.com/itakura-hidetoshi/KuuOS/pull/2919) MERGED。** [新規Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5LTwoVariableCompositorNaturality.lean)・[正式証明記録](docs/formal/GK5L-two-variable-equivalence-compositor-interchange.md)。
