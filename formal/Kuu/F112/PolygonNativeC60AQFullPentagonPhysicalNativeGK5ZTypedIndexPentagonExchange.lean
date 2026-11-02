@@ -153,74 +153,54 @@ theorem nativeGK5ZTreeComposite_reindex
       nativeGK5DTreeComposite (C := fun x : I => C (f x)) t :=
   nativeGK5FTreeComposite_reindex f C t
 
-/-- Exact WHOLE EqToIso associator exchange for pentagon edge 01;
-no injectivity assumption and no strict equality of Equivalence records. -/
+/-- Exact whole EqToIso associator at a SAME genuine typed atom
+commutes with reindexing for pentagon edge 01. No unit/counit strictness. -/
 theorem nativeGK5ZEdge01_reindex
-    {i j : I}
-    (t : NativeGK5DTypedTree (fun x : I => C (f x)) i j) :
+    {i j : I} (R : C (f i) ⥤ C (f j)) :
     nativeGK5XEdge01
         (fun x : I => e (f x)) (fun x : I => g (f x))
-        (fun x : I => h (f x)) (fun x : I => k (f x))
-        (nativeGK5DTreeComposite (C := fun x : I => C (f x)) t) =
-      nativeGK5XEdge01 e g h k
-        (nativeGK5DTreeComposite (nativeGK5FTreeReindex f C t)) := by
-  rw [nativeGK5FTreeComposite_reindex f C t]
+        (fun x : I => h (f x)) (fun x : I => k (f x)) R =
+      nativeGK5XEdge01 e g h k R := by
   rfl
 
-/-- Exact WHOLE EqToIso associator exchange for pentagon edge 12;
-no injectivity assumption and no strict equality of Equivalence records. -/
+/-- Exact whole EqToIso associator at a SAME genuine typed atom
+commutes with reindexing for pentagon edge 12. No unit/counit strictness. -/
 theorem nativeGK5ZEdge12_reindex
-    {i j : I}
-    (t : NativeGK5DTypedTree (fun x : I => C (f x)) i j) :
+    {i j : I} (R : C (f i) ⥤ C (f j)) :
     nativeGK5XEdge12
         (fun x : I => e (f x)) (fun x : I => g (f x))
-        (fun x : I => h (f x)) (fun x : I => k (f x))
-        (nativeGK5DTreeComposite (C := fun x : I => C (f x)) t) =
-      nativeGK5XEdge12 e g h k
-        (nativeGK5DTreeComposite (nativeGK5FTreeReindex f C t)) := by
-  rw [nativeGK5FTreeComposite_reindex f C t]
+        (fun x : I => h (f x)) (fun x : I => k (f x)) R =
+      nativeGK5XEdge12 e g h k R := by
   rfl
 
-/-- Exact WHOLE EqToIso associator exchange for pentagon edge 23;
-no injectivity assumption and no strict equality of Equivalence records. -/
+/-- Exact whole EqToIso associator at a SAME genuine typed atom
+commutes with reindexing for pentagon edge 23. No unit/counit strictness. -/
 theorem nativeGK5ZEdge23_reindex
-    {i j : I}
-    (t : NativeGK5DTypedTree (fun x : I => C (f x)) i j) :
+    {i j : I} (R : C (f i) ⥤ C (f j)) :
     nativeGK5XEdge23
         (fun x : I => e (f x)) (fun x : I => g (f x))
-        (fun x : I => h (f x)) (fun x : I => k (f x))
-        (nativeGK5DTreeComposite (C := fun x : I => C (f x)) t) =
-      nativeGK5XEdge23 e g h k
-        (nativeGK5DTreeComposite (nativeGK5FTreeReindex f C t)) := by
-  rw [nativeGK5FTreeComposite_reindex f C t]
+        (fun x : I => h (f x)) (fun x : I => k (f x)) R =
+      nativeGK5XEdge23 e g h k R := by
   rfl
 
-/-- Exact WHOLE EqToIso associator exchange for pentagon edge 04;
-no injectivity assumption and no strict equality of Equivalence records. -/
+/-- Exact whole EqToIso associator at a SAME genuine typed atom
+commutes with reindexing for pentagon edge 04. No unit/counit strictness. -/
 theorem nativeGK5ZEdge04_reindex
-    {i j : I}
-    (t : NativeGK5DTypedTree (fun x : I => C (f x)) i j) :
+    {i j : I} (R : C (f i) ⥤ C (f j)) :
     nativeGK5XEdge04
         (fun x : I => e (f x)) (fun x : I => g (f x))
-        (fun x : I => h (f x)) (fun x : I => k (f x))
-        (nativeGK5DTreeComposite (C := fun x : I => C (f x)) t) =
-      nativeGK5XEdge04 e g h k
-        (nativeGK5DTreeComposite (nativeGK5FTreeReindex f C t)) := by
-  rw [nativeGK5FTreeComposite_reindex f C t]
+        (fun x : I => h (f x)) (fun x : I => k (f x)) R =
+      nativeGK5XEdge04 e g h k R := by
   rfl
 
-/-- Exact WHOLE EqToIso associator exchange for pentagon edge 43;
-no injectivity assumption and no strict equality of Equivalence records. -/
+/-- Exact whole EqToIso associator at a SAME genuine typed atom
+commutes with reindexing for pentagon edge 43. No unit/counit strictness. -/
 theorem nativeGK5ZEdge43_reindex
-    {i j : I}
-    (t : NativeGK5DTypedTree (fun x : I => C (f x)) i j) :
+    {i j : I} (R : C (f i) ⥤ C (f j)) :
     nativeGK5XEdge43
         (fun x : I => e (f x)) (fun x : I => g (f x))
-        (fun x : I => h (f x)) (fun x : I => k (f x))
-        (nativeGK5DTreeComposite (C := fun x : I => C (f x)) t) =
-      nativeGK5XEdge43 e g h k
-        (nativeGK5DTreeComposite (nativeGK5FTreeReindex f C t)) := by
-  rw [nativeGK5FTreeComposite_reindex f C t]
+        (fun x : I => h (f x)) (fun x : I => k (f x)) R =
+      nativeGK5XEdge43 e g h k R := by
   rfl
 
 /-- The genuine original four-equivalence WHOLE pentagon is
@@ -250,13 +230,10 @@ theorem nativeGK5ZPullbackPentagon_whole
         (fun x : I => e (f x)) (fun x : I => g (f x))
         (fun x : I => h (f x)) (fun x : I => k (f x))
         (nativeGK5DTreeComposite (C := fun x : I => C (f x)) t) := by
-  rw [nativeGK5ZEdge01_reindex f e g h k t,
-    nativeGK5ZEdge12_reindex f e g h k t,
-    nativeGK5ZEdge23_reindex f e g h k t,
-    nativeGK5ZEdge04_reindex f e g h k t,
-    nativeGK5ZEdge43_reindex f e g h k t]
-  exact nativeGK5XPentagon_whole e g h k
-    (nativeGK5DTreeComposite (nativeGK5FTreeReindex f C t))
+  exact nativeGK5XPentagon_whole
+    (fun x : I => e (f x)) (fun x : I => g (f x))
+    (fun x : I => h (f x)) (fun x : I => k (f x))
+    (nativeGK5DTreeComposite (C := fun x : I => C (f x)) t)
 
 /-- The same genuine pentagon as an equality of WHOLE Mathlib
 NatTrans hom witnesses, not merely objectwise equality. -/
