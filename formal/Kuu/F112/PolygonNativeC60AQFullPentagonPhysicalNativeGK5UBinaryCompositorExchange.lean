@@ -321,7 +321,7 @@ theorem nativeGK5UDirectPhi_paste
           simp only [nativeGK5RDirectCompositePhi,
             nativeGK5GChangeTreeIso, nativeGK5GChangeTree,
             nativeGK5DTreeComposite, nativeGK5UTheta_paste,
-            Iso.trans_assoc]
+            nativeGK5UHorizontalIso, Iso.trans_assoc]
     _ = nativeGK5UHorizontalIso
           (nativeGK5QTreeComparison e g left ≪≫
             nativeGK5GChangeTreeIso
