@@ -3,6 +3,16 @@
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK5V / 2026-11-02 JST
+
+**三段真正Mathlib圏同値`e,g,h`の左右括弧付けのwhole NatIso cocycleを、同一の実再帰的三段`Φ`に貼り合わせ、全有限型付き木で無条件結合整合性をLean4証明 — [定理PR #2939](https://github.com/itakura-hidetoshi/KuuOS/pull/2939) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5VTripleNatIsoAssociativity.lean)・[正式証明記録](docs/formal/GK5V-three-stage-whole-natiso-associativity.md)。
+
+**真正whole NatIso成果12宣言：** `nativeGK5VChangeAtom_assoc`と`nativeGK5VAssocAtomIso`は選択準逆/forwardの実Functor結合比較。`nativeGK5VAtomCocycle_whole`は二段GK5Q比較を左/右に貼るwhole NatIso三段cocycle。`nativeGK5VChangeTree_assoc`と`nativeGK5VAssocTreeIso`は単位・原子・paste全木での型付き構造比較。`nativeGK5VThreeStageSequentialPhi`と左右`LeftPhi`/`RightPhi`は実GK5G unit/counit/compositorを保つ。`nativeGK5VAllTrees_assoc_whole`は全木結合定理。`nativeGK5VLeftPhi_viaGK5U`はGK5U無条件二段証明によるdirect比較接続。unit・pasteは具体的系。**圏同値構造全体や両側独立direct再帰Phiの等式を断言していない。**
+
+**Lean4修正と検証：** 251行の新規ソースのみ。初回CI private`ChangeIso(eqToIso)`で`simp only`未指定の`nativeGK5GChangeAtom`を明示展開し解決。source `10a660d4cf524e47a252cc12a3e183b54c3b4bd7`／squash `d8c00f20f91f73731e051f4f790d9f004bf5edb6`／一致tree `05724aa16282a307c51e63da5a296550fe2269fe`。[CI #41400557979](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41400557979) **Strict Lean 3843/3843、Independent Kuu・Workflow integrity・Governance SUCCESS**、12/12公理監査標準三公理のみ、sorryAx0、Lean error/warning0。固定Lean v4.30.0-rc2・mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、root107・strict空中心・独立Kuu一presentation・#1558 Draft/OPEN維持。
+
+**次GK5W境界：** 真の右括弧direct recursive`Φ`との追加比較を証明し、四段pentagonからGK5F reindexingへの交換へ進む。元F45/source-Q/raw Type高次セル/Gray/unrestricted hyperdescentは依然未証明。以下すべての旧履歴を保持。
+
 ## 最新のLean定理統合 — F112-P94D3GK5U / 2026-11-02 JST
 
 **逐次真正Mathlib点別圏同値とその実合成`e.trans g`の再帰的whole NatIso比較の無条件全有限型付き木自然合成を形式証明。GK5R以来の相対`Ω_t`とGK5T最後の非空cons-paste障害を無条件に解消 — [定理PR #2937](https://github.com/itakura-hidetoshi/KuuOS/pull/2937) MERGED。** [Lean4全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5UBinaryCompositorExchange.lean)・[GK5U正式記録](docs/formal/GK5U-genuine-compositor-universal-recursive-phi-coherence.md)。

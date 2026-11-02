@@ -14,6 +14,16 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK5V / 2026-11-02 JST
+
+**真正な三段のMathlib圏同値`e,g,h`について、二通りの括弧付けに伴うwhole NatIso比較が全有限型付き木の実際の再帰的`Φ`上で一致することを証明 — [定理PR #2939](https://github.com/itakura-hidetoshi/KuuOS/pull/2939) MERGED。** [Lean4全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5VTripleNatIsoAssociativity.lean)・[GK5V正式証明記録](docs/formal/GK5V-three-stage-whole-natiso-associativity.md)。
+
+**数学的成果：** 左括弧`(e.trans g).trans h`と右括弧`e.trans (g.trans h)`を、圏同値全体のstrict等式とはせず、真のforward/inverseの`Functor.assoc`から導く`eqToIso`で比較。`nativeGK5VAtomCocycle_whole`は二通りのGK5Q原子whole NatIso貼り合わせのcocycle。`nativeGK5VThreeStageSequentialPhi`は3段の実GK5G再帰的`Φ`とunit/counit/compositorを保持。`nativeGK5VAllTrees_assoc_whole`はその同一三段`Φ`を出発点とした左右whole NatIsoの結合整合性を任意有限型付き木で証明。GK5Uを使う`nativeGK5VLeftPhi_viaGK5U`は左側の最初の二段を真正direct recursive`Φ`へ還元。公開12宣言、unit・任意pasteも含む。**完全な圏同値レコード同一性、独立な左右direct再帰`Φ`同士の比較、四段pentagon、raw高次セル等は未主張。**
+
+**Lean4全文とCI：** 新規Leanソース251行のみ。初回CIでprivate`ChangeIso(eqToIso)`補題の`simp only`に`nativeGK5GChangeAtom`定義展開が欠けていたため、`Iso.refl`両辺の表示差が残存。型や仮定を弱めず明示展開で解決。最終exact-source `10a660d4cf524e47a252cc12a3e183b54c3b4bd7`／squash `d8c00f20f91f73731e051f4f790d9f004bf5edb6`／一致Git tree `05724aa16282a307c51e63da5a296550fe2269fe`。[CI #41400557979](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41400557979) Strict Lean **3843/3843 SUCCESS**、Independent Kuu・Workflow integrity・Governance SUCCESS、12/12公理監査は`propext/Classical.choice/Quot.sound`のみ、sorryAx0、error/warning0。Lean v4.30.0-rc2・mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`・root107・append-only・#1558 Draft/open維持。
+
+**次GK5W：** 真の三段`Φ`を独立な左右direct recursive`Φ`に接続するNatIso自然性・その後四段pentagonとGK5F型付きindex reindexing交換を検証。以下GK5U以前の履歴をすべて保持。
+
 ## 最新のLean定理統合 — F112-P94D3GK5U / 2026-11-02 JST
 
 **真正な逐次点別Mathlib圏同値と`e.trans g`合成圏同値の間で、再帰的whole NatIso比較`Φ`の全有限型付き木に対する無条件合成整合性をLean4で証明。GK5Rから残っていた全木相対obstruction`Ω_t`の消滅、およびGK5Tの最後の`NonemptyConsCoherent`を無仮定で解消 — [定理PR #2937](https://github.com/itakura-hidetoshi/KuuOS/pull/2937) MERGED。** [Lean4全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5UBinaryCompositorExchange.lean)・[GK5U正式証明記録](docs/formal/GK5U-genuine-compositor-universal-recursive-phi-coherence.md)。
