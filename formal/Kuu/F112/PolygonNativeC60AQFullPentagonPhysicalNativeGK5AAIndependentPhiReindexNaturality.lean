@@ -86,6 +86,15 @@ variable {I : Type uI} {J : Type uJ}
 variable (f : I → J) {C D : J → Cat.{vC,uC}}
 variable (e : ∀ j : J, C j ≌ D j)
 
+/-- The genuine middle-unit compositor is exactly the same whole
+Mathlib NatIso at the same concrete category objects, independently
+of whether indices are represented in I or via f in J. -/
+private theorem nativeGK5AACompIso_index
+    {i j k : I} (R : C (f i) ⥤ C (f j)) (S : C (f j) ⥤ C (f k)) :
+    nativeGK5GChangeCompIso (fun x : I => e (f x)) R S =
+      nativeGK5GChangeCompIso e R S := by
+  rfl
+
 /-- The true whole source-functor equality across a single actual
 category-equivalence change and GK5F dependent-index relabeling. -/
 theorem nativeGK5AASingleSourceEq
@@ -189,18 +198,23 @@ theorem nativeGK5AASinglePhi_reindex_whole
         calc
           _ = H0 ≪≫ (K0 ≪≫ eqToIso PT) := by
             simp only [Iso.trans_assoc]
-          _ = H0 ≪≫ (eqToIso PM ≪≫ K1) := by
-            rw [hcomp]
+          _ = H0 ≪≫ (eqToIso PM ≪≫ K1) :=
+            congrArg (fun iso => H0 ≪≫ iso) hcomp
           _ = (H0 ≪≫ eqToIso PM) ≪≫ K1 := by
             simp only [Iso.trans_assoc]
           _ = (eqToIso PS ≪≫ H1) ≪≫ K1 := by
             rw [hhorizontal]
           _ = eqToIso PS ≪≫ (H1 ≪≫ K1) := by
             simp only [Iso.trans_assoc]
+      have hK0 : nativeGK5GChangeCompIso
+          (fun x : I => e (f x))
+          (nativeGK5DTreeComposite (C := fun x : I => C (f x)) left)
+          (nativeGK5DTreeComposite (C := fun x : I => C (f x)) right) =
+          K0 := nativeGK5AACompIso_index f e _ _
       simpa only [nativeGK5GChangeTreeIso,
         nativeGK5GChangeTree, nativeGK5FTreeReindex,
-        nativeGK5DTreeComposite, hsource, htarget, H0, H1, K0, K1,
-        PS, PT] using hchain
+        nativeGK5DTreeComposite, hsource, htarget, hK0,
+        H0, H1, K0, K1, PS, PT] using hchain
 
 #print axioms nativeGK5AASingleSourceEq
 #print axioms nativeGK5AASingleTargetEq
