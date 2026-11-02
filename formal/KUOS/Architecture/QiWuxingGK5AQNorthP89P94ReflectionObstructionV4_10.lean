@@ -108,14 +108,14 @@ theorem fivefoldGK5AQNorthPhysical_injectivity_frame_independent
     by_contra h₂
     have hbad := (fivefoldGK5AQNorthPhysical_noninjective_iff_bad
       frame₂ j).1 h₂
-    exact h₁ ((fivefoldGK5AQNorthPhysical_noninjective_iff_bad
-      frame₁ i).2 hbad)
+    exact ((fivefoldGK5AQNorthPhysical_noninjective_iff_bad
+      frame₁ i).2 hbad) h₁
   · intro h₂
     by_contra h₁
     have hbad := (fivefoldGK5AQNorthPhysical_noninjective_iff_bad
       frame₁ i).1 h₁
-    exact h₂ ((fivefoldGK5AQNorthPhysical_noninjective_iff_bad
-      frame₂ j).2 hbad)
+    exact ((fivefoldGK5AQNorthPhysical_noninjective_iff_bad
+      frame₂ j).2 hbad) h₂
 
 /-- Every possible genuinely typed north nonreflection witness
 has identical ORIGINAL full signed F55 shadow in the three
