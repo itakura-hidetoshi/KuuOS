@@ -28,7 +28,7 @@ set_option warningAsError true
 set_option maxRecDepth 8192
 set_option maxHeartbeats 4000000
 noncomputable section
-universe uI uJ uK vC uC
+universe uI uJ uK vC uC uX vX
 
 section TwoStageIndexPhi
 variable {I : Type uI} {J : Type uJ} {K : Type uK}
@@ -57,7 +57,6 @@ theorem nativeGK5ABSourceIso_comp_whole
     nativeGK5ZSourceIso (fun x : I => g (f x))
       e₁ e₂ e₃ e₄ t := by
   simp only [nativeGK5ZSourceIso, eqToIso_trans]
-  exact congrArg eqToIso (Subsingleton.elim _ _)
 
 /-- Whole NatIso naturality under an actual equality of fully
 typed GK5D trees, for any witness, not just a selected Phi. -/
@@ -264,6 +263,237 @@ theorem nativeGK5ABFourDirectPhi4_indexComp_whole
       (nativeGK5XBracket4 e₁ e₂ e₃ e₄)
       (fun {_ _} s => nativeGK5XDirectPhi4 e₁ e₂ e₃ e₄ s) t
 
+
+/-- Compose two actual whole NatIso naturality squares without
+strictifying any of their four genuine source/target objects.
+The final third edge may be an equality-induced tree-fusion iso. -/
+private theorem nativeGK5ABComposeSquares
+    {X : Type uX} [Category.{vX,uX} X]
+    {s₀ s₁ s₂ t₀ t₁ t₂ t₃ : X}
+    (φ₀ : s₀ ≅ t₀) (φ₁ : s₁ ≅ t₁) (φ₂ : s₂ ≅ t₂)
+    (σ₀ : s₀ ≅ s₁) (σ₁ : s₁ ≅ s₂)
+    (τ₀ : t₀ ≅ t₁) (τ₁ : t₁ ≅ t₂) (τ₂ : t₂ ≅ t₃)
+    (h₀ : φ₀ ≪≫ τ₀ = σ₀ ≪≫ φ₁)
+    (h₁ : φ₁ ≪≫ τ₁ = σ₁ ≪≫ φ₂) :
+    ((φ₀ ≪≫ τ₀) ≪≫ τ₁) ≪≫ τ₂ =
+      ((σ₀ ≪≫ σ₁) ≪≫ φ₂) ≪≫ τ₂ := by
+  calc
+    _ = ((σ₀ ≪≫ φ₁) ≪≫ τ₁) ≪≫ τ₂ := by rw [h₀]
+    _ = (σ₀ ≪≫ (φ₁ ≪≫ τ₁)) ≪≫ τ₂ := by
+      simp only [Iso.trans_assoc]
+    _ = (σ₀ ≪≫ (σ₁ ≪≫ φ₂)) ≪≫ τ₂ := by rw [h₁]
+    _ = ((σ₀ ≪≫ σ₁) ≪≫ φ₂) ≪≫ τ₂ := by
+      simp only [Iso.trans_assoc]
+
+/-- Both truly independent recursively constructed Phi witnesses,
+first over I and then over J, compose to the K-indexed direct Phi.
+The third equality is the actual GK5F typed-tree fusion certificate.
+No injectivity, nonstrict equivalence records remain unchanged. -/
+theorem nativeGK5ABFourDirectPhi0_recursiveComp_whole
+    {i j : I}
+    (t : NativeGK5DTypedTree (fun x : I => C (g (f x))) i j) :
+    ((nativeGK5XDirectPhi0 (fun x : I => e₁ (g (f x))) (fun x : I => e₂ (g (f x))) (fun x : I => e₃ (g (f x))) (fun x : I => e₄ (g (f x))) t ≪≫
+      eqToIso (nativeGK5AASingleTargetEq f
+        (nativeGK5XBracket0 (fun x : J => e₁ (g x)) (fun x : J => e₂ (g x)) (fun x : J => e₃ (g x)) (fun x : J => e₄ (g x))) t)) ≪≫
+      eqToIso (nativeGK5AASingleTargetEq g
+        (nativeGK5XBracket0 e₁ e₂ e₃ e₄) (nativeGK5FTreeReindex f (fun x : J => C (g x)) t))) ≪≫
+      (eqToIso (congrArg
+        (fun s => nativeGK5GChangeAtom (nativeGK5XBracket0 e₁ e₂ e₃ e₄)
+          (nativeGK5DTreeComposite s))
+        (nativeGK5FTreeReindex_comp f g C t))) =
+    nativeGK5ZTransportedPhi0 (fun x : I => g (f x))
+      e₁ e₂ e₃ e₄ t := by
+  have h₀ := nativeGK5AAFourDirectPhi0_reindex_whole f
+    (fun x : J => e₁ (g x)) (fun x : J => e₂ (g x)) (fun x : J => e₃ (g x)) (fun x : J => e₄ (g x)) t
+  have h₁ := nativeGK5AAFourDirectPhi0_reindex_whole g
+    e₁ e₂ e₃ e₄ (nativeGK5FTreeReindex f (fun x : J => C (g x)) t)
+  have hs := nativeGK5ABComposeSquares
+    (nativeGK5XDirectPhi0 (fun x : I => e₁ (g (f x))) (fun x : I => e₂ (g (f x))) (fun x : I => e₃ (g (f x))) (fun x : I => e₄ (g (f x))) t)
+    (nativeGK5XDirectPhi0 (fun x : J => e₁ (g x)) (fun x : J => e₂ (g x)) (fun x : J => e₃ (g x)) (fun x : J => e₄ (g x)) (nativeGK5FTreeReindex f (fun x : J => C (g x)) t))
+    (nativeGK5XDirectPhi0 e₁ e₂ e₃ e₄ (nativeGK5FTreeReindex g C (nativeGK5FTreeReindex f (fun x : J => C (g x)) t)))
+    (nativeGK5ZSourceIso f (fun x : J => e₁ (g x)) (fun x : J => e₂ (g x)) (fun x : J => e₃ (g x)) (fun x : J => e₄ (g x)) t)
+    (nativeGK5ZSourceIso g e₁ e₂ e₃ e₄ (nativeGK5FTreeReindex f (fun x : J => C (g x)) t))
+    (eqToIso (nativeGK5AASingleTargetEq f
+      (nativeGK5XBracket0 (fun x : J => e₁ (g x)) (fun x : J => e₂ (g x)) (fun x : J => e₃ (g x)) (fun x : J => e₄ (g x))) t))
+    (eqToIso (nativeGK5AASingleTargetEq g
+      (nativeGK5XBracket0 e₁ e₂ e₃ e₄) (nativeGK5FTreeReindex f (fun x : J => C (g x)) t)))
+    (eqToIso (congrArg
+        (fun s => nativeGK5GChangeAtom (nativeGK5XBracket0 e₁ e₂ e₃ e₄)
+          (nativeGK5DTreeComposite s))
+        (nativeGK5FTreeReindex_comp f g C t)))
+    (by simpa only [nativeGK5ZTransportedPhi0] using h₀)
+    (by simpa only [nativeGK5ZTransportedPhi0] using h₁)
+  exact hs.trans (nativeGK5ABFourDirectPhi0_indexComp_whole
+    f g e₁ e₂ e₃ e₄ t)
+
+
+/-- Both truly independent recursively constructed Phi witnesses,
+first over I and then over J, compose to the K-indexed direct Phi.
+The third equality is the actual GK5F typed-tree fusion certificate.
+No injectivity, nonstrict equivalence records remain unchanged. -/
+theorem nativeGK5ABFourDirectPhi1_recursiveComp_whole
+    {i j : I}
+    (t : NativeGK5DTypedTree (fun x : I => C (g (f x))) i j) :
+    ((nativeGK5XDirectPhi1 (fun x : I => e₁ (g (f x))) (fun x : I => e₂ (g (f x))) (fun x : I => e₃ (g (f x))) (fun x : I => e₄ (g (f x))) t ≪≫
+      eqToIso (nativeGK5AASingleTargetEq f
+        (nativeGK5XBracket1 (fun x : J => e₁ (g x)) (fun x : J => e₂ (g x)) (fun x : J => e₃ (g x)) (fun x : J => e₄ (g x))) t)) ≪≫
+      eqToIso (nativeGK5AASingleTargetEq g
+        (nativeGK5XBracket1 e₁ e₂ e₃ e₄) (nativeGK5FTreeReindex f (fun x : J => C (g x)) t))) ≪≫
+      (eqToIso (congrArg
+        (fun s => nativeGK5GChangeAtom (nativeGK5XBracket1 e₁ e₂ e₃ e₄)
+          (nativeGK5DTreeComposite s))
+        (nativeGK5FTreeReindex_comp f g C t))) =
+    nativeGK5ZTransportedPhi1 (fun x : I => g (f x))
+      e₁ e₂ e₃ e₄ t := by
+  have h₀ := nativeGK5AAFourDirectPhi1_reindex_whole f
+    (fun x : J => e₁ (g x)) (fun x : J => e₂ (g x)) (fun x : J => e₃ (g x)) (fun x : J => e₄ (g x)) t
+  have h₁ := nativeGK5AAFourDirectPhi1_reindex_whole g
+    e₁ e₂ e₃ e₄ (nativeGK5FTreeReindex f (fun x : J => C (g x)) t)
+  have hs := nativeGK5ABComposeSquares
+    (nativeGK5XDirectPhi1 (fun x : I => e₁ (g (f x))) (fun x : I => e₂ (g (f x))) (fun x : I => e₃ (g (f x))) (fun x : I => e₄ (g (f x))) t)
+    (nativeGK5XDirectPhi1 (fun x : J => e₁ (g x)) (fun x : J => e₂ (g x)) (fun x : J => e₃ (g x)) (fun x : J => e₄ (g x)) (nativeGK5FTreeReindex f (fun x : J => C (g x)) t))
+    (nativeGK5XDirectPhi1 e₁ e₂ e₃ e₄ (nativeGK5FTreeReindex g C (nativeGK5FTreeReindex f (fun x : J => C (g x)) t)))
+    (nativeGK5ZSourceIso f (fun x : J => e₁ (g x)) (fun x : J => e₂ (g x)) (fun x : J => e₃ (g x)) (fun x : J => e₄ (g x)) t)
+    (nativeGK5ZSourceIso g e₁ e₂ e₃ e₄ (nativeGK5FTreeReindex f (fun x : J => C (g x)) t))
+    (eqToIso (nativeGK5AASingleTargetEq f
+      (nativeGK5XBracket1 (fun x : J => e₁ (g x)) (fun x : J => e₂ (g x)) (fun x : J => e₃ (g x)) (fun x : J => e₄ (g x))) t))
+    (eqToIso (nativeGK5AASingleTargetEq g
+      (nativeGK5XBracket1 e₁ e₂ e₃ e₄) (nativeGK5FTreeReindex f (fun x : J => C (g x)) t)))
+    (eqToIso (congrArg
+        (fun s => nativeGK5GChangeAtom (nativeGK5XBracket1 e₁ e₂ e₃ e₄)
+          (nativeGK5DTreeComposite s))
+        (nativeGK5FTreeReindex_comp f g C t)))
+    (by simpa only [nativeGK5ZTransportedPhi1] using h₀)
+    (by simpa only [nativeGK5ZTransportedPhi1] using h₁)
+  exact hs.trans (nativeGK5ABFourDirectPhi1_indexComp_whole
+    f g e₁ e₂ e₃ e₄ t)
+
+
+/-- Both truly independent recursively constructed Phi witnesses,
+first over I and then over J, compose to the K-indexed direct Phi.
+The third equality is the actual GK5F typed-tree fusion certificate.
+No injectivity, nonstrict equivalence records remain unchanged. -/
+theorem nativeGK5ABFourDirectPhi2_recursiveComp_whole
+    {i j : I}
+    (t : NativeGK5DTypedTree (fun x : I => C (g (f x))) i j) :
+    ((nativeGK5XDirectPhi2 (fun x : I => e₁ (g (f x))) (fun x : I => e₂ (g (f x))) (fun x : I => e₃ (g (f x))) (fun x : I => e₄ (g (f x))) t ≪≫
+      eqToIso (nativeGK5AASingleTargetEq f
+        (nativeGK5XBracket2 (fun x : J => e₁ (g x)) (fun x : J => e₂ (g x)) (fun x : J => e₃ (g x)) (fun x : J => e₄ (g x))) t)) ≪≫
+      eqToIso (nativeGK5AASingleTargetEq g
+        (nativeGK5XBracket2 e₁ e₂ e₃ e₄) (nativeGK5FTreeReindex f (fun x : J => C (g x)) t))) ≪≫
+      (eqToIso (congrArg
+        (fun s => nativeGK5GChangeAtom (nativeGK5XBracket2 e₁ e₂ e₃ e₄)
+          (nativeGK5DTreeComposite s))
+        (nativeGK5FTreeReindex_comp f g C t))) =
+    nativeGK5ZTransportedPhi2 (fun x : I => g (f x))
+      e₁ e₂ e₃ e₄ t := by
+  have h₀ := nativeGK5AAFourDirectPhi2_reindex_whole f
+    (fun x : J => e₁ (g x)) (fun x : J => e₂ (g x)) (fun x : J => e₃ (g x)) (fun x : J => e₄ (g x)) t
+  have h₁ := nativeGK5AAFourDirectPhi2_reindex_whole g
+    e₁ e₂ e₃ e₄ (nativeGK5FTreeReindex f (fun x : J => C (g x)) t)
+  have hs := nativeGK5ABComposeSquares
+    (nativeGK5XDirectPhi2 (fun x : I => e₁ (g (f x))) (fun x : I => e₂ (g (f x))) (fun x : I => e₃ (g (f x))) (fun x : I => e₄ (g (f x))) t)
+    (nativeGK5XDirectPhi2 (fun x : J => e₁ (g x)) (fun x : J => e₂ (g x)) (fun x : J => e₃ (g x)) (fun x : J => e₄ (g x)) (nativeGK5FTreeReindex f (fun x : J => C (g x)) t))
+    (nativeGK5XDirectPhi2 e₁ e₂ e₃ e₄ (nativeGK5FTreeReindex g C (nativeGK5FTreeReindex f (fun x : J => C (g x)) t)))
+    (nativeGK5ZSourceIso f (fun x : J => e₁ (g x)) (fun x : J => e₂ (g x)) (fun x : J => e₃ (g x)) (fun x : J => e₄ (g x)) t)
+    (nativeGK5ZSourceIso g e₁ e₂ e₃ e₄ (nativeGK5FTreeReindex f (fun x : J => C (g x)) t))
+    (eqToIso (nativeGK5AASingleTargetEq f
+      (nativeGK5XBracket2 (fun x : J => e₁ (g x)) (fun x : J => e₂ (g x)) (fun x : J => e₃ (g x)) (fun x : J => e₄ (g x))) t))
+    (eqToIso (nativeGK5AASingleTargetEq g
+      (nativeGK5XBracket2 e₁ e₂ e₃ e₄) (nativeGK5FTreeReindex f (fun x : J => C (g x)) t)))
+    (eqToIso (congrArg
+        (fun s => nativeGK5GChangeAtom (nativeGK5XBracket2 e₁ e₂ e₃ e₄)
+          (nativeGK5DTreeComposite s))
+        (nativeGK5FTreeReindex_comp f g C t)))
+    (by simpa only [nativeGK5ZTransportedPhi2] using h₀)
+    (by simpa only [nativeGK5ZTransportedPhi2] using h₁)
+  exact hs.trans (nativeGK5ABFourDirectPhi2_indexComp_whole
+    f g e₁ e₂ e₃ e₄ t)
+
+
+/-- Both truly independent recursively constructed Phi witnesses,
+first over I and then over J, compose to the K-indexed direct Phi.
+The third equality is the actual GK5F typed-tree fusion certificate.
+No injectivity, nonstrict equivalence records remain unchanged. -/
+theorem nativeGK5ABFourDirectPhi3_recursiveComp_whole
+    {i j : I}
+    (t : NativeGK5DTypedTree (fun x : I => C (g (f x))) i j) :
+    ((nativeGK5XDirectPhi3 (fun x : I => e₁ (g (f x))) (fun x : I => e₂ (g (f x))) (fun x : I => e₃ (g (f x))) (fun x : I => e₄ (g (f x))) t ≪≫
+      eqToIso (nativeGK5AASingleTargetEq f
+        (nativeGK5XBracket3 (fun x : J => e₁ (g x)) (fun x : J => e₂ (g x)) (fun x : J => e₃ (g x)) (fun x : J => e₄ (g x))) t)) ≪≫
+      eqToIso (nativeGK5AASingleTargetEq g
+        (nativeGK5XBracket3 e₁ e₂ e₃ e₄) (nativeGK5FTreeReindex f (fun x : J => C (g x)) t))) ≪≫
+      (eqToIso (congrArg
+        (fun s => nativeGK5GChangeAtom (nativeGK5XBracket3 e₁ e₂ e₃ e₄)
+          (nativeGK5DTreeComposite s))
+        (nativeGK5FTreeReindex_comp f g C t))) =
+    nativeGK5ZTransportedPhi3 (fun x : I => g (f x))
+      e₁ e₂ e₃ e₄ t := by
+  have h₀ := nativeGK5AAFourDirectPhi3_reindex_whole f
+    (fun x : J => e₁ (g x)) (fun x : J => e₂ (g x)) (fun x : J => e₃ (g x)) (fun x : J => e₄ (g x)) t
+  have h₁ := nativeGK5AAFourDirectPhi3_reindex_whole g
+    e₁ e₂ e₃ e₄ (nativeGK5FTreeReindex f (fun x : J => C (g x)) t)
+  have hs := nativeGK5ABComposeSquares
+    (nativeGK5XDirectPhi3 (fun x : I => e₁ (g (f x))) (fun x : I => e₂ (g (f x))) (fun x : I => e₃ (g (f x))) (fun x : I => e₄ (g (f x))) t)
+    (nativeGK5XDirectPhi3 (fun x : J => e₁ (g x)) (fun x : J => e₂ (g x)) (fun x : J => e₃ (g x)) (fun x : J => e₄ (g x)) (nativeGK5FTreeReindex f (fun x : J => C (g x)) t))
+    (nativeGK5XDirectPhi3 e₁ e₂ e₃ e₄ (nativeGK5FTreeReindex g C (nativeGK5FTreeReindex f (fun x : J => C (g x)) t)))
+    (nativeGK5ZSourceIso f (fun x : J => e₁ (g x)) (fun x : J => e₂ (g x)) (fun x : J => e₃ (g x)) (fun x : J => e₄ (g x)) t)
+    (nativeGK5ZSourceIso g e₁ e₂ e₃ e₄ (nativeGK5FTreeReindex f (fun x : J => C (g x)) t))
+    (eqToIso (nativeGK5AASingleTargetEq f
+      (nativeGK5XBracket3 (fun x : J => e₁ (g x)) (fun x : J => e₂ (g x)) (fun x : J => e₃ (g x)) (fun x : J => e₄ (g x))) t))
+    (eqToIso (nativeGK5AASingleTargetEq g
+      (nativeGK5XBracket3 e₁ e₂ e₃ e₄) (nativeGK5FTreeReindex f (fun x : J => C (g x)) t)))
+    (eqToIso (congrArg
+        (fun s => nativeGK5GChangeAtom (nativeGK5XBracket3 e₁ e₂ e₃ e₄)
+          (nativeGK5DTreeComposite s))
+        (nativeGK5FTreeReindex_comp f g C t)))
+    (by simpa only [nativeGK5ZTransportedPhi3] using h₀)
+    (by simpa only [nativeGK5ZTransportedPhi3] using h₁)
+  exact hs.trans (nativeGK5ABFourDirectPhi3_indexComp_whole
+    f g e₁ e₂ e₃ e₄ t)
+
+
+/-- Both truly independent recursively constructed Phi witnesses,
+first over I and then over J, compose to the K-indexed direct Phi.
+The third equality is the actual GK5F typed-tree fusion certificate.
+No injectivity, nonstrict equivalence records remain unchanged. -/
+theorem nativeGK5ABFourDirectPhi4_recursiveComp_whole
+    {i j : I}
+    (t : NativeGK5DTypedTree (fun x : I => C (g (f x))) i j) :
+    ((nativeGK5XDirectPhi4 (fun x : I => e₁ (g (f x))) (fun x : I => e₂ (g (f x))) (fun x : I => e₃ (g (f x))) (fun x : I => e₄ (g (f x))) t ≪≫
+      eqToIso (nativeGK5AASingleTargetEq f
+        (nativeGK5XBracket4 (fun x : J => e₁ (g x)) (fun x : J => e₂ (g x)) (fun x : J => e₃ (g x)) (fun x : J => e₄ (g x))) t)) ≪≫
+      eqToIso (nativeGK5AASingleTargetEq g
+        (nativeGK5XBracket4 e₁ e₂ e₃ e₄) (nativeGK5FTreeReindex f (fun x : J => C (g x)) t))) ≪≫
+      (eqToIso (congrArg
+        (fun s => nativeGK5GChangeAtom (nativeGK5XBracket4 e₁ e₂ e₃ e₄)
+          (nativeGK5DTreeComposite s))
+        (nativeGK5FTreeReindex_comp f g C t))) =
+    nativeGK5ZTransportedPhi4 (fun x : I => g (f x))
+      e₁ e₂ e₃ e₄ t := by
+  have h₀ := nativeGK5AAFourDirectPhi4_reindex_whole f
+    (fun x : J => e₁ (g x)) (fun x : J => e₂ (g x)) (fun x : J => e₃ (g x)) (fun x : J => e₄ (g x)) t
+  have h₁ := nativeGK5AAFourDirectPhi4_reindex_whole g
+    e₁ e₂ e₃ e₄ (nativeGK5FTreeReindex f (fun x : J => C (g x)) t)
+  have hs := nativeGK5ABComposeSquares
+    (nativeGK5XDirectPhi4 (fun x : I => e₁ (g (f x))) (fun x : I => e₂ (g (f x))) (fun x : I => e₃ (g (f x))) (fun x : I => e₄ (g (f x))) t)
+    (nativeGK5XDirectPhi4 (fun x : J => e₁ (g x)) (fun x : J => e₂ (g x)) (fun x : J => e₃ (g x)) (fun x : J => e₄ (g x)) (nativeGK5FTreeReindex f (fun x : J => C (g x)) t))
+    (nativeGK5XDirectPhi4 e₁ e₂ e₃ e₄ (nativeGK5FTreeReindex g C (nativeGK5FTreeReindex f (fun x : J => C (g x)) t)))
+    (nativeGK5ZSourceIso f (fun x : J => e₁ (g x)) (fun x : J => e₂ (g x)) (fun x : J => e₃ (g x)) (fun x : J => e₄ (g x)) t)
+    (nativeGK5ZSourceIso g e₁ e₂ e₃ e₄ (nativeGK5FTreeReindex f (fun x : J => C (g x)) t))
+    (eqToIso (nativeGK5AASingleTargetEq f
+      (nativeGK5XBracket4 (fun x : J => e₁ (g x)) (fun x : J => e₂ (g x)) (fun x : J => e₃ (g x)) (fun x : J => e₄ (g x))) t))
+    (eqToIso (nativeGK5AASingleTargetEq g
+      (nativeGK5XBracket4 e₁ e₂ e₃ e₄) (nativeGK5FTreeReindex f (fun x : J => C (g x)) t)))
+    (eqToIso (congrArg
+        (fun s => nativeGK5GChangeAtom (nativeGK5XBracket4 e₁ e₂ e₃ e₄)
+          (nativeGK5DTreeComposite s))
+        (nativeGK5FTreeReindex_comp f g C t)))
+    (by simpa only [nativeGK5ZTransportedPhi4] using h₀)
+    (by simpa only [nativeGK5ZTransportedPhi4] using h₁)
+  exact hs.trans (nativeGK5ABFourDirectPhi4_indexComp_whole
+    f g e₁ e₂ e₃ e₄ t)
+
 #print axioms nativeGK5ABSourceIso_comp_whole
 #print axioms nativeGK5ABTwoStagePhi_comp_whole
 #print axioms nativeGK5ABFourDirectPhi0_indexComp_whole
@@ -271,6 +501,11 @@ theorem nativeGK5ABFourDirectPhi4_indexComp_whole
 #print axioms nativeGK5ABFourDirectPhi2_indexComp_whole
 #print axioms nativeGK5ABFourDirectPhi3_indexComp_whole
 #print axioms nativeGK5ABFourDirectPhi4_indexComp_whole
+#print axioms nativeGK5ABFourDirectPhi0_recursiveComp_whole
+#print axioms nativeGK5ABFourDirectPhi1_recursiveComp_whole
+#print axioms nativeGK5ABFourDirectPhi2_recursiveComp_whole
+#print axioms nativeGK5ABFourDirectPhi3_recursiveComp_whole
+#print axioms nativeGK5ABFourDirectPhi4_recursiveComp_whole
 
 end TwoStageIndexPhi
 end
