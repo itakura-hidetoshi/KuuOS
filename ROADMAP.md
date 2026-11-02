@@ -3,6 +3,16 @@
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK5Z / 2026-11-02 JST
+
+**任意（非単射を含む）`f:I→J`に対し、四段の真正点別Mathlib圏同値による完全型付き関手木変換とGK5F reindexingの交換、五つの実括弧付け・whole NatIso辺のpullback保存、J側独立直接`Φ`の明示的source`eqToIso`移送による五辺pentagon可換性をLean4証明 — [定理PR #2947](https://github.com/itakura-hidetoshi/KuuOS/pull/2947) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5ZTypedIndexPentagonExchange.lean)・[正式証明記録](docs/formal/GK5Z-typed-index-five-edge-direct-phi-pentagon-exchange.md)。
+
+**真正証明内容：** `nativeGK5ZFourTree_reindex`／`FourComposite_reindex`／`SourceIso`はGK5Pの真の`ChangeTree`交換を四段に拡張し、完全依存型tree・whole関手・whole EqToIsoに反映。`Bracket0..4_reindex`は合成圏同値の点別表示交換、`Edge01/12/23/04/43_reindex`は**同じ型付き原子上**の真正whole NatIso辺一致。`PullbackPentagon_whole`／`natTrans`はpentagonの真の三辺・二辺経路整合性。五つの`TransportedPhi0..4`はJ側独立直接`Phi`を真正source`eqToIso`でI側へ移送し、`AllFiveEdges_reindex_whole`と`AllFiveDefects_reindex_refl`は各辺の比較と相対障害消滅を全有限型付き木で証明。**I-indexed pullback圏族上の別構成`Φ`との完全一致は別義務**であり、構造的tree等式のみから無断で主張しない。
+
+**Lean4構造的診断・監査：** 新規Lean640行のみ、公開`#print axioms`32件。I/J間の`nativeGK5DTreeComposite`圏族推論を全文で明示し、異なるindex家族のNatIso等式を、同じ原子の比較・型付きwhole`eqToIso`移送へ正しく分離。source `3e87d8998596c810a4cc31cc544574c1ef5c478c`／squash `18eeafd4a656b02a992feeb62f3481aa4c330371`／tree一致 `39e17d0305f12b52bfdbf408d0f155e0baba610a`。最終[CI #41411785125](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41411785125)初回のビルドキャッシュ復元インフラ失敗を**同一sourceのattempt 2再実行**で解決、**Strict Lean 3847/3847、32/32監査標準三公理のみ、sorryAx0、errors/warnings0、Independent Kuu・Workflow integrity・Governance terminal SUCCESS**。固定Lean v4.30.0-rc2/mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、root107／append-only／strict空中心／独立Kuu一presentation、保護PR #1558 Draft/open継続。
+
+**次GK5AA：** 元`I` pullback圏族で別個に構成する五つの真正GK5G再帰`Φ`と、今回のsource輸送版`Φ`のwhole NatIso一致をunit/atom/pasteとreindexingで形式証明。元source-Q公理・F45無条件faithfulness・raw F54/F55/P92B Type高次セル・global Gray・unrestricted hyperdescentは対象外。以下旧履歴全保持。
+
 ## 最新のLean定理統合 — F112-P94D3GK5Y / 2026-11-02 JST
 
 **四段の真正Mathlib圏同値の五通りの括弧付けについて、独立に構成した直接再帰whole NatIso `Φ`の全五辺を個別無条件証明。GK5Xの五つの相対障害`Δij`を各々`Iso.refl`に強化 — [定理PR #2945](https://github.com/itakura-hidetoshi/KuuOS/pull/2945) MERGED。** [Lean4全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5YDirectPhiFiveEdgeCoherence.lean)・[正式証明記録](docs/formal/GK5Y-unconditional-five-direct-phi-edge-coherence.md)。
