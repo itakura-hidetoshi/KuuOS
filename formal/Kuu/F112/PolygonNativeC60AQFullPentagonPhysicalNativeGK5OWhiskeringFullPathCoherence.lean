@@ -66,6 +66,10 @@ private theorem nativeGK5OWhiskerRight_of_square
         Functor.isoWhiskerRight β (nativeGK5GChangeAtom e Sc) :=
     (Functor.isoWhiskerLeft_trans_isoWhiskerRight β φc).symm
   have hcomp := nativeGK5LChangeCompIso_left e (nativeGK5DStepIso s) Sc
+  dsimp only [NativeGK5JPathSquare, nativeGK5DPathIso,
+    nativeGK5GChangePath, nativeGK5DStepIso, nativeGK5GChangeStep,
+    nativeGK5GChangeTreeIso, nativeGK5GChangeTree,
+    nativeGK5DTreeComposite]
   change
     Functor.isoWhiskerRight α Tc ≪≫
       ((Functor.isoWhiskerRight φb Tc ≪≫
@@ -129,6 +133,10 @@ private theorem nativeGK5OWhiskerLeft_of_square
         Functor.isoWhiskerLeft (nativeGK5GChangeAtom e Ra) α :=
     Functor.isoWhiskerLeft_trans_isoWhiskerRight φa α
   have hcomp := nativeGK5KChangeCompIso_right e Ra (nativeGK5DStepIso s)
+  dsimp only [NativeGK5JPathSquare, nativeGK5DPathIso,
+    nativeGK5GChangePath, nativeGK5DStepIso, nativeGK5GChangeStep,
+    nativeGK5GChangeTreeIso, nativeGK5GChangeTree,
+    nativeGK5DTreeComposite]
   change
     Functor.isoWhiskerLeft Ta α ≪≫
       ((Functor.isoWhiskerRight φa
