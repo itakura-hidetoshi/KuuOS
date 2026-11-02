@@ -128,7 +128,7 @@ theorem nativeGK5AASinglePhi_reindex_whole
         nativeGK5GChangeTreeIso, nativeGK5GChangeTree,
         nativeGK5FTreeReindex, nativeGK5DTreeComposite,
         nativeGK5GChangeUnitIso, eqToIso_refl,
-        Iso.refl_trans, Iso.trans_refl]
+        Iso.refl_trans, Iso.trans_refl, Iso.trans_assoc, eqToIso_trans]
   | atom R =>
       simp only [nativeGK5AASingleSourceEq, nativeGK5AASingleTargetEq,
         nativeGK5GChangeTreeIso, nativeGK5GChangeTree,
@@ -139,7 +139,40 @@ theorem nativeGK5AASinglePhi_reindex_whole
       let pS := (nativeGK5FTreeComposite_reindex f C right).symm
       let pA := nativeGK5AASingleSourceEq f e left
       let pB := nativeGK5AASingleSourceEq f e right
-      have hhorizontal :=
+      let H0 := Functor.isoWhiskerRight
+          (nativeGK5GChangeTreeIso (fun x : I => e (f x)) left)
+          (nativeGK5DTreeComposite
+            (nativeGK5GChangeTree (fun x : I => e (f x)) right)) ≪≫
+        Functor.isoWhiskerLeft
+          (nativeGK5GChangeAtom (fun x : I => e (f x))
+            (nativeGK5DTreeComposite left))
+          (nativeGK5GChangeTreeIso (fun x : I => e (f x)) right)
+      let H1 := Functor.isoWhiskerRight
+          (nativeGK5GChangeTreeIso e (nativeGK5FTreeReindex f C left))
+          (nativeGK5DTreeComposite
+            (nativeGK5GChangeTree e (nativeGK5FTreeReindex f C right))) ≪≫
+        Functor.isoWhiskerLeft
+          (nativeGK5GChangeAtom e
+            (nativeGK5DTreeComposite (nativeGK5FTreeReindex f C left)))
+          (nativeGK5GChangeTreeIso e (nativeGK5FTreeReindex f C right))
+      let K0 := nativeGK5GChangeCompIso e
+        (nativeGK5DTreeComposite left) (nativeGK5DTreeComposite right)
+      let K1 := nativeGK5GChangeCompIso e
+        (nativeGK5DTreeComposite (nativeGK5FTreeReindex f C left))
+        (nativeGK5DTreeComposite (nativeGK5FTreeReindex f C right))
+      let PS := congrArg₂ (fun X Y => X ⋙ Y) pA pB
+      let PM := congrArg₂ (fun X Y => X ⋙ Y)
+        (congrArg (nativeGK5GChangeAtom e) pR)
+        (congrArg (nativeGK5GChangeAtom e) pS)
+      let PT := congrArg (nativeGK5GChangeAtom e)
+        (congrArg₂ (fun X Y => X ⋙ Y) pR pS)
+      have hsource :
+          nativeGK5AASingleSourceEq f e (.paste left right) = PS :=
+        Subsingleton.elim _ _
+      have htarget :
+          nativeGK5AASingleTargetEq f e (.paste left right) = PT :=
+        Subsingleton.elim _ _
+      have hhorizontal : H0 ≪≫ eqToIso PM = eqToIso PS ≪≫ H1 :=
         nativeGK5AAHorizontal_natural pA
           (congrArg (nativeGK5GChangeAtom e) pR)
           pB (congrArg (nativeGK5GChangeAtom e) pS)
@@ -148,13 +181,26 @@ theorem nativeGK5AASinglePhi_reindex_whole
           (nativeGK5GChangeTreeIso (fun x : I => e (f x)) right)
           (nativeGK5GChangeTreeIso e (nativeGK5FTreeReindex f C right))
           hl hr
-      have hcomp := nativeGK5AACompIso_natural e pR pS
-      simp only [nativeGK5GChangeTreeIso,
+      have hcomp : K0 ≪≫ eqToIso PT = eqToIso PM ≪≫ K1 :=
+        nativeGK5AACompIso_natural e pR pS
+      have hchain :
+          (H0 ≪≫ K0) ≪≫ eqToIso PT =
+            eqToIso PS ≪≫ (H1 ≪≫ K1) := by
+        calc
+          _ = H0 ≪≫ (K0 ≪≫ eqToIso PT) := by
+            simp only [Iso.trans_assoc]
+          _ = H0 ≪≫ (eqToIso PM ≪≫ K1) := by
+            rw [hcomp]
+          _ = (H0 ≪≫ eqToIso PM) ≪≫ K1 := by
+            simp only [Iso.trans_assoc]
+          _ = (eqToIso PS ≪≫ H1) ≪≫ K1 := by
+            rw [hhorizontal]
+          _ = eqToIso PS ≪≫ (H1 ≪≫ K1) := by
+            simp only [Iso.trans_assoc]
+      simpa only [nativeGK5GChangeTreeIso,
         nativeGK5GChangeTree, nativeGK5FTreeReindex,
-        nativeGK5DTreeComposite, Iso.trans_assoc]
-      apply Iso.ext
-      simp_all [nativeGK5AASingleSourceEq,
-        nativeGK5AASingleTargetEq, Category.assoc]
+        nativeGK5DTreeComposite, hsource, htarget, H0, H1, K0, K1,
+        PS, PT] using hchain
 
 #print axioms nativeGK5AASingleSourceEq
 #print axioms nativeGK5AASingleTargetEq
