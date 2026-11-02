@@ -90,7 +90,41 @@ theorem nativeGK5UTwoAtomObstruction_refl
     (.paste (.atom R) (.atom S))).mpr
     (nativeGK5UTwoAtomPhi_compatible e g R S)
 
+/-- Any finite genuinely typed tree with the EXACT two-atom
+ordered dependent leaf word shares the same whole recursive-Phi
+obstruction as the certified binary atomic tree. Actual finite
+rewrites may change units/brackets but do not discard leaf types. -/
+theorem nativeGK5UTwoLeafObstruction_refl
+    {i j k : I} (R : C i ⥤ C j) (S : C j ⥤ C k)
+    (t : NativeGK5DTypedTree C i k)
+    (h : nativeGK5DTreeLeaves t =
+      NativeGK5DTypedWord.cons R
+        (NativeGK5DTypedWord.cons S (.empty k))) :
+    nativeGK5RPhiObstruction e g t = Iso.refl _ := by
+  have hleaf : nativeGK5DTreeLeaves t =
+      nativeGK5DTreeLeaves (.paste (.atom R) (.atom S)) := by
+    simpa only [nativeGK5DTreeLeaves, nativeGK5DWordAppend] using h
+  exact (nativeGK5RPhiObstruction_sameLeaves_iff e g t
+    (.paste (.atom R) (.atom S)) hleaf).mpr
+      (nativeGK5UTwoAtomObstruction_refl e g R S)
+
+/-- The same result, in terms of equality of the two actual
+non-strict recursive whole NatIso pastings, for every
+finite presentation of these two typed functor leaves. -/
+theorem nativeGK5UTwoLeafPhi_compatible
+    {i j k : I} (R : C i ⥤ C j) (S : C j ⥤ C k)
+    (t : NativeGK5DTypedTree C i k)
+    (h : nativeGK5DTreeLeaves t =
+      NativeGK5DTypedWord.cons R
+        (NativeGK5DTypedWord.cons S (.empty k))) :
+    nativeGK5RSequentialCompositePhi e g t =
+      nativeGK5RDirectCompositePhi e g t :=
+  (nativeGK5RPhiObstruction_refl_iff e g t).mp
+    (nativeGK5UTwoLeafObstruction_refl e g R S t h)
+
 #print axioms nativeGK5UBinaryCompositor_whole
+#print axioms nativeGK5UTwoLeafObstruction_refl
+#print axioms nativeGK5UTwoLeafPhi_compatible
 #print axioms nativeGK5UTwoAtomPhi_compatible
 #print axioms nativeGK5UTwoAtomObstruction_refl
 
