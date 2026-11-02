@@ -3,6 +3,19 @@
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK5N / 2026-11-02 JST
+
+**GK5M任意部分木associatorに続き、真正左右unitorの全有限型付き木whole NatIso整合性を無条件証明 — [定理PR #2923](https://github.com/itakura-hidetoshi/KuuOS/pull/2923) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5NArbitraryTreeUnitors.lean)・[正式証明記録](docs/formal/GK5N-arbitrary-tree-pointwise-equivalence-unitors.md)。
+
+**証明済：** 任意真正関手`R:C_i⥤C_j`への点別圏同値非strict輸送について、実`ChangeUnitIso`と`ChangeCompIso`を通る左右unit三角律をwhole NatIsoで証明（実`inverse_counitInv_comp`、`counitInv_functor_comp`）。さらに任意依存型有限部分木`a`の非自明再帰`Φ_a`に対し`NativeGK5JPathSquare e (.basic (.leftUnit a))`及び`... (.rightUnit a)`を無条件証明。unitorsの自然性とisoWhiskering交換則を保持し、strict逆は仮定しない。
+
+**境界：** GK5Dのassociator、left/right unitorは全て証明済み。一方`whiskerLeft`/`whiskerRight`の構造生成子二種類は未証明なので、GK5Hの一般`StepCompatible e`と`PathCompatible e`をまだ無条件宣言しない。任意選択逆Qと明示逆Pの同一視、元F45/source-Q/raw Type高次セル/Gray/unrestricted descent等も未証明。
+
+**証明書：** source `37503ddfc78c92e5236708ef33bd052d630bbae5`／squash `b5ed97010beecbada2c2d21955cc5d45cfbc8dfc`／一致tree `ebd6fc8276cc670807f84c02313c7d51af850b72`。[CI #41368603907](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41368603907) **Strict Lean 3835/3835・Independent Kuu・Workflow integrity・Governance SUCCESS**、4/4`#print axioms`標準3公理のみ、sorryAx0。Lean4で本物のunit/counit・mapped idの型とIso合成順序を明示し修正した。固定Lean/mathlib、root107、保護#1558 Draft/OPEN、append-only、strict空中心／独立Kuu一presentation継続。
+
+**次GK5O：** 実Mathlib `isoWhiskerRight_trans`・`isoWhiskerLeft_trans`・`isoWhiskerLeft_trans_isoWhiskerRight`およびGK5K/L compositor naturalityで両whiskerステップの局所coherenceを証明。成功後に初めてGK5H全経路定理から無条件whole NatIso/NatTransを導出する。以下既存の証明履歴を全保持。
+
+
 ## 最新のLean定理統合 — F112-P94D3GK5M / 2026-11-02 JST
 
 **三原子associatorから真正任意有限部分木associatorへ：点別圏同値のwhole NatIso局所整合性を無条件証明 — [定理PR #2921](https://github.com/itakura-hidetoshi/KuuOS/pull/2921) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5MArbitraryTreeAssociator.lean)・[正式証明記録](docs/formal/GK5M-arbitrary-finite-subtree-associator-coherence.md)。
