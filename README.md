@@ -14,6 +14,18 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK5AO＋Qi v4.8／P94A水平単位生成元の必要性・真正北C60最小証明／2026-11-03 JST
+
+**[独立Kuu GK5AO PR #2992](https://github.com/itakura-hidetoshi/KuuOS/pull/2992) MERGED。** GK5ANで、現行P93へは移送不能な元P80左右文脈単位を、独立定義済みP94Aの三原始単位を用いてP89全13構成子まで無条件に移送できることが確定した。今回、残る**水平単位**が、P93の全16構成子とP94Aの`leftContextUnit`・`rightContextUnit`から導けるかを、原始P92B三セルの新たな`Bool`不変量`gk5aoRouteActionFlag`で検証。元F55／assocNaturality／reflはfalse、縦transはOR、左右contextは保存、F54経路pre/postcomposeはtrue。真正P92B水平合成は必ずtrue、対応するF54水平経路の`refl`はfalse。P93全16規則はこの値を保存するため、**P93には水平単位の4-cellが存在しない**。
+
+**最小生成元証明：** 既存P94Aの**全19構成子**の原始4セル証明履歴に含まれる`horizontalUnit`の出現回数をNatで厳密に定義。出現回数0のP94A証明は上記Boolean値を保存する一方、水平単位の始終点は値が相違するので、あらゆる真正P94A水平単位証人に`count≥1`。明示`horizontalUnit`証拠では`count=1`。したがって**P94Aに相対的な最小出現回数は厳密に1**とLean4で証明。左右文脈単位から代替できない。別presentation全体での絶対一意最小性は主張しない。[独立Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5AOHorizontalUnitNecessity.lean)。
+
+**[Qi v4.8 PR #2993](https://github.com/itakura-hidetoshi/KuuOS/pull/2993) MERGED。** 真正北C60の隣接第1／第2F45ステージの原始二Nat F54単位経路上に、このP93非存在／P94A一回生成／任意P94A証拠における出現回数下界を型付き適用。実第五around Edge/Dart閉路、物理04/43逆向き、既存P89→P94A無条件比較をそれぞれ別証拠として保持。[Qi Lean全文](formal/KUOS/Architecture/QiWuxingGK5AONorthHorizontalUnitMinimalityV4_8.lean)。
+
+**exact-source検証：** 独立GK5AO [CI #41535105425](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41535105425) **9234/9234 Strict Lean SUCCESS・新9/9公理監査**（6件は公理依存なし、残3件`propext/Quot.sound`以内）、Governance30/30 SUCCESS。Qi v4.8 [CI #41535996482](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41535996482) **10161/10161 SUCCESS・新6/6公理監査**（`propext/Classical.choice/Quot.sound`内）、Governance30/30 SUCCESS。source／test-merge Git treeは独立`ec761b6d152436d26510973fea1272910bfc5ead`、Qi`3debd91b5d3d6d94fd8981e040809aa46b7bef1b`で一致。squash独立`1fd104e6a6bfca4e3b4887987076877e5da881cc`、Qi`b06589f8d8e08eb0e16cf3fffb37012a41d50bd1`。固定Lean v4.30.0-rc2／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、root107、保護PR #1558 Draft/OPEN未マージ。[正式証明記録](docs/formal/GK5AO-Qi-v4_8-P94A-horizontalUnit-minimality.md)。
+
+**次GK5AP（候補）：** P94A左右文脈単位のそれぞれの独立性を、水平単位と反対側の文脈単位を許したまま検証する。別の型付き不変量と全19構成子帰納法、P89→P94A比較反映条件を解析。以下GK5AN／Qi v4.7以前の研究履歴をすべて保持。
+
 ## 最新のLean定理統合 — F112-P94D3GK5AN＋Qi v4.7／現行P93 no-goを保持し、既存P94AへのP89全構造的4-cell移送と真正北C60物理比較を無条件構成／2026-11-03 JST
 
 **[独立Kuu GK5AN定理PR #2989](https://github.com/itakura-hidetoshi/KuuOS/pull/2989) MERGED。** GK5AM／Qi v4.6で、旧P80の左右文脈単位4-cellは元P87に実在する一方、そのGK5AI構造的`φ`像を結ぶ**現行P93C 4-cellが存在せず**、P89全13構成子の完全な構造移送が不可能と証明済み。今回、**過去に独立定義済みの真正P94A`NativeF55P94UnitFourCell`** がP93の全証拠を保持し、P80の`horizontalUnit`・`leftContextUnit`・`rightContextUnit`の3構成子を明示追加していたことを利用。P94Aを新規定義し直すこともP93履歴を書き換えることもなく、元P77→P80→P85→P86→P87→P89の全Type値4-cell構成子を構造的`φ`像へ再帰移送し、`nativeGK5ANP87P89ToP94_unconditional`で**P87/P89完全P94A移送族の無条件存在**を証明。[Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5ANStructuralP89ToP94A.lean)。
