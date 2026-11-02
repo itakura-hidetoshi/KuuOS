@@ -3,6 +3,14 @@
 
 
 
+## 新規統合 — Qi v3.5／五行・真正C60五角形・GK5高次五角形の共通型／2026-11-02 JST
+
+**[定理PR #2950](https://github.com/itakura-hidetoshi/KuuOS/pull/2950) MERGED。** 五行`FivePhase=ZMod 5`を唯一の**共通座標型**として用い、12真正C60五角形の各`Slot`に対するゲージ依存の実`FivePhase ≃ Slot`、相生`+1`と物理`slotNext`の可換性、元`Dart`・`Edge.around`の正確な端点一致を証明。さらに真正Mathlib4圏同値の5括弧付け`P0..P4`を同じ位相`0..4`で選び、**同じ`FivefoldEdge`が実C60辺とwhole NatIso辺の両方を型付きで選択**。物理円周と反対向きの`04/43`も正確に保持。GK5Xの真正pentagonおよびGK5Yの**全5辺direct`Φ`可換性**を新しい共通インターフェースで証明した。
+
+[新規Leanソース](formal/KUOS/Architecture/QiWuxingPentagonUnifiedV3_5.lean)・[正式証明記録](docs/formal/Qi-v3_5-unified-fivefold-wuxing-C60-GK5-pentagon.md)。[exact-source CI #41415829263](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41415829263) **Strict Lean 10133/10133 SUCCESS、8/8公理監査は標準3公理以内、sorryAx0、Independent Kuu／Workflow integrity／Governance全SUCCESS**。squash/main当時HEAD `5a6b2bf18ea57a41a1eea40985bba1127b3cbf42`、固定Lean/mathlib・107公開root・保護#1558 Draft/open維持。
+
+**数学的な境界：** 共通インデックスと真正型付き橋は構成・証明済みだが、五行の生成履歴、物理C60の辺、カテゴリーNatIso、元F54/F55/P92B Type値高次証拠を無条件に同一視しない。5という基数だけで意味を捏造せず、選択した位相番号と構造保存を区別する。global strict 3/n・unrestricted hyperdescentや臨床因果は新たに主張しない。以下GK5Z以前の研究記録はすべて保持する。
+
 ## 最新のLean定理統合 — F112-P94D3GK5Z / 2026-11-02 JST
 
 **任意（非単射を含む）`f:I→J`に対し、四段の真正点別Mathlib圏同値による完全型付き関手木変換とGK5F reindexingの交換、五つの実括弧付け・whole NatIso辺のpullback保存、J側独立直接`Φ`の明示的source`eqToIso`移送による五辺pentagon可換性をLean4証明 — [定理PR #2947](https://github.com/itakura-hidetoshi/KuuOS/pull/2947) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5ZTypedIndexPentagonExchange.lean)・[正式証明記録](docs/formal/GK5Z-typed-index-five-edge-direct-phi-pentagon-exchange.md)。
