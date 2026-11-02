@@ -263,7 +263,6 @@ private theorem nativeGK5AAFourfoldPhiBridge
       nativeGK5ZSourceIso f e g h k t ≪≫
         eqToIso (congrArg nativeGK5DTreeComposite pJ) := by
     simp only [nativeGK5ZSourceIso, eqToIso_trans]
-    exact congrArg eqToIso (Subsingleton.elim _ _)
   calc
     _ = eqToIso (congrArg nativeGK5DTreeComposite pI) ≪≫
         (nativeGK5GChangeTreeIso (fun x : I => a (f x)) t ≪≫
