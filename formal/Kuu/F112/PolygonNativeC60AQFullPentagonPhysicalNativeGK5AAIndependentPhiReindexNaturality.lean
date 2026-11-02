@@ -56,7 +56,7 @@ dependent-index relabeling, with no equality of equivalence records. -/
 theorem nativeGK5AASingleTargetEq
     {i j : I} (t : NativeGK5DTypedTree (fun x : I => C (f x)) i j) :
     nativeGK5GChangeAtom (fun x : I => e (f x))
-        (nativeGK5DTreeComposite t) =
+        (nativeGK5DTreeComposite (C := fun x : I => C (f x)) t) =
       nativeGK5GChangeAtom e
         (nativeGK5DTreeComposite (nativeGK5FTreeReindex f C t)) := by
   exact congrArg (nativeGK5GChangeAtom e)
@@ -76,11 +76,11 @@ theorem nativeGK5AASinglePhi_reindex_whole
   | atom R =>
       rfl
   | paste left right hl hr =>
-      simp only [nativeGK5GChangeTreeIso,
-        nativeGK5GChangeTree, nativeGK5FTreeReindex,
-        nativeGK5GChangeCompIso]
-      simp [nativeGK5AASingleSourceEq,
-        nativeGK5AASingleTargetEq] at *
+      apply Iso.ext
+      simp_all [nativeGK5AASingleSourceEq, nativeGK5AASingleTargetEq,
+        nativeGK5GChangeTreeIso, nativeGK5GChangeCompIso,
+        nativeGK5DTreeComposite, nativeGK5GChangeTree,
+        nativeGK5FTreeReindex, Category.assoc]
 
 #print axioms nativeGK5AASingleSourceEq
 #print axioms nativeGK5AASingleTargetEq
