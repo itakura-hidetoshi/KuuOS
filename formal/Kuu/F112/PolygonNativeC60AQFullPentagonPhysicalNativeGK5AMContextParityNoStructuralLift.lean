@@ -153,11 +153,8 @@ theorem NativeF55P93AssocFourCell.gk5amContextParity_sound
       simpa only [NativeF55P92AssocComparison.gk5amHorizontal_contextParity]
         using congrArg (fun z : ZMod 2 => other.gk5amContextParity + z) ih
   | interchange f₁ f₂ g₁ g₂ =>
-      simp only [NativeF55P92AssocComparison.gk5amHorizontal_contextParity]
-      change (f₁.gk5amContextParity + f₂.gk5amContextParity) +
-        (g₁.gk5amContextParity + g₂.gk5amContextParity) =
-        (f₁.gk5amContextParity + g₁.gk5amContextParity) +
-        (f₂.gk5amContextParity + g₂.gk5amContextParity)
+      simp only [NativeF55P92AssocComparison.gk5amHorizontal_contextParity,
+        NativeF55P92AssocComparison.gk5amContextParity]
       abel
 
 /-- ACTUAL counterexample, for EVERY correctly typed genuine
