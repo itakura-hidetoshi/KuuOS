@@ -3,6 +3,20 @@
 
 
 
+## GK5AP／Qi v4.9 完了 — P94A全三単位生成元の個別最小性・真正北C60一体検証／2026-11-03 JST
+
+**独立Kuu [GK5AP #2995](https://github.com/itakura-hidetoshi/KuuOS/pull/2995) MERGED。** 原始P92Bの真正Type値付き証明履歴に、左`(leftContext＋precompose)`と右`(rightContext＋postcompose)`を別々に数える`ZMod 2`不変量を導入。真正P92B水平合成では各成分の2個の`+1`が相殺され、P93全16構成子がそれぞれ保存する。選択P94Aの`horizontalUnit`・反対側の文脈単位を許しても対象の文脈単位は保存性を破る唯一の原始生成元である。全19構成子で左右の出現回数をNat帰納法により定義し、**任意の真正4-cell証拠に必要数≥1、既存の明示原始証拠で数=1**を左右で独立証明。GK5AOと合わせ水平・左文脈・右文脈の3生成元は、この選択P94Aでいずれも個別に非冗長。歴史的P93・P94Aを上書きせず、root107継続。
+
+**Qi [v4.9 #2996](https://github.com/itakura-hidetoshi/KuuOS/pull/2996) MERGED。** 真正北C60第1／第2の隣接F45実ステージにGK5APの左右それぞれのP93非存在・P94A一回証明書・全証明書下界を適用し、Qi v4.8の水平単位最小性を同時に保持。物理第五辺Dart閉路と反転04・43のカテゴリー向き、既存P89→P94A真正構造移送が両立。物理観測をhigher Type証拠に無根拠に昇格させず、独立Kuu→Qi一方向のみ。
+
+**正本・CI：** GK5AP `51d31d9a5a96b7917f9e63def593b44da9c78080`、[Governance #41539572851](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41539572851) **Strict Lean 9236/9236、30/30 SUCCESS**。Qi v4.9 `8618f5c3141b21f2e53771430c38903486a4f1b5`、[Governance #41541063463](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41541063463) **Strict Lean 10163/10163、30/30 SUCCESS**。GK5AP `#print axioms` 18件、Qi 10件とも許容公理のみ、新規Lean4証明でsorryAxなし。Qi初回の型付き名前解決失敗は先行Qi v4.8のモジュールprivate定義参照が原因と特定、Qi v4.9局所定義と公的GK5AO定理に切替え、source全文で再検証成功。
+
+**ソース・正式記録：** [GK5AP Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5APContextUnitIndependence.lean) · [Qi v4.9 Lean](formal/KUOS/Architecture/QiWuxingGK5APNorthContextUnitMinimalityV4_9.lean) · [正式証明記録](docs/formal/GK5AP-Qi-v4_9-P94A-contextUnit-independent-minimality.md)。Lean v4.30.0-rc2／固定mathlib、strict 空中心、保護PR #1558 Draft/open維持。
+
+**次の研究課題：** 独立Kuuとして元P89→選択P94A 4-cell商の**比較反射必要十分条件**について、実際の追加同一視と非単射障害を判定する。既存P94Aの三単位が必要であることとP89→P94A商写像が忠実であることを混同しない。無条件faithfulness、Grayやglobal descentは未主張。
+
+---
+
 ## GK5AO／Qi v4.8 完了 — P94A水平単位の独立性と真正北C60最小4-cell証拠／2026-11-03 JST
 
 **独立Kuu [GK5AO #2992](https://github.com/itakura-hidetoshi/KuuOS/pull/2992) MERGED。** 既存P94Aの三原始単位のうち`horizontalUnit`が、P93全16四セル規則と残る`leftContextUnit`／`rightContextUnit`およびすべての閉包から導出できるかを解析。原始P92Bの新しいBoolean不変量は、元F55／P92B assocNaturality／reflでfalse、symm保存・transはOR・左右context保持、precompose/postcomposeでtrue。真正水平3セル合成はtrue、F54水平経路の厳密なreflはfalse。全P93構成子は不変量を保存し、**P93水平単位4-cellの非存在**を証明。P94A全19構成子の原始証明履歴から`horizontalUnit`出現回数をNatで再帰構成し、回数0なら上記不変量が保存されることを証明。従って水平単位を正規化するどのP94A真正4-cellにも**水平単位生成元が少なくとも1回必要**、既存の明示証拠は**ちょうど1回**。P94Aという特定presentationでの最小性であり、全高次presentationの絶対最小性ではない。[GK5AO Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5AOHorizontalUnitNecessity.lean)。
