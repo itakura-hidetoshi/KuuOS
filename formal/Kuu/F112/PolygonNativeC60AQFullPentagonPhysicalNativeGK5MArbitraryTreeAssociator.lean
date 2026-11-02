@@ -72,6 +72,11 @@ theorem nativeGK5MAssociator_subtrees
         (NativeGK5DTypedStep.assoc a b c)) := by
   apply Iso.ext
   ext X
+  let g := (nativeGK5DTreeComposite b).map
+    ((e j).unitIso.inv.app ((nativeGK5DTreeComposite a).obj ((e i).inverse.obj X)))
+  have hPhiC := (nativeGK5GChangeTreeIso e c).hom.naturality
+    ((e k).functor.map g)
+  have hUnitK := (e k).unitIso.inv.naturality g
   simp [NativeGK5JPathSquare, nativeGK5DPathIso,
     nativeGK5DStepIso, nativeGK5GChangePath,
     nativeGK5GChangeStep, nativeGK5GChangeTreeIso,
@@ -80,7 +85,7 @@ theorem nativeGK5MAssociator_subtrees
     nativeGK5IChangeCompIso_hom_app,
     Functor.associator_hom_app, Functor.comp_obj,
     Functor.comp_map, Functor.map_comp,
-    Category.assoc]
+    Category.assoc, hPhiC, hUnitK, g]
   cat_disch
 
 #print axioms nativeGK5MCompositor_associator
