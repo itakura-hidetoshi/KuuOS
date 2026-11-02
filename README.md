@@ -14,6 +14,16 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK5AC＋Qi v3.6／五fold再帰Φの単位・合成と真正五行C60ゲージ／2026-11-02 JST
+
+**GK5AC [定理PR #2955](https://github.com/itakura-hidetoshi/KuuOS/pull/2955) MERGED。** GK5Fの全有限依存型木`reindex_id`、GK5AAの実whole NatIso自然性、GK5ABの二段index合成自然性を統合し、真正Mathlib圏同値について**単一再帰`Φ`と全五括弧`P0..P4`の独立再帰`Φ`が恒等index写像で両端の実`eqToIso`を介して元の`Φ`へ一致する単位則**を証明。真正準逆・unit/counit・middle compositorはstrict化しない。[GK5AC Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5ACIdentityReindexPhiAction.lean)。
+
+**[Qi v3.6定理PR #2956](https://github.com/itakura-hidetoshi/KuuOS/pull/2956) MERGED。** 既存`FivefoldIndex = FivePhase = ZMod 5`、真正C60ゲージ`fivefoldSlotEquiv frame v : FivefoldIndex ≃ Slot`、実`slotNext`により、**`γᵥ(p+1) = slotNext(γᵥ(p))`**の実物理五角形位相進行、ゲージ両方向復元・圏族復元、完全依存型木の`(+1)`次いで`γᵥ`再分類と合成写像の一致を証明。さらに**`fivefoldPhasePhysicalPhi0..4_comp_whole`と`fivefoldPhasePhysicalAllFivePhi_comp_whole`**で五つの独立再帰whole NatIsoのsource／target実`eqToIso`交換をGK5ABから導いた。新規[Qi v3.6 Lean全文](formal/KUOS/Architecture/QiWuxingGK5ACFivePhaseShiftCoherenceV3_6.lean)を既存の唯一の`KuuOSFormal`へ**import 1行追加**して統合、公開root107維持、独立KuuからQiへの逆importなし。**C60の物理EdgeとカテゴリーNatIsoを同一視する主張ではない。** [正式統合証明記録](docs/formal/GK5AC-identity-phi-Qi-v3_6-fivephase-C60-composition.md)。
+
+**Lean4全文検証・公理監査：** GK5ACの最終exact-source [CI #41428104953](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41428104953) **3850/3850 SUCCESS、8/8公理監査**。初期`rfl`／`rw`不一致は`eqToIso_refl`・`Iso.refl_trans`・明示`congrArg`／`Iso.trans_assoc`で解消。定理source `98b9d44ec9548128ee3cb8998cf00eef365d13cd`／squash `9461a0a837c1276faf97f3f41afa66f966f76cdb`、Git tree一致`0c050a9e75d2de5573500abaad8b494bcc76db4c`。Qi v3.6最終exact-source [CI #41429970480](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41429970480) **Strict Lean 10137/10137 SUCCESS、10/10公理監査**。初回は真正ゲージ型の名前空間の`open`欠落と、`fivefoldSlotEquiv frame v`関数引数の括弧欠落を五fold全文で修正。最終source`9f6a3e6be60b0feae68d4c609cf2450c70b24ed2`／squash`a59d8b4fb6bb7c3a3690d36a7871fcc4226e1e61`、Git tree一致`e90a0109c46b125e8f38f53c41156e280caf8089`。**両定理とも`sorryAx=0`、Lean errors/warnings0/0、18件公理監査は`propext / Classical.choice / Quot.sound`のみ、Independent Kuu・Workflow integrity・Governance SUCCESS。** 固定Lean v4.30.0-rc2／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、same-root107、保護#1558 Draft/OPEN/未マージ維持。
+
+**次GK5AD：** `FivePhase`の`+1`を反復し、物理C60の五歩閉路と型付きreindexingの`(+1)^5=id`、GK5AC単位則・GK5AB合成則に基づくwhole Φの五歩holonomy整合性を検証。以下GK5AB・GK5AA・Qi v3.5を含む既存の全研究履歴を保持。
+
 ## 最新のLean定理統合 — F112-P94D3GK5AB／二段index写像の全五独立再帰Φ経路非依存／2026-11-02 JST
 
 **任意（非単射も許容）の連続index写像 `I → J → K` と全有限真正GK5D型付き木について、GK5AAで独立に構成された全五括弧 `P0..P4` のMathlib whole NatIso `Φ` が、逐次reindexingと合成reindexingの双方で同じ真正source/target `eqToIso`経路比較を満たすことをLean4で形式証明。** [定理PR #2953](https://github.com/itakura-hidetoshi/KuuOS/pull/2953) **MERGED**。 [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5ABTwoStageIndexPhiCoherence.lean)・[正式証明記録](docs/formal/GK5AB-two-stage-index-fivefold-recursive-phi-coherence.md)。
