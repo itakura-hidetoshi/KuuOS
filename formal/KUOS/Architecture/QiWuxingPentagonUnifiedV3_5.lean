@@ -68,7 +68,10 @@ theorem fivefoldSlot_successor (frame : NativeC60FivePhaseGauge)
   have hnext (s : Slot) :
       slotIndex (slotNext s) = slotIndex s + 1 := by
     cases s <;> decide
-  rw [hnext, nativeC60GaugeSlot_index, nativeC60GaugeSlot_index]
+  rw [hnext]
+  change slotIndex (nativeC60GaugeSlot frame v p) + 1 =
+    slotIndex (nativeC60GaugeSlot frame v (p + 1))
+  rw [nativeC60GaugeSlot_index, nativeC60GaugeSlot_index]
   change (p + frame v) + 1 = (p + 1) + frame v
   abel
 
@@ -180,7 +183,8 @@ theorem fivefoldBracket_1
     (h : ∀ i : I, E i ≌ F i)
     (k : ∀ i : I, F i ≌ G i) :
     fivefoldBracket e g h k 1 = nativeGK5XBracket1 e g h k := by
-  norm_num [fivefoldBracket]
+  have h10 : (1 : FivefoldIndex) ≠ 0 := by decide
+  simp [fivefoldBracket, h10]
 
 theorem fivefoldBracket_2
     {I : Type uI} {C D E F G : I → Cat.{vC,uC}}
@@ -189,7 +193,9 @@ theorem fivefoldBracket_2
     (h : ∀ i : I, E i ≌ F i)
     (k : ∀ i : I, F i ≌ G i) :
     fivefoldBracket e g h k 2 = nativeGK5XBracket2 e g h k := by
-  norm_num [fivefoldBracket]
+  have h20 : (2 : FivefoldIndex) ≠ 0 := by decide
+  have h21 : (2 : FivefoldIndex) ≠ 1 := by decide
+  simp [fivefoldBracket, h20, h21]
 
 theorem fivefoldBracket_3
     {I : Type uI} {C D E F G : I → Cat.{vC,uC}}
@@ -198,7 +204,10 @@ theorem fivefoldBracket_3
     (h : ∀ i : I, E i ≌ F i)
     (k : ∀ i : I, F i ≌ G i) :
     fivefoldBracket e g h k 3 = nativeGK5XBracket3 e g h k := by
-  norm_num [fivefoldBracket]
+  have h30 : (3 : FivefoldIndex) ≠ 0 := by decide
+  have h31 : (3 : FivefoldIndex) ≠ 1 := by decide
+  have h32 : (3 : FivefoldIndex) ≠ 2 := by decide
+  simp [fivefoldBracket, h30, h31, h32]
 
 theorem fivefoldBracket_4
     {I : Type uI} {C D E F G : I → Cat.{vC,uC}}
@@ -207,7 +216,11 @@ theorem fivefoldBracket_4
     (h : ∀ i : I, E i ≌ F i)
     (k : ∀ i : I, F i ≌ G i) :
     fivefoldBracket e g h k 4 = nativeGK5XBracket4 e g h k := by
-  norm_num [fivefoldBracket]
+  have h40 : (4 : FivefoldIndex) ≠ 0 := by decide
+  have h41 : (4 : FivefoldIndex) ≠ 1 := by decide
+  have h42 : (4 : FivefoldIndex) ≠ 2 := by decide
+  have h43 : (4 : FivefoldIndex) ≠ 3 := by decide
+  simp [fivefoldBracket, h40, h41, h42, h43]
 
 /-- A genuine whole NatIso, indexed by the SAME oriented phase edge as its
 physical C60 around-edge. Categorical equality is not a physical path equality. -/
