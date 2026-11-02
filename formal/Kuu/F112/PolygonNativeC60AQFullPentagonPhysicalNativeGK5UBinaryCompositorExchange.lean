@@ -29,6 +29,31 @@ set_option maxHeartbeats 4000000
 noncomputable section
 universe uI vC uC
 
+/-! Actual whole Mathlib NatIso horizontal pasting, kept separate
+from category-equivalence middle-unit cancellation. -/
+private noncomputable def nativeGK5UHorizontalIso
+    {A B T : Type uC} [Category.{vC} A] [Category.{vC} B]
+    [Category.{vC} T]
+    {F G : A ⥤ B} {H K : B ⥤ T}
+    (α : F ≅ G) (β : H ≅ K) : (F ⋙ H) ≅ (G ⋙ K) :=
+  Functor.isoWhiskerRight α H ≪≫ Functor.isoWhiskerLeft G β
+
+/-- Genuine interchange of two sequential horizontal NatIso
+pastes, with all four intermediate Mathlib functors retained. -/
+private theorem nativeGK5UHorizontalIso_trans
+    {A B T : Type uC} [Category.{vC} A] [Category.{vC} B]
+    [Category.{vC} T]
+    {F G H : A ⥤ B} {L M N : B ⥤ T}
+    (α : F ≅ G) (β : G ≅ H)
+    (γ : L ≅ M) (δ : M ≅ N) :
+    nativeGK5UHorizontalIso α γ ≪≫
+        nativeGK5UHorizontalIso β δ =
+      nativeGK5UHorizontalIso (α ≪≫ β) (γ ≪≫ δ) := by
+  apply Iso.ext
+  ext X
+  simp [nativeGK5UHorizontalIso, Functor.map_comp,
+    Category.assoc]
+
 section GenuineTwoStageCompositor
 variable {I : Type uI} {C D E : I → Cat.{vC,uC}}
 variable (e : ∀ i : I, C i ≌ D i)
@@ -38,6 +63,20 @@ variable (g : ∀ i : I, D i ≌ E i)
 category equivalence's nonstrict middle unit. The whole
 Mathlib NatIso square compares the two real middle-unit
 cancelations, not just their endpoint functors. -/
+/-- GK5Q's structural eqToIso is genuinely compatible with
+binary tree pasting. Each side is an actual whole Mathlib NatIso,
+not a strict equality of the nontrivial GK5G recursive Phi. -/
+theorem nativeGK5UTheta_paste
+    {i j k : I} (a : NativeGK5DTypedTree C i j)
+    (b : NativeGK5DTypedTree C j k) :
+    nativeGK5QTreeComparison e g (.paste a b) =
+      nativeGK5UHorizontalIso (nativeGK5QTreeComparison e g a)
+        (nativeGK5QTreeComparison e g b) := by
+  apply Iso.ext
+  ext X
+  simp [nativeGK5UHorizontalIso, nativeGK5QTreeComparison,
+    nativeGK5GChangeTree, nativeGK5DTreeComposite]
+
 theorem nativeGK5UBinaryCompositor_whole
     {i j k : I} (R : C i ⥤ C j) (S : C j ⥤ C k) :
     (nativeGK5GChangeCompIso g
@@ -185,6 +224,7 @@ theorem nativeGK5UNonemptyCons :
   (nativeGK5TAllObstructions_iff_nonemptyCons e g).mp
     (nativeGK5UAllObstructions_refl e g)
 
+#print axioms nativeGK5UTheta_paste
 #print axioms nativeGK5UBinaryCompositor_whole
 #print axioms nativeGK5UAllTrees_unconditional
 #print axioms nativeGK5UAllObstructions_refl
