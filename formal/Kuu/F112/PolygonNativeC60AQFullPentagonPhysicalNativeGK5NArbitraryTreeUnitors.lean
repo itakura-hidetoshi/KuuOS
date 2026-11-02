@@ -54,8 +54,7 @@ theorem nativeGK5NLeft_unitLaw
     nativeGK5GChangeAtom, nativeGK5IChangeCompIso_hom_app,
     Functor.leftUnitor_hom_app,
     Functor.comp_map, Functor.map_comp, Category.assoc]
-  simpa only [Equivalence.counitInv, Equivalence.unitInv,
-    Functor.map_comp, Functor.map_id] using hMap
+  exact hMap.trans (by simp)
 
 /-- True right-unit pseudofunctor law for ANY whole Mathlib functor R.
 Here the second triangle cancels a counit inverse with a mapped
