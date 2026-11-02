@@ -3,6 +3,22 @@
 
 
 
+## GK5AQ／Qi v4.10 完了 — 元P89→選択P94A比較反射障害核の厳密化と真正北C60物理フレーム不変性／2026-11-03 JST
+
+**独立Kuu [GK5AQ #2998](https://github.com/itakura-hidetoshi/KuuOS/pull/2998) MERGED。** GK5ANの元P89→P94A四セル商写像に対し、元F55の真正Type値付き3-proofの同じF54経路端点で、選択P94A比較`FourCell(φf,φg)`は存在するが元P89比較`FourCell(f,g)`は存在しない**非反射ペア**を定義。この真正ペアが存在することと商写像の非単射性が同値。元P89同値に関する左右代表変更でも障害は保持され、非反射ペアの元のpentagon／square／odd-ZMod2の**全shadowは一致**。shadowの一致を真正4-cell比較と混同しない。
+
+**三単位は別問題：** GK5AO/GK5APでP94Aの三単位`horizontalUnit, leftContextUnit, rightContextUnit`が個別最小であることを証明済みだが、元P89には三種のP80四セルがすべて真正証拠として存在し、これら原始単位だけでは元P89→P94A非反射ペアにならない。元F55→P92Bの全面証拠復元も、新規`assocNaturality`が存在し元F55対応型は空である真の北C60三段で不可能と証明した。ただしその事実を**元P89→P94A商写像の無条件非単射性へ昇格しない**。
+
+**Qi [v4.10 #2999](https://github.com/itakura-hidetoshi/KuuOS/pull/2999) MERGED。** 元の真正北C60 long/short F54双Nat履歴のP89四セル商にGK5AQ非反射ペアを適用。物理`Dart×Dart`付加後の商写像が非単射であることと、同じ非反射ペアの存在は必要十分。任意の北C60物理ゲージフレーム・第五辺indexについて単射性は完全に一致し、非反射ペアがあれば全フレームで物理＋P94A像が同一でも元P89クラスが異なる。物理第五辺閉路・04/43逆向き・GK5AN P89構造移送・Qi v4.9三単位最小性を保存。
+
+**exact-source／監査：** GK5AQ source HEAD `da2c6726002e4b6307f9ae74fd514cb21ae83455`、squash `b668e879f56f949dae95c86fe6ffd6bb1c3cbf04`、[Governance #41544750455](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41544750455) **Strict Lean 9238/9238・Governance 30/30 SUCCESS**、新`#print axioms`10件全許容。Qi source HEAD `2a389e247a145124ca0efca859c54207384b4572`、squash `127ec02c99b254522c21e8359549a84bb6ceeff8`、[Governance #41545634041](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41545634041) **Strict Lean 10165/10165・Governance 30/30 SUCCESS**、新公理監査7件全許容。どちらもsorryAxなし、原本P93/P94A変更なし、strict 空権限と公開root107維持。
+
+**正式記録／全文：** [GK5AQ・Qi v4.10 証明記録](docs/formal/GK5AQ-Qi-v4_10-P89-P94A-reflection-obstruction-kernel.md) · [独立Kuu Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5AQP89P94ReflectionObstruction.lean) · [Qi v4.10 Lean](formal/KUOS/Architecture/QiWuxingGK5AQNorthP89P94ReflectionObstructionV4_10.lean)。Lean v4.30.0-rc2、mathlib固定、#1558 Draft／OPEN未マージ。
+
+**次の研究：F112-P94D3GK5AR（仮称）。** P94A比較証明の元`φ`像端点におけるsource-saturated正規化可能性・構成子ごとの反射ゲートを解析し、元P89非反射ペアを真正に構成するか、追加条件下で存在しないことを証明する。非単射性／単射性を未証明のまま言い切らない。過去定理・同一rootの不変性保持。
+
+---
+
 ## GK5AP／Qi v4.9 完了 — P94A全三単位生成元の個別最小性・真正北C60一体検証／2026-11-03 JST
 
 **独立Kuu [GK5AP #2995](https://github.com/itakura-hidetoshi/KuuOS/pull/2995) MERGED。** 原始P92Bの真正Type値付き証明履歴に、左`(leftContext＋precompose)`と右`(rightContext＋postcompose)`を別々に数える`ZMod 2`不変量を導入。真正P92B水平合成では各成分の2個の`+1`が相殺され、P93全16構成子がそれぞれ保存する。選択P94Aの`horizontalUnit`・反対側の文脈単位を許しても対象の文脈単位は保存性を破る唯一の原始生成元である。全19構成子で左右の出現回数をNat帰納法により定義し、**任意の真正4-cell証拠に必要数≥1、既存の明示原始証拠で数=1**を左右で独立証明。GK5AOと合わせ水平・左文脈・右文脈の3生成元は、この選択P94Aでいずれも個別に非冗長。歴史的P93・P94Aを上書きせず、root107継続。
