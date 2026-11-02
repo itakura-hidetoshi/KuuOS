@@ -104,6 +104,22 @@ theorem NativeF55P92AssocComparison.gk5amHorizontal_contextParity
         (f.gk5amContextParity + g.gk5amContextParity) + (1 + 1) := by abel
     _ = f.gk5amContextParity + g.gk5amContextParity := by simp [htwo]
 
+/-- Definitional law for the actual P92B vertical 3-cell
+constructor.  Keep this as a rewriting lemma rather than unfolding
+the dependent primitive-recursion compiler inside P93 interchange. -/
+theorem NativeF55P92AssocComparison.gk5amTrans_contextParity
+    {p : Polygon} {a b : D} {x y : E}
+    {n n' m m' : Nat}
+    {ma mb : KuuNativeBlocks a b}
+    {pa pb : KuuNativeBlocks x y}
+    {first : KuuNativeF45Tree p n m ma pa mb pb}
+    {last : KuuNativeF45Tree p n' m' ma pa mb pb}
+    {r s t : KuuNativeF45Tree.DepthRotationRoute p first last}
+    (f : NativeF55P92AssocComparison p r s)
+    (g : NativeF55P92AssocComparison p s t) :
+    (NativeF55P92AssocComparison.trans f g).gk5amContextParity =
+      f.gk5amContextParity + g.gk5amContextParity := rfl
+
 /-- All SIXTEEN genuine selected P93 Type-valued four-cell rules
 preserve context parity; this differs from numeric C60 shadow.
 Most importantly the .old constructor compares two .original
@@ -153,8 +169,11 @@ theorem NativeF55P93AssocFourCell.gk5amContextParity_sound
       simpa only [NativeF55P92AssocComparison.gk5amHorizontal_contextParity]
         using congrArg (fun z : ZMod 2 => other.gk5amContextParity + z) ih
   | interchange f₁ f₂ g₁ g₂ =>
+      -- Rewrite the two typed constructor laws independently.
+      -- Unfolding the whole recursor here exposes opaque recursive
+      -- terms to abel; it does not provide those constructor laws.
       simp only [NativeF55P92AssocComparison.gk5amHorizontal_contextParity,
-        NativeF55P92AssocComparison.gk5amContextParity]
+        NativeF55P92AssocComparison.gk5amTrans_contextParity]
       abel
 
 /-- ACTUAL counterexample, for EVERY correctly typed genuine
