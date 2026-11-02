@@ -3,6 +3,16 @@
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK5W / 2026-11-02 JST
+
+**三段真正圏同値`e,g,h`について、左右各自の直接再帰`Φ`が実whole Mathlib NatIso結合比較を介して一致することを全有限型付き木でLean4証明 — [定理PR #2941](https://github.com/itakura-hidetoshi/KuuOS/pull/2941) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5WIndependentDirectTriplePhiCoherence.lean)・[正式記録](docs/formal/GK5W-independent-direct-recursive-triple-phi-coherence.md)。
+
+**新規証明12宣言：** 真正`nativeGK5WAtomComparison_natIso`はGK5Q原子NatIso比較の**任意whole NatIso自然性**。`LeftTreeEq`／`RightTreeEq`、各`TreeIso`、`TreeAssociator_whole`は二種類の実Mathlib合成圏同値に対する完全型付き木の構造的結合整合性。`LeftDirectPhi`／`RightDirectPhi`は互いに独立した本物のGK5G再帰`Φ`。`LeftDirect_eq_recursive`／`RightDirect_eq_recursive`をGK5U全木無条件証明（それぞれ二回）・自然性で証明し、GK5Vと合成。**`nativeGK5WAllTrees_direct_assoc_whole`**が全木直接`Φ`結合比較、**`nativeGK5WDirectObstruction_refl`**が相対whole NatIso障害消滅。圏同値レコード自体のstrict等号ではない。
+
+**Lean4全文・監査：** GK5W新規421行のみ変更、旧Leanソース未変更。初回Leanエラーは`Iso.trans_assoc`が目的式を右結合して`rw [← hnatural]`の対象`Θ ≪≫ ChangeIso`が部分項でなくなったこと。`congrArg`で真のNatIso可換式を前後から貼り、最後に結合律を正規化。source `40873490bf58b87f2e5554cda8c5db9586dea5bf`／squash `30e4ffb22638e6834dad016265212cb4a9673016`／完全一致tree `a8c9e05f4a6a796d9e75249fee1d80f23161e511`。[CI #41402574594](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41402574594) **3844/3844 Strict Lean、12/12公理監査標準三公理のみ、sorryAx0、error/warning0、Independent Kuu・Workflow integrity・Governance terminal SUCCESS**。固定Lean v4.30.0-rc2・mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、root107・strict空中心・独立Kuu一presentation・#1558 Draft/OPEN維持。
+
+**次GK5X：** 四つの真正圏同値の五通りの括弧付けに対する実whole NatIso pentagonを、各括弧付けの独立直接再帰`Φ`まで拡張。続いてGK5F index reindexing交換を別途形式化。元F45/source-Q/raw高次Typeセル/Gray/unrestricted hyperdescentは引き続き証明対象外。以下の過去全文は保持。
+
 ## 最新のLean定理統合 — F112-P94D3GK5V / 2026-11-02 JST
 
 **三段真正Mathlib圏同値`e,g,h`の左右括弧付けのwhole NatIso cocycleを、同一の実再帰的三段`Φ`に貼り合わせ、全有限型付き木で無条件結合整合性をLean4証明 — [定理PR #2939](https://github.com/itakura-hidetoshi/KuuOS/pull/2939) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5VTripleNatIsoAssociativity.lean)・[正式証明記録](docs/formal/GK5V-three-stage-whole-natiso-associativity.md)。
