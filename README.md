@@ -14,6 +14,20 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK5AP＋Qi v4.9／P94A三単位生成元の個別独立性・真正北C60統合／2026-11-03 JST
+
+**[独立Kuu GK5AP PR #2995](https://github.com/itakura-hidetoshi/KuuOS/pull/2995) MERGED、[Qi v4.9 PR #2996](https://github.com/itakura-hidetoshi/KuuOS/pull/2996) MERGED。** GK5AOの水平単位最小性（回数1）に続き、現行P94Aの`leftContextUnit`と`rightContextUnit`についても、互いの単位と`horizontalUnit`をすべて許した**全19構成子**の真正Type値付き4-cell帰納法で、**それぞれ少なくとも1回必要、明示証拠はちょうど1回**をLean4で証明した。
+
+**証明の観測量：** 原始P92Bの二成分`ZMod 2`値。左成分は`leftContext＋precompose`、右成分は`rightContext＋postcompose`の証明履歴回数を数える。真の水平3セル合成で各成分の2個の1が相殺され、P93全16規則・水平単位・反対側の文脈単位は必要な成分を保存する。従って左右文脈単位は互いにも水平単位にも代替されない。これで**水平・左文脈・右文脈の三単位生成元が個別に既約**と確定した（特定P94A presentation内での定理であり、任意の高次提示の絶対最小性ではない）。
+
+**真正北C60：** Qi v4.9が実際の第1・第2 F45ステージと元のF54二Nat経路を使い、3系統の必要性を同じ物理対象で同時に確立。第五辺Dart閉路、04／43の物理・カテゴリー向き、GK5ANのP89→P94A構造移送を保存。独立Kuu→Qiの一方向のみで、strict 空中心・公開root107・保護PR #1558（Draft／OPEN）を維持。
+
+**検証：** 独立GK5AP [CI #41539572851](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41539572851) **Strict Lean 9236/9236、Governance 30/30 SUCCESS**、squash `51d31d9a5a96b7917f9e63def593b44da9c78080`。Qi v4.9 [CI #41541063463](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41541063463) **Strict Lean 10163/10163、Governance 30/30 SUCCESS**、squash `8618f5c3141b21f2e53771430c38903486a4f1b5`。追加公理・sorryなし。Qi初回CIの原因だった別モジュールの`private def`参照を局所同型端点に修正した後のexact-source成功を記録。
+
+**[正式証明記録](docs/formal/GK5AP-Qi-v4_9-P94A-contextUnit-independent-minimality.md)** · [GK5AP Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5APContextUnitIndependence.lean) · [Qi v4.9 Lean](formal/KUOS/Architecture/QiWuxingGK5APNorthContextUnitMinimalityV4_9.lean)。**残る課題：** 既存P89→P94Aの4-cell商写像に関する反射条件（injectivity iff reflection）の真の障害を解析する。無条件単射やglobal higher gluingを主張しない。
+
+---
+
 ## 最新のLean定理統合 — F112-P94D3GK5AO＋Qi v4.8／P94A水平単位生成元の必要性・真正北C60最小証明／2026-11-03 JST
 
 **[独立Kuu GK5AO PR #2992](https://github.com/itakura-hidetoshi/KuuOS/pull/2992) MERGED。** GK5ANで、現行P93へは移送不能な元P80左右文脈単位を、独立定義済みP94Aの三原始単位を用いてP89全13構成子まで無条件に移送できることが確定した。今回、残る**水平単位**が、P93の全16構成子とP94Aの`leftContextUnit`・`rightContextUnit`から導けるかを、原始P92B三セルの新たな`Bool`不変量`gk5aoRouteActionFlag`で検証。元F55／assocNaturality／reflはfalse、縦transはOR、左右contextは保存、F54経路pre/postcomposeはtrue。真正P92B水平合成は必ずtrue、対応するF54水平経路の`refl`はfalse。P93全16規則はこの値を保存するため、**P93には水平単位の4-cellが存在しない**。
