@@ -3,6 +3,17 @@
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK5R / 2026-11-02 JST
+
+**GK5Qの二段/合成圏同値のwhole経路比較を、真正GK5G再帰`Φ`二構成の相対NatIso obstructionへ拡張。有限型付き経路での共役保存と、正規化・同葉語二木の消滅判定iffをLean4で証明 — [定理PR #2931](https://github.com/itakura-hidetoshi/KuuOS/pull/2931) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5RRecursivePhiObstruction.lean)・[正式証明記録](docs/formal/GK5R-recursive-phi-obstruction-path-normalization.md)。
+
+**新規公開12宣言：** `nativeGK5RSequentialPhi`／`nativeGK5RSequentialCompositePhi`は実GK5Gの二段再帰`Φ`を貼り合わせ、`nativeGK5RDirectCompositePhi`はGK5Q`TreeComparison`と単一合成`Φ`を貼り合わせる。`nativeGK5RPhiObstruction`は二つの真正whole NatIsoの相対差`Ω_t`。続く`nativeGK5RSequentialPhi_path_square`、`nativeGK5RSequentialCompositePhi_path_square`、`nativeGK5RDirectCompositePhi_path_square`は実GK5O・GK5H・GK5Q経路自然性の貼り合わせ。**`nativeGK5RPhiObstruction_path_square`で`ChangeIso_(e.trans g)(PathIso q) ≪≫ Ω_b = Ω_a ≪≫ ChangeIso_(e.trans g)(PathIso q)`を全有限型付き経路qに無条件証明。** `nativeGK5RPhiObstruction_refl_iff`は障害消滅と二つの再帰`Φ`等式の正確な同値、`_refl_iff_of_path`、`_normalization_iff`、`_sameLeaves_iff`は真のGK5D経路・正規化・同型付き順序付き葉語に沿う消滅 iff を証明。**全木で`Ω_t=Iso.refl`とは断言しない。**
+
+**Lean4・CI：** source `697ecf1aaed54adf31045cadfe596358e59e1691`、定理squash `8796e6287cb85a0a2cc6fbec1f2374b204e2c124`、独立一致tree `b6e884b99912661f13c5128945e55f5d8fcb1870`。[CI #41384592915](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41384592915) **Strict Lean 3839/3839・Independent Kuu・Governance terminal SUCCESS**、公理監査12/12標準`propext/Classical.choice/Quot.sound`のみ、sorryAx0、新公理0、Lean error/warning0。全文305行、imports、既存GK5D/G/H/O/Q依存シグネチャと固定Mathlib`Iso.trans_assoc`／反転／相殺の本物の群oid則を確認。既存ソース上書きなし、固定Lean v4.30.0-rc2・mathlib 5450b53e5ddc75d46418fabb605edbf36bd0beb6、root107、保護#1558 Draft/OPEN、strict空中心・独立Kuu一presentation不変。
+
+**次GK5Sの厳密なobstruction：** 同じ型付き葉語のpresentation間では障害の消滅判定が一致するため、まずGK5D右結合標準形で真正unit/counit・`ChangeCompIso`に関する再帰`Φ`比較を証明する。GK5Qの構造的`eqToIso`とGK5G真正`Φ`の非strict差を混同しない。元F45/source-Q/raw Type高次セル/Gray/unrestricted hyperdescentは依然対象外。以下の歴史的全文は全保持。
+
+
 ## 最新のLean定理統合 — F112-P94D3GK5Q / 2026-11-02 JST
 
 **GK5Pで独立に証明した逐次・合成圏同値の全有限経路自然性を一つの真正NatIso比較squareに接続 — [定理PR #2929](https://github.com/itakura-hidetoshi/KuuOS/pull/2929) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5QCompositeEquivalenceInterchange.lean)・[正式証明記録](docs/formal/GK5Q-composite-equivalence-finite-path-comparison.md)。
