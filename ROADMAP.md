@@ -3,6 +3,16 @@
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK5Y / 2026-11-02 JST
+
+**四段の真正Mathlib圏同値の五通りの括弧付けについて、独立に構成した直接再帰whole NatIso `Φ`の全五辺を個別無条件証明。GK5Xの五つの相対障害`Δij`を各々`Iso.refl`に強化 — [定理PR #2945](https://github.com/itakura-hidetoshi/KuuOS/pull/2945) MERGED。** [Lean4全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5YDirectPhiFiveEdgeCoherence.lean)・[正式証明記録](docs/formal/GK5Y-unconditional-five-direct-phi-edge-coherence.md)。
+
+**新しいwhole NatIso証明12宣言：** `nativeGK5YEdge01_whole`／`12`／`23`／`04`／`43`と、それぞれの`nativeGK5YDefect*_refl`、`nativeGK5YAllFiveEdges_whole`、`nativeGK5YAllFiveDefects_refl`。真正GK5W三段独立直接`Φ`整合性を、完全型付き木の`eqToIso_trans`に沿って貼り、三辺`12/04/43`を直接解決。新規`nativeGK5YPostCoherent`はGK5U二段合成・GK5Q原子NatIso・GK5H同型合成の真正自然性により、任意の実圏同値後合成に対する比較保存を証明し、辺`01`を解消。GK5Xの既証明pentagonと四辺消滅から最終辺`23`の消滅を導く。**これで五辺全てが真のwhole NatIsoとして無条件に可換**。圏同値レコードのstrict同一視・raw Type高次セル・Gray・unrestricted hyperdescentは導いていない。
+
+**Lean4・固定環境：** 新規Lean518行のみ。`eqToIso_trans`をsimpに暗黙任せにせず明示分解、`Iso.self_symm_id`の正しい相殺方向、再帰`Phi`の明示定義展開とwhole NatIso `congrArg`でelaborationを修正。exact-source `852abc541b2c825f9b7564c26c690d60b7b4571d`、定理squash `6731a67cca6fd0b09184af1dd04311d38469bf13`、同一tree `c3d095159c97b71c8a683886cd3ca47532884915`。[CI #41408805373](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41408805373) **Strict Lean 3846/3846 SUCCESS、12/12公理監査標準三公理のみ、sorryAx0、Lean error/warning0、Independent Kuu・Governance SUCCESS**。Lean v4.30.0-rc2、mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、root107・append-only・strict空中心・独立Kuu一presentation・保護PR #1558 Draft/open/unmerged。
+
+**次GK5Z：** 全五辺直接`Φ`pentagonとGK5F型付きindex再分類の交換（非単射含む）をLean4で証明し、その後有限長のassociahedronへ拡張。以下旧履歴保持。
+
 ## 最新のLean定理統合 — F112-P94D3GK5X / 2026-11-02 JST
 
 **四つの真正Mathlib圏同値の五括弧付けpentagonと五つの独立direct再帰的`Φ`の相対障害pentagonの全有限型付き木整合性をLean4で証明 — [定理PR #2943](https://github.com/itakura-hidetoshi/KuuOS/pull/2943) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5XFourStageDirectPhiPentagon.lean)・[正式証明記録](docs/formal/GK5X-four-stage-direct-phi-relative-defect-pentagon.md)。
