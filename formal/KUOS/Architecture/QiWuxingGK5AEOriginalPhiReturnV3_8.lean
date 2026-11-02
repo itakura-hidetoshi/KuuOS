@@ -9,7 +9,7 @@ five Mathlib whole NatIso Phi values after five real Qi/C60 steps.
 The concrete order-five index map is the ORIGINAL
 FivefoldIndex = FivePhase = ZMod 5, with the physical C60
 gauge and original slotNext / around Edge / Dart geometry.
-An actual proof (fivefoldPhaseFiveIndex_id) transports
+An actual proof (fivefoldPhaseFiveIndex_id_kernel) transports
 the pulled-back dependent category family and both indexed
 tree endpoints; each of the five whole Phi returns with
 the source and target EqToIso boundaries explicitly shown.
@@ -38,6 +38,40 @@ set_option maxHeartbeats 4000000
 noncomputable section
 universe vC uC
 
+/-- The five-phase modulus is zero by kernel-reduced decide,
+not the older global native_decide proof, avoiding that trusted
+native_decide axiom in the newly published fivefold cycle. -/
+theorem fivefoldPhaseNatCastFive_kernel : (5 : FivefoldIndex) = 0 := by
+  decide
+
+/-- Kernel-verified order-five Qi action, independent of the
+older convenience simp lemma using native_decide. -/
+theorem fivefoldPhaseFiveIndex_id_kernel :
+    nativeGK5ADFiveIndex fivefoldPhaseReindexOne =
+      (id : FivefoldIndex → FivefoldIndex) := by
+  funext p
+  change p + 1 + 1 + 1 + 1 + 1 = p
+  calc
+    _ = p + (5 : FivefoldIndex) := by ring
+    _ = p + 0 := by rw [fivefoldPhaseNatCastFive_kernel]
+    _ = p := by simp only [add_zero]
+
+/-- Original fifth physical C60 edge closes via a kernel-verified
+modulus proof, retaining the original Edge and Dart values. -/
+theorem fivefoldPhaseLastPhysicalSide_closed_kernel
+    (frame : NativeC60FivePhaseGauge) (v : Vertex)
+    (p : FivefoldIndex) :
+    edgeEndpoints (fivefoldSide frame v (p + 4)) =
+      (nativeC60GaugeDart frame v (p + 4),
+       nativeC60GaugeDart frame v p) := by
+  rw [fivefoldSide_endpoints frame v (p + 4)]
+  have h : p + 4 + 1 = p := by
+    calc
+      _ = p + (5 : FivefoldIndex) := by ring
+      _ = p + 0 := by rw [fivefoldPhaseNatCastFive_kernel]
+      _ = p := by simp only [add_zero]
+  rw [h]
+
 /-- Categorical oriented edges e04, e43 genuinely traverse the
 PHYSICAL positive slot cycle backwards. This preserves the
 two different orientations instead of a false common arrow. -/
@@ -62,17 +96,17 @@ theorem fivefoldPhysicalPhi0_original_return_whole
     {i j : FivefoldIndex}
     (t : NativeGK5DTypedTree (fivefoldPhaseCategory frame v C) i j) :
     (nativeGK5XDirectPhi0 (fivefoldPhaseEquivalence frame v e₁) (fivefoldPhaseEquivalence frame v e₂) (fivefoldPhaseEquivalence frame v e₃) (fivefoldPhaseEquivalence frame v e₄)
-      (nativeGK5AEClosedFiveTree fivefoldPhaseReindexOne (fivefoldPhaseCategory frame v C) fivefoldPhaseFiveIndex_id t) ≪≫
+      (nativeGK5AEClosedFiveTree fivefoldPhaseReindexOne (fivefoldPhaseCategory frame v C) fivefoldPhaseFiveIndex_id_kernel t) ≪≫
       eqToIso (congrArg
         (fun u => nativeGK5GChangeAtom (nativeGK5XBracket0 (fivefoldPhaseEquivalence frame v e₁) (fivefoldPhaseEquivalence frame v e₂) (fivefoldPhaseEquivalence frame v e₃) (fivefoldPhaseEquivalence frame v e₄))
-          (nativeGK5DTreeComposite u)) (nativeGK5AEClosedFiveTree_eq fivefoldPhaseReindexOne (fivefoldPhaseCategory frame v C) fivefoldPhaseFiveIndex_id t))) =
+          (nativeGK5DTreeComposite u)) (nativeGK5AEClosedFiveTree_eq fivefoldPhaseReindexOne (fivefoldPhaseCategory frame v C) fivefoldPhaseFiveIndex_id_kernel t))) =
     (eqToIso (congrArg
       (fun u => nativeGK5DTreeComposite
-        (nativeGK5XFourTree (fivefoldPhaseEquivalence frame v e₁) (fivefoldPhaseEquivalence frame v e₂) (fivefoldPhaseEquivalence frame v e₃) (fivefoldPhaseEquivalence frame v e₄) u)) (nativeGK5AEClosedFiveTree_eq fivefoldPhaseReindexOne (fivefoldPhaseCategory frame v C) fivefoldPhaseFiveIndex_id t)) ≪≫
+        (nativeGK5XFourTree (fivefoldPhaseEquivalence frame v e₁) (fivefoldPhaseEquivalence frame v e₂) (fivefoldPhaseEquivalence frame v e₃) (fivefoldPhaseEquivalence frame v e₄) u)) (nativeGK5AEClosedFiveTree_eq fivefoldPhaseReindexOne (fivefoldPhaseCategory frame v C) fivefoldPhaseFiveIndex_id_kernel t)) ≪≫
       nativeGK5XDirectPhi0 (fivefoldPhaseEquivalence frame v e₁) (fivefoldPhaseEquivalence frame v e₂) (fivefoldPhaseEquivalence frame v e₃) (fivefoldPhaseEquivalence frame v e₄) t) := by
   exact nativeGK5AEFourDirectPhi0_return_whole
     (fivefoldPhaseEquivalence frame v e₁) (fivefoldPhaseEquivalence frame v e₂) (fivefoldPhaseEquivalence frame v e₃) (fivefoldPhaseEquivalence frame v e₄)
-    fivefoldPhaseReindexOne fivefoldPhaseFiveIndex_id t
+    fivefoldPhaseReindexOne fivefoldPhaseFiveIndex_id_kernel t
 
 
 /-- The actual P1 independently recursive whole NatIso
@@ -82,17 +116,17 @@ theorem fivefoldPhysicalPhi1_original_return_whole
     {i j : FivefoldIndex}
     (t : NativeGK5DTypedTree (fivefoldPhaseCategory frame v C) i j) :
     (nativeGK5XDirectPhi1 (fivefoldPhaseEquivalence frame v e₁) (fivefoldPhaseEquivalence frame v e₂) (fivefoldPhaseEquivalence frame v e₃) (fivefoldPhaseEquivalence frame v e₄)
-      (nativeGK5AEClosedFiveTree fivefoldPhaseReindexOne (fivefoldPhaseCategory frame v C) fivefoldPhaseFiveIndex_id t) ≪≫
+      (nativeGK5AEClosedFiveTree fivefoldPhaseReindexOne (fivefoldPhaseCategory frame v C) fivefoldPhaseFiveIndex_id_kernel t) ≪≫
       eqToIso (congrArg
         (fun u => nativeGK5GChangeAtom (nativeGK5XBracket1 (fivefoldPhaseEquivalence frame v e₁) (fivefoldPhaseEquivalence frame v e₂) (fivefoldPhaseEquivalence frame v e₃) (fivefoldPhaseEquivalence frame v e₄))
-          (nativeGK5DTreeComposite u)) (nativeGK5AEClosedFiveTree_eq fivefoldPhaseReindexOne (fivefoldPhaseCategory frame v C) fivefoldPhaseFiveIndex_id t))) =
+          (nativeGK5DTreeComposite u)) (nativeGK5AEClosedFiveTree_eq fivefoldPhaseReindexOne (fivefoldPhaseCategory frame v C) fivefoldPhaseFiveIndex_id_kernel t))) =
     (eqToIso (congrArg
       (fun u => nativeGK5DTreeComposite
-        (nativeGK5XFourTree (fivefoldPhaseEquivalence frame v e₁) (fivefoldPhaseEquivalence frame v e₂) (fivefoldPhaseEquivalence frame v e₃) (fivefoldPhaseEquivalence frame v e₄) u)) (nativeGK5AEClosedFiveTree_eq fivefoldPhaseReindexOne (fivefoldPhaseCategory frame v C) fivefoldPhaseFiveIndex_id t)) ≪≫
+        (nativeGK5XFourTree (fivefoldPhaseEquivalence frame v e₁) (fivefoldPhaseEquivalence frame v e₂) (fivefoldPhaseEquivalence frame v e₃) (fivefoldPhaseEquivalence frame v e₄) u)) (nativeGK5AEClosedFiveTree_eq fivefoldPhaseReindexOne (fivefoldPhaseCategory frame v C) fivefoldPhaseFiveIndex_id_kernel t)) ≪≫
       nativeGK5XDirectPhi1 (fivefoldPhaseEquivalence frame v e₁) (fivefoldPhaseEquivalence frame v e₂) (fivefoldPhaseEquivalence frame v e₃) (fivefoldPhaseEquivalence frame v e₄) t) := by
   exact nativeGK5AEFourDirectPhi1_return_whole
     (fivefoldPhaseEquivalence frame v e₁) (fivefoldPhaseEquivalence frame v e₂) (fivefoldPhaseEquivalence frame v e₃) (fivefoldPhaseEquivalence frame v e₄)
-    fivefoldPhaseReindexOne fivefoldPhaseFiveIndex_id t
+    fivefoldPhaseReindexOne fivefoldPhaseFiveIndex_id_kernel t
 
 
 /-- The actual P2 independently recursive whole NatIso
@@ -102,17 +136,17 @@ theorem fivefoldPhysicalPhi2_original_return_whole
     {i j : FivefoldIndex}
     (t : NativeGK5DTypedTree (fivefoldPhaseCategory frame v C) i j) :
     (nativeGK5XDirectPhi2 (fivefoldPhaseEquivalence frame v e₁) (fivefoldPhaseEquivalence frame v e₂) (fivefoldPhaseEquivalence frame v e₃) (fivefoldPhaseEquivalence frame v e₄)
-      (nativeGK5AEClosedFiveTree fivefoldPhaseReindexOne (fivefoldPhaseCategory frame v C) fivefoldPhaseFiveIndex_id t) ≪≫
+      (nativeGK5AEClosedFiveTree fivefoldPhaseReindexOne (fivefoldPhaseCategory frame v C) fivefoldPhaseFiveIndex_id_kernel t) ≪≫
       eqToIso (congrArg
         (fun u => nativeGK5GChangeAtom (nativeGK5XBracket2 (fivefoldPhaseEquivalence frame v e₁) (fivefoldPhaseEquivalence frame v e₂) (fivefoldPhaseEquivalence frame v e₃) (fivefoldPhaseEquivalence frame v e₄))
-          (nativeGK5DTreeComposite u)) (nativeGK5AEClosedFiveTree_eq fivefoldPhaseReindexOne (fivefoldPhaseCategory frame v C) fivefoldPhaseFiveIndex_id t))) =
+          (nativeGK5DTreeComposite u)) (nativeGK5AEClosedFiveTree_eq fivefoldPhaseReindexOne (fivefoldPhaseCategory frame v C) fivefoldPhaseFiveIndex_id_kernel t))) =
     (eqToIso (congrArg
       (fun u => nativeGK5DTreeComposite
-        (nativeGK5XFourTree (fivefoldPhaseEquivalence frame v e₁) (fivefoldPhaseEquivalence frame v e₂) (fivefoldPhaseEquivalence frame v e₃) (fivefoldPhaseEquivalence frame v e₄) u)) (nativeGK5AEClosedFiveTree_eq fivefoldPhaseReindexOne (fivefoldPhaseCategory frame v C) fivefoldPhaseFiveIndex_id t)) ≪≫
+        (nativeGK5XFourTree (fivefoldPhaseEquivalence frame v e₁) (fivefoldPhaseEquivalence frame v e₂) (fivefoldPhaseEquivalence frame v e₃) (fivefoldPhaseEquivalence frame v e₄) u)) (nativeGK5AEClosedFiveTree_eq fivefoldPhaseReindexOne (fivefoldPhaseCategory frame v C) fivefoldPhaseFiveIndex_id_kernel t)) ≪≫
       nativeGK5XDirectPhi2 (fivefoldPhaseEquivalence frame v e₁) (fivefoldPhaseEquivalence frame v e₂) (fivefoldPhaseEquivalence frame v e₃) (fivefoldPhaseEquivalence frame v e₄) t) := by
   exact nativeGK5AEFourDirectPhi2_return_whole
     (fivefoldPhaseEquivalence frame v e₁) (fivefoldPhaseEquivalence frame v e₂) (fivefoldPhaseEquivalence frame v e₃) (fivefoldPhaseEquivalence frame v e₄)
-    fivefoldPhaseReindexOne fivefoldPhaseFiveIndex_id t
+    fivefoldPhaseReindexOne fivefoldPhaseFiveIndex_id_kernel t
 
 
 /-- The actual P3 independently recursive whole NatIso
@@ -122,17 +156,17 @@ theorem fivefoldPhysicalPhi3_original_return_whole
     {i j : FivefoldIndex}
     (t : NativeGK5DTypedTree (fivefoldPhaseCategory frame v C) i j) :
     (nativeGK5XDirectPhi3 (fivefoldPhaseEquivalence frame v e₁) (fivefoldPhaseEquivalence frame v e₂) (fivefoldPhaseEquivalence frame v e₃) (fivefoldPhaseEquivalence frame v e₄)
-      (nativeGK5AEClosedFiveTree fivefoldPhaseReindexOne (fivefoldPhaseCategory frame v C) fivefoldPhaseFiveIndex_id t) ≪≫
+      (nativeGK5AEClosedFiveTree fivefoldPhaseReindexOne (fivefoldPhaseCategory frame v C) fivefoldPhaseFiveIndex_id_kernel t) ≪≫
       eqToIso (congrArg
         (fun u => nativeGK5GChangeAtom (nativeGK5XBracket3 (fivefoldPhaseEquivalence frame v e₁) (fivefoldPhaseEquivalence frame v e₂) (fivefoldPhaseEquivalence frame v e₃) (fivefoldPhaseEquivalence frame v e₄))
-          (nativeGK5DTreeComposite u)) (nativeGK5AEClosedFiveTree_eq fivefoldPhaseReindexOne (fivefoldPhaseCategory frame v C) fivefoldPhaseFiveIndex_id t))) =
+          (nativeGK5DTreeComposite u)) (nativeGK5AEClosedFiveTree_eq fivefoldPhaseReindexOne (fivefoldPhaseCategory frame v C) fivefoldPhaseFiveIndex_id_kernel t))) =
     (eqToIso (congrArg
       (fun u => nativeGK5DTreeComposite
-        (nativeGK5XFourTree (fivefoldPhaseEquivalence frame v e₁) (fivefoldPhaseEquivalence frame v e₂) (fivefoldPhaseEquivalence frame v e₃) (fivefoldPhaseEquivalence frame v e₄) u)) (nativeGK5AEClosedFiveTree_eq fivefoldPhaseReindexOne (fivefoldPhaseCategory frame v C) fivefoldPhaseFiveIndex_id t)) ≪≫
+        (nativeGK5XFourTree (fivefoldPhaseEquivalence frame v e₁) (fivefoldPhaseEquivalence frame v e₂) (fivefoldPhaseEquivalence frame v e₃) (fivefoldPhaseEquivalence frame v e₄) u)) (nativeGK5AEClosedFiveTree_eq fivefoldPhaseReindexOne (fivefoldPhaseCategory frame v C) fivefoldPhaseFiveIndex_id_kernel t)) ≪≫
       nativeGK5XDirectPhi3 (fivefoldPhaseEquivalence frame v e₁) (fivefoldPhaseEquivalence frame v e₂) (fivefoldPhaseEquivalence frame v e₃) (fivefoldPhaseEquivalence frame v e₄) t) := by
   exact nativeGK5AEFourDirectPhi3_return_whole
     (fivefoldPhaseEquivalence frame v e₁) (fivefoldPhaseEquivalence frame v e₂) (fivefoldPhaseEquivalence frame v e₃) (fivefoldPhaseEquivalence frame v e₄)
-    fivefoldPhaseReindexOne fivefoldPhaseFiveIndex_id t
+    fivefoldPhaseReindexOne fivefoldPhaseFiveIndex_id_kernel t
 
 
 /-- The actual P4 independently recursive whole NatIso
@@ -142,17 +176,17 @@ theorem fivefoldPhysicalPhi4_original_return_whole
     {i j : FivefoldIndex}
     (t : NativeGK5DTypedTree (fivefoldPhaseCategory frame v C) i j) :
     (nativeGK5XDirectPhi4 (fivefoldPhaseEquivalence frame v e₁) (fivefoldPhaseEquivalence frame v e₂) (fivefoldPhaseEquivalence frame v e₃) (fivefoldPhaseEquivalence frame v e₄)
-      (nativeGK5AEClosedFiveTree fivefoldPhaseReindexOne (fivefoldPhaseCategory frame v C) fivefoldPhaseFiveIndex_id t) ≪≫
+      (nativeGK5AEClosedFiveTree fivefoldPhaseReindexOne (fivefoldPhaseCategory frame v C) fivefoldPhaseFiveIndex_id_kernel t) ≪≫
       eqToIso (congrArg
         (fun u => nativeGK5GChangeAtom (nativeGK5XBracket4 (fivefoldPhaseEquivalence frame v e₁) (fivefoldPhaseEquivalence frame v e₂) (fivefoldPhaseEquivalence frame v e₃) (fivefoldPhaseEquivalence frame v e₄))
-          (nativeGK5DTreeComposite u)) (nativeGK5AEClosedFiveTree_eq fivefoldPhaseReindexOne (fivefoldPhaseCategory frame v C) fivefoldPhaseFiveIndex_id t))) =
+          (nativeGK5DTreeComposite u)) (nativeGK5AEClosedFiveTree_eq fivefoldPhaseReindexOne (fivefoldPhaseCategory frame v C) fivefoldPhaseFiveIndex_id_kernel t))) =
     (eqToIso (congrArg
       (fun u => nativeGK5DTreeComposite
-        (nativeGK5XFourTree (fivefoldPhaseEquivalence frame v e₁) (fivefoldPhaseEquivalence frame v e₂) (fivefoldPhaseEquivalence frame v e₃) (fivefoldPhaseEquivalence frame v e₄) u)) (nativeGK5AEClosedFiveTree_eq fivefoldPhaseReindexOne (fivefoldPhaseCategory frame v C) fivefoldPhaseFiveIndex_id t)) ≪≫
+        (nativeGK5XFourTree (fivefoldPhaseEquivalence frame v e₁) (fivefoldPhaseEquivalence frame v e₂) (fivefoldPhaseEquivalence frame v e₃) (fivefoldPhaseEquivalence frame v e₄) u)) (nativeGK5AEClosedFiveTree_eq fivefoldPhaseReindexOne (fivefoldPhaseCategory frame v C) fivefoldPhaseFiveIndex_id_kernel t)) ≪≫
       nativeGK5XDirectPhi4 (fivefoldPhaseEquivalence frame v e₁) (fivefoldPhaseEquivalence frame v e₂) (fivefoldPhaseEquivalence frame v e₃) (fivefoldPhaseEquivalence frame v e₄) t) := by
   exact nativeGK5AEFourDirectPhi4_return_whole
     (fivefoldPhaseEquivalence frame v e₁) (fivefoldPhaseEquivalence frame v e₂) (fivefoldPhaseEquivalence frame v e₃) (fivefoldPhaseEquivalence frame v e₄)
-    fivefoldPhaseReindexOne fivefoldPhaseFiveIndex_id t
+    fivefoldPhaseReindexOne fivefoldPhaseFiveIndex_id_kernel t
 
 /-- All five separately recursively constructed nonstrict whole Phi
 return squares on the ORIGINAL Qi FivePhase and real C60 chart. -/
@@ -160,49 +194,49 @@ theorem fivefoldPhysicalAllFivePhi_original_return_whole
     {i j : FivefoldIndex}
     (t : NativeGK5DTypedTree (fivefoldPhaseCategory frame v C) i j) :
     ((nativeGK5XDirectPhi0 (fivefoldPhaseEquivalence frame v e₁) (fivefoldPhaseEquivalence frame v e₂) (fivefoldPhaseEquivalence frame v e₃) (fivefoldPhaseEquivalence frame v e₄)
-      (nativeGK5AEClosedFiveTree fivefoldPhaseReindexOne (fivefoldPhaseCategory frame v C) fivefoldPhaseFiveIndex_id t) ≪≫
+      (nativeGK5AEClosedFiveTree fivefoldPhaseReindexOne (fivefoldPhaseCategory frame v C) fivefoldPhaseFiveIndex_id_kernel t) ≪≫
       eqToIso (congrArg
         (fun u => nativeGK5GChangeAtom (nativeGK5XBracket0 (fivefoldPhaseEquivalence frame v e₁) (fivefoldPhaseEquivalence frame v e₂) (fivefoldPhaseEquivalence frame v e₃) (fivefoldPhaseEquivalence frame v e₄))
-          (nativeGK5DTreeComposite u)) (nativeGK5AEClosedFiveTree_eq fivefoldPhaseReindexOne (fivefoldPhaseCategory frame v C) fivefoldPhaseFiveIndex_id t))) =
+          (nativeGK5DTreeComposite u)) (nativeGK5AEClosedFiveTree_eq fivefoldPhaseReindexOne (fivefoldPhaseCategory frame v C) fivefoldPhaseFiveIndex_id_kernel t))) =
     (eqToIso (congrArg
       (fun u => nativeGK5DTreeComposite
-        (nativeGK5XFourTree (fivefoldPhaseEquivalence frame v e₁) (fivefoldPhaseEquivalence frame v e₂) (fivefoldPhaseEquivalence frame v e₃) (fivefoldPhaseEquivalence frame v e₄) u)) (nativeGK5AEClosedFiveTree_eq fivefoldPhaseReindexOne (fivefoldPhaseCategory frame v C) fivefoldPhaseFiveIndex_id t)) ≪≫
+        (nativeGK5XFourTree (fivefoldPhaseEquivalence frame v e₁) (fivefoldPhaseEquivalence frame v e₂) (fivefoldPhaseEquivalence frame v e₃) (fivefoldPhaseEquivalence frame v e₄) u)) (nativeGK5AEClosedFiveTree_eq fivefoldPhaseReindexOne (fivefoldPhaseCategory frame v C) fivefoldPhaseFiveIndex_id_kernel t)) ≪≫
       nativeGK5XDirectPhi0 (fivefoldPhaseEquivalence frame v e₁) (fivefoldPhaseEquivalence frame v e₂) (fivefoldPhaseEquivalence frame v e₃) (fivefoldPhaseEquivalence frame v e₄) t)) ∧
     ((nativeGK5XDirectPhi1 (fivefoldPhaseEquivalence frame v e₁) (fivefoldPhaseEquivalence frame v e₂) (fivefoldPhaseEquivalence frame v e₃) (fivefoldPhaseEquivalence frame v e₄)
-      (nativeGK5AEClosedFiveTree fivefoldPhaseReindexOne (fivefoldPhaseCategory frame v C) fivefoldPhaseFiveIndex_id t) ≪≫
+      (nativeGK5AEClosedFiveTree fivefoldPhaseReindexOne (fivefoldPhaseCategory frame v C) fivefoldPhaseFiveIndex_id_kernel t) ≪≫
       eqToIso (congrArg
         (fun u => nativeGK5GChangeAtom (nativeGK5XBracket1 (fivefoldPhaseEquivalence frame v e₁) (fivefoldPhaseEquivalence frame v e₂) (fivefoldPhaseEquivalence frame v e₃) (fivefoldPhaseEquivalence frame v e₄))
-          (nativeGK5DTreeComposite u)) (nativeGK5AEClosedFiveTree_eq fivefoldPhaseReindexOne (fivefoldPhaseCategory frame v C) fivefoldPhaseFiveIndex_id t))) =
+          (nativeGK5DTreeComposite u)) (nativeGK5AEClosedFiveTree_eq fivefoldPhaseReindexOne (fivefoldPhaseCategory frame v C) fivefoldPhaseFiveIndex_id_kernel t))) =
     (eqToIso (congrArg
       (fun u => nativeGK5DTreeComposite
-        (nativeGK5XFourTree (fivefoldPhaseEquivalence frame v e₁) (fivefoldPhaseEquivalence frame v e₂) (fivefoldPhaseEquivalence frame v e₃) (fivefoldPhaseEquivalence frame v e₄) u)) (nativeGK5AEClosedFiveTree_eq fivefoldPhaseReindexOne (fivefoldPhaseCategory frame v C) fivefoldPhaseFiveIndex_id t)) ≪≫
+        (nativeGK5XFourTree (fivefoldPhaseEquivalence frame v e₁) (fivefoldPhaseEquivalence frame v e₂) (fivefoldPhaseEquivalence frame v e₃) (fivefoldPhaseEquivalence frame v e₄) u)) (nativeGK5AEClosedFiveTree_eq fivefoldPhaseReindexOne (fivefoldPhaseCategory frame v C) fivefoldPhaseFiveIndex_id_kernel t)) ≪≫
       nativeGK5XDirectPhi1 (fivefoldPhaseEquivalence frame v e₁) (fivefoldPhaseEquivalence frame v e₂) (fivefoldPhaseEquivalence frame v e₃) (fivefoldPhaseEquivalence frame v e₄) t)) ∧
     ((nativeGK5XDirectPhi2 (fivefoldPhaseEquivalence frame v e₁) (fivefoldPhaseEquivalence frame v e₂) (fivefoldPhaseEquivalence frame v e₃) (fivefoldPhaseEquivalence frame v e₄)
-      (nativeGK5AEClosedFiveTree fivefoldPhaseReindexOne (fivefoldPhaseCategory frame v C) fivefoldPhaseFiveIndex_id t) ≪≫
+      (nativeGK5AEClosedFiveTree fivefoldPhaseReindexOne (fivefoldPhaseCategory frame v C) fivefoldPhaseFiveIndex_id_kernel t) ≪≫
       eqToIso (congrArg
         (fun u => nativeGK5GChangeAtom (nativeGK5XBracket2 (fivefoldPhaseEquivalence frame v e₁) (fivefoldPhaseEquivalence frame v e₂) (fivefoldPhaseEquivalence frame v e₃) (fivefoldPhaseEquivalence frame v e₄))
-          (nativeGK5DTreeComposite u)) (nativeGK5AEClosedFiveTree_eq fivefoldPhaseReindexOne (fivefoldPhaseCategory frame v C) fivefoldPhaseFiveIndex_id t))) =
+          (nativeGK5DTreeComposite u)) (nativeGK5AEClosedFiveTree_eq fivefoldPhaseReindexOne (fivefoldPhaseCategory frame v C) fivefoldPhaseFiveIndex_id_kernel t))) =
     (eqToIso (congrArg
       (fun u => nativeGK5DTreeComposite
-        (nativeGK5XFourTree (fivefoldPhaseEquivalence frame v e₁) (fivefoldPhaseEquivalence frame v e₂) (fivefoldPhaseEquivalence frame v e₃) (fivefoldPhaseEquivalence frame v e₄) u)) (nativeGK5AEClosedFiveTree_eq fivefoldPhaseReindexOne (fivefoldPhaseCategory frame v C) fivefoldPhaseFiveIndex_id t)) ≪≫
+        (nativeGK5XFourTree (fivefoldPhaseEquivalence frame v e₁) (fivefoldPhaseEquivalence frame v e₂) (fivefoldPhaseEquivalence frame v e₃) (fivefoldPhaseEquivalence frame v e₄) u)) (nativeGK5AEClosedFiveTree_eq fivefoldPhaseReindexOne (fivefoldPhaseCategory frame v C) fivefoldPhaseFiveIndex_id_kernel t)) ≪≫
       nativeGK5XDirectPhi2 (fivefoldPhaseEquivalence frame v e₁) (fivefoldPhaseEquivalence frame v e₂) (fivefoldPhaseEquivalence frame v e₃) (fivefoldPhaseEquivalence frame v e₄) t)) ∧
     ((nativeGK5XDirectPhi3 (fivefoldPhaseEquivalence frame v e₁) (fivefoldPhaseEquivalence frame v e₂) (fivefoldPhaseEquivalence frame v e₃) (fivefoldPhaseEquivalence frame v e₄)
-      (nativeGK5AEClosedFiveTree fivefoldPhaseReindexOne (fivefoldPhaseCategory frame v C) fivefoldPhaseFiveIndex_id t) ≪≫
+      (nativeGK5AEClosedFiveTree fivefoldPhaseReindexOne (fivefoldPhaseCategory frame v C) fivefoldPhaseFiveIndex_id_kernel t) ≪≫
       eqToIso (congrArg
         (fun u => nativeGK5GChangeAtom (nativeGK5XBracket3 (fivefoldPhaseEquivalence frame v e₁) (fivefoldPhaseEquivalence frame v e₂) (fivefoldPhaseEquivalence frame v e₃) (fivefoldPhaseEquivalence frame v e₄))
-          (nativeGK5DTreeComposite u)) (nativeGK5AEClosedFiveTree_eq fivefoldPhaseReindexOne (fivefoldPhaseCategory frame v C) fivefoldPhaseFiveIndex_id t))) =
+          (nativeGK5DTreeComposite u)) (nativeGK5AEClosedFiveTree_eq fivefoldPhaseReindexOne (fivefoldPhaseCategory frame v C) fivefoldPhaseFiveIndex_id_kernel t))) =
     (eqToIso (congrArg
       (fun u => nativeGK5DTreeComposite
-        (nativeGK5XFourTree (fivefoldPhaseEquivalence frame v e₁) (fivefoldPhaseEquivalence frame v e₂) (fivefoldPhaseEquivalence frame v e₃) (fivefoldPhaseEquivalence frame v e₄) u)) (nativeGK5AEClosedFiveTree_eq fivefoldPhaseReindexOne (fivefoldPhaseCategory frame v C) fivefoldPhaseFiveIndex_id t)) ≪≫
+        (nativeGK5XFourTree (fivefoldPhaseEquivalence frame v e₁) (fivefoldPhaseEquivalence frame v e₂) (fivefoldPhaseEquivalence frame v e₃) (fivefoldPhaseEquivalence frame v e₄) u)) (nativeGK5AEClosedFiveTree_eq fivefoldPhaseReindexOne (fivefoldPhaseCategory frame v C) fivefoldPhaseFiveIndex_id_kernel t)) ≪≫
       nativeGK5XDirectPhi3 (fivefoldPhaseEquivalence frame v e₁) (fivefoldPhaseEquivalence frame v e₂) (fivefoldPhaseEquivalence frame v e₃) (fivefoldPhaseEquivalence frame v e₄) t)) ∧
     ((nativeGK5XDirectPhi4 (fivefoldPhaseEquivalence frame v e₁) (fivefoldPhaseEquivalence frame v e₂) (fivefoldPhaseEquivalence frame v e₃) (fivefoldPhaseEquivalence frame v e₄)
-      (nativeGK5AEClosedFiveTree fivefoldPhaseReindexOne (fivefoldPhaseCategory frame v C) fivefoldPhaseFiveIndex_id t) ≪≫
+      (nativeGK5AEClosedFiveTree fivefoldPhaseReindexOne (fivefoldPhaseCategory frame v C) fivefoldPhaseFiveIndex_id_kernel t) ≪≫
       eqToIso (congrArg
         (fun u => nativeGK5GChangeAtom (nativeGK5XBracket4 (fivefoldPhaseEquivalence frame v e₁) (fivefoldPhaseEquivalence frame v e₂) (fivefoldPhaseEquivalence frame v e₃) (fivefoldPhaseEquivalence frame v e₄))
-          (nativeGK5DTreeComposite u)) (nativeGK5AEClosedFiveTree_eq fivefoldPhaseReindexOne (fivefoldPhaseCategory frame v C) fivefoldPhaseFiveIndex_id t))) =
+          (nativeGK5DTreeComposite u)) (nativeGK5AEClosedFiveTree_eq fivefoldPhaseReindexOne (fivefoldPhaseCategory frame v C) fivefoldPhaseFiveIndex_id_kernel t))) =
     (eqToIso (congrArg
       (fun u => nativeGK5DTreeComposite
-        (nativeGK5XFourTree (fivefoldPhaseEquivalence frame v e₁) (fivefoldPhaseEquivalence frame v e₂) (fivefoldPhaseEquivalence frame v e₃) (fivefoldPhaseEquivalence frame v e₄) u)) (nativeGK5AEClosedFiveTree_eq fivefoldPhaseReindexOne (fivefoldPhaseCategory frame v C) fivefoldPhaseFiveIndex_id t)) ≪≫
+        (nativeGK5XFourTree (fivefoldPhaseEquivalence frame v e₁) (fivefoldPhaseEquivalence frame v e₂) (fivefoldPhaseEquivalence frame v e₃) (fivefoldPhaseEquivalence frame v e₄) u)) (nativeGK5AEClosedFiveTree_eq fivefoldPhaseReindexOne (fivefoldPhaseCategory frame v C) fivefoldPhaseFiveIndex_id_kernel t)) ≪≫
       nativeGK5XDirectPhi4 (fivefoldPhaseEquivalence frame v e₁) (fivefoldPhaseEquivalence frame v e₂) (fivefoldPhaseEquivalence frame v e₃) (fivefoldPhaseEquivalence frame v e₄) t)) := by
   exact ⟨fivefoldPhysicalPhi0_original_return_whole frame v e₁ e₂ e₃ e₄ t,
     fivefoldPhysicalPhi1_original_return_whole frame v e₁ e₂ e₃ e₄ t,
@@ -233,7 +267,7 @@ theorem fivefoldPhysicalCategoricalParallelEvidence
         .e43 (nativeGK5DTreeComposite t)) ∧
     (fivefoldFrom .e04 = fivefoldFoot .e04 + 1 ∧
      fivefoldFrom .e43 = fivefoldFoot .e43 + 1) := by
-  exact ⟨fivefoldPhaseLastPhysicalSide_closed frame v p,
+  exact ⟨fivefoldPhaseLastPhysicalSide_closed_kernel frame v p,
     fivefoldCategoricalPentagon (fivefoldPhaseEquivalence frame v e₁) (fivefoldPhaseEquivalence frame v e₂) (fivefoldPhaseEquivalence frame v e₃) (fivefoldPhaseEquivalence frame v e₄)
       (nativeGK5DTreeComposite t),
     fivefoldPhaseTwoReversedEdges⟩
@@ -245,6 +279,9 @@ theorem fivefoldPhysicalCategoricalParallelEvidence
 #print axioms fivefoldPhysicalPhi4_original_return_whole
 #print axioms fivefoldPhysicalAllFivePhi_original_return_whole
 #print axioms fivefoldPhysicalCategoricalParallelEvidence
+#print axioms fivefoldPhaseNatCastFive_kernel
+#print axioms fivefoldPhaseFiveIndex_id_kernel
+#print axioms fivefoldPhaseLastPhysicalSide_closed_kernel
 #print axioms fivefoldPhaseTwoReversedEdges
 
 end OriginalFivePhiCycle
