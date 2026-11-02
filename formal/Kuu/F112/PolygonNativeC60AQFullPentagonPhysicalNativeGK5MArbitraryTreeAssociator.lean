@@ -102,7 +102,8 @@ private theorem nativeGK5MUnitComparisonNaturality
           ((e l).functor.map
             (R.map ((e k).inverse.map ((e k).functor.map f))) ≫
             (e l).functor.map (R.map ((e k).unitIso.inv.app Z))) := by
-              rw [hMapped]
+              exact congrArg
+                (fun t => φ.hom.app ((e k).functor.obj Y) ≫ t) hMapped
     _ = (φ.hom.app ((e k).functor.obj Y) ≫
           (e l).functor.map
             (R.map ((e k).inverse.map ((e k).functor.map f)))) ≫
@@ -111,7 +112,10 @@ private theorem nativeGK5MUnitComparisonNaturality
     _ = (S.map ((e k).functor.map f) ≫
           φ.hom.app ((e k).functor.obj Z)) ≫
           (e l).functor.map (R.map ((e k).unitIso.inv.app Z)) := by
-            rw [hPhi]
+            exact congrArg
+              (fun t => t ≫
+                (e l).functor.map (R.map ((e k).unitIso.inv.app Z)))
+              hPhi.symm
     _ = _ := by simp only [Category.assoc]
 
 /-- GK5M target: arbitrary genuinely dependent-typed subtree
