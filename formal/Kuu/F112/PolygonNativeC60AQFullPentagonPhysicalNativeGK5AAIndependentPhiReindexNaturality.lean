@@ -141,11 +141,11 @@ theorem nativeGK5AASinglePhi_reindex_whole
       let pB := nativeGK5AASingleSourceEq f e right
       let H0 := Functor.isoWhiskerRight
           (nativeGK5GChangeTreeIso (fun x : I => e (f x)) left)
-          (nativeGK5DTreeComposite
+          (nativeGK5DTreeComposite (C := fun x : I => D (f x))
             (nativeGK5GChangeTree (fun x : I => e (f x)) right)) ≪≫
         Functor.isoWhiskerLeft
           (nativeGK5GChangeAtom (fun x : I => e (f x))
-            (nativeGK5DTreeComposite left))
+            (nativeGK5DTreeComposite (C := fun x : I => C (f x)) left))
           (nativeGK5GChangeTreeIso (fun x : I => e (f x)) right)
       let H1 := Functor.isoWhiskerRight
           (nativeGK5GChangeTreeIso e (nativeGK5FTreeReindex f C left))
@@ -156,7 +156,7 @@ theorem nativeGK5AASinglePhi_reindex_whole
             (nativeGK5DTreeComposite (nativeGK5FTreeReindex f C left)))
           (nativeGK5GChangeTreeIso e (nativeGK5FTreeReindex f C right))
       let K0 := nativeGK5GChangeCompIso e
-        (nativeGK5DTreeComposite left) (nativeGK5DTreeComposite right)
+        (nativeGK5DTreeComposite (C := fun x : I => C (f x)) left) (nativeGK5DTreeComposite (C := fun x : I => C (f x)) right)
       let K1 := nativeGK5GChangeCompIso e
         (nativeGK5DTreeComposite (nativeGK5FTreeReindex f C left))
         (nativeGK5DTreeComposite (nativeGK5FTreeReindex f C right))
