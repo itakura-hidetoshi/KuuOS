@@ -14,6 +14,16 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK5AJ＋Qi v4.3／真正F55縦4-cell・P93比較反映条件とC60物理方向／2026-11-03 JST
+
+**[独立Kuu GK5AJ定理PR #2976](https://github.com/itakura-hidetoshi/KuuOS/pull/2976) MERGED。** 元F55 9構成子のGK5AI Type-valued構造写像を、実際の元P77縦4-cell **全8構成子**（refl/symm/trans・左右whiskering・左右unit・assoc）へ拡張。`nativeGK5AJOriginalFourToP93`は元P77の型付き4-cell証拠から選択P93の真正Type値4-cell証拠を再帰的に構成し、元F55の水平3セル合成との交換則`nativeGK5AJStructuralHorizontal`を定義的等式で証明。9構成子全体で符号付きpentagon/square電荷とC60奇数位相を保存し、元P77の4-cell商から選択P93の4-cell商への真正写像`nativeGK5AJFourClassMap`を構成。`nativeGK5AJFourClassInjective_iff_reflect`は**商写像が単射であるための必要十分条件が、任意のP93比較を元P77真正4-cellへ反映できること**であると証明。ただし反映条件が無条件成立するとは主張しない。元北C60 F55 pentagon 3セル`c`と`c·id`は異なるType値証拠だが、実P77右単位4-cellとそのP93像により4-cell商類は等しい。真正top-hexagonのodd ZMod2位相は1を保持。[Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5AJFourCellComparisonReflection.lean)。
+
+**[Qi v4.3統合PR #2977](https://github.com/itakura-hidetoshi/KuuOS/pull/2977) MERGED。** 元`FivefoldIndex=ZMod5`、実北C60第5`around Edge/Dart`端点と元F54 long/short履歴、元P77／選択P93四セル商を用い、物理Dartと商写像を合わせた観測の単射性が**まったく同じP93→P77比較反映条件と必要十分**であることを証明。物理情報を追加しても本来の比較権限は生じない。一方、元F55三セル証拠`c`と`c·id`は真に相違するが、物理Dart×P93四セル商観測では区別できず非単射。元4-cell証拠、選択4-cell証拠、北C60第五辺閉路、物理04/43逆向きを別の型のまま同時に保持。[Qi Lean全文](formal/KUOS/Architecture/QiWuxingGK5AJPhysicalFourCellReflectionV4_3.lean)。Edge=NatIsoや一般higher fillerを宣言しない。
+
+**確定exact-source検証：** 独立GK5AJ [CI #41487658464](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41487658464) **Strict Lean 9224/9224 SUCCESS、12/12公理監査**。Qi v4.3 [CI #41488714265](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41488714265) **KuuOSFormal含むStrict Lean SUCCESS（10151-target graph）、6/6公理監査**。新18項目は`{propext, Classical.choice, Quot.sound}`以内。元4-cell翻訳と水平整合定理自体は公理依存なし。Lean error/warning/sorryAx新規0、Independent Kuu／Governance SUCCESS。source/squash共通treeはGK5AJ `b4191589309ad3f56a2fbecf434bdd8f1c27b39c`、Qi `1c91de9c1565f4ae72b8ffa64bb605c34de95453`。固定Lean v4.30.0-rc2／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、公開root107、保護PR #1558 Draft/OPEN/未マージ。[正式証明記録](docs/formal/GK5AJ-Qi-v4_3-source-four-cell-physical-reflection.md)。
+
+**次GK5AK（候補）：** 元P89の水平interchangeと選択P93の水平4-cellとの対応・反映条件を真の元F55型付き証拠上で検討する。P92B追加自然性・凍結KUOSへの無条件同値・global higher filler／unrestricted descent／Gray復元は既証明としない。以下GK5AI／Qi v4.2以前の証明記録を保持。
+
 ## 最新のLean定理統合 — F112-P94D3GK5AI＋Qi v4.2／元F55高次セル証拠の構造的翻訳と真正C60物理・whole NatIso非忠実性／2026-11-02 JST
 
 **独立Kuu [GK5AI定理PR #2973](https://github.com/itakura-hidetoshi/KuuOS/pull/2973) MERGED。** 真正北C60の依存型F54 3/2段経路を維持し、元F55 **9構成子**のType値3セルを**構造的再帰**で選択P92B Type値比較へ写す `nativeGK5AIOriginalToP92Structural` を新たに構成。ident→refl、pentagon/square→original、symm/trans・左右context・前後composeを構造保存する。真正F55 pentagonセル `c` と `trans c (ident short)` は**同じF54始終点でも異なる3証拠**で、P92B構造的Type値像も異なる。一方、P92B存在商類・whole Mathlib NatIso等式に落とすと両者は区別不能。`NativeGK5AIOriginalWholeCellPacket` はF55原始証拠・P92B構造的証拠・GK5AFの実whole NatIso等式を別型で保持し、原始証拠を含むpacketは単射だがEq-only写像は非単射である。P92B追加`assocNaturality`の実北C60単位例には元F55 9構成子からの**前像なし**をP92Aにより証明。全高次4セル整合性や一般F54→NatIso functorは未証明。[GK5AI Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5AIStructuralF55WholeCellBridge.lean)。
