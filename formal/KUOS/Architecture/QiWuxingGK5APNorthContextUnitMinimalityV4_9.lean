@@ -141,6 +141,18 @@ theorem fivefoldGK5APNorthBothContextUnit_minimality :
    fivefoldGK5APNorthAllCertificates_needLeft,
    fivefoldGK5APNorthAllCertificates_needRight⟩
 
+/-- A local, source-identical north horizontal pair. Qi v4.8's corresponding
+private definitions are intentionally module-scoped, so restate the true
+source term instead of referring to an inaccessible private constant. -/
+private def fivefoldGK5APNorthHorizontalRaw :=
+  (NativeF55P92AssocComparison.refl fivefoldGK5APNorthFirstUnit).horizontal
+    (NativeF55P92AssocComparison.refl fivefoldGK5APNorthSecondUnit)
+
+private def fivefoldGK5APNorthHorizontalIdent :=
+  NativeF55P92AssocComparison.refl
+    (nativeF54P90HorizontalRoute
+      fivefoldGK5APNorthFirstUnit fivefoldGK5APNorthSecondUnit)
+
 /-- The north-C60 pairwise-minimal P94A three-unit conclusion is
 compatible with the actual fifth-around physical Dart pair,
 original higher P89 structural repair, and the independently
@@ -158,7 +170,7 @@ theorem fivefoldGK5APNorthPhysicalThreeUnitMinimality
       fivefoldGK5APNorthRightRaw fivefoldGK5APNorthRightIdent,
       1 ≤ w.gk5apRightUnitCount) ∧
     (∀ w : NativeF55P94UnitFourCell
-      fivefoldGK5AONorthHorizontalRaw fivefoldGK5AONorthHorizontalIdent,
+      fivefoldGK5APNorthHorizontalRaw fivefoldGK5APNorthHorizontalIdent,
       1 ≤ w.gk5aoHorizontalUnitCount) ∧
     (¬ edgeEndpoints (fivefoldPhysicalEdge frame .north .e04) =
       (nativeC60GaugeDart frame .north (fivefoldFrom .e04),
@@ -171,7 +183,8 @@ theorem fivefoldGK5APNorthPhysicalThreeUnitMinimality
   exact ⟨hclosed, hrepair,
     fivefoldGK5APNorthAllCertificates_needLeft,
     fivefoldGK5APNorthAllCertificates_needRight,
-    fivefoldGK5AONorthP94AllCertificates_needHorizontal,
+    nativeGK5AOHorizontalUnit_requires_primitive
+      fivefoldGK5APNorthFirstUnit fivefoldGK5APNorthSecondUnit,
     h04, h43⟩
 
 #print axioms fivefoldGK5APNorthLeftP93_noFourCell
