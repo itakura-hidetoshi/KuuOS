@@ -14,6 +14,16 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK5AK＋Qi v4.4／元P89水平interchangeのP93型付き移送と旧P87境界・C60物理比較／2026-11-03 JST
+
+**[独立Kuu GK5AK定理PR #2979](https://github.com/itakura-hidetoshi/KuuOS/pull/2979) MERGED。** GK5AI元F55 **全9構成子**のType-valued P92B構造的翻訳とGK5AJ元P77縦4-cell（8構成子）移送を継承。今回、元P89水平interchange 4-cellを、選択P93Cの**真正Type-valued interchange証拠**へ無条件に構成する`nativeGK5AKInterchangeStructural`を追加。一方、元P89の全13構成子から選択P93Cの*構造的*3セル像を結ぶ4-cellを移送するには、旧P87の元4-cell証拠を`.original`像ではなく構造的`φ`像へ運ぶ型付き条件が残る。`nativeGK5AKP89Structural_nonempty_iff_P87`により、**P89全体のType-valued移送族が存在する ⇔ 実旧P87移送族が存在する**ことを、全13構成子の帰納構成と制限で証明。旧P87条件が無条件に成立すると主張しない。明示条件付きで真正P89/P93の四セル存在商の写像を構成し、`nativeGK5AKFourClassInjective_iff_reflect`で単射性と任意の実選択P93四セルの元P89への反映が同値と証明。元F55符号付きpentagon/square整数電荷・奇数ZMod2位相も保存。[Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5AKInterchangeFourCellBoundary.lean)。
+
+**[Qi v4.4統合PR #2980](https://github.com/itakura-hidetoshi/KuuOS/pull/2980) MERGED。** 真正北C60の隣接する第1・第2 F45独立二軸ステージと実F54単位経路・元F55恒等3セルから、元P89の真正水平interchange 4-cellと選択P93の型付き4-cellを**実構成**。選択P93の4-cell存在商類一致を実証拠から導出。真正第五around Edge/Dart端点、カテゴリー辺04/43の物理逆向きをそれぞれ別型のまま保持。さらに、真正北C60のlong3/short2 F54履歴上で、**旧P87互換条件を明示して**物理Dart×選択P93四セル商の写像を構成し、単射性 ⇔ 元P89比較反映の必要十分条件を証明。物理座標の付加で高次比較権限が自動発生したとは主張しない。[Qi Lean全文](formal/KUOS/Architecture/QiWuxingGK5AKNorthPhysicalInterchangeV4_4.lean)。
+
+**exact-source検証・公理境界：** 独立GK5AK [CI #41515336483](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41515336483) **9226/9226 Strict Lean SUCCESS、8/8公理監査**。Qi v4.4 [CI #41516371268](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41516371268) **KuuOSFormal含むStrict Lean SUCCESS（10153-target graph）、7/7公理監査**。新15件の公理依存は`{propext, Classical.choice, Quot.sound}`以内。元P89 interchange、全13構成子のP87条件付き移送・制限・存在iff自体は公理依存なし。Lean error/warning/new sorryAx 0、Independent Kuu／Governance SUCCESS。source/squash Git treeはGK5AK `6d521231819df52cef3f7dc828378bc530fc6f6c`、Qi v4.4 `5819a56c80b6f4603f4c3c1680fe498f4d95c987`で完全一致。固定Lean v4.30.0-rc2／mathlib`5450b53e5ddc75d46418fabb605edbf36bd0beb6`、公開root107、保護PR #1558 Draft/OPEN未マージ。[正式証明記録](docs/formal/GK5AK-Qi-v4_4-original-P89-interchange-P87-boundary.md)。
+
+**次GK5AL：** 未充足の旧P87→構造的P93 4-cell移送条件を直接解析し、元F55証拠と`.original`／`φ`の区別を保って、構成可能な生成元と障害を特定する。独立Kuu→Qi、strict空権限、物理04/43逆向き、append-only／root107維持。無条件global higher filler／gluing／Gray復元を主張しない。以下GK5AJ／Qi v4.3以前の研究履歴を保持。
+
 ## 最新のLean定理統合 — F112-P94D3GK5AJ＋Qi v4.3／真正F55縦4-cell・P93比較反映条件とC60物理方向／2026-11-03 JST
 
 **[独立Kuu GK5AJ定理PR #2976](https://github.com/itakura-hidetoshi/KuuOS/pull/2976) MERGED。** 元F55 9構成子のGK5AI Type-valued構造写像を、実際の元P77縦4-cell **全8構成子**（refl/symm/trans・左右whiskering・左右unit・assoc）へ拡張。`nativeGK5AJOriginalFourToP93`は元P77の型付き4-cell証拠から選択P93の真正Type値4-cell証拠を再帰的に構成し、元F55の水平3セル合成との交換則`nativeGK5AJStructuralHorizontal`を定義的等式で証明。9構成子全体で符号付きpentagon/square電荷とC60奇数位相を保存し、元P77の4-cell商から選択P93の4-cell商への真正写像`nativeGK5AJFourClassMap`を構成。`nativeGK5AJFourClassInjective_iff_reflect`は**商写像が単射であるための必要十分条件が、任意のP93比較を元P77真正4-cellへ反映できること**であると証明。ただし反映条件が無条件成立するとは主張しない。元北C60 F55 pentagon 3セル`c`と`c·id`は異なるType値証拠だが、実P77右単位4-cellとそのP93像により4-cell商類は等しい。真正top-hexagonのodd ZMod2位相は1を保持。[Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5AJFourCellComparisonReflection.lean)。
