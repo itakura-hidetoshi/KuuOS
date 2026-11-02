@@ -129,8 +129,8 @@ theorem nativeGK5QAtomComparison_eqToIso_square
       nativeGK5GChangeIso
         (fun k : I => (e k).trans (g k)) (eqToIso h) := by
   cases h
-  simp only [eqToIso_refl, nativeGK5GChangeIso,
-    Functor.isoWhiskerRight_refl, Functor.isoWhiskerLeft_refl,
+  simp only [eqToIso_refl, nativeGK5GChangeIso]
+  simp only [Functor.isoWhiskerRight_refl, Functor.isoWhiskerLeft_refl,
     Iso.refl_trans, Iso.trans_refl]
 
 /-- Substitution with a REAL whole NatIso interpretation of ANY
