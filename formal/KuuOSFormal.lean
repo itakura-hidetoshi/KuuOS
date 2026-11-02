@@ -463,6 +463,7 @@ import Kuu.F112.PolygonNativeC60AQFullPentagonPhysicalFourteenSourceCountability
 import Kuu.F112.PolygonNativeC60AQFullPentagonPhysicalNativePathBlocksCountability
 import Kuu.F112.PolygonNativeC60AQFullPentagonPhysicalNativeAxisTraceCountability
 import Kuu.F112.PolygonNativeC60AQFullPentagonPhysicalNativeGK5AHTypedHistoryComparisonInterface
+import Kuu.F112.PolygonNativeC60AQFullPentagonPhysicalNativeGK5AIStructuralF55WholeCellBridge
 
 /-!
 Public aggregate: retain every previously published proof and its original
