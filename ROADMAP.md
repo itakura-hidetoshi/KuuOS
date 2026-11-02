@@ -3,6 +3,19 @@
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK5U / 2026-11-02 JST
+
+**逐次真正Mathlib点別圏同値とその実合成`e.trans g`の再帰的whole NatIso比較の無条件全有限型付き木自然合成を形式証明。GK5R以来の相対`Ω_t`とGK5T最後の非空cons-paste障害を無条件に解消 — [定理PR #2937](https://github.com/itakura-hidetoshi/KuuOS/pull/2937) MERGED。** [Lean4全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5UBinaryCompositorExchange.lean)・[GK5U正式記録](docs/formal/GK5U-genuine-compositor-universal-recursive-phi-coherence.md)。
+
+**真正証明11件：** `nativeGK5UBinaryCompositor_whole`は真の二段`ChangeCompIso`とMathlib合成圏同値の二項compositorのwhole NatIso交換則。`nativeGK5UTheta_paste`はGK5Q型付き木の構造的`eqToIso`とhorizontal pasting整合性。`nativeGK5USequentialPhi_paste`・`nativeGK5UDirectPhi_paste`は、任意の左右有限型付き部分木について実際の中間unit・GK5G再帰的`Φ`を保持した二構成が同一のwhole NatIso水平合成と合成compositorの式に一致することを証明。私有`nativeGK5UGenericPaste`でGK5Lの真正両変数compositor自然性と実Mathlib結合律を貼り合わせる。unit(GK5T)・atom(GK5S)・paste(GK5U)帰納により**`nativeGK5UAllTrees_unconditional`、`nativeGK5UAllObstructions_refl`（全木`Ω_t=Iso.refl`）、`nativeGK5UNonemptyCons`**を無条件に証明。任意の同じ二原子型付き葉語を持つ木への帰結も証明。**圏同値をstrict逆と見なしていない。**
+
+**Lean4エラー構造：** 新Leanファイル全文388行とimports・依存GK5G/I/K/L/Q/R/S/T・固定Mathlibの`Whiskering`/`Equivalence`/`EqToHom`/`Iso`を点検。巨大な成分`simp`では右再帰`Φ`のNatTrans自然性と中間unitの移送を同時処理できず、本物の水平NatIsoに分解。真の二変数compositor自然性を適用した`GenericPaste`から`SequentialPhi_paste`へ移行。最後に`DirectPhi_paste`の同一whiskering合成が`simp only`のリストにない`nativeGK5UHorizontalIso`という不透明な定義のため閉じず、同定義の明示展開により解消。無仮定・新公理0・sorryAx0。
+
+**exact-source・CI：** source `3b078d6b0b3b3c8bdb80e755fbbebb2664a092fd`／定理squash `4ba30b8f560a101f4c08ee7891a0e34f7ccadc38`／同一Git tree `4c1dcaed25133bdfc1201f3b6c2ebd1808286e96`。[CI #41397903337](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41397903337) **Strict Lean 3842/3842・Independent Kuu・Workflow integrity・Governance terminal全SUCCESS**、公理監査11/11`propext/Classical.choice/Quot.sound`のみ、sorryAx0、error/warning0。固定Lean v4.30.0-rc2／mathlib 5450b53e5ddc75d46418fabb605edbf36bd0beb6、root107、append-only、保護#1558 Draft/OPEN、strict空中心・独立Kuu一presentation維持。
+
+**次GK5Vの研究境界：** 今回閉じたのはGK5D/GK5Gの固定universe対の全有限木に対する真正圏同値二段合成整合性。次は三段・多段の真正圏同値合成のwhiskering/結合（pentagon類似）におけるhigher coherenceと型付きindex再分類との対応を別定理として検証する。元source-Q・F45無条件faithfulness・raw F54/F55/P92B Type高次セル・global Gray・無制限hyperdescentは未証明。以下過去の証明履歴は全保持。
+
+
 ## 最新のLean定理統合 — F112-P94D3GK5T / 2026-11-02 JST
 
 **真正Mathlib`Equivalence.trans`のunit/counit合成whole NatIso整合性を無条件Lean4証明。GK5SのUnitCoherentを解消し、GK5Rの再帰的`Φ`相対障害`Ω_t`の全木消滅判定を「少なくとも2原子をもつcons-paste自然性」一条件へ必要十分還元 — [定理PR #2935](https://github.com/itakura-hidetoshi/KuuOS/pull/2935) MERGED。** [Lean全文](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5TUnitCounitCompositeCoherence.lean)・[正式記録](docs/formal/GK5T-composite-unit-counit-nonempty-cons-obstruction.md)。
