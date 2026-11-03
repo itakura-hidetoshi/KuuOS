@@ -1777,4 +1777,13 @@ lake build KuuOSFormal # warningAsErrorはlakefile.toml既定。sorryAxは#print
 - [正式証明記録](docs/formal/GK5BL-Qi-v4_31-constructive-rational-lagrange-reconstruction.md)。strict 空／独立Kuu→Qi、元F54二Nat・二圏・Blocks／元F55 Type証拠、公開root107、保護PR #1558 Draft/OPEN未マージ、Lean v4.30.0-rc2／mathlib 5450b53e5ddc75d46418fabb605edbf36bd0beb6を保持。GK5AY全域seam、GK5BA kit、P94A全正規形、W=1 seam十分性、元P89無条件反射・Grayは未証明。
 - **次GK5BM（仮称）：** 有理補間係数の整係数性・分母消去の必要十分条件と、非負Natへの降下の検査証明書を形式化。有限整数サイトの値と整係数実現の間に残るobstructionを扱い、元F55 Type証拠実現可能性やP94A十分性を別に保つ。
 
+## 2026-11-04：GK5BM／Qi v4.32 — 整係数・非負Nat係数の真正持ち上げ証明書
+
+- [独立GK5BM #3064](https://github.com/itakura-hidetoshi/KuuOS/pull/3064) **MERGED**。最終HEAD `951f25bf3162743d6b8ecab8bd66fdb6ae93147e`、test-merge `ec7cf6cb3d125d712c5ae4b4f8ab1fac216e6306`、squash `3ed73fdbc9236bb24b73ebd5df08b9f216a04f59`。source/test-merge/squash tree `d340d7ebeecad7c6657167b9bb80b938057b4885` 一致。[CI #41739642619](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41739642619)：**Strict Lean 9,282/9,282・Governance 30/30 SUCCESS**、新規11宣言sorryAxなし。
+- [Qi v4.32 #3065](https://github.com/itakura-hidetoshi/KuuOS/pull/3065) **MERGED**。最終HEAD `798b45f36998cd05bb4074c00e2bd2884bb3ad40`、test-merge `292a173c29e5e0fdb876a8bce9040414f0429a0b`、squash `4c0b318e275e5f7fed282ecc3be3d8bfacffc6c6`。tree `80930d7c9e54d447d89529ad34285d8e6455162c`一致。[CI #41740543233](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41740543233)：**10,209/10,209・30/30 SUCCESS**、9宣言sorryAxなし。
+- **独立Kuu数学的到達：** `Q:Rat[X]`について、`∃P:Int[X],map P=Q`と全係数がIntのRat像にあることが同値。さらに`∃P:Nat[X],map P=Q`と全係数がInt像かつ非負であることが同値。有限supportモノミアル和で実際の多項式原像を構成し、非整数・負の係数が持ち上げを阻むことを証明。GK5BLの有限整数観測からの合理的補間へ適用。真正P92Bおよび元F55/P77商に降下した多項式値のNat係数持ち上げを証明。
+- **Qi真正北C60：** 任意の元F54 long→short original F55証拠の構造像をNat係数へ持ち上げ。元pentagon原始と元二重反転＋F55右単位は三点、選択北P92B endo-loop二例は四点の真正補間から持ち上がる。一般有理多項式`-X`の負係数によるNat持ち上げ不存在も確認。元P77商**値**と商類の一致／元F55 Type証拠の存在／P94A四セル十分性は区別したまま。
+- [正式証明記録](docs/formal/GK5BM-Qi-v4_32-integral-nat-coefficient-lift-certificates.md)。strict 空、独立Kuu→Qi、元F54二Nat／二圏／Blocks・元F55 Type履歴、公開root107、固定Lean v4.30.0-rc2／mathlib 5450b53e5ddc75d46418fabb605edbf36bd0beb6、保護PR #1558 Draft/OPEN・未マージ。GK5AY全域seam、GK5BA kit、P94A全正規形、元P89無条件反射、Grayは未証明。
+- **次GK5BN（仮称）：** 有理係数の整数性判定を有限差分・整除条件へ具体化し、元GK5BMの必要十分な多項式持ち上げ条件へ接続する。整数値評価だけでは整係数性は自動ではないことを保持し、真正Type証拠への逆向き推論は別のobstructionとして維持。
+
 **Copyright © 2026 Hidetoshi Itakura / 板倉英俊. Apache-2.0.**
