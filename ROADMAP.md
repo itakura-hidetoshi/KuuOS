@@ -1768,4 +1768,13 @@ lake build KuuOSFormal # warningAsErrorはlakefile.toml既定。sorryAxは#print
 - [正式証明記録](docs/formal/GK5BK-Qi-v4_30-finite-integer-sample-rigidity.md)。strict 空 authority／独立Kuu→Qi、元F54二Nat・二圏・Blocks・元F55 Type履歴、公開root107、保護PR #1558 Draft/open未マージ、固定Lean v4.30.0-rc2／mathlib 5450b53e5ddc75d46418fabb605edbf36bd0beb6を維持。Gray、全GK5AY seam、GK5BA kit、元P89無条件反射、W=1 seam十分性は未証明。
 - **次GK5BL（仮称）：** GK5BKの有限整数観測の一意性を土台に、任意のd+1異なるサイトからの有理係数補間／Vandermonde行列による計算的復元を検証。整係数・非負自然数係数への降下は別証拠に分離し、補間からP94A四セルを捏造しない。
 
+## 2026-11-04：GK5BL／Qi v4.31 — 有理Lagrange構成的復元と真正北C60四点識別
+
+- [独立GK5BL #3061](https://github.com/itakura-hidetoshi/KuuOS/pull/3061) **MERGED**。最終source HEAD `aa2f64748cf919359464673b2f50dc884a0a38b0`、test-merge `626440810ed816e7b0913cdec4dd9c1a4b746fc3`、squash `48ea559ce749637f42150e92acfe3fdd704e9ed4`。三者Git tree`a9d6befadf4b62cf5049d0d34857b8583ca989ee`一致。[exact-source CI #41728908990](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41728908990)：**Strict Lean 9,280/9,280・Governance 30/30 SUCCESS**、新規18宣言sorryAxなし。初回 #41728354275 のInt結果→Rat変換記法、Lagrange補間公式の値関数引数を正規化し、仮定弱化なし。
+- [Qi v4.31 #3062](https://github.com/itakura-hidetoshi/KuuOS/pull/3062) **MERGED**。source HEAD `0cdccb1aa2678b6c07349feda6d463e77c367c4d`、test-merge `2ea877996586aba0d0b42266a72515c1d7cf4fd6`、squash `909542a3a31a596c808403a08c780834f40856ba`。三者Git tree`96a91934a296a4ab0d06ff72b8cc5bc8fb76c1f6`一致。[exact-source CI #41730985676](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41730985676)：**Strict Lean 10,207/10,207・Governance 30/30 SUCCESS**、11宣言sorryAxなし。初回 #41729859456 と次 #41730374355 の評価式β簡約／点0のキャストrewrite失敗は、新規Qiコードのみに対して節点評価等式を推移律で合成し修正した。
+- **独立Kuu数学的到達：** 異なる整数サイト`S:Finset Int`の評価`y:Int→Rat`から真正`Rat[X]`多項式`I_S,y`をLagrange積で構成し、`degree(I_S,y)<card S`・節点値一致。任意の`P:Int[X]`で`natDegree P≤d`・`card S=d+1`なら`I_S,P.eval=P.map(Int.castRingHom Rat)`となり、全Int係数が復元される。真正P92B全9構成子に由来する係数は非負Nat値の`b_k`へ一致し、真正元F55/P77商でも降下多項式値・Nat係数を復元。非整係数が一つでもあればInt[X]原像はないというobstructionも追加。整数/非負係数の一致から元F55 Type値証拠やP94A四セルを構成する十分性は主張しない。
+- **Qiの真正北C60：** 元primitive`P=1`、元二重反転＋F55右単位`P=X²`は3サイト`{0,1,2}`から構成的に復元。選択P92B北endo-loop対`A=X³+2`・`B=2X²+X`は旧三点`{-1,1,2}`で評価が一致し、その三点からの補間多項式も一致する。一方、第四点0を加えた`{-1,0,1,2}`からは両補間が異なり、それぞれ元の次数3多項式を復元できる。元original→phi seamの反例とはしない。
+- [正式証明記録](docs/formal/GK5BL-Qi-v4_31-constructive-rational-lagrange-reconstruction.md)。strict 空／独立Kuu→Qi、元F54二Nat・二圏・Blocks／元F55 Type証拠、公開root107、保護PR #1558 Draft/OPEN未マージ、Lean v4.30.0-rc2／mathlib 5450b53e5ddc75d46418fabb605edbf36bd0beb6を保持。GK5AY全域seam、GK5BA kit、P94A全正規形、W=1 seam十分性、元P89無条件反射・Grayは未証明。
+- **次GK5BM（仮称）：** 有理補間係数の整係数性・分母消去の必要十分条件と、非負Natへの降下の検査証明書を形式化。有限整数サイトの値と整係数実現の間に残るobstructionを扱い、元F55 Type証拠実現可能性やP94A十分性を別に保つ。
+
 **Copyright © 2026 Hidetoshi Itakura / 板倉英俊. Apache-2.0.**
