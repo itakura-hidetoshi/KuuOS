@@ -99,7 +99,7 @@ theorem nativeGK5BLRationalInterpolant_explicit
             ∏ j ∈ sites.erase i, ((i : Rat) - (j : Rat))) *
           (∏ j ∈ sites.erase i,
             (Polynomial.X - Polynomial.C (j : Rat))) :=
-  Lagrange.interpolate_eq_sum
+  Lagrange.interpolate_eq_sum values
 
 /-- Any Rat[X] polynomial of degree below #sites is
 CONSTRUCTIVELY recovered, not merely distinguished by roots. -/
@@ -116,7 +116,7 @@ theorem nativeGK5BLRationalInterpolant_recovers_rat
 evaluation at genuinely integer points. -/
 theorem nativeGK5BLRatMap_eval_int (P : Polynomial Int) (z : Int) :
     (P.map (Int.castRingHom Rat)).eval (z : Rat) =
-      (P.eval z : Rat) := by
+      ((P.eval z : Int) : Rat) := by
   change (P.map (Int.castRingHom Rat)).eval ((Int.castRingHom Rat) z) =
     (Int.castRingHom Rat) (P.eval z)
   exact Polynomial.eval_map_apply (p := P) (f := Int.castRingHom Rat) z
@@ -145,14 +145,14 @@ theorem nativeGK5BLRationalInterpolant_recovers_int
     (hsize : sites.card = d + 1)
     (hdegree : P.natDegree ≤ d) :
     nativeGK5BLRationalInterpolant sites
-      (fun z : Int => (P.eval z : Rat)) =
+      (fun z : Int => ((P.eval z : Int) : Rat)) =
       P.map (Int.castRingHom Rat) := by
   have h := nativeGK5BLRationalInterpolant_recovers_rat
     (P.map (Int.castRingHom Rat)) sites
     (nativeGK5BLRatMap_degree_lt P d sites hsize hdegree)
   have hfun :
       (fun z : Int => (P.map (Int.castRingHom Rat)).eval (z : Rat)) =
-      (fun z : Int => (P.eval z : Rat)) := by
+      (fun z : Int => ((P.eval z : Int) : Rat)) := by
     funext z
     exact nativeGK5BLRatMap_eval_int P z
   rw [hfun] at h
@@ -166,7 +166,7 @@ theorem nativeGK5BLRationalInterpolant_recovers_int_coeff
     (hsize : sites.card = d + 1)
     (hdegree : P.natDegree ≤ d) (k : Nat) :
     (nativeGK5BLRationalInterpolant sites
-      (fun z : Int => (P.eval z : Rat))).coeff k = (P.coeff k : Rat) := by
+      (fun z : Int => ((P.eval z : Int) : Rat))).coeff k = (P.coeff k : Rat) := by
   rw [nativeGK5BLRationalInterpolant_recovers_int P d sites hsize hdegree]
   simp only [Polynomial.coeff_map]
   rfl
@@ -187,7 +187,7 @@ theorem nativeGK5BLRationalInterpolant_recovers_data
     nativeGK5BLRationalInterpolant sites
         (fun z : Int => (values z : Rat)) =
         nativeGK5BLRationalInterpolant sites
-          (fun z : Int => (P.eval z : Rat)) := by
+          (fun z : Int => ((P.eval z : Int) : Rat)) := by
             apply Lagrange.interpolate_eq_of_values_eq_on
             intro z hz
             exact congrArg (fun t : Int => (t : Rat)) (hdata z hz)
@@ -202,7 +202,7 @@ theorem NativeF55P92AssocComparison.gk5blInterpolate_genuine
     (hsize : sites.card = d + 1)
     (hdegree : f.gk5bgDepthPolynomial.natDegree ≤ d) :
     nativeGK5BLRationalInterpolant sites
-      (fun z : Int => (f.gk5bgDepthPolynomial.eval z : Rat)) =
+      (fun z : Int => ((f.gk5bgDepthPolynomial.eval z : Int) : Rat)) =
       f.gk5bgDepthPolynomial.map (Int.castRingHom Rat) :=
   nativeGK5BLRationalInterpolant_recovers_int
     f.gk5bgDepthPolynomial d sites hsize hdegree
@@ -217,11 +217,11 @@ theorem NativeF55P92AssocComparison.gk5blInterpolate_natCoeff
     (hdegree : f.gk5bgDepthPolynomial.natDegree ≤ d)
     (k : Nat) :
     (nativeGK5BLRationalInterpolant sites
-      (fun z : Int => (f.gk5bgDepthPolynomial.eval z : Rat))).coeff k =
+      (fun z : Int => ((f.gk5bgDepthPolynomial.eval z : Int) : Rat))).coeff k =
       (f.gk5bjNatDepthCoefficient k : Rat) := by
   calc
     (nativeGK5BLRationalInterpolant sites
-       (fun z : Int => (f.gk5bgDepthPolynomial.eval z : Rat))).coeff k =
+       (fun z : Int => ((f.gk5bgDepthPolynomial.eval z : Int) : Rat))).coeff k =
         (f.gk5biDepthCoefficient k : Rat) := by
           exact nativeGK5BLRationalInterpolant_recovers_int_coeff
             f.gk5bgDepthPolynomial d sites hsize hdegree k
@@ -240,7 +240,7 @@ theorem nativeGK5BLRationalInterpolant_recovers_P77
     (hsize : sites.card = d + 1)
     (hdegree : (nativeGK5BGPolyOnP77Class first last r s q).natDegree ≤ d) :
     nativeGK5BLRationalInterpolant sites
-      (fun z : Int => ((nativeGK5BGPolyOnP77Class first last r s q).eval z : Rat)) =
+      (fun z : Int => (((nativeGK5BGPolyOnP77Class first last r s q).eval z : Int) : Rat)) =
       (nativeGK5BGPolyOnP77Class first last r s q).map (Int.castRingHom Rat) :=
   nativeGK5BLRationalInterpolant_recovers_int
     (nativeGK5BGPolyOnP77Class first last r s q) d sites hsize hdegree
@@ -257,7 +257,7 @@ theorem nativeGK5BLRationalInterpolant_recovers_P77_natCoeff
     (hdegree : (nativeGK5BGPolyOnP77Class first last r s q).natDegree ≤ d)
     (k : Nat) :
     (nativeGK5BLRationalInterpolant sites
-      (fun z : Int => ((nativeGK5BGPolyOnP77Class first last r s q).eval z : Rat))).coeff k =
+      (fun z : Int => (((nativeGK5BGPolyOnP77Class first last r s q).eval z : Int) : Rat))).coeff k =
       (nativeGK5BJNatCoeffOnP77Class first last r s k q : Rat) := by
   have hcoef := nativeGK5BLRationalInterpolant_recovers_int_coeff
     (nativeGK5BGPolyOnP77Class first last r s q) d sites hsize hdegree k
@@ -265,7 +265,7 @@ theorem nativeGK5BLRationalInterpolant_recovers_P77_natCoeff
   have hNat := nativeGK5BJNatCoeffOnP77Class_cast first last r s q k
   calc
     (nativeGK5BLRationalInterpolant sites
-      (fun z : Int => ((nativeGK5BGPolyOnP77Class first last r s q).eval z : Rat))).coeff k =
+      (fun z : Int => (((nativeGK5BGPolyOnP77Class first last r s q).eval z : Int) : Rat))).coeff k =
       ((nativeGK5BGPolyOnP77Class first last r s q).coeff k : Rat) := hcoef
     _ = (nativeGK5BICoeffOnP77Class first last r s k q : Rat) := by
       exact congrArg (fun t : Int => (t : Rat)) hInt.symm
@@ -295,7 +295,7 @@ theorem NativeF55P92AssocComparison.gk5blRecovered_coeff_nonneg
     (hdegree : f.gk5bgDepthPolynomial.natDegree ≤ d)
     (k : Nat) :
     0 ≤ (nativeGK5BLRationalInterpolant sites
-      (fun z : Int => (f.gk5bgDepthPolynomial.eval z : Rat))).coeff k := by
+      (fun z : Int => ((f.gk5bgDepthPolynomial.eval z : Int) : Rat))).coeff k := by
   rw [f.gk5blInterpolate_natCoeff d sites hsize hdegree k]
   exact Nat.cast_nonneg _
 
