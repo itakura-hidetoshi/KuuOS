@@ -225,13 +225,10 @@ theorem nativeGK5BHSource_three_gate_iff_polynomial_one
       (nativeGK5AIOriginalToP92Structural f).gk5bgDepthPolynomial = 1 := by
   constructor
   · rintro ⟨_, hw⟩
-    exact ((nativeGK5AIOriginalToP92Structural f).
-      gk5bhPoly_one_iff_weight_one).2 hw
+    exact ((nativeGK5AIOriginalToP92Structural f).gk5bhPoly_one_iff_weight_one).2 hw
   · intro hp
-    have hw := ((nativeGK5AIOriginalToP92Structural f).
-      gk5bhPoly_one_iff_weight_one).1 hp
-    have hns := (nativeGK5AIOriginalToP92Structural f).
-      gk5bhWeight_one_implies_N_S hw
+    have hw := ((nativeGK5AIOriginalToP92Structural f).gk5bhPoly_one_iff_weight_one).1 hp
+    have hns := (nativeGK5AIOriginalToP92Structural f).gk5bhWeight_one_implies_N_S hw
     exact ⟨hns, hw⟩
 
 /-- Exact P77 quotient-level equivalence between the existing
