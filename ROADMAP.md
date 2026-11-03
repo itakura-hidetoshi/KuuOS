@@ -3,6 +3,24 @@
 
 
 
+## GK5BB／Qi v4.21 — 元F55 original-wrapper自然数不変量によるP94A高次seam無条件不存在／2026-11-03 JST
+
+**独立Kuu [GK5BB PR #3031](https://github.com/itakura-hidetoshi/KuuOS/pull/3031) MERGED。** GK5BAで全9元F55構成子の局所shellを条件付きで一様に組み立てた直後、その強い局所前提が実際に成立するかを、元Type値付きP92B証拠のoriginal-wrapper個数`N:Nat`で調べた。`original(f)`は1、`refl`は0、垂直／水平transは加算、反転・F45/F54 contextは不変。**P93C全16構成子／P94A全19構成子**による真正4-cellは`N`を保存し、P94Aが追加した水平単位・左右context単位でも保存される。GK5AMの文脈偶奇や物理3-coordinate shadowと独立の高次不変量である。
+
+**確定した無条件不存在：** 任意の実在する元F54 route`r`について、raw`original(ident(r))`（count 1）と選択`refl(r)`（count 0）のP94A 4-cellは存在しない。元F55の任意の合成`trans(f,g)`のraw全体wrapper（count 1）から選択`trans(original f,original g)`（count 2）への4-cellも存在しない。従って**真に経路が存在する元F54 slotではGK5AY一様seamも、GK5BA全9構成子shell kitも無条件に不可能**と証明。前スレッドの条件付きGK5BA構成定理そのものを否定するわけではないが、その前提が実際のsourceで充足不能と確定した。元P89/P94A四セル商写像の単射性・非単射性は別途未決定。
+
+**真正北C60の微妙な差：** 元pentagon＋右identityのF55 compositeは、2 wrapper transへの分解shellは確実に不可能だが、直接raw whole→recursive φでは双方wrapper count 1なので直接seamの不可能性までは示せない。対照的に真の元pentagon＋その逆からなるF55複合ではφ側count 2、raw側count 1のため**個別直接seamも不可能**。北C60のstrong kit・global seam不存在は無条件のLean定理。
+
+**Exact-source GK5BB検証：** source HEAD `ff3dff49c64f5d925d95938ea2f49012c5cbb689`、squash `baffe9581e569b78aec0bbdc6d82633c084b9546`、[Governance #41615936555](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41615936555) **Strict Lean 9,260/9,260、Governance 30/30 SUCCESS**、21件`#print axioms`・`sorryAx`なし。新規公理なし。root107、strict 空／独立Kuu→Qi、保護#1558 Draft/OPEN、Lean 4.30.0-rc2／mathlib pinを維持。
+
+**[Qi v4.21 PR #3032](https://github.com/itakura-hidetoshi/KuuOS/pull/3032) は検証中。** 真正北C60のF54双Nat・2 Site category・Blocks履歴へno-goを適用し、第五around Dart閉路、e04/e43物理・圏論向き、元P89 sourceの条件付き反射障害を別のpresentationとして保持。物理gaugeは選択4-cellを勝手に生成しない。
+
+**[正式証明記録](docs/formal/GK5BB-Qi-v4_21-original-wrapper-count-no-go.md)** · [GK5BB Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5BBOriginalWrapperCountObstruction.lean) · [Qi v4.21 Lean](formal/KUOS/Architecture/QiWuxingGK5BBNorthOriginalWrapperObstructionV4_21.lean)。
+
+**次：F112-P94D3GK5BC（仮称）** — 真正元pentagon＋right identityのwrapper countが一致するraw/φ端点に対し、元F55の構成子・高次証明語・型付き不変量をさらに検査し、個別直接seam実在／不存在を決定できる条件を調べる。元P89 class-map faithfulness、不正規なP94A全19証明の完全正規化を先取りしない。
+
+---
+
 ## GK5BA／Qi v4.20 — 元F55九構成子依存型seam組立と真正北C60への応用／2026-11-03 JST
 
 **独立Kuu [PR #3028](https://github.com/itakura-hidetoshi/KuuOS/pull/3028) MERGED。** GK5AZが定義した原始2種の無条件4-cell seam、元ident／symm／trans／left-right context／pre-postcomposeの7種類の局所分解shellを、元F55の全9生成元に対する**型付き帰納法**へ接続。`nativeGK5BARequiredShell`を元証拠`f`に依存するTypeとして定義し、`NativeGK5BAConstructorShellKit.bridge`で各sourceの真正 `P94A(original(f),φ(f))`を導く。9構成子のraw証拠の履歴、元F54双Nat・2圏・Blocksを消去しない。`kit.toGK5AY`によりGK5AYの全域seamを**kitの条件付きで**構成し、`Nonempty kit ↔ ∀ f, Nonempty requiredShell(f)`を証明。**global seam存在⇒kit存在**や局所shell無条件存在は主張しない。
