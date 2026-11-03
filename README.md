@@ -14,6 +14,20 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK5AY＋Qi v4.18／P93C.old raw-originalと再帰φの真正4-cell seam・北C60反射障害／2026-11-03 JST
+
+**[独立GK5AY PR #3022](https://github.com/itakura-hidetoshi/KuuOS/pull/3022) MERGED、[Qi v4.18 PR #3023](https://github.com/itakura-hidetoshi/KuuOS/pull/3023) MERGED。** GK5AUの選択P94A全19・内包P93C全16構成子source-hole検査、GK5AVの内部二段source-vertex鎖、GK5AWの元P89 8種context生成元の反射障害局所化、GK5AXの3種垂直primitive反射証明書を継承。GK5AYは、**P93C.oldの`P92B.original(f)`とGK5AIの9構成子再帰的`φ(f)`が証明項として定義的に等しくない**問題に対して、元F55証拠ごとの真正P94A四セル`bridge(f): original(f)→φ(f)`を保持する依存型`NativeGK5AYOriginalPhiSeam`を定義した。**seamの無条件存在は主張しない**。
+
+**元P89反射条件：** 実在raw P93C四セル`P93C(original(f),original(g))`とseam証明書が与えられれば、真正P94A四セル`P94A(φ(f),φ(g))`を`symm bridge(f)`／`P94A.old`／`bridge(g)`の型付き合成で構成する。raw P93C全面反射 iff 真正raw P93C/P89 obstruction不存在を証明し、**seam＋raw obstruction**が存在する場合のみ元P89→P94A class mapは該当する元F54 slotで非単射。単射性とseamが与えられればraw P93C比較は元P89へ反射。新規seamの存在も元P89の無条件faithfulness/nonfaithfulnessも証明していない。
+
+**北C60／Qi v4.18：** 実際の元北四段pentagonに右単位を合成したF55 proofでは`P92B.original(f) ≠ φ(f)`がraw Type値付き証拠で成立。seamがある場合の真正4-cellの存在と両立する。北raw P93C比較についてseamを明示した`P89`または`BadPair`という分岐、全slot source map単射という**独立した仮定**からのraw反射、実在raw障害による条件付き非単射性をLean4で形式化。真の北C60第五around Dart閉路、物理／圏論で向きが異なる04／43辺、Qi v4.10の条件付き非単射性iffを保ち、物理gaugeをseam・元P89証拠の代用にしない。
+
+**検証記録：** GK5AY [exact-source Governance #41594594525](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41594594525) **Strict Lean 9,254/9,254・30/30 SUCCESS**、公理監査15件、squash `d85c73d5845836c3a06e89a17bfebb7fd055e7cf`。Qi v4.18 [exact-source Governance #41605181371](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41605181371) **Strict Lean 10,181/10,181・30/30 SUCCESS**、公理監査11件、squash `a098054e0647665141af877a4d3f0b7cea166523`。双方`sorryAx`・新公理・最終Lean error/warningなし。初回GK5AYのLean予約語`at`、Qiの依存型`have`型省略を、仮定を弱めずに修正した。strict 空／独立Kuu→Qi、公開root107、固定Lean v4.30.0-rc2／mathlib、保護PR #1558 Draft/OPEN維持。
+
+**[正式証明記録](docs/formal/GK5AY-Qi-v4_18-raw-original-phi-seam-reflection.md)** · [GK5AY Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5AYOriginalStructuralPhiSeamGate.lean) · [Qi v4.18 Lean](formal/KUOS/Architecture/QiWuxingGK5AYNorthOriginalPhiSeamV4_18.lean)。**次：GK5AZ（仮称）** — P92B.originalとφの橋の構成子別存在条件を明確化し、GK5AX垂直primitive証明書・GK5AW 8種context閉包との型付き合成を検討する。
+
+---
+
 ## 最新のLean定理統合 — F112-P94D3GK5AX＋Qi v4.17／真正元F55垂直primitiveの元P89反射証明書・北C60条件付き降下／2026-11-03 JST
 
 **[独立Kuu GK5AX PR #3019](https://github.com/itakura-hidetoshi/KuuOS/pull/3019) MERGED、[Qi v4.17 PR #3020](https://github.com/itakura-hidetoshi/KuuOS/pull/3020) MERGED。** GK5AUのP94A全19／内包P93C全16のsource-hole検査、GK5AVの真正二辺source-vertex鎖、GK5AWの元P89 8種類context生成元に沿うBadPair局所化を継承。GK5AXでは、真正元F55証拠のφ像で添字付けした**選択P94A垂直leftUnit・rightUnit・assocの3 primitive**を実際に構成し、それぞれの元証拠ペアの**GK5AQ BadPair iff 真正元P89四セル証拠不存在**を形式化した。元P89に無条件の垂直primitive証拠を追加したわけではない。
