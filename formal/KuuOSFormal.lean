@@ -504,6 +504,7 @@ import KUOS.Architecture.QiWuxingGK5BANorthNineConstructorSeamV4_20
 import Kuu.F112.PolygonNativeC60AQFullPentagonPhysicalNativeGK5BBOriginalWrapperCountObstruction
 import KUOS.Architecture.QiWuxingGK5BBNorthOriginalWrapperObstructionV4_21
 import Kuu.F112.PolygonNativeC60AQFullPentagonPhysicalNativeGK5BCLocalUnitSeamWithoutShell
+import KUOS.Architecture.QiWuxingGK5BCNorthDirectLocalSeamV4_22
 
 /-!
 Public aggregate: retain every previously published proof and its original
