@@ -1759,4 +1759,13 @@ lake build KuuOSFormal # warningAsErrorはlakefile.toml既定。sorryAxは#print
 - [正式証明記録](docs/formal/GK5BJ-Qi-v4_29-natural-depth-weighted-sums.md)。strict 空、独立Kuu→Qi、元F54二Nat・二圏・Blocks／元F55 Type履歴、公開root107、保護PR #1558 Draft/OPEN、固定Lean `v4.30.0-rc2`・mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`を維持。GK5AY全域seam、GK5BA kit、P94A正規形、W=1のseam十分性、元P89無条件反射、Grayは未証明。
 - **次GK5BK（仮称）：** 有限深さ上界`d`が既知の場合、`d+1`個の異なる整数評価点による多項式係数の一意復元を真正P92B証拠・元P77商へ移す。評価一致とP94A四セル存在を混同せず、有限観測による係数の識別可能性を研究する。
 
+## 2026-11-04：GK5BK／Qi v4.30 — 有限整数評価の一意性と北C60四点観測証明書
+
+- [独立GK5BK #3058](https://github.com/itakura-hidetoshi/KuuOS/pull/3058) **MERGED**。最終exact-source HEAD `b94f1a2ea44da421830fac001b2be719b8f5f446`、test-merge `aabe806c944dcfebeb7a09f0db66e89aafdb938f`、squash `86393f21cba782559c427b7a2a8be1bd0ab9518e`。三者Git tree `c2e9888b1a1bd11451f3afe638356c393c8cc16c`一致。[CI #41724819896](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41724819896)：**Strict Lean 9,278/9,278・Governance 30/30 SUCCESS**、15宣言sorryAxなし。初回[CI #41724182111](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41724182111)ではNat→Int castのラムダ式を`exact_mod_cast`が認識しなかったため`change`でβ簡約して修正。仮定の弱化や既存証明変更なし。
+- [Qi v4.30 #3059](https://github.com/itakura-hidetoshi/KuuOS/pull/3059) **MERGED**。source `5cb7fb7713322ee736125206d5127f1cd2aa075e`、test-merge `55cae9567140c8234ccf7ff524a732cd60275a6d`、squash `22b47d04303a60c14cf09487ede4702302bf0d74`。三者Git tree `07e94497fb846a9c9dbab0d73d1290cd612e4a98`一致。[CI #41725853171](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41725853171)：**Strict Lean 10,205/10,205・Governance 30/30 SUCCESS**、12宣言sorryAxなし。
+- **GK5BK数学的到達：** 任意の真正P92Bの`P_f,P_g∈ℤ[X]`について`natDegree P_f,P_g≤d`、`S:Finset Int`、`card S=d+1`、`∀z∈S,P_f(z)=P_g(z)`から`P_f=P_g`。有限整数格子`{0,1,…,d}`をFinsetとして構成し、全Int係数・全Nat係数が復元される。真正元P77商の`Polynomial Int`値にも同じ有限観測忠実性が成立。係数が一つ異なれば、任意のd+1サイト集合のどこかで評価値が異なる。ただし商類同一性・P94A四セル存在の十分性は未主張。
+- **Qiの真正北C60：** primitive`P=1`と元double-inverse＋F55右単位`P=X²`は双方次数2以下、任意の3点で観測識別可能。真正選択北P92B endo-loop対`A=X³+2`、`B=2X²+X`は旧`N=3,S=1,W=10`が一致し、`-1,1,2`の三点で盲だが、`0`では`2`対`0`、任意の4整数点で識別できる。loopを元original→phi局所seam反例とはしない。P89 BadPair反射は条件付きのまま。
+- [正式証明記録](docs/formal/GK5BK-Qi-v4_30-finite-integer-sample-rigidity.md)。strict 空 authority／独立Kuu→Qi、元F54二Nat・二圏・Blocks・元F55 Type履歴、公開root107、保護PR #1558 Draft/open未マージ、固定Lean v4.30.0-rc2／mathlib 5450b53e5ddc75d46418fabb605edbf36bd0beb6を維持。Gray、全GK5AY seam、GK5BA kit、元P89無条件反射、W=1 seam十分性は未証明。
+- **次GK5BL（仮称）：** GK5BKの有限整数観測の一意性を土台に、任意のd+1異なるサイトからの有理係数補間／Vandermonde行列による計算的復元を検証。整係数・非負自然数係数への降下は別証拠に分離し、補間からP94A四セルを捏造しない。
+
 **Copyright © 2026 Hidetoshi Itakura / 板倉英俊. Apache-2.0.**
