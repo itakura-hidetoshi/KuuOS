@@ -1736,4 +1736,12 @@ AI推論runtimeの方向は **観測 → 文脈・複数presentation → 輸送�
 
 [GK5BH exact-source CI #41699640942 attempt 2](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41699640942)：**Strict Lean 9,272/9,272・Governance 30/30 SUCCESS**（10宣言、sorryAxなし）。初回はcache restore段階で停止したため、失敗ジョブを再実行して真正Leanを検証。[Qi v4.27 exact-source CI #41701233426](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41701233426)：**Strict Lean 10,199/10,199・Governance 30/30 SUCCESS**（7宣言、sorryAxなし）。source/test-merge/squash Git treeそれぞれ一致。Qi統合SHA `425430954483c288c14980aa4ffb2661549cdb28`。[正式証明記録](docs/formal/GK5BH-Qi-v4_27-polynomial-unit-threshold-collapse.md)。公開root107、保護PR #1558 Draft/OPEN、固定Lean/mathlib維持。
 
+## 2026-11-04 — GK5BI／Qi v4.28：非負な反転深さ係数と真正P77商の障害証拠
+
+[独立GK5BI #3052](https://github.com/itakura-hidetoshi/KuuOS/pull/3052)・[Qi v4.28 #3053](https://github.com/itakura-hidetoshi/KuuOS/pull/3053) は**MERGED**。GK5BGの真正P92B生成多項式 `P_f(X)∈ℤ[X]` に対し、反転深さ係数 `a_k(f)=coeff(P_f,k)` を定義し、全9構成子の帰納法から**各係数の非負性と有限support**を証明した。選択symmによる`a₀=0, a_(k+1)=a_k`の次数移動、transの加法、P93C全16／P94A全19構成子による係数保存、実際の元F55/P77四セル商への**Int値係数ごとのQuotient.lift**、係数族全体と多項式全体の同値も形式化。単一係数の不一致は選択P94A四セル不存在の証拠となる。
+
+真正北C60の**同一F54 long→short Hom**において、元pentagonのP77源商類は`a₀=1`、元double inverse＋真正F55右単位の源商類は`a₀=0`であり、型付き商類を厳密に分離する。別の真正北P92B endo-loop対は旧`N=3,S=1,W=10`が完全に一致しても、`P_A=X³+2`と`P_B=2X²+X`なので`a₀(A)=2≠0=a₀(B)`となり、P94A四セルが存在しない。これを元F55 original→phi seamの反例とは混同しない。**W=1は局所seamの必要条件に留まり、十分性は主張しない**。
+
+[独立GK5BI exact-source CI #41717206887](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41717206887)：**Strict Lean 9,274/9,274・Governance 30/30 SUCCESS**（新規17宣言、sorryAxなし）。[Qi v4.28 exact-source CI #41718379402](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41718379402)：**Strict Lean 10,201/10,201・Governance 30/30 SUCCESS**（新規13宣言、sorryAxなし）。各source/test-merge/squash Git tree一致、Qi統合main SHA `aaa04f5ad01fcc7d6adc81a9d520593ae2b43fa0`。[正式証明記録](docs/formal/GK5BI-Qi-v4_28-finite-depth-coefficient-obstructions.md)。strict 空／独立Kuu→Qi、元F54二Nat・二圏・Blocks／元F55 Type証拠、公開root107、固定Lean・mathlib、保護PR #1558 Draft／OPENを維持。Gray、元P89無条件反射、全域seamは未主張。
+
 **Copyright © 2026 Hidetoshi Itakura / 板倉英俊. Apache-2.0.**
