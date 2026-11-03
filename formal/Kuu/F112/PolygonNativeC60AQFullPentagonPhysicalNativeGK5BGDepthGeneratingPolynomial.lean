@@ -227,9 +227,11 @@ theorem NativeF55P92AssocComparison.gk5bgEval_one
     f.gk5bgDepthPolynomial.eval (1 : Int) =
       (f.gk5bbOriginalCount : Int) := by
   induction f with
-  | original old => rfl
-  | assocNaturality u v w => rfl
-  | refl r => rfl
+  | original old => change (1 : Polynomial Int).eval (1 : Int) = (1 : Int); simp
+  | assocNaturality u v w =>
+      change (0 : Polynomial Int).eval (1 : Int) = (0 : Int)
+      simp
+  | refl r => change (0 : Polynomial Int).eval (1 : Int) = (0 : Int); simp
   | symm f ih =>
       change (f.gk5bgDepthPolynomial * Polynomial.X).eval (1 : Int) =
         (f.gk5bbOriginalCount : Int)
@@ -250,9 +252,11 @@ theorem NativeF55P92AssocComparison.gk5bgEval_neg_one
     (f : NativeF55P92AssocComparison p r s) :
     f.gk5bgDepthPolynomial.eval (-1 : Int) = f.gk5beSignedCount := by
   induction f with
-  | original old => rfl
-  | assocNaturality u v w => rfl
-  | refl r => rfl
+  | original old => change (1 : Polynomial Int).eval (-1 : Int) = (1 : Int); simp
+  | assocNaturality u v w =>
+      change (0 : Polynomial Int).eval (-1 : Int) = (0 : Int)
+      simp
+  | refl r => change (0 : Polynomial Int).eval (-1 : Int) = (0 : Int); simp
   | symm f ih =>
       change (f.gk5bgDepthPolynomial * Polynomial.X).eval (-1 : Int) =
         - f.gk5beSignedCount
@@ -275,9 +279,11 @@ theorem NativeF55P92AssocComparison.gk5bgEval_two
     f.gk5bgDepthPolynomial.eval (2 : Int) =
       (f.gk5bfInverseDepthWeight : Int) := by
   induction f with
-  | original old => rfl
-  | assocNaturality u v w => rfl
-  | refl r => rfl
+  | original old => change (1 : Polynomial Int).eval (2 : Int) = (1 : Int); simp
+  | assocNaturality u v w =>
+      change (0 : Polynomial Int).eval (2 : Int) = (0 : Int)
+      simp
+  | refl r => change (0 : Polynomial Int).eval (2 : Int) = (0 : Int); simp
   | symm f ih =>
       change (f.gk5bgDepthPolynomial * Polynomial.X).eval (2 : Int) =
         ((2 * f.gk5bfInverseDepthWeight : Nat) : Int)
@@ -398,8 +404,10 @@ theorem nativeGK5BGNorthPrimitive_ne_doubleInverse_poly_class :
         nativeGK5BFNorthDoubleInverse) := by
   intro h
   have hw := congrArg (Polynomial.eval (2 : Int)) h
-  change (1 : Int) = 4 at hw
-  omega
+  simp only [nativeGK5BGPolyOnP77Class_mk,
+    nativeGK5BGNorthPrimitive_phi_poly,
+    nativeGK5BGNorthDoubleInverse_phi_poly] at hw
+  norm_num at hw
 
 /-- This polynomial obstruction recovers the double-inverse
 negative local-seam class without needing an assumed P94A
@@ -409,8 +417,8 @@ theorem nativeGK5BGNorthDoubleInverse_no_seam :
   apply nativeGK5BGNoSeam_if_poly_ne_one
   intro h
   have hw := congrArg (Polynomial.eval (2 : Int)) h
-  change (4 : Int) = 1 at hw
-  omega
+  rw [nativeGK5BGNorthDoubleInverse_phi_poly] at hw
+  norm_num at hw
 
 /-- A true original P92B endomorphism-loop primitive is used
 only to test completeness of the three scalar observations,
@@ -451,10 +459,11 @@ theorem nativeGK5BGTriple_polynomials
   · change (((1 : Polynomial Int) * Polynomial.X * Polynomial.X *
       Polynomial.X) + (1 + 1) = Polynomial.X ^ 3 + 2
     ring
-  · change (((1 : Polynomial Int) * Polynomial.X * Polynomial.X) +
-      (((1 : Polynomial Int) * Polynomial.X * Polynomial.X) +
-        ((1 : Polynomial Int) * Polynomial.X))) =
-      2 * Polynomial.X ^ 2 + Polynomial.X
+  · change
+      (1 : Polynomial Int) * Polynomial.X * Polynomial.X +
+        ((1 : Polynomial Int) * Polynomial.X * Polynomial.X +
+          (1 : Polynomial Int) * Polynomial.X) =
+        2 * Polynomial.X ^ 2 + Polynomial.X
     ring
 
 /-- The three old observations cannot distinguish these two
