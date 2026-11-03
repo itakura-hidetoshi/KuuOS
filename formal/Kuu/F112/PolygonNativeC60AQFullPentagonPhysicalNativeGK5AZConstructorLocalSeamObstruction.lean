@@ -329,6 +329,308 @@ def nativeGK5AZAssemblePointwise
     NativeGK5AYOriginalPhiSeam first last :=
   ⟨fun f => all f⟩
 
+
+/-- Every genuine original pentagon atom, not merely the north
+example, has a definitional raw-original to phi bridge. -/
+def nativeGK5AZPentagonAtom
+    {n₁ n₂ n₃ n₄ m₁ m₂ m₃ m₄ : Nat}
+    {p₀ p₁ p₂ p₃ p₄ : KuuNativeBlocks a b}
+    {q₀ q₁ q₂ q₃ q₄ : KuuNativeBlocks x y}
+    (t₁ : KuuNativeF45Tree p n₁ m₁ p₀ q₀ p₁ q₁)
+    (t₂ : KuuNativeF45Tree p n₂ m₂ p₁ q₁ p₂ q₂)
+    (t₃ : KuuNativeF45Tree p n₃ m₃ p₂ q₂ p₃ q₃)
+    (t₄ : KuuNativeF45Tree p n₄ m₄ p₃ q₃ p₄ q₄) :
+    nativeGK5AZSeamAt
+      (KuuNativeF45Tree.DepthRotationRoute.PresentedCell.pentagon
+        t₁ t₂ t₃ t₄) :=
+  .refl _
+
+/-- Every ORIGINAL disjoint rotation square atom has a real
+reflexive seam before P92B quotienting, in all physical sectors. -/
+def nativeGK5AZDisjointSquareAtom
+    {n₀ m₀ n₁ m₁ : Nat}
+    {p₀ p₁ p₂ : KuuNativeBlocks a b}
+    {q₀ q₁ q₂ : KuuNativeBlocks x y}
+    {leftBefore leftAfter :
+      KuuNativeF45Tree p n₀ m₀ p₀ q₀ p₁ q₁}
+    {rightBefore rightAfter :
+      KuuNativeF45Tree p n₁ m₁ p₁ q₁ p₂ q₂}
+    (left : KuuNativeF45Tree.LocalRotation p leftBefore leftAfter)
+    (right : KuuNativeF45Tree.LocalRotation p rightBefore rightAfter) :
+    nativeGK5AZSeamAt
+      (KuuNativeF45Tree.DepthRotationRoute.PresentedCell.disjointSquare
+        left right) :=
+  .refl _
+
+/-- Unlike the two atomic generators, the ORIGINAL F55
+identity wrapper and selected P92B refl are not equal as raw
+Type-valued inductive proof constructors for ANY original route.
+This proves no nonexistence of a connecting higher 4-cell. -/
+theorem nativeGK5AZIdent_raw_ne_phi
+    (route : KuuNativeF45Tree.DepthRotationRoute p first last) :
+    (NativeF55P92AssocComparison.original
+      (KuuNativeF45Tree.DepthRotationRoute.PresentedCell.ident route)) ≠
+      nativeGK5AIOriginalToP92Structural
+        (KuuNativeF45Tree.DepthRotationRoute.PresentedCell.ident route) := by
+  intro h
+  cases h
+
+/-- The ident constructor has a precise independent raw-to-refl
+higher 4-cell gate. It is NOT derivable from raw witness equality:
+the latter is refuted by the theorem above. -/
+def nativeGK5AZIdent_of_gate
+    (route : KuuNativeF45Tree.DepthRotationRoute p first last)
+    (rawToRefl : NativeF55P94UnitFourCell
+      (NativeF55P92AssocComparison.original
+        (KuuNativeF45Tree.DepthRotationRoute.PresentedCell.ident route))
+      (NativeF55P92AssocComparison.refl route)) :
+    nativeGK5AZSeamAt
+      (KuuNativeF45Tree.DepthRotationRoute.PresentedCell.ident route) :=
+  rawToRefl
+
+/-- The selected P94A left-context unit supplies an EXTRA
+higher reduction, after the two independent local original
+ident and context-shell gates have been explicitly given. -/
+def nativeGK5AZLeftContextIdentity_normalize
+    (route : KuuNativeF45Tree.DepthRotationRoute p first last)
+    {k l : Nat}
+    {mc : KuuNativeBlocks a b} {pc : KuuNativeBlocks x y}
+    (later : KuuNativeF45Tree p k l mb pb mc pc)
+    (identBridge : nativeGK5AZSeamAt
+      (KuuNativeF45Tree.DepthRotationRoute.PresentedCell.ident route))
+    (unwrap : NativeF55P94UnitFourCell
+      (NativeF55P92AssocComparison.original
+        (.leftContext
+          (KuuNativeF45Tree.DepthRotationRoute.PresentedCell.ident route)
+          later))
+      (.leftContext
+        (NativeF55P92AssocComparison.original
+          (KuuNativeF45Tree.DepthRotationRoute.PresentedCell.ident route))
+        later)) :
+    NativeF55P94UnitFourCell
+      (NativeF55P92AssocComparison.original
+        (.leftContext
+          (KuuNativeF45Tree.DepthRotationRoute.PresentedCell.ident route)
+          later))
+      (NativeF55P92AssocComparison.refl
+        (.leftContext route later)) :=
+  .trans
+    (nativeGK5AZLeftContext_of_shell
+      (.ident route) later unwrap identBridge)
+    (.leftContextUnit route later)
+
+/-- Dual right-context selected unit, retaining the explicit
+original identity seam and outer raw unwrapping gate. -/
+def nativeGK5AZRightContextIdentity_normalize
+    (route : KuuNativeF45Tree.DepthRotationRoute p first last)
+    {k l : Nat}
+    {mc : KuuNativeBlocks a b} {pc : KuuNativeBlocks x y}
+    (earlier : KuuNativeF45Tree p k l mc pc ma pa)
+    (identBridge : nativeGK5AZSeamAt
+      (KuuNativeF45Tree.DepthRotationRoute.PresentedCell.ident route))
+    (unwrap : NativeF55P94UnitFourCell
+      (NativeF55P92AssocComparison.original
+        (.rightContext earlier
+          (KuuNativeF45Tree.DepthRotationRoute.PresentedCell.ident route)))
+      (.rightContext earlier
+        (NativeF55P92AssocComparison.original
+          (KuuNativeF45Tree.DepthRotationRoute.PresentedCell.ident route)))) :
+    NativeF55P94UnitFourCell
+      (NativeF55P92AssocComparison.original
+        (.rightContext earlier
+          (KuuNativeF45Tree.DepthRotationRoute.PresentedCell.ident route)))
+      (NativeF55P92AssocComparison.refl
+        (.rightContext earlier route)) :=
+  .trans
+    (nativeGK5AZRightContext_of_shell
+      earlier (.ident route) unwrap identBridge)
+    (.rightContextUnit earlier route)
+
+/-- Original-context LEFT reflection obstruction localized with
+only the two local endpoint seams and one real raw P93C witness.
+The context itself does not manufacture a P89 4-cell. -/
+theorem nativeGK5AZLeftContext_raw_bad_localizes
+    {r s : KuuNativeF45Tree.DepthRotationRoute p first last}
+    {f g : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p r s}
+    {k l : Nat}
+    {mc : KuuNativeBlocks a b} {pc : KuuNativeBlocks x y}
+    (later : KuuNativeF45Tree p k l mb pb mc pc)
+    (bf : nativeGK5AZSeamAt f)
+    (bg : nativeGK5AZSeamAt g)
+    (raw : NativeF55P93AssocFourCell
+      (NativeF55P92AssocComparison.original f)
+      (NativeF55P92AssocComparison.original g))
+    (parentBad : nativeGK5AQBadPair
+      (KuuNativeF45Tree.node first later)
+      (KuuNativeF45Tree.node last later)
+      (.leftContext f later) (.leftContext g later)) :
+    nativeGK5AQBadPair first last f g :=
+  nativeGK5AWLeftContext_bad_localizes later
+    (nativeGK5AZRawP93_to_phi bf bg raw) parentBad
+
+/-- Original-context RIGHT reflection obstruction localized
+without a global seam and without identifying independent Blocks. -/
+theorem nativeGK5AZRightContext_raw_bad_localizes
+    {r s : KuuNativeF45Tree.DepthRotationRoute p first last}
+    {f g : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p r s}
+    {k l : Nat}
+    {mc : KuuNativeBlocks a b} {pc : KuuNativeBlocks x y}
+    (earlier : KuuNativeF45Tree p k l mc pc ma pa)
+    (bf : nativeGK5AZSeamAt f)
+    (bg : nativeGK5AZSeamAt g)
+    (raw : NativeF55P93AssocFourCell
+      (NativeF55P92AssocComparison.original f)
+      (NativeF55P92AssocComparison.original g))
+    (parentBad : nativeGK5AQBadPair
+      (KuuNativeF45Tree.node earlier first)
+      (KuuNativeF45Tree.node earlier last)
+      (.rightContext earlier f) (.rightContext earlier g)) :
+    nativeGK5AQBadPair first last f g :=
+  nativeGK5AWRightContext_bad_localizes earlier
+    (nativeGK5AZRawP93_to_phi bf bg raw) parentBad
+
+/-- Source-typed F54 precomposition with actual old raw P93C
+comparison, local seams and the GK5AW source gate. -/
+theorem nativeGK5AZPrecompose_raw_bad_localizes
+    {r s : KuuNativeF45Tree.DepthRotationRoute p first last}
+    {f g : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p r s}
+    {k l : Nat}
+    (before : KuuNativeF45Tree p k l ma pa mb pb)
+    (prior : KuuNativeF45Tree.DepthRotationRoute p before first)
+    (bf : nativeGK5AZSeamAt f)
+    (bg : nativeGK5AZSeamAt g)
+    (raw : NativeF55P93AssocFourCell
+      (NativeF55P92AssocComparison.original f)
+      (NativeF55P92AssocComparison.original g))
+    (parentBad : nativeGK5AQBadPair before last
+      (.precompose prior f) (.precompose prior g)) :
+    nativeGK5AQBadPair first last f g :=
+  nativeGK5AWPrecompose_bad_localizes before prior
+    (nativeGK5AZRawP93_to_phi bf bg raw) parentBad
+
+/-- Source-typed F54 postcomposition transfers a parent bad
+pair to an actual original subcomparison with only local seams. -/
+theorem nativeGK5AZPostcompose_raw_bad_localizes
+    {r s : KuuNativeF45Tree.DepthRotationRoute p first last}
+    {f g : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p r s}
+    {k l : Nat}
+    (after : KuuNativeF45Tree p k l ma pa mb pb)
+    (suffix : KuuNativeF45Tree.DepthRotationRoute p last after)
+    (bf : nativeGK5AZSeamAt f)
+    (bg : nativeGK5AZSeamAt g)
+    (raw : NativeF55P93AssocFourCell
+      (NativeF55P92AssocComparison.original f)
+      (NativeF55P92AssocComparison.original g))
+    (parentBad : nativeGK5AQBadPair first after
+      (.postcompose f suffix) (.postcompose g suffix)) :
+    nativeGK5AQBadPair first last f g :=
+  nativeGK5AWPostcompose_bad_localizes after suffix
+    (nativeGK5AZRawP93_to_phi bf bg raw) parentBad
+
+/-- The genuine original horizontal LEFT context with original
+F55 right input also localizes any selected BadPair using only
+the two local raw-phi seam endpoints. -/
+theorem nativeGK5AZHorizontalLeft_raw_bad_localizes
+    {r s : KuuNativeF45Tree.DepthRotationRoute p first last}
+    {f g : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p r s}
+    {k k' l l' : Nat}
+    {mc : KuuNativeBlocks a b} {pc : KuuNativeBlocks x y}
+    {rightBefore : KuuNativeF45Tree p k l mb pb mc pc}
+    {rightAfter : KuuNativeF45Tree p k' l' mb pb mc pc}
+    {u v : KuuNativeF45Tree.DepthRotationRoute p rightBefore rightAfter}
+    (other : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p u v)
+    (bf : nativeGK5AZSeamAt f)
+    (bg : nativeGK5AZSeamAt g)
+    (raw : NativeF55P93AssocFourCell
+      (NativeF55P92AssocComparison.original f)
+      (NativeF55P92AssocComparison.original g))
+    (parentBad : nativeGK5AQBadPair
+      (KuuNativeF45Tree.node first rightBefore)
+      (KuuNativeF45Tree.node last rightAfter)
+      (f.horizontal other) (g.horizontal other)) :
+    nativeGK5AQBadPair first last f g :=
+  nativeGK5AWHorizontalLeft_bad_localizes other
+    (nativeGK5AZRawP93_to_phi bf bg raw) parentBad
+
+/-- The genuine original horizontal RIGHT context is source-
+typed; no shadow or selected source without an F55 preimage is used. -/
+theorem nativeGK5AZHorizontalRight_raw_bad_localizes
+    {k k' l l' : Nat}
+    {mc : KuuNativeBlocks a b} {pc : KuuNativeBlocks x y}
+    {rightBefore : KuuNativeF45Tree p k l mb pb mc pc}
+    {rightAfter : KuuNativeF45Tree p k' l' mb pb mc pc}
+    {u v : KuuNativeF45Tree.DepthRotationRoute p rightBefore rightAfter}
+    {f g : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p u v}
+    {r s : KuuNativeF45Tree.DepthRotationRoute p first last}
+    (other : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p r s)
+    (bf : nativeGK5AZSeamAt f)
+    (bg : nativeGK5AZSeamAt g)
+    (raw : NativeF55P93AssocFourCell
+      (NativeF55P92AssocComparison.original f)
+      (NativeF55P92AssocComparison.original g))
+    (parentBad : nativeGK5AQBadPair
+      (KuuNativeF45Tree.node first rightBefore)
+      (KuuNativeF45Tree.node last rightAfter)
+      (other.horizontal f) (other.horizontal g)) :
+    nativeGK5AQBadPair rightBefore rightAfter f g :=
+  nativeGK5AWHorizontalRight_bad_localizes other
+    (nativeGK5AZRawP93_to_phi bf bg raw) parentBad
+
+/-- Exact raw original left unit from three separately named
+sources of proof: F55 ident seam, raw trans shell, and seam of f.
+The chosen vertical primitive supplies the remaining 4-cell. -/
+def nativeGK5AZRawLeftUnit_from_local_gates
+    {r s : KuuNativeF45Tree.DepthRotationRoute p first last}
+    (f : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p r s)
+    (identBridge : nativeGK5AZSeamAt
+      (KuuNativeF45Tree.DepthRotationRoute.PresentedCell.ident r))
+    (fBridge : nativeGK5AZSeamAt f)
+    (unwrap : NativeF55P94UnitFourCell
+      (NativeF55P92AssocComparison.original (.trans (.ident r) f))
+      (.trans
+        (NativeF55P92AssocComparison.original (.ident r))
+        (NativeF55P92AssocComparison.original f))) :
+    NativeF55P94UnitFourCell
+      (NativeF55P92AssocComparison.original (.trans (.ident r) f))
+      (NativeF55P92AssocComparison.original f) :=
+  nativeGK5AZRawLeftVerticalUnit f
+    (nativeGK5AZTrans_of_shell (.ident r) f unwrap identBridge fBridge)
+    fBridge
+
+/-- Exact raw original right unit from the symmetric local
+identity seam at the F54 target route and a raw trans shell. -/
+def nativeGK5AZRawRightUnit_from_local_gates
+    {r s : KuuNativeF45Tree.DepthRotationRoute p first last}
+    (f : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p r s)
+    (fBridge : nativeGK5AZSeamAt f)
+    (identBridge : nativeGK5AZSeamAt
+      (KuuNativeF45Tree.DepthRotationRoute.PresentedCell.ident s))
+    (unwrap : NativeF55P94UnitFourCell
+      (NativeF55P92AssocComparison.original (.trans f (.ident s)))
+      (.trans
+        (NativeF55P92AssocComparison.original f)
+        (NativeF55P92AssocComparison.original (.ident s)))) :
+    NativeF55P94UnitFourCell
+      (NativeF55P92AssocComparison.original (.trans f (.ident s)))
+      (NativeF55P92AssocComparison.original f) :=
+  nativeGK5AZRawRightVerticalUnit f
+    (nativeGK5AZTrans_of_shell f (.ident s) unwrap fBridge identBridge)
+    fBridge
+
+#print axioms nativeGK5AZPentagonAtom
+#print axioms nativeGK5AZDisjointSquareAtom
+#print axioms nativeGK5AZIdent_raw_ne_phi
+#print axioms nativeGK5AZIdent_of_gate
+#print axioms nativeGK5AZLeftContextIdentity_normalize
+#print axioms nativeGK5AZRightContextIdentity_normalize
+#print axioms nativeGK5AZLeftContext_raw_bad_localizes
+#print axioms nativeGK5AZRightContext_raw_bad_localizes
+#print axioms nativeGK5AZPrecompose_raw_bad_localizes
+#print axioms nativeGK5AZPostcompose_raw_bad_localizes
+#print axioms nativeGK5AZHorizontalLeft_raw_bad_localizes
+#print axioms nativeGK5AZHorizontalRight_raw_bad_localizes
+#print axioms nativeGK5AZRawLeftUnit_from_local_gates
+#print axioms nativeGK5AZRawRightUnit_from_local_gates
 #print axioms nativeGK5AZNorthPentagonAtom
 #print axioms nativeGK5AZNorthDisjointSquareAtom
 #print axioms nativeGK5AZSymm_of_two_gates
