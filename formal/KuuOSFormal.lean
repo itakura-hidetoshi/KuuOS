@@ -507,6 +507,7 @@ import Kuu.F112.PolygonNativeC60AQFullPentagonPhysicalNativeGK5BCLocalUnitSeamWi
 import KUOS.Architecture.QiWuxingGK5BCNorthDirectLocalSeamV4_22
 import Kuu.F112.PolygonNativeC60AQFullPentagonPhysicalNativeGK5BDP77ClassLocalSeamDescent
 import KUOS.Architecture.QiWuxingGK5BDNorthP77LocalSeamDescentV4_23
+import Kuu.F112.PolygonNativeC60AQFullPentagonPhysicalNativeGK5BESignedOriginalGradeObstruction
 
 /-!
 Public aggregate: retain every previously published proof and its original
