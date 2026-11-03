@@ -3,6 +3,22 @@
 
 
 
+## GK5AS／Qi v4.12 完了 — 元P89→P94A局所反射鎖と選択偶奇0の厳密な非降下境界／2026-11-03 JST
+
+**独立Kuu [GK5AS PR #3004](https://github.com/itakura-hidetoshi/KuuOS/pull/3004) MERGED。** GK5AQの元P89→P94A真正非反射`BadPair`とGK5ARの全19構成子左右文脈単位偶奇正規形を継承。元F55真正Type値付き3-proofを中間節点として明示的に保持し、隣接する`φ`像の間のP94A真正四セル証拠を持つ**有限source-vertex比較鎖**を構成。鎖全体が元P89四セルに反射できるか、少なくとも1箇所で**P94A比較は存在するが元P89比較がない局所障害**を含むことをLean4の帰納法で証明。局所障害が無い鎖は元P89に反射し、GK5AQ非反射ペアを端点とする任意の**与えられた**鎖は局所障害を含む。全source-vertex鎖の局所障害不存在 iff 元P89→選択P94A商写像の単射性を形式化。ただし、任意のP94A内部証拠が元F55節点列へ分解可能とは主張しない。
+
+**選択偶奇0の厳密な非降下：** 真正北C60第1〜第3 F45段の元F55に存在しない新しいP92B `assocNaturality`に、P94Aの反射的4セルは実在。選択P94Aの同端点間すべての四セルの左右文脈単位回数はGK5ARにより`(0,0) mod 2`。それでも元F55の当該証拠型は空。**偶奇0は元F55証拠復元・source descentに十分でない**ことを直接形式化。これは元P89→P94A非単射の証拠ではない（元F55の二つの原始証拠が存在しない）。
+
+**Qi [v4.12 PR #3005](https://github.com/itakura-hidetoshi/KuuOS/pull/3005) MERGED。** 同じ真正北C60四段pentagon長短元F54経路へGK5ASの局所鎖反射を適用し、新しい北三段`assocNaturality`の偶奇0・元F55証拠非存在と併存。Qi v4.10の**条件付き**物理商非単射性iff非反射ペア、実Dart第五around閉路、物理・カテゴリー向きが逆の04/43、GK5AN無条件P89構造移送、Qi v4.11三単位最小性・偶奇を一切弱めず継承。strict 空中心／独立Kuu→Qi。
+
+**CI／証明正本：** GK5AS final HEAD `3f6ca612ac7bffb73533f8aee5b0d2a8105c3862`、squash `9059c792ad36767a1a93501b8262ab3e5f458be5`、[Governance #41562024529](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41562024529) **Strict Lean 9242/9242 SUCCESS／30/30 SUCCESS**、公理出力9件全許容。Qi v4.12 final HEAD `11b7e68d232ee3a5420f020933cd76c4e4f88de6`、squash `5553d82ad232346db7b677d6c568a3e7e1539f5d`、[Governance #41562639289](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41562639289) **Strict Lean 10169/10169 SUCCESS／30/30 SUCCESS**、公理出力4件全許容。追加公理・sorryAx・Leanエラー0、既存P89/P93/P94A変更なし、公開root107維持、Lean v4.30.0-rc2／固定mathlib／保護PR #1558 Draft/open。
+
+**[正式証明記録](docs/formal/GK5AS-Qi-v4_12-source-vertex-localization-zero-grade-no-descent.md)** · [GK5AS Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5ASSourceVertexObstructionLocalization.lean) · [Qi v4.12 Lean](formal/KUOS/Architecture/QiWuxingGK5ASNorthSourceVertexNoDescentV4_12.lean)。
+
+**次：F112-P94D3GK5AT（仮称）。** P94A四セル証明の**内部**3-cell中間履歴が元F55の`φ`像に属するための型付き条件を各構成子で評価し、source-saturatedな比較正規化の十分条件か、元P89→P94Aの真正な非反射ペアを構成する。GK5ASの外部source-vertex鎖と、任意のP94A四セル証明内部を同一視しない。無条件injectivity／noninjectivity未主張。
+
+---
+
 ## GK5AR／Qi v4.11 完了 — P94A文脈生成元回数の厳密偶奇正規形と真正北C60反射境界併存／2026-11-03 JST
 
 **独立Kuu [GK5AR #3001](https://github.com/itakura-hidetoshi/KuuOS/pull/3001) MERGED。** GK5AO/GK5APで三原始単位の個別必要性を証明した後、GK5AQで元P89→選択P94A商の真正非反射ペアの条件を厳密化。GK5ARは選択P94Aの**全19構成子**に対する真正Type値付き4-cell証拠について、`gk5apLeftUnitCount / gk5apRightUnitCount`の自然数回数を既存の左右P92B `ZMod 2`不変量と厳密に結んだ：
