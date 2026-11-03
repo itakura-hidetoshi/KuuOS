@@ -404,10 +404,11 @@ theorem nativeGK5BGNorthPrimitive_ne_doubleInverse_poly_class :
         nativeGK5BFNorthDoubleInverse) := by
   intro h
   have hw := congrArg (Polynomial.eval (2 : Int)) h
-  simp only [nativeGK5BGPolyOnP77Class_mk,
-    nativeGK5BGNorthPrimitive_phi_poly,
-    nativeGK5BGNorthDoubleInverse_phi_poly] at hw
-  norm_num at hw
+  simp only [nativeGK5BGPolyOnP77Class_mk] at hw
+  rw [NativeF55P92AssocComparison.gk5bgEval_two,
+    NativeF55P92AssocComparison.gk5bgEval_two] at hw
+  change (1 : Int) = 4 at hw
+  omega
 
 /-- This polynomial obstruction recovers the double-inverse
 negative local-seam class without needing an assumed P94A
@@ -456,14 +457,11 @@ theorem nativeGK5BGTriple_polynomials
     (nativeGK5BGTripleRight r).gk5bgDepthPolynomial =
       2 * (Polynomial.X : Polynomial Int) ^ 2 + Polynomial.X := by
   constructor
-  · change (((1 : Polynomial Int) * Polynomial.X * Polynomial.X *
-      Polynomial.X) + (1 + 1) = Polynomial.X ^ 3 + 2
+  · dsimp [nativeGK5BGTripleLeft, nativeGK5BGLoop,
+      NativeF55P92AssocComparison.gk5bgDepthPolynomial]
     ring
-  · change
-      (1 : Polynomial Int) * Polynomial.X * Polynomial.X +
-        ((1 : Polynomial Int) * Polynomial.X * Polynomial.X +
-          (1 : Polynomial Int) * Polynomial.X) =
-        2 * Polynomial.X ^ 2 + Polynomial.X
+  · dsimp [nativeGK5BGTripleRight, nativeGK5BGLoop,
+      NativeF55P92AssocComparison.gk5bgDepthPolynomial]
     ring
 
 /-- The three old observations cannot distinguish these two
