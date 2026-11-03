@@ -1717,4 +1717,12 @@ lake build KuuOSFormal # warningAsErrorはlakefile.toml既定。sorryAxは#print
 - 公開root107・固定Lean v4.30.0-rc2／mathlib 5450b53e5...・保護PR #1558 Draft／OPENを維持。独立Kuu→Qi、元F54双Nat・二圏・Blocks・Type証明を保存。詳細 [正式証明記録](docs/formal/GK5BE-Qi-v4_24-signed-original-grade-seam-obstruction.md)。
 - **次GK5BF（仮称）**：局所seamの二つの必要条件 `N(φ f)=1`かつ`S(φ f)=1` をP77商上でさらに調べ、数値条件が同時に成立しても依然比較不能なsource-classを分類。元P89 BadPair・内部source-image obstructionと混同しない。同時条件の全域十分性、GK5AY全域、GK5BA shell kit、全P94A正規化、Grayを先取りしない。
 
+## 2026-11-03：GK5BF／Qi v4.25 — 反転深さ重みと同一F54 Homの正負局所seam
+
+- [独立Kuu GK5BF #3043](https://github.com/itakura-hidetoshi/KuuOS/pull/3043) **MERGED**。exact-source HEAD 6046c54269e14e4b2b178fb65e748e260d201943、test-merge be846bc7b542d59f26f54aa243d7e649f2675293、main squash d5ced0fc31a306b02b58823e034783c27392b599。三者Git tree 474826129810b64cdc11012d23a459c85e741f14 一致。[Strict Lean／Governance #41631574051](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41631574051) **9,268/9,268・30/30 SUCCESS**、24宣言sorryAxなし。P92B original-wrapperの選択symm深さに応じたNat重みW(original)=1、W(symm u)=2W(u)、W(trans u v)=W(u)+W(v)を実装、P93C全16／P94A全19構成子で保存。
+- [Qi v4.25 #3044](https://github.com/itakura-hidetoshi/KuuOS/pull/3044) **MERGED**。exact-source HEAD 50141de1dd3cb9b54a7b7237b4e3a097e793bf39、test-merge cf02ba1c3c81c7c08a79afd4731eeec200f5a310、main squash 84d547945860831c16a326c4e0897a4fd269f60f。三者Git tree 0ee10d7560b6e51cc047132437c063cbe089f0ea 一致。[Strict Lean／Governance #41632314737](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41632314737) **10,195/10,195・30/30 SUCCESS**、11宣言sorryAxなし。
+- **核心数学：** 真正北C60の元pentagon pと二重反転symm(symm p)は同一F54 long→short Hom。両者N(phi)=S(phi)=1だが重みW(phi)は1対4。元pのseamは存在し、元二重反転のseamは不存在。P77商類も不等であり、元二重反転の右identity拡張は真正P77四セル語で同じ負クラスに属する。弱い数値二条件は商上に降下するが十分でなく、三条件N=S=W=1は必要である。各source型の区別を保持し、元P89 BadPairは別の条件として保存。
+- 正式証明記録：[GK5BF／Qi v4.25](docs/formal/GK5BF-Qi-v4_25-double-inversion-weight-local-seam.md)。独立Kuu→Qi、公開root107、保護PR #1558 Draft/OPEN、Lean v4.30.0-rc2／mathlib 5450b53e5...を維持。
+- **次GK5BG（仮称）：** 反転深さ分布の生成多項式P_f(X)=Σ a_k X^kを検討し、N=P(1)、S=P(-1)、W=P(2)を同時に説明できる高次不変量として全P94A構成子の保存、P77商の降下を段階的に検証。P94A全域正規化、N=S=W=1の十分性、GK5AY seam、GK5BA kit、元P89無条件faithfulness、Grayは未主張。
+
 **Copyright © 2026 Hidetoshi Itakura / 板倉英俊. Apache-2.0.**

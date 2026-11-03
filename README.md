@@ -1716,4 +1716,10 @@ AI推論runtimeの方向は **観測 → 文脈・複数presentation → 輸送�
 
 [GK5BE exact-source CI #41628425569](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41628425569)：**9,266/9,266 Strict Lean・30/30 Governance SUCCESS**、16宣言`sorryAx`なし。[Qi v4.24 exact-source CI #41629270434](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41629270434)：**10,193/10,193 Strict Lean・30/30 Governance SUCCESS**、10宣言`sorryAx`なし。source/test-merge/squash Git tree双方一致。Qi統合main SHA `ac37cf01c86db07a58717cf087cea3562b0215a0`。[正式証明記録](docs/formal/GK5BE-Qi-v4_24-signed-original-grade-seam-obstruction.md)参照。全域GK5AY、GK5BA kit、元P89無条件反射、Grayは主張しない。公開root107、Lean/mathlib pin、保護PR #1558 Draft/OPENを維持。
 
+## 2026-11-03 — GK5BF／Qi v4.25：二重反転の同一F54 Hom内seam障害
+
+[独立GK5BF #3043](https://github.com/itakura-hidetoshi/KuuOS/pull/3043) と [Qi v4.25 #3044](https://github.com/itakura-hidetoshi/KuuOS/pull/3044) は**MERGED**。独立KuuではP92Bのoriginal-wrapperに反転深さkごとの重み2^kを与える自然数不変量Wを構成し、P93C全16／P94A全19構成子で保存を証明。真正北C60では元pentagon pと元F55二重反転c=symm(symm p)が**同じF54 long→short Hom**に属し、N(φ)=1、S(φ)=1が双方で成立するにもかかわらず、W(φ(p))=1、W(φ(c))=4となる。pの局所seamは存在しcの局所seamは不存在。従って**N=S=1は十分条件ではない**。Qi v4.25はcの真正元F55右単位挿入をP77有限語で結び、二条件が同時に真でも正／負P77商クラスが異なることを定理化。
+
+[GK5BF exact-source CI #41631574051](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41631574051) **Strict Lean 9,268/9,268・Governance 30/30 SUCCESS**（24宣言sorryAxなし）。[Qi v4.25 exact-source CI #41632314737](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41632314737) **Strict Lean 10,195/10,195・Governance 30/30 SUCCESS**（11宣言sorryAxなし）。それぞれsource/test-merge/squashのGit tree一致。Qi統合main SHA 84d547945860831c16a326c4e0897a4fd269f60f。[正式証明記録](docs/formal/GK5BF-Qi-v4_25-double-inversion-weight-local-seam.md)。三条件N=S=W=1の一般十分性、GK5AY全域seam、GK5BA kit、元P89の無条件反射・Gray復元は主張しない。独立Kuu→Qi、公開root107、固定Lean/mathlib、保護PR #1558 Draft/OPEN維持。
+
 **Copyright © 2026 Hidetoshi Itakura / 板倉英俊. Apache-2.0.**
