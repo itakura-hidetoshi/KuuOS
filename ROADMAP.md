@@ -1725,4 +1725,12 @@ lake build KuuOSFormal # warningAsErrorはlakefile.toml既定。sorryAxは#print
 - 正式証明記録：[GK5BF／Qi v4.25](docs/formal/GK5BF-Qi-v4_25-double-inversion-weight-local-seam.md)。独立Kuu→Qi、公開root107、保護PR #1558 Draft/OPEN、Lean v4.30.0-rc2／mathlib 5450b53e5...を維持。
 - **次GK5BG（仮称）：** 反転深さ分布の生成多項式P_f(X)=Σ a_k X^kを検討し、N=P(1)、S=P(-1)、W=P(2)を同時に説明できる高次不変量として全P94A構成子の保存、P77商の降下を段階的に検証。P94A全域正規化、N=S=W=1の十分性、GK5AY seam、GK5BA kit、元P89無条件faithfulness、Grayは未主張。
 
+## 2026-11-03：GK5BG／Qi v4.26 — 全反転深さ生成多項式のP94A保存と実P77商への値降下
+
+- [独立Kuu GK5BG定理PR #3046](https://github.com/itakura-hidetoshi/KuuOS/pull/3046) **MERGED**。exact-source HEAD `e0c56fa7aa15bdf45fde386a30e7b2ef90bb00d2`、test-merge `d811982df1f64c8ffaded953ad31616b4f8da7bd`、squash `95311d1dd48ca4f74ab1daf53d81baf1c47a2ad2`、共通Git tree `5287de584b97c7fc36cdbcd1147d5d0adabb0af5`。[CI #41636095545](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41636095545) **Strict Lean 9,270/9,270・Governance 30/30 SUCCESS**、25公理監査sorryAxなし。元P92B original数の全反転深さ分布を`P:Polynomial Int`として再構築、全P93C16／P94A19四セル構成子で保存、`P(1)=N`・`P(-1)=S`・`P(2)=W`をMathlib Polynomial.evalで形式化。元P77の真正四セル証拠を使って、P(phi)の**Polynomial Int値そのもの**を元F55 P77商へQuotient.lift。
+- [Qi v4.26 PR #3047](https://github.com/itakura-hidetoshi/KuuOS/pull/3047) **MERGED**。exact-source HEAD `b1e0c9933121e48c45ff6f0adfc3bad50044962e`、test-merge `9a1f1f04f1a749d77005280c8a422f95a2fc9625`、squash `f2c7dd7064b801fb5954c0c4b2026b7362c903dc`、共通Git tree `ad2be874c3f4b16059f6c1edb91ce5ff4855be8a`。[CI #41637182427](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41637182427) **10,197/10,197・30/30 SUCCESS**、12公理監査sorryAxなし。真正北C60の同一F54 Homのpentagon positive P77商多項式1と二重反転＋右identity negative多項式X²の分離、元P77四セル輸送、選択P92B短経路上の原始元identity由来ループ2証拠`X³+2`・`2X²+X`の三数値(3,1,10)一致と全P94A四セル不存在を形式化。
+- **authority境界**：P(phi)=1は局所original→phi seam存在の必要条件だが十分性は未証明。選択P92B endomorphism 3-cell証拠の三数値一致／多項式不一致は元F55 original→phi local seamの反例と混同しない。元P89 source-image/BadPair反射は独立条件、物理五行Dart closureとの同一視なし。全域GK5AY seam・GK5BA kit・P94A無条件正規化・Gray復元を主張しない。
+- [GK5BG／Qi v4.26正式証明記録](docs/formal/GK5BG-Qi-v4_26-full-inversion-depth-polynomial.md)。独立Kuu→Qi、strict 空 authority、元F54双Nat／二圏／Blocks、公開root107、固定Lean v4.30.0-rc2／mathlib 5450b53e5...、保護PR #1558 Draft/OPENを維持。
+- **次GK5BH（仮称）**：生成多項式の全係数を非負な反転深さ分布として形式化、元P77商上の係数別obstruction／次数や支えを研究し、三点評価では同値なP92B証拠の分離を一般化する。P(phi)=1必要条件の十分性や高次gluingを先取りしない。
+
 **Copyright © 2026 Hidetoshi Itakura / 板倉英俊. Apache-2.0.**
