@@ -44,7 +44,7 @@
 
 ## 5. Qi v4.20（実装段階）
 
-[Qi v4.20 PR #3029](https://github.com/itakura-hidetoshi/KuuOS/pull/3029) はこの初期記録作成時点ではexact-source CI検証待ちであり、成功／マージを先取りしない。実際の北C60 2つのSite categoryに依存型kitを特殊化し、元北四段pentagon＋右identity compositeの真正raw/φ 4-cell、kitから抽出したidentity/trans局所ゲート、GK5AX raw右単位、元P89反射・BadPair分岐、物理第五around Dart閉路とe04/e43の向きの区別を統合する。
+[Qi v4.20 PR #3029](https://github.com/itakura-hidetoshi/KuuOS/pull/3029) **MERGED**。最終exact-sourceソースHEAD `d37f62e2a332d981d44183d46ea24535840d6d95`、main squash `d34b9d9e34a8ab03ff3012efecbb4a5003f995fe`。[Governance #41613505281](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41613505281) は **Strict Lean 10,185/10,185 SUCCESS、Governance 30/30 SUCCESS**、新規10宣言の公理監査に`sorryAx`なし。Qi v4.20の真正北C60 Site×Site依存型seam証明を最終Lean正本へ統合済み。[Qi Lean source](../../formal/KUOS/Architecture/QiWuxingGK5BANorthNineConstructorSeamV4_20.lean)（214行）。実際の北C60 2つのSite categoryに依存型kitを特殊化し、元北四段pentagon＋右identity compositeの真正raw/φ 4-cell、kitから抽出したidentity/trans局所ゲート、GK5AX raw右単位、元P89反射・BadPair分岐、物理第五around Dart閉路とe04/e43の向きの区別を統合する。
 
 ## 6. 継承上の不変条件・次研究
 
