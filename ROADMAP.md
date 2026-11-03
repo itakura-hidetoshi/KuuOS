@@ -3,6 +3,20 @@
 
 
 
+## GK5AY／Qi v4.18 完了 — raw P93C.old original証拠とGK5AI再帰φの本当の4-cell seam／2026-11-03 JST
+
+**独立Kuu [GK5AY PR #3022](https://github.com/itakura-hidetoshi/KuuOS/pull/3022) MERGED。** 元P89の本来の4-cellを受け取る選択P93C.oldは、`P92B.original(f)`という元F55 3-proofのraw wrapperを端点に取る。一方GK5AIの完全9構成子再帰的`φ(f)`は合成・恒等・whisker・contextを内側まで写すので、**raw originalとφを無条件に証拠等号化できない**。GK5AYは真正元F55証拠`f`ごとに`P94A(original(f),φ(f))`を持つ依存型seam四セル証明書を**新しく条件として定義**し、Nonempty seam iff 全元証拠にpointwise bridgeが存在するという正確な必要十分条件を証明。seamが無条件に存在するとは主張しない。実在するraw P93C四セルを`symm bridge(f); P94A.old(w); bridge(g)`でφ端点へ移送。raw P93C全面反射 iff 元P89四セル欠損を含むraw source obstruction不存在。seam＋実際のraw obstructionがそろったときだけGK5AQ BadPairと元P89→P94A class-mapの特定F54 slot非単射性を導く。元P89 sourceの単射性とseamが与えられればraw比較は元P89に反射する。全体的faithfulness・非faithfulnessは未決定。
+
+**Qi [v4.18 PR #3023](https://github.com/itakura-hidetoshi/KuuOS/pull/3023) MERGED。** 真正北四段pentagon長短の元F54双Nat／元F55証拠について、右恒等を追加した元合成の`P92B.original(f) ≠ φ(f)`を実際のinductive raw Type証拠として確認し、与えられたseamならこの**不等な証拠の間にも真正4-cellがある**ことを保持。さらにraw P93C四セルのseam移送、BadPair iff 元P89欠損、raw障害を前提とした特定slot非単射性、raw反射 iff raw障害なし、seam＋raw比較⇒P89またはBadPair、**全original source class map単射を別途仮定した場合**の全面raw反射を形式証明。真の第五around Dart閉路、04/43の物理・圏論方向区別、条件付き元P89→P94A非単射性iffを維持。gauge frameは欠けた元seam・元P89 4-cellを作らない。
+
+**Exact-source CIと修正履歴：** 独立GK5AY最終HEAD `d61c1d6fd7498e43dae1b5ae42c489af600bccec`、squash `d85c73d5845836c3a06e89a17bfebb7fd055e7cf`、[Governance #41594594525](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41594594525) **Strict Lean 9,254/9,254・Governance 30/30 SUCCESS**、15公理出力。初回は予約語`at`のfield命名と依存型introを修正した。Qi v4.18最終HEAD `98a743b0a777b8e8484e0d25722ce1f4c9b309ae`、squash `a098054e0647665141af877a4d3f0b7cea166523`、[Governance #41605181371](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41605181371) **Strict Lean 10,181/10,181・Governance 30/30 SUCCESS**、11公理出力。初回の`have hreflect := ...`が経路添字を未特定にした原因を、正確な`nativeGK5AYRawP93Reflects`型を明記して修正した。最終`sorryAx`・新公理・Lean error/warningなし。strict 空権限、独立Kuu→Qi、公開root107、保護#1558 Draft/open、固定Lean v4.30.0-rc2／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`維持。
+
+**[正式証明記録](docs/formal/GK5AY-Qi-v4_18-raw-original-phi-seam-reflection.md)** · [独立GK5AY Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5AYOriginalStructuralPhiSeamGate.lean) · [Qi v4.18 Lean](formal/KUOS/Architecture/QiWuxingGK5AYNorthOriginalPhiSeamV4_18.lean)。
+
+**次：GK5AZ（仮称）** — 一様なseamを最初から仮定せず、真正元F55各構成子で`original`と`φ`をつなぐ局所高次証拠の可否を分類し、GK5AXの3種元P89垂直primitive反射証明書・GK5AWの8種context局所障害との条件付き合成を検証する。元P89→P94A無条件faithfulness/nonfaithfulness、全19 P94A証明の無条件正規化、Gray復元、無条件高次gluingを先取りしない。
+
+---
+
 ## GK5AX／Qi v4.17 完了 — 元F55垂直unit/assoc primitiveのP89反射証明書と有限型付き垂直語の条件付き降下／2026-11-03 JST
 
 **独立Kuu [GK5AX PR #3019](https://github.com/itakura-hidetoshi/KuuOS/pull/3019) MERGED。** 旧元P89は13構成子を持つが、選択P93C/P94Aが明示的に加えた`verticalLeftUnit`・`verticalRightUnit`・`verticalAssoc`の本当の元P89 4-cellを無条件に生成する構成子を持つとは限らない。GK5AXは、元F55の真正9構成子proof termとF54双Nat経路で添字付けした3種類の選択P94A primitive 4-cellを実際に構成し、各元証拠ペアの**GK5AQ BadPair iff 本当の元P89 4-cell不存在**をLean4で証明した。これは元P89の原始証拠が実在しないという主張でも、元P89→P94Aの無条件非単射性という主張でもない。
