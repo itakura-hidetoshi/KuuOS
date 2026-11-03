@@ -3,6 +3,23 @@
 
 
 
+## GK5BC／Qi v4.22 — 真正北C60で個別raw→φ四セルを構成・不可能trans-shellと両立／2026-11-03 JST
+
+**独立Kuu [GK5BC PR #3034](https://github.com/itakura-hidetoshi/KuuOS/pull/3034) MERGED。** GK5BBはP94A全19構成子の元F55 original-wrapper数保存を使って、`original(ident)`→`refl`と`original(trans(f,g))`→`trans(original f,original g)`の4-cellを無条件に否定。その一方、GK5BCは元P77 vertical four-cellの真の7層`old`埋め込みP80→P85→P86→P87→P89→P93C→P94Aを作り、元右／左unit比較をRAW端点で実現。さらに既存子seamと選択P94A vertical unitの**逆**を合成することで、identity挿入後の元F55証拠へ**個別直接seam**を本当に構成する。
+
+**新しい局所存在の必要十分条件と正確な境界：** `Nonempty SeamAt(trans(f,ident)) ↔ Nonempty SeamAt(f)`および左側同値を無条件に証明。さらに元P77本物の4-cell`f→g`に沿って局所seamの存在性を双方向へ運搬し、元P77結合律に沿う局所存在の同値を構成。これは元P77 source四セルと選択P93C/P94Aの本当の証拠の合成であり、GK5AY全域seamやGK5BA universal kitの構成を意味しない。真の元F54 routeがある文脈ではその全域前提はGK5BBで無条件に不可能と判明済み。
+
+**真正北C60実在例：** 元pentagon原始3-proof`p`の`refl` seamは無条件に存在するため、`c=trans(p,ident(short))`にも`P94A(original(c),φ(c))`を証明。一方で**GK5BAのraw trans分解shell `RequiredShell(c)`は存在しない**。つまり十分条件としての強い局所shellは一般には必要でないことを、実際の元F55 Type証拠で形式化した。元source P89反射障害とは区別する。
+
+**GK5BC exact-source記録：** HEAD `6633d2b97914642b1cc0c6058b4749775dcfe89f`、squash `accac43151d0235565cf0540b5c188ae0489d239`、両Git tree `d83dfc203b248bfc12973b70fc8f27bb460df45c`一致。[Governance #41619130118](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41619130118) **Strict Lean 9,262/9,262・Governance 30/30 SUCCESS**、19公理出力・`sorryAx`なし。
+
+**Qi v4.22 [PR #3035](https://github.com/itakura-hidetoshi/KuuOS/pull/3035)：MERGED。** 最終exact-source HEAD `a606dea927874d71f36ce1003a0b95dfd17da6c1`、squash `9f963703b9c1421ac048f8f62cae9ea1a77d3d72`、[Governance #41619751996](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41619751996) **Strict Lean 10,189/10,189・Governance 30/30 SUCCESS**、10宣言公理監査・`sorryAx`なし。 真正北C60の同じ元F54双Nat／2 Site category／Blocks原始sourceに直接P94A四セルとsplit-shell不存在、全域seam不存在、真正第五around Dart閉路、e04/e43物理／圏論方向、元P89 BadPair iff条件を結合し、gaugeから欠けた4-cellを捏造しない。
+
+**[正式証明記録](docs/formal/GK5BC-Qi-v4_22-local-direct-seam-without-trans-shell.md)** · [GK5BC Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5BCLocalUnitSeamWithoutShell.lean) · [Qi v4.22 Lean](formal/KUOS/Architecture/QiWuxingGK5BCNorthDirectLocalSeamV4_22.lean)。strict 空／独立Kuu→Qi／元F54 2 Nat・2圏、公開root107、保護#1558 Draft/open、Lean v4.30.0-rc2／固定mathlib pinを継承。
+
+**次 F112-P94D3GK5BD（仮称）：** 元P77 genuine four-cell同値類の中で個別seamを持つ元F55証拠の閉包を、特定のgeneratorによる有限証明書として構成。元P89/P94A source class-map faithfulnessと全P94A 19構成子正規化、Gray再構築は未決定のまま保つ。
+
+---
 ## GK5BB／Qi v4.21 — 元F55 original-wrapper自然数不変量によるP94A高次seam無条件不存在／2026-11-03 JST
 
 **独立Kuu [GK5BB PR #3031](https://github.com/itakura-hidetoshi/KuuOS/pull/3031) MERGED。** GK5BAで全9元F55構成子の局所shellを条件付きで一様に組み立てた直後、その強い局所前提が実際に成立するかを、元Type値付きP92B証拠のoriginal-wrapper個数`N:Nat`で調べた。`original(f)`は1、`refl`は0、垂直／水平transは加算、反転・F45/F54 contextは不変。**P93C全16構成子／P94A全19構成子**による真正4-cellは`N`を保存し、P94Aが追加した水平単位・左右context単位でも保存される。GK5AMの文脈偶奇や物理3-coordinate shadowと独立の高次不変量である。
