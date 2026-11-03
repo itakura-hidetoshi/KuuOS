@@ -24,7 +24,7 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 **独立GK5BC検証：** 最終exact-source HEAD `6633d2b97914642b1cc0c6058b4749775dcfe89f`、squash `accac43151d0235565cf0540b5c188ae0489d239`、[Governance #41619130118](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41619130118) **Strict Lean 9,262/9,262・Governance 30/30 SUCCESS**、公理監査19件・`sorryAx`なし。source／squash Git treeは`d83dfc203b248bfc12973b70fc8f27bb460df45c`で一致。
 
-**Qi v4.22：** [PR #3035](https://github.com/itakura-hidetoshi/KuuOS/pull/3035) は真正北C60で元P77 rightUnit、raw P94Aへの7層埋め込み、選択P94A逆vertical unitを別々の証拠として接続。第五around Dart閉路・e04/e43物理／圏論方向、元P89の条件付きBadPair境界と局所直接seamの実在を同時保持。**この記録の草稿時点ではexact-source CI検証中**であり、検証前の成功／マージは主張しない。
+**Qi v4.22：** [PR #3035](https://github.com/itakura-hidetoshi/KuuOS/pull/3035) は真正北C60で元P77 rightUnit、raw P94Aへの7層埋め込み、選択P94A逆vertical unitを別々の証拠として接続。第五around Dart閉路・e04/e43物理／圏論方向、元P89の条件付きBadPair境界と局所直接seamの実在を同時保持。**Qi v4.22 PR #3035 MERGED**。最終exact-source HEAD `a606dea927874d71f36ce1003a0b95dfd17da6c1`、squash `9f963703b9c1421ac048f8f62cae9ea1a77d3d72`、[Governance #41619751996](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41619751996) **Strict Lean 10,189/10,189・Governance 30/30 SUCCESS**、10宣言の公理監査で`sorryAx`なし。
 
 **[正式証明記録](docs/formal/GK5BC-Qi-v4_22-local-direct-seam-without-trans-shell.md)** · [独立Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5BCLocalUnitSeamWithoutShell.lean) · [Qi v4.22 Lean](formal/KUOS/Architecture/QiWuxingGK5BCNorthDirectLocalSeamV4_22.lean)。strict 空、独立Kuu→Qi、元F54双Nat／Blocks、公開root107、保護#1558 Draft/OPEN、Lean v4.30.0-rc2／固定mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`を維持。**次 GK5BD（仮称）**：元P77 source四セル軌道に沿って個別seamを構成できる領域を、全域不可能性と区別して分類する。
 
