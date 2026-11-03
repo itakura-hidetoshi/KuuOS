@@ -14,6 +14,18 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK5AV＋Qi v4.15／P93C内部二段から真正F55 source-vertex鎖を構成／2026-11-03 JST
+
+**[独立GK5AV PR #3013](https://github.com/itakura-hidetoshi/KuuOS/pull/3013) MERGED、[Qi v4.15 PR #3014](https://github.com/itakura-hidetoshi/KuuOS/pull/3014) MERGED。** GK5AUのP94A全19構成子／内包P93C全16構成子source-hole監査を継承し、実際のP93C垂直二段合成がP94A `old`内にある場合にも、source-saturationから内部P92B `q`の元F55依存型fiber `{m // φ(m)=q}` が非空であることを証明した。任意の元F55証拠 `f,g` と選択P94A比較 `φ(f)→q→φ(g)` から、真正中間元証拠 `m` を持つ**二辺GK5AS source-vertex鎖 f→m→g**をType値付きで構成。既存GK5ASによって、元P89反射または実在する局所BadStepを分離し、BadStep不在なら元P89四セルへ降下する。
+
+**真正北C60／Qi v4.15：** 四段pentagonの元F54双Nat長短経路へ上の二辺鎖を型付き特殊化。新P92B `assocNaturality` の元F55証拠がないことを、P94A `old (P93C.trans (P93C.refl q) (P93C.refl q))`という**実在する内包P93C二段証明履歴**で示し、左右文脈単位偶奇は `(0,0)` のまま。第五around Dart閉路・04／43の物理と圏論の方向差・Qi v4.10の**条件付き**元P89→P94A非単射性iffを同時保持。元証拠不在から真正GK5AQ BadPair実在は導かない。全選択P94A証明の無条件正規化も主張しない。
+
+**形式検証：** GK5AV exact-source [Governance #41579826031](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41579826031) **Strict Lean 9248/9248、30/30 SUCCESS、`#print axioms`10件**、squash `1b27258c33d7f823836d021d72395a01ecbe1e54`。Qi v4.15 [Governance #41580343195](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41580343195) **Strict Lean 10175/10175、30/30 SUCCESS、`#print axioms`3件**、squash `2b06b3c9608a9a6618d7a303b29e552877fbca69`。`sorryAx`・新公理・最終Leanエラーなし。GK5AV初回のP93C全16構成子 `simp` heartbeat過剰展開を、全構成子を保持した直接選言証明に修正。公開root107・固定Lean/mathlib・保護PR #1558 Draft/openを維持。
+
+**[正式証明記録](docs/formal/GK5AV-Qi-v4_15-nested-P93C-vertical-source-vertex-chain.md)** · [GK5AV Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5AVNestedVerticalSourceChain.lean) · [Qi v4.15 Lean](formal/KUOS/Architecture/QiWuxingGK5AVNorthNestedSourceVertexChainV4_15.lean)。**次：GK5AW（仮称）** — まだ無条件反射がない文脈・whisker・horizontal/interchange・新unit各生成元に対し、元P89へのgenerator-indexed局所反射証拠を厳密に型付けして、source-saturationと4-cell反射を分離した条件付き帰納的descentを目指す。
+
+---
+
 ## 最新のLean定理統合 — F112-P94D3GK5AU＋Qi v4.14／P94A全19構成子・P93C全16構成子の内部元F55証拠障害と北C60降下境界／2026-11-03 JST
 
 **[独立Kuu GK5AU PR #3010](https://github.com/itakura-hidetoshi/KuuOS/pull/3010) MERGED、[Qi v4.14 PR #3011](https://github.com/itakura-hidetoshi/KuuOS/pull/3011) MERGED。** GK5ATが真正P94A二段合成の任意中間P92B証拠のφ像判定を証明したことを継承し、GK5AUは**P94A全19構成子および`old`の内部P93C全16構成子**を真正Type値付き証明履歴として再帰的に検査する`SourceHole`述語と`SourceSaturated := ¬ SourceHole`を追加。選択P92B元証拠の真正F55構造写像`φ`の像外履歴を追い、商・shadow・左右偶奇を元証拠の代理としません。P93C `old`の`P92B.original`と再帰的GK5AI `φ`像も無条件に同一視しません。

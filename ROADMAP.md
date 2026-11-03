@@ -3,6 +3,20 @@
 
 
 
+## GK5AV／Qi v4.15 完了 — P93C内部source-vertex二辺鎖と北C60物理条件付きP89降下／2026-11-03 JST
+
+**独立Kuu [GK5AV PR #3013](https://github.com/itakura-hidetoshi/KuuOS/pull/3013) MERGED。** GK5AUで全P94A19／内包P93C16構成子の真正元F55 φ像source-holeを検査したことを継承。今回は、**真正P93C垂直二段 `P93C.trans left right` がP94A `old`の内部に存在する場合**を含め、source-saturatedな中間P92B証拠 `q` の元F55 `PhiFiber(q)` が非空であることを証明。P93C全16構成子の左右端点source-holeにも独立した補題を構築。元F55の真正中間証拠 `m`（`φm=q`）を得て、選択比較 `φf→q→φg` を与えられた真正P94A四セルのまま**元F55節点 f→m→g の二辺GK5AS source-vertex鎖**へ変換する。鎖に `HasBadStep` がなければ元P89四セル `P89(f,g)` が実在する。存在する場合は元GK5ASの真正局所非反射障害として切り分ける。任意のP94A raw証明項が構築鎖の `toSelected` と同一とは主張しない。
+
+**Qi [v4.15 PR #3014](https://github.com/itakura-hidetoshi/KuuOS/pull/3014) MERGED。** 以上の証明を真正北四段pentagon long/short元F54双Nat・Blocks・F55履歴に特殊化。北三段の新P92B `assocNaturality` を中間にもつ **`P94A.old (P93C.trans (P93C.refl q) (P93C.refl q))`** では、元F55 φ-fiberが空でsource-saturationは不成立だが、左右文脈単位偶奇は `(0,0)`。第五around Dart閉路、04/43の物理／圏論方向の区別、Qi v4.10の**条件付き**P89→P94A非単射性iff真正GK5AQ BadPairを同時保持。物理gaugeで欠けた元証拠を補ったり、元P89非単射性を無条件主張したりしない。
+
+**exact-source CI／公理検証：** GK5AV最終HEAD `abe22d081513c94091cf8f9530922065faab3cd6`、squash `1b27258c33d7f823836d021d72395a01ecbe1e54`、[Governance #41579826031](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41579826031) **9,248/9,248 Strict Lean・30/30 Governance SUCCESS**、10件の公理出力標準のみ。Qi v4.15最終HEAD `bd1a88b6be9b40fc7891bdf0bd03245eea9b4187`、squash `2b06b3c9608a9a6618d7a303b29e552877fbca69`、[Governance #41580343195](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41580343195) **10,175/10,175 Strict Lean・30/30 Governance SUCCESS**、公理出力3件標準のみ。GK5AV初回CIでP93C証明の `cases ...; simp` が `whnf` heartbeatを超過した理由を分析し、全16構成子と仮定を保持しつつ `Or.inr (Or.inl missing)`／`Or.inl missing`を直接構成するよう修正した。最終 `sorryAx`・新公理・Lean error/warningなし。公開root107、固定Lean v4.30.0-rc2／mathlib 5450b53e5ddc75d46418fabb605edbf36bd0beb6、保護PR #1558 Draft/openを維持。
+
+**[正式証明記録](docs/formal/GK5AV-Qi-v4_15-nested-P93C-vertical-source-vertex-chain.md)** · [独立GK5AV Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5AVNestedVerticalSourceChain.lean) · [Qi v4.15 Lean](formal/KUOS/Architecture/QiWuxingGK5AVNorthNestedSourceVertexChainV4_15.lean)。
+
+**次：GK5AW（仮称）** — P93C/P94Aの残る原始生成元、左右whisker・上下context・前後composition・horizontal/interchange・水平/左右unitの**generator-indexed反射証拠**を元P89の真正4-cellとして明示し、型付き帰納的source-vertex鎖との整合性／不足obstructionを分離する。source-hole不在と原始4-cell反射を混同しない。Gray復元・元P89→P94A無条件faithfulness/nonfaithfulness・無条件高次gluingを先取りしない。
+
+---
+
 ## GK5AU／Qi v4.14 完了 — 全19 P94A・内包全16 P93Cの元F55 φ像履歴検査と真正北C60 source-saturation／2026-11-03 JST
 
 **独立Kuu [GK5AU PR #3010](https://github.com/itakura-hidetoshi/KuuOS/pull/3010) MERGED。** GK5ATが証明した任意の二段合成内部のselected P92B元証拠`q`に対する`PhiFiber(q)`を継承し、実際のP94A**全19構成子**とP94A `old`に隠れたP93C**全16構成子**を再帰的に検査する`nativeGK5AUP94SourceHole`／`nativeGK5AUP93CSourceHole`を追加。元F55の真正構造写像`φ`像外の証拠を、各4-cellの真正Type値付き履歴で検出する。`SourceSaturated(w) := ¬ SourceHole(w)`。P93C `old`のraw selected`original`証拠と、全9元F55構成子を再帰的に解釈した`φ`の像を自明に同一視しない。数値shadow・商・偶奇だけでは復元を認めない。
