@@ -1722,4 +1722,12 @@ AI推論runtimeの方向は **観測 → 文脈・複数presentation → 輸送�
 
 [GK5BF exact-source CI #41631574051](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41631574051) **Strict Lean 9,268/9,268・Governance 30/30 SUCCESS**（24宣言sorryAxなし）。[Qi v4.25 exact-source CI #41632314737](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41632314737) **Strict Lean 10,195/10,195・Governance 30/30 SUCCESS**（11宣言sorryAxなし）。それぞれsource/test-merge/squashのGit tree一致。Qi統合main SHA 84d547945860831c16a326c4e0897a4fd269f60f。[正式証明記録](docs/formal/GK5BF-Qi-v4_25-double-inversion-weight-local-seam.md)。三条件N=S=W=1の一般十分性、GK5AY全域seam、GK5BA kit、元P89の無条件反射・Gray復元は主張しない。独立Kuu→Qi、公開root107、固定Lean/mathlib、保護PR #1558 Draft/OPEN維持。
 
+## 2026-11-03 — GK5BG／Qi v4.26：反転深さ生成多項式のP94A保存とP77値降下
+
+[独立GK5BG #3046](https://github.com/itakura-hidetoshi/KuuOS/pull/3046) と [Qi v4.26 #3047](https://github.com/itakura-hidetoshi/KuuOS/pull/3047) は **MERGED**。元P92B Type値証拠に`Polynomial Int`不変量`P`を定義し、`P(original)=1`、`P(symm u)=P(u)*X`、`P(trans u v)=P(u)+P(v)`、F45/F54文脈で保存とした。P93C全16・P94A全19四セル構成子で**多項式全体**が保存され、`P(1)=N`（GK5BB）、`P(-1)=S`（GK5BE）、`P(2)=W`（GK5BF）をMathlib Polynomial.evalで形式証明。元GK5AJの真正4セル移送により、元F55の`P(phi(f))`は実際のP77証拠商上へ**Polynomial Intの値として降下**する。局所seamが存在すれば`P(phi(f))=1`は必要だが、十分性は未証明。
+
+真正北C60では元pentagon primitiveと同一F54 Hom内の二重反転＋右identity元F55証拠で`P(phi)=1`と`X^2`が区別される。さらに元F55 identity wrapperから作った**同端点の選択P92Bループ証拠**には`P_A=X^3+2`、`P_B=2X^2+X`という比較例があり、従来の`N,S,W`三値は双方(3,1,10)でも、全多項式が異なるため選択P94A四セルは不存在。これは元F55 original→phi局所seamの実例とは混同しない。
+
+[独立GK5BG exact-source CI #41636095545](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41636095545) **Strict Lean 9,270/9,270・Governance 30/30 SUCCESS**（公理監査25宣言、sorryAxなし）。[Qi v4.26 exact-source CI #41637182427](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41637182427) **10,197/10,197・30/30 SUCCESS**（12宣言、sorryAxなし）。検証済みsource/test-merge/squash Git treeは双方一致。Qi統合main SHA`f2c7dd7064b801fb5954c0c4b2026b7362c903dc`。[正式証明記録](docs/formal/GK5BG-Qi-v4_26-full-inversion-depth-polynomial.md)。公開root107・固定Lean/mathlib・独立Kuu→Qi・保護PR #1558 Draft／OPENを維持。全GK5AY seam、GK5BA kit、元P89の無条件反射やGrayは主張しない。
+
 **Copyright © 2026 Hidetoshi Itakura / 板倉英俊. Apache-2.0.**
