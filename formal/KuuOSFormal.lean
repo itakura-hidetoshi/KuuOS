@@ -522,6 +522,7 @@ import KUOS.Architecture.QiWuxingGK5BJNorthNatDepthGradesV4_29
 import Kuu.F112.PolygonNativeC60AQFullPentagonPhysicalNativeGK5BKFiniteSampleRigidity
 import KUOS.Architecture.QiWuxingGK5BKNorthFiniteSampleRigidityV4_30
 import Kuu.F112.PolygonNativeC60AQFullPentagonPhysicalNativeGK5BLLagrangeInterpolation
+import KUOS.Architecture.QiWuxingGK5BLNorthLagrangeReconstructionV4_31
 
 /-!
 Public aggregate: retain every previously published proof and its original
