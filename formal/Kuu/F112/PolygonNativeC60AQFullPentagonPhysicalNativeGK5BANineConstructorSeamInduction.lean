@@ -67,46 +67,44 @@ def nativeGK5BARequiredShell
     {last : KuuNativeF45Tree p n' m' ma pa mb pb}
     {r s : KuuNativeF45Tree.DepthRotationRoute p first last}
     (f : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p r s) :
-    Type (max (max uD uE) (max vD vE)) := by
-  cases f with
-  | ident route =>
-      exact NativeF55P94UnitFourCell
-        (NativeF55P92AssocComparison.original (.ident route))
-        (.refl route)
-  | pentagon t₁ t₂ t₃ t₄ =>
-      exact PUnit
-  | disjointSquare left right =>
-      exact PUnit
-  | symm cell =>
-      exact
-        (NativeF55P94UnitFourCell
-          (NativeF55P92AssocComparison.original (.symm cell))
-          (.symm (NativeF55P92AssocComparison.original cell))) ×
-        (NativeF55P94UnitFourCell
-          (NativeF55P92AssocComparison.original cell)
-          (nativeGK5AIOriginalToP92Structural cell) →
-          NativeF55P94UnitFourCell
-            (.symm (NativeF55P92AssocComparison.original cell))
-            (.symm (nativeGK5AIOriginalToP92Structural cell)))
-  | trans left right =>
-      exact NativeF55P94UnitFourCell
+    Type (max (max uD uE) (max vD vE)) :=
+  match f with
+  | .ident route =>
+      NativeF55P94UnitFourCell
+        (NativeF55P92AssocComparison.original
+          (KuuNativeF45Tree.DepthRotationRoute.PresentedCell.ident route))
+        (NativeF55P92AssocComparison.refl route)
+  | .pentagon _ _ _ _ => PUnit
+  | .disjointSquare _ _ => PUnit
+  | .symm cell =>
+      (NativeF55P94UnitFourCell
+        (NativeF55P92AssocComparison.original (.symm cell))
+        (.symm (NativeF55P92AssocComparison.original cell))) ×
+      (NativeF55P94UnitFourCell
+        (NativeF55P92AssocComparison.original cell)
+        (nativeGK5AIOriginalToP92Structural cell) →
+        NativeF55P94UnitFourCell
+          (.symm (NativeF55P92AssocComparison.original cell))
+          (.symm (nativeGK5AIOriginalToP92Structural cell)))
+  | .trans left right =>
+      NativeF55P94UnitFourCell
         (NativeF55P92AssocComparison.original (.trans left right))
         (.trans (NativeF55P92AssocComparison.original left)
           (NativeF55P92AssocComparison.original right))
-  | leftContext cell later =>
-      exact NativeF55P94UnitFourCell
+  | .leftContext cell later =>
+      NativeF55P94UnitFourCell
         (NativeF55P92AssocComparison.original (.leftContext cell later))
         (.leftContext (NativeF55P92AssocComparison.original cell) later)
-  | rightContext earlier cell =>
-      exact NativeF55P94UnitFourCell
+  | .rightContext earlier cell =>
+      NativeF55P94UnitFourCell
         (NativeF55P92AssocComparison.original (.rightContext earlier cell))
         (.rightContext earlier (NativeF55P92AssocComparison.original cell))
-  | precompose prior cell =>
-      exact NativeF55P94UnitFourCell
+  | .precompose prior cell =>
+      NativeF55P94UnitFourCell
         (NativeF55P92AssocComparison.original (.precompose prior cell))
         (.precompose prior (NativeF55P92AssocComparison.original cell))
-  | postcompose cell suffix =>
-      exact NativeF55P94UnitFourCell
+  | .postcompose cell suffix =>
+      NativeF55P94UnitFourCell
         (NativeF55P92AssocComparison.original (.postcompose cell suffix))
         (.postcompose (NativeF55P92AssocComparison.original cell) suffix)
 
@@ -119,7 +117,7 @@ structure NativeGK5BAConstructorShellKit
     (D : Type uD) [Category.{vD} D]
     (E : Type uE) [Category.{vE} E] :
     Type (max (max uD uE) (max vD vE)) where
-  local :
+  shell :
     ∀ {a b : D} {x y : E} {n n' m m' : Nat}
       {ma mb : KuuNativeBlocks a b}
       {pa pb : KuuNativeBlocks x y}
@@ -150,29 +148,29 @@ def NativeGK5BAConstructorShellKit.bridge
       (nativeGK5AIOriginalToP92Structural f) := by
   induction f with
   | ident route =>
-      exact kit.local (.ident route)
+      exact kit.shell (.ident route)
   | pentagon t₁ t₂ t₃ t₄ =>
       exact nativeGK5AZPentagonAtom t₁ t₂ t₃ t₄
   | disjointSquare left right =>
       exact nativeGK5AZDisjointSquareAtom left right
   | symm cell ih =>
-      let gates := kit.local (.symm cell)
+      let gates := kit.shell (.symm cell)
       exact nativeGK5AZSymm_of_two_gates cell gates.1 (gates.2 ih)
   | trans left right ihLeft ihRight =>
       exact nativeGK5AZTrans_of_shell left right
-        (kit.local (.trans left right)) ihLeft ihRight
+        (kit.shell (.trans left right)) ihLeft ihRight
   | leftContext cell later ih =>
       exact nativeGK5AZLeftContext_of_shell cell later
-        (kit.local (.leftContext cell later)) ih
+        (kit.shell (.leftContext cell later)) ih
   | rightContext earlier cell ih =>
       exact nativeGK5AZRightContext_of_shell earlier cell
-        (kit.local (.rightContext earlier cell)) ih
+        (kit.shell (.rightContext earlier cell)) ih
   | precompose prior cell ih =>
       exact nativeGK5AZPrecompose_of_shell _ prior cell
-        (kit.local (.precompose prior cell)) ih
+        (kit.shell (.precompose prior cell)) ih
   | postcompose cell suffix ih =>
       exact nativeGK5AZPostcompose_of_shell _ suffix cell
-        (kit.local (.postcompose cell suffix)) ih
+        (kit.shell (.postcompose cell suffix)) ih
 
 /-- Assemble the complete global constructor induction into the
 PREVIOUS GK5AY dependent seam record for ANY exact original F54
@@ -220,9 +218,9 @@ theorem nativeGK5BAKit_nonempty_iff_allLocal
   constructor
   · rintro ⟨kit⟩
     intro a b x y n n' m m' ma mb pa pb first last r s f
-    exact ⟨kit.local f⟩
+    exact ⟨kit.shell f⟩
   · intro h
-    refine ⟨{ local := ?_ }⟩
+    refine ⟨{ shell := ?_ }⟩
     intro a b x y n n' m m' ma mb pa pb first last r s f
     exact Classical.choice (h f)
 
