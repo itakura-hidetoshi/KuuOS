@@ -1760,4 +1760,14 @@ AI推論runtimeの方向は **観測 → 文脈・複数presentation → 輸送�
 
 [独立GK5BK最終CI #41724819896](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41724819896) **Strict Lean 9,278/9,278・Governance 30/30 SUCCESS**（新規15宣言、sorryAxなし）。初回はNat→Intラムダキャストのβ簡約不足を修正し、数学的仮定は変更しなかった。[Qi v4.30 CI #41725853171](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41725853171) **10,205/10,205・30/30 SUCCESS**（新規12宣言、sorryAxなし）。各source/test-merge/squash Git tree一致、Qi統合SHA`22b47d04303a60c14cf09487ede4702302bf0d74`。[正式証明記録](docs/formal/GK5BK-Qi-v4_30-finite-integer-sample-rigidity.md)。strict 空／独立Kuu→Qi、元F54二Nat・二圏・Blocks・元F55 Type値履歴、公開root107、固定Lean/mathlib、保護PR #1558 Draft/open未マージ維持。
 
+## 2026-11-04 — GK5BL／Qi v4.31：整数観測からの構成的有理Lagrange補間
+
+[独立GK5BL #3061](https://github.com/itakura-hidetoshi/KuuOS/pull/3061)・[Qi v4.31 #3062](https://github.com/itakura-hidetoshi/KuuOS/pull/3062) は**MERGED**。前GK5BKの有限整数観測からの**一意性**を、固定mathlib `Lagrange.interpolate`を使った**有理係数多項式の具体的構成**へ進めた。異なる整数サイト`S`と有理値観測`y`から`Rat[X]`補間多項式を生成し、節点評価の一致、`degree<card(S)`、分母を含むLagrange積表示をLean4形式化。真の`P:Polynomial Int`が`natDegree P≤d`かつ`card S=d+1`なら、整数評価値からの補間が`P.map (Int.castRingHom Rat)`と一致し、全係数を復元できる。
+
+真正P92B三証拠の反転深さ係数は、補間結果から元の非負`Nat`値`b_k`として復元できる。元F55/P77真正源四セル商でも**降下した多項式値**とNat係数が復元されるが、元F55 Type値証拠の実現やP77商類一致・P94A四セルの存在を保証しない。整数係数性の必要条件として、補間多項式の一係数でもInt→Rat埋め込みの像から外れればInt[X]原像は存在しないことも証明。
+
+真正北C60では、元primitive`P=1`と元double-inverse＋F55右単位`P=X²`を3整数サイト`{0,1,2}`から構成的に復元。真正選択P92B北endo-loop対`A=X³+2`・`B=2X²+X`は旧三サイト`{-1,1,2}`では**有理Lagrange補間多項式まで一致する**が、第四点0を加えた`{-1,0,1,2}`で分離し、双方の元の次数3多項式をそれぞれ復元できる。旧三数値`(N,S,W)=(3,1,10)`だけでは復元できないことを実証する。これは元original→phi seam反例ではない。
+
+[独立GK5BL最終CI #41728908990](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41728908990)：**Strict Lean 9,280/9,280・Governance 30/30 SUCCESS**（18宣言、sorryAxなし）。[Qi v4.31最終CI #41730985676](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41730985676)：**10,207/10,207・30/30 SUCCESS**（11宣言、sorryAxなし）。各source/test-merge/squash Git tree一致、Qi統合SHA`909542a3a31a596c808403a08c780834f40856ba`。[正式証明記録](docs/formal/GK5BL-Qi-v4_31-constructive-rational-lagrange-reconstruction.md)。strict 空／独立Kuu→Qi、元F54二Nat・二圏・Blocks・元F55 Type証拠、公開root107、固定Lean/mathlib、保護PR #1558 Draft/OPEN未マージを維持。W=1 seam十分性・P89無条件反射・Grayは未主張。
+
 **Copyright © 2026 Hidetoshi Itakura / 板倉英俊. Apache-2.0.**
