@@ -140,8 +140,9 @@ theorem NativeGK5ASSourceVertexChain.reflects_or_badStep
   induction chain with
   | nil f =>
       exact .inl ⟨.refl f⟩
-  | step w tail ih =>
-      by_cases hlocal : Nonempty (NativeF55P89InterchangeFourCell _ _)
+  | step (f := leftSource) (g := rightSource) w tail ih =>
+      by_cases hlocal :
+          Nonempty (NativeF55P89InterchangeFourCell leftSource rightSource)
       · rcases ih with hrest | hbad
         · rcases hlocal with ⟨hfg⟩
           rcases hrest with ⟨hgh⟩
