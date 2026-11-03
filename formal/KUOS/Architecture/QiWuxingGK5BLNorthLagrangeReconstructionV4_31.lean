@@ -230,17 +230,21 @@ theorem fivefoldGK5BLNorthTripleLoops_four_interpolants_ne :
     (nativeGK5BLRationalInterpolant fivefoldGK5BLFourSites
       (fun z : Int => ((fivefoldGK5BGNorthTripleLoopB.gk5bgDepthPolynomial.eval z : Int) : Rat))).eval
         (0 : Rat) at heq
-  rw [nativeGK5BLRationalInterpolant_eval_node
-        fivefoldGK5BLFourSites
-        (fun z : Int => ((fivefoldGK5BGNorthTripleLoopA.gk5bgDepthPolynomial.eval z : Int) : Rat))
-        0 fivefoldGK5BLFourSites_has_zero,
-      nativeGK5BLRationalInterpolant_eval_node
-        fivefoldGK5BLFourSites
-        (fun z : Int => ((fivefoldGK5BGNorthTripleLoopB.gk5bgDepthPolynomial.eval z : Int) : Rat))
-        0 fivefoldGK5BLFourSites_has_zero] at heq
+  have hA := nativeGK5BLRationalInterpolant_eval_node
+    fivefoldGK5BLFourSites
+    (fun z : Int => ((fivefoldGK5BGNorthTripleLoopA.gk5bgDepthPolynomial.eval z : Int) : Rat))
+    0 fivefoldGK5BLFourSites_has_zero
+  have hB := nativeGK5BLRationalInterpolant_eval_node
+    fivefoldGK5BLFourSites
+    (fun z : Int => ((fivefoldGK5BGNorthTripleLoopB.gk5bgDepthPolynomial.eval z : Int) : Rat))
+    0 fivefoldGK5BLFourSites_has_zero
+  have hrat :
+      ((fivefoldGK5BGNorthTripleLoopA.gk5bgDepthPolynomial.eval (0 : Int) : Int) : Rat) =
+      ((fivefoldGK5BGNorthTripleLoopB.gk5bgDepthPolynomial.eval (0 : Int) : Int) : Rat) := by
+    exact hA.symm.trans (heq.trans hB)
   have hh : fivefoldGK5BGNorthTripleLoopA.gk5bgDepthPolynomial.eval (0 : Int) =
       fivefoldGK5BGNorthTripleLoopB.gk5bgDepthPolynomial.eval (0 : Int) := by
-    exact_mod_cast heq
+    exact_mod_cast hrat
   exact fivefoldGK5BKNorthTripleLoops_three_blind_one_distinguishing.2.2.2 hh
 
 /-- The original selected north loops also reconstruct their
