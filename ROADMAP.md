@@ -7,11 +7,11 @@
 
 **独立Kuu [PR #3028](https://github.com/itakura-hidetoshi/KuuOS/pull/3028) MERGED。** GK5AZが定義した原始2種の無条件4-cell seam、元ident／symm／trans／left-right context／pre-postcomposeの7種類の局所分解shellを、元F55の全9生成元に対する**型付き帰納法**へ接続。`nativeGK5BARequiredShell`を元証拠`f`に依存するTypeとして定義し、`NativeGK5BAConstructorShellKit.bridge`で各sourceの真正 `P94A(original(f),φ(f))`を導く。9構成子のraw証拠の履歴、元F54双Nat・2圏・Blocksを消去しない。`kit.toGK5AY`によりGK5AYの全域seamを**kitの条件付きで**構成し、`Nonempty kit ↔ ∀ f, Nonempty requiredShell(f)`を証明。**global seam存在⇒kit存在**や局所shell無条件存在は主張しない。
 
-**source obstructionを分離：** `ConstructorShellObstruction := ¬ AllLocalShells`はkit不存在と同値であるが、元P89四セルの欠損そのものではない。kitと真正raw P93C四セルがある場合、元P89四セルまたはGK5AQ BadPair。raw障害が別途あれば元P89→P94A class map非単射、元source単射性が別途あればraw反射。元P89の无条件単射性・非単射性は未解決。内包P94A全19構成子の無条件normal form、Gray再構築、無条件高次descentは行わない。
+**source obstructionを分離：** `ConstructorShellObstruction := ¬ AllLocalShells`はkit不存在と同値であるが、元P89四セルの欠損そのものではない。kitと真正raw P93C四セルがある場合、元P89四セルまたはGK5AQ BadPair。raw障害が別途あれば元P89→P94A class map非単射、元source単射性が別途あればraw反射。元P89の無条件単射性・非単射性は未解決。内包P94A全19構成子の無条件normal form、Gray再構築、無条件高次descentは行わない。
 
 **最終独立GK5BA exact-source検証：** 最終HEAD `899db2b9db731d777ec12bfb869a557aff8a7dd2`、squash `ded85bb9534b6cfdd6c78784fec32c61851e7cdc`、[Governance #41612666131](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41612666131) **Strict Lean 9,258/9,258・Governance 30/30 SUCCESS**、12公理監査・`sorryAx`なし。初回はLean予約語`local`、Type-level `cases`の依存添字/universe制約を、`shell`と明示`match f with`へ修正。仮定・結論は弱めず。
 
-**Qi v4.20 [PR #3029](https://github.com/itakura-hidetoshi/KuuOS/pull/3029)：検証中。** 真正北C60の双Siteカテゴリ上のkitから、北全F55 source-slot seam、元ident/transの局所shell、右単位raw P94A、raw P93C反射／BadPair、第五around Dart閉路とe04/e43物理向きを接続。ソースCIとマージはこの初期記録時点で未確定として保持する。五行gaugeから証拠書を捏造しない。
+**Qi v4.20 [PR #3029](https://github.com/itakura-hidetoshi/KuuOS/pull/3029)：MERGED。** 真正北C60の双Siteカテゴリ上のkitから、北全F55 source-slot seam、元ident/transの局所shell、右単位raw P94A、raw P93C反射／BadPair、第五around Dart閉路とe04/e43物理向きを接続。最終exact-source HEAD `d37f62e2a332d981d44183d46ea24535840d6d95`、squash `d34b9d9e34a8ab03ff3012efecbb4a5003f995fe`、[Governance #41613505281](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41613505281) **Strict Lean 10,185/10,185、Governance 30/30 SUCCESS**、公理監査10宣言・`sorryAx`なし。五行gaugeから証拠書を捏造しない。
 
 **[正式証明記録](docs/formal/GK5BA-Qi-v4_20-nine-constructor-dependent-seam-induction.md)** · [GK5BA Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5BANineConstructorSeamInduction.lean) · [Qi v4.20 Lean](formal/KUOS/Architecture/QiWuxingGK5BANorthNineConstructorSeamV4_20.lean)。strict 空、独立Kuu→Qi、公開root107、保護#1558 Draft/open／未マージ、Lean v4.30.0-rc2、mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`を維持。
 
