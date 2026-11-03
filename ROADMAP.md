@@ -3,6 +3,22 @@
 
 
 
+## GK5AZ／Qi v4.19 完了 — 元F55全9構成子の真正局所seam合成・北C60右単位／2026-11-03 JST
+
+**独立Kuu [GK5AZ PR #3025](https://github.com/itakura-hidetoshi/KuuOS/pull/3025) MERGED。** GK5AYで明示した`P92B.original(f)→φ(f)`の全域seamを暗黙にinhabitedとはしない。真正元F55の9構成子について、`pentagon`・`disjointSquare`は本物の4-cell `refl` を無条件構成。raw `original(ident(r))` と `φ(ident(r))` は**raw Type証拠として不等**なので、`ident`は独立局所4-cellが必要。`symm`ではraw wrapperの反転と3-proof symm尊重の2つの別4-cellを保持。`trans`についてraw合成shell `original(trans(f,g))→trans(original f,original g)`、子seam2本、P94A左右whiskeringから**真正の合成seamを作る**。`nativeGK5AZTrans_seam_or_shellHole`は子seam存在下の親seam／raw-shell obstructionという条件付き分岐を証明。元F45左／右context、元F54 pre／postの4つは、それぞれraw wrapper shell＋選択P94A contextからseamを型付き合成。**shell不在を具体例として主張していない。**
+
+**GK5AXとGK5AWの接続：** 局所`bridge(f)`・`bridge(g)`から、生の元P93C四セルのφ像への移送・選択φ四セルのraw端点への逆移送を構成。GK5AXの選択3種vertical primitive（左右単位、結合律）をraw original endpoint証拠へ移し、さらに元ident seam＋元trans shellから左右raw unitを直接構成。GK5AWの元P89 8種context（left/right whisker、left/right binary context、F54 pre/post、horizontal left/right）BadPair局所化すべてに、**global seamの代わりに局所2端点seam**を用いる。元F54双Nat／二圏／Blocksの依存型を保持し、元P89 4-cellを捏造しない。
+
+**Qi [v4.19 PR #3026](https://github.com/itakura-hidetoshi/KuuOS/pull/3026) MERGED。** 真正北五角形の元pentagonと元right identityからなるF55複合`c=trans(p,ident(s))`を取る。pentagon atomの4-cellは無条件、元ident raw wrapperとφの不等は無条件、ただし**元ident局所seam**と**元trans raw split-shell**は独立条件。この2ゲートの下で`SeamAt(c)`を実構成、さらにraw `original(c)→original(p)` に真正P94A右単位比較を構成。元P89反射は依然として `BadPair(c,p) ↔ ¬Nonempty(P89(c,p))` という障害境界。真正第五around Dart閉路とe04/e43物理／圏論向きを保持。物理五行gaugeは未構成4-cellを供給しない。
+
+**最終exact-source CIとSHA：** GK5AZ最終HEAD `a75eb243375fc48d92e93c6b3c430c4f5fea3b98`、squash `197a514e39cf72bd2e262e2699fbd1556a23dab1`、[Governance #41608786472](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41608786472) **9,256/9,256 Strict Lean・30/30 Governance SUCCESS**、32件`#print axioms`。Qi v4.19最終HEAD `94a15a33f2dd504e6523e8a1d7e5074c50523f09`、squash `2c5528b534892c701022da1e80f223e48c7cfdb0`、[Governance #41609637738](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41609637738) **10,183/10,183 Strict Lean・30/30 Governance SUCCESS**、8件公理出力。双方最終変更Lean error/warningなし、`sorryAx`・新公理なし。公開root **107**、strict 空／独立Kuu→Qi、固定Lean **v4.30.0-rc2**・mathlib **5450b53e5ddc75d46418fabb605edbf36bd0beb6**、保護PR **#1558 Draft/OPEN／未マージ**を維持。
+
+**[正式証明記録](docs/formal/GK5AZ-Qi-v4_19-constructor-local-phi-seam-certificates.md)** · [独立Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5AZConstructorLocalSeamObstruction.lean) · [Qi v4.19 Lean](formal/KUOS/Architecture/QiWuxingGK5AZNorthConstructorLocalSeamsV4_19.lean)。
+
+**次の研究：F112-P94D3GK5BA（仮称）** — 元F55九構成子の各局所shellと子seamを依存型帰納法で一つの条件付き全域証明書に組み上げる必要十分条件を検討。とくにraw `ident`／`symm`／`trans`の真正高次証明書を構成できる局所条件と、選択P94Aの内部元source-image obstruction／元P89 reflectionを混同しない。無条件global seam・元P89 faithfulness/nonfaithfulness・全19構成子normal form・Grayを先取りしない。
+
+---
+
 ## GK5AY／Qi v4.18 完了 — raw P93C.old original証拠とGK5AI再帰φの本当の4-cell seam／2026-11-03 JST
 
 **独立Kuu [GK5AY PR #3022](https://github.com/itakura-hidetoshi/KuuOS/pull/3022) MERGED。** 元P89の本来の4-cellを受け取る選択P93C.oldは、`P92B.original(f)`という元F55 3-proofのraw wrapperを端点に取る。一方GK5AIの完全9構成子再帰的`φ(f)`は合成・恒等・whisker・contextを内側まで写すので、**raw originalとφを無条件に証拠等号化できない**。GK5AYは真正元F55証拠`f`ごとに`P94A(original(f),φ(f))`を持つ依存型seam四セル証明書を**新しく条件として定義**し、Nonempty seam iff 全元証拠にpointwise bridgeが存在するという正確な必要十分条件を証明。seamが無条件に存在するとは主張しない。実在するraw P93C四セルを`symm bridge(f); P94A.old(w); bridge(g)`でφ端点へ移送。raw P93C全面反射 iff 元P89四セル欠損を含むraw source obstruction不存在。seam＋実際のraw obstructionがそろったときだけGK5AQ BadPairと元P89→P94A class-mapの特定F54 slot非単射性を導く。元P89 sourceの単射性とseamが与えられればraw比較は元P89に反射する。全体的faithfulness・非faithfulnessは未決定。
