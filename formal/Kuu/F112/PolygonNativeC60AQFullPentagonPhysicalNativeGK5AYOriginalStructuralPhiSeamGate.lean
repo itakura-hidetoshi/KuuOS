@@ -72,7 +72,7 @@ structure NativeGK5AYOriginalPhiSeam
     (first : KuuNativeF45Tree p n m ma pa mb pb)
     (last : KuuNativeF45Tree p n' m' ma pa mb pb) :
     Type (max (max uD uE) (max vD vE)) where
-  at :
+  bridge :
     ∀ {r s : KuuNativeF45Tree.DepthRotationRoute p first last}
       (f : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p r s),
       NativeF55P94UnitFourCell
@@ -96,9 +96,9 @@ theorem nativeGK5AYSeam_nonempty_iff_pointwise
   constructor
   · rintro ⟨data⟩
     intro r s f
-    exact ⟨data.at f⟩
+    exact ⟨data.bridge f⟩
   · intro h
-    refine ⟨{ at := ?_ }⟩
+    refine ⟨{ bridge := ?_ }⟩
     intro r s f
     exact Classical.choice (h f)
 
@@ -116,7 +116,7 @@ def NativeGK5AYOriginalPhiSeam.transportP93
     NativeF55P94UnitFourCell
       (nativeGK5AIOriginalToP92Structural f)
       (nativeGK5AIOriginalToP92Structural g) :=
-  .trans (.trans (.symm (data.at f)) (.old w)) (data.at g)
+  .trans (.trans (.symm (data.bridge f)) (.old w)) (data.bridge g)
 
 /-- A P93C.old of a TRUE original P89 four-cell remains a
 genuine chosen P93C certificate. Its transport across the
@@ -170,8 +170,7 @@ theorem nativeGK5AYRawP93Reflects_iff_no_obstruction
   · intro h
     rintro ⟨r, s, f, g, hw, hno⟩
     exact hno (h f g hw)
-  · intro h
-    intro r s f g hw
+  · intro h r s f g hw
     by_contra hno
     exact h ⟨r, s, f, g, hw, hno⟩
 
@@ -305,7 +304,7 @@ theorem nativeGK5AYNorthSeam_is_not_raw_equality
       (nativeGK5AIOriginalToP92Structural
         nativeGK5AINorthPentagonWithIdentity)) :=
   ⟨nativeGK5AYNorthRawOriginal_ne_structuralPhi,
-    ⟨data.at nativeGK5AINorthPentagonWithIdentity⟩⟩
+    ⟨data.bridge nativeGK5AINorthPentagonWithIdentity⟩⟩
 
 #print axioms NativeGK5AYOriginalPhiSeam
 #print axioms nativeGK5AYSeam_nonempty_iff_pointwise
