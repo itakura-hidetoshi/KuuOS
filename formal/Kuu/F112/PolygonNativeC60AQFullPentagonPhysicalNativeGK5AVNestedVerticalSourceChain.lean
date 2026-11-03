@@ -221,9 +221,8 @@ theorem nativeGK5AVNorthNestedP93CDoubleRefl_obstruction_zeroGrade :
         nativeGK5ATNorthAddedAssoc_noPhiImage
     exact clean h
   · constructor
-    · exact (nativeGK5ATPhiImage_iff_fiber
-        nativeGK5AINorthAddedUnitAssocCell).not.mp
-        nativeGK5ATNorthAddedAssoc_noPhiImage
+    · rintro ⟨⟨old, h⟩⟩
+      exact nativeGK5ATNorthAddedAssoc_noPhiImage ⟨old, h⟩
     · exact nativeGK5ASNorthAssocLoop_zeroGrade nativeGK5AVNorthNestedP93CDoubleRefl
 
 #print axioms nativeGK5AVP93C_hole_of_missing_right
