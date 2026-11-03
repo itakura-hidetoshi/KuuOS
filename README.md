@@ -14,6 +14,19 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK5BA＋Qi v4.20／元F55全9構成子の真正依存型seam帰納法・北C60局所shell構成／2026-11-03 JST
+
+**[独立Kuu GK5BA PR #3028](https://github.com/itakura-hidetoshi/KuuOS/pull/3028) MERGED。** GK5AZで個別に形式化した真正raw `P92B.original(f)` と9構成子再帰的`φ(f)`の間の局所高次4-cell seamを、元F55の**全9構成子に対する依存型帰納法**で一つの証明系に統合した。`NativeGK5BAConstructorShellKit`は、各構成子で正確に必要なraw分解shellの**条件付き**Type値付き証明書を保持する。`pentagon`／`disjointSquare`の2原始構成子は無条件`P94A.refl`、`ident`はraw-to-refl、`symm`はraw unwrapと3-proof反転尊重、`trans`はraw split-shellと子seam2本、4種F45/F54 contextはraw分解shellとP94A contextの合成となる。
+
+**形式定理：** kitを真に与えた場合、任意の元F55証拠`f`について真正`P94A(original(f),φ(f))`を依存型の全構成子で構成し、GK5AYの全域seamレコードを任意の元F54 source slotに組み立てる。**`Nonempty ConstructorShellKit` iff 全元F55構成子の局所shellがそれぞれ`Nonempty`**、という正確な必要十分条件を証明した。逆に、任意のGK5AY seamの存在だけからより強い全raw分解shellの存在が従うとは主張しない。実在raw P93C四セルから元P89への反射か真正GK5AQ BadPairへの分岐はkitの下で成立。元P89 source class-mapの無条件単射性・非単射性も未決定。
+
+**独立GK5BAの確定検証：** 最終exact-source HEAD `899db2b9db731d777ec12bfb869a557aff8a7dd2`、main squash `ded85bb9534b6cfdd6c78784fec32c61851e7cdc`、[Governance #41612666131](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41612666131) **Strict Lean 9,258/9,258、Governance 30/30 SUCCESS**、12宣言公理監査で`sorryAx`なし。初回CIの予約語`local`・依存型`cases`/universe推論エラーは、`shell`への改名と明示的`match`で仮定を弱めず修正。
+
+**Qi v4.20：** [定理PR #3029](https://github.com/itakura-hidetoshi/KuuOS/pull/3029) を作成済み。真正北C60の独立2つのSite categoryにkitを特殊化し、元右identity／trans局所shellの抽出と元北F55複合seam、元P89反射・BadPair、第五around Dart閉路・e04/e43向きとの整合性を形式化。**Qi v4.20 PR #3029 MERGED**。最終exact-source HEAD `d37f62e2a332d981d44183d46ea24535840d6d95`・squash `d34b9d9e34a8ab03ff3012efecbb4a5003f995fe`、[Governance #41613505281](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41613505281) **Strict Lean 10,185/10,185・Governance 30/30 SUCCESS**、公理監査10件・`sorryAx`なし。元のauthority・F54双Nat／Blocks史を保持。
+
+**[正式証明記録](docs/formal/GK5BA-Qi-v4_20-nine-constructor-dependent-seam-induction.md)** · [独立Kuu Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5BANineConstructorSeamInduction.lean) · [Qi v4.20 Lean](formal/KUOS/Architecture/QiWuxingGK5BANorthNineConstructorSeamV4_20.lean)。公開root107、保護PR #1558 Draft/OPEN、固定Lean v4.30.0-rc2とmathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、append-only／strict 空／独立Kuu→Qiを維持。次は真の北C60局所shellの構成またはobstructionに焦点を合わせ、無条件global seam・Gray・全19構成子P94A正規化を先取りしない。
+
+---
 ## 最新のLean定理統合 — F112-P94D3GK5AZ＋Qi v4.19／元F55全9構成子の局所raw–φ seam条件・真正北C60右単位4-cell／2026-11-03 JST
 
 **[独立GK5AZ PR #3025](https://github.com/itakura-hidetoshi/KuuOS/pull/3025) MERGED、[Qi v4.19 PR #3026](https://github.com/itakura-hidetoshi/KuuOS/pull/3026) MERGED。** GK5AYが一様な4-cell seamを**条件**として導入した段階から進み、GK5AZは元F55の全9構成子を局所的に分類した。元`pentagon`・`disjointSquare` atomでは真の`P94A.refl`で無条件seamを構成。元`ident`のraw wrapperと`φ(ident)`は**真正Type証拠として不等**である一方、局所4-cellを結ぶ可能性は排除しない。`symm`はraw inversion unwrapと3-cell inversion尊重の2条件、`trans`はraw split-shell＋子2本のseam、元F45左右context／F54 pre/postはそれぞれraw-shell＋選択P94A contextを要する。**全域seamは依然として無条件に構成されていない。**
