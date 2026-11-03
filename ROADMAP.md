@@ -13,7 +13,7 @@
 
 **GK5BC exact-source記録：** HEAD `6633d2b97914642b1cc0c6058b4749775dcfe89f`、squash `accac43151d0235565cf0540b5c188ae0489d239`、両Git tree `d83dfc203b248bfc12973b70fc8f27bb460df45c`一致。[Governance #41619130118](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41619130118) **Strict Lean 9,262/9,262・Governance 30/30 SUCCESS**、19公理出力・`sorryAx`なし。
 
-**Qi v4.22 [PR #3035](https://github.com/itakura-hidetoshi/KuuOS/pull/3035)：草稿時点検証中。** 真正北C60の同じ元F54双Nat／2 Site category／Blocks原始sourceに直接P94A四セルとsplit-shell不存在、全域seam不存在、真正第五around Dart閉路、e04/e43物理／圏論方向、元P89 BadPair iff条件を結合し、gaugeから欠けた4-cellを捏造しない。
+**Qi v4.22 [PR #3035](https://github.com/itakura-hidetoshi/KuuOS/pull/3035)：MERGED。** 最終exact-source HEAD `a606dea927874d71f36ce1003a0b95dfd17da6c1`、squash `9f963703b9c1421ac048f8f62cae9ea1a77d3d72`、[Governance #41619751996](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41619751996) **Strict Lean 10,189/10,189・Governance 30/30 SUCCESS**、10宣言公理監査・`sorryAx`なし。 真正北C60の同じ元F54双Nat／2 Site category／Blocks原始sourceに直接P94A四セルとsplit-shell不存在、全域seam不存在、真正第五around Dart閉路、e04/e43物理／圏論方向、元P89 BadPair iff条件を結合し、gaugeから欠けた4-cellを捏造しない。
 
 **[正式証明記録](docs/formal/GK5BC-Qi-v4_22-local-direct-seam-without-trans-shell.md)** · [GK5BC Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5BCLocalUnitSeamWithoutShell.lean) · [Qi v4.22 Lean](formal/KUOS/Architecture/QiWuxingGK5BCNorthDirectLocalSeamV4_22.lean)。strict 空／独立Kuu→Qi／元F54 2 Nat・2圏、公開root107、保護#1558 Draft/open、Lean v4.30.0-rc2／固定mathlib pinを継承。
 
