@@ -1730,4 +1730,10 @@ AI推論runtimeの方向は **観測 → 文脈・複数presentation → 輸送�
 
 [独立GK5BG exact-source CI #41636095545](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41636095545) **Strict Lean 9,270/9,270・Governance 30/30 SUCCESS**（公理監査25宣言、sorryAxなし）。[Qi v4.26 exact-source CI #41637182427](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41637182427) **10,197/10,197・30/30 SUCCESS**（12宣言、sorryAxなし）。検証済みsource/test-merge/squash Git treeは双方一致。Qi統合main SHA`f2c7dd7064b801fb5954c0c4b2026b7362c903dc`。[正式証明記録](docs/formal/GK5BG-Qi-v4_26-full-inversion-depth-polynomial.md)。公開root107・固定Lean/mathlib・独立Kuu→Qi・保護PR #1558 Draft／OPENを維持。全GK5AY seam、GK5BA kit、元P89の無条件反射やGrayは主張しない。
 
+## 2026-11-04 — GK5BH／Qi v4.27：単位閾値での多項式と重みの一致
+
+[独立GK5BH #3049](https://github.com/itakura-hidetoshi/KuuOS/pull/3049)・[Qi v4.27 #3050](https://github.com/itakura-hidetoshi/KuuOS/pull/3050) は**MERGED**。真正P92B全9構成子に対する帰納法から、`W(f)=0→P_f(X)=0`、`W(f)=1→P_f(X)=1`、さらにGK5BGの評価定理と合わせて **`P_f(X)=1 ↔ W(f)=1`** をLean4形式化。`W=1`はGK5BBのunsigned `N=1`・GK5BEのsigned `S=1`も含意し、GK5BFの三条件`N=S=W=1`は単一の`W=1`と同値になる。実際の元P77商でもGK5BGの`Polynomial Int`値の降下と既存三条件Propの降下を厳密に同値化。真正北C60の正・負局所seam例で確認した。**これは局所seamの必要条件であり、十分性は未証明**。一方、任意の選択P94A四セル比較では多項式は三数値`N,S,W`より情報量が多く、GK5BGのP92B endo-loop反例は保持。
+
+[GK5BH exact-source CI #41699640942 attempt 2](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41699640942)：**Strict Lean 9,272/9,272・Governance 30/30 SUCCESS**（10宣言、sorryAxなし）。初回はcache restore段階で停止したため、失敗ジョブを再実行して真正Leanを検証。[Qi v4.27 exact-source CI #41701233426](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41701233426)：**Strict Lean 10,199/10,199・Governance 30/30 SUCCESS**（7宣言、sorryAxなし）。source/test-merge/squash Git treeそれぞれ一致。Qi統合SHA `425430954483c288c14980aa4ffb2661549cdb28`。[正式証明記録](docs/formal/GK5BH-Qi-v4_27-polynomial-unit-threshold-collapse.md)。公開root107、保護PR #1558 Draft/OPEN、固定Lean/mathlib維持。
+
 **Copyright © 2026 Hidetoshi Itakura / 板倉英俊. Apache-2.0.**
