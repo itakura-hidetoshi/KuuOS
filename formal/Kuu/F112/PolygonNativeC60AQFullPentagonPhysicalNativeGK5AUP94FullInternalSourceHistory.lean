@@ -171,6 +171,24 @@ theorem nativeGK5AUP93C_hole_embeds
     nativeGK5AUP94SourceHole (NativeF55P94UnitFourCell.old w) := by
   exact Or.inr (Or.inr h)
 
+/-- Explicit constructor case analysis is essential: a structurally
+recursive indexed recursor cannot in general unfold at a VARIABLE proof
+term, even though every concrete constructor has the left boundary
+as its first disjunct. -/
+theorem nativeGK5AUP94_hole_of_missing_left
+    (w : NativeF55P94UnitFourCell f g)
+    (missing : ¬ nativeGK5ATPhiImage f) :
+    nativeGK5AUP94SourceHole w := by
+  cases w <;> simp [nativeGK5AUP94SourceHole, missing]
+
+/-- The symmetric right-boundary observation, again proven over ALL
+nineteen constructors rather than relying on a stuck recursor. -/
+theorem nativeGK5AUP94_hole_of_missing_right
+    (w : NativeF55P94UnitFourCell f g)
+    (missing : ¬ nativeGK5ATPhiImage g) :
+    nativeGK5AUP94SourceHole w := by
+  cases w <;> simp [nativeGK5AUP94SourceHole, missing]
+
 /-- Any source-saturated P94A proof has exact phi-image endpoints,
 not merely matching additive shadows. -/
 theorem nativeGK5AUP94_saturated_endpoint_images
@@ -180,9 +198,9 @@ theorem nativeGK5AUP94_saturated_endpoint_images
   classical
   constructor
   · by_contra hf
-    exact clean (Or.inl hf)
+    exact clean (nativeGK5AUP94_hole_of_missing_left w hf)
   · by_contra hg
-    exact clean (Or.inr (Or.inl hg))
+    exact clean (nativeGK5AUP94_hole_of_missing_right w hg)
 
 /-- The ACTUAL middle of any P94A trans with no history hole
 has an original F55 proof-relevant dependent phi-fiber. -/
@@ -197,7 +215,7 @@ theorem nativeGK5AU_clean_trans_middle_fiber
   apply (nativeGK5ATPhiImage_iff_fiber middle).mp
   by_contra missing
   have holeLeft : nativeGK5AUP94SourceHole left :=
-    Or.inr (Or.inl missing)
+    nativeGK5AUP94_hole_of_missing_right left missing
   have hole : nativeGK5AUP94SourceHole
       (NativeF55P94UnitFourCell.trans left right) :=
     Or.inr (Or.inr (Or.inl holeLeft))
@@ -266,7 +284,7 @@ theorem nativeGK5AU_trans_nonimage_middle_hole
     nativeGK5AUP94SourceHole
       (NativeF55P94UnitFourCell.trans left right) := by
   have leftHole : nativeGK5AUP94SourceHole left :=
-    Or.inr (Or.inl missing)
+    nativeGK5AUP94_hole_of_missing_right left missing
   exact Or.inr (Or.inr (Or.inl leftHole))
 
 /-- The real north selected associator-naturality is absent from phi
@@ -296,6 +314,8 @@ theorem nativeGK5AUNorth_nestedP93C_hole_zeroGrade :
 #print axioms nativeGK5AUP94SourceHole
 #print axioms nativeGK5AUP94SourceSaturated
 #print axioms nativeGK5AUP93C_hole_embeds
+#print axioms nativeGK5AUP94_hole_of_missing_left
+#print axioms nativeGK5AUP94_hole_of_missing_right
 #print axioms nativeGK5AUP94_saturated_endpoint_images
 #print axioms nativeGK5AU_clean_trans_middle_fiber
 #print axioms nativeGK5AU_clean_trans_reflect_or_local_bad
