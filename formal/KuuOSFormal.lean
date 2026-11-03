@@ -518,6 +518,7 @@ import KUOS.Architecture.QiWuxingGK5BHNorthUnitPolynomialGateV4_27
 import Kuu.F112.PolygonNativeC60AQFullPentagonPhysicalNativeGK5BIDepthCoefficientDescent
 import KUOS.Architecture.QiWuxingGK5BINorthCoefficientDescentV4_28
 import Kuu.F112.PolygonNativeC60AQFullPentagonPhysicalNativeGK5BJNatDepthWeightedSums
+import KUOS.Architecture.QiWuxingGK5BJNorthNatDepthGradesV4_29
 
 /-!
 Public aggregate: retain every previously published proof and its original
