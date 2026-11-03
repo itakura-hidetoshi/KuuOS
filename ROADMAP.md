@@ -3,6 +3,27 @@
 
 
 
+## GK5AR／Qi v4.11 完了 — P94A文脈生成元回数の厳密偶奇正規形と真正北C60反射境界併存／2026-11-03 JST
+
+**独立Kuu [GK5AR #3001](https://github.com/itakura-hidetoshi/KuuOS/pull/3001) MERGED。** GK5AO/GK5APで三原始単位の個別必要性を証明した後、GK5AQで元P89→選択P94A商の真正非反射ペアの条件を厳密化。GK5ARは選択P94Aの**全19構成子**に対する真正Type値付き4-cell証拠について、`gk5apLeftUnitCount / gk5apRightUnitCount`の自然数回数を既存の左右P92B `ZMod 2`不変量と厳密に結んだ：
+
+```text
+(N_L(w), N_R(w)) modulo 2
+    = (I_L(target(w)) - I_L(source(w)), I_R(target(w)) - I_R(source(w)))
+```
+
+始終点の同じ任意の二証明書で左右の生成元回数の偶奇は不変となり、左文脈単位正規化は(奇・偶)、右文脈単位は(偶・奇)、水平単位正規化は左右とも偶数。GK5AOの水平生成元必要回数1は維持するが、その出現回数の**偶奇不変性は未主張**。raw証明書の同一視／唯一正規形は未証明。
+
+**Qi [v4.11 #3002](https://github.com/itakura-hidetoshi/KuuOS/pull/3002) MERGED。** 真正北C60の元第1／第2 F45ステージ、元F54二Nat経路へ左／右／水平三種の厳密偶奇規則とGK5AO/GK5AP最小回数を適用。元P89→選択P94Aの非反射ペアが存在する場合の物理商非単射性というQi v4.10条件付き判定、第五around Dart閉路、04／43の物理・カテゴリー逆向き、GK5ANの全P89構造移送を同時保持。非反射ペアの実在は未証明で、偶奇不変量・C60 shadowから無条件非単射性を作らない。
+
+**CI／正式正本：** GK5AR final source HEAD `70cbebe189a9020199a9246a5aa09cde8730334b`、squash `5b66547d70a78e36e683079021f146bd8d23e5d6`、[Governance #41554552929](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41554552929) **Strict Lean 9240/9240・Governance 30/30 SUCCESS**、公理監査13件許容のみ。Qi v4.11 final source HEAD `4dee8377adeab0a66ed0256dbe000d69a2a5e25e`、squash `f807ed50bf61f8fa637935f36ed5b67de59cacb2`、[Governance #41555305551](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41555305551) **Strict Lean 10167/10167・Governance 30/30 SUCCESS**、公理監査4件許容のみ。新公理・sorryAxなし。Leanのdependent recursor elaborationに伴う`rw`／`convert`失敗8→6箇所を、4つの定義的P92B構成子補題の証明と帰納法全体の整合修正で解消。既存P89／P93／P94A・歴史的証明は改変せず。公開root107・strict 空権限・固定Lean/mathlib・#1558 Draft/open維持。
+
+**ソース／正式証明記録：** [GK5AR Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5ARContextUnitParityNormalForm.lean) · [Qi v4.11 Lean](formal/KUOS/Architecture/QiWuxingGK5ARNorthContextParityNormalFormV4_11.lean) · [正式記録](docs/formal/GK5AR-Qi-v4_11-P94A-context-unit-count-parity-rigidity.md)。
+
+**次研究：F112-P94D3GK5AS（仮称）。** 選択P94A四セル証拠に現れる中間P92B Type値付き3セルについて、元F55 `φ`像から再構築できるsource-saturationの可否と条件を分離し、局所反射可能な生成元／必ず残る障害を本物のP89 Type値証拠で比較。非反射ペアの存在・不存在を未証明のまま断定しない。
+
+---
+
 ## GK5AQ／Qi v4.10 完了 — 元P89→選択P94A比較反射障害核の厳密化と真正北C60物理フレーム不変性／2026-11-03 JST
 
 **独立Kuu [GK5AQ #2998](https://github.com/itakura-hidetoshi/KuuOS/pull/2998) MERGED。** GK5ANの元P89→P94A四セル商写像に対し、元F55の真正Type値付き3-proofの同じF54経路端点で、選択P94A比較`FourCell(φf,φg)`は存在するが元P89比較`FourCell(f,g)`は存在しない**非反射ペア**を定義。この真正ペアが存在することと商写像の非単射性が同値。元P89同値に関する左右代表変更でも障害は保持され、非反射ペアの元のpentagon／square／odd-ZMod2の**全shadowは一致**。shadowの一致を真正4-cell比較と混同しない。
