@@ -14,6 +14,20 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK5BB＋Qi v4.21／元F55 original-wrapper個数保存と真正P94A seamの無条件不存在／2026-11-03 JST
+
+**[独立Kuu GK5BB PR #3031](https://github.com/itakura-hidetoshi/KuuOS/pull/3031) MERGED。** GK5BAの全9構成子の局所shellを条件付きで組み立てた研究を継承し、選択P92B証拠の真正raw `original` wrapper数 `N(w):Nat` を新しく定義。raw `original(f)`は必ず1、選択`refl`は0、選択`trans(original f,original g)`は2。この数は**P93C全16構成子とP94A全19構成子の真正Type値付き4-cellで保存**され、選択`horizontalUnit`・`leftContextUnit`・`rightContextUnit`でも破れない。C60の三成分shadowやGK5AMの文脈偶奇とは別の、強い高次証拠不変量である。
+
+**無条件no-go：** 元F54経路`r`について `¬ Nonempty(P94A(original(F55.ident(r)),P92B.refl(r)))`、合成可能な元F55 `f,g`について`¬ Nonempty(P94A(original(F55.trans(f,g)),trans(original f,original g)))`をLean4で証明。よって真の元F54経路が実在するsourceでは**GK5BA強いconstructor-shell kitも、GK5AYのより弱い全域original→φ seamも存在しない**。GK5BA等の条件付き構成則自体は真だが、真正に経路が存在する元sourceでその前提は満たされない。元P89 class-mapの無条件単射性・非単射性は別問題であり主張しない。
+
+**真正北C60：** 元pentagon＋右identityではraw全体wrapper→2個のraw wrapperへのtrans分解shellは不可能。一方raw全体と再帰φのwrapper数はともに1なので**個別直接seamの不存在まではこの不変量からは言えない**。元pentagonとその逆の真正F55複合ではφ側wrapper数2となるため、こちらの個別直接seamも不存在。真の北のKitと全域seamは無条件に不可能。[Qi v4.21 PR #3032](https://github.com/itakura-hidetoshi/KuuOS/pull/3032) は北C60および第五around Dart閉路・e04/e43向きへこのno-goを適用する実装であり、**Qi v4.21 PR #3032 MERGED**。最終exact-source HEAD `ab1e4afbf391948097568f71f67b7a803f5b1053`、squash `61b95c4f6c3e55c5fc94e4be5a88693e32395019`、[Governance #41616589679](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41616589679) **Strict Lean 10,187/10,187・Governance 30/30 SUCCESS**、9宣言公理監査で`sorryAx`なし。
+
+**独立GK5BBの検証：** 最終source HEAD `ff3dff49c64f5d925d95938ea2f49012c5cbb689`、squash `baffe9581e569b78aec0bbdc6d82633c084b9546`、[Governance #41615936555](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41615936555) **Strict Lean 9,260/9,260、Governance 30/30 SUCCESS**、21公理監査で`sorryAx`なし。strict 空／独立Kuu→Qi、元F54双Nat・Blocks history、公開root107、保護PR #1558 Draft/OPEN、Lean v4.30.0-rc2／固定mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`を維持。
+
+**[正式証明記録](docs/formal/GK5BB-Qi-v4_21-original-wrapper-count-no-go.md)** · [独立GK5BB Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5BBOriginalWrapperCountObstruction.lean) · [Qi v4.21 Lean](formal/KUOS/Architecture/QiWuxingGK5BBNorthOriginalWrapperObstructionV4_21.lean)。**次：GK5BC（仮称）** — wrapper数が一致する真の北pentagon＋右identityの局所直接seamの可否を、別の高次証拠不変量で検証する。元P89反射障害と分離。
+
+---
+
 ## 最新のLean定理統合 — F112-P94D3GK5BA＋Qi v4.20／元F55全9構成子の真正依存型seam帰納法・北C60局所shell構成／2026-11-03 JST
 
 **[独立Kuu GK5BA PR #3028](https://github.com/itakura-hidetoshi/KuuOS/pull/3028) MERGED。** GK5AZで個別に形式化した真正raw `P92B.original(f)` と9構成子再帰的`φ(f)`の間の局所高次4-cell seamを、元F55の**全9構成子に対する依存型帰納法**で一つの証明系に統合した。`NativeGK5BAConstructorShellKit`は、各構成子で正確に必要なraw分解shellの**条件付き**Type値付き証明書を保持する。`pentagon`／`disjointSquare`の2原始構成子は無条件`P94A.refl`、`ident`はraw-to-refl、`symm`はraw unwrapと3-proof反転尊重、`trans`はraw split-shellと子seam2本、4種F45/F54 contextはraw分解shellとP94A contextの合成となる。
