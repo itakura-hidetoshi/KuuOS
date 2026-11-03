@@ -1741,4 +1741,13 @@ lake build KuuOSFormal # warningAsErrorはlakefile.toml既定。sorryAxは#print
 - [正式証明記録](docs/formal/GK5BH-Qi-v4_27-polynomial-unit-threshold-collapse.md)。独立Kuu→Qi、元F54二Nat・二圏・Blocks、公開root107、保護PR #1558 Draft/OPEN、固定Lean v4.30.0-rc2／mathlib 5450b53e5...維持。元P89 BadPairと内部source-image障害は別々、Gray復元なし。
 - **次GK5BI（仮称）：** `Polynomial Int`の各係数を反転深さ別の自然数原始wrapper発生回数として構成、有限support・非負性を証拠型付きで明示し、P94A全19構成子での係数保存とP77商への降下を段階的に検証。全域seam、P94A正規形、元P89無条件faithfulness、W=1の十分性は未主張。
 
+## 2026-11-04：GK5BI／Qi v4.28 — 非負有限support係数による真正P77／P94A障害
+
+- [独立GK5BI #3052](https://github.com/itakura-hidetoshi/KuuOS/pull/3052) **MERGED**。exact-source HEAD `f9fc9ff6afd158306fb9116157a14a352c022520`、test-merge `be1ab99d159f9f872d4e5fa3ef5199625586f3ad`、main squash `8334dac49490b39c7d2d4655e03a2483d665763b`。三者Git tree **`59942538302de8ec40aa4d20cd30b609837cbda1` 一致**。[Strict Lean／Governance CI #41717206887](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41717206887)：**9,274/9,274・30/30 SUCCESS**。17宣言の公理監査に`sorryAx`なし。マージ後main Lean Formal CI #41718004653もSUCCESS。
+- [Qi v4.28 #3053](https://github.com/itakura-hidetoshi/KuuOS/pull/3053) **MERGED**。exact-source HEAD `6163078d7cfe7230011cd7c06cf62d04a5ef65d8`、test-merge `4240d16ffa2256d6b40df2b10c28bfb871dfbee9`、main squash `aaa04f5ad01fcc7d6adc81a9d520593ae2b43fa0`。三者Git tree **`98f6af6eef624a6182e88236da16f1dbaf297edd` 一致**。[Strict Lean／Governance CI #41718379402](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41718379402)：**10,201/10,201・30/30 SUCCESS**。13宣言の公理監査に`sorryAx`なし。
+- **独立Kuuの数学的到達：** 真正P92B全9構成子の帰納法で、`a_k(f)=coeff(P_f,k):Int` が全`k`で非負、有限supportを持ち、`a₀(symm f)=0`・`a_(k+1)(symm f)=a_k(f)`・`a_k(trans f g)=a_k(f)+a_k(g)`。真のP93C全16／P94A全19構成子で個別係数を保存。GK5AJによる真の元P77四セル輸送から`Int`値`Quotient.lift`を構成し、商上でも非負性・有限supportを証明。係数全体の一致は`Polynomial Int`全体の一致と同値。一つの係数不一致で選択P94A四セル不存在。
+- **Qiの真正北C60具体例：** 同じ元F54 long→short Homで、元primitive P77商は`a₀=1`、元double inverse＋真正F55右単位のP77商は`a₀=0`、よって源商類が異なる。別の選択P92B北endo-loop対`X³+2`と`2X²+X`は**`(N,S,W)=(3,1,10)`が一致**したまま`a₀=2`と`a₀=0`で不一致、ゆえにP94A四セルがない。ループ対をoriginal→phi seam反例とは混同しない。
+- [正式証明記録](docs/formal/GK5BI-Qi-v4_28-finite-depth-coefficient-obstructions.md)。strict 空／独立Kuu→Qi、元F54二Nat／二圏／Blocks・元F55 Type値証明履歴、公開root107、保護PR #1558 Draft/OPEN、固定Lean `v4.30.0-rc2`／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`。局所`W=1`は必要条件のみ。Gray、GK5AY全域seam、GK5BA kit、元P89無条件反射／P94A全域正規形は未証明。
+- **次GK5BJ（仮称）：** 非負整数`a_k`を明示Nat値証拠へ移し、有限support上の和として`N=P(1)`、`S=P(-1)`、`W=P(2)`の重み付き係数式を構成。最大反転深さの構成的上界を検討し、真のP77商値とP94A係数保存を維持。局所seam十分性を先取りしない。
+
 **Copyright © 2026 Hidetoshi Itakura / 板倉英俊. Apache-2.0.**
