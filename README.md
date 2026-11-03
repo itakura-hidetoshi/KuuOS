@@ -14,6 +14,20 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK5AW＋Qi v4.16／8種P89 context生成元の反射障害局所化・北C60真正φ-fiber／2026-11-03 JST
+
+**[独立GK5AW PR #3016](https://github.com/itakura-hidetoshi/KuuOS/pull/3016) MERGED、[Qi v4.16 PR #3017](https://github.com/itakura-hidetoshi/KuuOS/pull/3017) MERGED。** GK5AUの選択P94A全19／内包P93C全16構成子source-hole監査、GK5AVのP93C-in-P94A内部二段source-vertex鎖を継承し、**元P89に実在する8種類の操作（左右whisker・左右F45 context・F54 pre/postcompose・左右horizontal whisker）**について、元F55に由来する追加証拠を使った外側BadPairがあれば、その**実際の内側選択比較に元GK5AQ BadPairが存在する**ことをLean4で証明した。元P89で内側四セルが存在するなら元P89の対応構成子で外側へ持ち上げられるため、外側で非反射なら内側も非反射という正確な必要条件である。逆方向は無条件に主張しない。
+
+**追加P92B証拠のsource-gate：** 選択P94Aの左右whisker・左右horizontalに対し、証明履歴がGK5AU source-saturatedであれば、追加入力のP92B prior／suffix／otherは**真正元F55 Type値付きφ-fiber**を持つ。選択P94Aの水平interchangeについても、source-saturationから4つすべての真正P92B入力のφ-fiberを導いた。別に、4つの**元F55証拠**による本来の`P89.interchange`は元P89四セルが実在し、GK5AQ BadPairではないと証明。選択presentation全体を元P89と無条件同一視しない。元P80の3原始unitの非BadPair性は既存GK5AQを保持。
+
+**真正北C60／Qi v4.16：** 北四段pentagon長短の元F55経路に左右選択whiskerのφ-fiber復元条件と、元F55先行証拠による左whiskerのBadPair局所化を適用。第五around Dart閉路、04/43の物理／圏論的向きの不一致、Qi v4.10の**条件付き**元P89→P94A非単射性iffと共存するLean4定理を追加。物理フレームから欠損元証拠や無条件BadPairを作らない。
+
+**Exact-source CI：** GK5AW [Governance #41588370677](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41588370677) **Strict Lean 9250/9250・Governance 30/30 SUCCESS**、公理出力14件標準のみ、squash `db6261e0d7a2d4440584329c39b0fed85bfdd72f`。Qi v4.16 [Governance #41589106673](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41589106673) **Strict Lean 10177/10177・Governance 30/30 SUCCESS**、公理出力4件標準のみ、squash `7d1a1aeb4f1f5397d4d8d7ab3e61390e13353084`。最終Lean error/warning・`sorryAx`・新公理なし。strict 空、独立Kuu→Qi、公開root107、固定Lean/mathlib、保護PR #1558 Draft/OPENを維持。
+
+**[正式証明記録](docs/formal/GK5AW-Qi-v4_16-generator-context-reflection-and-north-physical-fibers.md)** · [GK5AW Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5AWContextGeneratorReflectionGate.lean) · [Qi v4.16 Lean](formal/KUOS/Architecture/QiWuxingGK5AWNorthContextReflectionV4_16.lean)。**次：GK5AX（仮称）** — 選択P93Cの追加vertical unit・結合律、独立`old`境界、選択interchangeに必要な真正元P89高次反射証拠をgenerator別に特定し、条件付き全構成子帰納的reflection/obstructionへ進む。
+
+---
+
 ## 最新のLean定理統合 — F112-P94D3GK5AV＋Qi v4.15／P93C内部二段から真正F55 source-vertex鎖を構成／2026-11-03 JST
 
 **[独立GK5AV PR #3013](https://github.com/itakura-hidetoshi/KuuOS/pull/3013) MERGED、[Qi v4.15 PR #3014](https://github.com/itakura-hidetoshi/KuuOS/pull/3014) MERGED。** GK5AUのP94A全19構成子／内包P93C全16構成子source-hole監査を継承し、実際のP93C垂直二段合成がP94A `old`内にある場合にも、source-saturationから内部P92B `q`の元F55依存型fiber `{m // φ(m)=q}` が非空であることを証明した。任意の元F55証拠 `f,g` と選択P94A比較 `φ(f)→q→φ(g)` から、真正中間元証拠 `m` を持つ**二辺GK5AS source-vertex鎖 f→m→g**をType値付きで構成。既存GK5ASによって、元P89反射または実在する局所BadStepを分離し、BadStep不在なら元P89四セルへ降下する。
