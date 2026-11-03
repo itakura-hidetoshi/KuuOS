@@ -1710,4 +1710,11 @@ lake build KuuOSFormal # warningAsErrorはlakefile.toml既定。sorryAxは#print
 - source/squashのGit treeはGK5BD `666dd0aebe5abae4c3da88acc0025d8879bb81d7`、Qi v4.23 `a89283bceeda0ce0d69e86b3c8cefb62ce26428d` でそれぞれ一致。公開root107、保護PR #1558 Draft/OPENを維持。新規公理・Gray・sorry/admit/native_decideなし。[正式証明記録](docs/formal/GK5BD-Qi-v4_23-P77-class-local-seam-descent.md)。
 - **未証明・次段階**：全GK5AY seam、GK5BA全shell kit、元P89無条件faithfulness／nonfaithfulness、全P94A 19構成子正規化、Type値seam証明書の商上canonical同一視、Gray復元を依然として主張しない。次はGK5BE（仮称）で、P77 positive-orbit飽和とwrapper-count必要条件の差、同数値の未決定クラス、内部source-image hole・元P89 BadPair障害の独立性を検討。
 
+## 2026-11-03：GK5BE／Qi v4.24 — signed original-wrapperと真のcount-one反例
+
+- [独立Kuu GK5BE PR #3040](https://github.com/itakura-hidetoshi/KuuOS/pull/3040) **MERGED**、exact-source HEAD `82a010fd889129dc6d884e4763249011c3a7ba47`、squash `ff3f9af868af46537177e7ced2ec5ff569e34dcf`、source/test-merge/squash Git tree `82903e19ebc61f4290b97caa964757905d30b074` 一致。[Strict Lean／Governance #41628425569](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41628425569) **9,266/9,266・30/30 SUCCESS**、16宣言`sorryAx`なし。元P92B original wrapperのsigned integer gradeを定義し、symmを符号反転・trans/horizontalを加法・文脈を保存として、全P93C16／P94A19構成子の保存を形式化。
+- [Qi v4.24 PR #3041](https://github.com/itakura-hidetoshi/KuuOS/pull/3041) **MERGED**、exact-source HEAD `03c0cf3c521740f079409021a63f60af4f23868f`、squash `ac37cf01c86db07a58717cf087cea3562b0215a0`、Git tree `6eb78abccb60dd411fe76d3ffc91d7e00fcd294d` 一致。[Strict Lean／Governance #41629270434](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41629270434) **10,193/10,193・30/30 SUCCESS**、10宣言`sorryAx`なし。真正北C60では元pentagon原始は局所seam正で、元逆pentagonおよびその真正右identity拡張はP77商上で負。両端のunsigned wrapper数`N=1`が一致してもsigned `S=+1`対`-1`により直接P94A seam不存在と証明。
+- 公開root107・固定Lean v4.30.0-rc2／mathlib 5450b53e5...・保護PR #1558 Draft／OPENを維持。独立Kuu→Qi、元F54双Nat・二圏・Blocks・Type証明を保存。詳細 [正式証明記録](docs/formal/GK5BE-Qi-v4_24-signed-original-grade-seam-obstruction.md)。
+- **次GK5BF（仮称）**：局所seamの二つの必要条件 `N(φ f)=1`かつ`S(φ f)=1` をP77商上でさらに調べ、数値条件が同時に成立しても依然比較不能なsource-classを分類。元P89 BadPair・内部source-image obstructionと混同しない。同時条件の全域十分性、GK5AY全域、GK5BA shell kit、全P94A正規化、Grayを先取りしない。
+
 **Copyright © 2026 Hidetoshi Itakura / 板倉英俊. Apache-2.0.**
