@@ -499,6 +499,7 @@ import Kuu.F112.PolygonNativeC60AQFullPentagonPhysicalNativeGK5AXVerticalPrimiti
 import Kuu.F112.PolygonNativeC60AQFullPentagonPhysicalNativeGK5AYOriginalStructuralPhiSeamGate
 import Kuu.F112.PolygonNativeC60AQFullPentagonPhysicalNativeGK5AZConstructorLocalSeamObstruction
 import KUOS.Architecture.QiWuxingGK5AZNorthConstructorLocalSeamsV4_19
+import Kuu.F112.PolygonNativeC60AQFullPentagonPhysicalNativeGK5BANineConstructorSeamInduction
 
 /-!
 Public aggregate: retain every previously published proof and its original
