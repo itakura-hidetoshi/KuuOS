@@ -1744,4 +1744,12 @@ AI推論runtimeの方向は **観測 → 文脈・複数presentation → 輸送�
 
 [独立GK5BI exact-source CI #41717206887](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41717206887)：**Strict Lean 9,274/9,274・Governance 30/30 SUCCESS**（新規17宣言、sorryAxなし）。[Qi v4.28 exact-source CI #41718379402](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41718379402)：**Strict Lean 10,201/10,201・Governance 30/30 SUCCESS**（新規13宣言、sorryAxなし）。各source/test-merge/squash Git tree一致、Qi統合main SHA `aaa04f5ad01fcc7d6adc81a9d520593ae2b43fa0`。[正式証明記録](docs/formal/GK5BI-Qi-v4_28-finite-depth-coefficient-obstructions.md)。strict 空／独立Kuu→Qi、元F54二Nat・二圏・Blocks／元F55 Type証拠、公開root107、固定Lean・mathlib、保護PR #1558 Draft／OPENを維持。Gray、元P89無条件反射、全域seamは未主張。
 
+## 2026-11-04 — GK5BJ／Qi v4.29：Nat値の真正反転深さ係数によるN/S/W有限和
+
+[独立GK5BJ #3055](https://github.com/itakura-hidetoshi/KuuOS/pull/3055)・[Qi v4.29 #3056](https://github.com/itakura-hidetoshi/KuuOS/pull/3056) は**MERGED**。GK5BIで証明した真正P92B係数`a_k(f)∈ℤ`の非負性を利用し、**`b_k(f)=Int.toNat(a_k(f))`と`(b_k:Int)=a_k`を無条件で形式化**。真のP92B全9構成子の生成に伴う反転・貼り合わせの係数変換を保持する。有限supportおよび`k>natDegree(P_f)⇒b_k=0`の深さ上界を証明し、GK5BB・GK5BE・GK5BFの三不変量を **`N=∑b_k`、`S=∑(-1)^k b_k`、`W=∑2^k b_k`** という真正有限support上の和として復元した（N/WはNat値、SはInt値）。P93C全16・P94A全19構成子のNat係数保存、元F55の本物のP77商へのNat値`Quotient.lift`、Int値係数へのキャスト一致・有限評価・係数族完全性も形式化。
+
+真正北C60の全original F55証拠へ有限和・深さ上界を適用した。元pentagonと元double-inverse＋真正F55右単位のP77商で`b₀=1`対`0`、同じ旧`(N,S,W)=(3,1,10)`の真正選択P92B endo-loop対で`b₀=2`対`0`を証明し、後者のP94A四セル不存在をNat係数保存から導出。選択loopはoriginal→phi局所seam反例とは混同しない。**`W=1`は依然として局所seamの必要条件であり十分性は未証明。**
+
+[独立GK5BJ CI #41720830977](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41720830977)：**Strict Lean 9,276/9,276・Governance 30/30 SUCCESS**（新規20宣言・sorryAxなし）。[Qi v4.29 CI #41721667098](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41721667098)：**10,203/10,203・30/30 SUCCESS**（新規15宣言・sorryAxなし）。各source/test-merge/squash Git tree一致、Qi統合main SHA `ae5c0f5dea2613f52c3f1074fbec5a35a9612ce1`。[正式証明記録](docs/formal/GK5BJ-Qi-v4_29-natural-depth-weighted-sums.md)。strict 空／独立Kuu→Qi、元F54二Nat・二圏・Blocks／元F55 Type証拠、公開root107、保護PR #1558 Draft/OPEN、固定Lean・mathlibを保持。P89無条件反射・Gray・全域seamは未主張。
+
 **Copyright © 2026 Hidetoshi Itakura / 板倉英俊. Apache-2.0.**

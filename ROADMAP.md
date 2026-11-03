@@ -1750,4 +1750,13 @@ lake build KuuOSFormal # warningAsErrorはlakefile.toml既定。sorryAxは#print
 - [正式証明記録](docs/formal/GK5BI-Qi-v4_28-finite-depth-coefficient-obstructions.md)。strict 空／独立Kuu→Qi、元F54二Nat／二圏／Blocks・元F55 Type値証明履歴、公開root107、保護PR #1558 Draft/OPEN、固定Lean `v4.30.0-rc2`／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`。局所`W=1`は必要条件のみ。Gray、GK5AY全域seam、GK5BA kit、元P89無条件反射／P94A全域正規形は未証明。
 - **次GK5BJ（仮称）：** 非負整数`a_k`を明示Nat値証拠へ移し、有限support上の和として`N=P(1)`、`S=P(-1)`、`W=P(2)`の重み付き係数式を構成。最大反転深さの構成的上界を検討し、真のP77商値とP94A係数保存を維持。局所seam十分性を先取りしない。
 
+## 2026-11-04：GK5BJ／Qi v4.29 — Nat値有限supportとN/S/W重み付き和の形式化
+
+- [独立GK5BJ #3055](https://github.com/itakura-hidetoshi/KuuOS/pull/3055) **MERGED**。source `aa2fd1c39c5889cc63894f4451d8b9d349dc8244`、test-merge `1532583edd3d4cf61a0db588fa2a97d90dcde5d7`、squash `869132e16a87821dbe82be1072b3e1801e99afb1`。source/test-merge/squash tree `7b904ed7daf8d354f9b528e0e505b29129c96e05`一致。[exact-source CI #41720830977](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41720830977)：**Strict Lean 9,276/9,276・Governance 30/30 SUCCESS**、新規20宣言公理監査にsorryAxなし。
+- [Qi v4.29 #3056](https://github.com/itakura-hidetoshi/KuuOS/pull/3056) **MERGED**。source `00388111749990232d3b5cfe6b0b6895422a5fda`、test-merge `a63d0b58d94633e11b021724249832db191787ce`、squash `ae5c0f5dea2613f52c3f1074fbec5a35a9612ce1`。tree `a6924070fdd573592a133b69d77ff255d293cf35`一致。[exact-source CI #41721667098](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41721667098)：**10,203/10,203・30/30 SUCCESS**、15宣言sorryAxなし。
+- **独立Kuuの数学的到達：** 真正P92B深さ係数`b_k=toNat(coeff(P_f,k)):Nat`とInt係数のキャスト一致、`b₀(symm f)=0`・`b_(k+1)(symm f)=b_k(f)`・`b_k(trans f g)=b_k(f)+b_k(g)`、有限supportと`k>natDegree(P_f)⇒b_k=0`、`P_f(x)=∑(b_k:Int)x^k`。厳密な`N=∑b_k`、`S=∑(-1)^k b_k`、`W=∑2^k b_k`。P93C全16／P94A全19型付き保存、真正元P77商のNat値Quotient.lift・Int係数との一致・全係数による多項式復元を証明。
+- **Qiの真正北C60：** 元のlong→short F54の全F55証拠にNat値有限和・深さ上界を適用。元pentagonと元二重反転＋F55右単位のP77商が`b₀=1`対`0`で分かれる。元の`N=3,S=1,W=10`が一致する真正選択P92B north endo-loop対も`b₀=2`対`0`で区別され、P94A四セル不存在。元original→phi seamの反例とはしない。物理第五Dart閉路と旧P89 BadPair反射は別々。
+- [正式証明記録](docs/formal/GK5BJ-Qi-v4_29-natural-depth-weighted-sums.md)。strict 空、独立Kuu→Qi、元F54二Nat・二圏・Blocks／元F55 Type履歴、公開root107、保護PR #1558 Draft/OPEN、固定Lean `v4.30.0-rc2`・mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`を維持。GK5AY全域seam、GK5BA kit、P94A正規形、W=1のseam十分性、元P89無条件反射、Grayは未証明。
+- **次GK5BK（仮称）：** 有限深さ上界`d`が既知の場合、`d+1`個の異なる整数評価点による多項式係数の一意復元を真正P92B証拠・元P77商へ移す。評価一致とP94A四セル存在を混同せず、有限観測による係数の識別可能性を研究する。
+
 **Copyright © 2026 Hidetoshi Itakura / 板倉英俊. Apache-2.0.**
