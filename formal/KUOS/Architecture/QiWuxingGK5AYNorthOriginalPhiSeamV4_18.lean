@@ -271,8 +271,9 @@ theorem fivefoldGK5AYNorthPhysicalRawReflection_of_allInjective
     ((¬ Function.Injective
       (fivefoldGK5ANP94NorthPhysicalFourClassMap frame i)) ↔
         fivefoldGK5AQNorthReflectionObstruction) := by
-  have hreflect := fivefoldGK5AYNorthRawReflects_of_allInjective
-    data allInjective
+  have hreflect : nativeGK5AYRawP93Reflects
+      fivefoldGK5AYNorthFirst fivefoldGK5AYNorthLast :=
+    fivefoldGK5AYNorthRawReflects_of_allInjective data allInjective
   rcases fivefoldGK5AQNorthPhysicalReflectionAndOrientation frame i with
     ⟨hIff, hClosed, _, h04, h43⟩
   exact ⟨hreflect, hClosed, h04, h43, hIff⟩
