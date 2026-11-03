@@ -477,8 +477,8 @@ theorem nativeGK5BGTriple_poly_ne
       (nativeGK5BGTripleRight r).gk5bgDepthPolynomial := by
   intro h
   have hz := congrArg (Polynomial.eval (0 : Int)) h
-  rw [nativeGK5BGTriple_polynomials r |>.1,
-    nativeGK5BGTriple_polynomials r |>.2] at hz
+  obtain ⟨hleft, hright⟩ := nativeGK5BGTriple_polynomials r
+  rw [hleft, hright] at hz
   norm_num at hz
 
 /-- Therefore no chosen P94A four-cell compares this pair,
