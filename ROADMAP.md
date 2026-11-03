@@ -3,6 +3,22 @@
 
 
 
+## GK5AW／Qi v4.16 完了 — 元P89の8種context生成元に沿う厳密なBadPair局所化と北C60のφ-fiber境界／2026-11-03 JST
+
+**独立Kuu [GK5AW PR #3016](https://github.com/itakura-hidetoshi/KuuOS/pull/3016) MERGED。** GK5AU（P94A全19・内部P93C全16 source-hole検査）とGK5AV（内部二段transから真正元F55 source-vertex鎖）の上に、元P89構成子の存在に基づく**非垂直8操作のlocal reflection gate**を実装。左右F55 3-cell whisker、左右F45 binary context、F54 precompose/postcompose、左右horizontal whiskerについて、**追加contextが真正元F55証拠に由来し、内側に本当のP94A選択四セルがある場合、外側に本当のGK5AQ BadPairがあれば内側にもBadPairがある**ことを元P89各構成子の反証法で証明。これは外→内の必要障害局所化であり、内→外の逆を一般には主張しない。元P89四セルを観測shadow一致から捏造しない。
+
+**真正元F55 φ-fiber gate：** 選択P94A左／右whiskerのprior/suffix、左右horizontalの他方P92B証拠について、GK5AUの全履歴source-saturationがあれば元F55 `PhiFiber`が存在する。選択水平interchangeについては4つの全P92B入力量の元F55 φ-fiberを取り出す。独立した真正元F55 inputによるhorizontal interchangeは、元`P89.interchange`自身が本当の元4-cell証拠となるためBadPairになり得ない。元P80水平／左右context unitの真正原始反射は既存GK5AQを保持。一方で、選択P93Cの新規vertical units／assocや任意のP94A raw証明履歴全体の元P89反射は**未証明**として保留。
+
+**Qi [v4.16 PR #3017](https://github.com/itakura-hidetoshi/KuuOS/pull/3017) MERGED。** 真正北四段pentagon長短のF54双Nat／二圏Blocks／元F55証拠上で、選択P94A左右whiskerがsource-saturatedなら追加P92B prior/suffixは元F55 φ-fiberを持つ。元F55 priorで左whiskerした元証拠のBadPairは北の内側元F55比較のBadPairに局所化する。いずれも第五around physical Dart閉路、04／43の物理／カテゴリー方向の不一致、Qi v4.10の**条件付き**元P89→P94A非単射性 iff 真正GK5AQ反射障害を同時保持。物理的compatibilityは証拠存在の代替ではなく、未構成の元BadPairを実在と主張しない。
+
+**exact-source CI／公理監査：** GK5AW最終HEAD `ce48e80dd878f7dc2a488bbd66b354bceca12d54`、squash `db6261e0d7a2d4440584329c39b0fed85bfdd72f`、[Governance #41588370677](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41588370677) **Strict Lean 9,250 / 9,250・Governance 30 / 30 SUCCESS**、`#print axioms`14件標準許容範囲。Qi最終HEAD `2c39368bcedb5bec0ec2a48eede81673642b50c9`、squash `7d1a1aeb4f1f5397d4d8d7ab3e61390e13353084`、[Governance #41589106673](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41589106673) **Strict Lean 10,177 / 10,177・Governance 30 / 30 SUCCESS**、公理確認4件許容。最終新規Lean warning/error・`sorryAx`・新公理なし。strict 空権限、独立Kuu→Qi、公開root 107、保護PR #1558 Draft/open/unmerged、固定Lean v4.30.0-rc2／mathlib 5450b53e5ddc75d46418fabb605edbf36bd0beb6を維持。
+
+**[正式証明記録](docs/formal/GK5AW-Qi-v4_16-generator-context-reflection-and-north-physical-fibers.md)** · [独立GK5AW Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5AWContextGeneratorReflectionGate.lean) · [Qi v4.16 Lean](formal/KUOS/Architecture/QiWuxingGK5AWNorthContextReflectionV4_16.lean)。
+
+**次：GK5AX（仮称）** — 元F55 φ-imageの確証だけでなく、P93C/P94A独立vertical units・associator・`old`境界・選択interchangeの本当の元P89四セル反射証拠を、generator-indexed構成子別に形式化する。適切な局所反射certificatesを合成できる範囲と、局所に残るsource-hole／BadPairのobstructionを区別して全19構成子の条件付きdescentを研究する。Gray再導入、無条件正規化、元P89→P94A非単射性を先取りしない。
+
+---
+
 ## GK5AV／Qi v4.15 完了 — P93C内部source-vertex二辺鎖と北C60物理条件付きP89降下／2026-11-03 JST
 
 **独立Kuu [GK5AV PR #3013](https://github.com/itakura-hidetoshi/KuuOS/pull/3013) MERGED。** GK5AUで全P94A19／内包P93C16構成子の真正元F55 φ像source-holeを検査したことを継承。今回は、**真正P93C垂直二段 `P93C.trans left right` がP94A `old`の内部に存在する場合**を含め、source-saturatedな中間P92B証拠 `q` の元F55 `PhiFiber(q)` が非空であることを証明。P93C全16構成子の左右端点source-holeにも独立した補題を構築。元F55の真正中間証拠 `m`（`φm=q`）を得て、選択比較 `φf→q→φg` を与えられた真正P94A四セルのまま**元F55節点 f→m→g の二辺GK5AS source-vertex鎖**へ変換する。鎖に `HasBadStep` がなければ元P89四セル `P89(f,g)` が実在する。存在する場合は元GK5ASの真正局所非反射障害として切り分ける。任意のP94A raw証明項が構築鎖の `toSelected` と同一とは主張しない。
