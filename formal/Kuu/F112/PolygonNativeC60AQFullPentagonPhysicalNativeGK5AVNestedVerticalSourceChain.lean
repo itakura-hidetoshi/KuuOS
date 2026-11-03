@@ -55,14 +55,14 @@ theorem nativeGK5AVP93C_hole_of_missing_right
     (w : NativeF55P93AssocFourCell f g)
     (missing : ¬ nativeGK5ATPhiImage g) :
     nativeGK5AUP93CSourceHole w := by
-  cases w <;> simp [nativeGK5AUP93CSourceHole, missing]
+  cases w <;> exact Or.inr (Or.inl missing)
 
 /-- The symmetric exact left-endpoint source hole for P93C. -/
 theorem nativeGK5AVP93C_hole_of_missing_left
     (w : NativeF55P93AssocFourCell f g)
     (missing : ¬ nativeGK5ATPhiImage f) :
     nativeGK5AUP93CSourceHole w := by
-  cases w <;> simp [nativeGK5AUP93CSourceHole, missing]
+  cases w <;> exact Or.inl missing
 
 /-- Source-saturation of a GENUINE selected P93C vertical composite
 forces an original F55 proof-relevant dependent phi-fiber over its
