@@ -78,6 +78,7 @@ theorem nativeGK5BKIntegerGrid_card (d : Nat) :
   unfold nativeGK5BKIntegerGrid
   have hinj : Function.Injective (fun k : Nat => (k : Int)) := by
     intro i j h
+    change (i : Int) = (j : Int) at h
     exact_mod_cast h
   rw [Finset.card_image_of_injective (Finset.range (d + 1)) hinj]
   exact Finset.card_range _
