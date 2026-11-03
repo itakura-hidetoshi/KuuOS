@@ -3,6 +3,22 @@
 
 
 
+## GK5AX／Qi v4.17 完了 — 元F55垂直unit/assoc primitiveのP89反射証明書と有限型付き垂直語の条件付き降下／2026-11-03 JST
+
+**独立Kuu [GK5AX PR #3019](https://github.com/itakura-hidetoshi/KuuOS/pull/3019) MERGED。** 旧元P89は13構成子を持つが、選択P93C/P94Aが明示的に加えた`verticalLeftUnit`・`verticalRightUnit`・`verticalAssoc`の本当の元P89 4-cellを無条件に生成する構成子を持つとは限らない。GK5AXは、元F55の真正9構成子proof termとF54双Nat経路で添字付けした3種類の選択P94A primitive 4-cellを実際に構成し、各元証拠ペアの**GK5AQ BadPair iff 本当の元P89 4-cell不存在**をLean4で証明した。これは元P89の原始証拠が実在しないという主張でも、元P89→P94Aの無条件非単射性という主張でもない。
+
+**依存型primitive反射証明書：** 元P89の左右vertical unitおよびassoc全3 familyの真正証拠をまとめる`NativeGK5AXVerticalPrimitiveCertificates`を定義。**このレコードのNonempty iff 3 familyすべてにGK5AQ BadPairが存在しない**ことを証明した。逆方向は元4-cell証拠の存在を古典的choiceで選択し、証明書の無条件存在を仮定するものではない。元F55証拠の有限`refl/symm/trans/leftUnit/rightUnit/assoc`垂直4-proof文法`NativeGK5AXSourceVerticalWord`には、選択P94Aの真正4-cell解釈を無条件に、元P89の4-cell解釈を**実在するprimitive証明書が与えられる場合に限り**、本当の依存型帰納法で構成。後者の条件下で2つの証拠の共存とGK5AQ BadPair不在を形式証明。これは任意P94A全19構成子の無条件元source正規化ではない。
+
+**Qi [v4.17 PR #3020](https://github.com/itakura-hidetoshi/KuuOS/pull/3020) MERGED。** 真正北四段pentagon元F54長短経路・元F55証拠で、左右vertical unitのGK5AQ BadPair iff 元P89証拠欠損、任意の北元F54経路上の3証拠verticalAssocの同じiffを検証。更に元P89 primitive証明書という条件を明示した有限北垂直語のoriginal P89/selected P94A同時存在を証明。真の第五around Dart閉路、04／43物理／圏論方向の不一致、条件付き元P89→P94A非単射性iffを同じ物理presentation内で保持。五行gaugeは元P89 vertical unit/assoc証明書を勝手に生み出さない。
+
+**Exact-source CIとSHA：** 独立GK5AX最終HEAD `ee62d1f3f93f8cde8dae17c5e617bf450ee2e434`、squash `202f2039dfe432e179b3b36e449caaa97475a18b`、[Governance #41591523550](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41591523550) **9,252/9,252 Strict Lean・30/30 Governance SUCCESS**、`#print axioms`13件標準許容。Qi最終HEAD `16a1cecb884d85936fde33fdb47d04ef60621a39`、squash `a72d15cb74761ef0a6ca78ef30630e21d06929f4`、[Governance #41592158198](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41592158198) **10,179/10,179 Strict Lean・30/30 Governance SUCCESS**、公理出力5件標準許容。`sorryAx`・新規公理・最終warning/errorなし。strict 空権限、独立Kuu→Qi、公開root107、Lean v4.30.0-rc2・mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6` pin、保護PR #1558 Draft/OPEN／未マージを保持。
+
+**[正式証明記録](docs/formal/GK5AX-Qi-v4_17-original-vertical-primitive-reflection-certificates.md)** · [GK5AX Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5AXVerticalPrimitiveReflectionCertificates.lean) · [Qi v4.17 Lean](formal/KUOS/Architecture/QiWuxingGK5AXNorthVerticalPrimitiveReflectionV4_17.lean)。
+
+**次：GK5AY（仮称）** — 既存GK5AWの8種source-context反射障害局所化と今回GK5AXの3種原始垂直反射証明書を接続し、`P93C.old`の選択`P92B.original`と元F55構造写像`φ`の間に必要な真正seam 4-cell証明書を明示。元P89反射が可能な構成子閉包／不足する高次obstructionを独立に形式化。全19構成子の無条件P89 faithfulness、Grey／Gray再構築、無条件gluingを先取りしない。
+
+---
+
 ## GK5AW／Qi v4.16 完了 — 元P89の8種context生成元に沿う厳密なBadPair局所化と北C60のφ-fiber境界／2026-11-03 JST
 
 **独立Kuu [GK5AW PR #3016](https://github.com/itakura-hidetoshi/KuuOS/pull/3016) MERGED。** GK5AU（P94A全19・内部P93C全16 source-hole検査）とGK5AV（内部二段transから真正元F55 source-vertex鎖）の上に、元P89構成子の存在に基づく**非垂直8操作のlocal reflection gate**を実装。左右F55 3-cell whisker、左右F45 binary context、F54 precompose/postcompose、左右horizontal whiskerについて、**追加contextが真正元F55証拠に由来し、内側に本当のP94A選択四セルがある場合、外側に本当のGK5AQ BadPairがあれば内側にもBadPairがある**ことを元P89各構成子の反証法で証明。これは外→内の必要障害局所化であり、内→外の逆を一般には主張しない。元P89四セルを観測shadow一致から捏造しない。

@@ -14,6 +14,20 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK5AX＋Qi v4.17／真正元F55垂直primitiveの元P89反射証明書・北C60条件付き降下／2026-11-03 JST
+
+**[独立Kuu GK5AX PR #3019](https://github.com/itakura-hidetoshi/KuuOS/pull/3019) MERGED、[Qi v4.17 PR #3020](https://github.com/itakura-hidetoshi/KuuOS/pull/3020) MERGED。** GK5AUのP94A全19／内包P93C全16のsource-hole検査、GK5AVの真正二辺source-vertex鎖、GK5AWの元P89 8種類context生成元に沿うBadPair局所化を継承。GK5AXでは、真正元F55証拠のφ像で添字付けした**選択P94A垂直leftUnit・rightUnit・assocの3 primitive**を実際に構成し、それぞれの元証拠ペアの**GK5AQ BadPair iff 真正元P89四セル証拠不存在**を形式化した。元P89に無条件の垂直primitive証拠を追加したわけではない。
+
+**原始反射証明書と有限垂直証明語：** 3 primitive全ての本当の元P89 Type値付き4-cell証拠を保持する依存型`NativeGK5AXVerticalPrimitiveCertificates`を定義し、そのNonempty **iff 3 familyすべてに真正元GK5AQ BadPairが存在しない**ことを証明。選択P94Aには元F55添字付き`refl/symm/trans/leftUnit/rightUnit/assoc`有限証明語を無条件に解釈し、**元P89 primitive証明書が実際に与えられた場合に限り**元P89の有限証明語解釈を構成する。元P89→選択P94Aの全19構成子faithfulnessや原始証明書の無条件実在は主張しない。選択P93C `old`の`P92B.original`と再帰的`φ`像も同一視しない。
+
+**真正北C60／Qi v4.17：** 元北四段pentagon長短のF54双Nat・元F55証拠へ左右unitの反射不在iff BadPair、元F55三証拠のassoc反射不在iff BadPair、原始証明書が与えられる場合の条件付き有限語元P89降下を適用。真正第五around Dart閉路、04／43の物理／圏論向きの不一致、Qi v4.10の**条件付き**元P89→P94A非単射性iffを同時保持。北五行gaugeは欠けた元P89証明書を供給しない。
+
+**Exact-source形式検証：** GK5AX [Governance #41591523550](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41591523550) **Strict Lean 9,252/9,252・Governance 30/30 SUCCESS**、`#print axioms`13件、squash `202f2039dfe432e179b3b36e449caaa97475a18b`。Qi v4.17 [Governance #41592158198](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41592158198) **Strict Lean 10,179/10,179・Governance 30/30 SUCCESS**、`#print axioms`5件、squash `a72d15cb74761ef0a6ca78ef30630e21d06929f4`。新公理・`sorryAx`・最終Lean warning/errorなし。strict 空権限、独立Kuu→Qi、公開root107、Lean v4.30.0-rc2／固定mathlib、保護PR #1558 Draft/OPEN維持。
+
+**[正式証明記録](docs/formal/GK5AX-Qi-v4_17-original-vertical-primitive-reflection-certificates.md)** · [GK5AX Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5AXVerticalPrimitiveReflectionCertificates.lean) · [Qi v4.17 Lean](formal/KUOS/Architecture/QiWuxingGK5AXNorthVerticalPrimitiveReflectionV4_17.lean)。**次：GK5AY（仮称）** — 元P89の原始垂直反射証明書とP93C `old`境界の`P92B.original`→`φ`の真正seam証拠を分離し、選択context／horizontalとの合成に必要な追加条件付き高次反射を検査する。
+
+---
+
 ## 最新のLean定理統合 — F112-P94D3GK5AW＋Qi v4.16／8種P89 context生成元の反射障害局所化・北C60真正φ-fiber／2026-11-03 JST
 
 **[独立GK5AW PR #3016](https://github.com/itakura-hidetoshi/KuuOS/pull/3016) MERGED、[Qi v4.16 PR #3017](https://github.com/itakura-hidetoshi/KuuOS/pull/3017) MERGED。** GK5AUの選択P94A全19／内包P93C全16構成子source-hole監査、GK5AVのP93C-in-P94A内部二段source-vertex鎖を継承し、**元P89に実在する8種類の操作（左右whisker・左右F45 context・F54 pre/postcompose・左右horizontal whisker）**について、元F55に由来する追加証拠を使った外側BadPairがあれば、その**実際の内側選択比較に元GK5AQ BadPairが存在する**ことをLean4で証明した。元P89で内側四セルが存在するなら元P89の対応構成子で外側へ持ち上げられるため、外側で非反射なら内側も非反射という正確な必要条件である。逆方向は無条件に主張しない。
