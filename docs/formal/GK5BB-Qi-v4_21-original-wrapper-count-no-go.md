@@ -62,7 +62,9 @@ N(P92B.trans(original(f), original(g))) = 2
 
 ## 6. Qi v4.21 への接続
 
-[Qi v4.21 PR #3032](https://github.com/itakura-hidetoshi/KuuOS/pull/3032) はこの初期記録作成時点では**exact-source CI検証中**。真正北C60の2つのSiteカテゴリ上で、元identityとtransのP94A不可比較、Kit／global seam／all-local-shells不存在、元右identity複合のcount compatibility、元pentagon＋逆の個別直接seam不存在、物理第五around Dart閉路とe04/e43物理方向の相違を統合する。元P89 class map非単射性は既存の**条件付きiff**のまま保持し、数値五行gaugeから元P89証拠を生成しない。
+[Qi v4.21 PR #3032](https://github.com/itakura-hidetoshi/KuuOS/pull/3032) **MERGED**。最終exact-source HEAD `ab1e4afbf391948097568f71f67b7a803f5b1053`、main squash `61b95c4f6c3e55c5fc94e4be5a88693e32395019`。[Governance #41616589679](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41616589679) **Strict Lean 10,187/10,187 SUCCESS、Governance 30/30 SUCCESS**、9宣言公理監査で`sorryAx`なし。[Qi v4.21 Lean source](../../formal/KUOS/Architecture/QiWuxingGK5BBNorthOriginalWrapperObstructionV4_21.lean)（198行）を公開`KuuOSFormal`へimport済み。真正北C60の2つのSiteカテゴリ上で、元identityとtransのP94A不可比較、Kit／global seam／all-local-shells不存在、元右identity複合のcount compatibility、元pentagon＋逆の個別直接seam不存在、物理第五around Dart閉路とe04/e43物理方向の相違を統合する。元P89 class map非単射性は既存の**条件付きiff**のまま保持し、数値五行gaugeから元P89証拠を生成しない。
+
+**Git tree独立一致確認：** GK5BB exact-source HEADとmain squashのtreeはともに `d301bfdb71b81e0c2ac326ec40a0fbc7527a47c3`、Qi v4.21も双方 `062c42c1fe872c40065cc065c4459953cf9fe193`。CIで検証した各ソースとmainに実際にマージされたツリーの内容は一致する。
 
 ## 7. 不変条件と次の研究
 
