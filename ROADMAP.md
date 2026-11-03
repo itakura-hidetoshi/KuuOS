@@ -1733,4 +1733,12 @@ lake build KuuOSFormal # warningAsErrorはlakefile.toml既定。sorryAxは#print
 - [GK5BG／Qi v4.26正式証明記録](docs/formal/GK5BG-Qi-v4_26-full-inversion-depth-polynomial.md)。独立Kuu→Qi、strict 空 authority、元F54双Nat／二圏／Blocks、公開root107、固定Lean v4.30.0-rc2／mathlib 5450b53e5...、保護PR #1558 Draft/OPENを維持。
 - **次GK5BH（仮称）**：生成多項式の全係数を非負な反転深さ分布として形式化、元P77商上の係数別obstruction／次数や支えを研究し、三点評価では同値なP92B証拠の分離を一般化する。P(phi)=1必要条件の十分性や高次gluingを先取りしない。
 
+## 2026-11-04：GK5BH／Qi v4.27 — P=1 と W=1 の無条件同値、三条件の正確な簡約
+
+- [独立GK5BH #3049](https://github.com/itakura-hidetoshi/KuuOS/pull/3049) **MERGED**。exact-source HEAD `b956f7ee9eb110b8dfecadab0302b13c5ce011f3`、test-merge `04059ad30de4dd551791c60effca7fa874671916`、main squash `6cab22f0d78784794e9ede119daf26dffed211e7`。全Git tree `3cfdbd21e3ded251867df896cdfe33d1185d93e6` 一致。[Strict Lean/Governance #41699640942 attempt 2](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41699640942) **9,272/9,272・30/30 SUCCESS**、新規10宣言sorryAxなし。初回はLean未実行のLake cache restore失敗、失敗ジョブだけ再実行した。
+- [Qi v4.27 #3050](https://github.com/itakura-hidetoshi/KuuOS/pull/3050) **MERGED**。exact-source HEAD `f54b4daabc4bbb19bebde572566d92fa309fef82`、test-merge `01b68f41d562f8f66153f06b1b06eab65e841231`、main squash `425430954483c288c14980aa4ffb2661549cdb28`。全Git tree `fc325547d6dbd058f314d748a26598c66bb2e1b6` 一致。[Strict Lean/Governance #41701233426](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41701233426) **10,199/10,199・30/30 SUCCESS**、7宣言sorryAxなし。
+- **数学的到達：** 全ての真のP92B証拠について`W=0→P=0`、`P(X)=1 ↔ W=1`、`W=1→N=S=1`を固定Lean4で証明。元P77四セル商上では`ThreeGatesOnP77Class(q) ↔ PolyOnP77Class(q)=1`。これは局所original→phi seam存在の**必要条件の同値**であり、W=1からのseam存在を証明しない。全Polynomial Intは依然、任意の選択P94A四セル比較においてN,S,Wの有限3評価より詳細で、旧GK5BGの北P92B endo-loop障害を保持。真正北pentagon＋右単位の正、元二重反転＋右単位の負の局所P77商クラスは同一F54 Hom内で区別。
+- [正式証明記録](docs/formal/GK5BH-Qi-v4_27-polynomial-unit-threshold-collapse.md)。独立Kuu→Qi、元F54二Nat・二圏・Blocks、公開root107、保護PR #1558 Draft/OPEN、固定Lean v4.30.0-rc2／mathlib 5450b53e5...維持。元P89 BadPairと内部source-image障害は別々、Gray復元なし。
+- **次GK5BI（仮称）：** `Polynomial Int`の各係数を反転深さ別の自然数原始wrapper発生回数として構成、有限support・非負性を証拠型付きで明示し、P94A全19構成子での係数保存とP77商への降下を段階的に検証。全域seam、P94A正規形、元P89無条件faithfulness、W=1の十分性は未主張。
+
 **Copyright © 2026 Hidetoshi Itakura / 板倉英俊. Apache-2.0.**
