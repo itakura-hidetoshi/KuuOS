@@ -14,6 +14,20 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK5AT＋Qi v4.13／P94A内部P92Bの元F55 φ像・反射障害／2026-11-03 JST
+
+**[独立Kuu GK5AT PR #3007](https://github.com/itakura-hidetoshi/KuuOS/pull/3007) MERGED、[Qi v4.13 PR #3008](https://github.com/itakura-hidetoshi/KuuOS/pull/3008) MERGED。** 元F55の9構成子を真正P92Bへ写す構造写像 `φ` に対し、選択P92B証拠 `q` の**真正Type値付き元F55 fiber**を定義し、像所属の必要十分条件（fiber非空）を形式化。元のident・symm・trans・左右contextについて像の閉性をLean4で証明しました。数値shadow、商等式、左右偶奇は元証拠の代理とはしません。
+
+**内部二段合成の厳密な障害分岐：** 真正元F55証拠`f,g`および実在する選択四セル `P94A(φf,q)`、`P94A(q,φg)` があれば、**元P89四セル`(f,g)`が存在するか、内部`q`がφ像外か、ある元F55`m`（`φm=q`）との間に真正GK5AQ `BadPair(f,m)` または `BadPair(m,g)` が存在する**ことを証明しました。これはGK5ASで外部source-vertex鎖に要求した元証拠節点を、**実際のP94A trans内部の任意の選択中間証拠**に対して判定する新しい局所定理です。無条件の元P89→P94A非単射性、全19構成子の無条件source-saturationは主張しません。
+
+**真正北C60：** 元F55証拠のない第1〜3単位の新しいP92B `assocNaturality` を中間節点とする**二重P94A反射合成**を実際に構成。左右文脈単位の回数は`(0,0) mod 2`でも元F55 `φ`-fiberは空です。Qi v4.13で北四段pentagonへ二段障害分岐を適用し、第五辺Dart閉路・反転04/43方向・Qi v4.10の条件付きP89→P94A商非単射性iffを保持。これは元F55二証拠のBadPair実在ではありません。
+
+**CI：** GK5AT [#41571114729](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41571114729) **Strict Lean 9244/9244・Governance 30/30 SUCCESS**、squash `37f2a11e5c8b48ae85ef6c076ea0a0562d75fa40`、公理出力11件許容。Qi v4.13 [#41571750724](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41571750724) **Strict Lean 10171/10171・Governance 30/30 SUCCESS**、squash `4bc7026edb6c38c2c7b4da7202e972d7b6ea2441`、公理出力3件許容。sorryAx・新公理なし、公開root107・保護PR #1558 Draft/open維持。
+
+**[正式証明記録](docs/formal/GK5AT-Qi-v4_13-internal-phi-image-north-physical-descent.md)** · [GK5AT Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5ATInternalSourceImageObstruction.lean) · [Qi v4.13 Lean](formal/KUOS/Architecture/QiWuxingGK5ATNorthInternalSourceGateV4_13.lean)。**次：GK5AU（仮称）** — 選択P94A全19構成子と内部P93C履歴まで含むsource-saturation条件を正確に型付き帰納化し、許されるdescentと残余obstructionを分離。
+
+---
+
 ## 最新のLean定理統合 — F112-P94D3GK5AS＋Qi v4.12／P89→P94A局所反射障害の鎖局所化・偶奇0でも非降下／2026-11-03 JST
 
 **[独立Kuu GK5AS PR #3004](https://github.com/itakura-hidetoshi/KuuOS/pull/3004) MERGED、[Qi v4.12 PR #3005](https://github.com/itakura-hidetoshi/KuuOS/pull/3005) MERGED。** 元F54の真正双Nat経路上で、元F55 Type値付き3-cell証拠を節点として保持し、隣接節点の`φ`像を真正P94A四セルで比較する有限**source-vertex比較鎖**を定義。すべての鎖に対し、**元P89に反射可能であるか、少なくとも1つの局所段階でP94A比較は存在するが元P89比較がない**という場合分けを証明。GK5AQの真正非反射ペアが鎖の両端にあれば、与えられた任意の鎖には必ず非反射段階が存在する。全鎖の局所障害の不存在と元P89→選択P94A四セル商写像の単射性も必要十分。ただし、任意のP94A内部証拠が元F55節点列へ正規化可能とは**仮定も主張もしない**。
