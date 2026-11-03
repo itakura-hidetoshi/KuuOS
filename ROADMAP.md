@@ -3,6 +3,22 @@
 
 
 
+## GK5AU／Qi v4.14 完了 — 全19 P94A・内包全16 P93Cの元F55 φ像履歴検査と真正北C60 source-saturation／2026-11-03 JST
+
+**独立Kuu [GK5AU PR #3010](https://github.com/itakura-hidetoshi/KuuOS/pull/3010) MERGED。** GK5ATが証明した任意の二段合成内部のselected P92B元証拠`q`に対する`PhiFiber(q)`を継承し、実際のP94A**全19構成子**とP94A `old`に隠れたP93C**全16構成子**を再帰的に検査する`nativeGK5AUP94SourceHole`／`nativeGK5AUP93CSourceHole`を追加。元F55の真正構造写像`φ`像外の証拠を、各4-cellの真正Type値付き履歴で検出する。`SourceSaturated(w) := ¬ SourceHole(w)`。P93C `old`のraw selected`original`証拠と、全9元F55構成子を再帰的に解釈した`φ`の像を自明に同一視しない。数値shadow・商・偶奇だけでは復元を認めない。
+
+**局所から大域への**条件付き**降下：** 真正元F55証拠`f,g`の`φ`像を実在P94A二段合成`P94A(φf,q)`・`P94A(q,φg)`で比較し、**合成の全内部履歴がsource-saturated**なら、真正元F55`m`（`φm=q`）のfiberが非空。GK5ATにより元P89四セル`P89(f,g)`が存在するか、元F55同型付き局所GK5AQ `BadPair(f,m)∨BadPair(m,g)`が存在する。あらゆる元中間preimageで両局所BadPairが不存在なら、元P89四セルが実際に構成される。source穴なしのみで任意P94A四セルが元P89から導けるわけではない。非反射ペア存在も未証明。
+
+**Qi [v4.14 PR #3011](https://github.com/itakura-hidetoshi/KuuOS/pull/3011) MERGED。** 真正北四段pentagon長短の元F54/F55、双Natとcategory/blockの全型情報で上記条件付き定理を特殊化。新P92B北三段`assocNaturality`の元F55 φ像非存在を、**P93C `refl`を実際のP94A `old`へ入れた証明履歴の内部hole**として形式化。左右偶奇は`(0,0)`で、第五around physical Dart×Dart閉路と04・43方向の物理／カテゴリー差、P89→P94A非単射性iff真正GK5AQ BadPairという**条件付き**判定を同時保持。元F55証拠なしのこの新P92B例をBadPairとは呼ばない。
+
+**検証正本と修正記録：** GK5AU source HEAD `9fe7562a408e51fd2def120f188b237ac94ecaf4`、squash/main `01ebcca7ef6e68228194f8161498814c036a55d2`、[Governance #41574525281](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41574525281) **9246/9246 Strict Lean、30/30 Governance SUCCESS**、`#print axioms`13件標準のみ。Qi source HEAD `378bc6ddd7703b6ec1b4b12ae3acb7419ba7320d`、squash/main `9fb56f1ca945dafb5b4fd89153108da1bca15dfe`、[Governance #41575239368](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41575239368) **10173/10173 Strict Lean、30/30 Governance SUCCESS**、`#print axioms`3件標準のみ。GK5AUでは、変数に固定された親型付き再帰のLean4エラーを**ローカル全依存添字の一般化**で、未簡約の再帰`match w`へ`Or.inl`を適用したエラーを**全19構成子`cases`補題**で根本修正。新規公理・sorryAx・最終Lean warning/errorなし。strict 空中心、独立Kuu→Qi、公開root107、固定Lean/mathlib、保護PR #1558 Draft/OPENを維持。
+
+**[正式証明記録](docs/formal/GK5AU-Qi-v4_14-p94-p93-internal-source-history-saturation.md)** · [独立GK5AU Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5AUP94FullInternalSourceHistory.lean) · [Qi v4.14 Lean](formal/KUOS/Architecture/QiWuxingGK5AUNorthNestedSourceHistoryV4_14.lean)。
+
+**次：GK5AV（仮称）** — 全構成子のsource-hole分類から、真正元F55 source-vertex比較鎖へ写せる範囲に必要な4-cell反射データを各generatorで明示し、局所条件付きdescent/obstruction必要十分を構築。選択P93C/P94Aで新規に加えたgeneratorの元P89四セルの存在を勝手に仮定しない。Gray復元、全大域gluing、元P89→P94Aの無条件単射性／非単射性は引き続き研究境界。
+
+---
+
 ## GK5AT／Qi v4.13 完了 — P94A内部中間P92B φ像ゲートと真正北C60非降下／2026-11-03 JST
 
 **[GK5AT PR #3007](https://github.com/itakura-hidetoshi/KuuOS/pull/3007) MERGED。** GK5ASが元F55節点で外側の有限比較鎖を構成したことを継承し、GK5ATでは**選択P94A四セルの実際のtrans内部に出現する任意のP92B証拠`q`**へ検査を進めました。元F55 Type証拠を保持したfiber `{f // φ(f)=q}` を定義し、像所属iff fiber非空、元のidentity・symmetry・vertical trans・左右contextでの閉性を形式化。元のF54双Nat・Blocks・二カテゴリーの型情報を保ちます。
