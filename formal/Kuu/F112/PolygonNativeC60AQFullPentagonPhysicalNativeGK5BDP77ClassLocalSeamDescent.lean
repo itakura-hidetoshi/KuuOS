@@ -73,7 +73,7 @@ inductive NativeGK5BDP77Word
   | nil : NativeGK5BDP77Word first last seed seed
   | snoc
       {f g : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p r s}
-      (prefix : NativeGK5BDP77Word first last seed f)
+      (priorWord : NativeGK5BDP77Word first last seed f)
       (step : NativeF55RawVerticalFourCell first last f g) :
       NativeGK5BDP77Word first last seed g
 
@@ -86,7 +86,7 @@ def NativeGK5BDP77Word.toP77
     NativeF55RawVerticalFourCell first last seed target := by
   induction w with
   | nil => exact .refl _
-  | snoc prefix step ih => exact .trans ih step
+  | snoc priorWord step ih => exact .trans ih step
 
 /-- Every original P77 certificate is in turn a finite
 one-step word, so finite-word accessibility is neither
@@ -231,7 +231,7 @@ theorem nativeGK5BDNorthPentagonWord_seam
     (w : NativeGK5BDP77Word nativeGK5BDNorthFirst
       nativeGK5BDNorthLast nativeGK5AGNorthOriginalCell target) :
     Nonempty (nativeGK5AZSeamAt target) :=
-  ⟨nativeGK5BDSeam_of_word w (.refl _)⟩
+  ⟨nativeGK5BDSeam_of_word w nativeGK5AZNorthPentagonAtom⟩
 
 /-- The independent original C60 disjoint-square atom also
 extends to a true composite with a LEFT F55 identity, with
