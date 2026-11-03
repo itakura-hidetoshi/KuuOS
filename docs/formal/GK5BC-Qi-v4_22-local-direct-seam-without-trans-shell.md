@@ -49,7 +49,9 @@ original(trans(f, ident(s)))
 
 ## 5. Qi v4.22 真正物理gauge統合
 
-[Qi v4.22 PR #3035](https://github.com/itakura-hidetoshi/KuuOS/pull/3035) は本記録草稿時点ではexact-source CI検証中。真正北C60における元P77の本物のrightUnit、P94Aへの7層のraw 4-cell埋め込み、選択P94A verticalRightUnitとの合成による個別直接seamを別々のLean定義として公開する予定。証拠が異なること、wrapper count一致、split shell不存在・全域seam不存在、元P89 BadPairの条件付きiffと真の第五around Dart閉路・e04/e43物理／圏論向きの相違を同時保持する。数値五行gaugeから元P89の四セルを捏造しない。
+[Qi v4.22 PR #3035](https://github.com/itakura-hidetoshi/KuuOS/pull/3035) **MERGED**。最終exact-source HEAD `a606dea927874d71f36ce1003a0b95dfd17da6c1`、main squash `9f963703b9c1421ac048f8f62cae9ea1a77d3d72`。[Governance #41619751996](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41619751996) **Strict Lean 10,189/10,189・Governance 30/30 SUCCESS**、公理監査10宣言・`sorryAx`なし。[Qi v4.22 Lean](../../formal/KUOS/Architecture/QiWuxingGK5BCNorthDirectLocalSeamV4_22.lean)（212行）を公開`KuuOSFormal`へimport済み。真正北C60における元P77の本物のrightUnit、P94Aへの7層のraw 4-cell埋め込み、選択P94A verticalRightUnitとの合成による個別直接seamを別々のLean定義として公開する予定。証拠が異なること、wrapper count一致、split shell不存在・全域seam不存在、元P89 BadPairの条件付きiffと真の第五around Dart閉路・e04/e43物理／圏論向きの相違を同時保持する。数値五行gaugeから元P89の四セルを捏造しない。
+
+**検証ソース・マージ内容のGit tree一致：** GK5BC独立Kuuのsource／squashは双方 `d83dfc203b248bfc12973b70fc8f27bb460df45c`、Qi v4.22のsource／squashは双方 `8819b4d0cdadb1240d88628772e47587c28c5a8d`。両方ともCIで検証したソース内容がmainのsquashツリーと完全一致する。
 
 ## 6. 不変条件・次の研究
 
