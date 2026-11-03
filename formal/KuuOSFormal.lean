@@ -514,6 +514,7 @@ import KUOS.Architecture.QiWuxingGK5BFNorthDoubleInverseClassV4_25
 import Kuu.F112.PolygonNativeC60AQFullPentagonPhysicalNativeGK5BGDepthGeneratingPolynomial
 import KUOS.Architecture.QiWuxingGK5BGNorthPolynomialSeamV4_26
 import Kuu.F112.PolygonNativeC60AQFullPentagonPhysicalNativeGK5BHUnitPolynomialWeightOne
+import KUOS.Architecture.QiWuxingGK5BHNorthUnitPolynomialGateV4_27
 
 /-!
 Public aggregate: retain every previously published proof and its original
