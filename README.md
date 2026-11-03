@@ -14,6 +14,20 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — F112-P94D3GK5AS＋Qi v4.12／P89→P94A局所反射障害の鎖局所化・偶奇0でも非降下／2026-11-03 JST
+
+**[独立Kuu GK5AS PR #3004](https://github.com/itakura-hidetoshi/KuuOS/pull/3004) MERGED、[Qi v4.12 PR #3005](https://github.com/itakura-hidetoshi/KuuOS/pull/3005) MERGED。** 元F54の真正双Nat経路上で、元F55 Type値付き3-cell証拠を節点として保持し、隣接節点の`φ`像を真正P94A四セルで比較する有限**source-vertex比較鎖**を定義。すべての鎖に対し、**元P89に反射可能であるか、少なくとも1つの局所段階でP94A比較は存在するが元P89比較がない**という場合分けを証明。GK5AQの真正非反射ペアが鎖の両端にあれば、与えられた任意の鎖には必ず非反射段階が存在する。全鎖の局所障害の不存在と元P89→選択P94A四セル商写像の単射性も必要十分。ただし、任意のP94A内部証拠が元F55節点列へ正規化可能とは**仮定も主張もしない**。
+
+**偶奇0の厳密な反例：** 真正北C60第1〜第3 F45ステージの新しいP92B `assocNaturality` 3-cellに対し、P94Aの真正反射的4-cellは存在し、全P94A自己比較証拠の左右文脈単位出現回数はGK5ARによって`(0,0) mod 2`。しかし元F55の対応する証拠型は空で、**偶奇0から元F55の存在・降下を導くことは不可能**。これは元P89二証拠の非反射ペア実在を示すものではなく、元P89→P94Aの無条件非単射性は未証明。
+
+**真正北C60／Qi v4.12：** 元の北四段pentagon long/short F54/F55のsource-vertex局所障害を検証し、新規`assocNaturality`の偶奇0・元証拠非復元と併存。Qi v4.10の**条件付き**物理商非単射性 iff 真正非反射ペア、第五around `Dart×Dart`閉路、反転04／43カテゴリー向き、GK5AN元P89→P94A構造移送、Qi v4.11の三原始単位の最小回数・偶奇をすべて保持。
+
+**Exact-source CI：** GK5AS [#41562024529](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41562024529) **Strict Lean 9242/9242、Governance 30/30 SUCCESS**、squash `9059c792ad36767a1a93501b8262ab3e5f458be5`、新公理監査9件許容。Qi v4.12 [#41562639289](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41562639289) **Strict Lean 10169/10169、Governance 30/30 SUCCESS**、squash `5553d82ad232346db7b677d6c568a3e7e1539f5d`、新公理監査4件許容。追加公理・sorryAx・Leanエラーなし。strict 空権限、公開root107、固定Lean/mathlib、保護PR #1558 Draft/open維持。
+
+**[正式証明記録](docs/formal/GK5AS-Qi-v4_12-source-vertex-localization-zero-grade-no-descent.md)** · [GK5AS Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5ASSourceVertexObstructionLocalization.lean) · [Qi v4.12 Lean](formal/KUOS/Architecture/QiWuxingGK5ASNorthSourceVertexNoDescentV4_12.lean)。**次：GK5AT（仮称）** — P94A四セル内部の中間P92B証拠について、元F55の`φ`像への所属・復元条件を構成子単位で評価し、実在する非反射ペアか、明示条件付きsource-saturated反射定理を目指す。
+
+---
+
 ## 最新のLean定理統合 — F112-P94D3GK5AR＋Qi v4.11／P94A左右文脈単位の偶奇正規形・真正北C60一体検証／2026-11-03 JST
 
 **[独立Kuu GK5AR PR #3001](https://github.com/itakura-hidetoshi/KuuOS/pull/3001) MERGED、[Qi v4.11 PR #3002](https://github.com/itakura-hidetoshi/KuuOS/pull/3002) MERGED。** 元P92B Type値付き3セルのGK5AP左右`ZMod 2`文脈不変量と、既存P94Aの**全19構成子の真正4-cell証明履歴に含まれる左右文脈単位生成元の自然数出現回数**を結び、任意の`w : P94A(f,g)`に対し次をLean4で証明した：
