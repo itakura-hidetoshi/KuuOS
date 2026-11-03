@@ -123,6 +123,34 @@ inductive NativeGK5ASSourceVertexChain.HasBadStep
       NativeGK5ASSourceVertexChain.HasBadStep
         (NativeGK5ASSourceVertexChain.step w tail)
 
+/-- A typed local reflection decision for one true P94A edge,
+given that the remaining original-source-vertex chain either
+reflects or already contains a genuinely bad local step. -/
+private theorem nativeGK5ASReflectsOrBadStep_cons
+    {p : Polygon} {a b : D} {x y : E}
+    {n n' m m' : Nat}
+    {ma mb : KuuNativeBlocks a b}
+    {pa pb : KuuNativeBlocks x y}
+    {first : KuuNativeF45Tree p n m ma pa mb pb}
+    {last : KuuNativeF45Tree p n' m' ma pa mb pb}
+    {r s : KuuNativeF45Tree.DepthRotationRoute p first last}
+    {f g h : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p r s}
+    (selected : NativeF55P94UnitFourCell
+      (nativeGK5AIOriginalToP92Structural f)
+      (nativeGK5AIOriginalToP92Structural g))
+    (tail : NativeGK5ASSourceVertexChain g h)
+    (ih : Nonempty (NativeF55P89InterchangeFourCell g h) ∨
+      tail.HasBadStep) :
+    Nonempty (NativeF55P89InterchangeFourCell f h) ∨
+      (NativeGK5ASSourceVertexChain.step selected tail).HasBadStep := by
+  by_cases hlocal : Nonempty (NativeF55P89InterchangeFourCell f g)
+  · rcases ih with hrest | hbad
+    · rcases hlocal with ⟨hfg⟩
+      rcases hrest with ⟨hgh⟩
+      exact .inl ⟨.trans hfg hgh⟩
+    · exact .inr (.inTail selected tail hbad)
+  · exact .inr (.atHead selected tail hlocal)
+
 /-- Local-to-global source reflection or an ACTUAL offending step.
 No assumption of global P89 faithfulness, and no chosen normal form. -/
 theorem NativeGK5ASSourceVertexChain.reflects_or_badStep
@@ -140,15 +168,8 @@ theorem NativeGK5ASSourceVertexChain.reflects_or_badStep
   induction chain with
   | nil f =>
       exact .inl ⟨.refl f⟩
-  | step (f := leftSource) (g := rightSource) w tail ih =>
-      by_cases hlocal :
-          Nonempty (NativeF55P89InterchangeFourCell leftSource rightSource)
-      · rcases ih with hrest | hbad
-        · rcases hlocal with ⟨hfg⟩
-          rcases hrest with ⟨hgh⟩
-          exact .inl ⟨.trans hfg hgh⟩
-        · exact .inr (.inTail w tail hbad)
-      · exact .inr (.atHead w tail hlocal)
+  | step w tail ih =>
+      exact nativeGK5ASReflectsOrBadStep_cons w tail ih
 
 /-- Absence of any locally nonreflecting source-vertex link
 is a sufficient and unconditional proof of original P89
