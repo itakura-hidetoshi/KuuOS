@@ -223,6 +223,13 @@ theorem fivefoldGK5BLNorthTripleLoops_four_interpolants_ne :
       (fun z : Int => ((fivefoldGK5BGNorthTripleLoopB.gk5bgDepthPolynomial.eval z : Int) : Rat)) := by
   intro h
   have heq := congrArg (fun P : Polynomial Rat => P.eval (0 : Rat)) h
+  change
+    (nativeGK5BLRationalInterpolant fivefoldGK5BLFourSites
+      (fun z : Int => ((fivefoldGK5BGNorthTripleLoopA.gk5bgDepthPolynomial.eval z : Int) : Rat))).eval
+        (0 : Rat) =
+    (nativeGK5BLRationalInterpolant fivefoldGK5BLFourSites
+      (fun z : Int => ((fivefoldGK5BGNorthTripleLoopB.gk5bgDepthPolynomial.eval z : Int) : Rat))).eval
+        (0 : Rat) at heq
   rw [nativeGK5BLRationalInterpolant_eval_node
         fivefoldGK5BLFourSites
         (fun z : Int => ((fivefoldGK5BGNorthTripleLoopA.gk5bgDepthPolynomial.eval z : Int) : Rat))
