@@ -43,6 +43,64 @@ private theorem nativeGK5ARTwice_zero (z : ZMod 2) : z + z = 0 := by
     z + z = (2 : ZMod 2) * z := by ring
     _ = 0 := by simp [htwo]
 
+/-! Source-local constructor laws: keep dependent P92B recursion
+opaque in higher proofs, instead of expanding its recursor inside
+rw/abel. Each is a genuine definitional equation. -/
+
+theorem NativeF55P92AssocComparison.gk5arLeftContext_parity
+    {p : Polygon} {a b : D} {x y : E}
+    {n n' m m' k l : Nat}
+    {ma mb mc : KuuNativeBlocks a b}
+    {pa pb pc : KuuNativeBlocks x y}
+    {first : KuuNativeF45Tree p n m ma pa mb pb}
+    {last : KuuNativeF45Tree p n' m' ma pa mb pb}
+    {r s : KuuNativeF45Tree.DepthRotationRoute p first last}
+    (cell : NativeF55P92AssocComparison p r s)
+    (later : KuuNativeF45Tree p k l mb pb mc pc) :
+    (NativeF55P92AssocComparison.leftContext cell later).gk5apLeftParity =
+      cell.gk5apLeftParity + 1 := rfl
+
+theorem NativeF55P92AssocComparison.gk5arRightContext_parity
+    {p : Polygon} {a b : D} {x y : E}
+    {k l n n' m m' : Nat}
+    {ma mb mc : KuuNativeBlocks a b}
+    {pa pb pc : KuuNativeBlocks x y}
+    (earlier : KuuNativeF45Tree p k l ma pa mb pb)
+    {first : KuuNativeF45Tree p n m mb pb mc pc}
+    {last : KuuNativeF45Tree p n' m' mb pb mc pc}
+    {r s : KuuNativeF45Tree.DepthRotationRoute p first last}
+    (cell : NativeF55P92AssocComparison p r s) :
+    (NativeF55P92AssocComparison.rightContext earlier cell).gk5apRightParity =
+      cell.gk5apRightParity + 1 := rfl
+
+theorem NativeF55P92AssocComparison.gk5arPrecompose_parity
+    {p : Polygon} {a b : D} {x y : E}
+    {n₁ n₂ n₃ m₁ m₂ m₃ : Nat}
+    {ma mb : KuuNativeBlocks a b}
+    {pa pb : KuuNativeBlocks x y}
+    {first : KuuNativeF45Tree p n₁ m₁ ma pa mb pb}
+    {middle : KuuNativeF45Tree p n₂ m₂ ma pa mb pb}
+    {last : KuuNativeF45Tree p n₃ m₃ ma pa mb pb}
+    (prior : KuuNativeF45Tree.DepthRotationRoute p first middle)
+    {r s : KuuNativeF45Tree.DepthRotationRoute p middle last}
+    (cell : NativeF55P92AssocComparison p r s) :
+    (NativeF55P92AssocComparison.precompose prior cell).gk5apLeftParity =
+      cell.gk5apLeftParity + 1 := rfl
+
+theorem NativeF55P92AssocComparison.gk5arPostcompose_parity
+    {p : Polygon} {a b : D} {x y : E}
+    {n₁ n₂ n₃ m₁ m₂ m₃ : Nat}
+    {ma mb : KuuNativeBlocks a b}
+    {pa pb : KuuNativeBlocks x y}
+    {first : KuuNativeF45Tree p n₁ m₁ ma pa mb pb}
+    {middle : KuuNativeF45Tree p n₂ m₂ ma pa mb pb}
+    {last : KuuNativeF45Tree p n₃ m₃ ma pa mb pb}
+    {r s : KuuNativeF45Tree.DepthRotationRoute p first middle}
+    (cell : NativeF55P92AssocComparison p r s)
+    (suffix : KuuNativeF45Tree.DepthRotationRoute p middle last) :
+    (NativeF55P92AssocComparison.postcompose cell suffix).gk5apRightParity =
+      cell.gk5apRightParity + 1 := rfl
+
 theorem NativeF55P94UnitFourCell.gk5arLeftParity_grade
     {p : Polygon} {a b : D} {x y : E}
     {n n' m m' : Nat}
@@ -81,16 +139,19 @@ theorem NativeF55P94UnitFourCell.gk5arLeftParity_grade
       have h := congrArg (fun z : ZMod 2 => prior.gk5apLeftParity + z) ih
       simpa only [NativeF55P92AssocComparison.gk5apLeftTrans_parity, add_assoc] using h
   | rightWhisker w suffix ih =>
-      have h := congrArg (fun z : ZMod 2 => z + suffix.gk5apLeftParity) ih
-      convert h using 1 <;> abel
+      simp only [NativeF55P92AssocComparison.gk5apLeftTrans_parity]
+      rw [← ih]
+      abel
   | leftContext w later ih =>
-      have h := congrArg (fun z : ZMod 2 => z + 1) ih
-      convert h using 1 <;> abel
+      simp only [NativeF55P92AssocComparison.gk5arLeftContext_parity]
+      rw [← ih]
+      abel
   | rightContext earlier w ih =>
       exact ih
   | precompose prior w ih =>
-      have h := congrArg (fun z : ZMod 2 => z + 1) ih
-      convert h using 1 <;> abel
+      simp only [NativeF55P92AssocComparison.gk5arPrecompose_parity]
+      rw [← ih]
+      abel
   | postcompose w suffix ih =>
       exact ih
   | horizontalLeft w other ih =>
@@ -173,18 +234,21 @@ theorem NativeF55P94UnitFourCell.gk5arRightParity_grade
       have h := congrArg (fun z : ZMod 2 => prior.gk5apRightParity + z) ih
       simpa only [NativeF55P92AssocComparison.gk5apRightTrans_parity, add_assoc] using h
   | rightWhisker w suffix ih =>
-      have h := congrArg (fun z : ZMod 2 => z + suffix.gk5apRightParity) ih
-      convert h using 1 <;> abel
+      simp only [NativeF55P92AssocComparison.gk5apRightTrans_parity]
+      rw [← ih]
+      abel
   | leftContext w later ih =>
       exact ih
   | rightContext earlier w ih =>
-      have h := congrArg (fun z : ZMod 2 => z + 1) ih
-      convert h using 1 <;> abel
+      simp only [NativeF55P92AssocComparison.gk5arRightContext_parity]
+      rw [← ih]
+      abel
   | precompose prior w ih =>
       exact ih
   | postcompose w suffix ih =>
-      have h := congrArg (fun z : ZMod 2 => z + 1) ih
-      convert h using 1 <;> abel
+      simp only [NativeF55P92AssocComparison.gk5arPostcompose_parity]
+      rw [← ih]
+      abel
   | horizontalLeft w other ih =>
       simp only [NativeF55P92AssocComparison.gk5apRightHorizontal_parity]
       rw [← ih]
@@ -337,6 +401,10 @@ theorem nativeGK5ARHorizontalUnit_contextParity_even
     (NativeF55P94UnitFourCell.horizontalUnit u v)
   exact ⟨congrArg Prod.fst h, congrArg Prod.snd h⟩
 
+#print axioms NativeF55P92AssocComparison.gk5arLeftContext_parity
+#print axioms NativeF55P92AssocComparison.gk5arRightContext_parity
+#print axioms NativeF55P92AssocComparison.gk5arPrecompose_parity
+#print axioms NativeF55P92AssocComparison.gk5arPostcompose_parity
 #print axioms NativeF55P94UnitFourCell.gk5arLeftParity_grade
 #print axioms NativeF55P94UnitFourCell.gk5arRightParity_grade
 #print axioms NativeF55P94UnitFourCell.gk5arLeftCountParity_rigid
