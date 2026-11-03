@@ -1770,4 +1770,12 @@ AI推論runtimeの方向は **観測 → 文脈・複数presentation → 輸送�
 
 [独立GK5BL最終CI #41728908990](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41728908990)：**Strict Lean 9,280/9,280・Governance 30/30 SUCCESS**（18宣言、sorryAxなし）。[Qi v4.31最終CI #41730985676](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41730985676)：**10,207/10,207・30/30 SUCCESS**（11宣言、sorryAxなし）。各source/test-merge/squash Git tree一致、Qi統合SHA`909542a3a31a596c808403a08c780834f40856ba`。[正式証明記録](docs/formal/GK5BL-Qi-v4_31-constructive-rational-lagrange-reconstruction.md)。strict 空／独立Kuu→Qi、元F54二Nat・二圏・Blocks・元F55 Type証拠、公開root107、固定Lean/mathlib、保護PR #1558 Draft/OPEN未マージを維持。W=1 seam十分性・P89無条件反射・Grayは未主張。
 
+## 2026-11-04 — GK5BM／Qi v4.32：有理補間の整係数・非負Nat係数への厳密な降下
+
+[独立GK5BM #3064](https://github.com/itakura-hidetoshi/KuuOS/pull/3064)・[Qi v4.32 #3065](https://github.com/itakura-hidetoshi/KuuOS/pull/3065) は**MERGED**。GK5BLの真の`Rat[X]` Lagrange補間について、全係数が`Int`からの像であることと`Int[X]`持ち上げ存在の**必要十分条件**を形式化。全係数が**整係数かつ非負**であることと`Nat[X]`持ち上げ存在も必要十分とした。十分性は`support(Q)`上の`∑ monomial(k,c_k)`を構成するLean4証明。任意の整数値観測だけで整係数性が従うとは主張しない。真正P92B/F55証拠ではGK5BJ非負Nat深さ係数とGK5BL復元を利用してNat多項式持ち上げを証明。真正元P77四セル商では**商に降下した多項式値**のNat持ち上げを証明し、元Type証拠・商類同一性やP94A四セル存在とは区別。
+
+真正北C60の元pentagon `P=1` と元double-inverse＋F55右単位 `P=X²` は三点`{0,1,2}`、選択P92B endo-loop`A=X³+2`・`B=2X²+X`は四点`{-1,0,1,2}`から非負Nat係数多項式へ持ち上げられる。一般有理多項式`-X`は負係数によってNat持ち上げ不能な例として形式化した（元F55局所seam反例ではない）。
+
+[独立GK5BM exact-source CI #41739642619](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41739642619) **Strict Lean 9,282/9,282・Governance 30/30 SUCCESS**（新規11宣言、sorryAxなし）。[Qi v4.32 CI #41740543233](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41740543233) **10,209/10,209・30/30 SUCCESS**（新規9宣言、sorryAxなし）。source/test-merge/squash Git tree一致、Qi統合SHA`4c0b318e275e5f7fed282ecc3be3d8bfacffc6c6`。[正式証明記録](docs/formal/GK5BM-Qi-v4_32-integral-nat-coefficient-lift-certificates.md)。strict 空／独立Kuu→Qi、元F54二Nat・二圏・Blocks／元F55 Type値履歴、公開root107、固定Lean/mathlib、保護PR #1558 Draft/OPEN未マージ。W=1からのseam十分性、P89無条件反射、Grayは未主張。
+
 **Copyright © 2026 Hidetoshi Itakura / 板倉英俊. Apache-2.0.**
