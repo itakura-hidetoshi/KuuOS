@@ -78,22 +78,19 @@ theorem NativeF55P94UnitFourCell.gk5arLeftParity_grade
         f.gk5apLeftParity + (g.gk5apLeftParity + h.gk5apLeftParity)
       simp only [add_zero, add_assoc]
   | leftWhisker prior w ih =>
-      change (prior.gk5apLeftParity + _) + (w.gk5apLeftUnitCount : ZMod 2) = prior.gk5apLeftParity + _
-      rw [add_assoc, ih]
+      have h := congrArg (fun z : ZMod 2 => prior.gk5apLeftParity + z) ih
+      simpa only [NativeF55P92AssocComparison.gk5apLeftTrans_parity, add_assoc] using h
   | rightWhisker w suffix ih =>
-      change (_ + suffix.gk5apLeftParity) + (w.gk5apLeftUnitCount : ZMod 2) = _ + suffix.gk5apLeftParity
-      rw [← ih]
-      abel
+      have h := congrArg (fun z : ZMod 2 => z + suffix.gk5apLeftParity) ih
+      convert h using 1 <;> abel
   | leftContext w later ih =>
-      change (_ + (1 : ZMod 2)) + (w.gk5apLeftUnitCount : ZMod 2) = _ + 1
-      rw [← ih]
-      abel
+      have h := congrArg (fun z : ZMod 2 => z + 1) ih
+      convert h using 1 <;> abel
   | rightContext earlier w ih =>
       exact ih
   | precompose prior w ih =>
-      change (_ + (1 : ZMod 2)) + (w.gk5apLeftUnitCount : ZMod 2) = _ + 1
-      rw [← ih]
-      abel
+      have h := congrArg (fun z : ZMod 2 => z + 1) ih
+      convert h using 1 <;> abel
   | postcompose w suffix ih =>
       exact ih
   | horizontalLeft w other ih =>
@@ -173,24 +170,21 @@ theorem NativeF55P94UnitFourCell.gk5arRightParity_grade
         f.gk5apRightParity + (g.gk5apRightParity + h.gk5apRightParity)
       simp only [add_zero, add_assoc]
   | leftWhisker prior w ih =>
-      change (prior.gk5apRightParity + _) + (w.gk5apRightUnitCount : ZMod 2) = prior.gk5apRightParity + _
-      rw [add_assoc, ih]
+      have h := congrArg (fun z : ZMod 2 => prior.gk5apRightParity + z) ih
+      simpa only [NativeF55P92AssocComparison.gk5apRightTrans_parity, add_assoc] using h
   | rightWhisker w suffix ih =>
-      change (_ + suffix.gk5apRightParity) + (w.gk5apRightUnitCount : ZMod 2) = _ + suffix.gk5apRightParity
-      rw [← ih]
-      abel
+      have h := congrArg (fun z : ZMod 2 => z + suffix.gk5apRightParity) ih
+      convert h using 1 <;> abel
   | leftContext w later ih =>
       exact ih
   | rightContext earlier w ih =>
-      change (_ + (1 : ZMod 2)) + (w.gk5apRightUnitCount : ZMod 2) = _ + 1
-      rw [← ih]
-      abel
+      have h := congrArg (fun z : ZMod 2 => z + 1) ih
+      convert h using 1 <;> abel
   | precompose prior w ih =>
       exact ih
   | postcompose w suffix ih =>
-      change (_ + (1 : ZMod 2)) + (w.gk5apRightUnitCount : ZMod 2) = _ + 1
-      rw [← ih]
-      abel
+      have h := congrArg (fun z : ZMod 2 => z + 1) ih
+      convert h using 1 <;> abel
   | horizontalLeft w other ih =>
       simp only [NativeF55P92AssocComparison.gk5apRightHorizontal_parity]
       rw [← ih]
