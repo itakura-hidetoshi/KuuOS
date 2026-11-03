@@ -9,6 +9,7 @@
 - main squash SHA：`ded85bb9534b6cfdd6c78784fec32c61851e7cdc`。
 - [exact-source Governance #41612666131](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41612666131)：**Strict Lean 9,258/9,258 SUCCESS、Governance 30/30 SUCCESS**。`#print axioms`新規12宣言、`sorryAx`なし、新しい論理公理なし。
 - [独立Kuu Lean](../../formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5BANineConstructorSeamInduction.lean)（修正後349行）と公開集約 `KuuOSFormal` import。
+- **Git tree一致（GitHub MCPで独立再確認）**：GK5BA最終source HEAD とsquash commitのtreeはともに `81380aa57d5c34737bc3e0bc698b75ee4010a7ee`。Qi v4.20最終source HEAD とsquash commitのtreeもともに `475e1cc55801924981ffe25d7a094c9c49ce5be5`。検証したソースと正本マージ結果の内容が両者とも一致する。
 
 ## 2. 真正元F55九構成子の必要な高次shell
 
