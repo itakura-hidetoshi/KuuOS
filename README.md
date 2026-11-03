@@ -1710,4 +1710,10 @@ AI推論runtimeの方向は **観測 → 文脈・複数presentation → 輸送�
 
 [GK5BD exact-source CI #41625437344](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41625437344)：**9,264/9,264 Strict Lean・30/30 Governance SUCCESS**（16宣言 `sorryAx`なし）。[Qi v4.23 exact-source CI #41626316363](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41626316363)：**10,191/10,191 Strict Lean・30/30 Governance SUCCESS**（10宣言 `sorryAx`なし）。各source/squash Git tree完全一致、main Qi v4.23統合SHA `736fa4b50dfeb300f653e6e2c26dc6f5eafa1a32`。公開root107、Lean `v4.30.0-rc2`／固定mathlib、保護PR #1558 Draft/OPENを維持。詳しくは[正式証明記録](docs/formal/GK5BD-Qi-v4_23-P77-class-local-seam-descent.md)。
 
+## 2026-11-03 — GK5BE／Qi v4.24：符号付きoriginal-wrapper障害
+
+[独立GK5BE #3040](https://github.com/itakura-hidetoshi/KuuOS/pull/3040) と [Qi v4.24 #3041](https://github.com/itakura-hidetoshi/KuuOS/pull/3041) は **MERGED**。元P92B Type値証拠に整数不変量 `S(original(f))=1`、`S(symm u)=-S(u)`、`S(trans u v)=S(u)+S(v)` を新設し、P93C全16・P94A全19四セル構成子での保存をLean4で証明。真正北C60逆pentagonでは、raw/φ双方のGK5BB unsigned wrapper数が1で一致しても、新しいsigned gradeは+1対-1のため直接P94A seamが**不存在**。従って**N=1は必要だが十分ではない**。Qi v4.24は逆pentagonの元F55右identity挿入を真正P77有限語で結び、逆向きの負の局所seam商クラスと前方向の正のpentagon商クラスを依存型端点を保って区別する。
+
+[GK5BE exact-source CI #41628425569](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41628425569)：**9,266/9,266 Strict Lean・30/30 Governance SUCCESS**、16宣言`sorryAx`なし。[Qi v4.24 exact-source CI #41629270434](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41629270434)：**10,193/10,193 Strict Lean・30/30 Governance SUCCESS**、10宣言`sorryAx`なし。source/test-merge/squash Git tree双方一致。Qi統合main SHA `ac37cf01c86db07a58717cf087cea3562b0215a0`。[正式証明記録](docs/formal/GK5BE-Qi-v4_24-signed-original-grade-seam-obstruction.md)参照。全域GK5AY、GK5BA kit、元P89無条件反射、Grayは主張しない。公開root107、Lean/mathlib pin、保護PR #1558 Draft/OPENを維持。
+
 **Copyright © 2026 Hidetoshi Itakura / 板倉英俊. Apache-2.0.**
