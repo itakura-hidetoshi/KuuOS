@@ -520,6 +520,7 @@ import KUOS.Architecture.QiWuxingGK5BINorthCoefficientDescentV4_28
 import Kuu.F112.PolygonNativeC60AQFullPentagonPhysicalNativeGK5BJNatDepthWeightedSums
 import KUOS.Architecture.QiWuxingGK5BJNorthNatDepthGradesV4_29
 import Kuu.F112.PolygonNativeC60AQFullPentagonPhysicalNativeGK5BKFiniteSampleRigidity
+import KUOS.Architecture.QiWuxingGK5BKNorthFiniteSampleRigidityV4_30
 
 /-!
 Public aggregate: retain every previously published proof and its original
