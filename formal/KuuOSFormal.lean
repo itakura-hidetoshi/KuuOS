@@ -512,6 +512,7 @@ import KUOS.Architecture.QiWuxingGK5BENorthSignedSeamObstructionV4_24
 import Kuu.F112.PolygonNativeC60AQFullPentagonPhysicalNativeGK5BFDoubleInversionWeightObstruction
 import KUOS.Architecture.QiWuxingGK5BFNorthDoubleInverseClassV4_25
 import Kuu.F112.PolygonNativeC60AQFullPentagonPhysicalNativeGK5BGDepthGeneratingPolynomial
+import KUOS.Architecture.QiWuxingGK5BGNorthPolynomialSeamV4_26
 
 /-!
 Public aggregate: retain every previously published proof and its original
