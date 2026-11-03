@@ -13,7 +13,7 @@
 
 **Exact-source GK5BB検証：** source HEAD `ff3dff49c64f5d925d95938ea2f49012c5cbb689`、squash `baffe9581e569b78aec0bbdc6d82633c084b9546`、[Governance #41615936555](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41615936555) **Strict Lean 9,260/9,260、Governance 30/30 SUCCESS**、21件`#print axioms`・`sorryAx`なし。新規公理なし。root107、strict 空／独立Kuu→Qi、保護#1558 Draft/OPEN、Lean 4.30.0-rc2／mathlib pinを維持。
 
-**[Qi v4.21 PR #3032](https://github.com/itakura-hidetoshi/KuuOS/pull/3032) は検証中。** 真正北C60のF54双Nat・2 Site category・Blocks履歴へno-goを適用し、第五around Dart閉路、e04/e43物理・圏論向き、元P89 sourceの条件付き反射障害を別のpresentationとして保持。物理gaugeは選択4-cellを勝手に生成しない。
+**[Qi v4.21 PR #3032](https://github.com/itakura-hidetoshi/KuuOS/pull/3032) MERGED。** 最終exact-source HEAD `ab1e4afbf391948097568f71f67b7a803f5b1053`・squash `61b95c4f6c3e55c5fc94e4be5a88693e32395019`、[Governance #41616589679](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41616589679) **Strict Lean 10,187/10,187・Governance 30/30 SUCCESS**、9公理監査で`sorryAx`なし。 真正北C60のF54双Nat・2 Site category・Blocks履歴へno-goを適用し、第五around Dart閉路、e04/e43物理・圏論向き、元P89 sourceの条件付き反射障害を別のpresentationとして保持。物理gaugeは選択4-cellを勝手に生成しない。
 
 **[正式証明記録](docs/formal/GK5BB-Qi-v4_21-original-wrapper-count-no-go.md)** · [GK5BB Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5BBOriginalWrapperCountObstruction.lean) · [Qi v4.21 Lean](formal/KUOS/Architecture/QiWuxingGK5BBNorthOriginalWrapperObstructionV4_21.lean)。
 
