@@ -57,6 +57,14 @@ variable {f g : NativeF55P92AssocComparison p r s}
 constructors, including their hidden raw P92B generator arguments.
 Every comparison's own two typed endpoints are audited. -/
 def nativeGK5AUP93CSourceHole
+    {p : Polygon} {a b : D} {x y : E}
+    {n n' m m' : Nat}
+    {ma mb : KuuNativeBlocks a b}
+    {pa pb : KuuNativeBlocks x y}
+    {first : KuuNativeF45Tree p n m ma pa mb pb}
+    {last : KuuNativeF45Tree p n' m' ma pa mb pb}
+    {r s : KuuNativeF45Tree.DepthRotationRoute p first last}
+    {f g : NativeF55P92AssocComparison p r s}
     (w : NativeF55P93AssocFourCell f g) : Prop :=
   (¬ nativeGK5ATPhiImage f) ∨
   (¬ nativeGK5ATPhiImage g) ∨
@@ -101,6 +109,14 @@ certificate at .old, plus all raw middle/whisker/interchange
 arguments. This is a Prop about Type-valued evidence, not a
 quotient/shadow criterion. -/
 def nativeGK5AUP94SourceHole
+    {p : Polygon} {a b : D} {x y : E}
+    {n n' m m' : Nat}
+    {ma mb : KuuNativeBlocks a b}
+    {pa pb : KuuNativeBlocks x y}
+    {first : KuuNativeF45Tree p n m ma pa mb pb}
+    {last : KuuNativeF45Tree p n' m' ma pa mb pb}
+    {r s : KuuNativeF45Tree.DepthRotationRoute p first last}
+    {f g : NativeF55P92AssocComparison p r s}
     (w : NativeF55P94UnitFourCell f g) : Prop :=
   (¬ nativeGK5ATPhiImage f) ∨
   (¬ nativeGK5ATPhiImage g) ∨
