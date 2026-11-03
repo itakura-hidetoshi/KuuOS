@@ -1752,4 +1752,12 @@ AI推論runtimeの方向は **観測 → 文脈・複数presentation → 輸送�
 
 [独立GK5BJ CI #41720830977](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41720830977)：**Strict Lean 9,276/9,276・Governance 30/30 SUCCESS**（新規20宣言・sorryAxなし）。[Qi v4.29 CI #41721667098](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41721667098)：**10,203/10,203・30/30 SUCCESS**（新規15宣言・sorryAxなし）。各source/test-merge/squash Git tree一致、Qi統合main SHA `ae5c0f5dea2613f52c3f1074fbec5a35a9612ce1`。[正式証明記録](docs/formal/GK5BJ-Qi-v4_29-natural-depth-weighted-sums.md)。strict 空／独立Kuu→Qi、元F54二Nat・二圏・Blocks／元F55 Type証拠、公開root107、保護PR #1558 Draft/OPEN、固定Lean・mathlibを保持。P89無条件反射・Gray・全域seamは未主張。
 
+## 2026-11-04 — GK5BK／Qi v4.30：有限整数観測の忠実性と北C60四点識別
+
+[独立GK5BK #3058](https://github.com/itakura-hidetoshi/KuuOS/pull/3058)・[Qi v4.30 #3059](https://github.com/itakura-hidetoshi/KuuOS/pull/3059) は**MERGED**。固定mathlibの根の個数定理を用い、任意の真正P92B証拠の深さ多項式`P_f,P_g∈ℤ[X]`が`natDegree≤d`を満たすとき、**異なるd+1個の整数値での一致から多項式全体の一致**をLean4で証明した。整数格子`{0,…,d}`を真正Finsetとして構成し、その元数の証明、全Int/Nat係数復元、係数不一致が任意のd+1観測点のどこかに顕在化する定理を実装。元F55真正P77商でも同じ有限評価によって**降下した多項式値**と全Nat係数が決まる。これは元P77商類の一致・P94A四セル存在の十分条件を主張しない。
+
+真正北C60では、元primitive `P=1` と元double inverse＋真正F55右単位 `P=X²` は次数2以下なので、**任意の3つの異なる整数点**で識別可能。一方、同一の旧`(N,S,W)=(3,1,10)`を示す真正選択P92B endo-loop対 `A=X³+2`、`B=2X²+X` は`A(-1)=B(-1)=1`、`A(1)=B(1)=3`、`A(2)=B(2)=10`だが、**`A(0)=2≠0=B(0)`**。双方次数3以下であり、任意の4つの異なる整数点で分離できることを証明。選択loopをoriginal→phi seam反例とはしない。
+
+[独立GK5BK最終CI #41724819896](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41724819896) **Strict Lean 9,278/9,278・Governance 30/30 SUCCESS**（新規15宣言、sorryAxなし）。初回はNat→Intラムダキャストのβ簡約不足を修正し、数学的仮定は変更しなかった。[Qi v4.30 CI #41725853171](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41725853171) **10,205/10,205・30/30 SUCCESS**（新規12宣言、sorryAxなし）。各source/test-merge/squash Git tree一致、Qi統合SHA`22b47d04303a60c14cf09487ede4702302bf0d74`。[正式証明記録](docs/formal/GK5BK-Qi-v4_30-finite-integer-sample-rigidity.md)。strict 空／独立Kuu→Qi、元F54二Nat・二圏・Blocks・元F55 Type値履歴、公開root107、固定Lean/mathlib、保護PR #1558 Draft/open未マージ維持。
+
 **Copyright © 2026 Hidetoshi Itakura / 板倉英俊. Apache-2.0.**
