@@ -99,14 +99,16 @@ theorem nativeGK5CDTypedSplitHom_eq
       simpa only [Nat.add_succ, nativeGK5CCTypedChainHom_succ]
 
 /-- The initial zero-length segment contributes exactly the
-unchanged full chain at every cut position. -/
+unchanged full chain; its target is indexed by (0 + right).
+This is propositionally right, and the dependent target
+index is retained rather than silently identified. -/
 theorem nativeGK5CDTypedSplitHom_zeroLeft
     {α : Nat → Type u}
     (steps : (i : Nat) → α i → MvPolynomial (α (i+1)) Int)
     (start right : Nat) :
     nativeGK5CDTypedSplitHom steps start 0 right =
-      nativeGK5CCTypedChainHom steps start right := by
-  simp only [nativeGK5CDTypedSplitHom_eq, Nat.zero_add]
+      nativeGK5CCTypedChainHom steps start (0 + right) :=
+  nativeGK5CDTypedSplitHom_eq steps start 0 right
 
 /-- If the RIGHT segment is empty, its composite leaves the
 actual left-length typed chain unchanged. -/
