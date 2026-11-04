@@ -1787,4 +1787,13 @@ AI推論runtimeの方向は **観測 → 文脈・複数presentation → 輸送�
 
 [独立GK5BN exact-source CI #41743613851](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41743613851)：**Strict Lean 9,284/9,284、Governance 30/30 SUCCESS**（11宣言・sorryAxなし）。初回の`Int.castRingHom`型正規化だけを修正し定理・仮定は不変。[Qi v4.33 CI #41744468276](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41744468276)：**Strict Lean 10,211/10,211、Governance 30/30 SUCCESS**（10宣言・sorryAxなし）。source/test-merge/squash Git tree一致、変更Lean警告・エラーなし。[正式証明記録](docs/formal/GK5BN-Qi-v4_33-finite-denominator-divisibility-certificates.md)。strict 空／独立Kuu→Qi、元F54二Nat・二圏・Blocks／元F55 Type値履歴、公開root107、Lean v4.30.0-rc2と固定mathlib、保護PR #1558 Draft/OPEN未マージ維持。GK5AY全域seam・GK5BA kit・P89無条件反射・Grayは未主張。
 
+
+## 2026-11-04 — GK5BO／Qi v4.34：Gregory–Newton階乗有限差分による整係数性の有限判定
+
+[独立GK5BO #3070](https://github.com/itakura-hidetoshi/KuuOS/pull/3070)と[Qi v4.34 #3071](https://github.com/itakura-hidetoshi/KuuOS/pull/3071)は**MERGED**。固定mathlib `ForwardDiff`の真正Gregory–Newton公式と最高次差分定理を、GK5BNの有限support整数係数証明書に接続した。任意の`Q:Rat[X]`に対し`Q_{≤k}=∑_{j≤k} monomial(j,Q.coeff j)`を実際に構成、全`k`で`Δ^k Q_{≤k}(0)=k!·Q.coeff k`を証明し、`∃P:Int[X],map P=Q`と`∀k∈support(Q),∃z:Int, k!·z=Δ^k Q_{≤k}(0)`を**必要十分**とした。有限差分の明示符号付き二項和、全整数格子Gregory–Newton式、失敗一係数からのobstructionも証明。整数値の観測のみを整係数性と誤認しない。
+
+Qi v4.34では、真正北F54/F55証拠および元F55/P77四セル商の**降下多項式値**に対する階乗差分証明書を、GK5BJ非負Nat係数とGK5BMの持ち上げから確立。元primitive`1`・double inverse＋F55右単位`X²`は三点`{0,1,2}`、選択P92B loop`X³+2`・`2X²+X`は四点`{-1,0,1,2}`でそれぞれ証明。元F55 Type値証拠・P77商類・P94A四セル・original→phi seamの逆向き実現は導かない。C60第五Dart物理閉路とP89 BadPair反射の境界は独立。
+
+[独立GK5BO exact-source CI #41747472161](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41747472161)：**Strict Lean 9,286/9,286、Governance 30/30 SUCCESS**、12宣言・sorryAxなし。初回のmonomial係数不等号向きを修正、定理・仮定は不変。[Qi v4.34 CI #41748169015](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41748169015)：**Strict Lean 10,213/10,213、Governance 30/30 SUCCESS**、9宣言・sorryAxなし。変更Lean warning/error 0/0、source/test-merge/squash Git tree一致。[正式証明記録](docs/formal/GK5BO-Qi-v4_34-newton-factorial-difference-certificates.md)。strict 空・独立Kuu→Qi、公開root107・F54二Nat／二圏／Blocks・F55 Type履歴、Lean v4.30.0-rc2／固定mathlib、保護PR #1558 Draft/OPEN未マージを保持。
+
 **Copyright © 2026 Hidetoshi Itakura / 板倉英俊. Apache-2.0.**
