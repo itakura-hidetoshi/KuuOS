@@ -1845,4 +1845,13 @@ Qi v4.39では真正元F55 Type値証拠の既存P92B整数多項式**値**と�
 
 [独立GK5BT CI #41785580270](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41785580270)：**Strict Lean 9,296/9,296・Governance 30/30 SUCCESS**、新規15定理公理監査sorryAxなし。[Qi v4.39 CI #41787194501](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41787194501)：**10,223/10,223・30/30 SUCCESS**、新規17定理公理監査sorryAxなし。両source/test-merge/squash Git tree一致、変更Lean warning/error 0/0。[正式証明記録](docs/formal/GK5BT-Qi-v4_39-noncoprime-crt-overlap-gluing-certificates.md)。strict 空／独立Kuu→Qi、元F54二Nat・二圏・Blocks／F55 Type履歴、公開root107、固定Lean v4.30.0-rc2・mathlib、保護#1558 Draft／OPEN／未マージ維持。
 
+
+## 2026-11-04 — GK5BV／Qi v4.40：一般有限CRT局所・大域降下の必要十分条件をLean4証明
+
+[独立GK5BV #3089](https://github.com/itakura-hidetoshi/KuuOS/pull/3089)・[Qi v4.40 #3090](https://github.com/itakura-hidetoshi/KuuOS/pull/3090)は**MERGED**。有限族`s:Finset ι`の任意自然数法`mᵢ`・代表`aᵢ`について、**全pairwise gcd重なりの一致 ⇔ 一つの大域自然数代表の存在**を固定Lean4／mathlibで形式証明した。互いに素性・非零性・支配的局所法の仮定なし。核心は`gcd(lcm(a,b),c)=lcm(gcd(a,c),gcd(b,c))`を零ケース込みで証明し、`Finset.lcm`と真正`Nat.chineseRemainder'`による有限帰納再合成を実装したこと。解は全法の有限`lcm`を法として一意、正規化代表`x%lcm`も全局所合同を保持。不一致なpairが存在することが大域解不存在の**必要十分なobstruction**となる。
+
+Qi v4.40ではGK5BQの真正署名付き整数分子`N`の各局所`N.natAbs%mᵢ`を合成し、合成類と元`|N|`の有限lcm上の合同一致、合成零と**元符号付きN**の整除同値をLean4で証明。元F55 Type源の既存P92B整数深度多項式**値**・元F55/P77の**降下多項式値**にのみ、明示仮定`lcm(mᵢ)|d!`の下でCRT零証明書を移送。真正北primitive`1`とdouble inverse＋F55右単位`X²`は双方算術的有限CRT零だが、元original→phi seamは**存在／不存在**と正反対。有限三局所法`4,6,9`に独立代表`1,3,0`を与えると大域代表`9`となる型付き例も証明。算術的gluingから元F55 Type歴史・P77商類同一性・P94A四セル・GK5AY全域seamを推論しない。
+
+[独立GK5BV CI #41795872887](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41795872887)：**Strict Lean 9,299/9,299、Governance 30/30 SUCCESS、新規9定理sorryAxなし**。[Qi v4.40 CI #41796657558](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41796657558)：**Strict Lean 10,226/10,226、Governance 30/30 SUCCESS、新規14定理sorryAxなし**。両方とも変更Lean warning/error 0/0、source/test-merge/squash tree一致。[正式証明記録](docs/formal/GK5BV-Qi-v4_40-complete-finite-noncoprime-crt-descent.md)。strict 空／独立Kuu→Qi、元F54二Nat・二圏・Blocks／元F55 Type履歴、公開root107、固定Lean/mathlib、保護PR #1558 Draft／OPEN／未マージ維持。
+
 **Copyright © 2026 Hidetoshi Itakura / 板倉英俊. Apache-2.0.**
