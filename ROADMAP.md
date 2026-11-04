@@ -1827,4 +1827,14 @@ lake build KuuOSFormal # warningAsErrorはlakefile.toml既定。sorryAxは#print
 - [正式証明記録](docs/formal/GK5BQ-Qi-v4_36-signed-stirling-factorial-divisibility-certificates.md)。strict 空、独立Kuu→Qi、元F54二Nat／二圏／Blocks・元F55 Type値履歴、公開root107、固定Lean v4.30.0-rc2／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、保護PR #1558 Draft／OPEN／未マージを維持。
 - **次GK5BR（仮称）：** `d! ∣ N_(d,j)(v)` の必要十分条件を、`d!`を割る各素数`p`の素冪ごとの有限局所合同証明書に分割し、局所条件から全体整除への正確な合成条件をLean4で形式化する。算術的局所obstructionと、真正F55 Type値／P94A四セル／元P89反射／GK5AY seamに必要な別の構造的obstructionを混同しない。
 
+
+## 2026-11-04：GK5BR／Qi v4.37 — 真正素数冪局所・大域証明書とseamの独立性
+
+- **独立GK5BR #3079 MERGED：** exact-source HEAD `ef1d28dbe9e226c1104ddeb5c8047d551559ce69`、squash `46857444d52483d0f17f6ae39a5d619bc5a418d7`。三者Git tree `c316626b1dfa2a38c58cc191d97836c0bb54fc65`一致。[CI #41773693409](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41773693409)：**Strict Lean 9,292/9,292・Governance 30/30 SUCCESS**、新規12定理・sorryAxなし・変更Lean warning/error 0/0。固定Leanの`push_neg`非推奨を`push Not; rfl`に置換、条件と結論の弱化なし。
+- **Qi v4.37 #3080 MERGED：** exact-source HEAD `1282db0df613ce2d74dda1cd41047c4ba8f763f1`、squash `7c1a58256039f607d842e0aec324d46c48de310f`。三者Git tree `9425248dcf20862473a73cb35108749ca7492a23`一致。[CI #41774281250](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41774281250)：**Strict Lean 10,219/10,219・Governance 30/30 SUCCESS**、新規13定理・sorryAxなし・変更Lean warning/error 0/0。
+- **独立Kuu数学的到達：** 真正GK5BQ整数分子`N_(d,j)(v)`について`d!∣N`と有限primeFactors全ての最大素数冪`p^v_p(d!)∣N`／`N mod p^v_p(d!)=0`が必要十分。負・零整数分子を含む。真正NewtonおよびGK5BL Lagrangeの`Int[X]`原像存在と全局所合同が必要十分で、lift不在なら実際の`(j,p)`局所障害が存在する。
+- **真正北C60／構造obstruction：** 元F55 Type値証拠のP92B整数多項式値および元P77商の**降下値**に局所素数冪証明書を移送。primitive`1`とdouble inverse＋F55右単位`X²`はそれぞれ`d=2`の全局所整除を満たすが、original→phi seamは正と負で相違することを同一Lean4定理で証明。選択二P92Bループ`X³+2`と`2X²+X`は`d=3`、四点`{0,1,2,3}`上で独立に成立。元P89 BadPair条件付き反射・真の北物理C60第五Dart閉路は独立に保持。元Type witness・P77商類・P94A四セル・GK5AY全域seamは数値判定だけで復元されない。
+- [正式証明記録](docs/formal/GK5BR-Qi-v4_37-prime-power-local-global-certificates.md)。strict 空／独立Kuu→Qi、元F54二Nat／二圏／Blocks・元F55 Type履歴、公開root107、Lean v4.30.0-rc2／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、保護PR #1558 Draft／OPEN未マージ。
+- **次GK5BS（仮称）：** 同じ整数分子についての局所可除性判定から、**別々に指定された素数冪局所代表値**に対する互換性条件と、明示的CRT（中国剰余定理）の整数再合成へ進む。算術的CRT descentと元F55 Type値／P94A四セル／元P89・GK5AY seamの構造的gluingを混同しない。今段階では次研究目標であり定理成立済みとはしない。
+
 **Copyright © 2026 Hidetoshi Itakura / 板倉英俊. Apache-2.0.**
