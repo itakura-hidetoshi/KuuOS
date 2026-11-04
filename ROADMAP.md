@@ -1816,4 +1816,15 @@ lake build KuuOSFormal # warningAsErrorはlakefile.toml既定。sorryAxは#print
 - [正式証明記録](docs/formal/GK5BP-Qi-v4_35-raw-newton-signed-stirling-certificates.md)。strict 空／独立Kuu→Qi、元F54二Nat／二圏／Blocks・元F55 Type証明履歴、公開root107、固定Lean v4.30.0-rc2/mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、保護PR #1558 Draft／OPEN／未マージ維持。
 - **次GK5BQ（仮称）：** 下降階乗係数表`s(k,j)`と固定mathlib`Nat.stirlingFirst k j`の符号付き閉形式`(-1)^{k-j} S_1(k,j)`の明示的な再帰整合性を証明し、生観測列の前進差分を共通分母倍した整数係数分子の有限整除条件へ接続する。独立Kuu／Qiの構造を保持し、元F55 Type証拠・P94A四セル・P89無条件反射・GK5AY seamを別obstructionとする。
 
+
+## 2026-11-04：GK5BQ／Qi v4.36 — 符号付き第一種Stirling同一性と生観測の完全階乗整除判定
+
+- **独立GK5BQ #3076 MERGED：** exact-source HEAD `4ea15719bf4e8c2ef716e6c8d6a8a4b79ffc6e0a`、squash `e02876c5f937414cfd2ed54d944f14ff93d1bded`。source/test-merge/squash Git tree `bdb1e44c4e051af997181caa8261de730592e2aa`一致。[exact-source CI #41765361678](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41765361678) **Strict Lean 9,290/9,290・Governance 30/30 SUCCESS**、10新規定理の公理監査sorryAxなし、変更Lean warning/error 0/0。
+- **Qi v4.36 #3077 MERGED：** exact-source HEAD `a5ffb48a3a4e1419d6bfc1b4ed7f5b258cd0af42`、test-merge `f52cd0a21a3a9096aea80a3fd4440bd096a5ceb7`、squash `e32a0b8f6a3fd4c5b698a2ce3b512e2ceb590155`。三者tree `8ba1a1b56a025b14fd297712753019ce5d48e7bb`一致。[exact-source CI #41766217786](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41766217786) **Strict Lean 10,217/10,217・Governance 30/30 SUCCESS**、11新規定理公理監査sorryAxなし、変更Lean warning/error 0/0。
+- **独立Kuu数学的到達：** 真正`descPochhammer(Int,k)`の単項式係数`s(k,j)`と固定mathlib`Nat.stirlingFirst k j`を、再帰定義に沿って`s(k,j)=(-1)^(k+j) S₁(k,j)`（全k,j）、`j≤k`なら`(-1)^(k-j) S₁(k,j)`と証明。観測列`v:Nat→Int`だけから真のmathlib`fwdDiff`を使い`N_(d,j)(v)=∑_{k=0}^d (d!/k!)Δ^k v(0)s(k,j)∈Int`を構成し、`d!·coeff(Newton_d(v),j)=N_(d,j)(v)`をLean4で形式化した。
+- **整数係数の必要十分条件：** 生観測値から作る真正Newton補間、ならびに元GK5BL Lagrange補間が`Int[X]`原像を持つこと`↔ ∀j≤d, d!∣N_(d,j)(v)`。一係数の整除失敗は整数係数実現障害。整数値の有限観測のみでは整係数性が自動成立しない。多項式値と元のF55 Type証拠、P77商類、P94A四セルの存在は区別する。
+- **真正北C60 Qi：** 元F55 Type値sourceからのP92B整数多項式、元P77四セル商の**降下した多項式値**を別々に扱い、真の整除証明書を導出。元primitive`P=1`・double inverse＋F55右単位`P=X²`は`{0,1,2}`で`2!`、選択二P92B endo-loop`P=X³+2`・`Q=2X²+X`は`{0,1,2,3}`で`3!`整除を証明。物理北第五Dart閉路、元original→phi局所seam、元P89 BadPair条件付き反射は独立に保持。新しいType証拠・商類同一性・P94A四セル・W=1→seam十分性は未主張。
+- [正式証明記録](docs/formal/GK5BQ-Qi-v4_36-signed-stirling-factorial-divisibility-certificates.md)。strict 空、独立Kuu→Qi、元F54二Nat／二圏／Blocks・元F55 Type値履歴、公開root107、固定Lean v4.30.0-rc2／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、保護PR #1558 Draft／OPEN／未マージを維持。
+- **次GK5BR（仮称）：** `d! ∣ N_(d,j)(v)` の必要十分条件を、`d!`を割る各素数`p`の素冪ごとの有限局所合同証明書に分割し、局所条件から全体整除への正確な合成条件をLean4で形式化する。算術的局所obstructionと、真正F55 Type値／P94A四セル／元P89反射／GK5AY seamに必要な別の構造的obstructionを混同しない。
+
 **Copyright © 2026 Hidetoshi Itakura / 板倉英俊. Apache-2.0.**

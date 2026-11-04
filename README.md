@@ -1807,4 +1807,15 @@ Qi v4.35では、真正北F54/F55 source証拠と元F55/P77商から**既に降�
 
 [独立GK5BP CI #41752699168](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41752699168)：**Strict Lean 9,288/9,288・Governance 30/30 SUCCESS**、新規10定理公理監査sorryAxなし。初回のゴール既閉`omega`を修復し定理・仮定不変。[Qi v4.35 CI #41753489564](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41753489564)：**10,215/10,215・30/30 SUCCESS**、新規9定理公理監査sorryAxなし。各source/test-merge/squash tree一致、変更Lean warning/error 0/0。[正式証明記録](docs/formal/GK5BP-Qi-v4_35-raw-newton-signed-stirling-certificates.md)。strict 空／独立Kuu→Qi、公開root107、元F54二Nat／二圏／Blocks・F55 Type証拠、固定Lean v4.30.0-rc2/mathlib、保護PR #1558 Draft/OPEN未マージ維持。
 
+
+## 2026-11-04 — GK5BQ／Qi v4.36：固定mathlib第一種Stirling符号と階乗整除の完全判定
+
+[独立GK5BQ #3076](https://github.com/itakura-hidetoshi/KuuOS/pull/3076)・[Qi v4.36 #3077](https://github.com/itakura-hidetoshi/KuuOS/pull/3077)は**MERGED**。GK5BPで実際の下降階乗多項式`descPochhammer Int k`の係数として構成した`s(k,j)`を、固定mathlib`Nat.stirlingFirst k j`と直接同一視するLean4証明が完成。`s(k,j)=(-1)^(k+j)·S₁(k,j)`（全k,j）と`j≤k`で`s(k,j)=(-1)^(k-j)·S₁(k,j)`を示した。
+
+さらに元の有限整数観測列`v:Nat→Int`だけから、真正前進差分`Δ^k v(0)`と整数階乗比`d!/k!`を用いて`N_(d,j)(v)=∑_{k≤d}(d!/k!)·Δ^k v(0)·s(k,j)∈Int`を**構成**。`d!·coeff(Newton_d(v),j)=N_(d,j)(v)`の正確なRat埋込み等式と、`Newton_d(v)`および真正GK5BL Lagrange補間がInt[X]原像を持つことと**全j≤dで`d!∣N_(d,j)(v)`**が同値であることを形式化した。整数値観測だけでは整数係数の十分条件ではない。一係数の整除失敗が明示的なobstructionとなる。
+
+真正北C60では元F55 Type値証拠の整数多項式および元P77商の**降下多項式値**から、この有限整除証明書を得た。元primitive`1`と元二重反転＋F55右単位`X²`は三点`{0,1,2}`の`2!`、選択P92Bループ`X³+2`・`2X²+X`は四点`{0,1,2,3}`の`3!`整除を証明。元のType証拠や商類同一性、P94A四セル、original→phi seamの存在を係数から逆推論しない。
+
+[独立GK5BQ CI #41765361678](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41765361678) **Strict Lean 9,290/9,290・Governance 30/30 SUCCESS**（新規10宣言、sorryAxなし）。[Qi v4.36 CI #41766217786](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41766217786) **Strict Lean 10,217/10,217・Governance 30/30 SUCCESS**（新規11宣言、sorryAxなし）。両source/test-merge/squash Git tree一致、変更Lean warning/error 0/0。[正式証明記録](docs/formal/GK5BQ-Qi-v4_36-signed-stirling-factorial-divisibility-certificates.md)。strict 空・独立Kuu→Qi・元F54二Nat／二圏／Blocks・元F55 Type値履歴、公開root107、固定Lean/mathlib、保護PR #1558 Draft／OPEN未マージを維持。
+
 **Copyright © 2026 Hidetoshi Itakura / 板倉英俊. Apache-2.0.**
