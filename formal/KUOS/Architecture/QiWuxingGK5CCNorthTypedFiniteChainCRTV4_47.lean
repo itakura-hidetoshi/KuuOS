@@ -191,7 +191,7 @@ theorem fivefoldGK5CCNorthGlobalFiniteChain_restrict
             (fivefoldGK5BZNorthSignedCoordinates
               (arity (start + length)) d indices values)
             (fivefoldGK5CCNorthFiniteChainHom arity steps start length P) :
-              Int) : ZMod (nativeGK5BUFiniteModulus s moduli)) := by
+              Int) : ZMod (nativeGK5BUFiniteModulus s moduli))) := by
         rw [fivefoldGK5CCNorthFiniteChain_signedGlobal]
     _ = ((MvPolynomial.eval₂Hom (Int.castRingHom Int)
             (fivefoldGK5BZNorthSignedCoordinates
