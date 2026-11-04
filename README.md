@@ -1893,4 +1893,10 @@ Qi v4.43では元GK5BQの**同一符号付き整数**numerator`N`に任意`Q:Pol
 
 [exact-source CI #41832026876](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41832026876)：**Strict Lean 9,309／9,309・Governance 30／30 SUCCESS**、新規17定理の公理依存はpropext・Classical.choice・Quot.soundのみ、sorryAxなし。source/test-merge/squash Git tree `e2496d9eb72368612c82b0cb8f7a0ae4c1f55843`で一致。squash/main HEAD `1b8345ce5b5913cdb1cd18165bf776fc7d6bce69`。後続[Qi v4.45 #3105](https://github.com/itakura-hidetoshi/KuuOS/pull/3105)は別PRで元GK5BQ signed north C60への具体化を検証する。strict 空、独立Kuu→Qi、元F54／F55 Type履歴、公開root107、固定Lean／mathlib、保護#1558 Draft／OPEN／未マージを保持。
 
+## 2026-11-04 — Qi v4.45：真正北C60の符号付き多変数代入・再分類CRT塔
+
+[Qi v4.45 #3105](https://github.com/itakura-hidetoshi/KuuOS/pull/3105) **MERGED**。独立GK5CAの真正`MvPolynomial.rename`／`bind₁`のCRT自然性を、元GK5BQ original signed `Int` numeratorの各`Fin n`座標へ移送。非単射を含む任意`Fin m→Fin n`変数再分類、任意整数多項式代入、大域`ZMod L_s`／compatible-local CRT環の可換性、元の符号付き整数評価、任意の有限被覆制限と三段塔の整合を実際のLean等式で証明。元F55 primitive（original→phi seam存在）とdouble inverse＋右単位（seam不存在）は同じ数値代入CRT塔で整合しても異なるType証拠であることを保持する。数値的自然性からType sourceやhigher cellを復元しない。
+
+[exact-source CI #41833223307](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41833223307)：**Strict Lean 10,236／10,236・Governance 30／30 SUCCESS**、新規15定理の`#print axioms`にsorryAxなし。変更Leanビルド成功。source/test-merge/squash Git tree `0a25fd7d4acf2c3fb4a1fa0b7823110b6a728780`一致。Qi squash/main HEAD `7240ee551fbe968e1b439887b949443a55f31513`。[GK5CA／Qi v4.45正式証明記録](docs/formal/GK5CA-Qi-v4_45-variable-substitution-crt-naturality.md)。strict 空、独立Kuu→Qi、元F54／F55 Type履歴、公開root107、固定Lean／mathlib、保護#1558 Draft／OPEN／未マージ維持。
+
 **Copyright © 2026 Hidetoshi Itakura / 板倉英俊. Apache-2.0.**

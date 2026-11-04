@@ -1910,4 +1910,10 @@ lake build KuuOSFormal # warningAsErrorはlakefile.toml既定。sorryAxは#print
 - [exact-source CI #41832026876](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41832026876)：**9,309／9,309・Governance 30／30 SUCCESS**。新規17定理、sorryAxなし、変更Leanエラーなし。source/test-merge/squash Git tree `e2496d9eb72368612c82b0cb8f7a0ae4c1f55843`一致。固定Lean v4.30.0-rc2・mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、公開root107、保護#1558維持。
 - **次Qi v4.45：** [PR #3105](https://github.com/itakura-hidetoshi/KuuOS/pull/3105)で真正北C60 GK5BQ signed numeratorの任意Fin変数再分類・代入・三段CRT塔を独立GK5CAへ接続する。最終CI通過前の命題は未検証として区別する。
 
+## 2026-11-04：Qi v4.45 — 真正北C60元signed numeratorの変数再分類・代入CRT塔
+
+- **Qi v4.45 #3105 MERGED：** [PR #3105](https://github.com/itakura-hidetoshi/KuuOS/pull/3105)、source HEAD `1ba2587b15c4aa80e3097c58219978b5109dfd50`、squash/main `7240ee551fbe968e1b439887b949443a55f31513`。元GK5BQ符号付き`Int` numeratorの`Fin n`座標に対し、任意の変数再分類（非単射含む）・真正`MvPolynomial.bind₁`多項式代入・整数評価・大域ZMod L／互換局所CRT Subring・三段有限被覆制限の自然性を統合。二つの真正元F55 Type sourceの数値塔が整合してもprimitive original→phi seamは存在、double inverse＋右単位seamは不存在。Type reconstructionは主張しない。
+- [CI #41833223307](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41833223307)：**Strict Lean 10,236／10,236 SUCCESS、Governance 30／30 SUCCESS**、新規15定理の公理監査sorryAxなし、変更Leanビルド成功。source/test-merge/squash Git tree `0a25fd7d4acf2c3fb4a1fa0b7823110b6a728780`一致。[GK5CA／Qi v4.45正式証明記録](docs/formal/GK5CA-Qi-v4_45-variable-substitution-crt-naturality.md)。固定Lean v4.30.0-rc2／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、公開root107、元F54／F55 Type履歴、保護#1558 Draft/OPEN/未マージ保持。
+- **次GK5CB（未形式化の研究余地）：** 複合代入の結合自然性、被覆制限と変数系の同時再分類をRingHom／AlgHomレベルで整理し、numeric local-to-globalと元F55 structural seamの独立性を保つ。
+
 **Copyright © 2026 Hidetoshi Itakura / 板倉英俊. Apache-2.0.**
