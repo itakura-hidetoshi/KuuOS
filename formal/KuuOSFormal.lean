@@ -539,6 +539,7 @@ import Kuu.F112.PolygonNativeC60AQFullPentagonPhysicalNativeGK5BSCRTLocalGlobalG
 import KUOS.Architecture.QiWuxingGK5BSNorthCRTGluingV4_38
 import Kuu.F112.PolygonNativeC60AQFullPentagonPhysicalNativeGK5BTNoncoprimeCRTOverlapObstruction
 import KUOS.Architecture.QiWuxingGK5BTNorthNoncoprimeCRTOverlapV4_39
+import Kuu.F112.PolygonNativeC60AQFullPentagonPhysicalNativeGK5BUFiniteCoverOverlap
 
 /-!
 Public aggregate: retain every previously published proof and its original
