@@ -50,7 +50,7 @@ theorem nativeGK5BQSignedFirst_succ_succ (n j : Nat) :
       nativeGK5BPSignedFirst n j -
         (n : Int) * nativeGK5BPSignedFirst n (j + 1) := by
   simp [nativeGK5BPSignedFirst, descPochhammer_succ_right,
-    mul_sub, Polynomial.coeff_sub, Polynomial.coeff_mul_X]
+    mul_sub, Polynomial.coeff_sub, Polynomial.coeff_mul_X] <;> ring
 
 /-- Exact signed first-kind Stirling coefficient identity.
 The exponent n+j has the same sign as n-j where j≤n, and
@@ -66,7 +66,7 @@ theorem nativeGK5BQSignedFirst_eq_natStirling_addSign
           norm_num [nativeGK5BPSignedFirst, descPochhammer_zero]
       | succ j =>
           simp [nativeGK5BPSignedFirst, descPochhammer_zero,
-            Nat.stirlingFirst_zero_succ]
+            Nat.stirlingFirst_zero_succ, Polynomial.coeff_one]
   | succ n ih =>
       cases j with
       | zero =>
@@ -188,8 +188,7 @@ theorem nativeGK5BQNewton_scaledCoeff
     _ = (nativeGK5BQFactorialQuotient d k : Rat) *
           (nativeGK5BQIntRawForward values k : Rat) *
           (nativeGK5BPSignedFirst k j : Rat) := by
-            field_simp [hn]
-            ring
+            field_simp [hn] <;> ring
 
 /-- EXACT finite integer divisibility certificate for
 integer-valued raw samples, with no assumed polynomial
@@ -240,8 +239,8 @@ theorem nativeGK5BQLagrange_integral_iff_divisible
           (fun z : Int => (values z.toNat : Rat))) ↔
     (∀ j ∈ Finset.range (d + 1),
       (d.factorial : Int) ∣ nativeGK5BQClearedNumerator d j values) := by
-  rw [← nativeGK5BPNewton_eq_lagrange]
-  exact nativeGK5BQNewton_integral_iff_divisible d values
+  simpa only [nativeGK5BPNewton_eq_lagrange] using
+    (nativeGK5BQNewton_integral_iff_divisible d values)
 
 /-- Any observed integer numerator failing divisibility by
 d! at some j≤d is a genuine obstruction to an Int[X]
