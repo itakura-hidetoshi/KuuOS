@@ -1927,4 +1927,16 @@ lake build KuuOSFormal # warningAsErrorはlakefile.toml既定。sorryAxは#print
 - [CI #41836760194](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41836760194)：**10,238／10,238・Governance 30／30 SUCCESS**、新規13定理sorryAxなし。source/test-merge/squash tree `0888ae38254aa9bf41e5757b80748620f1e2c330`、squash/main `38f8ffb2f10e4a2e96fc6f5fb7f13fe373f63236`。[正式証明記録](docs/formal/GK5CB-Qi-v4_46-iterated-substitution-crt-naturality.md)。strict 空、独立Kuu→Qi、元F54/F55 Type履歴・公開root107・固定Lean v4.30.0-rc2/mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`・保護#1558 Draft/OPEN/未マージを保持。
 - **次GK5CC（未形式化）：** 任意有限長の代入鎖の自然性を、単一/二段の構成から有限経路の結合律・代入合成へ一般化する。各段の`RingHom`一致、被覆制限との交換則および元F55 structural seamの非復元を別authorityとして保つ。
 
+
+## 2026-11-04：GK5CC — 任意有限長の型可変多項式代入鎖・真正CRT自然性
+
+- **独立GK5CC #3110 MERGED：** [PR](https://github.com/itakura-hidetoshi/KuuOS/pull/3110)。`α : Nat → Type u`と各段`α i→MvPolynomial (α(i+1)) Int`から任意有限長の真正`RingHom`を構成。長さ0・後続1段の再帰と大域／互換局所評価、GK5BW非互いに素CRT環同型、GK5BX有限被覆制限、GK5BZ整数多変数評価、GK5CB代入合成を一つに接続。全長・全被覆・非単射初期変数再分類について厳密な三段CRT `RingHom`自然性をLean4で証明。空型・法0・空被覆・負係数・非互いに素法を保持し、新しい元F55 Type源・高次セルを数値情報から復元しない。
+- [exact-source CI #41840895134](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41840895134)：**9,313／9,313・Governance 30／30 SUCCESS**、新規12定理sorryAxなし、source/test-merge/squash tree `8261494c97bc5a50fac5b328fba237e50591852d`一致、squash `8c829c020c6211e1ec1b36fe867509436ea911d5`。初回CIのCRT三段証明では終端`nativeGK5BZCRTMvEval_apply`を補い、Lean命題・仮定は不変。
+
+## 2026-11-04：Qi v4.47 — 真正北C60 original signed finite typed chain
+
+- **Qi v4.47 #3111 MERGED：** [PR](https://github.com/itakura-hidetoshi/KuuOS/pull/3111)。各段で変数数の変わる`Fin (arity i)`を実際の多変数代入で結び、終端の各変数に元GK5BQ符号付き`Int` numeratorをそのまま割り当てる。任意有限長で元`Int`・真正大域ZMod・互換局所Subring評価、被覆一段／三段自然性、非単射初期再分類を統合。元F55 primitive（original→phi seam存在）／double inverse＋元右単位（seam不存在）の異なるType履歴を保持。元整数深度多項式の既存零条件`2≤d`と`L_s ∣ d!`を任意外側多変数多項式の零に拡張しない。
+- [exact-source CI #41842396869](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41842396869)：**10,240／10,240・Governance 30／30 SUCCESS**、新規9定理sorryAxなし、source/test-merge/squash tree `b4bc1ce80e68b2deda53482bec0ebf77a7c7ec66`一致、squash/main `cb702bac382c79c36b0f2eb7c2f3b96b8239db57`。[正式証明記録](docs/formal/GK5CC-Qi-v4_47-finite-typed-crt-naturality.md)。固定Lean v4.30.0-rc2／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、公開root107、strict 空、独立Kuu→Qi、元F54/F55 Type履歴、保護#1558 Draft／OPEN／未マージを維持。
+- **次GK5CD（未形式化）：** 任意の二つの連続する型可変有限代入鎖の連結則（任意分割点の正規化）と、そのCRT・有限被覆自然性を同時に強化する。数値descendの構成と元F55構造的seamのauthority境界は維持する。
+
 **Copyright © 2026 Hidetoshi Itakura / 板倉英俊. Apache-2.0.**
