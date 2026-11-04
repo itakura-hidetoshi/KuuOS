@@ -1837,4 +1837,14 @@ lake build KuuOSFormal # warningAsErrorはlakefile.toml既定。sorryAxは#print
 - [正式証明記録](docs/formal/GK5BR-Qi-v4_37-prime-power-local-global-certificates.md)。strict 空／独立Kuu→Qi、元F54二Nat／二圏／Blocks・元F55 Type履歴、公開root107、Lean v4.30.0-rc2／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、保護PR #1558 Draft／OPEN未マージ。
 - **次GK5BS（仮称）：** 同じ整数分子についての局所可除性判定から、**別々に指定された素数冪局所代表値**に対する互換性条件と、明示的CRT（中国剰余定理）の整数再合成へ進む。算術的CRT descentと元F55 Type値／P94A四セル／元P89・GK5AY seamの構造的gluingを混同しない。今段階では次研究目標であり定理成立済みとはしない。
 
+
+## 2026-11-04：GK5BS／Qi v4.38 — 真正CRT環同型と元F55 Type seamの境界
+
+- **独立GK5BS #3082 MERGED：** exact-source HEAD `6445154df559174ff4658a092f0b9bfc69544afb`、squash `e4feab9e2d0ac2f2c5229be966eba570cf9ff816`。source/test-merge/squash Git tree `2ce511ec443f48fe43849491b2396882af01f08e`一致。[CI #41778920532](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41778920532)：**Strict Lean 9,294/9,294・Governance 30/30 SUCCESS**、新規16定理の公理監査sorryAxなし、変更Lean warning/error 0/0。初回CIは`local`予約語、固定mathlib `ZMod.equivPi`明示法引数、型エイリアス`abbrev`、ZMod括弧不足を修復し、命題／仮定を変更せず。
+- **Qi v4.38 #3083 MERGED：** exact-source HEAD `fb2dcd30fc038caaec7528d83fab616cc87e0676`、squash `274653fd542b38cc2e9d9e6fdcc62cb1cf3d78bb`。三者tree `c2c55f9735e059407de26e84edd2bf1c77ce052b`一致。[CI #41779618580](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41779618580)：**10,221/10,221・Governance 30/30 SUCCESS**、新規16定理・sorryAxなし、変更Lean warning/error 0/0。
+- **独立Kuu数学的到達：** 真正`ZMod.equivPi`により`ZMod(d!) ≃+* ∏_(p|d!) ZMod(p^v_p(d!))`を構成。任意に指定した局所剰余族からグローバル合同類・具体的整数代表・標準`0≤r<d!`を構成し、全局所での完全再現、解の法`d!`一意性、加法乗法のcompatibilityを証明。元GK5BQ実分子の局所剰余再合成は元分子のmod`d!`と一致。全係数CRT零`↔`Newton／GK5BL Lagrangeの真の`Int[X]`原像存在、非零CRT係数はobstruction。
+- **真正北C60 Type値境界：** 元F55証拠のP92B多項式**値**、元P77商の**降下多項式値**にCRT合成を適用。元primitive`1`とdouble inverse＋右F55単位`X²`は双方`d=2`全CRT零だが、元original→phi seamは存在・不存在と正反対であることを同一定理で証明。元選択P92B二loop`X³+2`／`2X²+X`は`d=3`四点`{0,1,2,3}`でCRT零。真正第五Dart物理C60・P89 BadPair条件付き反射は算術CRTsとは独立。
+- [正式証明記録](docs/formal/GK5BS-Qi-v4_38-genuine-crt-local-global-gluing-certificates.md)。strict 空／独立Kuu→Qi、元F54二Nat・二圏・Blocks／元F55 Type履歴、公開root107、Lean v4.30.0-rc2・mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、保護#1558 Draft／OPEN未マージ。
+- **次GK5BT（仮称）：** 相互素の局所素数冪CRTから、重なる法`m,n`の非互いに素な局所剰余代表に拡張。共通部`gcd(m,n)`上の`a≡b (mod gcd(m,n))`を必要十分なcompatibility／obstructionとして形式化し、成立時のみ`lcm(m,n)`の大域整数代表へ合成。元F55 Type値／P94A四セル／P89・GK5AY seamの構造gluingは別に保持。現時点では研究計画であり次のLean定理成立済みとはしない。
+
 **Copyright © 2026 Hidetoshi Itakura / 板倉英俊. Apache-2.0.**
