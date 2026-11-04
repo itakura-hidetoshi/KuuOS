@@ -153,11 +153,205 @@ theorem nativeGK5CDCompatibleSplitEval_eq
   rw [nativeGK5CDTypedSplitHom_eq]
   rfl
 
+/-- Original global ZMod evaluation after the real typed cut
+and concatenation, retaining a genuine RingHom. -/
+def nativeGK5CDGlobalSplitEvalHom
+    {ι : Type*} {α : Nat → Type u}
+    (s : Finset ι) (moduli : ι → Nat)
+    (steps : (i : Nat) → α i → MvPolynomial (α (i+1)) Int)
+    (start left right : Nat)
+    (xs : α (start + (left + right)) →
+      ZMod (nativeGK5BUFiniteModulus s moduli)) :
+    MvPolynomial (α start) Int →+*
+      ZMod (nativeGK5BUFiniteModulus s moduli) :=
+  (nativeGK5BZGlobalMvEvalHom s moduli xs).comp
+    (nativeGK5CDTypedSplitHom steps start left right)
+
+/-- Genuine compatible-local CRT subring evaluation after
+the original type-changing cut, as an actual RingHom. -/
+def nativeGK5CDCompatibleSplitEvalHom
+    {ι : Type*} {α : Nat → Type u}
+    (s : Finset ι) (moduli : ι → Nat)
+    (steps : (i : Nat) → α i → MvPolynomial (α (i+1)) Int)
+    (start left right : Nat)
+    (as : α (start + (left + right)) →
+      nativeGK5BWCompatibleSubring s moduli) :
+    MvPolynomial (α start) Int →+*
+      nativeGK5BWCompatibleSubring s moduli :=
+  (nativeGK5BZCompatibleMvEvalHom s moduli as).comp
+    (nativeGK5CDTypedSplitHom steps start left right)
+
+/-- Global ZMod evaluation of any split is the original
+whole finite chain as strict RingHom equality. -/
+theorem nativeGK5CDGlobalSplitEvalHom_eq
+    {ι : Type*} {α : Nat → Type u}
+    (s : Finset ι) (moduli : ι → Nat)
+    (steps : (i : Nat) → α i → MvPolynomial (α (i+1)) Int)
+    (start left right : Nat)
+    (xs : α (start + (left + right)) →
+      ZMod (nativeGK5BUFiniteModulus s moduli)) :
+    nativeGK5CDGlobalSplitEvalHom s moduli steps start left right xs =
+      nativeGK5CCGlobalChainEvalHom s moduli steps start
+        (left + right) xs :=
+  nativeGK5CDGlobalSplitEval_eq s moduli steps start left right xs
+
+/-- Local compatible-subring evaluation of any split
+is the original whole chain as a TRUE RingHom equation. -/
+theorem nativeGK5CDCompatibleSplitEvalHom_eq
+    {ι : Type*} {α : Nat → Type u}
+    (s : Finset ι) (moduli : ι → Nat)
+    (steps : (i : Nat) → α i → MvPolynomial (α (i+1)) Int)
+    (start left right : Nat)
+    (as : α (start + (left + right)) →
+      nativeGK5BWCompatibleSubring s moduli) :
+    nativeGK5CDCompatibleSplitEvalHom s moduli steps start left right as =
+      nativeGK5CCCompatibleChainEvalHom s moduli steps start
+        (left + right) as :=
+  nativeGK5CDCompatibleSplitEval_eq s moduli steps start left right as
+
+/-- The actual GK5BW CRT RingEquiv commutes with the
+WHOLE arbitrarily split typed substitution RingHom. -/
+theorem nativeGK5CDCRT_Split_naturalHom
+    {ι : Type*} {α : Nat → Type u}
+    (s : Finset ι) (moduli : ι → Nat)
+    (steps : (i : Nat) → α i → MvPolynomial (α (i+1)) Int)
+    (start left right : Nat)
+    (xs : α (start + (left + right)) →
+      ZMod (nativeGK5BUFiniteModulus s moduli)) :
+    (nativeGK5BWGlobalCompatibleHom s moduli).comp
+      (nativeGK5CDGlobalSplitEvalHom s moduli steps start left right xs) =
+    nativeGK5CDCompatibleSplitEvalHom s moduli steps start left right
+      (fun v => nativeGK5BWFiniteCRTRingEquiv s moduli (xs v)) := by
+  rw [nativeGK5CDGlobalSplitEvalHom_eq,
+    nativeGK5CDCompatibleSplitEvalHom_eq]
+  exact nativeGK5CCCRTChain_naturalHom s moduli steps start
+    (left + right) xs
+
+/-- True global ZMod finite-cover restriction commutes with
+every arbitrarily cut typed chain AS RING HOM equality. -/
+theorem nativeGK5CDGlobalSplit_restrictHom
+    {ι : Type*} {α : Nat → Type u}
+    (s t : Finset ι) (moduli : ι → Nat)
+    (inc : t ⊆ s)
+    (steps : (i : Nat) → α i → MvPolynomial (α (i+1)) Int)
+    (start left right : Nat)
+    (xs : α (start + (left + right)) →
+      ZMod (nativeGK5BUFiniteModulus s moduli)) :
+    (nativeGK5BXGlobalRestrictHom s t moduli inc).comp
+      (nativeGK5CDGlobalSplitEvalHom s moduli steps start left right xs) =
+    nativeGK5CDGlobalSplitEvalHom t moduli steps start left right
+      (fun v => nativeGK5BXGlobalRestrictHom s t moduli inc (xs v)) := by
+  rw [nativeGK5CDGlobalSplitEvalHom_eq,
+    nativeGK5CDGlobalSplitEvalHom_eq]
+  exact nativeGK5CCGlobalChain_restrictHom s t moduli inc
+    steps start (left + right) xs
+
+/-- True compatible-local finite-cover restriction commutes
+with the whole arbitrarily cut typed chain as RingHom. -/
+theorem nativeGK5CDCompatibleSplit_restrictHom
+    {ι : Type*} {α : Nat → Type u}
+    (s t : Finset ι) (moduli : ι → Nat)
+    (inc : t ⊆ s)
+    (steps : (i : Nat) → α i → MvPolynomial (α (i+1)) Int)
+    (start left right : Nat)
+    (as : α (start + (left + right)) →
+      nativeGK5BWCompatibleSubring s moduli) :
+    (nativeGK5BXCompatibleRestrictHom s t moduli inc).comp
+      (nativeGK5CDCompatibleSplitEvalHom s moduli steps start left right as) =
+    nativeGK5CDCompatibleSplitEvalHom t moduli steps start left right
+      (fun v => nativeGK5BXCompatibleRestrictHom s t moduli inc (as v)) := by
+  rw [nativeGK5CDCompatibleSplitEvalHom_eq,
+    nativeGK5CDCompatibleSplitEvalHom_eq]
+  exact nativeGK5CCCompatibleChain_restrictHom s t moduli inc
+    steps start (left + right) as
+
+/-- The COMPLETE genuine three-cover CRT diagram is
+strictly commutative for ANY CUT of the heterogeneous
+finite substitution chain, as an equality of RingHoms. -/
+theorem nativeGK5CDCRT_Split_threeCoverHom
+    {ι : Type*} {α : Nat → Type u}
+    (s t u' : Finset ι) (moduli : ι → Nat)
+    (inc : t ⊆ s) (inc' : u' ⊆ t)
+    (steps : (i : Nat) → α i → MvPolynomial (α (i+1)) Int)
+    (start left right : Nat)
+    (xs : α (start + (left + right)) →
+      ZMod (nativeGK5BUFiniteModulus s moduli)) :
+    (nativeGK5BXCompatibleRestrictHom t u' moduli inc').comp
+      ((nativeGK5BXCompatibleRestrictHom s t moduli inc).comp
+        ((nativeGK5BWGlobalCompatibleHom s moduli).comp
+          (nativeGK5CDGlobalSplitEvalHom s moduli steps start left right xs))) =
+    nativeGK5CDCompatibleSplitEvalHom u' moduli steps start left right
+      (fun v => nativeGK5BWFiniteCRTRingEquiv u' moduli
+        (nativeGK5BXGlobalRestrictHom s u' moduli
+          (fun j hj => inc (inc' hj)) (xs v))) := by
+  rw [nativeGK5CDGlobalSplitEvalHom_eq,
+    nativeGK5CDCompatibleSplitEvalHom_eq]
+  exact nativeGK5CCCRTChain_threeCoverHom s t u' moduli inc inc'
+    steps start (left + right) xs
+
+/-- Any noninjective initial source-variable relabelling
+retains the same authentic three-cover CRT gluing even
+after an arbitrary split of the whole typed chain. -/
+theorem nativeGK5CDCRT_Split_rename_threeCover
+    {ι σ : Type*} {α : Nat → Type u}
+    (s t u' : Finset ι) (moduli : ι → Nat)
+    (inc : t ⊆ s) (inc' : u' ⊆ t)
+    (steps : (i : Nat) → α i → MvPolynomial (α (i+1)) Int)
+    (start left right : Nat) (f : σ → α start)
+    (xs : α (start + (left + right)) →
+      ZMod (nativeGK5BUFiniteModulus s moduli))
+    (P : MvPolynomial σ Int) :
+    nativeGK5BXCompatibleRestrictHom t u' moduli inc'
+      (nativeGK5BXCompatibleRestrictHom s t moduli inc
+        (nativeGK5BWFiniteCRTRingEquiv s moduli
+          (nativeGK5CDGlobalSplitEvalHom s moduli steps start left right xs
+            ((MvPolynomial.rename f) P)))) =
+    nativeGK5CDCompatibleSplitEvalHom u' moduli steps start left right
+      (fun v => nativeGK5BWFiniteCRTRingEquiv u' moduli
+        (nativeGK5BXGlobalRestrictHom s u' moduli
+          (fun j hj => inc (inc' hj)) (xs v)))
+      ((MvPolynomial.rename f) P) := by
+  simpa only [RingHom.comp_apply,
+    nativeGK5BWFiniteCRTRingEquiv_apply] using
+    (RingHom.congr_fun
+      (nativeGK5CDCRT_Split_threeCoverHom s t u' moduli inc inc'
+        steps start left right xs)
+      ((MvPolynomial.rename f) P))
+
+/-- The original SIGNED Int terminal values can be evaluated
+before reduction into the true global CRT quotient for
+ANY genuine arbitrary cut and any original polynomial. -/
+theorem nativeGK5CDSignedIntSplit_global
+    {ι : Type*} {α : Nat → Type u}
+    (s : Finset ι) (moduli : ι → Nat)
+    (steps : (i : Nat) → α i → MvPolynomial (α (i+1)) Int)
+    (start left right : Nat)
+    (zs : α (start + (left + right)) → Int)
+    (P : MvPolynomial (α start) Int) :
+    nativeGK5CDGlobalSplitEvalHom s moduli steps start left right
+      (fun v => (zs v : ZMod (nativeGK5BUFiniteModulus s moduli))) P =
+    ((MvPolynomial.eval₂Hom (Int.castRingHom Int) zs
+      (nativeGK5CDTypedSplitHom steps start left right P) : Int) :
+        ZMod (nativeGK5BUFiniteModulus s moduli)) := by
+  rw [nativeGK5CDGlobalSplitEvalHom_eq,
+    nativeGK5CDTypedSplitHom_eq]
+  exact nativeGK5CCSignedIntChain_global s moduli steps start
+    (left + right) zs P
+
 #print axioms nativeGK5CDTypedSplitHom_eq
 #print axioms nativeGK5CDTypedSplitHom_zeroLeft
 #print axioms nativeGK5CDTypedSplitHom_zeroRight
 #print axioms nativeGK5CDGlobalSplitEval_eq
 #print axioms nativeGK5CDCompatibleSplitEval_eq
+
+#print axioms nativeGK5CDGlobalSplitEvalHom_eq
+#print axioms nativeGK5CDCompatibleSplitEvalHom_eq
+#print axioms nativeGK5CDCRT_Split_naturalHom
+#print axioms nativeGK5CDGlobalSplit_restrictHom
+#print axioms nativeGK5CDCompatibleSplit_restrictHom
+#print axioms nativeGK5CDCRT_Split_threeCoverHom
+#print axioms nativeGK5CDCRT_Split_rename_threeCover
+#print axioms nativeGK5CDSignedIntSplit_global
 
 end
 end Kuu.F112.Physical
