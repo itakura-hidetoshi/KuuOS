@@ -1778,4 +1778,13 @@ AI推論runtimeの方向は **観測 → 文脈・複数presentation → 輸送�
 
 [独立GK5BM exact-source CI #41739642619](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41739642619) **Strict Lean 9,282/9,282・Governance 30/30 SUCCESS**（新規11宣言、sorryAxなし）。[Qi v4.32 CI #41740543233](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41740543233) **10,209/10,209・30/30 SUCCESS**（新規9宣言、sorryAxなし）。source/test-merge/squash Git tree一致、Qi統合SHA`4c0b318e275e5f7fed282ecc3be3d8bfacffc6c6`。[正式証明記録](docs/formal/GK5BM-Qi-v4_32-integral-nat-coefficient-lift-certificates.md)。strict 空／独立Kuu→Qi、元F54二Nat・二圏・Blocks／元F55 Type値履歴、公開root107、固定Lean/mathlib、保護PR #1558 Draft/OPEN未マージ。W=1からのseam十分性、P89無条件反射、Grayは未主張。
 
+
+## 2026-11-04 — GK5BN／Qi v4.33：有限分母・整数整除証明書の構成的形式化
+
+[独立GK5BN #3067](https://github.com/itakura-hidetoshi/KuuOS/pull/3067) と [Qi v4.33 #3068](https://github.com/itakura-hidetoshi/KuuOS/pull/3068) は**MERGED**。GK5BMの全係数整係数判定を、任意の`Q:Rat[X]`の**有限support**上で`∀k∈supp(Q), (Q.coeff k).den=1`と同値な完全な整数係数証明書にした。また、非零整数`d`・整数多項式`N`と**厳密な分母消去等式**`C(d:Rat)*Q=N.map(Int→Rat)`が与えられれば、`Q`に`Int[X]`原像があることと`∀k∈supp(N), d∣N.coeff k`が同値であると証明した。失敗係数は明示的obstructionであり、単に整数値の標本があるだけで整係数性を断定しない。
+
+真正北C60の元F55/P92B Type値証拠について、GK5BJ真正Nat係数→GK5BM Nat持ち上げ→GK5BN有限分母1証明書を結合。元P77真正四セル商では**降下多項式の値**に限って同じ結論を示した。元primitive `P=1`・元double inverse＋F55右単位 `P=X²` は三点`{0,1,2}`、二つの真正選択P92B endo-loop `A=X³+2`・`B=2X²+X` は四点`{-1,0,1,2}`の分母1証明書を得た。これらを元F55 Type値の新規実現・P77商類同一性・P94A四セルやoriginal→phi局所seamの十分性と同一視しない。
+
+[独立GK5BN exact-source CI #41743613851](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41743613851)：**Strict Lean 9,284/9,284、Governance 30/30 SUCCESS**（11宣言・sorryAxなし）。初回の`Int.castRingHom`型正規化だけを修正し定理・仮定は不変。[Qi v4.33 CI #41744468276](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41744468276)：**Strict Lean 10,211/10,211、Governance 30/30 SUCCESS**（10宣言・sorryAxなし）。source/test-merge/squash Git tree一致、変更Lean警告・エラーなし。[正式証明記録](docs/formal/GK5BN-Qi-v4_33-finite-denominator-divisibility-certificates.md)。strict 空／独立Kuu→Qi、元F54二Nat・二圏・Blocks／元F55 Type値履歴、公開root107、Lean v4.30.0-rc2と固定mathlib、保護PR #1558 Draft/OPEN未マージ維持。GK5AY全域seam・GK5BA kit・P89無条件反射・Grayは未主張。
+
 **Copyright © 2026 Hidetoshi Itakura / 板倉英俊. Apache-2.0.**
