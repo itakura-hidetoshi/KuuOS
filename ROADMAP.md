@@ -1857,4 +1857,14 @@ lake build KuuOSFormal # warningAsErrorはlakefile.toml既定。sorryAxは#print
 - [正式証明記録](docs/formal/GK5BT-Qi-v4_39-noncoprime-crt-overlap-gluing-certificates.md)。strict 空／独立Kuu→Qi、元F54二Nat・二圏・Blocksと元F55 Type履歴、公開root107、固定Lean v4.30.0-rc2／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、保護PR #1558 Draft／OPEN／未マージ維持。
 - **次GK5BU（仮称）：** 二法の重なりから有限族`(mᵢ,aᵢ)`へ広げ、全てのpairwise gcd重なりcompatibilityを条件として法`lcmᵢ mᵢ`の大域代表を再帰的に構成する。有限Čech型gluingと算術obstructionの形式化を目指し、元F55 Type値／P94A四セル・P89・GK5AY seamの構造gluingを別authorityとして保持する。現時点では未形式化の研究目標。
 
+
+## 2026-11-04：GK5BV／Qi v4.40 — 完全有限CRTの真正Lean4形式証明
+
+- **独立GK5BV #3089 MERGED：** exact-source HEAD `866d3c0ebf19dd803556a7b1f335ef1ee3b7c027`、squash `6329d44d462f2b6e05285e7d2daacaafca1a09a3`、source/test-merge/squash Git tree `f63022b6ade5704aab2b864e90ea6bf4b2068f77`一致。[CI #41795872887](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41795872887)：**Strict Lean 9,299/9,299、Governance 30/30 SUCCESS**、新規9定理sorryAxなし、変更Lean warning/error 0/0。初回の零ケース左右向き、Finsupp型・Nat.lcmと汎用lcm名の齟齬を固定mathlib APIに合わせて修正、数学的命題／仮定不変。
+- **Qi v4.40 #3090 MERGED：** exact-source HEAD `a1c7044b3a4db127dc68dcad82b91d2a459944fc`、squash `371a0382fb87b9767939c8ac7f4bdaf73810428a`、三者tree `577cede9fd66bf91c84e36d89f21a0e1cae51c08`一致。[CI #41796657558](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41796657558)：**10,226/10,226、Governance 30/30 SUCCESS**、新規14定理sorryAxなし、変更Lean warning/error 0/0。
+- **数学的到達：** `(∀i,j∈s, aᵢ≡aⱼ mod gcd(mᵢ,mⱼ)) ↔ ∃x,∀i∈s,x≡aᵢ mod mᵢ`を任意有限集合・任意Nat法（零を含む）で証明。支配的局所法やcoprime仮定不要。`gcd(lcm(a,b),c)=lcm(gcd(a,c),gcd(b,c))`を零を含めて証明→有限lcmへ拡張→真正二法CRTを帰納構成。全大域解のmod有限lcm一意性、代表正規化（非零lcmなら`0≤x<L`）、全pairwise整合の加法乗法保存、単一不整合pairと大域解不存在の同値を証明。
+- **真正北C60 Type値境界：** 元GK5BQ整数分子の有限局所絶対値剰余と元整数分子の整除判定を接続。真の元F55 Type源の既存P92B整数多項式**値**と元F55/P77商の降下**値**のみに`lcm(s,m)|d!`条件付きCRT零証明書を適用。元primitive`1`とdouble inverse＋F55右単位`X²`は双方有限CRT零でも元original→phi seamは存在と不存在で異なる。真の3局所法`4,6,9`・独立剰余`1,3,0`はglobal witness`9`とLean4で検証。元F55 Type証拠・P77商類・P94A四セル・P89条件付き反射・GK5AY seamを数値合同で同一視しない。
+- [正式証明記録](docs/formal/GK5BV-Qi-v4_40-complete-finite-noncoprime-crt-descent.md)。strict 空／独立Kuu→Qi、元F54二Nat・二圏・Blocks・F55 Type履歴、公開root107、Lean v4.30.0-rc2／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、保護#1558 Draft/OPEN未マージ維持。
+- **次GK5BW（仮称）：** 数値的有限互換剰余族と大域`ZMod(L)`の真正環同型（fiber-product／compatible-family）、加法乗法と局所制限の自然性、obstructionを検討。元F55 Type値source・P94A 4-cell・P89/GK5AY seamを数値環同型から復元する主張は行わない。未形式化の次研究目標。
+
 **Copyright © 2026 Hidetoshi Itakura / 板倉英俊. Apache-2.0.**
