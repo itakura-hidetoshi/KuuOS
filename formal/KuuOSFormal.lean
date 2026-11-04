@@ -548,6 +548,7 @@ import Kuu.F112.PolygonNativeC60AQFullPentagonPhysicalNativeGK5BXFiniteCRTRestri
 import KUOS.Architecture.QiWuxingGK5BXNorthCRTTowerNaturalityV4_42
 import Kuu.F112.PolygonNativeC60AQFullPentagonPhysicalNativeGK5BYIntPolynomialCRTNaturality
 import KUOS.Architecture.QiWuxingGK5BYNorthIntPolynomialCRTV4_43
+import Kuu.F112.PolygonNativeC60AQFullPentagonPhysicalNativeGK5BZMultivariableCRTNaturality
 
 /-!
 Public aggregate: retain every previously published proof and its original
