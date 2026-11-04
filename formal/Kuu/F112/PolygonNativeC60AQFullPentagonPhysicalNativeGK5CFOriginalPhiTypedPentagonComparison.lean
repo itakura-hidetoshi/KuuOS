@@ -298,6 +298,33 @@ theorem nativeGK5CFOriginalSeamPentagon_glue_iff
   · intro all
     exact h01.mpr all.1
 
+/-- The PROP whose proof is the existing GK5CE pentagon theorem.
+A proof term is NOT itself a proposition: all five actual typed
+RingHom equality propositions must be retained at the type level. -/
+def nativeGK5CFNumericalPentagonBoundary
+    {α : Nat → Type u}
+    (steps : (i : Nat) → α i → MvPolynomial (α (i+1)) Int)
+    (start a b c d : Nat) : Prop :=
+  (nativeGK5CEFourLeftLeftLeft steps start a b c d =
+    nativeGK5CEFourLeftMiddle steps start a b c d) ∧
+  (nativeGK5CEFourLeftMiddle steps start a b c d =
+    nativeGK5CEFourMiddle steps start a b c d) ∧
+  (nativeGK5CEFourMiddle steps start a b c d =
+    nativeGK5CEFourRightMiddle steps start a b c d) ∧
+  (nativeGK5CEFourRightMiddle steps start a b c d =
+    nativeGK5CEFourRightRight steps start a b c d) ∧
+  (nativeGK5CEFourRightRight steps start a b c d =
+    nativeGK5CEFourLeftLeftLeft steps start a b c d)
+
+/-- The numerical boundary proposition is valid without any
+source-typed F55/P94A seam assumption. -/
+theorem nativeGK5CFNumericalPentagonBoundary_valid
+    {α : Nat → Type u}
+    (steps : (i : Nat) → α i → MvPolynomial (α (i+1)) Int)
+    (start a b c d : Nat) :
+    nativeGK5CFNumericalPentagonBoundary steps start a b c d :=
+  nativeGK5CEFourPentagon_boundary steps start a b c d
+
 /-- The PRECISE additional gate for comparing a true heterogeneous
 GK5CE RingHom pentagon to a chosen actual original F55 source: a
 P94A four-cell between its raw wrapper and recursive structural phi.
@@ -308,7 +335,7 @@ def nativeGK5CFPentagonHigherComparison
     (start a b c d : Nat)
     {r s : KuuNativeF45Tree.DepthRotationRoute p first last}
     (src : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p r s) : Prop :=
-  nativeGK5CEFourPentagon_boundary steps start a b c d ∧
+  nativeGK5CFNumericalPentagonBoundary steps start a b c d ∧
   Nonempty (nativeGK5AZSeamAt src)
 
 /-- Sharp conditional descent: since the numerical RingHom
@@ -361,7 +388,7 @@ theorem nativeGK5CFNoNumericalPentagonToSourceSeam
     {α : Nat → Type u}
     (steps : (i : Nat) → α i → MvPolynomial (α (i+1)) Int)
     (start a b c d : Nat) :
-    ¬ (nativeGK5CEFourPentagon_boundary steps start a b c d →
+    ¬ (nativeGK5CFNumericalPentagonBoundary steps start a b c d →
       Nonempty (nativeGK5AZSeamAt nativeGK5BFNorthDoubleInverse)) := by
   intro lift
   exact nativeGK5BFNorthDoubleInverse_no_seam
@@ -377,7 +404,7 @@ theorem nativeGK5CFNorthNumericGate_sameFiber_split
     {α : Nat → Type u}
     (steps : (i : Nat) → α i → MvPolynomial (α (i+1)) Int)
     (start a b c d : Nat) :
-    nativeGK5CEFourPentagon_boundary steps start a b c d ∧
+    nativeGK5CFNumericalPentagonBoundary steps start a b c d ∧
     nativeGK5BFCountSignedGate nativeGK5AGNorthOriginalCell ∧
     nativeGK5BFCountSignedGate nativeGK5BFNorthDoubleInverse ∧
     nativeGK5CFPentagonHigherComparison steps start a b c d
@@ -408,6 +435,8 @@ theorem nativeGK5CFNorthNumericGate_sameFiber_split
 #print axioms nativeGK5CFOriginalFiveEdges_exist
 #print axioms nativeGK5CFOriginalSeamPentagon_cycle
 #print axioms nativeGK5CFOriginalSeamPentagon_glue_iff
+#print axioms nativeGK5CFNumericalPentagonBoundary
+#print axioms nativeGK5CFNumericalPentagonBoundary_valid
 #print axioms nativeGK5CFPentagonHigherComparison
 #print axioms nativeGK5CFPentagonHigherComparison_iff
 #print axioms nativeGK5CFNorthPrimitiveComparison_positive
