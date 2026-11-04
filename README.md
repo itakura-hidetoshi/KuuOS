@@ -1818,4 +1818,13 @@ Qi v4.35では、真正北F54/F55 source証拠と元F55/P77商から**既に降�
 
 [独立GK5BQ CI #41765361678](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41765361678) **Strict Lean 9,290/9,290・Governance 30/30 SUCCESS**（新規10宣言、sorryAxなし）。[Qi v4.36 CI #41766217786](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41766217786) **Strict Lean 10,217/10,217・Governance 30/30 SUCCESS**（新規11宣言、sorryAxなし）。両source/test-merge/squash Git tree一致、変更Lean warning/error 0/0。[正式証明記録](docs/formal/GK5BQ-Qi-v4_36-signed-stirling-factorial-divisibility-certificates.md)。strict 空・独立Kuu→Qi・元F54二Nat／二圏／Blocks・元F55 Type値履歴、公開root107、固定Lean/mathlib、保護PR #1558 Draft／OPEN未マージを維持。
 
+
+## 2026-11-04 — GK5BR／Qi v4.37：素数冪局所整除と真正北C60の算術・seam分離
+
+[独立GK5BR #3079](https://github.com/itakura-hidetoshi/KuuOS/pull/3079)・[Qi v4.37 #3080](https://github.com/itakura-hidetoshi/KuuOS/pull/3080)は**MERGED**。GK5BQの整数観測由来の実分子`N_(d,j)(v)`を変えず、`d!∣N ↔ ∀p∈primeFactors(d!), p^(v_p(d!))∣N ↔ ∀p, N≡0 (mod p^(v_p(d!)))`の有限局所・大域必要十分条件をLean4形式化。負の整数分子および零にも成立し、Newton／真正GK5BL Lagrange補間の`Int[X]`原像存在と全有限局所合同の同値、一つでもliftが存在しなければ有限の失敗組`(j,p)`が存在することまで証明した。
+
+真正北C60では、元F55 Type値証拠のP92B多項式**値**と、元P77商の**降下多項式値**に局所証明書を移送。真正primitive `P=1`・double inverse＋F55右単位`P=X²`は`d=2`の局所証明書をそれぞれ満たす一方、元original→phi seamの存在は前者が正・後者が負となることを**同一の定理で証明**した。二つの真正P92B選択ループ`X³+2`・`2X²+X`も`{0,1,2,3}`上で`d=3`の証明書を持つ。算術的gluingを元F55 Type源・P94A四セル・P89無条件反射・全GK5AY seamの実現と同一視しない。
+
+[独立GK5BR CI #41773693409](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41773693409)：**Strict Lean 9,292/9,292・Governance 30/30 SUCCESS**、新規12定理の公理監査sorryAxなし。初回`push_neg`非推奨を`push Not; rfl`に修復し命題・仮定不変。[Qi v4.37 CI #41774281250](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41774281250)：**10,219/10,219・30/30 SUCCESS**、新規13定理の公理監査sorryAxなし。両source/test-merge/squash Git tree一致、変更Lean warning/error 0/0。[正式証明記録](docs/formal/GK5BR-Qi-v4_37-prime-power-local-global-certificates.md)。strict 空／独立Kuu→Qi、元F54二Nat・二圏・Blocks／F55 Type履歴、公開root107、Lean v4.30.0-rc2・固定mathlib、保護PR #1558 Draft／OPEN未マージ維持。
+
 **Copyright © 2026 Hidetoshi Itakura / 板倉英俊. Apache-2.0.**
