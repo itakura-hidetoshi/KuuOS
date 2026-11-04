@@ -1952,4 +1952,17 @@ lake build KuuOSFormal # warningAsErrorはlakefile.toml既定。sorryAxは#print
 - **次GK5CE（研究計画・未形式化）：** 3以上の連結区間の任意括弧付けに対するPentagon coherence、区間再分類・被覆制限との自然性を厳密な型付き可換図式へ拡張する。数値descentから元F55 Type-valued seam／高次セルを復元しない。
 - 厳格な公理境界：strict 空／独立Kuu→Qi、元F54二Nat・二圏・Blocks、元F55 Type履歴、公開root107、固定Lean v4.30.0-rc2／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、保護#1558 Draft／OPEN／未マージを維持。Gray・GK5BA kitなし。
 
+
+## 2026-11-05：GK5CE — 4区間5括弧付けPentagon境界のRingHom形式証明
+
+- **独立GK5CE #3116 MERGED：** [PR](https://github.com/itakura-hidetoshi/KuuOS/pull/3116)。任意型族`α:Nat→Type u`と型可変整数多変数多項式代入鎖について、4区間の5通りの括弧付けを依存型`Nat.add_assoc`の証拠に沿って正規化。GK5CDの真正任意分割`RingHom`から5通りすべてをGK5CC全長鎖`RingHom`と等しいと証明し、Pentagon境界の5つの等式を構成。GK5BW CRT RingEquiv、GK5BX大域／局所一段制限・三段有限非互いに素CRT自然性を証明。これはRingHomの等号でありP94A四セル・2-cell associatorの構築ではない。
+- [exact-source CI #41919563732](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41919563732)：**9,317／9,317 SUCCESS**、Governance SUCCESS、公理監査14定理sorryAxなし。source/test-merge/squash Git tree `bba77ca72145a07b1d1a993996f8fa53a28fcdab`一致、squash `fa16ef40c37419b33da94b0e1a43f1a52f34f5c5`。
+
+## 2026-11-05：Qi v4.49 — 真正北C60 signed Pentagon型RingHom CRT
+
+- **Qi v4.49 #3117 MERGED：** [PR](https://github.com/itakura-hidetoshi/KuuOS/pull/3117)。元真正北C60 `Fin(arity i)`の4区間5括弧付けを、元GK5BQの符号付き整数numeratorと結合。元整数評価、全有限非互いに素CRT大域`ZMod L_s`・互換局所Subring、環同型、任意被覆制限、三段CRT自然性を検証。変数数変動、法0、空被覆、負係数を排除しない。元F55原Type source・original→phi seamは別authorityを維持し、数値合同からP77/P89/P94A等の構造証拠は生成しない。
+- [exact-source CI #41920712069](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41920712069)：**10,244／10,244 SUCCESS**、Governance SUCCESS、14定理sorryAxなし。source/test-merge/squash Git tree `c4940dbdd020a094c43a7cf3308d9552f702c3ab`一致、squash/main `94fd315eeae36f23f08cc3df9a91a51f958d1845`。[正式証明記録](docs/formal/GK5CE-Qi-v4_49-four-segment-pentagon-crt.md)。
+- **次GK5CF（未形式化）：** 5括弧付けに対する自然変換レベルのデータを実際に構成できる条件、元のpresentation／authority／structural seamとの比較障害を分離する。単なるRingHom equalityを高次型付きPentagonの証拠と同一視しない。
+- strict 空、独立Kuu→Qi、元F54二Nat・二圏・Blocks／F55 Type履歴、root107、Lean v4.30.0-rc2／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、保護#1558 Draft／OPEN／未マージを保持。
+
 **Copyright © 2026 Hidetoshi Itakura / 板倉英俊. Apache-2.0.**

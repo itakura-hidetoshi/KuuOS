@@ -1936,4 +1936,17 @@ Qi v4.43では元GK5BQの**同一符号付き整数**numerator`N`に任意`Q:Pol
 
 strict 空／独立Kuu→Qi、元F54二Nat・二圏・Blocks、元F55 Type履歴、公開root107、固定Lean v4.30.0-rc2／mathlib、保護#1558 Draft／OPEN／未マージを保持。元F55 primitiveのseam存在とdouble inverseのseam不存在は先行既証明として維持し、Qi v4.48が新たなType証拠を導いたとは主張しない。
 
+
+## 2026-11-05 — GK5CE：4区間・5括弧付けの真正RingHom Pentagon境界
+
+[独立GK5CE #3116](https://github.com/itakura-hidetoshi/KuuOS/pull/3116) **MERGED**。任意の型可変多変数整数多項式代入鎖を4区間長`a,b,c,d`に分割し、5通りの括弧付けを`Nat.add_assoc`による**明示的な依存型移送**で同じ終端型`α(start+(a+(b+(c+d))))`へ正規化。各括弧付けの本物の`RingHom`が独立GK5CCの全長鎖に等しく、Pentagon形の5境界等式が成立することをLean4で検証。真正GK5BWのCRT環同型、GK5BXの大域／gcd互換局所被覆制限、三段被覆CRT可換性も保つ。このPentagonは**RingHom等号のコヒーレンス**であり、P94Aの高次セルや圏のassociator 2-cellを構成したという意味ではない。
+
+[独立CI #41919563732](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41919563732)：**Strict Lean 9,317／9,317 SUCCESS**、Governance SUCCESS、新規14定理sorryAxなし。source／test-merge／squash Git tree `bba77ca72145a07b1d1a993996f8fa53a28fcdab`一致、squash `fa16ef40c37419b33da94b0e1a43f1a52f34f5c5`。
+
+## 2026-11-05 — Qi v4.49：真正北C60の符号付き四区間Pentagon型CRT自然性
+
+[Qi v4.49 #3117](https://github.com/itakura-hidetoshi/KuuOS/pull/3117) **MERGED**。各段の変数型を真正`Fin (arity i)`とし、4区間5括弧付けの正規化を元GK5BQの**original signed `Int` numerator**と接続。実際の整数評価・大域`ZMod L_s`・gcd互換局所`R_s`・CRT環同型・被覆一段／三段自然性を型付きLean4で検証した。数値的なRingHom等号は、元F55 Type-valued source、P77/P89/P94A higher-cell、普遍GK5AY seamの復元を含まない。元F55 primitiveとdouble inverseの構造seamの存在／不存在は既証明の別authorityとして保持する。
+
+[Qi exact-source CI #41920712069](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41920712069)：**Strict Lean 10,244／10,244 SUCCESS**、Governance SUCCESS、新規14定理sorryAxなし。source／test-merge／squash Git tree `c4940dbdd020a094c43a7cf3308d9552f702c3ab`一致、squash `94fd315eeae36f23f08cc3df9a91a51f958d1845`。[正式証明記録](docs/formal/GK5CE-Qi-v4_49-four-segment-pentagon-crt.md)。strict 空、独立Kuu→Qi、元F54二Nat・二圏・Blocks、元F55 Type履歴、公開root107、固定Lean v4.30.0-rc2／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、保護PR #1558 Draft／OPEN／未マージを維持。
+
 **Copyright © 2026 Hidetoshi Itakura / 板倉英俊. Apache-2.0.**
