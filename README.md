@@ -1863,4 +1863,13 @@ Qi v4.41では、元GK5BQの真正**符号付き整数**numeratorを絶対値化
 
 [独立GK5BW CI #41800156014](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41800156014)：**Strict Lean 9,301/9,301・Governance 30/30 SUCCESS**、新規7定理sorryAxなし。[Qi v4.41 CI #41801723083](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41801723083)：**10,228/10,228・30/30 SUCCESS**、新規8定理sorryAxなし。変更Lean warning/error 0/0、双方source/test-merge/squash Git tree一致。[正式証明記録](docs/formal/GK5BW-Qi-v4_41-compatible-finite-crt-ring-equivalence.md)。strict 空・独立Kuu→Qi、元F54二Nat・二圏・Blocks／元F55 Type履歴、公開root107、固定Lean v4.30.0-rc2／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、保護#1558 Draft／OPEN／未マージ維持。
 
+
+## 2026-11-04 — GK5BX／Qi v4.42：有限CRT環同型の制限コヒーレンスと真正北C60数値塔
+
+[独立GK5BX #3095](https://github.com/itakura-hidetoshi/KuuOS/pull/3095)・[Qi v4.42 #3096](https://github.com/itakura-hidetoshi/KuuOS/pull/3096)は**MERGED**。GK5BWの一般有限非互いに素CRT互換剰余環同型を、任意有限被覆の包含`u⊆t⊆s`に沿う真正`RingHom`制限へ強化した。全LCM整除、局所互換Subring／大域`ZMod`の制限、**恒等・二段合成の厳密等式**、CRT環同型の自然性・逆自然性・三段TowerコヒーレンスをLean4で検証。**法0、空被覆、非coprime、支配的法不在**をすべて含む。
+
+Qi v4.42では元GK5BQの真正符号付き`Int` numeratorを保ち、任意一段・二段被覆制限後も元数値合同類／元互換局所環族が一致することを形式証明。整数多項式`natDegree≤d`と`L_s|d!`から全部分被覆の算術CRT零を移送した。二つの真正北F55 Type証拠primitive`P=1`・double inverse＋元右単位`P=X²`の既存多項式**値**はどちらも同じ数値塔で整合・CRT零となるが、元original→phi Type seamは**存在／不存在**のまま。数値的自然性からF55 Type source、P77等号、P94A 4-cell、全GK5AY seamを導かない。
+
+[独立CI #41812872432](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41812872432)：**Strict Lean 9,303/9,303・Governance 30/30 SUCCESS**、11定理sorryAxなし。[Qi CI #41813790217](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41813790217)：**10,230/10,230・30/30 SUCCESS**、12定理sorryAxなし。双方変更Lean warning/error 0/0、source/test-merge/squash Git tree一致。[正式証明記録](docs/formal/GK5BX-Qi-v4_42-finite-crt-restriction-tower-coherence.md)。strict 空／独立Kuu→Qi、元F54二Nat・二圏・Blocks／元F55 Type履歴、公開root107、固定Lean v4.30.0-rc2・mathlib、保護#1558 Draft／OPEN／未マージ維持。
+
 **Copyright © 2026 Hidetoshi Itakura / 板倉英俊. Apache-2.0.**
