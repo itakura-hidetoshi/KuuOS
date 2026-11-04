@@ -559,6 +559,7 @@ import KUOS.Architecture.QiWuxingGK5CCNorthTypedFiniteChainCRTV4_47
 import Kuu.F112.PolygonNativeC60AQFullPentagonPhysicalNativeGK5CDTypedChainSplitCRT
 import KUOS.Architecture.QiWuxingGK5CDNorthSplitCRTV4_48
 import Kuu.F112.PolygonNativeC60AQFullPentagonPhysicalNativeGK5CEFourSegmentPentagonCRT
+import KUOS.Architecture.QiWuxingGK5CENorthFourPentagonCRTV4_49
 
 /-!
 Public aggregate: retain every previously published proof and its original
