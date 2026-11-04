@@ -1806,4 +1806,14 @@ lake build KuuOSFormal # warningAsErrorはlakefile.toml既定。sorryAxは#print
 - [正式証明記録](docs/formal/GK5BO-Qi-v4_34-newton-factorial-difference-certificates.md)。strict 空／独立Kuu→Qi、元F54二Nat／二圏／Blocksと元F55 Type値履歴、公開root107、Lean v4.30.0-rc2／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、保護PR #1558 Draft／OPEN／未マージ維持。
 - **次GK5BP（仮称）：** 係数を既知とする切断を越え、整数観測表だけから前進差分`Δ^k f(0)`を計算し、Newton二項基底`binom(X,k)`から単項式基底`X^j`への符号付きStirling変換／階乗整除条件を明示する。整数値性と整数係数性を分け、真正F55 Type証拠・P94A四セル・P89反射・GK5AY seam・Grayを別obstructionとして維持。
 
+
+## 2026-11-04：GK5BP／Qi v4.35 — 生観測列からのNewton補間・符号付きStirling整数係数証明書
+
+- **独立GK5BP #3073 MERGED：** exact-source HEAD `42a0fd10d4c0179f370fec9265b0d3e480954e1f`、test-merge `1ebad306e340c7f70fd7e677995083d220bacc64`、squash `b5520efd3c0b03d489e1b299f4cc12fbb08a91e9`。三者Git tree `53175a0b80c64eec58ba0a5f191404342758f602`一致。[CI #41752699168](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41752699168)：**Strict Lean 9,288/9,288・Governance 30/30 SUCCESS**、新規10宣言公理監査sorryAxなし、Lean warning/error 0/0。初回CIは`descPochhammer_natDegree`の型正規化でゴールが既に解決した後の余分な`omega`を除去し、`natDegree_le_iff_coeff_eq_zero`へ明示的な次数上界を入力するよう修正。定理条件は不変。
+- **Qi v4.35 #3074 MERGED：** exact-source HEAD `cdb2eac4f9668297972e882168b0fb87cc2549fc`、test-merge `56f22c5b6c6c0776647e9279184e6041d7ab3ac3`、squash `407bab8643ccece147b22ed4a74e995890ae6e65`。三者tree `d95397f7a6ae7d643f71cfb955616577d0ab2dd5`一致。[CI #41753489564](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41753489564)：**10,215/10,215・Governance 30/30 SUCCESS**、新規9宣言公理監査sorryAxなし、Lean warning/error 0/0。
+- **独立Kuu数学的到達：** 任意の生観測列`v:Nat→Rat`の有限前進差分を実際のMathlib演算子で計算、`N_d(v)=∑_{k≤d}(Δ^k v(0)/k!)·descPochhammer(Rat,k)`を構成した。`natDegree≤d`、全観測点再現、元GK5BL有理Lagrange補間との厳密な同一性、符号付き下降階乗係数`s(k,j)=coeff(descPochhammer(Int,k),j)`による`coeff(N_d(v),j)=∑_{k≤d}(Δ^k v(0)/k!)s(k,j)`を証明。全`0≤j≤d`でこの値が整数のRat像であることと、**真のInt[X]係数原像の存在**が必要十分。整数観測値だけでは整係数性は成立しない。
+- **真正北C60 Qi：** 元F55 genuine Type証拠を入力としてそのP92B整数多項式の生観測に必要十分条件を適用。元P77真正四セル商でも**降下済み多項式値**について同様に成立。真正primitive`1`・double inverse＋F55右単位`X²`は3点`{0,1,2}`、選択P92B loop対`X³+2`・`2X²+X`は4点**`{0,1,2,3}`**で独立の証明書を得た（旧`{-1,0,1,2}`とは区別）。元証拠Type・P77商類の同一性やP94A四セル、original→phi seamを逆向きに創出しない。真正北物理第五Dart・P89 BadPair条件付き反射は保持。
+- [正式証明記録](docs/formal/GK5BP-Qi-v4_35-raw-newton-signed-stirling-certificates.md)。strict 空／独立Kuu→Qi、元F54二Nat／二圏／Blocks・元F55 Type証明履歴、公開root107、固定Lean v4.30.0-rc2/mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、保護PR #1558 Draft／OPEN／未マージ維持。
+- **次GK5BQ（仮称）：** 下降階乗係数表`s(k,j)`と固定mathlib`Nat.stirlingFirst k j`の符号付き閉形式`(-1)^{k-j} S_1(k,j)`の明示的な再帰整合性を証明し、生観測列の前進差分を共通分母倍した整数係数分子の有限整除条件へ接続する。独立Kuu／Qiの構造を保持し、元F55 Type証拠・P94A四セル・P89無条件反射・GK5AY seamを別obstructionとする。
+
 **Copyright © 2026 Hidetoshi Itakura / 板倉英俊. Apache-2.0.**
