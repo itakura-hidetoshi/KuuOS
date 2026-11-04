@@ -350,6 +350,20 @@ theorem nativeGK5BZMultivariableCRTTower_natural
         exact congrArg (nativeGK5BWFiniteCRTRingEquiv u moduli)
           (by simpa only [RingHom.comp_apply] using hval)
 
+/-- Exact FINITE-VARIABLE signed-Int evaluation statement:
+for every n including zero, first evaluate an original
+multivariable integer polynomial in Int, or first cast
+each signed integer variable into the genuine global
+finite CRT quotient; the two original values coincide. -/
+theorem nativeGK5BZFinSignedMvEval_global
+    {ι : Type*} (s : Finset ι) (moduli : ι → Nat)
+    (n : Nat) (zs : Fin n → Int) (P : MvPolynomial (Fin n) Int) :
+    nativeGK5BZGlobalMvEvalHom s moduli
+      (fun v => (zs v : ZMod (nativeGK5BUFiniteModulus s moduli))) P =
+    ((MvPolynomial.eval₂Hom (Int.castRingHom Int) zs P : Int) :
+      ZMod (nativeGK5BUFiniteModulus s moduli)) :=
+  nativeGK5BZSignedIntMvEval_global s moduli zs P
+
 #print axioms nativeGK5BZGlobalMvEval_add
 #print axioms nativeGK5BZGlobalMvEval_mul
 #print axioms nativeGK5BZCompatibleMvEval_add
@@ -365,6 +379,7 @@ theorem nativeGK5BZMultivariableCRTTower_natural
 #print axioms nativeGK5BZCompatibleMvEval_towerHom
 #print axioms nativeGK5BZSignedIntMvEval_global
 #print axioms nativeGK5BZMultivariableCRTTower_natural
+#print axioms nativeGK5BZFinSignedMvEval_global
 
 end
 end Kuu.F112.Physical
