@@ -89,10 +89,10 @@ theorem fivefoldGK5BTNorthConcrete_overlapFails :
 /-- Concrete success: x=9 is the unique normalized
 simultaneous representative for 1 mod 4 and 3 mod 6. -/
 theorem fivefoldGK5BTNorthConcrete_overlapGlued :
-    nativeGK5BTOverlapGlue 4 6 1 3 (by decide) = 9 := by
+    nativeGK5BTOverlapGlue 4 6 1 3 (by change 1 % Nat.gcd 4 6 = 3 % Nat.gcd 4 6; decide) = 9 := by
   symm
   apply nativeGK5BTOverlapGlue_eq_of_lt_lcm 4 6 1 3 9
-    (by decide) (by decide) (by decide) (by decide) (by decide)
+    (by change 1 % Nat.gcd 4 6 = 3 % Nat.gcd 4 6; decide) (by decide) (by decide) (by decide) (by decide)
 
 /-- Observed residue pair of the actual signed numerator's
 natAbs always agrees on gcd, including negative samples. -/
