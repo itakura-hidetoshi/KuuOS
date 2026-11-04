@@ -75,8 +75,8 @@ theorem nativeGK5BTOverlap_iff_exists_gluing
     exact ⟨(Nat.chineseRemainder' h).val,
       (Nat.chineseRemainder' h).property⟩
   · rintro ⟨x, hx, hy⟩
-    exact ((hx.1.of_dvd (Nat.gcd_dvd_left m n)).symm).trans
-      (hx.2.of_dvd (Nat.gcd_dvd_right m n))
+    exact ((hx.of_dvd (Nat.gcd_dvd_left m n)).symm).trans
+      (hy.of_dvd (Nat.gcd_dvd_right m n))
 
 /-- Construct the genuine pinned Mathlib CRT natural
 representative from an ACTUAL compatibility proof.
