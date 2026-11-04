@@ -341,8 +341,8 @@ theorem nativeGK5BZMultivariableCRTTower_natural
           (nativeGK5BXGlobalRestrictHom s u moduli
             (fun i hi => h (k hi))
               (nativeGK5BZGlobalMvEvalHom s moduli xs P)) := by
-        congr 1
-        simpa only [RingHom.comp_apply] using hcomp
+        exact congrArg (nativeGK5BWFiniteCRTRingEquiv u moduli)
+          (by simpa only [RingHom.comp_apply] using hcomp)
     _ = _ := by
         have hval := RingHom.congr_fun
           (nativeGK5BZGlobalMvEval_restrictHom s u moduli
