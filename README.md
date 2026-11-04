@@ -1881,4 +1881,16 @@ Qi v4.43では元GK5BQの**同一符号付き整数**numerator`N`に任意`Q:Pol
 
 [独立GK5BY CI #41815719110](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41815719110)：**Strict Lean 9,305/9,305・Governance 30/30 SUCCESS**、新規13定理sorryAxなし。[Qi v4.43 CI #41816570697](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41816570697)：**10,232/10,232・30/30 SUCCESS**、新規11定理sorryAxなし。変更Lean warning/error 0/0、source/test-merge/squash Git tree一致。[正式証明記録](docs/formal/GK5BY-Qi-v4_43-integer-polynomial-crt-naturality.md)。strict 空／独立Kuu→Qi、元F54二Nat・二圏・Blocks／元F55 Type履歴、公開root107、固定Lean v4.30.0-rc2・mathlib、保護#1558 Draft／OPEN／未マージ維持。
 
+## 2026-11-04 — GK5BZ／Qi v4.44：真正有限多変数整数多項式・北C60 signed CRT塔
+
+[独立GK5BZ #3101](https://github.com/itakura-hidetoshi/KuuOS/pull/3101)・[Qi v4.44 #3102](https://github.com/itakura-hidetoshi/KuuOS/pull/3102)・[正式証明記録 #3103](https://github.com/itakura-hidetoshi/KuuOS/pull/3103)はすべてMERGED。真正`MvPolynomial σ Int`を用い、任意の変数型（特に`Fin n`、`n=0`を含む）について、全有限非互いに素CRTの大域`ZMod L_s`・局所互換Subringへの評価、加法・乗法保存、全有限被覆制限、三段塔、真正CRT RingEquiv自然性をLean4で検証。元GK5BQの**符号付き整数numerator**を各変数へ直接割り当て、整数で評価してから剰余へ写す経路とも一致する。負係数・法0・空被覆に対応し、coprime・次数上界の仮定を不要とする。
+
+[独立CI #41820694348](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41820694348)：**9,307／9,307 SUCCESS**、新規16定理sorryAxなし。[Qi v4.44 CI #41822401269](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41822401269)：**10,234／10,234 SUCCESS**、新規12定理sorryAxなし。双方Governance **30／30 SUCCESS**、変更Lean warning/error 0/0、source/test-merge/squash Git tree一致。[正式証明記録](docs/formal/GK5BZ-Qi-v4_44-multivariable-crt-naturality.md)。元original→phi F55 Type seamのprimitive存在／double inverse不存在を、数値的合同と混同しない。
+
+## 2026-11-04 — GK5CA：多変数再分類・多項式代入と真正有限CRT自然性
+
+[独立GK5CA #3104](https://github.com/itakura-hidetoshi/KuuOS/pull/3104) **MERGED**。固定mathlibの`MvPolynomial.eval₂Hom_rename`・`eval₂Hom_bind₁`・`bind₁_rename`・`bind₁_bind₁`を使い、任意の変数再分類`σ→τ`（非単射を含む）、任意の真正整数多項式代入`σ→MvPolynomial τ Int`について、元の大域ZMod評価・互換局所CRT評価、環同型、有限被覆制限、三段塔との可換性を証明。符号付き整数入力は代入・整数評価後の剰余と一致し、元F55 Type証拠は数値的演算から復元しない。
+
+[exact-source CI #41832026876](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41832026876)：**Strict Lean 9,309／9,309・Governance 30／30 SUCCESS**、新規17定理の公理依存はpropext・Classical.choice・Quot.soundのみ、sorryAxなし。source/test-merge/squash Git tree `e2496d9eb72368612c82b0cb8f7a0ae4c1f55843`で一致。squash/main HEAD `1b8345ce5b5913cdb1cd18165bf776fc7d6bce69`。後続[Qi v4.45 #3105](https://github.com/itakura-hidetoshi/KuuOS/pull/3105)は別PRで元GK5BQ signed north C60への具体化を検証する。strict 空、独立Kuu→Qi、元F54／F55 Type履歴、公開root107、固定Lean／mathlib、保護#1558 Draft／OPEN／未マージを保持。
+
 **Copyright © 2026 Hidetoshi Itakura / 板倉英俊. Apache-2.0.**
