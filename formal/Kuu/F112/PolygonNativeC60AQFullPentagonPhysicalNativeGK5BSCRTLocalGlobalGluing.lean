@@ -9,13 +9,13 @@ From GK5BR's actual finite prime-power factors of d! and
 GK5BQ's genuine raw integer numerators, construct the
 UNCONDITIONAL pinned Mathlib CRT ring equivalence
 ZMod(d!) ≃+* Π p∈primeFactors(d!), ZMod(p^v_p(d!)).
-For ARBITRARY independently specified local residues, build
-a global residue, prove each local projection, uniqueness,
+For ARBITRARY independently specified residues residues, build
+a global residue, prove each residues projection, uniqueness,
 an integer representative, its exact congruence class, and
 additive / multiplicative compatibility.
 
 For original raw integer observations, the CRT glue of
-their genuine local numerator residues equals the cast
+their genuine residues numerator residues equals the cast
 of the genuine GK5BQ numerator, not a new invented value.
 The CRT glue vanishes iff the exact coefficient factorial
 divisibility certificate holds; reconstruct Int[X] Newton
@@ -41,56 +41,56 @@ set_option maxRecDepth 8192
 set_option maxHeartbeats 4000000
 noncomputable section
 
-/-- The genuine family of independently specified local
+/-- The genuine family of independently specified residues
 residue rings at ACTUAL maximal prime powers of d!. -/
-def nativeGK5BSFactorialLocalFamily (d : Nat) : Type :=
+abbrev nativeGK5BSFactorialLocalFamily (d : Nat) : Type :=
   ∀ p : (d.factorial).primeFactors,
     ZMod ((p : Nat) ^ ((d.factorial).factorization (p : Nat)))
 
 /-- Pinned mathlib's ACTUAL Chinese remainder ring
 equivalence, not a merely posited bijection or oracle.
-The zero/one factorial cases have an empty local family. -/
+The zero/one factorial cases have an empty residues family. -/
 def nativeGK5BSFactorialCRTRingEquiv (d : Nat) :
     ZMod d.factorial ≃+* nativeGK5BSFactorialLocalFamily d :=
-  ZMod.equivPi (Nat.factorial_ne_zero d)
+  ZMod.equivPi d.factorial (Nat.factorial_ne_zero d)
 
 /-- Glue an ARBITRARY family of prime-power residue values
 to its unique global residue class modulo the true d!. -/
 def nativeGK5BSCRTGlue
-    (d : Nat) (local : nativeGK5BSFactorialLocalFamily d) :
+    (d : Nat) (residues : nativeGK5BSFactorialLocalFamily d) :
     ZMod d.factorial :=
-  (nativeGK5BSFactorialCRTRingEquiv d).symm local
+  (nativeGK5BSFactorialCRTRingEquiv d).symm residues
 
-/-- Every separately chosen local residue is recovered
+/-- Every separately chosen residues residue is recovered
 EXACTLY from the single glued global residue class. -/
 theorem nativeGK5BSCRTGlue_local
-    (d : Nat) (local : nativeGK5BSFactorialLocalFamily d)
+    (d : Nat) (residues : nativeGK5BSFactorialLocalFamily d)
     (p : (d.factorial).primeFactors) :
     (nativeGK5BSFactorialCRTRingEquiv d)
-      (nativeGK5BSCRTGlue d local) p = local p := by
+      (nativeGK5BSCRTGlue d residues) p = residues p := by
   exact congrFun
-    ((nativeGK5BSFactorialCRTRingEquiv d).apply_symm_apply local) p
+    ((nativeGK5BSFactorialCRTRingEquiv d).apply_symm_apply residues) p
 
-/-- Any global residue with all the prescribed local
+/-- Any global residue with all the prescribed residues
 projections is equal to the canonical glued residue. -/
 theorem nativeGK5BSCRTGlue_unique
-    (d : Nat) (local : nativeGK5BSFactorialLocalFamily d)
+    (d : Nat) (residues : nativeGK5BSFactorialLocalFamily d)
     (z : ZMod d.factorial) :
     (∀ p : (d.factorial).primeFactors,
-      (nativeGK5BSFactorialCRTRingEquiv d) z p = local p) ↔
-      z = nativeGK5BSCRTGlue d local := by
+      (nativeGK5BSFactorialCRTRingEquiv d) z p = residues p) ↔
+      z = nativeGK5BSCRTGlue d residues := by
   constructor
   · intro h
     apply (nativeGK5BSFactorialCRTRingEquiv d).injective
     funext p
-    exact (h p).trans (nativeGK5BSCRTGlue_local d local p).symm
+    exact (h p).trans (nativeGK5BSCRTGlue_local d residues p).symm
   · intro h p
     rw [h]
-    exact nativeGK5BSCRTGlue_local d local p
+    exact nativeGK5BSCRTGlue_local d residues p
 
 /-- Actual pinned ring-equivalence naturality on ALL
 integer casts: the global integer residue projects to
-the SAME integer modulo each genuine local prime power. -/
+the SAME integer modulo each genuine residues prime power. -/
 theorem nativeGK5BSFactorialCRT_intCast
     (d : Nat) (z : Int) (p : (d.factorial).primeFactors) :
     (nativeGK5BSFactorialCRTRingEquiv d)
@@ -106,52 +106,52 @@ theorem nativeGK5BSFactorialCRT_intCast
 /-- A genuine integer representative of the glued residue.
 Uses the actual ZMod→Int cast, not an existence axiom. -/
 def nativeGK5BSCRTGlueInt
-    (d : Nat) (local : nativeGK5BSFactorialLocalFamily d) : Int :=
-  ZMod.cast (nativeGK5BSCRTGlue d local)
+    (d : Nat) (residues : nativeGK5BSFactorialLocalFamily d) : Int :=
+  ZMod.cast (nativeGK5BSCRTGlue d residues)
 
 /-- The constructed integer maps back to EXACTLY the
 canonically glued global class modulo the true factorial. -/
 theorem nativeGK5BSCRTGlueInt_cast
-    (d : Nat) (local : nativeGK5BSFactorialLocalFamily d) :
-    (nativeGK5BSCRTGlueInt d local : ZMod d.factorial) =
-      nativeGK5BSCRTGlue d local := by
+    (d : Nat) (residues : nativeGK5BSFactorialLocalFamily d) :
+    (nativeGK5BSCRTGlueInt d residues : ZMod d.factorial) =
+      nativeGK5BSCRTGlue d residues := by
   exact ZMod.intCast_zmod_cast _
 
 /-- The constructed integer representative satisfies
-EACH separately specified local modular condition. -/
+EACH separately specified residues modular condition. -/
 theorem nativeGK5BSCRTGlueInt_local
-    (d : Nat) (local : nativeGK5BSFactorialLocalFamily d)
+    (d : Nat) (residues : nativeGK5BSFactorialLocalFamily d)
     (p : (d.factorial).primeFactors) :
-    (nativeGK5BSCRTGlueInt d local :
+    (nativeGK5BSCRTGlueInt d residues :
       ZMod ((p : Nat) ^ ((d.factorial).factorization (p : Nat)))) =
-        local p := by
+        residues p := by
   calc
-    (nativeGK5BSCRTGlueInt d local :
+    (nativeGK5BSCRTGlueInt d residues :
       ZMod ((p : Nat) ^ ((d.factorial).factorization (p : Nat)))) =
       (nativeGK5BSFactorialCRTRingEquiv d)
-        (nativeGK5BSCRTGlueInt d local : ZMod d.factorial) p := by
+        (nativeGK5BSCRTGlueInt d residues : ZMod d.factorial) p := by
           exact (nativeGK5BSFactorialCRT_intCast d
-            (nativeGK5BSCRTGlueInt d local) p).symm
+            (nativeGK5BSCRTGlueInt d residues) p).symm
     _ = (nativeGK5BSFactorialCRTRingEquiv d)
-          (nativeGK5BSCRTGlue d local) p := by
+          (nativeGK5BSCRTGlue d residues) p := by
           rw [nativeGK5BSCRTGlueInt_cast]
-    _ = local p := nativeGK5BSCRTGlue_local d local p
+    _ = residues p := nativeGK5BSCRTGlue_local d residues p
 
 /-- All simultaneous modular solutions are exactly those
 integers in the same global residue class modulo d!. -/
 theorem nativeGK5BSCRTInt_compatible_iff_global
-    (d : Nat) (local : nativeGK5BSFactorialLocalFamily d)
+    (d : Nat) (residues : nativeGK5BSFactorialLocalFamily d)
     (z : Int) :
     (∀ p : (d.factorial).primeFactors,
       (z : ZMod ((p : Nat) ^ ((d.factorial).factorization (p : Nat)))) =
-        local p) ↔
-      (z : ZMod d.factorial) = nativeGK5BSCRTGlue d local := by
+        residues p) ↔
+      (z : ZMod d.factorial) = nativeGK5BSCRTGlue d residues := by
   constructor
   · intro h
     apply (nativeGK5BSFactorialCRTRingEquiv d).injective
     funext p
     exact (nativeGK5BSFactorialCRT_intCast d z p).trans
-      ((h p).trans (nativeGK5BSCRTGlue_local d local p).symm)
+      ((h p).trans (nativeGK5BSCRTGlue_local d residues p).symm)
   · intro h p
     calc
       (z : ZMod ((p : Nat) ^ ((d.factorial).factorization (p : Nat)))) =
@@ -159,54 +159,54 @@ theorem nativeGK5BSCRTInt_compatible_iff_global
           (z : ZMod d.factorial) p :=
             (nativeGK5BSFactorialCRT_intCast d z p).symm
       _ = (nativeGK5BSFactorialCRTRingEquiv d)
-            (nativeGK5BSCRTGlue d local) p := by rw [h]
-      _ = local p := nativeGK5BSCRTGlue_local d local p
+            (nativeGK5BSCRTGlue d residues) p := by rw [h]
+      _ = residues p := nativeGK5BSCRTGlue_local d residues p
 
 /-- Strong uniqueness modulo d! of every integer solution
-to ALL independent prime-power local congruences. -/
+to ALL independent prime-power residues congruences. -/
 theorem nativeGK5BSCRTInt_compatible_iff_factorialDvd
-    (d : Nat) (local : nativeGK5BSFactorialLocalFamily d)
+    (d : Nat) (residues : nativeGK5BSFactorialLocalFamily d)
     (z : Int) :
     (∀ p : (d.factorial).primeFactors,
       (z : ZMod ((p : Nat) ^ ((d.factorial).factorization (p : Nat)))) =
-        local p) ↔
-      (d.factorial : Int) ∣ (z - nativeGK5BSCRTGlueInt d local) := by
+        residues p) ↔
+      (d.factorial : Int) ∣ (z - nativeGK5BSCRTGlueInt d residues) := by
   rw [← ZMod.intCast_zmod_eq_zero_iff_dvd, Int.cast_sub, sub_eq_zero,
       nativeGK5BSCRTGlueInt_cast]
-  exact nativeGK5BSCRTInt_compatible_iff_global d local z
+  exact nativeGK5BSCRTInt_compatible_iff_global d residues z
 
 /-- A concrete canonical natural representative in the
 true interval from 0 through d!-1. -/
 def nativeGK5BSCRTGlueNat
-    (d : Nat) (local : nativeGK5BSFactorialLocalFamily d) : Nat :=
-  (nativeGK5BSCRTGlue d local).val
+    (d : Nat) (residues : nativeGK5BSFactorialLocalFamily d) : Nat :=
+  (nativeGK5BSCRTGlue d residues).val
 
 /-- The canonical natural CRT representative is STRICTLY
 less than the original factorial modulus. -/
 theorem nativeGK5BSCRTGlueNat_lt_factorial
-    (d : Nat) (local : nativeGK5BSFactorialLocalFamily d) :
-    nativeGK5BSCRTGlueNat d local < d.factorial := by
+    (d : Nat) (residues : nativeGK5BSFactorialLocalFamily d) :
+    nativeGK5BSCRTGlueNat d residues < d.factorial := by
   letI : NeZero d.factorial := ⟨Nat.factorial_ne_zero d⟩
   exact ZMod.val_lt _
 
 /-- Canonical natural representative still maps to the
 same global residue class modulo d!. -/
 theorem nativeGK5BSCRTGlueNat_cast
-    (d : Nat) (local : nativeGK5BSFactorialLocalFamily d) :
-    (nativeGK5BSCRTGlueNat d local : ZMod d.factorial) =
-      nativeGK5BSCRTGlue d local := by
+    (d : Nat) (residues : nativeGK5BSFactorialLocalFamily d) :
+    (nativeGK5BSCRTGlueNat d residues : ZMod d.factorial) =
+      nativeGK5BSCRTGlue d residues := by
   letI : NeZero d.factorial := ⟨Nat.factorial_ne_zero d⟩
   exact ZMod.natCast_zmod_val _
 
 /-- CRT gluing preserves addition of arbitrary independently
-chosen local prime-power residue families. -/
+chosen residues prime-power residue families. -/
 theorem nativeGK5BSCRTGlue_add
     (d : Nat) (a b : nativeGK5BSFactorialLocalFamily d) :
     nativeGK5BSCRTGlue d (a + b) =
       nativeGK5BSCRTGlue d a + nativeGK5BSCRTGlue d b := by
   exact (nativeGK5BSFactorialCRTRingEquiv d).symm.map_add a b
 
-/-- CRT gluing preserves multiplication of arbitrary local
+/-- CRT gluing preserves multiplication of arbitrary residues
 prime-power residue families, not just additive cosets. -/
 theorem nativeGK5BSCRTGlue_mul
     (d : Nat) (a b : nativeGK5BSFactorialLocalFamily d) :
@@ -215,7 +215,7 @@ theorem nativeGK5BSCRTGlue_mul
   exact (nativeGK5BSFactorialCRTRingEquiv d).symm.map_mul a b
 
 /-- The true integer observations yield a *particular*
-local family: residues of their ORIGINAL GK5BQ numerator. -/
+residues family: residues of their ORIGINAL GK5BQ numerator. -/
 def nativeGK5BSObservedLocals
     (d j : Nat) (values : Nat → Int) :
     nativeGK5BSFactorialLocalFamily d :=
