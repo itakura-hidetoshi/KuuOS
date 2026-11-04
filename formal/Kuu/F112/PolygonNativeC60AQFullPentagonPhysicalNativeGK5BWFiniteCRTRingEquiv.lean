@@ -67,7 +67,7 @@ def nativeGK5BWCompatibleSubring
     simp [nativeGK5BWCompatible]
   one_mem' := by
     intro i j
-    simp [nativeGK5BWCompatible]
+    simp only [Pi.one_apply, map_one]
   add_mem' := by
     intro a b ha hb i j
     simp only [Pi.add_apply, map_add]
@@ -198,10 +198,10 @@ theorem nativeGK5BWGlobalCompatibleHom_surjective
     have hcomp := y.2 ii j
     rw [← hk] at hcomp
     have hlocal : (k : ZMod (moduli j.1)) = y.1 j := by
-      simpa [hmi, ZMod.castHom_self] using hcomp
+      simpa [ii, hmi, ZMod.castHom_self] using hcomp
     change (ZMod.castHom (Finset.dvd_lcm j.2) (ZMod (moduli j.1)))
       (k : ZMod (nativeGK5BUFiniteModulus s moduli)) = y.1 j
-    simpa only [map_intCast] using hlocal
+    simpa only [ZMod.castHom_apply, ZMod.cast_intCast] using hlocal
   · have hnonzero (i : {i : ι // i ∈ s}) :
         moduli i.1 ≠ 0 :=
       (Finset.lcm_ne_zero_iff).1 hL i.1 i.2
@@ -232,7 +232,7 @@ theorem nativeGK5BWGlobalCompatibleHom_surjective
         (hval i)
     change (ZMod.castHom (Finset.dvd_lcm i.2) (ZMod (moduli i.1)))
       (x : ZMod (nativeGK5BUFiniteModulus s moduli)) = y.1 i
-    simpa only [map_natCast] using hnat
+    simpa only [ZMod.castHom_apply, ZMod.cast_natCast] using hnat
 
 /-- COMPLETE ring-level arithmetic CRT descent. This is a
 genuine ZMod L ≃+* compatible finite product SUBRING,
