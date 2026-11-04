@@ -545,6 +545,7 @@ import KUOS.Architecture.QiWuxingGK5BVNorthGeneralFiniteCRTV4_40
 import Kuu.F112.PolygonNativeC60AQFullPentagonPhysicalNativeGK5BWFiniteCRTRingEquiv
 import KUOS.Architecture.QiWuxingGK5BWNorthCompatibleCRTRingV4_41
 import Kuu.F112.PolygonNativeC60AQFullPentagonPhysicalNativeGK5BXFiniteCRTRestrictionCoherence
+import KUOS.Architecture.QiWuxingGK5BXNorthCRTTowerNaturalityV4_42
 
 /-!
 Public aggregate: retain every previously published proof and its original
