@@ -562,6 +562,7 @@ import Kuu.F112.PolygonNativeC60AQFullPentagonPhysicalNativeGK5CEFourSegmentPent
 import KUOS.Architecture.QiWuxingGK5CENorthFourPentagonCRTV4_49
 import Kuu.F112.PolygonNativeC60AQFullPentagonPhysicalNativeGK5CFOriginalPhiTypedPentagonComparison
 import KUOS.Architecture.QiWuxingGK5CFNorthSourcePentagonSeamCRTV4_50
+import Kuu.F112.PolygonNativeC60AQFullPentagonPhysicalNativeGK5CGP77FiveCellAssociatorCharge
 
 /-!
 Public aggregate: retain every previously published proof and its original
