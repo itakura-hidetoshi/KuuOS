@@ -172,6 +172,8 @@ theorem nativeGK5CGOriginalUpper_ne_lower
   intro heq
   have hc := congrArg
     (fun w => NativeF55RawVerticalFourCell.gk5cgAssocCharge w) heq
+  change (nativeGK5CFP77UpperPath f g h k).gk5cgAssocCharge =
+    (nativeGK5CFP77LowerPath f g h k).gk5cgAssocCharge at hc
   rw [nativeGK5CGUpperPath_assocCharge_three,
     nativeGK5CGLowerPath_assocCharge_two] at hc
   norm_num at hc
