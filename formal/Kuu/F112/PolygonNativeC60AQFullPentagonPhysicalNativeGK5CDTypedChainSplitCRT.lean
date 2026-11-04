@@ -70,9 +70,15 @@ theorem nativeGK5CDTypedSplitHom_eq
   | zero =>
       simp [nativeGK5CDTypedSplitHom, nativeGK5CCTypedChainHom_zero]
   | succ right ih =>
-      simp [nativeGK5CDTypedSplitHom,
-        nativeGK5CCTypedChainHom_succ, RingHom.comp_assoc,
-        Nat.add_assoc, ih]
+      have hstep :
+          nativeGK5CDTypedSplitHom steps start left (right + 1) =
+            (nativeGK5CCStepSubstitutionHom steps (start + (left + right))).comp
+              (nativeGK5CDTypedSplitHom steps start left right) := by
+        simp [nativeGK5CDTypedSplitHom,
+          nativeGK5CCTypedChainHom_succ, RingHom.comp_assoc,
+          Nat.add_assoc]
+      rw [hstep, ih]
+      simpa only [Nat.add_succ, nativeGK5CCTypedChainHom_succ]
 
 /-- The initial zero-length segment contributes exactly the
 unchanged full chain at every cut position. -/
@@ -82,8 +88,8 @@ theorem nativeGK5CDTypedSplitHom_zeroLeft
     (start right : Nat) :
     nativeGK5CDTypedSplitHom steps start 0 right =
       nativeGK5CCTypedChainHom steps start right := by
-  simpa only [Nat.zero_add] using
-    (nativeGK5CDTypedSplitHom_eq steps start 0 right)
+  have h := nativeGK5CDTypedSplitHom_eq steps start 0 right
+  simpa only [Nat.zero_add] using h
 
 /-- If the RIGHT segment is empty, its composite leaves the
 actual left-length typed chain unchanged. -/
