@@ -1899,4 +1899,17 @@ Qi v4.43では元GK5BQの**同一符号付き整数**numerator`N`に任意`Q:Pol
 
 [exact-source CI #41833223307](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41833223307)：**Strict Lean 10,236／10,236・Governance 30／30 SUCCESS**、新規15定理の`#print axioms`にsorryAxなし。変更Leanビルド成功。source/test-merge/squash Git tree `0a25fd7d4acf2c3fb4a1fa0b7823110b6a728780`一致。Qi squash/main HEAD `7240ee551fbe968e1b439887b949443a55f31513`。[GK5CA／Qi v4.45正式証明記録](docs/formal/GK5CA-Qi-v4_45-variable-substitution-crt-naturality.md)。strict 空、独立Kuu→Qi、元F54／F55 Type履歴、公開root107、固定Lean／mathlib、保護#1558 Draft／OPEN／未マージ維持。
 
+
+## 2026-11-04 — GK5CB：二段多項式代入・環準同型・真正CRT三段塔の同時自然性
+
+[独立GK5CB #3107](https://github.com/itakura-hidetoshi/KuuOS/pull/3107) **MERGED**。任意の真正`MvPolynomial σ Int`について、整数多項式への任意の二段代入`h:σ→MvPolynomial τ Int`、`k:τ→MvPolynomial υ Int`の結合を実際の`RingHom`等式として形式化。大域`ZMod L_s`／gcd-compatible局所Subring評価、完全有限非互いに素CRT環同型、任意の被覆制限、三段`u⊆t⊆s`の自然性を証明した。さらに非単射の変数再分類と二段代入・三段被覆CRTを**同時**に扱い、元符号付き整数の二重代入を`Int`上で先に評価しても真正剰余類と一致する。空被覆、法0、`Fin 0`、負係数、非互いに素を含む。数値gluingから元F55 Type証拠・P77/P89/P94Aの構造証明を復元しない。
+
+[exact-source CI #41835862482](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41835862482)：**Strict Lean 9,311／9,311・Governance 30／30 SUCCESS**、新規17定理すべて`#print axioms`でsorryAxなし、source/test-merge/squash Git tree `43d1293a76eb775a5d35eb77f3fdb9ee0a74c556`一致。squash `b7096c3c43fa70d00fc21bc307019e05a896b81a`。
+
+## 2026-11-04 — Qi v4.46：真正北C60元符号付き二段代入・被覆CRT塔
+
+[Qi v4.46 #3108](https://github.com/itakura-hidetoshi/KuuOS/pull/3108) **MERGED**。独立GK5CBのRingHom自然性・二段代入・三段CRTを、元GK5BQの**真正符号付き整数numerator**が与える`Fin n`変数族へ接続。元`Int`で二段代入後に評価した値と、大域剰余・互換局所Subringで直接代入した値が一致し、非単射変数再分類と任意二段被覆制限も整合。実際の二つの元F55 Type証拠primitive `P=1`／double inverse＋右単位 `P=X²`の数値塔は整合する一方、元original→phi seamは存在／不存在として区別し、既存の条件付き元深度多項式CRT零だけを保持する。
+
+[exact-source CI #41836760194](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41836760194)：**Strict Lean 10,238／10,238・Governance 30／30 SUCCESS**、新規13定理sorryAxなし、source/test-merge/squash Git tree `0888ae38254aa9bf41e5757b80748620f1e2c330`一致。squash `38f8ffb2f10e4a2e96fc6f5fb7f13fe373f63236`。[正式証明記録](docs/formal/GK5CB-Qi-v4_46-iterated-substitution-crt-naturality.md)。既存Lean定理ファイル変更なし、strict 空／独立Kuu→Qi・元F54二Nat/二圏/Blocks・元F55 Type履歴・root107・固定Lean v4.30.0-rc2/mathlib・保護#1558 Draft/OPEN/未マージ維持。
+
 **Copyright © 2026 Hidetoshi Itakura / 板倉英俊. Apache-2.0.**
