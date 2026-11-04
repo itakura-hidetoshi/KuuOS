@@ -95,7 +95,7 @@ theorem nativeGK5BSFactorialCRT_intCast
     (d : Nat) (z : Int) (p : (d.factorial).primeFactors) :
     (nativeGK5BSFactorialCRTRingEquiv d)
       (z : ZMod d.factorial) p =
-        (z : ZMod ((p : Nat) ^ ((d.factorial).factorization (p : Nat))) := by
+        (z : ZMod ((p : Nat) ^ ((d.factorial).factorization (p : Nat)))) := by
   have h :
       (nativeGK5BSFactorialCRTRingEquiv d)
         (z : ZMod d.factorial) =
