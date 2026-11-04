@@ -527,6 +527,7 @@ import Kuu.F112.PolygonNativeC60AQFullPentagonPhysicalNativeGK5BMIntegralNatLift
 import KUOS.Architecture.QiWuxingGK5BMNorthIntegralNatLiftV4_32
 import Kuu.F112.PolygonNativeC60AQFullPentagonPhysicalNativeGK5BNFiniteDivisibilityCertificates
 import KUOS.Architecture.QiWuxingGK5BNNorthFiniteDivisibilityV4_33
+import Kuu.F112.PolygonNativeC60AQFullPentagonPhysicalNativeGK5BOForwardDifferenceFactorial
 
 /-!
 Public aggregate: retain every previously published proof and its original
