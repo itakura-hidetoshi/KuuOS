@@ -14,6 +14,18 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — Qi v4.53／真正五角形の任意有限自由経路→元P77四セル評価・整数チャージ＝経路長／2026-11-05 JST
+
+**[定理PR #3126](https://github.com/itakura-hidetoshi/KuuOS/pull/3126) MERGED。** Qi v3.5/v4.52唯一の`FivefoldIndex = FivePhase = ZMod 5`・`FivefoldEdge = {e01,e12,e23,e04,e43}`を保持し、相生・相剋の旧Quiverを上書きせず、独立ラッパー`FivefoldPathVertex`上の**真正Mathlib自由圏`FivefoldFreePathCategory`**を構成。任意長の型付き有限経路を元F55/P77の**真正Type値付き元四セル証拠**へ再帰評価する`fivefoldEvaluateP77`を実装。実元F54 source/target・二カテゴリー・二Nat深さ・Blocks・元P77全証拠歴史を保存し、Quiverの経路を数値shadowや元P77 strict categoryと不正同一視しない。
+
+**中心定理：** `∀ w, (fivefoldEvaluateP77 f g h k w).gk5cgAssocCharge = (w.length : ℤ)`。これより評価後の元P77証拠等号は元経路長の等号を強制、長さで同じ端点の経路を区別できるという**明示的条件**の下で評価写像が単射。真正上側`e01≫e12≫e23`と下側`e04≫e43`の経路は同じ0→3にあり、元P77評価のチャージ**3対2**、二経路は証拠として不等、旧GK5CGの保守的5-cellは両者を結べないことを**全元F55四項組で証明**。元C60`Edge.around`に沿う`fivefoldFreePhysicalTrace`も全有限経路で`length(trace)=length(w)`と証明。数値的な長さと真正四セル・物理辺のType値を同一視しない。
+
+**exact-source検証：** 最終source HEAD `3d9aa1922e666088817a5292b72df89539f19a58`、squash `08650aff27deed6b86eb4a76ad278571568763cd`。[CI #41935914077](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41935914077) **Strict Lean 10,250/10,250、Governance 30/30・Independent Kuu SUCCESS、公理監査14/14標準`propext/Classical.choice/Quot.sound`のみ、sorryAx0**。固定mathlib `Quiver.Path.rec`のstep引数を4個と誤った初回 elaboration は全文・pinを読んで3明示引数に修正。元の定理・仮定を弱めず、新公理なし。公開root107・strict空中心・独立Kuu一presentation、Lean v4.30.0-rc2/mathlib pin、保護#1558 Draft/open維持。
+
+**[正式証明記録](docs/formal/Qi-v4_53-fivefold-free-path-original-P77-charge-length.md)** · [新規Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHFivefoldFreePathOriginalP77V4_53.lean)。**数学的境界:** 元P77の生四セル構文はstrict categoryではなく、評価器は証拠を保つ再帰的写像。真正5-cell・完全strict高次圏・無条件faithfulness・元P94A全域seam・元数値CRTからの元証拠復元は主張しない。次は元GK5CG保守的5-cell商を真正target圏として構成し`Paths.lift`とfaithfulness条件を検証する。旧Qi v4.52以前の全履歴保持。
+
+---
+
 ## 最新のLean定理統合 — Qi v4.52／五行・真正C60・元F55/P77の共通FivefoldEdge／2026-11-05 JST
 
 **[Qi v4.52 theorem PR #3124](https://github.com/itakura-hidetoshi/KuuOS/pull/3124) MERGED。** 先のQi v3.5共通`FivefoldIndex = ZMod 5`・`FivefoldEdge`を直接拡張し、元のF55の5つの型付き3-cell括弧付けと**本物のP77四セル5辺**を、同じ5相／5辺で呼び出せるようにした。`e04`と`e43`は、元P77の実際の辺40と34を逆転させ、全五辺の署名・物理端点と向きを保持。`fivefoldOriginalPhysicalPair`は任意の**真正C60五角形`(.pentagon v)`**・任意局所ゲージに対し、同一edgeから真正原Dart・Edgeの入射証明と元F55/P77の依存型四セル証拠を同時に返す。旧GK5X/GK5Yの真正Cat/NatIsoも同じ`FivefoldEdge`で扱えるため、単なる「5個」の対応を超えてソースを統一した。
