@@ -33,6 +33,7 @@ Copyright (c) 2026 Hidetoshi Itakura / 板倉英俊. Apache-2.0.
 -/
 
 namespace KUOS.Architecture.WuxingPentagonUnified
+open KUOS.Architecture.WuxingCyclicPaths
 open Kuu.F112.Physical
 set_option autoImplicit false
 set_option warningAsError true
