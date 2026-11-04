@@ -89,7 +89,7 @@ on ALL original compatible ZMod local residues. -/
 theorem nativeGK5BXCompatibleRestrict_id_apply
     {ι : Type*} (s : Finset ι) (moduli : ι → Nat)
     (a : nativeGK5BWCompatibleSubring s moduli) :
-    nativeGK5BXCompatibleRestrictHom s s moduli (Subset.refl s) a = a := by
+    nativeGK5BXCompatibleRestrictHom s s moduli (fun _ hi => hi) a = a := by
   apply Subtype.ext
   funext i
   rfl
@@ -112,7 +112,7 @@ theorem nativeGK5BXCompatibleRestrict_comp_apply
 on the true local compatible-family subring. -/
 theorem nativeGK5BXCompatibleRestrict_id
     {ι : Type*} (s : Finset ι) (moduli : ι → Nat) :
-    nativeGK5BXCompatibleRestrictHom s s moduli (Subset.refl s) =
+    nativeGK5BXCompatibleRestrictHom s s moduli (fun _ hi => hi) =
       RingHom.id (nativeGK5BWCompatibleSubring s moduli) := by
   apply RingHom.ext
   intro a
@@ -145,7 +145,7 @@ def nativeGK5BXGlobalRestrictHom
 identity finite-cover inclusion, including ZMod 0 = ℤ. -/
 theorem nativeGK5BXGlobalRestrict_id
     {ι : Type*} (s : Finset ι) (moduli : ι → Nat) :
-    nativeGK5BXGlobalRestrictHom s s moduli (Subset.refl s) =
+    nativeGK5BXGlobalRestrictHom s s moduli (fun _ hi => hi) =
       RingHom.id (ZMod (nativeGK5BUFiniteModulus s moduli)) := by
   exact RingHom.ext_zmod _ _
 
