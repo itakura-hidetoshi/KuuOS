@@ -331,9 +331,9 @@ theorem nativeGK5BYPolynomialCRTTower_natural
           (nativeGK5BXGlobalRestrictHom t u moduli k
             (nativeGK5BXGlobalRestrictHom s t moduli h
               (nativeGK5BYGlobalIntPolyEvalHom s moduli x P))) := by
-        rw [nativeGK5BXCRTNaturality_apply s t moduli h
+        rw [← nativeGK5BXCRTNaturality_apply s t moduli h
           (nativeGK5BYGlobalIntPolyEvalHom s moduli x P)]
-        rw [nativeGK5BXCRTNaturality_apply t u moduli k
+        rw [← nativeGK5BXCRTNaturality_apply t u moduli k
           (nativeGK5BXGlobalRestrictHom s t moduli h
             (nativeGK5BYGlobalIntPolyEvalHom s moduli x P))]
     _ = _ := congrArg (nativeGK5BWFiniteCRTRingEquiv u moduli)
