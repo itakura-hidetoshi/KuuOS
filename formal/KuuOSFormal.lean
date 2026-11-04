@@ -532,6 +532,7 @@ import KUOS.Architecture.QiWuxingGK5BONorthFactorialDifferenceV4_34
 import Kuu.F112.PolygonNativeC60AQFullPentagonPhysicalNativeGK5BPRawNewtonStirling
 import KUOS.Architecture.QiWuxingGK5BPNorthRawStirlingV4_35
 import Kuu.F112.PolygonNativeC60AQFullPentagonPhysicalNativeGK5BQSignedStirlingDivisibility
+import KUOS.Architecture.QiWuxingGK5BQNorthSignedStirlingV4_36
 
 /-!
 Public aggregate: retain every previously published proof and its original
