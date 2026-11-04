@@ -533,6 +533,7 @@ import Kuu.F112.PolygonNativeC60AQFullPentagonPhysicalNativeGK5BPRawNewtonStirli
 import KUOS.Architecture.QiWuxingGK5BPNorthRawStirlingV4_35
 import Kuu.F112.PolygonNativeC60AQFullPentagonPhysicalNativeGK5BQSignedStirlingDivisibility
 import KUOS.Architecture.QiWuxingGK5BQNorthSignedStirlingV4_36
+import Kuu.F112.PolygonNativeC60AQFullPentagonPhysicalNativeGK5BRPrimePowerLocalGlobal
 
 /-!
 Public aggregate: retain every previously published proof and its original
