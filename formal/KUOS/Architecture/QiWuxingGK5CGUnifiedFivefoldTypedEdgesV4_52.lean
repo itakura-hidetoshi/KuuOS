@@ -82,22 +82,17 @@ def fivefoldF55OriginalP77Edge
       (fivefoldF55OriginalAt f g h k (fivefoldTo edge)) := by
   cases edge with
   | e01 =>
-      simpa [fivefoldF55OriginalAt, fivefoldFrom, fivefoldTo] using
-        (nativeGK5CFP77Edge01 f g h k)
+      exact nativeGK5CFP77Edge01 f g h k
   | e12 =>
-      simpa [fivefoldF55OriginalAt, fivefoldFrom, fivefoldTo] using
-        (nativeGK5CFP77Edge12 f g h k)
+      exact nativeGK5CFP77Edge12 f g h k
   | e23 =>
-      simpa [fivefoldF55OriginalAt, fivefoldFrom, fivefoldTo] using
-        (nativeGK5CFP77Edge23 f g h k)
+      exact nativeGK5CFP77Edge23 f g h k
   | e04 =>
-      simpa [fivefoldF55OriginalAt, fivefoldFrom, fivefoldTo] using
-        (NativeF55RawVerticalFourCell.symm
-          (nativeGK5CFP77Edge40 f g h k))
+      exact NativeF55RawVerticalFourCell.symm
+        (nativeGK5CFP77Edge40 f g h k)
   | e43 =>
-      simpa [fivefoldF55OriginalAt, fivefoldFrom, fivefoldTo] using
-        (NativeF55RawVerticalFourCell.symm
-          (nativeGK5CFP77Edge34 f g h k))
+      exact NativeF55RawVerticalFourCell.symm
+        (nativeGK5CFP77Edge34 f g h k)
 
 /-- The exact original charge is +1 on EVERY edge in the new
 directed FivefoldEdge orientation, including reverse 04 and 43. -/
