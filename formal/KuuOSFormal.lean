@@ -560,6 +560,7 @@ import Kuu.F112.PolygonNativeC60AQFullPentagonPhysicalNativeGK5CDTypedChainSplit
 import KUOS.Architecture.QiWuxingGK5CDNorthSplitCRTV4_48
 import Kuu.F112.PolygonNativeC60AQFullPentagonPhysicalNativeGK5CEFourSegmentPentagonCRT
 import KUOS.Architecture.QiWuxingGK5CENorthFourPentagonCRTV4_49
+import Kuu.F112.PolygonNativeC60AQFullPentagonPhysicalNativeGK5CFOriginalPhiTypedPentagonComparison
 
 /-!
 Public aggregate: retain every previously published proof and its original
