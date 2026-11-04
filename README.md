@@ -1836,4 +1836,13 @@ Qi v4.38では、真正北F55 Type値sourceの既存P92B整数多項式**値**�
 
 [独立GK5BS CI #41778920532](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41778920532)：**Strict Lean 9,294/9,294・Governance 30/30 SUCCESS**（新規16定理、sorryAxなし）。初回`local`予約語・`ZMod.equivPi`法明示・`abbrev`・括弧記法を修正し、定理と仮定は不変。[Qi v4.38 CI #41779618580](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41779618580)：**Strict Lean 10,221/10,221・Governance 30/30 SUCCESS**（新規16定理、sorryAxなし）。双方のsource/test-merge/squash Git tree一致、変更Lean warning/error 0/0。[正式証明記録](docs/formal/GK5BS-Qi-v4_38-genuine-crt-local-global-gluing-certificates.md)。strict 空／独立Kuu→Qi、元F54二Nat／二圏／Blocks・F55 Type履歴、公開root107、固定Lean/mathlib、保護PR #1558 Draft／OPEN／未マージ維持。
 
+
+## 2026-11-04 — GK5BT／Qi v4.39：重なる二法のgcd整合性と元seamの独立性
+
+[独立GK5BT #3085](https://github.com/itakura-hidetoshi/KuuOS/pull/3085)・[Qi v4.39 #3086](https://github.com/itakura-hidetoshi/KuuOS/pull/3086)は**MERGED**。固定mathlib `Nat.chineseRemainder'`・`Nat.mod_lcm`を使い、任意の自然数法`m,n`（互いに素でない場合、零法も含む）について`∃x, x≡a(mod m)∧x≡b(mod n) ↔ a≡b(mod gcd(m,n))`を必要十分に証明。整合すれば実際の大域自然数代表が構成でき、法`lcm(m,n)`で一意、二法が非零なら標準代表`<lcm`。gcd重なりの不一致は正確な不存在obstruction。整合は加法・乗法に対して保存される。元GK5BQの**同じ符号付き整数分子**`N_(d,j)(v)`は`natAbs`で自然数局所剰余を表示し、合成結果が`|N| mod lcm`に一致すること、合成零`↔lcm|N`の必要十分性を証明。絶対値表示による符号復元は主張しない。
+
+Qi v4.39では真正元F55 Type値証拠の既存P92B整数多項式**値**と元F55/P77商の**降下多項式値**に、明示仮定`lcm(m,n)|d!`を加えて証明書を移送。重なる法`m=2,n=6`、`gcd=2,lcm=6=3!`で、真正primitive`P=1`・double inverse＋F55右単位`P=X²`はいずれも四点`{0,1,2,3}`の算術CRT零証明書を持つ一方、元original→phi seamは前者のみ存在。二つの真正P92B選択ループ`X³+2`・`2X²+X`にも別証明。具体的`(4,6,1,2)`は不整合、`(4,6,1,3)`は正規化解`9`とLean4で形式化。元F55 Type history・P77商類・P94A四セル・条件付きP89反射は数値gluingからは復元しない。
+
+[独立GK5BT CI #41785580270](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41785580270)：**Strict Lean 9,296/9,296・Governance 30/30 SUCCESS**、新規15定理公理監査sorryAxなし。[Qi v4.39 CI #41787194501](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41787194501)：**10,223/10,223・30/30 SUCCESS**、新規17定理公理監査sorryAxなし。両source/test-merge/squash Git tree一致、変更Lean warning/error 0/0。[正式証明記録](docs/formal/GK5BT-Qi-v4_39-noncoprime-crt-overlap-gluing-certificates.md)。strict 空／独立Kuu→Qi、元F54二Nat・二圏・Blocks／F55 Type履歴、公開root107、固定Lean v4.30.0-rc2・mathlib、保護#1558 Draft／OPEN／未マージ維持。
+
 **Copyright © 2026 Hidetoshi Itakura / 板倉英俊. Apache-2.0.**
