@@ -117,8 +117,11 @@ theorem nativeGK5BNScaled_integral_iff_allDivisibility
     have hc := nativeGK5BNScaled_coefficient N Q d hscale k
     rw [← hP] at hc
     simp only [Polynomial.coeff_map] at hc
+    have hcCast : (d : Rat) * (P.coeff k : Rat) =
+        (N.coeff k : Rat) := by
+      simpa only [Int.coe_castRingHom] using hc
     have hi : d * P.coeff k = N.coeff k := by
-      exact_mod_cast hc
+      exact_mod_cast hcCast
     exact ⟨P.coeff k, hi.symm⟩
   · intro h
     apply (nativeGK5BMIntegralLift_iff Q).2
