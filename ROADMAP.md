@@ -1847,4 +1847,14 @@ lake build KuuOSFormal # warningAsErrorはlakefile.toml既定。sorryAxは#print
 - [正式証明記録](docs/formal/GK5BS-Qi-v4_38-genuine-crt-local-global-gluing-certificates.md)。strict 空／独立Kuu→Qi、元F54二Nat・二圏・Blocks／元F55 Type履歴、公開root107、Lean v4.30.0-rc2・mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、保護#1558 Draft／OPEN未マージ。
 - **次GK5BT（仮称）：** 相互素の局所素数冪CRTから、重なる法`m,n`の非互いに素な局所剰余代表に拡張。共通部`gcd(m,n)`上の`a≡b (mod gcd(m,n))`を必要十分なcompatibility／obstructionとして形式化し、成立時のみ`lcm(m,n)`の大域整数代表へ合成。元F55 Type値／P94A四セル／P89・GK5AY seamの構造gluingは別に保持。現時点では研究計画であり次のLean定理成立済みとはしない。
 
+
+## 2026-11-04：GK5BT／Qi v4.39 — 非互いに素な二法の重なりCRTと障害
+
+- **独立GK5BT #3085 MERGED：** exact-source HEAD `344202e185b4dcfbe72918675161e0aa291a5db0`、squash `ef7d5cacfb5e3081f21ea873f91bd2caf59957b0`、source/test-merge/squash Git tree `5e06c4f5bfc414e8dbcef3e32295e032cedcb380`一致。[CI #41785580270](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41785580270)：**Strict Lean 9,296/9,296・Governance 30/30 SUCCESS**、新規15定理公理監査sorryAxなし・変更Lean warning/error 0/0。初回は`rintro ⟨x,hx,hy⟩`後の不適切なprojection`hx.1/hx.2`を修正し命題不変。
+- **Qi v4.39 #3086 MERGED：** exact-source HEAD `4bb8cb255ee3e596c3d7b4bc745c4cb04c99695e`、squash `e8cbdb1276f5f1fafc794a6a51036780296acf65`、三者Git tree `05594190c1eed2bda07054b370fabe0d34f759c3`一致。[CI #41787194501](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41787194501)：**10,223/10,223・Governance 30/30 SUCCESS**、新規17定理・sorryAxなし・変更Lean warning/error 0/0。初回の定義別名上の`decide`型クラス失敗を余りの等式に明示展開して修正、数学的仮定不変。
+- **数学的到達：** 任意二法`m,n:Nat`で`a≡b(mod gcd(m,n)) ↔ ∃x, x≡a(mod m)∧x≡b(mod n)`。実際の`Nat.chineseRemainder'`による大域解構成、法`lcm(m,n)`での一意性、非零法の`0≤x<lcm`正規化、整合の加法乗法保存、gcd重なり不一致の必要十分なobstructionを証明。元GK5BQ整数分子はその`natAbs`表示により、重なる二局所剰余から元`|N|`のmod lcm合同を復元し、glue零と元**符号付きN**のlcm整除が同値。
+- **真正北C60：** `natDegree(P)≤d`と`lcm(m,n)|d!`という明示条件の下、元F55 Type源の既存P92B多項式**値**・元P77商の降下値にCRT零を移送。実際の重なる`m=2,n=6`、`d=3,lcm=6=3!`に対しprimitive`1`とdouble inverse＋右F55単位`X²`がともに四点CRT零だが元original→phi seamは正負が逆。選択二P92Bループ`X³+2`・`2X²+X`も別証明。具体的重なり不一致`(4,6,1,2)`は解なし、一致`(4,6,1,3)`は大域標準解9。
+- [正式証明記録](docs/formal/GK5BT-Qi-v4_39-noncoprime-crt-overlap-gluing-certificates.md)。strict 空／独立Kuu→Qi、元F54二Nat・二圏・Blocksと元F55 Type履歴、公開root107、固定Lean v4.30.0-rc2／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、保護PR #1558 Draft／OPEN／未マージ維持。
+- **次GK5BU（仮称）：** 二法の重なりから有限族`(mᵢ,aᵢ)`へ広げ、全てのpairwise gcd重なりcompatibilityを条件として法`lcmᵢ mᵢ`の大域代表を再帰的に構成する。有限Čech型gluingと算術obstructionの形式化を目指し、元F55 Type値／P94A四セル・P89・GK5AY seamの構造gluingを別authorityとして保持する。現時点では未形式化の研究目標。
+
 **Copyright © 2026 Hidetoshi Itakura / 板倉英俊. Apache-2.0.**
