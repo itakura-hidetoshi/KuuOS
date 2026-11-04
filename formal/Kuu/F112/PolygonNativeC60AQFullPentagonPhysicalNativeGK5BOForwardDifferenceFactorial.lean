@@ -78,7 +78,7 @@ theorem nativeGK5BOCutoff_natDegree_le
   apply Finset.sum_eq_zero
   intro i hi
   have hi' : i ≤ k := Nat.lt_succ_iff.mp (Finset.mem_range.mp hi)
-  have hne : j ≠ i := by omega
+  have hne : i ≠ j := by omega
   simp [Polynomial.coeff_monomial, hne]
 
 /-- Actual k-th mathlib forward difference, at the origin
