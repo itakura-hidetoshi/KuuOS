@@ -218,7 +218,8 @@ theorem nativeGK5BRNoIntegerLift_iff_exists_localFailure
       ∃ p ∈ (d.factorial).primeFactors,
         ¬ nativeGK5BRPrimeLocal d j values p) := by
   rw [nativeGK5BRNewton_integral_iff_primePower]
-  push_neg
+  push Not
+  rfl
 
 /-- Any two presentations of the finite local test, as
 divisibility or a congruence, are compatible coefficient by
