@@ -1796,4 +1796,14 @@ lake build KuuOSFormal # warningAsErrorはlakefile.toml既定。sorryAxは#print
 - [正式証明記録](docs/formal/GK5BN-Qi-v4_33-finite-denominator-divisibility-certificates.md)。strict 空・独立Kuu→Qi、F54二Nat／二圏／BlocksとF55 Type証明履歴、公開root107、Lean v4.30.0-rc2とmathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、保護PR #1558 Draft/OPEN未マージ維持。
 - **次GK5BO（仮称）：** 前進有限差分`Δ^k f(0)`、Newton補間基底`binom(X,k)`、階乗整除・符号付きStirling変換からmonomial整係数の必要十分な有限証明書を導出する。整数値性だけから整係数性を断定せず、真正F55 Type証拠の実現可能性とP94A四セル・元P89反射・GK5AY seamを別障害に保つ。
 
+
+## 2026-11-04：GK5BO／Qi v4.34 — Gregory–Newton有限差分・階乗証明書
+
+- **独立GK5BO #3070 MERGED：** exact-source HEAD`4101468e4b1592d3087155321108c96f024578db`、test-merge`139e385c1580910e1e6edc912e03d04bd4ef87f1`、squash`5920a4d423c2baf466cb789be206614dde413c0a`。三者Git tree`3b2fd899cad623c414ddd0c2509b6a7c505ffaf7`一致。[CI #41747472161](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41747472161)：**Strict Lean 9,286/9,286・Governance 30/30 SUCCESS**、新規12宣言・sorryAxなし、変更Lean warning/error 0/0。初回は`Polynomial.coeff_monomial`の分岐`i=j`に対する`j≠i`の向きが不足し、固定mathlibに照らして`i≠j`へ修正。定理条件・数学的仮定は変更しない。
+- **Qi v4.34 #3071 MERGED：** exact-source HEAD`4d3ce8b4bce70a13ba5bd04a4f19c274af975b0b`、test-merge`93930a93a321e4d0764026aaf160a54c5c589437`、squash`a1b339082906ca8dd6ce478fb73f610275cce236`。source/test-merge/squash tree`12bd1d27401df53d6fb44d7df0975f2f53b930a5`一致。[CI #41748169015](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41748169015)：**Strict Lean 10,213/10,213・Governance 30/30 SUCCESS**、9宣言・sorryAxなし、変更Lean warning/error 0/0。
+- **独立Kuu数学的到達：** 任意の`Q:Rat[X]`、切断`Q_{≤k}:=∑_{j=0}^k monomial(j,Q.coeff j)`について、真正mathlib`fwdDiff`で`Δ^k Q_{≤k}(0)=k!·Q.coeff k`を全`k`で証明。`Q`に`Int[X]`原像があることと`∀k∈support(Q),∃z:Int,(k!:Rat)*(z:Rat)=Δ^k Q_{≤k}(0)`が同値。有限supportの真正構成、低次数ゼロ分岐、Gregory–Newton整数格子式、符号付き二項和、障害一係数を形式化。無切断の整数値標本だけから整数係数性を導かない。
+- **真正北C60 Qi：** 元F55真三証拠・元P77商の**降下したPolynomial値**に真正Nat係数証拠から階乗差分条件を移送。primitive`1`、double inverse＋真正F55右単位`X²`は三点、選択二P92B loop`X³+2`・`2X²+X`は四点で確認。元F55 Type値実現やP77商類一致、P94A四セル、original→phi seam十分性とは分離。北C60第五Dart物理閉路・P89 BadPair条件付き反射は保持。
+- [正式証明記録](docs/formal/GK5BO-Qi-v4_34-newton-factorial-difference-certificates.md)。strict 空／独立Kuu→Qi、元F54二Nat／二圏／Blocksと元F55 Type値履歴、公開root107、Lean v4.30.0-rc2／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、保護PR #1558 Draft／OPEN／未マージ維持。
+- **次GK5BP（仮称）：** 係数を既知とする切断を越え、整数観測表だけから前進差分`Δ^k f(0)`を計算し、Newton二項基底`binom(X,k)`から単項式基底`X^j`への符号付きStirling変換／階乗整除条件を明示する。整数値性と整数係数性を分け、真正F55 Type証拠・P94A四セル・P89反射・GK5AY seam・Grayを別obstructionとして維持。
+
 **Copyright © 2026 Hidetoshi Itakura / 板倉英俊. Apache-2.0.**
