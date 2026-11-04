@@ -57,6 +57,20 @@ def nativeGK5CDTypedSplitHom
     ((nativeGK5CCTypedChainHom steps (start + left) right).comp
       (nativeGK5CCTypedChainHom steps start left))
 
+/-- Transport of a dependent polynomial RingHom through a
+Nat-index equality commutes with the NEXT genuine step.
+Proved by equality induction; no numerical proxy or axiom. -/
+private theorem nativeGK5CDTransportStep
+    {α : Nat → Type u}
+    (steps : (i : Nat) → α i → MvPolynomial (α (i+1)) Int)
+    (start : Nat) {i j : Nat} (h : i = j)
+    (g : MvPolynomial (α start) Int →+* MvPolynomial (α i) Int) :
+    (congrArg (fun n : Nat => n + 1) h) ▸
+      ((nativeGK5CCStepSubstitutionHom steps i).comp g) =
+    (nativeGK5CCStepSubstitutionHom steps j).comp (h ▸ g) := by
+  cases h
+  rfl
+
 /-- Arbitrary-cut finite typed substitution chains concatenate
 as EXACTLY the original unsplit RingHom, for ALL lengths,
 variable types and polynomial-valued variable maps. -/
@@ -70,13 +84,17 @@ theorem nativeGK5CDTypedSplitHom_eq
   | zero =>
       simp [nativeGK5CDTypedSplitHom, nativeGK5CCTypedChainHom_zero]
   | succ right ih =>
+      have htransport :=
+        nativeGK5CDTransportStep steps start
+          (Nat.add_assoc start left right)
+          ((nativeGK5CCTypedChainHom steps (start+left) right).comp
+            (nativeGK5CCTypedChainHom steps start left))
       have hstep :
           nativeGK5CDTypedSplitHom steps start left (right + 1) =
             (nativeGK5CCStepSubstitutionHom steps (start + (left + right))).comp
               (nativeGK5CDTypedSplitHom steps start left right) := by
-        simp [nativeGK5CDTypedSplitHom,
-          nativeGK5CCTypedChainHom_succ, RingHom.comp_assoc,
-          Nat.add_assoc]
+        simpa only [nativeGK5CDTypedSplitHom,
+          nativeGK5CCTypedChainHom_succ, Nat.add_succ] using htransport
       rw [hstep, ih]
       simpa only [Nat.add_succ, nativeGK5CCTypedChainHom_succ]
 
@@ -88,8 +106,7 @@ theorem nativeGK5CDTypedSplitHom_zeroLeft
     (start right : Nat) :
     nativeGK5CDTypedSplitHom steps start 0 right =
       nativeGK5CCTypedChainHom steps start right := by
-  have h := nativeGK5CDTypedSplitHom_eq steps start 0 right
-  simpa only [Nat.zero_add] using h
+  simp only [nativeGK5CDTypedSplitHom_eq, Nat.zero_add]
 
 /-- If the RIGHT segment is empty, its composite leaves the
 actual left-length typed chain unchanged. -/
