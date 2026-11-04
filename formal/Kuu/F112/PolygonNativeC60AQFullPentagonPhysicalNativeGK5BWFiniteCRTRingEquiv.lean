@@ -195,13 +195,29 @@ theorem nativeGK5BWGlobalCompatibleHom_surjective
     refine ⟨(k : ZMod (nativeGK5BUFiniteModulus s moduli)), ?_⟩
     apply Subtype.ext
     funext j
+    have hgcd : Nat.gcd (moduli i) (moduli j.1) = moduli j.1 := by
+      simp [hmi]
+    have hdiv : moduli j.1 ∣ moduli i := by
+      simp [hmi]
     have hcomp := y.2 ii j
+    change
+      (ZMod.cast (y.1 ii) :
+        ZMod (Nat.gcd (moduli i) (moduli j.1))) =
+      (ZMod.cast (y.1 j) :
+        ZMod (Nat.gcd (moduli i) (moduli j.1))) at hcomp
     rw [← hk] at hcomp
+    rw [hgcd] at hcomp
     have hlocal : (k : ZMod (moduli j.1)) = y.1 j := by
-      simpa [ii, hmi, ZMod.castHom_self] using hcomp
-    change (ZMod.castHom (Finset.dvd_lcm j.2) (ZMod (moduli j.1)))
-      (k : ZMod (nativeGK5BUFiniteModulus s moduli)) = y.1 j
-    simpa only [ZMod.castHom_apply, ZMod.cast_intCast] using hlocal
+      calc
+        (k : ZMod (moduli j.1)) =
+            (ZMod.cast (k : ZMod (moduli i)) : ZMod (moduli j.1)) :=
+          (ZMod.cast_intCast hdiv k).symm
+        _ = (ZMod.cast (y.1 j) : ZMod (moduli j.1)) := hcomp
+        _ = y.1 j := ZMod.cast_id _ _
+    change
+      (ZMod.cast (k : ZMod (nativeGK5BUFiniteModulus s moduli)) :
+        ZMod (moduli j.1)) = y.1 j
+    exact (ZMod.cast_intCast (Finset.dvd_lcm j.2) k).trans hlocal
   · have hnonzero (i : {i : ι // i ∈ s}) :
         moduli i.1 ≠ 0 :=
       (Finset.lcm_ne_zero_iff).1 hL i.1 i.2
@@ -230,9 +246,10 @@ theorem nativeGK5BWGlobalCompatibleHom_surjective
     have hnat : (x : ZMod (moduli i.1)) = y.1 i :=
       ((ZMod.natCast_eq_natCast_iff x (y.1 i).val (moduli i.1)).2 hxi).trans
         (hval i)
-    change (ZMod.castHom (Finset.dvd_lcm i.2) (ZMod (moduli i.1)))
-      (x : ZMod (nativeGK5BUFiniteModulus s moduli)) = y.1 i
-    simpa only [ZMod.castHom_apply, ZMod.cast_natCast] using hnat
+    change
+      (ZMod.cast (x : ZMod (nativeGK5BUFiniteModulus s moduli)) :
+        ZMod (moduli i.1)) = y.1 i
+    exact (ZMod.cast_natCast (Finset.dvd_lcm i.2) x).trans hnat
 
 /-- COMPLETE ring-level arithmetic CRT descent. This is a
 genuine ZMod L ≃+* compatible finite product SUBRING,
