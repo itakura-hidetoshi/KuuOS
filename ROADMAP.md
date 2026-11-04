@@ -1786,4 +1786,14 @@ lake build KuuOSFormal # warningAsErrorはlakefile.toml既定。sorryAxは#print
 - [正式証明記録](docs/formal/GK5BM-Qi-v4_32-integral-nat-coefficient-lift-certificates.md)。strict 空、独立Kuu→Qi、元F54二Nat／二圏／Blocks・元F55 Type履歴、公開root107、固定Lean v4.30.0-rc2／mathlib 5450b53e5ddc75d46418fabb605edbf36bd0beb6、保護PR #1558 Draft/OPEN・未マージ。GK5AY全域seam、GK5BA kit、P94A全正規形、元P89無条件反射、Grayは未証明。
 - **次GK5BN（仮称）：** 有理係数の整数性判定を有限差分・整除条件へ具体化し、元GK5BMの必要十分な多項式持ち上げ条件へ接続する。整数値評価だけでは整係数性は自動ではないことを保持し、真正Type証拠への逆向き推論は別のobstructionとして維持。
 
+
+## 2026-11-04：GK5BN／Qi v4.33 — 有理補間の有限分母・整数整除判定
+
+- **独立GK5BN #3067 MERGED：** exact-source HEAD `0cf5569b83e334b526da54d3b99bc6f8fbe379d6`、test-merge `4358456ab20acfc5c66fa6f8453d7e35c69bab66`、squash `764b6365d00ea07519dde44e145fa9d5cf453622`。source/test-merge/squash Git tree `a7dc5e1570fb61f9d23930e6bdb20ceddbe004ef`一致。[CI #41743613851](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41743613851)：**Strict Lean 9,284/9,284・Governance 30/30 SUCCESS**、新規11宣言・sorryAxなし、変更Lean warning/error 0/0。初回失敗は`Int.castRingHom`の明示正規化不足で、固定mathlib `Int.coe_castRingHom`と`exact_mod_cast`を合成し、仮定・定理を変更せず修復。
+- **Qi v4.33 #3068 MERGED：** exact-source HEAD `f53afb41f4d8343a9f674c6636592cf74b862eee`、test-merge `dd7af6720ac1f42c80f75d7178c1edb2d521dbbd`、squash `8e42f6d44041b78d7bef6b2014c634693fcad91a`。三者tree `b2c2eb6ada0e7b12e0c583e015e934b4edb57d32`一致。[CI #41744468276](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41744468276)：**10,211/10,211・Governance 30/30 SUCCESS**、新規10宣言・sorryAxなし、変更Lean warning/error 0/0。
+- **独立Kuu数学的到達：** 任意の有理多項式`Q`の整係数原像存在`∃P:ℤ[X],map P=Q`は、有限個の非零係数の既約分母がすべて1と**必要十分**。厳密な分母消去証拠`dQ=N`（`d:ℤ, d≠0, N:ℤ[X]`）があるとき、`Q`整係数性と`∀k∈support(N), d∣N.coeff k`が同値。一般Lagrange有理補間と一係数不整によるobstructionへ適用。整数値の有限観測だけでは整係数は帰結しない。
+- **真正北C60：** 元F55三証拠と元F55/P77商の**降下多項式値**について、GK5BJ・GK5BMの真正Nat係数から有限分母1証明書を移送。primitive `1`／double inverse＋F55右単位 `X²`は三点`{0,1,2}`、選択P92B loop対`X³+2`／`2X²+X`は四点`{-1,0,1,2}`で検証。実際のType値証拠やP77商類の等しさは結論しない。真正北C60第五Dart・P89反射・original→phi seamの境界は従前のまま。
+- [正式証明記録](docs/formal/GK5BN-Qi-v4_33-finite-denominator-divisibility-certificates.md)。strict 空・独立Kuu→Qi、F54二Nat／二圏／BlocksとF55 Type証明履歴、公開root107、Lean v4.30.0-rc2とmathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、保護PR #1558 Draft/OPEN未マージ維持。
+- **次GK5BO（仮称）：** 前進有限差分`Δ^k f(0)`、Newton補間基底`binom(X,k)`、階乗整除・符号付きStirling変換からmonomial整係数の必要十分な有限証明書を導出する。整数値性だけから整係数性を断定せず、真正F55 Type証拠の実現可能性とP94A四セル・元P89反射・GK5AY seamを別障害に保つ。
+
 **Copyright © 2026 Hidetoshi Itakura / 板倉英俊. Apache-2.0.**
