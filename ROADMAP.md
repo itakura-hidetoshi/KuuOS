@@ -1939,4 +1939,17 @@ lake build KuuOSFormal # warningAsErrorはlakefile.toml既定。sorryAxは#print
 - [exact-source CI #41842396869](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41842396869)：**10,240／10,240・Governance 30／30 SUCCESS**、新規9定理sorryAxなし、source/test-merge/squash tree `b4bc1ce80e68b2deda53482bec0ebf77a7c7ec66`一致、squash/main `cb702bac382c79c36b0f2eb7c2f3b96b8239db57`。[正式証明記録](docs/formal/GK5CC-Qi-v4_47-finite-typed-crt-naturality.md)。固定Lean v4.30.0-rc2／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、公開root107、strict 空、独立Kuu→Qi、元F54/F55 Type履歴、保護#1558 Draft／OPEN／未マージを維持。
 - **次GK5CD（未形式化）：** 任意の二つの連続する型可変有限代入鎖の連結則（任意分割点の正規化）と、そのCRT・有限被覆自然性を同時に強化する。数値descendの構成と元F55構造的seamのauthority境界は維持する。
 
+
+## 2026-11-05：GK5CD — 任意分割の真正型付き代入鎖連結・CRT三段塔
+
+- **独立GK5CD #3113 MERGED：** [PR](https://github.com/itakura-hidetoshi/KuuOS/pull/3113)。真正`MvPolynomial (α start) Int →+* MvPolynomial (α(start+(left+right))) Int`を、二つの実在する型付き代入鎖の連結と`Nat.add_assoc`のtransportで構成し、任意分割で非分割鎖に一致することを形式証明。実際の`ZMod L_s`・互換局所CRT Subringの評価RingHom、CRT自然性、全有限被覆制限、三段塔、非単射の初期変数再分類と元符号付き整数評価まで接続。
+- **GK5CD exact-source CI：** [#41899977266](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41899977266)、Strict Lean **10,241／10,241 SUCCESS**、Governance gate SUCCESS、公理監査13定理sorryAxなし。source/test-merge/squash tree `4c000f047dc8b36d54d8b2ad96225a7a8b0b0812`一致、squash `eef2791a1c0e72b8bad54f6df33e3c9a8afc3b29`。初回の依存型輸送の帰納法と零左区間の添字不一致を、明示的`TransportStep`証明と`0+right`という真正端点表示で解消。型の移送を消去せず、定理内容は不変。
+
+## 2026-11-05：Qi v4.48 — 真正北C60符号付き整数への分割鎖CRT移送
+
+- **Qi v4.48 #3114 MERGED：** [PR](https://github.com/itakura-hidetoshi/KuuOS/pull/3114)。任意の`Fin (arity i)`型可変整数多項式代入と元GK5BQ真正signed numeratorにGK5CDの任意分割連結則を適用。大域ZMod・互換局所Subringへの真正RingHom、CRT環同型、全有限被覆の一段・三段自然性、元Int評価が分割前後で一致。非互いに素・法0・空被覆・変数数変動を許す。
+- **Qi exact-source CI：** [#41901034054](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41901034054)、Strict Lean **10,242／10,242 SUCCESS**、Governance SUCCESS、公理監査10定理sorryAxなし、source/test-merge/squash tree `b91c512e17466e31ed08bf2cfe3fc7787abfd45d`一致、squash/main `bb4e704a40314e248373a6d18c01c0afb2155fb3`。[正式証明記録](docs/formal/GK5CD-Qi-v4_48-typed-chain-split-crt-naturality.md)。
+- **次GK5CE（研究計画・未形式化）：** 3以上の連結区間の任意括弧付けに対するPentagon coherence、区間再分類・被覆制限との自然性を厳密な型付き可換図式へ拡張する。数値descentから元F55 Type-valued seam／高次セルを復元しない。
+- 厳格な公理境界：strict 空／独立Kuu→Qi、元F54二Nat・二圏・Blocks、元F55 Type履歴、公開root107、固定Lean v4.30.0-rc2／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、保護#1558 Draft／OPEN／未マージを維持。Gray・GK5BA kitなし。
+
 **Copyright © 2026 Hidetoshi Itakura / 板倉英俊. Apache-2.0.**

@@ -1925,4 +1925,15 @@ Qi v4.43では元GK5BQの**同一符号付き整数**numerator`N`に任意`Q:Pol
 
 [exact-source CI #41842396869](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41842396869)：**Strict Lean 10,240／10,240・Governance 30／30 SUCCESS**、新規9定理sorryAxなし、source/test-merge/squash Git tree `b4bc1ce80e68b2deda53482bec0ebf77a7c7ec66`一致。初回の整数ZMod castの閉じ括弧不足を全文照合で修正し、命題と仮定を保持。squash `cb702bac382c79c36b0f2eb7c2f3b96b8239db57`。[正式証明記録](docs/formal/GK5CC-Qi-v4_47-finite-typed-crt-naturality.md)。strict 空、独立Kuu→Qi、元F54／F55 Type履歴、公開root107、固定Lean／mathlib、保護#1558 Draft／OPEN／未マージを維持。
 
+
+## 2026-11-05 — GK5CD／Qi v4.48：任意分割の型付き代入鎖と真正北C60 CRT自然性
+
+[独立GK5CD #3113](https://github.com/itakura-hidetoshi/KuuOS/pull/3113) **MERGED**。真正の型可変整数多変数多項式代入鎖 `T(start,length)` を任意の `left,right` に分割し、`(start+left)+right = start+(left+right)` の依存型移送を明示したうえで、連結後の `RingHom` と分割前の `RingHom` が等しいことを証明した。端点が空の区間でも元の型を保ち、全有限被覆について大域 `ZMod L_s`・gcd-compatible互換局所Subring・CRT環同型・一段／三段制限・非単射初期変数再分類・元符号付き `Int` 評価の可換性を検証。元F55 Typeの構造証拠は数値合同から復元しない。
+
+[GK5CD exact-source CI #41899977266](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41899977266)：**Strict Lean 10,241／10,241 SUCCESS、Governance gate SUCCESS**、新規13定理の公理監査にsorryAxなし。source/test-merge/squash Git tree `4c000f047dc8b36d54d8b2ad96225a7a8b0b0812`一致、squash `eef2791a1c0e72b8bad54f6df33e3c9a8afc3b29`。修正では`Nat.add_assoc`の型移送と後続代入合成の交換を等式帰納法で明示し、零左区間の端点を`0+right`で正確に表した。中心定理を弱めていない。
+
+[Qi v4.48 #3114](https://github.com/itakura-hidetoshi/KuuOS/pull/3114) **MERGED**。任意の`arity:Nat→Nat`に基づく`Fin(arity i)`型付き代入鎖の分割連結を、元GK5BQの真正符号付き整数numeratorと結合。真正大域／互換局所CRT評価を`RingHom`として保持し、同一分割に対するCRT環同型・全有限被覆制限・三段塔・元整数評価が一致することを証明。[Qi exact-source CI #41901034054](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41901034054)：**Strict Lean 10,242／10,242・Governance SUCCESS**、新規10定理sorryAxなし、source/test-merge/squash tree `b91c512e17466e31ed08bf2cfe3fc7787abfd45d`一致、squash `bb4e704a40314e248373a6d18c01c0afb2155fb3`。[正式証明記録](docs/formal/GK5CD-Qi-v4_48-typed-chain-split-crt-naturality.md)。
+
+strict 空／独立Kuu→Qi、元F54二Nat・二圏・Blocks、元F55 Type履歴、公開root107、固定Lean v4.30.0-rc2／mathlib、保護#1558 Draft／OPEN／未マージを保持。元F55 primitiveのseam存在とdouble inverseのseam不存在は先行既証明として維持し、Qi v4.48が新たなType証拠を導いたとは主張しない。
+
 **Copyright © 2026 Hidetoshi Itakura / 板倉英俊. Apache-2.0.**
