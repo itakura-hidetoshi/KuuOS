@@ -1796,4 +1796,15 @@ Qi v4.34では、真正北F54/F55証拠および元F55/P77四セル商の**降�
 
 [独立GK5BO exact-source CI #41747472161](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41747472161)：**Strict Lean 9,286/9,286、Governance 30/30 SUCCESS**、12宣言・sorryAxなし。初回のmonomial係数不等号向きを修正、定理・仮定は不変。[Qi v4.34 CI #41748169015](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41748169015)：**Strict Lean 10,213/10,213、Governance 30/30 SUCCESS**、9宣言・sorryAxなし。変更Lean warning/error 0/0、source/test-merge/squash Git tree一致。[正式証明記録](docs/formal/GK5BO-Qi-v4_34-newton-factorial-difference-certificates.md)。strict 空・独立Kuu→Qi、公開root107・F54二Nat／二圏／Blocks・F55 Type履歴、Lean v4.30.0-rc2／固定mathlib、保護PR #1558 Draft/OPEN未マージを保持。
 
+
+## 2026-11-04 — GK5BP／Qi v4.35：生観測値からのNewton構成と符号付きStirling整数係数判定
+
+[独立GK5BP #3073](https://github.com/itakura-hidetoshi/KuuOS/pull/3073)・[Qi v4.35 #3074](https://github.com/itakura-hidetoshi/KuuOS/pull/3074)は**MERGED**。GK5BOの係数既知の有限cutoffを越え、任意の実際の観測列`v:Nat→Rat`からmathlibの真正`fwdDiff`を用いて`Δ^k v(0)`を計算し、`N_d(v)=∑_{k=0}^d(Δ^k v(0)/k!)·descPochhammer(Rat,k)`という**実際のRat[X] Newton補間多項式**を構成した。全節点`0≤n≤d`での完全再現、`natDegree≤d`、元GK5BLの真正Lagrange補間との一致をLean4で形式化した。
+
+下降階乗`descPochhammer(Int,k)`の整数係数`s(k,j)`を符号付き第一種Stirling係数表示として定義し、`coeff(N_d(v),j)=∑_{k=0}^d(Δ^k v(0)/k!)·s(k,j)`を証明。これにより、`N_d(v)`の**真のInt[X]原像存在**と、有限個の`j=0,…,d`についてその右辺が整数になることとの**必要十分条件**を構成した。任意の整数観測表に対しても条件付き必要十分性を保持し、整数値観測のみから整係数性を捏造しない。Mathlib自然数`Nat.stirlingFirst`との符号付き閉形式の直接同一性は別の未追加補題として次段階に分離した。
+
+Qi v4.35では、真正北F54/F55 source証拠と元F55/P77商から**既に降下した整数Polynomial値**の生観測へ条件を移送。元primitive`P=1`・元double inverse＋真のF55右単位`P=X²`は`{0,1,2}`、選択真正P92B endo-loop`A=X³+2`・`B=2X²+X`は**新しい**`{0,1,2,3}`で検証した。元F55 Type値履歴・P77商類一致やP94A四セルを係数から構成する推論は禁止。北C60第五Dart物理閉路、original→phi既存局所seam、元P89 BadPair条件付き反射は別に保持。
+
+[独立GK5BP CI #41752699168](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41752699168)：**Strict Lean 9,288/9,288・Governance 30/30 SUCCESS**、新規10定理公理監査sorryAxなし。初回のゴール既閉`omega`を修復し定理・仮定不変。[Qi v4.35 CI #41753489564](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41753489564)：**10,215/10,215・30/30 SUCCESS**、新規9定理公理監査sorryAxなし。各source/test-merge/squash tree一致、変更Lean warning/error 0/0。[正式証明記録](docs/formal/GK5BP-Qi-v4_35-raw-newton-signed-stirling-certificates.md)。strict 空／独立Kuu→Qi、公開root107、元F54二Nat／二圏／Blocks・F55 Type証拠、固定Lean v4.30.0-rc2/mathlib、保護PR #1558 Draft/OPEN未マージ維持。
+
 **Copyright © 2026 Hidetoshi Itakura / 板倉英俊. Apache-2.0.**
