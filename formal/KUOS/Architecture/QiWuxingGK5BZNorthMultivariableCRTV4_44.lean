@@ -17,7 +17,7 @@ into each actual variable. We do NOT invent a new F55 Type
 source or use a natAbs proxy. All integer polynomial
 evaluations commute with the true global ZMod L quotient,
 the genuine compatible-local ZMod SUBRING, additions,
-multiplications and one-/two-stage finite-cover restrictions.
+multiplications and one-step or two-step finite-cover restrictions.
 
 Two distinct ACTUAL original F55 Type sources are retained:
 primitive P=1 and genuine double inverse plus right F55 unit
