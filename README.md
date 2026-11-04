@@ -1827,4 +1827,13 @@ Qi v4.35では、真正北F54/F55 source証拠と元F55/P77商から**既に降�
 
 [独立GK5BR CI #41773693409](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41773693409)：**Strict Lean 9,292/9,292・Governance 30/30 SUCCESS**、新規12定理の公理監査sorryAxなし。初回`push_neg`非推奨を`push Not; rfl`に修復し命題・仮定不変。[Qi v4.37 CI #41774281250](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41774281250)：**10,219/10,219・30/30 SUCCESS**、新規13定理の公理監査sorryAxなし。両source/test-merge/squash Git tree一致、変更Lean warning/error 0/0。[正式証明記録](docs/formal/GK5BR-Qi-v4_37-prime-power-local-global-certificates.md)。strict 空／独立Kuu→Qi、元F54二Nat・二圏・Blocks／F55 Type履歴、公開root107、Lean v4.30.0-rc2・固定mathlib、保護PR #1558 Draft／OPEN未マージ維持。
 
+
+## 2026-11-04 — GK5BS／Qi v4.38：真正CRT環同型・任意局所剰余再合成と元seamの独立性
+
+[独立GK5BS #3082](https://github.com/itakura-hidetoshi/KuuOS/pull/3082)と[Qi v4.38 #3083](https://github.com/itakura-hidetoshi/KuuOS/pull/3083)は**MERGED**。固定mathlib `ZMod.equivPi`から真正環同型`ZMod(d!) ≃+* Πp∈primeFactors(d!), ZMod(p^v_p(d!))`を構成。**任意に独立指定された局所剰余値**について、単一大域CRT合同類・具体的整数代表・`<d!`の自然数代表を実際に構成し、全局所合同の同時成立、一意性（法`d!`）、加法・乗法compatibilityをLean4で証明した。GK5BQの**同じ整数分子**`N_(d,j)(v)`から作る局所剰余をCRT合成した結果が`N mod d!`と一致し、すべての係数のCRT零判定と、真のNewton／GK5BL Lagrange整数係数原像存在が**必要十分**。単一非零CRT係数は明示的算術obstructionとなる。
+
+Qi v4.38では、真正北F55 Type値sourceの既存P92B整数多項式**値**、元P77商の**降下多項式値**に移送。真正primitive`P=1`とdouble inverse＋F55右単位`P=X²`は双方`d=2`の全CRT合同類ゼロなのに、元original→phi局所seamは前者が存在・後者が不存在であることを**同じLean4定理として証明**した。選択P92B二loop`X³+2`・`2X²+X`も四点`{0,1,2,3}`の`d=3`CRT零証明書を独立に保持。算術的CRT descentを新F55 Type証拠・P77商類同一性・P94A四セル・全GK5AY seamの復元と混同しない。
+
+[独立GK5BS CI #41778920532](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41778920532)：**Strict Lean 9,294/9,294・Governance 30/30 SUCCESS**（新規16定理、sorryAxなし）。初回`local`予約語・`ZMod.equivPi`法明示・`abbrev`・括弧記法を修正し、定理と仮定は不変。[Qi v4.38 CI #41779618580](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41779618580)：**Strict Lean 10,221/10,221・Governance 30/30 SUCCESS**（新規16定理、sorryAxなし）。双方のsource/test-merge/squash Git tree一致、変更Lean warning/error 0/0。[正式証明記録](docs/formal/GK5BS-Qi-v4_38-genuine-crt-local-global-gluing-certificates.md)。strict 空／独立Kuu→Qi、元F54二Nat／二圏／Blocks・F55 Type履歴、公開root107、固定Lean/mathlib、保護PR #1558 Draft／OPEN／未マージ維持。
+
 **Copyright © 2026 Hidetoshi Itakura / 板倉英俊. Apache-2.0.**
