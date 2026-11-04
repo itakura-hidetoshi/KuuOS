@@ -160,8 +160,9 @@ def fivefoldEvaluateP77
         (fivefoldF55OriginalAt f g h k u.phase)
         (fivefoldF55OriginalAt f g h k z.phase))
     (.refl (fivefoldF55OriginalAt f g h k u.phase))
-    (fun _ _ edge ih =>
-      .trans ih (fivefoldArrowOriginalP77 f g h k edge))
+    (fun _ edge ih =>
+      NativeF55RawVerticalFourCell.trans ih
+        (fivefoldArrowOriginalP77 f g h k edge))
     v path
 
 /-- Evaluation of an empty free path is the genuine P77 reflexivity
@@ -208,6 +209,8 @@ theorem fivefoldEvaluateP77_eq_implies_length
        (fivefoldF55OriginalAt f g h k u.phase)
        (fivefoldF55OriginalAt f g h k v.phase) =>
        w.gk5cgAssocCharge) heq
+  change (fivefoldEvaluateP77 f g h k a).gk5cgAssocCharge =
+    (fivefoldEvaluateP77 f g h k b).gk5cgAssocCharge at charge
   rw [fivefoldEvaluateP77_charge_length,
     fivefoldEvaluateP77_charge_length] at charge
   exact_mod_cast charge
@@ -267,7 +270,7 @@ def fivefoldFreePhysicalTrace
     {u w : FivefoldPathVertex} (path : Quiver.Path u w) : List Edge :=
   @Quiver.Path.rec FivefoldPathVertex fivefoldPathQuiver u
     (fun _ _ => List Edge) []
-    (fun _ _ edge ih => ih ++ [fivefoldPhysicalEdge frame v edge.edge])
+    (fun _ edge ih => ih ++ [fivefoldPhysicalEdge frame v edge.edge])
     w path
 
 theorem fivefoldFreePhysicalTrace_nil
