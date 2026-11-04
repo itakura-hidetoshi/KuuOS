@@ -552,6 +552,7 @@ import Kuu.F112.PolygonNativeC60AQFullPentagonPhysicalNativeGK5BZMultivariableCR
 import KUOS.Architecture.QiWuxingGK5BZNorthMultivariableCRTV4_44
 import Kuu.F112.PolygonNativeC60AQFullPentagonPhysicalNativeGK5CAVariableSubstitutionCRTNaturality
 import KUOS.Architecture.QiWuxingGK5CANorthMvSubstitutionCRTV4_45
+import Kuu.F112.PolygonNativeC60AQFullPentagonPhysicalNativeGK5CBIteratedSubstitutionCRTTower
 
 /-!
 Public aggregate: retain every previously published proof and its original
