@@ -196,7 +196,7 @@ def fivefoldGK5CENorthFourTerminalSigned
     (values : Nat → Int) :
     Fin (arity (start+(a+(b+(c+e))))) → Int :=
   fivefoldGK5BZNorthSignedCoordinates
-    (arity (start+(a+(b+(c+e)))) depth indices values
+    (arity (start+(a+(b+(c+e))))) depth indices values
 
 /-- The north terminal signed variables are literally
 the original GK5BQ integer numerator at each coordinate. -/
