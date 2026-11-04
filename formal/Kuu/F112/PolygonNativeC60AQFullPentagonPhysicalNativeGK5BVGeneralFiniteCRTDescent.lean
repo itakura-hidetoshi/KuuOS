@@ -59,11 +59,11 @@ theorem nativeGK5BVGcd_lcm_distrib
   by_cases ha : a = 0
   · subst a
     simp only [Nat.lcm_zero_left, Nat.gcd_zero_left]
-    exact (Nat.lcm_eq_left_iff_dvd).2 (Nat.gcd_dvd_right b c)
+    exact ((Nat.lcm_eq_left_iff_dvd).2 (Nat.gcd_dvd_right b c)).symm
   by_cases hb : b = 0
   · subst b
     simp only [Nat.lcm_zero_right, Nat.gcd_zero_left]
-    exact (Nat.lcm_eq_right_iff_dvd).2 (Nat.gcd_dvd_right a c)
+    exact ((Nat.lcm_eq_right_iff_dvd).2 (Nat.gcd_dvd_right a c)).symm
   by_cases hc : c = 0
   · subst c
     simp
@@ -77,7 +77,9 @@ theorem nativeGK5BVGcd_lcm_distrib
     Nat.factorization_lcm hla hlb,
     Nat.factorization_gcd ha hc,
     Nat.factorization_gcd hb hc]
-  exact inf_sup_right _ _ _
+  ext p
+  simp only [Finsupp.inf_apply, Finsupp.sup_apply]
+  exact min_max_distrib_right _ _ _
 
 /-- The gcd of the genuine finite LCM of all original
 moduli with a new modulus distributes over that finite
@@ -91,8 +93,8 @@ theorem nativeGK5BVFiniteGcd_lcm
   | empty =>
       simp
   | @insert i t hi ih =>
-      rw [Finset.lcm_insert, Finset.lcm_insert,
-          nativeGK5BVGcd_lcm_distrib, ih]
+      simp only [Finset.lcm_insert, lcm_eq_nat_lcm]
+      rw [nativeGK5BVGcd_lcm_distrib, ih]
 
 /-- All pairwise-compatible finite local residues glue to
 one genuine global representative. Unlike the earlier
