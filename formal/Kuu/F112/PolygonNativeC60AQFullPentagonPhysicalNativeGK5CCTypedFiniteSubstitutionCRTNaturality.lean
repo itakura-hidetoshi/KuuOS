@@ -287,11 +287,25 @@ theorem nativeGK5CCCRTChain_threeCoverHom
           (fun j hj => inc (inc' hj)) (xs v))) := by
   apply RingHom.ext
   intro P
-  simpa only [RingHom.comp_apply, nativeGK5CCGlobalChainEvalHom,
-    nativeGK5CCCompatibleChainEvalHom,
-    nativeGK5BWFiniteCRTRingEquiv_apply] using
-    (nativeGK5BZMultivariableCRTTower_natural s t u' moduli
-      inc inc' xs (nativeGK5CCTypedChainHom steps start length P))
+  have htower :=
+    nativeGK5BZMultivariableCRTTower_natural s t u' moduli
+      inc inc' xs (nativeGK5CCTypedChainHom steps start length P)
+  have hcrt :=
+    nativeGK5BZCRTMvEval_apply u' moduli
+      (fun v => nativeGK5BXGlobalRestrictHom s u' moduli
+        (fun j hj => inc (inc' hj)) (xs v))
+      (nativeGK5CCTypedChainHom steps start length P)
+  calc
+    _ = nativeGK5BWFiniteCRTRingEquiv u' moduli
+          (nativeGK5BZGlobalMvEvalHom u' moduli
+            (fun v => nativeGK5BXGlobalRestrictHom s u' moduli
+              (fun j hj => inc (inc' hj)) (xs v))
+            (nativeGK5CCTypedChainHom steps start length P)) := by
+        simpa only [RingHom.comp_apply, nativeGK5CCGlobalChainEvalHom,
+          nativeGK5BWFiniteCRTRingEquiv_apply] using htower
+    _ = _ := by
+        simpa only [RingHom.comp_apply, nativeGK5CCCompatibleChainEvalHom,
+          nativeGK5BWFiniteCRTRingEquiv_apply] using hcrt
 
 /-- The same true CRT three-cover commuting square holds
 when an arbitrary (even NONINJECTIVE) variable
