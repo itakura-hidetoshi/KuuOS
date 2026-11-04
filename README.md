@@ -14,6 +14,18 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — Qi v4.52／五行・真正C60・元F55/P77の共通FivefoldEdge／2026-11-05 JST
+
+**[Qi v4.52 theorem PR #3124](https://github.com/itakura-hidetoshi/KuuOS/pull/3124) MERGED。** 先のQi v3.5共通`FivefoldIndex = ZMod 5`・`FivefoldEdge`を直接拡張し、元のF55の5つの型付き3-cell括弧付けと**本物のP77四セル5辺**を、同じ5相／5辺で呼び出せるようにした。`e04`と`e43`は、元P77の実際の辺40と34を逆転させ、全五辺の署名・物理端点と向きを保持。`fivefoldOriginalPhysicalPair`は任意の**真正C60五角形`(.pentagon v)`**・任意局所ゲージに対し、同一edgeから真正原Dart・Edgeの入射証明と元F55/P77の依存型四セル証拠を同時に返す。旧GK5X/GK5Yの真正Cat/NatIsoも同じ`FivefoldEdge`で扱えるため、単なる「5個」の対応を超えてソースを統一した。
+
+**新規形式数学：** `fivefoldF55OriginalP77Edge_assocCharge_one`は5辺すべての元GK5CG結合律整数chargeが`+1`と証明。`fivefoldF55OriginalPentagon_charge`は元P77の上3辺と下2辺の真正証拠が**3対2**であること、`fivefoldF55Original_noConservativePentagonator`は同じ元始終端の二経路間に元GK5CG保守的Type値5-cellが**存在しない**ことを無条件に証明。Qi v4.51の真北C60元GK5BQ符号付きCRT、primitive/double-inverse高次seamの差、旧新5-cell presentation境界は全保持する。
+
+**形式検証：** 新規Leanソース＋`KuuOSFormal`への1 importのみ。[exact-source CI #41933415327](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41933415327) **Strict Lean 10,249/10,249・Governance 30/30・Independent Kuu SUCCESS**、新規8公理監査は標準3公理以内、`sorryAx`なし。初回CIの元P77四セル`simpa`が残す依存型`cast`を、真のP77構成子`exact`による直接生成へ改修し、仮定を一切弱めず成功。main theorem SHA `84e3afca1d6a4637e37b037ef7ae121201e16626`。Lean v4.30.0-rc2/mathlib pinned、公開root107、strict空中心・独立Kuuは一presentation、保護#1558 Draft/open維持。
+
+**[正式証明記録](docs/formal/Qi-v4_52-unified-fivefold-F55-P77-physical-edge-proof.md)** · [全Leanソース](formal/KUOS/Architecture/QiWuxingGK5CGUnifiedFivefoldTypedEdgesV4_52.lean)。**境界:** 五行・物理Edge・元F55/P77四セル・whole NatIso・符号付きCRTは同じ索引で呼び出せるが、相互の型や証明履歴は同一視しない。元保守的五セルの不在と新presentation付加五セルを区別する。次は共通edgeから元4-cell・NatIsoへの**型付き関手/faithfulnessの正確な必要十分条件**を検討する。以下全研究記録を保存。
+
+---
+
 ## 最新のLean定理統合 — F112-P94D3GK5CF＋Qi v4.50／元F55真正四セルPentagonと符号付きCRTの高次seam境界／2026-11-05 JST
 
 **独立[GK5CF PR #3119](https://github.com/itakura-hidetoshi/KuuOS/pull/3119)・[Qi v4.50 PR #3120](https://github.com/itakura-hidetoshi/KuuOS/pull/3120) はともにMERGED。** GK5CEの型可変多項式`RingHom`の5括弧付けPentagonと別に、元F55の4合成可能なType値付き証明から**本物のP77四セルの5辺**および上下2本の四セル経路を構成。双方を歴史的なold埋め込みでP94Aに移送した。**2経路の四セル証明項が等しいことや高次五セル／pentagonatorの存在は主張しない。** 元P77五辺に沿う局所original→再帰φ seamの存在同値と、1頂点seedから5頂点すべてへの条件付きgluingを証明した。
