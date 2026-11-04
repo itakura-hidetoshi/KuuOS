@@ -1867,4 +1867,15 @@ lake build KuuOSFormal # warningAsErrorはlakefile.toml既定。sorryAxは#print
 - [正式証明記録](docs/formal/GK5BV-Qi-v4_40-complete-finite-noncoprime-crt-descent.md)。strict 空／独立Kuu→Qi、元F54二Nat・二圏・Blocks・F55 Type履歴、公開root107、Lean v4.30.0-rc2／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、保護#1558 Draft/OPEN未マージ維持。
 - **次GK5BW（仮称）：** 数値的有限互換剰余族と大域`ZMod(L)`の真正環同型（fiber-product／compatible-family）、加法乗法と局所制限の自然性、obstructionを検討。元F55 Type値source・P94A 4-cell・P89/GK5AY seamを数値環同型から復元する主張は行わない。未形式化の次研究目標。
 
+
+## 2026-11-04：GK5BW／Qi v4.41 — 一般有限非互いに素CRTの真の環同型と被覆制限自然性
+
+- **独立GK5BW #3092 MERGED：** exact-source HEAD `d7302189f869f996cdb987e268842d6356ec8d39`、squash `c991b6954c0892ab13062552885d2f009cb92c29`、source/test-merge/squash Git tree `2f89b7e1c73c0550e4ed8e69697f799cbf38faaf`一致。[CI #41800156014](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41800156014)：**Strict Lean 9,301/9,301・Governance 30/30 SUCCESS**、新規7定理sorryAxなし、変更Lean warning/error 0/0。初回CIの`Subring.one_mem'`と`ZMod.cast`型簡約、法0のgcd補題を固定mathlib `ZMod.cast_intCast`・`ZMod.cast_natCast`・`ZMod.cast_id`で修復し数学的仮定不変。
+- **Qi v4.41 #3093 MERGED：** exact-source HEAD `3f23f806ac372018623522d09162910a3da23f7b`、squash `7f6cc9c963b18a7e76c03ab08551a1b27dccc6cb`、source/test-merge/squash tree `fd9599b4dbc0c9f22d026b8e8f465b0f775e839f`一致。[CI #41801723083](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41801723083)：**10,228/10,228・Governance 30/30 SUCCESS**、新規8定理sorryAxなし、変更Lean warning/error 0/0。初回の元C60 gauge型のscope未解決を名前空間openで修正、仮定・結論不変。
+- **数学的到達：** 任意有限被覆`s`と任意自然数法`mᵢ`に対し、`L=Finset.lcm s m`とすると`ZMod L ≃+* compatibleSubring (∏ i∈s, ZMod(mᵢ))`。互いに素・非零・非空・支配的法の追加条件を一切要さない。真の依存積上のgcd-overlap compatible Subring、`ZMod.castHom`局所射影の`RingHom`、単射（LCMによる一意性）、全射（L=0なら元の零法局所サイトから整数復元、L≠0ならGK5BV一般有限CRT）を証明。加法・乗法・単位元保存も型付き。
+- **Qi v4.41の真正北C60：** GK5BQの**元符号付き整数numerator**を`ZMod L`へ射影し、すべての元局所値で直接同じ符号付き整数の`ZMod(mᵢ)`値になること、逆同型で元の数値合同類に戻ることを証明。任意有限被覆包含`t⊆s`について`LCM_t|LCM_s`、互換局所環の制限RingHom、大域`ZMod.castHom`との自然性可換四角形、元整数値の部分被覆局所座標の保存を証明。
+- **真正F55 Type境界：** primitive`P=1`とdouble inverse＋元右単位`P=X²`は両者とも同一の任意有限CRT数値環同型を享受し、`LCM|d!`・`2≤d`下で双方算術CRT零だが、元original→phi seamは存在／不存在と正反対。構造的F55 Type源・P77等号・P94A四セル・GK5AY全域seam・P89無条件反射・`W=1→seam`は数値環同型から導出しない。
+- [正式証明記録](docs/formal/GK5BW-Qi-v4_41-compatible-finite-crt-ring-equivalence.md)。strict 空／独立Kuu→Qi、元F54二Nat・二圏・Blocks／F55 Type履歴、公開root107、固定Lean v4.30.0-rc2／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、保護#1558 Draft／OPEN／未マージ維持。
+- **次GK5BX（未形式化の研究計画）：** finite-cover inclusionの恒等・合成に関する自然性コヒーレンスと、元整数多項式評価の制限整合性を強化。数値環descentと元F55 Type／高次セルのobstructionは別authorityとして保持。
+
 **Copyright © 2026 Hidetoshi Itakura / 板倉英俊. Apache-2.0.**

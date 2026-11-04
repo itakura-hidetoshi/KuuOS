@@ -1854,4 +1854,13 @@ Qi v4.40ではGK5BQの真正署名付き整数分子`N`の各局所`N.natAbs%m�
 
 [独立GK5BV CI #41795872887](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41795872887)：**Strict Lean 9,299/9,299、Governance 30/30 SUCCESS、新規9定理sorryAxなし**。[Qi v4.40 CI #41796657558](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41796657558)：**Strict Lean 10,226/10,226、Governance 30/30 SUCCESS、新規14定理sorryAxなし**。両方とも変更Lean warning/error 0/0、source/test-merge/squash tree一致。[正式証明記録](docs/formal/GK5BV-Qi-v4_40-complete-finite-noncoprime-crt-descent.md)。strict 空／独立Kuu→Qi、元F54二Nat・二圏・Blocks／元F55 Type履歴、公開root107、固定Lean/mathlib、保護PR #1558 Draft／OPEN／未マージ維持。
 
+
+## 2026-11-04 — GK5BW／Qi v4.41：任意有限非互いに素CRTの真正互換剰余環同型・自然性
+
+[独立GK5BW #3092](https://github.com/itakura-hidetoshi/KuuOS/pull/3092)と[Qi v4.41 #3093](https://github.com/itakura-hidetoshi/KuuOS/pull/3093)は**MERGED**。GK5BVの完全有限CRTを、任意有限被覆（法0／空被覆／非互いに素／支配的局所法なし）について、**真正な環同型** `ZMod (Finset.lcm moduli) ≃+* nativeGK5BWCompatibleSubring s moduli`へ強化。gcd上の局所互換条件を`ZMod.castHom`の一致として定式化し、互換剰余族が依存積の真のSubringであること、加法・乗法を保存する局所射影の単射・全射性をLean4で証明。特に全体lcmが0なら元の零法サイトから符号付き整数代表を構成し、lcm非零ならGK5BVの一般Nat CRTを適用する。
+
+Qi v4.41では、元GK5BQの真正**符号付き整数**numeratorを絶対値化せず、互換局所剰余環の各座標へ移送して同型逆写像で元の**数値合同類**を回収。任意有限部分被覆`t⊆s`に対し`lcm_t | lcm_s`、互換剰余環の制限`RingHom`、大域`ZMod.castHom`と局所制限の**自然性可換図式**を証明。真正元F55 primitive`P=1`とdouble inverse＋右単位`P=X²`は同じ数値CRT環同型を使用できても、元original→phi Type seamは**前者で存在、後者で不存在**。明示仮定`lcm|d!`・`2≤d`下で双方の算術CRT零証明書も保つ。数値環同型は元F55 Type源やP94A四セルを復元しない。
+
+[独立GK5BW CI #41800156014](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41800156014)：**Strict Lean 9,301/9,301・Governance 30/30 SUCCESS**、新規7定理sorryAxなし。[Qi v4.41 CI #41801723083](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41801723083)：**10,228/10,228・30/30 SUCCESS**、新規8定理sorryAxなし。変更Lean warning/error 0/0、双方source/test-merge/squash Git tree一致。[正式証明記録](docs/formal/GK5BW-Qi-v4_41-compatible-finite-crt-ring-equivalence.md)。strict 空・独立Kuu→Qi、元F54二Nat・二圏・Blocks／元F55 Type履歴、公開root107、固定Lean v4.30.0-rc2／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、保護#1558 Draft／OPEN／未マージ維持。
+
 **Copyright © 2026 Hidetoshi Itakura / 板倉英俊. Apache-2.0.**
