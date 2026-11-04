@@ -1888,4 +1888,14 @@ lake build KuuOSFormal # warningAsErrorはlakefile.toml既定。sorryAxは#print
 - [正式証明記録](docs/formal/GK5BX-Qi-v4_42-finite-crt-restriction-tower-coherence.md)。strict 空／独立Kuu→Qi、元F54二Nat・二圏・Blocks／F55 Type履歴、公開root107、固定Lean v4.30.0-rc2・mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、保護#1558 Draft／OPEN／未マージ維持。
 - **次GK5BY（未形式化）：** CRT環の恒等・合成自然性を整数多項式評価や演算保存のより一般の自然変換へ接続し、高次coherenceの成立条件／obstructionを分離。型付き元F55の構造的seamは別authority。
 
+
+## 2026-11-04：GK5BY／Qi v4.43 — 真正整数多項式評価と完全有限CRT自然性
+
+- **独立GK5BY #3098 MERGED：** exact-source HEAD `5e327cff2ad144f303855d551f39532c245d8ae7`、squash `831c30e653d7326ccf37013b9728c57d8b3e503e`、source/test-merge/squash Git tree `c69b1d16b66972132bc40c50c8669a4e2c73a411`一致。[CI #41815719110](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41815719110)：**Strict Lean 9,305/9,305・Governance 30/30 SUCCESS**、新規13定理sorryAxなし、変更Lean warning/error 0/0。初回は三段CRT自然性の`rw`が逆向きで対象不一致だったため、正しい`rw [← nativeGK5BXCRTNaturality_apply]`に修正。新規ソース全文・依存定理・固定mathlib APIと照合し命題／仮定不変。
+- **Qi v4.43 #3099 MERGED：** exact-source HEAD `3c91cde9599ce53f2dc7e26c7b6089977ae87644`、squash `08248fccce41ae6de5d14c4f8cc85e850d50952f`、三者Git tree `c76a7deb63c0c796b234d1c0f88981f2065af5c1`一致。[CI #41816570697](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41816570697)：**Strict Lean 10,232/10,232・Governance 30/30 SUCCESS**、新規11定理sorryAxなし、変更Lean warning/error 0/0。
+- **数学的核心：** 任意有限`s`・`u⊆t⊆s`と任意Nat法（非coprime・法0・空被覆を含む）で、実際の整数多項式環`Polynomial Int`から大域`ZMod L_s`／局所互換Subring`R_s`への`Polynomial.eval₂RingHom`を構成。加法・乗法保存、大域・局所制限`q_st(P(x))=P(q_st(x))`／`ρ_st(P(a))=P(ρ_st(a))`、CRT環同型`Φ_s(P(x))=P(Φ_s(x))`をそれぞれ真正`RingHom`等式として形式化。三段塔で評価と局所再合成が可換。符号付き整数入力`z`は`(P.eval z : ZMod L_s)`に等しく、`natAbs`化しない。次数・階乗整除の仮定なし。
+- **真正北C60接続：** 元GK5BQの同一signed integer numerator`N`に任意別多項式`Q:Polynomial Int`を適用し、元`Q.eval N`の数値合同類・CRT環同型下の元compatible局所族・制限塔が一致。真正元F55 primitive `P=1`とdouble inverse＋元右単位`P=X²`の既存整数多項式**値**は双方この多項式自然性を満たし、明示的`L_s|d!`・`2≤d`条件下で数値CRT零だが、元original→phi Type seamは**存在／不存在**。これらから元F55 source・P77等号・P94A四セル・P89無条件反射・GK5AY全域seamを復元しない。
+- [正式証明記録](docs/formal/GK5BY-Qi-v4_43-integer-polynomial-crt-naturality.md)。strict 空／独立Kuu→Qi、元F54二Nat・二圏・Blocks／元F55 Type履歴、公開root107、固定Lean v4.30.0-rc2・mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、保護#1558 Draft／OPEN／未マージ維持。
+- **次GK5BZ（未形式化の研究計画）：** 真正整数多項式`ℤ[X]`の一変数CRT自然性を有限多変数・有限図式のより広い自然性へ拡張する条件を検討。算術的局所・大域descentと元F55 Type-valued seamのauthority境界は保持。
+
 **Copyright © 2026 Hidetoshi Itakura / 板倉英俊. Apache-2.0.**

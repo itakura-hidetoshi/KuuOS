@@ -1872,4 +1872,13 @@ Qi v4.42では元GK5BQの真正符号付き`Int` numeratorを保ち、任意一�
 
 [独立CI #41812872432](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41812872432)：**Strict Lean 9,303/9,303・Governance 30/30 SUCCESS**、11定理sorryAxなし。[Qi CI #41813790217](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41813790217)：**10,230/10,230・30/30 SUCCESS**、12定理sorryAxなし。双方変更Lean warning/error 0/0、source/test-merge/squash Git tree一致。[正式証明記録](docs/formal/GK5BX-Qi-v4_42-finite-crt-restriction-tower-coherence.md)。strict 空／独立Kuu→Qi、元F54二Nat・二圏・Blocks／元F55 Type履歴、公開root107、固定Lean v4.30.0-rc2・mathlib、保護#1558 Draft／OPEN／未マージ維持。
 
+
+## 2026-11-04 — GK5BY／Qi v4.43：真正整数多項式評価と有限CRT環同型の自然性
+
+[独立GK5BY #3098](https://github.com/itakura-hidetoshi/KuuOS/pull/3098)・[Qi v4.43 #3099](https://github.com/itakura-hidetoshi/KuuOS/pull/3099)は**MERGED**。GK5BWの`ZMod (Finset.lcm m) ≃+* compatible local ZMod Subring`環同型とGK5BXの有限被覆制限恒等・合成を、**任意の実際の`Polynomial Int`の評価**へ拡張した。固定mathlib `Polynomial.eval₂RingHom`・`Polynomial.ringHom_eval₂_intCastRingHom`により、整数係数多項式の加法・乗法の保存、`q_st(P(x))=P(q_st(x))`、`ρ_st(P(a))=P(ρ_st(a))`、`Φ_s(P(x))=P(Φ_s(x))`を真正RingHom等式で証明。三段被覆での大域・局所・CRT環同型の多項式自然性もLean4で検証。法0／空被覆／非互いに素／負係数を含み、次数・階乗整除の追加仮定はない。
+
+Qi v4.43では元GK5BQの**同一符号付き整数**numerator`N`に任意`Q:Polynomial Int`を評価し、元`Q.eval N`のZMod合同類、大域CRT評価、compatible局所環上での評価が全て一致。加法・乗法、被覆一段・二段制限も整合する。真正元F55 primitive`P=1`とdouble inverse＋右単位`P=X²`の元多項式**値**はともにこの数値的自然性を満たし、既存の明示条件`L_s|d!`・`2≤d`でCRT零でも、元original→phiのType seamは**存在／不存在**。数値gluingから新F55 Type source・P77等号・P94A四セル・全GK5AY seamは復元しない。
+
+[独立GK5BY CI #41815719110](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41815719110)：**Strict Lean 9,305/9,305・Governance 30/30 SUCCESS**、新規13定理sorryAxなし。[Qi v4.43 CI #41816570697](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41816570697)：**10,232/10,232・30/30 SUCCESS**、新規11定理sorryAxなし。変更Lean warning/error 0/0、source/test-merge/squash Git tree一致。[正式証明記録](docs/formal/GK5BY-Qi-v4_43-integer-polynomial-crt-naturality.md)。strict 空／独立Kuu→Qi、元F54二Nat・二圏・Blocks／元F55 Type履歴、公開root107、固定Lean v4.30.0-rc2・mathlib、保護#1558 Draft／OPEN／未マージ維持。
+
 **Copyright © 2026 Hidetoshi Itakura / 板倉英俊. Apache-2.0.**
