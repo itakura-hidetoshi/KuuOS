@@ -1878,4 +1878,14 @@ lake build KuuOSFormal # warningAsErrorはlakefile.toml既定。sorryAxは#print
 - [正式証明記録](docs/formal/GK5BW-Qi-v4_41-compatible-finite-crt-ring-equivalence.md)。strict 空／独立Kuu→Qi、元F54二Nat・二圏・Blocks／F55 Type履歴、公開root107、固定Lean v4.30.0-rc2／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、保護#1558 Draft／OPEN／未マージ維持。
 - **次GK5BX（未形式化の研究計画）：** finite-cover inclusionの恒等・合成に関する自然性コヒーレンスと、元整数多項式評価の制限整合性を強化。数値環descentと元F55 Type／高次セルのobstructionは別authorityとして保持。
 
+
+## 2026-11-04：GK5BX／Qi v4.42 — 完全有限CRTのRingHom制限・自然同型・三段塔
+
+- **独立GK5BX #3095 MERGED：** exact-source HEAD `666cb554977a84b61298589d55255d38a9fa40d5`、squash `115bd0a3f3f05dd1441cd651e84e24287dce8dc0`、三者Git tree `0fba0c457a1b8aa01ca18d0e32461388dddc057b`一致。[CI #41812872432](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41812872432)：**Strict Lean 9,303/9,303・Governance 30/30 SUCCESS**、新規11定理sorryAxなし、変更Lean warning/error 0/0。初回は`Subset.refl s`が`HasSubset.Subset.refl`と誤解決する固定Lean4記法エラー3件を、正しい`Finset`包含証明`fun _ hi => hi`へ修正。命題・仮定不変。
+- **Qi v4.42 #3096 MERGED：** exact-source HEAD `859b1da202cb2a2df63808eee92e5704e68be4df`、squash `b3068230e8c6c2160d1045764f73558df6ebf616`、三者Git tree `0f0feb3204bb3646f0a986e805b4d105ad5ebc70`一致。[CI #41813790217](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41813790217)：**Strict Lean 10,230/10,230・Governance 30/30 SUCCESS**、新規12定理sorryAxなし、変更Lean warning/error 0/0。
+- **数学的到達：** 任意有限包含`u⊆t⊆s`、任意Nat法（零／非coprime／空被覆を含む）で、真正LCM整除`L_t|L_s`、大域`ZMod L_s →+* ZMod L_t`・gcd-compatible局所Subring`R_s →+* R_t`を構成。双方の`RingHom`制限が恒等・二段合成と厳密整合、GK5BW`ZMod L ≃+* R_s`の自然性`Φ_t∘q_st=ρ_st∘Φ_s`と逆自然性、三段Towerの可換性まで固定mathlibで証明。
+- **真正北C60接続：** 元GK5BQ符号付き整数numeratorを直接`ZMod`とgcd-compatible局所環へ写し、被覆の一段・二段制限後も元整数の**同じ数値**を再現。整数多項式`natDegree≤d`、`L_s|d!`で全有限部分被覆にCRT零証明書を移送。真正元F55 primitive`1`とdouble inverse＋元右単位`X²`の**二つの別Type証拠**が同じ数値塔で整合・零でも、元original→phi seamは**存在／不存在**と相反することを型付き保持。数値的presheafは元F55 source・P77等号・P94A四セル・GK5AY全域seamの実現を主張しない。
+- [正式証明記録](docs/formal/GK5BX-Qi-v4_42-finite-crt-restriction-tower-coherence.md)。strict 空／独立Kuu→Qi、元F54二Nat・二圏・Blocks／F55 Type履歴、公開root107、固定Lean v4.30.0-rc2・mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、保護#1558 Draft／OPEN／未マージ維持。
+- **次GK5BY（未形式化）：** CRT環の恒等・合成自然性を整数多項式評価や演算保存のより一般の自然変換へ接続し、高次coherenceの成立条件／obstructionを分離。型付き元F55の構造的seamは別authority。
+
 **Copyright © 2026 Hidetoshi Itakura / 板倉英俊. Apache-2.0.**
