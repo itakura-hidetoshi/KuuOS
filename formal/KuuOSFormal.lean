@@ -529,6 +529,7 @@ import Kuu.F112.PolygonNativeC60AQFullPentagonPhysicalNativeGK5BNFiniteDivisibil
 import KUOS.Architecture.QiWuxingGK5BNNorthFiniteDivisibilityV4_33
 import Kuu.F112.PolygonNativeC60AQFullPentagonPhysicalNativeGK5BOForwardDifferenceFactorial
 import KUOS.Architecture.QiWuxingGK5BONorthFactorialDifferenceV4_34
+import Kuu.F112.PolygonNativeC60AQFullPentagonPhysicalNativeGK5BPRawNewtonStirling
 
 /-!
 Public aggregate: retain every previously published proof and its original
