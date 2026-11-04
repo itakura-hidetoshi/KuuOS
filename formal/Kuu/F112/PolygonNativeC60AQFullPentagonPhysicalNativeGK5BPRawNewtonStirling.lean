@@ -123,10 +123,10 @@ theorem nativeGK5BPNewton_natDegree_le
   have hk' : k ≤ d := by
     have h := Finset.mem_range.mp hk
     omega
-  have hzero : (descPochhammer Rat k).coeff j = 0 := by
-    apply (Polynomial.natDegree_le_iff_coeff_eq_zero).1
-      (by rw [descPochhammer_natDegree]; omega)
-    omega
+  have hdeg : (descPochhammer Rat k).natDegree ≤ k := by
+    rw [descPochhammer_natDegree]
+  have hzero : (descPochhammer Rat k).coeff j = 0 :=
+    (Polynomial.natDegree_le_iff_coeff_eq_zero).mp hdeg j (by omega)
   simp [Polynomial.coeff_C_mul, hzero]
 
 /-- The rational Newton polynomial recovers EVERY supplied
