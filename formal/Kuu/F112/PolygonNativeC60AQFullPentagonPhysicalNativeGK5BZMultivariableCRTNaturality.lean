@@ -125,12 +125,12 @@ theorem nativeGK5BZGlobalMvEval_restrictHom
       (fun v => nativeGK5BXGlobalRestrictHom s t moduli h (xs v)) := by
   apply MvPolynomial.ringHom_ext
   · intro z
-    change (nativeGK5BXGlobalRestrictHom s t moduli h)
-      (z : ZMod (nativeGK5BUFiniteModulus s moduli)) =
-      (z : ZMod (nativeGK5BUFiniteModulus t moduli))
+    simp only [RingHom.comp_apply, nativeGK5BZGlobalMvEvalHom,
+      MvPolynomial.eval₂Hom_C]
     exact map_intCast (nativeGK5BXGlobalRestrictHom s t moduli h) z
   · intro v
-    rfl
+    simp only [RingHom.comp_apply, nativeGK5BZGlobalMvEvalHom,
+      MvPolynomial.eval₂Hom_X']
 
 /-- The true local compatible CRT evaluation respects
 all finite-cover restrictions AS RING HOMOMORPHISM EQUALITY
@@ -145,12 +145,12 @@ theorem nativeGK5BZCompatibleMvEval_restrictHom
       (fun v => nativeGK5BXCompatibleRestrictHom s t moduli h (as v)) := by
   apply MvPolynomial.ringHom_ext
   · intro z
-    change (nativeGK5BXCompatibleRestrictHom s t moduli h)
-      (z : nativeGK5BWCompatibleSubring s moduli) =
-      (z : nativeGK5BWCompatibleSubring t moduli)
+    simp only [RingHom.comp_apply, nativeGK5BZCompatibleMvEvalHom,
+      MvPolynomial.eval₂Hom_C]
     exact map_intCast (nativeGK5BXCompatibleRestrictHom s t moduli h) z
   · intro v
-    rfl
+    simp only [RingHom.comp_apply, nativeGK5BZCompatibleMvEvalHom,
+      MvPolynomial.eval₂Hom_X']
 
 /-- The genuine complete finite noncoprime CRT ring
 homomorphism commutes with ALL multivariable integer
@@ -164,12 +164,12 @@ theorem nativeGK5BZCRTMvEval_naturalHom
       (fun v => nativeGK5BWGlobalCompatibleHom s moduli (xs v)) := by
   apply MvPolynomial.ringHom_ext
   · intro z
-    change (nativeGK5BWGlobalCompatibleHom s moduli)
-      (z : ZMod (nativeGK5BUFiniteModulus s moduli)) =
-      (z : nativeGK5BWCompatibleSubring s moduli)
+    simp only [RingHom.comp_apply, nativeGK5BZGlobalMvEvalHom,
+      nativeGK5BZCompatibleMvEvalHom, MvPolynomial.eval₂Hom_C]
     exact map_intCast (nativeGK5BWGlobalCompatibleHom s moduli) z
   · intro v
-    rfl
+    simp only [RingHom.comp_apply, nativeGK5BZGlobalMvEvalHom,
+      nativeGK5BZCompatibleMvEvalHom, MvPolynomial.eval₂Hom_X']
 
 /-- Pointwise genuine global multivariable evaluation
 naturality: one finite restriction, any polynomial. -/
@@ -243,15 +243,14 @@ theorem nativeGK5BZGlobalMvEval_towerHom
         (fun i hi => h (k hi)) (xs v)) := by
   apply MvPolynomial.ringHom_ext
   · intro z
-    simp only [RingHom.comp_apply, MvPolynomial.eval₂Hom_C]
+    simp only [RingHom.comp_apply, nativeGK5BZGlobalMvEvalHom,
+      MvPolynomial.eval₂Hom_C]
     exact map_intCast
       ((nativeGK5BXGlobalRestrictHom t u moduli k).comp
         (nativeGK5BXGlobalRestrictHom s t moduli h)) z
   · intro v
-    change nativeGK5BXGlobalRestrictHom t u moduli k
-      (nativeGK5BXGlobalRestrictHom s t moduli h (xs v)) =
-      nativeGK5BXGlobalRestrictHom s u moduli
-        (fun i hi => h (k hi)) (xs v)
+    simp only [RingHom.comp_apply, nativeGK5BZGlobalMvEvalHom,
+      MvPolynomial.eval₂Hom_X']
     simpa only [RingHom.comp_apply] using
       (RingHom.congr_fun
         (nativeGK5BXGlobalRestrict_comp s t u moduli h k) (xs v))
@@ -271,15 +270,14 @@ theorem nativeGK5BZCompatibleMvEval_towerHom
         (fun i hi => h (k hi)) (as v)) := by
   apply MvPolynomial.ringHom_ext
   · intro z
-    simp only [RingHom.comp_apply, MvPolynomial.eval₂Hom_C]
+    simp only [RingHom.comp_apply, nativeGK5BZCompatibleMvEvalHom,
+      MvPolynomial.eval₂Hom_C]
     exact map_intCast
       ((nativeGK5BXCompatibleRestrictHom t u moduli k).comp
         (nativeGK5BXCompatibleRestrictHom s t moduli h)) z
   · intro v
-    change nativeGK5BXCompatibleRestrictHom t u moduli k
-      (nativeGK5BXCompatibleRestrictHom s t moduli h (as v)) =
-      nativeGK5BXCompatibleRestrictHom s u moduli
-        (fun i hi => h (k hi)) (as v)
+    simp only [RingHom.comp_apply, nativeGK5BZCompatibleMvEvalHom,
+      MvPolynomial.eval₂Hom_X']
     simpa only [RingHom.comp_apply] using
       (RingHom.congr_fun
         (nativeGK5BXCompatibleRestrict_comp s t u moduli h k) (as v))
@@ -346,11 +344,11 @@ theorem nativeGK5BZMultivariableCRTTower_natural
         congr 1
         simpa only [RingHom.comp_apply] using hcomp
     _ = _ := by
-        congr 1
-        simpa only [RingHom.comp_apply] using
-          (RingHom.congr_fun
-            (nativeGK5BZGlobalMvEval_restrictHom s u moduli
-              (fun i hi => h (k hi)) xs) P)
+        have hval := RingHom.congr_fun
+          (nativeGK5BZGlobalMvEval_restrictHom s u moduli
+            (fun i hi => h (k hi)) xs) P
+        exact congrArg (nativeGK5BWFiniteCRTRingEquiv u moduli)
+          (by simpa only [RingHom.comp_apply] using hval)
 
 #print axioms nativeGK5BZGlobalMvEval_add
 #print axioms nativeGK5BZGlobalMvEval_mul
