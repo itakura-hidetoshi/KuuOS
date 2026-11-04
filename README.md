@@ -1912,4 +1912,17 @@ Qi v4.43では元GK5BQの**同一符号付き整数**numerator`N`に任意`Q:Pol
 
 [exact-source CI #41836760194](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41836760194)：**Strict Lean 10,238／10,238・Governance 30／30 SUCCESS**、新規13定理sorryAxなし、source/test-merge/squash Git tree `0888ae38254aa9bf41e5757b80748620f1e2c330`一致。squash `38f8ffb2f10e4a2e96fc6f5fb7f13fe373f63236`。[正式証明記録](docs/formal/GK5CB-Qi-v4_46-iterated-substitution-crt-naturality.md)。既存Lean定理ファイル変更なし、strict 空／独立Kuu→Qi・元F54二Nat/二圏/Blocks・元F55 Type履歴・root107・固定Lean v4.30.0-rc2/mathlib・保護#1558 Draft/OPEN/未マージ維持。
 
+
+## 2026-11-04 — GK5CC：任意有限長・型可変の真正多項式代入鎖とCRT自然性
+
+[独立GK5CC #3110](https://github.com/itakura-hidetoshi/KuuOS/pull/3110) **MERGED**。前段GK5CBの二段代入から、任意の型族 `α : Nat → Type u`、各段の真正`steps i : α i → MvPolynomial (α (i+1)) Int`に沿う**任意有限長の型可変代入鎖**へ拡張。元`MvPolynomial (α start) Int`から終端`MvPolynomial (α (start+length)) Int`への真正`RingHom`を帰納的に構成し、長さ0の恒等則・後続1段の合成則、大域`ZMod L_s`とgcd-compatible局所Subringの逐次評価、CRT環同型の`RingHom`自然性、全有限被覆制限および三段`u⊆t⊆s`の厳密可換性をLean4で証明。非単射の初期変数再分類、負の整数係数、法0、非互いに素、空被覆、空変数、符号付き元`Int`評価を保持する。
+
+[exact-source CI #41840895134](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41840895134)：**Strict Lean 9,313／9,313・Governance 30／30 SUCCESS**、新規12定理sorryAxなし、source/test-merge/squash Git tree `8261494c97bc5a50fac5b328fba237e50591852d`一致。初回の三段CRT証明は末端の多変数CRT自然性を補うことで命題を弱めず修正。squash `8c829c020c6211e1ec1b36fe867509436ea911d5`。
+
+## 2026-11-04 — Qi v4.47：真正北C60の符号付き任意有限代入鎖
+
+[Qi v4.47 #3111](https://github.com/itakura-hidetoshi/KuuOS/pull/3111) **MERGED**。各段で変数数が変わる`Fin (arity i)`型族に元GK5CCを実装し、最終変数へ元GK5BQの**真正符号付き整数numerator**を割り当てた。任意有限長の元`Int`評価・大域ZMod・真正互換局所CRT Subring・CRT環同型・一段／三段被覆制限・非単射初期再分類を結合。真正元F55 primitive P=1とdouble inverse＋右単位P=X²は数値的CRT塔で整合しても、元original→phi構造的seamは存在／不存在のまま。元深度多項式の既存条件付きCRT零から任意の代入多項式の零は主張しない。
+
+[exact-source CI #41842396869](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41842396869)：**Strict Lean 10,240／10,240・Governance 30／30 SUCCESS**、新規9定理sorryAxなし、source/test-merge/squash Git tree `b4bc1ce80e68b2deda53482bec0ebf77a7c7ec66`一致。初回の整数ZMod castの閉じ括弧不足を全文照合で修正し、命題と仮定を保持。squash `cb702bac382c79c36b0f2eb7c2f3b96b8239db57`。[正式証明記録](docs/formal/GK5CC-Qi-v4_47-finite-typed-crt-naturality.md)。strict 空、独立Kuu→Qi、元F54／F55 Type履歴、公開root107、固定Lean／mathlib、保護#1558 Draft／OPEN／未マージを維持。
+
 **Copyright © 2026 Hidetoshi Itakura / 板倉英俊. Apache-2.0.**
