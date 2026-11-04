@@ -3,6 +3,21 @@
 
 
 
+## GK5CF／Qi v4.50 — 元F55真正型付き四セルPentagon・符号付きCRT高次seam比較／2026-11-05 JST
+
+**[独立GK5CF PR #3119](https://github.com/itakura-hidetoshi/KuuOS/pull/3119) MERGED。** 4個の合成可能な元F55 Type値証拠に5括弧付けを構成し、元P77結合律／whiskeringにより五角形の5辺と上下2本の四セル鎖を無条件に構成。raw端点のP94A四セルへ歴史的な7段old埋め込みで移送。**2本の四セル証拠の高次等式／五セルは証明していない。** 元P77四セルに沿う元original→再帰φの個別local seam存在の同値と全5頂点への条件付き移送を証明。GK5CE `RingHom`五角形の数値等式をPropとして明示したが、元F55のSource Type四セル証拠へ無条件に昇格しない。
+
+**[Qi v4.50 PR #3120](https://github.com/itakura-hidetoshi/KuuOS/pull/3120) MERGED。** 真正北C60のGK5BQ original signed Int numerator、大域`ZMod`／真正gcd-compatible局所Subring、非互いに素有限CRT環同型・被覆制限・三段塔を維持。primitive元F55証拠＋3個の本物の元右identityからなる4要素五角形では、元P77/P94A四セルによる局所seamが5頂点すべてで実在。同一F54 Homのdouble inverse＋3個の元identityでは、GK5BF反転深度不変量の障害により全5頂点同時のseamは不可能。**双方の数値`RingHom`CRT自然性／元P77五角形は成立**。数値descentは高次original→φの十分条件でない。
+
+**CI・正本：** GK5CF [#41924042634](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41924042634) **9,319／9,319 SUCCESS、25公理監査sorryAxなし**、squash `ef802ecf6ce56fd11416e1d48b35ddb09ce6bf13`、tree `564ba61fcafef1e724c420072fe28e8e2b9e380c`。Qi [#41925498016](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41925498016) **10,246／10,246 SUCCESS、15公理監査sorryAxなし**、squash `21e51c50de09c73a7addf6a586e6a050c3017bac`、tree `a574a66f4234546bd131079fa06f9b91b326f4ca`。両Governance 30／30、Git tree一致。main `21e51c50de09c73a7addf6a586e6a050c3017bac`、root107維持、固定Lean v4.30.0-rc2／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、#1558 Draft/OPEN/未マージ。
+
+**[正式証明記録](docs/formal/GK5CF-Qi-v4_50-original-F55-type-pentagon-and-signed-CRT-seam-boundary.md)** · [GK5CF Lean](formal/Kuu/F112/PolygonNativeC60AQFullPentagonPhysicalNativeGK5CFOriginalPhiTypedPentagonComparison.lean) · [Qi v4.50 Lean](formal/KUOS/Architecture/QiWuxingGK5CFNorthSourcePentagonSeamCRTV4_50.lean)。
+
+**次GK5CG（研究課題）：** 元P77上下2本の真正Type四セル経路とP94A内の履歴を保持し、それらを比較する追加の真正五セル／pentagonator証拠の必要十分条件を定式化。F55 original→φの全域seam、元P89無条件反射、P94A全19構成子の高次正規化は未解決として分離。
+
+---
+
+
 ## GK5BC／Qi v4.22 — 真正北C60で個別raw→φ四セルを構成・不可能trans-shellと両立／2026-11-03 JST
 
 **独立Kuu [GK5BC PR #3034](https://github.com/itakura-hidetoshi/KuuOS/pull/3034) MERGED。** GK5BBはP94A全19構成子の元F55 original-wrapper数保存を使って、`original(ident)`→`refl`と`original(trans(f,g))`→`trans(original f,original g)`の4-cellを無条件に否定。その一方、GK5BCは元P77 vertical four-cellの真の7層`old`埋め込みP80→P85→P86→P87→P89→P93C→P94Aを作り、元右／左unit比較をRAW端点で実現。さらに既存子seamと選択P94A vertical unitの**逆**を合成することで、identity挿入後の元F55証拠へ**個別直接seam**を本当に構成する。
