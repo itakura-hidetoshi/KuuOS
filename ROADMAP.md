@@ -3,6 +3,18 @@
 
 
 
+## 最新のLean定理統合 — Qi v4.55／真正有向五角形の全有限経路一意性・元P77保守的5-cell商への無条件faithful Functor／2026-11-05 JST
+
+**[定理PR #3130](https://github.com/itakura-hidetoshi/KuuOS/pull/3130) MERGED。** v3.5/v4.52唯一の真正`FivefoldEdge={e01,e12,e23,e04,e43}`に対し、全型付き`Quiver.Path`の有向経路長が0～3に限られること、1辺・2辺・3辺の全source/target整合語が同一始終点と同一長さで一致することを、元の依存型`FivefoldPathArrow`を保存したまま完全形式化。真正2辺語は`e01;e12`、`e12;e23`、`e04;e43`、3辺語は`e01;e12;e23`のみ、4辺以上の語はない。`fivefoldFreePath_length_injective`で全Homについて**経路長が等しいなら元の自由経路そのものが等しい**ことを無条件証明。
+
+**元証拠へ型付き接続：** v4.53の元P77四証拠評価`fivefoldEvaluateP77`が全Homで無条件単射（`fivefoldEvaluateP77_injective_genuine`）。v4.54で元GK5CGの真正保守的5-cell証拠の存在から作った別target Mathlib Categoryへの真正Functor`fivefoldP77ConservativeFunctor`は、元の整数chargeの商降下とこの経路一意性により**無条件Faithful**（`fivefoldP77ConservativeFunctor_faithful_genuine`）。さらに任意の同端点経路`A,B`について、`Nonempty (ConservativeFiveCell (Eval A) (Eval B)) ↔ A=B`という**original P77 Type証拠によるexact kernel反映**を証明した。上側3辺と下側2辺の五角形は元P77でも保守的targetでも別の射のまま。**任意クィバーへの一般化・元P77 Full・旧保守的5-cell Pentagontor追加・物理Edge/数値CRTとの型同一視は未主張。**
+
+**exact-source検証：** 最終HEAD `523e081a02c712984274e3d0580ec1eb20e969c9`、source/test-merge tree `a2d7282bb22982250dc5ae0bfa01be1367731a38`完全一致、squash/main `e8066445cf6be08e7ea59cf5155fc91c586054b3`。[CI #41947668879](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41947668879) **Strict Lean 10,252/10,252 SUCCESS・Governance 30/30 SUCCESS・新規18公理監査は標準`propext/Classical.choice/Quot.sound`以内でsorryAxなし**。初回cache復元障害は失敗ジョブだけ再実行、Lean側の`omega`3件は`Function.Injective`の長さ等式を`change p.length=q.length at heq`で正規化して解消。元定理・仮定は弱化なし。Lean v4.30.0-rc2／mathlib pin、root107、strict空中心、#1558 Draft/open未マージ維持。
+
+**[正式証明記録](docs/formal/Qi-v4_55-fivefold-true-path-length-faithfulness.md)** · [新規Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHFivefoldFinitePathFaithfulV4_55.lean)。**次の焦点：** 本物の元P77保守的商targetの各Homが生成五行自由経路の像にあるかという`Full`の必要十分条件とextra Hom obstruction。faithfulnessとfullness、strict空と独立Kuu、物理C60と真正P77四セルを区別し、全旧履歴を保存。
+
+---
+
 ## 最新のLean定理統合 — Qi v4.54／元P77保守的5-cell商Categoryと真正自由経路Functor／2026-11-05 JST
 
 **[定理PR #3128](https://github.com/itakura-hidetoshi/KuuOS/pull/3128) MERGED。** Qi v4.53の真正`FivefoldFreePathCategory`から、元F55/P77の本物のType値四セル証拠を**旧GK5CG保守的5-cell証拠の存在だけ**で商にした新target `FivefoldP77ConservativePoint f g h k` 上の本物のMathlib `Category`へ、固定mathlib `Paths.lift`による真正Functor `fivefoldP77ConservativeFunctor`を構成した。代表元の左右合同性・結合律・左右単位律は旧GK5CGのType値5-cellコンストラクタから厳密に証明し、旧P77四セル生構文、物理C60 Edge、GK5X/GK5Y NatIso、数値CRTと一切不正同一視しない。
