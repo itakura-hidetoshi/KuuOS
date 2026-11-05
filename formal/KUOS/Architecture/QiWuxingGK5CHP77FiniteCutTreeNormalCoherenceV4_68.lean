@@ -22,7 +22,7 @@ witness Equiv, original free source path and certified P77 partial Hom.
 History values themselves are NOT identified.
 
 The proof uses the already established faithful source-witness uniqueness;
-it does not assert uniqueness of original raw four-/five-cell histories.
+it does not assert uniqueness of original raw four-cell or five-cell histories.
 Failure at any designated leaf obstructs that factorwise realization and
 survives every permitted finite recut. No inference about arbitrary target
 factorizations, global target fullness, general sheaves or a pentagonator.
@@ -416,7 +416,9 @@ theorem fivefoldP77RawPatchCutRoute_path
       fivefoldP77RawPatchTreePath f g h k source witness := by
   rw [fivefoldP77RawPatchTreePath_normalize,
     fivefoldP77RawPatchCutRouteEquiv_normalize,
-    fivefoldP77RawPatchChainPath_transport]
+    fivefoldP77RawPatchChainPath_transport f g h k
+      (fivefoldP77RawPatchCutRoute_flatten f g h k route)
+      (fivefoldP77RawPatchTreeNormalizeEquiv f g h k source witness)]
   exact (fivefoldP77RawPatchTreePath_normalize f g h k source witness).symm
 
 /-- The genuine original P77 target class with an actual source reachability proof. -/
