@@ -131,36 +131,12 @@ theorem fivefoldP77PartialRecovery_both_contexts
         suffix := by
   letI := fivefoldP77ConservativeCategory f g h k
   letI := fivefoldP77ImageCategory f g h k
-  have hleft := fivefoldP77PartialRecovery_left_context f g h k pre A
-  have hright :
-      fivefoldP77PartialRecoverPath f g h k
-        ((fivefoldP77ImageFactor f g h k).map suffix) = suffix :=
-    fivefoldP77PartialRecoverPath_of_factor f g h k suffix
-  calc
-    fivefoldP77PartialRecoverPath f g h k
-        (fivefoldP77ImageComp f g h k
-          (fivefoldP77ImageComp f g h k
-            ((fivefoldP77ImageFactor f g h k).map pre) A)
-          ((fivefoldP77ImageFactor f g h k).map suffix)) =
-      (fivefoldP77PartialRecoverPath f g h k
-        (fivefoldP77ImageComp f g h k
-          ((fivefoldP77ImageFactor f g h k).map pre) A)).comp
-        (fivefoldP77PartialRecoverPath f g h k
-          ((fivefoldP77ImageFactor f g h k).map suffix)) :=
-      fivefoldP77PartialRecoverPath_comp f g h k _ _
-    _ = (pre.comp (fivefoldP77PartialRecoverPath f g h k A)).comp
-          (fivefoldP77PartialRecoverPath f g h k
-            ((fivefoldP77ImageFactor f g h k).map suffix)) :=
-      congrArg
-        (fun q : Quiver.Path s v =>
-          q.comp (fivefoldP77PartialRecoverPath f g h k
-            ((fivefoldP77ImageFactor f g h k).map suffix))) hleft
-    _ = (pre.comp (fivefoldP77PartialRecoverPath f g h k A)).comp
-          suffix :=
-      congrArg
-        (fun q : Quiver.Path v t =>
-          (pre.comp (fivefoldP77PartialRecoverPath f g h k A)).comp q)
-        hright
+  exact
+    (fivefoldP77PartialRecovery_right_context f g h k
+      (fivefoldP77ImageComp f g h k
+        ((fivefoldP77ImageFactor f g h k).map pre) A) suffix).trans
+      (congrArg (fun q : Quiver.Path s v => q.comp suffix)
+        (fivefoldP77PartialRecovery_left_context f g h k pre A))
 
 /-- Source-certified original target quotient Homs stay certified
 under BOTH genuine typed source contexts. No converse/cancellation
@@ -189,7 +165,11 @@ theorem fivefoldP77OriginalContext_reachable
     _ = ((fivefoldP77ConservativeFunctor f g h k).map pre ≫
           (fivefoldP77ConservativeFunctor f g h k).map path) ≫
         (fivefoldP77ConservativeFunctor f g h k).map suffix := by
-      exact (fivefoldP77ConservativeFunctor f g h k).map_comp pre path
+      exact congrArg
+        (fun q : FivefoldP77ConservativeClasses f g h k s v =>
+          fivefoldP77ConservativeCompose f g h k q
+            ((fivefoldP77ConservativeFunctor f g h k).map suffix))
+        ((fivefoldP77ConservativeFunctor f g h k).map_comp pre path)
     _ = fivefoldP77ConservativeCompose f g h k
         (fivefoldP77ConservativeCompose f g h k
           ((fivefoldP77ConservativeFunctor f g h k).map pre) z)
