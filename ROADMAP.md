@@ -3,6 +3,18 @@
 
 
 
+## 最新のLean定理統合 — Qi v4.74／真正P77の全中間証拠構成と細分順序diagram／2026-11-06 JST
+
+**[定理PR #3170](https://github.com/itakura-hidetoshi/KuuOS/pull/3170) MERGED。** 各段の真正raw五セル比較を保持した有限の有向RefinementPlanを導入。最終木の真正因子別source証拠から、既存gluing・正規化を通じて全中間段の証拠を構成し、v4.70の証拠付き細分routeへ認証する。元のQuiver.PathとP77到達証拠付き部分Homを保存し、認証後のraw比較が**同じ計画の選択済み添字写像・Type値五セル値をそのまま保持する**ことを証明した。
+
+**階層的descentと実順序図式：** 計画P:S→Tについて `AllCompatible(P) ↔ Compatible(T)` を証明。真正粗証拠がある場合、その計画のraw比較を保持する認証routeの存在も終端factorwise compatibilityと必要十分。独立する左右細分の両順序を実構成し、全raw添字の一致・正確な中間source証拠・同じraw四セル両端を結ぶ二つの真正五セル値とそのloopを保持した。元逆e01→順e01の未認証計画には指定factorwise obstructionが残る。
+
+**[exact-source CI #42120339598](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42120339598)：Strict Lean 10,271/10,271 SUCCESS、Governance 30/30 SUCCESS、26宣言の公理依存は標準公理のみ・sorryAxなし、変更Lean warning/error 0/0。** 検証HEAD bb8e6576d012fe8857c77070fef053c03dd8fc6c、source/test-merge tree fe0fa9418b95e842f48c9f9692a14727230345c8一致、定理squash 18f464aaf2f672fe305f800a725f77be97e32aea。初回の関数coercionとimportヘッダー配置を修正。固定Lean v4.30.0-rc2／mathlib 5450b53e5ddc75d46418fabb605edbf36bd0beb6、公開root107、保護PR #1558 Draft/open/unmerged。
+
+[正式証明記録](docs/formal/Qi-v4_74-original-P77-terminal-certified-refinement-hierarchy.md) · [Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77TerminalCertifiedRefinementHierarchyV4_74.lean)
+
+**次の候補Qi v4.75：** 任意有限個の独立因子計画について、隣接交換による細分順序変更とrecutを組み合わせた実比較diagram、全raw添字対応、元source証拠と指定階層obstructionを形式化する。二因子の実順序図式を再利用し、raw五セル履歴自体の同一視・新higher coherenceは別課題として保持する。
+
 ## 最新のLean定理統合 — Qi v4.73／真正P77の証拠付き混合細分raw五セル自然性／2026-11-06 JST
 
 **[定理PR #3168](https://github.com/itakura-hidetoshi/KuuOS/pull/3168) MERGED。** v4.70任意有限の証拠付き混合細分・統合履歴に対して、v4.72のraw切断木全添字族を**元GK5CG真正五セル**で結ぶ両方向比較を構成。粗ブロック右単位五セル、細分時の双方向五セル、元四セルcongruenceによる任意左右文脈、旧recut・表示変更、逆・合成を実装。元raw保守的P77商値と署名付き結合子chargeは真正五セルから導出し、source経路・gluing・元P77証拠付き部分Hom・compatibility・obstructionを条件付きで保存。四辺の任意の証拠付き比較四角形は、**誘導されたwitness Equiv**として可換（元raw五セル履歴自体の等号は主張しない）。
