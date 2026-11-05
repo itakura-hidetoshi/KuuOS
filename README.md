@@ -14,6 +14,16 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — Qi v4.72／真正元P77 raw切断木の五セル正規化とrecut自然性／2026-11-06 JST
+
+**[定理PR #3166](https://github.com/itakura-hidetoshi/KuuOS/pull/3166) MERGED。** 任意有限の元P77切断木に対し、元raw四セル合成の括弧と全パッチ添字組を独立に保持するTreeRawを構成。依存した添字積の真正Equiv、および元GK5CG保守的五セルのleft-unit・verticalAssoc・垂直左右congruenceから **各括弧付きraw値→平坦化された元raw正規形の真正五セル** を帰納構成した。元五セルの存在を仮定せず構成し、異なるraw五セル履歴を同一視しない。
+
+**有限recutと表示変更：** 正規化比較を両方向の元Type値五セル付きパッチ族比較に昇格し、v4.71の全段表示比較と合成。任意有限の既存CutRouteから異なる括弧付きraw統合族間の真正五セル比較を構成し、元source証拠gluing、型付きQuiver.Path、比較に沿った誘導証拠Equivの自然性を形式証明。元の指定因子別obstructionはrecutで解消されない。全targetの無条件因子復元、raw履歴の等置、chargeからの証拠生成、新pentagonator・Grayは主張しない。
+
+**[exact-source CI #42108956252](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42108956252)：Strict Lean 10,269/10,269 SUCCESS、Governance 30/30 SUCCESS、19宣言の公理依存は標準公理のみ・sorryAxなし、変更Lean warning/error 0/0。** 修正済み検証HEAD 17f0124f60c9bdf1d509d08fa67512836fee4789、source/test-merge Git tree 37273a70c0d16c5dc0ece14bbe46e57a1b6652dd完全一致、定理squash 8421b313e63450699f488c5fda8dc4c00833b781。初回CIで右側依存鎖を一般化した帰納仮定と複数の同名五セル構成子の型推論を修正。固定Lean v4.30.0-rc2／mathlib 5450b53e5ddc75d46418fabb605edbf36bd0beb6、公開root107、保護PR #1558 Draft/open/unmergedを維持。
+
+[正式証明記録](docs/formal/Qi-v4_72-original-P77-raw-cut-tree-five-cell-coherence.md) · [Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77RawCutTreeFiveCellCoherenceV4_72.lean)
+
 ## 最新のLean定理統合 — Qi v4.71／元P77統合パッチ族の真正五セル自然性／2026-11-06 JST
 
 **[定理PR #3164](https://github.com/itakura-hidetoshi/KuuOS/pull/3164) MERGED。** v4.69の各段の両方向raw表示比較とv4.70の全添字組の元raw合成から、**統合パッチ族に対する真正GK5CG Type値五セル比較そのもの**を構成した。真正五セルの垂直congruenceと合成を実際に使用し、因子別source証拠の非空性を前提とせず全代表の比較を保持する。双方向の添字写像や元四セル・五セル履歴を無条件に同一視しない。
