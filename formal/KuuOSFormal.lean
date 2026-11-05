@@ -572,6 +572,7 @@ import KUOS.Architecture.QiWuxingGK5CHP77FullnessReverseObstructionV4_56
 import KUOS.Architecture.QiWuxingGK5CHP77CertifiedImageFactorizationV4_57
 import KUOS.Architecture.QiWuxingGK5CHP77CertifiedImageEquivalenceV4_58
 import KUOS.Architecture.QiWuxingGK5CHP77ChargeIncompleteImageObstructionV4_59
+import KUOS.Architecture.QiWuxingGK5CHP77CertifiedImagePathRecoveryV4_60
 
 /-!
 Public aggregate: retain every previously published proof and its original
