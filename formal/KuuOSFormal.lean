@@ -586,6 +586,7 @@ import KUOS.Architecture.QiWuxingGK5CHP77CertifiedSegmentSubdivisionV4_70
 import KUOS.Architecture.QiWuxingGK5CHP77CompositeFiveCellNaturalityV4_71
 import KUOS.Architecture.QiWuxingGK5CHP77RawCutTreeFiveCellCoherenceV4_72
 import KUOS.Architecture.QiWuxingGK5CHP77CertifiedMixedSubdivisionFiveCellV4_73
+import KUOS.Architecture.QiWuxingGK5CHP77TerminalCertifiedRefinementHierarchyV4_74
 
 /-!
 Public aggregate: retain every previously published proof and its original
@@ -594,4 +595,3 @@ internal Kuu import aggregate; publishing retained proofs does not make their
 imports prerequisites of Kuu. Existing proof authority is not reset by this
 build-wiring repair. No theorem is reproved or renamed here.
 -/
-import KUOS.Architecture.QiWuxingGK5CHP77TerminalCertifiedRefinementHierarchyV4_74

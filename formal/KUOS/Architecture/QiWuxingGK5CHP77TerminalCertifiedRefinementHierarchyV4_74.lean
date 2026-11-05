@@ -137,7 +137,8 @@ def fivefoldP77RawPatchRefinementPlanPullback
       FivefoldP77RawPatchTreeWitness f g h k source := by
   induction plan with
   | presentation route =>
-      exact (fivefoldP77RawPatchPresentationRouteEquiv f g h k route).symm
+      exact fun witness =>
+        (fivefoldP77RawPatchPresentationRouteEquiv f g h k route).symm witness
   | subdivide block tree comparison =>
       intro witness
       exact (fivefoldP77RawPatchBlockTreeEquiv f g h k block).symm
