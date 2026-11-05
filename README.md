@@ -14,6 +14,18 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — Qi v4.57／真正P77証拠の到達可能像Categoryと完全忠実因子分解／2026-11-05 JST
+
+**[定理PR #3134](https://github.com/itakura-hidetoshi/KuuOS/pull/3134) MERGED。** Qi v4.53の元FivefoldEdge型付き有限経路、v4.54の**元GK5CG保守的Type値5-cellの存在でのみ商にした元P77四セルtarget Category**、v4.55の無条件faithfulness、v4.56の元P77逆向き`e01`四セル（charge `-1`）による無条件non-fullnessをすべて保持。今回、`FivefoldP77ImageHom`を「実際の元P77保守的商クラス＋**真正自由経路による到達証拠**」とした独立`FivefoldP77ImageCategory`を構成。単位／合成の閉性とCategory公理を元P77の保守的5-cellの本当の証拠から証明し、数値chargeや物理C60 Edgeに商を置換しない。
+
+**中心定理：** 自由経路→到達可能像への`fivefoldP77ImageFactor`と像→元の保守的targetへの`fivefoldP77ImageInclusion`を真正Mathlib Functorとして構成し、`ImageFactor ⋙ ImageInclusion = fivefoldP77ConservativeFunctor`を**関手等号**で証明。`ImageFactor`は**FullかつFaithful**で`Functor.FullyFaithful`の実際のデータ構造が存在。包含はFaithfulだが、元P77の真の逆向き`e01`四セルが到達不能のため**NonFull**。最終定理`fivefoldP77Image_exact_factorization_split`は`Nonempty ImageFactor.FullyFaithful ∧ ImageInclusion.Faithful ∧ ¬ImageInclusion.Full ∧ factorization`を証明。**元targetがFullyFaithfulまたはequivalentになったとは主張しない。**
+
+**exact-source検証：** source HEAD `a969305068fa99950435aaff31b4522810cf1bfa`、source/test-merge Git tree `57ccc9ba1d98736e84a2bddfb192d62d54f255ff`完全一致、squash/main `94f43a1e34fa20ec1f3385f4fdecde6675f0cfd6`。[CI #41957621160](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41957621160) **Strict Lean 10,254/10,254 SUCCESS、Governance 30/30 SUCCESS、17新規公理監査は標準`propext/Classical.choice/Quot.sound`以内、sorryAxなし**。初回Leanエラーの`Exists`のProp→Type不正消去、依存Category instance、`Subtype.ext`と商合成、`Functor.FullyFaithful`がPropでなくTypeという固定mathlibの記載法を全文監査して修正。仮定・定理の弱化なし。公開root107、固定Lean v4.30.0-rc2／mathlib pin、strict 空中心、#1558 Draft/open未マージ維持。
+
+**[正式証明記録](docs/formal/Qi-v4_57-original-P77-certified-image-fully-faithful-factorization.md)** · [新規Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77CertifiedImageFactorizationV4_57.lean)。**次の焦点：** 真正自由経路圏とそのsource-certified到達可能像とのカテゴリー同値を、型付き対象対応および構造付き完全忠実性から証明する。その際、元P77の全targetへ含める際のnon-full障害を保持する。全旧歴史的証明・独立Kuu・元P94A・真正C60は保持。
+
+---
+
 ## 最新のLean定理統合 — Qi v4.56／真正元P77四セルのFullness必要十分条件と逆向き証拠によるNonFull障害／2026-11-05 JST
 
 **[定理PR #3132](https://github.com/itakura-hidetoshi/KuuOS/pull/3132) MERGED。** Qi v4.53の元F55/P77生Type四セル評価、v4.54の**元GK5CG保守的5-cell証拠の存在**のみで定義した真正target商Category、v4.55の元FivefoldEdge自由経路Functorの**無条件Faithful**をすべて保持。今回`fivefoldP77ConservativeFunctor_full_iff_originalReachable`は、`F.Full`と「全target元P77四セル`w`に、元FivefoldEdge型付き経路`path`と真正`ConservativeFiveCell (Eval path) w`証拠が存在する」ことの必要十分条件を**全F54/F55依存型始終点**について形式化。数値charge等号を保守的5-cellの証拠存在と同一視しない。
