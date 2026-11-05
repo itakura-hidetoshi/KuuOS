@@ -183,9 +183,14 @@ theorem fivefoldP77RawPatchChainAppend_path
   | cons block tail ih =>
       intro wLeft wRight
       rcases wLeft with ⟨head, rest⟩
-      dsimp [fivefoldP77RawPatchChainAppendWitness,
-        fivefoldP77RawPatchChainAppend,
-        fivefoldP77RawPatchChainPath]
+      change
+        head.val.comp
+          (fivefoldP77RawPatchChainPath f g h k
+            (fivefoldP77RawPatchChainAppend f g h k tail right)
+            (fivefoldP77RawPatchChainAppendWitness
+              f g h k tail right rest wRight)) =
+        (head.val.comp (fivefoldP77RawPatchChainPath f g h k tail rest)).comp
+          (fivefoldP77RawPatchChainPath f g h k right wRight)
       rw [ih right rest wRight]
       exact (Quiver.Path.comp_assoc _ _ _).symm
 
