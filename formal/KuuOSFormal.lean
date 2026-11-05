@@ -575,6 +575,7 @@ import KUOS.Architecture.QiWuxingGK5CHP77ChargeIncompleteImageObstructionV4_59
 import KUOS.Architecture.QiWuxingGK5CHP77CertifiedImagePathRecoveryV4_60
 import KUOS.Architecture.QiWuxingGK5CHP77InverseUniquenessPentagonNormalFormsV4_61
 import KUOS.Architecture.QiWuxingGK5CHP77TriangleCompatiblePartialRecoveryV4_62
+import KUOS.Architecture.QiWuxingGK5CHP77ContextLocalDescentObstructionV4_63
 
 /-!
 Public aggregate: retain every previously published proof and its original
