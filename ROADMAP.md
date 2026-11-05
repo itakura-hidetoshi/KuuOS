@@ -3,6 +3,18 @@
 
 
 
+## 最新のLean定理統合 — Qi v4.67／真正P77の任意有限鎖証拠の切断Type同値・三段再括弧付け／2026-11-05 JST
+
+**[Qi v4.67 定理PR #3155](https://github.com/itakura-hidetoshi/KuuOS/pull/3155) MERGED。** v4.65の任意有限段の元F55/P77型付き生四セルpatch列とv4.66の真正GK5CG保守的Type値五セルによる切断連結を拡張。連結した鎖の元source証拠付きType`W(L++R)`から、任意の指定された真の中間`FivefoldPathVertex`での左右証拠付きType`W(L)×W(R)`へ**具体的に分割する関数**を構築した。既存の実際の`AppendWitness`をその逆とし、v4.65で元P77 Faithful性から証明したsource型付き経路列の一意性を用いて、真正Lean`Equiv`を形式証明した。よって証拠の存在に関する必要十分条件、分割から再連結した元source`Quiver.Path`の厳密一致が成立する。
+
+**三段の結合整合性：** `(L++M)++R`と`L++(M++R)`について、それぞれの**本物の元Type値証拠付き経路列**を作成し、元の依存鎖結合律に沿う証拠輸送の等式、元sourceの型付き経路等式、元GK5CG Type値五セルによる元P77保守的四セル商値の一致、さらに元source到達証拠付き`FivefoldP77PartialDomain`の等式を証明。使用した`Quiver.Path.comp_assoc`は固定mathlib既存定理であり、独立した高次pentagonatorやGrayデータを捏造していない。
+
+**obstruction:** 指定された中間鎖の真正GK5CG Type値五セル互換条件が失われたとき、その**指定された三段因子別**降下は不可能。ただし全元P77 targetの任意合成から中間Homへの原像復元を無条件に反射する不正な主張はしない。真正元F55/P77/P94A・strict空・独立Kuu・物理C60 Gauge・北C60 CRTは別authority。charge整数だけで元四セル／五セル証拠を構成しない。
+
+**exact-source [CI #42025070757](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42025070757)：Strict Lean 10,264/10,264 SUCCESS、Governance30/30 SUCCESS、新規11件標準公理監査sorryAx0、変更Lean warning/error0/0。** source/test-merge Git tree `b7e50f71d038355a92afcf4864a0519ebca996db`完全一致、定理squash `ef6aa75440849f6af59aa5fa082d8e87e84e4ab5`。固定Lean v4.30.0-rc2／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、公開root107、保護PR #1558 Draft/open/unmergedを維持。
+
+[正式証明記録](docs/formal/Qi-v4_67-original-P77-witness-cut-triple-coherence.md) · [Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77WitnessCutTripleCoherenceV4_67.lean)。**次の候補Qi v4.68：** 任意有限回の再括弧付け・切断順序に対するsource証拠の正規化・Type値整合性と、失敗する指定因子のobstruction伝播をさらに一般化する。全P77 targetへの無条件回収、一般sheafや新pentagonatorを仮定しない。
+
 ## 最新のLean定理統合 — Qi v4.66／真正元P77有限型付きパッチ列の切断・連結・局所障害／2026-11-05 JST
 
 **[定理PR #3153](https://github.com/itakura-hidetoshi/KuuOS/pull/3153) MERGED。** v4.65の任意有限段・依存型付き元F55/P77生四セルpatch列を、元source中間FivefoldPathVertexに沿って連結する`fivefoldP77RawPatchChainAppend`を構成し、空鎖左単位・連結結合律を証明。左右の元GK5CG保守的**Type値五セル**互換性が連結列の互換性と必要十分である`fivefoldP77RawPatchChainAppend_compatible_iff`を形式化し、それぞれの真正source証拠付き経路の連結Functorと、全元P77保守的四セル商の垂直合成の一致を示す。元証拠付き部分領域での合成値一致と厳密なsource経路回収も確認した。
