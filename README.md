@@ -14,6 +14,18 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — Qi v4.54／元P77保守的5-cell商Categoryと真正自由経路Functor／2026-11-05 JST
+
+**[定理PR #3128](https://github.com/itakura-hidetoshi/KuuOS/pull/3128) MERGED。** Qi v4.53の真正`FivefoldFreePathCategory`から、元F55/P77の本物のType値四セル証拠を**旧GK5CG保守的5-cell証拠の存在だけ**で商にした新target `FivefoldP77ConservativePoint f g h k` 上の本物のMathlib `Category`へ、固定mathlib `Paths.lift`による真正Functor `fivefoldP77ConservativeFunctor`を構成した。代表元の左右合同性・結合律・左右単位律は旧GK5CGのType値5-cellコンストラクタから厳密に証明し、旧P77四セル生構文、物理C60 Edge、GK5X/GK5Y NatIso、数値CRTと一切不正同一視しない。
+
+**中心定理：** 任意の型付き有限経路`w`で`F.map w=[fivefoldEvaluateP77 f g h k w]`。同じ端点の`a,b`に対し`F.map a=F.map b ↔ Nonempty (NativeGK5CGConservativeFiveCell first last (Eval a) (Eval b))`。このexact kernelからHomごとおよび全体の**faithfulness必要十分条件**を証明した（無条件faithfulnessは未主張）。元P77の符号付き整数`gk5cgAssocCharge`は保守的5-cell商へ降下し`charge(F.map w)=(w.length:ℤ)`。元の五角形上3辺と下2辺は**3対2**で、真正target圏でも別の射。保守的5-cellが新しいPentagonatorを勝手に生成することはない。なお、この5本の有向辺のクィバーは非巡回なので、量化は全有限型付き経路でも、存在する経路長は高々3。
+
+**exact-source検証：** 最終source HEAD `0223d4c9b9ae55431b35d703da7056f1afdbd287`、test-merge Git tree `a76711539be154722c97738d8f4dfc35d11f56d6`完全一致、squash/main `f4220a47ded55e71b05fc69509f23380e02f0455`。[CI #41938780359](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41938780359) 再実行後**Strict Lean 10,251/10,251 SUCCESS、Governance 30/30 SUCCESS・独立Kuu公開API SUCCESS、17新規公理監査は標準`propext/Classical.choice/Quot.sound`以内・sorryAxなし**。初回CIジョブはLean以前のLakeキャッシュ復元で停止、失敗ジョブのみMCP再実行して成功。Lean `Quotient.liftOn₂`左右代表元の順を、全ソースと固定mathlib/既存GK4Hを照合して修正（証明の仮定・結論は不変）。Lean v4.30.0-rc2／mathlib pin、root107、保護#1558 Draft/open未マージを維持。
+
+**[正式証明記録](docs/formal/Qi-v4_54-original-P77-conservative-five-cell-quotient-functor.md)** · [新規Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77ConservativeQuotientFunctorV4_54.lean)。**次の焦点：** 当該有向五角形クィバー固有の「同型付き端点＋長さ⇒自由経路等号」を真正Leanで全場合解析して、証明済みのfaithfulness必要十分条件から無条件faithfulnessを導けるか検証する。元GK5CGの別presentation追加Pentagonatorと保守的5-cellの差、旧v4.53以下の全証明歴史を保持。
+
+---
+
 ## 最新のLean定理統合 — Qi v4.53／真正五角形の任意有限自由経路→元P77四セル評価・整数チャージ＝経路長／2026-11-05 JST
 
 **[定理PR #3126](https://github.com/itakura-hidetoshi/KuuOS/pull/3126) MERGED。** Qi v3.5/v4.52唯一の`FivefoldIndex = FivePhase = ZMod 5`・`FivefoldEdge = {e01,e12,e23,e04,e43}`を保持し、相生・相剋の旧Quiverを上書きせず、独立ラッパー`FivefoldPathVertex`上の**真正Mathlib自由圏`FivefoldFreePathCategory`**を構成。任意長の型付き有限経路を元F55/P77の**真正Type値付き元四セル証拠**へ再帰評価する`fivefoldEvaluateP77`を実装。実元F54 source/target・二カテゴリー・二Nat深さ・Blocks・元P77全証拠歴史を保存し、Quiverの経路を数値shadowや元P77 strict categoryと不正同一視しない。
