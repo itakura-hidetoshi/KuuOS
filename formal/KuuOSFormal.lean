@@ -577,6 +577,7 @@ import KUOS.Architecture.QiWuxingGK5CHP77InverseUniquenessPentagonNormalFormsV4_
 import KUOS.Architecture.QiWuxingGK5CHP77TriangleCompatiblePartialRecoveryV4_62
 import KUOS.Architecture.QiWuxingGK5CHP77ContextLocalDescentObstructionV4_63
 import KUOS.Architecture.QiWuxingGK5CHP77TwoSegmentLocalTypeDescentV4_64
+import KUOS.Architecture.QiWuxingGK5CHP77FiniteTypedPatchChainDescentV4_65
 
 /-!
 Public aggregate: retain every previously published proof and its original
