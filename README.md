@@ -14,6 +14,16 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — Qi v4.71／元P77統合パッチ族の真正五セル自然性／2026-11-06 JST
+
+**[定理PR #3164](https://github.com/itakura-hidetoshi/KuuOS/pull/3164) MERGED。** v4.69の各段の両方向raw表示比較とv4.70の全添字組の元raw合成から、**統合パッチ族に対する真正GK5CG Type値五セル比較そのもの**を構成した。真正五セルの垂直congruenceと合成を実際に使用し、因子別source証拠の非空性を前提とせず全代表の比較を保持する。双方向の添字写像や元四セル・五セル履歴を無条件に同一視しない。
+
+**自然性と局所障害：** 真正source証拠がある場合、統合gluingと段別表示比較は可換で元の型付きQuiver.Pathを厳密に保存。粗い統合パッチ族と指定した細い因子鎖のcompatibilityを別々に移送し、固定粗証拠の指定細分fiberに対する真正Equivを構成。証拠付きsubdivision routeには**実際のfine witness**を明示的に要求し、粗い到達可能性から未知の因子証拠を生成しない。
+
+**exact-source [CI #42104411499](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42104411499)：Strict Lean 10,268/10,268 SUCCESS、Governance 30/30 SUCCESS、新規17宣言の公理依存は標準公理のみ・sorryAxなし、変更Lean warning/error 0/0。** 検証HEAD cd409432e4f5f9c113d8c6b5bf1a74dbef673166、source/test-merge Git tree 624c2f7091a77f3e1ad04ae267390c56a9d5b4b6一致、定理squash 2bb2ddd04b92ff18009b9fb54e20f1769fae49b3。初回失敗はLean最終定理のSubsingleton型推論をv4.68の既証明木一意性で明示して修正した。固定Lean v4.30.0-rc2／mathlib 5450b53e5ddc75d46418fabb605edbf36bd0beb6、公開root107、保護PR #1558 Draft/open/unmerged維持。
+
+[正式証明記録](docs/formal/Qi-v4_71-original-P77-composite-family-five-cell-naturality.md) · [Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77CompositeFiveCellNaturalityV4_71.lean)
+
 ## 最新のLean定理統合 — Qi v4.70／元P77の証拠付き段分割・統合と指定因子の障害／2026-11-06 JST
 
 **[定理PR #3162](https://github.com/itakura-hidetoshi/KuuOS/pull/3162) MERGED。** 各段の添字の全有限積を取り、元raw四セルを実際に合成する統合パッチ族を構成。真正な因子別source証拠から全代表を実現するgluingを作り、元GK5CG Type値五セルによる粗い族との比較の下で、**細い証拠Typeと「粗い証拠＋その指定細分証拠」の総空間との同値**を証明した。

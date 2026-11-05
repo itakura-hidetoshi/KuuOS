@@ -3,6 +3,18 @@
 
 
 
+## 最新のLean定理統合 — Qi v4.71／真正P77統合パッチ族の五セル比較／2026-11-06 JST
+
+**[定理PR #3164](https://github.com/itakura-hidetoshi/KuuOS/pull/3164) MERGED。** 元P77有限鎖の全添字組について、各段の真正GK5CG Type値五セル比較を再帰的に垂直貼り合わせし、両方向の統合後raw四セル比較データを構成。元source witnessがない場合も五セル比較自体は存在し、比較履歴は保持する。
+
+**gluing自然性・障害保存：** 因子別source証拠を持つ場合は比較とgluingが可換で、元型付きQuiver.Pathは厳密に同じ。粗・細それぞれのcompatibilityとobstructionの移送、固定粗証拠の細分fiberの真正Equiv、実際のfine witnessを要求するcertified subdivision routeをLean証明。全体の粗い到達可能性から細い因子の到達性を無条件に推論しない。
+
+**[CI #42104411499](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42104411499)：Strict Lean 10,268/10,268、Governance 30/30 SUCCESS、新規17宣言の公理出力は標準公理のみ・sorryAxなし、変更Lean warning/error 0/0。** HEAD cd409432e4f5f9c113d8c6b5bf1a74dbef673166、tree 624c2f7091a77f3e1ad04ae267390c56a9d5b4b6、squash 2bb2ddd04b92ff18009b9fb54e20f1769fae49b3。保護PR #1558 Draft/open/unmerged、公開root107、Lean/mathlib pinを維持。
+
+[正式証明記録](docs/formal/Qi-v4_71-original-P77-composite-family-five-cell-naturality.md) · [Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77CompositeFiveCellNaturalityV4_71.lean)
+
+**次の候補 Qi v4.72：** 既存の真正五セル比較と任意有限のrecut・再括弧化・反復細分を相互接続し、source経路・部分Hom・指定obstructionの整合性を条件付きに形式証明する。無条件の全target因子復元、新pentagonator、Grayは導入しない。
+
 ## 最新のLean定理統合 — Qi v4.70／元P77の証拠付き段分割・統合と指定因子の障害／2026-11-06 JST
 
 **[定理PR #3162](https://github.com/itakura-hidetoshi/KuuOS/pull/3162) MERGED。** 各段の添字の全有限積を取り、元raw四セルを実際に合成する統合パッチ族を構成。真正な因子別source証拠から全代表を実現するgluingを作り、元GK5CG Type値五セルによる粗い族との比較の下で、**細い証拠Typeと「粗い証拠＋その指定細分証拠」の総空間との同値**を証明した。
