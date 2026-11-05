@@ -3,6 +3,16 @@
 
 
 
+## 最新のLean定理統合 — Qi v4.60／真正元P77証拠付き像Homの有限経路正規形・復元Functor／2026-11-05 JST
+
+**[Qi v4.60 定理PR #3141](https://github.com/itakura-hidetoshi/KuuOS/pull/3141) MERGED。** v4.58での真正source→元P77 certified image圏同値を型付きHomで具体化した。元の`FivefoldEdge`5辺自由経路を、元F55/P77のGK5CG conservative Type値5-cell商クラス＋到達証拠から一意に回収し、`fivefoldP77ImageRecoveryFunctor`を構成。元の恒等射・合成に一致し、源／像の両方向の対象・Hom写像を厳密に元へ戻すことをLean4で証明。`fivefoldP77ImageHomPathEquiv`は本物のType値Hom≃元Quiver.Pathであり、`fivefoldP77ImageRecoverPath_charge_length`は元GK5CG符号付きchargeと復元された真正経路長の一致を証明。復元は`Classical.choose`に依存する非計算的な数学的選択であり、chargeからのType値証拠再生成ではない。
+
+**全targetへのobstruction：** v4.59の元P77真正`z₀=e01^{-1}∘upper∘lower^{-1}:1→0`はcharge 0でも元有向source経路から未到達。`fivefoldP77NoGlobalHomRecovery`は、元P77全商ターゲットにわたる型付き有限経路の厳密な全域回収sectionが存在しないことを証明した。元P77/P94A/C60幾何を同一視せず、新pentagonator・source 5-cell追加なし。
+
+**exact-source CI [#41978185134](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41978185134)：Strict Lean 10,257/10,257 SUCCESS、Governance30/30 SUCCESS、17件公理監査は標準のみsorryAx0、変更Lean warning/error0/0。** source/test-merge Git tree `4ccb259bfbd080bfec53de974e6ecb6e31817e80`一致、定理squash `cf44b19f94aafd6f2f5b002e34d937ac16014c96`。公開root107、Lean v4.30.0-rc2、固定mathlib、保護#1558 Draft/open未マージ維持。
+
+[正式証明記録](docs/formal/Qi-v4_60-original-P77-certified-image-path-recovery-functor.md) · [新規Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77CertifiedImagePathRecoveryV4_60.lean)。**次の研究：Qi v4.61** — 構成済み復元とv4.58準逆Functorの自然同型・五角形上下経路の正規形、full targetへの部分的extension/descentと元P77障害の分離。
+
 ## 最新のLean定理統合 — Qi v4.59／元P77 charge不完全性と像Hom障害／2026-11-05 JST
 
 **[#3139](https://github.com/itakura-hidetoshi/KuuOS/pull/3139) MERGED。** v4.58の真正源↔元P77証拠付き像のMathlibカテゴリー同値を保持し、真正P77逆向きe01＋元上3辺＋下2辺の逆向きを合成した`z₀:1→0`を構成：`Q(z₀)=-1+3-2=0`。しかし元有向自由経路の`Q=length=0`なら始終点が同一なので、`z₀`は元sourceに到達不能。符号・区間chargeでは検出できない構造障害と、既存v4.56の負charge逆元障害を分離した。元GK5CG保守的Type-valued五セル証拠による未到達Homの必要十分条件、到達済み同一端点Homに限ったcharge単射性、将来Full拡張への逆元・ゼロcharge証拠の2種の原像必要条件を厳密に形式化。
