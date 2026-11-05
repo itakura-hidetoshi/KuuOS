@@ -85,7 +85,7 @@ theorem fivefoldP77Recovery_unit_comparison_triangle
     (fivefoldP77ImageEquivalence f g h k).unitIso.hom.app u ≫
       (fivefoldP77QuasiInverseRecoveryNatIso f g h k).hom.app
         ((fivefoldP77ImageEquivalence f g h k).functor.obj u) =
-      (𝟙 u : Quiver.Path u u) := by
+      (Quiver.Path.nil : Quiver.Path u u) := by
   letI := fivefoldP77ConservativeCategory f g h k
   letI := fivefoldP77ImageCategory f g h k
   let EE := fivefoldP77ImageEquivalence f g h k
@@ -101,7 +101,7 @@ theorem fivefoldP77Recovery_unit_comparison_triangle
   have hTransport := congrArg (fun z => RR.map z) hTri
   change EE.unitIso.hom.app u ≫
       RR.map (EE.counitIso.hom.app (EE.functor.obj u)) =
-      (𝟙 u : Quiver.Path u u)
+      (Quiver.Path.nil : Quiver.Path u u)
   simpa only [Functor.map_comp, Functor.map_id, hLeft] using hTransport
 
 /-- The v4.61 comparison component followed by the old forward
@@ -131,7 +131,7 @@ theorem fivefoldP77Recovery_oldTriangle_newInverse_split :
       (fivefoldP77ImageEquivalence f g h k).unitIso.hom.app u ≫
         (fivefoldP77QuasiInverseRecoveryNatIso f g h k).hom.app
           ((fivefoldP77ImageEquivalence f g h k).functor.obj u) =
-        (𝟙 u : Quiver.Path u u)) ∧
+        (Quiver.Path.nil : Quiver.Path u u)) ∧
     (∀ X : FivefoldP77ImagePoint f g h k,
       (fivefoldP77ImageFactor f g h k).map
           ((fivefoldP77QuasiInverseRecoveryNatIso f g h k).hom.app X) =
