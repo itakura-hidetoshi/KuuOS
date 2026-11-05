@@ -567,6 +567,7 @@ import KUOS.Architecture.QiWuxingGK5CGNorthP77PentagonatorChargeV4_51
 import KUOS.Architecture.QiWuxingGK5CGUnifiedFivefoldTypedEdgesV4_52
 import KUOS.Architecture.QiWuxingGK5CHFivefoldFreePathOriginalP77V4_53
 import KUOS.Architecture.QiWuxingGK5CHP77ConservativeQuotientFunctorV4_54
+import KUOS.Architecture.QiWuxingGK5CHFivefoldFinitePathFaithfulV4_55
 
 /-!
 Public aggregate: retain every previously published proof and its original
