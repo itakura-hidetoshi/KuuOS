@@ -89,32 +89,33 @@ theorem fivefoldP77Recovery_unit_comparison_triangle
   letI := fivefoldP77ConservativeCategory f g h k
   letI := fivefoldP77ImageCategory f g h k
   let EE := fivefoldP77ImageEquivalence f g h k
+  let FF := fivefoldP77ImageFactor f g h k
   let RR := fivefoldP77ImageRecoveryFunctor f g h k
-  have hLeft :
-      RR.map (EE.functor.map (EE.unitIso.hom.app u)) =
-        EE.unitIso.hom.app u := by
-    change (fivefoldP77ImageFactor f g h k ⋙ RR).map
-        (EE.unitIso.hom.app u) = EE.unitIso.hom.app u
-    exact fivefoldP77ImageRecovery_left_map f g h k
-      (EE.unitIso.hom.app u)
-  have hTri := EE.functor_unitIso_comp u
-  have hTransport := congrArg (fun z => RR.map z) hTri
-  change EE.unitIso.hom.app u ≫
-      RR.map (EE.counitIso.hom.app (EE.functor.obj u)) =
-      (Quiver.Path.nil : Quiver.Path u u)
-  calc
-    EE.unitIso.hom.app u ≫
-        RR.map (EE.counitIso.hom.app (EE.functor.obj u)) =
-      RR.map (EE.functor.map (EE.unitIso.hom.app u)) ≫
-        RR.map (EE.counitIso.hom.app (EE.functor.obj u)) := by
-      rw [hLeft]
-    _ = RR.map (EE.functor.map (EE.unitIso.hom.app u) ≫
-          EE.counitIso.hom.app (EE.functor.obj u)) :=
-      (RR.map_comp _ _).symm
-    _ = RR.map (𝟙 (EE.functor.obj u)) :=
-      congrArg (fun z => RR.map z) (EE.functor_unitIso_comp u)
-    _ = (Quiver.Path.nil : Quiver.Path u u) := by
-      exact RR.map_id (EE.functor.obj u)
+  let TH := fivefoldP77QuasiInverseRecoveryNatIso f g h k
+  have hCounitTransport :
+      FF.map (TH.hom.app (EE.functor.obj u)) =
+        EE.counitIso.hom.app (EE.functor.obj u) := by
+    change (RR ⋙ FF).map
+        (EE.counitIso.hom.app (EE.functor.obj u)) =
+      EE.counitIso.hom.app (EE.functor.obj u)
+    exact fivefoldP77ImageRecovery_right_map f g h k _
+  have hMapComp :
+      FF.map (EE.unitIso.hom.app u ≫ TH.hom.app (EE.functor.obj u)) =
+        EE.functor.map (EE.unitIso.hom.app u) ≫
+          EE.counitIso.hom.app (EE.functor.obj u) := by
+    rw [FF.map_comp, hCounitTransport]
+    rfl
+  have hTriangle :
+      EE.functor.map (EE.unitIso.hom.app u) ≫
+        EE.counitIso.hom.app (EE.functor.obj u) =
+          𝟙 (EE.functor.obj u) :=
+    EE.functor_unitIso_comp u
+  have hId :
+      FF.map (Quiver.Path.nil : Quiver.Path u u) =
+        𝟙 (EE.functor.obj u) :=
+    FF.map_id u
+  apply (fivefoldP77ImageFactor_faithful f g h k).map_injective
+  exact hMapComp.trans (hTriangle.trans hId.symm)
 
 /-- The v4.61 comparison component followed by the old forward
 factor is exactly the original v4.58 counit at EVERY genuine
