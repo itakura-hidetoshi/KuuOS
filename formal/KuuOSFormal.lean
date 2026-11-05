@@ -581,6 +581,7 @@ import KUOS.Architecture.QiWuxingGK5CHP77FiniteTypedPatchChainDescentV4_65
 import KUOS.Architecture.QiWuxingGK5CHP77TypedPatchChainCutGluingV4_66
 import KUOS.Architecture.QiWuxingGK5CHP77WitnessCutTripleCoherenceV4_67
 import KUOS.Architecture.QiWuxingGK5CHP77FiniteCutTreeNormalCoherenceV4_68
+import KUOS.Architecture.QiWuxingGK5CHP77PatchPresentationNaturalityV4_69
 
 /-!
 Public aggregate: retain every previously published proof and its original
