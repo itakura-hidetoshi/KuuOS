@@ -103,8 +103,15 @@ theorem fivefoldP77Recovery_unit_comparison_triangle
       FF.map (EE.unitIso.hom.app u ≫ TH.hom.app (EE.functor.obj u)) =
         EE.functor.map (EE.unitIso.hom.app u) ≫
           EE.counitIso.hom.app (EE.functor.obj u) := by
-    rw [FF.map_comp, hCounitTransport]
-    rfl
+    calc
+      FF.map (EE.unitIso.hom.app u ≫ TH.hom.app (EE.functor.obj u)) =
+          FF.map (EE.unitIso.hom.app u) ≫
+            FF.map (TH.hom.app (EE.functor.obj u)) :=
+        FF.map_comp _ _
+      _ = EE.functor.map (EE.unitIso.hom.app u) ≫
+            EE.counitIso.hom.app (EE.functor.obj u) := by
+        exact congrArg (fun z =>
+          FF.map (EE.unitIso.hom.app u) ≫ z) hCounitTransport
   have hTriangle :
       EE.functor.map (EE.unitIso.hom.app u) ≫
         EE.counitIso.hom.app (EE.functor.obj u) =
