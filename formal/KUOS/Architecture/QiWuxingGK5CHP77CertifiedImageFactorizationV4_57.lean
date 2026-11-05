@@ -118,7 +118,7 @@ def fivefoldP77ImageComp
     (B : FivefoldP77ImageHom f g h k Y Z) :
     FivefoldP77ImageHom f g h k X Z := by
   letI := fivefoldP77ConservativeCategory f g h k
-  refine ⟨A.val ≫ B.val, ?_⟩
+  refine ⟨fivefoldP77ConservativeCompose f g h k A.val B.val, ?_⟩
   obtain ⟨pathA, hA⟩ := A.property
   obtain ⟨pathB, hB⟩ := B.property
   refine ⟨pathA.comp pathB, ?_⟩
@@ -127,7 +127,9 @@ def fivefoldP77ImageComp
         (fivefoldP77ConservativeFunctor f g h k).map pathA ≫
           (fivefoldP77ConservativeFunctor f g h k).map pathB :=
       (fivefoldP77ConservativeFunctor f g h k).map_comp pathA pathB
-    _ = A.val ≫ B.val := by rw [hA, hB]
+    _ = fivefoldP77ConservativeCompose f g h k A.val B.val := by
+      rw [hA, hB]
+      rfl
 
 /-- The image is an ACTUAL Mathlib Category, not just a type family
 or a collection of numerically equal charges. Every category law is
