@@ -14,6 +14,12 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — Qi v4.59／真正元P77 chargeがゼロでも未到達となるHom障害／2026-11-05 JST
+
+**[定理PR #3139](https://github.com/itakura-hidetoshi/KuuOS/pull/3139) MERGED。** v4.58の真正`FivefoldFreePathCategory ≌ FivefoldP77ImagePoint`圏同値を維持し、元F55/P77商ターゲットの真正逆元・上経路・下経路を合成した`z₀:1→0`を構成。`Q(z₀)=-1+3-2=0`にもかかわらず、元5辺有向自由経路からは到達できない。chargeの`0≤Q≤3`は到達の必要条件であって十分条件ではない。元保守的GK5CG Type値5-cell証拠による到達／未到達の必要十分条件、到達済みHom上のみのcharge単射性、Fullな将来拡張への2種の原像必要条件をLean4で証明した。元P77四セルを数値chargeやC60物理Edgeと同一視せず、新pentagonator・旧定理上書きなし。
+
+**exact-source CI [#41973142130](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41973142130)：Strict Lean 10,256/10,256 SUCCESS、Governance30/30 SUCCESS、15件の標準公理監査sorryAx0、変更Lean warning/error0/0。** source/test-merge Git tree `ca96ea96a50bbaa70c5338bf4b125837ff32ae3f`一致、定理squash `17d07420fb4c1c2a6f85b73d067ec355a34a72a7`。固定Lean v4.30.0-rc2・mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`・公開root107・保護#1558 Draft/open/unmerged維持。[正式証明記録](docs/formal/Qi-v4_59-original-P77-charge-incomplete-image-hom-obstruction.md) · [Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77ChargeIncompleteImageObstructionV4_59.lean)。
+
 ## 最新のLean定理統合 — Qi v4.58／真正Fivefold自由経路圏と元P77証拠付き像圏のカテゴリー同値／2026-11-05 JST
 
 **[定理PR #3136](https://github.com/itakura-hidetoshi/KuuOS/pull/3136) MERGED。** Qi v4.53の元5本`FivefoldEdge`の型付き自由経路圏、v4.54の**真正元F55/P77四セルを元GK5CG保守的Type値5-cell証拠の存在だけで商にしたtarget圏**、v4.55の無条件Faithful、v4.56の元P77逆向きe01四セル（charge `-1`）によるNonFull、v4.57の**真正P77保守的商クラス＋元自由経路による到達可能証拠**からなる独立像Category・FullかつFaithfulな像因子をすべて保持。今回`fivefoldP77ImageFactor_obj_surjective`で真正五行位相ラッパーの全対象が源から到達することを証明し、`EssSurj`を導いた。既証明`Full`＋`Faithful`と合わせた`IsEquivalence`から、準逆Functorと真正unit/counit NatIsoを備えた**Mathlibデータ付きカテゴリー同値`fivefoldP77ImageEquivalence`**を形式構成した。
