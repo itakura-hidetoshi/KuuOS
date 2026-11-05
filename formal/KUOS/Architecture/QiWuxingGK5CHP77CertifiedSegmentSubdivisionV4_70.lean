@@ -66,6 +66,10 @@ variable
 
 /-- Every tuple of designated raw patch indices, retaining dependent order. -/
 def FivefoldP77RawPatchChainIndex
+    (f : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p r₀ r₁)
+    (g : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p r₁ r₂)
+    (h : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p r₂ r₃)
+    (k : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p r₃ r₄)
     {u v : FivefoldPathVertex}
     (chain : FivefoldP77RawPatchChain f g h k u v) : Type :=
   match chain with
@@ -285,8 +289,7 @@ theorem fivefoldP77RawPatchSubdivisionEquiv_glue_split
     fivefoldP77RawPatchSubdivisionGlue f g h k chain block comparison
         (fivefoldP77RawPatchSubdivisionEquiv f g h k chain block comparison fine
           coarse) = coarse :=
-  (fivefoldP77RawPatchSubdivisionEquiv f g h k chain block comparison fine).
-    symm_apply_apply coarse
+  (fivefoldP77RawPatchSubdivisionEquiv f g h k chain block comparison fine).symm_apply_apply coarse
 
 /-- Genuinely glue then subdivide: every factorwise Type value is recovered. -/
 theorem fivefoldP77RawPatchSubdivisionEquiv_split_glue
@@ -299,8 +302,7 @@ theorem fivefoldP77RawPatchSubdivisionEquiv_split_glue
     fivefoldP77RawPatchSubdivisionEquiv f g h k chain block comparison fine
         (fivefoldP77RawPatchSubdivisionGlue f g h k chain block comparison witness) =
       witness :=
-  (fivefoldP77RawPatchSubdivisionEquiv f g h k chain block comparison fine).
-    apply_symm_apply witness
+  (fivefoldP77RawPatchSubdivisionEquiv f g h k chain block comparison fine).apply_symm_apply witness
 
 /-- Certified subdivision recovers exactly the specified coarse source path. -/
 theorem fivefoldP77RawPatchSubdivisionEquiv_path
@@ -315,8 +317,7 @@ theorem fivefoldP77RawPatchSubdivisionEquiv_path
         (fivefoldP77RawPatchSubdivisionEquiv f g h k chain block comparison fine
           coarse) = coarse.val := by
   exact congrArg Subtype.val
-    ((fivefoldP77RawPatchSubdivisionEquiv f g h k chain block comparison fine).
-      symm_apply_apply coarse)
+    ((fivefoldP77RawPatchSubdivisionEquiv f g h k chain block comparison fine).symm_apply_apply coarse)
 
 /-- A single coarse block viewed as a cut tree, with its legitimate empty tail. -/
 def fivefoldP77RawPatchBlockTree
