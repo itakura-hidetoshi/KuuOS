@@ -369,6 +369,58 @@ theorem step_pullback {u v : FivefoldPathVertex} {family : Family f g h k u v}
       intro witness
       exact Prod.ext rfl (ih witness.2)
 
+
+/-- Reflexive chain comparison has identity forward coverage. Its selected
+raw five-cell history need not be definitionally a reflexivity constructor. -/
+theorem chainRefl_forward {u v : FivefoldPathVertex}
+    (chain : FivefoldP77RawPatchChain f g h k u v) :
+    ∀ i, fivefoldP77CompositeComparisonForwardIndex f g h k
+      (fivefoldP77RawPatchChainComparisonRefl f g h k chain) i = i := by
+  induction chain with
+  | nil vertex => intro i; rfl
+  | cons block tail ih =>
+      intro i
+      exact Prod.ext rfl (ih i.2)
+
+/-- Reflexive chain comparison also has identity reverse coverage. -/
+theorem chainRefl_backward {u v : FivefoldPathVertex}
+    (chain : FivefoldP77RawPatchChain f g h k u v) :
+    ∀ i, fivefoldP77CompositeComparisonBackwardIndex f g h k
+      (fivefoldP77RawPatchChainComparisonRefl f g h k chain) i = i := by
+  induction chain with
+  | nil vertex => intro i; rfl
+  | cons block tail ih =>
+      intro i
+      exact Prod.ext rfl (ih i.2)
+
+/-- Existing recut interpretation passes through normalization even for
+refl. Prove its index round trip using the genuine normalization Equiv. -/
+theorem recutRefl_forward {u v : FivefoldPathVertex}
+    (base : FivefoldP77RawPatchCutTree f g h k u v)
+    (i : FivefoldP77RawPatchTreeIndex f g h k base) :
+    (fivefoldP77RawPatchCutRouteRawComparison f g h k (.refl base)).forwardIndex i = i := by
+  change (fivefoldP77RawPatchTreeIndexNormalizeEquiv f g h k base).symm
+    (fivefoldP77CompositeComparisonForwardIndex f g h k
+      (fivefoldP77RawPatchChainComparisonRefl f g h k
+        (fivefoldP77RawPatchTreeFlatten f g h k base))
+      (fivefoldP77RawPatchTreeIndexNormalizeEquiv f g h k base i)) = i
+  rw [chainRefl_forward]
+  exact (fivefoldP77RawPatchTreeIndexNormalizeEquiv f g h k base).symm_apply_apply i
+
+/-- The independently retained reverse normalization round trip is also
+identity on indices; no equality of its original five-cell values is used. -/
+theorem recutRefl_backward {u v : FivefoldPathVertex}
+    (base : FivefoldP77RawPatchCutTree f g h k u v)
+    (i : FivefoldP77RawPatchTreeIndex f g h k base) :
+    (fivefoldP77RawPatchCutRouteRawComparison f g h k (.refl base)).backwardIndex i = i := by
+  change (fivefoldP77RawPatchTreeIndexNormalizeEquiv f g h k base).symm
+    (fivefoldP77CompositeComparisonBackwardIndex f g h k
+      (fivefoldP77RawPatchChainComparisonRefl f g h k
+        (fivefoldP77RawPatchTreeFlatten f g h k base))
+      (fivefoldP77RawPatchTreeIndexNormalizeEquiv f g h k base i)) = i
+  rw [chainRefl_backward]
+  exact (fivefoldP77RawPatchTreeIndexNormalizeEquiv f g h k base).symm_apply_apply i
+
 /-- Finite schedule coherence on EVERY terminal raw index tuple. -/
 theorem schedule_forward {u v : FivefoldPathVertex} {family : Family f g h k u v}
     {s t : State f g h k family} (schedule : Schedule f g h k family s t) :
@@ -376,7 +428,10 @@ theorem schedule_forward {u v : FivefoldPathVertex} {family : Family f g h k u v
       (schedulePlan f g h k schedule)).forwardIndex (forward f g h k family t i) =
         forward f g h k family s i := by
   induction schedule with
-  | nil s => intro i; rfl
+  | nil s =>
+      intro i
+      exact recutRefl_forward f g h k (tree f g h k family s)
+        (forward f g h k family s i)
   | cons step rest ih =>
       intro i
       change (fivefoldP77RawPatchRefinementPlanRawComparison f g h k
@@ -393,7 +448,10 @@ theorem schedule_backward {u v : FivefoldPathVertex} {family : Family f g h k u 
       (schedulePlan f g h k schedule)).backwardIndex (backward f g h k family s i) =
         backward f g h k family t i := by
   induction schedule with
-  | nil s => intro i; rfl
+  | nil s =>
+      intro i
+      exact recutRefl_backward f g h k (tree f g h k family s)
+        (backward f g h k family s i)
   | cons step rest ih =>
       intro i
       change (fivefoldP77RawPatchRefinementPlanRawComparison f g h k
@@ -579,13 +637,13 @@ variable (rightStep : Step f g h k rightFamily rs rt)
 def adjacentLeftFirst :
     Schedule f g h k (.node leftFamily rightFamily) (ls, rs) (lt, rt) :=
   .cons (.left rightFamily leftStep rs)
-    (.cons (.right leftFamily lt rightStep) (.nil _ (lt, rt)))
+    (.cons (.right leftFamily lt rightStep) (.nil (.node leftFamily rightFamily) (lt, rt)))
 
 /-- The exchanged adjacent order retains the other mixed intermediate state. -/
 def adjacentRightFirst :
     Schedule f g h k (.node leftFamily rightFamily) (ls, rs) (lt, rt) :=
   .cons (.right leftFamily ls rightStep)
-    (.cons (.left rightFamily leftStep rt) (.nil _ (lt, rt)))
+    (.cons (.left rightFamily leftStep rt) (.nil (.node leftFamily rightFamily) (lt, rt)))
 
 /-- Adjacent exchange is valid on every raw tuple even in a partial schedule. -/
 theorem adjacent_forward
@@ -676,6 +734,128 @@ theorem obstructed_iff {u v : FivefoldPathVertex} {family : Family f g h k u v}
     (schedulePlan f g h k schedule)
 
 
+
+section SharedRecut
+variable {u v : FivefoldPathVertex} {family : Family f g h k u v}
+variable {source target : FivefoldP77RawPatchCutTree f g h k u v}
+variable (before : FivefoldP77RawPatchPresentationRoute f g h k source
+  (tree f g h k family (initial f g h k family)))
+variable (after : FivefoldP77RawPatchPresentationRoute f g h k
+  (tree f g h k family (terminal f g h k family)) target)
+
+/-- Surround any complete finite order by the SAME actual recut/covered
+presentation histories. The generated raw five-cell values are retained.
+A recut uses the existing normalization-based comparison; its internal
+CutRoute word is not asserted to be replayed step-by-step in that cell. -/
+def mixedPlan (schedule : Schedule f g h k family
+    (initial f g h k family) (terminal f g h k family)) :
+    FivefoldP77RawPatchRefinementPlan f g h k source target :=
+  .trans (.presentation before)
+    (.trans (schedulePlan f g h k schedule) (.presentation after))
+
+variable (firstSchedule secondSchedule : Schedule f g h k family
+  (initial f g h k family) (terminal f g h k family))
+
+/-- Common source/target recuts preserve full forward coverage equality. -/
+theorem mixed_forward (i : FivefoldP77RawPatchTreeIndex f g h k target) :
+    (fivefoldP77RawPatchRefinementPlanRawComparison f g h k
+      (mixedPlan f g h k before after firstSchedule)).forwardIndex i =
+        (fivefoldP77RawPatchRefinementPlanRawComparison f g h k
+          (mixedPlan f g h k before after secondSchedule)).forwardIndex i :=
+  congrArg
+    (fun j => (fivefoldP77RawPatchPresentationRouteRawComparison f g h k before).forwardIndex j)
+    (order_forward f g h k firstSchedule secondSchedule
+      ((fivefoldP77RawPatchPresentationRouteRawComparison f g h k after).forwardIndex i))
+
+/-- Common recuts also preserve the separately retained reverse coverage. -/
+theorem mixed_backward (i : FivefoldP77RawPatchTreeIndex f g h k source) :
+    (fivefoldP77RawPatchRefinementPlanRawComparison f g h k
+      (mixedPlan f g h k before after firstSchedule)).backwardIndex i =
+        (fivefoldP77RawPatchRefinementPlanRawComparison f g h k
+          (mixedPlan f g h k before after secondSchedule)).backwardIndex i :=
+  congrArg
+    (fun j => (fivefoldP77RawPatchPresentationRouteRawComparison f g h k after).backwardIndex j)
+    (order_backward f g h k firstSchedule secondSchedule
+      ((fivefoldP77RawPatchPresentationRouteRawComparison f g h k before).backwardIndex i))
+
+/-- The exact reconstructed source tuple is unchanged under the two orders
+with common pre/post recuts. This uses the structural order theorem. -/
+theorem mixed_pullback (witness : FivefoldP77RawPatchTreeWitness f g h k target) :
+    fivefoldP77RawPatchRefinementPlanPullback f g h k
+      (mixedPlan f g h k before after firstSchedule) witness =
+        fivefoldP77RawPatchRefinementPlanPullback f g h k
+          (mixedPlan f g h k before after secondSchedule) witness :=
+  congrArg
+    (fun w => (fivefoldP77RawPatchPresentationRouteEquiv f g h k before).symm w)
+    (order_pullback f g h k firstSchedule secondSchedule
+      ((fivefoldP77RawPatchPresentationRouteEquiv f g h k after).symm witness))
+
+/-- The combined recut/order diagram has two ACTUAL five-cell sides. -/
+def mixedRawSquare (i : FivefoldP77RawPatchTreeIndex f g h k target) :=
+  planRawSquare f g h k
+    (mixedPlan f g h k before after firstSchedule)
+    (mixedPlan f g h k before after secondSchedule)
+    (mixed_forward f g h k before after firstSchedule secondSchedule) i
+
+/-- The combined recut/order loop remains an original Type-valued history. -/
+def mixedRawLoop (i : FivefoldP77RawPatchTreeIndex f g h k target) :=
+  planRawLoop f g h k
+    (mixedPlan f g h k before after firstSchedule)
+    (mixedPlan f g h k before after secondSchedule)
+    (mixed_forward f g h k before after firstSchedule secondSchedule) i
+
+/-- Both recuts and the finite order preserve the exact original source path. -/
+theorem mixed_path (witness : FivefoldP77RawPatchTreeWitness f g h k target) :
+    fivefoldP77RawPatchTreePath f g h k source
+      (fivefoldP77RawPatchRefinementPlanPullback f g h k
+        (mixedPlan f g h k before after firstSchedule) witness) =
+          fivefoldP77RawPatchTreePath f g h k target witness :=
+  fivefoldP77RawPatchRefinementPlanPullback_path f g h k
+    (mixedPlan f g h k before after firstSchedule) witness
+
+/-- The original source-certified P77 partial Hom is also preserved. -/
+theorem mixed_certified (witness : FivefoldP77RawPatchTreeWitness f g h k target) :
+    fivefoldP77RawPatchTreeCertified f g h k source
+      (fivefoldP77RawPatchRefinementPlanPullback f g h k
+        (mixedPlan f g h k before after firstSchedule) witness) =
+          fivefoldP77RawPatchTreeCertified f g h k target witness :=
+  fivefoldP77RawPatchRefinementPlanPullback_certified f g h k
+    (mixedPlan f g h k before after firstSchedule) witness
+
+/-- Certification keeps THIS complete mixed history's chosen raw comparison. -/
+theorem mixed_certify_raw (witness : FivefoldP77RawPatchTreeWitness f g h k target) :
+    fivefoldP77RawPatchSubdivisionRouteRawComparison f g h k
+      (fivefoldP77RawPatchRefinementPlanCertify f g h k
+        (mixedPlan f g h k before after firstSchedule) witness) =
+          fivefoldP77RawPatchRefinementPlanRawComparison f g h k
+            (mixedPlan f g h k before after firstSchedule) :=
+  fivefoldP77RawPatchRefinementPlanCertify_raw f g h k
+    (mixedPlan f g h k before after firstSchedule) witness
+
+/-- All levels of a mixed history are compatible exactly when the ORIGINAL
+terminal factor family is compatible, before its final recut/presentation. -/
+theorem mixed_allCompatible_iff :
+    fivefoldP77RawPatchRefinementPlanAllCompatible f g h k
+      (mixedPlan f g h k before after firstSchedule) ↔
+        fivefoldP77RawPatchTreeCompatible f g h k
+          (tree f g h k family (terminal f g h k family)) :=
+  (fivefoldP77RawPatchRefinementPlan_allCompatible_iff f g h k
+    (mixedPlan f g h k before after firstSchedule)).trans
+      (fivefoldP77RawPatchPresentationRoute_compatible_iff f g h k after).symm
+
+/-- Neither the execution order nor its common recuts remove an ORIGINAL
+designated terminal factorwise obstruction. -/
+theorem mixed_obstructed_iff :
+    ¬ fivefoldP77RawPatchRefinementPlanAllCompatible f g h k
+      (mixedPlan f g h k before after firstSchedule) ↔
+        fivefoldP77RawPatchTreeObstructed f g h k
+          (tree f g h k family (terminal f g h k family)) :=
+  (fivefoldP77RawPatchRefinementPlan_obstructed_iff f g h k
+    (mixedPlan f g h k before after firstSchedule)).trans
+      (fivefoldP77RawPatchPresentationRoute_obstructed_iff f g h k after).symm
+
+end SharedRecut
+
 #print axioms Family
 #print axioms State
 #print axioms tree
@@ -698,6 +878,10 @@ theorem obstructed_iff {u v : FivefoldPathVertex} {family : Family f g h k u v}
 #print axioms step_forward
 #print axioms step_backward
 #print axioms step_pullback
+#print axioms chainRefl_forward
+#print axioms chainRefl_backward
+#print axioms recutRefl_forward
+#print axioms recutRefl_backward
 #print axioms schedule_forward
 #print axioms schedule_backward
 #print axioms schedule_pullback
@@ -722,6 +906,17 @@ theorem obstructed_iff {u v : FivefoldPathVertex} {family : Family f g h k u v}
 #print axioms certify_raw
 #print axioms allCompatible_iff
 #print axioms obstructed_iff
+#print axioms mixedPlan
+#print axioms mixed_forward
+#print axioms mixed_backward
+#print axioms mixed_pullback
+#print axioms mixedRawSquare
+#print axioms mixedRawLoop
+#print axioms mixed_path
+#print axioms mixed_certified
+#print axioms mixed_certify_raw
+#print axioms mixed_allCompatible_iff
+#print axioms mixed_obstructed_iff
 
 end FivefoldP77FiniteRefinement
 end
