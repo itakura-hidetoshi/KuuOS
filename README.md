@@ -14,6 +14,12 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — Qi v4.66／真正元P77有限型付きパッチ列の切断・連結とType値gluing／2026-11-05 JST
+
+**[定理PR #3153](https://github.com/itakura-hidetoshi/KuuOS/pull/3153) MERGED。** Qi v4.65の任意有限段の元F55/P77生四セルpatch列について、**真正元source中間頂点の型を保持した切断・連結**を導入し、空鎖左単位と連結結合律をLean4で形式証明した。左右それぞれの元GK5CG保守的**Type値五セル**による局所互換性が、全連結列の互換性と必要十分になる `Compatible(Append L R) ↔ Compatible(L) ∧ Compatible(R)` を証明。両側の証拠付き元source経路から全連結経路を構成し、元source `Quiver.Path`の厳密な合成と元P77商の真正垂直合成との整合性、元到達証拠付き部分Homの元商値および元経路への厳密復元を得た。左右いずれかの指定因子のType値証拠欠如はその指定連結の障害となるが、全P77 targetの任意の別因子分解への強い不正な反射は主張しない。数値chargeだけからの証拠再構成、新逆向きsource辺、一般siteの無条件sheaf降下、新pentagonator・Grayは導入しない。
+
+**exact-source [CI #42021050350](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42021050350)：Strict Lean 10,263/10,263 SUCCESS、Governance30/30 SUCCESS、11件の標準公理監査sorryAxなし、変更Lean warning/error0/0。** source/test-merge Git tree `07f8480aecbc7c3c4137f5e82c8c07ebdb2c16b8`完全一致、定理squash `9d7fa2bd4914a28f556d94f9bb0e1bee26ac1ef7`。公開root107、固定Lean v4.30.0-rc2／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、保護#1558 Draft/open/unmerged。[正式証明記録](docs/formal/Qi-v4_66-original-P77-typed-patch-chain-cut-gluing.md) · [Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77TypedPatchChainCutGluingV4_66.lean)。
+
 ## 最新のLean定理統合 — Qi v4.65／真正元P77の任意有限段Type値パッチ列降下／2026-11-05 JST
 
 **[定理PR #3151](https://github.com/itakura-hidetoshi/KuuOS/pull/3151) MERGED。** v4.63の元P77の単一Hom局所降下とv4.64の二段合成を、**任意有限段**の元型付きF55/P77 raw四セルpatch列へ帰納拡張した。新規`FivefoldP77RawPatchBlock`は非空添字型と実際の元四セルを保持し、`FivefoldP77RawPatchChain`の`nil/cons`で各段の中間FivefoldPathVertexを保存する。全段にわたる元GK5CG保守的**Type値五セルのpatch相互互換性と各段最低一つの真正source評価五セルanchor**が、元source有向有限経路列の証拠付きTypeが非空であることと必要十分。真正P77 FunctorのFaithful性でその復元列は一意である。`fivefoldP77RawPatchChainPath_eval`で元source有限経路の連結を元P77商の真正垂直合成へ写し、元到達証拠付き部分Homの評価一致・正確な経路復元・元charge＝復元経路長を形式証明した。未到達の指定段を含む因子別復元は不成立となるが、全target任意合成の中間因子を無条件に復元するという主張はしない。全P77 targetへの全域回収、数値chargeのみの型同一視、一般sheaf降下、新pentagonator・Grayも導入しない。
