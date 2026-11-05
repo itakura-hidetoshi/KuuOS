@@ -275,6 +275,7 @@ theorem fivefoldFreePath_length_injective
     {u v : FivefoldPathVertex} :
     Function.Injective (fun path : Quiver.Path u v => path.length) := by
   intro p q heq
+  change p.length = q.length at heq
   have hpbound := fivefoldFreePath_length_le_three p
   have hqbound := fivefoldFreePath_length_le_three q
   by_cases hzero : p.length = 0
