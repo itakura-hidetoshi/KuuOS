@@ -155,10 +155,19 @@ theorem fivefoldP77ImageRecoverPath_comp
       ((fivefoldP77ImageRecoverPath f g h k A).comp
         (fivefoldP77ImageRecoverPath f g h k B)) =
     fivefoldP77ConservativeCompose f g h k A.val B.val
-  rw [(fivefoldP77ConservativeFunctor f g h k).map_comp,
-    fivefoldP77ImageRecoverPath_spec,
-    fivefoldP77ImageRecoverPath_spec]
-  rfl
+  calc
+    (fivefoldP77ConservativeFunctor f g h k).map
+        ((fivefoldP77ImageRecoverPath f g h k A).comp
+          (fivefoldP77ImageRecoverPath f g h k B)) =
+      (fivefoldP77ConservativeFunctor f g h k).map
+          (fivefoldP77ImageRecoverPath f g h k A) ≫
+        (fivefoldP77ConservativeFunctor f g h k).map
+          (fivefoldP77ImageRecoverPath f g h k B) :=
+      (fivefoldP77ConservativeFunctor f g h k).map_comp _ _
+    _ = fivefoldP77ConservativeCompose f g h k A.val B.val := by
+      rw [fivefoldP77ImageRecoverPath_spec f g h k A,
+        fivefoldP77ImageRecoverPath_spec f g h k B]
+      rfl
 
 /-- Concrete Mathlib functor realizing P77 image path recovery,
 not an abstract Hom existence statement or a numeric map. -/
