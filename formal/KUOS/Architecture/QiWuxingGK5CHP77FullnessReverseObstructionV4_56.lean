@@ -134,7 +134,7 @@ theorem fivefoldP77ConservativeFunctor_full_iff_originalReachable :
     rcases X with ⟨u⟩
     rcases Y with ⟨v⟩
     refine _root_.Quotient.inductionOn z (fun w => ?_)
-    obtain ⟨path, hcert⟩ := hreach u v w
+    obtain ⟨path, hcert⟩ := hreach ⟨u⟩ ⟨v⟩ w
     refine ⟨path, ?_⟩
     rw [fivefoldP77ConservativeFunctor_map_spec]
     exact (fivefoldP77ConservativeClass_eq_iff f g h k _ _).mpr hcert
@@ -152,9 +152,10 @@ theorem fivefoldP77Conservative_negativeCharge_not_reachable
   have hcharge := congrArg
     (fivefoldP77ConservativeCharge f g h k) hmap
   rw [fivefoldP77ConservativeFunctor_charge_length] at hcharge
-  have hn : (0 : ℤ) ≤ (path.length : ℤ) :=
-    Int.natCast_nonneg _
-  omega
+  have hnonneg : (0 : ℤ) ≤ fivefoldP77ConservativeCharge f g h k z := by
+    rw [← hcharge]
+    exact Int.natCast_nonneg _
+  exact (not_lt_of_ge hnonneg) hz
 
 /-- ACTUAL target original P77 inverse arrow, with exact dependent
 original F55/P77 source 1 and target 0. The inverse is a source
@@ -177,7 +178,6 @@ theorem fivefoldP77OriginalReverse01_charge :
     -(fivefoldArrowOriginalP77 f g h k
       (fivefoldPathArrowOf .e01)).gk5cgAssocCharge = (-1 : ℤ)
   rw [fivefoldArrowOriginalP77_charge_one]
-  norm_num
 
 /-- A concrete genuine ORIGINAL P77 target four-proof class with
 no preimage at the real reverse phase boundary 1 -> 0.
