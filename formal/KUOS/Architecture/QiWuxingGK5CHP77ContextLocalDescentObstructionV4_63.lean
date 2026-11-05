@@ -85,6 +85,7 @@ theorem fivefoldP77PartialRecovery_left_context
   letI := fivefoldP77ImageCategory f g h k
   rw [fivefoldP77PartialRecoverPath_comp f g h k,
     fivefoldP77PartialRecoverPath_of_factor f g h k pre]
+  rfl
 
 /-- Exact right-context naturality under a genuine source suffix. -/
 theorem fivefoldP77PartialRecovery_right_context
@@ -97,8 +98,22 @@ theorem fivefoldP77PartialRecovery_right_context
       (fivefoldP77PartialRecoverPath f g h k A).comp suffix := by
   letI := fivefoldP77ConservativeCategory f g h k
   letI := fivefoldP77ImageCategory f g h k
-  rw [fivefoldP77PartialRecoverPath_comp f g h k,
-    fivefoldP77PartialRecoverPath_of_factor f g h k suffix]
+  have hs :
+      fivefoldP77PartialRecoverPath f g h k
+        ((fivefoldP77ImageFactor f g h k).map suffix) = suffix :=
+    fivefoldP77PartialRecoverPath_of_factor f g h k suffix
+  calc
+    fivefoldP77PartialRecoverPath f g h k
+        (fivefoldP77ImageComp f g h k A
+          ((fivefoldP77ImageFactor f g h k).map suffix)) =
+      (fivefoldP77PartialRecoverPath f g h k A).comp
+        (fivefoldP77PartialRecoverPath f g h k
+          ((fivefoldP77ImageFactor f g h k).map suffix)) :=
+      fivefoldP77PartialRecoverPath_comp f g h k _ _
+    _ = (fivefoldP77PartialRecoverPath f g h k A).comp suffix :=
+      congrArg
+        (fun q : Quiver.Path v t =>
+          (fivefoldP77PartialRecoverPath f g h k A).comp q) hs
 
 /-- Two-sided context naturality ON the actual certified partial
 Hom, retaining actual typed endpoints and original paths. -/
@@ -116,10 +131,36 @@ theorem fivefoldP77PartialRecovery_both_contexts
         suffix := by
   letI := fivefoldP77ConservativeCategory f g h k
   letI := fivefoldP77ImageCategory f g h k
-  rw [fivefoldP77PartialRecoverPath_comp f g h k,
-    fivefoldP77PartialRecoverPath_comp f g h k,
-    fivefoldP77PartialRecoverPath_of_factor f g h k pre,
-    fivefoldP77PartialRecoverPath_of_factor f g h k suffix]
+  have hleft := fivefoldP77PartialRecovery_left_context f g h k pre A
+  have hright :
+      fivefoldP77PartialRecoverPath f g h k
+        ((fivefoldP77ImageFactor f g h k).map suffix) = suffix :=
+    fivefoldP77PartialRecoverPath_of_factor f g h k suffix
+  calc
+    fivefoldP77PartialRecoverPath f g h k
+        (fivefoldP77ImageComp f g h k
+          (fivefoldP77ImageComp f g h k
+            ((fivefoldP77ImageFactor f g h k).map pre) A)
+          ((fivefoldP77ImageFactor f g h k).map suffix)) =
+      (fivefoldP77PartialRecoverPath f g h k
+        (fivefoldP77ImageComp f g h k
+          ((fivefoldP77ImageFactor f g h k).map pre) A)).comp
+        (fivefoldP77PartialRecoverPath f g h k
+          ((fivefoldP77ImageFactor f g h k).map suffix)) :=
+      fivefoldP77PartialRecoverPath_comp f g h k _ _
+    _ = (pre.comp (fivefoldP77PartialRecoverPath f g h k A)).comp
+          (fivefoldP77PartialRecoverPath f g h k
+            ((fivefoldP77ImageFactor f g h k).map suffix)) :=
+      congrArg
+        (fun q : Quiver.Path s v =>
+          q.comp (fivefoldP77PartialRecoverPath f g h k
+            ((fivefoldP77ImageFactor f g h k).map suffix))) hleft
+    _ = (pre.comp (fivefoldP77PartialRecoverPath f g h k A)).comp
+          suffix :=
+      congrArg
+        (fun q : Quiver.Path v t =>
+          (pre.comp (fivefoldP77PartialRecoverPath f g h k A)).comp q)
+        hright
 
 /-- Source-certified original target quotient Homs stay certified
 under BOTH genuine typed source contexts. No converse/cancellation
@@ -148,7 +189,7 @@ theorem fivefoldP77OriginalContext_reachable
     _ = ((fivefoldP77ConservativeFunctor f g h k).map pre ≫
           (fivefoldP77ConservativeFunctor f g h k).map path) ≫
         (fivefoldP77ConservativeFunctor f g h k).map suffix := by
-      rw [Functor.map_comp]
+      exact (fivefoldP77ConservativeFunctor f g h k).map_comp pre path
     _ = fivefoldP77ConservativeCompose f g h k
         (fivefoldP77ConservativeCompose f g h k
           ((fivefoldP77ConservativeFunctor f g h k).map pre) z)
