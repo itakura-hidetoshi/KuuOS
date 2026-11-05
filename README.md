@@ -14,6 +14,20 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — Qi v4.70／元P77の証拠付き段分割・統合と指定因子の障害／2026-11-06 JST
+
+**[定理PR #3162](https://github.com/itakura-hidetoshi/KuuOS/pull/3162) MERGED。** 各段の添字の全有限積を取り、元raw四セルを実際に合成する統合パッチ族を構成。真正な因子別source証拠から全代表を実現するgluingを作り、元GK5CG Type値五セルによる粗い族との比較の下で、**細い証拠Typeと「粗い証拠＋その指定細分証拠」の総空間との同値**を証明した。
+
+**細分の必要十分条件：** 固定した粗い証拠 `q` に対する指定細分fiberは、全指定段の元overlap・source-anchor条件が成立するとき、かつそのときに限り非空となる。実際のfine witnessを供給した場合に完全な `W(B) ≃ W(C)` を構成し、分割・再統合の両往復と元source経路の厳密一致を証明。粗い到達可能性だけから指定因子の証拠を生成しない。
+
+**任意有限の混合履歴：** 証拠付き段分割・統合、v4.69表示変更、recut、逆操作、有限合成、左右文脈を一つのType値履歴として扱う。同じ始点木・終点木の誘導`Equiv`、正規化との可換性、表示変更の自然性、元source `Quiver.Path`、元P77証拠付き部分Hom、元商合成と正確な部分復元の整合性を形式証明した。
+
+**具体的なobstruction：** 元targetの逆e01と順e01を連結すると、元の単位・逆消去五セルにより統合パッチはvertex 1のnil source経路で実現できる。一方、指定された逆向き段にはsource原像がなく、細い証拠Typeとその指定fiberは空となる。全体の到達可能性と因子別の到達証拠が異なることを、実際の元データで示した。
+
+**exact-source [CI #42061853790](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42061853790)：Strict Lean 10,267/10,267 SUCCESS、Governance 30/30 SUCCESS、新規39宣言の公理依存は標準公理のみ・sorryAxなし、変更Lean warning/error 0/0。** 検証HEAD `db43afd65369fdcfe4abfc02019195fd049b82bf`、source/test-merge tree `dc879246f45009832f621c6c9a17a6859c6cd1c2`一致、定理squash `e2dfb3044e4412a74c743c2991cc3995e5e3269a`。Lean v4.30.0-rc2／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、公開root107、保護PR #1558 Draft/open/unmergedを維持。
+
+[正式証明記録](docs/formal/Qi-v4_70-original-P77-certified-segment-subdivision.md) · [Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77CertifiedSegmentSubdivisionV4_70.lean)
+
 ## 最新のLean定理統合 — Qi v4.69／元P77パッチ族の表示比較・被覆細分と正規化の自然性／2026-11-06 JST
 
 **[定理PR #3159](https://github.com/itakura-hidetoshi/KuuOS/pull/3159) MERGED。** 元GK5CGの実際のType値五セルを持つ双方向の添字対応により、添字型・raw四セル代表の異なる局所パッチ族を比較する構造を追加。全射な細分写像と真正五セルから比較データを構成し、元の型付きsource経路をそのまま保つ証拠Type同値 **`W(A) ≃ W(B)`** を得た。全パッチを覆う条件を明示し、元のoverlapとsource-anchorによる局所compatibilityの必要十分条件を保存する。
