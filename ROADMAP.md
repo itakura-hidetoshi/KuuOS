@@ -3,6 +3,14 @@
 
 
 
+## 最新のLean定理統合 — Qi v4.59／元P77 charge不完全性と像Hom障害／2026-11-05 JST
+
+**[#3139](https://github.com/itakura-hidetoshi/KuuOS/pull/3139) MERGED。** v4.58の真正源↔元P77証拠付き像のMathlibカテゴリー同値を保持し、真正P77逆向きe01＋元上3辺＋下2辺の逆向きを合成した`z₀:1→0`を構成：`Q(z₀)=-1+3-2=0`。しかし元有向自由経路の`Q=length=0`なら始終点が同一なので、`z₀`は元sourceに到達不能。符号・区間chargeでは検出できない構造障害と、既存v4.56の負charge逆元障害を分離した。元GK5CG保守的Type-valued五セル証拠による未到達Homの必要十分条件、到達済み同一端点Homに限ったcharge単射性、将来Full拡張への逆元・ゼロcharge証拠の2種の原像必要条件を厳密に形式化。
+
+**検証：** [exact-source CI #41973142130](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41973142130) **Strict Lean 10,256/10,256 SUCCESS、Governance30/30 SUCCESS、15件公理監査 sorryAxなし、変更Lean警告・エラーなし**。source/test-merge Git tree `ca96ea96a50bbaa70c5338bf4b125837ff32ae3f`完全一致、squash `17d07420fb4c1c2a6f85b73d067ec355a34a72a7`。root107、固定Lean/mathlib、保護#1558 Draft/open/unmerged、旧P77/P94A/C60証拠を維持。
+
+[正式証明記録](docs/formal/Qi-v4_59-original-P77-charge-incomplete-image-hom-obstruction.md) · [Qi v4.59 Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77ChargeIncompleteImageObstructionV4_59.lean)。**次の研究：** v4.58準逆Functorでの`charge=length`自然性・型付き源経路再構成、そして全P77 targetへ準逆を延長するための最小生成元と原証拠互換関係。chargeやCRTをType値復元と誤認せず、元5-cell obstructionを残す。
+
 ## 最新のLean定理統合 — Qi v4.58／真正Fivefold自由経路圏と元P77証拠付き像圏のカテゴリー同値／2026-11-05 JST
 
 **[定理PR #3136](https://github.com/itakura-hidetoshi/KuuOS/pull/3136) MERGED。** Qi v4.53の元5本`FivefoldEdge`の型付き自由経路圏、v4.54の**真正元F55/P77四セルを元GK5CG保守的Type値5-cell証拠の存在だけで商にしたtarget圏**、v4.55の無条件Faithful、v4.56の元P77逆向きe01四セル（charge `-1`）によるNonFull、v4.57の**真正P77保守的商クラス＋元自由経路による到達可能証拠**からなる独立像Category・FullかつFaithfulな像因子をすべて保持。今回`fivefoldP77ImageFactor_obj_surjective`で真正五行位相ラッパーの全対象が源から到達することを証明し、`EssSurj`を導いた。既証明`Full`＋`Faithful`と合わせた`IsEquivalence`から、準逆Functorと真正unit/counit NatIsoを備えた**Mathlibデータ付きカテゴリー同値`fivefoldP77ImageEquivalence`**を形式構成した。
