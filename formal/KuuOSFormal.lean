@@ -570,6 +570,7 @@ import KUOS.Architecture.QiWuxingGK5CHP77ConservativeQuotientFunctorV4_54
 import KUOS.Architecture.QiWuxingGK5CHFivefoldFinitePathFaithfulV4_55
 import KUOS.Architecture.QiWuxingGK5CHP77FullnessReverseObstructionV4_56
 import KUOS.Architecture.QiWuxingGK5CHP77CertifiedImageFactorizationV4_57
+import KUOS.Architecture.QiWuxingGK5CHP77CertifiedImageEquivalenceV4_58
 
 /-!
 Public aggregate: retain every previously published proof and its original
