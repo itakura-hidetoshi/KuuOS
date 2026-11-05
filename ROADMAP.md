@@ -3,6 +3,18 @@
 
 
 
+## 最新のLean定理統合 — Qi v4.58／真正Fivefold自由経路圏と元P77証拠付き像圏のカテゴリー同値／2026-11-05 JST
+
+**[定理PR #3136](https://github.com/itakura-hidetoshi/KuuOS/pull/3136) MERGED。** Qi v4.53の元5本`FivefoldEdge`の型付き自由経路圏、v4.54の**真正元F55/P77四セルを元GK5CG保守的Type値5-cell証拠の存在だけで商にしたtarget圏**、v4.55の無条件Faithful、v4.56の元P77逆向きe01四セル（charge `-1`）によるNonFull、v4.57の**真正P77保守的商クラス＋元自由経路による到達可能証拠**からなる独立像Category・FullかつFaithfulな像因子をすべて保持。今回`fivefoldP77ImageFactor_obj_surjective`で真正五行位相ラッパーの全対象が源から到達することを証明し、`EssSurj`を導いた。既証明`Full`＋`Faithful`と合わせた`IsEquivalence`から、準逆Functorと真正unit/counit NatIsoを備えた**Mathlibデータ付きカテゴリー同値`fivefoldP77ImageEquivalence`**を形式構成した。
+
+**中心境界：** `FivefoldFreePathCategory ≌ FivefoldP77ImagePoint f g h k`は成立するが、元保守的P77全targetへの`fivefoldP77ImageInclusion`も、元の`fivefoldP77ConservativeFunctor`も**Fullではなく、この関手ではIsEquivalenceでない**。`ImageEquivalence.functor ⋙ ImageInclusion = fivefoldP77ConservativeFunctor`を厳密なFunctors等号として証明。元P77逆向き四セルを自由圏に偽造・削除せず、元P94Aや真正C60物理Edge、数値CRTと元四セルの型を不正に同一視しない。**任意の別の圏同値が存在しないという強い主張ではない。**
+
+**exact-source検証：** 最終HEAD `a03b23c9e862e84b9e317a33198d81ff3c25aaf9`、source/test-merge Git tree `3ba33b73321a510f6d389e7f6dc687b75c7d05ba`完全一致、squash `9118c840ba4dcb34f0b8d23ebb02d9bddc6f8590`。[CI #41971808748](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41971808748) **Strict Lean 10,255/10,255 SUCCESS、Governance30/30 SUCCESS、新規12件公理監査は標準`propext/Classical.choice/Quot.sound`以内・sorryAx0**。Lean v4.30.0-rc2、mathlib pin、公開root107、strict空中心／独立Kuu一presentation、保護#1558 Draft/open未マージ維持。
+
+**[正式証明記録](docs/formal/Qi-v4_58-original-P77-certified-image-categorical-equivalence.md)** · [新規Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77CertifiedImageEquivalenceV4_58.lean)。**次の焦点：** 準逆Functorでの型付き経路復元とcharge=length、全元P77 targetへの延長の障害を元真正symm証拠で探る。全旧研究証明・README・ROADMAPをappend-only保存。
+
+---
+
 ## 最新のLean定理統合 — Qi v4.57／真正P77証拠の到達可能像Categoryと完全忠実因子分解／2026-11-05 JST
 
 **[定理PR #3134](https://github.com/itakura-hidetoshi/KuuOS/pull/3134) MERGED。** Qi v4.53の元FivefoldEdge型付き有限経路、v4.54の**元GK5CG保守的Type値5-cellの存在でのみ商にした元P77四セルtarget Category**、v4.55の無条件faithfulness、v4.56の元P77逆向き`e01`四セル（charge `-1`）による無条件non-fullnessをすべて保持。今回、`FivefoldP77ImageHom`を「実際の元P77保守的商クラス＋**真正自由経路による到達証拠**」とした独立`FivefoldP77ImageCategory`を構成。単位／合成の閉性とCategory公理を元P77の保守的5-cellの本当の証拠から証明し、数値chargeや物理C60 Edgeに商を置換しない。
