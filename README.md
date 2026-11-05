@@ -14,6 +14,12 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — Qi v4.65／真正元P77の任意有限段Type値パッチ列降下／2026-11-05 JST
+
+**[定理PR #3151](https://github.com/itakura-hidetoshi/KuuOS/pull/3151) MERGED。** v4.63の元P77の単一Hom局所降下とv4.64の二段合成を、**任意有限段**の元型付きF55/P77 raw四セルpatch列へ帰納拡張した。新規`FivefoldP77RawPatchBlock`は非空添字型と実際の元四セルを保持し、`FivefoldP77RawPatchChain`の`nil/cons`で各段の中間FivefoldPathVertexを保存する。全段にわたる元GK5CG保守的**Type値五セルのpatch相互互換性と各段最低一つの真正source評価五セルanchor**が、元source有向有限経路列の証拠付きTypeが非空であることと必要十分。真正P77 FunctorのFaithful性でその復元列は一意である。`fivefoldP77RawPatchChainPath_eval`で元source有限経路の連結を元P77商の真正垂直合成へ写し、元到達証拠付き部分Homの評価一致・正確な経路復元・元charge＝復元経路長を形式証明した。未到達の指定段を含む因子別復元は不成立となるが、全target任意合成の中間因子を無条件に復元するという主張はしない。全P77 targetへの全域回収、数値chargeのみの型同一視、一般sheaf降下、新pentagonator・Grayも導入しない。
+
+**exact-source [CI #42007067524](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42007067524)：Strict Lean 10,262/10,262 SUCCESS、Governance30/30 SUCCESS、19件新規公理監査は標準`propext/Classical.choice/Quot.sound`のみ・sorryAxなし、変更Lean warning/error0/0。** source/test-merge Git tree `4a0150635275fe386ccf83620ee16ce9986add97`完全一致、定理squash `daae34e653d0e85052efde5ac79bdc60253e1062`。公開root107、固定Lean v4.30.0-rc2／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、保護#1558 Draft/open/unmerged。[正式証明記録](docs/formal/Qi-v4_65-original-P77-finite-typed-patch-chain-descent.md) · [Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77FiniteTypedPatchChainDescentV4_65.lean)。
+
 ## 最新のLean定理統合 — Qi v4.64／真正P77二段Type値局所降下と原経路合成／2026-11-05 JST
 
 **[定理PR #3149](https://github.com/itakura-hidetoshi/KuuOS/pull/3149) MERGED。** v4.63の同一Homの元P77 raw四セル局所降下を、連続する二つの元型付きHom `u→v`／`v→w` の非空パッチ族へ拡張した。元GK5CGの**真正Type値五セルによる全パッチの相互互換性**と、各段で**少なくとも一つの元source型付き経路評価への真正Type値五セルanchor**が存在することが、二つの元source経路`(p,q)`で両族を厳密に回収できる必要十分条件である。v4.63の局所復元一意性を接続し、回収される経路ペアは一意。元P77の保守的商の垂直合成は真正source経路の合成評価と一致し、証拠付き`FivefoldP77PartialDomain`上で`PartialRecover(TwoPatchCertifiedComposite p q)=p.comp q`をLean4証明した。元GK5CG charge＝合成source経路長は復元後の観測量として得られる。
