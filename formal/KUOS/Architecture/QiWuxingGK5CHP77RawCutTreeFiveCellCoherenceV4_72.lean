@@ -87,7 +87,7 @@ def fivefoldP77RawPatchChainAppendIndexEquiv
         rfl
   | cons block tail ih =>
       exact (Equiv.prodAssoc _ _ _).trans
-        (Equiv.prodCongr (Equiv.refl _) ih)
+        (Equiv.prodCongr (Equiv.refl _) (ih right))
 
 /-- Reassociate the ACTUAL raw P77 four-proof composite using genuine
 original GK5CG 5-cells. Empty-left requires a real vertical left-unit cell. -/
@@ -112,7 +112,7 @@ def fivefoldP77RawPatchChainAppendRawFiveCell
         (.trans
           (.refl (fivefoldF55OriginalAt f g h k vertex.phase))
           (fivefoldP77RawPatchChainRaw f g h k right j))
-      exact (.verticalLeftUnit
+      exact (NativeGK5CGConservativeFiveCell.verticalLeftUnit
         (fivefoldP77RawPatchChainRaw f g h k right j)).symm
   | cons block tail ih =>
       rintro ⟨i, rest⟩ j
@@ -125,7 +125,7 @@ def fivefoldP77RawPatchChainAppendRawFiveCell
           (.trans (block.raw i) (fivefoldP77RawPatchChainRaw f g h k tail rest))
           (fivefoldP77RawPatchChainRaw f g h k right j))
       exact .trans
-        (.verticalRight (block.raw i) (ih rest j))
+        (.verticalRight (block.raw i) (ih right rest j))
         (.symm (.verticalAssoc
           (block.raw i)
           (fivefoldP77RawPatchChainRaw f g h k tail rest)
