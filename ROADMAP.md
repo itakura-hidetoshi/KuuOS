@@ -3,6 +3,16 @@
 
 
 
+## 最新のLean定理統合 — Qi v4.72／真正P77 raw切断木・五セル正規化／2026-11-06 JST
+
+**[定理PR #3166](https://github.com/itakura-hidetoshi/KuuOS/pull/3166) MERGED。** 括弧付き元raw切断木と全添字組を保持したまま、元GK5CG保守的Type値五セルの垂直単位・結合子・congruenceから平坦化正規形までの**本物の五セル**を再帰構成。元四セルの構文的等号や数値charge一致を前提としない。任意の有限recutと異なる表示比較について、括弧付きraw統合族間の両方向五セル比較、元source証拠gluingと経路自然性、証拠写像の一意性、指定因子別obstruction保存を形式化した。
+
+**[exact-source CI #42108956252](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42108956252)：Strict Lean 10,269/10,269、Governance 30/30 SUCCESS。** 新規19宣言の公理依存はpropext/Classical.choice/Quot.soundのみ、sorryAxなし、変更Lean warning/error 0/0。検証HEAD 17f0124f60c9bdf1d509d08fa67512836fee4789、Git tree 37273a70c0d16c5dc0ece14bbe46e57a1b6652dd一致、定理squash 8421b313e63450699f488c5fda8dc4c00833b781。固定Lean/mathlib・root107・保護PR #1558維持。
+
+[正式証明記録](docs/formal/Qi-v4_72-original-P77-raw-cut-tree-five-cell-coherence.md) · [Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77RawCutTreeFiveCellCoherenceV4_72.lean)
+
+**次の候補Qi v4.73：** 今回構成した真正raw五セルをv4.70の証拠付き段分割・統合に接続し、複数段の細分順序・recut・表示変更に対するType値比較の自然性、指定factor obstructionと履歴依存の区別を形式化する。元の五セル履歴そのものの等号や新しいhigher coherence generatorは仮定しない。
+
 ## 最新のLean定理統合 — Qi v4.71／真正P77統合パッチ族の五セル比較／2026-11-06 JST
 
 **[定理PR #3164](https://github.com/itakura-hidetoshi/KuuOS/pull/3164) MERGED。** 元P77有限鎖の全添字組について、各段の真正GK5CG Type値五セル比較を再帰的に垂直貼り合わせし、両方向の統合後raw四セル比較データを構成。元source witnessがない場合も五セル比較自体は存在し、比較履歴は保持する。
