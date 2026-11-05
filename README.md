@@ -14,6 +14,14 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — Qi v4.63／元P77の文脈自然性・Type値局所降下と復元障害の分離／2026-11-05 JST
+
+**[定理PR #3147](https://github.com/itakura-hidetoshi/KuuOS/pull/3147) MERGED。** Qi v4.62の元P77証拠付き部分Hom `FivefoldP77PartialDomain`と型付き経路復元を継承し、真正元FivefoldEdgeの左・右・両側文脈に対する復元自然性 `R(F(pre) ≫ A ≫ F(suffix)) = pre.comp (R A).comp suffix` を元の型付き有限経路等式として形式証明。元source到達性は真正P77商の前後文脈合成で保存されるが、未到達性の不正なキャンセル逆定理は仮定しない。
+
+**Type値局所descent:** 同じ元型付きHomの非空F55/P77生四セルpatch族 `raw i`に、単一の元source有向経路が評価一致する必要十分条件を、**全patch間の真正GK5CG保守的Type値五セルによる互換性**と**少なくとも1 patchの真正source評価五セル証拠**としてLean4証明。元のFaithful性により降下した有限経路は一意。これはHom-wise局所gluingであり、一般被覆上の無条件sheaf descentやcharge比較による復元ではない。また未到達Homを、charge範囲外（`Q<0` または `Q>3`）と範囲内での元Type値五セル復元証拠欠落に厳密分離した。実際のcharge -1逆`e01`と、charge 0でもsource未到達な相異なる元逆＋五角形ループを保持する。元P77全targetの全域typed回収、元四セルと物理C60辺の型同一視、新pentagonator、Grayを主張しない。
+
+**exact-source [CI #41994826578](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41994826578)：Strict Lean 10,260/10,260 SUCCESS、Governance30/30 SUCCESS、12件の新規公理監査は標準`propext/Classical.choice/Quot.sound`のみ・sorryAx0、変更Lean warning/error0/0。** source/test-merge Git tree `b8b6cfa2a90bd3df0a3b47f98eb6ee682efb4eaa`完全一致、定理squash `f77b2b4e67c9234d2a9908ee2f680b5f0ced24f9`。公開root107、固定Lean v4.30.0-rc2／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、保護#1558 Draft/open/unmerged。[正式証明記録](docs/formal/Qi-v4_63-original-P77-context-natural-local-type-descent-obstruction.md) · [Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77ContextLocalDescentObstructionV4_63.lean)。
+
 ## 最新のLean定理統合 — Qi v4.62／真正元P77三角恒等式と証拠付き部分経路復元／2026-11-05 JST
 
 **[定理PR #3145](https://github.com/itakura-hidetoshi/KuuOS/pull/3145) MERGED。** v4.58の真正`Equivalence`のunit/counit三角恒等式、v4.60の元有限経路復元Functor、v4.61の二つの準逆Functor間の自然同型`θ`を元の型付き証拠のまま接続した。任意の元`FivefoldPathVertex`で`η_u ≫ θ_{F(u)} = Quiver.Path.nil`、任意のsource-certified image対象で`F.map(θ_X)=ε_X`をLean4で形式証明。全元P77の真正保守的四セル商を元sourceへの到達可能性**証拠付き依存Subtype**へ制限した部分回収領域を定義し、`Quiver.Path u v ≃ FivefoldP77PartialDomain u v`、正確な元商評価・復元一意性・恒等射／合成・元charge＝回収経路長を形式化した。元生四セル`w`が部分回収可能である必要十分条件は、元の型付き自由経路の評価と`w`を結ぶ**真正GK5CG保守的Type値五セル証拠**の存在。charge -1の逆向きe01と、charge 0の別の逆向き+五角形ループのいずれも像外であり、全targetへの全域厳密回収は不可能。元P77/P94A証拠やC60物理辺を数値と同一視せず、新pentagonatorも導入しない。
