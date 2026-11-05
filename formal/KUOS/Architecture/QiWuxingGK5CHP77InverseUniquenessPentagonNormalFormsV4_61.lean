@@ -107,19 +107,10 @@ theorem fivefoldP77InverseRecoveryComponent_natural
       (fivefoldP77ImageQuasiInverse f g h k).map A
     exact fivefoldP77ImageRecovery_left_map f g h k (QQ.map A)
   have hCounit := EE.counitIso.hom.naturality A
+  have hMapped := congrArg (fun z => RR.map z) hCounit
   change QQ.map A ≫ RR.map (EE.counitIso.hom.app Y) =
     RR.map (EE.counitIso.hom.app X) ≫ RR.map A
-  calc
-    QQ.map A ≫ RR.map (EE.counitIso.hom.app Y) =
-        RR.map ((EE.inverse ⋙ EE.functor).map A) ≫
-          RR.map (EE.counitIso.hom.app Y) := by rw [hLeft]
-    _ = RR.map (((EE.inverse ⋙ EE.functor).map A) ≫
-          EE.counitIso.hom.app Y) :=
-      (RR.map_comp _ _).symm
-    _ = RR.map (EE.counitIso.hom.app X ≫ A) :=
-      congrArg (fun z => RR.map z) hCounit
-    _ = RR.map (EE.counitIso.hom.app X) ≫ RR.map A :=
-      RR.map_comp _ _
+  simpa only [Functor.map_comp, hLeft] using hMapped
 
 /-- A true natural ISO between the old Mathlib equivalence
 quasi-inverse and the NEW typed path recovery functor.
@@ -226,6 +217,10 @@ theorem fivefoldP77CertifiedUpper_ne_lower :
       (⟨fivefoldPathVertex 0⟩ : FivefoldP77ImagePoint f g h k)
       (⟨fivefoldPathVertex 3⟩ : FivefoldP77ImagePoint f g h k) =>
       fivefoldP77ConservativeCharge f g h k z.val) heq
+  change fivefoldP77ConservativeCharge f g h k
+      (fivefoldP77CertifiedUpper f g h k).val =
+    fivefoldP77ConservativeCharge f g h k
+      (fivefoldP77CertifiedLower f g h k).val at hcharge
   rw [fivefoldP77CertifiedUpper_charge,
     fivefoldP77CertifiedLower_charge] at hcharge
   norm_num at hcharge
@@ -251,8 +246,12 @@ theorem fivefoldP77QuasiInverse_upper_naturality :
         (⟨fivefoldPathVertex 0⟩ : FivefoldP77ImagePoint f g h k) ≫
       (fivefoldP77ImageRecoverPath f g h k
         (fivefoldP77CertifiedUpper f g h k)) at hnat
-  rw [fivefoldP77CertifiedUpper_recover] at hnat
-  exact hnat
+  have hword := congrArg
+    (fun path : Quiver.Path (fivefoldPathVertex 0) (fivefoldPathVertex 3) =>
+      (fivefoldP77QuasiInverseRecoveryNatIso f g h k).hom.app
+        (⟨fivefoldPathVertex 0⟩ : FivefoldP77ImagePoint f g h k) ≫ path)
+    (fivefoldP77CertifiedUpper_recover f g h k)
+  exact hnat.trans hword
 
 /-- The corresponding naturality square for the true LOWER
 original P77 word 04-43, rather than a numerical path substitute. -/
@@ -274,8 +273,12 @@ theorem fivefoldP77QuasiInverse_lower_naturality :
         (⟨fivefoldPathVertex 0⟩ : FivefoldP77ImagePoint f g h k) ≫
       (fivefoldP77ImageRecoverPath f g h k
         (fivefoldP77CertifiedLower f g h k)) at hnat
-  rw [fivefoldP77CertifiedLower_recover] at hnat
-  exact hnat
+  have hword := congrArg
+    (fun path : Quiver.Path (fivefoldPathVertex 0) (fivefoldPathVertex 3) =>
+      (fivefoldP77QuasiInverseRecoveryNatIso f g h k).hom.app
+        (⟨fivefoldPathVertex 0⟩ : FivefoldP77ImagePoint f g h k) ≫ path)
+    (fivefoldP77CertifiedLower_recover f g h k)
+  exact hnat.trans hword
 
 /-- The correct combined boundary is a NATURAL isomorphism of
 genuine source-path reconstruction functors, *two distinct*
