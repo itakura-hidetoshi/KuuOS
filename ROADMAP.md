@@ -3,6 +3,16 @@
 
 
 
+## 最新のLean定理統合 — Qi v4.61／元P77準逆比較NatIso・上下五角形の型付き経路正規形／2026-11-05 JST
+
+**[Qi v4.61 定理PR #3143](https://github.com/itakura-hidetoshi/KuuOS/pull/3143) MERGED。** v4.58で取得したchoice依存の`fivefoldP77ImageQuasiInverse`とv4.60の具体的`fivefoldP77ImageRecoveryFunctor`について、元v4.58の`counitIso`を回収Functorで写す各対象Isoを構成し、counit自然性とv4.60の両方向の元経路回収を接続。固定mathlib`NatIso.ofComponents`による**真正Functor間の自然同型**を形式証明した。定義的等号へのすり替えではなく、自然同型である。
+
+元F55/P77・GK5CG conservative Type値5-cell商クラスのsource-certified imageで、五角形の上経路`e01;e12;e23`と下経路`e04;e43`を元の型付き有限自由経路として**完全一致で復元**し、それぞれの真正元P77 chargeを3と2と証明。両者は元の証拠付き像Homとして異なることを形式化し、二つの経路上で準逆間NatIso自然性の可換四角形も証明。元P77五セルやpentagonatorの新規付加は行わず、v4.59の全P77 targetのchargeゼロ未到達Homはそのまま残す。
+
+**exact-source CI [#41984530648](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41984530648)：Strict Lean 10,258/10,258 SUCCESS、Governance30/30 SUCCESS、14件の新規公理監査は標準のみ・sorryAx0、変更Lean warning/error0/0。** source/test-merge Git tree `2827f2dce780e392deb3c5dd08ea8c8bce56e680`一致、squash `e46c5d74d2a191bc3414425f09a5025d6e9988ae`。固定Lean v4.30.0-rc2、mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、公開root107、保護#1558 Draft/open未マージ維持。
+
+[正式証明記録](docs/formal/Qi-v4_61-original-P77-inverse-natural-iso-pentagon-path-normal-forms.md) · [新規Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77InverseUniquenessPentagonNormalFormsV4_61.lean)。**次の研究候補 Qi v4.62：** 比較自然同型とv4.58同値のunit/counit三角恒等式の明示接続、証拠付き部分圏での回収の厳密な境界、全元P77 targetへの正確な回収が失敗するHomの分類。元F55/P77/P94A/C60を別authorityとして維持する。
+
 ## 最新のLean定理統合 — Qi v4.60／真正元P77証拠付き像Homの有限経路正規形・復元Functor／2026-11-05 JST
 
 **[Qi v4.60 定理PR #3141](https://github.com/itakura-hidetoshi/KuuOS/pull/3141) MERGED。** v4.58での真正source→元P77 certified image圏同値を型付きHomで具体化した。元の`FivefoldEdge`5辺自由経路を、元F55/P77のGK5CG conservative Type値5-cell商クラス＋到達証拠から一意に回収し、`fivefoldP77ImageRecoveryFunctor`を構成。元の恒等射・合成に一致し、源／像の両方向の対象・Hom写像を厳密に元へ戻すことをLean4で証明。`fivefoldP77ImageHomPathEquiv`は本物のType値Hom≃元Quiver.Pathであり、`fivefoldP77ImageRecoverPath_charge_length`は元GK5CG符号付きchargeと復元された真正経路長の一致を証明。復元は`Classical.choose`に依存する非計算的な数学的選択であり、chargeからのType値証拠再生成ではない。
