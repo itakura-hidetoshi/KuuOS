@@ -3,6 +3,18 @@
 
 
 
+## 最新のLean定理統合 — Qi v4.56／真正元P77四セルのFullness必要十分条件と逆向き証拠によるNonFull障害／2026-11-05 JST
+
+**[定理PR #3132](https://github.com/itakura-hidetoshi/KuuOS/pull/3132) MERGED。** Qi v4.53の元F55/P77生Type四セル評価、v4.54の**元GK5CG保守的5-cell証拠の存在**のみで定義した真正target商Category、v4.55の元FivefoldEdge自由経路Functorの**無条件Faithful**をすべて保持。今回`fivefoldP77ConservativeFunctor_full_iff_originalReachable`は、`F.Full`と「全target元P77四セル`w`に、元FivefoldEdge型付き経路`path`と真正`ConservativeFiveCell (Eval path) w`証拠が存在する」ことの必要十分条件を**全F54/F55依存型始終点**について形式化。数値charge等号を保守的5-cellの証拠存在と同一視しない。
+
+**中心の反例：** 元の真正`FivefoldEdge.e01 : 0→1`の元P77四セルに、元P77構成子`NativeF55RawVerticalFourCell.symm`を適用した**本物の逆向き四証拠1→0**の保守的商class `fivefoldP77OriginalReverse01` を構成。元GK5CGの符号付き四結合律chargeは **−1**。一方、全元有向自由経路の関手像のchargeは **`Nat.length ≥ 0`**。従って、この真のtarget Homのpreimageは存在せず、**`¬ F.Full`** を無条件証明。v4.55の`F.Faithful`と合わせて `fivefoldP77ConservativeFunctor_faithful_and_not_full` が **`F.Faithful ∧ ¬ F.Full`** を証明した。reverse01は新しい自由クィバー生成辺でも旧P77に存在しなかったPentagonatorでもなく、元のType付きP77反転証拠そのもの。
+
+**exact-source検証：** 定理最終HEAD `211ba667ebebc7f1930698882eff94bc4086c8ee`、source/test-merge Git tree `be12b671ad295cfe61a0e0bf4e032aabd13211c9`一致、squash/main `faa5f5213cbdaeec653500997b7306be97b5c329`。[CI #41950414210](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41950414210) **Strict Lean 10,253/10,253 SUCCESS、Governance 30/30、10新規公理監査が標準`propext/Classical.choice/Quot.sound`以内・sorryAxなし**。初回の`Quotient.inductionOn`ラッパー型違い、依存型charge不等式`omega`、終了後余分な`norm_num`と、第2回の隠れた引数に対する`rw`を全文と固定mathlibのAPI照合で修正。仮定・定理・旧履歴は弱化・削除なし。固定Lean v4.30.0-rc2、mathlib pin、公開root107、strict空中心、#1558 Draft/open未マージ維持。
+
+**[正式証明記録](docs/formal/Qi-v4_56-original-P77-faithful-nonfull-reverse-obstruction.md)** · [Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77FullnessReverseObstructionV4_56.lean)。**次Qi v4.57：** 選択五行辺の元P77関手像`Im(F)`を独立した証拠保存型の部分圏として構成し、そこへの完全忠実な因子分解と元保守的targetへの非Full包含を分離する。元P77逆向き証拠や元P94A高次seamを消さず、数値CRTと物理C60 Edgeのauthorityも保持。
+
+---
+
 ## 最新のLean定理統合 — Qi v4.55／真正有向五角形の全有限経路一意性・元P77保守的5-cell商への無条件faithful Functor／2026-11-05 JST
 
 **[定理PR #3130](https://github.com/itakura-hidetoshi/KuuOS/pull/3130) MERGED。** v3.5/v4.52唯一の真正`FivefoldEdge={e01,e12,e23,e04,e43}`に対し、全型付き`Quiver.Path`の有向経路長が0～3に限られること、1辺・2辺・3辺の全source/target整合語が同一始終点と同一長さで一致することを、元の依存型`FivefoldPathArrow`を保存したまま完全形式化。真正2辺語は`e01;e12`、`e12;e23`、`e04;e43`、3辺語は`e01;e12;e23`のみ、4辺以上の語はない。`fivefoldFreePath_length_injective`で全Homについて**経路長が等しいなら元の自由経路そのものが等しい**ことを無条件証明。
