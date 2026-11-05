@@ -14,6 +14,12 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — Qi v4.62／真正元P77三角恒等式と証拠付き部分経路復元／2026-11-05 JST
+
+**[定理PR #3145](https://github.com/itakura-hidetoshi/KuuOS/pull/3145) MERGED。** v4.58の真正`Equivalence`のunit/counit三角恒等式、v4.60の元有限経路復元Functor、v4.61の二つの準逆Functor間の自然同型`θ`を元の型付き証拠のまま接続した。任意の元`FivefoldPathVertex`で`η_u ≫ θ_{F(u)} = Quiver.Path.nil`、任意のsource-certified image対象で`F.map(θ_X)=ε_X`をLean4で形式証明。全元P77の真正保守的四セル商を元sourceへの到達可能性**証拠付き依存Subtype**へ制限した部分回収領域を定義し、`Quiver.Path u v ≃ FivefoldP77PartialDomain u v`、正確な元商評価・復元一意性・恒等射／合成・元charge＝回収経路長を形式化した。元生四セル`w`が部分回収可能である必要十分条件は、元の型付き自由経路の評価と`w`を結ぶ**真正GK5CG保守的Type値五セル証拠**の存在。charge -1の逆向きe01と、charge 0の別の逆向き+五角形ループのいずれも像外であり、全targetへの全域厳密回収は不可能。元P77/P94A証拠やC60物理辺を数値と同一視せず、新pentagonatorも導入しない。
+
+**exact-source [CI #41988984274](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41988984274)：Strict Lean 10,259/10,259 SUCCESS、Governance30/30 SUCCESS、17件新規公理監査は標準`propext/Classical.choice/Quot.sound`のみ・sorryAx0、変更Lean warning/error0/0。** source/test-merge Git tree `e6be6e268d77b7cf5436b30c7959751341fcf62e`完全一致、定理squash `134468649fefb28f7aa3ec7e54edd7af3f7cc3ed`。公開root107、固定Lean v4.30.0-rc2／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、保護#1558 Draft/open/unmerged。[正式証明記録](docs/formal/Qi-v4_62-original-P77-triangle-compatible-partial-path-recovery.md) · [Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77TriangleCompatiblePartialRecoveryV4_62.lean)。
+
 ## 最新のLean定理統合 — Qi v4.61／真正P77準逆Functorの自然同型と五角形経路正規形／2026-11-05 JST
 
 **[定理PR #3143](https://github.com/itakura-hidetoshi/KuuOS/pull/3143) MERGED。** 元FivefoldEdge自由経路圏と元F55/P77四セルのGK5CG保守的Type値五セル商・source到達証拠付き像圏について、v4.58の真正圏同値から得た準逆Functor`Q`とv4.60の具体的な有限経路復元Functor`R`を比較。旧`counitIso`を真正復元Functorで写して各対象のIsoを構成し、元counit自然性・厳密な経路回収則によって **実際のMathlib自然同型`Q ≅ R`** をLean4で証明。choice依存の両関手が定義的に等しいとは主張しない。元P77の上3辺`e01;e12;e23`／下2辺`e04;e43`はそれぞれ本物の型付き経路として厳密に回収され、元GK5CG符号付きchargeは **3／2**、両方の元P77証拠付き像Homは相異なる。元pentagonatorや旧五セルの書換えは導入していない。

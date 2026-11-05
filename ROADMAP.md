@@ -3,6 +3,16 @@
 
 
 
+## 最新のLean定理統合 — Qi v4.62／元P77の真正三角恒等式と証拠付き部分経路回収／2026-11-05 JST
+
+**[Qi v4.62 定理PR #3145](https://github.com/itakura-hidetoshi/KuuOS/pull/3145) MERGED。** 真正元FivefoldEdge自由経路圏・元F55/P77四セルのGK5CG conservative Type値五セル商target・源到達証拠付き像圏を別authorityとして維持。v4.58の元`Equivalence`のunit/counitとv4.61の準逆比較`θ:Q≅R`を接続し、`η_u ≫ θ_{F(u)} = Quiver.Path.nil`と`F.map(θ_X)=ε_X`を固定Lean4で証明。三角等式を元targetで評価しv4.57の`Faithful.map_injective`で真正sourceの経路等式へ戻すため、choice依存の準逆を不正に定義的同一視しない。
+
+**真正部分回収領域** `FivefoldP77PartialDomain u v = {z : OriginalP77ConservativeHom u v // SourceReachable z}`を構成し、`Quiver.Path u v ≃ PartialDomain u v`、元四セル商評価への厳密な往復・一意性・恒等射／合成、元GK5CG charge＝回収経路長を形式化。元F55/P77生四セル`w`の部分回収は、元有限経路の元P77評価と`w`を結ぶ真正GK5CG保守的Type値五セル証拠の存在と**同値**である。v4.56のcharge -1逆元とv4.59のcharge 0逆元+五角形ループはいずれも真正全targetには存在するが部分領域に入らない。charge範囲を元証拠の存在と同一視せず、全targetへの全域回収sectionは存在しない。
+
+**exact-source CI [#41988984274](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41988984274)：Strict Lean 10,259/10,259 SUCCESS、Governance30/30 SUCCESS、新規17件の標準公理監査 sorryAxなし、変更Lean warning/error0/0。** source/test-merge Git tree `e6be6e268d77b7cf5436b30c7959751341fcf62e`一致、squash `134468649fefb28f7aa3ec7e54edd7af3f7cc3ed`。固定Lean v4.30.0-rc2、mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、公開root107、保護PR #1558 Draft/open/unmerged維持。新しいpentagonator／Gray／無条件original→φ seamなし。
+
+[正式証明記録](docs/formal/Qi-v4_62-original-P77-triangle-compatible-partial-path-recovery.md) · [新規Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77TriangleCompatiblePartialRecoveryV4_62.lean)。**次の研究候補 Qi v4.63：** 到達可能Homの文脈自然性・局所descent、部分領域の生成元／関係／合成閉性の追加証明、chargeが検出する障害と元証拠の復元不可能性を区別した一般的obstruction分類。元F55/P77/P94A/C60物理証拠のauthority境界を維持する。
+
 ## 最新のLean定理統合 — Qi v4.61／元P77準逆比較NatIso・上下五角形の型付き経路正規形／2026-11-05 JST
 
 **[Qi v4.61 定理PR #3143](https://github.com/itakura-hidetoshi/KuuOS/pull/3143) MERGED。** v4.58で取得したchoice依存の`fivefoldP77ImageQuasiInverse`とv4.60の具体的`fivefoldP77ImageRecoveryFunctor`について、元v4.58の`counitIso`を回収Functorで写す各対象Isoを構成し、counit自然性とv4.60の両方向の元経路回収を接続。固定mathlib`NatIso.ofComponents`による**真正Functor間の自然同型**を形式証明した。定義的等号へのすり替えではなく、自然同型である。
