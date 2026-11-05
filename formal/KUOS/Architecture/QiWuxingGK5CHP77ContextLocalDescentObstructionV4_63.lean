@@ -72,19 +72,19 @@ variable
   (k : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p r₃ r₄)
 
 /-- Exact left-context naturality of the partial ORIGINAL P77
-typed normalizer, with a genuine source prefix. -/
+typed normalizer, with a genuine source pre. -/
 theorem fivefoldP77PartialRecovery_left_context
     {s u v : FivefoldPathVertex}
-    (prefix : Quiver.Path s u)
+    (pre : Quiver.Path s u)
     (A : FivefoldP77PartialDomain f g h k u v) :
     fivefoldP77PartialRecoverPath f g h k
       (fivefoldP77ImageComp f g h k
-        ((fivefoldP77ImageFactor f g h k).map prefix) A) =
-      prefix.comp (fivefoldP77PartialRecoverPath f g h k A) := by
+        ((fivefoldP77ImageFactor f g h k).map pre) A) =
+      pre.comp (fivefoldP77PartialRecoverPath f g h k A) := by
   letI := fivefoldP77ConservativeCategory f g h k
   letI := fivefoldP77ImageCategory f g h k
-  rw [fivefoldP77PartialRecoverPath_comp,
-    fivefoldP77PartialRecoverPath_of_factor]
+  rw [fivefoldP77PartialRecoverPath_comp f g h k,
+    fivefoldP77PartialRecoverPath_of_factor f g h k pre]
 
 /-- Exact right-context naturality under a genuine source suffix. -/
 theorem fivefoldP77PartialRecovery_right_context
@@ -97,61 +97,61 @@ theorem fivefoldP77PartialRecovery_right_context
       (fivefoldP77PartialRecoverPath f g h k A).comp suffix := by
   letI := fivefoldP77ConservativeCategory f g h k
   letI := fivefoldP77ImageCategory f g h k
-  rw [fivefoldP77PartialRecoverPath_comp,
-    fivefoldP77PartialRecoverPath_of_factor]
+  rw [fivefoldP77PartialRecoverPath_comp f g h k,
+    fivefoldP77PartialRecoverPath_of_factor f g h k suffix]
 
 /-- Two-sided context naturality ON the actual certified partial
 Hom, retaining actual typed endpoints and original paths. -/
 theorem fivefoldP77PartialRecovery_both_contexts
     {s u v t : FivefoldPathVertex}
-    (prefix : Quiver.Path s u)
+    (pre : Quiver.Path s u)
     (A : FivefoldP77PartialDomain f g h k u v)
     (suffix : Quiver.Path v t) :
     fivefoldP77PartialRecoverPath f g h k
       (fivefoldP77ImageComp f g h k
         (fivefoldP77ImageComp f g h k
-          ((fivefoldP77ImageFactor f g h k).map prefix) A)
+          ((fivefoldP77ImageFactor f g h k).map pre) A)
         ((fivefoldP77ImageFactor f g h k).map suffix)) =
-      (prefix.comp (fivefoldP77PartialRecoverPath f g h k A)).comp
+      (pre.comp (fivefoldP77PartialRecoverPath f g h k A)).comp
         suffix := by
   letI := fivefoldP77ConservativeCategory f g h k
   letI := fivefoldP77ImageCategory f g h k
-  rw [fivefoldP77PartialRecoverPath_comp,
-    fivefoldP77PartialRecoverPath_comp,
-    fivefoldP77PartialRecoverPath_of_factor,
-    fivefoldP77PartialRecoverPath_of_factor]
+  rw [fivefoldP77PartialRecoverPath_comp f g h k,
+    fivefoldP77PartialRecoverPath_comp f g h k,
+    fivefoldP77PartialRecoverPath_of_factor f g h k pre,
+    fivefoldP77PartialRecoverPath_of_factor f g h k suffix]
 
 /-- Source-certified original target quotient Homs stay certified
 under BOTH genuine typed source contexts. No converse/cancellation
 of unreachability is inferred from a reachable composite. -/
 theorem fivefoldP77OriginalContext_reachable
     {s u v t : FivefoldPathVertex}
-    (prefix : Quiver.Path s u)
+    (pre : Quiver.Path s u)
     (z : FivefoldP77ConservativeClasses f g h k u v)
     (suffix : Quiver.Path v t)
     (hz : fivefoldP77ConservativeReachable f g h k z) :
     fivefoldP77ConservativeReachable f g h k
       (fivefoldP77ConservativeCompose f g h k
         (fivefoldP77ConservativeCompose f g h k
-          ((fivefoldP77ConservativeFunctor f g h k).map prefix) z)
+          ((fivefoldP77ConservativeFunctor f g h k).map pre) z)
         ((fivefoldP77ConservativeFunctor f g h k).map suffix)) := by
   letI := fivefoldP77ConservativeCategory f g h k
   obtain ⟨path, hpath⟩ := hz
-  refine ⟨(prefix.comp path).comp suffix, ?_⟩
+  refine ⟨(pre.comp path).comp suffix, ?_⟩
   calc
     (fivefoldP77ConservativeFunctor f g h k).map
-        ((prefix.comp path).comp suffix) =
+        ((pre.comp path).comp suffix) =
       (fivefoldP77ConservativeFunctor f g h k).map
-          (prefix.comp path) ≫
+          (pre.comp path) ≫
         (fivefoldP77ConservativeFunctor f g h k).map suffix :=
       (fivefoldP77ConservativeFunctor f g h k).map_comp _ _
-    _ = ((fivefoldP77ConservativeFunctor f g h k).map prefix ≫
+    _ = ((fivefoldP77ConservativeFunctor f g h k).map pre ≫
           (fivefoldP77ConservativeFunctor f g h k).map path) ≫
         (fivefoldP77ConservativeFunctor f g h k).map suffix := by
       rw [Functor.map_comp]
     _ = fivefoldP77ConservativeCompose f g h k
         (fivefoldP77ConservativeCompose f g h k
-          ((fivefoldP77ConservativeFunctor f g h k).map prefix) z)
+          ((fivefoldP77ConservativeFunctor f g h k).map pre) z)
         ((fivefoldP77ConservativeFunctor f g h k).map suffix) := by
       rw [hpath]
       rfl
@@ -161,18 +161,18 @@ composite, the middle original class was already missing. This
 is the valid contrapositive of closure, not cancellation. -/
 theorem fivefoldP77OriginalContext_missing_reflects
     {s u v t : FivefoldPathVertex}
-    (prefix : Quiver.Path s u)
+    (pre : Quiver.Path s u)
     (z : FivefoldP77ConservativeClasses f g h k u v)
     (suffix : Quiver.Path v t)
     (hnot : ¬ fivefoldP77ConservativeReachable f g h k
       (fivefoldP77ConservativeCompose f g h k
         (fivefoldP77ConservativeCompose f g h k
-          ((fivefoldP77ConservativeFunctor f g h k).map prefix) z)
+          ((fivefoldP77ConservativeFunctor f g h k).map pre) z)
         ((fivefoldP77ConservativeFunctor f g h k).map suffix))) :
     ¬ fivefoldP77ConservativeReachable f g h k z := by
   intro hz
   exact hnot (fivefoldP77OriginalContext_reachable
-    f g h k prefix z suffix hz)
+    f g h k pre z suffix hz)
 
 /-- Actual source-original F55/P77 four-proof data for local
 patches at the SAME genuinely typed endpoints. -/
