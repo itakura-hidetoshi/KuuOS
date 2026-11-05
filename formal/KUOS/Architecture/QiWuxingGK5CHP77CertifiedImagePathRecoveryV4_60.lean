@@ -134,14 +134,11 @@ theorem fivefoldP77ImageRecoverPath_id
       (Quiver.Path.nil : Quiver.Path X.vertex X.vertex) := by
   letI := fivefoldP77ConservativeCategory f g h k
   letI := fivefoldP77ImageCategory f g h k
-  apply (fivefoldP77ImageFactor_faithful f g h k).map_injective
-  calc
-    (fivefoldP77ImageFactor f g h k).map
-        (fivefoldP77ImageRecoverPath f g h k (𝟙 X)) = 𝟙 X :=
-      fivefoldP77ImageRecoverPath_factor f g h k (𝟙 X)
-    _ = (fivefoldP77ImageFactor f g h k).map
-        (Quiver.Path.nil : Quiver.Path X.vertex X.vertex) := by
-      exact ((fivefoldP77ImageFactor f g h k).map_id X.vertex).symm
+  apply fivefoldP77ImageRecoverPath_unique f g h k (𝟙 X)
+  change (fivefoldP77ConservativeFunctor f g h k).map
+      (Quiver.Path.nil : Quiver.Path X.vertex X.vertex) =
+    (fivefoldP77ImageId f g h k X).val
+  exact (fivefoldP77ConservativeFunctor f g h k).map_id X.vertex
 
 /-- Original image composition normalizes to genuine source
 path composition, retaining all original typed endpoints. -/
@@ -153,21 +150,15 @@ theorem fivefoldP77ImageRecoverPath_comp
         (fivefoldP77ImageRecoverPath f g h k B) := by
   letI := fivefoldP77ConservativeCategory f g h k
   letI := fivefoldP77ImageCategory f g h k
-  apply (fivefoldP77ImageFactor_faithful f g h k).map_injective
-  calc
-    (fivefoldP77ImageFactor f g h k).map
-        (fivefoldP77ImageRecoverPath f g h k (A ≫ B)) =
-      A ≫ B := fivefoldP77ImageRecoverPath_factor f g h k (A ≫ B)
-    _ = (fivefoldP77ImageFactor f g h k).map
-          (fivefoldP77ImageRecoverPath f g h k A) ≫
-        (fivefoldP77ImageFactor f g h k).map
-          (fivefoldP77ImageRecoverPath f g h k B) := by
-      rw [fivefoldP77ImageRecoverPath_factor,
-        fivefoldP77ImageRecoverPath_factor]
-    _ = (fivefoldP77ImageFactor f g h k).map
-          ((fivefoldP77ImageRecoverPath f g h k A).comp
-            (fivefoldP77ImageRecoverPath f g h k B)) :=
-      ((fivefoldP77ImageFactor f g h k).map_comp _ _).symm
+  apply fivefoldP77ImageRecoverPath_unique f g h k (A ≫ B)
+  change (fivefoldP77ConservativeFunctor f g h k).map
+      ((fivefoldP77ImageRecoverPath f g h k A).comp
+        (fivefoldP77ImageRecoverPath f g h k B)) =
+    fivefoldP77ConservativeCompose f g h k A.val B.val
+  rw [(fivefoldP77ConservativeFunctor f g h k).map_comp,
+    fivefoldP77ImageRecoverPath_spec,
+    fivefoldP77ImageRecoverPath_spec]
+  rfl
 
 /-- Concrete Mathlib functor realizing P77 image path recovery,
 not an abstract Hom existence statement or a numeric map. -/
