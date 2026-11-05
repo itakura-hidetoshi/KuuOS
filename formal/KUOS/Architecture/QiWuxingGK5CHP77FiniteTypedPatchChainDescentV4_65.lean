@@ -160,6 +160,10 @@ inductive FivefoldP77RawPatchChain
 /-- Exactly the conjunction of actual Type-valued block
 certificates, recursively over all dependent source endpoints. -/
 def fivefoldP77RawPatchChainCompatible
+    (f : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p r₀ r₁)
+    (g : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p r₁ r₂)
+    (h : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p r₂ r₃)
+    (k : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p r₃ r₄)
     {u v : FivefoldPathVertex}
     (chain : FivefoldP77RawPatchChain f g h k u v) : Prop :=
   match chain with
@@ -172,6 +176,10 @@ def fivefoldP77RawPatchChainCompatible
 arbitrary finite original patch chain. Retains every local
 quotient-class evaluation and original typed intermediate boundary. -/
 def FivefoldP77RawPatchChainWitness
+    (f : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p r₀ r₁)
+    (g : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p r₁ r₂)
+    (h : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p r₂ r₃)
+    (k : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p r₃ r₄)
     {u v : FivefoldPathVertex}
     (chain : FivefoldP77RawPatchChain f g h k u v) : Type :=
   match chain with
@@ -272,6 +280,10 @@ four-proof classes in dependent boundary order. The chosen local
 patch indices only pick genuine raw representatives; compatibility
 will prove the value is the source image. -/
 def fivefoldP77RawPatchChainTarget
+    (f : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p r₀ r₁)
+    (g : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p r₁ r₂)
+    (h : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p r₂ r₃)
+    (k : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p r₃ r₄)
     {u v : FivefoldPathVertex}
     (chain : FivefoldP77RawPatchChain f g h k u v) :
       FivefoldP77ConservativeClasses f g h k u v :=
