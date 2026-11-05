@@ -14,6 +14,12 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — Qi v4.60／元P77証拠付き像からの型付き有限経路復元関手／2026-11-05 JST
+
+**[定理PR #3141](https://github.com/itakura-hidetoshi/KuuOS/pull/3141) MERGED。** Qi v4.58の真正元`FivefoldFreePathCategory ≌ FivefoldP77ImagePoint`圏同値とv4.59のcharge不完全性障害を継承し、元P77商クラス＋元GK5CG conservative Type値5-cell到達証拠を持つ像Homから、元`FivefoldEdge`の**唯一の型付き有限経路**を非計算的に復元。真正`fivefoldP77ImageRecoveryFunctor`を構成し、恒等射・合成・両方向の対象／Homの厳密な復元、実際のHom`Equiv`、元charge＝復元経路長をLean4で証明した。全元P77ターゲットにはv4.59のcharge 0・端点1→0の真正四セルがあるため、元評価を保持した**全域型付き経路復元は存在しない**。元P77四セルをchargeやC60物理Edgeへ置換せず、v4.58の既存準逆Functorとの定義的同一性を主張しない。
+
+**exact-source [CI #41978185134](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41978185134)：Strict Lean 10,257/10,257 SUCCESS、Governance30/30 SUCCESS、17件標準公理監査sorryAxなし、変更Lean warning/error0/0。** Source/test-merge Git tree `4ccb259bfbd080bfec53de974e6ecb6e31817e80`一致、定理squash `cf44b19f94aafd6f2f5b002e34d937ac16014c96`。固定Lean v4.30.0-rc2・mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、公開root107、保護#1558 Draft/open/unmerged維持。[正式証明記録](docs/formal/Qi-v4_60-original-P77-certified-image-path-recovery-functor.md) · [Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77CertifiedImagePathRecoveryV4_60.lean)。
+
 ## 最新のLean定理統合 — Qi v4.59／真正元P77 chargeがゼロでも未到達となるHom障害／2026-11-05 JST
 
 **[定理PR #3139](https://github.com/itakura-hidetoshi/KuuOS/pull/3139) MERGED。** v4.58の真正`FivefoldFreePathCategory ≌ FivefoldP77ImagePoint`圏同値を維持し、元F55/P77商ターゲットの真正逆元・上経路・下経路を合成した`z₀:1→0`を構成。`Q(z₀)=-1+3-2=0`にもかかわらず、元5辺有向自由経路からは到達できない。chargeの`0≤Q≤3`は到達の必要条件であって十分条件ではない。元保守的GK5CG Type値5-cell証拠による到達／未到達の必要十分条件、到達済みHom上のみのcharge単射性、Fullな将来拡張への2種の原像必要条件をLean4で証明した。元P77四セルを数値chargeやC60物理Edgeと同一視せず、新pentagonator・旧定理上書きなし。
