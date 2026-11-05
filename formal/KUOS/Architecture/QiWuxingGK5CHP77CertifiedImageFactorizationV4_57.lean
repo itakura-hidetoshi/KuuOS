@@ -131,6 +131,25 @@ def fivefoldP77ImageComp
       rw [hA, hB]
       rfl
 
+/-- The genuine ORIGINAL P77 target identity is the exact value
+of the image identity. Its reachability proof does not alter
+the underlying source-conservative quotient class. -/
+@[simp] theorem fivefoldP77ImageId_val
+    (X : FivefoldP77ImagePoint f g h k) :
+    (fivefoldP77ImageId f g h k X).val =
+      fivefoldP77ConservativeClass f g h k
+        (.refl (fivefoldF55OriginalAt f g h k X.vertex.phase)) := rfl
+
+/-- Genuine image composition projects EXACTLY to existing
+original conservative P77 quotient composition. This lemma
+exposes the value BEFORE quotient induction on representatives. -/
+@[simp] theorem fivefoldP77ImageComp_val
+    {X Y Z : FivefoldP77ImagePoint f g h k}
+    (A : FivefoldP77ImageHom f g h k X Y)
+    (B : FivefoldP77ImageHom f g h k Y Z) :
+    (fivefoldP77ImageComp f g h k A B).val =
+      fivefoldP77ConservativeCompose f g h k A.val B.val := rfl
+
 /-- The image is an ACTUAL Mathlib Category, not just a type family
 or a collection of numerically equal charges. Every category law is
 inherited from the TRUE original-P77 conservative-five-cell quotient,
@@ -148,6 +167,7 @@ instance fivefoldP77ImageCategory :
   }
   · intro X Y A
     apply Subtype.ext
+    simp only [fivefoldP77ImageComp_val, fivefoldP77ImageId_val]
     refine _root_.Quotient.inductionOn A.val (fun raw => ?_)
     change fivefoldP77ConservativeClass f g h k
         (.trans (.refl (fivefoldF55OriginalAt f g h k X.vertex.phase)) raw) =
@@ -155,6 +175,7 @@ instance fivefoldP77ImageCategory :
     exact _root_.Quotient.sound ⟨.verticalLeftUnit raw⟩
   · intro X Y A
     apply Subtype.ext
+    simp only [fivefoldP77ImageComp_val, fivefoldP77ImageId_val]
     refine _root_.Quotient.inductionOn A.val (fun raw => ?_)
     change fivefoldP77ConservativeClass f g h k
         (.trans raw (.refl (fivefoldF55OriginalAt f g h k Y.vertex.phase))) =
@@ -162,6 +183,7 @@ instance fivefoldP77ImageCategory :
     exact _root_.Quotient.sound ⟨.verticalRightUnit raw⟩
   · intro W X Y Z A B C
     apply Subtype.ext
+    simp only [fivefoldP77ImageComp_val]
     refine _root_.Quotient.inductionOn A.val (fun a => ?_)
     refine _root_.Quotient.inductionOn B.val (fun b => ?_)
     refine _root_.Quotient.inductionOn C.val (fun c => ?_)
@@ -326,6 +348,8 @@ theorem fivefoldP77Image_exact_factorization_split :
 #print axioms FivefoldP77ImageHom
 #print axioms fivefoldP77ImageId
 #print axioms fivefoldP77ImageComp
+#print axioms fivefoldP77ImageId_val
+#print axioms fivefoldP77ImageComp_val
 #print axioms fivefoldP77ImageCategory
 #print axioms fivefoldP77ImageInclusion
 #print axioms fivefoldP77ImageFactor
