@@ -568,6 +568,7 @@ import KUOS.Architecture.QiWuxingGK5CGUnifiedFivefoldTypedEdgesV4_52
 import KUOS.Architecture.QiWuxingGK5CHFivefoldFreePathOriginalP77V4_53
 import KUOS.Architecture.QiWuxingGK5CHP77ConservativeQuotientFunctorV4_54
 import KUOS.Architecture.QiWuxingGK5CHFivefoldFinitePathFaithfulV4_55
+import KUOS.Architecture.QiWuxingGK5CHP77FullnessReverseObstructionV4_56
 
 /-!
 Public aggregate: retain every previously published proof and its original
