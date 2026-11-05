@@ -127,7 +127,13 @@ theorem fivefoldP77_reachable_charge_range
   obtain ⟨path, hmap⟩ := hz
   have hc : fivefoldP77ConservativeCharge f g h k z =
       (path.length : ℤ) := by
-    rw [← hmap, fivefoldP77ConservativeFunctor_charge_length]
+    calc
+      fivefoldP77ConservativeCharge f g h k z =
+          fivefoldP77ConservativeCharge f g h k
+            ((fivefoldP77ConservativeFunctor f g h k).map path) :=
+        congrArg (fivefoldP77ConservativeCharge f g h k) hmap.symm
+      _ = (path.length : ℤ) :=
+        fivefoldP77ConservativeFunctor_charge_length f g h k path
   constructor
   · rw [hc]
     exact Int.natCast_nonneg _
@@ -166,10 +172,22 @@ theorem fivefoldP77_reachable_charge_injective
   obtain ⟨pathW, hW⟩ := hw
   have hZcharge : fivefoldP77ConservativeCharge f g h k z =
       (pathZ.length : ℤ) := by
-    rw [← hZ, fivefoldP77ConservativeFunctor_charge_length]
+    calc
+      fivefoldP77ConservativeCharge f g h k z =
+          fivefoldP77ConservativeCharge f g h k
+            ((fivefoldP77ConservativeFunctor f g h k).map pathZ) :=
+        congrArg (fivefoldP77ConservativeCharge f g h k) hZ.symm
+      _ = (pathZ.length : ℤ) :=
+        fivefoldP77ConservativeFunctor_charge_length f g h k pathZ
   have hWcharge : fivefoldP77ConservativeCharge f g h k w =
       (pathW.length : ℤ) := by
-    rw [← hW, fivefoldP77ConservativeFunctor_charge_length]
+    calc
+      fivefoldP77ConservativeCharge f g h k w =
+          fivefoldP77ConservativeCharge f g h k
+            ((fivefoldP77ConservativeFunctor f g h k).map pathW) :=
+        congrArg (fivefoldP77ConservativeCharge f g h k) hW.symm
+      _ = (pathW.length : ℤ) :=
+        fivefoldP77ConservativeFunctor_charge_length f g h k pathW
   have hlenInt : (pathZ.length : ℤ) = (pathW.length : ℤ) :=
     hZcharge.symm.trans (hc.trans hWcharge)
   have hlen : pathZ.length = pathW.length := by
@@ -201,10 +219,17 @@ theorem fivefoldP77_zeroCharge_offDiagonal_not_reachable
     ¬ fivefoldP77ConservativeReachable f g h k z := by
   letI := fivefoldP77ConservativeCategory f g h k
   rintro ⟨path, hmap⟩
-  have hcharge := congrArg (fivefoldP77ConservativeCharge f g h k) hmap
-  rw [fivefoldP77ConservativeFunctor_charge_length, hzero] at hcharge
+  have hlenInt : (path.length : ℤ) = 0 := by
+    calc
+      (path.length : ℤ) =
+          fivefoldP77ConservativeCharge f g h k
+            ((fivefoldP77ConservativeFunctor f g h k).map path) :=
+        (fivefoldP77ConservativeFunctor_charge_length f g h k path).symm
+      _ = fivefoldP77ConservativeCharge f g h k z :=
+        congrArg (fivefoldP77ConservativeCharge f g h k) hmap
+      _ = 0 := hzero
   have hlen : path.length = 0 := by
-    exact_mod_cast hcharge
+    exact_mod_cast hlenInt
   exact hne (path.eq_of_length_zero hlen)
 
 /-- Concrete ORIGINAL P77 four-proof 1 -> 0 of charge ZERO:
@@ -281,10 +306,9 @@ theorem fivefoldP77Image_zeroCharge_missing :
         (⟨fivefoldPathVertex 1⟩ : FivefoldP77ImagePoint f g h k)
         (⟨fivefoldPathVertex 0⟩ : FivefoldP77ImagePoint f g h k),
       a.val = fivefoldP77OriginalZeroChargeReverse01 f g h k := by
-  intro h
+  rintro ⟨A, hA⟩
   exact fivefoldP77OriginalZeroChargeReverse01_not_reachable f g h k
-    ((fivefoldP77Image_lift_iff_reachable f g h k
-      (fivefoldP77OriginalZeroChargeReverse01 f g h k)).1 h)
+    (hA ▸ A.property)
 
 /-- Necessary structural price of making a future original-P77
 extension FULL: at original phase 1 and 0 the extended source must
