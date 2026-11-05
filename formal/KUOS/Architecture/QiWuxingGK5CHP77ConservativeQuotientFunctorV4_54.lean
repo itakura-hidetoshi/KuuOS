@@ -127,12 +127,12 @@ def fivefoldP77ConservativeCompose
   _root_.Quotient.liftOn₂ A B
     (fun x y => fivefoldP77ConservativeClass f g h k (.trans x y))
     (by
-      intro x x' y y' hxx' hyy'
+      intro left right left' right' hleft hright
       apply _root_.Quotient.sound
-      rcases hxx' with ⟨certX⟩
-      rcases hyy' with ⟨certY⟩
-      exact ⟨.trans (.verticalLeft certX y)
-        (.verticalRight x' certY)⟩)
+      rcases hleft with ⟨certLeft⟩
+      rcases hright with ⟨certRight⟩
+      exact ⟨.trans (.verticalLeft certLeft right)
+        (.verticalRight left' certRight)⟩)
 
 /-- Representative equation for the ACTUAL original P77 vertical
 constructor; not an equality between raw proof trees. -/
