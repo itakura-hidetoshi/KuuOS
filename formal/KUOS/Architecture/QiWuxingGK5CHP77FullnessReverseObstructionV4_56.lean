@@ -152,10 +152,9 @@ theorem fivefoldP77Conservative_negativeCharge_not_reachable
   have hcharge := congrArg
     (fivefoldP77ConservativeCharge f g h k) hmap
   rw [fivefoldP77ConservativeFunctor_charge_length] at hcharge
-  have hnonneg : (0 : ℤ) ≤ fivefoldP77ConservativeCharge f g h k z := by
-    rw [← hcharge]
-    exact Int.natCast_nonneg _
-  exact (not_lt_of_ge hnonneg) hz
+  have hnegative : (path.length : ℤ) < 0 :=
+    lt_of_eq_of_lt hcharge hz
+  exact (not_lt_of_ge (Int.natCast_nonneg _)) hnegative
 
 /-- ACTUAL target original P77 inverse arrow, with exact dependent
 original F55/P77 source 1 and target 0. The inverse is a source
