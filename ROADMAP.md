@@ -3,6 +3,20 @@
 
 
 
+## 最新のLean定理統合 — Qi v4.68／真正P77の任意有限cut履歴と元証拠の正規化／2026-11-05 JST
+
+**[定理PR #3157](https://github.com/itakura-hidetoshi/KuuOS/pull/3157) MERGED。** Qi v4.67の三段再括弧付けから、任意有限の型付き切断木と切断・再結合・括弧移動の履歴へ拡張。各葉に元F55/P77のrawパッチ列を保持し、元の順序付き列への正規化`N(T)`と、真正source経路を含む証拠付きTypeの明示的同値 **`W_T ≃ W(N(T))`** を構成した。空鎖、逆履歴、有限連結、左右の任意深さの文脈を含む。
+
+**有限履歴の正規形と整合性：** 実際のcut・association生成元から任意の木を正規形へ移す有限履歴を構成し、`Nonempty (CutRoute T U) ↔ N(T)=N(U)`を形式証明。各履歴を元の切断同値・固定mathlibの`Equiv.prodAssoc`で評価し、同じ始点・終点の全有限履歴が誘導する**証拠付きType同値そのものの等式**、元source `Quiver.Path`の保存、元P77到達証拠付き部分Homの一致と正確な復元を得た。履歴自体、選ばれたraw四セル／五セルの履歴は同一視しない。
+
+**局所obstruction：** 全葉の元GK5CG Type値五セルcompatibilityとsource証拠Typeの存在は必要十分。指定された葉の条件が欠ける場合、同じ元raw列に対するどの有限recut履歴でも、その因子別実現のwitnessは存在しない。異なるraw族の任意置換や全targetの無条件復元は主張しない。
+
+**exact-source [CI #42030101859](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42030101859)：Strict Lean 10,265/10,265 SUCCESS、Governance30/30 SUCCESS、新規23件標準公理検査sorryAx0、変更Lean warning/error0/0。** 検証HEAD `7c2d8a5e02aa2e51c29e0d582c24ddfc100cf2bf`、source/test-merge tree `d0d069f6fab8df4788c240329b5eefaa846d6d02`一致、定理squash `31b81adc1f5376796d054738db378b4a077ab4fd`。Lean v4.30.0-rc2／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、公開root107、保護PR #1558 Draft/open/unmergedを維持。
+
+[正式証明記録](docs/formal/Qi-v4_68-original-P77-finite-cut-tree-normal-coherence.md) · [Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77FiniteCutTreeNormalCoherenceV4_68.lean)
+
+**次の候補Qi v4.69：** 元GK5CG Type値五セルで証明された局所パッチ族の表示変更・細分に対する比較と、正規化の自然性。現在の厳密に同じ元raw列から、真正な元比較証拠を持つ異なるraw族へ進む。比較データ・compatibility移送を別途証明し、chargeだけの比較、全targetへの無条件回収、一般sheafや新pentagonatorを導入しない。
+
 ## 最新のLean定理統合 — Qi v4.67／真正P77の任意有限鎖証拠の切断Type同値・三段再括弧付け／2026-11-05 JST
 
 **[Qi v4.67 定理PR #3155](https://github.com/itakura-hidetoshi/KuuOS/pull/3155) MERGED。** v4.65の任意有限段の元F55/P77型付き生四セルpatch列とv4.66の真正GK5CG保守的Type値五セルによる切断連結を拡張。連結した鎖の元source証拠付きType`W(L++R)`から、任意の指定された真の中間`FivefoldPathVertex`での左右証拠付きType`W(L)×W(R)`へ**具体的に分割する関数**を構築した。既存の実際の`AppendWitness`をその逆とし、v4.65で元P77 Faithful性から証明したsource型付き経路列の一意性を用いて、真正Lean`Equiv`を形式証明した。よって証拠の存在に関する必要十分条件、分割から再連結した元source`Quiver.Path`の厳密一致が成立する。
