@@ -362,7 +362,8 @@ theorem fivefoldP77CompositeComparisonSubdivision_agrees
           (fivefoldP77RawPatchCompositeBlock f g h k source)).symm
           (fivefoldP77RawPatchCompositeGlue f g h k source fineSource)) =
       fivefoldP77RawPatchChainComparisonEquiv f g h k change fineSource := by
-  letI := fivefoldP77RawPatchChain_witness_subsingleton f g h k target
+  letI : Subsingleton (FivefoldP77RawPatchTreeWitness f g h k (.leaf target)) :=
+    fivefoldP77RawPatchTree_witness_subsingleton f g h k (.leaf target)
   exact Subsingleton.elim _ _
 
 #print axioms fivefoldP77CompositeComparisonForwardIndex
