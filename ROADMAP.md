@@ -3,6 +3,20 @@
 
 
 
+## 最新のLean定理統合 — Qi v4.69／真正P77の表示変更と任意有限履歴の整合性／2026-11-06 JST
+
+**[定理PR #3159](https://github.com/itakura-hidetoshi/KuuOS/pull/3159) MERGED。** 元GK5CGの実際のType値五セルを持つ双方向の添字対応により、添字型・raw四セル代表の異なる局所パッチ族を比較する構造を追加。全射な細分写像と真正五セルから比較データを構成し、元の型付きsource経路をそのまま保つ証拠Type同値 **`W(A) ≃ W(B)`** を得た。全パッチを覆う条件を明示し、元のoverlapとsource-anchorによる局所compatibilityの必要十分条件を保存する。
+
+**正規化の自然性：** 各段の真のsource境界を保つ任意有限の依存鎖へ比較を拡張し、v4.68の切断木正規化同値と結合して **`ν_T(E_c w)=E_chain(c)(ν_S w)`** を証明。正規化したraw列自体が等しいことは要求せず、実際の元比較証拠で結ぶ。表示変更・recut・逆履歴・有限合成・左右文脈を混在させた任意有限履歴について、誘導されるLean `Equiv`、元source `Quiver.Path`、元P77証拠付き部分Hom、元商の合成値、正確な部分復元の整合性を証明した。
+
+**局所obstruction：** 真正な比較に沿って全局所compatibilityと指定因子別obstructionが保存される。今回の細分は既存段境界でのパッチ族表示の細分であり、source中間頂点の新設や全targetの無条件復元を意味しない。選ばれた五セル値と履歴自体はTypeデータとして保持し、それらの一律同一視はしない。
+
+**exact-source [CI #42054492992](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42054492992)：Strict Lean 10,266/10,266 SUCCESS、Governance30/30 SUCCESS、新規25件標準公理検査sorryAx0、変更Lean warning/error0/0。** 初回HEAD `1e90a87677689ab4817d263bd2cade94a577fe41` で完了。source/test-merge tree `2d4f5830a7718e05d6a08d1d8481936386ef1e0e`一致、定理squash `6e5fcd9a8af866b5c35f4940daf388963ca152dc`。Lean v4.30.0-rc2／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、公開root107、保護PR #1558 Draft/open/unmergedを維持。
+
+[正式証明記録](docs/formal/Qi-v4_69-original-P77-patch-presentation-naturality.md) · [Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77PatchPresentationNaturalityV4_69.lean)
+
+**次の候補Qi v4.70：** 真正な因子別source証拠を伴う段分割・統合と、表示細分との相互整合性。新しい中間頂点やその到達証拠は明示的に与え、全target合成の等式だけから各因子の復元を導かない。
+
 ## 最新のLean定理統合 — Qi v4.68／真正P77の任意有限cut履歴と元証拠の正規化／2026-11-05 JST
 
 **[定理PR #3157](https://github.com/itakura-hidetoshi/KuuOS/pull/3157) MERGED。** Qi v4.67の三段再括弧付けから、任意有限の型付き切断木と切断・再結合・括弧移動の履歴へ拡張。各葉に元F55/P77のrawパッチ列を保持し、元の順序付き列への正規化`N(T)`と、真正source経路を含む証拠付きTypeの明示的同値 **`W_T ≃ W(N(T))`** を構成した。空鎖、逆履歴、有限連結、左右の任意深さの文脈を含む。
