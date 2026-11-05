@@ -14,6 +14,12 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — Qi v4.61／真正P77準逆Functorの自然同型と五角形経路正規形／2026-11-05 JST
+
+**[定理PR #3143](https://github.com/itakura-hidetoshi/KuuOS/pull/3143) MERGED。** 元FivefoldEdge自由経路圏と元F55/P77四セルのGK5CG保守的Type値五セル商・source到達証拠付き像圏について、v4.58の真正圏同値から得た準逆Functor`Q`とv4.60の具体的な有限経路復元Functor`R`を比較。旧`counitIso`を真正復元Functorで写して各対象のIsoを構成し、元counit自然性・厳密な経路回収則によって **実際のMathlib自然同型`Q ≅ R`** をLean4で証明。choice依存の両関手が定義的に等しいとは主張しない。元P77の上3辺`e01;e12;e23`／下2辺`e04;e43`はそれぞれ本物の型付き経路として厳密に回収され、元GK5CG符号付きchargeは **3／2**、両方の元P77証拠付き像Homは相異なる。元pentagonatorや旧五セルの書換えは導入していない。
+
+**exact-source [CI #41984530648](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41984530648)：Strict Lean 10,258/10,258 SUCCESS、Governance30/30 SUCCESS、14件新規公理監査は標準`propext/Classical.choice/Quot.sound`のみ・sorryAx0、変更Lean warning/error0/0。** source/test-merge Git tree `2827f2dce780e392deb3c5dd08ea8c8bce56e680`一致、定理squash `e46c5d74d2a191bc3414425f09a5025d6e9988ae`。公開root107、固定Lean v4.30.0-rc2／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、保護#1558 Draft/open/unmerged。元P77全targetのcharge0・端点1→0未到達障害を保持。[正式証明記録](docs/formal/Qi-v4_61-original-P77-inverse-natural-iso-pentagon-path-normal-forms.md) · [Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77InverseUniquenessPentagonNormalFormsV4_61.lean)。
+
 ## 最新のLean定理統合 — Qi v4.60／元P77証拠付き像からの型付き有限経路復元関手／2026-11-05 JST
 
 **[定理PR #3141](https://github.com/itakura-hidetoshi/KuuOS/pull/3141) MERGED。** Qi v4.58の真正元`FivefoldFreePathCategory ≌ FivefoldP77ImagePoint`圏同値とv4.59のcharge不完全性障害を継承し、元P77商クラス＋元GK5CG conservative Type値5-cell到達証拠を持つ像Homから、元`FivefoldEdge`の**唯一の型付き有限経路**を非計算的に復元。真正`fivefoldP77ImageRecoveryFunctor`を構成し、恒等射・合成・両方向の対象／Homの厳密な復元、実際のHom`Equiv`、元charge＝復元経路長をLean4で証明した。全元P77ターゲットにはv4.59のcharge 0・端点1→0の真正四セルがあるため、元評価を保持した**全域型付き経路復元は存在しない**。元P77四セルをchargeやC60物理Edgeへ置換せず、v4.58の既存準逆Functorとの定義的同一性を主張しない。
