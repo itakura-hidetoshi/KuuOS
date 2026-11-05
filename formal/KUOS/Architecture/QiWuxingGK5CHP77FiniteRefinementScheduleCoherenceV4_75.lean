@@ -80,7 +80,12 @@ inductive Family
       Family f g h k u w
 
 /-- Pending/completed flags, retaining the family's parenthesization. -/
-def State {u v : FivefoldPathVertex} (family : Family f g h k u v) : Type :=
+def State
+    (f : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p r₀ r₁)
+    (g : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p r₁ r₂)
+    (h : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p r₂ r₃)
+    (k : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p r₃ r₄)
+    {u v : FivefoldPathVertex} (family : Family f g h k u v) : Type :=
   match family with
   | .fixed _ => PUnit
   | .leaf _ => Bool
@@ -99,7 +104,12 @@ def tree {u v : FivefoldPathVertex} (family : Family f g h k u v) :
       exact fun state => .node (ihLeft state.1) (ihRight state.2)
 
 /-- No chosen local plan has yet been executed. -/
-def initial {u v : FivefoldPathVertex} (family : Family f g h k u v) :
+def initial
+    (f : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p r₀ r₁)
+    (g : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p r₁ r₂)
+    (h : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p r₂ r₃)
+    (k : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p r₃ r₄)
+    {u v : FivefoldPathVertex} (family : Family f g h k u v) :
     State f g h k family :=
   match family with
   | .fixed _ => PUnit.unit
@@ -107,7 +117,12 @@ def initial {u v : FivefoldPathVertex} (family : Family f g h k u v) :
   | .node left right => (initial f g h k left, initial f g h k right)
 
 /-- Every chosen local plan has been executed. -/
-def terminal {u v : FivefoldPathVertex} (family : Family f g h k u v) :
+def terminal
+    (f : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p r₀ r₁)
+    (g : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p r₁ r₂)
+    (h : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p r₂ r₃)
+    (k : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p r₃ r₄)
+    {u v : FivefoldPathVertex} (family : Family f g h k u v) :
     State f g h k family :=
   match family with
   | .fixed _ => PUnit.unit
@@ -175,7 +190,7 @@ def schedulePlan {u v : FivefoldPathVertex} {family : Family f g h k u v}
     FivefoldP77RawPatchRefinementPlan f g h k
       (tree f g h k family s) (tree f g h k family t) := by
   induction schedule with
-  | nil family s => exact .presentation (.recut (.refl (tree f g h k family s)))
+  | nil s => exact .presentation (.recut (.refl (tree f g h k family s)))
   | cons step rest ih => exact .trans (stepPlan f g h k step) ih
 
 /-- Concatenate actual finite schedules at their exact common state. -/
@@ -186,7 +201,7 @@ def append {u v : FivefoldPathVertex} {family : Family f g h k u v}
     Schedule f g h k family s t := by
   induction firstSchedule with
   | nil => exact secondSchedule
-  | cons step rest ih => exact .cons step ih
+  | cons step rest ih => exact .cons step (ih secondSchedule)
 
 /-- Lift every individual step into a fixed right state. -/
 def left {u v w : FivefoldPathVertex} {leftFamily : Family f g h k u v}
@@ -195,7 +210,7 @@ def left {u v w : FivefoldPathVertex} {leftFamily : Family f g h k u v}
     (rightFamily : Family f g h k v w) (rs : State f g h k rightFamily) :
     Schedule f g h k (.node leftFamily rightFamily) (s, rs) (t, rs) := by
   induction schedule with
-  | nil family s => exact .nil (.node family rightFamily) (s, rs)
+  | nil s => exact .nil (.node leftFamily rightFamily) (s, rs)
   | cons step rest ih => exact .cons (.left rightFamily step rs) ih
 
 /-- Lift every individual step into a fixed left state. -/
@@ -205,7 +220,7 @@ def right {u v w : FivefoldPathVertex}
     (schedule : Schedule f g h k rightFamily s t) :
     Schedule f g h k (.node leftFamily rightFamily) (ls, s) (ls, t) := by
   induction schedule with
-  | nil family s => exact .nil (.node leftFamily family) (ls, s)
+  | nil s => exact .nil (.node leftFamily rightFamily) (ls, s)
   | cons step rest ih => exact .cons (.right leftFamily ls step) ih
 
 /-- Every partial state has an ACTUAL finite completion. Thus the subsequent
@@ -361,7 +376,7 @@ theorem schedule_forward {u v : FivefoldPathVertex} {family : Family f g h k u v
       (schedulePlan f g h k schedule)).forwardIndex (forward f g h k family t i) =
         forward f g h k family s i := by
   induction schedule with
-  | nil family s => intro i; rfl
+  | nil s => intro i; rfl
   | cons step rest ih =>
       intro i
       change (fivefoldP77RawPatchRefinementPlanRawComparison f g h k
@@ -378,7 +393,7 @@ theorem schedule_backward {u v : FivefoldPathVertex} {family : Family f g h k u 
       (schedulePlan f g h k schedule)).backwardIndex (backward f g h k family s i) =
         backward f g h k family t i := by
   induction schedule with
-  | nil family s => intro i; rfl
+  | nil s => intro i; rfl
   | cons step rest ih =>
       intro i
       change (fivefoldP77RawPatchRefinementPlanRawComparison f g h k
@@ -395,7 +410,7 @@ theorem schedule_pullback {u v : FivefoldPathVertex} {family : Family f g h k u 
       (schedulePlan f g h k schedule) (pullback f g h k family t witness) =
         pullback f g h k family s witness := by
   induction schedule with
-  | nil family s => intro witness; rfl
+  | nil s => intro witness; rfl
   | cons step rest ih =>
       intro witness
       change fivefoldP77RawPatchRefinementPlanPullback f g h k
