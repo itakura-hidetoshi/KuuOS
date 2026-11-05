@@ -102,7 +102,19 @@ theorem fivefoldP77Recovery_unit_comparison_triangle
   change EE.unitIso.hom.app u ≫
       RR.map (EE.counitIso.hom.app (EE.functor.obj u)) =
       (Quiver.Path.nil : Quiver.Path u u)
-  simpa only [Functor.map_comp, Functor.map_id, hLeft] using hTransport
+  calc
+    EE.unitIso.hom.app u ≫
+        RR.map (EE.counitIso.hom.app (EE.functor.obj u)) =
+      RR.map (EE.functor.map (EE.unitIso.hom.app u)) ≫
+        RR.map (EE.counitIso.hom.app (EE.functor.obj u)) := by
+      rw [hLeft]
+    _ = RR.map (EE.functor.map (EE.unitIso.hom.app u) ≫
+          EE.counitIso.hom.app (EE.functor.obj u)) :=
+      (RR.map_comp _ _).symm
+    _ = RR.map (𝟙 (EE.functor.obj u)) :=
+      congrArg (fun z => RR.map z) (EE.functor_unitIso_comp u)
+    _ = (Quiver.Path.nil : Quiver.Path u u) := by
+      exact RR.map_id (EE.functor.obj u)
 
 /-- The v4.61 comparison component followed by the old forward
 factor is exactly the original v4.58 counit at EVERY genuine
