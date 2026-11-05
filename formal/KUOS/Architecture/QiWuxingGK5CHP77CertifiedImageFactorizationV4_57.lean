@@ -118,9 +118,9 @@ def fivefoldP77ImageComp
     (B : FivefoldP77ImageHom f g h k Y Z) :
     FivefoldP77ImageHom f g h k X Z := by
   letI := fivefoldP77ConservativeCategory f g h k
+  refine ⟨A.val ≫ B.val, ?_⟩
   obtain ⟨pathA, hA⟩ := A.property
   obtain ⟨pathB, hB⟩ := B.property
-  refine ⟨A.val ≫ B.val, ?_⟩
   refine ⟨pathA.comp pathB, ?_⟩
   calc
     (fivefoldP77ConservativeFunctor f g h k).map (pathA.comp pathB) =
@@ -146,13 +146,28 @@ instance fivefoldP77ImageCategory :
   }
   · intro X Y A
     apply Subtype.ext
-    exact Category.id_comp A.val
+    refine _root_.Quotient.inductionOn A.val (fun raw => ?_)
+    change fivefoldP77ConservativeClass f g h k
+        (.trans (.refl (fivefoldF55OriginalAt f g h k X.vertex.phase)) raw) =
+      fivefoldP77ConservativeClass f g h k raw
+    exact _root_.Quotient.sound ⟨.verticalLeftUnit raw⟩
   · intro X Y A
     apply Subtype.ext
-    exact Category.comp_id A.val
+    refine _root_.Quotient.inductionOn A.val (fun raw => ?_)
+    change fivefoldP77ConservativeClass f g h k
+        (.trans raw (.refl (fivefoldF55OriginalAt f g h k Y.vertex.phase))) =
+      fivefoldP77ConservativeClass f g h k raw
+    exact _root_.Quotient.sound ⟨.verticalRightUnit raw⟩
   · intro W X Y Z A B C
     apply Subtype.ext
-    exact Category.assoc A.val B.val C.val
+    refine _root_.Quotient.inductionOn A.val (fun a => ?_)
+    refine _root_.Quotient.inductionOn B.val (fun b => ?_)
+    refine _root_.Quotient.inductionOn C.val (fun c => ?_)
+    change fivefoldP77ConservativeClass f g h k
+        (.trans (.trans a b) c) =
+      fivefoldP77ConservativeClass f g h k
+        (.trans a (.trans b c))
+    exact _root_.Quotient.sound ⟨.verticalAssoc a b c⟩
 
 /-- Inclusion maps each genuinely reachable ORIGINAL P77 conservative
 class to the SAME actual target class. It never changes the class
@@ -235,7 +250,7 @@ theorem fivefoldP77ImageFactor_faithful :
 /-- Genuine Mathlib FullyFaithful evidence on the exact certified
 P77 image Category. A nonfull embedding into the original target
 does NOT spoil the full and faithful source-to-image factor. -/
-theorem fivefoldP77ImageFactor_fullyFaithful :
+def fivefoldP77ImageFactor_fullyFaithful :
     (fivefoldP77ImageFactor f g h k).FullyFaithful := by
   letI := fivefoldP77ConservativeCategory f g h k
   letI := fivefoldP77ImageCategory f g h k
@@ -294,13 +309,13 @@ theorem fivefoldP77ImageInclusion_not_full :
 faithful factorization, an inclusion faithful but not full, and
 its composite equal to the original v4.54 functor. -/
 theorem fivefoldP77Image_exact_factorization_split :
-    (fivefoldP77ImageFactor f g h k).FullyFaithful ∧
+    Nonempty (fivefoldP77ImageFactor f g h k).FullyFaithful ∧
     (fivefoldP77ImageInclusion f g h k).Faithful ∧
     ¬ (fivefoldP77ImageInclusion f g h k).Full ∧
     (fivefoldP77ImageFactor f g h k ⋙
       fivefoldP77ImageInclusion f g h k =
       fivefoldP77ConservativeFunctor f g h k) := by
-  exact ⟨fivefoldP77ImageFactor_fullyFaithful f g h k,
+  exact ⟨⟨fivefoldP77ImageFactor_fullyFaithful f g h k⟩,
     fivefoldP77ImageInclusion_faithful f g h k,
     fivefoldP77ImageInclusion_not_full f g h k,
     fivefoldP77Image_factorization f g h k⟩
