@@ -14,6 +14,14 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — Qi v4.67／元P77証拠付き有限鎖の切断Type同値と三段結合整合性／2026-11-05 JST
+
+**[定理PR #3155](https://github.com/itakura-hidetoshi/KuuOS/pull/3155) MERGED。** Qi v4.65の真正元F55/P77生四セルpatchを保持した任意有限段の型付き証拠列と、v4.66の局所Type値五セル互換性のもとでの連結を継承。今回、任意の指定型付き切断点で連結後の真正元source経路証拠`W(L++R)`を左右の証拠`W(L)×W(R)`へ分割する`SplitWitness`と、これを元の`AppendWitness`と結ぶ**真正Lean `Equiv`**を形式証明した。証拠付きTypeの存在に関する必要十分条件と、切断／再連結後の元source`Quiver.Path`が厳密に一致する定理を追加した。
+
+**三段整合性：** 三つの型付き有限鎖`L,M,R`について`(L++M)++R`と`L++(M++R)`の真正source証拠を構成し、既存の依存鎖結合律による元Type値証拠の輸送一致、元source経路の完全一致、元GK5CG Type値五セルで商にした真正P77四セルクラスの一致、および元到達証拠付き`FivefoldP77PartialDomain`の厳密等号までLean4で証明した。中間鎖の真の局所五セル互換性欠落は**指定因子別**の三段連結を妨げるが、全P77 targetの任意合成に無条件な逆復元を許すわけではない。chargeのみの証拠再構成、無条件sheaf descent、新pentagonator・Gray・物理C60とのType同一視をしない。
+
+**exact-source [CI #42025070757](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42025070757)：Strict Lean 10,264/10,264 SUCCESS、Governance30/30 SUCCESS、11件の新規公理監査は標準`propext/Classical.choice/Quot.sound`のみ・sorryAxなし、変更Lean warning/error0/0。** source/test-merge Git tree `b7e50f71d038355a92afcf4864a0519ebca996db`完全一致、定理squash `ef6aa75440849f6af59aa5fa082d8e87e84e4ab5`。公開root107、固定Lean v4.30.0-rc2／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、保護#1558 Draft/open/unmerged。[正式証明記録](docs/formal/Qi-v4_67-original-P77-witness-cut-triple-coherence.md) · [Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77WitnessCutTripleCoherenceV4_67.lean)。
+
 ## 最新のLean定理統合 — Qi v4.66／真正元P77有限型付きパッチ列の切断・連結とType値gluing／2026-11-05 JST
 
 **[定理PR #3153](https://github.com/itakura-hidetoshi/KuuOS/pull/3153) MERGED。** Qi v4.65の任意有限段の元F55/P77生四セルpatch列について、**真正元source中間頂点の型を保持した切断・連結**を導入し、空鎖左単位と連結結合律をLean4で形式証明した。左右それぞれの元GK5CG保守的**Type値五セル**による局所互換性が、全連結列の互換性と必要十分になる `Compatible(Append L R) ↔ Compatible(L) ∧ Compatible(R)` を証明。両側の証拠付き元source経路から全連結経路を構成し、元source `Quiver.Path`の厳密な合成と元P77商の真正垂直合成との整合性、元到達証拠付き部分Homの元商値および元経路への厳密復元を得た。左右いずれかの指定因子のType値証拠欠如はその指定連結の障害となるが、全P77 targetの任意の別因子分解への強い不正な反射は主張しない。数値chargeだけからの証拠再構成、新逆向きsource辺、一般siteの無条件sheaf降下、新pentagonator・Grayは導入しない。
