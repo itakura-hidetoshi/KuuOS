@@ -160,8 +160,9 @@ inductive FivefoldP77RawPatchChain
 /-- Exactly the conjunction of actual Type-valued block
 certificates, recursively over all dependent source endpoints. -/
 def fivefoldP77RawPatchChainCompatible
-    {u v : FivefoldPathVertex} :
-    FivefoldP77RawPatchChain f g h k u v → Prop
+    {u v : FivefoldPathVertex}
+    (chain : FivefoldP77RawPatchChain f g h k u v) : Prop :=
+  match chain with
   | .nil _ => True
   | .cons block tail =>
       fivefoldP77RawPatchBlockCompatible f g h k block ∧
@@ -171,8 +172,9 @@ def fivefoldP77RawPatchChainCompatible
 arbitrary finite original patch chain. Retains every local
 quotient-class evaluation and original typed intermediate boundary. -/
 def FivefoldP77RawPatchChainWitness
-    {u v : FivefoldPathVertex} :
-    FivefoldP77RawPatchChain f g h k u v → Type
+    {u v : FivefoldPathVertex}
+    (chain : FivefoldP77RawPatchChain f g h k u v) : Type :=
+  match chain with
   | .nil _ => PUnit
   | .cons block tail =>
       FivefoldP77RawPatchBlockWitness f g h k block ×
@@ -270,9 +272,10 @@ four-proof classes in dependent boundary order. The chosen local
 patch indices only pick genuine raw representatives; compatibility
 will prove the value is the source image. -/
 def fivefoldP77RawPatchChainTarget
-    {u v : FivefoldPathVertex} :
-    FivefoldP77RawPatchChain f g h k u v →
-      FivefoldP77ConservativeClasses f g h k u v
+    {u v : FivefoldPathVertex}
+    (chain : FivefoldP77RawPatchChain f g h k u v) :
+      FivefoldP77ConservativeClasses f g h k u v :=
+  match chain with
   | .nil vertex =>
       fivefoldP77ConservativeClass f g h k
         (.refl (fivefoldF55OriginalAt f g h k vertex.phase))
