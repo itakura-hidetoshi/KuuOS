@@ -578,6 +578,7 @@ import KUOS.Architecture.QiWuxingGK5CHP77TriangleCompatiblePartialRecoveryV4_62
 import KUOS.Architecture.QiWuxingGK5CHP77ContextLocalDescentObstructionV4_63
 import KUOS.Architecture.QiWuxingGK5CHP77TwoSegmentLocalTypeDescentV4_64
 import KUOS.Architecture.QiWuxingGK5CHP77FiniteTypedPatchChainDescentV4_65
+import KUOS.Architecture.QiWuxingGK5CHP77TypedPatchChainCutGluingV4_66
 
 /-!
 Public aggregate: retain every previously published proof and its original
