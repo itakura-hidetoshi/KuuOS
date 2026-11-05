@@ -3,6 +3,16 @@
 
 
 
+## 最新のLean定理統合 — Qi v4.65／真正元P77任意有限段Type値パッチ列降下／2026-11-05 JST
+
+**[Qi v4.65 定理PR #3151](https://github.com/itakura-hidetoshi/KuuOS/pull/3151) MERGED。** Qi v4.64までの２段の真正元P77 source-factorized局所Type値降下を、`FivefoldP77RawPatchChain`（`nil/cons`）による**任意有限段の型付きパッチ列**へ拡張した。ブロックは元F55/P77生四セルの任意非空添字族、真の型付き端点を保持する。段ごとの局所互換性は「全patch対間に元GK5CG保守的Type値五セルが存在」かつ「少なくとも一つの元source評価→raw patchへのType値五セルが存在」。全段互換性 `fivefoldP77RawPatchChainCompatible` と、各段の真の元source経路を持つ**Type値証拠列の存在**を必要十分として証明し、元P77 Faithful性によって証拠列はSubsingleton、互換条件下では`∃!`成立と示した。
+
+**真正合成整合性：** 元`FivefoldEdge`有向有限経路を全段から結合し、元P77保守的四セル商クラスの垂直合成に厳密一致する`fivefoldP77RawPatchChainPath_eval`を依存帰納法で証明。元source到達証拠付き`FivefoldP77PartialDomain`へ写した合成クラスに対し、元商値の完全一致、型付きsource経路への厳密部分復元、および元GK5CG charge＝復元経路長を証明した。指定段の真の五セル互換性が欠ければ、**その指定因子別列**のsource復元証拠は存在しない。一方、全P77 targetの任意合成から各中間Homの到達可能性を反射する強い誤命題は付加しない。一般sheaf、逆向きsource辺、pentagonator、Grayも付加しない。
+
+**exact-source [CI #42007067524](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42007067524)：Strict Lean 10,262/10,262 SUCCESS、Governance30/30 SUCCESS、新規19件標準公理監査sorryAxなし、変更Lean warning/error0/0。** source/test-merge Git tree `4a0150635275fe386ccf83620ee16ce9986add97`完全一致、定理squash `daae34e653d0e85052efde5ac79bdc60253e1062`。固定Lean v4.30.0-rc2／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、公開root107、保護PR #1558 Draft/open/unmerged。旧証明・元F55/P77/P94A・C60物理Gauge・北C60 CRTの独立したauthorityを保持。
+
+[正式証明記録](docs/formal/Qi-v4_65-original-P77-finite-typed-patch-chain-descent.md) · [Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77FiniteTypedPatchChainDescentV4_65.lean)。**次の候補Qi v4.66：** 真正有限鎖の連結・分割の再帰演算と元P77商評価の結合整合性、元Type値patch互換性の連結閉性・復元障害の局所伝播を検証する。全targetへの無条件復元と中間因子への誤った反射を導入しない。
+
 ## 最新のLean定理統合 — Qi v4.64／真正元P77二段Type値局所降下・合成自然性／2026-11-05 JST
 
 **[Qi v4.64 定理PR #3149](https://github.com/itakura-hidetoshi/KuuOS/pull/3149) MERGED。** Qi v4.63の元F55/P77生四セルのGK5CG保守的Type値五セルによるHom-wise局所降下を、任意の二つの連続する型付き元source境界`u→v→w`へ接続。左右それぞれの非空元P77 patch族について、(i)同一段の任意patch対で元GK5CG Type値五セルが存在、(ii)各段に少なくとも１つの真正source有向経路評価からの五セル証拠が存在、という**必要十分条件**を証明した。条件が成り立つとき、一意の元source経路ペア`(pathL,pathR)`を復元し、元P77商の垂直合成が`OriginalP77.map (pathL.comp pathR)`へ完全一致する。合成を元到達証拠付き依存Subtypeへ引き上げ、型付き復元`R(composite)=pathL.comp pathR`と原charge＝経路長を証明。任意長の元有向有限経路は既存`Quiver.Path`で表現するが、任意長**パッチ段数**の一般化はまだ今後の課題とする。
