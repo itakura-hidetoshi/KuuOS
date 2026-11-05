@@ -584,6 +584,7 @@ import KUOS.Architecture.QiWuxingGK5CHP77FiniteCutTreeNormalCoherenceV4_68
 import KUOS.Architecture.QiWuxingGK5CHP77PatchPresentationNaturalityV4_69
 import KUOS.Architecture.QiWuxingGK5CHP77CertifiedSegmentSubdivisionV4_70
 import KUOS.Architecture.QiWuxingGK5CHP77CompositeFiveCellNaturalityV4_71
+import KUOS.Architecture.QiWuxingGK5CHP77RawCutTreeFiveCellCoherenceV4_72
 
 /-!
 Public aggregate: retain every previously published proof and its original
