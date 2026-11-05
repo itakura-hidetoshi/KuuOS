@@ -106,7 +106,7 @@ theorem fivefoldP77RawPatchChainAppend_assoc
   | nil _ => rfl
   | cons block tail ih =>
       exact congrArg
-        (fun q => FivefoldP77RawPatchChain.cons block q) ih
+        (fun q => FivefoldP77RawPatchChain.cons block q) (ih middle)
 
 /-- A true Type-valued chain source witness can be glued from
 the genuine dependent witnesses of its two halves. -/
@@ -128,7 +128,7 @@ def fivefoldP77RawPatchChainAppendWitness
       exact wRight
   | cons block tail ih =>
       intro wLeft wRight
-      exact (wLeft.1, ih wLeft.2 wRight)
+      exact (wLeft.1, ih right wLeft.2 wRight)
 
 /-- Exact original Type-valued local compatibility at a cut:
 the glued chain is compatible IFF BOTH original component chains
@@ -183,15 +183,10 @@ theorem fivefoldP77RawPatchChainAppend_path
   | cons block tail ih =>
       intro wLeft wRight
       rcases wLeft with ⟨head, rest⟩
-      change
-        head.val.comp
-          (fivefoldP77RawPatchChainPath f g h k
-            (fivefoldP77RawPatchChainAppend f g h k tail right)
-            (fivefoldP77RawPatchChainAppendWitness
-              f g h k tail right rest wRight)) =
-        (head.val.comp (fivefoldP77RawPatchChainPath f g h k tail rest)).comp
-          (fivefoldP77RawPatchChainPath f g h k right wRight)
-      rw [ih rest wRight]
+      dsimp [fivefoldP77RawPatchChainAppendWitness,
+        fivefoldP77RawPatchChainAppend,
+        fivefoldP77RawPatchChainPath]
+      rw [ih right rest wRight]
       exact (Quiver.Path.comp_assoc _ _ _).symm
 
 /-- Genuine original P77 conservative quotient after a cut:
@@ -212,28 +207,36 @@ theorem fivefoldP77RawPatchChainAppend_target
   let joined := fivefoldP77RawPatchChainAppend f g h k left right
   let fullWitness :=
     fivefoldP77RawPatchChainAppendWitness f g h k left right wLeft wRight
-  calc
-    fivefoldP77RawPatchChainTarget f g h k joined =
-        (fivefoldP77ConservativeFunctor f g h k).map
-          (fivefoldP77RawPatchChainPath f g h k joined fullWitness) :=
-      (fivefoldP77RawPatchChainPath_eval f g h k joined fullWitness).symm
-    _ = (fivefoldP77ConservativeFunctor f g h k).map
-          ((fivefoldP77RawPatchChainPath f g h k left wLeft).comp
-            (fivefoldP77RawPatchChainPath f g h k right wRight)) :=
-      congrArg (fun path : Quiver.Path u w =>
-        (fivefoldP77ConservativeFunctor f g h k).map path)
-        (fivefoldP77RawPatchChainAppend_path f g h k left right wLeft wRight)
-    _ = (fivefoldP77ConservativeFunctor f g h k).map
-          (fivefoldP77RawPatchChainPath f g h k left wLeft) ≫
-        (fivefoldP77ConservativeFunctor f g h k).map
-          (fivefoldP77RawPatchChainPath f g h k right wRight) :=
-      (fivefoldP77ConservativeFunctor f g h k).map_comp _ _
-    _ = fivefoldP77ConservativeCompose f g h k
+  let leftPath := fivefoldP77RawPatchChainPath f g h k left wLeft
+  let rightPath := fivefoldP77RawPatchChainPath f g h k right wRight
+  let FF := fivefoldP77ConservativeFunctor f g h k
+  have hPath : fivefoldP77RawPatchChainPath f g h k joined fullWitness =
+      leftPath.comp rightPath :=
+    fivefoldP77RawPatchChainAppend_path f g h k left right wLeft wRight
+  have hEval : FF.map
+      (fivefoldP77RawPatchChainPath f g h k joined fullWitness) =
+        fivefoldP77RawPatchChainTarget f g h k joined :=
+    fivefoldP77RawPatchChainPath_eval f g h k joined fullWitness
+  have hL : FF.map leftPath =
+      fivefoldP77RawPatchChainTarget f g h k left :=
+    fivefoldP77RawPatchChainPath_eval f g h k left wLeft
+  have hR : FF.map rightPath =
+      fivefoldP77RawPatchChainTarget f g h k right :=
+    fivefoldP77RawPatchChainPath_eval f g h k right wRight
+  have hComp : FF.map (leftPath.comp rightPath) =
+      fivefoldP77ConservativeCompose f g h k
+        (fivefoldP77RawPatchChainTarget f g h k left)
+        (fivefoldP77RawPatchChainTarget f g h k right) := by
+    calc
+      FF.map (leftPath.comp rightPath) =
+          FF.map leftPath ≫ FF.map rightPath := FF.map_comp _ _
+      _ = fivefoldP77ConservativeCompose f g h k
           (fivefoldP77RawPatchChainTarget f g h k left)
           (fivefoldP77RawPatchChainTarget f g h k right) := by
-      rw [fivefoldP77RawPatchChainPath_eval f g h k left wLeft,
-        fivefoldP77RawPatchChainPath_eval f g h k right wRight]
-      rfl
+        rw [hL, hR]
+        rfl
+  exact hEval.symm.trans
+    ((congrArg (fun path : Quiver.Path u w => FF.map path) hPath).trans hComp)
 
 /-- The full original P77 source-certified value after gluing
 is the vertical composite of the underlying REAL target
