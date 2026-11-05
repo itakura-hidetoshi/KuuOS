@@ -3,6 +3,16 @@
 
 
 
+## 最新のLean定理統合 — Qi v4.64／真正元P77二段Type値局所降下・合成自然性／2026-11-05 JST
+
+**[Qi v4.64 定理PR #3149](https://github.com/itakura-hidetoshi/KuuOS/pull/3149) MERGED。** Qi v4.63の元F55/P77生四セルのGK5CG保守的Type値五セルによるHom-wise局所降下を、任意の二つの連続する型付き元source境界`u→v→w`へ接続。左右それぞれの非空元P77 patch族について、(i)同一段の任意patch対で元GK5CG Type値五セルが存在、(ii)各段に少なくとも１つの真正source有向経路評価からの五セル証拠が存在、という**必要十分条件**を証明した。条件が成り立つとき、一意の元source経路ペア`(pathL,pathR)`を復元し、元P77商の垂直合成が`OriginalP77.map (pathL.comp pathR)`へ完全一致する。合成を元到達証拠付き依存Subtypeへ引き上げ、型付き復元`R(composite)=pathL.comp pathR`と原charge＝経路長を証明。任意長の元有向有限経路は既存`Quiver.Path`で表現するが、任意長**パッチ段数**の一般化はまだ今後の課題とする。
+
+**正確な障害：** 指定段の元raw patchで元source評価からのType値五セルが全く存在しなければ、**指定の二段因子別**局所降下は不成立。元P77真正zero-charge逆e01＋五角形ループが左段を占める場合にも成立しない。数値chargeで元Type値五セルを創作しない。合成全体の到達可能性から中間元raw patchすべてが到達可能とする、証明されていない反射・キャンセル命題は追加しない。
+
+**exact-source [CI #42001754689](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42001754689)：Strict Lean 10,261/10,261 SUCCESS、Governance30/30 SUCCESS、10件標準公理監査sorryAx0、変更Lean warning/error0/0。** source/test-merge Git tree `457467cc1a37960b2be0096ea73d06659a0cfce2`完全一致、定理squash `eafe0036cd9a8433554fa93bff4ca0ea59a6239c`。公開root107、固定Lean v4.30.0-rc2／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、保護PR #1558 Draft/open/unmerged。元F55/P77/P94A／KuuOSStrict／真正C60物理Gauge／北C60 CRTのauthorityと証拠履歴を維持。
+
+[正式証明記録](docs/formal/Qi-v4_64-original-P77-two-segment-type-local-descent.md) · [Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77TwoSegmentLocalTypeDescentV4_64.lean)。**次の焦点 Qi v4.65：** 二段の局所型付き証拠を有限段の可合成パッチ列へ帰納拡張し、各段の真正GK5CG五セル証拠とsource経路合成の整合性を可換図式として形式化する。中間元P77 targetの不正なfullness・反射を仮定しない。
+
 ## 最新のLean定理統合 — Qi v4.63／真正元P77文脈自然性・Type値局所降下・obstruction分離／2026-11-05 JST
 
 **[Qi v4.63 定理PR #3147](https://github.com/itakura-hidetoshi/KuuOS/pull/3147) MERGED。** v4.62の証拠付き真正元P77商Subtypeからの型付き有限経路復元に対し、元有向`FivefoldEdge`自由経路の左右／両側文脈の`F(pre) ≫ A ≫ F(suffix)`を厳密に復元して`pre.comp(R A).comp suffix`へ一致させる自然性をLean4で証明した。元全P77商上のsource到達性は真正文脈合成下で保存されるが、未到達性の任意文脈保存やキャンセルは主張しない。
