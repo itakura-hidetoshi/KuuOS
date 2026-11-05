@@ -3,6 +3,18 @@
 
 
 
+## 最新のLean定理統合 — Qi v4.63／真正元P77文脈自然性・Type値局所降下・obstruction分離／2026-11-05 JST
+
+**[Qi v4.63 定理PR #3147](https://github.com/itakura-hidetoshi/KuuOS/pull/3147) MERGED。** v4.62の証拠付き真正元P77商Subtypeからの型付き有限経路復元に対し、元有向`FivefoldEdge`自由経路の左右／両側文脈の`F(pre) ≫ A ≫ F(suffix)`を厳密に復元して`pre.comp(R A).comp suffix`へ一致させる自然性をLean4で証明した。元全P77商上のsource到達性は真正文脈合成下で保存されるが、未到達性の任意文脈保存やキャンセルは主張しない。
+
+**真正GK5CG Type値局所降下：** 同じ元型付き端点を持つ非空の元F55/P77生四セルpatch族`w_i`が**一つの元source型付き有限経路**へ降下する必要十分条件は、任意の`i,j`で元GK5CG Type値五セル`w_i ⇒ w_j`が存在し、かつ一つのpatch`w_i`に元source評価`Eval(path) ⇒ w_i`の本物の五セルが存在すること。全patchの元商評価一致を得て、真正元P77 Faithful性によりそのsource pathは一意である。`fivefoldP77LocalTypeDescent_iff`／`_unique`が実際の圏証拠を保持する。一般siteの無条件sheaf gluingではなく、Hom-wiseの正確な証拠付きパッチ降下である。
+
+**障害の必要十分分割：** 原像を持たない元P77生四セル`w`は、(1) 元符号付きchargeが`Q(w)<0`または`Q(w)>3`、あるいは (2) charge範囲内でも全source有向経路からの真正Type値五セルが存在しない、のいずれかと同値。元P77逆`e01`はcharge -1で可視だが、元逆＋五角形ループはcharge 0でも復元不能で、数値chargeは十分条件ではない。元F55/P77/P94A、C60物理Gauge、北C60 CRTおよび独立KuuとStrict 空のauthorityを混同しない。
+
+**exact-source [CI #41994826578](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/41994826578)：Strict Lean 10,260/10,260 SUCCESS、Governance30/30 SUCCESS、新規12件の標準公理監査sorryAx0、変更Lean warning/error0/0。** source/test-merge Git tree `b8b6cfa2a90bd3df0a3b47f98eb6ee682efb4eaa`完全一致、定理squash `f77b2b4e67c9234d2a9908ee2f680b5f0ced24f9`。固定Lean v4.30.0-rc2／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、公開root107、保護#1558 Draft/open/unmerged。
+
+[正式証明記録](docs/formal/Qi-v4_63-original-P77-context-natural-local-type-descent-obstruction.md) · [Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77ContextLocalDescentObstructionV4_63.lean)。**次の候補 Qi v4.64：** 同一Homのpatch接着から、複数の元型付き部分経路／任意長文脈列の貼り合わせと生成元・合成の整合性へ拡張し、必要最小のType値五セル障害を同定する。全P77 targetへの全域回収や無条件sheaf降下は仮定しない。
+
 ## 最新のLean定理統合 — Qi v4.62／元P77の真正三角恒等式と証拠付き部分経路回収／2026-11-05 JST
 
 **[Qi v4.62 定理PR #3145](https://github.com/itakura-hidetoshi/KuuOS/pull/3145) MERGED。** 真正元FivefoldEdge自由経路圏・元F55/P77四セルのGK5CG conservative Type値五セル商target・源到達証拠付き像圏を別authorityとして維持。v4.58の元`Equivalence`のunit/counitとv4.61の準逆比較`θ:Q≅R`を接続し、`η_u ≫ θ_{F(u)} = Quiver.Path.nil`と`F.map(θ_X)=ε_X`を固定Lean4で証明。三角等式を元targetで評価しv4.57の`Faithful.map_injective`で真正sourceの経路等式へ戻すため、choice依存の準逆を不正に定義的同一視しない。
