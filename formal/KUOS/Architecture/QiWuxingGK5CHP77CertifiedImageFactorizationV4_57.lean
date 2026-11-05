@@ -139,7 +139,7 @@ instance fivefoldP77ImageCategory :
   refine {
     Hom := FivefoldP77ImageHom f g h k
     id := fivefoldP77ImageId f g h k
-    comp := fun _ _ _ A B => fivefoldP77ImageComp f g h k A B
+    comp A B := fivefoldP77ImageComp f g h k A B
     id_comp := ?_
     comp_id := ?_
     assoc := ?_
