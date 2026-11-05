@@ -151,14 +151,18 @@ theorem fivefoldP77ConservativeCompose_class
 
 /-- NEW target presentation. This object wrapper avoids conflicting
 Category instances on the free path category or on FivePhase. -/
-structure FivefoldP77ConservativePoint where
+structure FivefoldP77ConservativePoint
+    (f : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p r₀ r₁)
+    (g : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p r₁ r₂)
+    (h : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p r₂ r₃)
+    (k : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p r₃ r₄) where
   vertex : FivefoldPathVertex
 
 /-- The fully dependent ORIGINAL P77 target category with Homs equal
 to conservative-five-cell classes. Strictness is derived ONLY AFTER
 quotienting by the explicit source Type-valued five-cells. -/
 instance fivefoldP77ConservativeCategory :
-    Category (FivefoldP77ConservativePoint) where
+    Category (FivefoldP77ConservativePoint f g h k) where
   Hom X Y := FivefoldP77ConservativeClasses f g h k X.vertex Y.vertex
   id X := fivefoldP77ConservativeClass f g h k
     (.refl (fivefoldF55OriginalAt f g h k X.vertex.phase))
@@ -191,7 +195,7 @@ instance fivefoldP77ConservativeCategory :
 /-- An original fivefold generator maps to the CLASS of the ACTUAL
 P77 four-proof selected by its typed FivefoldEdge. -/
 def fivefoldP77ConservativeEdgePrefunctor :
-    FivefoldPathVertex ⥤q FivefoldP77ConservativePoint :=
+    FivefoldPathVertex ⥤q FivefoldP77ConservativePoint f g h k :=
   letI := fivefoldP77ConservativeCategory f g h k
   {
     obj := fun vertex => ⟨vertex⟩
@@ -203,7 +207,7 @@ def fivefoldP77ConservativeEdgePrefunctor :
 /-- Genuine Mathlib FUNCTOR from the real free typed fivefold path
 category into the conservative source-P77 quotient target category. -/
 def fivefoldP77ConservativeFunctor :
-    FivefoldFreePathCategory ⥤ FivefoldP77ConservativePoint :=
+    FivefoldFreePathCategory ⥤ FivefoldP77ConservativePoint f g h k :=
   letI := fivefoldP77ConservativeCategory f g h k
   CategoryTheory.Paths.lift (fivefoldP77ConservativeEdgePrefunctor f g h k)
 
