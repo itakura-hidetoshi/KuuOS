@@ -3,6 +3,18 @@
 
 
 
+## 最新のLean定理統合 — Qi v4.73／真正P77の証拠付き混合細分raw五セル自然性／2026-11-06 JST
+
+**[定理PR #3168](https://github.com/itakura-hidetoshi/KuuOS/pull/3168) MERGED。** v4.70任意有限の証拠付き混合細分・統合履歴に対して、v4.72のraw切断木全添字族を**元GK5CG真正五セル**で結ぶ両方向比較を構成。粗ブロック右単位五セル、細分時の双方向五セル、元四セルcongruenceによる任意左右文脈、旧recut・表示変更、逆・合成を実装。元raw保守的P77商値と署名付き結合子chargeは真正五セルから導出し、source経路・gluing・元P77証拠付き部分Hom・compatibility・obstructionを条件付きで保存。四辺の任意の証拠付き比較四角形は、**誘導されたwitness Equiv**として可換（元raw五セル履歴自体の等号は主張しない）。
+
+**反例と境界：** 元逆e01→順e01の粗い合成raw四セルは細分raw四セルと真正五セルで比較可能だが、指定逆向きsource段には原像がないため、その粗木から指定fine treeへの証拠付き混合routeは存在しない。比較と因子別descentを明確に分離した。
+
+**[exact-source CI #42116672588](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42116672588)：Strict Lean 10,270/10,270 SUCCESS、Governance 30/30 SUCCESS、新規20宣言すべて標準公理のみ・sorryAxなし、変更Lean warning/error 0/0。** 検証HEAD ccdef1ce8339a2c234e6f55ee2870fa2d54ec0d8、source/test-merge tree 6b70774a711a2fcff3599218908403f9d5ea077d一致、定理squash d476f2eae3b8115a3addbb4d0db68939e4b72d96。固定Lean/mathlib、公開root107、#1558保護維持。
+
+[正式証明記録](docs/formal/Qi-v4_73-original-P77-certified-mixed-subdivision-five-cell.md) · [Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77CertifiedMixedSubdivisionFiveCellV4_73.lean)
+
+**次の候補Qi v4.74：** 証拠付き混合細分を複数の異なる細分木経由で合成したとき、raw五セル比較履歴のType値構造を保ったまま、正規化を経た可換な比較diagramの構成と、source経路・指定因子別obstructionの段階的な局所検査を形式化する。五セル履歴そのものの証明等式や新pentagonatorは仮定しない。
+
 ## 最新のLean定理統合 — Qi v4.72／真正P77 raw切断木・五セル正規化／2026-11-06 JST
 
 **[定理PR #3166](https://github.com/itakura-hidetoshi/KuuOS/pull/3166) MERGED。** 括弧付き元raw切断木と全添字組を保持したまま、元GK5CG保守的Type値五セルの垂直単位・結合子・congruenceから平坦化正規形までの**本物の五セル**を再帰構成。元四セルの構文的等号や数値charge一致を前提としない。任意の有限recutと異なる表示比較について、括弧付きraw統合族間の両方向五セル比較、元source証拠gluingと経路自然性、証拠写像の一意性、指定因子別obstruction保存を形式化した。
