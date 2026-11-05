@@ -148,7 +148,8 @@ inductive FivefoldP77RawPatchChain
     (g : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p r₁ r₂)
     (h : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p r₂ r₃)
     (k : KuuNativeF45Tree.DepthRotationRoute.PresentedCell p r₃ r₄) :
-    FivefoldPathVertex → FivefoldPathVertex → Type
+    FivefoldPathVertex → FivefoldPathVertex →
+      Type (max (max (max (max uD uE) vD) vE) 1)
   | nil (u : FivefoldPathVertex) :
       FivefoldP77RawPatchChain f g h k u u
   | cons {u v w : FivefoldPathVertex}
