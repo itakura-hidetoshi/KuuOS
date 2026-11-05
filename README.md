@@ -14,6 +14,14 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — Qi v4.64／真正P77二段Type値局所降下と原経路合成／2026-11-05 JST
+
+**[定理PR #3149](https://github.com/itakura-hidetoshi/KuuOS/pull/3149) MERGED。** v4.63の同一Homの元P77 raw四セル局所降下を、連続する二つの元型付きHom `u→v`／`v→w` の非空パッチ族へ拡張した。元GK5CGの**真正Type値五セルによる全パッチの相互互換性**と、各段で**少なくとも一つの元source型付き経路評価への真正Type値五セルanchor**が存在することが、二つの元source経路`(p,q)`で両族を厳密に回収できる必要十分条件である。v4.63の局所復元一意性を接続し、回収される経路ペアは一意。元P77の保守的商の垂直合成は真正source経路の合成評価と一致し、証拠付き`FivefoldP77PartialDomain`上で`PartialRecover(TwoPatchCertifiedComposite p q)=p.comp q`をLean4証明した。元GK5CG charge＝合成source経路長は復元後の観測量として得られる。
+
+**障害境界：** どちらかの指定パッチでsource-evaluation→rawのType値五セルが全て欠けると、指定の二段**因子別**降下は不可能。実際の逆e01＋五角形ループはcharge 0でも左段の元到達可能性を阻む。これは元全P77 targetの合成から任意の中間Homをキャンセル復元する主張ではなく、全targetへの全域逆関手、数値chargeだけの証拠再構成、一般sheaf gluingや新しいpentagonatorを導入しない。
+
+**exact-source [CI #42001754689](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42001754689)：Strict Lean 10,261/10,261 SUCCESS、Governance30/30 SUCCESS、10件新規公理監査は標準`propext/Classical.choice/Quot.sound`のみ・sorryAx0、変更Lean warning/error0/0。** source/test-merge Git tree `457467cc1a37960b2be0096ea73d06659a0cfce2`完全一致、定理squash `eafe0036cd9a8433554fa93bff4ca0ea59a6239c`。旧証拠上書きなし、公開root107、固定Lean v4.30.0-rc2／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、保護#1558 Draft/open/unmerged。[正式証明記録](docs/formal/Qi-v4_64-original-P77-two-segment-type-local-descent.md) · [Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77TwoSegmentLocalTypeDescentV4_64.lean)。
+
 ## 最新のLean定理統合 — Qi v4.63／元P77の文脈自然性・Type値局所降下と復元障害の分離／2026-11-05 JST
 
 **[定理PR #3147](https://github.com/itakura-hidetoshi/KuuOS/pull/3147) MERGED。** Qi v4.62の元P77証拠付き部分Hom `FivefoldP77PartialDomain`と型付き経路復元を継承し、真正元FivefoldEdgeの左・右・両側文脈に対する復元自然性 `R(F(pre) ≫ A ≫ F(suffix)) = pre.comp (R A).comp suffix` を元の型付き有限経路等式として形式証明。元source到達性は真正P77商の前後文脈合成で保存されるが、未到達性の不正なキャンセル逆定理は仮定しない。
