@@ -614,6 +614,7 @@ import KUOS.Architecture.QiWuxingGK5CHP77ThreeChargeFiltrationRigidityV4_96
 import KUOS.Architecture.QiWuxingGK5CHP77IdentityBalanceHiddenCriticalPeaksV4_97
 import KUOS.Architecture.QiWuxingGK5CHP77IdentityDoubleHigherLocalCompletionV4_98
 import KUOS.Architecture.QiWuxingGK5CHP77MixedIdentityParityDescentV4_99
+import KUOS.Architecture.QiWuxingGK5CHP77UnitDiamondFourTorsionObstructionV5_00
 
 /-!
 Public aggregate: retain every previously published proof and its original
