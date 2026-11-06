@@ -3,6 +3,18 @@
 
 
 
+## 最新のLean定理統合 — Qi v4.76／真正P77の再括弧付け付き有限細分スケジュールとrecut自然性／2026-11-06 JST
+
+**[定理PR #3174](https://github.com/itakura-hidetoshi/KuuOS/pull/3174) MERGED。** 同じ局所計画と空間的な因子順序を保持する有限Familyの再括弧付けについて、全途中状態・元Step・有限Scheduleの移送を構成。元CutRouteの全raw添字同値と既存の正規化経由raw比較の添字写像を構造帰納で接続し、任意の部分スケジュールの全forward／backward添字域と真正source証拠で自然性を証明した。完了条件やcoverageの全射性を仮定しない。
+
+**真正五セル・証拠・obstruction：** 「元スケジュールの後にrecut」と「先にrecutして移送スケジュール」の元RefinementPlanを実構成し、全添字対応と元source証拠の復元の一致を証明。二つの元GK5CG Type値五セルとloopを保持し、元Quiver.Path・P77認証付き部分Hom・各側の認証前後raw比較・元の終了因子族のobstructionを保存する。新しいスケジュール自然性にsource証拠のsubsingleton性を使わず、五セル履歴自体の等式は主張しない。
+
+**[exact-source CI #42154950425](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42154950425)：Strict Lean 10274/10274 SUCCESS、Governance30/30 SUCCESS、新規46宣言は標準公理のみ・sorryAxなし、変更Lean warning/error0/0。** 検証HEAD 1ccf71f015d0a275b3156b02bda150a8ccc85bf9、source/test-merge/squash tree 78b57778212488e89564794df8219a96880a8cc7一致、定理squash 1ceca044669e140d312d9bd654f6ea04e8f2b51a。固定Lean v4.30.0-rc2／mathlib5450b53e5ddc75d46418fabb605edbf36bd0beb6、公開root107、保護PR #1558 Draft/open/unmerged。
+
+[正式証明記録](docs/formal/Qi-v4_76-original-P77-reassociated-refinement-schedules.md) · [recut添字証明](formal/KUOS/Architecture/QiWuxingGK5CHP77RecutIndexCoherenceV4_76.lean) · [スケジュール移送証明](formal/KUOS/Architecture/QiWuxingGK5CHP77ReassociatedRefinementSchedulesV4_76.lean)
+
+**次の候補Qi v4.77：** 再括弧付けと局所Stepが途中で交互に現れる有限履歴を構成し、今回の自然性四角形を逐次合成してrecutを前後へ集約する。選択済み計画、元Type値履歴、全raw添字、source証拠、因子別obstructionを保持する。異なる五セル履歴自体のhigher coherenceは別課題。
+
 ## 最新のLean定理統合 — Qi v4.75／真正P77の有限独立細分スケジュールと共通recut下の順序整合性／2026-11-06 JST
 
 **[定理PR #3172](https://github.com/itakura-hidetoshi/KuuOS/pull/3172) MERGED。** 元の局所RefinementPlanを保持する任意有限の型付きFamily、各因子の未実施／実施済み状態、単一因子Step、実中間状態を残すScheduleを構成。任意途中状態からの完了列を実際に作り、全完了順序のforward/backward raw添字写像と真正source証拠の復元が、同じ成分別写像に一致することを構造帰納で証明した。順序独立性にsource証拠のsubsingletonを使わない。
