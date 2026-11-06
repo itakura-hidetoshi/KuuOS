@@ -19,8 +19,9 @@ independent inverse-cancellation/unit overlaps:
   inverseLeft(refl) versus inverseId ; leftUnit,
   inverseRight(refl) versus inverseId ; rightUnit.
 Paste the direct reductions horizontally on the first path, and the
-two alternative reductions on the second. Their (T,J,K) charges agree
-and their R-parity is 0 in both cases; their UNIT counts are 0 and 2.
+two alternative reductions on the second. The old T charge differs by 1 on this two-factor precursor. Add a
+third ACTUAL left-triangle comparison to balance T, leaving an explicit
+three-charge AND residual-parity invisible unit-count obstruction.
 The all-constructor unit-count conservation proves that NO
 UnitDiamondEightCell joins this actual pair. Thus residual parity
 remains INCOMPLETE after v5.01, without any new primitive or axiom.
@@ -390,18 +391,21 @@ theorem sevenBalancedInverseUnit_sameParity (w : W) :
   exact (sevenBalancedInverseUnit_parityValues (long := long) (short := short) w).1.trans
     (sevenBalancedInverseUnit_parityValues (long := long) (short := short) w).2.symm
 
-/-- The original three integer charges T,J,K cannot distinguish
-these two original Type-valued seventh histories either. -/
-theorem sevenBalancedInverseUnit_sameTriple (w : W) :
+/-- The two-factor precursor is NOT three-charge invisible:
+old T is 1 versus 0. The genuine triangle comparison below compensates. -/
+theorem sevenBalancedInverseUnit_tripleValues (w : W) :
     sevenChargeTriple
         (sevenBalancedInverseUnitFirst (long := long) (short := short) w) =
-      sevenChargeTriple
-        (sevenBalancedInverseUnitSecond (long := long) (short := short) w) := by
-  simp [sevenBalancedInverseUnitFirst, sevenBalancedInverseUnitSecond,
-    sevenInverseUnitLeftDirect, sevenInverseUnitLeftVia,
-    sevenInverseUnitRightDirect, sevenInverseUnitRightVia,
-    sevenChargeTriple, sevenTriangleCharge, sevenInvolutionCharge,
-    sevenInverseCompCharge]
+        (1, 0, 0) ∧
+    sevenChargeTriple
+        (sevenBalancedInverseUnitSecond (long := long) (short := short) w) =
+        (0, 0, 0) := by
+  constructor <;>
+    norm_num [sevenBalancedInverseUnitFirst, sevenBalancedInverseUnitSecond,
+      sevenInverseUnitLeftDirect, sevenInverseUnitLeftVia,
+      sevenInverseUnitRightDirect, sevenInverseUnitRightVia,
+      sevenChargeTriple, sevenTriangleCharge, sevenInvolutionCharge,
+      sevenInverseCompCharge]
 
 /-- This is a PROVED remaining obstruction after v5.01, not a
 failure to search for a comparison: any existing comparison must
@@ -525,6 +529,145 @@ theorem sevenBalancedInverseUnitComposite_noComparison {w z : W}
   rw [vals.1, vals.2] at h
   norm_num at h
 
+
+/-- Original three-charge compensation with an ACTUAL left unit /
+associativity critical pair, never with a fabricated T certificate. -/
+def balancedUnitInvisibleSource (w : W) :
+    PentagonAdjoinedSixCell W long short w w :=
+  .trans
+    (.trans
+      (.trans (.symm (.refl w)) (.refl w))
+      (.trans (.refl w) (.symm (.refl w))))
+    (.trans (.trans (.refl w) (.refl w)) (.refl w))
+
+def balancedUnitInvisibleTarget (w : W) :
+    PentagonAdjoinedSixCell W long short w w :=
+  .trans
+    (.trans (.refl w) (.refl w))
+    (.trans (.refl w) (.refl w))
+
+/-- Old T: two-factor FIRST=1 and triangle DIRECT=0. -/
+def sevenBalancedUnitInvisibleFirst (w : W) :
+    SevenRewrite W long short
+      (balancedUnitInvisibleSource (long := long) (short := short) w)
+      (balancedUnitInvisibleTarget (long := long) (short := short) w) :=
+  .congrComp (sevenBalancedInverseUnitFirst w)
+    (sevenLeftTriangleDirect (.refl w) (.refl w))
+
+/-- Old T: two-factor SECOND=0 and triangle VIA=1. -/
+def sevenBalancedUnitInvisibleSecond (w : W) :
+    SevenRewrite W long short
+      (balancedUnitInvisibleSource (long := long) (short := short) w)
+      (balancedUnitInvisibleTarget (long := long) (short := short) w) :=
+  .congrComp (sevenBalancedInverseUnitSecond w)
+    (sevenLeftTriangleViaAssoc (.refl w) (.refl w))
+
+/-- The old T,J,K tuple is exactly (1,0,0) on BOTH routes. -/
+theorem sevenBalancedUnitInvisible_tripleValues (w : W) :
+    sevenChargeTriple
+        (sevenBalancedUnitInvisibleFirst (long := long) (short := short) w) =
+        (1, 0, 0) ∧
+    sevenChargeTriple
+        (sevenBalancedUnitInvisibleSecond (long := long) (short := short) w) =
+        (1, 0, 0) := by
+  constructor <;>
+    norm_num [sevenBalancedUnitInvisibleFirst, sevenBalancedUnitInvisibleSecond,
+      sevenBalancedInverseUnitFirst, sevenBalancedInverseUnitSecond,
+      sevenInverseUnitLeftDirect, sevenInverseUnitLeftVia,
+      sevenInverseUnitRightDirect, sevenInverseUnitRightVia,
+      sevenLeftTriangleDirect, sevenLeftTriangleViaAssoc,
+      sevenChargeTriple, sevenTriangleCharge, sevenInvolutionCharge,
+      sevenInverseCompCharge]
+
+theorem sevenBalancedUnitInvisible_sameTriple (w : W) :
+    sevenChargeTriple
+        (sevenBalancedUnitInvisibleFirst (long := long) (short := short) w) =
+      sevenChargeTriple
+        (sevenBalancedUnitInvisibleSecond (long := long) (short := short) w) := by
+  exact (sevenBalancedUnitInvisible_tripleValues
+    (long := long) (short := short) w).1.trans
+    (sevenBalancedUnitInvisible_tripleValues
+      (long := long) (short := short) w).2.symm
+
+/-- One old unit step on both triangle branches, but an additional two
+genuine unit steps in the second inverse-unit cancellation route. -/
+theorem sevenBalancedUnitInvisible_unitValues (w : W) :
+    sevenUnitStepCharge
+        (sevenBalancedUnitInvisibleFirst (long := long) (short := short) w) = 1 ∧
+    sevenUnitStepCharge
+        (sevenBalancedUnitInvisibleSecond (long := long) (short := short) w) = 3 := by
+  constructor <;>
+    norm_num [sevenBalancedUnitInvisibleFirst, sevenBalancedUnitInvisibleSecond,
+      sevenBalancedInverseUnitFirst, sevenBalancedInverseUnitSecond,
+      sevenInverseUnitLeftDirect, sevenInverseUnitLeftVia,
+      sevenInverseUnitRightDirect, sevenInverseUnitRightVia,
+      sevenLeftTriangleDirect, sevenLeftTriangleViaAssoc,
+      sevenUnitStepCharge]
+
+theorem sevenBalancedUnitInvisible_parityValues (w : W) :
+    sevenIdentityParity
+        (sevenBalancedUnitInvisibleFirst (long := long) (short := short) w) = 0 ∧
+    sevenIdentityParity
+        (sevenBalancedUnitInvisibleSecond (long := long) (short := short) w) = 0 := by
+  constructor <;>
+    norm_num [sevenBalancedUnitInvisibleFirst, sevenBalancedUnitInvisibleSecond,
+      sevenBalancedInverseUnitFirst, sevenBalancedInverseUnitSecond,
+      sevenInverseUnitLeftDirect, sevenInverseUnitLeftVia,
+      sevenInverseUnitRightDirect, sevenInverseUnitRightVia,
+      sevenLeftTriangleDirect, sevenLeftTriangleViaAssoc,
+      sevenIdentityParity, sevenIdentityBalance]
+
+theorem sevenBalancedUnitInvisible_sameParity (w : W) :
+    sevenIdentityParity
+        (sevenBalancedUnitInvisibleFirst (long := long) (short := short) w) =
+      sevenIdentityParity
+        (sevenBalancedUnitInvisibleSecond (long := long) (short := short) w) := by
+  exact (sevenBalancedUnitInvisible_parityValues
+    (long := long) (short := short) w).1.trans
+    (sevenBalancedUnitInvisible_parityValues
+      (long := long) (short := short) w).2.symm
+
+/-- CERTIFIED: same old triple, same R parity, different integer count,
+and NO UnitDiamondEightCell comparison in the entire chosen grammar. -/
+theorem sevenBalancedUnitInvisible_noComparison (w : W) :
+    ¬ Nonempty (UnitDiamondEightCell W long short
+      (sevenBalancedUnitInvisibleFirst (long := long) (short := short) w)
+      (sevenBalancedUnitInvisibleSecond (long := long) (short := short) w)) := by
+  rintro ⟨q⟩
+  have h := unitDiamondEightCell_preservesUnitStepCharge q
+  have vals := sevenBalancedUnitInvisible_unitValues
+    (long := long) (short := short) w
+  rw [vals.1, vals.2] at h
+  norm_num at h
+
+theorem sevenBalancedUnitInvisible_distinctClasses (w : W) :
+    unitDiamondHistoryClass
+        (sevenBalancedUnitInvisibleFirst (long := long) (short := short) w) ≠
+      unitDiamondHistoryClass
+        (sevenBalancedUnitInvisibleSecond (long := long) (short := short) w) := by
+  intro h
+  exact sevenBalancedUnitInvisible_noComparison (long := long) (short := short) w
+    ((unitDiamondHistoryClass_eq_iff _ _).1 h)
+
+/-- Joint old T,J,K and residual parity still DO NOT classify the
+chosen v5.01 eighth-history quotient. -/
+theorem sevenTripleAndParity_notCompleteAfterUnitDiamond (l r : W) :
+    ¬ (∀ {w z : W}
+      {c d : PentagonAdjoinedSixCell W l r w z}
+      (s t : SevenRewrite W l r c d),
+      sevenChargeTriple s = sevenChargeTriple t →
+      sevenIdentityParity s = sevenIdentityParity t →
+        Nonempty (UnitDiamondEightCell W l r s t)) := by
+  intro all
+  exact sevenBalancedUnitInvisible_noComparison (long := l) (short := r) l
+    (all
+      (sevenBalancedUnitInvisibleFirst (long := l) (short := r) l)
+      (sevenBalancedUnitInvisibleSecond (long := l) (short := r) l)
+      (sevenBalancedUnitInvisible_sameTriple (long := l) (short := r) l)
+      (sevenBalancedUnitInvisible_sameParity (long := l) (short := r) l))
+
+/-- No new primitive is added to address this genuine obstruction. -/
+
 end PentagonAdjoinedSixCell
 
 section ActualOriginalP77BalancedInverseUnit
@@ -586,7 +729,7 @@ theorem pentagonActualBalancedInverseUnitWithSourceObstruction
 #print axioms PentagonAdjoinedSixCell.sevenBalancedInverseUnit_unitValues
 #print axioms PentagonAdjoinedSixCell.sevenBalancedInverseUnit_parityValues
 #print axioms PentagonAdjoinedSixCell.sevenBalancedInverseUnit_sameParity
-#print axioms PentagonAdjoinedSixCell.sevenBalancedInverseUnit_sameTriple
+#print axioms PentagonAdjoinedSixCell.sevenBalancedInverseUnit_tripleValues
 #print axioms PentagonAdjoinedSixCell.sevenBalancedInverseUnit_noComparison
 #print axioms PentagonAdjoinedSixCell.sevenBalancedInverseUnit_distinctClasses
 #print axioms PentagonAdjoinedSixCell.sevenIdentityParity_notCompleteAfterUnitDiamond
@@ -595,6 +738,18 @@ theorem pentagonActualBalancedInverseUnitWithSourceObstruction
 #print axioms PentagonAdjoinedSixCell.sevenBalancedInverseUnitCompositeSecond
 #print axioms PentagonAdjoinedSixCell.sevenBalancedInverseUnitComposite_values
 #print axioms PentagonAdjoinedSixCell.sevenBalancedInverseUnitComposite_noComparison
+#print axioms PentagonAdjoinedSixCell.balancedUnitInvisibleSource
+#print axioms PentagonAdjoinedSixCell.balancedUnitInvisibleTarget
+#print axioms PentagonAdjoinedSixCell.sevenBalancedUnitInvisibleFirst
+#print axioms PentagonAdjoinedSixCell.sevenBalancedUnitInvisibleSecond
+#print axioms PentagonAdjoinedSixCell.sevenBalancedUnitInvisible_tripleValues
+#print axioms PentagonAdjoinedSixCell.sevenBalancedUnitInvisible_sameTriple
+#print axioms PentagonAdjoinedSixCell.sevenBalancedUnitInvisible_unitValues
+#print axioms PentagonAdjoinedSixCell.sevenBalancedUnitInvisible_parityValues
+#print axioms PentagonAdjoinedSixCell.sevenBalancedUnitInvisible_sameParity
+#print axioms PentagonAdjoinedSixCell.sevenBalancedUnitInvisible_noComparison
+#print axioms PentagonAdjoinedSixCell.sevenBalancedUnitInvisible_distinctClasses
+#print axioms PentagonAdjoinedSixCell.sevenTripleAndParity_notCompleteAfterUnitDiamond
 #print axioms pentagonActualBalancedInverseUnitWithSourceObstruction
 
 end ActualOriginalP77BalancedInverseUnit
