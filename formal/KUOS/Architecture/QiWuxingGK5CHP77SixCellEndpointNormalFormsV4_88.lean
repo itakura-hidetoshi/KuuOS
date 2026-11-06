@@ -242,8 +242,7 @@ theorem homDegree_eq_iff (l r : W) {w z : W}
   · refine Quot.inductionOn c ?_
     intro a
     refine Quot.inductionOn d ?_
-    intro b
-    intro hab
+    intro b hab
     change degree a = degree b at hab
     exact Quot.sound hab
   · intro hcd
