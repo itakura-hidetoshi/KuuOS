@@ -144,7 +144,6 @@ theorem eightCell_preservesUnitTorsionResidue {w z : W}
       simp [sevenUnitTorsionResidue, sevenUnitTorsionWeight]
   | inverseCongruenceChain s t =>
       simp only [sevenUnitTorsionResidue, sevenUnitTorsionWeight]
-      omega
   | compositeCongruenceIdentity c d =>
       simp [sevenUnitTorsionResidue, sevenUnitTorsionWeight]
   | compositeCongruenceChain s s' t t' =>
