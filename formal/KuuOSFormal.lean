@@ -613,6 +613,7 @@ import KUOS.Architecture.QiWuxingGK5CHP77InverseCompositeUnitOverlapV4_95
 import KUOS.Architecture.QiWuxingGK5CHP77ThreeChargeFiltrationRigidityV4_96
 import KUOS.Architecture.QiWuxingGK5CHP77IdentityBalanceHiddenCriticalPeaksV4_97
 import KUOS.Architecture.QiWuxingGK5CHP77IdentityDoubleHigherLocalCompletionV4_98
+import KUOS.Architecture.QiWuxingGK5CHP77MixedIdentityParityDescentV4_99
 
 /-!
 Public aggregate: retain every previously published proof and its original
