@@ -195,7 +195,7 @@ theorem sevenRewrite_complete_iff_quotient (l r : W) (hNe : l ≠ r)
     (c d : PentagonAdjoinedSixCell W l r w z) :
     Nonempty (SevenRewrite W l r c d) ↔ homMk c = homMk d := by
   rw [sevenRewrite_complete_iff_degree l r hNe c d]
-  exact (homDegree_eq_iff l r (homMk c) (homMk d)).symm
+  exact homDegree_eq_iff l r (homMk c) (homMk d)
 
 /-- Original word equality, seventh-level comparison, and chosen
 quotient equality retain their three distinct mathematical types. -/
