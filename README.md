@@ -14,6 +14,20 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — Qi v4.89／真正GK5CG五セル端点の新七セルType値書換え履歴・次数健全性・厳密戻り障害／2026-11-06 JST
+
+**[定理PR #3201](https://github.com/itakura-hidetoshi/KuuOS/pull/3201) MERGED。** Qi v4.87/4.88では六セル生証明語を次数整合による商で同一視し、真正元五セル端点L₃(i)≠L₂(i)では新商が局所thinと証明済み。今回は両方の**生の六セル証明語そのもの**を添字に保持する別のType値七セル書換え文法`SevenRewrite`を構成。反射・反転・合成・文脈congruence・左右単位・結合・逆元消去・二重反転・逆合成の13構成子の具体的な書換え履歴を保持する。
+
+**形式証明の中心：** 全七セル書換えは六セル構文次数を保存し、選択された次数商の等式へ降下する。一方、`p∘p⁻¹⇒refl`という新七セルType値が構成できても**元の生六セル語では`p∘p⁻¹≠refl`**であり、全七セル書換えからraw厳密Eqへの解釈は不可能。さらに`(p∘p⁻¹)∘p⇒p`を履歴付きで構成し、任意の真正P77最終raw添字に適用。新presentationで両端が一致する場合の次数1対0による七セル書換え不在も証明した。
+
+**境界：** 元F55/P77/GK5CGの六セル・七セルは追加せず、元source authorityと五セル厳密不一致を保持。**商で等しい任意の六セル語をこの13書換えで結べるという完全性は未証明**であり、Qi v4.90の候補とする。
+
+**[exact-source CI #42198422164](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42198422164)：Strict Lean 10,288／10,288 SUCCESS、Governance30／30 SUCCESS、指定17宣言の公理監査は標準公理のみ、sorryAxなし、変更Lean warning/error0／0。** 最終検証済みHEAD `fac510534322bbca21b556db68aee716ae45db29`、source/test-merge/squash Git tree `6df0683ca4a82c1650550860ea8d2752f83b7605` 完全一致、定理squash `4f8f400cd4b9622cbceb187c2436f05840f939f9`。固定Lean v4.30.0-rc2／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、公開root107、保護PR #1558 Draft／OPEN／未マージ。
+
+[正式証明記録](docs/formal/Qi-v4_89-original-P77-typed-seven-rewrite-history-coherence-obstruction.md) · [Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77TypedSevenRewriteHistoryV4_89.lean)
+
+**次候補Qi v4.90：** 七セル局所書換えの端点別正規化・完全性をType値証明履歴付きで検討し、商の一致と証明書導出を区別する。
+
 ## 最新のLean定理統合 — Qi v4.88／真正GK5CG五セル端点における新六セル正規形・次数完全性と局所thin性／2026-11-06 JST
 
 **[定理PR #3199](https://github.com/itakura-hidetoshi/KuuOS/pull/3199) MERGED。** Qi v4.85の真正元五セル値L₃(i)≠L₂(i)を保持したまま、新しい六セル自由語の次数が端点ポテンシャル差 `deg(c)=H(target)-H(source)` に一致することを全構成子で形式証明。任意の端点を結ぶ新六セル語の存在条件を **w=z または w=L₃,z=L₂ または w=L₂,z=L₃** と正確に分類。任意の新六セル語は、端点と次数を保存してrefl／明示的pentagon／逆pentagonの三形代表を持つ。
