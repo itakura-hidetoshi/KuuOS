@@ -278,8 +278,8 @@ def sevenHiddenCriticalSecond (w : W) :
 /-- The old triple is unable even to distinguish these explicit
 parallel derivations; both evaluate to (1,1,0). -/
 theorem sevenHiddenCritical_threeChargeValues (w : W) :
-    sevenChargeTriple (sevenHiddenCriticalFirst w) = (1, 1, 0) ∧
-    sevenChargeTriple (sevenHiddenCriticalSecond w) = (1, 1, 0) := by
+    sevenChargeTriple (sevenHiddenCriticalFirst (long := long) (short := short) w) = (1, 1, 0) ∧
+    sevenChargeTriple (sevenHiddenCriticalSecond (long := long) (short := short) w) = (1, 1, 0) := by
   constructor <;>
     simp [sevenHiddenCriticalFirst, sevenHiddenCriticalSecond,
       sevenIdentityDoubleDirect, sevenIdentityDoubleVia,
@@ -289,16 +289,16 @@ theorem sevenHiddenCritical_threeChargeValues (w : W) :
       sevenInvolutionCharge, sevenInverseCompCharge]
 
 theorem sevenHiddenCritical_sameTriple (w : W) :
-    sevenChargeTriple (sevenHiddenCriticalFirst w) =
-      sevenChargeTriple (sevenHiddenCriticalSecond w) := by
-  exact (sevenHiddenCritical_threeChargeValues w).1.trans
-    (sevenHiddenCritical_threeChargeValues w).2.symm
+    sevenChargeTriple (sevenHiddenCriticalFirst (long := long) (short := short) w) =
+      sevenChargeTriple (sevenHiddenCriticalSecond (long := long) (short := short) w) := by
+  exact (sevenHiddenCritical_threeChargeValues (long := long) (short := short) w).1.trans
+    (sevenHiddenCritical_threeChargeValues (long := long) (short := short) w).2.symm
 
 /-- The genuinely independent fourth observation separates the two
 raw histories, and even their v4.95 higher-history classes. -/
 theorem sevenHiddenCritical_balanceValues (w : W) :
-    sevenIdentityBalance (sevenHiddenCriticalFirst w) = 0 ∧
-    sevenIdentityBalance (sevenHiddenCriticalSecond w) = 2 := by
+    sevenIdentityBalance (sevenHiddenCriticalFirst (long := long) (short := short) w) = 0 ∧
+    sevenIdentityBalance (sevenHiddenCriticalSecond (long := long) (short := short) w) = 2 := by
   constructor <;>
     norm_num [sevenHiddenCriticalFirst, sevenHiddenCriticalSecond,
       sevenIdentityDoubleDirect, sevenIdentityDoubleVia,
@@ -308,28 +308,28 @@ theorem sevenHiddenCritical_balanceValues (w : W) :
 
 theorem sevenHiddenCritical_noComparison (w : W) :
     ¬ Nonempty (InverseCompEightCell W long short
-      (sevenHiddenCriticalFirst w) (sevenHiddenCriticalSecond w)) := by
+      (sevenHiddenCriticalFirst (long := long) (short := short) w) (sevenHiddenCriticalSecond (long := long) (short := short) w)) := by
   rintro ⟨q⟩
   have hb := inverseCompEightCell_preservesIdentityBalance q
-  have vals := sevenHiddenCritical_balanceValues w
+  have vals := sevenHiddenCritical_balanceValues (long := long) (short := short) w
   rw [vals.1, vals.2] at hb
   norm_num at hb
 
 theorem sevenHiddenCritical_notStrict (w : W) :
-    sevenHiddenCriticalFirst w ≠ sevenHiddenCriticalSecond w := by
+    sevenHiddenCriticalFirst (long := long) (short := short) w ≠ sevenHiddenCriticalSecond (long := long) (short := short) w := by
   intro eq
   have hb := congrArg (fun s => sevenIdentityBalance s) eq
-  have vals := sevenHiddenCritical_balanceValues w
+  have vals := sevenHiddenCritical_balanceValues (long := long) (short := short) w
   rw [vals.1, vals.2] at hb
   norm_num at hb
 
 theorem sevenHiddenCritical_distinctClasses (w : W) :
-    inverseCompHistoryClass (sevenHiddenCriticalFirst w) ≠
-      inverseCompHistoryClass (sevenHiddenCriticalSecond w) := by
+    inverseCompHistoryClass (sevenHiddenCriticalFirst (long := long) (short := short) w) ≠
+      inverseCompHistoryClass (sevenHiddenCriticalSecond (long := long) (short := short) w) := by
   intro eq
-  exact sevenHiddenCritical_noComparison w
+  exact sevenHiddenCritical_noComparison (long := long) (short := short) w
     ((inverseCompHistoryClass_eq_iff
-      (sevenHiddenCriticalFirst w) (sevenHiddenCriticalSecond w)).1 eq)
+      (sevenHiddenCriticalFirst (long := long) (short := short) w) (sevenHiddenCriticalSecond (long := long) (short := short) w)).1 eq)
 
 /-- Same old triple does NOT imply final higher comparison. The
 counterexample is constructive and does not assume any unproved
@@ -385,14 +385,14 @@ def sevenIdentityInterchangeSecond (w : W) :
 
 theorem sevenIdentityInterchange_joined (w : W) :
     Nonempty (InverseCompEightCell W long short
-      (sevenIdentityInterchangeFirst w)
-      (sevenIdentityInterchangeSecond w)) :=
+      (sevenIdentityInterchangeFirst (long := long) (short := short) w)
+      (sevenIdentityInterchangeSecond (long := long) (short := short) w)) :=
   ⟨.previous (.previous (.original
     (.interchange (.inverseId w) (.inverseId w))))⟩
 
 theorem sevenIdentityInterchange_sameTriple (w : W) :
-    sevenChargeTriple (sevenIdentityInterchangeFirst w) =
-      sevenChargeTriple (sevenIdentityInterchangeSecond w) := by
+    sevenChargeTriple (sevenIdentityInterchangeFirst (long := long) (short := short) w) =
+      sevenChargeTriple (sevenIdentityInterchangeSecond (long := long) (short := short) w) := by
   simp [sevenIdentityInterchangeFirst, sevenIdentityInterchangeSecond,
     sevenChargeTriple, sevenTriangleCharge,
     sevenInvolutionCharge, sevenInverseCompCharge]
