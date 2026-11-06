@@ -320,6 +320,11 @@ theorem sevenHiddenCritical_notStrict (w : W) :
     sevenHiddenCriticalFirst (long := long) (short := short) w ≠ sevenHiddenCriticalSecond (long := long) (short := short) w := by
   intro eq
   have hb := congrArg (fun s => sevenIdentityBalance s) eq
+  change
+    sevenIdentityBalance
+        (sevenHiddenCriticalFirst (long := long) (short := short) w) =
+      sevenIdentityBalance
+        (sevenHiddenCriticalSecond (long := long) (short := short) w) at hb
   have vals := sevenHiddenCritical_balanceValues (long := long) (short := short) w
   rw [vals.1, vals.2] at hb
   norm_num at hb
