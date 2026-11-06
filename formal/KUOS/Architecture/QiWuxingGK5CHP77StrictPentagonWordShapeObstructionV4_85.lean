@@ -126,6 +126,10 @@ theorem pentagonOriginalFiveCell_words_ne
   intro hEq
   have hProbe := congrArg
     (fun cell => originalConservativeFiveCell_rightLeftTrans cell) hEq
+  change originalConservativeFiveCell_rightLeftTrans
+      (pentagonLongConservativeFiveCell f g h k A B C D₄ i) =
+    originalConservativeFiveCell_rightLeftTrans
+      (pentagonShortConservativeFiveCell f g h k A B C D₄ i) at hProbe
   rw [pentagonLongFiveCell_wordShape_true f g h k A B C D₄ i,
       pentagonShortFiveCell_wordShape_false f g h k A B C D₄ i] at hProbe
   cases hProbe
@@ -183,6 +187,12 @@ theorem pentagonDifferenceFiveCell_not_refl
   intro hEq
   have hProbe := congrArg
     (fun cell => originalConservativeFiveCell_rootTrans cell) hEq
+  change originalConservativeFiveCell_rootTrans
+      (pentagonDifferenceConservativeFiveCell f g h k A B C D₄ i) =
+    originalConservativeFiveCell_rootTrans
+      (NativeGK5CGConservativeFiveCell.refl
+        (fivefoldP77RawPatchTreeRaw f g h k
+          (tree f g h k family₄ s₄) i)) at hProbe
   rw [pentagonDifferenceFiveCell_rootTrans f g h k A B C D₄ i,
       pentagonReflexiveFiveCell_rootTrans f g h k i] at hProbe
   cases hProbe
