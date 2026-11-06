@@ -10,10 +10,10 @@ one of EACH on the long branch, so this balance is conserved by
 every v4.95 InverseCompEightCell constructor.
 
 We construct two explicit parallel seventh histories by putting
-three independent genuine overlaps into three typed six-cell factors:
+an identity/double-inversion overlap in a typed three-factor six-cell context:
   * doubleInverse(refl) versus two inverseId reductions;
-  * the existing left double-inverse/cancellation overlap;
-  * the existing left triangle/unit/associator overlap.
+  * a shared left double-inverse/cancellation route;
+  * a shared left triangle/unit route.
 Their T,J,K triples coincide, but their new balance values are 0
 and 2. Consequently NO eighth-cell comparison in the COMPLETE
 v4.95 chosen higher grammar joins these particular histories.
@@ -252,20 +252,20 @@ def hiddenCriticalTarget (w : W) : PentagonAdjoinedSixCell W long short w w :=
     (.trans (.refl w) (.refl w))
     (.trans (.refl w) (.refl w))
 
-/-- Route A: doubleInverse; direct left cancellation; triangle via
-associator. Its triple is (1,1,0) and identity balance is 0. -/
+/-- Route A: doubleInverse on identity, followed by the same selected
+left cancellation and triangle fillers as route B. Triple (1,1,0). -/
 def sevenHiddenCriticalFirst (w : W) :
     SevenRewrite W long short
       (hiddenCriticalSource w) (hiddenCriticalTarget w) :=
   .congrComp
     (.congrComp
       (sevenIdentityDoubleDirect w)
-      (sevenLeftDoubleInverseDirect (.refl w)))
-    (sevenLeftTriangleViaAssoc (.refl w) (.refl w))
+      (sevenLeftDoubleInverseVia (.refl w)))
+    (sevenLeftTriangleDirect (.refl w) (.refl w))
 
-/-- Route B: two inverseId reductions; doubleInverse via; direct
-triangle. Same endpoints and same three old charges, different
-new identity balance. -/
+/-- Route B: two inverseId reductions, with the very same chosen
+contextual filler routes. Only the identity/double-inversion overlap
+differs; this isolates the newly detected critical pair. -/
 def sevenHiddenCriticalSecond (w : W) :
     SevenRewrite W long short
       (hiddenCriticalSource w) (hiddenCriticalTarget w) :=
