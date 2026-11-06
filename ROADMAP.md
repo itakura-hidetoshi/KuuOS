@@ -3,6 +3,18 @@
 
 
 
+## 最新のLean定理統合 — Qi v5.03／強い三因子P77 source輸送とBalancedUnitEightCell最小局所補完／2026-11-07 JST
+
+**[定理PR #3229](https://github.com/itakura-hidetoshi/KuuOS/pull/3229) MERGED。** Qi v5.02で整数Uの1対3の差により比較不能と証明した真正三因子七セル平行履歴（元三整数`(T,J,K)=(1,0,0)`、第四整数`R mod 2=0`が両側一致）を、**任意の真正P77最終raw添字へ元GK5CG source Type証拠を保持したまま横合成して輸送**。旧`UnitDiamondEightCell`では依然比較不能、新しい独立`BalancedUnitEightCell`では**唯一の新原始比較`balancedUnit(w)`**で局所補完する。元sourceのstrict `EqualityInterpreter`不存在、旧presentationと証拠履歴を維持する。
+
+**商の厳密な粗化と二つのBool値観測量：** 全旧v5.01比較証拠を`previous`で保守的に取り込み、新選択商が真に粗いことを具体的に証明した。整数Uは新商へ降下しないが、**`U mod 2`と`R mod 2`は全新八セル構成子で保存**され、二つの真正Bool値観測量をそれぞれ`Quotient.lift`で構成した。新`balancedUnit × identityDouble`、`balancedUnit × unitDiamond`の二種類の型付き混合critical pairは旧商で比較不能、新商で既存の合成構成子により充填可能。限定`BalancedUnitCriticalPeak`族の全生成・文脈への比較証拠も構造帰納で形式化した。任意の平行七セルの大域完全性・九セルthin性・元source strict Eqへの昇格は仮定しない。
+
+**[exact-source CI #42311449662](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42311449662)：Strict Lean 10,302／10,302 SUCCESS、Governance30／30 SUCCESS、40宣言の公理監査は標準公理のみ、sorryAxなし、変更Lean warning/error0／0。** 検証source HEAD `f5370e8fc73731893afa00bb6992fb7f18fd987d`、source/test-merge tree `b422242b920e9940de6cae716a01e99dc80c8b0b`完全一致。定理squash `35faf7d984855cca947c663fa76aaf70f1123c0d`。公開root107、保護PR #1558 Draft／OPEN／未マージ。
+
+[正式証明記録](docs/formal/Qi-v5_03-original-P77-balanced-unit-minimal-higher-completion.md) · [Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77BalancedUnitMinimalHigherCompletionV5_03.lean)
+
+**次候補Qi v5.04：** 二つの残余観測量`(R mod 2, U mod 2)`をともに保存しながら既存比較不能となる真正な平行七セル履歴を探索し、旧高次規則での合流を先に確認する。新しいobstructionが構成的に証明されたときだけ別の独立presentationを検討する。
+
 ## 最新のLean定理統合 — Qi v5.02／整数単位則カウントと三整数・偶奇不可視の真正高次障害／2026-11-07 JST
 
 **[定理PR #3227](https://github.com/itakura-hidetoshi/KuuOS/pull/3227) MERGED。** 元13構成子の七セルType値証拠履歴に**整数単位則カウント`U=sevenUnitStepCharge`**を定義し、`leftUnit`・`rightUnit`へ各+1、それ以外の原始生成元へ0、反転へ符号反転、縦横合成へ加算を割り当てた。**元v4.91 EightCellの全22構成子とTriangle／Involution／InverseComp／Identity／v5.01 UnitDiamondEightCellの全型付き比較構成子で整数Uを保存**することを形式証明し、`Quotient.lift`によってv5.01高次履歴商上へ真正に降下させた。
