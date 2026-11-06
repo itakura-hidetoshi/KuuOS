@@ -178,35 +178,35 @@ def reassocStep {u v : FivefoldPathVertex}
   | refl family => intro s t step; exact step
   | assoc left middle right =>
       intro s t step
-      exact match step with
-        | .left _ (.left _ inner ms) rs =>
+      exact match s, t, step with
+        | _, _, .left _ (.left _ inner ms) rs =>
             .left (.node middle right) inner (ms, rs)
-        | .left _ (.right _ ls inner) rs =>
+        | _, _, .left _ (.right _ ls inner) rs =>
             .right left ls (.left right inner rs)
-        | .right _ ls inner =>
+        | _, _, .right _ ls inner =>
             .right left ls.1 (.right middle ls.2 inner)
   | unassoc left middle right =>
       intro s t step
-      exact match step with
-        | .left _ inner rs =>
+      exact match s, t, step with
+        | _, _, .left _ inner rs =>
             .left right (.left middle inner rs.1) rs.2
-        | .right _ ls (.left _ inner rs) =>
+        | _, _, .right _ ls (.left _ inner rs) =>
             .left right (.right left ls inner) rs
-        | .right _ ls (.right _ ms inner) =>
+        | _, _, .right _ ls (.right _ ms inner) =>
             .right (.node left middle) (ls, ms) inner
   | trans firstRoute secondRoute ihFirst ihSecond =>
       intro s t step
       exact ihSecond (ihFirst step)
   | left route right ih =>
       intro s t step
-      exact match step with
-        | .left _ inner rs => .left right (ih inner) rs
-        | .right _ ls inner => .right _ (reassocStateEquiv f g h k route ls) inner
+      exact match s, t, step with
+        | _, _, .left _ inner rs => .left right (ih inner) rs
+        | _, _, .right _ ls inner => .right _ (reassocStateEquiv f g h k route ls) inner
   | right left route ih =>
       intro s t step
-      exact match step with
-        | .left _ inner rs => .left _ inner (reassocStateEquiv f g h k route rs)
-        | .right _ ls inner => .right left ls (ih inner)
+      exact match s, t, step with
+        | _, _, .left _ inner rs => .left _ inner (reassocStateEquiv f g h k route rs)
+        | _, _, .right _ ls inner => .right left ls (ih inner)
 
 /-- Transport a finite schedule, retaining all actual intermediate states. -/
 def reassocSchedule {u v : FivefoldPathVertex}
@@ -260,16 +260,16 @@ theorem reassocStep_forward {u v : FivefoldPathVertex}
   | refl family => intro s t step i; rfl
   | assoc left middle right =>
       intro s t step
-      match step with
-      | .left _ (.left _ inner ms) rs => intro i; rfl
-      | .left _ (.right _ ls inner) rs => intro i; rfl
-      | .right _ ls inner => intro i; rfl
+      match s, t, step with
+      | _, _, .left _ (.left _ inner ms) rs => intro i; rfl
+      | _, _, .left _ (.right _ ls inner) rs => intro i; rfl
+      | _, _, .right _ ls inner => intro i; rfl
   | unassoc left middle right =>
       intro s t step
-      match step with
-      | .left _ inner rs => intro i; rfl
-      | .right _ ls (.left _ inner rs) => intro i; rfl
-      | .right _ ls (.right _ ms inner) => intro i; rfl
+      match s, t, step with
+      | _, _, .left _ inner rs => intro i; rfl
+      | _, _, .right _ ls (.left _ inner rs) => intro i; rfl
+      | _, _, .right _ ls (.right _ ms inner) => intro i; rfl
   | trans firstRoute secondRoute ihFirst ihSecond =>
       intro s t step i
       exact (congrArg
@@ -279,14 +279,14 @@ theorem reassocStep_forward {u v : FivefoldPathVertex}
             (reassocIndexEquiv f g h k firstRoute t i))
   | left route right ih =>
       intro s t step
-      match step with
-      | .left _ inner rs => intro i; exact Prod.ext (ih inner i.1) rfl
-      | .right _ ls inner => intro i; rfl
+      match s, t, step with
+      | _, _, .left _ inner rs => intro i; exact Prod.ext (ih inner i.1) rfl
+      | _, _, .right _ ls inner => intro i; rfl
   | right left route ih =>
       intro s t step
-      match step with
-      | .left _ inner rs => intro i; rfl
-      | .right _ ls inner => intro i; exact Prod.ext rfl (ih inner i.2)
+      match s, t, step with
+      | _, _, .left _ inner rs => intro i; rfl
+      | _, _, .right _ ls inner => intro i; exact Prod.ext rfl (ih inner i.2)
 
 /-- Full-domain backward naturality for one actual step, proved structurally. -/
 theorem reassocStep_backward {u v : FivefoldPathVertex}
@@ -303,16 +303,16 @@ theorem reassocStep_backward {u v : FivefoldPathVertex}
   | refl family => intro s t step i; rfl
   | assoc left middle right =>
       intro s t step
-      match step with
-      | .left _ (.left _ inner ms) rs => intro i; rfl
-      | .left _ (.right _ ls inner) rs => intro i; rfl
-      | .right _ ls inner => intro i; rfl
+      match s, t, step with
+      | _, _, .left _ (.left _ inner ms) rs => intro i; rfl
+      | _, _, .left _ (.right _ ls inner) rs => intro i; rfl
+      | _, _, .right _ ls inner => intro i; rfl
   | unassoc left middle right =>
       intro s t step
-      match step with
-      | .left _ inner rs => intro i; rfl
-      | .right _ ls (.left _ inner rs) => intro i; rfl
-      | .right _ ls (.right _ ms inner) => intro i; rfl
+      match s, t, step with
+      | _, _, .left _ inner rs => intro i; rfl
+      | _, _, .right _ ls (.left _ inner rs) => intro i; rfl
+      | _, _, .right _ ls (.right _ ms inner) => intro i; rfl
   | trans firstRoute secondRoute ihFirst ihSecond =>
       intro s t step i
       exact (congrArg
@@ -322,14 +322,14 @@ theorem reassocStep_backward {u v : FivefoldPathVertex}
             (reassocIndexEquiv f g h k firstRoute s i))
   | left route right ih =>
       intro s t step
-      match step with
-      | .left _ inner rs => intro i; exact Prod.ext (ih inner i.1) rfl
-      | .right _ ls inner => intro i; rfl
+      match s, t, step with
+      | _, _, .left _ inner rs => intro i; exact Prod.ext (ih inner i.1) rfl
+      | _, _, .right _ ls inner => intro i; rfl
   | right left route ih =>
       intro s t step
-      match step with
-      | .left _ inner rs => intro i; rfl
-      | .right _ ls inner => intro i; exact Prod.ext rfl (ih inner i.2)
+      match s, t, step with
+      | _, _, .left _ inner rs => intro i; rfl
+      | _, _, .right _ ls inner => intro i; exact Prod.ext rfl (ih inner i.2)
 
 /-- Full-domain pullback naturality for one actual step, proved structurally. -/
 theorem reassocStep_pullback {u v : FivefoldPathVertex}
@@ -346,16 +346,16 @@ theorem reassocStep_pullback {u v : FivefoldPathVertex}
   | refl family => intro s t step i; rfl
   | assoc left middle right =>
       intro s t step
-      match step with
-      | .left _ (.left _ inner ms) rs => intro i; rfl
-      | .left _ (.right _ ls inner) rs => intro i; rfl
-      | .right _ ls inner => intro i; rfl
+      match s, t, step with
+      | _, _, .left _ (.left _ inner ms) rs => intro i; rfl
+      | _, _, .left _ (.right _ ls inner) rs => intro i; rfl
+      | _, _, .right _ ls inner => intro i; rfl
   | unassoc left middle right =>
       intro s t step
-      match step with
-      | .left _ inner rs => intro i; rfl
-      | .right _ ls (.left _ inner rs) => intro i; rfl
-      | .right _ ls (.right _ ms inner) => intro i; rfl
+      match s, t, step with
+      | _, _, .left _ inner rs => intro i; rfl
+      | _, _, .right _ ls (.left _ inner rs) => intro i; rfl
+      | _, _, .right _ ls (.right _ ms inner) => intro i; rfl
   | trans firstRoute secondRoute ihFirst ihSecond =>
       intro s t step i
       exact (congrArg
@@ -365,14 +365,14 @@ theorem reassocStep_pullback {u v : FivefoldPathVertex}
             (reassocWitnessEquiv f g h k firstRoute t i))
   | left route right ih =>
       intro s t step
-      match step with
-      | .left _ inner rs => intro i; exact Prod.ext (ih inner i.1) rfl
-      | .right _ ls inner => intro i; rfl
+      match s, t, step with
+      | _, _, .left _ inner rs => intro i; exact Prod.ext (ih inner i.1) rfl
+      | _, _, .right _ ls inner => intro i; rfl
   | right left route ih =>
       intro s t step
-      match step with
-      | .left _ inner rs => intro i; rfl
-      | .right _ ls inner => intro i; exact Prod.ext rfl (ih inner i.2)
+      match s, t, step with
+      | _, _, .left _ inner rs => intro i; rfl
+      | _, _, .right _ ls inner => intro i; exact Prod.ext rfl (ih inner i.2)
 
 
 /-- Reassociation commutes with every finite PARTIAL schedule on every target
