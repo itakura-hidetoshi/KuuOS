@@ -3,6 +3,18 @@
 
 
 
+## 最新のLean定理統合 — Qi v4.93／七セル単位・結合三角形critical peakの整数障害と八セル別presentation拡張／2026-11-06 JST
+
+**[定理PR #3209](https://github.com/itakura-hidetoshi/KuuOS/pull/3209) MERGED。** Qi v4.91の**既存22八セル生成規則すべて**で保存される、新七セル生履歴上の整数値`sevenTriangleCharge`を定義し、八セル構文の帰納法で保存則を証明。七セルの左／右単位則と結合則が重なる二種類の三角形critical peakで、直接縮約の値`Q=0`と結合則経由の値`Q=1`が異なるため、**元の八セル22規則ではその二履歴を比較できないことを形式証明**した。
+
+**局所的な拡張とその境界：** 元`EightCell`定義を変更せず、元比較を取り込んで左／右三角形の二生成元だけを増やした別`TriangleEightCell` Typeを導入。型付き文脈閉包の任意`TriangleCriticalPeak`から具体的八セル証拠を構成。元八セルの比較から新比較への包含は成立するが、**逆方向の普遍的interpreterは存在しない**。新履歴商は旧商より真に粗い。元P77の任意最終raw添字に適用しても元GK5CG厳密等式Interpreter障害は保存される。全七セル履歴の無条件比較は導入しない。
+
+**[exact-source CI #42213331171](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42213331171)：Strict Lean 10,292／10,292 SUCCESS、Governance30／30 SUCCESS、新規22宣言の公理監査は標準公理のみ、sorryAxなし、変更Lean warning/error0／0。** 修正後検証済みHEAD `bacc45cc5234c8676a07078d16e16f0ffccbe77b`、source/test-merge/squash Git tree `cc04ac37aa0792567c310b47555f2d6997c3d7f5` 完全一致、定理squash `0bf6ffb179754ad6ca895680dae960727636f2fe`。初回CI #42212768586のLean4 Pi型に対する`¬`と終端docstringエラーを、全文照合の上`¬ Nonempty`・通常コメントへ修正。固定Lean v4.30.0-rc2／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、公開root107、保護PR #1558 Draft／OPEN／未マージ。
+
+[正式証明記録](docs/formal/Qi-v4_93-original-P77-triangle-critical-peak-eight-cell-charge-obstruction.md) · [Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77TriangleOverlapEightCellObstructionV4_93.lean)
+
+**次候補Qi v4.94：** 逆元消去・反転・結合則の新しい重なりcritical pairを分類し、整数障害と追加整合性の境界を追う。旧sourceへの降下は条件付きのまま保持する。
+
 ## 最新のLean定理統合 — Qi v4.92／七セルcritical peakの八セル合流閉包・新履歴商・真正P77厳密戻り障害／2026-11-06 JST
 
 **[定理PR #3207](https://github.com/itakura-hidetoshi/KuuOS/pull/3207) MERGED。** Qi v4.91の既存22八セル生成規則**だけ**を使い、七セルzigzagと独立書換え交錯を原始ピークとする**限定的`LocalCriticalPeak`**（9構成子）を定義。前後の七セル合成、六セル反転・合成文脈、反転・連鎖・縦合成への閉包を構造帰納し、その族の任意のピーク`P`から**実際の`EightCell(H₁,H₂)`証明を構成**。独立書換え交錯の八セル自然性と、zigzagの全型付き文脈での合流保存も形式証明した。
