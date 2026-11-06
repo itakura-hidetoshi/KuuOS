@@ -341,7 +341,7 @@ example {u v : FivefoldPathVertex} (family : Family f g h k u v)
           (directNormalUnit f g h k family s)
           (normalizeFront f g h k (.nil family s))))
       (historyPlan f g h k (.nil family s)) :=
-  directCompose_leftUnit_history f g h k _ (.nil family s)
+  directCompose_leftUnit_history f g h k (.nil family s)
 
 example {u v : FivefoldPathVertex} (family : Family f g h k u v)
     (s : State f g h k family) :
@@ -351,7 +351,7 @@ example {u v : FivefoldPathVertex} (family : Family f g h k u v)
           (normalizeFront f g h k (.nil family s))
           (directNormalUnit f g h k family s)))
       (historyPlan f g h k (.nil family s)) :=
-  directCompose_rightUnit_history f g h k _ (.nil family s)
+  directCompose_rightUnit_history f g h k (.nil family s)
 
 #print axioms directNormalUnit
 #print axioms directNormalUnit_route
