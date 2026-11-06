@@ -600,6 +600,7 @@ import KUOS.Architecture.QiWuxingGK5CHP77TypedBinaryNormalBracketTreesV4_82
 import KUOS.Architecture.QiWuxingGK5CHP77ActualTypedPentagonObservationV4_83
 import KUOS.Architecture.QiWuxingGK5CHP77OriginalFiveCellLoopObstructionV4_84
 import KUOS.Architecture.QiWuxingGK5CHP77StrictPentagonWordShapeObstructionV4_85
+import KUOS.Architecture.QiWuxingGK5CHP77AdjoinedSixCellPresentationV4_86
 
 /-!
 Public aggregate: retain every previously published proof and its original
