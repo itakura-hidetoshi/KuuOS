@@ -3,6 +3,18 @@
 
 
 
+## 最新のLean定理統合 — Qi v5.02／整数単位則カウントと三整数・偶奇不可視の真正高次障害／2026-11-07 JST
+
+**[定理PR #3227](https://github.com/itakura-hidetoshi/KuuOS/pull/3227) MERGED。** 元13構成子の七セルType値証拠履歴に**整数単位則カウント`U=sevenUnitStepCharge`**を定義し、`leftUnit`・`rightUnit`へ各+1、それ以外の原始生成元へ0、反転へ符号反転、縦横合成へ加算を割り当てた。**元v4.91 EightCellの全22構成子とTriangle／Involution／InverseComp／Identity／v5.01 UnitDiamondEightCellの全型付き比較構成子で整数Uを保存**することを形式証明し、`Quotient.lift`によってv5.01高次履歴商上へ真正に降下させた。
+
+**三整数・偶奇で見えない比較不能性：** 真正な左右逆元消去対`inverseId;leftUnit`、`inverseId;rightUnit`の二因子前駆例はU=0対2・R偶奇一致。ただし旧T値は1対0であるため、**既証明の真正左三角形critical pair**（directはT=0、viaはT=1）を逆向きに横合成してT差を厳密に相殺した。その結果、同じraw六セル始終点をもつ三因子平行履歴に対し、**両者`(T,J,K)=(1,0,0)`かつ`R mod 2=0`、しかし`U=1`対`U=3`**を構成。全比較に保存される整数Uが異なるため、**現行`UnitDiamondEightCell`では比較不能**で、選択商のclassも異なる。三整数と偶奇の同時一致からの比較存在を反証した。二因子前駆例は元P77の全raw最終添字へ真正GK5CG source付きで輸送し、旧source EqualityInterpreter不存在を保持した。三因子の追加source文脈輸送は別の未証明事項として区別。新原始八セル・九セルは追加せず、大域thin性も仮定しない。
+
+**[exact-source CI #42308824344](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42308824344)：Strict Lean 10,301／10,301 SUCCESS、Governance30／30 SUCCESS、41宣言の公理監査は標準公理のみ・sorryAxなし、変更Lean warning/error0／0。** 検証HEAD `f821aef132efeff078fb187785b0f01a39f42932`、source/test-merge Git tree `c6abe79391ab2bb7df9a760187a091122c2da466`完全一致。定理squash `3b7e205d3820dadf4954dc398b97d35db3794a3d`。公開root107維持、保護PR #1558 Draft／OPEN／未マージ維持。
+
+[正式証明記録](docs/formal/Qi-v5_02-original-P77-balanced-inverse-unit-count-obstruction.md) · [Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77BalancedInverseUnitCountObstructionV5_02.lean)
+
+**次候補Qi v5.03：** 新整数Uの保存量境界を前提に、まず既存高次比較で合流できる局所混合族を整理し、証明済みのU差を解消する必要がある場合に限り独立presentationへ最小原始比較を追加する。元sourceのstrict Eqと高次商Eqは同一視しない。
+
 ## 最新のLean定理統合 — Qi v5.01／真正unit diamondの独立八セル最小補完・偶奇降下／2026-11-07 JST
 
 **[定理PR #3225](https://github.com/itakura-hidetoshi/KuuOS/pull/3225) MERGED。** Qi v5.00で法4剰余`S`が検出した真正`leftUnit(refl(w))`対`rightUnit(refl(w))`の比較不能性に対し、元`IdentityEightCell`を変更せず、**新しい独立`UnitDiamondEightCell`へ唯一の原始比較生成元`unitDiamond`を追加**した。既存の全Type値比較証拠は`previous`で保存し、型付き逆・縦横合成文脈の閉包を持つ。
