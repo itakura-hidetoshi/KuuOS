@@ -609,6 +609,7 @@ import KUOS.Architecture.QiWuxingGK5CHP77EightCellLocalCoherenceV4_91
 import KUOS.Architecture.QiWuxingGK5CHP77EightCellCriticalPeakClosureV4_92
 import KUOS.Architecture.QiWuxingGK5CHP77TriangleOverlapEightCellObstructionV4_93
 import KUOS.Architecture.QiWuxingGK5CHP77InvolutionOverlapHigherObstructionV4_94
+import KUOS.Architecture.QiWuxingGK5CHP77InverseCompositeUnitOverlapV4_95
 
 /-!
 Public aggregate: retain every previously published proof and its original
