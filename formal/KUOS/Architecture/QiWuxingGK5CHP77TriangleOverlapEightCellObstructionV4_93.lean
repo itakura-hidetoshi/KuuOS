@@ -319,10 +319,10 @@ theorem triangleEightCell_rightNewNotOld {w x z : W}
 /-- The extension is STRICT: no map that sends every new triangle
 comparison into the old eight-cell grammar can exist. -/
 theorem triangleEightCell_noOldInterpreter (l r : W) :
-    ¬ (∀ {w z : W} {c d : PentagonAdjoinedSixCell W l r w z}
+    ¬ Nonempty (∀ {w z : W} {c d : PentagonAdjoinedSixCell W l r w z}
         (s t : SevenRewrite W l r c d),
         TriangleEightCell W l r s t → EightCell W l r s t) := by
-  intro interpret
+  rintro ⟨interpret⟩
   let c : PentagonAdjoinedSixCell W l r l l := .refl l
   have h : EightCell W l r
       (sevenLeftTriangleDirect c c) (sevenLeftTriangleViaAssoc c c) :=
@@ -499,7 +499,7 @@ theorem triangleHistoryClass_strictlyNew {w x z : W}
     exact sevenLeftTriangle_noOldEightCell c d
       ((eightHistoryClass_eq_iff _ _).1 heq)
 
-/-- The old-source authority obstruction is independent of the
+/- The old-source authority obstruction is independent of the
 new conservative completion; at every original P77 raw index we
 exhibit an ACTUAL original five-cell generator used in the triangle. -/
 end PentagonAdjoinedSixCell
