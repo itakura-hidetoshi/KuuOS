@@ -14,6 +14,18 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — Qi v4.97／三整数では見えない七セルcritical pair・第四整数保存量・非線形非因子化／2026-11-07 JST
+
+**[定理PR #3217](https://github.com/itakura-hidetoshi/KuuOS/pull/3217) MERGED。** 元13構成子`SevenRewrite`上で、`inverseId`を+1、`inverseComp`を−1と数える第四の符号付き整数保存量`sevenIdentityBalance`を定義。元v4.91の22八セル規則、v4.93三角形、v4.94二重反転、v4.95逆元合成の**すべての比較構成子**による保存をLean4の構造帰納で形式証明した。`InverseCompEightCell`の左右の新重なりは`inverseComp`と`inverseId`が1回ずつ現れ、寄与が−1+1=0となる。
+
+**三整数では検出できない真正critical pair：** 元sourceの同一六セル二端点上で、二重反転／逆元消去／三角形の三種の局所証拠を補償的に組み合わせ、七セル平行履歴`H₁`,`H₂`を構成。v4.96の`(T,J,K)`はともに**`(1,1,0)`**で一致するが、第四の`R`は**0対2**で異なる。したがって最終`InverseCompEightCell`による比較証拠は存在せず、選択八セル商のclassも不一致。さらに`R=F(T,J,K)`を満たす**任意の非線形関数`F:ℤ³→ℤ`も普遍的には存在しない**ことを形式証明した。対照的に独立な二つの`inverseId`書換えは元の`EightCell.interchange`で合流可能と構成している。
+
+**[exact-source CI #42273791864](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42273791864)：Strict Lean 10,296／10,296 SUCCESS、Governance30／30 SUCCESS、公理監査25宣言は標準公理のみ、`sorryAx`なし、変更Lean warning/error0／0。** 検証済みHEAD `bebaa45fda8c265d4d1a8b9729a95084a893bb6d`、source/test-merge Git tree `570636f700bae543f38e182db3b7b2f5df0ef676`一致。定理squash `bb52d5fc464c673f8ee8a7ec2620acd83b7533f9`。公開root107、保護PR #1558 Draft／OPEN／未マージ。元GK5CGのEqualityInterpreter不存在を保持し、全七セル大域coherenceや高次thin性は主張しない。
+
+[正式証明記録](docs/formal/Qi-v4_97-original-P77-identity-balance-hidden-seven-cell-critical-pair.md) · [Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77IdentityBalanceHiddenCriticalPeaksV4_97.lean)
+
+**次候補Qi v4.98：** 新しいidentity/doubleInverse重なりだけを埋める独立八セルpresentationの最小構成を調べ、第四の整数障害が降下する旧商と降下しない新商を明確化する。元sourceの構成子や権威境界は変更しない。
+
 ## 最新のLean定理統合 — Qi v4.96／三整数不変量の高次商フィルトレーション・単模線形剛性／2026-11-06 JST
 
 **[定理PR #3215](https://github.com/itakura-hidetoshi/KuuOS/pull/3215) MERGED。** 元13構成子`SevenRewrite`の生履歴上にv4.93三角形`T`・v4.94二重反転`J`・v4.95合成逆元展開`K`の**三成分整数写像**`sevenChargeTriple(H)=(T(H),J(H),K(H))`を構成。元`EightCell`商では3成分、`TriangleEightCell`商では`(J,K)`、`InvolutionEightCell`商では`K`が保存されることを、既存の全構成子証明に接続して形式化。各段階の商が旧商より**真に粗いこと**も、一つの`ThreeStageStrict`に統合した。
