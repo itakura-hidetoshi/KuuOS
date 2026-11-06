@@ -592,6 +592,7 @@ import KUOS.Architecture.QiWuxingGK5CHP77RecutIndexCoherenceV4_76
 import KUOS.Architecture.QiWuxingGK5CHP77ReassociatedRefinementSchedulesV4_76
 import KUOS.Architecture.QiWuxingGK5CHP77RefinementPlanObservationV4_77
 import KUOS.Architecture.QiWuxingGK5CHP77InterleavedRecutRefinementHistoriesV4_77
+import KUOS.Architecture.QiWuxingGK5CHP77FrontNormalAppendCoherenceV4_78
 
 /-!
 Public aggregate: retain every previously published proof and its original
