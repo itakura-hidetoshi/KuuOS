@@ -618,6 +618,7 @@ import KUOS.Architecture.QiWuxingGK5CHP77UnitDiamondFourTorsionObstructionV5_00
 import KUOS.Architecture.QiWuxingGK5CHP77UnitDiamondMinimalHigherCompletionV5_01
 import KUOS.Architecture.QiWuxingGK5CHP77BalancedInverseUnitCountObstructionV5_02
 import KUOS.Architecture.QiWuxingGK5CHP77BalancedUnitMinimalHigherCompletionV5_03
+import KUOS.Architecture.QiWuxingGK5CHP77DoubleCompositeCancellationResidualV5_04
 
 /-!
 Public aggregate: retain every previously published proof and its original
