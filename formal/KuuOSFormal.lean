@@ -611,6 +611,7 @@ import KUOS.Architecture.QiWuxingGK5CHP77TriangleOverlapEightCellObstructionV4_9
 import KUOS.Architecture.QiWuxingGK5CHP77InvolutionOverlapHigherObstructionV4_94
 import KUOS.Architecture.QiWuxingGK5CHP77InverseCompositeUnitOverlapV4_95
 import KUOS.Architecture.QiWuxingGK5CHP77ThreeChargeFiltrationRigidityV4_96
+import KUOS.Architecture.QiWuxingGK5CHP77IdentityBalanceHiddenCriticalPeaksV4_97
 
 /-!
 Public aggregate: retain every previously published proof and its original
@@ -619,4 +620,3 @@ internal Kuu import aggregate; publishing retained proofs does not make their
 imports prerequisites of Kuu. Existing proof authority is not reset by this
 build-wiring repair. No theorem is reproved or renamed here.
 -/
-import KUOS.Architecture.QiWuxingGK5CHP77IdentityBalanceHiddenCriticalPeaksV4_97
