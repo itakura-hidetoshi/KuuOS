@@ -148,7 +148,8 @@ theorem fivefoldP77RawPatchChainAppendIndexEquiv_assoc
         (i, fivefoldP77RawPatchChainAppendIndexEquiv f g h k tail
           (fivefoldP77RawPatchChainAppend f g h k middle right)
           (rest, fivefoldP77RawPatchChainAppendIndexEquiv f g h k middle right (j, l)))
-      rw [fivefoldP77RawPatchChainIndexCast_cons]
+      rw [fivefoldP77RawPatchChainIndexCast_cons f g h k block
+        (fivefoldP77RawPatchChainAppend_assoc f g h k tail middle right)]
       exact Prod.ext rfl (ih middle rest j l)
 
 /-- Evaluate every original recut on full raw-index Types by its actual cut,
