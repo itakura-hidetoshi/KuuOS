@@ -3,6 +3,18 @@
 
 
 
+## 最新のLean定理統合 — Qi v4.98／identity・doubleInverseの最小高次局所補完と第四整数非降下／2026-11-07 JST
+
+**[定理PR #3219](https://github.com/itakura-hidetoshi/KuuOS/pull/3219) MERGED。** Qi v4.97の第四整数`R=sevenIdentityBalance`が検出した真正`doubleInverse(refl)`と二回の`inverseId`の局所重なり（R=0対2）に対し、**新しい原始八セル比較1種類**だけを別presentation`IdentityEightCell`へ追加した。旧`InverseCompEightCell`の全証拠と型付き文脈閉包は保存。元五セルGK5CG／七セル生構文／旧八セル全presentationとその商は変更なし。
+
+**三整数不可視の複合critical pairも構成的に補完：** v4.97の二履歴は`(T,J,K)=(1,1,0)`が一致するが旧八セル比較不能だった。新`identityDouble`、旧二重反転・逆元消去の八セル比較、旧単位・結合三角形比較を`compositeContext`で貼り合わせ、**新八セル比較を直接構成**。限定`IdentityCriticalPeak`族の全構成子に証拠を与え、旧商から新商への降下、**商の真の粗化**、第四整数Rの**新商への非降下**、旧商・生七セル厳密Eqへの普遍的戻りの不存在まで形式証明した。元P77任意raw添字でもGK5CG source EqualityInterpreter障害を維持。
+
+**[exact-source CI #42297159427](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42297159427)：Strict Lean 10,297／10,297 SUCCESS、Governance30／30 SUCCESS、公理監査23宣言は標準公理のみ、sorryAxなし、変更Lean warning/error0／0。** 検証済みHEAD `a3e1e88e4a7d3ffbb3233e81752c0ab5c1164058`、source/test-merge Git tree `0007ca7c8c64970f37d8f692c4b91ed60d31c0cf` 完全一致。定理squash `8bab61588ad8823c082a81534bcb34578c483ffe`。公開root107、保護PR #1558 Draft／OPEN／未マージ。
+
+[正式証明記録](docs/formal/Qi-v4_98-original-P77-identity-double-higher-local-completion.md) · [Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77IdentityDoubleHigherLocalCompletionV4_98.lean)
+
+**次候補Qi v4.99：** 新しいidentityDouble比較と旧inverseComp・doubleInverseの型付き複合文脈内での次段高次critical peakを追い、局所合流証拠と新たなobstructionを分離する。全平行履歴の大域coherenceは仮定しない。
+
 ## 最新のLean定理統合 — Qi v4.97／三整数では見えない七セルcritical pair・第四整数保存量・非線形非因子化／2026-11-07 JST
 
 **[定理PR #3217](https://github.com/itakura-hidetoshi/KuuOS/pull/3217) MERGED。** 元13構成子`SevenRewrite`上で、`inverseId`を+1、`inverseComp`を−1と数える第四の符号付き整数保存量`sevenIdentityBalance`を定義。元v4.91の22八セル規則、v4.93三角形、v4.94二重反転、v4.95逆元合成の**すべての比較構成子**による保存をLean4の構造帰納で形式証明した。`InverseCompEightCell`の左右の新重なりは`inverseComp`と`inverseId`が1回ずつ現れ、寄与が−1+1=0となる。
