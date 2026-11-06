@@ -602,6 +602,7 @@ import KUOS.Architecture.QiWuxingGK5CHP77OriginalFiveCellLoopObstructionV4_84
 import KUOS.Architecture.QiWuxingGK5CHP77StrictPentagonWordShapeObstructionV4_85
 import KUOS.Architecture.QiWuxingGK5CHP77AdjoinedSixCellPresentationV4_86
 import KUOS.Architecture.QiWuxingGK5CHP77SixCellWordCoherenceDescentV4_87
+import KUOS.Architecture.QiWuxingGK5CHP77SixCellEndpointNormalFormsV4_88
 
 /-!
 Public aggregate: retain every previously published proof and its original
