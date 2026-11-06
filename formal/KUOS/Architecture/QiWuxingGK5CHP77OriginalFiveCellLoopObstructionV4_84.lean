@@ -125,6 +125,7 @@ def pentagonReverseDifferenceConservativeFiveCell
 
 /-- An actual original fifth-dimensional certificate can be constructed
 along the upper three edges without adding any new higher generator. -/
+include A B C D₄ in
 theorem pentagonLongConservativeFiveCell_nonempty
     (i : FivefoldP77RawPatchTreeIndex f g h k
       (tree f g h k family₄ s₄)) :
@@ -132,6 +133,7 @@ theorem pentagonLongConservativeFiveCell_nonempty
   ⟨pentagonLongConservativeFiveCell f g h k A B C D₄ i⟩
 
 /-- Same existence for the independent lower two-edge loop word. -/
+include A B C D₄ in
 theorem pentagonShortConservativeFiveCell_nonempty
     (i : FivefoldP77RawPatchTreeIndex f g h k
       (tree f g h k family₄ s₄)) :
@@ -140,6 +142,7 @@ theorem pentagonShortConservativeFiveCell_nonempty
 
 /-- Original 4-associator charge is preserved by the actual upper 5-cell,
 by the authoritative inductive GK5CG conservation theorem. -/
+include A B C D₄ in
 theorem pentagonLongConservativeFiveCell_charge_sound
     (i : FivefoldP77RawPatchTreeIndex f g h k
       (tree f g h k family₄ s₄)) :
@@ -150,6 +153,7 @@ theorem pentagonLongConservativeFiveCell_charge_sound
   (pentagonLongConservativeFiveCell f g h k A B C D₄ i).assocCharge_sound
 
 /-- Original 4-associator charge conservation along the lower 5-cell. -/
+include A B C D₄ in
 theorem pentagonShortConservativeFiveCell_charge_sound
     (i : FivefoldP77RawPatchTreeIndex f g h k
       (tree f g h k family₄ s₄)) :
@@ -161,6 +165,7 @@ theorem pentagonShortConservativeFiveCell_charge_sound
 
 /-- The native signed difference is also charge-preserving at its exact
 four-cell endpoints, but such preservation does not imply it is refl. -/
+include A B C D₄ in
 theorem pentagonDifferenceConservativeFiveCell_charge_sound
     (i : FivefoldP77RawPatchTreeIndex f g h k
       (tree f g h k family₄ s₄)) :
@@ -225,6 +230,7 @@ ENDOMORPHISM five-cell words exist along both observed Qi pentagon
 routes; nevertheless no conservative five-cell joins the DIFFERENT
 original P77 four-proof upper/lower paths with their charge gap.
 We do not identify those distinct source and target four-proofs. -/
+include A B C D₄ in
 theorem pentagonLoopComposition_withSourceObstruction
     (i : FivefoldP77RawPatchTreeIndex f g h k
       (tree f g h k family₄ s₄)) :
