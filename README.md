@@ -14,6 +14,18 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — Qi v4.94／七セル二重反転・逆元消去critical peakの第二整数障害と八セル独立補完／2026-11-06 JST
+
+**[定理PR #3211](https://github.com/itakura-hidetoshi/KuuOS/pull/3211) MERGED。** 元七セル生履歴`SevenRewrite`の`doubleInverse`を数える**第二の独立整数不変量**`sevenInvolutionCharge`を導入し、v4.91の元22八セル生成規則**全件**およびv4.93の`TriangleEightCell`の**全構成子**で値が保存されることを構造帰納で形式証明。二重反転と左右の逆元消去の重なりで、直接消去と二重反転先行の二つの実七セル履歴に`J=0`対`J=1`の差が生じるため、**三角形拡張を含む従来の八セル生成規則では比較不能**と証明した。
+
+**必要最小限の別presentation：** 既存`EightCell`／`TriangleEightCell`を書き換えず、`InvolutionEightCell`に旧比較全件と左右の二重反転ピーク二生成元だけを付加。限定`InvolutionCriticalPeak`族は型付き帰納法で全証拠が構成可能。新履歴商は旧三角形商より**真に粗く**、普遍的な逆Interpreterや生七セル構文の厳密Eqへの戻りは不可能。真正元P77全raw添字に適用しつつ、元GK5CGの厳密source EqualityInterpreter障害を保持。全七セル履歴の大域完全性は主張しない。
+
+**[exact-source CI #42216666765](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42216666765)：Strict Lean 10,293／10,293 SUCCESS、Governance30／30 SUCCESS、新規25宣言の公理監査は標準公理のみ、sorryAxなし、変更Lean warning/error0／0。** 検証済みHEAD `fe9f1452823a2b619b791bffd1bf363e904c2700`、source/test-merge/squash Git tree `f094dc464e87792e03a991e108ceea9645280e7d` 完全一致、定理squash `d41f2aed91d7dc4b9aded5987343f99456f9d4fb`。Lean v4.30.0-rc2／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、公開root107、保護PR #1558 Draft／OPEN／未マージ。
+
+[正式証明記録](docs/formal/Qi-v4_94-original-P77-involution-critical-peak-higher-obstruction.md) · [Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77InvolutionOverlapHigherObstructionV4_94.lean)
+
+**次候補Qi v4.95：** 第二整数不変量による逆元合成・反転の次の重なりを判定し、既存新八セルによる局所合流と新たな障害の境界を分類。
+
 ## 最新のLean定理統合 — Qi v4.93／七セル単位・結合三角形critical peakの整数障害と八セル別presentation拡張／2026-11-06 JST
 
 **[定理PR #3209](https://github.com/itakura-hidetoshi/KuuOS/pull/3209) MERGED。** Qi v4.91の**既存22八セル生成規則すべて**で保存される、新七セル生履歴上の整数値`sevenTriangleCharge`を定義し、八セル構文の帰納法で保存則を証明。七セルの左／右単位則と結合則が重なる二種類の三角形critical peakで、直接縮約の値`Q=0`と結合則経由の値`Q=1`が異なるため、**元の八セル22規則ではその二履歴を比較できないことを形式証明**した。
