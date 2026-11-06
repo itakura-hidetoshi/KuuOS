@@ -14,6 +14,18 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — Qi v4.83／真正P77型付き五角形の二経路観測整合性／2026-11-06 JST
+
+**[定理PR #3189](https://github.com/itakura-hidetoshi/KuuOS/pull/3189) MERGED。** 元の真正`DirectNormalBracketTree`で四つの任意有限長型付き部分木A,B,C,Dを保持し、5つの実二分括弧付けV0〜V4を構成。各辺V0→V1→V2→V3／V0→V4→V3について元の順序付き真正`DirectNormalChain`のflatten厳密等式を証明し、双方の独立経路で全forward／backward raw indexと真正source witness pullbackの観測同値を形式証明した。型付き中間Family・部分State・選択元route／Scheduleを保持する。
+
+**元五セル・source・obstruction境界：** 五辺それぞれの元GK5CG raw square／loopと共通端点の元Type値を別々に保持。元Quiver.Path、source-certified P77部分Hom、各側の認証raw比較、共通最終因子木のcompatibility／obstruction同値も保持する。五セル値同一視、loop自明性、2経路の五セル合成のhigher equality／pentagonator、途中全refinement間の障害不変性は**証明していない**。
+
+**[exact-source CI #42173062119](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42173062119)：Strict Lean 10,282／10,282 SUCCESS、Governance30／30 SUCCESS、39件の実公理出力は標準公理のみ、sorryAxなし、変更Lean warning/error 0／0。** 検証済みHEAD `47e794f8cd3855f2de7f3e7000f86f12b80c96ed`、source/test-merge/squash Git tree `4c9811b4d545bf87a066e4f8cdf9cc8a426affcf`一致、定理squash `6447439c7c63bf15be041b63005d1183ca37ee78`。固定Lean v4.30.0-rc2／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、公開root107、保護PR #1558 Draft/OPEN/未マージ維持。
+
+[正式証明記録](docs/formal/Qi-v4_83-original-P77-actual-typed-pentagon-observation.md) · [Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77ActualTypedPentagonObservationV4_83.lean)
+
+**次の候補Qi v4.84：** 元GK5CG五セルについて真正Type値合成可能性・元source authorityを検査した上で、五角2経路の高次合成差を障害として形式化する。観測的整合性から高次充填の存在を推論しない。
+
 ## 最新のLean定理統合 — Qi v4.82／真正P77有限型付き二分括弧付け木の全域観測整合性／2026-11-06 JST
 
 **[定理PR #3187](https://github.com/itakura-hidetoshi/KuuOS/pull/3187) MERGED。** 任意有限長の元`FrontNormal`を、すべての中間Family／部分Stateを添字に保持する真正二分木`DirectNormalBracketTree`として構成。型付き木の`bracketFlatten`は元の順序付き実鎖`DirectNormalChain`を厳密に保存し、`bracketEval`は選択した元route・Scheduleで直接合成する。任意有限木についてfoldとの全域観測一致を帰納的に証明し、同じ実鎖へflattenする任意二括弧付けのforward／backward raw添字と真正source witness pullbackがすべて一致することを形式証明した。
