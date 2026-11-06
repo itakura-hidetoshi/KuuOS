@@ -666,7 +666,7 @@ theorem sevenTripleAndParity_notCompleteAfterUnitDiamond (l r : W) :
       (sevenBalancedUnitInvisible_sameTriple (long := l) (short := r) l)
       (sevenBalancedUnitInvisible_sameParity (long := l) (short := r) l))
 
-/-- No new primitive is added to address this genuine obstruction. -/
+/- No new primitive is added to address this genuine obstruction. -/
 
 end PentagonAdjoinedSixCell
 
