@@ -61,8 +61,9 @@ variable {W : Type uSix} {long short : W}
 
 /-- Endpoint potential of the NEW presentation; it is not a charge
 on the old F55 four-proofs and depends on a CHOSEN short endpoint. -/
-def endpointHeight (short w : W) : ℤ :=
-  if w = short then 1 else 0
+def endpointHeight (short w : W) : ℤ := by
+  classical
+  exact if w = short then 1 else 0
 
 /-- The crucial non-loop theorem. With DISTINCT endpoints, the
 degree of an arbitrary raw sixth-dimensional proof word is exactly
