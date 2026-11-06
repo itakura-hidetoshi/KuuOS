@@ -3,6 +3,18 @@
 
 
 
+## 最新のLean定理統合 — Qi v4.85／真正GK5CG五セル選択証明語の構成子的不一致／2026-11-06 JST
+
+**[定理PR #3193](https://github.com/itakura-hidetoshi/KuuOS/pull/3193) MERGED。** v4.84で元の保守的GK5CG五セルとして構成した三辺経路L₃と二辺経路L₂について、自由帰納Typeのtrans/symm構成子形状を検査するBoolean証明書を導入。任意の真正最終raw添字iに対し **L₃(i)≠L₂(i)** をLean4で形式証明し、既証明の元raw添字のinhabited性から選択五セル語の厳密等式の**障害の実在**とその否定を構成。差分五セルloopも自由な構成子語としてreflと厳密不一致であることを証明した。
+
+**高次・sourceの正確な境界：** これは元の自由五セル**証明語の厳密不一致**であって、別の高次六セルの不存在、商化後の非同値、higher pentagonatorの不存在は主張しない。v4.83の全域観測同値と今回の証明語不一致は両立し、独立F112/GK5CGの別の元F55/P77四セル間の+1電荷no-goも同一視せず保持する。
+
+**[exact-source CI #42178582859](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42178582859)：Strict Lean 10,284／10,284 SUCCESS、Governance30／30 SUCCESS、新規13宣言の実公理依存は標準公理のみ、sorryAxなし、変更Lean warning/error0／0。** 最終source HEAD 7c28f357d6f68706a6b9b2abcd3236bb668d812e、source/test-merge/squash Git tree 4fbb7748d5fc1feb1f09417add36cd57c2f0314f 完全一致、定理squash 4c73d75392c3107b55b2cd1b90ea57ce0fe29f26。固定Lean v4.30.0-rc2／mathlib 5450b53e5ddc75d46418fabb605edbf36bd0beb6、公開root107維持、保護PR #1558 Draft/OPEN/未マージ。
+
+[正式証明記録](docs/formal/Qi-v4_85-original-P77-GK5CG-selected-word-shape-obstruction.md) · [Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77StrictPentagonWordShapeObstructionV4_85.lean)
+
+**次の候補Qi v4.86：** 平行な真正元五セル値に対する高次比較Typeを、明示的に区別した新presentationの候補として設計し、元source authority・局所descent・retraction obstructionの条件を個別に検証する。高次六セル充填の存在を無根拠に主張しない。
+
 ## 最新のLean定理統合 — Qi v4.84／真正GK5CG五セルloop二経路合成・元source電荷障害／2026-11-06 JST
 
 **[定理PR #3191](https://github.com/itakura-hidetoshi/KuuOS/pull/3191) MERGED。** v4.83で構成した五角5辺の真正GK5CG保守的五セルloopを、元の .trans/.symm だけで三辺経路 L₃、二辺経路 L₂、差分 Δ=L₃・L₂⁻¹、逆差分として型付き合成。全て共通最終raw P77四セル上の真正自己五セルであり、商化・新生成元・cast・source証拠消去はない。選択した五セル構成子語の厳密な等式は未確定とし、その否定と反例raw添字存在の必要十分条件を形式化。高次六セル充填や五セルloop自明性を主張しない。
