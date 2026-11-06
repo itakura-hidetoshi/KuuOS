@@ -3,6 +3,18 @@
 
 
 
+## 最新のLean定理統合 — Qi v4.92／七セルcritical peakの八セル合流閉包・新履歴商・真正P77厳密戻り障害／2026-11-06 JST
+
+**[定理PR #3207](https://github.com/itakura-hidetoshi/KuuOS/pull/3207) MERGED。** Qi v4.91の既存22八セル生成規則**だけ**を使い、七セルzigzagと独立書換え交錯を原始ピークとする**限定的`LocalCriticalPeak`**（9構成子）を定義。前後の七セル合成、六セル反転・合成文脈、反転・連鎖・縦合成への閉包を構造帰納し、その族の任意のピーク`P`から**実際の`EightCell(H₁,H₂)`証明を構成**。独立書換え交錯の八セル自然性と、zigzagの全型付き文脈での合流保存も形式証明した。
+
+**新しい履歴商：** 生の`SevenRewrite(c,d)`全体上で`H₁∼₈H₂ := Nonempty(EightCell(H₁,H₂))`がSetoidとなることを証明。選択した新八セル商における`[H₁]₈=[H₂]₈ ⇔ Nonempty(EightCell(H₁,H₂))`を構成。真正元P77全raw添字の二つのzigzag履歴は**この商で一致するが生七セル履歴の厳密Eqではない**。旧GK5CG sourceへのEqualityInterpreter不存在も存続。**任意の平行七セル履歴の大域完全性は主張せず、新八セル生成元も追加していない。**
+
+**[exact-source CI #42210838596](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42210838596)：Strict Lean 10,291／10,291 SUCCESS、Governance30／30 SUCCESS、指定18宣言の公理監査は標準公理のみ（最初の11宣言は公理依存なし）、sorryAxなし、変更Lean warning/error0／0。** 検証済みHEAD `eb89aeb46bb48b4f0bae709519c5e57f5a481567`、source/test-merge/squash Git tree `bf993473445a4e50a2d767c911ed3a2875bdbd11`完全一致、定理squash `2b5530832090defa9c804dcf1bef6268683b6a24`。固定Lean v4.30.0-rc2／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、公開root107、保護PR #1558 Draft／OPEN／未マージ。
+
+[正式証明記録](docs/formal/Qi-v4_92-original-P77-eight-cell-critical-peak-closure-history-quotient.md) · [Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77EightCellCriticalPeakClosureV4_92.lean)
+
+**次候補Qi v4.93：** 限定的critical peak族の外側に残る七セル書換えの重なり／包含peakを抽出し、既存八セル規則だけで解ける範囲と追加coherence生成元の必要範囲を分類する。
+
 ## 最新のLean定理統合 — Qi v4.91／真正P77七セル履歴の新八セル局所coherence・zigzagと交錯ダイヤモンド／2026-11-06 JST
 
 **[定理PR #3205](https://github.com/itakura-hidetoshi/KuuOS/pull/3205) MERGED。** Qi v4.90の七セル書換え局所完全性を継承し、元の六セル生語を添字に保持した**二つの七セル生履歴**をさらに添字に持つ別Type値`EightCell(H₁,H₂)`を追加。新八セルの22生成規則は反射・反転・合成、左右whiskering、反転・合成の文脈congruence、七セル合成の単位・結合・逆元消去、独立書換え交錯、および`(c;c⁻¹);c ⇒ c`の二通りの縮約の局所ダイヤモンドを具体的に指定する。
