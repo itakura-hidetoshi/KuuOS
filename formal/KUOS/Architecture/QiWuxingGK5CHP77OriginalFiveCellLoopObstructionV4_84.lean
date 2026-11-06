@@ -125,16 +125,22 @@ def pentagonReverseDifferenceConservativeFiveCell
 
 /-- An actual original fifth-dimensional certificate can be constructed
 along the upper three edges without adding any new higher generator. -/
-include A B C D₄ in
 theorem pentagonLongConservativeFiveCell_nonempty
+    (A : DirectNormalBracketTree f g h k family₀ s₀ family₁ s₁)
+    (B : DirectNormalBracketTree f g h k family₁ s₁ family₂ s₂)
+    (C : DirectNormalBracketTree f g h k family₂ s₂ family₃ s₃)
+    (D₄ : DirectNormalBracketTree f g h k family₃ s₃ family₄ s₄)
     (i : FivefoldP77RawPatchTreeIndex f g h k
       (tree f g h k family₄ s₄)) :
     Nonempty (pentagonFinalConservativeLoop f g h k i) :=
   ⟨pentagonLongConservativeFiveCell f g h k A B C D₄ i⟩
 
 /-- Same existence for the independent lower two-edge loop word. -/
-include A B C D₄ in
 theorem pentagonShortConservativeFiveCell_nonempty
+    (A : DirectNormalBracketTree f g h k family₀ s₀ family₁ s₁)
+    (B : DirectNormalBracketTree f g h k family₁ s₁ family₂ s₂)
+    (C : DirectNormalBracketTree f g h k family₂ s₂ family₃ s₃)
+    (D₄ : DirectNormalBracketTree f g h k family₃ s₃ family₄ s₄)
     (i : FivefoldP77RawPatchTreeIndex f g h k
       (tree f g h k family₄ s₄)) :
     Nonempty (pentagonFinalConservativeLoop f g h k i) :=
@@ -142,8 +148,11 @@ theorem pentagonShortConservativeFiveCell_nonempty
 
 /-- Original 4-associator charge is preserved by the actual upper 5-cell,
 by the authoritative inductive GK5CG conservation theorem. -/
-include A B C D₄ in
 theorem pentagonLongConservativeFiveCell_charge_sound
+    (A : DirectNormalBracketTree f g h k family₀ s₀ family₁ s₁)
+    (B : DirectNormalBracketTree f g h k family₁ s₁ family₂ s₂)
+    (C : DirectNormalBracketTree f g h k family₂ s₂ family₃ s₃)
+    (D₄ : DirectNormalBracketTree f g h k family₃ s₃ family₄ s₄)
     (i : FivefoldP77RawPatchTreeIndex f g h k
       (tree f g h k family₄ s₄)) :
     (fivefoldP77RawPatchTreeRaw f g h k
@@ -153,8 +162,11 @@ theorem pentagonLongConservativeFiveCell_charge_sound
   (pentagonLongConservativeFiveCell f g h k A B C D₄ i).assocCharge_sound
 
 /-- Original 4-associator charge conservation along the lower 5-cell. -/
-include A B C D₄ in
 theorem pentagonShortConservativeFiveCell_charge_sound
+    (A : DirectNormalBracketTree f g h k family₀ s₀ family₁ s₁)
+    (B : DirectNormalBracketTree f g h k family₁ s₁ family₂ s₂)
+    (C : DirectNormalBracketTree f g h k family₂ s₂ family₃ s₃)
+    (D₄ : DirectNormalBracketTree f g h k family₃ s₃ family₄ s₄)
     (i : FivefoldP77RawPatchTreeIndex f g h k
       (tree f g h k family₄ s₄)) :
     (fivefoldP77RawPatchTreeRaw f g h k
@@ -165,8 +177,11 @@ theorem pentagonShortConservativeFiveCell_charge_sound
 
 /-- The native signed difference is also charge-preserving at its exact
 four-cell endpoints, but such preservation does not imply it is refl. -/
-include A B C D₄ in
 theorem pentagonDifferenceConservativeFiveCell_charge_sound
+    (A : DirectNormalBracketTree f g h k family₀ s₀ family₁ s₁)
+    (B : DirectNormalBracketTree f g h k family₁ s₁ family₂ s₂)
+    (C : DirectNormalBracketTree f g h k family₂ s₂ family₃ s₃)
+    (D₄ : DirectNormalBracketTree f g h k family₃ s₃ family₄ s₄)
     (i : FivefoldP77RawPatchTreeIndex f g h k
       (tree f g h k family₄ s₄)) :
     (fivefoldP77RawPatchTreeRaw f g h k
@@ -230,8 +245,11 @@ ENDOMORPHISM five-cell words exist along both observed Qi pentagon
 routes; nevertheless no conservative five-cell joins the DIFFERENT
 original P77 four-proof upper/lower paths with their charge gap.
 We do not identify those distinct source and target four-proofs. -/
-include A B C D₄ in
 theorem pentagonLoopComposition_withSourceObstruction
+    (A : DirectNormalBracketTree f g h k family₀ s₀ family₁ s₁)
+    (B : DirectNormalBracketTree f g h k family₁ s₁ family₂ s₂)
+    (C : DirectNormalBracketTree f g h k family₂ s₂ family₃ s₃)
+    (D₄ : DirectNormalBracketTree f g h k family₃ s₃ family₄ s₄)
     (i : FivefoldP77RawPatchTreeIndex f g h k
       (tree f g h k family₄ s₄)) :
     Nonempty (pentagonFinalConservativeLoop f g h k i) ∧
