@@ -33,7 +33,7 @@ compare the pair because ALL its constructors preserve V.
 
 The counterexample is transported to EACH original P77 final raw
 index using the true GK5CG source six-cell and retaining the strict
-source Eq-interpreter obstruction. No new eighth-/ninth-cell primitive,
+source Eq-interpreter obstruction. No new eighth- or ninth-cell primitive,
 global thinness, or new source equality is asserted.
 
 Append-only / tighten-only / overwrite-forbidden / same-root.
