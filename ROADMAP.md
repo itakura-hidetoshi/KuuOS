@@ -3,6 +3,18 @@
 
 
 
+## 最新のLean定理統合 — Qi v4.79／真正P77の直接正規形合成と全域観測整合性／2026-11-06 JST
+
+**[定理PR #3180](https://github.com/itakura-hidetoshi/KuuOS/pull/3180) MERGED、[正式証明記録PR #3181](https://github.com/itakura-hidetoshi/KuuOS/pull/3181) MERGED。** v4.78の履歴経由合成から進み、二つの元Type値FrontNormal `(r₁,S₁)`、`(r₂,S₂)` を、元ReassocRouteの真正合成 `r₁;r₂` と `append (reassocSchedule r₂ S₁) S₂` で**直接**構成。正規化の再実行に依存せず、実Step・Family・部分状態とsource履歴を保存した。
+
+**観測・五セル・障害：** この直接合成とv4.78の履歴経由合成、元交錯履歴の連結正規化、正規化前の元Planの間で、全forward／backward raw添字と真正source witness pullbackの一致をLean4で証明。元GK5CGの両五セル値・raw square／loop、元Path・P77認証済み部分Hom、共通最終因子木のcompatibility／obstructionも保持する。ただし五セル値の等式、loop自明性、正規形の単射性や細分途中の無条件障害不変性は導かない。
+
+**[exact-source CI #42164523390](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42164523390)：Strict Lean 10,278／10,278 SUCCESS、選択Governance jobs 4／4 SUCCESS、実公理20／20件は標準公理のみ（sorryAxなし）、変更Lean warning/error 0／0。** 検証HEAD `3ac60c90c57ed80f2c80d16a78004974121cd90c`、source/test-merge/squash Git tree `deb3a3a2d6f7caf300139e278846fa4b9a1e3bbd`完全一致、定理squash `dd413b98fe6dd4c65d420231998de9127adcd453`。Lean v4.30.0-rc2／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、root107、保護PR #1558はDraft／OPEN／未マージ。
+
+[正式証明記録](docs/formal/Qi-v4_79-original-P77-direct-front-normal-composition.md) · [Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77DirectFrontNormalCompositionV4_79.lean)
+
+**次の数学的課題 Qi v4.80：** 直接正規形合成の任意の三連結に対する観測結合則と、真正refl route・空Scheduleの左右単位則。Type値で異なる五セルの高次coherenceとは区別する。
+
 ## 最新のLean定理統合 — Qi v4.78／元P77正規形合成・履歴連結の観測整合性／2026-11-06 JST
 
 **[定理PR #3178](https://github.com/itakura-hidetoshi/KuuOS/pull/3178) MERGED。** 二つの元Type値FrontNormalを真正recut＋Schedule履歴へ埋め戻し、厳密に同じ中間Family・部分Stateで連結して再び先頭recut正規形を構成。元交錯履歴の連結を直接正規化した結果と、個別に正規化してから合成した結果のforward／backward全域raw添字と真正source証拠pullbackの観測一致をLean4で形式証明。既存の元Plan値・局所Step・累積ReassocRouteとType値履歴を保持する。
