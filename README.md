@@ -14,6 +14,18 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — Qi v4.86／真正五セル値を両端とする新六セルpresentationと厳密等号への戻り障害／2026-11-06 JST
+
+**[定理PR #3195](https://github.com/itakura-hidetoshi/KuuOS/pull/3195) MERGED。** 元の保守的GK5CG五セルTypeを保持し、Qi v4.84の真正3辺／2辺の五セル合成値L₃(i),L₂(i)を始終点に取る**明示的に異なる**六セル自由presentationを構成。新型PentagonAdjoinedSixCellにrefl・symm・trans・明示的pentagon生成元を持たせ、真正Type値生成元・反転・往復合成・旧五セル語の厳密Eq証拠の埋め込みを形式化した。Qi v4.85の元五セル構成子語の不一致から、新presentationのすべての六セルを**旧元五セル語の厳密等式に解釈する全端点保存写像は存在しない**ことを証明。
+
+**authorityとobstruction境界：** 新六セル生成元は元F55/P77/GK5CGに存在した証拠ではなく、別presentationとして追加したもの。旧六セル不存在、弱いdescentや他のhigher filler不存在を主張しない。F112独立sourceの元上側／下側四セルの電荷差+1と元保守的五セルno-go、およびv4.83の全域観測同値を別々に保持し、次元・source/targetを同一視しない。
+
+**[exact-source CI #42188314382](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42188314382)：Strict Lean 10,285／10,285 SUCCESS、Governance30／30 SUCCESS、新規14宣言の実公理依存は標準公理のみ、sorryAxなし、変更Lean warning/error0／0。** 最終source HEAD 195e6676b6491d4ec49bd90be4596848b9d85d0c、source/test-merge/squash Git tree 8f13c7dda67423aa4005d69543b9cb959a7f84b0 完全一致、定理squash 1d43f998db2bccf2d732e34abe36336c0084adfd。Lean v4.30.0-rc2／mathlib 5450b53e5ddc75d46418fabb605edbf36bd0beb6、root107、保護PR #1558 Draft/OPEN/未マージ。
+
+[正式証明記録](docs/formal/Qi-v4_86-original-P77-adjoined-six-cell-presentation-equality-descent-gate.md) · [Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77AdjoinedSixCellPresentationV4_86.lean)
+
+**次の候補Qi v4.87：** 新しい六セルpresentation内部の証明語とその上位の比較の型を分け、旧厳密等号ではない**条件付きの弱いdescent**を検討する。元sourceに高次充填が元から存在すると推測しない。
+
 ## 最新のLean定理統合 — Qi v4.85／真正GK5CG五セル選択証明語の構成子的不一致／2026-11-06 JST
 
 **[定理PR #3193](https://github.com/itakura-hidetoshi/KuuOS/pull/3193) MERGED。** v4.84で元の保守的GK5CG五セルとして構成した三辺経路L₃と二辺経路L₂について、自由帰納Typeのtrans/symm構成子形状を検査するBoolean証明書を導入。任意の真正最終raw添字iに対し **L₃(i)≠L₂(i)** をLean4で形式証明し、既証明の元raw添字のinhabited性から選択五セル語の厳密等式の**障害の実在**とその否定を構成。差分五セルloopも自由な構成子語としてreflと厳密不一致であることを証明した。
