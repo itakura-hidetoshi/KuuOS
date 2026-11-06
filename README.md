@@ -14,6 +14,16 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — Qi v4.78／元P77正規形合成・履歴連結の観測整合性／2026-11-06 JST
+
+**[定理PR #3178](https://github.com/itakura-hidetoshi/KuuOS/pull/3178) MERGED。** 二つの元Type値FrontNormalを真正recut＋Schedule履歴へ埋め戻し、厳密に同じ中間Family・部分Stateで連結して再び先頭recut正規形を構成。元交錯履歴の連結を直接正規化した結果と、個別に正規化してから合成した結果のforward／backward全域raw添字と真正source証拠pullbackの観測一致をLean4で形式証明。既存の元Plan値・局所Step・累積ReassocRouteとType値履歴を保持する。
+
+**五セル・source・obstruction境界：** 二つの元GK5CG五セル値とraw square／loopを別に保持し、元Quiver.Path・source認証付きP77部分Hom・各側の認証raw比較・共通最終因子木のcompatibility／obstructionの同値を証明。五セル等式・loop自明性・正規形の単射性・任意の途中細分状態間obstruction不変性は主張しない。直接的に選択したRoute.trans＋Schedule.appendの厳密構成的整合性は次の研究課題。
+
+**[exact-source CI #42160560777](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42160560777)：Strict Lean 10,277／10,277 SUCCESS、Governance30／30 SUCCESS、新規16宣言は標準公理のみ・sorryAxなし、変更Lean warning/error 0／0。** 修正HEAD 435fc53c17b3a9e61c0472aaaaae9a5b0329c82d、source/test-merge/squash tree a217f73fd753e24318d983c40e99e05a6dfd97ca一致、定理squash d5dccb06438e61fac2934bdd1e208dfdd37173da。固定Lean v4.30.0-rc2／mathlib5450b53e5ddc75d46418fabb605edbf36bd0beb6、公開root107、保護#1558 Draft/open/unmerged。
+
+[正式証明記録](docs/formal/Qi-v4_78-original-P77-front-normal-append-coherence.md) · [Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77FrontNormalAppendCoherenceV4_78.lean)
+
 ## 最新のLean定理統合 — Qi v4.77／真正P77の交錯recut・細分履歴と先頭recut正規化／2026-11-06 JST
 
 **[定理PR #3176](https://github.com/itakura-hidetoshi/KuuOS/pull/3176) MERGED。** 同じ局所計画と因子順序を保つ再括弧付けrecutとStepの任意有限交錯を、実際の中間Family・部分状態・操作値を持つInterleavedHistoryとして構成。末尾からの再帰で、累積recutを先頭に置き、最終Family内の移送Scheduleを後に置くFrontNormalを構成した。元履歴と正規形の全forward／backward添字域および真正source復元の一致を証明し、完了条件・coverageの全射性を仮定しない。
