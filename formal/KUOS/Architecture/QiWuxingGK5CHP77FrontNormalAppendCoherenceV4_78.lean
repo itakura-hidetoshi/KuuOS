@@ -158,7 +158,7 @@ theorem originalAppend_composite_observed :
         (normalizeFront_observed f g h k H₂))
       (planObservedEq_symm f g h k
         (composeFrontNormal_observed f g h k
-          (normalizeFront f g h k H₁) (normalizeFront f g h k H₂)))
+          (normalizeFront f g h k H₁) (normalizeFront f g h k H₂))))
 
 /-- Forward raw-index equality on EVERY index of the actual target tree. -/
 theorem normalizeAppend_forward
