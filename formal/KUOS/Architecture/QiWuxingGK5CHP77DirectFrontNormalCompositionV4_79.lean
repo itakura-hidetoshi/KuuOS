@@ -325,7 +325,7 @@ theorem originalAppend_direct_observed :
 
 end DirectAppend
 
-/-- Regression at arbitrary, possibly partial states: two empty histories
+/- Regression at arbitrary, possibly partial states: two empty histories
 require no completeness or nonemptiness of the actual source witness type. -/
 example {u v : FivefoldPathVertex} (family : Family f g h k u v)
     (s : State f g h k family) :
