@@ -3,6 +3,18 @@
 
 
 
+## 最新のLean定理統合 — Qi v4.84／真正GK5CG五セルloop二経路合成・元source電荷障害／2026-11-06 JST
+
+**[定理PR #3191](https://github.com/itakura-hidetoshi/KuuOS/pull/3191) MERGED。** v4.83で構成した五角5辺の真正GK5CG保守的五セルloopを、元の .trans/.symm だけで三辺経路 L₃、二辺経路 L₂、差分 Δ=L₃・L₂⁻¹、逆差分として型付き合成。全て共通最終raw P77四セル上の真正自己五セルであり、商化・新生成元・cast・source証拠消去はない。選択した五セル構成子語の厳密な等式は未確定とし、その否定と反例raw添字存在の必要十分条件を形式化。高次六セル充填や五セルloop自明性を主張しない。
+
+**source authority・既存no-go保持：** 独立F112/GK5CGの真正元F55/P77上側・下側四セルの電荷差 +1 と、それらを結ぶ保守的五セルが存在しないという定理を継承。Qi側の最終raw四セル自己loop合成と、元上側／下側の異なる四セル間のno-goは両立し、同一視しない。
+
+**[exact-source CI #42175713203](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42175713203)：Strict Lean 10,283／10,283 SUCCESS、Governance30／30 SUCCESS、新規17宣言の公理依存は標準公理のみ、sorryAxなし、変更Lean warning/error0／0。** 検証済みHEAD 0bae7a58473167efad5673937844847c48ad7d0a、source/test-merge/squash Git tree bd5cdb35b34eeab9ccf5c131e9d543210c1274b7 完全一致、定理squash 39484e1733703175c883a67aeadca97dd5210c4d。Lean v4.30.0-rc2／mathlib 5450b53e5ddc75d46418fabb605edbf36bd0beb6、root107、保護PR #1558 Draft/OPEN/未マージ。
+
+[正式証明記録](docs/formal/Qi-v4_84-original-P77-conservative-five-cell-loop-composition-obstruction.md) · [Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77OriginalFiveCellLoopObstructionV4_84.lean)
+
+**次の候補Qi v4.85：** 厳密な元五セル構成子語の等式と、別の適切な高次充填のType値条件を区別して検証する。元電荷+1のno-goを回避したかのように扱わない。
+
 ## 最新のLean定理統合 — Qi v4.83／真正P77型付き五角形の二経路観測整合性／2026-11-06 JST
 
 **[定理PR #3189](https://github.com/itakura-hidetoshi/KuuOS/pull/3189) MERGED。** 元の真正`DirectNormalBracketTree`で四つの任意有限長型付き部分木A,B,C,Dを保持し、5つの実二分括弧付けV0〜V4を構成。各辺V0→V1→V2→V3／V0→V4→V3について元の順序付き真正`DirectNormalChain`のflatten厳密等式を証明し、双方の独立経路で全forward／backward raw indexと真正source witness pullbackの観測同値を形式証明した。型付き中間Family・部分State・選択元route／Scheduleを保持する。
