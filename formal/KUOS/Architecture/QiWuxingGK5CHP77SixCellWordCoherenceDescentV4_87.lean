@@ -362,26 +362,26 @@ theorem pentagonActualSixCell_endpointQuotEq
       (pentagonShortConservativeFiveCell f g h k A B C D₄ i) :=
   PentagonAdjoinedSixCell.endpointGeneratorEq _ _
 
-# print axioms PentagonAdjoinedSixCell.degree
-# print axioms PentagonAdjoinedSixCell.DegreeCoherent
-# print axioms PentagonAdjoinedSixCell.degreeCoherent_assoc
-# print axioms PentagonAdjoinedSixCell.raw_inverseCancellation_notStrict
-# print axioms PentagonAdjoinedSixCell.homComp
-# print axioms PentagonAdjoinedSixCell.hom_leftUnit
-# print axioms PentagonAdjoinedSixCell.hom_rightUnit
-# print axioms PentagonAdjoinedSixCell.hom_assoc
-# print axioms PentagonAdjoinedSixCell.hom_inverseRight
-# print axioms PentagonAdjoinedSixCell.hom_inverseLeft
-# print axioms PentagonAdjoinedSixCell.hom_doubleInverse
-# print axioms PentagonAdjoinedSixCell.observationDescent_iff
-# print axioms PentagonAdjoinedSixCell.noInjectiveObservationDescent
-# print axioms PentagonAdjoinedSixCell.endpointGeneratorEq
-# print axioms PentagonAdjoinedSixCell.endpointLift
-# print axioms pentagonActualSixCell_roundtrip_degreeCoherent
-# print axioms pentagonActualSixCell_roundtrip_notStrict
-# print axioms pentagonActualSixCell_observationDescent_iff
-# print axioms pentagonActualSixCell_noInjectiveObservationDescent
-# print axioms pentagonActualSixCell_endpointQuotEq
+#print axioms PentagonAdjoinedSixCell.degree
+#print axioms PentagonAdjoinedSixCell.DegreeCoherent
+#print axioms PentagonAdjoinedSixCell.degreeCoherent_assoc
+#print axioms PentagonAdjoinedSixCell.raw_inverseCancellation_notStrict
+#print axioms PentagonAdjoinedSixCell.homComp
+#print axioms PentagonAdjoinedSixCell.hom_leftUnit
+#print axioms PentagonAdjoinedSixCell.hom_rightUnit
+#print axioms PentagonAdjoinedSixCell.hom_assoc
+#print axioms PentagonAdjoinedSixCell.hom_inverseRight
+#print axioms PentagonAdjoinedSixCell.hom_inverseLeft
+#print axioms PentagonAdjoinedSixCell.hom_doubleInverse
+#print axioms PentagonAdjoinedSixCell.observationDescent_iff
+#print axioms PentagonAdjoinedSixCell.noInjectiveObservationDescent
+#print axioms PentagonAdjoinedSixCell.endpointGeneratorEq
+#print axioms PentagonAdjoinedSixCell.endpointLift
+#print axioms pentagonActualSixCell_roundtrip_degreeCoherent
+#print axioms pentagonActualSixCell_roundtrip_notStrict
+#print axioms pentagonActualSixCell_observationDescent_iff
+#print axioms pentagonActualSixCell_noInjectiveObservationDescent
+#print axioms pentagonActualSixCell_endpointQuotEq
 
 end ActualSourceSixCellWordCoherence
 end FivefoldP77FiniteRefinement
