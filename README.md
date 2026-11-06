@@ -14,6 +14,18 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — Qi v4.96／三整数不変量の高次商フィルトレーション・単模線形剛性／2026-11-06 JST
+
+**[定理PR #3215](https://github.com/itakura-hidetoshi/KuuOS/pull/3215) MERGED。** 元13構成子`SevenRewrite`の生履歴上にv4.93三角形`T`・v4.94二重反転`J`・v4.95合成逆元展開`K`の**三成分整数写像**`sevenChargeTriple(H)=(T(H),J(H),K(H))`を構成。元`EightCell`商では3成分、`TriangleEightCell`商では`(J,K)`、`InvolutionEightCell`商では`K`が保存されることを、既存の全構成子証明に接続して形式化。各段階の商が旧商より**真に粗いこと**も、一つの`ThreeStageStrict`に統合した。
+
+**線形剛性の新定理：** 三つの実七セルcritical peakによる差`(1,0,0)`、`(1,1,0)`、`(0,0,1)`からなる整数行列は単模で、最終`InverseCompEightCell`で普遍的に保存される`α T+β J+γ K`は **`α=β=γ=0`のとき、かつそのときに限る**とLean4で証明。三つの**特定整数不変量の線形結合**に限るno-goであって、未知のほかの不変量の不存在や全七セル履歴の比較完全性は主張しない。真正元P77全raw添字へ輸送し、旧GK5CG source EqualityInterpreter障害を保持。新八セル生成元は一切追加しない。
+
+**[exact-source CI #42220569477](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42220569477)：Strict Lean 10,295／10,295 SUCCESS、Governance30／30 SUCCESS、指定15宣言の公理監査は標準公理のみ、sorryAxなし、変更Lean warning/error0／0。** 検証済みHEAD `d21d756917de9527270dbd80a6783a71e1cfd529`、source/test-merge/squash tree `8cb01f5bf32a522b70bed7bee5b5c0b644debe31`完全一致、定理squash `4aa456cbd87dd10810414fd018120f9f763b9859`。Lean v4.30.0-rc2／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、公開root107、保護PR #1558 Draft／OPEN／未マージ。
+
+[正式証明記録](docs/formal/Qi-v4_96-original-P77-three-charge-filtration-linear-rigidity.md) · [Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77ThreeChargeFiltrationRigidityV4_96.lean)
+
+**次の研究候補Qi v4.97：** 三整数線形不変量で検出できない七セル局所critical pairの具体例を調べ、高次商に残る非線形／Type値obstructionを分離する。
+
 ## 最新のLean定理統合 — Qi v4.95／合成逆元展開・単位則の第三整数障害と新八セル局所補完／2026-11-06 JST
 
 **[定理PR #3213](https://github.com/itakura-hidetoshi/KuuOS/pull/3213) MERGED。** 元七セル生構文の`inverseComp`だけを数える**第三の独立整数不変量**`sevenInverseCompCharge`を定義。v4.91元22八セル規則、v4.93三角形追加規則、v4.94二重反転追加規則の**全構成子**で保存されることをLean4の構造帰納で形式証明した。左右の`inverseComp`と単位則の具体的重なりにおいて、直接書換えと逆元展開先行の七セル履歴に`K=0`対`K=1`の差が生じ、**従来の`InvolutionEightCell`では比較不可能**であると証明。
