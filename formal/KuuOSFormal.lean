@@ -595,6 +595,7 @@ import KUOS.Architecture.QiWuxingGK5CHP77InterleavedRecutRefinementHistoriesV4_7
 import KUOS.Architecture.QiWuxingGK5CHP77FrontNormalAppendCoherenceV4_78
 import KUOS.Architecture.QiWuxingGK5CHP77DirectFrontNormalCompositionV4_79
 import KUOS.Architecture.QiWuxingGK5CHP77DirectNormalAssociativityUnitsV4_80
+import KUOS.Architecture.QiWuxingGK5CHP77FiniteDirectNormalChainsV4_81
 
 /-!
 Public aggregate: retain every previously published proof and its original
