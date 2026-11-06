@@ -14,6 +14,18 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — Qi v4.95／合成逆元展開・単位則の第三整数障害と新八セル局所補完／2026-11-06 JST
+
+**[定理PR #3213](https://github.com/itakura-hidetoshi/KuuOS/pull/3213) MERGED。** 元七セル生構文の`inverseComp`だけを数える**第三の独立整数不変量**`sevenInverseCompCharge`を定義。v4.91元22八セル規則、v4.93三角形追加規則、v4.94二重反転追加規則の**全構成子**で保存されることをLean4の構造帰納で形式証明した。左右の`inverseComp`と単位則の具体的重なりにおいて、直接書換えと逆元展開先行の七セル履歴に`K=0`対`K=1`の差が生じ、**従来の`InvolutionEightCell`では比較不可能**であると証明。
+
+**別presentationでの局所補完：** 既存高次Type・元GK5CG sourceを変更せず、旧比較を取り込み左右二つの重なり生成元だけを新`InverseCompEightCell`へ追加。制限付き`InverseCompCriticalPeak`族は全構成子で具体的証拠を構成。選択した新高次履歴商は旧`InvolutionEightCell`商より**真に粗く**、逆Interpreterと生七セル厳密Eqへの全域解釈は存在しない。真正P77全raw添字へ移しても旧GK5CG EqualityInterpreter不存在を保持。大域八セル完全性は未証明。
+
+**[exact-source CI #42218451283](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42218451283)：Strict Lean 10,294／10,294 SUCCESS、Governance30／30 SUCCESS、新規26宣言の公理依存は標準公理のみ、sorryAxなし、変更Lean warning/error0／0。** 検証済みHEAD `ffb902e4e35736a8450ce65eec9bf9cd8b2810ee`、source/test-merge/squash tree `d0ba40b1af8a9deaf6e3eb56371e8b8c37ed17f2`完全一致、定理squash `f64beb73aca7220795e8eef64579655409b923c8`。Lean v4.30.0-rc2／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、root107、保護PR #1558 Draft／OPEN／未マージ。
+
+[正式証明記録](docs/formal/Qi-v4_95-original-P77-inverse-composite-unit-critical-peaks.md) · [Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77InverseCompositeUnitOverlapV4_95.lean)
+
+**次候補Qi v4.96：** 3種の独立整数障害の組を高次商に対してwell-definedとなる段階ごとに分類し、未補完の局所critical peakを具体的に抽出する。
+
 ## 最新のLean定理統合 — Qi v4.94／七セル二重反転・逆元消去critical peakの第二整数障害と八セル独立補完／2026-11-06 JST
 
 **[定理PR #3211](https://github.com/itakura-hidetoshi/KuuOS/pull/3211) MERGED。** 元七セル生履歴`SevenRewrite`の`doubleInverse`を数える**第二の独立整数不変量**`sevenInvolutionCharge`を導入し、v4.91の元22八セル生成規則**全件**およびv4.93の`TriangleEightCell`の**全構成子**で値が保存されることを構造帰納で形式証明。二重反転と左右の逆元消去の重なりで、直接消去と二重反転先行の二つの実七セル履歴に`J=0`対`J=1`の差が生じるため、**三角形拡張を含む従来の八セル生成規則では比較不能**と証明した。
