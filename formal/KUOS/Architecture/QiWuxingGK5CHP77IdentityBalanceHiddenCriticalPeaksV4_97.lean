@@ -10,10 +10,10 @@ one of EACH on the long branch, so this balance is conserved by
 every v4.95 InverseCompEightCell constructor.
 
 We construct two explicit parallel seventh histories by putting
-an identity/double-inversion overlap in a typed three-factor six-cell context:
+three compensating typed overlaps in a three-factor six-cell context:
   * doubleInverse(refl) versus two inverseId reductions;
-  * a shared left double-inverse/cancellation route;
-  * a shared left triangle/unit route.
+  * the direct versus via left double-inverse/cancellation route;
+  * the opposite triangle/unit/associativity route.
 Their T,J,K triples coincide, but their new balance values are 0
 and 2. Consequently NO eighth-cell comparison in the COMPLETE
 v4.95 chosen higher grammar joins these particular histories.
@@ -252,20 +252,21 @@ def hiddenCriticalTarget (w : W) : PentagonAdjoinedSixCell W long short w w :=
     (.trans (.refl w) (.refl w))
     (.trans (.refl w) (.refl w))
 
-/-- Route A: doubleInverse on identity, followed by the same selected
-left cancellation and triangle fillers as route B. Triple (1,1,0). -/
+/-- Route A: doubleInverse on identity contributes J=1; direct
+left cancellation contributes 0 and the associator triangle adds T=1.
+The resulting triple is (1,1,0). -/
 def sevenHiddenCriticalFirst (w : W) :
     SevenRewrite W long short
       (hiddenCriticalSource w) (hiddenCriticalTarget w) :=
   .congrComp
     (.congrComp
       (sevenIdentityDoubleDirect w)
-      (sevenLeftDoubleInverseVia (.refl w)))
-    (sevenLeftTriangleDirect (.refl w) (.refl w))
+      (sevenLeftDoubleInverseDirect (.refl w)))
+    (sevenLeftTriangleViaAssoc (.refl w) (.refl w))
 
-/-- Route B: two inverseId reductions, with the very same chosen
-contextual filler routes. Only the identity/double-inversion overlap
-differs; this isolates the newly detected critical pair. -/
+/-- Route B: two inverseId reductions contribute J=0 and R=2;
+the via-cancellation contributes (T,J)=(1,1), the direct triangle
+contributes zero. Old triple (1,1,0), new R=2. -/
 def sevenHiddenCriticalSecond (w : W) :
     SevenRewrite W long short
       (hiddenCriticalSource w) (hiddenCriticalTarget w) :=
