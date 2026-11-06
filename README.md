@@ -14,6 +14,18 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — Qi v4.99／第四整数の残余偶奇降下と混合identity critical peakの局所合流／2026-11-07 JST
+
+**[定理PR #3221](https://github.com/itakura-hidetoshi/KuuOS/pull/3221) MERGED。** Qi v4.98新`IdentityEightCell.identityDouble`は第四整数`R`を2だけ変化させ、R自体は新高次履歴商へ降下しない。しかし**偶奇`R mod 2`は全v4.98比較構成子で保存される**ことを構造帰納で形式証明し、`Quotient.lift`によって新商上の真正Bool値観測量`identityHistoryParity`を構成した。整数Rの非降下と偶奇の降下を分離して同時に確定。
+
+**混合critical pairの型付き局所合流：** 新identityDoubleと旧`inverseComp`左右の重なり、旧二重反転／逆元消去重なりを組み合わせた**三種類の真正七セル平行履歴**を構成し、いずれもR値が0対2と異なることを証明。旧v4.95`InverseCompEightCell`には比較不能だが、新v4.98`IdentityEightCell`では**既存のcompositeContextと継承済み比較構成子だけ**で合流証拠を構成。限定`MixedIdentityCriticalPeak`族の全構成子へ形式的に拡張し、新商でのclass一致と旧商でのclass不一致も証明。元P77の全raw最終添字でGK5CG source EqualityInterpreter障害を保持。新原始八セル・九セルを追加せず、大域thin性は主張しない。
+
+**[exact-source CI #42299218011](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42299218011)：Strict Lean 10,298／10,298 SUCCESS、Governance30／30 SUCCESS、32宣言の公理監査は標準公理のみ、sorryAxなし、変更Lean warning/error0／0。** 検証済みHEAD `3945508195be51931161ef372e18de49765cf2e3`、source/test-merge tree `8df1365b08fc890ef21fdc33f39a0d5525979018`一致。定理squash `dbc8f810625ea677f61d6c2c419aa03af6b440c6`。公開root107、保護PR #1558 Draft／OPEN／未マージ。
+
+[正式証明記録](docs/formal/Qi-v4_99-original-P77-mixed-identity-residual-parity-descent.md) · [Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77MixedIdentityParityDescentV4_99.lean)
+
+**次の候補Qi v5.00：** 偶奇の保存だけでは判別できないType値・非線形obstructionを探索し、新しい混合文脈の交錯が既存高次比較で埋まる範囲を判定する。元sourceの厳密Eqと新高次商Eqを混同しない。
+
 ## 最新のLean定理統合 — Qi v4.98／identity・doubleInverseの最小高次局所補完と第四整数非降下／2026-11-07 JST
 
 **[定理PR #3219](https://github.com/itakura-hidetoshi/KuuOS/pull/3219) MERGED。** Qi v4.97の第四整数`R=sevenIdentityBalance`が検出した真正`doubleInverse(refl)`と二回の`inverseId`の局所重なり（R=0対2）に対し、**新しい原始八セル比較1種類**だけを別presentation`IdentityEightCell`へ追加した。旧`InverseCompEightCell`の全証拠と型付き文脈閉包は保存。元五セルGK5CG／七セル生構文／旧八セル全presentationとその商は変更なし。
