@@ -210,10 +210,8 @@ theorem pentagonEdge43_observed :
 /-- The explicit THREE-EDGE path 0→1→2→3 around the original pentagon. -/
 theorem pentagonLong_observed :
     PlanObservedEq f g h k
-      (frontPlan f g h k (bracketEval f g h k
-        (pentagonV0 f g h k (DirectNormalBracketTree.nil family s) (DirectNormalBracketTree.nil family s) (DirectNormalBracketTree.nil family s) (DirectNormalBracketTree.nil family s))))
-      (frontPlan f g h k (bracketEval f g h k
-        (pentagonV3 f g h k (DirectNormalBracketTree.nil family s) (DirectNormalBracketTree.nil family s) (DirectNormalBracketTree.nil family s) (DirectNormalBracketTree.nil family s)))) :=
+      (frontPlan f g h k (bracketEval f g h k (pentagonV0 f g h k A B C D₄)))
+      (frontPlan f g h k (bracketEval f g h k (pentagonV3 f g h k A B C D₄))) :=
   planObservedEq_trans f g h k
     (pentagonEdge01_observed f g h k A B C D₄)
     (planObservedEq_trans f g h k
@@ -446,8 +444,10 @@ be the REAL empty tree on an arbitrary genuine partial state. -/
 example {u v : FivefoldPathVertex}
     (family : Family f g h k u v) (s : State f g h k family) :
     PlanObservedEq f g h k
-      (frontPlan f g h k (bracketEval f g h k (pentagonV0 f g h k A B C D₄)))
-      (frontPlan f g h k (bracketEval f g h k (pentagonV3 f g h k A B C D₄))) :=
+      (frontPlan f g h k (bracketEval f g h k
+        (pentagonV0 f g h k (DirectNormalBracketTree.nil family s) (DirectNormalBracketTree.nil family s) (DirectNormalBracketTree.nil family s) (DirectNormalBracketTree.nil family s))))
+      (frontPlan f g h k (bracketEval f g h k
+        (pentagonV3 f g h k (DirectNormalBracketTree.nil family s) (DirectNormalBracketTree.nil family s) (DirectNormalBracketTree.nil family s) (DirectNormalBracketTree.nil family s)))) :=
   pentagonLong_observed f g h k
     (.nil family s) (.nil family s) (.nil family s) (.nil family s)
 
