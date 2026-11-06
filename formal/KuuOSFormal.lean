@@ -597,6 +597,7 @@ import KUOS.Architecture.QiWuxingGK5CHP77DirectFrontNormalCompositionV4_79
 import KUOS.Architecture.QiWuxingGK5CHP77DirectNormalAssociativityUnitsV4_80
 import KUOS.Architecture.QiWuxingGK5CHP77FiniteDirectNormalChainsV4_81
 import KUOS.Architecture.QiWuxingGK5CHP77TypedBinaryNormalBracketTreesV4_82
+import KUOS.Architecture.QiWuxingGK5CHP77ActualTypedPentagonObservationV4_83
 
 /-!
 Public aggregate: retain every previously published proof and its original
