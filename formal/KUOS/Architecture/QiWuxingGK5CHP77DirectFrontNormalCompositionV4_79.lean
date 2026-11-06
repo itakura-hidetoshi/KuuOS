@@ -86,7 +86,7 @@ only an observation law, not a higher-cell coherence or syntax equality. -/
 theorem planObservedEq_whiskerSquare {u v : FivefoldPathVertex}
     {source squareSource firstMiddle secondMiddle squareTarget target :
       FivefoldP77RawPatchCutTree f g h k u v}
-    (prefix : FivefoldP77RawPatchRefinementPlan f g h k source squareSource)
+    (prefixPlan : FivefoldP77RawPatchRefinementPlan f g h k source squareSource)
     (firstLeft : FivefoldP77RawPatchRefinementPlan f g h k squareSource firstMiddle)
     (firstRight : FivefoldP77RawPatchRefinementPlan f g h k firstMiddle squareTarget)
     (secondLeft : FivefoldP77RawPatchRefinementPlan f g h k squareSource secondMiddle)
@@ -95,20 +95,20 @@ theorem planObservedEq_whiskerSquare {u v : FivefoldPathVertex}
     (square : PlanObservedEq f g h k (.trans firstLeft firstRight)
       (.trans secondLeft secondRight)) :
     PlanObservedEq f g h k
-      (.trans (.trans prefix firstLeft) (.trans firstRight suffix))
-      (.trans (.trans prefix secondLeft) (.trans secondRight suffix)) := by
-  have h₁ := planObservedEq_assoc f g h k prefix firstLeft (.trans firstRight suffix)
+      (.trans (.trans prefixPlan firstLeft) (.trans firstRight suffix))
+      (.trans (.trans prefixPlan secondLeft) (.trans secondRight suffix)) := by
+  have h₁ := planObservedEq_assoc f g h k prefixPlan firstLeft (.trans firstRight suffix)
   have h₂ := planObservedEq_comp f g h k
-    (planObservedEq_refl f g h k prefix)
+    (planObservedEq_refl f g h k prefixPlan)
     (planObservedEq_symm f g h k (planObservedEq_assoc f g h k firstLeft firstRight suffix))
   have h₃ := planObservedEq_comp f g h k
-    (planObservedEq_refl f g h k prefix)
+    (planObservedEq_refl f g h k prefixPlan)
     (planObservedEq_comp f g h k square (planObservedEq_refl f g h k suffix))
   have h₄ := planObservedEq_comp f g h k
-    (planObservedEq_refl f g h k prefix)
+    (planObservedEq_refl f g h k prefixPlan)
     (planObservedEq_assoc f g h k secondLeft secondRight suffix)
   have h₅ := planObservedEq_symm f g h k
-    (planObservedEq_assoc f g h k prefix secondLeft (.trans secondRight suffix))
+    (planObservedEq_assoc f g h k prefixPlan secondLeft (.trans secondRight suffix))
   exact planObservedEq_trans f g h k h₁
     (planObservedEq_trans f g h k h₂
       (planObservedEq_trans f g h k h₃ (planObservedEq_trans f g h k h₄ h₅)))
