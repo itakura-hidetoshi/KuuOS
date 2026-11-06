@@ -134,14 +134,16 @@ theorem bracketEval_fold_observed {u v : FivefoldPathVertex}
         (directChainSingleton_observed f g h k normal)
   | node left right ihLeft ihRight =>
       exact planObservedEq_trans f g h k
-        (directComposeFrontNormal_observed f g h k
-          (bracketEval f g h k left) (bracketEval f g h k right))
-        (planObservedEq_trans f g h k
-          (planObservedEq_comp f g h k ihLeft ihRight)
-          (planObservedEq_symm f g h k
-            (directChainFold_append_observed f g h k
-              (bracketFlatten f g h k left)
-              (bracketFlatten f g h k right))))
+        (directCompose_observed_congr f g h k
+          (bracketEval f g h k left)
+          (directChainFold f g h k (bracketFlatten f g h k left))
+          (bracketEval f g h k right)
+          (directChainFold f g h k (bracketFlatten f g h k right))
+          ihLeft ihRight)
+        (planObservedEq_symm f g h k
+          (directChainFold_append_observed f g h k
+            (bracketFlatten f g h k left)
+            (bracketFlatten f g h k right)))
 
 /-- Every actual finite chain admits a canonical right-spine bracketing.
 No existence assumptions on the intermediate partial states are introduced. -/
@@ -250,10 +252,10 @@ variable {u v : FivefoldPathVertex}
 variable {source target : Family f g h k u v}
 variable {s : State f g h k source} {t : State f g h k target}
 variable (L R : DirectNormalBracketTree f g h k source s target t)
-variable (hFlat : bracketFlatten f g h k L = bracketFlatten f g h k R)
 
 /-- Original forward raw maps agree at EVERY target index. -/
 theorem bracketSameChain_forward
+    (hFlat : bracketFlatten f g h k L = bracketFlatten f g h k R)
     (i : FivefoldP77RawPatchTreeIndex f g h k (tree f g h k target t)) :
     (fivefoldP77RawPatchRefinementPlanRawComparison f g h k
       (frontPlan f g h k (bracketEval f g h k L))).forwardIndex i =
@@ -263,6 +265,7 @@ theorem bracketSameChain_forward
 
 /-- Original backward raw maps agree at EVERY source index. -/
 theorem bracketSameChain_backward
+    (hFlat : bracketFlatten f g h k L = bracketFlatten f g h k R)
     (i : FivefoldP77RawPatchTreeIndex f g h k (tree f g h k source s)) :
     (fivefoldP77RawPatchRefinementPlanRawComparison f g h k
       (frontPlan f g h k (bracketEval f g h k L))).backwardIndex i =
@@ -272,6 +275,7 @@ theorem bracketSameChain_backward
 
 /-- The genuine ORIGINAL P77 source-witness Type value is recovered equally. -/
 theorem bracketSameChain_pullback
+    (hFlat : bracketFlatten f g h k L = bracketFlatten f g h k R)
     (witness : FivefoldP77RawPatchTreeWitness f g h k (tree f g h k target t)) :
     fivefoldP77RawPatchRefinementPlanPullback f g h k
       (frontPlan f g h k (bracketEval f g h k L)) witness =
@@ -282,6 +286,7 @@ theorem bracketSameChain_pullback
 /-- Both ORIGINAL five-cell Type values coexist in an endpoint-aligned
 raw square; the equality above is ONLY of raw indices, not of five-cells. -/
 def bracketSameChain_rawSquare
+    (hFlat : bracketFlatten f g h k L = bracketFlatten f g h k R)
     (i : FivefoldP77RawPatchTreeIndex f g h k (tree f g h k target t)) :=
   planRawSquare f g h k
     (frontPlan f g h k (bracketEval f g h k L))
@@ -291,6 +296,7 @@ def bracketSameChain_rawSquare
 /-- The possibly NONTRIVIAL original GK5CG five-cell loop is retained.
 This is not an assertion of a higher coherence filler or a nullhomotopy. -/
 def bracketSameChain_rawLoop
+    (hFlat : bracketFlatten f g h k L = bracketFlatten f g h k R)
     (i : FivefoldP77RawPatchTreeIndex f g h k (tree f g h k target t)) :=
   planRawLoop f g h k
     (frontPlan f g h k (bracketEval f g h k L))
