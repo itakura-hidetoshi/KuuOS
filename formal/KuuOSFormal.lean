@@ -588,6 +588,7 @@ import KUOS.Architecture.QiWuxingGK5CHP77RawCutTreeFiveCellCoherenceV4_72
 import KUOS.Architecture.QiWuxingGK5CHP77CertifiedMixedSubdivisionFiveCellV4_73
 import KUOS.Architecture.QiWuxingGK5CHP77TerminalCertifiedRefinementHierarchyV4_74
 import KUOS.Architecture.QiWuxingGK5CHP77FiniteRefinementScheduleCoherenceV4_75
+import KUOS.Architecture.QiWuxingGK5CHP77RecutIndexCoherenceV4_76
 
 /-!
 Public aggregate: retain every previously published proof and its original
