@@ -3,6 +3,18 @@
 
 
 
+## 最新のLean定理統合 — Qi v4.82／真正P77有限型付き二分括弧付け木の全域観測整合性／2026-11-06 JST
+
+**[定理PR #3187](https://github.com/itakura-hidetoshi/KuuOS/pull/3187) MERGED。** 任意有限長の元`FrontNormal`を、すべての中間Family／部分Stateを添字に保持する真正二分木`DirectNormalBracketTree`として構成。型付き木の`bracketFlatten`は元の順序付き実鎖`DirectNormalChain`を厳密に保存し、`bracketEval`は選択した元route・Scheduleで直接合成する。任意有限木についてfoldとの全域観測一致を帰納的に証明し、同じ実鎖へflattenする任意二括弧付けのforward／backward raw添字と真正source witness pullbackがすべて一致することを形式証明した。
+
+**元五セル・source・obstruction：** 元GK5CG五セル値・raw square・loopを各側で独立保持し、元Quiver.Path・source認証P77 partial Hom・各側のraw比較・共通最終因子木のcompatibility／obstructionを証明。route語・五セル値の構成子的等式、loop自明性、higher pentagon coherence、任意中間細分間の障害不変は主張しない。
+
+**[exact-source CI #42171411518](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42171411518)：Strict Lean 10,281／10,281 SUCCESS、Governance30／30 SUCCESS、新規22宣言の実公理は標準公理のみ・sorryAxなし、変更Lean warning/error 0／0。** 修正HEAD `e1d6325cbd0194df6596499c60fdc6031561913c`、source/test-merge/squash Git tree `3eb18af42dda7ec5805b6331af93fc2661bf59c3`一致、定理squash `62e950fc6e105c069ccd84332f729ca31d96c4bb`。固定Lean v4.30.0-rc2／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、公開root107、保護#1558 Draft/OPEN/未マージ。
+
+[正式証明記録](docs/formal/Qi-v4_82-original-P77-typed-binary-normal-brackets.md) · [Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77TypedBinaryNormalBracketTreesV4_82.lean)
+
+**次の候補 Qi v4.83：** 真正五角形の観測可換図式を構成し、元五セルloopのhigher-coherence障害を別の証明責務として保持する。五セルの充填を仮定しない。
+
 ## 最新のLean定理統合 — Qi v4.81／元P77有限型付き直接正規形鎖の連結観測整合性／2026-11-06 JST
 
 **[定理PR #3185](https://github.com/itakura-hidetoshi/KuuOS/pull/3185) MERGED。** 元Family・部分State・ReassocRoute・Scheduleを保つ任意有限長の真正`DirectNormalChain`を構成。空鎖・実一要素鎖・連結・右再帰`directChainFold`を元Type値として保持し、元`directChainPlan`との全forward／backward raw添字と真正source証拠pullbackの一致をLean4で形式証明。元鎖のappendは型付き構成子に関して左右単位・結合則が厳密に成り立ち、折り畳み後の合成については観測同値を証明した。
