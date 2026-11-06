@@ -76,35 +76,29 @@ unitDiamondHistoryClass_eq_iff
 
 で構成し、旧商のclass一致は新商のclass一致へ一方向に降下する。
 
-[
-[H_L]_{mathrm{unit}}=[H_R]_{mathrm{unit}},
-qquad
-[H_L]_{mathrm{identity}}
-e[H_R]_{mathrm{identity}}.
-]
+```text
+unitDiamondHistoryClass(H_L) = unitDiamondHistoryClass(H_R)
+identityHistoryClass(H_L) ≠ identityHistoryClass(H_R)
+```
 
 両者の区別はv5.00のS=0対2によって保証される。
 これが新商が旧商より**真に粗い**ことの具体的証明であり、
 `unitDiamondHistoryClass_noPreviousReturn`も証明した。
 
-一方、今回追加した`unitDiamond w`で四剰余Sは変化するので、
+一方、今回追加した`unitDiamond w`で四剰余Sは変化する。
 
-[
-oxed{
-S(H_L)=0,quad S(H_R)=2,quad
-S 	ext{は新商へ降下しない}.
-}
-]
+```text
+S(H_L) = 0,  S(H_R) = 2  (mod 4)
+したがって、Sは新商へ降下しない。
+```
 
 新しい比較はv4.99の第四整数Rの偶奇を変えない。
-全`UnitDiamondEightCell`構成子の帰納法から
+全`UnitDiamondEightCell`構成子の帰納法で証明済みである。
 
-[
-oxed{
-ar R(H_L)=ar R(H_R),qquad
-ar R 	ext{は新商へ降下する}.
-}
-]
+```text
+R(H_L) mod 2 = R(H_R) mod 2
+したがって、R mod 2は新商へ降下する。
+```
 
 さらに`Quotient.lift`で新商上のBool値観測量
 `unitDiamondHistoryParity`を構成した。
