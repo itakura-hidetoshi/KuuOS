@@ -144,7 +144,7 @@ theorem unitDiamondEightCell_strictlyNew (w : W) :
       (sevenUnitDiamondRight (long := long) (short := short) w)) ∧
     ¬ Nonempty (IdentityEightCell W long short
       (sevenUnitDiamondLeft (long := long) (short := short) w)
-      (sevenUnitDiamondRight (long := long) (short := short) w) :=
+      (sevenUnitDiamondRight (long := long) (short := short) w)) :=
   ⟨⟨.unitDiamond w⟩,
     sevenUnitDiamond_noIdentityComparison (long := long) (short := short) w⟩
 
@@ -473,8 +473,10 @@ theorem mixedUnitIdentityDouble_newVsOld (w : W) :
     ¬ Nonempty (IdentityEightCell W long short
       (mixedUnitIdentityDoubleFirst (long := long) (short := short) w)
       (mixedUnitIdentityDoubleSecond (long := long) (short := short) w)) ∧
-    sevenIdentityParity (mixedUnitIdentityDoubleFirst w) =
-      sevenIdentityParity (mixedUnitIdentityDoubleSecond w) :=
+    sevenIdentityParity
+        (mixedUnitIdentityDoubleFirst (long := long) (short := short) w) =
+      sevenIdentityParity
+        (mixedUnitIdentityDoubleSecond (long := long) (short := short) w) :=
   ⟨⟨mixedUnitIdentityDouble_fill w⟩,
     mixedUnitIdentityDouble_noPrevious w,
     unitDiamondEightCell_preservesParity (mixedUnitIdentityDouble_fill w)⟩
