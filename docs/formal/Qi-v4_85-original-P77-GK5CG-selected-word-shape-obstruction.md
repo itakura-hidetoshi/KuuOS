@@ -71,7 +71,7 @@ pentagonObservationsAgree_butFiveCellWordsDifferは、v4.83で証明済みの全
 
 ## 5. CI失敗と正確なLean4修正
 
-初回HEAD 8132f952182c42cfdd2c03047bd89a984ba33f5bの[#42177787621](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42177787621)では、1回目のStrict LeanジョブがLakeキャッシュ復元中に失敗し実Lean工程に未到達。失敗ジョブのみの再実行をGitHub MCPで行い、同一sourceのattempt 2で実Leanコンパイルまで進んだ。
+初回HEAD 8132f952182c42cfdd2c03047bd89a984ba33f5bの[#42177787672](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42177787672)では、1回目のStrict LeanジョブがLakeキャッシュ復元中に失敗し実Lean工程に未到達。失敗ジョブのみの再実行をGitHub MCPで行い、同一sourceのattempt 2で実Leanコンパイルまで進んだ。
 
 その実ログでは、pentagonOriginalFiveCell_words_neとpentagonDifferenceFiveCell_not_reflの2箇所でrewrite failedが出た。congrArgの結果が「(fun cell => probe cell) selectedWord」のラムダ適用を残していたため、書き換え補題の「probe selectedWord」と文面上一致していなかった。
 
