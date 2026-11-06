@@ -14,6 +14,18 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — Qi v4.81／元P77有限型付き直接正規形鎖の連結観測整合性／2026-11-06 JST
+
+**[定理PR #3185](https://github.com/itakura-hidetoshi/KuuOS/pull/3185) MERGED。** 元Family・部分State・ReassocRoute・Scheduleを保つ任意有限長の真正`DirectNormalChain`を構成。空鎖・実一要素鎖・連結・右再帰`directChainFold`を元Type値として保持し、元`directChainPlan`との全forward／backward raw添字と真正source証拠pullbackの一致をLean4で形式証明。元鎖のappendは型付き構成子に関して左右単位・結合則が厳密に成り立ち、折り畳み後の合成については観測同値を証明した。
+
+**元五セル・source・obstruction：** 元鎖Planとfoldの別々のGK5CG五セル値・raw square・loop、元Quiver.Path、source認証済P77部分Hom、各側のraw比較、共通の最終因子木のcompatibility／obstruction同値を保持。正規形語・五セル値の等式、loop自明性、細分途中の任意状態間の障害不変性、高次セル存在は主張しない。
+
+**[exact-source CI #42169039909](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42169039909)：Strict Lean 10,280／10,280 SUCCESS、Governance全30／30 jobs SUCCESS、新規22宣言の実公理は標準公理のみ、sorryAxなし、変更Lean warning/error 0／0。** 最終HEAD `c83ae4fbc928c4e31ee9b33c5213d13ee01a14fc`、source/test-merge/squash Git tree `c3dd2ec984140267865268616f7168c9ea768a38`一致、定理squash `005d9654498940e350a83fb848b4bc9d1f9d463d`。固定Lean v4.30.0-rc2／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、root107、保護PR #1558 Draft/OPEN/未マージ維持。
+
+[正式証明記録](docs/formal/Qi-v4_81-original-P77-finite-direct-normal-chains.md) · [Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77FiniteDirectNormalChainsV4_81.lean)
+
+**次の候補Qi v4.82：** 任意有限二分括弧付けを真正型付き木として構成し、同じ順序付き元鎖へのflatten一致の下で全raw添字・source pullback観測同値を証明する。五セルhigher coherenceは別課題として分離する。
+
 ## 最新のLean定理統合 — Qi v4.80／真正P77直接正規形合成の観測結合則・左右単位則／2026-11-06 JST
 
 **[定理PR #3183](https://github.com/itakura-hidetoshi/KuuOS/pull/3183) MERGED。** v4.79で構成した直接合成 `(r₁,S₁) ⋄ (r₂,S₂)` について、真正`refl`再括弧付けと空Scheduleから元Type値単位正規形を構成し、任意の部分Family／状態における左右単位則を3成分の全域`PlanObservedEq`として証明。任意の三連結について、`(N₁⋄N₂)⋄N₃`と`N₁⋄(N₂⋄N₃)`を別々のType値で保持し、全forward／backward raw添字と真正source証拠pullbackの観測結合則を証明した。元交錯履歴への単位作用と2変数合成合同性も保持する。
