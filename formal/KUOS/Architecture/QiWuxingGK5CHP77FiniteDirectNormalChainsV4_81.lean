@@ -182,7 +182,7 @@ theorem directChainAppend_assoc {u v : FivefoldPathVertex}
   induction C₁ with
   | nil family state => rfl
   | cons normal rest ih =>
-      exact congrArg (fun tail => DirectNormalChain.cons normal tail) ih
+      exact congrArg (fun tail => DirectNormalChain.cons normal tail) (ih C₂)
 
 /-- Concatenation of ACTUAL finite chains compiles to sequential original
 plans up to full-domain observations; its nil case uses the original recut. -/
