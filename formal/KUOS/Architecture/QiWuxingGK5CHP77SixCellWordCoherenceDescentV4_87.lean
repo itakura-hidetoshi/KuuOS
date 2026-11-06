@@ -164,9 +164,13 @@ def homComp {w x z : W}
     (c : CoherentHom W long short w x)
     (d : CoherentHom W long short x z) :
     CoherentHom W long short w z :=
-  Quot.liftOn₂ c d (fun a b => homMk (.trans a b)) (by
-    intro a a' b b' ha hb
-    exact Quot.sound (degreeCoherent_comp ha hb))
+  Quot.liftOn₂ c d (fun a b => homMk (.trans a b))
+    (by
+      intro a b b' hbb'
+      exact Quot.sound (degreeCoherent_comp (degreeCoherent_refl a) hbb'))
+    (by
+      intro a a' b haa'
+      exact Quot.sound (degreeCoherent_comp haa' (degreeCoherent_refl b)))
 
 theorem hom_leftUnit {w z : W}
     (c : CoherentHom W long short w z) :
