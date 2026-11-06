@@ -607,6 +607,7 @@ import KUOS.Architecture.QiWuxingGK5CHP77TypedSevenRewriteHistoryV4_89
 import KUOS.Architecture.QiWuxingGK5CHP77SevenRewriteNormalizationCompletenessV4_90
 import KUOS.Architecture.QiWuxingGK5CHP77EightCellLocalCoherenceV4_91
 import KUOS.Architecture.QiWuxingGK5CHP77EightCellCriticalPeakClosureV4_92
+import KUOS.Architecture.QiWuxingGK5CHP77TriangleOverlapEightCellObstructionV4_93
 
 /-!
 Public aggregate: retain every previously published proof and its original
