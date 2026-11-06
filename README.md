@@ -14,6 +14,18 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — Qi v5.01／真正unit diamondの独立八セル最小補完・偶奇降下／2026-11-07 JST
+
+**[定理PR #3225](https://github.com/itakura-hidetoshi/KuuOS/pull/3225) MERGED。** Qi v5.00で法4剰余`S`が検出した真正`leftUnit(refl(w))`対`rightUnit(refl(w))`の比較不能性に対し、元`IdentityEightCell`を変更せず、**新しい独立`UnitDiamondEightCell`へ唯一の原始比較生成元`unitDiamond`を追加**した。既存の全Type値比較証拠は`previous`で保存し、型付き逆・縦横合成文脈の閉包を持つ。
+
+**商のstrict粗化と観測量の境界：** 新商では`unit diamond`を同一classにするが、旧商では法4値0対2により異なる。旧`S mod 4`は新商へ降下しない一方、元第四整数`R mod 2`は全新比較構成子で保存され、`Quotient.lift`による真正Bool値観測量が降下する。新`unitDiamond`×旧`identityDouble`／左`inverseComp`／左`doubleInverse`の**3種類の真正mixed critical pair**は、旧商で法4障害により比較不能だが新商では既存の型付き構成子の貼り合わせで合流。限定`UnitDiamondCriticalPeak`全構成子への合流を証明。元P77全raw最終添字へGK5CG sourceを保持して輸送し、元strict equality interpreter不存在を維持した。新九セル・大域thin性・全平行履歴の比較可能性は主張しない。
+
+**[exact-source CI #42305483543](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42305483543)：Strict Lean 10,300／10,300 SUCCESS、Governance30／30 SUCCESS、45宣言の公理監査は標準公理のみ・sorryAxなし、変更Lean warning/error0／0。** 検証済みHEAD `1cb34c5524d956b06a06bc16ea266997cb94292e`、source/test-merge tree `bfa6690da3775a293f2e820293073f9564fd19fd`完全一致。定理squash `f26f19d2f4cb1ed1e561904ba7f5167aa58fe3ae`。公開root107、保護PR #1558 Draft／OPEN／未マージ。
+
+[正式証明記録](docs/formal/Qi-v5_01-original-P77-unit-diamond-minimal-higher-completion.md) · [Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77UnitDiamondMinimalHigherCompletionV5_01.lean)
+
+**次の候補Qi v5.02：** 新局所補完の後に残る偶奇不変量では判別不能な障害を探索し、既存比較の合流確認を先行。旧presentationを上書きせず、新しい比較不能性の構成的証明が得られた場合のみ別presentationへ最小追加。
+
 ## 最新のLean定理統合 — Qi v5.00／単位則ダイヤモンドの四剰余障害と偶奇不完全性／2026-11-07 JST
 
 **[定理PR #3223](https://github.com/itakura-hidetoshi/KuuOS/pull/3223) MERGED。** 元の13構成子をもつ七セル証拠履歴に加法的整数重みを導入し、その**法4剰余S(H)**が元EightCellからTriangle／Involution／InverseCompを経て新IdentityEightCellまで、全比較構成子と型付き文脈で保存されることをLean4で証明。新商上の観測量は`Quotient.lift`で構成した。
