@@ -14,6 +14,18 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — Qi v4.87／新六セル証明語の次数整合・商上の群oid法則・条件付き観測descent／2026-11-06 JST
+
+**[定理PR #3197](https://github.com/itakura-hidetoshi/KuuOS/pull/3197) MERGED。** Qi v4.86の独立した六セル自由presentationに対し、各証明語の符号付き整数次数を定義。同じ端点の証明語の次数一致による明示的な整合関係を構成し、これによる商の合成・単位・逆元を定義した。商上の左右単位則・結合則・左右逆元則・二重反転をLean4で証明。**生の六セル語の往復合成≠refl**を同時に証明し、商の等式と元の構文上の等式を区別した。
+
+**条件付きdescentの必要十分条件：** 任意の観測 O:W→X が新六セルの全証明語を等号へ降下させることと、指定した真正元五セル値L₃(i), L₂(i)に対し **O(L₃(i))=O(L₂(i))** が成立することを同値として証明。v4.85のL₃(i)≠L₂(i)から単射観測へのdescentは不可能。別構成のendpoint商と観測の条件付き因子化も構成。元F55/P77/GK5CGに六セルが元から存在するとの主張や、すべての高次比較の不存在主張ではない。
+
+**[exact-source CI #42192480627](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42192480627)：Strict Lean 10,286／10,286 SUCCESS、Governance30／30 SUCCESS、指定20宣言の公理監査は標準公理のみ、sorryAxなし、変更Lean warning/error0／0。** 検証済みHEAD `e5773d1890868b01be5bbfed66158c91581b9d3d`、source/test-merge/squash Git tree `f7d2f2a35fe619734601420a463c3a7e45d7f456` 完全一致、squash `b7b3dae3f2c411f61b74f0b158fe06f4d0a7fdff`。Lean v4.30.0-rc2／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、公開root107、保護PR #1558 Draft／OPEN／未マージ。
+
+[正式証明記録](docs/formal/Qi-v4_87-original-P77-six-cell-proof-word-coherence-conditional-descent.md) · [Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77SixCellWordCoherenceDescentV4_87.lean)
+
+**次の候補Qi v4.88：** 六セル証明語の端点別正規形・次数同値の完全性を調べ、source証拠と新presentationの整合性を別々に保持する。
+
 ## 最新のLean定理統合 — Qi v4.86／真正五セル値を両端とする新六セルpresentationと厳密等号への戻り障害／2026-11-06 JST
 
 **[定理PR #3195](https://github.com/itakura-hidetoshi/KuuOS/pull/3195) MERGED。** 元の保守的GK5CG五セルTypeを保持し、Qi v4.84の真正3辺／2辺の五セル合成値L₃(i),L₂(i)を始終点に取る**明示的に異なる**六セル自由presentationを構成。新型PentagonAdjoinedSixCellにrefl・symm・trans・明示的pentagon生成元を持たせ、真正Type値生成元・反転・往復合成・旧五セル語の厳密Eq証拠の埋め込みを形式化した。Qi v4.85の元五セル構成子語の不一致から、新presentationのすべての六セルを**旧元五セル語の厳密等式に解釈する全端点保存写像は存在しない**ことを証明。
