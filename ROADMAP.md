@@ -3,6 +3,18 @@
 
 
 
+## 最新のLean定理統合 — Qi v5.04／二偶奇の境界依存・合成逆元消去の残余整数V障害／2026-11-07 JST
+
+**[定理PR #3231](https://github.com/itakura-hidetoshi/KuuOS/pull/3231) MERGED。** 元の自由六セルraw構文で`symm`と`trans`の出現回数を数える`F`を定義し、元の13構成子をもつ任意の七セル履歴`H:c→d`について **`(F(c)+R(H)+U(H)) mod 2 = F(d) mod 2`** を構造帰納で形式証明した。したがって固定された真正六セル始終点をもつ任意の二つの平行七セル履歴では、**`R mod 2`が一致することと`U mod 2`が一致することは同値**。二つのBool観測量を無条件に独立な二ビットとは扱わない。
+
+**二偶奇では見えない新しい整数V障害：** `leftUnit`・`rightUnit`・`inverseLeft`・`inverseRight`を符号付きで数える`V=sevenTotalReductionCharge`を構成。元の`EightCell`全22構成子からTriangle／Involution／InverseComp／Identity／UnitDiamond／最新`BalancedUnitEightCell`の全比較で整数Vが保存されることを証明し、`Quotient.lift`で現行商へ降下した。合成逆元を直接消去する七セル履歴と、逆元分配・再結合・逐次消去する履歴（V=1対3）を**二組横合成**して、同じraw六セル始終点上で **`R mod 2 = U mod 2 = 0`が両経路とも成立するが、`V=2`対`V=6`** の真正平行履歴を構成。ゆえに**現行`BalancedUnitEightCell`では比較不能、選択商のclassも相異なり、Vは偶奇二組の任意の非線形関数にも因子化しない**。真正元P77全最終raw添字へGK5CG sourceを保持して輸送し、strict EqualityInterpreter不存在を維持。新原始八セル・九セル・大域thin性は追加・仮定しない。
+
+**[exact-source CI #42314003814](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42314003814)：Strict Lean 10,303／10,303 SUCCESS、Governance SUCCESS、32宣言の公理監査は標準公理のみ・sorryAxなし、変更Lean warning/error 0／0。** 検証source HEAD `bb614fa975654c6d2fe3ab6a8d0a765735b0c994`、source/test-merge tree `0fa7461e50515701428eac5495eda9ff733bba7d`完全一致。定理squash `37b3198b336b09cdffac165e9707133f97bb019e`。公開root107・保護PR #1558 Draft／OPEN／未マージ維持。
+
+[正式証明記録](docs/formal/Qi-v5_04-original-P77-double-composite-cancellation-residual-obstruction.md) · [Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77DoubleCompositeCancellationResidualV5_04.lean)
+
+**次候補Qi v5.05：** 今回構成的に証明した二組合成逆元消去の比較不能性に限り、既存型付き構成子で埋まる範囲を先行確認し、必要な場合にだけ新たな独立presentationへの最小局所補完を検討。整数Vの非降下と残余値の降下境界は元source strict Eqと区別して扱う。
+
 ## 最新のLean定理統合 — Qi v5.03／強い三因子P77 source輸送とBalancedUnitEightCell最小局所補完／2026-11-07 JST
 
 **[定理PR #3229](https://github.com/itakura-hidetoshi/KuuOS/pull/3229) MERGED。** Qi v5.02で整数Uの1対3の差により比較不能と証明した真正三因子七セル平行履歴（元三整数`(T,J,K)=(1,0,0)`、第四整数`R mod 2=0`が両側一致）を、**任意の真正P77最終raw添字へ元GK5CG source Type証拠を保持したまま横合成して輸送**。旧`UnitDiamondEightCell`では依然比較不能、新しい独立`BalancedUnitEightCell`では**唯一の新原始比較`balancedUnit(w)`**で局所補完する。元sourceのstrict `EqualityInterpreter`不存在、旧presentationと証拠履歴を維持する。
