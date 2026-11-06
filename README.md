@@ -14,6 +14,18 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — Qi v4.91／真正P77七セル履歴の新八セル局所coherence・zigzagと交錯ダイヤモンド／2026-11-06 JST
+
+**[定理PR #3205](https://github.com/itakura-hidetoshi/KuuOS/pull/3205) MERGED。** Qi v4.90の七セル書換え局所完全性を継承し、元の六セル生語を添字に保持した**二つの七セル生履歴**をさらに添字に持つ別Type値`EightCell(H₁,H₂)`を追加。新八セルの22生成規則は反射・反転・合成、左右whiskering、反転・合成の文脈congruence、七セル合成の単位・結合・逆元消去、独立書換え交錯、および`(c;c⁻¹);c ⇒ c`の二通りの縮約の局所ダイヤモンドを具体的に指定する。
+
+**形式証明の中心：** 二通りの七セルzigzag履歴`H_left ≠ H_right`（生の構文厳密不一致）と`Nonempty(EightCell(H_left,H_right))`（新しい比較Type値の存在）をLean4で同時に証明。さらに全八セルを元の七セル生履歴の厳密Eqへ戻す普遍的解釈は存在しない。真正P77の任意最終raw添字にも具体的八セルzigzagを実装し、**元GK5CG五セルのEqualityInterpreter障害は維持**。**任意の平行七セル履歴間の八セル全域完全性は主張せず**、全履歴比較生成元は追加しない。
+
+**[exact-source CI #42208912882](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42208912882)：Strict Lean 10,290／10,290 SUCCESS、Governance30／30 SUCCESS、指定10宣言は標準公理のみ（8件公理依存なし／2件`propext`・`Classical.choice`・`Quot.sound`）、sorryAxなし、変更Lean warning/error0／0。** 検証済みHEAD `9b2b404308295d1b7a865b4d0cafe481e9fe954a`、source/test-merge/squash tree `812adf606eefc012929d81403161d603e2a4d67b` 完全一致、定理squash `d4482387d5bea54c31471caf3ddfd48921adc7f3`。Lean v4.30.0-rc2／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、root107、保護PR #1558 Draft／OPEN／未マージ。
+
+[正式証明記録](docs/formal/Qi-v4_91-original-P77-eight-cell-local-coherence-zigzag-interchange.md) · [Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77EightCellLocalCoherenceV4_91.lean)
+
+**次の研究候補Qi v4.92：** 七セル局所書換えcritical peakと八セル生成元の合流範囲を分類し、追加の局所coherenceを証明する。全履歴の無条件同一視はしない。
+
 ## 最新のLean定理統合 — Qi v4.90／真正P77五セル端点の七セル書換え正規化・局所完全性／2026-11-06 JST
 
 **[定理PR #3203](https://github.com/itakura-hidetoshi/KuuOS/pull/3203) MERGED。** Qi v4.89で構成した別Type値の七セル書換え`SevenRewrite`の13局所規則だけを使い、真正元GK5CG保守的五セルの選択二端点L₃(i)≠L₂(i)において**任意の生六セル証明語を端点別三形正規語へ書換える実際の履歴**を構造帰納で構成した。反転・合成の文脈書換えと、左右単位・逆元消去・二重反転を帰納的に合成。端点と次数が一致する三形の正規語は厳密一致することを証明した。
