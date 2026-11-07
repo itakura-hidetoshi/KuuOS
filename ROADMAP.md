@@ -1,5 +1,10 @@
 # KuuOS / 空OS — Formal Research Roadmap
 
+## Research bridge — Living Engi Cycle v0.1（受・愛・取・有／2026-11-07）
+
+[研究仕様](docs/LIVING_ENGI_CYCLE_VEDANA_TANHA_UPADANA_BHAVA_v0_1.md) · [遷移・証拠manifest](docs/manifests/living_engi_cycle_vedana_tanha_upadana_bhava_v0_1.json)。既存Dukkha数理・Meta-Manas・Qi Process Tensorと、歴史的Stage-II v4.21/22/48のmod2符号忘却・整数向き非降下を接続する**docs-onlyの研究整理**。LEC-01–09を個別の未証明／既証明射程として管理し、取の未認証gluingと、有の生成状態を混同しない。形式定理・source Type値履歴・公開root・#1558は変更しない。
+
+
 
 
 

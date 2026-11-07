@@ -8,6 +8,11 @@
 
 English: KuuOS develops a general mathematical program for dependent origination, contextual transport, presentation localization, effective descent, higher coherence, and explicit obstructions. The later C60 geometry is a concrete testbed, **not the origin or unique model of the general theory**.
 
+## Living Engi Cycle v0.1 — 十二縁起「受・愛・取・有」の構造化（研究仕様、2026-11-07）
+
+[Living Engi Cycle v0.1 — 受・愛・取・有の数理的境界](docs/LIVING_ENGI_CYCLE_VEDANA_TANHA_UPADANA_BHAVA_v0_1.md) · [構造化manifest](docs/manifests/living_engi_cycle_vedana_tanha_upadana_bhava_v0_1.json)。受＝文脈付き評価、愛＝選好、取＝証明を欠く局所→大域の権威昇格、有＝WORLDと生成規則・履歴・修復条件の運用状態として分離。Stage-II v4.21/22/48の商・符号・降下境界と既存のDukkha/Meta-Manas/Qi–WORLD–OSを出典付きで整理。**既存Lean定理の射程を超えた新証明・実装を主張しない。** 元source/Type値証拠、独立Kuu/Qi、同一rootを不変とし、docs-onlyでStrict Leanは実行不要。
+
+
 **研究・著作権者 / Founder and copyright holder:** 板倉英俊 / Hidetoshi Itakura. [LICENSE](LICENSE) · [NOTICE](NOTICE) · [COPYRIGHT](COPYRIGHT.md) · [CITATION](CITATION.cff).
 
 
