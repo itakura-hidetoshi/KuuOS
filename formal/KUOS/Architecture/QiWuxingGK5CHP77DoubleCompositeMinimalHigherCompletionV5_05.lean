@@ -314,8 +314,10 @@ theorem doubleCompositeHistoryClass_eq_iff {w z : W}
     doubleCompositeHistoryClass s = doubleCompositeHistoryClass t ↔
       Nonempty (DoubleCompositeEightCell W long short s t) := by
   constructor
-  · intro h => exact Quotient.exact h
-  · intro h => exact Quotient.sound h
+  · intro h
+    exact Quotient.exact h
+  · intro h
+    exact Quotient.sound h
 
 theorem balancedUnitHistoryClass_descendsToDoubleComposite {w z : W}
     {c d : PentagonAdjoinedSixCell W long short w z}
