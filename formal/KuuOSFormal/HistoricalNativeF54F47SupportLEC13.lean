@@ -149,8 +149,12 @@ theorem lec13_original_source_shadow_not_injective_on_edges
   intro hInjective
   apply northOriginalCross_ne_around
   apply hInjective
-  rw [lec13_edge_replacement_preserves_source_and_shadow,
-      lec13_edge_replacement_preserves_source_and_shadow]
+  change
+    lec13HistoricalF47SourceShadow
+      (historicalF47AllEdgeFiberMap B (.cross (.northSpoke 0))).1 =
+    lec13HistoricalF47SourceShadow
+      (historicalF47AllEdgeFiberMap B (.around ⟨.north, .s0⟩)).1
+  simp only [lec13_edge_replacement_preserves_source_and_shadow]
 
 /-- Even knowing the entire original F42/F55 arrow pair and the chosen
 complete F55 signed/phase shadow cannot recover ALL old C60 physical
@@ -194,7 +198,7 @@ theorem lec13_ninety_real_edges_same_historical_source_shadow
 /-- Enriching the original observation by retaining its actual C60
 physical Edge makes the ninety distinct authentic frame witnesses
 injectively observable (but does not synthesize missing old/new
-F54 endpoint comparison or higher 3-/4-cell transport). -/
+F54 endpoint comparison or higher 3-cell / 4-cell transport). -/
 def lec13SupportedSourceShadow
     (B : C60F47SquareFrame α β r s) :
     (((α ⟶ β) × (r ⟶ s)) × HistoricalNativeF55CommonShadow) × Edge :=
