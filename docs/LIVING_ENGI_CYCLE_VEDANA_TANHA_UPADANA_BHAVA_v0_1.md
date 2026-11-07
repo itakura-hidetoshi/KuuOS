@@ -431,3 +431,22 @@ HasGlobal U s
 [正式証明記録](formal/LEC-12-historical-original-and-native-F55-common-shadow-verified-20261107.md) · [検証manifest](manifests/living_engi_lec12_verified_20261107.json)。
 
 **次段階LEC-13：** 歴史的元F54と独立native F54の`Blocks`・両Nat深度・真のC60 source/targetを指定した**境界付き忠実な輸送写像**の存在条件と障害を明示し、F55九構成子およびP77/GK5CG高次証拠へ拡張できる範囲だけを証明する。共通shadowの一致だけで元の証拠履歴や外部実行権限を昇格しない。
+## 22. 2026-11-07 — LEC-13：真正歴史的F54/F55証拠と実C60物理支持辺の90重非復元障害（証明済み）
+
+**[定理PR #3262](https://github.com/itakura-hidetoshi/KuuOS/pull/3262) MERGED。** LEC-12で歴史的元F55と独立native F55の共通shadow `(Int×Int)×ZMod2`を正確に比較できたが、元証拠の数値校正だけでは**幾何学的支持を特定できるとは限らない**。既存の真正歴史的F47 `C60F47SquareFrame`（元F42 face 3-arrow・元F54二Nat/Blocksに結びつく元F55 rotation 3-arrow・別フィールドのC60物理Edge・証明付きcalibration）と、F112-P39/P40の実在90辺・隣接二面の定理を接続し、新しい混合公開集約Lean [`HistoricalNativeF54F47SupportLEC13.lean`](../formal/KuuOSFormal/HistoricalNativeF54F47SupportLEC13.lean) で形式化した。
+
+**新定理の厳密な内容：**
+
+- 任意の既存校正済み歴史的F47 frame `B` に対し、実在C60の90本の `Edge` から、**同じ元F42/F55二つの証拠矢と同じ完全signed/phase shadow**を持ちながら、**物理的支持辺が異なる90個のF47 frame**へ単射を構成できる。これは有限proxyではなく既存の本来のC60構成に対する定理である。
+- `HistoricalF47SourceShadow(B) = (originalF42F55ArrowPair(B), fullF55SignedPhase(B))` のみから各辺を復元する**全域decoderは存在しない**。物理辺を明示的な追加フィールドとして保持した新しい観測は、この指定90辺族を単射的に識別する。
+- `LEC13OriginalNativeCalibration B` は、**元F54二Nat境界における歴史的F55 raw証拠**、その元F47 F55商矢との正確な等号、独立native F55 raw証拠、両者のLEC-12共通shadow等値をそれぞれ要求する。**任意のBについてこの入力が存在するとは証明していない**。この証明書を実際に与えた場合に限り、元raw・native raw・正確なF47商矢・物理Edgeを保持する90個の別々の型付き比較証拠を構成できる。
+- 注意：既存F47の数学的frame型は`edge`と元のF42/F55証拠矢を別に持ち、calibrationは辺との幾何学的source対応まで要求していない。したがって90辺の結果は**元の型の支持辺選択が未決定である**ことの証拠であり、すべての元raw証拠が90辺すべてに幾何学的に適合するという定理ではない。
+- 歴史的F47回転squareの `(0,1;1)` と独立native北五角形の `(1,0;0)` は同じ受信値ではない。次の真正な接続候補は**独立nativeの実北hexagon square**であり、異なる生成子を数値・名前だけで同一視しない。
+
+[exact-source CI #42363485222](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42363485222) **Strict Lean 10,318/10,318 SUCCESS**。新規15定理・型付き構成1件・明示的`#print axioms`16件、`sorryAx`なし、新規`axiom`なし、Governance/独立public API等SUCCESS、source/test-merge Git tree `2ef09aab2b5e511d29131d210abcf4334664aea8`一致、squash `ec57d5595ba4c8b80331fbce3c17bb54fb002238`。公開root107、固定Lean/mathlib、保護#1558 Draft/Open/未マージを維持。
+
+**公理依存の監査境界：** 前段LEC-12と異なり、今回の定理は既存F112の真正C60幾何／辺同型の証明に由来する`native_decide`の**既存6補助公理**を、標準公理 `propext`・`Classical.choice`・`Quot.sound` に加えて継承する。新公理は追加していないが、**標準公理だけの証明ではない**と明示する。完全kernel証明へ強化するには別途この有限幾何部分を`native_decide`非依存で再証明する必要がある。
+
+[正式証明記録](formal/LEC-13-historical-native-F54-F55-90-edge-support-boundary-verified-20261107.md) · [検証manifest](manifests/living_engi_lec13_verified_20261107.json)。
+
+**次のLEC-14：** 元F47の真正F55 squareと独立native C60 hexagon F55 squareの**実際にinhabitedな**正確な共通shadow／型付き証拠比較を構成し、元F54からnative F54へのsource/target輸送、幾何学的支持・P77/GK5CG高次証拠まで拡張可能かを別々に判定する。これはČech `H¹` の非零性、全高次descent、実AI更新、臨床効果、ActOS権限を証明しない。

@@ -626,6 +626,7 @@ import KUOS.Architecture.QiWuxingGK5CHP77MixedResidueBalancedUnitSupplementV5_07
 import KUOS.Architecture.QiWuxingGK5CHP77InversePentagonAssociatorObstructionV5_08
 
 import KuuOSFormal.HistoricalNativeF55CommonShadowLEC12
+import KuuOSFormal.HistoricalNativeF54F47SupportLEC13
 import KuuOSFormal.SwallowtailWitnessTransportLEC13
 
 /-!
