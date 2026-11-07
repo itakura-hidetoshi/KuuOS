@@ -122,6 +122,7 @@ theorem lagTwoKernel_distinguishes_histories
     (readout : X → A) (input : Input) :
     lagTwoKernel U e Input readout [snap] input ≠
       lagTwoKernel U e Input readout [snap, snap] input := by
+  change (false : Bool) ≠ true
   decide
 
 /-- Both histories have the SAME MOST RECENT (full typed) snapshot. -/
