@@ -345,3 +345,14 @@ LEC-05の一般高次transport、LEC-07「有→生候補→外部認可され�
 **[定理PR #3250](https://github.com/itakura-hidetoshi/KuuOS/pull/3250) MERGED**、[exact-source CI #42348497450](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42348497450) **Strict Lean 10,312 / 10,312 SUCCESS**、Governance／独立Kuu API SUCCESS、12定理・12件`#print axioms`は標準公理のみ、`sorryAx`なし。source／test-merge tree `8ecac9fb37da15911cf6d7c330980f652997fa75`一致。統合squash `359bb1c59ff0c137e71979fa57e1a55b5143983d`。最初の失敗はフィールド名`matches`とLean構文の衝突であり、`sourceEq`への名称修正のみで命題・仮定を保持した。
 
 [正式証明記録](formal/LEC-07-birth-authorization-verified-20261107.md) · [検証JSON](manifests/living_engi_lec07_verified_20261107.json)。`LEC-08` の非マルコフ帰還・可観測性、`LEC-09` の真正元Type値証拠比較は未解決であり、数学的な証拠の存在を実世界の実行権限と同一視しない。
+
+
+## 17. 2026-11-07 — LEC-08「非マルコフ履歴と履歴保持修復」Lean4証明済み追補
+
+**[定理PR #3252](https://github.com/itakura-hidetoshi/KuuOS/pull/3252) MERGED。** 独立 Kuu の [HistoryFeedbackRepair.lean](../formal/Kuu/LivingEngi/HistoryFeedbackRepair.lean) に18定理を追加。履歴依存カーネルの現在値だけへの因数分解条件と、**同じ現在WORLD読出し・同じ最新の型付きsnapshotでも、1件と2件の履歴で候補が異なる**有限の真正反例をLean4で構成した。さらに、一つの認証済みBhavaを実際に2回改訂した例で、元の局所Type値sectionと現在のreadoutが同一なのに、生成される生候補が異なることを示した。
+
+**将来の修復:** `repairToHistoryIndependent` は、既存の真正な支持証明から新しい数学的認証を構成し、**元source、被覆下の同じWORLD読出し、全旧snapshot・履歴の追記保存**を維持したまま、将来の候補生成を指定されたhistory-independent policyへ切り替える。履歴そのものは消去しない。新しい生成規則が履歴を使用しないことと、過去の証拠が消去されたことは異なる。あらゆる非マルコフ系の安定化・苦の消滅・実AI重み変更は証明していない。
+
+[exact-source CI #42355697499](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42355697499)：**Strict Lean 10,313 / 10,313 SUCCESS、Governance／独立Kuu API SUCCESS、公理監査18件は標準公理のみ・sorryAxなし**。source/test-merge tree `8ce7d90ca3c0ff02403237624dc202ddb065060f` 一致、定理squash `0aff0f1d62e66b82d4f4d680597dbdfa4cecd428`。初回失敗は`decide`が自由変数を含む式を直接処理しようとしたことであり、`change (false : Bool) ≠ true` の正規化だけを加え、命題を弱めず修正した。
+
+[正式証明記録](formal/LEC-08-nonmarkov-history-repair-verified-20261107.md) · [検証manifest](manifests/living_engi_lec08_verified_20261107.json)。**次の別課題はLEC-09：真正元F55/P77/GK5CGのType値証拠履歴と商・高次比較の厳密な境界。** 非マルコフRuntime v0.72／v0.23への橋渡しは未実施であり、推論候補から外部実行許可は発生しない。
