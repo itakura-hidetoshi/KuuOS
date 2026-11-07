@@ -362,19 +362,11 @@ theorem framedDoubleWhiskerClass_noRawTraceDescent (l r : W) :
     (framedDoubleWhiskerClass_originalCritical l r)
   rw [compatible (originalDoubleWhiskerLeftFrame l r),
     compatible (originalDoubleWhiskerRightFrame l r)] at h
-  exact (by
-    intro heq
-    have hbad :
-        originalDoubleWhiskerLeftFrame l r =
-          originalDoubleWhiskerRightFrame l r :=
-      False.elim (by
-        have ht := heq
-        change (false :: true :: mixedTenWhiskerRawTrace
-            (pmLeftUnitCriticalExchangeThenUnit l r)) =
-          (true :: false :: mixedTenWhiskerRawTrace
-            (pmLeftUnitCriticalExchangeThenUnit l r)) at ht
-        cases ht)
-    exact (originalDoubleWhiskerFramedCompletion l r).2 hbad) h
+  change (false :: true :: mixedTenWhiskerRawTrace
+      (pmLeftUnitCriticalExchangeThenUnit l r)) =
+    (true :: false :: mixedTenWhiskerRawTrace
+      (pmLeftUnitCriticalExchangeThenUnit l r)) at h
+  cases h
 
 /-- Two inherited tenth-operation observers, on the ORIGINAL
 tenth source member of each full witness packet. -/
