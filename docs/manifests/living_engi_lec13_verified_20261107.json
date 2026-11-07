@@ -1,0 +1,101 @@
+{
+  "schema_id": "kuuos.living_engi_cycle.lec13_historical_native_f54_f47_90_physical_support_obstruction",
+  "schema_version": "0.1",
+  "date_jst": "2026-11-07",
+  "author": "Hidetoshi Itakura / 板倉英俊",
+  "kind": "actual_old_F47_90_edge_support_fiber_obstruction_and_conditional_native_typed_calibration",
+  "status": "exact_source_lean_verified_and_merged",
+  "theorem_pr": 3262,
+  "source": "formal/KuuOSFormal/HistoricalNativeF54F47SupportLEC13.lean",
+  "source_lines": 355,
+  "verified_source_sha": "a3da778894da2e136a20fa9d4e9aac2d4d5771d4",
+  "test_merge_sha": "c152bb74b92aa624a7a5ebfd9c933ca4dceb32c9",
+  "equal_source_test_merge_tree": "2ef09aab2b5e511d29131d210abcf4334664aea8",
+  "merged_main_sha": "ec57d5595ba4c8b80331fbce3c17bb54fb002238",
+  "ci": {
+    "run_id": 42363485222,
+    "conclusion": "success",
+    "lean_jobs": 10318,
+    "lean_completed": 10318,
+    "governance": "success",
+    "independent_kuu_public_api": "success",
+    "new_theorems": 15,
+    "extra_typed_constructor_defs": 1,
+    "print_axioms_count": 16,
+    "sorryAx": false,
+    "new_axiom_declared": false,
+    "transitive_axioms_standard_only": false,
+    "transitive_axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound",
+      "pentagonalSlotIndex_bijective._native.native_decide.ax_1_1",
+      "pentagonalSlotIndex_next._native.native_decide.ax_1_1",
+      "pentagonalSlotIndex_next._native.native_decide.ax_1_2",
+      "pentagonalSlotIndex_next._native.native_decide.ax_1_3",
+      "pentagonalSlotIndex_next._native.native_decide.ax_1_4",
+      "pentagonalSlotIndex_next._native.native_decide.ax_1_5"
+    ]
+  },
+  "initial_CI_failure": {
+    "head": "ab581ed6cbb9620d8a05fdc4871f5d28fa6d91b8",
+    "errors": [
+      "lambda application not normalized before rw",
+      "comment token ' -/' prematurely terminated documentation"
+    ],
+    "repair_head": "a3da778894da2e136a20fa9d4e9aac2d4d5771d4",
+    "proof_statements_and_assumptions_preserved": true
+  },
+  "formal_scope": {
+    "historical_source": "old F47 C60F47SquareFrame at original two-Nat-depth F54 r,s with F42 face and F55 rotation categorical arrows",
+    "physical_site": "actual C60 Edge with 90 members (P39/P40)",
+    "source_shadow": "historical F42/F55 two-arrow pair plus complete original full F55 signed charge/phase",
+    "all_90_same_original_source_shadow": true,
+    "all_90_distinct_physical_support": true,
+    "source_shadow_support_decoder_exists": false,
+    "extra_explicit_physical_edge_makes_90_family_injective": true,
+    "native_calibration": "conditionally supplied genuinely old F55 raw three-cell + exact original F47 F55 quotient arrow + independent north C60 F55 raw + proved numeric agreement",
+    "native_calibration_always_exists": false,
+    "conditional_injective_supported_packets_count_lower_bound": 90
+  },
+  "axiom_printouts": [
+    "lec13_edge_replacement_preserves_original_f55",
+    "lec13_edge_replacement_preserves_original_f42",
+    "lec13_edge_replacement_preserves_common_shadow",
+    "lec13_edge_replacement_preserves_source_and_shadow",
+    "lec13_edge_replacement_support_exact",
+    "lec13_edge_replacement_two_real_faces",
+    "lec13_original_source_shadow_not_injective_on_edges",
+    "lec13_no_support_decoder_from_original_source_shadow",
+    "lec13_ninety_real_edges_same_historical_source_shadow",
+    "lec13_supported_source_shadow_edge_exact",
+    "lec13_supported_source_shadow_injective_on_edges",
+    "lec13_calibrated_frame_matches_native",
+    "lec13SupportedOriginalNativeAt",
+    "lec13_supported_original_native_injective",
+    "lec13_matched_native_has_ninety_real_supports",
+    "lec13_native_matched_source_shadow_no_support_decoder"
+  ],
+  "non_claims": [
+    "not proof of historical original F54-to-native F54 faithful functor/equivalence",
+    "not unconditional availability of an original-F47/native-pentagon matching calibration",
+    "not proof of old F42/F55 raw evidence being geometrically valid on all 90 edge supports",
+    "not nonzero Cech H1, gerbe/stack descent or P77/GK5CG higher seam transfer",
+    "not standard-axioms-only because six inherited native_decide dependencies",
+    "not ActOS, clinical or AI model-weight authority"
+  ],
+  "preservation": [
+    "append_only",
+    "tighten_only",
+    "overwrite_forbidden",
+    "same_root",
+    "independent_KuuOSStrict_untouched",
+    "historical_original_and_independent_proof_history_unchanged",
+    "KuuOSFormal_public_root107",
+    "Lean_v4.30.0-rc2",
+    "mathlib_5450b53e5ddc75d46418fabb605edbf36bd0beb6",
+    "PR_1558_Draft_Open_Unmerged"
+  ],
+  "formal_record": "docs/formal/LEC-13-historical-native-F54-F55-90-edge-support-boundary-verified-20261107.md",
+  "next": "LEC-14 inhabited original F47 physical F55 square ↔ independent native hexagon F55 square correct typed comparison and structural-support certificate; harden inherited native_decide dependencies separately"
+}
