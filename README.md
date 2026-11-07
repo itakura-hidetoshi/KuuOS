@@ -8,6 +8,12 @@
 
 English: KuuOS develops a general mathematical program for dependent origination, contextual transport, presentation localization, effective descent, higher coherence, and explicit obstructions. The later C60 geometry is a concrete testbed, **not the origin or unique model of the general theory**.
 
+## Qi v5.10 — 真正四重五角形 × mixedResidueのcritical pair局所合流と生八セル障害／2026-11-07 JST
+
+**[定理PR #3272](https://github.com/itakura-hidetoshi/KuuOS/pull/3272) MERGED。** Qi v5.09の真正四重逆五角形二履歴と元\`mixedResidue\`二履歴から、始終点が同じ元\`SevenRewrite\`四頂点を構成。北・南の\`fourfoldPentagon\`辺は旧\`MixedResidueEightCell\`に存在せず、西・東の\`mixedResidue\`辺は既存旧証拠で構成できる。**二つの書換え順序は新八セル文法・選択商で同一終点に局所合流**する一方、生の八セル完成証拠の原始イベントtraceは\`[P,M]\`と\`[M,P]\`で異なり、**raw八セルstrict Eqは不成立**とLean4で証明。これは九セルcoherenceの非存在を主張せず、次の比較問題を局所化する。V/R/U法2降下、旧source、既存独立presentation、保護#1558 Draft/OPEN、公開root107は維持。
+
+[exact-source CI #42373798805](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42373798805) **SUCCESS**：Strict Lean本体成功、Governance **30/30**、新規17宣言の公理監査は標準公理のみ・\`sorryAx\`なし、source/test-merge tree \`f3da187cd1482d24f6b020577e218e98fc15bc31\`一致。検証source \`9dc7b15c6b1c70d85fb5b40f6c5aee5e7aa86523\`、定理squash \`4f497a027b34e0ef085e260f027fe6247b71c839\`。[Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77FourfoldMixedCriticalDiamondV5_10.lean) · [正式証明記録](docs/formal/Qi-v5_10-original-fourfold-mixed-critical-diamond-verified-20261107.md)。**次：** 選択された二つの八セル完成経路の型付き九セル比較可能性を検討（未証明）。
+
 ## Living Engi Cycle — LEC-09 native F55 Type値証拠とshadow商の非復元性／2026-11-07 JST
 
 **[定理PR #3254](https://github.com/itakura-hidetoshi/KuuOS/pull/3254) MERGED。** 真正北C60五角形の独立**native F55-shaped**元三セルと、右単位を合成した三セルは**異なるraw Type値履歴**だが、真正E7P4 full-shadow商では同値になる既証明結果を継承。新規 [NativeF55ProofHistoryBoundary.lean](formal/Kuu/LivingEngi/NativeF55ProofHistoryBoundary.lean) の15定理で、選択商からの全raw証拠復元左逆不存在・商経由の忠実観測者不存在・同じ商観測からの元source等式の認証不能を証明。元raw履歴・商値・証拠を別々に保持する`NativeF55Trace`を構成した。
