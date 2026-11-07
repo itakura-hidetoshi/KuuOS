@@ -14,6 +14,18 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — Qi v5.07／混合逆元残余の独立八セル最小補完・V法2降下／2026-11-07 JST
+
+**[定理PR #3237](https://github.com/itakura-hidetoshi/KuuOS/pull/3237) MERGED。** Qi v5.06で構成的に証明した、同じ元六セルraw始終点の真正三因子七セル履歴（元三整数`(T,J,K)=(2,0,1)`、R mod2=0、U mod2=1は両側一致するが**V mod4=3対1**）を対象に、新しい独立`MixedResidueEightCell`へ**唯一の新原始比較`mixedResidue(w)`**を追加。元`DoubleCompositeEightCell`、旧商、元F55/P77/GK5CG source・自由七セルType値証拠履歴は変更せず、`previous`で全旧比較証拠を保守的に保持した。
+
+**新商の厳密な粗化と観測量の降下境界：** 新商では二履歴に比較が存在するが、旧選択商ではv5.06の全比較生成元で保存されるV mod4の3対1障害により**比較不能**。このため旧`V mod4`は新商へ降下しない。他方、**`V mod2`、`R mod2`、`U mod2`は全新八セル生成元・型付き文脈で保存**され、三つの真正Bool値`Quotient.lift`を構成した。R/Uが固定六セル始終点上で連動するv5.04の境界定理を維持。新`mixedResidue × doubleComposite`と`mixedResidue × unitDiamond`の混合critical pairは旧商で比較不能、新商で既存型付き合成により充填でき、限定`MixedResidueCriticalPeak`全構成子も構造帰納で充填済み。真正P77全raw最終添字へ元GK5CG source付きで輸送し、strict EqualityInterpreter不存在を保持した。新九セル・大域thin性・任意平行履歴比較可能性は仮定しない。
+
+**[exact-source CI #42332928280](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42332928280)：Strict Lean 10,306／10,306 SUCCESS、Governance SUCCESS、新規43宣言の公理監査は標準公理のみ・sorryAxなし、変更Lean warning/error0／0。** 検証source HEAD `6cfe6e89d70c97d3d3c2fc7715fefde22894453e`、source/test-merge tree `441eed24f72db0387e8688eca09e03e0cc24a36b`完全一致。定理squash `e1f28b9604a5c4b280032992194bb5f3e3db52bc`。公開root107、保護PR #1558 Draft／OPEN／未マージ維持。
+
+[正式証明記録](docs/formal/Qi-v5_07-original-P77-mixed-residue-minimal-higher-completion.md) · [Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77MixedResidueMinimalHigherCompletionV5_07.lean)
+
+**次の候補Qi v5.08：** 現行新八セルの全比較構成子を照合し、残るV法2とR/U偶奇では判別できない高次obstructionを探索。真正な比較不能性が形式証明できた場合に限り別の独立presentationに最小原始比較を追加する。元source strict Eqと高次商Eqは同一視しない。
+
 ## 最新のLean定理統合 — Qi v5.06／三整数・二偶奇不可視の混合逆元消去V法4障害／2026-11-07 JST
 
 **[定理PR #3235](https://github.com/itakura-hidetoshi/KuuOS/pull/3235) MERGED。** Qi v5.05の独立`DoubleCompositeEightCell`で保存される**`V mod 4`の新たな真正障害**を、元の自由七セル13構成子だけから構成した。v5.04の「合成逆元を直接消す／分配して消す」critical pairと、v5.02の「`inverseRight(refl)`／`inverseId;rightUnit`」を横合成すると、元R・U偶奇は両経路0で一致し、**V整数は2対4、V mod4は2対0**となる。ただし旧Kが0対1なので、**真正v4.95 `inverseComp`左critical pairを逆順に貼り、K差を相殺した**。
