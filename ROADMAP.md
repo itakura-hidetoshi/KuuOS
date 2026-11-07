@@ -1,5 +1,15 @@
 # KuuOS / 空OS — Formal Research Roadmap
 
+## Qi v5.17 VERIFIED — 真正十一セル逆元往復の最小第十二セルと左右whisker strict整合／2026-11-08
+
+- **[定理PR #3286](https://github.com/itakura-hidetoshi/KuuOS/pull/3286) MERGED：** 元第十一セル`MixedExchangeUnitElevenCell.exchangeUnit`と真正反転による**左右二つ**の生第十一セル往復を構成。`twelfthOriginalExchangeRightRawGap`／`twelfthOriginalExchangeLeftRawGap`でそれぞれ反射と**raw非等**を証明。元F55/P77/GK5CGおよび六～十一セル構成子は一切変更しない。
+- **最小型付き第十二セル：** `MixedExchangeInverseTwelveCell`を元の十一セル値二つの間の独立`Type`とし、`cancelExchangeRight`・`cancelExchangeLeft`と`whiskerLeftStrict`・`whiskerRightStrict`の**4局所primitive**だけを追加。15構造・context閉包、計19構成子。選択Setoid・Quotientの必要十分条件と、左右逆元往復の商内での反射への一致、raw十一セル全面復元の左逆不存在を証明。
+- **whiskering critical pair：** `twelfthLeftWhiskerStrictCritical`／`twelfthRightWhiskerStrictCritical`で、whiskered strictとstrict on whiskered raw tenth witnessはraw十一セルとして異なるが、独立の第十二セル比較は存在することを両側で証明。`twelfthLeftWhiskeredCancellation`／`twelfthRightWhiskeredCancellation`で局所比較の連鎖を実装。左右whiskeringを逆順に貼る**二重interchangerは未証明**。境界indexを無条件に同一視しない。
+- **残存obstructionと真正descent：** 元十一セル証拠中`tenSymm`構成子のNat出現数を全19新十二セル構成子について保存。`mixedExchangeInverseTwelfthTenSymmCount`を本物の`Quotient.lift`として構成。元critical tenth witnessを使った`tenSymm(strict rfl)`の1対`strict rfl`の0を形式証明し、新第十二セルによる非比較・選択商クラス差異・**notGloballyThin**を導出。元十一セルで残った旧十セルの(2,0)/(0,2)不比較は保持。
+- **真正source特殊化とauthority：** 任意の元P77 final raw indexの元GK5CG long/shortを用いる`pentagonActualOriginalExchangeTwelfthCompletion`を証明し、元`PentagonAdjoinedSixCellEqualityInterpreter`の不可能性を保存。元証拠のraw equalityも普遍的高次coherenceも主張しない。
+- **exact-source [CI #42422300901](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42422300901)**：Strict Lean **10,330/10,330 SUCCESS**、Governance **30/30 SUCCESS**。新規28`#print axioms`は標準`propext`／`Classical.choice`／`Quot.sound`または無公理、sorryAxなし。変更Lean warning/error 0/0。source HEAD `0538a76081132a1ce6fa2ddac44cdfd07d900d13`とtest-merge `695a5175cdcbd9733b8b035d26e5422c2c012b49`のtree `ad73b9aed37b9e06d76401313d3b339ec7f1ef7c`完全一致。squash `580f757b87f2857cc83f08f25d01d715b78e3e05`。[正式記録](docs/formal/Qi-v5_17-original-eleventh-inverse-twelfth-whisker-coherence-verified-20261108.md)・[Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77ExchangeInverseMinimalTwelfthV5_17.lean)。root107・固定pin・保護#1558 Draft／OPEN維持。
+- **次段Qi v5.18：** 二重whiskeringの左右順序の異なる元raw境界を比較可能なpresentationへ型付きで接続し、原十一／十二セルのcritical overlapを局所分解。必要な新しい高次比較と既存obstructionの保存証明を分離する。
+
 ## Qi v5.16 VERIFIED — 元P/M交換×九セル左単位の独立第十一セルと残存十セル不変量／2026-11-08
 
 - **[定理PR #3284](https://github.com/itakura-hidetoshi/KuuOS/pull/3284) MERGED：** 前段の真正二つの平行生十セル`pmLeftUnitCriticalExchangeThenUnit`／`pmLeftUnitCriticalUnitThenExchange`（raw strict非等）を唯一の新`MixedExchangeUnitElevenCell.exchangeUnit`で型付き比較。残り13構成子はstrict・反転・連鎖と既存十セル文脈閉包。元六～十セル・F55/P77/GK5CG型付き証拠は不変。
