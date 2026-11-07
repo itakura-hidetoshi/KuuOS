@@ -60,6 +60,14 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## Qi v5.07 #3238 正本照合マージ — 元PR履歴保持・V法2整数／Bool観測量の互換証明／2026-11-07 JST
+
+**[原PR #3238](https://github.com/itakura-hidetoshi/KuuOS/pull/3238) MERGED。** 当初の783行・43宣言と正本Qi v5.07定理#3237を全文照合し、**重複する30宣言をmainへ再導入せず**、旧ブランチのコミット履歴を通常の二親マージコミットで保持して衝突解消。旧版固有のbalancedUnit局所比較・整数V非降下はすでに#3240/#3241で証明統合済み。今回、残存していた`ℤ`値 `mixedResidueHistoryV2` の真正`Quotient.lift`、U偶奇Bool observer旧名、双方の代表計算・V法2整数／Bool全class互換定理を**新規補完Lean7宣言**として形式化。元`MixedResidueEightCell`・元F55/P77/GK5CG・旧八セルType・source strict Eqは変更せず、重複生成元なし。公開root107・保護PR #1558維持。
+
+**[exact-source CI #42370963952](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42370963952)：Strict Lean 10,321／10,321 SUCCESS、Governance 30／30 SUCCESS、7宣言の公理監査は標準公理のみ・sorryAxなし、変更Lean warning/error 0／0、source/test-merge Git tree `de4e966a6cbd86e4230c75d26e19d8a3977565f1`完全一致。** 検証head `11a2d4b5f56d30d2897c0f4a40490619583c64da`、定理squash `4caa219f55f69874c6745e64df1100c7395680dd`。Qi v5.08の四重結合子obstructionと、その独立の指紋`Φ`は現行正本のまま保持。
+
+[正式証明記録](docs/formal/Qi-v5_07-PR3238-canonical-V2-parity-reconciliation-verified-20261107.md) · [Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77MixedResidueV2CompatibilityPR3238.lean)。**次：Qi v5.09。**
+
 ## 最新のLean定理統合 — Qi v5.08／自由四重五角形結合子指紋による新しい真正高次obstruction／2026-11-07 JST
 
 **[定理PR #3242](https://github.com/itakura-hidetoshi/KuuOS/pull/3242) MERGED。** 現行独立`MixedResidueEightCell`の全比較構成子を、元v4.91の22規則からv5.07のmixedResidueまで**型付き帰納で完全検査**した。元自由六セルの真正`pentagon : l→r`と生逆元`symm pentagon : r→l`を交互に四つ合成し、全く同じ元六セルraw始終点に対し、**結合子3段と2段の二つの真正七セル履歴**を構成した。
