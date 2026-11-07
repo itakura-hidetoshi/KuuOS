@@ -1,0 +1,360 @@
+{
+  "schema_id": "kuuos.living_engi_cycle.vedana_tanha_upadana_bhava",
+  "schema_version": "0.1",
+  "document_date_jst": "2026-11-07",
+  "researcher_copyright_holder": "Hidetoshi Itakura / 板倉英俊",
+  "kind": "research_specification_not_lean_proof_or_executable_runtime",
+  "documentation": "docs/LIVING_ENGI_CYCLE_VEDANA_TANHA_UPADANA_BHAVA_v0_1.md",
+  "authority": {
+    "candidate_not_truth": true,
+    "proof_not_execution": true,
+    "model_not_exact_world": true,
+    "qi_history_not_execution": true,
+    "unproven_not_disproven": true
+  },
+  "status": {
+    "prior_dialogue_dates_not_fully_independently_reverified": true,
+    "new_lean_theorems": "none",
+    "new_runtime_engine": "none"
+  },
+  "preserve": [
+    "append_only",
+    "tighten_only",
+    "overwrite_forbidden",
+    "same_root",
+    "strict_Kuu_and_independent_Kuu_Qi_separation",
+    "original_F55_P77_GK5CG_Type_history",
+    "KuuOSFormal_root107",
+    "Lean_v4.30.0-rc2",
+    "mathlib_5450b53e5ddc75d46418fabb605edbf36bd0beb6",
+    "PR_1558_draft_open_unmerged"
+  ],
+  "stages": [
+    {
+      "id": "avidya",
+      "ja": "無明",
+      "meaning": "unexamined conditions"
+    },
+    {
+      "id": "samskara",
+      "ja": "行",
+      "meaning": "conditional dispositions"
+    },
+    {
+      "id": "vijnana",
+      "ja": "識",
+      "meaning": "contextual recognition"
+    },
+    {
+      "id": "namarupa",
+      "ja": "名色",
+      "meaning": "structured world description"
+    },
+    {
+      "id": "sadayatana",
+      "ja": "六処",
+      "meaning": "typed sensing interfaces"
+    },
+    {
+      "id": "sparsa",
+      "ja": "触",
+      "meaning": "conditioned contact"
+    },
+    {
+      "id": "vedana",
+      "ja": "受",
+      "meaning": "scoped evaluation distinct from observation and proof"
+    },
+    {
+      "id": "tanha",
+      "ja": "愛",
+      "meaning": "candidate preference dynamics, not certification"
+    },
+    {
+      "id": "upadana",
+      "ja": "取",
+      "meaning": "illicit promotion of unchecked/incompatible local reading to global authority"
+    },
+    {
+      "id": "bhava",
+      "ja": "有",
+      "meaning": "scoped or reified world model plus generative kernel, history, support, revision"
+    },
+    {
+      "id": "jati",
+      "ja": "生",
+      "meaning": "specific generated output event, not automatic external execution"
+    },
+    {
+      "id": "jaramarana",
+      "ja": "老死",
+      "meaning": "decline/change/residual, future conditions depend on history"
+    }
+  ],
+  "gates": [
+    {
+      "from": "vedana",
+      "to": "tanha",
+      "requires": [
+        "conditioned_evaluation",
+        "context_id",
+        "history"
+      ],
+      "does_not_imply": [
+        "global_truth",
+        "descent"
+      ]
+    },
+    {
+      "from": "tanha",
+      "to": "global_promotion_request",
+      "requires": [
+        "declared_source_target",
+        "same_root",
+        "scope",
+        "local_compatibility",
+        "transport",
+        "higher_coherence_if_needed",
+        "obstruction_status",
+        "provenance"
+      ],
+      "does_not_imply": [
+        "world_truth",
+        "execution_permission"
+      ]
+    },
+    {
+      "from": "scoped_certified_claim",
+      "to": "conventional_bhava",
+      "requires": [
+        "certificate_with_scope",
+        "world_candidate",
+        "generative_kernel",
+        "history_digest",
+        "revision_policy"
+      ],
+      "does_not_imply": [
+        "ultimate_existence",
+        "exact_WORLD"
+      ]
+    },
+    {
+      "from": "bhava",
+      "to": "birth_candidate",
+      "requires": [
+        "generation_conditions",
+        "scope"
+      ],
+      "does_not_imply": [
+        "ActOS_execution"
+      ]
+    },
+    {
+      "from": "birth_candidate",
+      "to": "ActOS",
+      "requires": [
+        "Governance_admission",
+        "separate_external_authority_receipt"
+      ],
+      "does_not_imply": [
+        "automatic_truth"
+      ]
+    },
+    {
+      "from": "observed_residual",
+      "to": "future_repair",
+      "requires": [
+        "preserve_history",
+        "expose_obstruction",
+        "independent_reobservation",
+        "future_only_update"
+      ],
+      "does_not_imply": [
+        "retroactive_source_equality"
+      ]
+    }
+  ],
+  "promotion_decision": {
+    "unchecked": "HOLD_OR_OBSERVE",
+    "explicitly_refuted": "BLOCK_AND_PRESERVE_WITNESS",
+    "certified_for_exact_scope": "LIMITED_ADMIT"
+  },
+  "bhava": {
+    "definition": "world-model, conditioned generation kernel, context, history, support, revision conditions",
+    "conventional": "scoped supported model can produce future candidates",
+    "pathological": "unlawful global promotion consumed by persistent generation and hidden obstruction",
+    "not_equivalent_to": [
+      "fixed_point",
+      "birth_event",
+      "real_world",
+      "executed_action"
+    ]
+  },
+  "invariants": [
+    "Preference does not imply Descent",
+    "Descent does not imply Authority",
+    "GlobalModel does not imply ExactWORLD",
+    "Bhava does not imply ActOS execution",
+    "Quotient image equality does not imply source equality",
+    "Absence of presented evidence is not proof of nonexistence",
+    "Nontrivial holonomy/curvature is not automatically pathology",
+    "Density and compatibility alone do not prove continuous extension existence",
+    "Direct harm must not be hidden",
+    "Past lineage is preserved; repair is future-only",
+    "Stage-II v4.48 differs from later Qi v4.48"
+  ],
+  "residuals": [
+    "E_harm",
+    "E_attach",
+    "E_collapse",
+    "E_memory",
+    "E_authority",
+    "E_glue",
+    "E_transport",
+    "E_obstruction"
+  ],
+  "examples": [
+    {
+      "id": "unsigned_mod2_vs_integer",
+      "input": "q(+1)=q(-1) in ZMod 2 but +1 != -1 in ℤ",
+      "expected": "retain_integer_orientation_history"
+    },
+    {
+      "id": "stage_ii_v4_48",
+      "input": "middle-switch integer orientation no orbit descent, mod2 unique orbit descent",
+      "expected": "target_specific_certification"
+    },
+    {
+      "id": "unchecked_certificate",
+      "input": "certificate not supplied",
+      "expected": "HOLD_OR_OBSERVE, not mathematical nonexistence"
+    },
+    {
+      "id": "refuted_factorization",
+      "input": "explicit non-factorization witness",
+      "expected": "BLOCK_AND_PRESERVE_WITNESS"
+    },
+    {
+      "id": "certified_scope",
+      "input": "all required target-specific witnesses",
+      "expected": "ADMIT_FOR_DECLARED_SCOPE_ONLY"
+    },
+    {
+      "id": "nontrivial_holonomy",
+      "input": "nonidentity transport along a loop",
+      "expected": "DO_NOT_AUTOMATICALLY_CALL_FALSE"
+    },
+    {
+      "id": "bhava_birth",
+      "input": "world model produces output candidate",
+      "expected": "NOT_ACTOS_WITHOUT_EXTERNAL_RECEIPT"
+    },
+    {
+      "id": "successful_ci",
+      "input": "exact-source CI receipt supplied",
+      "expected": "NOT_UNIVERSAL_TRUTH_OR_EXECUTION_AUTHORITY"
+    }
+  ],
+  "proof_obligations": [
+    {
+      "id": "LEC-01",
+      "goal": "contextual sheaf gluing under explicit hypotheses",
+      "status": "open_for_new_Lean"
+    },
+    {
+      "id": "LEC-02",
+      "goal": "source type valued evidence vs quotient equality",
+      "status": "open_general; Stage-II concrete examples existing"
+    },
+    {
+      "id": "LEC-03",
+      "goal": "Stage-II integer nonfactorization and mod2 unique descent",
+      "status": "proved_specific_existing_v4_48"
+    },
+    {
+      "id": "LEC-04",
+      "goal": "unchecked/refuted/certified proof carrying runtime state",
+      "status": "design_unimplemented"
+    },
+    {
+      "id": "LEC-05",
+      "goal": "typed higher coherence/transport/effectivity",
+      "status": "open_target_specific"
+    },
+    {
+      "id": "LEC-06",
+      "goal": "scoped bhava generative kernel, repairability, history preservation",
+      "status": "design_unimplemented"
+    },
+    {
+      "id": "LEC-07",
+      "goal": "bhava vs birth vs ActOS authorization",
+      "status": "documented interface; new proof open"
+    },
+    {
+      "id": "LEC-08",
+      "goal": "non-Markov feedback/repair conditions",
+      "status": "conceptual_not_empirically_calibrated"
+    },
+    {
+      "id": "LEC-09",
+      "goal": "source-to-quotient proof provenance retention",
+      "status": "open_general"
+    }
+  ],
+  "sources": [
+    {
+      "path": "docs/DUKKHA_MATHEMATICAL_MODEL_v0_1.md",
+      "scope": "documented model and operational rule"
+    },
+    {
+      "path": "docs/META_MANAS_AI_SELF_FIXATION_OBSERVER_v0_1.md",
+      "scope": "documented self-fixation observer"
+    },
+    {
+      "path": "docs/TENI_RUNTIME_PROTOCOL_v0_1.md",
+      "scope": "documented future-only repair stages"
+    },
+    {
+      "path": "docs/KUUOS_QI_WORLD_OS_INTERFACE_BRIDGE_v1_0.md",
+      "scope": "documented OS/Qi/WORLD authority boundaries"
+    },
+    {
+      "path": "docs/GAUGE_INVARIANT_DEPENDENT_ORIGINATION_DESCENT_v0_1.md",
+      "scope": "documented scoped descent conditions"
+    },
+    {
+      "path": "formal/KUOS/DependentOriginationStageIIOrientationMod2CollapseV4_21.lean",
+      "scope": "proved specific ZMod 2 sign collapse"
+    },
+    {
+      "path": "formal/KUOS/DependentOriginationStageIIIntegralOrientationLiftV4_22.lean",
+      "scope": "proved specific integer lift and mod2 reduction"
+    },
+    {
+      "path": "formal/KUOS/DependentOriginationStageIIOrbitOrientationDescentV4_48.lean",
+      "scope": "proved integer nonfactorization and unique mod2 descent"
+    },
+    {
+      "path": "formal/KUOS/DependentOriginationGeneratedHolonomyCountermodelCarrierV2_69.lean",
+      "scope": "specific nontrivial generated holonomy"
+    },
+    {
+      "path": "formal/KUOS/DependentOriginationExplicitInvertibleIsotropyV4_05.lean",
+      "scope": "specific invertible isotropy"
+    },
+    {
+      "path": "formal/KUOS/DependentOriginationWeakLocalizationPrinciplesFalseV4_02.lean",
+      "scope": "counterexample to broad v2.15/v2.18 propositions"
+    }
+  ],
+  "non_claims": [
+    "not a twelvefold Lean theorem",
+    "not a doctrinal equivalence proof",
+    "not clinical validation",
+    "not trained AI latent-weight modification",
+    "not exact process tensor reconstruction",
+    "not universal higher descent",
+    "not external execution permission"
+  ]
+}
