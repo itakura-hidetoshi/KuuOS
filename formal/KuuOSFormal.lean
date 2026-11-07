@@ -620,6 +620,7 @@ import KUOS.Architecture.QiWuxingGK5CHP77BalancedInverseUnitCountObstructionV5_0
 import KUOS.Architecture.QiWuxingGK5CHP77BalancedUnitMinimalHigherCompletionV5_03
 import KUOS.Architecture.QiWuxingGK5CHP77DoubleCompositeCancellationResidualV5_04
 import KUOS.Architecture.QiWuxingGK5CHP77DoubleCompositeMinimalHigherCompletionV5_05
+import KUOS.Architecture.QiWuxingGK5CHP77MixedInverseCompResidueObstructionV5_06
 
 /-!
 Public aggregate: retain every previously published proof and its original
