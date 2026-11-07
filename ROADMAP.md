@@ -1,5 +1,12 @@
 # KuuOS / 空OS — Formal Research Roadmap
 
+## Living Engi Cycle — LEC-09 native F55-shaped source vs selected shadow／2026-11-07
+
+- **[LEC-09 #3254](https://github.com/itakura-hidetoshi/KuuOS/pull/3254) MERGED：** 真正C60北五角形の独立native F55-shaped raw Type値三セル2件について、元sourceで非等・選択E7P4 full-shadow商で等号の既証明を継承。新規 [Lean全文](formal/Kuu/LivingEngi/NativeF55ProofHistoryBoundary.lean) で選択商の非単射、全raw証拠復元の左逆不存在、忠実raw観測者の商経由因数分解不能、LEC-04認証ゲートを介した不正source等式昇格の否定を証明。さらに元のraw proof tree／商観測／sourceEqを**別々のType値証拠**として保存する`NativeF55Trace`を構成。
+- [Exact-source #42357158330](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42357158330)：**10,314 / 10,314 SUCCESS**、Governance／公開API SUCCESS、13件の公理監査は標準公理のみ／sorryAxなし、source/test-merge tree `53242fedbadfce7b34034158c83a4eed572d992e`一致、squash `77f79e0d2676f327ced5adc5dff6220f757a43f5`。公開root107、元source履歴、固定Lean/mathlib、#1558 Draft/OPEN不変。
+- [正式記録](docs/formal/LEC-09-native-F55-proof-history-boundary-verified-20261107.md) · [検証JSON](docs/manifests/living_engi_lec09_verified_20261107.json)。**厳格な未解決課題：** この独立native F55-shaped sourceと旧凍結original F55/P77/GK5CG Type値source間の真正な忠実比較・高次coherence。元ソース自体の同値は、名称や数値shadowからは推論しない。
+
+
 ## Living Engi Cycle LEC-08 VERIFIED — 次はLEC-09／2026-11-07
 
 - **[LEC-08 #3252](https://github.com/itakura-hidetoshi/KuuOS/pull/3252) MERGED：** 独立`Kuu.LivingEngi.HistoryFeedbackRepair` に18定理。`HistoryIndependent ⇔ HasCurrentFactor` を証明し、真正型付き履歴`[snap]`と`[snap,snap]`は**最新snapshotが同一で出力がfalse/trueに分岐する**ことから、現在＋最新記録だけを用いる因数分解を具体的に反証。2回の真正`reviseBhava`で同一source・同一readoutのまま生成候補が異なる例を構成。
