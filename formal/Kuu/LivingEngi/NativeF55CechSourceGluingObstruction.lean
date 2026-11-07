@@ -5,8 +5,9 @@ import Kuu.LivingEngi.NativeF55ProofHistoryBoundary
 
 LEC-09 proved that two distinct genuinely typed native F55 raw three-cell
 histories on the physical north C60 pentagon have the SAME selected E7P4
-shadow observation. LEC-10 puts those exact sources into the existing
-LEC-01 concrete sheaf-of-functions cover and checks the descent levels.
+shadow observation. LEC-10 places those actual SOURCE values into a finite,
+ABSTRACT two-chart cover of a singleton base to check the descent levels.
+This base is NOT a demonstrated geometric open cover of C60 itself.
 
 The two genuine local raw values live on two charts over a common point.
 Their chosen shadows glue, but their actual source proof histories do not.
@@ -56,8 +57,9 @@ theorem nativeF55Observe_preserves_global
   intro i x
   exact congrArg northNativeF55Observe (hg i x)
 
-/-- Two genuine overlapping local charts at one real point, with no
-fabricated quotient surrogate for the native F55 proof histories. -/
+/-- Two abstract overlapping formal charts on a singleton base; only
+the local values (not the chart base) come from genuine north C60 F55
+source histories. No geometric C60 cover is claimed. -/
 def northNativeF55TwoChartCover : Bool → Set Unit :=
   fun _ => Set.univ
 
