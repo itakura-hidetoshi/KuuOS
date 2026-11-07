@@ -1,5 +1,11 @@
 # KuuOS / 空OS — Formal Research Roadmap
 
+## Living Engi Cycle LEC-07 VERIFIED — 次の課題はLEC-08／2026-11-07
+
+- **[LEC-07 #3250](https://github.com/itakura-hidetoshi/KuuOS/pull/3250) MERGED：** `ConventionalBhava`からの正確な`BirthPacket`と、Governance・独立外部receiptの両証拠を必要とする`LicensedRequest`を型で分離。存在必要十分条件、Governance拒否・receipt不能時の負定理、候補あり／認可なしの真正反例、別個のeffect receiptの必要性、旧snapshotを追記した後はfresh-only認可を引き継げない証明を構築。実行・臨床権限は含まない。
+- [exact-source #42348497450](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42348497450)：**10,312／10,312 SUCCESS**、Governance SUCCESS、12定理公理監査は標準公理のみ、`sorryAx`なし、Git tree `8ecac9fb37da15911cf6d7c330980f652997fa75`一致。squash `359bb1c59ff0c137e71979fa57e1a55b5143983d`。初回のLean4構文衝突`matches`→`sourceEq`のみ修正。旧型付きsourceと公開root107不変。
+- [形式証明記録](docs/formal/LEC-07-birth-authorization-verified-20261107.md) · [検証manifest](docs/manifests/living_engi_lec07_verified_20261107.json) · [新規Lean](formal/Kuu/LivingEngi/BirthAuthorization.lean)。**次：LEC-08の履歴依存・観測・修復可能性を正確な条件付き動力系として形式化。LEC-09は元真正source証拠比較の別課題。**
+
 ## Living Engi Cycle — LEC-05/06 形式証明済み・次はLEC-07／2026-11-07 JST
 
 - **[LEC-05 #3247](https://github.com/itakura-hidetoshi/KuuOS/pull/3247) MERGED：** 真正文脈別`F(i)`、明示同型`e_i:F(i)≃A`から`T_{ij}`を構成し、同一性・逆・三重／四重cocycle、真正被覆上のtransport互換性⇔大域readout、独立ゲージ変換での読出しと貼合可否の不変性、非互換性による数学的昇格阻止を証明。exact-source [#42340476422](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42340476422) **10,310/10,310 SUCCESS**、新規13定理標準公理のみ、source/test-merge tree `4f4f5782b3499fcaba493e4bc142d8ddafdc8d6d`一致。squash `18daa92b3e3eeb0200e533413cd1a392b5b41966`。
