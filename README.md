@@ -14,6 +14,18 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — Qi v5.05／合成逆元消去の独立八セル最小補完・整数Vの法4降下／2026-11-07 JST
+
+**[定理PR #3233](https://github.com/itakura-hidetoshi/KuuOS/pull/3233) MERGED。** Qi v5.04で元の七セル型付き履歴の比較不能性を整数`V=sevenTotalReductionCharge`の**2対6**の差で証明した、二組合成逆元消去critical pairに限定し、新しい独立`DoubleCompositeEightCell`へ**唯一の新原始比較`doubleComposite(w)`**を追加した。元`BalancedUnitEightCell`、元F55/P77/GK5CG source、旧商、証拠履歴は変更せず、全旧比較証拠を`previous`で保守的に保存。新商は旧商より**真に粗く**、元の自由七セルTypeの厳密Eqにも昇格しない。
+
+**整数Vの非降下と残余の真正降下：** 新比較の両側は`V=2`対`V=6`なので、整数V自体は新商へ降下できない。一方、**`V mod 4=2`は両側で一致し、全新八セル構成子・型付き文脈で保存**されることをLean4で形式証明。`Quotient.lift`で新商上の真正整数代表値`doubleCompositeHistoryV4`を構成し、従来の`R mod 2`・`U mod 2`も別々のBool値観測量として降下させた。旧二偶奇が固定六セル始終点で連動するv5.04の境界定理も保持。新`doubleComposite × balancedUnit`、`doubleComposite × unitDiamond`の真正混合critical pairは旧商で整数V障害により比較不能、新商で既存型付き`compositeContext`だけで合流。限定`DoubleCompositeCriticalPeak`の全生成・文脈を構造帰納で充填し、真正P77の全raw最終添字へsource付きで輸送した。旧sourceのstrict EqualityInterpreter不存在、新九セル未導入、大域thin性非仮定を維持。
+
+**[exact-source CI #42317162670](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42317162670)：Strict Lean 10,304／10,304 SUCCESS、Governance30／30 SUCCESS、新規42宣言の公理監査は標準公理のみ・sorryAxなし、変更Lean warning/error0／0。** 検証source HEAD `45a0afb5dccd797706a1f69a64747567c5b4fdda`、source/test-merge tree `e7d00aa9c1a667666ae0ec595a128146e41284a5`完全一致。定理squash `ff405462d271eae6d1f0466cbb5d5017c0527f3b`。公開root107、保護PR #1558 Draft／OPEN／未マージを維持。
+
+[正式証明記録](docs/formal/Qi-v5_05-original-P77-double-composite-minimal-higher-completion.md) · [Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77DoubleCompositeMinimalHigherCompletionV5_05.lean)
+
+**次候補Qi v5.06：** 新商に残る`V mod 4`と二つの連動する偶奇を観測し、現行の全型付き比較生成元で充填可能な範囲を確認する。比較不能性が構成的に証明できた場合にのみ、別の独立presentationに必要最小限の新比較を追加する。元sourceのstrict Eqと高次商Eqは同一視しない。
+
 ## 最新のLean定理統合 — Qi v5.04／二偶奇の境界依存・合成逆元消去の残余整数V障害／2026-11-07 JST
 
 **[定理PR #3231](https://github.com/itakura-hidetoshi/KuuOS/pull/3231) MERGED。** 元の自由六セルraw構文で`symm`と`trans`の出現回数を数える`F`を定義し、元の13構成子をもつ任意の七セル履歴`H:c→d`について **`(F(c)+R(H)+U(H)) mod 2 = F(d) mod 2`** を構造帰納で形式証明した。したがって固定された真正六セル始終点をもつ任意の二つの平行七セル履歴では、**`R mod 2`が一致することと`U mod 2`が一致することは同値**。二つのBool観測量を無条件に独立な二ビットとは扱わない。
