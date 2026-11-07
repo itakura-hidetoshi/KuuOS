@@ -625,6 +625,8 @@ import KUOS.Architecture.QiWuxingGK5CHP77MixedResidueMinimalHigherCompletionV5_0
 import KUOS.Architecture.QiWuxingGK5CHP77MixedResidueBalancedUnitSupplementV5_07
 import KUOS.Architecture.QiWuxingGK5CHP77InversePentagonAssociatorObstructionV5_08
 
+import KuuOSFormal.HistoricalNativeF55CommonShadowLEC12
+
 /-!
 Public aggregate: retain every previously published proof and its original
 statement/assumptions, alongside the independent Kuu core. KuuOSStrict is the
