@@ -8,6 +8,14 @@
 
 English: KuuOS develops a general mathematical program for dependent origination, contextual transport, presentation localization, effective descent, higher coherence, and explicit obstructions. The later C60 geometry is a concrete testbed, **not the origin or unique model of the general theory**.
 
+## Qi v5.17 — 真正十一セル左右逆元往復・最小第十二セル・whiskering strict局所整合／2026-11-08 JST
+
+**[定理PR #3286](https://github.com/itakura-hidetoshi/KuuOS/pull/3286) MERGED。** Qi v5.16の真正交換第十一セル`Xi`と反転の左右生往復`Xi;Xi⁻¹`／`Xi⁻¹;Xi`はそれぞれ反射第十一セルと**raw Type値として非等**。元の第十セル証拠を変更せず、独立`MixedExchangeInverseTwelveCell`で両往復に2種類の局所第十二セル比較を追加。さらに左右whiskeringの反射十一セルと、whiskering済みの原第十セル上の反射十一セルのraw差異を示し、2種類の型付きwhisker strict整合生成元を追加した。計19種類の第十二セル構成子（局所4・閉包15）。
+
+`mixedExchangeInverseTwelfthSetoid`／選択商では左右逆元往復と対応反射のクラスが一致するが、raw十一セル値に戻す全左逆復元は不存在。独立観測量`eleventhTenSymmEventCount`を**全19構成子で保存**し、真正`Quotient.lift`を構成。`tenSymm (strict rfl)`の出現数1と反射の0という**独立した残存障害**から、選択第十二セルの非global-thin性と商クラス差異を形式証明。v5.16の旧十セル二往復障害`(2,0)`／`(0,2)`は従前通り保持。任意の元P77 final raw indexで真正GK5CG long/short Type値と元source厳密同一視no-goも保存。左右whiskeringを逆順に合成した場合の境界interchangerは**未証明**で、無条件の同一視を導入していない。
+
+[Exact-source CI #42422300901](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42422300901)：**Strict Lean 10,330/10,330 SUCCESS、Governance 30/30 SUCCESS**、新規28宣言の`#print axioms`は標準`propext`・`Classical.choice`・`Quot.sound`のみまたは公理不要、sorryAxなし、変更Lean warning/error 0/0。source `0538a76081132a1ce6fa2ddac44cdfd07d900d13`／test-merge `695a5175cdcbd9733b8b035d26e5422c2c012b49`のGit tree `ad73b9aed37b9e06d76401313d3b339ec7f1ef7c`完全一致、squash `580f757b87f2857cc83f08f25d01d715b78e3e05`。公開root107・Lean/mathlib pin・#1558 Draft維持。[正式記録](docs/formal/Qi-v5_17-original-eleventh-inverse-twelfth-whisker-coherence-verified-20261108.md)・[Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77ExchangeInverseMinimalTwelfthV5_17.lean)。次はQi v5.18：真正raw境界を揃えた左右whiskering overlapの局所interchanger。
+
 ## Qi v5.16 — 元P/M交換×九セル単位の最小第十一セル・残存十セル障害／2026-11-08 JST
 
 **[定理PR #3284](https://github.com/itakura-hidetoshi/KuuOS/pull/3284) MERGED。** Qi v5.15で元の型付き第十セル二経路`pmLeftUnitCriticalExchangeThenUnit`／`pmLeftUnitCriticalUnitThenExchange`は、生のType値として厳密に異なっていた。元の証拠を改変せず、独立`MixedExchangeUnitElevenCell`に**一種類だけの新原始`exchangeUnit`**を追加し、全14構成子の型付き文脈閉包を構成。選択十一セル商では両経路を比較可能にしたが、生十セルstrict Eqには昇格しない。
