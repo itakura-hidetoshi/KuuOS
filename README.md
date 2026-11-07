@@ -60,6 +60,14 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — Qi v5.09／真正四重五角形の独立八セル最小補完・三残余法2降下／2026-11-07 JST
+
+**[Qi v5.09定理PR #3270](https://github.com/itakura-hidetoshi/KuuOS/pull/3270) MERGED。** Qi v5.08で証明した真正元自由六セルの四重五角形（三段結合子・二段結合子）によるΦ=1対0の新障害を、旧八セルと別の独立`PentagonAssocEightCell`に**原始比較`fourfoldPentagon`1種類だけ**を付加して充填した。全旧`MixedResidueEightCell`証拠を`previous`で型付き保存し、逆・鎖・左右whiskering・inverse/composite文脈まで閉包する。現行新商は旧商より真に粗く、旧Φは新商へ降下しないが、**V mod2（ℤ値）、R mod2・U mod2（Bool値）は全新構成子で保存し、三つの真正`Quotient.lift`と代表計算を証明**。具体的`fourfoldPentagon × mixedResidue`混合critical pairも、旧比較不能・新比較可能を型付きで証明した。真正P77最終raw添字へ元GK5CG source五セル値を保持して輸送。元source strict Eq、九セル、大域thin性は導入しない。
+
+**[Exact-source CI #42371991526](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42371991526)：Strict Lean 10,322／10,322 SUCCESS、Governance 30／30 SUCCESS、新規27宣言公理監査は標準公理のみ・sorryAxなし、変更Lean warning/error 0／0、source/test-merge Git tree `ec018c349001e54318585f64f65a624e98382319`完全一致。** 検証source `3de09e9ad7f8e5c531b37b66612f8a3ed379be03`、squash `8b083af64228e20794fe9a07b4814edaa5b748de`。Lean v4.30.0-rc2／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、root107、保護#1558 Draft／OPEN／未マージ維持。
+
+[正式証明記録](docs/formal/Qi-v5_09-original-P77-fourfold-pentagon-minimal-eighth-completion-verified-20261107.md) · [Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77FourfoldPentagonMinimalHigherCompletionV5_09.lean)。**次段Qi v5.10：** 新商の残余不変量と局所critical familyを探索し、必要な場合のみ新比較を追加。
+
 ## Qi v5.07 #3238 正本照合マージ — 元PR履歴保持・V法2整数／Bool観測量の互換証明／2026-11-07 JST
 
 **[原PR #3238](https://github.com/itakura-hidetoshi/KuuOS/pull/3238) MERGED。** 当初の783行・43宣言と正本Qi v5.07定理#3237を全文照合し、**重複する30宣言をmainへ再導入せず**、旧ブランチのコミット履歴を通常の二親マージコミットで保持して衝突解消。旧版固有のbalancedUnit局所比較・整数V非降下はすでに#3240/#3241で証明統合済み。今回、残存していた`ℤ`値 `mixedResidueHistoryV2` の真正`Quotient.lift`、U偶奇Bool observer旧名、双方の代表計算・V法2整数／Bool全class互換定理を**新規補完Lean7宣言**として形式化。元`MixedResidueEightCell`・元F55/P77/GK5CG・旧八セルType・source strict Eqは変更せず、重複生成元なし。公開root107・保護PR #1558維持。
