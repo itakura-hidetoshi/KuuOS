@@ -3,7 +3,7 @@ import KUOS.Architecture.QiWuxingGK5CHP77FourfoldPentagonMinimalHigherCompletion
 /-!
 Qi v5.10 — ORIGINAL FOURFOLD-PENTAGON × MIXED-RESIDUE CRITICAL DIAMOND.
 
-Use exactly the true Qi v5.08 three-/two-associator SevenRewrite
+Use exactly the true Qi v5.08 three- and two-associator SevenRewrite
 values and the original Qi v5.06 mixed-residue pair. Their four
 type-correct congrComp combinations constitute a concrete critical
 square in the same original, free sixth-cell source and target.
