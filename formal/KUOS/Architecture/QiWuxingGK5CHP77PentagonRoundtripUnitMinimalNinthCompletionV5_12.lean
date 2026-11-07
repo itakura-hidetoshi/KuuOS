@@ -173,6 +173,11 @@ theorem ninthPentagonRoundtrip_rawGap (l r : W) :
     (fun q => ninthPrimitiveEventCount true
       (pentagonAssocPrimitiveTrace q)) heq
   have vals := ninthPentagonRoundtripVsReflexiveCounts l r
+  change
+    ninthPrimitiveEventCount true
+        (pentagonAssocPrimitiveTrace (ninthPentagonRoundtrip l r)) =
+      ninthPrimitiveEventCount true
+        (pentagonAssocPrimitiveTrace (ninthPentagonReflexive l r)) at h
   rw [vals.1, vals.2] at h
   omega
 
@@ -335,7 +340,6 @@ theorem pentagonCancelNineCell_preservesPentagonParity
   | cancelPentagon =>
       have vals := ninthPentagonRoundtripVsReflexiveCounts long short
       rw [vals.1, vals.2]
-      decide
   | reverse alpha ih => exact ih.symm
   | chain alpha beta ih ih' => exact ih.trans ih'
   | reverseContext alpha ih =>
@@ -430,8 +434,11 @@ theorem pentagonCancelNinthRoundtripParityValues (l r : W) :
         (pentagonCancelNinthClass (ninthPentagonReflexive l r)) = 0 := by
   refine ⟨?_, ?_, ?_, ?_⟩ <;>
     simp only [pentagonCancelNinthPentagonParity_onClass,
-      pentagonCancelNinthMixedCount_onClass] <;>
-    rfl
+      pentagonCancelNinthMixedCount_onClass]
+  · rw [(ninthPentagonRoundtripVsReflexiveCounts l r).1]
+  · rw [(ninthPentagonRoundtripVsReflexiveCounts l r).2]
+  · rfl
+  · rfl
 
 /-- ACTUAL old mixed-residue comparison, followed by its formal
 eighth inverse, still has the same true seven-cell endpoints as
