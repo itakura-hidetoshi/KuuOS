@@ -8,6 +8,14 @@
 
 English: KuuOS develops a general mathematical program for dependent origination, contextual transport, presentation localization, effective descent, higher coherence, and explicit obstructions. The later C60 geometry is a concrete testbed, **not the origin or unique model of the general theory**.
 
+## Qi v5.12 — 真正五角形往復の最小九セル補完・P偶奇とM回数の降下／2026-11-07 JST
+
+**[定理PR #3276](https://github.com/itakura-hidetoshi/KuuOS/pull/3276) MERGED。** 元`PentagonAssocEightCell`の真正五角形往復（P出現2回）と反射八セル（P出現0回）は、旧`FourfoldMixedNineCell`では比較不能だった。独立`PentagonCancelNineCell`に**一種類だけの原始比較`cancelPentagon`**を追加し、全旧九セル証拠を`previous`で保存。新商では往復と反射が同一クラスとなる一方、元のstrict生八セルEqは不成立のまま。Pの出現回数そのものは降下不能だが、**P偶奇・M出現回数は全九セル構成子で保存され、真正`Quotient.lift`で降下**する。M往復（M=2）と反射（M=0）は新九セルでも比較不能で、global thinnessは導入していない。
+
+さらに真正四重五角形×mixedResidueの同一元七セル端点で、新P消去と旧P/M交換の**局所critical overlap**を型付き九セルで構成。二つの生九セル完成経路は原始trace`[cancel,interchange]`対`[interchange,cancel]`を持ち、raw九セルstrict Eqは不成立。ただし**第十セル比較の不存在は未証明**。元P77/GK5CG long/shortの真正Type値と元sourceのstrict Eq障害を保持。
+
+[exact-source CI #42377984007](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42377984007)：**Strict Lean 10,325/10,325 SUCCESS、Governance 30/30 SUCCESS、新規47宣言の公理監査は標準公理のみ、`sorryAx`なし、変更Lean warning/error 0/0、source/test-merge tree `5e9c968772c0821dd81187a6390c595f220e2d79`完全一致。** 検証source `9fe20a2a5cff0cec2123f53660d45349c52d4d2e`、定理squash `14f39d2200e6e4e0f2c9ec6daba818086bd25063`。[Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77PentagonRoundtripUnitMinimalNinthCompletionV5_12.lean) · [正式証明記録](docs/formal/Qi-v5_12-original-pentagon-roundtrip-unit-ninth-completion-verified-20261107.md)。公開root107、固定Lean/mathlib、保護PR #1558 Draft/Open不変。**次：Qi v5.13、M往復消去とP消去の高次重なりを探索。**
+
 ## Qi v5.11 — 真正四重五角形 × mixedResidueの最小九セル補完・出現回数降下／2026-11-07 JST
 
 **[定理PR #3274](https://github.com/itakura-hidetoshi/KuuOS/pull/3274) MERGED。** 前段Qi v5.10で生の八セル完成経路として不等だった `PThenM` と `MThenP` に対し、独立 `FourfoldMixedNineCell` の**一種類だけの真正原始九セル** `interchange` を構成。元八セルをstrict Eqにせず、選択された九セル商では両履歴が同一クラスとなる。順序付きイベントtrace `[P,M]` / `[M,P]` は新商には降下せず、**PとMそれぞれの出現回数は全九セル構成子について保存され、実際の `Quotient.lift` で降下**する。一方、元八セルのpentagon往復（P出現2回）と反射比較（P出現0回）には今回の九セル比較が存在せず、global thinnessは成立しない。任意の元P77 final raw indexにも真正GK5CG long/shortから型付き特殊化し、元source strict Eqの障害を保持。
