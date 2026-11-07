@@ -1,0 +1,92 @@
+{
+  "schema_id": "kuuos.living_engi_cycle.lec09_native_f55_nonreconstruction",
+  "schema_version": "0.1",
+  "date_jst": "2026-11-07",
+  "author": "Hidetoshi Itakura / 板倉英俊",
+  "kind": "source_scoped_formal_proof_receipt_not_runtime_license",
+  "status": "exact_source_lean_verified_and_merged",
+  "theorem_pr": 3254,
+  "source": "formal/Kuu/LivingEngi/NativeF55ProofHistoryBoundary.lean",
+  "native_source_input": "formal/Kuu/F112/PolygonNativeF55ChargeRigidity.lean",
+  "verified_source_sha": "cf75dfe803b04e253dfe59fcd5da5b487794c478",
+  "test_merge_sha": "cc68edcc8496c340d1f59d94433176429efa7f09",
+  "equal_source_test_merge_tree": "53242fedbadfce7b34034158c83a4eed572d992e",
+  "merged_main_sha": "77f79e0d2676f327ced5adc5dff6220f757a43f5",
+  "ci": {
+    "run_id": 42357158330,
+    "conclusion": "success",
+    "lean_jobs": 10314,
+    "lean_completed": 10314,
+    "governance": "success",
+    "independent_kuu_public_api": "success",
+    "workflow_integrity": "success",
+    "new_theorems": 15,
+    "print_axioms_count": 13,
+    "axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "sorryAx": false,
+    "warning_or_error_in_new_lean": 0
+  },
+  "actual_witness": {
+    "type": "Kuu.F112.Physical.KuuNativeF45Tree.DepthRotationRoute.PresentedCell of real north C60 parallel F54 routes",
+    "raw_first": "northNativeF55PentagonCell",
+    "raw_second": "northNativeF55PentagonWithUnit",
+    "raw_equality": "provably_not_equal",
+    "selected_quotient": "NativeF55ThreeHom by equality of (Int × Int) × ZMod 2 shadow",
+    "selected_quotient_images": "provably_equal",
+    "historical_frozen_original_source_equivalence": "not_proved"
+  },
+  "new_statements": [
+    "nativeF55_raw_distinct",
+    "northNativeF55_observed_equal",
+    "nativeF55_same_observation_distinct_raw",
+    "nativeF55_raw_observer_not_injective",
+    "nativeF55_no_total_raw_reconstruction",
+    "nativeF55_no_shadow_left_inverse",
+    "nativeF55_downstream_observer_collapses_source",
+    "nativeF55_no_faithful_observer_via_shadow",
+    "nativeF55_identifying_observer_not_injective",
+    "nativeF55_source_equality_not_admissible",
+    "nativeF55_quotient_equal_but_source_promotion_blocked",
+    "nativeF55TraceReadout_eq_observe",
+    "nativeF55Trace_witnesses_distinct",
+    "nativeF55Trace_readout_collision",
+    "nativeF55TraceReadout_not_injective"
+  ],
+  "scope_constraints": [
+    "actual independent native F55-shaped north C60 raw proof syntax",
+    "selected E7P4 shadow quotient only",
+    "no total left-inverse via chosen quotient",
+    "no faithful raw observer factors through the chosen quotient",
+    "no illicit promotion of raw equality using LEC-04 proof gate",
+    "proof-carrying raw-plus-observation trace retains source data"
+  ],
+  "non_claims": [
+    "no proven equivalence with frozen historical original F55/P77/GK5CG",
+    "no universal claim against other richer faithful receivers",
+    "no invalidation of the lawful quotient",
+    "no general higher stack descent or global higher filler",
+    "no execution, empirical or clinical authority"
+  ],
+  "preservation": [
+    "append_only",
+    "tighten_only",
+    "overwrite_forbidden",
+    "same_root",
+    "independent_Kuu_without_legacy_Qi_Gray_imports",
+    "KuuOSFormal_107_roots",
+    "original_F55_P77_GK5CG_Type_provenance_unmodified",
+    "Lean_v4.30.0-rc2",
+    "mathlib_5450b53e5ddc75d46418fabb605edbf36bd0beb6",
+    "PR_1558_Draft_Open_Unmerged"
+  ],
+  "next_frontier": [
+    "construct actual typed historical-old-source to independent-native source comparison with separate source/target coherence",
+    "evaluate observables preserving original proof-relevant phase and obstruction",
+    "maintain proof-vs-observation-vs-authority boundaries"
+  ],
+  "formal_record": "docs/formal/LEC-09-native-F55-proof-history-boundary-verified-20261107.md"
+}
