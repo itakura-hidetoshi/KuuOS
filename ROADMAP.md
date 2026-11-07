@@ -3,6 +3,18 @@
 
 
 
+## 最新のLean定理統合 — Qi v5.06／三整数・二偶奇不可視の混合逆元消去V法4障害／2026-11-07 JST
+
+**[定理PR #3235](https://github.com/itakura-hidetoshi/KuuOS/pull/3235) MERGED。** Qi v5.05の独立`DoubleCompositeEightCell`で保存される**`V mod 4`の新たな真正障害**を、元の自由七セル13構成子だけから構成した。v5.04の「合成逆元を直接消す／分配して消す」critical pairと、v5.02の「`inverseRight(refl)`／`inverseId;rightUnit`」を横合成すると、元R・U偶奇は両経路0で一致し、**V整数は2対4、V mod4は2対0**となる。ただし旧Kが0対1なので、**真正v4.95 `inverseComp`左critical pairを逆順に貼り、K差を相殺した**。
+
+**三因子の強い形式証明：** 同じ元六セルraw始終点を持つ二つの元Type値七セル履歴`sevenMixedResidueFirst/Second`について、**元三整数`(T,J,K)=(2,0,1)`が両側一致、`R mod2=0`両側一致、`U mod2=1`両側一致、しかし`V=3`対`V=5`で`V mod4=3`対`1`**をLean4で証明。現行`DoubleCompositeEightCell`の全型付き比較で法4剰余は保存されるため、**いかなる比較も存在せず、選択商のclassが相異なる**。V mod4は旧三整数・二偶奇の**任意の非線形関数**として普遍的に因子化しない。さらに**任意の真正P77最終raw添字**へ元GK5CG六セルsourceを保持したまま輸送し、元source strict EqualityInterpreter不存在を維持した。新原始八セル・九セルや大域thin性は追加・仮定しない。
+
+**[exact-source CI #42319414530](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42319414530)：Strict Lean 10,305／10,305 SUCCESS、Governance30 job全完了・失敗なし、26宣言の公理監査は標準公理のみ・sorryAxなし、変更Lean warning/error0／0。** 検証source HEAD `5520d5141d4a5c9fccfb8f2d484bb1171ba3bfc6`、source/test-merge Git tree `613d4cd02a2b3d07ee023ba23d6967e77ed7623d`完全一致。定理squash `31d12d464121206bba9b8a1711bef476bd9ae52f`。公開root107、保護PR #1558 Draft／OPEN／未マージを維持。
+
+[正式証明記録](docs/formal/Qi-v5_06-original-P77-mixed-inverse-compensation-Vmod4-obstruction.md) · [Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77MixedInverseCompResidueObstructionV5_06.lean)
+
+**次候補Qi v5.07：** 証明済みの三因子混合逆元消去obstructionに対し、既存型付き比較による局所合流を先に精査し、必要な場合に限って別の独立presentationへ最小原始比較を追加する。その場合でも元sourceのstrict Eqと高次商Eqを混同せず、法4非降下と次の残余保存量を分離して形式証明する。
+
 ## 最新のLean定理統合 — Qi v5.05／合成逆元消去の独立八セル最小補完・整数Vの法4降下／2026-11-07 JST
 
 **[定理PR #3233](https://github.com/itakura-hidetoshi/KuuOS/pull/3233) MERGED。** Qi v5.04で元の七セル型付き履歴の比較不能性を整数`V=sevenTotalReductionCharge`の**2対6**の差で証明した、二組合成逆元消去critical pairに限定し、新しい独立`DoubleCompositeEightCell`へ**唯一の新原始比較`doubleComposite(w)`**を追加した。元`BalancedUnitEightCell`、元F55/P77/GK5CG source、旧商、証拠履歴は変更せず、全旧比較証拠を`previous`で保守的に保存。新商は旧商より**真に粗く**、元の自由七セルTypeの厳密Eqにも昇格しない。
