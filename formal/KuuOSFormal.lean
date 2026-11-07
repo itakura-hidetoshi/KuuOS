@@ -630,3 +630,4 @@ internal Kuu import aggregate; publishing retained proofs does not make their
 imports prerequisites of Kuu. Existing proof authority is not reset by this
 build-wiring repair. No theorem is reproved or renamed here.
 -/
+import KUOS.Architecture.QiWuxingGK5CHP77MixedResidueBalancedUnitSupplementV5_07
