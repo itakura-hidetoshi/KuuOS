@@ -119,7 +119,7 @@ CERTIFIED : exact scope and sufficient proofs supplied → limited ADMIT
 | [Stage-II v4.21](../formal/KUOS/DependentOriginationStageIIOrientationMod2CollapseV4_21.lean) | `ZMod 2` で向き `+1=-1`、符号情報が潰れる | 忘却の位置を明示 |
 | [Stage-II v4.22](../formal/KUOS/DependentOriginationStageIIIntegralOrientationLiftV4_22.lean) | 符号を `ℤ` で区別、`ZMod.cast` は代表元選択であって環準同型ではない、mod 2への還元を証明 | 真正リフトと正当な還元を分離 |
 | [Stage-II v4.48](../formal/KUOS/DependentOriginationStageIIOrbitOrientationDescentV4_48.lean) | middle-switchで整数向きが反転→軌道商への因数分解は**不可**、mod 2向きは**一意に降下** | 保存量ごとにdescentを判定 |
-| [v2.69](../formal/KUOS/DependentOriginationGeneratedHolonomyCountermodelCarrierV2_69.lean) | 真正な非自明generated holonomyの有限反例 | 非自明holonomyそのものを病理としない |
+| [v2.69](../formal/KUOS/DependentOriginationGeneratedHolonomyCountermodelEvaluationV2_69.lean) | 真正な非自明generated holonomyの有限反例 | 非自明holonomyそのものを病理としない |
 | [v4.05](../formal/KUOS/DependentOriginationExplicitInvertibleIsotropyV4_05.lean) | 非自明な可逆isotropyと自然自己同型の具体的証拠 | 高次coherenceの差異を保持 |
 | [v4.02](../formal/KUOS/DependentOriginationWeakLocalizationPrinciplesFalseV4_02.lean) | v2.15/v2.18の弱局所化／弱普遍原理は一般には偽となる反例 | 未証明命題を公理扱いしない |
 
