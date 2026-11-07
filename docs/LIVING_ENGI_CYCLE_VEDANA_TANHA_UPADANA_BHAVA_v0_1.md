@@ -450,3 +450,15 @@ HasGlobal U s
 [正式証明記録](formal/LEC-13-historical-native-F54-F55-90-edge-support-boundary-verified-20261107.md) · [検証manifest](manifests/living_engi_lec13_verified_20261107.json)。
 
 **次のLEC-14：** 元F47の真正F55 squareと独立native C60 hexagon F55 squareの**実際にinhabitedな**正確な共通shadow／型付き証拠比較を構成し、元F54からnative F54へのsource/target輸送、幾何学的支持・P77/GK5CG高次証拠まで拡張可能かを別々に判定する。これはČech `H¹` の非零性、全高次descent、実AI更新、臨床効果、ActOS権限を証明しない。
+
+
+## 23. 2026-11-07 — LEC-13B：真正swallowtailによる型付きwitness可逆輸送と元F55非復元性（証明済み）
+
+**[定理PR #3263](https://github.com/itakura-hidetoshi/KuuOS/pull/3263) MERGED**。既存V5.101の同一original `F,G,η,ε`・forward/reverse swallowtail・interchangerとV5.112の正確なunit/counit modification exchangeを保持し、真正圏同型 `e:a≅b` による `f ↦ e.inv ≫ f ≫ e.hom` を型付きwitnessの可逆同値として構成。合成・単位・逐次輸送・有限履歴の完全復元、通常関数層のoverlap compatibilityと`HasGlobal`の保存反射を証明。前後swallowtail defectの単位化と**両whiskering方位の現実の変更証明**によって、元のunit/counit三角形境界での輸送が実際の指定modificationと一致する。これは任意の高次stack gluingや元F54↔native F54完全同値ではない。
+
+**LEC-12由来の真正元F55 raw collisionは可逆な受信側輸送の後も残る。** 指定共通shadowだけを介する任意のreceiverでは元rawの全域逆復元は不可能。損失前の元Type値とその履歴を「数値一致」の名で同一視しない。独立native、C60物理Edge、P77/GK5CG高次履歴・authorityは別の証拠義務として保持する。
+
+[exact-source CI #42366081346](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42366081346) **Strict Lean 10,319/10,319 SUCCESS、Governance 30/30 SUCCESS**、17新定理＋3監査対象構成の`#print axioms` **20件は標準3公理のみ、sorryAxなし、変更Lean warning/error 0/0**。source/test-merge tree `b789374a8ad30155ae08fd7e35f660ed9e1e7a7f`一致、squash `703d5c1aa6d8b7da5f66accaea377d85e84dbff4`。初回`rw`失敗は既存交換等式を`congrArg`で外側に持ち上げて修正。別のCI未起動原因は集約importのマージ衝突であり、mainの真正F54F47Supportと新swallowtail双方を残すmerge commitで解決した。前段§22の物理90辺定理には既存`native_decide`6公理が残るため、本20宣言の標準公理結果と**区別**する。
+
+[正式記録](formal/LEC-13B-original-swallowtail-witness-transport-verified-20261107.md) · [manifest](manifests/living_engi_lec13b_swallowtail_transport_verified_20261107.json)。**次のLEC-14** は、歴史的元F47の真正F55 squareと独立native C60 hexagon squareの実際にinhabitedな型付き比較、境界・幾何支持・高次証拠義務を分離して検証する。公開root107／固定toolchain／保護#1558 Draft/Open/未マージ／独立KuuOSStrict不変。
+
