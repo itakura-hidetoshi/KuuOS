@@ -14,6 +14,18 @@ English: KuuOS develops a general mathematical program for dependent origination
 
 
 
+## 最新のLean定理統合 — Qi v5.08／自由四重五角形結合子指紋による新しい真正高次obstruction／2026-11-07 JST
+
+**[定理PR #3242](https://github.com/itakura-hidetoshi/KuuOS/pull/3242) MERGED。** 現行独立`MixedResidueEightCell`の全比較構成子を、元v4.91の22規則からv5.07のmixedResidueまで**型付き帰納で完全検査**した。元自由六セルの真正`pentagon : l→r`と生逆元`symm pentagon : r→l`を交互に四つ合成し、全く同じ元六セルraw始終点に対し、**結合子3段と2段の二つの真正七セル履歴**を構成した。
+
+局所associator指紋`Φ`は、元七セル`assoc(symm pentagon,pentagon,symm pentagon)`だけを整数1として計数し、反転は符号反転、trans/congrCompは加法で追跡する。**旧zigzagDiamond、元Triangle/InverseComp/Identity/UnitDiamond/BalancedUnit/DoubleComposite、現行mixedResidueを含む全八セル生成元でΦを保存**し、真正`Quotient.lift`を構成。具体的な二履歴では`Φ=1`対`0`だが**`(V mod2,R mod2,U mod2)=(0,0,0)`で完全一致**。したがって現行`MixedResidueEightCell`で比較不存在・新商classの不一致をLean4で証明し、三残余が比較可能性の完全判定量ではなく、新Φを三残余の**任意の非線形関数**として復元できないことまで確定。真正P77最終raw添字の各long/short元五セルへsource付きで輸送し、元source strict EqualityInterpreter不存在を保持した。
+
+**[exact-source CI #42337686643](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42337686643)：Strict Lean 10,308／10,308 SUCCESS、Governance 30／30 SUCCESS、新規26宣言の公理監査は標準公理のみ／依存なし、sorryAxなし、変更Lean warning/error 0／0、source/test-mergeファイル差分なし。** 検証source HEAD `820a98e84470ec58fa3a8cf5aa2afabbf442d8f9`、test-merge `3bcc8a54328aa0d85965ef171f49d5201475e93e`、定理squash `287dfaacd7129c92af4008bf8def9bf5dc464b63`。固定Lean v4.30.0-rc2／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、root107、保護PR #1558 Draft／OPEN／未マージ維持。**新しい九セル・大域thin性・元source strict Eq昇格はしていない。**
+
+[正式証明記録](docs/formal/Qi-v5_08-original-P77-fourfold-inverse-pentagon-associator-obstruction.md) · [Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77InversePentagonAssociatorObstructionV5_08.lean)
+
+**次候補Qi v5.09：** この新たな四重結合付けobstructionを充填するための独立高次presentationの必要性と、最小の比較生成元・保存量・source authorityを検証。既存比較で合流するcritical pairを除外してから、実際に必要な比較のみ追加する。
+
 ## Qi v5.07 追補 — mixedResidue × balancedUnit の真正局所合流・整数V非降下／2026-11-07 JST
 
 **[追補定理PR #3240](https://github.com/itakura-hidetoshi/KuuOS/pull/3240) MERGED。** 正式Qi v5.07 [#3237](https://github.com/itakura-hidetoshi/KuuOS/pull/3237)／[記録#3239](https://github.com/itakura-hidetoshi/KuuOS/pull/3239)を変更せず、旧重複PR #3238（**Draft／OPEN／未マージ、統合禁止**）の783行・43宣言・全Leanエラー・依存定理を照合し、**30重複宣言を除外**。真正な `mixedResidue × balancedUnit` の非重複補完と整数 `V=3` 対 `V=5` の新商への非降下のみ、新規Leanモジュールで形式証明した。旧`DoubleCompositeEightCell`ではV法4障害によって比較不能、新`MixedResidueEightCell`では**既存の唯一の原始生成元**と旧型付き比較を合成して比較可能。選択した`MixedResidueBalancedCriticalPeak`全構成子の合流と商class一致まで証明した。独立八セルの生成元を増やさず、元F55/P77/GK5CG、旧Type証拠、source strict Eq、公開root107を維持。
