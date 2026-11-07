@@ -8,6 +8,14 @@
 
 English: KuuOS develops a general mathematical program for dependent origination, contextual transport, presentation localization, effective descent, higher coherence, and explicit obstructions. The later C60 geometry is a concrete testbed, **not the origin or unique model of the general theory**.
 
+## Qi v5.13 — 真正mixedResidue往復九セル補完・残余自由合成obstruction／2026-11-08 JST
+
+**[定理PR #3278](https://github.com/itakura-hidetoshi/KuuOS/pull/3278) MERGED。** 前段で比較不能と証明された真正`mixedResidue`八セル往復（M=2）と反射（M=0）に対し、独立`MixedCancelNineCell`へ**一種類だけの原始`cancelMixed`**を付加。旧`PentagonCancelNineCell`を`previous`で保存し、旧商の厳密な粗化・元八セルstrict Eq非昇格を証明。P/M出現回数の**偶奇は新九セル商へそれぞれ`Quotient.lift`で降下**するが、M回数そのものは降下しない。
+
+さらに整数不変量`ninthResidualChainCharge`を構成し、元八セル自由`chain`の追加+2と元P/M生成元の寄与−1を追跡。旧v5.11・v5.12および新v5.13の**全九セル構成子について保存と商への降下**を証明。反射八セル二つの自由合成は`Q=2`、反射八セル一つは`Q=0`で、新九セルでも比較不能。P/M往復をともに補完してもglobal thinnessは成立しない。真正四重五角形×元mixedResidue文脈では、P消去とM消去の型付き局所ダイヤモンドと、完成した二つの生九セル証明履歴のstrict非同一性を証明（第十セル比較不存在は主張しない）。
+
+[Exact-source CI #42396353401](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42396353401)：**Strict Lean 10,326/10,326 SUCCESS、Governance 30/30、47宣言の標準公理監査、`sorryAx`なし、変更Lean warning/error 0/0、source/test-merge tree `270ba51ded710e6e44c7bd262e0cc0b84101b6a2`一致。** 検証source `da11640fe2550c00ed40a04a4199d08752c546e8`、定理squash `6907e22a7c6a766fc6b63b2a69e92eea4f088d2c`。[Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77MixedRoundtripUnitMinimalNinthCompletionV5_13.lean) · [正式証明記録](docs/formal/Qi-v5_13-original-mixed-roundtrip-ninth-completion-verified-20261108.md)。公開root107、固定Lean/mathlib、保護#1558 Draft/OPEN不変。**次：Qi v5.14、二つの九セル消去経路の第十セル比較。**
+
 ## Qi v5.12 — 真正五角形往復の最小九セル補完・P偶奇とM回数の降下／2026-11-07 JST
 
 **[定理PR #3276](https://github.com/itakura-hidetoshi/KuuOS/pull/3276) MERGED。** 元`PentagonAssocEightCell`の真正五角形往復（P出現2回）と反射八セル（P出現0回）は、旧`FourfoldMixedNineCell`では比較不能だった。独立`PentagonCancelNineCell`に**一種類だけの原始比較`cancelPentagon`**を追加し、全旧九セル証拠を`previous`で保存。新商では往復と反射が同一クラスとなる一方、元のstrict生八セルEqは不成立のまま。Pの出現回数そのものは降下不能だが、**P偶奇・M出現回数は全九セル構成子で保存され、真正`Quotient.lift`で降下**する。M往復（M=2）と反射（M=0）は新九セルでも比較不能で、global thinnessは導入していない。
