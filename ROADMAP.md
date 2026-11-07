@@ -1,7 +1,77 @@
 # KuuOS / 空OS — Formal Research Roadmap
 
+## Living Engi Cycle — LEC-09 native F55-shaped source vs selected shadow／2026-11-07
+
+- **[LEC-09 #3254](https://github.com/itakura-hidetoshi/KuuOS/pull/3254) MERGED：** 真正C60北五角形の独立native F55-shaped raw Type値三セル2件について、元sourceで非等・選択E7P4 full-shadow商で等号の既証明を継承。新規 [Lean全文](formal/Kuu/LivingEngi/NativeF55ProofHistoryBoundary.lean) で選択商の非単射、全raw証拠復元の左逆不存在、忠実raw観測者の商経由因数分解不能、LEC-04認証ゲートを介した不正source等式昇格の否定を証明。さらに元のraw proof tree／商観測／sourceEqを**別々のType値証拠**として保存する`NativeF55Trace`を構成。
+- [Exact-source #42357158330](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42357158330)：**10,314 / 10,314 SUCCESS**、Governance／公開API SUCCESS、13件の公理監査は標準公理のみ／sorryAxなし、source/test-merge tree `53242fedbadfce7b34034158c83a4eed572d992e`一致、squash `77f79e0d2676f327ced5adc5dff6220f757a43f5`。公開root107、元source履歴、固定Lean/mathlib、#1558 Draft/OPEN不変。
+- [正式記録](docs/formal/LEC-09-native-F55-proof-history-boundary-verified-20261107.md) · [検証JSON](docs/manifests/living_engi_lec09_verified_20261107.json)。**厳格な未解決課題：** この独立native F55-shaped sourceと旧凍結original F55/P77/GK5CG Type値source間の真正な忠実比較・高次coherence。元ソース自体の同値は、名称や数値shadowからは推論しない。
 
 
+## Living Engi Cycle LEC-08 VERIFIED — 次はLEC-09／2026-11-07
+
+- **[LEC-08 #3252](https://github.com/itakura-hidetoshi/KuuOS/pull/3252) MERGED：** 独立`Kuu.LivingEngi.HistoryFeedbackRepair` に18定理。`HistoryIndependent ⇔ HasCurrentFactor` を証明し、真正型付き履歴`[snap]`と`[snap,snap]`は**最新snapshotが同一で出力がfalse/trueに分岐する**ことから、現在＋最新記録だけを用いる因数分解を具体的に反証。2回の真正`reviseBhava`で同一source・同一readoutのまま生成候補が異なる例を構成。
+- **履歴保持の修復:** `repairToHistoryIndependent` は既存`FramedSnapshot`の数学的証拠を再認証し、元source／被覆下のreadout／旧履歴の完全追記を保ちながら将来policyの履歴非依存性を証明。任意系の安定化・臨床的効果や実行権限は主張しない。
+- [exact-source CI #42355697499](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42355697499)：**10,313/10,313 SUCCESS、Governance SUCCESS、18件の公理監査は標準公理のみ／sorryAxなし、source/test-merge tree `8ce7d90ca3c0ff02403237624dc202ddb065060f`一致**。初回のLean`decide`失敗は命題不変の`change`正規化で修正。squash `0aff0f1d62e66b82d4f4d680597dbdfa4cecd428`、公開root107・既存F55/P77/GK5CG・#1558 Draft/Open不変。
+- [Leanソース](formal/Kuu/LivingEngi/HistoryFeedbackRepair.lean) · [正式証明記録](docs/formal/LEC-08-nonmarkov-history-repair-verified-20261107.md) · [検証manifest](docs/manifests/living_engi_lec08_verified_20261107.json)。**次：LEC-09の真正元F55/P77/GK5CGのType値履歴・構造的descent証明書を既存sourceと照合して形式化。**
+
+## Living Engi Cycle LEC-07 VERIFIED — 次の課題はLEC-08／2026-11-07
+
+- **[LEC-07 #3250](https://github.com/itakura-hidetoshi/KuuOS/pull/3250) MERGED：** `ConventionalBhava`からの正確な`BirthPacket`と、Governance・独立外部receiptの両証拠を必要とする`LicensedRequest`を型で分離。存在必要十分条件、Governance拒否・receipt不能時の負定理、候補あり／認可なしの真正反例、別個のeffect receiptの必要性、旧snapshotを追記した後はfresh-only認可を引き継げない証明を構築。実行・臨床権限は含まない。
+- [exact-source #42348497450](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42348497450)：**10,312／10,312 SUCCESS**、Governance SUCCESS、12定理公理監査は標準公理のみ、`sorryAx`なし、Git tree `8ecac9fb37da15911cf6d7c330980f652997fa75`一致。squash `359bb1c59ff0c137e71979fa57e1a55b5143983d`。初回のLean4構文衝突`matches`→`sourceEq`のみ修正。旧型付きsourceと公開root107不変。
+- [形式証明記録](docs/formal/LEC-07-birth-authorization-verified-20261107.md) · [検証manifest](docs/manifests/living_engi_lec07_verified_20261107.json) · [新規Lean](formal/Kuu/LivingEngi/BirthAuthorization.lean)。**次：LEC-08の履歴依存・観測・修復可能性を正確な条件付き動力系として形式化。LEC-09は元真正source証拠比較の別課題。**
+
+## Living Engi Cycle — LEC-05/06 形式証明済み・次はLEC-07／2026-11-07 JST
+
+- **[LEC-05 #3247](https://github.com/itakura-hidetoshi/KuuOS/pull/3247) MERGED：** 真正文脈別`F(i)`、明示同型`e_i:F(i)≃A`から`T_{ij}`を構成し、同一性・逆・三重／四重cocycle、真正被覆上のtransport互換性⇔大域readout、独立ゲージ変換での読出しと貼合可否の不変性、非互換性による数学的昇格阻止を証明。exact-source [#42340476422](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42340476422) **10,310/10,310 SUCCESS**、新規13定理標準公理のみ、source/test-merge tree `4f4f5782b3499fcaba493e4bc142d8ddafdc8d6d`一致。squash `18daa92b3e3eeb0200e533413cd1a392b5b41966`。
+- **[LEC-06 #3248](https://github.com/itakura-hidetoshi/KuuOS/pull/3248) MERGED：** `FramedSnapshot`が元Type値局所section、readout、支持証明、昇格certificateを別々に保持。`ConventionalBhava`には履歴全体を受け取る候補カーネルと追記型スナップショット列を与え、再認証した改訂のみ現行WORLDを変更可能とし、旧readout・旧local Type値を履歴に保つ。互換なら有の候補構成、真に不互換なら構成不能を証明。exact-source [#42340907095](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42340907095) **10,311/10,311 SUCCESS**、新規15定理標準公理のみ、source/test-merge tree `7ac9e26dab3f3de25cb784df5ed19577055ca6fc`一致。squash `99861ff740c08a933922337fa0ed75116eadf410`。
+- [正式証明記録](docs/formal/LEC-05-06-typed-transport-bhava-verified-20261107.md) · [機械可読レシート](docs/manifests/living_engi_lec05_06_verified_20261107.json)。**根本的な限界：** `e_i`は**与えられたframe**、任意stack/gerbeの高次降下・元F55/P77 sourceの同一視・生や行為の権威・実際のAI学習は含まない。root107／保護#1558／固定Lean/mathlib／元source履歴を不変に維持。
+- **次の形式化課題：LEC-07**。証拠付き有から生じる候補と、別の外部authorization receiptを必要とする実際のActOS requestを、互いに変換不能な依存型と許可条件で分離する。その先LEC-08非マルコフ帰還、LEC-09原source Type値履歴の比較が残る。
+
+## Research bridge — Living Engi Cycle v0.1（受・愛・取・有／2026-11-07）
+
+[研究仕様](docs/LIVING_ENGI_CYCLE_VEDANA_TANHA_UPADANA_BHAVA_v0_1.md) · [遷移・証拠manifest](docs/manifests/living_engi_cycle_vedana_tanha_upadana_bhava_v0_1.json)。既存Dukkha数理・Meta-Manas・Qi Process Tensorと、歴史的Stage-II v4.21/22/48のmod2符号忘却・整数向き非降下を接続する**docs-onlyの研究整理**。LEC-01–09を個別の未証明／既証明射程として管理し、取の未認証gluingと、有の生成状態を混同しない。形式定理・source Type値履歴・公開root・#1558は変更しない。
+
+
+
+
+
+## Living Engi Cycle — LEC-01/02/04 Lean4形式証明済み／2026-11-07
+
+- **[定理PR #3245](https://github.com/itakura-hidetoshi/KuuOS/pull/3245) MERGED：** 新規独立 `Kuu.LivingEngi.ScopedGluing` に14定理。LEC-01は**全関数の層の具体的なgluing同値・一意性**、LEC-02は**全射商のfiber constancyによる因数分解判定と整数符号`ZMod 2`非降下**、LEC-04は**証拠型付き3状態と認証済みの数学的昇格境界**をLean4で証明。任意のsheaf/stack・高次証拠の効果的降下、有の生成核は未証明。
+- [exact-source CI #42339452994](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42339452994)：**10,309 / 10,309 SUCCESS、Governance SUCCESS、標準公理のみ／sorryAxなし、source/test-merge tree `d16e5d2ed1ae5f69c8f86ce949baac87ea4f12d1`一致**。main統合 `945ad6113ea46ee691bf4edd4b8eb908d047df99`。root107、protected #1558 Draft/Openを維持。
+- [Leanソース](formal/Kuu/LivingEngi/ScopedGluing.lean) · [正式証明記録](docs/formal/LEC-01-02-04-scoped-function-gluing-evidence-gate-verified-20261107.md) · [構造化検証記録](docs/manifests/living_engi_lec_01_02_04_verified_20261107.json)。**次：LEC-05の高次transport証明書とLEC-06の条件付きbhava／修復可能性を別々に形式化する。**
+
+## 最新のLean定理統合 — Qi v5.08／自由四重五角形結合子指紋による新しい真正高次obstruction／2026-11-07 JST
+
+**[定理PR #3242](https://github.com/itakura-hidetoshi/KuuOS/pull/3242) MERGED。** 現行独立`MixedResidueEightCell`の全比較構成子を、元v4.91の22規則からv5.07のmixedResidueまで**型付き帰納で完全検査**した。元自由六セルの真正`pentagon : l→r`と生逆元`symm pentagon : r→l`を交互に四つ合成し、全く同じ元六セルraw始終点に対し、**結合子3段と2段の二つの真正七セル履歴**を構成した。
+
+局所associator指紋`Φ`は、元七セル`assoc(symm pentagon,pentagon,symm pentagon)`だけを整数1として計数し、反転は符号反転、trans/congrCompは加法で追跡する。**旧zigzagDiamond、元Triangle/InverseComp/Identity/UnitDiamond/BalancedUnit/DoubleComposite、現行mixedResidueを含む全八セル生成元でΦを保存**し、真正`Quotient.lift`を構成。具体的な二履歴では`Φ=1`対`0`だが**`(V mod2,R mod2,U mod2)=(0,0,0)`で完全一致**。したがって現行`MixedResidueEightCell`で比較不存在・新商classの不一致をLean4で証明し、三残余が比較可能性の完全判定量ではなく、新Φを三残余の**任意の非線形関数**として復元できないことまで確定。真正P77最終raw添字の各long/short元五セルへsource付きで輸送し、元source strict EqualityInterpreter不存在を保持した。
+
+**[exact-source CI #42337686643](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42337686643)：Strict Lean 10,308／10,308 SUCCESS、Governance 30／30 SUCCESS、新規26宣言の公理監査は標準公理のみ／依存なし、sorryAxなし、変更Lean warning/error 0／0、source/test-mergeファイル差分なし。** 検証source HEAD `820a98e84470ec58fa3a8cf5aa2afabbf442d8f9`、test-merge `3bcc8a54328aa0d85965ef171f49d5201475e93e`、定理squash `287dfaacd7129c92af4008bf8def9bf5dc464b63`。固定Lean v4.30.0-rc2／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、root107、保護PR #1558 Draft／OPEN／未マージ維持。**新しい九セル・大域thin性・元source strict Eq昇格はしていない。**
+
+[正式証明記録](docs/formal/Qi-v5_08-original-P77-fourfold-inverse-pentagon-associator-obstruction.md) · [Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77InversePentagonAssociatorObstructionV5_08.lean)
+
+**次候補Qi v5.09：** この新たな四重結合付けobstructionを充填するための独立高次presentationの必要性と、最小の比較生成元・保存量・source authorityを検証。既存比較で合流するcritical pairを除外してから、実際に必要な比較のみ追加する。
+
+## Qi v5.07 追補 — mixedResidue × balancedUnit の真正局所合流・整数V非降下／2026-11-07 JST
+
+**[追補定理PR #3240](https://github.com/itakura-hidetoshi/KuuOS/pull/3240) MERGED。** 正式Qi v5.07 [#3237](https://github.com/itakura-hidetoshi/KuuOS/pull/3237)／[記録#3239](https://github.com/itakura-hidetoshi/KuuOS/pull/3239)を変更せず、旧重複PR #3238（**Draft／OPEN／未マージ、統合禁止**）の783行・43宣言・全Leanエラー・依存定理を照合し、**30重複宣言を除外**。真正な `mixedResidue × balancedUnit` の非重複補完と整数 `V=3` 対 `V=5` の新商への非降下のみ、新規Leanモジュールで形式証明した。旧`DoubleCompositeEightCell`ではV法4障害によって比較不能、新`MixedResidueEightCell`では**既存の唯一の原始生成元**と旧型付き比較を合成して比較可能。選択した`MixedResidueBalancedCriticalPeak`全構成子の合流と商class一致まで証明した。独立八セルの生成元を増やさず、元F55/P77/GK5CG、旧Type証拠、source strict Eq、公開root107を維持。
+
+**[exact-source CI #42336330332](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42336330332)：Strict Lean 10,307／10,307 SUCCESS、Governance Gate 30／30 SUCCESS、新規11宣言は標準公理のみ／公理不要、sorryAxなし、変更Lean warning/error 0／0、source/test-merge差分0。** 検証source HEAD `0ee833e687b934389f52ed4d924c473bfec58ca9`、test-merge `a1c0c4dda75acf9c15389fb20a35bab7fedd9b7f`、定理squash `2e812f7518a3b4eaab474db663625d2d3ee51173`。Lean v4.30.0-rc2・mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、保護PR #1558 Draft／OPEN／未マージ維持。
+
+[追補正式証明記録](docs/formal/Qi-v5_07-balanced-unit-mixed-peak-integer-V-supplement.md) · [Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77MixedResidueBalancedUnitSupplementV5_07.lean)。**次段Qi v5.08は新obstruction探索、未証明。**
+
+## 最新のLean定理統合 — Qi v5.07／混合逆元残余の独立八セル最小補完・V法2降下／2026-11-07 JST
+
+**[定理PR #3237](https://github.com/itakura-hidetoshi/KuuOS/pull/3237) MERGED。** Qi v5.06で構成的に証明した、同じ元六セルraw始終点の真正三因子七セル履歴（元三整数`(T,J,K)=(2,0,1)`、R mod2=0、U mod2=1は両側一致するが**V mod4=3対1**）を対象に、新しい独立`MixedResidueEightCell`へ**唯一の新原始比較`mixedResidue(w)`**を追加。元`DoubleCompositeEightCell`、旧商、元F55/P77/GK5CG source・自由七セルType値証拠履歴は変更せず、`previous`で全旧比較証拠を保守的に保持した。
+
+**新商の厳密な粗化と観測量の降下境界：** 新商では二履歴に比較が存在するが、旧選択商ではv5.06の全比較生成元で保存されるV mod4の3対1障害により**比較不能**。このため旧`V mod4`は新商へ降下しない。他方、**`V mod2`、`R mod2`、`U mod2`は全新八セル生成元・型付き文脈で保存**され、三つの真正Bool値`Quotient.lift`を構成した。R/Uが固定六セル始終点上で連動するv5.04の境界定理を維持。新`mixedResidue × doubleComposite`と`mixedResidue × unitDiamond`の混合critical pairは旧商で比較不能、新商で既存型付き合成により充填でき、限定`MixedResidueCriticalPeak`全構成子も構造帰納で充填済み。真正P77全raw最終添字へ元GK5CG source付きで輸送し、strict EqualityInterpreter不存在を保持した。新九セル・大域thin性・任意平行履歴比較可能性は仮定しない。
+
+**[exact-source CI #42332928280](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42332928280)：Strict Lean 10,306／10,306 SUCCESS、Governance SUCCESS、新規43宣言の公理監査は標準公理のみ・sorryAxなし、変更Lean warning/error0／0。** 検証source HEAD `6cfe6e89d70c97d3d3c2fc7715fefde22894453e`、source/test-merge tree `441eed24f72db0387e8688eca09e03e0cc24a36b`完全一致。定理squash `e1f28b9604a5c4b280032992194bb5f3e3db52bc`。公開root107、保護PR #1558 Draft／OPEN／未マージ維持。
+
+[正式証明記録](docs/formal/Qi-v5_07-original-P77-mixed-residue-minimal-higher-completion.md) · [Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77MixedResidueMinimalHigherCompletionV5_07.lean)
+
+**次の候補Qi v5.08：** 現行新八セルの全比較構成子を照合し、残るV法2とR/U偶奇では判別できない高次obstructionを探索。真正な比較不能性が形式証明できた場合に限り別の独立presentationに最小原始比較を追加する。元source strict Eqと高次商Eqは同一視しない。
 
 ## 最新のLean定理統合 — Qi v5.06／三整数・二偶奇不可視の混合逆元消去V法4障害／2026-11-07 JST
 
@@ -2631,3 +2701,42 @@ lake build KuuOSFormal # warningAsErrorはlakefile.toml既定。sorryAxは#print
 - strict 空、独立Kuu→Qi、元F54二Nat・二圏・Blocks／F55 Type履歴、root107、Lean v4.30.0-rc2／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、保護#1558 Draft／OPEN／未マージを保持。
 
 **Copyright © 2026 Hidetoshi Itakura / 板倉英俊. Apache-2.0.**
+## 2026-11-07 — LEC-10：真正北C60 native F55 raw/source gluing と shadow gluing の差異（検証済み）
+
+- **定理[PR #3256](https://github.com/itakura-hidetoshi/KuuOS/pull/3256) MERGED**：LEC-09の真正北C60 native F55-shaped typed pentagon raw証拠対を、抽象Unit上のBool二重被覆で局所sourceとして配置。選択E7P4 full-shadow quotientの貼り合わせは成立するが、異なる元raw Type値を保持した局所atlasは貼り合わせ不能。元sourceの互換性→shadow互換性は常に成立する一方、反射はこの指定例で失敗する。
+- **証拠・履歴を厳格に区別**：LEC-04でshadowグローバル命題のみ認証可能、元rawの不成立を昇格不可。LEC-09 `NativeF55Trace`で元証拠は保持するが不整合は消滅しない。別の一定元sourceを持つatlasは同じshadowに降下しても元sourceを変更しており、厳密な保存修復ではない。
+- **[Exact-source CI #42358724142](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42358724142)**：10,315/10,315 Strict Lean SUCCESS、21定理/公理監査21件（標準のみ、sorryAxなし）、Governance・独立Kuu API・Workflow integrity SUCCESS、source/test-merge Git tree `a131d2354c62aa4f4305a8901b3254fb35b97a1d`一致、squash `f58c4b8babb7f42578d2a6e6caaad5f4a56f9c49`。[正式記録](docs/formal/LEC-10-native-F55-source-cech-shadow-gluing-verified-20261107.md)・[manifest](docs/manifests/living_engi_lec10_verified_20261107.json)。
+- **次の未解決Frontier**：歴史的固定元F55/P77/GK5CGへの忠実な元Type値証拠比較、真正source-aware輸送・高次貼り合わせ条件、幾何学的C60開被覆との別途接続、失われるsource情報を可視化する証拠モデル。今回の一点抽象被覆は非自明Čech H¹を示すものではない。公開root107、独立KuuとQi分離、元source／toolchain、保護#1558 Draft/Open/未マージ維持。
+## 2026-11-07 — LEC-11：元Type値source-aware局所忠実性と商観測gluingの必要十分条件（検証済み）
+
+- **[定理PR #3258](https://github.com/itakura-hidetoshi/KuuOS/pull/3258) MERGED**：真の被覆をもつ全関数の層において`HasGlobal(U,s) ↔ HasGlobal(U,shadowSections(U,q,s)) ∧ OverlapFiberFaithful(U,q,s)`をLean4で形式化。商`q`の全域単射ではなく、指定元局所atlasの実際の重複領域だけに追加証明を要求する。局所compatibility、認証済shadowからの条件付き大域元復元、偽の元昇格の阻止も証明。
+- **元source保存・豊かなreadout：**`sourceAwareReadout(q,r)=(q(r),r)`は元Type値をデータとして保持し、元sourceとの正確な大域貼合同値が成立する。ただし元の不整合atlasは豊かな観測でも貼合不能。真正北C60 independent native F55-shaped sourceで元atlasと異なる定数source atlasの差異を形式証明。歴史的固定元F55/P77/GK5CGの等価性は未証明のまま。
+- **Exact-source [CI #42359918998](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42359918998) SUCCESS**：10,316/10,316、23定理・23公理監査標準のみ、sorryAxなし、Governance/独立Kuu API/Workflow整合性成功、source/test-merge tree `dd47bb12ca9b7c31803925205ca3b8aded9d067e`一致、squash `2d80a2816d529913fc69f1988fde64b93cf9b889`。初回265行に閉じ括弧の欠落があり、定理・仮定を不変のまま修正。
+- **新しいFrontier：** source-aware正確な高次transport、歴史的original→independent native F55 Type値の忠実な比較、真の幾何学的C60 cover・coherence／obstructionの別途形式証明。一般H¹・higher stack・ActOS権限を本段から導かない。[正式記録](docs/formal/LEC-11-source-aware-overlap-faithfulness-verified-20261107.md)・[manifest](docs/manifests/living_engi_lec11_verified_20261107.json)。既存Lean, proof history, KuuOSFormal root107, pinned toolchain, #1558 Draft/Open/未マージは保存。
+## 2026-11-07 — LEC-12：元歴史的F55と独立native F55の真正source Type値共通shadow接続（検証済み）
+
+- **[定理PR #3260](https://github.com/itakura-hidetoshi/KuuOS/pull/3260) MERGED：** [`KuuOSFormal.HistoricalNativeF55CommonShadowLEC12`](formal/KuuOSFormal/HistoricalNativeF55CommonShadowLEC12.lean) は保持された元`OriginalF45BracketTree.DepthRotationRoute.PresentedCell`と独立北C60 `KuuNativeF45Tree.DepthRotationRoute.PresentedCell`の証拠型をそれぞれそのまま使用し、共通`(Int×Int)×ZMod2`観測・phase locking・五角形生成子校正をLean4で証明。
+- **非単射と証拠保持：** 両方の型付き元五角形とそれぞれの右単位付加は生の証拠で相異なるが、指定数値観測では同一になる。`HistoricalNativeF55Aligned`のprimitive/right-unit版を本当に構成し、各比較証明書は区別可能。元sourceに戻す左逆・忠実な全Functorは数値一致だけでは得られない。旧入力`t₁...t₄`とnative北C60の物理的同一視は未証明。
+- **検証：** [exact-source CI #42361244071](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42361244071) **10,317/10,317 Strict Lean SUCCESS**、14定理＋2比較構成・16件公理監査（標準のみ、sorryAxなし）、独立Kuu API、root復元、Governance SUCCESS、source/test-merge tree `d999152254a878df75fade0fe70082765bb0a1e2`一致、squash `f700f0d680865301d6872c5e25b7d2541ad591b6`。[正式記録](docs/formal/LEC-12-historical-original-and-native-F55-common-shadow-verified-20261107.md)、[manifest](docs/manifests/living_engi_lec12_verified_20261107.json)。
+- **次段階 LEC-13：** 真正元歴史的F54↔native F54の二Nat・Blocks・C60 endpointごとの忠実な境界付きmapと、九F55構成子・P77/GK5CG Type値高次履歴のtransport可否を分解する。**共通shadow校正を元Type値同値へ昇格しない**。根本の独立`KuuOSStrict`へKUOS/Grayを入れず、歴史的ソースを消さない。root107、固定Lean v4.30.0-rc2/mathlib、保護#1558 Draft/Open/未マージ維持。
+## 2026-11-07 — LEC-13：本来のC60物理90辺と歴史的元F54/F55 source-shadow非復元性（証明済み）
+
+- **[定理PR #3262](https://github.com/itakura-hidetoshi/KuuOS/pull/3262) MERGED**：既存F112-P39/P40の歴史的F47校正frame `B`（元F42/F55型付き証拠矢、元F54二Nat/Blocks境界、独立物理Edge、calibration）について、**実90本のC60辺は同じ元F42/F55証拠対＋同一の完全符号付きcharge/phase**を保ちつつ異なるF47 framesとなる。新たにこの強化観測の非単射性・任意support decoder不在、明示Edgeを保持した90辺族での単射性を証明。
+- **条件付き真正old/native比較**：元F55 raw三セルと元F47の商矢との厳密な一致、独立native北C60元F55 raw三セル、双方の指定shadow等値の**独立した全条件**を明記した`LEC13OriginalNativeCalibration`を定義。与えられた場合に限り90個の支持情報付き比較証拠を構成する。任意の歴史的F47 frameについて存在するとは主張しない。物理Edgeと元F42/F55 rawの実幾何対応も別証拠。
+- **[Exact-source CI #42363485222](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42363485222)**：10,318/10,318 Strict Lean SUCCESS、15定理と1型付き構成・`#print axioms`16件、sorryAx/新公理なし、Governance・独立public API SUCCESS、source/test-merge Git tree `2ef09aab2b5e511d29131d210abcf4334664aea8`一致、squash `ec57d5595ba4c8b80331fbce3c17bb54fb002238`。**公理監査は標準公理のみではない：既存真正C60幾何／辺同型の6個のnative_decide生成公理が継承される**。これらを完全kernel証明に置換する作業は別の証明課題。[正式記録](docs/formal/LEC-13-historical-native-F54-F55-90-edge-support-boundary-verified-20261107.md)、[manifest](docs/manifests/living_engi_lec13_verified_20261107.json)。
+- **次のLEC-14**：歴史的F47の実F55 square `(0,1;1)`と独立native実hexagon squareの正確にinhabitedなType値比較証拠を構成（独立native pentagon `(1,0;0)`をsquareと混同しない）。元F54の境界付きsource/target輸送・真の物理支持とF42局所証拠対応・P77/GK5CG高次履歴の証明義務を分離する。root107、固定Lean v4.30.0-rc2/mathlib、独立KuuOSStrict、保護PR #1558 Draft/Open/未マージを保持。
+
+
+## 2026-11-07 — LEC-13B：Original swallowtail-certified witness transport（証明済み）
+
+- [PR #3263](https://github.com/itakura-hidetoshi/KuuOS/pull/3263) **MERGED**：元のcoherent biadjunction actual-liftの`F/G/unit/counit`、両swallowtailと交換法則を変更せず、真正圏同型でのendomorphism-witness共役・有限履歴の完全復元・関数層gluingの保存反射を証明。forward/reverse modificationに必要な2方向のwhiskering exchangeはV5.112の実定理で構成。元歴史的F55 raw noninjectivityはshadow後の可逆受信側輸送では消えない。元F54↔独立native F54/物理C60辺・P77/GK5CG full sourceは未同一視。
+- **exact-source [CI #42366081346](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42366081346)**：10,319/10,319 Strict Lean、Governance 30/30、20件の新宣言公理監査は標準3公理のみ、sorryAxなし、変更warning/error 0/0、source/test-merge tree `b789374a8ad30155ae08fd7e35f660ed9e1e7a7f`一致、squash `703d5c1aa6d8b7da5f66accaea377d85e84dbff4`。初回の`rw`不一致は`congrArg`、CI未起動は`mergeable_state=dirty`と追加import衝突が原因。旧F54 supportと新swallowtail両importを保存して解消。[正式記録](docs/formal/LEC-13B-original-swallowtail-witness-transport-verified-20261107.md)・[manifest](docs/manifests/living_engi_lec13b_swallowtail_transport_verified_20261107.json)。
+- **次段階 LEC-14**：元F47 F55 squareと独立native C60 hexagon F55 squareの**実inhabitedな元Type値比較**、元F54二Nat/Blocks境界、真正物理Edge支持と関連F42 sourceの整合、P77/GK5CG高次の別証拠義務を分離。過剰な同一視、一般higher-stack effectivity、実行権限の昇格は禁止。前段LEC-13A物理90辺の既存6 `native_decide`依存を本20宣言の標準公理依存と混同しない。root107、pin、保護#1558維持。
+
+
+
+## 2026-11-07 — LEC-14：真正実C60六角形F55 old/native型付き比較と限定幾何支持（検証済み）
+
+- [定理PR #3267](https://github.com/itakura-hidetoshi/KuuOS/pull/3267) **MERGED**：元F54の二Nat・Blocks・真の左右局所回転を入力とし、真正旧F47物理90辺×2隣接faceの元F55 raw/arrowと、独立native北hexagonの真正F42 fan/disk＋F55 raw `northHexagonNativeF55SquareCell`を**異なるTypeフィールド**で保存した比較packetを具体構成。両元source評価の共通`((0,1),1)`とそれぞれの四境界校正を証明。指定北hexagon第1辺のみ真正edgeEquivおよび歴史的faceの物理一致を証明。他88辺などが同じ北hexagon辺へ写るという主張ではない。
+- [exact-source CI #42368168171](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42368168171) **10,320/10,320 Lean、Governance 30/30 SUCCESS**、16件`#print axioms`・sorryAxなし、変更warning/error 0/0、source/test-merge tree `456d67c205af9b18f22c2ce1a132c1ef19bb3303`一致。新しいLean公理なし。ただし真正F112物理幾何から既存6つの`native_decide`公理依存を継承、標準3公理のみではない。初回`C60F42PresentedFaceCell`／`C60F47SquareFrame`未解決は既存namespaceの2つの`open`不足、定理文と仮定の変更なく修正。[正式記録](docs/formal/LEC-14-real-hexagon-square-original-native-typed-comparison-verified-20261107.md)・[manifest](docs/manifests/living_engi_lec14_verified_20261107.json)。
+- **LEC-15の独立Frontier：** 選んだ実hexagon辺/faceについて、歴史的原F42とnative F42の**元raw source 2-cell証拠そのものの対応**が構成できるかを調べ、元F54二Nat/Blocks始終点とnative F54の型付きFunctor/比較を別課題として検証。全九F55構成子、P77/GK5CG高次、任意descentやauthorityの自動昇格なし。root107・pin・独立KuuOSStrict・#1558保護を維持。

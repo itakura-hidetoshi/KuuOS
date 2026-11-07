@@ -1,46 +1,42 @@
 import KUOS.Architecture.QiWuxingGK5CHP77MixedInverseCompResidueObstructionV5_06
 
 /-!
-Qi v5.07 — MINIMAL MIXED INVERSE-COMPOSITE RESIDUE COMPLETION.
+Qi v5.07 — MINIMAL MIXED-RESIDUE HIGHER COMPLETION.
 
-Qi v5.06 constructed two genuine three-factor original SevenRewrite
-histories with identical original six-cell raw endpoints, old
-(T,J,K)=(2,0,1) on both paths, R mod2=0 and U mod2=1 on both,
-but original V=3 versus V=5 (and V mod4=3 versus V mod4=1).
-The COMPLETE previous DoubleCompositeEightCell grammar conserves
-V modulo FOUR, so the comparison is mathematically impossible in
-that former independent presentation; this was formalized and
-transferred to all actual P77/GK5CG final raw indices.
+Qi v5.06 constructed genuine original six-cell-indexed three-factor
+parallel SevenRewrite histories H₁/H₂. The old (T,J,K)=(2,0,1)
+and both R mod2=0 and U mod2=1 coincide, but V mod4 is 3 against 1.
+V mod4 is invariant under the ENTIRE v5.05 DoubleCompositeEightCell
+grammar, so no chosen old higher comparison can possibly exist.
+The original GK5CG/P77 source transport and the source strict
+equality-interpreter no-go are already formally certified.
 
-The present independent MixedResidueEightCell Type adds exactly ONE
-new comparison family, mixedResidue(w), whose genuine endpoints are
-those already certified by Qi v5.06. All earlier DoubleCompositeEightCell
-comparison evidence survives via previous; only reverse, chain,
-whisker and typed inverse/composition contexts close the grammar.
-No existing raw six-cell, seventh history, old eighth presentation,
-old quotient, strict source value or original evidence is replaced.
+This module adds exactly ONE primitive higher comparison family
+mixedResidue(w) in a NEW SEPARATE MixedResidueEightCell Type.
+All earlier DoubleCompositeEightCell values survive via previous,
+with the exact same typed reversal, composition and whiskering
+constructors. None of the original F55/P77/GK5CG source, seven-cell
+free history, old presentation, old quotient, or imports are edited.
 
-The newly chosen quotient is STRICTLY coarser: the old V modulo FOUR
-cannot descend (3 versus 1), nor can the unreduced integer V (3 versus
-5). Yet V mod TWO and the prior R/U parities are preserved by ALL
-new typed comparison constructors and descend through Quotient.lift.
-The R/U parity coupling on fixed original six-cell endpoints remains.
+The new quotient is STRICTLY coarser, and the old V mod4 charge
+PROVABLY does not descend, since the new generator identifies the
+old V mod4 classes 3 and 1. V mod2 still survives. Both old
+R mod2 and U mod2 observers still survive, and all three observables
+descend via independent, type-correct Quotient.lift certificates.
 
-We exhibit two genuine mixed overlaps, mixedResidue × doubleComposite
-and mixedResidue × balancedUnit, and fill a restricted critical family
-via full constructor induction. The old grammar cannot compare either
-mixed overlap by the certified V-mod-four invariant; the new grammar
-fills both by its ONE new primitive and existing typed comparisons.
+Two genuine mixed critical pairs, mixedResidue × doubleComposite
+and mixedResidue × unitDiamond, are non-comparable in the old chosen
+grammar but filled in the new grammar using the single new primitive
+and old type-preserving previous comparisons. A restricted critical
+family receives a complete structural-induction filler. The same
+strong witness is transported into EVERY genuine original P77
+terminal raw index, preserving the strict source EqualityInterpreter
+impossibility. NO universal thinness, ninth cell, or arbitrary
+all-parallel-history completeness is asserted.
 
-At EACH original P77 terminal raw index, the authentic source
-GK5CG six-cell generator transports the SAME strong source-specific
-comparison and preserves ¬ original strict EqualityInterpreter.
-No global thinness, arbitrary parallel-history completeness,
-ninth cell, or source strict Eq promotion is assumed.
-
-Append-only / tighten-only / overwrite-forbidden / same-root;
-public proof roots 107; protected validation-only #1558 stays Draft/open.
-Lean v4.30.0-rc2; mathlib
+Append-only / tighten-only / overwrite-forbidden / same-root.
+Public root107; protected validation-only PR #1558 Draft/open.
+Pinned Lean 4.30.0-rc2, mathlib
 5450b53e5ddc75d46418fabb605edbf36bd0beb6.
 Copyright (c) 2026 Hidetoshi Itakura / 板倉英俊. Apache-2.0.
 -/
@@ -77,9 +73,9 @@ namespace FivefoldP77FiniteRefinement
 namespace PentagonAdjoinedSixCell
 variable {W : Type uSix} {long short : W}
 
-/-- A completely separate higher presentation. Its ONLY NEW
-elementary comparison is the actual v5.06 three-factor witness.
-All former comparison witnesses retain their original source types. -/
+/-- The old selected eighth grammar is retained, including its
+type-indexed original GK5CG/source endpoint histories. The ONLY new
+primitive compares the already certified v5.06 mixed-residue pair. -/
 inductive MixedResidueEightCell (W : Type uSix) (l r : W) :
     {w z : W} →
     {c d : PentagonAdjoinedSixCell W l r w z} →
@@ -142,8 +138,8 @@ def mixedResidueEightCell_refl {w z : W}
     MixedResidueEightCell W long short s s :=
   .previous (doubleCompositeEightCell_refl s)
 
-/-- The old no-comparison theorem certifies that this is a GENUINELY
-new comparison, not a syntactic alias for an existing eighth cell. -/
+/-- Old V-mod-four non-comparability proves that the one NEW
+mixedResidue generator is not already expressible by old grammar. -/
 theorem mixedResidueEightCell_strictlyNew (w : W) :
     Nonempty (MixedResidueEightCell W long short
       (sevenMixedResidueFirst (long := long) (short := short) w)
@@ -178,8 +174,8 @@ theorem mixedResidueEightCell_noStrictInterpreter (l r : W) :
   intro w z c d s t q
   exact interpret s t (.previous q)
 
-/-- Prior R mod-two parity is preserved by the single new comparison,
-the full previous grammar and every new typed context. -/
+/-- Full original R-mod-two preservation over every generator and
+every typed context, not only the new primitive. -/
 theorem mixedResidueEightCell_preservesParity {w z : W}
     {c d : PentagonAdjoinedSixCell W long short w z}
     {s t : SevenRewrite W long short c d}
@@ -207,6 +203,8 @@ theorem mixedResidueEightCell_preservesParity {w z : W}
       simp only [sevenIdentityBalance]
       omega
 
+/-- All original U mod-two comparisons remain valid independently,
+while the existing v5.04 boundary coupling is retained. -/
 theorem mixedResidueEightCell_preservesUnitCountParity {w z : W}
     {c d : PentagonAdjoinedSixCell W long short w z}
     {s t : SevenRewrite W long short c d}
@@ -234,54 +232,60 @@ theorem mixedResidueEightCell_preservesUnitCountParity {w z : W}
       simp only [sevenUnitStepCharge]
       omega
 
-/-- The former V modulo FOUR does NOT descend, but V modulo TWO is
-invariant across the certified V=3 and V=5 original source histories. -/
+/-- A canonical integer representative of V modulo TWO. The
+previous V modulo FOUR quotient observer is no longer invariant. -/
 def sevenTotalReductionParity {w z : W}
     {c d : PentagonAdjoinedSixCell W long short w z}
     (s : SevenRewrite W long short c d) : ℤ :=
-  sevenTotalReductionCharge s % 2
+  sevenTotalReductionResidue s % 2
 
-theorem sevenMixedResidue_totalParityValues (w : W) :
+theorem sevenMixedResidue_vParityValues (w : W) :
     sevenTotalReductionParity
         (sevenMixedResidueFirst (long := long) (short := short) w) = 1 ∧
     sevenTotalReductionParity
         (sevenMixedResidueSecond (long := long) (short := short) w) = 1 := by
-  have vals := sevenMixedResidue_totalValues (long := long) (short := short) w
-  constructor <;> norm_num [sevenTotalReductionParity, vals.1, vals.2]
+  have vals := sevenMixedResidue_residueValues
+    (long := long) (short := short) w
+  constructor <;>
+    norm_num [sevenTotalReductionParity, vals.1, vals.2]
 
-theorem mixedResidueEightCell_preservesTotalReductionParity {w z : W}
+/-- V modulo TWO survives the NEW primitive (3 versus 1 mod 4),
+all previous old comparisons and every typed higher context. -/
+theorem mixedResidueEightCell_preservesVParity {w z : W}
     {c d : PentagonAdjoinedSixCell W long short w z}
     {s t : SevenRewrite W long short c d}
     (q : MixedResidueEightCell W long short s t) :
     sevenTotalReductionParity s = sevenTotalReductionParity t := by
   induction q with
   | previous q =>
-      have h := doubleCompositeEightCell_preservesTotalReductionResidue q
-      simp only [sevenTotalReductionResidue] at h
-      simp only [sevenTotalReductionParity]
-      omega
+      exact congrArg (fun n : ℤ => n % 2)
+        (doubleCompositeEightCell_preservesTotalReductionResidue q)
   | mixedResidue w =>
-      exact (sevenMixedResidue_totalParityValues
+      exact (sevenMixedResidue_vParityValues
         (long := long) (short := short) w).1.trans
-        (sevenMixedResidue_totalParityValues
+        (sevenMixedResidue_vParityValues
           (long := long) (short := short) w).2.symm
   | reverse q ih => exact ih.symm
   | chain q q' ih ih' => exact ih.trans ih'
   | whiskerLeft before q ih =>
-      simp only [sevenTotalReductionParity] at ih ⊢
+      simp only [sevenTotalReductionParity, sevenTotalReductionResidue] at ih ⊢
       simp only [sevenTotalReductionCharge]
       omega
   | whiskerRight q after ih =>
-      simp only [sevenTotalReductionParity] at ih ⊢
+      simp only [sevenTotalReductionParity, sevenTotalReductionResidue] at ih ⊢
       simp only [sevenTotalReductionCharge]
       omega
   | inverseContext q ih =>
-      simpa [sevenTotalReductionParity, sevenTotalReductionCharge] using ih
+      simpa [sevenTotalReductionParity, sevenTotalReductionResidue,
+        sevenTotalReductionCharge] using ih
   | compositeContext q q' ih ih' =>
-      simp only [sevenTotalReductionParity] at ih ih' ⊢
+      simp only [sevenTotalReductionParity, sevenTotalReductionResidue]
+        at ih ih' ⊢
       simp only [sevenTotalReductionCharge]
       omega
 
+/-- A new chosen quotient with old history Type and all its
+original raw endpoint indices unchanged. -/
 def mixedResidueHistorySetoid (W : Type uSix) (l r : W)
     {w z : W} {c d : PentagonAdjoinedSixCell W l r w z} :
     Setoid (SevenRewrite W l r c d) where
@@ -343,7 +347,8 @@ theorem mixedResidueHistoryClass_noPreviousReturn (l r : W) :
       mixedResidueHistoryClass s = mixedResidueHistoryClass t →
         doubleCompositeHistoryClass s = doubleCompositeHistoryClass t) := by
   intro interpret
-  have witness := mixedResidueHistoryClass_strictlyNew (long := l) (short := r) l
+  have witness := mixedResidueHistoryClass_strictlyNew
+    (long := l) (short := r) l
   exact witness.2 (interpret
     (sevenMixedResidueFirst (long := l) (short := r) l)
     (sevenMixedResidueSecond (long := l) (short := r) l) witness.1)
@@ -357,9 +362,9 @@ theorem mixedResidueHistoryClass_noStrictReturn (l r : W) :
   intro w z c d s t q
   exact interpret s t ((mixedResidueHistoryClass_eq_iff s t).2 ⟨q⟩)
 
-/-- The old V mod FOUR is no longer representative-independent in the
-new selected quotient because the genuine new comparison relates 3/1. -/
-theorem mixedResidueHistoryClass_noV4Descent (l r : W) :
+/-- The chosen new primitive destroys old V modulo FOUR descent,
+because the old residue values are exactly 3 and 1. -/
+theorem mixedResidueHistoryClass_noVFourDescent (l r : W) :
     ¬ (∀ {w z : W}
       {c d : PentagonAdjoinedSixCell W l r w z}
       (s t : SevenRewrite W l r c d),
@@ -375,32 +380,19 @@ theorem mixedResidueHistoryClass_noV4Descent (l r : W) :
   rw [vals.1, vals.2] at h
   norm_num at h
 
-theorem mixedResidueHistoryClass_noIntegerVDescent (l r : W) :
-    ¬ (∀ {w z : W}
-      {c d : PentagonAdjoinedSixCell W l r w z}
-      (s t : SevenRewrite W l r c d),
-      mixedResidueHistoryClass s = mixedResidueHistoryClass t →
-        sevenTotalReductionCharge s = sevenTotalReductionCharge t) := by
-  intro preserve
-  have heq := (mixedResidueHistoryClass_strictlyNew
-    (long := l) (short := r) l).1
-  have h := preserve
-    (sevenMixedResidueFirst (long := l) (short := r) l)
-    (sevenMixedResidueSecond (long := l) (short := r) l) heq
-  have vals := sevenMixedResidue_totalValues (long := l) (short := r) l
-  rw [vals.1, vals.2] at h
-  norm_num at h
-
-def mixedResidueHistoryV2 {w z : W}
+/-- Genuine nonrepresentative-dependent V modulo TWO observer. -/
+def mixedResidueHistoryVParity {w z : W}
     {c d : PentagonAdjoinedSixCell W long short w z} :
     Quotient (mixedResidueHistorySetoid W long short (c := c) (d := d)) →
-      ℤ :=
+      Bool :=
   Quotient.lift
-    (fun s : SevenRewrite W long short c d => sevenTotalReductionParity s)
+    (fun s : SevenRewrite W long short c d =>
+      decide (sevenTotalReductionParity s = 1))
     (by
       intro s t h
       rcases h with ⟨q⟩
-      exact mixedResidueEightCell_preservesTotalReductionParity q)
+      exact congrArg (fun a : ℤ => decide (a = 1))
+        (mixedResidueEightCell_preservesVParity q))
 
 def mixedResidueHistoryParity {w z : W}
     {c d : PentagonAdjoinedSixCell W long short w z} :
@@ -415,7 +407,7 @@ def mixedResidueHistoryParity {w z : W}
       exact congrArg (fun a : ℤ => decide (a = 1))
         (mixedResidueEightCell_preservesParity q))
 
-def mixedResidueHistoryUnitCountParity {w z : W}
+def mixedResidueHistoryUnitParity {w z : W}
     {c d : PentagonAdjoinedSixCell W long short w z} :
     Quotient (mixedResidueHistorySetoid W long short (c := c) (d := d)) →
       Bool :=
@@ -428,32 +420,32 @@ def mixedResidueHistoryUnitCountParity {w z : W}
       exact congrArg (fun a : ℤ => decide (a = 1))
         (mixedResidueEightCell_preservesUnitCountParity q))
 
-theorem mixedResidueHistoryV2_onClass {w z : W}
+theorem mixedResidueHistoryVParity_onClass {w z : W}
     {c d : PentagonAdjoinedSixCell W long short w z}
     (s : SevenRewrite W long short c d) :
-    mixedResidueHistoryV2
-      (mixedResidueHistoryClass (long := long) (short := short) s) =
-      sevenTotalReductionParity s :=
+    mixedResidueHistoryVParity
+        (mixedResidueHistoryClass (long := long) (short := short) s) =
+      decide (sevenTotalReductionParity s = 1) :=
   rfl
 
 theorem mixedResidueHistoryParity_onClass {w z : W}
     {c d : PentagonAdjoinedSixCell W long short w z}
     (s : SevenRewrite W long short c d) :
     mixedResidueHistoryParity
-      (mixedResidueHistoryClass (long := long) (short := short) s) =
+        (mixedResidueHistoryClass (long := long) (short := short) s) =
       decide (sevenIdentityParity s = 1) :=
   rfl
 
-theorem mixedResidueHistoryUnitCountParity_onClass {w z : W}
+theorem mixedResidueHistoryUnitParity_onClass {w z : W}
     {c d : PentagonAdjoinedSixCell W long short w z}
     (s : SevenRewrite W long short c d) :
-    mixedResidueHistoryUnitCountParity
-      (mixedResidueHistoryClass (long := long) (short := short) s) =
+    mixedResidueHistoryUnitParity
+        (mixedResidueHistoryClass (long := long) (short := short) s) =
       decide (sevenUnitCountParity s = 1) :=
   rfl
 
-/-- Mixed v5.06 source-pasted comparison, retaining the SAME original
-six-cell c and its unquotiented old type evidence on each side. -/
+/-- The old P77/GK5CG source is pasted into the same specific new
+mixed-residue comparison, without any new raw original source Eq. -/
 def mixedResidueSource_fill {w z : W}
     (c : PentagonAdjoinedSixCell W long short w z) :
     MixedResidueEightCell W long short
@@ -482,13 +474,30 @@ theorem mixedResidueSource_strictComparison {w z : W}
     (sevenMixedResidueComposite_values c).2.1,
     (sevenMixedResidueComposite_values c).2.2.1⟩
 
-/-- First mixed critical pair: the one new mixed-residue comparison
-whiskered against an existing DoubleCompositeEightCell primitive. -/
+/-- General typed mixed obstruction lemma. Whiskering the new
+mixed-residue pair on the right by ANY old DoubleCompositeEightCell
+preserves the old V mod4 gap 3 versus 1. -/
+theorem mixedResidue_withPrevious_noOld {w z : W}
+    {c d : PentagonAdjoinedSixCell W long short w z}
+    {s t : SevenRewrite W long short c d}
+    (qOld : DoubleCompositeEightCell W long short s t) :
+    ¬ Nonempty (DoubleCompositeEightCell W long short
+      (.congrComp (sevenMixedResidueFirst w) s)
+      (.congrComp (sevenMixedResidueSecond w) t)) := by
+  rintro ⟨q⟩
+  have hc := doubleCompositeEightCell_preservesTotalReductionResidue q
+  have he := doubleCompositeEightCell_preservesTotalReductionResidue qOld
+  have vals := sevenMixedResidue_residueValues (long := long) (short := short) w
+  simp only [sevenTotalReductionResidue, sevenTotalReductionCharge] at hc
+  simp only [sevenTotalReductionResidue] at he vals
+  omega
+
+/-- MIXED 1: existing v5.05 doubleComposite source pair against one
+new mixed-residue comparison, retaining original raw six-cell indices. -/
 def mixedResidueDoubleFirst (w : W) :
     SevenRewrite W long short
       (.trans (mixedResidueSource (long := long) (short := short) w)
-        (.trans
-          (compositeInverseCancelSource (long := long) (short := short) w)
+        (.trans (compositeInverseCancelSource (long := long) (short := short) w)
           (compositeInverseCancelSource (long := long) (short := short) w)))
       (.trans (mixedResidueTarget (long := long) (short := short) w)
         (.trans (.refl w) (.refl w))) :=
@@ -497,8 +506,7 @@ def mixedResidueDoubleFirst (w : W) :
 def mixedResidueDoubleSecond (w : W) :
     SevenRewrite W long short
       (.trans (mixedResidueSource (long := long) (short := short) w)
-        (.trans
-          (compositeInverseCancelSource (long := long) (short := short) w)
+        (.trans (compositeInverseCancelSource (long := long) (short := short) w)
           (compositeInverseCancelSource (long := long) (short := short) w)))
       (.trans (mixedResidueTarget (long := long) (short := short) w)
         (.trans (.refl w) (.refl w))) :=
@@ -514,51 +522,40 @@ theorem mixedResidueDouble_noPrevious (w : W) :
     ¬ Nonempty (DoubleCompositeEightCell W long short
       (mixedResidueDoubleFirst (long := long) (short := short) w)
       (mixedResidueDoubleSecond (long := long) (short := short) w)) := by
-  rintro ⟨q⟩
-  have h := doubleCompositeEightCell_preservesTotalReductionResidue q
-  have mv := sevenMixedResidue_totalValues (long := long) (short := short) w
-  have dv := sevenDoubleCompositeCancel_values (long := long) (short := short) w
-  norm_num [mixedResidueDoubleFirst, mixedResidueDoubleSecond,
-    sevenTotalReductionResidue, sevenTotalReductionCharge,
-    mv.1, mv.2, dv.1, dv.2.1] at h
+  exact mixedResidue_withPrevious_noOld (.doubleComposite w)
 
-/-- Second mixed critical pair against the v5.03 balanced-unit
-primitive, embedded through TWO independent old presentations. -/
-def mixedResidueBalancedFirst (w : W) :
+/-- MIXED 2: the original v5.01 unitDiamond is explicitly inherited
+through two previous layers, with the same source and target raw words. -/
+def mixedResidueUnitFirst (w : W) :
     SevenRewrite W long short
       (.trans (mixedResidueSource (long := long) (short := short) w)
-        (balancedUnitInvisibleSource (long := long) (short := short) w))
+        (.trans (.refl w) (.refl w)))
       (.trans (mixedResidueTarget (long := long) (short := short) w)
-        (balancedUnitInvisibleTarget (long := long) (short := short) w)) :=
-  .congrComp (sevenMixedResidueFirst w) (sevenBalancedUnitInvisibleFirst w)
+        (.refl w)) :=
+  .congrComp (sevenMixedResidueFirst w) (sevenUnitDiamondLeft w)
 
-def mixedResidueBalancedSecond (w : W) :
+def mixedResidueUnitSecond (w : W) :
     SevenRewrite W long short
       (.trans (mixedResidueSource (long := long) (short := short) w)
-        (balancedUnitInvisibleSource (long := long) (short := short) w))
+        (.trans (.refl w) (.refl w)))
       (.trans (mixedResidueTarget (long := long) (short := short) w)
-        (balancedUnitInvisibleTarget (long := long) (short := short) w)) :=
-  .congrComp (sevenMixedResidueSecond w) (sevenBalancedUnitInvisibleSecond w)
+        (.refl w)) :=
+  .congrComp (sevenMixedResidueSecond w) (sevenUnitDiamondRight w)
 
-def mixedResidueBalanced_fill (w : W) :
+def mixedResidueUnit_fill (w : W) :
     MixedResidueEightCell W long short
-      (mixedResidueBalancedFirst (long := long) (short := short) w)
-      (mixedResidueBalancedSecond (long := long) (short := short) w) :=
+      (mixedResidueUnitFirst (long := long) (short := short) w)
+      (mixedResidueUnitSecond (long := long) (short := short) w) :=
   .compositeContext (.mixedResidue w)
-    (.previous (.previous (.balancedUnit w)))
+    (.previous (.previous (.previous (.unitDiamond w))))
 
-theorem mixedResidueBalanced_noPrevious (w : W) :
+theorem mixedResidueUnit_noPrevious (w : W) :
     ¬ Nonempty (DoubleCompositeEightCell W long short
-      (mixedResidueBalancedFirst (long := long) (short := short) w)
-      (mixedResidueBalancedSecond (long := long) (short := short) w)) := by
-  rintro ⟨q⟩
-  have h := doubleCompositeEightCell_preservesTotalReductionResidue q
-  have mv := sevenMixedResidue_totalValues (long := long) (short := short) w
-  have bv := sevenBalancedUnitInvisible_totalValues
-    (long := long) (short := short) w
-  norm_num [mixedResidueBalancedFirst, mixedResidueBalancedSecond,
-    sevenTotalReductionResidue, sevenTotalReductionCharge,
-    mv.1, mv.2, bv.1, bv.2] at h
+      (mixedResidueUnitFirst (long := long) (short := short) w)
+      (mixedResidueUnitSecond (long := long) (short := short) w)) := by
+  exact mixedResidue_withPrevious_noOld
+    (DoubleCompositeEightCell.previous (BalancedUnitEightCell.previous
+      (UnitDiamondEightCell.unitDiamond w)))
 
 theorem mixedResidueDouble_newVsOld (w : W) :
     Nonempty (MixedResidueEightCell W long short
@@ -567,26 +564,31 @@ theorem mixedResidueDouble_newVsOld (w : W) :
     ¬ Nonempty (DoubleCompositeEightCell W long short
       (mixedResidueDoubleFirst (long := long) (short := short) w)
       (mixedResidueDoubleSecond (long := long) (short := short) w)) ∧
-    sevenTotalReductionParity (mixedResidueDoubleFirst (long := long) (short := short) w) =
-      sevenTotalReductionParity (mixedResidueDoubleSecond (long := long) (short := short) w) :=
+    sevenTotalReductionParity
+        (mixedResidueDoubleFirst (long := long) (short := short) w) =
+      sevenTotalReductionParity
+        (mixedResidueDoubleSecond (long := long) (short := short) w) :=
   ⟨⟨mixedResidueDouble_fill w⟩,
     mixedResidueDouble_noPrevious w,
-    mixedResidueEightCell_preservesTotalReductionParity (mixedResidueDouble_fill w)⟩
+    mixedResidueEightCell_preservesVParity (mixedResidueDouble_fill w)⟩
 
-theorem mixedResidueBalanced_newVsOld (w : W) :
+theorem mixedResidueUnit_newVsOld (w : W) :
     Nonempty (MixedResidueEightCell W long short
-      (mixedResidueBalancedFirst (long := long) (short := short) w)
-      (mixedResidueBalancedSecond (long := long) (short := short) w)) ∧
+      (mixedResidueUnitFirst (long := long) (short := short) w)
+      (mixedResidueUnitSecond (long := long) (short := short) w)) ∧
     ¬ Nonempty (DoubleCompositeEightCell W long short
-      (mixedResidueBalancedFirst (long := long) (short := short) w)
-      (mixedResidueBalancedSecond (long := long) (short := short) w)) ∧
-    sevenTotalReductionParity (mixedResidueBalancedFirst (long := long) (short := short) w) =
-      sevenTotalReductionParity (mixedResidueBalancedSecond (long := long) (short := short) w) :=
-  ⟨⟨mixedResidueBalanced_fill w⟩,
-    mixedResidueBalanced_noPrevious w,
-    mixedResidueEightCell_preservesTotalReductionParity (mixedResidueBalanced_fill w)⟩
+      (mixedResidueUnitFirst (long := long) (short := short) w)
+      (mixedResidueUnitSecond (long := long) (short := short) w)) ∧
+    sevenTotalReductionParity
+        (mixedResidueUnitFirst (long := long) (short := short) w) =
+      sevenTotalReductionParity
+        (mixedResidueUnitSecond (long := long) (short := short) w) :=
+  ⟨⟨mixedResidueUnit_fill w⟩,
+    mixedResidueUnit_noPrevious w,
+    mixedResidueEightCell_preservesVParity (mixedResidueUnit_fill w)⟩
 
-/-- A SELECTED original typed critical family, NOT a completeness axiom. -/
+/-- Only the selected newly proved obstruction, old v5.05 selected
+critical family and two genuine mixed comparisons, with typed closure. -/
 inductive MixedResidueCriticalPeak (W : Type uSix) (l r : W) :
     {w z : W} →
     {c d : PentagonAdjoinedSixCell W l r w z} →
@@ -604,10 +606,10 @@ inductive MixedResidueCriticalPeak (W : Type uSix) (l r : W) :
       MixedResidueCriticalPeak W l r
         (mixedResidueDoubleFirst (long := l) (short := r) w)
         (mixedResidueDoubleSecond (long := l) (short := r) w)
-  | mixedBalanced (w : W) :
+  | mixedUnitDiamond (w : W) :
       MixedResidueCriticalPeak W l r
-        (mixedResidueBalancedFirst (long := l) (short := r) w)
-        (mixedResidueBalancedSecond (long := l) (short := r) w)
+        (mixedResidueUnitFirst (long := l) (short := r) w)
+        (mixedResidueUnitSecond (long := l) (short := r) w)
   | reverse {w z : W} {c d : PentagonAdjoinedSixCell W l r w z}
       {s t : SevenRewrite W l r c d}
       (q : MixedResidueCriticalPeak W l r s t) :
@@ -653,7 +655,7 @@ def mixedResidueCriticalPeak_fill {w z : W}
   | previous q => exact .previous (doubleCompositeCriticalPeak_fill q)
   | mixedResidue w => exact .mixedResidue w
   | mixedDouble w => exact mixedResidueDouble_fill w
-  | mixedBalanced w => exact mixedResidueBalanced_fill w
+  | mixedUnitDiamond w => exact mixedResidueUnit_fill w
   | reverse q ih => exact .reverse ih
   | chain q q' ih ih' => exact .chain ih ih'
   | whiskerLeft before q ih => exact .whiskerLeft before ih
@@ -690,10 +692,10 @@ variable (B : DirectNormalBracketTree f g h k family₁ s₁ family₂ s₂)
 variable (C : DirectNormalBracketTree f g h k family₂ s₂ family₃ s₃)
 variable (D₄ : DirectNormalBracketTree f g h k family₃ s₃ family₄ s₄)
 
-/-- At EVERY real original P77 terminal raw index: the source-carrying
-strong three-factor Qi v5.06 history is now comparable in the NEW
-selected higher Type but NOT in the old one. Old T/J/K, residual
-R and U parity agree, and the original source strict Eq no-go remains. -/
+/-- For EVERY actual original P77 final raw index the same genuine
+v5.06 GK5CG-source-bearing mixed-residue pair is NEWLY comparable,
+OLD non-comparable, with all old T/J/K and two R/U parities equal;
+the source strict Eq interpreter remains proven impossible. -/
 theorem pentagonActualMixedResidueCompletionWithSourceObstruction
     (i : FivefoldP77RawPatchTreeIndex f g h k
       (tree f g h k family₄ s₄)) :
@@ -742,8 +744,8 @@ theorem pentagonActualMixedResidueCompletionWithSourceObstruction
 #print axioms PentagonAdjoinedSixCell.mixedResidueEightCell_preservesParity
 #print axioms PentagonAdjoinedSixCell.mixedResidueEightCell_preservesUnitCountParity
 #print axioms PentagonAdjoinedSixCell.sevenTotalReductionParity
-#print axioms PentagonAdjoinedSixCell.sevenMixedResidue_totalParityValues
-#print axioms PentagonAdjoinedSixCell.mixedResidueEightCell_preservesTotalReductionParity
+#print axioms PentagonAdjoinedSixCell.sevenMixedResidue_vParityValues
+#print axioms PentagonAdjoinedSixCell.mixedResidueEightCell_preservesVParity
 #print axioms PentagonAdjoinedSixCell.mixedResidueHistorySetoid
 #print axioms PentagonAdjoinedSixCell.mixedResidueHistoryClass
 #print axioms PentagonAdjoinedSixCell.mixedResidueHistoryClass_eq_iff
@@ -751,26 +753,26 @@ theorem pentagonActualMixedResidueCompletionWithSourceObstruction
 #print axioms PentagonAdjoinedSixCell.mixedResidueHistoryClass_strictlyNew
 #print axioms PentagonAdjoinedSixCell.mixedResidueHistoryClass_noPreviousReturn
 #print axioms PentagonAdjoinedSixCell.mixedResidueHistoryClass_noStrictReturn
-#print axioms PentagonAdjoinedSixCell.mixedResidueHistoryClass_noV4Descent
-#print axioms PentagonAdjoinedSixCell.mixedResidueHistoryClass_noIntegerVDescent
-#print axioms PentagonAdjoinedSixCell.mixedResidueHistoryV2
+#print axioms PentagonAdjoinedSixCell.mixedResidueHistoryClass_noVFourDescent
+#print axioms PentagonAdjoinedSixCell.mixedResidueHistoryVParity
 #print axioms PentagonAdjoinedSixCell.mixedResidueHistoryParity
-#print axioms PentagonAdjoinedSixCell.mixedResidueHistoryUnitCountParity
-#print axioms PentagonAdjoinedSixCell.mixedResidueHistoryV2_onClass
+#print axioms PentagonAdjoinedSixCell.mixedResidueHistoryUnitParity
+#print axioms PentagonAdjoinedSixCell.mixedResidueHistoryVParity_onClass
 #print axioms PentagonAdjoinedSixCell.mixedResidueHistoryParity_onClass
-#print axioms PentagonAdjoinedSixCell.mixedResidueHistoryUnitCountParity_onClass
+#print axioms PentagonAdjoinedSixCell.mixedResidueHistoryUnitParity_onClass
 #print axioms PentagonAdjoinedSixCell.mixedResidueSource_fill
 #print axioms PentagonAdjoinedSixCell.mixedResidueSource_strictComparison
+#print axioms PentagonAdjoinedSixCell.mixedResidue_withPrevious_noOld
 #print axioms PentagonAdjoinedSixCell.mixedResidueDoubleFirst
 #print axioms PentagonAdjoinedSixCell.mixedResidueDoubleSecond
 #print axioms PentagonAdjoinedSixCell.mixedResidueDouble_fill
 #print axioms PentagonAdjoinedSixCell.mixedResidueDouble_noPrevious
-#print axioms PentagonAdjoinedSixCell.mixedResidueBalancedFirst
-#print axioms PentagonAdjoinedSixCell.mixedResidueBalancedSecond
-#print axioms PentagonAdjoinedSixCell.mixedResidueBalanced_fill
-#print axioms PentagonAdjoinedSixCell.mixedResidueBalanced_noPrevious
+#print axioms PentagonAdjoinedSixCell.mixedResidueUnitFirst
+#print axioms PentagonAdjoinedSixCell.mixedResidueUnitSecond
+#print axioms PentagonAdjoinedSixCell.mixedResidueUnit_fill
+#print axioms PentagonAdjoinedSixCell.mixedResidueUnit_noPrevious
 #print axioms PentagonAdjoinedSixCell.mixedResidueDouble_newVsOld
-#print axioms PentagonAdjoinedSixCell.mixedResidueBalanced_newVsOld
+#print axioms PentagonAdjoinedSixCell.mixedResidueUnit_newVsOld
 #print axioms PentagonAdjoinedSixCell.MixedResidueCriticalPeak
 #print axioms PentagonAdjoinedSixCell.mixedResidueCriticalPeak_fill
 #print axioms PentagonAdjoinedSixCell.mixedResidueCriticalPeak_joinable

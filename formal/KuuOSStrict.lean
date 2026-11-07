@@ -137,6 +137,14 @@ import Kuu.F112.PolygonNativeF55RawVerticalFourCellP77
 import Kuu.F112.PolygonNativeF55RawFourVerticalCategoryP78
 import Kuu.F112.PolygonNativeF55RawFourHorizontalUnitObstructionP79
 import Kuu.F112.PolygonNativeF55P62RelativeUnitFourCellP80
+import Kuu.LivingEngi.ScopedGluing
+import Kuu.LivingEngi.FrameTransport
+import Kuu.LivingEngi.ConditionedBhava
+import Kuu.LivingEngi.BirthAuthorization
+import Kuu.LivingEngi.HistoryFeedbackRepair
+import Kuu.LivingEngi.NativeF55ProofHistoryBoundary
+import Kuu.LivingEngi.NativeF55CechSourceGluingObstruction
+import Kuu.LivingEngi.SourceAwareOverlapDescentCriterion
 /-! Internal independent Kuu import aggregate. No KUOS or legacy sources
 are imported into the independent foundation. The unique public aggregate
 remains KuuOSFormal; this is not a separate mathematical authority. -/
