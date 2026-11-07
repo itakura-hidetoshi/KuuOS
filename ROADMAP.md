@@ -3,6 +3,14 @@
 
 
 
+## Qi v5.07 追補 — mixedResidue × balancedUnit の真正局所合流・整数V非降下／2026-11-07 JST
+
+**[追補定理PR #3240](https://github.com/itakura-hidetoshi/KuuOS/pull/3240) MERGED。** 正式Qi v5.07 [#3237](https://github.com/itakura-hidetoshi/KuuOS/pull/3237)／[記録#3239](https://github.com/itakura-hidetoshi/KuuOS/pull/3239)を変更せず、旧重複PR #3238（**Draft／OPEN／未マージ、統合禁止**）の783行・43宣言・全Leanエラー・依存定理を照合し、**30重複宣言を除外**。真正な `mixedResidue × balancedUnit` の非重複補完と整数 `V=3` 対 `V=5` の新商への非降下のみ、新規Leanモジュールで形式証明した。旧`DoubleCompositeEightCell`ではV法4障害によって比較不能、新`MixedResidueEightCell`では**既存の唯一の原始生成元**と旧型付き比較を合成して比較可能。選択した`MixedResidueBalancedCriticalPeak`全構成子の合流と商class一致まで証明した。独立八セルの生成元を増やさず、元F55/P77/GK5CG、旧Type証拠、source strict Eq、公開root107を維持。
+
+**[exact-source CI #42336330332](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42336330332)：Strict Lean 10,307／10,307 SUCCESS、Governance Gate 30／30 SUCCESS、新規11宣言は標準公理のみ／公理不要、sorryAxなし、変更Lean warning/error 0／0、source/test-merge差分0。** 検証source HEAD `0ee833e687b934389f52ed4d924c473bfec58ca9`、test-merge `a1c0c4dda75acf9c15389fb20a35bab7fedd9b7f`、定理squash `2e812f7518a3b4eaab474db663625d2d3ee51173`。Lean v4.30.0-rc2・mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、保護PR #1558 Draft／OPEN／未マージ維持。
+
+[追補正式証明記録](docs/formal/Qi-v5_07-balanced-unit-mixed-peak-integer-V-supplement.md) · [Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77MixedResidueBalancedUnitSupplementV5_07.lean)。**次段Qi v5.08は新obstruction探索、未証明。**
+
 ## 最新のLean定理統合 — Qi v5.07／混合逆元残余の独立八セル最小補完・V法2降下／2026-11-07 JST
 
 **[定理PR #3237](https://github.com/itakura-hidetoshi/KuuOS/pull/3237) MERGED。** Qi v5.06で構成的に証明した、同じ元六セルraw始終点の真正三因子七セル履歴（元三整数`(T,J,K)=(2,0,1)`、R mod2=0、U mod2=1は両側一致するが**V mod4=3対1**）を対象に、新しい独立`MixedResidueEightCell`へ**唯一の新原始比較`mixedResidue(w)`**を追加。元`DoubleCompositeEightCell`、旧商、元F55/P77/GK5CG source・自由七セルType値証拠履歴は変更せず、`previous`で全旧比較証拠を保守的に保持した。
