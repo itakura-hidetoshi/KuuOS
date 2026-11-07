@@ -1,5 +1,14 @@
 # KuuOS / 空OS — Formal Research Roadmap
 
+## Qi v5.13 VERIFIED — M往復の九セル最小補完と自由合成構造の残存障害／2026-11-08
+
+- **[定理PR #3278](https://github.com/itakura-hidetoshi/KuuOS/pull/3278) MERGED：** 真正`ninthMixedRoundtrip`と`ninthMixedReflexive`を結ぶ一種類だけの新`MixedCancelNineCell.cancelMixed`を導入し、全旧`PentagonCancelNineCell`を`previous`で保存。新Setoid・商は旧九セル商の厳密な粗化。旧比較不存在、元八セルstrict Eq不存在、全raw証拠への左逆復元不能を形式証明。
+- **降下する観測と降下不能な観測：** M出現回数2対0は新商で同一視されるため忠実には降下不能。しかしP・M各出現回数の偶奇は**全新九セル構成子で保存**され、2つのNat値`Quotient.lift`により商へ降下する。
+- **新しい自由合成obstruction：** 元の整数値`ninthResidualChainCharge`を定義し、旧v5.11・v5.12・新v5.13の全九セル文法について保存定理を構成。反射八セル二つの自由`chain`はQ=2、元反射八セル一つはQ=0で、**両方のP/M往復を補完しても今回の九セル文法はglobal thinにならない**。構文値の区別であり、将来別の高次比較の普遍的不可能性ではない。
+- **真正型付きPcancel×Mcancel critical overlap：** 元`fourfoldMixedResidueFirst`を七セル始終点とする八セル四頂点／九セル四辺を構成。P消去→M消去とM消去→P消去は同じ始終点に到達するが、生九セル証拠は`[Pcancel,Mcancel]`対`[Mcancel,Pcancel]`でstrict非同一。型付き第十セルcoherenceは次の未解決課題。任意の元P77 final raw indexへの真正GK5CG long/short特殊化と元source strict Eq障害を保持。
+- **[Exact-source CI #42396353401](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42396353401) SUCCESS：** Strict Lean **10,326/10,326**、Governance **30/30**、47宣言標準公理のみ・`sorryAx`なし、変更Lean warning/error 0/0。source `da11640fe2550c00ed40a04a4199d08752c546e8`、test-merge `203c3785f150131b5f9ed849193ff6ce9dde177f`、Git tree `270ba51ded710e6e44c7bd262e0cc0b84101b6a2`一致、定理squash `6907e22a7c6a766fc6b63b2a69e92eea4f088d2c`。公開root107、Lean v4.30.0-rc2、固定mathlib、保護PR #1558 Draft/OPEN不変。
+- [Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77MixedRoundtripUnitMinimalNinthCompletionV5_13.lean) · [正式証明記録](docs/formal/Qi-v5_13-original-mixed-roundtrip-ninth-completion-verified-20261108.md)。**Qi v5.14目標：** P/M二つの生九セル完成経路間の独立最小第十セルを探索し、十セル後に残るobstructionと保存量を分離。元source・生八/九セル等号を強制しない。
+
 ## Qi v5.12 VERIFIED — 真正P往復・単位九セル補完とP/M重なり／2026-11-07
 
 - **[Qi v5.12定理PR #3276](https://github.com/itakura-hidetoshi/KuuOS/pull/3276) MERGED：** 元の生八セル`ninthPentagonRoundtrip`と`ninthPentagonReflexive`は旧九セルにおいてP-count2対0で比較不能。独立`PentagonCancelNineCell`に一種類だけの新`cancelPentagon`生成元を構成し、旧`FourfoldMixedNineCell`を`previous`で全文継承。新九セルSetoidは旧商を厳密に粗化するが、元八セルstrict Eqへの普遍解釈・全raw証拠復元は不可能。
