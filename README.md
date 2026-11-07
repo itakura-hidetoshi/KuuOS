@@ -8,6 +8,16 @@
 
 English: KuuOS develops a general mathematical program for dependent origination, contextual transport, presentation localization, effective descent, higher coherence, and explicit obstructions. The later C60 geometry is a concrete testbed, **not the origin or unique model of the general theory**.
 
+## Qi v5.15 — 九セル単位・結合第十セル、P/M独立商不変量、真正第十一セル候補／2026-11-08 JST
+
+**[定理PR #3282](https://github.com/itakura-hidetoshi/KuuOS/pull/3282) MERGED。** Qi v5.14の旧`MixedInterchangeTenCell`証拠を`previous`で全保持し、独立`MixedUnitAssocTenCell`に左単位・右単位・結合則の**三種類の新原始第十セル比較**を導入。新第十セル商では九セル反射2個の自由連鎖と反射1個が比較できるため、前段の構文的`tenthResidualNineChainCharge`（1対0）は**忠実に降下できない**。元九セルstrict Eqや元F55/P77/GK5CG Type値証拠は変更なし。
+
+一方、真正P/M消去のイベント出現回数`N_P,N_M`は**旧第十セル全12構成子・新第十セル全15構成子**でそれぞれ保存。独立した二つのNat値`Quotient.lift`で商へ降下する。真正P消去とM消去の往復ループはそれぞれ(2,0)・(0,2)で、対応する反射(0,0)と比較不能。旧八セルの2対0障害も残り、選択第十セルはglobal thinにならない。
+
+さらにP/M交換→左単位と左単位→P/M交換の**真正型付き十セル二経路**を構成し、raw十セルtrace `[previous,unit]` 対 `[unit,previous]` によりstrict非同一を証明。これは第十一セルの局所critical pair候補であり、第十一セル不存在の証明ではない。任意の元P77 final raw indexへ真正GK5CG long/shortを特殊化。
+
+[Exact-source CI #42419530339](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42419530339)：**Strict Lean 10,328/10,328 SUCCESS、Governance 30/30、新規37宣言の標準公理監査、`sorryAx`なし、変更Lean warning/error 0/0、source/test-merge tree `e0de74bb292e082bf1e5af59d337f3f68df6347b`完全一致。** 検証source `c563190990ecbc9fcf50591645ca8a6394f1dac3`、定理squash `f8a741e609565ded35e138d147a402fc57f91409`。[Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77NineCellUnitAssociativeTenthV5_15.lean) · [正式証明記録](docs/formal/Qi-v5_15-ninth-unit-associative-tenth-verified-20261108.md)。公開root107、固定Lean/mathlib、保護#1558 Draft/OPEN不変。**次：Qi v5.16、交換と単位の二つの十セル完成経路を結ぶ最小第十一セル比較。**
+
 ## Qi v5.14 — P/M九セルcritical diamondの最小第十セル・残存九セル合成障害／2026-11-08 JST
 
 **[定理PR #3280](https://github.com/itakura-hidetoshi/KuuOS/pull/3280) MERGED。** Qi v5.13で構成した真正P消去→M消去とM消去→P消去の**二つの異なる生九セル完成証拠**に、独立した新Typeの原始`MixedInterchangeTenCell.exchangePM`を**一種類だけ**追加。元九セル証拠値はstrictに非等で、十セルを用いた選択商の中だけで比較可能。旧F55/P77/GK5CG・独立六～九セルsourceは不変。P/M順序付きイベントtraceは新商に降下せず、raw証拠への左逆復元も存在しない。
