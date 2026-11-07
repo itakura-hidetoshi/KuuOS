@@ -43,13 +43,13 @@ structure BirthPacket
     (b : ConventionalBhava U e Input Candidate)
     (input : Input) where
   candidate : Candidate
-  matches : candidate = birthCandidate b input
+  sourceEq : candidate = birthCandidate b input
 
 /-- The canonical birth has a genuine source equality witness. -/
 def birthPacket (b : ConventionalBhava U e Input Candidate)
     (input : Input) : BirthPacket b input where
   candidate := birthCandidate b input
-  matches := rfl
+  sourceEq := rfl
 
 /-- Any birth packet is necessarily the candidate of its SOURCE Bhava.
 Source/history/certificate are retained by the dependent index b. -/
@@ -57,7 +57,7 @@ theorem birthPacket_exact
     (b : ConventionalBhava U e Input Candidate)
     (input : Input) (p : BirthPacket b input) :
     p.candidate = b.kernel b.current.readout b.history input :=
-  p.matches
+  p.sourceEq
 
 /-- Exactness of birth does not depend on a policy or receipt. -/
 theorem birthPacket_exists
@@ -109,7 +109,7 @@ theorem licensedRequest_governance
     (input : Input) (scope : Scope)
     (r : LicensedRequest B b input scope) :
     B.governance b input scope (birthCandidate b input) := by
-  simpa only [r.birth.matches] using r.governance
+  simpa only [r.birth.sourceEq] using r.governance
 
 /-- A request carries an actual external receipt for its exact birth value. -/
 theorem licensedRequest_external
@@ -118,7 +118,7 @@ theorem licensedRequest_external
     (input : Input) (scope : Scope)
     (r : LicensedRequest B b input scope) :
     Nonempty (B.externalReceipt b input scope (birthCandidate b input)) := by
-  exact ⟨by simpa only [r.birth.matches] using r.external⟩
+  exact ⟨by simpa only [r.birth.sourceEq] using r.external⟩
 
 /-- Exact and target-scoped characterization: a licensed request EXISTS
 iff governance grants the actual candidate AND an external witness exists.
