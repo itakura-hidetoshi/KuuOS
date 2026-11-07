@@ -276,7 +276,7 @@ At each promotion attempt require declared context, source and target, exact sam
 
 ## 12. Machine-readable companion
 
-[`manifests/living_engi_cycle_vedana_tanha_upadana_bhava_v0_1.json`](../manifests/living_engi_cycle_vedana_tanha_upadana_bhava_v0_1.json) に、各ステージ・遷移ゲート・テストケース・proof obligation・非主張事項を別途構造化した。JSONは設計契約のメタデータであり、Lean実装・実行Runtime・数学的証明書ではない。
+[`manifests/living_engi_cycle_vedana_tanha_upadana_bhava_v0_1.json`](manifests/living_engi_cycle_vedana_tanha_upadana_bhava_v0_1.json) に、各ステージ・遷移ゲート・テストケース・proof obligation・非主張事項を別途構造化した。JSONは設計契約のメタデータであり、Lean実装・実行Runtime・数学的証明書ではない。
 
 ## 13. 研究上の結論
 
