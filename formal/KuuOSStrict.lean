@@ -140,6 +140,7 @@ import Kuu.F112.PolygonNativeF55P62RelativeUnitFourCellP80
 import Kuu.LivingEngi.ScopedGluing
 import Kuu.LivingEngi.FrameTransport
 import Kuu.LivingEngi.ConditionedBhava
+import Kuu.LivingEngi.BirthAuthorization
 /-! Internal independent Kuu import aggregate. No KUOS or legacy sources
 are imported into the independent foundation. The unique public aggregate
 remains KuuOSFormal; this is not a separate mathematical authority. -/
