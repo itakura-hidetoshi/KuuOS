@@ -13,6 +13,14 @@ English: KuuOS develops a general mathematical program for dependent origination
 [Living Engi Cycle v0.1 — 受・愛・取・有の数理的境界](docs/LIVING_ENGI_CYCLE_VEDANA_TANHA_UPADANA_BHAVA_v0_1.md) · [構造化manifest](docs/manifests/living_engi_cycle_vedana_tanha_upadana_bhava_v0_1.json)。受＝文脈付き評価、愛＝選好、取＝証明を欠く局所→大域の権威昇格、有＝WORLDと生成規則・履歴・修復条件の運用状態として分離。Stage-II v4.21/22/48の商・符号・降下境界と既存のDukkha/Meta-Manas/Qi–WORLD–OSを出典付きで整理。**既存Lean定理の射程を超えた新証明・実装を主張しない。** 元source/Type値証拠、独立Kuu/Qi、同一rootを不変とし、docs-onlyでStrict Leanは実行不要。
 
 
+## Living Engi Cycle — LEC-01/02/04 初のLean4形式証明をmainへ統合／2026-11-07 JST
+
+**[定理PR #3245](https://github.com/itakura-hidetoshi/KuuOS/pull/3245) MERGED。** 独立Kuuの新規 [ScopedGluing.lean](formal/Kuu/LivingEngi/ScopedGluing.lean) に14定理を実装。全関数の層（集合被覆）に限定した局所compatibility ⇔ 大域gluingの構成・一意性、全射商への因数分解⇔fiber-constancy、`ℤ→ZMod 2` における整数符号の非降下、`PromotionEvidence` による未確認／反証済み／認証済みの型付き昇格境界を証明した。**一般higher stack・元F55/P77/GK5CG Type証拠の大域復元、有の生成カーネルは未証明**として分離。
+
+**[exact-source CI #42339452994](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42339452994)：Strict Lean 10,309／10,309 SUCCESS、Governance SUCCESS、11件の新規公理監査は標準公理のみ／sorryAxなし、変更Lean warning/error 0／0、source/test-merge Git tree `d16e5d2ed1ae5f69c8f86ce949baac87ea4f12d1`一致。** 検証HEAD `7b4038a86cae2835295c35a40b24c751c579be91`、test-merge `525fea642285343b0694aa9285eb776feab60738`、統合squash `945ad6113ea46ee691bf4edd4b8eb908d047df99`。Lean v4.30.0-rc2・固定mathlib、公開root107、独立Kuu→Qiの方向、保護#1558 Draft/OPEN/未マージを維持。
+
+[正式証明記録](docs/formal/LEC-01-02-04-scoped-function-gluing-evidence-gate-verified-20261107.md) · [検証manifest](docs/manifests/living_engi_lec_01_02_04_verified_20261107.json)。次の対象はLEC-05高次transport/coherenceとLEC-06仮有の条件付き生成であり、未証明。
+
 **研究・著作権者 / Founder and copyright holder:** 板倉英俊 / Hidetoshi Itakura. [LICENSE](LICENSE) · [NOTICE](NOTICE) · [COPYRIGHT](COPYRIGHT.md) · [CITATION](CITATION.cff).
 
 

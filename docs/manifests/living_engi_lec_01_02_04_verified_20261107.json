@@ -1,0 +1,99 @@
+{
+  "schema_id": "kuuos.living_engi_cycle.lec01_02_04_verified",
+  "schema_version": "0.1",
+  "document_date_jst": "2026-11-07",
+  "status": "exact_source_ci_verified_and_merged",
+  "author": "Hidetoshi Itakura / 板倉英俊",
+  "theorem_pr": 3245,
+  "exact_source_head": "7b4038a86cae2835295c35a40b24c751c579be91",
+  "test_merge_commit": "525fea642285343b0694aa9285eb776feab60738",
+  "identical_source_test_merge_tree": "d16e5d2ed1ae5f69c8f86ce949baac87ea4f12d1",
+  "main_merge_sha": "945ad6113ea46ee691bf4edd4b8eb908d047df99",
+  "ci": {
+    "workflow_run": 42339452994,
+    "status": "success",
+    "strict_lean_jobs": 10309,
+    "strict_lean_successes": 10309,
+    "public_root_count_unchanged": 107,
+    "new_source_line_count": 252,
+    "theorem_declarations": 14,
+    "explicit_axiom_prints": 11,
+    "axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "sorryAx": false,
+    "changed_source_errors": 0,
+    "changed_source_warnings": 0,
+    "governance": "success",
+    "workflow_integrity": "success",
+    "independent_kuu_api": "success"
+  },
+  "source": "formal/Kuu/LivingEngi/ScopedGluing.lean",
+  "proof_record": "docs/formal/LEC-01-02-04-scoped-function-gluing-evidence-gate-verified-20261107.md",
+  "theorems": {
+    "LEC_01": {
+      "status": "proved_for_set_theoretic_full_function_sheaf",
+      "statements": [
+        "global_implies_compatible",
+        "glue_agrees",
+        "compatible_iff_hasGlobal",
+        "global_unique",
+        "no_global_of_disagreement"
+      ],
+      "limits": [
+        "arbitrary higher stack",
+        "continuous sections without topology",
+        "original F55 proof-history identification"
+      ]
+    },
+    "LEC_02": {
+      "status": "proved_for_ordinary_function_factorization",
+      "statements": [
+        "factors_constant_on_fibers",
+        "factors_iff_fiber_constant",
+        "no_factor_of_collision",
+        "integer_sign_not_modTwo_factor"
+      ],
+      "limits": [
+        "full F55 source history",
+        "general higher quotient effectivity"
+      ]
+    },
+    "LEC_04": {
+      "status": "proved_for_proposition_valued_typed_evidence_gate",
+      "statements": [
+        "admitted_sound",
+        "unchecked_not_admitted",
+        "refuted_not_admitted",
+        "certified_admitted",
+        "incompatible_no_promotion"
+      ],
+      "limits": [
+        "runtime executed gate",
+        "external execution authority",
+        "deciding arbitrary propositions"
+      ]
+    }
+  },
+  "open_obligations": [
+    "LEC-05 higher transport/coherence",
+    "LEC-06 conditioned bhava and future-only repairability",
+    "LEC-07 separate birth and ActOS authority",
+    "LEC-08 non-Markov recurrence",
+    "LEC-09 original proof-relevant source history"
+  ],
+  "previous_manifest_snapshot": "docs/manifests/living_engi_cycle_vedana_tanha_upadana_bhava_v0_1.json",
+  "governance": [
+    "append_only",
+    "same_root",
+    "tighten_only",
+    "proof_receipt_not_global_truth",
+    "proof_not_ActOS_execution",
+    "KuuOSFormal_107_roots",
+    "original_F55_P77_GK5CG_type_witness_preserved",
+    "independent_Kuu_without_Qi_import",
+    "protected_1558_draft_open_unmerged"
+  ]
+}
