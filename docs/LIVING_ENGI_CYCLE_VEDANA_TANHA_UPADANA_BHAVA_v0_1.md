@@ -356,3 +356,14 @@ LEC-05の一般高次transport、LEC-07「有→生候補→外部認可され�
 [exact-source CI #42355697499](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42355697499)：**Strict Lean 10,313 / 10,313 SUCCESS、Governance／独立Kuu API SUCCESS、公理監査18件は標準公理のみ・sorryAxなし**。source/test-merge tree `8ce7d90ca3c0ff02403237624dc202ddb065060f` 一致、定理squash `0aff0f1d62e66b82d4f4d680597dbdfa4cecd428`。初回失敗は`decide`が自由変数を含む式を直接処理しようとしたことであり、`change (false : Bool) ≠ true` の正規化だけを加え、命題を弱めず修正した。
 
 [正式証明記録](formal/LEC-08-nonmarkov-history-repair-verified-20261107.md) · [検証manifest](manifests/living_engi_lec08_verified_20261107.json)。**次の別課題はLEC-09：真正元F55/P77/GK5CGのType値証拠履歴と商・高次比較の厳密な境界。** 非マルコフRuntime v0.72／v0.23への橋渡しは未実施であり、推論候補から外部実行許可は発生しない。
+
+
+## 18. 2026-11-07 — LEC-09 真正native F55 Type値履歴と選択商の非復元性（証明済み）
+
+[LEC-09 定理PR #3254](https://github.com/itakura-hidetoshi/KuuOS/pull/3254) は **MERGED**。既存の**独立native F55-shaped** 北C60真正五角形sourceで、元のType値三セル`northNativeF55PentagonCell`と、そこに右単位を合成した`northNativeF55PentagonWithUnit`が**異なるraw証拠**でありながら、選択E7P4 full-shadow商では同じ観測値を持つ既証明結果を継承した。
+
+独立[新規Leanモジュール](../formal/Kuu/LivingEngi/NativeF55ProofHistoryBoundary.lean)では、**この商だけから全raw Type値証拠を復元する左逆関数は存在しないこと、raw単射な観測者はこの商を通じて因数分解できないこと、商の一致から誤った元source等式をLEC-04の認証済み証拠へ昇格できないこと**を証明した。さらに`NativeF55Trace`で元raw履歴・商観測・正確な対応証明を別々の型付き値として保持し、観測値だけでは履歴を識別できないことを形式化した。
+
+[Exact-source CI #42357158330](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42357158330)：**Strict Lean 10,314 / 10,314 SUCCESS、Governance／独立Kuu API SUCCESS、13件の公理監査は標準公理のみ／`sorryAx`なし**。source/test-merge Git tree `53242fedbadfce7b34034158c83a4eed572d992e` 一致。定理squash `77f79e0d2676f327ced5adc5dff6220f757a43f5`。旧数学ソースと公開root107不変。
+
+[正式証明記録](formal/LEC-09-native-F55-proof-history-boundary-verified-20261107.md) · [機械可読検証](manifests/living_engi_lec09_verified_20261107.json)。**厳密な限界:** これは独立して再構成した真正C60 native F55-shaped sourceの定理であり、凍結された歴史的な元F55/P77/GK5CG Type値証拠との型付き同値・忠実な比較は**未証明**。その追加の出典接続と高次coherenceが次の研究課題である。
