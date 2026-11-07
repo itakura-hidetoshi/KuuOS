@@ -1,5 +1,15 @@
 # KuuOS / 空OS — Formal Research Roadmap
 
+## Qi v5.15 VERIFIED — 元九セル単位・結合第十セルとP/M独立消去不変量／2026-11-08
+
+- **[定理PR #3282](https://github.com/itakura-hidetoshi/KuuOS/pull/3282) MERGED：** Qi v5.14の全第十セル比較を§previous§へ保持。独立§MixedUnitAssocTenCell§に左単位§leftUnit§・右単位§rightUnit§・真正九セル自由連鎖の結合§assoc§を追加。合計15構成子について型付き文脈を保存。元source Type値・既存全定義は不変。
+- **旧不変量の厳密な非降下：** 自由九セルchainごとに+1となる前段§tenthResidualNineChainCharge§では§refl9;refl9§=1対§refl9§=0。新第十セルでは両者を単位律で比較できるため、この旧Nat値をそのまま新商へ§Quotient.lift§することは不可能。新商は旧商を厳密に粗化するが、生九セルstrict Eqへ昇格しない。
+- **新商に降下する二つの別々の計数：** 元のP/M primitive cancellationの出現回数§N_P,N_M§はv5.14旧第十セル全12構成子、v5.15新第十セル全15構成子で保存。2つの真正Nat値§Quotient.lift§と代表元計算を証明した。
+- **P/Mの残存障害：** 真正Pcancel往復(2,0)・Mcancel往復(0,2)は、各々の元八セル端点上の反射(0,0)と非比較。選択新第十セルのglobal thinnessは不成立。元八セルchainの先行2対0障害も保持。将来の逆元消去第十セルなどの不存在は主張しない。
+- **第十一セルの局所候補：** 既存P/M交換を九セル左文脈に適用→左単位と、左単位→元P/M交換の二つの十セルパスを真正Type値として構成。原始traceが§[previous,unit]§と§[unit,previous]§で異なり、生十セルstrict Eq不成立。これは高次critical overlap候補であり第十一セルcomparison不存在ではない。
+- **[Exact-source CI #42419530339](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42419530339) SUCCESS：** Strict Lean **10,328/10,328**、Governance **30/30**、37宣言標準公理のみ・§sorryAx§なし、変更Lean error/warning 0/0。source §c563190990ecbc9fcf50591645ca8a6394f1dac3§、test-merge §02c8ca80cf1c87f4e6d15d74d078f1586956bd34§、同一Git tree §e0de74bb292e082bf1e5af59d337f3f68df6347b§、定理squash §f8a741e609565ded35e138d147a402fc57f91409§。公開root107、固定Lean/mathlib、保護#1558 Draft/openを維持。
+- [Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77NineCellUnitAssociativeTenthV5_15.lean) · [正式証明記録](docs/formal/Qi-v5_15-ninth-unit-associative-tenth-verified-20261108.md)。**Qi v5.16目標：** 十セル「P/M交換→左単位」と「左単位→P/M交換」の真正型付き独立第十一セル比較を探索し、比較後の観測量降下／obstructionを分離する。
+
 ## Qi v5.14 VERIFIED — 元P/M九セルcritical diamondの独立第十セルと残存自由九セル障害／2026-11-08
 
 - **[定理PR #3280](https://github.com/itakura-hidetoshi/KuuOS/pull/3280) MERGED：** 元の`originalDoubleCancellationPThenM`と`originalDoubleCancellationMThenP`は生九セルType値として厳密に非等。独立`MixedInterchangeTenCell`に唯一の新原始`exchangePM`を追加し、strict・逆・連鎖・九セル構造文脈下で閉包。元九セルsyntax・真正F55/P77/GK5CG・公開root107を保持。
