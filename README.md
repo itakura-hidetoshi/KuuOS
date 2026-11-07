@@ -8,6 +8,14 @@
 
 English: KuuOS develops a general mathematical program for dependent origination, contextual transport, presentation localization, effective descent, higher coherence, and explicit obstructions. The later C60 geometry is a concrete testbed, **not the origin or unique model of the general theory**.
 
+## Living Engi Cycle — LEC-08 履歴感受性と証拠保存型修復の形式証明／2026-11-07 JST
+
+**[定理PR #3252](https://github.com/itakura-hidetoshi/KuuOS/pull/3252) MERGED。** 新規独立[HistoryFeedbackRepair.lean](formal/Kuu/LivingEngi/HistoryFeedbackRepair.lean) に18定理。元`ConventionalBhava`の同じ現在readout・最新Type値snapshotであっても、より古い履歴が違えば生成候補が異なる有限の`lagTwoKernel`反例と、現在値＋最新履歴への因数分解不能性を証明。さらに旧source・旧readout・全証拠履歴を保持したまま**将来の候補生成だけを指定した履歴非依存policyへ改訂可能**な条件付き構成を証明。履歴消去・任意系の安定化・実AI内部重み変更を主張しない。
+
+[exact-source CI #42355697499](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42355697499)：**Strict Lean 10,313/10,313 SUCCESS、Governance SUCCESS、18定理標準公理のみ／sorryAxなし、変更Lean warning/error 0/0、source/test-merge tree `8ce7d90ca3c0ff02403237624dc202ddb065060f`一致。** 検証source `1a357d40d60dbf5e18561eea81c6f28de107551a`、squash `0aff0f1d62e66b82d4f4d680597dbdfa4cecd428`。初回の`decide`自由変数エラーは`change (false : Bool) ≠ true`の正規化だけを追加して修正。固定Lean/mathlib、root107、元F55/P77/GK5CG証拠、#1558 Draft/Openを維持。
+
+[正式証明記録](docs/formal/LEC-08-nonmarkov-history-repair-verified-20261107.md) · [構造化検証記録](docs/manifests/living_engi_lec08_verified_20261107.json)。**次：LEC-09の真正元source Type値証拠比較（未証明）。**
+
 ## Living Engi Cycle — LEC-07「有→生候補≠外部行為」形式証明／2026-11-07 JST
 
 **[定理PR #3250](https://github.com/itakura-hidetoshi/KuuOS/pull/3250) MERGED。** 独立Kuuの[BirthAuthorization.lean](formal/Kuu/LivingEngi/BirthAuthorization.lean)に、真正Bhavaからの候補出生、Governanceと**別個の外部receipt**を両方要求する認可要求、さらに別のeffect receiptの境界を形式化。候補出生があっても外部receiptが`Empty`なら認可要求は不能、`reviseBhava`で履歴が増えれば旧fresh-only receiptを再使用できないことを具体的に証明した。実際のActOS実行・新たな許可の発行を主張しない。
