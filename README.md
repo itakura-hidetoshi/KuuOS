@@ -8,6 +8,15 @@
 
 English: KuuOS develops a general mathematical program for dependent origination, contextual transport, presentation localization, effective descent, higher coherence, and explicit obstructions. The later C60 geometry is a concrete testbed, **not the origin or unique model of the general theory**.
 
+## Living Engi Cycle — LEC-09 native F55 Type値証拠とshadow商の非復元性／2026-11-07 JST
+
+**[定理PR #3254](https://github.com/itakura-hidetoshi/KuuOS/pull/3254) MERGED。** 真正北C60五角形の独立**native F55-shaped**元三セルと、右単位を合成した三セルは**異なるraw Type値履歴**だが、真正E7P4 full-shadow商では同値になる既証明結果を継承。新規 [NativeF55ProofHistoryBoundary.lean](formal/Kuu/LivingEngi/NativeF55ProofHistoryBoundary.lean) の15定理で、選択商からの全raw証拠復元左逆不存在・商経由の忠実観測者不存在・同じ商観測からの元source等式の認証不能を証明。元raw履歴・商値・証拠を別々に保持する`NativeF55Trace`を構成した。
+
+[exact-source CI #42357158330](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42357158330)：**Strict Lean 10,314 / 10,314 SUCCESS、Governance／独立Kuu API SUCCESS、13件公理監査は標準公理のみ／sorryAxなし、source/test-merge tree `53242fedbadfce7b34034158c83a4eed572d992e`完全一致。** 定理squash `77f79e0d2676f327ced5adc5dff6220f757a43f5`。凍結元F55/P77/GK5CGとの**歴史的Type値source同値は未証明**、選択商自体を不正とするものではない。root107・保護#1558 Draft/Open・固定Lean/mathlibを保持。
+
+[正式証明記録](docs/formal/LEC-09-native-F55-proof-history-boundary-verified-20261107.md) · [検証manifest](docs/manifests/living_engi_lec09_verified_20261107.json)。次の課題は**歴史的元sourceと独立native F55 sourceの型付き比較・高次coherenceの証拠**。
+
+
 ## Living Engi Cycle — LEC-08 履歴感受性と証拠保存型修復の形式証明／2026-11-07 JST
 
 **[定理PR #3252](https://github.com/itakura-hidetoshi/KuuOS/pull/3252) MERGED。** 新規独立[HistoryFeedbackRepair.lean](formal/Kuu/LivingEngi/HistoryFeedbackRepair.lean) に18定理。元`ConventionalBhava`の同じ現在readout・最新Type値snapshotであっても、より古い履歴が違えば生成候補が異なる有限の`lagTwoKernel`反例と、現在値＋最新履歴への因数分解不能性を証明。さらに旧source・旧readout・全証拠履歴を保持したまま**将来の候補生成だけを指定した履歴非依存policyへ改訂可能**な条件付き構成を証明。履歴消去・任意系の安定化・実AI内部重み変更を主張しない。
