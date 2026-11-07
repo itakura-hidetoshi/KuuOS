@@ -1,5 +1,12 @@
 # KuuOS / 空OS — Formal Research Roadmap
 
+## Qi v5.10 VERIFIED — 元四重五角形 × mixedResidue の局所合流と生八セル順序障害／2026-11-07
+
+- **[Qi v5.10 定理PR #3272](https://github.com/itakura-hidetoshi/KuuOS/pull/3272) MERGED：** 元の自由六セル始終点が一致する真正 `SevenRewrite` 四頂点 `H₃⊗M₁`、`H₂⊗M₁`、`H₃⊗M₂`、`H₂⊗M₂` を構成。北辺・南辺は新規一種の `fourfoldPentagon` 八セル、東辺・西辺は既存 `mixedResidue` 八セル。`fourfoldMixedCriticalLocalDiamond` と `fourfoldMixedCriticalClassDiamond` で型付き局所合流・新選択商での同一クラスを証明。旧八セル文法には北辺・南辺の比較が存在しないことも既証明対角線障害から導出。
+- **残存高次障害の射程：** `fourfoldMixedCriticalPThenM` と `fourfoldMixedCriticalMThenP` は同一添字の二つの原始八セル証拠だが、原始生成元出現traceが `[true,false]` と `[false,true]` となり、`fourfoldMixedCriticalRawEightGap` は**生の八セル証明strict Eqが成り立たない**ことを証明。これは第九セル比較不存在の証明ではなく、次の型付き高次比較に残る厳密な問題。V/R/Uの法2観測量は従来通り降下。
+- **[Exact-source CI #42373798805](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42373798805) SUCCESS：** Strict Lean選択本体・公開集約成功、Governance **30/30 SUCCESS**、新規17宣言の公理監査は標準公理のみ、`sorryAx`なし。source `9dc7b15c6b1c70d85fb5b40f6c5aee5e7aa86523`／test-merge `f041c3054863e80f82e8198c1b5c2c695f7717c3`のGit tree `f3da187cd1482d24f6b020577e218e98fc15bc31`一致。定理squash `4f497a027b34e0ef085e260f027fe6247b71c839`。既存Lean定義、元F55/P77/GK5CG、公開root107、保護PR #1558 Draft/OPEN、固定Lean/mathlibは維持。
+- [Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77FourfoldMixedCriticalDiamondV5_10.lean) · [正式証明記録](docs/formal/Qi-v5_10-original-fourfold-mixed-critical-diamond-verified-20261107.md)。**次：** Qi v5.11候補として、選択した二つの八セル完成経路を型付きで比較する独立最小九セルを探索。全局的thinnessや元七セルstrict Eqは仮定しない。
+
 ## Living Engi Cycle — LEC-09 native F55-shaped source vs selected shadow／2026-11-07
 
 - **[LEC-09 #3254](https://github.com/itakura-hidetoshi/KuuOS/pull/3254) MERGED：** 真正C60北五角形の独立native F55-shaped raw Type値三セル2件について、元sourceで非等・選択E7P4 full-shadow商で等号の既証明を継承。新規 [Lean全文](formal/Kuu/LivingEngi/NativeF55ProofHistoryBoundary.lean) で選択商の非単射、全raw証拠復元の左逆不存在、忠実raw観測者の商経由因数分解不能、LEC-04認証ゲートを介した不正source等式昇格の否定を証明。さらに元のraw proof tree／商観測／sourceEqを**別々のType値証拠**として保存する`NativeF55Trace`を構成。
