@@ -295,3 +295,15 @@ At each promotion attempt require declared context, source and target, exact sam
 ---
 
 Copyright © 2026 Hidetoshi Itakura / 板倉英俊. Repository license: Apache-2.0. This document extends interpretation and governance only; no existing source theorem or physical/clinical claim is modified.
+
+
+## 14. 2026-11-07 — LEC-01/02/04 Lean4検証済み追補（初版仕様は歴史記録として保持）
+
+初版の §10 表は**形式化前**の研究課題状況を示す不変スナップショットである。後続の真正独立Lean4定理 [PR #3245](https://github.com/itakura-hidetoshi/KuuOS/pull/3245) は **MERGED**。全14定理・11件の §#print axioms§ 対象を含む新規 [Lean全文](../formal/Kuu/LivingEngi/ScopedGluing.lean) を公開集約 §KuuOSFormal§ へ取り込み、[exact-source CI #42339452994](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42339452994) **10,309/10,309 SUCCESS**、標準公理のみ／§sorryAx§なし、source/test-merge Git tree一致。統合main §945ad6113ea46ee691bf4edd4b8eb908d047df99§。保護PR #1558はDraft/Open/未マージ。
+
+- **LEC-01（限定証明済み）:** 任意の集合被覆で定義した**全関数の層**に関し、局所compatibilityとグローバル関数の存在は同値、構成と一意性も証明。任意のprestack・higher stackのdescentは含まない。
+- **LEC-02（限定証明済み）:** 全射商への通常の関数因数分解は、各商fiberでの値の一致と同値。§ℤ→ZMod 2§ の整数符号は因数分解不能。元F55のType履歴の一般同一視は含まない。
+- **LEC-04（型付き証明済み）:** 未確認・反証済み・認証済みは異なる §PromotionEvidence§ 構成子であり、認証済みからのみ宣言した命題 §P§ を取り出せる。不整合な局所関数の大域昇格は不可。実行権限は与えない。
+- **未証明:** LEC-05の高次coherence、LEC-06の条件付き有と生成カーネル、LEC-07の有／生／ActOS境界、LEC-08の非マルコフ安定性、LEC-09の元source履歴との完全比較。
+
+[正式証明記録](formal/LEC-01-02-04-scoped-function-gluing-evidence-gate-verified-20261107.md) · [機械可読な検証追補](manifests/living_engi_lec_01_02_04_verified_20261107.json)。先行 [v0.1 manifest](manifests/living_engi_cycle_vedana_tanha_upadana_bhava_v0_1.json) は当時の研究仕様スナップショットとして保持し、上書きしない。
