@@ -414,3 +414,20 @@ HasGlobal U s
 [正式証明記録](formal/LEC-11-source-aware-overlap-faithfulness-verified-20261107.md) · [検証manifest](manifests/living_engi_lec11_verified_20261107.json)。
 
 **次の別証明課題:** 歴史的元F55/P77/GK5CGと独立native F55-shaped証拠の忠実なType値比較、および一般の高次transport/coherenceへの段階的な拡張。数値商の一意性から元証拠の一意性や実行権限を無条件に導かない。
+## 21. 2026-11-07 — LEC-12：歴史的元F55と独立native F55の真正Type値証拠・共通shadow比較（証明済み）
+
+**[定理PR #3260](https://github.com/itakura-hidetoshi/KuuOS/pull/3260) MERGED。** 前段LEC-09/10/11は真正北C60を使用しながらも、独立再構成したnative F55-shaped sourceの内部定理であり、歴史的original F55のType値そのものとの接続を未証明として保持した。LEC-12は初めて、**保持されている歴史的`OriginalF45BracketTree.DepthRotationRoute.PresentedCell`と独立`KuuNativeF45Tree.DepthRotationRoute.PresentedCell`の二つの元Typeを同じLeanモジュールに取り込み、**両者を同一視せずに真正な比較証明書を構成した。
+
+実装は[混合公開集約側の新規Lean](../formal/KuuOSFormal/HistoricalNativeF55CommonShadowLEC12.lean)に限定する。歴史的元F55の`Blocks`、二Nat深度、F54 source/target route、九構成子と、独立nativeの真正北C60元証拠をそのまま保持する。**独立`KuuOSStrict`へKUOS/Grayをimportしていない**。共通の観測型は`(Int × Int) × ZMod 2`である。
+
+- **共通数値条件：** 元歴史的raw F55の`c60F55SourceNative`から得る二符号付き整数chargeと位相、独立nativeの`nativeShadow`の双方で、`phase = (second charge : ZMod 2)`を既証明の全構成子定理から継承する。
+- **真正五角形生成子の比較：** 歴史的元`PresentedCell.pentagon t₁ t₂ t₃ t₄`と独立北C60の`northNativeF55PentagonCell`はいずれも`((1,0),0)`に写る。歴史的`t_i`は元の依存型構成物であり、独立北C60のstageと**幾何学的に同一であるとは証明していない**。
+- **履歴の非復元性：** 両体系で「五角形生成子」と「同じ生成子＋元右単位」のraw証拠はそれぞれ異なるが、共通観測では一致する。旧rawについても新rawについても、**この指定共通数値観測は単射でない**。
+- **型付き二体系証明書：** `HistoricalNativeF55Aligned`は歴史的raw証拠・独立native raw証拠・両者の**指定shadow等値証明**を別々のフィールドとして保持する。primitive版とright-unit版の二つの具体的証明書を構成し、**証明書そのものは異なる**ことを証明した。
+- **越権しない境界：** これは**実在する両元Typeの共通観測に関する最初の限定的な接続**である。全歴史的F54/F55↔native F54/F55の忠実な型付きFunctor/同値や、元P77/GK5CG高次seam・coherence・obstructionの輸送を得たわけではない。
+
+[exact-source CI #42361244071](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42361244071) **Strict Lean 10,317/10,317 SUCCESS**、新規14定理＋型付き比較証拠構成2件、**`#print axioms`16件**は標準`propext`・`Classical.choice`・`Quot.sound`のみ（元raw不等式は公理なし）、`sorryAx`なし。Governance、独立Kuu public API、公開root復元、関連integrity checksもSUCCESS。source/test-mergeのGit tree `d999152254a878df75fade0fe70082765bb0a1e2`一致、定理squash `f700f0d680865301d6872c5e25b7d2541ad591b6`。公開root107、固定Lean/mathlib、元F55/P77/GK5CG source、保護PR #1558 Draft/Open/未マージは保持。
+
+[正式証明記録](formal/LEC-12-historical-original-and-native-F55-common-shadow-verified-20261107.md) · [検証manifest](manifests/living_engi_lec12_verified_20261107.json)。
+
+**次段階LEC-13：** 歴史的元F54と独立native F54の`Blocks`・両Nat深度・真のC60 source/targetを指定した**境界付き忠実な輸送写像**の存在条件と障害を明示し、F55九構成子およびP77/GK5CG高次証拠へ拡張できる範囲だけを証明する。共通shadowの一致だけで元の証拠履歴や外部実行権限を昇格しない。
