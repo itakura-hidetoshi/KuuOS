@@ -265,7 +265,7 @@ theorem ninthPrimitiveEventCount_append (b : Bool)
       ninthPrimitiveEventCount b xs +
         ninthPrimitiveEventCount b ys := by
   induction xs with
-  | nil => rfl
+  | nil => simp only [List.nil_append, ninthPrimitiveEventCount, Nat.zero_add]
   | cons x xs ih =>
       simp only [List.cons_append, ninthPrimitiveEventCount, ih]
       omega
