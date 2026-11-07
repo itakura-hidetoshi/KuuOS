@@ -8,6 +8,14 @@
 
 English: KuuOS develops a general mathematical program for dependent origination, contextual transport, presentation localization, effective descent, higher coherence, and explicit obstructions. The later C60 geometry is a concrete testbed, **not the origin or unique model of the general theory**.
 
+## Living Engi Cycle — LEC-07「有→生候補≠外部行為」形式証明／2026-11-07 JST
+
+**[定理PR #3250](https://github.com/itakura-hidetoshi/KuuOS/pull/3250) MERGED。** 独立Kuuの[BirthAuthorization.lean](formal/Kuu/LivingEngi/BirthAuthorization.lean)に、真正Bhavaからの候補出生、Governanceと**別個の外部receipt**を両方要求する認可要求、さらに別のeffect receiptの境界を形式化。候補出生があっても外部receiptが`Empty`なら認可要求は不能、`reviseBhava`で履歴が増えれば旧fresh-only receiptを再使用できないことを具体的に証明した。実際のActOS実行・新たな許可の発行を主張しない。
+
+[exact-source CI #42348497450](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42348497450)：**Strict Lean 10,312／10,312 SUCCESS、Governance／独立Kuu API SUCCESS、12定理標準公理のみ／sorryAxなし、source/test-merge tree `8ecac9fb37da15911cf6d7c330980f652997fa75`一致。** source HEAD `6f8d4d5c831264f20e3f8bdd74377b6be86defe9`、main squash `359bb1c59ff0c137e71979fa57e1a55b5143983d`。フィールド名`matches`のLean予約語衝突のみを`sourceEq`へ修正し命題・仮定を維持。root107・固定Lean/mathlib・保護#1558 Draft/Openを保持。
+
+[正式証明記録](docs/formal/LEC-07-birth-authorization-verified-20261107.md) · [検証JSON](docs/manifests/living_engi_lec07_verified_20261107.json)。次は**LEC-08 非マルコフ帰還と修復可能性**（未証明）。
+
 ## Living Engi Cycle — LEC-05/06 真正型付き輸送と条件付き仮有のLean4証明／2026-11-07 JST
 
 **[LEC-05 PR #3247](https://github.com/itakura-hidetoshi/KuuOS/pull/3247)／[LEC-06 PR #3248](https://github.com/itakura-hidetoshi/KuuOS/pull/3248) はともにMERGED。** 独立Kuuへ`FrameTransport.lean`／`ConditionedBhava.lean`を追加し、前者で**指定されたframeからのtyped輸送・cocycle・ゲージ不変gluing**、後者で**元Type値局所証拠を保持する`FramedSnapshot`、認証済みの条件付き`ConventionalBhava`、未来方向の全旧スナップショット追記**を形式証明。局所の不整合から無条件のWORLDを生成しない。任意の高次stack、元F55/P77/GK5CG証拠同一視、実際の非マルコフ学習、外部ActOS権限は証明対象外。

@@ -334,3 +334,14 @@ Copyright © 2026 Hidetoshi Itakura / 板倉英俊. Repository license: Apache-2
 ### 残る正本課題
 
 LEC-05の一般高次transport、LEC-07「有→生候補→外部認可された行為」の形式的分離、LEC-08の非マルコフ帰還・安定性、LEC-09の真正元F55/P77/GK5CG Type値証拠との比較は、**未証明**として保持する。LEC-05/06の証明が成り立つという理由だけで、これらの条件を省略しない。保護#1558はDraft/Open/未マージ、公開root107、既存の公理・ソース履歴・固定toolchainは不変。
+
+
+## 16. 2026-11-07 — LEC-07「有→生候補→外部許可」の形式証明追補
+
+独立Kuu新規 [`BirthAuthorization.lean`](../formal/Kuu/LivingEngi/BirthAuthorization.lean) は、既存LEC-06の証拠付き `ConventionalBhava` に対し、生成された候補 `BirthPacket` が元のBhavaと入力の**真正な等式証明**を持つこと、`LicensedRequest` には別途Governance証明と、**Bhava全履歴・入力・scope・候補に依存する外部receipt**を要求することをLean4で証明した。
+
+特に、**生候補は存在しても外部receiptが空なら認可要求は存在しない**、さらに**認可要求だけでは別の効果receiptが生じない**ことを構成的な反例で分離した。`freshOnlyBoundary` では、履歴が空のときだけ許される具体的なreceiptがあり、`reviseBhava` で旧source snapshotを追記した後はその**特定の古い許可**を再利用できないことを証明した。これは再許可一般の不可能性ではない。
+
+**[定理PR #3250](https://github.com/itakura-hidetoshi/KuuOS/pull/3250) MERGED**、[exact-source CI #42348497450](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42348497450) **Strict Lean 10,312 / 10,312 SUCCESS**、Governance／独立Kuu API SUCCESS、12定理・12件`#print axioms`は標準公理のみ、`sorryAx`なし。source／test-merge tree `8ecac9fb37da15911cf6d7c330980f652997fa75`一致。統合squash `359bb1c59ff0c137e71979fa57e1a55b5143983d`。最初の失敗はフィールド名`matches`とLean構文の衝突であり、`sourceEq`への名称修正のみで命題・仮定を保持した。
+
+[正式証明記録](formal/LEC-07-birth-authorization-verified-20261107.md) · [検証JSON](manifests/living_engi_lec07_verified_20261107.json)。`LEC-08` の非マルコフ帰還・可観測性、`LEC-09` の真正元Type値証拠比較は未解決であり、数学的な証拠の存在を実世界の実行権限と同一視しない。
