@@ -262,7 +262,7 @@ theorem nativeF55_twoChart_not_overlapFiberFaithful :
     simpa [northNativeF55TwoChartRaw] using
       northNativeF55_observed_equal
   exact nativeF55_twoChart_raw_overlap_disagrees
-    (hfaith true false () (Set.mem_univ ()) (Set.mem_univ ()) hshadow
+    (hfaith true false () (Set.mem_univ ()) (Set.mem_univ ()) hshadow)
 
 /-- The separate ALTERNATIVE constant source atlas IS faithful on
 the same abstract overlaps because it uses one actual raw source. -/
