@@ -1,5 +1,14 @@
 # KuuOS / 空OS — Formal Research Roadmap
 
+## Qi v5.14 VERIFIED — 元P/M九セルcritical diamondの独立第十セルと残存自由九セル障害／2026-11-08
+
+- **[定理PR #3280](https://github.com/itakura-hidetoshi/KuuOS/pull/3280) MERGED：** 元の`originalDoubleCancellationPThenM`と`originalDoubleCancellationMThenP`は生九セルType値として厳密に非等。独立`MixedInterchangeTenCell`に唯一の新原始`exchangePM`を追加し、strict・逆・連鎖・九セル構造文脈下で閉包。元九セルsyntax・真正F55/P77/GK5CG・公開root107を保持。
+- **選択商・順序履歴の非降下：**`mixedInterchangeTenthSetoid`と実際の`Quotient`は元九セル証拠だけを比較する。元の`[P,M]`対`[M,P]`という順序付きtraceは新商に忠実降下できず、raw九セルへの左逆復元も不存在。元生証拠Eqへの昇格を否定。
+- **十セル後の別障害：** 新Nat値`tenthResidualNineChainCharge`は全12の真正十セル構成子を通じて不変、`Quotient.lift`で降下。九セル反射の自由`chain`2個は`Q=1`、反射1個は`Q=0`。従って選択十セルはglobal thinでない。先行Qi v5.13の元八セル自由chainの2対0障害もそのまま残る。
+- **真正元P77特殊化：** 任意の元P77 final raw patch tree indexのGK5CG long/short Type値に対して第十セル比較を実現し、元source strict Eq Interpreter不存在を維持。将来の独立高次比較の普遍的不可能性までは主張しない。
+- **[Exact-source CI #42418086443](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42418086443) SUCCESS：** Strict Lean **10,327/10,327**、Governance **30/30**、新規22宣言標準公理のみ・`sorryAx`なし、変更Lean warning/error 0/0。source `a656618b836d8cd2088109dcdd0e8c1d42d6714c`、test-merge `0369fca99c00bc541e97816087444d40b6c4aba0`、tree `453864c3d3784b1097fabe0536d93a782ebc55b8`完全一致、squash `be2f4a481d0dfcd1e75091f4603ef491a22d40dc`。固定Lean v4.30.0-rc2/mathlib、保護#1558 Draft/OPENを維持。
+- [Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77PMCriticalDiamondMinimalTenthComparisonV5_14.lean) · [正式証明記録](docs/formal/Qi-v5_14-original-pm-ninth-diamond-minimal-tenth-verified-20261108.md)。**Qi v5.15目標：** 九セル自由chainの単位・結合比較と、次の第十一セルcritical pairで保存すべき生履歴を区別する。無条件の薄化は導入しない。
+
 ## Qi v5.13 VERIFIED — M往復の九セル最小補完と自由合成構造の残存障害／2026-11-08
 
 - **[定理PR #3278](https://github.com/itakura-hidetoshi/KuuOS/pull/3278) MERGED：** 真正`ninthMixedRoundtrip`と`ninthMixedReflexive`を結ぶ一種類だけの新`MixedCancelNineCell.cancelMixed`を導入し、全旧`PentagonCancelNineCell`を`previous`で保存。新Setoid・商は旧九セル商の厳密な粗化。旧比較不存在、元八セルstrict Eq不存在、全raw証拠への左逆復元不能を形式証明。
