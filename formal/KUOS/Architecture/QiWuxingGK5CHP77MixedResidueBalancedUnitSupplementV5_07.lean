@@ -211,4 +211,5 @@ theorem mixedResidueBalancedCriticalPeak_classEq {w z : W}
 
 end PentagonAdjoinedSixCell
 end FivefoldP77FiniteRefinement
+end
 end KUOS.Architecture.WuxingPentagonUnified
