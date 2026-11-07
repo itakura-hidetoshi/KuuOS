@@ -1,5 +1,13 @@
 # KuuOS / 空OS — Formal Research Roadmap
 
+## Qi v5.11 VERIFIED — 最小九セル・出現回数降下と残余非比較obstruction／2026-11-07
+
+- **[定理PR #3274](https://github.com/itakura-hidetoshi/KuuOS/pull/3274) MERGED：** 真正Qi v5.10の八セル `fourfoldMixedCriticalPThenM` と `fourfoldMixedCriticalMThenP` のみに一種の原始 `FourfoldMixedNineCell.interchange` を導入。旧生八セルstrict Eqは否定のまま、九セルSetoidの選択商で両経路を比較可能にし、元全証拠の左逆復元は不可能。
+- **脱落する観測／残る観測：** `[P,M]`対`[M,P]`の順序付き原始イベントtraceは商に降下不能。しかしPとMの原始出現回数はそれぞれ全九セル構成子で不変、Nat値の `Quotient.lift` と代表元計算も証明。両経路はP=M=1。元の七セルV/R/U法2観測の保存も維持。
+- **残余の真正obstruction：** pentagon八セル往復と八セル反射比較は同じ七セル端点を持つがP出現回数が2対0。今回の九セル文法では比較不存在、選択商でも非同値、universal ninth comparison / global thinnessは成立しない。元P77 final raw indexにおける真正long/shortでの九セル比較を形式証明し、元source strict Eq Interpreterの不存在も維持。
+- **[Exact-source CI #42376080358](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42376080358) SUCCESS：** Strict Lean・Governance 30/30、新規26宣言の標準公理監査、`sorryAx`なし、変更Lean error/warning 0/0。検証HEAD `9077c36485605926386791882e2037d4f92e7eef`、test-merge HEAD `73894cc37ce6f942642de74202d5cdf6991ce8aa`、Git tree `c65f8302cb1d9440c1f41df258761cd1ab823532`一致、定理squash `b997e8368e80fea444f6422da8dd2135f856180c`。公開root107、固定Lean/mathlib、保護#1558 Draft/Open不変。
+- [Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77FourfoldMixedMinimalNinthCompletionV5_11.lean) · [正式証明記録](docs/formal/Qi-v5_11-original-fourfold-mixed-minimal-ninth-completion-verified-20261107.md)。**Qi v5.12目標：** 九セルと往復・単位の型付きcritical overlapを個別に検証。無条件の全八セルの同一視は導入しない。
+
 ## Qi v5.10 VERIFIED — 元四重五角形 × mixedResidue の局所合流と生八セル順序障害／2026-11-07
 
 - **[Qi v5.10 定理PR #3272](https://github.com/itakura-hidetoshi/KuuOS/pull/3272) MERGED：** 元の自由六セル始終点が一致する真正 `SevenRewrite` 四頂点 `H₃⊗M₁`、`H₂⊗M₁`、`H₃⊗M₂`、`H₂⊗M₂` を構成。北辺・南辺は新規一種の `fourfoldPentagon` 八セル、東辺・西辺は既存 `mixedResidue` 八セル。`fourfoldMixedCriticalLocalDiamond` と `fourfoldMixedCriticalClassDiamond` で型付き局所合流・新選択商での同一クラスを証明。旧八セル文法には北辺・南辺の比較が存在しないことも既証明対角線障害から導出。

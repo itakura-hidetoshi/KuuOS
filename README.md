@@ -8,6 +8,12 @@
 
 English: KuuOS develops a general mathematical program for dependent origination, contextual transport, presentation localization, effective descent, higher coherence, and explicit obstructions. The later C60 geometry is a concrete testbed, **not the origin or unique model of the general theory**.
 
+## Qi v5.11 — 真正四重五角形 × mixedResidueの最小九セル補完・出現回数降下／2026-11-07 JST
+
+**[定理PR #3274](https://github.com/itakura-hidetoshi/KuuOS/pull/3274) MERGED。** 前段Qi v5.10で生の八セル完成経路として不等だった `PThenM` と `MThenP` に対し、独立 `FourfoldMixedNineCell` の**一種類だけの真正原始九セル** `interchange` を構成。元八セルをstrict Eqにせず、選択された九セル商では両履歴が同一クラスとなる。順序付きイベントtrace `[P,M]` / `[M,P]` は新商には降下せず、**PとMそれぞれの出現回数は全九セル構成子について保存され、実際の `Quotient.lift` で降下**する。一方、元八セルのpentagon往復（P出現2回）と反射比較（P出現0回）には今回の九セル比較が存在せず、global thinnessは成立しない。任意の元P77 final raw indexにも真正GK5CG long/shortから型付き特殊化し、元source strict Eqの障害を保持。
+
+[exact-source CI #42376080358](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42376080358) **SUCCESS**：Strict Lean成功、Governance **30/30**、新規26宣言の標準公理監査・`sorryAx`なし、変更Lean error/warning 0/0。source/test-merge tree `c65f8302cb1d9440c1f41df258761cd1ab823532`完全一致。検証source `9077c36485605926386791882e2037d4f92e7eef`、定理squash `b997e8368e80fea444f6422da8dd2135f856180c`。[Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77FourfoldMixedMinimalNinthCompletionV5_11.lean) · [正式証明記録](docs/formal/Qi-v5_11-original-fourfold-mixed-minimal-ninth-completion-verified-20261107.md)。公開root107・固定Lean/mathlib・保護PR #1558 Draft/Open・既存source不変。**次：Qi v5.12、往復・単位・九セルの高次critical overlapを探索（未証明）。**
+
 ## Qi v5.10 — 真正四重五角形 × mixedResidueのcritical pair局所合流と生八セル障害／2026-11-07 JST
 
 **[定理PR #3272](https://github.com/itakura-hidetoshi/KuuOS/pull/3272) MERGED。** Qi v5.09の真正四重逆五角形二履歴と元`mixedResidue`二履歴から、始終点が同じ元`SevenRewrite`四頂点を構成。北・南の`fourfoldPentagon`辺は旧`MixedResidueEightCell`に存在せず、西・東の`mixedResidue`辺は既存旧証拠で構成できる。**二つの書換え順序は新八セル文法・選択商で同一終点に局所合流**する一方、生の八セル完成証拠の原始イベントtraceは`[P,M]`と`[M,P]`で異なり、**raw八セルstrict Eqは不成立**とLean4で証明。これは九セルcoherenceの非存在を主張せず、次の比較問題を局所化する。V/R/U法2降下、旧source、既存独立presentation、保護#1558 Draft/OPEN、公開root107は維持。
