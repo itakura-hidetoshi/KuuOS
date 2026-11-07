@@ -229,8 +229,17 @@ theorem forwardWitnessTransport_unit_modification
     ((Pseudofunctor.StrongTrans.Hom.of Gamma) ▷
       (sourceForwardTriangulator D.datum).triangle ≫
         D.forwardInterchanger.hom) = _
-  rw [← KUOS.DependentOriginationCoherentBiadjunctionSwallowtailModificationExchangeV5_112.Generic.forwardInterchanger_exchange D Gamma]
-  simp
+  -- The exchange equality is in the INNER composite; the outer inverse
+  -- is a separate categorical layer. Lift the equality explicitly rather
+  -- than rewriting a nonmatching reassociated surface expression.
+  calc
+    _ = D.forwardInterchanger.inv ≫
+        (D.forwardInterchanger.hom ≫
+          ((Pseudofunctor.StrongTrans.Hom.of Gamma) ▷
+            (sourceReverseTriangulator D.datum).triangle)) :=
+      congrArg (fun z => D.forwardInterchanger.inv ≫ z)
+        (KUOS.DependentOriginationCoherentBiadjunctionSwallowtailModificationExchangeV5_112.Generic.forwardInterchanger_exchange D Gamma).symm
+    _ = _ := by simp
 
 /-- Counit-centered transport uses the reverse swallowtail, retaining
 its original opposite whiskering orientation and all structural cells. -/
@@ -246,8 +255,16 @@ theorem reverseWitnessTransport_counit_modification
     ((targetForwardTriangulator D.datum).triangle ◁
       (Pseudofunctor.StrongTrans.Hom.of Gamma) ≫
         D.reverseInterchanger.hom) = _
-  rw [KUOS.DependentOriginationCoherentBiadjunctionSwallowtailModificationExchangeV5_112.Generic.reverseInterchanger_exchange D Gamma]
-  simp
+  -- Right whiskering has the opposite exchange orientation; use the
+  -- original v5.112 law DIRECTLY, then cancel the actual inverse.
+  calc
+    _ = D.reverseInterchanger.inv ≫
+        (D.reverseInterchanger.hom ≫
+          ((targetReverseTriangulator D.datum).triangle ◁
+            (Pseudofunctor.StrongTrans.Hom.of Gamma))) :=
+      congrArg (fun z => D.reverseInterchanger.inv ≫ z)
+        (KUOS.DependentOriginationCoherentBiadjunctionSwallowtailModificationExchangeV5_112.Generic.reverseInterchanger_exchange D Gamma)
+    _ = _ := by simp
 
 /-- Exact LEC-11 gluing comparison on the ACTUAL old forward
 modification boundary, not a newly invented Bool proxy. -/
