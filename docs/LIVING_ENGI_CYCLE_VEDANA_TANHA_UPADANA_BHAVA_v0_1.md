@@ -391,3 +391,26 @@ HasGlobal U s          -- NO: distinct original raw proof trees disagree
 [正式証明記録](formal/LEC-10-native-F55-source-cech-shadow-gluing-verified-20261107.md) · [検証manifest](manifests/living_engi_lec10_verified_20261107.json)。
 
 **次の独立課題:** 一般の元証拠保存型transportに必要な正確な条件、および歴史的元F55/P77/GK5CGと独立native F55 Type間の明示的・忠実な比較を構成する。有限一致模型から任意の高次降下・臨床効果・外部実行権限を導かない。
+## 20. 2026-11-07 — LEC-11：shadow大域化から元Type値source大域化への必要十分条件（証明済み）
+
+**[定理PR #3258](https://github.com/itakura-hidetoshi/KuuOS/pull/3258) MERGED。** LEC-10では、真正北C60 native F55-shaped証拠を局所値とする抽象二重被覆において、選択shadowでは貼合可能でも元raw Type値を保存すると貼合不可能であることを証明した。LEC-11は原文§4.1の「指定された比較・貼り合わせ義務」を一般の関数層に対する**正確な必要十分条件**へ進めた。
+
+被覆 `U : I → Set X`、元局所section `s : LocalSections U Raw`、選択観測 `q : Raw → Obs` に対し、`OverlapFiberFaithful(U,q,s)`を「**実際の重複領域で**、二つの元局所値の選択観測が一致すれば、元値も一致する」と定義する。全関数の層において真に被覆があるとき、Leanで次を形式証明：
+
+```text
+HasGlobal U s
+  ↔ HasGlobal U (shadowSections U q s)
+    ∧ OverlapFiberFaithful U q s
+```
+
+- 選択商 `q` の**全域単射性は不要**。証拠を要求するのは、指定した元局所atlasの実際の重複上に限る。
+- LEC-04 `PromotionEvidence` により、認証済みshadow大域命題だけから元Type値の大域命題を昇格できない。一方で**別途このsource側の証明を取得**すれば、通常の関数層に限り元sourceを大域化できる。真正な反例でsource側条件が偽なら認証は阻止される。
+- `sourceAwareReadout(q,r)=(q(r),r)`という**新しい豊かな観測**は元Type値をデータとして保持し、元値を単射的に識別する。ただしこれは旧shadow商の逆写像ではなく、元局所atlasの不整合を消す手段でもない。
+- LEC-09/10の真正北C60 native F55-shaped raw二証拠に適用すると、元atlasでは重複条件が破れ、別の定数source atlasでは成立する。**同じshadowでも元sourceを別物に置換した場合は歴史保存修復ではない**。
+- この必要十分条件は**全関数層の通常の貼り合わせ**についてであり、一般の高次transport、stack/gerbe、非零 `H¹`、幾何学的C60開被覆、歴史的固定元F55/P77/GK5CGとの型付き同値を証明したものではない。
+
+独立[新規Lean全文](../formal/Kuu/LivingEngi/SourceAwareOverlapDescentCriterion.lean) **353行・23定理**を新規に追加、旧Lean、source歴史、workflowには変更なし。[exact-source CI #42359918998](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42359918998) **Strict Lean 10,316/10,316 SUCCESS、23件の`#print axioms` は標準公理のみ／sorryAxなし**、Governance・独立Kuu API・Workflow integrity SUCCESS、source/test-merge Git tree `dd47bb12ca9b7c31803925205ca3b8aded9d067e`一致、定理squash `2d80a2816d529913fc69f1988fde64b93cf9b889`。初回CIエラーは一つの括弧 `)` の欠落であり、元定理文面・仮定を変えず修正した。root107・固定Lean/mathlib・保護#1558 Draft/Open/未マージを保持する。
+
+[正式証明記録](formal/LEC-11-source-aware-overlap-faithfulness-verified-20261107.md) · [検証manifest](manifests/living_engi_lec11_verified_20261107.json)。
+
+**次の別証明課題:** 歴史的元F55/P77/GK5CGと独立native F55-shaped証拠の忠実なType値比較、および一般の高次transport/coherenceへの段階的な拡張。数値商の一意性から元証拠の一意性や実行権限を無条件に導かない。
