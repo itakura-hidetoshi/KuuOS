@@ -1,5 +1,16 @@
 # KuuOS / 空OS — Formal Research Roadmap
 
+## Qi v5.18 VERIFIED — 生境界整合を保持した二重whiskeringの独立framed第十二セル／2026-11-08
+
+- **[定理PR #3288](https://github.com/itakura-hidetoshi/KuuOS/pull/3288) MERGED：** 第十一セルの左右二重whiskeringは、元の第七セル境界`before ≫ (s ≫ after)`対`(before ≫ s) ≫ after`を持ち、従前の同一fiber第十二セルの直接入力ではない。元の`EightCell.associate`の左右反転を使い、source／targetの両側で真正raw第八セル境界比較を形式構成。strict raw第七セルEqには変更しない。
+- **全indices保持：** `FramedEleven`に、元の六・七・八・九・十・十一セルの両端点・証明値を独立依存fieldとして保持。`doubleWhiskerLeftAfterRightFrame`と`doubleWhiskerRightAfterLeftFrame`で本物の旧第十一セルwhiskeringを、境界が異なるまま正しくpacket化する。元v5.16 `exchangeUnit`の真正局所critical pairを両側の七セル反射で実際にインスタンス化。
+- **独立framed第十二セル：** `FramedDoubleWhiskerTwelveCell`は**唯一の新原始`doubleWhisker`**、従前v5.17同一fiber第十二セルを完全に保持する`previous`、strict／reverse／chainの合計5構成子。二つの元framed packetはraw非等で、新型内でのみ比較可能。選択Setoid・Quotientの一致`iff`、元critical商同一視、全raw Eq interpreter不存在・global raw左逆不存在を形式証明。
+- **順序の非降下：** `mixedTenWhiskerRawTrace`により`[left,right]`対`[right,left]`の元raw履歴差を証明。`framedDoubleWhiskerClass_noRawTraceDescent`は、新商でこの生の順序列を忠実復元する観測量が存在しないことを示す。これは下位証拠の削除ではなく別presentationの局所商に限定される。
+- **3独立保存量の真のdescent：** 元十セルの旧wrapper数／unit数、元十一セルの`tenSymm`数を全5構成子について帰納法で保存し、3つの真正`Quotient.lift`と各代表元評価式を構成。元critical両frameは`(1,1,0)`。一方、`tenSymm(strict rfl)`の1と`strict rfl`の0により新framed第十二セルでも非比較・異なる商クラス・**notGloballyThin**。先行の元十セル`(2,0)`／`(0,2)`残存障害も保持。
+- **真正P77/GK5CG・authority：** 任意元P77 final raw indexで真正GK5CG長短五セルType値からframed比較を構成、元`PentagonAdjoinedSixCellEqualityInterpreter`no-goを維持。元F55/P77/GK5CG・独立6～12セルsource、公開root107、固定Lean/mathlib、保護PR #1558は不変。普遍的なsame-fiber transport／無条件高次coherenceを認めない。
+- **exact-source [CI #42426418988](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42426418988)**：Strict Lean **10,331/10,331 SUCCESS**、Governance **30/30 SUCCESS**、新43宣言`#print axioms`は無公理34件＋標準`propext`／`Quot.sound`／`Classical.choice`依存のみ9件、sorryAxなし、変更Lean warning/error 0/0。source `b63f918c7b6713c2ea1c82f57dee540d9144c12d`／test-merge `3c774f7882f07e1497b74905d23bdc698d0df58b`のGit tree `fbb6d57db380d23ca14b8703773f3225d8cbec22`完全一致。squash `cc207c5a0f8aab07b29699ea1139ce62e4ac9b00`。初回`exact (by...) h`期待型不明のLean記法エラーを`change ... at h`で定理文不変のまま修正。[正式記録](docs/formal/Qi-v5_18-original-double-whisker-framed-twelfth-verified-20261108.md)・[Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77DoubleWhiskerFramedTwelfthV5_18.lean)。
+- **次段Qi v5.19：** framed第十二セルの存在を同一fiber第十二セルへ勝手に変換せず、八セル境界associatorのsource／target自然性と対応する九・十・十一セルの真正transportを**条件付きで**合成できる場合を切り出す。original type-valued source/no-Eq、3独立observer、残存obstructionを継続検証。
+
 ## Qi v5.17 VERIFIED — 真正十一セル逆元往復の最小第十二セルと左右whisker strict整合／2026-11-08
 
 - **[定理PR #3286](https://github.com/itakura-hidetoshi/KuuOS/pull/3286) MERGED：** 元第十一セル`MixedExchangeUnitElevenCell.exchangeUnit`と真正反転による**左右二つ**の生第十一セル往復を構成。`twelfthOriginalExchangeRightRawGap`／`twelfthOriginalExchangeLeftRawGap`でそれぞれ反射と**raw非等**を証明。元F55/P77/GK5CGおよび六～十一セル構成子は一切変更しない。

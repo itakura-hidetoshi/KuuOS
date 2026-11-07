@@ -8,6 +8,14 @@
 
 English: KuuOS develops a general mathematical program for dependent origination, contextual transport, presentation localization, effective descent, higher coherence, and explicit obstructions. The later C60 geometry is a concrete testbed, **not the origin or unique model of the general theory**.
 
+## Qi v5.18 — 真正二重whiskeringのframed第十二セルと境界整合／2026-11-08 JST
+
+**[定理PR #3288](https://github.com/itakura-hidetoshi/KuuOS/pull/3288) MERGED。** 旧第十一セルの左右二重whiskeringは、`before ≫ (s ≫ after)`と`(before ≫ s) ≫ after`のように**第七セルraw境界そのものが異なる**。旧same-fiber第十二セルで無条件に等号化せず、v4.91の元`EightCell.associate`によるsource／target両側の型付き境界証明を明示し、元の第六～第十一セル全Type値履歴を包む`FramedEleven`と独立`FramedDoubleWhiskerTwelveCell`を導入。新たな局所primitiveは`doubleWhisker`一種類のみ。旧v5.17第十二セルを`previous`で丸ごと保存し、strict・reverse・chainを加えた**計5構成子**で閉じる。
+
+真正元v5.16 `exchangeUnit`から構成した二つのframed packetは**raw非等**だが、framed第十二セル選択商では一致する。生whisker順序traceの`[left,right]`対`[right,left]`は商へ忠実に降下できず、生packet全復元の左逆も存在しない。一方、旧第十セルwrapper数・新単位第十セル数・第十一セル`tenSymm`数の**3独立Nat計数**は全5構成子で保存され、3つの実`Quotient.lift`で降下。元critical二packetの計数は共に`(1,1,0)`。さらに真の`tenSymm(strict rfl)`対`strict rfl`の1対0による不比較から、選択framed第十二セルの**notGloballyThin**を形式証明。従前の十セル往復`(2,0)`／`(0,2)`障害、全元P77 final indexの真正GK5CG長短Type値、元source strict Eq不可能性も保存。通常の同一fiber第十二セルへの万能transportや任意higher coherenceは未主張。
+
+[Exact-source CI #42426418988](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42426418988)：**Strict Lean 10,331/10,331 SUCCESS、Governance 30/30 SUCCESS**。新規43宣言の`#print axioms`は無公理34件、標準`propext`・`Quot.sound`・`Classical.choice`のみ9件、sorryAxなし、変更Lean warning/error 0/0。source HEAD `b63f918c7b6713c2ea1c82f57dee540d9144c12d`／test-merge `3c774f7882f07e1497b74905d23bdc698d0df58b`のGit tree `fbb6d57db380d23ca14b8703773f3225d8cbec22`完全一致。squash `cc207c5a0f8aab07b29699ea1139ce62e4ac9b00`。初回Leanの匿名`by`期待型不足は定理文不変で`change ... at h`修正。root107、固定Lean/mathlib、保護#1558維持。[正式記録](docs/formal/Qi-v5_18-original-double-whisker-framed-twelfth-verified-20261108.md)・[Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77DoubleWhiskerFramedTwelfthV5_18.lean)。次はQi v5.19：framedから旧same-fiberへの**条件付き境界transport/descent**を検証。
+
 ## Qi v5.17 — 真正十一セル左右逆元往復・最小第十二セル・whiskering strict局所整合／2026-11-08 JST
 
 **[定理PR #3286](https://github.com/itakura-hidetoshi/KuuOS/pull/3286) MERGED。** Qi v5.16の真正交換第十一セル`Xi`と反転の左右生往復`Xi;Xi⁻¹`／`Xi⁻¹;Xi`はそれぞれ反射第十一セルと**raw Type値として非等**。元の第十セル証拠を変更せず、独立`MixedExchangeInverseTwelveCell`で両往復に2種類の局所第十二セル比較を追加。さらに左右whiskeringの反射十一セルと、whiskering済みの原第十セル上の反射十一セルのraw差異を示し、2種類の型付きwhisker strict整合生成元を追加した。計19種類の第十二セル構成子（局所4・閉包15）。
