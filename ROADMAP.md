@@ -1,5 +1,12 @@
 # KuuOS / 空OS — Formal Research Roadmap
 
+## Living Engi Cycle — LEC-05/06 形式証明済み・次はLEC-07／2026-11-07 JST
+
+- **[LEC-05 #3247](https://github.com/itakura-hidetoshi/KuuOS/pull/3247) MERGED：** 真正文脈別`F(i)`、明示同型`e_i:F(i)≃A`から`T_{ij}`を構成し、同一性・逆・三重／四重cocycle、真正被覆上のtransport互換性⇔大域readout、独立ゲージ変換での読出しと貼合可否の不変性、非互換性による数学的昇格阻止を証明。exact-source [#42340476422](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42340476422) **10,310/10,310 SUCCESS**、新規13定理標準公理のみ、source/test-merge tree `4f4f5782b3499fcaba493e4bc142d8ddafdc8d6d`一致。squash `18daa92b3e3eeb0200e533413cd1a392b5b41966`。
+- **[LEC-06 #3248](https://github.com/itakura-hidetoshi/KuuOS/pull/3248) MERGED：** `FramedSnapshot`が元Type値局所section、readout、支持証明、昇格certificateを別々に保持。`ConventionalBhava`には履歴全体を受け取る候補カーネルと追記型スナップショット列を与え、再認証した改訂のみ現行WORLDを変更可能とし、旧readout・旧local Type値を履歴に保つ。互換なら有の候補構成、真に不互換なら構成不能を証明。exact-source [#42340907095](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42340907095) **10,311/10,311 SUCCESS**、新規15定理標準公理のみ、source/test-merge tree `7ac9e26dab3f3de25cb784df5ed19577055ca6fc`一致。squash `99861ff740c08a933922337fa0ed75116eadf410`。
+- [正式証明記録](docs/formal/LEC-05-06-typed-transport-bhava-verified-20261107.md) · [機械可読レシート](docs/manifests/living_engi_lec05_06_verified_20261107.json)。**根本的な限界：** `e_i`は**与えられたframe**、任意stack/gerbeの高次降下・元F55/P77 sourceの同一視・生や行為の権威・実際のAI学習は含まない。root107／保護#1558／固定Lean/mathlib／元source履歴を不変に維持。
+- **次の形式化課題：LEC-07**。証拠付き有から生じる候補と、別の外部authorization receiptを必要とする実際のActOS requestを、互いに変換不能な依存型と許可条件で分離する。その先LEC-08非マルコフ帰還、LEC-09原source Type値履歴の比較が残る。
+
 ## Research bridge — Living Engi Cycle v0.1（受・愛・取・有／2026-11-07）
 
 [研究仕様](docs/LIVING_ENGI_CYCLE_VEDANA_TANHA_UPADANA_BHAVA_v0_1.md) · [遷移・証拠manifest](docs/manifests/living_engi_cycle_vedana_tanha_upadana_bhava_v0_1.json)。既存Dukkha数理・Meta-Manas・Qi Process Tensorと、歴史的Stage-II v4.21/22/48のmod2符号忘却・整数向き非降下を接続する**docs-onlyの研究整理**。LEC-01–09を個別の未証明／既証明射程として管理し、取の未認証gluingと、有の生成状態を混同しない。形式定理・source Type値履歴・公開root・#1558は変更しない。

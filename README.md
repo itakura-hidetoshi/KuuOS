@@ -8,6 +8,14 @@
 
 English: KuuOS develops a general mathematical program for dependent origination, contextual transport, presentation localization, effective descent, higher coherence, and explicit obstructions. The later C60 geometry is a concrete testbed, **not the origin or unique model of the general theory**.
 
+## Living Engi Cycle — LEC-05/06 真正型付き輸送と条件付き仮有のLean4証明／2026-11-07 JST
+
+**[LEC-05 PR #3247](https://github.com/itakura-hidetoshi/KuuOS/pull/3247)／[LEC-06 PR #3248](https://github.com/itakura-hidetoshi/KuuOS/pull/3248) はともにMERGED。** 独立Kuuへ`FrameTransport.lean`／`ConditionedBhava.lean`を追加し、前者で**指定されたframeからのtyped輸送・cocycle・ゲージ不変gluing**、後者で**元Type値局所証拠を保持する`FramedSnapshot`、認証済みの条件付き`ConventionalBhava`、未来方向の全旧スナップショット追記**を形式証明。局所の不整合から無条件のWORLDを生成しない。任意の高次stack、元F55/P77/GK5CG証拠同一視、実際の非マルコフ学習、外部ActOS権限は証明対象外。
+
+[LEC-05 exact-source CI #42340476422](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42340476422)：**10,310/10,310 SUCCESS、新規13定理標準公理のみ／sorryAxなし**、squash `18daa92b3e3eeb0200e533413cd1a392b5b41966`。[LEC-06 exact-source CI #42340907095](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42340907095)：**10,311/10,311 SUCCESS、新規15定理標準公理のみ／sorryAxなし**、squash `99861ff740c08a933922337fa0ed75116eadf410`。両PRともsource/test-merge Git tree一致。公開root107／固定Lean/mathlib／保護#1558 Draft/OPEN/未マージは不変。
+
+[正式証明記録](docs/formal/LEC-05-06-typed-transport-bhava-verified-20261107.md) · [検証manifest](docs/manifests/living_engi_lec05_06_verified_20261107.json) · [Living Engi研究仕様](docs/LIVING_ENGI_CYCLE_VEDANA_TANHA_UPADANA_BHAVA_v0_1.md)。**次段LEC-07は、有→生候補→外部認可を伴うActOSを別々の型で扱う研究課題。**
+
 ## Living Engi Cycle v0.1 — 十二縁起「受・愛・取・有」の構造化（研究仕様、2026-11-07）
 
 [Living Engi Cycle v0.1 — 受・愛・取・有の数理的境界](docs/LIVING_ENGI_CYCLE_VEDANA_TANHA_UPADANA_BHAVA_v0_1.md) · [構造化manifest](docs/manifests/living_engi_cycle_vedana_tanha_upadana_bhava_v0_1.json)。受＝文脈付き評価、愛＝選好、取＝証明を欠く局所→大域の権威昇格、有＝WORLDと生成規則・履歴・修復条件の運用状態として分離。Stage-II v4.21/22/48の商・符号・降下境界と既存のDukkha/Meta-Manas/Qi–WORLD–OSを出典付きで整理。**既存Lean定理の射程を超えた新証明・実装を主張しない。** 元source/Type値証拠、独立Kuu/Qi、同一rootを不変とし、docs-onlyでStrict Leanは実行不要。

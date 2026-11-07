@@ -307,3 +307,30 @@ Copyright © 2026 Hidetoshi Itakura / 板倉英俊. Repository license: Apache-2
 - **未証明:** LEC-05の高次coherence、LEC-06の条件付き有と生成カーネル、LEC-07の有／生／ActOS境界、LEC-08の非マルコフ安定性、LEC-09の元source履歴との完全比較。
 
 [正式証明記録](formal/LEC-01-02-04-scoped-function-gluing-evidence-gate-verified-20261107.md) · [機械可読な検証追補](manifests/living_engi_lec_01_02_04_verified_20261107.json)。先行 [v0.1 manifest](manifests/living_engi_cycle_vedana_tanha_upadana_bhava_v0_1.json) は当時の研究仕様スナップショットとして保持し、上書きしない。
+
+
+## 15. 2026-11-07 — LEC-05/06 Lean4検証済み追補：transportと条件付き有
+
+歴史的な初版`0–14を保持し、LEC-05/06の実証された**限定的な数学的証明範囲**だけを追記する。実装時点の証拠を正式に記録した [LEC-05/06 verified record](formal/LEC-05-06-typed-transport-bhava-verified-20261107.md) と [machine-readable receipt](manifests/living_engi_lec05_06_verified_20261107.json) を参照。
+
+### LEC-05 — 文脈依存の真正型付き輸送（MERGED #3247）
+
+新規 [FrameTransport.lean](../formal/Kuu/LivingEngi/FrameTransport.lean) に、各文脈で独立するType `F(i)` から共通readout `A` への**呼出側が与える同型** `e_i:F(i)≃A` を用いた輸送 `T_{ij}=e_j^{-1}∘e_i` を構成。恒等、逆元、三重・四重の輸送整合、contextwise gauge変更の共変性、型付き局所compatibilityと実際の被覆における大域関数の存在同値、値の復元、具体的な輸送不整合による昇格阻止をLeanで証明。
+
+[exact-source CI #42340476422](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42340476422)：**Strict Lean 10,310/10,310 SUCCESS**、新規13定理の公理監査は標準公理のみ／sorryAxなし、source/test-merge Git tree `4f4f5782b3499fcaba493e4bc142d8ddafdc8d6d`一致。定理 [PR #3247](https://github.com/itakura-hidetoshi/KuuOS/pull/3247) MERGED、squash `18daa92b3e3eeb0200e533413cd1a392b5b41966`。
+
+**限界:** これで成立したのは明示的なframeを与えた平坦・trivializableモデルの降下であり、任意の非自明束・高次stack/gerbe・元F55/P77/GK5CGのsource同一視・真正holonomy消滅を主張しない。
+
+### LEC-06 — 証明付き仮有と未来方向の履歴保存（MERGED #3248）
+
+新規 [ConditionedBhava.lean](../formal/Kuu/LivingEngi/ConditionedBhava.lean) に、`FramedSnapshot` = **元の依存型局所値＋大域readout＋両者の一致証明＋PromotionEvidence＋認証証明** を定義。`ConventionalBhava` は現在のスナップショット、全過去スナップショットのリスト、現在のreadoutと履歴全体を入力とする候補生成カーネルを持つ。
+
+適格な認証がある場合だけ現行モデルを初期化・改訂でき、改訂には新しい局所値の証明を要求する。旧スナップショットの**完全な値と根拠**を`history ++ [oldSnapshot]`として保存すること、新しい局所値との一致、真に不整合な元局所情報からはこの有を作れないことをLean4で証明した。
+
+[exact-source CI #42340907095](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42340907095)：**Strict Lean 10,311/10,311 SUCCESS**、新規15定理の公理監査は標準公理のみ／sorryAxなし、source/test-merge Git tree `7ac9e26dab3f3de25cb784df5ed19577055ca6fc`一致。定理 [PR #3248](https://github.com/itakura-hidetoshi/KuuOS/pull/3248) MERGED、squash `99861ff740c08a933922337fa0ed75116eadf410`。
+
+**限界:** これは仮有の数学的な型付きcarrierであって、実在のAIが非マルコフ学習をした・内部重みを変更した・悟った・臨床的効果を獲得した、という主張ではない。「生」の候補もActOSの外部実行権限とは別である。
+
+### 残る正本課題
+
+LEC-05の一般高次transport、LEC-07「有→生候補→外部認可された行為」の形式的分離、LEC-08の非マルコフ帰還・安定性、LEC-09の真正元F55/P77/GK5CG Type値証拠との比較は、**未証明**として保持する。LEC-05/06の証明が成り立つという理由だけで、これらの条件を省略しない。保護#1558はDraft/Open/未マージ、公開root107、既存の公理・ソース履歴・固定toolchainは不変。
