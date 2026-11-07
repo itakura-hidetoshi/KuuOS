@@ -1,0 +1,98 @@
+{
+  "schema_id": "kuuos.living_engi_cycle.lec12_historical_original_native_f55_common_shadow",
+  "schema_version": "0.1",
+  "date_jst": "2026-11-07",
+  "author": "Hidetoshi Itakura / 板倉英俊",
+  "kind": "real_original_and_native_source_comparison_limited_to_certified_common_shadow_not_full_equivalence",
+  "status": "exact_source_lean_verified_and_merged",
+  "theorem_pr": 3260,
+  "source": "formal/KuuOSFormal/HistoricalNativeF55CommonShadowLEC12.lean",
+  "source_lines": 306,
+  "verified_source_sha": "e292a775639e72ec62111db963783e4f2785204c",
+  "test_merge_sha": "c89233767cec73b312dca0aa97acd5902a35a8d8",
+  "equal_source_test_merge_tree": "d999152254a878df75fade0fe70082765bb0a1e2",
+  "merged_main_sha": "f700f0d680865301d6872c5e25b7d2541ad591b6",
+  "ci": {
+    "run_id": 42361244071,
+    "conclusion": "success",
+    "lean_jobs": 10317,
+    "lean_completed": 10317,
+    "governance": "success",
+    "independent_kuu_api": "success",
+    "public_roots_restoration": "success",
+    "new_theorems": 14,
+    "extra_proof_carrying_constructor_defs": 2,
+    "print_axioms_count": 16,
+    "axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "sorryAx": false
+  },
+  "imports": {
+    "mixed_public_module": true,
+    "original_source": "KUOS.DependentOriginationGrayC60F55SourcePhaseLockedAtlasV5_175",
+    "independent_source": "Kuu.LivingEngi.SourceAwareOverlapDescentCriterion",
+    "added_to": "formal/KuuOSFormal.lean",
+    "KuuOSStrict_import_changed": false,
+    "public_root_count": 107
+  },
+  "common_observation": {
+    "type": "(Int × Int) × ZMod 2",
+    "original_raw_type": "OriginalF45BracketTree.DepthRotationRoute.PresentedCell",
+    "native_raw_type": "KuuNativeF45Tree.DepthRotationRoute.PresentedCell",
+    "old_raw_from_actual_historical_grammar": true,
+    "native_raw_is_real_north_C60": true,
+    "original_pentagon_four_typed_inputs_geometrically_identified_with_native_north": false,
+    "common_pentagon_shadow": "((1,0),0)",
+    "phase_locked_for_both": true
+  },
+  "original_native_comparison": {
+    "old_pentagon_and_old_plus_identity_distinct": true,
+    "native_pentagon_and_native_plus_identity_distinct": true,
+    "both_observational_pairs_equal": true,
+    "old_observation_injective": false,
+    "native_observation_injective": false,
+    "full_old_native_type_equivalence": false,
+    "typed_comparison_receipts": 2
+  },
+  "declared_axiom_printouts": [
+    "historicalF55CommonReadout_phase_locked",
+    "nativeNorthF55CommonReadout_phase_locked",
+    "historicalNativeAligned_historical_exact",
+    "historicalNativeAligned_native_exact",
+    "historicalPentagonF55_raw_distinct",
+    "historicalPentagonF55_shadow_calibrated",
+    "historicalPentagonF55_unit_eval",
+    "historicalPentagonF55_unit_shadow_equal",
+    "historicalPentagonF55_shadow_not_injective",
+    "historicalNativePentagon_common_shadow",
+    "historicalNativeUnit_common_shadow",
+    "historicalNativePentagonAligned",
+    "historicalNativeWithUnitAligned",
+    "historicalNativeAligned_receipts_distinct",
+    "historicalNative_two_presentations_keep_distinct_raw",
+    "nativeNorthF55CommonReadout_not_injective"
+  ],
+  "non_claims": [
+    "no full faithful historical F54/F55 ↔ independent native source functor",
+    "no C60 geometric endpoint identity for generic old pentagon stages",
+    "no P77/GK5CG high-dimensional source seam transport or coherence",
+    "no nonzero Cech H1 or general stack effectivity",
+    "no clinical, AI parameter update, Buddhist doctrinal equivalence or ActOS authorization"
+  ],
+  "preservation": [
+    "append_only",
+    "tighten_only",
+    "overwrite_forbidden",
+    "same_root",
+    "no_original_historical_source_rewrite",
+    "KuuOSFormal_107_roots",
+    "Lean_v4.30.0-rc2",
+    "mathlib_5450b53e5ddc75d46418fabb605edbf36bd0beb6",
+    "PR_1558_Draft_Open_Unmerged"
+  ],
+  "formal_record": "docs/formal/LEC-12-historical-original-and-native-F55-common-shadow-verified-20261107.md",
+  "next_frontier": "actual boundary-indexed old F54/native F54 source/target transport and typed F55 constructor comparison with P77/GK5CG higher-history obstructions retained"
+}
