@@ -2247,7 +2247,7 @@ KuuOSの原初の問いは、C60の60頂点・90辺・32面ではなく、**関�
 | v2.0 | [PresentationUniversality v2.0](formal/KUOS/DependentOriginationPresentationUniversalityV2_0.lean) | `W`局所化の普遍因子化と普遍的carrier間の圏同値。`W`を同型へ送るという明示的な仮定が必要。 |
 | v2.1–v2.7 | [WJCategoryEquivalence v2.7](formal/KUOS/DependentOriginationWJCategoryEquivalenceV2_7.lean) | `W`-invertingな文脈系の`J`-descentと局所化上のType値sheaf圏の同値。一般`H`は別課題。 |
 | v2.8–v2.13 | [HigherStackDescent v2.8](formal/KUOS/DependentOriginationHigherStackDescentV2_8.lean)、[StrictHigherUniversality v2.13](formal/KUOS/DependentOriginationStrictHigherUniversalityV2_13.lean) | Cat値stackの被覆descentの同値判定と、強い`W.IsInvertedBy`下でのCat値局所化普遍性。任意弱擬関手の高次局所化や`(∞,3)`-hyperdescentまで証明したわけではない。 |
-| v4.00–v5.36 | [旧ROADMAP `2](docs/legacy/ROADMAP-v5.291.md#2-obstruction-localization-and-exact-classification-foundations--v400v536) | 明示的な非因子化・capacity/incidence障害、presentation-sensitive descent、exact-universal分類、actual-liftへ進む一般的条件。結果の有効範囲は各Lean型に相対的。 |
+| v4.00–v5.36 | [旧ROADMAP §2](docs/legacy/ROADMAP-v5.291.md#2-obstruction-localization-and-exact-classification-foundations--v400v536) | 明示的な非因子化・capacity/incidence障害、presentation-sensitive descent、exact-universal分類、actual-liftへ進む一般的条件。結果の有効範囲は各Lean型に相対的。 |
 | v5.37–v5.101 | [CoherentBiadjunctionActualLift v5.101](formal/KUOS/DependentOriginationCoherentBiadjunctionActualLiftV5_101.lean) | 元の`F,G,η,ε`、前後triangulatorとswallowtailの両方を**同一original datum**で証明。これは任意のrawソースのstrict 3圏への自動的な昇格ではない。 |
 | v5.102–v5.153 | [F44交換類 v5.141](formal/KUOS/DependentOriginationCoherentBiadjunctionInterleavingExchangeQuotientV5_141.lean)、[F55高次cell v5.152](formal/KUOS/DependentOriginationCoherentBiadjunctionOriginalF45PresentedRotationCellsV5_152.lean)、[F56非忠実性 v5.153](formal/KUOS/DependentOriginationCoherentBiadjunctionOriginalF45ObservedHigherCellNonfaithfulnessV5_153.lean) | 選択した2軸のraw/quotient、有限高次証拠、normal form、異なるrawの観測像一致と非復元を証明。Gray的なweak合成をstrict 3圏の完成と読まない。 |
 
@@ -2280,7 +2280,7 @@ KuuOSの原初の問いは、C60の60頂点・90辺・32面ではなく、**関�
 | [#2521 P94D3S](https://github.com/itakura-hidetoshi/KuuOS/pull/2521) | square2の3-cellだけを正しく反転して、元の面順序で実Type値9面閉路を構成。完全非可換群語を保ち `ν_N(W_typed)=3`、旧形式的 `ν_N(W_old)=1`、`W_typed W_old⁻¹=S q⁻² S⁻¹` をLeanで証明。旧full shadowは双方0。 | `W_old`をそのままType値化したという主張は禁止。旧P94A/P94C2充填も不可能。 |
 | [#2522 P94D3T](https://github.com/itakura-hidetoshi/KuuOS/pull/2522) | 真正 `W_typed` を境界とする別のType値独立4-cell生成子を宣言。元の全typed 4-cell relatorと新語のmathlib正規閉包で、真の拡大・旧shadow降下・N非降下・共役作用・境界同変性・代数的Peiffer crossed-moduleを証明。 | 生成子の宣言≠任意Type値4-cell whiskering/interchangeのcoherence証明。これは次の独立課題。 |
 
-**P94D3T当時の次段階の記録（P94D3U以降はその後進展済み）：** 当時の課題は、正規核の代数的Peifferと実Type値4-cell生成子を区別し、左右whiskeringのsource・高次coherenceを形式化することだった。以後の進展は本書`0AのEX–FIに更新した。**旧形式的自然性数1と真正補正後のType値自然性数3を同一視しない**という境界、旧P92BおよびP87/P88/P89の各presentation差異、一般W/J/H、局所・大域strict 3/n、`(∞,3)`-hyperdescentへの長期目標は引き続き有効。
+**P94D3T当時の次段階の記録（P94D3U以降はその後進展済み）：** 当時の課題は、正規核の代数的Peifferと実Type値4-cell生成子を区別し、左右whiskeringのsource・高次coherenceを形式化することだった。以後の進展は本書§0AのEX–FIに更新した。**旧形式的自然性数1と真正補正後のType値自然性数3を同一視しない**という境界、旧P92BおよびP87/P88/P89の各presentation差異、一般W/J/H、局所・大域strict 3/n、`(∞,3)`-hyperdescentへの長期目標は引き続き有効。
 
 
 
