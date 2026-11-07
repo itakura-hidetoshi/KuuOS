@@ -2669,3 +2669,10 @@ strict 空／独立Kuu→Qi、元F54二Nat・二圏・Blocks、元F55 Type履歴
 
 [exact-source CI #42366081346](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42366081346)：**10,319/10,319 Strict Lean SUCCESS、Governance 30/30 SUCCESS、20件の`#print axioms`は標準`propext`・`Classical.choice`・`Quot.sound`のみ、sorryAxなし**。変更Lean warning/error 0/0、source/test-merge tree `b789374a8ad30155ae08fd7e35f660ed9e1e7a7f`一致、squash `703d5c1aa6d8b7da5f66accaea377d85e84dbff4`。初回`rw`の結合形不一致は型付き`congrArg`修正、未起動CIはmainとの追加import衝突解消で回復。[Living Engi §23](docs/LIVING_ENGI_CYCLE_VEDANA_TANHA_UPADANA_BHAVA_v0_1.md)・[正式記録](docs/formal/LEC-13B-original-swallowtail-witness-transport-verified-20261107.md)・[manifest](docs/manifests/living_engi_lec13b_swallowtail_transport_verified_20261107.json)。前段物理90辺LEC-13Aの既存`native_decide`6件と今回の標準公理結果を区別。root107、固定Lean/mathlib、独立KuuOSStrict、保護#1558維持。
 
+
+
+## 2026-11-07 — Living Engi LEC-14：真正歴史的F47と独立北C60六角形F55 squareの型付き証拠
+
+[PR #3267](https://github.com/itakura-hidetoshi/KuuOS/pull/3267) **MERGED**。元F54（`Blocks`・二`Nat`深度）の実局所回転を与え、実旧F47の物理90辺×隣接2面の元F55 raw squareを、独立nativeトップ六角形の真正六セクタF42 fan/disk＋native F55 raw squareと**両Typeを保存したまま**証明付き比較。双方の元source解釈で全signed/phase `((0,1),1)`一致。指定北hexagon第1辺`Edge.cross (.northSpoke 0)`のみ実物理辺・faceを厳密一致させる。一般の元F42/native F42 source 2-cellや全F54同値を導いていない。
+
+[Exact-source CI #42368168171](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42368168171) **10,320/10,320 Strict Lean SUCCESS、Governance 30/30 SUCCESS**。16件公理監査sorryAxなし、新公理なし、変更Lean warning/error 0/0、source/test-merge tree `456d67c205af9b18f22c2ce1a132c1ef19bb3303`一致、squash `5579f88776531a983103379c5b2e207afa7e793e`。継承したF112真正C60幾何の既存`native_decide`6件を監査・明記し、全16宣言を標準公理のみとは記さない。[Living Engi §24](docs/LIVING_ENGI_CYCLE_VEDANA_TANHA_UPADANA_BHAVA_v0_1.md) · [正式記録](docs/formal/LEC-14-real-hexagon-square-original-native-typed-comparison-verified-20261107.md) · [manifest](docs/manifests/living_engi_lec14_verified_20261107.json)。独立KuuOSStrict、旧F54/F55/P77/GK5CG history、公開root107、固定Lean/mathlib、保護#1558維持。

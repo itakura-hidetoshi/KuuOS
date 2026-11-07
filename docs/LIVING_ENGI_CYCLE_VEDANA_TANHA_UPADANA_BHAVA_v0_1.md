@@ -462,3 +462,16 @@ HasGlobal U s
 
 [正式記録](formal/LEC-13B-original-swallowtail-witness-transport-verified-20261107.md) · [manifest](manifests/living_engi_lec13b_swallowtail_transport_verified_20261107.json)。**次のLEC-14** は、歴史的元F47の真正F55 squareと独立native C60 hexagon squareの実際にinhabitedな型付き比較、境界・幾何支持・高次証拠義務を分離して検証する。公開root107／固定toolchain／保護#1558 Draft/Open/未マージ／独立KuuOSStrict不変。
 
+
+
+## 24. 2026-11-07 — LEC-14：歴史的F47と独立native C60実六角形F55 squareの型付き・実幾何比較（証明済み）
+
+**[定理PR #3267](https://github.com/itakura-hidetoshi/KuuOS/pull/3267) MERGED**。歴史的元F54の真正`Blocks`・二`Nat`深度・左右局所回転`left/right`を入力し、元F55の真正`c60F46PhysicalFlagOriginalF55Cell`と、実C60の全90物理Edge／隣接2実faceについて構成済みの`c60F48EveryRealEdgeMixedFrame`を使用。独立native側は、実北hexagonの6セクタF42 fan/disk・真正`northHexagonNativeF55SquareCell`・独立に校正された`northHexagonPhysicalF47Frame`をそのまま保持する。異なる元Typeを同一視せず、双方の元証拠・元old categorical arrow等号・物理Edge・独立校正を別フィールドに格納する型付き比較`ActualOriginalNativeHexagonSquare`を構成した。
+
+元の両局所回転を与える場合、実90辺×2隣接面のすべてについて、この真正old/native比較の`Nonempty`を証明。双方の**独立した元F55ソース評価**は、全符号付きcharge／phase `((0,1),1)`で一致する。ただし全パケットのnative receiverは同じ北hexagonであり、**90辺すべてが同じnative hexagon上に幾何学的に一致するという意味ではない**。
+
+指定した北hexagon第1辺については、既存物理同型`edgeEquiv`を用い、`Edge.cross (.northSpoke 0)`と歴史的F47物理辺の厳密一致、歴史的隣接faceと`polygonEquiv (.hexagon (.top 0))`の一致、実六角形への辺入射、元／独立の双方の真正raw square保存をLeanで証明。元old mixed four-boundary squareとnative四境界の校正は各自独立の型付き証拠であり、元F42 2-cellの型同値はまだ与えていない。
+
+[Exact-source CI #42368168171](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42368168171)：**Strict Lean 10,320/10,320 SUCCESS、Governance 30/30 SUCCESS**、明示的`#print axioms`16件・sorryAxなし・変更Lean warning/error 0/0・source/test-merge Git tree `456d67c205af9b18f22c2ce1a132c1ef19bb3303`一致、squash `5579f88776531a983103379c5b2e207afa7e793e`。初回CIは必要な既存F42/F47`open`2行不足によるLean名前解決エラーで、定理・仮定を変更せず修正した。**公理監査は標準3公理に加えて既存F112物理幾何`native_decide`6補助公理を継承**。新しい公理ではないが標準公理のみとは表記しない。
+
+[正式証明記録](formal/LEC-14-real-hexagon-square-original-native-typed-comparison-verified-20261107.md) · [manifest](manifests/living_engi_lec14_verified_20261107.json)。次のLEC-15は、真の元F42/native F42 source 2-cell対応および元F54→native F54境界index忠実性を**別々の証拠義務**として検討する。元F55九構成子全体・P77/GK5CG高次・任意higher stack・ActOS権限は未証明のまま。root107、固定toolchain、独立KuuOSStrict、保護#1558維持。
