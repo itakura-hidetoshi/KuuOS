@@ -627,6 +627,7 @@ import KUOS.Architecture.QiWuxingGK5CHP77InversePentagonAssociatorObstructionV5_
 
 import KuuOSFormal.HistoricalNativeF55CommonShadowLEC12
 import KuuOSFormal.HistoricalNativeF54F47SupportLEC13
+import KuuOSFormal.SwallowtailWitnessTransportLEC13
 
 /-!
 Public aggregate: retain every previously published proof and its original
