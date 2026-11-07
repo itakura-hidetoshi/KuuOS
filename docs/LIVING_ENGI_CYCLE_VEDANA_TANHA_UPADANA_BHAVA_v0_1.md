@@ -367,3 +367,27 @@ LEC-05の一般高次transport、LEC-07「有→生候補→外部認可され�
 [Exact-source CI #42357158330](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42357158330)：**Strict Lean 10,314 / 10,314 SUCCESS、Governance／独立Kuu API SUCCESS、13件の公理監査は標準公理のみ／`sorryAx`なし**。source/test-merge Git tree `53242fedbadfce7b34034158c83a4eed572d992e` 一致。定理squash `77f79e0d2676f327ced5adc5dff6220f757a43f5`。旧数学ソースと公開root107不変。
 
 [正式証明記録](formal/LEC-09-native-F55-proof-history-boundary-verified-20261107.md) · [機械可読検証](manifests/living_engi_lec09_verified_20261107.json)。**厳密な限界:** これは独立して再構成した真正C60 native F55-shaped sourceの定理であり、凍結された歴史的な元F55/P77/GK5CG Type値証拠との型付き同値・忠実な比較は**未証明**。その追加の出典接続と高次coherenceが次の研究課題である。
+## 19. 2026-11-07 — LEC-10：真正native F55源と選択shadowの局所貼り合わせ境界（Lean4証明済み）
+
+**[定理PR #3256](https://github.com/itakura-hidetoshi/KuuOS/pull/3256) MERGED。**
+[独立Kuu Lean4ソース](../formal/Kuu/LivingEngi/NativeF55CechSourceGluingObstruction.lean)では、LEC-09の真正北C60 native F55-shaped Type値証拠 `r₁=northNativeF55PentagonCell` と `r₂=northNativeF55PentagonWithUnit`（元rawでは `r₁≠r₂`、指定E7P4 shadowでは `q(r₁)=q(r₂)`）をそのまま使用した。局所チャートは **`Bool` 添字の `Unit` 上の抽象的な二重全被覆**であり、**C60幾何学の開被覆だとは主張しない**。C60真正性があるのは局所raw証拠そのものに限る。
+
+**厳密な二層の結論**（既存LEC-01の全関数層 `Compatible`／`HasGlobal` を使用）：
+
+```text
+HasGlobal U (q ∘ s)    -- YES: chosen full-shadow quotient is compatible
+HasGlobal U s          -- NO: distinct original raw proof trees disagree
+```
+
+**数学的な意味:** 指定shadowの局所評価は互換的で大域readoutを持つが、与えられた元source局所値の**完全な保存**を要求すると貼り合わせられない。既存§4.1に従い、これは `δ⁰` に相当する**局所overlap不一致の具体例**であって、`H¹` の非零類や一般の高次gerbe/stack持ち上げ障害の証明ではない。元Type値には群演算／ノルムを仮定せず、数値的残差の普遍性も主張しない。
+
+- **LEC-04の適用:** 真正shadow大域命題への認証は可能。しかし具体的に反証された**元raw atlasの大域貼り合わせ命題**を証明書へ昇格することはできない。UNCHECKEDとREFUTEDは引き続き別。
+- **LEC-09の証拠保存:** `NativeF55Trace` は元raw、指定shadow、両者の正確な関係を保持するが、元rawの不整合そのものは消さない。
+- **有・修復の境界:** 同じshadowを持つ**別の定数元source atlas**は大域化できるが、元の局所Type値を一つ置換している。従ってそれは新しいatlasであり、過去の元証拠を消さない「真正source保存修復」の証明とは呼ばない。
+- **独立性の限界:** 歴史的に凍結された元F55/P77/GK5CGのType値履歴と、今回の独立native F55-shaped sourceとの忠実な同値・輸送は未証明のまま。
+
+**[Exact-source CI #42358724142](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42358724142)：Strict Lean 10,315 / 10,315 SUCCESS**。新規21定理すべて `#print axioms` を監査し、標準公理 `propext`・`Classical.choice`・`Quot.sound` のみ、`sorryAx` なし。Governance／独立Kuu API／Workflow整合性 SUCCESS、source/test-merge Git tree `a131d2354c62aa4f4305a8901b3254fb35b97a1d` 一致、定理squash `f58c4b8babb7f42578d2a6e6caaad5f4a56f9c49`。公開root107、固定Lean/mathlib、元歴史的source、保護PR #1558 Draft/Open/未マージを保持する。
+
+[正式証明記録](formal/LEC-10-native-F55-source-cech-shadow-gluing-verified-20261107.md) · [検証manifest](manifests/living_engi_lec10_verified_20261107.json)。
+
+**次の独立課題:** 一般の元証拠保存型transportに必要な正確な条件、および歴史的元F55/P77/GK5CGと独立native F55 Type間の明示的・忠実な比較を構成する。有限一致模型から任意の高次降下・臨床効果・外部実行権限を導かない。

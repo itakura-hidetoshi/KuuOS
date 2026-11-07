@@ -1,0 +1,107 @@
+{
+  "schema_id": "kuuos.living_engi_cycle.lec10_native_f55_shadow_gluing_nonreflection",
+  "schema_version": "0.1",
+  "date_jst": "2026-11-07",
+  "author": "Hidetoshi Itakura / 板倉英俊",
+  "kind": "scope_bound_formal_lean_receipt_not_higher_cohomology_or_runtime_authority",
+  "status": "exact_source_lean_verified_and_merged",
+  "theorem_pr": 3256,
+  "source": "formal/Kuu/LivingEngi/NativeF55CechSourceGluingObstruction.lean",
+  "source_lines": 297,
+  "verified_source_sha": "001c26e45fb72b39744309475cc2c35ca7b1f13f",
+  "test_merge_sha": "09d2c79e171e0dca4ba42063f08f39293271052f",
+  "equal_source_test_merge_tree": "a131d2354c62aa4f4305a8901b3254fb35b97a1d",
+  "merged_main_sha": "f58c4b8babb7f42578d2a6e6caaad5f4a56f9c49",
+  "ci": {
+    "run_id": 42358724142,
+    "conclusion": "success",
+    "lean_jobs": 10315,
+    "lean_completed": 10315,
+    "governance": "success",
+    "independent_kuu_public_api": "success",
+    "workflow_integrity": "success",
+    "new_theorems": 21,
+    "print_axioms_count": 21,
+    "axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "sorryAx": false,
+    "changed_lean_warning_or_error": 0
+  },
+  "actual_native_source": {
+    "origin": "north C60 independent native F55-shaped raw Type over genuine F54 routes",
+    "raw_pair": [
+      "northNativeF55PentagonCell",
+      "northNativeF55PentagonWithUnit"
+    ],
+    "raw_equal": false,
+    "selected_quotient": "E7P4 NativeF55ThreeHom full-shadow",
+    "selected_observations_equal": true,
+    "historical_frozen_original_type_equivalence_proven": false
+  },
+  "abstract_chart": {
+    "base": "Unit",
+    "charts": "Bool",
+    "cover": "Set.univ on both charts",
+    "is_actual_geometric_open_cover_of_C60": false
+  },
+  "result": {
+    "shadow_atlas_has_global": true,
+    "raw_source_atlas_has_global": false,
+    "proof_carrying_trace_has_global": false,
+    "constant_alternative_raw_atlas_has_global": true,
+    "alternative_observation_equals_original": true,
+    "alternative_raw_equals_original": false
+  },
+  "theorems_and_explicit_axiom_printouts": [
+    "nativeF55Observe_preserves_compatible",
+    "nativeF55Observe_preserves_global",
+    "nativeF55_twoChart_cover",
+    "nativeF55_twoChart_raw_overlap_disagrees",
+    "nativeF55_twoChart_raw_incompatible",
+    "nativeF55_twoChart_shadow_compatible",
+    "nativeF55_twoChart_shadow_global",
+    "nativeF55_twoChart_explicit_shadow_global",
+    "nativeF55_twoChart_raw_no_global",
+    "nativeF55_twoChart_shadow_glues_not_raw",
+    "nativeF55_twoChart_finite_nonreflection",
+    "nativeF55_twoChart_shadow_certificate_admitted",
+    "nativeF55_twoChart_raw_global_not_admissible",
+    "nativeF55_twoChart_promotion_levels_separate",
+    "nativeF55_twoChart_trace_readout_exact",
+    "nativeF55_twoChart_trace_global_implies_raw_global",
+    "nativeF55_twoChart_trace_no_global",
+    "nativeF55_twoChart_constant_raw_global",
+    "nativeF55_twoChart_constant_shadow_equal",
+    "nativeF55_twoChart_constant_raw_changed",
+    "nativeF55_twoChart_no_exact_source_preserving_replacement"
+  ],
+  "formal_scope": [
+    "LEC-01 ordinary function sheaf local compatibility/global existence",
+    "LEC-09 genuine native F55 source collision in chosen shadow",
+    "LEC-04 source/observation promotion gates",
+    "finite two-chart nonreflection (not higher cohomology)",
+    "full native raw provenance retained in proof-carrying traces"
+  ],
+  "nonclaims": [
+    "not an H1 nonzero cohomology class",
+    "not a geometric C60 open cover",
+    "no native-to-historical-original F55/P77/GK5CG faithful source equivalence",
+    "no global higher-stack/gerbe descent conclusion",
+    "no AI learning, clinical, Buddhist doctrinal equivalence or ActOS authorization"
+  ],
+  "preservation": [
+    "append_only",
+    "tighten_only",
+    "overwrite_forbidden",
+    "same_root",
+    "public_KuuOSFormal_root107",
+    "fixed_Lean_v4.30.0-rc2",
+    "mathlib_5450b53e5ddc75d46418fabb605edbf36bd0beb6",
+    "protected_1558_draft_open_unmerged",
+    "no_old_Lean_or_workflow_edits"
+  ],
+  "record": "docs/formal/LEC-10-native-F55-source-cech-shadow-gluing-verified-20261107.md"
+}
