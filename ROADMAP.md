@@ -2701,3 +2701,9 @@ lake build KuuOSFormal # warningAsErrorはlakefile.toml既定。sorryAxは#print
 - strict 空、独立Kuu→Qi、元F54二Nat・二圏・Blocks／F55 Type履歴、root107、Lean v4.30.0-rc2／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、保護#1558 Draft／OPEN／未マージを保持。
 
 **Copyright © 2026 Hidetoshi Itakura / 板倉英俊. Apache-2.0.**
+## 2026-11-07 — LEC-10：真正北C60 native F55 raw/source gluing と shadow gluing の差異（検証済み）
+
+- **定理[PR #3256](https://github.com/itakura-hidetoshi/KuuOS/pull/3256) MERGED**：LEC-09の真正北C60 native F55-shaped typed pentagon raw証拠対を、抽象Unit上のBool二重被覆で局所sourceとして配置。選択E7P4 full-shadow quotientの貼り合わせは成立するが、異なる元raw Type値を保持した局所atlasは貼り合わせ不能。元sourceの互換性→shadow互換性は常に成立する一方、反射はこの指定例で失敗する。
+- **証拠・履歴を厳格に区別**：LEC-04でshadowグローバル命題のみ認証可能、元rawの不成立を昇格不可。LEC-09 `NativeF55Trace`で元証拠は保持するが不整合は消滅しない。別の一定元sourceを持つatlasは同じshadowに降下しても元sourceを変更しており、厳密な保存修復ではない。
+- **[Exact-source CI #42358724142](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42358724142)**：10,315/10,315 Strict Lean SUCCESS、21定理/公理監査21件（標準のみ、sorryAxなし）、Governance・独立Kuu API・Workflow integrity SUCCESS、source/test-merge Git tree `a131d2354c62aa4f4305a8901b3254fb35b97a1d`一致、squash `f58c4b8babb7f42578d2a6e6caaad5f4a56f9c49`。[正式記録](docs/formal/LEC-10-native-F55-source-cech-shadow-gluing-verified-20261107.md)・[manifest](docs/manifests/living_engi_lec10_verified_20261107.json)。
+- **次の未解決Frontier**：歴史的固定元F55/P77/GK5CGへの忠実な元Type値証拠比較、真正source-aware輸送・高次貼り合わせ条件、幾何学的C60開被覆との別途接続、失われるsource情報を可視化する証拠モデル。今回の一点抽象被覆は非自明Čech H¹を示すものではない。公開root107、独立KuuとQi分離、元source／toolchain、保護#1558 Draft/Open/未マージ維持。
