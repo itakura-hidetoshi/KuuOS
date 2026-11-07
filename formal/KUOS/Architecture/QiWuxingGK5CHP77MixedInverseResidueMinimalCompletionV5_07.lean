@@ -567,8 +567,8 @@ theorem mixedResidueDouble_newVsOld (w : W) :
     ¬ Nonempty (DoubleCompositeEightCell W long short
       (mixedResidueDoubleFirst (long := long) (short := short) w)
       (mixedResidueDoubleSecond (long := long) (short := short) w)) ∧
-    sevenTotalReductionParity (mixedResidueDoubleFirst w) =
-      sevenTotalReductionParity (mixedResidueDoubleSecond w) :=
+    sevenTotalReductionParity (mixedResidueDoubleFirst (long := long) (short := short) w) =
+      sevenTotalReductionParity (mixedResidueDoubleSecond (long := long) (short := short) w) :=
   ⟨⟨mixedResidueDouble_fill w⟩,
     mixedResidueDouble_noPrevious w,
     mixedResidueEightCell_preservesTotalReductionParity (mixedResidueDouble_fill w)⟩
@@ -580,8 +580,8 @@ theorem mixedResidueBalanced_newVsOld (w : W) :
     ¬ Nonempty (DoubleCompositeEightCell W long short
       (mixedResidueBalancedFirst (long := long) (short := short) w)
       (mixedResidueBalancedSecond (long := long) (short := short) w)) ∧
-    sevenTotalReductionParity (mixedResidueBalancedFirst w) =
-      sevenTotalReductionParity (mixedResidueBalancedSecond w) :=
+    sevenTotalReductionParity (mixedResidueBalancedFirst (long := long) (short := short) w) =
+      sevenTotalReductionParity (mixedResidueBalancedSecond (long := long) (short := short) w) :=
   ⟨⟨mixedResidueBalanced_fill w⟩,
     mixedResidueBalanced_noPrevious w,
     mixedResidueEightCell_preservesTotalReductionParity (mixedResidueBalanced_fill w)⟩
