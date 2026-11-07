@@ -1,5 +1,12 @@
 # KuuOS / 空OS — Formal Research Roadmap
 
+## Living Engi Cycle LEC-08 VERIFIED — 次はLEC-09／2026-11-07
+
+- **[LEC-08 #3252](https://github.com/itakura-hidetoshi/KuuOS/pull/3252) MERGED：** 独立`Kuu.LivingEngi.HistoryFeedbackRepair` に18定理。`HistoryIndependent ⇔ HasCurrentFactor` を証明し、真正型付き履歴`[snap]`と`[snap,snap]`は**最新snapshotが同一で出力がfalse/trueに分岐する**ことから、現在＋最新記録だけを用いる因数分解を具体的に反証。2回の真正`reviseBhava`で同一source・同一readoutのまま生成候補が異なる例を構成。
+- **履歴保持の修復:** `repairToHistoryIndependent` は既存`FramedSnapshot`の数学的証拠を再認証し、元source／被覆下のreadout／旧履歴の完全追記を保ちながら将来policyの履歴非依存性を証明。任意系の安定化・臨床的効果や実行権限は主張しない。
+- [exact-source CI #42355697499](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42355697499)：**10,313/10,313 SUCCESS、Governance SUCCESS、18件の公理監査は標準公理のみ／sorryAxなし、source/test-merge tree `8ce7d90ca3c0ff02403237624dc202ddb065060f`一致**。初回のLean`decide`失敗は命題不変の`change`正規化で修正。squash `0aff0f1d62e66b82d4f4d680597dbdfa4cecd428`、公開root107・既存F55/P77/GK5CG・#1558 Draft/Open不変。
+- [Leanソース](formal/Kuu/LivingEngi/HistoryFeedbackRepair.lean) · [正式証明記録](docs/formal/LEC-08-nonmarkov-history-repair-verified-20261107.md) · [検証manifest](docs/manifests/living_engi_lec08_verified_20261107.json)。**次：LEC-09の真正元F55/P77/GK5CGのType値履歴・構造的descent証明書を既存sourceと照合して形式化。**
+
 ## Living Engi Cycle LEC-07 VERIFIED — 次の課題はLEC-08／2026-11-07
 
 - **[LEC-07 #3250](https://github.com/itakura-hidetoshi/KuuOS/pull/3250) MERGED：** `ConventionalBhava`からの正確な`BirthPacket`と、Governance・独立外部receiptの両証拠を必要とする`LicensedRequest`を型で分離。存在必要十分条件、Governance拒否・receipt不能時の負定理、候補あり／認可なしの真正反例、別個のeffect receiptの必要性、旧snapshotを追記した後はfresh-only認可を引き継げない証明を構築。実行・臨床権限は含まない。
