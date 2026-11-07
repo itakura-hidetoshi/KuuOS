@@ -622,6 +622,7 @@ import KUOS.Architecture.QiWuxingGK5CHP77DoubleCompositeCancellationResidualV5_0
 import KUOS.Architecture.QiWuxingGK5CHP77DoubleCompositeMinimalHigherCompletionV5_05
 import KUOS.Architecture.QiWuxingGK5CHP77MixedInverseCompResidueObstructionV5_06
 import KUOS.Architecture.QiWuxingGK5CHP77MixedResidueMinimalHigherCompletionV5_07
+import KUOS.Architecture.QiWuxingGK5CHP77MixedResidueBalancedUnitSupplementV5_07
 
 /-!
 Public aggregate: retain every previously published proof and its original
@@ -630,4 +631,3 @@ internal Kuu import aggregate; publishing retained proofs does not make their
 imports prerequisites of Kuu. Existing proof authority is not reset by this
 build-wiring repair. No theorem is reproved or renamed here.
 -/
-import KUOS.Architecture.QiWuxingGK5CHP77MixedResidueBalancedUnitSupplementV5_07
