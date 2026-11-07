@@ -8,6 +8,14 @@
 
 English: KuuOS develops a general mathematical program for dependent origination, contextual transport, presentation localization, effective descent, higher coherence, and explicit obstructions. The later C60 geometry is a concrete testbed, **not the origin or unique model of the general theory**.
 
+## Qi v5.16 — 元P/M交換×九セル単位の最小第十一セル・残存十セル障害／2026-11-08 JST
+
+**[定理PR #3284](https://github.com/itakura-hidetoshi/KuuOS/pull/3284) MERGED。** Qi v5.15で元の型付き第十セル二経路`pmLeftUnitCriticalExchangeThenUnit`／`pmLeftUnitCriticalUnitThenExchange`は、生のType値として厳密に異なっていた。元の証拠を改変せず、独立`MixedExchangeUnitElevenCell`に**一種類だけの新原始`exchangeUnit`**を追加し、全14構成子の型付き文脈閉包を構成。選択十一セル商では両経路を比較可能にしたが、生十セルstrict Eqには昇格しない。
+
+元の順序付き十セルtrace `[old,unit]`対`[unit,old]`は新商へ忠実に降下しない。他方、旧v5.14由来`previous` wrapperと新`leftUnit/rightUnit`の二つの独立計数は**全14構成子で保存**され、Nat値`Quotient.lift`二つで降下。真正P/M交換十セル往復(2,0)と真正左単位十セル往復(0,2)は、各々の九セル始終点の反射十セル(0,0)と新第十一セルでも非比較。選択十一セルはglobal thinでない。元P77/GK5CG long/short Type値、旧八・九セル障害、元source strict Eq不存在は保持。
+
+[Exact-source CI #42420855556](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42420855556)：**Strict Lean 10,329/10,329 SUCCESS、Governance 30/30、29宣言標準公理のみ、`sorryAx`なし、変更Lean warning/error 0/0、source/test-merge tree `f25e70506a0c6bdbadb9e81b86401663cf82690d`完全一致。** 検証source `fa236e2404293ef3b6e7b7a2c0f2a87201eeb149`、定理squash `5e6658dd84283f30dcaee83c34e680063466e73a`。[Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77PMUnitExchangeMinimalEleventhV5_16.lean) · [正式証明記録](docs/formal/Qi-v5_16-original-pm-unit-eleventh-completion-verified-20261108.md)。公開root107、固定Lean/mathlib、保護#1558 Draft/OPENを維持。**次：Qi v5.17、十セル逆元往復と高次whiskeringのobstructionを分離する。**
+
 ## Qi v5.15 — 九セル単位・結合第十セル、P/M独立商不変量、真正第十一セル候補／2026-11-08 JST
 
 **[定理PR #3282](https://github.com/itakura-hidetoshi/KuuOS/pull/3282) MERGED。** Qi v5.14の旧`MixedInterchangeTenCell`証拠を`previous`で全保持し、独立`MixedUnitAssocTenCell`に左単位・右単位・結合則の**三種類の新原始第十セル比較**を導入。新第十セル商では九セル反射2個の自由連鎖と反射1個が比較できるため、前段の構文的`tenthResidualNineChainCharge`（1対0）は**忠実に降下できない**。元九セルstrict Eqや元F55/P77/GK5CG Type値証拠は変更なし。

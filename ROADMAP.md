@@ -1,5 +1,15 @@
 # KuuOS / 空OS — Formal Research Roadmap
 
+## Qi v5.16 VERIFIED — 元P/M交換×九セル左単位の独立第十一セルと残存十セル不変量／2026-11-08
+
+- **[定理PR #3284](https://github.com/itakura-hidetoshi/KuuOS/pull/3284) MERGED：** 前段の真正二つの平行生十セル`pmLeftUnitCriticalExchangeThenUnit`／`pmLeftUnitCriticalUnitThenExchange`（raw strict非等）を唯一の新`MixedExchangeUnitElevenCell.exchangeUnit`で型付き比較。残り13構成子はstrict・反転・連鎖と既存十セル文脈閉包。元六～十セル・F55/P77/GK5CG型付き証拠は不変。
+- **十一セル商と非降下：** `mixedExchangeUnitEleventhSetoid`／`mixedExchangeUnitEleventhClass`を元の十セル証拠上に構成。選択商では二経路が同一クラスだが、生十セルraw Eqは不成立。順序付きtrace `[old,unit]`対`[unit,old]`は忠実に降下できず、raw証拠への全左逆復元も不存在。
+- **保存観測の完全帰納法：** 元十セル`mixedUnitAssocTenRawTrace`上で旧第十セル`previous`発生数と新第十セル`leftUnit/rightUnit`発生数を別々にNat値として計数。新原始の両辺は(1,1)。全14第十一セル構成子について保存と二つの真正`Quotient.lift`降下・代表元評価を証明。
+- **二つの残存障害：** 本物のP/M交換第十セルとその逆向きの往復は(2,0)、真正左単位第十セルと逆向きの往復は(0,2)。それぞれ対応する反射十セル(0,0)と十一セル比較不能・商クラス非一致。選択十一セルのglobal thinness否定、旧九セル・八セルの非比較も保持。将来の逆元消去生成元を排除しない。
+- **元source特殊化：** 任意の真正P77 final raw indexで、GK5CG long/short Type値から新十一セル比較を構成し、`PentagonAdjoinedSixCellEqualityInterpreter`不存在を保存。一般高次coherenceは未証明。
+- **[Exact-source CI #42420855556](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42420855556) SUCCESS：** Strict Lean **10,329/10,329**、Governance **30/30**、新規29宣言標準公理のみ・`sorryAx`なし、変更Lean warning/error 0/0。source `fa236e2404293ef3b6e7b7a2c0f2a87201eeb149`、test-merge `cc23e23e14f18f8c3b28ffc757a58120b256cbb9`、同一Git tree `f25e70506a0c6bdbadb9e81b86401663cf82690d`、squash `5e6658dd84283f30dcaee83c34e680063466e73a`。root107・固定Lean/mathlib・保護#1558を維持。
+- [Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77PMUnitExchangeMinimalEleventhV5_16.lean) · [正式記録](docs/formal/Qi-v5_16-original-pm-unit-eleventh-completion-verified-20261108.md)。**Qi v5.17目標：** 十セル逆元往復・十一セル左右文脈の高次critical overlapを調べ、独立十二セル候補とobstructionを絞る。
+
 ## Qi v5.15 VERIFIED — 元九セル単位・結合第十セルとP/M独立消去不変量／2026-11-08
 
 - **[定理PR #3282](https://github.com/itakura-hidetoshi/KuuOS/pull/3282) MERGED：** Qi v5.14の全第十セル比較を`previous`へ保持。独立`MixedUnitAssocTenCell`に左単位`leftUnit`・右単位`rightUnit`・真正九セル自由連鎖の結合`assoc`を追加。合計15構成子について型付き文脈を保存。元source Type値・既存全定義は不変。
