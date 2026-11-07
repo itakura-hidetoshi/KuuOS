@@ -155,7 +155,7 @@ inductive MixedExchangeInverseTwelveCell (W : Type uSix) (l r : W) :
       {s t : SevenRewrite W l r c d}
       {q q' : PentagonAssocEightCell W l r s t}
       {alpha beta : MixedCancelNineCell W l r q q'}
-      {xi xi' : MixedUnitAssocTenCell W l r alpha beta}
+      {xi : MixedUnitAssocTenCell W l r alpha beta}
       {zeta zeta' : MixedUnitAssocTenCell W l r alpha beta}
       {H H' : MixedExchangeUnitElevenCell W l r xi zeta}
       {K K' : MixedExchangeUnitElevenCell W l r zeta zeta'}
@@ -468,8 +468,8 @@ def eleventhTenSymmEventCount {w z : W}
   | .compositeContext H K =>
       eleventhTenSymmEventCount H + eleventhTenSymmEventCount K
 
-/-- Prove compatibility with ALL twenty selected twelfth
-constructors (four local generators and sixteen closures). -/
+/-- Prove compatibility with ALL nineteen selected twelfth
+constructors (four local generators and fifteen closures). -/
 theorem mixedExchangeInverseTwelveCell_preservesTenSymmCount
     {w z : W}
     {c d : PentagonAdjoinedSixCell W long short w z}
