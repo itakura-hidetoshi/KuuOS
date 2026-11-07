@@ -1,5 +1,13 @@
 # KuuOS / 空OS — Formal Research Roadmap
 
+## Qi v5.12 VERIFIED — 真正P往復・単位九セル補完とP/M重なり／2026-11-07
+
+- **[Qi v5.12定理PR #3276](https://github.com/itakura-hidetoshi/KuuOS/pull/3276) MERGED：** 元の生八セル`ninthPentagonRoundtrip`と`ninthPentagonReflexive`は旧九セルにおいてP-count2対0で比較不能。独立`PentagonCancelNineCell`に一種類だけの新`cancelPentagon`生成元を構成し、旧`FourfoldMixedNineCell`を`previous`で全文継承。新九セルSetoidは旧商を厳密に粗化するが、元八セルstrict Eqへの普遍解釈・全raw証拠復元は不可能。
+- **観測量とobstructionの同時監査：** P回数そのものは新商に降下不能。P回数の法2およびM回数は全九セル構成子に関する帰納法とNat値`Quotient.lift`で降下。真正元mixedResidue往復（M=2）と反射八セル（M=0）は新九セルでも非比較・異なる商クラス。universal ninth thinnessは不成立。
+- **新critical overlap：** 旧P/M`interchange`と新`cancelPentagon`を、本物の`fourfoldMixedResidueFirst/Second`を始終点とする八セル四頂点・九セル四辺で構成。`fourfoldMixedCancelCriticalDiamond`で局所合流、`fourfoldMixedCancelInterchangeRawNineGap`で二つの生九セル履歴`[cancel,interchange]`対`[interchange,cancel]`のstrict不等を証明。第十セルcomparison不存在を意味しない。
+- **[Exact-source CI #42377984007](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42377984007) SUCCESS：** Strict Lean **10,325/10,325**、Governance **30/30**、47宣言標準公理のみ・`sorryAx`なし、変更Lean warning/error0/0。検証source `9fe20a2a5cff0cec2123f53660d45349c52d4d2e`、test-merge `6fdb4c0ee628efc417a18de955159b037c2d557d`、Git tree `5e9c968772c0821dd81187a6390c595f220e2d79`一致、定理squash `14f39d2200e6e4e0f2c9ec6daba818086bd25063`。元source/Lean/mathlib、公開root107、保護PR #1558 Draft/Openは不変。
+- [Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77PentagonRoundtripUnitMinimalNinthCompletionV5_12.lean) · [正式証明記録](docs/formal/Qi-v5_12-original-pentagon-roundtrip-unit-ninth-completion-verified-20261107.md)。**次Qi v5.13：** 元M往復・恒等比較の最小補完とP消去との新局所obstructionを型付きで調べる。既存証拠の一括同一視・全局thinnessは採用しない。
+
 ## Qi v5.11 VERIFIED — 最小九セル・出現回数降下と残余非比較obstruction／2026-11-07
 
 - **[定理PR #3274](https://github.com/itakura-hidetoshi/KuuOS/pull/3274) MERGED：** 真正Qi v5.10の八セル `fourfoldMixedCriticalPThenM` と `fourfoldMixedCriticalMThenP` のみに一種の原始 `FourfoldMixedNineCell.interchange` を導入。旧生八セルstrict Eqは否定のまま、九セルSetoidの選択商で両経路を比較可能にし、元全証拠の左逆復元は不可能。
