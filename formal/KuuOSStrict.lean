@@ -142,6 +142,7 @@ import Kuu.LivingEngi.FrameTransport
 import Kuu.LivingEngi.ConditionedBhava
 import Kuu.LivingEngi.BirthAuthorization
 import Kuu.LivingEngi.HistoryFeedbackRepair
+import Kuu.LivingEngi.NativeF55ProofHistoryBoundary
 /-! Internal independent Kuu import aggregate. No KUOS or legacy sources
 are imported into the independent foundation. The unique public aggregate
 remains KuuOSFormal; this is not a separate mathematical authority. -/
