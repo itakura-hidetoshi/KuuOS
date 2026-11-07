@@ -8,6 +8,14 @@
 
 English: KuuOS develops a general mathematical program for dependent origination, contextual transport, presentation localization, effective descent, higher coherence, and explicit obstructions. The later C60 geometry is a concrete testbed, **not the origin or unique model of the general theory**.
 
+## Qi v5.14 — P/M九セルcritical diamondの最小第十セル・残存九セル合成障害／2026-11-08 JST
+
+**[定理PR #3280](https://github.com/itakura-hidetoshi/KuuOS/pull/3280) MERGED。** Qi v5.13で構成した真正P消去→M消去とM消去→P消去の**二つの異なる生九セル完成証拠**に、独立した新Typeの原始`MixedInterchangeTenCell.exchangePM`を**一種類だけ**追加。元九セル証拠値はstrictに非等で、十セルを用いた選択商の中だけで比較可能。旧F55/P77/GK5CG・独立六～九セルsourceは不変。P/M順序付きイベントtraceは新商に降下せず、raw証拠への左逆復元も存在しない。
+
+一方、新Nat値`tenthResidualNineChainCharge`は**第十セルの全12構成子で保存**され、真正`Quotient.lift`で降下。九セル反射二つの自由連鎖は`Q=1`、反射一つは`Q=0`で、新十セルでも比較不能。元八セル残余障害（2対0）も保存。従って選択第十セルはglobal thinでない。任意の元P77 final raw indexへ真正GK5CG long/shortを型付き特殊化し、旧strict source Eq障害を保持。
+
+[Exact-source CI #42418086443](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42418086443)：**Strict Lean 10,327/10,327 SUCCESS、Governance 30/30、22宣言の標準公理監査、`sorryAx`なし、変更Lean warning/error 0/0、source/test-merge Git tree `453864c3d3784b1097fabe0536d93a782ebc55b8`完全一致。** 検証source `a656618b836d8cd2088109dcdd0e8c1d42d6714c`、定理squash `be2f4a481d0dfcd1e75091f4603ef491a22d40dc`。[Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77PMCriticalDiamondMinimalTenthComparisonV5_14.lean) · [正式証明記録](docs/formal/Qi-v5_14-original-pm-ninth-diamond-minimal-tenth-verified-20261108.md)。公開root107、固定Lean/mathlib、保護PR #1558 Draft/OPEN不変。**次：Qi v5.15、九セル単位・結合則の追加時に降下できない観測量を分離し、第十一セル候補を限定する。**
+
 ## Qi v5.13 — 真正mixedResidue往復九セル補完・残余自由合成obstruction／2026-11-08 JST
 
 **[定理PR #3278](https://github.com/itakura-hidetoshi/KuuOS/pull/3278) MERGED。** 前段で比較不能と証明された真正`mixedResidue`八セル往復（M=2）と反射（M=0）に対し、独立`MixedCancelNineCell`へ**一種類だけの原始`cancelMixed`**を付加。旧`PentagonCancelNineCell`を`previous`で保存し、旧商の厳密な粗化・元八セルstrict Eq非昇格を証明。P/M出現回数の**偶奇は新九セル商へそれぞれ`Quotient.lift`で降下**するが、M回数そのものは降下しない。
