@@ -1,0 +1,96 @@
+{
+  "schema_id": "kuuos.living_engi_cycle.lec08_nonmarkov_repair_verified",
+  "schema_version": "0.1",
+  "date_jst": "2026-11-07",
+  "author": "Hidetoshi Itakura / 板倉英俊",
+  "status": "lean_verified_and_main_merged",
+  "theorem_pr": 3252,
+  "source": "formal/Kuu/LivingEngi/HistoryFeedbackRepair.lean",
+  "source_initial_sha": "8f504182a68525d5afbc64de5356537b0a9939fb",
+  "source_verified_sha": "1a357d40d60dbf5e18561eea81c6f28de107551a",
+  "test_merge_sha": "67a8dffed9a9235b4a089aca5534e8e65f33635f",
+  "source_test_merge_equal_tree": "8ce7d90ca3c0ff02403237624dc202ddb065060f",
+  "main_merge_sha": "0aff0f1d62e66b82d4f4d680597dbdfa4cecd428",
+  "ci": {
+    "run_id": 42355697499,
+    "conclusion": "success",
+    "strict_lean_jobs": 10313,
+    "strict_lean_success": 10313,
+    "governance": "success",
+    "independent_kuu_api": "success",
+    "workflow_integrity": "success",
+    "new_theorems": 18,
+    "explicit_axiom_prints": 18,
+    "axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "sorryAx": false,
+    "changed_warning_count": 0,
+    "changed_error_count": 0
+  },
+  "initial_failed_ci": {
+    "run_id": 42355466916,
+    "source_sha": "8f504182a68525d5afbc64de5356537b0a9939fb",
+    "line": 125,
+    "root_cause": "decide tactic saw free variables before reduction to finite concrete Bool values",
+    "fix": "change (false : Bool) ≠ true; decide",
+    "assumptions_weakened": false
+  },
+  "proven": {
+    "relative_nonmarkov_witness": "same current readout and exact most recent FramedSnapshot yet differing candidate for two concrete finite histories",
+    "current_only_factorization": "HistoryIndependent iff existence of a current-only kernel",
+    "recent_factorization_obstruction": "lagTwoKernel cannot factor through the current readout plus last snapshot for the specified witness",
+    "reachable_transitions": "two actual certified reviseBhava steps keep identical source/current readout with distinct resulting candidates",
+    "future_only_repair": "re-certified caller-supplied policy ignoring history can replace only future candidate generation; original source, readout under cover, history and old complete snapshot retained"
+  },
+  "formal_declarations": [
+    "historyIndependent_iff_hasCurrentFactor",
+    "historyFreeKernel_independent",
+    "historyFreeKernel_factors",
+    "lagTwoKernel_distinguishes_histories",
+    "lagTwoHistories_same_latest",
+    "lagTwoKernel_no_latest_factor",
+    "lagTwoKernel_no_current_factor",
+    "lagTwoKernel_not_historyIndependent",
+    "repair_preserves_current_source",
+    "repair_history_exact",
+    "repair_history_extends",
+    "repair_retains_previous_snapshot",
+    "repair_readout_unchanged",
+    "repair_kernel_historyIndependent",
+    "repair_birth_exact",
+    "repair_preserves_world_and_history",
+    "repair_certified_source",
+    "lagTwo_reachable_history_difference"
+  ],
+  "research_limits": [
+    "Only finite deterministic example relative to declared current projection, not universal non-Markovity",
+    "History-extended state can itself be Markov",
+    "No empirical parameters or clinical stability",
+    "Chosen repaired kernel ignores retained history but prior evidence remains stored",
+    "No general proof of convergence, recoverability for arbitrary dynamics, or suffering extinction",
+    "No runtime engine invocation or actual AI weight modification",
+    "No ActOS authorization or effect receipt",
+    "No original F55/P77/GK5CG proof-relevant source history equality"
+  ],
+  "preserved": [
+    "append_only",
+    "tighten_only",
+    "same_root",
+    "KuuOSFormal_public_107_roots",
+    "Lean_v4.30.0-rc2",
+    "mathlib_5450b53e5ddc75d46418fabb605edbf36bd0beb6",
+    "independent_Kuu_without_Qi_Gray_imports",
+    "original_F55_P77_GK5CG_type_history",
+    "protected_PR_1558_draft_open_unmerged"
+  ],
+  "next_proof_frontier": [
+    "LEC-09 original Type-valued source-history compatibility and non-descent",
+    "Nontrivial higher transport/obstructions and effective stack descent",
+    "Actual feedback stability, viability/recoverability conditions and observational estimates",
+    "Read-only optional bridge to existing KuuOS Non-Markov Memory Connection v0.72"
+  ],
+  "record": "docs/formal/LEC-08-nonmarkov-history-repair-verified-20261107.md"
+}

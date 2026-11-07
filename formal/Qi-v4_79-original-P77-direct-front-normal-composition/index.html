@@ -1,0 +1,1707 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Boundary-aware governance architecture for relational AI systems">
+      
+      
+        <meta name="author" content="Hidetoshi Itakura">
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.1">
+    
+    
+      
+        <title>Qi v4.79 — 元P77の直接正規形合成と全域観測整合性 - KuuOS / 空OS Public Core</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#qi-v479-p77" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="KuuOS / 空OS Public Core" class="md-header__button md-logo" aria-label="KuuOS / 空OS Public Core" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            KuuOS / 空OS Public Core
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Qi v4.79 — 元P77の直接正規形合成と全域観測整合性
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/itakura-hidetoshi/KuuOS" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    itakura-hidetoshi/KuuOS
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="KuuOS / 空OS Public Core" class="md-nav__button md-logo" aria-label="KuuOS / 空OS Public Core" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    KuuOS / 空OS Public Core
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/itakura-hidetoshi/KuuOS" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    itakura-hidetoshi/KuuOS
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Start Here
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Start Here
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../PUBLIC_DOCS_INDEX_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Public Docs Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QUICKSTART_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quickstart
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../EXTERNAL_REVIEW_GUIDE_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    External Review Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../WHY_KUUOS_EXISTS_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Why KuuOS Exists
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Architecture
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ARCHITECTURE_OVERVIEW_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ARCHITECTURE_DIAGRAM_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture Diagram
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../GOVERNANCE_FLOW_OVERVIEW_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Governance Flow Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../GOVERNANCE_DIAGRAM_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Governance Diagram
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../VALIDATOR_GRAPH_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Validator Graph
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Governance
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Governance
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../KUUOS_GOVERNANCE_MANIFESTO_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Governance Manifesto
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../BOUNDARY_AND_NONAUTHORITY_POLICY_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Boundary and Non-Authority Policy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../BOUNDARY_RISK_MODEL_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Boundary Risk Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CLAIM_LEVEL_TAXONOMY_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Claim Level Taxonomy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CONTRIBUTOR_REVIEW_WORKFLOW_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributor Review Workflow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Validation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Validation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../VALIDATION_COVERAGE_MATRIX_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Validation Coverage Matrix
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../REPRODUCIBILITY_MATRIX_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reproducibility Matrix
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../PUBLIC_AUDIT_CHECKLIST_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Public Audit Checklist
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../VALIDATOR_DEPENDENCY_OVERVIEW_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Validator Dependency Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../LEAN_COVERAGE_MAP_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lean Coverage Map
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Terminology
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Terminology
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../FORMAL_TERMINOLOGY_GLOSSARY_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Formal Terminology Glossary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../TERMINOLOGY_CROSS_REFERENCE_INDEX_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Terminology Cross Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Release
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Release
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../PUBLIC_RELEASE_PACKAGE_MANIFEST_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Public Release Package Manifest
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../V0_1_RELEASE_READINESS_CHECKLIST/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v0.1 Release Readiness Checklist
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Core
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../KUOS_CORE_GOVERNANCE_INDEX_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core Governance Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../KUOS_FOURFOLD_CORE_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fourfold Core
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../GOVERNANCE_RELEASE_GATE_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Governance Release Gate
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="qi-v479-p77">Qi v4.79 — 元P77の直接正規形合成と全域観測整合性<a class="headerlink" href="#qi-v479-p77" title="Permanent link">&para;</a></h1>
+<h2 id="0">0. 検証済み正本<a class="headerlink" href="#0" title="Permanent link">&para;</a></h2>
+<p>2026年11月6日 JST。Repository <code>itakura-hidetoshi/KuuOS</code>、canonical branch <code>main</code>。</p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>検証結果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>継承基点</td>
+<td>Qi v4.78、<code>c6a705a08c34991d23aceddb0ac1f3aa1f668f30</code></td>
+</tr>
+<tr>
+<td>定理PR</td>
+<td><a href="https://github.com/itakura-hidetoshi/KuuOS/pull/3180">#3180</a> MERGED</td>
+</tr>
+<tr>
+<td>exact-source HEAD</td>
+<td><code>3ac60c90c57ed80f2c80d16a78004974121cd90c</code></td>
+</tr>
+<tr>
+<td>定理squash</td>
+<td><code>dd413b98fe6dd4c65d420231998de9127adcd453</code></td>
+</tr>
+<tr>
+<td>test-merge</td>
+<td><code>f311844d52a2606d71d6fc6b265a57346c1b2fe4</code></td>
+</tr>
+<tr>
+<td>source/test-merge/squash共通Git tree</td>
+<td><code>deb3a3a2d6f7caf300139e278846fa4b9a1e3bbd</code></td>
+</tr>
+<tr>
+<td>exact-source CI</td>
+<td><a href="https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42164523390">#42164523390</a> completed / SUCCESS</td>
+</tr>
+<tr>
+<td>Strict Lean</td>
+<td><strong>10,278 / 10,278 SUCCESS</strong></td>
+</tr>
+<tr>
+<td>Strict Lean job</td>
+<td><code>127717853242</code> completed / success、実Lean step14もcompleted / success</td>
+</tr>
+<tr>
+<td>今回選択されたGovernance workflow jobs</td>
+<td>4 / 4 completed / success</td>
+</tr>
+<tr>
+<td>新規宣言の実公理出力</td>
+<td>20 / 20、標準公理のみ、sorryAxなし</td>
+</tr>
+<tr>
+<td>コンパイラwarning / error</td>
+<td>0 / 0</td>
+</tr>
+<tr>
+<td>Lean / mathlib</td>
+<td>v4.30.0-rc2 / <code>5450b53e5ddc75d46418fabb605edbf36bd0beb6</code></td>
+</tr>
+<tr>
+<td>公開集約 / roots</td>
+<td>KuuOSFormal / 107維持</td>
+</tr>
+<tr>
+<td>保護PR #1558</td>
+<td>validation-only Draft / OPEN / 未マージ</td>
+</tr>
+</tbody>
+</table>
+<p><a href="../../formal/KUOS/Architecture/QiWuxingGK5CHP77DirectFrontNormalCompositionV4_79.lean">Lean全文</a> · <a href="../Qi-v4_78-original-P77-front-normal-append-coherence/">Qi v4.78記録</a></p>
+<h2 id="1-v478">1. v4.78からの相違<a class="headerlink" href="#1-v478" title="Permanent link">&para;</a></h2>
+<p>v4.78の <code>composeFrontNormal</code> は、二つの正規形を真正交錯履歴へ埋め戻し、その実履歴を連結して <code>normalizeFront</code> を適用した。</p>
+<p>v4.79では同じ共通Familyと部分Stateで合成可能な二つの正規形を対象に、累積routeと移送Scheduleを直接組み立てる。元の正規形・route語・Step・ScheduleはType値としてそのまま保持する。</p>
+<div class="highlight"><pre><span></span><code><span class="kd">def</span><span class="w"> </span><span class="n">directComposeFrontNormal</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">FrontNormal</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="n">g</span><span class="w"> </span><span class="n">h</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="n">source</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="n">target</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="n">where</span>
+<span class="w">  </span><span class="n">route</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="bp">.</span><span class="n">trans</span><span class="w"> </span><span class="n">N₁.route</span><span class="w"> </span><span class="n">N₂.route</span>
+<span class="w">  </span><span class="n">schedule</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">append</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="n">g</span><span class="w"> </span><span class="n">h</span><span class="w"> </span><span class="n">k</span>
+<span class="w">    </span><span class="o">(</span><span class="n">reassocSchedule</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="n">g</span><span class="w"> </span><span class="n">h</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="n">N₂.route</span><span class="w"> </span><span class="n">N₁.schedule</span><span class="o">)</span><span class="w"> </span><span class="n">N₂.schedule</span>
+</code></pre></div>
+<p>すなわち、<code>N₁=(r₁,S₁)</code>、<code>N₂=(r₂,S₂)</code>について</p>
+<p>$$
+\boxed{N_1\diamond N_2=(r_1;r_2,\;r_{2*}S_1\mathbin{+!!+}S_2).}
+$$</p>
+<p>この定義は <code>normalizeFront</code> や履歴埋め戻しを呼ばない。第二routeによる第一Scheduleの移送後、終状態が第二Scheduleの始状態に一致する。合成routeの開始状態は既存の <code>reassocStateEquiv</code> のtrans計算規則で定義的に一致するため、逆route・追加の状態cast・新仮定は不要である。</p>
+<p><code>directComposeFrontNormal_route</code> と <code>directComposeFrontNormal_schedule</code> は、この選択されたroute・Scheduleの射影が上記の元構成子に厳密に等しいことを <code>rfl</code> で証明する。これはv4.78の異なるroute語との等式ではない。</p>
+<h2 id="2">2. 全域観測の証明構造<a class="headerlink" href="#2" title="Permanent link">&para;</a></h2>
+<p>三観測は元の <code>PlanObservedEq</code> を使う。全target raw添字でforwardが一致し、全source raw添字でbackwardが一致し、全target真正source証拠に対してpullbackが一致する。</p>
+<p>最初に <code>schedulePlan_append_observed</code> を第一Scheduleへの構造帰納法で証明した。空Scheduleは既存の正規化経由recut-reflを使い続け、その観測単位則を適用する。consでは元Stepの観測反射、後続列の帰納仮定、観測上の結合則を接続する。</p>
+<p>次に <code>planObservedEq_reassocSchedule</code> がv4.76の三つの全域自然性定理を束ねる。</p>
+<p>$$
+S_1;r_2\sim_{\mathrm{obs}}r_2;r_{2*}S_1.
+$$</p>
+<p><code>planObservedEq_whiskerSquare</code> は、この観測四角形に実際の前置・後置Planを付けても観測同値が保たれることを、結合則と合成合同性だけで証明する。</p>
+<p>直接合成の主証明では、逐次Plan</p>
+<p>$$
+(r_1;S_1);(r_2;S_2)
+$$</p>
+<p>の中央で上記自然性四角形を適用し、二つのrecutを <code>ReassocRoute.trans</code> に集約し、二つのScheduleを元の <code>append</code> にまとめる。これにより</p>
+<p>$$
+\boxed{\operatorname{frontPlan}(N_1\diamond N_2)
+\sim_{\mathrm{obs}}
+\operatorname{frontPlan}(N_1);\operatorname{frontPlan}(N_2)}
+$$</p>
+<p>が成立する。一般細分coverageの可逆性や全射性、source証拠型のsubsingleton性を追加仮定していない。</p>
+<h2 id="3">3. 旧合成・元履歴連結との比較<a class="headerlink" href="#3" title="Permanent link">&para;</a></h2>
+<p><code>directComposeFrontNormal_historyObserved</code> は、上記主定理とv4.78の <code>composeFrontNormal_observed</code> を通じて、直接合成と履歴経由合成の観測一致を証明する。</p>
+<p>対応するforward・backward・pullbackの三定理では、全域量化をそれぞれ明記した。</p>
+<p>任意の実際に合成可能な交錯履歴 <code>H₁,H₂</code> について、<code>normalizeAppend_direct_observed</code> が</p>
+<p>$$
+\boxed{N(H_1\mathbin{+!!+}H_2)
+\sim_{\mathrm{obs}}N(H_1)\diamond N(H_2)}
+$$</p>
+<p>を証明する。ここで正規形間の観測は、その <code>frontPlan</code> に対する <code>PlanObservedEq</code> を意味する。</p>
+<p><code>originalAppend_direct_observed</code> は、正規化していない元連結履歴の <code>historyPlan</code> も同じ直接合成Planと観測同値であることを示す。任意の部分状態における空履歴二本の回帰例もコンパイルした。一般の二状態間に履歴が必ず存在するとは主張しない。</p>
+<h2 id="4-sourceobstruction">4. 真正五セル・source・obstruction<a class="headerlink" href="#4-sourceobstruction" title="Permanent link">&para;</a></h2>
+<p>直接合成と旧合成の五セルは別々の元GK5CG Type値として残す。<code>directComposeFrontNormal_rawSquare</code> は証明済みforward一致に沿って両側のraw四セル端点をそろえ、<code>directComposeFrontNormal_rawLoop</code> はその二辺から元の五セルloopを構成する。</p>
+<p>両側のPlanは元Quiver.Pathとsource認証付きP77部分Homを保存する。真正の最終source証拠で各側を認証したraw比較は、認証前のその同じ側のraw比較と厳密に一致する。</p>
+<p>両Planの <code>AllCompatible</code> とその否定は、それぞれ共通の最終因子木 <code>tree target t</code> のcompatibilityとobstructionに同値である。<code>t</code> は部分状態でもよい。細分途中の全状態間でobstructionが不変であるとは言わず、欠けたsource証拠を生成しない。</p>
+<h2 id="5-20">5. 新規20宣言と実公理依存<a class="headerlink" href="#5-20" title="Permanent link">&para;</a></h2>
+<p>名前空間は <code>KUOS.Architecture.WuxingPentagonUnified.FivefoldP77FiniteRefinement</code>。</p>
+<table>
+<thead>
+<tr>
+<th>宣言</th>
+<th>完了ログの実公理</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>schedulePlan_append_observed</code></td>
+<td>propext, Classical.choice, Quot.sound</td>
+</tr>
+<tr>
+<td><code>planObservedEq_reassocSchedule</code></td>
+<td>propext, Classical.choice, Quot.sound</td>
+</tr>
+<tr>
+<td><code>planObservedEq_whiskerSquare</code></td>
+<td>propext, Classical.choice, Quot.sound</td>
+</tr>
+<tr>
+<td><code>directComposeFrontNormal</code></td>
+<td>propext, Quot.sound</td>
+</tr>
+<tr>
+<td><code>directComposeFrontNormal_route</code></td>
+<td>propext, Quot.sound</td>
+</tr>
+<tr>
+<td><code>directComposeFrontNormal_schedule</code></td>
+<td>propext, Quot.sound</td>
+</tr>
+<tr>
+<td><code>directComposeFrontNormal_observed</code></td>
+<td>propext, Classical.choice, Quot.sound</td>
+</tr>
+<tr>
+<td><code>directComposeFrontNormal_historyObserved</code></td>
+<td>propext, Classical.choice, Quot.sound</td>
+</tr>
+<tr>
+<td><code>directComposeFrontNormal_forward</code></td>
+<td>propext, Classical.choice, Quot.sound</td>
+</tr>
+<tr>
+<td><code>directComposeFrontNormal_backward</code></td>
+<td>propext, Classical.choice, Quot.sound</td>
+</tr>
+<tr>
+<td><code>directComposeFrontNormal_pullback</code></td>
+<td>propext, Classical.choice, Quot.sound</td>
+</tr>
+<tr>
+<td><code>directComposeFrontNormal_rawSquare</code></td>
+<td>propext, Classical.choice, Quot.sound</td>
+</tr>
+<tr>
+<td><code>directComposeFrontNormal_rawLoop</code></td>
+<td>propext, Classical.choice, Quot.sound</td>
+</tr>
+<tr>
+<td><code>directComposeFrontNormal_path</code></td>
+<td>propext, Classical.choice, Quot.sound</td>
+</tr>
+<tr>
+<td><code>directComposeFrontNormal_certified</code></td>
+<td>propext, Classical.choice, Quot.sound</td>
+</tr>
+<tr>
+<td><code>directComposeFrontNormal_certify_raw</code></td>
+<td>propext, Classical.choice, Quot.sound</td>
+</tr>
+<tr>
+<td><code>directComposeFrontNormal_allCompatible_iff</code></td>
+<td>propext, Classical.choice, Quot.sound</td>
+</tr>
+<tr>
+<td><code>directComposeFrontNormal_obstructed_iff</code></td>
+<td>propext, Classical.choice, Quot.sound</td>
+</tr>
+<tr>
+<td><code>normalizeAppend_direct_observed</code></td>
+<td>propext, Classical.choice, Quot.sound</td>
+</tr>
+<tr>
+<td><code>originalAppend_direct_observed</code></td>
+<td>propext, Classical.choice, Quot.sound</td>
+</tr>
+</tbody>
+</table>
+<p>実成果物 <code>13477958990</code> のSHA-256をGitHubのdigestと比較し、<code>add227ff14332c2b7719449944cf0518b02ae47ebef63b7797a98946322eef6e</code> で一致した。収録 <code>lean-formal/receipt.json</code> はstatus passed、return_code 0、run_id 42164523390、run_attempt 1、git_shaは上記test-mergeである。実行時刻は2026-11-06 04:49:55–04:50:33 UTC。</p>
+<p>収録 <code>lean-formal/check.log</code> 全文から、新規20件の公理出力がすべて存在し、標準公理だけであること、sorryAx不在、warning/error 0/0、Build completed successfully (10278 jobs)を確認した。先行依存の別定理まで一律に標準公理のみとは主張しない。</p>
+<p>全10 PR-triggered workflowsは9 successと既存条件によるIndependent Kuu Foundationの1 skipで終了。Strict Leanとexact-head terminalのstatus receiptsもsuccessである。今回Governance workflowで選択された実jobは4件であり、以前の30件選択の数字を流用しない。</p>
+<h2 id="6">6. 構文修正と全文照合<a class="headerlink" href="#6" title="Permanent link">&para;</a></h2>
+<p>初回CI #42163539368では、補題の引数名 <code>prefix</code> がLean構文予約語と衝突し、続く構文解析と補題参照が失敗した。また匿名 <code>example</code> の直前に <code>/-- ... -/</code> 文書コメントを置いたことで、名前付き宣言を期待する構文エラーが出た。</p>
+<p>固定Lean v4.30.0-rc2の <code>src/Lean/Parser/Syntax.lean</code> を照合し、引数と参照を <code>prefixPlan</code> にalpha-renamingした。匿名検証例のコメントは <code>/- ... -/</code> の通常コメントに修正した。定理名・型・仮定・結論・空履歴の検証例は維持した。修正後の新規ファイル全文363行、imports、下位の依存型Schedule/FrontNormalと観測補題の引数・計算規則を照合し、最終ソースに対するCIで検証した。失敗runの公理出力を成功の証拠には使わない。</p>
+<p>公開集約への追記時に発生した既存importの転記誤りも、PR作成前のGit差分照合で元表記へ復元した。最終差分は新規Leanファイル363行と集約import1行だけで、削除0行である。既存証明・pin・runtime・workflow・root定義は変更していない。</p>
+<h2 id="7">7. 次の課題と明確な境界<a class="headerlink" href="#7" title="Permanent link">&para;</a></h2>
+<p>次の研究候補は、三つ以上の直接合成に対する観測上の結合則・単位則と、型付き有限列への拡張である。両括弧付けの累積route語と移送Scheduleは別の実値として保持し、必要な等式の層を明示する。</p>
+<p>今回証明したのは三つの全域観測の一致であり、異なるFrontNormalの構成子的等式、元交錯位置の逆復元、正規化の単射性、五セル値の等式、loopの自明性、新しい高次セルの存在は主張しない。strict 空と独立Kuu/presentationの区別を保持する。</p>
+<p>本記録は新規ファイルとして追加する。ルートREADME.mdとROADMAP.mdのQi v4.79追記は本記録の変更範囲に含めず、別の文書同期作業として残す。旧scheduled MGAP pollerのstate_store_missingは本定理とは別のruntime状態ストア問題であり、ここでは変更しない。</p>
+<p>Copyright © 2026 Hidetoshi Itakura / 板倉英俊. Apache-2.0.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.expand", "navigation.top", "toc.integrate"], "search": "../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.a5f9d56c.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,1667 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Boundary-aware governance architecture for relational AI systems">
+      
+      
+        <meta name="author" content="Hidetoshi Itakura">
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.1">
+    
+    
+      
+        <title>Qi v4.73 — 元P77の証拠付き混合細分と真正raw五セル比較 - KuuOS / 空OS Public Core</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#qi-v473-p77raw" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="KuuOS / 空OS Public Core" class="md-header__button md-logo" aria-label="KuuOS / 空OS Public Core" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            KuuOS / 空OS Public Core
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Qi v4.73 — 元P77の証拠付き混合細分と真正raw五セル比較
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/itakura-hidetoshi/KuuOS" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    itakura-hidetoshi/KuuOS
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="KuuOS / 空OS Public Core" class="md-nav__button md-logo" aria-label="KuuOS / 空OS Public Core" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    KuuOS / 空OS Public Core
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/itakura-hidetoshi/KuuOS" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    itakura-hidetoshi/KuuOS
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Start Here
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Start Here
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../PUBLIC_DOCS_INDEX_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Public Docs Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QUICKSTART_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quickstart
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../EXTERNAL_REVIEW_GUIDE_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    External Review Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../WHY_KUUOS_EXISTS_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Why KuuOS Exists
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Architecture
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ARCHITECTURE_OVERVIEW_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ARCHITECTURE_DIAGRAM_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture Diagram
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../GOVERNANCE_FLOW_OVERVIEW_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Governance Flow Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../GOVERNANCE_DIAGRAM_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Governance Diagram
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../VALIDATOR_GRAPH_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Validator Graph
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Governance
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Governance
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../KUUOS_GOVERNANCE_MANIFESTO_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Governance Manifesto
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../BOUNDARY_AND_NONAUTHORITY_POLICY_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Boundary and Non-Authority Policy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../BOUNDARY_RISK_MODEL_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Boundary Risk Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CLAIM_LEVEL_TAXONOMY_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Claim Level Taxonomy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CONTRIBUTOR_REVIEW_WORKFLOW_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributor Review Workflow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Validation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Validation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../VALIDATION_COVERAGE_MATRIX_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Validation Coverage Matrix
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../REPRODUCIBILITY_MATRIX_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reproducibility Matrix
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../PUBLIC_AUDIT_CHECKLIST_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Public Audit Checklist
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../VALIDATOR_DEPENDENCY_OVERVIEW_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Validator Dependency Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../LEAN_COVERAGE_MAP_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lean Coverage Map
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Terminology
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Terminology
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../FORMAL_TERMINOLOGY_GLOSSARY_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Formal Terminology Glossary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../TERMINOLOGY_CROSS_REFERENCE_INDEX_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Terminology Cross Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Release
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Release
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../PUBLIC_RELEASE_PACKAGE_MANIFEST_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Public Release Package Manifest
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../V0_1_RELEASE_READINESS_CHECKLIST/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v0.1 Release Readiness Checklist
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Core
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../KUOS_CORE_GOVERNANCE_INDEX_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core Governance Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../KUOS_FOURFOLD_CORE_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fourfold Core
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../GOVERNANCE_RELEASE_GATE_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Governance Release Gate
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="qi-v473-p77raw">Qi v4.73 — 元P77の証拠付き混合細分と真正raw五セル比較<a class="headerlink" href="#qi-v473-p77raw" title="Permanent link">&para;</a></h1>
+<h2 id="0">0. 検証済み正本<a class="headerlink" href="#0" title="Permanent link">&para;</a></h2>
+<ul>
+<li>日付：2026年11月6日 JST。</li>
+<li>Repository：itakura-hidetoshi/KuuOS、canonical branch：main。</li>
+<li>継承：Qi v4.68（有限recut）、v4.69（段別真正五セル比較）、v4.70（証拠付き段分割・統合と因子別障害）、v4.71（元統合パッチ族の真正五セル比較）、v4.72（raw切断木の真正五セル正規形）。</li>
+<li>定理PR：<a href="https://github.com/itakura-hidetoshi/KuuOS/pull/3168"> #3168 </a> — MERGED。</li>
+<li>定理基点：3493fefe780faa657e44a7341fc836c09e121651。</li>
+<li>exact-source検証HEAD：ccdef1ce8339a2c234e6f55ee2870fa2d54ec0d8。</li>
+<li>定理squash：d476f2eae3b8115a3addbb4d0db68939e4b72d96。</li>
+<li>source/test-merge Git tree：6b70774a711a2fcff3599218908403f9d5ea077d — 完全一致。</li>
+<li><a href="https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42116672588">exact-source CI #42116672588</a>：SUCCESS。</li>
+<li>Strict Lean：<strong>10,270 / 10,270 SUCCESS</strong>。</li>
+<li>Governance：<strong>30 / 30 SUCCESS</strong>。</li>
+<li>GitHub workflow jobs：32/32 terminal、check runs：41/41 terminal（40 success、1 expected skip）。</li>
+<li>exact-head Strict Lean／terminal status：両方success。</li>
+<li>新規20宣言の実際の公理出力：propext／Classical.choice／Quot.sound のみ。<strong>sorryAx 0</strong>。</li>
+<li>変更Lean warning/error：0/0。</li>
+<li>Lean：v4.30.0-rc2、mathlib：5450b53e5ddc75d46418fabb605edbf36bd0beb6。</li>
+<li>公開集約KuuOSFormal、root107、保護PR #1558 Draft／OPEN／未マージ。</li>
+</ul>
+<p><a href="../../formal/KUOS/Architecture/QiWuxingGK5CHP77CertifiedMixedSubdivisionFiveCellV4_73.lean">Lean全文</a> · <a href="../Qi-v4_72-original-P77-raw-cut-tree-five-cell-coherence/">v4.72正式記録</a> · <a href="../Qi-v4_70-original-P77-certified-segment-subdivision/">v4.70正式記録</a></p>
+<h2 id="1">1. 研究の位置づけと新しい問い<a class="headerlink" href="#1" title="Permanent link">&para;</a></h2>
+<p>v4.72では、任意の型付き切断木Tにおける元raw四セルの括弧付き合成と、平坦化したraw鎖の正規形との間に、真正GK5CG保守的Type値五セルを帰納構成した。しかしv4.70の証拠付き段分割・統合は、元sourceの段数と中間頂点を実際に変更する操作である。</p>
+<p>今回の中心は、<strong>段数・中間頂点・raw括弧・raw表示を変える任意有限の証拠付き履歴そのものから、各両端のrawパッチ族を結ぶ本物のGK5CG五セルを構成できるか</strong>という問いである。</p>
+<p>元raw四セル、元五セル構成子、元source Quiver.Path、到達証拠付きP77部分Hom、元選択履歴は互いに権限境界を持つ別のデータである。結果を単なる数値chargeの一致や任意に仮定した証拠Type同値へ置き換えない。</p>
+<h2 id="2">2. 単一粗ブロックには真の右単位五セルがある<a class="headerlink" href="#2" title="Permanent link">&para;</a></h2>
+<p>v4.70の粗い一段ブロックBを切断木へ埋め込むと、単なるBではなく</p>
+<pre><code>BlockTree(B) = leaf(cons B (nil v))
+</code></pre>
+<p>となる。このraw添字は I_B×PUnit で、raw代表は B(i) ; refl_v となる。したがって raw tree block とBを定義的に同一視せず、元GK5CGの保守的な verticalRightUnit 五セルとその逆を用いる。</p>
+<p>$$
+B(i); \mathrm{refl}_v
+\xRightarrow{\text{GK5CG right-unit}}
+B(i).
+$$</p>
+<p>新規 fivefoldP77RawPatchBlockTreeRawComparison は、全てのiに対してこの五セルを前向きに、逆五セルを後向きに持ち、添字も双方向に明示する。</p>
+<h2 id="3">3. 一段粗木から任意細い切断木への真正五セル<a class="headerlink" href="#3" title="Permanent link">&para;</a></h2>
+<p>細いtree Tの元raw鎖をN(T)、実際のraw合成ブロックをComp(N(T))とする。v4.70の細分生成元には、元の両方向比較</p>
+<p>$$
+c:\operatorname{Comparison}(\operatorname{Comp}(N(T)),B)
+$$</p>
+<p>と実際のfine source証拠が既に含まれている。</p>
+<p>今回の fivefoldP77RawPatchTreeSubdivisionRawComparison は、次の三種類の<strong>実際のGK5CG五セル比較</strong>を合成する。</p>
+<p>$$
+\boxed{
+\operatorname{RawBlock}(\operatorname{BlockTree}(B))
+\xRightarrow{\;\mathrm{right\ unit}\;} B
+\xRightarrow{\;c^{-1}\;} \operatorname{Comp}(N(T))
+\xRightarrow{\;\nu_T^{-1}\;} \operatorname{RawBlock}(T).
+}
+$$</p>
+<p>ここでν_Tはv4.72で構成した元raw切断木の真正五セル正規化である。全raw代表を覆う添字写像と元五セルType値を保持する。直接の「粗木＝細木」や、元raw四セルの構文等号は仮定しない。</p>
+<p>このraw比較の構成は五セル比較データから可能だが、<strong>証拠付きsubdivide route自体はv4.70に従い実際のfine source witnessを必要とする</strong>。この二つは論理的に異なる。</p>
+<h2 id="4-congruence">4. 任意左右文脈では元五セルcongruenceを実構成<a class="headerlink" href="#4-congruence" title="Permanent link">&para;</a></h2>
+<p>あるraw切断木S,Tの比較cが存在するとき、共通の右文脈Rを結合したnode(S,R)とnode(T,R)の比較を構成する。</p>
+<p>$$
+\alpha_j:R_S(\varphi(j))\Rightarrow R_T(j)
+\quad\mapsto\quad
+\operatorname{verticalLeft}(\alpha_j,R_R(k))
+$$</p>
+<p>を<strong>すべての右添字k</strong>について実行する。元raw五セルに対し、左と右のraw四セルを垂直congruenceで結ぶ操作である。後向きでも独立の比較五セルを同様に貼る。</p>
+<p>共通の左文脈Lを持つnode(L,S)とnode(L,T)では、元の verticalRight 構成子を全左添字iに対して使う。</p>
+<p>新規 fivefoldP77RawPatchTreeRawComparison_left/right は、元sourceの型付き中間頂点、すべてのrawパッチ添字組と真正五セル値を保持する。</p>
+<h2 id="5-raw">5. 任意有限の証拠付き混合履歴にraw五セルを昇格<a class="headerlink" href="#5-raw" title="Permanent link">&para;</a></h2>
+<p>v4.70の既存の帰納Type FivefoldP77RawPatchSubdivisionRoute を新しく捏造せず、各コンストラクタを真正五セル比較へ翻訳する。</p>
+<table>
+<thead>
+<tr>
+<th>元の履歴生成元</th>
+<th>raw五セルの構成</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>presentation</td>
+<td>v4.72の真正raw tree比較</td>
+</tr>
+<tr>
+<td>recut</td>
+<td>v4.72の元raw切断木の真正五セル比較</td>
+</tr>
+<tr>
+<td>subdivide</td>
+<td>前節の右単位・細分比較・raw正規化五セルの合成</td>
+</tr>
+<tr>
+<td>symm</td>
+<td>実際の元五セル比較の前後を反転</td>
+</tr>
+<tr>
+<td>trans</td>
+<td>双方向の元五セル比較を垂直合成</td>
+</tr>
+<tr>
+<td>left</td>
+<td>元のverticalLeftによる文脈congruence</td>
+</tr>
+<tr>
+<td>right</td>
+<td>元のverticalRightによる文脈congruence</td>
+</tr>
+</tbody>
+</table>
+<p>これを v4.69のRawPatchPresentationRoute と v4.70のRawPatchSubdivisionRoute の二層で帰納構成し、</p>
+<p>$$
+\boxed{
+r:\operatorname{SubdivisionRoute}(S,T)
+\Longrightarrow
+\operatorname{GK5CGComparison}(\operatorname{RawBlock}(S),\operatorname{RawBlock}(T))
+}
+$$</p>
+<p>を得る。いずれも本物の元保守的五セルであり、任意にRawBlockEquivを入力しただけの定理ではない。</p>
+<h2 id="6-sourceraw">6. source証拠の存在に先立つraw保守的商比較<a class="headerlink" href="#6-sourceraw" title="Permanent link">&para;</a></h2>
+<p>新規比較c_rは各jに対する前向き・後向きの真正五セル値を持つため、元GK5CGの既存商定理から</p>
+<p>$$
+[ R_S(\mathrm{forwardIndex}_r(j)) ]
+=
+[ R_T(j) ]
+$$</p>
+<p>および逆側の比較商等式を得る。この式は、与えられた正規化・比較・細分の五セルデータがある場合、個々のsource witnessを引数として要求しない。</p>
+<p>さらに元GK5CGのassocCharge_soundにより元結合子chargeの一致が帰結として得られる。ただし<strong>charge等号だけから元五セルを復元する逆方向</strong>は用いない。</p>
+<h2 id="7-gluingsource">7. 実際のgluingと元source経路の自然性<a class="headerlink" href="#7-gluingsource" title="Permanent link">&para;</a></h2>
+<p>source treeの真正証拠wがあるとき、v4.72の元raw tree gluingと今回のraw五セル比較、v4.70の混合履歴の証拠付きEquivは可換となる。</p>
+<p>$$
+\boxed{
+E_{\mathrm{raw}(r)}(G_S(w))
+=
+G_T(E_r(w)).
+}
+$$</p>
+<p>証明は、元のBlockComparisonEquivが全ての型付きsource Quiver.Pathをそのまま保持すること、RawGlueが元TreePathに等しいこと、v4.70のSubdivisionRoute_pathが同じ元経路を保存することから、Subtype.extで厳密に成立する。</p>
+<p>さらに、元のFivefoldP77PartialDomainの値そのものが一致すること、逆routeの自然性、任意有限のraw比較の合成、同じ始点・終点を持つ異なる履歴の誘導したwitness Equivの一致を形式化した。全4辺が実在する証拠付き比較四角形の可換性も、元P77 source faithfulnessから既証明のwitness subsingleton性を用いて導く。</p>
+<p><strong>重要：</strong> ここで一致するのは誘導された証拠Typeの写像であり、選んだ元五セルの履歴自身ではない。元raw五セルを同一視する新higher coherenceやpentagonatorは今回追加しない。</p>
+<h2 id="8-obstructionfactorwise-obstruction">8. 粗いobstructionと指定factorwise obstructionの分離<a class="headerlink" href="#8-obstructionfactorwise-obstruction" title="Permanent link">&para;</a></h2>
+<p>任意有限の許された証拠付きrouteでは、元rawブロックのcompatibilityが真正比較に沿って双方向に保存される。他方、元treeの指定factorwise compatibility・obstructionは既存v4.70の証拠付きrouteによって保存される。</p>
+<p>ただし、<strong>粗い元P77合成がsourceで到達可能であることは、指定した細い段分割がsourceで実現可能であることを含意しない</strong>。</p>
+<p>v4.70の具体例では、元逆e01:1→0と順e01:0→1を合成した粗rawは、元nil source経路で実現できる。しかし最初の指定逆向き段はsourceに原像がなく、細い二段証拠は空である。</p>
+<p>今回、さらに強く次を証明した。</p>
+<p>$$
+\boxed{
+\begin{aligned}
+&amp;\operatorname{Nonempty}(
+\operatorname{GK5CGComparison}(
+\operatorname{RawBlock}(\operatorname{BlockTree}(B)),
+\operatorname{RawBlock}(\operatorname{leaf}C_{\mathrm{bad}})))\
+&amp;\quad\land\
+&amp;\neg\operatorname{Nonempty}(
+\operatorname{SubdivisionRoute}(
+\operatorname{BlockTree}(B),
+\operatorname{leaf}C_{\mathrm{bad}})).
+\end{aligned}
+}
+$$</p>
+<p>左側の実五セルは、元right-unit五セルとv4.72の正規化五セルから構成できる。右側の不存在は、仮に証拠付きrouteがあればcoarse witnessをfine witnessへ移送でき、元逆e01のsource未到達定理に矛盾することから得る。</p>
+<p>この事実により、<strong>Type値raw五セル比較の存在と真正因子別descentの可能性の論理的差異</strong>を、具体的な元データで保持できた。</p>
+<h2 id="9-20">9. 全20宣言と独立レビュー<a class="headerlink" href="#9-20" title="Permanent link">&para;</a></h2>
+<ol>
+<li>fivefoldP77RawPatchBlockTreeRawComparison</li>
+<li>fivefoldP77RawPatchTreeSubdivisionRawComparison</li>
+<li>fivefoldP77RawPatchTreeRawComparison_left</li>
+<li>fivefoldP77RawPatchTreeRawComparison_right</li>
+<li>fivefoldP77RawPatchPresentationRouteRawComparison</li>
+<li>fivefoldP77RawPatchSubdivisionRouteRawComparison</li>
+<li>fivefoldP77RawPatchSubdivisionRoute_rawClass_forward</li>
+<li>fivefoldP77RawPatchSubdivisionRoute_rawClass_backward</li>
+<li>fivefoldP77RawPatchSubdivisionRoute_rawCharge_forward</li>
+<li>fivefoldP77RawPatchSubdivisionRouteRawGlue_natural</li>
+<li>fivefoldP77RawPatchSubdivisionRoute_rawCertified_natural</li>
+<li>fivefoldP77RawPatchSubdivisionRouteRawGlue_symm_natural</li>
+<li>fivefoldP77RawPatchSubdivisionRoute_rawCompatible_iff</li>
+<li>fivefoldP77RawPatchSubdivisionRoute_fineObstructed_iff</li>
+<li>fivefoldP77RawPatchSubdivisionRoute_rawEquiv_independent</li>
+<li>fivefoldP77RawPatchSubdivisionRoute_rawEquiv_trans</li>
+<li>fivefoldP77RawPatchSubdivisionRoute_rawSquare</li>
+<li>fivefoldP77ReverseForward_noCertifiedMixedSubdivision</li>
+<li>fivefoldP77ReverseForward_rawOnlyComparison</li>
+<li>fivefoldP77ReverseForward_rawComparison_notCertifiedRoute</li>
+</ol>
+<p>新規465行のLeanファイル一件と公開集約KuuOSFormalのimport1行のみを追加。旧Lean本文、既存定理の仮定・結論・名前、固定Lean/mathlib、CI workflows、public root107は不変とした。</p>
+<h2 id="10-exact-source">10. exact-source成功と次の段階<a class="headerlink" href="#10-exact-source" title="Permanent link">&para;</a></h2>
+<p>CI #42116672588で固定Lean10,270/10,270、Governance30/30、実公理出力20件を確認した。変更Lean warning/errorは0/0、新規sorryAxはない。GitHub PR headとtest-merge treeが完全一致し、検証済みHEADを指定してsquashマージした。後続main commit d476f2eae3b8115a3addbb4d0db68939e4b72d96のGit treeも一致している。</p>
+<p>研究のauthority境界は元F55/P77/P94Aと物理C60 Gauge、北C60 CRTで独立に保持する。strict 空中心、独立Kuuはpresentationであり、比較可能性を同一視命令に置換しない。</p>
+<p><strong>Qi v4.74候補：</strong> 連続する複数の証拠付き段分割順序について、実五セルを保持した比較diagramの構成と、粗・細・中間のcompatibilityを指定階層ごとに追跡する。比較履歴間のraw五セル同一性、無条件なsheaf descentや新pentagonator・Grayは導入しない。</p>
+<p>Copyright © 2026 Hidetoshi Itakura / 板倉英俊. Apache-2.0.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.expand", "navigation.top", "toc.integrate"], "search": "../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.a5f9d56c.min.js"></script>
+      
+    
+  </body>
+</html>
