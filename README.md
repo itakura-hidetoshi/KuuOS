@@ -8,6 +8,14 @@
 
 English: KuuOS develops a general mathematical program for dependent origination, contextual transport, presentation localization, effective descent, higher coherence, and explicit obstructions. The later C60 geometry is a concrete testbed, **not the origin or unique model of the general theory**.
 
+## Qi v5.27 — 選択12D単位・同側合成完成と観測の選択的降下／2026-11-08 JST
+
+**[定理PR #3309](https://github.com/itakura-hidetoshi/KuuOS/pull/3309) MERGED。** v5.26の元whiskering履歴長が検出した単位・同側合成障害を、既存Type値を変えず**新しい独立第十二セル比較presentation** `SelectedUnitalCompositionTwelve`で補完。旧v5.25の全生証拠を`previous`として保持し、新たな選択生成元は境界適合の`unitLeft/unitRight/compLeft/compRight`の4種類のみ。`selectedUnital_least`でこれらと旧比較・左右文脈閉包に関する最小性を証明。新しい正確な六セル境界商では、真正七セル文脈の左右作用について**左右単位則・同側合成則・反対側の左右交換則**が成立する。ただし旧raw第十一セル証拠のEqではない。
+
+元のraw旧証拠埋込みは単射だがv5.25商→新商の写像は非単射で、元whiskering履歴総長さは**新商へ降下しない**。元の三計数は全10構成子で保存されて新商へ降下し、元tenSymm障害も残る。[Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77UnitalCompositionCompletionV5_27.lean)・[正式証明記録](docs/formal/Qi-v5_27-unital-composition-twelfth-completion-verified-20261108.md)。
+
+定理exact-source CI [#42444566108](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42444566108)：**Scoped Strict Lean 9,079/9,079・Governance選択5/5 SUCCESS**、新規26宣言（公理不要12／標準`propext`・`Quot.sound`のみ14）、sorryAx・変更Lean warning/errorなし。source `61ed5dac3ecabbe3fa578937357db5ff599cbaa8`／test-merge `216f94d482107f87c9d931de374de7749ffd1c96`／squash `25e5c08d896175531cac24814efbd5cf29d7938a`のGit tree `be30d59fc2219a63ed682ef8772ab334a59a72f3`一致。公開集約import単一行追加 [PR #3310](https://github.com/itakura-hidetoshi/KuuOS/pull/3310) MERGED、[CI #42444916420](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42444916420) **KuuOSFormal 10,340/10,340・Governance30/30 SUCCESS**。公開root107・Lean/mathlib固定・#1558 Draft/OPENを維持。**次段Qi v5.28：** 三連文脈・異なる括弧付けによる高次coherenceと選択13D/14D比較のauthority境界を研究する。
+
 ## Qi v5.26 — 真正whiskering履歴長と反射・同側合成の厳密obstruction／2026-11-08 JST
 
 **[定理PR #3305](https://github.com/itakura-hidetoshi/KuuOS/pull/3305) MERGED。** v5.25独立`ContextClosedFramedTwelve`の元6D〜14D真正Type証拠を全保持し、元第十セルの順序付きwhiskering履歴の**総長さ**`contextTraceLength F = (framedWhiskerRawTrace F).length`が旧full framed12D・新文脈閉包12Dの全構成子で保存されることを帰納的に証明した。観測は旧商・新商・固定六セル境界商の各々へ降下し、非単射な旧商→新商写像とも可換。一方、新しい左・右文脈作用はどの実在元第七セル文脈でも総長さをちょうど1増やすため、**反射第七セルが商の恒等作用になることはなく、同側二回の作用と単一の元合成文脈作用も一致しない**と証明。これは反対側の左右作用が交換するv5.25定理と矛盾しない。新しい比較生成元・公理は追加していない。
