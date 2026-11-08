@@ -77,14 +77,8 @@ theorem selectedMixedLengthCode_injective (base : Nat) :
 the SAME exact target RL fiber; no heterogeneous cast. -/
 def selectedMixedRightTracePower
     (R : selectedMixedRightNineteenRaw l r left F G J N right) :
-    Nat → selectedMixedRightNineteenRaw l r left F G J N right
-  | 0 => R
-  | n + 1 =>
-      .chain
-        (.chain
-          (selectedMixedRightTracePower l r left F G J N right R n)
-          (.reverse R))
-        R
+    Nat → selectedMixedRightNineteenRaw l r left F G J N right :=
+  Nat.rec R (fun _ acc => .chain (.chain acc (.reverse R)) R)
 
 /-- The target trace grows by two genuine copies of R at each
 step, so its length has an explicit strictly increasing factor
