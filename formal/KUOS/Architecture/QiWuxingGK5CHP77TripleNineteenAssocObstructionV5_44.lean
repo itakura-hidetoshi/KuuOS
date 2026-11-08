@@ -229,9 +229,12 @@ theorem selectedContextEighteenAssoc_active
             selectedContextEighteenTrace l r M).length then 1 else 0)
   simp only [List.length_append]
   have htwo : 0 < t + t := by omega
-  have hthree : 0 < (t + t) + t := by omega
-  have hthree' : 0 < t + (t + t) := by omega
-  simp only [if_pos htwo, if_pos hthree, if_pos hthree']
+  have houterLeft : 0 < (selectedContextEighteenTrace l r M).length +
+      (selectedContextEighteenTrace l r M).length + t := by omega
+  have houterRight : 0 < t +
+      ((selectedContextEighteenTrace l r M).length +
+        (selectedContextEighteenTrace l r M).length) := by omega
+  simp only [if_pos htwo, if_pos houterLeft, if_pos houterRight]
   omega
 
 /-- The raw LEFT-nested chain count differs by precisely one
