@@ -5,9 +5,9 @@ Qi v5.22: original ordered-whisker defect, genuine twelfth
 naturality in both orders, and a selected higher coherence cell.
 
 The original 7D through 12D witnesses are never changed.
-A defect certificate records precisely the prefix added to the
+A defect certificate records precisely the whiskerPrefix added to the
 original ordered 10D whiskering history. Its composition reverses
-prefix order, as required by the original prepend constructors.
+whiskerPrefix order, as required by the original prepend constructors.
 
 For any genuine ORIGINAL v5.17 twelfth proof T : H => K and
 any genuine before/after seventh contexts, both doubled
@@ -39,39 +39,39 @@ namespace PentagonAdjoinedSixCell
 
 variable {W : Type uSix}
 
-/-- Original raw-ordered trace transition: a certified prefix is
+/-- Original raw-ordered trace transition: a certified whiskerPrefix is
 additional provenance data, NOT an equality of proof terms. -/
 structure OrderedWhiskerDefect (source target : List Bool) : Type where
-  prefix : List Bool
-  exact_target : target = prefix ++ source
+  whiskerPrefix : List Bool
+  exact_target : target = whiskerPrefix ++ source
 
 def orderedWhiskerDefectId (t : List Bool) :
     OrderedWhiskerDefect t t :=
   ⟨[], by simp⟩
 
-/-- A later prefix is placed BEFORE the earlier prefix.
+/-- A later whiskerPrefix is placed BEFORE the earlier whiskerPrefix.
 This is a genuine noncommutative composition convention. -/
 def orderedWhiskerDefectComp {a b c : List Bool}
     (A : OrderedWhiskerDefect a b)
     (B : OrderedWhiskerDefect b c) :
     OrderedWhiskerDefect a c where
-  prefix := B.prefix ++ A.prefix
+  whiskerPrefix := B.whiskerPrefix ++ A.whiskerPrefix
   exact_target := by
     calc
-      c = B.prefix ++ b := B.exact_target
-      _ = B.prefix ++ (A.prefix ++ a) := by rw [A.exact_target]
-      _ = (B.prefix ++ A.prefix) ++ a := by simp only [List.append_assoc]
+      c = B.whiskerPrefix ++ b := B.exact_target
+      _ = B.whiskerPrefix ++ (A.whiskerPrefix ++ a) := by rw [A.exact_target]
+      _ = (B.whiskerPrefix ++ A.whiskerPrefix) ++ a := by simp only [List.append_assoc]
 
 theorem orderedWhiskerDefectComp_prefix {a b c : List Bool}
     (A : OrderedWhiskerDefect a b)
     (B : OrderedWhiskerDefect b c) :
-    (orderedWhiskerDefectComp A B).prefix = B.prefix ++ A.prefix := rfl
+    (orderedWhiskerDefectComp A B).whiskerPrefix = B.whiskerPrefix ++ A.whiskerPrefix := rfl
 
-/-- The certified prefix length is the exact raw trace length
+/-- The certified whiskerPrefix length is the exact raw trace length
 increment. No rewriting through any selected twelfth quotient. -/
 theorem orderedWhiskerDefect_length {a b : List Bool}
     (D : OrderedWhiskerDefect a b) :
-    b.length = D.prefix.length + a.length := by
+    b.length = D.whiskerPrefix.length + a.length := by
   rw [D.exact_target, List.length_append]
 
 /-- A single original left whisker prefixes exactly false. -/
@@ -146,9 +146,9 @@ theorem doubleWhiskerDefect_orderedValues (l r : W) {w z : W}
     {alpha beta : MixedCancelNineCell W l r q q'}
     (xi : MixedUnitAssocTenCell W l r alpha beta)
     (after : SevenRewrite W l r e f₆) :
-    (doubleWhiskerDefectLeftAfterRight l r before xi after).prefix =
+    (doubleWhiskerDefectLeftAfterRight l r before xi after).whiskerPrefix =
       [false, true] ∧
-    (doubleWhiskerDefectRightAfterLeft l r before xi after).prefix =
+    (doubleWhiskerDefectRightAfterLeft l r before xi after).whiskerPrefix =
       [true, false] :=
   ⟨rfl, rfl⟩
 
