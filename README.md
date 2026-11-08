@@ -8,6 +8,16 @@
 
 English: KuuOS develops a general mathematical program for dependent origination, contextual transport, presentation localization, effective descent, higher coherence, and explicit obstructions. The later C60 geometry is a concrete testbed, **not the origin or unique model of the general theory**.
 
+## Qi v5.35 — 真正選択17D文脈閉包・構成的隣接trace交換・局所18D coherence／2026-11-08 JST
+
+**[定理PR #3333](https://github.com/itakura-hidetoshi/KuuOS/pull/3333) MERGED。** 新しい独立`SelectedContextualSeventeen`はv5.33の真正選択17D証拠を`inherited`で単射に保持し、元の厳密な六セル境界が整合する真正第七セルの左右文脈への`whiskerLeft/whiskerRight`、`strict/reverse/chain`を追加。全6構成子で生16D外側文脈の順序付き`List Bool`履歴が保存され、新しい17D文脈商へ`Quotient.lift`として降下することを証明。旧17D単位比較がraw16D先頭タグ3と0を同じ商クラスへ写すため、**その生タグは降下不能**と証明した。元F55/P77/GK5CG・生6D〜14D証拠と旧選択presentationは不変。
+
+**v5.34のobstructionを建設的に拡張：** 左右二重16D輸送`L(R(H))`／`R(L(H))`において、順序を**変えない**gluing条件は引き続き不成立。一方`SelectedOuterAdjacentSwap`は共通`List Bool`観測で`[false,true]++h`を`[true,false]++h`に入れ替える具体的なType値証拠を構成し、元v5.33の真正12D〜選択14D下位比較パケットと併せて`SelectedMixedTraceChangingCertificate`を完成した。**観測順序は変わるが左右出現回数は保存**される。同じ真正元七セル文脈のもとで`Nonempty(TraceChangingCertificate)`と`¬Nonempty(TraceRespectingHigherGate)`が両立すると形式証明。これは**観測レベルの互換証明書**であって、異なる依存15D/16D証拠を同一視する高次セルではない。
+
+さらに元v5.33の真正17D単位比較へ厳密17D反射を前後別々に貼った左右2系列を構成。生17D先頭タグ3／0は異なるが型付き始終点は厳密一致するため、新しい独立`SelectedLocalEighteen.unitLeft/unitRight`で**局所選択18D比較**を形式証明。選択18Dの存在から生17D Eqを導く解釈は不可能であり、任意の混合18D交換や全体的高次coherenceは主張しない。
+
+定理[exact-source CI #42458954011](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42458954011)：**Scoped Strict Lean 9,087/9,087・Governance5/5 SUCCESS**。新規31宣言監査（25公理不要・6件標準`propext`／`Quot.sound`のみ）、`sorryAx`なし、Lean warning/error0/0。source `65e7c8a7565fce860e826357e6e0d15a2f5af0a0`／test-merge `093d5b53b879ddf2af56cf2a477670e93886d530`／squash `e7fb555b8e6a8af8f116d57d96907a1c129445b9`のGit tree **`9ea40dd4e8056e47e174bcbd3b8844fe20b6193d`完全一致**。公開集約import1行 [PR #3334](https://github.com/itakura-hidetoshi/KuuOS/pull/3334) MERGED、[CI #42459369945](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42459369945) **KuuOSFormal 10,348/10,348・Governance30/30 SUCCESS**、source/test-merge/squash tree **`fefbfac9e4188317bba65f826ba38914dac54604`一致**。公開root107・固定Lean/mathlib・保護#1558 Draft/OPEN維持。[正式記録](docs/formal/Qi-v5_35-contextual-seventeen-trace-swap-local-eighteen-verified-20261108.md)・[Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77ContextualSeventeenTraceSwapV5_35.lean)。**次段Qi v5.36：** 隣接交換の観測証拠から依存型の高次transportへ進むための追加境界証明の検討と、選択18D商の降下・非降下を研究する。
+
 ## Qi v5.34 — 選択17D商の順序履歴降下・16D生タグ非降下と高次gluing障害／2026-11-08 JST
 
 **[定理PR #3330](https://github.com/itakura-hidetoshi/KuuOS/pull/3330) MERGED。** v5.33の真正`SelectedLocalSeventeen`の全5生成元を帰納し、同じ15D始終点に属する生16D証拠の`selectedContextSixteenTrace`（外側元第七セルの順序付き`List Bool`）が**選択17D比較で保存**されることを証明。`selectedSeventeenSetoid`は17D比較の存在を同値関係とし、商クラスの等号と型付き17D証拠の存在を同値にした。`selectedSeventeenQuotientLift`で観測の局所compatibility条件の下での商降下を構成し、完全順序履歴と左右出現数の両方を商上に保存した。
