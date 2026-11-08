@@ -8,6 +8,16 @@
 
 English: KuuOS develops a general mathematical program for dependent origination, contextual transport, presentation localization, effective descent, higher coherence, and explicit obstructions. The later C60 geometry is a concrete testbed, **not the origin or unique model of the general theory**.
 
+## Qi v5.34 — 選択17D商の順序履歴降下・16D生タグ非降下と高次gluing障害／2026-11-08 JST
+
+**[定理PR #3330](https://github.com/itakura-hidetoshi/KuuOS/pull/3330) MERGED。** v5.33の真正`SelectedLocalSeventeen`の全5生成元を帰納し、同じ15D始終点に属する生16D証拠の`selectedContextSixteenTrace`（外側元第七セルの順序付き`List Bool`）が**選択17D比較で保存**されることを証明。`selectedSeventeenSetoid`は17D比較の存在を同値関係とし、商クラスの等号と型付き17D証拠の存在を同値にした。`selectedSeventeenQuotientLift`で観測の局所compatibility条件の下での商降下を構成し、完全順序履歴と左右出現数の両方を商上に保存した。
+
+**新しい非降下obstruction：** 旧v5.33の本物の局所17D`unitLeft`は、生16D単位前置（先頭タグ3）と後置（タグ0）を比較するため、両生値がraw非等号のまま**17D商上は等しい**。商射影の非単射性と、元の16D先頭タグを再現する商上観測の非存在を形式証明。一方、真正左右二重16D輸送`L(R(H))`と`R(L(H))`は異なる依存15D境界を持つのでraw Eqを仮定せず、それぞれの17D商から共通`List Bool`への観測値が`[false,true]`対`[true,false]`で異なり、粗い左右計数は一致すると証明した。
+
+**下位互換は上位gluingを保証しない：** v5.33の実在する12D〜14D混合証拠パケットが構成可能でも、外側順序履歴の一致を追加要求する**限定したtrace保存型高次gluing gate**は空であると形式証明。これはtraceを変更する別の上位presentation全般の不存在を意味しない。元F55/P77/GK5CG、元6D〜14D生証拠、旧選択16D/17D文法は不変。
+
+定理[exact-source CI #42457030162](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42457030162)：**Scoped Strict Lean 9,086/9,086・Governance5/5 SUCCESS**、新規21宣言監査（15公理不要・6件標準`propext`/`Quot.sound`のみ）、`sorryAx`・変更error/warningなし。source `4ebdb5078d5c073b9d0a54bf58a58e3c76bca93f`／test-merge `ca51a4bcc449481b71ecb2f410dccb8bbbe8047d`／squash `12d8dc2bf608e5322bcbb0f26d5a5942f8edf6e7`のGit tree **`749e66b02d2551d8cc7ea5795b6eea06a7878a2c`一致**。公開集約import1行 [PR #3331](https://github.com/itakura-hidetoshi/KuuOS/pull/3331) MERGED、[CI #42457437150](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42457437150) **KuuOSFormal 10,347/10,347・Governance30/30 SUCCESS**、source／test-merge／squash Git tree **`340c990135cad27285233b7839d27943a7ac4bea`一致**。公開root107・固定Lean/mathlib・保護PR #1558 Draft/OPEN維持。[正式記録](docs/formal/Qi-v5_34-seventeen-quotient-higher-trace-gate-verified-20261108.md)・[Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77SeventeenQuotientTraceGateV5_34.lean)。**次段Qi v5.35：** 異なる依存15D境界への実証拠付き上位transport、trace変更を許す場合の障害、17D商の文脈輸送と選択18D局所coherenceを研究する。
+
 ## Qi v5.33 — 真正12D〜選択14D比較パケット・16D文脈閉包・局所17D coherence／2026-11-08 JST
 
 **[定理PR #3327](https://github.com/itakura-hidetoshi/KuuOS/pull/3327) MERGED。** v5.32の真正12D混合始点・終点の境界橋に、v5.30の実在する選択13D interchanger（`P`・`Q`各々）と選択14D局所自然性square（真正13D `C:P⇒Q`）を接続し、**`SelectedMixedLowerHigherPacket`を証拠値として実際に構成**。旧F55/P77/GK5CGと元6D〜14D Type値は変更しない。このパケットが与えるのは各段階の互換性であり、異なる依存14D境界を持つ左右二重15D/16D輸送のraw Eqや全体的な17D交換ではない。
