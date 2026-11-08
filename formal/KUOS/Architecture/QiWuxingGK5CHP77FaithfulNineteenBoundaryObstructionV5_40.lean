@@ -120,8 +120,13 @@ theorem selectedMixedLeftRoundtrip_traceLength
         (selectedContextEighteenTrace l r X).length +
         (selectedContextEighteenTrace l r X).length +
         (selectedContextEighteenTrace l r X).length := by
-  simp only [selectedMixedLeftRoundtripAmplify,
-    selectedContextEighteenTrace, List.length_append]
+  change ((selectedContextEighteenTrace l r X ++
+      selectedContextEighteenTrace l r X) ++
+      selectedContextEighteenTrace l r X).length =
+        (selectedContextEighteenTrace l r X).length +
+        (selectedContextEighteenTrace l r X).length +
+        (selectedContextEighteenTrace l r X).length
+  simp only [List.length_append]
 
 /-- The actual LR witness has two visible outer events, so it
 differs in complete ordered history from its own triple roundtrip. -/
@@ -210,17 +215,20 @@ selected 19D comparisons: that would identify the already
 distinct LR source classes of the actual roundtrip. -/
 theorem selectedMixedConstantBoundary_noReflection
     (M : SelectedContextualEighteen W l r J N) :
-    ¬ (∀ {X Y : selectedMixedLeftNineteenRaw l r left F G J N right},
+    ¬ Nonempty (∀ {X Y : selectedMixedLeftNineteenRaw l r left F G J N right},
       SelectedLocalNineteen W l r
         ((selectedMixedConstantBoundary l r left F G J N right M).rawTransport X)
         ((selectedMixedConstantBoundary l r left F G J N right M).rawTransport Y) →
       SelectedLocalNineteen W l r X Y) := by
-  intro hReflect
+  rintro ⟨hReflect⟩
   have A : SelectedLocalNineteen W l r
       (selectedEighteenLeftAfterRight l r left F G M right)
       (selectedMixedLeftRoundtripAmplify l r left F G J N right
         (selectedEighteenLeftAfterRight l r left F G M right)) := by
     apply hReflect
+      (X := selectedEighteenLeftAfterRight l r left F G M right)
+      (Y := selectedMixedLeftRoundtripAmplify l r left F G J N right
+        (selectedEighteenLeftAfterRight l r left F G M right))
     exact .strict _
   exact (selectedMixedLeftRoundtrip_classDistinct
     l r left F G J N right M) (Quotient.sound ⟨A⟩)
