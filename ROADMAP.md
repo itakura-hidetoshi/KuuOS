@@ -1,5 +1,14 @@
 # KuuOS / 空OS — Formal Research Roadmap
 
+## Qi v5.49 VERIFIED — 旧18D単位3形とraw文脈の合同性ゲート／2026-11-09
+
+- **[定理PR #3377](https://github.com/itakura-hidetoshi/KuuOS/pull/3377) MERGED：** 新規Lean 396行・19宣言。旧18D元証拠Mを保ったまま、元raw `inherited` / 左単位 / 右単位の3表示がraw構文上は異なり、真正selected19 Type値比較で接続され同じ商クラスとなることを形式証明。
+- **文脈障害：** 当該比較に対してraw `reverse`・strict左/右 raw `chain`は合同ではない。供給されたMの厳密fiberに限って、各raw演算の商への降下非存在を証明。証拠比較の対称/推移`reverse`・`chain`とは区別。
+- **正確な降下gate：** 任意の指定raw map `f:Raw(J,N)→Raw(S,T)`について、元selected19 Type値比較のNonempty保存、v5.48の正規形等号保存、商上で`g([M])=[f(M)]`を満たす写像gの存在が同値。異なるfiberの元raw証拠を直接同一視しない。
+- **定理認証：** [CI #42531490568](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42531490568) **Scoped Strict Lean 9,101/9,101・Governance 5/5 SUCCESS**。新規19/19公理監査（不要6・標準のみ13）、`sorryAx`なし、error/warning 0/0。初回dependent equality/暗黙fiberエラーと、次回simp heartbeat timeoutを元の仮定を変えずに修正。source/test-merge/squash共通tree `081f8d72ac73282751991c79d59de3872fb360fe`。
+- **公開認証：** [PR #3378](https://github.com/itakura-hidetoshi/KuuOS/pull/3378) MERGED。公開import1行追加。[CI #42532010897](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42532010897) **10,362/10,362 Strict Lean・Governance全32/32 SUCCESS**。source/test-merge/squash共通tree `aa23dc75bb63fb442fca8235eaef9a4fca6c2e5b`。Lean/mathlib固定pin・公開root107・保護#1558維持。
+- **次段Qi v5.50（未認証）：** 元selected19に一般のraw文脈合同性を勝手に付加せず、別presentationで追加比較を許す際の必要最小の型付き合同性閉包と降下条件を研究する。[正式記録](docs/formal/Qi-v5_49-typed-context-congruence-gates-verified-20261109.md)・[Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77ContextCongruenceGatesV5_49.lean)。
+
 ## Qi v5.48 VERIFIED — 真正19D証拠の型付き単位正規形／2026-11-09
 
 - **[定理PR #3374](https://github.com/itakura-hidetoshi/KuuOS/pull/3374) MERGED：** 新規Lean1件271行、14宣言。元18Dの`inherited`証拠の直接左右単位挿入のみを正規化し、元Type値の比較証拠を`Sigma`で保持。対称・推移をraw構文の一般合同性と取り違えない。
