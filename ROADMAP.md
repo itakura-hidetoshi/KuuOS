@@ -1,5 +1,16 @@
 # KuuOS / 空OS — Formal Research Roadmap
 
+## Qi v5.32 VERIFIED — 真正混合下位境界証明書・局所選択16Dと順序trace降下／2026-11-08
+
+- **[定理PR #3324](https://github.com/itakura-hidetoshi/KuuOS/pull/3324) MERGED：** v5.31の左右二重15D輸送`L(R(T))`・`R(L(T))`の下位11D source/targetの双方に対して、元v5.18真正`doubleWhisker`をv5.25・v5.27二段`previous`に埋め込んだ12D証拠`SelectedMixedLowerBoundaryPacket`を構成。端点の選択12D商クラス一致まで実証明。ただし異なる依存14D境界の同一視・任意16D交換は主張しない。
+- **左右二重輸送の粗い計数と細かい非可換性：** `selectedFifteenTraceCounts`は15D外側whiskering履歴中のfalse/trueの個数を返す。元の`L(R(T))`／`R(L(T))`はtraceの先頭`[false,true]`／`[true,false]`が異なるが、各作用の個数は一致。`selectedFifteenMixedCountsEqual`と`selectedFifteenMixedCoarseFineSeparation`で数学的に分離。
+- **局所選択16D：** 元v5.30の真正15D単位比較から前後・逆前後の15D往復ループ`selectedFifteenUnitRoundtrip`／`selectedFifteenUnitReverseRoundtrip`を構成。先頭構成子タグ0／4と反射タグ3を有限観測し、両ループと反射のraw15D非等号を証明。新独立`SelectedLocalSixteen`は**厳密に同じ14D始終点を持つ**これら二つの局所単位critical pairだけに生成元を追加し、`strict/reverse/chain`で閉包。任意左右二重15D輸送の16D自然性や元15D raw Eqは仮定しない。
+- **16D商での選択的降下：** `selectedSixteenSetoid`は並行15D生証拠を「型付き選択16Dが存在する」関係で商とする。`selectedSixteenClass_eq_iff`は商クラスEqと16D比較の存在の同値。全5構成子を帰納した`selectedSixteen_preservesTrace`により、元v5.31の**順序付き15D外側文脈List Bool履歴は新16D商へ正しく降下**する。一方`selectedSixteen_noFirstTagDescent`は、商上で等しい局所往復15Dと反射15Dのraw先頭タグ0／3が一致しないので、その観測は降下不能と証明。観測のcompatibilityを分けている。
+- **残るorder-obstruction：** `selectedSixteenMixedOrderTraceObstruction`は、異なる依存14D型に属する15D左右二重輸送に対し、各16D商クラスから共通`List Bool`へ送った値が異なることを証明。`selectedSixteenMixedOrderCountAgreement`は粗い左右計数の一致を証明。両商クラスそのもののraw Eqを作らず、共通観測でのみ比較した。
+- **[定理exact-source CI #42452960112](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42452960112) SUCCESS：** Scoped Strict Lean **9,084/9,084**、Governance **5/5**、新規**27/27**宣言公理監査（17公理不要・10件標準`propext`／`Quot.sound`のみ）、`sorryAx`なし・変更warning/error0/0。source `30c573c519818e9cf0e2569ceeecf2c1a8cb33c6`／test-merge `d1ac71b51413dd98faa670e8a0cc85185bd91c5c`／squash `dce614b8d96dfd27fb4a338855e3e6a7843269db`のGit tree **`c5dcb90ac290f8fe0cba25b3ce33525ed4fcb1bb`一致**。新規Lean616行、削除0。
+- **公開集約 [PR #3325](https://github.com/itakura-hidetoshi/KuuOS/pull/3325) MERGED：** `KuuOSFormal`へimport1行追加・削除0。[CI #42453327889](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42453327889) **全体Strict Lean 10,345/10,345・Governance30/30 SUCCESS**。source `54eabc55e06330f3e87e7b7dd73d37b38cf8f46f`／test-merge `b6dcd390b27e444211bc7e777eb4d6f432762d59`／squash `d8b01f0bf85b3c2220afd067437ce977aad85b8f` のGit tree **`4a00fa91556f5bc28ef95c36f46014007ccfc16a`一致**。公開root107・固定Lean/mathlib・保護#1558 Draft/OPEN維持。[正式記録](docs/formal/Qi-v5_32-mixed-boundary-local-sixteen-trace-descent-verified-20261108.md)・[Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77MixedBoundarySixteenV5_32.lean)。
+- **次段Qi v5.33：** 左右二重15Dの異なる14D依存境界を接続する真正13D/14D比較packetが構成できるかをまず調べる。必要なcompatibilityを明示し、できない場合はobstructionを形式化。局所16D比較の再文脈化と17D coherenceは別presentationとして検討し、元sourceのstrict Eqを推定しない。
+
 ## Qi v5.31 VERIFIED — 選択15D文脈閉包・14D商降下条件・二重文脈順序obstruction／2026-11-08
 
 - **[定理PR #3321](https://github.com/itakura-hidetoshi/KuuOS/pull/3321) MERGED：** 独立`SelectedContextualFifteen`を追加。v5.30の`SelectedMixedCoherenceFifteen`の全raw15D証拠を`inherited`として保持し、埋込み単射を形式証明。新規比較は真正七セルの左右文脈が元六セルの添字に厳密適合する場合のみ`whiskerLeft/whiskerRight`で輸送。`strict/reverse/chain`と実在局所15D単位比較・往復履歴も型付きで保存。元v5.30以前の全ソース・選択presentation不変。
