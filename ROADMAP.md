@@ -1,5 +1,20 @@
 # KuuOS / 空OS — Formal Research Roadmap
 
+## Qi v5.25 VERIFIED — 最小型付き文脈閉包と真正12D欠損面の補完／2026-11-08
+
+- **[定理PR #3302](https://github.com/itakura-hidetoshi/KuuOS/pull/3302)・[正式記録PR #3303](https://github.com/itakura-hidetoshi/KuuOS/pull/3303) MERGED。** 元6D〜14D定義を維持し、新`ContextClosedFramedTwelve`に元framed12D証拠をそのまま格納し、境界適合の左右whiskering二構成子のみで閉包。既存同値関係と文脈閉包を含む最小性、旧raw証拠埋込の単射、三重whiskering欠損内側面の実証拠による導出、全三重交換経路の型付き構成を証明。
+- **区別を保った商情報損失：** 旧→新商写像の非単射、旧末尾`drop 2`観測の新商への非降下と旧比較への万能反射不存在を証明。一方、元3種類の十セル関連計数を新商に降下し、旧tenSymm no-goを保持。新規構成が全packetを無条件に同一視するわけではない。
+- **元境界に沿う作用：** 固定六セル境界商に対する任意の左・右七セルwhiskering作用を構成。`contextClosedActions_commute`は**反対側の左・右作用だけ**が新商で交換することを証明。同側合成／反射文脈の単位作用・一般高次coherenceは未証明。
+- **対象限定検証 [#42439861875](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42439861875)：** Scoped Lean **9,077/9,077 SUCCESS**、37宣言（27公理不要・10件標準のみ）、Governance選択**3/3**。この数値は公開集約全体のジョブ数ではない。公開集約の独立import [PR #3304](https://github.com/itakura-hidetoshi/KuuOS/pull/3304) は追加1行・削除0でMERGED、[CI #42442618370](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42442618370) **Strict Lean 10,338/10,338・Governance30/30 SUCCESS**。公開root107、固定Lean v4.30.0-rc2/mathlib、保護#1558を保持。[正式記録](docs/formal/Qi-v5_25-context-closed-twelfth-verified-20261108.md)・[Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77ContextClosedTwelfthV5_25.lean)。
+- **次段Qi v5.26：** raw十セルのwhiskering履歴長が新しい文脈閉包でも保存されるか、同側作用の`SevenRewrite.trans`合成則と`SevenRewrite.refl`単位則の成立／不成立を判定する。新しい選択生成元を無条件に仮定しない。
+
+## Qi v5.24 VERIFIED — 保存末尾と既存12D交換面の欠損／2026-11-08
+
+- **[定理PR #3300](https://github.com/itakura-hidetoshi/KuuOS/pull/3300)・[正式記録PR #3301](https://github.com/itakura-hidetoshi/KuuOS/pull/3301) MERGED。** 真正旧full framed12Dで末尾不変量`drop 2 (Trace10 F)`が保存され既存商へ降下する一方、完全raw履歴は商へ降下できない。
+- **真正三重配置の2+1分裂：** `F_LRR → F_RLR` は旧doubleWhiskerから構成可。しかし `F_RLR → F_RRL` と `F_LRR → F_RRL` には既存full12D証拠が存在せず、旧商で`[F_LRR]=[F_RLR]≠[F_RRL]`。これは単なるraw値の非等号ではなく、全旧構成子閉包下のno-go。
+- **元作用の境界：** 旧inherited-only比較は外側反射七セル文脈により運べるが、選択full比較の左右外文脈への万能liftもfull商への作用の降下も不成立。既存選択第十四セルは欠けた12D境界を補えない。新しい独立presentationへ追加する可能性は否定しない。
+- **[CI #42436351661](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42436351661)：** Strict Lean **10,337/10,337**・Governance **30/30 SUCCESS**、27件の公理依存確認（24公理不要、3件は標準公理のみ）、sorryAx・変更Lean warning/errorなし。[正式記録](docs/formal/Qi-v5_24-whisker-context-tail-obstruction-verified-20261108.md)・[Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77WhiskerContextTailObstructionV5_24.lean)。
+
 ## Qi v5.23 VERIFIED — 三重whiskering順序・旧12D合成自然性critical cube・選択第十四セル／2026-11-08
 
 - **[定理PR #3298](https://github.com/itakura-hidetoshi/KuuOS/pull/3298) MERGED：** 真正元12D `MixedExchangeInverseTwelveCell`に既存元構成子だけでR-L-R／L-R-Rを施した`originalTripleWhiskerRLR/RRL`を構成。元十セルraw traceはそれぞれ`[1,0,1]++T`と`[1,1,0]++T`で非等・長さ同一。元source Typeと全履歴は不変で、異なるfiberをEqで偽装しない。

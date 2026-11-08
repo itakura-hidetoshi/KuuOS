@@ -8,6 +8,16 @@
 
 English: KuuOS develops a general mathematical program for dependent origination, contextual transport, presentation localization, effective descent, higher coherence, and explicit obstructions. The later C60 geometry is a concrete testbed, **not the origin or unique model of the general theory**.
 
+## Qi v5.25 — 独立型付き文脈閉包・欠損12D面の導出・商作用／2026-11-08 JST
+
+**[定理PR #3302](https://github.com/itakura-hidetoshi/KuuOS/pull/3302) と[正式記録PR #3303](https://github.com/itakura-hidetoshi/KuuOS/pull/3303) はMERGED。** 元6D〜14Dの型と履歴を保持し、別の`ContextClosedFramedTwelve`で元framed12D比較をraw証拠付きの`previous`に埋込み、真正7D境界が適合する`whiskerLeft`／`whiskerRight`だけを新たな文脈閉包構成子として追加。`contextClosed_least`で最小性を証明し、v5.24の欠損三重whiskering内側交換面を**元doubleWhiskerと右文脈閉包から構成**した。旧raw証拠の埋込みは単射だが、旧商→新商は非単射であり、旧tail観測は新商へ降下しない。一方、元からある三計数は保存され、元tenSymm障害も残る。
+
+型付きの元6D境界上で左右作用を商へ降下し、**反対側の二作用は商上で交換**する。これは生の第十一セル値の厳密な交換でも、同側合成・単位則でもない。[正式証明記録](docs/formal/Qi-v5_25-context-closed-twelfth-verified-20261108.md)・[Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77ContextClosedTwelfthV5_25.lean)。定理の対象限定CI [#42439861875](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42439861875) は**Scoped Lean 9,077/9,077 SUCCESS、37宣言公理監査（27件公理不要・10件標準公理のみ）、Governance選択3/3成功**。`KuuOSFormal`公開集約importは別PR [#3304](https://github.com/itakura-hidetoshi/KuuOS/pull/3304)で追加し、CI [#42442618370](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42442618370) は**10,338/10,338 Strict Lean・Governance30/30 SUCCESS**。既存import削除なし、root107、固定Lean/mathlibと保護#1558を維持。
+
+## Qi v5.24 — 三重whiskeringの保存末尾・欠損面・商作用no-go／2026-11-08 JST
+
+**[定理PR #3300](https://github.com/itakura-hidetoshi/KuuOS/pull/3300)・[正式記録PR #3301](https://github.com/itakura-hidetoshi/KuuOS/pull/3301) MERGED。** 元第十セル履歴の`drop 2`末尾不変量が**旧full framed12Dの全5構成子**で保存され、既存商へ降下すると証明した。真正三重whiskeringの三配置では`[F_LRR]=[F_RLR] ≠ [F_RRL]`となり、旧12D構文とその閉包のままでは**内側の隣接交換面は存在しない**。旧inherited-only比較は文脈へ移送できるが、新`doubleWhisker`を含むfull比較は任意の外側左右作用で閉じず、旧full商への作用も降下しない。既存の選択14D比較は欠けた下位12D境界を自動生成できない。[正式証明記録](docs/formal/Qi-v5_24-whisker-context-tail-obstruction-verified-20261108.md)・[Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77WhiskerContextTailObstructionV5_24.lean)。exact-source CI [#42436351661](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42436351661) **10,337/10,337 Strict Lean・Governance30/30 SUCCESS**、27宣言公理監査、sorryAxなし。これは**既存presentationでの非存在定理**であり、v5.25の独立拡張が不可能だという主張ではない。
+
 ## Qi v5.23 — 真正三重whiskering・元十二セル合成自然性critical cube・選択第十四セル／2026-11-08 JST
 
 **[定理PR #3298](https://github.com/itakura-hidetoshi/KuuOS/pull/3298) MERGED。** v5.22の独立13D自然性を継承し、元第十二セルの真正`whiskerLeft`／`whiskerRight`による三重transport R→L→R／L→R→Rを別々の依存fiberに構成した。元第十セルの完全な順序付き履歴は`[true,false,true]++T`／`[true,true,false]++T`で相異なるが長さは一致する。元の12D `whisker(chain T U)`と`chain(whisker T,whisker U)`も生証拠として一致しない。
