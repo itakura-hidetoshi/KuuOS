@@ -8,6 +8,14 @@
 
 English: KuuOS develops a general mathematical program for dependent origination, contextual transport, presentation localization, effective descent, higher coherence, and explicit obstructions. The later C60 geometry is a concrete testbed, **not the origin or unique model of the general theory**.
 
+## Qi v5.41 — 非定数19D境界transportの実構成・外側履歴長反映／2026-11-08 JST
+
+**[定理PR #3352](https://github.com/itakura-hidetoshi/KuuOS/pull/3352) MERGED。** v5.40の定数退化境界を越え、異なる真正LR/RLの18D依存fiberを保ったまま、**非定数**な型付き19D境界transportを実際に構成した。真正RL証拠Rから旧`chain/reverse/chain`で`P_R(n)`を作り、`len(Trace(P_R(n)))=(2n+1)len(Trace(R))`を形式証明。sourceの外側履歴**長さ**を単射符号化してRL証拠へ写す。元19D比較は完全traceを保存するため、輸送先の真正`strict`比較によってlocalTransportを実装し、指定LR証拠を元のRL証拠へ写すanchored比較も構成した。
+
+**反映の範囲：** `selectedMixedLengthDescend_reflectTraceLength`は、19D商間の像が一致するならsourceの外側履歴長が一致すると証明。真正LR証拠Xと同一fiberの`chain (chain X (reverse X)) X`は長さが異なるので、両者の像も非等号。従って実際の商写像は非定数。一方、同じ長さの異なる証拠についての**完全な19D比較反映・raw単射・全域swap自然性は未証明**であり、無条件20D交換を導入しない。
+
+定理[exact-source CI #42477185958](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42477185958)は**Scoped Strict Lean 9,093/9,093・Governance 5/5 SUCCESS**、15宣言公理監査（公理不要3・標準公理のみ12）、sorryAxなし・変更Lean error/warning 0/0。source/test-merge/squash Git tree `f5cdf791ab419dcd69395683950a9eb341f63436` 完全一致。公開集約[PR #3353](https://github.com/itakura-hidetoshi/KuuOS/pull/3353)もMERGED、[CI #42478757198](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42478757198) は**KuuOSFormal全体10,354/10,354・Governance30/30 SUCCESS**、Git tree `c4e9223303d3866f26abc4b1a9060b46391b9d78`一致。元F55/P77/GK5CG・生6D〜19D、root107、固定Lean/mathlib、保護#1558は維持。[正式記録](docs/formal/Qi-v5_41-trace-length-reflecting-nineteen-boundary-verified-20261108.md)・[Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77TraceLengthReflectingNineteenBoundaryV5_41.lean)。**次段Qi v5.42：** 同長異履歴の反映条件と全域swap観測の互換性を別々に検証する。
+
 ## Qi v5.40 — 定数19D境界transportの実構成・商の非単射性・比較反映による忠実性条件／2026-11-08 JST
 
 **[Lean定理PR #3349](https://github.com/itakura-hidetoshi/KuuOS/pull/3349) MERGED。** v5.39では条件付きでしか使えなかった異なる依存19D商間の境界証明書に、元の真正18D証拠Mを使う**定数transport**という実際の退化的inhabitantを構成した。sourceのあらゆる18D値を同じ真正RL18D値へ写し、局所19D比較は既存strict構成子で保存する。指定LR→RLのanchored境界もType値比較で構成可能と証明。これは忠実な高次交換の存在ではなく、元の証拠情報を失う退化的写像である。

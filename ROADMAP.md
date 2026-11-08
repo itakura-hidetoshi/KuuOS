@@ -1,5 +1,15 @@
 # KuuOS / 空OS — Formal Research Roadmap
 
+## Qi v5.41 VERIFIED — 非定数・anchored 19D境界と外側履歴長の反映／2026-11-08
+
+- **[定理PR #3352](https://github.com/itakura-hidetoshi/KuuOS/pull/3352) MERGED：** 既存の真正RL18D証拠を種Rとして、同一fiber内の旧`chain/reverse/chain`による`P_R(n)`を構成。`selectedMixedRightTracePower_length`で`len(Trace(P_R(n)))=(2n+1)*len(Trace(R))`を証明。新Lean1ファイル334行追加、既存削除0。
+- **実在する非定数境界：** `selectedMixedLengthCode`は指定LR証拠の長さを0へ、他の自然数長を後続数へ単射符号化。`selectedMixedLengthBoundary`はsourceの真正19D比較によるtrace保存から像が等しいことを示し、RL側の真正strict Type値比較でlocalTransportを実装。`selectedMixedLengthAnchored`は指定LR→RLの実際の比較を証明。
+- **証明した識別：** `selectedMixedLengthDescend_reflectTraceLength`は全source商クラスに対する履歴**長さ**反映。`selectedMixedLengthDescend_chosenVsRoundtrip`は元LR証拠Xとその3倍履歴roundtripの像の非等号を証明。v5.40の定数商写像と異なり非定数。
+- **障害保持：** 同長異証拠を含む全`SelectedLocalNineteen`比較の反映、raw Eq、全ordered trace反映、swap全域自然性、無条件20D交換は未認証。観測長の反映をType値忠実性へ昇格させない。
+- **CI修正・認証：** 初回CI #42476709502で再帰定義のsection引数の型不一致と基底・帰納簡約不一致が発生。元Type値証拠を変更せず`Nat.rec`と`simp`で修正。[最新exact-source CI #42477185958](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42477185958) **Scoped Strict Lean 9,093/9,093・Governance5/5 SUCCESS**。15/15新規公理監査（3件公理不要、12件標準のみ）、sorryAx・変更error/warning 0/0。source `1979dd658a515a272c6b91b96cb39946e67cf935`／test-merge `479d6c5ad1487881417cf38ee94ea66cd642f497`／squash `e2a1d29d06c895d4ac3c4eb76a9062a014cd6e0f`のGit tree `f5cdf791ab419dcd69395683950a9eb341f63436`一致。
+- **公開集約[PR #3353](https://github.com/itakura-hidetoshi/KuuOS/pull/3353) MERGED：** `KuuOSFormal`にimport1行追加、[CI #42478757198](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42478757198)で**全体Strict Lean10,354/10,354・Governance30/30 SUCCESS**。source `dc3a836eb371508601e4a585932512ba16b09193`／test-merge `e6133c456e43651161a4eadef533ce8e33cdaa1c`／squash `640b47193273dc333caa2d5794c1dafbc0c30d73`のGit tree `c4e9223303d3866f26abc4b1a9060b46391b9d78`一致。公開root107・Lean/mathlib固定・保護PR #1558 Draft/OPEN/unmerged。[正式証明記録](docs/formal/Qi-v5_41-trace-length-reflecting-nineteen-boundary-verified-20261108.md)・[Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77TraceLengthReflectingNineteenBoundaryV5_41.lean)。
+- **次段Qi v5.42：** 同じ外側trace長の元証拠を比較する局所fiber、19D比較反映の可能条件とobstruction、全域swap観測自然性を別々に研究。元証拠値・旧presentationを保存し、NO_DATAを補完しない。
+
 ## Qi v5.40 VERIFIED — 具体的退化境界・19D商非忠実性と比較反映条件／2026-11-08
 
 - **[定理PR #3349](https://github.com/itakura-hidetoshi/KuuOS/pull/3349) MERGED：** 元F55/P77/GK5CG、生6D〜19D、v5.39証明書の元型を保持したまま新Lean1ファイル269行追加、削除0。真正MからselectedMixedConstantBoundaryを構成し、全source raw18D値を真正RL18D値へ送る定数写像を作る。localTransportは既存SelectedLocalNineteen.strictというType値証拠で実現。selectedMixedConstantAnchoredで指定LR→RL比較の実際のinhabitantまで構成。定数という退化的存在性の認証であり、元高次交換の認証ではない。
