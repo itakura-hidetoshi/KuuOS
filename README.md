@@ -8,6 +8,14 @@
 
 English: KuuOS develops a general mathematical program for dependent origination, contextual transport, presentation localization, effective descent, higher coherence, and explicit obstructions. The later C60 geometry is a concrete testbed, **not the origin or unique model of the general theory**.
 
+## Qi v5.29 — 局所第十三セルの自然性・元第七セル左右文脈閉包と新旧第十四セル障害／2026-11-08 JST
+
+**[定理PR #3315](https://github.com/itakura-hidetoshi/KuuOS/pull/3315) MERGED。** v5.28の真正三連第七セル・選択第十三セル比較を引き継ぎ、任意の型付き選択12D前方経路`A`・後方経路`B`に対して二つの真正13D経路`append(prepend(A,C),B)`と`associator(A,P,B);prepend(A,append(C,B));associator(A,Q,B)⁻¹`を構成した。両経路の第十二セル境界は厳密に一致するが、元の13D生証拠は**先頭構成子タグ7／8で非等号**。新しい独立`SelectedContextualThirteen`では元第六セル境界が合う場合だけ真正元七セルの左右文脈に沿って13D比較を型付きで輸送し、v5.28以前の証拠を`inherited`で保存。新しい`SelectedNaturalityFourteen`には**真正左右三連の二系列に限る局所自然性square**を選択生成元として追加し、旧v5.23およびv5.28の14D生証拠を二段の単射埋込みで保持した。これは新しい選択presentationであり、元raw12D〜14DのEqでも任意13Dの全体自然性でもない。
+
+**旧第十四セルへの厳密liftのobstruction：** `HasOriginalTwelveEndpoints`は旧v5.23の真正12Dの包含像と現在の12D生値が一致するという**必要条件（十分条件ではない）**。旧埋込みの先頭タグ1に対して、左三連の原子的タグ4、右三連のタグ9が異なるため、当該局所比較にこの必要条件は成立しない。選択14Dの存在と元13D生値の非等号を同時に証明しており、旧Type証拠の同一視や全面的strictificationは認めない。
+
+定理[exact-source CI #42448349862](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42448349862)：**Scoped Strict Lean 9,081/9,081・Governance 5/5 SUCCESS**、新規21宣言の公理監査（15件公理不要、6件標準`propext`のみ）、`sorryAx`なし、Lean warning/error0/0。source `e7ac0e3105d9fd1980dedbdfda255e1b9108274e`／test-merge `43c293bb4dc07613a2830c05e0c2eecdde9de70d`／squash `ccb5b0bc296695b05da83da6abba013458f41e53`のGit tree **`84eef1c5120d532ec7ba1b219ac112211cf74926`一致**。公開集約import1行追加 [PR #3316](https://github.com/itakura-hidetoshi/KuuOS/pull/3316) MERGED、[CI #42448660904](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42448660904) **KuuOSFormal 10,342/10,342・Governance30/30 SUCCESS**。公開集約のsource/test-merge/squash Git tree **`c7954f11e08bc20cea1f950aee84ced78cdfdd72`一致**。root107・Lean v4.30.0-rc2／mathlib pin・保護#1558 Draft/OPEN維持。[正式証明記録](docs/formal/Qi-v5_29-local-thirteen-naturality-contextual-fourteen-verified-20261108.md)・[Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77LocalThirteenNaturalityV5_29.lean)。**次段Qi v5.30：** 左右二重文脈の混合squareの順序依存と、旧14Dの商レベル互換条件・新たな選択15Dの必要性を評価する。
+
 ## Qi v5.28 — 三連真正文脈の型付き貼り合わせと選択第十三・十四セル／2026-11-08 JST
 
 **[定理PR #3312](https://github.com/itakura-hidetoshi/KuuOS/pull/3312) MERGED。** 元の第七セル三連`u,v,t`と真正元第七〜第十一セル証拠をそのまま保持し、左右独立に`(u·v)·t`／`u·(v·t)`の二つの12D合成貼り合わせを構成した。二つの元第七セルの括弧付けを生Eqで同一視せず、元v5.27の12D`reverse/chain`だけから型付きrebracket橋を導出。最終的に同じ12D始終点を持つ2本の経路は**生証拠として非等号**だが、新しい独立`SelectedTriplePastingThirteen`の左右局所比較で結ぶ。元v5.23の13D証拠は二段のprevious包含で保存し、`SelectedTriplePastingFourteen`では左右の13D単位貼り合わせを局所選択14Dで比較、既存v5.23の選択14D証拠も型付きで保持した。新12D生成元なし、旧6D〜14D・v5.27以前の全Type/仮定は不変。**これは選択13D/14Dでの局所的比較であり、元raw13D/14D Eqや全体的coherenceではない。**
