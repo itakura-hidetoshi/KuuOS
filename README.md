@@ -8,6 +8,14 @@
 
 English: KuuOS develops a general mathematical program for dependent origination, contextual transport, presentation localization, effective descent, higher coherence, and explicit obstructions. The later C60 geometry is a concrete testbed, **not the origin or unique model of the general theory**.
 
+## Qi v5.21 — 真正inverseContextの非恒等高次自然性・元六セル境界とwhiskering履歴の障害／2026-11-08 JST
+
+**[定理PR #3294](https://github.com/itakura-hidetoshi/KuuOS/pull/3294) MERGED。** Qi v5.20までの真正F55/P77/GK5CGと独立6D〜12D raw Type値証拠を全保持し、新しい`inverseContextTransportFrame`で**既存原始**の元六セル`symm`、元七セル`congrInv`、元八・九・十・十一セル`inverseContext`を依存添字のまま正しく合成した。元第十セルの完全順序付きwhisker traceを保存し、二段inverseContextでも履歴が保存される。元v5.17の真正十二セル`inverseContext`によって**旧inherited-only framed第十二セル比較の全4構成子**を保存し、移送後の旧比較をv5.18 full framed grammarへ埋め込む。新`doubleWhisker`全体の無条件naturalityは未主張。
+
+元六セル`refl w`を含む**実際の原始だけで構成した反射11D証拠**のinverseContext像は、`symm (refl w)`を持つため生framed packetと異なる。それでも元十セル順序履歴は同じ。元六セル添字を固定する任意v5.20 towerでは逆context像を構成できず、履歴差ではなく**元source境界の相異**がobstruction。一方、元左右whiskeringの第十セルraw traceはそれぞれ`false::T`／`true::T`へ厳密に延長されるため、元traceを保存できないと全入力について証明。逆contextとwhiskeringを無条件に同一視しない。
+
+[Exact-source CI #42431492263](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42431492263)：**Strict Lean 10,334/10,334 SUCCESS、Governance 30/30 SUCCESS、公理監査17/17（公理不要11・標準`propext`／`Quot.sound`のみ6）、sorryAxなし**。source `7bab61b4ab0b0600029c0cd785a66b2fc6ee061c`、test-merge `e48732536aa6c967553198e5e6e1bdaa12d4ba88`、squash `eb2593774a609798243b0a7bb588a47ec834e11a`、Git tree `5bfe455f006da318befafc5e12248eebc339c0ec`完全一致。root107、固定Lean/mathlib、保護#1558維持。[正式証明記録](docs/formal/Qi-v5_21-original-inverse-context-naturality-verified-20261108.md)・[Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77InverseContextNaturalityV5_21.lean)。**次段Qi v5.22：** 元左右whiskeringのtrace defectを保った条件付きtransportと高次naturalityの分類。
+
 ## Qi v5.20 — 第八セル結合比較からの条件付き型付き高次transport・順序履歴の障害／2026-11-08 JST
 
 **[定理PR #3292](https://github.com/itakura-hidetoshi/KuuOS/pull/3292) MERGED。** Qi v5.19までの元F55/P77/GK5CG・独立第六〜第十二セルを無変更で継承し、新しい`TraceFaithfulHigherTower`を導入。元第七セル始域・終域の真正`EightCell`比較に加え、第八・第九・第十・第十一セルの**各元Typeへの依存した移送関数**と、元第十セル順序付きwhiskering traceを保持する**追加整合条件**をすべて明示する。第八セルassociatorだけから上位移送関数や生spine Eqが存在するとは仮定しない。
