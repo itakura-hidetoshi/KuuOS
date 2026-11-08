@@ -200,7 +200,7 @@ theorem selectedNineteenSwapObservation_respectsNineteen (l r : W)
 /-- Even after taking their own (different) exact-fiber 19D
 quotients, the two genuine mixed 18D transports have unequal
 COMPLETE ordered fine traces in the shared List Bool codomain. -/
-theorem selectedEighteenMixedOrder_fineTraceDistinct (l r : W) {w z : W}
+theorem selectedDoubleEighteenNineteen_fineTraceDistinct (l r : W) {w z : W}
     {a b c d : PentagonAdjoinedSixCell W l r w z}
     (left : SevenRewrite W l r a b)
     (F G : ContextFrameEleven W l r b c)
@@ -323,7 +323,7 @@ theorem selectedEighteenMixedOrder_noFinePreservingTransport (l r : W) {w z : W}
       _ = selectedNineteenTraceOnQuotient l r _ _
           (f (selectedNineteenClass l r (selectedEighteenLeftAfterRight l r left F G M right))) := hpreserves _
       _ = _ := by rw [hchosen]
-  exact (selectedEighteenMixedOrder_fineTraceDistinct l r left F G M right) h
+  exact (selectedDoubleEighteenNineteen_fineTraceDistinct l r left F G M right) h
 
 /-- The full proof-relevant lower-to-higher 18D observation packet.
 It includes actual original seventh-cell proof indices on BOTH
@@ -431,7 +431,7 @@ theorem selectedMixedEighteenPacket_possible_strictGateImpossible (l r : W) {w z
 #print axioms PentagonAdjoinedSixCell.selectedNineteenSwapCounts
 #print axioms PentagonAdjoinedSixCell.selectedNineteenSwapCounts_onClass
 #print axioms PentagonAdjoinedSixCell.selectedNineteenSwapObservation_respectsNineteen
-#print axioms PentagonAdjoinedSixCell.selectedEighteenMixedOrder_fineTraceDistinct
+#print axioms PentagonAdjoinedSixCell.selectedDoubleEighteenNineteen_fineTraceDistinct
 #print axioms PentagonAdjoinedSixCell.selectedEighteenMixedOrder_swapClassEq
 #print axioms PentagonAdjoinedSixCell.selectedEighteenMixedOrder_countsEq
 #print axioms PentagonAdjoinedSixCell.selectedEighteenMixedOrder_prefixSwapClassEq
