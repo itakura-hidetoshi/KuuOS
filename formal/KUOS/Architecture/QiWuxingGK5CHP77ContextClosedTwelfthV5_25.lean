@@ -169,8 +169,12 @@ def contextClosedClass (l r : W) (F : FramedEleven W l r) :
 
 theorem contextClosedClass_eq_iff (l r : W) (F G : FramedEleven W l r) :
     contextClosedClass l r F = contextClosedClass l r G ↔
-      Nonempty (ContextClosedFramedTwelve W l r F G) :=
-  ⟨Quotient.exact, Quotient.sound⟩
+      Nonempty (ContextClosedFramedTwelve W l r F G) := by
+  constructor
+  · intro h
+    exact Quotient.exact h
+  · intro h
+    exact Quotient.sound h
 
 section MissingFace
 variable (l r : W) {w z : W}
