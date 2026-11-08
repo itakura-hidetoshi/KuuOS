@@ -124,9 +124,6 @@ theorem framedElevenSpineTransport_refl {l r : W}
     (H : framedElevenSpineWitness S) :
     framedElevenSpineTransport (S := S) (T := S) rfl H = H := rfl
 
-/-- A TYPE-valued exact-fiber certificate: raw spine Eq followed
-by an original v5.17 12D witness after genuinely typed transport.
-No higher comparison is promoted to raw equality. -/
 /-- A genuine Type-valued dependent certificate rather than a
 Sigma over equality in Prop: the latter is not a Type-indexed
 Sigma domain in this Lean version. Both fields remain typed. -/
