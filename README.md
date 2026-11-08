@@ -8,6 +8,14 @@
 
 English: KuuOS develops a general mathematical program for dependent origination, contextual transport, presentation localization, effective descent, higher coherence, and explicit obstructions. The later C60 geometry is a concrete testbed, **not the origin or unique model of the general theory**.
 
+## Qi v5.45 — 四変量19D境界のkernel完全分類・reverse-left障害／2026-11-08 JST
+
+**[定理PR #3364](https://github.com/itakura-hidetoshi/KuuOS/pull/3364) MERGED。** 真正19D商上に`I₄=(|Trace|,ActiveChain,ReverseCount,LeftNestedCount)`を構成。型付きanchored LR→RL境界`selectedMixedFourBoundary`を実装し、**`f(q₁)=f(q₂) ↔ I₄(q₁)=I₄(q₂)`**を形式証明。v5.44の括弧付けの差を像で区別する。
+
+**残る証拠区別：** raw18Dの`chain`で左辺が`reverse`を始点とする個数`ReverseLeftCount`を旧19D比較5構成子が保存し、商へ降下。真正sourceの同一fiberで`chain (chain (strict J) (reverse (strict J))) X`と`chain (chain (reverse (strict J)) (strict J)) X`は**完全ordered traceと四変量が一致**しても、この第五不変量が1異なる。従って元19D商で異なり、この具体的四変量境界は非単射・完全比較反映不可。別の忠実境界・全域swap自然性・20D交換は未認証。
+
+定理[CI #42488399450](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42488399450) **Strict Lean 9,097/9,097・Governance5/5 SUCCESS**、新規32宣言の公理監査（公理不要17・標準のみ15）、sorryAxなし・変更Lean error/warning0/0、source/test-merge/squash tree `5f8ace985761ca5ace8ba0c89df39ae932fe6d21`完全一致。公開集約[PR #3366](https://github.com/itakura-hidetoshi/KuuOS/pull/3366) MERGED、[CI #42488848341](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42488848341) **10,358/10,358 Strict Lean・Governance30/30 SUCCESS**、Git tree `6c4045ed5934f37cb87831fa87baff17435d7188`一致。旧F55/P77/GK5CG・6D〜19D、root107、Lean/mathlib pin、保護#1558維持。[正式記録](docs/formal/Qi-v5_45-four-nineteen-reverse-left-obstruction-verified-20261108.md)・[Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77FourNineteenReverseLeftObstructionV5_45.lean)。**次段Qi v5.46：** ReverseLeftCountを加えた五変量の境界と残存obstructionを検討。
+
 ## Qi v5.44 — 三変量19D境界のkernel分類と括弧付け障害／2026-11-08 JST
 
 **[定理PR #3361](https://github.com/itakura-hidetoshi/KuuOS/pull/3361) MERGED。** 真正19D商の`I₃(q)=((|Trace(q)|,ActiveChain(q)),ReverseCount(q))`を構成。入れ子`Nat.pair`により実在する非定数LR→RL型付き境界`selectedMixedTripleBoundary`を構成し、`f(q₁)=f(q₂) ↔ I₃(q₁)=I₃(q₂)`をLean4で証明。v5.43の二重反転差を新境界では区別する。
