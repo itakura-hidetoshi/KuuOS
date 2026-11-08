@@ -8,6 +8,14 @@
 
 English: KuuOS develops a general mathematical program for dependent origination, contextual transport, presentation localization, effective descent, higher coherence, and explicit obstructions. The later C60 geometry is a concrete testbed, **not the origin or unique model of the general theory**.
 
+## Qi v5.20 — 第八セル結合比較からの条件付き型付き高次transport・順序履歴の障害／2026-11-08 JST
+
+**[定理PR #3292](https://github.com/itakura-hidetoshi/KuuOS/pull/3292) MERGED。** Qi v5.19までの元F55/P77/GK5CG・独立第六〜第十二セルを無変更で継承し、新しい`TraceFaithfulHigherTower`を導入。元第七セル始域・終域の真正`EightCell`比較に加え、第八・第九・第十・第十一セルの**各元Typeへの依存した移送関数**と、元第十セル順序付きwhiskering traceを保持する**追加整合条件**をすべて明示する。第八セルassociatorだけから上位移送関数や生spine Eqが存在するとは仮定しない。
+
+恒等towerと合成towerを元第八セル`reflexive/chain`および型付き証拠写像から構成し、元第十一セルpacketへの作用とその恒等・合成法則、元第十セルtrace保存をLean4で証明。移送**先**の元同一fiberで真正v5.17第十二セル証拠が**別途与えられた場合に限り**、v5.19 inherited-onlyからv5.18 framed第十二セルへ接続する。一方、本来の左右二重whiskeringにはsource/target双方の元第八セル結合証拠が存在するが、第十セルの元生履歴`[left,right]++T`対`[right,left]++T`は相異なる。**順序履歴を保つ型付きtowerで左packetを右packetそのものへ運ぶことは、任意の元文脈で不可能**と形式証明。trace保存を外した普遍的な移送不可とは主張しない。
+
+[Exact-source CI #42430525355](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42430525355)：**Strict Lean 10,333/10,333 SUCCESS、Governance 30/30 SUCCESS、11宣言すべて公理不要・sorryAxなし**。source `52635055ccd306d7615044c5842663212d579f27`、test-merge `5c953b7600126e952919752d122d490c00d285be`、squash `1bd92631f8ea6bc2ab371bdebe13d6ba3721a016` のGit tree `c38b498bae591f38cc6b86ad16b737036b12f023`一致。公開root107、固定Lean v4.30.0-rc2／mathlib、保護#1558 Draft／OPEN／未マージを維持。[正式証明記録](docs/formal/Qi-v5_20-eighth-to-eleventh-conditional-higher-transport-verified-20261108.md)・[Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77EighthToEleventhConditionalTransportV5_20.lean)。**次段Qi v5.21：** 非恒等transportの具体的元証拠構成と、追加naturality/obstructionの分類。
+
 ## Qi v5.19 — 真正exact-fiber条件付き第十二セル降下・新framed商への非因子化／2026-11-08 JST
 
 **[定理PR #3290](https://github.com/itakura-hidetoshi/KuuOS/pull/3290) MERGED。** Qi v5.18までの元F55/P77/GK5CG・独立第六〜第十二セル証拠を無変更で保持し、元のframed第十一セルpacketから生第十一セル`H`だけを分離した**完全下位spine** `FramedElevenExactSpine`を構成。真正spine Eqがある場合に限る`framedElevenSpineTransport`と、元v5.17の同一fiber第十二セル証拠を依存structureに収めた`FramedExactFiberTwelfthLift`を定義。旧比較だけ（strict／previous／reverse／chain）を継承する`FramedInheritedTwelfth`について、**その比較が存在することと、exact-fiber liftが存在することの同値**を形式証明。元の指定同一fiberでは、これは実際の旧v5.17第十二セルの存在条件そのものへ戻る。
