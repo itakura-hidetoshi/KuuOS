@@ -1,5 +1,14 @@
 # KuuOS / 空OS — Formal Research Roadmap
 
+## Qi v5.21 VERIFIED — 真正inverseContextの非恒等高次transportとwhisker trace障害／2026-11-08
+
+- **[定理PR #3294](https://github.com/itakura-hidetoshi/KuuOS/pull/3294) MERGED：** 元F55/P77/GK5CGと独立6D〜12Dの真正raw Type値・証拠を不変に保ち、元六セル`symm`、七セル`congrInv`、八・九・十・十一・十二セルの元`inverseContext`構成子をそのまま使う新`inverseContextTransportFrame`を構成。元六セルindexが`w→z`から`z→w`へ変化するので、v5.20の固定六セルtowerとは異なるsource-aware transportであり、異なる七セルindexを偽の`Eq`や八セル比較で同一視しない。
+- **旧第十二セルnaturalityとtrace保存：** `inverseContextTransportFrame_onRaw`、`preservesTrace`、`twice_preservesTrace`を証明。実元12D `MixedExchangeInverseTwelveCell.inverseContext`で、旧`FramedInheritedTwelfth`全4構成子（strict/previous/reverse/chain）のnatural actionを帰納的に構築。全旧比較の移送後framed存在性を証明、元v5.18のfull grammarへ正しく埋め込む。ただし追加`doubleWhisker`原始の全体自然性を仮定しない。
+- **本当にinhabitedな非恒等性：** `originalReflexiveElevenFrame`は元六セル反射から既存8D/9D/10D/11D反射原始だけで実装。inverseContext像は元六セル最外constructorが`refl w`対`symm (refl w)`で異なり、生`FramedEleven`のraw strict同一性は不成立。それでも元十セルの順序履歴は完全に一致。`inverseContextFrame_notFixedSixTower`でv5.20固定六セルtowerによる実現が不可能と証明。これはsource index obstructionであって、単なるtrace差ではない。
+- **左右whiskeringの異なる障害：** 本物の元十セル構成子`whiskerLeft`／`whiskerRight`はraw traceを`false::T`／`true::T`へ厳密に延長。`originalLeftWhisker_tracePrefix`・`originalRightWhisker_tracePrefix`を定義上の等式、`originalLeftWhisker_traceObstruction`・`originalRightWhisker_traceObstruction`を有限リスト長の反証で形式証明。trace-preserving inverse contextとtrace-changing whiskerを混同しない。
+- **[exact-source CI #42431492263](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42431492263) SUCCESS：** Strict Lean **10,334/10,334**、Governance **30/30**、全17宣言`#print axioms`監査（公理不要11、標準`propext`／`Quot.sound`のみ6）、sorryAxなし・変更Lean warning/error 0/0。source `7bab61b4ab0b0600029c0cd785a66b2fc6ee061c`、test-merge `e48732536aa6c967553198e5e6e1bdaa12d4ba88`、squash `eb2593774a609798243b0a7bb588a47ec834e11a`のGit tree `5bfe455f006da318befafc5e12248eebc339c0ec`完全一致。[正式記録](docs/formal/Qi-v5_21-original-inverse-context-naturality-verified-20261108.md)・[Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77InverseContextNaturalityV5_21.lean)。公開root107・Lean/mathlib pin・保護#1558を不変に保持。
+- **次段Qi v5.22：** 元左右whiskeringが生む明示的なtrace defectを消さずに記録する証明付きcontext輸送、異なる境界上の8D/9D/10D/11D/12D自然性、二重whiskeringのinterchangerとそのobstructionを分離する。元型のEq／比較／選択商authorityを区別し、普遍的自然性・thinnessは新たな証明がない限り導かない。
+
 ## Qi v5.20 VERIFIED — 元第八セルから第十一セルへの条件付き高次transportとraw履歴障害／2026-11-08
 
 - **[定理PR #3292](https://github.com/itakura-hidetoshi/KuuOS/pull/3292) MERGED：** 元の第六〜第十二セルTypeと既存F55/P77/GK5CGを無変更で保持し、`TraceFaithfulHigherTower`の独立Typeを新設。source/target双方の真正`EightCell`境界比較、`PentagonAssocEightCell`から`MixedCancelNineCell`・`MixedUnitAssocTenCell`・`MixedExchangeUnitElevenCell`への各段依存写像、元第十セル`mixedTenWhiskerRawTrace`の保存を**別々のフィールド**で要求する。第八セルからこれらの写像の存在を自動推論しない。
