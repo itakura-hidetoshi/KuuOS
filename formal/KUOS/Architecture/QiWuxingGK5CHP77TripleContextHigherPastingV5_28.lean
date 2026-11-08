@@ -57,6 +57,26 @@ theorem originalFramedTwelveToSelected_injective (l r : W)
   cases h
   rfl
 
+/-- A *raw proof-syntax* observer: follow the first branch of
+twelfth path composition to its first atomic constructor. The
+result is independent of all original dependent endpoints, so
+congrArg avoids illegal dependent elimination of original 7D indices.
+This does NOT descend to the selected twelfth quotient. -/
+def selectedTwelfthFirstAtomTag (l r : W)
+    {F G : FramedEleven W l r}
+    (T : SelectedUnitalCompositionTwelve W l r F G) : Nat :=
+  match T with
+  | .strict _ => 0
+  | .previous _ => 1
+  | .reverse _ => 2
+  | .chain P _ => selectedTwelfthFirstAtomTag l r P
+  | .whiskerLeft _ _ _ _ => 4
+  | .whiskerRight _ _ _ _ => 5
+  | .unitLeft _ => 6
+  | .unitRight _ => 7
+  | .compLeft _ _ _ => 8
+  | .compRight _ _ _ => 9
+
 section LeftTriple
 
 variable (l r : W) {w z : W}
@@ -128,7 +148,9 @@ theorem selectedLeftTriple_rawDistinct :
     selectedLeftTripleInnerPasting l r u v t F ≠
       selectedLeftTripleDetour l r u v t F := by
   intro h
-  cases h
+  have ht := congrArg (selectedTwelfthFirstAtomTag l r) h
+  change (4 : Nat) = 8 at ht
+  cases ht
 
 theorem selectedLeftTriple_twoBracketClasses :
     selectedUnitalClass l r
@@ -202,7 +224,9 @@ theorem selectedRightTriple_rawDistinct :
     selectedRightTripleOuterPasting l r u v t F ≠
       selectedRightTripleDetour l r u v t F := by
   intro h
-  cases h
+  have ht := congrArg (selectedTwelfthFirstAtomTag l r) h
+  change (9 : Nat) = 5 at ht
+  cases ht
 
 theorem selectedRightTriple_twoBracketClasses :
     selectedUnitalClass l r
@@ -528,6 +552,7 @@ theorem selectedTripleLeftFourteen_noRawEqualityInterpreter (l r : W) {w z : W}
   exact tripleLeftThirteenUnit_rawDistinct l r u v t F
     (interpret _ _ (.tripleLeftUnit u v t F))
 
+#print axioms PentagonAdjoinedSixCell.selectedTwelfthFirstAtomTag
 #print axioms PentagonAdjoinedSixCell.originalFramedTwelveToSelected
 #print axioms PentagonAdjoinedSixCell.originalFramedTwelveToSelected_injective
 #print axioms PentagonAdjoinedSixCell.selectedLeftTripleSource
