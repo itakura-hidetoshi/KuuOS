@@ -8,6 +8,14 @@
 
 English: KuuOS develops a general mathematical program for dependent origination, contextual transport, presentation localization, effective descent, higher coherence, and explicit obstructions. The later C60 geometry is a concrete testbed, **not the origin or unique model of the general theory**.
 
+## Qi v5.40 — 定数19D境界transportの実構成・商の非単射性・比較反映による忠実性条件／2026-11-08 JST
+
+**[Lean定理PR #3349](https://github.com/itakura-hidetoshi/KuuOS/pull/3349) MERGED。** v5.39では条件付きでしか使えなかった異なる依存19D商間の境界証明書に、元の真正18D証拠Mを使う**定数transport**という実際の退化的inhabitantを構成した。sourceのあらゆる18D値を同じ真正RL18D値へ写し、局所19D比較は既存strict構成子で保存する。指定LR→RLのanchored境界もType値比較で構成可能と証明。これは忠実な高次交換の存在ではなく、元の証拠情報を失う退化的写像である。
+
+**非忠実性を具体的に証明：** 真正LR18D値Xのchain／reverse／chainから、同一17D端点fiberの別証拠Yを構成し、完全順序履歴が3倍の長さになることを証明。既存19D商は完全履歴を保存するので[X]と[Y]は異なる。一方、定数境界のQuotient.liftはこれらを同じRL商クラスに写すため**非単射**。新しいSelectedMixedNineteenFaithfulBoundaryは、輸送先の真正19D比較を元fiberの真正19D比較へ戻すType値reflectLocalを追加要求し、これが与えられれば商輸送が単射になると証明。定数輸送ではreflectLocal不可能。**一般の忠実な境界証明書の存在は未証明**、有限swap観測自然性も別条件のまま保持。
+
+定理[exact-source CI #42474198094](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42474198094)は**Scoped Strict Lean 9,092/9,092・Governance5/5 SUCCESS**、新規13宣言公理監査（公理不要5・標準公理のみ8）、sorryAxなし、変更Lean error/warning0/0。source/test-merge/squash Git tree **910132e2bfe6ac9e59b4b785d6cd2428b226c213 一致**。公開import1行[PR #3350](https://github.com/itakura-hidetoshi/KuuOS/pull/3350)もMERGED、[CI #42474728586](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42474728586)は**KuuOSFormal全体10,353/10,353・Governance30/30 SUCCESS**、Git tree **d15b9ae954223fceb3b1ab6b0a7d7c45faada689 一致**。既存F55/P77/GK5CG・元6D〜19D、root107、固定Lean/mathlib、保護#1558は不変。[正式証明記録](docs/formal/Qi-v5_40-constant-versus-faithful-nineteen-boundary-verified-20261108.md)・[Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77FaithfulNineteenBoundaryObstructionV5_40.lean)。**次段Qi v5.41：** 定数以外の型付き境界transportが実際に存在する限定source領域と、19D比較の保存・反映・観測自然性を独立に検証する。
+
 ## Qi v5.39 — 型付き19D境界transport・異fiber商の条件付き降下とfine履歴障害／2026-11-08 JST
 
 **[Lean4定理PR #3346](https://github.com/itakura-hidetoshi/KuuOS/pull/3346) MERGED。** v5.38の真正LR/RL二重18D証拠を異なる依存17D端点のまま保持し、両19D商間の接続に追加で必要な証拠を型付きにした。新しいSelectedMixedNineteenBoundaryは、元Type値を送るrawTransportと、同一fiber内の真正SelectedLocalNineteen比較を輸送先の真正Type値比較へ送るlocalTransportを**別フィールド**として要求する。これらの証拠が与えられた場合のみ、selectedMixedBoundaryDescendは実際のQuotient.liftで異なる19D商への写像を構成する。観測swapの全域自然性はさらに別のSelectedMixedBoundaryCoarseCompatibleを必要とする。元raw Eqや無条件cross-fiber20Dセルは追加しない。
