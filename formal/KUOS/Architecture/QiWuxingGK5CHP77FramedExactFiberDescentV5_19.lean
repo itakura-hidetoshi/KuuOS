@@ -127,12 +127,22 @@ theorem framedElevenSpineTransport_refl {l r : W}
 /-- A TYPE-valued exact-fiber certificate: raw spine Eq followed
 by an original v5.17 12D witness after genuinely typed transport.
 No higher comparison is promoted to raw equality. -/
-def FramedExactFiberTwelfthLift (l r : W)
+/-- A genuine Type-valued dependent certificate rather than a
+Sigma over equality in Prop: the latter is not a Type-indexed
+Sigma domain in this Lean version. Both fields remain typed. -/
+structure FramedExactSpineTwelfth (l r : W)
+    (S T : FramedElevenExactSpine W l r)
+    (H : framedElevenSpineWitness S)
+    (K : framedElevenSpineWitness T) : Type uSix where
+  alignment : S = T
+  comparison : MixedExchangeInverseTwelveCell W l r
+    (framedElevenSpineTransport alignment H) K
+
+abbrev FramedExactFiberTwelfthLift (l r : W)
     (F G : FramedEleven W l r) : Type uSix :=
-  Σ (e : framedElevenExactSpine l r F =
-      framedElevenExactSpine l r G),
-    MixedExchangeInverseTwelveCell W l r
-      (framedElevenSpineTransport e F.H) G.H
+  FramedExactSpineTwelfth l r
+    (framedElevenExactSpine l r F)
+    (framedElevenExactSpine l r G) F.H G.H
 
 def framedExactFiberTwelfthLift_refl (l r : W)
     (F : FramedEleven W l r) :
@@ -145,12 +155,8 @@ def framedExactFiberTransport_reverse (l r : W)
     {S T : FramedElevenExactSpine W l r}
     {H : framedElevenSpineWitness S}
     {K : framedElevenSpineWitness T}
-    (cert : Σ (e : S = T),
-      MixedExchangeInverseTwelveCell W l r
-        (framedElevenSpineTransport e H) K) :
-    Σ (e : T = S),
-      MixedExchangeInverseTwelveCell W l r
-        (framedElevenSpineTransport e K) H := by
+    (cert : FramedExactSpineTwelfth l r S T H K) :
+    FramedExactSpineTwelfth l r T S K H := by
   rcases cert with ⟨e, t⟩
   cases e
   exact ⟨rfl, .reverse t⟩
@@ -162,15 +168,9 @@ def framedExactFiberTransport_chain (l r : W)
     {H : framedElevenSpineWitness S}
     {K : framedElevenSpineWitness T}
     {L : framedElevenSpineWitness U}
-    (cert : Σ (e : S = T),
-      MixedExchangeInverseTwelveCell W l r
-        (framedElevenSpineTransport e H) K)
-    (next : Σ (e : T = U),
-      MixedExchangeInverseTwelveCell W l r
-        (framedElevenSpineTransport e K) L) :
-    Σ (e : S = U),
-      MixedExchangeInverseTwelveCell W l r
-        (framedElevenSpineTransport e H) L := by
+    (cert : FramedExactSpineTwelfth l r S T H K)
+    (next : FramedExactSpineTwelfth l r T U K L) :
+    FramedExactSpineTwelfth l r S U H L := by
   rcases cert with ⟨e, t⟩
   rcases next with ⟨e', u⟩
   cases e
@@ -233,7 +233,7 @@ theorem framedInheritedTwelfth_preservesSpine (l r : W)
     {F G : FramedEleven W l r}
     (T : FramedInheritedTwelfth W l r F G) :
     framedElevenExactSpine l r F = framedElevenExactSpine l r G :=
-  (framedInheritedTwelfth_toExact l r T).fst
+  (framedInheritedTwelfth_toExact l r T).alignment
 
 /-- An actual original twelfth witness and its chosen EXACT
 spine Eq yield a previous-only framed comparison. -/
@@ -603,7 +603,7 @@ theorem pentagonActualExactFiberObstruction
         (pentagonShortConservativeFiveCell f g h k A B C D₄ i))
       (PentagonAdjoinedSixCell.originalDoubleWhiskerRightFrame
         (pentagonLongConservativeFiveCell f g h k A B C D₄ i)
-        (pentagonShortConservativeFiveCell f g h k A B C D₄ i)))) ∧
+        (pentagonShortConservativeFiveCell f g h k A B C D₄ i))) ∧
     ¬ PentagonAdjoinedSixCellEqualityInterpreter f g h k A B C D₄ i :=
   ⟨(PentagonAdjoinedSixCell.originalDoubleWhiskerFramedCompletion
       (pentagonLongConservativeFiveCell f g h k A B C D₄ i)
@@ -618,6 +618,7 @@ theorem pentagonActualExactFiberObstruction
 #print axioms PentagonAdjoinedSixCell.framedElevenSpinePack_exact
 #print axioms PentagonAdjoinedSixCell.framedElevenSpineTransport
 #print axioms PentagonAdjoinedSixCell.framedElevenSpineTransport_refl
+#print axioms PentagonAdjoinedSixCell.FramedExactSpineTwelfth
 #print axioms PentagonAdjoinedSixCell.FramedExactFiberTwelfthLift
 #print axioms PentagonAdjoinedSixCell.framedExactFiberTwelfthLift_refl
 #print axioms PentagonAdjoinedSixCell.framedExactFiberTransport_reverse
