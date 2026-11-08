@@ -8,6 +8,14 @@
 
 English: KuuOS develops a general mathematical program for dependent origination, contextual transport, presentation localization, effective descent, higher coherence, and explicit obstructions. The later C60 geometry is a concrete testbed, **not the origin or unique model of the general theory**.
 
+## Qi v5.50 — 別presentationによる19D raw合同性自由閉包／2026-11-09 JST
+
+**[定理PR #3380](https://github.com/itakura-hidetoshi/KuuOS/pull/3380) MERGED。** 元`SelectedLocalNineteen`・元18D Type証拠を保持したまま、別Type値presentation`SelectedRawCongruentNineteen`を導入。元比較の継承、比較の反射・対称・推移、**raw反転・raw左右chain**の7生成元からなる自由閉包を構成し、任意の閉包関係への帰納法で**最小性**を証明。別商ではraw反転と二変数合成が降下し、旧商から新商への射は全射となる。
+
+**残すobstruction：** 与えられた旧18D証拠Mに対して、v5.49では旧商で相異なったraw反転・strict左右chainの比較対が新商で同一視される。このため旧商→新商射は当該厳密fiberで**非単射**とLean4で証明。新しい合同性を元の19Dへ逆流させず、7D whiskeringや20D gluingへの一般化を保留する。
+
+定理[CI #42535577314](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42535577314) **Strict Lean 9,102/9,102・Governance 5/5 SUCCESS**、新規19宣言（公理不要8、標準のみ11）、`sorryAx`なし、変更warning/error 0/0。公開[PR #3381](https://github.com/itakura-hidetoshi/KuuOS/pull/3381) MERGED、[CI #42536059534](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42536059534) **KuuOSFormal 10,363/10,363・Governance全32/32 SUCCESS**。既存元証拠・公開root107・Lean/mathlib pin・保護#1558維持。[正式記録](docs/formal/Qi-v5_50-typed-raw-congruence-completion-verified-20261109.md)・[Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77TypedRawCongruenceCompletionV5_50.lean)。**次段Qi v5.51：** 新商での観測量保存条件と残存obstructionの形式化。
+
 ## Qi v5.49 — 真正19Dの単位3形・raw文脈の非合同性／2026-11-09 JST
 
 **[定理PR #3377](https://github.com/itakura-hidetoshi/KuuOS/pull/3377) MERGED。** 任意に与えられた元旧18D証拠`M:J→N`から、`inherited M`・`chain (strict J) (inherited M)`・`chain (inherited M) (strict N)`の3つの元raw構文を型付きで構成し、**rawでは相異なるが元19D比較証拠が存在し、同じ真正商クラスへ降下する**ことをLean4で証明。さらに、元raw `reverse`・strict左/右`chain`がこの局所比較を保存せず、同じ商上に当該raw操作を降下させられないことを証明した。これは比較証拠自身の`reverse`・`chain`の失敗ではない。

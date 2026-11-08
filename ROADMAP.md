@@ -1,5 +1,14 @@
 # KuuOS / 空OS — Formal Research Roadmap
 
+## Qi v5.50 VERIFIED — 真正19D raw文脈合同性の別自由閉包／2026-11-09
+
+- **[定理PR #3380](https://github.com/itakura-hidetoshi/KuuOS/pull/3380) MERGED：** 新規Lean 421行・19宣言。元selected19 Type値証拠・原quotient・原構成子には一切変更せず、独立な`SelectedRawCongruentNineteen`の7生成元（元比較・反射・対称・推移・raw reverse・raw right chain・raw left chain）を構成。指定16D fiberと真正17D endpointsの型を保持。
+- **最小性と新商への降下：** 全ての適合Prop値関係への構造帰納法による閉包の最小性、Quotient Setoid、旧商→新商の全射、raw reverseと二変数raw chainの新商への降下を証明。これは**新presentation限定**であり、元19D商への降下ではない。
+- **情報損失を証明：** v5.49の元旧18D証拠Mに由来するraw reverse・strict左右chainの非合同対を新presentationで結び、旧商→新商の射が対応fiberで**非単射**となることを3経路から形式証明。元のobstructionを残し、忠実性を主張しない。
+- **定理認証：** [CI #42535577314](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42535577314) **Scoped Strict Lean 9,102/9,102・Governance 5/5 SUCCESS**。新規19宣言（公理不要8・標準のみ11）、sorryAxなし・変更error/warning0/0。source/test-merge/squash共通tree `7101b94d83659ee32b934551dd62ba0559900151`。
+- **公開認証：** [PR #3381](https://github.com/itakura-hidetoshi/KuuOS/pull/3381) MERGED。公開import1行。[CI #42536059534](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42536059534) **10,363/10,363 Strict Lean・全32/32 Governance SUCCESS**。source/test-merge/squash共通tree `07986095e9727e8c3412212d3f5e1dd63e789f53`。root107、固定pin、保護#1558維持。
+- **次段Qi v5.51（未認証）：** 新raw合同性商でのordered trace等の不変量降下と残存比較障害を研究し、追加の7D whiskering・20D coherenceを無条件化しない。[正式記録](docs/formal/Qi-v5_50-typed-raw-congruence-completion-verified-20261109.md)・[Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77TypedRawCongruenceCompletionV5_50.lean)。
+
 ## Qi v5.49 VERIFIED — 旧18D単位3形とraw文脈の合同性ゲート／2026-11-09
 
 - **[定理PR #3377](https://github.com/itakura-hidetoshi/KuuOS/pull/3377) MERGED：** 新規Lean 396行・19宣言。旧18D元証拠Mを保ったまま、元raw `inherited` / 左単位 / 右単位の3表示がraw構文上は異なり、真正selected19 Type値比較で接続され同じ商クラスとなることを形式証明。
