@@ -8,6 +8,14 @@
 
 English: KuuOS develops a general mathematical program for dependent origination, contextual transport, presentation localization, effective descent, higher coherence, and explicit obstructions. The later C60 geometry is a concrete testbed, **not the origin or unique model of the general theory**.
 
+## Qi v5.42 — 同一fine履歴で区別される19D証拠・非定数境界のkernel完全分類／2026-11-08 JST
+
+**[Lean4定理PR #3355](https://github.com/itakura-hidetoshi/KuuOS/pull/3355) MERGED。** 既存の真正`SelectedLocalNineteen`が保存する新たな外側合成不変量`selectedContextEighteenActiveChainCount`を構成。旧19Dの5つの真正Type値比較構成子すべてがこの値を保存し、同一依存fiberの19D商に`Quotient.lift`で降下する。真正LR二重18D証拠Xと、同じ17D始終点内の`Y = chain (strict source) X`は**外側の完全順序traceが同一**だが、ActiveChain値が1異なるので、**19D商クラスは異なり、元のSelectedLocalNineteen比較は存在しない**ことを形式証明した。
+
+**v5.41非定数境界の限界を証明：** `selectedMixedLengthDescend_eq_iff_traceLength`で異なる19D商間の像Eqと元trace長Eqが同値と確定。上の真の同一trace・異なる19Dクラス[X]/[Y]は、v5.41長さ境界では同じRL像に写り、`selectedMixedLengthDescend_notInjective`が**非単射**を形式証明。その具体的境界に全Type値比較を反映する証明書は付けられない。一方、別の忠実境界の一般的不存在や無条件20D交換の成否は未認証のまま保持する。
+
+定理[exact-source CI #42480163503](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42480163503) **Scoped Strict Lean 9,094/9,094・Governance 5/5 SUCCESS**、新規15宣言公理監査（公理不要7件・標準公理のみ8件）、sorryAxなし、変更Lean error/warning0/0。source/test-merge/squash tree **`8af90b11d1243ad4567c67304265b3fe6b1d1b4e`完全一致**。公開集約[PR #3356](https://github.com/itakura-hidetoshi/KuuOS/pull/3356)もMERGED、[CI #42480594351](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42480594351)は**KuuOSFormal全体10,355/10,355・Governance30/30 SUCCESS**、tree `25870d130ca855f9cc2456cfc7b452882f659ad3`一致。既存F55/P77/GK5CG・元6D〜19D、root107、固定Lean/mathlib、保護#1558を維持。[正式記録](docs/formal/Qi-v5_42-equal-trace-nineteen-nonfaithfulness-verified-20261108.md)・[Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77EqualTraceNineteenNonfaithfulnessV5_42.lean)。**次段Qi v5.43：** 履歴長とActiveChainの2変量観測を組み合わせ、残る同一観測fiberの証拠反映可能性を検討する。
+
 ## Qi v5.41 — 非定数19D境界transportの実構成・外側履歴長反映／2026-11-08 JST
 
 **[定理PR #3352](https://github.com/itakura-hidetoshi/KuuOS/pull/3352) MERGED。** v5.40の定数退化境界を越え、異なる真正LR/RLの18D依存fiberを保ったまま、**非定数**な型付き19D境界transportを実際に構成した。真正RL証拠Rから旧`chain/reverse/chain`で`P_R(n)`を作り、`len(Trace(P_R(n)))=(2n+1)len(Trace(R))`を形式証明。sourceの外側履歴**長さ**を単射符号化してRL証拠へ写す。元19D比較は完全traceを保存するため、輸送先の真正`strict`比較によってlocalTransportを実装し、指定LR証拠を元のRL証拠へ写すanchored比較も構成した。
