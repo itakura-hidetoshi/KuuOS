@@ -20,7 +20,15 @@ Qi v5.28定理 #3312・公開集約 #3313・正式記録 #3314 のMERGEDを継�
 | sorryAx、新公理 | **なし／なし** |
 | 変更Lean error/warning | **0/0** |
 | 定理差分 | 新規Leanファイル1件、475行追加・削除0 |
-| 公開集約PR | [#3316](https://github.com/itakura-hidetoshi/KuuOS/pull/3316) — 実行中、結果は追記 |
+| 公開集約PR | [#3316](https://github.com/itakura-hidetoshi/KuuOS/pull/3316) **MERGED** |
+| 公開集約source HEAD | `0b1a140fa96db3d151d9d04c820e90b214e09b06` |
+| 公開集約test-merge | `9248a2548d0916a717a293e28b18a4a3fe2057da` |
+| 公開集約squash main | `28dd250dac033fcf93782474fc10c38a549e8e34` |
+| 公開集約の上記Git tree | **`c7954f11e08bc20cea1f950aee84ced78cdfdd72` 完全一致** |
+| 公開集約exact-source CI | [#42448660904](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42448660904) **completed/SUCCESS** |
+| KuuOSFormal全体Strict Lean | **10,342/10,342 SUCCESS** |
+| 公開集約Governance | **30/30 SUCCESS** |
+| 公開集約差分 | `formal/KuuOSFormal.lean` のimport1行追加・削除0 |
 | 公開rootと保護PR | root107維持、#1558 Draft/OPEN/未マージ |
 
 [Lean証明全文](../../formal/KUOS/Architecture/QiWuxingGK5CHP77LocalThirteenNaturalityV5_29.lean)。
@@ -31,6 +39,12 @@ Lean receipt (`lean-formal/receipt.json`) は `status=passed`、`return_code=0`�
 `lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.Architecture.QiWuxingGK5CHP77LocalThirteenNaturalityV5_29`
 が成功。検証ログ末尾は `Build completed successfully (9081 jobs)`。
 新規21宣言の`#print axioms`に新公理・`sorryAx`はない。
+
+公開集約のLean receipt (`lean-formal/receipt.json`) も `status=passed`、
+`return_code=0`、`git_sha=9248a2548d0916a717a293e28b18a4a3fe2057da`、
+`build KuuOSFormal` と `Build completed successfully (10342 jobs)` を記録。
+対象限定の9,081件と公開全体の10,342件は異なる検証範囲であり混同しない。
+公開root107、固定Lean/mathlib、保護PR #1558 Draft/OPENをすべて維持した。
 
 ## 2. 前後貼り合わせの二つの真正第十三セル経路
 
