@@ -8,6 +8,14 @@
 
 English: KuuOS develops a general mathematical program for dependent origination, contextual transport, presentation localization, effective descent, higher coherence, and explicit obstructions. The later C60 geometry is a concrete testbed, **not the origin or unique model of the general theory**.
 
+## Qi v5.46 — ActiveDepth商降下と同一五変量の19D括弧付け障害／2026-11-08 JST
+
+**[定理PR #3367](https://github.com/itakura-hidetoshi/KuuOS/pull/3367) MERGED。** 真正raw18D証拠のactive chain入れ子深さを数える`selectedContextEighteenActiveDepth`を構成。元`SelectedLocalNineteen`の5構成子すべてによる保存をLean4で証明し、同じ厳密な17D endpoint fiberの真正19D商へ`Quotient.lift`で降下した。
+
+**新しいobstruction：** 元の外側履歴が非空の真正Mから、J→J同一fiberで`B=chain M (reverse M)`、`A=reverse B`、`L=chain (chain A B) (strict J)`、`R=chain A (chain B (strict J))`を構成。L/Rは**完全ordered fine trace、ActiveChain、ReverseCount、LeftNestedCount、ReverseLeftCountの五変量が一致**するが、`ActiveDepth(L)=ActiveDepth(R)+ActiveChain(B)`かつ`ActiveChain(B)>0`。従って真正19D商クラスは異なり、旧19D Type値比較は非存在。五変量観測はこの条件付きfiberで非単射と証明。別の忠実境界の不可能性までは導かない。
+
+定理[exact-source CI #42491218286](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42491218286) **Strict Lean 9,098/9,098・Governance5/5 SUCCESS**、22宣言公理監査（公理不要8・標準のみ14）、sorryAxなし、変更Lean error/warning0/0。source/test-merge/squash Git tree `9b5285052679e147b24e8c7fad428c0334430594`一致。公開集約[PR #3369](https://github.com/itakura-hidetoshi/KuuOS/pull/3369) MERGED、[CI #42491659143](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42491659143) **KuuOSFormal全体10,359/10,359・Governance30/30 SUCCESS**、tree `9bc4210a841ec88f55dc5e78493c326b2df4da61`一致。元F55/P77/GK5CG・6D〜19D、root107、Lean/mathlib pin、保護#1558を維持。[正式記録](docs/formal/Qi-v5_46-active-depth-nineteen-obstruction-verified-20261108.md)・[Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77ActiveDepthNineteenObstructionV5_46.lean)。**次段Qi v5.47：** ActiveDepthを加えた六変量transportと残る証拠障害を調べる。
+
 ## Qi v5.45 — 四変量19D境界のkernel完全分類・reverse-left障害／2026-11-08 JST
 
 **[定理PR #3364](https://github.com/itakura-hidetoshi/KuuOS/pull/3364) MERGED。** 真正19D商上に`I₄=(|Trace|,ActiveChain,ReverseCount,LeftNestedCount)`を構成。型付きanchored LR→RL境界`selectedMixedFourBoundary`を実装し、**`f(q₁)=f(q₂) ↔ I₄(q₁)=I₄(q₂)`**を形式証明。v5.44の括弧付けの差を像で区別する。
