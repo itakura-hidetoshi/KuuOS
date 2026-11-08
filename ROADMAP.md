@@ -1,5 +1,14 @@
 # KuuOS / 空OS — Formal Research Roadmap
 
+## Qi v5.27 VERIFIED — 選択的な単位・同側合成第十二セル補完／2026-11-08
+
+- **[定理PR #3309](https://github.com/itakura-hidetoshi/KuuOS/pull/3309) MERGED：** 独立`SelectedUnitalCompositionTwelve`の`previous`はv5.25真正`ContextClosedFramedTwelve`の全生証拠をそのまま保持。新たな比較生成元は元六セル境界が一致する第七セルの反射/合成に限る`unitLeft/unitRight/compLeft/compRight`の4種類。`strict/reverse/chain`および元七セルに沿う左右文脈閉包を保持。全10構成子を扱う`selectedUnital_least`で指定型付き関係に関する最小性を証明。元6D〜14D生証拠・元sourceのEqを改変しない。
+- **新しい固定6D境界商の作用法則：** `selectedUnitalLeftAction`／`selectedUnitalRightAction`は真の境界適合文脈を引数にとる`Quotient.lift`。任意の新商元について左右`SevenRewrite.refl`による単位則、同側の`SevenRewrite.trans`による合成則を証明。反対側の左右交換は真正元`doubleWhisker`から既存比較を二重埋込みして導出。いずれも新しい商上の等式で、生の元第十一セル証拠のEqではない。
+- **情報損失と残存obstruction：** 旧v5.25 raw第十二セルの新Typeへの埋込みは単射。しかし元のinhabited`exchangeUnit`から旧商→新商写像の非単射を証明。v5.26の**whiskering総長さは新商へ降下不能**と証明したが、元の3種類の十セル計数は新たな全10構成子で保存され、`Quotient.lift`により新商で観測可能。元tenSymm critical loopは引き続き比較不能。三計数による完全分類や任意13D/14D naturalityは未証明。
+- **[Exact-source CI #42444566108](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42444566108) SUCCESS：** 対象限定Lean **9,079/9,079**、Governance選択**5/5**、新規26宣言公理確認（12件公理不要、14件は標準`propext`／`Quot.sound`のみ）、sorryAxなし・変更Lean warning/error0/0。source `61ed5dac3ecabbe3fa578937357db5ff599cbaa8`、test-merge `216f94d482107f87c9d931de374de7749ffd1c96`、squash `25e5c08d896175531cac24814efbd5cf29d7938a`のGit tree **`be30d59fc2219a63ed682ef8772ab334a59a72f3`完全一致**。追加Lean457行、既存ソース削除0。
+- **公開集約 [PR #3310](https://github.com/itakura-hidetoshi/KuuOS/pull/3310) MERGED：** `KuuOSFormal`にimport1行のみ追加し、[CI #42444916420](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42444916420) **Strict Lean 10,340/10,340・Governance30/30 SUCCESS**。source/test-merge/squash Git tree **`c50f7b8c1ff3c91dd0132530b34b9d828b62c34f`**一致。公開root107、Lean v4.30.0-rc2、固定mathlib、保護#1558 Draft/OPEN維持。[正式記録](docs/formal/Qi-v5_27-unital-composition-twelfth-completion-verified-20261108.md)・[Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77UnitalCompositionCompletionV5_27.lean)。
+- **次段Qi v5.28：** 三連文脈の異なる括弧付け・選択生成元の貼り合わせ経路を生証拠のまま区別し、必要なら独立第十三セル比較の存在条件、既存v5.22/23選択第十三・第十四セルとの型付き境界compatibilityとobstructionを整理する。局所選択商の等式を旧raw13D/14Dの全体coherenceへ無断昇格しない。
+
 ## Qi v5.26 VERIFIED — 文脈作用の総履歴長と厳密な単位・同側合成障害／2026-11-08
 
 - **[定理PR #3305](https://github.com/itakura-hidetoshi/KuuOS/pull/3305) MERGED：** `contextTraceLength` は元第十セルの真正whiskering `List Bool`履歴の総長さ。元full12Dの全5構成子とv5.25独立型付き文脈閉包12Dの全6構成子でこの長さが保存されることを`framedDoubleWhisker_preservesTraceLength`／`contextClosed_preservesTraceLength`で証明。旧full商、新文脈閉包商、元6Dの固定境界商へそれぞれ`Quotient.lift`し、旧商→新商の非単射写像に沿った長さ観測の整合性も証明。v5.24の末尾列観測と区別する。
