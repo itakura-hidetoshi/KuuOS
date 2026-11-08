@@ -216,13 +216,12 @@ theorem selectedDepthBrackets_active
   let a := selectedContextEighteenActiveChainCount l r B
   have ht : 0 < t := selectedDepthLoop_tracePositive l r M hpos
   change (a + a + (if 0 < t + t then 1 else 0)) + 0 +
-      (if 0 < (t + t) + 0 then 1 else 0) =
+      (if 0 < (selectedContextEighteenTrace l r B ++
+          selectedContextEighteenTrace l r B).length + 0 then 1 else 0) =
     a + (a + 0 + (if 0 < t + 0 then 1 else 0)) +
-      (if 0 < t + (t + 0) then 1 else 0)
-  have htwo : 0 < t + t := by omega
-  have htwo' : 0 < (t + t) + 0 := by omega
-  have htriple : 0 < t + (t + 0) := by omega
-  simp only [if_pos htwo, if_pos htwo', if_pos ht, if_pos htriple]
+      (if 0 < t +
+          (selectedContextEighteenTrace l r B ++ []).length then 1 else 0)
+  simp only [List.length_append]
   omega
 
 /-- The active depth changes by exactly the positive active
@@ -247,7 +246,6 @@ theorem selectedDepthBrackets_depthDiff
   have hright : selectedContextEighteenActiveChainCount l r
       (SelectedContextualEighteen.chain B (.strict J)) = a + 1 := by
     change a + 0 + (if 0 < t + 0 then 1 else 0) = a + 1
-    simp only [if_pos ht]
     omega
   change (d + d + a + a) + 0 +
       selectedContextEighteenActiveChainCount l r
@@ -266,9 +264,9 @@ theorem selectedDepthLoop_activePositive
   have htwo : 0 < (selectedContextEighteenTrace l r M).length +
       (selectedContextEighteenTrace l r M).length := by omega
   change 0 < a + a +
-    (if 0 < (selectedContextEighteenTrace l r M ++
-      selectedContextEighteenTrace l r M).length then 1 else 0)
-  simp only [List.length_append, if_pos htwo]
+    (if 0 < (selectedContextEighteenTrace l r M).length +
+      (selectedContextEighteenTrace l r M).length then 1 else 0)
+  simp only [if_pos htwo]
   omega
 
 /-- The two actual same-fiber proof values have unequal active
