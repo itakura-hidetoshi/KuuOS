@@ -1,5 +1,14 @@
 # KuuOS / 空OS — Formal Research Roadmap
 
+## Qi v5.42 VERIFIED — 同一fine履歴の19D非同値と長さ境界kernel／2026-11-08
+
+- **[定理PR #3355](https://github.com/itakura-hidetoshi/KuuOS/pull/3355) MERGED：** v5.37真正18D構文のうち外側履歴が非空の`chain`だけを数える`selectedContextEighteenActiveChainCount`を新規構成。既存の`SelectedLocalNineteen`5構成子はこの自然数を保存し、`selectedNineteenActiveChainOnQuotient`が真正19D商へ降下。既存Lean編集0、新Lean1件370行追加。
+- **同一fine履歴の真正反例：** 元LR二重文脈Xと、同じ厳密17D端点に作る`Y = chain (strict source) X`はordered`List Bool`外側traceが完全一致。一方ActiveChainは1異なり、[X]₁₉≠[Y]₁₉、元`SelectedLocalNineteen`比較は非存在と形式証明。fine履歴Eqを19D証拠Eqや局所比較へ昇格させない。
+- **kernelの必要十分条件：** v5.41の長さ符号化に基づく実在境界の商降下について、`f(q₁)=f(q₂) ↔ length(Trace(q₁))=length(Trace(q₂))` を`selectedMixedLengthDescend_eq_iff_traceLength`で証明。具体的なX/Yをfが同一視するため、v5.41の非定数境界は**非単射**。その境界は完全19D比較反映を持たないと形式証明。全境界の不可能性ではない。
+- **定理exact-source認証：** [CI #42480163503](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42480163503) 9,094/9,094 Strict Lean・Governance5/5 SUCCESS、15/15公理監査（公理不要7件、標準のみ8件）、sorryAxなし、変更error/warning0/0。source `43fdbeb150002619d7ca9807a269ac29c24f393b`／test-merge `ddbc5b213d8bb6d0ee70ffd3ee73128e88b6e75a`／squash `d28e0b630820ad39b89583d09f7d8406ceac2a44` Git tree `8af90b11d1243ad4567c67304265b3fe6b1d1b4e`一致。
+- **公開集約認証：** [PR #3356](https://github.com/itakura-hidetoshi/KuuOS/pull/3356) MERGED。KuuOSFormal import1行のみ。[CI #42480594351](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42480594351)全体10,355/10,355・Governance30/30 SUCCESS。source `6a00d825f0061d8c30ba9b145a7819aa6252827e`／test-merge `830fb6c9d28fd3aa46dd90075b0944c5bc06891f`／squash `4ed9c490846c04c5b8639e8df98e3d913bb4ed6c` tree `25870d130ca855f9cc2456cfc7b452882f659ad3`一致。root107・固定Lean/mathlib・保護#1558 Draft/OPEN維持。[正式記録](docs/formal/Qi-v5_42-equal-trace-nineteen-nonfaithfulness-verified-20261108.md)・[Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77EqualTraceNineteenNonfaithfulnessV5_42.lean)。
+- **次段Qi v5.43：** `(履歴長, ActiveChain)`の2変量観測を組み合わせた別の非定数19D境界を検討し、その観測fiberに残る証拠区別、比較反映、swap自然性を独立に判定する。忠実輸送の一般的存在はNO_DATAとして残す。
+
 ## Qi v5.41 VERIFIED — 非定数・anchored 19D境界と外側履歴長の反映／2026-11-08
 
 - **[定理PR #3352](https://github.com/itakura-hidetoshi/KuuOS/pull/3352) MERGED：** 既存の真正RL18D証拠を種Rとして、同一fiber内の旧`chain/reverse/chain`による`P_R(n)`を構成。`selectedMixedRightTracePower_length`で`len(Trace(P_R(n)))=(2n+1)*len(Trace(R))`を証明。新Lean1ファイル334行追加、既存削除0。
