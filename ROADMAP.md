@@ -1,5 +1,16 @@
 # KuuOS / 空OS — Formal Research Roadmap
 
+## Qi v5.45 VERIFIED — 四変量19D境界とreverse-left障害／2026-11-08
+
+- **[定理PR #3364](https://github.com/itakura-hidetoshi/KuuOS/pull/3364) MERGED：** 真正19D商に`I₄=(length Trace, ActiveChain, ReverseCount, LeftNestedCount)`を構成。旧selected 19Dの真正5構成子による保存・計算則をLean4で証明。新規Lean1件573行追加・既存削除0。
+- **具体的な型付き境界：** 入れ子`Nat.pair`と真正RL証拠のtrace-powerで`selectedMixedFourBoundary`を構成。source局所19D Type値比較をtargetの真正strict比較へ送る。指定LR証拠を元RL証拠へanchored輸送し、`selectedMixedFourDescend_eq_iff_observation`で**像Eq iff source四変量Eq**を全クラスで証明。v5.44の括弧付け対は新境界で分離。
+- **同じ四変量で残る厳密障害：** `ReverseLeftCount`はraw18D構文の左辺が`reverse`の`chain`を数え、旧19D比較5構成子で保存・商へ降下。同じ依存fiberの`chain (chain (strict J) (reverse (strict J))) X`と`chain (chain (reverse (strict J)) (strict J)) X`はfull ordered traceと四変量が一致、ReverseLeftCount差1。従って元の19D商は異なり、型付き比較は非存在。
+- **具体境界の非忠実性：** `selectedMixedFourDescend_collapsesStrictReverse`・`selectedMixedFourDescend_notInjective`・`selectedMixedFourBoundary_noReflection`をLean4で証明。**別の**忠実transportの一般的不可能性は未証明。全域swap自然性・raw Eq・無条件20D交換を導入しない。
+- **定理CI：** [#42488399450](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42488399450) **9,097/9,097 Strict Lean・Governance5/5 SUCCESS**、32/32宣言公理監査（17公理不要・15標準のみ）、sorryAxなし・変更error/warning0/0。source `38e696e2b7b7e98fd6e4c00dbf84610be39cbaf1`／test-merge `f6d55b30ddc8641e3170fa892af160ae22ac1621`／squash `c588b62e15db04a5a5392dfd90dd0936b83d01f0` tree `5f8ace985761ca5ace8ba0c89df39ae932fe6d21`完全一致。
+- **公開CI：** [PR #3366](https://github.com/itakura-hidetoshi/KuuOS/pull/3366) MERGED。[#42488848341](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42488848341) **10,358/10,358 Strict Lean・Governance30/30 SUCCESS**。source `0c1415c289745145a45a43989bb5a8e59ee48e1f`／test-merge `26067dea4a94a71412286d30bab037c9fb9dd555`／squash `142acd580369c944d7b425da980c3dae657f2a74` tree `6c4045ed5934f37cb87831fa87baff17435d7188`完全一致。[正式記録](docs/formal/Qi-v5_45-four-nineteen-reverse-left-obstruction-verified-20261108.md)・[Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77FourNineteenReverseLeftObstructionV5_45.lean)。
+- **保護範囲：** 公開root107、固定Lean v4.30.0-rc2、mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、保護#1558 Draft/OPEN。append-only／tighten-only／overwrite-forbidden／same-root。
+- **次段Qi v5.46：** ReverseLeftCountを含む五変量の元19D商観測と実際の境界transportに進み、全域swap自然性・高次比較の未認証を引き続き保持する。
+
 ## Qi v5.44 VERIFIED — 三変量19D輸送と括弧付けobstruction／2026-11-08
 
 - **[定理PR #3361](https://github.com/itakura-hidetoshi/KuuOS/pull/3361) MERGED：** `I₃=((length Trace,ActiveChain),ReverseCount)`を真正19D商へ降下し、`SelectedLocalNineteen`5構成子の保存を証明。新規Lean1ファイル633行、既存削除0。
