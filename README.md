@@ -8,6 +8,14 @@
 
 English: KuuOS develops a general mathematical program for dependent origination, contextual transport, presentation localization, effective descent, higher coherence, and explicit obstructions. The later C60 geometry is a concrete testbed, **not the origin or unique model of the general theory**.
 
+## Qi v5.44 — 三変量19D境界のkernel分類と括弧付け障害／2026-11-08 JST
+
+**[定理PR #3361](https://github.com/itakura-hidetoshi/KuuOS/pull/3361) MERGED。** 真正19D商の`I₃(q)=((|Trace(q)|,ActiveChain(q)),ReverseCount(q))`を構成。入れ子`Nat.pair`により実在する非定数LR→RL型付き境界`selectedMixedTripleBoundary`を構成し、`f(q₁)=f(q₂) ↔ I₃(q₁)=I₃(q₂)`をLean4で証明。v5.43の二重反転差を新境界では区別する。
+
+**残るobstruction：** raw18Dの左入れ子`chain`節点数`LeftNestedCount`を元19D比較5構成子が保存するため、19D商へ降下する。同じ依存fiberの`((X ; reverse X) ; X)`と`(X ; (reverse X ; X))`は完全ordered traceと3変量が一致しても、`LeftNestedCount`が1異なる。従って元19D商クラスも異なり、**この具体的三変量境界は非単射・比較反映不可**。一般忠実境界や全域swap自然性はNO_DATA。
+
+定理[CI #42485095326](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42485095326) **Strict Lean 9,096/9,096・Governance5/5 SUCCESS**、33宣言公理監査（公理不要14・標準のみ19）、sorryAxなし・変更Lean error/warning0/0。source／test-merge／squash tree `ff6443bf65332c269ba8627f808af3987d26c731`完全一致。公開集約[PR #3362](https://github.com/itakura-hidetoshi/KuuOS/pull/3362) MERGED、[CI #42485499436](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42485499436) **KuuOSFormal全体10,357/10,357・Governance30/30 SUCCESS**、Git tree `f21ac36caa9dde481c47c3fc182f188357275bc1`一致。元F55/P77/GK5CG・元6D〜19D、root107、固定Lean/mathlib、保護#1558維持。[正式記録](docs/formal/Qi-v5_44-triple-nineteen-associativity-obstruction-verified-20261108.md)・[Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77TripleNineteenAssocObstructionV5_44.lean)。**次段Qi v5.45：** `LeftNestedCount`を加える四変量境界と残存障害を検討する。
+
 ## Qi v5.43 — 19D二変量境界のkernel完全分類・二重反転obstruction／2026-11-08 JST
 
 **[Lean4定理PR #3358](https://github.com/itakura-hidetoshi/KuuOS/pull/3358) MERGED。** 真正19D商で`I(q)=(|Trace(q)|,ActiveChain(q))`を構成し、固定mathlibの`Nat.pair`による単射的符号を元真正RL18Dの型付きtrace-power列へ送る`selectedMixedPairedBoundary`を実装。元`SelectedLocalNineteen`比較をType値で保存し、指定LR証拠は元RL証拠へanchored輸送する。商写像のkernelは**`f(q₁)=f(q₂) ↔ I(q₁)=I(q₂)`**とLean4で必要十分に分類。v5.42で長さ境界が潰したstrict-prepend差1の元証拠を新境界では区別する。
