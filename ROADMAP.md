@@ -1,5 +1,14 @@
 # KuuOS / 空OS — Formal Research Roadmap
 
+## Qi v5.23 VERIFIED — 三重whiskering順序・旧12D合成自然性critical cube・選択第十四セル／2026-11-08
+
+- **[定理PR #3298](https://github.com/itakura-hidetoshi/KuuOS/pull/3298) MERGED：** 真正元12D `MixedExchangeInverseTwelveCell`に既存元構成子だけでR-L-R／L-R-Rを施した`originalTripleWhiskerRLR/RRL`を構成。元十セルraw traceはそれぞれ`[1,0,1]++T`と`[1,1,0]++T`で非等・長さ同一。元source Typeと全履歴は不変で、異なるfiberをEqで偽装しない。
+- **元12D合成のraw障害：** 合成可能な実際の`T:H⇒K`・`U:K⇒L`について、`whisker(chain T U)`と`chain(whisker T,whisker U)`の旧生証拠は左右それぞれ非等号。旧12Dの厳密な関手性は導入も仮定もしない。
+- **独立選択13D合成presentation：** `CompositionalWhiskerThirteen`にv5.22`SelectedWhiskerNaturalityThirteen`を`selected`で保持し、必要な前後合成`prepend/append`、括弧付け`associator`、新しい選択合成輸送比較`rightTransportComp/leftTransportComp`を明示的に追加。二つの真正自然性squareの型付き貼り合わせ`pastedCompositionalNaturality`と単一旧合成の直接比較`directCompositionalNaturality`はframed12Dの両端が一致するが、選択13Dの生経路は非等。
+- **条件付き選択14D：** `SelectedCompositionFourteen.criticalCube`は実在旧12D`T,U`を引数にとり、直接・貼り合わせの13D経路を新しい独立Typeで比較する。`selectedCompositionFourteen_conditionalCube`は比較の存在＋raw非等号、`selectedCompositionFourteen_noRawEqualityAtCube`は当該14Dをraw13D Eqと読む解釈の不存在を証明。元の完全な14D自然性、任意の三重whiskering全cube、15D以上のcoherenceは未証明。
+- **[Exact-source CI #42434651668](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42434651668) SUCCESS：** Strict Lean **10,336/10,336**、Governance **30/30**、新規15件の`#print axioms`は**15/15全て公理不要**、`sorryAx`なし・変更Lean warning/error 0/0。source `b27d641ddbe78accd7c5f7ce774290b24e1d51a1`、test-merge `efa090d2a1e040b6fbffca3e15ec14fc6797313f`、squash main `4cce656042a85d370a37b2f62419e7b4e40d8c5f` は Git tree **`079b60403b727978c6a171b49e6786bc0a561fd6` 完全一致**。新規Lean366行＋公開集約import一行、旧ソース削除0、公開root107・固定Lean/mathlib・#1558 Draft/OPEN維持。[正式証明記録](docs/formal/Qi-v5_23-triple-whisker-compositional-naturality-fourteenth-critical-cube-verified-20261108.md)・[Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77CompositionalNaturalityCriticalCubeV5_23.lean)。
+- **次段Qi v5.24：** 三重whiskeringの全ての隣接交換面を原型付きframed境界へliftできる条件を探索し、選択13D・14Dとの整合性／局所obstruction／非可降下性を区別する。選択presentationから元Typeへの無条件authority昇格は禁止。
+
 ## Qi v5.22 VERIFIED — 元whiskering順序defect・旧第十二セル自然性square・選択第十三セル／2026-11-08
 
 - **[定理PR #3296](https://github.com/itakura-hidetoshi/KuuOS/pull/3296) MERGED：** 元F55/P77/GK5CGと独立6D〜12Dの真正Type値・全添字を不変に保ち、`OrderedWhiskerDefect(source,target)`の**実際のraw Bool list等式と追加順序prefix**を別Typeに保存。恒等・合成・増分長を証明し、二つの原始whiskeringが`false::T`／`true::T`を生むこと、その二重合成が`[false,true]++T`／`[true,false]++T`という**順序非可換**の履歴を生むことを証明。同じNat長さだけでは順序非可換性を検出できない。
