@@ -8,6 +8,14 @@
 
 English: KuuOS develops a general mathematical program for dependent origination, contextual transport, presentation localization, effective descent, higher coherence, and explicit obstructions. The later C60 geometry is a concrete testbed, **not the origin or unique model of the general theory**.
 
+## Qi v5.47 — 六変量19D境界のkernel分類と連続反転障害／2026-11-09 JST
+
+**[定理PR #3371](https://github.com/itakura-hidetoshi/KuuOS/pull/3371) MERGED。** ActiveDepthを含む六変量`I6=(length Trace, ActiveChainCount, ReverseCount, LeftNestedCount, ReverseLeftCount, ActiveDepth)`を真正19D商上に構成。型付きLR→RL境界`T6`について、**`T6(q1)=T6(q2) ↔ I6(q1)=I6(q2)`**をLean4で証明した。六変量のsource情報は目標trace-powerに符号化される。targetの同名六数値が座標ごとに保存されるという主張ではない。
+
+**残るobstruction：** 任意に与えられた元`M:J→N`と`S=strict N`から、同一J→N fiberの`L=chain M (chain S (reverse (reverse S)))`、`R=chain M (reverse (chain S (reverse S)))`を構成。完全ordered traceと六変量は一致するが、真正19D比較で保存される`AdjacentReverseCount`が1だけ異なるため、真正商クラスは異なる。元Mのtrace非空条件は不要。今回の六変量境界はこの二クラスを同じ像へ送るため非単射で、完全な比較反映を持たない。別の忠実境界一般の存在・不存在は未認証。
+
+定理[CI #42524549959](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42524549959) **Strict Lean 9,099/9,099・Governance 5/5 SUCCESS**、35/35公理監査（公理不要19・標準のみ16）、sorryAxなし、変更error/warning 0/0。公開[PR #3372](https://github.com/itakura-hidetoshi/KuuOS/pull/3372) MERGED、[CI #42525454553](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42525454553) **KuuOSFormal 10,360/10,360・Governance全32/32 SUCCESS**。定理・公開それぞれsource/test-merge/squash Git tree一致。元証拠・構成子、root107、Lean/mathlib pin、保護#1558を維持。[正式記録](docs/formal/Qi-v5_47-six-nineteen-typed-boundary-verified-20261109.md)・[Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77SixNineteenTypedBoundaryV5_47.lean)。**次段Qi v5.48：** 現行19D比較による元構文の同一視範囲と、型付き正規化・完全な比較反映の条件を調べる。
+
 ## Qi v5.46 — ActiveDepth商降下と同一五変量の19D括弧付け障害／2026-11-08 JST
 
 **[定理PR #3367](https://github.com/itakura-hidetoshi/KuuOS/pull/3367) MERGED。** 真正raw18D証拠のactive chain入れ子深さを数える`selectedContextEighteenActiveDepth`を構成。元`SelectedLocalNineteen`の5構成子すべてによる保存をLean4で証明し、同じ厳密な17D endpoint fiberの真正19D商へ`Quotient.lift`で降下した。
