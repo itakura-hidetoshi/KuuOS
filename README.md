@@ -8,6 +8,14 @@
 
 English: KuuOS develops a general mathematical program for dependent origination, contextual transport, presentation localization, effective descent, higher coherence, and explicit obstructions. The later C60 geometry is a concrete testbed, **not the origin or unique model of the general theory**.
 
+## Qi v5.32 — 真正混合下位境界証明書・局所選択16Dと15D順序履歴の商降下／2026-11-08 JST
+
+**[定理PR #3324](https://github.com/itakura-hidetoshi/KuuOS/pull/3324) MERGED。** v5.31の真正左右二重15D輸送`L(R(T))`と`R(L(T))`は一般に異なる14D依存境界を持つため、これを生Eqで同一視せず、元v5.18`doubleWhisker`から二段`previous`を経た真正の12D証拠を始点・終点ともに保持する`SelectedMixedLowerBoundaryPacket`を構成した。これは**下位11D端点の互換性証明書**であり、上位の一般16D交換を導いたわけではない。左右の15D外側文脈履歴は`[false,true]++trace(T)`対`[true,false]++trace(T)`で異なるが、`selectedFifteenTraceCounts`による左右出現数は一致すると証明した。
+
+新しい独立`SelectedLocalSixteen`は、元v5.30の真正15D単位比較の往復・逆往復ループと反射15D証拠を**厳密に同じ14D境界で**比較する局所選択16Dの二系列だけを新設。`selectedFifteenFirstAtomTag`ではraw15Dループのタグ0／4と反射の3が異なるが、外側文脈traceはいずれも空列。16D生成元の`strict/reverse/chain`を含め、`selectedSixteen_preservesTrace`により順序付き15D外側履歴を16D商へ`Quotient.lift`できると証明した。一方、raw15D先頭構成子タグはこの商に**降下不能**であることを否定存在定理で証明。さらに、異なる14D依存型に属する左右二重輸送について、共通`List Bool`観測で順序差が16D商後にも残り、粗い左右計数は一致することを証明した。元raw15D Eqや全体的16D coherenceではない。
+
+定理[exact-source CI #42452960112](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42452960112)：**Scoped Strict Lean 9,084/9,084・Governance5/5 SUCCESS**、新規27宣言監査（17件公理不要、10件標準`propext`／`Quot.sound`のみ）、`sorryAx`・変更error/warningなし。source `30c573c519818e9cf0e2569ceeecf2c1a8cb33c6`／test-merge `d1ac71b51413dd98faa670e8a0cc85185bd91c5c`／squash `dce614b8d96dfd27fb4a338855e3e6a7843269db`のGit tree **`c5dcb90ac290f8fe0cba25b3ce33525ed4fcb1bb`完全一致**。公開集約import1行 [PR #3325](https://github.com/itakura-hidetoshi/KuuOS/pull/3325) MERGED、[CI #42453327889](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42453327889) **KuuOSFormal 10,345/10,345・Governance30/30 SUCCESS**、source/test-merge/squash Git tree **`4a00fa91556f5bc28ef95c36f46014007ccfc16a`一致**。公開root107・固定Lean/mathlib・保護PR #1558 Draft/OPEN維持。[正式証明記録](docs/formal/Qi-v5_32-mixed-boundary-local-sixteen-trace-descent-verified-20261108.md)・[Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77MixedBoundarySixteenV5_32.lean)。**次段Qi v5.33：** 異なる14D依存境界を接続する真正13D/14D証拠の有無と、局所16Dをさらに文脈輸送した場合の条件付きcoherence・残るobstructionを研究する。
+
 ## Qi v5.31 — 選択15D文脈閉包と14D商・順序履歴obstruction／2026-11-08 JST
 
 **[定理PR #3321](https://github.com/itakura-hidetoshi/KuuOS/pull/3321) MERGED。** v5.30の真正選択第十五セル証拠を`inherited`で単射に保持し、独立の`SelectedContextualFifteen`を新設。元の六セル境界が厳密に適合する真正第七セルの左右`whiskerLeft/whiskerRight`と`strict/reverse/chain`の型付き閉包を構成した。`selectedContextFifteenSetoid`により、**実際に型付き選択15D比較が存在することと14D証拠クラスの等号が同値**な第十四セル商を形式化。`selectedContextFifteenQuotientLift`は、全15D比較を保存する観測だけを条件付きで商へ降下させる。一方、元v5.30の局所`criticalUnit`で14Dの`UnitPrepend`と`UnitAppend`の商クラスは等しいが、生の先頭構成子タグは**2と1で異なる**ため、`selectedContextFifteen_noFirstTagDescent`でその観測の商への降下不能を証明した。これをraw14D Eqに読み替えていない。
