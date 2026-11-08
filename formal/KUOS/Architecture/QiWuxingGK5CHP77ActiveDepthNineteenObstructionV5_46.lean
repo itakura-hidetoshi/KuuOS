@@ -221,8 +221,12 @@ theorem selectedDepthBrackets_active
     a + (a + 0 + (if 0 < t + 0 then 1 else 0)) +
       (if 0 < t +
           (selectedContextEighteenTrace l r B ++ []).length then 1 else 0)
-  simp only [List.length_append]
-  omega
+  dsimp only [t] at ht ⊢
+  simp only [List.length_append, List.length_nil, Nat.add_zero]
+  have hsum : 0 < (selectedContextEighteenTrace l r B).length +
+      (selectedContextEighteenTrace l r B).length := by omega
+  simp only [if_pos ht, if_pos hsum]
+  all_goals omega
 
 /-- The active depth changes by exactly the positive active
 count of the old source loop B, despite all former observations
@@ -246,7 +250,7 @@ theorem selectedDepthBrackets_depthDiff
   have hright : selectedContextEighteenActiveChainCount l r
       (SelectedContextualEighteen.chain B (.strict J)) = a + 1 := by
     change a + 0 + (if 0 < t + 0 then 1 else 0) = a + 1
-    omega
+    simp [ht]
   change (d + d + a + a) + 0 +
       selectedContextEighteenActiveChainCount l r
         (SelectedContextualEighteen.chain (.reverse B) B) + 0 =
