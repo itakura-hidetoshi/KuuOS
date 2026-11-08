@@ -54,6 +54,31 @@ namespace PentagonAdjoinedSixCell
 
 variable {W : Type uSix}
 
+/-- Count the raw chain nodes with another raw chain on the LEFT.
+The unit 19D generators only paste strict and inherited old
+proofs, so they never introduce such a node. -/
+def selectedContextEighteenLeftNestedCount (l r : W)
+    {F G : FramedEleven W l r}
+    {P Q : SelectedUnitalCompositionTwelve W l r F G}
+    {C D : SelectedMixedInterchangerThirteen W l r P Q}
+    {V X : SelectedMixedNaturalityFourteen W l r C D}
+    {T U : SelectedContextualFifteen W l r V X}
+    {H K : SelectedContextualSixteen W l r T U}
+    {J N : SelectedContextualSeventeen W l r H K}
+    (M : SelectedContextualEighteen W l r J N) : Nat :=
+  match M with
+  | .inherited _ => 0
+  | .whiskerLeft _ _ _ M =>
+      selectedContextEighteenLeftNestedCount l r M
+  | .whiskerRight _ _ M _ =>
+      selectedContextEighteenLeftNestedCount l r M
+  | .strict _ => 0
+  | .reverse M => selectedContextEighteenLeftNestedCount l r M
+  | .chain M L =>
+      selectedContextEighteenLeftNestedCount l r M +
+        selectedContextEighteenLeftNestedCount l r L +
+        (if selectedContextEighteenTopTag l r M = 5 then 1 else 0)
+
 section TripleObservation
 
 variable (l r : W)
@@ -115,24 +140,6 @@ theorem selectedNineteenTriple_eq_iff
     exact ⟨congrArg Prod.fst h, congrArg Prod.snd h⟩
   · rintro ⟨h₁, h₂⟩
     exact Prod.ext h₁ h₂
-
-/-- Count the raw chain nodes with another raw chain on the LEFT.
-The unit 19D generators only paste strict and inherited old
-proofs, so they never introduce such a node. -/
-def selectedContextEighteenLeftNestedCount
-    (M : SelectedContextualEighteen W l r J N) : Nat :=
-  match M with
-  | .inherited _ => 0
-  | .whiskerLeft _ _ _ M =>
-      selectedContextEighteenLeftNestedCount M
-  | .whiskerRight _ _ M _ =>
-      selectedContextEighteenLeftNestedCount M
-  | .strict _ => 0
-  | .reverse M => selectedContextEighteenLeftNestedCount M
-  | .chain M L =>
-      selectedContextEighteenLeftNestedCount M +
-        selectedContextEighteenLeftNestedCount L +
-        (if selectedContextEighteenTopTag l r M = 5 then 1 else 0)
 
 /-- Invariance is verified over EACH existing selected local
 19D comparison constructor, rather than asserted as an axiom. -/
@@ -213,13 +220,17 @@ theorem selectedContextEighteenAssoc_active
       selectedContextEighteenActiveChainCount l r
         (selectedContextEighteenAssocRight l r M) := by
   let t := (selectedContextEighteenTrace l r M).length
+  let a := selectedContextEighteenActiveChainCount l r M
+  change (a + a + (if 0 < t + t then 1 else 0)) + a +
+      (if 0 < (selectedContextEighteenTrace l r M ++
+            selectedContextEighteenTrace l r M).length + t then 1 else 0) =
+    a + (a + a + (if 0 < t + t then 1 else 0)) +
+      (if 0 < t + (selectedContextEighteenTrace l r M ++
+            selectedContextEighteenTrace l r M).length then 1 else 0)
+  simp only [List.length_append]
   have htwo : 0 < t + t := by omega
   have hthree : 0 < (t + t) + t := by omega
   have hthree' : 0 < t + (t + t) := by omega
-  simp only [selectedContextEighteenAssocLeft,
-    selectedContextEighteenAssocRight,
-    selectedContextEighteenActiveChainCount,
-    selectedContextEighteenTrace, List.length_append]
   simp only [if_pos htwo, if_pos hthree, if_pos hthree']
   omega
 
@@ -231,10 +242,10 @@ theorem selectedContextEighteenAssoc_leftNested
         (selectedContextEighteenAssocLeft l r M) =
       selectedContextEighteenLeftNestedCount l r
         (selectedContextEighteenAssocRight l r M) + 1 := by
-  simp only [selectedContextEighteenAssocLeft,
-    selectedContextEighteenAssocRight,
-    selectedContextEighteenLeftNestedCount,
-    selectedContextEighteenTopTag]
+  let a := selectedContextEighteenLeftNestedCount l r M
+  let v := if selectedContextEighteenTopTag l r M = 5 then 1 else 0
+  change (a + a + v) + a + 1 =
+    (a + (a + a + 0) + v) + 1
   omega
 
 /-- The old local 19D quotient DOES NOT identify the two actual
