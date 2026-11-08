@@ -1,5 +1,13 @@
 # KuuOS / 空OS — Formal Research Roadmap
 
+## Qi v5.26 VERIFIED — 文脈作用の総履歴長と厳密な単位・同側合成障害／2026-11-08
+
+- **[定理PR #3305](https://github.com/itakura-hidetoshi/KuuOS/pull/3305) MERGED：** `contextTraceLength` は元第十セルの真正whiskering `List Bool`履歴の総長さ。元full12Dの全5構成子とv5.25独立型付き文脈閉包12Dの全6構成子でこの長さが保存されることを`framedDoubleWhisker_preservesTraceLength`／`contextClosed_preservesTraceLength`で証明。旧full商、新文脈閉包商、元6Dの固定境界商へそれぞれ`Quotient.lift`し、旧商→新商の非単射写像に沿った長さ観測の整合性も証明。v5.24の末尾列観測と区別する。
+- **真正左右作用の長さ：** 新商の`contextClosedLeftAction`・`contextClosedRightAction`は任意の真正7D文脈を一回適用するごとに長さを1加える。従って、`SevenRewrite.refl`であっても実在の境界fiber上で恒等作用にならず、同じ側の二回適用（+2）と一つの元`SevenRewrite.trans`文脈の適用（+1）も等しくない。左／右両方で全型付き証拠入力に対して形式証明。v5.25の**反対側**左右交換則は不変。
+- **authority境界：** 本結論は**現在のv5.25 context-closed presentationにおけるno-go**であり、独立のunital/compositional completion一般の不存在ではない。新しい比較生成元／新公理・旧6D〜14Dの変更なし。新しい商で長さ観測が失われるかどうかは次段の要証明事項。
+- **[Exact-source CI #42443161009](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42443161009) SUCCESS：** Scoped Strict Lean **9,078/9,078**、Governance選択**5/5**、17宣言全件公理確認（8件公理不要・9件標準のみ）、sorryAxなし、変更Lean warning/error0/0。source HEAD `8a7f38b6fae1efc37b002ae59d023b55942842ed`、test-merge `609f97366d7577eeb86aa7b24e953f475034bf17`、squash `02c5db8462ba363aef46180845818e249e3e12b7` のGit tree **`7f3ee65e2abf5e96f3190ed00e36e5e99c1859f2`一致**。公開集約への単一import [#3307](https://github.com/itakura-hidetoshi/KuuOS/pull/3307) MERGED、[CI #42443549738](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42443549738) は **KuuOSFormal 10,339/10,339・Governance30/30 SUCCESS**。公開root107／固定Lean v4.30.0-rc2/mathlib／保護#1558維持。[正式記録](docs/formal/Qi-v5_26-context-action-trace-length-obstruction-verified-20261108.md)・[Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77ContextActionLengthObstructionV5_26.lean)。
+- **次段Qi v5.27：** 型付き単位・同側合成比較を**別presentation**に限定して最小追加し、旧Type値と元証拠履歴を維持したまま、長さ観測の非降下、元三計数の保存、選択13D/14Dとのauthority差を証明する。全高次coherenceを自動的に主張しない。
+
 ## Qi v5.25 VERIFIED — 最小型付き文脈閉包と真正12D欠損面の補完／2026-11-08
 
 - **[定理PR #3302](https://github.com/itakura-hidetoshi/KuuOS/pull/3302)・[正式記録PR #3303](https://github.com/itakura-hidetoshi/KuuOS/pull/3303) MERGED。** 元6D〜14D定義を維持し、新`ContextClosedFramedTwelve`に元framed12D証拠をそのまま格納し、境界適合の左右whiskering二構成子のみで閉包。既存同値関係と文脈閉包を含む最小性、旧raw証拠埋込の単射、三重whiskering欠損内側面の実証拠による導出、全三重交換経路の型付き構成を証明。
