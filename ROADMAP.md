@@ -1,5 +1,17 @@
 # KuuOS / 空OS — Formal Research Roadmap
 
+## Qi v5.38 VERIFIED — 真正18D二重文脈輸送・19D証拠商→観測swap商・fine履歴保存輸送のobstruction／2026-11-08
+
+- **[定理PR #3342](https://github.com/itakura-hidetoshi/KuuOS/pull/3342) MERGED：** 新規Lean1ファイル445行、既存Lean削除0。v5.37の真正`SelectedContextualEighteen` Type値`M`を、元の適合`SevenRewrite`文脈へLRとRLの異なる順序で型付き輸送。両出力の17D端点・19D exact-fiber商を独立に保持し、混合raw Eqは導入しない。既存F55/P77/GK5CG、元6D〜14D、全旧選択12D〜19D proof valuesとpublic root107は変更しない。
+- **19D商から有限swap商への条件付き降下：** `selectedNineteenSwapObservation`はv5.37で証明した真正19D商上の完全ordered`selectedContextEighteenTrace`降下とv5.36の観測側有限swap商を合成。`selectedNineteenSwapObservation_respectsNineteen`が元19D比較との整合を証明。`selectedNineteenSwapCounts`で左右出現回数も降下。
+- **真正LR/RLの粗密分離：** `selectedEighteenMixedTraceValues`と`selectedDoubleEighteenNineteen_fineTraceDistinct`で`[false,true]++h ≠ [true,false]++h`を証明。一方`selectedEighteenMixedOrder_swapClassEq`で異なる19D商の像が**共通有限観測swap商内で一致**。`selectedEighteenMixedOrder_countsEq`は左右計数の一致、`selectedEighteenMixedOrder_prefixSwapClassEq`は共通有限prefixとの互換を証明。source-level高次交換とは異なる。
+- **完全fine履歴保存に対する条件付きno-go：** `selectedEighteenMixedOrder_noFinePreservingTransport`は「全商クラスの完全ordered trace保存」と「指定LRクラスをRLクラスへ送る」を同時要求する写像の不存在を証明。追加の高次境界証明を伴うtrace-changing transportまでは否定しない。
+- **真正12D〜14D境界と高次obstructionを保持：** `SelectedMixedEighteenObservationPacket`が旧`SelectedMixedLowerHigherPacket`のType値証拠、実際の両18D文脈輸送、`SelectedOuterSwapClosure`、fine順序非等号、`SelectedMixedTraceRespectingHigherGate`の不成立を一つの型付きpacketで保持。`selectedMixedEighteenPacket_possible_strictGateImpossible`が観測上の正の互換と元の厳密gateの障害の両立を証明。
+- **CI配布障害の経路保存と修復：** 当初の定理PRは公式`elan`／Lean本体のHTTP 504で6回の型検査前停止。独立CI-only[PR #3343](https://github.com/itakura-hidetoshi/KuuOS/pull/3343) MERGEDで、同一公式Pinned Lean v4.30.0-rc2配布物の既知SHA256とbyte sizeを検証した有限回のfail-closed再試行を導入。固定mathlib、Scoped Strict Lean／Governance／receipt条件の緩和なし。
+- **[定理exact-source CI #42469326230](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42469326230) SUCCESS：** Scoped Strict Lean **9,090/9,090**、Governance **5/5**、新規16/16公理監査（10件不要・6件標準`propext`／`Quot.sound`のみ）、`sorryAx`なし、変更Lean warning/error0/0。source `d288d9259ab84c7807ba82c64f7796a1b1f3adf8`／test-merge `4f52f4dde4c36425ad9062b64b2e4a3b12eb2995`／squash `0ef81341bde933e3de16bd3782719fd3792cdd40`のGit tree **`48f7605ddeacac8668778cad8c4fb5318c559efa`一致**。
+- **公開集約[PR #3344](https://github.com/itakura-hidetoshi/KuuOS/pull/3344) MERGED：** `formal/KuuOSFormal.lean`のimport1行追加のみ、削除0。[CI #42469855076](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42469855076) attempt2で**KuuOSFormal全体Strict Lean 10,351/10,351・Governance30/30 SUCCESS**。公開source `028e19d1b9f02f5a0de827d6ba3b48990e416673`／test-merge `2ac02c03df46c772fad376963275c63378379ff8`／squash `54ee7c3d2ffde6d0aecd827579b9df62e5f5a4f3`のGit tree **`c202f6068c63f295d34c3e2bf151589dae55ad28`一致**。公開root107、固定Lean/mathlib、保護PR #1558 Draft/OPEN維持。[正式記録](docs/formal/Qi-v5_38-double-eighteen-nineteen-swap-obstruction-verified-20261108.md)・[Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77DoubleEighteenNineteenSwapV5_38.lean)。
+- **次段Qi v5.39：** 真正左右二重輸送の異なる依存17D端点間で、元Type値証拠を消さずに比較を構成するための**境界証明書と依存transport条件**を形式化。選択`19D`商の観測像Eqから元raw Eqへの大域化を避け、必要条件の欠落は明示的障害として残す。
+
 ## Qi v5.37 VERIFIED — 真正18D文脈閉包・選択19D局所単位比較・順序履歴の降下とrawタグ障害／2026-11-08
 
 - **[定理PR #3339](https://github.com/itakura-hidetoshi/KuuOS/pull/3339) MERGED：** v5.36のMERGED正本を継承し、独立`SelectedContextualEighteen`で実在する旧`SelectedLocalEighteen`の全Type値証拠を`inherited`として単射に保持。真正元第七セルの厳密に適合する左右文脈だけを`whiskerLeft/whiskerRight`、`strict/reverse/chain`で閉包する。元F55/P77/GK5CG、生6D〜14D証拠と旧選択12D〜18D、公開root107は変更しない。
