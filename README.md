@@ -8,6 +8,14 @@
 
 English: KuuOS develops a general mathematical program for dependent origination, contextual transport, presentation localization, effective descent, higher coherence, and explicit obstructions. The later C60 geometry is a concrete testbed, **not the origin or unique model of the general theory**.
 
+## Qi v5.48 — 真正19D単位正規形と忠実境界の条件／2026-11-09 JST
+
+**[定理PR #3374](https://github.com/itakura-hidetoshi/KuuOS/pull/3374) MERGED。** 現行`SelectedLocalNineteen`の二つの真正旧18D単位挿入だけを縮約する型付き正規代表`Normal(M)`と、その元Type値比較証拠を構成。`Normal(M)=Normal(L) ↔ Nonempty(SelectedLocalNineteen M L) ↔ [M]₁₉=[L]₁₉`、冪等性、商section・単射をLean4で証明した。v5.47の連続反転障害は正規代表でも分離される。
+
+**境界条件：** 与えられた真正LR→RL境界Bについて、Type値比較の完全反映、商降下写像の単射性、元構文正規形の反映を同値として証明。これは一般の忠実境界の存在ではない。任意fiberの等号判定可能性や無条件20D gluingも主張しない。
+
+定理[CI #42528265204](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42528265204) **Scoped Strict Lean 9,100/9,100・Governance 5/5 SUCCESS**、新規14/14宣言は標準公理のみ、`sorryAx`なし。公開[PR #3375](https://github.com/itakura-hidetoshi/KuuOS/pull/3375) MERGED、[CI #42528894967](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42528894967) **KuuOSFormal 10,361/10,361・全32/32 Governance SUCCESS**。元Type値・root107・Lean/mathlib pin・保護#1558維持。[正式記録](docs/formal/Qi-v5_48-exact-nineteen-normal-form-verified-20261109.md)・[Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77ExactNineteenUnitNormalFormV5_48.lean)。**次段Qi v5.49：** 単位クラスの細分類と文脈内合同性の条件を検討。
+
 ## Qi v5.47 — 六変量19D境界のkernel分類と連続反転障害／2026-11-09 JST
 
 **[定理PR #3371](https://github.com/itakura-hidetoshi/KuuOS/pull/3371) MERGED。** ActiveDepthを含む六変量`I6=(length Trace, ActiveChainCount, ReverseCount, LeftNestedCount, ReverseLeftCount, ActiveDepth)`を真正19D商上に構成。型付きLR→RL境界`T6`について、**`T6(q1)=T6(q2) ↔ I6(q1)=I6(q2)`**をLean4で証明した。六変量のsource情報は目標trace-powerに符号化される。targetの同名六数値が座標ごとに保存されるという主張ではない。
