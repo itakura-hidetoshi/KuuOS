@@ -102,14 +102,29 @@ theorem selectedNineteenDirectUnit_classEqual
       (selectedNineteenDirectUnitRaw l r M t) :=
   Quotient.sound ⟨selectedNineteenDirectUnitComparison l r M s t⟩
 
+/-- Finite constructor-shape observation of the three DIRECT
+presentations. This is only a raw syntax witness, not a 19D invariant:
+all three values are genuinely selected19-comparable. -/
+def selectedNineteenDirectUnitShapeTag
+    (Y : SelectedContextualEighteen W l r J N) : Nat :=
+  match Y with
+  | .inherited _ => 0
+  | .chain (.strict _) (.inherited _) => 1
+  | .chain (.inherited _) (.strict _) => 2
+  | _ => 3
+
 /-- Despite having the SAME actual selected19 class, the three
-raw presentations retain their distinct constructor histories. -/
+raw presentations retain their distinct constructor histories.
+Observe constructor shape rather than asking simp to eliminate
+heterogeneous equalities of dependent raw subterms. -/
 theorem selectedNineteenDirectUnit_rawInjective
     (M : SelectedLocalEighteen W l r J N) :
     Function.Injective (selectedNineteenDirectUnitRaw l r M) := by
   intro s t h
+  have ht := congrArg (selectedNineteenDirectUnitShapeTag l r) h
   cases s <;> cases t <;>
-    simp [selectedNineteenDirectUnitRaw] at h ⊢
+    simp [selectedNineteenDirectUnitRaw,
+      selectedNineteenDirectUnitShapeTag] at ht ⊢
 
 /-- The quotient map restricted to this ORIGINAL three-element
 raw unit family is constant even though raw syntax is injective. -/
@@ -286,8 +301,14 @@ theorem selectedNineteenRawReverse_noDescent
         g (selectedNineteenClass l r X) =
           selectedNineteenClass l r (SelectedContextualEighteen.reverse X)) := by
   intro h
-  have compatible := (selectedNineteenRawMap_descends_iff l r J N N J
-    (fun X : SelectedContextualEighteen W l r J N => .reverse X)).mpr h
+  have compatible :
+      ∀ {A B : SelectedContextualEighteen W l r J N},
+        SelectedLocalNineteen W l r A B →
+          Nonempty (SelectedLocalNineteen W l r
+            (SelectedContextualEighteen.reverse A)
+            (SelectedContextualEighteen.reverse B)) :=
+    (selectedNineteenRawMap_descends_iff l r J N N J
+      (fun X : SelectedContextualEighteen W l r J N => .reverse X)).mpr h
   exact (selectedNineteenRawReverse_unitObstruction l r M)
     (compatible (selectedNineteenDirectUnitComparison l r M .prepend .inherited))
 
@@ -303,8 +324,14 @@ theorem selectedNineteenRawRightStrict_noDescent
           selectedNineteenClass l r
             (selectedNineteenRawRightStrict l r X)) := by
   intro h
-  have compatible := (selectedNineteenRawMap_descends_iff l r J N J N
-    (selectedNineteenRawRightStrict l r)).mpr h
+  have compatible :
+      ∀ {A B : SelectedContextualEighteen W l r J N},
+        SelectedLocalNineteen W l r A B →
+          Nonempty (SelectedLocalNineteen W l r
+            (selectedNineteenRawRightStrict l r A)
+            (selectedNineteenRawRightStrict l r B)) :=
+    (selectedNineteenRawMap_descends_iff l r J N J N
+      (selectedNineteenRawRightStrict l r)).mpr h
   exact (selectedNineteenRawRightStrict_unitObstruction l r M)
     (compatible (selectedNineteenDirectUnitComparison l r M .prepend .inherited))
 
@@ -318,8 +345,14 @@ theorem selectedNineteenRawLeftStrict_noDescent
           selectedNineteenClass l r
             (selectedNineteenRawLeftStrict l r X)) := by
   intro h
-  have compatible := (selectedNineteenRawMap_descends_iff l r J N J N
-    (selectedNineteenRawLeftStrict l r)).mpr h
+  have compatible :
+      ∀ {A B : SelectedContextualEighteen W l r J N},
+        SelectedLocalNineteen W l r A B →
+          Nonempty (SelectedLocalNineteen W l r
+            (selectedNineteenRawLeftStrict l r A)
+            (selectedNineteenRawLeftStrict l r B)) :=
+    (selectedNineteenRawMap_descends_iff l r J N J N
+      (selectedNineteenRawLeftStrict l r)).mpr h
   exact (selectedNineteenRawLeftStrict_unitObstruction l r M)
     (compatible (selectedNineteenDirectUnitComparison l r M .prepend .inherited))
 
@@ -331,6 +364,7 @@ end ExactCongruenceGate
 #print axioms PentagonAdjoinedSixCell.selectedNineteenDirectUnitComparison
 #print axioms PentagonAdjoinedSixCell.selectedNineteenDirectUnit_normal
 #print axioms PentagonAdjoinedSixCell.selectedNineteenDirectUnit_classEqual
+#print axioms PentagonAdjoinedSixCell.selectedNineteenDirectUnitShapeTag
 #print axioms PentagonAdjoinedSixCell.selectedNineteenDirectUnit_rawInjective
 #print axioms PentagonAdjoinedSixCell.selectedNineteenDirectUnit_classNotInjective
 #print axioms PentagonAdjoinedSixCell.selectedNineteenRawReverse_unitObstruction
