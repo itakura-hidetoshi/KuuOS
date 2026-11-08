@@ -1,5 +1,15 @@
 # KuuOS / 空OS — Formal Research Roadmap
 
+## Qi v5.46 VERIFIED — ActiveDepthの商降下と五変量同一fiber障害／2026-11-08
+
+- **[定理PR #3367](https://github.com/itakura-hidetoshi/KuuOS/pull/3367) MERGED：** `ActiveDepth`はraw contextual 18D `chain`のactive入れ子深さを記録し、元selected 19D比較の真正5構成子すべてで保存。各厳密endpoint fiberの19D商に`selectedNineteenActiveDepthOnQuotient`で降下。新規Leanモジュール1件390行、既存削除0。
+- **真正同一fiberの証拠対：** M:J→NからB=chain M (reverse M)、A=reverse Bを構成。同じJ→J fiberでL=(A;B);strict(J)、R=A;(B;strict(J))を構成。Trace(M)非空なら、L/Rのcomplete ordered trace・ActiveChain・ReverseCount・LeftNestedCount・ReverseLeftCountがすべて一致。
+- **第六観測の障害：** `ActiveDepth(L)=ActiveDepth(R)+ActiveChain(B)`、`ActiveChain(B)>0`をLean4で構成。従って[L]₁₉≠[R]₁₉、真正`SelectedLocalNineteen`比較非存在。`selectedNineteenFive_notInjective_of_tracePositive`は非空履歴を持つMの同一J→J fiberに限る五変量観測の非単射を証明。**任意fiberや全境界一般への不正な大域化は禁止。**
+- **CIエラー来歴：** 一般的`change`、`List.length_append`／`if_pos`と算術`omega`の局所正規化が合わなかった箇所を、変更Lean全文・依存シグネチャ照合のうえ局所修正。旧証拠・仮定は不変。mainのv5.45正式記録を二親コミットで非破壊同期し、最終exact-source CIを再実行。
+- **定理認証：** [CI #42491218286](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42491218286) **9,098/9,098 Strict Lean・Governance5/5 SUCCESS**、22/22公理監査（公理不要8、標準のみ14）、sorryAxなし、変更error/warning0/0。source `7be0a238086d5cbe54d171f56a970c8d6210b30c`／test-merge `bc46bb07e88eadc2968f03c2c46dac24b6049bdd`／squash `50605288fd642a98f7b107987de70252b223e8a1` Git tree `9b5285052679e147b24e8c7fad428c0334430594`一致。
+- **公開集約認証：** [PR #3369](https://github.com/itakura-hidetoshi/KuuOS/pull/3369) MERGED。[CI #42491659143](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42491659143) **10,359/10,359 Strict Lean・Governance30/30 SUCCESS**。source `ded21ee3f698b1eaeea9d521b4ef4f6347ecd488`／test-merge `9d14bbdc3ba5148242814345b426c4a9265b0eab`／squash `16ae11a1ab11573deacfbbddc84c64eebe60c202` Git tree `9bc4210a841ec88f55dc5e78493c326b2df4da61`一致。[正式記録](docs/formal/Qi-v5_46-active-depth-nineteen-obstruction-verified-20261108.md)・[Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77ActiveDepthNineteenObstructionV5_46.lean)。
+- **保護範囲と次段Qi v5.47：** root107、Lean v4.30.0-rc2、mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、#1558 Draft/OPEN維持。六変量への条件付きtransport、同一六変量fiber障害を研究。別の忠実輸送の存在・不存在、全域swap自然性・無条件20D交換はNO_DATA。
+
 ## Qi v5.45 VERIFIED — 四変量19D境界とreverse-left障害／2026-11-08
 
 - **[定理PR #3364](https://github.com/itakura-hidetoshi/KuuOS/pull/3364) MERGED：** 真正19D商に`I₄=(length Trace, ActiveChain, ReverseCount, LeftNestedCount)`を構成。旧selected 19Dの真正5構成子による保存・計算則をLean4で証明。新規Lean1件573行追加・既存削除0。
