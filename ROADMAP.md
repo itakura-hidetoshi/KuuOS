@@ -1,5 +1,15 @@
 # KuuOS / 空OS — Formal Research Roadmap
 
+## Qi v5.43 VERIFIED — 19D二変量境界kernelと二重反転obstruction／2026-11-08
+
+- **[定理PR #3358](https://github.com/itakura-hidetoshi/KuuOS/pull/3358) MERGED：** 真正19D商の`selectedNineteenLengthActiveObservation=(外側履歴長,ActiveChain)`を構成。既存19D比較の証明済み保存性を合成して各厳密な依存fiberに降下。新規Lean1ファイル564行追加、既存編集・削除0。
+- **実在する二変量境界：** 固定mathlibの`Nat.pair`の単射性と元RL証拠のtrace-powerを使用した`selectedMixedPairedBoundary`をType値で構成。指定LR→RL真正比較をanchoredに保持し、元の`SelectedLocalNineteen`比較を輸送先strict比較へ送る。`selectedMixedPairedDescend_eq_iff_observation`は**像Eq iff source二変量Eq**を全クラスで証明。v5.42のstrict-prepend対は新境界で分離。
+- **同一二変量fiberの厳密障害：** `selectedContextEighteenReverseCount`は旧19D比較5構成子で保存し商に降下。任意Xで`D(X)=reverse(reverse(X))`は完全Trace・Active同一、ReverseCount+2。従って`[X]₁₉≠[D(X)]₁₉`。二変量商観測は元証拠の完全な分類ではない。
+- **具体的輸送の非忠実性：** `selectedMixedPairedDescend_notInjective`と`selectedMixedPairedBoundary_noReflection`をLean4で証明。これを別の忠実輸送の一般的不存在へ昇格させず、全域swap観測自然性・無条件20D交換・raw EqはNO_DATAを維持する。
+- **定理認証：** [CI #42481878276](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42481878276) **9,095/9,095 Strict Lean・Governance5/5 SUCCESS**、新規27/27宣言（公理不要15・標準のみ12）、sorryAxなし、変更Lean error/warning0/0。source `60ae70db7a48df743dfb7dfec64e6f87531d345e`／test-merge `7e10c14c8bc0e7cb1e1290b2370e026fa0cc0c67`／squash `e9674294cd133ef3de99ae073ed7f7ed67aadd17` のGit tree `f5a435173cfa298a6b13320b8581062b14f2ba98`一致。
+- **公開集約認証：** [PR #3359](https://github.com/itakura-hidetoshi/KuuOS/pull/3359) MERGED。[CI #42482312495](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42482312495) **10,356/10,356 Strict Lean・Governance30/30 SUCCESS**。source `851cdc0ad80f182327be611cd4f5a9379f5669ce`／test-merge `712bcc04aa69204372f4866d205b097e5a40b2cc`／squash `cb7fa0919fbf8bd557712176d6ce1aa9068823ae` のGit tree `c13201b3eaa826a42f5694958a6af25940c6dfdd`一致。root107、Lean v4.30.0-rc2／mathlib pin、#1558 Draft／OPEN維持。[正式記録](docs/formal/Qi-v5_43-paired-nineteen-obstruction-verified-20261108.md)・[Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77PairedNineteenObstructionV5_43.lean)。
+- **次段Qi v5.44：** ReverseCountを含む多変量19D商観測のフィルトレーションと、同一観測fiber内の新たな構文的obstructionを探索。元のType値証拠・独立presentationを上書きせず、一般忠実性は未認証。
+
 ## Qi v5.42 VERIFIED — 同一fine履歴の19D非同値と長さ境界kernel／2026-11-08
 
 - **[定理PR #3355](https://github.com/itakura-hidetoshi/KuuOS/pull/3355) MERGED：** v5.37真正18D構文のうち外側履歴が非空の`chain`だけを数える`selectedContextEighteenActiveChainCount`を新規構成。既存の`SelectedLocalNineteen`5構成子はこの自然数を保存し、`selectedNineteenActiveChainOnQuotient`が真正19D商へ降下。既存Lean編集0、新Lean1件370行追加。
