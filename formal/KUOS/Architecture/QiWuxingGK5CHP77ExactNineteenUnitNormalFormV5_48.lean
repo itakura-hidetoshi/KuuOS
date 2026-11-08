@@ -59,7 +59,7 @@ def selectedNineteenNormal
     SelectedContextualEighteen W l r J N :=
   (selectedNineteenNormalCertified l r M).1
 
-theorem selectedNineteenNormal_rawCertified
+def selectedNineteenNormal_rawCertified
     (M : SelectedContextualEighteen W l r J N) :
     SelectedLocalNineteen W l r M (selectedNineteenNormal l r M) :=
   (selectedNineteenNormalCertified l r M).2
