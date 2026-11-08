@@ -8,6 +8,12 @@
 
 English: KuuOS develops a general mathematical program for dependent origination, contextual transport, presentation localization, effective descent, higher coherence, and explicit obstructions. The later C60 geometry is a concrete testbed, **not the origin or unique model of the general theory**.
 
+## Qi v5.26 — 真正whiskering履歴長と反射・同側合成の厳密obstruction／2026-11-08 JST
+
+**[定理PR #3305](https://github.com/itakura-hidetoshi/KuuOS/pull/3305) MERGED。** v5.25独立`ContextClosedFramedTwelve`の元6D〜14D真正Type証拠を全保持し、元第十セルの順序付きwhiskering履歴の**総長さ**`contextTraceLength F = (framedWhiskerRawTrace F).length`が旧full framed12D・新文脈閉包12Dの全構成子で保存されることを帰納的に証明した。観測は旧商・新商・固定六セル境界商の各々へ降下し、非単射な旧商→新商写像とも可換。一方、新しい左・右文脈作用はどの実在元第七セル文脈でも総長さをちょうど1増やすため、**反射第七セルが商の恒等作用になることはなく、同側二回の作用と単一の元合成文脈作用も一致しない**と証明。これは反対側の左右作用が交換するv5.25定理と矛盾しない。新しい比較生成元・公理は追加していない。
+
+最終exact-source CI [#42443161009](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42443161009)：**Scoped Strict Lean 9,078/9,078 SUCCESS・Governance選択5/5成功**、新規17宣言公理監査（公理不要8・標準のみ9）、sorryAxなし、変更Lean warning/error0/0。source `8a7f38b6fae1efc37b002ae59d023b55942842ed`、test-merge `609f97366d7577eeb86aa7b24e953f475034bf17`、squash main `02c5db8462ba363aef46180845818e249e3e12b7`のGit tree `7f3ee65e2abf5e96f3190ed00e36e5e99c1859f2`完全一致。さらに公開集約の独立import [PR #3307](https://github.com/itakura-hidetoshi/KuuOS/pull/3307) MERGED、[CI #42443549738](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42443549738) **Strict Lean 10,339/10,339・Governance30/30 SUCCESS**。公開root107、固定Lean/mathlib、#1558 Draft/OPEN維持。[正式証明記録](docs/formal/Qi-v5_26-context-action-trace-length-obstruction-verified-20261108.md)・[Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77ContextActionLengthObstructionV5_26.lean)。**次段Qi v5.27：** 別presentationにおける必要最小の単位・同側合成補完と情報損失を証明する。
+
 ## Qi v5.25 — 独立型付き文脈閉包・欠損12D面の導出・商作用／2026-11-08 JST
 
 **[定理PR #3302](https://github.com/itakura-hidetoshi/KuuOS/pull/3302) と[正式記録PR #3303](https://github.com/itakura-hidetoshi/KuuOS/pull/3303) はMERGED。** 元6D〜14Dの型と履歴を保持し、別の`ContextClosedFramedTwelve`で元framed12D比較をraw証拠付きの`previous`に埋込み、真正7D境界が適合する`whiskerLeft`／`whiskerRight`だけを新たな文脈閉包構成子として追加。`contextClosed_least`で最小性を証明し、v5.24の欠損三重whiskering内側交換面を**元doubleWhiskerと右文脈閉包から構成**した。旧raw証拠の埋込みは単射だが、旧商→新商は非単射であり、旧tail観測は新商へ降下しない。一方、元からある三計数は保存され、元tenSymm障害も残る。
