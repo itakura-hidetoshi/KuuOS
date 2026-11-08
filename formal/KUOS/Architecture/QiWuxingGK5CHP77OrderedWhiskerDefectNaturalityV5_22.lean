@@ -49,7 +49,7 @@ def orderedWhiskerDefectId (t : List Bool) :
     OrderedWhiskerDefect t t :=
   ⟨[], by simp⟩
 
-/-- A later whiskerPrefix is placed BEFORE the earlier whiskerPrefix.
+/-- A later certified ordered whisker prefix is placed before the earlier prefix.
 This is a genuine noncommutative composition convention. -/
 def orderedWhiskerDefectComp {a b c : List Bool}
     (A : OrderedWhiskerDefect a b)
@@ -59,7 +59,8 @@ def orderedWhiskerDefectComp {a b c : List Bool}
   exact_target := by
     calc
       c = B.whiskerPrefix ++ b := B.exact_target
-      _ = B.whiskerPrefix ++ (A.whiskerPrefix ++ a) := by rw [A.exact_target]
+      _ = B.whiskerPrefix ++ (A.whiskerPrefix ++ a) :=
+        congrArg (fun t : List Bool => B.whiskerPrefix ++ t) A.exact_target
       _ = (B.whiskerPrefix ++ A.whiskerPrefix) ++ a := by simp only [List.append_assoc]
 
 theorem orderedWhiskerDefectComp_prefix {a b c : List Bool}
@@ -67,12 +68,16 @@ theorem orderedWhiskerDefectComp_prefix {a b c : List Bool}
     (B : OrderedWhiskerDefect b c) :
     (orderedWhiskerDefectComp A B).whiskerPrefix = B.whiskerPrefix ++ A.whiskerPrefix := rfl
 
-/-- The certified whiskerPrefix length is the exact raw trace length
+/-- The certified whisker prefix length is the exact raw trace length
 increment. No rewriting through any selected twelfth quotient. -/
 theorem orderedWhiskerDefect_length {a b : List Bool}
     (D : OrderedWhiskerDefect a b) :
     b.length = D.whiskerPrefix.length + a.length := by
-  rw [D.exact_target, List.length_append]
+  calc
+    b.length = (D.whiskerPrefix ++ a).length :=
+      congrArg List.length D.exact_target
+    _ = D.whiskerPrefix.length + a.length := by
+      simp only [List.length_append]
 
 /-- A single original left whisker prefixes exactly false. -/
 def originalLeftWhiskerDefect (l r : W) {w z : W}
