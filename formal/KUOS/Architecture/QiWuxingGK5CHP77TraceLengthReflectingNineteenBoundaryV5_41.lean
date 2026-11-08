@@ -90,7 +90,7 @@ theorem selectedMixedRightTracePower_length
       (selectedMixedRightTracePower l r left F G J N right R n)).length =
       (2 * n + 1) * (selectedContextEighteenTrace l r R).length := by
   induction n with
-  | zero => rfl
+  | zero => simp [selectedMixedRightTracePower]
   | succ n ih =>
       change ((selectedContextEighteenTrace l r
           (selectedMixedRightTracePower l r left F G J N right R n) ++
