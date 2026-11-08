@@ -8,6 +8,12 @@
 
 English: KuuOS develops a general mathematical program for dependent origination, contextual transport, presentation localization, effective descent, higher coherence, and explicit obstructions. The later C60 geometry is a concrete testbed, **not the origin or unique model of the general theory**.
 
+## Qi v5.28 — 三連真正文脈の型付き貼り合わせと選択第十三・十四セル／2026-11-08 JST
+
+**[定理PR #3312](https://github.com/itakura-hidetoshi/KuuOS/pull/3312) MERGED。** 元の第七セル三連`u,v,t`と真正元第七〜第十一セル証拠をそのまま保持し、左右独立に`(u·v)·t`／`u·(v·t)`の二つの12D合成貼り合わせを構成した。二つの元第七セルの括弧付けを生Eqで同一視せず、元v5.27の12D`reverse/chain`だけから型付きrebracket橋を導出。最終的に同じ12D始終点を持つ2本の経路は**生証拠として非等号**だが、新しい独立`SelectedTriplePastingThirteen`の左右局所比較で結ぶ。元v5.23の13D証拠は二段のprevious包含で保存し、`SelectedTriplePastingFourteen`では左右の13D単位貼り合わせを局所選択14Dで比較、既存v5.23の選択14D証拠も型付きで保持した。新12D生成元なし、旧6D〜14D・v5.27以前の全Type/仮定は不変。**これは選択13D/14Dでの局所的比較であり、元raw13D/14D Eqや全体的coherenceではない。**
+
+定理exact-source CI [#42446718916](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42446718916)：**Scoped Strict Lean 9,080/9,080 SUCCESS・Governance選択5/5 SUCCESS**、40宣言公理監査（33公理不要・7件標準`propext`／`Quot.sound`のみ）、sorryAx・変更Lean warning/errorなし。source `dc01ad57bd9b5226665368401862aa7efeac3151`／test-merge `80d0c44cfeae56e6ca6c2047003c59e314f0a251`／定理squash `085fd3e4de25b1f7d4668dc5bc5f68fed5606291` のGit tree **`ccbd473d55f6c9dac0376b9c9cf1ae64bdd73e1e`完全一致**。右側の依存`cases`エラー3件は第十二・第十三セルのraw先頭構成子タグに置き換えて無弱化修正。公開集約単一import [PR #3313](https://github.com/itakura-hidetoshi/KuuOS/pull/3313) MERGED、[CI #42447117936](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42447117936) **KuuOSFormal 10,341/10,341・Governance30/30 SUCCESS**。root107、固定Lean/mathlib、#1558 Draft/OPEN維持。[正式証明記録](docs/formal/Qi-v5_28-typed-triple-context-13d-14d-pasting-verified-20261108.md)・[Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77TripleContextHigherPastingV5_28.lean)。**次段Qi v5.29：** 局所13D比較の前後貼り合わせ自然性・元v5.27左右文脈との整合および新旧14D authority境界を評価する。
+
 ## Qi v5.27 — 選択12D単位・同側合成完成と観測の選択的降下／2026-11-08 JST
 
 **[定理PR #3309](https://github.com/itakura-hidetoshi/KuuOS/pull/3309) MERGED。** v5.26の元whiskering履歴長が検出した単位・同側合成障害を、既存Type値を変えず**新しい独立第十二セル比較presentation** `SelectedUnitalCompositionTwelve`で補完。旧v5.25の全生証拠を`previous`として保持し、新たな選択生成元は境界適合の`unitLeft/unitRight/compLeft/compRight`の4種類のみ。`selectedUnital_least`でこれらと旧比較・左右文脈閉包に関する最小性を証明。新しい正確な六セル境界商では、真正七セル文脈の左右作用について**左右単位則・同側合成則・反対側の左右交換則**が成立する。ただし旧raw第十一セル証拠のEqではない。
