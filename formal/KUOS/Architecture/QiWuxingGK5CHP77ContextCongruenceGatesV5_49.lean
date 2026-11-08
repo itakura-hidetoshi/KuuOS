@@ -122,9 +122,22 @@ theorem selectedNineteenDirectUnit_rawInjective
     Function.Injective (selectedNineteenDirectUnitRaw l r M) := by
   intro s t h
   have ht := congrArg (selectedNineteenDirectUnitShapeTag l r) h
-  cases s <;> cases t <;>
-    simp [selectedNineteenDirectUnitRaw,
-      selectedNineteenDirectUnitShapeTag] at ht ⊢
+  cases s <;> cases t
+  · rfl
+  · change (0 : Nat) = 1 at ht
+    cases ht
+  · change (0 : Nat) = 2 at ht
+    cases ht
+  · change (1 : Nat) = 0 at ht
+    cases ht
+  · rfl
+  · change (1 : Nat) = 2 at ht
+    cases ht
+  · change (2 : Nat) = 0 at ht
+    cases ht
+  · change (2 : Nat) = 1 at ht
+    cases ht
+  · rfl
 
 /-- The quotient map restricted to this ORIGINAL three-element
 raw unit family is constant even though raw syntax is injective. -/
