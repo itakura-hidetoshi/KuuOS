@@ -193,8 +193,185 @@ theorem selectedDepthBrackets_reverseLeft
   change (n + n + 1) + 0 + 0 = n + (n + 0 + 0) + 1
   omega
 
+/-- The old typed loop has nonempty exterior history whenever
+its actual input proof has an exterior event. -/
+theorem selectedDepthLoop_tracePositive
+    (M : SelectedContextualEighteen W l r J N)
+    (hpos : 0 < (selectedContextEighteenTrace l r M).length) :
+    0 < (selectedContextEighteenTrace l r (selectedDepthLoop l r M)).length := by
+  change 0 < (selectedContextEighteenTrace l r M ++
+    selectedContextEighteenTrace l r M).length
+  simp only [List.length_append]
+  omega
+
+/-- Both bracketings have precisely the same active-chain
+count; no new local associativity comparison is postulated. -/
+theorem selectedDepthBrackets_active
+    (M : SelectedContextualEighteen W l r J N)
+    (hpos : 0 < (selectedContextEighteenTrace l r M).length) :
+    selectedContextEighteenActiveChainCount l r (selectedDepthBracketLeft l r M) =
+      selectedContextEighteenActiveChainCount l r (selectedDepthBracketRight l r M) := by
+  let B := selectedDepthLoop l r M
+  let t := (selectedContextEighteenTrace l r B).length
+  let a := selectedContextEighteenActiveChainCount l r B
+  have ht : 0 < t := selectedDepthLoop_tracePositive l r M hpos
+  change (a + a + (if 0 < t + t then 1 else 0)) + 0 +
+      (if 0 < (t + t) + 0 then 1 else 0) =
+    a + (a + 0 + (if 0 < t + 0 then 1 else 0)) +
+      (if 0 < t + (t + 0) then 1 else 0)
+  have htwo : 0 < t + t := by omega
+  have htwo' : 0 < (t + t) + 0 := by omega
+  have htriple : 0 < t + (t + 0) := by omega
+  simp only [if_pos htwo, if_pos htwo', if_pos ht, if_pos htriple]
+  omega
+
+/-- The active depth changes by exactly the positive active
+count of the old source loop B, despite all former observations
+remaining equal. -/
+theorem selectedDepthBrackets_depthDiff
+    (M : SelectedContextualEighteen W l r J N)
+    (hpos : 0 < (selectedContextEighteenTrace l r M).length) :
+    selectedContextEighteenActiveDepth l r (selectedDepthBracketLeft l r M) =
+      selectedContextEighteenActiveDepth l r (selectedDepthBracketRight l r M) +
+        selectedContextEighteenActiveChainCount l r (selectedDepthLoop l r M) := by
+  let B := selectedDepthLoop l r M
+  let d := selectedContextEighteenActiveDepth l r B
+  let a := selectedContextEighteenActiveChainCount l r B
+  let t := (selectedContextEighteenTrace l r B).length
+  have ht : 0 < t := selectedDepthLoop_tracePositive l r M hpos
+  have htwo : 0 < t + t := by omega
+  have hleft : selectedContextEighteenActiveChainCount l r
+      (SelectedContextualEighteen.chain (.reverse B) B) = a + a + 1 := by
+    change a + a + (if 0 < t + t then 1 else 0) = a + a + 1
+    simp only [if_pos htwo]
+  have hright : selectedContextEighteenActiveChainCount l r
+      (SelectedContextualEighteen.chain B (.strict J)) = a + 1 := by
+    change a + 0 + (if 0 < t + 0 then 1 else 0) = a + 1
+    simp only [if_pos ht]
+    omega
+  change (d + d + a + a) + 0 +
+      selectedContextEighteenActiveChainCount l r
+        (SelectedContextualEighteen.chain (.reverse B) B) + 0 =
+    d + (d + 0 + a + 0) + a +
+      selectedContextEighteenActiveChainCount l r
+        (SelectedContextualEighteen.chain B (.strict J)) + a
+  rw [hleft, hright]
+  omega
+
+theorem selectedDepthLoop_activePositive
+    (M : SelectedContextualEighteen W l r J N)
+    (hpos : 0 < (selectedContextEighteenTrace l r M).length) :
+    0 < selectedContextEighteenActiveChainCount l r (selectedDepthLoop l r M) := by
+  let a := selectedContextEighteenActiveChainCount l r M
+  have htwo : 0 < (selectedContextEighteenTrace l r M).length +
+      (selectedContextEighteenTrace l r M).length := by omega
+  change 0 < a + a +
+    (if 0 < (selectedContextEighteenTrace l r M ++
+      selectedContextEighteenTrace l r M).length then 1 else 0)
+  simp only [List.length_append, if_pos htwo]
+  omega
+
+/-- The two actual same-fiber proof values have unequal active
+depths, even though their four- and five-coordinate observations
+will be shown identical. -/
+theorem selectedDepthBrackets_depthDistinct
+    (M : SelectedContextualEighteen W l r J N)
+    (hpos : 0 < (selectedContextEighteenTrace l r M).length) :
+    selectedContextEighteenActiveDepth l r (selectedDepthBracketLeft l r M) ≠
+      selectedContextEighteenActiveDepth l r (selectedDepthBracketRight l r M) := by
+  intro h
+  rw [selectedDepthBrackets_depthDiff l r M hpos] at h
+  have hp := selectedDepthLoop_activePositive l r M hpos
+  omega
+
+/-- Equality of the four genuine quotient-stable coordinates
+is preserved by these two different raw proof bracketings. -/
+theorem selectedDepthBrackets_fourEq
+    (M : SelectedContextualEighteen W l r J N)
+    (hpos : 0 < (selectedContextEighteenTrace l r M).length) :
+    selectedContextEighteenFour l r (selectedDepthBracketLeft l r M) =
+      selectedContextEighteenFour l r (selectedDepthBracketRight l r M) := by
+  exact Prod.ext
+    (Prod.ext
+      (Prod.ext
+        (congrArg List.length (selectedDepthBrackets_trace l r M))
+        (selectedDepthBrackets_active l r M hpos))
+      (selectedDepthBrackets_reverse l r M))
+    (selectedDepthBrackets_leftNested l r M)
+
+/-- Actual old 19D comparison values cannot relate these raw
+terms, since the fifth-independent depth quotient separates them. -/
+theorem selectedDepthBrackets_classDistinct
+    (M : SelectedContextualEighteen W l r J N)
+    (hpos : 0 < (selectedContextEighteenTrace l r M).length) :
+    selectedNineteenClass l r (selectedDepthBracketLeft l r M) ≠
+      selectedNineteenClass l r (selectedDepthBracketRight l r M) := by
+  intro h
+  have hc := congrArg (selectedNineteenActiveDepthOnQuotient l r _ _) h
+  change selectedContextEighteenActiveDepth l r (selectedDepthBracketLeft l r M) =
+    selectedContextEighteenActiveDepth l r (selectedDepthBracketRight l r M) at hc
+  exact (selectedDepthBrackets_depthDistinct l r M hpos) hc
+
+/-- The actual selected-local 19D Type-valued proof remains
+uninhabited between the two equal-observation raw bracketings. -/
+theorem selectedDepthBrackets_noLocal
+    (M : SelectedContextualEighteen W l r J N)
+    (hpos : 0 < (selectedContextEighteenTrace l r M).length) :
+    ¬ Nonempty (SelectedLocalNineteen W l r
+      (selectedDepthBracketLeft l r M)
+      (selectedDepthBracketRight l r M)) := by
+  rintro ⟨A⟩
+  exact (selectedDepthBrackets_classDistinct l r M hpos) (Quotient.sound ⟨A⟩)
+
+/-- Five-dimensional observable: the v5.45 FOUR coordinates
+together with its separately descended ReverseLeftCount. -/
+def selectedNineteenFiveObservation
+    (J N : SelectedContextualSeventeen W l r H K) :
+    Quotient (selectedNineteenSetoid l r J N) →
+      (((Nat × Nat) × Nat) × Nat) × Nat :=
+  fun q => (selectedNineteenFourObservation l r J N q,
+    selectedNineteenReverseLeftOnQuotient l r J N q)
+
+/-- The two true source classes have equal five-observations,
+including reverse-left, but remain distinct by active depth. -/
+theorem selectedDepthBrackets_fiveEq
+    (M : SelectedContextualEighteen W l r J N)
+    (hpos : 0 < (selectedContextEighteenTrace l r M).length) :
+    selectedNineteenFiveObservation l r J J
+      (selectedNineteenClass l r (selectedDepthBracketLeft l r M)) =
+    selectedNineteenFiveObservation l r J J
+      (selectedNineteenClass l r (selectedDepthBracketRight l r M)) := by
+  change (selectedContextEighteenFour l r (selectedDepthBracketLeft l r M),
+      selectedContextEighteenReverseLeftCount l r (selectedDepthBracketLeft l r M)) =
+    (selectedContextEighteenFour l r (selectedDepthBracketRight l r M),
+      selectedContextEighteenReverseLeftCount l r (selectedDepthBracketRight l r M))
+  exact Prod.ext (selectedDepthBrackets_fourEq l r M hpos)
+    (selectedDepthBrackets_reverseLeft l r M)
+
+/-- Concrete proof that the actual five-number observation
+has NONTRIVIAL fibers for every source proof with nonempty history.
+No inference to nonexistence of every possible faithful boundary. -/
+theorem selectedNineteenFive_notInjective_of_tracePositive
+    (M : SelectedContextualEighteen W l r J N)
+    (hpos : 0 < (selectedContextEighteenTrace l r M).length) :
+    ¬ Function.Injective (selectedNineteenFiveObservation l r J J) := by
+  intro hi
+  exact (selectedDepthBrackets_classDistinct l r M hpos)
+    (hi (selectedDepthBrackets_fiveEq l r M hpos))
+
 end DepthBrackets
 
+#print axioms PentagonAdjoinedSixCell.selectedDepthLoop_tracePositive
+#print axioms PentagonAdjoinedSixCell.selectedDepthBrackets_active
+#print axioms PentagonAdjoinedSixCell.selectedDepthBrackets_depthDiff
+#print axioms PentagonAdjoinedSixCell.selectedDepthLoop_activePositive
+#print axioms PentagonAdjoinedSixCell.selectedDepthBrackets_depthDistinct
+#print axioms PentagonAdjoinedSixCell.selectedDepthBrackets_fourEq
+#print axioms PentagonAdjoinedSixCell.selectedDepthBrackets_classDistinct
+#print axioms PentagonAdjoinedSixCell.selectedDepthBrackets_noLocal
+#print axioms PentagonAdjoinedSixCell.selectedNineteenFiveObservation
+#print axioms PentagonAdjoinedSixCell.selectedDepthBrackets_fiveEq
+#print axioms PentagonAdjoinedSixCell.selectedNineteenFive_notInjective_of_tracePositive
 #print axioms PentagonAdjoinedSixCell.selectedContextEighteenActiveDepth
 #print axioms PentagonAdjoinedSixCell.selectedLocalNineteen_preservesActiveDepth
 #print axioms PentagonAdjoinedSixCell.selectedNineteenActiveDepthOnQuotient
