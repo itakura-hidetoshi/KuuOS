@@ -1,5 +1,15 @@
 # KuuOS / 空OS — Formal Research Roadmap
 
+## Qi v5.29 VERIFIED — 局所13D前後貼り合わせ自然性・選択14D文脈閉包・旧12D lift障害／2026-11-08
+
+- **[定理PR #3315](https://github.com/itakura-hidetoshi/KuuOS/pull/3315) MERGED：** v5.28の`SelectedTriplePastingThirteen`の任意型付き比較`C:P⇒Q`に前方12D`A`・後方12D`B`を貼る二経路を構成。`selectedNaturalityDirect = append(prepend(A,C),B)`と`selectedNaturalityViaAssociators = associator(A,P,B);prepend(A,append(C,B));reverse(associator(A,Q,B))`は同一の型付き12D始終点を持つが、先頭構成子タグ7と8により**生13D非等号**。
+- **新しい独立13D文脈閉包：** `SelectedContextualThirteen`は旧v5.28の13D証拠を`inherited`で保持しraw単射を形式証明。元の厳密第六セル境界に整合する真正第七セル`SevenRewrite`に限り左右`whiskerLeft/whiskerRight`で比較を型付き輸送。`strict/reverse/chain`も保存。元証拠のEqを仮定しない。
+- **局所選択14D自然性：** `SelectedNaturalityFourteen`は旧v5.28選択14Dとv5.23の真正選択14Dの生値埋込みを単射に保持。新規`localLeft/localRight`生成元は**実在する三連元第七セルの左右2系列**だけに限定。前後貼り合わせ二経路の選択14D比較の存在と、元13D raw非等号を同時に形式証明。選択14D比較の左右真正文脈閉包も形式化するが、旧14Dの全自然性は仮定しない。
+- **必要互換条件とobstruction：** `HasOriginalTwelveEndpoints`は元v5.23の真正framed12D証拠の二段`previous`包含像が新12Dとraw Eqで一致する条件で、旧14Dからの厳密なliftには必要だが十分でない。元12D埋込みタグ1と左三連`innerPasting`タグ4／右三連`outerPasting`タグ9の矛盾を`congrArg`で証明し、両三連局所比較の**旧raw12D起点への降下は不能**。商レベルの同値可能性を否定しない。`selectedLocalLeft_noRawEqualityInterpreter`は選択14Dの証拠から13D raw Eqを導く普遍解釈がないことを証明。
+- **[最終定理exact-source CI #42448349862](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42448349862) SUCCESS：** Scoped Strict Lean **9,081/9,081**、Governance **5/5**、新規21宣言監査（15公理不要、6件標準`propext`のみ）、`sorryAx`なし、変更warning/error0/0。source `e7ac0e3105d9fd1980dedbdfda255e1b9108274e`、test-merge `43c293bb4dc07613a2830c05e0c2eecdde9de70d`、squash `ccb5b0bc296695b05da83da6abba013458f41e53`のGit tree **`84eef1c5120d532ec7ba1b219ac112211cf74926`一致**。新規Lean475行、削除0。
+- **公開集約 [PR #3316](https://github.com/itakura-hidetoshi/KuuOS/pull/3316) MERGED：** `KuuOSFormal`にimport1行追加、旧import削除0。[CI #42448660904](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42448660904) **全体Strict Lean 10,342/10,342・Governance30/30 SUCCESS**。source `0b1a140fa96db3d151d9d04c820e90b214e09b06`／test-merge `9248a2548d0916a717a293e28b18a4a3fe2057da`／squash `28dd250dac033fcf93782474fc10c38a549e8e34` のGit tree **`c7954f11e08bc20cea1f950aee84ced78cdfdd72`一致**。公開root107・固定Lean/mathlib・保護#1558 Draft/OPEN維持。[正式記録](docs/formal/Qi-v5_29-local-thirteen-naturality-contextual-fourteen-verified-20261108.md)・[Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77LocalThirteenNaturalityV5_29.lean)。
+- **次段Qi v5.30：** 左右二重文脈の混合square・自然性cubeの順序付き履歴を区別し、選択15Dの最小局所比較の必要性と旧14Dの**商レベル**での弱い互換条件を検証。生の元12D〜14D Eqや全高次coherenceを推定しない。
+
 ## Qi v5.28 VERIFIED — 真正三連七セル文脈の12D貼り合わせ・選択13D/14D局所coherence／2026-11-08
 
 - **[定理PR #3312](https://github.com/itakura-hidetoshi/KuuOS/pull/3312) MERGED。** 任意の型付き元第七セル三連`u,v,t`と元第十一セルpacket`F`について、左右の真正三連文脈を構成。`selectedLeftTripleInnerPasting/OuterPasting`・右側同等の構成はv5.27の**実在する**`compLeft/compRight`と境界適合`whiskerLeft/whiskerRight`だけを使用。`(u·v)·t`と`u·(v·t)`を元raw第七セルEqで同一視せず、既存12D`reverse/chain`の実証拠からtyped rebracketを構築する。両方向の平行12D経路は生の証拠値として非等。
