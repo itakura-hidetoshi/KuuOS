@@ -1,5 +1,15 @@
 # KuuOS / 空OS — Formal Research Roadmap
 
+## Qi v5.28 VERIFIED — 真正三連七セル文脈の12D貼り合わせ・選択13D/14D局所coherence／2026-11-08
+
+- **[定理PR #3312](https://github.com/itakura-hidetoshi/KuuOS/pull/3312) MERGED。** 任意の型付き元第七セル三連`u,v,t`と元第十一セルpacket`F`について、左右の真正三連文脈を構成。`selectedLeftTripleInnerPasting/OuterPasting`・右側同等の構成はv5.27の**実在する**`compLeft/compRight`と境界適合`whiskerLeft/whiskerRight`だけを使用。`(u·v)·t`と`u·(v·t)`を元raw第七セルEqで同一視せず、既存12D`reverse/chain`の実証拠からtyped rebracketを構築する。両方向の平行12D経路は生の証拠値として非等。
+- **独立選択13D：** `SelectedTriplePastingThirteen`は左右三連の局所`tripleLeft/tripleRight`生成元（各々真正元七セル文脈依存）とstrict/reverse/chain/prepend/append/associatorを持ち、平行だがraw-distinctな12D貼り合わせを比較。旧v5.23の`CompositionalWhiskerThirteen`は元framed12D→v5.25→v5.27の**二段previous**を経て型付きで埋込み、raw証拠埋込の単射も証明。新13Dを旧v5.23の全比較へ無条件降下させていない。
+- **独立選択14D：** `SelectedTriplePastingFourteen`は左・右三連13Dの前後strict単位貼り合わせに限る選択`tripleLeftUnit/tripleRightUnit`を加え、旧v5.23`SelectedCompositionFourteen`は`inheritedOld`として保持。左右の14D比較の存在と、比較される生13D証拠の非等号を同時に証明。旧14Dのsource Eqや全高次coherenceは主張しない。
+- **Lean4依存Elimination修正：** 初回と第2回に右側のraw非等号で`cases h`が依存元第七セル添字`F.1 = F.s.trans u`を解消できなかった。定理・仮定は変えず、12D/13D証拠の先頭原子構成子を`Nat`へ写す`selectedTwelfthFirstAtomTag`／`selectedThirteenFirstAtomTag`を追加し、`congrArg`による有限矛盾へ置換。元証拠履歴を消したり新公理を加えていない。
+- **[最終exact-source CI #42446718916](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42446718916) SUCCESS：** Scoped Lean **9,080/9,080**、Governance選択**5/5**、40宣言公理依存監査（33件公理不要／7件標準`propext`・`Quot.sound`のみ）、sorryAxなし・変更Lean warning/error0/0。source `dc01ad57bd9b5226665368401862aa7efeac3151`／test-merge `80d0c44cfeae56e6ca6c2047003c59e314f0a251`／定理squash `085fd3e4de25b1f7d4668dc5bc5f68fed5606291`はGit tree **`ccbd473d55f6c9dac0376b9c9cf1ae64bdd73e1e`完全一致**。新規Lean620行、既存定義削除0。
+- **公開集約 [PR #3313](https://github.com/itakura-hidetoshi/KuuOS/pull/3313) MERGED：** 1行追加・既存import削除0。[CI #42447117936](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42447117936) **KuuOSFormal 10,341/10,341・Governance30/30 SUCCESS**。source/test-merge/squash Git tree **`9265f5dc9a1fa9f70a6f4ee148716054684d0a6e`**一致。公開root107、固定Lean v4.30.0-rc2／mathlib、#1558 Draft/OPEN維持。[正式記録](docs/formal/Qi-v5_28-typed-triple-context-13d-14d-pasting-verified-20261108.md)・[Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77TripleContextHigherPastingV5_28.lean)。
+- **次段Qi v5.29：** 今回の選択13D局所comparisonについて元v5.27の左右文脈作用と前後貼り合わせの自然性／不変量を明示。旧13D/14Dとの互換条件付きtransportとobstructionを区別し、別presentationのauthorityを越える全体的なstrictificationを仮定しない。
+
 ## Qi v5.27 VERIFIED — 選択的な単位・同側合成第十二セル補完／2026-11-08
 
 - **[定理PR #3309](https://github.com/itakura-hidetoshi/KuuOS/pull/3309) MERGED：** 独立`SelectedUnitalCompositionTwelve`の`previous`はv5.25真正`ContextClosedFramedTwelve`の全生証拠をそのまま保持。新たな比較生成元は元六セル境界が一致する第七セルの反射/合成に限る`unitLeft/unitRight/compLeft/compRight`の4種類。`strict/reverse/chain`および元七セルに沿う左右文脈閉包を保持。全10構成子を扱う`selectedUnital_least`で指定型付き関係に関する最小性を証明。元6D〜14D生証拠・元sourceのEqを改変しない。
