@@ -8,6 +8,14 @@
 
 English: KuuOS develops a general mathematical program for dependent origination, contextual transport, presentation localization, effective descent, higher coherence, and explicit obstructions. The later C60 geometry is a concrete testbed, **not the origin or unique model of the general theory**.
 
+## Qi v5.19 — 真正exact-fiber条件付き第十二セル降下・新framed商への非因子化／2026-11-08 JST
+
+**[定理PR #3290](https://github.com/itakura-hidetoshi/KuuOS/pull/3290) MERGED。** Qi v5.18までの元F55/P77/GK5CG・独立第六〜第十二セル証拠を無変更で保持し、元のframed第十一セルpacketから生第十一セル`H`だけを分離した**完全下位spine** `FramedElevenExactSpine`を構成。真正spine Eqがある場合に限る`framedElevenSpineTransport`と、元v5.17の同一fiber第十二セル証拠を依存structureに収めた`FramedExactFiberTwelfthLift`を定義。旧比較だけ（strict／previous／reverse／chain）を継承する`FramedInheritedTwelfth`について、**その比較が存在することと、exact-fiber liftが存在することの同値**を形式証明。元の指定同一fiberでは、これは実際の旧v5.17第十二セルの存在条件そのものへ戻る。
+
+v5.18の真正二重whiskeringは元第七セルのsource／target境界に`EightCell.associate`の型付き比較を持つ一方、第十セルの順序付きwhisker履歴が`[left,right]`対`[right,left]`と異なり、**完全spineのstrict Eqは不存在**。したがって新framed第十二セルの比較は存在しても、旧第十二セルへ万能に降下するわけではない。`framedInheritedSpineObserver`は旧比較だけの商で完全spineを`Quotient.lift`として保存するが、そこから新framed商へのcanonical商写像は**非単射**で、完全spine観測は新商を経由して因子化せず、全左逆復元も存在しない。この非因子化障害を元v5.16真正`exchangeUnit`の局所反例で証明。元の`tenSymm`1対0残存障害、全P77 final raw indexのGK5CG真正Type値と元source strict Eq no-goも保持する。
+
+[Exact-source CI #42428479556](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42428479556)：**Strict Lean 10,332/10,332 SUCCESS、Governance 30/30 SUCCESS**。新規41宣言`#print axioms`は無公理33件・標準公理（`propext`／`Quot.sound`／`Classical.choice`）のみ8件、sorryAxなし、変更Lean warning/error 0/0。source `960f91cda415c99ae1e2e0314e9a3f46efa1fbc6`／test-merge `5fef35f719d4b5a5d8243d700f53c43bd397ced2`のtree `d0000649e17f5cfcb49443e5815478f46a465223`一致、squash `9bc03722a611e07fb91fd7b30fcaf8ec0ce69b82`。公開root107・固定Lean/mathlib・保護#1558維持。[正式証明記録](docs/formal/Qi-v5_19-framed-exact-fiber-twelfth-descent-verified-20261108.md)・[Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77FramedExactFiberDescentV5_19.lean)。次段Qi v5.20：第八セルassociatorからの**条件付き高次transport**の本質的追加条件と残存obstructionの分類。
+
 ## Qi v5.18 — 真正二重whiskeringのframed第十二セルと境界整合／2026-11-08 JST
 
 **[定理PR #3288](https://github.com/itakura-hidetoshi/KuuOS/pull/3288) MERGED。** 旧第十一セルの左右二重whiskeringは、`before ≫ (s ≫ after)`と`(before ≫ s) ≫ after`のように**第七セルraw境界そのものが異なる**。旧same-fiber第十二セルで無条件に等号化せず、v4.91の元`EightCell.associate`によるsource／target両側の型付き境界証明を明示し、元の第六～第十一セル全Type値履歴を包む`FramedEleven`と独立`FramedDoubleWhiskerTwelveCell`を導入。新たな局所primitiveは`doubleWhisker`一種類のみ。旧v5.17第十二セルを`previous`で丸ごと保存し、strict・reverse・chainを加えた**計5構成子**で閉じる。
