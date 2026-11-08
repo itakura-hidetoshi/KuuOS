@@ -1,5 +1,16 @@
 # KuuOS / 空OS — Formal Research Roadmap
 
+## Qi v5.44 VERIFIED — 三変量19D輸送と括弧付けobstruction／2026-11-08
+
+- **[定理PR #3361](https://github.com/itakura-hidetoshi/KuuOS/pull/3361) MERGED：** `I₃=((length Trace,ActiveChain),ReverseCount)`を真正19D商へ降下し、`SelectedLocalNineteen`5構成子の保存を証明。新規Lean1ファイル633行、既存削除0。
+- **実際の型付き境界：** `selectedMixedTripleCode`は入れ子`Nat.pair`で単射、真正RL証拠の`selectedMixedRightTracePower`を使って`selectedMixedTripleBoundary`と`selectedMixedTripleAnchored`を構成。`selectedMixedTripleDescend_eq_iff_observation`で**像Eq iff source三変量Eq**。v5.43二重反転の異なる商クラスを像で区別する。
+- **同一三変量でも異なる真正19D証拠：** `LeftNestedCount`は旧19D比較5構成子すべてで保存。外側trace非空の真正Xに対する`chain (chain X (reverse X)) X`と`chain X (chain (reverse X) X`はordered trace・三変量一致、LeftNestedCount差1。従って元19D商クラスと型付き比較が異なり、今回の具体的三変量境界は非単射・比較反映不可。
+- **検証修正：** 依存endpoint多相な18D再帰定義と明示的`change`／正値条件／`omega`によるLean4算術証明へ修正。元証拠値や定理仮定は不変。
+- **定理exact-source CI：** [#42485095326](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42485095326) **9,096/9,096 Strict Lean・Governance5/5 SUCCESS**。33/33公理監査（14公理不要・19標準のみ）、sorryAxなし・変更error/warning0/0。source `be9617d530061e7d75718e953fc48361ab5c3b67`／test-merge `f52233b4bd114f40ccb6b1339d154bb16ebe9a2a`／squash `c9c81251f44d093330581eec8ed0f799c768250c` Git tree `ff6443bf65332c269ba8627f808af3987d26c731`一致。
+- **公開集約CI：** [PR #3362](https://github.com/itakura-hidetoshi/KuuOS/pull/3362) MERGED。[CI #42485499436](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42485499436) **10,357/10,357 Strict Lean・Governance30/30 SUCCESS**。source `3ae77ed545752f32c724840fd5deb0d6859e71bf`／test-merge `3993cc13475eec9658a085cb810eb50afa1f1092`／squash `876d97109ca6e93200a102b15ef09952825c7e13` Git tree `f21ac36caa9dde481c47c3fc182f188357275bc1`一致。[正式記録](docs/formal/Qi-v5_44-triple-nineteen-associativity-obstruction-verified-20261108.md)・[Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77TripleNineteenAssocObstructionV5_44.lean)。
+- **保護範囲：** root107、Lean v4.30.0-rc2、mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、#1558 Draft／OPEN。無条件20D交換・全域swap自然性・元Type値の生Eqは未認証。
+- **次段Qi v5.45：** `LeftNestedCount`も観測する四変量の型付きLR→RL境界を試み、なお残る障害と適用条件を証明可能な範囲で区別する。
+
 ## Qi v5.43 VERIFIED — 19D二変量境界kernelと二重反転obstruction／2026-11-08
 
 - **[定理PR #3358](https://github.com/itakura-hidetoshi/KuuOS/pull/3358) MERGED：** 真正19D商の`selectedNineteenLengthActiveObservation=(外側履歴長,ActiveChain)`を構成。既存19D比較の証明済み保存性を合成して各厳密な依存fiberに降下。新規Lean1ファイル564行追加、既存編集・削除0。
