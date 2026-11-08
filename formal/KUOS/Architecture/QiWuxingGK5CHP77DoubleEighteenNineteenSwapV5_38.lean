@@ -279,12 +279,12 @@ theorem selectedEighteenMixedOrder_prefixSwapClassEq (l r : W) {w z : W}
     {J N : SelectedContextualSeventeen W l r H K}
     (M : SelectedContextualEighteen W l r J N)
     (right : SevenRewrite W l r c d)
-    (prefix : List Bool) :
+    (commonPrefix : List Bool) :
     selectedOuterSwapClass
-        (prefix ++ selectedContextEighteenTrace l r (selectedEighteenLeftAfterRight l r left F G M right)) =
+        (commonPrefix ++ selectedContextEighteenTrace l r (selectedEighteenLeftAfterRight l r left F G M right)) =
       selectedOuterSwapClass
-        (prefix ++ selectedContextEighteenTrace l r (selectedEighteenRightAfterLeft l r left F G M right)) := by
-  induction prefix with
+        (commonPrefix ++ selectedContextEighteenTrace l r (selectedEighteenRightAfterLeft l r left F G M right)) := by
+  induction commonPrefix with
   | nil =>
       simpa using
         (selectedEighteenMixedOrder_swapClassEq l r left F G M right)
