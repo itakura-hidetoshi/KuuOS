@@ -124,14 +124,14 @@ def selectedContextEighteenLeftNestedCount
   match M with
   | .inherited _ => 0
   | .whiskerLeft _ _ _ M =>
-      selectedContextEighteenLeftNestedCount l r M
+      selectedContextEighteenLeftNestedCount M
   | .whiskerRight _ _ M _ =>
-      selectedContextEighteenLeftNestedCount l r M
+      selectedContextEighteenLeftNestedCount M
   | .strict _ => 0
-  | .reverse M => selectedContextEighteenLeftNestedCount l r M
+  | .reverse M => selectedContextEighteenLeftNestedCount M
   | .chain M L =>
-      selectedContextEighteenLeftNestedCount l r M +
-        selectedContextEighteenLeftNestedCount l r L +
+      selectedContextEighteenLeftNestedCount M +
+        selectedContextEighteenLeftNestedCount L +
         (if selectedContextEighteenTopTag l r M = 5 then 1 else 0)
 
 /-- Invariance is verified over EACH existing selected local
@@ -220,8 +220,8 @@ theorem selectedContextEighteenAssoc_active
     selectedContextEighteenAssocRight,
     selectedContextEighteenActiveChainCount,
     selectedContextEighteenTrace, List.length_append]
-  simp [t, htwo, hthree, hthree', Nat.add_assoc, Nat.add_comm,
-    Nat.add_left_comm]
+  simp only [if_pos htwo, if_pos hthree, if_pos hthree']
+  omega
 
 /-- The raw LEFT-nested chain count differs by precisely one
 for EVERY old 18D term; no new coherence is introduced. -/
