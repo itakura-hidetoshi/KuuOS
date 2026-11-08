@@ -1,5 +1,15 @@
 # KuuOS / 空OS — Formal Research Roadmap
 
+## Qi v5.47 VERIFIED — 六変量境界の厳密kernelと残存証拠比較障害／2026-11-09
+
+- **[定理PR #3371](https://github.com/itakura-hidetoshi/KuuOS/pull/3371) MERGED：** 新規594行、35宣言。現行selected 19D比較で保存される`I6=(length Trace, ActiveChainCount, ReverseCount, LeftNestedCount, ReverseLeftCount, ActiveDepth)`を同じ厳密endpoint fiberの真正商へ降下。元証拠・元構成子の変更なし。
+- **型付きLR→RL境界：** 六変量の入れ子Nat.pair符号を既存RL trace-powerへ渡す。指定LR証拠の六変量を符号0の基点とし、指定元RL証拠への一致を保持。同じ六変量の別source証拠も同じ符号を持つ。`T6(q1)=T6(q2) ↔ I6(q1)=I6(q2)`を証明し、この具体的境界のkernelを完全に分類。targetの同名六数値の座標別保存や全域swap自然性は主張しない。
+- **残存障害：** 与えられた`M:J→N`、`S=strict N`に対し、`L=chain M (chain S (reverse (reverse S)))`と`R=chain M (reverse (chain S (reverse S)))`は同じJ→N fiberに属し、完全ordered traceと六変量が一致。新しい`AdjacentReverseCount`は元19D比較5構成子すべてで保存され、`count(L)=count(R)+1`。よって商クラスは異なり、真正Type値比較は非存在。trace非空仮定は不要。全fiberの居住性は仮定しない。
+- **比較反映の限界：** 今回の六変量境界はこの二クラスを同じ像へ送り、非単射で、完全な比較反映を持たない。結論はこの境界・現行presentation・実際に元Mを与えられるfiberに限る。別の忠実境界の一般的存在・非存在、無条件20D交換・gluingは未認証。
+- **定理認証：** [CI #42524549959](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42524549959) **9,099/9,099 Strict Lean・Governance 5/5 SUCCESS**。35/35公理監査（公理不要19、標準のみ16）、sorryAxなし、変更error/warning 0/0。source/test-merge/squash共通tree `e92233964f6dc77ce797ebdba60e8ff310470b3f`、統合SHA `0615df018cc5e794b07037f3531f7306d0bd9cad`。
+- **公開認証：** [PR #3372](https://github.com/itakura-hidetoshi/KuuOS/pull/3372) MERGED。`formal/KuuOSFormal.lean`へimport 1行のみ追加。[CI #42525454553](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42525454553) **10,360/10,360 Strict Lean・全32/32 Governance jobs SUCCESS**。共通tree `0f66925eee79a8d9d0ed0efdc0146b9e3836a5fd`、統合SHA `0744205e15edf0c3fb51b3ba7d15233dc412883b`。root107、Lean/mathlib pin、保護#1558は維持。
+- **次段Qi v5.48（未認証の研究課題）：** 元構文を保持したまま、現行19D比較が同一視する範囲を分類し、型付き正規化または完全な比較反映の構成条件を検討する。[正式記録](docs/formal/Qi-v5_47-six-nineteen-typed-boundary-verified-20261109.md)・[Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77SixNineteenTypedBoundaryV5_47.lean)。
+
 ## Qi v5.46 VERIFIED — ActiveDepthの商降下と五変量同一fiber障害／2026-11-08
 
 - **[定理PR #3367](https://github.com/itakura-hidetoshi/KuuOS/pull/3367) MERGED：** `ActiveDepth`はraw contextual 18D `chain`のactive入れ子深さを記録し、元selected 19D比較の真正5構成子すべてで保存。各厳密endpoint fiberの19D商に`selectedNineteenActiveDepthOnQuotient`で降下。新規Leanモジュール1件390行、既存削除0。
