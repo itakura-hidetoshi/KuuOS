@@ -8,6 +8,14 @@
 
 English: KuuOS develops a general mathematical program for dependent origination, contextual transport, presentation localization, effective descent, higher coherence, and explicit obstructions. The later C60 geometry is a concrete testbed, **not the origin or unique model of the general theory**.
 
+## Qi v5.43 — 19D二変量境界のkernel完全分類・二重反転obstruction／2026-11-08 JST
+
+**[Lean4定理PR #3358](https://github.com/itakura-hidetoshi/KuuOS/pull/3358) MERGED。** 真正19D商で`I(q)=(|Trace(q)|,ActiveChain(q))`を構成し、固定mathlibの`Nat.pair`による単射的符号を元真正RL18Dの型付きtrace-power列へ送る`selectedMixedPairedBoundary`を実装。元`SelectedLocalNineteen`比較をType値で保存し、指定LR証拠は元RL証拠へanchored輸送する。商写像のkernelは**`f(q₁)=f(q₂) ↔ I(q₁)=I(q₂)`**とLean4で必要十分に分類。v5.42で長さ境界が潰したstrict-prepend差1の元証拠を新境界では区別する。
+
+**残る障害を形式証明：** 新しいReverseCountを既存19D比較の5構成子で保存し商へ降下。`D(X)=reverse(reverse(X))`は完全trace・ActiveChainがXと同じでもReverseCountが2増すため、元真正19D商の[X]と[D(X)]は異なる。従ってこの具体的な**二変量境界も非単射**であり、完全Type値19D比較反映の証明書を持たない。ただし別の忠実境界の一般的不存在は未証明。全域swap自然性・20D交換もNO_DATA。
+
+定理[exact-source CI #42481878276](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42481878276) **Strict Lean 9,095/9,095・Governance5/5 SUCCESS**、27宣言公理監査（公理不要15件・標準公理のみ12件）、sorryAx・変更Lean error/warningなし。source/test-merge/squash tree `f5a435173cfa298a6b13320b8581062b14f2ba98`完全一致。公開集約[PR #3359](https://github.com/itakura-hidetoshi/KuuOS/pull/3359) MERGED、[CI #42482312495](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42482312495) **KuuOSFormal全体10,356/10,356・Governance30/30 SUCCESS**、tree `c13201b3eaa826a42f5694958a6af25940c6dfdd`一致。元F55/P77/GK5CG・元6D〜19D、root107、固定Lean/mathlib、保護PR #1558を維持。[正式記録](docs/formal/Qi-v5_43-paired-nineteen-obstruction-verified-20261108.md)・[Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77PairedNineteenObstructionV5_43.lean)。**次段Qi v5.44：** ReverseCountを加えた観測強化と残る高次比較障害を探索する。
+
 ## Qi v5.42 — 同一fine履歴で区別される19D証拠・非定数境界のkernel完全分類／2026-11-08 JST
 
 **[Lean4定理PR #3355](https://github.com/itakura-hidetoshi/KuuOS/pull/3355) MERGED。** 既存の真正`SelectedLocalNineteen`が保存する新たな外側合成不変量`selectedContextEighteenActiveChainCount`を構成。旧19Dの5つの真正Type値比較構成子すべてがこの値を保存し、同一依存fiberの19D商に`Quotient.lift`で降下する。真正LR二重18D証拠Xと、同じ17D始終点内の`Y = chain (strict source) X`は**外側の完全順序traceが同一**だが、ActiveChain値が1異なるので、**19D商クラスは異なり、元のSelectedLocalNineteen比較は存在しない**ことを形式証明した。
