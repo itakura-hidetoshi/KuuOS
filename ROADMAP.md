@@ -1,5 +1,16 @@
 # KuuOS / 空OS — Formal Research Roadmap
 
+## Qi v5.40 VERIFIED — 具体的退化境界・19D商非忠実性と比較反映条件／2026-11-08
+
+- **[定理PR #3349](https://github.com/itakura-hidetoshi/KuuOS/pull/3349) MERGED：** 元F55/P77/GK5CG、生6D〜19D、v5.39証明書の元型を保持したまま新Lean1ファイル269行追加、削除0。真正MからselectedMixedConstantBoundaryを構成し、全source raw18D値を真正RL18D値へ送る定数写像を作る。localTransportは既存SelectedLocalNineteen.strictというType値証拠で実現。selectedMixedConstantAnchoredで指定LR→RL比較の実際のinhabitantまで構成。定数という退化的存在性の認証であり、元高次交換の認証ではない。
+- **同じLR19D商内の非同値2クラス：** selectedMixedLeftRoundtripAmplifyはXとchain (chain X (reverse X)) Xを同じ17D依存始終点に構成。生18D完全順序履歴は3倍の長さ、真正LR二重文脈Xの履歴は長さ2以上。従ってselectedMixedLeftRoundtrip_classDistinctで、異なる完全履歴の2クラスが実際の19D商で異なると形式証明。
+- **定数商降下は非単射：** selectedMixedConstantDescend_allは実際のv5.39 Quotient.liftの値が全クラスで同じRL商クラスになると証明。selectedMixedConstantDescend_notInjectiveは上の真正2クラスを使い非単射を示す。
+- **忠実性は追加Type値証明書：** SelectedMixedNineteenFaithfulBoundary.reflectLocalは、輸送先の真正SelectedLocalNineteen比較から元LR側の真正Type値比較を構成する。これが与えられた時に限りselectedMixedFaithfulDescend_injectiveが商写像の単射性を証明。selectedMixedConstantBoundary_noReflectionとselectedMixedFaithful_notConstantは具体的定数輸送の比較反映不成立を証明する。一般の忠実境界の存在・swap全域自然性は未認証。
+- **初回Leanエラーと修正：** 初回CI #42473837670はtrace全域simpがwhnf心拍数に達し、またType値関数を直接Notへ渡すProp/Type不整合があった。局所change＋List.length_append、¬ Nonemptyで正しく表現し、型付きLR二証拠を明示して解決。既存証拠・仮定・Lean pinは不変。
+- **[定理exact-source CI #42474198094](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42474198094) SUCCESS：** Scoped Strict Lean 9,092/9,092、Governance5/5、新規13/13公理監査（5件公理不要、8件標準公理のみ）、sorryAx・変更error/warning0/0。source c40e2cc018be02b2cf3a8e332e8726326136773f／test-merge 4a3e9933d12ed6f315c61a0cca998105c53675e6／squash 59215055197d344f9eb6ba8025529bb8e75106cdのGit tree **910132e2bfe6ac9e59b4b785d6cd2428b226c213 一致**。
+- **公開集約[PR #3350](https://github.com/itakura-hidetoshi/KuuOS/pull/3350) MERGED：** KuuOSFormalへimport1行のみ。[CI #42474728586](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42474728586) **全体10,353/10,353・Governance30/30 SUCCESS**。source db7610f51a75507e667fa0e4c7f0edeb6bb62d2b／test-merge 1a3436166a5869cb1e3bfb0d578e29d308afedb8／squash 9075700ca0a2cee15ad0e684d889adbac36b84beのGit tree **d15b9ae954223fceb3b1ab6b0a7d7c45faada689 一致**。公開root107、固定Lean/mathlib、保護#1558 Draft/OPEN維持。[正式記録](docs/formal/Qi-v5_40-constant-versus-faithful-nineteen-boundary-verified-20261108.md)・[Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77FaithfulNineteenBoundaryObstructionV5_40.lean)。
+- **次段Qi v5.41：** 元のselected18D構成子に対応する非定数の型付き境界グラフ／部分transportの実構成を検討し、19D比較保存・反映・有限swap観測自然性を別々に証明。構成できないfiberはNO_DATA／obstructionを保持し、生Eqや無条件20D交換を追加しない。
+
 ## Qi v5.39 VERIFIED — 19D依存fiber間の型付き境界transport条件・条件付き証拠降下／2026-11-08
 
 - **[定理PR #3346](https://github.com/itakura-hidetoshi/KuuOS/pull/3346) MERGED：** 真正F55/P77/GK5CG、生6D〜19D、v5.38の真正二重18D輸送を一切変更せず、異なる依存17D端点を持つLR／RL raw18D型と19D商を独立に保持。Lean1ファイル309行追加・削除0。
