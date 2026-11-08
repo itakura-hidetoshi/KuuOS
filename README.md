@@ -8,6 +8,14 @@
 
 English: KuuOS develops a general mathematical program for dependent origination, contextual transport, presentation localization, effective descent, higher coherence, and explicit obstructions. The later C60 geometry is a concrete testbed, **not the origin or unique model of the general theory**.
 
+## Qi v5.37 — 真正18D文脈閉包・局所19D単位coherence・証拠商の履歴と障害／2026-11-08 JST
+
+**[Lean4定理PR #3339](https://github.com/itakura-hidetoshi/KuuOS/pull/3339) MERGED。** 新しい独立`SelectedContextualEighteen`は、v5.35の真正選択18D証拠を`inherited`で単射に保持し、元の厳密な第七セル境界が適合する場合のみ左右`whiskerLeft/whiskerRight`、`strict/reverse/chain`へ文脈閉包。6構成子の全てがraw17Dの**順序付き完全外側履歴**を保存するので、別のexact-fiber18D証拠商へ`Quotient.lift`で降下させる。元F55/P77/GK5CG・生6D〜14D・旧選択presentationは不変。
+
+**新規局所選択19D：** 旧18Dの実際の証拠`M : SelectedLocalEighteen W l r J N`に対して、`chain (strict J) (inherited M)`／`chain (inherited M) (strict N)`を、それぞれ`inherited M`と厳密同一17D端点で比較する2種類の単位パッチ生成元を構成し、反射・反転・合成で閉包。全5構成子の順序付きraw18D外側履歴が保存され、19D商に降下する。一方、具体的な左単位パッチは**raw18Dの先頭構成子タグ5／0が異なるまま商クラスで一致**するため、そのタグは降下不能であり、raw Eqも導けないと証明。v5.36の有限`List Bool`観測swap商とは別の同値関係であり、異なる依存fiberの元高次交換セルは導入しない。
+
+定理[exact-source CI #42463381138](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42463381138)は**Scoped Strict Lean 9,089/9,089・Governance5/5 SUCCESS**。新規25宣言監査（20公理不要・5件標準`propext`／`Quot.sound`のみ）、`sorryAx`なし、変更Lean error/warning0/0。source `ea8cc04e6c3737030778fb1c06eeaecd02850193`／test-merge `7601d660367aa29cf0d95db1fbc7cbf769fa93c4`／squash `1b2f0d249e352038cd9e53ada405b1de12d32916`のGit tree **`49e35ae074016c53f7c1e54f4629ebdde00e7b15`一致**。公開集約[PR #3340](https://github.com/itakura-hidetoshi/KuuOS/pull/3340)もMERGEDで、[CI #42463751124](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42463751124) **KuuOSFormal 10,350/10,350・Governance30/30 SUCCESS**。公開source/test-merge/squash tree **`32c48c8abc82d2b51a84659c7aad92c3a1a148e2`完全一致**。公開root107・固定Lean/mathlib・保護#1558 Draft/OPEN維持。[正式記録](docs/formal/Qi-v5_37-contextual-eighteen-local-nineteen-verified-20261108.md)・[Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77ContextualEighteenNineteenV5_37.lean)。**次段Qi v5.38：** 真正18D二重左右文脈輸送の各依存fiberを別々に保持し、19D証拠商のfine traceから有限観測swap商へ至る型付き写像と、source-level比較へ必要な追加境界／transport証拠のobstructionを研究する。
+
 ## Qi v5.36 — 有限観測swap商と選択18D証拠商の粗密分離／2026-11-08 JST
 
 **[定理PR #3336](https://github.com/itakura-hidetoshi/KuuOS/pull/3336) MERGED。** v5.35の真正元第七セルから得られた有限`SelectedOuterAdjacentSwap`を、共通イベント付加`prepend`・反転・合成・反射で閉包し、`List Bool`**観測側だけ**の選択swap商を構成。`[false,true]++h`と`[true,false]++h`は生値が異なるまま商クラスで一致し、rawの順序リストは復元不能。しかし左右出現回数は商へ`Quotient.lift`で正しく降下する。v5.33の本物の12D〜14D下位比較パケットが存在することと、v5.34の厳密trace保存型高次gluing gateが空であることは両立。観測swapは異なる依存型の元高次交換セルではない。
