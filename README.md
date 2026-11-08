@@ -8,6 +8,14 @@
 
 English: KuuOS develops a general mathematical program for dependent origination, contextual transport, presentation localization, effective descent, higher coherence, and explicit obstructions. The later C60 geometry is a concrete testbed, **not the origin or unique model of the general theory**.
 
+## Qi v5.49 — 真正19Dの単位3形・raw文脈の非合同性／2026-11-09 JST
+
+**[定理PR #3377](https://github.com/itakura-hidetoshi/KuuOS/pull/3377) MERGED。** 任意に与えられた元旧18D証拠`M:J→N`から、`inherited M`・`chain (strict J) (inherited M)`・`chain (inherited M) (strict N)`の3つの元raw構文を型付きで構成し、**rawでは相異なるが元19D比較証拠が存在し、同じ真正商クラスへ降下する**ことをLean4で証明。さらに、元raw `reverse`・strict左/右`chain`がこの局所比較を保存せず、同じ商上に当該raw操作を降下させられないことを証明した。これは比較証拠自身の`reverse`・`chain`の失敗ではない。
+
+**厳密降下条件：** 指定されたdependent endpoint fiber間のraw写像`f`について、真正19D比較（Nonempty）の保存、元型付き正規代表の等号保存、商上での`[f(M)]`の定義可能性が同値。全fiberの居住性、一般の忠実境界や無条件20D gluingは主張しない。
+
+定理[CI #42531490568](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42531490568) **9,101/9,101 Strict Lean・Governance 5/5 SUCCESS**、新規19宣言（公理不要6・標準のみ13）、`sorryAx`なし・変更warning/error 0/0。公開[PR #3378](https://github.com/itakura-hidetoshi/KuuOS/pull/3378) MERGED、[CI #42532010897](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42532010897) **10,362/10,362 Strict Lean・Governance全32/32 SUCCESS**。既存元証拠・root107・toolchain pin・保護#1558維持。[正式記録](docs/formal/Qi-v5_49-typed-context-congruence-gates-verified-20261109.md)・[Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77ContextCongruenceGatesV5_49.lean)。**次段Qi v5.50：** 元presentationとは区別したtyped context作用の閉包とcompatibilityの必要条件を検討。
+
 ## Qi v5.48 — 真正19D単位正規形と忠実境界の条件／2026-11-09 JST
 
 **[定理PR #3374](https://github.com/itakura-hidetoshi/KuuOS/pull/3374) MERGED。** 現行`SelectedLocalNineteen`の二つの真正旧18D単位挿入だけを縮約する型付き正規代表`Normal(M)`と、その元Type値比較証拠を構成。`Normal(M)=Normal(L) ↔ Nonempty(SelectedLocalNineteen M L) ↔ [M]₁₉=[L]₁₉`、冪等性、商section・単射をLean4で証明した。v5.47の連続反転障害は正規代表でも分離される。
