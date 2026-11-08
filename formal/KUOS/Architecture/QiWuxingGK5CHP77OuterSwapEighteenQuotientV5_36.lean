@@ -61,7 +61,7 @@ inductive SelectedOuterSwapClosure : List Bool → List Bool → Type where
   | observed {xs ys : List Bool}
       (a : SelectedOuterAdjacentSwap xs ys) :
       SelectedOuterSwapClosure xs ys
-  | prefix (b : Bool) {xs ys : List Bool}
+  | prepend (b : Bool) {xs ys : List Bool}
       (h : SelectedOuterSwapClosure xs ys) :
       SelectedOuterSwapClosure (b :: xs) (b :: ys)
   | reverse {xs ys : List Bool}
@@ -86,7 +86,7 @@ theorem selectedOuterSwapClosure_preservesCounts
           exact selectedAdjacentSwap_preservesCounts tail
       | rightLeftToLeftRight tail =>
           exact (selectedAdjacentSwap_preservesCounts tail).symm
-  | prefix b h ih =>
+  | prepend b h ih =>
       cases b with
       | false =>
           have hh := congrArg (fun p : Nat × Nat => (p.1 + 1, p.2)) ih
@@ -141,7 +141,7 @@ theorem selectedOuterSwap_prefixClassEq (b : Bool) {xs ys : List Bool}
   have hw : Nonempty (SelectedOuterSwapClosure xs ys) :=
     (selectedOuterSwapClass_eq_iff xs ys).mp h
   rcases hw with ⟨w⟩
-  exact Quotient.sound ⟨.prefix b w⟩
+  exact Quotient.sound ⟨.prepend b w⟩
 
 /-- Event counts descend: the selected finite adjacent swap keeps
 one left and one right event while forgetting their order. -/
