@@ -1,5 +1,14 @@
 # KuuOS / 空OS — Formal Research Roadmap
 
+## Qi v5.20 VERIFIED — 元第八セルから第十一セルへの条件付き高次transportとraw履歴障害／2026-11-08
+
+- **[定理PR #3292](https://github.com/itakura-hidetoshi/KuuOS/pull/3292) MERGED：** 元の第六〜第十二セルTypeと既存F55/P77/GK5CGを無変更で保持し、`TraceFaithfulHigherTower`の独立Typeを新設。source/target双方の真正`EightCell`境界比較、`PentagonAssocEightCell`から`MixedCancelNineCell`・`MixedUnitAssocTenCell`・`MixedExchangeUnitElevenCell`への各段依存写像、元第十セル`mixedTenWhiskerRawTrace`の保存を**別々のフィールド**で要求する。第八セルからこれらの写像の存在を自動推論しない。
+- **恒等・合成の型付き証明：** `traceFaithfulTowerId`／`traceFaithfulTowerComp`を構成。第八セルの元`reflexive`／`chain`による境界比較と、全9D・10D・11D元Type値写像の合成を整合させ、trace保存の推移律を形式証明。元11Dの完全packetを`traceFaithfulTowerTransportFrame`で移送し、恒等・合成・trace保存を証明。
+- **必要な旧12D追加証拠：** 移送した真正元11Dと指定移送先11Dを結ぶ旧`MixedExchangeInverseTwelveCell`証拠`C`が**移送先fiberに現実に与えられた場合**、`traceFaithfulTowerOldTwelfth`が旧`FramedInheritedTwelfth`比較を構成、`traceFaithfulTowerOldTwelfth_toFull`で新framed比較へ埋め込む。出発sourceを同一fiberへ偽装せず、`Eq`も推測しない。
+- **元二重whiskeringの強い障害：** v5.18の元source/target第八セルassociatorは存在。一方、元第十セルの真正raw順序`false::true::T`と`true::false::T`が異なるため、`doubleWhisker_noTraceFaithfulTower`は**任意の元6D–11D文脈**で左packetから右packetそのものへのtrace-faithful tower実現の不可能性を証明。`doubleWhiskerEightCompatible_notTraceLiftable`は第八セルのcompatibilityとこのobstructionを同時に証明。trace非保存tower一般の不存在、非恒等tower一般の存在、全framed比較の旧fiber降下は未証明。
+- **[Exact-source CI #42430525355](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42430525355) SUCCESS：** Strict Lean **10,333/10,333**、Governance **30/30**、新規11宣言の`#print axioms`は**11/11全部公理不要**、`sorryAx`なし、変更Lean warning/errorなし。source HEAD `52635055ccd306d7615044c5842663212d579f27`、test-merge `5c953b7600126e952919752d122d490c00d285be`、squash `1bd92631f8ea6bc2ab371bdebe13d6ba3721a016`、一致Git tree `c38b498bae591f38cc6b86ad16b737036b12f023`。[正式記録](docs/formal/Qi-v5_20-eighth-to-eleventh-conditional-higher-transport-verified-20261108.md)・[Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77EighthToEleventhConditionalTransportV5_20.lean)。公開root107／固定pin／保護#1558 Draft/OPEN維持。
+- **次段Qi v5.21：** 真正元primitiveからの非恒等8D→11D証拠移送（8D associator自然性・9D/10D/11D interchanger）を局所構成できる場合と、元trace・他保存不変量による障害を分類する。空／縁起・局所compatibility・条件付きdescent・source authorityを分離し、旧raw Typeの無条件な同一視はしない。
+
 ## Qi v5.19 VERIFIED — 旧第十二セルへのexact-fiber条件付き降下と非因子化obstruction／2026-11-08
 
 - **[定理PR #3290](https://github.com/itakura-hidetoshi/KuuOS/pull/3290) MERGED：** v5.18の`FramedEleven`の元第十一セル証拠値のみを外し、元6D～10D全ての依存source indexとraw証拠を保存する`FramedElevenExactSpine`を新設。`framedElevenSpinePack_exact`でpack/unpackを元の証拠Typeのまま復元。元F55/P77/GK5CG及び独立6D–12D既存宣言には変更なし。
