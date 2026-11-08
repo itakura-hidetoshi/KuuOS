@@ -8,6 +8,16 @@
 
 English: KuuOS develops a general mathematical program for dependent origination, contextual transport, presentation localization, effective descent, higher coherence, and explicit obstructions. The later C60 geometry is a concrete testbed, **not the origin or unique model of the general theory**.
 
+## Qi v5.36 — 有限観測swap商と選択18D証拠商の粗密分離／2026-11-08 JST
+
+**[定理PR #3336](https://github.com/itakura-hidetoshi/KuuOS/pull/3336) MERGED。** v5.35の真正元第七セルから得られた有限`SelectedOuterAdjacentSwap`を、共通イベント付加`prepend`・反転・合成・反射で閉包し、`List Bool`**観測側だけ**の選択swap商を構成。`[false,true]++h`と`[true,false]++h`は生値が異なるまま商クラスで一致し、rawの順序リストは復元不能。しかし左右出現回数は商へ`Quotient.lift`で正しく降下する。v5.33の本物の12D〜14D下位比較パケットが存在することと、v5.34の厳密trace保存型高次gluing gateが空であることは両立。観測swapは異なる依存型の元高次交換セルではない。
+
+**別の選択18D商：** v5.35の真正`SelectedLocalEighteen`が比較する、厳密同一16D端点の平行raw17D証拠を`selectedEighteenSetoid`で商とする。5種類の18D生成元が外側第七セルの**順序付き17D traceを保存**するため、この商では生の完全順序traceが降下する。一方、既存の局所18D単位比較は先頭構成子タグ3／0の異なる生17Dを同じ商クラスに写すため、rawタグは**降下不能**。左右二重17D輸送は一般に異なる依存型なのでraw Eqを作らず、別々の18D商から共通`List Bool`へ写すとfine順序traceが異なり、さらに観測swap商へ送るとクラス一致・左右計数一致になると形式証明。これは**証拠商と観測商が異なる同値関係を表す**例である。
+
+初回[CI #42460887123](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42460887123)はLean構文識別子`prefix`の衝突で失敗したため、新Leanファイル内の3箇所だけ`prepend`に改名して修正。数学的仮定や既存証拠を変更せず、最新[定理exact-source CI #42461130767](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42461130767)は**Scoped Strict Lean 9,088/9,088・Governance5/5 SUCCESS**、新規30宣言監査（13公理不要・17件標準`propext`/`Quot.sound`のみ）、`sorryAx`・warning/error0。修正後source `a120d2887dd2a516a548a9b7ba69113c0e415452`／test-merge `220d1fae1288838956bea0957dfdb4c8a9b87772`／squash `7250941e32332863210e8cef13a9a340fed21d00`のGit tree **`72fb06733f32283f996267d9a3e17e10d2a6b9f2`完全一致**。
+
+公開集約import1行追加 [PR #3337](https://github.com/itakura-hidetoshi/KuuOS/pull/3337) MERGED、[CI #42461901631](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42461901631) **KuuOSFormal 10,349/10,349・Governance30/30 SUCCESS**。source `3da7d8df2274af9ae5c19fe04d0fd70290ac1228`／test-merge `e97295e30b91f241945cb5a49be8626076a553ac`／squash `920df2b6a5f5c028c3e4225b51e89151650110d4`のGit tree **`b39d3c6f583780b42c56821816cb1aa611cda1a4`一致**。公開root107・固定Lean/mathlib・保護PR #1558 Draft/OPEN維持。[正式証明記録](docs/formal/Qi-v5_36-outer-swap-selected-eighteen-quotient-verified-20261108.md)・[Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77OuterSwapEighteenQuotientV5_36.lean)。**次段Qi v5.37：** 選択18Dの真正左右文脈閉包と19D局所比較、証拠商から観測swap商への合成とその限界を研究する。
+
 ## Qi v5.35 — 真正選択17D文脈閉包・構成的隣接trace交換・局所18D coherence／2026-11-08 JST
 
 **[定理PR #3333](https://github.com/itakura-hidetoshi/KuuOS/pull/3333) MERGED。** 新しい独立`SelectedContextualSeventeen`はv5.33の真正選択17D証拠を`inherited`で単射に保持し、元の厳密な六セル境界が整合する真正第七セルの左右文脈への`whiskerLeft/whiskerRight`、`strict/reverse/chain`を追加。全6構成子で生16D外側文脈の順序付き`List Bool`履歴が保存され、新しい17D文脈商へ`Quotient.lift`として降下することを証明。旧17D単位比較がraw16D先頭タグ3と0を同じ商クラスへ写すため、**その生タグは降下不能**と証明した。元F55/P77/GK5CG・生6D〜14D証拠と旧選択presentationは不変。
