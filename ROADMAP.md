@@ -1,5 +1,14 @@
 # KuuOS / 空OS — Formal Research Roadmap
 
+## Qi v5.48 VERIFIED — 真正19D証拠の型付き単位正規形／2026-11-09
+
+- **[定理PR #3374](https://github.com/itakura-hidetoshi/KuuOS/pull/3374) MERGED：** 新規Lean1件271行、14宣言。元18Dの`inherited`証拠の直接左右単位挿入のみを正規化し、元Type値の比較証拠を`Sigma`で保持。対称・推移をraw構文の一般合同性と取り違えない。
+- **完全な同一fiber分類：** `Normal(M)=Normal(L) ↔ Nonempty(SelectedLocalNineteen M L) ↔ [M]₁₉=[L]₁₉`。正規化冪等性、Quotientから元Type値代表へのsection・単射を証明。v5.47の`AdjacentReverse`障害は正規代表でも分離。
+- **境界faithfulnessの条件：** 与えられた真正LR→RL `SelectedMixedNineteenBoundary`に限り、元Type値比較の完全反映・降下写像の単射性・元raw正規形の反映が同値。一般の忠実境界存在や無条件20D gluingは未認証。任意W上でraw正規形の等号が決定可能とも主張しない。
+- **定理CI：** [#42528265204](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42528265204) 9,100/9,100 Strict Lean・5/5 Governance SUCCESS、14/14標準公理のみ、sorryAxなし。初回Type値を`theorem`で宣言したエラーを`def`へ変更し、証拠・仮定を変更せず修正。source/test-merge/squash tree `f4be6b4eeff7087d4e391645ce491cb6da732009` 一致。
+- **公開CI：** [PR #3375](https://github.com/itakura-hidetoshi/KuuOS/pull/3375) MERGED。import1行追加、[CI #42528894967](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42528894967) 10,361/10,361 Strict Lean・全32/32 Governance SUCCESS。source/test-merge/squash tree `2c4a5f1f8825b07e3f6c03297a986a65f91124db` 一致。公開root107、固定pin、保護#1558維持。
+- **次段Qi v5.49（未認証）：** 元の直接単位同値クラスの構文的細分類、型付き文脈作用を追加する場合の合同性・反例を調べる。[正式記録](docs/formal/Qi-v5_48-exact-nineteen-normal-form-verified-20261109.md)・[Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77ExactNineteenUnitNormalFormV5_48.lean)。
+
 ## Qi v5.47 VERIFIED — 六変量境界の厳密kernelと残存証拠比較障害／2026-11-09
 
 - **[定理PR #3371](https://github.com/itakura-hidetoshi/KuuOS/pull/3371) MERGED：** 新規594行、35宣言。現行selected 19D比較で保存される`I6=(length Trace, ActiveChainCount, ReverseCount, LeftNestedCount, ReverseLeftCount, ActiveDepth)`を同じ厳密endpoint fiberの真正商へ降下。元証拠・元構成子の変更なし。
