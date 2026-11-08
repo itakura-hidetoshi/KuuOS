@@ -1,5 +1,16 @@
 # KuuOS / 空OS — Formal Research Roadmap
 
+## Qi v5.19 VERIFIED — 旧第十二セルへのexact-fiber条件付き降下と非因子化obstruction／2026-11-08
+
+- **[定理PR #3290](https://github.com/itakura-hidetoshi/KuuOS/pull/3290) MERGED：** v5.18の`FramedEleven`の元第十一セル証拠値のみを外し、元6D～10D全ての依存source indexとraw証拠を保存する`FramedElevenExactSpine`を新設。`framedElevenSpinePack_exact`でpack/unpackを元の証拠Typeのまま復元。元F55/P77/GK5CG及び独立6D–12D既存宣言には変更なし。
+- **真正exact-fiber輸送：** `framedElevenSpineTransport`は生spineの本物のEqに沿う`Eq.rec`であり、第八セルassociatorの存在はEqの代用品ではない。`FramedExactSpineTwelfth`が`alignment : S=T`と元v5.17第十二セルの`comparison`を依存fieldに保持。`FramedExactFiberTwelfthLift`の反転・連鎖を、元の型付き12Dコンストラクタで証明する。
+- **必要十分性：** 新局所`doubleWhisker`を**含まない**`FramedInheritedTwelfth`（strict／previous／reverse／chainのみ）の比較存在と、完全spine Eq＋輸送後の元第十二セル証拠の存在が`framedInheritedTwelfth_iff_exactFiber`で同値。元指定同一fiberでは`framedExactFiberLift_onOriginal_iff`／`framedInheritedTwelfth_onOriginal_iff`で**元Qi v5.17真正12D証拠の存在条件そのもの**と一致。全新framed比較の無条件降下は主張しない。
+- **第八セルcompatible≠exact等号：** 元左右二重whiskeringには真正`EightCell.associate` source／target境界比較が存在する。しかし旧第十セルraw履歴`[left,right]`と`[right,left]`から完全spine Eqが不成立。`doubleWhiskerEightCompatible_notExactSpine`は両事実を同時にLean証明。元v5.16`exchangeUnit`の本物の二つのframed packetは新v5.18で比較可能だが旧inherited-onlyでは不可能、exact-fiber liftも不存在。`framedDoubleWhisker_strictBeyondExact`／`framedDoubleWhisker_noUniversalExactTransport`。
+- **商写像・非単射・非因子化：** 旧`framedInheritedTwelfthSetoid`商には、全raw下位spineを読出す真正`Quotient.lift`：`framedInheritedSpineObserver`が存在。そこからv5.18の新framed商へcanonical`framedInheritedToFullQuotient`を構成したが、元critical pairから**非単射**を証明。`framedExactSpine_noFactorThroughFullQuotient`で旧完全spine観測の新商への因子化不可、`framedInheritedToFullQuotient_noLeftInverse`で左逆復元不可能性を証明。選択商のdescent／obstruction／authorityを具体的に分離。
+- **旧障害・元source：** `framedExactFiber_retainsTenSymmObstruction`でv5.17真正`tenSymm(strict rfl)`の1対0反例を維持。`pentagonActualExactFiberObstruction`は全真正元P77 final raw indexで元GK5CG長短五セルTypeを用い、framed比較の存在・exact-fiberの非存在・元source strict Eq interpreterの非存在を同時に証明。旧3Nat観測、root107、Lean/mathlib pin、保護#1558 Draft/Open維持。
+- **exact-source [CI #42428479556](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42428479556)：** Strict Lean **10,332/10,332 SUCCESS**、Governance **30/30 SUCCESS**。新規41宣言`#print axioms`は無公理33＋標準`propext`／`Quot.sound`／`Classical.choice`のみ8、sorryAxなし、変更warning/error 0/0。source `960f91cda415c99ae1e2e0314e9a3f46efa1fbc6`／test-merge `5fef35f719d4b5a5d8243d700f53c43bd397ced2`のGit tree `d0000649e17f5cfcb49443e5815478f46a465223`完全一致。squash `9bc03722a611e07fb91fd7b30fcaf8ec0ce69b82`。初回Prop索引`Sigma`型エラー、次回隣接Lean文書コメントの構文エラーは型付きstructure化・コメント修正により解消（命題・仮定は不変）。[正式証明記録](docs/formal/Qi-v5_19-framed-exact-fiber-twelfth-descent-verified-20261108.md)・[Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77FramedExactFiberDescentV5_19.lean)。
+- **次段Qi v5.20：** `EightCell.associate`のsource/target双方のcompatibilityに追加して、元第九・第十・第十一セルで型付き証拠輸送が可能になる具体的局所条件を精密化。成立しない場合はobstructionを明示。framed比較の存在だけで旧raw Eqや全権限を自動昇格させない。
+
 ## Qi v5.18 VERIFIED — 生境界整合を保持した二重whiskeringの独立framed第十二セル／2026-11-08
 
 - **[定理PR #3288](https://github.com/itakura-hidetoshi/KuuOS/pull/3288) MERGED：** 第十一セルの左右二重whiskeringは、元の第七セル境界`before ≫ (s ≫ after)`対`(before ≫ s) ≫ after`を持ち、従前の同一fiber第十二セルの直接入力ではない。元の`EightCell.associate`の左右反転を使い、source／targetの両側で真正raw第八セル境界比較を形式構成。strict raw第七セルEqには変更しない。
