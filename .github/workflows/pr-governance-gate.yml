@@ -431,15 +431,17 @@ jobs:
           echo "PR build cache exact hit: ${CACHE_HIT:-false}"
           echo "PR build cache matched key: ${CACHE_MATCHED_KEY:-none}"
 
+      # Keep the exact pinned Lean/Lake release and every existing strict
+      # Lake target, but avoid the upstream one-shot Elan install path.
+      # The bootstrap retries only official release URLs and rejects
+      # all bytes unless both upstream SHA256 and size match.
+      - name: Validate pinned Lean bootstrap syntax
+        shell: bash
+        run: bash -n scripts/bootstrap_pinned_lean_ci.sh
+
       - name: Set up pinned Lean
-        uses: leanprover/lean-action@v1
-        with:
-          auto-config: false
-          build: false
-          test: false
-          lint: false
-          use-mathlib-cache: false
-          use-github-cache: false
+        shell: bash
+        run: bash scripts/bootstrap_pinned_lean_ci.sh
 
       # GitHub's prefix cache is not proof that the pinned checkout and its
       # compiled Mathlib artifacts both exist. Verify the actual filesystem
