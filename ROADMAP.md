@@ -1,5 +1,16 @@
 # KuuOS / 空OS — Formal Research Roadmap
 
+## Qi v5.39 VERIFIED — 19D依存fiber間の型付き境界transport条件・条件付き証拠降下／2026-11-08
+
+- **[定理PR #3346](https://github.com/itakura-hidetoshi/KuuOS/pull/3346) MERGED：** 真正F55/P77/GK5CG、生6D〜19D、v5.38の真正二重18D輸送を一切変更せず、異なる依存17D端点を持つLR／RL raw18D型と19D商を独立に保持。Lean1ファイル309行追加・削除0。
+- **境界transportの二つの型付き入力：** SelectedMixedNineteenBoundaryはLR raw18DからRL raw18DへのrawTransportと、LR同一fiberの**真正Type値19D比較**をRL側の真正比較へ写すlocalTransportを要求する。selectedMixedBoundaryDescendは両者を使う実際のQuotient.liftで商型間へ降下し、クラス上の計算則を証明する。**境界構造が一般にinhabitedだとは証明していない**。元raw Eqを導入しない。
+- **観測自然性は独立条件：** SelectedMixedBoundaryCoarseCompatibleで全元18D証拠のswap観測互換性を追加要求。その場合のみselectedMixedBoundaryDescend_swapNatural／countsNaturalにより観測square可換と左右計数保存を証明。
+- **指定境界を接続する追加Type証拠：** SelectedMixedNineteenAnchored.chosenComparisonは輸送したLR証拠と元RL証拠の間のRL側SelectedLocalNineteen Type値比較を要求。その場合に限定して指定19DクラスEq、共通swap観測Eq・計数Eqを構成する。異なる生証拠のEqではない。
+- **fine障害：** selectedMixedAnchored_fineTraceChanges／noFinePreservation／noFineQuotientTransportは、指定LR→RL輸送では全順序履歴の完全保存が不可能であることをv5.38の真のfalse::true::h対true::false::hから証明。trace変更型輸送一般の否定ではない。
+- **[定理exact-source CI #42471675817](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42471675817) SUCCESS：** Scoped Strict Lean 9,091/9,091、Governance5/5、新規18/18公理監査（公理不要9・標準公理のみ9）、sorryAx・変更warning/error0/0。source c680984a69f3ee195ed13e741b95993e60667853／test-merge cf05d889cc4710e456bddf490bf17bef99120e00／squash 534e856442c9a7b8084b5e876fceda089e68876cのGit tree **981d53614abcb65f928c852d06c98d80c42885f7 一致**。
+- **公開集約[PR #3347](https://github.com/itakura-hidetoshi/KuuOS/pull/3347) MERGED：** KuuOSFormalへimport1行のみ追加。[CI #42472134706](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42472134706) **全体Strict Lean 10,352/10,352・Governance30/30 SUCCESS**。source 32693d35355ae161f2b09e08eb0b0cd8335d41a5／test-merge d79be2f28a30abb41a7e7620755749008eec0bc9／squash eeb14764dfe8109fd6266c3bfdfefe04a75a9e57のGit tree **6110138541a82835e01b2bf377537b7ccd123b7d 一致**。公開root107、Lean v4.30.0-rc2・mathlib pin・保護PR #1558 Draft/OPEN維持。[正式記録](docs/formal/Qi-v5_39-typed-nineteen-boundary-transport-verified-20261108.md)・[Lean全文](formal/KUOS/Architecture/QiWuxingGK5CHP77TypedNineteenBoundaryTransportV5_39.lean)。
+- **次段Qi v5.40：** 一般には未認証の境界証明書について、既存の真正第七セル・19D比較構成子から具体的inhabitantを構成できる領域と、その障害の条件を検討。無条件cross-fiber20D生成元や元source生Eqは仮定しない。
+
 ## Qi v5.38 VERIFIED — 真正18D二重文脈輸送・19D証拠商→観測swap商・fine履歴保存輸送のobstruction／2026-11-08
 
 - **[定理PR #3342](https://github.com/itakura-hidetoshi/KuuOS/pull/3342) MERGED：** 新規Lean1ファイル445行、既存Lean削除0。v5.37の真正`SelectedContextualEighteen` Type値`M`を、元の適合`SevenRewrite`文脈へLRとRLの異なる順序で型付き輸送。両出力の17D端点・19D exact-fiber商を独立に保持し、混合raw Eqは導入しない。既存F55/P77/GK5CG、元6D〜14D、全旧選択12D〜19D proof valuesとpublic root107は変更しない。
