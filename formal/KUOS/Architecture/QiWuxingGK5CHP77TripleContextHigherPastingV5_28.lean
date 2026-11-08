@@ -298,6 +298,24 @@ inductive SelectedTriplePastingThirteen (W : Type uSix) (l r : W) :
       SelectedTriplePastingThirteen W l r
         (.chain (.chain A B) C) (.chain A (.chain B C))
 
+/-- Proof-relevant 13D first-atom observer. Its value follows the
+first subpath of a chain and ignores dependent original fiber indices;
+it is NOT a quotient-invariant or an assertion of old raw equality. -/
+def selectedThirteenFirstAtomTag (l r : W)
+    {F G : FramedEleven W l r}
+    {P Q : SelectedUnitalCompositionTwelve W l r F G}
+    (C : SelectedTriplePastingThirteen W l r P Q) : Nat :=
+  match C with
+  | .strict _ => 0
+  | .inheritedOld _ => 1
+  | .tripleLeft _ _ _ _ => 2
+  | .tripleRight _ _ _ _ => 3
+  | .reverse _ => 4
+  | .chain A _ => selectedThirteenFirstAtomTag l r A
+  | .prepend _ _ => 6
+  | .append _ _ => 7
+  | .associator _ _ _ => 8
+
 /-- The old selected 13D proof has a type-preserving inclusion into
 the new 13D presentation. This is NOT an interpretation of all new
 triple coherence as original v5.23 coherence. -/
@@ -399,7 +417,9 @@ theorem tripleLeftThirteenUnit_rawDistinct (l r : W) {w z : W}
     tripleLeftThirteenUnitPrepend l r u v t F ≠
       tripleLeftThirteenUnitAppend l r u v t F := by
   intro h
-  cases h
+  have ht := congrArg (selectedThirteenFirstAtomTag l r) h
+  change (0 : Nat) = 2 at ht
+  cases ht
 
 def tripleRightThirteenUnitPrepend (l r : W) {w z : W}
     {a b c d e : PentagonAdjoinedSixCell W l r w z}
@@ -434,7 +454,9 @@ theorem tripleRightThirteenUnit_rawDistinct (l r : W) {w z : W}
     tripleRightThirteenUnitPrepend l r u v t F ≠
       tripleRightThirteenUnitAppend l r u v t F := by
   intro h
-  cases h
+  have ht := congrArg (selectedThirteenFirstAtomTag l r) h
+  change (0 : Nat) = 3 at ht
+  cases ht
 
 /-- Explicitly selected FOURTEENTH comparison. The inherited branch
 retains a genuine previous v5.23 SelectedCompositionFourteen proof;
@@ -553,6 +575,7 @@ theorem selectedTripleLeftFourteen_noRawEqualityInterpreter (l r : W) {w z : W}
     (interpret _ _ (.tripleLeftUnit u v t F))
 
 #print axioms PentagonAdjoinedSixCell.selectedTwelfthFirstAtomTag
+#print axioms PentagonAdjoinedSixCell.selectedThirteenFirstAtomTag
 #print axioms PentagonAdjoinedSixCell.originalFramedTwelveToSelected
 #print axioms PentagonAdjoinedSixCell.originalFramedTwelveToSelected_injective
 #print axioms PentagonAdjoinedSixCell.selectedLeftTripleSource
