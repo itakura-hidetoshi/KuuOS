@@ -3128,3 +3128,12 @@ strict 空／独立Kuu→Qi、元F54二Nat・二圏・Blocks、元F55 Type履歴
 [定理exact-source CI #42608455141](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42608455141) **9,115/9,115 Scoped Strict Lean・Governance 5/5 SUCCESS**、[公開CI #42609298385](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42609298385) **10,376/10,376 KuuOSFormal Strict Lean・Governance 30/30 SUCCESS**。21宣言公理監査は公理不要7、標準`propext`/`Quot.sound`のみ14、新規sorryAxなし、変更Lean error/warning0/0、両段階exact-head受領書各2件SUCCESS、定理Git tree `320dd86e12c52a8baa6b8f39ef6ba5d79ad7c9fd`・公開tree `b32e9b3f290712632b6d6a44028abb01fbbf26cb` はsource／test-merge／squashで一致。初回再帰引数の二重渡し1行のみを修正し、定理の前提・結論は不変。[正式形式証明・公理監査記録](docs/formal/Qi-v5_63-uniform-finite-ancestor-tower-obstruction-verified-20261109.md)。
 
 **未認証境界／次段Qi v5.64**：任意の独立有限統計量全般、全無限塔による分類、新商の全クラス分類、任意異端点fiber非空性、異fiberwhiskering、20D gluing、全WORLD貼合・authorityはNO_DATA。元Type値・旧selected19／新7構成子商の独立性・公開root107・Lean v4.30.0-rc2／固定mathlib・保護#1558 Draft/OPEN/未マージ維持。append-only／tighten-only／overwrite-forbidden／same-root。
+
+## 2026-11-09 — Qi v5.64：任意の有限祖先次数サンプリングでも残る真正新商の識別障害（Lean4形式認証済み）
+
+[定理PR #3422](https://github.com/itakura-hidetoshi/KuuOS/pull/3422)・[公開import PR #3423](https://github.com/itakura-hidetoshi/KuuOS/pull/3423) ともに**MERGED**。v5.63の元18D Typeにおける真正Nat再帰反転証拠を保持したまま、観測次数を**任意の有限`List Nat`**（非連続・順序任意・重複可・空リスト可）に拡張した。有限添字の和による具体的budget以下に全指定次数が入ることをLean4で証明。実在する元`M:J→N`の同一fiber内で、既存九観測と指定された全`C_k`が完全一致する真正新商2クラスを構成し、未観測の`C_(budget+7)`は正確に+2異なるためクラスは不一致となる。したがって、全ての有限添字リストについて指定新商観測は非単射であり、次次数計数decoderも商クラス全復元decoderも存在しない。指定J→Jは真正strict元証拠で具体化した。
+
+[定理exact-source CI #42610951099](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42610951099) は**9,116/9,116 Scoped Strict Lean・Governance 5/5 SUCCESS**。[公開CI #42611507731](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42611507731) は**10,377/10,377 KuuOSFormal Strict Lean・Governance 30/30 SUCCESS**。15宣言公理監査は公理不要4・標準`propext`/`Quot.sound`のみ11、新規sorryAxなし、変更Lean error/warning0/0。両段階のexact-head受領書は各2件SUCCESS。定理source/test-merge/squash tree `3609c28b5796c1c14082b3af30900d649f498744`、公開tree `c5ee475ef35584adc2c8ac36b310fab67a162b35` は一致。[正式監査記録](docs/formal/Qi-v5_64-arbitrary-finite-ancestor-sampling-verified-20261109.md)。
+
+**境界**：任意の無関係な有限観測量についての非単射性、無限祖先塔による全商分類、任意異端点fiber非空性、異fiber whiskering、20D gluing、独立WORLD・authorityはNO_DATA。今回証明したのは独立に正当化された**祖先塔C_kから選んだ任意有限個**と旧九観測の組だけである。元18D/19D Type証拠、旧selected19と新7構成子商の独立性、公開root107、固定Lean/mathlib、保護PR #1558 Draft/OPEN/未マージを維持。append-only／tighten-only／overwrite-forbidden／same-root。
+
