@@ -232,10 +232,44 @@ theorem selectedReverseInherited_rightSites
     selectedContextEighteenReverseSiteInheritedCounts l r
         (selectedReverseInheritedWitnessRight l r N) = [0] := rfl
 
+/-- Equality of EVERY degree of the untruncated ancestor tower.
+The two raw chains differ in the syntactic order of a zero summand.
+Split the actual degree before simplification; do not use an
+unsupported definitional equality of Nat addition. -/
+theorem selectedReverseInherited_witnessAncestorTowerEq
+    (N : SelectedContextualSeventeen W l r H K)
+    (degree : Nat) :
+    selectedAncestorTowerCount l r degree
+        (selectedReverseInheritedWitnessLeft l r N) =
+      selectedAncestorTowerCount l r degree
+        (selectedReverseInheritedWitnessRight l r N) := by
+  cases degree with
+  | zero => rfl
+  | succ degree =>
+      cases degree with
+      | zero => rfl
+      | succ degree => rfl
+
+/-- Every degree of the independent direct consecutive-reversal-run
+count tower agrees: a single nonnested reverse contributes exactly
+at degree zero, irrespective of its relative inherited-leaf order. -/
+theorem selectedReverseInherited_witnessRunTowerEq
+    (N : SelectedContextualSeventeen W l r H K)
+    (degree : Nat) :
+    selectedContextEighteenConsecutiveRunCount l r degree
+        (selectedReverseInheritedWitnessLeft l r N) =
+      selectedContextEighteenConsecutiveRunCount l r degree
+        (selectedReverseInheritedWitnessRight l r N) := by
+  cases degree with
+  | zero => rfl
+  | succ degree => rfl
+
 /-- Original nine observables, TWO untruncated infinite Nat towers,
 ordered raw reverse runs, nonassociative unit-reduced bracket,
 inherited old18D leaf count, ordered root list and FULL ordered
-inner source-bracket list of v5.73 all coincide. -/
+inner source-bracket list of v5.73 all coincide.
+Crucially, the tower functions use extensional equality rather
+than a false claim of definitional equality under swapped Nat sums. -/
 theorem selectedReverseInherited_witnessRootInnerObservedEq
     (N : SelectedContextualSeventeen W l r H K) :
     selectedRawCongruentDoubleBracketCountRootInnerObservation l r N N
@@ -244,7 +278,31 @@ theorem selectedReverseInherited_witnessRootInnerObservedEq
       selectedRawCongruentDoubleBracketCountRootInnerObservation l r N N
         (selectedRawCongruentClass l r
           (selectedReverseInheritedWitnessRight l r N)) := by
-  rfl
+  have hbase :
+      selectedRawCongruentFullDoubleOrderedBracketObservation l r N N
+          (selectedRawCongruentClass l r
+            (selectedReverseInheritedWitnessLeft l r N)) =
+        selectedRawCongruentFullDoubleOrderedBracketObservation l r N N
+          (selectedRawCongruentClass l r
+            (selectedReverseInheritedWitnessRight l r N)) := by
+    apply Prod.ext
+    · apply Prod.ext
+      · apply Prod.ext
+        · apply Prod.ext
+          · rfl
+          · funext degree
+            exact selectedReverseInherited_witnessAncestorTowerEq l r N degree
+        · funext degree
+          exact selectedReverseInherited_witnessRunTowerEq l r N degree
+      · rfl
+    · rfl
+  apply Prod.ext
+  · apply Prod.ext
+    · apply Prod.ext
+      · exact hbase
+      · rfl
+    · rfl
+  · rfl
 
 /-- Complete site-list equality on the original quotient, NOT a
 raw construction claimed to be equal in the source Type. -/
@@ -399,6 +457,8 @@ end ExactFiber
 #print axioms PentagonAdjoinedSixCell.selectedReverseInherited_witnessWordDistinct
 #print axioms PentagonAdjoinedSixCell.selectedReverseInherited_leftSites
 #print axioms PentagonAdjoinedSixCell.selectedReverseInherited_rightSites
+#print axioms PentagonAdjoinedSixCell.selectedReverseInherited_witnessAncestorTowerEq
+#print axioms PentagonAdjoinedSixCell.selectedReverseInherited_witnessRunTowerEq
 #print axioms PentagonAdjoinedSixCell.selectedReverseInherited_witnessRootInnerObservedEq
 #print axioms PentagonAdjoinedSixCell.selectedReverseInherited_witnessSiteObservedEq
 #print axioms PentagonAdjoinedSixCell.SelectedDoubleBracketCountRootInnerSitesValue
