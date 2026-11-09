@@ -3068,3 +3068,12 @@ strict 空／独立Kuu→Qi、元F54二Nat・二圏・Blocks、元F55 Type履歴
 
 **未認証：** 第六観測を加えた六変量の新商完全分類、任意異端点fiberの非空性、旧I6全成分の新商降下、異fiberwhiskering、20D gluing、独立WORLD同一視。これらの局所条件とobstructionは明示的に保留。元Type値証拠、公開root107、固定Lean/mathlib、保護#1558 Draft／OPEN／未マージ維持。append-only／tighten-only／same-root。
 
+
+## 2026-11-09 — Qi v5.57：六変量でも残るraw反転祖先四重鎖障害（Lean4形式認証済み）
+
+[定理PR #3401](https://github.com/itakura-hidetoshi/KuuOS/pull/3401)・[公開import PR #3402](https://github.com/itakura-hidetoshi/KuuOS/pull/3402) **MERGED**。元16D fiber・真正17D端点J,N・実在する元18D証拠M:J→Nの範囲で、元証拠Mに二種類の`N→N` raw suffixを右合成した真正対を構成。両suffixは総反転7、隣接反転2、祖先対12、祖先三重鎖10、最外層reverse flag0、完全ordered trace空で一致するが、**祖先四重鎖数だけ3対5**。この新計数の元selected19の5比較構成子およびv5.50新比較7構成子に対する不変性、元／新商の`Quotient.lift`、旧商→新商射影因子化を証明。したがって六変量共同観測が一致しても新商クラスは異なり、真正Type値比較が存在しない。与えられたMを持つexact fiberで六変量非単射、class/四重鎖decoder不存在を証明し、指定Jのstrict raw identityによるJ→J非単射も構成。
+
+[定理exact-source CI #42563790860](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42563790860) **9,109/9,109 Scoped Strict Lean SUCCESS、Governance 5/5、22宣言公理監査（公理不要14、標準`propext`/`Quot.sound`のみ8、sorryAxなし）、変更Lean error/warning 0/0**。初回CIでは新規suffix括弧2文字不足を特定し、定理文・仮定・元証拠不変で最小修正。定理source/test-merge/squash tree `9aee0610479efcb65e285136d4d142f06fe82e92`一致。[公開CI #42564385860](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42564385860) **10,370/10,370 KuuOSFormal Strict Lean SUCCESS、Governance 32/32**、公開tree `08c8e1c686056d88d34b47beab244a1fa7058bde`一致。[正式証明・公理監査記録](docs/formal/Qi-v5_57-six-observation-ancestor-quadruple-residual-verified-20261109.md)。
+
+**未認証**：第7観測を加えた七変量の新商完全分類、任意異端点fiberの非空性、元I6全成分の新商降下、異fiber whiskering、20D gluing、独立WORLD同一視。今回の新第7不変量はこの明示的な二点を区別するだけで全商faithfulnessは主張しない。元Type値証拠・公開root107・固定Lean/mathlib・保護#1558 Draft/OPEN未マージ維持。append-only／tighten-only／same-root。
+
