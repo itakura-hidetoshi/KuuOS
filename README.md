@@ -3137,3 +3137,12 @@ strict 空／独立Kuu→Qi、元F54二Nat・二圏・Blocks、元F55 Type履歴
 
 **境界**：任意の無関係な有限観測量についての非単射性、無限祖先塔による全商分類、任意異端点fiber非空性、異fiber whiskering、20D gluing、独立WORLD・authorityはNO_DATA。今回証明したのは独立に正当化された**祖先塔C_kから選んだ任意有限個**と旧九観測の組だけである。元18D/19D Type証拠、旧selected19と新7構成子商の独立性、公開root107、固定Lean/mathlib、保護PR #1558 Draft/OPEN/未マージを維持。append-only／tighten-only／overwrite-forbidden／same-root。
 
+
+## 2026-11-09 — Qi v5.65：全無限祖先塔でも隣接反転数を復元できない（Lean4形式認証済み）
+
+[定理PR #3425](https://github.com/itakura-hidetoshi/KuuOS/pull/3425)・[公開import PR #3426](https://github.com/itakura-hidetoshi/KuuOS/pull/3426) **MERGED**。v5.64までの有限祖先次数サンプリングを越え、元18D型付き真正N→N raw証拠 `S=strict N`、`R=reverse S`、`A=chain (reverse (chain R S)) S`、`B=chain (reverse R) S`を用い、**全自然数nのCₙ、完全ordered raw trace、最上位raw reverse flagがすべて一致**する一方、新7構成子商で独立に保存される`AdjacentReverseCount`がA=0、B=1となることを形式証明した。新商クラスは相異なり、元Type値の新19D比較は存在しない。元の実在M:J→Nに右連結しても全Cₙ・trace・top一致とAdjacent差+1は残る。真正新商から`(List Bool × Nat) × (Nat → Nat)`への**無限塔＋trace＋top観測**を定義し、実在fiberで非単射、Adjacent/class全域decoder不存在、指定J→Jでのstrict例を証明した。
+
+[定理exact-source CI #42613890666](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42613890666) **9,117/9,117 Scoped Strict Lean・Governance 5/5 SUCCESS**、[公開CI #42614676906](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42614676906) **10,378/10,378 KuuOSFormal Strict Lean・Governance 30/30 SUCCESS**。29宣言公理監査：公理不要20、標準`propext`/`Quot.sound`のみ9、新規sorryAxなし、変更Lean error/warning0/0。両段階exact-head受領書2件SUCCESS。定理source/test-merge/squash Git tree `fff4ce1ce15dc10a1275d8f2584302b7787a14db`、公開tree `60dd5b20d8ce5575248fd54fa50140a96bd329d5` 一致。[形式証明監査記録](docs/formal/Qi-v5_65-full-ancestor-tower-adjacency-independence-verified-20261109.md)。
+
+**重要な境界**：今回の観測にはAdjacentを含めない。したがって、**Adjacentを含む既存九観測＋全無限祖先塔**の単射性・完全分類はNO_DATAであり、この対をその非単射の反例としない。任意異端点fiber非空性・異fiberwhiskering・20D gluing・全WORLD貼合・authorityも未認証。元18D/19D Type証拠、旧selected19と独立新7構成子商、公開root107、固定Lean/mathlib、保護PR #1558 Draft/OPEN/未マージを維持。append-only／tighten-only／overwrite-forbidden／same-root。
+
