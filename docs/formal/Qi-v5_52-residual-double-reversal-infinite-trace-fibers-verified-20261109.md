@@ -8,7 +8,7 @@
 - 定理PR [#3386](https://github.com/itakura-hidetoshi/KuuOS/pull/3386) **MERGED**。
 - 定理source HEAD `53e7574671c9e576d7d317e10b7bbfdcd2b3b4c1`、test-merge `66a6ba82d59ffefd8640e897258ca6ec4ef760fc`、main squash `ab0bb48f73ef532d728c92a51f57008406405571`。三者共通の実Git tree `a0ca7f5f10a1ccd4a8d531a7554fa0952f547c07`（GitHub MCPで各Git commitを再取得した値）。
 - 新規Leanファイル：`formal/KUOS/Architecture/QiWuxingGK5CHP77RawCongruenceDoubleReverseObstructionV5_52.lean`、294行追加、削除0。
-- 公開import：[#3387](https://github.com/itakura-hidetoshi/KuuOS/pull/3387) は別PR。定理の認証と公開集約の認証を混同せず、下記の公開CI欄は検証完了後に確定する。
+- 公開import：[#3387](https://github.com/itakura-hidetoshi/KuuOS/pull/3387) **MERGED**。公開source HEAD `2ef69974547eaf91d5d9de90e2990c20e58293ab`、test-merge `0f28ca2ade8a62f1d8d70999a676874058284490`、統合main `c3f263dc38489f826759d8550eae9aa856422f46` は共通Git tree `01f4b78b401275543dcc8745aaa209b70545f34b`。公開集約の差分はimport 1行追加のみ。
 - Lean `v4.30.0-rc2`、mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、公開root 107、保護PR #1558 Draft/OPEN/未マージ。
 - append-only／tighten-only／overwrite-forbidden／same-root。元18D/19D Type値証拠、旧19D比較、新7構成子比較presentation、元F55/P77/GK5CG sourceはいずれも不変更。
 
@@ -40,7 +40,7 @@
 - Scoped Strict Lean：**9,104 / 9,104 SUCCESS**。Governance：**5 / 5 SUCCESS**。
 - 新規宣言公理監査：**16 / 16**。公理不要3件、`Quot.sound`のみ13件。新公理0、`sorryAx`なし。変更Lean error／warning：**0 / 0**。
 - source／test-merge／main squashの Git tree は上記 `a0ca7f5f10a1ccd4a8d531a7554fa0952f547c07` と一致する。以前PR本文に一時記載された異なるtree値を使用しない（PR #3386へ訂正コメントを追記済み）。
-- 公開import検証：**未認証／別途要確認**。公開集約を定理のScoped CIのみで認証したと扱わない。
+- 公開import exact-source CI [#42546246910](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42546246910)：**completed SUCCESS**。公開KuuOSFormal Strict Lean **10,365 / 10,365 SUCCESS**、Governance **30 / 30 SUCCESS**、指定公開root配線チェック [#42546246977](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42546246977) **SUCCESS**。source/test-merge/squash Git treeはいずれも上記 `01f4b78b401275543dcc8745aaa209b70545f34b`。定理PRのScoped成功と公開集約の全体成功を別々に検証した。
 
 ## 5. 障害として保持するもの（NO_DATA）
 
