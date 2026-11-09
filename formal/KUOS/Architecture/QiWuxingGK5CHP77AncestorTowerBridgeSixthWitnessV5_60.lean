@@ -294,23 +294,45 @@ theorem selectedEightTowerShift_residualGate
     (selectedSevenQuintupleSuffixLeft l r N)
     (selectedSevenQuintupleSuffixRight l r N) hEq hNe
 
-/-- The new sixth ancestor-chain gap is exactly TWO, not merely
-nonzero. The two old v5.58 quintuple suffix certificates are reused. -/
+/-- Abstract sixth-level additivity lemma, with ACTUAL typed input
+proofs but no unfolding of any giant concrete v5.58 suffix. The
+addition order on rawReverse/chain is kept as genuinely implemented. -/
+theorem selectedAncestorShift_sixthGapIfFifth
+    (N : SelectedContextualSeventeen W l r H K)
+    (A B : SelectedContextualEighteen W l r N N)
+    (h : selectedAncestorTowerCount l r 5 B =
+      selectedAncestorTowerCount l r 5 A + 2) :
+    selectedAncestorTowerCount l r 6
+        (selectedAncestorShiftRight l r N A B) =
+      selectedAncestorTowerCount l r 6
+        (selectedAncestorShiftLeft l r N A B) + 2 := by
+  change
+    selectedAncestorTowerCount l r 6 A +
+      (selectedAncestorTowerCount l r 6 B +
+        selectedAncestorTowerCount l r 5 B) =
+      (selectedAncestorTowerCount l r 6 A +
+        selectedAncestorTowerCount l r 5 A +
+        selectedAncestorTowerCount l r 6 B) + 2
+  rw [h]
+  omega
+
+/-- The v5.58 quintuple discrepancy is exactly two. Apply the
+abstract certified sixth-level shift rather than normalizing the
+large genuine dependent suffix values (which exceeded heartbeats). -/
 theorem selectedEightTowerShift_sixthGap
     (N : SelectedContextualSeventeen W l r H K) :
     selectedAncestorTowerCount l r 6 (selectedEightTowerShiftRight l r N) =
       selectedAncestorTowerCount l r 6 (selectedEightTowerShiftLeft l r N) + 2 := by
   rcases selectedSevenQuintuple_towerSuffixSignature l r N with
     ⟨_, _, _, _, _, _, _, _, h5L, h5R⟩
-  change
-    (selectedAncestorTowerCount l r 6 (selectedSevenQuintupleSuffixLeft l r N) +
-      selectedAncestorTowerCount l r 6 (selectedSevenQuintupleSuffixRight l r N) +
-        selectedAncestorTowerCount l r 5 (selectedSevenQuintupleSuffixRight l r N)) =
-      (selectedAncestorTowerCount l r 6 (selectedSevenQuintupleSuffixLeft l r N) +
-        selectedAncestorTowerCount l r 5 (selectedSevenQuintupleSuffixLeft l r N) +
-        selectedAncestorTowerCount l r 6 (selectedSevenQuintupleSuffixRight l r N)) + 2
-  rw [h5L, h5R]
-  omega
+  have h : selectedAncestorTowerCount l r 5
+        (selectedSevenQuintupleSuffixRight l r N) =
+      selectedAncestorTowerCount l r 5
+        (selectedSevenQuintupleSuffixLeft l r N) + 2 := by
+    rw [h5R, h5L]
+  exact selectedAncestorShift_sixthGapIfFifth l r N
+    (selectedSevenQuintupleSuffixLeft l r N)
+    (selectedSevenQuintupleSuffixRight l r N) h
 
 /-- Real old18 proof M:J→N extends the same N-loop witness to its
 ORIGINAL exact dependent J→N fiber without inventing inhabitants. -/
@@ -367,6 +389,7 @@ end ExactFiber
 #print axioms PentagonAdjoinedSixCell.selectedEightTowerShiftLeft
 #print axioms PentagonAdjoinedSixCell.selectedEightTowerShiftRight
 #print axioms PentagonAdjoinedSixCell.selectedEightTowerShift_residualGate
+#print axioms PentagonAdjoinedSixCell.selectedAncestorShift_sixthGapIfFifth
 #print axioms PentagonAdjoinedSixCell.selectedEightTowerShift_sixthGap
 #print axioms PentagonAdjoinedSixCell.selectedEightTowerFiberLeft
 #print axioms PentagonAdjoinedSixCell.selectedEightTowerFiberRight
