@@ -3146,3 +3146,14 @@ strict 空／独立Kuu→Qi、元F54二Nat・二圏・Blocks、元F55 Type履歴
 
 **重要な境界**：今回の観測にはAdjacentを含めない。したがって、**Adjacentを含む既存九観測＋全無限祖先塔**の単射性・完全分類はNO_DATAであり、この対をその非単射の反例としない。任意異端点fiber非空性・異fiberwhiskering・20D gluing・全WORLD貼合・authorityも未認証。元18D/19D Type証拠、旧selected19と独立新7構成子商、公開root107、固定Lean/mathlib、保護PR #1558 Draft/OPEN/未マージを維持。append-only／tighten-only／overwrite-forbidden／same-root。
 
+
+## 2026-11-09 — Qi v5.66：既存九変量＋全無限祖先塔でも残る三連続反転の識別障害（Lean4形式認証）
+
+[定理PR #3428](https://github.com/itakura-hidetoshi/KuuOS/pull/3428)と[公開import PR #3429](https://github.com/itakura-hidetoshi/KuuOS/pull/3429)はともに**MERGED**。新しい真正N→N元18D証拠`S=strict N`、`R=reverse S`、`gap(X)=chain X S`から、`A=reverse(reverse(reverse(gap R)))`と`B=reverse(reverse(gap(reverse R)))`を構成した。**全自然数次数Cₙ・完全ordered raw trace・最上位reverse flag・隣接反転数（両方2）・旧C₁〜C₅に対応する各旧数値をすべて一致**させたまま、真の直接三連続反転数はA=1、B=0で異なる。新しい直接三連続計数が元selected19の5構成子と独立新7構成子の全部で保存され、両商へ独立`Quotient.lift`と射影因子化が成立することを形式証明。したがって元Type値の新19D比較は存在せず、真正新商の2クラスも異なる。実在する元M:J→Nへ右合成しても同じ結論が保持される。
+
+既存の**九変量全成分（隣接反転数を含む）**と、`Nat→Nat`としての**無限祖先塔の全次数**を結合した真の新商観測`selectedRawCongruentNineFullTowerObservation`は、実在する元J→N fiberで**非単射**。その値から三連続反転数や全商クラスを復元する全域decoderは存在しない。指定J→Jでは本来の`strict J`により非単射。これはv5.65で残した「隣接反転を加えたらどうなるか」という未認証部分を新しい独立障害で解消したもので、さらに新三連続計数を追加した観測の全商完全分類を主張しない。
+
+[定理exact-source CI #42620115298](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42620115298) **9,118/9,118 Scoped Strict Lean・Governance 5/5 SUCCESS**、[公開CI #42620956359](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42620956359) **10,379/10,379 KuuOSFormal Strict Lean・Governance 30/30 SUCCESS**。37新規宣言公理監査は公理なし16／`propext`・`Quot.sound`のみ21、新規sorryAxなし、変更Lean error/warning0/0、両段階exact-head受領書各2件SUCCESS。定理source/test-merge/squash tree `7ed8132d5d2a44a0fe09b256f7c24d7d29e514fa`、公開tree `5926f463f0ae0f0bc19179affb8c919ffe6cb1cc` は一致。[正式証明・公理監査記録](docs/formal/Qi-v5_66-nine-full-tower-consecutive-triple-residual-verified-20261109.md)。
+
+**境界／次段Qi v5.67（未認証）**：新しい独立三連続反転数を加えた観測でさらに区別不能な真正証拠対の構成、または限定された忠実性条件の検証が必要。元I6の新商非降下成分、任意異端点fiber非空性、異fiberwhiskering、20D gluing、全WORLD貼合・authorityはNO_DATA。元18D/19D Type証拠と旧selected19／新7構成子商の独立性、公開root107、固定Lean/mathlib、保護PR #1558 Draft/OPEN/未マージを維持。append-only／tighten-only／overwrite-forbidden／same-root。
+
