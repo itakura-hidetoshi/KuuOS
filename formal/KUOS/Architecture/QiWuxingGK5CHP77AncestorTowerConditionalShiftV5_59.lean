@@ -36,44 +36,52 @@ namespace PentagonAdjoinedSixCell
 
 variable {W : Type uSix}
 
-/-- One raw-syntax fold for the next reverse-ancestor level.
-The prior level is a genuinely indexed function of old18 evidence. -/
-def selectedAncestorTowerStep (l r : W)
+/-- Structural recursion is on the ENTIRE dependent old18 proof,
+not on a prior-level function confined to one fixed contextual fiber.
+In particular both original whiskering constructors may change the
+internal framed/16D context while preserving the original source. -/
+def selectedAncestorTowerByProof (l r : W)
     {F G : FramedEleven W l r}
     {P Q : SelectedUnitalCompositionTwelve W l r F G}
     {C D : SelectedMixedInterchangerThirteen W l r P Q}
     {V X : SelectedMixedNaturalityFourteen W l r C D}
     {T U : SelectedContextualFifteen W l r V X}
     {H K : SelectedContextualSixteen W l r T U}
-    (prev : ∀ {J N : SelectedContextualSeventeen W l r H K},
-      SelectedContextualEighteen W l r J N → Nat)
     {J N : SelectedContextualSeventeen W l r H K}
-    (M : SelectedContextualEighteen W l r J N) : Nat :=
+    (M : SelectedContextualEighteen W l r J N) : Nat → Nat :=
   match M with
-  | .inherited _ => 0
-  | .whiskerLeft _ _ _ M => selectedAncestorTowerStep l r prev M
-  | .whiskerRight _ _ M _ => selectedAncestorTowerStep l r prev M
-  | .strict _ => 0
-  | .reverse M => selectedAncestorTowerStep l r prev M + prev M
-  | .chain M L =>
-      selectedAncestorTowerStep l r prev M +
-        selectedAncestorTowerStep l r prev L
+  | .inherited _ => fun
+      | 0 => 1
+      | _ + 1 => 0
+  | .whiskerLeft _ _ _ M => selectedAncestorTowerByProof l r M
+  | .whiskerRight _ _ M _ => selectedAncestorTowerByProof l r M
+  | .strict _ => fun
+      | 0 => 1
+      | _ + 1 => 0
+  | .reverse M => fun
+      | 0 => 1
+      | n + 1 =>
+          selectedAncestorTowerByProof l r M (n + 1) +
+            selectedAncestorTowerByProof l r M n
+  | .chain M L => fun
+      | 0 => 1
+      | n + 1 =>
+          selectedAncestorTowerByProof l r M (n + 1) +
+            selectedAncestorTowerByProof l r L (n + 1)
 
-/-- A natural-indexed raw ancestor tower. Its artificial level zero
-is 1 on any raw proof; level one counts reversals, higher levels
-count successively nested reverse ancestry. -/
+/-- Natural-indexed ancestor counts, with a degree-zero seed 1.
+At positive degree reverse adds the preceding degree, while
+chain adds disjoint nested histories. -/
 def selectedAncestorTowerCount (l r : W)
     {F G : FramedEleven W l r}
     {P Q : SelectedUnitalCompositionTwelve W l r F G}
     {C D : SelectedMixedInterchangerThirteen W l r P Q}
     {V X : SelectedMixedNaturalityFourteen W l r C D}
     {T U : SelectedContextualFifteen W l r V X}
-    {H K : SelectedContextualSixteen W l r T U} :
-    Nat → (∀ {J N : SelectedContextualSeventeen W l r H K},
-      SelectedContextualEighteen W l r J N → Nat)
-  | 0 => fun _ => 1
-  | n + 1 =>
-      selectedAncestorTowerStep l r (selectedAncestorTowerCount l r n)
+    {H K : SelectedContextualSixteen W l r T U}
+    (n : Nat) {J N : SelectedContextualSeventeen W l r H K}
+    (M : SelectedContextualEighteen W l r J N) : Nat :=
+  selectedAncestorTowerByProof l r M n
 
 section ExactFiber
 
@@ -86,63 +94,41 @@ variable {T U : SelectedContextualFifteen W l r V X}
 variable {H K : SelectedContextualSixteen W l r T U}
 variable {J N : SelectedContextualSeventeen W l r H K}
 
-/-- Every old selected19 comparison preserves any one-step fold.
-Unit relations are confined to opaque inherited old18 leaves. -/
-theorem selectedAncestorTowerStep_preservesOld
-    (prev : ∀ {J' N' : SelectedContextualSeventeen W l r H K},
-      SelectedContextualEighteen W l r J' N' → Nat)
-    {M L : SelectedContextualEighteen W l r J N}
-    (A : SelectedLocalNineteen W l r M L) :
-    selectedAncestorTowerStep l r prev M =
-      selectedAncestorTowerStep l r prev L := by
-  induction A with
-  | strict M => rfl
-  | unitPrepend M => rfl
-  | unitAppend M => rfl
-  | reverse A ih => exact ih.symm
-  | chain A B ih ih' => exact ih.trans ih'
+/-- Degree zero is exactly the constant seed 1, for each
+genuine proof in every permissible dependent context. -/
+theorem selectedAncestorTower_zero
+    (M : SelectedContextualEighteen W l r J N) :
+    selectedAncestorTowerCount l r 0 M = 1 := by
+  induction M with
+  | inherited M => rfl
+  | whiskerLeft before F G M ih => exact ih
+  | whiskerRight F G M after ih => exact ih
+  | strict J => rfl
+  | reverse M ih => rfl
+  | chain M L ih ih' => rfl
 
-/-- If the previous level descends through the new comparison,
-then the next fold does too. This checks all seven constructors,
-including typed rawReverse and both typed raw-chain contexts. -/
-theorem selectedAncestorTowerStep_preservesNew
-    (prev : ∀ {J' N' : SelectedContextualSeventeen W l r H K},
-      SelectedContextualEighteen W l r J' N' → Nat)
-    (hprev : ∀ {J' N' : SelectedContextualSeventeen W l r H K}
-      {M' L' : SelectedContextualEighteen W l r J' N'},
-      SelectedRawCongruentNineteen W l r J' N' M' L' →
-        prev M' = prev L')
-    {M L : SelectedContextualEighteen W l r J N}
-    (A : SelectedRawCongruentNineteen W l r J N M L) :
-    selectedAncestorTowerStep l r prev M =
-      selectedAncestorTowerStep l r prev L := by
-  induction A with
-  | inherited A => exact selectedAncestorTowerStep_preservesOld l r prev A
-  | strict M => rfl
-  | reverse A ih => exact ih.symm
-  | chain A B ih ih' => exact ih.trans ih'
-  | rawReverse A ih => exact congrArg₂ Nat.add ih (hprev A)
-  | rawChainRight A X ih =>
-      exact congrArg
-        (fun n : Nat => n + selectedAncestorTowerStep l r prev X) ih
-  | rawChainLeft X A ih =>
-      exact congrArg
-        (fun n : Nat => selectedAncestorTowerStep l r prev X + n) ih
-
-/-- All tower coordinates are original-selected19 invariants. -/
+/-- All old selected19 comparisons preserve the tower coordinates.
+Their two unit rules act on inherited leaves with positive count 0. -/
 theorem selectedAncestorTower_preservesOld
     (n : Nat) {M L : SelectedContextualEighteen W l r J N}
     (A : SelectedLocalNineteen W l r M L) :
     selectedAncestorTowerCount l r n M =
       selectedAncestorTowerCount l r n L := by
   cases n with
-  | zero => rfl
+  | zero =>
+      exact (selectedAncestorTower_zero l r M).trans
+        (selectedAncestorTower_zero l r L).symm
   | succ n =>
-      exact selectedAncestorTowerStep_preservesOld l r
-        (selectedAncestorTowerCount l r n) A
+      induction A with
+      | strict M => rfl
+      | unitPrepend M => rfl
+      | unitAppend M => rfl
+      | reverse A ih => exact ih.symm
+      | chain A B ih ih' => exact ih.trans ih'
 
-/-- All tower coordinates are independently invariant for the NEW
-seven-constructor comparison, with no change to its generators. -/
+/-- All tower levels preserve the independent seven new comparison
+constructors. A raw reverse requires both the same-level comparison
+induction hypothesis and the lower-level induction hypothesis. -/
 theorem selectedAncestorTower_preservesNew (n : Nat) :
     ∀ {J' N' : SelectedContextualSeventeen W l r H K}
       {M L : SelectedContextualEighteen W l r J' N'},
@@ -152,14 +138,24 @@ theorem selectedAncestorTower_preservesNew (n : Nat) :
   induction n with
   | zero =>
       intro J' N' M L A
-      rfl
-  | succ n ih =>
+      exact (selectedAncestorTower_zero l r M).trans
+        (selectedAncestorTower_zero l r L).symm
+  | succ n lower =>
       intro J' N' M L A
-      exact selectedAncestorTowerStep_preservesNew l r
-        (selectedAncestorTowerCount l r n)
-        (by
-          intro J'' N'' M' L' A'
-          exact ih A') A
+      induction A with
+      | inherited A =>
+          exact selectedAncestorTower_preservesOld l r (n + 1) A
+      | strict M => rfl
+      | reverse A ih => exact ih.symm
+      | chain A B ih ih' => exact ih.trans ih'
+      | rawReverse A ih =>
+          exact congrArg₂ Nat.add ih (lower A)
+      | rawChainRight A X ih =>
+          exact congrArg
+            (fun x : Nat => x + selectedAncestorTowerCount l r (n + 1) X) ih
+      | rawChainLeft X A ih =>
+          exact congrArg
+            (fun x : Nat => selectedAncestorTowerCount l r (n + 1) X + x) ih
 
 /-- Every natural-indexed tower count descends separately to
 the original selected19 quotient. -/
@@ -307,10 +303,9 @@ theorem selectedAncestorShift_residualGate (n : Nat)
 
 end ExactFiber
 
-#print axioms PentagonAdjoinedSixCell.selectedAncestorTowerStep
+#print axioms PentagonAdjoinedSixCell.selectedAncestorTowerByProof
 #print axioms PentagonAdjoinedSixCell.selectedAncestorTowerCount
-#print axioms PentagonAdjoinedSixCell.selectedAncestorTowerStep_preservesOld
-#print axioms PentagonAdjoinedSixCell.selectedAncestorTowerStep_preservesNew
+#print axioms PentagonAdjoinedSixCell.selectedAncestorTower_zero
 #print axioms PentagonAdjoinedSixCell.selectedAncestorTower_preservesOld
 #print axioms PentagonAdjoinedSixCell.selectedAncestorTower_preservesNew
 #print axioms PentagonAdjoinedSixCell.selectedAncestorTowerOnOldQuotient
