@@ -3157,3 +3157,11 @@ strict 空／独立Kuu→Qi、元F54二Nat・二圏・Blocks、元F55 Type履歴
 
 **境界／次段Qi v5.67（未認証）**：新しい独立三連続反転数を加えた観測でさらに区別不能な真正証拠対の構成、または限定された忠実性条件の検証が必要。元I6の新商非降下成分、任意異端点fiber非空性、異fiberwhiskering、20D gluing、全WORLD貼合・authorityはNO_DATA。元18D/19D Type証拠と旧selected19／新7構成子商の独立性、公開root107、固定Lean/mathlib、保護PR #1558 Draft/OPEN/未マージを維持。append-only／tighten-only／overwrite-forbidden／same-root。
 
+
+## 2026-11-09 — Qi v5.67：九変量＋全無限祖先塔＋三連続反転でも残る四連続反転障害（Lean4形式認証済み）
+
+[定理PR #3431](https://github.com/itakura-hidetoshi/KuuOS/pull/3431) と[公開import PR #3432](https://github.com/itakura-hidetoshi/KuuOS/pull/3432) はともに **MERGED**。元18Dの真正同一N→N証拠を、raw逆転列 **4連続＋strict-chain gap＋2連続** と **3連続＋gap＋3連続** で構成した。双方は全`n : Nat`の祖先塔`C_n`、完全ordered trace、top reverse、隣接反転数4、三連続反転数2まで一致するが、**四連続反転数は1対0**。元selected19の全5構成子と新raw合同性比較の全7構成子に対してこの計数が保存され、旧・新の別々の真正商へ`Quotient.lift`で降下しprojectionと因子化することをLean4で証明した。従って両者の新商クラスは異なり、真正Type値の新19D比較は存在しない。実在の元`M:J→N`が与えられる同一fiber内では、**既存九観測＋全無限祖先塔＋三連続反転**を結合しても非単射、四連続計数と全商クラスのdecoderは存在しない。J→Jには元strict証拠による実例を構成。
+
+[定理CI #42632280137](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42632280137)：**9,119/9,119 Scoped Strict Lean、Governance 5/5 SUCCESS**。[公開CI #42633542689](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42633542689)：**10,380/10,380 KuuOSFormal Strict Lean、Governance 30/30 SUCCESS**。39宣言すべて`#print axioms`で実監査：**公理不要14、標準`propext`/`Quot.sound`のみ25**、新規sorryAxなし、変更Lean error/warning 0/0、両段階exact-head受領書2件SUCCESS。定理Git tree `3cded91226bd5e1442510194ca0f63d4b330bb1a`、公開Git tree `1617ee4b6c00933c2972d8b6acfb41949a3c4bb7` はそれぞれsource/test-merge/squash同一。[正式形式証明・公理監査記録](docs/formal/Qi-v5_67-nine-full-tower-triple-quadruple-residual-verified-20261109.md)。
+
+**境界／次段Qi v5.68（未認証）**：四連続数まで観測に追加した場合の完全識別性、任意長`k`の連続反転計数による一様障害、任意異端点fiber非空性、異fiber whiskering、20D gluing、全WORLDへの降下、外部行為権限はいずれもNO_DATA。元18D Type値と旧selected19／独立新7構成子商、公開root107、固定Lean v4.30.0-rc2/mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、保護PR #1558 Draft/OPEN/未マージを保持。append-only／tighten-only／overwrite-forbidden／same-root。
