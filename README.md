@@ -3077,3 +3077,11 @@ strict 空／独立Kuu→Qi、元F54二Nat・二圏・Blocks、元F55 Type履歴
 
 **未認証**：第7観測を加えた七変量の新商完全分類、任意異端点fiberの非空性、元I6全成分の新商降下、異fiber whiskering、20D gluing、独立WORLD同一視。今回の新第7不変量はこの明示的な二点を区別するだけで全商faithfulnessは主張しない。元Type値証拠・公開root107・固定Lean/mathlib・保護#1558 Draft/OPEN未マージ維持。append-only／tighten-only／same-root。
 
+
+## 2026-11-09 — Qi v5.58：七変量の識別限界を反転祖先五重鎖数で形式証明
+
+**[定理PR #3404](https://github.com/itakura-hidetoshi/KuuOS/pull/3404)・[公開import PR #3405](https://github.com/itakura-hidetoshi/KuuOS/pull/3405) MERGED。** [新規Lean4モジュール](formal/KUOS/Architecture/QiWuxingGK5CHP77SevenObservationAncestorQuintupleV5_58.lean)で、元16D fiberと真正17D端点を固定し、実在する18D証拠 `M:J→N` が与えられる範囲の七変量非単射性を証明した。v5.57の真正suffix A/Bをそのまま用い、`L=chain (reverse A) B` と `R=chain A (reverse B)` を構成。完全ordered trace・反転総数・隣接反転数・最外層反転flag・祖先対・三重鎖・四重鎖はすべて一致するが、新しい五重鎖数は **4対6**。同じMに右合成した真正証拠でも差は2で、新合同性商のクラス不一致、真正Type値比較不存在、七変量非単射、商クラスおよび五重鎖数の完全decoder不存在を認証した。新計数は元5比較・新7比較構成子すべてで保存され、旧新商への独立liftと旧→新射影の因子化も証明済み。
+
+[定理exact-source CI #42573905069](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42573905069) **9,110/9,110 Scoped Strict Lean・Governance 5/5 SUCCESS**、新規22宣言の公理監査は14公理なし・8標準のみ、sorryAxなし、変更Lean error/warning 0/0。[公開CI #42574710291](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42574710291) **10,371/10,371 KuuOSFormal Strict Lean・Governance 32/32 SUCCESS**。両段階ともexact-head受領書2件SUCCESS、source/test-merge/squash tree一致。初回の`rfl`による400万heartbeats到達は、宣言・仮定・元証拠・予算を変えず、認証済みsignatureの再利用と成分ごとの等式証明で修正した。[正式証明・22宣言公理監査記録](docs/formal/Qi-v5_58-seven-observation-ancestor-quintuple-residual-verified-20261109.md)。
+
+第8観測は今回の対を区別するが、**八変量の全商分類・完全復元はNO_DATA**。任意fiber非空性や異fiberへの貼り合わせへ拡張しない。公開importは+1/-0、既存証明・元Type値証拠・root107・固定Lean/mathlib・保護PR #1558 Draft/OPEN/未マージを保持。append-only／tighten-only／overwrite-forbidden／same-root。
