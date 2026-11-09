@@ -3050,3 +3050,12 @@ strict 空／独立Kuu→Qi、元F54二Nat・二圏・Blocks、元F55 Type履歴
 
 **未認証境界：** 第4変量TopReverseFlagはこの具体的対を区別するが、4変量の全商分類・完全復元は未証明。任意異端点fiberの非空性・元I6全成分の新商降下・異fiber whiskering・20D gluing・authorityを推測で補完しない。元18D/19D Type値証拠、公開root107、Lean/mathlib pin、保護PR #1558 Draft/OPEN未マージ維持。append-only／tighten-only／same-root。
 
+
+## 2026-11-09 — Qi v5.55：四変量でも復元できない反転祖先・子孫履歴（Lean4形式認証済み）
+
+[定理PR #3395](https://github.com/itakura-hidetoshi/KuuOS/pull/3395)・[公開import PR #3396](https://github.com/itakura-hidetoshi/KuuOS/pull/3396) **MERGED**。元の18D真正raw証拠 `M:J→N` を保持して、二つのraw反転を並置した `A=chain M (chain (reverse (strict N)) (reverse (strict N)))` とv5.47の真正 `B=selectedAdjacentReverseRight M` を構成。新商の**四変量**（完全ordered trace・raw反転総数・隣接反転回数・最外層反転flag）は一致するが、反転祖先・子孫関係数 `ReverseAncestryCount` は `P(B)=P(A)+1`。新数値が元19Dの5構成子および新7構成子すべてで保存されることを証明し、新商への `Quotient.lift` と旧→新商因子化を認証。よって同一の実在する型付き J→N fiberで商クラスは相異なり、真正Type値比較は存在せず、四変量は非単射。商クラス復元関数・祖先計数復元関数も存在しない。指定 J の strict identity による J→J 版も認証。
+
+[定理CI #42558981152](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42558981152)：**9,107/9,107 Scoped Strict Lean SUCCESS、Governance 5/5**。19宣言の公理監査は公理不要11・標準`propext`/`Quot.sound`のみ8、sorryAxなし、変更Lean error/warning 0/0。定理source/test-merge/squash Git tree `94fb03a4408cc2d188309f5c61aec9bbb0f279be`一致。[公開CI #42560305685](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42560305685)：**10,368/10,368 Strict Lean SUCCESS、Governance 32/32**、公開source/test-merge/squash tree `6b1df3b540cb68b45b510e3c6d7b871f7f4b6f6c`一致。[正式証明・公理監査記録](docs/formal/Qi-v5_55-four-observation-reverse-ancestry-residual-verified-20261109.md)。
+
+**未認証：** 第五観測を加えた5変量の完全分類、全異端点fiberのinhabitance、元I6全成分の新商降下、異fiberwhiskering、20D gluing、独立WORLD同一視。これらを自動的に昇格しない。元Type値証拠、公開root107、Lean/mathlib pin、保護PR #1558 Draft/OPEN未マージを維持。append-only／tighten-only／same-root。
+
