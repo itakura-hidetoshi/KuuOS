@@ -3101,3 +3101,11 @@ strict 空／独立Kuu→Qi、元F54二Nat・二圏・Blocks、元F55 Type履歴
 [定理CI #42582641821](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42582641821) **9,112/9,112 Strict Lean・Governance 5/5 SUCCESS**。[公開CI #42583422934](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42583422934) **10,373/10,373 KuuOSFormal Strict Lean・Governance 30/30 SUCCESS**。18宣言公理監査は公理不要12／標準のみ6、sorryAxなし、変更Lean error/warning 0/0、両段階のexact-head受領書2件SUCCESS・source/test-merge/squash tree一致。初回の巨大構文`change`による4m heartbeats超過は、予算・前提を変更せず、抽象型付きshift補題に分離して修正した。[正式証明記録](docs/formal/Qi-v5_60-ancestor-tower-bridge-sixth-residual-verified-20261109.md)。
 
 **境界**：今回確定したのはC₀〜C₅の一致であって、shift後の既存八変量すべての一致ではない。全八変量の非単射性、九観測の完全復元、任意fiber inhabitance、20D gluingは依然NO_DATA。次段v5.61でtrace・adjacent count・top flagを直接証明する。元Type値、公開root107、固定Lean/mathlib、保護#1558 Draft/OPEN・未マージを保持。append-only／tighten-only／overwrite-forbidden／same-root。
+
+## 2026-11-09 — Qi v5.61：八変量の真正非単射性と第九C₆による分離をLean4形式証明
+
+[定理 #3413](https://github.com/itakura-hidetoshi/KuuOS/pull/3413)、[公開import #3414](https://github.com/itakura-hidetoshi/KuuOS/pull/3414)がMERGED。v5.60の真正N→Nの六重鎖残余対について、今まで未認証だった**完全ordered raw trace、adjacent raw reverse、top raw reverse flag**の一致を元構成子で証明し、既証明C₁〜C₅に接続。**既存の独立八成分商観測（trace／reverse／adjacent／top／pair／triple／quadruple／quintuple）が全て一致するのに、C₆がちょうど2異なり新商クラスが異なる**ことをLean4で認証した。実在するM:J→Nの元exact fiberへの右連結も形式証明。八観測の非単射性・商クラス全復元decoder不存在・八観測からC₆を復元できない障害、および任意J→Jでの非単射性が成立。新規第九C₆観測は**今回の具体的対のみ**区別し、九変量の全商分類を意味しない。
+
+[定理CI #42598568166](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42598568166) **9,113/9,113 Strict Lean・Governance 5/5 SUCCESS**、[公開CI #42599309789](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42599309789) **10,374/10,374 KuuOSFormal Strict Lean・Governance 30/30 SUCCESS**。16宣言公理監査：公理不要7件・標準公理のみ9件・sorryAxなし、変更Lean error/warning 0/0、両段階ともexact-head受領書各2件SUCCESS、source/test-merge/squash tree一致。[正式記録](docs/formal/Qi-v5_61-eight-observation-sixth-ancestor-residual-verified-20261109.md)。
+
+**未認証境界**：任意のnに対する反復shiftの一様な実在証拠対、九変量の全商完全復元・任意異端点fiber非空性・異fiberwhiskering・20D gluing・authorityはNO_DATA。次段v5.62で実際の有限prefix反例の帰納構成を検証する。元Type値・独立比較presentation・公開root107・固定Lean/mathlib・保護#1558 Draft/OPEN未マージ保持。append-only／tighten-only／overwrite-forbidden／same-root。
