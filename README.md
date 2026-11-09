@@ -3085,3 +3085,11 @@ strict 空／独立Kuu→Qi、元F54二Nat・二圏・Blocks、元F55 Type履歴
 [定理exact-source CI #42573905069](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42573905069) **9,110/9,110 Scoped Strict Lean・Governance 5/5 SUCCESS**、新規22宣言の公理監査は14公理なし・8標準のみ、sorryAxなし、変更Lean error/warning 0/0。[公開CI #42574710291](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42574710291) **10,371/10,371 KuuOSFormal Strict Lean・Governance 32/32 SUCCESS**。両段階ともexact-head受領書2件SUCCESS、source/test-merge/squash tree一致。初回の`rfl`による400万heartbeats到達は、宣言・仮定・元証拠・予算を変えず、認証済みsignatureの再利用と成分ごとの等式証明で修正した。[正式証明・22宣言公理監査記録](docs/formal/Qi-v5_58-seven-observation-ancestor-quintuple-residual-verified-20261109.md)。
 
 第8観測は今回の対を区別するが、**八変量の全商分類・完全復元はNO_DATA**。任意fiber非空性や異fiberへの貼り合わせへ拡張しない。公開importは+1/-0、既存証明・元Type値証拠・root107・固定Lean/mathlib・保護PR #1558 Draft/OPEN/未マージを保持。append-only／tighten-only／overwrite-forbidden／same-root。
+
+## 2026-11-09 — Qi v5.59：反転祖先鎖の自然数次数塔と条件付き残余障害（Lean4認証）
+
+[定理PR #3407](https://github.com/itakura-hidetoshi/KuuOS/pull/3407)・[公開import PR #3408](https://github.com/itakura-hidetoshi/KuuOS/pull/3408) **MERGED**。新規Lean4モジュール`QiWuxingGK5CHP77AncestorTowerConditionalShiftV5_59`で、元18D Type値を保持しつつ自然数次数Cₙ（C₀=1は形式的seed）を構成。任意次数で元selected19の5比較・新7比較構成子の保存、旧新商への独立降下と射影因子化を証明した。真正N→N証拠A,Bについて、`chain (reverse A) B`／`chain A (reverse B)`により低次の一致と残余不一致を**条件付きで**一段上へ移し、真正新Type値比較の不存在を証明した。
+
+[定理CI #42578124663](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42578124663) **9,111/9,111 Strict Lean・Governance 5/5 SUCCESS**、15宣言の公理監査（公理不要9・標準のみ6）、sorryAxなし、変更Lean error/warning 0/0。[公開CI #42578981707](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42578981707) **10,372/10,372 KuuOSFormal Strict Lean・Governance 30/30 SUCCESS**。両段階ともexact-head受領書2件SUCCESS・source/test-merge/squash tree一致。初回の固定文脈prevと真正whiskeringの型不一致は、元証拠への構造再帰として修正した。[15宣言の形式監査記録](docs/formal/Qi-v5_59-natural-index-reverse-ancestor-tower-conditional-shift-verified-20261109.md)。
+
+**境界**：この一般定理はA,Bが実在し所定の差を持つ場合の条件付き定理であり、すべての次数で具体的な反例が実在するとまでは証明していない。個別のv5.58五重鎖数と新塔C₅の形式的同一性、および八変量全商分類・任意fiber inhabitance・20D gluingはNO_DATA。元source/Type証拠履歴・公開root107・固定Lean/mathlib・保護PR #1558 Draft/OPEN未マージ維持。append-only／tighten-only／overwrite-forbidden／same-root。
