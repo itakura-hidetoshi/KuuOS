@@ -56,14 +56,13 @@ theorem selectedRawCongruent_preservesTrace
   | strict M => rfl
   | reverse A ih => exact ih.symm
   | chain A B ih ih' => exact ih.trans ih'
-  | rawReverse A ih =>
-      simpa only [selectedContextEighteenTrace] using ih
+  | rawReverse A ih => exact ih
   | rawChainRight A X ih =>
-      simpa only [selectedContextEighteenTrace] using
-        congrArg (fun t : List Bool => t ++ selectedContextEighteenTrace l r X) ih
+      exact congrArg (fun t : List Bool =>
+        t ++ selectedContextEighteenTrace l r X) ih
   | rawChainLeft X A ih =>
-      simpa only [selectedContextEighteenTrace] using
-        congrArg (fun t : List Bool => selectedContextEighteenTrace l r X ++ t) ih
+      exact congrArg (fun t : List Bool =>
+        selectedContextEighteenTrace l r X ++ t) ih
 
 /-- Actual Quotient.lift on the NEW exact dependent fiber. -/
 def selectedRawCongruentTraceOnQuotient
@@ -107,16 +106,13 @@ theorem selectedRawCongruent_preservesReverseCount
   | reverse A ih => exact ih.symm
   | chain A B ih ih' => exact ih.trans ih'
   | rawReverse A ih =>
-      simpa only [selectedContextEighteenReverseCount] using
-        congrArg (fun n : Nat => n + 1) ih
+      exact congrArg (fun n : Nat => n + 1) ih
   | rawChainRight A X ih =>
-      simpa only [selectedContextEighteenReverseCount] using
-        congrArg (fun n : Nat =>
-          n + selectedContextEighteenReverseCount l r X) ih
+      exact congrArg (fun n : Nat =>
+        n + selectedContextEighteenReverseCount l r X) ih
   | rawChainLeft X A ih =>
-      simpa only [selectedContextEighteenReverseCount] using
-        congrArg (fun n : Nat =>
-          selectedContextEighteenReverseCount l r X + n) ih
+      exact congrArg (fun n : Nat =>
+        selectedContextEighteenReverseCount l r X + n) ih
 
 def selectedRawCongruentReverseCountOnQuotient
     (J N : SelectedContextualSeventeen W l r H K) :
