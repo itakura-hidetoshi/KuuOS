@@ -81,8 +81,8 @@ def selectedLocalEighteenSourceRootTag (l r : W)
     SelectedInheritedSourceRootTag :=
   match M with
   | .strict _ => .strict
-  | .unitLeft _ _ _ _ => .unitLeft
-  | .unitRight _ _ _ _ => .unitRight
+  | .unitLeft _ _ _ _ _ => .unitLeft
+  | .unitRight _ _ _ _ _ => .unitRight
   | .reverse _ => .reverse
   | .chain _ _ => .chain
 
