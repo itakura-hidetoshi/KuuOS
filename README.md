@@ -3059,3 +3059,12 @@ strict 空／独立Kuu→Qi、元F54二Nat・二圏・Blocks、元F55 Type履歴
 
 **未認証：** 第五観測を加えた5変量の完全分類、全異端点fiberのinhabitance、元I6全成分の新商降下、異fiberwhiskering、20D gluing、独立WORLD同一視。これらを自動的に昇格しない。元Type値証拠、公開root107、Lean/mathlib pin、保護PR #1558 Draft/OPEN未マージを維持。append-only／tighten-only／same-root。
 
+
+## 2026-11-09 — Qi v5.56：五変量でも残るraw反転祖先三重鎖（Lean4形式認証済み）
+
+[定理PR #3398](https://github.com/itakura-hidetoshi/KuuOS/pull/3398)・[公開import PR #3399](https://github.com/itakura-hidetoshi/KuuOS/pull/3399) **MERGED**。元18D Type値証拠`M:J→N`を消さず、異なる`N→N` raw反転suffixを右合成した真正対を作成。両suffixは総反転6、隣接反転3、祖先対11、最外層反転flag1で一致するが、**祖先三重鎖数は8対10**。v5.55までの五変量（完全ordered trace、ReverseCount、AdjacentReverseCount、TopReverseFlag、ReverseAncestryCount）は新商で同じでも、六番目の新商不変量`ReverseAncestorTripleCount`で区別される。新計数の旧5／新7比較構成子全件保存、旧新`Quotient.lift`、射影因子化、商クラス不一致、元Type値比較不存在、五変量非単射、class／triple復元decoderの不存在、指定J→J例をLean4で形式証明。
+
+[定理CI #42561415850](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42561415850)：**9,108/9,108 Scoped Strict Lean SUCCESS、Governance 5/5、19宣言監査（公理なし11、標準`propext`/`Quot.sound`のみ8、sorryAxなし）、変更Lean error/warning 0/0**。定理source/test-merge/squash Git tree `25cfb55625f732972b094ca9e720f910ab8b6d5d`一致。[公開CI #42561942569](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42561942569)：**10,369/10,369 KuuOSFormal Strict Lean SUCCESS、Governance 32/32**、公開tree `ba28737744364736f2fc6b5f3dbfab775a85b065`一致。[正式証明記録・公理監査](docs/formal/Qi-v5_56-five-observation-ancestor-triple-residual-verified-20261109.md)。
+
+**未認証：** 第六観測を加えた六変量の新商完全分類、任意異端点fiberの非空性、旧I6全成分の新商降下、異fiberwhiskering、20D gluing、独立WORLD同一視。これらの局所条件とobstructionは明示的に保留。元Type値証拠、公開root107、固定Lean/mathlib、保護#1558 Draft／OPEN／未マージ維持。append-only／tighten-only／same-root。
+
