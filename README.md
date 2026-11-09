@@ -3016,3 +3016,12 @@ strict 空／独立Kuu→Qi、元F54二Nat・二圏・Blocks、元F55 Type履歴
 [PR #3267](https://github.com/itakura-hidetoshi/KuuOS/pull/3267) **MERGED**。元F54（`Blocks`・二`Nat`深度）の実局所回転を与え、実旧F47の物理90辺×隣接2面の元F55 raw squareを、独立nativeトップ六角形の真正六セクタF42 fan/disk＋native F55 raw squareと**両Typeを保存したまま**証明付き比較。双方の元source解釈で全signed/phase `((0,1),1)`一致。指定北hexagon第1辺`Edge.cross (.northSpoke 0)`のみ実物理辺・faceを厳密一致させる。一般の元F42/native F42 source 2-cellや全F54同値を導いていない。
 
 [Exact-source CI #42368168171](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42368168171) **10,320/10,320 Strict Lean SUCCESS、Governance 30/30 SUCCESS**。16件公理監査sorryAxなし、新公理なし、変更Lean warning/error 0/0、source/test-merge tree `456d67c205af9b18f22c2ce1a132c1ef19bb3303`一致、squash `5579f88776531a983103379c5b2e207afa7e793e`。継承したF112真正C60幾何の既存`native_decide`6件を監査・明記し、全16宣言を標準公理のみとは記さない。[Living Engi §24](docs/LIVING_ENGI_CYCLE_VEDANA_TANHA_UPADANA_BHAVA_v0_1.md) · [正式記録](docs/formal/LEC-14-real-hexagon-square-original-native-typed-comparison-verified-20261107.md) · [manifest](docs/manifests/living_engi_lec14_verified_20261107.json)。独立KuuOSStrict、旧F54/F55/P77/GK5CG history、公開root107、固定Lean/mathlib、保護#1558維持。
+
+
+## 2026-11-09 — Qi v5.51：新raw文脈合同性商で保存される証拠履歴と失われる旧正規代表
+
+[定理PR #3383](https://github.com/itakura-hidetoshi/KuuOS/pull/3383)・[公開import PR #3384](https://github.com/itakura-hidetoshi/KuuOS/pull/3384) **MERGED**。元の19D `SelectedLocalNineteen` と真正18D Type値証拠を変更せず、独立の新合同性 `SelectedRawCongruentNineteen` の**7構成子すべて**で、外側の完全ordered `List Bool` traceとraw反転回数が保存され、新商の `Quotient.lift` に正しく降下することをLean4で証明。ordered traceの旧商→新商射影に沿う正確な因子化も証明。
+
+一方、与えられた元18D証拠のfiberでは、新商で同一視されるraw右合成の比較対について、旧 `LeftNestedCount` が**1対0**となり、その計数の新商への降下は不可能。旧selected19の型付き正規代表も新商から忠実に再現できない。元旧19D非合同性の障害を消さずに、保存観測と情報損失を別々に認証した。異なる16D fiberのwhiskering・全fiberの存在・20D gluingは未証明。
+
+[定理exact-source CI #42538653834](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42538653834)：**9,103/9,103 Strict Lean SUCCESS**、Governance **5/5**、新規10宣言の公理監査は公理不要7・標準公理のみ3、sorryAxなし。修正後エラー／警告0/0。[公開CI #42539127337](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42539127337)：**10,364/10,364 Strict Lean SUCCESS、Governance 32/32**。source/test-merge/squash Git treeは定理 `137d9e2cf6d2b6ab8ef7eefa79917a32b72b49b1`、公開 `ee49e69c8524b52683c6019a309ae88ac6899025` でそれぞれ一致。[正式記録](docs/formal/Qi-v5_51-raw-congruence-observation-gates-verified-20261109.md)。公開root107、Lean v4.30.0-rc2／固定mathlib、保護#1558 Draft/OPEN/未マージを保持。
