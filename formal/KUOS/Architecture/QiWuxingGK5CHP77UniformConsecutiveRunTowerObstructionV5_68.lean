@@ -724,19 +724,28 @@ theorem selectedUniformRunWitnessFiber_observationEq
         (selectedRawCongruentClass l r (selectedUniformRunWitnessFiberRight l r M n)) := by
   apply Prod.ext
   · apply Prod.ext
-    · exact selectedRawEightSignature_toObservation l r
-        (selectedUniformRunWitnessFiberLeft l r M n)
-        (selectedUniformRunWitnessFiberRight l r M n)
-        (selectedUniformRunWitnessFiber_eightSignature l r M n) |>.trans (by rfl)
-    · change selectedAncestorTowerCount l r 6
-          (selectedUniformRunWitnessFiberLeft l r M n) =
-        selectedAncestorTowerCount l r 6
+    · apply Prod.ext
+      · exact selectedRawEightSignature_toObservation l r
+          (selectedUniformRunWitnessFiberLeft l r M n)
           (selectedUniformRunWitnessFiberRight l r M n)
-      exact selectedUniformRunWitnessFiber_allTowerEq l r M n 6
+          (selectedUniformRunWitnessFiber_eightSignature l r M n)
+      · change selectedAncestorTowerCount l r 6
+            (selectedUniformRunWitnessFiberLeft l r M n) =
+          selectedAncestorTowerCount l r 6
+            (selectedUniformRunWitnessFiberRight l r M n)
+        exact selectedUniformRunWitnessFiber_allTowerEq l r M n 6
+    · funext degree
+      change selectedAncestorTowerCount l r degree
+          (selectedUniformRunWitnessFiberLeft l r M n) =
+        selectedAncestorTowerCount l r degree
+          (selectedUniformRunWitnessFiberRight l r M n)
+      exact selectedUniformRunWitnessFiber_allTowerEq l r M n degree
   · funext i
-    -- The second product is the entire tower paired with finite run counts.
-    -- This branch will be refined into the exact nested product below.
-    sorry
+    change selectedContextEighteenConsecutiveRunCount l r i.val
+        (selectedUniformRunWitnessFiberLeft l r M n) =
+      selectedContextEighteenConsecutiveRunCount l r i.val
+        (selectedUniformRunWitnessFiberRight l r M n)
+    exact selectedUniformRunWitnessFiber_shortCountEq l r M n i.val (by omega)
 
 /-- Noninjectivity and decoder obstructions are stated only for
 genuinely inhabited exact original fibers. -/
