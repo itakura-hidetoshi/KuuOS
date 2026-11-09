@@ -3109,3 +3109,12 @@ strict 空／独立Kuu→Qi、元F54二Nat・二圏・Blocks、元F55 Type履歴
 [定理CI #42598568166](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42598568166) **9,113/9,113 Strict Lean・Governance 5/5 SUCCESS**、[公開CI #42599309789](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42599309789) **10,374/10,374 KuuOSFormal Strict Lean・Governance 30/30 SUCCESS**。16宣言公理監査：公理不要7件・標準公理のみ9件・sorryAxなし、変更Lean error/warning 0/0、両段階ともexact-head受領書各2件SUCCESS、source/test-merge/squash tree一致。[正式記録](docs/formal/Qi-v5_61-eight-observation-sixth-ancestor-residual-verified-20261109.md)。
 
 **未認証境界**：任意のnに対する反復shiftの一様な実在証拠対、九変量の全商完全復元・任意異端点fiber非空性・異fiberwhiskering・20D gluing・authorityはNO_DATA。次段v5.62で実際の有限prefix反例の帰納構成を検証する。元Type値・独立比較presentation・公開root107・固定Lean/mathlib・保護#1558 Draft/OPEN未マージ保持。append-only／tighten-only／overwrite-forbidden／same-root。
+
+## 2026-11-09 — Qi v5.62：九変量の非単射性と第七祖先数C₇残余（Lean4形式証明済み）
+
+[定理PR #3416](https://github.com/itakura-hidetoshi/KuuOS/pull/3416)・[公開import PR #3417](https://github.com/itakura-hidetoshi/KuuOS/pull/3417) は**MERGED**。Qi v5.61の真正18D同一端点対をさらに一度 `chain (reverse L₆) R₆`／`chain L₆ (reverse R₆)` へ輸送し、**C₀〜C₆の同時一致、C₇の正確な+2差**を認証。両入力がchain最上位でtop reverse flag=0であることを元Type値で証明して、ordered trace／adjacent／topおよび従来C₁〜C₅の旧計数と第九C₆観測の全一致を構成。実在する元M:J→Nが与えられたfiberで、実際の九変量新商観測の非単射、C₇完全decoder不存在、指定J→Jでの非単射を証明した。第十C₇観測が区別するのは**この真正対のみ**であり、新商全体の完全分類とはしない。
+
+[定理exact-source CI #42602535849](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42602535849) **9,114/9,114 Scoped Strict Lean・Governance 5/5 SUCCESS**。[公開CI #42603465031](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42603465031) **10,375/10,375 KuuOSFormal Strict Lean・Governance 30/30 SUCCESS**。20新規宣言の公理監査は公理不要7、標準 `propext`／`Quot.sound` のみ13、新規sorryAxなし、変更Lean error/warning 0/0、両exact-head受領書は各2件SUCCESS。定理source/test-merge/squash Git tree `9c744dc7e372952e0f4e64156d88fc8a9b870d5e`、公開tree `56892b90441541f7d29d228e4c704c44ee97e5fc` は完全一致。[形式証明・公理監査記録](docs/formal/Qi-v5_62-nine-observation-seventh-ancestor-residual-verified-20261109.md)。
+
+**未認証境界／次段v5.63**：任意n回の反転shiftについての一様な真正`Nat`証拠族と任意有限観測prefixの非単射性は**まだ証明していない**。v5.59の条件付き∀nを無条件の存在へ昇格しない。第十観測の全商完全復元、任意異端点fiberの非空性、異fiberwhiskering、20D gluing、authorityはNO_DATA。元18D/19D Type証拠・別々の旧新比較presentation・公開root107・Lean/mathlib pin・保護PR #1558 Draft/OPEN/未マージを保持。append-only／tighten-only／overwrite-forbidden／same-root。
+
