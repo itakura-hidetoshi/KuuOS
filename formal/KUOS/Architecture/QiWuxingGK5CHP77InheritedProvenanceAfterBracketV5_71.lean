@@ -178,6 +178,7 @@ theorem selectedStrictNodeCount_unitPrependDifferent
           (.strict J) (.inherited M)) ≠
       selectedContextEighteenStrictNodeCount l r
         (SelectedContextualEighteen.inherited M) := by
+  change (1 : Nat) ≠ 0
   decide
 
 /-- Original unitPrepend comparison forbids even the NEW quotient
@@ -234,6 +235,7 @@ theorem selectedProvenance_spineCountDistinct
         (selectedProvenanceStrictSpine l r N) ≠
       selectedContextEighteenInheritedLeafCount l r
         (selectedProvenanceInheritedSpine l r N) := by
+  change (0 : Nat) ≠ 1
   decide
 
 /-- Both witnesses reduce to the SAME unary reversed unit bracket. -/
