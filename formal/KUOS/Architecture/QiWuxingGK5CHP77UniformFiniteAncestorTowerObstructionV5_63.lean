@@ -63,7 +63,7 @@ def selectedFiniteTowerPair
   | 0 =>
       (selectedNineTowerShiftLeft l r N, selectedNineTowerShiftRight l r N)
   | n + 1 =>
-      let p := selectedFiniteTowerPair l r N n
+      let p := selectedFiniteTowerPair N n
       (selectedAncestorShiftLeft l r N p.1 p.2,
         selectedAncestorShiftRight l r N p.1 p.2)
 
