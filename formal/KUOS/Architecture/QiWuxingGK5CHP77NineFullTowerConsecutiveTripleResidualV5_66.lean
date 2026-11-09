@@ -213,40 +213,40 @@ theorem selectedConsecutiveTriple_factorsOld
   | _ M => rfl
 
 /-- A genuine dependent N→N one-reversal seed. -/
-def selectedTripleResidualSpine
+def selectedConsecutiveTripleWitnessSpine
     (N : SelectedContextualSeventeen W l r H K) :
     SelectedContextualEighteen W l r N N :=
   .reverse (.strict N)
 
 /-- A raw chain gap inserts a strict identity without altering any
 ancestor tower coordinate, but it interrupts immediate reversals. -/
-def selectedTripleResidualGap
+def selectedConsecutiveTripleWitnessGap
     (N : SelectedContextualSeventeen W l r H K)
     (A : SelectedContextualEighteen W l r N N) :
     SelectedContextualEighteen W l r N N :=
   .chain A (.strict N)
 
 /-- Three consecutive reversals above a gap and a final reverse. -/
-def selectedTripleResidualLeft
+def selectedConsecutiveTripleWitnessLeft
     (N : SelectedContextualSeventeen W l r H K) :
     SelectedContextualEighteen W l r N N :=
   .reverse (.reverse (.reverse
-    (selectedTripleResidualGap l r N (selectedTripleResidualSpine l r N))))
+    (selectedConsecutiveTripleWitnessGap l r N (selectedConsecutiveTripleWitnessSpine l r N))))
 
 /-- Two reversals above a gap and two more reversals below it. -/
-def selectedTripleResidualRight
+def selectedConsecutiveTripleWitnessRight
     (N : SelectedContextualSeventeen W l r H K) :
     SelectedContextualEighteen W l r N N :=
   .reverse (.reverse
-    (selectedTripleResidualGap l r N
-      (.reverse (selectedTripleResidualSpine l r N))))
+    (selectedConsecutiveTripleWitnessGap l r N
+      (.reverse (selectedConsecutiveTripleWitnessSpine l r N))))
 
 /-- Right strict-chain contributes no positive ancestor counts,
 and C0 is fixed to the same seed 1. -/
-theorem selectedTripleResidual_gapTowerEq
+theorem selectedConsecutiveTripleWitness_gapTowerEq
     (N : SelectedContextualSeventeen W l r H K)
     (A : SelectedContextualEighteen W l r N N) (n : Nat) :
-    selectedAncestorTowerCount l r n (selectedTripleResidualGap l r N A) =
+    selectedAncestorTowerCount l r n (selectedConsecutiveTripleWitnessGap l r N A) =
       selectedAncestorTowerCount l r n A := by
   cases n with
   | zero => rfl
@@ -257,140 +257,140 @@ theorem selectedTripleResidual_gapTowerEq
 
 /-- At the seed stage, moving the gap past one reverse keeps EVERY
 ancestor coordinate, not just a fixed finite prefix. -/
-theorem selectedTripleResidual_seedTowerEq
+theorem selectedConsecutiveTripleWitness_seedTowerEq
     (N : SelectedContextualSeventeen W l r H K) :
     ∀ n : Nat,
       selectedAncestorTowerCount l r n
-          (.reverse (selectedTripleResidualGap l r N
-            (selectedTripleResidualSpine l r N))) =
+          (.reverse (selectedConsecutiveTripleWitnessGap l r N
+            (selectedConsecutiveTripleWitnessSpine l r N))) =
         selectedAncestorTowerCount l r n
-          (selectedTripleResidualGap l r N
-            (.reverse (selectedTripleResidualSpine l r N))) := by
+          (selectedConsecutiveTripleWitnessGap l r N
+            (.reverse (selectedConsecutiveTripleWitnessSpine l r N))) := by
   intro n
   have h1 : ∀ k : Nat,
       selectedAncestorTowerCount l r k
-          (.reverse (selectedTripleResidualGap l r N
-            (selectedTripleResidualSpine l r N))) =
+          (.reverse (selectedConsecutiveTripleWitnessGap l r N
+            (selectedConsecutiveTripleWitnessSpine l r N))) =
         selectedAncestorTowerCount l r k
-          (.reverse (selectedTripleResidualSpine l r N)) :=
+          (.reverse (selectedConsecutiveTripleWitnessSpine l r N)) :=
     selectedFullTowerAdjacency_reverseTowerEq l r N
-      (selectedTripleResidualGap l r N (selectedTripleResidualSpine l r N))
-      (selectedTripleResidualSpine l r N)
-      (selectedTripleResidual_gapTowerEq l r N
-        (selectedTripleResidualSpine l r N))
+      (selectedConsecutiveTripleWitnessGap l r N (selectedConsecutiveTripleWitnessSpine l r N))
+      (selectedConsecutiveTripleWitnessSpine l r N)
+      (selectedConsecutiveTripleWitness_gapTowerEq l r N
+        (selectedConsecutiveTripleWitnessSpine l r N))
   exact (h1 n).trans
-    (selectedTripleResidual_gapTowerEq l r N
-      (.reverse (selectedTripleResidualSpine l r N)) n).symm
+    (selectedConsecutiveTripleWitness_gapTowerEq l r N
+      (.reverse (selectedConsecutiveTripleWitnessSpine l r N)) n).symm
 
 /-- Both genuine raw terms have an IDENTICAL FULL infinite
 ancestor tower, a strictly stronger premise than any finite sample. -/
-theorem selectedTripleResidual_allTowerEq
+theorem selectedConsecutiveTripleWitness_allTowerEq
     (N : SelectedContextualSeventeen W l r H K) (n : Nat) :
-    selectedAncestorTowerCount l r n (selectedTripleResidualLeft l r N) =
-      selectedAncestorTowerCount l r n (selectedTripleResidualRight l r N) := by
+    selectedAncestorTowerCount l r n (selectedConsecutiveTripleWitnessLeft l r N) =
+      selectedAncestorTowerCount l r n (selectedConsecutiveTripleWitnessRight l r N) := by
   have h1 : ∀ k : Nat,
       selectedAncestorTowerCount l r k
-          (.reverse (.reverse (selectedTripleResidualGap l r N
-            (selectedTripleResidualSpine l r N)))) =
+          (.reverse (.reverse (selectedConsecutiveTripleWitnessGap l r N
+            (selectedConsecutiveTripleWitnessSpine l r N)))) =
         selectedAncestorTowerCount l r k
-          (.reverse (selectedTripleResidualGap l r N
-            (.reverse (selectedTripleResidualSpine l r N)))) :=
+          (.reverse (selectedConsecutiveTripleWitnessGap l r N
+            (.reverse (selectedConsecutiveTripleWitnessSpine l r N)))) :=
     selectedFullTowerAdjacency_reverseTowerEq l r N
-      (.reverse (selectedTripleResidualGap l r N
-        (selectedTripleResidualSpine l r N)))
-      (selectedTripleResidualGap l r N
-        (.reverse (selectedTripleResidualSpine l r N)))
-      (selectedTripleResidual_seedTowerEq l r N)
+      (.reverse (selectedConsecutiveTripleWitnessGap l r N
+        (selectedConsecutiveTripleWitnessSpine l r N)))
+      (selectedConsecutiveTripleWitnessGap l r N
+        (.reverse (selectedConsecutiveTripleWitnessSpine l r N)))
+      (selectedConsecutiveTripleWitness_seedTowerEq l r N)
   exact selectedFullTowerAdjacency_reverseTowerEq l r N
-    (.reverse (.reverse (selectedTripleResidualGap l r N
-      (selectedTripleResidualSpine l r N))))
-    (.reverse (selectedTripleResidualGap l r N
-      (.reverse (selectedTripleResidualSpine l r N)))) h1 n
+    (.reverse (.reverse (selectedConsecutiveTripleWitnessGap l r N
+      (selectedConsecutiveTripleWitnessSpine l r N))))
+    (.reverse (selectedConsecutiveTripleWitnessGap l r N
+      (.reverse (selectedConsecutiveTripleWitnessSpine l r N)))) h1 n
 
 /-- Both complete ordered raw traces are precisely empty. -/
-theorem selectedTripleResidual_traceEq
+theorem selectedConsecutiveTripleWitness_traceEq
     (N : SelectedContextualSeventeen W l r H K) :
-    selectedContextEighteenTrace l r (selectedTripleResidualLeft l r N) =
-      selectedContextEighteenTrace l r (selectedTripleResidualRight l r N) := by
+    selectedContextEighteenTrace l r (selectedConsecutiveTripleWitnessLeft l r N) =
+      selectedContextEighteenTrace l r (selectedConsecutiveTripleWitnessRight l r N) := by
   rfl
 
 /-- Both outer raw constructors are reverse, top reverse flags 1. -/
-theorem selectedTripleResidual_topEq
+theorem selectedConsecutiveTripleWitness_topEq
     (N : SelectedContextualSeventeen W l r H K) :
-    selectedContextEighteenTopReverseFlag l r (selectedTripleResidualLeft l r N) =
-      selectedContextEighteenTopReverseFlag l r (selectedTripleResidualRight l r N) := by
+    selectedContextEighteenTopReverseFlag l r (selectedConsecutiveTripleWitnessLeft l r N) =
+      selectedContextEighteenTopReverseFlag l r (selectedConsecutiveTripleWitnessRight l r N) := by
   rfl
 
 /-- Even the independently quotiented adjacent count agrees: 2 vs 2.
 Thus the v5.65 adjacency obstruction cannot separate THIS pair. -/
-theorem selectedTripleResidual_adjacentEq
+theorem selectedConsecutiveTripleWitness_adjacentEq
     (N : SelectedContextualSeventeen W l r H K) :
     selectedContextEighteenAdjacentReverseCount l r
-        (selectedTripleResidualLeft l r N) =
+        (selectedConsecutiveTripleWitnessLeft l r N) =
       selectedContextEighteenAdjacentReverseCount l r
-        (selectedTripleResidualRight l r N) := by
+        (selectedConsecutiveTripleWitnessRight l r N) := by
   rfl
 
 /-- One directly consecutive triple on the left. -/
-theorem selectedTripleResidual_leftTripleOne
+theorem selectedConsecutiveTripleWitness_leftTripleOne
     (N : SelectedContextualSeventeen W l r H K) :
     selectedContextEighteenConsecutiveTripleCount l r
-      (selectedTripleResidualLeft l r N) = 1 := by
+      (selectedConsecutiveTripleWitnessLeft l r N) = 1 := by
   rfl
 
 /-- No directly consecutive triple on the right. -/
-theorem selectedTripleResidual_rightTripleZero
+theorem selectedConsecutiveTripleWitness_rightTripleZero
     (N : SelectedContextualSeventeen W l r H K) :
     selectedContextEighteenConsecutiveTripleCount l r
-      (selectedTripleResidualRight l r N) = 0 := by
+      (selectedConsecutiveTripleWitnessRight l r N) = 0 := by
   rfl
 
 /-- A new genuine quotient comparison between these N→N loops is
 impossible because an independently conserved invariant differs. -/
-theorem selectedTripleResidual_classDistinct
+theorem selectedConsecutiveTripleWitness_classDistinct
     (N : SelectedContextualSeventeen W l r H K) :
-    selectedRawCongruentClass l r (selectedTripleResidualLeft l r N) ≠
-      selectedRawCongruentClass l r (selectedTripleResidualRight l r N) := by
+    selectedRawCongruentClass l r (selectedConsecutiveTripleWitnessLeft l r N) ≠
+      selectedRawCongruentClass l r (selectedConsecutiveTripleWitnessRight l r N) := by
   intro h
   have ht := congrArg
     (selectedRawCongruentConsecutiveTripleOnQuotient l r N N) h
   change selectedContextEighteenConsecutiveTripleCount l r
-      (selectedTripleResidualLeft l r N) =
+      (selectedConsecutiveTripleWitnessLeft l r N) =
     selectedContextEighteenConsecutiveTripleCount l r
-      (selectedTripleResidualRight l r N) at ht
-  rw [selectedTripleResidual_leftTripleOne l r N,
-    selectedTripleResidual_rightTripleZero l r N] at ht
+      (selectedConsecutiveTripleWitnessRight l r N) at ht
+  rw [selectedConsecutiveTripleWitness_leftTripleOne l r N,
+    selectedConsecutiveTripleWitness_rightTripleZero l r N] at ht
   omega
 
 /-- No NEW genuinely Type-valued 19D comparison can identify
 the two raw histories. -/
-theorem selectedTripleResidual_noComparison
+theorem selectedConsecutiveTripleWitness_noComparison
     (N : SelectedContextualSeventeen W l r H K) :
     ¬ Nonempty (SelectedRawCongruentNineteen W l r N N
-      (selectedTripleResidualLeft l r N)
-      (selectedTripleResidualRight l r N)) := by
+      (selectedConsecutiveTripleWitnessLeft l r N)
+      (selectedConsecutiveTripleWitnessRight l r N)) := by
   rintro ⟨A⟩
-  exact (selectedTripleResidual_classDistinct l r N)
+  exact (selectedConsecutiveTripleWitness_classDistinct l r N)
     (Quotient.sound ⟨A⟩)
 
 /-- Reuse the FIVE separately certified v5.60 bridges between
 actual original count functions and the complete ancestor tower. -/
-theorem selectedTripleResidual_eightSignature
+theorem selectedConsecutiveTripleWitness_eightSignature
     (N : SelectedContextualSeventeen W l r H K) :
     selectedRawEightSignature l r
-      (selectedTripleResidualLeft l r N)
-      (selectedTripleResidualRight l r N) := by
+      (selectedConsecutiveTripleWitnessLeft l r N)
+      (selectedConsecutiveTripleWitnessRight l r N) := by
   let X : SelectedContextualEighteen W l r N N :=
-    selectedTripleResidualLeft l r N
+    selectedConsecutiveTripleWitnessLeft l r N
   let Y : SelectedContextualEighteen W l r N N :=
-    selectedTripleResidualRight l r N
+    selectedConsecutiveTripleWitnessRight l r N
   have hT : ∀ k : Nat,
       selectedAncestorTowerCount l r k X =
         selectedAncestorTowerCount l r k Y :=
-    selectedTripleResidual_allTowerEq l r N
-  refine ⟨selectedTripleResidual_traceEq l r N,
-    ?_, selectedTripleResidual_adjacentEq l r N,
-    selectedTripleResidual_topEq l r N, ?_, ?_, ?_, ?_⟩
+    selectedConsecutiveTripleWitness_allTowerEq l r N
+  refine ⟨selectedConsecutiveTripleWitness_traceEq l r N,
+    ?_, selectedConsecutiveTripleWitness_adjacentEq l r N,
+    selectedConsecutiveTripleWitness_topEq l r N, ?_, ?_, ?_, ?_⟩
   · exact (selectedAncestorTower_eqReverseCount l r X).symm.trans
       ((hT 1).trans (selectedAncestorTower_eqReverseCount l r Y))
   · exact (selectedAncestorTower_eqAncestryCount l r X).symm.trans
@@ -404,77 +404,77 @@ theorem selectedTripleResidual_eightSignature
 
 /-- Attach both genuine N→N loops to an actual supplied M:J→N,
 without postulating that any heterogeneous fiber is inhabited. -/
-def selectedTripleResidualFiberLeft
+def selectedConsecutiveTripleWitnessFiberLeft
     (M : SelectedContextualEighteen W l r J N) :
     SelectedContextualEighteen W l r J N :=
-  .chain M (selectedTripleResidualLeft l r N)
+  .chain M (selectedConsecutiveTripleWitnessLeft l r N)
 
-def selectedTripleResidualFiberRight
+def selectedConsecutiveTripleWitnessFiberRight
     (M : SelectedContextualEighteen W l r J N) :
     SelectedContextualEighteen W l r J N :=
-  .chain M (selectedTripleResidualRight l r N)
+  .chain M (selectedConsecutiveTripleWitnessRight l r N)
 
 /-- All natural degrees remain pointwise equal in the actual
 original J→N fiber. -/
-theorem selectedTripleResidualFiber_allTowerEq
+theorem selectedConsecutiveTripleWitnessFiber_allTowerEq
     (M : SelectedContextualEighteen W l r J N) (n : Nat) :
-    selectedAncestorTowerCount l r n (selectedTripleResidualFiberLeft l r M) =
-      selectedAncestorTowerCount l r n (selectedTripleResidualFiberRight l r M) := by
+    selectedAncestorTowerCount l r n (selectedConsecutiveTripleWitnessFiberLeft l r M) =
+      selectedAncestorTowerCount l r n (selectedConsecutiveTripleWitnessFiberRight l r M) := by
   cases n with
   | zero => rfl
   | succ n =>
       change selectedAncestorTowerCount l r (n + 1) M +
           selectedAncestorTowerCount l r (n + 1)
-            (selectedTripleResidualLeft l r N) =
+            (selectedConsecutiveTripleWitnessLeft l r N) =
         selectedAncestorTowerCount l r (n + 1) M +
           selectedAncestorTowerCount l r (n + 1)
-            (selectedTripleResidualRight l r N)
+            (selectedConsecutiveTripleWitnessRight l r N)
       exact congrArg
         (fun t : Nat => selectedAncestorTowerCount l r (n + 1) M + t)
-        (selectedTripleResidual_allTowerEq l r N (n + 1))
+        (selectedConsecutiveTripleWitness_allTowerEq l r N (n + 1))
 
 /-- Eight existing raw observables remain equal under a genuine
 right chain (including adjacency and top), by the v5.61 theorem. -/
-theorem selectedTripleResidualFiber_eightSignature
+theorem selectedConsecutiveTripleWitnessFiber_eightSignature
     (M : SelectedContextualEighteen W l r J N) :
     selectedRawEightSignature l r
-      (selectedTripleResidualFiberLeft l r M)
-      (selectedTripleResidualFiberRight l r M) :=
+      (selectedConsecutiveTripleWitnessFiberLeft l r M)
+      (selectedConsecutiveTripleWitnessFiberRight l r M) :=
   selectedRawEightSignature_rightChain l r M
-    (selectedTripleResidualLeft l r N)
-    (selectedTripleResidualRight l r N)
-    (selectedTripleResidual_eightSignature l r N)
+    (selectedConsecutiveTripleWitnessLeft l r N)
+    (selectedConsecutiveTripleWitnessRight l r N)
+    (selectedConsecutiveTripleWitness_eightSignature l r N)
 
 /-- Triple consecutive count is additive under actual raw chains:
 the residual +1 survives in every supplied original J→N fiber. -/
-theorem selectedTripleResidualFiber_tripleGap
+theorem selectedConsecutiveTripleWitnessFiber_tripleGap
     (M : SelectedContextualEighteen W l r J N) :
     selectedContextEighteenConsecutiveTripleCount l r
-        (selectedTripleResidualFiberLeft l r M) =
+        (selectedConsecutiveTripleWitnessFiberLeft l r M) =
       selectedContextEighteenConsecutiveTripleCount l r
-        (selectedTripleResidualFiberRight l r M) + 1 := by
+        (selectedConsecutiveTripleWitnessFiberRight l r M) + 1 := by
   change selectedContextEighteenConsecutiveTripleCount l r M +
       selectedContextEighteenConsecutiveTripleCount l r
-        (selectedTripleResidualLeft l r N) =
+        (selectedConsecutiveTripleWitnessLeft l r N) =
     (selectedContextEighteenConsecutiveTripleCount l r M +
       selectedContextEighteenConsecutiveTripleCount l r
-        (selectedTripleResidualRight l r N)) + 1
-  rw [selectedTripleResidual_leftTripleOne l r N,
-    selectedTripleResidual_rightTripleZero l r N]
+        (selectedConsecutiveTripleWitnessRight l r N)) + 1
+  rw [selectedConsecutiveTripleWitness_leftTripleOne l r N,
+    selectedConsecutiveTripleWitness_rightTripleZero l r N]
   omega
 
-theorem selectedTripleResidualFiber_classDistinct
+theorem selectedConsecutiveTripleWitnessFiber_classDistinct
     (M : SelectedContextualEighteen W l r J N) :
-    selectedRawCongruentClass l r (selectedTripleResidualFiberLeft l r M) ≠
-      selectedRawCongruentClass l r (selectedTripleResidualFiberRight l r M) := by
+    selectedRawCongruentClass l r (selectedConsecutiveTripleWitnessFiberLeft l r M) ≠
+      selectedRawCongruentClass l r (selectedConsecutiveTripleWitnessFiberRight l r M) := by
   intro h
   have ht := congrArg
     (selectedRawCongruentConsecutiveTripleOnQuotient l r J N) h
   change selectedContextEighteenConsecutiveTripleCount l r
-      (selectedTripleResidualFiberLeft l r M) =
+      (selectedConsecutiveTripleWitnessFiberLeft l r M) =
     selectedContextEighteenConsecutiveTripleCount l r
-      (selectedTripleResidualFiberRight l r M) at ht
-  rw [selectedTripleResidualFiber_tripleGap l r M] at ht
+      (selectedConsecutiveTripleWitnessFiberRight l r M) at ht
+  rw [selectedConsecutiveTripleWitnessFiber_tripleGap l r M] at ht
   omega
 
 /-- The FULL existing nine-observer, now joined with ALL natural
@@ -489,29 +489,29 @@ def selectedRawCongruentNineFullTowerObservation
 
 /-- Real new quotient observation equality on the genuine same-fiber
 pair, simultaneously for all NINE old components and ALL C_n. -/
-theorem selectedTripleResidualFiber_nineFullTowerEq
+theorem selectedConsecutiveTripleWitnessFiber_nineFullTowerEq
     (M : SelectedContextualEighteen W l r J N) :
     selectedRawCongruentNineFullTowerObservation l r J N
-        (selectedRawCongruentClass l r (selectedTripleResidualFiberLeft l r M)) =
+        (selectedRawCongruentClass l r (selectedConsecutiveTripleWitnessFiberLeft l r M)) =
       selectedRawCongruentNineFullTowerObservation l r J N
-        (selectedRawCongruentClass l r (selectedTripleResidualFiberRight l r M)) := by
+        (selectedRawCongruentClass l r (selectedConsecutiveTripleWitnessFiberRight l r M)) := by
   apply Prod.ext
   · apply Prod.ext
     · exact selectedRawEightSignature_toObservation l r
-        (selectedTripleResidualFiberLeft l r M)
-        (selectedTripleResidualFiberRight l r M)
-        (selectedTripleResidualFiber_eightSignature l r M)
+        (selectedConsecutiveTripleWitnessFiberLeft l r M)
+        (selectedConsecutiveTripleWitnessFiberRight l r M)
+        (selectedConsecutiveTripleWitnessFiber_eightSignature l r M)
     · change selectedAncestorTowerCount l r 6
-          (selectedTripleResidualFiberLeft l r M) =
+          (selectedConsecutiveTripleWitnessFiberLeft l r M) =
         selectedAncestorTowerCount l r 6
-          (selectedTripleResidualFiberRight l r M)
-      exact selectedTripleResidualFiber_allTowerEq l r M 6
+          (selectedConsecutiveTripleWitnessFiberRight l r M)
+      exact selectedConsecutiveTripleWitnessFiber_allTowerEq l r M 6
   · funext n
     change selectedAncestorTowerCount l r n
-        (selectedTripleResidualFiberLeft l r M) =
+        (selectedConsecutiveTripleWitnessFiberLeft l r M) =
       selectedAncestorTowerCount l r n
-        (selectedTripleResidualFiberRight l r M)
-    exact selectedTripleResidualFiber_allTowerEq l r M n
+        (selectedConsecutiveTripleWitnessFiberRight l r M)
+    exact selectedConsecutiveTripleWitnessFiber_allTowerEq l r M n
 
 /-- The nine-observer augmented by the ENTIRE infinite tower is
 still noninjective, in each genuine inhabited exact original fiber. -/
@@ -520,8 +520,8 @@ theorem selectedRawCongruentNineFullTower_notInjective
     ¬ Function.Injective
       (selectedRawCongruentNineFullTowerObservation l r J N) := by
   intro hinj
-  exact (selectedTripleResidualFiber_classDistinct l r M)
-    (hinj (selectedTripleResidualFiber_nineFullTowerEq l r M))
+  exact (selectedConsecutiveTripleWitnessFiber_classDistinct l r M)
+    (hinj (selectedConsecutiveTripleWitnessFiber_nineFullTowerEq l r M))
 
 /-- Even the combined observation cannot recover the independently
 certified consecutive triple invariant, on all new quotient classes
@@ -535,22 +535,22 @@ theorem selectedRawCongruentNineFullTower_noTripleDecoder
   rintro ⟨decode, h⟩
   have ht :
       selectedRawCongruentConsecutiveTripleOnQuotient l r J N
-          (selectedRawCongruentClass l r (selectedTripleResidualFiberLeft l r M)) =
+          (selectedRawCongruentClass l r (selectedConsecutiveTripleWitnessFiberLeft l r M)) =
         selectedRawCongruentConsecutiveTripleOnQuotient l r J N
-          (selectedRawCongruentClass l r (selectedTripleResidualFiberRight l r M)) := by
+          (selectedRawCongruentClass l r (selectedConsecutiveTripleWitnessFiberRight l r M)) := by
     calc
       _ = decode (selectedRawCongruentNineFullTowerObservation l r J N
-            (selectedRawCongruentClass l r (selectedTripleResidualFiberLeft l r M))) :=
+            (selectedRawCongruentClass l r (selectedConsecutiveTripleWitnessFiberLeft l r M))) :=
         (h _).symm
       _ = decode (selectedRawCongruentNineFullTowerObservation l r J N
-            (selectedRawCongruentClass l r (selectedTripleResidualFiberRight l r M))) :=
-        congrArg decode (selectedTripleResidualFiber_nineFullTowerEq l r M)
+            (selectedRawCongruentClass l r (selectedConsecutiveTripleWitnessFiberRight l r M))) :=
+        congrArg decode (selectedConsecutiveTripleWitnessFiber_nineFullTowerEq l r M)
       _ = _ := h _
   change selectedContextEighteenConsecutiveTripleCount l r
-      (selectedTripleResidualFiberLeft l r M) =
+      (selectedConsecutiveTripleWitnessFiberLeft l r M) =
     selectedContextEighteenConsecutiveTripleCount l r
-      (selectedTripleResidualFiberRight l r M) at ht
-  rw [selectedTripleResidualFiber_tripleGap l r M] at ht
+      (selectedConsecutiveTripleWitnessFiberRight l r M) at ht
+  rw [selectedConsecutiveTripleWitnessFiber_tripleGap l r M] at ht
   omega
 
 theorem selectedRawCongruentNineFullTower_noClassDecoder
@@ -589,29 +589,29 @@ end ExactFiber
 #print axioms PentagonAdjoinedSixCell.selectedRawCongruentConsecutiveTriple_onClass
 #print axioms PentagonAdjoinedSixCell.selectedNineteenConsecutiveTripleOnQuotient
 #print axioms PentagonAdjoinedSixCell.selectedConsecutiveTriple_factorsOld
-#print axioms PentagonAdjoinedSixCell.selectedTripleResidualSpine
-#print axioms PentagonAdjoinedSixCell.selectedTripleResidualGap
-#print axioms PentagonAdjoinedSixCell.selectedTripleResidualLeft
-#print axioms PentagonAdjoinedSixCell.selectedTripleResidualRight
-#print axioms PentagonAdjoinedSixCell.selectedTripleResidual_gapTowerEq
-#print axioms PentagonAdjoinedSixCell.selectedTripleResidual_seedTowerEq
-#print axioms PentagonAdjoinedSixCell.selectedTripleResidual_allTowerEq
-#print axioms PentagonAdjoinedSixCell.selectedTripleResidual_traceEq
-#print axioms PentagonAdjoinedSixCell.selectedTripleResidual_topEq
-#print axioms PentagonAdjoinedSixCell.selectedTripleResidual_adjacentEq
-#print axioms PentagonAdjoinedSixCell.selectedTripleResidual_leftTripleOne
-#print axioms PentagonAdjoinedSixCell.selectedTripleResidual_rightTripleZero
-#print axioms PentagonAdjoinedSixCell.selectedTripleResidual_classDistinct
-#print axioms PentagonAdjoinedSixCell.selectedTripleResidual_noComparison
-#print axioms PentagonAdjoinedSixCell.selectedTripleResidual_eightSignature
-#print axioms PentagonAdjoinedSixCell.selectedTripleResidualFiberLeft
-#print axioms PentagonAdjoinedSixCell.selectedTripleResidualFiberRight
-#print axioms PentagonAdjoinedSixCell.selectedTripleResidualFiber_allTowerEq
-#print axioms PentagonAdjoinedSixCell.selectedTripleResidualFiber_eightSignature
-#print axioms PentagonAdjoinedSixCell.selectedTripleResidualFiber_tripleGap
-#print axioms PentagonAdjoinedSixCell.selectedTripleResidualFiber_classDistinct
+#print axioms PentagonAdjoinedSixCell.selectedConsecutiveTripleWitnessSpine
+#print axioms PentagonAdjoinedSixCell.selectedConsecutiveTripleWitnessGap
+#print axioms PentagonAdjoinedSixCell.selectedConsecutiveTripleWitnessLeft
+#print axioms PentagonAdjoinedSixCell.selectedConsecutiveTripleWitnessRight
+#print axioms PentagonAdjoinedSixCell.selectedConsecutiveTripleWitness_gapTowerEq
+#print axioms PentagonAdjoinedSixCell.selectedConsecutiveTripleWitness_seedTowerEq
+#print axioms PentagonAdjoinedSixCell.selectedConsecutiveTripleWitness_allTowerEq
+#print axioms PentagonAdjoinedSixCell.selectedConsecutiveTripleWitness_traceEq
+#print axioms PentagonAdjoinedSixCell.selectedConsecutiveTripleWitness_topEq
+#print axioms PentagonAdjoinedSixCell.selectedConsecutiveTripleWitness_adjacentEq
+#print axioms PentagonAdjoinedSixCell.selectedConsecutiveTripleWitness_leftTripleOne
+#print axioms PentagonAdjoinedSixCell.selectedConsecutiveTripleWitness_rightTripleZero
+#print axioms PentagonAdjoinedSixCell.selectedConsecutiveTripleWitness_classDistinct
+#print axioms PentagonAdjoinedSixCell.selectedConsecutiveTripleWitness_noComparison
+#print axioms PentagonAdjoinedSixCell.selectedConsecutiveTripleWitness_eightSignature
+#print axioms PentagonAdjoinedSixCell.selectedConsecutiveTripleWitnessFiberLeft
+#print axioms PentagonAdjoinedSixCell.selectedConsecutiveTripleWitnessFiberRight
+#print axioms PentagonAdjoinedSixCell.selectedConsecutiveTripleWitnessFiber_allTowerEq
+#print axioms PentagonAdjoinedSixCell.selectedConsecutiveTripleWitnessFiber_eightSignature
+#print axioms PentagonAdjoinedSixCell.selectedConsecutiveTripleWitnessFiber_tripleGap
+#print axioms PentagonAdjoinedSixCell.selectedConsecutiveTripleWitnessFiber_classDistinct
 #print axioms PentagonAdjoinedSixCell.selectedRawCongruentNineFullTowerObservation
-#print axioms PentagonAdjoinedSixCell.selectedTripleResidualFiber_nineFullTowerEq
+#print axioms PentagonAdjoinedSixCell.selectedConsecutiveTripleWitnessFiber_nineFullTowerEq
 #print axioms PentagonAdjoinedSixCell.selectedRawCongruentNineFullTower_notInjective
 #print axioms PentagonAdjoinedSixCell.selectedRawCongruentNineFullTower_noTripleDecoder
 #print axioms PentagonAdjoinedSixCell.selectedRawCongruentNineFullTower_noClassDecoder
