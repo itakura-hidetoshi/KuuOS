@@ -3041,3 +3041,12 @@ strict 空／独立Kuu→Qi、元F54二Nat・二圏・Blocks、元F55 Type履歴
 この具体的二点は**完全ordered `List Bool` trace・総raw反転回数・元6数値が一致**するが、隣接反転回数が厳密に1異なり、**新合同性商でも比較不能**。したがって`(orderedTrace, reverseCount)`の共同観測は、実際の証拠が与えられたfiberで非単射、全商クラスを復元するdecoderも存在しない。3番目の隣接反転回数はこの対を区別するが、新商全体の完全分類や全fiberの比較可能性を証明していない。元6数値の一致は旧I6全体の新商への降下を意味しない（v5.51に降下不能成分あり）。
 
 [定理exact-source CI #42548681357](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42548681357) **9,105/9,105 Strict Lean SUCCESS、Governance 5/5、20件公理監査（公理不要12・標準公理のみ8、sorryAxなし）、変更Lean error/warning 0/0**。[公開CI #42549196684](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42549196684) **10,366/10,366 Strict Lean SUCCESS、Governance 30/30**。定理のsource/test-merge/squash Git tree `d72434cff7e23659b718f6f91cd0be346ceecf9a`、公開のtree `aeb6947c3e594e1bc369a1aed2e9c1cf22bc2bcb` は各々一致。[形式監査記録](docs/formal/Qi-v5_53-joint-observation-adjacency-residual-verified-20261109.md)。既存18D/19D証拠、公開root107、固定Lean/mathlib、保護PR #1558 Draft/OPEN/未マージを維持。
+
+## 2026-11-09 — Qi v5.54：三変量をそろえても残る最外層raw反転障害（Lean4形式認証済み）
+
+[定理PR #3392](https://github.com/itakura-hidetoshi/KuuOS/pull/3392)・[公開import PR #3393](https://github.com/itakura-hidetoshi/KuuOS/pull/3393)は**MERGED**。真正元18D証拠`M:J→N`から、同一型付きfiberの生証拠`A=reverse(reverse M)`と`B=chain A (strict N)`を新規Lean4モジュールで構成した。全ordered trace・raw reverse総数・隣接raw反転回数の**3変量が完全一致**する一方、v5.53で新7構成子に対する保存性を認証した`TopReverseFlag`はそれぞれ1と0。よって独立v5.50新商でも二つのクラスは異なり、真正新Type値比較は存在しない。指定証拠を含む各exact `J→N` fiberで三変量観測は非単射、商クラスdecoderとTopReverseFlag decoderは存在しない。17D端点Jのstrict raw identityから`J→J`でも非単射。
+
+[定理exact-source CI #42551576053](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42551576053)：**9,106/9,106 Strict Lean SUCCESS、Governance 5/5、16宣言公理監査（9公理不要、7標準`propext`/`Quot.sound`のみ、sorryAxなし）、変更Lean error/warning 0/0**。定理source/test-merge/squash tree `e7271a12d90214792a8b78cb23bb46541180a39c`一致。[公開CI #42552010285](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42552010285)：**10,367/10,367 Strict Lean、Governance 32/32 SUCCESS**、公開source/test-merge/squash tree `804cfb7dd525c2b4596c17ab1a27f8f4327643c5`一致。[正式監査記録](docs/formal/Qi-v5_54-triple-observation-top-reverse-residual-verified-20261109.md)。
+
+**未認証境界：** 第4変量TopReverseFlagはこの具体的対を区別するが、4変量の全商分類・完全復元は未証明。任意異端点fiberの非空性・元I6全成分の新商降下・異fiber whiskering・20D gluing・authorityを推測で補完しない。元18D/19D Type値証拠、公開root107、Lean/mathlib pin、保護PR #1558 Draft/OPEN未マージ維持。append-only／tighten-only／same-root。
+
