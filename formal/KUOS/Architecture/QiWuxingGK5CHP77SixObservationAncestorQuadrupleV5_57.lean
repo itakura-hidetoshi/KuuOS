@@ -169,7 +169,7 @@ def selectedSixQuadrupleSuffixLeft
     (.reverse (.reverse (.reverse
       (.chain
         (.reverse (.strict N))
-        (.chain (.reverse (.strict N)) (.reverse (.strict N))))))
+        (.chain (.reverse (.strict N)) (.reverse (.strict N)))))))
 
 /-- Right genuine N-to-N suffix:
 chain (reverse
@@ -189,7 +189,7 @@ def selectedSixQuadrupleSuffixRight
         (.chain
           (.reverse (.strict N))
           (.reverse (.reverse (.reverse
-            (.chain (.reverse (.strict N)) (.strict N)))))))
+            (.chain (.reverse (.strict N)) (.strict N))))))))
     (.strict N)
 
 /-- Finite raw certificate on the ACTUAL typed N-to-N syntax.
