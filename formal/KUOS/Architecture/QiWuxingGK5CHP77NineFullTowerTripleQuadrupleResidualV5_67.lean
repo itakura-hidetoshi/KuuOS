@@ -475,7 +475,6 @@ theorem selectedQuadrupleWitnessFiber_quadGap
         (selectedQuadrupleWitnessRight l r N)) + 1
   rw [selectedQuadrupleWitness_leftQuadOne l r N,
     selectedQuadrupleWitness_rightQuadZero l r N]
-  omega
 
 theorem selectedQuadrupleWitnessFiber_classDistinct
     (M : SelectedContextualEighteen W l r J N) :
