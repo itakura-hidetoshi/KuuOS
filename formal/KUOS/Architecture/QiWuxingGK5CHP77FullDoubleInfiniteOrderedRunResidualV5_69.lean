@@ -409,9 +409,9 @@ theorem selectedFullRunOrderWitness_noComparison
 original source run history to two suffixes makes them equal, the
 suffix ordered histories were equal before composition. -/
 theorem selectedOrderedRunList_prefixCancel
-    (prefix xs ys : List Nat) (h : prefix ++ xs = prefix ++ ys) :
+    (pre xs ys : List Nat) (h : pre ++ xs = pre ++ ys) :
     xs = ys := by
-  induction prefix with
+  induction pre with
   | nil => simpa using h
   | cons a tail ih =>
       apply ih
