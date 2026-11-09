@@ -3195,3 +3195,14 @@ strict 空／独立Kuu→Qi、元F54二Nat・二圏・Blocks、元F55 Type履歴
 [定理exact-source CI #42692161306](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42692161306) **9,122/9,122 Scoped Strict Lean・Governance 5/5 SUCCESS**、[公開CI #42692984615](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42692984615) **10,383/10,383 KuuOSFormal Strict Lean・Governance 30/30 SUCCESS**。新規45宣言すべて実公理監査は**公理不要14、標準`propext`/`Quot.sound`/`Classical.choice`のみ31**、新規sorryAxなし、変更error/warning 0/0、両段階exact-head受領書2件SUCCESS。定理tree `3bebb711afd6466e8864b8589d841d718de2ce16`、公開tree `5adf72e3fd40529800dba907ff9022e44047c058`は各source/test-merge/squash一致。[正式形式証明・公理監査記録](docs/formal/Qi-v5_70-unit-reduced-nonassociative-bracket-residual-verified-20261110.md)。
 
 **境界／次段Qi v5.71（未認証）**：ここでは元18Dのraw chainが結合的だと証明したのではなく、結合則を持たない現行比較presentationで括弧が区別されることを証明。新括弧不変量まで観測に加えた場合の完全分類はNO_DATA。異端点fiberの無条件非空性、20D gluing、異fiberwhiskering、全WORLD貼合・authorityは未認証。元18D Type値、独立旧selected19／新7構成子商、公開root107、固定Lean v4.30.0-rc2/mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、保護#1558 Draft／OPEN／未マージ維持。append-only／tighten-only／overwrite-forbidden／same-root。
+
+
+## 2026-11-10 — Qi v5.71：括弧簡約の先に残る元inherited証拠来歴の障害（Lean4形式認証済み）
+
+[定理PR #3443](https://github.com/itakura-hidetoshi/KuuOS/pull/3443)・[公開import PR #3444](https://github.com/itakura-hidetoshi/KuuOS/pull/3444) はともに **MERGED**。元18D Type値の真正N→N証拠 \`A=reverse(strict N)\` と \`B=reverse(inherited(SelectedLocalEighteen.strict N))\` を構成。既存九変量・全自然数次数の祖先塔・全自然数次数の連続反転数塔・完全ordered run list・v5.70単位簡約非結合括弧構造は一致する一方、**元旧18Dを包むinherited葉数は0対1**。この個数は旧selected19の全5構成子・独立新raw比較の全7構成子で保存され、両真正商への独立 \`Quotient.lift\` 降下と旧→新射影因子化が成立する。よって真正新商クラス不一致・新Type19D比較不存在。実在する元証拠 \`M:J→N\` を供給した同じexact fiberでも結合観測の非単射、inherited-count／class decoder不存在を形式証明した。
+
+他方、**raw strict節点数は元のunitPrepend生成元で1対0となり商へ降下しない**ことも真正19D比較から証明した。これは証拠履歴を消したのではなく、商不変量と非不変なraw履歴を明示的に区別する結果である。
+
+初回定理CIで二箇所の依存型未正規化 \`decide\` が失敗したが、自然数目標へ \`change\` して修正、仮定や証拠構成を変更しない。[修正版定理CI #42703283304](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42703283304) **9,123/9,123 Scoped Strict Lean・Governance 5/5 SUCCESS**、[公開CI #42704282810](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42704282810) **10,384/10,384 KuuOSFormal・Governance 30/30 SUCCESS**。新規31宣言すべて実公理監査：**公理不要19、標準propext／Quot.soundのみ12**、新規sorryAxなし、変更Lean error／warning 0/0。定理source/test-merge/squash tree \`352fbf5338afdd3b3f1fe3805592522b9257baa7\`、公開tree \`f10f2ac8c42e07ef61f237e9bc79e28d8135ca15\` は一致。[正式形式証明・公理監査記録](docs/formal/Qi-v5_71-inherited-provenance-after-bracket-verified-20261110.md)。
+
+**境界／次段Qi v5.72（未認証）**：この結果は継承葉の**個数**を区別するもので、元\`inherited\`証拠値・順序の完全分類やraw strict履歴の降下は主張しない。継承葉数まで追加した全観測の単射性、20D gluing、任意異端点fiberの非空性、全WORLD貼合・外部行為権限はNO_DATA。元Type18D／独立旧新Type19D、root107、固定Lean v4.30.0-rc2/mathlib \`5450b53e5ddc75d46418fabb605edbf36bd0beb6\`、保護#1558 Draft／OPEN／未マージ、append-only／tighten-only／overwrite-forbidden／same-rootを維持。
