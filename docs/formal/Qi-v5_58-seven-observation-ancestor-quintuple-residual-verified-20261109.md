@@ -162,9 +162,11 @@ C₅(right(M)) = C₅(left(M)) + 2
 22件すべてを確認し、公理不要14宣言、標準 `propext` / `Quot.sound` のみ8宣言。新しい `sorryAx` は0、変更Lean error/warningは0/0。既存の全成果物まで同じ公理集合だけを使うとは主張しない。
 
 
-## 6. 未認証領域と次段
+## 6. 既存の非降下障害・未認証領域と次段
 
-**NO_DATA**：五重鎖数を加えた八変量による新商全体の分類・完全復元、任意の異17D端点J,Nのfiberの非空性、旧I6全成分の新商への降下、元16D fiberを超えるwhiskering比較、20D higher coherence/gluing、独立WORLDや物理C60との数学的同一視、制度的・実行上の権限。
+**NO_DATA**：五重鎖数を加えた八変量による新商全体の分類・完全復元、任意の異17D端点J,Nのfiberの非空性、元16D fiberを超えるwhiskering比較、20D higher coherence/gluing、独立WORLDや物理C60との数学的同一視、制度的・実行上の権限。
+
+**既証明の非降下障害**：[v5.51の元Leanソース](https://github.com/itakura-hidetoshi/KuuOS/blob/f5c79e811ebb798e67e33526fe2fd31c4c7ee577/formal/KUOS/Architecture/QiWuxingGK5CHP77RawCongruenceObservationsV5_51.lean)では、真正な旧 `SelectedLocalEighteen ... J N` の証拠が与えられるとき、`selectedRawCongruent_leftNested_noDescent` が同じJ→N新商への旧LeftNestedCountの降下不存在を証明する。`selectedRawCongruent_oldNormal_noDescent` は対応するN→J新商への元19D正規代表の降下不存在を証明する。これは単なるNO_DATAではない。この条件付き障害を保持し、旧I6全成分を新商の不変量として扱わない。本段階はその障害を解除しない。
 
 次段 **Qi v5.59** の研究候補は、今回の「反転を付ける位置を移して差を一段上へ送る」構成を一般の祖先鎖次数へ拡張し、有限個の祖先鎖観測で残る障害を調べること。これは今回の形式証明から着想した研究方針であり、任意次数の定理や八変量の新しい反例が既に認証されたとは主張しない。
 
