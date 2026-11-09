@@ -3118,3 +3118,13 @@ strict 空／独立Kuu→Qi、元F54二Nat・二圏・Blocks、元F55 Type履歴
 
 **未認証境界／次段v5.63**：任意n回の反転shiftについての一様な真正`Nat`証拠族と任意有限観測prefixの非単射性は**まだ証明していない**。v5.59の条件付き∀nを無条件の存在へ昇格しない。第十観測の全商完全復元、任意異端点fiberの非空性、異fiberwhiskering、20D gluing、authorityはNO_DATA。元18D/19D Type証拠・別々の旧新比較presentation・公開root107・Lean/mathlib pin・保護PR #1558 Draft/OPEN/未マージを保持。append-only／tighten-only／overwrite-forbidden／same-root。
 
+
+## 2026-11-09 — Qi v5.63：任意有限祖先観測の一様な真正非単射性をLean4形式証明
+
+[定理PR #3419](https://github.com/itakura-hidetoshi/KuuOS/pull/3419)・[公開import PR #3420](https://github.com/itakura-hidetoshi/KuuOS/pull/3420) **MERGED**。元16D fiber／17D端点の元18D依存Type証拠を保持し、v5.62の真正N→N証拠対を種として**自然数n回のraw反転位置交換**を再帰的に構成した。すべてのnに対し、`∀k≤n+6, Cₖ(Lₙ)=Cₖ(Rₙ)` と `Cₙ₊₇(Rₙ)=Cₙ₊₇(Lₙ)+2` を元Type値上で形式証明。両者の最上位がchainでtop flag=0であること、ordered trace／adjacent／reverse／祖先pair〜quintupleの旧八変量が一致することも帰納構造に沿って証明し、元M:J→Nが実在するとき同じexact fiberへ輸送した。
+
+新しい真正新商有限観測 `selectedRawCongruentFiniteTowerObservation` は**既存九成分＋追加n成分C₇,…,C₆₊ₙ**だけを読み、任意のnで相異なる新7構成子商クラスを区別できない。指定された実在Mのfiberで各nの非単射性、次次数Cₙ₊₇ decoder／クラスdecoder不存在、任意指定JのJ→J strict例を形式証明。これは「任意の無関係な有限観測が不完全」とは異なる、**具体的に定義した連続祖先塔観測族**の一様な識別限界である。
+
+[定理exact-source CI #42608455141](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42608455141) **9,115/9,115 Scoped Strict Lean・Governance 5/5 SUCCESS**、[公開CI #42609298385](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42609298385) **10,376/10,376 KuuOSFormal Strict Lean・Governance 30/30 SUCCESS**。21宣言公理監査は公理不要7、標準`propext`/`Quot.sound`のみ14、新規sorryAxなし、変更Lean error/warning0/0、両段階exact-head受領書各2件SUCCESS、定理Git tree `320dd86e12c52a8baa6b8f39ef6ba5d79ad7c9fd`・公開tree `b32e9b3f290712632b6d6a44028abb01fbbf26cb` はsource／test-merge／squashで一致。初回再帰引数の二重渡し1行のみを修正し、定理の前提・結論は不変。[正式形式証明・公理監査記録](docs/formal/Qi-v5_63-uniform-finite-ancestor-tower-obstruction-verified-20261109.md)。
+
+**未認証境界／次段Qi v5.64**：任意の独立有限統計量全般、全無限塔による分類、新商の全クラス分類、任意異端点fiber非空性、異fiberwhiskering、20D gluing、全WORLD貼合・authorityはNO_DATA。元Type値・旧selected19／新7構成子商の独立性・公開root107・Lean v4.30.0-rc2／固定mathlib・保護#1558 Draft/OPEN/未マージ維持。append-only／tighten-only／overwrite-forbidden／same-root。
