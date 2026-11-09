@@ -3093,3 +3093,11 @@ strict 空／独立Kuu→Qi、元F54二Nat・二圏・Blocks、元F55 Type履歴
 [定理CI #42578124663](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42578124663) **9,111/9,111 Strict Lean・Governance 5/5 SUCCESS**、15宣言の公理監査（公理不要9・標準のみ6）、sorryAxなし、変更Lean error/warning 0/0。[公開CI #42578981707](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42578981707) **10,372/10,372 KuuOSFormal Strict Lean・Governance 30/30 SUCCESS**。両段階ともexact-head受領書2件SUCCESS・source/test-merge/squash tree一致。初回の固定文脈prevと真正whiskeringの型不一致は、元証拠への構造再帰として修正した。[15宣言の形式監査記録](docs/formal/Qi-v5_59-natural-index-reverse-ancestor-tower-conditional-shift-verified-20261109.md)。
 
 **境界**：この一般定理はA,Bが実在し所定の差を持つ場合の条件付き定理であり、すべての次数で具体的な反例が実在するとまでは証明していない。個別のv5.58五重鎖数と新塔C₅の形式的同一性、および八変量全商分類・任意fiber inhabitance・20D gluingはNO_DATA。元source/Type証拠履歴・公開root107・固定Lean/mathlib・保護PR #1558 Draft/OPEN未マージ維持。append-only／tighten-only／overwrite-forbidden／same-root。
+
+## 2026-11-09 — Qi v5.60：反転祖先鎖次数塔C₁〜C₅の旧計数との同一性・C₆真正残余
+
+[定理PR #3410](https://github.com/itakura-hidetoshi/KuuOS/pull/3410)と[公開import PR #3411](https://github.com/itakura-hidetoshi/KuuOS/pull/3411)はともにMERGED。旧18D Type証拠の**全6構成子を帰納した**五つの等式（C₁=反転総数、C₂=祖先ペア、C₃=三重鎖、C₄=四重鎖、C₅=五重鎖）をLean4で証明し、元selected19商・独立した新7構成子商のC₅の点ごとの橋渡しを独立に認証。v5.58真正N→N suffixの塔値(15,31,32,18,4)／(15,31,32,18,6)を保持し、二度目の反転位置交換により**C₀〜C₅が一致しC₆がちょうど2異なる**真正証拠対を構成。任意に明示提供されたM:J→Nの同一exact fiberに輸送し、新商クラスが区別されることまで型付きで証明した。
+
+[定理CI #42582641821](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42582641821) **9,112/9,112 Strict Lean・Governance 5/5 SUCCESS**。[公開CI #42583422934](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42583422934) **10,373/10,373 KuuOSFormal Strict Lean・Governance 30/30 SUCCESS**。18宣言公理監査は公理不要12／標準のみ6、sorryAxなし、変更Lean error/warning 0/0、両段階のexact-head受領書2件SUCCESS・source/test-merge/squash tree一致。初回の巨大構文`change`による4m heartbeats超過は、予算・前提を変更せず、抽象型付きshift補題に分離して修正した。[正式証明記録](docs/formal/Qi-v5_60-ancestor-tower-bridge-sixth-residual-verified-20261109.md)。
+
+**境界**：今回確定したのはC₀〜C₅の一致であって、shift後の既存八変量すべての一致ではない。全八変量の非単射性、九観測の完全復元、任意fiber inhabitance、20D gluingは依然NO_DATA。次段v5.61でtrace・adjacent count・top flagを直接証明する。元Type値、公開root107、固定Lean/mathlib、保護#1558 Draft/OPEN・未マージを保持。append-only／tighten-only／overwrite-forbidden／same-root。
