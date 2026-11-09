@@ -687,6 +687,7 @@ theorem selectedUniformRunWitnessFiber_nextCountGap
       selectedContextEighteenConsecutiveRunCount l r (n + 3)
         (selectedUniformRunWitnessRight l r N n)) + 1
   rw [selectedUniformRunWitness_nextCountGap l r N n]
+  omega
 
 theorem selectedUniformRunWitnessFiber_classDistinct
     (M : SelectedContextualEighteen W l r J N) (n : Nat) :
