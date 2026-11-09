@@ -198,7 +198,63 @@ theorem selectedSevenQuintuple_suffixSignature
         (selectedSevenQuintupleSuffixLeft l r N) = 4 ∧
     selectedContextEighteenReverseAncestorQuintupleCount l r
         (selectedSevenQuintupleSuffixRight l r N) = 6 := by
-  exact ⟨rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl⟩
+  -- Reuse the certified old values; do not normalize twelve large
+  -- dependent raw expressions independently.
+  let A : SelectedContextualEighteen W l r N N :=
+    selectedSixQuadrupleSuffixLeft l r N
+  let B : SelectedContextualEighteen W l r N N :=
+    selectedSixQuadrupleSuffixRight l r N
+  rcases selectedSixQuadruple_suffixSignature l r N with
+    ⟨hRA, hRB, hAA, hAB, hPA, hPB, hTA, hTB, hQA, hQB⟩
+  have hFA : selectedContextEighteenReverseAncestorQuintupleCount l r A = 0 := by
+    rfl
+  have hFB : selectedContextEighteenReverseAncestorQuintupleCount l r B = 1 := by
+    rfl
+  refine ⟨?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
+  · change (selectedContextEighteenReverseCount l r A + 1) +
+      selectedContextEighteenReverseCount l r B = 15
+    rw [hRA, hRB]
+  · change selectedContextEighteenReverseCount l r A +
+      (selectedContextEighteenReverseCount l r B + 1) = 15
+    rw [hRA, hRB]
+  · change (selectedContextEighteenAdjacentReverseCount l r A + 0) +
+      selectedContextEighteenAdjacentReverseCount l r B = 4
+    rw [hAA, hAB]
+  · change selectedContextEighteenAdjacentReverseCount l r A +
+      (selectedContextEighteenAdjacentReverseCount l r B + 0) = 4
+    rw [hAA, hAB]
+  · change (selectedContextEighteenReverseAncestryCount l r A +
+      selectedContextEighteenReverseCount l r A) +
+      selectedContextEighteenReverseAncestryCount l r B = 31
+    rw [hPA, hRA, hPB]
+  · change selectedContextEighteenReverseAncestryCount l r A +
+      (selectedContextEighteenReverseAncestryCount l r B +
+      selectedContextEighteenReverseCount l r B) = 31
+    rw [hPA, hPB, hRB]
+  · change (selectedContextEighteenReverseAncestorTripleCount l r A +
+      selectedContextEighteenReverseAncestryCount l r A) +
+      selectedContextEighteenReverseAncestorTripleCount l r B = 32
+    rw [hTA, hPA, hTB]
+  · change selectedContextEighteenReverseAncestorTripleCount l r A +
+      (selectedContextEighteenReverseAncestorTripleCount l r B +
+      selectedContextEighteenReverseAncestryCount l r B) = 32
+    rw [hTA, hTB, hPB]
+  · change (selectedContextEighteenReverseAncestorQuadrupleCount l r A +
+      selectedContextEighteenReverseAncestorTripleCount l r A) +
+      selectedContextEighteenReverseAncestorQuadrupleCount l r B = 18
+    rw [hQA, hTA, hQB]
+  · change selectedContextEighteenReverseAncestorQuadrupleCount l r A +
+      (selectedContextEighteenReverseAncestorQuadrupleCount l r B +
+      selectedContextEighteenReverseAncestorTripleCount l r B) = 18
+    rw [hQA, hQB, hTB]
+  · change (selectedContextEighteenReverseAncestorQuintupleCount l r A +
+      selectedContextEighteenReverseAncestorQuadrupleCount l r A) +
+      selectedContextEighteenReverseAncestorQuintupleCount l r B = 4
+    rw [hFA, hQA, hFB]
+  · change selectedContextEighteenReverseAncestorQuintupleCount l r A +
+      (selectedContextEighteenReverseAncestorQuintupleCount l r B +
+      selectedContextEighteenReverseAncestorQuadrupleCount l r B) = 6
+    rw [hFA, hFB, hQB]
 
 /-- Append the left suffix to the actual original M, preserving its
 Type value and the exact original J-to-N boundaries. -/
@@ -222,7 +278,83 @@ theorem selectedSevenQuintuple_sevenObservedEq
         (selectedRawCongruentClass l r (selectedSevenQuintupleLeft l r M)) =
       selectedRawCongruentSixQuadrupleObservation l r J N
         (selectedRawCongruentClass l r (selectedSevenQuintupleRight l r M)) := by
-  rfl
+  -- Compare each coordinate through its certified suffix value.
+  let A : SelectedContextualEighteen W l r N N :=
+    selectedSixQuadrupleSuffixLeft l r N
+  let B : SelectedContextualEighteen W l r N N :=
+    selectedSixQuadrupleSuffixRight l r N
+  rcases selectedSevenQuintuple_suffixSignature l r N with
+    ⟨hRL, hRR, hAL, hAR, hPL, hPR, hTL, hTR, hQL, hQR, _, _⟩
+  apply Prod.ext
+  · apply Prod.ext
+    · apply Prod.ext
+      · apply Prod.ext
+        · apply Prod.ext
+          · apply Prod.ext
+            · change
+                selectedContextEighteenTrace l r M ++
+                    (selectedContextEighteenTrace l r A ++
+                      selectedContextEighteenTrace l r B) =
+                  selectedContextEighteenTrace l r M ++
+                    (selectedContextEighteenTrace l r A ++
+                      selectedContextEighteenTrace l r B)
+              rfl
+            · change
+                selectedContextEighteenReverseCount l r M +
+                    selectedContextEighteenReverseCount l r
+                      (selectedSevenQuintupleSuffixLeft l r N) =
+                  selectedContextEighteenReverseCount l r M +
+                    selectedContextEighteenReverseCount l r
+                      (selectedSevenQuintupleSuffixRight l r N)
+              exact congrArg
+                (fun n : Nat => selectedContextEighteenReverseCount l r M + n)
+                (hRL.trans hRR.symm)
+          · change
+              selectedContextEighteenAdjacentReverseCount l r M +
+                  selectedContextEighteenAdjacentReverseCount l r
+                    (selectedSevenQuintupleSuffixLeft l r N) =
+                selectedContextEighteenAdjacentReverseCount l r M +
+                  selectedContextEighteenAdjacentReverseCount l r
+                    (selectedSevenQuintupleSuffixRight l r N)
+            exact congrArg
+              (fun n : Nat =>
+                selectedContextEighteenAdjacentReverseCount l r M + n)
+              (hAL.trans hAR.symm)
+        · change (0 : Nat) = 0
+          rfl
+      · change
+          selectedContextEighteenReverseAncestryCount l r M +
+              selectedContextEighteenReverseAncestryCount l r
+                (selectedSevenQuintupleSuffixLeft l r N) =
+            selectedContextEighteenReverseAncestryCount l r M +
+              selectedContextEighteenReverseAncestryCount l r
+                (selectedSevenQuintupleSuffixRight l r N)
+        exact congrArg
+          (fun n : Nat =>
+            selectedContextEighteenReverseAncestryCount l r M + n)
+          (hPL.trans hPR.symm)
+    · change
+        selectedContextEighteenReverseAncestorTripleCount l r M +
+            selectedContextEighteenReverseAncestorTripleCount l r
+              (selectedSevenQuintupleSuffixLeft l r N) =
+          selectedContextEighteenReverseAncestorTripleCount l r M +
+            selectedContextEighteenReverseAncestorTripleCount l r
+              (selectedSevenQuintupleSuffixRight l r N)
+      exact congrArg
+        (fun n : Nat =>
+          selectedContextEighteenReverseAncestorTripleCount l r M + n)
+        (hTL.trans hTR.symm)
+  · change
+      selectedContextEighteenReverseAncestorQuadrupleCount l r M +
+          selectedContextEighteenReverseAncestorQuadrupleCount l r
+            (selectedSevenQuintupleSuffixLeft l r N) =
+        selectedContextEighteenReverseAncestorQuadrupleCount l r M +
+          selectedContextEighteenReverseAncestorQuadrupleCount l r
+            (selectedSevenQuintupleSuffixRight l r N)
+    exact congrArg
+      (fun n : Nat =>
+        selectedContextEighteenReverseAncestorQuadrupleCount l r M + n)
+      (hQL.trans hQR.symm)
 
 /-- The eighth raw invariant detects exactly two extra quintuple
 chains on the right, independently of the supplied input M. -/
@@ -232,7 +364,15 @@ theorem selectedSevenQuintuple_countDiff
         (selectedSevenQuintupleRight l r M) =
       selectedContextEighteenReverseAncestorQuintupleCount l r
         (selectedSevenQuintupleLeft l r M) + 2 := by
-  rfl
+  rcases selectedSevenQuintuple_suffixSignature l r N with
+    ⟨_, _, _, _, _, _, _, _, _, _, hL, hR⟩
+  change selectedContextEighteenReverseAncestorQuintupleCount l r M +
+      selectedContextEighteenReverseAncestorQuintupleCount l r
+        (selectedSevenQuintupleSuffixRight l r N) =
+      (selectedContextEighteenReverseAncestorQuintupleCount l r M +
+      selectedContextEighteenReverseAncestorQuintupleCount l r
+        (selectedSevenQuintupleSuffixLeft l r N)) + 2
+  rw [hR, hL]
 
 /-- Seven observations do not determine the NEW quotient class. -/
 theorem selectedSevenQuintuple_classDistinct
