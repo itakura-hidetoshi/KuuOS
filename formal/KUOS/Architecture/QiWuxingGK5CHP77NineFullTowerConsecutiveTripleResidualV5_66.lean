@@ -249,7 +249,10 @@ theorem selectedConsecutiveTripleWitness_gapTowerEq
     selectedAncestorTowerCount l r n (selectedConsecutiveTripleWitnessGap l r N A) =
       selectedAncestorTowerCount l r n A := by
   cases n with
-  | zero => rfl
+  | zero =>
+      exact (selectedAncestorTower_zero l r
+        (selectedConsecutiveTripleWitnessGap l r N A)).trans
+        (selectedAncestorTower_zero l r A).symm
   | succ n =>
       change selectedAncestorTowerCount l r (n + 1) A + 0 =
         selectedAncestorTowerCount l r (n + 1) A
@@ -461,7 +464,6 @@ theorem selectedConsecutiveTripleWitnessFiber_tripleGap
         (selectedConsecutiveTripleWitnessRight l r N)) + 1
   rw [selectedConsecutiveTripleWitness_leftTripleOne l r N,
     selectedConsecutiveTripleWitness_rightTripleZero l r N]
-  omega
 
 theorem selectedConsecutiveTripleWitnessFiber_classDistinct
     (M : SelectedContextualEighteen W l r J N) :
