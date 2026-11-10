@@ -373,7 +373,7 @@ theorem selectedWhiskerLeft_sameFullV580
     · apply Prod.ext
       · apply Prod.ext
         · apply Prod.ext
-          · rfl
+          · repeat' (first | rfl | apply Prod.ext)
           · funext degree
             cases degree with
             | zero => rfl
@@ -553,7 +553,7 @@ theorem selectedWhiskerRight_sameFullV580
     · apply Prod.ext
       · apply Prod.ext
         · apply Prod.ext
-          · rfl
+          · repeat' (first | rfl | apply Prod.ext)
           · funext degree
             cases degree with
             | zero => rfl
