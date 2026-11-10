@@ -407,7 +407,6 @@ theorem selectedV586RightBridgePreservesDistinct
   have hchain : SelectedLocalEighteen.chain pre M =
       SelectedLocalEighteen.chain pre L := by assumption
   injection hchain
-  assumption
 
 /-- An explicit SUFFICIENT CONDITION for a same-fiber collision:
 a separately supplied parallel old18D pair in another exact fiber,
