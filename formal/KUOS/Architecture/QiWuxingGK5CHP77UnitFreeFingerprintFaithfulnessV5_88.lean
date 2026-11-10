@@ -189,13 +189,22 @@ theorem selectedV588UnitFreeRaw_observed
   induction t with
   | strict => rfl
   | reversed t ih =>
-      simpa [selectedV588UnitFreeRawEmbed,
-        selectedV588UnitFreeBracket, selectedLocalEighteenInnerBracket]
-        using congrArg SelectedInheritedOldInnerBracket.oldReversed ih
+      change SelectedInheritedOldInnerBracket.oldReversed
+          (selectedLocalEighteenInnerBracket l r
+            (selectedV588UnitFreeRawEmbed l r N t)) =
+        SelectedInheritedOldInnerBracket.oldReversed
+          (selectedV588UnitFreeBracket t)
+      exact congrArg SelectedInheritedOldInnerBracket.oldReversed ih
   | joined t u ihT ihU =>
-      simpa [selectedV588UnitFreeRawEmbed,
-        selectedV588UnitFreeBracket, selectedLocalEighteenInnerBracket]
-        using congrArg₂ SelectedInheritedOldInnerBracket.oldJoined ihT ihU
+      change SelectedInheritedOldInnerBracket.oldJoined
+          (selectedLocalEighteenInnerBracket l r
+            (selectedV588UnitFreeRawEmbed l r N t))
+          (selectedLocalEighteenInnerBracket l r
+            (selectedV588UnitFreeRawEmbed l r N u)) =
+        SelectedInheritedOldInnerBracket.oldJoined
+          (selectedV588UnitFreeBracket t)
+          (selectedV588UnitFreeBracket u)
+      exact congrArg₂ SelectedInheritedOldInnerBracket.oldJoined ihT ihU
 
 /-- Source fingerprint parsing actually retrieves the supplied
 fragment term from the ORIGINAL dependent old18D raw Type value. -/
@@ -252,8 +261,12 @@ theorem selectedV588UnitFreeOldClassEq_iff
   · intro h
     have ho := congrArg
       (selectedNineteenInheritedInnerListOnQuotient l r N N) h
-    change [selectedV588UnitFreeBracket t] =
-      [selectedV588UnitFreeBracket u] at ho
+    change [selectedLocalEighteenInnerBracket l r
+        (selectedV588UnitFreeRawEmbed l r N t)] =
+      [selectedLocalEighteenInnerBracket l r
+        (selectedV588UnitFreeRawEmbed l r N u)] at ho
+    rw [selectedV588UnitFreeRaw_observed l r N t,
+      selectedV588UnitFreeRaw_observed l r N u] at ho
     injection ho with heq
     exact selectedV588UnitFreeBracket_injective heq
   · rintro rfl
@@ -275,8 +288,12 @@ theorem selectedV588UnitFreeNewClassEq_iff
   · intro h
     have ho := congrArg
       (selectedRawCongruentInheritedInnerListOnQuotient l r N N) h
-    change [selectedV588UnitFreeBracket t] =
-      [selectedV588UnitFreeBracket u] at ho
+    change [selectedLocalEighteenInnerBracket l r
+        (selectedV588UnitFreeRawEmbed l r N t)] =
+      [selectedLocalEighteenInnerBracket l r
+        (selectedV588UnitFreeRawEmbed l r N u)] at ho
+    rw [selectedV588UnitFreeRaw_observed l r N t,
+      selectedV588UnitFreeRaw_observed l r N u] at ho
     injection ho with heq
     exact selectedV588UnitFreeBracket_injective heq
   · rintro rfl
@@ -298,8 +315,12 @@ theorem selectedV588UnitFreeGuardedNewClassEq_iff
   · intro h
     have ho := congrArg
       (selectedRawCongruentInheritedInnerListOnQuotient l r N N) h
-    change [selectedV588UnitFreeBracket t] =
-      [selectedV588UnitFreeBracket u] at ho
+    change [selectedLocalEighteenInnerBracket l r
+        (selectedV588UnitFreeRawEmbed l r N t)] =
+      [selectedLocalEighteenInnerBracket l r
+        (selectedV588UnitFreeRawEmbed l r N u)] at ho
+    rw [selectedV588UnitFreeRaw_observed l r N t,
+      selectedV588UnitFreeRaw_observed l r N u] at ho
     injection ho with heq
     exact selectedV588UnitFreeBracket_injective heq
   · rintro rfl
@@ -454,6 +475,8 @@ theorem selectedV588ActualLeftRightUnitFingerprintDistinct :
         (SelectedLocalEighteen.unitLeft before F G C after) ≠
       selectedLocalEighteenInnerBracket l r
         (SelectedLocalEighteen.unitRight before F G C after) := by
+  change SelectedInheritedOldInnerBracket.oldUnitLeft ≠
+    SelectedInheritedOldInnerBracket.oldUnitRight
   decide
 
 end GenuineOriginalUnitWitnessBoundary
