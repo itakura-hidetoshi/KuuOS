@@ -3425,3 +3425,15 @@ strict 空／独立Kuu→Qi、元F54二Nat・二圏・Blocks、元F55 Type履歴
 **独立CI**：[定理 #42903132323](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42903132323) **9,143/9,143**、[公開 #42904008712](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42904008712) **10,404件KuuOSFormal依存閉包Strict Lean SUCCESS**。Governance／独立Kuu CoreもSUCCESS、実公理監査18/18：**公理不要6、標準`propext`・`Quot.sound`のみ12**。新規`sorryAx`なし、変更Lean error/warning 0/0。定理source／testmerge／squash Git tree `d94c661920e09db2dbdfcb9087edda135d5741d1`、公開同`0876f06e669b8044b8df0897edd64452f88e0f6c`で完全一致。[正式記録](docs/formal/Qi-v5_91-single-unit-loop-threshold-verified-20261111.md)。
 
 **次段Qi v5.92候補（NO_DATA）**：最小2-unitの真正元旧18D往復閉路の内部指紋と、元のunitLeft／unitRightの実パラメータ・17D端点履歴の情報を独立に比較。異fiberを強制貼合しない。Lean v4.30.0-rc2／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、root107、保護PR #1558 Draft／OPEN／未マージ、append-only／tighten-only／overwrite-forbidden／same-root維持。
+
+## 2026-11-11 — Qi v5.92：元旧18Dの真正unitパラメータ履歴と同一fiberの括弧残差（Lean4認証済み）
+
+[定理PR #3506](https://github.com/itakura-hidetoshi/KuuOS/pull/3506)・[公開import PR #3507](https://github.com/itakura-hidetoshi/KuuOS/pull/3507) **MERGED**。新規Lean4モジュール1ファイル349行追加、15宣言・公理監査15件。既存Lean変更・削除0。公開`KuuOSFormal.lean`はimport1行のみ増加しroot107維持。
+
+**元依存型の履歴**：真正`SelectedLocalEighteen`の`unitLeft`／`unitRight`葉を、元`before/F/G/C/after`・始終raw17D端点・元旧18D証拠を保持する型付きSigma payloadとして読み取る。全5構成子上で`History(M).length = OriginalUnitCount(M)`。元`reverse`はpayloadを保存し、元`chain`は順序付き連結。補助履歴では反転位置・`strict`位置・内部括弧木を意図的に消しているので、履歴一致を元証拠等号へ昇格しない。
+
+**真正2-unit同一fiber証拠対**：元のunit源`U:J→N`から`R=chain U (reverse U):J→J`を作り、同じ真正`J→J`fiberで`A=chain (strict J) R`と`B=chain R (strict J)`を構成。unitLeft・unitRightそれぞれで**History(A)=History(B)、Bracket(A)≠Bracket(B)、元unitCount(A)=unitCount(B)=2、元raw A≠B**をLean4で証明。これは**履歴非単射**であり、**内部括弧指紋の衝突ではない**。前後2-unit往復閉路`J→J`／`N→N`は異fiberであることも保持。
+
+**独立CI**：定理[#42908182854](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42908182854) **9,144/9,144**、公開[#42909417088](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42909417088) **10,405/10,405 Strict Lean SUCCESS**、Governance／Core SUCCESS、実公理監査15/15（公理不要9、標準`propext`のみ5、`propext`/`Quot.sound`のみ1）。新規`sorryAx`なし、対象error／warning 0/0。初回[#42907366988](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42907366988)の`decide`自由変数エラー6件は、括弧命題を`change`で閉じて`decide`、count等式を`rfl`とする新規ファイル内のみの修正で解消。定理source/testmerge/squash Git tree `076579c23f0786bb03c5a49b5592be90ffd3a57d`、公開同`79d6ed58a3618884f59957c1c7c719940b4858e7`、各一致。[正式記録](docs/formal/Qi-v5_92-original-dependent-unit-parameter-history-verified-20261111.md)。
+
+**Qi v5.93候補（NO_DATA保持）**：同一真正raw17D exact fiberで**内部括弧まで一致し、元raw18D証拠が相異なる**対の実在／不可能性を、元unitの付加パラメータ・型付き端点条件に即して検証する。v5.91の2-unit必要条件やv5.92の履歴一致を衝突の十分条件にしない。異fiber gluing、旧新Type19D大域同値、WORLD／20D、実行権限も未認証。Lean v4.30.0-rc2／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、root107、保護#1558 Draft／OPEN／未マージ、append-only／tighten-only／overwrite-forbidden／same-root維持。
