@@ -67,7 +67,7 @@ theorem selectedV584Pure_neSource
       SelectedWhiskerPlacementTree.source s := by
   cases A <;> simp [selectedPureStrictReverseRawValue]
 
-/-- No v5.82 pure term contains a top-level left-whisker constructor. -/
+/-- No v5.82 pure term contains a top-level right-whisker constructor. -/
 theorem selectedV584Pure_neRight
     (A : SelectedPureStrictReverseTree) :
     selectedPureStrictReverseRawValue A ≠
@@ -375,8 +375,8 @@ theorem selectedV584Right_twoSourceOldClassEq_impliesBracketEq
       (selectedLocalEighteenInnerBracket l r M) =
     SelectedWhiskerPlacementTree.source
       (selectedLocalEighteenInnerBracket l r L) at ho
-  cases ho
-  rfl
+  injection ho with hbr
+  exact hbr
 
 theorem selectedV584Right_twoSourceNewClassEq_impliesBracketEq
     (N : SelectedContextualSeventeen W l r H K)
@@ -395,8 +395,8 @@ theorem selectedV584Right_twoSourceNewClassEq_impliesBracketEq
       (selectedLocalEighteenInnerBracket l r M) =
     SelectedWhiskerPlacementTree.source
       (selectedLocalEighteenInnerBracket l r L) at ho
-  cases ho
-  rfl
+  injection ho with hbr
+  exact hbr
 
 /-- Proven obstruction: different old18D bracket observations cannot
 be glued into one old or new quotient class in this genuine fiber. -/
@@ -467,8 +467,9 @@ theorem selectedV584Right_twoGuardedSourcesNewDistinct
       (.source (selectedLocalEighteenInnerBracket l r M)) =
     SelectedWhiskerPlacementTree.reversed
       (.source (selectedLocalEighteenInnerBracket l r L)) at ho
-  cases ho
-  exact hdiff rfl
+  injection ho with hinner
+  injection hinner with hbr
+  exact hdiff hbr
 
 /-- The true ORIGINAL unit-append rule also collapses the raw
 strict-next-to-inherited source (in both real selected19 quotients).
