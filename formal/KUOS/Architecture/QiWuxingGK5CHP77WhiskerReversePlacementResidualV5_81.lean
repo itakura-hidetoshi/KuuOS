@@ -5,22 +5,30 @@ Qi v5.81 — actual dependent contextual18D whiskering/reversal PLACEMENT residu
 
 The original 18D external List Bool trace already records left and right
 whiskering; the new claim is NOT that whiskering can be freely ignored.
-Instead a supplied true SevenRewrite, pair of context frames, and a true
-17D endpoint N form TWO genuine SAME-FIBER contextual18D proofs:
+A naive unmasked pair whiskerLeft(reverse(strict N)) versus
+reverse(whiskerLeft(strict N)) is ALREADY DISTINGUISHED by the old
+TopReverseFlag (0 versus 1). This obstruction is preserved explicitly.
+
+Instead, for SUPPLIED true SevenRewrite, context frames and a true
+17D endpoint N, let N' be its actual left/right-whiskered endpoint and
+S' = strict N'. Two genuine N'→N' Type18D values are:
 
   left:
-  A = whiskerLeft before F G (reverse (strict N))
-  B = reverse (whiskerLeft before F G (strict N))
+  A = chain S' (whiskerLeft before F G (reverse (strict N)))
+  B = chain S' (reverse (whiskerLeft before F G (strict N)))
 
   right:
-  A = whiskerRight F G (reverse (strict N)) after
-  B = reverse (whiskerRight F G (strict N) after).
+  A = chain S' (whiskerRight F G (reverse (strict N)) after)
+  B = chain S' (reverse (whiskerRight F G (strict N) after)).
 
-Each pair has the SAME actual external whiskering word and the SAME
-complete v5.80 quotient observation, including both full Nat-indexed
-towers, source provenance, inherited source inner brackets, strict-only
-branch paths, and inherited-guarded raw tree. But whiskering is placed
-on opposite sides of a raw reversal.
+The SAME exterior raw chain masks only the previously certified
+top-level reverse flag; it does not alter old Type18D evidence or impose
+any new comparison. Each pair has the SAME actual external whiskering
+word and the SAME complete v5.80 quotient observation, including both
+full Nat-indexed towers, source provenance, inherited source inner
+brackets, strict-only branch paths, and inherited-guarded raw tree.
+But the new independently descended tree preserves the relative order
+of whiskering and raw reversal under that common prefix.
 
 An independent free NONASSOCIATIVE observer of original 18D constructs
 distinguishes left/right whisker placement and retains actual inherited
@@ -293,7 +301,9 @@ def selectedRawCongruentFullV580QuotientObservation
 end CompleteFiber
 
 /-- Independent source and whisker placement cannot commute merely
-because the coarse v5.80 tree erases the whisker wrapper. -/
+because the coarse v5.80 tree erases the whisker wrapper.
+The unmasked tree values are distinguished, and so are their
+COMMON-STRICT-PREFIX masked trees (but not by TopReverseFlag). -/
 theorem selectedWhiskerPlacement_leftReverseDistinct :
     SelectedWhiskerPlacementTree.left (.reversed .strict) ≠
       .reversed (.left .strict) := by
@@ -302,6 +312,16 @@ theorem selectedWhiskerPlacement_leftReverseDistinct :
 theorem selectedWhiskerPlacement_rightReverseDistinct :
     SelectedWhiskerPlacementTree.right (.reversed .strict) ≠
       .reversed (.right .strict) := by
+  decide
+
+theorem selectedWhiskerPlacement_leftMaskedDistinct :
+    SelectedWhiskerPlacementTree.joined .strict (.left (.reversed .strict)) ≠
+      .joined .strict (.reversed (.left .strict)) := by
+  decide
+
+theorem selectedWhiskerPlacement_rightMaskedDistinct :
+    SelectedWhiskerPlacementTree.joined .strict (.right (.reversed .strict)) ≠
+      .joined .strict (.reversed (.right .strict)) := by
   decide
 
 section LeftWhiskerFiber
@@ -318,31 +338,48 @@ variable {V X : SelectedMixedNaturalityFourteen W l r C D}
 variable {T U : SelectedContextualFifteen W l r V X}
 variable {H K : SelectedContextualSixteen W l r T U}
 
-/-- A supplied typed left-whiskering surrounds one raw reverse. -/
+/-- Common strict-prefix; a supplied typed left-whiskering surrounds
+the single raw reverse in the right child. -/
 def selectedWhiskerLeftInside
     (N : SelectedContextualSeventeen W l r H K) :
     SelectedContextualEighteen W l r
       (.whiskerLeft before F G N) (.whiskerLeft before F G N) :=
-  .whiskerLeft before F G (.reverse (.strict N))
+  .chain (.strict (.whiskerLeft before F G N))
+    (.whiskerLeft before F G (.reverse (.strict N)))
 
-/-- One raw reverse instead surrounds the supplied typed whiskering. -/
+/-- One raw reverse instead surrounds the supplied typed whiskering,
+under the SAME outer raw chain with a strict left child. -/
 def selectedWhiskerLeftOutside
     (N : SelectedContextualSeventeen W l r H K) :
     SelectedContextualEighteen W l r
       (.whiskerLeft before F G N) (.whiskerLeft before F G N) :=
-  .reverse (.whiskerLeft before F G (.strict N))
+  .chain (.strict (.whiskerLeft before F G N))
+    (.reverse (.whiskerLeft before F G (.strict N)))
+
+/-- The unmasked pair is NOT an old-observation collision: the existing
+typed top-raw-reverse flag already distinguishes it. This is the
+specific obstruction revealed by the first failed exact-source CI. -/
+theorem selectedWhiskerLeft_unmaskedTopFlagObstruction
+    (N : SelectedContextualSeventeen W l r H K) :
+    selectedContextEighteenTopReverseFlag l r
+        (.whiskerLeft before F G (.reverse (.strict N))) = 0 ∧
+      selectedContextEighteenTopReverseFlag l r
+        (.reverse (.whiskerLeft before F G (.strict N))) = 1 := by
+  constructor <;> rfl
 
 theorem selectedWhiskerLeft_insideValue
     (N : SelectedContextualSeventeen W l r H K) :
     selectedContextEighteenWhiskerPlacement l r
         (selectedWhiskerLeftInside l r before F G N) =
-      SelectedWhiskerPlacementTree.left (.reversed .strict) := rfl
+      SelectedWhiskerPlacementTree.joined .strict
+        (.left (.reversed .strict)) := rfl
 
 theorem selectedWhiskerLeft_outsideValue
     (N : SelectedContextualSeventeen W l r H K) :
     selectedContextEighteenWhiskerPlacement l r
         (selectedWhiskerLeftOutside l r before F G N) =
-      SelectedWhiskerPlacementTree.reversed (.left .strict) := rfl
+      SelectedWhiskerPlacementTree.joined .strict
+        (.reversed (.left .strict)) := rfl
 
 /-- Both original 18D terms have the same TRUE external seven-cell
 whiskering trace, including its left direction (not an erased trace). -/
@@ -438,7 +475,7 @@ theorem selectedWhiskerLeft_classDistinct
       (selectedWhiskerLeftOutside l r before F G N) at hc
   rw [selectedWhiskerLeft_insideValue l r before F G N,
     selectedWhiskerLeft_outsideValue l r before F G N] at hc
-  exact selectedWhiskerPlacement_leftReverseDistinct hc
+  exact selectedWhiskerPlacement_leftMaskedDistinct hc
 
 /-- No ACTUAL new seven-generator typed selected19 comparison. -/
 theorem selectedWhiskerLeft_noComparison
@@ -498,31 +535,48 @@ variable {V X : SelectedMixedNaturalityFourteen W l r C D}
 variable {T U : SelectedContextualFifteen W l r V X}
 variable {H K : SelectedContextualSixteen W l r T U}
 
-/-- A supplied typed right-whiskering surrounds one raw reverse. -/
+/-- Common strict-prefix; a supplied typed right-whiskering surrounds
+the single raw reverse in the right child. -/
 def selectedWhiskerRightInside
     (N : SelectedContextualSeventeen W l r H K) :
     SelectedContextualEighteen W l r
       (.whiskerRight F G N after) (.whiskerRight F G N after) :=
-  .whiskerRight F G (.reverse (.strict N)) after
+  .chain (.strict (.whiskerRight F G N after))
+    (.whiskerRight F G (.reverse (.strict N)) after)
 
-/-- One raw reverse instead surrounds the supplied typed whiskering. -/
+/-- One raw reverse instead surrounds the supplied typed whiskering,
+under the SAME outer raw chain with a strict left child. -/
 def selectedWhiskerRightOutside
     (N : SelectedContextualSeventeen W l r H K) :
     SelectedContextualEighteen W l r
       (.whiskerRight F G N after) (.whiskerRight F G N after) :=
-  .reverse (.whiskerRight F G (.strict N) after)
+  .chain (.strict (.whiskerRight F G N after))
+    (.reverse (.whiskerRight F G (.strict N) after))
+
+/-- The unmasked right pair differs already under the established
+TopReverseFlag (0 versus 1). A common outer chain corrects this
+obstruction without adding any illicit new quotient equality. -/
+theorem selectedWhiskerRight_unmaskedTopFlagObstruction
+    (N : SelectedContextualSeventeen W l r H K) :
+    selectedContextEighteenTopReverseFlag l r
+        (.whiskerRight F G (.reverse (.strict N)) after) = 0 ∧
+      selectedContextEighteenTopReverseFlag l r
+        (.reverse (.whiskerRight F G (.strict N) after)) = 1 := by
+  constructor <;> rfl
 
 theorem selectedWhiskerRight_insideValue
     (N : SelectedContextualSeventeen W l r H K) :
     selectedContextEighteenWhiskerPlacement l r
         (selectedWhiskerRightInside l r F G after N) =
-      SelectedWhiskerPlacementTree.right (.reversed .strict) := rfl
+      SelectedWhiskerPlacementTree.joined .strict
+        (.right (.reversed .strict)) := rfl
 
 theorem selectedWhiskerRight_outsideValue
     (N : SelectedContextualSeventeen W l r H K) :
     selectedContextEighteenWhiskerPlacement l r
         (selectedWhiskerRightOutside l r F G after N) =
-      SelectedWhiskerPlacementTree.reversed (.right .strict) := rfl
+      SelectedWhiskerPlacementTree.joined .strict
+        (.reversed (.right .strict)) := rfl
 
 /-- Both original 18D terms have the same TRUE external seven-cell
 whiskering trace, including its right direction (not an erased trace). -/
@@ -618,7 +672,7 @@ theorem selectedWhiskerRight_classDistinct
       (selectedWhiskerRightOutside l r F G after N) at hc
   rw [selectedWhiskerRight_insideValue l r F G after N,
     selectedWhiskerRight_outsideValue l r F G after N] at hc
-  exact selectedWhiskerPlacement_rightReverseDistinct hc
+  exact selectedWhiskerPlacement_rightMaskedDistinct hc
 
 /-- No ACTUAL new seven-generator typed selected19 comparison. -/
 theorem selectedWhiskerRight_noComparison
@@ -684,10 +738,13 @@ end RightWhiskerFiber
 #print axioms PentagonAdjoinedSixCell.selectedRawCongruentFullV580QuotientObservation
 #print axioms PentagonAdjoinedSixCell.selectedWhiskerPlacement_leftReverseDistinct
 #print axioms PentagonAdjoinedSixCell.selectedWhiskerPlacement_rightReverseDistinct
+#print axioms PentagonAdjoinedSixCell.selectedWhiskerPlacement_leftMaskedDistinct
+#print axioms PentagonAdjoinedSixCell.selectedWhiskerPlacement_rightMaskedDistinct
 #print axioms PentagonAdjoinedSixCell.selectedWhiskerLeftInside
 #print axioms PentagonAdjoinedSixCell.selectedWhiskerLeftOutside
 #print axioms PentagonAdjoinedSixCell.selectedWhiskerLeft_insideValue
 #print axioms PentagonAdjoinedSixCell.selectedWhiskerLeft_outsideValue
+#print axioms PentagonAdjoinedSixCell.selectedWhiskerLeft_unmaskedTopFlagObstruction
 #print axioms PentagonAdjoinedSixCell.selectedWhiskerLeft_sameExternalTrace
 #print axioms PentagonAdjoinedSixCell.selectedWhiskerLeft_sameFullV580
 #print axioms PentagonAdjoinedSixCell.selectedWhiskerLeft_classDistinct
@@ -698,6 +755,7 @@ end RightWhiskerFiber
 #print axioms PentagonAdjoinedSixCell.selectedWhiskerRightOutside
 #print axioms PentagonAdjoinedSixCell.selectedWhiskerRight_insideValue
 #print axioms PentagonAdjoinedSixCell.selectedWhiskerRight_outsideValue
+#print axioms PentagonAdjoinedSixCell.selectedWhiskerRight_unmaskedTopFlagObstruction
 #print axioms PentagonAdjoinedSixCell.selectedWhiskerRight_sameExternalTrace
 #print axioms PentagonAdjoinedSixCell.selectedWhiskerRight_sameFullV580
 #print axioms PentagonAdjoinedSixCell.selectedWhiskerRight_classDistinct
