@@ -3269,3 +3269,14 @@ strict 空／独立Kuu→Qi、元F54二Nat・二圏・Blocks、元F55 Type履歴
 [定理exact-source CI #42741287136](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42741287136) **9,129/9,129 Scoped Strict Lean SUCCESS**、[公開CI #42741965023](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42741965023) **10,390/10,390 KuuOSFormal Strict Lean SUCCESS**、選択Governance/Core Autonomy成功。新規38宣言の全`#print axioms`実監査：**公理なし16、標準`propext`／`Quot.sound`のみ22**、新規sorryAxなし、変更Lean error/warning 0/0。定理tree `6ee06119ae8f3d219d5803a1f5a88072467bcbcc`、公開tree `5fd568d0810ab932dc15b34df67d1265bc42dfc4` はそれぞれsource/test-merge/squash一致。[正式形式証明・公理監査記録](docs/formal/Qi-v5_77-strict-only-branch-shape-residual-verified-20261110.md)。
 
 **境界／次段Qi v5.78（未認証）**：新strict-only非結合枝形を含む完全観測が真正新19D商を分類するかどうかはNO_DATA。今回の証拠対は新枝形で区別されるため次段の反例へ流用不可。任意異端点fiber非空性、20D gluing、全WORLD降下、制度的行為権限もNO_DATA。元18D Type値、旧新独立19D比較、公開root107、固定Lean v4.30.0-rc2/mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、保護#1558 Draft／OPEN／未マージ維持。append-only／tighten-only／overwrite-forbidden／same-root。
+
+
+## 2026-11-10 — Qi v5.78：strict-only枝形が同じでも残るraw反転祖先深度の識別障害（Lean4形式認証済み）
+
+[定理PR #3464](https://github.com/itakura-hidetoshi/KuuOS/pull/3464)・[公開import PR #3465](https://github.com/itakura-hidetoshi/KuuOS/pull/3465) **MERGED**。元の真正contextual18D依存Type証拠に対し、最大strict-only非結合枝形と、それを包むraw反転祖先数を順序付きで保持する独立`SelectedStrictBranchDepthSummary`を導入。元selected19全5構成子・独立新raw congruence全7構成子で保存し、旧新真正商へのそれぞれ独立した`Quotient.lift`と旧→新射影因子化をLean4で証明。元18D Type値や比較構成子は変更しない。
+
+任意の真正17D端点`N`で`S=strict N`、`A=chain (reverse (chain S S)) S`、`B=chain (reverse S) (chain S S)`を元18Dの同一`N→N` fiberに構成。元九観測、二本の全無限Nat塔、完全ordered run、非結合単位簡約括弧、inherited旧18Dの葉数・根・完全内部構文、v5.74サイト列`[0]`、v5.75イベント語`[rawReverse]`、v5.76継承葉保持括弧`reversed unit`に加え、v5.77最大strict-only枝形`[joined leaf leaf]`まで一致。しかし新深度付き枝イベントは`[(1,joined leaf leaf)]`対`[(0,joined leaf leaf)]`で異なる。実新7構成子商のクラス不一致・新Type19D比較不存在、`N→N`商の全v5.77観測非単射、新depth/class decoder不存在を形式証明。
+
+[定理CI #42747612480](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42747612480) **9,130/9,130 Strict Lean SUCCESS**、[公開CI #42748192445](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42748192445) **10,391/10,391 KuuOSFormal Strict Lean SUCCESS**、Governance・Core Autonomy成功。**新規41宣言すべての実公理監査：公理不要16／標準`propext`・`Quot.sound`のみ25、新規sorryAxなし、変更Lean error/warning 0/0。** 定理tree `7fca8ce014fa01b1feee19e97bbaa3e11c959b21`、公開tree `c5a7ff7a10f5b0621c38514830de90b7dfd3cb56` は各source/test-merge/squashで完全一致。[正式形式証明・公理監査記録](docs/formal/Qi-v5_78-strict-branch-reversal-depth-residual-verified-20261110.md)。
+
+**境界／次段Qi v5.79（未認証）**：新反転祖先深度まで加えた全商観測が完全に分類的か否かはNO_DATA。今回のA/Bは新深度で区別されるため次段の反例へ流用しない。任意異端点fiber非空性、20D gluing、WORLD横断降下、権限も未認証。元18D Type値・独立旧新19D、公開root107、固定Lean v4.30.0-rc2/mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、保護PR #1558 Draft／OPEN／未マージを維持。append-only／tighten-only／overwrite-forbidden／same-root。
