@@ -362,7 +362,65 @@ theorem selectedWhiskerLeft_sameFullV580
       selectedRawCongruentFullV580QuotientObservation l r (.whiskerLeft before F G N) (.whiskerLeft before F G N)
         (selectedRawCongruentClass l r
         (selectedWhiskerLeftOutside l r before F G N)) := by
-  rfl
+  have hbase :
+      selectedRawCongruentFullDoubleOrderedBracketObservation l r (.whiskerLeft before F G N) (.whiskerLeft before F G N)
+          (selectedRawCongruentClass l r
+        (selectedWhiskerLeftInside l r before F G N)) =
+        selectedRawCongruentFullDoubleOrderedBracketObservation l r (.whiskerLeft before F G N) (.whiskerLeft before F G N)
+          (selectedRawCongruentClass l r
+        (selectedWhiskerLeftOutside l r before F G N)) := by
+    apply Prod.ext
+    · apply Prod.ext
+      · apply Prod.ext
+        · apply Prod.ext
+          · rfl
+          · funext degree
+            cases degree with
+            | zero => rfl
+            | succ degree => rfl
+        · funext degree
+          cases degree with
+          | zero => rfl
+          | succ degree => rfl
+      · rfl
+    · rfl
+  have hroot :
+      selectedRawCongruentDoubleBracketCountRootInnerObservation l r (.whiskerLeft before F G N) (.whiskerLeft before F G N)
+          (selectedRawCongruentClass l r
+        (selectedWhiskerLeftInside l r before F G N)) =
+        selectedRawCongruentDoubleBracketCountRootInnerObservation l r (.whiskerLeft before F G N) (.whiskerLeft before F G N)
+          (selectedRawCongruentClass l r
+        (selectedWhiskerLeftOutside l r before F G N)) := by
+    apply Prod.ext
+    · apply Prod.ext
+      · apply Prod.ext
+        · exact hbase
+        · rfl
+      · rfl
+    · rfl
+  have h576 :
+      selectedRawCongruentFullV576QuotientObservation l r (.whiskerLeft before F G N) (.whiskerLeft before F G N)
+          (selectedRawCongruentClass l r
+        (selectedWhiskerLeftInside l r before F G N)) =
+        selectedRawCongruentFullV576QuotientObservation l r (.whiskerLeft before F G N) (.whiskerLeft before F G N)
+          (selectedRawCongruentClass l r
+        (selectedWhiskerLeftOutside l r before F G N)) := by
+    apply Prod.ext
+    · apply Prod.ext
+      · apply Prod.ext
+        · exact hroot
+        · rfl
+      · rfl
+    · rfl
+  apply Prod.ext
+  · apply Prod.ext
+    · apply Prod.ext
+      · apply Prod.ext
+        · exact h576
+        · rfl
+      · rfl
+    · rfl
+  · rfl
 
 /-- Certified only after Lean checks: two different actual source
 proofs in the exact SAME genuinely supplied whiskered N -> N fiber. -/
@@ -484,7 +542,65 @@ theorem selectedWhiskerRight_sameFullV580
       selectedRawCongruentFullV580QuotientObservation l r (.whiskerRight F G N after) (.whiskerRight F G N after)
         (selectedRawCongruentClass l r
         (selectedWhiskerRightOutside l r F G after N)) := by
-  rfl
+  have hbase :
+      selectedRawCongruentFullDoubleOrderedBracketObservation l r (.whiskerRight F G N after) (.whiskerRight F G N after)
+          (selectedRawCongruentClass l r
+        (selectedWhiskerRightInside l r F G after N)) =
+        selectedRawCongruentFullDoubleOrderedBracketObservation l r (.whiskerRight F G N after) (.whiskerRight F G N after)
+          (selectedRawCongruentClass l r
+        (selectedWhiskerRightOutside l r F G after N)) := by
+    apply Prod.ext
+    · apply Prod.ext
+      · apply Prod.ext
+        · apply Prod.ext
+          · rfl
+          · funext degree
+            cases degree with
+            | zero => rfl
+            | succ degree => rfl
+        · funext degree
+          cases degree with
+          | zero => rfl
+          | succ degree => rfl
+      · rfl
+    · rfl
+  have hroot :
+      selectedRawCongruentDoubleBracketCountRootInnerObservation l r (.whiskerRight F G N after) (.whiskerRight F G N after)
+          (selectedRawCongruentClass l r
+        (selectedWhiskerRightInside l r F G after N)) =
+        selectedRawCongruentDoubleBracketCountRootInnerObservation l r (.whiskerRight F G N after) (.whiskerRight F G N after)
+          (selectedRawCongruentClass l r
+        (selectedWhiskerRightOutside l r F G after N)) := by
+    apply Prod.ext
+    · apply Prod.ext
+      · apply Prod.ext
+        · exact hbase
+        · rfl
+      · rfl
+    · rfl
+  have h576 :
+      selectedRawCongruentFullV576QuotientObservation l r (.whiskerRight F G N after) (.whiskerRight F G N after)
+          (selectedRawCongruentClass l r
+        (selectedWhiskerRightInside l r F G after N)) =
+        selectedRawCongruentFullV576QuotientObservation l r (.whiskerRight F G N after) (.whiskerRight F G N after)
+          (selectedRawCongruentClass l r
+        (selectedWhiskerRightOutside l r F G after N)) := by
+    apply Prod.ext
+    · apply Prod.ext
+      · apply Prod.ext
+        · exact hroot
+        · rfl
+      · rfl
+    · rfl
+  apply Prod.ext
+  · apply Prod.ext
+    · apply Prod.ext
+      · apply Prod.ext
+        · exact h576
+        · rfl
+      · rfl
+    · rfl
+  · rfl
 
 /-- Certified only after Lean checks: two different actual source
 proofs in the exact SAME genuinely supplied whiskered N -> N fiber. -/
