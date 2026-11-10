@@ -272,10 +272,14 @@ theorem selectedV592ActualLeftTwoUnitSameFiberHistoryGap :
           (selectedSeventeenUnitPrependLeft l r before F G C after)
           (selectedV591ForwardRoundTrip l r
             (SelectedLocalEighteen.unitLeft before F G C after))) := by
+    change SelectedInheritedOldInnerBracket.oldJoined
+        .oldStrict (.oldJoined .oldUnitLeft (.oldReversed .oldUnitLeft)) ≠
+      .oldJoined (.oldJoined .oldUnitLeft (.oldReversed .oldUnitLeft))
+        .oldStrict
     decide
   refine ⟨hh, hb, ?_, ?_, ?_⟩
-  · decide
-  · decide
+  · rfl
+  · rfl
   · intro heq
     exact hb (congrArg (selectedLocalEighteenInnerBracket l r) heq)
 
@@ -311,10 +315,14 @@ theorem selectedV592ActualRightTwoUnitSameFiberHistoryGap :
           (selectedSeventeenUnitPrependRight l r before F G C after)
           (selectedV591ForwardRoundTrip l r
             (SelectedLocalEighteen.unitRight before F G C after))) := by
+    change SelectedInheritedOldInnerBracket.oldJoined
+        .oldStrict (.oldJoined .oldUnitRight (.oldReversed .oldUnitRight)) ≠
+      .oldJoined (.oldJoined .oldUnitRight (.oldReversed .oldUnitRight))
+        .oldStrict
     decide
   refine ⟨hh, hb, ?_, ?_, ?_⟩
-  · decide
-  · decide
+  · rfl
+  · rfl
   · intro heq
     exact hb (congrArg (selectedLocalEighteenInnerBracket l r) heq)
 
