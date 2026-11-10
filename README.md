@@ -3375,3 +3375,15 @@ strict 空／独立Kuu→Qi、元F54二Nat・二圏・Blocks、元F55 Type履歴
 **機械認証**：[定理CI #42815901143](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42815901143) **9,139/9,139**、[公開CI #42816694373](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42816694373) **10,400/10,400 Strict Lean SUCCESS**、公開Governance **30/30**。21件実公理監査＝**公理不要15／標準`Quot.sound`のみ6**、新規sorryAx・変更Lean warning/errorなし。source/test-merge/squash Git treeは定理`5f552956b1764c09a0da0f86f00b8a6111ab507d`、公開`21664c936d36e2bf6d58a1598463a3722fdeb4c0`で各一致。[正式証明記録](docs/formal/Qi-v5_87-endpoint-quotient-fingerprint-obstruction-verified-20261110.md)。
 
 **次段Qi v5.88（未認証）**：元raw17Dの**同一exact fiber**における真の旧18D構文衝突の存在条件、またはunit-free strict fragmentでの存在障害を探る。元の型付き証拠・比較は改変しない。固定Lean v4.30.0-rc2/mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、root107、保護PR #1558 Draft／OPEN／未マージ、append-only／tighten-only／overwrite-forbidden／same-rootを維持。
+
+## 2026-11-10 — Qi v5.88：元旧18D同一exact fiberのunit-free構文に限定した内部括弧忠実性（Lean4認証済み）
+
+[Lean定理 #3494](https://github.com/itakura-hidetoshi/KuuOS/pull/3494)・[公開import #3495](https://github.com/itakura-hidetoshi/KuuOS/pull/3495) **MERGED**。新規Lean1ファイル**513行・26宣言／26公理監査**、公開`KuuOSFormal.lean`はimport**1行**。元の依存旧18D Type・別々の元旧5／新7 Type19D、公開root107と既存証明は変更しない。
+
+**同一元raw17D N→N fiberでの限定忠実性**：strict／raw reverse／非結合raw chainだけの部分構文を元の`SelectedLocalEighteen N N`へ実際に埋め込み、元v5.73内部括弧観測に対する明示的partial parserで`parse(bracket(t))=some t`を証明。`bracket`、元raw旧18D埋込とも単射。旧5構成子真正selected19商、新7構成子真正selected19商、反転guard付き新商の各クラス等号は、この**埋込像だけ**で`t=u`と同値。元旧新の**別々の型付き**19D比較`Nonempty`も各々`t=u`と同値。実際の`strict N`と`reverse(reverse(strict N))`がraw値・旧新商で相異なる例を保持。
+
+**元unit証拠は別範囲**：真正元旧18Dの`unitLeft`／`unitRight`が読まれる`oldUnitLeft`／`oldUnitRight`はunit-free内部括弧木に含まれない。unit原子数が正の観測は同部分parser像の外であり、そこから**同一raw fiberでの同指紋・異raw証拠対の存在を主張しない**。v5.87の異fiber総空間衝突もこの結果で再解釈しない。
+
+**Lean4修正・独立CI**：初回[CI #42819515133](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42819515133)の`simpa`過剰展開による`whnf` timeout2件、未認証のdefinitional equalityを要求した`change`3件、未正規化`decide`1件を、元旧18D実構成子の`congrArg`／`congrArg₂`、既存観測定理による書換え、単位タグの正規化で解消。定理・仮定弱化なし。[定理CI #42820232955](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42820232955) **9,140/9,140**、[公開CI #42821087371](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42821087371) **10,401/10,401 Strict Lean SUCCESS**、公開Governance **30/30**。新規26実公理監査：**公理不要7／標準`propext`・`Quot.sound`のみ19**、新規sorryAx・変更warning/errorなし。定理Git tree `f1ccac880116ca90b78bebae6971f2139199c5eb`、公開tree `e1aec4b5ea31794ce053a3676d044bf35d097edd`は各source/test-merge/squash一致。[正式記録](docs/formal/Qi-v5_88-unit-free-fiber-fingerprint-faithfulness-verified-20261110.md)。
+
+**次段Qi v5.89（未認証）**：元の任意旧18D証拠値に直接unit-free条件を付して上の埋込像が尽くされるか、unit生成元で失う情報が同一fiber衝突を作る条件を検討。元旧新Type19Dの大域同値、全fiber分類、WORLD／20D gluing、実行権限は**NO_DATA**。Lean v4.30.0-rc2/mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`固定、root107、保護PR #1558 Draft／OPEN／未マージ、append-only／tighten-only／overwrite-forbidden／same-rootを維持。
