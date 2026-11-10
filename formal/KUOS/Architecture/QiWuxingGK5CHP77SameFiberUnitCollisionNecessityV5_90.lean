@@ -144,7 +144,6 @@ theorem selectedV590OldClassEq_impliesBracketEq
   change [selectedLocalEighteenInnerBracket l r M] =
     [selectedLocalEighteenInnerBracket l r L] at ho
   injection ho with hbr
-  exact hbr
 
 /-- Genuine independent NEW seven-generator selected19 quotient
 also faithfully preserves the original inherited source bracket;
@@ -162,7 +161,6 @@ theorem selectedV590NewClassEq_impliesBracketEq
   change [selectedLocalEighteenInnerBracket l r M] =
     [selectedLocalEighteenInnerBracket l r L] at ho
   injection ho with hbr
-  exact hbr
 
 /-- Even ONE genuine unit-free source is sufficient for original
 old5 quotient equality to reflect actual raw old18D proof equality.
