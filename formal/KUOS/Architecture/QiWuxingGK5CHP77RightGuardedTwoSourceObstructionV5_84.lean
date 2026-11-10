@@ -376,7 +376,6 @@ theorem selectedV584Right_twoSourceOldClassEq_impliesBracketEq
     SelectedWhiskerPlacementTree.source
       (selectedLocalEighteenInnerBracket l r L) at ho
   injection ho with hbr
-  exact hbr
 
 theorem selectedV584Right_twoSourceNewClassEq_impliesBracketEq
     (N : SelectedContextualSeventeen W l r H K)
@@ -396,7 +395,6 @@ theorem selectedV584Right_twoSourceNewClassEq_impliesBracketEq
     SelectedWhiskerPlacementTree.source
       (selectedLocalEighteenInnerBracket l r L) at ho
   injection ho with hbr
-  exact hbr
 
 /-- Proven obstruction: different old18D bracket observations cannot
 be glued into one old or new quotient class in this genuine fiber. -/
