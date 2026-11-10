@@ -3411,3 +3411,17 @@ strict 空／独立Kuu→Qi、元F54二Nat・二圏・Blocks、元F55 Type履歴
 **Lean4の失敗と修正経路**：初回[CI #42897496450](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42897496450)で2件の`No goals to be solved`。元の旧5／新7商の各1要素リスト等式を`injection`した時点でゴールが閉じているのに余分な`exact hbr`を続けたため。新規Lean全文と元v5.35/v5.73/v5.88/v5.89の依存型・観測定理を点検し、未マージ新規ファイルの余分な2行のみを削除、定理前提不変。修正後[定理CI #42898281779](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42898281779) **9,142／9,142**、[公開CI #42899043239](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42899043239) **10,403件Strict Lean SUCCESS**。Governance/Core SUCCESS。実`#print axioms`12/12＝**公理不要3、標準`propext`・`Quot.sound`のみ9**、新規`sorryAx`なし、対象error／warningなし。定理source/testmerge/squash tree `e7dc418e230ea86adaf9ebce33a2cc1bfa6ce682`、公開同`2f578b0f7aae24015824407086403a3b593bc924`で一致。[形式記録](docs/formal/Qi-v5_90-same-fiber-unit-collision-necessity-verified-20261111.md)。
 
 **Qi v5.91候補（NO_DATA保持）**：unitが正の元旧18D証拠を元の型付き`unitLeft`／`unitRight`構成子・中間端点・付加パラメータまで保持して分析し、同じ真正N→N fiberで実際の同指紋・異raw例が構成できるか調べる。**衝突の存在・unitCount正の十分性は未認証**。異fibertotal-space衝突、WORLD／20D gluingや実行権限に昇格しない。Lean v4.30.0-rc2／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、root107、保護#1558 Draft／OPEN／未マージ、append-only／tighten-only／overwrite-forbidden／same-root維持。
+
+## 2026-11-11 — Qi v5.91：元旧18Dの単一unit非閉路性と同一fiber衝突の必要下界2（Lean4認証済み）
+
+[定理PR #3503](https://github.com/itakura-hidetoshi/KuuOS/pull/3503)・[公開import PR #3504](https://github.com/itakura-hidetoshi/KuuOS/pull/3504) **MERGED**。真正元旧18Dの依存証拠を扱う新規Lean4モジュール1件**392行追加、18宣言／18件`#print axioms`**。歴史的Leanファイルの変更・削除0、公開`formal/KuuOSFormal.lean`にはimport1行のみ追加。元旧17D／18D／19D型・生成子・比較規則、公開root107を維持。
+
+**数学的な進展**：元の`SelectedLocalEighteen W l r J N`の真正unitCountが1なら、元のraw17D端点は必ず`J ≠ N`。元の5構成子の帰納法で、unitLeft／unitRightには認証済みv5.35の元端点非等号を使い、chainのunit数0脚にはv5.89の真正元端点等号を適用した。従って、任意の元旧18D真正`N→N`閉路は**unitCount=0またはunitCount≥2**であり、1個のunitでは閉じられない。
+
+**鋭さと異fiber境界**：真正に供給された元unitLeft／unitRight源`A:J→N`について、元の`chain A (reverse A):J→J`と`chain (reverse A) A:N→N`はいずれも本当のunit数2の閉路である。元のsource-inner bracketは非結合・順序付きのまま観測でき、前後端点のraw非等号も残る。二つは**別のJ→JとN→N fiber**にあるので、同一fiberの衝突を構成したとは主張しない。
+
+**v5.90の障害を強化**：同一真正raw17D `N→N` fiberで仮に`bracket(M)=bracket(L)`かつ`M≠L`なら、今度は**両側の元unitCountが2以上**必要。独立した元旧5／新7真正選択19D商のクラス等号、および各々の元Type19D比較`Nonempty`が与えられた場合の異raw値についても同じ必要条件を証明。衝突の存在・count≥2の十分性・旧新19D大域同値はNO_DATA。
+
+**独立CI**：[定理 #42903132323](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42903132323) **9,143/9,143**、[公開 #42904008712](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42904008712) **10,404件KuuOSFormal依存閉包Strict Lean SUCCESS**。Governance／独立Kuu CoreもSUCCESS、実公理監査18/18：**公理不要6、標準`propext`・`Quot.sound`のみ12**。新規`sorryAx`なし、変更Lean error/warning 0/0。定理source／testmerge／squash Git tree `d94c661920e09db2dbdfcb9087edda135d5741d1`、公開同`0876f06e669b8044b8df0897edd64452f88e0f6c`で完全一致。[正式記録](docs/formal/Qi-v5_91-single-unit-loop-threshold-verified-20261111.md)。
+
+**次段Qi v5.92候補（NO_DATA）**：最小2-unitの真正元旧18D往復閉路の内部指紋と、元のunitLeft／unitRightの実パラメータ・17D端点履歴の情報を独立に比較。異fiberを強制貼合しない。Lean v4.30.0-rc2／mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、root107、保護PR #1558 Draft／OPEN／未マージ、append-only／tighten-only／overwrite-forbidden／same-root維持。
