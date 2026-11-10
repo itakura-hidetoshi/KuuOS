@@ -228,6 +228,8 @@ def selectedV586JointObserver
   (selectedContextEighteenWhiskerPlacement l r A,
     selectedContextEighteenInheritedInnerList l r A)
 
+include F G P Q C D V X T U H K
+
 /-- Positive demonstration: preservation by the REAL original five. -/
 theorem selectedV586JointOldStable :
     selectedV586OldStable l r (selectedV586JointObserver l r) := by
@@ -315,7 +317,7 @@ theorem selectedV586RawTopCannotDescend
       ∀ X, f (selectedRawCongruentClass l r X) =
         selectedV586TopRawChain l r X) :=
   selectedV586NoDescentIfPrependSplit l r J N M
-    (selectedV586TopRawChain l r) (by decide)
+    (selectedV586TopRawChain l r) (by simp [selectedV586TopRawChain])
 
 end ObserverDescent
 
@@ -337,7 +339,8 @@ variable {H K : SelectedContextualSixteen W l r T U}
 fiber from three genuinely supplied typed old18D pieces. -/
 def selectedV586RightBridgedSource
     (N : SelectedContextualSeventeen W l r H K)
-    (A B : SelectedContextualSeventeen W l r H K)
+    (A B : SelectedContextualSeventeen W l r
+      (.whiskerRight F G H after) (.whiskerRight F G K after))
     (pre : SelectedLocalEighteen W l r
       (.whiskerRight F G N after) A)
     (mid : SelectedLocalEighteen W l r A B)
@@ -350,7 +353,9 @@ def selectedV586RightBridgedSource
 /-- Source-fingerprint collisions are stable under the actual
 typed two-sided old18D bridge, if all connector proofs exist. -/
 theorem selectedV586RightBridgePreservesBracket
-    (N A B : SelectedContextualSeventeen W l r H K)
+    (N : SelectedContextualSeventeen W l r H K)
+    (A B : SelectedContextualSeventeen W l r
+      (.whiskerRight F G H after) (.whiskerRight F G K after))
     (pre : SelectedLocalEighteen W l r
       (.whiskerRight F G N after) A)
     (M L : SelectedLocalEighteen W l r A B)
@@ -367,7 +372,9 @@ theorem selectedV586RightBridgePreservesBracket
 /-- The constructor trees also retain the DIFFERENCE of original
 old18D Type proofs M and L; no quotient equality is inferred. -/
 theorem selectedV586RightBridgePreservesDistinct
-    (N A B : SelectedContextualSeventeen W l r H K)
+    (N : SelectedContextualSeventeen W l r H K)
+    (A B : SelectedContextualSeventeen W l r
+      (.whiskerRight F G H after) (.whiskerRight F G K after))
     (pre : SelectedLocalEighteen W l r
       (.whiskerRight F G N after) A)
     (M L : SelectedLocalEighteen W l r A B)
@@ -378,6 +385,10 @@ theorem selectedV586RightBridgePreservesDistinct
       selectedV586RightBridgedSource l r F G after N A B pre L post := by
   intro h
   apply hneq
+  change SelectedLocalEighteen.chain
+      (SelectedLocalEighteen.chain pre M) post =
+    SelectedLocalEighteen.chain
+      (SelectedLocalEighteen.chain pre L) post at h
   injection h with hinner
   injection hinner with hmid
   exact hmid
@@ -388,7 +399,9 @@ its actual bracket equality / raw inequality, and both actual bridges.
 The theorem constructs the right-fiber pair; it does not assert any
 unconditional inhabitance of the external evidence. -/
 theorem selectedV586RightBridgeConstructsCollision
-    (N A B : SelectedContextualSeventeen W l r H K)
+    (N : SelectedContextualSeventeen W l r H K)
+    (A B : SelectedContextualSeventeen W l r
+      (.whiskerRight F G H after) (.whiskerRight F G K after))
     (pre : SelectedLocalEighteen W l r
       (.whiskerRight F G N after) A)
     (M L : SelectedLocalEighteen W l r A B)
@@ -413,7 +426,9 @@ theorem selectedV586RightBridgeConstructsCollision
 obstruction on the right fiber; quotient equality/non-equality is
 deliberately left unclassified. -/
 theorem selectedV586RightBridgeDecoderObstruction
-    (N A B : SelectedContextualSeventeen W l r H K)
+    (N : SelectedContextualSeventeen W l r H K)
+    (A B : SelectedContextualSeventeen W l r
+      (.whiskerRight F G H after) (.whiskerRight F G K after))
     (pre : SelectedLocalEighteen W l r
       (.whiskerRight F G N after) A)
     (M L : SelectedLocalEighteen W l r A B)
