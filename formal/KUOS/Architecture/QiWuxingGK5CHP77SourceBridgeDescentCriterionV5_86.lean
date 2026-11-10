@@ -232,7 +232,8 @@ include F G P Q C D V X T U H K
 
 /-- Positive demonstration: preservation by the REAL original five. -/
 theorem selectedV586JointOldStable :
-    selectedV586OldStable l r (selectedV586JointObserver l r) := by
+    selectedV586OldStable (H := H) (K := K) l r
+      (selectedV586JointObserver (H := H) (K := K) l r) := by
   intro J N A B a
   exact Prod.ext
     (selectedLocalNineteen_preservesWhiskerPlacement l r a)
@@ -241,7 +242,8 @@ theorem selectedV586JointOldStable :
 /-- Positive demonstration: preservation by all SEVEN original
 independently specified NEW comparison generators. -/
 theorem selectedV586JointNewStable :
-    selectedV586NewStable l r (selectedV586JointObserver l r) := by
+    selectedV586NewStable (H := H) (K := K) l r
+      (selectedV586JointObserver (H := H) (K := K) l r) := by
   intro J N A B a
   exact Prod.ext
     (selectedRawCongruent_preservesWhiskerPlacement l r a)
@@ -253,14 +255,14 @@ theorem selectedV586JointFactors
     (J N : SelectedContextualSeventeen W l r H K)
     (q : Quotient (selectedNineteenSetoid l r J N)) :
     selectedV586NewLift l r (selectedV586JointObserver l r)
-        (selectedV586JointNewStable l r) J N
+        (selectedV586JointNewStable (H := H) (K := K) l r) J N
         (selectedRawCongruentProject l r J N q) =
       selectedV586OldLift l r (selectedV586JointObserver l r)
         (selectedV586NewStableImpliesOld l r
           (selectedV586JointObserver l r)
-          (selectedV586JointNewStable l r)) J N q :=
+          (selectedV586JointNewStable (H := H) (K := K) l r)) J N q :=
   selectedV586LiftFactorsOldToNew l r
-    (selectedV586JointObserver l r) (selectedV586JointNewStable l r) J N q
+    (selectedV586JointObserver l r) (selectedV586JointNewStable (H := H) (K := K) l r) J N q
 
 /-- Necessary obstruction: any observation that distinguishes an
 ACTUAL raw prepend-unit comparison cannot descend to EITHER quotient.
@@ -367,7 +369,19 @@ theorem selectedV586RightBridgePreservesBracket
         (selectedV586RightBridgedSource l r F G after N A B pre M post) =
       selectedLocalEighteenInnerBracket l r
         (selectedV586RightBridgedSource l r F G after N A B pre L post) := by
-  simp [selectedV586RightBridgedSource, selectedLocalEighteenInnerBracket, hbr]
+  change SelectedInheritedOldInnerBracket.oldJoined
+      (.oldJoined (selectedLocalEighteenInnerBracket l r pre)
+        (selectedLocalEighteenInnerBracket l r M))
+      (selectedLocalEighteenInnerBracket l r post) =
+    SelectedInheritedOldInnerBracket.oldJoined
+      (.oldJoined (selectedLocalEighteenInnerBracket l r pre)
+        (selectedLocalEighteenInnerBracket l r L))
+      (selectedLocalEighteenInnerBracket l r post)
+  exact congrArg
+    (fun s : SelectedInheritedOldInnerBracket =>
+      SelectedInheritedOldInnerBracket.oldJoined
+        (.oldJoined (selectedLocalEighteenInnerBracket l r pre) s)
+        (selectedLocalEighteenInnerBracket l r post)) hbr
 
 /-- The constructor trees also retain the DIFFERENCE of original
 old18D Type proofs M and L; no quotient equality is inferred. -/
@@ -389,9 +403,9 @@ theorem selectedV586RightBridgePreservesDistinct
       (SelectedLocalEighteen.chain pre M) post =
     SelectedLocalEighteen.chain
       (SelectedLocalEighteen.chain pre L) post at h
-  injection h with hinner
-  injection hinner with hmid
-  exact hmid
+  injection h
+  injections
+  assumption
 
 /-- An explicit SUFFICIENT CONDITION for a same-fiber collision:
 a separately supplied parallel old18D pair in another exact fiber,
