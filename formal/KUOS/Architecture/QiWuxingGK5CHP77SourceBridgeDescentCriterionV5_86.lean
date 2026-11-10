@@ -404,7 +404,9 @@ theorem selectedV586RightBridgePreservesDistinct
     SelectedLocalEighteen.chain
       (SelectedLocalEighteen.chain pre L) post at h
   injection h
-  injections
+  have hchain : SelectedLocalEighteen.chain pre M =
+      SelectedLocalEighteen.chain pre L := by assumption
+  injection hchain
   assumption
 
 /-- An explicit SUFFICIENT CONDITION for a same-fiber collision:
