@@ -164,7 +164,8 @@ theorem selectedV594Prefix_innerStrictCount (n : Nat) :
       n + selectedV594InnerStrictCount
         (selectedLocalEighteenInnerBracket l r M) := by
   induction n with
-  | zero => rfl
+  | zero =>
+      simpa only [selectedV594StrictPrefix, Nat.zero_add]
   | succ n ih =>
       change 1 + selectedV594InnerStrictCount
           (selectedLocalEighteenInnerBracket l r
@@ -181,7 +182,8 @@ theorem selectedV594Suffix_innerStrictCount (n : Nat) :
       n + selectedV594InnerStrictCount
         (selectedLocalEighteenInnerBracket l r M) := by
   induction n with
-  | zero => rfl
+  | zero =>
+      simpa only [selectedV594StrictSuffix, Nat.zero_add]
   | succ n ih =>
       change selectedV594InnerStrictCount
           (selectedLocalEighteenInnerBracket l r
@@ -202,6 +204,12 @@ theorem selectedV594Prefix_injective :
     (fun A : SelectedLocalEighteen W l r J N =>
       selectedV594InnerStrictCount
         (selectedLocalEighteenInnerBracket l r A)) h
+  change selectedV594InnerStrictCount
+      (selectedLocalEighteenInnerBracket l r
+        (selectedV594StrictPrefix l r J M m)) =
+    selectedV594InnerStrictCount
+      (selectedLocalEighteenInnerBracket l r
+        (selectedV594StrictPrefix l r J M n)) at hc
   rw [selectedV594Prefix_innerStrictCount l r J N M m,
     selectedV594Prefix_innerStrictCount l r J N M n] at hc
   omega
@@ -214,6 +222,12 @@ theorem selectedV594Suffix_injective :
     (fun A : SelectedLocalEighteen W l r J N =>
       selectedV594InnerStrictCount
         (selectedLocalEighteenInnerBracket l r A)) h
+  change selectedV594InnerStrictCount
+      (selectedLocalEighteenInnerBracket l r
+        (selectedV594StrictSuffix l r N M m)) =
+    selectedV594InnerStrictCount
+      (selectedLocalEighteenInnerBracket l r
+        (selectedV594StrictSuffix l r N M n)) at hc
   rw [selectedV594Suffix_innerStrictCount l r J N M m,
     selectedV594Suffix_innerStrictCount l r J N M n] at hc
   omega
