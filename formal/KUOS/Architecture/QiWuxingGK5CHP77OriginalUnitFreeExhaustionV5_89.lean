@@ -247,6 +247,8 @@ theorem selectedV589OriginalLoopBracketFaithful
   obtain ⟨t, ht⟩ := selectedV589OriginalLoop_exhausted l r N M hm
   obtain ⟨u, hu⟩ := selectedV589OriginalLoop_exhausted l r N L hl
   rw [ht, hu]
+  rw [selectedV588UnitFreeRaw_observed l r N t,
+    selectedV588UnitFreeRaw_observed l r N u]
   exact (selectedV588UnitFreeRawEq_iff l r N t u).symm
 
 /-- Full ORIGINAL zero-unit same-fiber old-five class faithfulness,
