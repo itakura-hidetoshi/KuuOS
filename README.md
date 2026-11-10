@@ -3363,3 +3363,15 @@ strict 空／独立Kuu→Qi、元F54二Nat・二圏・Blocks、元F55 Type履歴
 **Lean4全文検証経路**：初回CI #42806887777で右whisker**親16D添字**不一致等、2回目 #42807780457で高階暗黙引数・`simp`過負荷・依存`injection`、3回目 #42808730307で必要な内側`chain`等式の抽出不足、4回目 #42809373251で`injection`が目標を閉じた後の冗長`assumption`を修正。定理の仮定・元ソースは弱化せず、最終[定理CI #42810096603](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42810096603) **9,138/9,138**、[公開CI #42810976263](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42810976263) **10,399/10,399 Strict Lean SUCCESS**、公開Governance **30/30**。公理実監査 **22/22＝公理不要11／標準`propext`・`Quot.sound`のみ11**。新規sorryAx・変更Lean error/warningなし。定理tree `6acf17b188635d8b33f158ba70f3208970f85ba6`、公開tree `55ed4e71eb36c848f3cd63506e3f94d3ccd69b11`は各source/test-merge/squashで一致。[正式記録](docs/formal/Qi-v5_86-source-bridge-quotient-descent-verified-20261110.md)。
 
 **次段Qi v5.87（未認証）**：同じ内部括弧指紋で異なる元raw旧18D証拠の具体的な居住条件を探索。任意の`M,L,pre,post,rewrite`存在、同指紋から元19D比較の同一性、全WORLD・20D gluing、実行権限は**NO_DATA**。公開root107、固定Lean v4.30.0-rc2/mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、保護PR #1558 Draft／OPEN／未マージ、append-only／tighten-only／overwrite-forbidden／same-rootを維持。
+
+## 2026-11-10 — Qi v5.87：元17D商同一と旧18D内部指紋同一でも、真正旧18D依存総空間の復元は不能（Lean4認証済み）
+
+[定理PR #3491](https://github.com/itakura-hidetoshi/KuuOS/pull/3491)・[公開import #3492](https://github.com/itakura-hidetoshi/KuuOS/pull/3492) **MERGED**。新規Lean1ファイル**397行・21宣言／21件公理監査**、公開`KuuOSFormal.lean`はimport**1行**のみ。元依存17D・旧18D、元17D selected18D商、元旧5／新7 selected19比較、公開root107、既存Lean/mathlib pinを変更していない。
+
+**真正依存旧18D総空間での具体的衝突**：同じ16D親添字で`Σ J, Σ N, SelectedLocalEighteen J N`を取り、raw端点を保持した`strict J : J→J`を埋め込む。v5.35の元17D単位critical pairは`J≠N`だが、v5.36の元18D型付きunit比較で**真正17D商クラス**`[J]18=[N]18`となる。両`strict J`と`strict N`は元raw旧18D**総空間では別値**だが、`innerBracket=strict`と元17D商クラスの**複合観測は一致**する。左右unit critical pairについて個別に実際の証拠対・総空間観測の非単射・普遍raw復元decoder不存在を形式証明。strict-loop像上の複合観測等号⇔元17D商クラス等号、およびその単射性の同値も定理化。
+
+**障害を保存**：これらは`J→J`と`N→N`という**異なる元raw17D fiber**であり、`[J]18=[N]18`は元端点`J=N`ではない。v5.86で条件とした**同一fiber内**の同指紋・異raw旧18D証拠対を無条件に得たわけではなく、旧5／新7 Type19Dの異fiber比較を新たに構成していない。`before,F/G,C,after`の任意存在、WORLD／20D gluing、権限はNO_DATA。
+
+**機械認証**：[定理CI #42815901143](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42815901143) **9,139/9,139**、[公開CI #42816694373](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/42816694373) **10,400/10,400 Strict Lean SUCCESS**、公開Governance **30/30**。21件実公理監査＝**公理不要15／標準`Quot.sound`のみ6**、新規sorryAx・変更Lean warning/errorなし。source/test-merge/squash Git treeは定理`5f552956b1764c09a0da0f86f00b8a6111ab507d`、公開`21664c936d36e2bf6d58a1598463a3722fdeb4c0`で各一致。[正式証明記録](docs/formal/Qi-v5_87-endpoint-quotient-fingerprint-obstruction-verified-20261110.md)。
+
+**次段Qi v5.88（未認証）**：元raw17Dの**同一exact fiber**における真の旧18D構文衝突の存在条件、またはunit-free strict fragmentでの存在障害を探る。元の型付き証拠・比較は改変しない。固定Lean v4.30.0-rc2/mathlib `5450b53e5ddc75d46418fabb605edbf36bd0beb6`、root107、保護PR #1558 Draft／OPEN／未マージ、append-only／tighten-only／overwrite-forbidden／same-rootを維持。
