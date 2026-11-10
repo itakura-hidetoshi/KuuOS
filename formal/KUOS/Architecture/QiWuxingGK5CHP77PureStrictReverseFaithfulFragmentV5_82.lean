@@ -136,7 +136,7 @@ theorem selectedPureStrictReverse_observed
     (N : SelectedContextualSeventeen W l r H K)
     (A : SelectedPureStrictReverseTree) :
     selectedContextEighteenWhiskerPlacement l r
-        (selectedPureStrictReverseEmbed N A) =
+        (selectedPureStrictReverseEmbed l r N A) =
       selectedPureStrictReverseRawValue A := by
   induction A with
   | strict => rfl
@@ -145,9 +145,9 @@ theorem selectedPureStrictReverse_observed
   | joined A B ih ih' =>
       change selectedWhiskerPlacementJoin
           (selectedContextEighteenWhiskerPlacement l r
-            (selectedPureStrictReverseEmbed N A))
+            (selectedPureStrictReverseEmbed l r N A))
           (selectedContextEighteenWhiskerPlacement l r
-            (selectedPureStrictReverseEmbed N B)) =
+            (selectedPureStrictReverseEmbed l r N B)) =
         SelectedWhiskerPlacementTree.joined
           (selectedPureStrictReverseRawValue A)
           (selectedPureStrictReverseRawValue B)
@@ -157,7 +157,7 @@ theorem selectedPureStrictReverse_observed
 for the explicitly generated pure strict endomorphism fragment. -/
 theorem selectedPureStrictReverse_embedInjective
     (N : SelectedContextualSeventeen W l r H K) :
-    Function.Injective (selectedPureStrictReverseEmbed N) := by
+    Function.Injective (selectedPureStrictReverseEmbed l r N) := by
   intro A B h
   have ho := congrArg
     (selectedContextEighteenWhiskerPlacement l r) h
@@ -171,17 +171,17 @@ theorem selectedPureStrictReverse_newClassEq_iff
     (N : SelectedContextualSeventeen W l r H K)
     (A B : SelectedPureStrictReverseTree) :
     selectedRawCongruentClass l r
-        (selectedPureStrictReverseEmbed N A) =
+        (selectedPureStrictReverseEmbed l r N A) =
       selectedRawCongruentClass l r
-        (selectedPureStrictReverseEmbed N B) ↔ A = B := by
+        (selectedPureStrictReverseEmbed l r N B) ↔ A = B := by
   constructor
   · intro h
     have ho := congrArg
       (selectedRawCongruentWhiskerPlacementOnQuotient l r N N) h
     change selectedContextEighteenWhiskerPlacement l r
-        (selectedPureStrictReverseEmbed N A) =
+        (selectedPureStrictReverseEmbed l r N A) =
       selectedContextEighteenWhiskerPlacement l r
-        (selectedPureStrictReverseEmbed N B) at ho
+        (selectedPureStrictReverseEmbed l r N B) at ho
     rw [selectedPureStrictReverse_observed l r N A,
       selectedPureStrictReverse_observed l r N B] at ho
     exact selectedPureStrictReverseRawValue_injective ho
@@ -194,17 +194,17 @@ theorem selectedPureStrictReverse_oldClassEq_iff
     (N : SelectedContextualSeventeen W l r H K)
     (A B : SelectedPureStrictReverseTree) :
     selectedNineteenClass l r
-        (selectedPureStrictReverseEmbed N A) =
+        (selectedPureStrictReverseEmbed l r N A) =
       selectedNineteenClass l r
-        (selectedPureStrictReverseEmbed N B) ↔ A = B := by
+        (selectedPureStrictReverseEmbed l r N B) ↔ A = B := by
   constructor
   · intro h
     have ho := congrArg
       (selectedNineteenWhiskerPlacementOnQuotient l r N N) h
     change selectedContextEighteenWhiskerPlacement l r
-        (selectedPureStrictReverseEmbed N A) =
+        (selectedPureStrictReverseEmbed l r N A) =
       selectedContextEighteenWhiskerPlacement l r
-        (selectedPureStrictReverseEmbed N B) at ho
+        (selectedPureStrictReverseEmbed l r N B) at ho
     rw [selectedPureStrictReverse_observed l r N A,
       selectedPureStrictReverse_observed l r N B] at ho
     exact selectedPureStrictReverseRawValue_injective ho
@@ -216,7 +216,7 @@ theorem selectedPureStrictReverse_newClassesInjective
     Function.Injective
       (fun A : SelectedPureStrictReverseTree =>
         selectedRawCongruentClass l r
-          (selectedPureStrictReverseEmbed N A)) := by
+          (selectedPureStrictReverseEmbed l r N A)) := by
   intro A B h
   exact (selectedPureStrictReverse_newClassEq_iff l r N A B).mp h
 
@@ -225,7 +225,7 @@ theorem selectedPureStrictReverse_oldClassesInjective
     Function.Injective
       (fun A : SelectedPureStrictReverseTree =>
         selectedNineteenClass l r
-          (selectedPureStrictReverseEmbed N A)) := by
+          (selectedPureStrictReverseEmbed l r N A)) := by
   intro A B h
   exact (selectedPureStrictReverse_oldClassEq_iff l r N A B).mp h
 
@@ -235,14 +235,14 @@ theorem selectedPureStrictReverse_oldComparison_iff
     (N : SelectedContextualSeventeen W l r H K)
     (A B : SelectedPureStrictReverseTree) :
     Nonempty (SelectedLocalNineteen W l r
-      (selectedPureStrictReverseEmbed N A)
-      (selectedPureStrictReverseEmbed N B)) ↔ A = B := by
+      (selectedPureStrictReverseEmbed l r N A)
+      (selectedPureStrictReverseEmbed l r N B)) ↔ A = B := by
   constructor
   · rintro ⟨h⟩
     exact (selectedPureStrictReverse_oldClassEq_iff l r N A B).mp
       (Quotient.sound ⟨h⟩)
   · rintro rfl
-    exact ⟨.strict (selectedPureStrictReverseEmbed N A)⟩
+    exact ⟨.strict (selectedPureStrictReverseEmbed l r N A)⟩
 
 /-- In the separate NEW selected19 comparison Type, the identical
 pure fragment is also classified by free syntax equality. -/
@@ -250,14 +250,14 @@ theorem selectedPureStrictReverse_newComparison_iff
     (N : SelectedContextualSeventeen W l r H K)
     (A B : SelectedPureStrictReverseTree) :
     Nonempty (SelectedRawCongruentNineteen W l r N N
-      (selectedPureStrictReverseEmbed N A)
-      (selectedPureStrictReverseEmbed N B)) ↔ A = B := by
+      (selectedPureStrictReverseEmbed l r N A)
+      (selectedPureStrictReverseEmbed l r N B)) ↔ A = B := by
   constructor
   · rintro ⟨h⟩
     exact (selectedPureStrictReverse_newClassEq_iff l r N A B).mp
       (Quotient.sound ⟨h⟩)
   · rintro rfl
-    exact ⟨.strict (selectedPureStrictReverseEmbed N A)⟩
+    exact ⟨.strict (selectedPureStrictReverseEmbed l r N A)⟩
 
 /-- The added raw-congruence generators do NOT collapse any new class
 inside the embedded pure strict/reverse/chain subpresentation.
@@ -266,11 +266,11 @@ theorem selectedPureStrictReverse_oldNewComparison_iff
     (N : SelectedContextualSeventeen W l r H K)
     (A B : SelectedPureStrictReverseTree) :
     Nonempty (SelectedLocalNineteen W l r
-      (selectedPureStrictReverseEmbed N A)
-      (selectedPureStrictReverseEmbed N B)) ↔
+      (selectedPureStrictReverseEmbed l r N A)
+      (selectedPureStrictReverseEmbed l r N B)) ↔
     Nonempty (SelectedRawCongruentNineteen W l r N N
-      (selectedPureStrictReverseEmbed N A)
-      (selectedPureStrictReverseEmbed N B)) := by
+      (selectedPureStrictReverseEmbed l r N A)
+      (selectedPureStrictReverseEmbed l r N B)) := by
   constructor
   · rintro ⟨h⟩
     exact ⟨.inherited h⟩
@@ -284,13 +284,13 @@ theorem selectedPureStrictReverse_oldNewClassEq_iff
     (N : SelectedContextualSeventeen W l r H K)
     (A B : SelectedPureStrictReverseTree) :
     (selectedNineteenClass l r
-        (selectedPureStrictReverseEmbed N A) =
+        (selectedPureStrictReverseEmbed l r N A) =
       selectedNineteenClass l r
-        (selectedPureStrictReverseEmbed N B)) ↔
+        (selectedPureStrictReverseEmbed l r N B)) ↔
     (selectedRawCongruentClass l r
-        (selectedPureStrictReverseEmbed N A) =
+        (selectedPureStrictReverseEmbed l r N A) =
       selectedRawCongruentClass l r
-        (selectedPureStrictReverseEmbed N B)) := by
+        (selectedPureStrictReverseEmbed l r N B)) := by
   exact (selectedPureStrictReverse_oldClassEq_iff l r N A B).trans
     (selectedPureStrictReverse_newClassEq_iff l r N A B).symm
 
@@ -329,17 +329,17 @@ theorem selectedPureStrictReverse_fullV581Eq_iff
     (A B : SelectedPureStrictReverseTree) :
     selectedRawCongruentFullV581QuotientObservation l r N N
         (selectedRawCongruentClass l r
-          (selectedPureStrictReverseEmbed N A)) =
+          (selectedPureStrictReverseEmbed l r N A)) =
       selectedRawCongruentFullV581QuotientObservation l r N N
         (selectedRawCongruentClass l r
-          (selectedPureStrictReverseEmbed N B)) ↔ A = B := by
+          (selectedPureStrictReverseEmbed l r N B)) ↔ A = B := by
   constructor
   · intro h
     have ho := congrArg Prod.snd h
     change selectedContextEighteenWhiskerPlacement l r
-        (selectedPureStrictReverseEmbed N A) =
+        (selectedPureStrictReverseEmbed l r N A) =
       selectedContextEighteenWhiskerPlacement l r
-        (selectedPureStrictReverseEmbed N B) at ho
+        (selectedPureStrictReverseEmbed l r N B) at ho
     rw [selectedPureStrictReverse_observed l r N A,
       selectedPureStrictReverse_observed l r N B] at ho
     exact selectedPureStrictReverseRawValue_injective ho
@@ -352,7 +352,7 @@ theorem selectedPureStrictReverse_fullV581Injective
       (fun A : SelectedPureStrictReverseTree =>
         selectedRawCongruentFullV581QuotientObservation l r N N
           (selectedRawCongruentClass l r
-            (selectedPureStrictReverseEmbed N A))) := by
+            (selectedPureStrictReverseEmbed l r N A))) := by
   intro A B h
   exact (selectedPureStrictReverse_fullV581Eq_iff l r N A B).mp h
 
