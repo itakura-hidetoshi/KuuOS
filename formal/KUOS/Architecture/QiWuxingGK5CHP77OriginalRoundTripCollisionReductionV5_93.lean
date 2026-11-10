@@ -70,7 +70,6 @@ theorem selectedV593ForwardRoundTrip_rawEq_iff
         SelectedLocalEighteen W l r J J) =
       SelectedLocalEighteen.chain L (.reverse L) at h
     injection h with hfirst hsecond
-    exact hfirst
   · intro h
     cases h
     rfl
@@ -87,7 +86,6 @@ theorem selectedV593BackwardRoundTrip_rawEq_iff
         SelectedLocalEighteen W l r N N) =
       SelectedLocalEighteen.chain (.reverse L) L at h
     injection h with hfirst hsecond
-    exact hsecond
   · intro h
     cases h
     rfl
@@ -112,9 +110,16 @@ theorem selectedV593ForwardRoundTrip_bracketEq_iff
         (selectedLocalEighteenInnerBracket l r L)
         (.oldReversed (selectedLocalEighteenInnerBracket l r L)) at h
     injection h with hfirst hsecond
-    exact hfirst
   · intro h
-    rw [h]
+    change SelectedInheritedOldInnerBracket.oldJoined
+        (selectedLocalEighteenInnerBracket l r M)
+        (.oldReversed (selectedLocalEighteenInnerBracket l r M)) =
+      .oldJoined
+        (selectedLocalEighteenInnerBracket l r L)
+        (.oldReversed (selectedLocalEighteenInnerBracket l r L))
+    exact congrArg
+      (fun b : SelectedInheritedOldInnerBracket =>
+        SelectedInheritedOldInnerBracket.oldJoined b (.oldReversed b)) h
 
 /-- Backward roundtrip fingerprint equality reflects source
 fingerprint equality independently, not by identifying its
@@ -136,9 +141,16 @@ theorem selectedV593BackwardRoundTrip_bracketEq_iff
         (.oldReversed (selectedLocalEighteenInnerBracket l r L))
         (selectedLocalEighteenInnerBracket l r L) at h
     injection h with hfirst hsecond
-    exact hsecond
   · intro h
-    rw [h]
+    change SelectedInheritedOldInnerBracket.oldJoined
+        (.oldReversed (selectedLocalEighteenInnerBracket l r M))
+        (selectedLocalEighteenInnerBracket l r M) =
+      .oldJoined
+        (.oldReversed (selectedLocalEighteenInnerBracket l r L))
+        (selectedLocalEighteenInnerBracket l r L)
+    exact congrArg
+      (fun b : SelectedInheritedOldInnerBracket =>
+        SelectedInheritedOldInnerBracket.oldJoined (.oldReversed b) b) h
 
 /-- EXACT collision equivalence in the forward roundtrip image:
 a same-bracket/different-raw forward pair exists exactly for a
@@ -193,7 +205,6 @@ theorem selectedV593ForwardTwoUnits_ofOne
     selectedV589OriginalUnitCount l r
       (selectedV591ForwardRoundTrip l r M) = 2 := by
   rw [selectedV591ForwardRoundTrip_unitCount l r M, hone]
-  norm_num
 
 theorem selectedV593BackwardTwoUnits_ofOne
     (M : SelectedLocalEighteen W l r J N)
@@ -201,7 +212,6 @@ theorem selectedV593BackwardTwoUnits_ofOne
     selectedV589OriginalUnitCount l r
       (selectedV591BackwardRoundTrip l r M) = 2 := by
   rw [selectedV591BackwardRoundTrip_unitCount l r M, hone]
-  norm_num
 
 /-- An equal-source-bracket pair with one original unit on the
 left automatically has one on the right. No unit-source pair's
