@@ -179,9 +179,9 @@ theorem transportDuskinSimplex_reindex
     {B : Type u₁} [Bicategory.{w₁, v₁} B]
     {C : Type u₂} [Bicategory.{w₂, v₂} C]
     (E : StrictlyUnitaryBicategoricalModelEquivalence B C)
-    {Δ Δ' : SimplexCategoryᵒᵖ}
-    (f : Δ ⟶ Δ')
-    (σ : (duskinNerve B).obj Δ) :
+    {idx idx' : SimplexCategoryᵒᵖ}
+    (f : idx ⟶ idx')
+    (σ : (duskinNerve B).obj idx) :
     transportDuskinSimplex E ((duskinReindex f).comp σ) =
       (duskinReindex f).comp (transportDuskinSimplex E σ) := by
   exact StrictlyUnitaryLaxFunctor.comp_assoc
@@ -193,7 +193,7 @@ def normalizedDuskinNerveMap
     {C : Type u₂} [Bicategory.{w₂, v₂} C]
     (E : StrictlyUnitaryBicategoricalModelEquivalence B C) :
     duskinNerve B ⟶ duskinNerve C where
-  app Δ := TypeCat.ofHom fun σ => transportDuskinSimplex E σ
+  app idx := TypeCat.ofHom fun σ => transportDuskinSimplex E σ
   naturality f := by
     ext σ
     change
@@ -205,9 +205,9 @@ def normalizedDuskinNerveMap
     {B : Type u₁} [Bicategory.{w₁, v₁} B]
     {C : Type u₂} [Bicategory.{w₂, v₂} C]
     (E : StrictlyUnitaryBicategoricalModelEquivalence B C)
-    (Δ : SimplexCategoryᵒᵖ)
-    (σ : (duskinNerve B).obj Δ) :
-    (normalizedDuskinNerveMap E).app Δ σ = transportDuskinSimplex E σ :=
+    (idx : SimplexCategoryᵒᵖ)
+    (σ : (duskinNerve B).obj idx) :
+    (normalizedDuskinNerveMap E).app idx σ = transportDuskinSimplex E σ :=
   rfl
 
 /-! ## Compatibility with the presentation-independent invariant -/
@@ -291,8 +291,8 @@ structure StrictlyUnitaryGlobalDuskinTransportCertificate
     {C : Type u₂} [Bicategory.{w₂, v₂} C]
     (E : StrictlyUnitaryBicategoricalModelEquivalence B C) : Prop where
   reindex_commutes :
-    ∀ {Δ Δ' : SimplexCategoryᵒᵖ}
-      (f : Δ ⟶ Δ') (σ : (duskinNerve B).obj Δ),
+    ∀ {idx idx' : SimplexCategoryᵒᵖ}
+      (f : idx ⟶ idx') (σ : (duskinNerve B).obj idx),
       transportDuskinSimplex E ((duskinReindex f).comp σ) =
         (duskinReindex f).comp (transportDuskinSimplex E σ)
   edge_intrinsic_exact :
