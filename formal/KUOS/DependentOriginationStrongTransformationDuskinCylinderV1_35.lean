@@ -84,10 +84,12 @@ def normalLaxPair
       intro a b f
       apply Prod.ext <;> simp [F.map₂_leftUnitor, G.map₂_leftUnitor,
         StrictlyUnitaryLaxFunctor.mapId_eq_eqToHom]
+      all_goals rfl
     map₂_rightUnitor := by
       intro a b f
       apply Prod.ext <;> simp [F.map₂_rightUnitor, G.map₂_rightUnitor,
         StrictlyUnitaryLaxFunctor.mapId_eq_eqToHom]
+      all_goals rfl
     map₂_associator := by
       intro a b c d f g h
       apply Prod.ext <;> simp [F.map₂_associator, G.map₂_associator] }
@@ -108,8 +110,9 @@ theorem normalLaxPair_precomp
   ext
   · rfl
   all_goals
-    · rw [heq_iff_eq]
-      ext <;> simp [normalLaxPair]
+    first
+    | rfl
+    | (rw [heq_iff_eq]; ext <;> simp [normalLaxPair])
 
 /-! ## The interval as a normal lax functor -/
 
