@@ -69,26 +69,26 @@ def normalLaxPair
     map₂ := fun η => F.map₂ η ×ₘ G.map₂ η
     map₂_id := by
       intro X Y f
-      ext <;> simp
+      apply Prod.ext <;> simp
     map₂_comp := by
       intro X Y f g h η θ
-      ext <;> simp
+      apply Prod.ext <;> simp
     mapComp := fun f g => F.mapComp f g ×ₘ G.mapComp f g
     mapComp_naturality_left := by
       intro a b c f f' η g
-      ext <;> simp
+      apply Prod.ext <;> simp
     mapComp_naturality_right := by
       intro a b c f g g' η
-      ext <;> simp
+      apply Prod.ext <;> simp
     map₂_leftUnitor := by
       intro a b f
-      ext <;> simp [F.map₂_leftUnitor, G.map₂_leftUnitor]
+      apply Prod.ext <;> simp [F.map₂_leftUnitor, G.map₂_leftUnitor]
     map₂_rightUnitor := by
       intro a b f
-      ext <;> simp [F.map₂_rightUnitor, G.map₂_rightUnitor]
+      apply Prod.ext <;> simp [F.map₂_rightUnitor, G.map₂_rightUnitor]
     map₂_associator := by
       intro a b c d f g h
-      ext <;> simp [F.map₂_associator, G.map₂_associator] }
+      apply Prod.ext <;> simp [F.map₂_associator, G.map₂_associator] }
 
 attribute [local ext] StrictlyUnitaryLaxFunctor
 
