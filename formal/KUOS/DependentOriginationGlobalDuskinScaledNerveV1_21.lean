@@ -110,7 +110,7 @@ set_option backward.isDefEq.respectTransparency false in
   change locallyDiscreteNormalLax
       ((SimplexCategory.toCat.map (𝟙 d.unop)).toFunctor) =
     StrictlyUnitaryLaxFunctor.id (DuskinOrdinal d.unop.len)
-  rw [Functor.map_id, Cat.Hom.id_toFunctor]
+  rw [SimplexCategory.toCat.map_id, Cat.Hom.id_toFunctor]
   exact locallyDiscreteNormalLax_id _
 
 set_option backward.isDefEq.respectTransparency false in
