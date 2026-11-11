@@ -187,27 +187,39 @@ theorem transportDuskinSimplex_reindex
   exact StrictlyUnitaryLaxFunctor.comp_assoc
     (duskinReindex f) σ E.forward.toStrictlyUnitaryLaxFunctor
 
-/-- A normalized model equivalence induces a genuine simplicial map of global Duskin nerves. -/
+/--
+A normalized model equivalence induces a genuine simplicial map of global
+Duskin nerves **after canonical universe lifting**. Independent source and
+target bicategory universes cannot be treated as one and the same SSet universe.
+Both liftings land in the common max universe; neither mathematical simplex nor
+its normal-lax transport is discarded.
+-/
 def normalizedDuskinNerveMap
     {B : Type u₁} [Bicategory.{w₁, v₁} B]
     {C : Type u₂} [Bicategory.{w₂, v₂} C]
     (E : StrictlyUnitaryBicategoricalModelEquivalence B C) :
-    duskinNerve B ⟶ duskinNerve C where
-  app idx := TypeCat.ofHom fun σ => transportDuskinSimplex E σ
+    (SSet.uliftFunctor.{max (max w₁ v₁) u₁, max (max w₂ v₂) u₂}).obj
+        (duskinNerve B) ⟶
+      (SSet.uliftFunctor.{max (max w₂ v₂) u₂, max (max w₁ v₁) u₁}).obj
+        (duskinNerve C) where
+  app idx := TypeCat.ofHom fun σ =>
+    ULift.up (transportDuskinSimplex E σ.down)
   naturality f := by
     ext σ
     change
-      transportDuskinSimplex E ((duskinReindex f).comp σ) =
-        (duskinReindex f).comp (transportDuskinSimplex E σ)
-    exact transportDuskinSimplex_reindex E f σ
+      ULift.up (transportDuskinSimplex E ((duskinReindex f).comp σ.down)) =
+        ULift.up ((duskinReindex f).comp (transportDuskinSimplex E σ.down))
+    exact congrArg ULift.up (transportDuskinSimplex_reindex E f σ.down)
 
 @[simp] theorem normalizedDuskinNerveMap_app
     {B : Type u₁} [Bicategory.{w₁, v₁} B]
     {C : Type u₂} [Bicategory.{w₂, v₂} C]
     (E : StrictlyUnitaryBicategoricalModelEquivalence B C)
     (idx : SimplexCategoryᵒᵖ)
-    (σ : (duskinNerve B).obj idx) :
-    (normalizedDuskinNerveMap E).app idx σ = transportDuskinSimplex E σ :=
+    (σ : ((SSet.uliftFunctor.{max (max w₁ v₁) u₁, max (max w₂ v₂) u₂}).obj
+      (duskinNerve B)).obj idx) :
+    (normalizedDuskinNerveMap E).app idx σ =
+      ULift.up (transportDuskinSimplex E σ.down) :=
   rfl
 
 /-! ## Compatibility with the presentation-independent invariant -/
