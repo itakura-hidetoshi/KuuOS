@@ -3,6 +3,7 @@ Copyright (c) 2026 Joël Riou. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Joël Riou
 -/
+module
 
 public import Mathlib.AlgebraicTopology.SimplicialSet.AnodyneExtensions.Op
 public import Mathlib.AlgebraicTopology.SimplicialSet.AnodyneExtensions.Rank
@@ -10,9 +11,9 @@ public import Mathlib.AlgebraicTopology.SimplicialSet.Boundary
 public import Mathlib.AlgebraicTopology.SimplicialSet.Horn
 
 /-!
-KuuOS compatibility validation of the exact UnionProd source from mathlib4
-commit b679ac024dccdf39b1be683d5890c072b58ae8d0. The pinned mathlib source
-is unchanged. Original copyright, authorship and Apache-2.0 license retained.
+KuuOS validation-only backport: mathlib4 b679ac024dccdf39b1be683d5890c072b58ae8d0.
+Pinned mathlib 5450b53e5ddc75d46418fabb605edbf36bd0beb6 unchanged.
+Original authorship/copyright/Apache-2.0 license preserved above.
 -/
 
 /-!
