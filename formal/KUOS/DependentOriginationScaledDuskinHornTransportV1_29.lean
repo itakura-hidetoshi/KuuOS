@@ -227,6 +227,19 @@ statement at the scaled horn-presentation level.
 end KUOS.DependentOriginationScaledDuskinHornTransportV1_29
 
 
+namespace KUOS.DependentOriginationScaledDuskinHornTransportV1_29
+
+open CategoryTheory
+open CategoryTheory.Category
+open CategoryTheory.Bicategory
+open Simplicial
+open Opposite
+open scoped Bicategory
+open KUOS.DependentOriginationGlobalDuskinScaledHornCoherenceV1_22
+open KUOS.DependentOriginationStrictlyUnitaryDuskinModelTransportV1_27
+
+universe u₁ u₂ v₁ v₂ w₁ w₂
+
 /-!
 ## Lifted-image horn family (typed, one-way result)
 
