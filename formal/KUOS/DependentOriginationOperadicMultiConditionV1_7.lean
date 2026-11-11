@@ -42,11 +42,11 @@ structure MultiConditionSignature (Color : Type u) where
 /-- An interpretation of a multi-condition signature on a family of carriers. -/
 structure MultiConditionAlgebra
     {Color : Type u}
-    (Σ : MultiConditionSignature.{u, v} Color)
+    (Sig : MultiConditionSignature.{u, v} Color)
     (Carrier : Color -> Type w) where
   act : forall {n : Nat}
     {inputs : Fin (Nat.succ n) -> Color} {out : Color},
-    Σ.operation n inputs out ->
+    Sig.operation n inputs out ->
       ((i : Fin (Nat.succ n)) -> Carrier (inputs i)) ->
         Carrier out
 
@@ -59,27 +59,27 @@ required by the type to match the corresponding input color of its parent.
 -/
 inductive MultiConditionExpr
     {Color : Type u}
-    (Σ : MultiConditionSignature.{u, v} Color)
+    (Sig : MultiConditionSignature.{u, v} Color)
     (Carrier : Color -> Type w) : Color -> Type (max v w) where
   | atom {c : Color} (value : Carrier c) :
-      MultiConditionExpr Σ Carrier c
+      MultiConditionExpr Sig Carrier c
   | compose {n : Nat}
       {inputs : Fin (Nat.succ n) -> Color} {out : Color}
-      (op : Σ.operation n inputs out)
+      (op : Sig.operation n inputs out)
       (args : (i : Fin (Nat.succ n)) ->
-        MultiConditionExpr Σ Carrier (inputs i)) :
-      MultiConditionExpr Σ Carrier out
+        MultiConditionExpr Sig Carrier (inputs i)) :
+      MultiConditionExpr Sig Carrier out
 
 namespace MultiConditionExpr
 
 /-- Evaluate a free multi-condition tree in an algebra. -/
 def eval
     {Color : Type u}
-    {Σ : MultiConditionSignature.{u, v} Color}
+    {Sig : MultiConditionSignature.{u, v} Color}
     {Carrier : Color -> Type w}
-    (A : MultiConditionAlgebra Σ Carrier)
+    (A : MultiConditionAlgebra Sig Carrier)
     {out : Color}
-    (e : MultiConditionExpr Σ Carrier out) : Carrier out := by
+    (e : MultiConditionExpr Sig Carrier out) : Carrier out := by
   induction e with
   | atom value =>
       exact value
@@ -88,22 +88,22 @@ def eval
 
 @[simp] theorem eval_atom
     {Color : Type u}
-    {Σ : MultiConditionSignature.{u, v} Color}
+    {Sig : MultiConditionSignature.{u, v} Color}
     {Carrier : Color -> Type w}
-    (A : MultiConditionAlgebra Σ Carrier)
+    (A : MultiConditionAlgebra Sig Carrier)
     {c : Color} (value : Carrier c) :
     eval A (.atom value) = value := by
   rfl
 
 @[simp] theorem eval_compose
     {Color : Type u}
-    {Σ : MultiConditionSignature.{u, v} Color}
+    {Sig : MultiConditionSignature.{u, v} Color}
     {Carrier : Color -> Type w}
-    (A : MultiConditionAlgebra Σ Carrier)
+    (A : MultiConditionAlgebra Sig Carrier)
     {n : Nat} {inputs : Fin (Nat.succ n) -> Color} {out : Color}
-    (op : Σ.operation n inputs out)
+    (op : Sig.operation n inputs out)
     (args : (i : Fin (Nat.succ n)) ->
-      MultiConditionExpr Σ Carrier (inputs i)) :
+      MultiConditionExpr Sig Carrier (inputs i)) :
     eval A (.compose op args) =
       A.act op (fun i => eval A (args i)) := by
   rfl
@@ -171,10 +171,10 @@ end OperadicDependentOriginationExtension
 /-- The signature contains at least one genuinely multi-input primitive. -/
 def HasGenuineMultiCondition
     {Color : Type u}
-    (Σ : MultiConditionSignature.{u, v} Color) : Prop :=
+    (Sig : MultiConditionSignature.{u, v} Color) : Prop :=
   exists n : Nat, 0 < n ∧
     exists (inputs : Fin (Nat.succ n) -> Color) (out : Color),
-      Nonempty (Σ.operation n inputs out)
+      Nonempty (Sig.operation n inputs out)
 
 /-!
 ## Shared invariant semantics through multi-condition composition
@@ -190,14 +190,14 @@ transport alone.
 -/
 structure SharedSemanticReadout
     {Color : Type u}
-    {Σ : MultiConditionSignature.{u, v} Color}
+    {Sig : MultiConditionSignature.{u, v} Color}
     {Carrier : Color -> Type w}
-    (A : MultiConditionAlgebra Σ Carrier)
+    (A : MultiConditionAlgebra Sig Carrier)
     (Semantic : Type y) where
   readout : (c : Color) -> Carrier c -> Semantic
   preserves_shared : forall {n : Nat}
     {inputs : Fin (Nat.succ n) -> Color} {out : Color}
-    (op : Σ.operation n inputs out)
+    (op : Sig.operation n inputs out)
     (args : (i : Fin (Nat.succ n)) -> Carrier (inputs i))
     (value : Semantic),
     (forall i, readout (inputs i) (args i) = value) ->
@@ -206,21 +206,21 @@ structure SharedSemanticReadout
 /-- Every atomic leaf of an expression has one common semantic value. -/
 inductive AllAtomsAt
     {Color : Type u}
-    {Σ : MultiConditionSignature.{u, v} Color}
+    {Sig : MultiConditionSignature.{u, v} Color}
     {Carrier : Color -> Type w}
-    {A : MultiConditionAlgebra Σ Carrier}
+    {A : MultiConditionAlgebra Sig Carrier}
     {Semantic : Type y}
     (Q : SharedSemanticReadout A Semantic)
     (value : Semantic) :
-    {out : Color} -> MultiConditionExpr Σ Carrier out -> Prop where
+    {out : Color} -> MultiConditionExpr Sig Carrier out -> Prop where
   | atom {c : Color} {s : Carrier c}
       (h : Q.readout c s = value) :
       AllAtomsAt Q value (.atom s)
   | compose {n : Nat}
       {inputs : Fin (Nat.succ n) -> Color} {out : Color}
-      (op : Σ.operation n inputs out)
+      (op : Sig.operation n inputs out)
       (args : (i : Fin (Nat.succ n)) ->
-        MultiConditionExpr Σ Carrier (inputs i))
+        MultiConditionExpr Sig Carrier (inputs i))
       (h : forall i, AllAtomsAt Q value (args i)) :
       AllAtomsAt Q value (.compose op args)
 
@@ -230,14 +230,14 @@ nested positive-arity multi-condition tree.
 -/
 theorem eval_preserves_shared_semantics
     {Color : Type u}
-    {Σ : MultiConditionSignature.{u, v} Color}
+    {Sig : MultiConditionSignature.{u, v} Color}
     {Carrier : Color -> Type w}
-    {A : MultiConditionAlgebra Σ Carrier}
+    {A : MultiConditionAlgebra Sig Carrier}
     {Semantic : Type y}
     (Q : SharedSemanticReadout A Semantic)
     (value : Semantic)
     {out : Color}
-    {e : MultiConditionExpr Σ Carrier out}
+    {e : MultiConditionExpr Sig Carrier out}
     (h : AllAtomsAt Q value e) :
     Q.readout out (MultiConditionExpr.eval A e) = value := by
   induction h with

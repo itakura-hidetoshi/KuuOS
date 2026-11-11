@@ -44,8 +44,9 @@ def inv [Group Gauge] [MulAction Gauge X]
     (a : ActionArrow (Gauge := Gauge) x y) :
     ActionArrow (Gauge := Gauge) y x :=
   ⟨a.1⁻¹, by
-    rw [← a.2]
-    simp [smul_smul]⟩
+    calc
+      a.1⁻¹ • y = a.1⁻¹ • (a.1 • x) := congrArg (fun z => a.1⁻¹ • z) a.2.symm
+      _ = x := by simp [smul_smul]⟩
 
 @[simp] theorem comp_id_source
     [Group Gauge] [MulAction Gauge X]
