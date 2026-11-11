@@ -141,7 +141,8 @@ theorem normalLaxPair_precomp
     intro a b h
     cases h
     simp [StrictlyUnitaryLaxFunctor.mapId_eq_eqToHom,
-      StrictlyUnitaryLaxFunctor.comp, normalLaxPair]
+      StrictlyUnitaryLaxFunctor.comp, normalLaxPair,
+      PrelaxFunctor.map₂_eqToHom]
 
 /-! ## The interval as a normal lax functor -/
 
