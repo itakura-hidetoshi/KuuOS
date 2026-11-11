@@ -67,11 +67,13 @@ def actionRepresentationFunctor
   map_id := by
     intro x
     ext psi
-    simp [ActionArrow.id]
+    change (1 : Gauge) • psi = psi
+    simp
   map_comp := by
     intro x y z f g
     ext psi
-    simp [ActionArrow.comp, mul_smul]
+    change (g.1 * f.1) • psi = g.1 • (f.1 • psi)
+    exact mul_smul g.1 f.1 psi
 
 /--
 The ordinary algebraic action-groupoid gauge representation is therefore a
@@ -104,8 +106,8 @@ def actionRepresentationTransportSystem
         (ActionArrow.inv a)
         ((actionRepresentationTransportSystem
           (X := X) (Gauge := Gauge) (Fiber := Fiber)).transport a psi) = psi := by
-  simp [actionRepresentationTransportSystem, actionRepresentationFunctor,
-    FunctorialTransportSystem.transport, ActionArrow.inv, smul_smul]
+  change a.1⁻¹ • (a.1 • psi) = psi
+  simp [smul_smul]
 
 /-- Gauge transport followed by its inverse also acts as the identity. -/
 @[simp] theorem actionRepresentation_transport_inverse_apply
@@ -118,8 +120,8 @@ def actionRepresentationTransportSystem
         ((actionRepresentationTransportSystem
           (X := X) (Gauge := Gauge) (Fiber := Fiber)).transport
             (ActionArrow.inv a) psi) = psi := by
-  simp [actionRepresentationTransportSystem, actionRepresentationFunctor,
-    FunctorialTransportSystem.transport, ActionArrow.inv, smul_smul]
+  change a.1 • (a.1⁻¹ • psi) = psi
+  simp [smul_smul]
 
 /-- Every action-groupoid transport map is bijective. -/
 theorem actionRepresentation_transport_bijective

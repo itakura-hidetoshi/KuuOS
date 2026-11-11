@@ -7,7 +7,7 @@ namespace KUOS.DependentOriginationInfinityCoherenceV1_15
 open CategoryTheory
 open KUOS.DependentOriginationBicategoricalCoherenceV1_6
 
-universe u v w x
+universe u v w x uState
 
 /-!
 # All-dimensional dependent-origination coherence interface v1.15
@@ -85,8 +85,8 @@ quasicategory horn fillers.
 -/
 structure InfinityCoherenceInterface
     (B : Type u) [Bicategory.{w, v} B] where
-  base : BicategoricalTransportSystem B
-  tower : ReflexiveGlobularCoherenceTower
+  base : BicategoricalTransportSystem.{u, v, w, uState} B
+  tower : ReflexiveGlobularCoherenceTower.{x}
   objectCell : B -> tower.Cell 0
   oneCell : forall {X Y : B}, (X ⟶ Y) -> tower.Cell 1
   one_source : forall {X Y : B} (f : X ⟶ Y),
