@@ -87,8 +87,8 @@ theorem selectedV597FixedOriginalAtom_injective :
       (⟨N, A⟩ : Σ S : SelectedContextualSeventeen W l r H K,
         SelectedLocalEighteen W l r J S) =
         ⟨N, B⟩ :=
-    sigma_mk_injective J h
-  exact sigma_mk_injective N hInner
+    sigma_mk_injective h
+  exact sigma_mk_injective hInner
 
 /-- A literal original unitLeft or unitRight leaf has exactly
 one true original dependent unit occurrence, never just an
@@ -113,16 +113,37 @@ theorem selectedV597Primitive_historySingleton
       [⟨J, ⟨N, M⟩⟩] := by
   cases M with
   | strict _ =>
-      simp [selectedV597OriginalPrimitiveUnit,
-        selectedLocalEighteenInnerBracket] at hprimitive
+      rcases hprimitive with h | h
+      · change SelectedInheritedOldInnerBracket.oldStrict =
+          .oldUnitLeft at h
+        cases h
+      · change SelectedInheritedOldInnerBracket.oldStrict =
+          .oldUnitRight at h
+        cases h
   | unitLeft _ _ _ _ _ => rfl
   | unitRight _ _ _ _ _ => rfl
   | reverse A =>
-      simp [selectedV597OriginalPrimitiveUnit,
-        selectedLocalEighteenInnerBracket] at hprimitive
+      rcases hprimitive with h | h
+      · change SelectedInheritedOldInnerBracket.oldReversed
+          (selectedLocalEighteenInnerBracket l r A) =
+          .oldUnitLeft at h
+        cases h
+      · change SelectedInheritedOldInnerBracket.oldReversed
+          (selectedLocalEighteenInnerBracket l r A) =
+          .oldUnitRight at h
+        cases h
   | chain A B =>
-      simp [selectedV597OriginalPrimitiveUnit,
-        selectedLocalEighteenInnerBracket] at hprimitive
+      rcases hprimitive with h | h
+      · change SelectedInheritedOldInnerBracket.oldJoined
+          (selectedLocalEighteenInnerBracket l r A)
+          (selectedLocalEighteenInnerBracket l r B) =
+          .oldUnitLeft at h
+        cases h
+      · change SelectedInheritedOldInnerBracket.oldJoined
+          (selectedLocalEighteenInnerBracket l r A)
+          (selectedLocalEighteenInnerBracket l r B) =
+          .oldUnitRight at h
+        cases h
 
 /-- The FULL typed original unit payload history alone is
 faithful on this restricted primitive source fragment, in
