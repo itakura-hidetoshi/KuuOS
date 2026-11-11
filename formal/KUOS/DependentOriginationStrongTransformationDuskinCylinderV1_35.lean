@@ -132,6 +132,8 @@ theorem normalLaxPair_precomp
   all_goals
     first
     | rfl
+    | (simp [StrictlyUnitaryLaxFunctor.mapId_eq_eqToHom,
+        StrictlyUnitaryLaxFunctor.comp, normalLaxPair])
     | (rw [heq_iff_eq]; ext <;> simp [normalLaxPair])
 
 /-! ## The interval as a normal lax functor -/
