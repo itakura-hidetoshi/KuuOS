@@ -204,7 +204,8 @@ def normalizedDuskinNerveMap
         (duskinNerve C) where
   app idx := TypeCat.ofHom fun σ =>
     ULift.up (transportDuskinSimplex E σ.down)
-  naturality f := by
+  naturality := by
+    intro idx idx' f
     ext σ
     change
       ULift.up (transportDuskinSimplex E ((duskinReindex f).comp σ.down)) =
