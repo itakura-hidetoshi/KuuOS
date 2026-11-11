@@ -6,6 +6,7 @@ namespace KUOS.DependentOriginationGlobularNerveComparisonV1_17
 open CategoryTheory
 open Opposite
 open SimplexCategory
+open Simplicial
 open KUOS.DependentOriginationFunctorialTransportV0_1
 open KUOS.DependentOriginationInfinityCoherenceV1_15
 open KUOS.DependentOriginationQuasicategoryNerveV1_16
@@ -38,13 +39,13 @@ structure LevelwiseNerveCompatible
     (T : ReflexiveGlobularCoherenceTower.{x})
     {Context : Type u} [Category.{v} Context]
     (D : FunctorialTransportSystem Context) where
-  cellEquiv : forall n : Nat,
+  cellEquiv : ∀ n : Nat,
     T.Cell n ≃ (dependentNerve D).obj (op ⦋n⦌)
 
 namespace LevelwiseNerveCompatible
 
 /-- Extract the dimension-`n` carrier equivalence supplied by the certificate. -/
-def at
+def atLevel
     {T : ReflexiveGlobularCoherenceTower.{x}}
     {Context : Type u} [Category.{v} Context]
     {D : FunctorialTransportSystem Context}
@@ -83,7 +84,7 @@ def twoStateSystem :
     FunctorialTransportSystem (Discrete PUnit) where
   state :=
     { obj := fun _ => Fin 2
-      map := fun _ x => x
+      map := fun _ => TypeCat.ofHom (fun b : Fin 2 => b)
       map_id := by
         intro X
         rfl
