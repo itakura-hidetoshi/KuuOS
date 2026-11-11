@@ -201,10 +201,10 @@ variable
     {G : BicategoricalModelEquivalence C B}
     {HB : GlobalDuskinScaledHornFamily B}
     {HC : GlobalDuskinScaledHornFamily C}
-    (K : CoherentNormalizedScaledModelEquivalence E G HB HC)
 
 /-- Forget the construction layers and recover the v1.31 bidirectional package. -/
-def toBidirectionalScaledDuskinModelEquivalence :
+def toBidirectionalScaledDuskinModelEquivalence
+    (K : CoherentNormalizedScaledModelEquivalence E G HB HC) :
     BidirectionalScaledDuskinModelEquivalence HB HC where
   forwardModel := K.forwardNormalization.normal
   backwardModel := K.backwardNormalization.normal
@@ -222,13 +222,15 @@ def toBidirectionalScaledDuskinModelEquivalence :
     K.hornDescent.source_roundTrip_filler_equiv
 
 /-- Coherent normalized model equivalence induces an actual horn-presentation equivalence. -/
-def toScaledHornPresentationEquivalence :
+def toScaledHornPresentationEquivalence
+    (K : CoherentNormalizedScaledModelEquivalence E G HB HC) :
     KUOS.DependentOriginationScaledHornPresentationInvariantV1_30.ScaledHornPresentationEquivalence
       HB HC :=
   K.toBidirectionalScaledDuskinModelEquivalence.toScaledHornPresentationEquivalence
 
 /-- Global scaled-Duskin fibrancy is invariant under the coherent normalized model equivalence. -/
-theorem globalDuskinScaledFibrancy_iff :
+theorem globalDuskinScaledFibrancy_iff
+    (K : CoherentNormalizedScaledModelEquivalence E G HB HC) :
     HasScaledHornFillers (duskinNerve B) (duskinScaling B) HB ↔
       HasScaledHornFillers (duskinNerve C) (duskinScaling C) HC :=
   K.toBidirectionalScaledDuskinModelEquivalence.globalDuskinScaledFibrancy_iff
