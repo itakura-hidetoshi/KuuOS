@@ -89,6 +89,52 @@ theorem nondegenerateThin_preserved_lift
   change (duskinScaling C).thin (transportDuskinSimplex E σ)
   exact nondegenerateThin_transport_isThin E σ hnd hthin
 
+/--
+Preservation of every thin 2-simplex after the common universe lift.
+The invertible-comparison case uses the certified local hom equivalence;
+the two degenerate cases use the naturality of the genuine Duskin nerve map.
+-/
+theorem allThin_preserved_lift
+    {B : Type u₁} [Bicategory.{w₁, v₁} B]
+    {C : Type u₂} [Bicategory.{w₂, v₂} C]
+    (E : StrictlyUnitaryBicategoricalModelEquivalence B C) :
+    IsScaledMap
+      (uliftScaling.{max (max w₁ v₁) u₁, max (max w₂ v₂) u₂} (duskinScaling B))
+      (uliftScaling.{max (max w₂ v₂) u₂, max (max w₁ v₁) u₁} (duskinScaling C))
+      (normalizedDuskinNerveMap E) := by
+  intro τ hthin
+  change IsIso (duskinComparison τ.down) ∨ IsDegenerateDuskinTwoSimplex τ.down at hthin
+  change IsIso (duskinComparison (transportDuskinSimplex E τ.down)) ∨
+    IsDegenerateDuskinTwoSimplex (transportDuskinSimplex E τ.down)
+  rcases hthin with hiso | hdeg
+  · exact Or.inl (transportDuskinComparison_isIso E τ.down hiso)
+  · rcases hdeg with ⟨e, he⟩ | ⟨e, he⟩
+    · refine Or.inr (Or.inl ⟨transportDuskinSimplex E e, ?_⟩)
+      rw [he]
+      change
+        transportDuskinSimplex E
+          ((duskinReindex ((SimplexCategory.σ 0).op)).comp e) =
+        (duskinReindex ((SimplexCategory.σ 0).op)).comp (transportDuskinSimplex E e)
+      exact transportDuskinSimplex_reindex E _ e
+    · refine Or.inr (Or.inr ⟨transportDuskinSimplex E e, ?_⟩)
+      rw [he]
+      change
+        transportDuskinSimplex E
+          ((duskinReindex ((SimplexCategory.σ 1).op)).comp e) =
+        (duskinReindex ((SimplexCategory.σ 1).op)).comp (transportDuskinSimplex E e)
+      exact transportDuskinSimplex_reindex E _ e
+
+/-- No extra full-thinness assumption is required after well-typed lifting. -/
+def canonicalLiftedFullScaledDuskinMapCertificate
+    {B : Type u₁} [Bicategory.{w₁, v₁} B]
+    {C : Type u₂} [Bicategory.{w₂, v₂} C]
+    (E : StrictlyUnitaryBicategoricalModelEquivalence B C) :
+    LiftedFullScaledDuskinMapCertificate E where
+  map_scaled := allThin_preserved_lift E
+
+#print axioms allThin_preserved_lift
+#print axioms canonicalLiftedFullScaledDuskinMapCertificate
+
 #print axioms LiftedFullScaledDuskinMapCertificate
 #print axioms nondegenerateThin_preserved_lift
 
