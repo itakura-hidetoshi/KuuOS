@@ -8,6 +8,7 @@ open CategoryTheory.Bicategory
 open Simplicial
 open Opposite
 open scoped Bicategory
+open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
 open KUOS.DependentOriginationGlobalDuskinScaledNerveV1_21
 open KUOS.DependentOriginationGlobalDuskinScaledHornCoherenceV1_22
 open KUOS.DependentOriginationStrictlyUnitaryDuskinModelTransportV1_27
