@@ -5,6 +5,7 @@ import KUOS.DependentOriginationLiftedDuskinFamilyDescentBridgeV1_29
 import KUOS.DependentOriginationCoherentNormalizedScaledModelEquivalenceTypedRepairV1_32
 import KUOS.DependentOriginationScaledHornHomotopyDescentV1_33
 import KUOS.DependentOriginationGlobalDuskinPrismHomotopyV1_34
+import KUOS.DependentOriginationNormalLaxUniverseLiftV1_35
 import KUOS.DependentOriginationStrongTransformationDuskinCylinderV1_35
 
 /-!
@@ -44,3 +45,8 @@ certificates or unconditional fibrancy. No new axioms are admitted.
 /-! ## Exact-source audit of native v1.35 cylinder evidence -/
 #print axioms KUOS.DependentOriginationStrongTransformationDuskinCylinderV1_35.StrongQuasiInverseNormalLaxCylinder.sourcePrism
 #print axioms KUOS.DependentOriginationStrongTransformationDuskinCylinderV1_35.StrongQuasiInverseNormalLaxCylinder.targetPrism
+
+/-! ## Independent universe-safe normal-lax Duskin bridge audit -/
+#print axioms KUOS.DependentOriginationNormalLaxUniverseLiftV1_35.liftedNormalLaxDuskinNerveMap
+#print axioms KUOS.DependentOriginationNormalLaxUniverseLiftV1_35.liftedNormalLaxDuskinNerveMap_app
+#print axioms KUOS.DependentOriginationNormalLaxUniverseLiftV1_35.liftedNormalLaxDuskinNerveMap_eq_normalized

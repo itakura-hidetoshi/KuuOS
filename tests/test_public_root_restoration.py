@@ -42,6 +42,7 @@ PR2339_INTEGRATED_PROOF_BLOBS = {
 # The original full source and both proof transitions are preserved in Git history.
 # Explicit SHA enrollment is a review gate, never proof of Lean correctness.
 REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
+    "KUOS/DependentOriginationNormalLaxUniverseLiftV1_35.lean": "d44c9e17c2cf490feb7345c5cd9f01d89d7361b1",
     "KUOS/DependentOriginationStrongTransformationDuskinCylinderV1_35.lean": "5d50610494b2a8ccfa238ecacb949761edcbfdbe",
     "KUOS/DependentOriginationGlobalDuskinPrismHomotopyV1_34.lean": "31a442eb309c1fd0d1185cff0e28c84bc7a5a671",
     "KUOS/DependentOriginationScaledHornHomotopyDescentV1_33.lean": "1b597bddf42581e836f5eb914db6425e2197ef1c",
