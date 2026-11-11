@@ -7,6 +7,7 @@ open CategoryTheory.Category
 open Simplicial
 open KUOS.DependentOriginationBiequivalencePresentationInvariantV1_26
 open MonoidalCategory
+open CartesianMonoidalCategory
 open KUOS.DependentOriginationGlobalDuskinScaledNerveV1_21
 open KUOS.DependentOriginationGlobalDuskinScaledHornCoherenceV1_22
 open KUOS.DependentOriginationStrictlyUnitaryDuskinModelTransportV1_27
