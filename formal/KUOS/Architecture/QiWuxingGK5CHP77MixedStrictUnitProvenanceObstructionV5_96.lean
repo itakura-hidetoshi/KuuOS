@@ -377,7 +377,7 @@ theorem selectedV596ActualLeft_positiveMixedGap
     (selectedSeventeenUnitPrependLeft l r before F G C after)
     (selectedSeventeenUnitAppendLeft l r before F G C after)
     (SelectedLocalEighteen.unitLeft before F G C after)
-    (by decide) m n hpos
+    (by change 0 < (1 : Nat); decide) m n hpos
 
 /-- Right original unit generator, with its own actual before,
 frame, comparison and after parameters and endpoint indices. -/
@@ -401,7 +401,7 @@ theorem selectedV596ActualRight_positiveMixedGap
     (selectedSeventeenUnitPrependRight l r before F G C after)
     (selectedSeventeenUnitAppendRight l r before F G C after)
     (SelectedLocalEighteen.unitRight before F G C after)
-    (by decide) m n hpos
+    (by change 0 < (1 : Nat); decide) m n hpos
 
 end GenuineOriginalUnitParameters
 
