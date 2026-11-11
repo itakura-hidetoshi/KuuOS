@@ -7,7 +7,7 @@ open CategoryTheory
 open KUOS.DependentOriginationFunctorialTransportV0_1
 open KUOS.DependentOriginationFundamentalGroupoidTransportV0_4
 
-universe u v w
+universe u v w uHom
 
 noncomputable section
 
@@ -55,6 +55,8 @@ No smooth connection, thin-homotopy groupoid, curvature, Yang--Mills action,
 quantization, Hamiltonian, continuum limit, or mass-gap statement is asserted
 here.
 -/
+
+section GeneralDescent
 
 variable {P : Type u} [Category P]
 variable {X : Type w} [TopologicalSpace X]
@@ -181,13 +183,26 @@ def fineAsDependentOrigination
     FunctorialTransportSystem P where
   state := S
 
+end GeneralDescent
+
+/-!
+The fine transport statements use the category *of the given groupoid*.
+They do not assume a second unrelated Category P instance.
+-/
+section FineGroupoid
+
+variable {P : Type u} [g : Groupoid.{uHom} P]
+@[reducible] local instance : Category.{uHom} P := g.toCategory
+@[reducible] local instance : Category.{v} (Type v) := CategoryTheory.types
+@[reducible] local instance : Category.{v} (Core (Type v)) :=
+  (CategoryTheory.coreCategory (C := Type v)).toCategory
+
 /--
 If the fine context itself is a groupoid, its transport canonically lands in
 `Core (Type)`, whether or not it descends through the ordinary fundamental
 groupoid.
 -/
 noncomputable def fineCoreFunctor
-    [Groupoid P]
     (S : P ⥤ Type v) :
     P ⥤ Core (Type v) :=
   KUOS.DependentOriginationContextualGaugeCoreFactorizationV0_3.FunctorialTransportSystem.coreStateFunctor
@@ -195,7 +210,6 @@ noncomputable def fineCoreFunctor
 
 /-- Every fine transport arrow is invertible when the fine context is a groupoid. -/
 theorem fineTransport_map_isIso
-    [Groupoid P]
     (S : P ⥤ Type v)
     {a b : P} (f : a ⟶ b) :
     IsIso (S.map f) := by
@@ -206,11 +220,12 @@ The fine groupoid transport has an explicit equivalence along every arrow,
 again without assuming ordinary-homotopy descent.
 -/
 noncomputable def fineTransportEquiv
-    [Groupoid P]
     (S : P ⥤ Type v)
     {a b : P} (f : a ⟶ b) :
     S.obj a ≃ S.obj b :=
   (fineAsDependentOrigination S).transportEquiv f
+
+end FineGroupoid
 
 end
 
