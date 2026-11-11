@@ -52,13 +52,13 @@ structure DirectedRefinementSystem
   chart : Index -> Context
   toChart : (i : Index) -> rootContext ⟶ chart i
   refine : {i j : Index} -> i <= j -> (chart i ⟶ chart j)
-  refine_refl : forall i,
+  refine_refl : ∀ i : Index,
     refine (le_refl i) = 𝟙 (chart i)
-  refine_trans : forall {i j k} (hij : i <= j) (hjk : j <= k),
+  refine_trans : ∀ {i j k : Index} (hij : i <= j) (hjk : j <= k),
     refine (le_trans hij hjk) = refine hij ≫ refine hjk
-  root_refine : forall {i j} (hij : i <= j),
+  root_refine : ∀ {i j : Index} (hij : i <= j),
     toChart i ≫ refine hij = toChart j
-  directed : forall i j, exists k, i <= k ∧ j <= k
+  directed : ∀ i j : Index, ∃ k : Index, i <= k ∧ j <= k
 
 /--
 Transporting a root state first to `i` and then along a refinement `i <= j` is

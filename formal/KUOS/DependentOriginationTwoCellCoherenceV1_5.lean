@@ -143,7 +143,7 @@ structure TwoDimensionalRefinementDiagram
   chart : J ⥤ Context
   indexCellMap : forall {i j : J} {f g : i ⟶ j},
     HJ.cell f g -> HC.cell (chart.map f) (chart.map g)
-  toChart : (j : J) -> rootContext ⟶ chart.obj j
+  toChart : (j : J) -> (rootContext ⟶ chart.obj j)
   rootCoherence : forall {i j : J} (f : i ⟶ j),
     HC.cell (toChart i ≫ chart.map f) (toChart j)
 
@@ -282,7 +282,7 @@ def TwoFilteredSemanticDescends
     (Q : FunctorialTransportSystem.InvariantReadout D Semantic)
     (R : TwoDimensionalRefinementDiagram Context J HC HJ)
     (s : TwoFilteredStateFamily R) : Prop :=
-  exists! value : Semantic, TwoFilteredSemanticStabilizesAt Q R s value
+  ∃! value : Semantic, TwoFilteredSemanticStabilizesAt Q R s value
 
 /-- Invariant semantics agree along every ordinary indexing arrow. -/
 theorem semantic_eq_of_hom
