@@ -74,6 +74,24 @@ structure BicategoricalModelEquivalence
     ∀ Z : C,
       ∃ X : B, IntrinsicObjectEquivalent (forward.obj X) Z
 
+/--
+Functoriality of equality transport on hom-category morphisms.  Since the
+endpoint objects change with the functor, the two equality transports are
+required before comparing the images of a morphism.
+-/
+private theorem functor_map_transport_of_eq
+    {A : Type u₁} [Category.{v₁} A]
+    {D : Type u₂} [Category.{v₂} D]
+    {F G : A ⥤ D}
+    (h : F = G)
+    {a b : A} (α : a ⟶ b) :
+    eqToHom ((congrArg (fun (H : A ⥤ D) => H.obj a) h).symm) ≫
+        F.map α ≫
+        eqToHom (congrArg (fun (H : A ⥤ D) => H.obj b) h) =
+      G.map α := by
+  cases h
+  simp
+
 namespace BicategoricalModelEquivalence
 
 variable
@@ -104,16 +122,20 @@ def homEquivMap₂
     {X Y : B} {f g : X ⟶ Y}
     (α : f ⟶ g) :
     E.forward.map f ⟶ E.forward.map g :=
-  eqToHom ((E.homEquiv_functor_obj f).symm) ≫
+  eqToHom ((congrArg
+    (fun (H : (X ⟶ Y) ⥤ (E.forward.obj X ⟶ E.forward.obj Y)) => H.obj f)
+    (E.homEquiv_functor X Y)).symm) ≫
     (E.homEquiv X Y).functor.map α ≫
-    eqToHom (E.homEquiv_functor_obj g)
+    eqToHom (congrArg
+      (fun (H : (X ⟶ Y) ⥤ (E.forward.obj X ⟶ E.forward.obj Y)) => H.obj g)
+      (E.homEquiv_functor X Y))
 
 /-- After canonical endpoint transport, the hom-equivalence map equals `forward.map₂`. -/
 @[simp] theorem homEquiv_functor_map
     {X Y : B} {f g : X ⟶ Y}
     (α : f ⟶ g) :
     E.homEquivMap₂ α = E.forward.map₂ α := by
-  simp [homEquivMap₂, E.homEquiv_functor X Y]
+  exact functor_map_transport_of_eq (E.homEquiv_functor X Y) α
 
 /-- Every target object is represented, up to intrinsic object equivalence, by an image object. -/
 theorem targetObject_covered
