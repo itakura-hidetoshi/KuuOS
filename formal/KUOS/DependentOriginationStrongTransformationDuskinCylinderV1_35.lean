@@ -82,6 +82,13 @@ private theorem productEqToHomMk
   cases h'
   rfl
 
+/-- Two equality-derived morphisms from the same object agree heterogeneously. -/
+private theorem eqToHomHEqSameSource
+    {D : Type u₁} [Category.{v₁} D]
+    {X Y Z : D} (h : X = Y) (h' : X = Z) :
+    (eqToHom h : X ⟶ Y) ≍ (eqToHom h' : X ⟶ Z) :=
+  (eqToHom_heq_id_dom X Y h).trans (eqToHom_heq_id_dom X Z h').symm
+
 /-! ## Pairing normal lax functors -/
 
 /-- Pair normal lax functors with a common source into the product bicategory. -/
@@ -158,7 +165,7 @@ theorem normalLaxPair_precomp
     all_goals
       first
       | rfl
-      | exact (eqToHom_heq_id_dom _ _ _).trans (eqToHom_heq_id_dom _ _ _).symm
+      | exact eqToHomHEqSameSource _ _
 
 /-! ## The interval as a normal lax functor -/
 
