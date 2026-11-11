@@ -165,7 +165,7 @@ theorem normalLaxPair_precomp
     all_goals
       first
       | rfl
-      | exact eqToHomHEqSameSource _ _
+      | apply eqToHomHEqSameSource
 
 /-! ## The interval as a normal lax functor -/
 
