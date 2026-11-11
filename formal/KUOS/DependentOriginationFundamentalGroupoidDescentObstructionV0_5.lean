@@ -9,6 +9,8 @@ open KUOS.DependentOriginationFundamentalGroupoidTransportV0_4
 
 universe u v w
 
+noncomputable section
+
 /-!
 # Fundamental-groupoid descent obstruction v0.5
 
@@ -108,7 +110,7 @@ theorem map_eq_of_quotient_map_eq
     {a b : P} (f g : a ⟶ b)
     (hQ : Q.map f = Q.map g) :
     S.map f = S.map g := by
-  apply (cancel_mono (D.comparison.hom.app b)).1
+  rw [← cancel_mono (D.comparison.hom.app b)]
   calc
     S.map f ≫ D.comparison.hom.app b =
         D.comparison.hom.app a ≫ (Q ⋙ D.quotientTransport).map f :=
@@ -209,5 +211,7 @@ noncomputable def fineTransportEquiv
     {a b : P} (f : a ⟶ b) :
     S.obj a ≃ S.obj b :=
   (fineAsDependentOrigination S).transportEquiv f
+
+end
 
 end KUOS.DependentOriginationFundamentalGroupoidDescentObstructionV0_5
