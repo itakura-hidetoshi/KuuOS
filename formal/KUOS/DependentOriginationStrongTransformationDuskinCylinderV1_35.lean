@@ -50,6 +50,26 @@ normal-lax cylinder.  Importantly, this is now entirely below the simplicial
 and horn layers.
 -/
 
+/-!
+The pinned product-category API has no projection simp lemmas for eqToHom.
+These follow by equality induction, without any new categorical assumption.
+-/
+private theorem productEqToHomFst
+    {D : Type u₁} [Category.{v₁} D]
+    {E : Type u₂} [Category.{v₂} E]
+    {X Y : D × E} (h : X = Y) :
+    (eqToHom h).1 = eqToHom (congrArg _root_.Prod.fst h) := by
+  cases h
+  rfl
+
+private theorem productEqToHomSnd
+    {D : Type u₁} [Category.{v₁} D]
+    {E : Type u₂} [Category.{v₂} E]
+    {X Y : D × E} (h : X = Y) :
+    (eqToHom h).2 = eqToHom (congrArg _root_.Prod.snd h) := by
+  cases h
+  rfl
+
 /-! ## Pairing normal lax functors -/
 
 /-- Pair normal lax functors with a common source into the product bicategory. -/
@@ -84,12 +104,12 @@ def normalLaxPair
       intro a b f
       apply Prod.ext <;> simp [F.map₂_leftUnitor, G.map₂_leftUnitor,
         StrictlyUnitaryLaxFunctor.mapId_eq_eqToHom]
-      all_goals rfl
+      all_goals simp [productEqToHomFst, productEqToHomSnd]
     map₂_rightUnitor := by
       intro a b f
       apply Prod.ext <;> simp [F.map₂_rightUnitor, G.map₂_rightUnitor,
         StrictlyUnitaryLaxFunctor.mapId_eq_eqToHom]
-      all_goals rfl
+      all_goals simp [productEqToHomFst, productEqToHomSnd]
     map₂_associator := by
       intro a b c d f g h
       apply Prod.ext <;> simp [F.map₂_associator, G.map₂_associator] }
