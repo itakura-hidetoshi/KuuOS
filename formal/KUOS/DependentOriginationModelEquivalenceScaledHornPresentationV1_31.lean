@@ -89,16 +89,16 @@ def toScaledHornPresentationEquivalence :
   backward := fun Q =>
     transportGlobalDuskinHornProblem E.backwardScaled Q
   forward_admissible := by
-    intro n i P hP
+    intro P hP
     exact E.forwardFamily.admissible_preserved P hP
   backward_admissible := by
-    intro n i Q hQ
+    intro Q hQ
     exact E.backwardFamily.admissible_preserved Q hQ
   forward_filler := by
-    intro n i P hP
+    intro P hP
     exact mapScaledHornFiller_nonempty E.forwardScaled.map_scaled hP
   backward_filler := by
-    intro n i Q hQ
+    intro Q hQ
     exact mapScaledHornFiller_nonempty E.backwardScaled.map_scaled hQ
   forward_backward_filler_equiv := E.forward_backward_filler_equiv
   backward_forward_filler_equiv := E.backward_forward_filler_equiv
