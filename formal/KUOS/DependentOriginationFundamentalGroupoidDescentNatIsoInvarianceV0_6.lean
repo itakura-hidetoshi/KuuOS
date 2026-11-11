@@ -136,9 +136,9 @@ theorem fundamentalDescent_nonempty_iff_natIso
       Nonempty (FundamentalDescent Q S₂) := by
   constructor
   · rintro ⟨D⟩
-    exact ⟨D.transportNatIso e⟩
+    exact ⟨FundamentalDescent.transportNatIso D e⟩
   · rintro ⟨D⟩
-    exact ⟨D.transportNatIso e.symm⟩
+    exact ⟨FundamentalDescent.transportNatIso D e.symm⟩
 
 /-- Non-descent is also invariant under natural isomorphism. -/
 theorem noFundamentalDescent_iff_natIso
