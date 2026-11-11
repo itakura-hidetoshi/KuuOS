@@ -39,16 +39,16 @@ variable {X : Type u} [TopologicalSpace X]
 
 -- Select the already pinned fundamental-groupoid and core category structures
 -- at their actual morphism universes, avoiding ambiguous category search.
-local instance : Category.{u} (FundamentalGroupoid X) :=
-  (inferInstanceAs (Groupoid.{u} (FundamentalGroupoid X))).toCategory
-local instance : Category.{v} (Type v) := CategoryTheory.types
-local instance : Category.{v} (Core (Type v)) :=
+@[reducible] local instance : Category.{u} (FundamentalGroupoid X) :=
+  (FundamentalGroupoid.instGroupoid (X := X)).toCategory
+@[reducible] local instance : Category.{v} (Type v) := CategoryTheory.types
+@[reducible] local instance : Category.{v} (Core (Type v)) :=
   (CategoryTheory.coreCategory (C := Type v)).toCategory
 
 /-- A homotopy-invariant transport presentation on a topological space. -/
 abbrev FundamentalTransport (X : Type u) [TopologicalSpace X] :=
   @CategoryTheory.Functor (FundamentalGroupoid X)
-    ((inferInstanceAs (Groupoid.{u} (FundamentalGroupoid X))).toCategory)
+    ((FundamentalGroupoid.instGroupoid (X := X)).toCategory)
     (Type v) (CategoryTheory.types.{v})
 
 /-- View a point of the space as an object of its fundamental groupoid. -/
