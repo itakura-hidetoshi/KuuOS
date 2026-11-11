@@ -134,10 +134,10 @@ The following proofs do not identify an unlifted horn with a lifted horn and
 do not assume the reverse filler descent still needed for v1.31.
 -/
 
-/-- Pushing a scaled horn across two composable scaled maps equals pushing
-across their composite. The three carriers live in one SSet universe. -/
 open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
 
+/-- Pushing a scaled horn across two composable scaled maps equals pushing
+across their composite. The three carriers live in one SSet universe. -/
 theorem mapScaledHornProblem_comp
     {X Y Z : SSet}
     {sX : ScaledSimplicialSet X}
