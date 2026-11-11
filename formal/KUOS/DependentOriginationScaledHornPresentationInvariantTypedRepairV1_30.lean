@@ -4,6 +4,7 @@ namespace KUOS.DependentOriginationScaledHornPresentationInvariantTypedRepairV1_
 
 open CategoryTheory
 open Simplicial
+open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
 open KUOS.DependentOriginationGlobalDuskinScaledHornCoherenceV1_22
 open KUOS.DependentOriginationScaledDuskinHornTransportV1_29
 
