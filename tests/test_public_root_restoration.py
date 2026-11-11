@@ -57,7 +57,7 @@ REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
     "KUOS/DependentOriginationEnrichedContextV1_13.lean": "7daa0119c4c8eef35a861ba7b925bf6524fc84b3",
     "KUOS/DependentOriginationStackDescentV1_14.lean": "d57177de97b58f77049cddf22fdfe53d16ea1c6b",
     "KUOS/DependentOriginationInfinityCoherenceV1_15.lean": "db66456d5d497bcdcae089ce74e5046a4a1c5146",
-    "KUOS/DependentOriginationContextualGaugeTheoryV0_1.lean": "e5cd0c283b8779c56e0a2c7920d8eaffa6b7be7e",
+    "KUOS/DependentOriginationContextualGaugeTheoryV0_1.lean": "cf4b5dc9c4b61f64416489ab50b4233c440bc098",
     "KUOS/DependentOriginationFilteredCofinalCategoryV1_4.lean": "45e6fd51b4881849819fc5513f3d9fa9f5e34dc4",
     "KUOS/DependentOriginationGlobularNerveComparisonV1_17.lean": "ab22ee488255f7ce63e15f8614ab190f34263444",
 }
