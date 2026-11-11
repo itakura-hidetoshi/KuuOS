@@ -6,6 +6,7 @@ open CategoryTheory
 open CategoryTheory.Category
 open CategoryTheory.Bicategory
 open scoped Bicategory
+open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
 open KUOS.DependentOriginationGlobalDuskinScaledNerveV1_21
 open KUOS.DependentOriginationGlobalDuskinScaledHornCoherenceV1_22
 open KUOS.DependentOriginationStrictlyUnitaryDuskinModelTransportV1_27

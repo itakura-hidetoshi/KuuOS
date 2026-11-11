@@ -43,7 +43,7 @@ PR2339_INTEGRATED_PROOF_BLOBS = {
 # Explicit SHA enrollment is a review gate, never proof of Lean correctness.
 REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
     "KUOS/DependentOriginationCoherentNormalizedScaledModelEquivalenceV1_32.lean": "623b73bb3c11803d3a3356911eea5ef47023595b",
-    "KUOS/DependentOriginationModelEquivalenceScaledHornPresentationV1_31.lean": "de11e0da5d4b6f96219f578d90b0b1e2f2c30e9e",
+    "KUOS/DependentOriginationModelEquivalenceScaledHornPresentationV1_31.lean": "ab04e9130390796eb78775ed9ea50b25e8c9ea78",
     "KUOS/DependentOriginationRefinementTransitivityV1_2.lean": "5247d279787292ee350d9c676ff76094ba4abc57",
     "KUOS/DependentOriginationDirectedCofinalSemanticsV1_3.lean": "7e448c6f56a3fca1a6fd4be18ec44ec0cefc05e3",
     "KUOS/DependentOriginationTwoCellCoherenceV1_5.lean": "42ad51fc7780c63e46ff9387a02d68b93bb27aab",
@@ -92,7 +92,7 @@ REVIEWED_ADDITIVE_FORMAL_BLOBS = {
     "KUOS/DependentOriginationLiftedDuskinRoundTripBridgeV1_29.lean": "91442f0ceca8690b9d2e9a900a74e3f1e47deaf7",
     "KUOS/DependentOriginationScaledDuskinUniverseLiftBridgeV1_29.lean": "78b7d2d63dc8137a6143b93579ffcec6c910b06f",
     "KUOS/DependentOriginationScaledHornPresentationInvariantTypedRepairV1_30.lean": "9c87d47b90132c27fd26414402930dda0e5f4229",
-    "KUOS/DependentOriginationModelEquivalenceScaledHornPresentationTypedRepairV1_31.lean": "749f63b899ece5239e53d7770b614e83f10e7e69",
+    "KUOS/DependentOriginationModelEquivalenceScaledHornPresentationTypedRepairV1_31.lean": "c5d246f9793d22d89db445f1e899f28a75c432fb",
     "KUOS/DependentOriginationCoherentNormalizedScaledModelEquivalenceTypedRepairV1_32.lean": "71e83c9c7f14f2ab02992b29473fbdbb76f4e4c7",
 }
 
