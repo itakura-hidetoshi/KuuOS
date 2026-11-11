@@ -89,6 +89,16 @@ private theorem eqToHomHEqSameSource
     (eqToHom h : X ⟶ Y) ≍ (eqToHom h' : X ⟶ Z) :=
   (eqToHom_heq_id_dom X Y h).trans (eqToHom_heq_id_dom X Z h').symm
 
+/-- The composite of equality morphisms has the same heterogeneous value
+    as any other equality morphism with the same source. -/
+private theorem eqToHomCompHEqSameSource
+    {D : Type u₁} [Category.{v₁} D]
+    {X Y Z W : D} (h : X = Y) (h' : Y = Z) (h'' : X = W) :
+    (eqToHom h ≫ eqToHom h' : X ⟶ Z) ≍
+      (eqToHom h'' : X ⟶ W) := by
+  rw [eqToHom_trans]
+  exact eqToHomHEqSameSource (h.trans h') h''
+
 /-! ## Pairing normal lax functors -/
 
 /-- Pair normal lax functors with a common source into the product bicategory. -/
@@ -165,7 +175,7 @@ theorem normalLaxPair_precomp
     all_goals
       first
       | rfl
-      | (simp only [eqToHom_trans]; first | rfl | apply eqToHomHEqSameSource)
+      | apply eqToHomCompHEqSameSource
 
 /-! ## The interval as a normal lax functor -/
 
