@@ -42,8 +42,15 @@ parallel transport, a thin-path groupoid, curvature, a Yang--Mills action,
 quantization, a Hamiltonian, a continuum limit, or a mass gap.
 -/
 
+noncomputable section
+
 variable {P : Type u} [Category P]
 variable {Base : Type w} [TopologicalSpace Base]
+
+-- Use the exact fixed-mathlib groupoid category structure, not a synthetic
+-- category selected with an unspecified morphism universe.
+@[reducible] local instance : Category.{w} (FundamentalGroupoid Base) :=
+  (FundamentalGroupoid.instGroupoid (X := Base)).toCategory
 variable {Q : P ⥤ FundamentalGroupoid Base}
 variable {S₁ S₂ : P ⥤ Type v}
 
@@ -184,5 +191,7 @@ theorem actionRepresentation_obstruction_iff
     (Q := QGauge)
     (actionRepresentationNatIso
       (X := Rep) (Gauge := Gauge) e)
+
+end
 
 end KUOS.DependentOriginationFundamentalGroupoidDescentNatIsoInvarianceV0_6
