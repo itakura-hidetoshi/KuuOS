@@ -130,7 +130,11 @@ theorem unitTower_not_levelwise_compatible :
   let e := C.cellEquiv 0
   obtain ⟨u0, hu0⟩ := e.surjective (twoStateZeroSimplex 0)
   obtain ⟨u1, hu1⟩ := e.surjective (twoStateZeroSimplex 1)
-  have hu : u0 = u1 := Subsingleton.elim _ _
+  have hu : u0 = u1 := by
+    change (u0 : PUnit) = u1
+    cases u0
+    cases u1
+    rfl
   apply twoStateZeroSimplex_ne
   calc
     twoStateZeroSimplex 0 = e u0 := hu0.symm
@@ -142,8 +146,8 @@ Consequently an arbitrary v1.15 globular tower is not forced by the parent
 axioms to have the same levelwise carriers as `N(∫ D)`.
 -/
 theorem no_universal_globular_nerve_comparison :
-    ∃ (T : ReflexiveGlobularCoherenceTower)
-      (D : FunctorialTransportSystem (Discrete PUnit)),
+    ∃ (T : ReflexiveGlobularCoherenceTower.{0})
+      (D : FunctorialTransportSystem.{0, 0, 0} (Discrete PUnit.{0})),
       IsEmpty (LevelwiseNerveCompatible T D) :=
   ⟨unitTower, twoStateSystem, unitTower_not_levelwise_compatible⟩
 
