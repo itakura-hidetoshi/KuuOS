@@ -57,7 +57,7 @@ noncomputable def precompSSetHomotopy
     (H : SSet.Homotopy f g)
     (k : W ⟶ X) :
     SSet.Homotopy (k ≫ f) (k ≫ g) where
-  h := k ▷ Δ[1] ≫ H.h
+  h := (SSet.RelativeMorphism.botEquiv.symm k).map ▷ Δ[1] ≫ H.h
   rel := by
     rw [← comp_whiskerRight_assoc,
       (SSet.RelativeMorphism.botEquiv.symm k).comm,
