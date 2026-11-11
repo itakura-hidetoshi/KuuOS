@@ -123,13 +123,13 @@ structure PresentationIndependentScaledFibrancy
     {sX : ScaledSimplicialSet X}
     {sY : ScaledSimplicialSet Y}
     (HX : ScaledHornFamily X sX)
-    (HY : ScaledHornFamily Y sY) : Prop where
+    (HY : ScaledHornFamily Y sY) where
   presentationEquiv : ScaledHornPresentationEquivalence HX HY
   fibrancyInvariant :
     HasScaledHornFillers X sX HX ↔ HasScaledHornFillers Y sY HY
 
-/-- Any horn-presentation equivalence yields the bundled invariant. -/
-theorem presentationIndependentScaledFibrancy
+/-- Any horn-presentation equivalence yields the bundled, data-carrying invariant. -/
+def presentationIndependentScaledFibrancy
     {X : SSet.{u₁}} {Y : SSet.{u₂}}
     {sX : ScaledSimplicialSet X}
     {sY : ScaledSimplicialSet Y}
