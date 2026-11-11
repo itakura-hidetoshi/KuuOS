@@ -5,6 +5,7 @@ namespace KUOS.DependentOriginationStackDescentV1_14
 
 open CategoryTheory
 open Opposite
+open scoped Bicategory
 open KUOS.DependentOriginationFunctorialTransportV0_1
 
 universe t u v u' v'
