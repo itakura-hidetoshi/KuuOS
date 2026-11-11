@@ -5,6 +5,7 @@ namespace KUOS.DependentOriginationGlobalDuskinPrismHomotopyV1_34
 open CategoryTheory
 open CategoryTheory.Category
 open Simplicial
+open KUOS.DependentOriginationBiequivalencePresentationInvariantV1_26
 open MonoidalCategory
 open KUOS.DependentOriginationGlobalDuskinScaledNerveV1_21
 open KUOS.DependentOriginationGlobalDuskinScaledHornCoherenceV1_22
@@ -79,7 +80,7 @@ structure GlobalDuskinRoundTripPrismRealization
     {C : Type u₂} [Bicategory.{w₂, v₂} C]
     {F : StrictlyUnitaryBicategoricalModelEquivalence B C}
     {G : StrictlyUnitaryBicategoricalModelEquivalence C B}
-    (K : NormalizedCoherentQuasiInverse F G) : Prop where
+    (K : NormalizedCoherentQuasiInverse F G) where
   sourcePrism :
     SSet.Homotopy
       (normalizedDuskinNerveMap F ≫ normalizedDuskinNerveMap G)
