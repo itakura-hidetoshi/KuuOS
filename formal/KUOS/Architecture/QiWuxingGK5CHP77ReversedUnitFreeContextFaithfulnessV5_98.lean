@@ -157,7 +157,7 @@ theorem selectedV598ReverseRight_history
         (selectedV588UnitFreeRawEmbed l r N t) =
       selectedV592OriginalUnitHistory l r M
   rw [selectedV598UnitFree_historyNil l r N t]
-  rfl
+  simp only [List.append_nil]
 
 /-- The constructions have exactly ONE genuine original unit
 for every original primitive leaf, regardless of context complexity. -/
