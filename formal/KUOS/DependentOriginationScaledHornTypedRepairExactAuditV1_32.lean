@@ -1,4 +1,5 @@
 import KUOS.DependentOriginationLiftedDuskinRoundTripBridgeV1_29
+import KUOS.DependentOriginationLiftedDuskinFamilyDescentBridgeV1_29
 import KUOS.DependentOriginationCoherentNormalizedScaledModelEquivalenceTypedRepairV1_32
 
 /-!
@@ -16,3 +17,7 @@ certificates or unconditional fibrancy. No new axioms are admitted.
 #print axioms KUOS.DependentOriginationLiftedDuskinRoundTripBridgeV1_29.target_eq_reverse_source
 #print axioms KUOS.DependentOriginationLiftedDuskinRoundTripBridgeV1_29.liftedSourceRoundTrip_filler_forward
 #print axioms KUOS.DependentOriginationLiftedDuskinRoundTripBridgeV1_29.liftedTargetRoundTrip_filler_forward
+
+#print axioms KUOS.DependentOriginationLiftedDuskinFamilyDescentBridgeV1_29.liftedPresentationEquivalence
+#print axioms KUOS.DependentOriginationLiftedDuskinFamilyDescentBridgeV1_29.liftedFibrancy_iff
+#print axioms KUOS.DependentOriginationLiftedDuskinFamilyDescentBridgeV1_29.unliftedFibrancy_iff_of_explicit_bridges
