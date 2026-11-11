@@ -57,6 +57,13 @@ here.
 variable {P : Type u} [Category P]
 variable {X : Type w} [TopologicalSpace X]
 
+-- Fix the source's pinned fundamental-groupoid and Type-category instances.
+@[reducible] local instance : Category.{w} (FundamentalGroupoid X) :=
+  (FundamentalGroupoid.instGroupoid (X := X)).toCategory
+@[reducible] local instance : Category.{v} (Type v) := CategoryTheory.types
+@[reducible] local instance : Category.{v} (Core (Type v)) :=
+  (CategoryTheory.coreCategory (C := Type v)).toCategory
+
 /--
 Witness that a fine-context transport is obtained, up to natural isomorphism,
 by pulling back a transport on the ordinary fundamental groupoid.
@@ -64,7 +71,7 @@ by pulling back a transport on the ordinary fundamental groupoid.
 structure FundamentalDescent
     (Q : P ⥤ FundamentalGroupoid X)
     (S : P ⥤ Type v) where
-  quotientTransport : FundamentalTransport (v := v) X
+  quotientTransport : FundamentalTransport.{w, v} X
   comparison : S ≅ Q ⋙ quotientTransport
 
 /--
@@ -126,7 +133,7 @@ of descent.
 -/
 def pullbackDescent
     (Q : P ⥤ FundamentalGroupoid X)
-    (T : FundamentalTransport (v := v) X) :
+    (T : FundamentalTransport.{w, v} X) :
     FundamentalDescent Q (Q ⋙ T) where
   quotientTransport := T
   comparison := Iso.refl _
@@ -181,7 +188,8 @@ noncomputable def fineCoreFunctor
     [Groupoid P]
     (S : P ⥤ Type v) :
     P ⥤ Core (Type v) :=
-  FunctorialTransportSystem.coreStateFunctor (fineAsDependentOrigination S)
+  KUOS.DependentOriginationContextualGaugeCoreFactorizationV0_3.FunctorialTransportSystem.coreStateFunctor
+    (fineAsDependentOrigination S)
 
 /-- Every fine transport arrow is invertible when the fine context is a groupoid. -/
 theorem fineTransport_map_isIso
