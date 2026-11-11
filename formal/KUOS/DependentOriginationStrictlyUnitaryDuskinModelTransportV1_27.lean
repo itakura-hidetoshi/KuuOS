@@ -277,10 +277,10 @@ theorem transportDuskinComparison_isIso
     (σ : DuskinSimplex B 2)
     (hiso : IsIso (duskinComparison σ)) :
     IsIso (duskinComparison (transportDuskinSimplex E σ)) := by
-  haveI : IsIso (E.forward.map₂ (duskinComparison σ)) :=
-    forwardMap₂_isIso E (duskinComparison σ) hiso
   rw [transportDuskinComparison]
-  infer_instance
+  exact IsIso.comp_isIso'
+    (inferInstance : IsIso (E.forward.mapComp (σ.map edge01) (σ.map edge12)).inv)
+    (forwardMap₂_isIso E (duskinComparison σ) hiso)
 
 /-- Every nondegenerate source-thin triangle transports to a target-thin triangle. -/
 theorem nondegenerateThin_transport_isThin
