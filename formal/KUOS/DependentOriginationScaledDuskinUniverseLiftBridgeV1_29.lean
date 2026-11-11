@@ -1,4 +1,5 @@
 import KUOS.DependentOriginationGlobalDuskinScaledHornCoherenceV1_22
+import KUOS.DependentOriginationStrictlyUnitaryDuskinModelTransportV1_27
 
 namespace KUOS.DependentOriginationScaledDuskinUniverseLiftBridgeV1_29
 
@@ -7,8 +8,11 @@ open Simplicial
 open Opposite
 open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
 open KUOS.DependentOriginationGlobalDuskinScaledHornCoherenceV1_22
+open KUOS.DependentOriginationGlobalDuskinScaledNerveV1_21
+open KUOS.DependentOriginationStrictlyUnitaryDuskinModelTransportV1_27
 
 universe u v
+universe u₁ u₂ v₁ v₂ w₁ w₂
 
 /-!
 # Universe-safe scaling bridge (append-only)
@@ -51,6 +55,42 @@ theorem isScaledMap_ulift
   intro x hx
   change sY.thin (f.app (op ⦋2⦌) x.down)
   exact hf x.down hx
+
+/--
+Correctly typed full scaled certificate for independent source and target
+universe levels. The original legacy v1.29 certificate is preserved verbatim;
+compatibility of its unlifted horn domains with these lifted carriers is still
+an independent descent/gluing obligation.
+-/
+structure LiftedFullScaledDuskinMapCertificate
+    {B : Type u₁} [Bicategory.{w₁, v₁} B]
+    {C : Type u₂} [Bicategory.{w₂, v₂} C]
+    (E : StrictlyUnitaryBicategoricalModelEquivalence B C) : Prop where
+  map_scaled :
+    IsScaledMap
+      (uliftScaling.{max (max w₁ v₁) u₁, max (max w₂ v₂) u₂} (duskinScaling B))
+      (uliftScaling.{max (max w₂ v₂) u₂, max (max w₁ v₁) u₁} (duskinScaling C))
+      (normalizedDuskinNerveMap E)
+
+/--
+The original nondegenerate-thinness theorem survives the simultaneous universe
+lift exactly: no independent-universe equality or thinness hypothesis is added.
+-/
+theorem nondegenerateThin_preserved_lift
+    {B : Type u₁} [Bicategory.{w₁, v₁} B]
+    {C : Type u₂} [Bicategory.{w₂, v₂} C]
+    (E : StrictlyUnitaryBicategoricalModelEquivalence B C)
+    (σ : DuskinSimplex B 2)
+    (hnd : ¬ IsDegenerateDuskinTwoSimplex σ)
+    (hthin : (duskinScaling B).thin σ) :
+    (uliftScaling.{max (max w₂ v₂) u₂, max (max w₁ v₁) u₁}
+      (duskinScaling C)).thin
+      ((normalizedDuskinNerveMap E).app (op ⦋2⦌) (ULift.up σ)) := by
+  change (duskinScaling C).thin (transportDuskinSimplex E σ)
+  exact nondegenerateThin_transport_isThin E σ hnd hthin
+
+#print axioms LiftedFullScaledDuskinMapCertificate
+#print axioms nondegenerateThin_preserved_lift
 
 #print axioms uliftScaling
 #print axioms uliftScaling_thin_iff
