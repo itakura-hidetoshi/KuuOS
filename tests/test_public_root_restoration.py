@@ -42,6 +42,7 @@ PR2339_INTEGRATED_PROOF_BLOBS = {
 # The original full source and both proof transitions are preserved in Git history.
 # Explicit SHA enrollment is a review gate, never proof of Lean correctness.
 REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
+    "KUOS/DependentOriginationModelEquivalenceScaledHornPresentationV1_31.lean": "de11e0da5d4b6f96219f578d90b0b1e2f2c30e9e",
     "KUOS/DependentOriginationRefinementTransitivityV1_2.lean": "5247d279787292ee350d9c676ff76094ba4abc57",
     "KUOS/DependentOriginationDirectedCofinalSemanticsV1_3.lean": "7e448c6f56a3fca1a6fd4be18ec44ec0cefc05e3",
     "KUOS/DependentOriginationTwoCellCoherenceV1_5.lean": "42ad51fc7780c63e46ff9387a02d68b93bb27aab",
@@ -89,7 +90,6 @@ REVIEWED_ADDITIVE_FORMAL_BLOBS = {
     "KUOS/DependentOriginationLiftedDuskinFamilyDescentBridgeV1_29.lean": "e5475a1432d7680db696bef06a9e2be0fdcaa275",
     "KUOS/DependentOriginationLiftedDuskinRoundTripBridgeV1_29.lean": "91442f0ceca8690b9d2e9a900a74e3f1e47deaf7",
     "KUOS/DependentOriginationScaledDuskinUniverseLiftBridgeV1_29.lean": "78b7d2d63dc8137a6143b93579ffcec6c910b06f",
-    "KUOS/DependentOriginationModelEquivalenceScaledHornPresentationV1_31.lean": "de11e0da5d4b6f96219f578d90b0b1e2f2c30e9e",
     "KUOS/DependentOriginationScaledHornPresentationInvariantTypedRepairV1_30.lean": "9c87d47b90132c27fd26414402930dda0e5f4229",
     "KUOS/DependentOriginationModelEquivalenceScaledHornPresentationTypedRepairV1_31.lean": "749f63b899ece5239e53d7770b614e83f10e7e69",
     "KUOS/DependentOriginationCoherentNormalizedScaledModelEquivalenceTypedRepairV1_32.lean": "f4aadc9134815fe1b9b9f1368686d3c619187f36",
