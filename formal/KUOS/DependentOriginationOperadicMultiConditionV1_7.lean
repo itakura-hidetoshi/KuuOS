@@ -7,7 +7,7 @@ open CategoryTheory
 open KUOS.DependentOriginationFunctorialTransportV0_1
 open KUOS.DependentOriginationBicategoricalCoherenceV1_6
 
-universe u v w y
+universe u v w y vOp
 
 /-!
 # Operadic multi-condition dependent origination v1.7
@@ -60,7 +60,7 @@ required by the type to match the corresponding input color of its parent.
 inductive MultiConditionExpr
     {Color : Type u}
     (Sig : MultiConditionSignature.{u, v} Color)
-    (Carrier : Color -> Type w) : Color -> Type (max v w) where
+    (Carrier : Color -> Type w) : Color -> Type (max u (max v w)) where
   | atom {c : Color} (value : Carrier c) :
       MultiConditionExpr Sig Carrier c
   | compose {n : Nat}
@@ -120,7 +120,7 @@ unary category alone.
 structure OperadicDependentOriginationExtension
     {Context : Type u} [Category.{v} Context]
     (D : FunctorialTransportSystem Context) where
-  signature : MultiConditionSignature Context
+  signature : MultiConditionSignature.{u, vOp} Context
   algebra : MultiConditionAlgebra signature (fun X => D.state.obj X)
   unary : forall {X Y : Context}, (X ⟶ Y) ->
     signature.operation 0 (fun _ : Fin 1 => X) Y
