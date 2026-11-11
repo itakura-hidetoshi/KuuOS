@@ -112,15 +112,29 @@ theorem map_eq_of_quotient_map_eq
     {a b : P} (f g : a ⟶ b)
     (hQ : Q.map f = Q.map g) :
     S.map f = S.map g := by
-  rw [← cancel_mono (D.comparison.hom.app b)]
+  have hcomp :
+      S.map f ≫ D.comparison.hom.app b =
+        S.map g ≫ D.comparison.hom.app b := by
+    calc
+      S.map f ≫ D.comparison.hom.app b =
+          D.comparison.hom.app a ≫ (Q ⋙ D.quotientTransport).map f :=
+        D.comparison.hom.naturality f
+      _ = D.comparison.hom.app a ≫ (Q ⋙ D.quotientTransport).map g := by
+        simp only [Functor.comp_map, hQ]
+      _ = S.map g ≫ D.comparison.hom.app b :=
+        (D.comparison.hom.naturality g).symm
+  have hcancel :
+      D.comparison.hom.app b ≫ D.comparison.inv.app b = 𝟙 (S.obj b) := by
+    have h := congrArg (fun η : S ⟶ S => η.app b) D.comparison.hom_inv_id
+    simpa using h
   calc
-    S.map f ≫ D.comparison.hom.app b =
-        D.comparison.hom.app a ≫ (Q ⋙ D.quotientTransport).map f :=
-      D.comparison.hom.naturality f
-    _ = D.comparison.hom.app a ≫ (Q ⋙ D.quotientTransport).map g := by
-      simp only [Functor.comp_map, hQ]
-    _ = S.map g ≫ D.comparison.hom.app b :=
-      (D.comparison.hom.naturality g).symm
+    S.map f =
+        (S.map f ≫ D.comparison.hom.app b) ≫ D.comparison.inv.app b := by
+      simp only [Category.assoc, hcancel, Category.comp_id]
+    _ = (S.map g ≫ D.comparison.hom.app b) ≫ D.comparison.inv.app b := by
+      rw [hcomp]
+    _ = S.map g := by
+      simp only [Category.assoc, hcancel, Category.comp_id]
 
 /-- Every actual descent witness satisfies quotient-kernel compatibility. -/
 theorem kernelCompatible
