@@ -43,7 +43,7 @@ PR2339_INTEGRATED_PROOF_BLOBS = {
 # Explicit SHA enrollment is a review gate, never proof of Lean correctness.
 REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
     "KUOS/DependentOriginationStrongTransformationDuskinCylinderV1_35.lean": "a822f8aa4df940ca84a207d688033891dee57579",
-    "KUOS/DependentOriginationGlobalDuskinPrismHomotopyV1_34.lean": "497dda9d24494c6929f4ad4e16e70d36d077fe43",
+    "KUOS/DependentOriginationGlobalDuskinPrismHomotopyV1_34.lean": "029d230c32577450e0b609b6a0acca52196cd4f0",
     "KUOS/DependentOriginationScaledHornHomotopyDescentV1_33.lean": "1b597bddf42581e836f5eb914db6425e2197ef1c",
     "KUOS/DependentOriginationCoherentNormalizedScaledModelEquivalenceV1_32.lean": "dd20dedea5a9d64d9aac989c9dd807ec9afbea6e",
     "KUOS/DependentOriginationModelEquivalenceScaledHornPresentationV1_31.lean": "043d16f86bed74c1e37424328fc70f0fa6e2ca77",
