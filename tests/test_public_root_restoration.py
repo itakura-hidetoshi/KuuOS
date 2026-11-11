@@ -38,6 +38,14 @@ PR2339_INTEGRATED_PROOF_BLOBS = {
 }
 
 
+# V1.2 exact-source Lean4 calc repair: frozen legacy copy remains unchanged.
+# The original full source and both proof transitions are preserved in Git history.
+# Explicit SHA enrollment is a review gate, never proof of Lean correctness.
+REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
+    "KUOS/DependentOriginationRefinementTransitivityV1_2.lean": "5247d279787292ee350d9c676ff76094ba4abc57",
+}
+
+
 def git_blob_sha(raw: bytes) -> str:
     """Reproduce the canonical git blob hash, including its type/length prefix."""
     header = b"blob " + str(len(raw)).encode("ascii") + b"\0"
@@ -213,6 +221,8 @@ class RestoredWiringTests(unittest.TestCase):
                     expected = expected.replace(old_fragment, new_fragment, 1)
                 current = (ROOT / 'formal' / rel).read_bytes()
                 fixed_sha = PR2339_INTEGRATED_PROOF_BLOBS.get(rel.as_posix())
+                if fixed_sha is None:
+                    fixed_sha = REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS.get(rel.as_posix())
                 if fixed_sha is not None:
                     pinned_seen.add(rel.as_posix())
                     self.assertEqual(git_blob_sha(current), fixed_sha,
@@ -222,7 +232,9 @@ class RestoredWiringTests(unittest.TestCase):
                                      f'unreviewed theorem source change: {rel}')
         self.assertEqual(seen, set(LINT_ONLY_SOURCE_EDITS),
                          'reviewed lint edit targets must all exist in historical roots')
-        self.assertEqual(pinned_seen, set(PR2339_INTEGRATED_PROOF_BLOBS),
+        self.assertEqual(pinned_seen,
+                         set(PR2339_INTEGRATED_PROOF_BLOBS) |
+                         set(REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS),
                          'every preexisting integrated proof exception is explicit and accounted for')
 
     def test_f55_path_functor_composition_has_actual_path_homs(self):
