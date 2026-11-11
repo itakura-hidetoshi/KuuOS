@@ -15,7 +15,7 @@ universe u v w z
 -- Select the existing pinned Type and core-category structures explicitly.
 local instance : Category.{z} (Type z) := CategoryTheory.types
 local instance : Category.{z} (Core (Type z)) :=
-  (Core.coreCategory (C := Type z)).toCategory
+  (CategoryTheory.coreCategory (C := Type z)).toCategory
 
 variable {X : Type u} {Gauge : Type w}
 
