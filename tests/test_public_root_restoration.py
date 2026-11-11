@@ -59,7 +59,7 @@ REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
     "KUOS/DependentOriginationInfinityCoherenceV1_15.lean": "db66456d5d497bcdcae089ce74e5046a4a1c5146",
     "KUOS/DependentOriginationContextualGaugeTheoryV0_1.lean": "e5cd0c283b8779c56e0a2c7920d8eaffa6b7be7e",
     "KUOS/DependentOriginationFilteredCofinalCategoryV1_4.lean": "45e6fd51b4881849819fc5513f3d9fa9f5e34dc4",
-    "KUOS/DependentOriginationGlobularNerveComparisonV1_17.lean": "75475cd8a5cd3b90593bf04cf8a198d20aba6282",
+    "KUOS/DependentOriginationGlobularNerveComparisonV1_17.lean": "ab22ee488255f7ce63e15f8614ab190f34263444",
 }
 
 
