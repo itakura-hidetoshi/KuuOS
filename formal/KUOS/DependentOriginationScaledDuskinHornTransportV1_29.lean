@@ -225,3 +225,54 @@ statement at the scaled horn-presentation level.
 -/
 
 end KUOS.DependentOriginationScaledDuskinHornTransportV1_29
+
+
+/-!
+## Lifted-image horn family (typed, one-way result)
+
+The normalized Duskin morphism has a *lifted* domain and codomain.  Thus a
+source family in this theorem must live on the lifted source carrier.  Its image
+family contains exactly transported source horns.  This makes no assertion
+about all horns on the unlifted target nerve, nor does it identify the image
+family with an arbitrary global Duskin horn family.
+-/
+namespace LiftedImage
+
+/-- Exact image of admissible lifted source horns under a certified scaled map. -/
+def liftedDuskinImageHornFamily
+    {B : Type u₁} [Bicategory.{w₁, v₁} B]
+    {C : Type u₂} [Bicategory.{w₂, v₂} C]
+    {E : StrictlyUnitaryBicategoricalModelEquivalence B C}
+    (H : FullScaledDuskinMapCertificate E)
+    (HB : ScaledHornFamily (normalizedDuskinSource B C)
+      (normalizedDuskinSourceScaling B C)) :
+    ScaledHornFamily (normalizedDuskinTarget B C)
+      (normalizedDuskinTargetScaling B C) where
+  admissible := fun {n} {i} Q =>
+    ∃ P : ScaledHornExtensionProblem
+        (normalizedDuskinSource B C) (normalizedDuskinSourceScaling B C) n i,
+      HB.admissible P ∧ transportGlobalDuskinHornProblem H P = Q
+
+/-- This statement only supplies fillers for the transported image family. -/
+theorem liftedDuskinImageHornFibrancy
+    {B : Type u₁} [Bicategory.{w₁, v₁} B]
+    {C : Type u₂} [Bicategory.{w₂, v₂} C]
+    {E : StrictlyUnitaryBicategoricalModelEquivalence B C}
+    (H : FullScaledDuskinMapCertificate E)
+    (HB : ScaledHornFamily (normalizedDuskinSource B C)
+      (normalizedDuskinSourceScaling B C))
+    (hB : HasScaledHornFillers (normalizedDuskinSource B C)
+      (normalizedDuskinSourceScaling B C) HB) :
+    HasScaledHornFillers (normalizedDuskinTarget B C)
+      (normalizedDuskinTargetScaling B C)
+      (liftedDuskinImageHornFamily H HB) := by
+  refine ⟨?_⟩
+  intro n i Q hQ h0 hi
+  obtain ⟨P, hP, rfl⟩ := hQ
+  exact mapScaledHornFiller_nonempty H.map_scaled (hB.fill P hP h0 hi)
+
+#print axioms liftedDuskinImageHornFibrancy
+
+end LiftedImage
+
+end KUOS.DependentOriginationScaledDuskinHornTransportV1_29
