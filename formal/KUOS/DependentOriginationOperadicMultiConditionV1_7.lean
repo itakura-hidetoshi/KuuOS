@@ -73,7 +73,7 @@ inductive MultiConditionExpr
 namespace MultiConditionExpr
 
 /-- Evaluate a free multi-condition tree in an algebra. -/
-def eval
+noncomputable def eval
     {Color : Type u}
     {Sig : MultiConditionSignature.{u, v} Color}
     {Carrier : Color -> Type w}
