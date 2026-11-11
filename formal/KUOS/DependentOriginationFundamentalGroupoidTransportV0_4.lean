@@ -10,6 +10,8 @@ open KUOS.DependentOriginationContextualGaugeCoreFactorizationV0_3
 
 universe u v w
 
+noncomputable section
+
 /-!
 # Fundamental-groupoid contextual transport v0.4
 
@@ -187,5 +189,7 @@ theorem pullback_asDependentOrigination_state
       (KUOS.DependentOriginationContextualCoreV1_0.reindex
         (FundamentalGroupoid.map f) (asDependentOrigination T)).state := by
   rfl
+
+end
 
 end KUOS.DependentOriginationFundamentalGroupoidTransportV0_4
