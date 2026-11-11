@@ -82,10 +82,12 @@ def normalLaxPair
       apply Prod.ext <;> simp
     map₂_leftUnitor := by
       intro a b f
-      apply Prod.ext <;> simp [F.map₂_leftUnitor, G.map₂_leftUnitor]
+      apply Prod.ext <;> simp [F.map₂_leftUnitor, G.map₂_leftUnitor,
+        StrictlyUnitaryLaxFunctor.mapId_eq_eqToHom]
     map₂_rightUnitor := by
       intro a b f
-      apply Prod.ext <;> simp [F.map₂_rightUnitor, G.map₂_rightUnitor]
+      apply Prod.ext <;> simp [F.map₂_rightUnitor, G.map₂_rightUnitor,
+        StrictlyUnitaryLaxFunctor.mapId_eq_eqToHom]
     map₂_associator := by
       intro a b c d f g h
       apply Prod.ext <;> simp [F.map₂_associator, G.map₂_associator] }
