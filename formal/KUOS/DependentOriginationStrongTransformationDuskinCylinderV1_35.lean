@@ -135,6 +135,12 @@ theorem normalLaxPair_precomp
     | (simp [StrictlyUnitaryLaxFunctor.mapId_eq_eqToHom,
         StrictlyUnitaryLaxFunctor.comp, normalLaxPair])
     | (rw [heq_iff_eq]; ext <;> simp [normalLaxPair])
+  case mapId =>
+    apply hfunext rfl
+    intro a b h
+    cases h
+    simp [StrictlyUnitaryLaxFunctor.mapId_eq_eqToHom,
+      StrictlyUnitaryLaxFunctor.comp, normalLaxPair]
 
 /-! ## The interval as a normal lax functor -/
 
