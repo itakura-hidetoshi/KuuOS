@@ -194,15 +194,15 @@ theorem leftToRight_noSignalling
     JointNoSignallingLeftToRight P C J := by
   intro x₁ x₂ y
   rw [F.factorizes x₁.1 y, F.factorizes x₂.1 y]
-  have hx₁ : NormalizedState P C X' := F.left.mapNormalized P x₁
-  have hx₂ : NormalizedState P C X' := F.left.mapNormalized P x₂
+  let hx₁ : NormalizedState P C X' := F.left.mapNormalized P x₁
+  let hx₂ : NormalizedState P C X' := F.left.mapNormalized P x₂
   calc
     rightMarginal D C
         (P.tensorState
           (D.transport F.left.process x₁.1)
           (D.transport F.right.process y)) =
       D.transport F.right.process y := by
-        simpa [CausalIntervention.mapNormalized] using
+        simpa [hx₁, CausalIntervention.mapNormalized] using
           (rightMarginal_tensorState P C hx₁
             (D.transport F.right.process y))
     _ = rightMarginal D C
@@ -210,7 +210,7 @@ theorem leftToRight_noSignalling
           (D.transport F.left.process x₂.1)
           (D.transport F.right.process y)) := by
         symm
-        simpa [CausalIntervention.mapNormalized] using
+        simpa [hx₂, CausalIntervention.mapNormalized] using
           (rightMarginal_tensorState P C hx₂
             (D.transport F.right.process y))
 
@@ -227,15 +227,15 @@ theorem rightToLeft_noSignalling
     JointNoSignallingRightToLeft P C J := by
   intro x y₁ y₂
   rw [F.factorizes x y₁.1, F.factorizes x y₂.1]
-  have hy₁ : NormalizedState P C Y' := F.right.mapNormalized P y₁
-  have hy₂ : NormalizedState P C Y' := F.right.mapNormalized P y₂
+  let hy₁ : NormalizedState P C Y' := F.right.mapNormalized P y₁
+  let hy₂ : NormalizedState P C Y' := F.right.mapNormalized P y₂
   calc
     leftMarginal D C
         (P.tensorState
           (D.transport F.left.process x)
           (D.transport F.right.process y₁.1)) =
       D.transport F.left.process x := by
-        simpa [CausalIntervention.mapNormalized] using
+        simpa [hy₁, CausalIntervention.mapNormalized] using
           (leftMarginal_tensorState P C
             (D.transport F.left.process x) hy₁)
     _ = leftMarginal D C
@@ -243,7 +243,7 @@ theorem rightToLeft_noSignalling
           (D.transport F.left.process x)
           (D.transport F.right.process y₂.1)) := by
         symm
-        simpa [CausalIntervention.mapNormalized] using
+        simpa [hy₂, CausalIntervention.mapNormalized] using
           (leftMarginal_tensorState P C
             (D.transport F.left.process x) hy₂)
 
