@@ -8,7 +8,7 @@ open Opposite
 open scoped Bicategory
 open KUOS.DependentOriginationFunctorialTransportV0_1
 
-universe t u v u' v'
+universe t u v u' v' uState
 
 /-!
 # Stack descent dependent origination v1.14
@@ -34,7 +34,7 @@ the native pseudofunctor and stack certificate carry the actual descent data.
 -/
 structure StackDependentOriginationLayer
     (Context : Type u) [Category.{v} Context] where
-  base : FunctorialTransportSystem Context
+  base : FunctorialTransportSystem.{u, v, uState} Context
   fiber : LocallyDiscrete (Opposite Context) ⥤ᵖ Cat.{v', u'}
   topology : GrothendieckTopology Context
   interpretState : forall X : Context,
