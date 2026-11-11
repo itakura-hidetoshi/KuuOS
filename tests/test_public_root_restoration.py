@@ -80,6 +80,14 @@ REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
 }
 
 
+# Newly added formal modules are outside the frozen v5.291 archive. Their
+# exact draft source blobs are reviewed separately from historical corrections.
+REVIEWED_ADDITIVE_FORMAL_BLOBS = {
+    "KUOS/DependentOriginationScaledDuskinUniverseLiftBridgeV1_29.lean": "78b7d2d63dc8137a6143b93579ffcec6c910b06f",
+    "KUOS/DependentOriginationScaledHornPresentationInvariantTypedRepairV1_30.lean": "5dca66040892fbcf1756462cf6d52a7b17d00df0",
+}
+
+
 def git_blob_sha(raw: bytes) -> str:
     """Reproduce the canonical git blob hash, including its type/length prefix."""
     header = b"blob " + str(len(raw)).encode("ascii") + b"\0"
@@ -192,6 +200,15 @@ class PublicRootRestorationTests(unittest.TestCase):
         actual = {r for lib in new['lean_lib'] for r in lib.get('roots', [])}
         self.assertEqual(wanted - actual, set(),
                          'Existing public proofs were blanket-excluded from the current Lake package')
+
+class ReviewedAdditiveFormalSourceTests(unittest.TestCase):
+    def test_additive_lean_module_blob_matches_reviewed_receipt(self):
+        for rel, expected_sha in REVIEWED_ADDITIVE_FORMAL_BLOBS.items():
+            with self.subTest(path=rel):
+                source = (ROOT / 'formal' / rel).read_bytes()
+                self.assertEqual(git_blob_sha(source), expected_sha,
+                                 f'unreviewed additive formal source change: {rel}')
+
 
 class RestoredWiringTests(unittest.TestCase):
     def test_stage_iii_existence_keeps_coherent_witness_without_unused_name(self):
