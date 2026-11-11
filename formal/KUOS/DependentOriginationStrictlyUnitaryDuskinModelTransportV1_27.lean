@@ -250,6 +250,25 @@ transport, preceded only by the canonical pseudofunctor composition constraint.
 
 /-! ## Invertibility and scaling transport -/
 
+/--
+The underlying hom-category equivalence preserves isomorphisms.  This is the
+actual certificate for the pseudofunctor's `map₂` being an isomorphism:
+`IsIso` of the source 2-cell does not suffice for bare typeclass search on
+`E.forward.map₂` without exposing the certified local equivalence.
+-/
+private theorem forwardMap₂_isIso
+    {B : Type u₁} [Bicategory.{w₁, v₁} B]
+    {C : Type u₂} [Bicategory.{w₂, v₂} C]
+    (E : StrictlyUnitaryBicategoricalModelEquivalence B C)
+    {X Y : B} {f g : X ⟶ Y} (α : f ⟶ g)
+    (hα : IsIso α) : IsIso (E.forward.map₂ α) := by
+  letI : IsIso α := hα
+  change IsIso
+    ((E.forward.toPseudofunctor.toPrelaxFunctor.mapFunctor X Y).map α)
+  rw [← E.homEquiv_functor X Y]
+  infer_instance
+
+
 /-- Invertibility of a source comparison cell is preserved by direct normalized global transport. -/
 theorem transportDuskinComparison_isIso
     {B : Type u₁} [Bicategory.{w₁, v₁} B]
@@ -258,7 +277,8 @@ theorem transportDuskinComparison_isIso
     (σ : DuskinSimplex B 2)
     (hiso : IsIso (duskinComparison σ)) :
     IsIso (duskinComparison (transportDuskinSimplex E σ)) := by
-  letI : IsIso (duskinComparison σ) := hiso
+  haveI : IsIso (E.forward.map₂ (duskinComparison σ)) :=
+    forwardMap₂_isIso E (duskinComparison σ) hiso
   rw [transportDuskinComparison]
   infer_instance
 
@@ -274,10 +294,8 @@ theorem nondegenerateThin_transport_isThin
   have hiso : IntrinsicInvertibleTwoCell (globalTwoCellInvariant σ) :=
     (nondegenerate_globalThin_iff_intrinsicInvertible σ hnd).mp hthin
   change IsIso (duskinComparison σ) at hiso
-  letI : IsIso (duskinComparison σ) := hiso
-  haveI : IsIso (duskinComparison (transportDuskinSimplex E σ)) := by
-    rw [transportDuskinComparison]
-    infer_instance
+  haveI : IsIso (duskinComparison (transportDuskinSimplex E σ)) :=
+    transportDuskinComparison_isIso E σ hiso
   exact invertibleComparison_isThin (transportDuskinSimplex E σ)
 
 /-! ## Bundled theorem-level certificate -/
