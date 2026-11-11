@@ -38,7 +38,7 @@ A wrapper turning a gauge action groupoid into a genuine category of contexts.
 The objects are representatives in `X`; a morphism `x ⟶ y` is an explicit gauge
 transformation carrying `x` to `y`.
 -/
-def ActionContext (Gauge : Type w) (X : Type u) := X
+abbrev ActionContext (Gauge : Type w) (X : Type u) := X
 
 namespace ActionContext
 

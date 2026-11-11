@@ -34,7 +34,7 @@ the native pseudofunctor and stack certificate carry the actual descent data.
 structure StackDependentOriginationLayer
     (Context : Type u) [Category.{v} Context] where
   base : FunctorialTransportSystem Context
-  fiber : LocallyDiscrete Contextᵒᵖ ⥤ᵖ Cat.{v', u'}
+  fiber : LocallyDiscrete (Opposite Context) ⥤ᵖ Cat.{v', u'}
   topology : GrothendieckTopology Context
   interpretState : forall X : Context,
     base.state.obj X -> fiber.obj (LocallyDiscrete.mk (op X))
