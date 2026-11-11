@@ -132,13 +132,12 @@ theorem actionRepresentation_transport_bijective
     Function.Bijective
       ((actionRepresentationTransportSystem
         (X := X) (Gauge := Gauge) (Fiber := Fiber)).transport a) := by
+  change Function.Bijective (fun psi : Fiber => a.1 • psi)
   constructor
   · intro p q hpq
-    change (a.1 • p : Fiber) = a.1 • q at hpq
     have h := congrArg (fun z : Fiber => a.1⁻¹ • z) hpq
     simpa [smul_smul] using h
   · intro psi
-    change ∃ p : Fiber, a.1 • p = psi
     refine ⟨a.1⁻¹ • psi, ?_⟩
     simp [smul_smul]
 
