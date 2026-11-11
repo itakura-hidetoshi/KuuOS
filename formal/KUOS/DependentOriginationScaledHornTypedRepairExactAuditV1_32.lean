@@ -3,6 +3,8 @@ import KUOS.DependentOriginationLiftedDuskinCanonicalStrictDescentV1_29
 import KUOS.DependentOriginationLiftedDuskinStrictInverseDescentV1_29
 import KUOS.DependentOriginationLiftedDuskinFamilyDescentBridgeV1_29
 import KUOS.DependentOriginationCoherentNormalizedScaledModelEquivalenceTypedRepairV1_32
+import KUOS.DependentOriginationScaledHornHomotopyDescentV1_33
+import KUOS.DependentOriginationGlobalDuskinPrismHomotopyV1_34
 
 /-!
 # Strict typechecker audit for v1.30–v1.32 typed scaled-horn repair
@@ -31,3 +33,9 @@ certificates or unconditional fibrancy. No new axioms are admitted.
 #print axioms KUOS.DependentOriginationLiftedDuskinStrictInverseDescentV1_29.liftedFibrancy_iff_of_strictInverse
 
 #print axioms KUOS.DependentOriginationLiftedDuskinCanonicalStrictDescentV1_29.unliftedFibrancy_iff_of_canonical_strictInverse
+
+/-! ## Exact-source audit for v1.33/v1.34 lifted and unlifted conclusions -/
+#print axioms KUOS.DependentOriginationScaledHornHomotopyDescentV1_33.scaledHornRoundTripDescent_of_homotopy_rectification
+#print axioms KUOS.DependentOriginationScaledHornHomotopyDescentV1_33.CoherentNormalizedScaledHomotopyModelEquivalence.globalDuskinScaledFibrancy_iff
+#print axioms KUOS.DependentOriginationGlobalDuskinPrismHomotopyV1_34.GlobalDuskinRoundTripPrismRealization.toRoundTripBoundaryHomotopy
+#print axioms KUOS.DependentOriginationGlobalDuskinPrismHomotopyV1_34.CoherentNormalizedScaledPrismModelEquivalence.globalDuskinScaledFibrancy_iff
