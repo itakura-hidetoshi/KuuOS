@@ -5,6 +5,7 @@ import KUOS.DependentOriginationLiftedDuskinFamilyDescentBridgeV1_29
 import KUOS.DependentOriginationCoherentNormalizedScaledModelEquivalenceTypedRepairV1_32
 import KUOS.DependentOriginationScaledHornHomotopyDescentV1_33
 import KUOS.DependentOriginationGlobalDuskinPrismHomotopyV1_34
+import KUOS.DependentOriginationStrongTransformationDuskinCylinderV1_35
 
 /-!
 # Strict typechecker audit for v1.30–v1.32 typed scaled-horn repair
@@ -39,3 +40,7 @@ certificates or unconditional fibrancy. No new axioms are admitted.
 #print axioms KUOS.DependentOriginationScaledHornHomotopyDescentV1_33.CoherentNormalizedScaledHomotopyModelEquivalence.globalDuskinScaledFibrancy_iff
 #print axioms KUOS.DependentOriginationGlobalDuskinPrismHomotopyV1_34.GlobalDuskinRoundTripPrismRealization.toRoundTripBoundaryHomotopy
 #print axioms KUOS.DependentOriginationGlobalDuskinPrismHomotopyV1_34.CoherentNormalizedScaledPrismModelEquivalence.globalDuskinScaledFibrancy_iff
+
+/-! ## Exact-source audit of native v1.35 cylinder evidence -/
+#print axioms KUOS.DependentOriginationStrongTransformationDuskinCylinderV1_35.StrongQuasiInverseNormalLaxCylinder.sourcePrism
+#print axioms KUOS.DependentOriginationStrongTransformationDuskinCylinderV1_35.StrongQuasiInverseNormalLaxCylinder.targetPrism

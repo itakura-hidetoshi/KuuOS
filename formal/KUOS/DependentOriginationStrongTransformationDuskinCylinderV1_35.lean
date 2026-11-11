@@ -366,7 +366,7 @@ structure StrongQuasiInverseNormalLaxCylinder
     {C : Type u₂} [Bicategory.{w₂, v₂} C]
     {F : StrictlyUnitaryBicategoricalModelEquivalence B C}
     {G : StrictlyUnitaryBicategoricalModelEquivalence C B}
-    (K : NormalizedCoherentQuasiInverse F G) : Prop where
+    (K : NormalizedCoherentQuasiInverse F G) where
   sourceCylinder :
     NormalLaxDuskinCylinder
       (sourceRoundTripNormalLax F G)

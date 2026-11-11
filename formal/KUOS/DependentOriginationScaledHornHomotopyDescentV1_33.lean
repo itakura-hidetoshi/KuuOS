@@ -6,6 +6,8 @@ namespace KUOS.DependentOriginationScaledHornHomotopyDescentV1_33
 open CategoryTheory
 open CategoryTheory.Category
 open Simplicial
+open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
+open KUOS.DependentOriginationBiequivalencePresentationInvariantV1_26
 open KUOS.DependentOriginationGlobalDuskinScaledNerveV1_21
 open KUOS.DependentOriginationGlobalDuskinScaledHornCoherenceV1_22
 open KUOS.DependentOriginationStrictlyUnitaryDuskinModelTransportV1_27
@@ -93,7 +95,7 @@ structure ScaledHornRoundTripBoundaryHomotopy
     (F : StrictlyUnitaryBicategoricalModelEquivalence B C)
     (G : StrictlyUnitaryBicategoricalModelEquivalence C B)
     (HF : FullScaledDuskinMapCertificate F)
-    (HG : FullScaledDuskinMapCertificate G) : Prop where
+    (HG : FullScaledDuskinMapCertificate G) where
   source :
     ∀ {n : Nat} {i : Fin (n + 1)}
       (P : ScaledHornExtensionProblem
@@ -125,7 +127,7 @@ structure NormalizedQuasiInverseDuskinHomotopyRealization
     {G : StrictlyUnitaryBicategoricalModelEquivalence C B}
     (K : NormalizedCoherentQuasiInverse F G)
     (HF : FullScaledDuskinMapCertificate F)
-    (HG : FullScaledDuskinMapCertificate G) : Prop where
+    (HG : FullScaledDuskinMapCertificate G) where
   hornwise : ScaledHornRoundTripBoundaryHomotopy F G HF HG
 
 /--
