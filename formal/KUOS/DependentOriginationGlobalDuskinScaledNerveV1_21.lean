@@ -107,7 +107,11 @@ set_option backward.isDefEq.respectTransparency false in
 @[simp] theorem duskinReindex_id (d : SimplexCategoryᵒᵖ) :
     duskinReindex (𝟙 d) =
       StrictlyUnitaryLaxFunctor.id (DuskinOrdinal d.unop.len) := by
-  simp [duskinReindex]
+  change locallyDiscreteNormalLax
+      ((SimplexCategory.toCat.map (𝟙 d.unop)).toFunctor) =
+    StrictlyUnitaryLaxFunctor.id (DuskinOrdinal d.unop.len)
+  rw [Functor.map_id, Cat.Hom.id_toFunctor]
+  exact locallyDiscreteNormalLax_id _
 
 set_option backward.isDefEq.respectTransparency false in
 @[simp] theorem duskinReindex_comp
@@ -115,7 +119,12 @@ set_option backward.isDefEq.respectTransparency false in
     (f : d₀ ⟶ d₁) (g : d₁ ⟶ d₂) :
     duskinReindex (f ≫ g) =
       (duskinReindex g).comp (duskinReindex f) := by
-  simp [duskinReindex, Functor.comp_def]
+  change locallyDiscreteNormalLax
+      ((SimplexCategory.toCat.map (g.unop ≫ f.unop)).toFunctor) =
+    (locallyDiscreteNormalLax ((SimplexCategory.toCat.map g.unop).toFunctor)).comp
+      (locallyDiscreteNormalLax ((SimplexCategory.toCat.map f.unop).toFunctor))
+  rw [Functor.map_comp, Cat.Hom.comp_toFunctor]
+  exact locallyDiscreteNormalLax_comp _ _
 
 /--
 The global Duskin nerve of a bicategory.
@@ -127,12 +136,14 @@ def duskinNerve (B : Type u) [Bicategory.{w, v} B] : SSet where
   obj d := DuskinSimplex B d.unop.len
   map f := TypeCat.ofHom fun σ => (duskinReindex f).comp σ
   map_id d := by
-    ext σ
+    apply TypeCat.homEquiv.injective
+    funext σ
     change (duskinReindex (𝟙 d)).comp σ = σ
     rw [duskinReindex_id]
     exact StrictlyUnitaryLaxFunctor.id_comp σ
   map_comp f g := by
-    ext σ
+    apply TypeCat.homEquiv.injective
+    funext σ
     change (duskinReindex (f ≫ g)).comp σ =
       (duskinReindex g).comp ((duskinReindex f).comp σ)
     rw [duskinReindex_comp]
