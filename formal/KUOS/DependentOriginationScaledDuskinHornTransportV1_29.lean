@@ -1,4 +1,5 @@
 import KUOS.DependentOriginationNormalizationChoiceInvariantV1_28
+import KUOS.DependentOriginationScaledDuskinUniverseLiftBridgeV1_29
 
 namespace KUOS.DependentOriginationScaledDuskinHornTransportV1_29
 
@@ -12,6 +13,7 @@ open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
 open KUOS.DependentOriginationGlobalDuskinScaledNerveV1_21
 open KUOS.DependentOriginationGlobalDuskinScaledHornCoherenceV1_22
 open KUOS.DependentOriginationStrictlyUnitaryDuskinModelTransportV1_27
+open KUOS.DependentOriginationScaledDuskinUniverseLiftBridgeV1_29
 
 universe u₁ u₂ v₁ v₂ w₁ w₂
 
@@ -119,17 +121,40 @@ theorem admissibleFiller_forward
 
 /-! ## Global Duskin specialization -/
 
+/-! The model map is defined between the actual pairwise ULift carriers. -/
+abbrev normalizedDuskinSource
+    (B : Type u₁) [Bicategory.{w₁, v₁} B]
+    (C : Type u₂) [Bicategory.{w₂, v₂} C] :=
+  (SSet.uliftFunctor.{max (max w₂ v₂) u₂, max (max w₁ v₁) u₁}).obj
+    (duskinNerve B)
+
+abbrev normalizedDuskinTarget
+    (B : Type u₁) [Bicategory.{w₁, v₁} B]
+    (C : Type u₂) [Bicategory.{w₂, v₂} C] :=
+  (SSet.uliftFunctor.{max (max w₁ v₁) u₁, max (max w₂ v₂) u₂}).obj
+    (duskinNerve C)
+
+abbrev normalizedDuskinSourceScaling
+    (B : Type u₁) [Bicategory.{w₁, v₁} B]
+    (C : Type u₂) [Bicategory.{w₂, v₂} C] :
+    ScaledSimplicialSet (normalizedDuskinSource B C) :=
+  uliftScaling.{max (max w₁ v₁) u₁, max (max w₂ v₂) u₂} (duskinScaling B)
+
+abbrev normalizedDuskinTargetScaling
+    (B : Type u₁) [Bicategory.{w₁, v₁} B]
+    (C : Type u₂) [Bicategory.{w₂, v₂} C] :
+    ScaledSimplicialSet (normalizedDuskinTarget B C) :=
+  uliftScaling.{max (max w₂ v₂) u₂, max (max w₁ v₁) u₁} (duskinScaling C)
+
 /--
 The remaining datum needed to regard the normalized global Duskin map as a
 full scaled map.  Version 1.27 already proves the nondegenerate part.
 -/
-structure FullScaledDuskinMapCertificate
+abbrev FullScaledDuskinMapCertificate
     {B : Type u₁} [Bicategory.{w₁, v₁} B]
     {C : Type u₂} [Bicategory.{w₂, v₂} C]
-    (E : StrictlyUnitaryBicategoricalModelEquivalence B C) : Prop where
-  map_scaled :
-    IsScaledMap (duskinScaling B) (duskinScaling C)
-      (normalizedDuskinNerveMap E)
+    (E : StrictlyUnitaryBicategoricalModelEquivalence B C) : Prop :=
+  LiftedFullScaledDuskinMapCertificate E
 
 /-- Re-export the scaled map from the full certificate. -/
 def normalizedDuskinScaledMap
@@ -137,8 +162,8 @@ def normalizedDuskinScaledMap
     {C : Type u₂} [Bicategory.{w₂, v₂} C]
     {E : StrictlyUnitaryBicategoricalModelEquivalence B C}
     (H : FullScaledDuskinMapCertificate E) :
-    IsScaledMap (duskinScaling B) (duskinScaling C)
-      (normalizedDuskinNerveMap E) :=
+    IsScaledMap (normalizedDuskinSourceScaling B C)
+      (normalizedDuskinTargetScaling B C) (normalizedDuskinNerveMap E) :=
   H.map_scaled
 
 /-- The nondegenerate portion of full scaling preservation is already theorem-level. -/
@@ -149,9 +174,9 @@ theorem normalizedDuskin_nonDegenerateThin_preserved
     (σ : DuskinSimplex B 2)
     (hnd : ¬ IsDegenerateDuskinTwoSimplex σ)
     (hthin : (duskinScaling B).thin σ) :
-    (duskinScaling C).thin
-      ((normalizedDuskinNerveMap E).app (op ⦋2⦌) σ) := by
-  simpa using nondegenerateThin_transport_isThin E σ hnd hthin
+    (normalizedDuskinTargetScaling B C).thin
+      ((normalizedDuskinNerveMap E).app (op ⦋2⦌) (ULift.up σ)) := by
+  exact nondegenerateThin_preserved_lift E σ hnd hthin
 
 /-- A full scaled Duskin map transports every scaled horn problem forward. -/
 def transportGlobalDuskinHornProblem
@@ -161,9 +186,9 @@ def transportGlobalDuskinHornProblem
     (H : FullScaledDuskinMapCertificate E)
     {n : Nat} {i : Fin (n + 1)}
     (P : ScaledHornExtensionProblem
-      (duskinNerve B) (duskinScaling B) n i) :
+      (normalizedDuskinSource B C) (normalizedDuskinSourceScaling B C) n i) :
     ScaledHornExtensionProblem
-      (duskinNerve C) (duskinScaling C) n i :=
+      (normalizedDuskinTarget B C) (normalizedDuskinTargetScaling B C) n i :=
   mapScaledHornProblem H.map_scaled P
 
 /-- Every scaled filler of a source global Duskin horn transports to the target image horn. -/
@@ -174,7 +199,7 @@ def transportGlobalDuskinHornFiller
     (H : FullScaledDuskinMapCertificate E)
     {n : Nat} {i : Fin (n + 1)}
     {P : ScaledHornExtensionProblem
-      (duskinNerve B) (duskinScaling B) n i}
+      (normalizedDuskinSource B C) (normalizedDuskinSourceScaling B C) n i}
     (Q : ScaledHornFiller P) :
     ScaledHornFiller (transportGlobalDuskinHornProblem H P) :=
   mapScaledHornFiller H.map_scaled Q
