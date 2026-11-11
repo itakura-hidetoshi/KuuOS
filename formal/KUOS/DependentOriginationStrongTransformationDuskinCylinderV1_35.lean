@@ -1,6 +1,7 @@
 import KUOS.DependentOriginationGlobalDuskinPrismHomotopyV1_34
 import Mathlib.CategoryTheory.Bicategory.Product
 import Mathlib.CategoryTheory.Bicategory.NaturalTransformation.Pseudo
+import Mathlib.Logic.Function.Basic
 
 namespace KUOS.DependentOriginationStrongTransformationDuskinCylinderV1_35
 
@@ -136,7 +137,7 @@ theorem normalLaxPair_precomp
         StrictlyUnitaryLaxFunctor.comp, normalLaxPair])
     | (rw [heq_iff_eq]; ext <;> simp [normalLaxPair])
   case mapId =>
-    apply hfunext rfl
+    apply Function.hfunext rfl
     intro a b h
     cases h
     simp [StrictlyUnitaryLaxFunctor.mapId_eq_eqToHom,
