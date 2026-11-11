@@ -189,6 +189,11 @@ structure CoherentNormalizedScaledPrismModelEquivalence
     ScaledHornHomotopyRectification (normalizedDuskinSource B C) (normalizedDuskinSourceScaling B C)
   targetRectification :
     ScaledHornHomotopyRectification (normalizedDuskinTarget B C) (normalizedDuskinTargetScaling B C)
+  /-- Preserve the original unlifted rectification requirements separately. -/
+  unliftedSourceRectification :
+    ScaledHornHomotopyRectification (duskinNerve B) (duskinScaling B)
+  unliftedTargetRectification :
+    ScaledHornHomotopyRectification (duskinNerve C) (duskinScaling C)
 
 namespace CoherentNormalizedScaledPrismModelEquivalence
 
@@ -218,14 +223,16 @@ noncomputable def toHomotopyModelEquivalence
   homotopyRealization :=
     K.globalPrism.toNormalizedQuasiInverseDuskinHomotopyRealization
       K.forwardScaled K.backwardScaled
-  sourceRectification := K.sourceRectification
-  targetRectification := K.targetRectification
+  sourceRectification := K.unliftedSourceRectification
+  targetRectification := K.unliftedTargetRectification
+  liftedSourceRectification := K.sourceRectification
+  liftedTargetRectification := K.targetRectification
 
 /-- Global scaled-Duskin fibrancy is invariant under the global-prism package. -/
 theorem globalDuskinScaledFibrancy_iff
     (K : CoherentNormalizedScaledPrismModelEquivalence E G HB HC) :
-    HasScaledHornFillers (normalizedDuskinSource B C) (normalizedDuskinSourceScaling B C) HB ↔
-      HasScaledHornFillers (normalizedDuskinTarget B C) (normalizedDuskinTargetScaling B C) HC :=
+    HasScaledHornFillers (duskinNerve B) (duskinScaling B) HB ↔
+      HasScaledHornFillers (duskinNerve C) (duskinScaling C) HC :=
   K.toHomotopyModelEquivalence.globalDuskinScaledFibrancy_iff
 
 end CoherentNormalizedScaledPrismModelEquivalence

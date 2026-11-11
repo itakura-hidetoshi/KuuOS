@@ -288,6 +288,13 @@ structure CoherentNormalizedScaledHomotopyModelEquivalence
     ScaledHornHomotopyRectification (duskinNerve B) (duskinScaling B)
   targetRectification :
     ScaledHornHomotopyRectification (duskinNerve C) (duskinScaling C)
+  /-- Required independently: the round-trip horn maps live on the normalized lifted carrier. -/
+  liftedSourceRectification :
+    ScaledHornHomotopyRectification
+      (normalizedDuskinSource B C) (normalizedDuskinSourceScaling B C)
+  liftedTargetRectification :
+    ScaledHornHomotopyRectification
+      (normalizedDuskinTarget B C) (normalizedDuskinTargetScaling B C)
 
 namespace CoherentNormalizedScaledHomotopyModelEquivalence
 
@@ -320,7 +327,7 @@ def toCoherentNormalizedScaledModelEquivalence
       K.forwardNormalization.normal K.backwardNormalization.normal
       K.forwardScaled K.backwardScaled
       K.homotopyRealization.hornwise
-      K.sourceRectification K.targetRectification
+      K.liftedSourceRectification K.liftedTargetRectification
 
 /-- Hence global scaled-Duskin fibrancy is invariant. -/
 theorem globalDuskinScaledFibrancy_iff
