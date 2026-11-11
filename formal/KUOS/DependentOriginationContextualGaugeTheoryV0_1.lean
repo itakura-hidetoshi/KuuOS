@@ -134,20 +134,13 @@ theorem actionRepresentation_transport_bijective
         (X := X) (Gauge := Gauge) (Fiber := Fiber)).transport a) := by
   constructor
   · intro p q hpq
-    have h := congrArg
-      (fun z =>
-        (actionRepresentationTransportSystem
-          (X := X) (Gauge := Gauge) (Fiber := Fiber)).transport
-            (ActionArrow.inv a) z)
-      hpq
-    change a.1⁻¹ • (a.1 • p) = a.1⁻¹ • (a.1 • q) at h
+    change (a.1 • p : Fiber) = a.1 • q at hpq
+    have h := congrArg (fun z : Fiber => a.1⁻¹ • z) hpq
     simpa [smul_smul] using h
   · intro psi
-    refine ⟨
-      (actionRepresentationTransportSystem
-        (X := X) (Gauge := Gauge) (Fiber := Fiber)).transport
-          (ActionArrow.inv a) psi, ?_⟩
-    exact actionRepresentation_transport_inverse_apply a psi
+    change ∃ p : Fiber, a.1 • p = psi
+    refine ⟨a.1⁻¹ • psi, ?_⟩
+    simp [smul_smul]
 
 /--
 An ordinary gauge-invariant semantic map on the representation fiber becomes an

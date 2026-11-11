@@ -124,7 +124,8 @@ The one-cell-per-dimension globular tower cannot even be levelwise equivalent
 at dimension zero to the nerve of the two-state dependent-origination system.
 -/
 theorem unitTower_not_levelwise_compatible :
-    ¬ LevelwiseNerveCompatible unitTower twoStateSystem := by
+    IsEmpty (LevelwiseNerveCompatible unitTower twoStateSystem) := by
+  refine ⟨?_⟩
   intro C
   let e := C.cellEquiv 0
   obtain ⟨u0, hu0⟩ := e.surjective (twoStateZeroSimplex 0)
@@ -143,7 +144,7 @@ axioms to have the same levelwise carriers as `N(∫ D)`.
 theorem no_universal_globular_nerve_comparison :
     ∃ (T : ReflexiveGlobularCoherenceTower)
       (D : FunctorialTransportSystem (Discrete PUnit)),
-      ¬ LevelwiseNerveCompatible T D :=
+      IsEmpty (LevelwiseNerveCompatible T D) :=
   ⟨unitTower, twoStateSystem, unitTower_not_levelwise_compatible⟩
 
 /-!
