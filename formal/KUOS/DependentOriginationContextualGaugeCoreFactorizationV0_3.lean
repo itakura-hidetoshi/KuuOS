@@ -12,6 +12,11 @@ open KUOS.GaugeInvariantDependentOriginationActionGroupoidV0_1
 
 universe u v w z
 
+-- Select the existing pinned Type and core-category structures explicitly.
+local instance : Category.{z} (Type z) := CategoryTheory.types
+local instance : Category.{z} (Core (Type z)) :=
+  (Core.coreCategory (C := Type z)).toCategory
+
 variable {X : Type u} {Gauge : Type w}
 
 /-!
@@ -42,7 +47,8 @@ non-flat connection factors through the ordinary fundamental groupoid.
 
 namespace FunctorialTransportSystem
 
-variable {Context : Type u} [Groupoid.{v} Context]
+variable {Context : Type u} [g : Groupoid.{v} Context]
+local instance : Category.{v} Context := g.toCategory
 
 /--
 A dependent-origination state functor on a groupoid context canonically lands in
