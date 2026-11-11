@@ -128,4 +128,61 @@ theorem liftedTargetRoundTrip_filler_forward
 #print axioms liftedSourceRoundTrip_filler_forward
 #print axioms liftedTargetRoundTrip_filler_forward
 
+/-!
+## Composition in the actual lifted horn universe
+The following proofs do not identify an unlifted horn with a lifted horn and
+do not assume the reverse filler descent still needed for v1.31.
+-/
+
+/-- Pushing a scaled horn across two composable scaled maps equals pushing
+across their composite. The three carriers live in one SSet universe. -/
+theorem mapScaledHornProblem_comp
+    {X Y Z : SSet}
+    {sX : ScaledSimplicialSet X}
+    {sY : ScaledSimplicialSet Y}
+    {sZ : ScaledSimplicialSet Z}
+    {f : X ⟶ Y} {g : Y ⟶ Z}
+    (hf : IsScaledMap sX sY f)
+    (hg : IsScaledMap sY sZ g)
+    {n : Nat} {i : Fin (n + 1)}
+    (P : ScaledHornExtensionProblem X sX n i) :
+    mapScaledHornProblem hg (mapScaledHornProblem hf P) =
+      mapScaledHornProblem (hf.comp hg) P := by
+  cases P
+  simp [mapScaledHornProblem, Category.assoc]
+
+/-- The lifted B round trip is transport along the genuine composite. -/
+theorem liftedSourceRoundTrip_as_composite
+    {B : Type u₁} [Bicategory.{w₁, v₁} B]
+    {C : Type u₂} [Bicategory.{w₂, v₂} C]
+    {F : StrictlyUnitaryBicategoricalModelEquivalence B C}
+    {G : StrictlyUnitaryBicategoricalModelEquivalence C B}
+    (HF : FullScaledDuskinMapCertificate F)
+    (HG : FullScaledDuskinMapCertificate G)
+    {n : Nat} {i : Fin (n + 1)}
+    (P : ScaledHornExtensionProblem
+      (normalizedDuskinSource B C) (normalizedDuskinSourceScaling B C) n i) :
+    liftedSourceRoundTrip HF HG P =
+      mapScaledHornProblem (HF.map_scaled.comp HG.map_scaled) P := by
+  exact mapScaledHornProblem_comp HF.map_scaled HG.map_scaled P
+
+/-- The lifted C round trip is transport along the genuine composite. -/
+theorem liftedTargetRoundTrip_as_composite
+    {B : Type u₁} [Bicategory.{w₁, v₁} B]
+    {C : Type u₂} [Bicategory.{w₂, v₂} C]
+    {F : StrictlyUnitaryBicategoricalModelEquivalence B C}
+    {G : StrictlyUnitaryBicategoricalModelEquivalence C B}
+    (HF : FullScaledDuskinMapCertificate F)
+    (HG : FullScaledDuskinMapCertificate G)
+    {n : Nat} {i : Fin (n + 1)}
+    (Q : ScaledHornExtensionProblem
+      (normalizedDuskinTarget B C) (normalizedDuskinTargetScaling B C) n i) :
+    liftedTargetRoundTrip HF HG Q =
+      mapScaledHornProblem (HG.map_scaled.comp HF.map_scaled) Q := by
+  exact mapScaledHornProblem_comp HG.map_scaled HF.map_scaled Q
+
+#print axioms mapScaledHornProblem_comp
+#print axioms liftedSourceRoundTrip_as_composite
+#print axioms liftedTargetRoundTrip_as_composite
+
 end KUOS.DependentOriginationLiftedDuskinRoundTripBridgeV1_29
