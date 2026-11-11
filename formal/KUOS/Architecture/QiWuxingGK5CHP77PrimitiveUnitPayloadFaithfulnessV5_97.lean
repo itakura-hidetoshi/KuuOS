@@ -83,12 +83,15 @@ theorem selectedV597FixedOriginalAtom_injective :
     Function.Injective (fun A : SelectedLocalEighteen W l r J N =>
       (⟨J, ⟨N, A⟩⟩ : SelectedV592OriginalUnitAtom l r H K)) := by
   intro A B h
+  change
+    (⟨J, ⟨N, A⟩⟩ : SelectedV592OriginalUnitAtom l r H K) =
+      ⟨J, ⟨N, B⟩⟩ at h
   have hInner :
       (⟨N, A⟩ : Σ S : SelectedContextualSeventeen W l r H K,
         SelectedLocalEighteen W l r J S) =
-        ⟨N, B⟩ :=
-    sigma_mk_injective h
-  exact sigma_mk_injective hInner
+        ⟨N, B⟩ := by
+    exact eq_of_heq ((Sigma.mk.inj_iff.mp h).2)
+  exact eq_of_heq ((Sigma.mk.inj_iff.mp hInner).2)
 
 /-- A literal original unitLeft or unitRight leaf has exactly
 one true original dependent unit occurrence, never just an
