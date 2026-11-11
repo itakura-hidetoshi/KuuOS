@@ -147,7 +147,7 @@ axioms to have the same levelwise carriers as `N(∫ D)`.
 -/
 theorem no_universal_globular_nerve_comparison :
     ∃ (T : ReflexiveGlobularCoherenceTower.{0})
-      (D : FunctorialTransportSystem.{0, 0, 0} (Discrete PUnit.{0})),
+      (D : FunctorialTransportSystem.{0, 0, 0} (Discrete PUnit.{1})),
       IsEmpty (LevelwiseNerveCompatible T D) :=
   ⟨unitTower, twoStateSystem, unitTower_not_levelwise_compatible⟩
 
