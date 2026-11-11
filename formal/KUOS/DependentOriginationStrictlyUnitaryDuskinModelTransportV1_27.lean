@@ -198,9 +198,9 @@ def normalizedDuskinNerveMap
     {B : Type u₁} [Bicategory.{w₁, v₁} B]
     {C : Type u₂} [Bicategory.{w₂, v₂} C]
     (E : StrictlyUnitaryBicategoricalModelEquivalence B C) :
-    (SSet.uliftFunctor.{max (max w₁ v₁) u₁, max (max w₂ v₂) u₂}).obj
+    (SSet.uliftFunctor.{max (max w₂ v₂) u₂, max (max w₁ v₁) u₁}).obj
         (duskinNerve B) ⟶
-      (SSet.uliftFunctor.{max (max w₂ v₂) u₂, max (max w₁ v₁) u₁}).obj
+      (SSet.uliftFunctor.{max (max w₁ v₁) u₁, max (max w₂ v₂) u₂}).obj
         (duskinNerve C) where
   app idx := TypeCat.ofHom fun σ =>
     ULift.up (transportDuskinSimplex E σ.down)
@@ -216,7 +216,7 @@ def normalizedDuskinNerveMap
     {C : Type u₂} [Bicategory.{w₂, v₂} C]
     (E : StrictlyUnitaryBicategoricalModelEquivalence B C)
     (idx : SimplexCategoryᵒᵖ)
-    (σ : ((SSet.uliftFunctor.{max (max w₁ v₁) u₁, max (max w₂ v₂) u₂}).obj
+    (σ : ((SSet.uliftFunctor.{max (max w₂ v₂) u₂, max (max w₁ v₁) u₁}).obj
       (duskinNerve B)).obj idx) :
     (normalizedDuskinNerveMap E).app idx σ =
       ULift.up (transportDuskinSimplex E σ.down) :=
