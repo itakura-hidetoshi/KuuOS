@@ -1,0 +1,12 @@
+import KUOS.DependentOriginationCoherentNormalizedScaledModelEquivalenceTypedRepairV1_32
+
+/-!
+# Strict typechecker audit for v1.30–v1.32 typed scaled-horn repair
+This file imports the actual repaired chain from the parent branch.
+The imported statements are conditional: it does not assert missing geometric
+certificates or unconditional fibrancy. No new axioms are admitted.
+-/
+
+#print axioms KUOS.DependentOriginationScaledHornPresentationInvariantTypedRepairV1_30.hasScaledHornFillers_iff
+#print axioms KUOS.DependentOriginationModelEquivalenceScaledHornPresentationTypedRepairV1_31.BidirectionalScaledDuskinModelEquivalence.globalDuskinScaledFibrancy_iff
+#print axioms KUOS.DependentOriginationCoherentNormalizedScaledModelEquivalenceTypedRepairV1_32.CoherentNormalizedScaledModelEquivalence.globalDuskinScaledFibrancy_iff
