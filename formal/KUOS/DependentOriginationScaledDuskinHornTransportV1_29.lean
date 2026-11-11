@@ -63,7 +63,9 @@ def mapScaledHornFiller
     ScaledHornFiller (mapScaledHornProblem hf P) where
   simplexMap := Q.simplexMap ≫ f
   extends_horn := by
-    rw [Category.assoc, ← Q.extends_horn]
+    change P.hornMap ≫ f = Λ[n, i].ι ≫ (Q.simplexMap ≫ f)
+    rw [Q.extends_horn]
+    simp only [Category.assoc]
   simplexMap_scaled := Q.simplexMap_scaled.comp hf
 
 /-- Nonempty source filler data therefore transports forward. -/
