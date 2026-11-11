@@ -143,8 +143,8 @@ theorem selectedV598ReverseLeft_history
       (selectedV588UnitFreeRawEmbed l r J t) ++
         selectedV592OriginalUnitHistory l r M =
       selectedV592OriginalUnitHistory l r M
-  rw [selectedV598UnitFree_historyNil l r J t]
-  rfl
+  simp only [selectedV598UnitFree_historyNil l r J t,
+    List.nil_append]
 
 theorem selectedV598ReverseRight_history
     (t : SelectedV588UnitFreeTerm)
@@ -156,8 +156,8 @@ theorem selectedV598ReverseRight_history
       selectedV592OriginalUnitHistory l r
         (selectedV588UnitFreeRawEmbed l r N t) =
       selectedV592OriginalUnitHistory l r M
-  rw [selectedV598UnitFree_historyNil l r N t]
-  simp only [List.append_nil]
+  simp only [selectedV598UnitFree_historyNil l r N t,
+    List.append_nil]
 
 /-- The constructions have exactly ONE genuine original unit
 for every original primitive leaf, regardless of context complexity. -/
