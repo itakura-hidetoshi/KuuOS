@@ -44,7 +44,8 @@ PR2339_INTEGRATED_PROOF_BLOBS = {
 REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
     "KUOS/DependentOriginationRefinementTransitivityV1_2.lean": "5247d279787292ee350d9c676ff76094ba4abc57",
     "KUOS/DependentOriginationDirectedCofinalSemanticsV1_3.lean": "7e448c6f56a3fca1a6fd4be18ec44ec0cefc05e3",
-    "KUOS/DependentOriginationTwoCellCoherenceV1_5.lean": "7f523d885f52ba22ce4072a549244cd174f24497",
+    "KUOS/DependentOriginationTwoCellCoherenceV1_5.lean": "42ad51fc7780c63e46ff9387a02d68b93bb27aab",
+    "KUOS/GaugeInvariantDependentOriginationDenseDescentV0_1.lean": "122b97a2962b30862fbb98d110f04f74af235ba0",
     "KUOS/DependentOriginationFilteredCofinalCategoryV1_4.lean": "45e6fd51b4881849819fc5513f3d9fa9f5e34dc4",
 }
 
