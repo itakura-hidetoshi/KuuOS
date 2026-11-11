@@ -44,7 +44,7 @@ PR2339_INTEGRATED_PROOF_BLOBS = {
 REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
     "KUOS/DependentOriginationGlobalDuskinPrismHomotopyV1_34.lean": "474392ad24a351a4fc523cd17992a7c953d588fc",
     "KUOS/DependentOriginationScaledHornHomotopyDescentV1_33.lean": "3c16b4c00f6d2316d3ce402fbbe83a64487ac83b",
-    "KUOS/DependentOriginationCoherentNormalizedScaledModelEquivalenceV1_32.lean": "ec76a2de3a428f4e0c82b89d68148e046e9b523f",
+    "KUOS/DependentOriginationCoherentNormalizedScaledModelEquivalenceV1_32.lean": "dd20dedea5a9d64d9aac989c9dd807ec9afbea6e",
     "KUOS/DependentOriginationModelEquivalenceScaledHornPresentationV1_31.lean": "043d16f86bed74c1e37424328fc70f0fa6e2ca77",
     "KUOS/DependentOriginationRefinementTransitivityV1_2.lean": "5247d279787292ee350d9c676ff76094ba4abc57",
     "KUOS/DependentOriginationDirectedCofinalSemanticsV1_3.lean": "7e448c6f56a3fca1a6fd4be18ec44ec0cefc05e3",
@@ -95,7 +95,7 @@ REVIEWED_ADDITIVE_FORMAL_BLOBS = {
     "KUOS/DependentOriginationScaledDuskinUniverseLiftBridgeV1_29.lean": "78b7d2d63dc8137a6143b93579ffcec6c910b06f",
     "KUOS/DependentOriginationScaledHornPresentationInvariantTypedRepairV1_30.lean": "9c87d47b90132c27fd26414402930dda0e5f4229",
     "KUOS/DependentOriginationModelEquivalenceScaledHornPresentationTypedRepairV1_31.lean": "a6c0617fe77bad786e87192f8f2f3a604d6a5d78",
-    "KUOS/DependentOriginationCoherentNormalizedScaledModelEquivalenceTypedRepairV1_32.lean": "bf483b0f268ef5d8b155900271262c882aed6c29",
+    "KUOS/DependentOriginationCoherentNormalizedScaledModelEquivalenceTypedRepairV1_32.lean": "363e5d33437eaf2dc694c91b9644245e77981bdf",
 }
 
 
