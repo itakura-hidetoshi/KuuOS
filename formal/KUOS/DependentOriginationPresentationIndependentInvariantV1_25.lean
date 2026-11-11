@@ -237,8 +237,7 @@ theorem hasLocalInvertibleMappingEdge_iff_intrinsicOneCellsEquivalent
   constructor
   · rintro ⟨e, he⟩
     change IsIso (CategoryTheory.nerve.homEquiv e) at he
-    letI : IsIso (CategoryTheory.nerve.homEquiv e) := he
-    exact ⟨asIso (CategoryTheory.nerve.homEquiv e)⟩
+    exact ⟨@asIso _ _ _ _ (CategoryTheory.nerve.homEquiv e) he⟩
   · rintro ⟨i⟩
     refine ⟨localMappingEdgeOfTwoMorphism i.hom, ?_⟩
     change IsIso
@@ -257,8 +256,7 @@ theorem nondegenerate_globalThin_implies_intrinsicOneCellsEquivalent
       (duskinTriangleLongArrow σ) := by
   have hi : IsIso (duskinComparison σ) := by
     exact (nondegenerate_globalThin_iff_intrinsicInvertible σ hnd).mp hthin
-  letI : IsIso (duskinComparison σ) := hi
-  exact ⟨asIso (duskinComparison σ)⟩
+  exact ⟨@asIso _ _ _ _ (duskinComparison σ) hi⟩
 
 /-- Hence every nondegenerate globally thin triangle produces an invertible local mapping edge. -/
 theorem nondegenerate_globalThin_implies_localInvertibleMappingEdge
