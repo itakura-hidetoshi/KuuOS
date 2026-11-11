@@ -101,7 +101,7 @@ def actionRepresentationNatIso
     (fun _ => e.toEquiv.toIso)
     (by
       intro x y a
-      funext psi
+      ext psi
       exact e.map_smul' a.1 psi)
 
 /--
