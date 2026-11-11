@@ -227,7 +227,6 @@ theorem selectedV598ReverseLeft_jointEq_iff
         selectedV598ReverseLeft_bracket l r J N u L] at hb
       injection hb with hj
       injection hj with ht hunitBracket
-      exact ht
     have hhistory :
         selectedV592OriginalUnitHistory l r M =
           selectedV592OriginalUnitHistory l r L := by
@@ -262,7 +261,6 @@ theorem selectedV598ReverseRight_jointEq_iff
         selectedV598ReverseRight_bracket l r J N u L] at hb
       injection hb with hj
       injection hj with hunitBracket ht
-      exact ht
     have hhistory :
         selectedV592OriginalUnitHistory l r M =
           selectedV592OriginalUnitHistory l r L := by
