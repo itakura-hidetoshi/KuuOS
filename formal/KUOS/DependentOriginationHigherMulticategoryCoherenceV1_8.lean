@@ -4,7 +4,7 @@ namespace KUOS.DependentOriginationHigherMulticategoryCoherenceV1_8
 
 open KUOS.DependentOriginationOperadicMultiConditionV1_7
 
-universe u v w z y
+universe u v w z y vOp
 
 /-!
 # Higher multicategory dependent-origination coherence v1.8
@@ -158,10 +158,10 @@ higher coherence and a compatible set-truncated realization.
 -/
 structure HigherOperadicDependentOriginationExtension
     {Context : Type u} [CategoryTheory.Category.{v} Context]
-    (D : KUOS.DependentOriginationFunctorialTransportV0_1.FunctorialTransportSystem Context) where
-  base : OperadicDependentOriginationExtension D
-  higher : HigherMultiConditionStructure base.signature
-  algebraHigher : HigherMultiConditionAlgebra base.algebra higher
+    (D : KUOS.DependentOriginationFunctorialTransportV0_1.FunctorialTransportSystem.{u, v, w} Context) where
+  base : OperadicDependentOriginationExtension.{u, v, vOp, w} D
+  higher : HigherMultiConditionStructure.{u, vOp, z} base.signature
+  algebraHigher : HigherMultiConditionAlgebra.{u, vOp, w, z} base.algebra higher
 
 namespace HigherOperadicDependentOriginationExtension
 
