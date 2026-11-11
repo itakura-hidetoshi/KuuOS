@@ -123,7 +123,7 @@ set_option backward.isDefEq.respectTransparency false in
       ((SimplexCategory.toCat.map (g.unop ≫ f.unop)).toFunctor) =
     (locallyDiscreteNormalLax ((SimplexCategory.toCat.map g.unop).toFunctor)).comp
       (locallyDiscreteNormalLax ((SimplexCategory.toCat.map f.unop).toFunctor))
-  rw [Functor.map_comp, Cat.Hom.comp_toFunctor]
+  rw [SimplexCategory.toCat.map_comp, Cat.Hom.comp_toFunctor]
   exact locallyDiscreteNormalLax_comp _ _
 
 /--
