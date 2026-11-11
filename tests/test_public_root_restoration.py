@@ -84,7 +84,7 @@ REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
 # Newly added formal modules are outside the frozen v5.291 archive. Their
 # exact draft source blobs are reviewed separately from historical corrections.
 REVIEWED_ADDITIVE_FORMAL_BLOBS = {
-    "KUOS/DependentOriginationLiftedDuskinRoundTripBridgeV1_29.lean": "18e269c3cd3ce14e5e72b0db6238597361e8fc5d",
+    "KUOS/DependentOriginationLiftedDuskinRoundTripBridgeV1_29.lean": "46c94ba02cba6774176809105d135391044f12ae",
     "KUOS/DependentOriginationScaledDuskinUniverseLiftBridgeV1_29.lean": "78b7d2d63dc8137a6143b93579ffcec6c910b06f",
     "KUOS/DependentOriginationScaledHornPresentationInvariantTypedRepairV1_30.lean": "9c87d47b90132c27fd26414402930dda0e5f4229",
 }
