@@ -113,18 +113,18 @@ theorem normalLaxPair_precomp
 
 /-- A simplex of `Δ[1]` is exactly a normal lax functor `[n] -> [1]`. -/
 def intervalNormalLax
-    {Δ : SimplexCategoryᵒᵖ}
-    (t : Δ[1].obj Δ) :
+    {idx : SimplexCategoryᵒᵖ}
+    (t : Δ[1].obj idx) :
     StrictlyUnitaryLaxFunctor
-      (DuskinOrdinal Δ.unop.len) (DuskinOrdinal 1) :=
+      (DuskinOrdinal idx.unop.len) (DuskinOrdinal 1) :=
   locallyDiscreteNormalLax
     (SimplexCategory.toCat.map (SSet.stdSimplex.objEquiv t)).toFunctor
 
 /-- Interval simplices reindex by precomposition, exactly as Duskin simplices do. -/
 theorem intervalNormalLax_reindex
-    {Δ Δ' : SimplexCategoryᵒᵖ}
-    (f : Δ ⟶ Δ')
-    (t : Δ[1].obj Δ) :
+    {idx idx' : SimplexCategoryᵒᵖ}
+    (f : idx ⟶ idx')
+    (t : Δ[1].obj idx) :
     intervalNormalLax (Δ[1].map f t) =
       (duskinReindex f).comp (intervalNormalLax t) := by
   have ht :
@@ -145,7 +145,7 @@ def normalLaxDuskinNerveMap
     {C : Type u₂} [Bicategory.{w₂, v₂} C]
     (P : StrictlyUnitaryLaxFunctor B C) :
     duskinNerve B ⟶ duskinNerve C where
-  app Δ := TypeCat.ofHom fun σ => σ.comp P
+  app idx := TypeCat.ofHom fun σ => σ.comp P
   naturality f := by
     ext σ
     exact StrictlyUnitaryLaxFunctor.comp_assoc (duskinReindex f) σ P
@@ -154,15 +154,15 @@ def normalLaxDuskinNerveMap
     {B : Type u₁} [Bicategory.{w₁, v₁} B]
     {C : Type u₂} [Bicategory.{w₂, v₂} C]
     (P : StrictlyUnitaryLaxFunctor B C)
-    (Δ : SimplexCategoryᵒᵖ)
-    (σ : (duskinNerve B).obj Δ) :
-    (normalLaxDuskinNerveMap P).app Δ σ = σ.comp P := rfl
+    (idx : SimplexCategoryᵒᵖ)
+    (σ : (duskinNerve B).obj idx) :
+    (normalLaxDuskinNerveMap P).app idx σ = σ.comp P := rfl
 
 @[simp] theorem normalLaxDuskinNerveMap_id
     (B : Type u₁) [Bicategory.{w₁, v₁} B] :
     normalLaxDuskinNerveMap (StrictlyUnitaryLaxFunctor.id B) =
       𝟙 (duskinNerve B) := by
-  ext Δ σ
+  ext idx σ
   exact StrictlyUnitaryLaxFunctor.comp_id σ
 
 /-- Duskin nerve transport converts normal-lax composition into simplicial composition. -/
@@ -174,7 +174,7 @@ theorem normalLaxDuskinNerveMap_comp
     (Q : StrictlyUnitaryLaxFunctor C D) :
     normalLaxDuskinNerveMap (P.comp Q) =
       normalLaxDuskinNerveMap P ≫ normalLaxDuskinNerveMap Q := by
-  ext Δ σ
+  ext idx σ
   exact StrictlyUnitaryLaxFunctor.comp_assoc σ P Q
 
 /-! ## Degreewise prism data -/
@@ -190,21 +190,21 @@ structure DuskinPrismFamily
     {C : Type u₂} [Bicategory.{w₂, v₂} C]
     (P Q : StrictlyUnitaryLaxFunctor B C) where
   mixed :
-    ∀ {Δ : SimplexCategoryᵒᵖ},
-      (duskinNerve B).obj Δ → Δ[1].obj Δ → (duskinNerve C).obj Δ
+    ∀ {idx : SimplexCategoryᵒᵖ},
+      (duskinNerve B).obj idx → Δ[1].obj idx → (duskinNerve C).obj idx
   reindex :
-    ∀ {Δ Δ' : SimplexCategoryᵒᵖ}
-      (f : Δ ⟶ Δ') (σ : (duskinNerve B).obj Δ) (t : Δ[1].obj Δ),
+    ∀ {idx idx' : SimplexCategoryᵒᵖ}
+      (f : idx ⟶ idx') (σ : (duskinNerve B).obj idx) (t : Δ[1].obj idx),
       mixed ((duskinNerve B).map f σ) (Δ[1].map f t) =
         (duskinNerve C).map f (mixed σ t)
   endpoint_zero :
-    ∀ (Δ : SimplexCategoryᵒᵖ) (σ : (duskinNerve B).obj Δ),
-      mixed σ ((SSet.ι₀.app Δ σ).2) =
-        (normalLaxDuskinNerveMap P).app Δ σ
+    ∀ (idx : SimplexCategoryᵒᵖ) (σ : (duskinNerve B).obj idx),
+      mixed σ ((SSet.ι₀.app idx σ).2) =
+        (normalLaxDuskinNerveMap P).app idx σ
   endpoint_one :
-    ∀ (Δ : SimplexCategoryᵒᵖ) (σ : (duskinNerve B).obj Δ),
-      mixed σ ((SSet.ι₁.app Δ σ).2) =
-        (normalLaxDuskinNerveMap Q).app Δ σ
+    ∀ (idx : SimplexCategoryᵒᵖ) (σ : (duskinNerve B).obj idx),
+      mixed σ ((SSet.ι₁.app idx σ).2) =
+        (normalLaxDuskinNerveMap Q).app idx σ
 
 namespace DuskinPrismFamily
 
@@ -218,17 +218,17 @@ noncomputable def toHomotopy
       (normalLaxDuskinNerveMap P)
       (normalLaxDuskinNerveMap Q) where
   h :=
-    { app := fun Δ => TypeCat.ofHom fun x => H.mixed x.1 x.2
+    { app := fun idx => TypeCat.ofHom fun x => H.mixed x.1 x.2
       naturality := by
-        intro Δ Δ' f
+        intro idx idx' f
         ext x
         exact H.reindex f x.1 x.2 }
   h₀ := by
-    ext Δ σ
-    exact H.endpoint_zero Δ σ
+    ext idx σ
+    exact H.endpoint_zero idx σ
   h₁ := by
-    ext Δ σ
-    exact H.endpoint_one Δ σ
+    ext idx σ
+    exact H.endpoint_one idx σ
   rel := by
     cat_disch
 
@@ -249,12 +249,12 @@ structure NormalLaxDuskinCylinder
     (P Q : StrictlyUnitaryLaxFunctor B C) where
   cylinder : StrictlyUnitaryLaxFunctor (B × DuskinOrdinal 1) C
   endpoint_zero :
-    ∀ {Δ : SimplexCategoryᵒᵖ} (σ : (duskinNerve B).obj Δ),
-      (normalLaxPair σ (intervalNormalLax ((SSet.ι₀.app Δ σ).2))).comp cylinder =
+    ∀ {idx : SimplexCategoryᵒᵖ} (σ : (duskinNerve B).obj idx),
+      (normalLaxPair σ (intervalNormalLax ((SSet.ι₀.app idx σ).2))).comp cylinder =
         σ.comp P
   endpoint_one :
-    ∀ {Δ : SimplexCategoryᵒᵖ} (σ : (duskinNerve B).obj Δ),
-      (normalLaxPair σ (intervalNormalLax ((SSet.ι₁.app Δ σ).2))).comp cylinder =
+    ∀ {idx : SimplexCategoryᵒᵖ} (σ : (duskinNerve B).obj idx),
+      (normalLaxPair σ (intervalNormalLax ((SSet.ι₁.app idx σ).2))).comp cylinder =
         σ.comp Q
 
 namespace NormalLaxDuskinCylinder
@@ -265,10 +265,10 @@ def mixed
     {C : Type u₂} [Bicategory.{w₂, v₂} C]
     {P Q : StrictlyUnitaryLaxFunctor B C}
     (H : NormalLaxDuskinCylinder P Q)
-    {Δ : SimplexCategoryᵒᵖ}
-    (σ : (duskinNerve B).obj Δ)
-    (t : Δ[1].obj Δ) :
-    (duskinNerve C).obj Δ :=
+    {idx : SimplexCategoryᵒᵖ}
+    (σ : (duskinNerve B).obj idx)
+    (t : Δ[1].obj idx) :
+    (duskinNerve C).obj idx :=
   (normalLaxPair σ (intervalNormalLax t)).comp H.cylinder
 
 /-- A normal-lax cylinder supplies all prism reindexing laws automatically. -/
@@ -280,7 +280,7 @@ def toPrismFamily
     DuskinPrismFamily P Q where
   mixed := H.mixed
   reindex := by
-    intro Δ Δ' f σ t
+    intro idx idx' f σ t
     change
       (normalLaxPair ((duskinReindex f).comp σ)
           (intervalNormalLax (Δ[1].map f t))).comp H.cylinder =
@@ -291,10 +291,10 @@ def toPrismFamily
     exact StrictlyUnitaryLaxFunctor.comp_assoc
       (duskinReindex f) (normalLaxPair σ (intervalNormalLax t)) H.cylinder
   endpoint_zero := by
-    intro Δ σ
+    intro idx σ
     exact H.endpoint_zero σ
   endpoint_one := by
-    intro Δ σ
+    intro idx σ
     exact H.endpoint_one σ
 
 /-- Hence every certified normal-lax cylinder induces a native `SSet.Homotopy`. -/
