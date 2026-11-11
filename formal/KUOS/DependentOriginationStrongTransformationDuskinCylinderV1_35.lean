@@ -71,6 +71,17 @@ private theorem productEqToHomSnd
   cases h
   rfl
 
+/-- The product of canonical equality morphisms is the canonical product morphism. -/
+private theorem productEqToHomMk
+    {D : Type u₁} [Category.{v₁} D]
+    {E : Type u₂} [Category.{v₂} E]
+    {X Y : D} {X' Y' : E} (h : X = Y) (h' : X' = Y') :
+    (eqToHom h ×ₘ eqToHom h') =
+      (eqToHom (_root_.Prod.ext h h') : (X, X') ⟶ (Y, Y')) := by
+  cases h
+  cases h'
+  rfl
+
 /-! ## Pairing normal lax functors -/
 
 /-- Pair normal lax functors with a common source into the product bicategory. -/
@@ -142,7 +153,12 @@ theorem normalLaxPair_precomp
     cases h
     simp [StrictlyUnitaryLaxFunctor.mapId_eq_eqToHom,
       StrictlyUnitaryLaxFunctor.comp, normalLaxPair,
-      PrelaxFunctor.map₂_eqToHom]
+      PrelaxFunctor.map₂_eqToHom, productEqToHomMk,
+      eqToHom_trans, eqToHom_comp_heq_iff]
+    all_goals
+      first
+      | rfl
+      | exact (eqToHom_heq_id_dom _ _ _).trans (eqToHom_heq_id_dom _ _ _).symm
 
 /-! ## The interval as a normal lax functor -/
 
