@@ -165,9 +165,7 @@ theorem normalLaxPair_precomp
     all_goals
       first
       | rfl
-      | exact eqToHomHEqSameSource
-          (D := ((F.obj (H.obj a), G.obj (H.obj a)) ⟶
-            (F.obj (H.obj a), G.obj (H.obj a)))) _ _
+      | apply eqToHomHEqSameSource
 
 /-! ## The interval as a normal lax functor -/
 
