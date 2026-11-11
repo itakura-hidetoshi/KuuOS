@@ -63,14 +63,14 @@ def actionRepresentationFunctor
     [Group Gauge] [MulAction Gauge X] [MulAction Gauge Fiber] :
     ActionContext Gauge X ⥤ Type v where
   obj _ := Fiber
-  map f := fun psi => f.1 • psi
+  map f := TypeCat.ofHom (fun psi : Fiber => f.1 • psi)
   map_id := by
     intro x
-    funext psi
+    ext psi
     simp [ActionArrow.id]
   map_comp := by
     intro x y z f g
-    funext psi
+    ext psi
     simp [ActionArrow.comp, mul_smul]
 
 /--
