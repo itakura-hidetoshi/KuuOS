@@ -38,11 +38,12 @@ PR2339_INTEGRATED_PROOF_BLOBS = {
 }
 
 
-# V1.2 exact-source Lean4 calc repair: frozen legacy copy remains unchanged.
+# Reviewed Lean4 source repairs (v1.2 calc and v1.3 parser): frozen legacy stays unchanged.
 # The original full source and both proof transitions are preserved in Git history.
 # Explicit SHA enrollment is a review gate, never proof of Lean correctness.
 REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
     "KUOS/DependentOriginationRefinementTransitivityV1_2.lean": "5247d279787292ee350d9c676ff76094ba4abc57",
+    "KUOS/DependentOriginationDirectedCofinalSemanticsV1_3.lean": "a69dec229ffd33368d5a4750882582c127f9f3f3",
 }
 
 
