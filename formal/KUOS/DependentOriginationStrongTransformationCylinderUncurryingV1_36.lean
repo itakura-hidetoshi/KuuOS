@@ -960,6 +960,14 @@ noncomputable def strongTransformationDuskinCylinder
           strongTransformationNormalLaxCylinder,
           strongTransformationCylinder, strongCylinderCore,
           cylinderObj, cylinderMap, cylinderMap₂, cylinderMapComp]
+        -- Equality-induced two-cells with a common source are HEq.
+        -- This does not assert endpoint or universe compatibility.
+        all_goals
+          first
+          | rfl
+          | exact (eqToHom_heq_id_dom _ _ _).trans
+              (eqToHom_heq_id_dom _ _ _).symm
+          | skip
   endpoint_one := by
     intro _idx σ
     -- Rewrite before dependent fields are elaborated, not inside their HEq goals.
@@ -1053,6 +1061,14 @@ noncomputable def strongTransformationDuskinCylinder
           strongTransformationNormalLaxCylinder,
           strongTransformationCylinder, strongCylinderCore,
           cylinderObj, cylinderMap, cylinderMap₂, cylinderMapComp]
+        -- Equality-induced two-cells with a common source are HEq.
+        -- This does not assert endpoint or universe compatibility.
+        all_goals
+          first
+          | rfl
+          | exact (eqToHom_heq_id_dom _ _ _).trans
+              (eqToHom_heq_id_dom _ _ _).symm
+          | skip
 
 /-! ## Quasi-inverse specialization -/
 
