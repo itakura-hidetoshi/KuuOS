@@ -720,10 +720,14 @@ private def strongCylinderCore
                             Bicategory.whiskerLeft_inv_hom,
                             Bicategory.inv_hom_whiskerRight,
                             Category.comp_id, Category.id_comp]
-                          -- Fully expose composite Iso wrappers after NF.
+                          -- First simplify the identity 2-cells exposed by
+                          -- the composite-Iso constructors; these are actual
+                          -- pinned bicategory laws, not pseudonaturality axioms.
                           dsimp only [Iso.trans, Iso.symm, Iso.refl,
                             whiskerRightIso, whiskerLeftIso]
-                          trace_state
+                          simp only [Bicategory.whiskerLeft_id,
+                            Bicategory.id_whiskerRight,
+                            Category.comp_id, Category.id_comp]
                           bicategory
     | succ i =>
         have hi : i = (0 : Fin 1) := Subsingleton.elim _ _
