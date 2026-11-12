@@ -69,7 +69,7 @@ theorem sourceRoundTrip_pairwise_map
       exact congrArg ULift.up
         (StrictlyUnitaryLaxFunctor.comp_assoc σ
           F.forward.toStrictlyUnitaryLaxFunctor
-          G.forward.toStrictlyUnitaryLaxFunctor).symm
+          G.forward.toStrictlyUnitaryLaxFunctor
 
 /-- The genuine C/B lifted target round-trip equals its ambient self-map. -/
 theorem targetRoundTrip_pairwise_map
@@ -91,7 +91,7 @@ theorem targetRoundTrip_pairwise_map
       exact congrArg ULift.up
         (StrictlyUnitaryLaxFunctor.comp_assoc σ
           G.forward.toStrictlyUnitaryLaxFunctor
-          F.forward.toStrictlyUnitaryLaxFunctor).symm
+          F.forward.toStrictlyUnitaryLaxFunctor
 
 #print axioms ambientNormalLaxEndo_id
 #print axioms sourceRoundTrip_pairwise_map
