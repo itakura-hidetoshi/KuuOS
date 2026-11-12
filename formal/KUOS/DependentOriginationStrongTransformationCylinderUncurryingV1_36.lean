@@ -943,7 +943,7 @@ noncomputable def strongTransformationDuskinCylinder
       · rw! (castMode := .all) [hObj]
         -- The scalar endpoint equation cannot reduce proof-dependent Fin.cases.
         -- Normalize the full typed interval functor before its coherence fields.
-        simp only [intervalNormalLax_zero_eq_constant σ, heq_iff_eq]
+        try simp only [intervalNormalLax_zero_eq_constant σ, heq_iff_eq]
         -- The remaining dependent coherence fields may still be HEq;
         -- ordinary ext works only after their types are definitionally equal.
         first
@@ -1034,7 +1034,7 @@ noncomputable def strongTransformationDuskinCylinder
     all_goals
       · rw! (castMode := .all) [hObj]
         -- The full constant interval functor makes the one-end cases reducible.
-        simp only [intervalNormalLax_one_eq_constant σ, heq_iff_eq]
+        try simp only [intervalNormalLax_one_eq_constant σ, heq_iff_eq]
         first
         | ext
         | apply Function.hfunext rfl
