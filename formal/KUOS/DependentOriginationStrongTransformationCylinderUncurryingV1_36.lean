@@ -720,6 +720,10 @@ private def strongCylinderCore
                             Bicategory.whiskerLeft_inv_hom,
                             Bicategory.inv_hom_whiskerRight,
                             Category.comp_id, Category.id_comp]
+                          -- Fully expose composite Iso wrappers after NF.
+                          dsimp only [Iso.trans, Iso.symm, Iso.refl,
+                            whiskerRightIso, whiskerLeftIso]
+                          trace_state
                           bicategory
     | succ i =>
         have hi : i = (0 : Fin 1) := Subsingleton.elim _ _
