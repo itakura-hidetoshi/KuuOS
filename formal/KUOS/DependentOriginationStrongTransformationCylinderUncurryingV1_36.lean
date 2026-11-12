@@ -705,6 +705,9 @@ private def strongCylinderCore
                         -- leaves a typed residual to simplify instead.
                         bicategory
                         all_goals
+                          -- Normalize the structural part of the residual
+                          -- before simplifying invertible whiskered cells.
+                          bicategory_nf
                           dsimp only [Iso.trans, Iso.symm, Iso.refl,
                             whiskerRightIso, whiskerLeftIso]
                           simp only [Category.assoc,
