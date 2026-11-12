@@ -78,16 +78,18 @@ theorem endpointIntoAttachment_ι_zero
     (n : Nat) (i : Fin (n + 1)) :
     endpointIntoAttachment n i 0 ≫ (hornCylinderAttachment n i 0).ι =
       (SSet.ι₀ : (Δ[n] : SSet.{u}) ⟶ (Δ[n] : SSet.{u}) ⊗ Δ[1]) := by
-  ext m x
-  rfl
+  ext m x <;>
+    simp [endpointIntoAttachment, endpointSection, intervalEndpoint,
+      SSet.Subcomplex.ofSimplex_ι, SSet.ι₀]
 
 @[simp, reassoc]
 theorem endpointIntoAttachment_ι_one
     (n : Nat) (i : Fin (n + 1)) :
     endpointIntoAttachment n i 1 ≫ (hornCylinderAttachment n i 1).ι =
       (SSet.ι₁ : (Δ[n] : SSet.{u}) ⟶ (Δ[n] : SSet.{u}) ⊗ Δ[1]) := by
-  ext m x
-  rfl
+  ext m x <;>
+    simp [endpointIntoAttachment, endpointSection, intervalEndpoint,
+      SSet.Subcomplex.ofSimplex_ι, SSet.ι₁]
 
 /-! ## Canonical pushout gluing of endpoint simplex and horn homotopy -/
 
@@ -121,7 +123,8 @@ theorem forwardAttachment_compatibility
   rcases z with ⟨x, t⟩
   have hH := ConcreteCategory.congr_hom (congr_app H.h₀ m) x
   have hQ := ConcreteCategory.congr_hom (congr_app Q.boundary_eq m) x
-  simpa [endpointTensorMap, intervalEndpoint] using hQ.symm.trans hH.symm
+  simpa [endpointTensorMap, intervalEndpoint,
+    SSet.Subcomplex.ofSimplex_ι, SSet.ι₀] using hQ.symm.trans hH.symm
 
 /-- Compatibility on `Λ[n,i] × {1}` for the backward attachment. -/
 theorem backwardAttachment_compatibility
@@ -139,7 +142,8 @@ theorem backwardAttachment_compatibility
   rcases z with ⟨x, t⟩
   have hH := ConcreteCategory.congr_hom (congr_app H.h₁ m) x
   have hQ := ConcreteCategory.congr_hom (congr_app Q.boundary_eq m) x
-  simpa [endpointTensorMap, intervalEndpoint] using hQ.symm.trans hH.symm
+  simpa [endpointTensorMap, intervalEndpoint,
+    SSet.Subcomplex.ofSimplex_ι, SSet.ι₁] using hQ.symm.trans hH.symm
 
 /-- The canonical forward attachment map obtained from the pushout. -/
 noncomputable def forwardAttachmentMap
@@ -181,8 +185,12 @@ theorem forwardAttachmentMap_on_endpoint
     (H : f.Homotopy g)
     (Q : ScaledHornBoundaryRealization sX sΔ f) :
     endpointIntoAttachment n i 0 ≫ forwardAttachmentMap H Q = Q.simplexMap := by
-  simp [endpointIntoAttachment, endpointSection, forwardAttachmentMap,
-    endpointTensorMap]
+  calc
+    _ = endpointSection n 0 ≫ endpointTensorMap 0 Q := by
+      simp only [endpointIntoAttachment, forwardAttachmentMap,
+        Category.assoc, IsPushout.inl_desc]
+    _ = Q.simplexMap := by
+      simp [endpointSection, endpointTensorMap]
 
 @[simp, reassoc]
 theorem backwardAttachmentMap_on_endpoint
@@ -194,8 +202,12 @@ theorem backwardAttachmentMap_on_endpoint
     (H : f.Homotopy g)
     (Q : ScaledHornBoundaryRealization sX sΔ g) :
     endpointIntoAttachment n i 1 ≫ backwardAttachmentMap H Q = Q.simplexMap := by
-  simp [endpointIntoAttachment, endpointSection, backwardAttachmentMap,
-    endpointTensorMap]
+  calc
+    _ = endpointSection n 1 ≫ endpointTensorMap 1 Q := by
+      simp only [endpointIntoAttachment, backwardAttachmentMap,
+        Category.assoc, IsPushout.inl_desc]
+    _ = Q.simplexMap := by
+      simp [endpointSection, endpointTensorMap]
 
 @[simp, reassoc]
 theorem forwardAttachmentMap_on_horn
@@ -277,9 +289,11 @@ v1.39. -/
       rw [← endpointIntoAttachment_ι_zero n i, Category.assoc, hE,
         forwardAttachmentMap_on_endpoint]
     on_horn := by
-      rw [← SSet.Subcomplex.unionProd.ι₂_ι
-        (SSet.horn n i) (intervalEndpoint 0), Category.assoc, hE,
-        forwardAttachmentMap_on_horn]
+      change
+        SSet.Subcomplex.unionProd.ι₂ (SSet.horn n i) (intervalEndpoint 0) ≫
+          ((hornCylinderAttachment n i 0).ι ≫ E) = H.h
+      rw [hE]
+      exact forwardAttachmentMap_on_horn H Q
     endpoint_one_scaled := hScaled
   }⟩
 
@@ -306,9 +320,11 @@ v1.39. -/
       rw [← endpointIntoAttachment_ι_one n i, Category.assoc, hE,
         backwardAttachmentMap_on_endpoint]
     on_horn := by
-      rw [← SSet.Subcomplex.unionProd.ι₂_ι
-        (SSet.horn n i) (intervalEndpoint 1), Category.assoc, hE,
-        backwardAttachmentMap_on_horn]
+      change
+        SSet.Subcomplex.unionProd.ι₂ (SSet.horn n i) (intervalEndpoint 1) ≫
+          ((hornCylinderAttachment n i 1).ι ≫ E) = H.h
+      rw [hE]
+      exact backwardAttachmentMap_on_horn H Q
     endpoint_zero_scaled := hScaled
   }⟩
 

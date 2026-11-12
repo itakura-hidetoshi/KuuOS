@@ -2,6 +2,9 @@ import Mathlib.AlgebraicTopology.SimplicialSet.AnodyneExtensions.Op
 import Mathlib.AlgebraicTopology.SimplicialSet.AnodyneExtensions.Rank
 import Mathlib.AlgebraicTopology.SimplicialSet.Boundary
 import Mathlib.AlgebraicTopology.SimplicialSet.Horn
+import Mathlib.AlgebraicTopology.SimplicialSet.Monoidal
+import Mathlib.AlgebraicTopology.SimplicialSet.AnodyneExtensions.RelativeCellComplex
+import Mathlib.AlgebraicTopology.SimplicialSet.AnodyneExtensions.RankNat
 
 /-!
 KuuOS validation-only compatibility port of Mathlib UnionProd.
@@ -216,7 +219,7 @@ variable {x} {hd : x.dim = d + 1} {l : Fin (d + 1)} (hl : IsIndex x hd l.succ)
 
 include hl
 
-set_option backward.isDefEq.respectTransparency.types false in
+set_option backward.isDefEq.respectTransparency false in
 /-- The type (II) simplex obtained as a face of a type (I) simplex. -/
 @[simps -isSimp]
 noncomputable abbrev δ :
@@ -333,7 +336,7 @@ lemma φ_of_gt (i : Fin (d + 2)) (hi : (min x hd).castSucc < i) :
     φ x hd i = objEquiv (x.cast hd).simplex (i.pred (by aesop)) := by
   rw [φ_of_ne _ _ _ hi.ne', Fin.predAbove_of_castSucc_lt _ _ hi]
 
-set_option backward.isDefEq.respectTransparency.types false in
+set_option backward.isDefEq.respectTransparency false in
 @[simp]
 lemma φ_succ_snd : (φ x hd (min x hd).succ).2 = (φ x hd (min x hd).castSucc).2 := by
   have := φ_succAbove x hd (min x hd)
@@ -448,7 +451,7 @@ lemma min_δ : min (d := d) hl.δ rfl = l := by
     rw [Fin.succAbove_of_castSucc_lt _ _ (by grind)] at hy
     grind [(hl.succ_le_simplex_fst_iff y.castSucc).1 hy.symm.le]
 
-set_option backward.isDefEq.respectTransparency.types false in
+set_option backward.isDefEq.respectTransparency false in
 lemma isType₂_δ : IsType₂ hl.δ := by
   intro _ rfl t ht
   dsimp at t ht
@@ -586,7 +589,7 @@ lemma type₁_pairingCore {m : ℕ} (k : Fin (m + 1)) {n : ℕ}
     (pairingCore k n).type₁ s = s.x :=
   Subcomplex.N.cast_eq_self _ s.hd
 
-set_option backward.isDefEq.respectTransparency.types false in
+set_option backward.isDefEq.respectTransparency false in
 set_option backward.defeqAttrib.useBackward true in
 /-- A weak rank function for `pairingCore k n`. -/
 noncomputable def weakRankFunction {m : ℕ} (k : Fin (m + 1)) (n : ℕ) :
@@ -681,7 +684,7 @@ lemma pairing_castSucc {m : ℕ} (k : Fin (m + 1)) (n : ℕ) :
     pairing.{u} k.castSucc n = (pairingCore.{u} k n).pairing :=
   dite_eq_right (by grind)
 
-set_option backward.isDefEq.respectTransparency.types false in
+set_option backward.isDefEq.respectTransparency false in
 instance {m : ℕ} (k : Fin (m + 2)) (n : ℕ) :
     (pairing.{u} k n).IsRegular := by
   by_cases! hk : k = Fin.last (m + 1)
