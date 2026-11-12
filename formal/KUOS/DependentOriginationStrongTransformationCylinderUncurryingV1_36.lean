@@ -3,6 +3,7 @@ import Mathlib.Tactic
 import KUOS.DependentOriginationMixedWhiskerPastingV1_36
 import KUOS.DependentOriginationMixedLeftUnitorPastingV1_36
 import KUOS.DependentOriginationMixedRightUnitorPastingV1_36
+import KUOS.DependentOriginationPairwiseNormalLaxRoundTripBridgeV1_36
 
 namespace KUOS.DependentOriginationStrongTransformationCylinderUncurryingV1_36
 
@@ -18,6 +19,7 @@ open KUOS.DependentOriginationStrictlyUnitaryDuskinModelTransportV1_27
 open KUOS.DependentOriginationCoherentNormalizedScaledModelEquivalenceV1_32
 open KUOS.DependentOriginationGlobalDuskinPrismHomotopyV1_34
 open KUOS.DependentOriginationStrongTransformationDuskinCylinderV1_35
+open KUOS.DependentOriginationPairwiseNormalLaxRoundTripBridgeV1_36
 
 universe u₁ u₂ v₁ v₂ w₁ w₂
 
@@ -1140,12 +1142,12 @@ noncomputable def globalDuskinRoundTripPrismRealization
     {G : StrictlyUnitaryBicategoricalModelEquivalence C B}
     (K : NormalizedCoherentQuasiInverse F G) :
     GlobalDuskinRoundTripPrismRealization K where
-  sourcePrism := by
-    simpa [normalLaxDuskinNerveMap_comp] using
-      (strongQuasiInverseNormalLaxCylinder K).sourcePrism
-  targetPrism := by
-    simpa [normalLaxDuskinNerveMap_comp] using
-      (strongQuasiInverseNormalLaxCylinder K).targetPrism
+  sourcePrism :=
+    sourceRoundTrip_pairwise_prism F G
+      (strongQuasiInverseNormalLaxCylinder K).sourceCylinder
+  targetPrism :=
+    targetRoundTrip_pairwise_prism F G
+      (strongQuasiInverseNormalLaxCylinder K).targetCylinder
 
 /-!
 The prism side is now closed without hornwise choices:
@@ -1153,7 +1155,8 @@ The prism side is now closed without hornwise choices:
 `Pseudofunctor.StrongTrans`
   -> canonical strictly-unitary pseudofunctor cylinder
   -> canonical normal-lax cylinder
-  -> canonical native `SSet.Homotopy`
+  -> native B/B and C/C `SSet.Homotopy`
+  -> re-evaluation on actual pairwise B/C and C/B ULift carriers
   -> global Duskin round-trip prism
   -> every hornwise round-trip homotopy.
 
