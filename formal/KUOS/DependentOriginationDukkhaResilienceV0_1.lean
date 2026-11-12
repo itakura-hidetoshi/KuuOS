@@ -1,13 +1,11 @@
 import KUOS.DependentOriginationGrayC60WuxingFeedbackBalanceV5_169
 import KUOS.Architecture.QiWorldYinYangProcessBlockerComplementarityV2_3
-import KUOS.CoreGovernance.Invariants
 
 namespace KUOS.DependentOriginationDukkhaResilienceV0_1
 
 open KUOS.DependentOriginationGrayC60WuxingPentagramQuiverV5_169
 open KUOS.DependentOriginationGrayC60WuxingFeedbackBalanceV5_169
 open KUOS.Architecture
-open KUOS.CoreGovernance
 
 set_option autoImplicit false
 noncomputable section
@@ -17,7 +15,11 @@ noncomputable section
 
 This is an additive research bridge. The ORIGINAL five-phase Sheng/Ke
 quiver, its signed-feedback sum-of-squares theorem, the relational
-Yin/Yang gate and the core Dukkha visibility types remain unchanged.
+Yin/Yang gate remain unchanged. The legacy CoreGovernance DukkhaState
+module currently fails standalone Strict Lean compilation at line 130
+(Decidable synthesis for no_world_replaces_fourfold_core). Its source is
+not modified here; a scoped visibility witness is used instead. No
+equivalence with that blocked legacy type is claimed.
 
 Dukkha is NOT an externally imposed disturbance d(t). The eight
 components belong to a context- and history-dependent internal readout.
@@ -92,9 +94,10 @@ structure DukkhaResilienceFrame (Context : Type u) (History : Type v) where
   signal : WuxingPhase → ℝ
   residualOf : Context → History → DukkhaResidual
   residualNonnegative : (residualOf context history).Nonnegative
-  visibility : DukkhaState
-  dukkhaVisible : dukkha_visibility_preserved visibility
-  harmVisible : harm_visibility_preserved visibility
+  dukkhaVisible : Bool
+  harmVisible : Bool
+  dukkhaVisibilityCertified : dukkhaVisible = true
+  harmVisibilityCertified : harmVisible = true
 
 namespace DukkhaResilienceFrame
 
@@ -180,9 +183,8 @@ theorem quadraticRate_nonpositive_of_budget
     conditional quadratic-rate certificate holds. -/
 theorem visibility_not_erased
     (s : DukkhaResilienceFrame Context History) :
-    dukkha_visibility_preserved s.visibility ∧
-    harm_visibility_preserved s.visibility :=
-  ⟨s.dukkhaVisible, s.harmVisible⟩
+    s.dukkhaVisible = true ∧ s.harmVisible = true :=
+  ⟨s.dukkhaVisibilityCertified, s.harmVisibilityCertified⟩
 
 /-- Yin/Yang is a separate process/capacity/obstruction gate.
     Combining two local mathematical certificates does NOT confer
@@ -196,12 +198,12 @@ theorem yinyang_gated_quadratic_nonincrease
     gate.effectiveQi = gate.qiIntensity ∧
     gate.grantsExecution = false ∧
     gate.grantsTruth = false ∧
-    harm_visibility_preserved s.visibility := by
+    s.harmVisible = true := by
   exact ⟨s.quadraticRate_nonpositive_of_budget hbudget,
     gate.effectiveQi_eq_of_admissible hgate,
     gate.no_execution_authority,
     gate.no_truth_authority,
-    s.harmVisible⟩
+    s.harmVisibilityCertified⟩
 
 end DukkhaResilienceFrame
 
@@ -224,9 +226,10 @@ def positiveHarmFrame : DukkhaResilienceFrame Unit Unit where
   residualNonnegative := by
     intro p
     cases p <;> norm_num [DukkhaResidual.Nonnegative]
-  visibility := { dukkhaVisibility := .visible, harmVisibility := .visible }
-  dukkhaVisible := rfl
-  harmVisible := rfl
+  dukkhaVisible := true
+  harmVisible := true
+  dukkhaVisibilityCertified := rfl
+  harmVisibilityCertified := rfl
 
 /-- Without the explicit budget, even a nonnegative, fully visible
     INTERNAL suffering pattern can raise the quadratic-rate proxy. -/
