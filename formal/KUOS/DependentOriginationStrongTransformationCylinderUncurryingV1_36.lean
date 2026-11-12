@@ -800,8 +800,7 @@ noncomputable def strongTransformationDuskinCylinder
     have hIntervalZero (X : DuskinOrdinal _idx.unop.len) :
         ((intervalNormalLax ((SSet.ι₀.app _idx σ).2)).obj X).as =
           (0 : Fin 2) := by
-      change ((SSet.ι₀.app _idx σ).2) X.as = 0
-      exact SSet.ι₀_app_snd_apply σ X.as
+      rfl
     -- Explicitly identify the complete object map before transporting
     -- the dependent hom/map₂/mapId/mapComp fields.
     have hObj :
@@ -829,8 +828,7 @@ noncomputable def strongTransformationDuskinCylinder
     have hIntervalOne (X : DuskinOrdinal _idx.unop.len) :
         ((intervalNormalLax ((SSet.ι₁.app _idx σ).2)).obj X).as =
           (1 : Fin 2) := by
-      change ((SSet.ι₁.app _idx σ).2) X.as = 1
-      exact SSet.ι₁_app_snd_apply σ X.as
+      rfl
     have hObj :
         ((normalLaxPair σ
             (intervalNormalLax ((SSet.ι₁.app _idx σ).2))).comp
