@@ -10,6 +10,7 @@ import KUOS.DependentOriginationStrongTransformationDuskinCylinderV1_35
 import KUOS.DependentOriginationMixedWhiskerPastingV1_36
 import KUOS.DependentOriginationMixedLeftUnitorPastingV1_36
 import KUOS.DependentOriginationMixedRightUnitorPastingV1_36
+import KUOS.DependentOriginationPairwiseNormalLaxRoundTripBridgeV1_36
 
 /-!
 # Strict typechecker audit for v1.30–v1.32 typed scaled-horn repair
@@ -64,3 +65,8 @@ certificates or unconditional fibrancy. No new axioms are admitted.
 
 /-! ## Typed mixed right-unitor identity-natural pasting -/
 #print axioms KUOS.DependentOriginationMixedRightUnitorPastingV1_36.mixedRightUnitorPasting
+
+/-! ## Pairwise B/C and C/B normalized round-trip map compatibility (no homotopy lift) -/
+#print axioms KUOS.DependentOriginationPairwiseNormalLaxRoundTripBridgeV1_36.ambientNormalLaxEndo_id
+#print axioms KUOS.DependentOriginationPairwiseNormalLaxRoundTripBridgeV1_36.sourceRoundTrip_pairwise_map
+#print axioms KUOS.DependentOriginationPairwiseNormalLaxRoundTripBridgeV1_36.targetRoundTrip_pairwise_map
