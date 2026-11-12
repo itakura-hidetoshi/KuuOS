@@ -915,23 +915,15 @@ noncomputable def strongTransformationDuskinCylinder
       apply Function.hfunext rfl
       intro θ θ' hθ
       cases hθ
-      -- The Fin.cases motive is indexed by toPrefunctor.1, not
-      -- the obj notation in hIntervalZeroObj. State its index
-      -- equality directly before normalizing the dependent recursors.
-      have hIX :
-          ((intervalNormalLax ((SSet.ι₀.app _idx σ).2)).toPrefunctor.1 X).as =
-            (0 : Fin 2) := hIntervalZero X
-      have hIY :
-          ((intervalNormalLax ((SSet.ι₀.app _idx σ).2)).toPrefunctor.1 Y).as =
-            (0 : Fin 2) := hIntervalZero Y
-      -- Apply the two genuine dependent index transports first. The
-      -- strong recursor is not reduced merely by simp on its motives.
-      first
-      | rw! (castMode := .all) [hIX, hIY]
-      | simp only [hIX, hIY]
-      first
-      | rw! (castMode := .all) [hIntervalZeroObj X, hIntervalZeroObj Y]
-      | simp only [hIntervalZeroObj X, hIntervalZeroObj Y]
+      -- Rewrite the entire interval normal-lax functor before attempting
+      -- to reduce the dependent Fin.cases motive. The typed Functor.ext
+      -- witnesses replace both its object and morphism components.
+      rw [intervalNormalLax_zero_eq_constant σ]
+      simp [normalLaxPair, constantIntervalFunctor,
+        locallyDiscreteNormalLax,
+        strongTransformationNormalLaxCylinder,
+        strongTransformationCylinder, strongCylinderCore,
+        cylinderObj, cylinderMap, cylinderMap₂]
       -- Remaining goals are retained and checked independently below.
       all_goals
         first
