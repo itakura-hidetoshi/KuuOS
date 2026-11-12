@@ -9,6 +9,7 @@ open MonoidalCategory
 open CartesianMonoidalCategory
 open Simplicial
 open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
+open KUOS.DependentOriginationBiequivalencePresentationInvariantV1_26
 open KUOS.DependentOriginationGlobalDuskinScaledHornCoherenceV1_22
 open KUOS.DependentOriginationHomotopyClassScaledHornInvariantV1_37
 open KUOS.DependentOriginationHomotopyClassStrictificationV1_38
@@ -76,7 +77,7 @@ noncomputable def endpointIntoAttachment
 theorem endpointIntoAttachment_ι_zero
     (n : Nat) (i : Fin (n + 1)) :
     endpointIntoAttachment n i 0 ≫ (hornCylinderAttachment n i 0).ι =
-      (ι₀ : (Δ[n] : SSet.{u}) ⟶ (Δ[n] : SSet.{u}) ⊗ Δ[1]) := by
+      (SSet.ι₀ : (Δ[n] : SSet.{u}) ⟶ (Δ[n] : SSet.{u}) ⊗ Δ[1]) := by
   ext m x
   rfl
 
@@ -84,7 +85,7 @@ theorem endpointIntoAttachment_ι_zero
 theorem endpointIntoAttachment_ι_one
     (n : Nat) (i : Fin (n + 1)) :
     endpointIntoAttachment n i 1 ≫ (hornCylinderAttachment n i 1).ι =
-      (ι₁ : (Δ[n] : SSet.{u}) ⟶ (Δ[n] : SSet.{u}) ⊗ Δ[1]) := by
+      (SSet.ι₁ : (Δ[n] : SSet.{u}) ⟶ (Δ[n] : SSet.{u}) ⊗ Δ[1]) := by
   ext m x
   rfl
 
@@ -238,7 +239,7 @@ structure ForwardScaledHornAttachmentLifting
       ∃ extension : (Δ[n] : SSet.{u}) ⊗ Δ[1] ⟶ X,
         (hornCylinderAttachment n i 0).ι ≫ extension =
             forwardAttachmentMap H Q ∧
-        IsScaledMap sΔ sX (ι₁ ≫ extension)
+        IsScaledMap sΔ sX (SSet.ι₁ ≫ extension)
 
 /-- Backward extension of the endpoint-1 attachment map, with scaled endpoint 0. -/
 structure BackwardScaledHornAttachmentLifting
@@ -253,18 +254,18 @@ structure BackwardScaledHornAttachmentLifting
       ∃ extension : (Δ[n] : SSet.{u}) ⊗ Δ[1] ⟶ X,
         (hornCylinderAttachment n i 1).ι ≫ extension =
             backwardAttachmentMap H Q ∧
-        IsScaledMap sΔ sX (ι₀ ≫ extension)
+        IsScaledMap sΔ sX (SSet.ι₀ ≫ extension)
 
 namespace ForwardScaledHornAttachmentLifting
 
 /-- Attachment lifting implies the forward cylinder-extension interface of
 v1.39. -/
-noncomputable def toCylinderExtension
+@[reducible] noncomputable def toCylinderExtension
     {X : SSet.{u}}
     {sX : ScaledSimplicialSet X}
     {n : Nat} {i : Fin (n + 1)}
     {sΔ : ScaledSimplicialSet (Δ[n] : SSet.{u})}
-    (R : ForwardScaledHornAttachmentLifting sX sΔ)
+    (R : ForwardScaledHornAttachmentLifting (i := i) sX sΔ)
     {f g : HornRelativeMap X n i}
     (H : f.Homotopy g)
     (Q : ScaledHornBoundaryRealization sX sΔ f) :
@@ -288,12 +289,12 @@ namespace BackwardScaledHornAttachmentLifting
 
 /-- Attachment lifting implies the backward cylinder-extension interface of
 v1.39. -/
-noncomputable def toCylinderExtension
+@[reducible] noncomputable def toCylinderExtension
     {X : SSet.{u}}
     {sX : ScaledSimplicialSet X}
     {n : Nat} {i : Fin (n + 1)}
     {sΔ : ScaledSimplicialSet (Δ[n] : SSet.{u})}
-    (R : BackwardScaledHornAttachmentLifting sX sΔ)
+    (R : BackwardScaledHornAttachmentLifting (i := i) sX sΔ)
     {f g : HornRelativeMap X n i}
     (H : f.Homotopy g)
     (Q : ScaledHornBoundaryRealization sX sΔ g) :
@@ -319,14 +320,14 @@ structure ScaledHornProblemAttachmentLifting
     (sX : ScaledSimplicialSet X)
     {n : Nat} {i : Fin (n + 1)}
     (P : ScaledHornExtensionProblem X sX n i) : Prop where
-  forward : ForwardScaledHornAttachmentLifting sX P.simplexScaling
-  backward : BackwardScaledHornAttachmentLifting sX P.simplexScaling
+  forward : ForwardScaledHornAttachmentLifting (i := i) sX P.simplexScaling
+  backward : BackwardScaledHornAttachmentLifting (i := i) sX P.simplexScaling
 
 namespace ScaledHornProblemAttachmentLifting
 
 /-- Canonical attachment lifting recovers the two-sided cylinder extension of
 v1.39. -/
-noncomputable def toCylinderExtension
+@[reducible] noncomputable def toCylinderExtension
     {X : SSet.{u}}
     {sX : ScaledSimplicialSet X}
     {n : Nat} {i : Fin (n + 1)}
@@ -341,7 +342,7 @@ noncomputable def toCylinderExtension
     exact R.backward.toCylinderExtension H Q
 
 /-- Therefore attachment lifting already strictifies homotopy-class fillers. -/
-noncomputable def toStrictification
+@[reducible] noncomputable def toStrictification
     {X : SSet.{u}}
     {sX : ScaledSimplicialSet X}
     {n : Nat} {i : Fin (n + 1)}
@@ -368,7 +369,7 @@ structure ScaledHornFamilyAttachmentLifting
 
 namespace ScaledHornFamilyAttachmentLifting
 
-noncomputable def toCylinderExtension
+@[reducible] noncomputable def toCylinderExtension
     {X : SSet.{u}}
     {sX : ScaledSimplicialSet X}
     {F : ScaledHornFamily X sX}
@@ -378,7 +379,7 @@ noncomputable def toCylinderExtension
     intro n i P hP
     exact (R.lifting P hP).toCylinderExtension
 
-noncomputable def toStrictification
+@[reducible] noncomputable def toStrictification
     {X : SSet.{u}}
     {sX : ScaledSimplicialSet X}
     {F : ScaledHornFamily X sX}
@@ -417,6 +418,8 @@ variable
     {HB : GlobalDuskinScaledHornFamily B}
     {HC : GlobalDuskinScaledHornFamily C}
     (K : CoherentNormalizedScaledAttachmentLiftableModelEquivalence E G HB HC)
+
+include K
 
 noncomputable def toCylinderExtendableModelEquivalence :
     CoherentNormalizedScaledCylinderExtendableModelEquivalence E G HB HC where
