@@ -213,9 +213,13 @@ end DukkhaResilienceFrame
 def positiveHarmFrame : DukkhaResilienceFrame Unit Unit where
   context := ()
   history := ()
-  signal := fun p => if p = .wood then 1 else 0
+  signal := fun
+    | .wood => 1
+    | _ => 0
   residualOf := fun _ _ =>
-    { harm := fun p => if p = .wood then 3 else 0
+    { harm := fun
+        | .wood => 3
+        | _ => 0
       attach := fun _ => 0
       collapse := fun _ => 0
       memory := fun _ => 0
