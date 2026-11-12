@@ -94,16 +94,30 @@ private def cylinderMap₂
     {f g : X ⟶ Y}
     (α : f ⟶ g) :
     cylinderMap P Q η f ⟶ cylinderMap P Q η g := by
-  -- Eliminate the actual interval vertices before comparing dependent
-  -- 2-morphism types: propositional by_cases leaves casts on the 1-cells.
+  -- Fin.cases eliminates interval vertices in Type, unlike fin_cases,
+  -- whose finite-enumeration membership elimination is restricted to Prop.
   rcases X with ⟨x, ⟨i⟩⟩
   rcases Y with ⟨y, ⟨j⟩⟩
-  fin_cases i <;> fin_cases j
-  · simpa [cylinderMap, cylinderObj] using P.map₂ α.1
-  · simpa [cylinderMap, cylinderObj] using (P.map₂ α.1 ▷ η.app y)
-  · exact False.elim
-      ((by decide : ¬ ((1 : Fin 2) ≤ (0 : Fin 2))) f.2.as.le)
-  · simpa [cylinderMap, cylinderObj] using Q.map₂ α.1
+  cases i using Fin.cases with
+  | zero =>
+      cases j using Fin.cases with
+      | zero =>
+          simpa [cylinderMap, cylinderObj] using P.map₂ α.1
+      | succ j =>
+          have hj : j = (0 : Fin 1) := Subsingleton.elim _ _
+          subst j
+          simpa [cylinderMap, cylinderObj] using (P.map₂ α.1 ▷ η.app y)
+  | succ i =>
+      have hi : i = (0 : Fin 1) := Subsingleton.elim _ _
+      subst i
+      cases j using Fin.cases with
+      | zero =>
+          exact False.elim
+            ((by decide : ¬ ((1 : Fin 2) ≤ (0 : Fin 2))) f.2.as.le)
+      | succ j =>
+          have hj : j = (0 : Fin 1) := Subsingleton.elim _ _
+          subst j
+          simpa [cylinderMap, cylinderObj] using Q.map₂ α.1
 
 private def cylinderMapComp
     {B : Type u₁} [Bicategory.{w₁, v₁} B]
