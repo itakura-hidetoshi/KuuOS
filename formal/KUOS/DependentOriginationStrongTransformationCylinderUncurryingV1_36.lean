@@ -279,8 +279,16 @@ private def strongCylinderCore
                     P.map f.1 ◁ (P.map₂ β.1 ▷ η.app z) ≫
                   (whiskerRightIso (P.mapComp f.1 h.1) (η.app z) ≪≫
                     α_ (P.map f.1) (P.map h.1) (η.app z)).inv
-                rw [P.map₂_whisker_left f.1 β.1]
-                bicategory
+                -- Do not rewrite beneath a dependent whisker using rw:
+                -- transport the exact two-cell equality and then normalize.
+                calc
+                  P.map₂ (f.1 ◁ β.1) ▷ η.app z =
+                      ((P.mapComp f.1 g.1).hom ≫
+                        P.map f.1 ◁ P.map₂ β.1 ≫
+                        (P.mapComp f.1 h.1).inv) ▷ η.app z := by
+                        exact congrArg (fun θ => θ ▷ η.app z)
+                          (P.map₂_whisker_left f.1 β.1)
+                  _ = _ := by bicategory
         | succ j =>
             have hj : j = (0 : Fin 1) := Subsingleton.elim _ _
             subst j
@@ -302,7 +310,15 @@ private def strongCylinderCore
                     α_ (P.map f.1) (P.map h.1) (η.app z) ≪≫
                     whiskerLeftIso (P.map f.1) (η.naturality h.1) ≪≫
                     (α_ (P.map f.1) (η.app y) (Q.map h.1)).symm).inv
-                simp [P.map₂_whisker_left, hnat] <;> bicategory
+                have hstep :
+                    P.map₂ β.1 ▷ η.app z =
+                      (η.naturality g.1).hom ≫
+                        (η.app y ◁ Q.map₂ β.1) ≫
+                        (η.naturality h.1).inv := by
+                  have hh := congrArg
+                    (fun θ => θ ≫ (η.naturality h.1).inv) hnat
+                  simpa [Category.assoc] using hh
+                simp [P.map₂_whisker_left, hstep] <;> bicategory
     | succ i =>
         have hi : i = (0 : Fin 1) := Subsingleton.elim _ _
         subst i
