@@ -812,10 +812,17 @@ noncomputable def strongTransformationDuskinCylinder
       rfl
     apply StrictlyUnitaryLaxFunctor.ext
     · exact hObj
+    -- First discharge the dependent map field pointwise, using the
+    -- heterogeneous function extensionality supported by the pinned API.
+    case map =>
+      apply Function.hfunext rfl
+      intro X Y f
+      simp [normalLaxPair, hIntervalZero,
+        strongTransformationNormalLaxCylinder,
+        strongTransformationCylinder, strongCylinderCore,
+        cylinderObj, cylinderMap]
     all_goals
-      · -- simp transports dependent occurrences coherently; rw [hObj]
-        -- cannot construct a well-typed motive across the HEq fields.
-        rw! (castMode := .all) [hObj]
+      · rw! (castMode := .all) [hObj]
         simp only [heq_iff_eq]
         ext
         simp [normalLaxPair, hIntervalZero, SSet.ι₀_app_snd_apply,
@@ -837,10 +844,17 @@ noncomputable def strongTransformationDuskinCylinder
       rfl
     apply StrictlyUnitaryLaxFunctor.ext
     · exact hObj
+    -- First discharge the dependent map field pointwise, using the
+    -- heterogeneous function extensionality supported by the pinned API.
+    case map =>
+      apply Function.hfunext rfl
+      intro X Y f
+      simp [normalLaxPair, hIntervalOne,
+        strongTransformationNormalLaxCylinder,
+        strongTransformationCylinder, strongCylinderCore,
+        cylinderObj, cylinderMap]
     all_goals
-      · -- simp transports dependent occurrences coherently; rw [hObj]
-        -- cannot construct a well-typed motive across the HEq fields.
-        rw! (castMode := .all) [hObj]
+      · rw! (castMode := .all) [hObj]
         simp only [heq_iff_eq]
         ext
         simp [normalLaxPair, hIntervalOne, SSet.ι₁_app_snd_apply,
