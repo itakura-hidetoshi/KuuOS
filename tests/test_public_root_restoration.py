@@ -84,7 +84,7 @@ REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
     "KUOS/DependentOriginationContextualGaugeEquivalenceV0_2.lean": "bf36c2c8b4209e60a763f59552f1cb379c58d057",
     "KUOS/DependentOriginationGlobularNerveComparisonV1_17.lean": "714411f14ff3efe16dcc4b7c3a8973dd261b840e",
     # Prior v1.36 first-pass atomic-binder repair: b2a05ada0602636fc4614f6e0210278564c0b5b4
-    "KUOS/DependentOriginationStrongTransformationCylinderUncurryingV1_36.lean": "51acf2c6fdb2b5b73c9d2aa95c40267057cb7e27",
+    "KUOS/DependentOriginationStrongTransformationCylinderUncurryingV1_36.lean": "97c986f2942064caa7b0bb6468d82c73e6c23f33",
 }
 
 
