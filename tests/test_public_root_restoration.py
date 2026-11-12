@@ -43,7 +43,7 @@ PR2339_INTEGRATED_PROOF_BLOBS = {
 # Explicit SHA enrollment is a review gate, never proof of Lean correctness.
 REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
     # Reviewed v1.40 compiler fixes; frozen legacy/v5.291 source remains unmodified.
-    "KUOS/DependentOriginationScaledHornAttachmentLiftingV1_40.lean": "c3916e5680818d89cc517b512783bb8392947333",
+    "KUOS/DependentOriginationScaledHornAttachmentLiftingV1_40.lean": "7fe4ba24bd0e3c3a470e23e4edf63665ad201fb7",
     # Reviewed original v1.38 Lean syntax repair: original legacy/v5.291 unchanged.
     # Reviewed original v1.39 compiler repair: source preserved in legacy/v5.291.
     "KUOS/DependentOriginationScaledHornCylinderExtensionV1_39.lean": "5cf4f8f6c986ae948ee96bbcfb66ab2540390e1e",
