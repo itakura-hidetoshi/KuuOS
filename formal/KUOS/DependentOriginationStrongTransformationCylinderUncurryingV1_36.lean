@@ -940,7 +940,13 @@ noncomputable def strongTransformationDuskinCylinder
     all_goals
       · rw! (castMode := .all) [hObj]
         simp only [heq_iff_eq]
-        ext
+        -- The remaining dependent coherence fields may still be HEq;
+        -- ordinary ext works only after their types are definitionally equal.
+        first
+        | ext
+        | apply Function.hfunext rfl
+          intro X X' hX
+          cases hX
         simp [normalLaxPair, hIntervalZero, SSet.ι₀_app_snd_apply,
           strongTransformationNormalLaxCylinder,
           strongTransformationCylinder, strongCylinderCore,
