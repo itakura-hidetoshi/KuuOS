@@ -7,6 +7,7 @@ open CategoryTheory.Category
 open Simplicial
 open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
 open KUOS.DependentOriginationGlobalDuskinScaledNerveV1_21
+open KUOS.DependentOriginationBiequivalencePresentationInvariantV1_26
 open KUOS.DependentOriginationGlobalDuskinScaledHornCoherenceV1_22
 open KUOS.DependentOriginationStrictlyUnitaryDuskinModelTransportV1_27
 open KUOS.DependentOriginationNormalizationChoiceInvariantV1_28
@@ -156,7 +157,7 @@ class HasHomotopyClassScaledHornFillers
       Nonempty (HomotopyClassScaledHornFiller P)
 
 /-- Strict scaled horn fibrancy implies homotopy-class scaled horn fibrancy. -/
-noncomputable def hasHomotopyClassScaledHornFillersOfStrict
+@[reducible] noncomputable def hasHomotopyClassScaledHornFillersOfStrict
     {X : SSet.{u}}
     {sX : ScaledSimplicialSet X}
     {F : ScaledHornFamily X sX}
@@ -271,7 +272,7 @@ variable
 /-- Homotopy-class horn filling is transported from the source model to the
 target model by backward transport, source filling, forward transport, and
 canonical target round-trip class descent. -/
-noncomputable def forwardHasHomotopyClassScaledHornFillers
+@[reducible] noncomputable def forwardHasHomotopyClassScaledHornFillers
     (H : HasHomotopyClassScaledHornFillers
       (duskinNerve B) (duskinScaling B) HB) :
     HasHomotopyClassScaledHornFillers
@@ -291,7 +292,7 @@ noncomputable def forwardHasHomotopyClassScaledHornFillers
       K.forwardScaled K.backwardScaled R'⟩
 
 /-- Symmetric transport from the target model back to the source model. -/
-noncomputable def backwardHasHomotopyClassScaledHornFillers
+@[reducible] noncomputable def backwardHasHomotopyClassScaledHornFillers
     (H : HasHomotopyClassScaledHornFillers
       (duskinNerve C) (duskinScaling C) HC) :
     HasHomotopyClassScaledHornFillers
