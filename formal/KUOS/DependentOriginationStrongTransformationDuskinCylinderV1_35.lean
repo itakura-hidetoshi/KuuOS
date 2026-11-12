@@ -19,6 +19,7 @@ open KUOS.DependentOriginationCoherentNormalizedScaledModelEquivalenceV1_32
 open KUOS.DependentOriginationScaledHornHomotopyDescentV1_33
 open KUOS.DependentOriginationGlobalDuskinPrismHomotopyV1_34
 open KUOS.DependentOriginationNormalLaxUniverseLiftV1_35
+open KUOS.DependentOriginationScaledDuskinHornTransportV1_29
 
 universe u₀ u₁ u₂ v₀ v₁ v₂ w₀ w₁ w₂
 
