@@ -932,11 +932,10 @@ noncomputable def strongTransformationDuskinCylinder
             strongTransformationCylinder, strongCylinderCore,
             cylinderObj, cylinderMap, cylinderMap₂]
         | skip
+      -- The full interval-functor rewrite normalizes each residual
+      -- 2-cell comparison to a reflexive heterogeneous equality.
       all_goals
-        have hx0 := hIntervalZero X
-        have hy0 := hIntervalZero Y
-        split_ifs
-        all_goals first | contradiction | simp_all
+        rfl
     all_goals
       · rw! (castMode := .all) [hObj]
         simp only [heq_iff_eq]
