@@ -938,7 +938,9 @@ noncomputable def strongTransformationDuskinCylinder
         rfl
     all_goals
       · rw! (castMode := .all) [hObj]
-        simp only [heq_iff_eq]
+        -- The scalar endpoint equation cannot reduce proof-dependent Fin.cases.
+        -- Normalize the full typed interval functor before its coherence fields.
+        simp only [intervalNormalLax_zero_eq_constant σ, heq_iff_eq]
         -- The remaining dependent coherence fields may still be HEq;
         -- ordinary ext works only after their types are definitionally equal.
         first
@@ -946,7 +948,8 @@ noncomputable def strongTransformationDuskinCylinder
         | apply Function.hfunext rfl
           intro X X' hX
           cases hX
-        simp [normalLaxPair, hIntervalZero, SSet.ι₀_app_snd_apply,
+        simp [normalLaxPair, constantIntervalFunctor,
+          locallyDiscreteNormalLax, hIntervalZero, SSet.ι₀_app_snd_apply,
           strongTransformationNormalLaxCylinder,
           strongTransformationCylinder, strongCylinderCore,
           cylinderObj, cylinderMap, cylinderMap₂, cylinderMapComp]
@@ -1024,13 +1027,15 @@ noncomputable def strongTransformationDuskinCylinder
         rfl
     all_goals
       · rw! (castMode := .all) [hObj]
-        simp only [heq_iff_eq]
+        -- The full constant interval functor makes the one-end cases reducible.
+        simp only [intervalNormalLax_one_eq_constant σ, heq_iff_eq]
         first
         | ext
         | apply Function.hfunext rfl
           intro X X' hX
           cases hX
-        simp [normalLaxPair, hIntervalOne, SSet.ι₁_app_snd_apply,
+        simp [normalLaxPair, constantIntervalFunctor,
+          locallyDiscreteNormalLax, hIntervalOne, SSet.ι₁_app_snd_apply,
           strongTransformationNormalLaxCylinder,
           strongTransformationCylinder, strongCylinderCore,
           cylinderObj, cylinderMap, cylinderMap₂, cylinderMapComp]
