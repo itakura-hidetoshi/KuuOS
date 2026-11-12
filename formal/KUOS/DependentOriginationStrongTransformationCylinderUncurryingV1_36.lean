@@ -809,8 +809,9 @@ noncomputable def strongTransformationDuskinCylinder
     apply StrictlyUnitaryLaxFunctor.ext
     · exact hObj
     all_goals
-      · rw [hObj]
-        rw [heq_iff_eq]
+      · -- simp transports dependent occurrences coherently; rw [hObj]
+        -- cannot construct a well-typed motive across the HEq fields.
+        simp only [hObj, heq_iff_eq]
         ext
         simp [normalLaxPair, intervalNormalLax,
           strongTransformationNormalLaxCylinder,
@@ -828,8 +829,9 @@ noncomputable def strongTransformationDuskinCylinder
     apply StrictlyUnitaryLaxFunctor.ext
     · exact hObj
     all_goals
-      · rw [hObj]
-        rw [heq_iff_eq]
+      · -- simp transports dependent occurrences coherently; rw [hObj]
+        -- cannot construct a well-typed motive across the HEq fields.
+        simp only [hObj, heq_iff_eq]
         ext
         simp [normalLaxPair, intervalNormalLax,
           strongTransformationNormalLaxCylinder,
