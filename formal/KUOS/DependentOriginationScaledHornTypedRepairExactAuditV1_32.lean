@@ -7,6 +7,7 @@ import KUOS.DependentOriginationScaledHornHomotopyDescentV1_33
 import KUOS.DependentOriginationGlobalDuskinPrismHomotopyV1_34
 import KUOS.DependentOriginationNormalLaxUniverseLiftV1_35
 import KUOS.DependentOriginationStrongTransformationDuskinCylinderV1_35
+import KUOS.DependentOriginationMixedWhiskerPastingV1_36
 
 /-!
 # Strict typechecker audit for v1.30–v1.32 typed scaled-horn repair
@@ -50,3 +51,8 @@ certificates or unconditional fibrancy. No new axioms are admitted.
 #print axioms KUOS.DependentOriginationNormalLaxUniverseLiftV1_35.liftedNormalLaxDuskinNerveMap
 #print axioms KUOS.DependentOriginationNormalLaxUniverseLiftV1_35.liftedNormalLaxDuskinNerveMap_app
 #print axioms KUOS.DependentOriginationNormalLaxUniverseLiftV1_35.liftedNormalLaxDuskinNerveMap_eq_normalized
+
+/-! ## Typed mixed right-whiskering pasting, not the full v1.36 cylinder -/
+#print axioms KUOS.DependentOriginationMixedWhiskerPastingV1_36.whiskerIsoConjugation
+#print axioms KUOS.DependentOriginationMixedWhiskerPastingV1_36.reassociatedRightWhisker
+#print axioms KUOS.DependentOriginationMixedWhiskerPastingV1_36.mixedRightWhiskerPasting
