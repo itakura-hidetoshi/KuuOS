@@ -57,9 +57,18 @@ private theorem noIntervalHomOneZero
     (hX : X.as ≠ (0 : Fin 2))
     (hY : Y.as = (0 : Fin 2)) : False := by
   have hle := f.as.le
-  have hx1 : X.as = (1 : Fin 2) := by omega
+  have hx1 : X.as = (1 : Fin 2) := by
+    apply Fin.ext
+    change (X.as).val = 1
+    have hlt : (X.as).val < 2 := (X.as).isLt
+    have hval0 : (X.as).val ≠ 0 := by
+      intro hv
+      apply hX
+      apply Fin.ext
+      simpa using hv
+    omega
   rw [hx1, hY] at hle
-  omega
+  exact (by decide : ¬ ((1 : Fin 2) ≤ (0 : Fin 2))) hle
 
 private def cylinderMap
     {B : Type u₁} [Bicategory.{w₁, v₁} B]
@@ -315,7 +324,7 @@ noncomputable def strongTransformationDuskinCylinder
     apply StrictlyUnitaryLaxFunctor.ext
     · rfl
     all_goals
-      · rw [heq_iff_eq]
+      · first | rw [heq_iff_eq] | skip
         ext
         simp [normalLaxPair, intervalNormalLax,
           strongTransformationNormalLaxCylinder,
@@ -326,7 +335,7 @@ noncomputable def strongTransformationDuskinCylinder
     apply StrictlyUnitaryLaxFunctor.ext
     · rfl
     all_goals
-      · rw [heq_iff_eq]
+      · first | rw [heq_iff_eq] | skip
         ext
         simp [normalLaxPair, intervalNormalLax,
           strongTransformationNormalLaxCylinder,
