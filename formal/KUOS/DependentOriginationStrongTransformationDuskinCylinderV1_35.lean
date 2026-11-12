@@ -307,7 +307,9 @@ noncomputable def toHomotopy
     ext idx σ
     exact H.endpoint_one idx σ
   rel := by
-    cat_disch
+    ext idx x
+    rcases x with ⟨⟨σ, hσ⟩, t⟩
+    exact False.elim hσ
 
 end DuskinPrismFamily
 
