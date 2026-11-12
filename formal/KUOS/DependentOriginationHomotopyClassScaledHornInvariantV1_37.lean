@@ -349,7 +349,7 @@ bicategorical model.
 -/
 -- Lean 4 does not infer a theorem's proof-only section variable.
 -- The coherent certificate K must be part of this theorem's context.
-include K in
+include K
 theorem globalDuskinHomotopyClassFibrancy_iff :
     HasHomotopyClassScaledHornFillers
         (duskinNerve B) (duskinScaling B) HB ↔
