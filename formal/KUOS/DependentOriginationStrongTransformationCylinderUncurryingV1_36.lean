@@ -583,8 +583,28 @@ private def strongCylinderCore
                 | succ l =>
                     have hl : l = (0 : Fin 1) := Subsingleton.elim _ _
                     subst l
-                    simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj,
-                      P.map₂_associator] <;> bicategory
+                    change P.map₂ (α_ f.1 g.1 h.1).hom ▷ η.app d =
+                      (whiskerRightIso (P.mapComp (f.1 ≫ g.1) h.1) (η.app d) ≪≫
+                        α_ (P.map (f.1 ≫ g.1)) (P.map h.1) (η.app d)).hom ≫
+                        (P.mapComp f.1 g.1).hom ▷ (P.map h.1 ≫ η.app d) ≫
+                        (α_ (P.map f.1) (P.map g.1) (P.map h.1 ≫ η.app d)).hom ≫
+                        P.map f.1 ◁
+                          (whiskerRightIso (P.mapComp g.1 h.1) (η.app d) ≪≫
+                            α_ (P.map g.1) (P.map h.1) (η.app d)).inv ≫
+                        (whiskerRightIso (P.mapComp f.1 (g.1 ≫ h.1)) (η.app d) ≪≫
+                          α_ (P.map f.1) (P.map (g.1 ≫ h.1)) (η.app d)).inv
+                    calc
+                      P.map₂ (α_ f.1 g.1 h.1).hom ▷ η.app d =
+                          ((P.mapComp (f.1 ≫ g.1) h.1).hom ≫
+                            (P.mapComp f.1 g.1).hom ▷ P.map h.1 ≫
+                            (α_ (P.map f.1) (P.map g.1) (P.map h.1)).hom ≫
+                            P.map f.1 ◁ (P.mapComp g.1 h.1).inv ≫
+                            (P.mapComp f.1 (g.1 ≫ h.1)).inv) ▷ η.app d := by
+                        exact congrArg (fun θ => θ ▷ η.app d)
+                          (P.map₂_associator f.1 g.1 h.1)
+                      _ = _ := by
+                        dsimp only [Iso.trans, Iso.symm, whiskerRightIso]
+                        bicategory
             | succ k =>
                 have hk : k = (0 : Fin 1) := Subsingleton.elim _ _
                 subst k
