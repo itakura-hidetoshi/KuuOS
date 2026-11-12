@@ -794,7 +794,10 @@ private theorem intervalNormalLax_zero_eq_constant
     rfl
   case h_map =>
     intro X Y f
-    exact Subsingleton.elim _ _
+    first
+    | rfl
+    | simp [constantIntervalFunctor, SSet.ι₀_app_snd_apply,
+        SSet.ι₁_app_snd_apply]
 
 /-- The complete one-end interval normal-lax functor is also constant.
 This is independent of the zero-endpoint and exposes the symmetric typing
@@ -812,7 +815,10 @@ private theorem intervalNormalLax_one_eq_constant
     rfl
   case h_map =>
     intro X Y f
-    exact Subsingleton.elim _ _
+    first
+    | rfl
+    | simp [constantIntervalFunctor, SSet.ι₀_app_snd_apply,
+        SSet.ι₁_app_snd_apply]
 
 /-! ## Endpoint identification -/
 
