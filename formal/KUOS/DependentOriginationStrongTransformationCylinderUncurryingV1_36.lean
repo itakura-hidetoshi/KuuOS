@@ -423,12 +423,17 @@ private def strongCylinderCore
                         exact congrArg (fun θ => θ ▷ η.app z)
                           (P.map₂_whisker_right α.1 h.1)
                   _ = _ := by
-                    -- Exchange the two genuine 2-cells across the
-                    -- naturality isomorphism; coherence alone cannot do it.
-                    have hswap := Bicategory.whisker_exchange
-                      (P.map₂ α.1) (η.naturality h.1).hom
+                    -- Move the genuine 2-cell through the naturality
+                    -- isomorphism, then cancel the inverse whiskered iso.
+                    have hexchange :
+                        (P.map f.1 ◁ (η.naturality h.1).hom) ≫
+                          (P.map₂ α.1 ▷ (η.app y ≫ Q.map h.1)) ≫
+                          (P.map g.1 ◁ (η.naturality h.1).inv) =
+                            P.map₂ α.1 ▷ (P.map h.1 ≫ η.app z) := by
+                      rw [Bicategory.whisker_exchange_assoc]
+                      simp
                     dsimp
-                    simp only [Category.assoc, hswap] <;> bicategory
+                    bicategory <;> simp only [Category.assoc, hexchange] <;> bicategory
     | succ i =>
         have hi : i = (0 : Fin 1) := Subsingleton.elim _ _
         subst i
