@@ -9,6 +9,7 @@ import KUOS.DependentOriginationNormalLaxUniverseLiftV1_35
 import KUOS.DependentOriginationStrongTransformationDuskinCylinderV1_35
 import KUOS.DependentOriginationMixedWhiskerPastingV1_36
 import KUOS.DependentOriginationMixedLeftUnitorPastingV1_36
+import KUOS.DependentOriginationMixedRightUnitorPastingV1_36
 
 /-!
 # Strict typechecker audit for v1.30–v1.32 typed scaled-horn repair
@@ -60,3 +61,6 @@ certificates or unconditional fibrancy. No new axioms are admitted.
 
 /-! ## Typed mixed left-unitor pasting with explicit identity transport -/
 #print axioms KUOS.DependentOriginationMixedLeftUnitorPastingV1_36.mixedLeftUnitorPasting
+
+/-! ## Typed mixed right-unitor identity-natural pasting -/
+#print axioms KUOS.DependentOriginationMixedRightUnitorPastingV1_36.mixedRightUnitorPasting

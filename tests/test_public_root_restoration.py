@@ -84,13 +84,14 @@ REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
     "KUOS/DependentOriginationContextualGaugeEquivalenceV0_2.lean": "bf36c2c8b4209e60a763f59552f1cb379c58d057",
     "KUOS/DependentOriginationGlobularNerveComparisonV1_17.lean": "714411f14ff3efe16dcc4b7c3a8973dd261b840e",
     # Prior v1.36 first-pass atomic-binder repair: b2a05ada0602636fc4614f6e0210278564c0b5b4
-    "KUOS/DependentOriginationStrongTransformationCylinderUncurryingV1_36.lean": "71f527a0ded292b16a9af4e885d271f242b76eb9",
+    "KUOS/DependentOriginationStrongTransformationCylinderUncurryingV1_36.lean": "116ea58ad27331e1b54283d8d8bd2e90814fc810",
 }
 
 
 # Newly added formal modules are outside the frozen v5.291 archive. Their
 # exact draft source blobs are reviewed separately from historical corrections.
 REVIEWED_ADDITIVE_FORMAL_BLOBS = {
+    "KUOS/DependentOriginationMixedRightUnitorPastingV1_36.lean": "339054b357f4799ad17e29ad6849b595240b0185",
     "KUOS/DependentOriginationMixedLeftUnitorPastingV1_36.lean": "e3d7a47a45c425040bac9f41675df049bc8ba228",
     "KUOS/DependentOriginationMixedWhiskerPastingV1_36.lean": "74cfd1997d8c5ec0233db5ab473bf381b2367583",
     "KUOS/DependentOriginationNormalLaxUniverseLiftV1_35.lean": "9f0f5f81109993bb791df655844c62de0729b681",
