@@ -1,3 +1,8 @@
+import Mathlib.AlgebraicTopology.SimplicialSet.AnodyneExtensions.Op
+import Mathlib.AlgebraicTopology.SimplicialSet.AnodyneExtensions.Rank
+import Mathlib.AlgebraicTopology.SimplicialSet.Boundary
+import Mathlib.AlgebraicTopology.SimplicialSet.Horn
+
 /-!
 KuuOS validation-only compatibility port of Mathlib UnionProd.
 Upstream source: leanprover-community/mathlib4,
@@ -13,10 +18,6 @@ Copyright (c) 2026 Joël Riou. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Joël Riou
 -/
-import Mathlib.AlgebraicTopology.SimplicialSet.AnodyneExtensions.Op
-import Mathlib.AlgebraicTopology.SimplicialSet.AnodyneExtensions.Rank
-import Mathlib.AlgebraicTopology.SimplicialSet.Boundary
-import Mathlib.AlgebraicTopology.SimplicialSet.Horn
 
 /-!
 # A pairing for the pushout-product of a horn inclusion and a boundary inclusion
