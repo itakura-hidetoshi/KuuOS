@@ -766,6 +766,50 @@ def strongTransformationNormalLaxCylinder
     StrictlyUnitaryLaxFunctor (B × DuskinOrdinal 1) C :=
   (strongTransformationCylinder P Q η).toStrictlyUnitaryLaxFunctor
 
+/-! ## Fully typed constant-interval endpoint functors -/
+
+/-- The ordinary thin-category functor taking every vertex to the selected
+endpoint. Its hom component is the unique identity in that thin category. -/
+private def constantIntervalFunctor (n : Nat) (i : Fin 2) :
+    Fin (n + 1) ⥤ Fin 2 where
+  obj := fun _ => i
+  map := fun _ => 𝟙 i
+  map_id := by intro _; rfl
+  map_comp := by intros; simp
+
+/-- The complete zero-end interval normal-lax functor, including hom and
+2-morphism data, is the lift of a *constant* thin-category functor.
+Unlike pointwise equalities of `.as`, this identifies the entire
+dependent structure before composing with the cylinder. -/
+private theorem intervalNormalLax_zero_eq_constant
+    {B : Type u₁} [Bicategory.{w₁, v₁} B]
+    {idx : SimplexCategoryᵒᵖ} (σ : (duskinNerve B).obj idx) :
+    intervalNormalLax ((SSet.ι₀.app idx σ).2) =
+      locallyDiscreteNormalLax (constantIntervalFunctor idx.unop.len 0) := by
+  unfold intervalNormalLax
+  apply congrArg locallyDiscreteNormalLax
+  apply Functor.ext
+  · intro X
+    rfl
+  · intro X Y f
+    exact Subsingleton.elim _ _
+
+/-- The complete one-end interval normal-lax functor is also constant.
+This is independent of the zero-endpoint and exposes the symmetric typing
+needed for the two sides of the eventual endpoint equality. -/
+private theorem intervalNormalLax_one_eq_constant
+    {B : Type u₁} [Bicategory.{w₁, v₁} B]
+    {idx : SimplexCategoryᵒᵖ} (σ : (duskinNerve B).obj idx) :
+    intervalNormalLax ((SSet.ι₁.app idx σ).2) =
+      locallyDiscreteNormalLax (constantIntervalFunctor idx.unop.len 1) := by
+  unfold intervalNormalLax
+  apply congrArg locallyDiscreteNormalLax
+  apply Functor.ext
+  · intro X
+    rfl
+  · intro X Y f
+    exact Subsingleton.elim _ _
+
 /-! ## Endpoint identification -/
 
 @[simp] theorem strongTransformationNormalLaxCylinder_zero_obj
