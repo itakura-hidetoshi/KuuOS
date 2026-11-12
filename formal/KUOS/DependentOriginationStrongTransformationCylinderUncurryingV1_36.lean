@@ -494,19 +494,42 @@ private def strongCylinderCore
               Bicategory.eqToHom_whiskerRight] using
               Q.map₂_left_unitor f.1
   map₂_right_unitor := by
-    intro X Y f
-    by_cases hX : X.2.as = (0 : Fin 2)
-    · by_cases hY : Y.2.as = (0 : Fin 2)
-      · simpa [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj,
-          hX, hY, P.map_id] using P.map₂_right_unitor f.1
-      · simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj,
-          hX, hY, P.map_id, Q.map_id,
-          P.map₂_right_unitor, Pseudofunctor.StrongTrans.naturality_id_hom]
-        bicategory
-    · by_cases hY : Y.2.as = (0 : Fin 2)
-      · exact False.elim (noIntervalHomOneZero f.2 hX hY)
-      · simpa [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj,
-          hX, hY, Q.map_id] using Q.map₂_right_unitor f.1
+    -- Normalize the actual Fin vertices first, not a propositional
+    -- by_cases: the dependent cylinderMap₂ eliminator reduces only then.
+    rintro ⟨x, ⟨i⟩⟩ ⟨y, ⟨j⟩⟩ f
+    cases i using Fin.cases with
+    | zero =>
+        cases j using Fin.cases with
+        | zero =>
+            change P.map₂ (ρ_ f.1).hom =
+              (P.mapComp f.1 (𝟙 y)).hom ≫
+                eqToHom (by rw [P.map_id y]) ≫ (ρ_ (P.map f.1)).hom
+            simpa only [P.mapId_eq_eqToIso, eqToIso.hom,
+              Bicategory.whiskerLeft_eqToHom] using
+              P.map₂_right_unitor f.1
+        | succ j =>
+            have hj : j = (0 : Fin 1) := Subsingleton.elim _ _
+            subst j
+            simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj,
+              P.map_id, Q.map_id,
+              P.map₂_right_unitor, P.mapId_eq_eqToIso,
+              Pseudofunctor.StrongTrans.naturality_id_hom] <;> bicategory
+    | succ i =>
+        have hi : i = (0 : Fin 1) := Subsingleton.elim _ _
+        subst i
+        cases j using Fin.cases with
+        | zero =>
+            exact False.elim
+              ((by decide : ¬ ((1 : Fin 2) ≤ (0 : Fin 2))) f.2.as.le)
+        | succ j =>
+            have hj : j = (0 : Fin 1) := Subsingleton.elim _ _
+            subst j
+            change Q.map₂ (ρ_ f.1).hom =
+              (Q.mapComp f.1 (𝟙 y)).hom ≫
+                eqToHom (by rw [Q.map_id y]) ≫ (ρ_ (Q.map f.1)).hom
+            simpa only [Q.mapId_eq_eqToIso, eqToIso.hom,
+              Bicategory.whiskerLeft_eqToHom] using
+              Q.map₂_right_unitor f.1
   map₂_associator := by
     intro A B C D f g h
     by_cases hA : A.2.as = (0 : Fin 2)
