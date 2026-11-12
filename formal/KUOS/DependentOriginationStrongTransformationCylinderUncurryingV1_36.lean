@@ -815,8 +815,18 @@ noncomputable def strongTransformationDuskinCylinder
     -- First discharge the dependent map field pointwise, using the
     -- heterogeneous function extensionality supported by the pinned API.
     case map =>
+      -- The heterogeneously quantified map has three arguments:
+      -- source object, target object, then the underlying 1-morphism.
+      -- hfunext introduces an HEq proof at each argument.
       apply Function.hfunext rfl
-      intro X Y f
+      intro X X' hX
+      cases hX
+      apply Function.hfunext rfl
+      intro Y Y' hY
+      cases hY
+      apply Function.hfunext rfl
+      intro f f' hf
+      cases hf
       simp [normalLaxPair, hIntervalZero,
         strongTransformationNormalLaxCylinder,
         strongTransformationCylinder, strongCylinderCore,
@@ -847,8 +857,18 @@ noncomputable def strongTransformationDuskinCylinder
     -- First discharge the dependent map field pointwise, using the
     -- heterogeneous function extensionality supported by the pinned API.
     case map =>
+      -- The heterogeneously quantified map has three arguments:
+      -- source object, target object, then the underlying 1-morphism.
+      -- hfunext introduces an HEq proof at each argument.
       apply Function.hfunext rfl
-      intro X Y f
+      intro X X' hX
+      cases hX
+      apply Function.hfunext rfl
+      intro Y Y' hY
+      cases hY
+      apply Function.hfunext rfl
+      intro f f' hf
+      cases hf
       simp [normalLaxPair, hIntervalOne,
         strongTransformationNormalLaxCylinder,
         strongTransformationCylinder, strongCylinderCore,
