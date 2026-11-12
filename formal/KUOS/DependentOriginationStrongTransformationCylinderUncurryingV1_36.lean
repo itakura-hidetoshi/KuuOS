@@ -719,11 +719,11 @@ private def strongCylinderCore
                         -- The pure normal-form tactic cannot evaluate a
                         -- nested, nonstructural Iso.hom; the ordinary tactic
                         -- leaves a typed residual to simplify instead.
-                         -- Invoke the native categorical diagram discharge on
-                         -- the typed naturality-comp pasting before pure
-                         -- bicategorical coherence normalization.
-                         all_goals first | cat_disch | bicategory
-                         all_goals try cat_disch
+                        -- Invoke the native categorical diagram discharge on
+                        -- the typed naturality-comp pasting before pure
+                        -- bicategorical coherence normalization.
+                        all_goals first | cat_disch | bicategory
+                        all_goals try cat_disch
                         all_goals
                           -- bicategory_nf cannot inspect a composite Iso.hom.
                           -- Unfold Iso constructors first, then normalize.
