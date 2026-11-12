@@ -46,7 +46,7 @@ REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
     "KUOS/DependentOriginationScaledHornAttachmentLiftingV1_40.lean": "a423e416ef9ae5b211d3c2098ff960099889e0a4",
     # Reviewed original v1.38 Lean syntax repair: original legacy/v5.291 unchanged.
     # Reviewed original v1.39 compiler repair: source preserved in legacy/v5.291.
-    "KUOS/DependentOriginationScaledHornCylinderExtensionV1_39.lean": "44026c67e62b545965bef9fe68311849c841936a",
+    "KUOS/DependentOriginationScaledHornCylinderExtensionV1_39.lean": "5cf4f8f6c986ae948ee96bbcfb66ab2540390e1e",
     "KUOS/DependentOriginationHomotopyClassStrictificationV1_38.lean": "08399f0feca20eb8664b2673797a4c785d2588b0",
     "KUOS/DependentOriginationHomotopyClassScaledHornInvariantV1_37.lean": "af1bedd2bcaeac026d3554e359536d925f17cc93",
     "KUOS/DependentOriginationStrongTransformationDuskinCylinderV1_35.lean": "03b35036177ebc1ef13a055073877a0c9a319976",

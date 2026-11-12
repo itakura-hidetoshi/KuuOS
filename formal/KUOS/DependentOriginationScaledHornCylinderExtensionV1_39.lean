@@ -91,9 +91,9 @@ structure ForwardScaledHornCylinderExtension
     (H : f.Homotopy g)
     (Q : ScaledHornBoundaryRealization sX sΔ f) where
   extension : (Δ[n] : SSet.{u}) ⊗ Δ[1] ⟶ X
-  endpoint_zero : ι₀ ≫ extension = Q.simplexMap
+  endpoint_zero : SSet.ι₀ ≫ extension = Q.simplexMap
   on_horn : Λ[n, i].ι ▷ Δ[1] ≫ extension = H.h
-  endpoint_one_scaled : IsScaledMap sΔ sX (ι₁ ≫ extension)
+  endpoint_one_scaled : IsScaledMap sΔ sX (SSet.ι₁ ≫ extension)
 
 namespace ForwardScaledHornCylinderExtension
 
@@ -130,9 +130,9 @@ structure BackwardScaledHornCylinderExtension
     (H : f.Homotopy g)
     (Q : ScaledHornBoundaryRealization sX sΔ g) where
   extension : (Δ[n] : SSet.{u}) ⊗ Δ[1] ⟶ X
-  endpoint_one : ι₁ ≫ extension = Q.simplexMap
+  endpoint_one : SSet.ι₁ ≫ extension = Q.simplexMap
   on_horn : Λ[n, i].ι ▷ Δ[1] ≫ extension = H.h
-  endpoint_zero_scaled : IsScaledMap sΔ sX (ι₀ ≫ extension)
+  endpoint_zero_scaled : IsScaledMap sΔ sX (SSet.ι₀ ≫ extension)
 
 namespace BackwardScaledHornCylinderExtension
 
