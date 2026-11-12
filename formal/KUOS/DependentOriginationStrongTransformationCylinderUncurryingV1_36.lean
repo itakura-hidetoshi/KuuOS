@@ -225,15 +225,30 @@ private def strongCylinderCore
             subst j
             simpa [cylinderMap₂, cylinderMap, cylinderObj] using Q.map₂_id f.1
   map₂_comp := by
-    intro X Y f g h α β
-    by_cases hX : X.2.as = (0 : Fin 2)
-    · by_cases hY : Y.2.as = (0 : Fin 2)
-      · simp [cylinderMap₂, cylinderMap, cylinderObj, hX, hY]
-      · simp [cylinderMap₂, cylinderMap, cylinderObj, hX, hY,
-          comp_whiskerRight]
-    · by_cases hY : Y.2.as = (0 : Fin 2)
-      · exact False.elim (noIntervalHomOneZero f.2 hX hY)
-      · simp [cylinderMap₂, cylinderMap, cylinderObj, hX, hY]
+    -- First reduce the dependent interval eliminators at actual vertices.
+    -- The mixed case is exactly functoriality followed by right whiskering.
+    rintro ⟨x, ⟨i⟩⟩ ⟨y, ⟨j⟩⟩ f g h α β
+    cases i using Fin.cases with
+    | zero =>
+        cases j using Fin.cases with
+        | zero =>
+            simpa [cylinderMap₂, cylinderMap, cylinderObj] using P.map₂_comp α.1 β.1
+        | succ j =>
+            have hj : j = (0 : Fin 1) := Subsingleton.elim _ _
+            subst j
+            simp [cylinderMap₂, cylinderMap, cylinderObj, P.map₂_comp,
+              comp_whiskerRight]
+    | succ i =>
+        have hi : i = (0 : Fin 1) := Subsingleton.elim _ _
+        subst i
+        cases j using Fin.cases with
+        | zero =>
+            exact False.elim
+              ((by decide : ¬ ((1 : Fin 2) ≤ (0 : Fin 2))) f.2.as.le)
+        | succ j =>
+            have hj : j = (0 : Fin 1) := Subsingleton.elim _ _
+            subst j
+            simpa [cylinderMap₂, cylinderMap, cylinderObj] using Q.map₂_comp α.1 β.1
   mapComp := cylinderMapComp P Q η
   map₂_whisker_left := by
     intro X Y Z f g h β
