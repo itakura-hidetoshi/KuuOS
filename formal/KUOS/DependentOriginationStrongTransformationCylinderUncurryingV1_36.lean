@@ -1,5 +1,6 @@
 import KUOS.DependentOriginationStrongTransformationDuskinCylinderV1_35
 import Mathlib.Tactic
+import KUOS.DependentOriginationMixedWhiskerPastingV1_36
 
 namespace KUOS.DependentOriginationStrongTransformationCylinderUncurryingV1_36
 
@@ -422,20 +423,10 @@ private def strongCylinderCore
                         (P.mapComp g.1 h.1).inv) ▷ η.app z := by
                         exact congrArg (fun θ => θ ▷ η.app z)
                           (P.map₂_whisker_right α.1 h.1)
-                  _ = _ := by
-                    -- Move the genuine 2-cell through the naturality
-                    -- isomorphism, then cancel the inverse whiskered iso.
-                    have hexchange :
-                        (P.map f.1 ◁ (η.naturality h.1).hom) ≫
-                          (P.map₂ α.1 ▷ (η.app y ≫ Q.map h.1)) ≫
-                          (P.map g.1 ◁ (η.naturality h.1).inv) =
-                            P.map₂ α.1 ▷ (P.map h.1 ≫ η.app z) := by
-                      rw [Bicategory.whisker_exchange_assoc]
-                      simp
-                    -- Simplify reflexive iso wrappers before applying
-                    -- the exchange equality to the normalized 2-cell square.
-                    dsimp
-                    simp [Category.assoc, hexchange] <;> bicategory
+                  _ = _ :=
+                    KUOS.DependentOriginationMixedWhiskerPastingV1_36.mixedRightWhiskerPasting
+                      (P.map₂ α.1) (P.map h.1) (η.app z) (η.app y) (Q.map h.1)
+                      (η.naturality h.1) (P.mapComp f.1 h.1) (P.mapComp g.1 h.1)
     | succ i =>
         have hi : i = (0 : Fin 1) := Subsingleton.elim _ _
         subst i
