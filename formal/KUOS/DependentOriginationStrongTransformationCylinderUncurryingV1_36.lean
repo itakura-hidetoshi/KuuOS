@@ -831,6 +831,7 @@ noncomputable def strongTransformationDuskinCylinder
         strongTransformationNormalLaxCylinder,
         strongTransformationCylinder, strongCylinderCore,
         cylinderObj, cylinderMap]
+      all_goals simp [hIntervalZero X, hIntervalZero Y]
     all_goals
       · rw! (castMode := .all) [hObj]
         simp only [heq_iff_eq]
@@ -873,6 +874,7 @@ noncomputable def strongTransformationDuskinCylinder
         strongTransformationNormalLaxCylinder,
         strongTransformationCylinder, strongCylinderCore,
         cylinderObj, cylinderMap]
+      all_goals simp [hIntervalOne X, hIntervalOne Y]
     all_goals
       · rw! (castMode := .all) [hObj]
         simp only [heq_iff_eq]
