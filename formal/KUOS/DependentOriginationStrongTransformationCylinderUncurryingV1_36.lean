@@ -864,7 +864,11 @@ noncomputable def strongTransformationDuskinCylinder
       -- Reduce the object-valued dependent eliminators at literal 0.
       -- Simplify the object equalities under the dependent eliminator;
       -- direct depRewrite cannot locate the reduced toPrefunctor projection.
-      simp only [hIntervalZeroObj X, hIntervalZeroObj Y]
+      -- The dependent Fin.cases motive retains Eq.rec transports:
+      -- try rewriting the complete interval object before reduction.
+      first
+      | rw! (castMode := .all) [hIntervalZeroObj X, hIntervalZeroObj Y]
+      | simp only [hIntervalZeroObj X, hIntervalZeroObj Y]
       simp [normalLaxPair, hIntervalZero,
         strongTransformationNormalLaxCylinder,
         strongTransformationCylinder, strongCylinderCore,
