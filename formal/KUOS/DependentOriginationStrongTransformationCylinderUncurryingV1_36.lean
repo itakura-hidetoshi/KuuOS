@@ -201,14 +201,29 @@ private def strongCylinderCore
         simpa [cylinderMap, cylinderObj] using Q.map_id x
   map₂ := cylinderMap₂ P Q η
   map₂_id := by
-    intro X Y f
-    by_cases hX : X.2.as = (0 : Fin 2)
-    · by_cases hY : Y.2.as = (0 : Fin 2)
-      · simp [cylinderMap₂, cylinderMap, cylinderObj, hX, hY]
-      · simp [cylinderMap₂, cylinderMap, cylinderObj, hX, hY]
-    · by_cases hY : Y.2.as = (0 : Fin 2)
-      · exact False.elim (noIntervalHomOneZero f.2 hX hY)
-      · simp [cylinderMap₂, cylinderMap, cylinderObj, hX, hY]
+    -- As in map_id, remove the interval indices before reducing the
+    -- dependent Fin.cases branches; a symbolic if leaves residual Eq.rec.
+    rintro ⟨x, ⟨i⟩⟩ ⟨y, ⟨j⟩⟩ f
+    cases i using Fin.cases with
+    | zero =>
+        cases j using Fin.cases with
+        | zero =>
+            simpa [cylinderMap₂, cylinderMap, cylinderObj] using P.map₂_id f.1
+        | succ j =>
+            have hj : j = (0 : Fin 1) := Subsingleton.elim _ _
+            subst j
+            simp [cylinderMap₂, cylinderMap, cylinderObj, P.map₂_id]
+    | succ i =>
+        have hi : i = (0 : Fin 1) := Subsingleton.elim _ _
+        subst i
+        cases j using Fin.cases with
+        | zero =>
+            exact False.elim
+              ((by decide : ¬ ((1 : Fin 2) ≤ (0 : Fin 2))) f.2.as.le)
+        | succ j =>
+            have hj : j = (0 : Fin 1) := Subsingleton.elim _ _
+            subst j
+            simpa [cylinderMap₂, cylinderMap, cylinderObj] using Q.map₂_id f.1
   map₂_comp := by
     intro X Y f g h α β
     by_cases hX : X.2.as = (0 : Fin 2)
