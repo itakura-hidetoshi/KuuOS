@@ -710,7 +710,9 @@ private def strongCylinderCore
                           dsimp only [Iso.trans, Iso.symm, Iso.refl,
                             whiskerRightIso, whiskerLeftIso]
                           bicategory_nf
-                          simp only [Category.assoc,
+                          -- Normalization may already consume all cancellation
+                          -- redexes; no-op simp must not abort the proof.
+                          try simp only [Category.assoc,
                             Bicategory.whiskerLeft_hom_inv_whiskerRight,
                             Bicategory.whiskerLeft_whiskerLeft_inv_hom,
                             Bicategory.whiskerLeft_hom_inv,
