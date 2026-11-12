@@ -9,6 +9,7 @@ import Mathlib.AlgebraicTopology.SimplicialSet.AnodyneExtensions.Rank
 import Mathlib.AlgebraicTopology.SimplicialSet.Boundary
 import Mathlib.AlgebraicTopology.SimplicialSet.Horn
 import Mathlib.AlgebraicTopology.SimplicialSet.Monoidal
+import Mathlib.AlgebraicTopology.SimplicialSet.ProdStdSimplex
 import Mathlib.AlgebraicTopology.SimplicialSet.AnodyneExtensions.RelativeCellComplex
 import Mathlib.AlgebraicTopology.SimplicialSet.AnodyneExtensions.RankNat
 

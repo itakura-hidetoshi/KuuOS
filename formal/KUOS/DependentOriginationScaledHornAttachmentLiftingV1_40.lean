@@ -80,9 +80,13 @@ theorem endpointIntoAttachment_ι_zero
       (SSet.ι₀ : (Δ[n] : SSet.{u}) ⟶ (Δ[n] : SSet.{u}) ⊗ Δ[1]) := by
   calc
     _ = endpointSection n 0 ≫
+        (SSet.Subcomplex.unionProd.ι₁ (SSet.horn n i) (intervalEndpoint 0) ≫
+          (hornCylinderAttachment n i 0).ι) := by
+          simp only [endpointIntoAttachment, Category.assoc]
+    _ = endpointSection n 0 ≫
         ((Δ[n] : SSet.{u}) ◁ (intervalEndpoint 0).ι) := by
-          simp only [endpointIntoAttachment, Category.assoc,
-            SSet.Subcomplex.unionProd.ι₁_ι]
+          exact congrArg (fun k => endpointSection n 0 ≫ k)
+            (SSet.Subcomplex.unionProd.ι₁_ι (SSet.horn n i) (intervalEndpoint 0))
     _ = SSet.ι₀ := by
       ext m x <;>
         simp [endpointSection, intervalEndpoint,
@@ -95,9 +99,13 @@ theorem endpointIntoAttachment_ι_one
       (SSet.ι₁ : (Δ[n] : SSet.{u}) ⟶ (Δ[n] : SSet.{u}) ⊗ Δ[1]) := by
   calc
     _ = endpointSection n 1 ≫
+        (SSet.Subcomplex.unionProd.ι₁ (SSet.horn n i) (intervalEndpoint 1) ≫
+          (hornCylinderAttachment n i 1).ι) := by
+          simp only [endpointIntoAttachment, Category.assoc]
+    _ = endpointSection n 1 ≫
         ((Δ[n] : SSet.{u}) ◁ (intervalEndpoint 1).ι) := by
-          simp only [endpointIntoAttachment, Category.assoc,
-            SSet.Subcomplex.unionProd.ι₁_ι]
+          exact congrArg (fun k => endpointSection n 1 ≫ k)
+            (SSet.Subcomplex.unionProd.ι₁_ι (SSet.horn n i) (intervalEndpoint 1))
     _ = SSet.ι₁ := by
       ext m x <;>
         simp [endpointSection, intervalEndpoint,
@@ -312,8 +320,9 @@ v1.39. -/
       change
         SSet.Subcomplex.unionProd.ι₂ (SSet.horn n i) (intervalEndpoint 0) ≫
           ((hornCylinderAttachment n i 0).ι ≫ E) = H.h
-      rw [Category.assoc, hE]
-      exact forwardAttachmentMap_on_horn H Q
+      exact (congrArg
+        (fun k => SSet.Subcomplex.unionProd.ι₂ (SSet.horn n i) (intervalEndpoint 0) ≫ k)
+          hE).trans (forwardAttachmentMap_on_horn H Q)
     endpoint_one_scaled := hScaled
   }⟩
 
@@ -343,8 +352,9 @@ v1.39. -/
       change
         SSet.Subcomplex.unionProd.ι₂ (SSet.horn n i) (intervalEndpoint 1) ≫
           ((hornCylinderAttachment n i 1).ι ≫ E) = H.h
-      rw [Category.assoc, hE]
-      exact backwardAttachmentMap_on_horn H Q
+      exact (congrArg
+        (fun k => SSet.Subcomplex.unionProd.ι₂ (SSet.horn n i) (intervalEndpoint 1) ≫ k)
+          hE).trans (backwardAttachmentMap_on_horn H Q)
     endpoint_zero_scaled := hScaled
   }⟩
 
