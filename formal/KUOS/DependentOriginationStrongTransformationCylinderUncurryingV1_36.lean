@@ -2,6 +2,7 @@ import KUOS.DependentOriginationStrongTransformationDuskinCylinderV1_35
 import Mathlib.Tactic
 import KUOS.DependentOriginationMixedWhiskerPastingV1_36
 import KUOS.DependentOriginationMixedLeftUnitorPastingV1_36
+import KUOS.DependentOriginationMixedRightUnitorPastingV1_36
 
 namespace KUOS.DependentOriginationStrongTransformationCylinderUncurryingV1_36
 
@@ -517,10 +518,33 @@ private def strongCylinderCore
         | succ j =>
             have hj : j = (0 : Fin 1) := Subsingleton.elim _ _
             subst j
-            simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj,
-              P.map_id, Q.map_id,
-              P.map₂_right_unitor, P.mapId_eq_eqToIso,
-              Pseudofunctor.StrongTrans.naturality_id_hom] <;> bicategory
+            change P.map₂ (ρ_ f.1).hom ▷ η.app y =
+              (whiskerRightIso (P.mapComp f.1 (𝟙 y)) (η.app y) ≪≫
+                α_ (P.map f.1) (P.map (𝟙 y)) (η.app y) ≪≫
+                whiskerLeftIso (P.map f.1) (η.naturality (𝟙 y)) ≪≫
+                (α_ (P.map f.1) (η.app y) (Q.map (𝟙 y))).symm).hom ≫
+                  eqToHom (by rw [Q.map_id y]) ≫
+                    (ρ_ (P.map f.1 ≫ η.app y)).hom
+            have hnat : (η.naturality (𝟙 y)).hom =
+                (eqToHom (P.map_id y) ▷ η.app y) ≫
+                  (λ_ (η.app y)).hom ≫ (ρ_ (η.app y)).inv ≫
+                    (η.app y ◁ eqToHom (Q.map_id y).symm) := by
+              simpa only [P.mapId_eq_eqToIso, Q.mapId_eq_eqToIso,
+                eqToIso.hom, eqToIso.inv] using
+                (Pseudofunctor.StrongTrans.naturality_id_hom η y)
+            calc
+              P.map₂ (ρ_ f.1).hom ▷ η.app y =
+                  ((P.mapComp f.1 (𝟙 y)).hom ≫
+                    eqToHom (by rw [P.map_id y]) ≫
+                      (ρ_ (P.map f.1)).hom) ▷ η.app y := by
+                    apply congrArg (fun θ => θ ▷ η.app y)
+                    simpa only [P.mapId_eq_eqToIso, eqToIso.hom,
+                      Bicategory.whiskerLeft_eqToHom] using
+                      P.map₂_right_unitor f.1
+              _ = _ :=
+                KUOS.DependentOriginationMixedRightUnitorPastingV1_36.mixedRightUnitorPasting
+                  (P.map f.1) (η.app y) (P.map_id y) (Q.map_id y)
+                  (P.mapComp f.1 (𝟙 y)) (η.naturality (𝟙 y)) hnat
     | succ i =>
         have hi : i = (0 : Fin 1) := Subsingleton.elim _ _
         subst i
