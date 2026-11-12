@@ -273,8 +273,14 @@ private def strongCylinderCore
             | succ k =>
                 have hk : k = (0 : Fin 1) := Subsingleton.elim _ _
                 subst k
-                simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj,
-                  P.map₂_whisker_left] <;> bicategory
+                change P.map₂ (f.1 ◁ β.1) ▷ η.app z =
+                  (whiskerRightIso (P.mapComp f.1 g.1) (η.app z) ≪≫
+                    α_ (P.map f.1) (P.map g.1) (η.app z)).hom ≫
+                    P.map f.1 ◁ (P.map₂ β.1 ▷ η.app z) ≫
+                  (whiskerRightIso (P.mapComp f.1 h.1) (η.app z) ≪≫
+                    α_ (P.map f.1) (P.map h.1) (η.app z)).inv
+                rw [P.map₂_whisker_left f.1 β.1]
+                bicategory
         | succ j =>
             have hj : j = (0 : Fin 1) := Subsingleton.elim _ _
             subst j
@@ -286,8 +292,17 @@ private def strongCylinderCore
                 have hk : k = (0 : Fin 1) := Subsingleton.elim _ _
                 subst k
                 have hnat := η.naturality_naturality β.1
-                simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj,
-                  hnat] <;> bicategory
+                change P.map₂ (f.1 ◁ β.1) ▷ η.app z =
+                  (whiskerRightIso (P.mapComp f.1 g.1) (η.app z) ≪≫
+                    α_ (P.map f.1) (P.map g.1) (η.app z) ≪≫
+                    whiskerLeftIso (P.map f.1) (η.naturality g.1) ≪≫
+                    (α_ (P.map f.1) (η.app y) (Q.map g.1)).symm).hom ≫
+                    (P.map f.1 ≫ η.app y) ◁ Q.map₂ β.1 ≫
+                  (whiskerRightIso (P.mapComp f.1 h.1) (η.app z) ≪≫
+                    α_ (P.map f.1) (P.map h.1) (η.app z) ≪≫
+                    whiskerLeftIso (P.map f.1) (η.naturality h.1) ≪≫
+                    (α_ (P.map f.1) (η.app y) (Q.map h.1)).symm).inv
+                simp [P.map₂_whisker_left, hnat] <;> bicategory
     | succ i =>
         have hi : i = (0 : Fin 1) := Subsingleton.elim _ _
         subst i
