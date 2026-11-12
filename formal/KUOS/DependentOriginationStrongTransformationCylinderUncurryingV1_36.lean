@@ -951,7 +951,11 @@ noncomputable def strongTransformationDuskinCylinder
         | apply Function.hfunext rfl
           intro X X' hX
           cases hX
-        simp [normalLaxPair, constantIntervalFunctor,
+        -- Expand canonical unit comparators before simplifying transports.
+        simp [StrictlyUnitaryLaxFunctor.mapId_eq_eqToHom,
+          StrictlyUnitaryPseudofunctor.mapId_eq_eqToIso,
+          PrelaxFunctor.map₂_eqToHom,
+          normalLaxPair, constantIntervalFunctor,
           locallyDiscreteNormalLax, hIntervalZero, SSet.ι₀_app_snd_apply,
           strongTransformationNormalLaxCylinder,
           strongTransformationCylinder, strongCylinderCore,
@@ -1040,7 +1044,11 @@ noncomputable def strongTransformationDuskinCylinder
         | apply Function.hfunext rfl
           intro X X' hX
           cases hX
-        simp [normalLaxPair, constantIntervalFunctor,
+        -- The one-end comparison has the same canonical eqToHom witness.
+        simp [StrictlyUnitaryLaxFunctor.mapId_eq_eqToHom,
+          StrictlyUnitaryPseudofunctor.mapId_eq_eqToIso,
+          PrelaxFunctor.map₂_eqToHom,
+          normalLaxPair, constantIntervalFunctor,
           locallyDiscreteNormalLax, hIntervalOne, SSet.ι₁_app_snd_apply,
           strongTransformationNormalLaxCylinder,
           strongTransformationCylinder, strongCylinderCore,
