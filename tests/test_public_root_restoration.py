@@ -70,7 +70,7 @@ REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
     "KUOS/DependentOriginationCoreSpineV1_25.lean": "1ecc2afc53b3395cde11746f8488abfe80c497ca",
     "KUOS/DependentOriginationBiequivalencePresentationInvariantV1_26.lean": "60c17fbdefc29642889921e0002e055e9f36d046",
     "KUOS/DependentOriginationNormalizationChoiceInvariantV1_28.lean": "9078c15951561b85ecf5378e258adfc92789f823",
-    "KUOS/DependentOriginationScaledDuskinHornTransportV1_29.lean": "7fa5cd0966fb80e830e3b93dd8429454008eb2ad",
+    "KUOS/DependentOriginationScaledDuskinHornTransportV1_29.lean": "36b93190726a9d6c00be71717d930d234c72af4b",
     "KUOS/DependentOriginationStrictlyUnitaryDuskinModelTransportV1_27.lean": "36f9aef05ce8bc068856c28ccbbc2b7512b89112",
     "KUOS/DependentOriginationPresentationIndependentInvariantV1_25.lean": "1df6dfa0b978cffd3cb0a9c1d51889b3d835ae07",
     "KUOS/DependentOriginationFundamentalGroupoidDescentNatIsoInvarianceV0_6.lean": "8f801f55d1c068ee84d4810e1a508e35e45244ca",

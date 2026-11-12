@@ -289,3 +289,35 @@ theorem liftedDuskinImageHornFibrancy
 end LiftedImage
 
 end KUOS.DependentOriginationScaledDuskinHornTransportV1_29
+
+/-! ## Certified image-family compatibility at the genuine lifted boundary -/
+
+namespace KUOS.DependentOriginationScaledDuskinHornTransportV1_29.LiftedImage
+
+open CategoryTheory
+open KUOS.DependentOriginationGlobalDuskinScaledHornCoherenceV1_22
+open KUOS.DependentOriginationStrictlyUnitaryDuskinModelTransportV1_27
+
+universe aU bU aV bV aW bW
+
+/--
+The chosen image family contains every transported admissible lifted horn.
+This proves a *local* family-map witness, not equivalence with an arbitrary
+unlifted family; the E_B/E_C descent obligations remain independent.
+-/
+theorem liftedDuskinImageHornFamily_map
+    {B : Type aU} [Bicategory.{aW, aV} B]
+    {C : Type bU} [Bicategory.{bW, bV} C]
+    {E : StrictlyUnitaryBicategoricalModelEquivalence B C}
+    (H : FullScaledDuskinMapCertificate E)
+    (HB : ScaledHornFamily (normalizedDuskinSource B C)
+      (normalizedDuskinSourceScaling B C)) :
+    ScaledHornFamilyMap H.map_scaled HB
+      (liftedDuskinImageHornFamily H HB) := by
+  refine ⟨?_⟩
+  intro n i P hP
+  exact ⟨P, hP, rfl⟩
+
+#print axioms liftedDuskinImageHornFamily_map
+
+end KUOS.DependentOriginationScaledDuskinHornTransportV1_29.LiftedImage
