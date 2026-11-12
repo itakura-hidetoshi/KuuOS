@@ -701,11 +701,25 @@ private def strongCylinderCore
                           (P.mapComp f.1 g.1).hom (P.map h.1) (η.app d)
                           (η.app c) (Q.map h.1) (η.naturality h.1)]
                         rw [Pseudofunctor.StrongTrans.naturality_comp_inv η g.1 h.1]
+                        -- Normalize typed interchange and cancel nested
+                        -- whiskered invertible 2-cells before pure coherence.
+                        -- All rules come from pinned bicategory Basic.
+                        simp only [Category.assoc,
+                          Bicategory.whisker_exchange_assoc,
+                          Bicategory.whiskerLeft_comp,
+                          Bicategory.comp_whiskerRight,
+                          Bicategory.whiskerLeft_hom_inv_whiskerRight,
+                          Bicategory.whiskerLeft_inv_hom_whiskerRight,
+                          Bicategory.whiskerLeft_whiskerLeft_hom_inv,
+                          Bicategory.whiskerLeft_whiskerLeft_inv_hom,
+                          Bicategory.hom_inv_whiskerRight_whiskerRight,
+                          Bicategory.inv_hom_whiskerRight_whiskerRight,
+                          Category.comp_id, Category.id_comp]
                         -- Normalize the actual string diagram first.
                         -- The pure normal-form tactic cannot evaluate a
                         -- nested, nonstructural Iso.hom; the ordinary tactic
                         -- leaves a typed residual to simplify instead.
-                        bicategory
+                        all_goals bicategory
                         all_goals
                           -- bicategory_nf cannot inspect a composite Iso.hom.
                           -- Unfold Iso constructors first, then normalize.
