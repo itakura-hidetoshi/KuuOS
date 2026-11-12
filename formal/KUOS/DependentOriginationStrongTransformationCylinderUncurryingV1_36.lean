@@ -699,6 +699,19 @@ private def strongCylinderCore
                           (P.mapComp f.1 g.1).hom (P.map h.1) (η.app d)
                           (η.app c) (Q.map h.1) (η.naturality h.1)]
                         rw [Pseudofunctor.StrongTrans.naturality_comp_inv η g.1 h.1]
+                        -- The expanded inverse naturality law introduces
+                        -- adjacent genuine iso hom/inv pairs, not merely
+                        -- structural associators. Cancel them after normalizing
+                        -- the bicategorical string diagram.
+                        bicategory_nf
+                        simp only [Category.assoc,
+                          Bicategory.whiskerLeft_hom_inv_whiskerRight,
+                          Bicategory.whiskerLeft_whiskerLeft_inv_hom,
+                          Bicategory.whiskerLeft_hom_inv,
+                          Bicategory.hom_inv_whiskerRight,
+                          Bicategory.whiskerLeft_inv_hom,
+                          Bicategory.inv_hom_whiskerRight,
+                          Category.comp_id, Category.id_comp]
                         bicategory
     | succ i =>
         have hi : i = (0 : Fin 1) := Subsingleton.elim _ _
