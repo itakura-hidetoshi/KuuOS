@@ -1,4 +1,5 @@
 import Mathlib.CategoryTheory.Bicategory.Basic
+import Mathlib.CategoryTheory.EqToHom
 
 namespace KUOS.DependentOriginationMixedLeftUnitorPastingV1_36
 
