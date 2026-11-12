@@ -12,6 +12,7 @@ import KUOS.DependentOriginationMixedWhiskerPastingV1_36
 import KUOS.DependentOriginationMixedLeftUnitorPastingV1_36
 import KUOS.DependentOriginationMixedRightUnitorPastingV1_36
 import KUOS.DependentOriginationPairwiseNormalLaxRoundTripBridgeV1_36
+import KUOS.DependentOriginationHomotopyClassScaledHornInvariantV1_37
 
 /-!
 # Strict typechecker audit for v1.30–v1.32 typed scaled-horn repair
@@ -80,3 +81,8 @@ certificates or unconditional fibrancy. No new axioms are admitted.
 /-! ## Certified one-way lifted image family map (not unlifted descent) -/
 #print axioms KUOS.DependentOriginationScaledDuskinHornTransportV1_29.LiftedImage.liftedDuskinImageHornFamily_map
 #print axioms KUOS.DependentOriginationScaledDuskinHornTransportV1_29.LiftedImage.liftedDuskinFamilyMap_iff_image_admissible
+
+/-! ## Explicit lifted/unlifted class-bridge conditional audit (v1.37) -/
+#print axioms KUOS.DependentOriginationHomotopyClassScaledHornInvariantV1_37.CoherentNormalizedScaledHomotopyClassModelEquivalence.forwardHasHomotopyClassScaledHornFillers
+#print axioms KUOS.DependentOriginationHomotopyClassScaledHornInvariantV1_37.CoherentNormalizedScaledHomotopyClassModelEquivalence.backwardHasHomotopyClassScaledHornFillers
+#print axioms KUOS.DependentOriginationHomotopyClassScaledHornInvariantV1_37.CoherentNormalizedScaledHomotopyClassModelEquivalence.globalDuskinHomotopyClassFibrancy_iff
