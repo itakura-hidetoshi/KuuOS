@@ -5,6 +5,7 @@ namespace KUOS.DependentOriginationHomotopyClassScaledHornInvariantV1_37
 open CategoryTheory
 open CategoryTheory.Category
 open Simplicial
+open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
 open KUOS.DependentOriginationGlobalDuskinScaledNerveV1_21
 open KUOS.DependentOriginationGlobalDuskinScaledHornCoherenceV1_22
 open KUOS.DependentOriginationStrictlyUnitaryDuskinModelTransportV1_27
@@ -81,8 +82,6 @@ noncomputable def postcompSSetHomotopyClass
       (SSet.RelativeMorphism.botEquiv.symm k) (by cat_disch)).homotopyClass =
       (SSet.RelativeMorphism.botEquiv.symm (f ≫ k)).homotopyClass
   congr 1
-  ext
-  rfl
 
 /-! ## Scaled horn fillers modulo boundary homotopy class -/
 
@@ -179,8 +178,7 @@ noncomputable def canonicalGlobalDuskinRoundTripPrism
     {G : StrictlyUnitaryBicategoricalModelEquivalence C B}
     (K : NormalizedCoherentQuasiInverse F G) :
     GlobalDuskinRoundTripPrismRealization K :=
-  KUOS.DependentOriginationStrongTransformationCylinderUncurryingV1_36.
-    globalDuskinRoundTripPrismRealization K
+  KUOS.DependentOriginationStrongTransformationCylinderUncurryingV1_36.globalDuskinRoundTripPrismRealization K
 
 /-- A source round-trip homotopy-class filler descends to the original source
 horn by transitivity of homotopy-class equality. -/
