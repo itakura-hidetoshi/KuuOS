@@ -57,4 +57,18 @@ theorem liftedNormalLaxDuskinNerveMap_eq_normalized
     liftedNormalLaxDuskinNerveMap E.forward.toStrictlyUnitaryLaxFunctor =
       normalizedDuskinNerveMap E := rfl
 
+/-- Identity normal-lax transport is the actual identity on the pairwise
+    ULift Duskin carrier. No unlifted cross-universe map is introduced. -/
+@[simp] theorem liftedNormalLaxDuskinNerveMap_id
+    (B : Type u₁) [Bicategory.{w₁, v₁} B] :
+    liftedNormalLaxDuskinNerveMap (StrictlyUnitaryLaxFunctor.id B) =
+      𝟙 (normalizedDuskinSource B B) := by
+  ext idx σ
+  change ULift.up (σ.down.comp (StrictlyUnitaryLaxFunctor.id B)) = σ
+  rw [StrictlyUnitaryLaxFunctor.comp_id]
+  cases σ
+  rfl
+
+#print axioms liftedNormalLaxDuskinNerveMap_id
+
 end KUOS.DependentOriginationNormalLaxUniverseLiftV1_35
