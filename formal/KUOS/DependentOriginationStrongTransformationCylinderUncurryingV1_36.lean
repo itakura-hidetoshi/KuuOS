@@ -257,26 +257,58 @@ private def strongCylinderCore
             exact Q.map₂_comp α.1 β.1
   mapComp := cylinderMapComp P Q η
   map₂_whisker_left := by
-    intro X Y Z f g h β
-    by_cases hX : X.2.as = (0 : Fin 2)
-    · by_cases hY : Y.2.as = (0 : Fin 2)
-      · by_cases hZ : Z.2.as = (0 : Fin 2)
-        · simpa [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj,
-            hX, hY, hZ] using P.map₂_whisker_left f.1 β.1
-        · simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj,
-            hX, hY, hZ, P.map₂_whisker_left]
-          bicategory
-      · by_cases hZ : Z.2.as = (0 : Fin 2)
-        · exact False.elim (noIntervalHomOneZero g.2 hY hZ)
-        · simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj,
-            hX, hY, hZ, P.map₂_whisker_left]
-          bicategory
-    · by_cases hY : Y.2.as = (0 : Fin 2)
-      · exact False.elim (noIntervalHomOneZero f.2 hX hY)
-      · by_cases hZ : Z.2.as = (0 : Fin 2)
-        · exact False.elim (noIntervalHomOneZero g.2 hY hZ)
-        · simpa [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj,
-            hX, hY, hZ] using Q.map₂_whisker_left f.1 β.1
+    -- Eliminate the actual interval vertices before simplifying dependent maps.
+    -- An if-case hypothesis alone does not reduce the Fin.cases motives.
+    rintro ⟨x, ⟨i⟩⟩ ⟨y, ⟨j⟩⟩ ⟨z, ⟨k⟩⟩ f g h β
+    cases i using Fin.cases with
+    | zero =>
+        cases j using Fin.cases with
+        | zero =>
+            cases k using Fin.cases with
+            | zero =>
+                change P.map₂ (f.1 ◁ β.1) =
+                  (P.mapComp f.1 g.1).hom ≫
+                    P.map f.1 ◁ P.map₂ β.1 ≫ (P.mapComp f.1 h.1).inv
+                exact P.map₂_whisker_left f.1 β.1
+            | succ k =>
+                have hk : k = (0 : Fin 1) := Subsingleton.elim _ _
+                subst k
+                simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj,
+                  P.map₂_whisker_left] <;> bicategory
+        | succ j =>
+            have hj : j = (0 : Fin 1) := Subsingleton.elim _ _
+            subst j
+            cases k using Fin.cases with
+            | zero =>
+                exact False.elim
+                  ((by decide : ¬ ((1 : Fin 2) ≤ (0 : Fin 2))) g.2.as.le)
+            | succ k =>
+                have hk : k = (0 : Fin 1) := Subsingleton.elim _ _
+                subst k
+                have hnat := η.naturality_naturality β.1
+                simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj,
+                  hnat] <;> bicategory
+    | succ i =>
+        have hi : i = (0 : Fin 1) := Subsingleton.elim _ _
+        subst i
+        cases j using Fin.cases with
+        | zero =>
+            exact False.elim
+              ((by decide : ¬ ((1 : Fin 2) ≤ (0 : Fin 2))) f.2.as.le)
+        | succ j =>
+            have hj : j = (0 : Fin 1) := Subsingleton.elim _ _
+            subst j
+            cases k using Fin.cases with
+            | zero =>
+                exact False.elim
+                  ((by decide : ¬ ((1 : Fin 2) ≤ (0 : Fin 2))) g.2.as.le)
+            | succ k =>
+                have hk : k = (0 : Fin 1) := Subsingleton.elim _ _
+                subst k
+                change Q.map₂ (f.1 ◁ β.1) =
+                  (Q.mapComp f.1 g.1).hom ≫
+                    Q.map f.1 ◁ Q.map₂ β.1 ≫ (Q.mapComp f.1 h.1).inv
+                exact Q.map₂_whisker_left f.1 β.1
   map₂_whisker_right := by
     intro X Y Z f g α h
     by_cases hX : X.2.as = (0 : Fin 2)
