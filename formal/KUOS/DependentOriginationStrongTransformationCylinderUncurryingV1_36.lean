@@ -836,6 +836,33 @@ noncomputable def strongTransformationDuskinCylinder
         have hy0 := hIntervalZero Y
         split_ifs
         all_goals first | contradiction | simp_all
+    -- The 2-cell map is a heterogeneously indexed five-argument function;
+    -- eliminate every genuine binder before reducing the endpoint.
+    case map₂ =>
+      apply Function.hfunext rfl
+      intro X X' hX
+      cases hX
+      apply Function.hfunext rfl
+      intro Y Y' hY
+      cases hY
+      apply Function.hfunext rfl
+      intro f f' hf
+      cases hf
+      apply Function.hfunext rfl
+      intro g g' hg
+      cases hg
+      apply Function.hfunext rfl
+      intro θ θ' hθ
+      cases hθ
+      simp [normalLaxPair, hIntervalZero,
+        strongTransformationNormalLaxCylinder,
+        strongTransformationCylinder, strongCylinderCore,
+        cylinderObj, cylinderMap, cylinderMap₂]
+      all_goals
+        have hx0 := hIntervalZero X
+        have hy0 := hIntervalZero Y
+        split_ifs
+        all_goals first | contradiction | simp_all
     all_goals
       · rw! (castMode := .all) [hObj]
         simp only [heq_iff_eq]
