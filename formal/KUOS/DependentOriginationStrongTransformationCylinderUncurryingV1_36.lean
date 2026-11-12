@@ -363,27 +363,73 @@ private def strongCylinderCore
                     Q.map f.1 ◁ Q.map₂ β.1 ≫ (Q.mapComp f.1 h.1).inv
                 exact Q.map₂_whisker_left f.1 β.1
   map₂_whisker_right := by
-    intro X Y Z f g α h
-    by_cases hX : X.2.as = (0 : Fin 2)
-    · by_cases hY : Y.2.as = (0 : Fin 2)
-      · by_cases hZ : Z.2.as = (0 : Fin 2)
-        · simpa [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj,
-            hX, hY, hZ] using P.map₂_whisker_right α.1 h.1
-        · simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj,
-            hX, hY, hZ, P.map₂_whisker_right]
-          bicategory
-      · by_cases hZ : Z.2.as = (0 : Fin 2)
-        · exact False.elim (noIntervalHomOneZero h.2 hY hZ)
-        · have hnat := η.naturality_naturality α.1
-          simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj,
-            hX, hY, hZ, P.map₂_whisker_right, hnat]
-          bicategory
-    · by_cases hY : Y.2.as = (0 : Fin 2)
-      · exact False.elim (noIntervalHomOneZero f.2 hX hY)
-      · by_cases hZ : Z.2.as = (0 : Fin 2)
-        · exact False.elim (noIntervalHomOneZero h.2 hY hZ)
-        · simpa [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj,
-            hX, hY, hZ] using Q.map₂_whisker_right α.1 h.1
+    -- The interval vertices must be eliminated before the dependent
+    -- cylinderMap₂ motive reduces to the original pseudofunctor law.
+    rintro ⟨x, ⟨i⟩⟩ ⟨y, ⟨j⟩⟩ ⟨z, ⟨k⟩⟩ f g α h
+    cases i using Fin.cases with
+    | zero =>
+        cases j using Fin.cases with
+        | zero =>
+            cases k using Fin.cases with
+            | zero =>
+                change P.map₂ (α.1 ▷ h.1) =
+                  (P.mapComp f.1 h.1).hom ≫
+                    P.map₂ α.1 ▷ P.map h.1 ≫ (P.mapComp g.1 h.1).inv
+                exact P.map₂_whisker_right α.1 h.1
+            | succ k =>
+                have hk : k = (0 : Fin 1) := Subsingleton.elim _ _
+                subst k
+                change P.map₂ (α.1 ▷ h.1) ▷ η.app z =
+                  (whiskerRightIso (P.mapComp f.1 h.1) (η.app z) ≪≫
+                    α_ (P.map f.1) (P.map h.1) (η.app z)).hom ≫
+                    (P.map₂ α.1 ▷ (P.map h.1 ≫ η.app z)) ≫
+                  (whiskerRightIso (P.mapComp g.1 h.1) (η.app z) ≪≫
+                    α_ (P.map g.1) (P.map h.1) (η.app z)).inv
+                calc
+                  P.map₂ (α.1 ▷ h.1) ▷ η.app z =
+                      ((P.mapComp f.1 h.1).hom ≫
+                        P.map₂ α.1 ▷ P.map h.1 ≫
+                        (P.mapComp g.1 h.1).inv) ▷ η.app z := by
+                        exact congrArg (fun θ => θ ▷ η.app z)
+                          (P.map₂_whisker_right α.1 h.1)
+                  _ = _ := by
+                    dsimp
+                    bicategory
+        | succ j =>
+            have hj : j = (0 : Fin 1) := Subsingleton.elim _ _
+            subst j
+            cases k using Fin.cases with
+            | zero =>
+                exact False.elim
+                  ((by decide : ¬ ((1 : Fin 2) ≤ (0 : Fin 2))) h.2.as.le)
+            | succ k =>
+                have hk : k = (0 : Fin 1) := Subsingleton.elim _ _
+                subst k
+                have hnat := η.naturality_naturality α.1
+                simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj,
+                  P.map₂_whisker_right, hnat]
+                bicategory
+    | succ i =>
+        have hi : i = (0 : Fin 1) := Subsingleton.elim _ _
+        subst i
+        cases j using Fin.cases with
+        | zero =>
+            exact False.elim
+              ((by decide : ¬ ((1 : Fin 2) ≤ (0 : Fin 2))) f.2.as.le)
+        | succ j =>
+            have hj : j = (0 : Fin 1) := Subsingleton.elim _ _
+            subst j
+            cases k using Fin.cases with
+            | zero =>
+                exact False.elim
+                  ((by decide : ¬ ((1 : Fin 2) ≤ (0 : Fin 2))) h.2.as.le)
+            | succ k =>
+                have hk : k = (0 : Fin 1) := Subsingleton.elim _ _
+                subst k
+                change Q.map₂ (α.1 ▷ h.1) =
+                  (Q.mapComp f.1 h.1).hom ≫
+                    Q.map₂ α.1 ▷ Q.map h.1 ≫ (Q.mapComp g.1 h.1).inv
+                exact Q.map₂_whisker_right α.1 h.1
   map₂_left_unitor := by
     intro X Y f
     by_cases hX : X.2.as = (0 : Fin 2)
