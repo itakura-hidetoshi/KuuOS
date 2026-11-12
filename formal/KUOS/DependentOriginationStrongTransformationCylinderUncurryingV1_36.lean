@@ -851,6 +851,8 @@ noncomputable def strongTransformationDuskinCylinder
   cylinder := strongTransformationNormalLaxCylinder P Q η
   endpoint_zero := by
     intro _idx σ
+    -- Rewrite before structure ext: later field elaboration expands Fin.cases motives.
+    rw [intervalNormalLax_zero_eq_constant σ]
     have hIntervalZero (X : DuskinOrdinal _idx.unop.len) :
         ((intervalNormalLax ((SSet.ι₀.app _idx σ).2)).obj X).as =
           (0 : Fin 2) := by
@@ -918,7 +920,7 @@ noncomputable def strongTransformationDuskinCylinder
       -- Rewrite the entire interval normal-lax functor before attempting
       -- to reduce the dependent Fin.cases motive. The typed Functor.ext
       -- witnesses replace both its object and morphism components.
-      rw [intervalNormalLax_zero_eq_constant σ]
+      simp only [intervalNormalLax_zero_eq_constant σ]
       simp [normalLaxPair, constantIntervalFunctor,
         locallyDiscreteNormalLax,
         strongTransformationNormalLaxCylinder,
@@ -955,6 +957,8 @@ noncomputable def strongTransformationDuskinCylinder
           cylinderObj, cylinderMap, cylinderMap₂, cylinderMapComp]
   endpoint_one := by
     intro _idx σ
+    -- Rewrite before dependent fields are elaborated, not inside their HEq goals.
+    rw [intervalNormalLax_one_eq_constant σ]
     have hIntervalOne (X : DuskinOrdinal _idx.unop.len) :
         ((intervalNormalLax ((SSet.ι₁.app _idx σ).2)).obj X).as =
           (1 : Fin 2) := by
@@ -1010,7 +1014,7 @@ noncomputable def strongTransformationDuskinCylinder
       apply Function.hfunext rfl
       intro θ θ' hθ
       cases hθ
-      rw [intervalNormalLax_one_eq_constant σ]
+      simp only [intervalNormalLax_one_eq_constant σ]
       simp [normalLaxPair, constantIntervalFunctor,
         locallyDiscreteNormalLax,
         strongTransformationNormalLaxCylinder,
