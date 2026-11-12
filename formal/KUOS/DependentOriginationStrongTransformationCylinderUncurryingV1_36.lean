@@ -458,18 +458,37 @@ private def strongCylinderCore
                     Q.map₂ α.1 ▷ Q.map h.1 ≫ (Q.mapComp g.1 h.1).inv
                 exact Q.map₂_whisker_right α.1 h.1
   map₂_left_unitor := by
-    intro X Y f
-    by_cases hX : X.2.as = (0 : Fin 2)
-    · by_cases hY : Y.2.as = (0 : Fin 2)
-      · simpa [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj,
-          hX, hY, P.map_id] using P.map₂_left_unitor f.1
-      · simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj,
-          hX, hY, P.map_id, P.map₂_left_unitor]
-        bicategory
-    · by_cases hY : Y.2.as = (0 : Fin 2)
-      · exact False.elim (noIntervalHomOneZero f.2 hX hY)
-      · simpa [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj,
-          hX, hY, Q.map_id] using Q.map₂_left_unitor f.1
+    -- Dependent interval eliminators must be computed at literal vertices.
+    -- The endpoint cases are the original strictly-unitary unitor law;
+    -- the mixed case still requires genuine bicategorical coherence.
+    rintro ⟨x, ⟨i⟩⟩ ⟨y, ⟨j⟩⟩ f
+    cases i using Fin.cases with
+    | zero =>
+        cases j using Fin.cases with
+        | zero =>
+            change P.map₂ (λ_ f.1).hom =
+              (P.mapComp (𝟙 x) f.1).hom ≫
+                eqToHom (by rw [P.map_id x]) ≫ (λ_ (P.map f.1)).hom
+            exact P.map₂_left_unitor f.1
+        | succ j =>
+            have hj : j = (0 : Fin 1) := Subsingleton.elim _ _
+            subst j
+            simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj,
+              P.map_id, P.map₂_left_unitor] <;> bicategory
+    | succ i =>
+        have hi : i = (0 : Fin 1) := Subsingleton.elim _ _
+        subst i
+        cases j using Fin.cases with
+        | zero =>
+            exact False.elim
+              ((by decide : ¬ ((1 : Fin 2) ≤ (0 : Fin 2))) f.2.as.le)
+        | succ j =>
+            have hj : j = (0 : Fin 1) := Subsingleton.elim _ _
+            subst j
+            change Q.map₂ (λ_ f.1).hom =
+              (Q.mapComp (𝟙 x) f.1).hom ≫
+                eqToHom (by rw [Q.map_id x]) ≫ (λ_ (Q.map f.1)).hom
+            exact Q.map₂_left_unitor f.1
   map₂_right_unitor := by
     intro X Y f
     by_cases hX : X.2.as = (0 : Fin 2)
