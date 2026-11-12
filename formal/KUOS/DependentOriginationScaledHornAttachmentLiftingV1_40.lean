@@ -78,18 +78,30 @@ theorem endpointIntoAttachment_ι_zero
     (n : Nat) (i : Fin (n + 1)) :
     endpointIntoAttachment n i 0 ≫ (hornCylinderAttachment n i 0).ι =
       (SSet.ι₀ : (Δ[n] : SSet.{u}) ⟶ (Δ[n] : SSet.{u}) ⊗ Δ[1]) := by
-  ext m x <;>
-    simp [endpointIntoAttachment, endpointSection, intervalEndpoint,
-      SSet.Subcomplex.ofSimplex_ι, SSet.ι₀]
+  calc
+    _ = endpointSection n 0 ≫
+        ((Δ[n] : SSet.{u}) ◁ (intervalEndpoint 0).ι) := by
+          simp only [endpointIntoAttachment, Category.assoc,
+            SSet.Subcomplex.unionProd.ι₁_ι]
+    _ = SSet.ι₀ := by
+      ext m x <;>
+        simp [endpointSection, intervalEndpoint,
+          SSet.Subcomplex.ofSimplex_ι, SSet.ι₀]
 
 @[simp, reassoc]
 theorem endpointIntoAttachment_ι_one
     (n : Nat) (i : Fin (n + 1)) :
     endpointIntoAttachment n i 1 ≫ (hornCylinderAttachment n i 1).ι =
       (SSet.ι₁ : (Δ[n] : SSet.{u}) ⟶ (Δ[n] : SSet.{u}) ⊗ Δ[1]) := by
-  ext m x <;>
-    simp [endpointIntoAttachment, endpointSection, intervalEndpoint,
-      SSet.Subcomplex.ofSimplex_ι, SSet.ι₁]
+  calc
+    _ = endpointSection n 1 ≫
+        ((Δ[n] : SSet.{u}) ◁ (intervalEndpoint 1).ι) := by
+          simp only [endpointIntoAttachment, Category.assoc,
+            SSet.Subcomplex.unionProd.ι₁_ι]
+    _ = SSet.ι₁ := by
+      ext m x <;>
+        simp [endpointSection, intervalEndpoint,
+          SSet.Subcomplex.ofSimplex_ι, SSet.ι₁]
 
 /-! ## Canonical pushout gluing of endpoint simplex and horn homotopy -/
 
@@ -187,8 +199,12 @@ theorem forwardAttachmentMap_on_endpoint
     endpointIntoAttachment n i 0 ≫ forwardAttachmentMap H Q = Q.simplexMap := by
   calc
     _ = endpointSection n 0 ≫ endpointTensorMap 0 Q := by
-      simp only [endpointIntoAttachment, forwardAttachmentMap,
-        Category.assoc, IsPushout.inl_desc]
+      simpa only [endpointIntoAttachment, forwardAttachmentMap,
+          Category.assoc] using
+        congrArg (fun k => endpointSection n 0 ≫ k)
+          ((SSet.Subcomplex.unionProd.isPushout
+            (SSet.horn n i) (intervalEndpoint 0)).inl_desc
+              (endpointTensorMap 0 Q) H.h (forwardAttachment_compatibility H Q))
     _ = Q.simplexMap := by
       simp [endpointSection, endpointTensorMap]
 
@@ -204,8 +220,12 @@ theorem backwardAttachmentMap_on_endpoint
     endpointIntoAttachment n i 1 ≫ backwardAttachmentMap H Q = Q.simplexMap := by
   calc
     _ = endpointSection n 1 ≫ endpointTensorMap 1 Q := by
-      simp only [endpointIntoAttachment, backwardAttachmentMap,
-        Category.assoc, IsPushout.inl_desc]
+      simpa only [endpointIntoAttachment, backwardAttachmentMap,
+          Category.assoc] using
+        congrArg (fun k => endpointSection n 1 ≫ k)
+          ((SSet.Subcomplex.unionProd.isPushout
+            (SSet.horn n i) (intervalEndpoint 1)).inl_desc
+              (endpointTensorMap 1 Q) H.h (backwardAttachment_compatibility H Q))
     _ = Q.simplexMap := by
       simp [endpointSection, endpointTensorMap]
 
@@ -292,7 +312,7 @@ v1.39. -/
       change
         SSet.Subcomplex.unionProd.ι₂ (SSet.horn n i) (intervalEndpoint 0) ≫
           ((hornCylinderAttachment n i 0).ι ≫ E) = H.h
-      rw [hE]
+      rw [Category.assoc, hE]
       exact forwardAttachmentMap_on_horn H Q
     endpoint_one_scaled := hScaled
   }⟩
@@ -323,7 +343,7 @@ v1.39. -/
       change
         SSet.Subcomplex.unionProd.ι₂ (SSet.horn n i) (intervalEndpoint 1) ≫
           ((hornCylinderAttachment n i 1).ι ≫ E) = H.h
-      rw [hE]
+      rw [Category.assoc, hE]
       exact backwardAttachmentMap_on_horn H Q
     endpoint_zero_scaled := hScaled
   }⟩
