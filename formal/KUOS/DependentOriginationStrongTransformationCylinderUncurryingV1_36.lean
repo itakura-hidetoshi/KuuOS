@@ -311,7 +311,7 @@ noncomputable def strongTransformationDuskinCylinder
       P.toStrictlyUnitaryLaxFunctor Q.toStrictlyUnitaryLaxFunctor where
   cylinder := strongTransformationNormalLaxCylinder P Q η
   endpoint_zero := by
-    intro Δ σ
+    intro _idx σ
     apply StrictlyUnitaryLaxFunctor.ext
     · rfl
     all_goals
@@ -322,7 +322,7 @@ noncomputable def strongTransformationDuskinCylinder
           strongTransformationCylinder, strongCylinderCore,
           cylinderObj, cylinderMap, cylinderMap₂, cylinderMapComp]
   endpoint_one := by
-    intro Δ σ
+    intro _idx σ
     apply StrictlyUnitaryLaxFunctor.ext
     · rfl
     all_goals
