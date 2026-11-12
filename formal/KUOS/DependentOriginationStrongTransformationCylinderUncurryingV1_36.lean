@@ -94,14 +94,16 @@ private def cylinderMap₂
     {f g : X ⟶ Y}
     (α : f ⟶ g) :
     cylinderMap P Q η f ⟶ cylinderMap P Q η g := by
-  by_cases hX : X.2.as = (0 : Fin 2)
-  · by_cases hY : Y.2.as = (0 : Fin 2)
-    · simpa [cylinderMap, cylinderObj, hX, hY] using P.map₂ α.1
-    · simpa [cylinderMap, cylinderObj, hX, hY] using
-        (P.map₂ α.1 ▷ η.app Y.1)
-  · by_cases hY : Y.2.as = (0 : Fin 2)
-    · exact False.elim (noIntervalHomOneZero f.2 hX hY)
-    · simpa [cylinderMap, cylinderObj, hX, hY] using Q.map₂ α.1
+  -- Eliminate the actual interval vertices before comparing dependent
+  -- 2-morphism types: propositional by_cases leaves casts on the 1-cells.
+  rcases X with ⟨x, ⟨i⟩⟩
+  rcases Y with ⟨y, ⟨j⟩⟩
+  fin_cases i <;> fin_cases j
+  · simpa [cylinderMap, cylinderObj] using P.map₂ α.1
+  · simpa [cylinderMap, cylinderObj] using (P.map₂ α.1 ▷ η.app y)
+  · exact False.elim
+      ((by decide : ¬ ((1 : Fin 2) ≤ (0 : Fin 2))) f.2.as.le)
+  · simpa [cylinderMap, cylinderObj] using Q.map₂ α.1
 
 private def cylinderMapComp
     {B : Type u₁} [Bicategory.{w₁, v₁} B]
