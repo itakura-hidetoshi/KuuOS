@@ -82,7 +82,7 @@ theorem endpointIntoAttachment_ι_zero
     _ = endpointSection n 0 ≫
         (SSet.Subcomplex.unionProd.ι₁ (SSet.horn n i) (intervalEndpoint 0) ≫
           (hornCylinderAttachment n i 0).ι) := by
-          simp only [endpointIntoAttachment, Category.assoc]
+          rfl
     _ = endpointSection n 0 ≫
         ((Δ[n] : SSet.{u}) ◁ (intervalEndpoint 0).ι) := by
           exact congrArg (fun k => endpointSection n 0 ≫ k)
@@ -101,7 +101,7 @@ theorem endpointIntoAttachment_ι_one
     _ = endpointSection n 1 ≫
         (SSet.Subcomplex.unionProd.ι₁ (SSet.horn n i) (intervalEndpoint 1) ≫
           (hornCylinderAttachment n i 1).ι) := by
-          simp only [endpointIntoAttachment, Category.assoc]
+          rfl
     _ = endpointSection n 1 ≫
         ((Δ[n] : SSet.{u}) ◁ (intervalEndpoint 1).ι) := by
           exact congrArg (fun k => endpointSection n 1 ≫ k)

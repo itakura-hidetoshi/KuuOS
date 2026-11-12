@@ -73,6 +73,23 @@ open CategoryTheory MonoidalCategory Simplicial
 
 namespace SSet
 
+/-!
+Bridge lemmas absent from the 2026-04 pinned Horn/Boundary files.
+Proofs are taken from later mathlib sources, not declared as axioms.
+These are internal proof dependencies of the validation-only UnionProd port.
+-/
+
+/-- The pinned horn membership predicate can be expressed by a missing vertex. -/
+private lemma mem_horn_iff_notMem_range {n d : ℕ} (s : Δ[n] _⦋d⦌) (i : Fin (n + 1)) :
+    s ∈ (horn.{u} n i).obj _ ↔ ∃ (j : Fin (n + 1)) (_ : j ≠ i), j ∉ Set.range s := by
+  simp [horn_eq_iSup]
+
+/-- The pinned boundary membership predicate can be expressed by a missing vertex. -/
+private lemma mem_boundary_iff_notMem_range {n d : ℕ} (s : Δ[n] _⦋d⦌) :
+    s ∈ (boundary n).obj _ ↔ ∃ (j : Fin (n + 1)), j ∉ Set.range s := by
+  rw [boundary_eq_iSup]
+  simp
+
 namespace prodStdSimplex
 
 variable {m : ℕ} {k : Fin (m + 1)} {n : ℕ}
