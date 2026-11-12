@@ -771,7 +771,7 @@ noncomputable def strongTransformationDuskinCylinder
     apply StrictlyUnitaryLaxFunctor.ext
     · rfl
     all_goals
-      · first | rw [heq_iff_eq] | skip
+      · rw [heq_iff_eq]
         ext
         simp [normalLaxPair, intervalNormalLax,
           strongTransformationNormalLaxCylinder,
@@ -782,7 +782,7 @@ noncomputable def strongTransformationDuskinCylinder
     apply StrictlyUnitaryLaxFunctor.ext
     · rfl
     all_goals
-      · first | rw [heq_iff_eq] | skip
+      · rw [heq_iff_eq]
         ext
         simp [normalLaxPair, intervalNormalLax,
           strongTransformationNormalLaxCylinder,
