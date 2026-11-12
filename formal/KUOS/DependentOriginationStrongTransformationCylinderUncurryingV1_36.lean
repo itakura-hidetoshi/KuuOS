@@ -469,7 +469,8 @@ private def strongCylinderCore
             change P.map₂ (λ_ f.1).hom =
               (P.mapComp (𝟙 x) f.1).hom ≫
                 eqToHom (by rw [P.map_id x]) ≫ (λ_ (P.map f.1)).hom
-            simpa only [P.mapId_eq_eqToIso, eqToIso.hom] using
+            simpa only [P.mapId_eq_eqToIso, eqToIso.hom,
+              Bicategory.eqToHom_whiskerRight] using
               P.map₂_left_unitor f.1
         | succ j =>
             have hj : j = (0 : Fin 1) := Subsingleton.elim _ _
@@ -489,7 +490,8 @@ private def strongCylinderCore
             change Q.map₂ (λ_ f.1).hom =
               (Q.mapComp (𝟙 x) f.1).hom ≫
                 eqToHom (by rw [Q.map_id x]) ≫ (λ_ (Q.map f.1)).hom
-            simpa only [Q.mapId_eq_eqToIso, eqToIso.hom] using
+            simpa only [Q.mapId_eq_eqToIso, eqToIso.hom,
+              Bicategory.eqToHom_whiskerRight] using
               Q.map₂_left_unitor f.1
   map₂_right_unitor := by
     intro X Y f
