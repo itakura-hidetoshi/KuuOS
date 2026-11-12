@@ -91,7 +91,7 @@ REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
 # Newly added formal modules are outside the frozen v5.291 archive. Their
 # exact draft source blobs are reviewed separately from historical corrections.
 REVIEWED_ADDITIVE_FORMAL_BLOBS = {
-    "KUOS/DependentOriginationMixedLeftUnitorPastingV1_36.lean": "25d5a6336f4b45f8042f073c3f4342d79c0ac5bf",
+    "KUOS/DependentOriginationMixedLeftUnitorPastingV1_36.lean": "e3d7a47a45c425040bac9f41675df049bc8ba228",
     "KUOS/DependentOriginationMixedWhiskerPastingV1_36.lean": "74cfd1997d8c5ec0233db5ab473bf381b2367583",
     "KUOS/DependentOriginationNormalLaxUniverseLiftV1_35.lean": "9f0f5f81109993bb791df655844c62de0729b681",
     "KUOS/DependentOriginationLiftedDuskinCanonicalStrictDescentV1_29.lean": "ea7bb2e0c35e8602d4d45e28bb4b6631679ed0c3",
