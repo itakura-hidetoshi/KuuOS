@@ -193,7 +193,7 @@ noncomputable def sourceHomotopyClassFillerOfRoundTrip
     (HG : FullScaledDuskinMapCertificate G)
     {n : Nat} {i : Fin (n + 1)}
     {P : ScaledHornExtensionProblem
-      (duskinNerve B) (duskinScaling B) n i}
+      (normalizedDuskinSource B C) (normalizedDuskinSourceScaling B C) n i}
     (Q : HomotopyClassScaledHornFiller
       (transportGlobalDuskinHornProblem HG
         (transportGlobalDuskinHornProblem HF P))) :
@@ -218,7 +218,7 @@ noncomputable def targetHomotopyClassFillerOfRoundTrip
     (HG : FullScaledDuskinMapCertificate G)
     {n : Nat} {i : Fin (n + 1)}
     {Q : ScaledHornExtensionProblem
-      (duskinNerve C) (duskinScaling C) n i}
+      (normalizedDuskinTarget B C) (normalizedDuskinTargetScaling B C) n i}
     (R : HomotopyClassScaledHornFiller
       (transportGlobalDuskinHornProblem HF
         (transportGlobalDuskinHornProblem HG Q))) :
