@@ -562,40 +562,93 @@ private def strongCylinderCore
               Bicategory.whiskerLeft_eqToHom] using
               Q.map₂_right_unitor f.1
   map₂_associator := by
-    intro A B C D f g h
-    by_cases hA : A.2.as = (0 : Fin 2)
-    · by_cases hB : B.2.as = (0 : Fin 2)
-      · by_cases hC : C.2.as = (0 : Fin 2)
-        · by_cases hD : D.2.as = (0 : Fin 2)
-          · simpa [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj,
-              hA, hB, hC, hD] using P.map₂_associator f.1 g.1 h.1
-          · simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj,
-              hA, hB, hC, hD, P.map₂_associator]
-            bicategory
-        · by_cases hD : D.2.as = (0 : Fin 2)
-          · exact False.elim (noIntervalHomOneZero h.2 hC hD)
-          · simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj,
-              hA, hB, hC, hD,
-              P.map₂_associator,
-              Pseudofunctor.StrongTrans.naturality_comp_hom]
-            bicategory
-      · by_cases hC : C.2.as = (0 : Fin 2)
-        · exact False.elim (noIntervalHomOneZero g.2 hB hC)
-        · by_cases hD : D.2.as = (0 : Fin 2)
-          · exact False.elim (noIntervalHomOneZero h.2 hC hD)
-          · simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj,
-              hA, hB, hC, hD,
-              P.map₂_associator,
-              Pseudofunctor.StrongTrans.naturality_comp_hom]
-            bicategory
-    · by_cases hB : B.2.as = (0 : Fin 2)
-      · exact False.elim (noIntervalHomOneZero f.2 hA hB)
-      · by_cases hC : C.2.as = (0 : Fin 2)
-        · exact False.elim (noIntervalHomOneZero g.2 hB hC)
-        · by_cases hD : D.2.as = (0 : Fin 2)
-          · exact False.elim (noIntervalHomOneZero h.2 hC hD)
-          · simpa [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj,
-              hA, hB, hC, hD] using Q.map₂_associator f.1 g.1 h.1
+    -- Fin.cases reduces the dependent interval motives before applying
+    -- either native associator law. A by_cases on a proposition does not.
+    rintro ⟨a, ⟨i⟩⟩ ⟨b, ⟨j⟩⟩ ⟨c, ⟨k⟩⟩ ⟨d, ⟨l⟩⟩ f g h
+    cases i using Fin.cases with
+    | zero =>
+        cases j using Fin.cases with
+        | zero =>
+            cases k using Fin.cases with
+            | zero =>
+                cases l using Fin.cases with
+                | zero =>
+                    change P.map₂ (α_ f.1 g.1 h.1).hom =
+                      (P.mapComp (f.1 ≫ g.1) h.1).hom ≫
+                        (P.mapComp f.1 g.1).hom ▷ P.map h.1 ≫
+                        (α_ (P.map f.1) (P.map g.1) (P.map h.1)).hom ≫
+                        P.map f.1 ◁ (P.mapComp g.1 h.1).inv ≫
+                        (P.mapComp f.1 (g.1 ≫ h.1)).inv
+                    exact P.map₂_associator f.1 g.1 h.1
+                | succ l =>
+                    have hl : l = (0 : Fin 1) := Subsingleton.elim _ _
+                    subst l
+                    simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj,
+                      P.map₂_associator] <;> bicategory
+            | succ k =>
+                have hk : k = (0 : Fin 1) := Subsingleton.elim _ _
+                subst k
+                cases l using Fin.cases with
+                | zero =>
+                    exact False.elim
+                      ((by decide : ¬ ((1 : Fin 2) ≤ (0 : Fin 2))) h.2.as.le)
+                | succ l =>
+                    have hl : l = (0 : Fin 1) := Subsingleton.elim _ _
+                    subst l
+                    simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj,
+                      P.map₂_associator,
+                      Pseudofunctor.StrongTrans.naturality_comp_hom] <;> bicategory
+        | succ j =>
+            have hj : j = (0 : Fin 1) := Subsingleton.elim _ _
+            subst j
+            cases k using Fin.cases with
+            | zero =>
+                exact False.elim
+                  ((by decide : ¬ ((1 : Fin 2) ≤ (0 : Fin 2))) g.2.as.le)
+            | succ k =>
+                have hk : k = (0 : Fin 1) := Subsingleton.elim _ _
+                subst k
+                cases l using Fin.cases with
+                | zero =>
+                    exact False.elim
+                      ((by decide : ¬ ((1 : Fin 2) ≤ (0 : Fin 2))) h.2.as.le)
+                | succ l =>
+                    have hl : l = (0 : Fin 1) := Subsingleton.elim _ _
+                    subst l
+                    simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj,
+                      P.map₂_associator,
+                      Pseudofunctor.StrongTrans.naturality_comp_hom] <;> bicategory
+    | succ i =>
+        have hi : i = (0 : Fin 1) := Subsingleton.elim _ _
+        subst i
+        cases j using Fin.cases with
+        | zero =>
+            exact False.elim
+              ((by decide : ¬ ((1 : Fin 2) ≤ (0 : Fin 2))) f.2.as.le)
+        | succ j =>
+            have hj : j = (0 : Fin 1) := Subsingleton.elim _ _
+            subst j
+            cases k using Fin.cases with
+            | zero =>
+                exact False.elim
+                  ((by decide : ¬ ((1 : Fin 2) ≤ (0 : Fin 2))) g.2.as.le)
+            | succ k =>
+                have hk : k = (0 : Fin 1) := Subsingleton.elim _ _
+                subst k
+                cases l using Fin.cases with
+                | zero =>
+                    exact False.elim
+                      ((by decide : ¬ ((1 : Fin 2) ≤ (0 : Fin 2))) h.2.as.le)
+                | succ l =>
+                    have hl : l = (0 : Fin 1) := Subsingleton.elim _ _
+                    subst l
+                    change Q.map₂ (α_ f.1 g.1 h.1).hom =
+                      (Q.mapComp (f.1 ≫ g.1) h.1).hom ≫
+                        (Q.mapComp f.1 g.1).hom ▷ Q.map h.1 ≫
+                        (α_ (Q.map f.1) (Q.map g.1) (Q.map h.1)).hom ≫
+                        Q.map f.1 ◁ (Q.mapComp g.1 h.1).inv ≫
+                        (Q.mapComp f.1 (g.1 ≫ h.1)).inv
+                    exact Q.map₂_associator f.1 g.1 h.1
 
 /-- Uncurrying a native strong transformation into a strictly-unitary pseudofunctor cylinder. -/
 def strongTransformationCylinder
