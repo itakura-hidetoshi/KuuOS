@@ -128,25 +128,57 @@ private def cylinderMapComp
     (f : X ⟶ Y) (g : Y ⟶ Z) :
     cylinderMap P Q η (f ≫ g) ≅
       cylinderMap P Q η f ≫ cylinderMap P Q η g := by
-  by_cases hX : X.2.as = (0 : Fin 2)
-  · by_cases hY : Y.2.as = (0 : Fin 2)
-    · by_cases hZ : Z.2.as = (0 : Fin 2)
-      · simpa [cylinderMap, cylinderObj, hX, hY, hZ] using P.mapComp f.1 g.1
-      · simpa [cylinderMap, cylinderObj, hX, hY, hZ] using
-          (whiskerRightIso (P.mapComp f.1 g.1) (η.app Z.1) ≪≫
-            α_ (P.map f.1) (P.map g.1) (η.app Z.1))
-    · by_cases hZ : Z.2.as = (0 : Fin 2)
-      · exact False.elim (noIntervalHomOneZero g.2 hY hZ)
-      · simpa [cylinderMap, cylinderObj, hX, hY, hZ] using
-          (whiskerRightIso (P.mapComp f.1 g.1) (η.app Z.1) ≪≫
-            α_ (P.map f.1) (P.map g.1) (η.app Z.1) ≪≫
-            whiskerLeftIso (P.map f.1) (η.naturality g.1) ≪≫
-            (α_ (P.map f.1) (η.app Y.1) (Q.map g.1)).symm)
-  · by_cases hY : Y.2.as = (0 : Fin 2)
-    · exact False.elim (noIntervalHomOneZero f.2 hX hY)
-    · by_cases hZ : Z.2.as = (0 : Fin 2)
-      · exact False.elim (noIntervalHomOneZero g.2 hY hZ)
-      · simpa [cylinderMap, cylinderObj, hX, hY, hZ] using Q.mapComp f.1 g.1
+  -- Eliminate the actual interval vertices so the required isomorphism
+  -- has the original 1-morphism endpoints, not proof-dependent casts.
+  rcases X with ⟨x, ⟨i⟩⟩
+  rcases Y with ⟨y, ⟨j⟩⟩
+  rcases Z with ⟨z, ⟨k⟩⟩
+  cases i using Fin.cases with
+  | zero =>
+      cases j using Fin.cases with
+      | zero =>
+          cases k using Fin.cases with
+          | zero =>
+              simpa [cylinderMap, cylinderObj] using P.mapComp f.1 g.1
+          | succ k =>
+              have hk : k = (0 : Fin 1) := Subsingleton.elim _ _
+              subst k
+              simpa [cylinderMap, cylinderObj] using
+                (whiskerRightIso (P.mapComp f.1 g.1) (η.app z) ≪≫
+                  α_ (P.map f.1) (P.map g.1) (η.app z))
+      | succ j =>
+          have hj : j = (0 : Fin 1) := Subsingleton.elim _ _
+          subst j
+          cases k using Fin.cases with
+          | zero =>
+              exact False.elim
+                ((by decide : ¬ ((1 : Fin 2) ≤ (0 : Fin 2))) g.2.as.le)
+          | succ k =>
+              have hk : k = (0 : Fin 1) := Subsingleton.elim _ _
+              subst k
+              simpa [cylinderMap, cylinderObj] using
+                (whiskerRightIso (P.mapComp f.1 g.1) (η.app z) ≪≫
+                  α_ (P.map f.1) (P.map g.1) (η.app z) ≪≫
+                  whiskerLeftIso (P.map f.1) (η.naturality g.1) ≪≫
+                  (α_ (P.map f.1) (η.app y) (Q.map g.1)).symm)
+  | succ i =>
+      have hi : i = (0 : Fin 1) := Subsingleton.elim _ _
+      subst i
+      cases j using Fin.cases with
+      | zero =>
+          exact False.elim
+            ((by decide : ¬ ((1 : Fin 2) ≤ (0 : Fin 2))) f.2.as.le)
+      | succ j =>
+          have hj : j = (0 : Fin 1) := Subsingleton.elim _ _
+          subst j
+          cases k using Fin.cases with
+          | zero =>
+              exact False.elim
+                ((by decide : ¬ ((1 : Fin 2) ≤ (0 : Fin 2))) g.2.as.le)
+          | succ k =>
+              have hk : k = (0 : Fin 1) := Subsingleton.elim _ _
+              subst k
+              simpa [cylinderMap, cylinderObj] using Q.mapComp f.1 g.1
 
 private def strongCylinderCore
     {B : Type u₁} [Bicategory.{w₁, v₁} B]
