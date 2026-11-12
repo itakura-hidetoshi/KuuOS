@@ -189,10 +189,16 @@ private def strongCylinderCore
   obj := cylinderObj P Q
   map := cylinderMap P Q η
   map_id := by
-    intro X
-    by_cases hX : X.2.as = (0 : Fin 2)
-    · simpa [cylinderMap, cylinderObj, hX, P.map_id]
-    · simpa [cylinderMap, cylinderObj, hX, Q.map_id]
+    -- Eliminate the interval vertex before unfolding the dependent object map:
+    -- a symbolic if/transport leaves a cast that simp cannot identify with id.
+    rintro ⟨x, ⟨i⟩⟩
+    cases i using Fin.cases with
+    | zero =>
+        simpa [cylinderMap, cylinderObj] using P.map_id x
+    | succ i =>
+        have hi : i = (0 : Fin 1) := Subsingleton.elim _ _
+        subst i
+        simpa [cylinderMap, cylinderObj] using Q.map_id x
   map₂ := cylinderMap₂ P Q η
   map₂_id := by
     intro X Y f
