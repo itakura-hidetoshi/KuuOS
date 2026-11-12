@@ -811,7 +811,8 @@ noncomputable def strongTransformationDuskinCylinder
     all_goals
       · -- simp transports dependent occurrences coherently; rw [hObj]
         -- cannot construct a well-typed motive across the HEq fields.
-        simp only [hObj, heq_iff_eq]
+        rw! +letAbs (castMode := .all) [hObj]
+        simp only [heq_iff_eq]
         ext
         simp [normalLaxPair, intervalNormalLax,
           strongTransformationNormalLaxCylinder,
@@ -831,7 +832,8 @@ noncomputable def strongTransformationDuskinCylinder
     all_goals
       · -- simp transports dependent occurrences coherently; rw [hObj]
         -- cannot construct a well-typed motive across the HEq fields.
-        simp only [hObj, heq_iff_eq]
+        rw! +letAbs (castMode := .all) [hObj]
+        simp only [heq_iff_eq]
         ext
         simp [normalLaxPair, intervalNormalLax,
           strongTransformationNormalLaxCylinder,
