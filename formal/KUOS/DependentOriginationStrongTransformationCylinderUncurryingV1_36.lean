@@ -801,6 +801,13 @@ noncomputable def strongTransformationDuskinCylinder
         ((intervalNormalLax ((SSet.ι₀.app _idx σ).2)).obj X).as =
           (0 : Fin 2) := by
       rfl
+    -- Transporting only the scalar .as equation leaves a dependent
+    -- Fin.cases motive; identify the actual locally-discrete object.
+    have hIntervalZeroObj (X : DuskinOrdinal _idx.unop.len) :
+        (intervalNormalLax ((SSet.ι₀.app _idx σ).2)).obj X =
+          (⟨(0 : Fin 2)⟩ : DuskinOrdinal 1) := by
+      apply LocallyDiscrete.ext
+      exact hIntervalZero X
     -- Explicitly identify the complete object map before transporting
     -- the dependent hom/map₂/mapId/mapComp fields.
     have hObj :
@@ -854,6 +861,8 @@ noncomputable def strongTransformationDuskinCylinder
       apply Function.hfunext rfl
       intro θ θ' hθ
       cases hθ
+      -- Reduce the object-valued dependent eliminators at literal 0.
+      rw! (castMode := .all) [hIntervalZeroObj X, hIntervalZeroObj Y]
       simp [normalLaxPair, hIntervalZero,
         strongTransformationNormalLaxCylinder,
         strongTransformationCylinder, strongCylinderCore,
