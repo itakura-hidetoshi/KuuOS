@@ -641,6 +641,10 @@ private def strongCylinderCore
                           (P.map₂_associator f.1 g.1 h.1)
                       _ = _ := by
                         dsimp only [Iso.trans, Iso.symm, whiskerRightIso, whiskerLeftIso]
+                        -- Expand the outer composite's right whiskering first:
+                        -- the reassociation lemma's left side is otherwise
+                        -- buried under a still-unexpanded composition.
+                        simp only [Bicategory.comp_whiskerRight]
                         rw [KUOS.DependentOriginationMixedWhiskerPastingV1_36.reassociatedRightWhisker
                           (P.mapComp f.1 g.1).hom (P.map h.1) (η.app d)
                           (η.app c) (Q.map h.1) (η.naturality h.1)]
