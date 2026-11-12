@@ -1,4 +1,5 @@
 import KUOS.DependentOriginationLiftedDuskinRoundTripBridgeV1_29
+import KUOS.DependentOriginationScaledDuskinHornTransportV1_29
 import KUOS.DependentOriginationLiftedDuskinCanonicalStrictDescentV1_29
 import KUOS.DependentOriginationLiftedDuskinStrictInverseDescentV1_29
 import KUOS.DependentOriginationLiftedDuskinFamilyDescentBridgeV1_29
@@ -75,3 +76,6 @@ certificates or unconditional fibrancy. No new axioms are admitted.
 #print axioms KUOS.DependentOriginationPairwiseNormalLaxRoundTripBridgeV1_36.ambientNormalLaxCylinderHomotopy
 #print axioms KUOS.DependentOriginationPairwiseNormalLaxRoundTripBridgeV1_36.sourceRoundTrip_pairwise_prism
 #print axioms KUOS.DependentOriginationPairwiseNormalLaxRoundTripBridgeV1_36.targetRoundTrip_pairwise_prism
+
+/-! ## Certified one-way lifted image family map (not unlifted descent) -/
+#print axioms KUOS.DependentOriginationScaledDuskinHornTransportV1_29.LiftedImage.liftedDuskinImageHornFamily_map
