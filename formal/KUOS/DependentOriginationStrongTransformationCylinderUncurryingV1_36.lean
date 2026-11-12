@@ -797,10 +797,20 @@ noncomputable def strongTransformationDuskinCylinder
   cylinder := strongTransformationNormalLaxCylinder P Q η
   endpoint_zero := by
     intro _idx σ
+    -- Explicitly identify the complete object map before transporting
+    -- the dependent hom/map₂/mapId/mapComp fields.
+    have hObj :
+        ((normalLaxPair σ
+            (intervalNormalLax ((SSet.ι₀.app _idx σ).2))).comp
+          (strongTransformationNormalLaxCylinder P Q η)).obj =
+          (σ.comp P.toStrictlyUnitaryLaxFunctor).obj := by
+      funext X
+      rfl
     apply StrictlyUnitaryLaxFunctor.ext
-    · rfl
+    · exact hObj
     all_goals
-      · rw [heq_iff_eq]
+      · rw [hObj]
+        rw [heq_iff_eq]
         ext
         simp [normalLaxPair, intervalNormalLax,
           strongTransformationNormalLaxCylinder,
@@ -808,10 +818,18 @@ noncomputable def strongTransformationDuskinCylinder
           cylinderObj, cylinderMap, cylinderMap₂, cylinderMapComp]
   endpoint_one := by
     intro _idx σ
+    have hObj :
+        ((normalLaxPair σ
+            (intervalNormalLax ((SSet.ι₁.app _idx σ).2))).comp
+          (strongTransformationNormalLaxCylinder P Q η)).obj =
+          (σ.comp Q.toStrictlyUnitaryLaxFunctor).obj := by
+      funext X
+      rfl
     apply StrictlyUnitaryLaxFunctor.ext
-    · rfl
+    · exact hObj
     all_goals
-      · rw [heq_iff_eq]
+      · rw [hObj]
+        rw [heq_iff_eq]
         ext
         simp [normalLaxPair, intervalNormalLax,
           strongTransformationNormalLaxCylinder,
