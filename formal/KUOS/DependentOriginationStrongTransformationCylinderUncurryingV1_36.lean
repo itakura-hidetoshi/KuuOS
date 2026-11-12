@@ -814,7 +814,8 @@ noncomputable def strongTransformationDuskinCylinder
         rw! (castMode := .all) [hObj]
         simp only [heq_iff_eq]
         ext
-        simp [normalLaxPair, intervalNormalLax,
+        simp [normalLaxPair, intervalNormalLax, locallyDiscreteNormalLax,
+          SSet.ι₀_app_snd_apply,
           strongTransformationNormalLaxCylinder,
           strongTransformationCylinder, strongCylinderCore,
           cylinderObj, cylinderMap, cylinderMap₂, cylinderMapComp]
@@ -835,7 +836,8 @@ noncomputable def strongTransformationDuskinCylinder
         rw! (castMode := .all) [hObj]
         simp only [heq_iff_eq]
         ext
-        simp [normalLaxPair, intervalNormalLax,
+        simp [normalLaxPair, intervalNormalLax, locallyDiscreteNormalLax,
+          SSet.ι₁_app_snd_apply,
           strongTransformationNormalLaxCylinder,
           strongTransformationCylinder, strongCylinderCore,
           cylinderObj, cylinderMap, cylinderMap₂, cylinderMapComp]
