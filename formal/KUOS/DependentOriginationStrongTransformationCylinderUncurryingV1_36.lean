@@ -432,8 +432,10 @@ private def strongCylinderCore
                             P.map₂ α.1 ▷ (P.map h.1 ≫ η.app z) := by
                       rw [Bicategory.whisker_exchange_assoc]
                       simp
+                    -- Simplify reflexive iso wrappers before applying
+                    -- the exchange equality to the normalized 2-cell square.
                     dsimp
-                    bicategory <;> simp only [Category.assoc, hexchange] <;> bicategory
+                    simp [Category.assoc, hexchange] <;> bicategory
     | succ i =>
         have hi : i = (0 : Fin 1) := Subsingleton.elim _ _
         subst i
