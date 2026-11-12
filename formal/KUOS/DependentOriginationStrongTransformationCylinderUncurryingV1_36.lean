@@ -861,11 +861,16 @@ noncomputable def strongTransformationDuskinCylinder
       apply Function.hfunext rfl
       intro θ θ' hθ
       cases hθ
-      -- Reduce the object-valued dependent eliminators at literal 0.
-      -- Simplify the object equalities under the dependent eliminator;
-      -- direct depRewrite cannot locate the reduced toPrefunctor projection.
-      -- The dependent Fin.cases motive retains Eq.rec transports:
-      -- try rewriting the complete interval object before reduction.
+      -- The Fin.cases motive is indexed by toPrefunctor.1, not
+      -- the obj notation in hIntervalZeroObj. State its index
+      -- equality directly before normalizing the dependent recursors.
+      have hIX :
+          ((intervalNormalLax ((SSet.ι₀.app _idx σ).2)).toPrefunctor.1 X).as =
+            (0 : Fin 2) := hIntervalZero X
+      have hIY :
+          ((intervalNormalLax ((SSet.ι₀.app _idx σ).2)).toPrefunctor.1 Y).as =
+            (0 : Fin 2) := hIntervalZero Y
+      simp only [hIX, hIY]
       first
       | rw! (castMode := .all) [hIntervalZeroObj X, hIntervalZeroObj Y]
       | simp only [hIntervalZeroObj X, hIntervalZeroObj Y]
