@@ -93,8 +93,99 @@ theorem targetRoundTrip_pairwise_map
           G.forward.toStrictlyUnitaryLaxFunctor
           F.forward.toStrictlyUnitaryLaxFunctor)
 
+
+/-!
+## Global pairwise-lifted homotopy from the original typed cylinder
+
+The B/B normal-lax cylinder can be evaluated on B/D simplices without
+identifying the B/B and B/D SSet universes. Its endpoint equations are
+transported by ULift.up on the actual ambient B/D carrier.
+-/
+
+/-- Evaluate a certified B/B cylinder in the independent B/D ULift universe.
+This proves the homotopy on the actual pairwise carrier, not by a cast of the
+B/B homotopy, and does not assert unlifted scaled-horn descent. -/
+noncomputable def ambientNormalLaxCylinderHomotopy
+    {B : Type u₁} [Bicategory.{w₁, v₁} B]
+    {D : Type u₂} [Bicategory.{w₂, v₂} D]
+    {P Q : StrictlyUnitaryLaxFunctor B B}
+    (H : NormalLaxDuskinCylinder P Q) :
+    SSet.Homotopy
+      (ambientNormalLaxEndo (D := D) P)
+      (ambientNormalLaxEndo (D := D) Q) where
+  h :=
+    { app := fun idx => TypeCat.ofHom fun x =>
+        ULift.up ((normalLaxPair x.1.down (intervalNormalLax x.2)).comp H.cylinder)
+      naturality := by
+        intro idx idx' f
+        ext x
+        change
+          ULift.up ((normalLaxPair ((duskinReindex f).comp x.1.down)
+              (intervalNormalLax (Δ[1].map f x.2))).comp H.cylinder) =
+          ULift.up ((duskinReindex f).comp
+              ((normalLaxPair x.1.down (intervalNormalLax x.2)).comp H.cylinder))
+        apply congrArg ULift.up
+        rw [intervalNormalLax_reindex]
+        rw [← normalLaxPair_precomp]
+        exact StrictlyUnitaryLaxFunctor.comp_assoc
+          (duskinReindex f)
+          (normalLaxPair x.1.down (intervalNormalLax x.2))
+          H.cylinder }
+  h₀ := by
+    ext idx σ
+    change
+      ULift.up ((normalLaxPair σ.down
+        (intervalNormalLax ((SSet.ι₀.app idx σ).2))).comp H.cylinder) =
+      ULift.up (σ.down.comp P)
+    exact congrArg ULift.up (H.endpoint_zero σ.down)
+  h₁ := by
+    ext idx σ
+    change
+      ULift.up ((normalLaxPair σ.down
+        (intervalNormalLax ((SSet.ι₁.app idx σ).2))).comp H.cylinder) =
+      ULift.up (σ.down.comp Q)
+    exact congrArg ULift.up (H.endpoint_one σ.down)
+  rel := by
+    ext idx x
+    rcases x with ⟨⟨σ, hσ⟩, t⟩
+    exact False.elim hσ
+
+/-- The B/B source cylinder induces a genuine B/C round-trip homotopy. -/
+noncomputable def sourceRoundTrip_pairwise_prism
+    {B : Type u₁} [Bicategory.{w₁, v₁} B]
+    {C : Type u₂} [Bicategory.{w₂, v₂} C]
+    (F : StrictlyUnitaryBicategoricalModelEquivalence B C)
+    (G : StrictlyUnitaryBicategoricalModelEquivalence C B)
+    (H : NormalLaxDuskinCylinder
+      (sourceRoundTripNormalLax F G) (StrictlyUnitaryLaxFunctor.id B)) :
+    SSet.Homotopy
+      (normalizedDuskinNerveMap F ≫ normalizedDuskinNerveMap G)
+      (𝟙 (normalizedDuskinSource B C)) := by
+  rw [sourceRoundTrip_pairwise_map F G, ← ambientNormalLaxEndo_id B C]
+  exact ambientNormalLaxCylinderHomotopy (D := C) H
+
+/-- The C/C target cylinder induces a genuine C/B round-trip homotopy. -/
+noncomputable def targetRoundTrip_pairwise_prism
+    {B : Type u₁} [Bicategory.{w₁, v₁} B]
+    {C : Type u₂} [Bicategory.{w₂, v₂} C]
+    (F : StrictlyUnitaryBicategoricalModelEquivalence B C)
+    (G : StrictlyUnitaryBicategoricalModelEquivalence C B)
+    (H : NormalLaxDuskinCylinder
+      (targetRoundTripNormalLax F G) (StrictlyUnitaryLaxFunctor.id C)) :
+    SSet.Homotopy
+      (normalizedDuskinNerveMap G ≫ normalizedDuskinNerveMap F)
+      (𝟙 (normalizedDuskinTarget B C)) := by
+  change SSet.Homotopy
+    (normalizedDuskinNerveMap G ≫ normalizedDuskinNerveMap F)
+    (𝟙 (normalizedDuskinSource C B))
+  rw [targetRoundTrip_pairwise_map F G, ← ambientNormalLaxEndo_id C B]
+  exact ambientNormalLaxCylinderHomotopy (D := B) H
+
 #print axioms ambientNormalLaxEndo_id
 #print axioms sourceRoundTrip_pairwise_map
 #print axioms targetRoundTrip_pairwise_map
+#print axioms ambientNormalLaxCylinderHomotopy
+#print axioms sourceRoundTrip_pairwise_prism
+#print axioms targetRoundTrip_pairwise_prism
 
 end KUOS.DependentOriginationPairwiseNormalLaxRoundTripBridgeV1_36

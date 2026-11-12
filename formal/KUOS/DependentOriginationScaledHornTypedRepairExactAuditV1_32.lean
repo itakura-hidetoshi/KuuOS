@@ -70,3 +70,8 @@ certificates or unconditional fibrancy. No new axioms are admitted.
 #print axioms KUOS.DependentOriginationPairwiseNormalLaxRoundTripBridgeV1_36.ambientNormalLaxEndo_id
 #print axioms KUOS.DependentOriginationPairwiseNormalLaxRoundTripBridgeV1_36.sourceRoundTrip_pairwise_map
 #print axioms KUOS.DependentOriginationPairwiseNormalLaxRoundTripBridgeV1_36.targetRoundTrip_pairwise_map
+
+/-! ## Independently lifted B/C and C/B cylinder homotopies (not unlifted descent) -/
+#print axioms KUOS.DependentOriginationPairwiseNormalLaxRoundTripBridgeV1_36.ambientNormalLaxCylinderHomotopy
+#print axioms KUOS.DependentOriginationPairwiseNormalLaxRoundTripBridgeV1_36.sourceRoundTrip_pairwise_prism
+#print axioms KUOS.DependentOriginationPairwiseNormalLaxRoundTripBridgeV1_36.targetRoundTrip_pairwise_prism
