@@ -353,8 +353,8 @@ theorem globalDuskinHomotopyClassFibrancy_iff :
       HasHomotopyClassScaledHornFillers
         (duskinNerve C) (duskinScaling C) HC := by
   constructor
-  · exact K.forwardHasHomotopyClassScaledHornFillers
-  · exact K.backwardHasHomotopyClassScaledHornFillers
+  · exact forwardHasHomotopyClassScaledHornFillers K
+  · exact backwardHasHomotopyClassScaledHornFillers K
 
 end CoherentNormalizedScaledHomotopyClassModelEquivalence
 
