@@ -330,7 +330,7 @@ private def strongCylinderCore
                     _ = _ := by
                       -- Beta-reduce congrArg's function application without
                       -- simplifying the original naturality witness to True.
-                      simpa only [] using hh
+                      simpa only [Category.assoc] using hh
                 calc
                   P.map₂ (f.1 ◁ β.1) ▷ η.app z =
                       ((P.mapComp f.1 g.1).hom ≫
