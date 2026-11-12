@@ -79,3 +79,4 @@ certificates or unconditional fibrancy. No new axioms are admitted.
 
 /-! ## Certified one-way lifted image family map (not unlifted descent) -/
 #print axioms KUOS.DependentOriginationScaledDuskinHornTransportV1_29.LiftedImage.liftedDuskinImageHornFamily_map
+#print axioms KUOS.DependentOriginationScaledDuskinHornTransportV1_29.LiftedImage.liftedDuskinFamilyMap_iff_image_admissible

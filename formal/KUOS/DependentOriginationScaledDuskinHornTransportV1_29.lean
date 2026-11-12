@@ -320,4 +320,36 @@ theorem liftedDuskinImageHornFamily_map
 
 #print axioms liftedDuskinImageHornFamily_map
 
+
+/--
+A map of admissible lifted horn families to an arbitrary lifted target
+family is *equivalent* to the target family containing the exact admissible
+image. No unlifted source/target family is identified with its ULift.
+-/
+theorem liftedDuskinFamilyMap_iff_image_admissible
+    {B : Type aU} [Bicategory.{aW, aV} B]
+    {C : Type bU} [Bicategory.{bW, bV} C]
+    {E : StrictlyUnitaryBicategoricalModelEquivalence B C}
+    (H : FullScaledDuskinMapCertificate E)
+    (HB : ScaledHornFamily (normalizedDuskinSource B C)
+      (normalizedDuskinSourceScaling B C))
+    (HC : ScaledHornFamily (normalizedDuskinTarget B C)
+      (normalizedDuskinTargetScaling B C)) :
+    ScaledHornFamilyMap H.map_scaled HB HC ↔
+      ∀ {n : Nat} {i : Fin (n + 1)}
+        (Q : ScaledHornExtensionProblem
+          (normalizedDuskinTarget B C) (normalizedDuskinTargetScaling B C) n i),
+        (liftedDuskinImageHornFamily H HB).admissible Q →
+          HC.admissible Q := by
+  constructor
+  · intro Hfam n i Q hQ
+    obtain ⟨P, hP, rfl⟩ := hQ
+    exact Hfam.admissible_preserved P hP
+  · intro hincl
+    refine ⟨?_⟩
+    intro n i P hP
+    exact hincl _ ⟨P, hP, rfl⟩
+
+#print axioms liftedDuskinFamilyMap_iff_image_admissible
+
 end KUOS.DependentOriginationScaledDuskinHornTransportV1_29.LiftedImage
