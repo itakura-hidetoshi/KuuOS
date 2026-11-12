@@ -797,6 +797,11 @@ noncomputable def strongTransformationDuskinCylinder
   cylinder := strongTransformationNormalLaxCylinder P Q η
   endpoint_zero := by
     intro _idx σ
+    have hIntervalZero (X : DuskinOrdinal _idx.unop.len) :
+        ((intervalNormalLax ((SSet.ι₀.app _idx σ).2)).obj X).as =
+          (0 : Fin 2) := by
+      change ((SSet.ι₀.app _idx σ).2) X.as = 0
+      exact SSet.ι₀_app_snd_apply σ X.as
     -- Explicitly identify the complete object map before transporting
     -- the dependent hom/map₂/mapId/mapComp fields.
     have hObj :
@@ -815,12 +820,17 @@ noncomputable def strongTransformationDuskinCylinder
         simp only [heq_iff_eq]
         ext
         simp [normalLaxPair, intervalNormalLax, locallyDiscreteNormalLax,
-          SSet.ι₀_app_snd_apply,
+          hIntervalZero, SSet.ι₀_app_snd_apply,
           strongTransformationNormalLaxCylinder,
           strongTransformationCylinder, strongCylinderCore,
           cylinderObj, cylinderMap, cylinderMap₂, cylinderMapComp]
   endpoint_one := by
     intro _idx σ
+    have hIntervalOne (X : DuskinOrdinal _idx.unop.len) :
+        ((intervalNormalLax ((SSet.ι₁.app _idx σ).2)).obj X).as =
+          (1 : Fin 2) := by
+      change ((SSet.ι₁.app _idx σ).2) X.as = 1
+      exact SSet.ι₁_app_snd_apply σ X.as
     have hObj :
         ((normalLaxPair σ
             (intervalNormalLax ((SSet.ι₁.app _idx σ).2))).comp
@@ -837,7 +847,7 @@ noncomputable def strongTransformationDuskinCylinder
         simp only [heq_iff_eq]
         ext
         simp [normalLaxPair, intervalNormalLax, locallyDiscreteNormalLax,
-          SSet.ι₁_app_snd_apply,
+          hIntervalOne, SSet.ι₁_app_snd_apply,
           strongTransformationNormalLaxCylinder,
           strongTransformationCylinder, strongCylinderCore,
           cylinderObj, cylinderMap, cylinderMap₂, cylinderMapComp]
