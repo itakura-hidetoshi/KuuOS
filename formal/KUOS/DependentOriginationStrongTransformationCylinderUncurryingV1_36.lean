@@ -870,14 +870,22 @@ noncomputable def strongTransformationDuskinCylinder
       have hIY :
           ((intervalNormalLax ((SSet.ι₀.app _idx σ).2)).toPrefunctor.1 Y).as =
             (0 : Fin 2) := hIntervalZero Y
-      simp only [hIX, hIY]
+      -- Apply the two genuine dependent index transports first. The
+      -- strong recursor is not reduced merely by simp on its motives.
+      first
+      | rw! (castMode := .all) [hIX, hIY]
+      | simp only [hIX, hIY]
       first
       | rw! (castMode := .all) [hIntervalZeroObj X, hIntervalZeroObj Y]
       | simp only [hIntervalZeroObj X, hIntervalZeroObj Y]
-      simp [normalLaxPair, hIntervalZero,
-        strongTransformationNormalLaxCylinder,
-        strongTransformationCylinder, strongCylinderCore,
-        cylinderObj, cylinderMap, cylinderMap₂]
+      -- Remaining goals are retained and checked independently below.
+      all_goals
+        first
+        | simp [normalLaxPair, hIntervalZero,
+            strongTransformationNormalLaxCylinder,
+            strongTransformationCylinder, strongCylinderCore,
+            cylinderObj, cylinderMap, cylinderMap₂]
+        | skip
       all_goals
         have hx0 := hIntervalZero X
         have hy0 := hIntervalZero Y
