@@ -789,10 +789,12 @@ private theorem intervalNormalLax_zero_eq_constant
   unfold intervalNormalLax
   apply congrArg locallyDiscreteNormalLax
   apply CategoryTheory.Functor.ext
-  · intro X Y f
-    exact Subsingleton.elim _ _
-  · intro X
+  case h_obj =>
+    intro X
     rfl
+  case h_map =>
+    intro X Y f
+    exact Subsingleton.elim _ _
 
 /-- The complete one-end interval normal-lax functor is also constant.
 This is independent of the zero-endpoint and exposes the symmetric typing
@@ -805,10 +807,12 @@ private theorem intervalNormalLax_one_eq_constant
   unfold intervalNormalLax
   apply congrArg locallyDiscreteNormalLax
   apply CategoryTheory.Functor.ext
-  · intro X Y f
-    exact Subsingleton.elim _ _
-  · intro X
+  case h_obj =>
+    intro X
     rfl
+  case h_map =>
+    intro X Y f
+    exact Subsingleton.elim _ _
 
 /-! ## Endpoint identification -/
 
