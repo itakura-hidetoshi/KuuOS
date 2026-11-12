@@ -788,7 +788,7 @@ private theorem intervalNormalLax_zero_eq_constant
       locallyDiscreteNormalLax (constantIntervalFunctor idx.unop.len 0) := by
   unfold intervalNormalLax
   apply congrArg locallyDiscreteNormalLax
-  apply Functor.ext
+  apply CategoryTheory.Functor.ext
   · intro X
     rfl
   · intro X Y f
@@ -804,7 +804,7 @@ private theorem intervalNormalLax_one_eq_constant
       locallyDiscreteNormalLax (constantIntervalFunctor idx.unop.len 1) := by
   unfold intervalNormalLax
   apply congrArg locallyDiscreteNormalLax
-  apply Functor.ext
+  apply CategoryTheory.Functor.ext
   · intro X
     rfl
   · intro X Y f
