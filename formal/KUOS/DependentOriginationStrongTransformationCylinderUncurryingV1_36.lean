@@ -873,6 +873,7 @@ noncomputable def strongTransformationDuskinCylinder
           (σ.comp P.toStrictlyUnitaryLaxFunctor).obj := by
       funext X
       rfl
+    rw [intervalNormalLax_zero_eq_constant σ] at hIntervalZero hIntervalZeroObj hObj
     apply StrictlyUnitaryLaxFunctor.ext
     · exact hObj
     -- First discharge the dependent map field pointwise, using the
@@ -890,8 +891,8 @@ noncomputable def strongTransformationDuskinCylinder
       apply Function.hfunext rfl
       intro f f' hf
       cases hf
-      simp [normalLaxPair, hIntervalZero,
-        strongTransformationNormalLaxCylinder,
+      simp [normalLaxPair, constantIntervalFunctor, locallyDiscreteNormalLax,
+        hIntervalZero, strongTransformationNormalLaxCylinder,
         strongTransformationCylinder, strongCylinderCore,
         cylinderObj, cylinderMap]
       all_goals
@@ -920,7 +921,7 @@ noncomputable def strongTransformationDuskinCylinder
       -- Rewrite the entire interval normal-lax functor before attempting
       -- to reduce the dependent Fin.cases motive. The typed Functor.ext
       -- witnesses replace both its object and morphism components.
-      simp only [intervalNormalLax_zero_eq_constant σ]
+      try simp only [intervalNormalLax_zero_eq_constant σ]
       simp [normalLaxPair, constantIntervalFunctor,
         locallyDiscreteNormalLax,
         strongTransformationNormalLaxCylinder,
@@ -970,6 +971,7 @@ noncomputable def strongTransformationDuskinCylinder
           (σ.comp Q.toStrictlyUnitaryLaxFunctor).obj := by
       funext X
       rfl
+    rw [intervalNormalLax_one_eq_constant σ] at hIntervalOne hObj
     apply StrictlyUnitaryLaxFunctor.ext
     · exact hObj
     -- First discharge the dependent map field pointwise, using the
@@ -987,8 +989,8 @@ noncomputable def strongTransformationDuskinCylinder
       apply Function.hfunext rfl
       intro f f' hf
       cases hf
-      simp [normalLaxPair, hIntervalOne,
-        strongTransformationNormalLaxCylinder,
+      simp [normalLaxPair, constantIntervalFunctor, locallyDiscreteNormalLax,
+        hIntervalOne, strongTransformationNormalLaxCylinder,
         strongTransformationCylinder, strongCylinderCore,
         cylinderObj, cylinderMap]
       all_goals
@@ -1014,7 +1016,7 @@ noncomputable def strongTransformationDuskinCylinder
       apply Function.hfunext rfl
       intro θ θ' hθ
       cases hθ
-      simp only [intervalNormalLax_one_eq_constant σ]
+      try simp only [intervalNormalLax_one_eq_constant σ]
       simp [normalLaxPair, constantIntervalFunctor,
         locallyDiscreteNormalLax,
         strongTransformationNormalLaxCylinder,
