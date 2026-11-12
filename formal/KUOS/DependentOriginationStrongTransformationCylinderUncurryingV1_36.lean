@@ -1,6 +1,7 @@
 import KUOS.DependentOriginationStrongTransformationDuskinCylinderV1_35
 import Mathlib.Tactic
 import KUOS.DependentOriginationMixedWhiskerPastingV1_36
+import KUOS.DependentOriginationMixedLeftUnitorPastingV1_36
 
 namespace KUOS.DependentOriginationStrongTransformationCylinderUncurryingV1_36
 
@@ -466,8 +467,23 @@ private def strongCylinderCore
         | succ j =>
             have hj : j = (0 : Fin 1) := Subsingleton.elim _ _
             subst j
-            simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj,
-              P.map_id, P.map₂_left_unitor] <;> bicategory
+            change P.map₂ (λ_ f.1).hom ▷ η.app y =
+              (whiskerRightIso (P.mapComp (𝟙 x) f.1) (η.app y) ≪≫
+                α_ (P.map (𝟙 x)) (P.map f.1) (η.app y)).hom ≫
+                  eqToHom (by rw [P.map_id x]) ≫
+                    (λ_ (P.map f.1 ≫ η.app y)).hom
+            calc
+              P.map₂ (λ_ f.1).hom ▷ η.app y =
+                  ((P.mapComp (𝟙 x) f.1).hom ≫
+                    eqToHom (by rw [P.map_id x]) ≫
+                      (λ_ (P.map f.1)).hom) ▷ η.app y := by
+                        apply congrArg (fun θ => θ ▷ η.app y)
+                        simpa only [P.mapId_eq_eqToIso, eqToIso.hom,
+                          Bicategory.eqToHom_whiskerRight] using
+                          P.map₂_left_unitor f.1
+              _ = _ :=
+                KUOS.DependentOriginationMixedLeftUnitorPastingV1_36.mixedLeftUnitorPasting
+                  (P.map_id x) (P.map f.1) (η.app y) (P.mapComp (𝟙 x) f.1)
     | succ i =>
         have hi : i = (0 : Fin 1) := Subsingleton.elim _ _
         subst i
@@ -562,8 +578,8 @@ def strongTransformationCylinder
     {B : Type u₁} [Bicategory.{w₁, v₁} B]
     {C : Type u₂} [Bicategory.{w₂, v₂} C]
     (P Q : StrictlyUnitaryPseudofunctor B C)
-    (η : Pseudofunctor.StrongTrans P.toPseudofunctor Q.toPseudofunctor) :
-    StrictlyUnitaryPseudofunctor (B × DuskinOrdinal 1) C :=
+    (η : Pseudofunctor.StrongTrans P.toPseudofunctor Q.toPseudofunctor)
+    : StrictlyUnitaryPseudofunctor (B × DuskinOrdinal 1) C :=
   StrictlyUnitaryPseudofunctor.mk' (strongCylinderCore P Q η)
 
 /-- The corresponding normal-lax cylinder. -/
