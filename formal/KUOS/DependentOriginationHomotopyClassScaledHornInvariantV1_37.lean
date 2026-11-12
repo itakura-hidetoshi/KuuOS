@@ -255,8 +255,31 @@ structure CoherentNormalizedScaledHomotopyClassModelEquivalence
       forwardNormalization.normal backwardNormalization.normal
   forwardScaled : FullScaledDuskinMapCertificate forwardNormalization.normal
   backwardScaled : FullScaledDuskinMapCertificate backwardNormalization.normal
-  forwardFamily : ScaledHornFamilyMap forwardScaled.map_scaled HB HC
-  backwardFamily : ScaledHornFamilyMap backwardScaled.map_scaled HC HB
+  /-- The genuinely lifted source family; not definitionally the unlifted family. -/
+  liftedHB : ScaledHornFamily
+    (normalizedDuskinSource B C) (normalizedDuskinSourceScaling B C)
+  /-- The genuinely lifted target family. -/
+  liftedHC : ScaledHornFamily
+    (normalizedDuskinTarget B C) (normalizedDuskinTargetScaling B C)
+  /-- Explicit source-side unlifted/lifted homotopy-class compatibility. -/
+  sourceClassBridge :
+    HasHomotopyClassScaledHornFillers (duskinNerve B) (duskinScaling B) HB ↔
+      HasHomotopyClassScaledHornFillers
+        (normalizedDuskinSource B C) (normalizedDuskinSourceScaling B C) liftedHB
+  /-- Independent target-side unlifted/lifted homotopy-class compatibility. -/
+  targetClassBridge :
+    HasHomotopyClassScaledHornFillers (duskinNerve C) (duskinScaling C) HC ↔
+      HasHomotopyClassScaledHornFillers
+        (normalizedDuskinTarget B C) (normalizedDuskinTargetScaling B C) liftedHC
+  forwardFamily : ScaledHornFamilyMap forwardScaled.map_scaled liftedHB liftedHC
+  backwardFamily : ScaledHornFamilyMap backwardScaled.map_scaled liftedHC liftedHB
+
+/-!
+The lifted source/target horn families below are distinct from the original
+unlifted families. The explicit class-level compatibility witnesses are separate
+proof obligations. Neither witness is inferred from the model equivalence, and
+no strict/unlifted v1.29 descent is claimed. The final iff conclusion is retained.
+-/
 
 namespace CoherentNormalizedScaledHomotopyClassModelEquivalence
 
@@ -276,40 +299,48 @@ canonical target round-trip class descent. -/
     (H : HasHomotopyClassScaledHornFillers
       (duskinNerve B) (duskinScaling B) HB) :
     HasHomotopyClassScaledHornFillers
-      (duskinNerve C) (duskinScaling C) HC where
-  fill := by
-    intro n i Q hQ h0 hi
-    have hBack :
-        HB.admissible
-          (transportGlobalDuskinHornProblem K.backwardScaled Q) :=
-      K.backwardFamily.admissible_preserved Q hQ
-    rcases H.fill
-      (transportGlobalDuskinHornProblem K.backwardScaled Q)
-      hBack h0 hi with ⟨R⟩
-    let R' := mapHomotopyClassScaledHornFiller
-      K.forwardScaled.map_scaled R
-    exact ⟨targetHomotopyClassFillerOfRoundTrip
-      K.forwardScaled K.backwardScaled R'⟩
+      (duskinNerve C) (duskinScaling C) HC := by
+  apply K.targetClassBridge.mpr
+  have Hlift : HasHomotopyClassScaledHornFillers
+      (normalizedDuskinSource B C) (normalizedDuskinSourceScaling B C)
+      K.liftedHB := K.sourceClassBridge.mp H
+  refine { fill := ?_ }
+  intro n i Q hQ h0 hi
+  have hBack :
+      K.liftedHB.admissible
+        (transportGlobalDuskinHornProblem K.backwardScaled Q) :=
+    K.backwardFamily.admissible_preserved Q hQ
+  rcases Hlift.fill
+    (transportGlobalDuskinHornProblem K.backwardScaled Q)
+    hBack h0 hi with ⟨R⟩
+  let R' := mapHomotopyClassScaledHornFiller
+    K.forwardScaled.map_scaled R
+  exact ⟨targetHomotopyClassFillerOfRoundTrip
+    (K := K.quasiInverse) K.forwardScaled K.backwardScaled R'⟩
 
 /-- Symmetric transport from the target model back to the source model. -/
 @[reducible] noncomputable def backwardHasHomotopyClassScaledHornFillers
     (H : HasHomotopyClassScaledHornFillers
       (duskinNerve C) (duskinScaling C) HC) :
     HasHomotopyClassScaledHornFillers
-      (duskinNerve B) (duskinScaling B) HB where
-  fill := by
-    intro n i P hP h0 hi
-    have hForward :
-        HC.admissible
-          (transportGlobalDuskinHornProblem K.forwardScaled P) :=
-      K.forwardFamily.admissible_preserved P hP
-    rcases H.fill
-      (transportGlobalDuskinHornProblem K.forwardScaled P)
-      hForward h0 hi with ⟨Q⟩
-    let Q' := mapHomotopyClassScaledHornFiller
-      K.backwardScaled.map_scaled Q
-    exact ⟨sourceHomotopyClassFillerOfRoundTrip
-      K.forwardScaled K.backwardScaled Q'⟩
+      (duskinNerve B) (duskinScaling B) HB := by
+  apply K.sourceClassBridge.mpr
+  have Hlift : HasHomotopyClassScaledHornFillers
+      (normalizedDuskinTarget B C) (normalizedDuskinTargetScaling B C)
+      K.liftedHC := K.targetClassBridge.mp H
+  refine { fill := ?_ }
+  intro n i P hP h0 hi
+  have hForward :
+      K.liftedHC.admissible
+        (transportGlobalDuskinHornProblem K.forwardScaled P) :=
+    K.forwardFamily.admissible_preserved P hP
+  rcases Hlift.fill
+    (transportGlobalDuskinHornProblem K.forwardScaled P)
+    hForward h0 hi with ⟨Q⟩
+  let Q' := mapHomotopyClassScaledHornFiller
+    K.backwardScaled.map_scaled Q
+  exact ⟨sourceHomotopyClassFillerOfRoundTrip
+    (K := K.quasiInverse) K.forwardScaled K.backwardScaled Q'⟩
 
 /--
 Global scaled Duskin inner-horn filling modulo boundary homotopy class is a
