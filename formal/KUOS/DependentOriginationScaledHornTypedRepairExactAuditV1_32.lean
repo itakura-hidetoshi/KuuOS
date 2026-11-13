@@ -1,3 +1,4 @@
+import KUOS.DependentOriginationCanonicalULiftHornPresentationBridgeV1_29
 import KUOS.PinnedMathlibUnionProdFullPairingV1_61
 import KUOS.DependentOriginationStandardTypeABoundaryPrismDimensionDichotomyV1_63
 import KUOS.DependentOriginationStandardTypeABoundaryPrismStaircaseNormalFormV1_64
@@ -293,3 +294,9 @@ certificate or unlifted v1.29 horn descent is inferred. -/
 #print axioms SSet.prodStdSimplex.pairing
 #print axioms SSet.prodStdSimplex.unionProd_strongAnodyne
 #print axioms SSet.prodStdSimplex.unionProd_anodyne
+
+/-! ## v1.29 canonical same-universe ULift horn descent (cross-universe unproved) -/
+#print axioms KUOS.DependentOriginationCanonicalULiftHornPresentationBridgeV1_29.scaledIso_problem_roundTrip
+#print axioms KUOS.DependentOriginationCanonicalULiftHornPresentationBridgeV1_29.sameUniverseULiftIso
+#print axioms KUOS.DependentOriginationCanonicalULiftHornPresentationBridgeV1_29.canonicalSameUniverseULiftPresentationEquivalence
+#print axioms KUOS.DependentOriginationCanonicalULiftHornPresentationBridgeV1_29.canonicalSameUniverseULift_fibrancy_iff
