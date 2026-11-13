@@ -190,7 +190,7 @@ noncomputable def colimitCoconeIsColimit
                 colimit.desc (D ⋙ forget) (forget.mapCocone s) =
                   (s.ι.app j).map := by
             simpa only [Functor.mapCocone_ι_app, forget] using
-              (colimit.ι_desc (D ⋙ forget) (forget.mapCocone s) j)
+              (colimit.ι_desc (forget.mapCocone s) j)
           change s.pt.scaling.thin
             ((colimit.desc (D ⋙ forget) (forget.mapCocone s)).app (op ⦋2⦌)
               ((colimit.ι (D ⋙ forget) j).app (op ⦋2⦌) x))
@@ -203,7 +203,7 @@ noncomputable def colimitCoconeIsColimit
         colimit.desc (D ⋙ forget) (forget.mapCocone s) =
           (s.ι.app j).map
     simpa only [Functor.mapCocone_ι_app, forget] using
-      (colimit.ι_desc (D ⋙ forget) (forget.mapCocone s) j)
+      (colimit.ι_desc (forget.mapCocone s) j)
   uniq s m hm := by
     apply ScaledMap.ext
     apply colimit.hom_ext
@@ -217,7 +217,7 @@ noncomputable def colimitCoconeIsColimit
         simpa [colimitCocone, colimitLeg, colimitObj, forget] using h
       _ = _ := by
         simpa only [Functor.mapCocone_ι_app, forget] using
-          (colimit.ι_desc (D ⋙ forget) (forget.mapCocone s) j).symm
+          (colimit.ι_desc (forget.mapCocone s) j).symm
 
 /-- The underlying cocone of the explicit scaled colimit is the ordinary
 simplicial-set colimit cocone. -/

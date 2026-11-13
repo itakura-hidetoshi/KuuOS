@@ -43,7 +43,7 @@ PR2339_INTEGRATED_PROOF_BLOBS = {
 # Explicit SHA enrollment is a review gate, never proof of Lean correctness.
 REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
     # Reviewed v1.45 fixed Lean namespace, scaled colimit transport and exact typeclass route.
-    "KUOS/DependentOriginationScaledColimitsPresentabilityV1_45.lean": "71cadfbbf7f06f2d8aa7bb5d744e1a7c33241cc0",
+    "KUOS/DependentOriginationScaledColimitsPresentabilityV1_45.lean": "c5f22f11809a82d4b11fff94091fd7b4f946d8ae",
     # v1.44 fixed mathlib class-result transparency and explicit small-object factorization instance.
     "KUOS/DependentOriginationScaledSmallObjectArgumentV1_44.lean": "ea3d9c2edff775235af266d10b87316f65aeb60d",
     # Reviewed v1.43 class-result elaboration; frozen 5.291 legacy unchanged.
