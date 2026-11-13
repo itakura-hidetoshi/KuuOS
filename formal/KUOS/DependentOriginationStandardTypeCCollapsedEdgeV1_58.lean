@@ -153,13 +153,8 @@ def standardTypeCSourceCarrier_isPushout (m : Nat) :
         (standardTypeCEdgeToHorn.{u} m)
         (standardTypeCEdgeCollapseToPoint.{u} m)) :=
   by
-    refine {
-      w := pushout.condition
-        (f := standardTypeCEdgeToHorn.{u} m)
-        (g := standardTypeCEdgeCollapseToPoint.{u} m)
-      isColimit' := ⟨?_⟩
-    }
-    exact pushoutIsPushout (standardTypeCEdgeToHorn.{u} m)
+    exact IsPushout.of_hasPushout
+      (standardTypeCEdgeToHorn.{u} m)
       (standardTypeCEdgeCollapseToPoint.{u} m)
 
 /-- The target quotient is represented by the native `SSet` pushout. -/
@@ -174,13 +169,8 @@ def standardTypeCTargetCarrier_isPushout (m : Nat) :
         (standardTypeCEdgeToSimplex.{u} m)
         (standardTypeCEdgeCollapseToPoint.{u} m)) :=
   by
-    refine {
-      w := pushout.condition
-        (f := standardTypeCEdgeToSimplex.{u} m)
-        (g := standardTypeCEdgeCollapseToPoint.{u} m)
-      isColimit' := ⟨?_⟩
-    }
-    exact pushoutIsPushout (standardTypeCEdgeToSimplex.{u} m)
+    exact IsPushout.of_hasPushout
+      (standardTypeCEdgeToSimplex.{u} m)
       (standardTypeCEdgeCollapseToPoint.{u} m)
 
 /-- On the source quotient the edge inclusion agrees with the point collapse. -/
