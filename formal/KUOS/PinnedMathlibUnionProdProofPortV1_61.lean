@@ -530,16 +530,24 @@ lemma isType₂_δ : IsType₂ hl.δ := by
     change
       (Δ[m + 1].δ (t.succ.castSucc) (x.cast hd).simplex.1) t.castSucc =
         k.castSucc at ha
+    have hlt : t.castSucc.castSucc < t.succ.castSucc := by
+      simpa only [Fin.castSucc_lt_castSucc_iff] using
+        (Fin.castSucc_lt_succ (i := t))
     rw [stdSimplex.δ_apply,
-      Fin.succAbove_of_castSucc_lt _ _ (by omega)] at ha
+      Fin.succAbove_of_castSucc_lt _ _ hlt] at ha
     exact ha.trans hl.1.symm
   · have hb := ht.2.2
     change
       (Δ[n].δ (t.succ.castSucc) (x.cast hd).simplex.2) t.succ =
         (Δ[n].δ (t.succ.castSucc) (x.cast hd).simplex.2) t.castSucc at hb
+    have hgt : t.succ.castSucc < t.succ.succ :=
+      Fin.castSucc_lt_succ
+    have hlt : t.castSucc.castSucc < t.succ.castSucc := by
+      simpa only [Fin.castSucc_lt_castSucc_iff] using
+        (Fin.castSucc_lt_succ (i := t))
     rw [stdSimplex.δ_apply, stdSimplex.δ_apply,
-      Fin.succAbove_of_lt_succ _ _ (by omega),
-      Fin.succAbove_of_castSucc_lt _ _ (by omega)] at hb
+      Fin.succAbove_of_lt_succ _ _ hgt,
+      Fin.succAbove_of_castSucc_lt _ _ hlt] at hb
     exact hb.symm.trans hl.2.2
 
 -- historical Lean option backward.defeqAttrib.useBackward unavailable under pinned Lean; declaration remains fully checked
