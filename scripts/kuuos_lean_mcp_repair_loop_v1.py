@@ -195,6 +195,53 @@ def fixture_provider(source: str, _: list[dict]) -> dict:
             "new_text": "  norm_num\n", "reason": "offline deterministic test fixture"}
 
 
+def choose_tactic_line(source: str, reported_line: object) -> int | None:
+    """Locate a nearby proof tactic; the CI error line is only a locator."""
+    lines = source.splitlines()
+    if type(reported_line) is not int or not (1 <= reported_line <= len(lines)):
+        return None
+    tactic = re.compile(r"^ {2,}(?:skip|simp|rw|exact|apply|aesop|intro|rfl|assumption|constructor)\b")
+    choices = [i for i in range(max(0, reported_line - 7), min(len(lines), reported_line + 6))
+               if tactic.match(lines[i])]
+    if not choices:
+        return None
+    choices.sort(key=lambda i: (abs((i + 1) - reported_line), i))
+    return choices[0] + 1
+
+
+def mcp_tactic_provider(source: str, observations: list[dict]) -> dict:
+    """Free tactic selection from actual zero-goal Lean MCP trial results."""
+    if not observations or not observations[-1].get("errors"):
+        raise Obstruction("NO_DATA: no concrete Lean error to repair")
+    data = observations[-1]
+    line = data.get("target_tactic_line") or data["errors"][0].get("line")
+    lines = source.splitlines(keepends=True)
+    if type(line) is not int or not (1 <= line <= len(lines)):
+        raise Obstruction("NO_DATA: invalid error line")
+    old = lines[line - 1]
+    indent = re.match(r"^( +)", old)
+    if not indent or len(indent.group(1)) < 2 or not old.endswith("\n") or len(old) > 180:
+        raise Obstruction("not a bounded tactic line")
+    options = data.get("lean_multi_attempt")
+    if not isinstance(options, list):
+        raise Obstruction("NO_DATA: no complete multi-attempt result")
+    allowed = {"assumption", "simp", "aesop"}
+    for option in options:
+        if not isinstance(option, Mapping) or option.get("snippet") not in allowed:
+            continue
+        if option.get("timed_out") is not False:
+            continue
+        if option.get("goals") != [] or not isinstance(option.get("diagnostics"), list):
+            continue
+        if any(d.get("severity") == "error" for d in option["diagnostics"] if isinstance(d, Mapping)):
+            continue
+        new = indent.group(1) + option["snippet"] + "\n"
+        if old != new:
+            return {"expected_sha256": digest(source), "old_text": old,
+                    "new_text": new, "reason": "MCP candidate has no remaining reported goals/errors"}
+    raise Obstruction("MCP tactic search has no certified zero-goal candidate")
+
+
 def direct_lean_gate(root: pathlib.Path, rel_file: str, *, timeout: int) -> dict:
     """Compile the exact candidate without changing repository config or toolchain."""
     with tempfile.TemporaryDirectory(prefix="kuuos-lean-mcp-gate-") as temp:
@@ -284,7 +331,9 @@ def run_loop(*, root: pathlib.Path, rel_file: str, output_dir: pathlib.Path,
                 record["status"] = "BOUNDED_BUDGET_EXHAUSTED"
                 break
             try:
-                goal_line = observation.errors[0].get("line") if observation.errors else None
+                reported_line = observation.errors[0].get("line") if observation.errors else None
+                goal_line = choose_tactic_line(current_bytes.decode("utf-8"), reported_line)
+                item["selected_tactic_line"] = goal_line
                 if type(goal_line) is int and goal_line > 0:
                     goal = call_tool(client, "lean_goal", {"file_path": rel_file, "line": goal_line})
                     item["goal_digest"] = digest(json.dumps(goal.get("result", {}), sort_keys=True))
@@ -303,6 +352,7 @@ def run_loop(*, root: pathlib.Path, rel_file: str, output_dir: pathlib.Path,
                     item["preliminary_tactics"] = len(trial_summary)
                 observations.append({"source_sha256": observation.source_sha256,
                                      "errors": observation.errors[:10],
+                                     "target_tactic_line": goal_line,
                                      "lean_multi_attempt": trial_summary,
                                      "full_source_examined": True})
                 proposal = provider(current_bytes.decode("utf-8"), observations)
@@ -360,7 +410,7 @@ def main() -> int:
     ap.add_argument("--file", required=True)
     ap.add_argument("--source-sha256", required=True)
     ap.add_argument("--output-dir", required=True)
-    ap.add_argument("--provider", choices=["openai", "fixture"], required=True)
+    ap.add_argument("--provider", choices=["openai", "fixture", "mcp-tactic"], required=True)
     ap.add_argument("--model", default=None)
     ap.add_argument("--paid-api-opt-in", action="store_true")
     ap.add_argument("--max-iterations", type=int, default=3)
@@ -371,10 +421,14 @@ def main() -> int:
         if not os.environ.get("OPENAI_API_KEY"):
             ap.error("OPENAI_API_KEY absent: no paid API call will be attempted")
         provider = lambda source, hist: openai_provider(model=args.model, source=source, observations=hist)
-    else:
+    elif args.provider == "fixture":
         if not args.file.startswith("tests/mcp_repair_fixture/") or args.paid_api_opt_in:
             ap.error("fixture provider is restricted to tests/mcp_repair_fixture/ and has no API access")
         provider = fixture_provider
+    else:
+        if args.paid_api_opt_in or args.model:
+            ap.error("mcp-tactic provider never calls a paid model")
+        provider = mcp_tactic_provider
     result = run_loop(root=pathlib.Path(args.project_root), rel_file=args.file,
                       expected_sha256=args.source_sha256,
                       output_dir=pathlib.Path(args.output_dir), provider=provider,
