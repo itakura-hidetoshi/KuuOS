@@ -107,14 +107,14 @@ jobs:
           assert not Path('.lake/build/lib/lean/RepairMulti/Beta.olean').exists()
           print('KUUOS_TWO_MODULE_MCP_CLOSED_LOOP_SUCCESS')
           PY
-          mkdir -p .mcp_multifile_export
-          cp -a /tmp/kuuos-multifile-output/candidates .mcp_multifile_export/
-          cp /tmp/kuuos-multifile-output/multifile_receipt.json .mcp_multifile_export/
-          cp /tmp/kuuos-multifile-plan.json .mcp_multifile_export/plan.json
+          mkdir -p mcp_multifile_export
+          cp -a /tmp/kuuos-multifile-output/candidates mcp_multifile_export/
+          cp /tmp/kuuos-multifile-output/multifile_receipt.json mcp_multifile_export/
+          cp /tmp/kuuos-multifile-plan.json mcp_multifile_export/plan.json
       - uses: actions/upload-artifact@v4
         with:
           name: kuuos-mcp-multifile-candidates-v1
-          path: .mcp_multifile_export/
+          path: mcp_multifile_export/
           if-no-files-found: error
 
   independent-lean:
