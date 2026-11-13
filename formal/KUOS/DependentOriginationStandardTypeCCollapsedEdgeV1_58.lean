@@ -83,18 +83,23 @@ theorem standardTypeCEdgeFace_le_horn (m : Nat) :
     intro j hj
     simp only [Finset.mem_insert, Finset.mem_singleton] at hj
     rcases hj with rfl | rfl
-    · intro h
+    · simp only [Finset.mem_compl, Finset.mem_singleton]
+      intro h
       have hv := congrArg Fin.val h
-      norm_num at hv
-    · intro h
+      have hlt : 2 < m + 4 := by omega
+      norm_num [Nat.mod_eq_of_lt hlt] at hv
+    · simp only [Finset.mem_compl, Finset.mem_singleton]
+      intro h
       have hv := congrArg Fin.val h
-      norm_num at hv
+      have hlt : 2 < m + 4 := by omega
+      norm_num [Nat.mod_eq_of_lt hlt] at hv
   exact hface.trans
     (SSet.face_le_horn
       (2 : Fin (m + 4)) (0 : Fin (m + 4)) (by
         intro h
         have hv := congrArg Fin.val h
-        norm_num at hv))
+        have hlt : 2 < m + 4 := by omega
+        norm_num [Nat.mod_eq_of_lt hlt] at hv))
 
 /-- Inclusion of the collapsed edge into the outer horn. -/
 def standardTypeCEdgeToHorn (m : Nat) :
@@ -147,7 +152,13 @@ def standardTypeCSourceCarrier_isPushout (m : Nat) :
       (pushout.inr
         (standardTypeCEdgeToHorn m)
         (standardTypeCEdgeCollapseToPoint m)) :=
-  IsPushout.of_hasPushout (standardTypeCEdgeToHorn m) (standardTypeCEdgeCollapseToPoint m)
+  by
+    refine {
+      w := pushout.condition
+      isColimit' := ⟨?_⟩
+    }
+    exact pushoutIsPushout (standardTypeCEdgeToHorn.{u} m)
+      (standardTypeCEdgeCollapseToPoint.{u} m)
 
 /-- The target quotient is represented by the native `SSet` pushout. -/
 def standardTypeCTargetCarrier_isPushout (m : Nat) :
@@ -160,7 +171,13 @@ def standardTypeCTargetCarrier_isPushout (m : Nat) :
       (pushout.inr
         (standardTypeCEdgeToSimplex m)
         (standardTypeCEdgeCollapseToPoint m)) :=
-  IsPushout.of_hasPushout (standardTypeCEdgeToSimplex m) (standardTypeCEdgeCollapseToPoint m)
+  by
+    refine {
+      w := pushout.condition
+      isColimit' := ⟨?_⟩
+    }
+    exact pushoutIsPushout (standardTypeCEdgeToSimplex.{u} m)
+      (standardTypeCEdgeCollapseToPoint.{u} m)
 
 /-- On the source quotient the edge inclusion agrees with the point collapse. -/
 theorem standardTypeCSource_edge_collapsed (m : Nat) :
