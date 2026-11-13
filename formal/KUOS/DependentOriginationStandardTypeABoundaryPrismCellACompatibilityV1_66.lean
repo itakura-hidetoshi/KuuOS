@@ -271,12 +271,16 @@ theorem unionProdPairing_typeTwo_firstCoordinate_scaled
   have hindex :
       ((P.pairing.isUniquelyCodimOneFace (P.equivII s)).index rfl) =
         s.index.castSucc := by
-    simpa only [SSet.Subcomplex.PairingCore.equivII_apply_coe] using
-      (P.isUniquelyCodimOneFace_index s)
+    calc
+      _ = P.index s := by
+        simpa only [SSet.Subcomplex.PairingCore.equivII_apply_coe] using
+          (P.isUniquelyCodimOneFace_index s)
+      _ = s.index.castSucc := rfl
   simpa only [SSet.Subcomplex.PairingCore.equivII_apply_coe,
     hindex, P.pairing_p_equivII,
     SSet.Subcomplex.PairingCore.equivI_apply_coe,
     SSet.Subcomplex.PairingCore.type₁,
+    SSet.Subcomplex.PairingCore.pairing,
     SSet.prodStdSimplex.pairingCore,
     unionProdPairingCoreTypeOneFirstCoordinateMap] using
       unionProdPairingCore_typeOne_firstCoordinate_scaled k hk0 s
