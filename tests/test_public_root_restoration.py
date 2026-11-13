@@ -42,6 +42,9 @@ PR2339_INTEGRATED_PROOF_BLOBS = {
 # The original full source and both proof transitions are preserved in Git history.
 # Explicit SHA enrollment is a review gate, never proof of Lean correctness.
 REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
+    # v1.60: pinned namespace resolution, endpoint subcomplex unfolding and class transparency.
+    # Full source reviewed at this revision; blob enrollment is provenance, not Lean certification.
+    "KUOS/DependentOriginationStandardTypeAEndpointPrismPairingV1_60.lean": "3a039fc3eba760d2fb4bfbe62d8fac5ab3fa87b6",
     # v1.59: explicit pinned closure universes, horn index namespace, and dependent fields.
     "KUOS/DependentOriginationStandardABCLeibnizCellularComparisonV1_59.lean": "2b852bcd457831d25d50e8ed9dd3ac6a44f6f85e",
     # v1.58: exact-universe native pushout span witnesses, without changing the frozen legacy snapshot.
