@@ -4,7 +4,9 @@ on:
   pull_request:
     paths:
       - 'scripts/check_kuuos_lean_mcp_fullsource_v1.py'
+      - 'scripts/check_kuuos_lean_mcp_fullsource_repair_v1.py'
       - 'tests/test_kuuos_lean_mcp_fullsource_v1.py'
+      - 'tests/test_kuuos_lean_mcp_fullsource_repair_v1.py'
       - 'docs/KUUOS_LEAN_MCP_FULLSOURCE_CAUSAL_REPAIR_v1.md'
       - '.github/workflows/lean-mcp-fullsource-evidence-v1.yml'
   workflow_dispatch:
@@ -24,8 +26,8 @@ jobs:
       - name: Structural, fail-closed and feedback-regression tests
         run: |
           set -euo pipefail
-          python3 -m py_compile scripts/check_kuuos_lean_mcp_fullsource_v1.py
-          PYTHONPATH=. python3 -m unittest discover -s tests -p 'test_kuuos_lean_mcp_fullsource_v1.py' -v
+          python3 -m py_compile scripts/check_kuuos_lean_mcp_fullsource_v1.py scripts/check_kuuos_lean_mcp_fullsource_repair_v1.py
+          PYTHONPATH=. python3 -m unittest discover -s tests -p 'test_kuuos_lean_mcp_fullsource*.py' -v
       - name: Read full real KuuOS source and dependency closure
         run: |
           set -euo pipefail
