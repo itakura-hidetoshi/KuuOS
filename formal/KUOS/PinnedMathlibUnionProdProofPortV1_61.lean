@@ -74,6 +74,19 @@ open CategoryTheory MonoidalCategory Simplicial
 namespace SSet
 
 /-!
+Bridge for the standard simplex face-evaluation lemma proved by `rfl` in
+later mathlib; the pinned 2026-04 source has the same definitional face map
+but not this named lemma.
+-/
+namespace stdSimplex
+
+lemma δ_apply {n d : ℕ} (x : (Δ[n] _⦋d + 1⦌ : Type u))
+    (i : Fin (d + 2)) (j : Fin (d + 1)) :
+    Δ[n].δ i x j = x (i.succAbove j) := rfl
+
+end stdSimplex
+
+/-!
 Bridge lemmas absent from the 2026-04 pinned Horn/Boundary files.
 Proofs are taken from later mathlib sources, not declared as axioms.
 These are internal proof dependencies of the validation-only UnionProd port.
