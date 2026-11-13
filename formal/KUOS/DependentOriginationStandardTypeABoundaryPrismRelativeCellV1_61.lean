@@ -57,12 +57,11 @@ noncomputable def standardTypeABoundaryPrismPairing
   rcases g with ⟨n, i, h0, hn, endpoint⟩
   cases n with
   | zero =>
-      have hi : i = 0 := Subsingleton.elim _ _
-      subst i
+      fin_cases i
       simp at h0
   | succ n =>
-      obtain ⟨k, rfl⟩ := Fin.eq_castSucc_of_ne_last (ne_of_lt hn)
-      exact (SSet.prodStdSimplex.pairingCore k 1).pairing
+      exact (SSet.prodStdSimplex.pairingCore
+        (i.castPred (ne_of_lt hn)) 1).pairing
 
 /-- The reused pairing is regular, so its ancestrality relation is well
 founded and admits the canonical natural-number rank. -/
@@ -72,14 +71,13 @@ instance standardTypeABoundaryPrismPairing_isRegular
   rcases g with ⟨n, i, h0, hn, endpoint⟩
   cases n with
   | zero =>
-      have hi : i = 0 := Subsingleton.elim _ _
-      subst i
+      fin_cases i
       simp at h0
   | succ n =>
-      obtain ⟨k, rfl⟩ := Fin.eq_castSucc_of_ne_last (ne_of_lt hn)
       simpa [standardTypeABoundaryPrismPairing,
         standardTypeABoundaryPrismSubcomplex] using
-        (inferInstance : (SSet.prodStdSimplex.pairingCore k 1).pairing.IsRegular)
+        (inferInstance :
+          (SSet.prodStdSimplex.pairingCore (i.castPred (ne_of_lt hn)) 1).pairing.IsRegular)
 
 /-- Because the original type-(A) horn index is strictly between the two
 endpoints, the Mathlib prism pairing uses only inner horns. -/
@@ -89,8 +87,7 @@ instance standardTypeABoundaryPrismPairing_isInner
   rcases g with ⟨n, i, h0, hn, endpoint⟩
   cases n with
   | zero =>
-      have hi : i = 0 := Subsingleton.elim _ _
-      subst i
+      fin_cases i
       simp at h0
   | succ n =>
       have hi0 : i ≠ 0 := ne_of_gt h0
@@ -195,7 +192,7 @@ theorem standardTypeABoundaryPrism_cell_index_lt_last
 
 /-- Package the ordinary horn attached at a rank cell as exactly one KuuOS
 standard type-(A) horn-generator index. -/
-def standardTypeABoundaryPrismCellHornIndex
+noncomputable def standardTypeABoundaryPrismCellHornIndex
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
     (c : (standardTypeABoundaryPrismRankFunction g).Cell j) :
