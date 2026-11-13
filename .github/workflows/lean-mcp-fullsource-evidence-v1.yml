@@ -1,0 +1,126 @@
+name: KuuOS Lean MCP full-source causal evidence v1
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/check_kuuos_lean_mcp_fullsource_v1.py'
+      - 'scripts/check_kuuos_lean_mcp_fullsource_repair_v1.py'
+      - 'tests/test_kuuos_lean_mcp_fullsource_v1.py'
+      - 'tests/test_kuuos_lean_mcp_fullsource_repair_v1.py'
+      - 'docs/KUUOS_LEAN_MCP_FULLSOURCE_CAUSAL_REPAIR_v1.md'
+      - '.github/workflows/lean-mcp-fullsource-evidence-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  exact-source-evidence:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Structural, fail-closed and feedback-regression tests
+        run: |
+          set -euo pipefail
+          python3 -m py_compile scripts/check_kuuos_lean_mcp_fullsource_v1.py scripts/check_kuuos_lean_mcp_fullsource_repair_v1.py
+          PYTHONPATH=. python3 -m unittest discover -s tests -p 'test_kuuos_lean_mcp_fullsource*.py' -v
+      - name: Read full real KuuOS source and dependency closure
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import hashlib, json, os
+          from pathlib import Path
+          from scripts.check_kuuos_lean_mcp_fullsource_v1 import SCHEMA, git_blob
+          target=Path('formal/KUOS/DependentOriginationFunctorialTransportV0_1.lean')
+          assert target.is_file()
+          plan={
+              'schema_version': SCHEMA,
+              'source_head': os.environ['GITHUB_SHA'],
+              'scope': 'scoped',
+              'targets': [{'path':str(target),'git_blob_sha':git_blob(target.read_bytes())}],
+              'api_probes': [{'name':'Nat.add_comm','import_module':'Mathlib'}],
+          }
+          Path('/tmp/kuuos-fullsource-plan.json').write_text(json.dumps(plan))
+          PY
+          python3 scripts/check_kuuos_lean_mcp_fullsource_v1.py \
+            --project-root . --plan /tmp/kuuos-fullsource-plan.json \
+            --output-dir /tmp/kuuos-fullsource-evidence
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          data=json.loads(Path('/tmp/kuuos-fullsource-evidence/full_source_evidence.json').read_text())
+          assert data['status']=='SOURCE_OBSERVATION_READY',data['obstructions']
+          assert data['changed_targets_count']==1
+          assert data['source_file_git_blobs_verified'] is True
+          assert data['full_source_snapshot_count']>=1
+          assert data['theorem_proof_certified'] is False
+          assert data['ci_certified'] is False
+          assert data['ci_log_status']=='NO_DATA'
+          print('KUUOS_FULL_SOURCE_READ_AND_CAUSAL_CONTRACT_SUCCESS')
+          PY
+      - name: Upload entire read-only source evidence receipt
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-fullsource-causal-evidence-v1
+          path: /tmp/kuuos-fullsource-evidence/
+          if-no-files-found: error
+          retention-days: 14
+
+  pinned-api-probe:
+    needs: exact-source-evidence
+    runs-on: ubuntu-22.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v6
+      - name: Use pinned Lean and exact mathlib revision
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - uses: actions/cache@v5
+        with:
+          path: .lake
+          key: kuuos-fullsource-lean-api-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-v1
+      - name: Fetch exact pinned mathlib API cache
+        run: lake exe cache get
+      - name: Run live #check against pinned Lean and mathlib
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+          from scripts.check_kuuos_lean_mcp_fullsource_v1 import SCHEMA, git_blob
+          p=Path('formal/KUOS/DependentOriginationFunctorialTransportV0_1.lean')
+          plan={'schema_version':SCHEMA,'source_head':os.environ['GITHUB_SHA'],
+                'scope':'scoped',
+                'targets':[{'path':str(p),'git_blob_sha':git_blob(p.read_bytes())}],
+                'api_probes':[{'name':'Nat.add_comm','import_module':'Mathlib'}]}
+          Path('/tmp/kuuos-fullsource-api-plan.json').write_text(json.dumps(plan))
+          PY
+          python3 scripts/check_kuuos_lean_mcp_fullsource_v1.py \
+            --project-root . --plan /tmp/kuuos-fullsource-api-plan.json \
+            --output-dir /tmp/kuuos-fullsource-api-evidence --probe-pinned-api
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('/tmp/kuuos-fullsource-api-evidence/full_source_evidence.json').read_text())
+          assert r['api_probes'][0]['status']=='COMPILER_PRESENT',r['api_probes']
+          assert r['pins']['lean']=='leanprover/lean4:v4.30.0-rc2'
+          assert r['theorem_proof_certified'] is False
+          print('KUUOS_PINNED_LEAN_MATHLIB_API_PROBE_SUCCESS')
+          PY
+      - name: Upload pinned API receipt, without secret data
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-fullsource-pinned-api-evidence-v1
+          path: /tmp/kuuos-fullsource-api-evidence/
+          if-no-files-found: error
+          retention-days: 14

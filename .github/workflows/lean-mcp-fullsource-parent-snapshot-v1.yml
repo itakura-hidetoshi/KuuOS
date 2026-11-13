@@ -1,0 +1,98 @@
+name: KuuOS full-source snapshot of exact parent PR3522 Lean changes v1
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/lean-mcp-fullsource-parent-snapshot-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  read-all-parent-lean:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 20
+    env:
+      SOURCE_HEAD: 520dc2ee8927fa40a51c0af31978816f2f41b5a9
+      SOURCE_BASE: d4c00d9887f867035b95d884b94dfe1fd508166b
+    steps:
+      - uses: actions/checkout@v6
+      - name: Checkout exact immutable PR #3522 source, no write credentials
+        uses: actions/checkout@v6
+        with:
+          ref: 520dc2ee8927fa40a51c0af31978816f2f41b5a9
+          path: target
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Derive every changed Lean source SHA from pinned GitHub compare API
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json,os,urllib.request
+          from pathlib import Path
+          base,head=os.environ['SOURCE_BASE'],os.environ['SOURCE_HEAD']
+          assert len(base)==len(head)==40
+          url='https://api.github.com/repos/itakura-hidetoshi/KuuOS/compare/'+base+'...'+head
+          req=urllib.request.Request(url,headers={
+              'Authorization':'Bearer '+os.environ['GH_TOKEN'],
+              'Accept':'application/vnd.github+json',
+              'X-GitHub-Api-Version':'2022-11-28',
+          })
+          with urllib.request.urlopen(req,timeout=40) as response:
+              j=json.load(response)
+          assert j.get('status') in ('ahead','identical'),j.get('status')
+          files=j.get('files')
+          assert isinstance(files,list) and len(files)<300, 'truncated compare must fail'
+          lean=[f for f in files if f['filename'].startswith('formal/') and f['filename'].endswith('.lean')]
+          assert len(lean)==91, 'observed changed Lean count shifted: use new exact HEAD'
+          assert all(f.get('status') in ('added','modified') for f in lean)
+          assert all(len(f.get('sha',''))==40 for f in lean)
+          names=sorted(f['filename'] for f in lean)
+          assert len(names)==len(set(names))
+          plan={
+              'schema_version':'kuuos-lean-fullsource-v1',
+              'source_head':head,'scope':'all-changed',
+              'changed_lean_files':names,
+              'targets':[{'path':f['filename'],'git_blob_sha':f['sha']} for f in lean],
+              'api_probes':[],
+          }
+          Path('/tmp/kuuos-all-parent-lean-plan.json').write_text(json.dumps(plan,indent=2)+'\n')
+          print('KUUOS_ALL_91_PARENT_FILES_HEAD_BLOBS_FIXED')
+          PY
+      - name: Read full 91-file source and all local imported dependencies
+        run: |
+          set -euo pipefail
+          python3 scripts/check_kuuos_lean_mcp_fullsource_v1.py \
+            --project-root target \
+            --plan /tmp/kuuos-all-parent-lean-plan.json \
+            --output-dir /tmp/kuuos-all-parent-lean-evidence \
+            --max-local-deps 2200
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          plan=json.loads(Path('/tmp/kuuos-all-parent-lean-plan.json').read_text())
+          report=json.loads(Path('/tmp/kuuos-all-parent-lean-evidence/full_source_evidence.json').read_text())
+          assert report['status']=='SOURCE_OBSERVATION_READY',report['obstructions']
+          assert report['source_file_git_blobs_verified'] is True
+          assert report['changed_lean_coverage_all_claimed'] is True
+          assert report['changed_targets_count']==91
+          assert report['full_source_snapshot_count']>=91
+          assert report['source_head_claimed_by_plan']==plan['source_head']
+          assert report['ci_certified'] is False
+          assert report['theorem_proof_certified'] is False
+          assert report['ci_log_status']=='NO_DATA'
+          print('KUUOS_ALL_91_CHANGED_LEAN_FULLTEXT_IMPORTS_VERIFIED')
+          PY
+      - name: Publish read-only source and signature evidence receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-pr3522-head-520dc2ee-all91-fullsource-evidence-v1
+          path: /tmp/kuuos-all-parent-lean-evidence/
+          if-no-files-found: warn
+          retention-days: 14
