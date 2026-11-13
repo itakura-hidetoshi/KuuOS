@@ -188,11 +188,16 @@ jobs:
           assert 'namespace Smoke' in s and 'theorem smoke' in s
           assert '  simp\n' in s and '  skip\n' not in s
           assert 'sorry' not in s and 'axiom' not in s and 'unsafe' not in s
-          Path('/tmp/kuuos-independent-candidate/audit.lean').write_text(
+          # Pinned Lake -o requires the source under its project root.
+          # Materialize only temporary, nonpublished test files in this runner.
+          work = Path('tests/mcp_repair_fixture')
+          work.mkdir(parents=True, exist_ok=True)
+          (work / 'Independent.lean').write_text(s)
+          (work / 'IndependentAudit.lean').write_text(
               s + '\n#print axioms Smoke.smoke\n'
           )
           PY
-          lake env lean -o /tmp/kuuos-fixture-independent.olean /tmp/kuuos-independent-candidate/kuuos_loop_free_mcp_candidate.lean
-          lake env lean /tmp/kuuos-independent-candidate/audit.lean | tee /tmp/kuuos-independent-axioms.log
+          lake env lean -o /tmp/kuuos-fixture-independent.olean tests/mcp_repair_fixture/Independent.lean
+          lake env lean tests/mcp_repair_fixture/IndependentAudit.lean | tee /tmp/kuuos-independent-axioms.log
           ! grep -Eq 'sorryAx|unknown constant|unsolved goals|error:' /tmp/kuuos-independent-axioms.log
           echo 'KUUOS_MCP_FIXTURE_INDEPENDENT_LEAN_CI_SUCCESS'
