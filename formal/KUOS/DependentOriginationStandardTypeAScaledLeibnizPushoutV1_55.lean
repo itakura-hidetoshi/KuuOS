@@ -256,14 +256,12 @@ theorem standardTypeAEndpointGeneratedPushoutDescMap_scaled
             (SSet.horn g.n g.i) (intervalEndpoint g.endpoint)).app
               (op ⦋2⦌) x) =
         f.map.app (op ⦋2⦌) x := by
-      simpa [standardTypeAEndpointGeneratedPushoutDescMap] using
-        ConcreteCategory.congr_hom
-          (congr_app
-            ((standardTypeAEndpointPushoutSquare g).inl_desc
-              f.map h.map
-              (standardTypeAEndpointGeneratedPushout_compatibility_map
-                g f h w))
-            (op ⦋2⦌)) x
+      have heq := (standardTypeAEndpointPushoutSquare g).inl_desc
+        f.map h.map
+        (standardTypeAEndpointGeneratedPushout_compatibility_map g f h w)
+      have hcomponent := congrArg
+        (fun (η : ((Δ[g.n] : SSet.{u}) ⊗ (intervalEndpoint g.endpoint : SSet.{u})) ⟶ W.carrier) => η.app (op ⦋2⦌) x) heq
+      simpa [standardTypeAEndpointGeneratedPushoutDescMap] using hcomponent
     rw [hfac]
     exact f.scaled x hx
   · have hfac :
@@ -273,14 +271,12 @@ theorem standardTypeAEndpointGeneratedPushoutDescMap_scaled
             (SSet.horn g.n g.i) (intervalEndpoint g.endpoint)).app
               (op ⦋2⦌) x) =
         h.map.app (op ⦋2⦌) x := by
-      simpa [standardTypeAEndpointGeneratedPushoutDescMap] using
-        ConcreteCategory.congr_hom
-          (congr_app
-            ((standardTypeAEndpointPushoutSquare g).inr_desc
-              f.map h.map
-              (standardTypeAEndpointGeneratedPushout_compatibility_map
-                g f h w))
-            (op ⦋2⦌)) x
+      have heq := (standardTypeAEndpointPushoutSquare g).inr_desc
+        f.map h.map
+        (standardTypeAEndpointGeneratedPushout_compatibility_map g f h w)
+      have hcomponent := congrArg
+        (fun (η : ((SSet.horn g.n g.i : SSet.{u}) ⊗ (Δ[1] : SSet.{u})) ⟶ W.carrier) => η.app (op ⦋2⦌) x) heq
+      simpa [standardTypeAEndpointGeneratedPushoutDescMap] using hcomponent
     rw [hfac]
     exact h.scaled x hx
 
