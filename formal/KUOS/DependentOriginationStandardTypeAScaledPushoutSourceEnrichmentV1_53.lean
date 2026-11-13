@@ -123,16 +123,20 @@ theorem standardTypeAEndpointPushoutProductSource_scaling_eq_inducedProductPullb
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
     (standardTypeAEndpointPushoutProductSource g).scaling =
       standardTypeAEndpointInducedProductPullbackScaling g := by
-  simpa [standardTypeAEndpointInducedProductPullbackScaling,
-    standardTypeAEndpointCylinderProductScaling] using
-    standardTypeAEndpointPushoutProductSource_scaling_eq_pullback_product
-      g (ScaledSimplicialSet.maximal (Δ[1] : SSet.{u}))
+  change (standardTypeAEndpointPushoutProductSource g).scaling =
+    pullbackScaling
+      (cartesianProductScaling
+        (standardTypeASimplexScaling g.i)
+        (ScaledSimplicialSet.maximal (Δ[1] : SSet.{u})))
+      ((SSet.horn g.n g.i).unionProd (intervalEndpoint g.endpoint)).ι
+  exact standardTypeAEndpointPushoutProductSource_scaling_eq_pullback_product
+    g (ScaledSimplicialSet.maximal (Δ[1] : SSet.{u}))
 
 /-! ## Restriction scalings on the two Leibniz legs -/
 
 /-- The scaling on `Delta[n] x {epsilon}` obtained by restricting the induced
 union-product scaling along the first union leg. -/
-@[reducible] def standardTypeAEndpointSimplexEndpointLegScaling
+@[reducible] noncomputable def standardTypeAEndpointSimplexEndpointLegScaling
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
     ScaledSimplicialSet
       ((Δ[g.n] : SSet.{u}) ⊗
@@ -144,7 +148,7 @@ union-product scaling along the first union leg. -/
 
 /-- The scaling on `Lambda_i^n x Delta[1]` obtained by restricting the induced
 union-product scaling along the second union leg. -/
-@[reducible] def standardTypeAEndpointHornIntervalLegScaling
+@[reducible] noncomputable def standardTypeAEndpointHornIntervalLegScaling
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
     ScaledSimplicialSet
       ((SSet.horn g.n g.i : SSet.{u}) ⊗ Δ[1]) :=
@@ -314,9 +318,14 @@ theorem standardTypeAEndpointGeneratedPushoutProductHom_map
     (standardTypeAEndpointGeneratedPushoutProductHom g).map =
       ((SSet.horn g.n g.i).unionProd
         (intervalEndpoint g.endpoint)).ι := by
-  simp [standardTypeAEndpointGeneratedPushoutProductHom,
-    standardTypeAEndpointGeneratedToInduced,
-    standardTypeAEndpointPushoutProductHom]
+  change
+    (𝟙 ((SSet.horn g.n g.i).unionProd
+      (intervalEndpoint g.endpoint) : SSet.{u})) ≫
+      ((SSet.horn g.n g.i).unionProd
+        (intervalEndpoint g.endpoint)).ι =
+      ((SSet.horn g.n g.i).unionProd
+        (intervalEndpoint g.endpoint)).ι
+  simp
 
 /-- The endpoint map factors exactly into least-generated geometry followed by
 source-scaling enrichment and then the induced attachment inclusion. -/
