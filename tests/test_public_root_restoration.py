@@ -42,6 +42,10 @@ PR2339_INTEGRATED_PROOF_BLOBS = {
 # The original full source and both proof transitions are preserved in Git history.
 # Explicit SHA enrollment is a review gate, never proof of Lean correctness.
 REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
+    # v1.70: pinned interior pairing core and class-valued scaling transparency.
+    "KUOS/DependentOriginationStandardTypeABoundaryPrismCellwiseABClassificationV1_70.lean": "0ff7ff8615e00d26a10b5f86580c1aa98d09a81d",
+    # v1.69: pinned horn subcomplex membership, scaled class transparency, explicit universe in residual table.
+    "KUOS/DependentOriginationStandardTypeABoundaryPrismThreeResidualClassificationV1_69.lean": "8d235658c173045070a056dd9fac7627059847ed",
     # v1.67: pinned Fin degeneracy evaluation and explicit scaling equality
     # witness. The frozen v5.291 blob remains d847eeb1df4f5316e0c732c8157f64b6aef0512e.
     # Exact enrollment is source provenance only; CI kernel elaboration remains mandatory.
