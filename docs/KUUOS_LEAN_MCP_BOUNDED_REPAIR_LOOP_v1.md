@@ -132,3 +132,20 @@ The real MCP CI tests both the deterministic fixture provider and the free
 MCP tactic-search provider against an untracked deliberately failing Lean
 example. All candidate files remain outside the GitHub checkout; no commit,
 PR mutation or full CI theorem authority is inferred from local success.
+
+
+## Separate independent Lean CI job on exported fixture
+
+The workflow now transfers the **free MCP tactic-selected** candidate as an
+Actions artifact to a separate Ubuntu runner. That runner recreates the exact
+pinned Mathlib environment, compiles the exported Lean file and runs a
+`#print axioms Smoke.smoke` audit, rejecting sorryAx and compilation errors.
+Only its own completed/SUCCESS job can certify this *fixture-level*
+independent gate. It does **not** certify any current parent #3522/child #3530
+source or replace the main Strict Lean dependency closure.
+
+The end-to-end workflow is therefore: real MCP -> free tactic candidate ->
+full-file MCP recheck -> direct local Lean -> export artifact -> **fresh
+independent Lean CI**, with all source bytes restored and no GitHub source
+mutation. User-approved changes to real theorem files remain a separate
+GitHub MCP operation followed by repository-wide exact-head Strict Lean CI.
