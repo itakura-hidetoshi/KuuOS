@@ -42,7 +42,7 @@ lemma opObjEquiv_opObjEquiv_symm_apply {d n : ℕ} (f : (Δ[n] _⦋d⦌))
 set_option backward.isDefEq.respectTransparency false in
 lemma map_rev_map_op_apply {n d d' : ℕ} (f : ⦋d⦌ ⟶ ⦋d'⦌)
     (g : Δ[n] _⦋d'⦌) (i : Fin (d + 1)) :
-    dsimp% (show Δ[n] _⦋d⦌ from (Δ[n] : SSet.{u}).map (rev.map f).op g : Δ[n] _⦋d⦌) i =
+    dsimp% (show Δ[n] _⦋d⦌ from (Δ[n] : SSet.{u}).map (SimplexCategory.rev.map f).op g : Δ[n] _⦋d⦌) i =
       g (f i.rev).rev := rfl
 
 set_option backward.isDefEq.respectTransparency false in
