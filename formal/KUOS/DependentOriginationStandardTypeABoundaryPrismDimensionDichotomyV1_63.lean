@@ -4,6 +4,7 @@ import Mathlib.AlgebraicTopology.SimplicialSet.AnodyneExtensions.PairingCore
 namespace KUOS.DependentOriginationStandardTypeABoundaryPrismDimensionDichotomyV1_63
 
 open CategoryTheory
+open MonoidalCategory
 open Opposite
 open Simplicial
 open KUOS.DependentOriginationStandardTypeAScaledHornFamilyV1_49
@@ -92,6 +93,7 @@ theorem unionProdPairingCore_typeTwo_target_dim_ge_left
   have hcard := Fintype.card_le_of_surjective _
     (unionProdPairingCore_typeOne_fst_surjective k s)
   simp only [Fintype.card_fin] at hcard
+  have hdim : s.x.dim = s.d + 1 := s.hd
   omega
 
 /-- The same lower bound for the interior-horn pairing obtained from
@@ -127,9 +129,8 @@ theorem standardTypeABoundaryPrism_cell_target_dim_ge_generator_dim
   rcases g with ⟨n, i, h0, hn, endpoint⟩
   cases n with
   | zero =>
-      have hi : i = 0 := Subsingleton.elim _ _
-      subst i
-      simp at h0
+      have hbad : i.val < 0 := hn
+      exact False.elim (Nat.not_lt_zero _ hbad)
   | succ m =>
       have hilast : i ≠ Fin.last (m + 1) := ne_of_lt hn
       obtain ⟨k, rfl⟩ := Fin.eq_castSucc_of_ne_last hilast
