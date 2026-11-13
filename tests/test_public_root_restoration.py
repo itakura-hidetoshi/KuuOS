@@ -43,7 +43,7 @@ PR2339_INTEGRATED_PROOF_BLOBS = {
 # Explicit SHA enrollment is a review gate, never proof of Lean correctness.
 REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
     # Reviewed v1.46: explicit generator-comparison evidence, scaled-model namespaces and class-result transparency.
-    "KUOS/DependentOriginationExternalScaledAnodyneGeneratorComparisonV1_46.lean": "cfcd06c3d292552547ccf062d9a150d5bd444a8d",
+    "KUOS/DependentOriginationExternalScaledAnodyneGeneratorComparisonV1_46.lean": "0f60b58223bc854b3922996067f72b4ba90ae879",
     # Reviewed v1.45 fixed Lean namespace, scaled colimit transport and exact typeclass route.
     "KUOS/DependentOriginationScaledColimitsPresentabilityV1_45.lean": "c5f22f11809a82d4b11fff94091fd7b4f946d8ae",
     # v1.44 fixed mathlib class-result transparency and explicit small-object factorization instance.
@@ -51,7 +51,7 @@ REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
     # Reviewed v1.43 class-result elaboration; frozen 5.291 legacy unchanged.
     "KUOS/DependentOriginationScaledAnodyneWFSUniversalityV1_43.lean": "833c8e772b7f35a3b5bd36995703ed257bac20c7",
     # v1.42 Lean namespace and class-return elaboration; frozen legacy remains unchanged.
-    "KUOS/DependentOriginationScaledAnodyneGeneratorClosureV1_42.lean": "1868b82a39919d7af858c5703731c935ff3e45fd",
+    "KUOS/DependentOriginationScaledAnodyneGeneratorClosureV1_42.lean": "86e95f82493748b0c7706071196a378d779fa7af",
     # Reviewed v1.41: source declarations matched fixed Lean mathlib API; legacy remains frozen.
     "KUOS/DependentOriginationScaledTerminalRLPV1_41.lean": "0fbc69ccfebbdc75ab61f5836c8ebec9488a84d6",
     # Reviewed v1.40 compiler fixes; frozen legacy/v5.291 source remains unmodified.
