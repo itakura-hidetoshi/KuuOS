@@ -421,13 +421,11 @@ noncomputable def standardTypeABoundaryPrismCellPureAArrowIso
       standardTypeABoundaryPrismCellScaling g j c) :
     Arrow.mk (standardTypeABoundaryPrismCellAPushoutHom g j c) ≅
       Arrow.mk (standardTypeABoundaryPrismScaledCellHom g j c) := by
-  cases h
-  have heq : standardTypeABoundaryPrismCellAPushoutHom g j c =
-      standardTypeABoundaryPrismScaledCellHom g j c := by
-    apply ScaledSSet.ScaledMap.ext
-    exact (standardTypeABoundaryPrismCellAPushoutHom_map g j c).trans
-      (standardTypeABoundaryPrismScaledCellHom_map g j c).symm
-  exact eqToIso (congrArg Arrow.mk heq)
+  refine Arrow.isoMk (Iso.refl _)
+    (scalingEqualityIso _ _ h) ?_
+  apply ScaledSSet.ScaledMap.ext
+  simp [standardTypeABoundaryPrismCellAPushoutHom_map,
+    standardTypeABoundaryPrismScaledCellHom_map]
 
 /-- A two-step raw A/B composite is a genuine finite transfinite composition.
 No instance asserting that all transfinite composites are multiplicative is needed. -/
