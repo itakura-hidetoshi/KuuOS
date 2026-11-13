@@ -260,9 +260,11 @@ def standardTypeCTriangle01nInHorn (m : Nat) :
           (SSet.stdSimplex.face ({(2 : Fin (m + 4))}ᶜ)).obj (op ⦋2⦌) := by
       rw [SSet.stdSimplex.mem_face_iff]
       intro j
+      have hlt : 2 < m + 4 := by omega
       fin_cases j <;>
         simp [standardTypeCTriangle01n, Fin.ext_iff, Fin.val_last, Fin.val_one,
-          SSet.stdSimplex.coe_triangle_down_toOrderHom] <;> omega
+          SSet.stdSimplex.coe_triangle_down_toOrderHom,
+          Nat.mod_eq_of_lt hlt] <;> omega
     exact
       (SSet.face_le_horn
         (2 : Fin (m + 4)) (0 : Fin (m + 4)) (by
@@ -489,8 +491,9 @@ theorem standardTypeCGenerator_mem_standardGenerated (m : Nat) :
 /-- The v1.57 `q12` three-simplex completion belongs automatically to the
 standard generated left class because it is a pushout of type-(B). -/
 theorem standardTypeBCollapse12Completion_mem_standardGenerated :
-    standardGeneratedScaledAnodyneABC
-      standardTypeBCollapse12CompletionHom := by
+    (standardGeneratedScaledAnodyneABC.{u} :
+      MorphismProperty (ScaledSSet.{u}))
+      (standardTypeBCollapse12CompletionHom.{u}) := by
   unfold standardGeneratedScaledAnodyneABC
   exact standardTypeBCollapse12Completion_mem_llp
     (standardScaledAnodyneGeneratorsABC :
@@ -500,8 +503,9 @@ theorem standardTypeBCollapse12Completion_mem_standardGenerated :
 /-- The v1.57 `q23` three-simplex completion belongs automatically to the
 standard generated left class because it is a pushout of type-(B). -/
 theorem standardTypeBCollapse23Completion_mem_standardGenerated :
-    standardGeneratedScaledAnodyneABC
-      standardTypeBCollapse23CompletionHom := by
+    (standardGeneratedScaledAnodyneABC.{u} :
+      MorphismProperty (ScaledSSet.{u}))
+      (standardTypeBCollapse23CompletionHom.{u}) := by
   unfold standardGeneratedScaledAnodyneABC
   exact standardTypeBCollapse23Completion_mem_llp
     (standardScaledAnodyneGeneratorsABC :
