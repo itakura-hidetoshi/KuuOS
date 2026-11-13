@@ -1,0 +1,91 @@
+name: KuuOS exact PR3522 v1.55 Lean MCP diagnostic probe v1
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/check_kuuos_lean_mcp_parent_pr3522_v155_v1.py'
+      - '.github/workflows/lean-mcp-pr3522-v155-probe-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+
+jobs:
+  exact-parent-readonly-diagnostics:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 40
+    steps:
+      - name: Checkout MCP tools from this PR
+        uses: actions/checkout@v6
+      - name: Checkout exact parent PR #3522 source
+        uses: actions/checkout@v6
+        with:
+          ref: 182940799808225c466e23a474e97f71add20318
+          path: target
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install uv
+        run: python -m pip install --disable-pip-version-check uv
+      - name: Set up pinned Lean and Lake
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Verify selected source and pins
+        run: |
+          python3 - <<'PY'
+          import hashlib
+          import pathlib
+          from scripts.check_kuuos_lean_mcp_parent_pr3522_v155_v1 import TARGET_BLOB_SHA, TARGET_FILE
+          from scripts.check_kuuos_lean_lsp_mcp_compatibility_v7_17 import require_pins
+          root = pathlib.Path('target').resolve()
+          require_pins(root)
+          b = (root / TARGET_FILE).read_bytes()
+          actual = hashlib.sha1(f"blob {len(b)}\0".encode() + b).hexdigest()
+          assert actual == TARGET_BLOB_SHA, "source blob SHA does not match GitHub"
+          print("KUUOS_PARENT3522_SOURCE_BLOB_EXACT")
+          PY
+      - name: Restore exact project cache
+        uses: actions/cache@v5
+        with:
+          path: target/.lake
+          key: kuuos-pr3522-v155-probe-ubuntu-${{ hashFiles('target/lean-toolchain') }}-${{ hashFiles('target/lake-manifest.json') }}-v1
+      - name: Fetch pinned Mathlib cache
+        working-directory: target
+        run: lake exe cache get
+      - name: Build only immediate v1.55 dependency (do not fail observation on theorem error)
+        id: importbuild
+        working-directory: target
+        run: |
+          set +e
+          timeout 900 lake build KUOS.DependentOriginationStandardTypeAGeneratedPushoutLLPDescentV1_54 > /tmp/kuuos-v155-import-build.log 2>&1
+          status=$?
+          set -e
+          echo "exit_code=$status" >> "$GITHUB_OUTPUT"
+          echo "IMPORT_DEPENDENCY_BUILD_EXIT=$status"
+          tail -n 50 /tmp/kuuos-v155-import-build.log
+          exit 0
+      - name: Read full v1.55 diagnostics and try live goal/attempt if ready
+        env:
+          KUUOS_IMPORT_BUILD_EXIT: ${{ steps.importbuild.outputs.exit_code }}
+        run: |
+          PYTHONPATH=. python3 scripts/check_kuuos_lean_mcp_parent_pr3522_v155_v1.py \
+            --target-root "$GITHUB_WORKSPACE/target" \
+            --receipt "$GITHUB_WORKSPACE/kuuos_pr3522_v155_mcp_probe_v1.json"
+      - name: Upload exact-source bounded observation receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-pr3522-v155-lean-mcp-probe-v1
+          path: kuuos_pr3522_v155_mcp_probe_v1.json
+          if-no-files-found: warn
+          retention-days: 14
