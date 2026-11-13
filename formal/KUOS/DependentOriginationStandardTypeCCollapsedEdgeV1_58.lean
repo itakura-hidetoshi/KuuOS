@@ -82,10 +82,19 @@ theorem standardTypeCEdgeFace_le_horn (m : Nat) :
     rw [SSet.stdSimplex.face_le_face_iff]
     intro j hj
     simp only [Finset.mem_insert, Finset.mem_singleton] at hj
-    rcases hj with rfl | rfl <;> simp
+    rcases hj with rfl | rfl
+    · intro h
+      have hv := congrArg Fin.val h
+      norm_num at hv
+    · intro h
+      have hv := congrArg Fin.val h
+      norm_num at hv
   exact hface.trans
     (SSet.face_le_horn
-      (2 : Fin (m + 4)) (0 : Fin (m + 4)) (by omega))
+      (2 : Fin (m + 4)) (0 : Fin (m + 4)) (by
+        intro h
+        have hv := congrArg Fin.val h
+        norm_num at hv))
 
 /-- Inclusion of the collapsed edge into the outer horn. -/
 def standardTypeCEdgeToHorn (m : Nat) :
@@ -138,7 +147,7 @@ def standardTypeCSourceCarrier_isPushout (m : Nat) :
       (pushout.inr
         (standardTypeCEdgeToHorn m)
         (standardTypeCEdgeCollapseToPoint m)) :=
-  pushoutIsPushout (standardTypeCEdgeToHorn m) (standardTypeCEdgeCollapseToPoint m)
+  IsPushout.of_hasPushout (standardTypeCEdgeToHorn m) (standardTypeCEdgeCollapseToPoint m)
 
 /-- The target quotient is represented by the native `SSet` pushout. -/
 def standardTypeCTargetCarrier_isPushout (m : Nat) :
@@ -151,7 +160,7 @@ def standardTypeCTargetCarrier_isPushout (m : Nat) :
       (pushout.inr
         (standardTypeCEdgeToSimplex m)
         (standardTypeCEdgeCollapseToPoint m)) :=
-  pushoutIsPushout (standardTypeCEdgeToSimplex m) (standardTypeCEdgeCollapseToPoint m)
+  IsPushout.of_hasPushout (standardTypeCEdgeToSimplex m) (standardTypeCEdgeCollapseToPoint m)
 
 /-- On the source quotient the edge inclusion agrees with the point collapse. -/
 theorem standardTypeCSource_edge_collapsed (m : Nat) :
