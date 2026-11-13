@@ -1,5 +1,5 @@
 import KUOS.DependentOriginationStandardTypeAEndpointPrismPairingV1_60
-import Mathlib.AlgebraicTopology.SimplicialSet.AnodyneExtensions.UnionProd
+import KUOS.PinnedMathlibUnionProdWeakRankV1_61
 
 namespace KUOS.DependentOriginationStandardTypeABoundaryPrismRelativeCellV1_61
 
@@ -26,12 +26,12 @@ A_boundary = (Lambda_i^n x Delta[1]) union (Delta[n] x boundary Delta[1]).
 ```
 
 The ordinary inclusion `A_boundary -> Delta[n] x Delta[1]` is not a new
-combinatorial problem.  At the pinned Mathlib revision it is exactly the
-`unionProd` geometry handled by `SSet.prodStdSimplex.pairing`.  This file makes
+combinatorial problem.  The corresponding `unionProd` pairing core is reconstructed in
+KuuOS from fixed Mathlib primitives, without altering Mathlib.  This file makes
 that identification theorem-level and then consumes the complete pinned
 pairing/rank/relative-cell-complex infrastructure in one pass:
 
-* reuse the Mathlib pairing for the boundary prism;
+* reuse the reconstructed pairing core for the boundary prism;
 * prove that the pairing is regular and inner from the type-(A) index bounds;
 * take its canonical natural-number rank function;
 * obtain the relative cell complex whose successor stages are pushouts of
@@ -48,8 +48,8 @@ scaling, with the known low-dimensional type-(B) completion exceptions.
 
 /-! ## Reuse the pinned Mathlib boundary-prism pairing -/
 
-/-- The boundary prism carries Mathlib's canonical regular `unionProd`
-pairing.  The impossible `n = 0` branch is eliminated by the inner-left bound
+/-- The boundary prism carries the reconstructed regular `unionProd`
+pairing for an interior horn index.  The impossible `n = 0` branch is eliminated by the inner-left bound
 contained in the type-(A) generator index. -/
 noncomputable def standardTypeABoundaryPrismPairing
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
@@ -61,7 +61,8 @@ noncomputable def standardTypeABoundaryPrismPairing
       subst i
       simp at h0
   | succ n =>
-      exact SSet.prodStdSimplex.pairing i 1
+      obtain ⟨k, rfl⟩ := Fin.eq_castSucc_of_ne_last (ne_of_lt hn)
+      exact (SSet.prodStdSimplex.pairingCore k 1).pairing
 
 /-- The reused pairing is regular, so its ancestrality relation is well
 founded and admits the canonical natural-number rank. -/
@@ -75,9 +76,10 @@ instance standardTypeABoundaryPrismPairing_isRegular
       subst i
       simp at h0
   | succ n =>
+      obtain ⟨k, rfl⟩ := Fin.eq_castSucc_of_ne_last (ne_of_lt hn)
       simpa [standardTypeABoundaryPrismPairing,
         standardTypeABoundaryPrismSubcomplex] using
-        (inferInstance : (SSet.prodStdSimplex.pairing i 1).IsRegular)
+        (inferInstance : (SSet.prodStdSimplex.pairingCore k 1).pairing.IsRegular)
 
 /-- Because the original type-(A) horn index is strictly between the two
 endpoints, the Mathlib prism pairing uses only inner horns. -/
@@ -101,7 +103,7 @@ instance standardTypeABoundaryPrismPairing_isInner
       simpa [standardTypeABoundaryPrismPairing,
         standardTypeABoundaryPrismSubcomplex] using
         (inferInstance :
-          (SSet.prodStdSimplex.pairing k.castSucc.succ 1).IsInner)
+          (SSet.prodStdSimplex.pairingCore k.succ 1).pairing.IsInner)
 
 /-! ## Canonical rank and relative cell complex -/
 
