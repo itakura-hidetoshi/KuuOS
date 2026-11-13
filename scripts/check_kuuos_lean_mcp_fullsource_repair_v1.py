@@ -27,6 +27,8 @@ def gate_repair(*, root: pathlib.Path, plan: dict,
                 previous_casebook: pathlib.Path | None = None) -> dict:
     root = root.resolve(strict=True)
     output_dir = output_dir.resolve()
+    if output_dir.exists() and any(output_dir.iterdir()):
+        raise RepairPreflightObstruction('append-only repair: output directory must be fresh')
     # The scanner checks exact source blobs, all declared targets, transitive
     # local imports, output containment and pins before the repair runner starts.
     evidence = create_report(root, plan, ci_log, output_dir / 'full_source',
