@@ -100,6 +100,24 @@ class FullSourceCausalEvidenceTests(unittest.TestCase):
                 self.assertTrue(result['next_experiments_not_proofs'])
         self.assertTrue(x.ci_diagnostics('"return_code": 124')[1])
 
+    def test_multiline_lean_error_preserves_goal_and_expected_actual_type(self):
+        log = (
+            '2026-11-14T00:01:00Z error: formal/KUOS/Child.lean:4:2: Application type mismatch: The argument\n'
+            '2026-11-14T00:01:00Z   t\n'
+            '2026-11-14T00:01:00Z has type\n'
+            '2026-11-14T00:01:00Z   Type u_1\n'
+            '2026-11-14T00:01:00Z but is expected to have type\n'
+            '2026-11-14T00:01:00Z   Type u\n'
+            '2026-11-14T00:01:01Z error: Lean exited with code 1\n'
+        )
+        errors, timed_out = x.ci_diagnostics(log)
+        self.assertEqual(len(errors),1)
+        self.assertFalse(timed_out)
+        self.assertEqual(errors[0]['kind'],'universe_mismatch')
+        self.assertIn('Type u_1',errors[0]['message'])
+        self.assertIn('Type u',errors[0]['message'])
+        self.assertFalse(errors[0]['diagnostic_truncated'])
+
     def test_feedback_is_bound_to_exact_source_and_is_not_authority(self):
         with tempfile.TemporaryDirectory() as t:
             root, plan = self.fixture(t)
