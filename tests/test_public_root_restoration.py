@@ -42,6 +42,8 @@ PR2339_INTEGRATED_PROOF_BLOBS = {
 # The original full source and both proof transitions are preserved in Git history.
 # Explicit SHA enrollment is a review gate, never proof of Lean correctness.
 REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
+    # v1.42 Lean namespace and class-return elaboration; frozen legacy remains unchanged.
+    "KUOS/DependentOriginationScaledAnodyneGeneratorClosureV1_42.lean": "1868b82a39919d7af858c5703731c935ff3e45fd",
     # Reviewed v1.41: source declarations matched fixed Lean mathlib API; legacy remains frozen.
     "KUOS/DependentOriginationScaledTerminalRLPV1_41.lean": "0fbc69ccfebbdc75ab61f5836c8ebec9488a84d6",
     # Reviewed v1.40 compiler fixes; frozen legacy/v5.291 source remains unmodified.
