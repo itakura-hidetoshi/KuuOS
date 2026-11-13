@@ -186,7 +186,7 @@ theorem unionProdPairingCore_typeOne_distinguished_firstCoordinate_thin
     · exact Or.inr heq
     · left
       apply Fin.ext
-      change km1.val = ((s.x.cast s.hd).simplex.1 (t 0)).val
+      change ((s.x.cast s.hd).simplex.1 (t 0)).val = km1.val
       change km1.val ≤ ((s.x.cast s.hd).simplex.1 (t 0)).val at hlower
       change ((s.x.cast s.hd).simplex.1 (t 0)).val ≤ k.val at hupperBound
       have hne : ((s.x.cast s.hd).simplex.1 (t 0)).val ≠ k.val := by
@@ -262,7 +262,7 @@ theorem unionProdPairing_typeTwo_firstCoordinate_scaled
     (z : (SSet.prodStdSimplex.pairingCore.{u} k 1).pairing.II) :
     IsScaledMap
       (standardTypeASimplexScaling
-        ((SSet.prodStdSimplex.pairingCore.{u} k 1).pairing.isUniquelyCodimOneFace z).index rfl)
+        (((SSet.prodStdSimplex.pairingCore.{u} k 1).pairing.isUniquelyCodimOneFace z).index rfl))
       (standardTypeASimplexScaling k.castSucc)
       (SSet.yonedaEquiv.symm
         (((SSet.prodStdSimplex.pairingCore.{u} k 1).pairing.p z).val.cast
