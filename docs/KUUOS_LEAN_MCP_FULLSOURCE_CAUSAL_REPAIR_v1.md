@@ -72,3 +72,42 @@ Official Lean language and tactic manuals explain tactics and elaboration; they 
 - Pinned mathlib code: https://github.com/leanprover-community/mathlib4/tree/5450b53e5ddc75d46418fabb605edbf36bd0beb6
 
 The decisive evidence for any specific API is a `#check` or actual Lean/MCP tool call against the pinned local dependency closure, and the decisive proof evidence is independent exact-source CI. Form/empty-dependent-origination mapping is interpretive naming, not established by these Lean technical checks.
+
+## Mandatory preflight entrypoint before a bounded Lean MCP repair
+
+The integrated single-file bounded MCP repair engine is no longer called
+directly by an agent that claims to have read the full source: the recommended
+authorized entrypoint is now `scripts/check_kuuos_lean_mcp_fullsource_repair_v1.py`.
+
+```bash
+python3 scripts/check_kuuos_lean_mcp_fullsource_repair_v1.py \
+  --project-root . \
+  --plan /tmp/kuuos-exact-head-plan.json \
+  --ci-log /tmp/kuuos-strict-lean-actual.log \
+  --repair-target formal/KUOS/NamedTheorem.lean \
+  --output-dir /tmp/kuuos-isolated-repair
+```
+
+Without the additional `--ack-isolated-checkout`, this performs **read-only
+full-source preflight** and never calls a repair provider. For an explicitly
+disposable checkout only, add that acknowledgment and the engine calls the
+previously independently tested free `mcp-tactic` provider. The full-source
+gate checks the exact blob on **all** manifest targets and their local import
+closure before attempting repair; if an unknown identifier/field is in the
+exact CI log, explicit pinned API probes must be supplied in the plan before
+repair begins. API probes are executed in pinned Lean when repair is approved.
+
+After local repair, the entrypoint checks that the original source has been
+restored, the full candidate still has exactly the same imports and lexical
+declaration signatures, and no new trust-bypassing constructs appear. Any
+failure is `PROOF_INTERFACE_OBSTRUCTION`, never a green candidate.
+A local success returns `LOCAL_FULLSOURCE_AND_LEAN_GREEN_CANDIDATE_ONLY`,
+**not** `ci_certified`. GitHub MCP commit authority, independent exact-source
+Strict Lean, `#print axioms`, warnings and test-merge tree receipts remain
+separate required subsequent stages.
+
+For multi-file repairs first gather a plan covering **every changed Lean
+file**, then run the existing dependency-ordered
+`kuuos_lean_mcp_multifile_cycle_v1.py` on a bounded, source-bound subset.
+Do not pretend the four-file loop repairs all 91+ changed Lean modules merely
+because their entire sources were observed.
