@@ -1,0 +1,176 @@
+name: KuuOS multi-file Lean MCP bounded repair v1
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/kuuos_lean_mcp_multifile_cycle_v1.py'
+      - 'tests/test_kuuos_lean_mcp_multifile_cycle_v1.py'
+      - '.github/workflows/lean-mcp-multifile-closed-loop-v1.yml'
+      - 'docs/KUUOS_LEAN_MCP_MULTIFILE_CYCLE_v1.md'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+
+jobs:
+  contract-unit:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Static and offline fail-closed contracts
+        run: |
+          python3 -m py_compile scripts/kuuos_lean_mcp_multifile_cycle_v1.py
+          PYTHONPATH=. python3 -m unittest discover -s tests -p 'test_kuuos_lean_mcp_multifile_cycle_v1.py' -v
+
+  real-two-file-mcp:
+    needs: contract-unit
+    runs-on: ubuntu-22.04
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install uv and ripgrep
+        run: |
+          python3 -m pip install uv
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ripgrep
+      - name: Install pinned Lean
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - uses: actions/cache@v5
+        with:
+          path: .lake
+          key: kuuos-mcp-multifile-mathlib-v1
+      - name: Fetch pinned mathlib cache
+        run: lake exe cache get
+      - name: Create two broken Lean files in disposable fixture, with SHA manifest
+        run: |
+          python3 - <<'PY'
+          import os, json
+          from pathlib import Path
+          from scripts.kuuos_lean_mcp_multifile_cycle_v1 import VERSION
+          from scripts.kuuos_lean_mcp_repair_loop_v1 import digest
+          from scripts.check_kuuos_lean_lsp_mcp_compatibility_v7_17 import require_pins
+          require_pins(Path('.').resolve())
+          a = Path('tests/mcp_repair_fixture/RepairMulti/Alpha.lean')
+          b = Path('tests/mcp_repair_fixture/RepairMulti/Beta.lean')
+          a.parent.mkdir(parents=True, exist_ok=True)
+          a.write_text('import Mathlib\nnamespace RepairMulti\ntheorem alpha : True := by\n  skip\nend RepairMulti\n')
+          b.write_text('import RepairMulti.Alpha\nnamespace RepairMulti\ntheorem beta : True := by\n  skip\nend RepairMulti\n')
+          plan = {'version':VERSION, 'source_head':os.environ['GITHUB_SHA'],
+              'targets':[{'path':str(a),'module':'RepairMulti.Alpha','sha256':digest(a.read_bytes()),'depends_on':[]},
+                         {'path':str(b),'module':'RepairMulti.Beta','sha256':digest(b.read_bytes()),'depends_on':['RepairMulti.Alpha']}]}
+          Path('/tmp/kuuos-multifile-plan.json').write_text(json.dumps(plan))
+          print('KUUOS_TWO_MODULE_BROKEN_SOURCE_READY')
+          PY
+          if lake env lean tests/mcp_repair_fixture/RepairMulti/Alpha.lean > /tmp/kuuos-broken.log 2>&1; then
+            echo 'Broken source unexpectedly passed'; exit 1
+          fi
+          grep -Eq 'unsolved goals|error' /tmp/kuuos-broken.log
+      - name: Lean MCP diagnose, repair, stage .olean, recheck, rollback
+        run: |
+          set -euo pipefail
+          PYTHONPATH=. python3 scripts/kuuos_lean_mcp_multifile_cycle_v1.py --project-root . \
+            --source-manifest /tmp/kuuos-multifile-plan.json \
+            --output-dir /tmp/kuuos-multifile-output --provider mcp-tactic \
+            --max-iterations 2 --ack-isolated-worktree
+          python3 - <<'PY'
+          import hashlib,json
+          from pathlib import Path
+          folder = Path('/tmp/kuuos-multifile-output')
+          r = json.loads((folder/'multifile_receipt.json').read_text())
+          plan = json.loads(Path('/tmp/kuuos-multifile-plan.json').read_text())
+          assert r['status']=='LOCAL_MULTIFILE_LEAN_GREEN_CANDIDATES_ONLY',r
+          assert r['source_and_olean_restored'] and not r['github_write_performed']
+          assert not r['independent_ci_success']
+          assert len(r['validated_candidates'])==2
+          for entry in plan['targets']:
+              assert hashlib.sha256(Path(entry['path']).read_bytes()).hexdigest()==entry['sha256']
+              c=(folder/'candidates'/entry['path']).read_text()
+              assert '  simp\n' in c and '  skip\n' not in c
+          assert not Path('.lake/build/lib/lean/RepairMulti/Alpha.olean').exists()
+          assert not Path('.lake/build/lib/lean/RepairMulti/Beta.olean').exists()
+          print('KUUOS_TWO_MODULE_MCP_CLOSED_LOOP_SUCCESS')
+          PY
+          mkdir -p .mcp_multifile_export
+          cp -a /tmp/kuuos-multifile-output/candidates .mcp_multifile_export/
+          cp /tmp/kuuos-multifile-output/multifile_receipt.json .mcp_multifile_export/
+          cp /tmp/kuuos-multifile-plan.json .mcp_multifile_export/plan.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-mcp-multifile-candidates-v1
+          path: .mcp_multifile_export/
+          if-no-files-found: error
+
+  independent-lean:
+    needs: real-two-file-mcp
+    runs-on: ubuntu-22.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v6
+      - name: Independent pinned Lean
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - uses: actions/cache@v5
+        with:
+          path: .lake
+          key: kuuos-mcp-multifile-independent-mathlib-v1
+      - name: Independent fixed mathlib cache
+        run: lake exe cache get
+      - uses: actions/download-artifact@v4
+        with:
+          name: kuuos-mcp-multifile-candidates-v1
+          path: /tmp/kuuos-multifile-independent
+      - name: Verify exact candidate digests and compile dependent modules
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import os, hashlib, json
+          from pathlib import Path
+          from scripts.check_kuuos_lean_lsp_mcp_compatibility_v7_17 import require_pins
+          require_pins(Path('.').resolve())
+          folder=Path('/tmp/kuuos-multifile-independent')
+          plan=json.loads((folder/'plan.json').read_text())
+          r=json.loads((folder/'multifile_receipt.json').read_text())
+          assert r['status']=='LOCAL_MULTIFILE_LEAN_GREEN_CANDIDATES_ONLY'
+          assert r['source_and_olean_restored'] and not r['independent_ci_success']
+          assert plan['source_head']==os.environ['GITHUB_SHA']==r['source_head']
+          for t,accepted in zip(plan['targets'],r['validated_candidates']):
+              assert t['path']==accepted['path']
+              src=folder/'candidates'/t['path']
+              assert hashlib.sha256(src.read_bytes()).hexdigest()==accepted['candidate_sha256']
+              assert not any(x in src.read_text() for x in ('sorry','axiom','unsafe'))
+              dest=Path(t['path'])
+              dest.parent.mkdir(parents=True,exist_ok=True)
+              dest.write_bytes(src.read_bytes())
+          PY
+          mkdir -p .lake/build/lib/lean/RepairMulti
+          lake env lean -o .lake/build/lib/lean/RepairMulti/Alpha.olean tests/mcp_repair_fixture/RepairMulti/Alpha.lean
+          lake env lean -o .lake/build/lib/lean/RepairMulti/Beta.olean tests/mcp_repair_fixture/RepairMulti/Beta.lean
+          printf 'import RepairMulti.Beta\n#print axioms RepairMulti.alpha\n#print axioms RepairMulti.beta\n' > tests/mcp_repair_fixture/RepairMulti/Audit.lean
+          lake env lean tests/mcp_repair_fixture/RepairMulti/Audit.lean | tee /tmp/kuuos-multifile-audit.log
+          ! grep -Eq 'sorryAx|unknown constant|unsolved goals|error:' /tmp/kuuos-multifile-audit.log
+          grep -F 'RepairMulti.alpha' /tmp/kuuos-multifile-audit.log
+          grep -F 'RepairMulti.beta' /tmp/kuuos-multifile-audit.log
+          echo 'KUUOS_MULTIFILE_FRESH_KERNEL_AND_AXIOM_AUDIT_SUCCESS'
