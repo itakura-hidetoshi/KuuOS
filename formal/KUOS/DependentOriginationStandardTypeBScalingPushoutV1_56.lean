@@ -151,9 +151,8 @@ theorem scalingEnrichmentPushout_commutes
       scalingEnrichmentHom hXX' ≫
         scalingEnrichmentPushoutUpperMap sX' sY f := by
   apply ScaledSSet.ScaledMap.ext
-  simp [scalingEnrichmentPushoutLowerMap,
-    scalingEnrichmentPushoutTargetEnrichment,
-    scalingEnrichmentHom, scalingEnrichmentPushoutUpperMap]
+  change f ≫ 𝟙 Y = 𝟙 X ≫ f
+  simp
 
 /-- Compatibility in a scaled cocone gives the underlying simplicial equation
 used to prove scaledness of the universal desc map. -/
@@ -199,8 +198,8 @@ noncomputable def scalingEnrichmentPushoutDesc
         hXX' sY f hf b a w
       have hpoint := ConcreteCategory.congr_hom
         (congr_app hmap (op ⦋2⦌)) x
-      change W.scaling.thin (b.map.app (op ⦋2⦌) (f.app (op ⦋2⦌) x))
-      rw [← hpoint]
+      change W.scaling.thin ((f ≫ b.map).app (op ⦋2⦌) x)
+      rw [hpoint]
       exact a.scaled x hx
 
 @[simp, reassoc]
@@ -219,8 +218,8 @@ theorem scalingEnrichmentPushout_target_desc
     scalingEnrichmentPushoutTargetEnrichment sX' sY f ≫
         scalingEnrichmentPushoutDesc hXX' sY f hf b a w = b := by
   apply ScaledSSet.ScaledMap.ext
-  simp [scalingEnrichmentPushoutTargetEnrichment,
-    scalingEnrichmentPushoutDesc]
+  change 𝟙 Y ≫ b.map = b.map
+  simp
 
 @[simp, reassoc]
 theorem scalingEnrichmentPushout_upper_desc
