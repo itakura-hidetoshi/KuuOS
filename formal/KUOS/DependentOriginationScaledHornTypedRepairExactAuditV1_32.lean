@@ -27,6 +27,7 @@ import KUOS.DependentOriginationStandardTypeAScaledPushoutSourceEnrichmentV1_53
 import KUOS.DependentOriginationStandardTypeAScaledLeibnizPushoutV1_55
 import KUOS.DependentOriginationStandardTypeBThreeSimplexCompletionV1_57
 import KUOS.DependentOriginationStandardTypeCCollapsedEdgeV1_58
+import KUOS.PinnedMathlibUnionProdProofPortV1_61
 
 /-!
 # Strict typechecker audit for v1.30–v1.32 typed scaled-horn repair
@@ -256,3 +257,7 @@ certificate or unlifted v1.29 horn descent is inferred. -/
 #print axioms KUOS.DependentOriginationStandardABCLeibnizCellularComparisonV1_59.standardABCTypeAEndpointLeibnizStability_iff_lifting
 #print axioms KUOS.DependentOriginationStandardABCLeibnizCellularComparisonV1_59.standardTypeAInducedAttachments_le_standardGenerated
 #print axioms KUOS.DependentOriginationStandardABCLeibnizCellularComparisonV1_59.StandardABCCanonicalComparisonCertificate.generatedAnodyne_eq_canonical
+
+/-! ## Pinned historical UnionProd pairing-core port; regularity and full v1.61 remain open -/
+#print axioms SSet.prodStdSimplex.pairingCore
+#print axioms SSet.prodStdSimplex.type₁_pairingCore
