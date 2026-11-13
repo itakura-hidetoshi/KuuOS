@@ -325,7 +325,7 @@ produced by the type-(A) cobase change. -/
     (i : Fin 4) : ScaledSimplicialSet (Δ[3] : SSet.{u}) where
   thin := fun t =>
     (standardTypeASimplexScaling i).thin t ∨
-      t ∈ SSet.horn.{u} 3 i.obj (op ⦋2⦌)
+      t ∈ (SSet.horn.{u} 3 i).obj (op ⦋2⦌)
   thin_sigma_zero := by
     intro x
     exact Or.inl ((standardTypeASimplexScaling i).thin_sigma_zero x)
@@ -373,7 +373,7 @@ theorem standardTypeBThreeTriangle123_eq_delta0 :
 missing coface. -/
 theorem standardTypeBThreeTriangle012_mem_horn_one :
     standardTypeBThreeTriangle012 ∈
-      SSet.horn.{u} 3 (1 : Fin 4).obj (op ⦋2⦌) := by
+      (SSet.horn.{u} 3 (1 : Fin 4)).obj (op ⦋2⦌) := by
   rw [standardTypeBThreeTriangle012_eq_delta3,
     SSet.objEquiv_symm_δ_mem_horn_iff]
   decide
@@ -381,7 +381,7 @@ theorem standardTypeBThreeTriangle012_mem_horn_one :
 /-- `013` belongs to horn 1. -/
 theorem standardTypeBThreeTriangle013_mem_horn_one :
     standardTypeBThreeTriangle013 ∈
-      SSet.horn.{u} 3 (1 : Fin 4).obj (op ⦋2⦌) := by
+      (SSet.horn.{u} 3 (1 : Fin 4)).obj (op ⦋2⦌) := by
   rw [standardTypeBThreeTriangle013_eq_delta2,
     SSet.objEquiv_symm_δ_mem_horn_iff]
   decide
@@ -389,7 +389,7 @@ theorem standardTypeBThreeTriangle013_mem_horn_one :
 /-- `123` belongs to horn 1. -/
 theorem standardTypeBThreeTriangle123_mem_horn_one :
     standardTypeBThreeTriangle123 ∈
-      SSet.horn.{u} 3 (1 : Fin 4).obj (op ⦋2⦌) := by
+      (SSet.horn.{u} 3 (1 : Fin 4)).obj (op ⦋2⦌) := by
   rw [standardTypeBThreeTriangle123_eq_delta0,
     SSet.objEquiv_symm_δ_mem_horn_iff]
   decide
@@ -397,14 +397,14 @@ theorem standardTypeBThreeTriangle123_mem_horn_one :
 /-- The missing face `023` does not belong to horn 1. -/
 theorem standardTypeBThreeTriangle023_notMem_horn_one :
     standardTypeBThreeTriangle023 ∉
-      SSet.horn.{u} 3 (1 : Fin 4).obj (op ⦋2⦌) := by
+      (SSet.horn.{u} 3 (1 : Fin 4)).obj (op ⦋2⦌) := by
   rw [standardTypeBThreeTriangle023_eq_delta1,
     SSet.objEquiv_symm_δ_notMem_horn_iff]
 
 /-- `012` belongs to horn 2. -/
 theorem standardTypeBThreeTriangle012_mem_horn_two :
     standardTypeBThreeTriangle012 ∈
-      SSet.horn.{u} 3 (2 : Fin 4).obj (op ⦋2⦌) := by
+      (SSet.horn.{u} 3 (2 : Fin 4)).obj (op ⦋2⦌) := by
   rw [standardTypeBThreeTriangle012_eq_delta3,
     SSet.objEquiv_symm_δ_mem_horn_iff]
   decide
@@ -412,7 +412,7 @@ theorem standardTypeBThreeTriangle012_mem_horn_two :
 /-- `023` belongs to horn 2. -/
 theorem standardTypeBThreeTriangle023_mem_horn_two :
     standardTypeBThreeTriangle023 ∈
-      SSet.horn.{u} 3 (2 : Fin 4).obj (op ⦋2⦌) := by
+      (SSet.horn.{u} 3 (2 : Fin 4)).obj (op ⦋2⦌) := by
   rw [standardTypeBThreeTriangle023_eq_delta1,
     SSet.objEquiv_symm_δ_mem_horn_iff]
   decide
@@ -420,7 +420,7 @@ theorem standardTypeBThreeTriangle023_mem_horn_two :
 /-- `123` belongs to horn 2. -/
 theorem standardTypeBThreeTriangle123_mem_horn_two :
     standardTypeBThreeTriangle123 ∈
-      SSet.horn.{u} 3 (2 : Fin 4).obj (op ⦋2⦌) := by
+      (SSet.horn.{u} 3 (2 : Fin 4)).obj (op ⦋2⦌) := by
   rw [standardTypeBThreeTriangle123_eq_delta0,
     SSet.objEquiv_symm_δ_mem_horn_iff]
   decide
@@ -428,7 +428,7 @@ theorem standardTypeBThreeTriangle123_mem_horn_two :
 /-- The missing face `013` does not belong to horn 2. -/
 theorem standardTypeBThreeTriangle013_notMem_horn_two :
     standardTypeBThreeTriangle013 ∉
-      SSet.horn.{u} 3 (2 : Fin 4).obj (op ⦋2⦌) := by
+      (SSet.horn.{u} 3 (2 : Fin 4)).obj (op ⦋2⦌) := by
   rw [standardTypeBThreeTriangle013_eq_delta2,
     SSet.objEquiv_symm_δ_notMem_horn_iff]
 
