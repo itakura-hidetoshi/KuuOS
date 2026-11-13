@@ -53,7 +53,7 @@ No equality between the source and target external generator lists is needed.
 
 /-- The global Duskin scaled object attached to a bicategory. -/
 abbrev globalDuskinScaledObject
-    (B : Type u) [Bicategory.{w, v} B] : ScaledSSet.{u} :=
+    (B : Type u) [Bicategory.{w, v} B] : ScaledSSet.{max (max w v) u} :=
   ScaledSSet.of (duskinNerve B) (duskinScaling B)
 
 /-- An external scaled-anodyne presentation for one global Duskin universe.
@@ -63,7 +63,7 @@ mutual closure-generation comparison with the canonical KuuOS attachment
 family. -/
 structure GlobalDuskinExternalPresentation
     (B : Type u) [Bicategory.{w, v} B] where
-  generators : MorphismProperty (ScaledSSet.{u})
+  generators : MorphismProperty (ScaledSSet.{max (max w v) u})
   comparison : ScaledAnodyneGeneratorComparison generators
 
 namespace GlobalDuskinExternalPresentation
