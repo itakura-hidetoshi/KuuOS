@@ -196,17 +196,43 @@ def fixture_provider(source: str, _: list[dict]) -> dict:
 
 
 def choose_tactic_line(source: str, reported_line: object) -> int | None:
-    """Locate a nearby proof tactic; the CI error line is only a locator."""
+    """Treat a compiler error line as a locator, not a replacement scope.
+
+    Lean can report an unclosed goal at an earlier apply even when the
+    actual unresolved tactic is a skip two lines later. Prioritize a
+    nearby skip inside the same declaration, then use nearest-tactic
+    fallback. Only post-edit Lean validation establishes success.
+    """
     lines = source.splitlines()
     if type(reported_line) is not int or not (1 <= reported_line <= len(lines)):
         return None
-    tactic = re.compile(r"^ {2,}(?:skip|simp|rw|exact|apply|aesop|intro|rfl|assumption|constructor)\b")
-    choices = [i for i in range(max(0, reported_line - 7), min(len(lines), reported_line + 6))
-               if tactic.match(lines[i])]
+
+    decl = re.compile(r"^(?:theorem|lemma|def|instance|example)\b")
+    prior = [i for i in range(reported_line) if decl.match(lines[i])]
+    declaration_start = prior[-1] if prior else 0
+    declaration_end = next(
+        (i for i in range(reported_line, len(lines)) if decl.match(lines[i])),
+        len(lines),
+    )
+    first = max(declaration_start, reported_line - 9)
+    last = min(declaration_end, reported_line + 12)
+    tactic = re.compile(
+        r"^ {2,}(?:skip|simp|rw|exact|apply|aesop|intro|rfl|assumption|constructor)\b"
+    )
+    choices = [i for i in range(first, last) if tactic.match(lines[i])]
     if not choices:
         return None
-    choices.sort(key=lambda i: (abs((i + 1) - reported_line), i))
-    return choices[0] + 1
+
+    unfinished = [
+        i for i in choices if re.fullmatch(r" {2,}skip(?:[ \t]*--.*)?", lines[i])
+    ]
+    pool = unfinished if unfinished else choices
+    pool.sort(key=lambda i: (
+        abs((i + 1) - reported_line),
+        (i + 1) < reported_line,
+        i,
+    ))
+    return pool[0] + 1
 
 
 def mcp_tactic_provider(source: str, observations: list[dict]) -> dict:
