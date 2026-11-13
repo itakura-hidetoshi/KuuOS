@@ -255,13 +255,13 @@ end
 
 section
 
-variable {x} {hd : x.dim = d + 1} {l : Fin (d + 1)} (hl : IsIndex x hd l.succ)
+variable {x} {hd : x.dim = d + 1} {l : Fin (d + 1)}
 
-include hl
-
-/-- The type (II) simplex obtained as a face of a type (I) simplex. -/
+/-- The type (II) simplex obtained as a face of a type (I) simplex.
+The actual IsIndex evidence is an explicit constructor argument rather
+than an implicit section dependency; this preserves typed field projection. -/
 @[simps -isSimp]
-noncomputable abbrev δ :
+noncomputable abbrev δ (hl : IsIndex x hd l.succ) :
     (Subcomplex.unionProd.{u} Λ[m + 1, k.castSucc] ∂Δ[n]).N where
   dim := d
   simplex := (Δ[m + 1] ⊗ Δ[n]).δ l.castSucc (x.cast hd).simplex
