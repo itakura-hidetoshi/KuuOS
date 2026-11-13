@@ -42,6 +42,8 @@ PR2339_INTEGRATED_PROOF_BLOBS = {
 # The original full source and both proof transitions are preserved in Git history.
 # Explicit SHA enrollment is a review gate, never proof of Lean correctness.
 REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
+    # v1.53: five class-valued generated/induced scaled sources require Lean reducibility.
+    "KUOS/DependentOriginationStandardTypeAScaledPushoutSourceEnrichmentV1_53.lean": "2063b36e1f2dc77de5ff357a79e827031ce98c30",
     # v1.52 fixed class transparency and explicit typed scaled-product equalities.
     "KUOS/DependentOriginationScaledCartesianIntervalCylinderV1_52.lean": "3801fb128d4dc08f5c488d890aaae82fbe6e8cc3",
     # Reviewed v1.51: use pinned PushoutObjObj inl_ι/inr_ι equations; frozen legacy unchanged.
