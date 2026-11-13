@@ -337,6 +337,7 @@ def run_loop(*, root: pathlib.Path, rel_file: str, output_dir: pathlib.Path,
                 if type(goal_line) is int and goal_line > 0:
                     goal = call_tool(client, "lean_goal", {"file_path": rel_file, "line": goal_line})
                     item["goal_digest"] = digest(json.dumps(goal.get("result", {}), sort_keys=True))
+                    item["goal_observation_excerpt"] = json.dumps(structured(goal), ensure_ascii=False)[:3200]
                 trial_summary = None
                 if type(goal_line) is int and goal_line > 0:
                     probes = call_tool(client, "lean_multi_attempt", {
@@ -350,6 +351,8 @@ def run_loop(*, root: pathlib.Path, rel_file: str, output_dir: pathlib.Path,
                         for t in model.get("items", []) if isinstance(t, Mapping)
                     ]
                     item["preliminary_tactics"] = len(trial_summary)
+                    # Persist bounded failed/successful MCP outcomes as audit evidence.
+                    item["preliminary_tactic_details"] = trial_summary
                 observations.append({"source_sha256": observation.source_sha256,
                                      "errors": observation.errors[:10],
                                      "target_tactic_line": goal_line,
