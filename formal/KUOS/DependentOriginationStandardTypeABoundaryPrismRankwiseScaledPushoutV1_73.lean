@@ -198,7 +198,8 @@ theorem generatedPushoutDescMap_scaled
           (generatedPushout_compatibility_map f g a b w))
         (op ⦋2⦌)) x
     change W.scaling.thin
-      ((inl ≫ generatedPushoutDescMap f g inl inr h a b w).app (op ⦋2⦌) x)
+      ((inl ≫ h.desc a.map b.map
+        (generatedPushout_compatibility_map f g a b w)).app (op ⦋2⦌) x)
     rw [hfac]
     exact a.scaled x hx
   · have hfac := ConcreteCategory.congr_hom
@@ -207,7 +208,8 @@ theorem generatedPushoutDescMap_scaled
           (generatedPushout_compatibility_map f g a b w))
         (op ⦋2⦌)) y
     change W.scaling.thin
-      ((inr ≫ generatedPushoutDescMap f g inl inr h a b w).app (op ⦋2⦌) y)
+      ((inr ≫ h.desc a.map b.map
+        (generatedPushout_compatibility_map f g a b w)).app (op ⦋2⦌) y)
     rw [hfac]
     exact b.scaled y hy
 
@@ -465,8 +467,8 @@ theorem standardTypeABoundaryPrismRankGeneratedPushoutScaling_eq_succ
               (((standardTypeABoundaryPrismRankFunction g).b j).app
                 (op ⦋2⦌)) := by
       rw [
-        (standardTypeABoundaryPrismRankFunction g).
-          range_homOfLE_app_union_range_b_app j (op ⦋2⦌)]
+        (standardTypeABoundaryPrismRankFunction g).range_homOfLE_app_union_range_b_app
+          j (op ⦋2⦌)]
       exact Set.mem_univ t
     change
       t ∈
@@ -491,7 +493,13 @@ theorem standardTypeABoundaryPrismRankGeneratedPushoutScaling_eq_succ
               ((SSet.Subcomplex.homOfLE
                 ((standardTypeABoundaryPrismRankFunction g).filtration_monotone
                   (Order.le_succ j))).app (op ⦋2⦌) x)) at ht
-        rw [← NatTrans.comp_app_apply] at ht
+        change
+          (scaledSimplexCylinder (standardTypeASimplexScaling g.i)).scaling.thin
+            (((SSet.Subcomplex.homOfLE
+              ((standardTypeABoundaryPrismRankFunction g).filtration_monotone
+                (Order.le_succ j))) ≫
+                ((standardTypeABoundaryPrismRankFunction g).filtration (j + 1)).ι).app
+                  (op ⦋2⦌) x) at ht
         rw [SSet.Subcomplex.homOfLE_ι] at ht
         exact ht
       exact Or.inr (Or.inl ⟨x, hx, rfl⟩)
@@ -520,9 +528,9 @@ noncomputable def standardTypeABoundaryPrism_rankStep_scaled_isPushout
       (standardTypeABoundaryPrismRankStageHom g (Nat.le_succ j)).map
       ((standardTypeABoundaryPrismRankFunction g).b j)
       (standardTypeABoundaryPrism_rankStep_isPushout g j)
-  simpa [generatedPushoutInl, generatedPushoutInr,
-    generatedPushoutTarget,
-    standardTypeABoundaryPrismRankGeneratedPushoutScaling_eq_succ g j,
+  unfold generatedPushoutInl generatedPushoutInr generatedPushoutTarget at h
+  rw [standardTypeABoundaryPrismRankGeneratedPushoutScaling_eq_succ g j] at h
+  simpa [
     standardTypeABoundaryPrismRankSigmaHornToStage,
     standardTypeABoundaryPrismRankSigmaCellHom,
     standardTypeABoundaryPrismRankSigmaStdSimplexToSucc,
