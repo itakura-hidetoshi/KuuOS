@@ -46,7 +46,7 @@ REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
     "KUOS/DependentOriginationStandardTypeAGeneratedPushoutLLPDescentV1_54.lean": "7439f63c8a1c675b12ab235f8404cbb54d518c4d",
     "KUOS/DependentOriginationStandardTypeAScaledLeibnizPushoutV1_55.lean": "676f93ef706996d9a52822153a5b04ad99b9f4f7",
     # v1.53: five class-valued generated/induced scaled sources require Lean reducibility.
-    "KUOS/DependentOriginationStandardTypeAScaledPushoutSourceEnrichmentV1_53.lean": "2063b36e1f2dc77de5ff357a79e827031ce98c30",
+    "KUOS/DependentOriginationStandardTypeAScaledPushoutSourceEnrichmentV1_53.lean": "3310d80efdfb8c2f5d80d46c26886814fa636f85",
     # v1.52 fixed class transparency and explicit typed scaled-product equalities.
     "KUOS/DependentOriginationScaledCartesianIntervalCylinderV1_52.lean": "3801fb128d4dc08f5c488d890aaae82fbe6e8cc3",
     # Reviewed v1.51: use pinned PushoutObjObj inl_ι/inr_ι equations; frozen legacy unchanged.
