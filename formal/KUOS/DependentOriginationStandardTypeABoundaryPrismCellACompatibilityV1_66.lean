@@ -285,9 +285,11 @@ theorem unionProdPairing_typeTwo_firstCoordinate_scaled
       ((P.pairing.p (P.equivII s)).val.cast
           (P.pairing.isUniquelyCodimOneFace (P.equivII s)).dim_eq).simplex =
         P.simplex s := by
-    simpa only [SSet.Subcomplex.N.cast_eq_self, hpair,
-      SSet.Subcomplex.PairingCore.equivI_apply_coe,
-      SSet.Subcomplex.PairingCore.type₁]
+    -- The underlying SSet.S has a nondependent codomain, so transport the
+    -- equality there before reflecting equality of fixed-dimensional simplices.
+    apply (SSet.S.ext_iff _ _).mp
+    simpa only [SSet.Subcomplex.PairingCore.type₁] using
+      congrArg (fun (x : _ ) => x.toS) hpairedN
   have hindexCore :
       ((P.pairing.isUniquelyCodimOneFace (P.equivII s)).index rfl) =
         P.index s := by
@@ -301,9 +303,12 @@ theorem unionProdPairing_typeTwo_firstCoordinate_scaled
     calc
       _ = (P.type₂ s).simplex := rfl
       _ = ((P.equivII s).val.cast rfl).simplex := by
-        simp only [SSet.Subcomplex.N.cast_eq_self,
-          SSet.Subcomplex.PairingCore.equivII_apply_coe,
-          SSet.Subcomplex.PairingCore.type₂]
+        have hfaceN :
+            P.type₂ s = ((P.equivII s).val.cast rfl) := by
+          simp only [SSet.Subcomplex.N.cast_eq_self,
+            SSet.Subcomplex.PairingCore.equivII_apply_coe]
+        apply (SSet.S.ext_iff _ _).mp
+        exact congrArg (fun (x : _) => x.toS) hfaceN
   have hindex :
       ((P.pairing.isUniquelyCodimOneFace (P.equivII s)).index rfl) =
         s.index.castSucc := by
