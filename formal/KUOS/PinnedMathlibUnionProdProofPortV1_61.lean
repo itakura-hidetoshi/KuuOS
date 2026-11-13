@@ -279,7 +279,7 @@ noncomputable abbrev δ (hl : IsIndex x hd l.succ) :
     -- the union-product face predicate.
     change
       ((Δ[m + 1] ⊗ Δ[n]).δ l.castSucc (x.cast hd).simplex) ∉
-        (Subcomplex.unionProd.{u} Λ[m + 1, k.castSucc] ∂Δ[n]).obj (op ⦋d⦌)
+        (Subcomplex.unionProd.{u} Λ[m + 1, k.castSucc] ∂Δ[n]).obj (Opposite.op ⦋d⦌)
     simp only [Subcomplex.mem_unionProd_iff, prod_δ_snd, mem_boundary_iff_notMem_range,
       Set.mem_range, stdSimplex.δ_apply, not_exists, prod_δ_fst, mem_horn_iff_notMem_range,
       ne_eq, exists_prop, not_or, not_forall, Decidable.not_not, not_and]
