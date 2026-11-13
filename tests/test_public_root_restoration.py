@@ -42,6 +42,8 @@ PR2339_INTEGRATED_PROOF_BLOBS = {
 # The original full source and both proof transitions are preserved in Git history.
 # Explicit SHA enrollment is a review gate, never proof of Lean correctness.
 REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
+    # v1.65: pinned scaled namespace, class transparency, and two typed cell universe boundaries.
+    "KUOS/DependentOriginationStandardTypeABoundaryPrismCellPushoutCriterionV1_65.lean": "ca821e08da5e45e424734ed9e6692c6b42613933",
     # v1.64: dependent transport of paired nondegenerate top simplex across dimension equality.
     "KUOS/DependentOriginationStandardTypeABoundaryPrismStaircaseNormalFormV1_64.lean": "6c59150499a7108182fa6110836a3edab2b3d0f0",
     # v1.63: reconstructed interior-pairing dimension statement; no absent Mathlib API.
