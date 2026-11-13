@@ -141,6 +141,8 @@ theorem externalGeneratedScaledFibration_eq_canonical :
       (canonicalGeneratedScaledFibration : MorphismProperty (ScaledSSet.{u})) := by
   unfold externalGeneratedScaledFibration
   rw [← MorphismProperty.rlp_llp_rlp E]
+  change (externalGeneratedScaledAnodyne E).rlp =
+    (canonicalGeneratedScaledFibration : MorphismProperty (ScaledSSet.{u}))
   rw [K.externalGeneratedScaledAnodyne_eq_canonical]
   exact canonicalGeneratedScaledAnodyne_rlp_eq_fibration
 
@@ -149,8 +151,8 @@ canonical generator family. -/
 theorem external_rlp_eq_canonical_generators_rlp :
     E.rlp =
       (scaledHornAttachmentGenerators : MorphismProperty (ScaledSSet.{u})).rlp := by
-  rw [← K.externalGeneratedScaledFibration_eq_canonical]
-  rfl
+  change externalGeneratedScaledFibration E = canonicalGeneratedScaledFibration
+  exact K.externalGeneratedScaledFibration_eq_canonical
 
 /-- The external generated closure is itself a compatible v1.42 presentation. -/
 def toScaledAnodynePresentation : ScaledAnodynePresentation.{u} where
