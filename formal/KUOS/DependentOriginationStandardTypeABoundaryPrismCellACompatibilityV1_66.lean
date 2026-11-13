@@ -285,8 +285,7 @@ theorem unionProdPairing_typeTwo_firstCoordinate_scaled
       ((P.pairing.p (P.equivII s)).val.cast
           (P.pairing.isUniquelyCodimOneFace (P.equivII s)).dim_eq).simplex =
         P.simplex s := by
-    rw [hpairedN]
-    rfl
+    simpa [hpairedN, SSet.Subcomplex.PairingCore.type₁]
   have hindexCore :
       ((P.pairing.isUniquelyCodimOneFace (P.equivII s)).index rfl) =
         P.index s := by
@@ -295,7 +294,7 @@ theorem unionProdPairing_typeTwo_firstCoordinate_scaled
       ((P.pairing.isUniquelyCodimOneFace (P.equivII s)).δ_eq_iff
         rfl (P.index s)).mp
     rw [hsimplex]
-    simpa only [SSet.Subcomplex.PairingCore.equivII_apply_coe,
+    simpa [SSet.Subcomplex.PairingCore.equivII_apply_coe,
       SSet.Subcomplex.PairingCore.type₂,
       SSet.Subcomplex.N.cast_eq_self, SSet.N.cast_eq_self,
       SSet.S.cast_eq_self]
