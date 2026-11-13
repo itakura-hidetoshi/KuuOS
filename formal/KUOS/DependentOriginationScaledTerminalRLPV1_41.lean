@@ -257,7 +257,7 @@ def scaledHornCylinderAttachmentInclusion
   scaled := minimalScaling_map _ _
 
 /-- Endpoint zero as a morphism of scaled simplicial sets. -/
-def scaledEndpointZero
+noncomputable def scaledEndpointZero
     {n : Nat}
     (sΔ : ScaledSimplicialSet (Δ[n] : SSet.{u})) :
     scaledSimplex sΔ ⟶ scaledSimplexCylinder sΔ where
@@ -265,7 +265,7 @@ def scaledEndpointZero
   scaled := endpointZero_scaled sΔ
 
 /-- Endpoint one as a morphism of scaled simplicial sets. -/
-def scaledEndpointOne
+noncomputable def scaledEndpointOne
     {n : Nat}
     (sΔ : ScaledSimplicialSet (Δ[n] : SSet.{u})) :
     scaledSimplex sΔ ⟶ scaledSimplexCylinder sΔ where
