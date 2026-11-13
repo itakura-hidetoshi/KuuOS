@@ -232,7 +232,8 @@ theorem standardTypeCCarrierMap_inl_horn (m : Nat) :
       pushout.inl
         (standardTypeCEdgeToSimplex.{u} m)
         (standardTypeCEdgeCollapseToPoint.{u} m) := by
-  simp [standardTypeCCarrierMap, pushout.map, pushout.inl_desc]
+  dsimp only [standardTypeCCarrierMap, pushout.map]
+  exact pushout.inl_desc _ _ _
 
 /-- The induced carrier map is the identity on the collapsed point leg. -/
 @[reassoc]
@@ -244,7 +245,8 @@ theorem standardTypeCCarrierMap_inr_point (m : Nat) :
     pushout.inr
       (standardTypeCEdgeToSimplex.{u} m)
       (standardTypeCEdgeCollapseToPoint.{u} m) := by
-  simp [standardTypeCCarrierMap, pushout.map, pushout.inr_desc]
+  dsimp only [standardTypeCCarrierMap, pushout.map]
+  exact pushout.inr_desc _ _ _
 
 /-! ## The distinguished `01n` triangle -/
 
@@ -255,8 +257,8 @@ def standardTypeCTriangle01n (m : Nat) :
     (0 : Fin (m + 4))
     (1 : Fin (m + 4))
     (Fin.last (m + 3))
-    (by omega)
-    (by omega)
+    (Fin.zero_le _)
+    (Fin.le_last _)
 
 /-- The triangle `01n` belongs to the outer horn `Lambda_0^n`: it lies in the
 face opposite vertex `2`. -/
@@ -269,10 +271,15 @@ def standardTypeCTriangle01nInHorn (m : Nat) :
       rw [SSet.stdSimplex.mem_face_iff]
       intro j
       fin_cases j <;>
-        simp [standardTypeCTriangle01n, Fin.ext_iff] <;> omega
+        simp [standardTypeCTriangle01n, Fin.ext_iff, Fin.val_last, Fin.val_one,
+          SSet.stdSimplex.coe_triangle_down_toOrderHom] <;> omega
     exact
       (SSet.face_le_horn
-        (2 : Fin (m + 4)) (0 : Fin (m + 4)) (by omega)) _ ht⟩
+        (2 : Fin (m + 4)) (0 : Fin (m + 4)) (by
+          intro h
+          have hv := congrArg Fin.val h
+          have hlt : 2 < m + 4 := by omega
+          norm_num [Nat.mod_eq_of_lt hlt] at hv)) _ ht⟩
 
 /-- Distinguished source triangle: the image of `01n` in the collapsed horn. -/
 def standardTypeCSourceDistinguishedTriangle (m : Nat) :
@@ -348,7 +355,7 @@ def standardTypeCGeneratorHom (m : Nat) :
     rcases ht with ht | ht
     · exact Or.inl
         ((minimalScaling_map
-          (standardTypeCTargetScaling.{u} m)
+          (minimalScaling (standardTypeCTargetCarrier.{u} m))
           (standardTypeCCarrierMap.{u} m)) t ht)
     · subst t
       exact Or.inr (standardTypeCCarrierMap_distinguishedTriangle m)
@@ -494,10 +501,7 @@ standard generated left class because it is a pushout of type-(B). -/
 theorem standardTypeBCollapse12Completion_mem_standardGenerated :
     standardGeneratedScaledAnodyneABC
       standardTypeBCollapse12CompletionHom := by
-  change
-    (standardScaledAnodyneGeneratorsABC :
-      MorphismProperty (ScaledSSet.{u})).rlp.llp
-      standardTypeBCollapse12CompletionHom
+  unfold standardGeneratedScaledAnodyneABC
   exact standardTypeBCollapse12Completion_mem_llp
     (standardScaledAnodyneGeneratorsABC :
       MorphismProperty (ScaledSSet.{u})).rlp
@@ -508,10 +512,7 @@ standard generated left class because it is a pushout of type-(B). -/
 theorem standardTypeBCollapse23Completion_mem_standardGenerated :
     standardGeneratedScaledAnodyneABC
       standardTypeBCollapse23CompletionHom := by
-  change
-    (standardScaledAnodyneGeneratorsABC :
-      MorphismProperty (ScaledSSet.{u})).rlp.llp
-      standardTypeBCollapse23CompletionHom
+  unfold standardGeneratedScaledAnodyneABC
   exact standardTypeBCollapse23Completion_mem_llp
     (standardScaledAnodyneGeneratorsABC :
       MorphismProperty (ScaledSSet.{u})).rlp
