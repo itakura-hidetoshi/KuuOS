@@ -252,7 +252,15 @@ noncomputable abbrev δ :
     (Subcomplex.unionProd.{u} Λ[m + 1, k.castSucc] ∂Δ[n]).N where
   dim := d
   simplex := (Δ[m + 1] ⊗ Δ[n]).δ l.castSucc (x.cast hd).simplex
-  nonDegenerate := nonDegenerate_δ (x.cast hd).nonDegenerate _
+  nonDegenerate := by
+    have hinj : Function.Injective
+        (prodStdSimplex.objEquiv (x.cast hd).simplex) :=
+      (prodStdSimplex.nonDegenerate_iff_injective_objEquiv
+        (x.cast hd).simplex).1 (x.cast hd).nonDegenerate
+    apply (prodStdSimplex.nonDegenerate_iff_injective_objEquiv _).2
+    intro a b hab
+    exact Fin.succAbove_right_injective
+      (hinj (by simpa only [prodStdSimplex.objEquiv_δ_apply] using hab))
   notMem := by
     dsimp
     -- `simp? [Subcomplex.mem_unionProd_iff, mem_boundary_iff_notMem_range,
