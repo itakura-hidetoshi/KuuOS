@@ -280,8 +280,10 @@ theorem unionProdPairing_typeTwo_firstCoordinate_scaled
         P.index s := by
     -- Use the pinned PairingCore uniqueness theorem, not equality of
     -- dependent casts. The pairing is induced by this very core.
-    change (P.isUniquelyCodimOneFace s).index rfl = P.index s
-    exact P.isUniquelyCodimOneFace_index s
+    simpa only [SSet.Subcomplex.PairingCore.pairing_p_equivII,
+      SSet.Subcomplex.PairingCore.equivI_apply_coe,
+      SSet.Subcomplex.PairingCore.equivII_apply_coe] using
+      P.isUniquelyCodimOneFace_index s
   have hindex :
       ((P.pairing.isUniquelyCodimOneFace (P.equivII s)).index rfl) =
         s.index.castSucc := by
