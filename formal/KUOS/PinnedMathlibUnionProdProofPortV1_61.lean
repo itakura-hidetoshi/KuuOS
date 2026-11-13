@@ -288,8 +288,9 @@ noncomputable abbrev δ (hl : IsIndex x hd l.succ) :
       dsimp at hi
       obtain rfl | ⟨i, rfl⟩ := Fin.eq_self_or_eq_succAbove l.castSucc i
       · refine ⟨l, ?_⟩
-        rw [Fin.succAbove_castSucc_self, ← hi, ← hl.simplex_snd_succ]
-        rfl
+        change (Δ[n].δ l.castSucc (x.cast hd).simplex.2) l = j
+        rw [stdSimplex.δ_apply, Fin.succAbove_castSucc_self,
+          hl.simplex_snd_succ, hi]
       · exact ⟨_, hi⟩
     · obtain ⟨i, hi⟩ := mem_range_left x hd j hj
       dsimp at hi
@@ -478,7 +479,11 @@ noncomputable def type₁ : Type₁ k n where
   d := d
   hd := rfl
   index := min x hd
-  isIndex := by simp [isIndex_succ]
+  isIndex := by
+    change (φ x hd (min x hd).castSucc).1 = k.castSucc ∧
+      (φ x hd (min x hd).succ).1 = k.succ ∧
+      (φ x hd (min x hd).succ).2 = (φ x hd (min x hd).castSucc).2
+    exact ⟨by simp, by simp, by simp⟩
 
 end IsType₂
 
@@ -495,6 +500,8 @@ lemma min_δ : min (d := d) hl.δ rfl = l := by
   · simp only [mem_finset_iff]
     simp only [Monoidal.tensorObj_obj, S.cast_dim, S.cast_simplex_rfl, prod_δ_fst,
       stdSimplex.δ_apply, Fin.succAbove_castSucc_self]
+    change (Δ[m + 1].δ l.castSucc (x.cast hd).simplex.1) l = k.succ
+    rw [stdSimplex.δ_apply, Fin.succAbove_castSucc_self]
     exact hl.simplex_fst_succ
   · simp only [mem_finset_iff, Monoidal.tensorObj_obj, S.cast_dim,
       S.cast_simplex_rfl, prod_δ_fst, stdSimplex.δ_apply] at hy
