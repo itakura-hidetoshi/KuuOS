@@ -42,6 +42,8 @@ PR2339_INTEGRATED_PROOF_BLOBS = {
 # The original full source and both proof transitions are preserved in Git history.
 # Explicit SHA enrollment is a review gate, never proof of Lean correctness.
 REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
+    # v1.64: dependent transport of paired nondegenerate top simplex across dimension equality.
+    "KUOS/DependentOriginationStandardTypeABoundaryPrismStaircaseNormalFormV1_64.lean": "6c59150499a7108182fa6110836a3edab2b3d0f0",
     # v1.63: reconstructed interior-pairing dimension statement; no absent Mathlib API.
     "KUOS/DependentOriginationStandardTypeABoundaryPrismDimensionDichotomyV1_63.lean": "42a1d4ee442c5b843c6ef46375440e3bcc58d594",
     # v1.62: class-valued pullback scalings are reducible in fixed Lean 4.30.
