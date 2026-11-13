@@ -43,7 +43,7 @@ PR2339_INTEGRATED_PROOF_BLOBS = {
 # Explicit SHA enrollment is a review gate, never proof of Lean correctness.
 REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
     # v1.63: reconstructed interior-pairing dimension statement; no absent Mathlib API.
-    "KUOS/DependentOriginationStandardTypeABoundaryPrismDimensionDichotomyV1_63.lean": "ba29852bf0043419997b511c793b149337b16266",
+    "KUOS/DependentOriginationStandardTypeABoundaryPrismDimensionDichotomyV1_63.lean": "68ea77c0139882a26ea13e6befbc961e230aed09",
     # v1.62: class-valued pullback scalings are reducible in fixed Lean 4.30.
     "KUOS/DependentOriginationStandardTypeABoundaryPrismScaledCellsV1_62.lean": "f90bbb80115cea04267c4a76b995a512d7239aa9",
     # v1.61: route interior prism pairing through the pinned proven core; exact-source review, not certification.

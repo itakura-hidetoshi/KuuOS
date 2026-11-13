@@ -94,6 +94,7 @@ theorem unionProdPairingCore_typeTwo_target_dim_ge_left
     (unionProdPairingCore_typeOne_fst_surjective k s)
   simp only [Fintype.card_fin] at hcard
   have hdim : s.x.dim = s.d + 1 := s.hd
+  have hdimCast : (s.x.cast s.hd).dim = s.d + 1 := rfl
   omega
 
 /-- The same lower bound for the interior-horn pairing obtained from
@@ -143,16 +144,17 @@ matching upper bound on every attached cell. -/
 theorem standardTypeABoundaryPrism_cell_target_dim_le_generator_succ
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
-    (c : (standardTypeABoundaryPrismRankFunction g).Cell j) :
+    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j) :
     c.dim + 1 ≤ g.n + 1 := by
-  let P := standardTypeABoundaryPrismPairing g
+  let P := standardTypeABoundaryPrismPairing.{u} g
   let x :=
     (P.p c.s).val.cast (P.isUniquelyCodimOneFace c.s).dim_eq
   let z :
       ((Δ[g.n] : SSet.{u}) ⊗ Δ[1]).nonDegenerate (c.dim + 1) :=
     ⟨x.simplex, x.nonDegenerate⟩
   simpa [z] using
-    (SSet.dim_le_of_nonDegenerate z (g.n + 1))
+    (SSet.dim_le_of_nonDegenerate
+      ((Δ[g.n] : SSet.{u}) ⊗ Δ[1]) z (g.n + 1))
 
 /-- Exact dimension dichotomy: every attached simplex is either of the same
 dimension as the original type-(A) simplex, or one dimension higher. -/
