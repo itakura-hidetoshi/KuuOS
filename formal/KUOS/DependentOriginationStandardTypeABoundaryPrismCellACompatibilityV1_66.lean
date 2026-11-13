@@ -185,17 +185,14 @@ theorem unionProdPairingCore_typeOne_distinguished_firstCoordinate_thin
     by_cases heq : (s.x.cast s.hd).simplex.1 (t 0) = k.castSucc
     · exact Or.inr heq
     · left
-      apply Fin.ext
-      change ((s.x.cast s.hd).simplex.1 (t 0)).val = km1.val
-      change km1.val ≤ ((s.x.cast s.hd).simplex.1 (t 0)).val at hlower
-      change ((s.x.cast s.hd).simplex.1 (t 0)).val ≤ k.val at hupperBound
-      have hne : ((s.x.cast s.hd).simplex.1 (t 0)).val ≠ k.val := by
-        intro hval
-        apply heq
-        apply Fin.ext
-        exact hval
-      dsimp [km1] at hlower ⊢
-      omega
+      have hlt : (s.x.cast s.hd).simplex.1 (t 0) < k.castSucc :=
+        lt_of_le_of_ne hupperBound heq
+      apply le_antisymm
+      · change ((s.x.cast s.hd).simplex.1 (t 0)).val ≤ km1.val
+        change ((s.x.cast s.hd).simplex.1 (t 0)).val < k.val at hlt
+        dsimp [km1]
+        omega
+      · exact hlower
   have ht2 : t 2 = s.index.succ := by
     apply Fin.ext
     change (t 2).val = s.index.val + 1
@@ -270,6 +267,7 @@ theorem unionProdPairing_typeTwo_firstCoordinate_scaled
   obtain ⟨s, rfl⟩ :=
     (SSet.prodStdSimplex.pairingCore.{u} k 1).equivII.surjective z
   simpa [SSet.prodStdSimplex.pairingCore,
+    SSet.Subcomplex.PairingCore.pairing,
     unionProdPairingCoreTypeOneFirstCoordinateMap] using
     unionProdPairingCore_typeOne_firstCoordinate_scaled k hk0 s
 
