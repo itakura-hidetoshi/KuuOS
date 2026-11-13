@@ -136,16 +136,22 @@ lemma isIndex_succ (l : Fin d) :
 lemma mem_range_left (i : Fin (m + 2)) (hi : i ≠ k.castSucc) :
     i ∈ Set.range (x.cast hd).simplex.1 := by
   subst hd
-  have := x.notMem
-  simp [Subcomplex.mem_unionProd_iff, mem_horn_iff_notMem_range] at this
-  tauto
+  by_contra hi'
+  have hHorn : x.simplex.1 ∈ (Λ[m + 1, k.castSucc]).obj _ :=
+    (mem_horn_iff_notMem_range x.simplex.1 k.castSucc).2 ⟨i, hi, hi'⟩
+  apply x.notMem
+  exact (Subcomplex.mem_unionProd_iff
+    (Λ[m + 1, k.castSucc]) (∂Δ[n]) x.simplex).2 (Or.inr hHorn)
 
 lemma mem_range_right (i : Fin (n + 1)) :
     i ∈ Set.range (x.cast hd).simplex.2 := by
   subst hd
-  have := x.notMem
-  simp [Subcomplex.mem_unionProd_iff, mem_boundary_iff_notMem_range] at this
-  tauto
+  by_contra hi'
+  have hBoundary : x.simplex.2 ∈ (∂Δ[n]).obj _ :=
+    (mem_boundary_iff_notMem_range x.simplex.2).2 ⟨i, hi'⟩
+  apply x.notMem
+  exact (Subcomplex.mem_unionProd_iff
+    (Λ[m + 1, k.castSucc]) (∂Δ[n]) x.simplex).2 (Or.inl hBoundary)
 
 /-- Let `x` be a nondegenerate `d`-simplex of `Δ[m + 1] ⊗ Δ[n]` which
 does not belong to `Λ[m + 1, k.castSucc].unionProd ∂Δ[n]`. This is
