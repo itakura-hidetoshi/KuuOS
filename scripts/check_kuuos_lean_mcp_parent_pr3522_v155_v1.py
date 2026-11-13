@@ -21,11 +21,26 @@ DISABLED = ",".join([
 
 
 def structured(response):
+    """Recover a typed observation from MCP structuredContent or text JSON.
+
+    Missing tool data is NO_DATA rather than diagnostic success.
+    """
     v = response.get("result", {})
     if not isinstance(v, Mapping):
         return {}
     data = v.get("structuredContent", {})
-    return dict(data) if isinstance(data, Mapping) else {}
+    if isinstance(data, Mapping) and data:
+        return dict(data)
+    for part in v.get("content", []):
+        if not isinstance(part, Mapping) or part.get("type") != "text":
+            continue
+        try:
+            candidate = json.loads(part.get("text", ""))
+        except (TypeError, ValueError):
+            continue
+        if isinstance(candidate, Mapping) and candidate:
+            return dict(candidate)
+    return {}
 
 
 def main():
@@ -47,6 +62,7 @@ def main():
         "source_sha256": hashlib.sha256(source).hexdigest(),
         "source_line_count": len(source.splitlines()),
         "pins": pins, "import_build_exit": os.getenv("KUUOS_IMPORT_BUILD_EXIT"),
+        "direct_v155_build_exit": os.getenv("KUUOS_V155_BUILD_EXIT"),
         "mcp_tools_called": False, "diagnostics_partial": None,
         "goal_status": "NO_DATA", "attempt_status": "NO_DATA",
         "certifies_parent_theorem": False, "certifies_chatgpt_tunnel": False,
@@ -79,6 +95,8 @@ def main():
             receipt["diagnostics_digest"] = sha(response.get("result", {}))
             receipt["diagnostics_partial"] = diag.get("partial")
             receipt["diagnostics_success"] = diag.get("success")
+            receipt["diagnostics_model_keys"] = sorted(diag.keys())
+            receipt["diagnostics_text_preview"] = extract_text(response)[:1800]
             receipt["failed_dependencies"] = diag.get("failed_dependencies")
             items = diag.get("items", [])
             if isinstance(items, list):
@@ -89,7 +107,13 @@ def main():
                 ]
             if not (diag or extract_text(response)):
                 raise RuntimeError("diagnostics response empty")
-            if diag.get("partial") is True:
+            if not isinstance(diag.get("success"), bool):
+                receipt["status"] = "DIAGNOSTICS_NO_TYPED_SUCCESS"
+            if not isinstance(diag.get("partial"), bool):
+                receipt["diagnostics_partial"] = "NO_DATA"
+            if not isinstance(diag.get("success"), bool):
+                receipt["status"] = "DIAGNOSTICS_NO_TYPED_SUCCESS"
+            elif diag.get("partial") is True:
                 receipt["status"] = "SEMANTIC_ELABORATION_PARTIAL"
             elif diag.get("failed_dependencies"):
                 receipt["status"] = "IMPORT_DEPENDENCY_OBSTRUCTION"
@@ -97,12 +121,13 @@ def main():
                 receipt["status"] = "SEMANTIC_DIAGNOSTICS_WITH_ERRORS"
             else:
                 receipt["status"] = "SEMANTIC_DIAGNOSTICS_OBSERVED"
-            if not diag.get("partial") and not diag.get("failed_dependencies"):
+            if diag.get("partial") is False and not diag.get("failed_dependencies") and isinstance(diag.get("success"), bool):
                 goal = call_tool(client, "lean_goal", {
                     "file_path": TARGET_FILE, "line": 269, "timeout_s": 90,
                 })
                 gm = structured(goal)
-                receipt["goal_status"] = gm.get("status", "response_observed")
+                receipt["goal_status"] = gm.get("status") or "NO_STATUS_FIELD"
+                receipt["goal_keys"] = sorted(gm.keys())
                 receipt["goal_digest"] = sha(goal.get("result", {}))
                 attempts = call_tool(client, "lean_multi_attempt", {
                     "file_path": TARGET_FILE, "line": 269,
@@ -111,6 +136,7 @@ def main():
                 am = structured(attempts)
                 receipt["attempt_digest"] = sha(attempts.get("result", {}))
                 receipt["attempt_count"] = len(am["items"]) if isinstance(am.get("items"), list) else None
+                receipt["attempt_keys"] = sorted(am.keys())
                 receipt["attempt_status"] = "responses_observed"
                 receipt["attempt_summaries"] = [
                     {"snippet": x.get("snippet"), "proof_status": x.get("proof_status"),
