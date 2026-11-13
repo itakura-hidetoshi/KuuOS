@@ -87,6 +87,17 @@ class FullSourceRepairGateTests(unittest.TestCase):
             self.assertEqual(r['repair_status'],'PROOF_INTERFACE_OBSTRUCTION')
             self.assertFalse(r['imports_unchanged'])
 
+    def test_repair_cannot_overwrite_existing_receipt(self):
+        with tempfile.TemporaryDirectory() as t:
+            root,path,plan=self.fixture(t)
+            output=pathlib.Path(t)/'outside'
+            output.mkdir()
+            (output/'old').write_text('preserve')
+            with self.assertRaisesRegex(repair.RepairPreflightObstruction,'append-only'):
+                repair.gate_repair(root=root,plan=plan,output_dir=output,target=path,
+                                   acknowledged_isolated=False)
+            self.assertEqual((output/'old').read_text(),'preserve')
+
     def test_wrong_source_blob_must_block_runner(self):
         with tempfile.TemporaryDirectory() as t:
             root,path,plan=self.fixture(t)
