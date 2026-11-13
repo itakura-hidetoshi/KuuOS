@@ -279,10 +279,13 @@ theorem unionProdPairing_typeTwo_firstCoordinate_scaled
     symm
     apply ((P.pairing.isUniquelyCodimOneFace (P.equivII s)).δ_eq_iff
       rfl (P.index s)).mp
-    simp only [SSet.Subcomplex.PairingCore.pairing_p_equivII,
+    -- Rewrite the locally established equality of paired simplices first:
+    -- the generic PairingCore simplifier does not fire under this dependent cast.
+    simp only [hpair,
       SSet.Subcomplex.PairingCore.equivI_apply_coe,
       SSet.Subcomplex.PairingCore.equivII_apply_coe,
       SSet.Subcomplex.N.cast_eq_self,
+      SSet.S.cast_eq_self,
       SSet.Subcomplex.PairingCore.type₁,
       SSet.Subcomplex.PairingCore.type₂]
   have hindex :
