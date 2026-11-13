@@ -144,14 +144,14 @@ def standardTypeCTargetCarrier (m : Nat) : SSet.{u} :=
 /-- The source quotient is represented by the native `SSet` pushout. -/
 def standardTypeCSourceCarrier_isPushout (m : Nat) :
     IsPushout
-      (standardTypeCEdgeToHorn m)
-      (standardTypeCEdgeCollapseToPoint m)
+      (standardTypeCEdgeToHorn.{u} m)
+      (standardTypeCEdgeCollapseToPoint.{u} m)
       (pushout.inl
-        (standardTypeCEdgeToHorn m)
-        (standardTypeCEdgeCollapseToPoint m))
+        (standardTypeCEdgeToHorn.{u} m)
+        (standardTypeCEdgeCollapseToPoint.{u} m))
       (pushout.inr
-        (standardTypeCEdgeToHorn m)
-        (standardTypeCEdgeCollapseToPoint m)) :=
+        (standardTypeCEdgeToHorn.{u} m)
+        (standardTypeCEdgeCollapseToPoint.{u} m)) :=
   by
     refine {
       w := pushout.condition
@@ -163,14 +163,14 @@ def standardTypeCSourceCarrier_isPushout (m : Nat) :
 /-- The target quotient is represented by the native `SSet` pushout. -/
 def standardTypeCTargetCarrier_isPushout (m : Nat) :
     IsPushout
-      (standardTypeCEdgeToSimplex m)
-      (standardTypeCEdgeCollapseToPoint m)
+      (standardTypeCEdgeToSimplex.{u} m)
+      (standardTypeCEdgeCollapseToPoint.{u} m)
       (pushout.inl
-        (standardTypeCEdgeToSimplex m)
-        (standardTypeCEdgeCollapseToPoint m))
+        (standardTypeCEdgeToSimplex.{u} m)
+        (standardTypeCEdgeCollapseToPoint.{u} m))
       (pushout.inr
-        (standardTypeCEdgeToSimplex m)
-        (standardTypeCEdgeCollapseToPoint m)) :=
+        (standardTypeCEdgeToSimplex.{u} m)
+        (standardTypeCEdgeCollapseToPoint.{u} m)) :=
   by
     refine {
       w := pushout.condition
