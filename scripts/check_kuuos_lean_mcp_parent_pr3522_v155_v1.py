@@ -30,7 +30,9 @@ def structured(response):
         return {}
     data = v.get("structuredContent", {})
     if isinstance(data, Mapping) and data:
-        return dict(data)
+        payload = data.get("result", data)
+        if isinstance(payload, Mapping):
+            return dict(payload)
     for part in v.get("content", []):
         if not isinstance(part, Mapping) or part.get("type") != "text":
             continue
@@ -39,7 +41,9 @@ def structured(response):
         except (TypeError, ValueError):
             continue
         if isinstance(candidate, Mapping) and candidate:
-            return dict(candidate)
+            payload = candidate.get("result", candidate)
+            if isinstance(payload, Mapping):
+                return dict(payload)
     return {}
 
 
@@ -109,8 +113,10 @@ def main():
                 raise RuntimeError("diagnostics response empty")
             if not isinstance(diag.get("success"), bool):
                 receipt["status"] = "DIAGNOSTICS_NO_TYPED_SUCCESS"
+                raise RuntimeError("Lean MCP diagnostics returned no typed success value")
             if not isinstance(diag.get("partial"), bool):
                 receipt["diagnostics_partial"] = "NO_DATA"
+                raise RuntimeError("Lean MCP diagnostics returned no typed partial flag")
             if not isinstance(diag.get("success"), bool):
                 receipt["status"] = "DIAGNOSTICS_NO_TYPED_SUCCESS"
             elif diag.get("partial") is True:
@@ -137,6 +143,9 @@ def main():
                 receipt["attempt_digest"] = sha(attempts.get("result", {}))
                 receipt["attempt_count"] = len(am["items"]) if isinstance(am.get("items"), list) else None
                 receipt["attempt_keys"] = sorted(am.keys())
+                if receipt["attempt_count"] != 3:
+                    receipt["attempt_status"] = "NO_DATA"
+                    raise RuntimeError("Lean MCP did not return three structured tactic results")
                 receipt["attempt_status"] = "responses_observed"
                 receipt["attempt_summaries"] = [
                     {"snippet": x.get("snippet"), "proof_status": x.get("proof_status"),
