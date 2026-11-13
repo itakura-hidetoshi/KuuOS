@@ -62,6 +62,67 @@ v1.69, giving literal q12/q23 base and completed-target equalities.
 No canonical-KuuOS/standard-A-B-C family equality is asserted here.
 -/
 
+
+/-! ## Typed bridge from the pinned pairing core to the paired simplex -/
+
+/-- The underlying paired type-(I) simplex is the original core simplex.
+This is a dependent equality before any face evaluation is taken. -/
+private theorem interiorPairing_pairedSimplex
+    {m : ℕ} (k : Fin (m + 1))
+    (s : SSet.prodStdSimplex.pairingCore.Type₁.{u} k 1) :
+    (((SSet.prodStdSimplex.pairingCore.{u} k 1).pairing.p
+      ((SSet.prodStdSimplex.pairingCore.{u} k 1).equivII s)).val.cast
+      ((SSet.prodStdSimplex.pairingCore.{u} k 1).pairing.isUniquelyCodimOneFace
+        ((SSet.prodStdSimplex.pairingCore.{u} k 1).equivII s)).dim_eq).simplex =
+      (s.x.cast s.hd).simplex := by
+  let P := SSet.prodStdSimplex.pairingCore.{u} k 1
+  have hpair : P.pairing.p (P.equivII s) = P.equivI s :=
+    P.pairing_p_equivII s
+  have htypeOne :
+      (P.pairing.p (P.equivII s)).val = P.type₁ s := by
+    simpa only [hpair, SSet.Subcomplex.PairingCore.equivI_apply_coe]
+  have hpairedN :
+      (P.pairing.p (P.equivII s)).val.cast
+          (P.pairing.isUniquelyCodimOneFace (P.equivII s)).dim_eq =
+        P.type₁ s := by
+    exact ((P.pairing.p (P.equivII s)).val.cast_eq_self _).trans htypeOne
+  have hsimplex :
+      ((P.pairing.p (P.equivII s)).val.cast
+          (P.pairing.isUniquelyCodimOneFace (P.equivII s)).dim_eq).simplex =
+        P.simplex s := by
+    apply (SSet.S.ext_iff _ _).mp
+    simpa only [SSet.Subcomplex.PairingCore.type₁] using
+      congrArg (fun (x : _) => x.toS) hpairedN
+  exact hsimplex
+
+/-- The unique attached face index is the core's actual index. -/
+private theorem interiorPairing_pairedIndex
+    {m : ℕ} (k : Fin (m + 1))
+    (s : SSet.prodStdSimplex.pairingCore.Type₁.{u} k 1) :
+    (((SSet.prodStdSimplex.pairingCore.{u} k 1).pairing.isUniquelyCodimOneFace
+        ((SSet.prodStdSimplex.pairingCore.{u} k 1).equivII s)).index rfl) =
+      s.index.castSucc := by
+  let P := SSet.prodStdSimplex.pairingCore.{u} k 1
+  have hsimplex := interiorPairing_pairedSimplex k s
+  have hindexCore :
+      ((P.pairing.isUniquelyCodimOneFace (P.equivII s)).index rfl) =
+        P.index s := by
+    symm
+    apply
+      ((P.pairing.isUniquelyCodimOneFace (P.equivII s)).δ_eq_iff
+        rfl (P.index s)).mp
+    rw [hsimplex]
+    calc
+      _ = (P.type₂ s).simplex := rfl
+      _ = ((P.equivII s).val.cast rfl).simplex := by
+        have hfaceN :
+            P.type₂ s = ((P.equivII s).val.cast rfl) := by
+          simp only [SSet.Subcomplex.N.cast_eq_self,
+            SSet.Subcomplex.PairingCore.equivII_apply_coe]
+        apply (SSet.S.ext_iff _ _).mp
+        exact congrArg (fun (x : _) => x.toS) hfaceN
+  exact hindexCore.trans (by rfl)
+
 /-! ## Public first-coordinate rigidity for the union-product pairing -/
 
 /-- Public-pairing form of the v1.63 first-coordinate surjectivity theorem. -/
@@ -72,10 +133,10 @@ theorem unionProdPairing_typeTwo_fst_surjective
     Function.Surjective
       (((SSet.prodStdSimplex.pairingCore.{u} k 1).pairing.p z).val.cast
         ((SSet.prodStdSimplex.pairingCore.{u} k 1).pairing.isUniquelyCodimOneFace z).dim_eq).simplex.1 := by
-  obtain ⟨s, rfl⟩ :=
-    (SSet.prodStdSimplex.pairingCore.{u} k 1).equivII.surjective z
-  simpa [SSet.prodStdSimplex.pairingCore] using
-    unionProdPairingCore_typeOne_fst_surjective k s
+  let P := SSet.prodStdSimplex.pairingCore.{u} k 1
+  obtain ⟨s, rfl⟩ := P.equivII.surjective z
+  rw [interiorPairing_pairedSimplex k s]
+  exact unionProdPairingCore_typeOne_fst_surjective k s
 
 /-- The public pairing also remembers the exact transition at its missing-face
 index: there is a predecessor index `l` whose cast is the cell index, with
@@ -93,14 +154,13 @@ theorem unionProdPairing_typeTwo_index_transition
         (((SSet.prodStdSimplex.pairingCore.{u} k 1).pairing.p z).val.cast
           ((SSet.prodStdSimplex.pairingCore.{u} k 1).pairing.isUniquelyCodimOneFace z).dim_eq).simplex.1 l.succ =
             k.succ := by
-  obtain ⟨s, rfl⟩ :=
-    (SSet.prodStdSimplex.pairingCore.{u} k 1).equivII.surjective z
-  refine ⟨s.index, ?_, ?_, ?_⟩
-  · simp [SSet.prodStdSimplex.pairingCore]
-  · simpa [SSet.prodStdSimplex.pairingCore] using
-      s.isIndex.simplex_fst_castSucc
-  · simpa [SSet.prodStdSimplex.pairingCore] using
-      s.isIndex.simplex_fst_succ
+  let P := SSet.prodStdSimplex.pairingCore.{u} k 1
+  obtain ⟨s, rfl⟩ := P.equivII.surjective z
+  refine ⟨s.index, interiorPairing_pairedIndex k s, ?_, ?_⟩
+  · rw [interiorPairing_pairedSimplex k s]
+    exact s.isIndex.simplex_fst_castSucc
+  · rw [interiorPairing_pairedSimplex k s]
+    exact s.isIndex.simplex_fst_succ
 
 /-- The first coordinate of every actual KuuOS boundary-prism paired simplex
 is surjective. -/
