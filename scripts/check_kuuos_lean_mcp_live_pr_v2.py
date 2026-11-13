@@ -221,15 +221,19 @@ def main() -> int:
     p.add_argument("--github-output", type=pathlib.Path)
     p.add_argument("--include-ci-log", action="store_true")
     p.add_argument("--verify-head")
+    p.add_argument("--verify-base")
     opts = p.parse_args()
     token = os.environ.get("GITHUB_TOKEN", "")
     try:
         if opts.verify_head is not None:
-            actual, _ = checked_pr(github_json("/pulls/" + str(opts.pr), token), opts.pr)
+            actual, base = checked_pr(github_json("/pulls/" + str(opts.pr), token), opts.pr)
             if actual != opts.verify_head:
                 raise SnapshotObstruction("HEAD_DRIFT_OBSTRUCTION: expected " + opts.verify_head +
                                           " observed " + actual)
-            print("KUUOS_CURRENT_PR_HEAD_RECHECK_MATCH " + actual)
+            if not sha40(opts.verify_base) or base != opts.verify_base:
+                raise SnapshotObstruction("BASE_DRIFT_OBSTRUCTION: expected " +
+                                          str(opts.verify_base) + " observed " + base)
+            print("KUUOS_CURRENT_PR_HEAD_AND_BASE_RECHECK_MATCH " + actual + " " + base)
             return 0
         output = opts.output_dir.resolve()
         if output.exists() and any(output.iterdir()):
@@ -246,6 +250,7 @@ def main() -> int:
         if opts.github_output:
             with opts.github_output.open("a") as fd:
                 fd.write(f"source_head={meta['source_head']}\n")
+                fd.write(f"source_base={meta['source_base']}\n")
                 fd.write(f"changed_lean_count={meta['changed_lean_count']}\n")
                 fd.write(f"ci_log_available={'true' if log is not None else 'false'}\n")
         print(json.dumps({
