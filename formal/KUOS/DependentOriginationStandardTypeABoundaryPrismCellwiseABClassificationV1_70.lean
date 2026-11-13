@@ -290,7 +290,9 @@ theorem standardTypeABoundaryPrism_cell_index_eq_generatorIndex_of_equal
     simpa [standardTypeABoundaryPrismCellEqualFirstCoordinateEndomorphism,
       standardTypeABoundaryPrismCellFirstCoordinateOrdinal] using
       (SimplexCategory.congr_toOrderHom_apply hid l.castSucc)
-  rw [← hl, hfst] at happ
+  -- The previous source index is absent from `happ`; rewrite the actual
+  -- first-coordinate evaluation first, then transport via the typed index equality.
+  rw [hfst] at happ
   simpa [standardTypeABoundaryPrismEqualGeneratorIndex, hl] using happ.symm
 
 /-- On every triangle, the equal-dimensional first-coordinate map is exactly
@@ -353,7 +355,8 @@ theorem standardTypeABoundaryPrismCellScaling_eq_standardTypeA_of_equal
             ((standardTypeABoundaryPrismCellFirstCoordinateMap g j c).app (op ⦋2⦌) t) 1 =
               ((standardTypeABoundaryPrismCellFirstCoordinateMap g j c).app (op ⦋2⦌) t) 2 := by
           rw [← hx]
-          simp [stdSimplex_sigma_apply]
+          -- In pinned Lean, both last vertices have identical Fin.predAbove images.
+          simp [stdSimplex_sigma_apply, Fin.predAbove, Fin.succAbove]
         rw [standardTypeABoundaryPrismCellFirstCoordinateMap_apply_of_equal
           g j c heq t 1, standardTypeABoundaryPrismCellFirstCoordinateMap_apply_of_equal
           g j c heq t 2] at himg
