@@ -275,10 +275,13 @@ noncomputable abbrev δ (hl : IsIndex x hd l.succ) :
     exact Fin.succAbove_right_injective
       (hinj (by simpa only [prodStdSimplex.objEquiv_δ_apply] using hab))
   notMem := by
-    -- Pinned Lean normalizes the tensor object and face membership together.
-    simp only [Monoidal.tensorObj_obj, Subcomplex.mem_unionProd_iff,
-      prod_δ_snd, mem_boundary_iff_notMem_range, Set.mem_range,
-      stdSimplex.δ_apply, not_exists, prod_δ_fst, mem_horn_iff_notMem_range,
+    -- Give pinned Lean the explicit simplex membership goal before rewriting
+    -- the union-product face predicate.
+    change
+      ((Δ[m + 1] ⊗ Δ[n]).δ l.castSucc (x.cast hd).simplex) ∉
+        (Subcomplex.unionProd.{u} Λ[m + 1, k.castSucc] ∂Δ[n]).obj (op ⦋d⦌)
+    simp only [Subcomplex.mem_unionProd_iff, prod_δ_snd, mem_boundary_iff_notMem_range,
+      Set.mem_range, stdSimplex.δ_apply, not_exists, prod_δ_fst, mem_horn_iff_notMem_range,
       ne_eq, exists_prop, not_or, not_forall, Decidable.not_not, not_and]
     refine ⟨fun j ↦ ?_, fun j hj ↦ ?_⟩
     · obtain ⟨i, hi⟩ := mem_range_right x hd j
