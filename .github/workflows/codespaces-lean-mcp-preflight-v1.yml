@@ -1,0 +1,49 @@
+name: KuuOS Codespaces Lean MCP opt-in preflight v1
+
+on:
+  pull_request:
+    paths:
+      - '.devcontainer/lean-mcp/devcontainer.json'
+      - 'scripts/bootstrap_kuuos_codespaces_lean_mcp_v1.sh'
+      - 'docs/KUUOS_CODESPACES_LEAN_MCP_FREE_v1.md'
+      - '.github/workflows/codespaces-lean-mcp-preflight-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  codespaces-static:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v6
+      - name: Verify shell syntax and pinned project
+        run: |
+          set -euo pipefail
+          bash -n scripts/bootstrap_kuuos_codespaces_lean_mcp_v1.sh
+          bash -n scripts/run_kuuos_lean_mcp_stdio_v1.sh
+          bash scripts/bootstrap_kuuos_codespaces_lean_mcp_v1.sh --check
+      - name: Verify opt-in devcontainer and bounded launch policy
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          c = json.loads(Path('.devcontainer/lean-mcp/devcontainer.json').read_text())
+          assert c['image'] == 'mcr.microsoft.com/devcontainers/base:ubuntu-22.04'
+          assert c['remoteUser'] == 'vscode'
+          assert c['hostRequirements']['cpus'] == 2
+          assert c['hostRequirements']['memory'] == '8gb'
+          assert c['postCreateCommand'] == 'bash scripts/bootstrap_kuuos_codespaces_lean_mcp_v1.sh --install'
+          assert c['postStartCommand'] == 'bash scripts/bootstrap_kuuos_codespaces_lean_mcp_v1.sh --check'
+          assert 'leanprover.lean4' in c['customizations']['vscode']['extensions']
+          assert 'forwardPorts' not in c
+          assert 'LEAN_MCP_SCRATCH_SLOTS' in c['remoteEnv']
+          launcher = Path('scripts/bootstrap_kuuos_codespaces_lean_mcp_v1.sh').read_text()
+          assert 'leanprover/lean4:v4.30.0-rc2' in launcher
+          assert 'lake exe cache get' in launcher
+          assert 'uvx --from lean-lsp-mcp==0.30.0' in launcher
+          assert 'lake env lean -o /tmp/kuuos-codespaces-mcp-smoke.olean' in launcher
+          assert 'git clone' not in launcher
+          print('KUUOS_CODESPACES_CONFIG_STATIC_SUCCESS')
+          PY
