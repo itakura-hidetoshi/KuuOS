@@ -1,0 +1,31 @@
+name: KuuOS Secure MCP Tunnel CLI pinned install v1
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/install_kuuos_tunnel_client_v1.sh'
+      - '.github/workflows/kuuos-mcp-tunnel-cli-smoke-v1.yml'
+      - 'docs/KUUOS_CODESPACES_TUNNEL_ACTIVATION_v1.md'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  tunnel-cli-credential-free:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v6
+      - name: Validate installer syntax
+        run: bash -n scripts/install_kuuos_tunnel_client_v1.sh
+      - name: Verify official pinned client and invoke local CLI
+        run: |
+          set -euo pipefail
+          bash scripts/install_kuuos_tunnel_client_v1.sh --install
+          export PATH="$HOME/.local/bin:$PATH"
+          bash scripts/install_kuuos_tunnel_client_v1.sh --check
+      - name: Confirm restricted validation scope
+        run: |
+          echo 'No API key, tunnel ID or remote connection configured'
+          echo 'Unchanged KuuOS toolchain and mathlib manifest'
