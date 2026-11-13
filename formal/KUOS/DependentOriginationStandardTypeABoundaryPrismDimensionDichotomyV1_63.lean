@@ -94,18 +94,15 @@ theorem unionProdPairingCore_typeTwo_target_dim_ge_left
   simp only [Fintype.card_fin] at hcard
   omega
 
-/-- The same lower bound for Mathlib's public `pairing k.castSucc 1` rather
-than its implementation-level pairing core. -/
+/-- The same lower bound for the interior-horn pairing obtained from
+the pinned proof core. This is the `k.castSucc` case of the later Mathlib
+`pairing` API, without asserting its unavailable arbitrary-endpoint theorem. -/
 theorem unionProdPairing_typeTwo_target_dim_ge_left
     {m : ℕ}
     (k : Fin (m + 1))
-    (z : (SSet.prodStdSimplex.pairing.{u} k.castSucc 1).II) :
+    (z : (SSet.prodStdSimplex.pairingCore.{u} k 1).pairing.II) :
     m + 1 ≤ z.val.dim + 1 := by
-  have z' :
-      (SSet.prodStdSimplex.pairingCore.{u} k 1).pairing.II := by
-    simpa only [SSet.prodStdSimplex.pairing_castSucc] using z
-  have h := unionProdPairingCore_typeTwo_target_dim_ge_left k z'
-  simpa only [SSet.prodStdSimplex.pairing_castSucc] using h
+  exact unionProdPairingCore_typeTwo_target_dim_ge_left k z
 
 /-! ## Lower and upper dimension bounds for every KuuOS boundary-prism cell -/
 

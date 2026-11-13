@@ -65,7 +65,7 @@ rank with these A/B generators and packages the transfinite composite as
 
 /-- The exact scaling on the simplex attached by a boundary-prism rank cell:
 pull back the ambient type-(A) cylinder scaling along the Mathlib cell map. -/
-def standardTypeABoundaryPrismCellScaling
+@[reducible] def standardTypeABoundaryPrismCellScaling
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
     (c : (standardTypeABoundaryPrismRankFunction g).Cell j) :
@@ -75,7 +75,7 @@ def standardTypeABoundaryPrismCellScaling
     c.map
 
 /-- The corresponding horn scaling is the pullback of the exact cell scaling. -/
-def standardTypeABoundaryPrismCellHornScaling
+@[reducible] def standardTypeABoundaryPrismCellHornScaling
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
     (c : (standardTypeABoundaryPrismRankFunction g).Cell j) :
