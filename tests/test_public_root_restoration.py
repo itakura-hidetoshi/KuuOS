@@ -42,6 +42,8 @@ PR2339_INTEGRATED_PROOF_BLOBS = {
 # The original full source and both proof transitions are preserved in Git history.
 # Explicit SHA enrollment is a review gate, never proof of Lean correctness.
 REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
+    # Reviewed v1.46: explicit generator-comparison evidence, scaled-model namespaces and class-result transparency.
+    "KUOS/DependentOriginationExternalScaledAnodyneGeneratorComparisonV1_46.lean": "cfcd06c3d292552547ccf062d9a150d5bd444a8d",
     # Reviewed v1.45 fixed Lean namespace, scaled colimit transport and exact typeclass route.
     "KUOS/DependentOriginationScaledColimitsPresentabilityV1_45.lean": "c5f22f11809a82d4b11fff94091fd7b4f946d8ae",
     # v1.44 fixed mathlib class-result transparency and explicit small-object factorization instance.
