@@ -134,6 +134,14 @@ jobs:
           print('KUUOS_FREE_MCP_TACTIC_LOOP_SUCCESS')
           PYBLOCK
           lake env lean "$OUTDIR2/candidate.lean"
+          cp "$OUTDIR2/candidate.lean" "$GITHUB_WORKSPACE/kuuos_loop_free_mcp_candidate.lean"
+      - name: Upload free MCP candidate for independent Lean kernel job
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-mcp-free-tactic-fixture-candidate
+          path: kuuos_loop_free_mcp_candidate.lean
+          if-no-files-found: error
+          retention-days: 14
       - name: Verify no tracked theorem root or pinned manifest was changed
         run: |
           python3 - <<'PY'
@@ -143,3 +151,48 @@ jobs:
           assert 'skip' in Path('tests/mcp_repair_fixture/Repair.lean').read_text()
           print('KUUOS_MCP_REPAIR_NO_REMOTE_MUTATION_VERIFIED')
           PY
+  independent-fixture-lean-ci:
+    needs: real-mcp-fixture
+    runs-on: ubuntu-22.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v6
+      - name: Set up same pinned Lean and Lake on a fresh independent runner
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - uses: actions/cache@v5
+        with:
+          path: .lake
+          key: kuuos-lean-mcp-bounded-repair-independent-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-v1
+      - name: Fetch exact pinned Mathlib cache
+        run: lake exe cache get
+      - uses: actions/download-artifact@v4
+        with:
+          name: kuuos-mcp-free-tactic-fixture-candidate
+          path: /tmp/kuuos-independent-candidate
+      - name: Independently compile and audit exported fixture theorem
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          from scripts.check_kuuos_lean_lsp_mcp_compatibility_v7_17 import require_pins
+          require_pins(Path('.').resolve())
+          s = Path('/tmp/kuuos-independent-candidate/kuuos_loop_free_mcp_candidate.lean').read_text()
+          assert s.startswith('import Mathlib\n'), 'not the expected fixture import'
+          assert 'namespace Smoke' in s and 'theorem smoke' in s
+          assert '  simp\n' in s and '  skip\n' not in s
+          assert 'sorry' not in s and 'axiom' not in s and 'unsafe' not in s
+          Path('/tmp/kuuos-independent-candidate/audit.lean').write_text(
+              s + '\n#print axioms Smoke.smoke\n'
+          )
+          PY
+          lake env lean -o /tmp/kuuos-fixture-independent.olean /tmp/kuuos-independent-candidate/kuuos_loop_free_mcp_candidate.lean
+          lake env lean /tmp/kuuos-independent-candidate/audit.lean | tee /tmp/kuuos-independent-axioms.log
+          ! grep -Eq 'sorryAx|unknown constant|unsolved goals|error:' /tmp/kuuos-independent-axioms.log
+          echo 'KUUOS_MCP_FIXTURE_INDEPENDENT_LEAN_CI_SUCCESS'
