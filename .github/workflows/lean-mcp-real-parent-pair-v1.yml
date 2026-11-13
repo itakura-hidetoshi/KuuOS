@@ -62,7 +62,7 @@ jobs:
              'e1519c873cf03dbd4dd2c5623eda96e9242764ab',[]),
             ('formal/KUOS/DependentOriginationStandardTypeAScaledLeibnizPushoutV1_55.lean',
              'KUOS.DependentOriginationStandardTypeAScaledLeibnizPushoutV1_55',
-             '12acfd38ff346c3b27e27fe652c401b9175140b',
+             '12acfd38ff346c3b27e27fe652c401b9175140b4',
              ['KUOS.DependentOriginationStandardTypeAGeneratedPushoutLLPDescentV1_54'])
           ]
           targets=[]
