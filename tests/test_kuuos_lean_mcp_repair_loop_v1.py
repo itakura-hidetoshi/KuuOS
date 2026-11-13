@@ -202,5 +202,32 @@ class Contract(unittest.TestCase):
                               provider=loop.fixture_provider)
 
 
+class TacticLineLocatorRegressions(unittest.TestCase):
+    """CI goal errors locate a declaration, not necessarily the edited tactic."""
+
+    def test_v156_unclosed_goal_reported_at_upstream_apply(self):
+        source = (
+            "namespace Demo\n"
+            "theorem commutes : True := by\n"
+            "  apply True.intro\n"
+            "  change True\n"
+            "  skip\n"
+            "end Demo\n"
+        )
+        self.assertEqual(loop.choose_tactic_line(source, 3), 5)
+        self.assertEqual(loop.choose_tactic_line(source, 4), 5)
+
+    def test_skip_in_different_declaration_not_selected(self):
+        source = (
+            "theorem first : True := by\n"
+            "  apply True.intro\n"
+            "  exact True.intro\n"
+            "theorem second : True := by\n"
+            "  skip\n"
+        )
+        self.assertEqual(loop.choose_tactic_line(source, 2), 2)
+        self.assertIsNone(loop.choose_tactic_line(source, 0))
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)
