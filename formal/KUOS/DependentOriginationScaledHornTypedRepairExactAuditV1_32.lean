@@ -25,6 +25,7 @@ import KUOS.DependentOriginationStandardTypeANativeLeibnizLiftingMateV1_51
 import KUOS.DependentOriginationStandardTypeAScaledPushoutSourceEnrichmentV1_53
 import KUOS.DependentOriginationStandardTypeAScaledLeibnizPushoutV1_55
 import KUOS.DependentOriginationStandardTypeBThreeSimplexCompletionV1_57
+import KUOS.DependentOriginationStandardTypeCCollapsedEdgeV1_58
 
 /-!
 # Strict typechecker audit for v1.30–v1.32 typed scaled-horn repair
@@ -239,3 +240,11 @@ certificate or unlifted v1.29 horn descent is inferred. -/
 #print axioms KUOS.DependentOriginationStandardTypeBThreeSimplexCompletionV1_57.standardTypeBCollapse12Completion_mem_llp
 #print axioms KUOS.DependentOriginationStandardTypeBThreeSimplexCompletionV1_57.standardTypeBCollapse23Completion_mem_llp
 #print axioms KUOS.DependentOriginationStandardTypeBThreeSimplexCompletionV1_57.standardTypeBThreeSimplexCompletionStable_external
+
+/-! ## v1.58: type-(C) quotients and standard ABC generated closure -/
+#print axioms KUOS.DependentOriginationStandardTypeCCollapsedEdgeV1_58.standardTypeCSourceCarrier_isPushout
+#print axioms KUOS.DependentOriginationStandardTypeCCollapsedEdgeV1_58.standardTypeCTargetCarrier_isPushout
+#print axioms KUOS.DependentOriginationStandardTypeCCollapsedEdgeV1_58.standardTypeCCarrierMap_distinguishedTriangle
+#print axioms KUOS.DependentOriginationStandardTypeCCollapsedEdgeV1_58.standardTypeCGenerator_mem
+#print axioms KUOS.DependentOriginationStandardTypeCCollapsedEdgeV1_58.standardTypeCGenerator_mem_ABC
+#print axioms KUOS.DependentOriginationStandardTypeCCollapsedEdgeV1_58.standardTypeBThreeSimplexCompletionStable_standardGenerated

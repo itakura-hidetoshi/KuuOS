@@ -144,6 +144,7 @@ REVIEWED_ADDITIVE_FORMAL_BLOBS = {
     "KUOS/DependentOriginationScaledHornPresentationInvariantTypedRepairV1_30.lean": "9c87d47b90132c27fd26414402930dda0e5f4229",
     "KUOS/DependentOriginationModelEquivalenceScaledHornPresentationTypedRepairV1_31.lean": "a6c0617fe77bad786e87192f8f2f3a604d6a5d78",
     "KUOS/DependentOriginationCoherentNormalizedScaledModelEquivalenceTypedRepairV1_32.lean": "363e5d33437eaf2dc694c91b9644245e77981bdf",
+    "KUOS/DependentOriginationStandardTypeCCollapsedEdgeV1_58.lean": "b64b22247f393725d8cd62d0ed9463bd987b1d6a",
 }
 
 
