@@ -44,7 +44,7 @@ PR2339_INTEGRATED_PROOF_BLOBS = {
 REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
     # v1.54 exact horn-index constructor and dependent K retention; v1.55 corner class transparency.
     "KUOS/DependentOriginationStandardTypeAGeneratedPushoutLLPDescentV1_54.lean": "e1519c873cf03dbd4dd2c5623eda96e9242764ab",
-    "KUOS/DependentOriginationStandardTypeAScaledLeibnizPushoutV1_55.lean": "f86f344aa3ce8adf653a26efaa8b747a1149ed2c",
+    "KUOS/DependentOriginationStandardTypeAScaledLeibnizPushoutV1_55.lean": "12acfd38ff346c3b27e27fe652c401b9175140b4",
     # v1.53: five class-valued generated/induced scaled sources require Lean reducibility.
     "KUOS/DependentOriginationStandardTypeAScaledPushoutSourceEnrichmentV1_53.lean": "33c4305f0fa9b9f6706d50fc6d10321606a74b4c",
     # v1.52 fixed class transparency and explicit typed scaled-product equalities.
