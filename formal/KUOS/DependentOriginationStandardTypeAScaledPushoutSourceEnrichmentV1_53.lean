@@ -121,9 +121,9 @@ union-product carrier. -/
 induced endpoint-pushout-product source. -/
 theorem standardTypeAEndpointPushoutProductSource_scaling_eq_inducedProductPullback
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
-    (standardTypeAEndpointPushoutProductSource g).scaling =
-      standardTypeAEndpointInducedProductPullbackScaling g := by
-  change (standardTypeAEndpointPushoutProductSource g).scaling =
+    (standardTypeAEndpointPushoutProductSource.{u} g).scaling =
+      standardTypeAEndpointInducedProductPullbackScaling.{u} g := by
+  change (standardTypeAEndpointPushoutProductSource.{u} g).scaling =
     pullbackScaling
       (cartesianProductScaling
         (standardTypeASimplexScaling g.i)
@@ -315,7 +315,7 @@ def standardTypeAEndpointGeneratedPushoutProductHom
 /-- Its underlying map is still exactly the ordinary union-product inclusion. -/
 theorem standardTypeAEndpointGeneratedPushoutProductHom_map
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
-    (standardTypeAEndpointGeneratedPushoutProductHom g).map =
+    (standardTypeAEndpointGeneratedPushoutProductHom.{u} g).map =
       ((SSet.horn g.n g.i).unionProd
         (intervalEndpoint g.endpoint)).ι := by
   change
