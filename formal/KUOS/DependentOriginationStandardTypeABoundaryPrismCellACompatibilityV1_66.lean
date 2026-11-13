@@ -275,35 +275,40 @@ theorem unionProdPairing_typeTwo_firstCoordinate_scaled
   have htypeOne :
       (P.pairing.p (P.equivII s)).val = P.type₁ s := by
     simpa only [hpair, SSet.Subcomplex.PairingCore.equivI_apply_coe]
+  -- Normalize the actual paired simplex before comparing dependent casts.
+  have hpairedN :
+      (P.pairing.p (P.equivII s)).val.cast
+          (P.pairing.isUniquelyCodimOneFace (P.equivII s)).dim_eq =
+        P.type₁ s := by
+    exact ((P.pairing.p (P.equivII s)).val.cast_eq_self _).trans htypeOne
+  have hsimplex :
+      ((P.pairing.p (P.equivII s)).val.cast
+          (P.pairing.isUniquelyCodimOneFace (P.equivII s)).dim_eq).simplex =
+        P.simplex s := by
+    simpa only [SSet.Subcomplex.PairingCore.type₁] using
+      congrArg (fun z => z.simplex) hpairedN
   have hindexCore :
       ((P.pairing.isUniquelyCodimOneFace (P.equivII s)).index rfl) =
         P.index s := by
-    -- Transport the actual face equation into the public pairing.
-    -- The index is characterized by the pinned delta_eq_iff uniqueness lemma.
     symm
     apply
       ((P.pairing.isUniquelyCodimOneFace (P.equivII s)).δ_eq_iff
         rfl (P.index s)).mp
-    simp only [SSet.S.cast_eq_self, SSet.Subcomplex.N.cast_eq_self,
-      SSet.Subcomplex.PairingCore.pairing_p_equivII,
-      SSet.Subcomplex.PairingCore.equivI_apply_coe,
+    rw [hsimplex]
+    simp only [SSet.Subcomplex.N.cast_eq_self,
       SSet.Subcomplex.PairingCore.equivII_apply_coe,
-      SSet.Subcomplex.PairingCore.type₁,
-      SSet.Subcomplex.PairingCore.type₂] <;> rfl
+      SSet.Subcomplex.PairingCore.type₂]
   have hindex :
       ((P.pairing.isUniquelyCodimOneFace (P.equivII s)).index rfl) =
         s.index.castSucc := by
     exact hindexCore.trans (by rfl)
-  -- The paired simplex, after eliminating its dimension cast, is precisely
-  -- the core type-(I) simplex; compare maps only after this normalization.
   have hmap :
       SSet.yonedaEquiv.symm
         (((P.pairing.p (P.equivII s)).val.cast
           (P.pairing.isUniquelyCodimOneFace (P.equivII s)).dim_eq).simplex.1) =
         unionProdPairingCoreTypeOneFirstCoordinateMap k s := by
-    simp only [SSet.S.cast_eq_self, SSet.Subcomplex.N.cast_eq_self, htypeOne,
-      SSet.Subcomplex.PairingCore.type₁,
-      unionProdPairingCoreTypeOneFirstCoordinateMap] <;> rfl
+    rw [hsimplex]
+    rfl
   simpa only [hindex, hmap] using
     unionProdPairingCore_typeOne_firstCoordinate_scaled k hk0 s
 
