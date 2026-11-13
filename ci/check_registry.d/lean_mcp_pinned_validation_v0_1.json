@@ -15,7 +15,7 @@
     "lean-mcp-bounded-closed-loop-v1": {
       "name": "Pinned Lean MCP bounded repair and CI routing contracts",
       "runner": "python",
-      "command": "PYTHONPATH=. python3 -m unittest discover -s tests -p 'test_kuuos_lean_mcp_*_v1.py' -v",
+      "command": "python3 -m unittest discover -s tests -p 'test_kuuos_lean_mcp_*_v1.py' -v",
       "group": "integration",
       "tier": "critical",
       "paths": [
