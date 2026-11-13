@@ -63,3 +63,18 @@ GitHub Free personal-account compute: 120 core-hours/month; storage:
 
 All 107 public roots, Lean v4.30.0-rc2, fixed mathlib SHA,
 and protected PR #1558 remain unchanged.
+
+## Zero-copy installation in Codespaces (added after first tunnel-client CI)
+
+The opt-in Codespaces `postCreateCommand` now automatically invokes the
+checksum-verified `scripts/install_kuuos_tunnel_client_v1.sh --install`
+after the pinned Lean-LSP MCP installation. A user no longer needs to run
+the CLI install manually when the setup succeeds; the commands in the earlier
+section can be used to revalidate or recover a failed install. Set
+`KUUOS_CODESPACES_SKIP_TUNNEL_CLIENT=1` only to deliberately create an
+incomplete Codespace without the client. Automatic CLI installation does
+not create an OpenAI Platform tunnel, runtime key or ChatGPT plugin.
+
+Success for the Dev Container auto-install must be observed in the newest
+`KuuOS Codespaces Lean MCP container runtime v1` CI run, not inferred
+from the earlier standalone CLI-install CI.
