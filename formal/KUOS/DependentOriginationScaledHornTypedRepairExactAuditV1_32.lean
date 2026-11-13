@@ -29,6 +29,7 @@ import KUOS.DependentOriginationStandardTypeBThreeSimplexCompletionV1_57
 import KUOS.DependentOriginationStandardTypeCCollapsedEdgeV1_58
 import KUOS.PinnedMathlibUnionProdProofPortV1_61
 import KUOS.PinnedMathlibUnionProdInnerPairingCoreV1_61
+import KUOS.PinnedMathlibUnionProdWeakRankV1_61
 
 /-!
 # Strict typechecker audit for v1.30–v1.32 typed scaled-horn repair
@@ -262,3 +263,6 @@ certificate or unlifted v1.29 horn descent is inferred. -/
 /-! ## Pinned historical UnionProd pairing-core port; regularity and full v1.61 remain open -/
 #print axioms SSet.prodStdSimplex.pairingCore
 #print axioms SSet.prodStdSimplex.type₁_pairingCore
+
+/-! ## v1.61 independent regularity witness; full UnionProd is still absent -/
+#print axioms SSet.prodStdSimplex.weakRankFunction
