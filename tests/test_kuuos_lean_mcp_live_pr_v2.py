@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Offline contracts for current HEAD, exact coverage, semantic CI-log provenance."""
 import unittest
+from unittest.mock import patch
 
 from scripts import check_kuuos_lean_mcp_live_pr_v2 as live
 
@@ -120,6 +121,17 @@ class CIHeadBindingTests(unittest.TestCase):
         meta = self.meta()
         self.assertIsNone(live.attach_ci_log(meta, fetch, lambda _: self.fail("old job must not download")))
         self.assertEqual(meta["ci_log_status"], "NO_DATA_LATEST_EXACT_HEAD_RUN_NOT_COMPLETED")
+
+    def test_base_change_without_head_change_is_obstruction(self):
+        # A changed base changes the whole changed-file set even if HEAD is stable.
+        with patch.object(live, "github_json", lambda path, token: pr()), \
+             patch("sys.argv", ["live.py", "--pr", "3522", "--output-dir", "/tmp/no-write", \
+                                "--verify-head", H1, "--verify-base", H2]):
+            self.assertEqual(live.main(), 2)
+        with patch.object(live, "github_json", lambda path, token: pr()), \
+             patch("sys.argv", ["live.py", "--pr", "3522", "--output-dir", "/tmp/no-write", \
+                                "--verify-head", H1, "--verify-base", BASE]):
+            self.assertEqual(live.main(), 0)
 
     def test_other_head_run_ignored(self):
         meta = self.meta()
