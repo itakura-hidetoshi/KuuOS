@@ -261,7 +261,12 @@ theorem standardTypeAEndpointGeneratedPushoutDescMap_scaled
         (standardTypeAEndpointGeneratedPushout_compatibility_map g f h w)
       have hcomponent := congrArg
         (fun (η : ((Δ[g.n] : SSet.{u}) ⊗ (intervalEndpoint g.endpoint : SSet.{u})) ⟶ W.carrier) => η.app (op ⦋2⦌) x) heq
-      simpa [standardTypeAEndpointGeneratedPushoutDescMap] using hcomponent
+      change
+        ((SSet.Subcomplex.unionProd.ι₁
+          (SSet.horn g.n g.i) (intervalEndpoint g.endpoint) ≫
+            standardTypeAEndpointGeneratedPushoutDescMap g f h w).app
+            (op ⦋2⦌)) x = f.map.app (op ⦋2⦌) x
+      exact hcomponent
     rw [hfac]
     exact f.scaled x hx
   · have hfac :
@@ -276,7 +281,12 @@ theorem standardTypeAEndpointGeneratedPushoutDescMap_scaled
         (standardTypeAEndpointGeneratedPushout_compatibility_map g f h w)
       have hcomponent := congrArg
         (fun (η : ((SSet.horn g.n g.i : SSet.{u}) ⊗ (Δ[1] : SSet.{u})) ⟶ W.carrier) => η.app (op ⦋2⦌) x) heq
-      simpa [standardTypeAEndpointGeneratedPushoutDescMap] using hcomponent
+      change
+        ((SSet.Subcomplex.unionProd.ι₂
+          (SSet.horn g.n g.i) (intervalEndpoint g.endpoint) ≫
+            standardTypeAEndpointGeneratedPushoutDescMap g f h w).app
+            (op ⦋2⦌)) x = h.map.app (op ⦋2⦌) x
+      exact hcomponent
     rw [hfac]
     exact h.scaled x hx
 
