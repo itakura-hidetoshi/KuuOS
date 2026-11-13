@@ -89,12 +89,19 @@ jobs:
       - name: Real MCP goal/tactic search -> exact-source repair -> direct Lean gate
         run: |
           set -euo pipefail
+          set +e
           PYTHONPATH=. python3 scripts/kuuos_lean_mcp_repair_loop_v1.py \
             --project-root target \
             --file formal/KUOS/DependentOriginationStandardTypeBScalingPushoutV1_56.lean \
             --source-sha256 "$(cat /tmp/kuuos-v156-seeded.sha256)" \
             --output-dir /tmp/kuuos-v156-repair-export \
             --provider mcp-tactic --max-iterations 3
+          mcp_exit=$?
+          set -e
+          if test -f /tmp/kuuos-v156-repair-export/receipt.json; then
+            cat /tmp/kuuos-v156-repair-export/receipt.json
+          fi
+          test "$mcp_exit" -eq 0
           python3 - <<'PY'
           import hashlib,json
           from pathlib import Path
@@ -123,6 +130,14 @@ jobs:
           cp /tmp/kuuos-v156-repair-export/receipt.json mcp_v156_repair_export/
           cp /tmp/kuuos-v156-repair-export/candidate.lean mcp_v156_repair_export/
           cp /tmp/kuuos-v156-original.sha256 mcp_v156_repair_export/original.sha256
+      - name: Upload bounded Lean MCP obstruction for future structural repair
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-real-v156-mcp-obstruction-v1
+          path: /tmp/kuuos-v156-repair-export/receipt.json
+          if-no-files-found: warn
+          retention-days: 14
       - uses: actions/upload-artifact@v4
         with:
           name: kuuos-real-v156-mcp-seeded-repair-v1
