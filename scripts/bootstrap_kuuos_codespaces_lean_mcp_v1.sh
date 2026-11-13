@@ -65,6 +65,14 @@ if [[ "$mode" == --install ]]; then
     echo 'Mathlib cache skipped by explicit KUUOS_CODESPACES_SKIP_MATHLIB_CACHE=1' >&2
   fi
   uvx --from lean-lsp-mcp==0.30.0 lean-lsp-mcp --version
+
+  # Install the separately pinned, checksum-verified official Tunnel CLI.
+  # No API key or tunnel ID is read; no tunnel is started automatically.
+  if [[ "${KUUOS_CODESPACES_SKIP_TUNNEL_CLIENT:-0}" != 1 ]]; then
+    bash scripts/install_kuuos_tunnel_client_v1.sh --install
+  else
+    echo 'Tunnel client skipped by explicit KUUOS_CODESPACES_SKIP_TUNNEL_CLIENT=1' >&2
+  fi
   bash "$launcher" --check-pins "$root"
   printf 'KUUOS_CODESPACES_LEAN_MCP_BOOTSTRAP_SUCCESS\n'
   echo 'Next: bash scripts/bootstrap_kuuos_codespaces_lean_mcp_v1.sh --smoke'
