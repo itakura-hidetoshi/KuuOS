@@ -724,9 +724,13 @@ noncomputable def weakRankFunction {m : ℕ} (k : Fin (m + 1)) (n : ℕ) :
           s.1 (is.castSucc.succAbove i) = t.1 (it.succ.succAbove i) :=
         DFunLike.congr_fun (congr_arg Prod.fst hδ.symm) i
       have hSs (i : Fin (d + 1)) : i ∈ Sδ ↔ is.castSucc.succAbove i ∈ Ss := by
-        simp [Sδ, Ss, finset, prod_δ_fst, stdSimplex.δ_apply]
+        change (Δ[m + 1].δ is.castSucc s.1) i = k.succ ↔
+          s.1 (is.castSucc.succAbove i) = k.succ
+        simp only [stdSimplex.δ_apply]
       have hSt (i : Fin (d + 1)) : i ∈ Sδ ↔ it.succ.succAbove i ∈ St := by
-        simp [Sδ, St, finset, prod_δ_fst, stdSimplex.δ_apply, hδ]
+        change (Δ[m + 1].δ is.castSucc s.1) i = k.succ ↔
+          t.1 (it.succ.succAbove i) = k.succ
+        rw [stdSimplex.δ_apply, hδ i]
       suffices Ss.card = Sδ.card ∧ St.card = Sδ.card + 1 by grind
       constructor
       · suffices Ss = Finset.image is.castSucc.succAbove Sδ by
@@ -737,7 +741,8 @@ noncomputable def weakRankFunction {m : ℕ} (k : Fin (m + 1)) (n : ℕ) :
         · have : is.castSucc ∉ Ss := fun h ↦ by
             have : s.1 is.castSucc ≤ k.castSucc := by
               simpa using (hs.simplex_fst_le_castSucc_iff is.castSucc).2 (by simp)
-            simp_all [Ss]
+            change s.1 is.castSucc = k.succ at h
+            omega
           simpa
         · simp [hSs]
       · suffices St = Finset.image it.succ.succAbove Sδ ∪ {it.succ} by
