@@ -273,28 +273,23 @@ theorem unionProdPairing_typeTwo_firstCoordinate_scaled
   have hindex :
       ((P.pairing.isUniquelyCodimOneFace (P.equivII s)).index rfl) =
         s.index.castSucc := by
-    calc
-      _ = P.index s := by
-        symm
-        apply ((P.pairing.isUniquelyCodimOneFace (P.equivII s)).δ_eq_iff
-          rfl (P.index s)).mp
-        have hface := (P.isUniquelyCodimOneFace s).δ_index rfl
-        rw [P.isUniquelyCodimOneFace_index s] at hface
-        simpa only [SSet.Subcomplex.PairingCore.pairing,
-          Equiv.trans_apply, Equiv.symm_apply_apply, SSet.Subcomplex.PairingCore.type₁,
-          SSet.Subcomplex.PairingCore.type₂,
-          SSet.Subcomplex.PairingCore.equivI_apply_coe,
-          SSet.Subcomplex.PairingCore.equivII_apply_coe,
-          SSet.Subcomplex.N.cast_eq_self,
-          SSet.S.cast_simplex_rfl] using hface
-      _ = s.index.castSucc := rfl
-  simpa only [SSet.Subcomplex.PairingCore.pairing,
-          Equiv.trans_apply, Equiv.symm_apply_apply, SSet.Subcomplex.PairingCore.equivII_apply_coe,
-    hindex, SSet.Subcomplex.PairingCore.equivI_apply_coe,
-    SSet.Subcomplex.PairingCore.type₁, SSet.Subcomplex.N.cast_eq_self,
-    SSet.prodStdSimplex.pairingCore,
-    unionProdPairingCoreTypeOneFirstCoordinateMap] using
-      unionProdPairingCore_typeOne_firstCoordinate_scaled k hk0 s
+    -- The pinned PairingCore proves index uniqueness independently of the
+    -- particular proof term used by the induced Pairing.IsProper instance.
+    -- Reduce the paired equivalence before transporting the index.
+    simpa only [SSet.Subcomplex.PairingCore.pairing,
+      Equiv.trans_apply, Equiv.symm_apply_apply,
+      SSet.Subcomplex.PairingCore.equivI_apply_coe,
+      SSet.Subcomplex.PairingCore.equivII_apply_coe,
+      SSet.prodStdSimplex.pairingCore] using
+      (P.isUniquelyCodimOneFace_index s)
+  -- Transport the actual paired simplex first, so its dimension cast and the
+  -- face index are normalized before comparing the two scaled maps.
+  rw [hpair, hindex]
+  simpa only [SSet.Subcomplex.PairingCore.equivI_apply_coe,
+      SSet.Subcomplex.PairingCore.type₁, SSet.Subcomplex.N.cast_eq_self,
+      SSet.prodStdSimplex.pairingCore,
+      unionProdPairingCoreTypeOneFirstCoordinateMap] using
+    unionProdPairingCore_typeOne_firstCoordinate_scaled k hk0 s
 
 /-! ## Every KuuOS boundary-prism cell is A-compatible -/
 
