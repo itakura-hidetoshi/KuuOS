@@ -42,6 +42,8 @@ PR2339_INTEGRATED_PROOF_BLOBS = {
 # The original full source and both proof transitions are preserved in Git history.
 # Explicit SHA enrollment is a review gate, never proof of Lean correctness.
 REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
+    # v1.50: qualify local endpoint horn index conversion, include proof witness K.
+    "KUOS/DependentOriginationStandardTypeAEndpointPushoutProductV1_50.lean": "1f24c5e7b30d1392ccd16c8b7b3ed7387b7d72a9",
     # Reviewed v1.49 fixed Lean class transparency; frozen legacy stays unchanged.
     "KUOS/DependentOriginationStandardTypeAScaledHornFamilyV1_49.lean": "c3824bb243367beb7df55491e47b5d91b4ac9be9",
     # Reviewed v1.48: explicit scaled namespaces and comparison witness dependencies; no geometry hidden.
