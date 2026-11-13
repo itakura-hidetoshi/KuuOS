@@ -178,7 +178,7 @@ outside-A condition of v1.65 is automatic. -/
 theorem standardTypeABoundaryPrismCellOutsideACompatible_of_target_dim_two
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
-    (c : (standardTypeABoundaryPrismRankFunction g).Cell j)
+    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)
     (h2 : c.dim + 1 = 2) :
     standardTypeABoundaryPrismCellOutsideACompatible g j c := by
   have hidx :=

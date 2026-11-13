@@ -47,7 +47,7 @@ REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
     # Exact enrollment is source provenance only; CI kernel elaboration remains mandatory.
     # Prior first-pass reviewed candidate: f0b9e4189cae890b05b0055527a0afddc575c2e2.
     # v1.67 projects through hmax at the cell's inferred universe; kernel proof still required.
-    "KUOS/DependentOriginationStandardTypeABoundaryPrismN2MaximalFrontierV1_67.lean": "a4508375223f083ce36fbf4d33c3985c4763795b",
+    "KUOS/DependentOriginationStandardTypeABoundaryPrismN2MaximalFrontierV1_67.lean": "b75410426cadb22421191a4a4be4641f787b6669",
     # v1.66: proof-only dependent pairing rewrite, retaining the old reviewed
     # blob 9b9e2be3cde24cde0bef72735ab0de098c5bf31b in Git history.
     # Exact new SHA is a reviewed-source gate, not Lean proof authority.
