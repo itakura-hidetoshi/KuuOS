@@ -7,7 +7,7 @@ must still trigger the original Strict Lean job.
 from pathlib import Path
 import unittest
 
-from scripts.select_impacted_checks import load_registry, select
+from scripts.select_impacted_checks import load_registry, select, matches
 
 ROOT = Path(__file__).resolve().parents[1]
 FRAGMENT = "ci/check_registry.d/lean_mcp_pinned_validation_v0_1.json"
@@ -40,15 +40,18 @@ class PinnedLeanMCPRoutingTests(unittest.TestCase):
         self.assertEqual(
             self.registry.get("known_paths", []).count(".devcontainer/lean-mcp/devcontainer.json"), 1
         )
-        self.assertNotIn(FRAGMENT, self.registry["full_audit_paths"])
+        self.assertTrue(matches(FRAGMENT, self.registry["full_audit_paths"]))
         self.assertTrue(self.check["pr_required"])
         self.assertTrue(self.check["full_audit_member"])
         self.assertEqual(
             self.check["depends_on"], ["workflow-integrity", "ci-audit-tests"]
         )
 
-    def test_exact_nonlean_changes_select_all_required_checks(self):
-        result = select(self.registry, self.exact_changes, None)
+    def test_postregistration_nonlean_changes_select_all_required_checks(self):
+        # The registry fragment is already present in the base for this comparison.
+        # A change TO that audit-control fragment must still require full audit.
+        postregistration = [p for p in self.exact_changes if p != FRAGMENT]
+        result = select(self.registry, postregistration, None)
         self.assertEqual(result["unknown_paths"], [])
         self.assertEqual(result["unmapped_paths"], [])
         self.assertEqual(result["full_audit_trigger_paths"], [])
@@ -62,11 +65,17 @@ class PinnedLeanMCPRoutingTests(unittest.TestCase):
             selected,
         )
 
+    def test_registry_fragment_change_remains_full_audit(self):
+        result = select(self.registry, self.exact_changes, None)
+        self.assertTrue(result["full_audit_required"])
+        self.assertTrue(result["lean_required"])
+        self.assertIn(FRAGMENT, result["full_audit_trigger_paths"])
+
     def test_genuine_formal_source_change_retains_strict_lean(self):
         # Existing formal file: proof changes are NOT included in the non-Lean exception.
         formal = "formal/KUOS/DependentOriginationFunctorialTransportV0_1.lean"
         self.assertTrue((ROOT / formal).is_file())
-        changed = [*self.exact_changes, formal]
+        changed = [p for p in self.exact_changes if p != FRAGMENT] + [formal]
         result = select(self.registry, changed, None)
         selected = {x["id"] for x in result["selected_checks"]}
         self.assertTrue(result["lean_required"], result)
@@ -74,11 +83,12 @@ class PinnedLeanMCPRoutingTests(unittest.TestCase):
         self.assertNotEqual(result["lean_targets"], [])
 
     def test_unrecognized_and_control_files_still_trigger_full_audit(self):
-        unknown = select(self.registry, [*self.exact_changes, "unregistered/private.py"], None)
+        base = [p for p in self.exact_changes if p != FRAGMENT]
+        unknown = select(self.registry, [*base, "unregistered/private.py"], None)
         self.assertTrue(unknown["full_audit_required"])
         self.assertTrue(unknown["lean_required"])
         self.assertIn("unregistered/private.py", unknown["unknown_paths"])
-        altered_control = select(self.registry, [*self.exact_changes, "ci/check_registry.yaml"], None)
+        altered_control = select(self.registry, [*base, "ci/check_registry.yaml"], None)
         self.assertTrue(altered_control["full_audit_required"])
         self.assertTrue(altered_control["lean_required"])
         self.assertIn("ci/check_registry.yaml", altered_control["full_audit_trigger_paths"])
