@@ -320,8 +320,12 @@ theorem unionProdPairing_typeTwo_firstCoordinate_scaled
         unionProdPairingCoreTypeOneFirstCoordinateMap k s := by
     rw [hsimplex]
     rfl
-  simpa only [hindex, hmap] using
+  -- Rewrite the core map on the *known proof* first: simplification of the
+  -- dependent public pairing expression need not match the casted map syntax.
+  have hscaled :=
     unionProdPairingCore_typeOne_firstCoordinate_scaled k hk0 s
+  rw [← hmap] at hscaled
+  simpa only [hindex] using hscaled
 
 /-! ## Every KuuOS boundary-prism cell is A-compatible -/
 
