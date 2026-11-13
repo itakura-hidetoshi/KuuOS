@@ -212,7 +212,7 @@ structure StandardTypeAEndpointPushoutProductStable
     (L : MorphismProperty (ScaledSSet.{u})) : Prop where
   pushoutProduct_mem :
     ∀ g : StandardTypeAHornAttachmentGeneratorIndex,
-      L (standardTypeAScaledHornGeneratorHom g.toHornGenerator) →
+      L (standardTypeAScaledHornGeneratorHom (StandardTypeAHornAttachmentGeneratorIndex.toHornGenerator g)) →
       L (standardTypeAEndpointPushoutProductHom g)
 
 /-- External comparison data needed specifically for the type-(A) induced
@@ -233,6 +233,8 @@ variable
     {E : MorphismProperty (ScaledSSet.{u})}
     (K : StandardTypeAExternalGeneratedComparison E)
 
+include K
+
 /-- Every standard type-(A) endpoint pushout-product belongs to the external
 generated scaled-anodyne class. -/
 theorem endpointPushoutProducts_le_externalGenerated :
@@ -245,8 +247,8 @@ theorem endpointPushoutProducts_le_externalGenerated :
   | mk g =>
       apply K.endpointPushoutProductStable.pushoutProduct_mem g
       exact K.typeAHorns_le_externalGenerated
-        (standardTypeAScaledHornGeneratorHom g.toHornGenerator)
-        (standardTypeAScaledHornGenerator_mem g.toHornGenerator)
+        (standardTypeAScaledHornGeneratorHom (StandardTypeAHornAttachmentGeneratorIndex.toHornGenerator g))
+        (standardTypeAScaledHornGenerator_mem (StandardTypeAHornAttachmentGeneratorIndex.toHornGenerator g))
 
 /-- Rewriting through the geometric identification gives the desired v1.48
 comparison statement
