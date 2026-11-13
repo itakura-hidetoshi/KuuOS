@@ -107,3 +107,28 @@ repository and the independently checked Lean kernel.
 `runtime/kuuos_codeai_admission_gated_bounded_repair_cycle_execution_v0_1.py`
 provider/admission policy and to the GitHub MCP commit + CI receipt path,
 without weakening either existing authority requirement.
+
+## Free Lean-MCP tactic candidate mode
+
+The additional --provider mcp-tactic mode performs **no API request**. For a
+single concrete error location it locates a nearby tactic line, reads the
+actual lean_multi_attempt responses for assumption/simp/aesop, and selects a
+candidate only when its reported goals and errors are both empty. It still
+requires fresh whole-file MCP diagnostics and exact lake env lean compilation
+after the patch, with original source bytes and file mode restored.
+
+This is **narrow proof automation**, not a general proof-synthesis model.
+If Lean MCP cannot establish a candidate or the independent compiler fails,
+it leaves an explicit obstruction. No fee or model key is required.
+
+Example, for a known local source with an error in the selected proof:
+
+    PYTHONPATH=. python3 scripts/kuuos_lean_mcp_repair_loop_v1.py \
+      --project-root . --file tests/mcp_repair_fixture/Repair.lean \
+      --source-sha256 "$SOURCE_SHA256" --output-dir "$OUTDIR" \
+      --provider mcp-tactic --max-iterations 2
+
+The real MCP CI tests both the deterministic fixture provider and the free
+MCP tactic-search provider against an untracked deliberately failing Lean
+example. All candidate files remain outside the GitHub checkout; no commit,
+PR mutation or full CI theorem authority is inferred from local success.
