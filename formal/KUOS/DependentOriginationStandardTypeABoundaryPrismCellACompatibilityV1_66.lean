@@ -211,8 +211,8 @@ theorem unionProdPairingCore_typeOne_distinguished_firstCoordinate_thin
     exact s.isIndex.simplex_fst_succ
   rcases hpred_or_eq with hpred | heq
   · exact Or.inr ⟨hy1, by
-      dsimp [y]
-      rw [unionProdPairingCoreTypeOneFirstCoordinateMap_apply, hpred]
+      change ((s.x.cast s.hd).simplex.1 (t 0)).val + 1 = k.val
+      rw [hpred]
       dsimp [km1]
       omega, by
       rw [hy2]
@@ -264,12 +264,22 @@ theorem unionProdPairing_typeTwo_firstCoordinate_scaled
       (SSet.yonedaEquiv.symm
         (((SSet.prodStdSimplex.pairingCore.{u} k 1).pairing.p z).val.cast
           ((SSet.prodStdSimplex.pairingCore.{u} k 1).pairing.isUniquelyCodimOneFace z).dim_eq).simplex.1) := by
-  obtain ⟨s, rfl⟩ :=
-    (SSet.prodStdSimplex.pairingCore.{u} k 1).equivII.surjective z
-  simpa [SSet.prodStdSimplex.pairingCore,
-    SSet.Subcomplex.PairingCore.pairing,
-    unionProdPairingCoreTypeOneFirstCoordinateMap] using
-    unionProdPairingCore_typeOne_firstCoordinate_scaled k hk0 s
+  let P := SSet.prodStdSimplex.pairingCore.{u} k 1
+  change P.pairing.II at z
+  obtain ⟨s, rfl⟩ := P.equivII.surjective z
+  have hindex :
+      ((P.pairing.isUniquelyCodimOneFace (P.equivII s)).index rfl) =
+        s.index.castSucc := by
+    change (P.isUniquelyCodimOneFace s).index rfl = P.index s
+    exact P.isUniquelyCodimOneFace_index s
+  have hp : P.pairing.p (P.equivII s) = P.equivI s :=
+    P.pairing_p_equivII s
+  rw [hindex, hp]
+  change IsScaledMap
+    (standardTypeASimplexScaling s.index.castSucc)
+    (standardTypeASimplexScaling k.castSucc)
+    (unionProdPairingCoreTypeOneFirstCoordinateMap k s)
+  exact unionProdPairingCore_typeOne_firstCoordinate_scaled k hk0 s
 
 /-! ## Every KuuOS boundary-prism cell is A-compatible -/
 
