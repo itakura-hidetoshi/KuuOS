@@ -270,6 +270,11 @@ theorem unionProdPairing_typeTwo_firstCoordinate_scaled
   obtain ⟨s, rfl⟩ := P.equivII.surjective z
   have hpair : P.pairing.p (P.equivII s) = P.equivI s :=
     P.pairing_p_equivII s
+  -- Equality of the actual nondegenerate type-(I) simplices, not merely
+  -- equality of the pairing's subtype witnesses. Use this below under casts.
+  have htypeOne :
+      (P.pairing.p (P.equivII s)).val = P.type₁ s := by
+    simpa only [hpair, SSet.Subcomplex.PairingCore.equivI_apply_coe]
   have hindexCore :
       ((P.pairing.isUniquelyCodimOneFace (P.equivII s)).index rfl) =
         P.index s := by
@@ -279,10 +284,8 @@ theorem unionProdPairing_typeTwo_firstCoordinate_scaled
     symm
     apply ((P.pairing.isUniquelyCodimOneFace (P.equivII s)).δ_eq_iff
       rfl (P.index s)).mp
-    -- Rewrite the locally established equality of paired simplices first:
-    -- the generic PairingCore simplifier does not fire under this dependent cast.
-    simp only [hpair,
-      SSet.Subcomplex.PairingCore.equivI_apply_coe,
+    -- Rewrite the nondependent simplex equality before the dimension cast.
+    simp only [htypeOne,
       SSet.Subcomplex.PairingCore.equivII_apply_coe,
       SSet.Subcomplex.N.cast_eq_self,
       SSet.S.cast_eq_self,
@@ -293,7 +296,7 @@ theorem unionProdPairing_typeTwo_firstCoordinate_scaled
         s.index.castSucc := by
     exact hindexCore.trans (by rfl)
   -- Dependent casts require simp-based transport, not rw on the paired value.
-  simpa only [hindex, hpair,
+  simpa only [hindex, htypeOne,
       SSet.Subcomplex.PairingCore.equivI_apply_coe,
       SSet.Subcomplex.PairingCore.type₁,
       SSet.Subcomplex.N.cast_eq_self,
