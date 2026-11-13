@@ -172,21 +172,52 @@ noncomputable def colimitCoconeIsColimit
       scaled := by
         intro t ht
         rcases ht with ⟨x, rfl⟩ | ⟨x, rfl⟩ | ⟨j, x, hx, rfl⟩
-        · rw [SSet.σ_naturality_apply _ 0 x]
+        · let f : colimit (D ⋙ forget) ⟶ s.pt.carrier :=
+            colimit.desc (D ⋙ forget) (forget.mapCocone s)
+          change s.pt.scaling.thin (f.app (op ⦋2⦌)
+            ((colimit (D ⋙ forget)).σ 0 x))
+          rw [SSet.σ_naturality_apply f 0 x]
           exact s.pt.scaling.thin_sigma_zero _
-        · rw [SSet.σ_naturality_apply _ 1 x]
+        · let f : colimit (D ⋙ forget) ⟶ s.pt.carrier :=
+            colimit.desc (D ⋙ forget) (forget.mapCocone s)
+          change s.pt.scaling.thin (f.app (op ⦋2⦌)
+            ((colimit (D ⋙ forget)).σ 1 x))
+          rw [SSet.σ_naturality_apply f 1 x]
           exact s.pt.scaling.thin_sigma_one _
         · have h := (s.ι.app j).scaled x hx
-          simpa [forget, colimitCocone, colimitLeg, colimitObj] using h }
+          have hfac :
+              colimit.ι (D ⋙ forget) j ≫
+                colimit.desc (D ⋙ forget) (forget.mapCocone s) =
+                  (s.ι.app j).map := by
+            simpa only [Functor.mapCocone_ι_app, forget] using
+              (colimit.ι_desc (D ⋙ forget) (forget.mapCocone s) j)
+          change s.pt.scaling.thin
+            ((colimit.desc (D ⋙ forget) (forget.mapCocone s)).app (op ⦋2⦌)
+              ((colimit.ι (D ⋙ forget) j).app (op ⦋2⦌) x))
+          rw [← NatTrans.comp_app_apply, hfac]
+          exact h }
   fac s j := by
     apply ScaledMap.ext
-    simp [colimitCocone, colimitLeg, colimitObj, forget]
+    change
+      colimit.ι (D ⋙ forget) j ≫
+        colimit.desc (D ⋙ forget) (forget.mapCocone s) =
+          (s.ι.app j).map
+    simpa only [Functor.mapCocone_ι_app, forget] using
+      (colimit.ι_desc (D ⋙ forget) (forget.mapCocone s) j)
   uniq s m hm := by
     apply ScaledMap.ext
     apply colimit.hom_ext
     intro j
     have h := congrArg ScaledMap.map (hm j)
-    simpa [colimitCocone, colimitLeg, colimitObj, forget] using h
+    change colimit.ι (D ⋙ forget) j ≫ m.map =
+      colimit.ι (D ⋙ forget) j ≫
+        colimit.desc (D ⋙ forget) (forget.mapCocone s)
+    calc
+      _ = (s.ι.app j).map := by
+        simpa [colimitCocone, colimitLeg, colimitObj, forget] using h
+      _ = _ := by
+        simpa only [Functor.mapCocone_ι_app, forget] using
+          (colimit.ι_desc (D ⋙ forget) (forget.mapCocone s) j).symm
 
 /-- The underlying cocone of the explicit scaled colimit is the ordinary
 simplicial-set colimit cocone. -/
@@ -288,7 +319,6 @@ noncomputable instance canonicalScaled_isCardinalForSmallObjectArgument :
       simp only [scaledHornAttachmentGenerators] at hi
       cases hi with
       | mk g =>
-          dsimp [scaledHornAttachmentGeneratorHom]
           infer_instance
     letI : IsFinitelyPresentable.{u} A := hA
     infer_instance
