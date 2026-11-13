@@ -98,6 +98,42 @@ theorem pairingCore_isRegular_of_proper {m : ℕ} (k : Fin (m + 1)) (n : ℕ)
         (h.ancestralRel_iff _ _).1 (hf j)⟩⟩
 
 
+
+/-!
+The pinned mathlib provides \`Fin.succAbove_left_injective\`. Nondegeneracy of a
+simplex in a product of standard simplices makes its vertex-pair map injective.
+Consequently distinct face indices cannot have equal faces: this is the exact
+properness obligation previously left conditional. This does not provide the
+reversed-endpoint pairing or the complete UnionProd theorem.
+-/
+
+set_option backward.isDefEq.respectTransparency false in
+instance pairingCore_isProper {m : ℕ} (k : Fin (m + 1)) (n : ℕ) :
+    (pairingCore.{u} k n).IsProper where
+  isUniquelyCodimOneFace s := by
+    change (S.mk ((Δ[m + 1] ⊗ Δ[n]).δ s.index.castSucc
+      (s.x.cast s.hd).simplex)).IsUniquelyCodimOneFace
+        (S.mk (s.x.cast s.hd).simplex)
+    rw [S.IsUniquelyCodimOneFace.iff]
+    refine ⟨s.index.castSucc, rfl, ?_⟩
+    intro j hj
+    apply Fin.succAbove_left_injective
+    funext a
+    have hinj : Function.Injective (objEquiv (s.x.cast s.hd).simplex) :=
+      (nonDegenerate_iff_injective_objEquiv _).1
+        (s.x.cast s.hd).nonDegenerate
+    apply hinj
+    have heq := congrArg (fun z => objEquiv z a) hj
+    simpa only [objEquiv_δ_apply] using heq
+
+/-- Unconditional regularity of the pinned pairing core (not of full UnionProd). -/
+noncomputable instance pairingCore_isRegular {m : ℕ} (k : Fin (m + 1)) (n : ℕ) :
+    (pairingCore.{u} k n).IsRegular :=
+  pairingCore_isRegular_of_proper k n
+
+#print axioms pairingCore_isProper
+#print axioms pairingCore_isRegular
+
 #print axioms weakRankFunction
 #print axioms pairingCore_isRegular_of_proper
 
