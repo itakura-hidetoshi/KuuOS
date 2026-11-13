@@ -11,6 +11,7 @@ open Simplicial
 open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
 open KUOS.DependentOriginationScaledTerminalRLPV1_41
 open KUOS.DependentOriginationStandardTypeAScaledHornFamilyV1_49
+open KUOS.DependentOriginationStandardTypeAEndpointPushoutProductV1_50
 open KUOS.DependentOriginationStandardTypeBScalingPushoutV1_56
 open KUOS.DependentOriginationStandardTypeBThreeSimplexCompletionV1_57
 open KUOS.DependentOriginationStandardTypeCCollapsedEdgeV1_58
@@ -75,13 +76,13 @@ rank-successor pushout and its natural-number transfinite composition.
 
 /-- One raw standard cellular step: a pushout of a coproduct of standard
 A/B/C generators. -/
-def standardABCRawCellularStep : MorphismProperty (ScaledSSet.{u}) :=
+@[reducible] def standardABCRawCellularStep : MorphismProperty (ScaledSSet.{u}) :=
   (MorphismProperty.coproducts.{u}
     (standardScaledAnodyneGeneratorsABC :
       MorphismProperty (ScaledSSet.{u}))).pushouts
 
 /-- The strong, unretracted standard cellular closure. -/
-def standardABCStrongCellularClosure : MorphismProperty (ScaledSSet.{u}) :=
+@[reducible] def standardABCStrongCellularClosure : MorphismProperty (ScaledSSet.{u}) :=
   MorphismProperty.transfiniteCompositions.{u}
     (standardABCRawCellularStep : MorphismProperty (ScaledSSet.{u}))
 
@@ -117,10 +118,13 @@ theorem standardTypeABoundaryPrismCellAPushoutHom_mem_rawCellular
       (standardTypeAGenerator_mem_ABC
         (standardTypeABoundaryPrismCellHornIndex g j c))
   rw [← standardTypeABoundaryPrismCellA_lowerMap_eq_generator g j c] at hgen
-  exact MorphismProperty.pushouts_mk
-    (standardTypeABoundaryPrismCellA_genericPushout g j c
-      (standardTypeABoundaryPrismCellACompatible_all g j c)).flip
-    hgen
+  exact
+    (MorphismProperty.coproducts.{u}
+      (standardScaledAnodyneGeneratorsABC :
+        MorphismProperty (ScaledSSet.{u}))).pushouts_mk
+      (standardTypeABoundaryPrismCellA_genericPushout g j c
+        (standardTypeABoundaryPrismCellACompatible_all g j c)).flip
+      hgen
 
 /-! ## The two fixed B completions are also raw standard cellular steps -/
 
@@ -136,8 +140,11 @@ theorem standardTypeBCollapse12CompletionHom_mem_rawCellular :
       (standardScaledAnodyneGeneratorsABC :
         MorphismProperty (ScaledSSet.{u})) _
       standardTypeBGenerator_mem_ABC
-  exact MorphismProperty.pushouts_mk
-    standardTypeBCollapse12Completion_isPushout hB
+  exact
+    (MorphismProperty.coproducts.{u}
+      (standardScaledAnodyneGeneratorsABC :
+        MorphismProperty (ScaledSSet.{u}))).pushouts_mk
+      standardTypeBCollapse12Completion_isPushout hB
 
 /-- The fixed q23 completion is literally a pushout of the standard type-(B)
 generator. -/
@@ -151,8 +158,11 @@ theorem standardTypeBCollapse23CompletionHom_mem_rawCellular :
       (standardScaledAnodyneGeneratorsABC :
         MorphismProperty (ScaledSSet.{u})) _
       standardTypeBGenerator_mem_ABC
-  exact MorphismProperty.pushouts_mk
-    standardTypeBCollapse23Completion_isPushout hB
+  exact
+    (MorphismProperty.coproducts.{u}
+      (standardScaledAnodyneGeneratorsABC :
+        MorphismProperty (ScaledSSet.{u}))).pushouts_mk
+      standardTypeBCollapse23Completion_isPushout hB
 
 /-! ## Explicit carrier/scaling isomorphisms for the exceptional three-cells -/
 
@@ -160,27 +170,13 @@ theorem standardTypeBCollapse23CompletionHom_mem_rawCellular :
 underlying simplicial maps are literally identities.  Keeping this constructor
 explicit avoids allowing equality transports to pollute the later arrow
 comparison. -/
-def scalingEqualityIso
+noncomputable def scalingEqualityIso
     {X : SSet.{u}}
     (s t : ScaledSimplicialSet X)
     (h : s = t) :
-    ScaledSSet.of X s ≅ ScaledSSet.of X t where
-  hom :=
-    { map := 𝟙 X
-      scaled := by
-        intro z hz
-        simpa only [h] using hz }
-  inv :=
-    { map := 𝟙 X
-      scaled := by
-        intro z hz
-        simpa only [h] using hz }
-  hom_inv_id := by
-    apply ScaledSSet.ScaledMap.ext
-    simp
-  inv_hom_id := by
-    apply ScaledSSet.ScaledMap.ext
-    simp
+    ScaledSSet.of X s ≅ ScaledSSet.of X t := by
+  cases h
+  exact Iso.refl _
 
 @[simp]
 theorem scalingEqualityIso_hom_map
@@ -188,6 +184,7 @@ theorem scalingEqualityIso_hom_map
     (s t : ScaledSimplicialSet X)
     (h : s = t) :
     (scalingEqualityIso s t h).hom.map = 𝟙 X := by
+  cases h
   rfl
 
 @[simp]
@@ -196,6 +193,7 @@ theorem scalingEqualityIso_inv_map
     (s t : ScaledSimplicialSet X)
     (h : s = t) :
     (scalingEqualityIso s t h).inv.map = 𝟙 X := by
+  cases h
   rfl
 
 /-- One-shot isomorphism from a dependent actual three-cell carrier to the
