@@ -144,6 +144,24 @@ class Contract(unittest.TestCase):
             self.assertEqual(target.read_bytes(), before)
             self.assertFalse((home / "export/candidate.lean").exists())
 
+    def test_existing_sorry_cannot_be_promoted_to_green(self):
+        with tempfile.TemporaryDirectory() as td:
+            home = pathlib.Path(td)
+            root, target = self.make_project(home)
+            before = b"import Mathlib\nnamespace Smoke\ntheorem t : True := by\n  sorry\nend Smoke\n"
+            target.write_bytes(before)
+            with patch.object(loop, "call_tool", fake_tools(root)):
+                receipt = loop.run_loop(
+                    root=root, rel_file="tests/mcp_repair_fixture/Repair.lean",
+                    output_dir=home / "export", expected_sha256=loop.digest(before),
+                    provider=loop.fixture_provider, mcp_factory=FakeMCP,
+                    direct_gate=lambda *args, **kwargs: {"exit_code": 0},
+                )
+            self.assertEqual(receipt["status"], "DIRECT_LEAN_GATE_OBSTRUCTION")
+            self.assertFalse((home / "export/candidate.lean").exists())
+            self.assertTrue(receipt["source_restored"])
+            self.assertEqual(target.read_bytes(), before)
+
     def test_wrong_sha_and_export_inside_project_block(self):
         with tempfile.TemporaryDirectory() as td:
             home = pathlib.Path(td)
