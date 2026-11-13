@@ -185,36 +185,36 @@ def standardTypeCTargetCarrier_isPushout (m : Nat) :
 
 /-- On the source quotient the edge inclusion agrees with the point collapse. -/
 theorem standardTypeCSource_edge_collapsed (m : Nat) :
-    standardTypeCEdgeToHorn m ≫
+    standardTypeCEdgeToHorn.{u} m ≫
         pushout.inl
-          (standardTypeCEdgeToHorn m)
-          (standardTypeCEdgeCollapseToPoint m) =
-      standardTypeCEdgeCollapseToPoint m ≫
+          (standardTypeCEdgeToHorn.{u} m)
+          (standardTypeCEdgeCollapseToPoint.{u} m) =
+      standardTypeCEdgeCollapseToPoint.{u} m ≫
         pushout.inr
-          (standardTypeCEdgeToHorn m)
-          (standardTypeCEdgeCollapseToPoint m) :=
+          (standardTypeCEdgeToHorn.{u} m)
+          (standardTypeCEdgeCollapseToPoint.{u} m) :=
   pushout.condition
 
 /-- On the target quotient the edge inclusion agrees with the point collapse. -/
 theorem standardTypeCTarget_edge_collapsed (m : Nat) :
-    standardTypeCEdgeToSimplex m ≫
+    standardTypeCEdgeToSimplex.{u} m ≫
         pushout.inl
-          (standardTypeCEdgeToSimplex m)
-          (standardTypeCEdgeCollapseToPoint m) =
-      standardTypeCEdgeCollapseToPoint m ≫
+          (standardTypeCEdgeToSimplex.{u} m)
+          (standardTypeCEdgeCollapseToPoint.{u} m) =
+      standardTypeCEdgeCollapseToPoint.{u} m ≫
         pushout.inr
-          (standardTypeCEdgeToSimplex m)
-          (standardTypeCEdgeCollapseToPoint m) :=
+          (standardTypeCEdgeToSimplex.{u} m)
+          (standardTypeCEdgeCollapseToPoint.{u} m) :=
   pushout.condition
 
 /-- The induced map from the collapsed outer horn to the collapsed simplex. -/
 def standardTypeCCarrierMap (m : Nat) :
-    standardTypeCSourceCarrier m ⟶ standardTypeCTargetCarrier m :=
+    standardTypeCSourceCarrier.{u} m ⟶ standardTypeCTargetCarrier.{u} m :=
   pushout.map
-    (standardTypeCEdgeToHorn m)
-    (standardTypeCEdgeCollapseToPoint m)
-    (standardTypeCEdgeToSimplex m)
-    (standardTypeCEdgeCollapseToPoint m)
+    (standardTypeCEdgeToHorn.{u} m)
+    (standardTypeCEdgeCollapseToPoint.{u} m)
+    (standardTypeCEdgeToSimplex.{u} m)
+    (standardTypeCEdgeCollapseToPoint.{u} m)
     (SSet.horn (m + 3) (0 : Fin (m + 4))).ι
     (𝟙 (Δ[0] : SSet.{u}))
     (𝟙 (standardTypeCEdgeFace m : SSet.{u}))
@@ -225,25 +225,25 @@ def standardTypeCCarrierMap (m : Nat) :
 @[reassoc]
 theorem standardTypeCCarrierMap_inl_horn (m : Nat) :
     pushout.inl
-        (standardTypeCEdgeToHorn m)
-        (standardTypeCEdgeCollapseToPoint m) ≫
+        (standardTypeCEdgeToHorn.{u} m)
+        (standardTypeCEdgeCollapseToPoint.{u} m) ≫
       standardTypeCCarrierMap m =
     (SSet.horn (m + 3) (0 : Fin (m + 4))).ι ≫
       pushout.inl
-        (standardTypeCEdgeToSimplex m)
-        (standardTypeCEdgeCollapseToPoint m) := by
+        (standardTypeCEdgeToSimplex.{u} m)
+        (standardTypeCEdgeCollapseToPoint.{u} m) := by
   simp [standardTypeCCarrierMap]
 
 /-- The induced carrier map is the identity on the collapsed point leg. -/
 @[reassoc]
 theorem standardTypeCCarrierMap_inr_point (m : Nat) :
     pushout.inr
-        (standardTypeCEdgeToHorn m)
-        (standardTypeCEdgeCollapseToPoint m) ≫
+        (standardTypeCEdgeToHorn.{u} m)
+        (standardTypeCEdgeCollapseToPoint.{u} m) ≫
       standardTypeCCarrierMap m =
     pushout.inr
-      (standardTypeCEdgeToSimplex m)
-      (standardTypeCEdgeCollapseToPoint m) := by
+      (standardTypeCEdgeToSimplex.{u} m)
+      (standardTypeCEdgeCollapseToPoint.{u} m) := by
   simp [standardTypeCCarrierMap]
 
 /-! ## The distinguished `01n` triangle -/
