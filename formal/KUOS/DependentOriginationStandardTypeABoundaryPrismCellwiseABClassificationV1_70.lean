@@ -68,10 +68,10 @@ No canonical-KuuOS/standard-A-B-C family equality is asserted here.
 theorem unionProdPairing_typeTwo_fst_surjective
     {m : ℕ}
     (k : Fin (m + 1))
-    (z : ((SSet.prodStdSimplex.pairingCore.{u} k 1).pairing).II) :
+    (z : (SSet.prodStdSimplex.pairingCore.{u} k 1).pairing.II) :
     Function.Surjective
-      ((((SSet.prodStdSimplex.pairingCore.{u} k 1).pairing).p z).val.cast
-        (((SSet.prodStdSimplex.pairingCore.{u} k 1).pairing.isUniquelyCodimOneFace z).dim_eq).simplex.1 := by
+      (((SSet.prodStdSimplex.pairingCore.{u} k 1).pairing.p z).val.cast
+        ((SSet.prodStdSimplex.pairingCore.{u} k 1).pairing.isUniquelyCodimOneFace z).dim_eq).simplex.1 := by
   obtain ⟨s, rfl⟩ :=
     (SSet.prodStdSimplex.pairingCore.{u} k 1).equivII.surjective z
   simpa [SSet.prodStdSimplex.pairingCore] using
@@ -83,15 +83,15 @@ first coordinates `k` and `k+1` on the two adjacent vertices. -/
 theorem unionProdPairing_typeTwo_index_transition
     {m : ℕ}
     (k : Fin (m + 1))
-    (z : ((SSet.prodStdSimplex.pairingCore.{u} k 1).pairing).II) :
+    (z : (SSet.prodStdSimplex.pairingCore.{u} k 1).pairing.II) :
     ∃ l : Fin (z.val.dim + 1),
       l.castSucc =
-          (((SSet.prodStdSimplex.pairingCore.{u} k 1).pairing.isUniquelyCodimOneFace z).index rfl ∧
-        ((((SSet.prodStdSimplex.pairingCore.{u} k 1).pairing).p z).val.cast
-          (((SSet.prodStdSimplex.pairingCore.{u} k 1).pairing.isUniquelyCodimOneFace z).dim_eq).simplex.1 l.castSucc =
+          ((SSet.prodStdSimplex.pairingCore.{u} k 1).pairing.isUniquelyCodimOneFace z).index rfl ∧
+        (((SSet.prodStdSimplex.pairingCore.{u} k 1).pairing.p z).val.cast
+          ((SSet.prodStdSimplex.pairingCore.{u} k 1).pairing.isUniquelyCodimOneFace z).dim_eq).simplex.1 l.castSucc =
             k.castSucc ∧
-        ((((SSet.prodStdSimplex.pairingCore.{u} k 1).pairing).p z).val.cast
-          (((SSet.prodStdSimplex.pairingCore.{u} k 1).pairing.isUniquelyCodimOneFace z).dim_eq).simplex.1 l.succ =
+        (((SSet.prodStdSimplex.pairingCore.{u} k 1).pairing.p z).val.cast
+          ((SSet.prodStdSimplex.pairingCore.{u} k 1).pairing.isUniquelyCodimOneFace z).dim_eq).simplex.1 l.succ =
             k.succ := by
   obtain ⟨s, rfl⟩ :=
     (SSet.prodStdSimplex.pairingCore.{u} k 1).equivII.surjective z
