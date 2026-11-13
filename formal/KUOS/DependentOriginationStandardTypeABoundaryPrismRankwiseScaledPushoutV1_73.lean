@@ -10,6 +10,7 @@ open Simplicial
 open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
 open KUOS.DependentOriginationScaledTerminalRLPV1_41
 open KUOS.DependentOriginationScaledAnodyneAttachmentFactorizationV1_48
+open KUOS.DependentOriginationStandardTypeAScaledPushoutSourceEnrichmentV1_53
 open KUOS.DependentOriginationStandardTypeAScaledHornFamilyV1_49
 open KUOS.DependentOriginationStandardTypeABoundaryPrismCellPushoutCriterionV1_65
 open KUOS.DependentOriginationStandardTypeABoundaryPrismRelativeCellV1_61
@@ -196,6 +197,8 @@ theorem generatedPushoutDescMap_scaled
         (h.inl_desc a.map b.map
           (generatedPushout_compatibility_map f g a b w))
         (op ⦋2⦌)) x
+    change W.scaling.thin
+      ((inl ≫ generatedPushoutDescMap f g inl inr h a b w).app (op ⦋2⦌) x)
     rw [hfac]
     exact a.scaled x hx
   · have hfac := ConcreteCategory.congr_hom
@@ -203,6 +206,8 @@ theorem generatedPushoutDescMap_scaled
         (h.inr_desc a.map b.map
           (generatedPushout_compatibility_map f g a b w))
         (op ⦋2⦌)) y
+    change W.scaling.thin
+      ((inr ≫ generatedPushoutDescMap f g inl inr h a b w).app (op ⦋2⦌) y)
     rw [hfac]
     exact b.scaled y hy
 
@@ -416,6 +421,10 @@ def standardTypeABoundaryPrismRankSigmaCellHom
       (congr_app
         ((standardTypeABoundaryPrismRankFunction g).w j)
         (op ⦋2⦌)) t
+    change
+      (standardTypeABoundaryPrismRankStageScaling g (j + 1)).thin
+        ((((standardTypeABoundaryPrismRankFunction g).m j ≫
+          (standardTypeABoundaryPrismRankFunction g).b j).app (op ⦋2⦌)) t)
     rw [← hw]
     exact hstage
 
@@ -511,9 +520,9 @@ noncomputable def standardTypeABoundaryPrism_rankStep_scaled_isPushout
       (standardTypeABoundaryPrismRankStageHom g (Nat.le_succ j)).map
       ((standardTypeABoundaryPrismRankFunction g).b j)
       (standardTypeABoundaryPrism_rankStep_isPushout g j)
-  rw [standardTypeABoundaryPrismRankGeneratedPushoutScaling_eq_succ g j] at h
   simpa [generatedPushoutInl, generatedPushoutInr,
     generatedPushoutTarget,
+    standardTypeABoundaryPrismRankGeneratedPushoutScaling_eq_succ g j,
     standardTypeABoundaryPrismRankSigmaHornToStage,
     standardTypeABoundaryPrismRankSigmaCellHom,
     standardTypeABoundaryPrismRankSigmaStdSimplexToSucc,
