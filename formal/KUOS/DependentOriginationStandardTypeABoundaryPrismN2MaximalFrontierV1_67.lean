@@ -74,7 +74,8 @@ theorem minimalScaling_stdSimplex_thin_of_one_eq_two
   apply SSet.stdSimplex.ext
   intro a
   fin_cases a <;>
-    simp [stdSimplex_sigma_apply, SSet.stdSimplex.δ_apply, h12]
+    simp [stdSimplex_sigma_apply, SSet.stdSimplex.δ_apply,
+      Fin.predAbove, Fin.succAbove, h12]
 
 /-! ## The unique inner type-(A) scaling on `Delta[2]` is maximal -/
 
@@ -188,9 +189,15 @@ theorem standardTypeABoundaryPrismCellOutsideACompatible_of_target_dim_two
         ScaledSimplicialSet.maximal (Δ[c.dim + 1] : SSet.{u}) :=
     standardTypeASimplexScaling_eq_maximal_of_dim_two c.index h2 hidx
   intro t _ _
-  change (standardTypeASimplexScaling c.index).thin t
-  rw [hmax]
-  exact ScaledSimplicialSet.maximal_thin _ t
+  -- Instance arguments to `thin` are implicit: rewrite through their
+  -- explicit Prop-valued projection rather than a hidden synthesized instance.
+  have hthin :
+      (standardTypeASimplexScaling c.index).thin t =
+        (ScaledSimplicialSet.maximal (Δ[c.dim + 1] : SSet.{u})).thin t :=
+    congrArg
+      (fun (sc : ScaledSimplicialSet (Δ[c.dim + 1] : SSet.{u})) => sc.thin t)
+      hmax
+  exact hthin.mpr (ScaledSimplicialSet.maximal_thin _ t)
 
 /-- Hence every attached 2-cell is exactly the pure type-(A) cobase change,
 with no type-(B) scaling completion. -/
