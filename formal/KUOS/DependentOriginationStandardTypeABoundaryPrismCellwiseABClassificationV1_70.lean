@@ -487,6 +487,30 @@ theorem standardTypeABoundaryPrismTransportScalingToThree_maximal
       ScaledSimplicialSet.maximal (Δ[3] : SSet.{u}) := by
   exact transportMaximalScaledSimplicialSet h3
 
+/-- Dimension-free horn saturation.  This moves the equality elimination
+from a dependent rank cell to a genuinely independent simplex dimension. -/
+@[reducible] private def hornSaturatedSimplexScaling (n : ℕ) (i : Fin (n + 1)) :
+    ScaledSimplicialSet (Δ[n] : SSet.{u}) where
+  thin := fun t =>
+    (standardTypeASimplexScaling i).thin t ∨
+      t ∈ (SSet.horn.{u} n i).obj (op ⦋2⦌)
+  thin_sigma_zero := by
+    intro x
+    exact Or.inl ((standardTypeASimplexScaling i).thin_sigma_zero x)
+  thin_sigma_one := by
+    intro x
+    exact Or.inl ((standardTypeASimplexScaling i).thin_sigma_one x)
+
+/-- Transport free dimension and free horn index without eliminating c.s. -/
+private theorem transportHornSaturatedSimplexScaling
+    {n : ℕ} (h3 : n = 3) (i : Fin (n + 1)) :
+    Eq.mp
+        (congrArg (fun d : ℕ => ScaledSimplicialSet (Δ[d] : SSet.{u})) h3)
+        (hornSaturatedSimplexScaling n i) =
+      standardTypeAThreeHornSaturatedScaling (Fin.cast (by omega) i) := by
+  cases h3
+  rfl
+
 /-- The transported actual horn-saturated scaling is literally the fixed v1.69
 horn-saturated scaling at the transported cell index. -/
 theorem standardTypeABoundaryPrismTransportScalingToThree_hornSaturated
@@ -498,11 +522,12 @@ theorem standardTypeABoundaryPrismTransportScalingToThree_hornSaturated
         (standardTypeABoundaryPrismCellHornSaturatedAScaling g j c) =
       standardTypeAThreeHornSaturatedScaling
         (standardTypeABoundaryPrismCellIndex3 g j c h3) := by
-  cases h3
-  simp [standardTypeABoundaryPrismTransportScalingToThree,
-    standardTypeABoundaryPrismCellHornSaturatedAScaling,
-    standardTypeAThreeHornSaturatedScaling,
-    standardTypeABoundaryPrismCellIndex3]
+  change
+    Eq.mp
+        (congrArg (fun d : ℕ => ScaledSimplicialSet (Δ[d] : SSet.{u})) h3)
+        (hornSaturatedSimplexScaling (c.dim + 1) c.index) =
+      standardTypeAThreeHornSaturatedScaling (Fin.cast (by omega) c.index)
+  exact transportHornSaturatedSimplexScaling h3 c.index
 
 /-- In the exceptional `n = 2`, `N = 3` branch the transported A-pushout is
 exactly the fixed horn-saturated A scaling. -/
