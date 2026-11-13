@@ -1,0 +1,54 @@
+name: Lean MCP tunnel launcher static preflight v1
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/run_kuuos_lean_mcp_stdio_v1.sh'
+      - 'docs/KUUOS_LEAN_MCP_CHATGPT_TUNNEL_v1.md'
+      - '.github/workflows/lean-mcp-tunnel-static-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  pin-boundary-static:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v6
+      - name: Check launcher Bash syntax
+        run: bash -n scripts/run_kuuos_lean_mcp_stdio_v1.sh
+      - name: Check exact pins and fail closed on changed pins
+        run: |
+          python3 - <<'PY'
+          import json
+          import pathlib
+          import subprocess
+          import tempfile
+          root = pathlib.Path('.').resolve()
+          launcher = root / 'scripts/run_kuuos_lean_mcp_stdio_v1.sh'
+          def probe(workdir, should_pass):
+              cp = subprocess.run(
+                  ['bash', str(launcher), '--check-pins', str(workdir)],
+                  capture_output=True, text=True, timeout=10)
+              assert (cp.returncode == 0) == should_pass, (
+                  cp.returncode, cp.stdout, cp.stderr)
+          probe(root, True)
+          with tempfile.TemporaryDirectory() as td:
+              d = pathlib.Path(td)
+              (d / 'lean-toolchain').write_bytes((root / 'lean-toolchain').read_bytes())
+              original = json.loads((root / 'lake-manifest.json').read_text())
+              (d / 'lake-manifest.json').write_text(json.dumps(original))
+              probe(d, True)
+              changed_mathlib = json.loads(json.dumps(original))
+              for package in changed_mathlib['packages']:
+                  if package['name'] == 'mathlib':
+                      package['rev'] = '0' * 40
+              (d / 'lake-manifest.json').write_text(json.dumps(changed_mathlib))
+              probe(d, False)
+              (d / 'lake-manifest.json').write_text(json.dumps(original))
+              (d / 'lean-toolchain').write_text('leanprover/lean4:v4.36.0\n')
+              probe(d, False)
+          print('KUUOS_LEAN_MCP_TUNNEL_LAUNCHER_STATIC_SUCCESS')
+          PY
