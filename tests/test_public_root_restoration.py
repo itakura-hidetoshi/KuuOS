@@ -42,6 +42,8 @@ PR2339_INTEGRATED_PROOF_BLOBS = {
 # The original full source and both proof transitions are preserved in Git history.
 # Explicit SHA enrollment is a review gate, never proof of Lean correctness.
 REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
+    # Reviewed v1.47: true scaled-set/model namespace and dependent K evidence; frozen legacy unchanged.
+    "KUOS/DependentOriginationExternalScaledDuskinFibrancyV1_47.lean": "59a95339e789fd0cdd499dd33ae71381a9b1486b",
     # Reviewed v1.46: explicit generator-comparison evidence, scaled-model namespaces and class-result transparency.
     "KUOS/DependentOriginationExternalScaledAnodyneGeneratorComparisonV1_46.lean": "0f60b58223bc854b3922996067f72b4ba90ae879",
     # Reviewed v1.45 fixed Lean namespace, scaled colimit transport and exact typeclass route.

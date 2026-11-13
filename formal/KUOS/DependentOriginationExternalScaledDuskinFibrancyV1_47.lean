@@ -3,6 +3,10 @@ import KUOS.DependentOriginationExternalScaledAnodyneGeneratorComparisonV1_46
 namespace KUOS.DependentOriginationExternalScaledDuskinFibrancyV1_47
 
 open CategoryTheory
+open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
+open KUOS.DependentOriginationScaledTerminalRLPV1_41
+open KUOS.DependentOriginationBiequivalencePresentationInvariantV1_26
+open KUOS.DependentOriginationHomotopyClassScaledHornInvariantV1_37
 open KUOS.DependentOriginationGlobalDuskinScaledNerveV1_21
 open KUOS.DependentOriginationGlobalDuskinScaledHornCoherenceV1_22
 open KUOS.DependentOriginationStrictlyUnitaryDuskinModelTransportV1_27
@@ -138,6 +142,8 @@ variable
     {HC : GlobalDuskinScaledHornFamily C}
     (K : CoherentNormalizedScaledExternalDuskinModelEquivalence
       PB PC E G HB HC)
+
+include K
 
 /-- Convert the two independent external fibrancy hypotheses to the canonical
 attachment-fibrant model-equivalence carrier of v1.42. -/
