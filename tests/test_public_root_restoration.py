@@ -138,6 +138,8 @@ REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
 # Newly added formal modules are outside the frozen v5.291 archive. Their
 # exact draft source blobs are reviewed separately from historical corrections.
 REVIEWED_ADDITIVE_FORMAL_BLOBS = {
+    # v1.61: pinned inner-horn property, independent of full UnionProd regularity.
+    "KUOS/PinnedMathlibUnionProdInnerPairingCoreV1_61.lean": "ece7c5a8291e6846d5c44c1e5e2f5d6ad546682d",
     # Partial pinned UnionProd proof port: pairingCore only; regularity and end-to-end v1.61 remain unverified.
     "KUOS/PinnedMathlibUnionProdProofPortV1_61.lean": "ba703c0dd48e4e437cb968e077611fb50e5a154e",
     "KUOS/DependentOriginationPairwiseNormalLaxRoundTripBridgeV1_36.lean": "6a2fceb562a53d13429dc8f839d70a88547e7643",

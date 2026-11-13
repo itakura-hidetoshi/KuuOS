@@ -28,6 +28,7 @@ import KUOS.DependentOriginationStandardTypeAScaledLeibnizPushoutV1_55
 import KUOS.DependentOriginationStandardTypeBThreeSimplexCompletionV1_57
 import KUOS.DependentOriginationStandardTypeCCollapsedEdgeV1_58
 import KUOS.PinnedMathlibUnionProdProofPortV1_61
+import KUOS.PinnedMathlibUnionProdInnerPairingCoreV1_61
 
 /-!
 # Strict typechecker audit for v1.30–v1.32 typed scaled-horn repair
