@@ -13,6 +13,8 @@ open Opposite
 open Simplicial
 open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
 open KUOS.DependentOriginationScaledHornAttachmentLiftingV1_40
+open KUOS.DependentOriginationScaledTerminalRLPV1_41
+open KUOS.DependentOriginationScaledAnodyneAttachmentFactorizationV1_48
 open KUOS.DependentOriginationStandardTypeAScaledHornFamilyV1_49
 open KUOS.DependentOriginationStandardTypeAEndpointPushoutProductV1_50
 open KUOS.DependentOriginationStandardTypeAScaledPushoutSourceEnrichmentV1_53
@@ -66,6 +68,7 @@ repository's pinned Mathlib revision.
 theorem intervalEndpoint_le_boundary (epsilon : Fin 2) :
     (intervalEndpoint epsilon : (Δ[1] : SSet.{u}).Subcomplex) <=
       (∂Δ[1] : (Δ[1] : SSet.{u}).Subcomplex) := by
+  unfold intervalEndpoint
   rw [SSet.Subcomplex.ofSimplex_le_iff]
   rw [SSet.boundary_obj_eq_univ 0 1 (by omega)]
   exact Set.mem_univ _
@@ -86,7 +89,8 @@ theorem standardTypeAEndpointPrism_le_boundaryPrism
     (SSet.horn g.n g.i).unionProd (intervalEndpoint g.endpoint) <=
       standardTypeABoundaryPrismSubcomplex g := by
   intro d z hz
-  rw [SSet.Subcomplex.mem_unionProd_iff] at hz ⊢
+  rw [SSet.Subcomplex.mem_unionProd_iff] at hz
+  rw [standardTypeABoundaryPrismSubcomplex, SSet.Subcomplex.mem_unionProd_iff]
   rcases hz with hz | hz
   · exact Or.inl (intervalEndpoint_le_boundary g.endpoint _ hz)
   · exact Or.inr hz
@@ -115,7 +119,7 @@ theorem standardTypeAEndpointToBoundaryPrismMap_ι
 
 /-- The intermediate boundary prism carries exactly the pullback of the
 canonical standard type-(A) cylinder scaling. -/
-def standardTypeABoundaryPrismScaling
+@[reducible] def standardTypeABoundaryPrismScaling
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
     ScaledSimplicialSet
       (standardTypeABoundaryPrismSubcomplex g : SSet.{u}) :=
