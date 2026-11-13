@@ -60,7 +60,7 @@ theorem scaling_eq_of_thin_iff
 
 /-- Cartesian-product scaling: a 2-simplex of `X x Y` is thin exactly when
 both coordinate 2-simplices are thin. -/
-def cartesianProductScaling
+@[reducible] def cartesianProductScaling
     {X Y : SSet.{u}}
     (sX : ScaledSimplicialSet X)
     (sY : ScaledSimplicialSet Y) :
@@ -148,8 +148,12 @@ theorem scaledSimplex_product_interval_eq_cylinder
     (sI : ScaledSimplicialSet (Δ[1] : SSet.{u})) :
     scaledCartesianProduct (scaledSimplex sΔ) (scaledInterval sI) =
       scaledSimplexCylinder sΔ := by
-  unfold scaledCartesianProduct scaledInterval scaledSimplex scaledSimplexCylinder
-  rw [cartesianProductScaling_interval_eq_simplexCylinderScaling sΔ sI]
+  change ScaledSSet.of ((Δ[n] : SSet.{u}) ⊗ Δ[1])
+      (cartesianProductScaling sΔ sI) =
+    ScaledSSet.of ((Δ[n] : SSet.{u}) ⊗ Δ[1]) (simplexCylinderScaling sΔ)
+  exact congrArg
+    (fun s => ScaledSSet.of ((Δ[n] : SSet.{u}) ⊗ Δ[1]) s)
+    (cartesianProductScaling_interval_eq_simplexCylinderScaling sΔ sI)
 
 /-- Specialization to the standard type-(A) simplex scaling. -/
 theorem standardTypeAScaledSimplex_product_interval_eq_cylinder
@@ -175,6 +179,7 @@ theorem standardTypeAEndpointPushoutProductSource_scaling_eq_pullback_product
   unfold standardTypeAEndpointPushoutProductSource
   rw [cartesianProductScaling_interval_eq_simplexCylinderScaling
     (standardTypeASimplexScaling g.i) sI]
+  rfl
 
 /-!
 The type-(A) comparison spine now has a genuinely scaled cartesian target:

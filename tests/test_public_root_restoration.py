@@ -42,6 +42,8 @@ PR2339_INTEGRATED_PROOF_BLOBS = {
 # The original full source and both proof transitions are preserved in Git history.
 # Explicit SHA enrollment is a review gate, never proof of Lean correctness.
 REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
+    # v1.52 fixed class transparency and explicit typed scaled-product equalities.
+    "KUOS/DependentOriginationScaledCartesianIntervalCylinderV1_52.lean": "3801fb128d4dc08f5c488d890aaae82fbe6e8cc3",
     # Reviewed v1.51: use pinned PushoutObjObj inl_ι/inr_ι equations; frozen legacy unchanged.
     "KUOS/DependentOriginationStandardTypeANativeLeibnizLiftingMateV1_51.lean": "ed074ccd29f3b1ece21d5d4a1b5b136cf8a3400a",
     # v1.50: qualify local endpoint horn index conversion, include proof witness K.
