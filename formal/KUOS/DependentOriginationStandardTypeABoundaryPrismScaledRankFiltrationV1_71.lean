@@ -222,6 +222,25 @@ def standardTypeABoundaryPrismScaledCellSourceToRankStage
     rw [c.mapHorn_ι]
     exact ht
 
+/-- The pinned rank-cell successor map preserves the ambient 2-simplex
+evaluation, with no syntactic rewriting of a nested natural-transformation
+application. -/
+private theorem standardTypeABoundaryPrism_cell_mapToSucc_app
+    (g : StandardTypeAHornAttachmentGeneratorIndex)
+    (j : ℕ)
+    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)
+    (t : (Δ[c.dim + 1] : SSet.{u}).obj (op ⦋2⦌)) :
+    (((standardTypeABoundaryPrismRankFunction g).filtration (j + 1)).ι.app
+        (op ⦋2⦌) (c.mapToSucc.app (op ⦋2⦌) t)) =
+      c.map.app (op ⦋2⦌) t := by
+  have hcomp :
+      c.mapToSucc ≫
+          ((standardTypeABoundaryPrismRankFunction g).filtration (j + 1)).ι =
+        c.map := by
+    simpa only [Nat.succ_eq_add_one] using c.mapToSucc_ι
+  simpa only [NatTrans.comp_app_apply] using
+    congrArg (fun f => f.app (op ⦋2⦌) t) hcomp
+
 /-- The exact target simplex of a rank cell maps to the next scaled rank stage. -/
 def standardTypeABoundaryPrismScaledCellTargetToRankSucc
     (g : StandardTypeAHornAttachmentGeneratorIndex)
@@ -236,12 +255,7 @@ def standardTypeABoundaryPrismScaledCellTargetToRankSucc
       (scaledSimplexCylinder (standardTypeASimplexScaling g.i)).scaling.thin
         (((standardTypeABoundaryPrismRankFunction g).filtration (j + 1)).ι.app
           (op ⦋2⦌) (c.mapToSucc.app (op ⦋2⦌) t))
-    change
-      (scaledSimplexCylinder (standardTypeASimplexScaling g.i)).scaling.thin
-        ((c.mapToSucc ≫
-          ((standardTypeABoundaryPrismRankFunction g).filtration (Nat.succ j)).ι).app
-            (op ⦋2⦌) t)
-    rw [c.mapToSucc_ι]
+    rw [standardTypeABoundaryPrism_cell_mapToSucc_app g j c t]
     exact ht
 
 /-- Pulling the next-stage scaling back along the cell target map recovers
@@ -261,15 +275,15 @@ theorem standardTypeABoundaryPrismRankSuccScaling_pullback_cell
       (scaledSimplexCylinder (standardTypeASimplexScaling g.i)).scaling.thin
         (((standardTypeABoundaryPrismRankFunction g).filtration (j + 1)).ι.app
           (op ⦋2⦌) (c.mapToSucc.app (op ⦋2⦌) t)) at ht
-    rw [← NatTrans.comp_app_apply] at ht
-    simpa only [Nat.succ_eq_add_one, c.mapToSucc_ι] using ht
+    rw [standardTypeABoundaryPrism_cell_mapToSucc_app g j c t] at ht
+    exact ht
   · intro t ht
     change
       (scaledSimplexCylinder (standardTypeASimplexScaling g.i)).scaling.thin
         (((standardTypeABoundaryPrismRankFunction g).filtration (j + 1)).ι.app
           (op ⦋2⦌) (c.mapToSucc.app (op ⦋2⦌) t))
-    rw [← NatTrans.comp_app_apply]
-    simpa only [Nat.succ_eq_add_one, c.mapToSucc_ι] using ht
+    rw [standardTypeABoundaryPrism_cell_mapToSucc_app g j c t]
+    exact ht
 
 /-!
 At this point the ordinary rank filtration has a canonical scaled lift and
