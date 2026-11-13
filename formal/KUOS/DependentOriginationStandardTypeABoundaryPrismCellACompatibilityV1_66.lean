@@ -6,6 +6,7 @@ open CategoryTheory
 open Opposite
 open Simplicial
 open KUOS.DependentOriginationScaledTerminalRLPV1_41
+open KUOS.DependentOriginationGlobalDuskinScaledHornCoherenceV1_22
 open KUOS.DependentOriginationScaledAnodyneAttachmentFactorizationV1_48
 open KUOS.DependentOriginationStandardTypeAScaledHornFamilyV1_49
 open KUOS.DependentOriginationStandardTypeABoundaryPrismRelativeCellV1_61
@@ -78,10 +79,13 @@ theorem minimalScaling_stdSimplex_thin_of_zero_eq_one
     (h01 : t 0 = t 1) :
     (minimalScaling (Δ[n] : SSet.{u})).thin t := by
   refine Or.inl ⟨(Δ[n] : SSet.{u}).δ (0 : Fin 3) t, ?_⟩
+  obtain ⟨f, rfl⟩ := SSet.stdSimplex.objEquiv.symm.surjective t
   apply SSet.stdSimplex.ext
   intro a
   fin_cases a <;>
-    simp [SSet.stdSimplex.σ_apply, SSet.stdSimplex.δ_apply, h01]
+    simp [SSet.stdSimplex.σ_objEquiv_symm_apply,
+      SSet.stdSimplex.δ_objEquiv_symm_apply,
+      SSet.stdSimplex.objEquiv_symm_apply, h01]
 
 /-! ## First-coordinate map of a core type-(I) walk -/
 
@@ -138,6 +142,8 @@ theorem unionProdPairingCore_typeOne_distinguished_firstCoordinate_thin
     have hpq : s.index.castSucc ≤ q := le_of_not_gt hnot
     have hmono :=
       SSet.stdSimplex.monotone_apply (s.x.cast s.hd).simplex.1 hpq
+    change (s.x.cast s.hd).simplex.1 s.index.castSucc ≤
+      (s.x.cast s.hd).simplex.1 q at hmono
     rw [s.isIndex.simplex_fst_castSucc, hq] at hmono
     change k.val ≤ km1.val at hmono
     dsimp [km1] at hmono
@@ -154,9 +160,13 @@ theorem unionProdPairingCore_typeOne_distinguished_firstCoordinate_thin
     omega
   have hlower :=
     SSet.stdSimplex.monotone_apply (s.x.cast s.hd).simplex.1 hq_le_t0
+  change (s.x.cast s.hd).simplex.1 q ≤
+    (s.x.cast s.hd).simplex.1 (t 0) at hlower
   rw [hq] at hlower
   have hupper :=
     SSet.stdSimplex.monotone_apply (s.x.cast s.hd).simplex.1 ht0_le_index
+  change (s.x.cast s.hd).simplex.1 (t 0) ≤
+    (s.x.cast s.hd).simplex.1 s.index.castSucc at hupper
   rw [s.isIndex.simplex_fst_castSucc] at hupper
   have hpred_or_eq :
       (s.x.cast s.hd).simplex.1 (t 0) = km1 ∨
@@ -238,17 +248,16 @@ theorem unionProdPairing_typeTwo_firstCoordinate_scaled
     {m : ℕ}
     (k : Fin (m + 1))
     (hk0 : 0 < k.castSucc)
-    (z : (SSet.prodStdSimplex.pairing.{u} k.castSucc 1).II) :
+    (z : (SSet.prodStdSimplex.pairingCore.{u} k 1).pairing.II) :
     IsScaledMap
       (standardTypeASimplexScaling
-        ((SSet.prodStdSimplex.pairing.{u} k.castSucc 1)
+        ((SSet.prodStdSimplex.pairingCore.{u} k 1).pairing
           .isUniquelyCodimOneFace z).index rfl)
       (standardTypeASimplexScaling k.castSucc)
       (SSet.yonedaEquiv.symm
-        (((SSet.prodStdSimplex.pairing.{u} k.castSucc 1).p z).val.cast
-          ((SSet.prodStdSimplex.pairing.{u} k.castSucc 1)
+        (((SSet.prodStdSimplex.pairingCore.{u} k 1).pairing.p z).val.cast
+          ((SSet.prodStdSimplex.pairingCore.{u} k 1).pairing
             .isUniquelyCodimOneFace z).dim_eq).simplex.1) := by
-  rw [SSet.prodStdSimplex.pairing_castSucc] at z ⊢
   obtain ⟨s, rfl⟩ :=
     (SSet.prodStdSimplex.pairingCore.{u} k 1).equivII.surjective z
   simpa [SSet.prodStdSimplex.pairingCore,
@@ -280,9 +289,8 @@ theorem standardTypeABoundaryPrismCellFirstCoordinate_scaled
   rcases g with ⟨n, i, h0, hn, endpoint⟩
   cases n with
   | zero =>
-      have hi : i = 0 := Subsingleton.elim _ _
-      subst i
-      simp at h0
+      have hbad : i.val < 0 := hn
+      exact False.elim (Nat.not_lt_zero _ hbad)
   | succ m =>
       have hilast : i ≠ Fin.last (m + 1) := ne_of_lt hn
       obtain ⟨k, rfl⟩ := Fin.eq_castSucc_of_ne_last hilast
@@ -301,8 +309,8 @@ theorem standardTypeABoundaryPrismCellACompatible_all
   intro t ht
   change
     (standardTypeASimplexScaling g.i).thin
-      ((standardTypeABoundaryPrismCellFirstCoordinateMap g j c)
-        .app (op ⦋2⦌) t)
+      ((standardTypeABoundaryPrismCellFirstCoordinateMap g j c).app
+        (op ⦋2⦌) t)
   exact standardTypeABoundaryPrismCellFirstCoordinate_scaled g j c t ht
 
 /-! ## High-dimensional cells are now unconditionally pure type-(A) -/
