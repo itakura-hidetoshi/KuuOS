@@ -271,7 +271,9 @@ def run_loop(*, root: pathlib.Path, rel_file: str, output_dir: pathlib.Path,
             if observation.success and not observation.errors:
                 gate = (direct_gate or direct_lean_gate)(root, rel_file, timeout=compile_timeout)
                 item["direct_lean"] = gate
-                if gate.get("exit_code") == 0 and len(FORBIDDEN_NEW.findall(candidate_path.read_text())) <= len(FORBIDDEN_NEW.findall(original)):
+                forbidden_final = FORBIDDEN_NEW.findall(candidate_path.read_text())
+                item["forbidden_final_count"] = len(forbidden_final)
+                if gate.get("exit_code") == 0 and not forbidden_final:
                     validated = candidate_path.read_bytes()
                     record["candidate_sha256"] = digest(validated)
                     record["status"] = "LOCAL_LEAN_GREEN_CANDIDATE_ONLY"
