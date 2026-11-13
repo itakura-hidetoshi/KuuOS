@@ -5,6 +5,8 @@ namespace KUOS.DependentOriginationScaledAnodyneAttachmentFactorizationV1_48
 open CategoryTheory
 open CategoryTheory.Category
 open Simplicial
+open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
+open KUOS.DependentOriginationGlobalDuskinScaledHornCoherenceV1_22
 open KUOS.DependentOriginationScaledHornAttachmentLiftingV1_40
 open KUOS.DependentOriginationScaledTerminalRLPV1_41
 open KUOS.DependentOriginationScaledAnodyneGeneratorClosureV1_42
@@ -213,6 +215,8 @@ variable
     {E : MorphismProperty (ScaledSSet.{u})}
     (K : CanonicalAttachmentFactorComparison E)
 
+include K
+
 /-- If both factors are externally generated-anodyne, then every original
 canonical attachment generator is externally generated-anodyne. -/
 theorem canonicalGenerators_le_externalGenerated :
@@ -247,6 +251,8 @@ namespace FactorizedScaledAnodyneGeneratorComparison
 variable
     {E : MorphismProperty (ScaledSSet.{u})}
     (K : FactorizedScaledAnodyneGeneratorComparison E)
+
+include K
 
 /-- Factor-level comparison data canonically produces the exact v1.46
 mutual-closure comparison certificate. -/
