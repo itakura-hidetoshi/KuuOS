@@ -520,8 +520,27 @@ lemma isType₂_δ : IsType₂ hl.δ := by
   refine ((prodStdSimplex.nonDegenerate_iff_strictMono_objEquiv _).1
     (x.cast hd).nonDegenerate t.castSucc.castSucc_lt_succ).ne ?_
   simp only [isIndex_succ] at hl ht
-  dsimp [stdSimplex.δ_apply] at hl ht ⊢
-  aesop
+  change
+    ((x.cast hd).simplex.1 t.castSucc.castSucc,
+      (x.cast hd).simplex.2 t.castSucc.castSucc) =
+    ((x.cast hd).simplex.1 t.castSucc.succ,
+      (x.cast hd).simplex.2 t.castSucc.succ)
+  apply Prod.ext
+  · have ha := ht.1
+    change
+      (Δ[m + 1].δ (t.succ.castSucc) (x.cast hd).simplex.1) t.castSucc =
+        k.castSucc at ha
+    rw [stdSimplex.δ_apply,
+      Fin.succAbove_of_castSucc_lt _ _ (by omega)] at ha
+    exact ha.trans hl.1.symm
+  · have hb := ht.2.2
+    change
+      (Δ[n].δ (t.succ.castSucc) (x.cast hd).simplex.2) t.succ =
+        (Δ[n].δ (t.succ.castSucc) (x.cast hd).simplex.2) t.castSucc at hb
+    rw [stdSimplex.δ_apply, stdSimplex.δ_apply,
+      Fin.succAbove_of_lt_succ _ _ (by omega),
+      Fin.succAbove_of_castSucc_lt _ _ (by omega)] at hb
+    exact hb.symm.trans hl.2.2
 
 -- historical Lean option backward.defeqAttrib.useBackward unavailable under pinned Lean; declaration remains fully checked
 variable {x} in
