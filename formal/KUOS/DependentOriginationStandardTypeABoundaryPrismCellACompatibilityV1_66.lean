@@ -278,24 +278,32 @@ theorem unionProdPairing_typeTwo_firstCoordinate_scaled
   have hindexCore :
       ((P.pairing.isUniquelyCodimOneFace (P.equivII s)).index rfl) =
         P.index s := by
-    -- Use the pinned PairingCore uniqueness theorem, not equality of
-    -- dependent casts. The pairing is induced by this very core.
-    simpa only [SSet.Subcomplex.PairingCore.pairing_p_equivII,
+    -- Transport the actual face equation into the public pairing.
+    -- The index is characterized by the pinned delta_eq_iff uniqueness lemma.
+    apply
+      ((P.pairing.isUniquelyCodimOneFace (P.equivII s)).δ_eq_iff
+        rfl (P.index s)).mp
+    simp only [SSet.Subcomplex.N.cast_eq_self,
+      SSet.Subcomplex.PairingCore.pairing_p_equivII,
       SSet.Subcomplex.PairingCore.equivI_apply_coe,
-      SSet.Subcomplex.PairingCore.equivII_apply_coe] using
-      P.isUniquelyCodimOneFace_index s
+      SSet.Subcomplex.PairingCore.equivII_apply_coe,
+      SSet.Subcomplex.PairingCore.type₁,
+      SSet.Subcomplex.PairingCore.type₂] <;> rfl
   have hindex :
       ((P.pairing.isUniquelyCodimOneFace (P.equivII s)).index rfl) =
         s.index.castSucc := by
     exact hindexCore.trans (by rfl)
-  -- Dependent casts require simp-based transport, not rw on the paired value.
-  simpa only [hindex, htypeOne,
-      SSet.Subcomplex.PairingCore.equivI_apply_coe,
+  -- The paired simplex, after eliminating its dimension cast, is precisely
+  -- the core type-(I) simplex; compare maps only after this normalization.
+  have hmap :
+      SSet.yonedaEquiv.symm
+        (((P.pairing.p (P.equivII s)).val.cast
+          (P.pairing.isUniquelyCodimOneFace (P.equivII s)).dim_eq).simplex.1) =
+        unionProdPairingCoreTypeOneFirstCoordinateMap k s := by
+    simp only [SSet.Subcomplex.N.cast_eq_self, htypeOne,
       SSet.Subcomplex.PairingCore.type₁,
-      SSet.Subcomplex.N.cast_eq_self,
-      SSet.S.cast_eq_self,
-      SSet.prodStdSimplex.pairingCore,
-      unionProdPairingCoreTypeOneFirstCoordinateMap] using
+      unionProdPairingCoreTypeOneFirstCoordinateMap] <;> rfl
+  simpa only [hindex, hmap] using
     unionProdPairingCore_typeOne_firstCoordinate_scaled k hk0 s
 
 /-! ## Every KuuOS boundary-prism cell is A-compatible -/
