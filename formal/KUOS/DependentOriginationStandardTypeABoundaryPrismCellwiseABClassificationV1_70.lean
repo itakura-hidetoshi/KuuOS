@@ -283,13 +283,15 @@ theorem standardTypeABoundaryPrism_cell_index_eq_generatorIndex_of_equal
   have hid :=
     standardTypeABoundaryPrismCellEqualFirstCoordinateEndomorphism_eq_id
       g j c heq
-  have happ := SimplexCategory.congr_toOrderHom_apply hid l.castSucc
-  rw [hl] at hfst
-  rw [hfst] at happ
-  apply Fin.ext
-  simpa [standardTypeABoundaryPrismCellEqualFirstCoordinateEndomorphism,
-    standardTypeABoundaryPrismCellFirstCoordinateOrdinal,
-    standardTypeABoundaryPrismEqualGeneratorIndex] using happ.symm
+  have happ :
+      Fin.cast (congrArg (fun n : ℕ => n + 1) heq.symm)
+        ((standardTypeABoundaryPrismCellPairedNondegenerate g j c).1.1 l.castSucc) =
+          l.castSucc := by
+    simpa [standardTypeABoundaryPrismCellEqualFirstCoordinateEndomorphism,
+      standardTypeABoundaryPrismCellFirstCoordinateOrdinal] using
+      (SimplexCategory.congr_toOrderHom_apply hid l.castSucc)
+  rw [hl, hfst] at happ
+  simpa [standardTypeABoundaryPrismEqualGeneratorIndex] using happ.symm
 
 /-- On every triangle, the equal-dimensional first-coordinate map is exactly
 canonical finite-ordinal transport. -/
@@ -312,8 +314,10 @@ theorem standardTypeABoundaryPrismCellFirstCoordinateMap_apply_of_equal
     simpa [standardTypeABoundaryPrismCellEqualFirstCoordinateEndomorphism]
       using hid
   have hpoint := SimplexCategory.congr_toOrderHom_apply hθ (t a)
+  apply Fin.ext
   simpa [standardTypeABoundaryPrismCellFirstCoordinateOrdinal,
-    standardTypeABoundaryPrismCellFirstCoordinateMap] using hpoint
+    standardTypeABoundaryPrismCellFirstCoordinateMap] using
+      (congrArg Fin.val hpoint)
 
 /-- Equal-dimensional cells have exact target scaling equal to their own
 standard type-(A) scaling. -/
@@ -444,6 +448,17 @@ theorem standardTypeABoundaryPrismCellAPushoutScaling_eq_hornSaturated_of_cell_m
     (congrArg (fun n : ℕ => ScaledSimplicialSet (Δ[n] : SSet.{u})) h3)
     s
 
+/-- Equality transport preserves the maximal scaling, proved at a free
+dimension index before specializing it to a dependent rank cell. -/
+private theorem transportMaximalScaledSimplicialSet
+    {n : ℕ} (h : n = 3) :
+    Eq.mp
+      (congrArg (fun d : ℕ => ScaledSimplicialSet (Δ[d] : SSet.{u})) h)
+      (ScaledSimplicialSet.maximal (Δ[n] : SSet.{u})) =
+        ScaledSimplicialSet.maximal (Δ[3] : SSet.{u}) := by
+  cases h
+  rfl
+
 /-- Transport commutes with maximal scaling. -/
 theorem standardTypeABoundaryPrismTransportScalingToThree_maximal
     (g : StandardTypeAHornAttachmentGeneratorIndex)
@@ -453,8 +468,7 @@ theorem standardTypeABoundaryPrismTransportScalingToThree_maximal
     standardTypeABoundaryPrismTransportScalingToThree g j c h3
         (ScaledSimplicialSet.maximal (Δ[c.dim + 1] : SSet.{u})) =
       ScaledSimplicialSet.maximal (Δ[3] : SSet.{u}) := by
-  cases h3
-  rfl
+  exact transportMaximalScaledSimplicialSet h3
 
 /-- The transported actual horn-saturated scaling is literally the fixed v1.69
 horn-saturated scaling at the transported cell index. -/
