@@ -42,6 +42,9 @@ PR2339_INTEGRATED_PROOF_BLOBS = {
 # The original full source and both proof transitions are preserved in Git history.
 # Explicit SHA enrollment is a review gate, never proof of Lean correctness.
 REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
+    # v1.54 exact horn-index constructor and dependent K retention; v1.55 corner class transparency.
+    "KUOS/DependentOriginationStandardTypeAGeneratedPushoutLLPDescentV1_54.lean": "7439f63c8a1c675b12ab235f8404cbb54d518c4d",
+    "KUOS/DependentOriginationStandardTypeAScaledLeibnizPushoutV1_55.lean": "676f93ef706996d9a52822153a5b04ad99b9f4f7",
     # v1.53: five class-valued generated/induced scaled sources require Lean reducibility.
     "KUOS/DependentOriginationStandardTypeAScaledPushoutSourceEnrichmentV1_53.lean": "2063b36e1f2dc77de5ff357a79e827031ce98c30",
     # v1.52 fixed class transparency and explicit typed scaled-product equalities.
