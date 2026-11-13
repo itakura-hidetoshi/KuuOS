@@ -14,6 +14,7 @@ open Simplicial
 open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
 open KUOS.DependentOriginationScaledHornAttachmentLiftingV1_40
 open KUOS.DependentOriginationScaledTerminalRLPV1_41
+open KUOS.DependentOriginationScaledTerminalRLPV1_41.ScaledSSet
 open KUOS.DependentOriginationScaledAnodyneGeneratorClosureV1_42
 open KUOS.DependentOriginationScaledAnodyneWFSUniversalityV1_43
 open KUOS.DependentOriginationScaledSmallObjectArgumentV1_44
@@ -115,7 +116,7 @@ variable {J : Type u} [Category.{u} J]
 
 /-- The least scaling on the underlying colimit containing every thin
 2-simplex coming from every object of the diagram. -/
-noncomputable def colimitScaling
+@[reducible] noncomputable def colimitScaling
     (D : J ⥤ ScaledSSet.{u})
     [HasColimit (D ⋙ forget)] :
     ScaledSimplicialSet (colimit (D ⋙ forget)) where
@@ -167,7 +168,7 @@ noncomputable def colimitCoconeIsColimit
     (D : J ⥤ ScaledSSet.{u})
     [HasColimit (D ⋙ forget)] : IsColimit (colimitCocone D) where
   desc s :=
-    { map := colimit.desc (forget.mapCocone s)
+    { map := colimit.desc (D ⋙ forget) (forget.mapCocone s)
       scaled := by
         intro t ht
         rcases ht with ⟨x, rfl⟩ | ⟨x, rfl⟩ | ⟨j, x, hx, rfl⟩
@@ -175,7 +176,7 @@ noncomputable def colimitCoconeIsColimit
           exact s.pt.scaling.thin_sigma_zero _
         · rw [SSet.σ_naturality_apply _ 1 x]
           exact s.pt.scaling.thin_sigma_one _
-        · have h := (s.ι.app j).scaled hx
+        · have h := (s.ι.app j).scaled x hx
           simpa [forget, colimitCocone, colimitLeg, colimitObj] using h }
   fac s j := by
     apply ScaledMap.ext
@@ -284,7 +285,7 @@ noncomputable instance canonicalScaled_isCardinalForSmallObjectArgument :
       Cardinal.aleph0.{u} where
   preservesColimit {A B X Y} i hi f hf := by
     have hA : IsFinitelyPresentable.{u} A := by
-      dsimp [scaledHornAttachmentGenerators] at hi
+      simp only [scaledHornAttachmentGenerators] at hi
       cases hi with
       | mk g =>
           dsimp [scaledHornAttachmentGeneratorHom]
@@ -301,12 +302,12 @@ noncomputable instance canonicalScaled_hasSmallObjectArgument :
 
 /-- The v1.43 generated pair is therefore an unconditional native weak
 factorization system. -/
-noncomputable def canonicalGeneratedScaledWeakFactorizationSystem_unconditional :
+@[reducible] noncomputable def canonicalGeneratedScaledWeakFactorizationSystem_unconditional :
     MorphismProperty.IsWeakFactorizationSystem
       (canonicalGeneratedScaledAnodyne : MorphismProperty (ScaledSSet.{u}))
       (canonicalGeneratedScaledFibration : MorphismProperty (ScaledSSet.{u})) :=
-  KUOS.DependentOriginationScaledSmallObjectArgumentV1_44.
-    canonicalGeneratedScaledWeakFactorizationSystem_of_smallObject inferInstance
+  KUOS.DependentOriginationScaledSmallObjectArgumentV1_44.canonicalGeneratedScaledWeakFactorizationSystem_of_smallObject
+    inferInstance
 
 /-- The canonical generated left class has the expected cellular description
 without any extra hypothesis. -/
@@ -316,8 +317,8 @@ theorem canonicalGeneratedScaledAnodyne_eq_cellularClosure_unconditional :
         (MorphismProperty.coproducts.{u}
           (scaledHornAttachmentGenerators : MorphismProperty
             (ScaledSSet.{u}))).pushouts).retracts :=
-  KUOS.DependentOriginationScaledSmallObjectArgumentV1_44.
-    canonicalGeneratedScaledAnodyne_eq_cellularClosure inferInstance
+  KUOS.DependentOriginationScaledSmallObjectArgumentV1_44.canonicalGeneratedScaledAnodyne_eq_cellularClosure
+    inferInstance
 
 /-!
 The complete lifting-theoretic spine is now theorem-level:
