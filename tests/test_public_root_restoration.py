@@ -43,7 +43,7 @@ PR2339_INTEGRATED_PROOF_BLOBS = {
 # Explicit SHA enrollment is a review gate, never proof of Lean correctness.
 REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
     # v1.72: pinned scaled-cellular namespaces and consistent rank-cell universe.
-    "KUOS/DependentOriginationStandardTypeABoundaryPrismRankwiseABCellularityV1_72.lean": "a00d30c1bab097b922eeff7beeb5aa2d0db7657e",
+    "KUOS/DependentOriginationStandardTypeABoundaryPrismRankwiseABCellularityV1_72.lean": "62073a19eb987dbf7072cd71eee79e827a3a474b",
     # v1.71: pinned rank-stage class transparency and exact category morphism equalities.
     "KUOS/DependentOriginationStandardTypeABoundaryPrismScaledRankFiltrationV1_71.lean": "1162f161439cf01947142b4188cb5fe80d71746c",
     # v1.70: pinned interior pairing core and class-valued scaling transparency.
