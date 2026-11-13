@@ -56,7 +56,7 @@ here that either piece is already standard scaled-anodyne.
 /-! ## Pulling a scaling back along a simplicial map -/
 
 /-- Pull a scaling on `Y` back along a simplicial map `f : X ⟶ Y`. -/
-def pullbackScaling
+@[reducible] def pullbackScaling
     {X Y : SSet.{u}}
     (sY : ScaledSimplicialSet Y)
     (f : X ⟶ Y) : ScaledSimplicialSet X where
@@ -83,7 +83,7 @@ theorem pullbackScaling_map
 
 /-- The scaling on the horn-cylinder attachment induced from the scaled
 cylinder along the underlying inclusion. -/
-def inducedHornCylinderAttachmentScaling
+@[reducible] def inducedHornCylinderAttachmentScaling
     {n : Nat}
     (i : Fin (n + 1))
     (ε : Fin 2)
@@ -136,9 +136,10 @@ theorem scaledHornCylinderAttachmentInclusion_factorization
         inducedScaledHornCylinderAttachmentInclusion i ε sΔ =
       scaledHornCylinderAttachmentInclusion i ε sΔ := by
   apply ScaledSSet.ScaledMap.ext
-  simp [minimalToInducedHornCylinderAttachment,
-    inducedScaledHornCylinderAttachmentInclusion,
-    scaledHornCylinderAttachmentInclusion]
+  change (𝟙 (hornCylinderAttachment n i ε : SSet.{u})) ≫
+      (hornCylinderAttachment n i ε).ι =
+        (hornCylinderAttachment n i ε).ι
+  simp
 
 /-! ## Factor the canonical generator family -/
 
@@ -223,6 +224,9 @@ theorem canonicalGenerators_le_externalGenerated :
     (scaledHornAttachmentGenerators : MorphismProperty (ScaledSSet.{u})) ≤
       externalGeneratedScaledAnodyne E := by
   intro A B f hf
+  letI : (externalGeneratedScaledAnodyne E).IsMultiplicative := by
+    dsimp [externalGeneratedScaledAnodyne]
+    infer_instance
   dsimp [scaledHornAttachmentGenerators] at hf
   cases hf with
   | mk g =>
