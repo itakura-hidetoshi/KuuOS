@@ -280,10 +280,11 @@ theorem unionProdPairing_typeTwo_firstCoordinate_scaled
         P.index s := by
     -- Transport the actual face equation into the public pairing.
     -- The index is characterized by the pinned delta_eq_iff uniqueness lemma.
+    symm
     apply
       ((P.pairing.isUniquelyCodimOneFace (P.equivII s)).δ_eq_iff
         rfl (P.index s)).mp
-    simp only [SSet.Subcomplex.N.cast_eq_self,
+    simp only [SSet.S.cast_eq_self, SSet.Subcomplex.N.cast_eq_self,
       SSet.Subcomplex.PairingCore.pairing_p_equivII,
       SSet.Subcomplex.PairingCore.equivI_apply_coe,
       SSet.Subcomplex.PairingCore.equivII_apply_coe,
@@ -300,7 +301,7 @@ theorem unionProdPairing_typeTwo_firstCoordinate_scaled
         (((P.pairing.p (P.equivII s)).val.cast
           (P.pairing.isUniquelyCodimOneFace (P.equivII s)).dim_eq).simplex.1) =
         unionProdPairingCoreTypeOneFirstCoordinateMap k s := by
-    simp only [SSet.Subcomplex.N.cast_eq_self, htypeOne,
+    simp only [SSet.S.cast_eq_self, SSet.Subcomplex.N.cast_eq_self, htypeOne,
       SSet.Subcomplex.PairingCore.type₁,
       unionProdPairingCoreTypeOneFirstCoordinateMap] <;> rfl
   simpa only [hindex, hmap] using
