@@ -92,9 +92,8 @@ theorem unionProdPairingCore_typeTwo_target_dim_ge_left
   change m + 1 ≤ s.d + 1
   have hcard := Fintype.card_le_of_surjective _
     (unionProdPairingCore_typeOne_fst_surjective k s)
-  simp only [Fintype.card_fin] at hcard
-  have hdim : s.x.dim = s.d + 1 := s.hd
-  have hdimCast : (s.x.cast s.hd).dim = s.d + 1 := rfl
+  have hcard' : m + 2 ≤ s.d + 2 := by
+    simpa only [Fintype.card_fin, SSet.Subcomplex.N.cast_eq_self, s.hd] using hcard
   omega
 
 /-- The same lower bound for the interior-horn pairing obtained from
