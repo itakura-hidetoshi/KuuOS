@@ -1,0 +1,210 @@
+name: KuuOS actual v1.56 theorem seeded-error MCP repair and independent CI v1
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/lean-mcp-real-v156-seeded-repair-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+
+jobs:
+  real-v156-mcp-repair:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v6
+      - name: Checkout immutable PR #3522 real source in disposable folder
+        uses: actions/checkout@v6
+        with:
+          ref: 6a6c95cfb1e30747e2b0e70f1ddd66ae7e596eed
+          path: target
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install uv and ripgrep
+        run: |
+          python3 -m pip install uv
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ripgrep
+      - name: Set up exact fixed Lean
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - uses: actions/cache@v5
+        with:
+          path: target/.lake
+          key: kuuos-real-v156-repair-6a6c95cf-v1
+          restore-keys: |
+            kuuos-real-four-v15659-
+            kuuos-pr3522-v15455-multifile-
+      - name: Prepare fixed Mathlib
+        working-directory: target
+        run: lake exe cache get
+      - name: Compile authentic upstream v1.55 dependency
+        working-directory: target
+        run: timeout 1200 lake build KUOS.DependentOriginationStandardTypeAScaledLeibnizPushoutV1_55
+      - name: Verify real Git blob and inject single seeded Lean proof failure
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import hashlib
+          from pathlib import Path
+          from scripts.check_kuuos_lean_lsp_mcp_compatibility_v7_17 import require_pins
+          root = Path('target').resolve()
+          require_pins(root)
+          path = root/'formal/KUOS/DependentOriginationStandardTypeBScalingPushoutV1_56.lean'
+          source = path.read_bytes()
+          actual = hashlib.sha1(f'blob {len(source)}\0'.encode()+source).hexdigest()
+          assert actual == 'eb3f6d6105989fe07f7bba70e8c7fc7c84b5e67a'
+          text = source.decode('utf-8')
+          anchor='  change f ≫ 𝟙 Y = 𝟙 X ≫ f\n  simp\n'
+          assert text.count(anchor)==1, 'proof anchor must be exactly one'
+          seeded=text.replace(anchor,'  change f ≫ 𝟙 Y = 𝟙 X ≫ f\n  skip\n',1)
+          assert seeded!=text
+          path.write_text(seeded,encoding='utf-8')
+          assert path.read_bytes()!=source
+          Path('/tmp/kuuos-v156-original.lean').write_bytes(source)
+          Path('/tmp/kuuos-v156-original.sha256').write_text(hashlib.sha256(source).hexdigest())
+          Path('/tmp/kuuos-v156-seeded.sha256').write_text(hashlib.sha256(path.read_bytes()).hexdigest())
+          print('KUUOS_REAL_V156_SEEDED_ERROR_EXACT_BLOB_BOUND')
+          PY
+          set +e
+          (cd target && lake env lean formal/KUOS/DependentOriginationStandardTypeBScalingPushoutV1_56.lean) > /tmp/kuuos-v156-seeded-error.log 2>&1
+          exit_code=$?
+          set -e
+          test "$exit_code" -ne 0
+          grep -Eq 'unsolved goals|error:' /tmp/kuuos-v156-seeded-error.log
+          echo KUUOS_REAL_V156_SEEDED_LEAN_ERROR_CONFIRMED
+      - name: Real MCP goal/tactic search -> exact-source repair -> direct Lean gate
+        run: |
+          set -euo pipefail
+          PYTHONPATH=. python3 scripts/kuuos_lean_mcp_repair_loop_v1.py \
+            --project-root target \
+            --file formal/KUOS/DependentOriginationStandardTypeBScalingPushoutV1_56.lean \
+            --source-sha256 "$(cat /tmp/kuuos-v156-seeded.sha256)" \
+            --output-dir /tmp/kuuos-v156-repair-export \
+            --provider mcp-tactic --max-iterations 3
+          python3 - <<'PY'
+          import hashlib,json
+          from pathlib import Path
+          root=Path('target')
+          path=root/'formal/KUOS/DependentOriginationStandardTypeBScalingPushoutV1_56.lean'
+          out=Path('/tmp/kuuos-v156-repair-export')
+          r=json.loads((out/'receipt.json').read_text())
+          baseline=Path('/tmp/kuuos-v156-original.lean').read_bytes()
+          seeded=Path('/tmp/kuuos-v156-seeded.sha256').read_text()
+          candidate=(out/'candidate.lean').read_bytes()
+          assert r['status']=='LOCAL_LEAN_GREEN_CANDIDATE_ONLY',r
+          assert r['source_restored'] is True and r['independent_ci_success'] is False
+          assert r['git_write_performed'] is False
+          assert r['original_sha256']==seeded
+          assert len(r['rounds'])>=2 and r['rounds'][0]['errors']>=1
+          assert r['rounds'][-1]['errors']==0
+          assert hashlib.sha256(path.read_bytes()).hexdigest()==seeded
+          assert candidate==baseline, 'MCP must recover original actual proof bytes'
+          assert 'sorry' not in candidate.decode('utf-8')
+          print('KUUOS_REAL_V156_MCP_REPAIRED_ORIGINAL_THEOREM_SOURCE')
+          # Restore unchanged authentic source in ephemeral checkout, too.
+          path.write_bytes(baseline)
+          assert path.read_bytes()==baseline
+          PY
+          mkdir -p mcp_v156_repair_export
+          cp /tmp/kuuos-v156-repair-export/receipt.json mcp_v156_repair_export/
+          cp /tmp/kuuos-v156-repair-export/candidate.lean mcp_v156_repair_export/
+          cp /tmp/kuuos-v156-original.sha256 mcp_v156_repair_export/original.sha256
+      - uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-real-v156-mcp-seeded-repair-v1
+          path: mcp_v156_repair_export/
+          if-no-files-found: error
+          retention-days: 14
+
+  independently-verify-v156:
+    needs: real-v156-mcp-repair
+    runs-on: ubuntu-22.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v6
+      - name: Checkout separate immutable real PR #3522 source
+        uses: actions/checkout@v6
+        with:
+          ref: 6a6c95cfb1e30747e2b0e70f1ddd66ae7e596eed
+          path: target
+          persist-credentials: false
+      - name: Independently set up fixed Lean
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - uses: actions/cache@v5
+        with:
+          path: target/.lake
+          key: kuuos-real-v156-independent-6a6c95cf-v1
+          restore-keys: |
+            kuuos-real-four-v15659-
+            kuuos-pr3522-v15455-multifile-
+      - name: Prepare independent pinned Mathlib
+        working-directory: target
+        run: lake exe cache get
+      - name: Import upstream v1.55 independently
+        working-directory: target
+        run: timeout 1200 lake build KUOS.DependentOriginationStandardTypeAScaledLeibnizPushoutV1_55
+      - uses: actions/download-artifact@v4
+        with:
+          name: kuuos-real-v156-mcp-seeded-repair-v1
+          path: /tmp/kuuos-v156-independent
+      - name: Verify candidate Git blob, source identity, independent Lean kernel and axioms
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+          from scripts.check_kuuos_lean_lsp_mcp_compatibility_v7_17 import require_pins
+          root=Path('target').resolve()
+          require_pins(root)
+          folder=Path('/tmp/kuuos-v156-independent')
+          candidate=(folder/'candidate.lean').read_bytes()
+          expected=(root/'formal/KUOS/DependentOriginationStandardTypeBScalingPushoutV1_56.lean').read_bytes()
+          original_sha=(folder/'original.sha256').read_text()
+          r=json.loads((folder/'receipt.json').read_text())
+          assert hashlib.sha256(expected).hexdigest()==original_sha
+          assert candidate==expected and r['candidate_sha256']==original_sha
+          assert r['status']=='LOCAL_LEAN_GREEN_CANDIDATE_ONLY'
+          assert r['source_restored'] is True and r['independent_ci_success'] is False
+          blob=hashlib.sha1(f'blob {len(candidate)}\0'.encode()+candidate).hexdigest()
+          assert blob=='eb3f6d6105989fe07f7bba70e8c7fc7c84b5e67a'
+          assert not any(x in candidate.decode('utf-8') for x in ('sorry','admit','unsafe'))
+          print('KUUOS_REAL_V156_INDEPENDENT_CANDIDATE_IDENTITY_SUCCESS')
+          PY
+          (cd target && lake env lean -o .lake/build/lib/lean/KUOS/DependentOriginationStandardTypeBScalingPushoutV1_56.olean formal/KUOS/DependentOriginationStandardTypeBScalingPushoutV1_56.lean)
+          printf 'import KUOS.DependentOriginationStandardTypeBScalingPushoutV1_56\n#print axioms KUOS.DependentOriginationStandardTypeBScalingPushoutV1_56.scalingEnrichmentPushout_commutes\n' > target/formal/KUOS/MCPRealV156AxiomAudit.lean
+          (cd target && lake env lean formal/KUOS/MCPRealV156AxiomAudit.lean) | tee /tmp/kuuos-real-v156-axioms.log
+          python3 - <<'PY'
+          import re
+          from pathlib import Path
+          s=Path('/tmp/kuuos-real-v156-axioms.log').read_text()
+          assert 'scalingEnrichmentPushout_commutes' in s
+          assert not any(bad in s for bad in ('sorryAx','unknown constant','error:','unsolved goals'))
+          m=re.search(r'depends on axioms: \[([^]]*)\]',s,re.S)
+          if m:
+              names={x.strip() for x in m.group(1).split(',')}
+              assert names <= {'propext','Classical.choice','Quot.sound'},names
+          else:
+              assert 'does not depend on any axioms' in s
+          print('KUUOS_REAL_V156_INDEPENDENT_KERNEL_AND_AXIOM_AUDIT_SUCCESS')
+          PY
