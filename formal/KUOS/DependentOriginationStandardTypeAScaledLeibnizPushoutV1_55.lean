@@ -87,7 +87,7 @@ def standardTypeAEndpointHornIntervalObject
 leg scaling along the horn inclusion in the simplex coordinate.  Because both
 legs themselves are restrictions of the same induced source scaling, the
 second corner map will preserve this scaling as well. -/
-def standardTypeAEndpointCornerScaling
+@[reducible] def standardTypeAEndpointCornerScaling
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
     ScaledSimplicialSet
       ((SSet.horn g.n g.i : SSet.{u}) ⊗
