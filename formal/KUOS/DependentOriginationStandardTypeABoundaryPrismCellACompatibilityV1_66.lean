@@ -270,23 +270,23 @@ theorem unionProdPairing_typeTwo_firstCoordinate_scaled
   obtain ⟨s, rfl⟩ := P.equivII.surjective z
   have hpair : P.pairing.p (P.equivII s) = P.equivI s :=
     P.pairing_p_equivII s
-  have hindex :
+  have hindexCore :
       ((P.pairing.isUniquelyCodimOneFace (P.equivII s)).index rfl) =
-        s.index.castSucc := by
-    -- The pinned PairingCore proves index uniqueness independently of the
-    -- particular proof term used by the induced Pairing.IsProper instance.
-    -- Reduce the paired equivalence before transporting the index.
+        P.index s := by
     simpa only [SSet.Subcomplex.PairingCore.pairing,
       Equiv.trans_apply, Equiv.symm_apply_apply,
       SSet.Subcomplex.PairingCore.equivI_apply_coe,
-      SSet.Subcomplex.PairingCore.equivII_apply_coe,
-      SSet.prodStdSimplex.pairingCore] using
+      SSet.Subcomplex.PairingCore.equivII_apply_coe] using
       (P.isUniquelyCodimOneFace_index s)
-  -- Transport the actual paired simplex first, so its dimension cast and the
-  -- face index are normalized before comparing the two scaled maps.
-  rw [hpair, hindex]
-  simpa only [SSet.Subcomplex.PairingCore.equivI_apply_coe,
-      SSet.Subcomplex.PairingCore.type₁, SSet.Subcomplex.N.cast_eq_self,
+  have hindex :
+      ((P.pairing.isUniquelyCodimOneFace (P.equivII s)).index rfl) =
+        s.index.castSucc := by
+    exact hindexCore.trans (by rfl)
+  -- Dependent casts require simp-based transport, not rw on the paired value.
+  simpa only [hindex, hpair,
+      SSet.Subcomplex.PairingCore.equivI_apply_coe,
+      SSet.Subcomplex.PairingCore.type₁,
+      SSet.Subcomplex.N.cast_eq_self,
       SSet.prodStdSimplex.pairingCore,
       unionProdPairingCoreTypeOneFirstCoordinateMap] using
     unionProdPairingCore_typeOne_firstCoordinate_scaled k hk0 s
