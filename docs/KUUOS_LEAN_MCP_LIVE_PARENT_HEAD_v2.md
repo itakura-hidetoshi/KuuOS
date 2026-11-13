@@ -41,8 +41,9 @@ read from a read-only checkout of that exact HEAD, using the already merged
    merged full-source engine verifies all changed blobs against on-disk
    bytes, snapshots the entire source/import closure and records original
    dependent signatures, known syntax/Lean errors and pinned API questions.
-7. Recheck the live PR head *after* the source inspection. If the parent
-   changes during analysis, the workflow fails with
+7. Recheck the live PR HEAD **and its base SHA** *after* the source inspection.
+   Either change can alter the relevant source-diff scope. If the parent
+   or its base changes during analysis, the workflow fails with
    `HEAD_DRIFT_OBSTRUCTION`, preserving source-bound historical evidence
    without claiming it belongs to the current revision.
 8. Publish the full evidence as an artifact. No source edits, model
