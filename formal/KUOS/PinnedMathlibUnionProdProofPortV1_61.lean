@@ -724,9 +724,9 @@ noncomputable def weakRankFunction {m : ℕ} (k : Fin (m + 1)) (n : ℕ) :
           s.1 (is.castSucc.succAbove i) = t.1 (it.succ.succAbove i) :=
         DFunLike.congr_fun (congr_arg Prod.fst hδ.symm) i
       have hSs (i : Fin (d + 1)) : i ∈ Sδ ↔ is.castSucc.succAbove i ∈ Ss := by
-        simp [Sδ, Ss, stdSimplex.δ_apply]
+        simp [Sδ, Ss, finset, prod_δ_fst, stdSimplex.δ_apply]
       have hSt (i : Fin (d + 1)) : i ∈ Sδ ↔ it.succ.succAbove i ∈ St := by
-        simp [Sδ, St, stdSimplex.δ_apply, hδ]
+        simp [Sδ, St, finset, prod_δ_fst, stdSimplex.δ_apply, hδ]
       suffices Ss.card = Sδ.card ∧ St.card = Sδ.card + 1 by grind
       constructor
       · suffices Ss = Finset.image is.castSucc.succAbove Sδ by
