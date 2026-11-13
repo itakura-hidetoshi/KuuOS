@@ -289,8 +289,8 @@ noncomputable abbrev δ (hl : IsIndex x hd l.succ) :
       obtain rfl | ⟨i, rfl⟩ := Fin.eq_self_or_eq_succAbove l.castSucc i
       · refine ⟨l, ?_⟩
         change (Δ[n].δ l.castSucc (x.cast hd).simplex.2) l = j
-        rw [stdSimplex.δ_apply, Fin.succAbove_castSucc_self,
-          hl.simplex_snd_succ, hi]
+        rw [stdSimplex.δ_apply, Fin.succAbove_castSucc_self]
+        exact hl.simplex_snd_succ.trans hi
       · exact ⟨_, hi⟩
     · obtain ⟨i, hi⟩ := mem_range_left x hd j hj
       dsimp at hi
@@ -506,6 +506,8 @@ lemma min_δ : min (d := d) hl.δ rfl = l := by
   · simp only [mem_finset_iff, Monoidal.tensorObj_obj, S.cast_dim,
       S.cast_simplex_rfl, prod_δ_fst, stdSimplex.δ_apply] at hy
     by_contra!
+    change (Δ[m + 1].δ l.castSucc (x.cast hd).simplex.1) y = k.succ at hy
+    rw [stdSimplex.δ_apply] at hy
     rw [Fin.succAbove_of_castSucc_lt _ _ (by grind)] at hy
     grind [(hl.succ_le_simplex_fst_iff y.castSucc).1 hy.symm.le]
 
