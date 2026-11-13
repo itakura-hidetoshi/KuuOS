@@ -266,12 +266,13 @@ def standardTypeCTriangle01nInHorn (m : Nat) :
         intro h
         have hv := congrArg Fin.val h
         norm_num [Fin.val_last, Nat.mod_eq_of_lt hlt] at hv <;> omega
-      have hlast_val :
-          (Fin.last (m + 3) : Fin (m + 4)).val = m + 3 := rfl
-      fin_cases j <;>
-        simp [standardTypeCTriangle01n, hlast,
-          SSet.stdSimplex.coe_triangle_down_toOrderHom,
-          Nat.mod_eq_of_lt hlt] <;> trace_state <;> omega
+      fin_cases j
+      · change (0 : Fin (m + 4)) ≠ (2 : Fin (m + 4))
+        norm_num
+      · change (1 : Fin (m + 4)) ≠ (2 : Fin (m + 4))
+        norm_num
+      · change (Fin.last (m + 3) : Fin (m + 4)) ≠ (2 : Fin (m + 4))
+        exact hlast
     exact
       (SSet.face_le_horn
         (2 : Fin (m + 4)) (0 : Fin (m + 4)) (by
