@@ -24,8 +24,8 @@ namespace SSet
 namespace prodStdSimplex
 open pairingCore
 
-/-- A weak rank function for `pairingCore k n`. -/
 set_option backward.isDefEq.respectTransparency false in
+/-- A weak rank function for `pairingCore k n`. -/
 noncomputable def weakRankFunction {m : ℕ} (k : Fin (m + 1)) (n : ℕ) :
     (pairingCore.{u} k n).WeakRankFunction ℕ where
   rank s := (finset s.x rfl).card
@@ -80,12 +80,26 @@ noncomputable def weakRankFunction {m : ℕ} (k : Fin (m + 1)) (n : ℕ) :
           simp [hSt, this]
         · simp [hSt]
 
-instance {m : ℕ} (k : Fin (m + 1)) (n : ℕ) :
-    (pairingCore.{u} k n).IsRegular :=
-  (weakRankFunction.{u} k n).isRegular
+/-! The pinned Rank API lacks the later `PairingCore.WeakRankFunction.isRegular`
+lemma. Properness of the core remains an explicit, separate proof obligation. -/
+
+/-- Conditional regularity from the weak rank, without assuming a
+nonexistent pinned API or claiming properness of this particular core. -/
+theorem pairingCore_isRegular_of_proper {m : ℕ} (k : Fin (m + 1)) (n : ℕ)
+    [(pairingCore.{u} k n).IsProper] :
+    (pairingCore.{u} k n).IsRegular where
+  wf := by
+    let h := pairingCore.{u} k n
+    have hwf : WellFounded h.pairing.AncestralRel :=
+      ((h.weakRankFunctionEquiv ℕ) (weakRankFunction.{u} k n)).wf_ancestralRel
+    rw [wellFounded_iff_isEmpty_descending_chain] at hwf ⊢
+    exact ⟨fun ⟨f, hf⟩ ↦ hwf.false
+      ⟨fun j ↦ h.equivII (f j), fun j ↦
+        (h.ancestralRel_iff _ _).1 (hf j)⟩⟩
 
 
 #print axioms weakRankFunction
+#print axioms pairingCore_isRegular_of_proper
 
 end prodStdSimplex
 end SSet

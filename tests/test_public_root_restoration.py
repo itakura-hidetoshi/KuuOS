@@ -139,7 +139,7 @@ REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
 # exact draft source blobs are reviewed separately from historical corrections.
 REVIEWED_ADDITIVE_FORMAL_BLOBS = {
     # v1.61: typed pairing-core weak rank / regularity, not full UnionProd.
-    "KUOS/PinnedMathlibUnionProdWeakRankV1_61.lean": "0bd8817bde9d2d0d3a1dde8f503d854a87432544",
+    "KUOS/PinnedMathlibUnionProdWeakRankV1_61.lean": "7a002796c1b3971963f7168570282df000d4e03f",
     # v1.61: pinned inner-horn property, independent of full UnionProd regularity.
     "KUOS/PinnedMathlibUnionProdInnerPairingCoreV1_61.lean": "ece7c5a8291e6846d5c44c1e5e2f5d6ad546682d",
     # Partial pinned UnionProd proof port: pairingCore only; regularity and end-to-end v1.61 remain unverified.
