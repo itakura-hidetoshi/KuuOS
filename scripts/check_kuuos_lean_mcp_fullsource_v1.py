@@ -197,14 +197,42 @@ def classify_diagnostic(message: str) -> dict:
 
 
 def ci_diagnostics(log: str) -> tuple[list[dict], bool]:
+    """Preserve bounded *complete compiler diagnostic blocks*, not error lines.
+
+    GitHub Actions stamps each line. Subgoals, actual/expected types, and
+    unfolding context are normally in following lines, so a single-line
+    parser would discard the very elaboration evidence the repair needs.
+    """
     errors: list[dict] = []
-    for row in log.splitlines():
+    active: dict | None = None
+    continuation: list[str] = []
+
+    def finish() -> None:
+        nonlocal active, continuation
+        if active is not None:
+            active['message'] = '\n'.join(continuation)[:6500]
+            active['diagnostic_truncated'] = len(continuation) >= 55 or len('\n'.join(continuation)) > 6500
+            active.update(classify_diagnostic(active['message']))
+            errors.append(active)
+        active = None
+        continuation = []
+
+    for raw in log.splitlines():
+        row = re.sub(r'^20\d\d-\d\d-\d\dT[^\s]+Z\s+', '', raw)
         m = ERROR_LINE.search(row)
         if m:
-            e = {'path': m.group('path'), 'line': int(m.group('line')),
-                 'column': int(m.group('column')), 'message': m.group('message')[:2000]}
-            e.update(classify_diagnostic(e['message']))
-            errors.append(e)
+            finish()
+            active = {'path': m.group('path'), 'line': int(m.group('line')),
+                      'column': int(m.group('column'))}
+            continuation = [m.group('message')]
+        elif active is not None:
+            if (row.startswith(('error: ', 'Some required targets', '##[error]',
+                                'Build completed', 'error Lean'))
+                    or len(continuation) >= 55):
+                finish()
+            else:
+                continuation.append(row)
+    finish()
     timeout = bool(re.search(r'"return_code"\s*:\s*124|exit code 124|timed out', log, re.I))
     return errors, timeout
 
