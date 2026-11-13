@@ -42,6 +42,8 @@ PR2339_INTEGRATED_PROOF_BLOBS = {
 # The original full source and both proof transitions are preserved in Git history.
 # Explicit SHA enrollment is a review gate, never proof of Lean correctness.
 REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
+    # v1.58: exact native pushout span witnesses, without changing the frozen legacy snapshot.
+    "KUOS/DependentOriginationStandardTypeCCollapsedEdgeV1_58.lean": "b64b22247f393725d8cd62d0ed9463bd987b1d6a",
     # v1.57: exact scaled-map namespace and four class-returning collapse scalings.
     "KUOS/DependentOriginationStandardTypeBThreeSimplexCompletionV1_57.lean": "735fc7afffc7806bf6eac41c6c8fdc60a6cea95a",
     # v1.56: fixed IsScaledMap namespace, four class-result transparency and typed IsColimit.mk.
