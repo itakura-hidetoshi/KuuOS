@@ -124,7 +124,7 @@ structure StandardTypeAEndpointGeneratedPushoutProductStable
     (L : MorphismProperty (ScaledSSet.{u})) : Prop where
   pushoutProduct_mem :
     ∀ g : StandardTypeAHornAttachmentGeneratorIndex,
-      L (standardTypeAScaledHornGeneratorHom g.toHornGenerator) →
+      L (standardTypeAScaledHornGeneratorHom (StandardTypeAHornAttachmentGeneratorIndex.toHornGenerator g)) →
       L (standardTypeAEndpointGeneratedPushoutProductHom g)
 
 /-! ## Orthogonal left classes only need least-generated stability -/
@@ -160,6 +160,8 @@ namespace StandardTypeAExternalGeneratedPushoutComparison
 variable
     {E : MorphismProperty (ScaledSSet.{u})}
     (K : StandardTypeAExternalGeneratedPushoutComparison E)
+
+include K
 
 /-- Least-generated endpoint stability induces the older v1.50 comparison
 interface automatically. -/
