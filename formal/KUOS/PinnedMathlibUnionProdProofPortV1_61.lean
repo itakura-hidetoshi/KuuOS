@@ -275,7 +275,7 @@ noncomputable abbrev δ (hl : IsIndex x hd l.succ) :
     exact Fin.succAbove_right_injective
       (hinj (by simpa only [prodStdSimplex.objEquiv_δ_apply] using hab))
   notMem := by
-    dsimp
+    simp only [Monoidal.tensorObj_obj]
     -- `simp? [Subcomplex.mem_unionProd_iff, mem_boundary_iff_notMem_range,
     --   mem_horn_iff_notMem_range,stdSimplex.δ_apply]` says:
     simp only [Subcomplex.mem_unionProd_iff, prod_δ_snd, mem_boundary_iff_notMem_range,
