@@ -71,8 +71,7 @@ theorem unionProdPairing_typeTwo_fst_surjective
     (z : ((SSet.prodStdSimplex.pairingCore.{u} k 1).pairing).II) :
     Function.Surjective
       ((((SSet.prodStdSimplex.pairingCore.{u} k 1).pairing).p z).val.cast
-        (((SSet.prodStdSimplex.pairingCore.{u} k 1).pairing)
-          .isUniquelyCodimOneFace z).dim_eq).simplex.1 := by
+        (((SSet.prodStdSimplex.pairingCore.{u} k 1).pairing.isUniquelyCodimOneFace z).dim_eq).simplex.1 := by
   obtain ⟨s, rfl⟩ :=
     (SSet.prodStdSimplex.pairingCore.{u} k 1).equivII.surjective z
   simpa [SSet.prodStdSimplex.pairingCore] using
@@ -87,15 +86,12 @@ theorem unionProdPairing_typeTwo_index_transition
     (z : ((SSet.prodStdSimplex.pairingCore.{u} k 1).pairing).II) :
     ∃ l : Fin (z.val.dim + 1),
       l.castSucc =
-          (((SSet.prodStdSimplex.pairingCore.{u} k 1).pairing)
-            .isUniquelyCodimOneFace z).index rfl ∧
+          (((SSet.prodStdSimplex.pairingCore.{u} k 1).pairing.isUniquelyCodimOneFace z).index rfl ∧
         ((((SSet.prodStdSimplex.pairingCore.{u} k 1).pairing).p z).val.cast
-          (((SSet.prodStdSimplex.pairingCore.{u} k 1).pairing)
-            .isUniquelyCodimOneFace z).dim_eq).simplex.1 l.castSucc =
+          (((SSet.prodStdSimplex.pairingCore.{u} k 1).pairing.isUniquelyCodimOneFace z).dim_eq).simplex.1 l.castSucc =
             k.castSucc ∧
         ((((SSet.prodStdSimplex.pairingCore.{u} k 1).pairing).p z).val.cast
-          (((SSet.prodStdSimplex.pairingCore.{u} k 1).pairing)
-            .isUniquelyCodimOneFace z).dim_eq).simplex.1 l.succ =
+          (((SSet.prodStdSimplex.pairingCore.{u} k 1).pairing.isUniquelyCodimOneFace z).dim_eq).simplex.1 l.succ =
             k.succ := by
   obtain ⟨s, rfl⟩ :=
     (SSet.prodStdSimplex.pairingCore.{u} k 1).equivII.surjective z
@@ -244,9 +240,8 @@ theorem standardTypeABoundaryPrismCellFirstCoordinateMap_apply_of_equal
     (heq : c.dim + 1 = g.n)
     (t : (Δ[c.dim + 1] : SSet.{u}).obj (op ⦋2⦌))
     (a : Fin 3) :
-    ((standardTypeABoundaryPrismCellFirstCoordinateMap g j c)
-      .app (op ⦋2⦌) t) a =
-      Fin.cast (by omega) (t a) := by
+    ((standardTypeABoundaryPrismCellFirstCoordinateMap g j c).app (op ⦋2⦌) t) a =
+      Fin.cast (congrArg (fun n : ℕ => n + 1) heq) (t a) := by
   have hid :=
     standardTypeABoundaryPrismCellEqualFirstCoordinateEndomorphism_eq_id
       g j c heq
@@ -273,8 +268,7 @@ theorem standardTypeABoundaryPrismCellScaling_eq_standardTypeA_of_equal
   · intro t ht
     change
       (standardTypeASimplexScaling g.i).thin
-        ((standardTypeABoundaryPrismCellFirstCoordinateMap g j c)
-          .app (op ⦋2⦌) t) at ht
+        ((standardTypeABoundaryPrismCellFirstCoordinateMap g j c).app (op ⦋2⦌) t) at ht
     rw [standardTypeABoundaryPrism_cell_index_eq_generatorIndex_of_equal
       g j c heq]
     rcases ht with hmin | hdist
@@ -299,16 +293,14 @@ theorem standardTypeABoundaryPrismCellScaling_eq_standardTypeA_of_equal
         simpa [standardTypeABoundaryPrismEqualGeneratorIndex] using h
       · have h := hdist.2.1
         change
-          (((standardTypeABoundaryPrismCellFirstCoordinateMap g j c)
-            .app (op ⦋2⦌) t) 0).val + 1 = g.i.val at h
+          (((standardTypeABoundaryPrismCellFirstCoordinateMap g j c).app (op ⦋2⦌) t) 0).val + 1 = g.i.val at h
         rw [standardTypeABoundaryPrismCellFirstCoordinateMap_apply_of_equal
           g j c heq t 0] at h
         simpa [standardTypeABoundaryPrismEqualGeneratorIndex] using h
       · have h := hdist.2.2
         change
           g.i.val + 1 =
-            (((standardTypeABoundaryPrismCellFirstCoordinateMap g j c)
-              .app (op ⦋2⦌) t) 2).val at h
+            (((standardTypeABoundaryPrismCellFirstCoordinateMap g j c).app (op ⦋2⦌) t) 2).val at h
         rw [standardTypeABoundaryPrismCellFirstCoordinateMap_apply_of_equal
           g j c heq t 2] at h
         simpa [standardTypeABoundaryPrismEqualGeneratorIndex] using h
