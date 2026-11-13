@@ -43,7 +43,7 @@ PR2339_INTEGRATED_PROOF_BLOBS = {
 # Explicit SHA enrollment is a review gate, never proof of Lean correctness.
 REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
     # v1.70: pinned interior pairing core and class-valued scaling transparency.
-    "KUOS/DependentOriginationStandardTypeABoundaryPrismCellwiseABClassificationV1_70.lean": "5b29bb454c5075c3f00e5afa5452c25d3583b64a",
+    "KUOS/DependentOriginationStandardTypeABoundaryPrismCellwiseABClassificationV1_70.lean": "8b321c3bd062aecce90d7dcdbaeba4c8f3531dda",
     # v1.69: pinned horn subcomplex membership, scaled class transparency, explicit universe in residual table.
     "KUOS/DependentOriginationStandardTypeABoundaryPrismThreeResidualClassificationV1_69.lean": "8d235658c173045070a056dd9fac7627059847ed",
     # v1.67: pinned Fin degeneracy evaluation and explicit scaling equality

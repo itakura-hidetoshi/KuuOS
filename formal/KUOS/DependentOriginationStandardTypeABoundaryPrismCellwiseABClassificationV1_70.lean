@@ -290,8 +290,8 @@ theorem standardTypeABoundaryPrism_cell_index_eq_generatorIndex_of_equal
     simpa [standardTypeABoundaryPrismCellEqualFirstCoordinateEndomorphism,
       standardTypeABoundaryPrismCellFirstCoordinateOrdinal] using
       (SimplexCategory.congr_toOrderHom_apply hid l.castSucc)
-  rw [hl, hfst] at happ
-  simpa [standardTypeABoundaryPrismEqualGeneratorIndex] using happ.symm
+  rw [← hl, hfst] at happ
+  simpa [standardTypeABoundaryPrismEqualGeneratorIndex, hl] using happ.symm
 
 /-- On every triangle, the equal-dimensional first-coordinate map is exactly
 canonical finite-ordinal transport. -/
@@ -336,25 +336,39 @@ theorem standardTypeABoundaryPrismCellScaling_eq_standardTypeA_of_equal
     rw [standardTypeABoundaryPrism_cell_index_eq_generatorIndex_of_equal
       g j c heq]
     rcases ht with hmin | hdist
-    · left
-      rcases hmin with ⟨x, hx⟩ | ⟨x, hx⟩
-      · left
-        refine ⟨(Δ[c.dim + 1] : SSet.{u}).δ (0 : Fin 3) t, ?_⟩
-        apply SSet.stdSimplex.ext
-        intro a
-        fin_cases a <;>
-          simp [stdSimplex_sigma_apply, SSet.stdSimplex.δ_apply]
-      · right
-        refine ⟨(Δ[c.dim + 1] : SSet.{u}).δ (2 : Fin 3) t, ?_⟩
-        apply SSet.stdSimplex.ext
-        intro a
-        fin_cases a <;>
-          simp [stdSimplex_sigma_apply, SSet.stdSimplex.δ_apply]
+    · rcases hmin with ⟨x, hx⟩ | ⟨x, hx⟩
+      · have himg :
+            ((standardTypeABoundaryPrismCellFirstCoordinateMap g j c).app (op ⦋2⦌) t) 0 =
+              ((standardTypeABoundaryPrismCellFirstCoordinateMap g j c).app (op ⦋2⦌) t) 1 := by
+          rw [← hx]
+          simp [stdSimplex_sigma_apply]
+        rw [standardTypeABoundaryPrismCellFirstCoordinateMap_apply_of_equal
+          g j c heq t 0, standardTypeABoundaryPrismCellFirstCoordinateMap_apply_of_equal
+          g j c heq t 1] at himg
+        have h01 : t 0 = t 1 := by
+          apply Fin.ext
+          simpa only [Fin.val_cast] using congrArg Fin.val himg
+        exact Or.inl (minimalScaling_stdSimplex_thin_of_zero_eq_one t h01)
+      · have himg :
+            ((standardTypeABoundaryPrismCellFirstCoordinateMap g j c).app (op ⦋2⦌) t) 1 =
+              ((standardTypeABoundaryPrismCellFirstCoordinateMap g j c).app (op ⦋2⦌) t) 2 := by
+          rw [← hx]
+          simp [stdSimplex_sigma_apply]
+        rw [standardTypeABoundaryPrismCellFirstCoordinateMap_apply_of_equal
+          g j c heq t 1, standardTypeABoundaryPrismCellFirstCoordinateMap_apply_of_equal
+          g j c heq t 2] at himg
+        have h12 : t 1 = t 2 := by
+          apply Fin.ext
+          simpa only [Fin.val_cast] using congrArg Fin.val himg
+        exact Or.inl (minimalScaling_stdSimplex_thin_of_one_eq_two t h12)
     · right
       refine ⟨?_, ?_, ?_⟩
       · apply Fin.ext
         have h := hdist.1
-        simpa [standardTypeABoundaryPrismEqualGeneratorIndex] using h
+        rw [standardTypeABoundaryPrismCellFirstCoordinateMap_apply_of_equal
+          g j c heq t 1] at h
+        simpa [Fin.val_cast, standardTypeABoundaryPrismEqualGeneratorIndex] using
+          congrArg Fin.val h
       · have h := hdist.2.1
         change
           (((standardTypeABoundaryPrismCellFirstCoordinateMap g j c).app (op ⦋2⦌) t) 0).val + 1 = g.i.val at h
