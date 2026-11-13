@@ -268,6 +268,8 @@ theorem unionProdPairing_typeTwo_firstCoordinate_scaled
   let P := SSet.prodStdSimplex.pairingCore.{u} k 1
   change P.pairing.II at z
   obtain ⟨s, rfl⟩ := P.equivII.surjective z
+  have hpair : P.pairing.p (P.equivII s) = P.equivI s :=
+    P.pairing_p_equivII s
   have hindex :
       ((P.pairing.isUniquelyCodimOneFace (P.equivII s)).index rfl) =
         s.index.castSucc := by
@@ -278,19 +280,16 @@ theorem unionProdPairing_typeTwo_firstCoordinate_scaled
           rfl (P.index s)).mp
         have hface := (P.isUniquelyCodimOneFace s).δ_index rfl
         rw [P.isUniquelyCodimOneFace_index s] at hface
-        simpa [SSet.Subcomplex.PairingCore.pairing,
-          SSet.Subcomplex.PairingCore.type₁,
+        simpa only [hpair, SSet.Subcomplex.PairingCore.type₁,
           SSet.Subcomplex.PairingCore.type₂,
           SSet.Subcomplex.PairingCore.equivI_apply_coe,
           SSet.Subcomplex.PairingCore.equivII_apply_coe,
           SSet.Subcomplex.N.cast_eq_self,
           SSet.S.cast_simplex_rfl] using hface
       _ = s.index.castSucc := rfl
-  simpa [SSet.Subcomplex.PairingCore.equivII_apply_coe,
-    hindex, SSet.Subcomplex.PairingCore.pairing,
-    SSet.Subcomplex.PairingCore.equivI_apply_coe,
-    SSet.Subcomplex.PairingCore.type₁,
-    SSet.Subcomplex.N.cast_eq_self,
+  simpa only [hpair, SSet.Subcomplex.PairingCore.equivII_apply_coe,
+    hindex, SSet.Subcomplex.PairingCore.equivI_apply_coe,
+    SSet.Subcomplex.PairingCore.type₁, SSet.Subcomplex.N.cast_eq_self,
     SSet.prodStdSimplex.pairingCore,
     unionProdPairingCoreTypeOneFirstCoordinateMap] using
       unionProdPairingCore_typeOne_firstCoordinate_scaled k hk0 s
