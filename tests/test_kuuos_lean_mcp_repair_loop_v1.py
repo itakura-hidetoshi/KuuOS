@@ -56,7 +56,12 @@ def fake_tools(root):
         if name == "lean_goal":
             return {"result": {"status": "goals"}}
         if name == "lean_multi_attempt":
-            return {"result": {"items": [{"snippet": "norm_num"}]}}
+            return {"result": {"structuredContent": {"result": {"items": [
+                {"snippet": "assumption", "diagnostics": [{"severity": "error", "message": "no assumption"}],
+                 "goals": ["⊢ 2 + 2 = 4"], "timed_out": False},
+                {"snippet": "simp", "diagnostics": [], "goals": [], "timed_out": False},
+                {"snippet": "aesop", "diagnostics": [], "goals": [], "timed_out": False},
+            ]}}}}
         if name == "lean_diagnostic_messages":
             text = (root / params["file_path"]).read_text()
             has_skip = "  skip\n" in text
@@ -143,6 +148,27 @@ class Contract(unittest.TestCase):
             self.assertTrue(receipt["source_restored"])
             self.assertEqual(target.read_bytes(), before)
             self.assertFalse((home / "export/candidate.lean").exists())
+
+    def test_free_mcp_tactic_provider_closes_fixture(self):
+        with tempfile.TemporaryDirectory() as td:
+            home = pathlib.Path(td)
+            root, target = self.make_project(home)
+            original = target.read_bytes()
+            with patch.object(loop, "call_tool", fake_tools(root)):
+                receipt = loop.run_loop(
+                    root=root, rel_file="tests/mcp_repair_fixture/Repair.lean",
+                    output_dir=home / "free-mcp-out", expected_sha256=loop.digest(original),
+                    provider=loop.mcp_tactic_provider, mcp_factory=FakeMCP,
+                    direct_gate=lambda root, rel, timeout: {
+                        "exit_code": 0 if "  simp\n" in (root / rel).read_text() else 1,
+                    },
+                )
+            self.assertEqual(receipt["status"], "LOCAL_LEAN_GREEN_CANDIDATE_ONLY")
+            self.assertEqual(receipt["provider_calls"], 1)
+            self.assertTrue(receipt["source_restored"])
+            self.assertEqual(target.read_bytes(), original)
+            self.assertIn("  simp\n", (home / "free-mcp-out/candidate.lean").read_text())
+            self.assertFalse(receipt["independent_ci_success"])
 
     def test_existing_sorry_cannot_be_promoted_to_green(self):
         with tempfile.TemporaryDirectory() as td:
