@@ -1,0 +1,102 @@
+{
+  "schema_id": "kuuos.living_engi_cycle.lec14_actual_original_native_hexagon_typed_square",
+  "schema_version": "0.1",
+  "date_jst": "2026-11-07",
+  "author": "Hidetoshi Itakura / 板倉英俊",
+  "status": "exact_source_lean_verified_and_merged",
+  "theorem_pr": 3267,
+  "source": "formal/KuuOSFormal/LivingEngiRealHexagonSquareLEC14.lean",
+  "source_blob_sha": "addb7d3f616347b63db65f0e8cda206a61ae0e78",
+  "verified_source_sha": "0c7764c2945db146c5e005b1856e0ee0d2705912",
+  "equal_source_test_merge_tree": "456d67c205af9b18f22c2ce1a132c1ef19bb3303",
+  "merged_main_sha": "5579f88776531a983103379c5b2e207afa7e793e",
+  "ci": {
+    "run_id": 42368168171,
+    "conclusion": "success",
+    "strict_lean_completed": 10320,
+    "strict_lean_total": 10320,
+    "governance_success": 30,
+    "governance_total": 30,
+    "check_runs_total": 41,
+    "check_runs_failed_or_pending": 0,
+    "print_axioms_count": 16,
+    "sorryAx": false,
+    "new_axiom_declarations": false,
+    "changed_source_warnings": 0,
+    "changed_source_errors": 0,
+    "all_standard_axioms_only": false,
+    "standard_axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "inherited_native_decide_axioms": [
+      "pentagonalSlotIndex_bijective._native.native_decide.ax_1_1",
+      "pentagonalSlotIndex_next._native.native_decide.ax_1_1",
+      "pentagonalSlotIndex_next._native.native_decide.ax_1_2",
+      "pentagonalSlotIndex_next._native.native_decide.ax_1_3",
+      "pentagonalSlotIndex_next._native.native_decide.ax_1_4",
+      "pentagonalSlotIndex_next._native.native_decide.ax_1_5"
+    ]
+  },
+  "source_scope": {
+    "old_original": "historical F47 physical 90-edge/two-face mixed frames with genuine old F54 two-Nat-depth Blocks and F55 disjoint-square raw three-cells",
+    "independent_native": "physical top C60 six-sector hexagon F42 fan/disk and true native F55 typed disjoint-square source",
+    "common_shadow": "((0,1),1) in (Int × Int) × ZMod 2",
+    "old_local_rotations_required": true,
+    "construction_given_rotations": "all ninety real old edges and either incident physical face have an inhabited typed packet",
+    "single_native_receiver": "same canonical top hexagon frame, not spatially identified with every old edge",
+    "selected_exact_physical_match": "edgeEquiv (Edge.cross (.northSpoke 0)), old and native first top-hexagon side and face, with real incidence",
+    "independent_old_and_native_four_boundary_coherence": true
+  },
+  "initial_failure": {
+    "run_id": 42367784824,
+    "structural_reason": "two omitted open namespaces for existing F42 physical face and F47 mixed-category source, causing cascading elaboration failures",
+    "fix_commit": "0c7764c2945db146c5e005b1856e0ee0d2705912",
+    "only_open_namespaces_added": [
+      "KUOS.DependentOriginationGrayC60PresentedFaceTwoCellsV5_190",
+      "KUOS.DependentOriginationGrayC60MixedBoundaryThreeHomV5_195"
+    ],
+    "theorem_statements_and_assumptions_preserved": true
+  },
+  "audited_declarations": [
+    "ActualOriginalNativeHexagonSquare.old_arrow_exact",
+    "ActualOriginalNativeHexagonSquare.readout_exact",
+    "ActualOriginalNativeHexagonSquare.native_source_exact",
+    "ActualOriginalNativeHexagonSquare.native_calibrated",
+    "original_physical_square_full_shadow",
+    "independent_physical_hexagon_full_shadow",
+    "actual_square_comparison",
+    "actual_square_comparison_exists",
+    "all_real_edges_both_faces_compared",
+    "actual_square_comparison_shadow",
+    "actual_square_comparison_original_boundary",
+    "topHexagon_actual_original_face",
+    "topHexagon_same_physical_first_edge",
+    "topHexagon_actual_native_incidence",
+    "top_hexagon_paired_physical_support",
+    "top_hexagon_inhabited_exact_source_and_support"
+  ],
+  "non_claims": [
+    "no old/native F54 type equality, functor or all-nine-F55-constructor faithful equivalence",
+    "no global geometric matching of all 90 old C60 edges to one native top hexagon",
+    "no automatic historical F42/native F42 raw Type equality",
+    "no higher P77/GK5CG transport or general stack effectivity",
+    "not all standard axioms: six preexisting F112 native_decide dependences",
+    "no AI, clinical or ActOS execution authority"
+  ],
+  "preservation": [
+    "append_only",
+    "tighten_only",
+    "overwrite_forbidden",
+    "same_root",
+    "KuuOSFormal_public_root107",
+    "original_F54_F55_P77_GK5CG_sources_unchanged",
+    "independent_KuuOSStrict_unchanged",
+    "Lean_v4.30.0-rc2",
+    "mathlib_5450b53e5ddc75d46418fabb605edbf36bd0beb6",
+    "protected_PR_1558_Draft_Open_Unmerged"
+  ],
+  "formal_record": "docs/formal/LEC-14-real-hexagon-square-original-native-typed-comparison-verified-20261107.md",
+  "next": "LEC-15 explicitly source-indexed historical/native F42 actual face witness comparison and typed old-to-native F54 boundaries, or a precise obstruction"
+}
