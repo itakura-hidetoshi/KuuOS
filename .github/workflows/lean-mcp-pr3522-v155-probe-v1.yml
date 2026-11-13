@@ -74,9 +74,22 @@ jobs:
           echo "IMPORT_DEPENDENCY_BUILD_EXIT=$status"
           tail -n 50 /tmp/kuuos-v155-import-build.log
           exit 0
+      - name: Compile exact v1.55 source with pinned Lean (isolated)
+        id: v155build
+        working-directory: target
+        run: |
+          set +e
+          timeout 420 lake env lean             -o /tmp/kuuos-exact-v155.olean             formal/KUOS/DependentOriginationStandardTypeAScaledLeibnizPushoutV1_55.lean             > /tmp/kuuos-exact-v155-compile.log 2>&1
+          status=$?
+          set -e
+          echo "exit_code=$status" >> "$GITHUB_OUTPUT"
+          echo "KUUOS_V155_DIRECT_LEAN_BUILD_EXIT=$status"
+          tail -n 100 /tmp/kuuos-exact-v155-compile.log
+          exit 0
       - name: Read full v1.55 diagnostics and try live goal/attempt if ready
         env:
           KUUOS_IMPORT_BUILD_EXIT: ${{ steps.importbuild.outputs.exit_code }}
+          KUUOS_V155_BUILD_EXIT: ${{ steps.v155build.outputs.exit_code }}
         run: |
           PYTHONPATH=. python3 scripts/check_kuuos_lean_mcp_parent_pr3522_v155_v1.py \
             --target-root "$GITHUB_WORKSPACE/target" \
