@@ -457,6 +457,7 @@ lemma δ_simplex :
   ext i : 2
   dsimp only [simplex]
   rw [objEquiv_δ_apply, Equiv.apply_symm_apply, OrderHom.coe_mk, φ_succAbove]
+  rfl
 
 lemma notMem_simplex :
     hx.simplex hd ∉ (Subcomplex.unionProd.{u} Λ[m + 1, k.castSucc] ∂Δ[n]).obj _ := by
