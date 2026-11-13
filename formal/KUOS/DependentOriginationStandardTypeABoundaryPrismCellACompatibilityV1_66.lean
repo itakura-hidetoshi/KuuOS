@@ -276,11 +276,15 @@ theorem unionProdPairing_typeTwo_firstCoordinate_scaled
         symm
         apply ((P.pairing.isUniquelyCodimOneFace (P.equivII s)).δ_eq_iff
           rfl (P.index s)).mp
-        simp [SSet.Subcomplex.PairingCore.pairing_p_equivII,
+        have hface := (P.isUniquelyCodimOneFace s).δ_index rfl
+        rw [P.isUniquelyCodimOneFace_index s] at hface
+        simpa only [SSet.Subcomplex.PairingCore.pairing_p_equivII,
           SSet.Subcomplex.PairingCore.equivII_apply_coe,
           SSet.Subcomplex.PairingCore.equivI_apply_coe,
           SSet.Subcomplex.PairingCore.type₁,
-          SSet.Subcomplex.PairingCore.type₂]
+          SSet.Subcomplex.PairingCore.type₂,
+          SSet.Subcomplex.N.cast_eq_self,
+          SSet.S.cast_simplex_rfl] using hface
       _ = s.index.castSucc := rfl
   simpa only [SSet.Subcomplex.PairingCore.equivII_apply_coe,
     hindex, P.pairing_p_equivII,
