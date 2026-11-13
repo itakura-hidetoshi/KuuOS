@@ -282,6 +282,10 @@ def create_report(root: pathlib.Path, plan: dict, ci_log: str | None, outdir: pa
         raise EvidenceObstruction('max local dependency budget out of range')
     pins = get_pins(root)
     checked, exhaustive = validate_plan(root, plan)
+    # Fail closed against accidental overwrites: each run has a fresh immutable
+    # evidence directory; reuse prior learning via --previous-casebook instead.
+    if outdir.exists() and any(outdir.iterdir()):
+        raise EvidenceObstruction('append-only evidence: output directory already contains files')
     # No partial snapshots are emitted until the entire source manifest passes.
     outdir.mkdir(parents=True, exist_ok=True)
     snapshots = outdir / 'full_sources'
