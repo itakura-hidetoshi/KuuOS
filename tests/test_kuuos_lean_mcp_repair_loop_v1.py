@@ -25,7 +25,7 @@ probe = types.ModuleType("scripts.check_kuuos_lean_mcp_parent_pr3522_v155_v1")
 probe.structured = lambda r: r.get("result", {}).get("structuredContent", {}).get("result", {})
 sys.modules[probe.__name__] = probe
 spec = importlib.util.spec_from_file_location(
-    "loop_test_module", pathlib.Path(__file__).with_name("kuuos_lean_mcp_repair_loop_v1.py")
+    "loop_test_module", pathlib.Path(__file__).resolve().parents[1] / "scripts" / "kuuos_lean_mcp_repair_loop_v1.py"
 )
 loop = importlib.util.module_from_spec(spec)
 sys.modules[spec.name] = loop
