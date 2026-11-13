@@ -97,7 +97,8 @@ jobs:
           set -euo pipefail
           python3 scripts/check_kuuos_lean_mcp_live_pr_v2.py --pr 3522 \
             --output-dir /tmp/kuuos-current-parent-v2 \
-            --verify-head '${{ steps.snapshot.outputs.source_head }}'
+            --verify-head '${{ steps.snapshot.outputs.source_head }}' \
+            --verify-base '${{ steps.snapshot.outputs.source_base }}'
       - name: Preserve evidence and NO_DATA/obstructions even when validation fails
         if: always()
         uses: actions/upload-artifact@v4
