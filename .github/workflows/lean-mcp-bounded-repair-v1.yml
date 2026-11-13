@@ -109,6 +109,31 @@ jobs:
           print('KUUOS_MCP_LOCAL_REPAIR_LOOP_TEST_SUCCESS')
           PY
           lake env lean "$OUTDIR/candidate.lean"
+      - name: Run free Lean MCP tactic-search repair (no model API)
+        run: |
+          set -euo pipefail
+          export PYTHONPATH=.
+          export OUTDIR2="$(mktemp -d -t kuuos-mcp-tactic-XXXXXX)"
+          SHA="$(sha256sum tests/mcp_repair_fixture/Repair.lean | awk '{print $1}')"
+          python3 scripts/kuuos_lean_mcp_repair_loop_v1.py \
+            --project-root . --file tests/mcp_repair_fixture/Repair.lean \
+            --source-sha256 "$SHA" --output-dir "$OUTDIR2" \
+            --provider mcp-tactic --max-iterations 2
+          python3 - <<'PYBLOCK'
+          import json, os
+          from pathlib import Path
+          d = Path(os.environ['OUTDIR2'])
+          r = json.loads((d / 'receipt.json').read_text())
+          assert r['status'] == 'LOCAL_LEAN_GREEN_CANDIDATE_ONLY', r
+          assert r['source_restored'] is True
+          assert len(r['rounds']) == 2
+          assert r['rounds'][0]['preliminary_tactics'] >= 1
+          assert r['provider_calls'] == 1
+          assert r['rounds'][-1]['direct_lean']['exit_code'] == 0
+          assert r['independent_ci_success'] is False
+          print('KUUOS_FREE_MCP_TACTIC_LOOP_SUCCESS')
+          PYBLOCK
+          lake env lean "$OUTDIR2/candidate.lean"
       - name: Verify no tracked theorem root or pinned manifest was changed
         run: |
           python3 - <<'PY'
