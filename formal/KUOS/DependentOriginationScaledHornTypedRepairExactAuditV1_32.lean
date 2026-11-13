@@ -266,3 +266,4 @@ certificate or unlifted v1.29 horn descent is inferred. -/
 
 /-! ## v1.61 independent regularity witness; full UnionProd is still absent -/
 #print axioms SSet.prodStdSimplex.weakRankFunction
+#print axioms SSet.prodStdSimplex.pairingCore_isRegular_of_proper
