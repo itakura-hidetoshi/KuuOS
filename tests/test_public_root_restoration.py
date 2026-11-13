@@ -42,6 +42,8 @@ PR2339_INTEGRATED_PROOF_BLOBS = {
 # The original full source and both proof transitions are preserved in Git history.
 # Explicit SHA enrollment is a review gate, never proof of Lean correctness.
 REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
+    # v1.73: pinned generated scaled pushout, type-A rank index and desc-map API.
+    "KUOS/DependentOriginationStandardTypeABoundaryPrismRankwiseScaledPushoutV1_73.lean": "7b51326a2b3cc72d01f076c7463049a23b8bab6f",
     # v1.72: pinned scaled-cellular namespaces and consistent rank-cell universe.
     "KUOS/DependentOriginationStandardTypeABoundaryPrismRankwiseABCellularityV1_72.lean": "62073a19eb987dbf7072cd71eee79e827a3a474b",
     # v1.71: pinned rank-stage class transparency and exact category morphism equalities.
@@ -166,6 +168,10 @@ REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
 # Newly added formal modules are outside the frozen v5.291 archive. Their
 # exact draft source blobs are reviewed separately from historical corrections.
 REVIEWED_ADDITIVE_FORMAL_BLOBS = {
+    # Additive port of missing pinned simplex-opposite and union-product compatibility.
+    "KUOS/PinnedMathlibUnionProdOpSymmetryV1_61.lean": "38fc6cde6b235012b9ceb90343c64f51460537e1",
+    # Full pairing across every horn index, with ordinary anodyne consequence.
+    "KUOS/PinnedMathlibUnionProdFullPairingV1_61.lean": "da3cc7de1761081f15830dd0aecf9f3d23067e90",
     # v1.61: typed pairing-core weak rank / regularity, not full UnionProd.
     "KUOS/PinnedMathlibUnionProdWeakRankV1_61.lean": "131542e0a23efa80287655656f1805b5523acabf",
     # v1.61: pinned inner-horn property, independent of full UnionProd regularity.

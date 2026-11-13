@@ -1,3 +1,4 @@
+import KUOS.PinnedMathlibUnionProdFullPairingV1_61
 import KUOS.DependentOriginationStandardTypeABoundaryPrismDimensionDichotomyV1_63
 import KUOS.DependentOriginationStandardTypeABoundaryPrismStaircaseNormalFormV1_64
 import KUOS.DependentOriginationStandardTypeABoundaryPrismCellACompatibilityV1_66
@@ -287,3 +288,8 @@ certificate or unlifted v1.29 horn descent is inferred. -/
 #print axioms KUOS.DependentOriginationStandardTypeABoundaryPrismCellACompatibilityV1_66.standardTypeABoundaryPrismCellACompatible_all
 #print axioms KUOS.DependentOriginationStandardTypeABoundaryPrismCellACompatibilityV1_66.standardTypeABoundaryPrismCellAPushoutScaling_eq_cellScaling_of_four_le_all
 #print axioms KUOS.DependentOriginationStandardTypeABoundaryPrismCellACompatibilityV1_66.standardTypeABoundaryPrismCell_pureA_or_lowDim
+
+/-! ## UnionProd full pairing port candidate: exact-source kernel and axiom audit -/
+#print axioms SSet.prodStdSimplex.pairing
+#print axioms SSet.prodStdSimplex.unionProd_strongAnodyne
+#print axioms SSet.prodStdSimplex.unionProd_anodyne
