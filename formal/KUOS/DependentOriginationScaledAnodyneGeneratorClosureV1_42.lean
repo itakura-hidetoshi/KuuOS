@@ -7,6 +7,9 @@ open CategoryTheory
 open CategoryTheory.Category
 open Simplicial
 open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
+open KUOS.DependentOriginationBiequivalencePresentationInvariantV1_26
+open KUOS.DependentOriginationHomotopyClassScaledHornInvariantV1_37
+open KUOS.DependentOriginationHomotopyClassStrictificationV1_38
 open KUOS.DependentOriginationGlobalDuskinScaledHornCoherenceV1_22
 open KUOS.DependentOriginationScaledTerminalRLPV1_41
 
@@ -231,7 +234,7 @@ noncomputable def familyTerminalRLPOfPresentationFibrant
 
 /-- Presentation fibrancy therefore also supplies the v1.38 homotopy-class
 strictification for every chosen family. -/
-noncomputable def familyStrictificationOfPresentationFibrant
+@[reducible] noncomputable def familyStrictificationOfPresentationFibrant
     {X : SSet.{u}}
     {sX : ScaledSimplicialSet X}
     (P : ScaledAnodynePresentation.{u})
@@ -276,6 +279,8 @@ variable
     {HB : GlobalDuskinScaledHornFamily B}
     {HC : GlobalDuskinScaledHornFamily C}
     (K : CoherentNormalizedScaledAttachmentFibrantModelEquivalence E G HB HC)
+
+include K
 
 /-- Target-level attachment fibrancy recovers the v1.41 family-specific
 terminal-RLP package only when needed. -/
