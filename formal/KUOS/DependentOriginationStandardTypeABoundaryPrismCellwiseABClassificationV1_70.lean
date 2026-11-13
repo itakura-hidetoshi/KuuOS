@@ -9,6 +9,7 @@ open Opposite
 open Simplicial
 open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
 open KUOS.DependentOriginationScaledTerminalRLPV1_41
+open KUOS.DependentOriginationStandardTypeAScaledPushoutSourceEnrichmentV1_53
 open KUOS.DependentOriginationStandardTypeAScaledHornFamilyV1_49
 open KUOS.DependentOriginationStandardTypeBScalingPushoutV1_56
 open KUOS.DependentOriginationStandardTypeBThreeSimplexCompletionV1_57
@@ -25,6 +26,12 @@ open KUOS.DependentOriginationStandardTypeABoundaryPrismThreeResidualClassificat
 universe u
 
 noncomputable section
+
+/-- Fixed-Lean standard-simplex degeneracy evaluation, proved by reduction. -/
+private lemma stdSimplex_sigma_apply {n d : ℕ}
+    (x : (Δ[n] : SSet.{u}).obj (op ⦋d⦌))
+    (i : Fin (d + 1)) (j : Fin (d + 2)) :
+    ((Δ[n] : SSet.{u}).σ i x) j = x (i.predAbove j) := rfl
 
 /-!
 # Complete boundary-prism cellwise A/B classification v1.70
@@ -61,12 +68,11 @@ No canonical-KuuOS/standard-A-B-C family equality is asserted here.
 theorem unionProdPairing_typeTwo_fst_surjective
     {m : ℕ}
     (k : Fin (m + 1))
-    (z : (SSet.prodStdSimplex.pairing.{u} k.castSucc 1).II) :
+    (z : ((SSet.prodStdSimplex.pairingCore.{u} k 1).pairing).II) :
     Function.Surjective
-      (((SSet.prodStdSimplex.pairing.{u} k.castSucc 1).p z).val.cast
-        ((SSet.prodStdSimplex.pairing.{u} k.castSucc 1)
+      ((((SSet.prodStdSimplex.pairingCore.{u} k 1).pairing).p z).val.cast
+        (((SSet.prodStdSimplex.pairingCore.{u} k 1).pairing)
           .isUniquelyCodimOneFace z).dim_eq).simplex.1 := by
-  rw [SSet.prodStdSimplex.pairing_castSucc] at z ⊢
   obtain ⟨s, rfl⟩ :=
     (SSet.prodStdSimplex.pairingCore.{u} k 1).equivII.surjective z
   simpa [SSet.prodStdSimplex.pairingCore] using
@@ -78,20 +84,19 @@ first coordinates `k` and `k+1` on the two adjacent vertices. -/
 theorem unionProdPairing_typeTwo_index_transition
     {m : ℕ}
     (k : Fin (m + 1))
-    (z : (SSet.prodStdSimplex.pairing.{u} k.castSucc 1).II) :
+    (z : ((SSet.prodStdSimplex.pairingCore.{u} k 1).pairing).II) :
     ∃ l : Fin (z.val.dim + 1),
       l.castSucc =
-          ((SSet.prodStdSimplex.pairing.{u} k.castSucc 1)
+          (((SSet.prodStdSimplex.pairingCore.{u} k 1).pairing)
             .isUniquelyCodimOneFace z).index rfl ∧
-        (((SSet.prodStdSimplex.pairing.{u} k.castSucc 1).p z).val.cast
-          ((SSet.prodStdSimplex.pairing.{u} k.castSucc 1)
+        ((((SSet.prodStdSimplex.pairingCore.{u} k 1).pairing).p z).val.cast
+          (((SSet.prodStdSimplex.pairingCore.{u} k 1).pairing)
             .isUniquelyCodimOneFace z).dim_eq).simplex.1 l.castSucc =
             k.castSucc ∧
-        (((SSet.prodStdSimplex.pairing.{u} k.castSucc 1).p z).val.cast
-          ((SSet.prodStdSimplex.pairing.{u} k.castSucc 1)
+        ((((SSet.prodStdSimplex.pairingCore.{u} k 1).pairing).p z).val.cast
+          (((SSet.prodStdSimplex.pairingCore.{u} k 1).pairing)
             .isUniquelyCodimOneFace z).dim_eq).simplex.1 l.succ =
             k.succ := by
-  rw [SSet.prodStdSimplex.pairing_castSucc] at z ⊢
   obtain ⟨s, rfl⟩ :=
     (SSet.prodStdSimplex.pairingCore.{u} k 1).equivII.surjective z
   refine ⟨s.index, ?_, ?_, ?_⟩
@@ -112,9 +117,8 @@ theorem standardTypeABoundaryPrismCellPaired_fst_surjective
   rcases g with ⟨n, i, h0, hn, endpoint⟩
   cases n with
   | zero =>
-      have hi : i = 0 := Subsingleton.elim _ _
-      subst i
-      simp at h0
+      have hbad : i.val < 0 := hn
+      exact False.elim (Nat.not_lt_zero _ hbad)
   | succ m =>
       have hilast : i ≠ Fin.last (m + 1) := ne_of_lt hn
       obtain ⟨k, rfl⟩ := Fin.eq_castSucc_of_ne_last hilast
@@ -140,9 +144,8 @@ theorem standardTypeABoundaryPrismCellPaired_index_transition
   rcases g with ⟨n, i, h0, hn, endpoint⟩
   cases n with
   | zero =>
-      have hi : i = 0 := Subsingleton.elim _ _
-      subst i
-      simp at h0
+      have hbad : i.val < 0 := hn
+      exact False.elim (Nat.not_lt_zero _ hbad)
   | succ m =>
       have hilast : i ≠ Fin.last (m + 1) := ne_of_lt hn
       obtain ⟨k, rfl⟩ := Fin.eq_castSucc_of_ne_last hilast
@@ -282,13 +285,13 @@ theorem standardTypeABoundaryPrismCellScaling_eq_standardTypeA_of_equal
         apply SSet.stdSimplex.ext
         intro a
         fin_cases a <;>
-          simp [SSet.stdSimplex.σ_apply, SSet.stdSimplex.δ_apply]
+          simp [stdSimplex_sigma_apply, SSet.stdSimplex.δ_apply]
       · right
         refine ⟨(Δ[c.dim + 1] : SSet.{u}).δ (2 : Fin 3) t, ?_⟩
         apply SSet.stdSimplex.ext
         intro a
         fin_cases a <;>
-          simp [SSet.stdSimplex.σ_apply, SSet.stdSimplex.δ_apply]
+          simp [stdSimplex_sigma_apply, SSet.stdSimplex.δ_apply]
     · right
       refine ⟨?_, ?_, ?_⟩
       · apply Fin.ext
@@ -329,7 +332,7 @@ theorem standardTypeABoundaryPrismCellAPushoutScaling_eq_cellScaling_of_equal
 /-! ## Actual `n = 2`, `N = 3` A-pushouts and canonical transport -/
 
 /-- Intrinsic A-plus-horn saturation on an actual dependent cell carrier. -/
-def standardTypeABoundaryPrismCellHornSaturatedAScaling
+@[reducible] def standardTypeABoundaryPrismCellHornSaturatedAScaling
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
     (c : (standardTypeABoundaryPrismRankFunction g).Cell j) :
@@ -378,7 +381,7 @@ theorem standardTypeABoundaryPrismCellAPushoutScaling_eq_hornSaturated_of_cell_m
 
 /-- Canonical one-shot transport of any actual three-cell scaling to the fixed
 `Delta[3]` carrier. -/
-noncomputable def standardTypeABoundaryPrismTransportScalingToThree
+@[reducible] noncomputable def standardTypeABoundaryPrismTransportScalingToThree
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
     (c : (standardTypeABoundaryPrismRankFunction g).Cell j)
