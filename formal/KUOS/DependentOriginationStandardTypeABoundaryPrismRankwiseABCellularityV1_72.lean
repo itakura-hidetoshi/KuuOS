@@ -426,6 +426,8 @@ noncomputable def standardTypeABoundaryPrismCellPureAArrowIso
   apply ScaledSSet.ScaledMap.ext
   simp [standardTypeABoundaryPrismCellAPushoutHom_map,
     standardTypeABoundaryPrismScaledCellHom_map]
+  change c.horn.ι = c.horn.ι ≫ 𝟙 _
+  simp only [Category.comp_id]
 
 /-- A two-step raw A/B composite is a genuine finite transfinite composition.
 No instance asserting that all transfinite composites are multiplicative is needed. -/
