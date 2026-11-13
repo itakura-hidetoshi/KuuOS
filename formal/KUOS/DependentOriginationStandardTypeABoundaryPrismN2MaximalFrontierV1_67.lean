@@ -191,12 +191,7 @@ theorem standardTypeABoundaryPrismCellOutsideACompatible_of_target_dim_two
   intro t _ _
   -- Instance arguments to `thin` are implicit: rewrite through their
   -- explicit Prop-valued projection rather than a hidden synthesized instance.
-  have hthin :
-      (standardTypeASimplexScaling c.index).thin t =
-        (ScaledSimplicialSet.maximal (Δ[c.dim + 1] : SSet.{u})).thin t :=
-    congrArg
-      (fun (sc : ScaledSimplicialSet (Δ[c.dim + 1] : SSet.{u})) => sc.thin t)
-      hmax
+  have hthin := congrArg (fun sc => sc.thin t) hmax
   exact hthin.mpr (ScaledSimplicialSet.maximal_thin _ t)
 
 /-- Hence every attached 2-cell is exactly the pure type-(A) cobase change,
