@@ -273,7 +273,9 @@ theorem unionProdPairing_typeTwo_firstCoordinate_scaled
         s.index.castSucc := by
     calc
       _ = P.index s := by
-        simpa only [SSet.Subcomplex.PairingCore.equivII_apply_coe] using
+        simpa only [SSet.Subcomplex.PairingCore.equivII_apply_coe,
+          SSet.Subcomplex.PairingCore.pairing_p_equivII,
+          SSet.Subcomplex.PairingCore.equivI_apply_coe] using
           (P.isUniquelyCodimOneFace_index s)
       _ = s.index.castSucc := rfl
   simpa only [SSet.Subcomplex.PairingCore.equivII_apply_coe,
