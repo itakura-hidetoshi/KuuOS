@@ -71,6 +71,12 @@ Thus the remaining type-(B) calculation is genuinely finite and low-dimensional.
 
 /-! ## A repeated first pair is minimally thin -/
 
+/-- Evaluation of a degeneracy in the pinned standard simplex. -/
+private lemma stdSimplex_sigma_apply {n d : ℕ}
+    (x : (Δ[n] : SSet.{u}).obj (op ⦋d⦌))
+    (i : Fin (d + 1)) (j : Fin (d + 2)) :
+    ((Δ[n] : SSet.{u}).σ i x) j = x (i.predAbove j) := rfl
+
 /-- A standard-simplex 2-simplex whose first two vertices agree is the
 `σ 0`-degeneracy of its `0`th face, hence belongs to the minimal scaling. -/
 theorem minimalScaling_stdSimplex_thin_of_zero_eq_one
@@ -79,13 +85,10 @@ theorem minimalScaling_stdSimplex_thin_of_zero_eq_one
     (h01 : t 0 = t 1) :
     (minimalScaling (Δ[n] : SSet.{u})).thin t := by
   refine Or.inl ⟨(Δ[n] : SSet.{u}).δ (0 : Fin 3) t, ?_⟩
-  obtain ⟨f, rfl⟩ := SSet.stdSimplex.objEquiv.symm.surjective t
   apply SSet.stdSimplex.ext
   intro a
   fin_cases a <;>
-    simp [SSet.stdSimplex.σ_objEquiv_symm_apply,
-      SSet.stdSimplex.δ_objEquiv_symm_apply,
-      SSet.stdSimplex.objEquiv_symm_apply, h01]
+    simp [stdSimplex_sigma_apply, SSet.stdSimplex.δ_apply, h01]
 
 /-! ## First-coordinate map of a core type-(I) walk -/
 
@@ -144,9 +147,14 @@ theorem unionProdPairingCore_typeOne_distinguished_firstCoordinate_thin
       SSet.stdSimplex.monotone_apply (s.x.cast s.hd).simplex.1 hpq
     change (s.x.cast s.hd).simplex.1 s.index.castSucc ≤
       (s.x.cast s.hd).simplex.1 q at hmono
-    rw [s.isIndex.simplex_fst_castSucc, hq] at hmono
-    change k.val ≤ km1.val at hmono
-    dsimp [km1] at hmono
+    have hle : k.castSucc ≤ km1 := by
+      calc
+        k.castSucc = (s.x.cast s.hd).simplex.1 s.index.castSucc :=
+          s.isIndex.simplex_fst_castSucc.symm
+        _ ≤ (s.x.cast s.hd).simplex.1 q := hmono
+        _ = km1 := hq
+    change k.val ≤ km1.val at hle
+    dsimp [km1] at hle
     omega
   have ht0val : (t 0).val + 1 = s.index.val := by
     simpa using ht.2.1
@@ -167,7 +175,10 @@ theorem unionProdPairingCore_typeOne_distinguished_firstCoordinate_thin
     SSet.stdSimplex.monotone_apply (s.x.cast s.hd).simplex.1 ht0_le_index
   change (s.x.cast s.hd).simplex.1 (t 0) ≤
     (s.x.cast s.hd).simplex.1 s.index.castSucc at hupper
-  rw [s.isIndex.simplex_fst_castSucc] at hupper
+  have hupperBound : (s.x.cast s.hd).simplex.1 (t 0) ≤ k.castSucc := by
+    calc
+      _ ≤ (s.x.cast s.hd).simplex.1 s.index.castSucc := hupper
+      _ = k.castSucc := s.isIndex.simplex_fst_castSucc
   have hpred_or_eq :
       (s.x.cast s.hd).simplex.1 (t 0) = km1 ∨
         (s.x.cast s.hd).simplex.1 (t 0) = k.castSucc := by
@@ -177,7 +188,7 @@ theorem unionProdPairingCore_typeOne_distinguished_firstCoordinate_thin
       apply Fin.ext
       change km1.val = ((s.x.cast s.hd).simplex.1 (t 0)).val
       change km1.val ≤ ((s.x.cast s.hd).simplex.1 (t 0)).val at hlower
-      change ((s.x.cast s.hd).simplex.1 (t 0)).val ≤ k.val at hupper
+      change ((s.x.cast s.hd).simplex.1 (t 0)).val ≤ k.val at hupperBound
       have hne : ((s.x.cast s.hd).simplex.1 (t 0)).val ≠ k.val := by
         intro hval
         apply heq
@@ -251,13 +262,11 @@ theorem unionProdPairing_typeTwo_firstCoordinate_scaled
     (z : (SSet.prodStdSimplex.pairingCore.{u} k 1).pairing.II) :
     IsScaledMap
       (standardTypeASimplexScaling
-        ((SSet.prodStdSimplex.pairingCore.{u} k 1).pairing
-          .isUniquelyCodimOneFace z).index rfl)
+        ((SSet.prodStdSimplex.pairingCore.{u} k 1).pairing.isUniquelyCodimOneFace z).index rfl)
       (standardTypeASimplexScaling k.castSucc)
       (SSet.yonedaEquiv.symm
         (((SSet.prodStdSimplex.pairingCore.{u} k 1).pairing.p z).val.cast
-          ((SSet.prodStdSimplex.pairingCore.{u} k 1).pairing
-            .isUniquelyCodimOneFace z).dim_eq).simplex.1) := by
+          ((SSet.prodStdSimplex.pairingCore.{u} k 1).pairing.isUniquelyCodimOneFace z).dim_eq).simplex.1) := by
   obtain ⟨s, rfl⟩ :=
     (SSet.prodStdSimplex.pairingCore.{u} k 1).equivII.surjective z
   simpa [SSet.prodStdSimplex.pairingCore,
