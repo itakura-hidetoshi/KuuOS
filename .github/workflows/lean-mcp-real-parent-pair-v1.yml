@@ -1,0 +1,119 @@
+name: KuuOS actual parent PR3522 v1.54-v1.55 multi-file MCP verification v1
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/lean-mcp-real-parent-pair-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+
+jobs:
+  exact-parent-pair-readonly:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 45
+    steps:
+      - name: Checkout verified multi-file MCP tool
+        uses: actions/checkout@v6
+      - name: Checkout immutable parent PR3522 source snapshot
+        uses: actions/checkout@v6
+        with:
+          ref: 0d53c6e6e1391e34b3ecd8c3fbd0506087c2bd98
+          path: target
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install uv and ripgrep
+        run: |
+          python3 -m pip install uv
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ripgrep
+      - name: Set up exact pinned Lean 4
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - uses: actions/cache@v5
+        with:
+          path: target/.lake
+          key: kuuos-pr3522-v15455-multifile-0d53c6e6-v1
+      - name: Validate exact parent blob SHAs, toolchain and source manifest
+        run: |
+          python3 - <<'PY'
+          import os, json, hashlib
+          from pathlib import Path
+          from scripts.check_kuuos_lean_lsp_mcp_compatibility_v7_17 import require_pins
+          from scripts.kuuos_lean_mcp_repair_loop_v1 import digest
+          from scripts.kuuos_lean_mcp_multifile_cycle_v1 import VERSION
+          root=Path('target').resolve()
+          require_pins(root)
+          entries=[
+            ('formal/KUOS/DependentOriginationStandardTypeAGeneratedPushoutLLPDescentV1_54.lean',
+             'KUOS.DependentOriginationStandardTypeAGeneratedPushoutLLPDescentV1_54',
+             'e1519c873cf03dbd4dd2c5623eda96e9242764ab',[]),
+            ('formal/KUOS/DependentOriginationStandardTypeAScaledLeibnizPushoutV1_55.lean',
+             'KUOS.DependentOriginationStandardTypeAScaledLeibnizPushoutV1_55',
+             '12acfd38ff346c3b27e27fe652c401b9175140b',
+             ['KUOS.DependentOriginationStandardTypeAGeneratedPushoutLLPDescentV1_54'])
+          ]
+          targets=[]
+          for rel,module,sha,depends_on in entries:
+              source=(root/rel).read_bytes()
+              actual=hashlib.sha1(f'blob {len(source)}\0'.encode()+source).hexdigest()
+              assert actual==sha, (rel,actual,sha)
+              targets.append({'path':rel,'module':module,'sha256':digest(source),'depends_on':depends_on})
+          plan={'version':VERSION,'source_head':'0d53c6e6e1391e34b3ecd8c3fbd0506087c2bd98','targets':targets}
+          Path('/tmp/kuuos-real-parent-pair-manifest.json').write_text(json.dumps(plan))
+          print('KUUOS_PARENT_V15455_EXACT_TWO_BLOBS_AND_PINS_VERIFIED')
+          PY
+      - name: Restore pinned Mathlib
+        working-directory: target
+        run: lake exe cache get
+      - name: Build only upstream v1.53 dependencies
+        working-directory: target
+        run: |
+          timeout 1200 lake build KUOS.DependentOriginationStandardTypeAScaledPushoutSourceEnrichmentV1_53
+      - name: Reobserve real v1.54 -> v1.55 with Lean MCP without changing sources
+        run: |
+          set -euo pipefail
+          PYTHONPATH=. python3 scripts/kuuos_lean_mcp_multifile_cycle_v1.py \
+            --project-root target \
+            --source-manifest /tmp/kuuos-real-parent-pair-manifest.json \
+            --output-dir /tmp/kuuos-parent-pair-observation \
+            --provider mcp-tactic --max-iterations 2 --ack-isolated-worktree
+          python3 - <<'PY'
+          import json, hashlib
+          from pathlib import Path
+          r=json.loads(Path('/tmp/kuuos-parent-pair-observation/multifile_receipt.json').read_text())
+          plan=json.loads(Path('/tmp/kuuos-real-parent-pair-manifest.json').read_text())
+          assert r['status']=='LOCAL_MULTIFILE_LEAN_GREEN_CANDIDATES_ONLY',r
+          assert r['source_and_olean_restored'] is True
+          assert r['github_write_performed'] is False
+          assert r['independent_ci_success'] is False
+          assert len(r['targets'])==len(r['validated_candidates'])==2
+          for source,cert in zip(plan['targets'],r['validated_candidates']):
+              assert source['path']==cert['path']
+              assert source['sha256']==cert['source_sha256']
+              # The selected parent snapshot is already Lean green; any
+              # unexpected candidate edit is a new unreviewed claim.
+              assert source['sha256']==cert['candidate_sha256']
+              assert hashlib.sha256((Path('target')/source['path']).read_bytes()).hexdigest()==source['sha256']
+          print('KUUOS_REAL_PARENT_V15455_MULTI_MCP_GREEN_NO_SOURCE_MUTATION')
+          PY
+      - name: Preserve exact-source scoped receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-real-parent-v15455-multifile-observation-v1
+          path: /tmp/kuuos-parent-pair-observation/multifile_receipt.json
+          if-no-files-found: warn
+          retention-days: 14
