@@ -267,12 +267,18 @@ def standardTypeCTriangle01nInHorn (m : Nat) :
         have hv := congrArg Fin.val h
         norm_num [Fin.val_last, Nat.mod_eq_of_lt hlt] at hv <;> omega
       fin_cases j
-      · change (0 : Fin (m + 4)) ≠ (2 : Fin (m + 4))
-        norm_num
-      · change (1 : Fin (m + 4)) ≠ (2 : Fin (m + 4))
-        norm_num
-      · change (Fin.last (m + 3) : Fin (m + 4)) ≠ (2 : Fin (m + 4))
-        exact hlast
+      · simp only [standardTypeCTriangle01n, SSet.stdSimplex.triangle,
+          SSet.stdSimplex.objMk_apply, Finset.mem_compl, Finset.mem_singleton]
+        intro h
+        have hv := congrArg Fin.val h
+        norm_num [Nat.mod_eq_of_lt hlt] at hv
+      · simp only [standardTypeCTriangle01n, SSet.stdSimplex.triangle,
+          SSet.stdSimplex.objMk_apply, Finset.mem_compl, Finset.mem_singleton]
+        intro h
+        have hv := congrArg Fin.val h
+        norm_num [Nat.mod_eq_of_lt hlt] at hv
+      · simpa [standardTypeCTriangle01n, SSet.stdSimplex.triangle,
+          SSet.stdSimplex.objMk_apply] using hlast
     exact
       (SSet.face_le_horn
         (2 : Fin (m + 4)) (0 : Fin (m + 4)) (by
