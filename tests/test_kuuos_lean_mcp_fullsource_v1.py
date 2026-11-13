@@ -155,6 +155,16 @@ class FullSourceCausalEvidenceTests(unittest.TestCase):
             with self.assertRaisesRegex(x.EvidenceObstruction, 'injectable'):
                 x.api_probes(root, [{'name':'Nat.add_comm;#eval bad', 'import_module':'Mathlib'}],execute=False,timeout=2)
 
+    def test_output_cannot_overwrite_prior_evidence(self):
+        with tempfile.TemporaryDirectory() as t:
+            root, plan=self.fixture(t)
+            out=pathlib.Path(t)/'receipt'
+            out.mkdir()
+            (out/'full_source_evidence.json').write_text('historical receipt')
+            with self.assertRaisesRegex(x.EvidenceObstruction,'append-only'):
+                x.create_report(root,plan,None,out,max_deps=10,probe_api=False,api_timeout=5)
+            self.assertEqual((out/'full_source_evidence.json').read_text(),'historical receipt')
+
     def test_output_must_not_be_inside_checkout(self):
         with tempfile.TemporaryDirectory() as t:
             root, plan = self.fixture(t)
