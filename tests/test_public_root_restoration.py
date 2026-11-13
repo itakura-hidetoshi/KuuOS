@@ -43,7 +43,7 @@ PR2339_INTEGRATED_PROOF_BLOBS = {
 # Explicit SHA enrollment is a review gate, never proof of Lean correctness.
 REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
     # v1.61: route interior prism pairing through the pinned proven core; exact-source review, not certification.
-    "KUOS/DependentOriginationStandardTypeABoundaryPrismRelativeCellV1_61.lean": "835229ac968c8a3ddd8fb2042339d639e8751567",
+    "KUOS/DependentOriginationStandardTypeABoundaryPrismRelativeCellV1_61.lean": "932d03cd7d4c33a5ffcc5cce03467c6a3a7bf3a3",
     # v1.60: pinned namespace resolution, endpoint subcomplex unfolding and class transparency.
     # Full source reviewed at this revision; blob enrollment is provenance, not Lean certification.
     "KUOS/DependentOriginationStandardTypeAEndpointPrismPairingV1_60.lean": "3a039fc3eba760d2fb4bfbe62d8fac5ab3fa87b6",

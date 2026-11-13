@@ -57,8 +57,8 @@ noncomputable def standardTypeABoundaryPrismPairing
   rcases g with ⟨n, i, h0, hn, endpoint⟩
   cases n with
   | zero =>
-      fin_cases i
-      simp at h0
+      have hbad : i.val < 0 := hn
+      exact False.elim (Nat.not_lt_zero _ hbad)
   | succ n =>
       exact (SSet.prodStdSimplex.pairingCore
         (i.castPred (ne_of_lt hn)) 1).pairing
@@ -71,8 +71,8 @@ instance standardTypeABoundaryPrismPairing_isRegular
   rcases g with ⟨n, i, h0, hn, endpoint⟩
   cases n with
   | zero =>
-      fin_cases i
-      simp at h0
+      have hbad : i.val < 0 := hn
+      exact False.elim (Nat.not_lt_zero _ hbad)
   | succ n =>
       simpa [standardTypeABoundaryPrismPairing,
         standardTypeABoundaryPrismSubcomplex] using
@@ -87,8 +87,8 @@ instance standardTypeABoundaryPrismPairing_isInner
   rcases g with ⟨n, i, h0, hn, endpoint⟩
   cases n with
   | zero =>
-      fin_cases i
-      simp at h0
+      have hbad : i.val < 0 := hn
+      exact False.elim (Nat.not_lt_zero _ hbad)
   | succ n =>
       have hi0 : i ≠ 0 := ne_of_gt h0
       obtain ⟨j, rfl⟩ := Fin.eq_succ_of_ne_zero hi0
