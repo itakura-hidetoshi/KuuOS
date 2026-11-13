@@ -190,8 +190,9 @@ theorem unionProdPairingCore_typeOne_distinguished_firstCoordinate_thin
       apply le_antisymm
       · change ((s.x.cast s.hd).simplex.1 (t 0)).val ≤ km1.val
         change ((s.x.cast s.hd).simplex.1 (t 0)).val < k.val at hlt
-        dsimp [km1]
-        omega
+        change ((s.x.cast s.hd).simplex.1 (t 0)).val ≤ k.val - 1
+        have hnat (a b : ℕ) (hab : a < b) : a ≤ b - 1 := by omega
+        exact hnat _ _ hlt
       · exact hlower
   have ht2 : t 2 = s.index.succ := by
     apply Fin.ext
@@ -270,16 +271,15 @@ theorem unionProdPairing_typeTwo_firstCoordinate_scaled
   have hindex :
       ((P.pairing.isUniquelyCodimOneFace (P.equivII s)).index rfl) =
         s.index.castSucc := by
-    change (P.isUniquelyCodimOneFace s).index rfl = P.index s
-    exact P.isUniquelyCodimOneFace_index s
-  have hp : P.pairing.p (P.equivII s) = P.equivI s :=
-    P.pairing_p_equivII s
-  rw [hindex, hp]
-  change IsScaledMap
-    (standardTypeASimplexScaling s.index.castSucc)
-    (standardTypeASimplexScaling k.castSucc)
-    (unionProdPairingCoreTypeOneFirstCoordinateMap k s)
-  exact unionProdPairingCore_typeOne_firstCoordinate_scaled k hk0 s
+    calc
+      _ = P.index s := P.isUniquelyCodimOneFace_index s
+      _ = s.index.castSucc := rfl
+  simpa only [hindex, P.pairing_p_equivII,
+    SSet.Subcomplex.PairingCore.equivI_apply_coe,
+    SSet.Subcomplex.PairingCore.type₁,
+    SSet.prodStdSimplex.pairingCore,
+    unionProdPairingCoreTypeOneFirstCoordinateMap] using
+      unionProdPairingCore_typeOne_firstCoordinate_scaled k hk0 s
 
 /-! ## Every KuuOS boundary-prism cell is A-compatible -/
 
