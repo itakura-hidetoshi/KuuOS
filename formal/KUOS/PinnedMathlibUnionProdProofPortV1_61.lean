@@ -565,6 +565,15 @@ lemma eq_of_isType₂_δ {u : (Subcomplex.unionProd.{u} Λ[m + 1, k.castSucc] �
       Fin.succAbove_of_lt_succ i l.castSucc hi,
       Fin.succAbove_of_lt_succ i l.succ (by grind), hl.simplex_fst_succ,
       hl.simplex_snd_succ, hl.simplex_fst_castSucc]
+    change
+      (Δ[m + 1].δ i (x.cast hd).simplex.1) l.castSucc = k.castSucc ∧
+      (Δ[m + 1].δ i (x.cast hd).simplex.1) l.succ = k.succ ∧
+      (Δ[n].δ i (x.cast hd).simplex.2) l.succ =
+        (Δ[n].δ i (x.cast hd).simplex.2) l.castSucc
+    simpa [stdSimplex.δ_apply,
+      Fin.succAbove_of_lt_succ i l.castSucc hi,
+      Fin.succAbove_of_lt_succ i l.succ (by grind),
+      isIndex_succ, Fin.castSucc_succ] using hl
   · exact Or.inl rfl
   · obtain rfl | hi := (Fin.castSucc_lt_iff_succ_le.1 hi).eq_or_lt
     · exact Or.inr rfl
@@ -575,6 +584,15 @@ lemma eq_of_isType₂_δ {u : (Subcomplex.unionProd.{u} Λ[m + 1, k.castSucc] �
         Fin.succAbove_of_castSucc_lt i l.succ (by grind),
         hl.simplex_fst_castSucc, hl.simplex_snd_succ,
         hl.simplex_fst_succ]
+      change
+        (Δ[m + 1].δ i (x.cast hd).simplex.1) l.castSucc = k.castSucc ∧
+        (Δ[m + 1].δ i (x.cast hd).simplex.1) l.succ = k.succ ∧
+        (Δ[n].δ i (x.cast hd).simplex.2) l.succ =
+          (Δ[n].δ i (x.cast hd).simplex.2) l.castSucc
+      simpa [stdSimplex.δ_apply,
+        Fin.succAbove_of_castSucc_lt i l.castSucc (by grind),
+        Fin.succAbove_of_castSucc_lt i l.succ (by grind),
+        isIndex_succ, Fin.castSucc_succ] using hl
 
 end IsIndex
 
