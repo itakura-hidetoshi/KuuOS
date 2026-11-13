@@ -42,6 +42,14 @@ PR2339_INTEGRATED_PROOF_BLOBS = {
 # The original full source and both proof transitions are preserved in Git history.
 # Explicit SHA enrollment is a review gate, never proof of Lean correctness.
 REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
+    # v1.64: dependent transport of paired nondegenerate top simplex across dimension equality.
+    "KUOS/DependentOriginationStandardTypeABoundaryPrismStaircaseNormalFormV1_64.lean": "6c59150499a7108182fa6110836a3edab2b3d0f0",
+    # v1.63: reconstructed interior-pairing dimension statement; no absent Mathlib API.
+    "KUOS/DependentOriginationStandardTypeABoundaryPrismDimensionDichotomyV1_63.lean": "42a1d4ee442c5b843c6ef46375440e3bcc58d594",
+    # v1.62: class-valued pullback scalings are reducible in fixed Lean 4.30.
+    "KUOS/DependentOriginationStandardTypeABoundaryPrismScaledCellsV1_62.lean": "f90bbb80115cea04267c4a76b995a512d7239aa9",
+    # v1.61: route interior prism pairing through the pinned proven core; exact-source review, not certification.
+    "KUOS/DependentOriginationStandardTypeABoundaryPrismRelativeCellV1_61.lean": "932d03cd7d4c33a5ffcc5cce03467c6a3a7bf3a3",
     # v1.60: pinned namespace resolution, endpoint subcomplex unfolding and class transparency.
     # Full source reviewed at this revision; blob enrollment is provenance, not Lean certification.
     "KUOS/DependentOriginationStandardTypeAEndpointPrismPairingV1_60.lean": "3a039fc3eba760d2fb4bfbe62d8fac5ab3fa87b6",

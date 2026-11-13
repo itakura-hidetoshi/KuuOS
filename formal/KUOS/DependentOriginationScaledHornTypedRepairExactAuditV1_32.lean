@@ -1,3 +1,5 @@
+import KUOS.DependentOriginationStandardTypeABoundaryPrismDimensionDichotomyV1_63
+import KUOS.DependentOriginationStandardTypeABoundaryPrismStaircaseNormalFormV1_64
 import KUOS.DependentOriginationStandardABCLeibnizCellularComparisonV1_59
 import KUOS.DependentOriginationLiftedDuskinRoundTripBridgeV1_29
 import KUOS.DependentOriginationScaledDuskinHornTransportV1_29
@@ -267,3 +269,13 @@ certificate or unlifted v1.29 horn descent is inferred. -/
 /-! ## v1.61 independent regularity witness; full UnionProd is still absent -/
 #print axioms SSet.prodStdSimplex.weakRankFunction
 #print axioms SSet.prodStdSimplex.pairingCore_isRegular_of_proper
+
+/-! ## v1.63: exact dimension dichotomy; no claimed full UnionProd port -/
+#print axioms KUOS.DependentOriginationStandardTypeABoundaryPrismDimensionDichotomyV1_63.unionProdPairingCore_typeTwo_target_dim_ge_left
+#print axioms KUOS.DependentOriginationStandardTypeABoundaryPrismDimensionDichotomyV1_63.standardTypeABoundaryPrism_cell_target_dim_eq_generator_or_succ
+#print axioms KUOS.DependentOriginationStandardTypeABoundaryPrismDimensionDichotomyV1_63.standardTypeABoundaryPrism_cell_scaled_frontier_refined
+
+/-! ## v1.64: exact pinned top-staircase certificate -/
+#print axioms KUOS.DependentOriginationStandardTypeABoundaryPrismStaircaseNormalFormV1_64.standardTypeABoundaryPrismCellPairedTop
+#print axioms KUOS.DependentOriginationStandardTypeABoundaryPrismStaircaseNormalFormV1_64.standardTypeABoundaryPrism_cell_top_coordinate_normalForm
+#print axioms KUOS.DependentOriginationStandardTypeABoundaryPrismStaircaseNormalFormV1_64.standardTypeABoundaryPrism_cell_dim_three_origin_normalForm
