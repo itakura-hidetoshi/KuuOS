@@ -34,6 +34,8 @@ instance {m : ℕ} (k : Fin m) (n : ℕ) :
         _ ≤ (s.x.cast s.hd).simplex.1 i :=
           stdSimplex.monotone_apply (s.x.cast s.hd).simplex.1 i.zero_le
         _ = 0 := hi0
+    have hval : (k.succ.castSucc : Fin (m + 2)).val = k.val + 1 := rfl
+    have hleVal : (k.succ.castSucc : Fin (m + 2)).val ≤ 0 := hle
     omega
   ne_last x := by
     dsimp [pairingCore]
