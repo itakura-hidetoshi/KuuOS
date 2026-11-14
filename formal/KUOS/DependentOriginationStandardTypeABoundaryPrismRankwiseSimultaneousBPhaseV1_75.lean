@@ -696,11 +696,21 @@ theorem standardTypeABoundaryPrismRankBCell_exactThin_generated
               (op ⦋2⦌)
               ((standardTypeABoundaryPrismCellQ12TargetIso g j c h).hom.map.app
                 (op ⦋2⦌) z)) hbase'
-        subst_vars
-        simpa [standardTypeABoundaryPrismCellQ12SourceIso,
-          standardTypeABoundaryPrismCellQ12TargetIso,
-          standardTypeABoundaryPrismCellScalingIsoToThree,
-          scalingEqualityIso] using hs
+        have hInvMap := standardTypeABoundaryPrismQ12Iso_inv_map_eq g j c h
+        rw [hInvMap] at hs
+        have hInvHom := congrArg ScaledSSet.ScaledMap.map
+          (standardTypeABoundaryPrismCellQ12TargetIso g j c h).hom_inv_id
+        have hpoint := ConcreteCategory.congr_hom
+          (congr_app hInvHom (op ⦋2⦌)) z
+        have hcancel :
+            (standardTypeABoundaryPrismCellQ12TargetIso g j c h).inv.map.app
+                (op ⦋2⦌)
+                ((standardTypeABoundaryPrismCellQ12TargetIso g j c h).hom.map.app
+                  (op ⦋2⦌) z) = z := by
+          simpa only [NatTrans.comp_app_apply,
+            CategoryTheory.Functor.map_id_apply] using hpoint
+        rw [hcancel] at hs
+        exact hs
       · right
         refine ⟨x, hx, ?_⟩
         change
@@ -738,11 +748,21 @@ theorem standardTypeABoundaryPrismRankBCell_exactThin_generated
               (op ⦋2⦌)
               ((standardTypeABoundaryPrismCellQ23TargetIso g j c h).hom.map.app
                 (op ⦋2⦌) z)) hbase'
-        subst_vars
-        simpa [standardTypeABoundaryPrismCellQ23SourceIso,
-          standardTypeABoundaryPrismCellQ23TargetIso,
-          standardTypeABoundaryPrismCellScalingIsoToThree,
-          scalingEqualityIso] using hs
+        have hInvMap := standardTypeABoundaryPrismQ23Iso_inv_map_eq g j c h
+        rw [hInvMap] at hs
+        have hInvHom := congrArg ScaledSSet.ScaledMap.map
+          (standardTypeABoundaryPrismCellQ23TargetIso g j c h).hom_inv_id
+        have hpoint := ConcreteCategory.congr_hom
+          (congr_app hInvHom (op ⦋2⦌)) z
+        have hcancel :
+            (standardTypeABoundaryPrismCellQ23TargetIso g j c h).inv.map.app
+                (op ⦋2⦌)
+                ((standardTypeABoundaryPrismCellQ23TargetIso g j c h).hom.map.app
+                  (op ⦋2⦌) z) = z := by
+          simpa only [NatTrans.comp_app_apply,
+            CategoryTheory.Functor.map_id_apply] using hpoint
+        rw [hcancel] at hs
+        exact hs
       · right
         refine ⟨x, hx, ?_⟩
         change
