@@ -14,8 +14,7 @@ open KUOS.DependentOriginationStandardTypeAScaledPushoutSourceEnrichmentV1_53
 open KUOS.DependentOriginationStandardTypeAGeneratedPushoutLLPDescentV1_54
 open KUOS.DependentOriginationStandardTypeAScaledLeibnizPushoutV1_55
 open KUOS.DependentOriginationGeneratedPresentationEndpointInvariantV1_80
-open KUOS.DependentOriginationGeneratedPresentationEndpointInvariantV1_80.
-  GeneratedScaledAnodynePresentationEquivalence
+open KUOS.DependentOriginationGeneratedPresentationEndpointInvariantV1_80.GeneratedScaledAnodynePresentationEquivalence
 open KUOS.DependentOriginationGeneratedPresentationQuotientInvariantV1_81
 
 universe u
@@ -116,6 +115,7 @@ theorem standardTypeAEndpointMinimalToGenerated_comp_scaledLeibniz
     scaledHornCylinderAttachmentInclusion,
     hornCylinderAttachment,
     StandardTypeAHornAttachmentGeneratorIndex.toCanonical]
+  exact Category.id_comp _
 
 /-! ## Generic orthogonal descent through an epi left factor -/
 
