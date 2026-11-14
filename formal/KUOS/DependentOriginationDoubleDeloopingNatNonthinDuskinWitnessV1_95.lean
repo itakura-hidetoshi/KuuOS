@@ -62,10 +62,9 @@ namespace NatOneCell
 instance : Subsingleton NatOneCell :=
   ⟨by intro x y; cases x; cases y; rfl⟩
 
-/- Explicit Nat-valued quiver for the pinned hom universe; select it ahead of the
-   derived Category.toQuiver instance so unqualified two-hom notation is Nat. -/
-instance (priority := 2000) : Quiver.{0} NatOneCell where
-  Hom _ _ := Nat
+/- Use the Quiver inherited from the Category instance below.  A separate
+   higher-priority Quiver competes with Category.toQuiver during elaboration of
+   Nat-valued 2-homs in the pinned CategoryStruct API. -/
 
 /-- The hom-category of 1-cells has `Nat` as every 2-hom set, identity `0`,
 and vertical composition given by addition. -/
