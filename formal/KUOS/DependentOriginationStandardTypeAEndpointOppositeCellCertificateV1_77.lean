@@ -256,11 +256,13 @@ theorem intervalEndpoint_inf_rev_eq_bot (ε : Fin 2) :
         (⊥ : (Δ[1] : SSet.{u}).Subcomplex) := by
     rw [intervalEndpoint_zero_eq_face_one, intervalEndpoint_one_eq_face_zero,
       SSet.stdSimplex.face_inter_face]
-    simp
+    have hfaces :
+        ({(1 : Fin 2)}ᶜ ∩ {(0 : Fin 2)}ᶜ : Finset (Fin 2)) = ∅ := by decide
+    rw [hfaces, SSet.stdSimplex.face_empty]
   have hone :
       intervalEndpoint (1 : Fin 2) ⊓ intervalEndpoint (0 : Fin 2) =
         (⊥ : (Δ[1] : SSet.{u}).Subcomplex) := by
-    simpa [inf_comm] using hzero
+    simpa only [inf_comm] using hzero
   have hcases : ε = (0 : Fin 2) ∨ ε = (1 : Fin 2) := by
     fin_cases ε <;> simp
   rcases hcases with rfl | rfl
