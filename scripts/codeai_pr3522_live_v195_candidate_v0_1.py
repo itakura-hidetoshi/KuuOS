@@ -79,6 +79,20 @@ def run_if_parent_pr() -> None:
     if audit_text.count(audit_entry) != 1:
         raise RuntimeError("CodeAI exact-source blob not individually registered")
     if source_text.count(BEFORE) != 1:
+        # After exact CodeAI candidate materialization has been committed to
+        # the parent, do not replay its one-use proposal against the successor.
+        # Verify both reviewed blob and individually tracked source SHA.
+        applied_blob = "c51cbc33e9897252f6893f4c00c352fdd6369e00"
+        if old_blob == applied_blob and source_text.count(AFTER) == 1:
+            print("KUUOS_CODEAI_REAL_V195_APPLIED_RECEIPT " + json.dumps({
+                "source_head": head_sha,
+                "applied_blob": old_blob,
+                "origin_isolated_receipt": "3a6ad74bf9acde9a89665d47926044eaf862211e89b53c391e25016f5429fad8",
+                "replay_excluded": True,
+                "candidate_regenerated": False,
+                "strict_lean_proof": "unverified",
+            }, sort_keys=True))
+            return
         raise RuntimeError("CodeAI repair candidate anchor drift")
     if "admit" in AFTER or "sorry" in AFTER or "axiom" in AFTER:
         raise RuntimeError("CodeAI candidate forbidden proof marker")
