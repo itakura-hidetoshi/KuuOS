@@ -192,17 +192,21 @@ theorem generatedPushoutDescMap_scaled
   · exact
       (minimalScaling_map W.scaling
         (generatedPushoutDescMap f g inl inr h a b w)) t hmin
-  · change W.scaling.thin
-      ((inl ≫ h.desc a.map b.map
-        (generatedPushout_compatibility_map f g a b w)).app (op ⦋2⦌) x)
-    rw [h.inl_desc a.map b.map
-      (generatedPushout_compatibility_map f g a b w)]
+  · have hcomp :
+        inl ≫ generatedPushoutDescMap f g inl inr h a b w = a.map :=
+      h.inl_desc a.map b.map
+        (generatedPushout_compatibility_map f g a b w)
+    change W.scaling.thin
+      ((inl ≫ generatedPushoutDescMap f g inl inr h a b w).app (op ⦋2⦌) x)
+    rw [hcomp]
     exact a.scaled x hx
-  · change W.scaling.thin
-      ((inr ≫ h.desc a.map b.map
-        (generatedPushout_compatibility_map f g a b w)).app (op ⦋2⦌) y)
-    rw [h.inr_desc a.map b.map
-      (generatedPushout_compatibility_map f g a b w)]
+  · have hcomp :
+        inr ≫ generatedPushoutDescMap f g inl inr h a b w = b.map :=
+      h.inr_desc a.map b.map
+        (generatedPushout_compatibility_map f g a b w)
+    change W.scaling.thin
+      ((inr ≫ generatedPushoutDescMap f g inl inr h a b w).app (op ⦋2⦌) y)
+    rw [hcomp]
     exact b.scaled y hy
 
 /-- The native ordinary pushout desc map upgraded to a scaled map. -/
@@ -529,8 +533,8 @@ noncomputable def standardTypeABoundaryPrism_rankStep_scaled_isPushout
     scalingEqualityIso _ _
       (standardTypeABoundaryPrismRankGeneratedPushoutScaling_eq_succ g j)
   refine h.of_iso (Iso.refl _) (Iso.refl _) (Iso.refl _) eP ?_ ?_ ?_ ?_
-  · simp
-  · simp
+  · simp only [Iso.refl_hom, Category.comp_id, Category.id_comp]
+  · simp only [Iso.refl_hom, Category.comp_id, Category.id_comp]
   · apply ScaledSSet.ScaledMap.ext
     change (standardTypeABoundaryPrismRankStageHom g (Nat.le_succ j)).map ≫
       eP.hom.map =
@@ -539,7 +543,8 @@ noncomputable def standardTypeABoundaryPrism_rankStep_scaled_isPushout
   · apply ScaledSSet.ScaledMap.ext
     change ((standardTypeABoundaryPrismRankFunction g).b j) ≫ eP.hom.map =
       (standardTypeABoundaryPrismRankFunction g).b j
-    simp [eP]
+    have hid : eP.hom.map = 𝟙 _ := by simp [eP]
+    rw [hid, Category.comp_id]
 
 /-!
 The global rank filtration is now genuinely scaled:
