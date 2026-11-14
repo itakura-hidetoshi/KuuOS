@@ -96,8 +96,8 @@ leg; in the second case it lifts to a thin triangle of the second leg. -/
 theorem standardTypeAEndpointInducedProductPullbackScaling_le_generated
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
     ScalingLE
-      (standardTypeAEndpointInducedProductPullbackScaling g)
-      (standardTypeAEndpointGeneratedPushoutScaling g) := by
+      (standardTypeAEndpointInducedProductPullbackScaling.{u} g)
+      (standardTypeAEndpointGeneratedPushoutScaling.{u} g) := by
   intro t ht
   have htmem :
       t.val ∈
