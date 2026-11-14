@@ -445,6 +445,7 @@ theorem standardTypeAEndpointOppositeCornerCarrierIso_hom_app_val
   simp [standardTypeAEndpointOppositeCornerCarrierIso,
     subcomplexProdIntervalEndpointIso,
     SSet.Subcomplex.lift, Subfunctor.lift]
+  all_goals rfl
 
 @[simp]
 theorem standardTypeAEndpointOppositeSimplexCarrierIso_hom_app
@@ -456,6 +457,7 @@ theorem standardTypeAEndpointOppositeSimplexCarrierIso_hom_app
   simp [standardTypeAEndpointOppositeSimplexCarrierIso,
     subcomplexProdIntervalEndpointIso,
     SSet.Subcomplex.lift, Subfunctor.lift]
+  all_goals rfl
 
 /-- Generic upgrade of a carrier isomorphism to an isomorphism of scaled
 objects by putting the pullback scaling on its source. -/
