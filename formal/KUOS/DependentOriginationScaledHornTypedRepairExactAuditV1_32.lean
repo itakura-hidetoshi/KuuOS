@@ -53,6 +53,7 @@ import KUOS.PinnedMathlibUnionProdProofPortV1_61
 import KUOS.PinnedMathlibUnionProdInnerPairingCoreV1_61
 import KUOS.PinnedMathlibUnionProdWeakRankV1_61
 import KUOS.DependentOriginationArbitraryFamilyAdmissibilityDescentV1_29
+import KUOS.DependentOriginationArbitraryFamilyNativeCorrespondenceV1_29
 
 /-!
 # Strict typechecker audit for v1.30–v1.32 typed scaled-horn repair
@@ -425,3 +426,9 @@ certificate or unlifted v1.29 horn descent is inferred. -/
 #print axioms KUOS.DependentOriginationArbitraryFamilyAdmissibilityDescentV1_29.arbitraryCrossUniverseFibrancy_iff
 #print axioms KUOS.DependentOriginationArbitraryFamilyAdmissibilityDescentV1_29.unliftedFibrancy_forward_of_family_inclusions
 #print axioms KUOS.DependentOriginationArbitraryFamilyAdmissibilityDescentV1_29.unliftedFibrancy_iff_of_arbitrary_lifted_families
+
+/-! ## Native coherent quasi-inverse constructs the arbitrary-family lifted D witness -/
+#print axioms KUOS.DependentOriginationArbitraryFamilyNativeCorrespondenceV1_29.admissibilityCompatible_canonical_iff
+#print axioms KUOS.DependentOriginationArbitraryFamilyNativeCorrespondenceV1_29.liftedCorrespondence_of_compatible_families
+#print axioms KUOS.DependentOriginationArbitraryFamilyNativeCorrespondenceV1_29.arbitraryCorrespondence_of_nativeQuasiInverse
+#print axioms KUOS.DependentOriginationArbitraryFamilyNativeCorrespondenceV1_29.unliftedFibrancy_iff_of_arbitrary_nativeQuasiInverse

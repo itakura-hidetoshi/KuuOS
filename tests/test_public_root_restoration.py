@@ -173,6 +173,8 @@ REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
 # Newly added formal modules are outside the frozen v5.291 archive. Their
 # exact draft source blobs are reviewed separately from historical corrections.
 REVIEWED_ADDITIVE_FORMAL_BLOBS = {
+    # Native coherent quasi-inverse builds arbitrary-family D after same-carrier admissibility compatibility.
+    "KUOS/DependentOriginationArbitraryFamilyNativeCorrespondenceV1_29.lean": "bac1637ba746ee96be7ec36d6434bd8ee36c2606",
     # Arbitrary lifted-family admissibility inclusions and true unlifted fibrancy bridges; no unconditional correspondence.
     "KUOS/DependentOriginationArbitraryFamilyAdmissibilityDescentV1_29.lean": "f095ade95b97d883abde177568aca472a36b72ef",
     # Native coherent quasi-inverse yields global prisms; explicit admissibility and rectification retained.
