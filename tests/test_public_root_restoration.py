@@ -43,7 +43,7 @@ PR2339_INTEGRATED_PROOF_BLOBS = {
 # Explicit SHA enrollment is a review gate, never proof of Lean correctness.
 REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
     # v1.73: pinned generated scaled pushout, type-A rank index and desc-map API.
-    "KUOS/DependentOriginationStandardTypeABoundaryPrismRankwiseScaledPushoutV1_73.lean": "a46ae857c146d98975a23d8a556853042a3bbb42",
+    "KUOS/DependentOriginationStandardTypeABoundaryPrismRankwiseScaledPushoutV1_73.lean": "e4d07d2135c60078a5443f6a2098b812f962e800",
     # v1.72: pinned scaled-cellular namespaces and consistent rank-cell universe.
     "KUOS/DependentOriginationStandardTypeABoundaryPrismRankwiseABCellularityV1_72.lean": "62073a19eb987dbf7072cd71eee79e827a3a474b",
     # v1.71: pinned rank-stage class transparency and exact category morphism equalities.
@@ -168,6 +168,8 @@ REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
 # Newly added formal modules are outside the frozen v5.291 archive. Their
 # exact draft source blobs are reviewed separately from historical corrections.
 REVIEWED_ADDITIVE_FORMAL_BLOBS = {
+    # Pointwise standard simplex and horn comparison across distinct ULift universes.
+    "KUOS/DependentOriginationULiftHornUniverseComparisonV1_29.lean": "05a754df486a8002fa8d96c3fd9ee2ccb514a6e8",
     # v1.29 actual B/C Duskin source/target same-universe descent, no arbitrary E_B/E_C assumptions.
     "KUOS/DependentOriginationCanonicalSameUniverseDuskinDescentV1_29.lean": "b14ad4df00c44c1c88fc5723617383241ecd02f7",
     # Typed same-universe ULift horn-problem/filler equivalence; cross-universe bridge remains separate.

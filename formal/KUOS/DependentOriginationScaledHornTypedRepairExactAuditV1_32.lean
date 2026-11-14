@@ -1,3 +1,4 @@
+import KUOS.DependentOriginationULiftHornUniverseComparisonV1_29
 import KUOS.DependentOriginationCanonicalSameUniverseDuskinDescentV1_29
 import KUOS.DependentOriginationCanonicalULiftHornPresentationBridgeV1_29
 import KUOS.PinnedMathlibUnionProdFullPairingV1_61
@@ -306,3 +307,8 @@ certificate or unlifted v1.29 horn descent is inferred. -/
 #print axioms KUOS.DependentOriginationCanonicalSameUniverseDuskinDescentV1_29.sourceFibrancy_iff_canonicalULift
 #print axioms KUOS.DependentOriginationCanonicalSameUniverseDuskinDescentV1_29.targetFibrancy_iff_canonicalULift
 #print axioms KUOS.DependentOriginationCanonicalSameUniverseDuskinDescentV1_29.unliftedFibrancy_iff_of_canonical_sameUniverse_strictInverse
+
+/-! ## Actual cross-universe horn membership compatibility, no full filler descent claim -/
+#print axioms KUOS.DependentOriginationULiftHornUniverseComparisonV1_29.simplexUniverseEquiv
+#print axioms KUOS.DependentOriginationULiftHornUniverseComparisonV1_29.simplexUniverseEquiv_objEquiv
+#print axioms KUOS.DependentOriginationULiftHornUniverseComparisonV1_29.hornUniverseMem_iff
