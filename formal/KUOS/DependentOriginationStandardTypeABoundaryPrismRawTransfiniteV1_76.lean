@@ -372,14 +372,16 @@ theorem standardTypeABoundaryPrismAlternatingStep_mem_rawCellular
   | bit b j =>
       cases b with
       | false =>
-          simpa [standardTypeABoundaryPrismAlternatingStep_bit_false,
-            standardTypeABoundaryPrismAlternatingObj_bit_false,
-            standardTypeABoundaryPrismAlternatingObj_bit_false_succ] using
+          change standardABCRawCellularStep
+            (standardTypeABoundaryPrismAlternatingStep g (Nat.bit false j))
+          rw [standardTypeABoundaryPrismAlternatingStep_bit_false]
+          simpa using
             standardTypeABoundaryPrismRankStageToAPhase_mem_rawCellular g j
       | true =>
-          simpa [standardTypeABoundaryPrismAlternatingStep_bit_true,
-            standardTypeABoundaryPrismAlternatingObj_bit_true,
-            standardTypeABoundaryPrismAlternatingObj_bit_true_succ] using
+          change standardABCRawCellularStep
+            (standardTypeABoundaryPrismAlternatingStep g (Nat.bit true j))
+          rw [standardTypeABoundaryPrismAlternatingStep_bit_true]
+          simpa using
             standardTypeABoundaryPrismRankAPhaseToSucc_mem_rawCellular g j
 
 
@@ -655,6 +657,9 @@ theorem standardTypeABoundaryPrismToCylinder_mem_strongCellular
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
     standardABCStrongCellularClosure
       (standardTypeABoundaryPrismToCylinder g) := by
+  change MorphismProperty.transfiniteCompositions.{u, u, u + 1}
+    (standardABCRawCellularStep : MorphismProperty (ScaledSSet.{u}))
+      (standardTypeABoundaryPrismToCylinder g)
   exact MorphismProperty.transfiniteCompositionsOfShape_le_transfiniteCompositions
     (standardABCRawCellularStep : MorphismProperty (ScaledSSet.{u})) _ _
     ((standardTypeABoundaryPrismRawTransfiniteComposition g).ofOrderIso
