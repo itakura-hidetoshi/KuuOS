@@ -20,6 +20,7 @@ namespace KUOS.DependentOriginationCanonicalULiftHornPresentationBridgeV1_29
 
 open CategoryTheory
 open Simplicial
+open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
 open KUOS.DependentOriginationGlobalDuskinScaledHornCoherenceV1_22
 open KUOS.DependentOriginationScaledDuskinHornTransportV1_29
 open KUOS.DependentOriginationScaledDuskinUniverseLiftBridgeV1_29
@@ -103,7 +104,7 @@ simplicial operator. -/
 def sameUniverseULiftIso (X : SSet.{u}) :
     X ≅ (SSet.uliftFunctor.{u, u}).obj X :=
   NatIso.ofComponents
-    (fun d => (Equiv.ulift : X.obj d ≃ ULift.{u} (X.obj d)).toIso)
+    (fun d => (Equiv.ulift.symm : X.obj d ≃ ULift.{u} (X.obj d)).toIso)
     (fun {_ _} _ => by
       ext x
       rfl)
