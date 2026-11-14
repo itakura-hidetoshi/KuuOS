@@ -107,3 +107,167 @@ jobs:
           path: /tmp/kuuos-current-parent-v2/
           if-no-files-found: warn
           retention-days: 14
+
+candidate-v195-lean-mcp:
+    name: CodeAI round4 candidate, full-source Lean MCP and independent direct Lean precommit
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.number == 3522 }}
+    needs: head-snapshot-contract
+    runs-on: ubuntu-22.04
+    timeout-minutes: 90
+    env:
+      MATHLIB_NO_CACHE_ON_UPDATE: '1'
+    steps:
+      - name: Checkout immutable PR HEAD without credentials
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Lean MCP uvx and source inspection tools
+        run: |
+          python3 -m pip install uv
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ripgrep
+      - name: Set up exact pinned Lean v4.30.0-rc2
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Restore read-only pinned mathlib cache
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: kuuos-v195-mcp-${{ runner.os }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-${{ github.event.pull_request.head.sha }}
+          restore-keys: |
+            kuuos-v195-mcp-${{ runner.os }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-
+            kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-
+      - name: Resolve pinned olean dependencies, without unpinned upgrade
+        run: lake exe cache get
+      - name: Compile pinned imported closure through prior v1.94
+        run: |
+          timeout 1800 lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.DependentOriginationAtomicTwoSimplexUniversalScalingObstructionV1_94
+      - name: Fetch actual parent HEAD and all changed Lean Git blobs
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          EXPECTED_HEAD: ${{ github.event.pull_request.head.sha }}
+        run: |
+          python3 scripts/check_kuuos_lean_mcp_live_pr_v2.py \
+            --pr 3522 --output-dir /tmp/kuuos-v195-current-parent
+          python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+          data=json.loads(Path('/tmp/kuuos-v195-current-parent/plan.json').read_text())
+          assert data['source_head']==os.environ['EXPECTED_HEAD'], 'PR moved: fail closed'
+          assert data['scope']=='all-changed'
+          assert any(x['path'].endswith('WitnessV1_95.lean') for x in data['targets'])
+          print('KUUOS_MCP_EXACT_HEAD_AND_CHANGED_LEAN_FILES',data['source_head'],len(data['targets']))
+          PY
+      - name: Lean MCP fullsource, real goals and multi-attempt, CodeAI candidate isolated direct compilation
+        run: |
+          set -o pipefail
+          PYTHONPATH=. python3 - <<'PY' 2>&1 | tee /tmp/kuuos-v195-mcp-precommit.log
+          import hashlib, json, pathlib, subprocess, sys, tempfile
+          from scripts.codeai_pr3522_live_v195_candidate_v0_1 import ASSOC_BEFORE, ASSOC_AFTER
+          from scripts.check_kuuos_lean_mcp_fullsource_v1 import (
+              imports_of, declarations_of, git_blob, sha256,
+          )
+          from scripts.check_kuuos_lean_mcp_fullsource_repair_v1 import gate_repair
+          from scripts.kuuos_lean_mcp_repair_loop_v1 import digest
+          target='formal/KUOS/DependentOriginationDoubleDeloopingNatNonthinDuskinWitnessV1_95.lean'
+          module='KUOS.DependentOriginationDoubleDeloopingNatNonthinDuskinWitnessV1_95'
+          before_blob='f7dcf6d9cddf3820b78c91375f0ec460874a7734'
+          after_blob='ca05d2cad1994d94713be4d7b3feea9f315905c6'
+          codeai_receipt='d845e285ddb7eded3129a717ff3ad28eb3e2c23708d6598fe7d60fa82533fe4a'
+          root=pathlib.Path('.').resolve()
+          out=pathlib.Path('/tmp/kuuos-v195-mcp-precommit')
+          plan=json.loads(pathlib.Path('/tmp/kuuos-v195-current-parent/plan.json').read_text())
+          targets=[x for x in plan['targets'] if x['path']==target]
+          assert len(targets)==1 and targets[0]['git_blob_sha']==before_blob
+          src=root/target
+          original=src.read_bytes()
+          assert git_blob(original)==before_blob and original.decode().count(ASSOC_BEFORE)==1
+          original_text=original.decode()
+          changed_text=original_text.replace(ASSOC_BEFORE,ASSOC_AFTER)
+          candidate=changed_text.encode()
+          assert git_blob(candidate)==after_blob
+          assert imports_of(original_text)==imports_of(changed_text)
+          signature=lambda x:[(d['kind'],d['name_lexical'],d['signature_sha256'])
+              for d in declarations_of(x,module)]
+          assert signature(original_text)==signature(changed_text)
+          assert all(x not in changed_text or x in original_text
+              for x in ('sorry','admit','axiom','unsafe','native_decide'))
+          plan['api_probes']=[
+              {'name':'CategoryTheory.StrictlyUnitaryLaxFunctorCore',
+               'import_module':'Mathlib.CategoryTheory.Bicategory.Functor.StrictlyUnitary'},
+              {'name':'Nat.add_comm','import_module':'Mathlib'},
+          ]
+          if out.exists(): raise RuntimeError('append-only evidence already exists')
+          out.mkdir()
+          def provider(current,observations):
+              if current!=original_text or not observations or not observations[-1].get('errors'):
+                  raise RuntimeError('CodeAI candidate lacks actual Lean MCP error context')
+              return {'expected_sha256':digest(current),'old_text':ASSOC_BEFORE,
+                      'new_text':ASSOC_AFTER,'reason':'CodeAI isolated receipt '+codeai_receipt}
+          record={'source_head':plan['source_head'],'changed_lean_count':len(plan['targets']),
+                  'source_git_blob':before_blob,'codeai_candidate_git_blob':after_blob,
+                  'codeai_receipt':codeai_receipt,'git_write_performed':False,
+                  'strict_lean_status':'NOT_RUN','lean_mcp_status':'NOT_RUN'}
+          try:
+              x=gate_repair(root=root,plan=plan,output_dir=out/'mcp_fullsource',
+                  target=target,acknowledged_isolated=True,max_iterations=1,
+                  provider=provider)
+              record['full_source_status']=x.get('evidence_status')
+              record['lean_mcp_status']=x.get('repair_status')
+              record['mcp_local_receipt']=x.get('local_repair_receipt')
+              record['source_restored_by_mcp']=x.get('source_restored')
+          except Exception as e:
+              record['lean_mcp_status']='MCP_EXECUTION_OBSTRUCTION'
+              record['mcp_exception']=type(e).__name__+': '+str(e)[:700]
+          if src.read_bytes()!=original:
+              raise RuntimeError('MCP failed unconditional source restoration')
+          try:
+              src.write_bytes(candidate)
+              with tempfile.TemporaryDirectory(prefix='kuuos-v195-candidate-') as td:
+                  try:
+                      run=subprocess.run(['lake','env','lean','-DwarningAsError=true',
+                            '-DsorryAsError=true','-o',td+'/candidate.olean',target],
+                            capture_output=True,text=True,timeout=900,check=False)
+                      log=run.stdout+'\n'+run.stderr
+                      record['strict_lean_status']='SUCCESS' if run.returncode==0 else 'FAILURE'
+                      record['strict_lean_returncode']=run.returncode
+                  except subprocess.TimeoutExpired as e:
+                      log=str(e.stdout or '')+'\n'+str(e.stderr or '')
+                      record['strict_lean_status']='TIMEOUT'
+                  (out/'strict_candidate.log').write_text(log)
+                  record['strict_candidate_log_sha256']=sha256(log.encode())
+          finally:
+              src.write_bytes(original)
+              if src.read_bytes()!=original:
+                  raise RuntimeError('candidate direct Lean test did not restore source')
+              record['source_restored_final']=True
+          (out/'precommit_receipt.json').write_text(
+              json.dumps(record,ensure_ascii=False,sort_keys=True,indent=2)+'\n')
+          print('KUUOS_REAL_V195_CODEAI_LEAN_MCP_PRECOMMIT '+json.dumps({
+              k:v for k,v in record.items() if k!='mcp_local_receipt'},ensure_ascii=False,sort_keys=True))
+          success=(record['strict_lean_status']=='SUCCESS'
+                   and record['lean_mcp_status']=='LOCAL_FULLSOURCE_AND_LEAN_GREEN_CANDIDATE_ONLY'
+                   and record['source_restored_final'])
+          sys.exit(0 if success else 1)
+          PY
+      - name: Preserve candidate full-source snapshots, MCP goals, strict Lean logs and obstructions
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuu-v195-fullsource-lean-mcp-codeai-${{ github.run_id }}
+          path: |
+            /tmp/kuuos-v195-current-parent/
+            /tmp/kuuos-v195-mcp-precommit/
+            /tmp/kuuos-v195-mcp-precommit.log
+          if-no-files-found: warn
+          retention-days: 21
