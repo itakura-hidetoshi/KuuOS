@@ -1,3 +1,4 @@
+import KUOS.DependentOriginationULiftScaledMapReflectionV1_29
 import KUOS.DependentOriginationULiftScalingRoundTripV1_29
 import KUOS.DependentOriginationULiftScalingDescentV1_29
 import KUOS.DependentOriginationULiftHornExtensionReflectionV1_29
@@ -364,3 +365,10 @@ certificate or unlifted v1.29 horn descent is inferred. -/
 #print axioms KUOS.DependentOriginationULiftScalingRoundTripV1_29.unlift_liftSimplexScaling
 #print axioms KUOS.DependentOriginationULiftScalingRoundTripV1_29.lift_unliftHornScaling
 #print axioms KUOS.DependentOriginationULiftScalingRoundTripV1_29.lift_unliftSimplexScaling
+
+/-! ## v1.29 actual reflection of scaled maps across independent universes -/
+#print axioms KUOS.DependentOriginationULiftScaledMapReflectionV1_29.scaledMap_reflected_by_ulift_iso
+#print axioms KUOS.DependentOriginationULiftScaledMapReflectionV1_29.scaledHornMap_reflect
+#print axioms KUOS.DependentOriginationULiftScaledMapReflectionV1_29.scaledSimplexMap_reflect
+#print axioms KUOS.DependentOriginationULiftScaledMapReflectionV1_29.unliftHornMap_scaled
+#print axioms KUOS.DependentOriginationULiftScaledMapReflectionV1_29.unliftSimplexMap_scaled
