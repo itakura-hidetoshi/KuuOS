@@ -44,7 +44,7 @@ PR2339_INTEGRATED_PROOF_BLOBS = {
 REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
     # v1.77 historical source: restore explicit v1.19/v1.40/v1.58 namespaces; CI still required.
     # Previous reviewed blob: d73ae673183fc739cb654ff652dbfe8691627feb (Git history).
-    "KUOS/DependentOriginationStandardTypeAEndpointOppositeCellCertificateV1_77.lean": "0fb5b2457f8d19664db98f0ca5ba9544f09bf5b9",
+    "KUOS/DependentOriginationStandardTypeAEndpointOppositeCellCertificateV1_77.lean": "9d50c502d02016258766c9ea75e26b1995313c4a",
     # Previous reviewed v1.76 blob: 9a06669b57537430895aad2a7336aabea001580e (parent HEAD 31805864; Git history).
     "KUOS/DependentOriginationStandardTypeABoundaryPrismRawTransfiniteV1_76.lean": "d2299c21820555c632dafc8f3747342357511a1e",
     # Previous reviewed v1.75 blob: be0d83f8864c0d7933b0f3b23d388086c9836217 (Git history).
