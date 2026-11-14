@@ -54,7 +54,8 @@ REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
     # Previous v1.77 proof elaboration blob: 15071010aa0f5398ac96dd2268744acc6fe4b27f (Git history).
     # Previous v1.77 typed prepended witness blob: 792721325863426cc07d6c6a1df437f0e65641cd (Git history).
     # Previous v1.77 explicit colimit uniqueness blob: 5c6398815a6e7f8952fb529c4e0e14849fe7fe32 (Git history).
-    "KUOS/DependentOriginationStandardTypeAEndpointOppositeCellCertificateV1_77.lean": "05694967caeb01939d7021c703c906f3ed625948",
+    # Previous v1.77 type-directed equality blob: 05694967caeb01939d7021c703c906f3ed625948 (Git history).
+    "KUOS/DependentOriginationStandardTypeAEndpointOppositeCellCertificateV1_77.lean": "70ff981ca865d067074063e8ec4f549a5f572094",
     # Previous reviewed v1.76 blob: 9a06669b57537430895aad2a7336aabea001580e (parent HEAD 31805864; Git history).
     "KUOS/DependentOriginationStandardTypeABoundaryPrismRawTransfiniteV1_76.lean": "d2299c21820555c632dafc8f3747342357511a1e",
     # Previous reviewed v1.75 blob: be0d83f8864c0d7933b0f3b23d388086c9836217 (Git history).
