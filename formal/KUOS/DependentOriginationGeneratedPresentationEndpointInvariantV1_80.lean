@@ -87,10 +87,11 @@ variable
     {E F G : MorphismProperty (ScaledSSet.{u})}
     (K : GeneratedScaledAnodynePresentationEquivalence E F)
 
+include K
 /-- Mutual generation identifies the two orthogonally generated left classes.
 No small-object argument is needed: both targets are already orthogonally
 saturated. -/
-include K in theorem generatedAnodyne_eq :
+theorem generatedAnodyne_eq :
     externalGeneratedScaledAnodyne E =
       externalGeneratedScaledAnodyne F := by
   apply le_antisymm
@@ -100,6 +101,8 @@ include K in theorem generatedAnodyne_eq :
   · exact externalGeneratedScaledAnodyne_le_of_le_saturated
       K.right_generators_le_left_generated
       (externalGeneratedScaledAnodyne_isOrthogonallySaturated E)
+
+omit K
 
 /-- Conversely equality of generated left classes recovers mutual generation.
 Thus the structure above contains exactly the information relevant to the
@@ -146,9 +149,10 @@ def trans
   ofGeneratedAnodyneEq
     (K.generatedAnodyne_eq.trans L.generatedAnodyne_eq)
 
+include K
 /-- Equality of the generated left classes implies equality of the corresponding
 right lifting classes. -/
-include K in theorem generatedFibration_eq :
+theorem generatedFibration_eq :
     externalGeneratedScaledFibration E =
       externalGeneratedScaledFibration F := by
   have hleft : E.rlp.llp = F.rlp.llp := by
@@ -160,24 +164,33 @@ include K in theorem generatedFibration_eq :
     _ = (F.rlp.llp).rlp := by rw [hleft]
     _ = F.rlp := MorphismProperty.rlp_llp_rlp F
 
+include K
+omit K
+
 /-- Generated-anodyne membership is presentation-independent under mutual
 generation. -/
-include K in theorem generatedAnodyne_mem_iff
+theorem generatedAnodyne_mem_iff
     {A B : ScaledSSet.{u}} (f : A ⟶ B) :
     externalGeneratedScaledAnodyne E f ↔
       externalGeneratedScaledAnodyne F f := by
   rw [K.generatedAnodyne_eq]
 
+include K
+omit K
+
 /-- Generated-fibration membership is likewise presentation-independent. -/
-include K in theorem generatedFibration_mem_iff
+theorem generatedFibration_mem_iff
     {A B : ScaledSSet.{u}} (p : A ⟶ B) :
     externalGeneratedScaledFibration E p ↔
       externalGeneratedScaledFibration F p := by
   rw [K.generatedFibration_eq]
 
+include K
+omit K
+
 /-- Whether the generated pair is already a weak factorization system is also
 an invariant of the generated presentation. -/
-include K in theorem weakFactorizationSystem_iff :
+theorem weakFactorizationSystem_iff :
     MorphismProperty.IsWeakFactorizationSystem
         (externalGeneratedScaledAnodyne E)
         (externalGeneratedScaledFibration E) ↔
@@ -185,6 +198,8 @@ include K in theorem weakFactorizationSystem_iff :
         (externalGeneratedScaledAnodyne F)
         (externalGeneratedScaledFibration F) := by
   rw [K.generatedAnodyne_eq, K.generatedFibration_eq]
+
+omit K
 
 /-! ## Endpoint properties depending only on the generated classes -/
 
@@ -214,25 +229,32 @@ def TypeAEndpointLeibnizLiftingForPresentation
       HasLiftingProperty
         (standardTypeAEndpointScaledLeibnizPushoutProductHom g) p
 
+include K
 /-- Endpoint Leibniz generator membership is invariant under generated
 presentation equivalence. -/
-include K in theorem typeAEndpointLeibnizGeneratorsGenerated_iff :
+theorem typeAEndpointLeibnizGeneratorsGenerated_iff :
     TypeAEndpointLeibnizGeneratorsGeneratedBy E ↔
       TypeAEndpointLeibnizGeneratorsGeneratedBy F := by
   unfold TypeAEndpointLeibnizGeneratorsGeneratedBy
   rw [K.generatedAnodyne_eq]
 
+include K
+omit K
+
 /-- Endpoint Leibniz stability is invariant because its ambient left class is
 literally the same morphism property. -/
-include K in theorem typeAEndpointLeibnizStable_iff :
+theorem typeAEndpointLeibnizStable_iff :
     TypeAEndpointLeibnizStableForPresentation E ↔
       TypeAEndpointLeibnizStableForPresentation F := by
   unfold TypeAEndpointLeibnizStableForPresentation
   rw [K.generatedAnodyne_eq]
 
+include K
+omit K
+
 /-- The endpoint right-lifting statement is invariant because the right
 classes are literally equal. -/
-include K in theorem typeAEndpointLeibnizLifting_iff :
+theorem typeAEndpointLeibnizLifting_iff :
     TypeAEndpointLeibnizLiftingForPresentation E ↔
       TypeAEndpointLeibnizLiftingForPresentation F := by
   constructor
@@ -249,9 +271,12 @@ include K in theorem typeAEndpointLeibnizLifting_iff :
       exact hp
     exact this
 
+include K
+omit K
+
 /-- Fibrancy measured directly by the generator RLP is independent of any
 mutually generated presentation. -/
-include K in theorem fibrantForExternalGenerators_iff
+theorem fibrantForExternalGenerators_iff
     (X : ScaledSSet.{u}) :
     IsFibrantForExternalGenerators E X ↔
       IsFibrantForExternalGenerators F X := by
@@ -259,6 +284,8 @@ include K in theorem fibrantForExternalGenerators_iff
     externalGeneratedScaledFibration E (ScaledSSet.toPoint X) ↔
       externalGeneratedScaledFibration F (ScaledSSet.toPoint X)
   rw [K.generatedFibration_eq]
+omit K
+
 
 end GeneratedScaledAnodynePresentationEquivalence
 
@@ -399,7 +426,8 @@ theorem canonical_typeAEndpointLeibnizStable_of_positiveComparison
     GeneratedScaledAnodynePresentationEquivalence.TypeAEndpointLeibnizStableForPresentation
       (scaledHornAttachmentGenerators :
         MorphismProperty (ScaledSSet.{u})) :=
-  (K.toGeneratedPresentationEquivalence).typeAEndpointLeibnizStable_of_standardEquivalent
+  GeneratedScaledAnodynePresentationEquivalence.typeAEndpointLeibnizStable_of_standardEquivalent
+    (StandardABCCanonicalPositiveComparisonCertificate.toGeneratedPresentationEquivalence K)
 
 /-- And it inherits the endpoint right-lifting theorem through equality of the
 right orthogonals. -/
@@ -408,7 +436,8 @@ theorem canonical_typeAEndpointLeibnizLifting_of_positiveComparison
     GeneratedScaledAnodynePresentationEquivalence.TypeAEndpointLeibnizLiftingForPresentation
       (scaledHornAttachmentGenerators :
         MorphismProperty (ScaledSSet.{u})) :=
-  (K.toGeneratedPresentationEquivalence).typeAEndpointLeibnizLifting_of_standardEquivalent
+  GeneratedScaledAnodynePresentationEquivalence.typeAEndpointLeibnizLifting_of_standardEquivalent
+    (StandardABCCanonicalPositiveComparisonCertificate.toGeneratedPresentationEquivalence K)
 
 /-!
 The presentation-independent endpoint theorem is now separated cleanly from
