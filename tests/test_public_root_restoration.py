@@ -105,7 +105,7 @@ REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
     "KUOS/DependentOriginationCanonicalFibrancyAtomicTwoSimplexAuditV1_91.lean": "36036c35b52bb4143d8bd7cdc389afadb3cfcacb",
     # Original v1.92 frozen source: 513823a1b757c23a3f8e88cbac08144cb9b82034 (retained in legacy/v5.291).
     # Reviewed namespace/Δ syntax repair, subject to exact-source Strict Lean.
-    "KUOS/DependentOriginationCanonicalFibrationThinReflectionV1_92.lean": "f7290bca3b4f799943430dff7fb1610faac19551",
+    "KUOS/DependentOriginationCanonicalFibrationThinReflectionV1_92.lean": "34d74a83e614a5c676a39eb55eabd9c97c4c167a",
     # Original V1_89 pinned source: f5d06299e825ef784a7df25386b062b80c702f12 (retained in Git history).
     "KUOS/DependentOriginationStandardArbitraryScalingWaypointV1_89.lean": "3b5de0a154436be6598a49861435dc57a80ea2f9",
     "KUOS/DependentOriginationStandardTypeAEndpointOppositeCellCertificateV1_77.lean": "e7d422b89b4a4fa5180790b0c5d49c51b7239786",
