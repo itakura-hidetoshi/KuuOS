@@ -109,7 +109,8 @@ REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
     # Original v1.93 archived proof SHA: ac445c1f2029ed71827609424905ff2818cc6c14 (preserved in legacy/v5.291).
     # Reviewed v1.93 simplex/scaling import and dimension proof repair; Lean CI still required.
     # v1.93: normalize Fin-value goals before finite extensionality; previous blob 627d1ef23cb80e020343eea945592fb7e4fbfc28 (Git history).
-    "KUOS/DependentOriginationStandardTypeATwoSimplexThinReplacementV1_93.lean": "a1f6cf284e5738d008ab12cfff375cdd4ddecb79",
+    # v1.93: explicit Yoneda universe; prior reviewed blob a1f6cf284e5738d008ab12cfff375cdd4ddecb79 (Git history).
+    "KUOS/DependentOriginationStandardTypeATwoSimplexThinReplacementV1_93.lean": "3f24f5549d4ff93ada29a85902ba5baba5b78f40",
     # Original V1_89 pinned source: f5d06299e825ef784a7df25386b062b80c702f12 (retained in Git history).
     "KUOS/DependentOriginationStandardArbitraryScalingWaypointV1_89.lean": "3b5de0a154436be6598a49861435dc57a80ea2f9",
     "KUOS/DependentOriginationStandardTypeAEndpointOppositeCellCertificateV1_77.lean": "e7d422b89b4a4fa5180790b0c5d49c51b7239786",
