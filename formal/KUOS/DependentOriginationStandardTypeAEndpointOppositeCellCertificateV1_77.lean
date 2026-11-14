@@ -257,7 +257,7 @@ theorem intervalEndpoint_inf_rev_eq_bot (ε : Fin 2) :
       intervalEndpoint_one_eq_face_zero,
       SSet.stdSimplex.face_inter_face]
     have hEmpty :
-        ({(1 : Fin 2)}ᶜ ∩ {(0 : Fin 2)}ᶜ : Finset (Fin 2)) = ∅ := by
+        ({(1 : Fin 2)}ᶜ ⊓ {(0 : Fin 2)}ᶜ : Finset (Fin 2)) = ∅ := by
       decide
     simpa only [hEmpty, SSet.stdSimplex.face_empty]
   · change intervalEndpoint (1 : Fin 2) ⊓ intervalEndpoint (0 : Fin 2) = ⊥
@@ -265,7 +265,7 @@ theorem intervalEndpoint_inf_rev_eq_bot (ε : Fin 2) :
       intervalEndpoint_zero_eq_face_one,
       SSet.stdSimplex.face_inter_face]
     have hEmpty :
-        ({(0 : Fin 2)}ᶜ ∩ {(1 : Fin 2)}ᶜ : Finset (Fin 2)) = ∅ := by
+        ({(0 : Fin 2)}ᶜ ⊓ {(1 : Fin 2)}ᶜ : Finset (Fin 2)) = ∅ := by
       decide
     simpa only [hEmpty, SSet.stdSimplex.face_empty]
 
