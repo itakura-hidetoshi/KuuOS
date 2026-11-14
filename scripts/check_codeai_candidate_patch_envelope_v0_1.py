@@ -377,3 +377,7 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+    # For the exact parent repair PR, run the real-source CodeAI intake as well.
+    # Existing fixture checks remain intact. This grants no Git or proof authority.
+    from scripts.codeai_pr3522_live_v195_candidate_v0_1 import run_if_parent_pr
+    run_if_parent_pr()

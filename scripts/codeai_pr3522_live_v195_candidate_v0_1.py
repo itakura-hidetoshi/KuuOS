@@ -1,0 +1,279 @@
+#!/usr/bin/env python3
+"""Real source-anchored CodeAI v0.1 observation and Candidate Patch for PR #3522.
+
+The patch is an externally proposed one-lemma repair, not a kernel-generated
+proof, Lean success, repository edit, or permission to merge. This route
+invokes the repository's actual CodeAI Python kernels, not fixture simulation.
+"""
+from __future__ import annotations
+
+from copy import deepcopy
+import difflib
+import hashlib
+import json
+import os
+from pathlib import Path
+import re
+import time
+import urllib.request
+
+from runtime import kuuos_codeai_intent_repository_observation_envelope_v0_1 as observation
+from runtime import kuuos_codeai_candidate_patch_envelope_v0_1 as candidate_patch
+
+ROOT = Path(__file__).resolve().parents[1]
+REPOSITORY = "itakura-hidetoshi/KuuOS"
+TARGET = "formal/KUOS/DependentOriginationDoubleDeloopingNatNonthinDuskinWitnessV1_95.lean"
+AUDIT = "tests/test_public_root_restoration.py"
+BEFORE = "simpa only [Nat.succ_add, Nat.zero_add] using hinv"
+AFTER = "simpa only [Nat.one_add] using hinv"
+
+
+def git_blob_sha(content: bytes) -> str:
+    return hashlib.sha1(b"blob " + str(len(content)).encode("ascii") + b"\\0".decode("unicode_escape").encode("ascii") + content).hexdigest()
+
+
+def load_example(name: str) -> dict:
+    return json.loads((ROOT / "examples" / name).read_text(encoding="utf-8"))
+
+
+def read_true_head_tree(source_head: str) -> str:
+    # Read-only public GitHub REST endpoint. No git/gh CLI or repository mutation.
+    uri = "https://api.github.com/repos/" + REPOSITORY + "/git/commits/" + source_head
+    request = urllib.request.Request(
+        uri, headers={"Accept": "application/vnd.github+json", "User-Agent": "KuuOS-CodeAI-v195"}
+    )
+    with urllib.request.urlopen(request, timeout=30) as response:
+        data = json.load(response)
+    if data.get("sha") != source_head:
+        raise RuntimeError("CodeAI source HEAD mismatch")
+    tree = data.get("tree", {}).get("sha")
+    if not isinstance(tree, str) or re.fullmatch(r"[0-9a-f]{40}", tree) is None:
+        raise RuntimeError("CodeAI true source Git tree unavailable")
+    return tree
+
+
+def run_if_parent_pr() -> None:
+    if os.environ.get("GITHUB_EVENT_NAME") != "pull_request":
+        return
+    event_file = os.environ.get("GITHUB_EVENT_PATH")
+    if not event_file:
+        raise RuntimeError("CodeAI live PR event path absent")
+    event = json.loads(Path(event_file).read_text(encoding="utf-8"))
+    if event.get("number") != 3522:
+        return
+    if event.get("repository", {}).get("full_name") != REPOSITORY:
+        raise RuntimeError("CodeAI repository identity mismatch")
+    pr = event["pull_request"]
+    head_sha = pr["head"]["sha"]
+    branch = pr["head"]["ref"]
+    if re.fullmatch(r"[0-9a-f]{40}", head_sha) is None:
+        raise RuntimeError("Invalid CodeAI parent HEAD")
+    if pr["head"]["repo"]["full_name"] != REPOSITORY:
+        raise RuntimeError("CodeAI parent source repository mismatch")
+
+    data = (ROOT / TARGET).read_bytes()
+    source_text = data.decode("utf-8")
+    old_blob = git_blob_sha(data)
+    audit_text = (ROOT / AUDIT).read_text(encoding="utf-8")
+    audit_entry = '"KUOS/DependentOriginationDoubleDeloopingNatNonthinDuskinWitnessV1_95.lean": "' + old_blob + '"'
+    if audit_text.count(audit_entry) != 1:
+        raise RuntimeError("CodeAI exact-source blob not individually registered")
+    if source_text.count(BEFORE) != 1:
+        raise RuntimeError("CodeAI repair candidate anchor drift")
+    if "admit" in AFTER or "sorry" in AFTER or "axiom" in AFTER:
+        raise RuntimeError("CodeAI candidate forbidden proof marker")
+
+    new_text = source_text.replace(BEFORE, AFTER)
+    new_blob = git_blob_sha(new_text.encode("utf-8"))
+    unified = "".join(
+        difflib.unified_diff(
+            source_text.splitlines(keepends=True),
+            new_text.splitlines(keepends=True),
+            fromfile="a/" + TARGET,
+            tofile="b/" + TARGET,
+            n=3,
+        )
+    )
+    artifact = (
+        "diff --git a/" + TARGET + " b/" + TARGET + "\n"
+        + "index " + old_blob[:7] + ".." + new_blob[:7] + " 100644\n"
+        + unified
+    )
+    shape, parse_issues = candidate_patch.parse_unified_diff(artifact)
+    if parse_issues or shape is None or shape.changed_paths != (TARGET,):
+        raise RuntimeError("CodeAI candidate diff rejected: " + repr(parse_issues))
+
+    t0 = int(time.time())
+    true_tree_sha = read_true_head_tree(head_sha)
+    observed_paths = [TARGET, AUDIT, "lean-toolchain", "lake-manifest.json"]
+    if any(not (ROOT / x).is_file() for x in observed_paths):
+        raise RuntimeError("CodeAI observed path missing")
+    toolchain = (ROOT / "lean-toolchain").read_text(encoding="utf-8").strip()
+    if toolchain != "leanprover/lean4:v4.30.0-rc2":
+        raise RuntimeError("CodeAI fixed Lean pin changed: " + toolchain)
+    manifest_sha = hashlib.sha256((ROOT / "lake-manifest.json").read_bytes()).hexdigest()
+    toolchain_id = "lean-4.30.0-rc2-python-3.12"
+
+    sample = load_example("codeai_intent_repository_observation_envelope_v0_1.json")
+    intent = deepcopy(sample["intent_packet"])
+    intent.update({
+        "intent_id": "kuuos-pr3522-v195-nat-one-add-" + head_sha[:12],
+        "intent_revision": "r1",
+        "source_actor_id": "codeai-assisted-research",
+        "source_channel": "pull-request-exact-source-diagnostics",
+        "requirements": ["Repair the exact v1.95 non-invertible Nat 2-cell proof without new axioms"],
+        "assumptions": ["Candidate patch is a hypothesis until strict pinned Lean validates it"],
+        "unresolved_questions": [],
+        "preserved_invariants": ["exact parent source","no sorry/admit/axiom","independent Lean certification"],
+        "forbidden_changes": ["no theorem weakening","no main merge","no branch rewrite"],
+        "success_criteria": ["candidate is admitted only as an unverified CodeAI proposal"],
+        "intent_created_epoch": t0,
+        "prior_intent_digests": [],
+        "intent_provenance_confirmed": True,
+    })
+    intent = observation.seal(intent, observation.INTENT_DIGEST_FIELD)
+
+    repo_sample = deepcopy(sample["repository_observation"])
+    repo_sample.update({
+        "repository_full_name": REPOSITORY,
+        "source_commit_sha": head_sha,
+        "source_branch": branch,
+        "tree_digest": true_tree_sha,
+        "dependency_lock_digest": manifest_sha,
+        "toolchain_digest": toolchain_id,
+        "toolchain_supported": True,
+        "observed_paths": observed_paths,
+        "unavailable_paths": [],
+        "declared_path_count": len(observed_paths),
+        "baseline_check_digests": ["exact-v195-blob:" + old_blob, "pinned-manifest:" + manifest_sha],
+        "baseline_checks_complete": True,
+        "code_owner_scope_digest": "repo-owner:" + REPOSITORY,
+        "crosses_unowned_boundary": False,
+        "observation_started_epoch": t0,
+        "observation_completed_epoch": int(time.time()),
+        "session_id": "pr3522-" + head_sha[:16],
+        "nonce_digest": hashlib.sha256((head_sha + ":codeai-v195").encode()).hexdigest(),
+        "prior_session_ids": [],
+        "prior_nonce_digests": [],
+        "prior_observation_digests": [],
+    })
+    repo_sample = observation.seal(repo_sample, observation.REPOSITORY_OBSERVATION_DIGEST_FIELD)
+    op = deepcopy(sample["observation_policy"])
+    op.update({
+        "expected_repository_full_name": REPOSITORY,
+        "expected_source_commit_sha": head_sha,
+        "allowed_source_branches": [branch],
+        "supported_toolchain_digests": [toolchain_id],
+        "require_complete_baseline": True,
+        "require_code_owner_scope": True,
+        "allow_partial_observation": False,
+    })
+    op = observation.seal(op, observation.POLICY_DIGEST_FIELD)
+    result = observation.build_codeai_intent_repository_observation_envelope(
+        intent_packet=intent, repository_observation=repo_sample, observation_policy=op
+    )
+    if result.status != observation.STATUS_READY or result.receipt is None:
+        raise RuntimeError("CodeAI actual observation blocked: " + repr(result.issues))
+    source_receipt = result.receipt
+    if source_receipt["codeai_disposition"] != observation.DISPOSITION_SUPPORTED:
+        raise RuntimeError("CodeAI actual observation not supported: " + source_receipt["codeai_disposition"])
+
+    cand_sample = load_example("codeai_candidate_patch_envelope_v0_1.json")
+    candidate = deepcopy(cand_sample["patch_candidate"])
+    candidate.update({
+        "candidate_id": "pr3522-v195-one-add-" + head_sha[:16],
+        "candidate_revision": "r1",
+        "producer_id": "external-research-candidate",
+        "producer_session_id": "candidate-" + head_sha[:16],
+        "source_observation_receipt_digest": source_receipt[observation.RECEIPT_DIGEST_FIELD],
+        "intent_packet_digest": intent[observation.INTENT_DIGEST_FIELD],
+        "repository_full_name": REPOSITORY,
+        "source_commit_sha": head_sha,
+        "patch_artifact_digest": candidate_patch.patch_artifact_digest(artifact),
+        "patch_size_bytes": len(artifact.encode("utf-8")),
+        "changed_paths": [TARGET],
+        "added_paths": [],
+        "modified_paths": [TARGET],
+        "deleted_paths": [],
+        "renamed_from_paths": [],
+        "renamed_to_paths": [],
+        "declared_change_count": 1,
+        "requirement_trace_ids": ["pr3522:v195:noninvertible-Nat-proof"],
+        "test_plan_ids": ["pinned-Lean4-Strict-v195-exact-source"],
+        "risk_labels": ["formal-proof"],
+        "unresolved_candidate_questions": [],
+        "candidate_created_epoch": int(time.time()),
+        "prior_candidate_digests": [],
+        "prior_producer_session_ids": [],
+        "candidate_provenance_confirmed": True,
+    })
+    candidate = candidate_patch.seal(candidate, candidate_patch.CANDIDATE_DIGEST_FIELD)
+    cp = deepcopy(cand_sample["candidate_policy"])
+    cp.update({
+        "expected_source_observation_receipt_digest": source_receipt[observation.RECEIPT_DIGEST_FIELD],
+        "expected_repository_full_name": REPOSITORY,
+        "expected_source_commit_sha": head_sha,
+        "allowed_path_prefixes": ["formal/KUOS"],
+        "forbidden_path_prefixes": ["legacy", "formal/KuuOSFormal"],
+        "maximum_changed_paths": 1,
+        "allow_deletions": False,
+        "allow_renames": False,
+        "allow_binary_patches": False,
+        "allow_submodule_patches": False,
+        "allow_mode_changes": False,
+        "require_requirement_trace": True,
+        "require_test_plan": True,
+        "allow_evidence_degradation": False,
+        "known_risk_labels": ["formal-proof"],
+        "handover_risk_labels": [],
+        "evaluation_epoch": int(time.time()) + 1,
+        "maximum_candidate_age": 3600,
+    })
+    cp = candidate_patch.seal(cp, candidate_patch.POLICY_DIGEST_FIELD)
+    cr = candidate_patch.build_codeai_candidate_patch_envelope(
+        source_observation_receipt=source_receipt,
+        patch_candidate=candidate,
+        patch_artifact=artifact,
+        candidate_policy=cp,
+    )
+    if cr.status != candidate_patch.STATUS_READY or cr.receipt is None:
+        raise RuntimeError("CodeAI candidate execution blocked: " + repr(cr.issues))
+    if cr.receipt["codeai_disposition"] != candidate_patch.DISPOSITION_SUPPORTED:
+        raise RuntimeError("CodeAI candidate not admitted: " + cr.receipt["codeai_disposition"])
+    if cr.receipt.get("repository_mutation_performed") or cr.receipt.get("candidate_selected"):
+        raise RuntimeError("CodeAI candidate improperly escalated authority")
+    output = ROOT / "artifacts" / "codeai-v195"
+    output.mkdir(parents=True, exist_ok=True)
+    record = {
+        "source_repo": REPOSITORY,
+        "source_head": head_sha,
+        "source_git_tree": true_tree_sha,
+        "source_blob": old_blob,
+        "candidate_blob": new_blob,
+        "source_observation_receipt": source_receipt,
+        "candidate_receipt": cr.receipt,
+        "isolated_verification": "not_executed",
+        "strict_lean_proof": "not_certified",
+        "git_effect": False,
+    }
+    (output / "pr3522-codeai-v195-candidate.json").write_text(
+        json.dumps(record, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+    )
+    (output / "pr3522-v195-candidate.diff").write_text(artifact, encoding="utf-8")
+    print("KUUOS_CODEAI_REAL_V195_CANDIDATE_RECEIPT " + json.dumps({
+        "source_head": head_sha,
+        "source_blob": old_blob,
+        "candidate_blob": new_blob,
+        "observation_receipt": source_receipt[observation.RECEIPT_DIGEST_FIELD],
+        "candidate_receipt": cr.receipt[candidate_patch.RECEIPT_DIGEST_FIELD],
+        "candidate_disposition": cr.receipt["codeai_disposition"],
+        "strict_lean_proof": "unverified",
+        "actual_kernel_calls": [
+            "build_codeai_intent_repository_observation_envelope",
+            "build_codeai_candidate_patch_envelope",
+        ],
+    }, sort_keys=True))
+
+
+if __name__ == "__main__":
+    run_if_parent_pr()
