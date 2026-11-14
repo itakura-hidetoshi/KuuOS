@@ -168,6 +168,8 @@ REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
 # Newly added formal modules are outside the frozen v5.291 archive. Their
 # exact draft source blobs are reviewed separately from historical corrections.
 REVIEWED_ADDITIVE_FORMAL_BLOBS = {
+    # Cross-universe simplex/horn inclusion square and typed lifting of extension diagrams.
+    "KUOS/DependentOriginationULiftHornInclusionNaturalityV1_29.lean": "4f02e0bc2f28a331aefa1168e813636fbac0210f",
     # Pointwise standard simplex and horn comparison across distinct ULift universes.
     "KUOS/DependentOriginationULiftHornUniverseComparisonV1_29.lean": "6baf88cd301783b899811b329b189aa61c467f41",
     # v1.29 actual B/C Duskin source/target same-universe descent, no arbitrary E_B/E_C assumptions.

@@ -1,3 +1,4 @@
+import KUOS.DependentOriginationULiftHornInclusionNaturalityV1_29
 import KUOS.DependentOriginationULiftHornUniverseComparisonV1_29
 import KUOS.DependentOriginationCanonicalSameUniverseDuskinDescentV1_29
 import KUOS.DependentOriginationCanonicalULiftHornPresentationBridgeV1_29
@@ -321,3 +322,8 @@ certificate or unlifted v1.29 horn descent is inferred. -/
 /-! ## Actual natural isomorphisms for standard simplex/horn ULift -/
 #print axioms KUOS.DependentOriginationULiftHornUniverseComparisonV1_29.simplexUniverseIso
 #print axioms KUOS.DependentOriginationULiftHornUniverseComparisonV1_29.hornUniverseIso
+
+/-! ## Cross-universe horn-inclusion naturality and exact extension map -/
+#print axioms KUOS.DependentOriginationULiftHornInclusionNaturalityV1_29.hornUniverseIso_inclusion_commutes
+#print axioms KUOS.DependentOriginationULiftHornInclusionNaturalityV1_29.hornUniverseIso_inv_inclusion
+#print axioms KUOS.DependentOriginationULiftHornInclusionNaturalityV1_29.liftHornMap_extends
