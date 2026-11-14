@@ -764,8 +764,9 @@ noncomputable def standardTypeAEndpointOpposite_scaled_isPushout
     (standardTypeAEndpointAmbientSourceToBoundary g).map
     (standardTypeAEndpointOppositeSimplexToBoundary g).map
     (standardTypeAEndpointOppositeCarrier_isPushout g)
-  simpa only [generatedPushoutInl, generatedPushoutInr, generatedPushoutTarget,
-    standardTypeAEndpointOppositeGeneratedScaling_eq_boundary g] using h
+  dsimp only [generatedPushoutTarget] at h
+  rw [standardTypeAEndpointOppositeGeneratedScaling_eq_boundary g] at h
+  convert h using 1 <;> apply ScaledSSet.ScaledMap.ext <;> rfl
 
 /-- The ambient endpoint-source inclusion is one raw standard A cellular step. -/
 theorem standardTypeAEndpointAmbientSourceToBoundary_mem_rawCellular
@@ -795,8 +796,9 @@ noncomputable def standardTypeAEndpointToBoundaryPrismArrowIsoAmbient
     (standardTypeAEndpointGeneratedSourceIsoAmbient g).hom.map ≫
         (standardTypeAEndpointAmbientSourceToBoundary g).map =
       (standardTypeAEndpointToBoundaryPrism g).map
-  rw [standardTypeAEndpointGeneratedSourceIsoAmbient,
+  simp only [standardTypeAEndpointGeneratedSourceIsoAmbient,
     scalingEqualityIso_hom_map, Category.id_comp]
+  ext d t
   rfl
 
 /-- Therefore the genuine v1.55/v1.60 endpoint-to-boundary map itself is one
