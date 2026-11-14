@@ -1,3 +1,4 @@
+import KUOS.DependentOriginationULiftScaledHornProblemDescentV1_29
 import KUOS.DependentOriginationULiftScaledMapReflectionV1_29
 import KUOS.DependentOriginationULiftScalingRoundTripV1_29
 import KUOS.DependentOriginationULiftScalingDescentV1_29
@@ -372,3 +373,8 @@ certificate or unlifted v1.29 horn descent is inferred. -/
 #print axioms KUOS.DependentOriginationULiftScaledMapReflectionV1_29.scaledSimplexMap_reflect
 #print axioms KUOS.DependentOriginationULiftScaledMapReflectionV1_29.unliftHornMap_scaled
 #print axioms KUOS.DependentOriginationULiftScaledMapReflectionV1_29.unliftSimplexMap_scaled
+
+/-! ## v1.29 actual inverse scaled horn-problem and filler transport -/
+#print axioms KUOS.DependentOriginationULiftScaledHornProblemDescentV1_29.unliftScaledHornProblem
+#print axioms KUOS.DependentOriginationULiftScaledHornProblemDescentV1_29.unliftScaledHornFiller
+#print axioms KUOS.DependentOriginationULiftScaledHornProblemDescentV1_29.unliftScaledHornFiller_nonempty
