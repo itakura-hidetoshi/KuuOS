@@ -221,7 +221,11 @@ theorem intervalEndpoint_zero_eq_face_one :
       SSet.stdSimplex.face ({(1 : Fin 2)}ᶜ) := by
   unfold intervalEndpoint
   rw [SSet.stdSimplex.face_singleton_compl]
-  rfl
+  congr 1
+  apply SSet.stdSimplex.ext
+  intro j
+  fin_cases j
+  decide
 
 /-- Endpoint one is the face opposite vertex zero. -/
 theorem intervalEndpoint_one_eq_face_zero :
@@ -229,7 +233,11 @@ theorem intervalEndpoint_one_eq_face_zero :
       SSet.stdSimplex.face ({(0 : Fin 2)}ᶜ) := by
   unfold intervalEndpoint
   rw [SSet.stdSimplex.face_singleton_compl]
-  rfl
+  congr 1
+  apply SSet.stdSimplex.ext
+  intro j
+  fin_cases j
+  decide
 
 /-- Uniform face presentation of an interval endpoint. -/
 theorem intervalEndpoint_eq_face_rev (ε : Fin 2) :
