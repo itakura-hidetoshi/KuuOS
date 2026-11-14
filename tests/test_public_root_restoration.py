@@ -169,7 +169,7 @@ REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
 # exact draft source blobs are reviewed separately from historical corrections.
 REVIEWED_ADDITIVE_FORMAL_BLOBS = {
     # Typed same-universe ULift horn-problem/filler equivalence; cross-universe bridge remains separate.
-    "KUOS/DependentOriginationCanonicalULiftHornPresentationBridgeV1_29.lean": "dab2329706360a7a7aea1b6607cb0204be1be249",
+    "KUOS/DependentOriginationCanonicalULiftHornPresentationBridgeV1_29.lean": "6a0c66877a5a3939e12cf48694d093ffbf8e3898",
     # Additive port of missing pinned simplex-opposite and union-product compatibility.
     "KUOS/PinnedMathlibUnionProdOpSymmetryV1_61.lean": "6fa03ffd9b5e0bb084af47a303b275aaa27b7bda",
     # Full pairing across every horn index, with ordinary anodyne consequence.
