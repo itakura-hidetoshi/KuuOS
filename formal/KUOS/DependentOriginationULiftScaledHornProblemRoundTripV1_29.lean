@@ -44,7 +44,6 @@ theorem unlift_liftScaledHornProblem
       exact unliftHornMap_equiv_lift.{u, v} n i hornMap
     simp only [unliftScaledHornProblem, liftScaledHornProblem,
       unlift_liftHornScaling, unlift_liftSimplexScaling, hm]
-    rfl
 
 /-- An arbitrary scaled horn problem on a genuinely lifted target is
 recovered after descent and re-lifting, with no loss of thinness. -/
@@ -62,7 +61,6 @@ theorem lift_unliftScaledHornProblem
       lift_unliftHornMap.{u, v} n i hornMap
     simp only [unliftScaledHornProblem, liftScaledHornProblem,
       lift_unliftHornScaling, lift_unliftSimplexScaling, hm]
-    rfl
 
 /-- Consequently filler *existence* on the original problem is equivalent
 to filler existence on the canonical independent-universe lift. -/
