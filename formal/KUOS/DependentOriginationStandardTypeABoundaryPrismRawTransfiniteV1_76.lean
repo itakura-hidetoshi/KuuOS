@@ -87,9 +87,7 @@ noncomputable def standardTypeABoundaryPrismScaledRankFunctor
     ℕ ⥤ ScaledSSet.{u} where
   obj j := standardTypeABoundaryPrismRankStage g j
   map {j k} f :=
-    standardTypeABoundaryPrismRankStageHom g
-      ((standardTypeABoundaryPrismRankFunction g).filtration_monotone
-        (leOfHom f))
+    standardTypeABoundaryPrismRankStageHom g (leOfHom f)
   map_id j := by
     apply ScaledSSet.ScaledMap.ext
     rfl
