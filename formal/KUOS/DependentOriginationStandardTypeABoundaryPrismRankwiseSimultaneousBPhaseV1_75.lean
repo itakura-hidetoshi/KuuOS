@@ -903,8 +903,16 @@ theorem standardTypeABoundaryPrismRankBGeneratedPushoutScaling_eq_succ
                     (op ⦋2⦌) yB =
                   (standardTypeABoundaryPrismRankBCellTargetToSucc.{u} g j b).map.app
                     (op ⦋2⦌) x := by
-              dsimp [yB, standardTypeABoundaryPrismRankBTargetSigmaToSucc]
-              rw [← NatTrans.comp_app_apply, Sigma.ι_desc]
+              have hfac :
+                  Sigma.ι (fun _ : StandardTypeABoundaryPrismRankBCell.{u} g j =>
+                      (Δ[4] : SSet.{u})) b ≫
+                    Sigma.desc (fun d : StandardTypeABoundaryPrismRankBCell.{u} g j =>
+                      (standardTypeABoundaryPrismRankBCellTargetToSucc.{u} g j d).map) =
+                    (standardTypeABoundaryPrismRankBCellTargetToSucc.{u} g j b).map :=
+                Sigma.ι_desc _ _
+              have happ := ConcreteCategory.congr_hom
+                (congr_app hfac (op ⦋2⦌)) x
+              simpa only [NatTrans.comp_app_apply] using happ
             rw [hSigmaEval]
             change
               (standardTypeABoundaryPrismRankBCellTargetToSucc.{u} g j b).map.app
@@ -944,8 +952,16 @@ theorem standardTypeABoundaryPrismRankBGeneratedPushoutScaling_eq_succ
                     (op ⦋2⦌) yB =
                   (standardTypeABoundaryPrismRankBCellTargetToSucc.{u} g j b).map.app
                     (op ⦋2⦌) x := by
-              dsimp [yB, standardTypeABoundaryPrismRankBTargetSigmaToSucc]
-              rw [← NatTrans.comp_app_apply, Sigma.ι_desc]
+              have hfac :
+                  Sigma.ι (fun _ : StandardTypeABoundaryPrismRankBCell.{u} g j =>
+                      (Δ[4] : SSet.{u})) b ≫
+                    Sigma.desc (fun d : StandardTypeABoundaryPrismRankBCell.{u} g j =>
+                      (standardTypeABoundaryPrismRankBCellTargetToSucc.{u} g j d).map) =
+                    (standardTypeABoundaryPrismRankBCellTargetToSucc.{u} g j b).map :=
+                Sigma.ι_desc _ _
+              have happ := ConcreteCategory.congr_hom
+                (congr_app hfac (op ⦋2⦌)) x
+              simpa only [NatTrans.comp_app_apply] using happ
             rw [hSigmaEval]
             change
               (standardTypeABoundaryPrismRankBCellTargetToSucc.{u} g j b).map.app
