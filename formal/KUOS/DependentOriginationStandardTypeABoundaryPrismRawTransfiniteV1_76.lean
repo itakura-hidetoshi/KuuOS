@@ -301,22 +301,53 @@ noncomputable def standardTypeABoundaryPrismAlternatingStep
         Nat.bodd_succ, Nat.div2_succ, h] using
         standardTypeABoundaryPrismRankAPhaseToSucc g (Nat.div2 n)
 
+/-! Type-correct canonical identifications of successor objects. The
+arithmetic bit identities are propositional, not definitional equalities. -/
+
+@[simp]
+private theorem standardTypeABoundaryPrismAlternatingObj_bit_false_succ
+    (g : StandardTypeAHornAttachmentGeneratorIndex) (j : ℕ) :
+    standardTypeABoundaryPrismAlternatingObj g (Nat.bit false j + 1) =
+      standardTypeABoundaryPrismRankAPhase g j := by
+  have hbit : Nat.bit false j + 1 = Nat.bit true j := by
+    simp [Nat.bit_val]
+  rw [hbit, standardTypeABoundaryPrismAlternatingObj_bit_true]
+
+@[simp]
+private theorem standardTypeABoundaryPrismAlternatingObj_bit_true_succ
+    (g : StandardTypeAHornAttachmentGeneratorIndex) (j : ℕ) :
+    standardTypeABoundaryPrismAlternatingObj g (Nat.bit true j + 1) =
+      standardTypeABoundaryPrismRankStage g (j + 1) := by
+  have hbit : Nat.bit true j + 1 = Nat.bit false (j + 1) := by
+    simp [Nat.bit_val, Nat.mul_add, Nat.add_assoc, Nat.add_comm, Nat.add_left_comm]
+  rw [hbit, standardTypeABoundaryPrismAlternatingObj_bit_false]
+
+/-- The literal A-phase map after the canonical, *proof-relevant object
+identifications* of the even rank and next odd phase. -/
 @[simp]
 theorem standardTypeABoundaryPrismAlternatingStep_bit_false
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ) :
     standardTypeABoundaryPrismAlternatingStep g (Nat.bit false j) =
-      standardTypeABoundaryPrismRankStageToAPhase g j := by
+      (eqToHom (standardTypeABoundaryPrismAlternatingObj_bit_false g j) ≫
+        standardTypeABoundaryPrismRankStageToAPhase g j) ≫
+        eqToHom (standardTypeABoundaryPrismAlternatingObj_bit_false_succ g j).symm := by
+  apply ScaledSSet.ScaledMap.ext
   simp [standardTypeABoundaryPrismAlternatingStep,
     standardTypeABoundaryPrismAlternatingObj,
     Nat.bodd_succ, Nat.div2_succ]
 
+/-- The literal B-phase map after the canonical odd-phase / next even-rank
+object identifications. -/
 @[simp]
 theorem standardTypeABoundaryPrismAlternatingStep_bit_true
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ) :
     standardTypeABoundaryPrismAlternatingStep g (Nat.bit true j) =
-      standardTypeABoundaryPrismRankAPhaseToSucc g j := by
+      (eqToHom (standardTypeABoundaryPrismAlternatingObj_bit_true g j) ≫
+        standardTypeABoundaryPrismRankAPhaseToSucc g j) ≫
+        eqToHom (standardTypeABoundaryPrismAlternatingObj_bit_true_succ g j).symm := by
+  apply ScaledSSet.ScaledMap.ext
   simp [standardTypeABoundaryPrismAlternatingStep,
     standardTypeABoundaryPrismAlternatingObj,
     Nat.bodd_succ, Nat.div2_succ]
