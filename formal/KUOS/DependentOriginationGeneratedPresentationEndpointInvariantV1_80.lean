@@ -3,6 +3,7 @@ import KUOS.DependentOriginationStandardABCPositiveCanonicalResidualSplitV1_79
 namespace KUOS.DependentOriginationGeneratedPresentationEndpointInvariantV1_80
 
 open CategoryTheory
+open KUOS.DependentOriginationScaledTerminalRLPV1_41
 open KUOS.DependentOriginationScaledAnodyneGeneratorClosureV1_42
 open KUOS.DependentOriginationScaledAnodyneWFSUniversalityV1_43
 open KUOS.DependentOriginationExternalScaledAnodyneGeneratorComparisonV1_46
@@ -355,8 +356,7 @@ theorem inducedTypeAAttachments_le_of_standardEquivalent
     (standardTypeAInducedScaledHornAttachmentGenerators :
       MorphismProperty (ScaledSSet.{u})) ≤
       externalGeneratedScaledAnodyne E :=
-  (K.standardTypeAExternalComparison_of_standardEquivalent)
-    .inducedTypeAAttachments_le_externalGenerated
+  (K.standardTypeAExternalComparison_of_standardEquivalent).inducedTypeAAttachments_le_externalGenerated
 
 /-- The v1.50 endpoint-pushout-product presentation transports as well. -/
 theorem endpointPushoutProducts_le_of_standardEquivalent
@@ -366,8 +366,7 @@ theorem endpointPushoutProducts_le_of_standardEquivalent
     (standardTypeAEndpointPushoutProductGenerators :
       MorphismProperty (ScaledSSet.{u})) ≤
       externalGeneratedScaledAnodyne E :=
-  (K.standardTypeAExternalComparison_of_standardEquivalent)
-    .endpointPushoutProducts_le_externalGenerated
+  (K.standardTypeAExternalComparison_of_standardEquivalent).endpointPushoutProducts_le_externalGenerated
 
 end GeneratedScaledAnodynePresentationEquivalence
 

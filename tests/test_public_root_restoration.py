@@ -61,6 +61,24 @@ REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
     # Original v1.78 frozen blob: 386378c42fe0c14c3a0fa75e0828a61c70c21c90; no theorem statements changed.
     # Original v1.78 name-scope source SHA: a1a2e4fc6e108799abc233dfe0c106cd35c13030 (Git history).
     "KUOS/DependentOriginationStandardABCPostEndpointCanonicalComparisonV1_78.lean": "b406155d78506527b53549f0cf232d55f084ac86",
+    # Original V1_79 pinned source: 3812b2e8a1026370f0af5bc9903a82a8756a8de5 (retained in Git history).
+    "KUOS/DependentOriginationStandardABCPositiveCanonicalResidualSplitV1_79.lean": "cd9a58880341e70a2290387d21d144613464c8c0",
+    # Original V1_80 pinned source: 35e1e87b699fb7f6e181103ffdbb873e36621874 (retained in Git history).
+    "KUOS/DependentOriginationGeneratedPresentationEndpointInvariantV1_80.lean": "ca9ce387d6d83081b019fa60f154a3dad3442d1e",
+    # Original V1_81 pinned source: 0a2ece6612bd717cd210c0222cf5a00bc04e4f37 (retained in Git history).
+    "KUOS/DependentOriginationGeneratedPresentationQuotientInvariantV1_81.lean": "3a1dbda58c0ec055e09d6c097273d0ecf89e247a",
+    # Original V1_83 pinned source: 677031aa601d232ff11ba8aaba26653fd68134ee (retained in Git history).
+    "KUOS/DependentOriginationGeneratedPresentationPosetalReflectionV1_83.lean": "a065f74adf93a4f2286ff9d1bf0f00e5966dada1",
+    # Original V1_84 pinned source: baf70fc20347e881054fb86180de849ebf92f71f (retained in Git history).
+    "KUOS/DependentOriginationGeneratedPresentationOrderReflectionV1_84.lean": "ff85d62d2fac75f86eea7153fb22f8b0acdcc6c0",
+    # Original V1_85 pinned source: 97e364b48eb5632ab7f9f79b051f5b665445c682 (retained in Git history).
+    "KUOS/DependentOriginationGeneratedPresentationFixedPointOrderIsoV1_85.lean": "188dff91e794f2c2fb559e9f9c1ce95682a7d5cd",
+    # Original V1_86 pinned source: 15fcc55183142ba4ad1fdf5d3ff402c5a2a0804b (retained in Git history).
+    "KUOS/DependentOriginationGeneratedPresentationCompleteLatticeV1_86.lean": "095dd06e60c2f37a4801847b3f645f9fa3f1e6cf",
+    # Original V1_87 pinned source: 88181c3c721c129e2aa628406e3fbf77a89d4f91 (retained in Git history).
+    "KUOS/DependentOriginationStandardCanonicalPresentationGapV1_87.lean": "e551f933ba98eb7827933186a0ffc421301dec85",
+    # Original V1_89 pinned source: f5d06299e825ef784a7df25386b062b80c702f12 (retained in Git history).
+    "KUOS/DependentOriginationStandardArbitraryScalingWaypointV1_89.lean": "4769187a07f63f8e4f7aebb21d535b68d1461852",
     "KUOS/DependentOriginationStandardTypeAEndpointOppositeCellCertificateV1_77.lean": "e7d422b89b4a4fa5180790b0c5d49c51b7239786",
     # Previous reviewed v1.76 blob: 9a06669b57537430895aad2a7336aabea001580e (parent HEAD 31805864; Git history).
     "KUOS/DependentOriginationStandardTypeABoundaryPrismRawTransfiniteV1_76.lean": "d2299c21820555c632dafc8f3747342357511a1e",
