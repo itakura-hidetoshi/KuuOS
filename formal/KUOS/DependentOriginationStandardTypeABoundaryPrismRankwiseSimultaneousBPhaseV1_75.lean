@@ -709,8 +709,7 @@ theorem standardTypeABoundaryPrismRankBCell_exactThin_generated
                   (op ⦋2⦌) z) = z := by
           simpa only [NatTrans.comp_app_apply,
             CategoryTheory.Functor.map_id_apply] using hpoint
-        rw [hcancel] at hs
-        exact hs
+        exact (congrArg (c.mapToSucc.app (op ⦋2⦌)) hcancel) ▸ hs
       · right
         refine ⟨x, hx, ?_⟩
         change
@@ -761,8 +760,7 @@ theorem standardTypeABoundaryPrismRankBCell_exactThin_generated
                   (op ⦋2⦌) z) = z := by
           simpa only [NatTrans.comp_app_apply,
             CategoryTheory.Functor.map_id_apply] using hpoint
-        rw [hcancel] at hs
-        exact hs
+        exact (congrArg (c.mapToSucc.app (op ⦋2⦌)) hcancel) ▸ hs
       · right
         refine ⟨x, hx, ?_⟩
         change
