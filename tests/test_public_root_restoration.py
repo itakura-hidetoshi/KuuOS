@@ -170,6 +170,8 @@ REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
 # Newly added formal modules are outside the frozen v5.291 archive. Their
 # exact draft source blobs are reviewed separately from historical corrections.
 REVIEWED_ADDITIVE_FORMAL_BLOBS = {
+    # Independent-universe Duskin fibrancy via hornwise homotopy and rectification.
+    "KUOS/DependentOriginationCanonicalIndependentUniverseHomotopyDescentV1_29.lean": "9587ca4ba4f09eeb09ef048192b59f317be3a417",
     # Canonical independent-universe Duskin descent via explicit lifted family correspondence.
     "KUOS/DependentOriginationCanonicalIndependentUniverseFamilyCorrespondenceV1_29.lean": "64a0b5ba0b6fa1c40f8ac7892d47ca5718290ffc",
     # True independent-universe B/C Duskin fibrancy iff, with explicit strict-inverse/admissibility requirements.
