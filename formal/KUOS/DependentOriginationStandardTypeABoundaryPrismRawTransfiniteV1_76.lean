@@ -472,18 +472,32 @@ theorem standardTypeABoundaryPrismAlternatingStep_toCylinder
   | bit b j =>
       cases b with
       | false =>
-          have hc :=
-            standardTypeABoundaryPrismRankStageHom_toCylinder g (Nat.le_succ j)
-          simpa [standardTypeABoundaryPrismAlternatingStep,
-            standardTypeABoundaryPrismAlternatingToCylinder,
-            Nat.bit_val, Nat.bitCasesOn_bit0, Nat.bitCasesOn_bit1,
-            standardTypeABoundaryPrismRankStep_factor_A_residual,
-            Category.assoc] using hc
+          have hbit : Nat.bit false j + 1 = Nat.bit true j := by
+            simp [Nat.bit_val]
+          have hc :
+              standardTypeABoundaryPrismRankStageToAPhase g j ≫
+                  (standardTypeABoundaryPrismRankAPhaseToSucc g j ≫
+                    standardTypeABoundaryPrismRankStageToCylinder g (j + 1)) =
+                standardTypeABoundaryPrismRankStageToCylinder g j := by
+            rw [← Category.assoc, standardTypeABoundaryPrismRankStep_factor_A_residual]
+            exact standardTypeABoundaryPrismRankStageHom_toCylinder g (Nat.le_succ j)
+          have hc' :=
+            congrArg (fun f :
+              standardTypeABoundaryPrismRankStage g j ⟶
+                scaledSimplexCylinder (standardTypeASimplexScaling g.i) =>
+              eqToHom (standardTypeABoundaryPrismAlternatingObj_bit_false g j) ≫ f) hc
+          simpa [standardTypeABoundaryPrismAlternatingStep_bit_false,
+            standardTypeABoundaryPrismAlternatingToCylinder_bit_false,
+            standardTypeABoundaryPrismAlternatingToCylinder_bit_true,
+            hbit, Category.assoc] using hc'
       | true =>
-          simp [standardTypeABoundaryPrismAlternatingStep,
-            standardTypeABoundaryPrismAlternatingToCylinder,
-            Nat.bit_val, Nat.bitCasesOn_bit0, Nat.bitCasesOn_bit1,
-            Category.assoc]
+          have hbit : Nat.bit true j + 1 = Nat.bit false (j + 1) := by
+            simp [Nat.bit_val, Nat.mul_add, Nat.add_assoc, Nat.add_comm, Nat.add_left_comm]
+            omega
+          simp [standardTypeABoundaryPrismAlternatingStep_bit_true,
+            standardTypeABoundaryPrismAlternatingToCylinder_bit_false,
+            standardTypeABoundaryPrismAlternatingToCylinder_bit_true,
+            hbit, Category.assoc]
 
 
 /-- The full cylinder cocone on the single flattened A/B sequence. -/
@@ -505,9 +519,8 @@ noncomputable def standardTypeABoundaryPrismAlternatingEvenLeg
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (s : Cocone (standardTypeABoundaryPrismAlternatingFunctor g))
     (j : ℕ) :
-    standardTypeABoundaryPrismRankStage g j ⟶ s.pt := by
-  simpa [standardTypeABoundaryPrismAlternatingFunctor,
-    standardTypeABoundaryPrismAlternatingObj] using
+    standardTypeABoundaryPrismRankStage g j ⟶ s.pt :=
+  eqToHom (standardTypeABoundaryPrismAlternatingObj_bit_false g j).symm ≫
     s.ι.app (Nat.bit false j)
 
 /-- Odd A-phase leg of an arbitrary cocone on the alternating diagram. -/
@@ -515,9 +528,8 @@ noncomputable def standardTypeABoundaryPrismAlternatingOddLeg
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (s : Cocone (standardTypeABoundaryPrismAlternatingFunctor g))
     (j : ℕ) :
-    standardTypeABoundaryPrismRankAPhase g j ⟶ s.pt := by
-  simpa [standardTypeABoundaryPrismAlternatingFunctor,
-    standardTypeABoundaryPrismAlternatingObj] using
+    standardTypeABoundaryPrismRankAPhase g j ⟶ s.pt :=
+  eqToHom (standardTypeABoundaryPrismAlternatingObj_bit_true g j).symm ≫
     s.ι.app (Nat.bit true j)
 
 /-- The two consecutive raw cocone equations collapse to the exact rank-stage
@@ -533,28 +545,43 @@ theorem standardTypeABoundaryPrismAlternatingEvenLeg_succ
     s.w (homOfLE (Nat.le_add_right (Nat.bit false j) 1))
   have hB0 :=
     s.w (homOfLE (Nat.le_add_right (Nat.bit true j) 1))
+  have hbitA : Nat.bit false j + 1 = Nat.bit true j := by
+    simp [Nat.bit_val]
+  have hbitB : Nat.bit true j + 1 = Nat.bit false (j + 1) := by
+    simp [Nat.bit_val, Nat.mul_add, Nat.add_assoc, Nat.add_comm, Nat.add_left_comm]
+    omega
   have hA :
       standardTypeABoundaryPrismRankStageToAPhase g j ≫
           standardTypeABoundaryPrismAlternatingOddLeg g s j =
         standardTypeABoundaryPrismAlternatingEvenLeg g s j := by
+    have ha :
+        standardTypeABoundaryPrismAlternatingStep g (Nat.bit false j) ≫
+            s.ι.app (Nat.bit true j) = s.ι.app (Nat.bit false j) := by
+      simpa [standardTypeABoundaryPrismAlternatingFunctor, hbitA] using hA0
+    have hat :=
+      congrArg (fun f :
+        standardTypeABoundaryPrismAlternatingObj g (Nat.bit false j) ⟶ s.pt =>
+        eqToHom (standardTypeABoundaryPrismAlternatingObj_bit_false g j).symm ≫ f) ha
     simpa [standardTypeABoundaryPrismAlternatingEvenLeg,
       standardTypeABoundaryPrismAlternatingOddLeg,
-      standardTypeABoundaryPrismAlternatingFunctor,
-      standardTypeABoundaryPrismAlternatingObj,
       standardTypeABoundaryPrismAlternatingStep_bit_false,
-      standardTypeABoundaryPrismAlternatingStep_bit_true,
-      Nat.bit_val, Nat.mul_succ, Nat.add_assoc] using hA0
+      hbitA, Category.assoc] using hat
   have hB :
       standardTypeABoundaryPrismRankAPhaseToSucc g j ≫
           standardTypeABoundaryPrismAlternatingEvenLeg g s (j + 1) =
         standardTypeABoundaryPrismAlternatingOddLeg g s j := by
+    have hb :
+        standardTypeABoundaryPrismAlternatingStep g (Nat.bit true j) ≫
+            s.ι.app (Nat.bit false (j + 1)) = s.ι.app (Nat.bit true j) := by
+      simpa [standardTypeABoundaryPrismAlternatingFunctor, hbitB] using hB0
+    have hbt :=
+      congrArg (fun f :
+        standardTypeABoundaryPrismAlternatingObj g (Nat.bit true j) ⟶ s.pt =>
+        eqToHom (standardTypeABoundaryPrismAlternatingObj_bit_true g j).symm ≫ f) hb
     simpa [standardTypeABoundaryPrismAlternatingEvenLeg,
       standardTypeABoundaryPrismAlternatingOddLeg,
-      standardTypeABoundaryPrismAlternatingFunctor,
-      standardTypeABoundaryPrismAlternatingObj,
-      standardTypeABoundaryPrismAlternatingStep_bit_false,
       standardTypeABoundaryPrismAlternatingStep_bit_true,
-      Nat.bit_val, Nat.mul_succ, Nat.add_assoc] using hB0
+      hbitB, Category.assoc] using hbt
   rw [← standardTypeABoundaryPrismRankStep_factor_A_residual g j]
   rw [Category.assoc, hB, hA]
 
@@ -580,13 +607,21 @@ theorem standardTypeABoundaryPrismAlternatingOddLeg_eq
         standardTypeABoundaryPrismAlternatingEvenLeg g s (j + 1) =
       standardTypeABoundaryPrismAlternatingOddLeg g s j := by
   have h := s.w (homOfLE (Nat.le_add_right (Nat.bit true j) 1))
+  have hbit : Nat.bit true j + 1 = Nat.bit false (j + 1) := by
+    simp [Nat.bit_val, Nat.mul_add, Nat.add_assoc, Nat.add_comm, Nat.add_left_comm]
+    omega
+  have hb :
+      standardTypeABoundaryPrismAlternatingStep g (Nat.bit true j) ≫
+          s.ι.app (Nat.bit false (j + 1)) = s.ι.app (Nat.bit true j) := by
+    simpa [standardTypeABoundaryPrismAlternatingFunctor, hbit] using h
+  have hbt :=
+    congrArg (fun f :
+      standardTypeABoundaryPrismAlternatingObj g (Nat.bit true j) ⟶ s.pt =>
+      eqToHom (standardTypeABoundaryPrismAlternatingObj_bit_true g j).symm ≫ f) hb
   simpa [standardTypeABoundaryPrismAlternatingEvenLeg,
     standardTypeABoundaryPrismAlternatingOddLeg,
-    standardTypeABoundaryPrismAlternatingFunctor,
-    standardTypeABoundaryPrismAlternatingObj,
-    standardTypeABoundaryPrismAlternatingStep_bit_false,
     standardTypeABoundaryPrismAlternatingStep_bit_true,
-    Nat.bit_val, Nat.mul_succ, Nat.add_assoc] using h
+    hbit, Category.assoc] using hbt
 
 /-! ## Inserting the A-phases does not change the colimit -/
 
@@ -609,50 +644,73 @@ noncomputable def standardTypeABoundaryPrismAlternatingCoconeIsColimit
     | bit b j =>
         cases b with
         | false =>
+            have hr :
+                standardTypeABoundaryPrismRankStageToCylinder g j ≫
+                    standardTypeABoundaryPrismAlternatingDesc g s =
+                  standardTypeABoundaryPrismAlternatingEvenLeg g s j := by
+              simpa [standardTypeABoundaryPrismScaledRankCocone,
+                standardTypeABoundaryPrismAlternatingDesc,
+                standardTypeABoundaryPrismRankCoconeOfAlternatingCocone] using
+                  (standardTypeABoundaryPrismScaledRankCoconeIsColimit g).fac
+                    (standardTypeABoundaryPrismRankCoconeOfAlternatingCocone g s) j
+            have hrt :=
+              congrArg (fun f : standardTypeABoundaryPrismRankStage g j ⟶ s.pt =>
+                eqToHom (standardTypeABoundaryPrismAlternatingObj_bit_false g j) ≫ f) hr
             simpa [standardTypeABoundaryPrismAlternatingCocone,
-              standardTypeABoundaryPrismAlternatingToCylinder,
-              standardTypeABoundaryPrismAlternatingDesc,
-              standardTypeABoundaryPrismRankCoconeOfAlternatingCocone,
+              standardTypeABoundaryPrismAlternatingToCylinder_bit_false,
               standardTypeABoundaryPrismAlternatingEvenLeg,
-              standardTypeABoundaryPrismAlternatingFunctor,
-              standardTypeABoundaryPrismAlternatingObj] using
-                (standardTypeABoundaryPrismScaledRankCoconeIsColimit g).fac
-                  (standardTypeABoundaryPrismRankCoconeOfAlternatingCocone g s) j
+              Category.assoc] using hrt
         | true =>
-            have hr :=
-              (standardTypeABoundaryPrismScaledRankCoconeIsColimit g).fac
-                (standardTypeABoundaryPrismRankCoconeOfAlternatingCocone g s) (j + 1)
+            have hr :
+                standardTypeABoundaryPrismRankStageToCylinder g (j + 1) ≫
+                    standardTypeABoundaryPrismAlternatingDesc g s =
+                  standardTypeABoundaryPrismAlternatingEvenLeg g s (j + 1) := by
+              simpa [standardTypeABoundaryPrismScaledRankCocone,
+                standardTypeABoundaryPrismAlternatingDesc,
+                standardTypeABoundaryPrismRankCoconeOfAlternatingCocone] using
+                  (standardTypeABoundaryPrismScaledRankCoconeIsColimit g).fac
+                    (standardTypeABoundaryPrismRankCoconeOfAlternatingCocone g s) (j + 1)
             have hb := standardTypeABoundaryPrismAlternatingOddLeg_eq g s j
-            change
-              (standardTypeABoundaryPrismRankAPhaseToSucc g j ≫
-                standardTypeABoundaryPrismRankStageToCylinder g (j + 1)) ≫
-                  standardTypeABoundaryPrismAlternatingDesc g s =
-                s.ι.app (Nat.bit true j)
-            rw [Category.assoc, hr]
-            simpa [standardTypeABoundaryPrismAlternatingEvenLeg,
+            have hodd :
+                (standardTypeABoundaryPrismRankAPhaseToSucc g j ≫
+                  standardTypeABoundaryPrismRankStageToCylinder g (j + 1)) ≫
+                    standardTypeABoundaryPrismAlternatingDesc g s =
+                  standardTypeABoundaryPrismAlternatingOddLeg g s j := by
+              rw [Category.assoc, hr]
+              exact hb
+            have hoddt :=
+              congrArg (fun f : standardTypeABoundaryPrismRankAPhase g j ⟶ s.pt =>
+                eqToHom (standardTypeABoundaryPrismAlternatingObj_bit_true g j) ≫ f) hodd
+            simpa [standardTypeABoundaryPrismAlternatingCocone,
+              standardTypeABoundaryPrismAlternatingToCylinder_bit_true,
               standardTypeABoundaryPrismAlternatingOddLeg,
-              standardTypeABoundaryPrismAlternatingFunctor,
-              standardTypeABoundaryPrismAlternatingObj] using hb
+              Category.assoc] using hoddt
   uniq s m hm := by
     apply (standardTypeABoundaryPrismScaledRankCoconeIsColimit g).hom_ext
     intro j
     have heven := hm (Nat.bit false j)
-    have hdesc :=
-      (standardTypeABoundaryPrismScaledRankCoconeIsColimit g).fac
-        (standardTypeABoundaryPrismRankCoconeOfAlternatingCocone g s) j
-    calc
-      (standardTypeABoundaryPrismScaledRankCocone g).ι.app j ≫ m =
+    have hevent :=
+      congrArg (fun f :
+        standardTypeABoundaryPrismAlternatingObj g (Nat.bit false j) ⟶ s.pt =>
+        eqToHom (standardTypeABoundaryPrismAlternatingObj_bit_false g j).symm ≫ f) heven
+    have hleft :
+        standardTypeABoundaryPrismRankStageToCylinder g j ≫ m =
           standardTypeABoundaryPrismAlternatingEvenLeg g s j := by
-            simpa [standardTypeABoundaryPrismScaledRankCocone,
-              standardTypeABoundaryPrismAlternatingCocone,
-              standardTypeABoundaryPrismAlternatingToCylinder,
-              standardTypeABoundaryPrismAlternatingEvenLeg,
-              standardTypeABoundaryPrismAlternatingFunctor,
-              standardTypeABoundaryPrismAlternatingObj] using heven
-      _ = (standardTypeABoundaryPrismScaledRankCocone g).ι.app j ≫
-          standardTypeABoundaryPrismAlternatingDesc g s := by
-            simpa [standardTypeABoundaryPrismAlternatingDesc,
-              standardTypeABoundaryPrismRankCoconeOfAlternatingCocone] using hdesc.symm
+      simpa [standardTypeABoundaryPrismAlternatingCocone,
+        standardTypeABoundaryPrismAlternatingToCylinder_bit_false,
+        standardTypeABoundaryPrismAlternatingEvenLeg,
+        Category.assoc] using hevent
+    have hright :
+        standardTypeABoundaryPrismRankStageToCylinder g j ≫
+            standardTypeABoundaryPrismAlternatingDesc g s =
+          standardTypeABoundaryPrismAlternatingEvenLeg g s j := by
+      simpa [standardTypeABoundaryPrismScaledRankCocone,
+        standardTypeABoundaryPrismAlternatingDesc,
+        standardTypeABoundaryPrismRankCoconeOfAlternatingCocone] using
+          (standardTypeABoundaryPrismScaledRankCoconeIsColimit g).fac
+            (standardTypeABoundaryPrismRankCoconeOfAlternatingCocone g s) j
+    simpa [standardTypeABoundaryPrismScaledRankCocone] using
+      hleft.trans hright.symm
 
 /-! ## One raw transfinite composition from the boundary prism to the cylinder -/
 
@@ -677,6 +735,7 @@ noncomputable def standardTypeABoundaryPrismRawTransfiniteComposition
       standardTypeABoundaryPrismAlternatingToCylinder,
       standardTypeABoundaryPrismAlternatingFunctor,
       standardTypeABoundaryPrismAlternatingObj,
+      Nat.bitCasesOn, Nat.bitCasesOn_bit0,
       standardTypeABoundaryPrismRankStage_zero,
       standardTypeABoundaryPrismRankStageToCylinder,
       standardTypeABoundaryPrismToCylinder]
