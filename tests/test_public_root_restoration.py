@@ -130,7 +130,9 @@ REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
     # Previous reviewed source blob: 9ecc85e4a7afc6997020f44856c0311a086ee50f (Git history).
     # v1.95: unify inherited Category/Bicategory hom carrier instances under pinned mathlib.
     # Previous reviewed source blob: a13be0b996704731945eedb9df3d5066a107b9ca (Git history).
-    "KUOS/DependentOriginationDoubleDeloopingNatNonthinDuskinWitnessV1_95.lean": "868b72f3c1b2b32cd4d9ff69a5b9ad9227a50cd4",
+    # v1.95: restore Bicategory field block after the single-instance carrier update.
+    # Previous reviewed source blob: 868b72f3c1b2b32cd4d9ff69a5b9ad9227a50cd4 (Git history).
+    "KUOS/DependentOriginationDoubleDeloopingNatNonthinDuskinWitnessV1_95.lean": "7e231bc54d2a65d6590e4ca8726fd5e25bb629ec",
     # Original V1_89 pinned source: f5d06299e825ef784a7df25386b062b80c702f12 (retained in Git history).
     "KUOS/DependentOriginationStandardArbitraryScalingWaypointV1_89.lean": "3b5de0a154436be6598a49861435dc57a80ea2f9",
     "KUOS/DependentOriginationStandardTypeAEndpointOppositeCellCertificateV1_77.lean": "e7d422b89b4a4fa5180790b0c5d49c51b7239786",

@@ -100,17 +100,13 @@ instance : Subsingleton NatDoubleDelooping :=
   ⟨by intro x y; cases x; cases y; rfl⟩
 
 /-- One object, one 1-cell, and additive natural-number 2-cells form a strict
-bicategory.  The exchange law is exactly commutativity of addition. -/
-/-- One bicategory carrier supplies Quiver and CategoryStruct so its
-whiskerings use the same underlying NatOneCell hom-category. -/
+bicategory. The exchange law is commutativity of addition; one carrier
+supplies Quiver and CategoryStruct coherently. -/
 instance : Bicategory.{0,0} NatDoubleDelooping where
   Hom _ _ := NatOneCell
   id _ := NatOneCell.star
   comp _ _ := NatOneCell.star
   homCategory _ _ := (inferInstance : Category.{0,0} NatOneCell)
-
-/-- Audit that the bicategorical one-hom is exactly the one-cell type. -/
-example (a b : NatDoubleDelooping) : (a ⟶ b) = NatOneCell := rfl
   whiskerLeft := by
     intros
     assumption
@@ -135,6 +131,9 @@ example (a b : NatDoubleDelooping) : (a ⟶ b) = NatOneCell := rfl
     exact Nat.add_comm _ _
   pentagon := by intros; simp
   triangle := by intros; simp
+
+/-- Audit the hom carrier *after* the bicategory instance ends. -/
+example (a b : NatDoubleDelooping) : (a ⟶ b) = NatOneCell := rfl
 
 /-- The double delooping is strict: all 1-cell unit and associativity equations
 are definitional because there is only one 1-cell. -/
