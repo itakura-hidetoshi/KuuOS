@@ -317,16 +317,16 @@ noncomputable def standardTypeABoundaryPrismAlternatingStep
     (motive := fun k : ℕ =>
       standardTypeABoundaryPrismAlternatingObj g k ⟶
         standardTypeABoundaryPrismAlternatingObj g (k + 1))
-    n (fun b j => by
-    cases b with
-    | false =>
-        simpa only [standardTypeABoundaryPrismAlternatingObj_bit_false,
-          standardTypeABoundaryPrismAlternatingObj_bit_false_succ] using
-          standardTypeABoundaryPrismRankStageToAPhase g j
-    | true =>
-        simpa only [standardTypeABoundaryPrismAlternatingObj_bit_true,
-          standardTypeABoundaryPrismAlternatingObj_bit_true_succ] using
-          standardTypeABoundaryPrismRankAPhaseToSucc g j)
+    n (fun b j =>
+      match b with
+      | false =>
+          (eqToHom (standardTypeABoundaryPrismAlternatingObj_bit_false g j) ≫
+            standardTypeABoundaryPrismRankStageToAPhase g j) ≫
+            eqToHom (standardTypeABoundaryPrismAlternatingObj_bit_false_succ g j).symm
+      | true =>
+          (eqToHom (standardTypeABoundaryPrismAlternatingObj_bit_true g j) ≫
+            standardTypeABoundaryPrismRankAPhaseToSucc g j) ≫
+            eqToHom (standardTypeABoundaryPrismAlternatingObj_bit_true_succ g j).symm)
 
 /-- The literal A-phase map after the canonical, *proof-relevant object
 identifications* of the even rank and next odd phase. -/
@@ -338,7 +338,6 @@ theorem standardTypeABoundaryPrismAlternatingStep_bit_false
       (eqToHom (standardTypeABoundaryPrismAlternatingObj_bit_false g j) ≫
         standardTypeABoundaryPrismRankStageToAPhase g j) ≫
         eqToHom (standardTypeABoundaryPrismAlternatingObj_bit_false_succ g j).symm := by
-  apply ScaledSSet.ScaledMap.ext
   simp [standardTypeABoundaryPrismAlternatingStep, Nat.bit_val,
     Nat.bitCasesOn_bit0, Nat.bitCasesOn_bit1]
 
@@ -352,7 +351,6 @@ theorem standardTypeABoundaryPrismAlternatingStep_bit_true
       (eqToHom (standardTypeABoundaryPrismAlternatingObj_bit_true g j) ≫
         standardTypeABoundaryPrismRankAPhaseToSucc g j) ≫
         eqToHom (standardTypeABoundaryPrismAlternatingObj_bit_true_succ g j).symm := by
-  apply ScaledSSet.ScaledMap.ext
   simp [standardTypeABoundaryPrismAlternatingStep, Nat.bit_val,
     Nat.bitCasesOn_bit0, Nat.bitCasesOn_bit1]
 
@@ -397,23 +395,24 @@ noncomputable def standardTypeABoundaryPrismAlternatingToCylinder
     (motive := fun k : ℕ =>
       standardTypeABoundaryPrismAlternatingObj g k ⟶
         scaledSimplexCylinder (standardTypeASimplexScaling g.i))
-    n (fun b j => by
-    cases b with
-    | false =>
-        simpa only [standardTypeABoundaryPrismAlternatingObj_bit_false] using
-          standardTypeABoundaryPrismRankStageToCylinder g j
-    | true =>
-        simpa only [standardTypeABoundaryPrismAlternatingObj_bit_true] using
-          (standardTypeABoundaryPrismRankAPhaseToSucc g j ≫
-            standardTypeABoundaryPrismRankStageToCylinder g (j + 1)))
+    n (fun b j =>
+      match b with
+      | false =>
+          eqToHom (standardTypeABoundaryPrismAlternatingObj_bit_false g j) ≫
+            standardTypeABoundaryPrismRankStageToCylinder g j
+      | true =>
+          eqToHom (standardTypeABoundaryPrismAlternatingObj_bit_true g j) ≫
+            (standardTypeABoundaryPrismRankAPhaseToSucc g j ≫
+              standardTypeABoundaryPrismRankStageToCylinder g (j + 1)))
+
 
 @[simp]
 theorem standardTypeABoundaryPrismAlternatingToCylinder_bit_false
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ) :
     standardTypeABoundaryPrismAlternatingToCylinder g (Nat.bit false j) =
-      standardTypeABoundaryPrismRankStageToCylinder g j := by
-  apply ScaledSSet.ScaledMap.ext
+      eqToHom (standardTypeABoundaryPrismAlternatingObj_bit_false g j) ≫
+        standardTypeABoundaryPrismRankStageToCylinder g j := by
   simp [standardTypeABoundaryPrismAlternatingToCylinder, Nat.bit_val,
     Nat.bitCasesOn_bit0, Nat.bitCasesOn_bit1]
 
@@ -422,9 +421,9 @@ theorem standardTypeABoundaryPrismAlternatingToCylinder_bit_true
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ) :
     standardTypeABoundaryPrismAlternatingToCylinder g (Nat.bit true j) =
-      standardTypeABoundaryPrismRankAPhaseToSucc g j ≫
-        standardTypeABoundaryPrismRankStageToCylinder g (j + 1) := by
-  apply ScaledSSet.ScaledMap.ext
+      eqToHom (standardTypeABoundaryPrismAlternatingObj_bit_true g j) ≫
+        (standardTypeABoundaryPrismRankAPhaseToSucc g j ≫
+          standardTypeABoundaryPrismRankStageToCylinder g (j + 1)) := by
   simp [standardTypeABoundaryPrismAlternatingToCylinder, Nat.bit_val,
     Nat.bitCasesOn_bit0, Nat.bitCasesOn_bit1]
 
@@ -441,27 +440,15 @@ theorem standardTypeABoundaryPrismAlternatingStep_toCylinder
       | false =>
           have hc :=
             standardTypeABoundaryPrismRankStageHom_toCylinder g (Nat.le_succ j)
-          have hbit : Nat.bit false j + 1 = Nat.bit true j := by
-            simp [Nat.bit_val]
-          rw [hbit]
-          simpa [standardTypeABoundaryPrismAlternatingStep_bit_false,
-            standardTypeABoundaryPrismAlternatingToCylinder_bit_false,
-            standardTypeABoundaryPrismAlternatingToCylinder_bit_true,
-            standardTypeABoundaryPrismAlternatingObj_bit_false,
-            standardTypeABoundaryPrismAlternatingObj_bit_false_succ,
+          simpa [standardTypeABoundaryPrismAlternatingStep,
+            standardTypeABoundaryPrismAlternatingToCylinder,
+            Nat.bit_val, Nat.bitCasesOn_bit0, Nat.bitCasesOn_bit1,
             standardTypeABoundaryPrismRankStep_factor_A_residual,
             Category.assoc] using hc
       | true =>
-          have hbit : Nat.bit true j + 1 = Nat.bit false (j + 1) := by
-            simp [Nat.bit_val, Nat.mul_add, Nat.add_assoc,
-              Nat.add_comm, Nat.add_left_comm]
-            omega
-          rw [hbit]
-          simp [standardTypeABoundaryPrismAlternatingStep_bit_true,
-            standardTypeABoundaryPrismAlternatingToCylinder_bit_false,
-            standardTypeABoundaryPrismAlternatingToCylinder_bit_true,
-            standardTypeABoundaryPrismAlternatingObj_bit_true,
-            standardTypeABoundaryPrismAlternatingObj_bit_true_succ,
+          simp [standardTypeABoundaryPrismAlternatingStep,
+            standardTypeABoundaryPrismAlternatingToCylinder,
+            Nat.bit_val, Nat.bitCasesOn_bit0, Nat.bitCasesOn_bit1,
             Category.assoc]
 
 
