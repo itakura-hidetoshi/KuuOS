@@ -1,3 +1,4 @@
+import KUOS.DependentOriginationULiftScaledHornFillerForwardV1_29
 import KUOS.DependentOriginationULiftHornInclusionNaturalityV1_29
 import KUOS.DependentOriginationULiftHornUniverseComparisonV1_29
 import KUOS.DependentOriginationCanonicalSameUniverseDuskinDescentV1_29
@@ -327,3 +328,9 @@ certificate or unlifted v1.29 horn descent is inferred. -/
 #print axioms KUOS.DependentOriginationULiftHornInclusionNaturalityV1_29.hornUniverseIso_inclusion_commutes
 #print axioms KUOS.DependentOriginationULiftHornInclusionNaturalityV1_29.hornUniverseIso_inv_inclusion
 #print axioms KUOS.DependentOriginationULiftHornInclusionNaturalityV1_29.liftHornMap_extends
+
+/-! ## Cross-universe scaling-preserving horn and filler transport -/
+#print axioms KUOS.DependentOriginationULiftScaledHornFillerForwardV1_29.liftedHornInclusion_scaled
+#print axioms KUOS.DependentOriginationULiftScaledHornFillerForwardV1_29.liftScaledHornProblem
+#print axioms KUOS.DependentOriginationULiftScaledHornFillerForwardV1_29.liftScaledHornFiller
+#print axioms KUOS.DependentOriginationULiftScaledHornFillerForwardV1_29.liftScaledHornFiller_nonempty
