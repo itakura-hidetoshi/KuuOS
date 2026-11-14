@@ -127,7 +127,7 @@ instance : Bicategory.{0,0} NatDoubleDelooping where
   whisker_assoc := by intros; simp
   whisker_exchange := by
     intros
-    change _ + _ = _ + _
+    change Nat.add _ _ = Nat.add _ _
     exact Nat.add_comm _ _
   pentagon := by intros; simp
   triangle := by intros; simp
@@ -148,14 +148,14 @@ instance : Bicategory.Strict NatDoubleDelooping where
 /-- The 2-cell `1` is not invertible in the additive natural hom-category. -/
 theorem one_twoCell_not_isIso :
     ¬ IsIso
-      (1 : (NatOneCell.star : NatOneCell) ⟶ NatOneCell.star) := by
+      (1 : Quiver.Hom.{0} NatOneCell.star NatOneCell.star) := by
   intro h
   letI : IsIso
-      (1 : (NatOneCell.star : NatOneCell) ⟶ NatOneCell.star) := h
+      (1 : Quiver.Hom.{0} NatOneCell.star NatOneCell.star) := h
   have hinv := IsIso.hom_inv_id
-    (1 : (NatOneCell.star : NatOneCell) ⟶ NatOneCell.star)
-  change 1 + inv
-      (1 : (NatOneCell.star : NatOneCell) ⟶ NatOneCell.star) = 0 at hinv
+    (1 : Quiver.Hom.{0} NatOneCell.star NatOneCell.star)
+  change Nat.add 1 (inv
+      (1 : Quiver.Hom.{0} NatOneCell.star NatOneCell.star)) = 0 at hinv
   omega
 
 end NatDoubleDelooping
@@ -176,7 +176,7 @@ def natNoninvertibleTriangleCore :
   obj _ := NatDoubleDelooping.star
   map _ := NatOneCell.star
   map_id _ := rfl
-  map₂ _ := 0
+  map₂ _ := (0 : Nat)
   map₂_id _ := rfl
   map₂_comp _ _ := rfl
   mapComp f g := natTriangleMapComp f g
@@ -212,7 +212,7 @@ def natNoninvertibleTriangle :
 @[simp]
 theorem natNoninvertibleTriangle_comparison :
     duskinComparison natNoninvertibleTriangle =
-      (1 : (NatOneCell.star : NatOneCell) ⟶ NatOneCell.star) := by
+      (1 : Quiver.Hom.{0} NatOneCell.star NatOneCell.star) := by
   rfl
 
 /-- Its intrinsic comparison 2-cell is not invertible. -/
