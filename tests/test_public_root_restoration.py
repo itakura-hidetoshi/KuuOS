@@ -173,6 +173,8 @@ REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
 # Newly added formal modules are outside the frozen v5.291 archive. Their
 # exact draft source blobs are reviewed separately from historical corrections.
 REVIEWED_ADDITIVE_FORMAL_BLOBS = {
+    # Arbitrary lifted-family admissibility inclusions and true unlifted fibrancy bridges; no unconditional correspondence.
+    "KUOS/DependentOriginationArbitraryFamilyAdmissibilityDescentV1_29.lean": "f095ade95b97d883abde177568aca472a36b72ef",
     # Native coherent quasi-inverse yields global prisms; explicit admissibility and rectification retained.
     "KUOS/DependentOriginationCanonicalIndependentUniverseNativeQuasiInverseDescentV1_29.lean": "0cc5738750c0ce831ad89cd45bb70fdfdcf1690c",
     # Two global Duskin prisms supply hornwise family correspondence and unlifted fibrancy, subject to rectification.

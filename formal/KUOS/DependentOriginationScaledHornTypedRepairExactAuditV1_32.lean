@@ -52,6 +52,7 @@ import KUOS.DependentOriginationStandardTypeCCollapsedEdgeV1_58
 import KUOS.PinnedMathlibUnionProdProofPortV1_61
 import KUOS.PinnedMathlibUnionProdInnerPairingCoreV1_61
 import KUOS.PinnedMathlibUnionProdWeakRankV1_61
+import KUOS.DependentOriginationArbitraryFamilyAdmissibilityDescentV1_29
 
 /-!
 # Strict typechecker audit for v1.30–v1.32 typed scaled-horn repair
@@ -416,3 +417,11 @@ certificate or unlifted v1.29 horn descent is inferred. -/
 /-! ## v1.29 certified native strong quasi-inverse produces global Duskin prisms -/
 #print axioms KUOS.DependentOriginationCanonicalIndependentUniverseNativeQuasiInverseDescentV1_29.canonicalCorrespondence_of_nativeQuasiInverse
 #print axioms KUOS.DependentOriginationCanonicalIndependentUniverseNativeQuasiInverseDescentV1_29.unliftedFibrancy_iff_of_canonical_nativeQuasiInverse
+
+/-! ## v1.29 arbitrary admissibility families: directional and two-way genuine unlifted descent -/
+#print axioms KUOS.DependentOriginationArbitraryFamilyAdmissibilityDescentV1_29.hasScaledHornFillers_of_subfamily
+#print axioms KUOS.DependentOriginationArbitraryFamilyAdmissibilityDescentV1_29.sameCarrierPresentationEquivalence
+#print axioms KUOS.DependentOriginationArbitraryFamilyAdmissibilityDescentV1_29.sameCarrierFibrancy_iff
+#print axioms KUOS.DependentOriginationArbitraryFamilyAdmissibilityDescentV1_29.arbitraryCrossUniverseFibrancy_iff
+#print axioms KUOS.DependentOriginationArbitraryFamilyAdmissibilityDescentV1_29.unliftedFibrancy_forward_of_family_inclusions
+#print axioms KUOS.DependentOriginationArbitraryFamilyAdmissibilityDescentV1_29.unliftedFibrancy_iff_of_arbitrary_lifted_families
