@@ -55,6 +55,7 @@ import KUOS.PinnedMathlibUnionProdWeakRankV1_61
 import KUOS.DependentOriginationArbitraryFamilyAdmissibilityDescentV1_29
 import KUOS.DependentOriginationArbitraryFamilyNativeCorrespondenceV1_29
 import KUOS.DependentOriginationIndexedDuskinAdmissibilityV1_29
+import KUOS.DependentOriginationIndependentAdmissibilityRectificationV1_29
 
 /-!
 # Strict typechecker audit for v1.30–v1.32 typed scaled-horn repair
@@ -443,3 +444,10 @@ certificate or unlifted v1.29 horn descent is inferred. -/
 #print axioms KUOS.DependentOriginationIndexedDuskinAdmissibilityV1_29.unliftedFibrancy_iff_of_matching_indexed_families
 #print axioms KUOS.DependentOriginationIndexedDuskinAdmissibilityV1_29.allInnerScaledHornFamily
 #print axioms KUOS.DependentOriginationIndexedDuskinAdmissibilityV1_29.unliftedInnerHornFibrancy_iff_of_nativeQuasiInverse
+
+/-! ## Independent v1.29 type-(A) admissibility and terminal-RLP geometric rectification -/
+#print axioms KUOS.DependentOriginationIndependentAdmissibilityRectificationV1_29.standardTypeA_admissible_map_iff
+#print axioms KUOS.DependentOriginationIndependentAdmissibilityRectificationV1_29.standardTypeAFamilyMap_of_scaledMap
+#print axioms KUOS.DependentOriginationIndependentAdmissibilityRectificationV1_29.homotopyRectification_of_attachmentFibrant
+#print axioms KUOS.DependentOriginationIndependentAdmissibilityRectificationV1_29.homotopyRectification_of_presentationFibrant
+#print axioms KUOS.DependentOriginationIndependentAdmissibilityRectificationV1_29.unliftedInnerHornFibrancy_iff_of_attachmentFibrant

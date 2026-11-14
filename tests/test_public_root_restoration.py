@@ -173,6 +173,8 @@ REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
 # Newly added formal modules are outside the frozen v5.291 archive. Their
 # exact draft source blobs are reviewed separately from historical corrections.
 REVIEWED_ADDITIVE_FORMAL_BLOBS = {
+    # Type-(A) scaling-sensitive admissibility and attachment-RLP-to-homotopy-rectification independent proofs.
+    "KUOS/DependentOriginationIndependentAdmissibilityRectificationV1_29.lean": "bafdfad72861250876391eb8eb6ac3e3de63e017",
     # Indexed horn admissibility is exactly ULift-stable; native quasi-inverse yields original B/C inner-horn fibrancy conditionally.
     "KUOS/DependentOriginationIndexedDuskinAdmissibilityV1_29.lean": "4e8ec164cf80867c8aac1586ae48ecfabc1be82f",
     # Native coherent quasi-inverse builds arbitrary-family D after same-carrier admissibility compatibility.
