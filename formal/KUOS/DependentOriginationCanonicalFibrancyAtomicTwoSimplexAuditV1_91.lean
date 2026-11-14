@@ -77,8 +77,7 @@ def atomicTwoSimplexEnrichment :
 @[simp]
 theorem atomicTwoSimplexScaling_identity_thin :
     atomicTwoSimplexScaling.thin identityTwoSimplex := by
-  change (minimalScaling (Δ[2] : SSet.{u})).thin identityTwoSimplex ∨
-    identityTwoSimplex = identityTwoSimplex
+  unfold atomicTwoSimplexScaling singleTriangleScaling
   exact Or.inr rfl
 
 /-! ## Canonical left-class membership -/
