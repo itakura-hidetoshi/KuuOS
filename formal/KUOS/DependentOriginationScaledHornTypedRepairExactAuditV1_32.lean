@@ -1,3 +1,4 @@
+import KUOS.DependentOriginationULiftHornMapEquivalenceV1_29
 import KUOS.DependentOriginationULiftScaledHornFillerForwardV1_29
 import KUOS.DependentOriginationULiftHornInclusionNaturalityV1_29
 import KUOS.DependentOriginationULiftHornUniverseComparisonV1_29
@@ -334,3 +335,10 @@ certificate or unlifted v1.29 horn descent is inferred. -/
 #print axioms KUOS.DependentOriginationULiftScaledHornFillerForwardV1_29.liftScaledHornProblem
 #print axioms KUOS.DependentOriginationULiftScaledHornFillerForwardV1_29.liftScaledHornFiller
 #print axioms KUOS.DependentOriginationULiftScaledHornFillerForwardV1_29.liftScaledHornFiller_nonempty
+
+/-! ## Full faithfulness and inverse horn/simplex map equivalences -/
+#print axioms KUOS.DependentOriginationULiftHornMapEquivalenceV1_29.fullyFaithfulSSetULift
+#print axioms KUOS.DependentOriginationULiftHornMapEquivalenceV1_29.hornMapUniverseEquiv
+#print axioms KUOS.DependentOriginationULiftHornMapEquivalenceV1_29.simplexMapUniverseEquiv
+#print axioms KUOS.DependentOriginationULiftHornMapEquivalenceV1_29.unliftHornMap_equiv_lift
+#print axioms KUOS.DependentOriginationULiftHornMapEquivalenceV1_29.unliftSimplexMap_equiv_lift

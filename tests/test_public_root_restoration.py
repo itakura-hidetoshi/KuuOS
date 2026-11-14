@@ -43,7 +43,7 @@ PR2339_INTEGRATED_PROOF_BLOBS = {
 # Explicit SHA enrollment is a review gate, never proof of Lean correctness.
 REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
     # v1.73: pinned generated scaled pushout, type-A rank index and desc-map API.
-    "KUOS/DependentOriginationStandardTypeABoundaryPrismRankwiseScaledPushoutV1_73.lean": "8e95b49df76d6ca0af7d118d895b7ba3e174ea7b",
+    "KUOS/DependentOriginationStandardTypeABoundaryPrismRankwiseScaledPushoutV1_73.lean": "125fa0b36f2bc1b026b8ed916aa6847f252d2f4f",
     # v1.72: pinned scaled-cellular namespaces and consistent rank-cell universe.
     "KUOS/DependentOriginationStandardTypeABoundaryPrismRankwiseABCellularityV1_72.lean": "62073a19eb987dbf7072cd71eee79e827a3a474b",
     # v1.71: pinned rank-stage class transparency and exact category morphism equalities.
@@ -168,6 +168,8 @@ REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
 # Newly added formal modules are outside the frozen v5.291 archive. Their
 # exact draft source blobs are reviewed separately from historical corrections.
 REVIEWED_ADDITIVE_FORMAL_BLOBS = {
+    # Fully faithful inverse equivalences of cross-universe horn/simplex maps.
+    "KUOS/DependentOriginationULiftHornMapEquivalenceV1_29.lean": "02b8b64e8150ffd08539d37e7a8d1627202df66a",
     # Cross-universe scaled horn problem/filler forward transport with exact scalings.
     "KUOS/DependentOriginationULiftScaledHornFillerForwardV1_29.lean": "f852bbe5ddb65a9d1692ed15b6cbe3197cf84ade",
     # Cross-universe simplex/horn inclusion square and typed lifting of extension diagrams.
