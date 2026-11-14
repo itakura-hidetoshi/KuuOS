@@ -109,12 +109,29 @@ theorem atomicTwoSimplexRLP_iff_reflectsThinTwoSimplices
           rcases ht with hmin | hident
           · exact p.scaled _ (f.scaled t hmin)
           · subst t
-            simpa [f, identityTwoSimplex] using hσ }
+            have heval :
+                (SSet.yonedaEquiv.symm σ).app (op ⦋2⦌)
+                    identityTwoSimplex = σ := by
+              simp [identityTwoSimplex]
+            have hcomp :
+                (f.map ≫ p.map).app (op ⦋2⦌) identityTwoSimplex =
+                  p.map.app (op ⦋2⦌) σ := by
+              change
+                p.map.app (op ⦋2⦌)
+                    ((SSet.yonedaEquiv.symm σ).app (op ⦋2⦌)
+                      identityTwoSimplex) =
+                  p.map.app (op ⦋2⦌) σ
+              rw [heval]
+            change Y.scaling.thin
+              ((f.map ≫ p.map).app (op ⦋2⦌) identityTwoSimplex)
+            rw [hcomp]
+            exact hσ }
     let sq : CommSq f atomicTwoSimplexEnrichment p g :=
       { w := by
           apply ScaledSSet.ScaledMap.ext
-          simp [g, atomicTwoSimplexEnrichment,
-            minimalToSingleTriangleScaling, scalingEnrichmentHom] }
+          change f.map ≫ p.map =
+            (𝟙 (Δ[2] : SSet.{u})) ≫ f.map ≫ p.map
+          simp only [Category.id_comp] }
     rcases (h.sq_hasLift sq).exists_lift with ⟨L⟩
     have hLmap : L.l.map = f.map := by
       have hmap := congrArg ScaledSSet.ScaledMap.map L.fac_left
@@ -123,7 +140,11 @@ theorem atomicTwoSimplexRLP_iff_reflectsThinTwoSimplices
     have hthin :=
       L.l.scaled identityTwoSimplex atomicTwoSimplexScaling_identity_thin
     rw [hLmap] at hthin
-    simpa [f, identityTwoSimplex] using hthin
+    have hthin' :
+        X.scaling.thin
+          ((SSet.yonedaEquiv.symm σ).app (op ⦋2⦌) identityTwoSimplex) := by
+      simpa [f] using hthin
+    simpa [identityTwoSimplex] using hthin'
   · intro hreflect
     refine ⟨?_⟩
     intro f g sq
@@ -152,8 +173,8 @@ theorem atomicTwoSimplexRLP_iff_reflectsThinTwoSimplices
       { l := l
         fac_left := by
           apply ScaledSSet.ScaledMap.ext
-          simp [l, atomicTwoSimplexEnrichment,
-            minimalToSingleTriangleScaling, scalingEnrichmentHom]
+          change (𝟙 (Δ[2] : SSet.{u})) ≫ f.map = f.map
+          exact Category.id_comp _
         fac_right := by
           apply ScaledSSet.ScaledMap.ext
           simpa [l] using hsqmap }
@@ -232,7 +253,7 @@ theorem atomicTwoSimplexRLP_toPoint_iff_all_two_simplices_thin
 standard-right map would have to reflect thin 2-simplices, not merely terminal
 maps. -/
 theorem standardRight_reflectsThinTwoSimplices_of_canonical_le_standard
-    (horder : canonicalKuuOSPresentation ≤ standardABCPresentation)
+    (horder : canonicalKuuOSPresentation.{u} ≤ standardABCPresentation.{u})
     {X Y : ScaledSSet.{u}}
     {p : X ⟶ Y}
     (hstd :
@@ -264,7 +285,7 @@ theorem not_canonicalKuuOS_le_standardABC_of_standardRLP_nonreflecting
     (σ : X.carrier.obj (op ⦋2⦌))
     (himage : Y.scaling.thin (p.map.app (op ⦋2⦌) σ))
     (hsource : ¬ X.scaling.thin σ) :
-    ¬ canonicalKuuOSPresentation ≤ standardABCPresentation := by
+    ¬ canonicalKuuOSPresentation.{u} ≤ standardABCPresentation.{u} := by
   intro horder
   have hreflect :=
     standardRight_reflectsThinTwoSimplices_of_canonical_le_standard
