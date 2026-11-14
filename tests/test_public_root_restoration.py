@@ -136,7 +136,9 @@ REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
     # Previous reviewed source blob: 7e231bc54d2a65d6590e4ca8726fd5e25bb629ec (Git history).
     # v1.95: resolve two-cell numerals in Nat before Hom conversion; pin exact scaled universe {0}.
     # Previous reviewed source blob: d8e2dcff063ff1b1bc53aea7d171691ad06f47e1 (Git history).
-    "KUOS/DependentOriginationDoubleDeloopingNatNonthinDuskinWitnessV1_95.lean": "6fbae32de03cea6dc9c15fec39e724910b1958dd",
+    # v1.95: derive contradiction with Nat.succ_ne_zero; normalize two mapComp naturality equations via Nat.add.
+    # Previous reviewed source blob: 6fbae32de03cea6dc9c15fec39e724910b1958dd (Git history).
+    "KUOS/DependentOriginationDoubleDeloopingNatNonthinDuskinWitnessV1_95.lean": "3e0d56a311b46b01fdfe1e3e766d9694e089129d",
     # Original V1_89 pinned source: f5d06299e825ef784a7df25386b062b80c702f12 (retained in Git history).
     "KUOS/DependentOriginationStandardArbitraryScalingWaypointV1_89.lean": "3b5de0a154436be6598a49861435dc57a80ea2f9",
     "KUOS/DependentOriginationStandardTypeAEndpointOppositeCellCertificateV1_77.lean": "e7d422b89b4a4fa5180790b0c5d49c51b7239786",
