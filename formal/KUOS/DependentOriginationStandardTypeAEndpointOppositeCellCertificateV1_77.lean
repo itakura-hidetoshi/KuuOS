@@ -326,10 +326,16 @@ def standardTypeAEndpointOppositeCarrierBicartSq
     rw [standardTypeABoundaryPrismSubcomplex,
       intervalBoundary_eq_endpoint_sup_rev g.endpoint]
     ext d ⟨x, y⟩
-    simp [standardTypeAEndpointOppositeSimplexSubcomplex,
-      SSet.Subcomplex.unionProd, SSet.Subcomplex.prod, Set.prod] <;>
-      simp only [Set.mem_union, Set.mem_inter_iff, Set.mem_setOf_eq,
-        Prod.fst, Prod.snd, true_and] <;> tauto
+    simp only [standardTypeAEndpointOppositeSimplexSubcomplex,
+      SSet.Subcomplex.unionProd, SSet.Subcomplex.prod, Set.prod]
+    change
+      (y ∈ (intervalEndpoint g.endpoint.rev).obj d ∨
+         (y ∈ (intervalEndpoint g.endpoint).obj d ∨
+           x ∈ (SSet.horn g.n g.i).obj d)) ↔
+        ((y ∈ (intervalEndpoint g.endpoint).obj d ∨
+           y ∈ (intervalEndpoint g.endpoint.rev).obj d) ∨
+             x ∈ (SSet.horn g.n g.i).obj d)
+    tauto
   inf_eq := by
     ext d ⟨x, y⟩
     have hdis :
@@ -342,11 +348,16 @@ def standardTypeAEndpointOppositeCarrierBicartSq
               intervalEndpoint g.endpoint.rev).obj d := h
       rw [intervalEndpoint_inf_rev_eq_bot g.endpoint] at hm
       simpa using hm
-    simp [standardTypeAEndpointOppositeSimplexSubcomplex,
+    simp only [standardTypeAEndpointOppositeSimplexSubcomplex,
       standardTypeAEndpointOppositeCornerSubcomplex,
-      SSet.Subcomplex.unionProd, SSet.Subcomplex.prod, Set.prod] <;>
-      simp only [Set.mem_union, Set.mem_inter_iff, Set.mem_setOf_eq,
-        Prod.fst, Prod.snd, true_and] <;> tauto
+      SSet.Subcomplex.unionProd, SSet.Subcomplex.prod, Set.prod]
+    change
+      (y ∈ (intervalEndpoint g.endpoint.rev).obj d ∧
+         (y ∈ (intervalEndpoint g.endpoint).obj d ∨
+           x ∈ (SSet.horn g.n g.i).obj d)) ↔
+        (x ∈ (SSet.horn g.n g.i).obj d ∧
+         y ∈ (intervalEndpoint g.endpoint.rev).obj d)
+    tauto
 
 /-- The preceding lattice square is therefore a genuine ordinary simplicial
 pushout.  We immediately flip it so that the standard A cell is the second
