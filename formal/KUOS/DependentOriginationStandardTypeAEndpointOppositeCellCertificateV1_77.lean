@@ -252,11 +252,13 @@ theorem intervalEndpoint_inf_rev_eq_bot (ε : Fin 2) :
     intervalEndpoint ε ⊓ intervalEndpoint ε.rev =
       (⊥ : (Δ[1] : SSet.{u}).Subcomplex) := by
   fin_cases ε
-  · rw [intervalEndpoint_zero_eq_face_one,
+  · change intervalEndpoint (0 : Fin 2) ⊓ intervalEndpoint (1 : Fin 2) = ⊥
+    rw [intervalEndpoint_zero_eq_face_one,
       intervalEndpoint_one_eq_face_zero,
       SSet.stdSimplex.face_inter_face]
     simp
-  · rw [intervalEndpoint_one_eq_face_zero,
+  · change intervalEndpoint (1 : Fin 2) ⊓ intervalEndpoint (0 : Fin 2) = ⊥
+    rw [intervalEndpoint_one_eq_face_zero,
       intervalEndpoint_zero_eq_face_one,
       SSet.stdSimplex.face_inter_face]
     simp
@@ -266,14 +268,18 @@ one. -/
 theorem intervalBoundary_eq_endpoint_zero_sup_one :
     (∂Δ[1] : (Δ[1] : SSet.{u}).Subcomplex) =
       intervalEndpoint 0 ⊔ intervalEndpoint 1 := by
-  rw [SSet.boundary_eq_iSup]
   apply le_antisymm
-  · refine iSup_le ?_
+  · rw [SSet.boundary_eq_iSup]
+    refine iSup_le ?_
     intro i
     fin_cases i
-    · rw [← intervalEndpoint_one_eq_face_zero]
+    · change SSet.stdSimplex.face ({(0 : Fin 2)}ᶜ) ≤
+        intervalEndpoint 0 ⊔ intervalEndpoint 1
+      rw [← intervalEndpoint_one_eq_face_zero]
       exact le_sup_right
-    · rw [← intervalEndpoint_zero_eq_face_one]
+    · change SSet.stdSimplex.face ({(1 : Fin 2)}ᶜ) ≤
+        intervalEndpoint 0 ⊔ intervalEndpoint 1
+      rw [← intervalEndpoint_zero_eq_face_one]
       exact le_sup_left
   · exact sup_le
       (intervalEndpoint_le_boundary 0)
