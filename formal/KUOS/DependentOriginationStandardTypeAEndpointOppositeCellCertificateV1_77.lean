@@ -443,7 +443,8 @@ theorem standardTypeAEndpointOppositeCornerCarrierIso_hom_app_val
     ((standardTypeAEndpointOppositeCornerCarrierIso g).hom.app d z).val =
       z.val.1 := by
   simp [standardTypeAEndpointOppositeCornerCarrierIso,
-    subcomplexProdIntervalEndpointIso]
+    subcomplexProdIntervalEndpointIso,
+    SSet.Subcomplex.lift, Subfunctor.lift]
 
 @[simp]
 theorem standardTypeAEndpointOppositeSimplexCarrierIso_hom_app
@@ -453,7 +454,8 @@ theorem standardTypeAEndpointOppositeSimplexCarrierIso_hom_app
     (standardTypeAEndpointOppositeSimplexCarrierIso g).hom.app d z =
       z.val.1 := by
   simp [standardTypeAEndpointOppositeSimplexCarrierIso,
-    subcomplexProdIntervalEndpointIso]
+    subcomplexProdIntervalEndpointIso,
+    SSet.Subcomplex.lift, Subfunctor.lift]
 
 /-- Generic upgrade of a carrier isomorphism to an isomorphism of scaled
 objects by putting the pullback scaling on its source. -/
