@@ -173,6 +173,8 @@ REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
 # Newly added formal modules are outside the frozen v5.291 archive. Their
 # exact draft source blobs are reviewed separately from historical corrections.
 REVIEWED_ADDITIVE_FORMAL_BLOBS = {
+    # Fully typed type-(A) ULift horn and simplex scaling transport; native high-universe compatibility remains a separate obligation.
+    "KUOS/DependentOriginationCrossUniverseTypeAScalingV1_29.lean": "aea9c9848047f3e190faefd879736a2806ec41cb",
     # Strict rectification from forward endpoint-only cylinder RLP; true type-A subfamily of indexed inner horns.
     "KUOS/DependentOriginationForwardHornRectificationV1_29.lean": "0ea1179acce8a0ce5215736bbb581a0f1daf01eb",
     # Type-(A) scaling-sensitive admissibility and attachment-RLP-to-homotopy-rectification independent proofs.

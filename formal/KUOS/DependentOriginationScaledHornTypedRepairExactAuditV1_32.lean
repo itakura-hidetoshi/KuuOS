@@ -57,6 +57,7 @@ import KUOS.DependentOriginationArbitraryFamilyNativeCorrespondenceV1_29
 import KUOS.DependentOriginationIndexedDuskinAdmissibilityV1_29
 import KUOS.DependentOriginationIndependentAdmissibilityRectificationV1_29
 import KUOS.DependentOriginationForwardHornRectificationV1_29
+import KUOS.DependentOriginationCrossUniverseTypeAScalingV1_29
 
 /-!
 # Strict typechecker audit for v1.30–v1.32 typed scaled-horn repair
@@ -459,3 +460,11 @@ certificate or unlifted v1.29 horn descent is inferred. -/
 #print axioms KUOS.DependentOriginationForwardHornRectificationV1_29.standardTypeA_admissibility_subfamily_inner
 #print axioms KUOS.DependentOriginationForwardHornRectificationV1_29.standardTypeA_fibrancy_of_inner
 #print axioms KUOS.DependentOriginationForwardHornRectificationV1_29.unliftedInnerHornFibrancy_iff_of_forwardEndpointRLP
+
+/-! ## True type-A scaling equality through independent ULift universes -/
+#print axioms KUOS.DependentOriginationCrossUniverseTypeAScalingV1_29.transportedTypeAHornFamily
+#print axioms KUOS.DependentOriginationCrossUniverseTypeAScalingV1_29.transportedTypeA_admissible_iff
+#print axioms KUOS.DependentOriginationCrossUniverseTypeAScalingV1_29.transportedTypeA_compatible
+#print axioms KUOS.DependentOriginationCrossUniverseTypeAScalingV1_29.transportedTypeA_fibrancy_iff
+#print axioms KUOS.DependentOriginationCrossUniverseTypeAScalingV1_29.transportedTypeA_native_compatible
+#print axioms KUOS.DependentOriginationCrossUniverseTypeAScalingV1_29.nativeTypeA_fibrancy_iff_of_scaling_compatibility
