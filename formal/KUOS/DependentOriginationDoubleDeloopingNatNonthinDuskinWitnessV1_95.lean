@@ -66,9 +66,9 @@ instance : Category NatOneCell where
   Hom _ _ := Nat
   id _ := 0
   comp f g := f + g
-  id_comp := by intro; exact Nat.zero_add _
-  comp_id := by intro; exact Nat.add_zero _
-  assoc := by intro; exact Nat.add_assoc _ _ _
+  id_comp := by intros; exact Nat.zero_add _
+  comp_id := by intros; exact Nat.add_zero _
+  assoc := by intros; exact Nat.add_assoc _ _ _
 
 @[simp]
 theorem id_eq_zero (f : NatOneCell) : (𝟙 f : f ⟶ f) = 0 := rfl
@@ -98,8 +98,12 @@ instance : Bicategory NatDoubleDelooping where
   id _ := NatOneCell.star
   comp _ _ := NatOneCell.star
   homCategory _ _ := inferInstance
-  whiskerLeft _ η := η
-  whiskerRight η _ := η
+  whiskerLeft := by
+    intros
+    assumption
+  whiskerRight := by
+    intros
+    assumption
   associator _ _ _ := Iso.refl _
   leftUnitor _ := Iso.refl _
   rightUnitor _ := Iso.refl _
