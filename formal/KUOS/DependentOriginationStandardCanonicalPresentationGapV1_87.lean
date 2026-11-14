@@ -54,18 +54,18 @@ reverse generatorwise A/B/C comparison remains to collapse the interval.
 /-! ## Canonical lower and upper envelopes -/
 
 /-- Greatest lower envelope of the standard and canonical presentation points. -/
-def standardCanonicalLowerEnvelope.{u} :
+noncomputable def standardCanonicalLowerEnvelope :
     GeneratedScaledAnodynePresentation.{u} :=
   standardABCPresentation.{u} ⊓ canonicalKuuOSPresentation.{u}
 
 /-- Least upper envelope of the standard and canonical presentation points. -/
-def standardCanonicalUpperEnvelope.{u} :
+noncomputable def standardCanonicalUpperEnvelope :
     GeneratedScaledAnodynePresentation.{u} :=
   standardABCPresentation.{u} ⊔ canonicalKuuOSPresentation.{u}
 
 /-- The standard/canonical presentation gap as the closed order interval
 between the two canonical envelopes. -/
-def standardCanonicalPresentationInterval.{u} :
+noncomputable def standardCanonicalPresentationInterval :
     Set GeneratedScaledAnodynePresentation.{u} :=
   Set.Icc standardCanonicalLowerEnvelope.{u} standardCanonicalUpperEnvelope.{u}
 
@@ -224,7 +224,7 @@ theorem interval_eq_of_standardABC_le_canonicalKuuOS
 
 /-- The standard/canonical presentation gap is closed when its two canonical
 endpoints coincide. -/
-def StandardCanonicalPresentationGapClosed.{u} : Prop :=
+def StandardCanonicalPresentationGapClosed : Prop :=
   standardCanonicalLowerEnvelope.{u} = standardCanonicalUpperEnvelope.{u}
 
 /-- Gap closure is exactly equality of the two distinguished presentation
