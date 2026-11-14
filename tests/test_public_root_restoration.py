@@ -72,7 +72,8 @@ REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
     # Previous v1.81 exact source blob: 3a1dbda58c0ec055e09d6c097273d0ecf89e247a (Git history).
     # Previous v1.81 parser-only reviewed blob: 5abedd5cc9b5d50eed1ca595119e415bce1308f9 (Git history).
     # Prior v1.81 quotient-universe source: a5c6895ac56d351df8b34e5a164f51db35b65fe2 (Git history).
-    "KUOS/DependentOriginationGeneratedPresentationQuotientInvariantV1_81.lean": "22a211f7ff84e3e389795dd3abe0c102638bf842",
+    # Prior v1.81 certified-equivalence transport candidate: 22a211f7ff84e3e389795dd3abe0c102638bf842 (Git history).
+    "KUOS/DependentOriginationGeneratedPresentationQuotientInvariantV1_81.lean": "c41521eb50861fc02fd3e169cbc2d248612b69b5",
     # Original V1_83 pinned source: 677031aa601d232ff11ba8aaba26653fd68134ee (retained in Git history).
     "KUOS/DependentOriginationGeneratedPresentationPosetalReflectionV1_83.lean": "a065f74adf93a4f2286ff9d1bf0f00e5966dada1",
     # Original V1_84 pinned source: baf70fc20347e881054fb86180de849ebf92f71f (retained in Git history).
