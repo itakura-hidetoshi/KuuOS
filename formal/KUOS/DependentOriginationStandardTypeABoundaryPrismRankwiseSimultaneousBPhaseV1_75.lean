@@ -243,18 +243,15 @@ private theorem standardTypeABoundaryPrismQ12Iso_inv_map_eq
     (h : StandardTypeABoundaryPrismCellQ12Factorization g j c) :
     (standardTypeABoundaryPrismCellQ12SourceIso g j c h).inv.map =
       (standardTypeABoundaryPrismCellQ12TargetIso g j c h).inv.map := by
-  have hw := Arrow.Hom.w
-    (standardTypeABoundaryPrismCellQ12CompletionArrowIso g j c h).inv
-  have hm := congrArg ScaledSSet.ScaledMap.map hw
-  change
-    (standardTypeABoundaryPrismCellQ12SourceIso g j c h).inv.map ≫
-        (standardTypeABoundaryPrismCellCompletionHom g j c).map =
-      standardTypeBCollapse12CompletionHom.map ≫
-        (standardTypeABoundaryPrismCellQ12TargetIso g j c h).inv.map at hm
-  rw [show (standardTypeABoundaryPrismCellCompletionHom g j c).map = 𝟙 _ by rfl,
-    show standardTypeBCollapse12CompletionHom.map = 𝟙 _ by rfl,
-    Category.comp_id, Category.id_comp] at hm
-  exact hm
+  have htransport :=
+    standardTypeABoundaryPrismCellScalingIsoToThree_inv_map_eq
+      g j c h.target_three
+      (standardTypeABoundaryPrismCellAPushoutScaling g j c)
+      (standardTypeABoundaryPrismCellScaling g j c)
+  simpa only [standardTypeABoundaryPrismCellQ12SourceIso,
+    standardTypeABoundaryPrismCellQ12TargetIso, Iso.trans_inv,
+    ScaledSSet.comp_map, scalingEqualityIso_inv_map,
+    Category.id_comp] using htransport
 
 private theorem standardTypeABoundaryPrismQ23Iso_inv_map_eq
     (g : StandardTypeAHornAttachmentGeneratorIndex)
@@ -263,18 +260,15 @@ private theorem standardTypeABoundaryPrismQ23Iso_inv_map_eq
     (h : StandardTypeABoundaryPrismCellQ23Factorization g j c) :
     (standardTypeABoundaryPrismCellQ23SourceIso g j c h).inv.map =
       (standardTypeABoundaryPrismCellQ23TargetIso g j c h).inv.map := by
-  have hw := Arrow.Hom.w
-    (standardTypeABoundaryPrismCellQ23CompletionArrowIso g j c h).inv
-  have hm := congrArg ScaledSSet.ScaledMap.map hw
-  change
-    (standardTypeABoundaryPrismCellQ23SourceIso g j c h).inv.map ≫
-        (standardTypeABoundaryPrismCellCompletionHom g j c).map =
-      standardTypeBCollapse23CompletionHom.map ≫
-        (standardTypeABoundaryPrismCellQ23TargetIso g j c h).inv.map at hm
-  rw [show (standardTypeABoundaryPrismCellCompletionHom g j c).map = 𝟙 _ by rfl,
-    show standardTypeBCollapse23CompletionHom.map = 𝟙 _ by rfl,
-    Category.comp_id, Category.id_comp] at hm
-  exact hm
+  have htransport :=
+    standardTypeABoundaryPrismCellScalingIsoToThree_inv_map_eq
+      g j c h.target_three
+      (standardTypeABoundaryPrismCellAPushoutScaling g j c)
+      (standardTypeABoundaryPrismCellScaling g j c)
+  simpa only [standardTypeABoundaryPrismCellQ23SourceIso,
+    standardTypeABoundaryPrismCellQ23TargetIso, Iso.trans_inv,
+    ScaledSSet.comp_map, scalingEqualityIso_inv_map,
+    Category.id_comp] using htransport
 
 /-- The source and target maps of one B datum have exactly the same underlying
 simplicial map. -/
