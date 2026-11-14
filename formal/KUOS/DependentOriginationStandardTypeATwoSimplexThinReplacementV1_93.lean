@@ -118,11 +118,15 @@ theorem standardTypeATwo_distinguished_eq_identity
   have hid (j : Fin 3) : identityTwoSimplex j = j := by
     rfl
   have ht0 : t (0 : Fin 3) = 0 := by
-    apply Fin.ext
-    omega
+    have hsum : (t (0 : Fin 3)).val + 1 = 1 := by
+      simpa using h0
+    have hval : (t (0 : Fin 3)).val = 0 := by
+      omega
+    exact Fin.ext (by simpa using hval)
   have ht2 : t (2 : Fin 3) = 2 := by
-    apply Fin.ext
-    omega
+    have hval : (t (2 : Fin 3)).val = 2 := by
+      simpa using h2.symm
+    exact Fin.ext (by simpa using hval)
   apply SSet.stdSimplex.ext
   intro j
   fin_cases j
