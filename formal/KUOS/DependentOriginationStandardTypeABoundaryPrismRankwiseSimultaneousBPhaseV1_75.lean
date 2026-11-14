@@ -9,6 +9,9 @@ open Opposite
 open Simplicial
 open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
 open KUOS.DependentOriginationScaledTerminalRLPV1_41
+open KUOS.DependentOriginationStandardTypeAScaledHornFamilyV1_49
+open KUOS.DependentOriginationStandardTypeAEndpointPushoutProductV1_50
+open KUOS.DependentOriginationStandardTypeAScaledPushoutSourceEnrichmentV1_53
 open KUOS.DependentOriginationStandardTypeBScalingPushoutV1_56
 open KUOS.DependentOriginationStandardTypeBThreeSimplexCompletionV1_57
 open KUOS.DependentOriginationStandardTypeCCollapsedEdgeV1_58
@@ -164,7 +167,7 @@ inductive type permits elimination into actual maps without choosing from a
 propositional disjunction. -/
 inductive StandardTypeABoundaryPrismRankBCell
     (g : StandardTypeAHornAttachmentGeneratorIndex)
-    (j : ℕ) : Type u
+    (j : ℕ) : Type u where
   | q12
       (c : (standardTypeABoundaryPrismRankFunction g).Cell j)
       (h : StandardTypeABoundaryPrismCellQ12Factorization g j c)
@@ -271,7 +274,7 @@ noncomputable abbrev standardTypeABoundaryPrismRankBSigmaCarrier
   ∐ fun _ : StandardTypeABoundaryPrismRankBCell g j => (Δ[4] : SSet.{u})
 
 /-- Source scaling on the exceptional standard-B coproduct. -/
-def standardTypeABoundaryPrismRankBSourceSigmaScaling
+@[reducible] def standardTypeABoundaryPrismRankBSourceSigmaScaling
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ) :
     ScaledSimplicialSet (standardTypeABoundaryPrismRankBSigmaCarrier g j) where
@@ -295,7 +298,7 @@ def standardTypeABoundaryPrismRankBSourceSigmaScaling
         (standardTypeABoundaryPrismRankBSigmaCarrier g j)).thin_sigma_one x)
 
 /-- Target scaling on the same ordinary coproduct carrier. -/
-def standardTypeABoundaryPrismRankBTargetSigmaScaling
+@[reducible] def standardTypeABoundaryPrismRankBTargetSigmaScaling
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ) :
     ScaledSimplicialSet (standardTypeABoundaryPrismRankBSigmaCarrier g j) where
