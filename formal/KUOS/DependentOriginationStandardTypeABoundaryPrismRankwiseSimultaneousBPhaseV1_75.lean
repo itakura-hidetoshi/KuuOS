@@ -533,7 +533,7 @@ theorem standardTypeABoundaryPrismRankBSigmaGeneratorHom_mem_coproductsABC
       standardTypeBGeneratorHom.{u}.map ≫
         (Sigma.ι (fun _ : StandardTypeABoundaryPrismRankBCell g j =>
           (Δ[4] : SSet.{u})) b)
-    rw [standardTypeBGeneratorHom_map, Category.comp_id, Category.id_comp]
+    simp only [standardTypeBGeneratorHom_map, Category.comp_id, Category.id_comp]
 
 /-! ## Attach the B coproduct to `A_j` -/
 
@@ -600,18 +600,13 @@ theorem standardTypeABoundaryPrismRankBSourceTargetSigma_map_eq
     (j : ℕ) :
     (standardTypeABoundaryPrismRankBSourceSigmaToAPhase g j).map =
       (standardTypeABoundaryPrismRankBTargetSigmaToSucc g j).map := by
-  apply Sigma.hom_ext
-  intro b
   change
-    (Sigma.ι (fun _ : StandardTypeABoundaryPrismRankBCell g j =>
-      (Δ[4] : SSet.{u})) b) ≫
-      Sigma.desc (fun d : StandardTypeABoundaryPrismRankBCell g j =>
-        (standardTypeABoundaryPrismRankBCellSourceToAPhase.{u} g j d).map) =
-    (Sigma.ι (fun _ : StandardTypeABoundaryPrismRankBCell g j =>
-      (Δ[4] : SSet.{u})) b) ≫
-      Sigma.desc (fun d : StandardTypeABoundaryPrismRankBCell g j =>
-        (standardTypeABoundaryPrismRankBCellTargetToSucc.{u} g j d).map)
-  rw [Sigma.ι_desc, Sigma.ι_desc]
+    Sigma.desc (fun b : StandardTypeABoundaryPrismRankBCell g j =>
+      (standardTypeABoundaryPrismRankBCellSourceToAPhase.{u} g j b).map) =
+    Sigma.desc (fun b : StandardTypeABoundaryPrismRankBCell g j =>
+      (standardTypeABoundaryPrismRankBCellTargetToSucc.{u} g j b).map)
+  congr 1
+  funext b
   exact standardTypeABoundaryPrismRankBCell_source_target_map_eq g j b
 
 /-- Underlying ordinary B-phase square. -/
@@ -811,8 +806,7 @@ theorem standardTypeABoundaryPrismRankBGeneratedPushoutScaling_eq_succ
         Or.inr (Or.inl ⟨x, hx, rfl⟩)
       exact Or.inr (Or.inl ⟨_, hxA, by rfl⟩)
     · obtain ⟨c, z, hz⟩ :=
-        (standardTypeABoundaryPrismRankFunction g).
-          ιSigmaStdSimplex_jointly_surjective y
+        (standardTypeABoundaryPrismRankFunction g).ιSigmaStdSimplex_jointly_surjective y
       have hb := ConcreteCategory.congr_hom
         (congr_app c.ι_b (op ⦋2⦌)) z
       have hzcell :
@@ -927,6 +921,7 @@ noncomputable def standardTypeABoundaryPrism_rankB_scaled_isPushout
     change (𝟙 _) ≫ eP.hom.map =
       (standardTypeABoundaryPrismRankAPhaseToSucc g j).map
     simp [eP, standardTypeABoundaryPrismRankAPhaseToSucc]
+    all_goals rfl
   · apply ScaledSSet.ScaledMap.ext
     change (standardTypeABoundaryPrismRankBTargetSigmaToSucc g j).map ≫
       eP.hom.map = (standardTypeABoundaryPrismRankBTargetSigmaToSucc g j).map
