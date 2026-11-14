@@ -160,7 +160,17 @@ theorem one_twoCell_not_isIso :
       Nat.succ (inv
         (show Quiver.Hom.{0} NatOneCell.star NatOneCell.star
           from (1 : Nat))) = 0 := by
-    simpa only [Nat.one_add] using hinv
+    calc
+      Nat.succ (inv
+        (show Quiver.Hom.{0} NatOneCell.star NatOneCell.star
+          from (1 : Nat))) =
+          Nat.add (inv
+            (show Quiver.Hom.{0} NatOneCell.star NatOneCell.star
+              from (1 : Nat))) 1 := (Nat.add_one _).symm
+      _ = Nat.add 1 (inv
+            (show Quiver.Hom.{0} NatOneCell.star NatOneCell.star
+              from (1 : Nat))) := Nat.add_comm _ _
+      _ = 0 := hinv
   exact (Nat.succ_ne_zero _) hcontra
 
 end NatDoubleDelooping
