@@ -55,6 +55,44 @@ theorem hornUniverseMem_iff
         (simplexUniverseEquiv_objEquiv.{u, v} n d x)
   rw [h]
 
+
+/-! ## Functorial comparison, not merely objectwise membership -/
+
+/-- The universe comparison respects each simplex operator by the Yoneda
+description of standard simplices. -/
+theorem simplexUniverseEquiv_natural
+    (n : ℕ) {d e : SimplexCategoryᵒᵖ} (f : d ⟶ e)
+    (x : (Δ[n] : SSet.{u}).obj d) :
+    simplexUniverseEquiv.{u, v} n e ((Δ[n] : SSet.{u}).map f x) =
+      (Δ[n] : SSet.{max u v}).map f
+        (simplexUniverseEquiv.{u, v} n d x) := by
+  obtain ⟨a, rfl⟩ := (SSet.stdSimplex.objEquiv.{u}).symm.surjective x
+  rfl
+
+/-- The actual pointwise horn equivalence, retaining the horn proof
+associated to every simplex. -/
+def hornUniverseEquiv
+    (n : ℕ) (i : Fin (n + 1)) (d : SimplexCategoryᵒᵖ) :
+    ((Λ[n, i] : SSet.{u}).obj d) ≃
+      ((Λ[n, i] : SSet.{max u v}).obj d) :=
+  (simplexUniverseEquiv.{u, v} n d).subtypeEquiv
+    (fun x => hornUniverseMem_iff.{u, v} n i d x)
+
+/-- Horn comparison is natural in every simplicial operator. -/
+theorem hornUniverseEquiv_natural
+    (n : ℕ) (i : Fin (n + 1))
+    {d e : SimplexCategoryᵒᵖ} (f : d ⟶ e)
+    (x : (Λ[n, i] : SSet.{u}).obj d) :
+    hornUniverseEquiv.{u, v} n i e ((Λ[n, i] : SSet.{u}).map f x) =
+      (Λ[n, i] : SSet.{max u v}).map f
+        (hornUniverseEquiv.{u, v} n i d x) := by
+  apply Subtype.ext
+  exact simplexUniverseEquiv_natural.{u, v} n f x.val
+
+#print axioms simplexUniverseEquiv_natural
+#print axioms hornUniverseEquiv
+#print axioms hornUniverseEquiv_natural
+
 #print axioms simplexUniverseEquiv
 #print axioms simplexUniverseEquiv_objEquiv
 #print axioms hornUniverseMem_iff
