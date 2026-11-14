@@ -1,3 +1,4 @@
+import KUOS.DependentOriginationULiftHornExtensionReflectionV1_29
 import KUOS.DependentOriginationULiftHornMapEquivalenceV1_29
 import KUOS.DependentOriginationULiftScaledHornFillerForwardV1_29
 import KUOS.DependentOriginationULiftHornInclusionNaturalityV1_29
@@ -342,3 +343,10 @@ certificate or unlifted v1.29 horn descent is inferred. -/
 #print axioms KUOS.DependentOriginationULiftHornMapEquivalenceV1_29.simplexMapUniverseEquiv
 #print axioms KUOS.DependentOriginationULiftHornMapEquivalenceV1_29.unliftHornMap_equiv_lift
 #print axioms KUOS.DependentOriginationULiftHornMapEquivalenceV1_29.unliftSimplexMap_equiv_lift
+
+/-! ## v1.29 fully faithful inverse extension equation -/
+#print axioms KUOS.DependentOriginationULiftHornExtensionReflectionV1_29.hornMapUniverseEquiv_apply
+#print axioms KUOS.DependentOriginationULiftHornExtensionReflectionV1_29.simplexMapUniverseEquiv_apply
+#print axioms KUOS.DependentOriginationULiftHornExtensionReflectionV1_29.lift_unliftHornMap
+#print axioms KUOS.DependentOriginationULiftHornExtensionReflectionV1_29.lift_unliftSimplexMap
+#print axioms KUOS.DependentOriginationULiftHornExtensionReflectionV1_29.unliftHornMap_extends

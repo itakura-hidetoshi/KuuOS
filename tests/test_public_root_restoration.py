@@ -168,6 +168,8 @@ REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
 # Newly added formal modules are outside the frozen v5.291 archive. Their
 # exact draft source blobs are reviewed separately from historical corrections.
 REVIEWED_ADDITIVE_FORMAL_BLOBS = {
+    # Fully faithful reverse-map descent reflects the genuine horn-inclusion extension equation.
+    "KUOS/DependentOriginationULiftHornExtensionReflectionV1_29.lean": "e87cf3768bcfed66ffe8eb09c12f7da400719b63",
     # Fully faithful inverse equivalences of cross-universe horn/simplex maps.
     "KUOS/DependentOriginationULiftHornMapEquivalenceV1_29.lean": "02b8b64e8150ffd08539d37e7a8d1627202df66a",
     # Cross-universe scaled horn problem/filler forward transport with exact scalings.
