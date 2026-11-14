@@ -59,6 +59,7 @@ import KUOS.DependentOriginationIndependentAdmissibilityRectificationV1_29
 import KUOS.DependentOriginationForwardHornRectificationV1_29
 import KUOS.DependentOriginationCrossUniverseTypeAScalingV1_29
 import KUOS.DependentOriginationNativeTypeAUniverseGeometryV1_29
+import KUOS.DependentOriginationNativeTypeABCDuskinDescentV1_29
 
 /-!
 # Strict typechecker audit for v1.30–v1.32 typed scaled-horn repair
@@ -479,3 +480,10 @@ certificate or unlifted v1.29 horn descent is inferred. -/
 #print axioms KUOS.DependentOriginationNativeTypeAUniverseGeometryV1_29.unlift_nativeTypeAHornScaling
 #print axioms KUOS.DependentOriginationNativeTypeAUniverseGeometryV1_29.nativeTypeAUniverseScalingCompatibility
 #print axioms KUOS.DependentOriginationNativeTypeAUniverseGeometryV1_29.nativeTypeA_fibrancy_iff
+
+/-! ## True B/C type-(A) family maps and native unlifted forward-RLP fibrancy -/
+#print axioms KUOS.DependentOriginationNativeTypeABCDuskinDescentV1_29.nativeTypeAForwardFamilyMap
+#print axioms KUOS.DependentOriginationNativeTypeABCDuskinDescentV1_29.nativeTypeABackwardFamilyMap
+#print axioms KUOS.DependentOriginationNativeTypeABCDuskinDescentV1_29.nativeTypeACorrespondence_of_forwardRLP
+#print axioms KUOS.DependentOriginationNativeTypeABCDuskinDescentV1_29.liftedNativeTypeAFibrancy_iff_of_forwardRLP
+#print axioms KUOS.DependentOriginationNativeTypeABCDuskinDescentV1_29.unliftedNativeTypeAFibrancy_iff_of_forwardRLP
