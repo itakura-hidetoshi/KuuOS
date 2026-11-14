@@ -42,9 +42,11 @@ PR2339_INTEGRATED_PROOF_BLOBS = {
 # The original full source and both proof transitions are preserved in Git history.
 # Explicit SHA enrollment is a review gate, never proof of Lean correctness.
 REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
+    # v1.77 review: correct pinned pushouts_mk and fix cellular universe level.
+    # Previous reviewed blob: 4904b8ed6c23d0292b7c8947c79f4fb6cac3eef7 (Git history).
     # v1.77 historical source: restore explicit v1.19/v1.40/v1.58 namespaces; CI still required.
     # Previous reviewed blob: d73ae673183fc739cb654ff652dbfe8691627feb (Git history).
-    "KUOS/DependentOriginationStandardTypeAEndpointOppositeCellCertificateV1_77.lean": "f54702c3ddfcb87ffb87a8b29b375daf5e3bc35b",
+    "KUOS/DependentOriginationStandardTypeAEndpointOppositeCellCertificateV1_77.lean": "6d92d0403d8e37994b94b5059a8ecf511e593275",
     # Previous reviewed v1.76 blob: 9a06669b57537430895aad2a7336aabea001580e (parent HEAD 31805864; Git history).
     "KUOS/DependentOriginationStandardTypeABoundaryPrismRawTransfiniteV1_76.lean": "d2299c21820555c632dafc8f3747342357511a1e",
     # Previous reviewed v1.75 blob: be0d83f8864c0d7933b0f3b23d388086c9836217 (Git history).
