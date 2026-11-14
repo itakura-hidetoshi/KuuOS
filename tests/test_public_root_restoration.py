@@ -171,6 +171,8 @@ REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
 # Newly added formal modules are outside the frozen v5.291 archive. Their
 # exact draft source blobs are reviewed separately from historical corrections.
 REVIEWED_ADDITIVE_FORMAL_BLOBS = {
+    # Native coherent quasi-inverse yields global prisms; explicit admissibility and rectification retained.
+    "KUOS/DependentOriginationCanonicalIndependentUniverseNativeQuasiInverseDescentV1_29.lean": "f5a78037f3689871df2a9a7c2e4d2ebf1758fca7",
     # Two global Duskin prisms supply hornwise family correspondence and unlifted fibrancy, subject to rectification.
     "KUOS/DependentOriginationCanonicalIndependentUniverseGlobalPrismDescentV1_29.lean": "a5958f91c0fb5b2ad9962d516ba2a328d61bab74",
     # Independent-universe Duskin fibrancy via hornwise homotopy and rectification.

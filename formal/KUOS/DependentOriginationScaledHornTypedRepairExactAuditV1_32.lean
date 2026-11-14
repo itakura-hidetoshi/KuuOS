@@ -1,3 +1,4 @@
+import KUOS.DependentOriginationCanonicalIndependentUniverseNativeQuasiInverseDescentV1_29
 import KUOS.DependentOriginationCanonicalIndependentUniverseGlobalPrismDescentV1_29
 import KUOS.DependentOriginationCanonicalIndependentUniverseHomotopyDescentV1_29
 import KUOS.DependentOriginationCanonicalIndependentUniverseFamilyCorrespondenceV1_29
@@ -411,3 +412,7 @@ certificate or unlifted v1.29 horn descent is inferred. -/
 /-! ## Actual independent-universe global Duskin prism descent, with rectification explicitly required -/
 #print axioms KUOS.DependentOriginationCanonicalIndependentUniverseGlobalPrismDescentV1_29.canonicalCorrespondence_of_globalPrism
 #print axioms KUOS.DependentOriginationCanonicalIndependentUniverseGlobalPrismDescentV1_29.unliftedFibrancy_iff_of_canonical_independentUniverse_globalPrism
+
+/-! ## v1.29 certified native strong quasi-inverse produces global Duskin prisms -/
+#print axioms KUOS.DependentOriginationCanonicalIndependentUniverseNativeQuasiInverseDescentV1_29.canonicalCorrespondence_of_nativeQuasiInverse
+#print axioms KUOS.DependentOriginationCanonicalIndependentUniverseNativeQuasiInverseDescentV1_29.unliftedFibrancy_iff_of_canonical_nativeQuasiInverse
