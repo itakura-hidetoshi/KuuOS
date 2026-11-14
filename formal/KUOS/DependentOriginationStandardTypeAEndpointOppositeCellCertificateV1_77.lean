@@ -251,26 +251,36 @@ theorem intervalEndpoint_eq_face_rev (ε : Fin 2) :
 theorem intervalEndpoint_inf_rev_eq_bot (ε : Fin 2) :
     intervalEndpoint ε ⊓ intervalEndpoint ε.rev =
       (⊥ : (Δ[1] : SSet.{u}).Subcomplex) := by
-  fin_cases ε
-  · rw [intervalEndpoint_zero_eq_face_one,
-      intervalEndpoint_one_eq_face_zero,
+  have hzero :
+      intervalEndpoint (0 : Fin 2) ⊓ intervalEndpoint (1 : Fin 2) =
+        (⊥ : (Δ[1] : SSet.{u}).Subcomplex) := by
+    rw [intervalEndpoint_zero_eq_face_one, intervalEndpoint_one_eq_face_zero,
       SSet.stdSimplex.face_inter_face]
     simp
-  · rw [intervalEndpoint_one_eq_face_zero,
-      intervalEndpoint_zero_eq_face_one,
-      SSet.stdSimplex.face_inter_face]
-    simp
+  have hone :
+      intervalEndpoint (1 : Fin 2) ⊓ intervalEndpoint (0 : Fin 2) =
+        (⊥ : (Δ[1] : SSet.{u}).Subcomplex) := by
+    simpa [inf_comm] using hzero
+  have hcases : ε = (0 : Fin 2) ∨ ε = (1 : Fin 2) := by
+    fin_cases ε <;> simp
+  rcases hcases with rfl | rfl
+  · have hr : (0 : Fin 2).rev = 1 := by decide
+    simpa only [hr] using hzero
+  · have hr : (1 : Fin 2).rev = 0 := by decide
+    simpa only [hr] using hone
 
 /-- The boundary of the interval is the union of endpoint zero and endpoint
 one. -/
 theorem intervalBoundary_eq_endpoint_zero_sup_one :
     (∂Δ[1] : (Δ[1] : SSet.{u}).Subcomplex) =
       intervalEndpoint 0 ⊔ intervalEndpoint 1 := by
-  rw [SSet.boundary_eq_iSup]
   apply le_antisymm
-  · refine iSup_le ?_
+  · rw [SSet.boundary_eq_iSup]
+    refine iSup_le ?_
     intro i
-    fin_cases i
+    have hi : i = (0 : Fin 2) ∨ i = (1 : Fin 2) := by
+      fin_cases i <;> simp
+    rcases hi with rfl | rfl
     · rw [← intervalEndpoint_one_eq_face_zero]
       exact le_sup_right
     · rw [← intervalEndpoint_zero_eq_face_one]
