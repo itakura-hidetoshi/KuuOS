@@ -1,3 +1,4 @@
+import KUOS.DependentOriginationCanonicalIndependentUniverseGlobalPrismDescentV1_29
 import KUOS.DependentOriginationCanonicalIndependentUniverseHomotopyDescentV1_29
 import KUOS.DependentOriginationCanonicalIndependentUniverseFamilyCorrespondenceV1_29
 import KUOS.DependentOriginationCanonicalIndependentUniverseDuskinDescentV1_29
@@ -406,3 +407,7 @@ certificate or unlifted v1.29 horn descent is inferred. -/
 /-! ## Canonical independent-universe Duskin descent through homotopy and rectification -/
 #print axioms KUOS.DependentOriginationCanonicalIndependentUniverseHomotopyDescentV1_29.canonicalCorrespondence_of_homotopy_rectification
 #print axioms KUOS.DependentOriginationCanonicalIndependentUniverseHomotopyDescentV1_29.unliftedFibrancy_iff_of_canonical_independentUniverse_homotopy
+
+/-! ## Actual independent-universe global Duskin prism descent, with rectification explicitly required -/
+#print axioms KUOS.DependentOriginationCanonicalIndependentUniverseGlobalPrismDescentV1_29.canonicalCorrespondence_of_globalPrism
+#print axioms KUOS.DependentOriginationCanonicalIndependentUniverseGlobalPrismDescentV1_29.unliftedFibrancy_iff_of_canonical_independentUniverse_globalPrism
