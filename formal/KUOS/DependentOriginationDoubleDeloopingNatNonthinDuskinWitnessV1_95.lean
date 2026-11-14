@@ -148,14 +148,14 @@ instance : Bicategory.Strict NatDoubleDelooping where
 /-- The 2-cell `1` is not invertible in the additive natural hom-category. -/
 theorem one_twoCell_not_isIso :
     ¬ IsIso
-      (1 : Quiver.Hom.{0} NatOneCell.star NatOneCell.star) := by
+      (show Quiver.Hom.{0} NatOneCell.star NatOneCell.star from (1 : Nat)) := by
   intro h
   letI : IsIso
-      (1 : Quiver.Hom.{0} NatOneCell.star NatOneCell.star) := h
+      (show Quiver.Hom.{0} NatOneCell.star NatOneCell.star from (1 : Nat)) := h
   have hinv := IsIso.hom_inv_id
-    (1 : Quiver.Hom.{0} NatOneCell.star NatOneCell.star)
+    (show Quiver.Hom.{0} NatOneCell.star NatOneCell.star from (1 : Nat))
   change Nat.add 1 (inv
-      (1 : Quiver.Hom.{0} NatOneCell.star NatOneCell.star)) = 0 at hinv
+      (show Quiver.Hom.{0} NatOneCell.star NatOneCell.star from (1 : Nat))) = 0 at hinv
   omega
 
 end NatDoubleDelooping
@@ -212,7 +212,7 @@ def natNoninvertibleTriangle :
 @[simp]
 theorem natNoninvertibleTriangle_comparison :
     duskinComparison natNoninvertibleTriangle =
-      (1 : Quiver.Hom.{0} NatOneCell.star NatOneCell.star) := by
+      (show Quiver.Hom.{0} NatOneCell.star NatOneCell.star from (1 : Nat)) := by
   rfl
 
 /-- Its intrinsic comparison 2-cell is not invertible. -/
@@ -247,7 +247,7 @@ theorem natNoninvertibleTriangle_not_thin_of_nondegenerate
   exact hnd
 
 /-- Bundle the concrete global scaled Duskin nerve. -/
-def natDoubleDeloopingScaledDuskin : ScaledSSet :=
+def natDoubleDeloopingScaledDuskin : ScaledSSet.{0} :=
   ScaledSSet.of
     (duskinNerve NatDoubleDelooping)
     (duskinScaling NatDoubleDelooping)
@@ -262,7 +262,7 @@ structure NatDoubleDeloopingStandardSeparatorCertificate : Prop where
   nondegenerate :
     ¬ IsDegenerateDuskinTwoSimplex natNoninvertibleTriangle
   standardRight :
-    (standardGeneratedScaledAnodyneABC : MorphismProperty ScaledSSet).rlp
+    (standardGeneratedScaledAnodyneABC : MorphismProperty (ScaledSSet.{0})).rlp
       (ScaledSSet.toPoint natDoubleDeloopingScaledDuskin)
 
 /-- A completed certificate immediately gives a standard-right map which fails
@@ -280,9 +280,9 @@ theorem certificate_terminal_not_reflects
 /-- Therefore the certificate opens the entire v1.94 pure-scaling waypoint. -/
 theorem not_standardArbitraryScalingObstructionClosed_of_certificate
     (C : NatDoubleDeloopingStandardSeparatorCertificate) :
-    ¬ StandardArbitraryScalingObstructionClosed := by
+    ¬ StandardArbitraryScalingObstructionClosed.{0} := by
   apply
-    (not_standardArbitraryScalingObstructionClosed_iff_exists_standardRight_nonreflecting).2
+    (not_standardArbitraryScalingObstructionClosed_iff_exists_standardRight_nonreflecting.{0}).2
   refine ⟨natDoubleDeloopingScaledDuskin, ScaledSSet.point,
     ScaledSSet.toPoint natDoubleDeloopingScaledDuskin,
     natNoninvertibleTriangle, C.standardRight, ?_, ?_⟩
@@ -293,8 +293,8 @@ theorem not_standardArbitraryScalingObstructionClosed_of_certificate
 order `canonical <= standard`. -/
 theorem not_canonicalKuuOS_le_standardABC_of_certificate
     (C : NatDoubleDeloopingStandardSeparatorCertificate) :
-    ¬ canonicalKuuOSPresentation ≤ standardABCPresentation := by
-  exact not_canonicalKuuOS_le_standardABC_of_standardRLP_nonreflecting
+    ¬ canonicalKuuOSPresentation.{0} ≤ standardABCPresentation.{0} := by
+  exact not_canonicalKuuOS_le_standardABC_of_standardRLP_nonreflecting.{0}
     C.standardRight natNoninvertibleTriangle
     (ScaledSimplicialSet.maximal_thin _ _)
     (natNoninvertibleTriangle_not_thin_of_nondegenerate C.nondegenerate)
