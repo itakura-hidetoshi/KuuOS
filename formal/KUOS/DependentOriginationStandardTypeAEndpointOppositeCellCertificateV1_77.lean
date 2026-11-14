@@ -328,6 +328,7 @@ def standardTypeAEndpointOppositeCarrierBicartSq
     ext d ⟨x, y⟩
     simp [standardTypeAEndpointOppositeSimplexSubcomplex,
       SSet.Subcomplex.unionProd, SSet.Subcomplex.prod, Set.prod,
+      Set.mem_union, Set.mem_inter_iff, Set.mem_setOf_eq,
       or_assoc, or_comm, or_left_comm] <;> tauto
   inf_eq := by
     ext d ⟨x, y⟩
@@ -344,6 +345,7 @@ def standardTypeAEndpointOppositeCarrierBicartSq
     simp [standardTypeAEndpointOppositeSimplexSubcomplex,
       standardTypeAEndpointOppositeCornerSubcomplex,
       SSet.Subcomplex.unionProd, SSet.Subcomplex.prod, Set.prod,
+      Set.mem_union, Set.mem_inter_iff, Set.mem_setOf_eq,
       or_assoc, or_comm, or_left_comm] <;> tauto
 
 /-- The preceding lattice square is therefore a genuine ordinary simplicial
