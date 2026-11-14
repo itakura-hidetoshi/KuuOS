@@ -175,7 +175,9 @@ theorem presentationToSaturatedAnodyne_iSup
     (P : ι → GeneratedScaledAnodynePresentation.{u}) :
     presentationToSaturatedAnodyne (⨆ i, P i) =
       ⨆ i, presentationToSaturatedAnodyne (P i) := by
-  exact map_iSup (generatedPresentationSaturatedAnodyneOrderIso.{u}) P
+  exact
+    (generatedPresentationSaturatedAnodyneOrderIso.{u}.to_galoisConnection.l_iSup
+      (f := P))
 
 /-- The left fixed-point coordinate preserves arbitrary meets. -/
 @[simp]
@@ -184,7 +186,9 @@ theorem presentationToSaturatedAnodyne_iInf
     (P : ι → GeneratedScaledAnodynePresentation.{u}) :
     presentationToSaturatedAnodyne (⨅ i, P i) =
       ⨅ i, presentationToSaturatedAnodyne (P i) := by
-  exact map_iInf (generatedPresentationSaturatedAnodyneOrderIso.{u}) P
+  exact
+    (generatedPresentationSaturatedAnodyneOrderIso.{u}.symm.to_galoisConnection.u_iInf
+      (f := P))
 
 /-- Because the right coordinate is order reversing, a presentation join is a
 meet of generated right classes. -/
