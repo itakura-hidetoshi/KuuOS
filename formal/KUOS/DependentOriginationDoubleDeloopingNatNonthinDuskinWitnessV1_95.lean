@@ -81,11 +81,13 @@ instance : Category.{0} NatOneCell where
 example (f g : NatOneCell) : (f ⟶ g) = Nat := rfl
 
 @[simp]
-theorem id_eq_zero (f : NatOneCell) : (𝟙 f : f ⟶ f) = 0 := rfl
+theorem id_eq_zero (f : NatOneCell) :
+    (𝟙 f : Quiver.Hom.{0} f f) = (0 : Nat) := rfl
 
 @[simp]
-theorem comp_eq_add {f g h : NatOneCell} (α : f ⟶ g) (β : g ⟶ h) :
-    α ≫ β = α + β := rfl
+theorem comp_eq_add {f g h : NatOneCell}
+    (α : Quiver.Hom.{0} f g) (β : Quiver.Hom.{0} g h) :
+    α ≫ β = (α : Nat) + (β : Nat) := rfl
 
 end NatOneCell
 
@@ -113,7 +115,7 @@ example (a b : NatDoubleDelooping) : (a ⟶ b) = NatOneCell := rfl
 
 instance : Bicategory.{0,0} NatDoubleDelooping where
   __ := (inferInstance : CategoryStruct.{0} NatDoubleDelooping)
-  homCategory _ _ := inferInstance
+  homCategory _ _ := (inferInstance : Category.{0,0} NatOneCell)
   whiskerLeft := by
     intros
     assumption
