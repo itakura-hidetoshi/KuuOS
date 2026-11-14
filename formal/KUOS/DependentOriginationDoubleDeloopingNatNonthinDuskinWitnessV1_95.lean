@@ -65,7 +65,7 @@ instance : Subsingleton NatOneCell :=
 /-- The hom-category of 1-cells has `Nat` as every 2-hom set, identity `0`,
 and vertical composition given by addition. One instance supplies Quiver,
 CategoryStruct, and Category fields without competing inheritance routes. -/
-instance : Category.{0} NatOneCell where
+instance (priority := 2000) : Category.{0} NatOneCell where
   Hom _ _ := Nat
   id _ := 0
   comp f g := Nat.add f g

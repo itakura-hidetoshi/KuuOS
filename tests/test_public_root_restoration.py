@@ -134,7 +134,7 @@ REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
     # Previous reviewed source blob: 868b72f3c1b2b32cd4d9ff69a5b9ad9227a50cd4 (Git history).
     # v1.95: close exchange over Nat.add, specialize local numeral 2-homs to universe zero.
     # Previous reviewed source blob: 7e231bc54d2a65d6590e4ca8726fd5e25bb629ec (Git history).
-    "KUOS/DependentOriginationDoubleDeloopingNatNonthinDuskinWitnessV1_95.lean": "1b1438c3197e99acfb981c7a138c27986ee3688d",
+    "KUOS/DependentOriginationDoubleDeloopingNatNonthinDuskinWitnessV1_95.lean": "d8e2dcff063ff1b1bc53aea7d171691ad06f47e1",
     # Original V1_89 pinned source: f5d06299e825ef784a7df25386b062b80c702f12 (retained in Git history).
     "KUOS/DependentOriginationStandardArbitraryScalingWaypointV1_89.lean": "3b5de0a154436be6598a49861435dc57a80ea2f9",
     "KUOS/DependentOriginationStandardTypeAEndpointOppositeCellCertificateV1_77.lean": "e7d422b89b4a4fa5180790b0c5d49c51b7239786",
