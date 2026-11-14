@@ -317,3 +317,7 @@ certificate or unlifted v1.29 horn descent is inferred. -/
 #print axioms KUOS.DependentOriginationULiftHornUniverseComparisonV1_29.simplexUniverseEquiv_natural
 #print axioms KUOS.DependentOriginationULiftHornUniverseComparisonV1_29.hornUniverseEquiv
 #print axioms KUOS.DependentOriginationULiftHornUniverseComparisonV1_29.hornUniverseEquiv_natural
+
+/-! ## Actual natural isomorphisms for standard simplex/horn ULift -/
+#print axioms KUOS.DependentOriginationULiftHornUniverseComparisonV1_29.simplexUniverseIso
+#print axioms KUOS.DependentOriginationULiftHornUniverseComparisonV1_29.hornUniverseIso
