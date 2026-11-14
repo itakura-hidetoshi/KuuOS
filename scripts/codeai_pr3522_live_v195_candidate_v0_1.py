@@ -463,6 +463,8 @@ def run_if_parent_pr() -> None:
         "isolated_application_receipt": applied.receipt,
         "isolated_verification": "snapshot_materialized_not_Lean_compiled",
         "strict_lean_proof": "not_certified",
+        "lean_mcp_direct_certified": False,
+        "candidate_eligible_for_repository_edit": False,
         "git_effect": False,
     }
     (output / "pr3522-codeai-v195-candidate.json").write_text(
@@ -482,6 +484,8 @@ def run_if_parent_pr() -> None:
         "isolated_application_receipt": applied.receipt[isolated.RECEIPT_DIGEST_FIELD],
         "isolated_patch_applied": applied.receipt["isolated_patch_applied"],
         "strict_lean_proof": "unverified",
+        "lean_mcp_direct_certified": False,
+        "candidate_eligible_for_repository_edit": False,
         "actual_kernel_calls": [
             "build_codeai_intent_repository_observation_envelope",
             "build_codeai_candidate_patch_envelope",
