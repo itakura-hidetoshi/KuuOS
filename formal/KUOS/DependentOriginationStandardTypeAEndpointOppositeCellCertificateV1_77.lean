@@ -570,7 +570,6 @@ noncomputable def standardTypeAEndpointOppositeCellArrowIso
     (standardTypeAEndpointOppositeSimplexIso g) ?_
   apply ScaledSSet.ScaledMap.ext
   ext d t
-  apply Subtype.ext
   rfl
 
 /-- The opposite product cell is therefore in `coproducts E_std` already. -/
@@ -706,7 +705,7 @@ theorem standardTypeAEndpointOppositeGeneratedScaling_eq_boundary
     rcases hmem with hsource | hopposite
     · let x :
           ((SSet.horn g.n g.i).unionProd
-            (intervalEndpoint g.endpoint) : SSet.{u}).obj (op ⦋2⦌) :=
+            (intervalEndpoint g.endpoint) : SSet).obj (op ⦋2⦌) :=
         ⟨t.val, hsource⟩
       have hxmap :
           (standardTypeAEndpointAmbientSourceToBoundary g).map.app
@@ -727,7 +726,7 @@ theorem standardTypeAEndpointOppositeGeneratedScaling_eq_boundary
       rw [hxmap]
       exact ht
     · let x :
-          (standardTypeAEndpointOppositeSimplexSubcomplex g : SSet.{u}).obj
+          (standardTypeAEndpointOppositeSimplexSubcomplex g : SSet).obj
             (op ⦋2⦌) :=
         ⟨t.val, hopposite⟩
       have hxmap :
