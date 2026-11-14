@@ -18,6 +18,8 @@ is inferred.
 namespace KUOS.DependentOriginationNativeTypeAUniverseGeometryV1_29
 
 open CategoryTheory Simplicial Opposite
+open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
+open KUOS.DependentOriginationGlobalDuskinScaledHornCoherenceV1_22
 open KUOS.DependentOriginationScaledTerminalRLPV1_41
 open KUOS.DependentOriginationScaledAnodyneAttachmentFactorizationV1_48
 open KUOS.DependentOriginationULiftHornUniverseComparisonV1_29
@@ -68,16 +70,28 @@ theorem minimalScaling_universe_iff
         (Δ[n] : SSet.{max u v}).σ 0
             (simplexUniverseEquiv.{u, v} n (op ⦋1⦌) x) =
           simplexUniverseEquiv.{u, v} n (op ⦋2⦌) t
-      rw [← simplexUniverseEquiv_natural.{u, v} n
-        ((SimplexCategory.σ 0).op) x, hx]
+      have hNat :
+          (Δ[n] : SSet.{max u v}).σ 0
+              (simplexUniverseEquiv.{u, v} n (op ⦋1⦌) x) =
+            simplexUniverseEquiv.{u, v} n (op ⦋2⦌)
+              ((Δ[n] : SSet.{u}).σ 0 x) := by
+        exact (simplexUniverseEquiv_natural.{u, v} n
+          ((SimplexCategory.σ 0).op) x).symm
+      rw [hNat, hx]
     · right
       refine ⟨simplexUniverseEquiv.{u, v} n (op ⦋1⦌) x, ?_⟩
       change
         (Δ[n] : SSet.{max u v}).σ 1
             (simplexUniverseEquiv.{u, v} n (op ⦋1⦌) x) =
           simplexUniverseEquiv.{u, v} n (op ⦋2⦌) t
-      rw [← simplexUniverseEquiv_natural.{u, v} n
-        ((SimplexCategory.σ 1).op) x, hx]
+      have hNat :
+          (Δ[n] : SSet.{max u v}).σ 1
+              (simplexUniverseEquiv.{u, v} n (op ⦋1⦌) x) =
+            simplexUniverseEquiv.{u, v} n (op ⦋2⦌)
+              ((Δ[n] : SSet.{u}).σ 1 x) := by
+        exact (simplexUniverseEquiv_natural.{u, v} n
+          ((SimplexCategory.σ 1).op) x).symm
+      rw [hNat, hx]
   · intro ht
     rcases ht with ⟨x, hx⟩ | ⟨x, hx⟩
     · left
