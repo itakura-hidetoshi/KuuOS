@@ -137,8 +137,7 @@ theorem projectedForwardAttachment_extension_forces_scaled
         ((SSet.ι₀ : (Δ[n] : SSet.{u}) ⟶
            (Δ[n] : SSet.{u}) ⊗ Δ[1]) ≫ l.map) :=
     (endpointZero_scaled sDelta).comp l.scaled
-  rw [hzero] at hscaled
-  exact hscaled
+  exact (congrArg (IsScaledMap sDelta sX) hzero).mp hscaled
 
 /-- Sharp geometry of the explicitly projected family: a scaled endpoint
 simplex has the constructed constant cylinder as a witness; conversely an
