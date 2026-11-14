@@ -48,7 +48,7 @@ REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
     # Previous reviewed blob: d73ae673183fc739cb654ff652dbfe8691627feb (Git history).
     "KUOS/DependentOriginationStandardTypeAEndpointOppositeCellCertificateV1_77.lean": "d786495a68268e01634f6f8143ebe09241bffc3e",
     # v1.78: explicit import-dependent scaled SSet namespace, no changed theorem assumptions.
-    "KUOS/DependentOriginationStandardABCPostEndpointCanonicalComparisonV1_78.lean": "a1a2e4fc6e108799abc233dfe0c106cd35c13030",
+    "KUOS/DependentOriginationStandardABCPostEndpointCanonicalComparisonV1_78.lean": "b406155d78506527b53549f0cf232d55f084ac86",
     # Previous reviewed v1.76 blob: 9a06669b57537430895aad2a7336aabea001580e (parent HEAD 31805864; Git history).
     "KUOS/DependentOriginationStandardTypeABoundaryPrismRawTransfiniteV1_76.lean": "d2299c21820555c632dafc8f3747342357511a1e",
     # Previous reviewed v1.75 blob: be0d83f8864c0d7933b0f3b23d388086c9836217 (Git history).
