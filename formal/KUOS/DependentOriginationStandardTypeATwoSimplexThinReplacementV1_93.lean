@@ -115,7 +115,8 @@ theorem standardTypeATwo_distinguished_eq_identity
     (ht : IsStandardTypeADistinguishedTriangle (1 : Fin 3) t) :
     t = identityTwoSimplex := by
   rcases ht with ⟨h1, h0, h2⟩
-  have hid (j : Fin 3) : identityTwoSimplex j = j := by
+  have hid (j : Fin 3) :
+      (identityTwoSimplex : (Δ[2] : SSet.{u}).obj (op ⦋2⦌)) j = j := by
     rfl
   have ht0 : t (0 : Fin 3) = 0 := by
     have hsum : (t (0 : Fin 3)).val + 1 = 1 := by
