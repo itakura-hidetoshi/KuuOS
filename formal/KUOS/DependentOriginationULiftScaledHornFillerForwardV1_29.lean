@@ -29,7 +29,7 @@ universe u v
 
 /-- On the larger representable horn, use precisely the lifted original
 horn scaling transported along the inverse universe comparison. -/
-@[reducible] def liftedHornScaling (n : ℕ) (i : Fin (n + 1))
+@[reducible] noncomputable def liftedHornScaling (n : ℕ) (i : Fin (n + 1))
     (s : ScaledSimplicialSet (SSet.horn.{u} n i : SSet.{u})) :
     ScaledSimplicialSet (SSet.horn.{max u v} n i : SSet.{max u v}) :=
   pullbackScaling (uliftScaling.{u, v} s)
@@ -37,7 +37,7 @@ horn scaling transported along the inverse universe comparison. -/
 
 /-- On the larger represented simplex, use exactly the original simplex
 scaling transported through the natural universe isomorphism. -/
-@[reducible] def liftedSimplexScaling (n : ℕ)
+@[reducible] noncomputable def liftedSimplexScaling (n : ℕ)
     (s : ScaledSimplicialSet (Δ[n] : SSet.{u})) :
     ScaledSimplicialSet (Δ[n] : SSet.{max u v}) :=
   pullbackScaling (uliftScaling.{u, v} s)
