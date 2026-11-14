@@ -558,10 +558,16 @@ theorem standardTypeAEndpointOppositeCellHom_mem_coproductsABC
       (standardScaledAnodyneGeneratorsABC :
         MorphismProperty (ScaledSSet.{u})) _
       (standardTypeAGenerator_mem_ABC (KUOS.DependentOriginationStandardTypeAEndpointPushoutProductV1_50.StandardTypeAHornAttachmentGeneratorIndex.toHornGenerator g))
+  let W : MorphismProperty (ScaledSSet.{u}) :=
+    standardScaledAnodyneGeneratorsABC
+  letI : (MorphismProperty.coproducts.{u} W).RespectsIso := by
+    refine MorphismProperty.RespectsIso.of_respects_arrow_iso _ ?_
+    intro f g e hf
+    rcases (MorphismProperty.coproducts_iff W f.hom).1 hf with ⟨J, hJ⟩
+    exact (MorphismProperty.coproducts_iff W g.hom).2
+      ⟨J, ((W.colimitsOfShape (Discrete J)).arrow_mk_iso_iff e).1 hJ⟩
   exact
-    ((MorphismProperty.coproducts.{u}
-      (standardScaledAnodyneGeneratorsABC :
-        MorphismProperty (ScaledSSet.{u}))).arrow_mk_iso_iff
+    ((MorphismProperty.coproducts.{u} W).arrow_mk_iso_iff
       (standardTypeAEndpointOppositeCellArrowIso g)).2 hA
 
 /-- Corner map into the ambient-pullback-scaled endpoint source. -/
