@@ -62,14 +62,14 @@ namespace NatOneCell
 instance : Subsingleton NatOneCell :=
   ⟨by intro x y; cases x; cases y; rfl⟩
 
-/- Use the Quiver inherited from the Category instance below.  A separate
-   higher-priority Quiver competes with Category.toQuiver during elaboration of
-   Nat-valued 2-homs in the pinned CategoryStruct API. -/
+/- Pin the two-hom carrier before elaborating CategoryStruct: the fixed mathlib
+   Cat.Hom implementation also installs Quiver before its Category instance. -/
+instance : Quiver.{0} NatOneCell where
+  Hom _ _ := Nat
 
 /-- The hom-category of 1-cells has `Nat` as every 2-hom set, identity `0`,
 and vertical composition given by addition. -/
 instance : Category.{0} NatOneCell where
-  Hom _ _ := Nat
   id _ := 0
   comp f g := f + g
   id_comp := by intros; exact Nat.zero_add _
@@ -99,8 +99,10 @@ instance : Subsingleton NatDoubleDelooping :=
 
 /-- One object, one 1-cell, and additive natural-number 2-cells form a strict
 bicategory.  The exchange law is exactly commutativity of addition. -/
-instance : Bicategory.{0,0} NatDoubleDelooping where
+instance : Quiver.{0} NatDoubleDelooping where
   Hom _ _ := NatOneCell
+
+instance : Bicategory.{0,0} NatDoubleDelooping where
   id _ := NatOneCell.star
   comp _ _ := NatOneCell.star
   homCategory _ _ := inferInstance
