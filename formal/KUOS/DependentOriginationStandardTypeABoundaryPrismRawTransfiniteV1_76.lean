@@ -375,14 +375,46 @@ theorem standardTypeABoundaryPrismAlternatingStep_mem_rawCellular
           change standardABCRawCellularStep
             (standardTypeABoundaryPrismAlternatingStep g (Nat.bit false j))
           rw [standardTypeABoundaryPrismAlternatingStep_bit_false]
-          simpa using
-            standardTypeABoundaryPrismRankStageToAPhase_mem_rawCellular g j
+          have hpost :
+              standardABCRawCellularStep
+                (standardTypeABoundaryPrismRankStageToAPhase g j ≫
+                  eqToHom (standardTypeABoundaryPrismAlternatingObj_bit_false_succ g j).symm) :=
+            MorphismProperty.RespectsIso.postcomp
+              (standardABCRawCellularStep : MorphismProperty (ScaledSSet.{u}))
+              (eqToHom (standardTypeABoundaryPrismAlternatingObj_bit_false_succ g j).symm)
+              _ (standardTypeABoundaryPrismRankStageToAPhase_mem_rawCellular g j)
+          have hpre :
+              standardABCRawCellularStep
+                (eqToHom (standardTypeABoundaryPrismAlternatingObj_bit_false g j) ≫
+                  (standardTypeABoundaryPrismRankStageToAPhase g j ≫
+                    eqToHom (standardTypeABoundaryPrismAlternatingObj_bit_false_succ g j).symm)) :=
+            MorphismProperty.RespectsIso.precomp
+              (standardABCRawCellularStep : MorphismProperty (ScaledSSet.{u}))
+              (eqToHom (standardTypeABoundaryPrismAlternatingObj_bit_false g j))
+              _ hpost
+          simpa only [Category.assoc] using hpre
       | true =>
           change standardABCRawCellularStep
             (standardTypeABoundaryPrismAlternatingStep g (Nat.bit true j))
           rw [standardTypeABoundaryPrismAlternatingStep_bit_true]
-          simpa using
-            standardTypeABoundaryPrismRankAPhaseToSucc_mem_rawCellular g j
+          have hpost :
+              standardABCRawCellularStep
+                (standardTypeABoundaryPrismRankAPhaseToSucc g j ≫
+                  eqToHom (standardTypeABoundaryPrismAlternatingObj_bit_true_succ g j).symm) :=
+            MorphismProperty.RespectsIso.postcomp
+              (standardABCRawCellularStep : MorphismProperty (ScaledSSet.{u}))
+              (eqToHom (standardTypeABoundaryPrismAlternatingObj_bit_true_succ g j).symm)
+              _ (standardTypeABoundaryPrismRankAPhaseToSucc_mem_rawCellular g j)
+          have hpre :
+              standardABCRawCellularStep
+                (eqToHom (standardTypeABoundaryPrismAlternatingObj_bit_true g j) ≫
+                  (standardTypeABoundaryPrismRankAPhaseToSucc g j ≫
+                    eqToHom (standardTypeABoundaryPrismAlternatingObj_bit_true_succ g j).symm)) :=
+            MorphismProperty.RespectsIso.precomp
+              (standardABCRawCellularStep : MorphismProperty (ScaledSSet.{u}))
+              (eqToHom (standardTypeABoundaryPrismAlternatingObj_bit_true g j))
+              _ hpost
+          simpa only [Category.assoc] using hpre
 
 
 /-! ## A cocone of the alternating diagram to the full cylinder -/
@@ -657,13 +689,11 @@ theorem standardTypeABoundaryPrismToCylinder_mem_strongCellular
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
     standardABCStrongCellularClosure
       (standardTypeABoundaryPrismToCylinder g) := by
-  change MorphismProperty.transfiniteCompositions.{u, u, u + 1}
-    (standardABCRawCellularStep : MorphismProperty (ScaledSSet.{u}))
-      (standardTypeABoundaryPrismToCylinder g)
-  exact MorphismProperty.transfiniteCompositionsOfShape_le_transfiniteCompositions
-    (standardABCRawCellularStep : MorphismProperty (ScaledSSet.{u})) _ _
-    ((standardTypeABoundaryPrismRawTransfiniteComposition g).ofOrderIso
-      (orderIsoShrink.{u} ℕ).symm).mem
+  simpa only [standardABCStrongCellularClosure] using
+    (MorphismProperty.transfiniteCompositionsOfShape_le_transfiniteCompositions
+      (standardABCRawCellularStep : MorphismProperty (ScaledSSet.{u})) _ _
+      ((standardTypeABoundaryPrismRawTransfiniteComposition g).ofOrderIso
+        (orderIsoShrink.{u} ℕ).symm).mem)
 
 /-- Consequently the full boundary-prism inclusion lies in the exact v1.59
 standard A/B/C cellular closure. -/
