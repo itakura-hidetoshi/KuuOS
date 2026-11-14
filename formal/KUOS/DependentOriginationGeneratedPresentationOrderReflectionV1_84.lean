@@ -204,9 +204,9 @@ geometric route to the exact canonical-to-standard order direction. -/
 theorem canonicalKuuOS_le_standardABC_of_positiveResidual
     (K : StandardABCCanonicalPositiveResidualComparison.{u}) :
     canonicalKuuOSPresentation.{u} <= standardABCPresentation.{u} := by
-  apply
-    canonicalKuuOS_le_standardABC_iff_canonicalGenerators_le_standardGenerated.2
-  exact canonicalGenerators_le_standardGenerated_of_residual K.toResidual
+  exact
+    (canonicalKuuOS_le_standardABC_iff_canonicalGenerators_le_standardGenerated.{u}).2
+      (canonicalGenerators_le_standardGenerated_of_residual.{u} K.toResidual)
 
 /-- The reverse order direction is not merely implied by the generatorwise
 v1.79 package: it is equivalent to it, because the standard presentation is
@@ -214,17 +214,24 @@ literally the A/B/C union. -/
 theorem standardABC_le_canonicalKuuOS_iff_generatorwiseReverse :
     standardABCPresentation.{u} <= canonicalKuuOSPresentation.{u} <->
       StandardABCCanonicalGeneratorwiseReverseComparison.{u} := by
-  rw [standardABC_le_canonicalKuuOS_iff_standardGenerators_le_canonicalGenerated]
   constructor
   · intro h
+    have hgen :
+        (standardScaledAnodyneGeneratorsABC :
+          MorphismProperty (ScaledSSet.{u})) ≤
+        (canonicalGeneratedScaledAnodyne :
+          MorphismProperty (ScaledSSet.{u})) :=
+      (standardABC_le_canonicalKuuOS_iff_standardGenerators_le_canonicalGenerated.{u}).1 h
     exact
       { typeA_mem := fun g =>
-          h _ (standardTypeAGenerator_mem_ABC g)
+          hgen _ (standardTypeAGenerator_mem_ABC g)
         typeB_mem :=
-          h _ standardTypeBGenerator_mem_ABC
+          hgen _ standardTypeBGenerator_mem_ABC
         typeC_mem := fun m =>
-          h _ (standardTypeCGenerator_mem_ABC m) }
+          hgen _ (standardTypeCGenerator_mem_ABC m) }
   · intro K
+    apply
+      (standardABC_le_canonicalKuuOS_iff_standardGenerators_le_canonicalGenerated.{u}).2
     exact K.toReverse.standardGenerators_le_canonicalGenerated
 
 /-- Full presentation identification is exactly the two literal one-sided
@@ -239,9 +246,21 @@ theorem standardABC_eq_canonicalKuuOS_iff_direct_generator_inclusions :
       ((scaledHornAttachmentGenerators :
           MorphismProperty (ScaledSSet.{u})) <=
         standardGeneratedScaledAnodyneABC) := by
-  rw [standardABC_eq_canonical_iff_mutual_le,
-    standardABC_le_canonicalKuuOS_iff_standardGenerators_le_canonicalGenerated,
-    canonicalKuuOS_le_standardABC_iff_canonicalGenerators_le_standardGenerated]
+  constructor
+  · intro h
+    exact
+      ⟨(standardABC_le_canonicalKuuOS_iff_standardGenerators_le_canonicalGenerated.{u}).1
+          (le_of_eq h),
+        (canonicalKuuOS_le_standardABC_iff_canonicalGenerators_le_standardGenerated.{u}).1
+          (le_of_eq h.symm)⟩
+  · rintro ⟨hstandard, hcanonical⟩
+    apply le_antisymm
+    · exact
+        (standardABC_le_canonicalKuuOS_iff_standardGenerators_le_canonicalGenerated.{u}).2
+          hstandard
+    · exact
+        (canonicalKuuOS_le_standardABC_iff_canonicalGenerators_le_standardGenerated.{u}).2
+          hcanonical
 
 /-- The positive v1.79 master package factors through the exact two order
 directions, rather than being part of the definition of presentation equality. -/
