@@ -143,14 +143,16 @@ noncomputable def simplexScalingToAttachmentArrow
     (by
       apply ScaledSSet.ScaledMap.ext
       fin_cases endpoint
-      · simpa [minimalSimplexIntoAttachment, chosenScaledEndpoint,
-          minimalToChosenSimplexScaling,
-          scaledHornCylinderAttachmentInclusion, Category.assoc] using
-          (endpointIntoAttachment_ι_zero n i)
-      · simpa [minimalSimplexIntoAttachment, chosenScaledEndpoint,
-          minimalToChosenSimplexScaling,
-          scaledHornCylinderAttachmentInclusion, Category.assoc] using
-          (endpointIntoAttachment_ι_one n i))
+      · change endpointIntoAttachment n i 0 ≫
+          (hornCylinderAttachment n i 0).ι =
+            (𝟙 (Δ[n] : SSet.{u})) ≫ SSet.ι₀
+        rw [Category.id_comp]
+        exact endpointIntoAttachment_ι_zero n i
+      · change endpointIntoAttachment n i 1 ≫
+          (hornCylinderAttachment n i 1).ι =
+            (𝟙 (Δ[n] : SSet.{u})) ≫ SSet.ι₁
+        rw [Category.id_comp]
+        exact endpointIntoAttachment_ι_one n i)
 
 /-- First projections give the reverse arrow-category morphism. -/
 noncomputable def attachmentToSimplexScalingArrow
@@ -165,9 +167,11 @@ noncomputable def attachmentToSimplexScalingArrow
     (scaledCylinderFirstProjection sDelta)
     (by
       apply ScaledSSet.ScaledMap.ext
-      simp [minimalAttachmentFirstProjection, scaledCylinderFirstProjection,
-        minimalToChosenSimplexScaling,
-        scaledHornCylinderAttachmentInclusion, Category.assoc])
+      change ((hornCylinderAttachment n i endpoint).ι ≫
+        CartesianMonoidalCategory.fst _ _) ≫ 𝟙 _ =
+        (hornCylinderAttachment n i endpoint).ι ≫
+          CartesianMonoidalCategory.fst _ _
+      exact Category.comp_id _)
 
 /-- The minimal-to-chosen simplex scaling enrichment is an arrow retract of
 any canonical attachment carrying that simplex scaling. -/
@@ -184,20 +188,27 @@ noncomputable def minimalToChosenSimplexScaling_retractArrow
   retract := by
     apply Arrow.hom_ext
     · apply ScaledSSet.ScaledMap.ext
-      fin_cases endpoint <;>
-        simp [simplexScalingToAttachmentArrow,
-          attachmentToSimplexScalingArrow,
-          minimalSimplexIntoAttachment,
-          minimalAttachmentFirstProjection,
-          chosenScaledEndpoint,
-          scaledCylinderFirstProjection,
-          Category.assoc]
+      fin_cases endpoint
+      · change (endpointIntoAttachment n i 0 ≫
+          (hornCylinderAttachment n i 0).ι) ≫
+            CartesianMonoidalCategory.fst _ _ = 𝟙 _
+        rw [endpointIntoAttachment_ι_zero]
+        exact SSet.ι₀_fst _
+      · change (endpointIntoAttachment n i 1 ≫
+          (hornCylinderAttachment n i 1).ι) ≫
+            CartesianMonoidalCategory.fst _ _ = 𝟙 _
+        rw [endpointIntoAttachment_ι_one]
+        exact SSet.ι₁_fst _
     · apply ScaledSSet.ScaledMap.ext
-      fin_cases endpoint <;>
-        simp [simplexScalingToAttachmentArrow,
-          attachmentToSimplexScalingArrow,
-          chosenScaledEndpoint,
-          scaledCylinderFirstProjection]
+      fin_cases endpoint
+      · change (SSet.ι₀ : (Δ[n] : SSet.{u}) ⟶
+          (Δ[n] : SSet.{u}) ⊗ Δ[1]) ≫
+            CartesianMonoidalCategory.fst _ _ = 𝟙 _
+        exact SSet.ι₀_fst _
+      · change (SSet.ι₁ : (Δ[n] : SSet.{u}) ⟶
+          (Δ[n] : SSet.{u}) ⊗ Δ[1]) ≫
+            CartesianMonoidalCategory.fst _ _ = 𝟙 _
+        exact SSet.ι₁_fst _
 
 /-! ## Retract-stable left classes see the scaling enrichment -/
 
