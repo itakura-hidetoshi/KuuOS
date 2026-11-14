@@ -33,7 +33,7 @@ DependentOriginationDoubleDeloopingThinComparisonZeroV1_96
 /-! ## The one-cell hom-category with additive natural 2-cells -/
 
 /-- The unique 1-cell in the additive double delooping. -/
-inductive NatOneCell : Type
+inductive NatOneCell : Type where
   | star
   deriving DecidableEq
 
@@ -48,9 +48,9 @@ instance : Category NatOneCell where
   Hom _ _ := Nat
   id _ := 0
   comp f g := f + g
-  id_comp := by intro; exact Nat.zero_add _
-  comp_id := by intro; exact Nat.add_zero _
-  assoc := by intro; exact Nat.add_assoc _ _ _
+  id_comp := by intros; exact Nat.zero_add _
+  comp_id := by intros; exact Nat.add_zero _
+  assoc := by intros; exact Nat.add_assoc _ _ _
 
 @[simp]
 theorem id_eq_zero (f : NatOneCell) : (𝟙 f : f ⟶ f) = 0 := rfl
@@ -64,7 +64,7 @@ end NatOneCell
 /-! ## The additive double delooping bicategory -/
 
 /-- The unique object of the additive double delooping. -/
-inductive NatDoubleDelooping : Type
+inductive NatDoubleDelooping : Type where
   | star
   deriving DecidableEq
 
