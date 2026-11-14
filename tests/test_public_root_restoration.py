@@ -171,6 +171,8 @@ REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
 # Newly added formal modules are outside the frozen v5.291 archive. Their
 # exact draft source blobs are reviewed separately from historical corrections.
 REVIEWED_ADDITIVE_FORMAL_BLOBS = {
+    # Two global Duskin prisms supply hornwise family correspondence and unlifted fibrancy, subject to rectification.
+    "KUOS/DependentOriginationCanonicalIndependentUniverseGlobalPrismDescentV1_29.lean": "47fd3c8b4b4d482fd0bce11e90171611b220dbf9",
     # Independent-universe Duskin fibrancy via hornwise homotopy and rectification.
     "KUOS/DependentOriginationCanonicalIndependentUniverseHomotopyDescentV1_29.lean": "9587ca4ba4f09eeb09ef048192b59f317be3a417",
     # Canonical independent-universe Duskin descent via explicit lifted family correspondence.
