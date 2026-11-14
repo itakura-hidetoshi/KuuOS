@@ -6,6 +6,8 @@ namespace KUOS.DependentOriginationGeneratedPresentationQuotientInvariantV1_81
 open CategoryTheory
 open KUOS.DependentOriginationScaledTerminalRLPV1_41
 open KUOS.DependentOriginationScaledAnodyneGeneratorClosureV1_42
+open KUOS.DependentOriginationScaledAnodyneWFSUniversalityV1_43
+open KUOS.DependentOriginationExternalScaledAnodyneGeneratorComparisonV1_46
 open KUOS.DependentOriginationScaledColimitsPresentabilityV1_45
 open KUOS.DependentOriginationStandardTypeCCollapsedEdgeV1_58
 open KUOS.DependentOriginationGeneratedPresentationEndpointInvariantV1_80
@@ -75,13 +77,13 @@ def generatedPresentationSetoid : Setoid ScaledAnodynePresentation.{u} where
 /-- The presentation-independent carrier: generator lists modulo mutual
 orthogonal generation. -/
 def GeneratedScaledAnodynePresentation : Type _ :=
-  Quotient (generatedPresentationSetoid (u := u))
+  Quotient (generatedPresentationSetoid.{u})
 
 /-- Canonical projection of a literal presentation to its generated theory. -/
 def presentationClass
     (E : ScaledAnodynePresentation.{u}) :
     GeneratedScaledAnodynePresentation.{u} :=
-  Quotient.mk (generatedPresentationSetoid (u := u)) E
+  Quotient.mk (generatedPresentationSetoid.{u}) E
 
 /-- Equality in the quotient is exactly v1.80 mutual generation. -/
 theorem presentationClass_eq_iff
