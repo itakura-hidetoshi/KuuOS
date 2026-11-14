@@ -780,16 +780,20 @@ noncomputable def standardTypeAEndpointOpposite_scaled_isPushout
       (standardTypeABoundaryPrismScaling g)
       (standardTypeAEndpointOppositeGeneratedScaling_eq_boundary g)
   refine h.of_iso (Iso.refl _) (Iso.refl _) (Iso.refl _) e ?_ ?_ ?_ ?_
-  · simp
-  · simp
-  · simp only [Category.id_comp]
-    apply ScaledSSet.ScaledMap.ext
+  · exact (Category.comp_id
+      (standardTypeAEndpointOppositeCornerToAmbientSource g)).trans
+      (Category.id_comp
+        (standardTypeAEndpointOppositeCornerToAmbientSource g)).symm
+  · exact (Category.comp_id
+      (standardTypeAEndpointOppositeCellHom g)).trans
+      (Category.id_comp
+        (standardTypeAEndpointOppositeCellHom g)).symm
+  · apply ScaledSSet.ScaledMap.ext
     change
       (standardTypeAEndpointAmbientSourceToBoundary g).map ≫ e.hom.map =
         (standardTypeAEndpointAmbientSourceToBoundary g).map
     simp [e]
-  · simp only [Category.id_comp]
-    apply ScaledSSet.ScaledMap.ext
+  · apply ScaledSSet.ScaledMap.ext
     change
       (standardTypeAEndpointOppositeSimplexToBoundary g).map ≫ e.hom.map =
         (standardTypeAEndpointOppositeSimplexToBoundary g).map
