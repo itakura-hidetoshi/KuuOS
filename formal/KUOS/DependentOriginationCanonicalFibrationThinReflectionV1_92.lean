@@ -9,7 +9,13 @@ open Simplicial
 open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
 open KUOS.DependentOriginationScaledTerminalRLPV1_41
 open KUOS.DependentOriginationScaledAnodyneGeneratorClosureV1_42
+open KUOS.DependentOriginationExternalScaledAnodyneGeneratorComparisonV1_46
+open KUOS.DependentOriginationStandardTypeBScalingPushoutV1_56
+open KUOS.DependentOriginationStandardTypeCCollapsedEdgeV1_58
+open KUOS.DependentOriginationGeneratedPresentationQuotientInvariantV1_81
 open KUOS.DependentOriginationGeneratedPresentationOrderReflectionV1_84
+open KUOS.DependentOriginationCanonicalAttachmentScalingObstructionRetractV1_88
+open KUOS.DependentOriginationSingleTriangleScalingFiltrationV1_90
 open KUOS.DependentOriginationStandardCanonicalPresentationGapV1_87
 open KUOS.DependentOriginationCanonicalFibrancyAtomicTwoSimplexAuditV1_91
 
@@ -25,7 +31,7 @@ terminal map is only the object-level shadow of a more general phenomenon.
 For a scaled morphism `p : X -> Y`, the square against
 
 ```text
-(Delta[2], minimal) -> (Delta[2], minimal + {id_2})
+(Δ[2], minimal) -> (Δ[2], minimal + {id_2})
 ```
 
 exists exactly when a chosen 2-simplex `sigma` of `X` has thin image in `Y`.
@@ -98,7 +104,7 @@ theorem atomicTwoSimplexRLP_iff_reflectsThinTwoSimplices
         scaled := by
           intro t ht
           change
-            (minimalScaling (Delta[2] : SSet.{u})).thin t ∨
+            (minimalScaling (Δ[2] : SSet.{u})).thin t ∨
               t = identityTwoSimplex at ht
           rcases ht with hmin | hident
           · exact p.scaled _ (f.scaled t hmin)
@@ -130,7 +136,7 @@ theorem atomicTwoSimplexRLP_iff_reflectsThinTwoSimplices
         scaled := by
           intro t ht
           change
-            (minimalScaling (Delta[2] : SSet.{u})).thin t ∨
+            (minimalScaling (Δ[2] : SSet.{u})).thin t ∨
               t = identityTwoSimplex at ht
           rcases ht with hmin | hident
           · exact f.scaled t hmin
