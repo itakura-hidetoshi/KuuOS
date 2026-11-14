@@ -867,7 +867,7 @@ private noncomputable def prependedEndpointObj
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
     ℕ → ScaledSSet.{u}
   | 0 => standardTypeAEndpointGeneratedPushoutSource g
-  | n + 1 => (standardTypeABoundaryPrismRawTransfiniteComposition g).F.obj n
+  | .succ n => (standardTypeABoundaryPrismRawTransfiniteComposition g).F.obj n
 
 private noncomputable def prependedEndpointStep
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
@@ -875,7 +875,7 @@ private noncomputable def prependedEndpointStep
       prependedEndpointObj g (n + 1)
   | 0 => standardTypeAEndpointToBoundaryPrism g ≫
       (standardTypeABoundaryPrismRawTransfiniteComposition g).isoBot.inv
-  | n + 1 =>
+  | .succ n =>
       (standardTypeABoundaryPrismRawTransfiniteComposition g).F.map
         (homOfLE (Nat.le_succ n))
 
@@ -890,7 +890,7 @@ private noncomputable def prependedEndpointLeg
       scaledSimplexCylinder (standardTypeASimplexScaling g.i)
   | 0 => standardTypeAEndpointToBoundaryPrism g ≫
       standardTypeABoundaryPrismToCylinder g
-  | n + 1 =>
+  | .succ n =>
       (standardTypeABoundaryPrismRawTransfiniteComposition g).incl.app n
 
 private theorem prependedEndpointStep_leg
