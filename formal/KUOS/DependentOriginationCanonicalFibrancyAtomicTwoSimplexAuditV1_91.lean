@@ -13,6 +13,8 @@ open KUOS.DependentOriginationScaledAnodyneGeneratorClosureV1_42
 open KUOS.DependentOriginationExternalScaledAnodyneGeneratorComparisonV1_46
 open KUOS.DependentOriginationStandardTypeAScaledPushoutSourceEnrichmentV1_53
 open KUOS.DependentOriginationStandardTypeBScalingPushoutV1_56
+open KUOS.DependentOriginationStandardTypeCCollapsedEdgeV1_58
+open KUOS.DependentOriginationGeneratedPresentationQuotientInvariantV1_81
 open KUOS.DependentOriginationGeneratedPresentationOrderReflectionV1_84
 open KUOS.DependentOriginationStandardCanonicalPresentationGapV1_87
 open KUOS.DependentOriginationCanonicalAttachmentScalingObstructionRetractV1_88
@@ -75,7 +77,9 @@ def atomicTwoSimplexEnrichment :
 @[simp]
 theorem atomicTwoSimplexScaling_identity_thin :
     atomicTwoSimplexScaling.thin identityTwoSimplex := by
-  simp [atomicTwoSimplexScaling, singleTriangleScaling]
+  change (minimalScaling (Δ[2] : SSet.{u})).thin identityTwoSimplex ∨
+    identityTwoSimplex = identityTwoSimplex
+  exact Or.inr rfl
 
 /-! ## Canonical left-class membership -/
 
@@ -153,8 +157,8 @@ theorem atomicTwoSimplexRLP_iff_all_two_simplices_thin
             exact hall _ }
     refine ⟨l, ?_⟩
     apply ScaledSSet.ScaledMap.ext
-    simp [atomicTwoSimplexEnrichment,
-      minimalToSingleTriangleScaling, scalingEnrichmentHom, l]
+    change (𝟙 (Δ[2] : SSet.{u})) ≫ f.map = f.map
+    exact Category.id_comp _
 
 /-- The same atomic RLP can be stated intrinsically as maximality of the target
 scaling. -/
