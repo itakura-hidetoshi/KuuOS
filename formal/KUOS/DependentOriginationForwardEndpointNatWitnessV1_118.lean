@@ -35,7 +35,7 @@ DependentOriginationDoubleDeloopingThinComparisonZeroV1_96
 /-- The unique 1-cell in the additive double delooping. -/
 inductive NatOneCell : Type where
   | star
-  deriving DecidableEq
+deriving DecidableEq
 
 namespace NatOneCell
 
@@ -66,7 +66,7 @@ end NatOneCell
 /-- The unique object of the additive double delooping. -/
 inductive NatDoubleDelooping : Type where
   | star
-  deriving DecidableEq
+deriving DecidableEq
 
 namespace NatDoubleDelooping
 
