@@ -205,9 +205,11 @@ def natNoninvertibleTriangleCore :
     simp [natTriangleMapComp]
   map₂_leftUnitor := by
     intros
+    change (0 : Nat) = Nat.add (Nat.add 0 0) _
     simp [natTriangleMapComp]
   map₂_rightUnitor := by
     intros
+    change (0 : Nat) = Nat.add (Nat.add 0 0) _
     simp [natTriangleMapComp]
   map₂_associator := by
     intro a b c d f g h
