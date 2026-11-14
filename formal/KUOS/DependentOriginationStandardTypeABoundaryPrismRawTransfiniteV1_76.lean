@@ -611,9 +611,9 @@ transfinite composition whose every successor is a raw standard A/B cellular
 step. -/
 noncomputable def standardTypeABoundaryPrismRawTransfiniteComposition
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
-    (standardABCRawCellularStep : MorphismProperty (ScaledSSet.{u})).
-      TransfiniteCompositionOfShape ℕ
-        (standardTypeABoundaryPrismToCylinder g) where
+    MorphismProperty.TransfiniteCompositionOfShape
+      (standardABCRawCellularStep : MorphismProperty (ScaledSSet.{u}))
+      ℕ (standardTypeABoundaryPrismToCylinder g) where
   F := standardTypeABoundaryPrismAlternatingFunctor g
   isoBot := eqToIso (by
     simp [standardTypeABoundaryPrismAlternatingFunctor,
@@ -640,7 +640,7 @@ theorem standardTypeABoundaryPrismToCylinder_mem_strongCellular
     standardABCStrongCellularClosure
       (standardTypeABoundaryPrismToCylinder g) := by
   change
-    (MorphismProperty.transfiniteCompositions.{u}
+    (MorphismProperty.transfiniteCompositions.{u, u, u + 1}
       (standardABCRawCellularStep : MorphismProperty (ScaledSSet.{u})))
         (standardTypeABoundaryPrismToCylinder g)
   exact
