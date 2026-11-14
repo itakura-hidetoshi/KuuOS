@@ -26,6 +26,17 @@ TARGET = "formal/KUOS/DependentOriginationDoubleDeloopingNatNonthinDuskinWitness
 AUDIT = "tests/test_public_root_restoration.py"
 BEFORE = "simpa only [Nat.succ_add, Nat.zero_add] using hinv"
 AFTER = "simpa only [Nat.one_add] using hinv"
+NEXT_AFTER = """calc
+      Nat.succ (inv
+        (show Quiver.Hom.{0} NatOneCell.star NatOneCell.star
+          from (1 : Nat))) =
+          Nat.add (inv
+            (show Quiver.Hom.{0} NatOneCell.star NatOneCell.star
+              from (1 : Nat))) 1 := (Nat.add_one _).symm
+      _ = Nat.add 1 (inv
+            (show Quiver.Hom.{0} NatOneCell.star NatOneCell.star
+              from (1 : Nat))) := Nat.add_comm _ _
+      _ = 0 := hinv"""
 
 
 def git_blob_sha(content: bytes) -> str:
@@ -78,26 +89,30 @@ def run_if_parent_pr() -> None:
     audit_entry = '"KUOS/DependentOriginationDoubleDeloopingNatNonthinDuskinWitnessV1_95.lean": "' + old_blob + '"'
     if audit_text.count(audit_entry) != 1:
         raise RuntimeError("CodeAI exact-source blob not individually registered")
-    if source_text.count(BEFORE) != 1:
-        # After exact CodeAI candidate materialization has been committed to
-        # the parent, do not replay its one-use proposal against the successor.
-        # Verify both reviewed blob and individually tracked source SHA.
-        applied_blob = "c51cbc33e9897252f6893f4c00c352fdd6369e00"
-        if old_blob == applied_blob and source_text.count(AFTER) == 1:
-            print("KUUOS_CODEAI_REAL_V195_APPLIED_RECEIPT " + json.dumps({
-                "source_head": head_sha,
-                "applied_blob": old_blob,
-                "origin_isolated_receipt": "3a6ad74bf9acde9a89665d47926044eaf862211e89b53c391e25016f5429fad8",
-                "replay_excluded": True,
-                "candidate_regenerated": False,
-                "strict_lean_proof": "unverified",
-            }, sort_keys=True))
-            return
-        raise RuntimeError("CodeAI repair candidate anchor drift")
-    if "admit" in AFTER or "sorry" in AFTER or "axiom" in AFTER:
+    if source_text.count(BEFORE) == 1:
+        repair_before, repair_after = BEFORE, AFTER
+        repair_stage = "round1-Nat-one-add"
+    elif (old_blob == "c51cbc33e9897252f6893f4c00c352fdd6369e00"
+          and source_text.count(AFTER) == 1):
+        # The exact prior CodeAI candidate is materialized in the parent.
+        # A fresh Strict Lean error identified the next source-bound repair.
+        repair_before, repair_after = AFTER, NEXT_AFTER
+        repair_stage = "round2-Nat-add-one-explicit-calc"
+    elif old_blob == "55f0fd1aff12e2450003b0355d983013fd4ed3a3":
+        print("KUUOS_CODEAI_REAL_V195_APPLIED_RECEIPT " + json.dumps({
+            "source_head": head_sha,
+            "applied_blob": old_blob,
+            "candidate_regenerated": False,
+            "replay_excluded": True,
+            "strict_lean_proof": "unverified",
+        }, sort_keys=True))
+        return
+    else:
+        raise RuntimeError("CodeAI v1.95 source drift or unsupported proof candidate")
+    if any(token in repair_after for token in ("admit", "sorry", "axiom")):
         raise RuntimeError("CodeAI candidate forbidden proof marker")
 
-    new_text = source_text.replace(BEFORE, AFTER)
+    new_text = source_text.replace(repair_before, repair_after)
     new_blob = git_blob_sha(new_text.encode("utf-8"))
     unified = "".join(
         difflib.unified_diff(
@@ -195,7 +210,7 @@ def run_if_parent_pr() -> None:
     cand_sample = load_example("codeai_candidate_patch_envelope_v0_1.json")
     candidate = deepcopy(cand_sample["patch_candidate"])
     candidate.update({
-        "candidate_id": "pr3522-v195-one-add-" + head_sha[:16],
+        "candidate_id": "pr3522-v195-" + repair_stage + "-" + head_sha[:12],
         "candidate_revision": "r1",
         "producer_id": "external-research-candidate",
         "producer_session_id": "candidate-" + head_sha[:16],
@@ -265,7 +280,7 @@ def run_if_parent_pr() -> None:
     repository_files = {TARGET: source_text}
     original_snapshot = deepcopy(repository_files)
     proposal = {
-        "proposal_id": "pr3522-v195-nat-one-add-" + head_sha[:16],
+        "proposal_id": "pr3522-v195-" + repair_stage + "-" + head_sha[:12],
         "candidate_revision": "r1",
         "producer_id": "external-research-candidate",
         "producer_session_id": "structured-proposal-" + head_sha[:16],
@@ -372,6 +387,7 @@ def run_if_parent_pr() -> None:
     output = ROOT / "artifacts" / "codeai-v195"
     output.mkdir(parents=True, exist_ok=True)
     record = {
+        "repair_stage": repair_stage,
         "source_repo": REPOSITORY,
         "source_head": head_sha,
         "source_git_tree": true_tree_sha,
@@ -392,6 +408,7 @@ def run_if_parent_pr() -> None:
     (output / "pr3522-v195-candidate.diff").write_text(artifact, encoding="utf-8")
     print("KUUOS_CODEAI_REAL_V195_CANDIDATE_RECEIPT " + json.dumps({
         "source_head": head_sha,
+        "repair_stage": repair_stage,
         "source_blob": old_blob,
         "candidate_blob": new_blob,
         "observation_receipt": source_receipt[observation.RECEIPT_DIGEST_FIELD],

@@ -378,6 +378,6 @@ def main() -> None:
 if __name__ == "__main__":
     main()
     # For the exact parent repair PR, run the real-source CodeAI intake as well.
-    # Existing fixture checks remain intact. The live path is source-digest idempotent after a CodeAI candidate is committed; no Git or proof authority.
+    # Existing fixture checks remain intact; the live CodeAI route now supports next-round exact-source candidate synthesis.
     from scripts.codeai_pr3522_live_v195_candidate_v0_1 import run_if_parent_pr
     run_if_parent_pr()
