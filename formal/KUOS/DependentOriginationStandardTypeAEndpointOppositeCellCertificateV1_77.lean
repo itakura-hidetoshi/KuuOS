@@ -314,6 +314,19 @@ def standardTypeAEndpointOppositeSimplexSubcomplex
   (⊤ : (Δ[g.n] : SSet.{u}).Subcomplex).prod
     (intervalEndpoint g.endpoint.rev)
 
+/-- Pointwise supremum of simplicial subcomplexes, using the pinned
+Subfunctor complete-lattice structure rather than proof-irrelevant change. -/
+private theorem subcomplex_sup_obj
+    {X : SSet.{u}} (A B : X.Subcomplex)
+    (d : SimplexCategoryᵒᵖ) :
+    (A ⊔ B).obj d = A.obj d ∪ B.obj d := rfl
+
+/-- Pointwise infimum of simplicial subcomplexes. -/
+private theorem subcomplex_inf_obj
+    {X : SSet.{u}} (A B : X.Subcomplex)
+    (d : SimplexCategoryᵒᵖ) :
+    (A ⊓ B).obj d = A.obj d ∩ B.obj d := rfl
+
 /-- The four subcomplexes form the exact lattice pushout square. -/
 def standardTypeAEndpointOppositeCarrierBicartSq
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
@@ -326,7 +339,7 @@ def standardTypeAEndpointOppositeCarrierBicartSq
     rw [standardTypeABoundaryPrismSubcomplex,
       intervalBoundary_eq_endpoint_sup_rev g.endpoint]
     ext d ⟨x, y⟩
-    simp only [standardTypeAEndpointOppositeSimplexSubcomplex,
+    simp [subcomplex_sup_obj, standardTypeAEndpointOppositeSimplexSubcomplex,
       SSet.Subcomplex.unionProd, SSet.Subcomplex.prod, Set.prod]
     change
       (y ∈ (intervalEndpoint g.endpoint.rev).obj d ∨
@@ -348,7 +361,8 @@ def standardTypeAEndpointOppositeCarrierBicartSq
               intervalEndpoint g.endpoint.rev).obj d := h
       rw [intervalEndpoint_inf_rev_eq_bot g.endpoint] at hm
       simpa using hm
-    simp only [standardTypeAEndpointOppositeSimplexSubcomplex,
+    simp [subcomplex_sup_obj, subcomplex_inf_obj,
+      standardTypeAEndpointOppositeSimplexSubcomplex,
       standardTypeAEndpointOppositeCornerSubcomplex,
       SSet.Subcomplex.unionProd, SSet.Subcomplex.prod, Set.prod]
     change
@@ -429,7 +443,9 @@ theorem standardTypeAEndpointOppositeCornerCarrierIso_hom_app_val
     ((standardTypeAEndpointOppositeCornerCarrierIso g).hom.app d z).val =
       z.val.1 := by
   simp [standardTypeAEndpointOppositeCornerCarrierIso,
-    subcomplexProdIntervalEndpointIso]
+    subcomplexProdIntervalEndpointIso,
+    SSet.Subcomplex.lift, Subfunctor.lift]
+  all_goals rfl
 
 @[simp]
 theorem standardTypeAEndpointOppositeSimplexCarrierIso_hom_app
@@ -439,7 +455,9 @@ theorem standardTypeAEndpointOppositeSimplexCarrierIso_hom_app
     (standardTypeAEndpointOppositeSimplexCarrierIso g).hom.app d z =
       z.val.1 := by
   simp [standardTypeAEndpointOppositeSimplexCarrierIso,
-    subcomplexProdIntervalEndpointIso]
+    subcomplexProdIntervalEndpointIso,
+    SSet.Subcomplex.lift, Subfunctor.lift]
+  all_goals rfl
 
 /-- Generic upgrade of a carrier isomorphism to an isomorphism of scaled
 objects by putting the pullback scaling on its source. -/
@@ -552,7 +570,6 @@ noncomputable def standardTypeAEndpointOppositeCellArrowIso
     (standardTypeAEndpointOppositeSimplexIso g) ?_
   apply ScaledSSet.ScaledMap.ext
   ext d t
-  apply Subtype.ext
   rfl
 
 /-- The opposite product cell is therefore in `coproducts E_std` already. -/
@@ -688,7 +705,7 @@ theorem standardTypeAEndpointOppositeGeneratedScaling_eq_boundary
     rcases hmem with hsource | hopposite
     · let x :
           ((SSet.horn g.n g.i).unionProd
-            (intervalEndpoint g.endpoint) : SSet.{u}).obj (op ⦋2⦌) :=
+            (intervalEndpoint g.endpoint) : SSet).obj (op ⦋2⦌) :=
         ⟨t.val, hsource⟩
       have hxmap :
           (standardTypeAEndpointAmbientSourceToBoundary g).map.app
@@ -706,10 +723,15 @@ theorem standardTypeAEndpointOppositeGeneratedScaling_eq_boundary
           (standardTypeASimplexScaling g.i)).scaling.thin
           ((standardTypeABoundaryPrismSubcomplex g).ι.app
             (op ⦋2⦌) t) at ht
-      rw [hxmap]
+      change
+        (scaledSimplexCylinder
+          (standardTypeASimplexScaling g.i)).scaling.thin x.val
+      change
+        (scaledSimplexCylinder
+          (standardTypeASimplexScaling g.i)).scaling.thin t.val at ht
       exact ht
     · let x :
-          (standardTypeAEndpointOppositeSimplexSubcomplex g : SSet.{u}).obj
+          (standardTypeAEndpointOppositeSimplexSubcomplex g : SSet).obj
             (op ⦋2⦌) :=
         ⟨t.val, hopposite⟩
       have hxmap :
@@ -742,17 +764,43 @@ noncomputable def standardTypeAEndpointOpposite_scaled_isPushout
     (standardTypeAEndpointAmbientSourceToBoundary g).map
     (standardTypeAEndpointOppositeSimplexToBoundary g).map
     (standardTypeAEndpointOppositeCarrier_isPushout g)
-  rw [standardTypeAEndpointOppositeGeneratedScaling_eq_boundary g] at h
-  simpa [generatedPushoutInl, generatedPushoutInr, generatedPushoutTarget,
-    standardTypeAEndpointAmbientSourceToBoundary,
-    standardTypeAEndpointOppositeSimplexToBoundary] using h
+  let e :
+      generatedPushoutTarget
+        (standardTypeAEndpointAmbientSourceScaling g)
+        (standardTypeAEndpointOppositeSimplexScaling g)
+        (standardTypeAEndpointAmbientSourceToBoundary g).map
+        (standardTypeAEndpointOppositeSimplexToBoundary g).map ≅
+          standardTypeABoundaryPrism g :=
+    scalingEqualityIso
+      (generatedPushoutScaling
+        (standardTypeAEndpointAmbientSourceScaling g)
+        (standardTypeAEndpointOppositeSimplexScaling g)
+        (standardTypeAEndpointAmbientSourceToBoundary g).map
+        (standardTypeAEndpointOppositeSimplexToBoundary g).map)
+      (standardTypeABoundaryPrismScaling g)
+      (standardTypeAEndpointOppositeGeneratedScaling_eq_boundary g)
+  refine h.of_iso (Iso.refl _) (Iso.refl _) (Iso.refl _) e ?_ ?_ ?_ ?_
+  · simp
+  · simp
+  · simp only [Category.id_comp]
+    apply ScaledSSet.ScaledMap.ext
+    change
+      (standardTypeAEndpointAmbientSourceToBoundary g).map ≫ e.hom.map =
+        (standardTypeAEndpointAmbientSourceToBoundary g).map
+    simp [e]
+  · simp only [Category.id_comp]
+    apply ScaledSSet.ScaledMap.ext
+    change
+      (standardTypeAEndpointOppositeSimplexToBoundary g).map ≫ e.hom.map =
+        (standardTypeAEndpointOppositeSimplexToBoundary g).map
+    simp [e]
 
 /-- The ambient endpoint-source inclusion is one raw standard A cellular step. -/
 theorem standardTypeAEndpointAmbientSourceToBoundary_mem_rawCellular
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
-    standardABCRawCellularStep
+    standardABCRawCellularStep.{u}
       (standardTypeAEndpointAmbientSourceToBoundary g) := by
-  exact
+  simpa only [standardABCRawCellularStep] using
     (MorphismProperty.coproducts.{u, u, u + 1}
       (standardScaledAnodyneGeneratorsABC :
         MorphismProperty (ScaledSSet.{u}))).pushouts_mk
@@ -771,6 +819,13 @@ noncomputable def standardTypeAEndpointToBoundaryPrismArrowIsoAmbient
     (standardTypeAEndpointGeneratedSourceIsoAmbient g)
     (Iso.refl _) ?_
   apply ScaledSSet.ScaledMap.ext
+  change
+    (standardTypeAEndpointGeneratedSourceIsoAmbient g).hom.map ≫
+        (standardTypeAEndpointAmbientSourceToBoundary g).map =
+      (standardTypeAEndpointToBoundaryPrism g).map
+  simp only [standardTypeAEndpointGeneratedSourceIsoAmbient,
+    scalingEqualityIso_hom_map, Category.id_comp]
+  ext d t
   rfl
 
 /-- Therefore the genuine v1.55/v1.60 endpoint-to-boundary map itself is one
@@ -799,8 +854,8 @@ theorem standardTypeAEndpointToBoundaryPrism_mem_strongCellular
 unretracted standard A/B cellular closure. -/
 theorem standardTypeAEndpointScaledLeibnizPushoutProductHom_mem_strongCellular
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
-    standardABCStrongCellularClosure
-      (standardTypeAEndpointScaledLeibnizPushoutProductHom g) := by
+    standardABCStrongCellularClosure.{u}
+      (standardTypeAEndpointScaledLeibnizPushoutProductHom.{u} g) := by
   have hcomp :=
     (standardABCStrongCellularClosure : MorphismProperty (ScaledSSet.{u})).comp_mem
       (standardTypeAEndpointToBoundaryPrism g)
@@ -813,8 +868,8 @@ theorem standardTypeAEndpointScaledLeibnizPushoutProductHom_mem_strongCellular
 exact v1.59 standard A/B/C cellular closure. -/
 theorem standardTypeAEndpointScaledLeibnizPushoutProductHom_mem_cellular
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
-    standardABCCellularClosure
-      (standardTypeAEndpointScaledLeibnizPushoutProductHom g) :=
+    standardABCCellularClosure.{u}
+      (standardTypeAEndpointScaledLeibnizPushoutProductHom.{u} g) :=
   standardABCStrongCellularClosure_le_standardABCCellularClosure _
     (standardTypeAEndpointScaledLeibnizPushoutProductHom_mem_strongCellular g)
 
