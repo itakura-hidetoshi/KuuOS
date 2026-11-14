@@ -7,6 +7,7 @@ namespace KUOS.DependentOriginationStandardTypeABoundaryPrismRawTransfiniteV1_76
 open CategoryTheory
 open CategoryTheory.Category
 open CategoryTheory.Limits
+open MonoidalCategory
 open Opposite
 open Simplicial
 open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
@@ -87,7 +88,7 @@ noncomputable def standardTypeABoundaryPrismScaledRankFunctor
   obj j := standardTypeABoundaryPrismRankStage g j
   map {j k} f :=
     standardTypeABoundaryPrismRankStageHom g
-      ((standardTypeABoundaryPrismRankFunction g).filtration_monotone.monotone
+      ((standardTypeABoundaryPrismRankFunction g).filtration_monotone
         (leOfHom f))
   map_id j := by
     apply ScaledSSet.ScaledMap.ext
