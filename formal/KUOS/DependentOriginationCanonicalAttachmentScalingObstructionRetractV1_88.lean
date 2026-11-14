@@ -97,10 +97,9 @@ noncomputable def chosenScaledEndpoint
     {n : Nat}
     (sDelta : ScaledSimplicialSet (Δ[n] : SSet.{u}))
     (endpoint : Fin 2) :
-    scaledSimplex sDelta ⟶ scaledSimplexCylinder sDelta := by
-  fin_cases endpoint
-  · exact scaledEndpointZero sDelta
-  · exact scaledEndpointOne sDelta
+    scaledSimplex sDelta ⟶ scaledSimplexCylinder sDelta :=
+  Fin.cases (scaledEndpointZero sDelta)
+    (fun _ => scaledEndpointOne sDelta) endpoint
 
 /-- First projection from the minimally scaled attachment back to the minimally
 scaled simplex.  Minimal source scaling makes the projection automatically a
@@ -143,10 +142,15 @@ noncomputable def simplexScalingToAttachmentArrow
     (chosenScaledEndpoint sDelta endpoint)
     (by
       apply ScaledSSet.ScaledMap.ext
-      fin_cases endpoint <;>
-        simp [minimalSimplexIntoAttachment, chosenScaledEndpoint,
+      fin_cases endpoint
+      · simpa [minimalSimplexIntoAttachment, chosenScaledEndpoint,
           minimalToChosenSimplexScaling,
-          scaledHornCylinderAttachmentInclusion])
+          scaledHornCylinderAttachmentInclusion, Category.assoc] using
+          (endpointIntoAttachment_ι_zero n i)
+      · simpa [minimalSimplexIntoAttachment, chosenScaledEndpoint,
+          minimalToChosenSimplexScaling,
+          scaledHornCylinderAttachmentInclusion, Category.assoc] using
+          (endpointIntoAttachment_ι_one n i))
 
 /-- First projections give the reverse arrow-category morphism. -/
 noncomputable def attachmentToSimplexScalingArrow
@@ -307,7 +311,7 @@ theorem simplexScalingEnrichments_le_standardGenerated_of_canonicalKuuOS_le_stan
 /-- Hence the existing positive forward residual package necessarily implies
 standard generation of every arbitrary simplex scaling enrichment. -/
 theorem simplexScalingEnrichments_le_standardGenerated_of_positiveResidual
-    (K : StandardABCCanonicalPositiveResidualComparison.{u}) :
+    (K : KUOS.DependentOriginationStandardABCPositiveCanonicalResidualSplitV1_79.StandardABCCanonicalPositiveResidualComparison.{u}) :
     (simplexScalingEnrichments : MorphismProperty (ScaledSSet.{u})) ≤
       standardGeneratedScaledAnodyneABC := by
   exact
