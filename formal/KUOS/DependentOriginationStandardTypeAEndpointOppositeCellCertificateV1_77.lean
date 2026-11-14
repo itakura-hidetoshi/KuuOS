@@ -995,25 +995,33 @@ private noncomputable def prependedEndpointCoconeIsColimit
                 scaledSimplexCylinder (standardTypeASimplexScaling g.i) =>
               standardTypeAEndpointToBoundaryPrism g ≫ q) hbase.symm
           simpa only [Category.assoc] using hp
-        calc
-          (standardTypeAEndpointToBoundaryPrism g ≫
-              standardTypeABoundaryPrismToCylinder g) ≫
-              h.isColimit.desc (prependedEndpointTailCocone g s) =
+        have hc₁ :
+            (standardTypeAEndpointToBoundaryPrism g ≫
+                standardTypeABoundaryPrismToCylinder g) ≫
+                h.isColimit.desc (prependedEndpointTailCocone g s) =
+              ((standardTypeAEndpointToBoundaryPrism g ≫ h.isoBot.inv) ≫
+                  h.incl.app 0) ≫
+                h.isColimit.desc (prependedEndpointTailCocone g s) :=
+          congrArg
+            (fun q => q ≫ h.isColimit.desc (prependedEndpointTailCocone g s)) hb
+        have hc₂ :
             ((standardTypeAEndpointToBoundaryPrism g ≫ h.isoBot.inv) ≫
                 h.incl.app 0) ≫
-              h.isColimit.desc (prependedEndpointTailCocone g s) :=
-              congrArg
-                (fun q => q ≫ h.isColimit.desc (prependedEndpointTailCocone g s)) hb
-          _ = (standardTypeAEndpointToBoundaryPrism g ≫ h.isoBot.inv) ≫
+                h.isColimit.desc (prependedEndpointTailCocone g s) =
+              (standardTypeAEndpointToBoundaryPrism g ≫ h.isoBot.inv) ≫
                 (h.incl.app 0 ≫
                   h.isColimit.desc (prependedEndpointTailCocone g s)) :=
-              Category.assoc _ _ _
-          _ = (standardTypeAEndpointToBoundaryPrism g ≫ h.isoBot.inv) ≫
+          Category.assoc _ _ _
+        have hc₃ :
+            (standardTypeAEndpointToBoundaryPrism g ≫ h.isoBot.inv) ≫
+                (h.incl.app 0 ≫
+                  h.isColimit.desc (prependedEndpointTailCocone g s)) =
+              (standardTypeAEndpointToBoundaryPrism g ≫ h.isoBot.inv) ≫
                 s.ι.app 1 :=
-              congrArg
-                (fun q => (standardTypeAEndpointToBoundaryPrism g ≫
-                  h.isoBot.inv) ≫ q) htail'
-          _ = s.ι.app 0 := hhead'
+          congrArg
+            (fun q => (standardTypeAEndpointToBoundaryPrism g ≫
+              h.isoBot.inv) ≫ q) htail'
+        exact (((hc₁.trans hc₂).trans hc₃).trans hhead')
     | succ n =>
         change
           h.incl.app n ≫
@@ -1063,7 +1071,8 @@ private noncomputable def standardTypeAEndpointFullRawTransfinite
           prependedEndpointStep g n := by
       simpa only [prependedEndpointFunctor,
         Functor.ofSequence_map_homOfLE_succ]
-    rw [hn]
+    simp only [prependedEndpointFunctor,
+      Functor.ofSequence_map_homOfLE_succ]
     let h := standardTypeABoundaryPrismRawTransfiniteComposition g
     cases n with
     | zero =>
