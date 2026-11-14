@@ -62,20 +62,13 @@ namespace NatOneCell
 instance : Subsingleton NatOneCell :=
   ⟨by intro x y; cases x; cases y; rfl⟩
 
-/- The pinned mathlib Quiver instance must be available before the
-   CategoryStruct inheritance and subsequent numeric 2-hom elaboration. -/
-instance (priority := 2000) : Quiver.{0} NatOneCell where
+/-- The hom-category of 1-cells has `Nat` as every 2-hom set, identity `0`,
+and vertical composition given by addition. One instance supplies Quiver,
+CategoryStruct, and Category fields without competing inheritance routes. -/
+instance : Category.{0} NatOneCell where
   Hom _ _ := Nat
-
-instance : CategoryStruct.{0} NatOneCell where
-  __ := (inferInstance : Quiver.{0} NatOneCell)
   id _ := 0
   comp f g := Nat.add f g
-
-/-- The hom-category of 1-cells has `Nat` as every 2-hom set, identity `0`,
-and vertical composition given by addition. -/
-instance : Category.{0} NatOneCell where
-  __ := (inferInstance : CategoryStruct.{0} NatOneCell)
   id_comp := by intros; exact Nat.zero_add _
   comp_id := by intros; exact Nat.add_zero _
   assoc := by intros; exact Nat.add_assoc _ _ _
@@ -108,20 +101,16 @@ instance : Subsingleton NatDoubleDelooping :=
 
 /-- One object, one 1-cell, and additive natural-number 2-cells form a strict
 bicategory.  The exchange law is exactly commutativity of addition. -/
-instance (priority := 2000) : Quiver.{0} NatDoubleDelooping where
+/-- One bicategory carrier supplies Quiver and CategoryStruct so its
+whiskerings use the same underlying NatOneCell hom-category. -/
+instance : Bicategory.{0,0} NatDoubleDelooping where
   Hom _ _ := NatOneCell
-
-instance : CategoryStruct.{0} NatDoubleDelooping where
-  __ := (inferInstance : Quiver.{0} NatDoubleDelooping)
   id _ := NatOneCell.star
   comp _ _ := NatOneCell.star
+  homCategory _ _ := (inferInstance : Category.{0,0} NatOneCell)
 
 /-- Audit that the bicategorical one-hom is exactly the one-cell type. -/
 example (a b : NatDoubleDelooping) : (a ⟶ b) = NatOneCell := rfl
-
-instance : Bicategory.{0,0} NatDoubleDelooping where
-  __ := (inferInstance : CategoryStruct.{0} NatDoubleDelooping)
-  homCategory _ _ := (inferInstance : Category.{0,0} NatOneCell)
   whiskerLeft := by
     intros
     assumption
