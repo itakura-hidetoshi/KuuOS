@@ -170,7 +170,7 @@ REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
 # exact draft source blobs are reviewed separately from historical corrections.
 REVIEWED_ADDITIVE_FORMAL_BLOBS = {
     # Exact bidirectional ULift horn-problem and filler-existence round trips.
-    "KUOS/DependentOriginationULiftScaledHornProblemRoundTripV1_29.lean": "192fbf89c7b48a3999f5abcd3733500b3bdc4d76",
+    "KUOS/DependentOriginationULiftScaledHornProblemRoundTripV1_29.lean": "c32151034173c99f672ae08c30cd040d0df0ede2",
     # Reverse transport of arbitrary higher-universe scaled horn problems and fillers.
     "KUOS/DependentOriginationULiftScaledHornProblemDescentV1_29.lean": "f2ec0ff4173cf4536c547084c9a3b05271ac01d3",
     # Exact cross-universe reflection of scaled horn/simplex maps without new axioms.
