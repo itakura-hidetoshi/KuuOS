@@ -99,7 +99,7 @@ REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
     "KUOS/DependentOriginationCanonicalAttachmentScalingObstructionRetractV1_88.lean": "c34e82e50a188e436847da0469ecbb146a41174e",
     # Original v1.90 historical proof source: d6a76712776b4a1b289b89bd691fa6213f8d36ce (retained in legacy/v5.291).
     # Reviewed v1.90 scaling namespace and Delta notation correction; Lean CI required.
-    "KUOS/DependentOriginationSingleTriangleScalingFiltrationV1_90.lean": "57cd62b2ffa8a5544bfc240164fb9f6c1c8f5666",
+    "KUOS/DependentOriginationSingleTriangleScalingFiltrationV1_90.lean": "b938f1e54dd275b779a4231b87d5d72aed797056",
     # Original V1_89 pinned source: f5d06299e825ef784a7df25386b062b80c702f12 (retained in Git history).
     "KUOS/DependentOriginationStandardArbitraryScalingWaypointV1_89.lean": "3b5de0a154436be6598a49861435dc57a80ea2f9",
     "KUOS/DependentOriginationStandardTypeAEndpointOppositeCellCertificateV1_77.lean": "e7d422b89b4a4fa5180790b0c5d49c51b7239786",
