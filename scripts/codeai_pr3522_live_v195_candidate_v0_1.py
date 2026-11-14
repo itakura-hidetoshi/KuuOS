@@ -242,6 +242,119 @@ def run_if_parent_pr() -> None:
         raise RuntimeError("CodeAI candidate not admitted: " + cr.receipt["codeai_disposition"])
     if cr.receipt.get("repository_mutation_performed") or cr.receipt.get("candidate_selected"):
         raise RuntimeError("CodeAI candidate improperly escalated authority")
+    # CodeAI's actual autonomous unified-diff, selection and isolated
+    # application kernels run on the same exact v1.95 source snapshot.
+    # None of these stages compiles Lean, modifies Git or authorizes merge.
+    from runtime import kuuos_codeai_autonomous_unified_diff_candidates_v0_1 as unified
+    from runtime import kuuos_codeai_autonomous_candidate_portfolio_selection_v0_1 as selection
+    from runtime import kuuos_codeai_autonomous_isolated_candidate_application_v0_1 as isolated
+    repository_files = {TARGET: source_text}
+    original_snapshot = deepcopy(repository_files)
+    proposal = {
+        "proposal_id": "pr3522-v195-nat-one-add-" + head_sha[:16],
+        "candidate_revision": "r1",
+        "producer_id": "external-research-candidate",
+        "producer_session_id": "structured-proposal-" + head_sha[:16],
+        "candidate_created_epoch": int(time.time()),
+        "edits": [{"path": TARGET, "operation": "modify", "new_content": new_text}],
+        "requirement_trace_ids": ["pr3522:v195:noninvertible-Nat-proof"],
+        "test_plan_ids": ["pinned-Lean4-Strict-v195-exact-source"],
+        "risk_labels": ["formal-proof"],
+        "unresolved_candidate_questions": [],
+        "prior_candidate_digests": [],
+        "prior_producer_session_ids": [],
+    }
+    ur = unified.build_codeai_autonomous_unified_diff_candidates(
+        source_observation_receipt=source_receipt,
+        repository_files=repository_files,
+        proposals=[proposal],
+        candidate_policy=cp,
+    )
+    if ur.status != unified.STATUS_READY or ur.receipt is None or len(ur.candidates) != 1:
+        raise RuntimeError("CodeAI real autonomous candidate generation blocked: " + repr(ur.issues))
+    if ur.receipt["codeai_disposition"] != unified.DISPOSITION_SYNTHESIZED:
+        raise RuntimeError("CodeAI autonomous candidate not synthesized")
+
+    select_example = load_example("codeai_autonomous_candidate_portfolio_selection_v0_1.json")
+    req = deepcopy(select_example["selection_request"])
+    req.update({
+        "selection_request_id": "pr3522-v195-selection-" + head_sha[:12],
+        "source_portfolio_receipt_digest": ur.receipt[unified.RECEIPT_DIGEST_FIELD],
+        "requested_by_actor_id": "codeai-assisted-research",
+        "request_created_epoch": int(time.time()),
+    })
+    req = candidate_patch.seal(req, selection.REQUEST_DIGEST_FIELD)
+    sel_policy = deepcopy(select_example["selection_policy"])
+    sel_policy.update({
+        "expected_source_portfolio_receipt_digest": ur.receipt[unified.RECEIPT_DIGEST_FIELD],
+        "maximum_candidate_count": 1,
+        "maximum_changed_paths": 1,
+        "allowed_risk_labels": ["formal-proof"],
+        "forbidden_risk_labels": [],
+        "allowed_path_prefixes": ["formal/KUOS"],
+        "forbidden_path_prefixes": ["legacy"],
+        "evaluation_epoch": int(time.time()) + 1,
+        "maximum_request_age": 3600,
+    })
+    sel_policy = candidate_patch.seal(sel_policy, selection.POLICY_DIGEST_FIELD)
+    selected = selection.build_codeai_autonomous_candidate_portfolio_selection(
+        source_portfolio_receipt=ur.receipt,
+        candidates=ur.candidates,
+        selection_request=req,
+        selection_policy=sel_policy,
+    )
+    if selected.status != selection.STATUS_READY or selected.receipt is None or selected.selected_candidate is None:
+        raise RuntimeError("CodeAI real selection blocked: " + repr(selected.issues))
+
+    app_example = load_example("codeai_autonomous_isolated_candidate_application_v0_1.json")
+    request = deepcopy(app_example["application_request"])
+    selected_candidate = selected.selected_candidate
+    selected_digest = selected_candidate.patch_candidate[candidate_patch.CANDIDATE_DIGEST_FIELD]
+    source_snapshot_digest = candidate_patch.canonical_digest(repository_files)
+    request.update({
+        "application_request_id": "pr3522-v195-isolated-" + head_sha[:12],
+        "source_selection_receipt_digest": selected.receipt[selection.RECEIPT_DIGEST_FIELD],
+        "selected_candidate_digest": selected_digest,
+        "source_repository_snapshot_digest": source_snapshot_digest,
+        "requested_by_actor_id": "codeai-assisted-research",
+        "request_created_epoch": int(time.time()),
+    })
+    request = candidate_patch.seal(request, isolated.REQUEST_DIGEST_FIELD)
+    app_policy = deepcopy(app_example["application_policy"])
+    app_policy.update({
+        "expected_source_selection_receipt_digest": selected.receipt[selection.RECEIPT_DIGEST_FIELD],
+        "expected_selected_candidate_digest": selected_digest,
+        "expected_patch_artifact_digest": selected_candidate.patch_candidate["patch_artifact_digest"],
+        "expected_repository_full_name": REPOSITORY,
+        "expected_source_commit_sha": head_sha,
+        "expected_source_repository_snapshot_digest": source_snapshot_digest,
+        "maximum_source_path_count": 1,
+        "maximum_result_path_count": 1,
+        "maximum_changed_paths": 1,
+        "allowed_path_prefixes": ["formal/KUOS"],
+        "forbidden_path_prefixes": ["legacy"],
+        "allow_additions": False,
+        "allow_modifications": True,
+        "allow_deletions": False,
+        "require_exact_changed_path_accounting": True,
+        "evaluation_epoch": int(time.time()) + 1,
+        "maximum_request_age": 3600,
+    })
+    app_policy = candidate_patch.seal(app_policy, isolated.POLICY_DIGEST_FIELD)
+    applied = isolated.build_codeai_autonomous_isolated_candidate_application(
+        source_selection_receipt=selected.receipt,
+        selected_candidate=selected_candidate,
+        repository_files=repository_files,
+        application_request=request,
+        application_policy=app_policy,
+    )
+    if applied.status != isolated.STATUS_READY or applied.receipt is None or applied.resulting_repository_files is None:
+        raise RuntimeError("CodeAI real isolated application blocked: " + repr(applied.issues))
+    if repository_files != original_snapshot or applied.resulting_repository_files.get(TARGET) != new_text:
+        raise RuntimeError("CodeAI real isolated application content mismatch")
+    if not applied.receipt["isolated_patch_applied"] or applied.receipt["repository_mutation_performed"]:
+        raise RuntimeError("CodeAI isolated execution did not preserve no-Git boundary")
+
     output = ROOT / "artifacts" / "codeai-v195"
     output.mkdir(parents=True, exist_ok=True)
     record = {
@@ -252,7 +365,10 @@ def run_if_parent_pr() -> None:
         "candidate_blob": new_blob,
         "source_observation_receipt": source_receipt,
         "candidate_receipt": cr.receipt,
-        "isolated_verification": "not_executed",
+        "generated_candidate_receipt": ur.receipt,
+        "selection_receipt": selected.receipt,
+        "isolated_application_receipt": applied.receipt,
+        "isolated_verification": "snapshot_materialized_not_Lean_compiled",
         "strict_lean_proof": "not_certified",
         "git_effect": False,
     }
@@ -267,10 +383,17 @@ def run_if_parent_pr() -> None:
         "observation_receipt": source_receipt[observation.RECEIPT_DIGEST_FIELD],
         "candidate_receipt": cr.receipt[candidate_patch.RECEIPT_DIGEST_FIELD],
         "candidate_disposition": cr.receipt["codeai_disposition"],
+        "generated_candidate_receipt": ur.receipt[unified.RECEIPT_DIGEST_FIELD],
+        "selection_receipt": selected.receipt[selection.RECEIPT_DIGEST_FIELD],
+        "isolated_application_receipt": applied.receipt[isolated.RECEIPT_DIGEST_FIELD],
+        "isolated_patch_applied": applied.receipt["isolated_patch_applied"],
         "strict_lean_proof": "unverified",
         "actual_kernel_calls": [
             "build_codeai_intent_repository_observation_envelope",
             "build_codeai_candidate_patch_envelope",
+            "build_codeai_autonomous_unified_diff_candidates",
+            "build_codeai_autonomous_candidate_portfolio_selection",
+            "build_codeai_autonomous_isolated_candidate_application",
         ],
     }, sort_keys=True))
 
