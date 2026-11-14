@@ -780,16 +780,20 @@ noncomputable def standardTypeAEndpointOpposite_scaled_isPushout
       (standardTypeABoundaryPrismScaling g)
       (standardTypeAEndpointOppositeGeneratedScaling_eq_boundary g)
   refine h.of_iso (Iso.refl _) (Iso.refl _) (Iso.refl _) e ?_ ?_ ?_ ?_
-  · simp
-  · simp
-  · simp only [Category.id_comp]
-    apply ScaledSSet.ScaledMap.ext
+  · exact (Category.comp_id
+      (standardTypeAEndpointOppositeCornerToAmbientSource g)).trans
+      (Category.id_comp
+        (standardTypeAEndpointOppositeCornerToAmbientSource g)).symm
+  · exact (Category.comp_id
+      (standardTypeAEndpointOppositeCellHom g)).trans
+      (Category.id_comp
+        (standardTypeAEndpointOppositeCellHom g)).symm
+  · apply ScaledSSet.ScaledMap.ext
     change
       (standardTypeAEndpointAmbientSourceToBoundary g).map ≫ e.hom.map =
         (standardTypeAEndpointAmbientSourceToBoundary g).map
     simp [e]
-  · simp only [Category.id_comp]
-    apply ScaledSSet.ScaledMap.ext
+  · apply ScaledSSet.ScaledMap.ext
     change
       (standardTypeAEndpointOppositeSimplexToBoundary g).map ≫ e.hom.map =
         (standardTypeAEndpointOppositeSimplexToBoundary g).map
@@ -850,19 +854,243 @@ theorem standardTypeAEndpointToBoundaryPrism_mem_strongCellular
       (standardABCRawCellularStep : MorphismProperty (ScaledSSet.{u})) _
       (standardTypeAEndpointToBoundaryPrism_mem_rawCellular g))
 
+
+/-! ## Concatenate the raw opposite-endpoint A-cell with the v1.76 sequence
+
+The first successor is the genuine raw opposite-endpoint attachment.
+All subsequent successors are exactly the previously verified v1.76 raw
+A/B alternating steps.  The existing tail colimit witnesses the new
+colimit: its zero leg is forced by the new first successor relation.
+No global IsStableUnderComposition instance is assumed. -/
+
+private noncomputable def prependedEndpointObj
+    (g : StandardTypeAHornAttachmentGeneratorIndex)
+    (n : ℕ) : ScaledSSet.{u} :=
+  Nat.casesOn n (standardTypeAEndpointGeneratedPushoutSource g)
+    (fun k => (standardTypeABoundaryPrismRawTransfiniteComposition g).F.obj k)
+
+private noncomputable def prependedEndpointStep
+    (g : StandardTypeAHornAttachmentGeneratorIndex)
+    (n : ℕ) :
+    prependedEndpointObj g n ⟶
+      prependedEndpointObj g (n + 1) :=
+  Nat.casesOn
+    (motive := fun k : ℕ =>
+      prependedEndpointObj g k ⟶ prependedEndpointObj g (k + 1))
+    n
+    (standardTypeAEndpointToBoundaryPrism g ≫
+      (standardTypeABoundaryPrismRawTransfiniteComposition g).isoBot.inv)
+    (fun k => (standardTypeABoundaryPrismRawTransfiniteComposition g).F.map
+      (homOfLE (Nat.le_succ k)))
+
+private noncomputable def prependedEndpointFunctor
+    (g : StandardTypeAHornAttachmentGeneratorIndex) :
+    ℕ ⥤ ScaledSSet.{u} :=
+  Functor.ofSequence (prependedEndpointStep g)
+
+private noncomputable def prependedEndpointLeg
+    (g : StandardTypeAHornAttachmentGeneratorIndex)
+    (n : ℕ) :
+    prependedEndpointObj g n ⟶
+      scaledSimplexCylinder (standardTypeASimplexScaling g.i) :=
+  Nat.casesOn
+    (motive := fun k : ℕ =>
+      prependedEndpointObj g k ⟶
+        scaledSimplexCylinder (standardTypeASimplexScaling g.i))
+    n
+    (standardTypeAEndpointToBoundaryPrism g ≫
+      standardTypeABoundaryPrismToCylinder g)
+    (fun k => (standardTypeABoundaryPrismRawTransfiniteComposition g).incl.app k)
+
+private theorem prependedEndpointStep_leg
+    (g : StandardTypeAHornAttachmentGeneratorIndex) (n : ℕ) :
+    prependedEndpointStep g n ≫ prependedEndpointLeg g (n + 1) =
+      prependedEndpointLeg g n := by
+  let h := standardTypeABoundaryPrismRawTransfiniteComposition g
+  cases n with
+  | zero =>
+      change
+        (standardTypeAEndpointToBoundaryPrism g ≫ h.isoBot.inv) ≫
+            h.incl.app 0 =
+          standardTypeAEndpointToBoundaryPrism g ≫
+            standardTypeABoundaryPrismToCylinder g
+      have hbase :
+          h.isoBot.inv ≫ h.incl.app (0 : ℕ) =
+            standardTypeABoundaryPrismToCylinder g := h.fac
+      have hp := congrArg
+        (fun q : standardTypeABoundaryPrism g ⟶
+            scaledSimplexCylinder (standardTypeASimplexScaling g.i) =>
+          standardTypeAEndpointToBoundaryPrism g ≫ q) hbase
+      simpa only [Category.assoc] using hp
+  | succ n =>
+      let c : Cocone h.F := Cocone.mk _ h.incl
+      have hc := c.w (homOfLE (Nat.le_succ n))
+      change
+        h.F.map (homOfLE (Nat.le_succ n)) ≫ h.incl.app (n + 1) =
+          h.incl.app n
+      simpa [c] using hc
+
+private noncomputable def prependedEndpointCocone
+    (g : StandardTypeAHornAttachmentGeneratorIndex) :
+    Cocone (prependedEndpointFunctor g) :=
+  Cocone.mk
+    (scaledSimplexCylinder (standardTypeASimplexScaling g.i))
+    (NatTrans.ofSequence
+      (prependedEndpointLeg g)
+      (fun n => by
+        simpa [prependedEndpointFunctor] using
+          prependedEndpointStep_leg g n))
+
+/-- Restrict any cocone of the prepended chain to the existing transfinite tail. -/
+private noncomputable def prependedEndpointTailCocone
+    (g : StandardTypeAHornAttachmentGeneratorIndex)
+    (s : Cocone (prependedEndpointFunctor g)) :
+    Cocone (standardTypeABoundaryPrismRawTransfiniteComposition g).F :=
+  Cocone.mk s.pt
+    (NatTrans.ofSequence
+      (fun n => s.ι.app (n + 1))
+      (fun n => by
+        have hs := s.w (homOfLE (Nat.le_succ (n + 1)))
+        simpa [prependedEndpointFunctor, prependedEndpointStep,
+          Nat.add_assoc] using hs))
+
+/-- The prepended raw sequence has exactly the old cylinder as its colimit. -/
+private noncomputable def prependedEndpointCoconeIsColimit
+    (g : StandardTypeAHornAttachmentGeneratorIndex) :
+    IsColimit (prependedEndpointCocone g) := by
+  let h := standardTypeABoundaryPrismRawTransfiniteComposition g
+  refine
+    { desc := fun s => h.isColimit.desc (prependedEndpointTailCocone g s)
+      fac := ?_
+      uniq := ?_ }
+  · intro s n
+    cases n with
+    | zero =>
+        have htail := h.isColimit.fac (prependedEndpointTailCocone g s) 0
+        have hhead := s.w (homOfLE (Nat.le_succ 0))
+        have htail' :
+            h.incl.app 0 ≫
+                h.isColimit.desc (prependedEndpointTailCocone g s) =
+              s.ι.app 1 := by
+          simpa [prependedEndpointTailCocone] using htail
+        have hhead' :
+            (standardTypeAEndpointToBoundaryPrism g ≫ h.isoBot.inv) ≫
+                s.ι.app 1 = s.ι.app 0 := by
+          simpa [prependedEndpointFunctor, prependedEndpointStep] using hhead
+        change
+          (standardTypeAEndpointToBoundaryPrism g ≫
+              standardTypeABoundaryPrismToCylinder g) ≫
+                h.isColimit.desc (prependedEndpointTailCocone g s) =
+              s.ι.app 0
+        have hbase :
+            h.isoBot.inv ≫ h.incl.app (0 : ℕ) =
+              standardTypeABoundaryPrismToCylinder g := h.fac
+        have hb :
+            standardTypeAEndpointToBoundaryPrism g ≫
+                standardTypeABoundaryPrismToCylinder g =
+              (standardTypeAEndpointToBoundaryPrism g ≫ h.isoBot.inv) ≫
+                h.incl.app 0 := by
+          have hp := congrArg
+            (fun q : standardTypeABoundaryPrism g ⟶
+                scaledSimplexCylinder (standardTypeASimplexScaling g.i) =>
+              standardTypeAEndpointToBoundaryPrism g ≫ q) hbase.symm
+          simpa only [Category.assoc] using hp
+        calc
+          (standardTypeAEndpointToBoundaryPrism g ≫
+              standardTypeABoundaryPrismToCylinder g) ≫
+              h.isColimit.desc (prependedEndpointTailCocone g s) =
+            ((standardTypeAEndpointToBoundaryPrism g ≫ h.isoBot.inv) ≫
+                h.incl.app 0) ≫
+              h.isColimit.desc (prependedEndpointTailCocone g s) :=
+              congrArg
+                (fun q => q ≫ h.isColimit.desc (prependedEndpointTailCocone g s)) hb
+          _ = (standardTypeAEndpointToBoundaryPrism g ≫ h.isoBot.inv) ≫
+                (h.incl.app 0 ≫
+                  h.isColimit.desc (prependedEndpointTailCocone g s)) :=
+              Category.assoc _ _ _
+          _ = (standardTypeAEndpointToBoundaryPrism g ≫ h.isoBot.inv) ≫
+                s.ι.app 1 :=
+              congrArg
+                (fun q => (standardTypeAEndpointToBoundaryPrism g ≫
+                  h.isoBot.inv) ≫ q) htail'
+          _ = s.ι.app 0 := hhead'
+    | succ n =>
+        change
+          h.incl.app n ≫
+              h.isColimit.desc (prependedEndpointTailCocone g s) =
+            s.ι.app (n + 1)
+        simpa [prependedEndpointTailCocone] using
+          h.isColimit.fac (prependedEndpointTailCocone g s) n
+  · intro s m hm
+    apply h.isColimit.hom_ext
+    intro n
+    have hleg :
+        prependedEndpointLeg g (n + 1) = h.incl.app n := by
+      rfl
+    have hn :
+        h.incl.app n ≫ m = s.ι.app (n + 1) := by
+      simpa [prependedEndpointCocone, hleg] using hm (n + 1)
+    have hf :
+        h.incl.app n ≫
+            h.isColimit.desc (prependedEndpointTailCocone g s) =
+          s.ι.app (n + 1) := by
+      simpa [prependedEndpointTailCocone] using
+        h.isColimit.fac (prependedEndpointTailCocone g s) n
+    exact hn.trans hf.symm
+
+/-- One full natural-number transfinite raw-cellular witness, including the
+opposite endpoint A-cell as its first genuine successor. -/
+private noncomputable def standardTypeAEndpointFullRawTransfinite
+    (g : StandardTypeAHornAttachmentGeneratorIndex) :
+    MorphismProperty.TransfiniteCompositionOfShape
+      (standardABCRawCellularStep : MorphismProperty (ScaledSSet.{u}))
+      ℕ (standardTypeAEndpointScaledLeibnizPushoutProductHom g) where
+  F := prependedEndpointFunctor g
+  isoBot := Iso.refl _
+  incl := (prependedEndpointCocone g).ι
+  isColimit := prependedEndpointCoconeIsColimit g
+  fac := by
+    change
+      (𝟙 _) ≫
+        (standardTypeAEndpointToBoundaryPrism g ≫
+          standardTypeABoundaryPrismToCylinder g) =
+        standardTypeAEndpointScaledLeibnizPushoutProductHom g
+    simpa only [Category.id_comp] using
+      standardTypeAEndpointLeibniz_factor_boundaryPrism g
+  map_mem n _ := by
+    have hn :
+        (prependedEndpointFunctor g).map (homOfLE (Nat.le_succ n)) =
+          prependedEndpointStep g n := by
+      simpa only [prependedEndpointFunctor,
+        Functor.ofSequence_map_homOfLE_succ]
+    rw [hn]
+    let h := standardTypeABoundaryPrismRawTransfiniteComposition g
+    cases n with
+    | zero =>
+        change
+          standardABCRawCellularStep
+            (standardTypeAEndpointToBoundaryPrism g ≫ h.isoBot.inv)
+        exact MorphismProperty.RespectsIso.postcomp
+          (standardABCRawCellularStep : MorphismProperty (ScaledSSet.{u}))
+          h.isoBot.inv _
+          (standardTypeAEndpointToBoundaryPrism_mem_rawCellular g)
+    | succ n =>
+        change
+          standardABCRawCellularStep
+            (h.F.map (homOfLE (Nat.le_succ n)))
+        exact h.map_mem n (by simp)
+
 /-- The complete genuine scaled endpoint Leibniz map is in the strong
 unretracted standard A/B cellular closure. -/
 theorem standardTypeAEndpointScaledLeibnizPushoutProductHom_mem_strongCellular
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
     standardABCStrongCellularClosure.{u}
       (standardTypeAEndpointScaledLeibnizPushoutProductHom.{u} g) := by
-  have hcomp :=
-    (standardABCStrongCellularClosure : MorphismProperty (ScaledSSet.{u})).comp_mem
-      (standardTypeAEndpointToBoundaryPrism g)
-      (standardTypeABoundaryPrismToCylinder g)
-      (standardTypeAEndpointToBoundaryPrism_mem_strongCellular g)
-      (standardTypeABoundaryPrismToCylinder_mem_strongCellular g)
-  simpa only [standardTypeAEndpointLeibniz_factor_boundaryPrism] using hcomp
+  simpa only [standardABCStrongCellularClosure] using
+    (MorphismProperty.transfiniteCompositionsOfShape_le_transfiniteCompositions
+      (standardABCRawCellularStep : MorphismProperty (ScaledSSet.{u})) _ _
+      ((standardTypeAEndpointFullRawTransfinite g).ofOrderIso
+        (orderIsoShrink.{u} ℕ).symm).mem)
 
 /-- Hence every genuine scaled type-(A) endpoint Leibniz generator lies in the
 exact v1.59 standard A/B/C cellular closure. -/
