@@ -51,7 +51,7 @@ proof.  No presentation inequality is concluded unconditionally.
 /-! ## The one-cell hom-category with additive natural 2-cells -/
 
 /-- The unique 1-cell in the additive double delooping. -/
-inductive NatOneCell : Type
+inductive NatOneCell : Type where
   | star
   deriving DecidableEq
 
@@ -82,7 +82,7 @@ end NatOneCell
 /-! ## The additive double delooping bicategory -/
 
 /-- The unique object of the additive double delooping. -/
-inductive NatDoubleDelooping : Type
+inductive NatDoubleDelooping : Type where
   | star
   deriving DecidableEq
 
