@@ -543,11 +543,9 @@ noncomputable def standardTypeABoundaryPrism_rankStep_scaled_isPushout
   · apply ScaledSSet.ScaledMap.ext
     change ((standardTypeABoundaryPrismRankFunction g).b j) ≫ eP.hom.map =
       (standardTypeABoundaryPrismRankFunction g).b j
-    have hid : eP.hom.map = 𝟙 _ := by
-      simp [eP]
-    rw [hid]
+    simp only [eP, scalingEqualityIso_hom_map]
     change ((standardTypeABoundaryPrismRankFunction g).b j) ≫
-        (𝟙 ((standardTypeABoundaryPrismRankFunction g).filtration (j + 1))) =
+        (𝟙 ((standardTypeABoundaryPrismRankFunction g).filtration (j + 1)).toSSet) =
       ((standardTypeABoundaryPrismRankFunction g).b j)
     exact Category.comp_id _
 
