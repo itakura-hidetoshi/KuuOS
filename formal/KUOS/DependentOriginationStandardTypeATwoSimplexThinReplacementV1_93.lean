@@ -115,8 +115,10 @@ theorem standardTypeATwo_distinguished_eq_identity
     (ht : IsStandardTypeADistinguishedTriangle (1 : Fin 3) t) :
     t = identityTwoSimplex := by
   rcases ht with ⟨h1, h0, h2⟩
+  have hid (j : Fin 3) : identityTwoSimplex j = j := by
+    rfl
   ext j
-  fin_cases j <;> simp [identityTwoSimplex] <;> omega
+  fin_cases j <;> simp only [hid] <;> omega
 
 /-- A map out of the standard type-(A) `Δ[2]` is scaled as soon as the
 image of the identity triangle is thin.  The minimally thin triangles are
@@ -235,7 +237,7 @@ theorem thinReplacement_of_standardTypeATwoRLP
   · exact L.l.scaled _ identityTwoSimplex_standardTypeA_thin
   · have hleft := congrArg ScaledSSet.ScaledMap.map L.fac_left
     have hYoneda : SSet.yonedaEquiv.symm τ = L.l.map := by
-      apply SSet.yonedaEquiv.injective
+      apply SSet.yonedaEquiv.symm_apply_eq.mpr
       change L.l.map.app (op ⦋2⦌) identityTwoSimplex =
         SSet.yonedaEquiv L.l.map
       have hid :
@@ -255,7 +257,12 @@ theorem thinReplacement_of_standardTypeATwoRLP
     have hpoint := ConcreteCategory.congr_hom
       (congr_app hright (op ⦋2⦌))
       (identityTwoSimplex : (Δ[2] : SSet.{u}).obj (op ⦋2⦌))
-    simpa [SameTwoSimplexImage, τ, g, identityTwoSimplex] using hpoint
+    have heval :
+        (SSet.yonedaEquiv.symm σ).app (op ⦋2⦌)
+          identityTwoSimplex = σ := by
+      simp [identityTwoSimplex]
+    change p.map.app (op ⦋2⦌) τ = p.map.app (op ⦋2⦌) σ
+    simpa only [τ, heval] using hpoint
 
 /-- Every map in the complete standard A/B/C right class therefore has the
 degree-two thin-replacement property. -/
