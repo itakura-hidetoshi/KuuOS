@@ -9,6 +9,7 @@ open Simplicial
 open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
 open KUOS.DependentOriginationScaledTerminalRLPV1_41
 open KUOS.DependentOriginationStandardTypeCCollapsedEdgeV1_58
+open KUOS.DependentOriginationStandardTypeBScalingPushoutV1_56
 open KUOS.DependentOriginationStandardArbitraryScalingWaypointV1_89
 open KUOS.DependentOriginationSingleTriangleScalingFiltrationV1_90
 open KUOS.DependentOriginationCanonicalFibrancyAtomicTwoSimplexAuditV1_91
@@ -122,8 +123,7 @@ theorem atomicTwoSimplex_standardGenerated_iff_singleTriangles_le :
       (singleTriangleScalingEnrichments : MorphismProperty (ScaledSSet.{u})) ≤
         standardGeneratedScaledAnodyneABC := by
   constructor
-  · intro hatomic
-    intro A B f hf
+  · intro hatomic A B f hf
     dsimp [singleTriangleScalingEnrichments] at hf
     cases hf with
     | mk q =>
@@ -154,7 +154,7 @@ theorem standardArbitraryScalingObstructionClosed_iff_atomicTwoSimplex :
 
 /-- Literal waypoint form of the same result. -/
 theorem standardArbitraryScalingWaypoint_eq_standardABC_iff_atomicTwoSimplex :
-    standardArbitraryScalingWaypoint.{u} = standardABCPresentation.{u} ↔
+    standardArbitraryScalingWaypoint.{u} = standardABCPresentation ↔
       (standardGeneratedScaledAnodyneABC : MorphismProperty (ScaledSSet.{u}))
       (atomicTwoSimplexEnrichment.{u}) := by
   simpa [StandardArbitraryScalingObstructionClosed] using
@@ -296,7 +296,7 @@ theorem not_standardArbitraryScalingObstructionClosed_iff_exists_distinct_thinRe
 /-- The forward canonical-to-standard comparison factors through one atomic
 membership test plus the residual post-scaling geometry. -/
 theorem canonicalKuuOS_le_standardABC_iff_atomicTwoSimplex_and_residual :
-    canonicalKuuOSPresentation.{u} ≤ standardABCPresentation.{u} ↔
+    canonicalKuuOSPresentation ≤ standardABCPresentation ↔
       (standardGeneratedScaledAnodyneABC : MorphismProperty (ScaledSSet.{u}))
       (atomicTwoSimplexEnrichment.{u}) ∧
         CanonicalBelowStandardAfterArbitraryScaling.{u} := by
@@ -307,8 +307,8 @@ theorem canonicalKuuOS_le_standardABC_iff_atomicTwoSimplex_and_residual :
 generator comparison, the single `i₂` standard-generation test, and the
 remaining forward geometry after pure scaling has been adjoined. -/
 theorem standardCanonicalPresentationGapClosed_iff_reverse_atomic_residual :
-    StandardCanonicalPresentationGapClosed.{u} ↔
-      StandardABCCanonicalGeneratorwiseReverseComparison.{u} ∧
+    StandardCanonicalPresentationGapClosed ↔
+      StandardABCCanonicalGeneratorwiseReverseComparison ∧
         (standardGeneratedScaledAnodyneABC : MorphismProperty (ScaledSSet.{u}))
       (atomicTwoSimplexEnrichment.{u}) ∧
           CanonicalBelowStandardAfterArbitraryScaling.{u} := by
