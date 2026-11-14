@@ -1,3 +1,4 @@
+import KUOS.DependentOriginationULiftScalingRoundTripV1_29
 import KUOS.DependentOriginationULiftScalingDescentV1_29
 import KUOS.DependentOriginationULiftHornExtensionReflectionV1_29
 import KUOS.DependentOriginationULiftHornMapEquivalenceV1_29
@@ -357,3 +358,9 @@ certificate or unlifted v1.29 horn descent is inferred. -/
 #print axioms KUOS.DependentOriginationULiftScalingDescentV1_29.unliftSimplexScaling
 #print axioms KUOS.DependentOriginationULiftScalingDescentV1_29.unliftHornScaling_thin_iff
 #print axioms KUOS.DependentOriginationULiftScalingDescentV1_29.unliftSimplexScaling_thin_iff
+
+/-! ## Exact four-way cross-universe scaling round-trip certificate -/
+#print axioms KUOS.DependentOriginationULiftScalingRoundTripV1_29.unlift_liftHornScaling
+#print axioms KUOS.DependentOriginationULiftScalingRoundTripV1_29.unlift_liftSimplexScaling
+#print axioms KUOS.DependentOriginationULiftScalingRoundTripV1_29.lift_unliftHornScaling
+#print axioms KUOS.DependentOriginationULiftScalingRoundTripV1_29.lift_unliftSimplexScaling
