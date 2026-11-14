@@ -72,6 +72,37 @@ theorem projectedForwardAttachmentMap_endpoint_zero
   rw [← Category.assoc, endpointIntoAttachment_ι_zero]
   simp only [SSet.ι₀_fst_assoc]
 
+/-- A genuine cylinder filling map, constructed without any RLP hypothesis,
+whenever the selected endpoint simplex is already scaled. The interval
+coordinate is forgotten: this is the constant-in-time cylinder. -/
+def projectedCylinderExtension
+    {X : SSet.{u}}
+    (sX : ScaledSimplicialSet X)
+    (n : Nat)
+    (sDelta : ScaledSimplicialSet (Δ[n] : SSet.{u}))
+    (sigma : (Δ[n] : SSet.{u}) ⟶ X)
+    (hsigma : IsScaledMap sDelta sX sigma) :
+    scaledSimplexCylinder sDelta ⟶ ScaledSSet.of X sX where
+  map := CartesianMonoidalCategory.fst _ _ ≫ sigma
+  scaled := by
+    intro t ht
+    exact hsigma t.1 ht
+
+/-- The explicit constant cylinder really extends the attachment map,
+as an equality of morphisms in ScaledSSet. -/
+theorem projectedCylinderExtension_restrict
+    {X : SSet.{u}}
+    (sX : ScaledSimplicialSet X)
+    (n : Nat) (i : Fin (n + 1))
+    (sDelta : ScaledSimplicialSet (Δ[n] : SSet.{u}))
+    (sigma : (Δ[n] : SSet.{u}) ⟶ X)
+    (hsigma : IsScaledMap sDelta sX sigma) :
+    scaledHornCylinderAttachmentInclusion i 0 sDelta ≫
+      projectedCylinderExtension sX n sDelta sigma hsigma =
+        projectedForwardAttachmentMap sX n i sigma := by
+  apply ScaledSSet.ScaledMap.ext
+  rfl
+
 /-- Any actual scaled extension of the displayed forward attachment forces
 the entire endpoint simplex to preserve the target scaling. -/
 theorem projectedForwardAttachment_extension_forces_scaled
@@ -113,6 +144,28 @@ theorem projectedForwardAttachment_extension_forces_scaled
     (endpointZero_scaled sDelta).comp l.scaled
   rw [hzero] at hscaled
   exact hscaled
+
+/-- Sharp geometry of the explicitly projected family: a scaled endpoint
+simplex has the constructed constant cylinder as a witness; conversely an
+arbitrary scaled lift would force that endpoint simplex to be scaled. This
+iff does not claim terminal RLP for *all* attachment maps. -/
+theorem projectedForwardAttachment_extendable_iff_scaled
+    {X : SSet.{u}}
+    (sX : ScaledSimplicialSet X)
+    (n : Nat) (i : Fin (n + 1))
+    (sDelta : ScaledSimplicialSet (Δ[n] : SSet.{u}))
+    (sigma : (Δ[n] : SSet.{u}) ⟶ X) :
+    (∃ l : scaledSimplexCylinder sDelta ⟶ ScaledSSet.of X sX,
+      scaledHornCylinderAttachmentInclusion i 0 sDelta ≫ l =
+        projectedForwardAttachmentMap sX n i sigma) ↔
+        IsScaledMap sDelta sX sigma := by
+  constructor
+  · rintro ⟨l, hl⟩
+    exact projectedForwardAttachment_extension_forces_scaled
+      sX n i sDelta sigma l hl
+  · intro hsigma
+    exact ⟨projectedCylinderExtension sX n sDelta sigma hsigma,
+      projectedCylinderExtension_restrict sX n i sDelta sigma hsigma⟩
 
 /-- Direct nonexistence of a cylinder extension if the chosen endpoint
 simplex fails to be scaled.  The obstruction is already on the given face. -/
@@ -209,6 +262,8 @@ theorem natDoubleDelooping_not_forward_endpoint_terminalRLP :
     (SSet.yonedaEquiv.symm natNoninvertibleTriangle)
     natNoninvertibleTriangle_not_standardTypeAScaled
 
+#print axioms projectedCylinderExtension
+#print axioms projectedForwardAttachment_extendable_iff_scaled
 #print axioms projectedForwardAttachment_extension_forces_scaled
 #print axioms natDoubleDelooping_no_forward_endpoint_cylinder_extension
 #print axioms natDoubleDelooping_not_forward_endpoint_terminalRLP
