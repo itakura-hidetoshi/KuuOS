@@ -85,7 +85,8 @@ REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
     # Prior v1.84 literal preorder transport source: aafded1c0bf73533cb3389ae2e33d11fb908d844 (Git history).
     "KUOS/DependentOriginationGeneratedPresentationOrderReflectionV1_84.lean": "3cb649752c4803abc033a94b53ebb7f3494f20d5",
     # Original V1_85 pinned source: 97e364b48eb5632ab7f9f79b051f5b665445c682 (retained in Git history).
-    "KUOS/DependentOriginationGeneratedPresentationFixedPointOrderIsoV1_85.lean": "188dff91e794f2c2fb559e9f9c1ce95682a7d5cd",
+    # Original v1.85 quotient fixed-point proof SHA: 188dff91e794f2c2fb559e9f9c1ce95682a7d5cd (Git history).
+    "KUOS/DependentOriginationGeneratedPresentationFixedPointOrderIsoV1_85.lean": "bfe53b6d2aa49d250255e31840ea08e8b8aede9d",
     # Original V1_86 pinned source: 15fcc55183142ba4ad1fdf5d3ff402c5a2a0804b (retained in Git history).
     "KUOS/DependentOriginationGeneratedPresentationCompleteLatticeV1_86.lean": "095dd06e60c2f37a4801847b3f645f9fa3f1e6cf",
     # Original V1_87 pinned source: 88181c3c721c129e2aa628406e3fbf77a89d4f91 (retained in Git history).
