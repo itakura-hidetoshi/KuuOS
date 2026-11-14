@@ -313,7 +313,11 @@ noncomputable def standardTypeABoundaryPrismAlternatingStep
     (n : ℕ) :
     standardTypeABoundaryPrismAlternatingObj g n ⟶
       standardTypeABoundaryPrismAlternatingObj g (n + 1) :=
-  Nat.bitCasesOn n (fun b j => by
+  Nat.bitCasesOn
+    (motive := fun k : ℕ =>
+      standardTypeABoundaryPrismAlternatingObj g k ⟶
+        standardTypeABoundaryPrismAlternatingObj g (k + 1))
+    n (fun b j => by
     cases b with
     | false =>
         simpa only [standardTypeABoundaryPrismAlternatingObj_bit_false,
@@ -389,7 +393,11 @@ noncomputable def standardTypeABoundaryPrismAlternatingToCylinder
     (n : ℕ) :
     standardTypeABoundaryPrismAlternatingObj g n ⟶
       scaledSimplexCylinder (standardTypeASimplexScaling g.i) :=
-  Nat.bitCasesOn n (fun b j => by
+  Nat.bitCasesOn
+    (motive := fun k : ℕ =>
+      standardTypeABoundaryPrismAlternatingObj g k ⟶
+        scaledSimplexCylinder (standardTypeASimplexScaling g.i))
+    n (fun b j => by
     cases b with
     | false =>
         simpa only [standardTypeABoundaryPrismAlternatingObj_bit_false] using
