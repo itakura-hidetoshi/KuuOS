@@ -823,18 +823,139 @@ theorem standardTypeAEndpointToBoundaryPrism_mem_strongCellular
       (standardABCRawCellularStep : MorphismProperty (ScaledSSet.{u})) _
       (standardTypeAEndpointToBoundaryPrism_mem_rawCellular g))
 
+/-!
+## One raw step prepended to a genuinely infinite raw cellular composition
+
+The pinned Mathlib does not provide an IsStableUnderComposition instance for
+transfiniteCompositions. The explicit shifted natural-number sequence below
+gives the required composite without assuming that instance.
+-/
+
+/-- Prepend a single raw standard cell to a natural-number transfinite
+composition of raw standard cells. The new diagram has the initial source at
+index zero and the old diagram shifted by one. Its tail is final, so the
+original colimit cocone supplies the new colimit universal property. -/
+private noncomputable def prependRawToNatTransfinite
+    {X Y Z : ScaledSSet.{u}}
+    (f : X ⟶ Y) (g : Y ⟶ Z)
+    (hf : standardABCRawCellularStep.{u} f)
+    (hg : (standardABCRawCellularStep :
+      MorphismProperty (ScaledSSet.{u})).TransfiniteCompositionOfShape ℕ g) :
+    (standardABCRawCellularStep :
+      MorphismProperty (ScaledSSet.{u})).TransfiniteCompositionOfShape ℕ
+        (f ≫ g) := by
+  let P : ℕ → ScaledSSet.{u} := fun
+    | 0 => X
+    | n + 1 => hg.F.obj n
+  let step : ∀ n : ℕ, P n ⟶ P (n + 1) := fun
+    | 0 => f ≫ hg.isoBot.inv
+    | n + 1 => hg.F.map (homOfLE (Nat.le_succ n))
+  let F : ℕ ⥤ ScaledSSet.{u} := Functor.ofSequence step
+  let leg : ∀ n : ℕ, F.obj n ⟶ Z := fun
+    | 0 => f ≫ g
+    | n + 1 => hg.incl.app n
+  have hstep : ∀ n : ℕ,
+      F.map (homOfLE (Nat.le_succ n)) ≫ leg (n + 1) = leg n := by
+    intro n
+    cases n with
+    | zero =>
+        change (f ≫ hg.isoBot.inv) ≫ hg.incl.app 0 = f ≫ g
+        rw [← Category.assoc, hg.fac]
+    | succ n =>
+        change hg.F.map (homOfLE (Nat.le_succ n)) ≫ hg.incl.app (n + 1) =
+          hg.incl.app n
+        simpa using hg.incl.naturality (homOfLE (Nat.le_succ n))
+  let incl : F ⟶ (Functor.const ℕ).obj Z :=
+    NatTrans.ofSequence leg (by
+      intro n
+      simpa only [Functor.const_map, Category.comp_id] using hstep n)
+  let tail : (s : Cocone F) → Cocone hg.F := fun s =>
+    Cocone.mk s.pt
+      (NatTrans.ofSequence (fun n => s.ι.app (n + 1)) (by
+        intro n
+        have hnat := s.ι.naturality (homOfLE (Nat.le_succ (n + 1)))
+        simpa only [Functor.const_map, Category.comp_id,
+          F, Functor.ofSequence_map_homOfLE_succ, step] using hnat))
+  have hcolimit : IsColimit (Cocone.mk Z incl) := by
+    refine {
+      desc := fun s => hg.isColimit.desc (tail s)
+      fac := ?_
+      uniq := ?_
+    }
+    · intro s n
+      cases n with
+      | zero =>
+          change (f ≫ g) ≫ hg.isColimit.desc (tail s) = s.ι.app 0
+          calc
+            (f ≫ g) ≫ hg.isColimit.desc (tail s) =
+                (f ≫ hg.isoBot.inv) ≫
+                  (hg.incl.app 0 ≫ hg.isColimit.desc (tail s)) := by
+                    rw [← hg.fac]
+                    simp only [Category.assoc]
+            _ = (f ≫ hg.isoBot.inv) ≫ s.ι.app 1 := by
+              rw [hg.isColimit.fac (tail s) 0]
+            _ = s.ι.app 0 := by
+              have hnat := s.ι.naturality (homOfLE (Nat.le_succ 0))
+              simpa only [Functor.const_map, Category.comp_id,
+                F, Functor.ofSequence_map_homOfLE_succ, step] using hnat
+      | succ n =>
+          change hg.incl.app n ≫ hg.isColimit.desc (tail s) = s.ι.app (n + 1)
+          exact hg.isColimit.fac (tail s) n
+    · intro s m hm
+      apply hg.isColimit.hom_ext
+      intro n
+      calc
+        hg.incl.app n ≫ m = s.ι.app (n + 1) := hm (n + 1)
+        _ = hg.incl.app n ≫ hg.isColimit.desc (tail s) :=
+          (hg.isColimit.fac (tail s) n).symm
+  refine {
+    F := F
+    isoBot := Iso.refl X
+    incl := incl
+    isColimit := hcolimit
+    fac := ?_
+    map_mem := ?_
+  }
+  · change (𝟙 X) ≫ (f ≫ g) = f ≫ g
+    simp
+  · intro n hn
+    cases n with
+    | zero =>
+        change standardABCRawCellularStep.{u} (f ≫ hg.isoBot.inv)
+        let e : Arrow.mk f ≅ Arrow.mk (f ≫ hg.isoBot.inv) :=
+          Arrow.isoMk (Iso.refl X) hg.isoBot.symm (by simp)
+        exact
+          ((standardABCRawCellularStep :
+            MorphismProperty (ScaledSSet.{u})).arrow_mk_iso_iff e).1 hf
+    | succ n =>
+        change standardABCRawCellularStep.{u}
+          (hg.F.map (homOfLE (Nat.le_succ n)))
+        exact hg.map_mem n
+          (not_isMax_iff.mpr ⟨n + 1, Nat.lt_succ_self n⟩)
+
 /-- The complete genuine scaled endpoint Leibniz map is in the strong
 unretracted standard A/B cellular closure. -/
 theorem standardTypeAEndpointScaledLeibnizPushoutProductHom_mem_strongCellular
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
     standardABCStrongCellularClosure.{u}
       (standardTypeAEndpointScaledLeibnizPushoutProductHom.{u} g) := by
-  have hcomp :=
-    (standardABCStrongCellularClosure.{u} : MorphismProperty (ScaledSSet.{u})).comp_mem
+  have hraw :
+      (standardABCRawCellularStep :
+        MorphismProperty (ScaledSSet.{u})).TransfiniteCompositionOfShape ℕ
+          (standardTypeAEndpointToBoundaryPrism g ≫
+            standardTypeABoundaryPrismToCylinder g) :=
+    prependRawToNatTransfinite
       (standardTypeAEndpointToBoundaryPrism g)
       (standardTypeABoundaryPrismToCylinder g)
-      (standardTypeAEndpointToBoundaryPrism_mem_strongCellular g)
-      (standardTypeABoundaryPrismToCylinder_mem_strongCellular g)
+      (standardTypeAEndpointToBoundaryPrism_mem_rawCellular g)
+      (standardTypeABoundaryPrismRawTransfiniteComposition g)
+  have hcomp : standardABCStrongCellularClosure.{u}
+      (standardTypeAEndpointToBoundaryPrism g ≫
+        standardTypeABoundaryPrismToCylinder g) := by
+    simpa only [standardABCStrongCellularClosure] using
+      (MorphismProperty.transfiniteCompositionsOfShape_le_transfiniteCompositions
+        (standardABCRawCellularStep : MorphismProperty (ScaledSSet.{u})) _ _
+        ((hraw.ofOrderIso (orderIsoShrink.{u} ℕ).symm).mem))
   simpa only [standardTypeAEndpointLeibniz_factor_boundaryPrism] using hcomp
 
 /-- Hence every genuine scaled type-(A) endpoint Leibniz generator lies in the
