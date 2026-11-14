@@ -37,7 +37,20 @@ NEXT_AFTER = """calc
             (show Quiver.Hom.{0} NatOneCell.star NatOneCell.star
               from (1 : Nat))) := Nat.add_comm _ _
       _ = 0 := hinv"""
-
+UNIT_BEFORE = """  map₂_leftUnitor := by
+    intros
+    simp [natTriangleMapComp]
+  map₂_rightUnitor := by
+    intros
+    simp [natTriangleMapComp]"""
+UNIT_AFTER = """  map₂_leftUnitor := by
+    intros
+    change (0 : Nat) = Nat.add (Nat.add 0 0) _
+    simp [natTriangleMapComp]
+  map₂_rightUnitor := by
+    intros
+    change (0 : Nat) = Nat.add (Nat.add 0 0) _
+    simp [natTriangleMapComp]"""
 
 def git_blob_sha(content: bytes) -> str:
     return hashlib.sha1(b"blob " + str(len(content)).encode("ascii") + b"\\0".decode("unicode_escape").encode("ascii") + content).hexdigest()
@@ -98,7 +111,14 @@ def run_if_parent_pr() -> None:
         # A fresh Strict Lean error identified the next source-bound repair.
         repair_before, repair_after = AFTER, NEXT_AFTER
         repair_stage = "round2-Nat-add-one-explicit-calc"
-    elif old_blob == "55f0fd1aff12e2450003b0355d983013fd4ed3a3":
+    elif (old_blob == "55f0fd1aff12e2450003b0355d983013fd4ed3a3"
+          and source_text.count(UNIT_BEFORE) == 1):
+        # Exact new Lean error (#43650529216): unitor equations need explicit
+        # translation into the additive Nat hom category. This is only a
+        # proposal; it must be validated by fresh strict Lean after application.
+        repair_before, repair_after = UNIT_BEFORE, UNIT_AFTER
+        repair_stage = "round3-left-right-unitors-nat-normalization"
+    elif old_blob == "f7dcf6d9cddf3820b78c91375f0ec460874a7734":
         print("KUUOS_CODEAI_REAL_V195_APPLIED_RECEIPT " + json.dumps({
             "source_head": head_sha,
             "applied_blob": old_blob,
