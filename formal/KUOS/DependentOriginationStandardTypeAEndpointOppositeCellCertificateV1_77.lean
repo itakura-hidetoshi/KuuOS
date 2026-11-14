@@ -314,6 +314,19 @@ def standardTypeAEndpointOppositeSimplexSubcomplex
   (⊤ : (Δ[g.n] : SSet.{u}).Subcomplex).prod
     (intervalEndpoint g.endpoint.rev)
 
+/-- Pointwise supremum of simplicial subcomplexes, using the pinned
+Subfunctor complete-lattice structure rather than proof-irrelevant change. -/
+private theorem subcomplex_sup_obj
+    {X : SSet.{u}} (A B : X.Subcomplex)
+    (d : SimplexCategoryᵒᵖ) :
+    (A ⊔ B).obj d = A.obj d ∪ B.obj d := rfl
+
+/-- Pointwise infimum of simplicial subcomplexes. -/
+private theorem subcomplex_inf_obj
+    {X : SSet.{u}} (A B : X.Subcomplex)
+    (d : SimplexCategoryᵒᵖ) :
+    (A ⊓ B).obj d = A.obj d ∩ B.obj d := rfl
+
 /-- The four subcomplexes form the exact lattice pushout square. -/
 def standardTypeAEndpointOppositeCarrierBicartSq
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
@@ -326,10 +339,16 @@ def standardTypeAEndpointOppositeCarrierBicartSq
     rw [standardTypeABoundaryPrismSubcomplex,
       intervalBoundary_eq_endpoint_sup_rev g.endpoint]
     ext d ⟨x, y⟩
-    simp [standardTypeAEndpointOppositeSimplexSubcomplex,
-      SSet.Subcomplex.unionProd, SSet.Subcomplex.prod, Set.prod,
-      Set.mem_union, Set.mem_inter_iff, Set.mem_setOf_eq,
-      or_assoc, or_comm, or_left_comm] <;> tauto
+    simp [subcomplex_sup_obj, standardTypeAEndpointOppositeSimplexSubcomplex,
+      SSet.Subcomplex.unionProd, SSet.Subcomplex.prod, Set.prod]
+    change
+      (y ∈ (intervalEndpoint g.endpoint.rev).obj d ∨
+         (y ∈ (intervalEndpoint g.endpoint).obj d ∨
+           x ∈ (SSet.horn g.n g.i).obj d)) ↔
+        ((y ∈ (intervalEndpoint g.endpoint).obj d ∨
+           y ∈ (intervalEndpoint g.endpoint.rev).obj d) ∨
+             x ∈ (SSet.horn g.n g.i).obj d)
+    tauto
   inf_eq := by
     ext d ⟨x, y⟩
     have hdis :
@@ -342,11 +361,17 @@ def standardTypeAEndpointOppositeCarrierBicartSq
               intervalEndpoint g.endpoint.rev).obj d := h
       rw [intervalEndpoint_inf_rev_eq_bot g.endpoint] at hm
       simpa using hm
-    simp [standardTypeAEndpointOppositeSimplexSubcomplex,
+    simp [subcomplex_sup_obj, subcomplex_inf_obj,
+      standardTypeAEndpointOppositeSimplexSubcomplex,
       standardTypeAEndpointOppositeCornerSubcomplex,
-      SSet.Subcomplex.unionProd, SSet.Subcomplex.prod, Set.prod,
-      Set.mem_union, Set.mem_inter_iff, Set.mem_setOf_eq,
-      or_assoc, or_comm, or_left_comm] <;> tauto
+      SSet.Subcomplex.unionProd, SSet.Subcomplex.prod, Set.prod]
+    change
+      (y ∈ (intervalEndpoint g.endpoint.rev).obj d ∧
+         (y ∈ (intervalEndpoint g.endpoint).obj d ∨
+           x ∈ (SSet.horn g.n g.i).obj d)) ↔
+        (x ∈ (SSet.horn g.n g.i).obj d ∧
+         y ∈ (intervalEndpoint g.endpoint.rev).obj d)
+    tauto
 
 /-- The preceding lattice square is therefore a genuine ordinary simplicial
 pushout.  We immediately flip it so that the standard A cell is the second
@@ -418,7 +443,9 @@ theorem standardTypeAEndpointOppositeCornerCarrierIso_hom_app_val
     ((standardTypeAEndpointOppositeCornerCarrierIso g).hom.app d z).val =
       z.val.1 := by
   simp [standardTypeAEndpointOppositeCornerCarrierIso,
-    subcomplexProdIntervalEndpointIso]
+    subcomplexProdIntervalEndpointIso,
+    SSet.Subcomplex.lift, Subfunctor.lift]
+  all_goals rfl
 
 @[simp]
 theorem standardTypeAEndpointOppositeSimplexCarrierIso_hom_app
@@ -428,7 +455,9 @@ theorem standardTypeAEndpointOppositeSimplexCarrierIso_hom_app
     (standardTypeAEndpointOppositeSimplexCarrierIso g).hom.app d z =
       z.val.1 := by
   simp [standardTypeAEndpointOppositeSimplexCarrierIso,
-    subcomplexProdIntervalEndpointIso]
+    subcomplexProdIntervalEndpointIso,
+    SSet.Subcomplex.lift, Subfunctor.lift]
+  all_goals rfl
 
 /-- Generic upgrade of a carrier isomorphism to an isomorphism of scaled
 objects by putting the pullback scaling on its source. -/
