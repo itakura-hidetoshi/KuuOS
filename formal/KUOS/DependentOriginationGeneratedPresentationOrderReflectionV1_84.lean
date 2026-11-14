@@ -203,7 +203,7 @@ theorem standardABC_le_canonicalKuuOS_iff_standardGenerators_le_canonicalGenerat
 geometric route to the exact canonical-to-standard order direction. -/
 theorem canonicalKuuOS_le_standardABC_of_positiveResidual
     (K : StandardABCCanonicalPositiveResidualComparison.{u}) :
-    canonicalKuuOSPresentation <= standardABCPresentation := by
+    canonicalKuuOSPresentation.{u} <= standardABCPresentation.{u} := by
   apply
     canonicalKuuOS_le_standardABC_iff_canonicalGenerators_le_standardGenerated.2
   exact canonicalGenerators_le_standardGenerated_of_residual K.toResidual
@@ -212,7 +212,7 @@ theorem canonicalKuuOS_le_standardABC_of_positiveResidual
 v1.79 package: it is equivalent to it, because the standard presentation is
 literally the A/B/C union. -/
 theorem standardABC_le_canonicalKuuOS_iff_generatorwiseReverse :
-    standardABCPresentation <= canonicalKuuOSPresentation <->
+    standardABCPresentation.{u} <= canonicalKuuOSPresentation.{u} <->
       StandardABCCanonicalGeneratorwiseReverseComparison.{u} := by
   rw [standardABC_le_canonicalKuuOS_iff_standardGenerators_le_canonicalGenerated]
   constructor
@@ -231,7 +231,7 @@ theorem standardABC_le_canonicalKuuOS_iff_generatorwiseReverse :
 generation statements.  This is the direct generator-level form of the
 posetal-reflection equality criterion. -/
 theorem standardABC_eq_canonicalKuuOS_iff_direct_generator_inclusions :
-    standardABCPresentation = canonicalKuuOSPresentation <->
+    standardABCPresentation.{u} = canonicalKuuOSPresentation.{u} <->
       ((standardScaledAnodyneGeneratorsABC :
           MorphismProperty (ScaledSSet.{u})) <=
         (canonicalGeneratedScaledAnodyne :
@@ -247,7 +247,7 @@ theorem standardABC_eq_canonicalKuuOS_iff_direct_generator_inclusions :
 directions, rather than being part of the definition of presentation equality. -/
 theorem standardABC_eq_canonicalKuuOS_of_positiveComparison_via_order
     (K : StandardABCCanonicalPositiveComparisonCertificate.{u}) :
-    standardABCPresentation = canonicalKuuOSPresentation := by
+    standardABCPresentation.{u} = canonicalKuuOSPresentation.{u} := by
   apply standardABC_eq_canonicalKuuOS_iff_direct_generator_inclusions.2
   constructor
   · exact K.reverse.toReverse.standardGenerators_le_canonicalGenerated

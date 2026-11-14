@@ -82,7 +82,8 @@ REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
     "KUOS/DependentOriginationGeneratedPresentationPosetalReflectionV1_83.lean": "c19621eb3ef15b16cd9951217ba19511d1438c65",
     # Original V1_84 pinned source: baf70fc20347e881054fb86180de849ebf92f71f (retained in Git history).
     # Original v1.84 quotient-order source: ff85d62d2fac75f86eea7153fb22f8b0acdcc6c0 (Git history).
-    "KUOS/DependentOriginationGeneratedPresentationOrderReflectionV1_84.lean": "aafded1c0bf73533cb3389ae2e33d11fb908d844",
+    # Prior v1.84 literal preorder transport source: aafded1c0bf73533cb3389ae2e33d11fb908d844 (Git history).
+    "KUOS/DependentOriginationGeneratedPresentationOrderReflectionV1_84.lean": "3cb649752c4803abc033a94b53ebb7f3494f20d5",
     # Original V1_85 pinned source: 97e364b48eb5632ab7f9f79b051f5b665445c682 (retained in Git history).
     "KUOS/DependentOriginationGeneratedPresentationFixedPointOrderIsoV1_85.lean": "188dff91e794f2c2fb559e9f9c1ce95682a7d5cd",
     # Original V1_86 pinned source: 15fcc55183142ba4ad1fdf5d3ff402c5a2a0804b (retained in Git history).
