@@ -256,8 +256,7 @@ theorem not_standardArbitraryScalingObstructionClosed_iff_exists_standardRight_n
     exact ⟨X, Y, p, σ, hstd, himage, hsource⟩
   · rintro ⟨X, Y, p, σ, hstd, himage, hsource⟩ hclosed
     have hreflect :=
-      (standardArbitraryScalingObstructionClosed_iff_all_standardRight_reflect
-        (u := u)).1 hclosed X Y p hstd
+      (standardArbitraryScalingObstructionClosed_iff_all_standardRight_reflect.{u}).1 hclosed X Y p hstd
     exact hsource (hreflect σ himage)
 
 /-- Combining the exact nonreflection witness with v1.93, the pure-scaling
@@ -289,8 +288,7 @@ theorem not_standardArbitraryScalingObstructionClosed_iff_exists_distinct_thinRe
   · rintro ⟨X, Y, p, σ, τ, hstd, himage, hsource,
       hτ, hhorn, hpimage, hne⟩
     apply
-      (not_standardArbitraryScalingObstructionClosed_iff_exists_standardRight_nonreflecting
-        (u := u)).2
+      (not_standardArbitraryScalingObstructionClosed_iff_exists_standardRight_nonreflecting.{u}).2
     exact ⟨X, Y, p, σ, hstd, himage, hsource⟩
 
 /-! ## Replace the scaling clause in the full presentation criteria -/

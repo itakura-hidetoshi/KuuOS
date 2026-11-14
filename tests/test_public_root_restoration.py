@@ -113,7 +113,7 @@ REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
     "KUOS/DependentOriginationStandardTypeATwoSimplexThinReplacementV1_93.lean": "3f24f5549d4ff93ada29a85902ba5baba5b78f40",
     # v1.94: normalize Delta notation and explicitly type shared standard ABC / atomic universes.
     # Archived source blob: 56e75c07f2c1878681ec4aad98e187761ba3c41e (Git history); CI proof certification still required.
-    "KUOS/DependentOriginationAtomicTwoSimplexUniversalScalingObstructionV1_94.lean": "17a7476dbcf42e44675ec7cb9ea5a27a7a85b220",
+    "KUOS/DependentOriginationAtomicTwoSimplexUniversalScalingObstructionV1_94.lean": "1247b9353a919bfc4feee747ddd8cd2e54d9dde9",
     # Original V1_89 pinned source: f5d06299e825ef784a7df25386b062b80c702f12 (retained in Git history).
     "KUOS/DependentOriginationStandardArbitraryScalingWaypointV1_89.lean": "3b5de0a154436be6598a49861435dc57a80ea2f9",
     "KUOS/DependentOriginationStandardTypeAEndpointOppositeCellCertificateV1_77.lean": "e7d422b89b4a4fa5180790b0c5d49c51b7239786",
