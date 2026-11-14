@@ -764,9 +764,36 @@ noncomputable def standardTypeAEndpointOpposite_scaled_isPushout
     (standardTypeAEndpointAmbientSourceToBoundary g).map
     (standardTypeAEndpointOppositeSimplexToBoundary g).map
     (standardTypeAEndpointOppositeCarrier_isPushout g)
-  dsimp only [generatedPushoutTarget] at h
-  rw [standardTypeAEndpointOppositeGeneratedScaling_eq_boundary g] at h
-  convert h using 1 <;> apply ScaledSSet.ScaledMap.ext <;> rfl
+  let e :
+      generatedPushoutTarget
+        (standardTypeAEndpointAmbientSourceScaling g)
+        (standardTypeAEndpointOppositeSimplexScaling g)
+        (standardTypeAEndpointAmbientSourceToBoundary g).map
+        (standardTypeAEndpointOppositeSimplexToBoundary g).map ≅
+          standardTypeABoundaryPrism g :=
+    scalingEqualityIso
+      (generatedPushoutScaling
+        (standardTypeAEndpointAmbientSourceScaling g)
+        (standardTypeAEndpointOppositeSimplexScaling g)
+        (standardTypeAEndpointAmbientSourceToBoundary g).map
+        (standardTypeAEndpointOppositeSimplexToBoundary g).map)
+      (standardTypeABoundaryPrismScaling g)
+      (standardTypeAEndpointOppositeGeneratedScaling_eq_boundary g)
+  refine h.of_iso (Iso.refl _) (Iso.refl _) (Iso.refl _) e ?_ ?_ ?_ ?_
+  · simp
+  · simp
+  · simp only [Category.id_comp]
+    apply ScaledSSet.ScaledMap.ext
+    change
+      (standardTypeAEndpointAmbientSourceToBoundary g).map ≫ e.hom.map =
+        (standardTypeAEndpointAmbientSourceToBoundary g).map
+    simp [e]
+  · simp only [Category.id_comp]
+    apply ScaledSSet.ScaledMap.ext
+    change
+      (standardTypeAEndpointOppositeSimplexToBoundary g).map ≫ e.hom.map =
+        (standardTypeAEndpointOppositeSimplexToBoundary g).map
+    simp [e]
 
 /-- The ambient endpoint-source inclusion is one raw standard A cellular step. -/
 theorem standardTypeAEndpointAmbientSourceToBoundary_mem_rawCellular
