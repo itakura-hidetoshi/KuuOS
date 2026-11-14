@@ -51,6 +51,28 @@ UNIT_AFTER = """  map₂_leftUnitor := by
     intros
     change (0 : Nat) = Nat.add (Nat.add 0 0) _
     simp [natTriangleMapComp]"""
+ASSOC_BEFORE = """  map₂_associator := by
+    intro a b c d f g h
+    have hab : a.as ≤ b.as := f.as.le
+    have hbc : b.as ≤ c.as := g.as.le
+    have hcd : c.as ≤ d.as := h.as.le
+    have ha := a.as.isLt
+    have hb := b.as.isLt
+    have hc := c.as.isLt
+    have hd := d.as.isLt
+    simp only [natTriangleMapComp]
+    split_ifs <;> omega"""
+ASSOC_AFTER = """  map₂_associator := by
+    intro a b c d f g h
+    have hab : a.as ≤ b.as := f.as.le
+    have hbc : b.as ≤ c.as := g.as.le
+    have hcd : c.as ≤ d.as := h.as.le
+    rcases a with ⟨a⟩
+    rcases b with ⟨b⟩
+    rcases c with ⟨c⟩
+    rcases d with ⟨d⟩
+    fin_cases a <;> fin_cases b <;> fin_cases c <;> fin_cases d <;>
+      simp_all [natTriangleMapComp] <;> omega"""
 
 def git_blob_sha(content: bytes) -> str:
     return hashlib.sha1(b"blob " + str(len(content)).encode("ascii") + b"\\0".decode("unicode_escape").encode("ascii") + content).hexdigest()
@@ -118,7 +140,14 @@ def run_if_parent_pr() -> None:
         # proposal; it must be validated by fresh strict Lean after application.
         repair_before, repair_after = UNIT_BEFORE, UNIT_AFTER
         repair_stage = "round3-left-right-unitors-nat-normalization"
-    elif old_blob == "f7dcf6d9cddf3820b78c91375f0ec460874a7734":
+    elif (old_blob == "f7dcf6d9cddf3820b78c91375f0ec460874a7734"
+          and source_text.count(ASSOC_BEFORE) == 1):
+        # Exact strict Lean run #43652242761: only the finite ordinal
+        # associator proof blocks the core; directly enumerate all
+        # finite endpoint values, retaining each monotonicity witness.
+        repair_before, repair_after = ASSOC_BEFORE, ASSOC_AFTER
+        repair_stage = "round4-Duskin-finite-associator-enumeration"
+    elif old_blob == "ca05d2cad1994d94713be4d7b3feea9f315905c6":
         print("KUUOS_CODEAI_REAL_V195_APPLIED_RECEIPT " + json.dumps({
             "source_head": head_sha,
             "applied_blob": old_blob,
