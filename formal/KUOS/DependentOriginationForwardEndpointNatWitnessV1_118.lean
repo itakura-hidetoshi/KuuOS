@@ -44,7 +44,7 @@ instance : Subsingleton NatOneCell :=
 
 /-- The hom-category of 1-cells has `Nat` as every 2-hom set, identity `0`,
 and vertical composition given by addition. -/
-instance : Category NatOneCell where
+instance : Category.{0} NatOneCell where
   Hom _ _ := Nat
   id _ := 0
   comp f g := f + g
@@ -75,13 +75,13 @@ instance : Subsingleton NatDoubleDelooping :=
 
 /-- One object, one 1-cell, and additive natural-number 2-cells form a strict
 bicategory.  The exchange law is exactly commutativity of addition. -/
-instance : Bicategory NatDoubleDelooping where
+instance : Bicategory.{0,0} NatDoubleDelooping where
   Hom _ _ := NatOneCell
   id _ := NatOneCell.star
   comp _ _ := NatOneCell.star
   homCategory _ _ := inferInstance
-  whiskerLeft _ η := η
-  whiskerRight η _ := η
+  whiskerLeft := by intros; assumption
+  whiskerRight := by intros; assumption
   associator _ _ _ := Iso.refl _
   leftUnitor _ := Iso.refl _
   rightUnitor _ := Iso.refl _
@@ -411,20 +411,20 @@ theorem natNoninvertibleTriangle_not_thin :
 
 /-! ## Degree-two type-(A) identity triangle, independent of v1.91/v1.93 -/
 
-/-- The Yoneda identity triangle in Delta[2]. -/
+/-- The Yoneda identity triangle in Δ[2]. -/
 def identityTwoSimplex :
-    (Delta[2] : SSet).obj (op ⦋2⦌) :=
+    (Δ[2] : SSet).obj (op ⦋2⦌) :=
   SSet.stdSimplex.objEquiv.symm (𝟙 ⦋2⦌)
 
 /-- The distinguished type-(A) identity triangle is thin. -/
 theorem identityTwoSimplex_isStandardTypeADistinguishedTriangle :
     IsStandardTypeADistinguishedTriangle
-      (1 : Fin 3) (identityTwoSimplex : (Delta[2] : SSet).obj (op ⦋2⦌)) := by
+      (1 : Fin 3) (identityTwoSimplex : (Δ[2] : SSet).obj (op ⦋2⦌)) := by
   simp [IsStandardTypeADistinguishedTriangle, identityTwoSimplex]
 
 theorem identityTwoSimplex_standardTypeA_thin :
     (standardTypeASimplexScaling (1 : Fin 3)).thin
-      (identityTwoSimplex : (Delta[2] : SSet).obj (op ⦋2⦌)) := by
+      (identityTwoSimplex : (Δ[2] : SSet).obj (op ⦋2⦌)) := by
   exact Or.inr identityTwoSimplex_isStandardTypeADistinguishedTriangle
 
 
