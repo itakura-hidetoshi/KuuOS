@@ -238,7 +238,7 @@ theorem typeAEndpointLifting_mono
     typeAEndpointLifting Q := by
   rw [typeAEndpointLifting_iff] at hP ⊢
   intro g X Y p hp
-  exact hP g p (generatedFibrationClass_antitone hPQ hp)
+  exact hP g p ((generatedFibrationClass_antitone hPQ) p hp)
 
 /-- Fibrancy is contravariant in the presentation order, exactly because right
 classes reverse inclusions. -/
@@ -249,17 +249,17 @@ theorem isFibrant_antitone
     (hQ : isFibrant X Q) :
     isFibrant X P := by
   rw [isFibrant_iff] at hQ ⊢
-  exact generatedFibrationClass_antitone hPQ hQ
+  exact (generatedFibrationClass_antitone hPQ) (ScaledSSet.toPoint X) hQ
 
 /-! ## Standard/canonical comparison is now purely order-theoretic -/
 
 /-- Equality of the standard A/B/C and canonical KuuOS presentation points is
 exactly the conjunction of the two directional presentation comparisons. -/
 theorem standardABC_eq_canonical_iff_mutual_le :
-    standardABCPresentation = canonicalKuuOSPresentation ↔
-      standardABCPresentation ≤ canonicalKuuOSPresentation ∧
-        canonicalKuuOSPresentation ≤ standardABCPresentation :=
-  eq_iff_le_and_le _ _
+    standardABCPresentation.{u} = canonicalKuuOSPresentation.{u} ↔
+      standardABCPresentation.{u} ≤ canonicalKuuOSPresentation.{u} ∧
+        canonicalKuuOSPresentation.{u} ≤ standardABCPresentation.{u} :=
+  eq_iff_le_and_le (standardABCPresentation.{u}) (canonicalKuuOSPresentation.{u})
 
 /-!
 The v1.83 spine is therefore:

@@ -78,7 +78,8 @@ REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
     # v1.82 legacy source blob: 7180226c2b202606871d1c2c3efd966442c50fff; reviewed parser and identity-composition correction.
     "KUOS/DependentOriginationCanonicalEndpointLeibnizEpiDescentV1_82.lean": "ec800dbee52b8e7d5422d9d7e9dcd16e50e2a473",
     # Original V1_83 pinned source: 677031aa601d232ff11ba8aaba26653fd68134ee (retained in Git history).
-    "KUOS/DependentOriginationGeneratedPresentationPosetalReflectionV1_83.lean": "95f00f3d661172741574ad24be205b0b85cd984e",
+    # Earlier v1.83 proof blob retained: 95f00f3d661172741574ad24be205b0b85cd984e (Git history).
+    "KUOS/DependentOriginationGeneratedPresentationPosetalReflectionV1_83.lean": "c19621eb3ef15b16cd9951217ba19511d1438c65",
     # Original V1_84 pinned source: baf70fc20347e881054fb86180de849ebf92f71f (retained in Git history).
     "KUOS/DependentOriginationGeneratedPresentationOrderReflectionV1_84.lean": "ff85d62d2fac75f86eea7153fb22f8b0acdcc6c0",
     # Original V1_85 pinned source: 97e364b48eb5632ab7f9f79b051f5b665445c682 (retained in Git history).
