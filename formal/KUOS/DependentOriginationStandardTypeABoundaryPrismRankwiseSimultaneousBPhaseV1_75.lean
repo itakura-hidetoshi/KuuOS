@@ -294,6 +294,7 @@ theorem standardTypeABoundaryPrismRankBCell_source_target_map_eq
           (standardTypeABoundaryPrismCellQ12TargetIso g j c h).inv.map ≫
           c.mapToSucc
       rw [heq]
+      rfl
   | q23 c h =>
       have heq := standardTypeABoundaryPrismQ23Iso_inv_map_eq g j c h
       change standardTypeBCollapse23 ≫
@@ -303,6 +304,7 @@ theorem standardTypeABoundaryPrismRankBCell_source_target_map_eq
           (standardTypeABoundaryPrismCellQ23TargetIso g j c h).inv.map ≫
           c.mapToSucc
       rw [heq]
+      rfl
 
 /-! ## Coproduct of all literal standard-B copies -/
 
