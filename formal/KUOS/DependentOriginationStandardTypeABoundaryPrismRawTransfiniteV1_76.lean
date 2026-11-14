@@ -124,10 +124,10 @@ theorem standardTypeABoundaryPrism_exists_rank_lift
       (x : (standardTypeABoundaryPrismRankStage g j).carrier.obj d),
       (standardTypeABoundaryPrismRankStageToCylinder g j).map.app d x = t := by
   have ht :
-      t ∈
-        (⊤ : SSet.Subcomplex ((Δ[g.n] : SSet.{u}) ⊗ Δ[1])).obj d := by
-    simp
-  rw [← standardTypeABoundaryPrism_iSup_filtration g] at ht
+      t ∈ (⨆ j : ℕ,
+        (standardTypeABoundaryPrismRankFunction g).filtration j).obj d := by
+    rw [standardTypeABoundaryPrism_iSup_filtration g]
+    simp only [Subfunctor.top_obj, Set.mem_univ]
   simp only [Subfunctor.iSup_obj, Set.mem_iUnion] at ht
   obtain ⟨j, hj⟩ := ht
   refine ⟨j, ⟨t, hj⟩, ?_⟩
@@ -153,7 +153,7 @@ theorem standardTypeABoundaryPrism_exists_thin_rank_lift
       (standardTypeASimplexScaling g.i)).scaling.thin
       (((standardTypeABoundaryPrismRankFunction g).filtration j).ι.app
         (op ⦋2⦌) x)
-  rw [hx]
+  rw [← hx] at ht
   exact ht
 
 /-! ## Reuse the ordinary Mathlib relative-cell colimit underneath -/
