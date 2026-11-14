@@ -1,3 +1,4 @@
+import KUOS.DependentOriginationCanonicalSameUniverseDuskinDescentV1_29
 import KUOS.DependentOriginationCanonicalULiftHornPresentationBridgeV1_29
 import KUOS.PinnedMathlibUnionProdFullPairingV1_61
 import KUOS.DependentOriginationStandardTypeABoundaryPrismDimensionDichotomyV1_63
@@ -300,3 +301,8 @@ certificate or unlifted v1.29 horn descent is inferred. -/
 #print axioms KUOS.DependentOriginationCanonicalULiftHornPresentationBridgeV1_29.sameUniverseULiftIso
 #print axioms KUOS.DependentOriginationCanonicalULiftHornPresentationBridgeV1_29.canonicalSameUniverseULiftPresentationEquivalence
 #print axioms KUOS.DependentOriginationCanonicalULiftHornPresentationBridgeV1_29.canonicalSameUniverseULift_fibrancy_iff
+
+/-! ## v1.29 actual Duskin B/C same-universe canonical descent; independent universes remain open -/
+#print axioms KUOS.DependentOriginationCanonicalSameUniverseDuskinDescentV1_29.sourceFibrancy_iff_canonicalULift
+#print axioms KUOS.DependentOriginationCanonicalSameUniverseDuskinDescentV1_29.targetFibrancy_iff_canonicalULift
+#print axioms KUOS.DependentOriginationCanonicalSameUniverseDuskinDescentV1_29.unliftedFibrancy_iff_of_canonical_sameUniverse_strictInverse
