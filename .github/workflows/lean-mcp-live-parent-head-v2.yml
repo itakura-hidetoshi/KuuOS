@@ -6,7 +6,11 @@ on:
       - 'scripts/check_kuuos_lean_mcp_live_pr_v2.py'
       - 'tests/test_kuuos_lean_mcp_live_pr_v2.py'
       - '.github/workflows/lean-mcp-live-parent-head-v2.yml'
-      - 'docs/KUUOS_LEAN_MCP_LIVE_PARENT_HEAD_v2.md'
+      - 'runtime/kuuos_codeai_lean_mcp_precommit_gate_v0_1.py'
+      - 'tests/test_kuuos_codeai_lean_mcp_precommit_gate_v0_1.py'
+      - 'scripts/check_codeai_lean_mcp_precommit_gate_v0_1.py'
+      - 'docs/KUUOS_CODEAI_LEAN_MCP_PRECOMMIT_GATE_v0_1.md'
+       - 'docs/KUUOS_LEAN_MCP_LIVE_PARENT_HEAD_v2.md'
   workflow_dispatch:
 
 permissions:
@@ -27,6 +31,9 @@ jobs:
         run: |
           set -euo pipefail
           python3 -m py_compile scripts/check_kuuos_lean_mcp_live_pr_v2.py
+          python3 -m py_compile runtime/kuuos_codeai_lean_mcp_precommit_gate_v0_1.py
+          python3 -m py_compile scripts/check_codeai_lean_mcp_precommit_gate_v0_1.py
+          PYTHONPATH=. python3 -m unittest -v tests.test_kuuos_codeai_lean_mcp_precommit_gate_v0_1
           PYTHONPATH=. python3 -m unittest discover -s tests \
             -p 'test_kuuos_lean_mcp_live_pr_v2.py' -v
 
@@ -175,6 +182,26 @@ jobs:
           assert any(x['path'].endswith('WitnessV1_95.lean') for x in data['targets'])
           print('KUUOS_MCP_EXACT_HEAD_AND_CHANGED_LEAN_FILES',data['source_head'],len(data['targets']))
           PY
+      - name: Generate exact CodeAI candidate and sealed isolated-application receipts
+        env:
+          EXPECTED_HEAD: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+          PYTHONPATH=. python3 - <<'PY'
+          import json,os
+          from pathlib import Path
+          from scripts.codeai_pr3522_live_v195_candidate_v0_1 import run_if_parent_pr
+          run_if_parent_pr()
+          path=Path('artifacts/codeai-v195/pr3522-codeai-v195-candidate.json')
+          record=json.loads(path.read_text(encoding='utf-8'))
+          assert record['source_head']==os.environ['EXPECTED_HEAD']
+          assert record['source_blob']=='f7dcf6d9cddf3820b78c91375f0ec460874a7734'
+          assert record['candidate_blob']=='363462cdc4110e12976019ba610966f695f893fb'
+          assert record['isolated_application_receipt']['isolated_patch_applied'] is True
+          assert record['git_effect'] is False
+          print('KUUOS_CODEAI_REAL_V195_ISOLATION_RECEIPT',
+                record['isolated_application_receipt']['codeai_autonomous_isolated_candidate_application_receipt_digest'])
+          PY
       - name: Lean MCP fullsource, real goals and multi-attempt, CodeAI candidate isolated direct compilation
         run: |
           set -o pipefail
@@ -190,12 +217,16 @@ jobs:
           module='KUOS.DependentOriginationDoubleDeloopingNatNonthinDuskinWitnessV1_95'
           before_blob='f7dcf6d9cddf3820b78c91375f0ec460874a7734'
           after_blob='363462cdc4110e12976019ba610966f695f893fb'
-          codeai_receipt='NO_DATA_ROUND5_RECEIPT_PENDING_EXACT_CODEAI_RUN'
-          root=pathlib.Path('.').resolve()
+          codeai_record=json.loads(pathlib.Path(
+              'artifacts/codeai-v195/pr3522-codeai-v195-candidate.json').read_text())
+          codeai_receipt=codeai_record['isolated_application_receipt'][
+              'codeai_autonomous_isolated_candidate_application_receipt_digest']
+           root=pathlib.Path('.').resolve()
           out=pathlib.Path('/tmp/kuuos-v195-mcp-precommit')
           plan=json.loads(pathlib.Path('/tmp/kuuos-v195-current-parent/plan.json').read_text())
+          assert codeai_record['source_head']==plan['source_head'], 'CodeAI/LeanMCP exact HEAD mismatch'
           targets=[x for x in plan['targets'] if x['path']==target]
-          assert len(targets)==1 and targets[0]['git_blob_sha']==before_blob
+           assert len(targets)==1 and targets[0]['git_blob_sha']==before_blob
           src=root/target
           original=src.read_bytes()
           assert git_blob(original)==before_blob and original.decode().count(ASSOC_BEFORE)==1
@@ -203,7 +234,9 @@ jobs:
           changed_text=original_text.replace(ASSOC_BEFORE,ASSOC_AFTER_V5)
           candidate=changed_text.encode()
           assert git_blob(candidate)==after_blob
-          assert imports_of(original_text)==imports_of(changed_text)
+          assert codeai_record['candidate_blob']==after_blob
+          assert codeai_record['source_blob']==before_blob
+           assert imports_of(original_text)==imports_of(changed_text)
           signature=lambda x:[(d['kind'],d['name_lexical'],d['signature_sha256'])
               for d in declarations_of(x,module)]
           assert signature(original_text)==signature(changed_text)
@@ -233,7 +266,10 @@ jobs:
               record['lean_mcp_status']=x.get('repair_status')
               record['mcp_local_receipt']=x.get('local_repair_receipt')
               record['source_restored_by_mcp']=x.get('source_restored')
-          except Exception as e:
+              record['imports_unchanged']=x.get('imports_unchanged')
+              record['source_signature_unchanged']=x.get('source_signature_unchanged')
+              record['new_forbidden_constructs']=x.get('new_forbidden_constructs')
+           except Exception as e:
               record['lean_mcp_status']='MCP_EXECUTION_OBSTRUCTION'
               record['mcp_exception']=type(e).__name__+': '+str(e)[:700]
           if src.read_bytes()!=original:
@@ -258,15 +294,29 @@ jobs:
               if src.read_bytes()!=original:
                   raise RuntimeError('candidate direct Lean test did not restore source')
               record['source_restored_final']=True
+          (out/'candidate.lean').write_bytes(candidate)
           (out/'precommit_receipt.json').write_text(
               json.dumps(record,ensure_ascii=False,sort_keys=True,indent=2)+'\n')
           print('KUUOS_REAL_V195_CODEAI_LEAN_MCP_PRECOMMIT '+json.dumps({
               k:v for k,v in record.items() if k!='mcp_local_receipt'},ensure_ascii=False,sort_keys=True))
-          success=(record['strict_lean_status']=='SUCCESS'
-                   and record['lean_mcp_status']=='LOCAL_FULLSOURCE_AND_LEAN_GREEN_CANDIDATE_ONLY'
-                   and record['source_restored_final'])
-          sys.exit(0 if success else 1)
+          # Evidence is produced even when the proof is red. Only the next
+          # source-bound gate may mark a candidate eligible for PR review.
+          sys.exit(0)
           PY
+      - name: Require CodeAI + Lean MCP + pinned direct Lean before candidate adoption
+        run: |
+          set -euo pipefail
+          CODEAI_TREE=$(python3 -c "import json;print(json.load(open('artifacts/codeai-v195/pr3522-codeai-v195-candidate.json'))['source_git_tree'])")
+          PYTHONPATH=. python3 scripts/check_codeai_lean_mcp_precommit_gate_v0_1.py \
+            --codeai-record artifacts/codeai-v195/pr3522-codeai-v195-candidate.json \
+            --mcp-precommit-record /tmp/kuuos-v195-mcp-precommit/precommit_receipt.json \
+            --source formal/KUOS/DependentOriginationDoubleDeloopingNatNonthinDuskinWitnessV1_95.lean \
+            --candidate /tmp/kuuos-v195-mcp-precommit/candidate.lean \
+            --direct-lean-log /tmp/kuuos-v195-mcp-precommit/strict_candidate.log \
+            --target formal/KUOS/DependentOriginationDoubleDeloopingNatNonthinDuskinWitnessV1_95.lean \
+            --source-head "${{ github.event.pull_request.head.sha }}" \
+            --source-git-tree "$CODEAI_TREE" \
+            --out /tmp/kuuos-v195-mcp-precommit/codeai_lean_mcp_gate_receipt.json
       - name: Preserve candidate full-source snapshots, MCP goals, strict Lean logs and obstructions
         if: always()
         uses: actions/upload-artifact@v4
@@ -276,5 +326,7 @@ jobs:
             /tmp/kuuos-v195-current-parent/
             /tmp/kuuos-v195-mcp-precommit/
             /tmp/kuuos-v195-mcp-precommit.log
-          if-no-files-found: warn
+            artifacts/codeai-v195/pr3522-codeai-v195-candidate.json
+            artifacts/codeai-v195/pr3522-v195-candidate.diff
+           if-no-files-found: warn
           retention-days: 21
