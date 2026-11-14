@@ -108,7 +108,7 @@ REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
     "KUOS/DependentOriginationCanonicalFibrationThinReflectionV1_92.lean": "34d74a83e614a5c676a39eb55eabd9c97c4c167a",
     # Original v1.93 archived proof SHA: ac445c1f2029ed71827609424905ff2818cc6c14 (preserved in legacy/v5.291).
     # Reviewed v1.93 simplex/scaling import and dimension proof repair; Lean CI still required.
-    "KUOS/DependentOriginationStandardTypeATwoSimplexThinReplacementV1_93.lean": "9c468f998d834ccf4f63b7d0d76785a80ff7f53c",
+    "KUOS/DependentOriginationStandardTypeATwoSimplexThinReplacementV1_93.lean": "627d1ef23cb80e020343eea945592fb7e4fbfc28",
     # Original V1_89 pinned source: f5d06299e825ef784a7df25386b062b80c702f12 (retained in Git history).
     "KUOS/DependentOriginationStandardArbitraryScalingWaypointV1_89.lean": "3b5de0a154436be6598a49861435dc57a80ea2f9",
     "KUOS/DependentOriginationStandardTypeAEndpointOppositeCellCertificateV1_77.lean": "e7d422b89b4a4fa5180790b0c5d49c51b7239786",
