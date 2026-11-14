@@ -102,6 +102,7 @@ theorem generatedAnodyne_eq :
       K.right_generators_le_left_generated
       (externalGeneratedScaledAnodyne_isOrthogonallySaturated E)
 
+
 omit K
 
 /-- Conversely equality of generated left classes recovers mutual generation.
@@ -164,9 +165,10 @@ theorem generatedFibration_eq :
     _ = (F.rlp.llp).rlp := by rw [hleft]
     _ = F.rlp := MorphismProperty.rlp_llp_rlp F
 
-include K
+
 omit K
 
+include K
 /-- Generated-anodyne membership is presentation-independent under mutual
 generation. -/
 theorem generatedAnodyne_mem_iff
@@ -175,9 +177,10 @@ theorem generatedAnodyne_mem_iff
       externalGeneratedScaledAnodyne F f := by
   rw [K.generatedAnodyne_eq]
 
-include K
+
 omit K
 
+include K
 /-- Generated-fibration membership is likewise presentation-independent. -/
 theorem generatedFibration_mem_iff
     {A B : ScaledSSet.{u}} (p : A ⟶ B) :
@@ -185,9 +188,10 @@ theorem generatedFibration_mem_iff
       externalGeneratedScaledFibration F p := by
   rw [K.generatedFibration_eq]
 
-include K
+
 omit K
 
+include K
 /-- Whether the generated pair is already a weak factorization system is also
 an invariant of the generated presentation. -/
 theorem weakFactorizationSystem_iff :
@@ -198,6 +202,7 @@ theorem weakFactorizationSystem_iff :
         (externalGeneratedScaledAnodyne F)
         (externalGeneratedScaledFibration F) := by
   rw [K.generatedAnodyne_eq, K.generatedFibration_eq]
+
 
 omit K
 
@@ -238,9 +243,10 @@ theorem typeAEndpointLeibnizGeneratorsGenerated_iff :
   unfold TypeAEndpointLeibnizGeneratorsGeneratedBy
   rw [K.generatedAnodyne_eq]
 
-include K
+
 omit K
 
+include K
 /-- Endpoint Leibniz stability is invariant because its ambient left class is
 literally the same morphism property. -/
 theorem typeAEndpointLeibnizStable_iff :
@@ -249,9 +255,10 @@ theorem typeAEndpointLeibnizStable_iff :
   unfold TypeAEndpointLeibnizStableForPresentation
   rw [K.generatedAnodyne_eq]
 
-include K
+
 omit K
 
+include K
 /-- The endpoint right-lifting statement is invariant because the right
 classes are literally equal. -/
 theorem typeAEndpointLeibnizLifting_iff :
@@ -271,9 +278,10 @@ theorem typeAEndpointLeibnizLifting_iff :
       exact hp
     exact this
 
-include K
+
 omit K
 
+include K
 /-- Fibrancy measured directly by the generator RLP is independent of any
 mutually generated presentation. -/
 theorem fibrantForExternalGenerators_iff
@@ -284,6 +292,7 @@ theorem fibrantForExternalGenerators_iff
     externalGeneratedScaledFibration E (ScaledSSet.toPoint X) ↔
       externalGeneratedScaledFibration F (ScaledSSet.toPoint X)
   rw [K.generatedFibration_eq]
+
 omit K
 
 

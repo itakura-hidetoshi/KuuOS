@@ -66,7 +66,8 @@ REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
     # Original V1_80 pinned source: 35e1e87b699fb7f6e181103ffdbb873e36621874 (retained in Git history).
     # Prior v1.80 namespace-only source blob: ca9ce387d6d83081b019fa60f154a3dad3442d1e (Git history).
     # Previous attempted v1.80 theorem variable inclusion: c02ad069405ededc23381930415676b906ccbffd (Git history).
-    "KUOS/DependentOriginationGeneratedPresentationEndpointInvariantV1_80.lean": "19ebe93ff975562d934fe58c6ab4cc5721749e70",
+    # Prior v1.80 inclusion scope source: 19ebe93ff975562d934fe58c6ab4cc5721749e70 (Git history).
+    "KUOS/DependentOriginationGeneratedPresentationEndpointInvariantV1_80.lean": "0d121117b98853e9a93ba0bc56ce1cd80eeb744f",
     # Original V1_81 pinned source: 0a2ece6612bd717cd210c0222cf5a00bc04e4f37 (retained in Git history).
     "KUOS/DependentOriginationGeneratedPresentationQuotientInvariantV1_81.lean": "3a1dbda58c0ec055e09d6c097273d0ecf89e247a",
     # Original V1_83 pinned source: 677031aa601d232ff11ba8aaba26653fd68134ee (retained in Git history).
