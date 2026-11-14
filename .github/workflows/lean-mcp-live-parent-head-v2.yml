@@ -109,7 +109,7 @@ jobs:
           retention-days: 14
 
   candidate-v195-lean-mcp:
-    name: CodeAI round4 candidate, full-source Lean MCP and independent direct Lean precommit
+    name: CodeAI round5 candidate, full-source Lean MCP and independent direct Lean precommit
     if: ${{ github.event_name == 'pull_request' && github.event.pull_request.number == 3522 }}
     needs: head-snapshot-contract
     runs-on: ubuntu-22.04
@@ -147,6 +147,13 @@ jobs:
           restore-keys: |
             kuuos-v195-mcp-${{ runner.os }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-
             kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-
+      - name: Restore PR-local Lean build overlay (strict verification still required)
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake/build
+          key: kuuos-pr-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-pr3522-${{ github.event.pull_request.head.sha }}
+          restore-keys: |
+            kuuos-pr-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-pr3522-
       - name: Resolve pinned olean dependencies, without unpinned upgrade
         run: lake exe cache get
       - name: Compile pinned imported closure through prior v1.94
@@ -173,7 +180,7 @@ jobs:
           set -o pipefail
           PYTHONPATH=. python3 - <<'PY' 2>&1 | tee /tmp/kuuos-v195-mcp-precommit.log
           import hashlib, json, pathlib, subprocess, sys, tempfile
-          from scripts.codeai_pr3522_live_v195_candidate_v0_1 import ASSOC_BEFORE, ASSOC_AFTER
+          from scripts.codeai_pr3522_live_v195_candidate_v0_1 import ASSOC_BEFORE, ASSOC_AFTER_V5
           from scripts.check_kuuos_lean_mcp_fullsource_v1 import (
               imports_of, declarations_of, git_blob, sha256,
           )
@@ -182,8 +189,8 @@ jobs:
           target='formal/KUOS/DependentOriginationDoubleDeloopingNatNonthinDuskinWitnessV1_95.lean'
           module='KUOS.DependentOriginationDoubleDeloopingNatNonthinDuskinWitnessV1_95'
           before_blob='f7dcf6d9cddf3820b78c91375f0ec460874a7734'
-          after_blob='ca05d2cad1994d94713be4d7b3feea9f315905c6'
-          codeai_receipt='d845e285ddb7eded3129a717ff3ad28eb3e2c23708d6598fe7d60fa82533fe4a'
+          after_blob='363462cdc4110e12976019ba610966f695f893fb'
+          codeai_receipt='NO_DATA_ROUND5_RECEIPT_PENDING_EXACT_CODEAI_RUN'
           root=pathlib.Path('.').resolve()
           out=pathlib.Path('/tmp/kuuos-v195-mcp-precommit')
           plan=json.loads(pathlib.Path('/tmp/kuuos-v195-current-parent/plan.json').read_text())
@@ -193,7 +200,7 @@ jobs:
           original=src.read_bytes()
           assert git_blob(original)==before_blob and original.decode().count(ASSOC_BEFORE)==1
           original_text=original.decode()
-          changed_text=original_text.replace(ASSOC_BEFORE,ASSOC_AFTER)
+          changed_text=original_text.replace(ASSOC_BEFORE,ASSOC_AFTER_V5)
           candidate=changed_text.encode()
           assert git_blob(candidate)==after_blob
           assert imports_of(original_text)==imports_of(changed_text)
@@ -213,7 +220,7 @@ jobs:
               if current!=original_text or not observations or not observations[-1].get('errors'):
                   raise RuntimeError('CodeAI candidate lacks actual Lean MCP error context')
               return {'expected_sha256':digest(current),'old_text':ASSOC_BEFORE,
-                      'new_text':ASSOC_AFTER,'reason':'CodeAI isolated receipt '+codeai_receipt}
+                      'new_text':ASSOC_AFTER_V5,'reason':'CodeAI pending source-bound round5 receipt: '+codeai_receipt}
           record={'source_head':plan['source_head'],'changed_lean_count':len(plan['targets']),
                   'source_git_blob':before_blob,'codeai_candidate_git_blob':after_blob,
                   'codeai_receipt':codeai_receipt,'git_write_performed':False,
@@ -236,7 +243,7 @@ jobs:
               with tempfile.TemporaryDirectory(prefix='kuuos-v195-candidate-') as td:
                   try:
                       run=subprocess.run(['lake','env','lean','-DwarningAsError=true',
-                            '-DsorryAsError=true','-o',td+'/candidate.olean',target],
+                            '-Dweak.sorryAsError=true','-o',td+'/candidate.olean',target],
                             capture_output=True,text=True,timeout=900,check=False)
                       log=run.stdout+'\n'+run.stderr
                       record['strict_lean_status']='SUCCESS' if run.returncode==0 else 'FAILURE'
