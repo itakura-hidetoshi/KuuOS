@@ -62,7 +62,7 @@ instance : Subsingleton NatOneCell :=
 
 /-- The hom-category of 1-cells has `Nat` as every 2-hom set, identity `0`,
 and vertical composition given by addition. -/
-instance : Category NatOneCell where
+instance : Category.{0} NatOneCell where
   Hom _ _ := Nat
   id _ := 0
   comp f g := f + g
@@ -93,7 +93,7 @@ instance : Subsingleton NatDoubleDelooping :=
 
 /-- One object, one 1-cell, and additive natural-number 2-cells form a strict
 bicategory.  The exchange law is exactly commutativity of addition. -/
-instance : Bicategory NatDoubleDelooping where
+instance : Bicategory.{0,0} NatDoubleDelooping where
   Hom _ _ := NatOneCell
   id _ := NatOneCell.star
   comp _ _ := NatOneCell.star
