@@ -156,7 +156,12 @@ theorem one_twoCell_not_isIso :
     (show Quiver.Hom.{0} NatOneCell.star NatOneCell.star from (1 : Nat))
   change Nat.add 1 (inv
       (show Quiver.Hom.{0} NatOneCell.star NatOneCell.star from (1 : Nat))) = 0 at hinv
-  omega
+  have hcontra :
+      Nat.succ (inv
+        (show Quiver.Hom.{0} NatOneCell.star NatOneCell.star
+          from (1 : Nat))) = 0 := by
+    simpa only [Nat.succ_add, Nat.zero_add] using hinv
+  exact (Nat.succ_ne_zero _) hcontra
 
 end NatDoubleDelooping
 
@@ -182,9 +187,11 @@ def natNoninvertibleTriangleCore :
   mapComp f g := natTriangleMapComp f g
   mapComp_naturality_left := by
     intros
+    change Nat.add _ (0 : Nat) = Nat.add (0 : Nat) _
     simp [natTriangleMapComp]
   mapComp_naturality_right := by
     intros
+    change Nat.add _ (0 : Nat) = Nat.add (0 : Nat) _
     simp [natTriangleMapComp]
   map₂_leftUnitor := by
     intros
