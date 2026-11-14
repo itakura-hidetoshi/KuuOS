@@ -167,8 +167,8 @@ theorem standardTypeAEndpointGeneratedPushoutScaling_eq_induced
 source used by the prism factorization. -/
 theorem standardTypeAEndpointGeneratedPushoutScaling_eq_ambient
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
-    standardTypeAEndpointGeneratedPushoutScaling g =
-      standardTypeAEndpointAmbientSourceScaling g := by
+    standardTypeAEndpointGeneratedPushoutScaling.{u} g =
+      standardTypeAEndpointAmbientSourceScaling.{u} g := by
   rw [standardTypeAEndpointGeneratedPushoutScaling_eq_induced g]
   unfold standardTypeAEndpointInducedProductPullbackScaling
   unfold standardTypeAEndpointCylinderProductScaling
