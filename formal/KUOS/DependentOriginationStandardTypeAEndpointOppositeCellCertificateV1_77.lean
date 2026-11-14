@@ -8,6 +8,8 @@ open CategoryTheory.Limits
 open MonoidalCategory
 open Opposite
 open Simplicial
+open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
+open KUOS.DependentOriginationScaledHornAttachmentLiftingV1_40
 open KUOS.DependentOriginationScaledTerminalRLPV1_41
 open KUOS.DependentOriginationScaledAnodyneAttachmentFactorizationV1_48
 open KUOS.DependentOriginationStandardTypeAScaledHornFamilyV1_49
@@ -15,6 +17,7 @@ open KUOS.DependentOriginationStandardTypeAEndpointPushoutProductV1_50
 open KUOS.DependentOriginationScaledCartesianIntervalCylinderV1_52
 open KUOS.DependentOriginationStandardTypeAScaledPushoutSourceEnrichmentV1_53
 open KUOS.DependentOriginationStandardTypeAScaledLeibnizPushoutV1_55
+open KUOS.DependentOriginationStandardTypeCCollapsedEdgeV1_58
 open KUOS.DependentOriginationStandardABCLeibnizCellularComparisonV1_59
 open KUOS.DependentOriginationStandardTypeAEndpointPrismPairingV1_60
 open KUOS.DependentOriginationStandardTypeABoundaryPrismRankwiseABCellularityV1_72
@@ -150,7 +153,7 @@ theorem standardTypeAEndpointGeneratedPushoutScaling_eq_induced
     (standardTypeAEndpointInducedProductPullbackScaling_le_generated g)
 
 /-- Ambient cylinder pullback scaling on the endpoint source carrier. -/
-def standardTypeAEndpointAmbientSourceScaling
+@[reducible] def standardTypeAEndpointAmbientSourceScaling
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
     ScaledSimplicialSet
       ((SSet.horn g.n g.i).unionProd
@@ -428,7 +431,7 @@ def pullbackScalingIso
 
 /-- Scaling on the opposite horn product transported from the literal standard
 A horn scaling. -/
-def standardTypeAEndpointOppositeCornerScaling
+@[reducible] def standardTypeAEndpointOppositeCornerScaling
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
     ScaledSimplicialSet
       (standardTypeAEndpointOppositeCornerSubcomplex g : SSet.{u}) :=
@@ -437,7 +440,7 @@ def standardTypeAEndpointOppositeCornerScaling
 
 /-- Scaling on the opposite simplex product transported from the literal
 standard A simplex scaling. -/
-def standardTypeAEndpointOppositeSimplexScaling
+@[reducible] def standardTypeAEndpointOppositeSimplexScaling
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
     ScaledSimplicialSet
       (standardTypeAEndpointOppositeSimplexSubcomplex g : SSet.{u}) :=
@@ -463,7 +466,7 @@ A horn. -/
 def standardTypeAEndpointOppositeCornerIso
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
     standardTypeAEndpointOppositeCorner g ≅
-      standardTypeAScaledHorn g.toHornGenerator :=
+      standardTypeAScaledHorn (KUOS.DependentOriginationStandardTypeAEndpointPushoutProductV1_50.StandardTypeAHornAttachmentGeneratorIndex.toHornGenerator g) :=
   pullbackScalingIso
     (standardTypeAEndpointOppositeCornerCarrierIso g)
     (standardTypeAHornScaling g.i)
@@ -472,7 +475,7 @@ def standardTypeAEndpointOppositeCornerIso
 def standardTypeAEndpointOppositeSimplexIso
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
     standardTypeAEndpointOppositeSimplex g ≅
-      standardTypeAScaledSimplex g.toHornGenerator :=
+      standardTypeAScaledSimplex (KUOS.DependentOriginationStandardTypeAEndpointPushoutProductV1_50.StandardTypeAHornAttachmentGeneratorIndex.toHornGenerator g) :=
   pullbackScalingIso
     (standardTypeAEndpointOppositeSimplexCarrierIso g)
     (standardTypeASimplexScaling g.i)
@@ -506,7 +509,7 @@ isomorphic as arrows in `ScaledSSet`. -/
 noncomputable def standardTypeAEndpointOppositeCellArrowIso
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
     Arrow.mk (standardTypeAEndpointOppositeCellHom g) ≅
-      Arrow.mk (standardTypeAScaledHornGeneratorHom g.toHornGenerator) := by
+      Arrow.mk (standardTypeAScaledHornGeneratorHom (KUOS.DependentOriginationStandardTypeAEndpointPushoutProductV1_50.StandardTypeAHornAttachmentGeneratorIndex.toHornGenerator g)) := by
   refine Arrow.isoMk
     (standardTypeAEndpointOppositeCornerIso g)
     (standardTypeAEndpointOppositeSimplexIso g) ?_
@@ -526,11 +529,11 @@ theorem standardTypeAEndpointOppositeCellHom_mem_coproductsABC
       (MorphismProperty.coproducts.{u}
         (standardScaledAnodyneGeneratorsABC :
           MorphismProperty (ScaledSSet.{u})))
-        (standardTypeAScaledHornGeneratorHom g.toHornGenerator) :=
+        (standardTypeAScaledHornGeneratorHom (KUOS.DependentOriginationStandardTypeAEndpointPushoutProductV1_50.StandardTypeAHornAttachmentGeneratorIndex.toHornGenerator g)) :=
     MorphismProperty.le_coproducts
       (standardScaledAnodyneGeneratorsABC :
         MorphismProperty (ScaledSSet.{u})) _
-      (standardTypeAGenerator_mem_ABC g.toHornGenerator)
+      (standardTypeAGenerator_mem_ABC (KUOS.DependentOriginationStandardTypeAEndpointPushoutProductV1_50.StandardTypeAHornAttachmentGeneratorIndex.toHornGenerator g))
   exact
     ((MorphismProperty.coproducts.{u}
       (standardScaledAnodyneGeneratorsABC :

@@ -9,6 +9,7 @@ open CategoryTheory.Limits
 open Opposite
 open Simplicial
 open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
+open KUOS.DependentOriginationScaledTerminalRLPV1_41
 open KUOS.DependentOriginationScaledAnodyneAttachmentFactorizationV1_48
 open KUOS.DependentOriginationStandardTypeAScaledHornFamilyV1_49
 open KUOS.DependentOriginationStandardTypeAEndpointPushoutProductV1_50
@@ -108,7 +109,7 @@ def standardTypeABoundaryPrismCellOutsideACompatible
 /-- The target scaling obtained by pushing the standard type-(A) horn cell
 along the horn-scaling enrichment from the standard horn scaling to the exact
 ambient horn scaling. -/
-def standardTypeABoundaryPrismCellAPushoutScaling
+@[reducible] def standardTypeABoundaryPrismCellAPushoutScaling
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
     (c : (standardTypeABoundaryPrismRankFunction g).Cell j) :
@@ -202,7 +203,7 @@ created by the type-(A) cobase change is actual-thin. -/
 theorem standardTypeABoundaryPrismCellAPushoutScaling_le_cellScaling
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
-    (c : (standardTypeABoundaryPrismRankFunction g).Cell j)
+    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)
     (hA : standardTypeABoundaryPrismCellACompatible g j c) :
     ScalingLE
       (standardTypeABoundaryPrismCellAPushoutScaling g j c)
@@ -223,7 +224,7 @@ the actual horn scaling. -/
 theorem standardTypeABoundaryPrismCell_cellScaling_le_APushoutScaling
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
-    (c : (standardTypeABoundaryPrismRankFunction g).Cell j)
+    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)
     (hout : standardTypeABoundaryPrismCellOutsideACompatible g j c) :
     ScalingLE
       (standardTypeABoundaryPrismCellScaling g j c)

@@ -72,6 +72,7 @@ Any bicategory equipped with genuine object-univalence data upgrades to the
 native complete-Segal class.  The Segal and quasicategory obligations are
 proved from the hom-category nerves; only completeness is extra data.
 -/
+@[reducible]
 def completeSegalOfObjectUnivalence
     {B : Type u} [Bicategory.{w, v} B]
     (h : ObjectUnivalence B) :
@@ -114,7 +115,8 @@ theorem pathEquiv_symm_apply_apply
       (B := B)).pathEquiv X Y).symm
         ((CompleteSegalInfinityTwoCategory.object_univalence
           (B := B)).pathEquiv X Y h) = h := by
-  exact Equiv.symm_apply_apply _ h
+  exact ((CompleteSegalInfinityTwoCategory.object_univalence
+    (B := B)).pathEquiv X Y).symm_apply_apply h
 
 /-- The complete-Segal class still provides all mapping inner-horn fillers. -/
 theorem completeSegal_mapping_innerHornFilling

@@ -7,6 +7,7 @@ open Opposite
 open Simplicial
 open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
 open KUOS.DependentOriginationScaledTerminalRLPV1_41
+open KUOS.DependentOriginationStandardTypeAScaledPushoutSourceEnrichmentV1_53
 open KUOS.DependentOriginationStandardTypeAScaledHornFamilyV1_49
 open KUOS.DependentOriginationStandardTypeBScalingPushoutV1_56
 open KUOS.DependentOriginationStandardTypeBThreeSimplexCompletionV1_57
@@ -320,11 +321,11 @@ theorem standardTypeBCollapse23Base_thin_iff
 triangle already lying in the corresponding inner horn.  When the incoming
 horn scaling is maximal, this is exactly the finite thin-triangle predicate
 produced by the type-(A) cobase change. -/
-def standardTypeAThreeHornSaturatedScaling
+@[reducible] def standardTypeAThreeHornSaturatedScaling
     (i : Fin 4) : ScaledSimplicialSet (Δ[3] : SSet.{u}) where
   thin := fun t =>
     (standardTypeASimplexScaling i).thin t ∨
-      t ∈ (Λ[3, i] : SSet.{u}).obj (op ⦋2⦌)
+      t ∈ (SSet.horn.{u} 3 i).obj (op ⦋2⦌)
   thin_sigma_zero := by
     intro x
     exact Or.inl ((standardTypeASimplexScaling i).thin_sigma_zero x)
@@ -372,7 +373,7 @@ theorem standardTypeBThreeTriangle123_eq_delta0 :
 missing coface. -/
 theorem standardTypeBThreeTriangle012_mem_horn_one :
     standardTypeBThreeTriangle012 ∈
-      (Λ[3, (1 : Fin 4)] : SSet.{u}).obj (op ⦋2⦌) := by
+      (SSet.horn.{u} 3 (1 : Fin 4)).obj (op ⦋2⦌) := by
   rw [standardTypeBThreeTriangle012_eq_delta3,
     SSet.objEquiv_symm_δ_mem_horn_iff]
   decide
@@ -380,7 +381,7 @@ theorem standardTypeBThreeTriangle012_mem_horn_one :
 /-- `013` belongs to horn 1. -/
 theorem standardTypeBThreeTriangle013_mem_horn_one :
     standardTypeBThreeTriangle013 ∈
-      (Λ[3, (1 : Fin 4)] : SSet.{u}).obj (op ⦋2⦌) := by
+      (SSet.horn.{u} 3 (1 : Fin 4)).obj (op ⦋2⦌) := by
   rw [standardTypeBThreeTriangle013_eq_delta2,
     SSet.objEquiv_symm_δ_mem_horn_iff]
   decide
@@ -388,7 +389,7 @@ theorem standardTypeBThreeTriangle013_mem_horn_one :
 /-- `123` belongs to horn 1. -/
 theorem standardTypeBThreeTriangle123_mem_horn_one :
     standardTypeBThreeTriangle123 ∈
-      (Λ[3, (1 : Fin 4)] : SSet.{u}).obj (op ⦋2⦌) := by
+      (SSet.horn.{u} 3 (1 : Fin 4)).obj (op ⦋2⦌) := by
   rw [standardTypeBThreeTriangle123_eq_delta0,
     SSet.objEquiv_symm_δ_mem_horn_iff]
   decide
@@ -396,14 +397,14 @@ theorem standardTypeBThreeTriangle123_mem_horn_one :
 /-- The missing face `023` does not belong to horn 1. -/
 theorem standardTypeBThreeTriangle023_notMem_horn_one :
     standardTypeBThreeTriangle023 ∉
-      (Λ[3, (1 : Fin 4)] : SSet.{u}).obj (op ⦋2⦌) := by
+      (SSet.horn.{u} 3 (1 : Fin 4)).obj (op ⦋2⦌) := by
   rw [standardTypeBThreeTriangle023_eq_delta1,
     SSet.objEquiv_symm_δ_notMem_horn_iff]
 
 /-- `012` belongs to horn 2. -/
 theorem standardTypeBThreeTriangle012_mem_horn_two :
     standardTypeBThreeTriangle012 ∈
-      (Λ[3, (2 : Fin 4)] : SSet.{u}).obj (op ⦋2⦌) := by
+      (SSet.horn.{u} 3 (2 : Fin 4)).obj (op ⦋2⦌) := by
   rw [standardTypeBThreeTriangle012_eq_delta3,
     SSet.objEquiv_symm_δ_mem_horn_iff]
   decide
@@ -411,7 +412,7 @@ theorem standardTypeBThreeTriangle012_mem_horn_two :
 /-- `023` belongs to horn 2. -/
 theorem standardTypeBThreeTriangle023_mem_horn_two :
     standardTypeBThreeTriangle023 ∈
-      (Λ[3, (2 : Fin 4)] : SSet.{u}).obj (op ⦋2⦌) := by
+      (SSet.horn.{u} 3 (2 : Fin 4)).obj (op ⦋2⦌) := by
   rw [standardTypeBThreeTriangle023_eq_delta1,
     SSet.objEquiv_symm_δ_mem_horn_iff]
   decide
@@ -419,7 +420,7 @@ theorem standardTypeBThreeTriangle023_mem_horn_two :
 /-- `123` belongs to horn 2. -/
 theorem standardTypeBThreeTriangle123_mem_horn_two :
     standardTypeBThreeTriangle123 ∈
-      (Λ[3, (2 : Fin 4)] : SSet.{u}).obj (op ⦋2⦌) := by
+      (SSet.horn.{u} 3 (2 : Fin 4)).obj (op ⦋2⦌) := by
   rw [standardTypeBThreeTriangle123_eq_delta0,
     SSet.objEquiv_symm_δ_mem_horn_iff]
   decide
@@ -427,7 +428,7 @@ theorem standardTypeBThreeTriangle123_mem_horn_two :
 /-- The missing face `013` does not belong to horn 2. -/
 theorem standardTypeBThreeTriangle013_notMem_horn_two :
     standardTypeBThreeTriangle013 ∉
-      (Λ[3, (2 : Fin 4)] : SSet.{u}).obj (op ⦋2⦌) := by
+      (SSet.horn.{u} 3 (2 : Fin 4)).obj (op ⦋2⦌) := by
   rw [standardTypeBThreeTriangle013_eq_delta2,
     SSet.objEquiv_symm_δ_notMem_horn_iff]
 
@@ -544,16 +545,16 @@ theorem standardTypeAThreeHornSaturatedScaling_two_eq_q23Base :
 /-- The entire exceptional three-simplex residual table. -/
 structure StandardTypeAThreeResidualTable : Prop where
   index_one_base :
-    standardTypeAThreeHornSaturatedScaling (1 : Fin 4) =
-      standardTypeBCollapse12BaseScaling
+    standardTypeAThreeHornSaturatedScaling.{u} (1 : Fin 4) =
+      standardTypeBCollapse12BaseScaling.{u}
   index_one_completed :
-    standardTypeBCollapse12CompletedScaling =
+    standardTypeBCollapse12CompletedScaling.{u} =
       ScaledSimplicialSet.maximal (Δ[3] : SSet.{u})
   index_two_base :
-    standardTypeAThreeHornSaturatedScaling (2 : Fin 4) =
-      standardTypeBCollapse23BaseScaling
+    standardTypeAThreeHornSaturatedScaling.{u} (2 : Fin 4) =
+      standardTypeBCollapse23BaseScaling.{u}
   index_two_completed :
-    standardTypeBCollapse23CompletedScaling =
+    standardTypeBCollapse23CompletedScaling.{u} =
       ScaledSimplicialSet.maximal (Δ[3] : SSet.{u})
 
 /-- Canonical certificate of the complete fixed A/B residual table. -/

@@ -203,7 +203,7 @@ def FunctorialTransportSystem.toLocallyDiscreteBicategorical
     {C : Type u} [Category.{v} C]
     (D : FunctorialTransportSystem C)
     {X Y : C} (f : X ⟶ Y) (s : D.state.obj X) :
-    (D.toLocallyDiscreteBicategorical).transport f.toLoc s =
+    (KUOS.DependentOriginationBicategoricalCoherenceV1_6.FunctorialTransportSystem.toLocallyDiscreteBicategorical D).transport f.toLoc s =
       D.transport f s := by
   rfl
 

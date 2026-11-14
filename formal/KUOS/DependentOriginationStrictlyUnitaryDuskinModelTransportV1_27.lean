@@ -179,35 +179,48 @@ theorem transportDuskinSimplex_reindex
     {B : Type u₁} [Bicategory.{w₁, v₁} B]
     {C : Type u₂} [Bicategory.{w₂, v₂} C]
     (E : StrictlyUnitaryBicategoricalModelEquivalence B C)
-    {Δ Δ' : SimplexCategoryᵒᵖ}
-    (f : Δ ⟶ Δ')
-    (σ : (duskinNerve B).obj Δ) :
+    {idx idx' : SimplexCategoryᵒᵖ}
+    (f : idx ⟶ idx')
+    (σ : (duskinNerve B).obj idx) :
     transportDuskinSimplex E ((duskinReindex f).comp σ) =
       (duskinReindex f).comp (transportDuskinSimplex E σ) := by
   exact StrictlyUnitaryLaxFunctor.comp_assoc
     (duskinReindex f) σ E.forward.toStrictlyUnitaryLaxFunctor
 
-/-- A normalized model equivalence induces a genuine simplicial map of global Duskin nerves. -/
+/--
+A normalized model equivalence induces a genuine simplicial map of global
+Duskin nerves **after canonical universe lifting**. Independent source and
+target bicategory universes cannot be treated as one and the same SSet universe.
+Both liftings land in the common max universe; neither mathematical simplex nor
+its normal-lax transport is discarded.
+-/
 def normalizedDuskinNerveMap
     {B : Type u₁} [Bicategory.{w₁, v₁} B]
     {C : Type u₂} [Bicategory.{w₂, v₂} C]
     (E : StrictlyUnitaryBicategoricalModelEquivalence B C) :
-    duskinNerve B ⟶ duskinNerve C where
-  app Δ := TypeCat.ofHom fun σ => transportDuskinSimplex E σ
-  naturality f := by
+    (SSet.uliftFunctor.{max (max w₂ v₂) u₂, max (max w₁ v₁) u₁}).obj
+        (duskinNerve B) ⟶
+      (SSet.uliftFunctor.{max (max w₁ v₁) u₁, max (max w₂ v₂) u₂}).obj
+        (duskinNerve C) where
+  app idx := TypeCat.ofHom fun σ =>
+    ULift.up (transportDuskinSimplex E σ.down)
+  naturality := by
+    intro idx idx' f
     ext σ
     change
-      transportDuskinSimplex E ((duskinReindex f).comp σ) =
-        (duskinReindex f).comp (transportDuskinSimplex E σ)
-    exact transportDuskinSimplex_reindex E f σ
+      ULift.up (transportDuskinSimplex E ((duskinReindex f).comp σ.down)) =
+        ULift.up ((duskinReindex f).comp (transportDuskinSimplex E σ.down))
+    exact congrArg ULift.up (transportDuskinSimplex_reindex E f σ.down)
 
 @[simp] theorem normalizedDuskinNerveMap_app
     {B : Type u₁} [Bicategory.{w₁, v₁} B]
     {C : Type u₂} [Bicategory.{w₂, v₂} C]
     (E : StrictlyUnitaryBicategoricalModelEquivalence B C)
-    (Δ : SimplexCategoryᵒᵖ)
-    (σ : (duskinNerve B).obj Δ) :
-    (normalizedDuskinNerveMap E).app Δ σ = transportDuskinSimplex E σ :=
+    (idx : SimplexCategoryᵒᵖ)
+    (σ : ((SSet.uliftFunctor.{max (max w₂ v₂) u₂, max (max w₁ v₁) u₁}).obj
+      (duskinNerve B)).obj idx) :
+    (normalizedDuskinNerveMap E).app idx σ =
+      ULift.up (transportDuskinSimplex E σ.down) :=
   rfl
 
 /-! ## Compatibility with the presentation-independent invariant -/
@@ -250,6 +263,25 @@ transport, preceded only by the canonical pseudofunctor composition constraint.
 
 /-! ## Invertibility and scaling transport -/
 
+/--
+The underlying hom-category equivalence preserves isomorphisms.  This is the
+actual certificate for the pseudofunctor's `map₂` being an isomorphism:
+`IsIso` of the source 2-cell does not suffice for bare typeclass search on
+`E.forward.map₂` without exposing the certified local equivalence.
+-/
+private theorem forwardMap₂_isIso
+    {B : Type u₁} [Bicategory.{w₁, v₁} B]
+    {C : Type u₂} [Bicategory.{w₂, v₂} C]
+    (E : StrictlyUnitaryBicategoricalModelEquivalence B C)
+    {X Y : B} {f g : X ⟶ Y} (α : f ⟶ g)
+    (hα : IsIso α) : IsIso (E.forward.map₂ α) := by
+  letI : IsIso α := hα
+  change IsIso
+    ((E.forward.toPseudofunctor.toPrelaxFunctor.mapFunctor X Y).map α)
+  rw [← E.homEquiv_functor X Y]
+  infer_instance
+
+
 /-- Invertibility of a source comparison cell is preserved by direct normalized global transport. -/
 theorem transportDuskinComparison_isIso
     {B : Type u₁} [Bicategory.{w₁, v₁} B]
@@ -258,9 +290,10 @@ theorem transportDuskinComparison_isIso
     (σ : DuskinSimplex B 2)
     (hiso : IsIso (duskinComparison σ)) :
     IsIso (duskinComparison (transportDuskinSimplex E σ)) := by
-  letI : IsIso (duskinComparison σ) := hiso
   rw [transportDuskinComparison]
-  infer_instance
+  exact IsIso.comp_isIso'
+    (inferInstance : IsIso (E.forward.mapComp (σ.map edge01) (σ.map edge12)).inv)
+    (forwardMap₂_isIso E (duskinComparison σ) hiso)
 
 /-- Every nondegenerate source-thin triangle transports to a target-thin triangle. -/
 theorem nondegenerateThin_transport_isThin
@@ -274,10 +307,8 @@ theorem nondegenerateThin_transport_isThin
   have hiso : IntrinsicInvertibleTwoCell (globalTwoCellInvariant σ) :=
     (nondegenerate_globalThin_iff_intrinsicInvertible σ hnd).mp hthin
   change IsIso (duskinComparison σ) at hiso
-  letI : IsIso (duskinComparison σ) := hiso
-  haveI : IsIso (duskinComparison (transportDuskinSimplex E σ)) := by
-    rw [transportDuskinComparison]
-    infer_instance
+  haveI : IsIso (duskinComparison (transportDuskinSimplex E σ)) :=
+    transportDuskinComparison_isIso E σ hiso
   exact invertibleComparison_isThin (transportDuskinSimplex E σ)
 
 /-! ## Bundled theorem-level certificate -/
@@ -291,8 +322,8 @@ structure StrictlyUnitaryGlobalDuskinTransportCertificate
     {C : Type u₂} [Bicategory.{w₂, v₂} C]
     (E : StrictlyUnitaryBicategoricalModelEquivalence B C) : Prop where
   reindex_commutes :
-    ∀ {Δ Δ' : SimplexCategoryᵒᵖ}
-      (f : Δ ⟶ Δ') (σ : (duskinNerve B).obj Δ),
+    ∀ {idx idx' : SimplexCategoryᵒᵖ}
+      (f : idx ⟶ idx') (σ : (duskinNerve B).obj idx),
       transportDuskinSimplex E ((duskinReindex f).comp σ) =
         (duskinReindex f).comp (transportDuskinSimplex E σ)
   edge_intrinsic_exact :

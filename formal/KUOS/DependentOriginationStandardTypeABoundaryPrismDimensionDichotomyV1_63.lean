@@ -4,6 +4,7 @@ import Mathlib.AlgebraicTopology.SimplicialSet.AnodyneExtensions.PairingCore
 namespace KUOS.DependentOriginationStandardTypeABoundaryPrismDimensionDichotomyV1_63
 
 open CategoryTheory
+open MonoidalCategory
 open Opposite
 open Simplicial
 open KUOS.DependentOriginationStandardTypeAScaledHornFamilyV1_49
@@ -91,21 +92,19 @@ theorem unionProdPairingCore_typeTwo_target_dim_ge_left
   change m + 1 ≤ s.d + 1
   have hcard := Fintype.card_le_of_surjective _
     (unionProdPairingCore_typeOne_fst_surjective k s)
-  simp only [Fintype.card_fin] at hcard
+  have hcard' : m + 2 ≤ s.d + 2 := by
+    simpa only [Fintype.card_fin, SSet.Subcomplex.N.cast_eq_self, s.hd] using hcard
   omega
 
-/-- The same lower bound for Mathlib's public `pairing k.castSucc 1` rather
-than its implementation-level pairing core. -/
+/-- The same lower bound for the interior-horn pairing obtained from
+the pinned proof core. This is the `k.castSucc` case of the later Mathlib
+`pairing` API, without asserting its unavailable arbitrary-endpoint theorem. -/
 theorem unionProdPairing_typeTwo_target_dim_ge_left
     {m : ℕ}
     (k : Fin (m + 1))
-    (z : (SSet.prodStdSimplex.pairing.{u} k.castSucc 1).II) :
+    (z : (SSet.prodStdSimplex.pairingCore.{u} k 1).pairing.II) :
     m + 1 ≤ z.val.dim + 1 := by
-  have z' :
-      (SSet.prodStdSimplex.pairingCore.{u} k 1).pairing.II := by
-    simpa only [SSet.prodStdSimplex.pairing_castSucc] using z
-  have h := unionProdPairingCore_typeTwo_target_dim_ge_left k z'
-  simpa only [SSet.prodStdSimplex.pairing_castSucc] using h
+  exact unionProdPairingCore_typeTwo_target_dim_ge_left k z
 
 /-! ## Lower and upper dimension bounds for every KuuOS boundary-prism cell -/
 
@@ -130,9 +129,8 @@ theorem standardTypeABoundaryPrism_cell_target_dim_ge_generator_dim
   rcases g with ⟨n, i, h0, hn, endpoint⟩
   cases n with
   | zero =>
-      have hi : i = 0 := Subsingleton.elim _ _
-      subst i
-      simp at h0
+      have hbad : i.val < 0 := hn
+      exact False.elim (Nat.not_lt_zero _ hbad)
   | succ m =>
       have hilast : i ≠ Fin.last (m + 1) := ne_of_lt hn
       obtain ⟨k, rfl⟩ := Fin.eq_castSucc_of_ne_last hilast
@@ -145,16 +143,17 @@ matching upper bound on every attached cell. -/
 theorem standardTypeABoundaryPrism_cell_target_dim_le_generator_succ
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
-    (c : (standardTypeABoundaryPrismRankFunction g).Cell j) :
+    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j) :
     c.dim + 1 ≤ g.n + 1 := by
-  let P := standardTypeABoundaryPrismPairing g
+  let P := standardTypeABoundaryPrismPairing.{u} g
   let x :=
     (P.p c.s).val.cast (P.isUniquelyCodimOneFace c.s).dim_eq
   let z :
       ((Δ[g.n] : SSet.{u}) ⊗ Δ[1]).nonDegenerate (c.dim + 1) :=
     ⟨x.simplex, x.nonDegenerate⟩
   simpa [z] using
-    (SSet.dim_le_of_nonDegenerate z (g.n + 1))
+    (SSet.dim_le_of_nonDegenerate
+      ((Δ[g.n] : SSet.{u}) ⊗ Δ[1]) z (g.n + 1))
 
 /-- Exact dimension dichotomy: every attached simplex is either of the same
 dimension as the original type-(A) simplex, or one dimension higher. -/

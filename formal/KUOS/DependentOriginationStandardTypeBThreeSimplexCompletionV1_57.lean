@@ -8,6 +8,7 @@ open CategoryTheory.Limits
 open Opposite
 open Simplicial
 open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
+open KUOS.DependentOriginationGlobalDuskinScaledHornCoherenceV1_22
 open KUOS.DependentOriginationScaledTerminalRLPV1_41
 open KUOS.DependentOriginationExternalScaledAnodyneGeneratorComparisonV1_46
 open KUOS.DependentOriginationStandardTypeAScaledPushoutSourceEnrichmentV1_53
@@ -179,7 +180,7 @@ theorem standardTypeBCollapse23_triangle_034 :
 /-- Before pushing out the type-(B) enrichment along `q12`, equip `Delta[3]`
 with the least scaling containing the minimal scaling and all images of
 source-thin type-(B) triangles. -/
-def standardTypeBCollapse12BaseScaling :
+@[reducible] def standardTypeBCollapse12BaseScaling :
     ScaledSimplicialSet (Δ[3] : SSet.{u}) :=
   scalingEnrichmentPushoutScaling
     standardTypeBSourceScaling
@@ -208,7 +209,7 @@ theorem standardTypeBCollapse12Base_triangle_013_thin :
 /-- Before pushing out the type-(B) enrichment along `q23`, equip `Delta[3]`
 with the least scaling containing the minimal scaling and all images of
 source-thin type-(B) triangles. -/
-def standardTypeBCollapse23BaseScaling :
+@[reducible] def standardTypeBCollapse23BaseScaling :
     ScaledSimplicialSet (Δ[3] : SSet.{u}) :=
   scalingEnrichmentPushoutScaling
     standardTypeBSourceScaling
@@ -238,7 +239,7 @@ theorem standardTypeBCollapse23Base_triangle_023_thin :
 
 /-- The completed scaling obtained by pushing the full type-(B) generator
 along `q12`. -/
-def standardTypeBCollapse12CompletedScaling :
+@[reducible] def standardTypeBCollapse12CompletedScaling :
     ScaledSimplicialSet (Δ[3] : SSet.{u}) :=
   standardTypeBPushoutScaling
     standardTypeBCollapse12BaseScaling
@@ -292,7 +293,7 @@ theorem standardTypeBCollapse12_target014_already_base :
 
 /-- The completed scaling obtained by pushing the full type-(B) generator
 along `q23`. -/
-def standardTypeBCollapse23CompletedScaling :
+@[reducible] def standardTypeBCollapse23CompletedScaling :
     ScaledSimplicialSet (Δ[3] : SSet.{u}) :=
   standardTypeBPushoutScaling
     standardTypeBCollapse23BaseScaling

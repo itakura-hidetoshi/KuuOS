@@ -20,7 +20,7 @@ def GaugeRelated [Group Gauge] [MulAction Gauge X] (x y : X) : Prop :=
 /-- Gauge-relatedness is an equivalence relation for every group action. -/
 def gaugeOrbitSetoid (Gauge : Type w) (X : Type u)
     [Group Gauge] [MulAction Gauge X] : Setoid X where
-  r := GaugeRelated
+  r := fun x y => GaugeRelated (Gauge := Gauge) x y
   iseqv := by
     constructor
     · intro x

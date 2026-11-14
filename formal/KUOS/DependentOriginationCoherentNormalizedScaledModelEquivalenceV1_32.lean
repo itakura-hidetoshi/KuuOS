@@ -11,9 +11,11 @@ open KUOS.DependentOriginationPresentationIndependentInvariantV1_25
 open KUOS.DependentOriginationBiequivalencePresentationInvariantV1_26
 open KUOS.DependentOriginationStrictlyUnitaryDuskinModelTransportV1_27
 open KUOS.DependentOriginationNormalizationChoiceInvariantV1_28
+open KUOS.DependentOriginationGlobalDuskinScaledNerveV1_21
 open KUOS.DependentOriginationGlobalDuskinScaledHornCoherenceV1_22
 open KUOS.DependentOriginationScaledDuskinHornTransportV1_29
 open KUOS.DependentOriginationModelEquivalenceScaledHornPresentationV1_31
+open KUOS.DependentOriginationScaledHornPresentationInvariantV1_30
 
 universe u₁ u₂ v₁ v₂ w₁ w₂
 
@@ -130,7 +132,7 @@ structure ScaledHornRoundTripDescent
   source_roundTrip_filler_equiv :
     ∀ {n : Nat} {i : Fin (n + 1)}
       (P : ScaledHornExtensionProblem
-        (duskinNerve B) (duskinScaling B) n i),
+        (normalizedDuskinSource B C) (normalizedDuskinSourceScaling B C) n i),
       Nonempty
         (ScaledHornFiller
           (transportGlobalDuskinHornProblem HG
@@ -139,12 +141,19 @@ structure ScaledHornRoundTripDescent
   target_roundTrip_filler_equiv :
     ∀ {n : Nat} {i : Fin (n + 1)}
       (Q : ScaledHornExtensionProblem
-        (duskinNerve C) (duskinScaling C) n i),
+        (normalizedDuskinTarget B C) (normalizedDuskinTargetScaling B C) n i),
       Nonempty
         (ScaledHornFiller
           (transportGlobalDuskinHornProblem HF
             (transportGlobalDuskinHornProblem HG Q))) ↔
         Nonempty (ScaledHornFiller Q)
+
+/-!
+The coherent quasi-inverse does not by itself identify original and universe-
+lifted horn families. Explicit sourceBridge and targetBridge certificates must
+supply this descent; the two round-trip filler clauses act on lifted carriers.
+The original unlifted fibrancy equivalence remains the final conclusion.
+-/
 
 /--
 General model-equivalence data together with chosen normalizations, a coherent
@@ -167,10 +176,18 @@ structure CoherentNormalizedScaledModelEquivalence
     FullScaledDuskinMapCertificate forwardNormalization.normal
   backwardScaled :
     FullScaledDuskinMapCertificate backwardNormalization.normal
+  liftedSourceFamily : ScaledHornFamily
+    (normalizedDuskinSource B C) (normalizedDuskinSourceScaling B C)
+  liftedTargetFamily : ScaledHornFamily
+    (normalizedDuskinTarget B C) (normalizedDuskinTargetScaling B C)
+  sourceBridge : ScaledHornPresentationEquivalence HB liftedSourceFamily
+  targetBridge : ScaledHornPresentationEquivalence HC liftedTargetFamily
   forwardFamily :
-    ScaledHornFamilyMap forwardScaled.map_scaled HB HC
+    ScaledHornFamilyMap forwardScaled.map_scaled
+      liftedSourceFamily liftedTargetFamily
   backwardFamily :
-    ScaledHornFamilyMap backwardScaled.map_scaled HC HB
+    ScaledHornFamilyMap backwardScaled.map_scaled
+      liftedTargetFamily liftedSourceFamily
   hornDescent :
     ScaledHornRoundTripDescent HB HC
       forwardNormalization.normal backwardNormalization.normal
@@ -185,15 +202,19 @@ variable
     {G : BicategoricalModelEquivalence C B}
     {HB : GlobalDuskinScaledHornFamily B}
     {HC : GlobalDuskinScaledHornFamily C}
-    (K : CoherentNormalizedScaledModelEquivalence E G HB HC)
 
 /-- Forget the construction layers and recover the v1.31 bidirectional package. -/
-def toBidirectionalScaledDuskinModelEquivalence :
+def toBidirectionalScaledDuskinModelEquivalence
+    (K : CoherentNormalizedScaledModelEquivalence E G HB HC) :
     BidirectionalScaledDuskinModelEquivalence HB HC where
   forwardModel := K.forwardNormalization.normal
   backwardModel := K.backwardNormalization.normal
   forwardScaled := K.forwardScaled
   backwardScaled := K.backwardScaled
+  liftedSourceFamily := K.liftedSourceFamily
+  liftedTargetFamily := K.liftedTargetFamily
+  sourceBridge := K.sourceBridge
+  targetBridge := K.targetBridge
   forwardFamily := K.forwardFamily
   backwardFamily := K.backwardFamily
   forward_backward_filler_equiv :=
@@ -202,13 +223,15 @@ def toBidirectionalScaledDuskinModelEquivalence :
     K.hornDescent.source_roundTrip_filler_equiv
 
 /-- Coherent normalized model equivalence induces an actual horn-presentation equivalence. -/
-def toScaledHornPresentationEquivalence :
+def toScaledHornPresentationEquivalence
+    (K : CoherentNormalizedScaledModelEquivalence E G HB HC) :
     KUOS.DependentOriginationScaledHornPresentationInvariantV1_30.ScaledHornPresentationEquivalence
       HB HC :=
   K.toBidirectionalScaledDuskinModelEquivalence.toScaledHornPresentationEquivalence
 
 /-- Global scaled-Duskin fibrancy is invariant under the coherent normalized model equivalence. -/
-theorem globalDuskinScaledFibrancy_iff :
+theorem globalDuskinScaledFibrancy_iff
+    (K : CoherentNormalizedScaledModelEquivalence E G HB HC) :
     HasScaledHornFillers (duskinNerve B) (duskinScaling B) HB ↔
       HasScaledHornFillers (duskinNerve C) (duskinScaling C) HC :=
   K.toBidirectionalScaledDuskinModelEquivalence.globalDuskinScaledFibrancy_iff

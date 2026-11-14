@@ -38,7 +38,7 @@ A wrapper turning a gauge action groupoid into a genuine category of contexts.
 The objects are representatives in `X`; a morphism `x ⟶ y` is an explicit gauge
 transformation carrying `x` to `y`.
 -/
-def ActionContext (Gauge : Type w) (X : Type u) := X
+abbrev ActionContext (Gauge : Type w) (X : Type u) := X
 
 namespace ActionContext
 
@@ -63,15 +63,17 @@ def actionRepresentationFunctor
     [Group Gauge] [MulAction Gauge X] [MulAction Gauge Fiber] :
     ActionContext Gauge X ⥤ Type v where
   obj _ := Fiber
-  map f := fun psi => f.1 • psi
+  map f := TypeCat.ofHom (fun psi : Fiber => f.1 • psi)
   map_id := by
     intro x
-    funext psi
-    simp [ActionArrow.id]
+    ext psi
+    change (1 : Gauge) • psi = psi
+    simp
   map_comp := by
     intro x y z f g
-    funext psi
-    simp [ActionArrow.comp, mul_smul]
+    ext psi
+    change (g.1 * f.1) • psi = g.1 • (f.1 • psi)
+    exact mul_smul g.1 f.1 psi
 
 /--
 The ordinary algebraic action-groupoid gauge representation is therefore a
@@ -104,8 +106,8 @@ def actionRepresentationTransportSystem
         (ActionArrow.inv a)
         ((actionRepresentationTransportSystem
           (X := X) (Gauge := Gauge) (Fiber := Fiber)).transport a psi) = psi := by
-  simp [actionRepresentationTransportSystem, actionRepresentationFunctor,
-    FunctorialTransportSystem.transport, ActionArrow.inv, smul_smul]
+  change a.1⁻¹ • (a.1 • psi) = psi
+  simp [smul_smul]
 
 /-- Gauge transport followed by its inverse also acts as the identity. -/
 @[simp] theorem actionRepresentation_transport_inverse_apply
@@ -118,8 +120,8 @@ def actionRepresentationTransportSystem
         ((actionRepresentationTransportSystem
           (X := X) (Gauge := Gauge) (Fiber := Fiber)).transport
             (ActionArrow.inv a) psi) = psi := by
-  simp [actionRepresentationTransportSystem, actionRepresentationFunctor,
-    FunctorialTransportSystem.transport, ActionArrow.inv, smul_smul]
+  change a.1 • (a.1⁻¹ • psi) = psi
+  simp [smul_smul]
 
 /-- Every action-groupoid transport map is bijective. -/
 theorem actionRepresentation_transport_bijective
@@ -130,21 +132,14 @@ theorem actionRepresentation_transport_bijective
     Function.Bijective
       ((actionRepresentationTransportSystem
         (X := X) (Gauge := Gauge) (Fiber := Fiber)).transport a) := by
+  change Function.Bijective (fun psi : Fiber => a.1 • psi)
   constructor
   · intro p q hpq
-    have h := congrArg
-      (fun z =>
-        (actionRepresentationTransportSystem
-          (X := X) (Gauge := Gauge) (Fiber := Fiber)).transport
-            (ActionArrow.inv a) z)
-      hpq
-    simpa using h
+    have h := congrArg (fun z : Fiber => a.1⁻¹ • z) hpq
+    simpa [smul_smul] using h
   · intro psi
-    refine ⟨
-      (actionRepresentationTransportSystem
-        (X := X) (Gauge := Gauge) (Fiber := Fiber)).transport
-          (ActionArrow.inv a) psi, ?_⟩
-    simp
+    refine ⟨a.1⁻¹ • psi, ?_⟩
+    simp [smul_smul]
 
 /--
 An ordinary gauge-invariant semantic map on the representation fiber becomes an

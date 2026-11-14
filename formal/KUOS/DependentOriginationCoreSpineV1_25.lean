@@ -17,7 +17,7 @@ hom-category `B(X,Y)` between the two presentations:
 ```text
 local mapping nerve N(B(X,Y))
           \
-           \-> intrinsic B(X,Y) <-/
+           \-> intrinsic B(X,Y) ←
                                 /
                     global scaled Duskin nerve
 ```

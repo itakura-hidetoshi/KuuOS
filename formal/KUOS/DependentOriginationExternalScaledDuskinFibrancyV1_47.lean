@@ -3,6 +3,10 @@ import KUOS.DependentOriginationExternalScaledAnodyneGeneratorComparisonV1_46
 namespace KUOS.DependentOriginationExternalScaledDuskinFibrancyV1_47
 
 open CategoryTheory
+open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
+open KUOS.DependentOriginationScaledTerminalRLPV1_41
+open KUOS.DependentOriginationBiequivalencePresentationInvariantV1_26
+open KUOS.DependentOriginationHomotopyClassScaledHornInvariantV1_37
 open KUOS.DependentOriginationGlobalDuskinScaledNerveV1_21
 open KUOS.DependentOriginationGlobalDuskinScaledHornCoherenceV1_22
 open KUOS.DependentOriginationStrictlyUnitaryDuskinModelTransportV1_27
@@ -49,7 +53,7 @@ No equality between the source and target external generator lists is needed.
 
 /-- The global Duskin scaled object attached to a bicategory. -/
 abbrev globalDuskinScaledObject
-    (B : Type u) [Bicategory.{w, v} B] : ScaledSSet :=
+    (B : Type u) [Bicategory.{w, v} B] : ScaledSSet.{max (max w v) u} :=
   ScaledSSet.of (duskinNerve B) (duskinScaling B)
 
 /-- An external scaled-anodyne presentation for one global Duskin universe.
@@ -59,7 +63,7 @@ mutual closure-generation comparison with the canonical KuuOS attachment
 family. -/
 structure GlobalDuskinExternalPresentation
     (B : Type u) [Bicategory.{w, v} B] where
-  generators : MorphismProperty (ScaledSSet)
+  generators : MorphismProperty (ScaledSSet.{max (max w v) u})
   comparison : ScaledAnodyneGeneratorComparison generators
 
 namespace GlobalDuskinExternalPresentation
@@ -97,7 +101,7 @@ theorem generatedAnodyne_eq_canonical :
 scaled-fibration class. -/
 theorem generatedFibration_eq_canonical :
     externalGeneratedScaledFibration P.generators =
-      canonicalGeneratedScaledFibration :=
+      KUOS.DependentOriginationScaledAnodyneWFSUniversalityV1_43.canonicalGeneratedScaledFibration :=
   P.comparison.externalGeneratedScaledFibration_eq_canonical
 
 end GlobalDuskinExternalPresentation
@@ -138,6 +142,8 @@ variable
     {HC : GlobalDuskinScaledHornFamily C}
     (K : CoherentNormalizedScaledExternalDuskinModelEquivalence
       PB PC E G HB HC)
+
+include K
 
 /-- Convert the two independent external fibrancy hypotheses to the canonical
 attachment-fibrant model-equivalence carrier of v1.42. -/

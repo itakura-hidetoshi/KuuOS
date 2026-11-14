@@ -7,7 +7,9 @@ open CategoryTheory
 open KUOS.DependentOriginationFunctorialTransportV0_1
 open KUOS.DependentOriginationFundamentalGroupoidTransportV0_4
 
-universe u v w
+universe u v w uHom
+
+noncomputable section
 
 /-!
 # Fundamental-groupoid descent obstruction v0.5
@@ -54,8 +56,17 @@ quantization, Hamiltonian, continuum limit, or mass-gap statement is asserted
 here.
 -/
 
+section GeneralDescent
+
 variable {P : Type u} [Category P]
 variable {X : Type w} [TopologicalSpace X]
+
+-- Fix the source's pinned fundamental-groupoid and Type-category instances.
+@[reducible] local instance : Category.{w} (FundamentalGroupoid X) :=
+  (FundamentalGroupoid.instGroupoid (X := X)).toCategory
+@[reducible] local instance : Category.{v} (Type v) := CategoryTheory.types
+@[reducible] local instance : Category.{v} (Core (Type v)) :=
+  (CategoryTheory.coreCategory (C := Type v)).toCategory
 
 /--
 Witness that a fine-context transport is obtained, up to natural isomorphism,
@@ -64,7 +75,7 @@ by pulling back a transport on the ordinary fundamental groupoid.
 structure FundamentalDescent
     (Q : P ⥤ FundamentalGroupoid X)
     (S : P ⥤ Type v) where
-  quotientTransport : FundamentalTransport (v := v) X
+  quotientTransport : FundamentalTransport.{w, v} X
   comparison : S ≅ Q ⋙ quotientTransport
 
 /--
@@ -101,15 +112,29 @@ theorem map_eq_of_quotient_map_eq
     {a b : P} (f g : a ⟶ b)
     (hQ : Q.map f = Q.map g) :
     S.map f = S.map g := by
-  apply (cancel_mono (D.comparison.hom.app b)).1
+  have hcomp :
+      S.map f ≫ D.comparison.hom.app b =
+        S.map g ≫ D.comparison.hom.app b := by
+    calc
+      S.map f ≫ D.comparison.hom.app b =
+          D.comparison.hom.app a ≫ (Q ⋙ D.quotientTransport).map f :=
+        D.comparison.hom.naturality f
+      _ = D.comparison.hom.app a ≫ (Q ⋙ D.quotientTransport).map g := by
+        simp only [Functor.comp_map, hQ]
+      _ = S.map g ≫ D.comparison.hom.app b :=
+        (D.comparison.hom.naturality g).symm
+  have hcancel :
+      D.comparison.hom.app b ≫ D.comparison.inv.app b = 𝟙 (S.obj b) := by
+    have h := congrArg (fun η : S ⟶ S => η.app b) D.comparison.hom_inv_id
+    simpa using h
   calc
-    S.map f ≫ D.comparison.hom.app b =
-        D.comparison.hom.app a ≫ (Q ⋙ D.quotientTransport).map f :=
-      D.comparison.hom.naturality f
-    _ = D.comparison.hom.app a ≫ (Q ⋙ D.quotientTransport).map g := by
-      simp only [Functor.comp_map, hQ]
-    _ = S.map g ≫ D.comparison.hom.app b :=
-      (D.comparison.hom.naturality g).symm
+    S.map f =
+        (S.map f ≫ D.comparison.hom.app b) ≫ D.comparison.inv.app b := by
+      simp only [Category.assoc, hcancel, Category.comp_id]
+    _ = (S.map g ≫ D.comparison.hom.app b) ≫ D.comparison.inv.app b := by
+      rw [hcomp]
+    _ = S.map g := by
+      simp only [Category.assoc, hcancel, Category.comp_id]
 
 /-- Every actual descent witness satisfies quotient-kernel compatibility. -/
 theorem kernelCompatible
@@ -126,7 +151,7 @@ of descent.
 -/
 def pullbackDescent
     (Q : P ⥤ FundamentalGroupoid X)
-    (T : FundamentalTransport (v := v) X) :
+    (T : FundamentalTransport.{w, v} X) :
     FundamentalDescent Q (Q ⋙ T) where
   quotientTransport := T
   comparison := Iso.refl _
@@ -172,20 +197,33 @@ def fineAsDependentOrigination
     FunctorialTransportSystem P where
   state := S
 
+end GeneralDescent
+
+/-!
+The fine transport statements use the category *of the given groupoid*.
+They do not assume a second unrelated Category P instance.
+-/
+section FineGroupoid
+
+variable {P : Type u} [g : Groupoid.{uHom} P]
+@[reducible] local instance : Category.{uHom} P := g.toCategory
+@[reducible] local instance : Category.{v} (Type v) := CategoryTheory.types
+@[reducible] local instance : Category.{v} (Core (Type v)) :=
+  (CategoryTheory.coreCategory (C := Type v)).toCategory
+
 /--
 If the fine context itself is a groupoid, its transport canonically lands in
 `Core (Type)`, whether or not it descends through the ordinary fundamental
 groupoid.
 -/
 noncomputable def fineCoreFunctor
-    [Groupoid P]
     (S : P ⥤ Type v) :
     P ⥤ Core (Type v) :=
-  FunctorialTransportSystem.coreStateFunctor (fineAsDependentOrigination S)
+  KUOS.DependentOriginationContextualGaugeCoreFactorizationV0_3.FunctorialTransportSystem.coreStateFunctor
+    (fineAsDependentOrigination S)
 
 /-- Every fine transport arrow is invertible when the fine context is a groupoid. -/
 theorem fineTransport_map_isIso
-    [Groupoid P]
     (S : P ⥤ Type v)
     {a b : P} (f : a ⟶ b) :
     IsIso (S.map f) := by
@@ -196,10 +234,13 @@ The fine groupoid transport has an explicit equivalence along every arrow,
 again without assuming ordinary-homotopy descent.
 -/
 noncomputable def fineTransportEquiv
-    [Groupoid P]
     (S : P ⥤ Type v)
     {a b : P} (f : a ⟶ b) :
     S.obj a ≃ S.obj b :=
   (fineAsDependentOrigination S).transportEquiv f
+
+end FineGroupoid
+
+end
 
 end KUOS.DependentOriginationFundamentalGroupoidDescentObstructionV0_5

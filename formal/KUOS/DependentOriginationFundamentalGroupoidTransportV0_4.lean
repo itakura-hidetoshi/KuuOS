@@ -10,6 +10,8 @@ open KUOS.DependentOriginationContextualGaugeCoreFactorizationV0_3
 
 universe u v w
 
+noncomputable section
+
 /-!
 # Fundamental-groupoid contextual transport v0.4
 
@@ -37,9 +39,19 @@ geometric bridge.
 
 variable {X : Type u} [TopologicalSpace X]
 
+-- Select the already pinned fundamental-groupoid and core category structures
+-- at their actual morphism universes, avoiding ambiguous category search.
+@[reducible] local instance : Category.{u} (FundamentalGroupoid X) :=
+  (FundamentalGroupoid.instGroupoid (X := X)).toCategory
+@[reducible] local instance : Category.{v} (Type v) := CategoryTheory.types
+@[reducible] local instance : Category.{v} (Core (Type v)) :=
+  (CategoryTheory.coreCategory (C := Type v)).toCategory
+
 /-- A homotopy-invariant transport presentation on a topological space. -/
 abbrev FundamentalTransport (X : Type u) [TopologicalSpace X] :=
-  FundamentalGroupoid X ⥤ Type v
+  @CategoryTheory.Functor (FundamentalGroupoid X)
+    ((FundamentalGroupoid.instGroupoid (X := X)).toCategory)
+    (Type v) (CategoryTheory.types.{v})
 
 /-- View a point of the space as an object of its fundamental groupoid. -/
 def fundamentalPoint (x : X) : FundamentalGroupoid X :=
@@ -54,8 +66,8 @@ A fundamental-groupoid transport is directly a dependent-origination transport
 system on the fundamental-groupoid context.
 -/
 def asDependentOrigination
-    (T : FundamentalTransport (v := v) X) :
-    FunctorialTransportSystem (FundamentalGroupoid X) where
+    (T : FundamentalTransport.{u, v} X) :
+    FunctorialTransportSystem.{u, u, v} (FundamentalGroupoid X) where
   state := T
 
 /--
@@ -63,19 +75,19 @@ Because the fundamental groupoid is a genuine Mathlib groupoid, the transport
 canonically lands in `Core (Type)`.
 -/
 noncomputable def fundamentalCoreFunctor
-    (T : FundamentalTransport (v := v) X) :
+    (T : FundamentalTransport.{u, v} X) :
     FundamentalGroupoid X ⥤ Core (Type v) :=
   FunctorialTransportSystem.coreStateFunctor (asDependentOrigination T)
 
 /-- Forgetting the explicit isomorphism witness recovers the original transport. -/
 noncomputable def fundamentalCoreFactorizationIso
-    (T : FundamentalTransport (v := v) X) :
+    (T : FundamentalTransport.{u, v} X) :
     fundamentalCoreFunctor T ⋙ Core.inclusion (Type v) ≅ T :=
   FunctorialTransportSystem.coreStateFactorizationIso (asDependentOrigination T)
 
 /-- Every fundamental-groupoid transport morphism acts by an actual equivalence. -/
 noncomputable def monodromyEquiv
-    (T : FundamentalTransport (v := v) X)
+    (T : FundamentalTransport.{u, v} X)
     {a b : FundamentalGroupoid X} (gamma : a ⟶ b) :
     T.obj a ≃ T.obj b :=
   (asDependentOrigination T).transportEquiv gamma
@@ -88,7 +100,7 @@ def pathClass
 
 /-- Transport along a concrete path is transport along its homotopy class. -/
 def pathTransport
-    (T : FundamentalTransport (v := v) X)
+    (T : FundamentalTransport.{u, v} X)
     {x y : X} (p : Path x y) :
     T.obj (fundamentalPoint x) → T.obj (fundamentalPoint y) :=
   T.map (pathClass p)
@@ -98,14 +110,16 @@ theorem pathClass_eq_of_homotopic
     {x y : X} {p q : Path x y}
     (h : p.Homotopic q) :
     pathClass p = pathClass q := by
-  exact Quotient.sound h
+  change FundamentalGroupoid.fromPath (Path.Homotopic.Quotient.mk p) =
+    FundamentalGroupoid.fromPath (Path.Homotopic.Quotient.mk q)
+  exact (FundamentalGroupoid.fromPath_eq_iff_homotopic p q).mpr h
 
 /--
 The induced contextual transport depends only on ordinary endpoint-fixed path
 homotopy, not on the chosen path representative.
 -/
 theorem pathTransport_eq_of_homotopic
-    (T : FundamentalTransport (v := v) X)
+    (T : FundamentalTransport.{u, v} X)
     {x y : X} {p q : Path x y}
     (h : p.Homotopic q) :
     pathTransport T p = pathTransport T q := by
@@ -113,7 +127,7 @@ theorem pathTransport_eq_of_homotopic
 
 /-- Pointwise form of homotopy invariance. -/
 theorem pathTransport_apply_eq_of_homotopic
-    (T : FundamentalTransport (v := v) X)
+    (T : FundamentalTransport.{u, v} X)
     {x y : X} {p q : Path x y}
     (h : p.Homotopic q)
     (psi : T.obj (fundamentalPoint x)) :
@@ -122,7 +136,7 @@ theorem pathTransport_apply_eq_of_homotopic
 
 /-- The constant path transports every state identically. -/
 @[simp] theorem pathTransport_refl_apply
-    (T : FundamentalTransport (v := v) X)
+    (T : FundamentalTransport.{u, v} X)
     (x : X) (psi : T.obj (fundamentalPoint x)) :
     pathTransport T (Path.refl x) psi = psi := by
   change T.map (𝟙 (fundamentalPoint x)) psi = psi
@@ -133,7 +147,7 @@ The contextual transport attached to any fundamental-groupoid arrow is
 invertible; the inverse is transport along the inverse homotopy class.
 -/
 theorem fundamentalTransport_map_isIso
-    (T : FundamentalTransport (v := v) X)
+    (T : FundamentalTransport.{u, v} X)
     {a b : FundamentalGroupoid X} (gamma : a ⟶ b) :
     IsIso (T.map gamma) := by
   infer_instance
@@ -145,20 +159,20 @@ variable {Y : Type w} [TopologicalSpace Y]
 /-- Pull back a homotopy-invariant transport along a continuous map. -/
 def pullback
     (f : C(X, Y))
-    (T : FundamentalTransport (v := v) Y) :
-    FundamentalTransport (v := v) X :=
+    (T : FundamentalTransport.{w, v} Y) :
+    FundamentalTransport.{u, v} X :=
   FundamentalGroupoid.map f ⋙ T
 
 @[simp] theorem pullback_obj
     (f : C(X, Y))
-    (T : FundamentalTransport (v := v) Y)
+    (T : FundamentalTransport.{w, v} Y)
     (x : FundamentalGroupoid X) :
     (pullback f T).obj x = T.obj ((FundamentalGroupoid.map f).obj x) :=
   rfl
 
 @[simp] theorem pullback_map
     (f : C(X, Y))
-    (T : FundamentalTransport (v := v) Y)
+    (T : FundamentalTransport.{w, v} Y)
     {x y : FundamentalGroupoid X} (gamma : x ⟶ y) :
     (pullback f T).map gamma =
       T.map ((FundamentalGroupoid.map f).map gamma) :=
@@ -170,10 +184,12 @@ groupoid functor.
 -/
 theorem pullback_asDependentOrigination_state
     (f : C(X, Y))
-    (T : FundamentalTransport (v := v) Y) :
+    (T : FundamentalTransport.{w, v} Y) :
     (asDependentOrigination (pullback f T)).state =
       (KUOS.DependentOriginationContextualCoreV1_0.reindex
         (FundamentalGroupoid.map f) (asDependentOrigination T)).state := by
   rfl
+
+end
 
 end KUOS.DependentOriginationFundamentalGroupoidTransportV0_4
