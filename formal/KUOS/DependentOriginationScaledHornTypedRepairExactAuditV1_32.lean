@@ -56,6 +56,7 @@ import KUOS.DependentOriginationArbitraryFamilyAdmissibilityDescentV1_29
 import KUOS.DependentOriginationArbitraryFamilyNativeCorrespondenceV1_29
 import KUOS.DependentOriginationIndexedDuskinAdmissibilityV1_29
 import KUOS.DependentOriginationIndependentAdmissibilityRectificationV1_29
+import KUOS.DependentOriginationForwardHornRectificationV1_29
 
 /-!
 # Strict typechecker audit for v1.30–v1.32 typed scaled-horn repair
@@ -451,3 +452,10 @@ certificate or unlifted v1.29 horn descent is inferred. -/
 #print axioms KUOS.DependentOriginationIndependentAdmissibilityRectificationV1_29.homotopyRectification_of_attachmentFibrant
 #print axioms KUOS.DependentOriginationIndependentAdmissibilityRectificationV1_29.homotopyRectification_of_presentationFibrant
 #print axioms KUOS.DependentOriginationIndependentAdmissibilityRectificationV1_29.unliftedInnerHornFibrancy_iff_of_attachmentFibrant
+
+/-! ## Directed one-sided horn-cylinder strictification and type-A inclusion audit -/
+#print axioms KUOS.DependentOriginationForwardHornRectificationV1_29.homotopyRectification_of_forwardEndpointRLP
+#print axioms KUOS.DependentOriginationForwardHornRectificationV1_29.forwardEndpointRLP_of_attachmentFibrant
+#print axioms KUOS.DependentOriginationForwardHornRectificationV1_29.standardTypeA_admissibility_subfamily_inner
+#print axioms KUOS.DependentOriginationForwardHornRectificationV1_29.standardTypeA_fibrancy_of_inner
+#print axioms KUOS.DependentOriginationForwardHornRectificationV1_29.unliftedInnerHornFibrancy_iff_of_forwardEndpointRLP
