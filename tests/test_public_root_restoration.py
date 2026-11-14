@@ -115,7 +115,8 @@ REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
     # Archived source blob: 56e75c07f2c1878681ec4aad98e187761ba3c41e (Git history); CI proof certification still required.
     "KUOS/DependentOriginationAtomicTwoSimplexUniversalScalingObstructionV1_94.lean": "beddedbcc3293ff6a7646abe0baf0f30959bf4ff",
     # v1.95: Lean4 inductive declaration where clauses; archived source SHA 0b2f441e64b988922c3029cbae0817d479224334.
-    "KUOS/DependentOriginationDoubleDeloopingNatNonthinDuskinWitnessV1_95.lean": "72419bad48db4e3c07d5a15ec65e2cabb37edfef",
+    # v1.95: explicit category-law binders and full whiskering functions; previous reviewed blob 72419bad48db4e3c07d5a15ec65e2cabb37edfef (Git history).
+    "KUOS/DependentOriginationDoubleDeloopingNatNonthinDuskinWitnessV1_95.lean": "135bdf61d2617ec42ae68fc108597e6993874d01",
     # Original V1_89 pinned source: f5d06299e825ef784a7df25386b062b80c702f12 (retained in Git history).
     "KUOS/DependentOriginationStandardArbitraryScalingWaypointV1_89.lean": "3b5de0a154436be6598a49861435dc57a80ea2f9",
     "KUOS/DependentOriginationStandardTypeAEndpointOppositeCellCertificateV1_77.lean": "e7d422b89b4a4fa5180790b0c5d49c51b7239786",
