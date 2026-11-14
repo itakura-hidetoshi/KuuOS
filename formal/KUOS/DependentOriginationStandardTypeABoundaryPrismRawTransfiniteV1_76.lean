@@ -125,7 +125,7 @@ theorem standardTypeABoundaryPrism_exists_rank_lift
       t ∈ (⨆ j : ℕ,
         (standardTypeABoundaryPrismRankFunction g).filtration j).obj d := by
     rw [standardTypeABoundaryPrism_iSup_filtration g]
-    simp
+    exact Set.mem_univ t
   rw [Subfunctor.iSup_obj] at ht
   obtain ⟨j, hj⟩ := Set.mem_iUnion.mp ht
   refine ⟨j, ⟨t, hj⟩, ?_⟩
