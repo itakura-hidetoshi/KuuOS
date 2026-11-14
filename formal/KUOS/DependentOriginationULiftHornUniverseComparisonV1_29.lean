@@ -49,7 +49,7 @@ theorem hornUniverseMem_iff
           (simplexUniverseEquiv.{u, v} n d x) =
         SSet.stdSimplex.asOrderHom x := by
     apply OrderHom.ext
-    intro j
+    funext j
     simpa only [SSet.stdSimplex.objEquiv_toOrderHom_apply]
       using congrArg (fun f => f.toOrderHom j)
         (simplexUniverseEquiv_objEquiv (u := u) (v := v) n d x)
