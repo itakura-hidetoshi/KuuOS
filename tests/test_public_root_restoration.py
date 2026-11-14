@@ -78,15 +78,22 @@ REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
     # v1.82 legacy source blob: 7180226c2b202606871d1c2c3efd966442c50fff; reviewed parser and identity-composition correction.
     "KUOS/DependentOriginationCanonicalEndpointLeibnizEpiDescentV1_82.lean": "ec800dbee52b8e7d5422d9d7e9dcd16e50e2a473",
     # Original V1_83 pinned source: 677031aa601d232ff11ba8aaba26653fd68134ee (retained in Git history).
-    "KUOS/DependentOriginationGeneratedPresentationPosetalReflectionV1_83.lean": "95f00f3d661172741574ad24be205b0b85cd984e",
+    # Earlier v1.83 proof blob retained: 95f00f3d661172741574ad24be205b0b85cd984e (Git history).
+    "KUOS/DependentOriginationGeneratedPresentationPosetalReflectionV1_83.lean": "c19621eb3ef15b16cd9951217ba19511d1438c65",
     # Original V1_84 pinned source: baf70fc20347e881054fb86180de849ebf92f71f (retained in Git history).
-    "KUOS/DependentOriginationGeneratedPresentationOrderReflectionV1_84.lean": "ff85d62d2fac75f86eea7153fb22f8b0acdcc6c0",
+    # Original v1.84 quotient-order source: ff85d62d2fac75f86eea7153fb22f8b0acdcc6c0 (Git history).
+    # Prior v1.84 literal preorder transport source: aafded1c0bf73533cb3389ae2e33d11fb908d844 (Git history).
+    "KUOS/DependentOriginationGeneratedPresentationOrderReflectionV1_84.lean": "3cb649752c4803abc033a94b53ebb7f3494f20d5",
     # Original V1_85 pinned source: 97e364b48eb5632ab7f9f79b051f5b665445c682 (retained in Git history).
-    "KUOS/DependentOriginationGeneratedPresentationFixedPointOrderIsoV1_85.lean": "188dff91e794f2c2fb559e9f9c1ce95682a7d5cd",
+    # Original v1.85 quotient fixed-point proof SHA: 188dff91e794f2c2fb559e9f9c1ce95682a7d5cd (Git history).
+    "KUOS/DependentOriginationGeneratedPresentationFixedPointOrderIsoV1_85.lean": "bfe53b6d2aa49d250255e31840ea08e8b8aede9d",
     # Original V1_86 pinned source: 15fcc55183142ba4ad1fdf5d3ff402c5a2a0804b (retained in Git history).
-    "KUOS/DependentOriginationGeneratedPresentationCompleteLatticeV1_86.lean": "095dd06e60c2f37a4801847b3f645f9fa3f1e6cf",
+    # Original v1.86 complete lattice source: 095dd06e60c2f37a4801847b3f645f9fa3f1e6cf (Git history).
+    # Prior v1.86 complete lattice proof: 3bea108789c1b5d8b46c7f49b1a39ad30e26dafa (Git history).
+    # Previous v1.86 order-isomorphism HomClass attempt: e2ed4d2a0d3a641bdf720a8c7bd18107a7f19b94 (Git history).
+    "KUOS/DependentOriginationGeneratedPresentationCompleteLatticeV1_86.lean": "bb05a19c94519fca03379f1906de7d69827a5bdf",
     # Original V1_87 pinned source: 88181c3c721c129e2aa628406e3fbf77a89d4f91 (retained in Git history).
-    "KUOS/DependentOriginationStandardCanonicalPresentationGapV1_87.lean": "e551f933ba98eb7827933186a0ffc421301dec85",
+    "KUOS/DependentOriginationStandardCanonicalPresentationGapV1_87.lean": "64ac58d18b5b3e23a1a336e29948d686ca9750a3",
     # Original V1_89 pinned source: f5d06299e825ef784a7df25386b062b80c702f12 (retained in Git history).
     "KUOS/DependentOriginationStandardArbitraryScalingWaypointV1_89.lean": "4769187a07f63f8e4f7aebb21d535b68d1461852",
     "KUOS/DependentOriginationStandardTypeAEndpointOppositeCellCertificateV1_77.lean": "e7d422b89b4a4fa5180790b0c5d49c51b7239786",
