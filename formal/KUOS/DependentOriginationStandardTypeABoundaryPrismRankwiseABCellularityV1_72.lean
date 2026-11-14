@@ -207,6 +207,16 @@ private noncomputable def scalingTransportIsoToThree
   cases h3
   exact Iso.refl _
 
+/-- In a freely varying dimension, transporting the simplex carrier to
+dimension three has the same underlying inverse map for every scaling. -/
+private theorem scalingTransportIsoToThree_inv_map_eq
+    {n : ℕ} (h3 : n = 3)
+    (s t : ScaledSimplicialSet (Δ[n] : SSet.{u})) :
+    (scalingTransportIsoToThree h3 s).inv.map =
+      (scalingTransportIsoToThree h3 t).inv.map := by
+  cases h3
+  rfl
+
 /-- Transport a scaled map along a dimension equality without eliminating the cell. -/
 private noncomputable def scalingHomTransportToThree
     {n : ℕ} (h3 : n = 3)
@@ -270,6 +280,18 @@ noncomputable def standardTypeABoundaryPrismCellScalingIsoToThree
       ScaledSSet.of (Δ[3] : SSet.{u})
         (standardTypeABoundaryPrismTransportScalingToThree g j c h3 s) :=
   scalingTransportIsoToThree h3 s
+
+/-- Carrier transport to the fixed three-simplex is independent of the
+scaling: source and target inverse maps have the same underlying simplicial map. -/
+theorem standardTypeABoundaryPrismCellScalingIsoToThree_inv_map_eq
+    (g : StandardTypeAHornAttachmentGeneratorIndex)
+    (j : ℕ)
+    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)
+    (h3 : c.dim + 1 = 3)
+    (s t : ScaledSimplicialSet (Δ[c.dim + 1] : SSet.{u})) :
+    (standardTypeABoundaryPrismCellScalingIsoToThree g j c h3 s).inv.map =
+      (standardTypeABoundaryPrismCellScalingIsoToThree g j c h3 t).inv.map :=
+  scalingTransportIsoToThree_inv_map_eq h3 s t
 
 /-- Transport the identity-underlying completion arrow itself to the fixed
 three-simplex carrier. -/
