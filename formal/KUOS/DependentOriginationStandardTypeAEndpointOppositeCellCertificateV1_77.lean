@@ -326,13 +326,15 @@ def standardTypeAEndpointOppositeCarrierBicartSq
     rw [standardTypeABoundaryPrismSubcomplex,
       intervalBoundary_eq_endpoint_sup_rev g.endpoint]
     ext d ⟨x, y⟩
+    simp only [standardTypeAEndpointOppositeSimplexSubcomplex,
+      SSet.Subcomplex.unionProd, SSet.Subcomplex.prod, Set.prod]
     change
       (y ∈ (intervalEndpoint g.endpoint.rev).obj d ∨
-        (y ∈ (intervalEndpoint g.endpoint).obj d ∨
-          x ∈ (SSet.horn g.n g.i).obj d)) ↔
+         (y ∈ (intervalEndpoint g.endpoint).obj d ∨
+           x ∈ (SSet.horn g.n g.i).obj d)) ↔
         ((y ∈ (intervalEndpoint g.endpoint).obj d ∨
-          y ∈ (intervalEndpoint g.endpoint.rev).obj d) ∨
-          x ∈ (SSet.horn g.n g.i).obj d)
+           y ∈ (intervalEndpoint g.endpoint.rev).obj d) ∨
+             x ∈ (SSet.horn g.n g.i).obj d)
     tauto
   inf_eq := by
     ext d ⟨x, y⟩
@@ -346,18 +348,16 @@ def standardTypeAEndpointOppositeCarrierBicartSq
               intervalEndpoint g.endpoint.rev).obj d := h
       rw [intervalEndpoint_inf_rev_eq_bot g.endpoint] at hm
       simpa using hm
+    simp only [standardTypeAEndpointOppositeSimplexSubcomplex,
+      standardTypeAEndpointOppositeCornerSubcomplex,
+      SSet.Subcomplex.unionProd, SSet.Subcomplex.prod, Set.prod]
     change
       (y ∈ (intervalEndpoint g.endpoint.rev).obj d ∧
-        (y ∈ (intervalEndpoint g.endpoint).obj d ∨
-          x ∈ (SSet.horn g.n g.i).obj d)) ↔
+         (y ∈ (intervalEndpoint g.endpoint).obj d ∨
+           x ∈ (SSet.horn g.n g.i).obj d)) ↔
         (x ∈ (SSet.horn g.n g.i).obj d ∧
-          y ∈ (intervalEndpoint g.endpoint.rev).obj d)
-    constructor
-    · rintro ⟨hopp, hsame | hhorn⟩
-      · exact False.elim (hdis ⟨hsame, hopp⟩)
-      · exact ⟨hhorn, hopp⟩
-    · rintro ⟨hhorn, hopp⟩
-      exact ⟨hopp, Or.inr hhorn⟩
+         y ∈ (intervalEndpoint g.endpoint.rev).obj d)
+    tauto
 
 /-- The preceding lattice square is therefore a genuine ordinary simplicial
 pushout.  We immediately flip it so that the standard A cell is the second
@@ -656,12 +656,12 @@ the opposite standard-A simplex is exactly the existing boundary-prism
 pullback scaling. -/
 theorem standardTypeAEndpointOppositeGeneratedScaling_eq_boundary
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
-    generatedPushoutScaling.{u}
-      (standardTypeAEndpointAmbientSourceScaling.{u} g)
+    generatedPushoutScaling
+      (standardTypeAEndpointAmbientSourceScaling g)
       (standardTypeAEndpointOppositeSimplexScaling g)
       (standardTypeAEndpointAmbientSourceToBoundary g).map
       (standardTypeAEndpointOppositeSimplexToBoundary g).map =
-        standardTypeABoundaryPrismScaling.{u} g := by
+        standardTypeABoundaryPrismScaling g := by
   apply scaling_eq_of_le_antisymm
   · intro t ht
     rcases ht with hmin | ⟨x, hx, rfl⟩ | ⟨y, hy, rfl⟩
@@ -750,8 +750,8 @@ noncomputable def standardTypeAEndpointOpposite_scaled_isPushout
 /-- The ambient endpoint-source inclusion is one raw standard A cellular step. -/
 theorem standardTypeAEndpointAmbientSourceToBoundary_mem_rawCellular
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
-    standardABCRawCellularStep.{u}
-      (standardTypeAEndpointAmbientSourceToBoundary.{u} g) := by
+    standardABCRawCellularStep
+      (standardTypeAEndpointAmbientSourceToBoundary g) := by
   exact
     (MorphismProperty.coproducts.{u, u, u + 1}
       (standardScaledAnodyneGeneratorsABC :
@@ -799,10 +799,10 @@ theorem standardTypeAEndpointToBoundaryPrism_mem_strongCellular
 unretracted standard A/B cellular closure. -/
 theorem standardTypeAEndpointScaledLeibnizPushoutProductHom_mem_strongCellular
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
-    standardABCStrongCellularClosure.{u}
-      (standardTypeAEndpointScaledLeibnizPushoutProductHom.{u} g) := by
+    standardABCStrongCellularClosure
+      (standardTypeAEndpointScaledLeibnizPushoutProductHom g) := by
   have hcomp :=
-    (standardABCStrongCellularClosure.{u} : MorphismProperty (ScaledSSet.{u})).comp_mem
+    (standardABCStrongCellularClosure : MorphismProperty (ScaledSSet.{u})).comp_mem
       (standardTypeAEndpointToBoundaryPrism g)
       (standardTypeABoundaryPrismToCylinder g)
       (standardTypeAEndpointToBoundaryPrism_mem_strongCellular g)
@@ -813,8 +813,8 @@ theorem standardTypeAEndpointScaledLeibnizPushoutProductHom_mem_strongCellular
 exact v1.59 standard A/B/C cellular closure. -/
 theorem standardTypeAEndpointScaledLeibnizPushoutProductHom_mem_cellular
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
-    standardABCCellularClosure.{u}
-      (standardTypeAEndpointScaledLeibnizPushoutProductHom.{u} g) :=
+    standardABCCellularClosure
+      (standardTypeAEndpointScaledLeibnizPushoutProductHom g) :=
   standardABCStrongCellularClosure_le_standardABCCellularClosure _
     (standardTypeAEndpointScaledLeibnizPushoutProductHom_mem_strongCellular g)
 
