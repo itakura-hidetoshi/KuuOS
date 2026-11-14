@@ -108,7 +108,7 @@ jobs:
           if-no-files-found: warn
           retention-days: 14
 
-candidate-v195-lean-mcp:
+  candidate-v195-lean-mcp:
     name: CodeAI round4 candidate, full-source Lean MCP and independent direct Lean precommit
     if: ${{ github.event_name == 'pull_request' && github.event.pull_request.number == 3522 }}
     needs: head-snapshot-contract
