@@ -796,8 +796,14 @@ noncomputable def standardTypeAEndpointOpposite_scaled_isPushout
       (standardTypeAEndpointOppositeGeneratedScaling_eq_boundary g)
   refine h.of_iso (Iso.refl _) (Iso.refl _) (Iso.refl _) e
     ?_ ?_ ?_ ?_
-  · simp only [Iso.refl_hom, Category.comp_id, Category.id_comp]
-  · simp only [Iso.refl_hom, Category.comp_id, Category.id_comp]
+  · apply ScaledSSet.ScaledMap.ext
+    change (standardTypeAEndpointOppositeCornerToAmbientSource g).map ≫ 𝟙 _ =
+      𝟙 _ ≫ (standardTypeAEndpointOppositeCornerToAmbientSource g).map
+    simp only [Category.comp_id, Category.id_comp]
+  · apply ScaledSSet.ScaledMap.ext
+    change (standardTypeAEndpointOppositeCellHom g).map ≫ 𝟙 _ =
+      𝟙 _ ≫ (standardTypeAEndpointOppositeCellHom g).map
+    simp only [Category.comp_id, Category.id_comp]
   · apply ScaledSSet.ScaledMap.ext
     change
       (standardTypeAEndpointAmbientSourceToBoundary g).map ≫ e.hom.map =
@@ -941,15 +947,20 @@ private noncomputable def prependRawToNatTransfinite
             (fun k : hg.F.obj 0 ⟶ s.pt =>
               (f ≫ hg.isoBot.inv) ≫ k) htail
           have hnat := s.ι.naturality (homOfLE (Nat.le_succ 0))
-          calc
-            (f ≫ g) ≫ hg.isColimit.desc (tail s) =
+          have h₁ :
+              (f ≫ g) ≫ hg.isColimit.desc (tail s) =
                 (f ≫ hg.isoBot.inv) ≫
                   (hg.incl.app 0 ≫ hg.isColimit.desc (tail s)) := by
-                    simpa only [Category.assoc] using hfac.symm
-            _ = (f ≫ hg.isoBot.inv) ≫ s.ι.app 1 := by
-              simpa [tail] using htail'
-            _ = s.ι.app 0 := by
-              simpa [F, step] using hnat
+            simpa only [Category.assoc] using hfac.symm
+          have h₂ :
+              (f ≫ hg.isoBot.inv) ≫
+                  (hg.incl.app 0 ≫ hg.isColimit.desc (tail s)) =
+                (f ≫ hg.isoBot.inv) ≫ s.ι.app 1 := by
+            simpa [tail] using htail'
+          have h₃ :
+              (f ≫ hg.isoBot.inv) ≫ s.ι.app 1 = s.ι.app 0 := by
+            simpa [F, step] using hnat
+          exact h₁.trans (h₂.trans h₃)
       | succ n =>
           change hg.incl.app n ≫ hg.isColimit.desc (tail s) = s.ι.app (n + 1)
           simpa [tail] using hg.isColimit.fac (tail s) n
