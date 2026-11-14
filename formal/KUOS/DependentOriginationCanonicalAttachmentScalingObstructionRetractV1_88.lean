@@ -8,6 +8,7 @@ open CategoryTheory.Category
 open MonoidalCategory
 open CartesianMonoidalCategory
 open Simplicial
+open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
 open KUOS.DependentOriginationGlobalDuskinScaledHornCoherenceV1_22
 open KUOS.DependentOriginationScaledHornAttachmentLiftingV1_40
 open KUOS.DependentOriginationScaledTerminalRLPV1_41
