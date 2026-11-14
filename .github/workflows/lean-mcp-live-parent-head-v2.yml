@@ -1,0 +1,109 @@
+name: KuuOS live parent HEAD full-source + exact CI logs v2
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/check_kuuos_lean_mcp_live_pr_v2.py'
+      - 'tests/test_kuuos_lean_mcp_live_pr_v2.py'
+      - '.github/workflows/lean-mcp-live-parent-head-v2.yml'
+      - 'docs/KUUOS_LEAN_MCP_LIVE_PARENT_HEAD_v2.md'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+  pull-requests: read
+
+jobs:
+  head-snapshot-contract:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile source and test exact-HEAD API contracts
+        run: |
+          set -euo pipefail
+          python3 -m py_compile scripts/check_kuuos_lean_mcp_live_pr_v2.py
+          PYTHONPATH=. python3 -m unittest discover -s tests \
+            -p 'test_kuuos_lean_mcp_live_pr_v2.py' -v
+
+  read-current-parent-head:
+    needs: head-snapshot-contract
+    runs-on: ubuntu-22.04
+    timeout-minutes: 25
+    steps:
+      - name: Check out pinned full-source inspection tool only
+        uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Snapshot latest actual parent PR HEAD, every changed Lean blob, exact CI
+        id: snapshot
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          python3 scripts/check_kuuos_lean_mcp_live_pr_v2.py \
+            --pr 3522 --output-dir /tmp/kuuos-current-parent-v2 \
+            --include-ci-log --github-output "$GITHUB_OUTPUT"
+      - name: Fetch *exact* observed parent HEAD in read-only checkout
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ steps.snapshot.outputs.source_head }}
+          path: target
+          persist-credentials: false
+      - name: Verify actual full modified Lean source and transitive local import closure
+        run: |
+          set -euo pipefail
+          args=(--project-root target \
+            --plan /tmp/kuuos-current-parent-v2/plan.json \
+            --output-dir /tmp/kuuos-current-parent-v2/full_source \
+            --max-local-deps 2200)
+          if test -f /tmp/kuuos-current-parent-v2/source_bound_ci.log; then
+            args+=(--ci-log /tmp/kuuos-current-parent-v2/source_bound_ci.log)
+          fi
+          PYTHONPATH=. python3 scripts/check_kuuos_lean_mcp_fullsource_v1.py "${args[@]}"
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          p=json.loads(Path('/tmp/kuuos-current-parent-v2/plan.json').read_text())
+          r=json.loads(Path('/tmp/kuuos-current-parent-v2/full_source/full_source_evidence.json').read_text())
+          meta=json.loads(Path('/tmp/kuuos-current-parent-v2/live_head_receipt.json').read_text())
+          assert p['source_head']==meta['source_head']==r['source_head_claimed_by_plan']
+          assert r['source_file_git_blobs_verified'] is True
+          assert r['changed_lean_coverage_all_claimed'] is True
+          assert r['changed_targets_count']==meta['changed_lean_count']
+          assert r['full_source_snapshot_count']>=r['changed_targets_count']
+          assert r['full_import_closure_captured'] is True
+          assert r['status']=='SOURCE_OBSERVATION_READY',r['obstructions']
+          assert r['ci_certified'] is False and r['theorem_proof_certified'] is False
+          assert meta['proof_certified'] is False
+          if meta['ci_log_status'].startswith('EXACT_HEAD'):
+              assert r['ci_log_status']!='NO_DATA'
+          else:
+              assert r['ci_log_status']=='NO_DATA'
+          print('KUUOS_LIVE_PARENT_FULL_SOURCE_CLOSURE_AND_DIAGNOSTICS_VERIFIED',
+                meta['source_head'], r['changed_targets_count'],
+                r['full_source_snapshot_count'],len(r['ci_errors']),
+                meta['ci_log_status'])
+          PY
+      - name: Refuse stale certification if parent HEAD moved during analysis
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          python3 scripts/check_kuuos_lean_mcp_live_pr_v2.py --pr 3522 \
+            --output-dir /tmp/kuuos-current-parent-v2 \
+            --verify-head '${{ steps.snapshot.outputs.source_head }}' \
+            --verify-base '${{ steps.snapshot.outputs.source_base }}'
+      - name: Preserve evidence and NO_DATA/obstructions even when validation fails
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-current-parent-head-fullsource-v2
+          path: /tmp/kuuos-current-parent-v2/
+          if-no-files-found: warn
+          retention-days: 14

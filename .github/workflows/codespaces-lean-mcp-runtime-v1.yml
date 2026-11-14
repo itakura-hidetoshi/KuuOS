@@ -1,0 +1,33 @@
+name: KuuOS Codespaces Lean MCP container runtime v1
+
+# Opt-in Codespaces environment smoke test, not a replacement for Strict Lean.
+on:
+  pull_request:
+    paths:
+      - '.devcontainer/lean-mcp/devcontainer.json'
+      - 'scripts/bootstrap_kuuos_codespaces_lean_mcp_v1.sh'
+      - '.github/workflows/codespaces-lean-mcp-runtime-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  codespaces-container-runtime:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v6
+      - name: Build the same opt-in Dev Container and execute Lean MCP smoke
+        uses: devcontainers/ci@v0.3
+        with:
+          configFile: .devcontainer/lean-mcp/devcontainer.json
+          imageName: ghcr.io/itakura-hidetoshi/kuuos-lean-mcp-codespaces-ci
+          push: never
+          runCmd: |
+            bash scripts/bootstrap_kuuos_codespaces_lean_mcp_v1.sh --smoke
+      - name: Record scope boundary
+        run: |
+          echo 'Codespaces-equivalent devcontainer runtime tested on GitHub Actions.'
+          echo 'No user Codespace or ChatGPT Secure MCP Tunnel is created by this CI.'
+          echo 'Exact-source Lean theorem certification remains independent.'

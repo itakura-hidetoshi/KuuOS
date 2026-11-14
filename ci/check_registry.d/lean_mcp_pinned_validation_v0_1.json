@@ -1,0 +1,60 @@
+{
+  "schema_version": "0.2",
+  "known_paths": [
+    ".devcontainer/lean-mcp/devcontainer.json"
+  ],
+  "policy": {
+    "boundaries": [
+      "pinned Lean MCP tooling classification != mathematical theorem certification",
+      "non-formal source changes != permission to skip checks for changed formal Lean",
+      "unrecognized or changed audit-control paths continue to fail closed to full audit",
+      "dedicated MCP CI receipts != ChatGPT tunnel connectivity or PR merge authority"
+    ]
+  },
+  "checks": {
+    "lean-mcp-bounded-closed-loop-v1": {
+      "name": "Pinned Lean MCP bounded repair and CI routing contracts",
+      "runner": "python",
+      "command": "python3 -m unittest discover -s tests -p 'test_kuuos_lean_mcp_*_v1.py' -v",
+      "group": "integration",
+      "tier": "critical",
+      "paths": [
+        ".devcontainer/lean-mcp/devcontainer.json",
+        ".github/workflows/codespaces-lean-mcp-preflight-v1.yml",
+        ".github/workflows/codespaces-lean-mcp-runtime-v1.yml",
+        ".github/workflows/kuuos-mcp-tunnel-cli-smoke-v1.yml",
+        ".github/workflows/lean-lsp-mcp-live-trial-v1.yml",
+        ".github/workflows/lean-mcp-bounded-repair-v1.yml",
+        ".github/workflows/lean-mcp-multifile-closed-loop-v1.yml",
+        ".github/workflows/lean-mcp-pr3522-v155-probe-v1.yml",
+        ".github/workflows/lean-mcp-real-parent-chain-v156-v159-v1.yml",
+        ".github/workflows/lean-mcp-real-parent-pair-v1.yml",
+        ".github/workflows/lean-mcp-real-v156-seeded-repair-v1.yml",
+        ".github/workflows/lean-mcp-tunnel-static-v1.yml",
+        "ci/check_registry.d/lean_mcp_pinned_validation_v0_1.json",
+        "docs/KUUOS_CODESPACES_LEAN_MCP_FREE_v1.md",
+        "docs/KUUOS_CODESPACES_TUNNEL_ACTIVATION_v1.md",
+        "docs/KUUOS_LEAN_MCP_BOUNDED_REPAIR_LOOP_v1.md",
+        "docs/KUUOS_LEAN_MCP_CHATGPT_TUNNEL_v1.md",
+        "docs/KUUOS_LEAN_MCP_MULTIFILE_CYCLE_v1.md",
+        "scripts/bootstrap_kuuos_codespaces_lean_mcp_v1.sh",
+        "scripts/check_kuuos_lean_lsp_mcp_multi_attempt_v1.py",
+        "scripts/check_kuuos_lean_mcp_parent_pr3522_v155_v1.py",
+        "scripts/install_kuuos_tunnel_client_v1.sh",
+        "scripts/kuuos_lean_mcp_multifile_cycle_v1.py",
+        "scripts/kuuos_lean_mcp_repair_loop_v1.py",
+        "scripts/run_kuuos_lean_mcp_stdio_v1.sh",
+        "tests/test_kuuos_lean_mcp_ci_routing_v1.py",
+        "tests/test_kuuos_lean_mcp_multifile_cycle_v1.py",
+        "tests/test_kuuos_lean_mcp_repair_loop_v1.py"
+      ],
+      "depends_on": [
+        "workflow-integrity",
+        "ci-audit-tests"
+      ],
+      "timeout_minutes": 15,
+      "pr_required": true,
+      "full_audit_member": true
+    }
+  }
+}
