@@ -173,6 +173,8 @@ REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
 # Newly added formal modules are outside the frozen v5.291 archive. Their
 # exact draft source blobs are reviewed separately from historical corrections.
 REVIEWED_ADDITIVE_FORMAL_BLOBS = {
+    # Native B/C type-(A) family maps and two-way lifted correspondence constructed from true prisms and forward RLP.
+    "KUOS/DependentOriginationNativeTypeABCDuskinDescentV1_29.lean": "3df76b0ad53ea4c904b8820ffdd5ceb628b74270",
     # Native high-universe type-A triangle/degeneracy and horn-scaling compatibility geometry, not assumed.
     # Original candidate blob 7595ccc803c4d9c62b3e3551725f3740d4b27133 retained in Git commit 51d7c5e.
     # Previous reviewed native type-A bridge blob: c7e20f7383149a09e0f8fa3299a277b56a187906 (Git history).
