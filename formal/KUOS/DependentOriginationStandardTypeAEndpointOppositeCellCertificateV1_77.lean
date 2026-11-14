@@ -1024,9 +1024,19 @@ private noncomputable def prependedEndpointCoconeIsColimit
   · intro s m hm
     apply h.isColimit.hom_ext
     intro n
-    have hn := hm (n + 1)
-    simpa [prependedEndpointCocone, prependedEndpointLeg,
-      prependedEndpointTailCocone] using hn
+    have hleg :
+        prependedEndpointLeg g (n + 1) = h.incl.app n := by
+      rfl
+    have hn :
+        h.incl.app n ≫ m = s.ι.app (n + 1) := by
+      simpa [prependedEndpointCocone, hleg] using hm (n + 1)
+    have hf :
+        h.incl.app n ≫
+            h.isColimit.desc (prependedEndpointTailCocone g s) =
+          s.ι.app (n + 1) := by
+      simpa [prependedEndpointTailCocone] using
+        h.isColimit.fac (prependedEndpointTailCocone g s) n
+    exact hn.trans hf.symm
 
 /-- One full natural-number transfinite raw-cellular witness, including the
 opposite endpoint A-cell as its first genuine successor. -/
