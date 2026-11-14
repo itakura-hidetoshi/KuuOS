@@ -236,8 +236,7 @@ theorem singleTrianglePushoutScaling_eq_finiteInsert
     change
       (finiteTriangleScaling F).thin u ∨
         ∃ x : (Δ[n] : SSet.{u}).obj (op ⦋2⦌),
-          (singleTriangleScaling t).thin x ∧
-            (𝟙 (Δ[n] : SSet.{u})).app (op ⦋2⦌) x = u at hu
+          (singleTriangleScaling t).thin x ∧ x = u at hu
     rcases hu with hu | ⟨x, hx, hxu⟩
     · rcases hu with hmin | hF
       · exact Or.inl hmin
@@ -324,9 +323,9 @@ theorem minimalToFiniteTriangleScaling_mem_llp
             minimalToFiniteTriangleScaling F ≫
               finiteTriangleInsertEnrichment F t := by
         apply ScaledSSet.ScaledMap.ext
-        simp [minimalToFiniteTriangleScaling, finiteTriangleInsertEnrichment,
-          scalingEnrichmentHom]
-        all_goals simp only [Category.id_comp, Category.comp_id]
+        change (𝟙 (Δ[n] : SSet.{u})) =
+          (𝟙 (Δ[n] : SSet.{u})) ≫ (𝟙 (Δ[n] : SSet.{u}))
+        exact (Category.id_comp _).symm
       rw [heq]
       exact hcomp
 
