@@ -954,7 +954,7 @@ private noncomputable def prependedEndpointTailCocone
         simpa [prependedEndpointFunctor, prependedEndpointStep,
           Nat.add_assoc] using hs))
 
-/-- The prepended raw sequence has exactly the old cylinder as its colimit. -/
+/- The prepended raw sequence has exactly the old cylinder as its colimit. -/
 -- Kernel checking of the explicit dependent cocone can exceed the default heartbeat
 -- without changing any of its colimit obligations or the certified theorem type.
 section PrependedColimitKernelBudget
