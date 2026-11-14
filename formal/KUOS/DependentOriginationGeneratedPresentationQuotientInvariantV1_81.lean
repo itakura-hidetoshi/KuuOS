@@ -281,21 +281,21 @@ def canonicalKuuOSPresentation :
 quotient point. -/
 theorem standardABCPresentation_endpointGeneratorsGenerated :
     typeAEndpointGeneratorsGenerated standardABCPresentation.{u} := by
-  simpa only [standardABCPresentation.{u},
+  simpa only [standardABCPresentation,
     typeAEndpointGeneratorsGenerated_presentationClass] using
     standardABC_typeAEndpointLeibnizGeneratorsGenerated
 
 /-- The standard quotient point carries endpoint Leibniz stability. -/
 theorem standardABCPresentation_endpointStable :
     typeAEndpointStable standardABCPresentation.{u} := by
-  simpa only [standardABCPresentation.{u},
+  simpa only [standardABCPresentation,
     typeAEndpointStable_presentationClass] using
     standardABC_typeAEndpointLeibnizStable
 
 /-- And the equivalent endpoint right-lifting statement. -/
 theorem standardABCPresentation_endpointLifting :
     typeAEndpointLifting standardABCPresentation.{u} := by
-  simpa only [standardABCPresentation.{u},
+  simpa only [standardABCPresentation,
     typeAEndpointLifting_presentationClass] using
     standardABC_typeAEndpointLeibnizLifting
 
@@ -303,7 +303,7 @@ theorem standardABCPresentation_endpointLifting :
 v1.45 small-object argument. -/
 theorem canonicalKuuOSPresentation_isWFS :
     isWeakFactorizationSystem canonicalKuuOSPresentation.{u} := by
-  simpa only [canonicalKuuOSPresentation.{u},
+  simpa only [canonicalKuuOSPresentation,
     isWeakFactorizationSystem_presentationClass,
     externalGeneratedScaledAnodyne, externalGeneratedScaledFibration,
     canonicalGeneratedScaledAnodyne, canonicalGeneratedScaledFibration] using
@@ -320,7 +320,7 @@ theorem standardABC_eq_canonical_iff_mutualGeneration :
           MorphismProperty (ScaledSSet.{u}))
         (scaledHornAttachmentGenerators :
           MorphismProperty (ScaledSSet.{u})) := by
-  simpa only [standardABCPresentation.{u}, canonicalKuuOSPresentation.{u}] using
+  simpa only [standardABCPresentation, canonicalKuuOSPresentation] using
     (presentationClass_eq_iff
       (standardScaledAnodyneGeneratorsABC :
         MorphismProperty (ScaledSSet.{u}))
@@ -334,7 +334,7 @@ theorem standardABC_eq_canonical_iff_generatedAnodyne_eq :
       standardGeneratedScaledAnodyneABC =
         (canonicalGeneratedScaledAnodyne :
           MorphismProperty (ScaledSSet.{u})) := by
-  simpa only [standardABCPresentation.{u}, canonicalKuuOSPresentation.{u},
+  simpa only [standardABCPresentation, canonicalKuuOSPresentation,
     standardGeneratedScaledAnodyneABC, canonicalGeneratedScaledAnodyne,
     externalGeneratedScaledAnodyne] using
     (presentationClass_eq_iff_generatedAnodyne_eq
