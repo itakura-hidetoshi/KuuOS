@@ -89,6 +89,52 @@ theorem hornUniverseEquiv_natural
   apply Subtype.ext
   exact simplexUniverseEquiv_natural.{u, v} n f x.val
 
+
+/-! ## Actual natural isomorphisms, including ULift of the lower objects -/
+
+/-- A standard simplex in a larger universe is naturally isomorphic to
+the pointwise universe lift of the original standard simplex. -/
+noncomputable def simplexUniverseIso (n : ℕ) :
+    ((SSet.uliftFunctor.{v, u}).obj (Δ[n] : SSet.{u})) ≅
+      (Δ[n] : SSet.{max u v}) :=
+  NatIso.ofComponents
+    (fun d =>
+      ((Equiv.ulift.{v, u} :
+          ULift.{v} ((Δ[n] : SSet.{u}).obj d) ≃
+            ((Δ[n] : SSet.{u}).obj d)).trans
+        (simplexUniverseEquiv.{u, v} n d)).toIso)
+    (fun {_ _} f => by
+      ext x
+      change
+        simplexUniverseEquiv.{u, v} n _
+          (((Δ[n] : SSet.{u}).map f) x.down) =
+        ((Δ[n] : SSet.{max u v}).map f)
+          (simplexUniverseEquiv.{u, v} n _ x.down)
+      exact simplexUniverseEquiv_natural.{u, v} n f x.down)
+
+/-- The same natural isomorphism exists for the actual horn subcomplex,
+using its certified simplicial naturality and exact membership comparison. -/
+noncomputable def hornUniverseIso (n : ℕ) (i : Fin (n + 1)) :
+    ((SSet.uliftFunctor.{v, u}).obj (Λ[n, i] : SSet.{u})) ≅
+      (Λ[n, i] : SSet.{max u v}) :=
+  NatIso.ofComponents
+    (fun d =>
+      ((Equiv.ulift.{v, u} :
+          ULift.{v} ((Λ[n, i] : SSet.{u}).obj d) ≃
+            ((Λ[n, i] : SSet.{u}).obj d)).trans
+        (hornUniverseEquiv.{u, v} n i d)).toIso)
+    (fun {_ _} f => by
+      ext x
+      change
+        hornUniverseEquiv.{u, v} n i _
+          (((Λ[n, i] : SSet.{u}).map f) x.down) =
+        ((Λ[n, i] : SSet.{max u v}).map f)
+          (hornUniverseEquiv.{u, v} n i _ x.down)
+      exact hornUniverseEquiv_natural.{u, v} n i f x.down)
+
+#print axioms simplexUniverseIso
+#print axioms hornUniverseIso
+
 #print axioms simplexUniverseEquiv_natural
 #print axioms hornUniverseEquiv
 #print axioms hornUniverseEquiv_natural

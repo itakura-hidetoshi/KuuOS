@@ -169,7 +169,7 @@ REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
 # exact draft source blobs are reviewed separately from historical corrections.
 REVIEWED_ADDITIVE_FORMAL_BLOBS = {
     # Pointwise standard simplex and horn comparison across distinct ULift universes.
-    "KUOS/DependentOriginationULiftHornUniverseComparisonV1_29.lean": "bdedf44847dab7c13ac36019261d74d92f2f9ab6",
+    "KUOS/DependentOriginationULiftHornUniverseComparisonV1_29.lean": "6baf88cd301783b899811b329b189aa61c467f41",
     # v1.29 actual B/C Duskin source/target same-universe descent, no arbitrary E_B/E_C assumptions.
     "KUOS/DependentOriginationCanonicalSameUniverseDuskinDescentV1_29.lean": "b14ad4df00c44c1c88fc5723617383241ecd02f7",
     # Typed same-universe ULift horn-problem/filler equivalence; cross-universe bridge remains separate.
