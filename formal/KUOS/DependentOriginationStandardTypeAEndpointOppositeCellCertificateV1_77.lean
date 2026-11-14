@@ -723,7 +723,12 @@ theorem standardTypeAEndpointOppositeGeneratedScaling_eq_boundary
           (standardTypeASimplexScaling g.i)).scaling.thin
           ((standardTypeABoundaryPrismSubcomplex g).ι.app
             (op ⦋2⦌) t) at ht
-      rw [hxmap]
+      change
+        (scaledSimplexCylinder
+          (standardTypeASimplexScaling g.i)).scaling.thin x.val
+      change
+        (scaledSimplexCylinder
+          (standardTypeASimplexScaling g.i)).scaling.thin t.val at ht
       exact ht
     · let x :
           (standardTypeAEndpointOppositeSimplexSubcomplex g : SSet).obj
@@ -759,8 +764,8 @@ noncomputable def standardTypeAEndpointOpposite_scaled_isPushout
     (standardTypeAEndpointAmbientSourceToBoundary g).map
     (standardTypeAEndpointOppositeSimplexToBoundary g).map
     (standardTypeAEndpointOppositeCarrier_isPushout g)
-  rw [standardTypeAEndpointOppositeGeneratedScaling_eq_boundary g] at h
   simpa [generatedPushoutInl, generatedPushoutInr, generatedPushoutTarget,
+    standardTypeAEndpointOppositeGeneratedScaling_eq_boundary g,
     standardTypeAEndpointAmbientSourceToBoundary,
     standardTypeAEndpointOppositeSimplexToBoundary] using h
 
@@ -769,7 +774,7 @@ theorem standardTypeAEndpointAmbientSourceToBoundary_mem_rawCellular
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
     standardABCRawCellularStep
       (standardTypeAEndpointAmbientSourceToBoundary g) := by
-  exact
+  simpa only [standardABCRawCellularStep] using
     (MorphismProperty.coproducts.{u, u, u + 1}
       (standardScaledAnodyneGeneratorsABC :
         MorphismProperty (ScaledSSet.{u}))).pushouts_mk
@@ -788,6 +793,7 @@ noncomputable def standardTypeAEndpointToBoundaryPrismArrowIsoAmbient
     (standardTypeAEndpointGeneratedSourceIsoAmbient g)
     (Iso.refl _) ?_
   apply ScaledSSet.ScaledMap.ext
+  ext d t
   rfl
 
 /-- Therefore the genuine v1.55/v1.60 endpoint-to-boundary map itself is one
