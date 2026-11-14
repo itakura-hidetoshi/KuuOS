@@ -51,7 +51,8 @@ REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
     # Previous v1.77 prepended chain source: 6deb363c29f258fee4ad250abb6e4eb9d4aa8f87 (Git history).
     # Previous v1.77 direct-pattern attempt: 01df91631e04fc1abde7545ff4dd3a2c1cef0025 (Git history).
     # Previous v1.77 lambda-branch elaboration attempt: 28242e8ccf5bceb32c8b4dd001c078a8fcad4f7e (Git history).
-    "KUOS/DependentOriginationStandardTypeAEndpointOppositeCellCertificateV1_77.lean": "15071010aa0f5398ac96dd2268744acc6fe4b27f",
+    # Previous v1.77 proof elaboration blob: 15071010aa0f5398ac96dd2268744acc6fe4b27f (Git history).
+    "KUOS/DependentOriginationStandardTypeAEndpointOppositeCellCertificateV1_77.lean": "792721325863426cc07d6c6a1df437f0e65641cd",
     # Previous reviewed v1.76 blob: 9a06669b57537430895aad2a7336aabea001580e (parent HEAD 31805864; Git history).
     "KUOS/DependentOriginationStandardTypeABoundaryPrismRawTransfiniteV1_76.lean": "d2299c21820555c632dafc8f3747342357511a1e",
     # Previous reviewed v1.75 blob: be0d83f8864c0d7933b0f3b23d388086c9836217 (Git history).
