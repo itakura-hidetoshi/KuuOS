@@ -131,7 +131,7 @@ theorem atomicTwoSimplexRLP_iff_reflectsThinTwoSimplices
           apply ScaledSSet.ScaledMap.ext
           change f.map ≫ p.map =
             (𝟙 (Δ[2] : SSet.{u})) ≫ f.map ≫ p.map
-          simp only [Category.id_comp] }
+          simp only [Category.id_comp] <;> rfl }
     rcases (h.sq_hasLift sq).exists_lift with ⟨L⟩
     have hLmap : L.l.map = f.map := by
       have hmap := congrArg ScaledSSet.ScaledMap.map L.fac_left
