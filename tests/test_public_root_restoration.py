@@ -59,7 +59,8 @@ REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
     # Previous reviewed source blob: 270aa65cd5788babfd4b464a9046c9013f457751 (Git history).
     # v1.78: explicitly open the v1.41 namespace which declares ScaledSSet.
     # Original v1.78 frozen blob: 386378c42fe0c14c3a0fa75e0828a61c70c21c90; no theorem statements changed.
-    "KUOS/DependentOriginationStandardABCPostEndpointCanonicalComparisonV1_78.lean": "a1a2e4fc6e108799abc233dfe0c106cd35c13030",
+    # Original v1.78 name-scope source SHA: a1a2e4fc6e108799abc233dfe0c106cd35c13030 (Git history).
+    "KUOS/DependentOriginationStandardABCPostEndpointCanonicalComparisonV1_78.lean": "b406155d78506527b53549f0cf232d55f084ac86",
     "KUOS/DependentOriginationStandardTypeAEndpointOppositeCellCertificateV1_77.lean": "e7d422b89b4a4fa5180790b0c5d49c51b7239786",
     # Previous reviewed v1.76 blob: 9a06669b57537430895aad2a7336aabea001580e (parent HEAD 31805864; Git history).
     "KUOS/DependentOriginationStandardTypeABoundaryPrismRawTransfiniteV1_76.lean": "d2299c21820555c632dafc8f3747342357511a1e",
