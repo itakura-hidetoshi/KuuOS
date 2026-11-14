@@ -43,7 +43,7 @@ PR2339_INTEGRATED_PROOF_BLOBS = {
 # Explicit SHA enrollment is a review gate, never proof of Lean correctness.
 REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
     # v1.73: pinned generated scaled pushout, type-A rank index and desc-map API.
-    "KUOS/DependentOriginationStandardTypeABoundaryPrismRankwiseScaledPushoutV1_73.lean": "e4d07d2135c60078a5443f6a2098b812f962e800",
+    "KUOS/DependentOriginationStandardTypeABoundaryPrismRankwiseScaledPushoutV1_73.lean": "8e95b49df76d6ca0af7d118d895b7ba3e174ea7b",
     # v1.72: pinned scaled-cellular namespaces and consistent rank-cell universe.
     "KUOS/DependentOriginationStandardTypeABoundaryPrismRankwiseABCellularityV1_72.lean": "62073a19eb987dbf7072cd71eee79e827a3a474b",
     # v1.71: pinned rank-stage class transparency and exact category morphism equalities.
@@ -169,7 +169,7 @@ REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
 # exact draft source blobs are reviewed separately from historical corrections.
 REVIEWED_ADDITIVE_FORMAL_BLOBS = {
     # Cross-universe scaled horn problem/filler forward transport with exact scalings.
-    "KUOS/DependentOriginationULiftScaledHornFillerForwardV1_29.lean": "50d1e2e2500cb80684b5dfd293747fc6ccec4155",
+    "KUOS/DependentOriginationULiftScaledHornFillerForwardV1_29.lean": "f852bbe5ddb65a9d1692ed15b6cbe3197cf84ade",
     # Cross-universe simplex/horn inclusion square and typed lifting of extension diagrams.
     "KUOS/DependentOriginationULiftHornInclusionNaturalityV1_29.lean": "4f02e0bc2f28a331aefa1168e813636fbac0210f",
     # Pointwise standard simplex and horn comparison across distinct ULift universes.
