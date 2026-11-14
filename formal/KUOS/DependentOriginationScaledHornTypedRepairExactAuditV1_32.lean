@@ -58,6 +58,7 @@ import KUOS.DependentOriginationIndexedDuskinAdmissibilityV1_29
 import KUOS.DependentOriginationIndependentAdmissibilityRectificationV1_29
 import KUOS.DependentOriginationForwardHornRectificationV1_29
 import KUOS.DependentOriginationCrossUniverseTypeAScalingV1_29
+import KUOS.DependentOriginationNativeTypeAUniverseGeometryV1_29
 
 /-!
 # Strict typechecker audit for v1.30–v1.32 typed scaled-horn repair
@@ -468,3 +469,13 @@ certificate or unlifted v1.29 horn descent is inferred. -/
 #print axioms KUOS.DependentOriginationCrossUniverseTypeAScalingV1_29.transportedTypeA_fibrancy_iff
 #print axioms KUOS.DependentOriginationCrossUniverseTypeAScalingV1_29.transportedTypeA_native_compatible
 #print axioms KUOS.DependentOriginationCrossUniverseTypeAScalingV1_29.nativeTypeA_fibrancy_iff_of_scaling_compatibility
+
+/-! ## Native type-A triangle, degeneracy, and horn geometry across universes -/
+#print axioms KUOS.DependentOriginationNativeTypeAUniverseGeometryV1_29.typeAVertex_universe
+#print axioms KUOS.DependentOriginationNativeTypeAUniverseGeometryV1_29.typeADistinguished_universe_iff
+#print axioms KUOS.DependentOriginationNativeTypeAUniverseGeometryV1_29.minimalScaling_universe_iff
+#print axioms KUOS.DependentOriginationNativeTypeAUniverseGeometryV1_29.standardTypeASimplexScaling_universe_iff
+#print axioms KUOS.DependentOriginationNativeTypeAUniverseGeometryV1_29.unlift_nativeTypeASimplexScaling
+#print axioms KUOS.DependentOriginationNativeTypeAUniverseGeometryV1_29.unlift_nativeTypeAHornScaling
+#print axioms KUOS.DependentOriginationNativeTypeAUniverseGeometryV1_29.nativeTypeAUniverseScalingCompatibility
+#print axioms KUOS.DependentOriginationNativeTypeAUniverseGeometryV1_29.nativeTypeA_fibrancy_iff

@@ -173,6 +173,8 @@ REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
 # Newly added formal modules are outside the frozen v5.291 archive. Their
 # exact draft source blobs are reviewed separately from historical corrections.
 REVIEWED_ADDITIVE_FORMAL_BLOBS = {
+    # Native high-universe type-A triangle/degeneracy and horn-scaling compatibility geometry, not assumed.
+    "KUOS/DependentOriginationNativeTypeAUniverseGeometryV1_29.lean": "7595ccc803c4d9c62b3e3551725f3740d4b27133",
     # Fully typed type-(A) ULift horn and simplex scaling transport; native high-universe compatibility remains a separate obligation.
     "KUOS/DependentOriginationCrossUniverseTypeAScalingV1_29.lean": "aea9c9848047f3e190faefd879736a2806ec41cb",
     # Strict rectification from forward endpoint-only cylinder RLP; true type-A subfamily of indexed inner horns.
