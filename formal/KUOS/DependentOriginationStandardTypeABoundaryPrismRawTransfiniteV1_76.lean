@@ -125,9 +125,9 @@ theorem standardTypeABoundaryPrism_exists_rank_lift
       t ∈ (⨆ j : ℕ,
         (standardTypeABoundaryPrismRankFunction g).filtration j).obj d := by
     rw [standardTypeABoundaryPrism_iSup_filtration g]
-    simp only [Subfunctor.top_obj, Set.mem_univ]
-  simp only [Subfunctor.iSup_obj, Set.mem_iUnion] at ht
-  obtain ⟨j, hj⟩ := ht
+    simp
+  rw [Subfunctor.iSup_obj] at ht
+  obtain ⟨j, hj⟩ := Set.mem_iUnion.mp ht
   refine ⟨j, ⟨t, hj⟩, ?_⟩
   rfl
 
@@ -246,11 +246,16 @@ noncomputable def standardTypeABoundaryPrismScaledRankCoconeIsColimit
     apply ScaledSSet.ScaledMap.ext
     apply (standardTypeABoundaryPrismRelativeCellComplex g).isColimit.hom_ext
     intro j
-    have h := congrArg ScaledSSet.ScaledMap.map (hm j)
-    simpa [standardTypeABoundaryPrismScaledRankCocone,
-      standardTypeABoundaryPrismRankStageToCylinder,
-      standardTypeABoundaryPrismScaledRankDesc,
-      standardTypeABoundaryPrismUnderlyingRankCocone] using h
+    have hleft :
+        (standardTypeABoundaryPrismRelativeCellComplex g).incl.app j ≫ m.map =
+          (s.ι.app j).map := by
+      simpa [standardTypeABoundaryPrismScaledRankCocone,
+        standardTypeABoundaryPrismRankStageToCylinder] using
+        congrArg ScaledSSet.ScaledMap.map (hm j)
+    have hright :=
+      (standardTypeABoundaryPrismRelativeCellComplex g).isColimit.fac
+        (standardTypeABoundaryPrismUnderlyingRankCocone g s) j
+    exact hleft.trans hright.symm
 
 /-! ## The alternating raw A/B sequence -/
 
