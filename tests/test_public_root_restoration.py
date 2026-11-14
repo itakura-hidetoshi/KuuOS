@@ -89,7 +89,8 @@ REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
     "KUOS/DependentOriginationGeneratedPresentationFixedPointOrderIsoV1_85.lean": "bfe53b6d2aa49d250255e31840ea08e8b8aede9d",
     # Original V1_86 pinned source: 15fcc55183142ba4ad1fdf5d3ff402c5a2a0804b (retained in Git history).
     # Original v1.86 complete lattice source: 095dd06e60c2f37a4801847b3f645f9fa3f1e6cf (Git history).
-    "KUOS/DependentOriginationGeneratedPresentationCompleteLatticeV1_86.lean": "3bea108789c1b5d8b46c7f49b1a39ad30e26dafa",
+    # Prior v1.86 complete lattice proof: 3bea108789c1b5d8b46c7f49b1a39ad30e26dafa (Git history).
+    "KUOS/DependentOriginationGeneratedPresentationCompleteLatticeV1_86.lean": "e2ed4d2a0d3a641bdf720a8c7bd18107a7f19b94",
     # Original V1_87 pinned source: 88181c3c721c129e2aa628406e3fbf77a89d4f91 (retained in Git history).
     "KUOS/DependentOriginationStandardCanonicalPresentationGapV1_87.lean": "e551f933ba98eb7827933186a0ffc421301dec85",
     # Original V1_89 pinned source: f5d06299e825ef784a7df25386b062b80c702f12 (retained in Git history).

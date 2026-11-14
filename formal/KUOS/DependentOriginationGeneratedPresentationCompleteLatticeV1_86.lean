@@ -175,7 +175,7 @@ theorem presentationToSaturatedAnodyne_iSup
     (P : ι → GeneratedScaledAnodynePresentation.{u}) :
     presentationToSaturatedAnodyne (⨆ i, P i) =
       ⨆ i, presentationToSaturatedAnodyne (P i) := by
-  exact map_iSup generatedPresentationSaturatedAnodyneOrderIso P
+  exact map_iSup (generatedPresentationSaturatedAnodyneOrderIso.{u}) P
 
 /-- The left fixed-point coordinate preserves arbitrary meets. -/
 @[simp]
@@ -184,7 +184,7 @@ theorem presentationToSaturatedAnodyne_iInf
     (P : ι → GeneratedScaledAnodynePresentation.{u}) :
     presentationToSaturatedAnodyne (⨅ i, P i) =
       ⨅ i, presentationToSaturatedAnodyne (P i) := by
-  exact map_iInf generatedPresentationSaturatedAnodyneOrderIso P
+  exact map_iInf (generatedPresentationSaturatedAnodyneOrderIso.{u}) P
 
 /-- Because the right coordinate is order reversing, a presentation join is a
 meet of generated right classes. -/
@@ -194,8 +194,12 @@ theorem presentationToSaturatedFibration_iSup
     (P : ι → GeneratedScaledAnodynePresentation.{u}) :
     presentationToSaturatedFibration (⨆ i, P i) =
       ⨅ i, presentationToSaturatedFibration (P i) := by
-  simpa using
-    (map_iSup generatedPresentationSaturatedFibrationOrderIso P)
+  change
+    (generatedPresentationSaturatedFibrationOrderIso.{u} (⨆ i, P i) :
+      OrderDual (OrthogonallySaturatedScaledFibration.{u})) =
+      ⨆ i, (generatedPresentationSaturatedFibrationOrderIso.{u} (P i) :
+        OrderDual (OrthogonallySaturatedScaledFibration.{u}))
+  exact map_iSup (generatedPresentationSaturatedFibrationOrderIso.{u}) P
 
 /-- Dually, a presentation meet is a join in the ordinary inclusion order on
 saturated right classes. -/
@@ -205,8 +209,12 @@ theorem presentationToSaturatedFibration_iInf
     (P : ι → GeneratedScaledAnodynePresentation.{u}) :
     presentationToSaturatedFibration (⨅ i, P i) =
       ⨆ i, presentationToSaturatedFibration (P i) := by
-  simpa using
-    (map_iInf generatedPresentationSaturatedFibrationOrderIso P)
+  change
+    (generatedPresentationSaturatedFibrationOrderIso.{u} (⨅ i, P i) :
+      OrderDual (OrthogonallySaturatedScaledFibration.{u})) =
+      ⨅ i, (generatedPresentationSaturatedFibrationOrderIso.{u} (P i) :
+        OrderDual (OrthogonallySaturatedScaledFibration.{u}))
+  exact map_iInf (generatedPresentationSaturatedFibrationOrderIso.{u}) P
 
 /-! ## Explicit left/right formulas for arbitrary lattice operations -/
 
