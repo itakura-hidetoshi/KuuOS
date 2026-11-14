@@ -772,7 +772,7 @@ noncomputable def standardTypeAEndpointOpposite_scaled_isPushout
 /-- The ambient endpoint-source inclusion is one raw standard A cellular step. -/
 theorem standardTypeAEndpointAmbientSourceToBoundary_mem_rawCellular
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
-    standardABCRawCellularStep
+    standardABCRawCellularStep.{u}
       (standardTypeAEndpointAmbientSourceToBoundary g) := by
   simpa only [standardABCRawCellularStep] using
     (MorphismProperty.coproducts.{u, u, u + 1}
@@ -794,6 +794,7 @@ noncomputable def standardTypeAEndpointToBoundaryPrismArrowIsoAmbient
     (Iso.refl _) ?_
   apply ScaledSSet.ScaledMap.ext
   ext d t
+  apply Subtype.ext
   rfl
 
 /-- Therefore the genuine v1.55/v1.60 endpoint-to-boundary map itself is one
@@ -822,8 +823,8 @@ theorem standardTypeAEndpointToBoundaryPrism_mem_strongCellular
 unretracted standard A/B cellular closure. -/
 theorem standardTypeAEndpointScaledLeibnizPushoutProductHom_mem_strongCellular
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
-    standardABCStrongCellularClosure
-      (standardTypeAEndpointScaledLeibnizPushoutProductHom g) := by
+    standardABCStrongCellularClosure.{u}
+      (standardTypeAEndpointScaledLeibnizPushoutProductHom.{u} g) := by
   have hcomp :=
     (standardABCStrongCellularClosure : MorphismProperty (ScaledSSet.{u})).comp_mem
       (standardTypeAEndpointToBoundaryPrism g)
@@ -836,8 +837,8 @@ theorem standardTypeAEndpointScaledLeibnizPushoutProductHom_mem_strongCellular
 exact v1.59 standard A/B/C cellular closure. -/
 theorem standardTypeAEndpointScaledLeibnizPushoutProductHom_mem_cellular
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
-    standardABCCellularClosure
-      (standardTypeAEndpointScaledLeibnizPushoutProductHom g) :=
+    standardABCCellularClosure.{u}
+      (standardTypeAEndpointScaledLeibnizPushoutProductHom.{u} g) :=
   standardABCStrongCellularClosure_le_standardABCCellularClosure _
     (standardTypeAEndpointScaledLeibnizPushoutProductHom_mem_strongCellular g)
 
