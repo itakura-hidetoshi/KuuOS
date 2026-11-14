@@ -102,7 +102,7 @@ REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
     "KUOS/DependentOriginationSingleTriangleScalingFiltrationV1_90.lean": "78415621c231ff5c8dce7693b28a622b95aded34",
     # Historical v1.91 original SHA: 0ca37ba4aef86397617d7fc90c1633efa684830e (preserved in legacy/v5.291).
     # Reviewed v1.91 simplex notation and universe repair; exact Lean CI required.
-    "KUOS/DependentOriginationCanonicalFibrancyAtomicTwoSimplexAuditV1_91.lean": "b06bd723b9494f94dc8473b51f217837e629975a",
+    "KUOS/DependentOriginationCanonicalFibrancyAtomicTwoSimplexAuditV1_91.lean": "18bfbf5afc1e22b1bbb992c4cea3db9db2df02e5",
     # Original V1_89 pinned source: f5d06299e825ef784a7df25386b062b80c702f12 (retained in Git history).
     "KUOS/DependentOriginationStandardArbitraryScalingWaypointV1_89.lean": "3b5de0a154436be6598a49861435dc57a80ea2f9",
     "KUOS/DependentOriginationStandardTypeAEndpointOppositeCellCertificateV1_77.lean": "e7d422b89b4a4fa5180790b0c5d49c51b7239786",
