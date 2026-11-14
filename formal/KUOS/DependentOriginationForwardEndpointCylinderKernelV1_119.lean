@@ -12,6 +12,7 @@ open Simplicial
 open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
 open KUOS.DependentOriginationScaledHornAttachmentLiftingV1_40
 open KUOS.DependentOriginationScaledTerminalRLPV1_41
+open KUOS.DependentOriginationGlobalDuskinScaledHornCoherenceV1_22
 
 universe u
 
@@ -121,13 +122,16 @@ theorem projectedForwardAttachment_extension_forces_scaled
           (Δ[n] : SSet.{u}) ⊗ Δ[1]) ≫ l.map = sigma := by
     calc
       _ = (endpointIntoAttachment n i 0 ≫
-            (scaledHornCylinderAttachmentInclusion i 0 sDelta).map) ≫
-              l.map := by rw [hendpoint]
+            (scaledHornCylinderAttachmentInclusion i 0 sDelta).map) ≫ l.map :=
+              (congrArg (fun f => f ≫ l.map) hendpoint).symm
       _ = endpointIntoAttachment n i 0 ≫
-            (projectedForwardAttachmentMap sX n i sigma).map := by
-              rw [Category.assoc, hm]
+            ((scaledHornCylinderAttachmentInclusion i 0 sDelta).map ≫ l.map) :=
+              Category.assoc _ _ _
+      _ = endpointIntoAttachment n i 0 ≫
+            (projectedForwardAttachmentMap sX n i sigma).map :=
+              congrArg (fun f => endpointIntoAttachment n i 0 ≫ f) hm
       _ = sigma :=
-          projectedForwardAttachmentMap_endpoint_zero sX n i sigma
+            projectedForwardAttachmentMap_endpoint_zero sX n i sigma
   have hscaled :
       IsScaledMap sDelta sX
         ((SSet.ι₀ : (Δ[n] : SSet.{u}) ⟶
