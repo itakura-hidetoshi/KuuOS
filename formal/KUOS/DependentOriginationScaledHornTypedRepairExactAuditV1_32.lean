@@ -1,3 +1,4 @@
+import KUOS.DependentOriginationULiftScalingDescentV1_29
 import KUOS.DependentOriginationULiftHornExtensionReflectionV1_29
 import KUOS.DependentOriginationULiftHornMapEquivalenceV1_29
 import KUOS.DependentOriginationULiftScaledHornFillerForwardV1_29
@@ -350,3 +351,9 @@ certificate or unlifted v1.29 horn descent is inferred. -/
 #print axioms KUOS.DependentOriginationULiftHornExtensionReflectionV1_29.lift_unliftHornMap
 #print axioms KUOS.DependentOriginationULiftHornExtensionReflectionV1_29.lift_unliftSimplexMap
 #print axioms KUOS.DependentOriginationULiftHornExtensionReflectionV1_29.unliftHornMap_extends
+
+/-! ## v1.29 inverse exact horn and simplex scaling predicates -/
+#print axioms KUOS.DependentOriginationULiftScalingDescentV1_29.unliftHornScaling
+#print axioms KUOS.DependentOriginationULiftScalingDescentV1_29.unliftSimplexScaling
+#print axioms KUOS.DependentOriginationULiftScalingDescentV1_29.unliftHornScaling_thin_iff
+#print axioms KUOS.DependentOriginationULiftScalingDescentV1_29.unliftSimplexScaling_thin_iff
