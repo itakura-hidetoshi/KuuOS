@@ -64,7 +64,8 @@ REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
     # Original V1_79 pinned source: 3812b2e8a1026370f0af5bc9903a82a8756a8de5 (retained in Git history).
     "KUOS/DependentOriginationStandardABCPositiveCanonicalResidualSplitV1_79.lean": "cd9a58880341e70a2290387d21d144613464c8c0",
     # Original V1_80 pinned source: 35e1e87b699fb7f6e181103ffdbb873e36621874 (retained in Git history).
-    "KUOS/DependentOriginationGeneratedPresentationEndpointInvariantV1_80.lean": "ca9ce387d6d83081b019fa60f154a3dad3442d1e",
+    # Prior v1.80 namespace-only source blob: ca9ce387d6d83081b019fa60f154a3dad3442d1e (Git history).
+    "KUOS/DependentOriginationGeneratedPresentationEndpointInvariantV1_80.lean": "c02ad069405ededc23381930415676b906ccbffd",
     # Original V1_81 pinned source: 0a2ece6612bd717cd210c0222cf5a00bc04e4f37 (retained in Git history).
     "KUOS/DependentOriginationGeneratedPresentationQuotientInvariantV1_81.lean": "3a1dbda58c0ec055e09d6c097273d0ecf89e247a",
     # Original V1_83 pinned source: 677031aa601d232ff11ba8aaba26653fd68134ee (retained in Git history).
