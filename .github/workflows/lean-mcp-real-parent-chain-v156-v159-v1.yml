@@ -1,0 +1,129 @@
+name: KuuOS actual parent PR3522 v1.56-v1.59 four-file Lean MCP verification v1
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/lean-mcp-real-parent-chain-v156-v159-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+
+jobs:
+  exact-parent-four-file-readonly:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 55
+    steps:
+      - name: Checkout multi-file Lean MCP operator at this PR HEAD
+        uses: actions/checkout@v6
+      - name: Checkout fixed historical parent PR3522 snapshot (no credentials)
+        uses: actions/checkout@v6
+        with:
+          ref: 6a6c95cfb1e30747e2b0e70f1ddd66ae7e596eed
+          path: target
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pinned Lean MCP prerequisites
+        run: |
+          python3 -m pip install uv
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ripgrep
+      - name: Initialize exact toolchain without duplicate Strict Lean
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Build source-bound manifest for v1.56–v1.59
+        run: |
+          python3 - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+          from scripts.kuuos_lean_mcp_repair_loop_v1 import digest
+          from scripts.kuuos_lean_mcp_multifile_cycle_v1 import VERSION, verify_manifest
+          from scripts.check_kuuos_lean_lsp_mcp_compatibility_v7_17 import require_pins
+          root = Path('target').resolve()
+          require_pins(root)
+          items = [
+            ('DependentOriginationStandardTypeBScalingPushoutV1_56',
+             'eb3f6d6105989fe07f7bba70e8c7fc7c84b5e67a', []),
+            ('DependentOriginationStandardTypeBThreeSimplexCompletionV1_57',
+             '735fc7afffc7806bf6eac41c6c8fdc60a6cea95a',
+             ['KUOS.DependentOriginationStandardTypeBScalingPushoutV1_56']),
+            ('DependentOriginationStandardTypeCCollapsedEdgeV1_58',
+             '05c257663da028e4cca7907c9d5b7e7221468ac8',
+             ['KUOS.DependentOriginationStandardTypeBThreeSimplexCompletionV1_57']),
+            ('DependentOriginationStandardABCLeibnizCellularComparisonV1_59',
+             '2b852bcd457831d25d50e8ed9dd3ac6a44f6f85e',
+             ['KUOS.DependentOriginationStandardTypeCCollapsedEdgeV1_58']),
+          ]
+          targets = []
+          for name, expect_blob, deps in items:
+              path = f'formal/KUOS/{name}.lean'
+              raw = (root/path).read_bytes()
+              blob = hashlib.sha1(f'blob {len(raw)}\0'.encode()+raw).hexdigest()
+              assert len(expect_blob)==40 and blob==expect_blob, (path, blob, expect_blob)
+              targets.append({'path':path, 'module':'KUOS.'+name,
+                              'sha256':digest(raw), 'depends_on':deps})
+          manifest = {
+              'version': VERSION, 'source_head': '6a6c95cfb1e30747e2b0e70f1ddd66ae7e596eed',
+              'targets':targets
+          }
+          verify_manifest(root, manifest)
+          Path('/tmp/kuuos-real-four-plan.json').write_text(json.dumps(manifest, indent=2)+'\n')
+          print('KUUOS_REAL_FOUR_SOURCE_BLOBS_IMPORTS_PINS_VERIFIED')
+          PY
+      - name: Restore pinned project cache
+        uses: actions/cache@v5
+        with:
+          path: target/.lake
+          key: kuuos-real-four-v15659-6a6c95cf-${{ hashFiles('target/lean-toolchain') }}-${{ hashFiles('target/lake-manifest.json') }}-v1
+          restore-keys: |
+            kuuos-pr3522-v15455-multifile-
+      - name: Fetch Mathlib cache at fixed project manifest SHA
+        working-directory: target
+        run: lake exe cache get
+      - name: Build only v1.55 source and all of its transitive dependencies
+        working-directory: target
+        run: timeout 1200 lake build KUOS.DependentOriginationStandardTypeAScaledLeibnizPushoutV1_55
+      - name: Run real four-file Lean MCP observation, .olean handoff and restoration
+        run: |
+          set -euo pipefail
+          PYTHONPATH=. python3 scripts/kuuos_lean_mcp_multifile_cycle_v1.py \
+            --project-root target --source-manifest /tmp/kuuos-real-four-plan.json \
+            --output-dir /tmp/kuuos-real-four-observation \
+            --provider mcp-tactic --max-iterations 2 --ack-isolated-worktree
+          python3 - <<'PY'
+          import json,hashlib
+          from pathlib import Path
+          plan=json.loads(Path('/tmp/kuuos-real-four-plan.json').read_text())
+          receipt=json.loads(Path('/tmp/kuuos-real-four-observation/multifile_receipt.json').read_text())
+          assert receipt['status']=='LOCAL_MULTIFILE_LEAN_GREEN_CANDIDATES_ONLY',receipt
+          assert receipt['source_and_olean_restored'] is True
+          assert receipt['independent_ci_success'] is False
+          assert receipt['github_write_performed'] is False
+          assert len(receipt['targets'])==len(receipt['validated_candidates'])==4
+          for t,accepted in zip(plan['targets'],receipt['validated_candidates']):
+              assert t['path']==accepted['path'] and t['module']==accepted['module']
+              assert accepted['source_sha256']==accepted['candidate_sha256']==t['sha256']
+              assert hashlib.sha256((Path('target')/t['path']).read_bytes()).hexdigest()==t['sha256']
+              assert accepted['module'].startswith('KUOS.')
+              assert accepted['candidate_sha256']!=''
+          print('KUUOS_REAL_FOUR_MODULES_MCP_OBSERVED_NO_SOURCE_MUTATION')
+          PY
+      - name: Export source-bound four-file receipt for independent inspection
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-real-v15659-mcp-source-bound-v1
+          path: /tmp/kuuos-real-four-observation/multifile_receipt.json
+          if-no-files-found: warn
+          retention-days: 14

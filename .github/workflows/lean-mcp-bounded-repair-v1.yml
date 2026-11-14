@@ -1,0 +1,203 @@
+name: KuuOS bounded Lean MCP repair loop v1
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/kuuos_lean_mcp_repair_loop_v1.py'
+      - 'tests/test_kuuos_lean_mcp_repair_loop_v1.py'
+      - 'docs/KUUOS_LEAN_MCP_BOUNDED_REPAIR_LOOP_v1.md'
+      - '.github/workflows/lean-mcp-bounded-repair-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+
+jobs:
+  contract-unit:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Check Python syntax and offline security/candidate-loop contracts
+        run: |
+          set -euo pipefail
+          python3 -m py_compile scripts/kuuos_lean_mcp_repair_loop_v1.py
+          python3 -m unittest discover -s tests -p 'test_kuuos_lean_mcp_repair_loop_v1.py' -v
+
+  real-mcp-fixture:
+    needs: contract-unit
+    runs-on: ubuntu-22.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install uv and ripgrep
+        run: |
+          python3 -m pip install --disable-pip-version-check uv
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ripgrep
+      - name: Set up KuuOS pinned Lean and Lake
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Restore project .lake cache
+        uses: actions/cache@v5
+        with:
+          path: .lake
+          key: kuuos-lean-mcp-bounded-repair-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-v1
+      - name: Fetch exact pinned Mathlib cache
+        run: lake exe cache get
+      - name: Create a deliberate broken theorem in nonpublished temporary fixture path
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from scripts.check_kuuos_lean_lsp_mcp_compatibility_v7_17 import require_pins
+          require_pins(Path('.').resolve())
+          path = Path('tests/mcp_repair_fixture/Repair.lean')
+          path.parent.mkdir(exist_ok=True)
+          path.write_text('import Mathlib\nnamespace Smoke\ntheorem smoke : (2 : Nat) + 2 = 4 := by\n  skip\nend Smoke\n')
+          print('fixture: intentionally unsolved proof, outside KuuOSFormal roots')
+          PY
+      - name: Confirm fixture initially fails pinned Lean check
+        run: |
+          if lake env lean tests/mcp_repair_fixture/Repair.lean > /tmp/kuuos-mcp-fixture-initial.log 2>&1; then
+            echo 'Fixture unexpectedly compiled before repair'
+            exit 1
+          fi
+          grep -E 'unsolved goals|error' /tmp/kuuos-mcp-fixture-initial.log | head -n 4
+      - name: REAL MCP diagnostics -> fixture patch -> MCP -> direct Lean, without model bill
+        run: |
+          set -euo pipefail
+          export PYTHONPATH=.
+          export OUTDIR="$(mktemp -d -t kuuos-repair-XXXXXX)"
+          BEFORE="$(sha256sum tests/mcp_repair_fixture/Repair.lean | awk '{print $1}')"
+          python3 scripts/kuuos_lean_mcp_repair_loop_v1.py \
+            --project-root . --file tests/mcp_repair_fixture/Repair.lean \
+            --source-sha256 "$BEFORE" --output-dir "$OUTDIR" \
+            --provider fixture --max-iterations 2
+          export BEFORE
+          python3 - <<'PY'
+          import hashlib, json, os
+          from pathlib import Path
+          out = Path(os.environ['OUTDIR'])
+          r = json.loads((out / 'receipt.json').read_text())
+          assert r['status'] == 'LOCAL_LEAN_GREEN_CANDIDATE_ONLY', r
+          assert r['source_restored'] is True
+          assert r['provider_calls'] == 1
+          assert len(r['rounds']) == 2
+          assert r['rounds'][0]['errors'] > 0
+          assert r['rounds'][-1]['semantic_success'] is True
+          assert r['rounds'][-1]['direct_lean']['exit_code'] == 0
+          assert r['independent_ci_success'] is False
+          assert r['git_write_performed'] is False
+          orig = Path('tests/mcp_repair_fixture/Repair.lean').read_bytes()
+          assert hashlib.sha256(orig).hexdigest() == os.environ['BEFORE']
+          assert 'norm_num' in (out / 'candidate.lean').read_text()
+          print('KUUOS_MCP_LOCAL_REPAIR_LOOP_TEST_SUCCESS')
+          PY
+          lake env lean "$OUTDIR/candidate.lean"
+      - name: Run free Lean MCP tactic-search repair (no model API)
+        run: |
+          set -euo pipefail
+          export PYTHONPATH=.
+          export OUTDIR2="$(mktemp -d -t kuuos-mcp-tactic-XXXXXX)"
+          SHA="$(sha256sum tests/mcp_repair_fixture/Repair.lean | awk '{print $1}')"
+          python3 scripts/kuuos_lean_mcp_repair_loop_v1.py \
+            --project-root . --file tests/mcp_repair_fixture/Repair.lean \
+            --source-sha256 "$SHA" --output-dir "$OUTDIR2" \
+            --provider mcp-tactic --max-iterations 2
+          python3 - <<'PYBLOCK'
+          import json, os
+          from pathlib import Path
+          d = Path(os.environ['OUTDIR2'])
+          r = json.loads((d / 'receipt.json').read_text())
+          assert r['status'] == 'LOCAL_LEAN_GREEN_CANDIDATE_ONLY', r
+          assert r['source_restored'] is True
+          assert len(r['rounds']) == 2
+          assert r['rounds'][0]['preliminary_tactics'] >= 1
+          assert r['provider_calls'] == 1
+          assert r['rounds'][-1]['direct_lean']['exit_code'] == 0
+          assert r['independent_ci_success'] is False
+          print('KUUOS_FREE_MCP_TACTIC_LOOP_SUCCESS')
+          PYBLOCK
+          lake env lean "$OUTDIR2/candidate.lean"
+          cp "$OUTDIR2/candidate.lean" "$GITHUB_WORKSPACE/kuuos_loop_free_mcp_candidate.lean"
+      - name: Upload free MCP candidate for independent Lean kernel job
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-mcp-free-tactic-fixture-candidate
+          path: kuuos_loop_free_mcp_candidate.lean
+          if-no-files-found: error
+          retention-days: 14
+      - name: Verify no tracked theorem root or pinned manifest was changed
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from scripts.check_kuuos_lean_lsp_mcp_compatibility_v7_17 import require_pins
+          require_pins(Path('.').resolve())
+          assert 'skip' in Path('tests/mcp_repair_fixture/Repair.lean').read_text()
+          print('KUUOS_MCP_REPAIR_NO_REMOTE_MUTATION_VERIFIED')
+          PY
+  independent-fixture-lean-ci:
+    needs: real-mcp-fixture
+    runs-on: ubuntu-22.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v6
+      - name: Set up same pinned Lean and Lake on a fresh independent runner
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - uses: actions/cache@v5
+        with:
+          path: .lake
+          key: kuuos-lean-mcp-bounded-repair-independent-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-v1
+      - name: Fetch exact pinned Mathlib cache
+        run: lake exe cache get
+      - uses: actions/download-artifact@v4
+        with:
+          name: kuuos-mcp-free-tactic-fixture-candidate
+          path: /tmp/kuuos-independent-candidate
+      - name: Independently compile and audit exported fixture theorem
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          from scripts.check_kuuos_lean_lsp_mcp_compatibility_v7_17 import require_pins
+          require_pins(Path('.').resolve())
+          s = Path('/tmp/kuuos-independent-candidate/kuuos_loop_free_mcp_candidate.lean').read_text()
+          assert s.startswith('import Mathlib\n'), 'not the expected fixture import'
+          assert 'namespace Smoke' in s and 'theorem smoke' in s
+          assert '  simp\n' in s and '  skip\n' not in s
+          assert 'sorry' not in s and 'axiom' not in s and 'unsafe' not in s
+          # Pinned Lake -o requires the source under its project root.
+          # Materialize only temporary, nonpublished test files in this runner.
+          work = Path('tests/mcp_repair_fixture')
+          work.mkdir(parents=True, exist_ok=True)
+          (work / 'Independent.lean').write_text(s)
+          (work / 'IndependentAudit.lean').write_text(
+              s + '\n#print axioms Smoke.smoke\n'
+          )
+          PY
+          lake env lean -o /tmp/kuuos-fixture-independent.olean tests/mcp_repair_fixture/Independent.lean
+          lake env lean tests/mcp_repair_fixture/IndependentAudit.lean | tee /tmp/kuuos-independent-axioms.log
+          ! grep -Eq 'sorryAx|unknown constant|unsolved goals|error:' /tmp/kuuos-independent-axioms.log
+          echo 'KUUOS_MCP_FIXTURE_INDEPENDENT_LEAN_CI_SUCCESS'
