@@ -312,3 +312,8 @@ certificate or unlifted v1.29 horn descent is inferred. -/
 #print axioms KUOS.DependentOriginationULiftHornUniverseComparisonV1_29.simplexUniverseEquiv
 #print axioms KUOS.DependentOriginationULiftHornUniverseComparisonV1_29.simplexUniverseEquiv_objEquiv
 #print axioms KUOS.DependentOriginationULiftHornUniverseComparisonV1_29.hornUniverseMem_iff
+
+/-! ## Universe comparison respects simplicial operators (Yoneda/horn) -/
+#print axioms KUOS.DependentOriginationULiftHornUniverseComparisonV1_29.simplexUniverseEquiv_natural
+#print axioms KUOS.DependentOriginationULiftHornUniverseComparisonV1_29.hornUniverseEquiv
+#print axioms KUOS.DependentOriginationULiftHornUniverseComparisonV1_29.hornUniverseEquiv_natural
