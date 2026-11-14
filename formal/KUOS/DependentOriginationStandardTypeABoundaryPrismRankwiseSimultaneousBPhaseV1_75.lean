@@ -571,7 +571,7 @@ theorem standardTypeABoundaryPrismRankBSigmaGeneratorHom_mem_coproductsABC
       standardTypeBGeneratorHom.{u}.map ≫
         (Sigma.ι (fun _ : StandardTypeABoundaryPrismRankBCell g j =>
           (Δ[4] : SSet.{u})) b)
-    simp only [standardTypeBGeneratorHom_map, Category.comp_id, Category.id_comp]
+    exact (Category.id_comp _).symm
 
 /-! ## Attach the B coproduct to `A_j` -/
 
@@ -636,8 +636,8 @@ noncomputable def standardTypeABoundaryPrismRankBTargetSigmaToSucc
 theorem standardTypeABoundaryPrismRankBSourceTargetSigma_map_eq
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ) :
-    (standardTypeABoundaryPrismRankBSourceSigmaToAPhase g j).map =
-      (standardTypeABoundaryPrismRankBTargetSigmaToSucc g j).map := by
+    (standardTypeABoundaryPrismRankBSourceSigmaToAPhase.{u} g j).map =
+      (standardTypeABoundaryPrismRankBTargetSigmaToSucc.{u} g j).map := by
   change
     Sigma.desc (fun b : StandardTypeABoundaryPrismRankBCell g j =>
       (standardTypeABoundaryPrismRankBCellSourceToAPhase.{u} g j b).map) =
@@ -849,7 +849,7 @@ theorem standardTypeABoundaryPrismRankBGeneratedPushoutScaling_eq_succ
         (congr_app c.ι_b (op ⦋2⦌)) z
       have hzcell :
           (standardTypeABoundaryPrismCellScaling g j c).thin z := by
-        rw [hz] at ht
+        rw [← hz] at ht
         rw [show
           ((standardTypeABoundaryPrismRankFunction g).b j).app (op ⦋2⦌)
               (c.ιSigmaStdSimplex.app (op ⦋2⦌) z) =
@@ -866,19 +866,29 @@ theorem standardTypeABoundaryPrismRankBGeneratedPushoutScaling_eq_succ
         have hphase :=
           (standardTypeABoundaryPrismCellAPushoutTargetToAPhase g j c).scaled z hzA
         refine Or.inr (Or.inl ⟨c.mapToSucc.app (op ⦋2⦌) z, hphase, ?_⟩)
+        have hby :
+            ((standardTypeABoundaryPrismRankFunction g).b j).app (op ⦋2⦌) y =
+              c.mapToSucc.app (op ⦋2⦌) z := by
+          rw [← hz]
+          simpa only [NatTrans.comp_app_apply] using hb
         simpa only [Functor.id_obj, NatTrans.id_app, id_eq,
-          CategoryTheory.Functor.map_id_apply] using hb.symm
+          CategoryTheory.Functor.map_id_apply] using hby.symm
       · rcases standardTypeABoundaryPrismRankBCell_exactThin_generated
           g j (.q12 c h12) z hzcell with hphase | ⟨x, hx, hxmap⟩
         · refine Or.inr (Or.inl ⟨c.mapToSucc.app (op ⦋2⦌) z, hphase, ?_⟩)
+          have hby :
+              ((standardTypeABoundaryPrismRankFunction g).b j).app (op ⦋2⦌) y =
+                c.mapToSucc.app (op ⦋2⦌) z := by
+            rw [← hz]
+            simpa only [NatTrans.comp_app_apply] using hb
           simpa only [Functor.id_obj, NatTrans.id_app, id_eq,
-            CategoryTheory.Functor.map_id_apply] using hb.symm
+            CategoryTheory.Functor.map_id_apply] using hby.symm
         · right
           right
-          let b : StandardTypeABoundaryPrismRankBCell g j := .q12 c h12
-          let yB : (standardTypeABoundaryPrismRankBSigmaCarrier g j).obj (op ⦋2⦌) :=
+          let b : StandardTypeABoundaryPrismRankBCell.{u} g j := .q12 c h12
+          let yB : (standardTypeABoundaryPrismRankBSigmaCarrier.{u} g j).obj (op ⦋2⦌) :=
             (Sigma.ι
-              (fun _ : StandardTypeABoundaryPrismRankBCell g j =>
+              (fun _ : StandardTypeABoundaryPrismRankBCell.{u} g j =>
                 (Δ[4] : SSet.{u})) b).app (op ⦋2⦌) x
           refine ⟨yB, ?_, ?_⟩
           · exact Or.inr ⟨b, x, hx, rfl⟩
@@ -887,7 +897,7 @@ theorem standardTypeABoundaryPrismRankBGeneratedPushoutScaling_eq_succ
                   (op ⦋2⦌) yB =
                 ((standardTypeABoundaryPrismRankFunction g).b j).app
                   (op ⦋2⦌) y
-            rw [hz]
+            rw [← hz]
             change
               (standardTypeABoundaryPrismRankBCellTargetToSucc.{u} g j b).map.app
                   (op ⦋2⦌) x =
@@ -899,14 +909,19 @@ theorem standardTypeABoundaryPrismRankBGeneratedPushoutScaling_eq_succ
       · rcases standardTypeABoundaryPrismRankBCell_exactThin_generated
           g j (.q23 c h23) z hzcell with hphase | ⟨x, hx, hxmap⟩
         · refine Or.inr (Or.inl ⟨c.mapToSucc.app (op ⦋2⦌) z, hphase, ?_⟩)
+          have hby :
+              ((standardTypeABoundaryPrismRankFunction g).b j).app (op ⦋2⦌) y =
+                c.mapToSucc.app (op ⦋2⦌) z := by
+            rw [← hz]
+            simpa only [NatTrans.comp_app_apply] using hb
           simpa only [Functor.id_obj, NatTrans.id_app, id_eq,
-            CategoryTheory.Functor.map_id_apply] using hb.symm
+            CategoryTheory.Functor.map_id_apply] using hby.symm
         · right
           right
-          let b : StandardTypeABoundaryPrismRankBCell g j := .q23 c h23
-          let yB : (standardTypeABoundaryPrismRankBSigmaCarrier g j).obj (op ⦋2⦌) :=
+          let b : StandardTypeABoundaryPrismRankBCell.{u} g j := .q23 c h23
+          let yB : (standardTypeABoundaryPrismRankBSigmaCarrier.{u} g j).obj (op ⦋2⦌) :=
             (Sigma.ι
-              (fun _ : StandardTypeABoundaryPrismRankBCell g j =>
+              (fun _ : StandardTypeABoundaryPrismRankBCell.{u} g j =>
                 (Δ[4] : SSet.{u})) b).app (op ⦋2⦌) x
           refine ⟨yB, ?_, ?_⟩
           · exact Or.inr ⟨b, x, hx, rfl⟩
@@ -915,7 +930,7 @@ theorem standardTypeABoundaryPrismRankBGeneratedPushoutScaling_eq_succ
                   (op ⦋2⦌) yB =
                 ((standardTypeABoundaryPrismRankFunction g).b j).app
                   (op ⦋2⦌) y
-            rw [hz]
+            rw [← hz]
             change
               (standardTypeABoundaryPrismRankBCellTargetToSucc.{u} g j b).map.app
                   (op ⦋2⦌) x =
