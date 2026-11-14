@@ -898,6 +898,14 @@ theorem standardTypeABoundaryPrismRankBGeneratedPushoutScaling_eq_succ
                 ((standardTypeABoundaryPrismRankFunction g).b j).app
                   (op ⦋2⦌) y
             rw [← hz]
+            have hSigmaEval :
+                (standardTypeABoundaryPrismRankBTargetSigmaToSucc.{u} g j).map.app
+                    (op ⦋2⦌) yB =
+                  (standardTypeABoundaryPrismRankBCellTargetToSucc.{u} g j b).map.app
+                    (op ⦋2⦌) x := by
+              dsimp [yB, standardTypeABoundaryPrismRankBTargetSigmaToSucc]
+              rw [← NatTrans.comp_app_apply, Sigma.ι_desc]
+            rw [hSigmaEval]
             change
               (standardTypeABoundaryPrismRankBCellTargetToSucc.{u} g j b).map.app
                   (op ⦋2⦌) x =
@@ -931,6 +939,14 @@ theorem standardTypeABoundaryPrismRankBGeneratedPushoutScaling_eq_succ
                 ((standardTypeABoundaryPrismRankFunction g).b j).app
                   (op ⦋2⦌) y
             rw [← hz]
+            have hSigmaEval :
+                (standardTypeABoundaryPrismRankBTargetSigmaToSucc.{u} g j).map.app
+                    (op ⦋2⦌) yB =
+                  (standardTypeABoundaryPrismRankBCellTargetToSucc.{u} g j b).map.app
+                    (op ⦋2⦌) x := by
+              dsimp [yB, standardTypeABoundaryPrismRankBTargetSigmaToSucc]
+              rw [← NatTrans.comp_app_apply, Sigma.ι_desc]
+            rw [hSigmaEval]
             change
               (standardTypeABoundaryPrismRankBCellTargetToSucc.{u} g j b).map.app
                   (op ⦋2⦌) x =
