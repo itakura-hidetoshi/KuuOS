@@ -69,7 +69,7 @@ structure FilteredRefinementDiagram
     (J : Type w) [Category.{x} J] where
   rootContext : Context
   chart : J ⥤ Context
-  toChart : (j : J) -> rootContext ⟶ chart.obj j
+  toChart : (j : J) -> (rootContext ⟶ chart.obj j)
   root_naturality : forall {i j : J} (f : i ⟶ j),
     toChart i ≫ chart.map f = toChart j
 
@@ -190,7 +190,7 @@ def FilteredSemanticDescends
     (Q : FunctorialTransportSystem.InvariantReadout D Semantic)
     (R : FilteredRefinementDiagram Context J)
     (s : FilteredStateFamily D R) : Prop :=
-  exists! value : Semantic, FilteredSemanticStabilizesAt Q R s value
+  ∃! value : Semantic, FilteredSemanticStabilizesAt Q R s value
 
 /-- Invariant semantics agree along every indexing morphism. -/
 theorem semantic_eq_of_hom
@@ -295,7 +295,7 @@ def CofinalSemanticDescends
     (R : FilteredRefinementDiagram Context J)
     (s : FilteredStateFamily D R)
     (F : CofinalIndexingFunctor J K) : Prop :=
-  exists! value : Semantic,
+  ∃! value : Semantic,
     CofinalSemanticStabilizesAt Q R s F value
 
 /-- Stabilization on the full diagram is equivalent to stabilization on a cofinal index change. -/

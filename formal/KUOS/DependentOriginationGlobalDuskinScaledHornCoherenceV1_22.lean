@@ -193,7 +193,8 @@ theorem duskinLeftUnitCoherence
     {B : Type u} [Bicategory.{w, v} B]
     (σ : DuskinSimplex B 1) :
     SatisfiesDuskinLeftUnit σ := by
-  exact σ.map₂_leftUnitor edge01One
+  simpa [SatisfiesDuskinLeftUnit, σ.mapId_eq_eqToHom] using
+    σ.map₂_leftUnitor edge01One
 
 /-- The right-unit coherence equation carried by a Duskin 1-simplex. -/
 def SatisfiesDuskinRightUnit
@@ -210,7 +211,8 @@ theorem duskinRightUnitCoherence
     {B : Type u} [Bicategory.{w, v} B]
     (σ : DuskinSimplex B 1) :
     SatisfiesDuskinRightUnit σ := by
-  exact σ.map₂_rightUnitor edge01One
+  simpa [SatisfiesDuskinRightUnit, σ.mapId_eq_eqToHom] using
+    σ.map₂_rightUnitor edge01One
 
 /-! ## Canonical low-dimensional coherence certificate -/
 
@@ -273,6 +275,7 @@ This is intentionally a one-way implication.  No equivalence between the local
 2-Yoneda presentation and the global scaled Duskin presentation is asserted
 without a separate local/global mapping-object comparison theorem.
 -/
+@[reducible]
 def completeSegalOfGlobalCompleteDuskin
     {B : Type u} [Bicategory.{w, v} B]
     {F : GlobalDuskinScaledHornFamily B}

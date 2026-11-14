@@ -66,6 +66,7 @@ theorem semantic_invariant_of_dense_local_realization
     · exact semantic.continuous
     · intro y hy
       rcases hy with ⟨n, u, rfl⟩
+      change semantic (globalAction g (realize n u)) = semantic (realize n u)
       rw [hEquivariant n g u]
       exact hLocalInvariant n g u
   exact congrFun hfun x

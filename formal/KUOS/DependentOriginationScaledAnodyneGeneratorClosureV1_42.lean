@@ -7,6 +7,9 @@ open CategoryTheory
 open CategoryTheory.Category
 open Simplicial
 open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
+open KUOS.DependentOriginationBiequivalencePresentationInvariantV1_26
+open KUOS.DependentOriginationHomotopyClassScaledHornInvariantV1_37
+open KUOS.DependentOriginationHomotopyClassStrictificationV1_38
 open KUOS.DependentOriginationGlobalDuskinScaledHornCoherenceV1_22
 open KUOS.DependentOriginationScaledTerminalRLPV1_41
 
@@ -231,13 +234,13 @@ noncomputable def familyTerminalRLPOfPresentationFibrant
 
 /-- Presentation fibrancy therefore also supplies the v1.38 homotopy-class
 strictification for every chosen family. -/
-noncomputable def familyStrictificationOfPresentationFibrant
+@[reducible] noncomputable def familyStrictificationOfPresentationFibrant
     {X : SSet.{u}}
     {sX : ScaledSimplicialSet X}
     (P : ScaledAnodynePresentation.{u})
     (hX : IsFibrantForPresentation P (ScaledSSet.of X sX))
     (F : ScaledHornFamily X sX) :
-    ScaledHornFamilyHomotopyClassStrictification X sX F :=
+    KUOS.DependentOriginationHomotopyClassStrictificationV1_38.ScaledHornFamilyHomotopyClassStrictification X sX F :=
   (familyTerminalRLPOfPresentationFibrant P hX F).toStrictification
 
 /-! ## Presentation-independent strict global Duskin fibrancy -/
@@ -253,12 +256,12 @@ chosen horn families `HB` and `HC`. -/
 structure CoherentNormalizedScaledAttachmentFibrantModelEquivalence
     {B : Type u₁} [Bicategory.{w₁, v₁} B]
     {C : Type u₂} [Bicategory.{w₂, v₂} C]
-    (E : BicategoricalModelEquivalence B C)
-    (G : BicategoricalModelEquivalence C B)
+    (E : KUOS.DependentOriginationBiequivalencePresentationInvariantV1_26.BicategoricalModelEquivalence B C)
+    (G : KUOS.DependentOriginationBiequivalencePresentationInvariantV1_26.BicategoricalModelEquivalence C B)
     (HB : GlobalDuskinScaledHornFamily B)
     (HC : GlobalDuskinScaledHornFamily C) where
   homotopyClassModel :
-    CoherentNormalizedScaledHomotopyClassModelEquivalence E G HB HC
+    KUOS.DependentOriginationHomotopyClassScaledHornInvariantV1_37.CoherentNormalizedScaledHomotopyClassModelEquivalence E G HB HC
   sourceAttachmentFibrant :
     IsAttachmentFibrant
       (ScaledSSet.of (duskinNerve B) (duskinScaling B))
@@ -271,11 +274,13 @@ namespace CoherentNormalizedScaledAttachmentFibrantModelEquivalence
 variable
     {B : Type u₁} [Bicategory.{w₁, v₁} B]
     {C : Type u₂} [Bicategory.{w₂, v₂} C]
-    {E : BicategoricalModelEquivalence B C}
-    {G : BicategoricalModelEquivalence C B}
+    {E : KUOS.DependentOriginationBiequivalencePresentationInvariantV1_26.BicategoricalModelEquivalence B C}
+    {G : KUOS.DependentOriginationBiequivalencePresentationInvariantV1_26.BicategoricalModelEquivalence C B}
     {HB : GlobalDuskinScaledHornFamily B}
     {HC : GlobalDuskinScaledHornFamily C}
     (K : CoherentNormalizedScaledAttachmentFibrantModelEquivalence E G HB HC)
+
+include K
 
 /-- Target-level attachment fibrancy recovers the v1.41 family-specific
 terminal-RLP package only when needed. -/

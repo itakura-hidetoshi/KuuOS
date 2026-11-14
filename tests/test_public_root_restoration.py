@@ -38,6 +38,274 @@ PR2339_INTEGRATED_PROOF_BLOBS = {
 }
 
 
+# Reviewed Lean4 source repairs (v1.2 calc and v1.3 parser): frozen legacy stays unchanged.
+# The original full source and both proof transitions are preserved in Git history.
+# Explicit SHA enrollment is a review gate, never proof of Lean correctness.
+REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
+    # v1.77 review: correct pinned pushouts_mk and fix cellular universe level.
+    # Previous reviewed blob: 4904b8ed6c23d0292b7c8947c79f4fb6cac3eef7 (Git history).
+    # v1.77 historical source: restore explicit v1.19/v1.40/v1.58 namespaces; CI still required.
+    # Previous reviewed blob: d73ae673183fc739cb654ff652dbfe8691627feb (Git history).
+    # Previous reviewed v1.77 pushout transfer: 8de891680707ed795aac23348fcd8bd72ffa15c8 (Git history).
+    # Prior v1.77 transfer-only reviewed blob: 5aad6a4487435e4ba1e50e6a4919d574a8887ed3 (Git history).
+    # Previous v1.77 prepended chain source: 6deb363c29f258fee4ad250abb6e4eb9d4aa8f87 (Git history).
+    # Previous v1.77 direct-pattern attempt: 01df91631e04fc1abde7545ff4dd3a2c1cef0025 (Git history).
+    # Previous v1.77 lambda-branch elaboration attempt: 28242e8ccf5bceb32c8b4dd001c078a8fcad4f7e (Git history).
+    # Previous v1.77 proof elaboration blob: 15071010aa0f5398ac96dd2268744acc6fe4b27f (Git history).
+    # Previous v1.77 typed prepended witness blob: 792721325863426cc07d6c6a1df437f0e65641cd (Git history).
+    # Previous v1.77 explicit colimit uniqueness blob: 5c6398815a6e7f8952fb529c4e0e14849fe7fe32 (Git history).
+    # Previous v1.77 type-directed equality blob: 05694967caeb01939d7021c703c906f3ed625948 (Git history).
+    # Previous reviewed source blob: 70ff981ca865d067074063e8ec4f549a5f572094 (Git history).
+    # Previous reviewed source blob: 270aa65cd5788babfd4b464a9046c9013f457751 (Git history).
+    # v1.78: explicitly open the v1.41 namespace which declares ScaledSSet.
+    # Original v1.78 frozen blob: 386378c42fe0c14c3a0fa75e0828a61c70c21c90; no theorem statements changed.
+    # Original v1.78 name-scope source SHA: a1a2e4fc6e108799abc233dfe0c106cd35c13030 (Git history).
+    "KUOS/DependentOriginationStandardABCPostEndpointCanonicalComparisonV1_78.lean": "b406155d78506527b53549f0cf232d55f084ac86",
+    # Original V1_79 pinned source: 3812b2e8a1026370f0af5bc9903a82a8756a8de5 (retained in Git history).
+    "KUOS/DependentOriginationStandardABCPositiveCanonicalResidualSplitV1_79.lean": "cd9a58880341e70a2290387d21d144613464c8c0",
+    # Original V1_80 pinned source: 35e1e87b699fb7f6e181103ffdbb873e36621874 (retained in Git history).
+    # Prior v1.80 namespace-only source blob: ca9ce387d6d83081b019fa60f154a3dad3442d1e (Git history).
+    # Previous attempted v1.80 theorem variable inclusion: c02ad069405ededc23381930415676b906ccbffd (Git history).
+    # Prior v1.80 inclusion scope source: 19ebe93ff975562d934fe58c6ab4cc5721749e70 (Git history).
+    "KUOS/DependentOriginationGeneratedPresentationEndpointInvariantV1_80.lean": "0d121117b98853e9a93ba0bc56ce1cd80eeb744f",
+    # Original V1_81 pinned source: 0a2ece6612bd717cd210c0222cf5a00bc04e4f37 (retained in Git history).
+    # Previous v1.81 exact source blob: 3a1dbda58c0ec055e09d6c097273d0ecf89e247a (Git history).
+    # Previous v1.81 parser-only reviewed blob: 5abedd5cc9b5d50eed1ca595119e415bce1308f9 (Git history).
+    # Prior v1.81 quotient-universe source: a5c6895ac56d351df8b34e5a164f51db35b65fe2 (Git history).
+    # Prior v1.81 certified-equivalence transport candidate: 22a211f7ff84e3e389795dd3abe0c102638bf842 (Git history).
+    # Prior pinned-universe v1.81 blob: c41521eb50861fc02fd3e169cbc2d248612b69b5 (Git history).
+    "KUOS/DependentOriginationGeneratedPresentationQuotientInvariantV1_81.lean": "677a93b82b80a2f0589591a0ee0ce2594ae4c3ea",
+    # v1.82 legacy source blob: 7180226c2b202606871d1c2c3efd966442c50fff; reviewed parser and identity-composition correction.
+    "KUOS/DependentOriginationCanonicalEndpointLeibnizEpiDescentV1_82.lean": "ec800dbee52b8e7d5422d9d7e9dcd16e50e2a473",
+    # Original V1_83 pinned source: 677031aa601d232ff11ba8aaba26653fd68134ee (retained in Git history).
+    # Earlier v1.83 proof blob retained: 95f00f3d661172741574ad24be205b0b85cd984e (Git history).
+    "KUOS/DependentOriginationGeneratedPresentationPosetalReflectionV1_83.lean": "c19621eb3ef15b16cd9951217ba19511d1438c65",
+    # Original V1_84 pinned source: baf70fc20347e881054fb86180de849ebf92f71f (retained in Git history).
+    # Original v1.84 quotient-order source: ff85d62d2fac75f86eea7153fb22f8b0acdcc6c0 (Git history).
+    # Prior v1.84 literal preorder transport source: aafded1c0bf73533cb3389ae2e33d11fb908d844 (Git history).
+    "KUOS/DependentOriginationGeneratedPresentationOrderReflectionV1_84.lean": "3cb649752c4803abc033a94b53ebb7f3494f20d5",
+    # Original V1_85 pinned source: 97e364b48eb5632ab7f9f79b051f5b665445c682 (retained in Git history).
+    "KUOS/DependentOriginationGeneratedPresentationFixedPointOrderIsoV1_85.lean": "188dff91e794f2c2fb559e9f9c1ce95682a7d5cd",
+    # Original V1_86 pinned source: 15fcc55183142ba4ad1fdf5d3ff402c5a2a0804b (retained in Git history).
+    "KUOS/DependentOriginationGeneratedPresentationCompleteLatticeV1_86.lean": "095dd06e60c2f37a4801847b3f645f9fa3f1e6cf",
+    # Original V1_87 pinned source: 88181c3c721c129e2aa628406e3fbf77a89d4f91 (retained in Git history).
+    "KUOS/DependentOriginationStandardCanonicalPresentationGapV1_87.lean": "e551f933ba98eb7827933186a0ffc421301dec85",
+    # Original V1_89 pinned source: f5d06299e825ef784a7df25386b062b80c702f12 (retained in Git history).
+    "KUOS/DependentOriginationStandardArbitraryScalingWaypointV1_89.lean": "4769187a07f63f8e4f7aebb21d535b68d1461852",
+    "KUOS/DependentOriginationStandardTypeAEndpointOppositeCellCertificateV1_77.lean": "e7d422b89b4a4fa5180790b0c5d49c51b7239786",
+    # Previous reviewed v1.76 blob: 9a06669b57537430895aad2a7336aabea001580e (parent HEAD 31805864; Git history).
+    "KUOS/DependentOriginationStandardTypeABoundaryPrismRawTransfiniteV1_76.lean": "d2299c21820555c632dafc8f3747342357511a1e",
+    # Previous reviewed v1.75 blob: be0d83f8864c0d7933b0f3b23d388086c9836217 (Git history).
+    "KUOS/DependentOriginationStandardTypeABoundaryPrismRankwiseSimultaneousBPhaseV1_75.lean": "23877854e700cae40b4e8104bd3971f005bda2c8",
+    "KUOS/DependentOriginationStandardTypeABoundaryPrismRankwiseSimultaneousAPhaseV1_74.lean": "0fc896388e9722625406411e4fc64627b8179ca0",
+    # v1.73: pinned generated scaled pushout, type-A rank index and desc-map API.
+    "KUOS/DependentOriginationStandardTypeABoundaryPrismRankwiseScaledPushoutV1_73.lean": "1c90711dc3b3b361dbff835e4aa0dc19dec3808e",
+    # v1.72: pinned scaled-cellular namespaces and consistent rank-cell universe.
+    "KUOS/DependentOriginationStandardTypeABoundaryPrismRankwiseABCellularityV1_72.lean": "3c295e0348a74514f0502efbd4e14f6a7f93ce9b",
+    # v1.71: pinned rank-stage class transparency and exact category morphism equalities.
+    "KUOS/DependentOriginationStandardTypeABoundaryPrismScaledRankFiltrationV1_71.lean": "1162f161439cf01947142b4188cb5fe80d71746c",
+    # v1.70: pinned interior pairing core and class-valued scaling transparency.
+    "KUOS/DependentOriginationStandardTypeABoundaryPrismCellwiseABClassificationV1_70.lean": "0ff7ff8615e00d26a10b5f86580c1aa98d09a81d",
+    # v1.69: pinned horn subcomplex membership, scaled class transparency, explicit universe in residual table.
+    "KUOS/DependentOriginationStandardTypeABoundaryPrismThreeResidualClassificationV1_69.lean": "8d235658c173045070a056dd9fac7627059847ed",
+    # v1.67: pinned Fin degeneracy evaluation and explicit scaling equality
+    # witness. The frozen v5.291 blob remains d847eeb1df4f5316e0c732c8157f64b6aef0512e.
+    # Exact enrollment is source provenance only; CI kernel elaboration remains mandatory.
+    # Prior first-pass reviewed candidate: f0b9e4189cae890b05b0055527a0afddc575c2e2.
+    # v1.67 projects through hmax at the cell's inferred universe; kernel proof still required.
+    "KUOS/DependentOriginationStandardTypeABoundaryPrismN2MaximalFrontierV1_67.lean": "b75410426cadb22421191a4a4be4641f787b6669",
+    # v1.66: proof-only dependent pairing rewrite, retaining the old reviewed
+    # blob 9b9e2be3cde24cde0bef72735ab0de098c5bf31b in Git history.
+    # Exact new SHA is a reviewed-source gate, not Lean proof authority.
+    "KUOS/DependentOriginationStandardTypeABoundaryPrismCellACompatibilityV1_66.lean": "47d80e325f26db1b17c6c3809feb8dd654e56f5d",
+    # v1.65: pinned scaled namespace, class transparency, and two typed cell universe boundaries.
+    "KUOS/DependentOriginationStandardTypeABoundaryPrismCellPushoutCriterionV1_65.lean": "ca821e08da5e45e424734ed9e6692c6b42613933",
+    # v1.64: dependent transport of paired nondegenerate top simplex across dimension equality.
+    "KUOS/DependentOriginationStandardTypeABoundaryPrismStaircaseNormalFormV1_64.lean": "6c59150499a7108182fa6110836a3edab2b3d0f0",
+    # v1.63: reconstructed interior-pairing dimension statement; no absent Mathlib API.
+    "KUOS/DependentOriginationStandardTypeABoundaryPrismDimensionDichotomyV1_63.lean": "42a1d4ee442c5b843c6ef46375440e3bcc58d594",
+    # v1.62: class-valued pullback scalings are reducible in fixed Lean 4.30.
+    "KUOS/DependentOriginationStandardTypeABoundaryPrismScaledCellsV1_62.lean": "f90bbb80115cea04267c4a76b995a512d7239aa9",
+    # v1.61: route interior prism pairing through the pinned proven core; exact-source review, not certification.
+    "KUOS/DependentOriginationStandardTypeABoundaryPrismRelativeCellV1_61.lean": "932d03cd7d4c33a5ffcc5cce03467c6a3a7bf3a3",
+    # v1.60: pinned namespace resolution, endpoint subcomplex unfolding and class transparency.
+    # Full source reviewed at this revision; blob enrollment is provenance, not Lean certification.
+    "KUOS/DependentOriginationStandardTypeAEndpointPrismPairingV1_60.lean": "3a039fc3eba760d2fb4bfbe62d8fac5ab3fa87b6",
+    # v1.59: explicit pinned closure universes, horn index namespace, and dependent fields.
+    "KUOS/DependentOriginationStandardABCLeibnizCellularComparisonV1_59.lean": "2b852bcd457831d25d50e8ed9dd3ac6a44f6f85e",
+    # v1.58: exact-universe native pushout span witnesses, without changing the frozen legacy snapshot.
+    "KUOS/DependentOriginationStandardTypeCCollapsedEdgeV1_58.lean": "05c257663da028e4cca7907c9d5b7e7221468ac8",
+    # v1.57: exact scaled-map namespace and four class-returning collapse scalings.
+    "KUOS/DependentOriginationStandardTypeBThreeSimplexCompletionV1_57.lean": "735fc7afffc7806bf6eac41c6c8fdc60a6cea95a",
+    # v1.56: fixed IsScaledMap namespace, four class-result transparency and typed IsColimit.mk.
+    "KUOS/DependentOriginationStandardTypeBScalingPushoutV1_56.lean": "eb3f6d6105989fe07f7bba70e8c7fc7c84b5e67a",
+    # v1.54 exact horn-index constructor and dependent K retention; v1.55 corner class transparency.
+    "KUOS/DependentOriginationStandardTypeAGeneratedPushoutLLPDescentV1_54.lean": "e1519c873cf03dbd4dd2c5623eda96e9242764ab",
+    "KUOS/DependentOriginationStandardTypeAScaledLeibnizPushoutV1_55.lean": "12acfd38ff346c3b27e27fe652c401b9175140b4",
+    # v1.53: five class-valued generated/induced scaled sources require Lean reducibility.
+    "KUOS/DependentOriginationStandardTypeAScaledPushoutSourceEnrichmentV1_53.lean": "33c4305f0fa9b9f6706d50fc6d10321606a74b4c",
+    # v1.52 fixed class transparency and explicit typed scaled-product equalities.
+    "KUOS/DependentOriginationScaledCartesianIntervalCylinderV1_52.lean": "3801fb128d4dc08f5c488d890aaae82fbe6e8cc3",
+    # Reviewed v1.51: use pinned PushoutObjObj inl_ι/inr_ι equations; frozen legacy unchanged.
+    "KUOS/DependentOriginationStandardTypeANativeLeibnizLiftingMateV1_51.lean": "ed074ccd29f3b1ece21d5d4a1b5b136cf8a3400a",
+    # v1.50: qualify local endpoint horn index conversion, include proof witness K.
+    "KUOS/DependentOriginationStandardTypeAEndpointPushoutProductV1_50.lean": "1f24c5e7b30d1392ccd16c8b7b3ed7387b7d72a9",
+    # Reviewed v1.49 fixed Lean class transparency; frozen legacy stays unchanged.
+    "KUOS/DependentOriginationStandardTypeAScaledHornFamilyV1_49.lean": "c3824bb243367beb7df55491e47b5d91b4ac9be9",
+    # Reviewed v1.48: explicit scaled namespaces and comparison witness dependencies; no geometry hidden.
+    "KUOS/DependentOriginationScaledAnodyneAttachmentFactorizationV1_48.lean": "f2b4913d71570616bab815ee5574acf48e6672b1",
+    # Reviewed v1.47: true scaled-set/model namespace and dependent K evidence; frozen legacy unchanged.
+    "KUOS/DependentOriginationExternalScaledDuskinFibrancyV1_47.lean": "01b0bf486e90615aae3b5abea6994a0985af5e07",
+    # Reviewed v1.46: explicit generator-comparison evidence, scaled-model namespaces and class-result transparency.
+    "KUOS/DependentOriginationExternalScaledAnodyneGeneratorComparisonV1_46.lean": "0f60b58223bc854b3922996067f72b4ba90ae879",
+    # Reviewed v1.45 fixed Lean namespace, scaled colimit transport and exact typeclass route.
+    "KUOS/DependentOriginationScaledColimitsPresentabilityV1_45.lean": "c5f22f11809a82d4b11fff94091fd7b4f946d8ae",
+    # v1.44 fixed mathlib class-result transparency and explicit small-object factorization instance.
+    "KUOS/DependentOriginationScaledSmallObjectArgumentV1_44.lean": "ea3d9c2edff775235af266d10b87316f65aeb60d",
+    # Reviewed v1.43 class-result elaboration; frozen 5.291 legacy unchanged.
+    "KUOS/DependentOriginationScaledAnodyneWFSUniversalityV1_43.lean": "833c8e772b7f35a3b5bd36995703ed257bac20c7",
+    # v1.42 Lean namespace and class-return elaboration; frozen legacy remains unchanged.
+    "KUOS/DependentOriginationScaledAnodyneGeneratorClosureV1_42.lean": "86e95f82493748b0c7706071196a378d779fa7af",
+    # Reviewed v1.41: source declarations matched fixed Lean mathlib API; legacy remains frozen.
+    "KUOS/DependentOriginationScaledTerminalRLPV1_41.lean": "0fbc69ccfebbdc75ab61f5836c8ebec9488a84d6",
+    # Reviewed v1.40 compiler fixes; frozen legacy/v5.291 source remains unmodified.
+    "KUOS/DependentOriginationScaledHornAttachmentLiftingV1_40.lean": "4592abde6c597d426225a3e587751e5971f2d209",
+    # Reviewed original v1.38 Lean syntax repair: original legacy/v5.291 unchanged.
+    # Reviewed original v1.39 compiler repair: source preserved in legacy/v5.291.
+    "KUOS/DependentOriginationScaledHornCylinderExtensionV1_39.lean": "5cf4f8f6c986ae948ee96bbcfb66ab2540390e1e",
+    "KUOS/DependentOriginationHomotopyClassStrictificationV1_38.lean": "08399f0feca20eb8664b2673797a4c785d2588b0",
+    "KUOS/DependentOriginationHomotopyClassScaledHornInvariantV1_37.lean": "af1bedd2bcaeac026d3554e359536d925f17cc93",
+    "KUOS/DependentOriginationStrongTransformationDuskinCylinderV1_35.lean": "03b35036177ebc1ef13a055073877a0c9a319976",
+    "KUOS/DependentOriginationGlobalDuskinPrismHomotopyV1_34.lean": "31a442eb309c1fd0d1185cff0e28c84bc7a5a671",
+    "KUOS/DependentOriginationScaledHornHomotopyDescentV1_33.lean": "1b597bddf42581e836f5eb914db6425e2197ef1c",
+    "KUOS/DependentOriginationCoherentNormalizedScaledModelEquivalenceV1_32.lean": "dd20dedea5a9d64d9aac989c9dd807ec9afbea6e",
+    "KUOS/DependentOriginationModelEquivalenceScaledHornPresentationV1_31.lean": "043d16f86bed74c1e37424328fc70f0fa6e2ca77",
+    "KUOS/DependentOriginationRefinementTransitivityV1_2.lean": "5247d279787292ee350d9c676ff76094ba4abc57",
+    "KUOS/DependentOriginationDirectedCofinalSemanticsV1_3.lean": "7e448c6f56a3fca1a6fd4be18ec44ec0cefc05e3",
+    "KUOS/DependentOriginationTwoCellCoherenceV1_5.lean": "42ad51fc7780c63e46ff9387a02d68b93bb27aab",
+    "KUOS/GaugeInvariantDependentOriginationDenseDescentV0_1.lean": "122b97a2962b30862fbb98d110f04f74af235ba0",
+    "KUOS/DependentOriginationBicategoricalCoherenceV1_6.lean": "c1d9cf1c6ed08b535ec5d0bb02bfca254bbb2ac0",
+    "KUOS/GaugeInvariantDependentOriginationOrbitQuotientV0_1.lean": "48b6667b350db1853c55645c3b8a919fab159b58",
+    "KUOS/DependentOriginationOperadicMultiConditionV1_7.lean": "92350cbc0ff050ddfc011b6841f0ef582b9ca5b4",
+    "KUOS/GaugeInvariantDependentOriginationActionGroupoidV0_1.lean": "b02d86014b734012b201f53b33dac173fa1a8376",
+    "KUOS/DependentOriginationHigherMulticategoryCoherenceV1_8.lean": "36ab51f8eefe18584c7c4e56e79cd8399aeaa961",
+    "KUOS/DependentOriginationCausalMonoidalProcessV1_10.lean": "51657eed7ef67efd71c80e6c6c33f4b1efd62c35",
+    "KUOS/DependentOriginationMarginalNoSignallingV1_11.lean": "f63ca5a22952520e6d2d7e551a4c2bb0a7bc24cf",
+    "KUOS/DependentOriginationJointCausalFactorizationV1_12.lean": "dd732790976af821c1c4c7b806cb099d7cc1e048",
+    "KUOS/DependentOriginationEnrichedContextV1_13.lean": "7daa0119c4c8eef35a861ba7b925bf6524fc84b3",
+    "KUOS/DependentOriginationStackDescentV1_14.lean": "d57177de97b58f77049cddf22fdfe53d16ea1c6b",
+    "KUOS/DependentOriginationInfinityCoherenceV1_15.lean": "db66456d5d497bcdcae089ce74e5046a4a1c5146",
+    "KUOS/DependentOriginationContextualGaugeTheoryV0_1.lean": "cf4b5dc9c4b61f64416489ab50b4233c440bc098",
+    "KUOS/DependentOriginationFilteredCofinalCategoryV1_4.lean": "45e6fd51b4881849819fc5513f3d9fa9f5e34dc4",
+    "KUOS/DependentOriginationScaledHornPresentationInvariantV1_30.lean": "4f32b06a8c0e36cafc19dafae774c0077c7801bd",
+    "KUOS/DependentOriginationGlobalDuskinScaledHornCoherenceV1_22.lean": "e560cd98ae0ca54d177347bc5b0043fe34a66fa7",
+    "KUOS/DependentOriginationCoreSpineV1_25.lean": "1ecc2afc53b3395cde11746f8488abfe80c497ca",
+    "KUOS/DependentOriginationBiequivalencePresentationInvariantV1_26.lean": "60c17fbdefc29642889921e0002e055e9f36d046",
+    "KUOS/DependentOriginationNormalizationChoiceInvariantV1_28.lean": "9078c15951561b85ecf5378e258adfc92789f823",
+    "KUOS/DependentOriginationScaledDuskinHornTransportV1_29.lean": "3a1046a9a44cbb1ad466ef7a27a107122ea05aca",
+    "KUOS/DependentOriginationStrictlyUnitaryDuskinModelTransportV1_27.lean": "36f9aef05ce8bc068856c28ccbbc2b7512b89112",
+    "KUOS/DependentOriginationPresentationIndependentInvariantV1_25.lean": "1df6dfa0b978cffd3cb0a9c1d51889b3d835ae07",
+    "KUOS/DependentOriginationFundamentalGroupoidDescentNatIsoInvarianceV0_6.lean": "8f801f55d1c068ee84d4810e1a508e35e45244ca",
+    "KUOS/DependentOriginationFundamentalGroupoidDescentObstructionV0_5.lean": "7d44e081fbe25188564ba62178d4d9edac2d6ed0",
+    "KUOS/DependentOriginationFundamentalGroupoidTransportV0_4.lean": "98e40034906e5fa3c9b4da01ec4afbc0c3bf1d42",
+    "KUOS/DependentOriginationGlobalDuskinLocalMappingComparisonV1_23.lean": "215dd5d5831a481c466b4b6108954e2f1bf8e036",
+    "KUOS/DependentOriginationGlobalDuskinLocalTwoCellComparisonV1_24.lean": "b38ac66a7d1751dc17cbce2dd1790aeef46f3f84",
+    "KUOS/DependentOriginationGlobalDuskinScaledNerveV1_21.lean": "adf9f09aa122b1a6615c083f39815dcf8c36a0fe",
+    "KUOS/DependentOriginationContextualGaugeCoreFactorizationV0_3.lean": "4fdd0e81a57ec768b1241fb3f2e65d1907c4fbc6",
+    "KUOS/DependentOriginationCompleteSegalInfinityTwoV1_20.lean": "835f9b5cec404f31d27b512dac56a6cef77791bb",
+    "KUOS/DependentOriginationNativeInfinityTwoScaledV1_19.lean": "d05efb10005d646752b8cca90f5fdcc11267c101",
+    "KUOS/DependentOriginationContextualGaugeEquivalenceV0_2.lean": "bf36c2c8b4209e60a763f59552f1cb379c58d057",
+    "KUOS/DependentOriginationGlobularNerveComparisonV1_17.lean": "714411f14ff3efe16dcc4b7c3a8973dd261b840e",
+    # Prior v1.36 first-pass atomic-binder repair: b2a05ada0602636fc4614f6e0210278564c0b5b4
+    "KUOS/DependentOriginationStrongTransformationCylinderUncurryingV1_36.lean": "bf67ce6b167ecf88e877e874e3e6533c6d45de7d",
+}
+
+
+# Newly added formal modules are outside the frozen v5.291 archive. Their
+# exact draft source blobs are reviewed separately from historical corrections.
+REVIEWED_ADDITIVE_FORMAL_BLOBS = {
+    # Native B/C type-(A) family maps and two-way lifted correspondence constructed from true prisms and forward RLP.
+    "KUOS/DependentOriginationNativeTypeABCDuskinDescentV1_29.lean": "3df76b0ad53ea4c904b8820ffdd5ceb628b74270",
+    # Native high-universe type-A triangle/degeneracy and horn-scaling compatibility geometry, not assumed.
+    # Original candidate blob 7595ccc803c4d9c62b3e3551725f3740d4b27133 retained in Git commit 51d7c5e.
+    # Previous reviewed native type-A bridge blob: c7e20f7383149a09e0f8fa3299a277b56a187906 (Git history).
+    "KUOS/DependentOriginationNativeTypeAUniverseGeometryV1_29.lean": "49f4b9bb2d0135b6416e94ed359ff353e2fb33f0",
+    # Fully typed type-(A) ULift horn and simplex scaling transport; native high-universe compatibility remains a separate obligation.
+    "KUOS/DependentOriginationCrossUniverseTypeAScalingV1_29.lean": "aea9c9848047f3e190faefd879736a2806ec41cb",
+    # Strict rectification from forward endpoint-only cylinder RLP; true type-A subfamily of indexed inner horns.
+    "KUOS/DependentOriginationForwardHornRectificationV1_29.lean": "0ea1179acce8a0ce5215736bbb581a0f1daf01eb",
+    # Type-(A) scaling-sensitive admissibility and attachment-RLP-to-homotopy-rectification independent proofs.
+    "KUOS/DependentOriginationIndependentAdmissibilityRectificationV1_29.lean": "bafdfad72861250876391eb8eb6ac3e3de63e017",
+    # Indexed horn admissibility is exactly ULift-stable; native quasi-inverse yields original B/C inner-horn fibrancy conditionally.
+    "KUOS/DependentOriginationIndexedDuskinAdmissibilityV1_29.lean": "4e8ec164cf80867c8aac1586ae48ecfabc1be82f",
+    # Native coherent quasi-inverse builds arbitrary-family D after same-carrier admissibility compatibility.
+    "KUOS/DependentOriginationArbitraryFamilyNativeCorrespondenceV1_29.lean": "bac1637ba746ee96be7ec36d6434bd8ee36c2606",
+    # Arbitrary lifted-family admissibility inclusions and true unlifted fibrancy bridges; no unconditional correspondence.
+    "KUOS/DependentOriginationArbitraryFamilyAdmissibilityDescentV1_29.lean": "f095ade95b97d883abde177568aca472a36b72ef",
+    # Native coherent quasi-inverse yields global prisms; explicit admissibility and rectification retained.
+    "KUOS/DependentOriginationCanonicalIndependentUniverseNativeQuasiInverseDescentV1_29.lean": "0cc5738750c0ce831ad89cd45bb70fdfdcf1690c",
+    # Two global Duskin prisms supply hornwise family correspondence and unlifted fibrancy, subject to rectification.
+    "KUOS/DependentOriginationCanonicalIndependentUniverseGlobalPrismDescentV1_29.lean": "a5958f91c0fb5b2ad9962d516ba2a328d61bab74",
+    # Independent-universe Duskin fibrancy via hornwise homotopy and rectification.
+    "KUOS/DependentOriginationCanonicalIndependentUniverseHomotopyDescentV1_29.lean": "9587ca4ba4f09eeb09ef048192b59f317be3a417",
+    # Canonical independent-universe Duskin descent via explicit lifted family correspondence.
+    "KUOS/DependentOriginationCanonicalIndependentUniverseFamilyCorrespondenceV1_29.lean": "64a0b5ba0b6fa1c40f8ac7892d47ca5718290ffc",
+    # True independent-universe B/C Duskin fibrancy iff, with explicit strict-inverse/admissibility requirements.
+    "KUOS/DependentOriginationCanonicalIndependentUniverseDuskinDescentV1_29.lean": "fd227d58299d5819e9cee19e0206e697e66d4906",
+    # Canonical cross-universe admissibility preservation and fibrancy equivalence.
+    "KUOS/DependentOriginationCanonicalCrossUniverseHornDescentV1_29.lean": "4d523864ca2a8ecd2c8c58586e0978f3dd5ae143",
+    # Exact bidirectional ULift horn-problem and filler-existence round trips.
+    "KUOS/DependentOriginationULiftScaledHornProblemRoundTripV1_29.lean": "38a911697821f290c5530084fa523b43be51cf44",
+    # Reverse transport of arbitrary higher-universe scaled horn problems and fillers.
+    "KUOS/DependentOriginationULiftScaledHornProblemDescentV1_29.lean": "f2ec0ff4173cf4536c547084c9a3b05271ac01d3",
+    # Exact cross-universe reflection of scaled horn/simplex maps without new axioms.
+    "KUOS/DependentOriginationULiftScaledMapReflectionV1_29.lean": "0a4a1a3dd0c021b7a434b1ab0d628ee8c7823c42",
+    # Exact independent-universe horn/simplex scaling round-trip thinness identities.
+    "KUOS/DependentOriginationULiftScalingRoundTripV1_29.lean": "caa96724c65b430a6c50a83534319b5346aeddc9",
+    # Natural cross-universe reverse transport of actual horn/simplex scaling predicates.
+    "KUOS/DependentOriginationULiftScalingDescentV1_29.lean": "612dd5ba106e00dee64496e17fabbbf7b7da7802",
+    # Fully faithful reverse-map descent reflects the genuine horn-inclusion extension equation.
+    "KUOS/DependentOriginationULiftHornExtensionReflectionV1_29.lean": "e87cf3768bcfed66ffe8eb09c12f7da400719b63",
+    # Fully faithful inverse equivalences of cross-universe horn/simplex maps.
+    "KUOS/DependentOriginationULiftHornMapEquivalenceV1_29.lean": "02b8b64e8150ffd08539d37e7a8d1627202df66a",
+    # Cross-universe scaled horn problem/filler forward transport with exact scalings.
+    "KUOS/DependentOriginationULiftScaledHornFillerForwardV1_29.lean": "f852bbe5ddb65a9d1692ed15b6cbe3197cf84ade",
+    # Cross-universe simplex/horn inclusion square and typed lifting of extension diagrams.
+    "KUOS/DependentOriginationULiftHornInclusionNaturalityV1_29.lean": "4f02e0bc2f28a331aefa1168e813636fbac0210f",
+    # Pointwise standard simplex and horn comparison across distinct ULift universes.
+    "KUOS/DependentOriginationULiftHornUniverseComparisonV1_29.lean": "6baf88cd301783b899811b329b189aa61c467f41",
+    # v1.29 actual B/C Duskin source/target same-universe descent, no arbitrary E_B/E_C assumptions.
+    "KUOS/DependentOriginationCanonicalSameUniverseDuskinDescentV1_29.lean": "b14ad4df00c44c1c88fc5723617383241ecd02f7",
+    # Typed same-universe ULift horn-problem/filler equivalence; cross-universe bridge remains separate.
+    "KUOS/DependentOriginationCanonicalULiftHornPresentationBridgeV1_29.lean": "6a0c66877a5a3939e12cf48694d093ffbf8e3898",
+    # Additive port of missing pinned simplex-opposite and union-product compatibility.
+    "KUOS/PinnedMathlibUnionProdOpSymmetryV1_61.lean": "6fa03ffd9b5e0bb084af47a303b275aaa27b7bda",
+    # Full pairing across every horn index, with ordinary anodyne consequence.
+    "KUOS/PinnedMathlibUnionProdFullPairingV1_61.lean": "da3cc7de1761081f15830dd0aecf9f3d23067e90",
+    # v1.61: typed pairing-core weak rank / regularity, not full UnionProd.
+    "KUOS/PinnedMathlibUnionProdWeakRankV1_61.lean": "131542e0a23efa80287655656f1805b5523acabf",
+    # v1.61: pinned inner-horn property, independent of full UnionProd regularity.
+    "KUOS/PinnedMathlibUnionProdInnerPairingCoreV1_61.lean": "ece7c5a8291e6846d5c44c1e5e2f5d6ad546682d",
+    # Partial pinned UnionProd proof port: pairingCore only; regularity and end-to-end v1.61 remain unverified.
+    "KUOS/PinnedMathlibUnionProdProofPortV1_61.lean": "ba703c0dd48e4e437cb968e077611fb50e5a154e",
+    "KUOS/DependentOriginationPairwiseNormalLaxRoundTripBridgeV1_36.lean": "6a2fceb562a53d13429dc8f839d70a88547e7643",
+    "KUOS/DependentOriginationMixedRightUnitorPastingV1_36.lean": "339054b357f4799ad17e29ad6849b595240b0185",
+    "KUOS/DependentOriginationMixedLeftUnitorPastingV1_36.lean": "e3d7a47a45c425040bac9f41675df049bc8ba228",
+    "KUOS/DependentOriginationMixedWhiskerPastingV1_36.lean": "74cfd1997d8c5ec0233db5ab473bf381b2367583",
+    "KUOS/DependentOriginationNormalLaxUniverseLiftV1_35.lean": "9f0f5f81109993bb791df655844c62de0729b681",
+    "KUOS/DependentOriginationLiftedDuskinCanonicalStrictDescentV1_29.lean": "ea7bb2e0c35e8602d4d45e28bb4b6631679ed0c3",
+    "KUOS/DependentOriginationLiftedDuskinStrictInverseDescentV1_29.lean": "f51841fc78c59526df89f6c29ad42703611b0391",
+    "KUOS/DependentOriginationLiftedDuskinFamilyDescentBridgeV1_29.lean": "e5475a1432d7680db696bef06a9e2be0fdcaa275",
+    "KUOS/DependentOriginationLiftedDuskinRoundTripBridgeV1_29.lean": "91442f0ceca8690b9d2e9a900a74e3f1e47deaf7",
+    "KUOS/DependentOriginationScaledDuskinUniverseLiftBridgeV1_29.lean": "78b7d2d63dc8137a6143b93579ffcec6c910b06f",
+    "KUOS/DependentOriginationScaledHornPresentationInvariantTypedRepairV1_30.lean": "9c87d47b90132c27fd26414402930dda0e5f4229",
+    "KUOS/DependentOriginationModelEquivalenceScaledHornPresentationTypedRepairV1_31.lean": "a6c0617fe77bad786e87192f8f2f3a604d6a5d78",
+    "KUOS/DependentOriginationCoherentNormalizedScaledModelEquivalenceTypedRepairV1_32.lean": "363e5d33437eaf2dc694c91b9644245e77981bdf",
+    "KUOS/DependentOriginationStandardABCLeibnizCellularComparisonV1_59.lean": "2b852bcd457831d25d50e8ed9dd3ac6a44f6f85e",
+    "KUOS/DependentOriginationStandardTypeCCollapsedEdgeV1_58.lean": "05c257663da028e4cca7907c9d5b7e7221468ac8",
+}
+
+
 def git_blob_sha(raw: bytes) -> str:
     """Reproduce the canonical git blob hash, including its type/length prefix."""
     header = b"blob " + str(len(raw)).encode("ascii") + b"\0"
@@ -151,6 +419,15 @@ class PublicRootRestorationTests(unittest.TestCase):
         self.assertEqual(wanted - actual, set(),
                          'Existing public proofs were blanket-excluded from the current Lake package')
 
+class ReviewedAdditiveFormalSourceTests(unittest.TestCase):
+    def test_additive_lean_module_blob_matches_reviewed_receipt(self):
+        for rel, expected_sha in REVIEWED_ADDITIVE_FORMAL_BLOBS.items():
+            with self.subTest(path=rel):
+                source = (ROOT / 'formal' / rel).read_bytes()
+                self.assertEqual(git_blob_sha(source), expected_sha,
+                                 f'unreviewed additive formal source change: {rel}')
+
+
 class RestoredWiringTests(unittest.TestCase):
     def test_stage_iii_existence_keeps_coherent_witness_without_unused_name(self):
         source = (ROOT / 'formal/KUOS/DependentOriginationWeakCoherentTwoAxisObstructionV2_42.lean').read_text(
@@ -213,6 +490,8 @@ class RestoredWiringTests(unittest.TestCase):
                     expected = expected.replace(old_fragment, new_fragment, 1)
                 current = (ROOT / 'formal' / rel).read_bytes()
                 fixed_sha = PR2339_INTEGRATED_PROOF_BLOBS.get(rel.as_posix())
+                if fixed_sha is None:
+                    fixed_sha = REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS.get(rel.as_posix())
                 if fixed_sha is not None:
                     pinned_seen.add(rel.as_posix())
                     self.assertEqual(git_blob_sha(current), fixed_sha,
@@ -222,7 +501,9 @@ class RestoredWiringTests(unittest.TestCase):
                                      f'unreviewed theorem source change: {rel}')
         self.assertEqual(seen, set(LINT_ONLY_SOURCE_EDITS),
                          'reviewed lint edit targets must all exist in historical roots')
-        self.assertEqual(pinned_seen, set(PR2339_INTEGRATED_PROOF_BLOBS),
+        self.assertEqual(pinned_seen,
+                         set(PR2339_INTEGRATED_PROOF_BLOBS) |
+                         set(REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS),
                          'every preexisting integrated proof exception is explicit and accounted for')
 
     def test_f55_path_functor_composition_has_actual_path_homs(self):

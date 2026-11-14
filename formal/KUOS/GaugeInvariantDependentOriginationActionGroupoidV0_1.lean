@@ -44,8 +44,9 @@ def inv [Group Gauge] [MulAction Gauge X]
     (a : ActionArrow (Gauge := Gauge) x y) :
     ActionArrow (Gauge := Gauge) y x :=
   ⟨a.1⁻¹, by
-    rw [← a.2]
-    simp [smul_smul]⟩
+    calc
+      a.1⁻¹ • y = a.1⁻¹ • (a.1 • x) := congrArg (fun z => a.1⁻¹ • z) a.2.symm
+      _ = x := by simp [smul_smul]⟩
 
 @[simp] theorem comp_id_source
     [Group Gauge] [MulAction Gauge X]
@@ -143,8 +144,10 @@ def gaugeStabilizer [Group Gauge] [MulAction Gauge X] (x : X) : Subgroup Gauge w
       _ = x := hg
   inv_mem' := by
     intro g hg
-    rw [← hg]
-    simp [smul_smul]
+    have h : g • x = x := hg
+    calc
+      g⁻¹ • x = g⁻¹ • (g • x) := congrArg (fun y => g⁻¹ • y) h.symm
+      _ = x := by simp [smul_smul]
 
 /-- Groupoid isotropy and the ordinary stabilizer subgroup contain exactly the
 same gauge transformations. -/
@@ -193,7 +196,8 @@ theorem transportIsotropy_gauge
     (a : ActionArrow (Gauge := Gauge) x y)
     (loop : ActionIsotropy (Gauge := Gauge) x) :
     (transportIsotropy a loop).1 = a.1 * loop.1 * a.1⁻¹ := by
-  simp [transportIsotropy, ActionArrow.comp, mul_assoc]
+  change a.1 * (loop.1 * a.1⁻¹) = a.1 * loop.1 * a.1⁻¹
+  exact (mul_assoc a.1 loop.1 a.1⁻¹).symm
 
 /-- Distinct stabilizer elements remain distinct isotropy arrows even though the
 coarse quotient sends their source and target to the same orbit point. -/

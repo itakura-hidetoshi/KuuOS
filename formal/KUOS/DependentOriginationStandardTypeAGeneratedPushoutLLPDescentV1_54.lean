@@ -124,7 +124,7 @@ structure StandardTypeAEndpointGeneratedPushoutProductStable
     (L : MorphismProperty (ScaledSSet.{u})) : Prop where
   pushoutProduct_mem :
     ∀ g : StandardTypeAHornAttachmentGeneratorIndex,
-      L (standardTypeAScaledHornGeneratorHom g.toHornGenerator) →
+      L (standardTypeAScaledHornGeneratorHom (StandardTypeAHornAttachmentGeneratorIndex.toHornGenerator g)) →
       L (standardTypeAEndpointGeneratedPushoutProductHom g)
 
 /-! ## Orthogonal left classes only need least-generated stability -/
@@ -137,8 +137,7 @@ theorem standardTypeAEndpointPushoutProductStable_of_generated
     (K : StandardTypeAEndpointGeneratedPushoutProductStable T.llp) :
     StandardTypeAEndpointPushoutProductStable T.llp where
   pushoutProduct_mem := by
-    intro g hHorn
-    intro X Y p hp
+    intro g hHorn X Y p hp
     have hGenerated := K.pushoutProduct_mem g hHorn
     exact
       standardTypeAEndpointPushoutProduct_hasLiftingProperty_of_generated
@@ -161,6 +160,8 @@ variable
     {E : MorphismProperty (ScaledSSet.{u})}
     (K : StandardTypeAExternalGeneratedPushoutComparison E)
 
+include K
+
 /-- Least-generated endpoint stability induces the older v1.50 comparison
 interface automatically. -/
 def toStandardTypeAExternalGeneratedComparison :
@@ -179,8 +180,7 @@ theorem inducedTypeAAttachments_le_externalGenerated :
     (standardTypeAInducedScaledHornAttachmentGenerators :
       MorphismProperty (ScaledSSet.{u})) ≤
       externalGeneratedScaledAnodyne E :=
-  K.toStandardTypeAExternalGeneratedComparison
-    .inducedTypeAAttachments_le_externalGenerated
+  (K.toStandardTypeAExternalGeneratedComparison).inducedTypeAAttachments_le_externalGenerated
 
 /-- The endpoint-pushout-product presentation itself is therefore externally
 generated as well. -/
@@ -188,8 +188,7 @@ theorem endpointPushoutProducts_le_externalGenerated :
     (standardTypeAEndpointPushoutProductGenerators :
       MorphismProperty (ScaledSSet.{u})) ≤
       externalGeneratedScaledAnodyne E :=
-  K.toStandardTypeAExternalGeneratedComparison
-    .endpointPushoutProducts_le_externalGenerated
+  (K.toStandardTypeAExternalGeneratedComparison).endpointPushoutProducts_le_externalGenerated
 
 end StandardTypeAExternalGeneratedPushoutComparison
 

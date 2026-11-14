@@ -9,6 +9,9 @@ open Opposite
 open Simplicial
 open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
 open KUOS.DependentOriginationScaledTerminalRLPV1_41
+open KUOS.DependentOriginationStandardTypeAScaledHornFamilyV1_49
+open KUOS.DependentOriginationStandardTypeAEndpointPushoutProductV1_50
+open KUOS.DependentOriginationStandardTypeAScaledPushoutSourceEnrichmentV1_53
 open KUOS.DependentOriginationStandardTypeBScalingPushoutV1_56
 open KUOS.DependentOriginationStandardTypeBThreeSimplexCompletionV1_57
 open KUOS.DependentOriginationStandardTypeCCollapsedEdgeV1_58
@@ -102,7 +105,8 @@ theorem standardTypeABoundaryPrismCell_mapHorn_to_APhase
     _ = c.ιSigmaHorn ≫
         ((standardTypeABoundaryPrismRankFunction g).m j ≫
           (standardTypeABoundaryPrismRankFunction g).b j) := by
-          rw [(standardTypeABoundaryPrismRankFunction g).w j]
+          exact congrArg (fun q => c.ιSigmaHorn ≫ q)
+            ((standardTypeABoundaryPrismRankFunction g).w j)
     _ = (c.ιSigmaHorn ≫ (standardTypeABoundaryPrismRankFunction g).m j) ≫
         (standardTypeABoundaryPrismRankFunction g).b j := by simp [Category.assoc]
     _ = (c.horn.ι ≫ c.ιSigmaStdSimplex) ≫
@@ -164,7 +168,7 @@ inductive type permits elimination into actual maps without choosing from a
 propositional disjunction. -/
 inductive StandardTypeABoundaryPrismRankBCell
     (g : StandardTypeAHornAttachmentGeneratorIndex)
-    (j : ℕ) : Type u
+    (j : ℕ) : Type u where
   | q12
       (c : (standardTypeABoundaryPrismRankFunction g).Cell j)
       (h : StandardTypeABoundaryPrismCellQ12Factorization g j c)
@@ -177,9 +181,11 @@ def StandardTypeABoundaryPrismRankBCell.cell
     {g : StandardTypeAHornAttachmentGeneratorIndex}
     {j : ℕ} :
     StandardTypeABoundaryPrismRankBCell g j →
-      (standardTypeABoundaryPrismRankFunction g).Cell j
-  | .q12 c _ => c
-  | .q23 c _ => c
+      (standardTypeABoundaryPrismRankFunction g).Cell j := by
+  intro b
+  cases b with
+  | q12 c _ => exact c
+  | q23 c _ => exact c
 
 /-! ## One standard-B copy maps to the corresponding actual completion -/
 
@@ -188,7 +194,7 @@ noncomputable def standardTypeABoundaryPrismRankBCellSourceToAPhase
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
     (b : StandardTypeABoundaryPrismRankBCell g j) :
-    standardTypeBSource ⟶ standardTypeABoundaryPrismRankAPhase g j := by
+    standardTypeBSource.{u} ⟶ standardTypeABoundaryPrismRankAPhase g j := by
   cases b with
   | q12 c h =>
       exact
@@ -209,7 +215,7 @@ noncomputable def standardTypeABoundaryPrismRankBCellTargetToSucc
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
     (b : StandardTypeABoundaryPrismRankBCell g j) :
-    standardTypeBTarget ⟶ standardTypeABoundaryPrismRankStage g (j + 1) := by
+    standardTypeBTarget.{u} ⟶ standardTypeABoundaryPrismRankStage g (j + 1) := by
   cases b with
   | q12 c h =>
       exact
@@ -228,39 +234,71 @@ noncomputable def standardTypeABoundaryPrismRankBCellTargetToSucc
           (standardTypeABoundaryPrismCellQ23TargetIso g j c h).inv ≫
           standardTypeABoundaryPrismScaledCellTargetToRankSucc g j c
 
+/-- Arrow-isomorphism commutativity identifies the underlying inverse maps
+of the two scaling transports.  This avoids eliminating a dependent cell. -/
+private theorem standardTypeABoundaryPrismQ12Iso_inv_map_eq
+    (g : StandardTypeAHornAttachmentGeneratorIndex)
+    (j : ℕ)
+    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)
+    (h : StandardTypeABoundaryPrismCellQ12Factorization g j c) :
+    (standardTypeABoundaryPrismCellQ12SourceIso g j c h).inv.map =
+      (standardTypeABoundaryPrismCellQ12TargetIso g j c h).inv.map := by
+  have htransport :=
+    standardTypeABoundaryPrismCellScalingIsoToThree_inv_map_eq
+      g j c h.target_three
+      (standardTypeABoundaryPrismCellAPushoutScaling g j c)
+      (standardTypeABoundaryPrismCellScaling g j c)
+  simpa only [standardTypeABoundaryPrismCellQ12SourceIso,
+    standardTypeABoundaryPrismCellQ12TargetIso, Iso.trans_inv,
+    ScaledSSet.comp_map, scalingEqualityIso_inv_map,
+    Category.id_comp] using htransport
+
+private theorem standardTypeABoundaryPrismQ23Iso_inv_map_eq
+    (g : StandardTypeAHornAttachmentGeneratorIndex)
+    (j : ℕ)
+    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)
+    (h : StandardTypeABoundaryPrismCellQ23Factorization g j c) :
+    (standardTypeABoundaryPrismCellQ23SourceIso g j c h).inv.map =
+      (standardTypeABoundaryPrismCellQ23TargetIso g j c h).inv.map := by
+  have htransport :=
+    standardTypeABoundaryPrismCellScalingIsoToThree_inv_map_eq
+      g j c h.target_three
+      (standardTypeABoundaryPrismCellAPushoutScaling g j c)
+      (standardTypeABoundaryPrismCellScaling g j c)
+  simpa only [standardTypeABoundaryPrismCellQ23SourceIso,
+    standardTypeABoundaryPrismCellQ23TargetIso, Iso.trans_inv,
+    ScaledSSet.comp_map, scalingEqualityIso_inv_map,
+    Category.id_comp] using htransport
+
 /-- The source and target maps of one B datum have exactly the same underlying
 simplicial map. -/
 theorem standardTypeABoundaryPrismRankBCell_source_target_map_eq
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
     (b : StandardTypeABoundaryPrismRankBCell g j) :
-    (standardTypeABoundaryPrismRankBCellSourceToAPhase g j b).map =
-      (standardTypeABoundaryPrismRankBCellTargetToSucc g j b).map := by
+    (standardTypeABoundaryPrismRankBCellSourceToAPhase.{u} g j b).map =
+      (standardTypeABoundaryPrismRankBCellTargetToSucc.{u} g j b).map := by
   cases b with
   | q12 c h =>
-      subst_vars
-      simp [standardTypeABoundaryPrismRankBCellSourceToAPhase,
-        standardTypeABoundaryPrismRankBCellTargetToSucc,
-        standardTypeABoundaryPrismCellQ12SourceIso,
-        standardTypeABoundaryPrismCellQ12TargetIso,
-        standardTypeABoundaryPrismCellScalingIsoToThree,
-        scalingEqualityIso,
-        scalingEnrichmentPushoutLowerMap,
-        scalingEnrichmentPushoutUpperMap,
-        standardTypeABoundaryPrismCellAPushoutTargetToAPhase,
-        standardTypeABoundaryPrismScaledCellTargetToRankSucc]
+      have heq := standardTypeABoundaryPrismQ12Iso_inv_map_eq g j c h
+      change standardTypeBCollapse12 ≫
+          (standardTypeABoundaryPrismCellQ12SourceIso g j c h).inv.map ≫
+          c.mapToSucc =
+        standardTypeBCollapse12 ≫
+          (standardTypeABoundaryPrismCellQ12TargetIso g j c h).inv.map ≫
+          c.mapToSucc
+      rw [heq]
+      rfl
   | q23 c h =>
-      subst_vars
-      simp [standardTypeABoundaryPrismRankBCellSourceToAPhase,
-        standardTypeABoundaryPrismRankBCellTargetToSucc,
-        standardTypeABoundaryPrismCellQ23SourceIso,
-        standardTypeABoundaryPrismCellQ23TargetIso,
-        standardTypeABoundaryPrismCellScalingIsoToThree,
-        scalingEqualityIso,
-        scalingEnrichmentPushoutLowerMap,
-        scalingEnrichmentPushoutUpperMap,
-        standardTypeABoundaryPrismCellAPushoutTargetToAPhase,
-        standardTypeABoundaryPrismScaledCellTargetToRankSucc]
+      have heq := standardTypeABoundaryPrismQ23Iso_inv_map_eq g j c h
+      change standardTypeBCollapse23 ≫
+          (standardTypeABoundaryPrismCellQ23SourceIso g j c h).inv.map ≫
+          c.mapToSucc =
+        standardTypeBCollapse23 ≫
+          (standardTypeABoundaryPrismCellQ23TargetIso g j c h).inv.map ≫
+          c.mapToSucc
+      rw [heq]
+      rfl
 
 /-! ## Coproduct of all literal standard-B copies -/
 
@@ -271,7 +309,7 @@ noncomputable abbrev standardTypeABoundaryPrismRankBSigmaCarrier
   ∐ fun _ : StandardTypeABoundaryPrismRankBCell g j => (Δ[4] : SSet.{u})
 
 /-- Source scaling on the exceptional standard-B coproduct. -/
-def standardTypeABoundaryPrismRankBSourceSigmaScaling
+@[reducible] def standardTypeABoundaryPrismRankBSourceSigmaScaling
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ) :
     ScaledSimplicialSet (standardTypeABoundaryPrismRankBSigmaCarrier g j) where
@@ -295,7 +333,7 @@ def standardTypeABoundaryPrismRankBSourceSigmaScaling
         (standardTypeABoundaryPrismRankBSigmaCarrier g j)).thin_sigma_one x)
 
 /-- Target scaling on the same ordinary coproduct carrier. -/
-def standardTypeABoundaryPrismRankBTargetSigmaScaling
+@[reducible] def standardTypeABoundaryPrismRankBTargetSigmaScaling
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ) :
     ScaledSimplicialSet (standardTypeABoundaryPrismRankBSigmaCarrier g j) where
@@ -335,7 +373,7 @@ def standardTypeABoundaryPrismRankBSourceSigmaInclusion
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
     (b : StandardTypeABoundaryPrismRankBCell g j) :
-    standardTypeBSource ⟶ standardTypeABoundaryPrismRankBSourceSigma g j where
+    standardTypeBSource.{u} ⟶ standardTypeABoundaryPrismRankBSourceSigma g j where
   map := Sigma.ι
     (fun _ : StandardTypeABoundaryPrismRankBCell g j => (Δ[4] : SSet.{u})) b
   scaled := by
@@ -347,7 +385,7 @@ def standardTypeABoundaryPrismRankBTargetSigmaInclusion
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
     (b : StandardTypeABoundaryPrismRankBCell g j) :
-    standardTypeBTarget ⟶ standardTypeABoundaryPrismRankBTargetSigma g j where
+    standardTypeBTarget.{u} ⟶ standardTypeABoundaryPrismRankBTargetSigma g j where
   map := Sigma.ι
     (fun _ : StandardTypeABoundaryPrismRankBCell g j => (Δ[4] : SSet.{u})) b
   scaled := by
@@ -358,15 +396,16 @@ def standardTypeABoundaryPrismRankBTargetSigmaInclusion
 noncomputable def standardTypeABoundaryPrismRankBSourceCofan
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ) :
-    Cofan (fun _ : StandardTypeABoundaryPrismRankBCell g j => standardTypeBSource) :=
-  Cofan.mk (standardTypeABoundaryPrismRankBSourceSigma g j)
-    (fun b => standardTypeABoundaryPrismRankBSourceSigmaInclusion g j b)
+    Cofan (fun _ : StandardTypeABoundaryPrismRankBCell g j =>
+      (standardTypeBSource.{u} : ScaledSSet.{u})) :=
+  Cofan.mk (standardTypeABoundaryPrismRankBSourceSigma.{u} g j)
+    (fun b => standardTypeABoundaryPrismRankBSourceSigmaInclusion.{u} g j b)
 
 /-- The source cofan is colimiting in `ScaledSSet`. -/
 noncomputable def standardTypeABoundaryPrismRankBSourceCofanIsColimit
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ) :
-    IsColimit (standardTypeABoundaryPrismRankBSourceCofan g j) where
+    IsColimit (standardTypeABoundaryPrismRankBSourceCofan.{u} g j) where
   desc s :=
     { map := Sigma.desc
         (fun b : StandardTypeABoundaryPrismRankBCell g j => (s.ι.app ⟨b⟩).map)
@@ -379,33 +418,49 @@ noncomputable def standardTypeABoundaryPrismRankBSourceCofanIsColimit
                 (fun b : StandardTypeABoundaryPrismRankBCell g j =>
                   (s.ι.app ⟨b⟩).map))) t hmin
         · have hs := (s.ι.app ⟨b⟩).scaled x hx
-          simpa only [Sigma.ι_desc] using hs }
+          change s.pt.scaling.thin
+            (((Sigma.ι (fun _ : StandardTypeABoundaryPrismRankBCell g j =>
+              (Δ[4] : SSet.{u})) b ≫
+              Sigma.desc (fun d : StandardTypeABoundaryPrismRankBCell g j =>
+                (s.ι.app ⟨d⟩).map)).app (op ⦋2⦌)) x)
+          rw [Sigma.ι_desc]
+          exact hs }
   fac s b := by
     rcases b with ⟨b⟩
     apply ScaledSSet.ScaledMap.ext
-    simp [standardTypeABoundaryPrismRankBSourceCofan,
-      standardTypeABoundaryPrismRankBSourceSigmaInclusion]
+    change (Sigma.ι (fun _ : StandardTypeABoundaryPrismRankBCell g j =>
+      (Δ[4] : SSet.{u})) b) ≫
+      Sigma.desc (fun d : StandardTypeABoundaryPrismRankBCell g j =>
+        (s.ι.app ⟨d⟩).map) = (s.ι.app ⟨b⟩).map
+    exact Sigma.ι_desc _ _
   uniq s m hm := by
     apply ScaledSSet.ScaledMap.ext
     apply Sigma.hom_ext
     intro b
     have hb := congrArg ScaledSSet.ScaledMap.map (hm ⟨b⟩)
-    simpa [standardTypeABoundaryPrismRankBSourceCofan,
-      standardTypeABoundaryPrismRankBSourceSigmaInclusion] using hb
+    change (Sigma.ι (fun _ : StandardTypeABoundaryPrismRankBCell g j =>
+      (Δ[4] : SSet.{u})) b) ≫ m.map =
+      (Sigma.ι (fun _ : StandardTypeABoundaryPrismRankBCell g j =>
+        (Δ[4] : SSet.{u})) b) ≫
+        Sigma.desc (fun d : StandardTypeABoundaryPrismRankBCell g j =>
+          (s.ι.app ⟨d⟩).map)
+    rw [Sigma.ι_desc]
+    exact hb
 
 /-- Target cofan for the standard-B copies. -/
 noncomputable def standardTypeABoundaryPrismRankBTargetCofan
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ) :
-    Cofan (fun _ : StandardTypeABoundaryPrismRankBCell g j => standardTypeBTarget) :=
-  Cofan.mk (standardTypeABoundaryPrismRankBTargetSigma g j)
-    (fun b => standardTypeABoundaryPrismRankBTargetSigmaInclusion g j b)
+    Cofan (fun _ : StandardTypeABoundaryPrismRankBCell g j =>
+      (standardTypeBTarget.{u} : ScaledSSet.{u})) :=
+  Cofan.mk (standardTypeABoundaryPrismRankBTargetSigma.{u} g j)
+    (fun b => standardTypeABoundaryPrismRankBTargetSigmaInclusion.{u} g j b)
 
 /-- The target cofan is colimiting in `ScaledSSet`. -/
 noncomputable def standardTypeABoundaryPrismRankBTargetCofanIsColimit
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ) :
-    IsColimit (standardTypeABoundaryPrismRankBTargetCofan g j) where
+    IsColimit (standardTypeABoundaryPrismRankBTargetCofan.{u} g j) where
   desc s :=
     { map := Sigma.desc
         (fun b : StandardTypeABoundaryPrismRankBCell g j => (s.ι.app ⟨b⟩).map)
@@ -418,19 +473,34 @@ noncomputable def standardTypeABoundaryPrismRankBTargetCofanIsColimit
                 (fun b : StandardTypeABoundaryPrismRankBCell g j =>
                   (s.ι.app ⟨b⟩).map))) t hmin
         · have hs := (s.ι.app ⟨b⟩).scaled x hx
-          simpa only [Sigma.ι_desc] using hs }
+          change s.pt.scaling.thin
+            (((Sigma.ι (fun _ : StandardTypeABoundaryPrismRankBCell g j =>
+              (Δ[4] : SSet.{u})) b ≫
+              Sigma.desc (fun d : StandardTypeABoundaryPrismRankBCell g j =>
+                (s.ι.app ⟨d⟩).map)).app (op ⦋2⦌)) x)
+          rw [Sigma.ι_desc]
+          exact hs }
   fac s b := by
     rcases b with ⟨b⟩
     apply ScaledSSet.ScaledMap.ext
-    simp [standardTypeABoundaryPrismRankBTargetCofan,
-      standardTypeABoundaryPrismRankBTargetSigmaInclusion]
+    change (Sigma.ι (fun _ : StandardTypeABoundaryPrismRankBCell g j =>
+      (Δ[4] : SSet.{u})) b) ≫
+      Sigma.desc (fun d : StandardTypeABoundaryPrismRankBCell g j =>
+        (s.ι.app ⟨d⟩).map) = (s.ι.app ⟨b⟩).map
+    exact Sigma.ι_desc _ _
   uniq s m hm := by
     apply ScaledSSet.ScaledMap.ext
     apply Sigma.hom_ext
     intro b
     have hb := congrArg ScaledSSet.ScaledMap.map (hm ⟨b⟩)
-    simpa [standardTypeABoundaryPrismRankBTargetCofan,
-      standardTypeABoundaryPrismRankBTargetSigmaInclusion] using hb
+    change (Sigma.ι (fun _ : StandardTypeABoundaryPrismRankBCell g j =>
+      (Δ[4] : SSet.{u})) b) ≫ m.map =
+      (Sigma.ι (fun _ : StandardTypeABoundaryPrismRankBCell g j =>
+        (Δ[4] : SSet.{u})) b) ≫
+        Sigma.desc (fun d : StandardTypeABoundaryPrismRankBCell g j =>
+          (s.ι.app ⟨d⟩).map)
+    rw [Sigma.ι_desc]
+    exact hb
 
 /-- Coproduct of the literal standard type-(B) generators.  Its underlying
 simplicial map is the identity on the common coproduct carrier. -/
@@ -458,30 +528,30 @@ noncomputable def standardTypeABoundaryPrismRankBGeneratorNatTrans
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ) :
     Discrete.functor
-        (fun _ : StandardTypeABoundaryPrismRankBCell g j => standardTypeBSource) ⟶
+        (fun _ : StandardTypeABoundaryPrismRankBCell g j => standardTypeBSource.{u}) ⟶
       Discrete.functor
-        (fun _ : StandardTypeABoundaryPrismRankBCell g j => standardTypeBTarget) :=
-  Discrete.natTrans (fun _ => standardTypeBGeneratorHom)
+        (fun _ : StandardTypeABoundaryPrismRankBCell g j => standardTypeBTarget.{u}) :=
+  Discrete.natTrans (fun _ => standardTypeBGeneratorHom.{u})
 
 /-- The simultaneous B coproduct is literally a coproduct of standard A/B/C
 generators. -/
 theorem standardTypeABoundaryPrismRankBSigmaGeneratorHom_mem_coproductsABC
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ) :
-    (MorphismProperty.coproducts.{u}
+    (MorphismProperty.coproducts.{u, u, u + 1}
       (standardScaledAnodyneGeneratorsABC : MorphismProperty (ScaledSSet.{u})))
       (standardTypeABoundaryPrismRankBSigmaGeneratorHom g j) := by
   rw [MorphismProperty.coproducts_iff]
   refine ⟨StandardTypeABoundaryPrismRankBCell g j, ?_⟩
-  refine MorphismProperty.colimitsOfShape.mk'
+  refine MorphismProperty.colimitsOfShape.mk'.{u, u + 1, u, u}
     (Discrete.functor
-      (fun _ : StandardTypeABoundaryPrismRankBCell g j => standardTypeBSource))
+      (fun _ : StandardTypeABoundaryPrismRankBCell g j => standardTypeBSource.{u}))
     (Discrete.functor
-      (fun _ : StandardTypeABoundaryPrismRankBCell g j => standardTypeBTarget))
-    (standardTypeABoundaryPrismRankBSourceCofan g j)
-    (standardTypeABoundaryPrismRankBTargetCofan g j)
-    (standardTypeABoundaryPrismRankBSourceCofanIsColimit g j)
-    (standardTypeABoundaryPrismRankBTargetCofanIsColimit g j)
+      (fun _ : StandardTypeABoundaryPrismRankBCell g j => standardTypeBTarget.{u}))
+    (standardTypeABoundaryPrismRankBSourceCofan.{u} g j)
+    (standardTypeABoundaryPrismRankBTargetCofan.{u} g j)
+    (standardTypeABoundaryPrismRankBSourceCofanIsColimit.{u} g j)
+    (standardTypeABoundaryPrismRankBTargetCofanIsColimit.{u} g j)
     (standardTypeABoundaryPrismRankBGeneratorNatTrans g j) ?_
     (standardTypeABoundaryPrismRankBSigmaGeneratorHom g j) ?_
   · intro b
@@ -489,13 +559,13 @@ theorem standardTypeABoundaryPrismRankBSigmaGeneratorHom_mem_coproductsABC
   · intro b
     rcases b with ⟨b⟩
     apply ScaledSSet.ScaledMap.ext
-    simp [standardTypeABoundaryPrismRankBSourceCofan,
-      standardTypeABoundaryPrismRankBTargetCofan,
-      standardTypeABoundaryPrismRankBSourceSigmaInclusion,
-      standardTypeABoundaryPrismRankBTargetSigmaInclusion,
-      standardTypeABoundaryPrismRankBSigmaGeneratorHom,
-      standardTypeABoundaryPrismRankBGeneratorNatTrans,
-      standardTypeBGeneratorHom]
+    change
+      (Sigma.ι (fun _ : StandardTypeABoundaryPrismRankBCell g j =>
+        (Δ[4] : SSet.{u})) b) ≫ 𝟙 _ =
+      standardTypeBGeneratorHom.{u}.map ≫
+        (Sigma.ι (fun _ : StandardTypeABoundaryPrismRankBCell g j =>
+          (Δ[4] : SSet.{u})) b)
+    exact (Category.id_comp _).symm
 
 /-! ## Attach the B coproduct to `A_j` -/
 
@@ -507,7 +577,7 @@ noncomputable def standardTypeABoundaryPrismRankBSourceSigmaToAPhase
       standardTypeABoundaryPrismRankAPhase g j where
   map := Sigma.desc
     (fun b : StandardTypeABoundaryPrismRankBCell g j =>
-      (standardTypeABoundaryPrismRankBCellSourceToAPhase g j b).map)
+      (standardTypeABoundaryPrismRankBCellSourceToAPhase.{u} g j b).map)
   scaled := by
     intro t ht
     rcases ht with hmin | ⟨b, x, hx, rfl⟩
@@ -516,10 +586,16 @@ noncomputable def standardTypeABoundaryPrismRankBSourceSigmaToAPhase
           (standardTypeABoundaryPrismRankAPhaseScaling g j)
           (Sigma.desc
             (fun b : StandardTypeABoundaryPrismRankBCell g j =>
-              (standardTypeABoundaryPrismRankBCellSourceToAPhase g j b).map)))
+              (standardTypeABoundaryPrismRankBCellSourceToAPhase.{u} g j b).map)))
           t hmin
-    · have hs := (standardTypeABoundaryPrismRankBCellSourceToAPhase g j b).scaled x hx
-      simpa only [Sigma.ι_desc] using hs
+    · have hs := (standardTypeABoundaryPrismRankBCellSourceToAPhase.{u} g j b).scaled x hx
+      change (standardTypeABoundaryPrismRankAPhaseScaling g j).thin
+        (((Sigma.ι (fun _ : StandardTypeABoundaryPrismRankBCell g j =>
+          (Δ[4] : SSet.{u})) b ≫
+          Sigma.desc (fun d : StandardTypeABoundaryPrismRankBCell g j =>
+            (standardTypeABoundaryPrismRankBCellSourceToAPhase.{u} g j d).map)).app (op ⦋2⦌)) x)
+      rw [Sigma.ι_desc]
+      exact hs
 
 /-- Target attaching map from the standard-B target coproduct into the exact
 successor stage. -/
@@ -530,7 +606,7 @@ noncomputable def standardTypeABoundaryPrismRankBTargetSigmaToSucc
       standardTypeABoundaryPrismRankStage g (j + 1) where
   map := Sigma.desc
     (fun b : StandardTypeABoundaryPrismRankBCell g j =>
-      (standardTypeABoundaryPrismRankBCellTargetToSucc g j b).map)
+      (standardTypeABoundaryPrismRankBCellTargetToSucc.{u} g j b).map)
   scaled := by
     intro t ht
     rcases ht with hmin | ⟨b, x, hx, rfl⟩
@@ -539,22 +615,31 @@ noncomputable def standardTypeABoundaryPrismRankBTargetSigmaToSucc
           (standardTypeABoundaryPrismRankStageScaling g (j + 1))
           (Sigma.desc
             (fun b : StandardTypeABoundaryPrismRankBCell g j =>
-              (standardTypeABoundaryPrismRankBCellTargetToSucc g j b).map)))
+              (standardTypeABoundaryPrismRankBCellTargetToSucc.{u} g j b).map)))
           t hmin
-    · have hs := (standardTypeABoundaryPrismRankBCellTargetToSucc g j b).scaled x hx
-      simpa only [Sigma.ι_desc] using hs
+    · have hs := (standardTypeABoundaryPrismRankBCellTargetToSucc.{u} g j b).scaled x hx
+      change (standardTypeABoundaryPrismRankStageScaling g (j + 1)).thin
+        (((Sigma.ι (fun _ : StandardTypeABoundaryPrismRankBCell g j =>
+          (Δ[4] : SSet.{u})) b ≫
+          Sigma.desc (fun d : StandardTypeABoundaryPrismRankBCell g j =>
+            (standardTypeABoundaryPrismRankBCellTargetToSucc.{u} g j d).map)).app (op ⦋2⦌)) x)
+      rw [Sigma.ι_desc]
+      exact hs
 
 /-- The two attaching maps have the same underlying simplicial map. -/
 theorem standardTypeABoundaryPrismRankBSourceTargetSigma_map_eq
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ) :
-    (standardTypeABoundaryPrismRankBSourceSigmaToAPhase g j).map =
-      (standardTypeABoundaryPrismRankBTargetSigmaToSucc g j).map := by
-  apply Sigma.hom_ext
-  intro b
-  simpa [standardTypeABoundaryPrismRankBSourceSigmaToAPhase,
-    standardTypeABoundaryPrismRankBTargetSigmaToSucc] using
-    standardTypeABoundaryPrismRankBCell_source_target_map_eq g j b
+    (standardTypeABoundaryPrismRankBSourceSigmaToAPhase.{u} g j).map =
+      (standardTypeABoundaryPrismRankBTargetSigmaToSucc.{u} g j).map := by
+  change
+    Sigma.desc (fun b : StandardTypeABoundaryPrismRankBCell g j =>
+      (standardTypeABoundaryPrismRankBCellSourceToAPhase.{u} g j b).map) =
+    Sigma.desc (fun b : StandardTypeABoundaryPrismRankBCell g j =>
+      (standardTypeABoundaryPrismRankBCellTargetToSucc.{u} g j b).map)
+  congr 1
+  funext b
+  exact standardTypeABoundaryPrismRankBCell_source_target_map_eq g j b
 
 /-- Underlying ordinary B-phase square. -/
 noncomputable def standardTypeABoundaryPrism_rankB_underlying_isPushout
@@ -584,7 +669,7 @@ theorem standardTypeABoundaryPrismRankBCell_exactThin_generated
         (b.cell.mapToSucc.app (op ⦋2⦌) z) ∨
       ∃ x : (Δ[4] : SSet.{u}).obj (op ⦋2⦌),
         standardTypeBTargetScaling.thin x ∧
-          (standardTypeABoundaryPrismRankBCellTargetToSucc g j b).map.app
+          (standardTypeABoundaryPrismRankBCellTargetToSucc.{u} g j b).map.app
               (op ⦋2⦌) x =
             b.cell.mapToSucc.app (op ⦋2⦌) z := by
   cases b with
@@ -611,11 +696,20 @@ theorem standardTypeABoundaryPrismRankBCell_exactThin_generated
               (op ⦋2⦌)
               ((standardTypeABoundaryPrismCellQ12TargetIso g j c h).hom.map.app
                 (op ⦋2⦌) z)) hbase'
-        subst_vars
-        simpa [standardTypeABoundaryPrismCellQ12SourceIso,
-          standardTypeABoundaryPrismCellQ12TargetIso,
-          standardTypeABoundaryPrismCellScalingIsoToThree,
-          scalingEqualityIso] using hs
+        have hInvMap := standardTypeABoundaryPrismQ12Iso_inv_map_eq g j c h
+        rw [hInvMap] at hs
+        have hInvHom := congrArg ScaledSSet.ScaledMap.map
+          (standardTypeABoundaryPrismCellQ12TargetIso g j c h).hom_inv_id
+        have hpoint := ConcreteCategory.congr_hom
+          (congr_app hInvHom (op ⦋2⦌)) z
+        have hcancel :
+            (standardTypeABoundaryPrismCellQ12TargetIso g j c h).inv.map.app
+                (op ⦋2⦌)
+                ((standardTypeABoundaryPrismCellQ12TargetIso g j c h).hom.map.app
+                  (op ⦋2⦌) z) = z := by
+          simpa only [NatTrans.comp_app_apply,
+            CategoryTheory.Functor.map_id_apply] using hpoint
+        exact (congrArg (c.mapToSucc.app (op ⦋2⦌)) hcancel) ▸ hs
       · right
         refine ⟨x, hx, ?_⟩
         change
@@ -628,7 +722,7 @@ theorem standardTypeABoundaryPrismRankBCell_exactThin_generated
         have hi := congrArg ScaledSSet.ScaledMap.map
           (standardTypeABoundaryPrismCellQ12TargetIso g j c h).hom_inv_id
         have hp := ConcreteCategory.congr_hom (congr_app hi (op ⦋2⦌)) z
-        simpa only [NatTrans.comp_app_apply, CategoryTheory.FunctorToTypes.map_id_apply]
+        simpa only [NatTrans.comp_app_apply, CategoryTheory.Functor.map_id_apply]
           using congrArg (c.mapToSucc.app (op ⦋2⦌)) hp
   | q23 c h =>
       have hz' := (standardTypeABoundaryPrismCellQ23TargetIso g j c h).hom.scaled z hz
@@ -653,11 +747,20 @@ theorem standardTypeABoundaryPrismRankBCell_exactThin_generated
               (op ⦋2⦌)
               ((standardTypeABoundaryPrismCellQ23TargetIso g j c h).hom.map.app
                 (op ⦋2⦌) z)) hbase'
-        subst_vars
-        simpa [standardTypeABoundaryPrismCellQ23SourceIso,
-          standardTypeABoundaryPrismCellQ23TargetIso,
-          standardTypeABoundaryPrismCellScalingIsoToThree,
-          scalingEqualityIso] using hs
+        have hInvMap := standardTypeABoundaryPrismQ23Iso_inv_map_eq g j c h
+        rw [hInvMap] at hs
+        have hInvHom := congrArg ScaledSSet.ScaledMap.map
+          (standardTypeABoundaryPrismCellQ23TargetIso g j c h).hom_inv_id
+        have hpoint := ConcreteCategory.congr_hom
+          (congr_app hInvHom (op ⦋2⦌)) z
+        have hcancel :
+            (standardTypeABoundaryPrismCellQ23TargetIso g j c h).inv.map.app
+                (op ⦋2⦌)
+                ((standardTypeABoundaryPrismCellQ23TargetIso g j c h).hom.map.app
+                  (op ⦋2⦌) z) = z := by
+          simpa only [NatTrans.comp_app_apply,
+            CategoryTheory.Functor.map_id_apply] using hpoint
+        exact (congrArg (c.mapToSucc.app (op ⦋2⦌)) hcancel) ▸ hs
       · right
         refine ⟨x, hx, ?_⟩
         change
@@ -670,7 +773,7 @@ theorem standardTypeABoundaryPrismRankBCell_exactThin_generated
         have hi := congrArg ScaledSSet.ScaledMap.map
           (standardTypeABoundaryPrismCellQ23TargetIso g j c h).hom_inv_id
         have hp := ConcreteCategory.congr_hom (congr_app hi (op ⦋2⦌)) z
-        simpa only [NatTrans.comp_app_apply, CategoryTheory.FunctorToTypes.map_id_apply]
+        simpa only [NatTrans.comp_app_apply, CategoryTheory.Functor.map_id_apply]
           using congrArg (c.mapToSucc.app (op ⦋2⦌)) hp
 
 /-! ## The simultaneous B-generated scaling is exactly the successor scaling -/
@@ -681,11 +784,11 @@ theorem standardTypeABoundaryPrismRankBGeneratedPushoutScaling_eq_succ
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ) :
     generatedPushoutScaling
-        (standardTypeABoundaryPrismRankAPhaseScaling g j)
-        (standardTypeABoundaryPrismRankBTargetSigmaScaling g j)
+        (standardTypeABoundaryPrismRankAPhaseScaling.{u} g j)
+        (standardTypeABoundaryPrismRankBTargetSigmaScaling.{u} g j)
         (𝟙 _)
-        (standardTypeABoundaryPrismRankBTargetSigmaToSucc g j).map =
-      standardTypeABoundaryPrismRankStageScaling g (j + 1) := by
+        (standardTypeABoundaryPrismRankBTargetSigmaToSucc.{u} g j).map =
+      standardTypeABoundaryPrismRankStageScaling.{u} g (j + 1) := by
   apply scaling_eq_of_le_antisymm
   · intro t ht
     rcases ht with hmin | ⟨x, hx, hxt⟩ | ⟨y, hy, hyt⟩
@@ -694,7 +797,9 @@ theorem standardTypeABoundaryPrismRankBGeneratedPushoutScaling_eq_succ
           (standardTypeABoundaryPrismRankStageScaling g (j + 1)).thin_sigma_zero x
       · exact
           (standardTypeABoundaryPrismRankStageScaling g (j + 1)).thin_sigma_one x
-    · simpa at hxt
+    · have hxt' : x = t := by
+        simpa only [Functor.id_obj, NatTrans.id_app,
+          CategoryTheory.Functor.map_id_apply] using hxt
       subst t
       exact standardTypeABoundaryPrismRankAPhaseScaling_le_succ g j x hx
     · rw [← hyt]
@@ -710,8 +815,8 @@ theorem standardTypeABoundaryPrismRankBGeneratedPushoutScaling_eq_succ
               (((standardTypeABoundaryPrismRankFunction g).b j).app
                 (op ⦋2⦌)) := by
       rw [
-        (standardTypeABoundaryPrismRankFunction g).
-          range_homOfLE_app_union_range_b_app j (op ⦋2⦌)]
+        (standardTypeABoundaryPrismRankFunction g).range_homOfLE_app_union_range_b_app
+          j (op ⦋2⦌)]
       exact Set.mem_univ t
     change
       t ∈
@@ -735,8 +840,13 @@ theorem standardTypeABoundaryPrismRankBGeneratedPushoutScaling_eq_succ
               ((SSet.Subcomplex.homOfLE
                 ((standardTypeABoundaryPrismRankFunction g).filtration_monotone
                   (Order.le_succ j))).app (op ⦋2⦌) x)) at ht
-        rw [← NatTrans.comp_app_apply] at ht
-        rw [SSet.Subcomplex.homOfLE_ι] at ht
+        change
+          (scaledSimplexCylinder (standardTypeASimplexScaling g.i)).scaling.thin
+            (((SSet.Subcomplex.homOfLE
+              ((standardTypeABoundaryPrismRankFunction g).filtration_monotone
+                (Order.le_succ j))) ≫
+              ((standardTypeABoundaryPrismRankFunction g).filtration (j + 1)).ι).app
+                (op ⦋2⦌) x) at ht
         exact ht
       have hxA :
           (standardTypeABoundaryPrismRankAPhaseScaling g j).thin
@@ -744,15 +854,14 @@ theorem standardTypeABoundaryPrismRankBGeneratedPushoutScaling_eq_succ
               ((standardTypeABoundaryPrismRankFunction g).filtration_monotone
                 (Order.le_succ j))).app (op ⦋2⦌) x) :=
         Or.inr (Or.inl ⟨x, hx, rfl⟩)
-      exact Or.inr (Or.inl ⟨_, hxA, by simp⟩)
+      exact Or.inr (Or.inl ⟨_, hxA, by rfl⟩)
     · obtain ⟨c, z, hz⟩ :=
-        (standardTypeABoundaryPrismRankFunction g).
-          ιSigmaStdSimplex_jointly_surjective y
+        (standardTypeABoundaryPrismRankFunction g).ιSigmaStdSimplex_jointly_surjective y
       have hb := ConcreteCategory.congr_hom
         (congr_app c.ι_b (op ⦋2⦌)) z
       have hzcell :
           (standardTypeABoundaryPrismCellScaling g j c).thin z := by
-        rw [hz] at ht
+        rw [← hz] at ht
         rw [show
           ((standardTypeABoundaryPrismRankFunction g).b j).app (op ⦋2⦌)
               (c.ιSigmaStdSimplex.app (op ⦋2⦌) z) =
@@ -769,19 +878,29 @@ theorem standardTypeABoundaryPrismRankBGeneratedPushoutScaling_eq_succ
         have hphase :=
           (standardTypeABoundaryPrismCellAPushoutTargetToAPhase g j c).scaled z hzA
         refine Or.inr (Or.inl ⟨c.mapToSucc.app (op ⦋2⦌) z, hphase, ?_⟩)
+        have hby :
+            ((standardTypeABoundaryPrismRankFunction g).b j).app (op ⦋2⦌) y =
+              c.mapToSucc.app (op ⦋2⦌) z := by
+          rw [← hz]
+          simpa only [NatTrans.comp_app_apply] using hb
         simpa only [Functor.id_obj, NatTrans.id_app, id_eq,
-          CategoryTheory.FunctorToTypes.map_id_apply] using hb.symm
+          CategoryTheory.Functor.map_id_apply] using hby.symm
       · rcases standardTypeABoundaryPrismRankBCell_exactThin_generated
           g j (.q12 c h12) z hzcell with hphase | ⟨x, hx, hxmap⟩
         · refine Or.inr (Or.inl ⟨c.mapToSucc.app (op ⦋2⦌) z, hphase, ?_⟩)
+          have hby :
+              ((standardTypeABoundaryPrismRankFunction g).b j).app (op ⦋2⦌) y =
+                c.mapToSucc.app (op ⦋2⦌) z := by
+            rw [← hz]
+            simpa only [NatTrans.comp_app_apply] using hb
           simpa only [Functor.id_obj, NatTrans.id_app, id_eq,
-            CategoryTheory.FunctorToTypes.map_id_apply] using hb.symm
+            CategoryTheory.Functor.map_id_apply] using hby.symm
         · right
           right
-          let b : StandardTypeABoundaryPrismRankBCell g j := .q12 c h12
-          let yB : (standardTypeABoundaryPrismRankBSigmaCarrier g j).obj (op ⦋2⦌) :=
+          let b : StandardTypeABoundaryPrismRankBCell.{u} g j := .q12 c h12
+          let yB : (standardTypeABoundaryPrismRankBSigmaCarrier.{u} g j).obj (op ⦋2⦌) :=
             (Sigma.ι
-              (fun _ : StandardTypeABoundaryPrismRankBCell g j =>
+              (fun _ : StandardTypeABoundaryPrismRankBCell.{u} g j =>
                 (Δ[4] : SSet.{u})) b).app (op ⦋2⦌) x
           refine ⟨yB, ?_, ?_⟩
           · exact Or.inr ⟨b, x, hx, rfl⟩
@@ -790,9 +909,25 @@ theorem standardTypeABoundaryPrismRankBGeneratedPushoutScaling_eq_succ
                   (op ⦋2⦌) yB =
                 ((standardTypeABoundaryPrismRankFunction g).b j).app
                   (op ⦋2⦌) y
-            rw [hz]
+            rw [← hz]
+            have hSigmaEval :
+                (standardTypeABoundaryPrismRankBTargetSigmaToSucc.{u} g j).map.app
+                    (op ⦋2⦌) yB =
+                  (standardTypeABoundaryPrismRankBCellTargetToSucc.{u} g j b).map.app
+                    (op ⦋2⦌) x := by
+              have hfac :
+                  Sigma.ι (fun _ : StandardTypeABoundaryPrismRankBCell.{u} g j =>
+                      (Δ[4] : SSet.{u})) b ≫
+                    Sigma.desc (fun d : StandardTypeABoundaryPrismRankBCell.{u} g j =>
+                      (standardTypeABoundaryPrismRankBCellTargetToSucc.{u} g j d).map) =
+                    (standardTypeABoundaryPrismRankBCellTargetToSucc.{u} g j b).map :=
+                Sigma.ι_desc _ _
+              have happ := ConcreteCategory.congr_hom
+                (congr_app hfac (op ⦋2⦌)) x
+              simpa only [NatTrans.comp_app_apply] using happ
+            rw [hSigmaEval]
             change
-              (standardTypeABoundaryPrismRankBCellTargetToSucc g j b).map.app
+              (standardTypeABoundaryPrismRankBCellTargetToSucc.{u} g j b).map.app
                   (op ⦋2⦌) x =
                 ((standardTypeABoundaryPrismRankFunction g).b j).app
                   (op ⦋2⦌)
@@ -802,14 +937,19 @@ theorem standardTypeABoundaryPrismRankBGeneratedPushoutScaling_eq_succ
       · rcases standardTypeABoundaryPrismRankBCell_exactThin_generated
           g j (.q23 c h23) z hzcell with hphase | ⟨x, hx, hxmap⟩
         · refine Or.inr (Or.inl ⟨c.mapToSucc.app (op ⦋2⦌) z, hphase, ?_⟩)
+          have hby :
+              ((standardTypeABoundaryPrismRankFunction g).b j).app (op ⦋2⦌) y =
+                c.mapToSucc.app (op ⦋2⦌) z := by
+            rw [← hz]
+            simpa only [NatTrans.comp_app_apply] using hb
           simpa only [Functor.id_obj, NatTrans.id_app, id_eq,
-            CategoryTheory.FunctorToTypes.map_id_apply] using hb.symm
+            CategoryTheory.Functor.map_id_apply] using hby.symm
         · right
           right
-          let b : StandardTypeABoundaryPrismRankBCell g j := .q23 c h23
-          let yB : (standardTypeABoundaryPrismRankBSigmaCarrier g j).obj (op ⦋2⦌) :=
+          let b : StandardTypeABoundaryPrismRankBCell.{u} g j := .q23 c h23
+          let yB : (standardTypeABoundaryPrismRankBSigmaCarrier.{u} g j).obj (op ⦋2⦌) :=
             (Sigma.ι
-              (fun _ : StandardTypeABoundaryPrismRankBCell g j =>
+              (fun _ : StandardTypeABoundaryPrismRankBCell.{u} g j =>
                 (Δ[4] : SSet.{u})) b).app (op ⦋2⦌) x
           refine ⟨yB, ?_, ?_⟩
           · exact Or.inr ⟨b, x, hx, rfl⟩
@@ -818,9 +958,25 @@ theorem standardTypeABoundaryPrismRankBGeneratedPushoutScaling_eq_succ
                   (op ⦋2⦌) yB =
                 ((standardTypeABoundaryPrismRankFunction g).b j).app
                   (op ⦋2⦌) y
-            rw [hz]
+            rw [← hz]
+            have hSigmaEval :
+                (standardTypeABoundaryPrismRankBTargetSigmaToSucc.{u} g j).map.app
+                    (op ⦋2⦌) yB =
+                  (standardTypeABoundaryPrismRankBCellTargetToSucc.{u} g j b).map.app
+                    (op ⦋2⦌) x := by
+              have hfac :
+                  Sigma.ι (fun _ : StandardTypeABoundaryPrismRankBCell.{u} g j =>
+                      (Δ[4] : SSet.{u})) b ≫
+                    Sigma.desc (fun d : StandardTypeABoundaryPrismRankBCell.{u} g j =>
+                      (standardTypeABoundaryPrismRankBCellTargetToSucc.{u} g j d).map) =
+                    (standardTypeABoundaryPrismRankBCellTargetToSucc.{u} g j b).map :=
+                Sigma.ι_desc _ _
+              have happ := ConcreteCategory.congr_hom
+                (congr_app hfac (op ⦋2⦌)) x
+              simpa only [NatTrans.comp_app_apply] using happ
+            rw [hSigmaEval]
             change
-              (standardTypeABoundaryPrismRankBCellTargetToSucc g j b).map.app
+              (standardTypeABoundaryPrismRankBCellTargetToSucc.{u} g j b).map.app
                   (op ⦋2⦌) x =
                 ((standardTypeABoundaryPrismRankFunction g).b j).app
                   (op ⦋2⦌)
@@ -846,51 +1002,73 @@ noncomputable def standardTypeABoundaryPrism_rankB_scaled_isPushout
     (𝟙 _)
     (standardTypeABoundaryPrismRankBTargetSigmaToSucc g j).map
     (standardTypeABoundaryPrism_rankB_underlying_isPushout g j)
-  rw [standardTypeABoundaryPrismRankBGeneratedPushoutScaling_eq_succ g j] at h
-  simpa [generatedPushoutInl, generatedPushoutInr, generatedPushoutTarget,
-    standardTypeABoundaryPrismRankAPhaseToSucc] using h
+  let eP :
+      generatedPushoutTarget
+        (standardTypeABoundaryPrismRankAPhaseScaling g j)
+        (standardTypeABoundaryPrismRankBTargetSigmaScaling g j)
+        (𝟙 _)
+        (standardTypeABoundaryPrismRankBTargetSigmaToSucc g j).map ≅
+      standardTypeABoundaryPrismRankStage g (j + 1) :=
+    scalingEqualityIso _ _
+      (standardTypeABoundaryPrismRankBGeneratedPushoutScaling_eq_succ g j)
+  refine h.of_iso (Iso.refl _) (Iso.refl _) (Iso.refl _) eP ?_ ?_ ?_ ?_
+  · exact (Category.comp_id _).trans (Category.id_comp _).symm
+  · exact (Category.comp_id _).trans (Category.id_comp _).symm
+  · apply ScaledSSet.ScaledMap.ext
+    change (𝟙 _) ≫ eP.hom.map =
+      (standardTypeABoundaryPrismRankAPhaseToSucc g j).map
+    simp [eP, standardTypeABoundaryPrismRankAPhaseToSucc]
+    all_goals rfl
+  · apply ScaledSSet.ScaledMap.ext
+    change (standardTypeABoundaryPrismRankBTargetSigmaToSucc g j).map ≫
+      eP.hom.map = (standardTypeABoundaryPrismRankBTargetSigmaToSucc g j).map
+    simp only [eP, scalingEqualityIso_hom_map]
+    change (standardTypeABoundaryPrismRankBTargetSigmaToSucc g j).map ≫
+      (𝟙 ((standardTypeABoundaryPrismRankFunction g).filtration (j + 1)).toSSet) =
+      (standardTypeABoundaryPrismRankBTargetSigmaToSucc g j).map
+    exact Category.comp_id _
 
 /-- Main B-phase output: all exceptional completions at rank `j` form one raw
 standard cellular step. -/
 theorem standardTypeABoundaryPrismRankAPhaseToSucc_mem_rawCellular
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ) :
-    standardABCRawCellularStep
+    (standardABCRawCellularStep : MorphismProperty (ScaledSSet.{u}))
       (standardTypeABoundaryPrismRankAPhaseToSucc g j) := by
-  exact MorphismProperty.pushouts_mk
-    (standardTypeABoundaryPrism_rankB_scaled_isPushout g j)
-    (standardTypeABoundaryPrismRankBSigmaGeneratorHom_mem_coproductsABC g j)
+  exact
+    (MorphismProperty.coproducts.{u, u, u + 1}
+      (standardScaledAnodyneGeneratorsABC :
+        MorphismProperty (ScaledSSet.{u}))).pushouts_mk
+      (standardTypeABoundaryPrism_rankB_scaled_isPushout g j)
+      (standardTypeABoundaryPrismRankBSigmaGeneratorHom_mem_coproductsABC g j)
 
 /-- Each exact rank successor is a two-step raw A/B composite, hence belongs to
 the strong unretracted standard cellular closure. -/
 theorem standardTypeABoundaryPrismRankStageHom_mem_strongCellular
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ) :
-    standardABCStrongCellularClosure
+    (standardABCStrongCellularClosure : MorphismProperty (ScaledSSet.{u}))
       (standardTypeABoundaryPrismRankStageHom g (Nat.le_succ j)) := by
-  have hA :
+  have hAraw := standardTypeABoundaryPrismRankStageToAPhase_mem_rawCellular g j
+  have hBraw := standardTypeABoundaryPrismRankAPhaseToSucc_mem_rawCellular g j
+  have hcomp :
       standardABCStrongCellularClosure
-        (standardTypeABoundaryPrismRankStageToAPhase g j) :=
-    MorphismProperty.le_transfiniteCompositions
-      (standardABCRawCellularStep : MorphismProperty (ScaledSSet.{u})) _
-      (standardTypeABoundaryPrismRankStageToAPhase_mem_rawCellular g j)
-  have hB :
-      standardABCStrongCellularClosure
-        (standardTypeABoundaryPrismRankAPhaseToSucc g j) :=
-    MorphismProperty.le_transfiniteCompositions
-      (standardABCRawCellularStep : MorphismProperty (ScaledSSet.{u})) _
-      (standardTypeABoundaryPrismRankAPhaseToSucc_mem_rawCellular g j)
-  have hcomp :=
-    (standardABCStrongCellularClosure : MorphismProperty (ScaledSSet.{u})).comp_mem
-      (standardTypeABoundaryPrismRankStageToAPhase g j)
-      (standardTypeABoundaryPrismRankAPhaseToSucc g j) hA hB
+        (standardTypeABoundaryPrismRankStageToAPhase g j ≫
+          standardTypeABoundaryPrismRankAPhaseToSucc g j) := by
+    exact MorphismProperty.transfiniteCompositionsOfShape_le_transfiniteCompositions
+      (standardABCRawCellularStep : MorphismProperty (ScaledSSet.{u})) _ _
+      ((MorphismProperty.TransfiniteCompositionOfShape.ofComp
+          (standardTypeABoundaryPrismRankStageToAPhase g j)
+          (standardTypeABoundaryPrismRankAPhaseToSucc g j)
+          hAraw hBraw).ofOrderIso
+        (orderIsoShrink.{u} (Fin 3)).symm).mem
   simpa only [standardTypeABoundaryPrismRankStep_factor_A_residual] using hcomp
 
 /-- Retracted-closure form of the preceding rank theorem. -/
 theorem standardTypeABoundaryPrismRankStageHom_mem_cellular
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ) :
-    standardABCCellularClosure
+    (standardABCCellularClosure : MorphismProperty (ScaledSSet.{u}))
       (standardTypeABoundaryPrismRankStageHom g (Nat.le_succ j)) :=
   standardABCStrongCellularClosure_le_standardABCCellularClosure _
     (standardTypeABoundaryPrismRankStageHom_mem_strongCellular g j)

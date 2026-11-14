@@ -146,6 +146,7 @@ theorem duskinComparison_isIso_iff_localMappingEdge_isIso
     IsIso (duskinComparison σ) ↔
       IsIso (CategoryTheory.nerve.homEquiv (duskinComparisonMappingEdge σ)) := by
   rw [duskinComparisonMappingEdge_hom]
+  rfl
 
 /-- If the local mapping 2-morphism is invertible, the global Duskin triangle is thin. -/
 theorem localMappingComparisonIso_isThin

@@ -12,6 +12,11 @@ open KUOS.GaugeInvariantDependentOriginationActionGroupoidV0_1
 
 universe u v w z
 
+-- Select the existing pinned Type and core-category structures explicitly.
+local instance : Category.{z} (Type z) := CategoryTheory.types
+local instance : Category.{z} (Core (Type z)) :=
+  (CategoryTheory.coreCategory (C := Type z)).toCategory
+
 variable {X : Type u} {Gauge : Type w}
 
 /-!
@@ -42,7 +47,8 @@ non-flat connection factors through the ordinary fundamental groupoid.
 
 namespace FunctorialTransportSystem
 
-variable {Context : Type u} [Groupoid.{v} Context]
+variable {Context : Type u} [g : Groupoid.{v} Context]
+local instance : Category.{v} Context := g.toCategory
 
 /--
 A dependent-origination state functor on a groupoid context canonically lands in
@@ -50,31 +56,31 @@ the core of `Type`: every contextual transport map is recorded together with its
 inverse as an actual categorical isomorphism.
 -/
 noncomputable def coreStateFunctor
-    (D : FunctorialTransportSystem Context) :
+    (D : FunctorialTransportSystem.{u, v, z} Context) :
     Context ⥤ Core (Type z) :=
   Core.functorToCore D.state
 
 @[simp] theorem coreStateFunctor_obj_of
-    (D : FunctorialTransportSystem Context)
+    (D : FunctorialTransportSystem.{u, v, z} Context)
     (A : Context) :
-    (coreStateFunctor D).obj A |>.of = D.state.obj A :=
+    ((coreStateFunctor D).obj A).of = D.state.obj A :=
   rfl
 
 @[simp] theorem coreStateFunctor_map_iso_hom
-    (D : FunctorialTransportSystem Context)
+    (D : FunctorialTransportSystem.{u, v, z} Context)
     {A B : Context} (f : A ⟶ B) :
     ((coreStateFunctor D).map f).iso.hom = D.state.map f :=
   rfl
 
 /-- Forgetting the explicit isomorphism witness recovers the original state functor. -/
 noncomputable def coreStateFactorizationIso
-    (D : FunctorialTransportSystem Context) :
+    (D : FunctorialTransportSystem.{u, v, z} Context) :
     coreStateFunctor D ⋙ Core.inclusion (Type z) ≅ D.state :=
   Iso.refl _
 
 /-- In a reversible context every state-map morphism is an isomorphism in `Type`. -/
 theorem stateMap_isIso
-    (D : FunctorialTransportSystem Context)
+    (D : FunctorialTransportSystem.{u, v, z} Context)
     {A B : Context} (f : A ⟶ B) :
     IsIso (D.state.map f) := by
   infer_instance
@@ -127,8 +133,8 @@ noncomputable def actionRepresentationCoreFunctor
     {Fiber : Type v}
     [Group Gauge] [MulAction Gauge X] [MulAction Gauge Fiber]
     (x : ActionContext Gauge X) :
-    (actionRepresentationCoreFunctor
-      (X := X) (Gauge := Gauge) (Fiber := Fiber)).obj x |>.of = Fiber :=
+    ((actionRepresentationCoreFunctor
+      (X := X) (Gauge := Gauge) (Fiber := Fiber)).obj x).of = Fiber :=
   rfl
 
 @[simp] theorem actionRepresentationCoreFunctor_map_iso_hom_apply

@@ -42,8 +42,15 @@ parallel transport, a thin-path groupoid, curvature, a Yang--Mills action,
 quantization, a Hamiltonian, a continuum limit, or a mass gap.
 -/
 
+noncomputable section
+
 variable {P : Type u} [Category P]
 variable {Base : Type w} [TopologicalSpace Base]
+
+-- Use the exact fixed-mathlib groupoid category structure, not a synthetic
+-- category selected with an unspecified morphism universe.
+@[reducible] local instance : Category.{w} (FundamentalGroupoid Base) :=
+  (FundamentalGroupoid.instGroupoid (X := Base)).toCategory
 variable {Q : P ⥤ FundamentalGroupoid Base}
 variable {S₁ S₂ : P ⥤ Type v}
 
@@ -129,9 +136,9 @@ theorem fundamentalDescent_nonempty_iff_natIso
       Nonempty (FundamentalDescent Q S₂) := by
   constructor
   · rintro ⟨D⟩
-    exact ⟨D.transportNatIso e⟩
+    exact ⟨FundamentalDescent.transportNatIso D e⟩
   · rintro ⟨D⟩
-    exact ⟨D.transportNatIso e.symm⟩
+    exact ⟨FundamentalDescent.transportNatIso D e.symm⟩
 
 /-- Non-descent is also invariant under natural isomorphism. -/
 theorem noFundamentalDescent_iff_natIso
@@ -184,5 +191,7 @@ theorem actionRepresentation_obstruction_iff
     (Q := QGauge)
     (actionRepresentationNatIso
       (X := Rep) (Gauge := Gauge) e)
+
+end
 
 end KUOS.DependentOriginationFundamentalGroupoidDescentNatIsoInvarianceV0_6

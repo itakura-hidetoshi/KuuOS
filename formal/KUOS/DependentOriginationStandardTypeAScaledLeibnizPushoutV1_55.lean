@@ -68,7 +68,7 @@ and no type-(B)/(C) or full standard scaled-anodyne comparison is claimed.
 
 /-- The `Delta[n] x {epsilon}` leg, equipped with the restriction scaling from
 v1.53. -/
-def standardTypeAEndpointSimplexEndpointObject
+noncomputable def standardTypeAEndpointSimplexEndpointObject
     (g : StandardTypeAHornAttachmentGeneratorIndex) : ScaledSSet.{u} :=
   ScaledSSet.of
     ((Δ[g.n] : SSet.{u}) ⊗
@@ -77,7 +77,7 @@ def standardTypeAEndpointSimplexEndpointObject
 
 /-- The `Lambda_i^n x Delta[1]` leg, equipped with the restriction scaling
 from v1.53. -/
-def standardTypeAEndpointHornIntervalObject
+noncomputable def standardTypeAEndpointHornIntervalObject
     (g : StandardTypeAHornAttachmentGeneratorIndex) : ScaledSSet.{u} :=
   ScaledSSet.of
     ((SSet.horn g.n g.i : SSet.{u}) ⊗ Δ[1])
@@ -87,7 +87,7 @@ def standardTypeAEndpointHornIntervalObject
 leg scaling along the horn inclusion in the simplex coordinate.  Because both
 legs themselves are restrictions of the same induced source scaling, the
 second corner map will preserve this scaling as well. -/
-def standardTypeAEndpointCornerScaling
+@[reducible] noncomputable def standardTypeAEndpointCornerScaling
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
     ScaledSimplicialSet
       ((SSet.horn g.n g.i : SSet.{u}) ⊗
@@ -98,7 +98,7 @@ def standardTypeAEndpointCornerScaling
       (intervalEndpoint g.endpoint : SSet.{u}))
 
 /-- The scaled corner object of the endpoint Leibniz span. -/
-def standardTypeAEndpointCornerObject
+noncomputable def standardTypeAEndpointCornerObject
     (g : StandardTypeAHornAttachmentGeneratorIndex) : ScaledSSet.{u} :=
   ScaledSSet.of
     ((SSet.horn g.n g.i : SSet.{u}) ⊗
@@ -161,7 +161,7 @@ def standardTypeAEndpointCornerToHornInterval
     exact ht
 
 /-- The first canonical leg into the least-generated union-product source. -/
-def standardTypeAEndpointGeneratedInl
+noncomputable def standardTypeAEndpointGeneratedInl
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
     standardTypeAEndpointSimplexEndpointObject g ⟶
       standardTypeAEndpointGeneratedPushoutSource g where
@@ -171,7 +171,7 @@ def standardTypeAEndpointGeneratedInl
   scaled := standardTypeAEndpointGeneratedPushout_inl_scaled g
 
 /-- The second canonical leg into the least-generated union-product source. -/
-def standardTypeAEndpointGeneratedInr
+noncomputable def standardTypeAEndpointGeneratedInr
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
     standardTypeAEndpointHornIntervalObject g ⟶
       standardTypeAEndpointGeneratedPushoutSource g where
@@ -241,7 +241,6 @@ theorem standardTypeAEndpointGeneratedPushoutDescMap_scaled
       W.scaling
       (standardTypeAEndpointGeneratedPushoutDescMap g f h w) := by
   intro t ht
-  dsimp [standardTypeAEndpointGeneratedPushoutScaling] at ht
   rcases ht with
     ⟨x, rfl⟩ | ⟨x, rfl⟩ | ⟨x, hx, rfl⟩ | ⟨x, hx, rfl⟩
   · rw [SSet.σ_naturality_apply
@@ -257,14 +256,17 @@ theorem standardTypeAEndpointGeneratedPushoutDescMap_scaled
             (SSet.horn g.n g.i) (intervalEndpoint g.endpoint)).app
               (op ⦋2⦌) x) =
         f.map.app (op ⦋2⦌) x := by
-      simpa [standardTypeAEndpointGeneratedPushoutDescMap] using
-        ConcreteCategory.congr_hom
-          (congr_app
-            ((standardTypeAEndpointPushoutSquare g).inl_desc
-              f.map h.map
-              (standardTypeAEndpointGeneratedPushout_compatibility_map
-                g f h w))
-            (op ⦋2⦌)) x
+      have heq := (standardTypeAEndpointPushoutSquare g).inl_desc
+        f.map h.map
+        (standardTypeAEndpointGeneratedPushout_compatibility_map g f h w)
+      have hcomponent := congrArg
+        (fun (η : ((Δ[g.n] : SSet.{u}) ⊗ (intervalEndpoint g.endpoint : SSet.{u})) ⟶ W.carrier) => η.app (op ⦋2⦌) x) heq
+      change
+        ((SSet.Subcomplex.unionProd.ι₁
+          (SSet.horn g.n g.i) (intervalEndpoint g.endpoint) ≫
+            standardTypeAEndpointGeneratedPushoutDescMap g f h w).app
+            (op ⦋2⦌)) x = f.map.app (op ⦋2⦌) x
+      exact hcomponent
     rw [hfac]
     exact f.scaled x hx
   · have hfac :
@@ -274,14 +276,17 @@ theorem standardTypeAEndpointGeneratedPushoutDescMap_scaled
             (SSet.horn g.n g.i) (intervalEndpoint g.endpoint)).app
               (op ⦋2⦌) x) =
         h.map.app (op ⦋2⦌) x := by
-      simpa [standardTypeAEndpointGeneratedPushoutDescMap] using
-        ConcreteCategory.congr_hom
-          (congr_app
-            ((standardTypeAEndpointPushoutSquare g).inr_desc
-              f.map h.map
-              (standardTypeAEndpointGeneratedPushout_compatibility_map
-                g f h w))
-            (op ⦋2⦌)) x
+      have heq := (standardTypeAEndpointPushoutSquare g).inr_desc
+        f.map h.map
+        (standardTypeAEndpointGeneratedPushout_compatibility_map g f h w)
+      have hcomponent := congrArg
+        (fun (η : ((SSet.horn g.n g.i : SSet.{u}) ⊗ (Δ[1] : SSet.{u})) ⟶ W.carrier) => η.app (op ⦋2⦌) x) heq
+      change
+        ((SSet.Subcomplex.unionProd.ι₂
+          (SSet.horn g.n g.i) (intervalEndpoint g.endpoint) ≫
+            standardTypeAEndpointGeneratedPushoutDescMap g f h w).app
+            (op ⦋2⦌)) x = h.map.app (op ⦋2⦌) x
+      exact hcomponent
     rw [hfac]
     exact h.scaled x hx
 
@@ -367,20 +372,23 @@ noncomputable def standardTypeAEndpointGeneratedPushout_isPushout
     w := standardTypeAEndpointGeneratedPushout_commutes g
     isColimit' := ⟨?_⟩
   }
-  apply PushoutCocone.IsColimit.mk _
-  · intro s
-    exact standardTypeAEndpointGeneratedPushoutDesc
-      g s.inl s.inr s.condition
-  · intro s
-    exact standardTypeAEndpointGeneratedPushout_inl_desc
-      g s.inl s.inr s.condition
-  · intro s
-    exact standardTypeAEndpointGeneratedPushout_inr_desc
-      g s.inl s.inr s.condition
-  · intro s m hm₁ hm₂
-    apply standardTypeAEndpointGeneratedPushout_hom_ext g
-    · rw [hm₁, standardTypeAEndpointGeneratedPushout_inl_desc]
-    · rw [hm₂, standardTypeAEndpointGeneratedPushout_inr_desc]
+  exact PushoutCocone.IsColimit.mk
+    (standardTypeAEndpointGeneratedPushout_commutes g)
+    (fun s => standardTypeAEndpointGeneratedPushoutDesc
+      g s.inl s.inr s.condition)
+    (fun s => standardTypeAEndpointGeneratedPushout_inl_desc
+      g s.inl s.inr s.condition)
+    (fun s => standardTypeAEndpointGeneratedPushout_inr_desc
+      g s.inl s.inr s.condition)
+    (by
+      intro s m hm₁ hm₂
+      apply standardTypeAEndpointGeneratedPushout_hom_ext g
+      · exact hm₁.trans
+          (standardTypeAEndpointGeneratedPushout_inl_desc
+            g s.inl s.inr s.condition).symm
+      · exact hm₂.trans
+          (standardTypeAEndpointGeneratedPushout_inr_desc
+            g s.inl s.inr s.condition).symm)
 
 /-! ## The canonical scaled Leibniz comparison map -/
 
@@ -398,7 +406,7 @@ theorem standardTypeAEndpointCylinder_is_scaledCartesianProduct
     (ScaledSimplicialSet.maximal (Δ[1] : SSet.{u}))
 
 /-- The natural map from the simplex-endpoint leg to the scaled cylinder. -/
-def standardTypeAEndpointSimplexEndpointToCylinder
+noncomputable def standardTypeAEndpointSimplexEndpointToCylinder
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
     standardTypeAEndpointSimplexEndpointObject g ⟶
       scaledSimplexCylinder (standardTypeASimplexScaling g.i) :=
@@ -411,12 +419,14 @@ theorem standardTypeAEndpointSimplexEndpointToCylinder_map
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
     (standardTypeAEndpointSimplexEndpointToCylinder g).map =
       (Δ[g.n] : SSet.{u}) ◁ (intervalEndpoint g.endpoint).ι := by
-  simp [standardTypeAEndpointSimplexEndpointToCylinder,
-    standardTypeAEndpointGeneratedInl,
-    standardTypeAEndpointGeneratedPushoutProductHom_map]
+  simpa only [standardTypeAEndpointSimplexEndpointToCylinder,
+    ScaledSSet.comp_map, standardTypeAEndpointGeneratedInl,
+    standardTypeAEndpointGeneratedPushoutProductHom_map] using
+    (SSet.Subcomplex.unionProd.ι₁_ι
+      (SSet.horn g.n g.i) (intervalEndpoint g.endpoint))
 
 /-- The natural map from the horn-interval leg to the scaled cylinder. -/
-def standardTypeAEndpointHornIntervalToCylinder
+noncomputable def standardTypeAEndpointHornIntervalToCylinder
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
     standardTypeAEndpointHornIntervalObject g ⟶
       scaledSimplexCylinder (standardTypeASimplexScaling g.i) :=
@@ -429,9 +439,11 @@ theorem standardTypeAEndpointHornIntervalToCylinder_map
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
     (standardTypeAEndpointHornIntervalToCylinder g).map =
       (SSet.horn g.n g.i).ι ▷ (Δ[1] : SSet.{u}) := by
-  simp [standardTypeAEndpointHornIntervalToCylinder,
-    standardTypeAEndpointGeneratedInr,
-    standardTypeAEndpointGeneratedPushoutProductHom_map]
+  simpa only [standardTypeAEndpointHornIntervalToCylinder,
+    ScaledSSet.comp_map, standardTypeAEndpointGeneratedInr,
+    standardTypeAEndpointGeneratedPushoutProductHom_map] using
+    (SSet.Subcomplex.unionProd.ι₂_ι
+      (SSet.horn g.n g.i) (intervalEndpoint g.endpoint))
 
 /-- The two product-leg maps into the cylinder agree on the corner. -/
 theorem standardTypeAEndpointCylinder_compatibility
@@ -441,8 +453,18 @@ theorem standardTypeAEndpointCylinder_compatibility
       standardTypeAEndpointCornerToHornInterval g ≫
         standardTypeAEndpointHornIntervalToCylinder g := by
   simp only [standardTypeAEndpointSimplexEndpointToCylinder,
-    standardTypeAEndpointHornIntervalToCylinder, Category.assoc]
-  rw [standardTypeAEndpointGeneratedPushout_commutes g]
+    standardTypeAEndpointHornIntervalToCylinder]
+  calc
+    _ = (standardTypeAEndpointCornerToSimplexEndpoint g ≫
+          standardTypeAEndpointGeneratedInl g) ≫
+          standardTypeAEndpointGeneratedPushoutProductHom g := by
+        rw [Category.assoc]
+    _ = (standardTypeAEndpointCornerToHornInterval g ≫
+          standardTypeAEndpointGeneratedInr g) ≫
+          standardTypeAEndpointGeneratedPushoutProductHom g :=
+        congrArg (fun k => k ≫ standardTypeAEndpointGeneratedPushoutProductHom g)
+          (standardTypeAEndpointGeneratedPushout_commutes g)
+    _ = _ := by rw [Category.assoc]
 
 /-- The canonical scaled Leibniz pushout-product map obtained by the actual
 `ScaledSSet` pushout universal property. -/
@@ -462,9 +484,11 @@ theorem standardTypeAEndpointScaledLeibnizPushoutProductHom_eq_generated
     standardTypeAEndpointScaledLeibnizPushoutProductHom g =
       standardTypeAEndpointGeneratedPushoutProductHom g := by
   apply (standardTypeAEndpointGeneratedPushout_isPushout g).hom_ext
-  · rw [(standardTypeAEndpointGeneratedPushout_isPushout g).inl_desc]
+  · unfold standardTypeAEndpointScaledLeibnizPushoutProductHom
+    rw [(standardTypeAEndpointGeneratedPushout_isPushout g).inl_desc]
     rfl
-  · rw [(standardTypeAEndpointGeneratedPushout_isPushout g).inr_desc]
+  · unfold standardTypeAEndpointScaledLeibnizPushoutProductHom
+    rw [(standardTypeAEndpointGeneratedPushout_isPushout g).inr_desc]
     rfl
 
 /-- Hence its underlying simplicial map is the native union-product inclusion. -/
@@ -552,7 +576,8 @@ structure StandardTypeAScaledLeibnizPushoutProductStable
     (L : MorphismProperty (ScaledSSet.{u})) : Prop where
   pushoutProduct_mem :
     ∀ g : StandardTypeAHornAttachmentGeneratorIndex,
-      L (standardTypeAScaledHornGeneratorHom g.toHornGenerator) →
+      L (standardTypeAScaledHornGeneratorHom
+        (StandardTypeAHornAttachmentGeneratorIndex.toHornGenerator g)) →
       L (standardTypeAEndpointScaledLeibnizPushoutProductHom g)
 
 namespace StandardTypeAScaledLeibnizPushoutProductStable
@@ -598,6 +623,8 @@ variable
     {E : MorphismProperty (ScaledSSet.{u})}
     (K : StandardTypeAExternalScaledLeibnizComparison E)
 
+include K
+
 /-- The categorical comparison data supplies the exact v1.54 comparison
 interface. -/
 def toGeneratedPushoutComparison :
@@ -613,8 +640,7 @@ theorem inducedTypeAAttachments_le_externalGenerated :
     (standardTypeAInducedScaledHornAttachmentGenerators :
       MorphismProperty (ScaledSSet.{u})) ≤
       externalGeneratedScaledAnodyne E :=
-  K.toGeneratedPushoutComparison
-    .inducedTypeAAttachments_le_externalGenerated
+  (K.toGeneratedPushoutComparison).inducedTypeAAttachments_le_externalGenerated
 
 /-- The v1.50 induced endpoint-pushout-product presentation is externally
 generated as well. -/
@@ -622,8 +648,7 @@ theorem endpointPushoutProducts_le_externalGenerated :
     (standardTypeAEndpointPushoutProductGenerators :
       MorphismProperty (ScaledSSet.{u})) ≤
       externalGeneratedScaledAnodyne E :=
-  K.toGeneratedPushoutComparison
-    .endpointPushoutProducts_le_externalGenerated
+  (K.toGeneratedPushoutComparison).endpointPushoutProducts_le_externalGenerated
 
 end StandardTypeAExternalScaledLeibnizComparison
 
