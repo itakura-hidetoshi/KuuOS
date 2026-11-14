@@ -327,7 +327,7 @@ def standardTypeAEndpointOppositeCarrierBicartSq
       intervalBoundary_eq_endpoint_sup_rev g.endpoint]
     ext d ⟨x, y⟩
     simp [standardTypeAEndpointOppositeSimplexSubcomplex,
-      SSet.Subcomplex.unionProd, SSet.Subcomplex.prod,
+      SSet.Subcomplex.unionProd, SSet.Subcomplex.prod, Set.prod,
       or_assoc, or_comm, or_left_comm] <;> tauto
   inf_eq := by
     ext d ⟨x, y⟩
@@ -343,7 +343,7 @@ def standardTypeAEndpointOppositeCarrierBicartSq
       simpa using hm
     simp [standardTypeAEndpointOppositeSimplexSubcomplex,
       standardTypeAEndpointOppositeCornerSubcomplex,
-      SSet.Subcomplex.unionProd, SSet.Subcomplex.prod,
+      SSet.Subcomplex.unionProd, SSet.Subcomplex.prod, Set.prod,
       or_assoc, or_comm, or_left_comm] <;> tauto
 
 /-- The preceding lattice square is therefore a genuine ordinary simplicial
@@ -663,7 +663,7 @@ theorem standardTypeAEndpointOppositeGeneratedScaling_eq_boundary
           (((SSet.horn g.n g.i).unionProd (intervalEndpoint g.endpoint)) ⊔
             standardTypeAEndpointOppositeSimplexSubcomplex g).obj
               (op ⦋2⦌) := by
-      rw [(standardTypeAEndpointOppositeCarrierBicartSq g).sup_eq]
+      rw [sup_comm, (standardTypeAEndpointOppositeCarrierBicartSq g).sup_eq]
       exact t.property
     change
       t.val ∈
