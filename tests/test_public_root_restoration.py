@@ -94,6 +94,9 @@ REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
     "KUOS/DependentOriginationGeneratedPresentationCompleteLatticeV1_86.lean": "bb05a19c94519fca03379f1906de7d69827a5bdf",
     # Original V1_87 pinned source: 88181c3c721c129e2aa628406e3fbf77a89d4f91 (retained in Git history).
     "KUOS/DependentOriginationStandardCanonicalPresentationGapV1_87.lean": "929d9c9e06b180f9a36d57a3010058654a13f2c4",
+    # Original v1.88 archived proof: ba6190c2b2f9dac0febfb6357e908e81601c79a1 (unchanged in legacy/v5.291).
+    # Reviewed v1.88 notation/namespace corrections; actual Lean proof requires CI.
+    "KUOS/DependentOriginationCanonicalAttachmentScalingObstructionRetractV1_88.lean": "0ee71ce02d946081d04357c8b172be7c750e80d6",
     # Original V1_89 pinned source: f5d06299e825ef784a7df25386b062b80c702f12 (retained in Git history).
     "KUOS/DependentOriginationStandardArbitraryScalingWaypointV1_89.lean": "4769187a07f63f8e4f7aebb21d535b68d1461852",
     "KUOS/DependentOriginationStandardTypeAEndpointOppositeCellCertificateV1_77.lean": "e7d422b89b4a4fa5180790b0c5d49c51b7239786",
