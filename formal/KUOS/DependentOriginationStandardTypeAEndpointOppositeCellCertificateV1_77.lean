@@ -955,6 +955,9 @@ private noncomputable def prependedEndpointTailCocone
           Nat.add_assoc] using hs))
 
 /-- The prepended raw sequence has exactly the old cylinder as its colimit. -/
+-- Kernel checking of the explicit dependent cocone can exceed the default heartbeat
+-- without changing any of its colimit obligations or the certified theorem type.
+set_option maxHeartbeats 2000000 in
 private noncomputable def prependedEndpointCoconeIsColimit
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
     IsColimit (prependedEndpointCocone g) := by
@@ -1066,13 +1069,15 @@ private noncomputable def standardTypeAEndpointFullRawTransfinite
     simpa only [Category.id_comp] using
       standardTypeAEndpointLeibniz_factor_boundaryPrism g
   map_mem n _ := by
+    change
+      standardABCRawCellularStep
+        ((prependedEndpointFunctor g).map (homOfLE (Order.le_succ n)))
     have hn :
-        (prependedEndpointFunctor g).map (homOfLE (Nat.le_succ n)) =
+        (prependedEndpointFunctor g).map (homOfLE (Order.le_succ n)) =
           prependedEndpointStep g n := by
       simpa only [prependedEndpointFunctor,
         Functor.ofSequence_map_homOfLE_succ]
-    simp only [prependedEndpointFunctor,
-      Functor.ofSequence_map_homOfLE_succ]
+    rw [hn]
     let h := standardTypeABoundaryPrismRawTransfiniteComposition g
     cases n with
     | zero =>
