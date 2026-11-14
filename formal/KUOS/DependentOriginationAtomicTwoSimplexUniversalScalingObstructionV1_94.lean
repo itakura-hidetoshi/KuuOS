@@ -66,7 +66,7 @@ the underlying simplicial map; reflection supplies scaledness for the one
 newly declared thin triangle. -/
 theorem hasLiftingProperty_singleTriangle_of_reflectsThinTwoSimplices
     {n : Nat}
-    (t : (Delta[n] : SSet.{u}).obj (op ⦋2⦌))
+    (t : (Δ[n] : SSet.{u}).obj (op ⦋2⦌))
     {X Y : ScaledSSet.{u}}
     (p : X ⟶ Y)
     (hreflect : ReflectsThinTwoSimplices p) :
@@ -81,7 +81,7 @@ theorem hasLiftingProperty_singleTriangle_of_reflectsThinTwoSimplices
       scaled := by
         intro s hs
         change
-          (minimalScaling (Delta[n] : SSet.{u})).thin s ∨ s = t at hs
+          (minimalScaling (Δ[n] : SSet.{u})).thin s ∨ s = t at hs
         rcases hs with hmin | hst
         · exact f.scaled s hmin
         · subst s
@@ -102,7 +102,7 @@ theorem hasLiftingProperty_singleTriangle_of_reflectsThinTwoSimplices
 against every one-triangle enrichment. -/
 theorem singleTriangleRLP_of_atomicTwoSimplexRLP
     {n : Nat}
-    (t : (Delta[n] : SSet.{u}).obj (op ⦋2⦌))
+    (t : (Δ[n] : SSet.{u}).obj (op ⦋2⦌))
     {X Y : ScaledSSet.{u}}
     (p : X ⟶ Y)
     (hatomic : HasLiftingProperty atomicTwoSimplexEnrichment p) :
@@ -117,7 +117,8 @@ single-triangle enrichment is standard-generated.  The nontrivial direction
 uses orthogonality: membership of `i₂` forces every standard-right map to
 reflect thinness, hence to lift against every atomic enrichment. -/
 theorem atomicTwoSimplex_standardGenerated_iff_singleTriangles_le :
-    standardGeneratedScaledAnodyneABC atomicTwoSimplexEnrichment ↔
+    (standardGeneratedScaledAnodyneABC : MorphismProperty (ScaledSSet.{u}))
+      (atomicTwoSimplexEnrichment.{u}) ↔
       (singleTriangleScalingEnrichments : MorphismProperty (ScaledSSet.{u})) ≤
         standardGeneratedScaledAnodyneABC := by
   constructor
@@ -145,24 +146,27 @@ theorem atomicTwoSimplex_standardGenerated_iff_singleTriangles_le :
 identity-triangle enrichment `i₂`. -/
 theorem standardArbitraryScalingObstructionClosed_iff_atomicTwoSimplex :
     StandardArbitraryScalingObstructionClosed.{u} ↔
-      standardGeneratedScaledAnodyneABC atomicTwoSimplexEnrichment := by
+      (standardGeneratedScaledAnodyneABC : MorphismProperty (ScaledSSet.{u}))
+      (atomicTwoSimplexEnrichment.{u}) := by
   exact
-    standardArbitraryScalingObstructionClosed_iff_singleTriangles.trans
-      atomicTwoSimplex_standardGenerated_iff_singleTriangles_le.symm
+    (standardArbitraryScalingObstructionClosed_iff_singleTriangles.{u}).trans
+      (atomicTwoSimplex_standardGenerated_iff_singleTriangles_le.{u}).symm
 
 /-- Literal waypoint form of the same result. -/
 theorem standardArbitraryScalingWaypoint_eq_standardABC_iff_atomicTwoSimplex :
-    standardArbitraryScalingWaypoint.{u} = standardABCPresentation ↔
-      standardGeneratedScaledAnodyneABC atomicTwoSimplexEnrichment := by
+    standardArbitraryScalingWaypoint.{u} = standardABCPresentation.{u} ↔
+      (standardGeneratedScaledAnodyneABC : MorphismProperty (ScaledSSet.{u}))
+      (atomicTwoSimplexEnrichment.{u}) := by
   simpa [StandardArbitraryScalingObstructionClosed] using
-    (standardArbitraryScalingObstructionClosed_iff_atomicTwoSimplex (u := u))
+    (standardArbitraryScalingObstructionClosed_iff_atomicTwoSimplex.{u})
 
 /-! ## Right-class form: standard reflection is exactly scaling closure -/
 
 /-- Membership of `i₂` in the standard generated left class is equivalent to
 thinness reflection for every map in the complete standard right class. -/
 theorem atomicTwoSimplex_standardGenerated_iff_all_standardRight_reflect :
-    standardGeneratedScaledAnodyneABC atomicTwoSimplexEnrichment ↔
+    (standardGeneratedScaledAnodyneABC : MorphismProperty (ScaledSSet.{u}))
+      (atomicTwoSimplexEnrichment.{u}) ↔
       ∀ (X Y : ScaledSSet.{u}) (p : X ⟶ Y),
         (standardGeneratedScaledAnodyneABC :
           MorphismProperty (ScaledSSet.{u})).rlp p →
@@ -194,8 +198,8 @@ theorem standardArbitraryScalingObstructionClosed_iff_all_standardRight_reflect 
           MorphismProperty (ScaledSSet.{u})).rlp p →
         ReflectsThinTwoSimplices p := by
   exact
-    standardArbitraryScalingObstructionClosed_iff_atomicTwoSimplex.trans
-      atomicTwoSimplex_standardGenerated_iff_all_standardRight_reflect
+    (standardArbitraryScalingObstructionClosed_iff_atomicTwoSimplex.{u}).trans
+      (atomicTwoSimplex_standardGenerated_iff_all_standardRight_reflect.{u})
 
 /-! ## Exact negative witness forms -/
 
@@ -241,8 +245,7 @@ theorem not_standardArbitraryScalingObstructionClosed_iff_exists_standardRight_n
       by_contra hnone
       apply hnot
       apply
-        (standardArbitraryScalingObstructionClosed_iff_all_standardRight_reflect
-          (u := u)).2
+        (standardArbitraryScalingObstructionClosed_iff_all_standardRight_reflect.{u}).2
       intro X Y p hstd
       by_contra hreflect
       apply hnone
@@ -253,8 +256,7 @@ theorem not_standardArbitraryScalingObstructionClosed_iff_exists_standardRight_n
     exact ⟨X, Y, p, σ, hstd, himage, hsource⟩
   · rintro ⟨X, Y, p, σ, hstd, himage, hsource⟩ hclosed
     have hreflect :=
-      (standardArbitraryScalingObstructionClosed_iff_all_standardRight_reflect
-        (u := u)).1 hclosed X Y p hstd
+      (standardArbitraryScalingObstructionClosed_iff_all_standardRight_reflect.{u}).1 hclosed X Y p hstd
     exact hsource (hreflect σ himage)
 
 /-- Combining the exact nonreflection witness with v1.93, the pure-scaling
@@ -275,8 +277,7 @@ theorem not_standardArbitraryScalingObstructionClosed_iff_exists_distinct_thinRe
   constructor
   · intro hnot
     rcases
-        (not_standardArbitraryScalingObstructionClosed_iff_exists_standardRight_nonreflecting
-          (u := u)).1 hnot with
+        (not_standardArbitraryScalingObstructionClosed_iff_exists_standardRight_nonreflecting.{u}).1 hnot with
       ⟨X, Y, p, σ, hstd, himage, hsource⟩
     rcases
         standardRight_nonreflecting_has_distinct_thinReplacement
@@ -287,8 +288,7 @@ theorem not_standardArbitraryScalingObstructionClosed_iff_exists_distinct_thinRe
   · rintro ⟨X, Y, p, σ, τ, hstd, himage, hsource,
       hτ, hhorn, hpimage, hne⟩
     apply
-      (not_standardArbitraryScalingObstructionClosed_iff_exists_standardRight_nonreflecting
-        (u := u)).2
+      (not_standardArbitraryScalingObstructionClosed_iff_exists_standardRight_nonreflecting.{u}).2
     exact ⟨X, Y, p, σ, hstd, himage, hsource⟩
 
 /-! ## Replace the scaling clause in the full presentation criteria -/
@@ -296,11 +296,12 @@ theorem not_standardArbitraryScalingObstructionClosed_iff_exists_distinct_thinRe
 /-- The forward canonical-to-standard comparison factors through one atomic
 membership test plus the residual post-scaling geometry. -/
 theorem canonicalKuuOS_le_standardABC_iff_atomicTwoSimplex_and_residual :
-    canonicalKuuOSPresentation ≤ standardABCPresentation ↔
-      standardGeneratedScaledAnodyneABC atomicTwoSimplexEnrichment ∧
+    canonicalKuuOSPresentation.{u} ≤ standardABCPresentation.{u} ↔
+      (standardGeneratedScaledAnodyneABC : MorphismProperty (ScaledSSet.{u}))
+      (atomicTwoSimplexEnrichment.{u}) ∧
         CanonicalBelowStandardAfterArbitraryScaling.{u} := by
   rw [canonicalKuuOS_le_standardABC_iff_scalingClosed_and_residual,
-    standardArbitraryScalingObstructionClosed_iff_atomicTwoSimplex]
+    standardArbitraryScalingObstructionClosed_iff_atomicTwoSimplex.{u}]
 
 /-- Full standard/canonical gap closure is equivalently the reverse standard
 generator comparison, the single `i₂` standard-generation test, and the
@@ -308,10 +309,11 @@ remaining forward geometry after pure scaling has been adjoined. -/
 theorem standardCanonicalPresentationGapClosed_iff_reverse_atomic_residual :
     StandardCanonicalPresentationGapClosed.{u} ↔
       StandardABCCanonicalGeneratorwiseReverseComparison.{u} ∧
-        standardGeneratedScaledAnodyneABC atomicTwoSimplexEnrichment ∧
+        (standardGeneratedScaledAnodyneABC : MorphismProperty (ScaledSSet.{u}))
+      (atomicTwoSimplexEnrichment.{u}) ∧
           CanonicalBelowStandardAfterArbitraryScaling.{u} := by
   rw [standardCanonicalPresentationGapClosed_iff_reverse_scaling_residual,
-    standardArbitraryScalingObstructionClosed_iff_atomicTwoSimplex]
+    standardArbitraryScalingObstructionClosed_iff_atomicTwoSimplex.{u}]
 
 /-!
 The complete pure-scaling frontier is therefore no longer an infinite family:
