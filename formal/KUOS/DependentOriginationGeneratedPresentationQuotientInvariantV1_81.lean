@@ -281,41 +281,33 @@ def canonicalKuuOSPresentation :
 quotient point. -/
 theorem standardABCPresentation_endpointGeneratorsGenerated :
     typeAEndpointGeneratorsGenerated standardABCPresentation := by
-  change
-    TypeAEndpointLeibnizGeneratorsGeneratedBy
-      (standardScaledAnodyneGeneratorsABC :
-        MorphismProperty (ScaledSSet.{u}))
-  exact standardABC_typeAEndpointLeibnizGeneratorsGenerated
+  simpa only [standardABCPresentation,
+    typeAEndpointGeneratorsGenerated_presentationClass] using
+    standardABC_typeAEndpointLeibnizGeneratorsGenerated
 
 /-- The standard quotient point carries endpoint Leibniz stability. -/
 theorem standardABCPresentation_endpointStable :
     typeAEndpointStable standardABCPresentation := by
-  change
-    TypeAEndpointLeibnizStableForPresentation
-      (standardScaledAnodyneGeneratorsABC :
-        MorphismProperty (ScaledSSet.{u}))
-  exact standardABC_typeAEndpointLeibnizStable
+  simpa only [standardABCPresentation,
+    typeAEndpointStable_presentationClass] using
+    standardABC_typeAEndpointLeibnizStable
 
 /-- And the equivalent endpoint right-lifting statement. -/
 theorem standardABCPresentation_endpointLifting :
     typeAEndpointLifting standardABCPresentation := by
-  change
-    TypeAEndpointLeibnizLiftingForPresentation
-      (standardScaledAnodyneGeneratorsABC :
-        MorphismProperty (ScaledSSet.{u}))
-  exact standardABC_typeAEndpointLeibnizLifting
+  simpa only [standardABCPresentation,
+    typeAEndpointLifting_presentationClass] using
+    standardABC_typeAEndpointLeibnizLifting
 
 /-- The canonical quotient point carries an unconditional native WFS by the
 v1.45 small-object argument. -/
 theorem canonicalKuuOSPresentation_isWFS :
     isWeakFactorizationSystem canonicalKuuOSPresentation := by
-  change
-    MorphismProperty.IsWeakFactorizationSystem
-      (canonicalGeneratedScaledAnodyne :
-        MorphismProperty (ScaledSSet.{u}))
-      (canonicalGeneratedScaledFibration :
-        MorphismProperty (ScaledSSet.{u}))
-  exact canonicalGeneratedScaledWeakFactorizationSystem_unconditional
+  simpa only [canonicalKuuOSPresentation,
+    isWeakFactorizationSystem_presentationClass,
+    externalGeneratedScaledAnodyne, externalGeneratedScaledFibration,
+    canonicalGeneratedScaledAnodyne, canonicalGeneratedScaledFibration] using
+    canonicalGeneratedScaledWeakFactorizationSystem_unconditional
 
 /-! ## Equality of quotient points transfers their complementary strengths -/
 
@@ -328,7 +320,12 @@ theorem standardABC_eq_canonical_iff_mutualGeneration :
           MorphismProperty (ScaledSSet.{u}))
         (scaledHornAttachmentGenerators :
           MorphismProperty (ScaledSSet.{u})) := by
-  exact presentationClass_eq_iff _ _
+  simpa only [standardABCPresentation, canonicalKuuOSPresentation] using
+    (presentationClass_eq_iff
+      (standardScaledAnodyneGeneratorsABC :
+        MorphismProperty (ScaledSSet.{u}))
+      (scaledHornAttachmentGenerators :
+        MorphismProperty (ScaledSSet.{u})))
 
 /-- Equivalently, the quotient points coincide exactly when the two generated
 left classes coincide. -/
@@ -337,7 +334,14 @@ theorem standardABC_eq_canonical_iff_generatedAnodyne_eq :
       standardGeneratedScaledAnodyneABC =
         (canonicalGeneratedScaledAnodyne :
           MorphismProperty (ScaledSSet.{u})) := by
-  exact presentationClass_eq_iff_generatedAnodyne_eq _ _
+  simpa only [standardABCPresentation, canonicalKuuOSPresentation,
+    standardGeneratedScaledAnodyneABC, canonicalGeneratedScaledAnodyne,
+    externalGeneratedScaledAnodyne] using
+    (presentationClass_eq_iff_generatedAnodyne_eq
+      (standardScaledAnodyneGeneratorsABC :
+        MorphismProperty (ScaledSSet.{u}))
+      (scaledHornAttachmentGenerators :
+        MorphismProperty (ScaledSSet.{u})))
 
 /-- If the quotient points coincide, the canonical KuuOS presentation inherits
 the already-proved standard endpoint stability theorem without replaying any
@@ -345,23 +349,23 @@ boundary-prism filtration. -/
 theorem canonicalKuuOSPresentation_endpointStable_of_eq
     (h : standardABCPresentation = canonicalKuuOSPresentation) :
     typeAEndpointStable canonicalKuuOSPresentation := by
-  rw [← h]
-  exact standardABCPresentation_endpointStable
+  exact Eq.mp (congrArg typeAEndpointStable h)
+    standardABCPresentation_endpointStable
 
 /-- The endpoint lifting formulation transfers at the same quotient equality. -/
 theorem canonicalKuuOSPresentation_endpointLifting_of_eq
     (h : standardABCPresentation = canonicalKuuOSPresentation) :
     typeAEndpointLifting canonicalKuuOSPresentation := by
-  rw [← h]
-  exact standardABCPresentation_endpointLifting
+  exact Eq.mp (congrArg typeAEndpointLifting h)
+    standardABCPresentation_endpointLifting
 
 /-- Conversely the standard A/B/C quotient point inherits the canonical native
 WFS as soon as the two generated presentations are identified. -/
 theorem standardABCPresentation_isWFS_of_eq
     (h : standardABCPresentation = canonicalKuuOSPresentation) :
     isWeakFactorizationSystem standardABCPresentation := by
-  rw [h]
-  exact canonicalKuuOSPresentation_isWFS
+  exact Eq.mpr (congrArg isWeakFactorizationSystem h)
+    canonicalKuuOSPresentation_isWFS
 
 /-! ## The positive v1.79 comparison as a sufficient equality witness -/
 
@@ -371,7 +375,7 @@ v1.81 does not assert that the certificate is inhabited. -/
 theorem standardABC_eq_canonical_of_positiveComparison
     (K : StandardABCCanonicalPositiveComparisonCertificate.{u}) :
     standardABCPresentation = canonicalKuuOSPresentation :=
-  Quotient.sound
+  (standardABC_eq_canonical_iff_mutualGeneration).2
     (StandardABCCanonicalPositiveComparisonCertificate.toGeneratedPresentationEquivalence K)
 
 /-- Under a positive comparison, the canonical presentation inherits the
