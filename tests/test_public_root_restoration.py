@@ -42,6 +42,8 @@ PR2339_INTEGRATED_PROOF_BLOBS = {
 # The original full source and both proof transitions are preserved in Git history.
 # Explicit SHA enrollment is a review gate, never proof of Lean correctness.
 REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
+    # v1.77 existing historical source: namespace-only Lean repair; actual kernel CI still required.
+    "KUOS/DependentOriginationStandardTypeAEndpointOppositeCellCertificateV1_77.lean": "d294ae6608df3754f071c6a16fa011ac608c07cb",
     # Previous reviewed v1.76 blob: 9a06669b57537430895aad2a7336aabea001580e (parent HEAD 31805864; Git history).
     "KUOS/DependentOriginationStandardTypeABoundaryPrismRawTransfiniteV1_76.lean": "d2299c21820555c632dafc8f3747342357511a1e",
     # Previous reviewed v1.75 blob: be0d83f8864c0d7933b0f3b23d388086c9836217 (Git history).
@@ -173,9 +175,6 @@ REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
 # Newly added formal modules are outside the frozen v5.291 archive. Their
 # exact draft source blobs are reviewed separately from historical corrections.
 REVIEWED_ADDITIVE_FORMAL_BLOBS = {
-    # v1.77: restore explicitly opened namespace for the endpoint/cylinder construction;
-    # exact blob enrollment tracks provenance, not Lean certification.
-    "KUOS/DependentOriginationStandardTypeAEndpointOppositeCellCertificateV1_77.lean": "d294ae6608df3754f071c6a16fa011ac608c07cb",
     # Native B/C type-(A) family maps and two-way lifted correspondence constructed from true prisms and forward RLP.
     "KUOS/DependentOriginationNativeTypeABCDuskinDescentV1_29.lean": "3df76b0ad53ea4c904b8820ffdd5ceb628b74270",
     # Native high-universe type-A triangle/degeneracy and horn-scaling compatibility geometry, not assumed.
