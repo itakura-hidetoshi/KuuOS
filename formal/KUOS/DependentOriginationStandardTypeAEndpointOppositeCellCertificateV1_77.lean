@@ -456,7 +456,7 @@ def pullbackScalingIso
       scaled := by
         intro t ht
         change sY.thin (e.hom.app (op ⦋2⦌) (e.inv.app (op ⦋2⦌) t))
-        rw [← NatTrans.comp_app_apply, e.hom_inv_id]
+        rw [← NatTrans.comp_app_apply, e.inv_hom_id]
         exact ht }
   hom_inv_id := by
     apply ScaledSSet.ScaledMap.ext
