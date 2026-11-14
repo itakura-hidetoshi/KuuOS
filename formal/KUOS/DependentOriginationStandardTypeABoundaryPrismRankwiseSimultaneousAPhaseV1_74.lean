@@ -190,16 +190,16 @@ noncomputable def standardTypeABoundaryPrismRankAHornCofan
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ) :
     Cofan
-      (fun c : (standardTypeABoundaryPrismRankFunction g).Cell j =>
-        standardTypeABoundaryPrismRankAHornCell g j c) :=
-  Cofan.mk (standardTypeABoundaryPrismRankAHornSigma g j)
-    (fun c => standardTypeABoundaryPrismRankAHornSigmaInclusion g j c)
+      (fun c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j =>
+        standardTypeABoundaryPrismRankAHornCell.{u} g j c) :=
+  Cofan.mk (standardTypeABoundaryPrismRankAHornSigma.{u} g j)
+    (fun c => standardTypeABoundaryPrismRankAHornSigmaInclusion.{u} g j c)
 
 /-- The preceding horn cofan is colimiting in `ScaledSSet`. -/
 noncomputable def standardTypeABoundaryPrismRankAHornCofanIsColimit
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ) :
-    IsColimit (standardTypeABoundaryPrismRankAHornCofan g j) where
+    IsColimit (standardTypeABoundaryPrismRankAHornCofan.{u} g j) where
   desc s :=
     { map := Sigma.desc
         (fun c : (standardTypeABoundaryPrismRankFunction g).Cell j =>
@@ -222,8 +222,10 @@ noncomputable def standardTypeABoundaryPrismRankAHornCofanIsColimit
   fac s c := by
     rcases c with ⟨c⟩
     apply ScaledSSet.ScaledMap.ext
-    simp [standardTypeABoundaryPrismRankAHornCofan,
-      standardTypeABoundaryPrismRankAHornSigmaInclusion]
+    change c.ιSigmaHorn ≫ Sigma.desc
+      (fun d : (standardTypeABoundaryPrismRankFunction g).Cell j =>
+        (s.ι.app ⟨d⟩).map) = (s.ι.app ⟨c⟩).map
+    exact Sigma.ι_desc _ _
   uniq s m hm := by
     apply ScaledSSet.ScaledMap.ext
     apply Sigma.hom_ext
@@ -241,16 +243,16 @@ noncomputable def standardTypeABoundaryPrismRankASimplexCofan
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ) :
     Cofan
-      (fun c : (standardTypeABoundaryPrismRankFunction g).Cell j =>
-        standardTypeABoundaryPrismRankASimplexCell g j c) :=
-  Cofan.mk (standardTypeABoundaryPrismRankASimplexSigma g j)
-    (fun c => standardTypeABoundaryPrismRankASimplexSigmaInclusion g j c)
+      (fun c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j =>
+        standardTypeABoundaryPrismRankASimplexCell.{u} g j c) :=
+  Cofan.mk (standardTypeABoundaryPrismRankASimplexSigma.{u} g j)
+    (fun c => standardTypeABoundaryPrismRankASimplexSigmaInclusion.{u} g j c)
 
 /-- The preceding simplex cofan is colimiting in `ScaledSSet`. -/
 noncomputable def standardTypeABoundaryPrismRankASimplexCofanIsColimit
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ) :
-    IsColimit (standardTypeABoundaryPrismRankASimplexCofan g j) where
+    IsColimit (standardTypeABoundaryPrismRankASimplexCofan.{u} g j) where
   desc s :=
     { map := Sigma.desc
         (fun c : (standardTypeABoundaryPrismRankFunction g).Cell j =>
@@ -273,8 +275,10 @@ noncomputable def standardTypeABoundaryPrismRankASimplexCofanIsColimit
   fac s c := by
     rcases c with ⟨c⟩
     apply ScaledSSet.ScaledMap.ext
-    simp [standardTypeABoundaryPrismRankASimplexCofan,
-      standardTypeABoundaryPrismRankASimplexSigmaInclusion]
+    change c.ιSigmaStdSimplex ≫ Sigma.desc
+      (fun d : (standardTypeABoundaryPrismRankFunction g).Cell j =>
+        (s.ι.app ⟨d⟩).map) = (s.ι.app ⟨c⟩).map
+    exact Sigma.ι_desc _ _
   uniq s m hm := by
     apply ScaledSSet.ScaledMap.ext
     apply Sigma.hom_ext
@@ -344,10 +348,10 @@ theorem standardTypeABoundaryPrismRankASigmaCellHom_mem_coproductsABC
     (Discrete.functor
       (fun c : (standardTypeABoundaryPrismRankFunction g).Cell j =>
         standardTypeABoundaryPrismRankASimplexCell g j c))
-    (standardTypeABoundaryPrismRankAHornCofan g j)
-    (standardTypeABoundaryPrismRankASimplexCofan g j)
-    (standardTypeABoundaryPrismRankAHornCofanIsColimit g j)
-    (standardTypeABoundaryPrismRankASimplexCofanIsColimit g j)
+    (standardTypeABoundaryPrismRankAHornCofan.{u} g j)
+    (standardTypeABoundaryPrismRankASimplexCofan.{u} g j)
+    (standardTypeABoundaryPrismRankAHornCofanIsColimit.{u} g j)
+    (standardTypeABoundaryPrismRankASimplexCofanIsColimit.{u} g j)
     (standardTypeABoundaryPrismRankAGeneratorNatTrans g j) ?_
     (standardTypeABoundaryPrismRankASigmaCellHom g j) ?_
   · intro c
@@ -456,7 +460,7 @@ simultaneously is one raw standard cellular step. -/
 theorem standardTypeABoundaryPrismRankStageToAPhase_mem_rawCellular
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ) :
-    standardABCRawCellularStep
+    (standardABCRawCellularStep : MorphismProperty (ScaledSSet.{u}))
       (standardTypeABoundaryPrismRankStageToAPhase g j) := by
   exact
     (MorphismProperty.coproducts.{u, u, u + 1}
@@ -494,9 +498,11 @@ theorem standardTypeABoundaryPrismRankAPhaseScaling_le_succ
         standardTypeABoundaryPrismCellACompatible_all g j c x hx
       have hs :=
         (standardTypeABoundaryPrismScaledCellTargetToRankSucc g j c).scaled x hcell
-      have h := ConcreteCategory.congr_hom
-        (congr_app c.ι_b (op ⦋2⦌)) x
-      rw [h]
+      change
+        (standardTypeABoundaryPrismRankStageScaling g (j + 1)).thin
+          (((c.ιSigmaStdSimplex ≫ (standardTypeABoundaryPrismRankFunction g).b j).app
+            (op ⦋2⦌)) x)
+      rw [c.ι_b]
       exact hs
 
 /-- The residual map `A_j -> R_(j+1)` changes only scaling; its underlying
