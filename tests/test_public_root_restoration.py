@@ -126,7 +126,9 @@ REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
     # Previous reviewed source blob: 3db1c576f488201147d224338b384cc4dc44a086 (Git history).
     # v1.95: explicitly pin 2-hom universe and the hom-category instance in bicategory construction.
     # Previous reviewed source blob: bbaed05bb119fb112cbae857b33a42054176966b (Git history).
-    "KUOS/DependentOriginationDoubleDeloopingNatNonthinDuskinWitnessV1_95.lean": "9ecc85e4a7afc6997020f44856c0311a086ee50f",
+    # v1.95: shared pinned Quiver carriers inherited by CategoryStruct; explicit Nat.add.
+    # Previous reviewed source blob: 9ecc85e4a7afc6997020f44856c0311a086ee50f (Git history).
+    "KUOS/DependentOriginationDoubleDeloopingNatNonthinDuskinWitnessV1_95.lean": "a13be0b996704731945eedb9df3d5066a107b9ca",
     # Original V1_89 pinned source: f5d06299e825ef784a7df25386b062b80c702f12 (retained in Git history).
     "KUOS/DependentOriginationStandardArbitraryScalingWaypointV1_89.lean": "3b5de0a154436be6598a49861435dc57a80ea2f9",
     "KUOS/DependentOriginationStandardTypeAEndpointOppositeCellCertificateV1_77.lean": "e7d422b89b4a4fa5180790b0c5d49c51b7239786",

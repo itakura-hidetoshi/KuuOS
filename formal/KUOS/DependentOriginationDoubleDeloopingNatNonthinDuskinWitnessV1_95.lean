@@ -62,12 +62,15 @@ namespace NatOneCell
 instance : Subsingleton NatOneCell :=
   ⟨by intro x y; cases x; cases y; rfl⟩
 
-/- Isolate the whole compositional carrier before declaring the Category.
-   The inherited Quiver and CategoryStruct must share this exact Nat Hom. -/
-instance : CategoryStruct.{0} NatOneCell where
+/- The pinned mathlib Quiver instance must be available before the
+   CategoryStruct inheritance and subsequent numeric 2-hom elaboration. -/
+instance (priority := 2000) : Quiver.{0} NatOneCell where
   Hom _ _ := Nat
+
+instance : CategoryStruct.{0} NatOneCell where
+  __ := (inferInstance : Quiver.{0} NatOneCell)
   id _ := 0
-  comp f g := f + g
+  comp f g := Nat.add f g
 
 /-- The hom-category of 1-cells has `Nat` as every 2-hom set, identity `0`,
 and vertical composition given by addition. -/
@@ -87,7 +90,7 @@ theorem id_eq_zero (f : NatOneCell) :
 @[simp]
 theorem comp_eq_add {f g h : NatOneCell}
     (α : Quiver.Hom.{0} f g) (β : Quiver.Hom.{0} g h) :
-    α ≫ β = (α : Nat) + (β : Nat) := rfl
+    α ≫ β = Nat.add α β := rfl
 
 end NatOneCell
 
@@ -105,8 +108,11 @@ instance : Subsingleton NatDoubleDelooping :=
 
 /-- One object, one 1-cell, and additive natural-number 2-cells form a strict
 bicategory.  The exchange law is exactly commutativity of addition. -/
-instance : CategoryStruct.{0} NatDoubleDelooping where
+instance (priority := 2000) : Quiver.{0} NatDoubleDelooping where
   Hom _ _ := NatOneCell
+
+instance : CategoryStruct.{0} NatDoubleDelooping where
+  __ := (inferInstance : Quiver.{0} NatDoubleDelooping)
   id _ := NatOneCell.star
   comp _ _ := NatOneCell.star
 
