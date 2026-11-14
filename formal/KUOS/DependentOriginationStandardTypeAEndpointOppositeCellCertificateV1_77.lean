@@ -730,9 +730,26 @@ theorem standardTypeAEndpointOppositeGeneratedScaling_eq_boundary
           (standardTypeASimplexScaling g.i)).scaling.thin
           ((standardTypeABoundaryPrismSubcomplex g).ι.app
             (op ⦋2⦌) t) at ht
-      rw [← hxmap] at ht
-      rw [← NatTrans.comp_app_apply,
-        SSet.Subcomplex.homOfLE_ι] at ht
+      have hι :
+          (standardTypeABoundaryPrismSubcomplex g).ι.app (op ⦋2⦌) t =
+            (((SSet.horn g.n g.i).unionProd
+              (intervalEndpoint g.endpoint)).ι.app (op ⦋2⦌) x) := by
+        rw [← hxmap]
+        have hcomp :
+            (standardTypeAEndpointAmbientSourceToBoundary g).map ≫
+                (standardTypeABoundaryPrismSubcomplex g).ι =
+              ((SSet.horn g.n g.i).unionProd
+                (intervalEndpoint g.endpoint)).ι :=
+          SSet.Subcomplex.homOfLE_ι
+            (standardTypeAEndpointOppositeCarrierBicartSq g).le₃₄
+        have heval := congrArg
+          (fun m :
+              ((SSet.horn g.n g.i).unionProd
+                (intervalEndpoint g.endpoint) : SSet.{u}) ⟶
+                ((Δ[g.n] : SSet.{u}) ⊗ Δ[1]) =>
+                  m.app (op ⦋2⦌) x) hcomp
+        simpa only [NatTrans.comp_app_apply] using heval
+      rw [hι] at ht
       exact ht
     · let x :
           (standardTypeAEndpointOppositeSimplexSubcomplex g : SSet.{u}).obj
@@ -768,10 +785,23 @@ noncomputable def standardTypeAEndpointOpposite_scaled_isPushout
     (standardTypeAEndpointAmbientSourceToBoundary g).map
     (standardTypeAEndpointOppositeSimplexToBoundary g).map
     (standardTypeAEndpointOppositeCarrier_isPushout g)
-  simpa [generatedPushoutInl, generatedPushoutInr, generatedPushoutTarget,
-    standardTypeAEndpointOppositeGeneratedScaling_eq_boundary,
-    standardTypeAEndpointAmbientSourceToBoundary,
-    standardTypeAEndpointOppositeSimplexToBoundary] using h
+  let e :
+      generatedPushoutTarget
+        (standardTypeAEndpointAmbientSourceScaling g)
+        (standardTypeAEndpointOppositeSimplexScaling g)
+        (standardTypeAEndpointAmbientSourceToBoundary g).map
+        (standardTypeAEndpointOppositeSimplexToBoundary g).map ≅
+          standardTypeABoundaryPrism g :=
+    scalingEqualityIso _ _
+      (standardTypeAEndpointOppositeGeneratedScaling_eq_boundary g)
+  refine h.of_iso (Iso.refl _) (Iso.refl _) (Iso.refl _) e
+    (by simp) (by simp) ?_ ?_
+  · apply ScaledSSet.ScaledMap.ext
+    simp only [e, scalingEqualityIso_hom_map, Category.comp_id]
+    rfl
+  · apply ScaledSSet.ScaledMap.ext
+    simp only [e, scalingEqualityIso_hom_map, Category.comp_id]
+    rfl
 
 /-- The ambient endpoint-source inclusion is one raw standard A cellular step. -/
 theorem standardTypeAEndpointAmbientSourceToBoundary_mem_rawCellular
@@ -797,8 +827,12 @@ noncomputable def standardTypeAEndpointToBoundaryPrismArrowIsoAmbient
     (standardTypeAEndpointGeneratedSourceIsoAmbient g)
     (Iso.refl _) ?_
   apply ScaledSSet.ScaledMap.ext
-  ext d t
-  apply Subtype.ext
+  change
+    (standardTypeAEndpointGeneratedSourceIsoAmbient g).hom.map ≫
+      (standardTypeAEndpointAmbientSourceToBoundary g).map =
+        (standardTypeAEndpointToBoundaryPrism g).map
+  simp only [standardTypeAEndpointGeneratedSourceIsoAmbient,
+    scalingEqualityIso_hom_map, Category.id_comp]
   rfl
 
 /-- Therefore the genuine v1.55/v1.60 endpoint-to-boundary map itself is one
@@ -844,14 +878,17 @@ private noncomputable def prependRawToNatTransfinite
     (standardABCRawCellularStep :
       MorphismProperty (ScaledSSet.{u})).TransfiniteCompositionOfShape ℕ
         (f ≫ g) := by
-  let P : ℕ → ScaledSSet.{u} := fun
+  let P : ℕ → ScaledSSet.{u} := fun n =>
+    match n with
     | 0 => X
     | n + 1 => hg.F.obj n
-  let step : ∀ n : ℕ, P n ⟶ P (n + 1) := fun
+  let step : ∀ n : ℕ, P n ⟶ P (n + 1) := fun n =>
+    match n with
     | 0 => f ≫ hg.isoBot.inv
     | n + 1 => hg.F.map (homOfLE (Nat.le_succ n))
   let F : ℕ ⥤ ScaledSSet.{u} := Functor.ofSequence step
-  let leg : ∀ n : ℕ, F.obj n ⟶ Z := fun
+  let leg : ∀ n : ℕ, F.obj n ⟶ Z := fun n =>
+    match n with
     | 0 => f ≫ g
     | n + 1 => hg.incl.app n
   have hstep : ∀ n : ℕ,
