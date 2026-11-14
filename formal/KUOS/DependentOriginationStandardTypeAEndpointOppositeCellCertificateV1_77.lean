@@ -173,10 +173,26 @@ theorem standardTypeAEndpointGeneratedPushoutScaling_eq_ambient
   unfold standardTypeAEndpointInducedProductPullbackScaling
   unfold standardTypeAEndpointCylinderProductScaling
   unfold standardTypeAEndpointAmbientSourceScaling
-  rw [cartesianProductScaling_interval_eq_simplexCylinderScaling
-    (standardTypeASimplexScaling g.i)
-    (ScaledSimplicialSet.maximal (Δ[1] : SSet.{u}))]
-  rfl
+  change
+    pullbackScaling
+        (cartesianProductScaling (standardTypeASimplexScaling.{u} g.i)
+          (ScaledSimplicialSet.maximal (Δ[1] : SSet.{u})))
+        ((SSet.horn g.n g.i).unionProd (intervalEndpoint g.endpoint)).ι =
+      pullbackScaling
+        (simplexCylinderScaling (standardTypeASimplexScaling.{u} g.i))
+        ((SSet.horn g.n g.i).unionProd (intervalEndpoint g.endpoint)).ι
+  have hproduct :
+      cartesianProductScaling (standardTypeASimplexScaling.{u} g.i)
+          (ScaledSimplicialSet.maximal (Δ[1] : SSet.{u})) =
+        simplexCylinderScaling (standardTypeASimplexScaling.{u} g.i) :=
+    cartesianProductScaling_interval_eq_simplexCylinderScaling
+      (standardTypeASimplexScaling.{u} g.i)
+      (ScaledSimplicialSet.maximal (Δ[1] : SSet.{u}))
+  exact congrArg
+    (fun s : ScaledSimplicialSet ((Δ[g.n] : SSet.{u}) ⊗ Δ[1]) =>
+      pullbackScaling s
+        ((SSet.horn g.n g.i).unionProd (intervalEndpoint g.endpoint)).ι)
+    hproduct
 
 /-- Endpoint source with its now-canonical ambient pullback scaling. -/
 def standardTypeAEndpointAmbientSource

@@ -43,8 +43,8 @@ PR2339_INTEGRATED_PROOF_BLOBS = {
 # Explicit SHA enrollment is a review gate, never proof of Lean correctness.
 REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
     # v1.77 historical source: restore explicit v1.19/v1.40/v1.58 namespaces; CI still required.
-    # Previous reviewed blob: 10423b54b6eded6dd09e529248733f0be9f515c5 (Git history).
-    "KUOS/DependentOriginationStandardTypeAEndpointOppositeCellCertificateV1_77.lean": "d73ae673183fc739cb654ff652dbfe8691627feb",
+    # Previous reviewed blob: d73ae673183fc739cb654ff652dbfe8691627feb (Git history).
+    "KUOS/DependentOriginationStandardTypeAEndpointOppositeCellCertificateV1_77.lean": "8428660107f134f7ed581c1b1684570acca95c8b",
     # Previous reviewed v1.76 blob: 9a06669b57537430895aad2a7336aabea001580e (parent HEAD 31805864; Git history).
     "KUOS/DependentOriginationStandardTypeABoundaryPrismRawTransfiniteV1_76.lean": "d2299c21820555c632dafc8f3747342357511a1e",
     # Previous reviewed v1.75 blob: be0d83f8864c0d7933b0f3b23d388086c9836217 (Git history).
