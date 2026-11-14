@@ -9,8 +9,7 @@ open KUOS.DependentOriginationScaledAnodyneGeneratorClosureV1_42
 open KUOS.DependentOriginationScaledColimitsPresentabilityV1_45
 open KUOS.DependentOriginationStandardTypeCCollapsedEdgeV1_58
 open KUOS.DependentOriginationGeneratedPresentationEndpointInvariantV1_80
-open KUOS.DependentOriginationGeneratedPresentationEndpointInvariantV1_80.
-  GeneratedScaledAnodynePresentationEquivalence
+open KUOS.DependentOriginationGeneratedPresentationEndpointInvariantV1_80.GeneratedScaledAnodynePresentationEquivalence
 open KUOS.DependentOriginationStandardABCPositiveCanonicalResidualSplitV1_79
 
 universe u
@@ -306,7 +305,7 @@ theorem standardABCPresentation_endpointLifting :
 
 /-- The canonical quotient point carries an unconditional native WFS by the
 v1.45 small-object argument. -/
-noncomputable theorem canonicalKuuOSPresentation_isWFS :
+theorem canonicalKuuOSPresentation_isWFS :
     isWeakFactorizationSystem canonicalKuuOSPresentation := by
   change
     MorphismProperty.IsWeakFactorizationSystem
@@ -356,7 +355,7 @@ theorem canonicalKuuOSPresentation_endpointLifting_of_eq
 
 /-- Conversely the standard A/B/C quotient point inherits the canonical native
 WFS as soon as the two generated presentations are identified. -/
-noncomputable theorem standardABCPresentation_isWFS_of_eq
+theorem standardABCPresentation_isWFS_of_eq
     (h : standardABCPresentation = canonicalKuuOSPresentation) :
     isWeakFactorizationSystem standardABCPresentation := by
   rw [h]
@@ -370,7 +369,8 @@ v1.81 does not assert that the certificate is inhabited. -/
 theorem standardABC_eq_canonical_of_positiveComparison
     (K : StandardABCCanonicalPositiveComparisonCertificate.{u}) :
     standardABCPresentation = canonicalKuuOSPresentation :=
-  Quotient.sound K.toGeneratedPresentationEquivalence
+  Quotient.sound
+    (StandardABCCanonicalPositiveComparisonCertificate.toGeneratedPresentationEquivalence K)
 
 /-- Under a positive comparison, the canonical presentation inherits the
 standard endpoint stability invariant. -/
@@ -390,7 +390,7 @@ theorem canonicalKuuOSPresentation_endpointLifting_of_positiveComparison
 
 /-- Dually, the standard presentation inherits the unconditional canonical WFS
 once the positive comparison identifies the quotient points. -/
-noncomputable theorem standardABCPresentation_isWFS_of_positiveComparison
+theorem standardABCPresentation_isWFS_of_positiveComparison
     (K : StandardABCCanonicalPositiveComparisonCertificate.{u}) :
     isWeakFactorizationSystem standardABCPresentation :=
   standardABCPresentation_isWFS_of_eq
