@@ -246,8 +246,9 @@ theorem standardCanonicalPresentationGapClosed_iff :
         _ = standardCanonicalLowerEnvelope.{u} := h.symm
         _ ≤ standardABCPresentation.{u} := lowerEnvelope_le_standardABC
   · intro h
-    simpa [StandardCanonicalPresentationGapClosed,
-      standardCanonicalLowerEnvelope.{u}, standardCanonicalUpperEnvelope, h]
+    change standardABCPresentation.{u} ⊓ canonicalKuuOSPresentation.{u} =
+      standardABCPresentation.{u} ⊔ canonicalKuuOSPresentation.{u}
+    simp [h]
 
 /-- Equivalently, gap closure is mutual comparison in the presentation order. -/
 theorem standardCanonicalPresentationGapClosed_iff_mutual_le :

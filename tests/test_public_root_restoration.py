@@ -83,7 +83,7 @@ REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
     # Original V1_84 pinned source: baf70fc20347e881054fb86180de849ebf92f71f (retained in Git history).
     # Original v1.84 quotient-order source: ff85d62d2fac75f86eea7153fb22f8b0acdcc6c0 (Git history).
     # Prior v1.84 literal preorder transport source: aafded1c0bf73533cb3389ae2e33d11fb908d844 (Git history).
-    "KUOS/DependentOriginationGeneratedPresentationOrderReflectionV1_84.lean": "3cb649752c4803abc033a94b53ebb7f3494f20d5",
+    "KUOS/DependentOriginationGeneratedPresentationOrderReflectionV1_84.lean": "e4b462ddd2477d841a43338d0f6a27b8549b68d7",
     # Original V1_85 pinned source: 97e364b48eb5632ab7f9f79b051f5b665445c682 (retained in Git history).
     # Original v1.85 quotient fixed-point proof SHA: 188dff91e794f2c2fb559e9f9c1ce95682a7d5cd (Git history).
     "KUOS/DependentOriginationGeneratedPresentationFixedPointOrderIsoV1_85.lean": "bfe53b6d2aa49d250255e31840ea08e8b8aede9d",
@@ -93,7 +93,7 @@ REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
     # Previous v1.86 order-isomorphism HomClass attempt: e2ed4d2a0d3a641bdf720a8c7bd18107a7f19b94 (Git history).
     "KUOS/DependentOriginationGeneratedPresentationCompleteLatticeV1_86.lean": "bb05a19c94519fca03379f1906de7d69827a5bdf",
     # Original V1_87 pinned source: 88181c3c721c129e2aa628406e3fbf77a89d4f91 (retained in Git history).
-    "KUOS/DependentOriginationStandardCanonicalPresentationGapV1_87.lean": "6d7e5ce47992c67a8c8b6e5312b5f76b948367b6",
+    "KUOS/DependentOriginationStandardCanonicalPresentationGapV1_87.lean": "929d9c9e06b180f9a36d57a3010058654a13f2c4",
     # Original V1_89 pinned source: f5d06299e825ef784a7df25386b062b80c702f12 (retained in Git history).
     "KUOS/DependentOriginationStandardArbitraryScalingWaypointV1_89.lean": "4769187a07f63f8e4f7aebb21d535b68d1461852",
     "KUOS/DependentOriginationStandardTypeAEndpointOppositeCellCertificateV1_77.lean": "e7d422b89b4a4fa5180790b0c5d49c51b7239786",
