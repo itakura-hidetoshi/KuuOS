@@ -62,7 +62,7 @@ presentation comparison is used in this reduction.
 /-! ## Atomic one-triangle scalings -/
 
 /-- Add one chosen 2-simplex to the minimal scaling of `Δ[n]`. -/
-def singleTriangleScaling
+@[reducible] def singleTriangleScaling
     {n : Nat}
     (t : (Δ[n] : SSet.{u}).obj (op ⦋2⦌)) :
     ScaledSimplicialSet (Δ[n] : SSet.{u}) where
@@ -143,7 +143,7 @@ theorem singleTriangleScalingEnrichments_le_simplexScalingEnrichments :
 
 /-- Minimal scaling together with a finite set `F` of explicitly thin
 triangles. -/
-def finiteTriangleScaling
+@[reducible] def finiteTriangleScaling
     {n : Nat}
     (F : Finset ((Δ[n] : SSet.{u}).obj (op ⦋2⦌))) :
     ScaledSimplicialSet (Δ[n] : SSet.{u}) where
@@ -156,6 +156,24 @@ def finiteTriangleScaling
     intro x
     exact Or.inl ((minimalScaling (Δ[n] : SSet.{u})).thin_sigma_one x)
 
+/-- Scaling equality permits transfer of left-orthogonal membership between
+identity-underlying maps without rewriting inside a dependent Hom type. -/
+private theorem llp_of_same_underlying_map_and_target_scaling_eq
+    (T : MorphismProperty (ScaledSSet.{u}))
+    {X : SSet.{u}}
+    {sSource sTarget₁ sTarget₂ : ScaledSimplicialSet X}
+    (h : sTarget₁ = sTarget₂)
+    (f : ScaledSSet.of X sSource ⟶ ScaledSSet.of X sTarget₁)
+    (g : ScaledSSet.of X sSource ⟶ ScaledSSet.of X sTarget₂)
+    (hmap : f.map = g.map)
+    (hf : T.llp f) :
+    T.llp g := by
+  subst sTarget₂
+  have hfg : f = g := by
+    apply ScaledSSet.ScaledMap.ext
+    exact hmap
+  exact hfg ▸ hf
+
 /-- The empty finite scaling is exactly minimal. -/
 @[simp]
 theorem finiteTriangleScaling_empty
@@ -164,7 +182,11 @@ theorem finiteTriangleScaling_empty
       minimalScaling (Δ[n] : SSet.{u}) := by
   apply scaling_eq_of_le_antisymm
   · intro t ht
-    simpa [finiteTriangleScaling] using ht
+    change (minimalScaling (Δ[n] : SSet.{u})).thin t ∨
+      t ∈ (∅ : Finset _) at ht
+    rcases ht with hmin | hmem
+    · exact hmin
+    · simp at hmem
   · intro t ht
     exact Or.inl ht
 
@@ -211,7 +233,10 @@ theorem singleTrianglePushoutScaling_eq_finiteInsert
       finiteTriangleScaling (insert t F) := by
   apply scaling_eq_of_le_antisymm
   · intro u hu
-    dsimp [scalingEnrichmentPushoutScaling] at hu
+    change
+      (finiteTriangleScaling F).thin u ∨
+        ∃ x : (Δ[n] : SSet.{u}).obj (op ⦋2⦌),
+          (singleTriangleScaling t).thin x ∧ x = u at hu
     rcases hu with hu | ⟨x, hx, hxu⟩
     · rcases hu with hmin | hF
       · exact Or.inl hmin
@@ -254,18 +279,15 @@ theorem finiteTriangleInsertEnrichment_mem_llp
       (𝟙 (Δ[n] : SSet.{u}))
       (minimalScaling_map _ _)
     simpa [minimalToSingleTriangleScaling] using ht
-  have hscale := singleTrianglePushoutScaling_eq_finiteInsert F t
-  rw [hscale] at hpush
-  have heq :
-      scalingEnrichmentPushoutTargetEnrichment
-          (singleTriangleScaling t)
-          (finiteTriangleScaling F)
-          (𝟙 (Δ[n] : SSet.{u})) =
-        finiteTriangleInsertEnrichment F t := by
-    apply ScaledSSet.ScaledMap.ext
-    rfl
-  rw [← heq]
-  exact hpush
+  exact llp_of_same_underlying_map_and_target_scaling_eq T
+    (singleTrianglePushoutScaling_eq_finiteInsert F t)
+    (scalingEnrichmentPushoutTargetEnrichment
+      (singleTriangleScaling t)
+      (finiteTriangleScaling F)
+      (𝟙 (Δ[n] : SSet.{u})))
+    (finiteTriangleInsertEnrichment F t)
+    (by rfl)
+    hpush
 
 /-! ## Finite composition of atomic steps -/
 
@@ -282,14 +304,12 @@ theorem minimalToFiniteTriangleScaling_mem_llp
   classical
   induction F using Finset.induction_on with
   | empty =>
-      rw [finiteTriangleScaling_empty]
-      have heq :
-          minimalToFiniteTriangleScaling (n := n) ∅ =
-            𝟙 (minimallyScaledSimplex n) := by
-        apply ScaledSSet.ScaledMap.ext
-        rfl
-      rw [heq]
-      exact T.llp.id_mem _
+      exact llp_of_same_underlying_map_and_target_scaling_eq T
+        (finiteTriangleScaling_empty n).symm
+        (𝟙 (minimallyScaledSimplex n))
+        (minimalToFiniteTriangleScaling (n := n) ∅)
+        (by rfl)
+        (T.llp.id_mem _)
   | @insert t F hnot ih =>
       have hstep : T.llp (finiteTriangleInsertEnrichment F t) :=
         finiteTriangleInsertEnrichment_mem_llp T F t (hatomic t)
@@ -303,8 +323,9 @@ theorem minimalToFiniteTriangleScaling_mem_llp
             minimalToFiniteTriangleScaling F ≫
               finiteTriangleInsertEnrichment F t := by
         apply ScaledSSet.ScaledMap.ext
-        simp [minimalToFiniteTriangleScaling, finiteTriangleInsertEnrichment,
-          scalingEnrichmentHom]
+        change (𝟙 (Δ[n] : SSet.{u})) =
+          (𝟙 (Δ[n] : SSet.{u})) ≫ (𝟙 (Δ[n] : SSet.{u}))
+        exact (Category.id_comp _).symm
       rw [heq]
       exact hcomp
 
@@ -365,15 +386,12 @@ theorem minimalToChosenSimplexScaling_mem_llp_of_singleTriangles
   have hfinite :=
     minimalToFiniteTriangleScaling_mem_llp
       T hatomic (chosenThinTriangles sDelta)
-  have hscale := finiteTriangleScaling_chosenThinTriangles_eq sDelta
-  rw [hscale] at hfinite
-  have heq :
-      minimalToFiniteTriangleScaling (chosenThinTriangles sDelta) =
-        minimalToChosenSimplexScaling sDelta := by
-    apply ScaledSSet.ScaledMap.ext
-    rfl
-  rw [← heq]
-  exact hfinite
+  exact llp_of_same_underlying_map_and_target_scaling_eq T
+    (finiteTriangleScaling_chosenThinTriangles_eq sDelta)
+    (minimalToFiniteTriangleScaling (chosenThinTriangles sDelta))
+    (minimalToChosenSimplexScaling sDelta)
+    (by rfl)
+    hfinite
 
 /-! ## Equality of the atomic and arbitrary pure-scaling presentations -/
 

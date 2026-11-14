@@ -99,7 +99,16 @@ REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
     "KUOS/DependentOriginationCanonicalAttachmentScalingObstructionRetractV1_88.lean": "c34e82e50a188e436847da0469ecbb146a41174e",
     # Original v1.90 historical proof source: d6a76712776b4a1b289b89bd691fa6213f8d36ce (retained in legacy/v5.291).
     # Reviewed v1.90 scaling namespace and Delta notation correction; Lean CI required.
-    "KUOS/DependentOriginationSingleTriangleScalingFiltrationV1_90.lean": "57cd62b2ffa8a5544bfc240164fb9f6c1c8f5666",
+    "KUOS/DependentOriginationSingleTriangleScalingFiltrationV1_90.lean": "78415621c231ff5c8dce7693b28a622b95aded34",
+    # Historical v1.91 original SHA: 0ca37ba4aef86397617d7fc90c1633efa684830e (preserved in legacy/v5.291).
+    # Reviewed v1.91 simplex notation and universe repair; exact Lean CI required.
+    "KUOS/DependentOriginationCanonicalFibrancyAtomicTwoSimplexAuditV1_91.lean": "36036c35b52bb4143d8bd7cdc389afadb3cfcacb",
+    # Original v1.92 frozen source: 513823a1b757c23a3f8e88cbac08144cb9b82034 (retained in legacy/v5.291).
+    # Reviewed namespace/Δ syntax repair, subject to exact-source Strict Lean.
+    "KUOS/DependentOriginationCanonicalFibrationThinReflectionV1_92.lean": "34d74a83e614a5c676a39eb55eabd9c97c4c167a",
+    # Original v1.93 archived proof SHA: ac445c1f2029ed71827609424905ff2818cc6c14 (preserved in legacy/v5.291).
+    # Reviewed v1.93 simplex/scaling import and dimension proof repair; Lean CI still required.
+    "KUOS/DependentOriginationStandardTypeATwoSimplexThinReplacementV1_93.lean": "74a06cd8de4e5cfe6a16305f35935b6c4c12b75c",
     # Original V1_89 pinned source: f5d06299e825ef784a7df25386b062b80c702f12 (retained in Git history).
     "KUOS/DependentOriginationStandardArbitraryScalingWaypointV1_89.lean": "3b5de0a154436be6598a49861435dc57a80ea2f9",
     "KUOS/DependentOriginationStandardTypeAEndpointOppositeCellCertificateV1_77.lean": "e7d422b89b4a4fa5180790b0c5d49c51b7239786",
