@@ -95,7 +95,7 @@ theorem le_lowerEnvelope_iff
     (P : GeneratedScaledAnodynePresentation.{u}) :
     P ≤ standardCanonicalLowerEnvelope.{u} ↔
       P ≤ standardABCPresentation.{u} ∧ P ≤ canonicalKuuOSPresentation.{u} := by
-  simp [standardCanonicalLowerEnvelope.{u}]
+  simp [standardCanonicalLowerEnvelope]
 
 /-- The upper envelope is the least presentation lying above both points. -/
 @[simp]
@@ -103,7 +103,7 @@ theorem upperEnvelope_le_iff
     (P : GeneratedScaledAnodynePresentation.{u}) :
     standardCanonicalUpperEnvelope.{u} ≤ P ↔
       standardABCPresentation.{u} ≤ P ∧ canonicalKuuOSPresentation.{u} ≤ P := by
-  simp [standardCanonicalUpperEnvelope.{u}]
+  simp [standardCanonicalUpperEnvelope]
 
 /-- Membership in the gap interval is exactly the envelope sandwich. -/
 @[simp]
@@ -206,7 +206,7 @@ theorem interval_eq_of_canonicalKuuOS_le_standardABC
     (h : canonicalKuuOSPresentation.{u} ≤ standardABCPresentation.{u}) :
     standardCanonicalPresentationInterval.{u} =
       Set.Icc canonicalKuuOSPresentation.{u} standardABCPresentation.{u} := by
-  unfold standardCanonicalPresentationInterval.{u}
+  unfold standardCanonicalPresentationInterval
   rw [canonicalKuuOS_le_standardABC_iff_lowerEnvelope_eq_canonical.1 h,
     canonicalKuuOS_le_standardABC_iff_upperEnvelope_eq_standard.1 h]
 
@@ -216,7 +216,7 @@ theorem interval_eq_of_standardABC_le_canonicalKuuOS
     (h : standardABCPresentation.{u} ≤ canonicalKuuOSPresentation.{u}) :
     standardCanonicalPresentationInterval.{u} =
       Set.Icc standardABCPresentation.{u} canonicalKuuOSPresentation.{u} := by
-  unfold standardCanonicalPresentationInterval.{u}
+  unfold standardCanonicalPresentationInterval
   rw [standardABC_le_canonicalKuuOS_iff_lowerEnvelope_eq_standard.1 h,
     standardABC_le_canonicalKuuOS_iff_upperEnvelope_eq_canonical.1 h]
 
@@ -246,8 +246,8 @@ theorem standardCanonicalPresentationGapClosed_iff :
         _ = standardCanonicalLowerEnvelope.{u} := h.symm
         _ ≤ standardABCPresentation.{u} := lowerEnvelope_le_standardABC
   · intro h
-    simpa [StandardCanonicalPresentationGapClosed.{u},
-      standardCanonicalLowerEnvelope.{u}, standardCanonicalUpperEnvelope.{u}, h]
+    simpa [StandardCanonicalPresentationGapClosed,
+      standardCanonicalLowerEnvelope.{u}, standardCanonicalUpperEnvelope, h]
 
 /-- Equivalently, gap closure is mutual comparison in the presentation order. -/
 theorem standardCanonicalPresentationGapClosed_iff_mutual_le :
