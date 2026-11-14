@@ -741,9 +741,12 @@ theorem standardTypeAEndpointAmbientSourceToBoundary_mem_rawCellular
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
     standardABCRawCellularStep
       (standardTypeAEndpointAmbientSourceToBoundary g) := by
-  exact MorphismProperty.pushouts_mk
-    (standardTypeAEndpointOpposite_scaled_isPushout g)
-    (standardTypeAEndpointOppositeCellHom_mem_coproductsABC g)
+  exact
+    (MorphismProperty.coproducts.{u, u, u + 1}
+      (standardScaledAnodyneGeneratorsABC :
+        MorphismProperty (ScaledSSet.{u}))).pushouts_mk
+      (standardTypeAEndpointOpposite_scaled_isPushout g)
+      (standardTypeAEndpointOppositeCellHom_mem_coproductsABC g)
 
 /-! ## Return to the actual v1.55 source and close the certificate -/
 
@@ -763,8 +766,8 @@ noncomputable def standardTypeAEndpointToBoundaryPrismArrowIsoAmbient
 raw standard type-(A) cellular step. -/
 theorem standardTypeAEndpointToBoundaryPrism_mem_rawCellular
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
-    standardABCRawCellularStep
-      (standardTypeAEndpointToBoundaryPrism g) := by
+    standardABCRawCellularStep.{u}
+      (standardTypeAEndpointToBoundaryPrism.{u} g) := by
   exact
     ((standardABCRawCellularStep : MorphismProperty (ScaledSSet.{u})).arrow_mk_iso_iff
       (standardTypeAEndpointToBoundaryPrismArrowIsoAmbient g)).2
@@ -774,11 +777,12 @@ theorem standardTypeAEndpointToBoundaryPrism_mem_rawCellular
 cellular closure. -/
 theorem standardTypeAEndpointToBoundaryPrism_mem_strongCellular
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
-    standardABCStrongCellularClosure
-      (standardTypeAEndpointToBoundaryPrism g) :=
-  MorphismProperty.le_transfiniteCompositions
-    (standardABCRawCellularStep : MorphismProperty (ScaledSSet.{u})) _
-    (standardTypeAEndpointToBoundaryPrism_mem_rawCellular g)
+    standardABCStrongCellularClosure.{u}
+      (standardTypeAEndpointToBoundaryPrism.{u} g) := by
+  simpa only [standardABCStrongCellularClosure] using
+    (MorphismProperty.le_transfiniteCompositions
+      (standardABCRawCellularStep : MorphismProperty (ScaledSSet.{u})) _
+      (standardTypeAEndpointToBoundaryPrism_mem_rawCellular g))
 
 /-- The complete genuine scaled endpoint Leibniz map is in the strong
 unretracted standard A/B cellular closure. -/
