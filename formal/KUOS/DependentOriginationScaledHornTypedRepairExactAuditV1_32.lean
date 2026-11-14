@@ -1,3 +1,4 @@
+import KUOS.DependentOriginationCanonicalCrossUniverseHornDescentV1_29
 import KUOS.DependentOriginationULiftScaledHornProblemRoundTripV1_29
 import KUOS.DependentOriginationULiftScaledHornProblemDescentV1_29
 import KUOS.DependentOriginationULiftScaledMapReflectionV1_29
@@ -385,3 +386,8 @@ certificate or unlifted v1.29 horn descent is inferred. -/
 #print axioms KUOS.DependentOriginationULiftScaledHornProblemRoundTripV1_29.lift_unliftScaledHornProblem
 #print axioms KUOS.DependentOriginationULiftScaledHornProblemRoundTripV1_29.liftScaledHornFiller_nonempty_iff
 #print axioms KUOS.DependentOriginationULiftScaledHornProblemRoundTripV1_29.unliftScaledHornFiller_nonempty_iff
+
+/-! ## Certified cross-universe canonical family presentation and fibrancy -/
+#print axioms KUOS.DependentOriginationCanonicalCrossUniverseHornDescentV1_29.canonicalLiftedHornFamily
+#print axioms KUOS.DependentOriginationCanonicalCrossUniverseHornDescentV1_29.canonicalCrossUniversePresentationEquivalence
+#print axioms KUOS.DependentOriginationCanonicalCrossUniverseHornDescentV1_29.canonicalCrossUniverseFibrancy_iff

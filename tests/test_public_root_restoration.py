@@ -170,6 +170,8 @@ REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
 # Newly added formal modules are outside the frozen v5.291 archive. Their
 # exact draft source blobs are reviewed separately from historical corrections.
 REVIEWED_ADDITIVE_FORMAL_BLOBS = {
+    # Canonical cross-universe admissibility preservation and fibrancy equivalence.
+    "KUOS/DependentOriginationCanonicalCrossUniverseHornDescentV1_29.lean": "4d523864ca2a8ecd2c8c58586e0978f3dd5ae143",
     # Exact bidirectional ULift horn-problem and filler-existence round trips.
     "KUOS/DependentOriginationULiftScaledHornProblemRoundTripV1_29.lean": "38a911697821f290c5530084fa523b43be51cf44",
     # Reverse transport of arbitrary higher-universe scaled horn problems and fillers.
