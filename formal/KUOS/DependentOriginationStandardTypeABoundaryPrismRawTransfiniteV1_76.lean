@@ -670,7 +670,8 @@ theorem standardTypeABoundaryPrismToCylinder_mem_strongCellular
       (standardTypeABoundaryPrismToCylinder g) := by
   exact MorphismProperty.transfiniteCompositionsOfShape_le_transfiniteCompositions
     (standardABCRawCellularStep : MorphismProperty (ScaledSSet.{u})) _ _
-    (standardTypeABoundaryPrismRawTransfiniteComposition g).mem
+    ((standardTypeABoundaryPrismRawTransfiniteComposition g).ofOrderIso
+      (orderIsoShrink.{u} ℕ).symm).mem
 
 /-- Consequently the full boundary-prism inclusion lies in the exact v1.59
 standard A/B/C cellular closure. -/
