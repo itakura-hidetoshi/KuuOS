@@ -60,6 +60,10 @@ namespace NatOneCell
 instance : Subsingleton NatOneCell :=
   ⟨by intro x y; cases x; cases y; rfl⟩
 
+/- Explicit hom quiver for the pinned, universe-indexed additive category. -/
+instance : Quiver.{0} NatOneCell where
+  Hom _ _ := Nat
+
 /-- The hom-category of 1-cells has `Nat` as every 2-hom set, identity `0`,
 and vertical composition given by addition. -/
 instance : Category.{0} NatOneCell where
