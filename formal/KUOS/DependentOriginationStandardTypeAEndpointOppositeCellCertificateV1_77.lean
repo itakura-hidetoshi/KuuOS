@@ -865,14 +865,14 @@ No global IsStableUnderComposition instance is assumed. -/
 
 private noncomputable def prependedEndpointObj
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
-    ℕ → ScaledSSet.{u}
+    ℕ → ScaledSSet.{u} := fun
   | 0 => standardTypeAEndpointGeneratedPushoutSource g
   | .succ n => (standardTypeABoundaryPrismRawTransfiniteComposition g).F.obj n
 
 private noncomputable def prependedEndpointStep
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
     (n : ℕ) → prependedEndpointObj g n ⟶
-      prependedEndpointObj g (n + 1)
+      prependedEndpointObj g (n + 1) := fun
   | 0 => standardTypeAEndpointToBoundaryPrism g ≫
       (standardTypeABoundaryPrismRawTransfiniteComposition g).isoBot.inv
   | .succ n =>
@@ -887,7 +887,7 @@ private noncomputable def prependedEndpointFunctor
 private noncomputable def prependedEndpointLeg
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
     (n : ℕ) → prependedEndpointObj g n ⟶
-      scaledSimplexCylinder (standardTypeASimplexScaling g.i)
+      scaledSimplexCylinder (standardTypeASimplexScaling g.i) := fun
   | 0 => standardTypeAEndpointToBoundaryPrism g ≫
       standardTypeABoundaryPrismToCylinder g
   | .succ n =>
