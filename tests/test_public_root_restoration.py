@@ -170,6 +170,8 @@ REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
 # Newly added formal modules are outside the frozen v5.291 archive. Their
 # exact draft source blobs are reviewed separately from historical corrections.
 REVIEWED_ADDITIVE_FORMAL_BLOBS = {
+    # True independent-universe B/C Duskin fibrancy iff, with explicit strict-inverse/admissibility requirements.
+    "KUOS/DependentOriginationCanonicalIndependentUniverseDuskinDescentV1_29.lean": "fd227d58299d5819e9cee19e0206e697e66d4906",
     # Canonical cross-universe admissibility preservation and fibrancy equivalence.
     "KUOS/DependentOriginationCanonicalCrossUniverseHornDescentV1_29.lean": "4d523864ca2a8ecd2c8c58586e0978f3dd5ae143",
     # Exact bidirectional ULift horn-problem and filler-existence round trips.
