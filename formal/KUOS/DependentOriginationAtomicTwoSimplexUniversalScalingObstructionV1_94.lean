@@ -94,7 +94,8 @@ theorem hasLiftingProperty_singleTriangle_of_reflectsThinTwoSimplices
     { l := l
       fac_left := by
         apply ScaledSSet.ScaledMap.ext
-        simp [l, minimalToSingleTriangleScaling, scalingEnrichmentHom]
+        change (𝟙 (Δ[n] : SSet.{u})) ≫ f.map = f.map
+        simp
       fac_right := by
         apply ScaledSSet.ScaledMap.ext
         simpa [l] using hsqmap }
@@ -154,7 +155,8 @@ theorem standardArbitraryScalingObstructionClosed_iff_atomicTwoSimplex :
 
 /-- Literal waypoint form of the same result. -/
 theorem standardArbitraryScalingWaypoint_eq_standardABC_iff_atomicTwoSimplex :
-    standardArbitraryScalingWaypoint.{u} = standardABCPresentation ↔
+    standardArbitraryScalingWaypoint.{u} =
+      KUOS.DependentOriginationGeneratedPresentationQuotientInvariantV1_81.standardABCPresentation.{u} ↔
       (standardGeneratedScaledAnodyneABC : MorphismProperty (ScaledSSet.{u}))
       (atomicTwoSimplexEnrichment.{u}) := by
   simpa [StandardArbitraryScalingObstructionClosed] using
@@ -296,7 +298,8 @@ theorem not_standardArbitraryScalingObstructionClosed_iff_exists_distinct_thinRe
 /-- The forward canonical-to-standard comparison factors through one atomic
 membership test plus the residual post-scaling geometry. -/
 theorem canonicalKuuOS_le_standardABC_iff_atomicTwoSimplex_and_residual :
-    canonicalKuuOSPresentation ≤ standardABCPresentation ↔
+    KUOS.DependentOriginationGeneratedPresentationQuotientInvariantV1_81.canonicalKuuOSPresentation.{u} ≤
+      KUOS.DependentOriginationGeneratedPresentationQuotientInvariantV1_81.standardABCPresentation.{u} ↔
       (standardGeneratedScaledAnodyneABC : MorphismProperty (ScaledSSet.{u}))
       (atomicTwoSimplexEnrichment.{u}) ∧
         CanonicalBelowStandardAfterArbitraryScaling.{u} := by
@@ -307,8 +310,8 @@ theorem canonicalKuuOS_le_standardABC_iff_atomicTwoSimplex_and_residual :
 generator comparison, the single `i₂` standard-generation test, and the
 remaining forward geometry after pure scaling has been adjoined. -/
 theorem standardCanonicalPresentationGapClosed_iff_reverse_atomic_residual :
-    StandardCanonicalPresentationGapClosed ↔
-      StandardABCCanonicalGeneratorwiseReverseComparison ∧
+    KUOS.DependentOriginationStandardCanonicalPresentationGapV1_87.StandardCanonicalPresentationGapClosed.{u} ↔
+      KUOS.DependentOriginationStandardABCPositiveCanonicalResidualSplitV1_79.StandardABCCanonicalGeneratorwiseReverseComparison.{u} ∧
         (standardGeneratedScaledAnodyneABC : MorphismProperty (ScaledSSet.{u}))
       (atomicTwoSimplexEnrichment.{u}) ∧
           CanonicalBelowStandardAfterArbitraryScaling.{u} := by
