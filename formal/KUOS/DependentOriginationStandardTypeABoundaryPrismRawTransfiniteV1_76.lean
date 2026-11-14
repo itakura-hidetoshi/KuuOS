@@ -461,6 +461,18 @@ theorem standardTypeABoundaryPrismAlternatingToCylinder_bit_true
   simp [standardTypeABoundaryPrismAlternatingToCylinder, Nat.bit_val,
     Nat.bitCasesOn_bit0, Nat.bitCasesOn_bit1]
 
+/-- Transport a cylinder leg along equality of alternating indices.  The
+explicit equality-to-hom map avoids dependent rewriting inside a composite. -/
+private theorem standardTypeABoundaryPrismAlternatingToCylinder_transport
+    (g : StandardTypeAHornAttachmentGeneratorIndex)
+    {a b : ℕ} (hab : a = b) :
+    standardTypeABoundaryPrismAlternatingToCylinder g a =
+      eqToHom
+          (congrArg (standardTypeABoundaryPrismAlternatingObj g) hab) ≫
+        standardTypeABoundaryPrismAlternatingToCylinder g b := by
+  cases hab
+  simp
+
 /-- Consecutive alternating maps are compatible with the common cylinder map. -/
 theorem standardTypeABoundaryPrismAlternatingStep_toCylinder
     (g : StandardTypeAHornAttachmentGeneratorIndex)
@@ -502,7 +514,9 @@ theorem standardTypeABoundaryPrismAlternatingStep_toCylinder
             standardTypeABoundaryPrismAlternatingStep g (Nat.bit true j) ≫
               standardTypeABoundaryPrismAlternatingToCylinder g (Nat.bit true j + 1) =
               standardTypeABoundaryPrismAlternatingToCylinder g (Nat.bit true j)
-          rw [hbit, standardTypeABoundaryPrismAlternatingStep_bit_true,
+          have htransport :=
+            standardTypeABoundaryPrismAlternatingToCylinder_transport g hbit
+          rw [htransport, standardTypeABoundaryPrismAlternatingStep_bit_true,
             standardTypeABoundaryPrismAlternatingToCylinder_bit_false,
             standardTypeABoundaryPrismAlternatingToCylinder_bit_true]
           simp [Category.assoc]
@@ -750,6 +764,24 @@ noncomputable def standardTypeABoundaryPrismAlternatingCoconeIsColimit
 
 /-! ## One raw transfinite composition from the boundary prism to the cylinder -/
 
+/-- A subcomplex inclusion is invariant under equality transport of the
+subcomplex object. -/
+private theorem standardTypeABoundaryPrism_subcomplex_eqToHom_inclusion
+    {X : SSet.{u}} {A B : X.Subcomplex} (h : A = B) :
+    eqToHom (congrArg (fun C : X.Subcomplex => (C : SSet.{u})) h) ≫
+        B.ι = A.ι := by
+  cases h
+  simp
+
+/-- The carrier map of equality transport for scaled simplicial sets is the
+ordinary equality transport of the carrier. -/
+private theorem standardTypeABoundaryPrism_scaledMap_eqToHom
+    {X Y : ScaledSSet.{u}} (h : X = Y) :
+    (eqToHom h).map =
+      eqToHom (congrArg (fun Z : ScaledSSet.{u} => Z.carrier) h) := by
+  cases h
+  simp
+
 /-- The complete boundary-prism inclusion is a single natural-number
 transfinite composition whose every successor is a raw standard A/B cellular
 step. -/
@@ -776,6 +808,10 @@ noncomputable def standardTypeABoundaryPrismRawTransfiniteComposition
       standardTypeABoundaryPrismRankStageToCylinder,
       standardTypeABoundaryPrismToCylinder,
       standardTypeABoundaryPrism_filtration_zero]
+    rw [standardTypeABoundaryPrism_scaledMap_eqToHom]
+    simpa [standardTypeABoundaryPrism, standardTypeABoundaryPrismRankStage] using
+      standardTypeABoundaryPrism_subcomplex_eqToHom_inclusion
+        (standardTypeABoundaryPrism_filtration_zero g).symm
   map_mem j _ := by
     simpa [standardTypeABoundaryPrismAlternatingFunctor] using
       standardTypeABoundaryPrismAlternatingStep_mem_rawCellular g j
