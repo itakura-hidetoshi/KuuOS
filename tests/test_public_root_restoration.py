@@ -120,7 +120,9 @@ REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
     # v1.95: fix pinned Nat hom-instance priority and explicit v1.89/v1.81 namespaces; previous reviewed blob ccf1b5f1327af02d31f9fe07ed49873fa6ecf787 (Git history).
     # v1.95: use the category-inherited Quiver instead of competing high-priority instance.
     # Previous reviewed source blob: 80aa8ab1b1965c7180c1c057e4049113f4562a82 (Git history).
-    "KUOS/DependentOriginationDoubleDeloopingNatNonthinDuskinWitnessV1_95.lean": "7355a4a74e388f2d9eb0cedb6e4782ec237852f3",
+    # v1.95: install explicit one-/two-hom Quivers before dependent category structures.
+    # Previous reviewed source blob: 7355a4a74e388f2d9eb0cedb6e4782ec237852f3 (Git history).
+    "KUOS/DependentOriginationDoubleDeloopingNatNonthinDuskinWitnessV1_95.lean": "3db1c576f488201147d224338b384cc4dc44a086",
     # Original V1_89 pinned source: f5d06299e825ef784a7df25386b062b80c702f12 (retained in Git history).
     "KUOS/DependentOriginationStandardArbitraryScalingWaypointV1_89.lean": "3b5de0a154436be6598a49861435dc57a80ea2f9",
     "KUOS/DependentOriginationStandardTypeAEndpointOppositeCellCertificateV1_77.lean": "e7d422b89b4a4fa5180790b0c5d49c51b7239786",
