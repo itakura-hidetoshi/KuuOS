@@ -341,6 +341,13 @@ def standardTypeAEndpointOppositeCarrierBicartSq
     ext d ⟨x, y⟩
     simp [subcomplex_sup_obj, standardTypeAEndpointOppositeSimplexSubcomplex,
       SSet.Subcomplex.unionProd, SSet.Subcomplex.prod, Set.prod]
+    change
+      (y ∈ (intervalEndpoint g.endpoint.rev).obj d ∨
+         (y ∈ (intervalEndpoint g.endpoint).obj d ∨
+           x ∈ (SSet.horn g.n g.i).obj d)) ↔
+        ((y ∈ (intervalEndpoint g.endpoint).obj d ∨
+           y ∈ (intervalEndpoint g.endpoint.rev).obj d) ∨
+             x ∈ (SSet.horn g.n g.i).obj d)
     tauto
   inf_eq := by
     ext d ⟨x, y⟩
@@ -358,6 +365,12 @@ def standardTypeAEndpointOppositeCarrierBicartSq
       standardTypeAEndpointOppositeSimplexSubcomplex,
       standardTypeAEndpointOppositeCornerSubcomplex,
       SSet.Subcomplex.unionProd, SSet.Subcomplex.prod, Set.prod]
+    change
+      (y ∈ (intervalEndpoint g.endpoint.rev).obj d ∧
+         (y ∈ (intervalEndpoint g.endpoint).obj d ∨
+           x ∈ (SSet.horn g.n g.i).obj d)) ↔
+        (x ∈ (SSet.horn g.n g.i).obj d ∧
+         y ∈ (intervalEndpoint g.endpoint.rev).obj d)
     tauto
 
 /-- The preceding lattice square is therefore a genuine ordinary simplicial
