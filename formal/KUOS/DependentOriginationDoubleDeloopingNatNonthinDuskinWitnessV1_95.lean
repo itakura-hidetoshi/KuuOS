@@ -15,6 +15,8 @@ open KUOS.DependentOriginationScaledTerminalRLPV1_41
 open KUOS.DependentOriginationStandardTypeCCollapsedEdgeV1_58
 open KUOS.DependentOriginationCanonicalFibrationThinReflectionV1_92
 open KUOS.DependentOriginationAtomicTwoSimplexUniversalScalingObstructionV1_94
+open KUOS.DependentOriginationStandardArbitraryScalingWaypointV1_89
+open KUOS.DependentOriginationGeneratedPresentationQuotientInvariantV1_81
 
 /-!
 # A concrete additive double-delooping non-thin Duskin witness v1.95
@@ -60,8 +62,9 @@ namespace NatOneCell
 instance : Subsingleton NatOneCell :=
   ⟨by intro x y; cases x; cases y; rfl⟩
 
-/- Explicit hom quiver for the pinned, universe-indexed additive category. -/
-instance : Quiver.{0} NatOneCell where
+/- Explicit Nat-valued quiver for the pinned hom universe; select it ahead of the
+   derived Category.toQuiver instance so unqualified two-hom notation is Nat. -/
+instance (priority := 2000) : Quiver.{0} NatOneCell where
   Hom _ _ := Nat
 
 /-- The hom-category of 1-cells has `Nat` as every 2-hom set, identity `0`,

@@ -117,8 +117,8 @@ REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
     # v1.95: Lean4 inductive declaration where clauses; archived source SHA 0b2f441e64b988922c3029cbae0817d479224334.
     # v1.95: explicit category-law binders and full whiskering functions; previous reviewed blob 72419bad48db4e3c07d5a15ec65e2cabb37edfef (Git history).
     # v1.95: fix morphism universes for pinned Category.univ_out_params; previous reviewed blob 135bdf61d2617ec42ae68fc108597e6993874d01 (Git history).
-    # v1.95: declare the Nat-valued hom quiver explicitly; prior reviewed blob 1f9db37f7b83462acdbcf8e9edc3ae592a6813ab (Git history).
-    "KUOS/DependentOriginationDoubleDeloopingNatNonthinDuskinWitnessV1_95.lean": "ccf1b5f1327af02d31f9fe07ed49873fa6ecf787",
+    # v1.95: fix pinned Nat hom-instance priority and explicit v1.89/v1.81 namespaces; previous reviewed blob ccf1b5f1327af02d31f9fe07ed49873fa6ecf787 (Git history).
+    "KUOS/DependentOriginationDoubleDeloopingNatNonthinDuskinWitnessV1_95.lean": "80aa8ab1b1965c7180c1c057e4049113f4562a82",
     # Original V1_89 pinned source: f5d06299e825ef784a7df25386b062b80c702f12 (retained in Git history).
     "KUOS/DependentOriginationStandardArbitraryScalingWaypointV1_89.lean": "3b5de0a154436be6598a49861435dc57a80ea2f9",
     "KUOS/DependentOriginationStandardTypeAEndpointOppositeCellCertificateV1_77.lean": "e7d422b89b4a4fa5180790b0c5d49c51b7239786",
