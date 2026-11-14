@@ -39,6 +39,10 @@ deriving DecidableEq
 
 namespace NatOneCell
 
+/-- Explicit 2-morphism quiver: all hom types are Nat, at universe 0. -/
+instance : Quiver.{0} NatOneCell where
+  Hom _ _ := Nat
+
 instance : Subsingleton NatOneCell :=
   ⟨by intro x y; cases x; cases y; rfl⟩
 
