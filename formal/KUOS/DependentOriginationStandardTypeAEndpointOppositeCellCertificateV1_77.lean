@@ -864,20 +864,23 @@ colimit: its zero leg is forced by the new first successor relation.
 No global IsStableUnderComposition instance is assumed. -/
 
 private noncomputable def prependedEndpointObj
-    (g : StandardTypeAHornAttachmentGeneratorIndex) :
-    ℕ → ScaledSSet.{u} := fun
-  | 0 => standardTypeAEndpointGeneratedPushoutSource g
-  | .succ n => (standardTypeABoundaryPrismRawTransfiniteComposition g).F.obj n
+    (g : StandardTypeAHornAttachmentGeneratorIndex)
+    (n : ℕ) : ScaledSSet.{u} :=
+  Nat.casesOn n (standardTypeAEndpointGeneratedPushoutSource g)
+    (fun k => (standardTypeABoundaryPrismRawTransfiniteComposition g).F.obj k)
 
 private noncomputable def prependedEndpointStep
-    (g : StandardTypeAHornAttachmentGeneratorIndex) :
-    (n : ℕ) → prependedEndpointObj g n ⟶
-      prependedEndpointObj g (n + 1) := fun
-  | 0 => standardTypeAEndpointToBoundaryPrism g ≫
-      (standardTypeABoundaryPrismRawTransfiniteComposition g).isoBot.inv
-  | .succ n =>
-      (standardTypeABoundaryPrismRawTransfiniteComposition g).F.map
-        (homOfLE (Nat.le_succ n))
+    (g : StandardTypeAHornAttachmentGeneratorIndex)
+    (n : ℕ) :
+    prependedEndpointObj g n ⟶
+      prependedEndpointObj g (n + 1) := by
+  cases n with
+  | zero =>
+      exact standardTypeAEndpointToBoundaryPrism g ≫
+        (standardTypeABoundaryPrismRawTransfiniteComposition g).isoBot.inv
+  | succ k =>
+      exact (standardTypeABoundaryPrismRawTransfiniteComposition g).F.map
+        (homOfLE (Nat.le_succ k))
 
 private noncomputable def prependedEndpointFunctor
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
@@ -885,13 +888,16 @@ private noncomputable def prependedEndpointFunctor
   Functor.ofSequence (prependedEndpointStep g)
 
 private noncomputable def prependedEndpointLeg
-    (g : StandardTypeAHornAttachmentGeneratorIndex) :
-    (n : ℕ) → prependedEndpointObj g n ⟶
-      scaledSimplexCylinder (standardTypeASimplexScaling g.i) := fun
-  | 0 => standardTypeAEndpointToBoundaryPrism g ≫
-      standardTypeABoundaryPrismToCylinder g
-  | .succ n =>
-      (standardTypeABoundaryPrismRawTransfiniteComposition g).incl.app n
+    (g : StandardTypeAHornAttachmentGeneratorIndex)
+    (n : ℕ) :
+    prependedEndpointObj g n ⟶
+      scaledSimplexCylinder (standardTypeASimplexScaling g.i) := by
+  cases n with
+  | zero =>
+      exact standardTypeAEndpointToBoundaryPrism g ≫
+        standardTypeABoundaryPrismToCylinder g
+  | succ k =>
+      exact (standardTypeABoundaryPrismRawTransfiniteComposition g).incl.app k
 
 private theorem prependedEndpointStep_leg
     (g : StandardTypeAHornAttachmentGeneratorIndex) (n : ℕ) :
