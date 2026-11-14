@@ -543,11 +543,9 @@ noncomputable def standardTypeABoundaryPrism_rankStep_scaled_isPushout
   · apply ScaledSSet.ScaledMap.ext
     change ((standardTypeABoundaryPrismRankFunction g).b j) ≫ eP.hom.map =
       (standardTypeABoundaryPrismRankFunction g).b j
-    have hid : eP.hom.map =
-        𝟙 ((standardTypeABoundaryPrismRankFunction g).filtration (j + 1) : SSet.{u}) := by
-      simpa only [eP, scalingEqualityIso_hom_map]
-    rw [hid]
-    exact Category.comp_id _
+    simpa [eP, generatedPushoutTarget,
+      standardTypeABoundaryPrismRankStage] using
+      (Category.comp_id ((standardTypeABoundaryPrismRankFunction g).b j))
 
 /-!
 The global rank filtration is now genuinely scaled:
