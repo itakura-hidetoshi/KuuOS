@@ -670,12 +670,12 @@ the opposite standard-A simplex is exactly the existing boundary-prism
 pullback scaling. -/
 theorem standardTypeAEndpointOppositeGeneratedScaling_eq_boundary
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
-    generatedPushoutScaling
-      (standardTypeAEndpointAmbientSourceScaling g)
+    generatedPushoutScaling.{u}
+      (standardTypeAEndpointAmbientSourceScaling.{u} g)
       (standardTypeAEndpointOppositeSimplexScaling g)
       (standardTypeAEndpointAmbientSourceToBoundary g).map
       (standardTypeAEndpointOppositeSimplexToBoundary g).map =
-        standardTypeABoundaryPrismScaling g := by
+        standardTypeABoundaryPrismScaling.{u} g := by
   apply scaling_eq_of_le_antisymm
   · intro t ht
     rcases ht with hmin | ⟨x, hx, rfl⟩ | ⟨y, hy, rfl⟩
@@ -764,8 +764,8 @@ noncomputable def standardTypeAEndpointOpposite_scaled_isPushout
 /-- The ambient endpoint-source inclusion is one raw standard A cellular step. -/
 theorem standardTypeAEndpointAmbientSourceToBoundary_mem_rawCellular
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
-    standardABCRawCellularStep
-      (standardTypeAEndpointAmbientSourceToBoundary g) := by
+    standardABCRawCellularStep.{u}
+      (standardTypeAEndpointAmbientSourceToBoundary.{u} g) := by
   exact
     (MorphismProperty.coproducts.{u, u, u + 1}
       (standardScaledAnodyneGeneratorsABC :
@@ -813,10 +813,10 @@ theorem standardTypeAEndpointToBoundaryPrism_mem_strongCellular
 unretracted standard A/B cellular closure. -/
 theorem standardTypeAEndpointScaledLeibnizPushoutProductHom_mem_strongCellular
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
-    standardABCStrongCellularClosure
-      (standardTypeAEndpointScaledLeibnizPushoutProductHom g) := by
+    standardABCStrongCellularClosure.{u}
+      (standardTypeAEndpointScaledLeibnizPushoutProductHom.{u} g) := by
   have hcomp :=
-    (standardABCStrongCellularClosure : MorphismProperty (ScaledSSet.{u})).comp_mem
+    (standardABCStrongCellularClosure.{u} : MorphismProperty (ScaledSSet.{u})).comp_mem
       (standardTypeAEndpointToBoundaryPrism g)
       (standardTypeABoundaryPrismToCylinder g)
       (standardTypeAEndpointToBoundaryPrism_mem_strongCellular g)
@@ -827,8 +827,8 @@ theorem standardTypeAEndpointScaledLeibnizPushoutProductHom_mem_strongCellular
 exact v1.59 standard A/B/C cellular closure. -/
 theorem standardTypeAEndpointScaledLeibnizPushoutProductHom_mem_cellular
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
-    standardABCCellularClosure
-      (standardTypeAEndpointScaledLeibnizPushoutProductHom g) :=
+    standardABCCellularClosure.{u}
+      (standardTypeAEndpointScaledLeibnizPushoutProductHom.{u} g) :=
   standardABCStrongCellularClosure_le_standardABCCellularClosure _
     (standardTypeAEndpointScaledLeibnizPushoutProductHom_mem_strongCellular g)
 
