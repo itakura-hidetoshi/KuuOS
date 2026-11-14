@@ -327,9 +327,9 @@ def standardTypeAEndpointOppositeCarrierBicartSq
       intervalBoundary_eq_endpoint_sup_rev g.endpoint]
     ext d ⟨x, y⟩
     simp [standardTypeAEndpointOppositeSimplexSubcomplex,
-      SSet.Subcomplex.unionProd, SSet.Subcomplex.prod, Set.prod,
-      Set.mem_union, Set.mem_inter_iff, Set.mem_setOf_eq,
-      or_assoc, or_comm, or_left_comm] <;> tauto
+      SSet.Subcomplex.unionProd, SSet.Subcomplex.prod, Set.prod] <;>
+      simp only [Set.mem_union, Set.mem_inter_iff, Set.mem_setOf_eq,
+        Prod.fst, Prod.snd, true_and] <;> tauto
   inf_eq := by
     ext d ⟨x, y⟩
     have hdis :
@@ -344,9 +344,9 @@ def standardTypeAEndpointOppositeCarrierBicartSq
       simpa using hm
     simp [standardTypeAEndpointOppositeSimplexSubcomplex,
       standardTypeAEndpointOppositeCornerSubcomplex,
-      SSet.Subcomplex.unionProd, SSet.Subcomplex.prod, Set.prod,
-      Set.mem_union, Set.mem_inter_iff, Set.mem_setOf_eq,
-      or_assoc, or_comm, or_left_comm] <;> tauto
+      SSet.Subcomplex.unionProd, SSet.Subcomplex.prod, Set.prod] <;>
+      simp only [Set.mem_union, Set.mem_inter_iff, Set.mem_setOf_eq,
+        Prod.fst, Prod.snd, true_and] <;> tauto
 
 /-- The preceding lattice square is therefore a genuine ordinary simplicial
 pushout.  We immediately flip it so that the standard A cell is the second
