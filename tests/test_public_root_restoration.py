@@ -93,7 +93,7 @@ REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
     # Previous v1.86 order-isomorphism HomClass attempt: e2ed4d2a0d3a641bdf720a8c7bd18107a7f19b94 (Git history).
     "KUOS/DependentOriginationGeneratedPresentationCompleteLatticeV1_86.lean": "bb05a19c94519fca03379f1906de7d69827a5bdf",
     # Original V1_87 pinned source: 88181c3c721c129e2aa628406e3fbf77a89d4f91 (retained in Git history).
-    "KUOS/DependentOriginationStandardCanonicalPresentationGapV1_87.lean": "e551f933ba98eb7827933186a0ffc421301dec85",
+    "KUOS/DependentOriginationStandardCanonicalPresentationGapV1_87.lean": "64ac58d18b5b3e23a1a336e29948d686ca9750a3",
     # Original V1_89 pinned source: f5d06299e825ef784a7df25386b062b80c702f12 (retained in Git history).
     "KUOS/DependentOriginationStandardArbitraryScalingWaypointV1_89.lean": "4769187a07f63f8e4f7aebb21d535b68d1461852",
     "KUOS/DependentOriginationStandardTypeAEndpointOppositeCellCertificateV1_77.lean": "e7d422b89b4a4fa5180790b0c5d49c51b7239786",
