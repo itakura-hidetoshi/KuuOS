@@ -86,8 +86,7 @@ def orthogonalFibrationClosure :
     exact MorphismProperty.antitone_rlp
       (MorphismProperty.antitone_llp hRS)
   le_closure' := by
-    intro R A B p hp
-    intro X Y i hi
+    intro R A B p hp X Y i hi
     exact hi p hp
   idempotent' := fun R => MorphismProperty.rlp_llp_rlp R.llp
   IsClosed := IsRightOrthogonallySaturated
@@ -167,8 +166,7 @@ theorem saturatedFibration_iSup_val
 saturated-left representatives. -/
 noncomputable instance generatedScaledAnodynePresentationCompleteLattice :
     CompleteLattice GeneratedScaledAnodynePresentation.{u} :=
-  generatedPresentationSaturatedAnodyneOrderIso.symm.toGaloisInsertion
-    .liftCompleteLattice
+  (generatedPresentationSaturatedAnodyneOrderIso.symm.toGaloisInsertion).liftCompleteLattice
 
 /-- The left fixed-point coordinate preserves arbitrary joins. -/
 @[simp]
