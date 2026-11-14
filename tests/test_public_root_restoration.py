@@ -175,7 +175,8 @@ REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
 REVIEWED_ADDITIVE_FORMAL_BLOBS = {
     # Native high-universe type-A triangle/degeneracy and horn-scaling compatibility geometry, not assumed.
     # Original candidate blob 7595ccc803c4d9c62b3e3551725f3740d4b27133 retained in Git commit 51d7c5e.
-    "KUOS/DependentOriginationNativeTypeAUniverseGeometryV1_29.lean": "c7e20f7383149a09e0f8fa3299a277b56a187906",
+    # Previous reviewed native type-A bridge blob: c7e20f7383149a09e0f8fa3299a277b56a187906 (Git history).
+    "KUOS/DependentOriginationNativeTypeAUniverseGeometryV1_29.lean": "49f4b9bb2d0135b6416e94ed359ff353e2fb33f0",
     # Fully typed type-(A) ULift horn and simplex scaling transport; native high-universe compatibility remains a separate obligation.
     "KUOS/DependentOriginationCrossUniverseTypeAScalingV1_29.lean": "aea9c9848047f3e190faefd879736a2806ec41cb",
     # Strict rectification from forward endpoint-only cylinder RLP; true type-A subfamily of indexed inner horns.
