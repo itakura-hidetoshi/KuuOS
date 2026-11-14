@@ -795,13 +795,21 @@ noncomputable def standardTypeAEndpointOpposite_scaled_isPushout
     scalingEqualityIso _ _
       (standardTypeAEndpointOppositeGeneratedScaling_eq_boundary g)
   refine h.of_iso (Iso.refl _) (Iso.refl _) (Iso.refl _) e
-    (by simp) (by simp) ?_ ?_
+    ?_ ?_ ?_ ?_
+  · simp only [Iso.refl_hom, Category.comp_id, Category.id_comp]
+  · simp only [Iso.refl_hom, Category.comp_id, Category.id_comp]
   · apply ScaledSSet.ScaledMap.ext
-    simp only [e, scalingEqualityIso_hom_map, Category.comp_id]
-    rfl
+    change
+      (standardTypeAEndpointAmbientSourceToBoundary g).map ≫ e.hom.map =
+        𝟙 _ ≫ (standardTypeAEndpointAmbientSourceToBoundary g).map
+    simp only [e, scalingEqualityIso_hom_map,
+      Category.comp_id, Category.id_comp]
   · apply ScaledSSet.ScaledMap.ext
-    simp only [e, scalingEqualityIso_hom_map, Category.comp_id]
-    rfl
+    change
+      (standardTypeAEndpointOppositeSimplexToBoundary g).map ≫ e.hom.map =
+        𝟙 _ ≫ (standardTypeAEndpointOppositeSimplexToBoundary g).map
+    simp only [e, scalingEqualityIso_hom_map,
+      Category.comp_id, Category.id_comp]
 
 /-- The ambient endpoint-source inclusion is one raw standard A cellular step. -/
 theorem standardTypeAEndpointAmbientSourceToBoundary_mem_rawCellular
@@ -897,22 +905,24 @@ private noncomputable def prependRawToNatTransfinite
     cases n with
     | zero =>
         change (f ≫ hg.isoBot.inv) ≫ hg.incl.app 0 = f ≫ g
-        rw [← Category.assoc, hg.fac]
+        have hfac :=
+          congrArg (fun k : Y ⟶ Z => f ≫ k) hg.fac
+        simpa only [Category.assoc] using hfac
     | succ n =>
-        change hg.F.map (homOfLE (Nat.le_succ n)) ≫ hg.incl.app (n + 1) =
-          hg.incl.app n
-        simpa using hg.incl.naturality (homOfLE (Nat.le_succ n))
+        have hnat := hg.incl.naturality (homOfLE (Nat.le_succ n))
+        simpa [F, step, leg] using hnat
   let incl : F ⟶ (Functor.const ℕ).obj Z :=
     NatTrans.ofSequence leg (by
       intro n
-      simpa only [Functor.const_map, Category.comp_id] using hstep n)
+      change F.map (homOfLE (Nat.le_succ n)) ≫ leg (n + 1) =
+        leg n ≫ 𝟙 Z
+      simpa only [Category.comp_id] using hstep n)
   let tail : (s : Cocone F) → Cocone hg.F := fun s =>
     Cocone.mk s.pt
       (NatTrans.ofSequence (fun n => s.ι.app (n + 1)) (by
         intro n
         have hnat := s.ι.naturality (homOfLE (Nat.le_succ (n + 1)))
-        simpa only [Functor.const_map, Category.comp_id,
-          F, Functor.ofSequence_map_homOfLE_succ, step] using hnat))
+        simpa [F, step] using hnat))
   have hcolimit : IsColimit (Cocone.mk Z incl) := by
     refine {
       desc := fun s => hg.isColimit.desc (tail s)
@@ -923,28 +933,36 @@ private noncomputable def prependRawToNatTransfinite
       cases n with
       | zero =>
           change (f ≫ g) ≫ hg.isColimit.desc (tail s) = s.ι.app 0
+          have hfac := congrArg
+            (fun k : Y ⟶ Z =>
+              (f ≫ k) ≫ hg.isColimit.desc (tail s)) hg.fac
+          have htail := hg.isColimit.fac (tail s) 0
+          have htail' := congrArg
+            (fun k : hg.F.obj 0 ⟶ s.pt =>
+              (f ≫ hg.isoBot.inv) ≫ k) htail
+          have hnat := s.ι.naturality (homOfLE (Nat.le_succ 0))
           calc
             (f ≫ g) ≫ hg.isColimit.desc (tail s) =
                 (f ≫ hg.isoBot.inv) ≫
                   (hg.incl.app 0 ≫ hg.isColimit.desc (tail s)) := by
-                    rw [← hg.fac]
-                    simp only [Category.assoc]
+                    simpa only [Category.assoc] using hfac.symm
             _ = (f ≫ hg.isoBot.inv) ≫ s.ι.app 1 := by
-              rw [hg.isColimit.fac (tail s) 0]
+              simpa [tail] using htail'
             _ = s.ι.app 0 := by
-              have hnat := s.ι.naturality (homOfLE (Nat.le_succ 0))
-              simpa only [Functor.const_map, Category.comp_id,
-                F, Functor.ofSequence_map_homOfLE_succ, step] using hnat
+              simpa [F, step] using hnat
       | succ n =>
           change hg.incl.app n ≫ hg.isColimit.desc (tail s) = s.ι.app (n + 1)
-          exact hg.isColimit.fac (tail s) n
+          simpa [tail] using hg.isColimit.fac (tail s) n
     · intro s m hm
       apply hg.isColimit.hom_ext
       intro n
-      calc
-        hg.incl.app n ≫ m = s.ι.app (n + 1) := hm (n + 1)
-        _ = hg.incl.app n ≫ hg.isColimit.desc (tail s) :=
-          (hg.isColimit.fac (tail s) n).symm
+      have hl : hg.incl.app n ≫ m = s.ι.app (n + 1) := by
+        simpa [incl, leg] using hm (n + 1)
+      have hr :
+          hg.incl.app n ≫ hg.isColimit.desc (tail s) =
+            s.ι.app (n + 1) := by
+        simpa [tail] using hg.isColimit.fac (tail s) n
+      exact hl.trans hr.symm
   refine {
     F := F
     isoBot := Iso.refl X
@@ -965,10 +983,9 @@ private noncomputable def prependRawToNatTransfinite
           ((standardABCRawCellularStep :
             MorphismProperty (ScaledSSet.{u})).arrow_mk_iso_iff e).1 hf
     | succ n =>
-        change standardABCRawCellularStep.{u}
-          (hg.F.map (homOfLE (Nat.le_succ n)))
-        exact hg.map_mem n
+        have hmem := hg.map_mem n
           (not_isMax_iff.mpr ⟨n + 1, Nat.lt_succ_self n⟩)
+        simpa [F, step] using hmem
 
 /-- The complete genuine scaled endpoint Leibniz map is in the strong
 unretracted standard A/B cellular closure. -/
