@@ -193,41 +193,35 @@ theorem canonicalTypeAEndpointLeibnizLiftingUnconditional :
 /-- The canonical KuuOS quotient point carries endpoint generator membership
 without identifying it with the standard A/B/C quotient point. -/
 theorem canonicalKuuOSPresentation_endpointGeneratorsGenerated_unconditional :
-    typeAEndpointGeneratorsGenerated canonicalKuuOSPresentation := by
-  change
-    TypeAEndpointLeibnizGeneratorsGeneratedBy
-      (scaledHornAttachmentGenerators :
-        MorphismProperty (ScaledSSet.{u}))
-  change
-    (standardTypeAScaledLeibnizPushoutProductGenerators :
+    typeAEndpointGeneratorsGenerated canonicalKuuOSPresentation.{u} := by
+  have h : TypeAEndpointLeibnizGeneratorsGeneratedBy
+      (scaledHornAttachmentGenerators : MorphismProperty (ScaledSSet.{u})) := by
+    change (standardTypeAScaledLeibnizPushoutProductGenerators :
       MorphismProperty (ScaledSSet.{u})) ≤
-      (canonicalGeneratedScaledAnodyne :
-        MorphismProperty (ScaledSSet.{u}))
-  exact standardTypeAScaledLeibnizPushoutProductGenerators_le_canonicalGenerated
+      (canonicalGeneratedScaledAnodyne : MorphismProperty (ScaledSSet.{u}))
+    exact standardTypeAScaledLeibnizPushoutProductGenerators_le_canonicalGenerated
+  exact (typeAEndpointGeneratorsGenerated_presentationClass
+    (scaledHornAttachmentGenerators : MorphismProperty (ScaledSSet.{u}))).2 h
 
 /-- The canonical quotient point carries endpoint stability independently of
 any standard-vs-canonical quotient equality. -/
 theorem canonicalKuuOSPresentation_endpointStable_unconditional :
-    typeAEndpointStable canonicalKuuOSPresentation := by
-  change
-    TypeAEndpointLeibnizStableForPresentation
-      (scaledHornAttachmentGenerators :
-        MorphismProperty (ScaledSSet.{u}))
-  change
-    StandardTypeAScaledLeibnizPushoutProductStable
-      (canonicalGeneratedScaledAnodyne :
-        MorphismProperty (ScaledSSet.{u}))
-  exact canonicalTypeAEndpointLeibnizStabilityUnconditional
+    typeAEndpointStable canonicalKuuOSPresentation.{u} := by
+  have h : TypeAEndpointLeibnizStableForPresentation
+      (scaledHornAttachmentGenerators : MorphismProperty (ScaledSSet.{u})) := by
+    change StandardTypeAScaledLeibnizPushoutProductStable
+      (canonicalGeneratedScaledAnodyne : MorphismProperty (ScaledSSet.{u}))
+    exact canonicalTypeAEndpointLeibnizStabilityUnconditional
+  exact (typeAEndpointStable_presentationClass
+    (scaledHornAttachmentGenerators : MorphismProperty (ScaledSSet.{u}))).2 h
 
 /-- The canonical quotient point likewise carries endpoint right lifting
 unconditionally. -/
 theorem canonicalKuuOSPresentation_endpointLifting_unconditional :
-    typeAEndpointLifting canonicalKuuOSPresentation := by
-  change
-    TypeAEndpointLeibnizLiftingForPresentation
-      (scaledHornAttachmentGenerators :
-        MorphismProperty (ScaledSSet.{u}))
-  exact canonicalTypeAEndpointLeibnizLiftingUnconditional
+    typeAEndpointLifting canonicalKuuOSPresentation.{u} := by
+  exact (typeAEndpointLifting_presentationClass
+    (scaledHornAttachmentGenerators : MorphismProperty (ScaledSSet.{u}))).2
+    canonicalTypeAEndpointLeibnizLiftingUnconditional
 
 /-!
 After v1.82 the two distinguished presentation classes have the following
