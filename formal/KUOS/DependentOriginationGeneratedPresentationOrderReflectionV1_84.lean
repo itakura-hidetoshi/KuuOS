@@ -130,17 +130,14 @@ theorem presentationClass_eq_iff_mutual_preorder
         GeneratedPresentationPreorderLE F E := by
   constructor
   · intro h
-    subst F
-    exact
-      <| And.intro
-        (generatedPresentationPreorderLE_refl E)
-        (generatedPresentationPreorderLE_refl E)
+    have hEF : presentationClass E ≤ presentationClass F := le_of_eq h
+    have hFE : presentationClass F ≤ presentationClass E := le_of_eq h.symm
+    exact ⟨(presentationClass_le_iff_generators_le_generated E F).1 hEF,
+      (presentationClass_le_iff_generators_le_generated F E).1 hFE⟩
   · rintro ⟨hEF, hFE⟩
     apply le_antisymm
-    · exact
-        (presentationClass_le_iff_generators_le_generated E F).2 hEF
-    · exact
-        (presentationClass_le_iff_generators_le_generated F E).2 hFE
+    · exact (presentationClass_le_iff_generators_le_generated E F).2 hEF
+    · exact (presentationClass_le_iff_generators_le_generated F E).2 hFE
 
 /-- The v1.80 generated-presentation equivalence structure is precisely the
 symmetric part of the literal-presentation preorder. -/
@@ -174,7 +171,7 @@ when every *literal canonical composite generator* is standard-generated.
 No factorization into scaling enrichment and induced attachment is logically
 required by the order itself. -/
 theorem canonicalKuuOS_le_standardABC_iff_canonicalGenerators_le_standardGenerated :
-    canonicalKuuOSPresentation <= standardABCPresentation <->
+    canonicalKuuOSPresentation.{u} <= standardABCPresentation.{u} <->
       (scaledHornAttachmentGenerators :
         MorphismProperty (ScaledSSet.{u})) <=
         standardGeneratedScaledAnodyneABC := by
@@ -189,7 +186,7 @@ theorem canonicalKuuOS_le_standardABC_iff_canonicalGenerators_le_standardGenerat
 /-- Conversely the standard A/B/C point lies below the canonical point exactly
 when the literal standard A/B/C union is canonical-generated. -/
 theorem standardABC_le_canonicalKuuOS_iff_standardGenerators_le_canonicalGenerated :
-    standardABCPresentation <= canonicalKuuOSPresentation <->
+    standardABCPresentation.{u} <= canonicalKuuOSPresentation.{u} <->
       (standardScaledAnodyneGeneratorsABC :
         MorphismProperty (ScaledSSet.{u})) <=
         (canonicalGeneratedScaledAnodyne :
