@@ -366,8 +366,8 @@ cellular step. -/
 theorem standardTypeABoundaryPrismAlternatingStep_mem_rawCellular
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (n : ℕ) :
-    standardABCRawCellularStep
-      (standardTypeABoundaryPrismAlternatingStep g n) := by
+    standardABCRawCellularStep.{u}
+      (standardTypeABoundaryPrismAlternatingStep.{u} g n) := by
   cases n using Nat.bitCasesOn with
   | bit b j =>
       cases b with
@@ -687,8 +687,8 @@ noncomputable def standardTypeABoundaryPrismRawTransfiniteComposition
 /-- Strong unretracted cellularity of the entire boundary-prism inclusion. -/
 theorem standardTypeABoundaryPrismToCylinder_mem_strongCellular
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
-    standardABCStrongCellularClosure
-      (standardTypeABoundaryPrismToCylinder g) := by
+    standardABCStrongCellularClosure.{u}
+      (standardTypeABoundaryPrismToCylinder.{u} g) := by
   simpa only [standardABCStrongCellularClosure] using
     (MorphismProperty.transfiniteCompositionsOfShape_le_transfiniteCompositions
       (standardABCRawCellularStep : MorphismProperty (ScaledSSet.{u})) _ _
