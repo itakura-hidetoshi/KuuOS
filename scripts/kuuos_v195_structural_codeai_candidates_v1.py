@@ -105,12 +105,36 @@ def variants(source: str) -> dict[str, str]:
       "round6-dsimp-iso-change-cases": (False, BASIC_PREFIX + """    dsimp only [Bicategory.whiskerRight, Bicategory.whiskerLeft, Bicategory.associator]
     simp only [Iso.refl_hom, NatOneCell.comp_eq_add, NatOneCell.id_eq_zero]
 """ + ARITH + CASES),
+      # Round-6 showed CategoryStruct.comp, not the NatOneCell simp lemma,
+      # is the remaining projection. Unfold its exact pinned API explicitly.
+      "round7-projection-comp-cases": (False, BASIC_PREFIX + """    dsimp only [Bicategory.whiskerRight, Bicategory.whiskerLeft,
+      Bicategory.associator, CategoryStruct.comp]
+    simp [Iso.refl_hom, NatOneCell.id_eq_zero]
+""" + CASES),
+      "round7-projection-comp-change": (False, BASIC_PREFIX + """    dsimp only [Bicategory.whiskerRight, Bicategory.whiskerLeft,
+      Bicategory.associator, CategoryStruct.comp]
+    simp only [Iso.refl_hom]
+""" + ARITH + CASES),
+      "round7-finite-concrete-simp": (False, BASIC_PREFIX + """    rcases a with ⟨a⟩
+    rcases b with ⟨b⟩
+    rcases c with ⟨c⟩
+    rcases d with ⟨d⟩
+    fin_cases a <;> fin_cases b <;> fin_cases c <;> fin_cases d <;>
+      simp_all [natTriangleMapComp, Bicategory.whiskerRight,
+        Bicategory.whiskerLeft, Bicategory.associator, CategoryStruct.comp] <;> omega"""),
+      "round7-finite-concrete-rfl": (False, BASIC_PREFIX + """    rcases a with ⟨a⟩
+    rcases b with ⟨b⟩
+    rcases c with ⟨c⟩
+    rcases d with ⟨d⟩
+    fin_cases a <;> fin_cases b <;> fin_cases c <;> fin_cases d <;>
+      simp_all [natTriangleMapComp, Bicategory.whiskerRight,
+        Bicategory.whiskerLeft, Bicategory.associator, CategoryStruct.comp] <;> rfl"""),
     }
     result = {}
     for name,(change_whiskers,assoc) in specs.items():
-        # Round-5 outcomes are immutable in CI #43657758138. Probe only
-        # newly derived round-6 variants; retain the earlier portfolio as data.
-        if not name.startswith("round6-"):
+        # Round-5 and round-6 outcomes are immutable in earlier CI receipts.
+        # Probe only new round-7 projection/cases candidates.
+        if not name.startswith("round7-"):
             continue
         text = source.replace(ASSOC_BEFORE,assoc)
         if change_whiskers:
