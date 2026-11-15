@@ -111,11 +111,82 @@ def variants(source: str) -> dict[str, str]:
         "  omega",
         "omega after explicit Nat change")
 
+    # Round 2 is driven by the complete round-1 exact Lean errors, not merely
+    # line edits: the associator is an invertible Nat 2-cell, so it is zero.
+    # LocallyDiscrete first morphisms are Discrete wrappers, and the underlying
+    # Fin preorder category is thin. Only after Discrete.ext may subsingleton
+    # elimination be used. These do not change the theorem assumptions.
+    round2 = replace_once(add_simp,
+        "  rw [hmap₂] at hcoh\n"
+        "  simpa only [CategoryStruct.comp, Bicategory.whiskerRight,\n"
+        "    Bicategory.whiskerLeft, Nat.add_zero, Nat.zero_add] using hcoh",
+        "  have hassoc :\n"
+        "      (α_ (sigma.map f) (sigma.map g) (sigma.map h)).hom = (0 : Nat) :=\n"
+        "    NatDoubleDelooping.isIso_twoCell_eq_zero _\n"
+        "  rw [hmap₂, hassoc] at hcoh\n"
+        "  simpa only [CategoryStruct.comp, Bicategory.whiskerRight,\n"
+        "    Bicategory.whiskerLeft, Nat.add_zero, Nat.zero_add] using hcoh",
+        "associator IsIso zero normalization")
+
+    old_omega = (
+        "  have hcocycle := natDuskin_mapComp_additive_cocycle sigma f g h\n"
+        "  omega"
+    )
+    if round2.count(old_omega) != 2:
+        raise RuntimeError("unexpected v1.97 number of tetrahedron omega goals")
+    first = (
+        "  have hcocycle := natDuskin_mapComp_additive_cocycle sigma f g h\n"
+        "  have hsum :\n"
+        "      Nat.add (sigma.mapComp g h) (sigma.mapComp f (g ≫ h)) = (0 : Nat) := by\n"
+        "    calc\n"
+        "      _ = Nat.add (sigma.mapComp f g) (sigma.mapComp (f ≫ g) h) := hcocycle.symm\n"
+        "      _ = Nat.add (0 : Nat) (0 : Nat) := by rw [hfg, hfg_h]\n"
+        "      _ = 0 := by rfl\n"
+        "  exact Nat.eq_zero_of_add_eq_zero hsum"
+    )
+    second = (
+        "  have hcocycle := natDuskin_mapComp_additive_cocycle sigma f g h\n"
+        "  have hsum :\n"
+        "      Nat.add (sigma.mapComp f g) (sigma.mapComp (f ≫ g) h) = (0 : Nat) := by\n"
+        "    calc\n"
+        "      _ = Nat.add (sigma.mapComp g h) (sigma.mapComp f (g ≫ h)) := hcocycle\n"
+        "      _ = Nat.add (0 : Nat) (0 : Nat) := by rw [hgh, houter]\n"
+        "      _ = 0 := by rfl\n"
+        "  exact (Nat.eq_zero_of_add_eq_zero hsum).2"
+    )
+    round2 = round2.replace(old_omega, first, 1)
+    round2 = round2.replace(old_omega, second, 1)
+    for signature in (
+        "he02 : e01 ≫ e12 = e02",
+        "he14 : e12 ≫ e24 = e14",
+        "he03 : e01 ≫ e13 = e03",
+        "he14 : e13 ≫ e34 = e14",
+    ):
+        round2 = replace_once(round2,
+            "  have " + signature + " := Subsingleton.elim _ _",
+            "  have " + signature + " := by\n"
+            "    apply Discrete.ext\n"
+            "    exact Subsingleton.elim _ _",
+            "Discrete.ext " + signature)
+
+    round2_rfl = replace_once(round2,
+        "  have hassoc :\n"
+        "      (α_ (sigma.map f) (sigma.map g) (sigma.map h)).hom = (0 : Nat) :=\n"
+        "    NatDoubleDelooping.isIso_twoCell_eq_zero _",
+        "  have hassoc :\n"
+        "      (α_ (sigma.map f) (sigma.map g) (sigma.map h)).hom = (0 : Nat) := by\n"
+        "    rfl",
+        "direct strict associator rfl comparison")
+
+    # Preserve complete failed round-1 candidates, plus both new
+    # structural alternatives. The full Lean source is restored after each.
     return {
         "round1-typed-dependent-hom-zeros": typed,
         "round1-explicit-nat-add-change-simp": add_raw,
         "round1-explicit-nat-add-simp": add_simp,
         "round1-explicit-nat-add-change-omega": add_omega,
+        "round2-associator-isIso-discrete-ext-nat-split": round2,
+        "round2-associator-rfl-discrete-ext-nat-split": round2_rfl,
     }
 
 
@@ -214,7 +285,7 @@ def main() -> int:
         # kernel) or exact qualified name/universe corrections are proposed.
         # Any lexical change remains UNADMITTED until the kernel verifies it.
         deltas=[x for x in statements(src) if x not in statements(original.decode())]
-        print("KUUOS_V196_LEXICAL_SIGNATURE_RECHECK "+
+        print("KUUOS_V197_LEXICAL_SIGNATURE_RECHECK "+
               json.dumps({"candidate":name,"changed_declaration_signatures":len(deltas),
                           "kernel_equivalence_required":bool(deltas)},sort_keys=True))
         for forbidden in ("sorry","admit","axiom","unsafe","native_decide"):
@@ -315,14 +386,14 @@ def main() -> int:
                 if source_path.read_bytes()!=original:
                     raise RuntimeError("v1.97 original not restored")
             result["candidates"].append(row)
-            print("KUUOS_V196_TYPED_CODEAI_CANDIDATE "+json.dumps(row,ensure_ascii=False,sort_keys=True))
+            print("KUUOS_V197_TYPED_CODEAI_CANDIDATE "+json.dumps(row,ensure_ascii=False,sort_keys=True))
     finally:
         source_path.write_bytes(original)
         source_path.chmod(mode)
         result["source_restored"]=source_path.read_bytes()==original
     (output/"portfolio_receipt.json").write_text(json.dumps(result,ensure_ascii=False,indent=2)+"\n")
     passed=[x for x in result["candidates"] if x["status"]=="SUCCESS"]
-    print("KUUOS_V196_TYPED_CODEAI_SUMMARY "+json.dumps({
+    print("KUUOS_V197_TYPED_CODEAI_SUMMARY "+json.dumps({
         "source_head":head,"candidate_count":len(result["candidates"]),
         "strict_direct_success_count":len(passed),"source_restored":result["source_restored"],
         "portfolio_receipt":result["portfolio_receipt"],"independent_ci_certified":False
