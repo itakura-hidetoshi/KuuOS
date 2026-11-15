@@ -1,0 +1,65 @@
+name: KuuOS v1.102 CodeAI low-dimensional type-A filler structural probes
+
+on:
+  pull_request:
+    paths:
+      - "scripts/kuuos_v1102_codeai_structural_candidates_v1.py"
+      - ".github/workflows/kuuos-v1102-codeai-structural-probes-v1.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  v1102-structural-isolated-probes:
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.number == 3522 }}
+    runs-on: ubuntu-22.04
+    timeout-minutes: 80
+    env:
+      MATHLIB_NO_CACHE_ON_UPDATE: '1'
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Set up exact pinned Lean
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Restore pinned PR Lean build cache read-only
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake/build
+          key: kuuos-pr-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-pr3522-${{ github.event.pull_request.head.sha }}
+          restore-keys: |
+            kuuos-pr-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-pr3522-
+      - name: Resolve pinned mathlib
+        run: lake exe cache get
+      - name: Build pinned v1.98 dependency closure
+        run: |
+          set -euo pipefail
+          timeout 1800 lake build KUOS.DependentOriginationDoubleDeloopingTypeACocycleLiftingV1_101
+      - name: Run CodeAI exact-source v1.102 portfolio and direct Lean on every candidate
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          python3 -m py_compile scripts/kuuos_v1102_codeai_structural_candidates_v1.py
+          PYTHONPATH=. python3 scripts/kuuos_v1102_codeai_structural_candidates_v1.py
+      - name: Archive every candidate and obstruction even when blocked
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-v1102-codeai-structural-probes-${{ github.run_id }}
+          path: |
+            /tmp/kuuos-v1102-codeai-type-probes/
+          if-no-files-found: warn
+          retention-days: 21
