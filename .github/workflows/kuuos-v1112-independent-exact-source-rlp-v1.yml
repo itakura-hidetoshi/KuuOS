@@ -1,0 +1,115 @@
+name: KuuOS v1.112 independent exact-source all-dimensional standard type-A RLP
+
+on:
+  pull_request:
+    paths:
+      - "formal/KUOS/DependentOriginationDoubleDeloopingTypeAAllDimensionsV1_112.lean"
+      - "memoryos/external/github/2026/11/kuuos_codeai_lean_observations_v1112_round2_v1.json"
+      - "scripts/kuuos_v1112_four_stage_admission_v1.py"
+      - ".github/workflows/kuuos-v1112-independent-exact-source-rlp-v1.yml"
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  v1112-independent-exact-source-lean:
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.number == 3557 && github.event.pull_request.head.ref == 'research/kuuos-typeA-all-dimensions-v112-20261116' && github.event.pull_request.base.ref == 'validation/kuuos-v1111-rlp-exact-source-20261115' }}
+    runs-on: ubuntu-22.04
+    timeout-minutes: 90
+    env:
+      MATHLIB_NO_CACHE_ON_UPDATE: '1'
+    steps:
+      - name: Checkout exact promoted source HEAD
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - name: Download independently preserved v1.112 CodeAI and real Lean MCP producer artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: kuuos-v1112-codeai-all-dimensions-round2-43759371015
+          run-id: 43759371015
+          github-token: ${{ github.token }}
+          path: /tmp/kuuos-v1112-evidence
+      - name: Verify exact GitHub blob, full proof, lineage, pins, MemoryOS and selected real MCP
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          EVIDENCE_DIR: /tmp/kuuos-v1112-evidence
+          PROMOTED_HEAD: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+          python3 -m py_compile scripts/kuuos_v1112_four_stage_admission_v1.py
+          PYTHONPATH=. python3 scripts/kuuos_v1112_four_stage_admission_v1.py
+      - name: Setup exact Lean v4.30.0-rc2
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Restore pinned build overlay as read only
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake/build
+          key: kuuos-pr-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-pr3522-${{ github.event.pull_request.head.sha }}
+          restore-keys: |
+            kuuos-pr-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-pr3522-
+      - name: Resolve pinned mathlib
+        run: lake exe cache get
+      - name: Independently build complete v1.112 standard type-A RLP dependency closure
+        run: |
+          set -euo pipefail
+          timeout 3200 lake -KleanArgs=-DwarningAsError=true -KleanArgs=-Dweak.sorryAsError=true build KUOS.DependentOriginationDoubleDeloopingTypeAAllDimensionsV1_112 2>&1 | tee /tmp/kuuos-v1112-independent/build.log
+      - name: Audit four new declarations axioms sorryAx warning error
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          namespace="KUOS.DependentOriginationDoubleDeloopingTypeAAllDimensionsV1_112."
+          names=["natDoubleDelooping_typeA_every_horn_cocycle_completion",
+                 "natDoubleDelooping_typeA_every_horn_actual_lift",
+                 "natDoubleDelooping_typeA_every_generator_rlp",
+                 "natDoubleDelooping_typeA_full_standard_rlp"]
+          lines=["import KUOS.DependentOriginationDoubleDeloopingTypeAAllDimensionsV1_112",""]
+          for name in names:
+              lines.extend(["#check "+namespace+name,"#print axioms "+namespace+name])
+          Path("/tmp/kuuos-v1112-independent/AxiomAudit.lean").write_text("\n".join(lines)+"\n")
+          PY
+          lake env lean -DwarningAsError=true -Dweak.sorryAsError=true /tmp/kuuos-v1112-independent/AxiomAudit.lean 2>&1 | tee /tmp/kuuos-v1112-independent/axioms.log
+          python3 - <<'PY'
+          import json,re
+          from pathlib import Path
+          report=Path("/tmp/kuuos-v1112-independent")
+          names=["natDoubleDelooping_typeA_every_horn_cocycle_completion",
+                 "natDoubleDelooping_typeA_every_horn_actual_lift",
+                 "natDoubleDelooping_typeA_every_generator_rlp",
+                 "natDoubleDelooping_typeA_full_standard_rlp"]
+          ns="KUOS.DependentOriginationDoubleDeloopingTypeAAllDimensionsV1_112."
+          log=(report/"axioms.log").read_text()
+          for name in names:
+              assert ns+name in log,"Missing Lean declaration: "+name
+          assert not re.search(r"(?m)(warning:|error:|sorryAx)",log),"warning/error/sorryAx not allowed"
+          groups=re.findall(r"depends on axioms:\s*\[([^\]]*)\]",log,re.S)
+          assert groups,"NO_DATA: no Lean axiom inspection output"
+          axioms=set()
+          for group in groups:
+              axioms.update(x.strip() for x in group.split(",") if x.strip())
+          assert axioms.issubset({"propext","Classical.choice","Quot.sound"}),sorted(axioms)
+          result={"audited_declarations":len(names),"axioms":sorted(axioms),
+                  "sorryAx":0,"warnings":0,"errors":0,
+                  "source_blob":"c9977fe0144e922da23eddde1d6eba2ec2f51e65",
+                  "scope":"standard type-(A) generators only; not forward endpoint RLP"}
+          (report/"axiom_receipt.json").write_text(json.dumps(result,sort_keys=True,indent=2)+"\n")
+          print("KUUOS_V1112_INDEPENDENT_AXIOMS_GREEN",json.dumps(result,sort_keys=True))
+          PY
+      - name: Archive independently checked source and proof receipts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-v1112-independent-${{ github.run_id }}
+          path: /tmp/kuuos-v1112-independent/
+          if-no-files-found: warn
+          retention-days: 30
