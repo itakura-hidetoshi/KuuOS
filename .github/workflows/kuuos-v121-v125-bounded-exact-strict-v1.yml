@@ -1,0 +1,167 @@
+name: KuuOS bounded v1.21–v1.25 exact Strict Lean and 100 public constants
+on:
+  pull_request:
+    paths:
+      - 'formal/KUOS/DependentOriginationGlobalDuskinScaledNerveV1_21.lean'
+      - 'formal/KUOS/DependentOriginationGlobalDuskinScaledHornCoherenceV1_22.lean'
+      - 'formal/KUOS/DependentOriginationGlobalDuskinLocalMappingComparisonV1_23.lean'
+      - 'formal/KUOS/DependentOriginationGlobalDuskinLocalTwoCellComparisonV1_24.lean'
+      - 'formal/KUOS/DependentOriginationPresentationIndependentInvariantV1_25.lean'
+      - 'tests/test_public_root_restoration.py'
+      - '.github/workflows/kuuos-v121-v125-bounded-exact-strict-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: kuuos-v121-v125-bounded-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+env:
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+
+jobs:
+  strict-v121-v125-exact:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    steps:
+      - name: Checkout exact test-merge source
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - name: Verify fixed runtime, exact source blobs and historic frozen proof roots
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib,json
+          files={
+              "formal/KUOS/DependentOriginationGlobalDuskinScaledNerveV1_21.lean": ("adf9f09aa122b1a6615c083f39815dcf8c36a0fe", 19),
+              "formal/KUOS/DependentOriginationGlobalDuskinScaledHornCoherenceV1_22.lean": ("e560cd98ae0ca54d177347bc5b0043fe34a66fa7", 16),
+              "formal/KUOS/DependentOriginationGlobalDuskinLocalMappingComparisonV1_23.lean": ("215dd5d5831a481c466b4b6108954e2f1bf8e036", 19),
+              "formal/KUOS/DependentOriginationGlobalDuskinLocalTwoCellComparisonV1_24.lean": ("b38ac66a7d1751dc17cbce2dd1790aeef46f3f84", 15),
+              "formal/KUOS/DependentOriginationPresentationIndependentInvariantV1_25.lean": ("1df6dfa0b978cffd3cb0a9c1d51889b3d835ae07", 31),
+          }
+          assert Path("lean-toolchain").read_text().strip()=="leanprover/lean4:v4.30.0-rc2"
+          mf=json.loads(Path("lake-manifest.json").read_text())
+          assert next(p for p in mf["packages"] if p["name"]=="mathlib")["rev"]=="5450b53e5ddc75d46418fabb605edbf36bd0beb6"
+          for path,(sha,_) in files.items():
+              b=Path(path).read_bytes()
+              got=hashlib.sha1(b"blob "+str(len(b)).encode()+b"\0"+b).hexdigest()
+              assert got==sha,(path,got,sha)
+              print("BOUNDED_V121_V125_SOURCE_SHA",path,got)
+          # The fixed v1.20 predecessor must be present in this exact test merge.
+          before=Path("formal/KUOS/DependentOriginationCompleteSegalInfinityTwoV1_20.lean").read_bytes()
+          sha=hashlib.sha1(b"blob "+str(len(before)).encode()+b"\0"+before).hexdigest()
+          assert sha=="835f9b5cec404f31d27b512dac56a6cef77791bb",sha
+          print("V121_V125_EXACT_SOURCES_AND_PINS_SUCCESS",flush=True)
+          PY
+      - name: Verify retained public roots and byte-identical historical sources
+        run: |
+          set -euo pipefail
+          python3 -m unittest -v tests.test_public_root_restoration tests.test_kuu_foundation tests.test_formal_package_boundary
+          python3 scripts/check_public_proof_roots.py
+      - name: Set up pinned Lean compiler
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Restore verified pinned Lake cache
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-${{ github.event.pull_request.base.sha || github.sha }}
+          restore-keys: |
+            kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-
+      - name: Restore missing pinned Mathlib if needed
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ ! -d .lake/packages/mathlib ]]; then lake update; fi
+          if [[ ! -f .lake/packages/mathlib/.lake/build/lib/lean/Mathlib.olean ]]; then lake exe cache get; fi
+          git diff --exit-code -- lean-toolchain lake-manifest.json
+      - name: Build real five-module Lean dependency closure without theorem weakening
+        run: |
+          set -euo pipefail
+          bash scripts/build_lean4.sh --no-update --no-cache \
+            --target KUOS.DependentOriginationPresentationIndependentInvariantV1_25 \
+            2>&1 | tee kuuos-v121-v125-strict.log
+          echo "V121_V125_PINNED_STRICT_LEAN_SOURCE_AND_IMPORT_CLOSURE_SUCCESS"
+      - name: Query all 100 public theorem, definition and abbreviation axiom dependencies
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          files={
+              "formal/KUOS/DependentOriginationGlobalDuskinScaledNerveV1_21.lean": ("adf9f09aa122b1a6615c083f39815dcf8c36a0fe", 19),
+              "formal/KUOS/DependentOriginationGlobalDuskinScaledHornCoherenceV1_22.lean": ("e560cd98ae0ca54d177347bc5b0043fe34a66fa7", 16),
+              "formal/KUOS/DependentOriginationGlobalDuskinLocalMappingComparisonV1_23.lean": ("215dd5d5831a481c466b4b6108954e2f1bf8e036", 19),
+              "formal/KUOS/DependentOriginationGlobalDuskinLocalTwoCellComparisonV1_24.lean": ("b38ac66a7d1751dc17cbce2dd1790aeef46f3f84", 15),
+              "formal/KUOS/DependentOriginationPresentationIndependentInvariantV1_25.lean": ("1df6dfa0b978cffd3cb0a9c1d51889b3d835ae07", 31),
+          }
+          declarations=[]
+          for path,(_,expected_count) in files.items():
+              scopes=[]
+              seen=[]
+              for lineno,raw in enumerate(Path(path).read_text().splitlines(),1):
+                  line=raw.strip()
+                  ns=re.fullmatch(r"namespace\s+([A-Za-z0-9_.']+)",line)
+                  if ns:
+                      scopes.append(ns.group(1))
+                      continue
+                  end=re.fullmatch(r"end(?:\s+([A-Za-z0-9_.']+))?",line)
+                  if end:
+                      assert scopes and (end.group(1) is None or scopes[-1]==end.group(1)),(path,lineno,line)
+                      scopes.pop()
+                      continue
+                  line=re.sub(r"^@\[[^\]\n]+\]\s*","",line)
+                  m=re.match(r"(?:(?:noncomputable|protected)\s+)?(?:theorem|lemma|def|abbrev)\s+([A-Za-z0-9_.']+)(?:\s|$)",line)
+                  if m:
+                      assert scopes,(path,lineno,"MISSING_NAMESPACE")
+                      seen.append(".".join(scopes)+"."+m.group(1))
+              assert not scopes,(path,"UNBALANCED_NAMESPACE")
+              assert len(seen)==expected_count,(path,len(seen),expected_count)
+              declarations.extend(seen)
+          assert len(declarations)==100 and len(set(declarations))==100
+          audit=Path("formal/KUOS/V121V125ExactAxiomScratch.lean")
+          audit.write_text("import KUOS.DependentOriginationPresentationIndependentInvariantV1_25\n\n"+
+              "\n".join("#print axioms "+n for n in declarations)+"\n")
+          Path("kuuos-v121-v125-expected-axioms.txt").write_text("\n".join(declarations)+"\n")
+          print("V121_V125_EXACT_100_AXIOM_REQUESTS",len(declarations),flush=True)
+          PY
+          lake env lean -DwarningAsError=true -Dweak.sorryAsError=true \
+            formal/KUOS/V121V125ExactAxiomScratch.lean 2>&1 | tee kuuos-v121-v125-axioms.log
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          raw=Path("kuuos-v121-v125-axioms.log").read_text()
+          entries=re.findall(r"(?m)^'([^']+)' (?:depends on axioms:\s*\[([^]]*)\]|does not depend on any axioms)",raw)
+          expected=set(Path("kuuos-v121-v125-expected-axioms.txt").read_text().splitlines())
+          observed={n for n,_ in entries}
+          assert len(entries)==100 and observed==expected,("AXIOM_EXACT_DECL_SET_MISMATCH",len(entries),len(observed),len(expected),list(expected-observed)[:5])
+          allowed={"propext","Classical.choice","Quot.sound"}
+          for name,raw_axioms in entries:
+              used={x.strip() for x in raw_axioms.split(",") if x.strip()}
+              assert used<=allowed,("UNAUTHORIZED_AXIOM",name,sorted(used-allowed))
+          print("V121_V125_100_PUBLIC_CONSTANTS_STANDARD_AXIOMS_ONLY",flush=True)
+          PY
+          git diff --exit-code -- lean-toolchain lake-manifest.json
+          echo "No authority for v1.26 type-changing theorem repair or full-project merge is inferred."
+      - name: Upload exact-source Lean and axiom evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-v121-v125-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            kuuos-v121-v125-strict.log
+            kuuos-v121-v125-axioms.log
+            kuuos-v121-v125-expected-axioms.txt
+          if-no-files-found: warn
+          retention-days: 21
