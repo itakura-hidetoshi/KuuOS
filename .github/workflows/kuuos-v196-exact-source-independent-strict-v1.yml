@@ -71,7 +71,7 @@ jobs:
       - name: Strictly build exact imported Lean closure and v1.96
         run: |
           set -euo pipefail
-          timeout 3000 lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.DependentOriginationDoubleDeloopingThinComparisonZeroV1_96 2>&1 | tee /tmp/kuuos-v196-independent/strict-build.log
+          timeout 3000 lake -KleanArgs=-DwarningAsError=true -KleanArgs=-Dweak.sorryAsError=true build KUOS.DependentOriginationDoubleDeloopingThinComparisonZeroV1_96 2>&1 | tee /tmp/kuuos-v196-independent/strict-build.log
       - name: Independent Lean kernel axiom audit for all new theorems
         run: |
           set -euo pipefail
@@ -99,7 +99,7 @@ jobs:
           Path("/tmp/kuuos-v196-independent/AxiomAudit.lean").write_text(
               "\n".join(contents)+"\n",encoding="utf-8")
           PY
-          lake env lean -DwarningAsError=true -DsorryAsError=true /tmp/kuuos-v196-independent/AxiomAudit.lean 2>&1 | tee /tmp/kuuos-v196-independent/axioms.log
+          lake env lean -DwarningAsError=true -Dweak.sorryAsError=true /tmp/kuuos-v196-independent/AxiomAudit.lean 2>&1 | tee /tmp/kuuos-v196-independent/axioms.log
           python3 - <<'PY'
           from pathlib import Path
           import re, json
