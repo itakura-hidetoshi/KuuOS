@@ -178,8 +178,68 @@ def variants(source: str) -> dict[str, str]:
         "    rfl",
         "direct strict associator rfl comparison")
 
-    # Preserve complete failed round-1 candidates, plus both new
-    # structural alternatives. The full Lean source is restored after each.
+    # Round 3: the full kernel goal after round 2 is
+    #   a + (b + 0) = 0 + (c + d)
+    # rather than a + b = c + d. Keep the necessary
+    # CategoryStruct/whisker reduction separate from Nat.zero_add.
+    # Also actually use hfg in the second propagation lemma; disabling
+    # the unused-variable linter is explicitly forbidden.
+    second_old = (
+        "  have hcocycle := natDuskin_mapComp_additive_cocycle sigma f g h\n"
+        "  have hsum :\n"
+        "      Nat.add (sigma.mapComp f g) (sigma.mapComp (f ≫ g) h) = (0 : Nat) := by\n"
+        "    calc\n"
+        "      _ = Nat.add (sigma.mapComp g h) (sigma.mapComp f (g ≫ h)) := hcocycle\n"
+        "      _ = Nat.add (0 : Nat) (0 : Nat) := by rw [hgh, houter]\n"
+        "      _ = 0 := by rfl\n"
+        "  exact (Nat.eq_zero_of_add_eq_zero hsum).2"
+    )
+    second_new = (
+        "  have hcocycle := natDuskin_mapComp_additive_cocycle sigma f g h\n"
+        "  rw [hfg] at hcocycle\n"
+        "  have hsum :\n"
+        "      Nat.add (0 : Nat) (sigma.mapComp (f ≫ g) h) = (0 : Nat) := by\n"
+        "    calc\n"
+        "      _ = Nat.add (sigma.mapComp g h) (sigma.mapComp f (g ≫ h)) := hcocycle\n"
+        "      _ = Nat.add (0 : Nat) (0 : Nat) := by rw [hgh, houter]\n"
+        "      _ = 0 := by rfl\n"
+        "  exact (Nat.eq_zero_of_add_eq_zero hsum).2"
+    )
+    base3 = replace_once(round2, second_old, second_new, "use hfg in strict proof")
+    simpl_old = (
+        "  rw [hmap₂, hassoc] at hcoh\n"
+        "  simpa only [CategoryStruct.comp, Bicategory.whiskerRight,\n"
+        "    Bicategory.whiskerLeft, Nat.add_zero, Nat.zero_add] using hcoh"
+    )
+    round3_fullsimp = replace_once(base3, simpl_old,
+        "  rw [hmap₂, hassoc] at hcoh\n"
+        "  simpa [CategoryStruct.comp, Bicategory.whiskerRight,\n"
+        "    Bicategory.whiskerLeft, Nat.add_zero, Nat.zero_add] using hcoh",
+        "round3 full simp")
+
+    round3_twophase = replace_once(base3, simpl_old,
+        "  rw [hmap₂, hassoc] at hcoh\n"
+        "  simp only [CategoryStruct.comp, Bicategory.whiskerRight,\n"
+        "    Bicategory.whiskerLeft] at hcoh\n"
+        "  simpa only [Nat.add_zero, Nat.zero_add] using hcoh",
+        "round3 two-stage simp")
+
+    round3_explicit = replace_once(base3, simpl_old,
+        "  rw [hmap₂, hassoc] at hcoh\n"
+        "  change Nat.add (sigma.mapComp f g)\n"
+        "      (Nat.add (sigma.mapComp (f ≫ g) h) (0 : Nat)) =\n"
+        "    Nat.add (0 : Nat) (Nat.add (sigma.mapComp g h)\n"
+        "      (sigma.mapComp f (g ≫ h))) at hcoh\n"
+        "  simpa only [Nat.add_zero, Nat.zero_add] using hcoh",
+        "round3 explicit raw Nat hypothesis")
+
+    round3_lemma_simp = replace_once(base3, simpl_old,
+        "  rw [hmap₂, hassoc] at hcoh\n"
+        "  simp [CategoryStruct.comp, Bicategory.whiskerRight,\n"
+        "    Bicategory.whiskerLeft, Nat.add_zero, Nat.zero_add] at hcoh\n"
+        "  exact hcoh",
+        "round3 simp at hcoh")
+
     return {
         "round1-typed-dependent-hom-zeros": typed,
         "round1-explicit-nat-add-change-simp": add_raw,
@@ -187,6 +247,10 @@ def variants(source: str) -> dict[str, str]:
         "round1-explicit-nat-add-change-omega": add_omega,
         "round2-associator-isIso-discrete-ext-nat-split": round2,
         "round2-associator-rfl-discrete-ext-nat-split": round2_rfl,
+        "round3-associator-simp-nat": round3_fullsimp,
+        "round3-associator-two-phase": round3_twophase,
+        "round3-associator-explicit-change": round3_explicit,
+        "round3-associator-simp-at": round3_lemma_simp,
     }
 
 
