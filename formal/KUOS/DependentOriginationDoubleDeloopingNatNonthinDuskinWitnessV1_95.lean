@@ -216,12 +216,13 @@ def natNoninvertibleTriangleCore :
     have hab : a.as ≤ b.as := f.as.le
     have hbc : b.as ≤ c.as := g.as.le
     have hcd : c.as ≤ d.as := h.as.le
-    have ha := a.as.isLt
-    have hb := b.as.isLt
-    have hc := c.as.isLt
-    have hd := d.as.isLt
-    simp only [natTriangleMapComp]
-    split_ifs <;> omega
+    rcases a with ⟨a⟩
+    rcases b with ⟨b⟩
+    rcases c with ⟨c⟩
+    rcases d with ⟨d⟩
+    fin_cases a <;> fin_cases b <;> fin_cases c <;> fin_cases d <;>
+      simp_all [natTriangleMapComp, Bicategory.whiskerRight,
+        Bicategory.whiskerLeft, Bicategory.associator, CategoryStruct.comp] <;> rfl
 
 /-- The concrete Duskin 2-simplex with comparison label `1`. -/
 def natNoninvertibleTriangle :

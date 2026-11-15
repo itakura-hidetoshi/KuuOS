@@ -24,11 +24,32 @@ jobs:
   head-snapshot-contract:
     runs-on: ubuntu-22.04
     timeout-minutes: 5
+    outputs:
+      v195_needs_repair: ${{ steps.v195-state.outputs.needs_repair }}
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - name: Determine whether exact v1.95 precommit source is still present
+        id: v195-state
+        run: |
+          python3 - <<'PY'
+          import hashlib, os
+          from pathlib import Path
+          path=Path('formal/KUOS/DependentOriginationDoubleDeloopingNatNonthinDuskinWitnessV1_95.lean')
+          raw=path.read_bytes()
+          blob=hashlib.sha1(b'blob '+str(len(raw)).encode()+bytes([0])+raw).hexdigest()
+          if blob=='f7dcf6d9cddf3820b78c91375f0ec460874a7734':
+              need='true'
+          elif blob=='bbbbf480721aa6d0a834c7fd5ad7690d0daff04e':
+              need='false'
+          else:
+              raise RuntimeError('v1.95 unrecognized proof source Git blob: '+blob)
+          with open(os.environ['GITHUB_OUTPUT'],'a',encoding='utf-8') as out:
+              print('needs_repair='+need,file=out)
+          print('KUUOS_V195_PRECOMMIT_EXACT_SOURCE_STATE',blob,need)
+          PY
       - name: Compile source and test exact-HEAD API contracts
         run: |
           set -euo pipefail
@@ -120,7 +141,7 @@ jobs:
 
   candidate-v195-lean-mcp:
     name: CodeAI round8 direct-Lean-green candidate, full-source Lean MCP and independent precommit gate
-    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.number == 3522 }}
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.number == 3522 && needs.head-snapshot-contract.outputs.v195_needs_repair == 'true' }}
     needs: head-snapshot-contract
     runs-on: ubuntu-22.04
     timeout-minutes: 90
