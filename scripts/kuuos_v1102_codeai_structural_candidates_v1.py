@@ -218,6 +218,51 @@ def variants(source: str) -> dict[str,str]:
         "    omega\n"
         "  simp [natThreeCocycleOfLabels, ha_ne_zero, hb, hc3]",
         "type A i2 finite element not zero")
+    # Round 3: from the exact round2 isolated kernel logs.
+    # "omega tactic does nothing" is a STRICT linter failure: `simp_all`
+    # already closed the branch. Keep the full arithmetic proof but do not
+    # run a redundant final tactic. The only mathematical residual is i=2
+    # where a.val=1 but `simp` leaves a spurious a=0 conditional.
+    # Expose Fin a != 0 / a=1 before unfolding the normalized cocycle.
+    tetra=replace_once(extmap,
+        "simp_all [NatTetrahedronEquation] <;> omega",
+        "simp_all [NatTetrahedronEquation]",
+        "remove unused final omega")
+    old_i2="  simp [natThreeCocycleOfLabels, ha1, hb, hc3]"
+    direct_nonzero=(
+        "  have ha_ne_zero : a ≠ (0 : Fin 4) := by\n"
+        "    intro h\n"
+        "    have hv : a.val = 0 := congrArg Fin.val h\n"
+        "    omega\n"
+        "  simp [natThreeCocycleOfLabels, ha_ne_zero, hb, hc3]"
+    )
+    nat_nonzero=(
+        "  have ha_ne_zero : a.val ≠ 0 := by omega\n"
+        "  simp [natThreeCocycleOfLabels, ha_ne_zero, ha1, hb, hc3]"
+    )
+    subst_fin=(
+        "  have ha_eq_one : a = (1 : Fin 4) := by\n"
+        "    apply Fin.ext\n"
+        "    change a.val = 1\n"
+        "    exact ha1\n"
+        "  subst a\n"
+        "  simp [natThreeCocycleOfLabels, hb, hc3]"
+    )
+    alt_simpall=(
+        "  have ha_ne_zero : a ≠ (0 : Fin 4) := by\n"
+        "    intro h\n"
+        "    have hv : a.val = 0 := congrArg Fin.val h\n"
+        "    omega\n"
+        "  simp_all [natThreeCocycleOfLabels]"
+    )
+    i2_a=replace_once(tetra,old_i2,direct_nonzero,
+        "type A i2 Fin not-zero")
+    i2_b=replace_once(tetra,old_i2,nat_nonzero,
+        "type A i2 Nat not-zero")
+    i2_c=replace_once(tetra,old_i2,subst_fin,
+        "type A i2 Fin successor substitution")
+    i2_d=replace_once(tetra,old_i2,alt_simpall,
+        "type A i2 simp all")
     return {
       "round1-move-ext-attribute":base,
       "round1-typed-mapId":typed,
@@ -229,6 +274,11 @@ def variants(source: str) -> dict[str,str]:
       "round2-explicit-one-cell-map":extmap,
       "round2-concrete-triangle-simp-all":simpall,
       "round2-concrete-triangle-finite-nonzero":nonzero,
+      "round3-no-redundant-omega":tetra,
+      "round3-i2-explicit-Fin-nonzero":i2_a,
+      "round3-i2-explicit-Nat-nonzero":i2_b,
+      "round3-i2-substitute-one":i2_c,
+      "round3-i2-simp-all":i2_d,
     }
 
 
