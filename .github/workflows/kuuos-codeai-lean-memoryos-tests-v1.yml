@@ -1,0 +1,62 @@
+name: KuuOS MemoryOS CodeAI Lean repair learning deterministic tests
+
+on:
+  pull_request:
+    paths:
+      - "runtime/kuuos_codeai_lean_failure_memoryos_v0_1.py"
+      - "runtime/kuuos_codeai_lean_observation_intake_v0_1.py"
+      - "scripts/kuuos_codeai_lean_memoryos_sidecar_v1.py"
+      - "scripts/kuuos_v1106_codeai_memoryos_routed_v1.py"
+      - "tests/test_kuuos_codeai_lean_failure_memoryos_v0_1.py"
+      - "memoryos/external/github/2026/11/kuuos_codeai_lean_observations_v1.json"
+      - ".github/workflows/kuuos-codeai-lean-memoryos-tests-v1.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  memoryos-lean-codeai-typed-failures-and-replay-boundary:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Test typed Lean failures, lineages, no authority, tamper and stale replay
+        run: |
+          set -euo pipefail
+          PYTHONPATH=. python3 -m unittest discover -s tests -p 'test_kuuos_codeai_lean_failure_memoryos_v0_1.py' -v
+      - name: Real v1.106 CodeAI 5-candidate preflight using nine curated GitHub observations
+        run: |
+          set -euo pipefail
+          PYTHONPATH=. python3 scripts/kuuos_codeai_lean_memoryos_sidecar_v1.py preflight \
+            --source-head aafeb59d31937fc87a7e946d704962da7ae12a6c \
+            --source-tree fe49b206e86ce03216c8bfb6b227811b08ac5866 \
+            --imported-blob d6a8a8e2136c1a5601fa01c02f5f478fdd827520 \
+            --candidates-module scripts.kuuos_v1106_codeai_label_table_round3_v1 \
+            --output /tmp/kuuos-codeai-memoryos/preflight.json
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('/tmp/kuuos-codeai-memoryos/preflight.json').read_text())
+          assert r['seed_cases']==9
+          assert r['candidate_count_before']==5
+          assert r['candidate_count_after']==4
+          assert len(r['memory_feedback']['quarantined'])==1
+          assert r['memory_is_proof_authority'] is False
+          assert r['gives_git_effect_authority'] is False
+          print('KUUOS_MEMORYOS_EXACT_FAILED_REPLAY_PREVENTED',r['memory_feedback']['quarantined'])
+          PY
+      - name: Publish test and preflight results without authorizing a Lean proof
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuu-mem-codeai-tests-${{ github.run_id }}
+          path: /tmp/kuuos-codeai-memoryos/
+          if-no-files-found: warn
+          retention-days: 30

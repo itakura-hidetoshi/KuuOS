@@ -1,0 +1,67 @@
+name: KuuOS v1.106 CodeAI round4b explicit numeric Fin-order hypotheses (syntax corrected)
+
+on:
+  pull_request:
+    paths:
+      - "scripts/kuuos_v1106_codeai_label_table_round4b_v1.py"
+      - ".github/workflows/kuuos-v1106-codeai-label-table-round4b-v1.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  v1106-codeai-round4b-direct-lean-mcp:
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.number == 3522 }}
+    runs-on: ubuntu-22.04
+    timeout-minutes: 90
+    env:
+      MATHLIB_NO_CACHE_ON_UPDATE: '1'
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Setup fixed Lean v4.30.0-rc2
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Restore pinned parent build cache read-only
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake/build
+          key: kuuos-pr-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-pr3522-${{ github.event.pull_request.head.sha }}
+          restore-keys: |
+            kuuos-pr-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-pr3522-
+      - name: Resolve fixed mathlib
+        run: lake exe cache get
+      - name: Strict prerequisite v1.105 Lean imported closure
+        run: |
+          set -euo pipefail
+          timeout 1800 lake -KleanArgs=-DwarningAsError=true -KleanArgs=-Dweak.sorryAsError=true build KUOS.DependentOriginationDoubleDeloopingTypeAFourDimensionalFaceCoherenceV1_105
+      - name: Install pinned real Lean MCP transport
+        run: python3 -m pip install uv
+      - name: CodeAI generate all table candidates, pinned direct Lean, then real Lean MCP only green
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          python3 -m py_compile scripts/kuuos_v1106_codeai_label_table_round4b_v1.py
+          PYTHONPATH=. python3 scripts/kuuos_v1106_codeai_label_table_round4b_v1.py
+      - name: Archive exact CodeAI candidate receipts, direct Lean logs, real MCP observations
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-v1106-codeai-label-table-round4b-${{ github.run_id }}
+          path: |
+            /tmp/kuuos-v1106-codeai-round4b/
+            /tmp/kuuos-v1106-real-mcp-round4b/
+          if-no-files-found: warn
+          retention-days: 30
