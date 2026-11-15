@@ -101,8 +101,11 @@ jobs:
               "KUOS.DependentOriginationCompleteSegalInfinityTwoV1_20.objectUnivalenceOfCompleteSegal",
           ]
           assert len(names)==7 and len(set(names))==7
+          import re
           src=Path("formal/KUOS/DependentOriginationCompleteSegalInfinityTwoV1_20.lean").read_text()
-          assert sum(src.count("\n"+n+" ") for n in ["def","theorem"]) == 6 or names
+          declared=re.findall(r"(?m)^(?:def|theorem)\s+([A-Za-z0-9_]+)",src)
+          assert len(declared)==7, ("V120_DECLARATION_COUNT",len(declared),declared)
+          assert all(name.split(".")[-1] in declared for name in names)
           Path("formal/KUOS/V120ExactAxiomScratch.lean").write_text(
               "import KUOS.DependentOriginationCompleteSegalInfinityTwoV1_20\n\n"+
               "\n".join("#print axioms "+n for n in names)+"\n")
