@@ -1,0 +1,50 @@
+name: CodeAI MemoryOS Lean repair memory v0.1
+
+on:
+  pull_request:
+    paths:
+      - 'runtime/kuuos_codeai_memoryos_lean_repair_v0_1.py'
+      - 'scripts/kuuos_codeai_memoryos_lean_v0_1.py'
+      - 'tests/test_codeai_memoryos_lean*.py'
+      - 'memoryos/lean_repairs/v0_1/**'
+      - 'docs/KUUOS_CODEAI_MEMORYOS_LEAN_REPAIR_v0_1.md'
+      - '.github/workflows/codeai-memoryos-lean-repair-v0-1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  exact-source-python-memory-contract:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Check native MemoryOS dependency and fixed environment
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib,json
+          raw=Path('examples/memoryos_github_external_memory_minimal.py').read_bytes()
+          assert hashlib.sha1(b'blob '+str(len(raw)).encode()+b'\0'+raw).hexdigest()=='a47f730825e47025620f665857f27829f323174f'
+          assert Path('lean-toolchain').read_text().strip()=='leanprover/lean4:v4.30.0-rc2'
+          manifest=json.loads(Path('lake-manifest.json').read_text())
+          assert [x['rev'] for x in manifest['packages'] if x['name']=='mathlib']==['5450b53e5ddc75d46418fabb605edbf36bd0beb6']
+          PY
+      - name: Regression tests and real observation replay (not Lean certification)
+        run: |
+          set -euo pipefail
+          PYTHONPATH=. python3 -m unittest discover -s tests -p 'test_codeai_memoryos_lean*.py' -v 2>&1 | tee /tmp/memoryos-lean-regression.log
+      - name: Preserve verification output
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: memoryos-lean-regression-${{ github.run_id }}
+          path: /tmp/memoryos-lean-regression.log
+          retention-days: 30
