@@ -126,7 +126,7 @@ jobs:
           Path("formal/KUOS/V12V15ExactAxiomsScratch.lean").write_text("\n".join(commands) + "\n")
           print("AXIOM_AUDIT_REQUESTED_THEOREMS", len(commands) - 2, flush=True)
           PY
-          lake env lean -DwarningAsError=true -DsorryAsError=true \
+          lake env lean -DwarningAsError=true -Dweak.sorryAsError=true \
             formal/KUOS/V12V15ExactAxiomsScratch.lean \
             2>&1 | tee kuuos-v12-v15-axioms.log
           python3 - <<'PY'
