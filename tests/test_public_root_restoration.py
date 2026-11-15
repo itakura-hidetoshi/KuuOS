@@ -180,6 +180,20 @@ REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
     # candidate 243be7591b65a5b91361dfdd48f80104dc455ee4, zero direct errors and olean.
     # Enrollment records exact source byte provenance, not CI authority.
     "KUOS/DependentOriginationDoubleDeloopingTypeALowDimensionalFillersV1_102.lean": "243be7591b65a5b91361dfdd48f80104dc455ee4",
+    # v1.103: archived source blob 04de7e72813e0e28c9d4e499b68876f081b3bdba
+    # is preserved in legacy/v5.291. The current typed naturality proof
+    # qualifies natSimplex_triangle_face_comparison at its actual v1.100 owner,
+    # uses Lean4 congr/proof-irrelevance under the pinned toolchain, and
+    # explicitly applies congrArg to the naturality equality. The
+    # NatNormalizedDuskinCocycle.TypeADistinguishedZero proposition is qualified
+    # instead of relying on dot-field namespace resolution.
+    # Exact Git blob ff2e6a09e2c064a23207ee1323bc14182c86d7cd was
+    # independently built + all 15 declarations audited in CI #43684251459
+    # at source HEAD ea0151bf53becfd73832933a105e45ed4fa6e13d;
+    # 8448/8448 Lean jobs, standard axioms only, no sorryAx.
+    # Historical source/proof identity is pinned here, not inferred from CI
+    # nor from a textual theorem-statement equivalence assertion.
+    "KUOS/DependentOriginationDoubleDeloopingTypeAHighDimensionalFillersV1_103.lean": "ff2e6a09e2c064a23207ee1323bc14182c86d7cd",
     # Original V1_89 pinned source: f5d06299e825ef784a7df25386b062b80c702f12 (retained in Git history).
     "KUOS/DependentOriginationStandardArbitraryScalingWaypointV1_89.lean": "3b5de0a154436be6598a49861435dc57a80ea2f9",
     "KUOS/DependentOriginationStandardTypeAEndpointOppositeCellCertificateV1_77.lean": "e7d422b89b4a4fa5180790b0c5d49c51b7239786",
