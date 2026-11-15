@@ -352,6 +352,48 @@ def variants(source: str) -> dict[str,str]:
         return replace_once(y,old_assoc,old_assoc.replace(
           assoc_simp,assoc_proof),lab+" assoc")
 
+    # Round 5. The full fixed-kernel log shows `𝟙 NatOneCell.star`
+    # surviving ordinary simp. Force the SAME typed Quiver.Hom.{0} that
+    # was certified by v1.95, then rewrite with the existing exact
+    # NatOneCell.id_eq_zero lemma. Do not introduce local typeclass instances.
+    id5_lemma=(
+        "    have hid : (𝟙 NatOneCell.star :\n"
+        "        Quiver.Hom.{0} NatOneCell.star NatOneCell.star) = (0 : Nat) :=\n"
+        "      NatOneCell.id_eq_zero _\n"
+    )
+    id5_unit=(
+        id5_lemma+
+        "    simpa [CategoryStruct.comp, Bicategory.leftUnitor,\n"
+        "      Bicategory.rightUnitor, hid, Nat.zero_add] using hnorm.symm"
+    )
+    id5_assoc=(
+        id5_lemma+
+        "    simpa [CategoryStruct.comp, Bicategory.whiskerLeft,\n"
+        "      Bicategory.whiskerRight, Bicategory.associator, hid,\n"
+        "      Nat.zero_add] using hcoc"
+    )
+    id5_unit_only=(
+        id5_lemma+
+        "    simpa only [CategoryStruct.comp, Bicategory.leftUnitor,\n"
+        "      Bicategory.rightUnitor, hid, Nat.zero_add] using hnorm.symm"
+    )
+    id5_assoc_only=(
+        id5_lemma+
+        "    simpa only [CategoryStruct.comp, Bicategory.whiskerLeft,\n"
+        "      Bicategory.whiskerRight, Bicategory.associator, hid,\n"
+        "      Nat.zero_add] using hcoc"
+    )
+    id5_unit_raw=(
+        id5_lemma+
+        "    change (0 : Nat) =\n"
+        "      Nat.add (𝟙 NatOneCell.star)\n"
+        "        (Nat.add (𝟙 NatOneCell.star) _)\n"
+        "    simpa only [hid, Nat.zero_add] using hnorm.symm"
+    )
+    id5_full=specialize(best3,id5_unit,id5_assoc,"typed-idzero-full")
+    id5_only=specialize(best3,id5_unit_only,id5_assoc_only,"typed-idzero-only")
+    id5_raw=specialize(best3,id5_unit_raw,id5_assoc,"typed-idzero-raw")
+
     return {
         "round1-typed-Nat-zero-Yoneda0": typed,
         "round1-discrete-ordinal-hom": discrete,
@@ -369,6 +411,9 @@ def variants(source: str) -> dict[str,str]:
         "round4-identity-min": specialize(best3,identity_unitor,identity_assoc_min,"identity-min"),
         "round4-identity-simpall": specialize(best3,unit_simpall,assoc_simpall_id,"identity-simpall"),
         "round4-explicit-unitor-zero": specialize_split(best3,identity_assoc,"explicit-zero"),
+        "round5-typed-idzero-simp": id5_full,
+        "round5-typed-idzero-simp-only": id5_only,
+        "round5-typed-idzero-unitor-raw": id5_raw,
     }
 
 
