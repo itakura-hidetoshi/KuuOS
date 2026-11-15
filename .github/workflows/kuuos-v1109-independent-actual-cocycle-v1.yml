@@ -1,0 +1,109 @@
+name: KuuOS v1.109 independent exact-source normalized cocycle Lean axioms
+
+on:
+  pull_request:
+    paths:
+      - "formal/KUOS/DependentOriginationDoubleDeloopingTypeAFourActualCocycleV1_109.lean"
+      - "scripts/kuuos_v1109_four_stage_admission_v1.py"
+      - ".github/workflows/kuuos-v1109-independent-actual-cocycle-v1.yml"
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  v1109-independent-exact-source-lean:
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.number == 3522 }}
+    runs-on: ubuntu-22.04
+    timeout-minutes: 90
+    env:
+      MATHLIB_NO_CACHE_ON_UPDATE: '1'
+    steps:
+      - name: Checkout immutable promoted source
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - name: Fetch CodeAI direct Lean and real Lean MCP producer evidence
+        uses: actions/download-artifact@v4
+        with:
+          name: kuuos-v1109-codeai-cocycle-round2-43696133369
+          run-id: 43696133369
+          github-token: ${{ github.token }}
+          path: /tmp/kuuos-v1109-evidence
+      - name: Check exact source/blob/pin, CodeAI direct Lean and real MCP receipts
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          EVIDENCE_DIR: /tmp/kuuos-v1109-evidence
+          PROMOTED_HEAD: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+          python3 -m py_compile scripts/kuuos_v1109_four_stage_admission_v1.py
+          PYTHONPATH=. python3 scripts/kuuos_v1109_four_stage_admission_v1.py
+      - name: Set up exact fixed Lean v4.30.0-rc2
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Restore read-only pinned build overlay
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake/build
+          key: kuuos-pr-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-pr3522-${{ github.event.pull_request.head.sha }}
+          restore-keys: |
+            kuuos-pr-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-pr3522-
+      - name: Resolve exact pinned mathlib
+        run: lake exe cache get
+      - name: Independent strict Lean full imported closure including actual four-horn cocycle
+        run: |
+          set -euo pipefail
+          timeout 3000 lake -KleanArgs=-DwarningAsError=true -KleanArgs=-Dweak.sorryAsError=true build KUOS.DependentOriginationDoubleDeloopingTypeAFourActualCocycleV1_109 2>&1 | tee /tmp/kuuos-v1109-independent/build.log
+      - name: Independently audit all four declarations and exact three standard axioms
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          ns='KUOS.DependentOriginationDoubleDeloopingTypeAFourActualCocycleV1_109.'
+          names=['natTypeAFourHornCocycle',
+                 'natTypeAFourHornCocycle_label',
+                 'natTypeAFourHornCocycle_strict',
+                 'natTypeAFourHornCocycle_realized_triangle']
+          lines=['import KUOS.DependentOriginationDoubleDeloopingTypeAFourActualCocycleV1_109','']
+          for name in names:
+              lines.extend(['#check '+ns+name,'#print axioms '+ns+name])
+          Path('/tmp/kuuos-v1109-independent/AxiomAudit.lean').write_text('\n'.join(lines)+'\n')
+          PY
+          lake env lean -DwarningAsError=true -Dweak.sorryAsError=true /tmp/kuuos-v1109-independent/AxiomAudit.lean 2>&1 | tee /tmp/kuuos-v1109-independent/axioms.log
+          python3 - <<'PY'
+          import json,re
+          from pathlib import Path
+          log=Path('/tmp/kuuos-v1109-independent/axioms.log').read_text()
+          ns='KUOS.DependentOriginationDoubleDeloopingTypeAFourActualCocycleV1_109.'
+          names=['natTypeAFourHornCocycle','natTypeAFourHornCocycle_label',
+                 'natTypeAFourHornCocycle_strict',
+                 'natTypeAFourHornCocycle_realized_triangle']
+          for name in names: assert ns+name in log, 'Missing declaration '+name
+          assert not re.search(r'(?m)(warning:|error:|sorryAx)',log), 'Lean warnings, errors or sorryAx'
+          axioms=set()
+          for group in re.findall(r'depends on axioms:\s*\[([^\]]*)\]',log,re.S):
+              axioms.update(x.strip() for x in group.split(',') if x.strip())
+          assert axioms.issubset({'propext','Classical.choice','Quot.sound'}),sorted(axioms)
+          record={'new_declarations_audited':len(names),
+                  'axioms':sorted(axioms),'sorryAx':False,
+                  'warnings':0,'errors':0,
+                  'exact_source_blob':'e703d406b303a8dd51178ca26ee227473509e76d'}
+          Path('/tmp/kuuos-v1109-independent/axiom_receipt.json').write_text(json.dumps(record,indent=2)+'\n')
+          print('KUUOS_V1109_INDEPENDENT_AXIOM_AUDIT_GREEN',record)
+          PY
+      - name: Archive independent source Lean and axiom receipts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-v1109-independent-${{ github.run_id }}
+          path: /tmp/kuuos-v1109-independent/
+          if-no-files-found: warn
+          retention-days: 30
