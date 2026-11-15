@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - "scripts/kuuos_v198_codeai_structural_candidates_v1.py"
+      - "scripts/kuuos_v198_codeai_lean_mcp_verify_v1.py"
       - ".github/workflows/kuuos-v198-codeai-structural-probes-v1.yml"
   workflow_dispatch:
 
@@ -52,6 +53,13 @@ jobs:
           set -euo pipefail
           python3 -m py_compile scripts/kuuos_v198_codeai_structural_candidates_v1.py
           PYTHONPATH=. python3 scripts/kuuos_v198_codeai_structural_candidates_v1.py
+      - name: Install pinned Lean MCP transport
+        run: python3 -m pip install uv
+      - name: Verify exact CodeAI candidate via real Lean MCP and direct Lean
+        run: |
+          set -euo pipefail
+          python3 -m py_compile scripts/kuuos_v198_codeai_lean_mcp_verify_v1.py
+          PYTHONPATH=. python3 scripts/kuuos_v198_codeai_lean_mcp_verify_v1.py
       - name: Archive every candidate and obstruction even when blocked
         if: always()
         uses: actions/upload-artifact@v4
