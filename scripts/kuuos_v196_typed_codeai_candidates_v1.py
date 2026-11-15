@@ -165,15 +165,39 @@ def variants(source: str) -> dict[str,str]:
     )
     if full == rest: raise RuntimeError("original v1.96 final declarations did not match")
 
-    # Research-only: type ascriptions change textual signatures. No candidate
-    # gains Git-write authority until the pinned kernel verifies both theorem
-    # meaning and all local proof results.
+    # StrictlyUnitaryLaxFunctor.mapId_isIso is present at the pinned mathlib
+    # SHA. The actual map₂_leftUnitor goal contains `sigma.mapId a`, NOT
+    # `eqToHom (sigma.map_id a)`. Their directions differ. Rewrite the term
+    # genuinely occurring in the goal, retaining its IsIso certificate.
+    mapid=full
+    for obj,label in (("a","Left"),("b","Right")):
+        old=("  have heq : eqToHom (sigma.map_id "+obj+") =\\n"+
+             "      (0 : Nat) :=\\n"+
+             "    NatDoubleDelooping.isIso_twoCell_eq_zero _\\n"+
+             "  rw [hmap₂, h"+label+"Unitor, heq] at h")
+        replacement=("  have hmapId : sigma.mapId "+obj+" = (0 : Nat) :=\\n"+
+                     "    NatDoubleDelooping.isIso_twoCell_eq_zero _\\n"+
+                     "  rw [hmap₂, h"+label+"Unitor, hmapId] at h")
+        # Use actual newlines, not escaped \\n in string matching.
+        old=old.replace(chr(92)+"n",chr(10))
+        replacement=replacement.replace(chr(92)+"n",chr(10))
+        if mapid.count(old)!=1:
+            raise RuntimeError("v1.96 strict mapId goal source drift: "+obj)
+        mapid=mapid.replace(old,replacement)
+    # Avoid an unassigned polymorphic `u_1` in the original malformed last
+    # endpoint theorem; the imported v1.95 conclusion is at universe 0.
+    universe=mapid
+    for name in ("canonicalKuuOSPresentation","standardABCPresentation"):
+        occurrence=("DependentOriginationGeneratedPresentationQuotientInvariantV1_81."+name)
+        if universe.count(occurrence)!=1:
+            raise RuntimeError("presentation endpoint source drift: "+name)
+        universe=universe.replace(occurrence,occurrence+".{0}")
+    # Research-only: expression annotations affect lexical signatures but are
+    # mathematically definitionally Nat (proven by `rfl` on exact Hom types).
+    # Full Lean+Lean MCP and independent CI remain mandatory before adoption.
     return {
-        "round4-nat-zero-lemma":lemma,
-        "round4-nat-zero-lemma-typed-eqToHom":proof,
-        "round4-nat-zero-lemma-discrete-ext":discrete,
-        "round4-nat-zero-lemma-closed-goals":rest,
-        "round4-nat-zero-lemma-full-typed":full,
+        "round5-mapId-isIso-zero":mapid,
+        "round5-mapId-isIso-zero-universe0":universe,
     }
 
 
