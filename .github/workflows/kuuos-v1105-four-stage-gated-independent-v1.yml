@@ -95,7 +95,7 @@ jobs:
           p=json.loads(Path('lake-manifest.json').read_text())
           mathlibs=[x for x in p['packages'] if x.get('name')=='mathlib']
           assert len(mathlibs)==1 and mathlibs[0]['rev']=='5450b53e5ddc75d46418fabb605edbf36bd0beb6'
-          print('KUUOS_V1104_INDEPENDENT_EXACT_SOURCE',blob)
+          print('KUUOS_V1105_INDEPENDENT_EXACT_SOURCE',blob)
           PY
       - name: Resolve pinned mathlib
         run: lake exe cache get
@@ -131,7 +131,7 @@ jobs:
                   'axioms':sorted(axioms),'sorryAx':False,
                   'exact_source_strict_lean':True}
           Path('/tmp/kuuos-v1105-independent/axiom_receipt.json').write_text(json.dumps(record,indent=2)+'\n')
-          print('KUUOS_V1104_INDEPENDENT_KERNEL_AUDIT_GREEN',record)
+          print('KUUOS_V1105_INDEPENDENT_KERNEL_AUDIT_GREEN',record)
           PY
       - name: Archive independent source/Lean/axiom evidence, including red failures
         if: always()
