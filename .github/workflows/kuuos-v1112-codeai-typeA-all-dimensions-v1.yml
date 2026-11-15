@@ -1,0 +1,84 @@
+name: KuuOS v1.112 CodeAI all standard type-A dimensions exact-source
+
+on:
+  pull_request:
+    paths:
+      - "scripts/kuuos_v1112_codeai_typeA_all_dimensions_v1.py"
+      - ".github/workflows/kuuos-v1112-codeai-typeA-all-dimensions-v1.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  v1112-codeai-direct-lean-real-mcp:
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.ref == 'research/kuuos-typeA-all-dimensions-v112-20261116' && github.event.pull_request.base.ref == 'validation/kuuos-v1111-rlp-exact-source-20261115' }}
+    runs-on: ubuntu-22.04
+    timeout-minutes: 90
+    env:
+      MATHLIB_NO_CACHE_ON_UPDATE: '1'
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify baseline isolated v1.111 certified source and fixed pins
+        run: |
+          set -euo pipefail
+          python3 -m py_compile scripts/kuuos_v1112_codeai_typeA_all_dimensions_v1.py
+          PYTHONPATH=. python3 - <<'PY'
+          from pathlib import Path
+          import hashlib,json
+          p=Path('formal/KUOS/DependentOriginationDoubleDeloopingTypeAFourCocycleCompletionV1_111.lean')
+          raw=p.read_bytes()
+          blob=hashlib.sha1(b'blob '+str(len(raw)).encode()+b'\0'+raw).hexdigest()
+          assert blob=='35dc6ddf9bcd6ecd4f7141674e75055c306dbfe9'
+          assert Path('lean-toolchain').read_text().strip()=='leanprover/lean4:v4.30.0-rc2'
+          packages=json.loads(Path('lake-manifest.json').read_text())['packages']
+          assert [x['rev'] for x in packages if x['name']=='mathlib']==['5450b53e5ddc75d46418fabb605edbf36bd0beb6']
+          assert not Path('formal/KUOS/DependentOriginationDoubleDeloopingTypeAAllDimensionsV1_112.lean').exists()
+          print('KUUOS_V1112_PREDECESSOR_EXACT_PIN_CHECKED',blob)
+          PY
+      - name: Setup pinned Lean4.30.0-rc2
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Restore pinned read-only import build cache
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake/build
+          key: kuuos-pr-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-pr3522-${{ github.event.pull_request.head.sha }}
+          restore-keys: |
+            kuuos-pr-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-pr3522-
+      - name: Resolve exact mathlib pin
+        run: lake exe cache get
+      - name: Strict Lean actual v1.111 4D RLP imported closure
+        run: |
+          set -euo pipefail
+          timeout 3000 lake -KleanArgs=-DwarningAsError=true -KleanArgs=-Dweak.sorryAsError=true build KUOS.DependentOriginationDoubleDeloopingTypeAFourCocycleCompletionV1_111
+      - name: Install pinned real Lean MCP transport
+        run: python3 -m pip install uv
+      - name: MemoryOS read-only candidate feedback then all pinned direct Lean and green-only real Lean MCP
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          PYTHONPATH=. python3 scripts/kuuos_v1112_codeai_typeA_all_dimensions_v1.py
+      - name: Preserve all direct Lean results and real MCP certificates, never promote here
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-v1112-codeai-all-dimensions-${{ github.run_id }}
+          path: |
+            /tmp/kuuos-v1112-codeai-all-dimensions/
+            /tmp/kuuos-v1112-real-mcp-all-dimensions/
+            /tmp/kuuos-v1112-memoryos/
+          if-no-files-found: warn
+          retention-days: 30
