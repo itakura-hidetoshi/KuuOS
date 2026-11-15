@@ -121,11 +121,47 @@ def variants(source: str) -> dict[str,str]:
     )
     base = replace_once(pinned, terminal_old, terminal_new, "terminal triangle id")
     base = replace_once(base, rlp_old, rlp_new, "pinned ofHoms RLP elimination")
+    # Round 2 from exact pinned Lean logs: the six residuals are all failed
+    # identification of named Yoneda triangles with natFourLabel. Reuse the
+    # already checked six face-comparison lemmas, with exact Eq.trans proofs.
+    best = replace_once(base, old_goal, goal1, "conv Yoneda")
+    old_h = "    simpa [sigma] using h"
+    if best.count(old_h) != 4:
+        raise RuntimeError("v1.98 named source triangle scope drift")
+    explicit = best
+    for name in ("012","024","013","134"):
+        explicit = explicit.replace(old_h,
+            "    exact (natFour_map_triangle"+name+
+            "_comparison f.map).symm.trans h", 1)
+    for name, ix in (("014", "1"), ("034", "2")):
+        explicit = replace_once(explicit,
+            "    simpa [sigma] using htarget."+ix,
+            "    exact (natFour_map_triangle"+name+
+            "_comparison f.map).trans htarget."+ix,
+            "named target comparison "+name)
+
+    # Orthogonal alternative: explicit rewrite of the hypothesis, rather
+    # than Lean's default simp search for a marked [simp] equality.
+    rewritten = best
+    for name in ("012","024","013","134"):
+        rewritten = rewritten.replace(old_h,
+            "    rw [natFour_map_triangle"+name+
+            "_comparison] at h\n"
+            "    simpa [sigma] using h", 1)
+    for name, ix in (("014", "1"), ("034", "2")):
+        rewritten = replace_once(rewritten,
+            "    simpa [sigma] using htarget."+ix,
+            "    simpa only [natFour_map_triangle"+name+
+            "_comparison] using htarget."+ix,
+            "rewrite target comparison "+name)
+
     return {
         "round1-universe-only": pinned,
-        "round1-universe-yoneq-conv": replace_once(base, old_goal, goal1, "conv Yoneda"),
+        "round1-universe-yoneq-conv": best,
         "round1-universe-yoneq-simpa": replace_once(base, old_goal, goal2, "simpa Yoneda"),
         "round1-universe-yoneq-conv-simpa": replace_once(base, old_goal, goal3, "conv simpa Yoneda"),
+        "round2-six-face-lemma-trans": explicit,
+        "round2-six-face-lemma-rw": rewritten,
     }
 
 
