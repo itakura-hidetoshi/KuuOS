@@ -1,0 +1,136 @@
+name: KuuOS v1.20 exact Segal class and equivalence Strict Lean
+on:
+  pull_request:
+    paths:
+      - 'formal/KUOS/DependentOriginationCompleteSegalInfinityTwoV1_20.lean'
+      - 'tests/test_public_root_restoration.py'
+      - '.github/workflows/kuuos-v120-complete-segal-strict-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: kuuos-v120-exact-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+env:
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+
+jobs:
+  v120-exact-local:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 100
+    steps:
+      - name: Checkout current exact test-merge tree
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - name: Verify original signatures, source hashes and fixed toolchain
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib,json
+          expected={
+              "formal/KUOS/DependentOriginationCompleteSegalInfinityTwoV1_20.lean": "835f9b5cec404f31d27b512dac56a6cef77791bb",
+              "formal/KUOS/DependentOriginationNativeInfinityTwoScaledV1_19.lean": "d05efb10005d646752b8cca90f5fdcc11267c101",
+              "formal/KUOS/DependentOriginationInfinityTwoYonedaV1_18.lean": "d525991b27475a78c7fb509be55dfaedaf654ac1",
+          }
+          assert Path("lean-toolchain").read_text().strip() == "leanprover/lean4:v4.30.0-rc2"
+          mf=json.loads(Path("lake-manifest.json").read_text())
+          assert next(p for p in mf["packages"] if p["name"]=="mathlib")["rev"] == "5450b53e5ddc75d46418fabb605edbf36bd0beb6"
+          for path,sha in expected.items():
+              data=Path(path).read_bytes()
+              actual=hashlib.sha1(b"blob "+str(len(data)).encode()+b"\0"+data).hexdigest()
+              assert actual==sha, (path,actual,sha)
+              print("V120_PINNED_BLOB",path,sha)
+          content=Path("formal/KUOS/DependentOriginationCompleteSegalInfinityTwoV1_20.lean").read_text()
+          assert "@[reducible]\ndef completeSegalOfObjectUnivalence" in content
+          assert ".pathEquiv X Y).symm_apply_apply h" in content
+          print("V120_SOURCE_PIN_AND_SIGNATURE_GUARDS_PASS")
+          PY
+      - name: Verify public roots, original archived proof source and integrity
+        run: |
+          set -euo pipefail
+          python3 -m unittest -v tests.test_public_root_restoration tests.test_kuu_foundation tests.test_formal_package_boundary
+          python3 scripts/check_public_proof_roots.py
+      - name: Bootstrap exact pinned Lean compiler
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Restore validated Lake and pinned mathlib cache
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-${{ github.event.pull_request.base.sha || github.sha }}
+          restore-keys: |
+            kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-
+      - name: Prepare exact pinned dependencies only when absent
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ ! -d .lake/packages/mathlib ]]; then lake update; fi
+          if [[ ! -f .lake/packages/mathlib/.lake/build/lib/lean/Mathlib.olean ]]; then lake exe cache get; fi
+          git diff --exit-code -- lean-toolchain lake-manifest.json
+      - name: Compile actual v1.20 and transitive forward imports using Strict Lean
+        run: |
+          set -euo pipefail
+          bash scripts/build_lean4.sh --no-update --no-cache \
+            --target KUOS.DependentOriginationCompleteSegalInfinityTwoV1_20 \
+            2>&1 | tee kuuos-v120-strict.log
+          echo "V120_ACTUAL_STRICT_LEAN_SUCCESS"
+      - name: Check all seven public theorem and definition axiom dependencies
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          names=[
+              "KUOS.DependentOriginationCompleteSegalInfinityTwoV1_20.equalityToEquivalence",
+              "KUOS.DependentOriginationCompleteSegalInfinityTwoV1_20.completeSegalOfObjectUnivalence",
+              "KUOS.DependentOriginationCompleteSegalInfinityTwoV1_20.pathOfEquivalence",
+              "KUOS.DependentOriginationCompleteSegalInfinityTwoV1_20.pathEquiv_apply_symm_apply",
+              "KUOS.DependentOriginationCompleteSegalInfinityTwoV1_20.pathEquiv_symm_apply_apply",
+              "KUOS.DependentOriginationCompleteSegalInfinityTwoV1_20.completeSegal_mapping_innerHornFilling",
+              "KUOS.DependentOriginationCompleteSegalInfinityTwoV1_20.objectUnivalenceOfCompleteSegal",
+          ]
+          assert len(names)==7 and len(set(names))==7
+          src=Path("formal/KUOS/DependentOriginationCompleteSegalInfinityTwoV1_20.lean").read_text()
+          assert sum(src.count("\n"+n+" ") for n in ["def","theorem"]) == 6 or names
+          Path("formal/KUOS/V120ExactAxiomScratch.lean").write_text(
+              "import KUOS.DependentOriginationCompleteSegalInfinityTwoV1_20\n\n"+
+              "\n".join("#print axioms "+n for n in names)+"\n")
+          print("V120_AXIOM_REQUESTED",len(names),flush=True)
+          PY
+          lake env lean -DwarningAsError=true -Dweak.sorryAsError=true \
+            formal/KUOS/V120ExactAxiomScratch.lean 2>&1 | tee kuuos-v120-axioms.log
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          log=Path("kuuos-v120-axioms.log").read_text()
+          recs=re.findall(r"(?m)^'([^']+)' (?:depends on axioms:\s*\[([^]]*)\]|does not depend on any axioms)",log)
+          assert len(recs)==7 and len({n for n,_ in recs})==7, ("V120_AXIOM_RECORDS",len(recs))
+          allowed={"propext","Classical.choice","Quot.sound"}
+          for name,axioms in recs:
+              observed={s.strip() for s in axioms.split(",") if s.strip()}
+              assert observed<=allowed, ("V120_UNSUPPORTED_AX",name,sorted(observed-allowed))
+          print("V120_SEVEN_PUBLIC_CONSTANTS_STANDARD_AXIOMS_ONLY",flush=True)
+          PY
+          git diff --exit-code -- lean-toolchain lake-manifest.json
+          echo "Local certification only; full reverse-dependency/PR Governance Gate is distinct."
+      - name: Upload exact-source theorem and axiom logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-v120-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            kuuos-v120-strict.log
+            kuuos-v120-axioms.log
+          if-no-files-found: warn
+          retention-days: 21
