@@ -99,18 +99,17 @@ def variants(source: str) -> dict[str,str]:
         "mapId use explicit unit coherence")
     discrete=typed
     for old in (
-        "      have hf : f = 𝟙 a := Subsingleton.elim _ _",
-        "        have hg : g = 𝟙 b := Subsingleton.elim _ _",
+        "    have hf : f = 𝟙 a := Subsingleton.elim _ _",
+        "      have hg : g = 𝟙 b := Subsingleton.elim _ _",
         "      have hf : f = edge01 := Subsingleton.elim _ _",
         "      have hg : g = edge12 := Subsingleton.elim _ _",
     ):
         before,after=old.split(":= ",1)
+        indent=" " * (len(old)-len(old.lstrip(" ")))
         discrete=replace_once(discrete,old,
             before+":= by\n"
-            + ("        " if old.startswith("        ") else "      ")
-            +"apply Discrete.ext\n"
-            + ("        " if old.startswith("        ") else "      ")
-            +"exact Subsingleton.elim _ _",
+            + indent+"  apply Discrete.ext\n"
+            + indent+"  exact Subsingleton.elim _ _",
             "LocallyDiscrete Hom " + before.strip())
     # A field-notation error is not evidence that TypeADistinguishedZero
     # is missing. It is declared in v1.101's nested local namespace.
