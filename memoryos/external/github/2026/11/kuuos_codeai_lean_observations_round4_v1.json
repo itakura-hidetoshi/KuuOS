@@ -1,0 +1,43 @@
+{
+  "profile": "memoryos_codeai_lean_observations_v0_1",
+  "repository": "itakura-hidetoshi/KuuOS",
+  "authority": "external_pointer_only",
+  "curation_note": "Additive v1.106 MemoryOS-guided CodeAI round4 source-bound observations. One direct Lean and real Lean MCP success, independent CI certification NOT claimed; the concurrently promoted different blob is not overwritten.",
+  "independent_certification_pointers": [],
+  "observations": [
+    {
+      "source_head": "5c99d0ab97747576d3c2bdd2ee6286b56b0a30c5",
+      "source_tree": "ed6d8a31fcab9fd07259474e465b84b7838de228",
+      "imported_blob": "d6a8a8e2136c1a5601fa01c02f5f478fdd827520",
+      "variant": "round4-memoryos-natural-order-simp",
+      "candidate_blob": "7cef6322e09ae2a499a3ada4965bbe29691e01e8",
+      "producer_run": 43691506747,
+      "outcome": "DIRECT_LEAN_FAILURE",
+      "errors": [
+        "formal/KUOS/DependentOriginationDoubleDeloopingTypeAFourHornLabelTableV1_106.lean:75:57: error: 'omega' tactic does nothing"
+      ]
+    },
+    {
+      "source_head": "5c99d0ab97747576d3c2bdd2ee6286b56b0a30c5",
+      "source_tree": "ed6d8a31fcab9fd07259474e465b84b7838de228",
+      "imported_blob": "d6a8a8e2136c1a5601fa01c02f5f478fdd827520",
+      "variant": "round4-memoryos-natural-order-prune",
+      "candidate_blob": "27cf21597fed1650c26cb64e31d63d469e01f4b5",
+      "producer_run": 43691506747,
+      "outcome": "DIRECT_LEAN_SUCCESS",
+      "errors": []
+    },
+    {
+      "source_head": "5c99d0ab97747576d3c2bdd2ee6286b56b0a30c5",
+      "source_tree": "ed6d8a31fcab9fd07259474e465b84b7838de228",
+      "imported_blob": "d6a8a8e2136c1a5601fa01c02f5f478fdd827520",
+      "variant": "round4-memoryos-natural-order-first",
+      "candidate_blob": "28cd5bfaa5d0516ce6c2762e895020b1550e9f66",
+      "producer_run": 43691506747,
+      "outcome": "DIRECT_LEAN_FAILURE",
+      "errors": [
+        "formal/KUOS/DependentOriginationDoubleDeloopingTypeAFourHornLabelTableV1_106.lean:77:6: error: 'omega' tactic does nothing"
+      ]
+    }
+  ]
+}

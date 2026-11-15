@@ -11,7 +11,7 @@ import json
 from pathlib import Path
 
 from runtime.kuuos_codeai_lean_failure_memoryos_v0_1 import route_candidates
-from runtime.kuuos_codeai_lean_observation_intake_v0_1 import read_observation_seed
+from runtime.kuuos_codeai_lean_observation_intake_v0_2 import read_observation_directory
 from scripts.kuuos_v1103_codeai_structural_candidates_v1 import require_event
 from scripts import kuuos_v1106_codeai_label_table_v1 as initial
 from scripts import kuuos_v1106_codeai_label_table_round3_v1 as third
@@ -52,7 +52,7 @@ def candidates() -> dict[str,str]:
     }
     raw={name:before.replace(anchor,proof) for name,proof in proposals.items()}
     head,branch,tree=require_event()
-    memory=read_observation_seed(SEED)
+    memory=read_observation_directory(SEED.parent)
     filtered,route=route_candidates(raw,memory,source_head=head,
         source_tree=tree,imported_blob=initial.V105_BLOB)
     route["git_commit_authority"]=False
