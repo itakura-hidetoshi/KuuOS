@@ -90,6 +90,7 @@ class ScaledSimplicialSet (X : SSet) where
 namespace ScaledSimplicialSet
 
 /-- Maximal scaling: every 2-simplex is thin.  This is always a valid scaling. -/
+@[reducible]
 def maximal (X : SSet) : ScaledSimplicialSet X where
   thin := fun _ => True
   thin_sigma_zero := by
