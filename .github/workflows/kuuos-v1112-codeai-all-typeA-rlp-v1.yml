@@ -1,0 +1,69 @@
+name: KuuOS v1.112 CodeAI complete standard type-A geometric RLP
+
+on:
+  pull_request:
+    paths:
+      - "scripts/kuuos_v1112_codeai_all_typeA_rlp_v1.py"
+      - ".github/workflows/kuuos-v1112-codeai-all-typeA-rlp-v1.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  v1112-codeai-memoryos-fixed-lean-real-mcp:
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.ref == 'validation/kuuos-v1112-all-standard-typeA-rlp-20261115' && github.event.pull_request.base.ref == 'validation/kuuos-v1111-rlp-exact-source-20261115' }}
+    runs-on: ubuntu-22.04
+    timeout-minutes: 90
+    env:
+      MATHLIB_NO_CACHE_ON_UPDATE: '1'
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Setup pinned Lean 4.30.0-rc2
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Restore read-only pinned build cache
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake/build
+          key: kuuos-pr-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-pr3548-${{ github.event.pull_request.head.sha }}
+          restore-keys: |
+            kuuos-pr-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-pr3548-
+            kuuos-pr-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-pr3522-
+      - name: Resolve pinned mathlib
+        run: lake exe cache get
+      - name: Independently check pinned v1.111 RLP import closure
+        run: |
+          set -euo pipefail
+          timeout 3000 lake -KleanArgs=-DwarningAsError=true -KleanArgs=-Dweak.sorryAsError=true build KUOS.DependentOriginationDoubleDeloopingTypeAFourCocycleCompletionV1_111
+      - name: Install fixed real Lean MCP transport
+        run: python3 -m pip install uv
+      - name: Run three CodeAI candidates with MemoryOS prior feedback and pinned direct Lean then green-only real MCP
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          python3 -m py_compile scripts/kuuos_v1112_codeai_all_typeA_rlp_v1.py
+          PYTHONPATH=. python3 scripts/kuuos_v1112_codeai_all_typeA_rlp_v1.py
+      - name: Archive exact CodeAI portfolio, failures, actual Lean MCP receipts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-v1112-codeai-all-typeA-${{ github.run_id }}
+          path: |
+            /tmp/kuuos-v1112-codeai-all-typeA/
+            /tmp/kuuos-v1112-real-mcp-all-typeA/
+            /tmp/kuuos-v1112-memoryos/
+          retention-days: 30
+          if-no-files-found: warn
