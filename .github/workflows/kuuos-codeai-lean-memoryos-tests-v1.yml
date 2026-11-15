@@ -5,6 +5,9 @@ on:
     paths:
       - "runtime/kuuos_codeai_lean_failure_memoryos_v0_1.py"
       - "runtime/kuuos_codeai_lean_observation_intake_v0_1.py"
+      - "runtime/kuuos_codeai_lean_observation_intake_v0_2.py"
+      - "memoryos/external/github/2026/11/kuuos_codeai_lean_observations_round4_v1.json"
+      - "tests/test_kuuos_codeai_lean_failure_memoryos_v0_2.py"
       - "scripts/kuuos_codeai_lean_memoryos_sidecar_v1.py"
       - "scripts/kuuos_v1106_codeai_memoryos_routed_v1.py"
       - "tests/test_kuuos_codeai_lean_failure_memoryos_v0_1.py"
@@ -30,7 +33,7 @@ jobs:
       - name: Test typed Lean failures, lineages, no authority, tamper and stale replay
         run: |
           set -euo pipefail
-          PYTHONPATH=. python3 -m unittest discover -s tests -p 'test_kuuos_codeai_lean_failure_memoryos_v0_1.py' -v
+          PYTHONPATH=. python3 -m unittest discover -s tests -p 'test_kuuos_codeai_lean_failure_memoryos_v0_*.py' -v
       - name: Real v1.106 CodeAI 5-candidate preflight using nine curated GitHub observations
         run: |
           set -euo pipefail
@@ -44,7 +47,7 @@ jobs:
           import json
           from pathlib import Path
           r=json.loads(Path('/tmp/kuuos-codeai-memoryos/preflight.json').read_text())
-          assert r['seed_cases']==9
+          assert r['seed_cases']==12
           assert r['candidate_count_before']==5
           assert r['candidate_count_after']==4
           assert len(r['memory_feedback']['quarantined'])==1

@@ -15,7 +15,7 @@ import urllib.request
 from runtime.kuuos_codeai_lean_failure_memoryos_v0_1 import (
     append_cases, cases_from_portfolio, query_cases, route_candidates,
 )
-from runtime.kuuos_codeai_lean_observation_intake_v0_1 import read_observation_seed
+from runtime.kuuos_codeai_lean_observation_intake_v0_2 import read_observation_directory
 
 def github_run_observation(run_id: int, head: str) -> dict:
     token=os.environ.get("GITHUB_TOKEN")
@@ -52,7 +52,7 @@ def preflight(args: argparse.Namespace) -> dict:
     candidates=generator()
     if not isinstance(candidates, dict) or not candidates:
         raise ValueError("MemoryOS no generated candidate portfolio")
-    cases=read_observation_seed(args.seed)
+    cases=read_observation_directory(Path(args.seed).parent)
     filtered,hints=route_candidates(candidates,cases,source_head=args.source_head,
         source_tree=args.source_tree, imported_blob=args.imported_blob)
     receipt={
