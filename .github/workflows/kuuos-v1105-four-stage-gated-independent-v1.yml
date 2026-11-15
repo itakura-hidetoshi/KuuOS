@@ -1,0 +1,143 @@
+name: KuuOS v1.105 sequential CodeAI direct Lean MCP and independent Strict Lean
+
+on:
+  pull_request:
+    paths:
+      - "formal/KUOS/DependentOriginationDoubleDeloopingTypeAFourDimensionalFaceCoherenceV1_105.lean"
+      - "scripts/kuuos_v1105_four_stage_admission_v1.py"
+      - ".github/workflows/kuuos-v1105-four-stage-gated-independent-v1.yml"
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  codeai-direct-lean-real-mcp-admission:
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.number == 3522 }}
+    runs-on: ubuntu-22.04
+    timeout-minutes: 15
+    steps:
+      - name: Checkout exact immutable promoted source
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - name: Download exact v1.105 CodeAI and real Lean MCP evidence
+        uses: actions/download-artifact@v4
+        with:
+          name: kuuos-v1105-visible-face-codeai-round3-43687986358
+          run-id: 43687986358
+          github-token: ${{ github.token }}
+          path: /tmp/kuuos-v1105-evidence
+      - name: Enforce ordered source-bound CodeAI and direct Lean then real MCP gates
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          EVIDENCE_DIR: /tmp/kuuos-v1105-evidence
+          PROMOTED_HEAD: ${{ github.event.pull_request.head.sha }}
+          OUTPUT_RECEIPT: /tmp/kuuos-v1105-stage-gate/admission.json
+        run: |
+          set -euo pipefail
+          python3 -m py_compile scripts/kuuos_v1105_four_stage_admission_v1.py
+          python3 scripts/kuuos_v1105_four_stage_admission_v1.py
+      - name: Archive admission evidence, never independently certified
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-v1105-stage123-${{ github.run_id }}
+          path: /tmp/kuuos-v1105-stage-gate/
+          if-no-files-found: warn
+          retention-days: 30
+
+  independent-source-lean-and-axioms:
+    needs: codeai-direct-lean-real-mcp-admission
+    runs-on: ubuntu-22.04
+    timeout-minutes: 90
+    env:
+      MATHLIB_NO_CACHE_ON_UPDATE: '1'
+      EXPECTED_BLOB: 'd6a8a8e2136c1a5601fa01c02f5f478fdd827520'
+    steps:
+      - name: Checkout identical immutable parent source
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - name: Set up exact fixed Lean v4.30.0-rc2
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Restore source-head read-only pinned build overlay
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake/build
+          key: kuuos-pr-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-pr3522-${{ github.event.pull_request.head.sha }}
+          restore-keys: |
+            kuuos-pr-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-pr3522-
+      - name: Validate candidate proof blob and fixed source pins
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/kuuos-v1105-independent
+          python3 - <<'PY'
+          import hashlib,json,os
+          from pathlib import Path
+          from scripts.kuuos_lean_mcp_repair_loop_v1 import forbidden_code_constructs
+          target=Path('formal/KUOS/DependentOriginationDoubleDeloopingTypeAFourDimensionalFaceCoherenceV1_105.lean')
+          content=target.read_bytes()
+          blob=hashlib.sha1(b'blob '+str(len(content)).encode()+b'\0'+content).hexdigest()
+          assert blob==os.environ['EXPECTED_BLOB']
+          assert content.decode().startswith('import KUOS.DependentOriginationDoubleDeloopingTypeAFourDimensionalCocycleV1_104\n')
+          assert not forbidden_code_constructs(content.decode())
+          assert Path('lean-toolchain').read_text().strip()=='leanprover/lean4:v4.30.0-rc2'
+          p=json.loads(Path('lake-manifest.json').read_text())
+          mathlibs=[x for x in p['packages'] if x.get('name')=='mathlib']
+          assert len(mathlibs)==1 and mathlibs[0]['rev']=='5450b53e5ddc75d46418fabb605edbf36bd0beb6'
+          print('KUUOS_V1104_INDEPENDENT_EXACT_SOURCE',blob)
+          PY
+      - name: Resolve pinned mathlib
+        run: lake exe cache get
+      - name: Independent exact-source full dependency closure Strict Lean
+        run: |
+          set -euo pipefail
+          timeout 3000 lake -KleanArgs=-DwarningAsError=true -KleanArgs=-Dweak.sorryAsError=true build KUOS.DependentOriginationDoubleDeloopingTypeAFourDimensionalFaceCoherenceV1_105 2>&1 | tee /tmp/kuuos-v1105-independent/build.log
+      - name: Independent kernel check of all five new declarations and axioms
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          names=['natHornTetraLabel','natHornTetraLabel_additive_cocycle',
+                 'natTypeAFourIndex','natTypeAFourFace',
+                 'natTypeAFourVisibleFace_additive_cocycle']
+          prefix='KUOS.DependentOriginationDoubleDeloopingTypeAFourDimensionalFaceCoherenceV1_105.'
+          lines=['import KUOS.DependentOriginationDoubleDeloopingTypeAFourDimensionalFaceCoherenceV1_105','']
+          for name in names:
+              lines.extend(['#check '+prefix+name,'#print axioms '+prefix+name])
+          Path('/tmp/kuuos-v1105-independent/AxiomAudit.lean').write_text('\n'.join(lines)+'\n')
+          PY
+          lake env lean -DwarningAsError=true -Dweak.sorryAsError=true /tmp/kuuos-v1105-independent/AxiomAudit.lean 2>&1 | tee /tmp/kuuos-v1105-independent/axioms.log
+          python3 - <<'PY'
+          from pathlib import Path
+          import json,re
+          log=Path('/tmp/kuuos-v1105-independent/axioms.log').read_text()
+          assert 'sorryAx' not in log and 'error:' not in log, 'Uncertified Lean kernel audit'
+          axioms=set()
+          for s in re.findall(r'depends on axioms:\s*\[([^\]]*)\]',log,re.S):
+              axioms.update(t.strip() for t in s.split(',') if t.strip())
+          assert axioms.issubset({'propext','Classical.choice','Quot.sound'}),sorted(axioms)
+          record={'source_module':'v1.105','declarations_audited':5,
+                  'axioms':sorted(axioms),'sorryAx':False,
+                  'exact_source_strict_lean':True}
+          Path('/tmp/kuuos-v1105-independent/axiom_receipt.json').write_text(json.dumps(record,indent=2)+'\n')
+          print('KUUOS_V1104_INDEPENDENT_KERNEL_AUDIT_GREEN',record)
+          PY
+      - name: Archive independent source/Lean/axiom evidence, including red failures
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-v1105-independent-${{ github.run_id }}
+          path: /tmp/kuuos-v1105-independent/
+          if-no-files-found: warn
+          retention-days: 30
