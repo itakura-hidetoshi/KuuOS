@@ -1,0 +1,132 @@
+name: KuuOS v1.18 minimal dependency and v1.29 forward Strict Lean
+
+on:
+  pull_request:
+    paths:
+      - 'formal/KUOS/DependentOriginationInfinityTwoYonedaV1_18.lean'
+      - 'tests/test_public_root_restoration.py'
+      - '.github/workflows/kuuos-v118-minimal-import-v129-forward-strict-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: kuuos-v118-minimal-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+env:
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+
+jobs:
+  exact-v118-v129:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 100
+    steps:
+      - name: Checkout test merge
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - name: Confirm source blob, removed import and pinned runtime
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib, json
+          path = Path("formal/KUOS/DependentOriginationInfinityTwoYonedaV1_18.lean")
+          src = path.read_bytes()
+          actual = hashlib.sha1(b"blob " + str(len(src)).encode() + b"\0" + src).hexdigest()
+          assert actual == "d525991b27475a78c7fb509be55dfaedaf654ac1", actual
+          assert "import KUOS.DependentOriginationGlobularNerveComparisonV1_17" not in src.decode()
+          assert "import KUOS.DependentOriginationBicategoricalCoherenceV1_6" in src.decode()
+          assert Path("lean-toolchain").read_text().strip() == "leanprover/lean4:v4.30.0-rc2"
+          manifest = json.loads(Path("lake-manifest.json").read_text())
+          assert next(p for p in manifest["packages"] if p["name"] == "mathlib")["rev"] == "5450b53e5ddc75d46418fabb605edbf36bd0beb6"
+          print("V118_MINIMAL_IMPORT_EXACT_SOURCE_SUCCESS")
+          PY
+          python3 -m unittest -v tests.test_public_root_restoration tests.test_kuu_foundation tests.test_formal_package_boundary
+          python3 scripts/check_public_proof_roots.py
+      - name: Set up exact Lean and Lake
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Restore pinned Lake workspace cache
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-${{ github.event.pull_request.base.sha || github.sha }}
+          restore-keys: |
+            kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-
+      - name: Resolve missing pinned dependencies only
+        run: |
+          set -euo pipefail
+          if [[ ! -d .lake/packages/mathlib ]]; then lake update; fi
+          if [[ ! -f .lake/packages/mathlib/.lake/build/lib/lean/Mathlib.olean ]]; then lake exe cache get; fi
+          git diff --exit-code -- lean-toolchain lake-manifest.json
+      - name: Compile real v1.29 from revised v1.18 dependency closure
+        run: |
+          set -euo pipefail
+          bash scripts/build_lean4.sh --no-update --no-cache \
+            --target KUOS.DependentOriginationScaledDuskinHornTransportV1_29 \
+            2>&1 | tee kuuos-v118-v129-lean.log
+          echo "V129_FORWARD_CLOSURE_WITHOUT_GLOBULAR_V17_SUCCESS"
+      - name: Check all v1.18 public theorem and definition axioms
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          names = [
+              "KUOS.DependentOriginationInfinityTwoYonedaV1_18.mappingNerve",
+              "KUOS.DependentOriginationInfinityTwoYonedaV1_18.mappingNerveStrictSegal",
+              "KUOS.DependentOriginationInfinityTwoYonedaV1_18.mappingNerve_segal",
+              "KUOS.DependentOriginationInfinityTwoYonedaV1_18.mappingNerve_quasicategory",
+              "KUOS.DependentOriginationInfinityTwoYonedaV1_18.mappingNerve_innerHornFilling",
+              "KUOS.DependentOriginationInfinityTwoYonedaV1_18.precompositionNerveMap",
+              "KUOS.DependentOriginationInfinityTwoYonedaV1_18.postcompositionNerveMap",
+              "KUOS.DependentOriginationInfinityTwoYonedaV1_18.twoYoneda",
+              "KUOS.DependentOriginationInfinityTwoYonedaV1_18.BicategoricalTransportSystem.has_mapping_quasicategories",
+              "KUOS.DependentOriginationInfinityTwoYonedaV1_18.BicategoricalTransportSystem.toTwoYoneda",
+          ]
+          assert len(names) == 10 and len(set(names)) == len(names)
+          src = Path("formal/KUOS/DependentOriginationInfinityTwoYonedaV1_18.lean").read_text()
+          declared = re.findall(r"(?m)^(?:theorem|def)\s+\w+", src)
+          assert len(declared) == 10, ("V118_DECL_COUNT_MISMATCH",len(declared))
+          commands = ["import KUOS.DependentOriginationInfinityTwoYonedaV1_18", ""]
+          commands.extend("#print axioms " + name for name in names)
+          Path("formal/KUOS/V118AxiomScratch.lean").write_text("\n".join(commands) + "\n")
+          PY
+          lake env lean -DwarningAsError=true -Dweak.sorryAsError=true \
+            formal/KUOS/V118AxiomScratch.lean 2>&1 | tee kuuos-v118-axioms.log
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          log = Path("kuuos-v118-axioms.log").read_text()
+          recs = re.findall(
+              r"(?m)^'([^']+)' (?:depends on axioms:\s*\[([^]]*)\]|does not depend on any axioms)", log
+          )
+          assert len(recs) == 10, ("V118_AXIOM_COUNT",len(recs))
+          assert len({name for name,_ in recs}) == 10
+          allow = {"propext", "Classical.choice", "Quot.sound"}
+          for name, ax in recs:
+              used = {x.strip() for x in ax.split(",") if x.strip()}
+              assert used <= allow, ("EXTRA_AXIOM",name, sorted(used - allow))
+          print("V118_TEN_PUBLIC_DECLARATIONS_STANDARD_AXIOMS_ONLY")
+          PY
+          git diff --exit-code -- lean-toolchain lake-manifest.json
+          echo "No global reverse-dependency certification inferred from this local test."
+      - name: Upload exact-source Lean logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-v118-v129-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            kuuos-v118-v129-lean.log
+            kuuos-v118-axioms.log
+          if-no-files-found: warn
+          retention-days: 21
