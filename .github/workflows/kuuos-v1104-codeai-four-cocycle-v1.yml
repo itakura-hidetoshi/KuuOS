@@ -10,8 +10,45 @@ permissions:
   contents: read
 
 jobs:
-  codeai-v1104-all-direct-lean-then-real-mcp:
+  v1104_source_state:
+    name: Determine exact unmodified versus promoted v1.104 source
     if: ${{ github.event_name == 'pull_request' && github.event.pull_request.number == 3522 }}
+    runs-on: ubuntu-22.04
+    timeout-minutes: 5
+    outputs:
+      needs_codegen: ${{ steps.source_state.outputs.needs_codegen }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - name: Check original absence or exactly verified candidate Git blob
+        id: source_state
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import hashlib, os
+          from pathlib import Path
+          target=Path('formal/KUOS/DependentOriginationDoubleDeloopingTypeAFourDimensionalCocycleV1_104.lean')
+          promoted='6c4c3a2243796aa19d494c685b1b52796feeb2dd'
+          if not target.exists():
+              value='true'
+              status='MISSING_SOURCE_CANDIDATES_ALLOWED'
+          else:
+              raw=target.read_bytes()
+              blob=hashlib.sha1(b'blob '+str(len(raw)).encode()+b'\0'+raw).hexdigest()
+              if blob!=promoted:
+                  raise RuntimeError('v1.104 unrecognized proof blob; refuse CodeAI re-generation: '+blob)
+              value='false'
+              status='EXACT_PROMOTED_SOURCE_USE_INDEPENDENT_CI'
+          with open(os.environ['GITHUB_OUTPUT'],'a') as output:
+              print('needs_codegen='+value,file=output)
+          print('KUUOS_V1104_STAGE_ROUTING',status,value)
+          PY
+
+  codeai-v1104-all-direct-lean-then-real-mcp:
+    needs: v1104_source_state
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.number == 3522 && needs.v1104_source_state.outputs.needs_codegen == 'true' }}
     runs-on: ubuntu-22.04
     timeout-minutes: 90
     env:
