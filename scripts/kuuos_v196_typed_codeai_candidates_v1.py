@@ -266,7 +266,7 @@ def main() -> int:
                     (output/(key+".log")).write_text(outputText)
                     row["log_sha256"]=sha256(outputText.encode())
                     error_lines=[x for x in outputText.splitlines()
-                        if re.search(r"(?<![A-Za-z])error(?::|\\()",x)]
+                        if "error:" in x or "error(" in x]
                     row["errors"]=[x[:480] for x in error_lines][:80]
                     row["error_count"]=len(error_lines)
             finally:
