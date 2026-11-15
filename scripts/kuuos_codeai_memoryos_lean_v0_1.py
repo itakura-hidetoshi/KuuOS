@@ -145,7 +145,13 @@ def run(generator_name: str, history: Path, output: Path,
 
     core.main=memory_main
     try:
-        return generator.main()
+        code = generator.main()
+        if report['status'] == 'NOT_RUN':
+            # The generator may return 0 without invoking the direct Lean/MCP
+            # runner. An absent verification receipt is NO_DATA, never green.
+            report['status'] = 'VERIFICATION_NOT_RUN'
+            return 5
+        return code
     except Exception as exc:
         report['obstruction']=type(exc).__name__+': '+str(exc)
         if report['status']=='NOT_RUN':report['status']='MEMORY_OR_EXECUTION_OBSTRUCTION'
