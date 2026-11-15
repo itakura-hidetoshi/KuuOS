@@ -1,0 +1,45 @@
+{
+  "profile": "memoryos_codeai_lean_observations_v0_1",
+  "repository": "itakura-hidetoshi/KuuOS",
+  "authority": "external_pointer_only",
+  "curation_note": "Append-only v1.111 CodeAI three direct Lean failures. Exact run 43701117891, artifact 14156926370. Observed Lean identifier failure for ScaledSSet.toPoint; missing import-open cause remains a hypothesis until independently reproduced. No direct/MCP/RLP authority follows from these records.",
+  "independent_certification_pointers": [],
+  "observations": [
+    {
+      "source_head": "9e9ca6a8fff8eae867bcf9e1803e976104b94efc",
+      "source_tree": "65d294723b2646b817018e908cd1c814f9b63fad",
+      "imported_blob": "f6ef5c336d7ce287c841353661935635ad9cc895",
+      "variant": "round1-rlp-apply",
+      "candidate_blob": "804a4af3536a16d071a5ccea090c3f19ce274492",
+      "producer_run": 43701117891,
+      "outcome": "DIRECT_LEAN_FAILURE",
+      "errors": [
+        "formal/KUOS/DependentOriginationDoubleDeloopingTypeAFourCocycleCompletionV1_111.lean:70:7: error(lean.unknownIdentifier): Unknown identifier `ScaledSSet.toPoint`"
+      ]
+    },
+    {
+      "source_head": "9e9ca6a8fff8eae867bcf9e1803e976104b94efc",
+      "source_tree": "65d294723b2646b817018e908cd1c814f9b63fad",
+      "imported_blob": "f6ef5c336d7ce287c841353661935635ad9cc895",
+      "variant": "round1-rlp-exact-fun",
+      "candidate_blob": "2dc5b27d4c2ddf0d34d821d494127d90c5798952",
+      "producer_run": 43701117891,
+      "outcome": "DIRECT_LEAN_FAILURE",
+      "errors": [
+        "formal/KUOS/DependentOriginationDoubleDeloopingTypeAFourCocycleCompletionV1_111.lean:70:7: error(lean.unknownIdentifier): Unknown identifier `ScaledSSet.toPoint`"
+      ]
+    },
+    {
+      "source_head": "9e9ca6a8fff8eae867bcf9e1803e976104b94efc",
+      "source_tree": "65d294723b2646b817018e908cd1c814f9b63fad",
+      "imported_blob": "f6ef5c336d7ce287c841353661935635ad9cc895",
+      "variant": "round1-rlp-explicit",
+      "candidate_blob": "c1c565f48fefd433c73ecade2ae78ba0f0a2cc16",
+      "producer_run": 43701117891,
+      "outcome": "DIRECT_LEAN_FAILURE",
+      "errors": [
+        "formal/KUOS/DependentOriginationDoubleDeloopingTypeAFourCocycleCompletionV1_111.lean:70:7: error(lean.unknownIdentifier): Unknown identifier `ScaledSSet.toPoint`"
+      ]
+    }
+  ]
+}
