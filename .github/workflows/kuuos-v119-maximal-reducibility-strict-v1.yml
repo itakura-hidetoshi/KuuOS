@@ -1,0 +1,179 @@
+name: KuuOS v1.19 exact-class-reducibility Strict Lean + downstream v1.29 probe
+on:
+  pull_request:
+    paths:
+      - 'formal/KUOS/DependentOriginationNativeInfinityTwoScaledV1_19.lean'
+      - 'tests/test_public_root_restoration.py'
+      - '.github/workflows/kuuos-v119-maximal-reducibility-strict-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: kuuos-v119-source-bound-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+env:
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+
+jobs:
+  v119-exact-local:
+    name: v1.19 exact Lean closure and 7 public proof axioms
+    runs-on: ubuntu-24.04
+    timeout-minutes: 100
+    steps:
+      - name: Checkout exact PR test-merge source
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - name: Verify exact source blobs, original theorem content and fixed runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib, json
+          expected = {
+              "formal/KUOS/DependentOriginationNativeInfinityTwoScaledV1_19.lean": "d05efb10005d646752b8cca90f5fdcc11267c101",
+              "formal/KUOS/DependentOriginationInfinityTwoYonedaV1_18.lean": "d525991b27475a78c7fb509be55dfaedaf654ac1",
+              "formal/KUOS/DependentOriginationBicategoricalCoherenceV1_6.lean": "c1d9cf1c6ed08b535ec5d0bb02bfca254bbb2ac0",
+          }
+          assert Path("lean-toolchain").read_text().strip() == "leanprover/lean4:v4.30.0-rc2"
+          manifest = json.loads(Path("lake-manifest.json").read_text())
+          assert next(p for p in manifest["packages"] if p["name"] == "mathlib")["rev"] == "5450b53e5ddc75d46418fabb605edbf36bd0beb6"
+          for file, sha in expected.items():
+              data = Path(file).read_bytes()
+              actual = hashlib.sha1(b"blob " + str(len(data)).encode() + b"\0" + data).hexdigest()
+              assert actual == sha, (file, actual, sha)
+              print("V119_EXACT_SOURCE",file,sha)
+          assert "@[reducible]\ndef maximal (X : SSet) :" in Path("formal/KUOS/DependentOriginationNativeInfinityTwoScaledV1_19.lean").read_text()
+          print("V119_PINNED_RUNTIME_AND_BLOBS_SUCCESS", flush=True)
+          PY
+      - name: Verify public roots and preserved theorem sources
+        run: |
+          set -euo pipefail
+          python3 -m unittest -v tests.test_public_root_restoration tests.test_kuu_foundation tests.test_formal_package_boundary
+          python3 scripts/check_public_proof_roots.py
+      - name: Set up exact pinned Lean and Lake
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Restore pinned Mathlib cache
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-${{ github.event.pull_request.base.sha || github.sha }}
+          restore-keys: |
+            kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-
+      - name: Prepare pinned dependencies if absent
+        run: |
+          set -euo pipefail
+          if [[ ! -d .lake/packages/mathlib ]]; then lake update; fi
+          if [[ ! -f .lake/packages/mathlib/.lake/build/lib/lean/Mathlib.olean ]]; then lake exe cache get; fi
+          git diff --exit-code -- lean-toolchain lake-manifest.json
+      - name: Build actual v1.19 forward import closure with Strict Lean
+        run: |
+          set -euo pipefail
+          bash scripts/build_lean4.sh --no-update --no-cache \
+            --target KUOS.DependentOriginationNativeInfinityTwoScaledV1_19 \
+            2>&1 | tee kuuos-v119-strict.log
+          echo "V119_EXACT_STRICT_LEAN_SUCCESS"
+      - name: Independently check seven named v1.19 constants and axioms
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          names = [
+              "KUOS.DependentOriginationNativeInfinityTwoScaledV1_19.bicategoryInfinityTwoCategory",
+              "KUOS.DependentOriginationNativeInfinityTwoScaledV1_19.mapping_quasicategory",
+              "KUOS.DependentOriginationNativeInfinityTwoScaledV1_19.mapping_innerHornFilling",
+              "KUOS.DependentOriginationNativeInfinityTwoScaledV1_19.ScaledSimplicialSet.maximal",
+              "KUOS.DependentOriginationNativeInfinityTwoScaledV1_19.ScaledSimplicialSet.maximal_thin",
+              "KUOS.DependentOriginationNativeInfinityTwoScaledV1_19.bicategoryLocallyScaledInfinityTwoCategory",
+              "KUOS.DependentOriginationNativeInfinityTwoScaledV1_19.nativeTwoYoneda",
+          ]
+          assert len(names) == 7 and len(set(names)) == 7
+          file = Path("formal/KUOS/V119ExactAxiomAuditScratch.lean")
+          file.write_text("import KUOS.DependentOriginationNativeInfinityTwoScaledV1_19\n\n"+
+              "\n".join("#print axioms "+name for name in names)+"\n")
+          print("V119_AXIOM_QUERIES",len(names))
+          PY
+          lake env lean -DwarningAsError=true -Dweak.sorryAsError=true \
+            formal/KUOS/V119ExactAxiomAuditScratch.lean 2>&1 | tee kuuos-v119-axioms.log
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          log = Path("kuuos-v119-axioms.log").read_text()
+          rows = re.findall(r"(?m)^'([^']+)' (?:depends on axioms:\s*\[([^]]*)\]|does not depend on any axioms)",log)
+          assert len(rows)==7 and len({x for x,_ in rows})==7, ("V119_AXIOM_COUNT_MISMATCH",len(rows))
+          allowed={"propext","Classical.choice","Quot.sound"}
+          for name,decls in rows:
+              used={x.strip() for x in decls.split(",") if x.strip()}
+              assert used <= allowed, ("V119_NONSTANDARD_AXIOM",name,sorted(used-allowed))
+          print("V119_SEVEN_DECLARATIONS_STANDARD_AXIOMS_ONLY")
+          PY
+          git diff --exit-code -- lean-toolchain lake-manifest.json
+      - name: Upload exact Lean evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-v119-local-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            kuuos-v119-strict.log
+            kuuos-v119-axioms.log
+          if-no-files-found: warn
+          retention-days: 21
+
+  v129-dependent-probe:
+    name: v1.29 actual pinned Strict Lean reverse-import diagnostic
+    needs: [v119-exact-local]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 100
+    steps:
+      - name: Checkout exact source/test-merge tree
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - name: Set up pinned Lean
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Restore pinned cache
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-${{ github.event.pull_request.base.sha || github.sha }}
+          restore-keys: |
+            kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-
+      - name: Restore missing pinned mathlib
+        run: |
+          set -euo pipefail
+          if [[ ! -d .lake/packages/mathlib ]]; then lake update; fi
+          if [[ ! -f .lake/packages/mathlib/.lake/build/lib/lean/Mathlib.olean ]]; then lake exe cache get; fi
+          git diff --exit-code -- lean-toolchain lake-manifest.json
+      - name: Build actual v1.29 dependency chain — MUST FAIL if any Lean error
+        run: |
+          set -euo pipefail
+          bash scripts/build_lean4.sh --no-update --no-cache \
+            --target KUOS.DependentOriginationScaledDuskinHornTransportV1_29 \
+            2>&1 | tee kuuos-v119-v129-downstream-strict.log
+          echo "V129_ACTUAL_FORWARD_CLOSURE_SUCCESS"
+      - name: Upload downstream diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-v119-v129-probe-${{ github.run_id }}-${{ github.run_attempt }}
+          path: kuuos-v119-v129-downstream-strict.log
+          if-no-files-found: warn
+          retention-days: 21
