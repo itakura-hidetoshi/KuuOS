@@ -20,3 +20,14 @@ The pending v1.95 round-5 candidate has a known `change` tactic elaboration fail
 The gate never mutates Git, does not call paid providers, and never emits independent-CI or merge authority. Even a local precommit-green receipt must be followed by a separate exact-source GitHub-MCP commit, full dependency closure, Strict Lean completed/SUCCESS, `#print axioms`/sorryAx audit, public roots test and source/test-merge tree equality. KuuOS main, root 107, legacy/v5.291 and protected #1558 remain unchanged.
 
 PIN: Lean v4.30.0-rc2; mathlib 5450b53e5ddc75d46418fabb605edbf36bd0beb6. Observed failure and NO_DATA remain recorded, not promoted to success.
+
+## Two candidate serialization paths (exact-source repair case)
+
+The standalone externally supplied Candidate Patch receipt and the autonomous
+unified-diff-generated selected candidate have separate (legitimate) candidate
+and diff digests. Their receipt identifiers MUST NOT be equated. This gate
+instead verifies the selected generated candidate packet, its own sealed
+Candidate Patch receipt, portfolio membership, selection and isolated
+application, and the exact resulting Lean Git blob and canonical snapshot
+digest. A failure to distinguish the two routes is a compatibility obstruction,
+not a reason to lower the requirement for independent Lean verification.

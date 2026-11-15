@@ -459,6 +459,8 @@ def run_if_parent_pr() -> None:
         "source_observation_receipt": source_receipt,
         "candidate_receipt": cr.receipt,
         "generated_candidate_receipt": ur.receipt,
+        "generated_selected_candidate_receipt": selected_candidate.candidate_receipt,
+        "generated_selected_patch_candidate": selected_candidate.patch_candidate,
         "selection_receipt": selected.receipt,
         "isolated_application_receipt": applied.receipt,
         "isolated_verification": "snapshot_materialized_not_Lean_compiled",

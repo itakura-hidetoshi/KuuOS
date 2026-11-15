@@ -93,6 +93,10 @@ def evaluate(
     field_specs = (
         ("source_observation_receipt", "codeai_intent_repository_observation_receipt_digest"),
         ("candidate_receipt", "codeai_candidate_patch_receipt_digest"),
+        # External Candidate Patch and autonomous unified-diff serialization have
+        # distinct sealed packet identities. Their common final source is
+        # certified by the isolated application snapshot, not digest equality.
+        ("generated_selected_candidate_receipt", "codeai_candidate_patch_receipt_digest"),
         ("generated_candidate_receipt", "codeai_autonomous_unified_diff_candidates_receipt_digest"),
         ("selection_receipt", "codeai_autonomous_candidate_selection_receipt_digest"),
         ("isolated_application_receipt", "codeai_autonomous_isolated_candidate_application_receipt_digest"),
@@ -105,11 +109,14 @@ def evaluate(
     observation = parts["source_observation_receipt"]
     patch = parts["candidate_receipt"]
     generated = parts["generated_candidate_receipt"]
+    generated_selected = _mapping(codeai.get("generated_selected_patch_candidate"))
+    generated_selected_receipt = parts["generated_selected_candidate_receipt"]
     selected = parts["selection_receipt"]
     applied = parts["isolated_application_receipt"]
 
     obs_id = observation.get("codeai_intent_repository_observation_receipt_digest")
     patch_id = patch.get("codeai_candidate_patch_receipt_digest")
+    generated_selected_receipt_id = generated_selected_receipt.get("codeai_candidate_patch_receipt_digest")
     portfolio_id = generated.get("codeai_autonomous_unified_diff_candidates_receipt_digest")
     selection_id = selected.get("codeai_autonomous_candidate_selection_receipt_digest")
     application_id = applied.get("codeai_autonomous_isolated_candidate_application_receipt_digest")
@@ -121,13 +128,29 @@ def evaluate(
         issues.append("CodeAI_candidate_not_proposal_supported")
     if generated.get("source_observation_receipt_digest") != obs_id:
         issues.append("CodeAI_generation_source_mismatch")
-    if patch.get("candidate_patch_digest") not in generated.get("generated_candidate_digests", []):
-        issues.append("CodeAI_candidate_not_in_generated_portfolio")
-    if selected.get("source_portfolio_receipt_digest") != portfolio_id or selected.get("selected_candidate_digest") != patch.get("candidate_patch_digest"):
+    selected_digest = generated_selected.get("codeai_candidate_patch_digest")
+    selected_artifact = generated_selected.get("patch_artifact_digest")
+    if (generated_selected_receipt.get("candidate_patch_digest") != selected_digest
+            or generated_selected_receipt.get("patch_artifact_digest") != selected_artifact
+            or generated_selected_receipt.get("source_observation_receipt_digest") != obs_id
+            or generated_selected_receipt.get("source_commit_sha") != source_head):
+        issues.append("CodeAI_generated_selected_candidate_receipt_mismatch")
+    if (generated_selected.get("candidate_id") != patch.get("candidate_id")
+            or generated_selected.get("source_commit_sha") != source_head
+            or generated_selected.get("changed_paths") != [target]
+            or generated_selected.get("modified_paths") != [target]
+            or generated_selected.get("added_paths") != []
+            or generated_selected.get("deleted_paths") != []):
+        issues.append("CodeAI_generated_selected_candidate_source_mismatch")
+    if (generated.get("generated_candidate_digests") != [selected_digest]
+            or generated.get("generated_patch_artifact_digests") != [selected_artifact]):
+        issues.append("CodeAI_selected_candidate_not_in_generated_portfolio")
+    if selected.get("source_portfolio_receipt_digest") != portfolio_id or selected.get("selected_candidate_digest") != selected_digest:
         issues.append("CodeAI_selection_lineage_mismatch")
-    if selected.get("selected_patch_artifact_digest") != patch.get("patch_artifact_digest") or selected.get("candidate_selected") is not True:
+    if selected.get("selected_patch_artifact_digest") != selected_artifact or selected.get("candidate_selected") is not True:
         issues.append("CodeAI_selection_not_verified")
-    if applied.get("source_selection_receipt_digest") != selection_id or applied.get("source_candidate_receipt_digest") != patch_id:
+    if (applied.get("source_selection_receipt_digest") != selection_id
+            or applied.get("source_candidate_receipt_digest") != generated_selected_receipt_id):
         issues.append("CodeAI_isolated_lineage_mismatch")
     if applied.get("source_commit_sha") != source_head or applied.get("repository_full_name") != "itakura-hidetoshi/KuuOS":
         issues.append("CodeAI_isolated_source_mismatch")
@@ -202,6 +225,8 @@ def evaluate(
         "candidate_sha256": candidate_sha,
         "source_observation_receipt_digest": obs_id,
         "codeai_isolated_application_receipt_digest": application_id,
+        "codeai_generated_selected_candidate_receipt_digest": generated_selected_receipt_id,
+        "codeai_external_candidate_receipt_digest": patch_id,
         "mcp_source_sha256": local.get("original_sha256"),
         "mcp_candidate_sha256": local.get("candidate_sha256"),
         "direct_lean_log_sha256": checked.get("strict_candidate_log_sha256"),
