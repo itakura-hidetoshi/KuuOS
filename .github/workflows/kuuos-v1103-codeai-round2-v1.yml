@@ -11,8 +11,44 @@ permissions:
   contents: read
 
 jobs:
-  v1103-codeai-round2:
+  v1103_source_state:
+    name: Check exact v1.103 source before spending Lean/CodeAI resources
     if: ${{ github.event_name == 'pull_request' && github.event.pull_request.number == 3522 }}
+    runs-on: ubuntu-22.04
+    timeout-minutes: 5
+    outputs:
+      needs_repair: ${{ steps.source_state.outputs.needs_repair }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - name: Distinguish unmodified source from independently auditable promoted source
+        id: source_state
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import hashlib, os
+          from pathlib import Path
+          source=Path('formal/KUOS/DependentOriginationDoubleDeloopingTypeAHighDimensionalFillersV1_103.lean').read_bytes()
+          blob=hashlib.sha1(b'blob '+str(len(source)).encode()+b'\0'+source).hexdigest()
+          original='04de7e72813e0e28c9d4e499b68876f081b3bdba'
+          promoted='ff2e6a09e2c064a23207ee1323bc14182c86d7cd'
+          if blob==original:
+              value='true'
+              status='LOCAL_CANDIDATES_NEEDED'
+          elif blob==promoted:
+              value='false'
+              status='PROMOTED_SOURCE_USE_INDEPENDENT_EXACT_CI'
+          else:
+              raise RuntimeError('unrecognized v1.103 exact proof blob: '+blob)
+          with open(os.environ['GITHUB_OUTPUT'],'a',encoding='utf-8') as f:
+              print('needs_repair='+value,file=f)
+          print('KUUOS_V1103_CODEAI_STAGE_ROUTING',status,blob)
+          PY
+  v1103-codeai-round2:
+    needs: v1103_source_state
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.number == 3522 && needs.v1103_source_state.outputs.needs_repair == 'true' }}
     runs-on: ubuntu-22.04
     timeout-minutes: 90
     env:
@@ -57,6 +93,33 @@ jobs:
           set -euo pipefail
           python3 -m py_compile scripts/kuuos_v1103_codeai_round2_v1.py
           PYTHONPATH=. python3 scripts/kuuos_v1103_codeai_round2_v1.py
+      - name: Fail closed unless direct Lean and real Lean MCP both passed
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+          p=json.loads(Path('/tmp/kuuos-v1103-codeai-type-probes/portfolio_receipt.json').read_text())
+          m=json.loads(Path('/tmp/kuuos-v1103-codeai-round2-mcp/receipt.json').read_text())
+          assert p['head']==m['source_head']
+          assert p['original_blob']==m['original_blob']=='04de7e72813e0e28c9d4e499b68876f081b3bdba'
+          assert p['source_restored'] is True and m['source_restored'] is True
+          assert p['independent_ci_certified'] is False and m['independent_ci_certified'] is False
+          assert m['git_mutation'] is False
+          assert m['status']=='LOCAL_MCP_AND_SECOND_DIRECT_GREEN_CI_NOT_CERTIFIED'
+          assert m['mcp_success'] is True and m['mcp_errors']==0
+          assert m['second_direct_green'] is True and m['second_direct_exit']==0
+          green=[x for x in p['candidates'] if x.get('status')=='SUCCESS'
+                 and x.get('exit_code')==0 and x.get('olean_exists') is True
+                 and x.get('error_count')==0]
+          assert green and m['selected'] in [x['variant'] for x in green]
+          candidate=Path('/tmp/kuuos-v1103-codeai-round2-mcp/candidate.lean').read_bytes()
+          blob=hashlib.sha1(b'blob '+str(len(candidate)).encode()+b'\0'+candidate).hexdigest()
+          assert blob==next(x['candidate_blob'] for x in green if x['variant']==m['selected'])
+          print('KUUOS_V1103_LOCAL_DIRECT_LEAN_AND_MCP_GATE_GREEN',
+                m['source_head'],m['selected'],blob,
+                'independent_CI_not_yet_certified')
+          PY
       - name: Preserve all candidate compiler logs and real MCP obstruction
         if: always()
         uses: actions/upload-artifact@v4
