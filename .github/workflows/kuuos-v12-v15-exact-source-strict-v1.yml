@@ -1,0 +1,160 @@
+name: KuuOS v1.2–v1.5 exact-source isolated Strict Lean and axioms
+
+on:
+  pull_request:
+    paths:
+      - 'formal/KUOS/DependentOriginationRefinementTransitivityV1_2.lean'
+      - 'formal/KUOS/DependentOriginationDirectedCofinalSemanticsV1_3.lean'
+      - 'formal/KUOS/DependentOriginationFilteredCofinalCategoryV1_4.lean'
+      - 'formal/KUOS/DependentOriginationTwoCellCoherenceV1_5.lean'
+      - 'tests/test_public_root_restoration.py'
+      - '.github/workflows/kuuos-v12-v15-exact-source-strict-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: kuuos-v12-v15-exact-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+env:
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+
+jobs:
+  exact-source-strict-lean:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 100
+    steps:
+      - name: Checkout pull-request test merge source
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+
+      - name: Confirm pinned runtime and four exact source blobs
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import hashlib
+          import json
+          from pathlib import Path
+          expected = {
+              "formal/KUOS/DependentOriginationRefinementTransitivityV1_2.lean": "5247d279787292ee350d9c676ff76094ba4abc57",
+              "formal/KUOS/DependentOriginationDirectedCofinalSemanticsV1_3.lean": "7e448c6f56a3fca1a6fd4be18ec44ec0cefc05e3",
+              "formal/KUOS/DependentOriginationFilteredCofinalCategoryV1_4.lean": "45e6fd51b4881849819fc5513f3d9fa9f5e34dc4",
+              "formal/KUOS/DependentOriginationTwoCellCoherenceV1_5.lean": "42ad51fc7780c63e46ff9387a02d68b93bb27aab",
+          }
+          assert Path("lean-toolchain").read_text().strip() == "leanprover/lean4:v4.30.0-rc2"
+          manifest = json.loads(Path("lake-manifest.json").read_text())
+          assert next(x for x in manifest["packages"] if x["name"] == "mathlib")["rev"] == "5450b53e5ddc75d46418fabb605edbf36bd0beb6"
+          for path, sha in expected.items():
+              raw = Path(path).read_bytes()
+              actual = hashlib.sha1(b"blob " + str(len(raw)).encode() + b"\0" + raw).hexdigest()
+              assert actual == sha, (path, actual, sha)
+              print("EXACT_SOURCE_BLOB", path, actual, flush=True)
+          print("EXACT_V12_V15_SOURCE_AND_PIN_SUCCESS", flush=True)
+          PY
+
+      - name: Verify restored public roots and immutable historical sources
+        run: |
+          set -euo pipefail
+          python3 -m unittest -v tests.test_public_root_restoration tests.test_kuu_foundation tests.test_formal_package_boundary
+          python3 scripts/check_public_proof_roots.py
+
+      - name: Set up the repository-pinned Lean toolchain
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+
+      - name: Restore pinned Lake workspace cache
+        id: lake-cache
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-${{ github.event.pull_request.base.sha || github.sha }}
+          restore-keys: |
+            kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-
+
+      - name: Restore exact pinned dependencies when necessary
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ ! -d .lake/packages/mathlib ]]; then
+            lake update
+          fi
+          if [[ ! -f .lake/packages/mathlib/.lake/build/lib/lean/Mathlib.olean ]]; then
+            lake exe cache get
+          fi
+          git diff --exit-code -- lean-toolchain lake-manifest.json
+          echo "Pinned mathlib available; no dependency drift"
+
+      - name: Compile all four repaired modules and exact forward import dependency closure
+        shell: bash
+        run: |
+          set -euo pipefail
+          bash scripts/build_lean4.sh --no-update --no-cache \
+            --target KUOS.DependentOriginationTwoCellCoherenceV1_5 \
+            2>&1 | tee kuuos-v12-v15-strict-build.log
+          # v1.5 imports v1.4, which imports v1.3, which imports v1.2.
+          echo "EXACT_V12_V15_STRICT_IMPORT_CLOSURE_SUCCESS"
+
+      - name: Check axioms for every theorem declaration in the four sources
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import re
+          from pathlib import Path
+          sources = (
+              ("DependentOriginationRefinementTransitivityV1_2", 8),
+              ("DependentOriginationDirectedCofinalSemanticsV1_3", 14),
+              ("DependentOriginationFilteredCofinalCategoryV1_4", 11),
+              ("DependentOriginationTwoCellCoherenceV1_5", 6),
+          )
+          commands = ["import KUOS.DependentOriginationTwoCellCoherenceV1_5", ""]
+          for name, expected in sources:
+              source = Path("formal/KUOS") / (name + ".lean")
+              decls = re.findall(r"^theorem\s+([A-Za-z0-9_']+)\b", source.read_text(), re.M)
+              assert len(decls) == expected, (name, len(decls), expected)
+              commands.extend("#print axioms KUOS." + name + "." + decl for decl in decls)
+          Path("formal/KUOS/V12V15ExactAxiomsScratch.lean").write_text("\n".join(commands) + "\n")
+          print("AXIOM_AUDIT_REQUESTED_THEOREMS", len(commands) - 2, flush=True)
+          PY
+          lake env lean -DwarningAsError=true -DsorryAsError=true \
+            formal/KUOS/V12V15ExactAxiomsScratch.lean \
+            2>&1 | tee kuuos-v12-v15-axioms.log
+          python3 - <<'PY'
+          import re
+          from pathlib import Path
+          lines = Path("kuuos-v12-v15-axioms.log").read_text().splitlines()
+          matched = [x for x in lines if "depends on axioms:" in x or "does not depend on any axioms" in x]
+          assert len(matched) == 39, ("AXIOM_OUTPUT_MISSING", len(matched), 39)
+          allowed = {"propext", "Classical.choice", "Quot.sound"}
+          for line in matched:
+              if "depends on axioms:" not in line:
+                  continue
+              m = re.search(r"depends on axioms:\s*\[([^]]*)\]", line)
+              assert m, ("AXIOM_FORMAT_UNKNOWN", line)
+              used = {a.strip() for a in m.group(1).split(",") if a.strip()}
+              assert used <= allowed, ("UNEXPECTED_AXIOM", sorted(used - allowed), line)
+          print("V12_V15_THIRTY_NINE_THEOREMS_STANDARD_AXIOMS_ONLY", flush=True)
+          PY
+          git diff --exit-code -- lean-toolchain lake-manifest.json
+          echo "This certifies the changed forward import closure only; independent global governance is not waived."
+
+      - name: Upload exact-head Lean and axiom logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-v12-v15-exact-source-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            kuuos-v12-v15-strict-build.log
+            kuuos-v12-v15-axioms.log
+          if-no-files-found: warn
+          retention-days: 21
