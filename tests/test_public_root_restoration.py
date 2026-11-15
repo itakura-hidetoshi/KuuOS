@@ -166,6 +166,10 @@ REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
     # remains in frozen legacy; CodeAI v1.99 direct Lean #43671463291
     # had zero errors and .olean. This SHA enrollment is only source provenance.
     "KUOS/DependentOriginationDoubleDeloopingHornCoherenceLowDimV1_99.lean": "dfbbfa7a1b2d82619ae9985a54a140ed0c13a3f1",
+    # v1.100 original blob 9f5e548a5cbd101f29f4a8c45871874c73355e82 stays frozen in legacy.
+    # CodeAI v1.100 round5 direct Lean run #43676394335: 0 errors, olean produced;
+    # exact candidate Git blob ca3b4d01207ecc01678bf630af21488f20584bca. Enrollment is provenance only.
+    "KUOS/DependentOriginationDoubleDeloopingNormalizedCocycleRealizationV1_100.lean": "ca3b4d01207ecc01678bf630af21488f20584bca",
     # Original V1_89 pinned source: f5d06299e825ef784a7df25386b062b80c702f12 (retained in Git history).
     "KUOS/DependentOriginationStandardArbitraryScalingWaypointV1_89.lean": "3b5de0a154436be6598a49861435dc57a80ea2f9",
     "KUOS/DependentOriginationStandardTypeAEndpointOppositeCellCertificateV1_77.lean": "e7d422b89b4a4fa5180790b0c5d49c51b7239786",
