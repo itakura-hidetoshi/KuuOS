@@ -116,7 +116,7 @@ jobs:
           retention-days: 14
 
   candidate-v195-lean-mcp:
-    name: CodeAI round5 candidate, full-source Lean MCP and independent direct Lean precommit
+    name: CodeAI round8 direct-Lean-green candidate, full-source Lean MCP and independent precommit gate
     if: ${{ github.event_name == 'pull_request' && github.event.pull_request.number == 3522 }}
     needs: head-snapshot-contract
     runs-on: ubuntu-22.04
@@ -196,7 +196,7 @@ jobs:
           record=json.loads(path.read_text(encoding='utf-8'))
           assert record['source_head']==os.environ['EXPECTED_HEAD']
           assert record['source_blob']=='f7dcf6d9cddf3820b78c91375f0ec460874a7734'
-          assert record['candidate_blob']=='363462cdc4110e12976019ba610966f695f893fb'
+          assert record['candidate_blob']=='bbbbf480721aa6d0a834c7fd5ad7690d0daff04e'
           assert record['isolated_application_receipt']['isolated_patch_applied'] is True
           assert record['git_effect'] is False
           print('KUUOS_CODEAI_REAL_V195_ISOLATION_RECEIPT',
@@ -207,7 +207,7 @@ jobs:
           set -o pipefail
           PYTHONPATH=. python3 - <<'PY' 2>&1 | tee /tmp/kuuos-v195-mcp-precommit.log
           import hashlib, json, pathlib, subprocess, sys, tempfile
-          from scripts.codeai_pr3522_live_v195_candidate_v0_1 import ASSOC_BEFORE, ASSOC_AFTER_V5
+          from scripts.codeai_pr3522_live_v195_candidate_v0_1 import ASSOC_BEFORE, ASSOC_AFTER_V8
           from scripts.check_kuuos_lean_mcp_fullsource_v1 import (
               imports_of, declarations_of, git_blob, sha256,
           )
@@ -216,7 +216,7 @@ jobs:
           target='formal/KUOS/DependentOriginationDoubleDeloopingNatNonthinDuskinWitnessV1_95.lean'
           module='KUOS.DependentOriginationDoubleDeloopingNatNonthinDuskinWitnessV1_95'
           before_blob='f7dcf6d9cddf3820b78c91375f0ec460874a7734'
-          after_blob='363462cdc4110e12976019ba610966f695f893fb'
+          after_blob='bbbbf480721aa6d0a834c7fd5ad7690d0daff04e'
           codeai_record=json.loads(pathlib.Path(
               'artifacts/codeai-v195/pr3522-codeai-v195-candidate.json').read_text())
           codeai_receipt=codeai_record['isolated_application_receipt'][
@@ -231,7 +231,7 @@ jobs:
           original=src.read_bytes()
           assert git_blob(original)==before_blob and original.decode().count(ASSOC_BEFORE)==1
           original_text=original.decode()
-          changed_text=original_text.replace(ASSOC_BEFORE,ASSOC_AFTER_V5)
+          changed_text=original_text.replace(ASSOC_BEFORE,ASSOC_AFTER_V8)
           candidate=changed_text.encode()
           assert git_blob(candidate)==after_blob
           assert codeai_record['candidate_blob']==after_blob
@@ -253,7 +253,7 @@ jobs:
               if current!=original_text or not observations or not observations[-1].get('errors'):
                   raise RuntimeError('CodeAI candidate lacks actual Lean MCP error context')
               return {'expected_sha256':digest(current),'old_text':ASSOC_BEFORE,
-                      'new_text':ASSOC_AFTER_V5,'reason':'CodeAI pending source-bound round5 receipt: '+codeai_receipt}
+                      'new_text':ASSOC_AFTER_V8,'reason':'CodeAI round8 direct-green source-bound receipt: '+codeai_receipt}
           record={'source_head':plan['source_head'],'changed_lean_count':len(plan['targets']),
                   'source_git_blob':before_blob,'codeai_candidate_git_blob':after_blob,
                   'codeai_receipt':codeai_receipt,'git_write_performed':False,

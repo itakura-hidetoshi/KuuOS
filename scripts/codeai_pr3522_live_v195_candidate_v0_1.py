@@ -87,6 +87,18 @@ ASSOC_AFTER_V5 = """  map₂_associator := by
     rcases d with ⟨d⟩
     fin_cases a <;> fin_cases b <;> fin_cases c <;> fin_cases d <;>
       simp_all <;> omega"""
+ASSOC_AFTER_V8 = """  map₂_associator := by
+    intro a b c d f g h
+    have hab : a.as ≤ b.as := f.as.le
+    have hbc : b.as ≤ c.as := g.as.le
+    have hcd : c.as ≤ d.as := h.as.le
+    rcases a with ⟨a⟩
+    rcases b with ⟨b⟩
+    rcases c with ⟨c⟩
+    rcases d with ⟨d⟩
+    fin_cases a <;> fin_cases b <;> fin_cases c <;> fin_cases d <;>
+      simp_all [natTriangleMapComp, Bicategory.whiskerRight,
+        Bicategory.whiskerLeft, Bicategory.associator, CategoryStruct.comp] <;> rfl"""
 
 def git_blob_sha(content: bytes) -> str:
     return hashlib.sha1(b"blob " + str(len(content)).encode("ascii") + b"\\0".decode("unicode_escape").encode("ascii") + content).hexdigest()
@@ -159,9 +171,12 @@ def run_if_parent_pr() -> None:
         # Exact strict Lean run #43652242761: only the finite ordinal
         # associator proof blocks the core; directly enumerate all
         # finite endpoint values, retaining each monotonicity witness.
-        repair_before, repair_after = ASSOC_BEFORE, ASSOC_AFTER_V5
-        repair_stage = "round5-normalize-2cell-composition-before-finite-cases"
-    elif old_blob == "ca05d2cad1994d94713be4d7b3feea9f315905c6":
+        # Candidate independently compiled with pinned Lean, exit 0 and
+        # genuine .olean in source-anchored portfolio CI #43658543815.
+        # Still unverified by Lean MCP and repository-level independent CI.
+        repair_before, repair_after = ASSOC_BEFORE, ASSOC_AFTER_V8
+        repair_stage = "round8-finite-concrete-rfl-direct-green"
+    elif old_blob == "bbbbf480721aa6d0a834c7fd5ad7690d0daff04e":
         print("KUUOS_CODEAI_REAL_V195_APPLIED_RECEIPT " + json.dumps({
             "source_head": head_sha,
             "applied_blob": old_blob,
