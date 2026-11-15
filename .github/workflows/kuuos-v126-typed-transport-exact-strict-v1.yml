@@ -1,0 +1,159 @@
+name: KuuOS v1.26 typed transport exact Strict Lean and 22 axioms
+on:
+  pull_request:
+    paths:
+      - 'formal/KUOS/DependentOriginationBiequivalencePresentationInvariantV1_26.lean'
+      - 'tests/test_public_root_restoration.py'
+      - '.github/workflows/kuuos-v126-typed-transport-exact-strict-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: kuuos-v126-typed-source-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+env:
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+
+jobs:
+  v126-exact-typed-lean:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    steps:
+      - name: Checkout exact PR source/test merge
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - name: Enforce exact source blob, reviewed typed transport and immutable pins
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import hashlib,json
+          from pathlib import Path
+          source=Path("formal/KUOS/DependentOriginationBiequivalencePresentationInvariantV1_26.lean")
+          data=source.read_bytes()
+          sha=hashlib.sha1(b"blob "+str(len(data)).encode()+b"\0"+data).hexdigest()
+          assert sha=="60c17fbdefc29642889921e0002e055e9f36d046",sha
+          c=data.decode("utf-8")
+          assert "private theorem functor_map_transport_of_eq" in c
+          assert "def homEquivMap₂" in c
+          assert "E.homEquivMap₂ α = E.forward.map₂ α" in c
+          assert c.count("eqToHom") >= 2
+          # Unlike prior v1.21-v1.25 edits, certain v1.26 theorem expressions
+          # change to use typed endpoint transports. Never claim identity
+          # with the historically ill-typed statement.
+          assert Path("lean-toolchain").read_text().strip()=="leanprover/lean4:v4.30.0-rc2"
+          mf=json.loads(Path("lake-manifest.json").read_text())
+          assert next(p for p in mf["packages"] if p["name"]=="mathlib")["rev"]=="5450b53e5ddc75d46418fabb605edbf36bd0beb6"
+          print("V126_EXACT_TYPED_SOURCE_AND_RUNTIME_SUCCESS",flush=True)
+          PY
+      - name: Verify source-integrity record and public roots
+        run: |
+          set -euo pipefail
+          python3 -m unittest -v tests.test_public_root_restoration tests.test_kuu_foundation tests.test_formal_package_boundary
+          python3 scripts/check_public_proof_roots.py
+      - name: Setup pinned Lean compiler
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Restore validated mathlib/Lake cache
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-${{ github.event.pull_request.base.sha || github.sha }}
+          restore-keys: |
+            kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-
+      - name: Restore missing pinned Mathlib only
+        run: |
+          set -euo pipefail
+          if [[ ! -d .lake/packages/mathlib ]]; then lake update; fi
+          if [[ ! -f .lake/packages/mathlib/.lake/build/lib/lean/Mathlib.olean ]]; then lake exe cache get; fi
+          git diff --exit-code -- lean-toolchain lake-manifest.json
+      - name: Build actual v1.26 with real Strict Lean + complete forward imports
+        run: |
+          set -euo pipefail
+          bash scripts/build_lean4.sh --no-update --no-cache \
+            --target KUOS.DependentOriginationBiequivalencePresentationInvariantV1_26 \
+            2>&1 | tee kuuos-v126-strict.log
+          echo "V126_TYPED_MODEL_EQUIVALENCE_STRICT_LEAN_SUCCESS"
+      - name: Check 22 public constants and display exact typed theorem signatures
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          source=Path("formal/KUOS/DependentOriginationBiequivalencePresentationInvariantV1_26.lean").read_text()
+          scopes=[]
+          names=[]
+          for lineno,raw in enumerate(source.splitlines(),1):
+              line=raw.strip()
+              ns=re.fullmatch(r"namespace\s+([^\s]+)",line)
+              if ns:
+                  scopes.append(ns.group(1))
+                  continue
+              en=re.fullmatch(r"end(?:\s+([^\s]+))?",line)
+              if en:
+                  assert scopes and (en.group(1) is None or scopes[-1]==en.group(1)),(lineno,line)
+                  scopes.pop()
+                  continue
+              line=re.sub(r"^@\[[^\]\n]+\]\s*","",line)
+              if line.startswith("private "):
+                  continue
+              m=re.match(r"(?:(?:noncomputable|protected)\s+)?(?:theorem|lemma|def|abbrev)\s+([^\s(:]+)",line)
+              if m:
+                  names.append(".".join(scopes)+"."+m.group(1))
+          assert not scopes
+          assert len(names)==22 and len(set(names))==22,(len(names),names)
+          # Verify the two morphism transport bridges and the associated
+          # public statements through Lean's own pretty-printer, not prose.
+          key=[
+              "KUOS.DependentOriginationBiequivalencePresentationInvariantV1_26.BicategoricalModelEquivalence.homEquivMap₂",
+              "KUOS.DependentOriginationBiequivalencePresentationInvariantV1_26.BicategoricalModelEquivalence.homEquiv_functor_map",
+              "KUOS.DependentOriginationBiequivalencePresentationInvariantV1_26.homEquiv_transportIntrinsicTwoCell_agree",
+              "KUOS.DependentOriginationBiequivalencePresentationInvariantV1_26.twoCellObservable_modelIndependent",
+              "KUOS.DependentOriginationBiequivalencePresentationInvariantV1_26.twoCellPredicate_modelIndependent",
+          ]
+          assert all(k in names for k in key),(names,key)
+          f=Path("formal/KUOS/V126TypedAxiomScratch.lean")
+          f.write_text("import KUOS.DependentOriginationBiequivalencePresentationInvariantV1_26\n\n"+
+              "\n".join("#check "+k for k in key)+"\n"+
+              "\n".join("#print axioms "+name for name in names)+"\n")
+          Path("kuuos-v126-declarations.txt").write_text("\n".join(names)+"\n")
+          print("V126_EXACT_AXIOM_REQUESTS",len(names),flush=True)
+          PY
+          lake env lean -DwarningAsError=true -Dweak.sorryAsError=true \
+            formal/KUOS/V126TypedAxiomScratch.lean 2>&1 | tee kuuos-v126-axioms.log
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          log=Path("kuuos-v126-axioms.log").read_text()
+          rows=re.findall(r"(?m)^'([^']+)' (?:depends on axioms:\s*\[([^]]*)\]|does not depend on any axioms)",log)
+          expected=set(Path("kuuos-v126-declarations.txt").read_text().splitlines())
+          assert len(rows)==22 and {n for n,_ in rows}==expected,("V126_AXIOMS_MISMATCH",len(rows),expected-{n for n,_ in rows})
+          allowed={"propext","Classical.choice","Quot.sound"}
+          for name,axioms in rows:
+              used={x.strip() for x in axioms.split(",") if x.strip()}
+              assert used<=allowed,("V126_EXTRA_AXIOM",name,sorted(used-allowed))
+          print("V126_TWENTY_TWO_PUBLIC_CONSTANTS_STANDARD_AXIOMS_ONLY",flush=True)
+          PY
+          git diff --exit-code -- lean-toolchain lake-manifest.json
+          echo "Typed statement changes are certified only in this explicitly recorded form; no global merge authority."
+      - name: Upload source-bound Lean and type/axiom evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-v126-exact-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            kuuos-v126-strict.log
+            kuuos-v126-axioms.log
+            kuuos-v126-declarations.txt
+          if-no-files-found: warn
+          retention-days: 21
