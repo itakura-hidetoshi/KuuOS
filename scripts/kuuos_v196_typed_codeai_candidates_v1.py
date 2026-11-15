@@ -100,13 +100,79 @@ def variants(source: str) -> dict[str,str]:
         "¬ KUOS.DependentOriginationStandardArbitraryScalingWaypointV1_89.StandardArbitraryScalingObstructionClosed :=",
         "¬ KUOS.DependentOriginationStandardArbitraryScalingWaypointV1_89.StandardArbitraryScalingObstructionClosed.{0} :=",
     )
-    # These are *research-only* local candidates. The textual signatures
-    # differ by explicit Nat type ascriptions; kernel-level equivalence must
-    # be established before any proof source can be admitted.
+    # Use the exact pinned Nat kernel API instead of omega on an abstract
+    # Quiver Hom (which is *definitionally* Nat, but is not recognized by omega).
+    arith_before = "    change Nat.add alpha (inv alpha) = (0 : Nat) at hinv\\n    omega"
+    arith_after = """    change Nat.add alpha (inv alpha) = (0 : Nat) at hinv
+    exact (Nat.eq_zero_of_add_eq_zero hinv).1"""
+    if typed_add.count(arith_before)!=1:
+        raise RuntimeError("pinned Nat.eq_zero_of_add_eq_zero anchor drift")
+    lemma = typed_add.replace(arith_before,arith_after)
+
+    # Avoid `rw` on a metavariable under eqToHom. Supply the exact
+    # strictly unitary functor's map_id proof directly as a typed argument.
+    proof = lemma
+    for obj in ("a","b"):
+        h = "eqToHom (by rw [sigma.map_id "+obj+"])"
+        if proof.count(h)!=1:
+            raise RuntimeError("map_id typed EqToHom source drift: "+obj)
+        proof=proof.replace(h,"eqToHom (sigma.map_id "+obj+")")
+
+    # LocallyDiscrete has a Discrete wrapper on source 1-morphisms.
+    # It is not generally a Subsingleton without unfolding that wrapper.
+    discrete=proof
+    for obj,morph in (("a","f"),("b","g")):
+        old="have h"+morph+" : "+morph+" = 𝟙 "+obj+" := Subsingleton.elim _ _"
+        new="""have h"""+morph+" : "+morph+" = 𝟙 "+obj+""" := by
+      apply Discrete.ext
+      exact Subsingleton.elim _ _"""
+        if discrete.count(old)!=1:
+            raise RuntimeError("locally discrete Hom equality drift: "+obj)
+        discrete=discrete.replace(old,new)
+
+    # The two original omega goals are comparisons of the literal
+    # comparison label 1 with Nat.zero. State the Nat goal explicitly.
+    rest=discrete
+    nondeg="""  rw [natNoninvertibleTriangle_comparison] at hzero
+  omega"""
+    nondeg_after="""  rw [natNoninvertibleTriangle_comparison] at hzero
+  change (1 : Nat) = 0 at hzero
+  exact Nat.one_ne_zero hzero"""
+    if rest.count(nondeg)!=1: raise RuntimeError("nondegenerate proof source drift")
+    rest=rest.replace(nondeg,nondeg_after)
+    thin="""  rw [natDuskin_thin_iff_comparison_eq_zero,
+    natNoninvertibleTriangle_comparison]
+  omega"""
+    thin_after="""  rw [natDuskin_thin_iff_comparison_eq_zero,
+    natNoninvertibleTriangle_comparison]
+  change (1 : Nat) ≠ 0
+  exact Nat.one_ne_zero"""
+    if rest.count(thin)!=1: raise RuntimeError("not-thin proof source drift")
+    rest=rest.replace(thin,thin_after)
+
+    # The final named endpoints actually live in v1.81, and the v1.95
+    # exact theorem fixes the universe at 0. Fix only that referent.
+    full=rest.replace(
+        "KUOS.DependentOriginationGeneratedPresentationPosetalReflectionV1_83.canonicalKuuOSPresentation",
+        "KUOS.DependentOriginationGeneratedPresentationQuotientInvariantV1_81.canonicalKuuOSPresentation",
+    ).replace(
+        "KUOS.DependentOriginationGeneratedPresentationPosetalReflectionV1_83.standardABCPresentation",
+        "KUOS.DependentOriginationGeneratedPresentationQuotientInvariantV1_81.standardABCPresentation",
+    ).replace(
+        "StandardArbitraryScalingObstructionClosed :=",
+        "StandardArbitraryScalingObstructionClosed.{0} :=",
+    )
+    if full == rest: raise RuntimeError("original v1.96 final declarations did not match")
+
+    # Research-only: type ascriptions change textual signatures. No candidate
+    # gains Git-write authority until the pinned kernel verifies both theorem
+    # meaning and all local proof results.
     return {
-        "round3-typed-zero-terms":typed,
-        "round3-typed-zero-Nat-add":typed_add,
-        "round3-typed-zero-Nat-add-qualification":final,
+        "round4-nat-zero-lemma":lemma,
+        "round4-nat-zero-lemma-typed-eqToHom":proof,
+        "round4-nat-zero-lemma-discrete-ext":discrete,
+        "round4-nat-zero-lemma-closed-goals":rest,
+        "round4-nat-zero-lemma-full-typed":full,
     }
 
 
@@ -267,9 +333,13 @@ def main() -> int:
     mode=stat.S_IMODE(source_path.stat().st_mode)
     try:
         for item in generated.candidates:
-            key=next((name for name in candidate_source
-                       if item.patch_candidate["candidate_id"].startswith("v196-"+name+"-")),None)
-            if key is None: raise RuntimeError("CodeAI returned unknown proposal")
+            expected={("v196-"+name+"-"+head[:10]):name
+                      for name in candidate_source}
+            key=expected.get(item.patch_candidate["candidate_id"])
+            if key is None:
+                raise RuntimeError("CodeAI returned alien/ambiguous candidate ID")
+            if item.patch_candidate["changed_paths"] != [TARGET]:
+                raise RuntimeError("CodeAI altered candidate changed-path scope")
             updated=candidate_source[key].encode()
             row={"variant":key,"candidate_blob":git_blob(updated),
                  "candidate_sha256":sha256(updated),
