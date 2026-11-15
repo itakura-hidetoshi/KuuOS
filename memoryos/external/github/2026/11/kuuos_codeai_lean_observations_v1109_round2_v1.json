@@ -1,0 +1,61 @@
+{
+  "profile": "memoryos_codeai_lean_observations_v0_1",
+  "repository": "itakura-hidetoshi/KuuOS",
+  "authority": "external_pointer_only",
+  "curation_note": "Additive v1.109 CodeAI round2 source-bound direct Lean results (4 success, 1 failure). Actual full logs and green-only real Lean MCP are in GitHub producer run 43696133369, artifact 14154776268. Unknown identifiers were Lean diagnostics, cause models stay unverified. No independent CI success is inferred from this MemoryOS entry.",
+  "independent_certification_pointers": [],
+  "observations": [
+    {
+      "source_head": "c6df5d4dfcd51f790ca3780b7f54a50fb6732f8c",
+      "source_tree": "9ebfe4eea3e119db4be2ac709868a97b074a6c37",
+      "imported_blob": "6071b265507c1798c8a61ce87a0a828713c97c63",
+      "variant": "round2-open-rcases-simp",
+      "candidate_blob": "79cc79442baf53aa70739b3f9e9cfc58f6a90c5d",
+      "producer_run": 43696133369,
+      "outcome": "DIRECT_LEAN_FAILURE",
+      "errors": [
+        "formal/KUOS/DependentOriginationDoubleDeloopingTypeAFourActualCocycleV1_109.lean:49:66: error: unsolved goals"
+      ]
+    },
+    {
+      "source_head": "c6df5d4dfcd51f790ca3780b7f54a50fb6732f8c",
+      "source_tree": "9ebfe4eea3e119db4be2ac709868a97b074a6c37",
+      "imported_blob": "6071b265507c1798c8a61ce87a0a828713c97c63",
+      "variant": "round2-qualified-let",
+      "candidate_blob": "e703d406b303a8dd51178ca26ee227473509e76d",
+      "producer_run": 43696133369,
+      "outcome": "DIRECT_LEAN_SUCCESS",
+      "errors": []
+    },
+    {
+      "source_head": "c6df5d4dfcd51f790ca3780b7f54a50fb6732f8c",
+      "source_tree": "9ebfe4eea3e119db4be2ac709868a97b074a6c37",
+      "imported_blob": "6071b265507c1798c8a61ce87a0a828713c97c63",
+      "variant": "round2-open-let",
+      "candidate_blob": "bbc839fba70e3704aa14deb8bc64113f54eda4a5",
+      "producer_run": 43696133369,
+      "outcome": "DIRECT_LEAN_SUCCESS",
+      "errors": []
+    },
+    {
+      "source_head": "c6df5d4dfcd51f790ca3780b7f54a50fb6732f8c",
+      "source_tree": "9ebfe4eea3e119db4be2ac709868a97b074a6c37",
+      "imported_blob": "6071b265507c1798c8a61ce87a0a828713c97c63",
+      "variant": "round2-qualified-projection",
+      "candidate_blob": "1aafba3a4ea81e121aebc65b1d0672cddf5f4314",
+      "producer_run": 43696133369,
+      "outcome": "DIRECT_LEAN_SUCCESS",
+      "errors": []
+    },
+    {
+      "source_head": "c6df5d4dfcd51f790ca3780b7f54a50fb6732f8c",
+      "source_tree": "9ebfe4eea3e119db4be2ac709868a97b074a6c37",
+      "imported_blob": "6071b265507c1798c8a61ce87a0a828713c97c63",
+      "variant": "round2-open-projection",
+      "candidate_blob": "afae31180e89693e17c36e397dd86a7d9516e5cc",
+      "producer_run": 43696133369,
+      "outcome": "DIRECT_LEAN_SUCCESS",
+      "errors": []
+    }
+  ]
+}

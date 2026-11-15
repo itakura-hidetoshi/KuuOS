@@ -1,0 +1,71 @@
+name: KuuOS MemoryOS append-only source-bound regression v2
+
+on:
+  pull_request:
+    paths:
+      - "scripts/kuuos_v1109_codeai_actual_four_cocycle_v1.py"
+      - ".github/workflows/kuuos-memoryos-codeai-regression-v2.yml"
+      - "memoryos/external/github/2026/11/kuuos_codeai_lean_observations_v1107_v1.json"
+
+permissions:
+  contents: read
+
+jobs:
+  v2-exact-memory-evidence-replay:
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.number == 3522 }}
+    runs-on: ubuntu-22.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Assert historical twelve and new five retained and non-authoritative
+        run: |
+          set -euo pipefail
+          PYTHONPATH=. python3 -m unittest discover -s tests -p 'test_kuuos_codeai_lean_failure_memoryos_v0_*.py' -v
+          PYTHONPATH=. python3 - <<'PY'
+          from pathlib import Path
+          from runtime.kuuos_codeai_lean_observation_intake_v0_2 import read_observation_directory
+          from runtime.kuuos_codeai_lean_observation_intake_v0_1 import read_observation_seed, checked_independent_pointers
+          root=Path('memoryos/external/github/2026/11')
+          records=read_observation_directory(root)
+          assert len(records)>=17
+          assert len({r['id'] for r in records})==len(records)
+          assert len([r for r in records if r['producer_run']==43693040574])==5
+          assert all(r['causal_status']=='UNVERIFIED_HYPOTHESIS' for r in records)
+          pointer=checked_independent_pointers(root/'kuuos_codeai_lean_observations_v1107_v1.json')
+          assert len(pointer)==1 and pointer[0]['grant_proof_authority'] is False
+          print('MEMORYOS_APPEND_ONLY_SOURCE_TESTS_OK',len(records))
+          PY
+      - name: Demonstrate exact-failed replay rejection without requiring obsolete fixed record count
+        run: |
+          set -euo pipefail
+          PYTHONPATH=. python3 scripts/kuuos_codeai_lean_memoryos_sidecar_v1.py preflight \
+            --source-head aafeb59d31937fc87a7e946d704962da7ae12a6c \
+            --source-tree fe49b206e86ce03216c8bfb6b227811b08ac5866 \
+            --imported-blob d6a8a8e2136c1a5601fa01c02f5f478fdd827520 \
+            --candidates-module scripts.kuuos_v1106_codeai_label_table_round3_v1 \
+            --output /tmp/kuuos-codeai-memoryos-v2/preflight.json
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('/tmp/kuuos-codeai-memoryos-v2/preflight.json').read_text())
+          assert r['seed_cases']>=17
+          assert r['candidate_count_before']==5 and r['candidate_count_after']==4
+          assert len(r['memory_feedback']['quarantined'])==1
+          assert r['memory_feedback']['quarantined'][0]['reason']=='EXACT_REPLAY_OF_DIRECT_LEAN_FAILURE'
+          assert r['memory_is_proof_authority'] is False and r['gives_git_effect_authority'] is False
+          print('MEMORYOS_EXACT_REPLAY_AND_AUTHORITIES_OK')
+          PY
+      - name: Archive MemoryOS regression receipts independent of Lean CI
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-codeai-memoryos-regression-v2-${{ github.run_id }}
+          path: /tmp/kuuos-codeai-memoryos-v2/
+          if-no-files-found: warn
+          retention-days: 30
