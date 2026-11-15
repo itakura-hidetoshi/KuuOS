@@ -10,7 +10,7 @@ on:
       - 'tests/test_kuuos_codeai_lean_mcp_precommit_gate_v0_1.py'
       - 'scripts/check_codeai_lean_mcp_precommit_gate_v0_1.py'
       - 'docs/KUUOS_CODEAI_LEAN_MCP_PRECOMMIT_GATE_v0_1.md'
-       - 'docs/KUUOS_LEAN_MCP_LIVE_PARENT_HEAD_v2.md'
+      - 'docs/KUUOS_LEAN_MCP_LIVE_PARENT_HEAD_v2.md'
   workflow_dispatch:
 
 permissions:
@@ -221,12 +221,12 @@ jobs:
               'artifacts/codeai-v195/pr3522-codeai-v195-candidate.json').read_text())
           codeai_receipt=codeai_record['isolated_application_receipt'][
               'codeai_autonomous_isolated_candidate_application_receipt_digest']
-           root=pathlib.Path('.').resolve()
+          root=pathlib.Path('.').resolve()
           out=pathlib.Path('/tmp/kuuos-v195-mcp-precommit')
           plan=json.loads(pathlib.Path('/tmp/kuuos-v195-current-parent/plan.json').read_text())
           assert codeai_record['source_head']==plan['source_head'], 'CodeAI/LeanMCP exact HEAD mismatch'
           targets=[x for x in plan['targets'] if x['path']==target]
-           assert len(targets)==1 and targets[0]['git_blob_sha']==before_blob
+          assert len(targets)==1 and targets[0]['git_blob_sha']==before_blob
           src=root/target
           original=src.read_bytes()
           assert git_blob(original)==before_blob and original.decode().count(ASSOC_BEFORE)==1
@@ -236,7 +236,7 @@ jobs:
           assert git_blob(candidate)==after_blob
           assert codeai_record['candidate_blob']==after_blob
           assert codeai_record['source_blob']==before_blob
-           assert imports_of(original_text)==imports_of(changed_text)
+          assert imports_of(original_text)==imports_of(changed_text)
           signature=lambda x:[(d['kind'],d['name_lexical'],d['signature_sha256'])
               for d in declarations_of(x,module)]
           assert signature(original_text)==signature(changed_text)
@@ -269,7 +269,7 @@ jobs:
               record['imports_unchanged']=x.get('imports_unchanged')
               record['source_signature_unchanged']=x.get('source_signature_unchanged')
               record['new_forbidden_constructs']=x.get('new_forbidden_constructs')
-           except Exception as e:
+          except Exception as e:
               record['lean_mcp_status']='MCP_EXECUTION_OBSTRUCTION'
               record['mcp_exception']=type(e).__name__+': '+str(e)[:700]
           if src.read_bytes()!=original:
@@ -328,5 +328,5 @@ jobs:
             /tmp/kuuos-v195-mcp-precommit.log
             artifacts/codeai-v195/pr3522-codeai-v195-candidate.json
             artifacts/codeai-v195/pr3522-v195-candidate.diff
-           if-no-files-found: warn
+          if-no-files-found: warn
           retention-days: 21
