@@ -219,6 +219,67 @@ def variants(source: str) -> dict[str,str]:
         "  exact toDuskinSimplex_mapComp C _ _"
     )
 
+    # Round 3: inspect the FULL four-error kernel log for round 2.
+    # Unitor terms retain the eqToHom factor; the associator retains the
+    # whiskering operators. Explicitly expose pinned Bicategory structure
+    # instead of incorrectly assuming the entire expression is defeq Nat.add.
+    # The map 1-cell equality is a NatOneCell equality, not a generic
+    # Subsingleton instance on an opaque dependent Quiver.Hom.
+    unitor_change=(
+        "    change (0 : Nat) = Nat.add (Nat.add (0 : Nat) 0) _\n"
+        "    simpa only [Nat.zero_add] using hnorm.symm"
+    )
+    if base.count(unitor_change)!=2:
+        raise RuntimeError("round3 unitor normalization source drift")
+    assoc_change=(
+        "    change Nat.add (Nat.add _ _) (0 : Nat) =\n"
+        "      Nat.add (Nat.add (0 : Nat) _) _\n"
+        "    simpa only [Nat.add_zero, Nat.zero_add] using hcoc"
+    )
+    if base.count(assoc_change)!=1:
+        raise RuntimeError("round3 associator source drift")
+    map_change=(
+        "  cases sigma.map f\n"
+        "  rfl"
+    )
+    if base.count(map_change)!=1:
+        raise RuntimeError("round3 mapped 1-cell source drift")
+    mapped=replace_once(base,map_change,
+        "  change NatOneCell.star = (sigma.map f : NatOneCell)\n"
+        "  exact Subsingleton.elim _ _",
+        "resolved one-cell type")
+    def target(unitor: str, associator: str, label: str) -> str:
+        x=mapped.replace(unitor_change,unitor)
+        if x==mapped:
+            raise RuntimeError("round3 unitor candidate empty: "+label)
+        x=replace_once(x,assoc_change,associator,
+            "round3 associator "+label)
+        return replace_once(x,yoneda,y1,"round3 realized Yoneda "+label)
+    coherence_simp=(
+        "    simpa [CategoryStruct.comp] using hnorm.symm"
+    )
+    coherence_expand=(
+        "    simp_all [CategoryStruct.comp, Bicategory.leftUnitor,\n"
+        "      Bicategory.rightUnitor]"
+    )
+    coherence_Nat=(
+        "    change (0 : Nat) = Nat.add (Nat.add (0 : Nat) 0)\n"
+        "      (Nat.add (0 : Nat) _)\n"
+        "    simpa only [Nat.zero_add] using hnorm.symm"
+    )
+    assoc_simp=(
+        "    simpa [Bicategory.whiskerLeft, Bicategory.whiskerRight,\n"
+        "      Bicategory.associator, CategoryStruct.comp] using hcoc"
+    )
+    assoc_simpall=(
+        "    simp_all [Bicategory.whiskerLeft, Bicategory.whiskerRight,\n"
+        "      Bicategory.associator, CategoryStruct.comp]"
+    )
+    assoc_dsimp=(
+        "    dsimp [Bicategory.whiskerLeft, Bicategory.whiskerRight,\n"
+        "      Bicategory.associator, CategoryStruct.comp]\n"
+        "    simpa using hcoc"
+    )
     return {
         "round1-typed-Nat-zero-Yoneda0": typed,
         "round1-discrete-ordinal-hom": discrete,
@@ -228,6 +289,10 @@ def variants(source: str) -> dict[str,str]:
         "round2-coherence-and-yoneda-simpa-only": replace_once(base,yoneda,y2,"Yoneda simp only"),
         "round2-coherence-and-yoneda-conv": replace_once(base,yoneda,y3,"Yoneda conv"),
         "round2-coherence-and-yoneda-change": replace_once(base,yoneda,y4,"Yoneda change"),
+        "round3-unitor-simp-associator-simp": target(coherence_simp,assoc_simp,"simp-simp"),
+        "round3-unitor-simp-associator-simpall": target(coherence_simp,assoc_simpall,"simp-simpall"),
+        "round3-unitor-expand-associator-simp": target(coherence_expand,assoc_simp,"expand-simp"),
+        "round3-unitor-Nat-associator-dsimp": target(coherence_Nat,assoc_dsimp,"Nat-dsimp"),
     }
 
 
