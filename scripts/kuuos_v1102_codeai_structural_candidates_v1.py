@@ -170,17 +170,18 @@ def variants(source: str) -> dict[str,str]:
         PREFIX+"\nattribute [local ext] StrictlyUnitaryLaxFunctor\n",
         "introduce top-level ext command before module docs")
     finite=fixed
-    for old,new,label in (
-        ("        apply Fin.ext\n        omega",
-         "        apply Fin.ext\n        change a.as.val = 0\n        omega",
-         "Fin a is zero"),
-        ("        apply Fin.ext\n        omega",
-         "        apply Fin.ext\n        change b.as.val = 1\n        omega",
-         "Fin b is one"),
-        ("        apply Fin.ext\n        omega",
-         "        apply Fin.ext\n        change c.as.val = 2\n        omega",
-         "Fin c is two"),
+    for context,value,num,label in (
+        ("ha0 : a.as = (0 : Fin 3)", "a.as.val", "0", "Fin a zero"),
+        ("hb1 : b.as = (1 : Fin 3)", "b.as.val", "1", "Fin b one"),
+        ("hc2 : c.as = (2 : Fin 3)", "c.as.val", "2", "Fin c two"),
     ):
+        old=("      have "+context+" := by\n"
+             "        apply Fin.ext\n"
+             "        omega")
+        new=("      have "+context+" := by\n"
+             "        apply Fin.ext\n"
+             "        change "+value+" = "+num+"\n"
+             "        omega")
         finite=replace_once(finite,old,new,label)
     extmap=replace_once(finite,
         "    first\n    | exact Subsingleton.elim _ _\n",
