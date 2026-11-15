@@ -1,7 +1,6 @@
 import Mathlib.AlgebraicTopology.Quasicategory.Nerve
 import Mathlib.CategoryTheory.Bicategory.Yoneda
 import KUOS.DependentOriginationBicategoricalCoherenceV1_6
-import KUOS.DependentOriginationGlobularNerveComparisonV1_17
 
 namespace KUOS.DependentOriginationInfinityTwoYonedaV1_18
 
