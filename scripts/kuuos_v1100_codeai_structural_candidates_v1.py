@@ -126,11 +126,108 @@ def variants(source: str) -> dict[str,str]:
         "  simp [toDuskinSimplex, toCore, StrictlyUnitaryLaxFunctor.mk']\n\n"
         "/-- Simplicial Yoneda",
         "map2 mk' reduction")
+    # Round 2, based on the complete pinned Lean errors from round 1.
+    # For the Nat delooping, all 1-cell unitors and associators are identity
+    # 2-cells; their vertical composite is Nat.add. The two normalized
+    # cocycle laws match the full bicategorical coherence fields only after
+    # that computation is exposed.
+    hleft = (
+        "  map₂_leftUnitor := by\n"
+        "    intro a b f\n"
+        "    have hnorm := C.left_normalized a.as b.as f.as.le\n"
+        "    simpa using hnorm.symm"
+    )
+    hright = (
+        "  map₂_rightUnitor := by\n"
+        "    intro a b f\n"
+        "    have hnorm := C.right_normalized a.as b.as f.as.le\n"
+        "    simpa using hnorm.symm"
+    )
+    hassoc = (
+        "  map₂_associator := by\n"
+        "    intro a b c d f g h\n"
+        "    have hcoc :=\n"
+        "      C.tetrahedron a.as b.as c.as d.as\n"
+        "        f.as.le g.as.le h.as.le\n"
+        "    simpa using hcoc"
+    )
+    base = natur
+    for old,new,label in (
+        (hleft,hleft.replace("    simpa using hnorm.symm",
+             "    change (0 : Nat) = Nat.add (Nat.add (0 : Nat) 0) _\n"
+             "    simpa only [Nat.zero_add] using hnorm.symm"),"left unit Nat.add"),
+        (hright,hright.replace("    simpa using hnorm.symm",
+             "    change (0 : Nat) = Nat.add (Nat.add (0 : Nat) 0) _\n"
+             "    simpa only [Nat.zero_add] using hnorm.symm"),"right unit Nat.add"),
+        (hassoc,hassoc.replace("    simpa using hcoc",
+             "    change Nat.add (Nat.add _ _) (0 : Nat) =\n"
+             "      Nat.add (Nat.add (0 : Nat) _) _\n"
+             "    simpa only [Nat.add_zero, Nat.zero_add] using hcoc"),"associator Nat.add"),
+    ):
+        base=replace_once(base,old,new,label)
+    mapcomp = (
+        "  rw [show natOrdinalEdge f.as.le = f from Subsingleton.elim _ _,\n"
+        "    show natOrdinalEdge g.as.le = g from Subsingleton.elim _ _]"
+    )
+    base=replace_once(base,mapcomp,
+        "  have hf : natOrdinalEdge f.as.le = f := by\n"
+        "    apply Discrete.ext\n"
+        "    exact Subsingleton.elim _ _\n"
+        "  have hg : natOrdinalEdge g.as.le = g := by\n"
+        "    apply Discrete.ext\n"
+        "    exact Subsingleton.elim _ _\n"
+        "  rw [hf, hg]",
+        "extract realize ordinal edges")
+    base=replace_once(base,
+        "    (ofDuskinSimplex sigma).toDuskinSimplex.map f =\n"
+        "      sigma.map f := by\n"
+        "  exact Subsingleton.elim _ _",
+        "    (ofDuskinSimplex sigma).toDuskinSimplex.map f =\n"
+        "      sigma.map f := by\n"
+        "  cases sigma.map f\n"
+        "  rfl",
+        "extract realize unique one-cell")
+
+    yoneda = (
+        "  simp only [toSimplexMap, SSet.yonedaEquiv_symm_app]\n"
+        "  rw [natSimplex_triangle_face_comparison]\n"
+        "  rfl"
+    )
+    y1=(
+        "  have h := natSimplex_triangle_face_comparison\n"
+        "    C.toDuskinSimplex a b c hab hbc\n"
+        "  simpa [toSimplexMap] using h"
+    )
+    y2=(
+        "  have h := natSimplex_triangle_face_comparison\n"
+        "    C.toDuskinSimplex a b c hab hbc\n"
+        "  simpa only [toSimplexMap, SSet.yonedaEquiv_symm_app,\n"
+        "    toDuskinSimplex_mapComp] using h"
+    )
+    y3=(
+        "  conv_lhs => simp only [toSimplexMap]\n"
+        "  simpa only [SSet.yonedaEquiv_symm_app, toDuskinSimplex_mapComp] using\n"
+        "    natSimplex_triangle_face_comparison C.toDuskinSimplex a b c hab hbc"
+    )
+    y4=(
+        "  change duskinComparison\n"
+        "    ((duskinNerve NatDoubleDelooping).map\n"
+        "      (SSet.stdSimplex.objEquiv.{0}\n"
+        "        (SSet.stdSimplex.triangle.{0} a b c hab hbc)).op\n"
+        "      C.toDuskinSimplex) = C.label a b c hab hbc\n"
+        "  rw [natSimplex_triangle_face_comparison]\n"
+        "  exact toDuskinSimplex_mapComp C _ _"
+    )
+
     return {
         "round1-typed-Nat-zero-Yoneda0": typed,
         "round1-discrete-ordinal-hom": discrete,
         "round1-normal-lax-Nat-naturality": natur,
         "round1-mkprime-field-reduction": mk,
+        "round2-coherence-and-yoneda-simpa": replace_once(base,yoneda,y1,"Yoneda simpa"),
+        "round2-coherence-and-yoneda-simpa-only": replace_once(base,yoneda,y2,"Yoneda simp only"),
+        "round2-coherence-and-yoneda-conv": replace_once(base,yoneda,y3,"Yoneda conv"),
+        "round2-coherence-and-yoneda-change": replace_once(base,yoneda,y4,"Yoneda change"),
     }
 
 
