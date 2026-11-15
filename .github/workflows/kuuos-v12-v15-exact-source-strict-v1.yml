@@ -132,17 +132,19 @@ jobs:
           python3 - <<'PY'
           import re
           from pathlib import Path
-          lines = Path("kuuos-v12-v15-axioms.log").read_text().splitlines()
-          matched = [x for x in lines if "depends on axioms:" in x or "does not depend on any axioms" in x]
-          assert len(matched) == 39, ("AXIOM_OUTPUT_MISSING", len(matched), 39)
+          # Lean pretty-prints long axiom lists across multiple lines.
+          # Match complete declaration blocks, not their first log line.
+          raw = Path("kuuos-v12-v15-axioms.log").read_text()
+          records = re.findall(
+              r"(?m)^'([^']+)' (?:depends on axioms:\s*\[([^]]*)\]|does not depend on any axioms)",
+              raw,
+          )
+          assert len(records) == 39, ("AXIOM_OUTPUT_MISSING", len(records), 39)
+          assert len({name for name, _ in records}) == 39, "DUPLICATE_AXIOM_RECORD"
           allowed = {"propext", "Classical.choice", "Quot.sound"}
-          for line in matched:
-              if "depends on axioms:" not in line:
-                  continue
-              m = re.search(r"depends on axioms:\s*\[([^]]*)\]", line)
-              assert m, ("AXIOM_FORMAT_UNKNOWN", line)
-              used = {a.strip() for a in m.group(1).split(",") if a.strip()}
-              assert used <= allowed, ("UNEXPECTED_AXIOM", sorted(used - allowed), line)
+          for name, axioms in records:
+              used = {a.strip() for a in axioms.split(",") if a.strip()}
+              assert used <= allowed, ("UNEXPECTED_AXIOM", name, sorted(used - allowed))
           print("V12_V15_THIRTY_NINE_THEOREMS_STANDARD_AXIOMS_ONLY", flush=True)
           PY
           git diff --exit-code -- lean-toolchain lake-manifest.json
