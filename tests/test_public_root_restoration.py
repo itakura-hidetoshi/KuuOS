@@ -86,6 +86,13 @@ PR3553_V121_V125_BOUNDED_BLOBS = {
 }
 
 
+# v1.26 typed model-equivalence comparison uses explicit eqToHom endpoint transports.
+# Historical theorem statements differ: this is recorded, NOT an unchanged-signature claim.
+PR3554_V126_TYPED_TRANSPORT_BLOB = {
+    "KUOS/DependentOriginationBiequivalencePresentationInvariantV1_26.lean": "60c17fbdefc29642889921e0002e055e9f36d046",
+}
+
+
 def git_blob_sha(raw: bytes) -> str:
     """Reproduce the canonical git blob hash, including its type/length prefix."""
     header = b"blob " + str(len(raw)).encode("ascii") + b"\0"
@@ -266,7 +273,8 @@ class RestoredWiringTests(unittest.TestCase):
                              or PR3550_V118_DIRECT_IMPORT_BLOB.get(rel.as_posix())
                              or PR3551_V119_CLASS_REDUCIBILITY_BLOB.get(rel.as_posix())
                              or PR3552_V120_SEGAL_BLOB.get(rel.as_posix())
-                             or PR3553_V121_V125_BOUNDED_BLOBS.get(rel.as_posix()))
+                             or PR3553_V121_V125_BOUNDED_BLOBS.get(rel.as_posix())
+                             or PR3554_V126_TYPED_TRANSPORT_BLOB.get(rel.as_posix()))
                 if fixed_sha is not None:
                     pinned_seen.add(rel.as_posix())
                     self.assertEqual(git_blob_sha(current), fixed_sha,
@@ -276,7 +284,7 @@ class RestoredWiringTests(unittest.TestCase):
                                      f'unreviewed theorem source change: {rel}')
         self.assertEqual(seen, set(LINT_ONLY_SOURCE_EDITS),
                          'reviewed lint edit targets must all exist in historical roots')
-        self.assertEqual(pinned_seen, set(PR2339_INTEGRATED_PROOF_BLOBS) | set(PR3522_FOCUSED_REPAIR_BLOBS) | set(PR3548_V16_LOCALLY_DISCRETE_BLOB) | set(PR3550_V118_DIRECT_IMPORT_BLOB) | set(PR3551_V119_CLASS_REDUCIBILITY_BLOB) | set(PR3552_V120_SEGAL_BLOB) | set(PR3553_V121_V125_BOUNDED_BLOBS),
+        self.assertEqual(pinned_seen, set(PR2339_INTEGRATED_PROOF_BLOBS) | set(PR3522_FOCUSED_REPAIR_BLOBS) | set(PR3548_V16_LOCALLY_DISCRETE_BLOB) | set(PR3550_V118_DIRECT_IMPORT_BLOB) | set(PR3551_V119_CLASS_REDUCIBILITY_BLOB) | set(PR3552_V120_SEGAL_BLOB) | set(PR3553_V121_V125_BOUNDED_BLOBS) | set(PR3554_V126_TYPED_TRANSPORT_BLOB),
                          'every preexisting integrated proof exception is explicit and accounted for')
 
     def test_f55_path_functor_composition_has_actual_path_homs(self):
