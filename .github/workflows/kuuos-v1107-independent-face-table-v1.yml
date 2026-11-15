@@ -1,0 +1,109 @@
+name: KuuOS v1.107 independent exact-source face transport Lean axioms
+
+on:
+  pull_request:
+    paths:
+      - "formal/KUOS/DependentOriginationDoubleDeloopingTypeAFourVisibleFaceTableV1_107.lean"
+      - "scripts/kuuos_v1107_four_stage_admission_v1.py"
+      - ".github/workflows/kuuos-v1107-independent-face-table-v1.yml"
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  v1107-independent-source-lean-axioms:
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.number == 3522 }}
+    runs-on: ubuntu-22.04
+    timeout-minutes: 90
+    env:
+      MATHLIB_NO_CACHE_ON_UPDATE: '1'
+    steps:
+      - name: Checkout immutable promoted parent source
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - name: Read immutable CodeAI direct Lean and real MCP producer evidence
+        uses: actions/download-artifact@v4
+        with:
+          name: kuuos-v1107-codeai-face-table-43693040574
+          run-id: 43693040574
+          github-token: ${{ github.token }}
+          path: /tmp/kuuos-v1107-evidence
+      - name: Verify candidate and exact provenance; MemoryOS cannot certify
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          EVIDENCE_DIR: /tmp/kuuos-v1107-evidence
+          PROMOTED_HEAD: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+          python3 -m py_compile scripts/kuuos_v1107_four_stage_admission_v1.py
+          PYTHONPATH=. python3 scripts/kuuos_v1107_four_stage_admission_v1.py
+      - name: Setup fixed Lean4.30.0-rc2
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Restore read-only pinned build cache
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake/build
+          key: kuuos-pr-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-pr3522-${{ github.event.pull_request.head.sha }}
+          restore-keys: |
+            kuuos-pr-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-pr3522-
+      - name: Resolve exact pinned mathlib
+        run: lake exe cache get
+      - name: Independently build entire v1.107 import closure under Strict Lean
+        run: |
+          set -euo pipefail
+          timeout 3000 lake -KleanArgs=-DwarningAsError=true -KleanArgs=-Dweak.sorryAsError=true build KUOS.DependentOriginationDoubleDeloopingTypeAFourVisibleFaceTableV1_107 2>&1 | tee /tmp/kuuos-v1107-independent/build.log
+      - name: Independently audit five face theorem declarations and axioms
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          prefix='KUOS.DependentOriginationDoubleDeloopingTypeAFourVisibleFaceTableV1_107.'
+          names=['natFourHorn_visible_face4_eq0123',
+                 'natFourHorn_visible_face3_eq0124',
+                 'natFourHorn_visible_face2_eq0134',
+                 'natFourHorn_visible_face1_eq0234',
+                 'natFourHorn_visible_face0_eq1234']
+          lines=['import KUOS.DependentOriginationDoubleDeloopingTypeAFourVisibleFaceTableV1_107','']
+          for name in names:
+              lines.extend(['#check '+prefix+name,'#print axioms '+prefix+name])
+          Path('/tmp/kuuos-v1107-independent/AxiomAudit.lean').write_text('\n'.join(lines)+'\n')
+          PY
+          lake env lean -DwarningAsError=true -Dweak.sorryAsError=true /tmp/kuuos-v1107-independent/AxiomAudit.lean 2>&1 | tee /tmp/kuuos-v1107-independent/axioms.log
+          python3 - <<'PY'
+          import json,re
+          from pathlib import Path
+          log=Path('/tmp/kuuos-v1107-independent/axioms.log').read_text()
+          assert not re.search(r'(?m)(warning:|error:|sorryAx)',log), 'Lean warning/error/sorryAx'
+          prefix='KUOS.DependentOriginationDoubleDeloopingTypeAFourVisibleFaceTableV1_107.'
+          names=['natFourHorn_visible_face4_eq0123','natFourHorn_visible_face3_eq0124',
+                 'natFourHorn_visible_face2_eq0134','natFourHorn_visible_face1_eq0234',
+                 'natFourHorn_visible_face0_eq1234']
+          for name in names: assert prefix+name in log, 'Missing required declaration '+name
+          axioms=set()
+          for group in re.findall(r'depends on axioms:\s*\[([^\]]*)\]',log,re.S):
+              axioms.update(x.strip() for x in group.split(',') if x.strip())
+          assert axioms.issubset({'propext','Classical.choice','Quot.sound'}),sorted(axioms)
+          receipt={'declarations_audited':5,'axioms':sorted(axioms),
+                   'sorryAx':False,'strict_lean':True,'warnings':0,'errors':0,
+                   'exact_source_blob':'37c3e75c5d74c74b8d125983c9cd257f9757995a'}
+          Path('/tmp/kuuos-v1107-independent/axiom_receipt.json').write_text(json.dumps(receipt,indent=2)+'\n')
+          print('KUUOS_V1107_INDEPENDENT_KERNEL_AUDIT_GREEN',receipt)
+          PY
+      - name: Archive exact independent certification or failure evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-v1107-independent-${{ github.run_id }}
+          path: /tmp/kuuos-v1107-independent/
+          if-no-files-found: warn
+          retention-days: 30
