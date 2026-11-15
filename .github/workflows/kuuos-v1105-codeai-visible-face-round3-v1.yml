@@ -10,8 +10,44 @@ permissions:
   contents: read
 
 jobs:
-  v1105-codeai-round3-direct-lean-mcp:
+  v1105_source_state:
+    name: Determine exact original versus promoted v1.105 proof source
     if: ${{ github.event_name == 'pull_request' && github.event.pull_request.number == 3522 }}
+    runs-on: ubuntu-22.04
+    timeout-minutes: 5
+    outputs:
+      needs_codegen: ${{ steps.check_source.outputs.needs_codegen }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - name: Check immutable v1.105 source Git blob
+        id: check_source
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import os,hashlib
+          target=Path('formal/KUOS/DependentOriginationDoubleDeloopingTypeAFourDimensionalFaceCoherenceV1_105.lean')
+          if not target.exists():
+              state='true'
+              stage='UNPROMOTED_PROPOSALS_ONLY'
+          else:
+              b=target.read_bytes()
+              blob=hashlib.sha1(b'blob '+str(len(b)).encode()+b'\0'+b).hexdigest()
+              if blob!='d6a8a8e2136c1a5601fa01c02f5f478fdd827520':
+                  raise RuntimeError('Unknown v1.105 source blob; do not bypass certification: '+blob)
+              state='false'
+              stage='EXACT_PROMOTED_PROOF_USE_INDEPENDENT_CI'
+          with open(os.environ['GITHUB_OUTPUT'],'a') as out:
+              print('needs_codegen='+state,file=out)
+          print('KUUOS_V1105_CODEAI_SOURCE_ROUTING',stage,state)
+          PY
+
+  v1105-codeai-round3-direct-lean-mcp:
+    needs: v1105_source_state
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.number == 3522 && needs.v1105_source_state.outputs.needs_codegen == 'true' }}
     runs-on: ubuntu-22.04
     timeout-minutes: 90
     env:
