@@ -21,6 +21,16 @@ The gate never mutates Git, does not call paid providers, and never emits indepe
 
 PIN: Lean v4.30.0-rc2; mathlib 5450b53e5ddc75d46418fabb605edbf36bd0beb6. Observed failure and NO_DATA remain recorded, not promoted to success.
 
+## Round-8 actual pinned-Lean-green candidate
+The `round7-finite-concrete-rfl` experiment generated the exact Git blob
+`bbbbf480721aa6d0a834c7fd5ad7690d0daff04e` and obtained exit code 0
+with an .olean under pinned Lean and warning/sorry errors in run #43658543815.
+This is not by itself a CodeAI admission, an MCP verification or independent
+CI certification. The new workflow deliberately reexecutes the actual CodeAI
+five-stage selection and the Lean MCP/full-source/direct Lean gate before
+allowing any source edit. Expected source blob remains
+`f7dcf6d9cddf3820b78c91375f0ec460874a7734`.
+
 ## Two candidate serialization paths (exact-source repair case)
 
 The standalone externally supplied Candidate Patch receipt and the autonomous

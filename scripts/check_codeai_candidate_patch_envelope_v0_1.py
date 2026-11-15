@@ -378,6 +378,6 @@ def main() -> None:
 if __name__ == "__main__":
     main()
     # For the exact parent repair PR, run the real-source CodeAI intake as well.
-    # Existing fixture checks remain intact; CodeAI round5 normalizes categorical 2-cell composites before finite case analysis.
+    # Existing fixture checks remain intact; CodeAI round8 tests exact pinned-Lean-green finite associator candidate via Lean MCP precommit gate.
     from scripts.codeai_pr3522_live_v195_candidate_v0_1 import run_if_parent_pr
     run_if_parent_pr()
