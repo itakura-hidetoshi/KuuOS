@@ -1,0 +1,48 @@
+{
+  "profile": "memoryos_codeai_lean_observations_v0_1",
+  "repository": "itakura-hidetoshi/KuuOS",
+  "authority": "external_pointer_only",
+  "curation_note": "Append-only actual v1.112 finite-index range failure observations from exact candidate CI #43758020568, artifact 14179736073. The two numeric Fin.ext tactic failures are observations; causes remain hypotheses. The baseline v1.111 fixed source 8456/8456 succeeded. MemoryOS has no kernel/CI/merge authority.",
+  "independent_certification_pointers": [],
+  "observations": [
+    {
+      "source_head": "d08cd92105a27679258cb08fd921f30d3491b27e",
+      "source_tree": "ea1ce28cf06a4ed90d15c6a2dde87a8315390124",
+      "imported_blob": "35dc6ddf9bcd6ecd4f7141674e75055c306dbfe9",
+      "variant": "round1-direct-cases",
+      "candidate_blob": "422493ec0595a20a12721f61f5fd961cc5fb6990",
+      "producer_run": 43758020568,
+      "outcome": "DIRECT_LEAN_FAILURE",
+      "errors": [
+        "formal/KUOS/DependentOriginationDoubleDeloopingTypeAAllDimensionsV1_112.lean:43:6: error: omega could not prove the goal:",
+        "formal/KUOS/DependentOriginationDoubleDeloopingTypeAAllDimensionsV1_112.lean:54:8: error: omega could not prove the goal:"
+      ]
+    },
+    {
+      "source_head": "d08cd92105a27679258cb08fd921f30d3491b27e",
+      "source_tree": "ea1ce28cf06a4ed90d15c6a2dde87a8315390124",
+      "imported_blob": "35dc6ddf9bcd6ecd4f7141674e75055c306dbfe9",
+      "variant": "round1-nonempty-four-bytheorem",
+      "candidate_blob": "fb17a6df8942938aaa440ea873218f64264ff6e3",
+      "producer_run": 43758020568,
+      "outcome": "DIRECT_LEAN_FAILURE",
+      "errors": [
+        "formal/KUOS/DependentOriginationDoubleDeloopingTypeAAllDimensionsV1_112.lean:43:6: error: omega could not prove the goal:",
+        "formal/KUOS/DependentOriginationDoubleDeloopingTypeAAllDimensionsV1_112.lean:54:8: error: omega could not prove the goal:"
+      ]
+    },
+    {
+      "source_head": "d08cd92105a27679258cb08fd921f30d3491b27e",
+      "source_tree": "ea1ce28cf06a4ed90d15c6a2dde87a8315390124",
+      "imported_blob": "35dc6ddf9bcd6ecd4f7141674e75055c306dbfe9",
+      "variant": "round1-simp-low-index",
+      "candidate_blob": "bd3e3b247ce74c8c0e7be25444f333da370f016a",
+      "producer_run": 43758020568,
+      "outcome": "DIRECT_LEAN_FAILURE",
+      "errors": [
+        "formal/KUOS/DependentOriginationDoubleDeloopingTypeAAllDimensionsV1_112.lean:43:6: error: omega could not prove the goal:",
+        "formal/KUOS/DependentOriginationDoubleDeloopingTypeAAllDimensionsV1_112.lean:54:8: error: omega could not prove the goal:"
+      ]
+    }
+  ]
+}

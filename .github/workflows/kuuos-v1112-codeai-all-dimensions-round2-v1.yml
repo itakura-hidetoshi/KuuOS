@@ -1,0 +1,84 @@
+name: KuuOS v1.112 CodeAI round2 finite-index typed RLP cases
+
+on:
+  pull_request:
+    paths:
+      - "scripts/kuuos_v1112_codeai_all_dimensions_round2_v1.py"
+      - "memoryos/external/github/2026/11/kuuos_codeai_lean_observations_v1112_round1_v1.json"
+      - ".github/workflows/kuuos-v1112-codeai-all-dimensions-round2-v1.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  v1112-round2-direct-lean-real-mcp:
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.ref == 'research/kuuos-typeA-all-dimensions-v112-20261116' && github.event.pull_request.base.ref == 'validation/kuuos-v1111-rlp-exact-source-20261115' }}
+    runs-on: ubuntu-22.04
+    timeout-minutes: 90
+    env:
+      MATHLIB_NO_CACHE_ON_UPDATE: '1'
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Confirm immutable MemoryOS failed original candidates
+        run: |
+          set -euo pipefail
+          PYTHONPATH=. python3 - <<'PY'
+          from pathlib import Path
+          from runtime.kuuos_codeai_lean_observation_intake_v0_2 import read_observation_directory
+          from runtime.kuuos_codeai_lean_observation_intake_v0_1 import read_observation_seed
+          base=Path('memoryos/external/github/2026/11')
+          rows=read_observation_directory(base)
+          new=read_observation_seed(base/'kuuos_codeai_lean_observations_v1112_round1_v1.json')
+          assert len(rows)>=44 and len(new)==3
+          assert len({x['id'] for x in rows})==len(rows)
+          assert all(x['outcome']=='DIRECT_LEAN_FAILURE' and x['causal_status']=='UNVERIFIED_HYPOTHESIS' for x in new)
+          print('KUUOS_V1112_EXACT_FAILURES_PRESERVED',len(rows))
+          PY
+      - name: Setup pinned Lean4.30.0-rc2
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Restore source-bound build cache read-only
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake/build
+          key: kuuos-pr-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-pr3522-${{ github.event.pull_request.head.sha }}
+          restore-keys: |
+            kuuos-pr-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-pr3522-
+      - name: Resolve fixed pinned mathlib
+        run: lake exe cache get
+      - name: Strict Lean imported v1.111 RLP closure
+        run: |
+          set -euo pipefail
+          timeout 3000 lake -KleanArgs=-DwarningAsError=true -KleanArgs=-Dweak.sorryAsError=true build KUOS.DependentOriginationDoubleDeloopingTypeAFourCocycleCompletionV1_111
+      - name: Install exact real Lean MCP compatibility transport
+        run: python3 -m pip install uv
+      - name: CodeAI 4 finite-index proof candidates, pinned direct Lean then green-only real Lean MCP
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          python3 -m py_compile scripts/kuuos_v1112_codeai_all_dimensions_round2_v1.py
+          PYTHONPATH=. python3 scripts/kuuos_v1112_codeai_all_dimensions_round2_v1.py
+      - name: Archive Lean source-bound failures and real MCP receipts (not certification)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-v1112-codeai-all-dimensions-round2-${{ github.run_id }}
+          path: |
+            /tmp/kuuos-v1112-codeai-round2/
+            /tmp/kuuos-v1112-real-mcp-round2/
+            /tmp/kuuos-v1112-memoryos-round2/
+          if-no-files-found: warn
+          retention-days: 30
