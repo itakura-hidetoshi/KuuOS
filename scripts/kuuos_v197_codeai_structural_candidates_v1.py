@@ -29,6 +29,7 @@ REPO = "itakura-hidetoshi/KuuOS"
 TARGET = "formal/KUOS/DependentOriginationDoubleDeloopingTypeBTetrahedralZeroV1_97.lean"
 MODULE = "KUOS.DependentOriginationDoubleDeloopingTypeBTetrahedralZeroV1_97"
 ORIGINAL_BLOB = "cbbcb93978571ab45df9708e9da3ca2b52ac42f5"
+PROMOTED_BLOB = "2ee902a37f15d1c9d2068f053375482188a90ed4"
 PREFIX = "open KUOS.DependentOriginationDoubleDeloopingThinComparisonZeroV1_96\n"
 
 
@@ -335,6 +336,35 @@ def main() -> int:
     head,branch,tree=require_event()
     source_path=ROOT/TARGET
     original=source_path.read_bytes()
+    # Promoted round3 exact Green code is re-elaborated from the same source
+    # byte blob. Do not run a diff generator against the already-repaired source.
+    if git_blob(original) == PROMOTED_BLOB:
+        record=source_observation(head,branch,tree,original)
+        output=Path("/tmp/kuuos-v197-codeai-type-probes")
+        output.mkdir(parents=True,exist_ok=False)
+        with tempfile.TemporaryDirectory(prefix="v197-promoted-lean-") as td:
+            done=subprocess.run([
+                "lake","env","lean","-DwarningAsError=true",
+                "-Dweak.sorryAsError=true","-o",td+"/promoted.olean",TARGET,
+            ],cwd=ROOT,capture_output=True,text=True,check=False,timeout=300)
+            olean_exists=Path(td+"/promoted.olean").is_file()
+        log=done.stdout+"\n"+done.stderr
+        (output/"promoted-direct-lean.log").write_text(log,encoding="utf-8")
+        row={
+            "source_head":head,"source_tree":tree,
+            "original_blob":ORIGINAL_BLOB,"promoted_blob":PROMOTED_BLOB,
+            "observation_receipt":record[obs.RECEIPT_DIGEST_FIELD],
+            "status":"SUCCESS" if done.returncode==0 and olean_exists else "FAILURE",
+            "exit_code":done.returncode,"olean_exists":olean_exists,
+            "source_restored":source_path.read_bytes()==original,
+            "log_sha256":sha256(log.encode("utf-8")),
+            "independent_ci_certified":False,
+        }
+        (output/"portfolio_receipt.json").write_text(
+            json.dumps(row,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
+        print("KUUOS_V197_PROMOTED_EXACT_BLOB_DIRECT_LEAN "+
+              json.dumps(row,sort_keys=True))
+        return 0 if row["status"]=="SUCCESS" and row["source_restored"] else 2
     if git_blob(original)!=ORIGINAL_BLOB:
         raise RuntimeError("v1.97 original exact-source blob drift")
     record=source_observation(head,branch,tree,original)

@@ -153,6 +153,11 @@ REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
     # zero errors, olean generated. Exact-source independent CI still required;
     # this enrollment is provenance/integrity, not proof authority.
     "KUOS/DependentOriginationDoubleDeloopingThinComparisonZeroV1_96.lean": "c931af7699061a67e73f52e12d4a233f98cb1a5c",
+    # v1.97 original archived source remains frozen at cbbcb93978571ab45df9708e9da3ca2b52ac42f5.
+    # CodeAI round3 direct Lean run #43668035830: zero errors and olean; source
+    # blob selected exactly 2ee902a37f15d1c9d2068f053375482188a90ed4.
+    # Enrollment is exact-byte provenance ONLY, not independent CI authority.
+    "KUOS/DependentOriginationDoubleDeloopingTypeBTetrahedralZeroV1_97.lean": "2ee902a37f15d1c9d2068f053375482188a90ed4",
     # Original V1_89 pinned source: f5d06299e825ef784a7df25386b062b80c702f12 (retained in Git history).
     "KUOS/DependentOriginationStandardArbitraryScalingWaypointV1_89.lean": "3b5de0a154436be6598a49861435dc57a80ea2f9",
     "KUOS/DependentOriginationStandardTypeAEndpointOppositeCellCertificateV1_77.lean": "e7d422b89b4a4fa5180790b0c5d49c51b7239786",

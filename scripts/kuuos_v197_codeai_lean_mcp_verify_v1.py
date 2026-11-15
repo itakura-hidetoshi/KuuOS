@@ -43,9 +43,14 @@ def main() -> int:
     require_pins(ROOT)
     source_path = ROOT / TARGET
     original = source_path.read_bytes()
-    if git_blob(original) != ORIGINAL_BLOB:
-        raise RuntimeError("original v1.97 source blob drift")
-    new_source = variants(original.decode("utf-8"))[CANDIDATE].encode("utf-8")
+    source_blob = git_blob(original)
+    if source_blob == EXACT_CANDIDATE_BLOB:
+        # Already promoted exact bytes; reobserve them through real Lean MCP.
+        new_source = original
+    elif source_blob == ORIGINAL_BLOB:
+        new_source = variants(original.decode("utf-8"))[CANDIDATE].encode("utf-8")
+    else:
+        raise RuntimeError("unrecognized v1.97 source blob: "+source_blob)
     if git_blob(new_source) != EXACT_CANDIDATE_BLOB:
         raise RuntimeError("CodeAI candidate != pinned directly compiled blob")
     old_decls = [(d["kind"], d["name_lexical"]) for d in
@@ -61,7 +66,8 @@ def main() -> int:
     receipt = {
         "schema": "kuuos-v197-codeai-mcp-direct-precommit-v1",
         "source_head": source_head, "branch": branch,
-        "original_blob": ORIGINAL_BLOB, "candidate_blob": EXACT_CANDIDATE_BLOB,
+        "original_blob": ORIGINAL_BLOB, "actual_source_blob": source_blob,
+        "candidate_blob": EXACT_CANDIDATE_BLOB,
         "source_restored": False, "mcp_complete": False,
         "mcp_diagnostic_errors": None, "direct_lean_success": False,
         "independent_ci_certified": False, "git_write_performed": False,

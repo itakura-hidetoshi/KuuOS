@@ -42,16 +42,17 @@ theorem natDuskin_mapComp_additive_cocycle
     (sigma : DuskinSimplex NatDoubleDelooping n)
     {a b c d : DuskinOrdinal n}
     (f : a ⟶ b) (g : b ⟶ c) (h : c ⟶ d) :
-    sigma.mapComp f g + sigma.mapComp (f ≫ g) h =
-      sigma.mapComp g h + sigma.mapComp f (g ≫ h) := by
+    Nat.add (sigma.mapComp f g) (sigma.mapComp (f ≫ g) h) =
+      Nat.add (sigma.mapComp g h) (sigma.mapComp f (g ≫ h)) := by
   have hcoh := sigma.map₂_associator f g h
-  have hmap₂ : sigma.map₂ (α_ f g h).hom = 0 :=
+  have hmap₂ : sigma.map₂ (α_ f g h).hom = (0 : Nat) :=
     natDuskin_map₂_eq_zero sigma _
-  rw [hmap₂] at hcoh
-  change
-    sigma.mapComp f g + sigma.mapComp (f ≫ g) h + 0 =
-      0 + sigma.mapComp g h + sigma.mapComp f (g ≫ h) at hcoh
-  omega
+  have hassoc :
+      (α_ (sigma.map f) (sigma.map g) (sigma.map h)).hom = (0 : Nat) :=
+    NatDoubleDelooping.isIso_twoCell_eq_zero _
+  rw [hmap₂, hassoc] at hcoh
+  simpa [CategoryStruct.comp, Bicategory.whiskerRight,
+    Bicategory.whiskerLeft, Nat.add_zero, Nat.zero_add] using hcoh
 
 /-- If the two labels on the left side of a tetrahedral cocycle equation are
 zero, both labels on the right side are zero. -/
@@ -60,11 +61,17 @@ theorem natDuskin_tetrahedron_zero_split
     (sigma : DuskinSimplex NatDoubleDelooping n)
     {a b c d : DuskinOrdinal n}
     (f : a ⟶ b) (g : b ⟶ c) (h : c ⟶ d)
-    (hfg : sigma.mapComp f g = 0)
-    (hfg_h : sigma.mapComp (f ≫ g) h = 0) :
-    sigma.mapComp g h = 0 ∧ sigma.mapComp f (g ≫ h) = 0 := by
+    (hfg : sigma.mapComp f g = (0 : Nat))
+    (hfg_h : sigma.mapComp (f ≫ g) h = (0 : Nat)) :
+    sigma.mapComp g h = (0 : Nat) ∧ sigma.mapComp f (g ≫ h) = (0 : Nat) := by
   have hcocycle := natDuskin_mapComp_additive_cocycle sigma f g h
-  omega
+  have hsum :
+      Nat.add (sigma.mapComp g h) (sigma.mapComp f (g ≫ h)) = (0 : Nat) := by
+    calc
+      _ = Nat.add (sigma.mapComp f g) (sigma.mapComp (f ≫ g) h) := hcocycle.symm
+      _ = Nat.add (0 : Nat) (0 : Nat) := by rw [hfg, hfg_h]
+      _ = 0 := by rfl
+  exact Nat.eq_zero_of_add_eq_zero hsum
 
 /-- If three labels in the tetrahedral equation vanish, the remaining
 left-hand label vanishes as well. -/
@@ -73,12 +80,19 @@ theorem natDuskin_tetrahedron_zero_remaining
     (sigma : DuskinSimplex NatDoubleDelooping n)
     {a b c d : DuskinOrdinal n}
     (f : a ⟶ b) (g : b ⟶ c) (h : c ⟶ d)
-    (hfg : sigma.mapComp f g = 0)
-    (hgh : sigma.mapComp g h = 0)
-    (houter : sigma.mapComp f (g ≫ h) = 0) :
-    sigma.mapComp (f ≫ g) h = 0 := by
+    (hfg : sigma.mapComp f g = (0 : Nat))
+    (hgh : sigma.mapComp g h = (0 : Nat))
+    (houter : sigma.mapComp f (g ≫ h) = (0 : Nat)) :
+    sigma.mapComp (f ≫ g) h = (0 : Nat) := by
   have hcocycle := natDuskin_mapComp_additive_cocycle sigma f g h
-  omega
+  rw [hfg] at hcocycle
+  have hsum :
+      Nat.add (0 : Nat) (sigma.mapComp (f ≫ g) h) = (0 : Nat) := by
+    calc
+      _ = Nat.add (sigma.mapComp g h) (sigma.mapComp f (g ≫ h)) := hcocycle
+      _ = Nat.add (0 : Nat) (0 : Nat) := by rw [hgh, houter]
+      _ = 0 := by rfl
+  exact (Nat.eq_zero_of_add_eq_zero hsum).2
 
 /-! ## The seven type-(B) labels inside a Duskin four-simplex -/
 
@@ -142,19 +156,23 @@ def natFourLabel034
 `124` and the target-only label `014` to vanish. -/
 theorem natFour_first_typeB_tetrahedron_zero
     (sigma : DuskinSimplex NatDoubleDelooping 4)
-    (h012 : natFourLabel012 sigma = 0)
-    (h024 : natFourLabel024 sigma = 0) :
-    natFourLabel124 sigma = 0 ∧ natFourLabel014 sigma = 0 := by
+    (h012 : natFourLabel012 sigma = (0 : Nat))
+    (h024 : natFourLabel024 sigma = (0 : Nat)) :
+    natFourLabel124 sigma = (0 : Nat) ∧ natFourLabel014 sigma = (0 : Nat) := by
   let e01 := natFourEdge (i := (0 : Fin 5)) (j := 1) (by decide)
   let e12 := natFourEdge (i := (1 : Fin 5)) (j := 2) (by decide)
   let e24 := natFourEdge (i := (2 : Fin 5)) (j := 4) (by decide)
   let e02 := natFourEdge (i := (0 : Fin 5)) (j := 2) (by decide)
   let e14 := natFourEdge (i := (1 : Fin 5)) (j := 4) (by decide)
-  have he02 : e01 ≫ e12 = e02 := Subsingleton.elim _ _
-  have he14 : e12 ≫ e24 = e14 := Subsingleton.elim _ _
-  have h012' : sigma.mapComp e01 e12 = 0 := by
+  have he02 : e01 ≫ e12 = e02 := by
+    apply Discrete.ext
+    exact Subsingleton.elim _ _
+  have he14 : e12 ≫ e24 = e14 := by
+    apply Discrete.ext
+    exact Subsingleton.elim _ _
+  have h012' : sigma.mapComp e01 e12 = (0 : Nat) := by
     simpa [natFourLabel012, e01, e12] using h012
-  have h024' : sigma.mapComp (e01 ≫ e12) e24 = 0 := by
+  have h024' : sigma.mapComp (e01 ≫ e12) e24 = (0 : Nat) := by
     rw [he02]
     simpa [natFourLabel024, e02, e24] using h024
   rcases natDuskin_tetrahedron_zero_split sigma e01 e12 e24 h012' h024' with
@@ -168,22 +186,26 @@ theorem natFour_first_typeB_tetrahedron_zero
 target-only label `034` to vanish. -/
 theorem natFour_second_typeB_tetrahedron_zero
     (sigma : DuskinSimplex NatDoubleDelooping 4)
-    (h013 : natFourLabel013 sigma = 0)
-    (h134 : natFourLabel134 sigma = 0)
-    (h014 : natFourLabel014 sigma = 0) :
-    natFourLabel034 sigma = 0 := by
+    (h013 : natFourLabel013 sigma = (0 : Nat))
+    (h134 : natFourLabel134 sigma = (0 : Nat))
+    (h014 : natFourLabel014 sigma = (0 : Nat)) :
+    natFourLabel034 sigma = (0 : Nat) := by
   let e01 := natFourEdge (i := (0 : Fin 5)) (j := 1) (by decide)
   let e13 := natFourEdge (i := (1 : Fin 5)) (j := 3) (by decide)
   let e34 := natFourEdge (i := (3 : Fin 5)) (j := 4) (by decide)
   let e03 := natFourEdge (i := (0 : Fin 5)) (j := 3) (by decide)
   let e14 := natFourEdge (i := (1 : Fin 5)) (j := 4) (by decide)
-  have he03 : e01 ≫ e13 = e03 := Subsingleton.elim _ _
-  have he14 : e13 ≫ e34 = e14 := Subsingleton.elim _ _
-  have h013' : sigma.mapComp e01 e13 = 0 := by
+  have he03 : e01 ≫ e13 = e03 := by
+    apply Discrete.ext
+    exact Subsingleton.elim _ _
+  have he14 : e13 ≫ e34 = e14 := by
+    apply Discrete.ext
+    exact Subsingleton.elim _ _
+  have h013' : sigma.mapComp e01 e13 = (0 : Nat) := by
     simpa [natFourLabel013, e01, e13] using h013
-  have h134' : sigma.mapComp e13 e34 = 0 := by
+  have h134' : sigma.mapComp e13 e34 = (0 : Nat) := by
     simpa [natFourLabel134, e13, e34] using h134
-  have h014' : sigma.mapComp e01 (e13 ≫ e34) = 0 := by
+  have h014' : sigma.mapComp e01 (e13 ≫ e34) = (0 : Nat) := by
     rw [he14]
     simpa [natFourLabel014, e01, e14] using h014
   have h034 :=
@@ -197,11 +219,11 @@ both target-only labels to vanish.  The fifth standard source triangle `123`
 is compatible but not needed for this implication. -/
 theorem natFour_typeB_target_zero_of_source_zero
     (sigma : DuskinSimplex NatDoubleDelooping 4)
-    (h012 : natFourLabel012 sigma = 0)
-    (h024 : natFourLabel024 sigma = 0)
-    (h013 : natFourLabel013 sigma = 0)
-    (h134 : natFourLabel134 sigma = 0) :
-    natFourLabel014 sigma = 0 ∧ natFourLabel034 sigma = 0 := by
+    (h012 : natFourLabel012 sigma = (0 : Nat))
+    (h024 : natFourLabel024 sigma = (0 : Nat))
+    (h013 : natFourLabel013 sigma = (0 : Nat))
+    (h134 : natFourLabel134 sigma = (0 : Nat)) :
+    natFourLabel014 sigma = (0 : Nat) ∧ natFourLabel034 sigma = (0 : Nat) := by
   have hfirst := natFour_first_typeB_tetrahedron_zero sigma h012 h024
   have h014 := hfirst.2
   exact ⟨h014,
