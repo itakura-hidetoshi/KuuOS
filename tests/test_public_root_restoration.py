@@ -68,6 +68,13 @@ PR3551_V119_CLASS_REDUCIBILITY_BLOB = {
 }
 
 
+# v1.20 exact Lean 4 class reducibility + typed inverse-equivalence repair.
+# Git blob identity is provenance, not axiom-free proof certification.
+PR3552_V120_SEGAL_BLOB = {
+    "KUOS/DependentOriginationCompleteSegalInfinityTwoV1_20.lean": "835f9b5cec404f31d27b512dac56a6cef77791bb",
+}
+
+
 def git_blob_sha(raw: bytes) -> str:
     """Reproduce the canonical git blob hash, including its type/length prefix."""
     header = b"blob " + str(len(raw)).encode("ascii") + b"\0"
@@ -246,7 +253,8 @@ class RestoredWiringTests(unittest.TestCase):
                              or PR3522_FOCUSED_REPAIR_BLOBS.get(rel.as_posix())
                              or PR3548_V16_LOCALLY_DISCRETE_BLOB.get(rel.as_posix())
                              or PR3550_V118_DIRECT_IMPORT_BLOB.get(rel.as_posix())
-                             or PR3551_V119_CLASS_REDUCIBILITY_BLOB.get(rel.as_posix()))
+                             or PR3551_V119_CLASS_REDUCIBILITY_BLOB.get(rel.as_posix())
+                             or PR3552_V120_SEGAL_BLOB.get(rel.as_posix()))
                 if fixed_sha is not None:
                     pinned_seen.add(rel.as_posix())
                     self.assertEqual(git_blob_sha(current), fixed_sha,
@@ -256,7 +264,7 @@ class RestoredWiringTests(unittest.TestCase):
                                      f'unreviewed theorem source change: {rel}')
         self.assertEqual(seen, set(LINT_ONLY_SOURCE_EDITS),
                          'reviewed lint edit targets must all exist in historical roots')
-        self.assertEqual(pinned_seen, set(PR2339_INTEGRATED_PROOF_BLOBS) | set(PR3522_FOCUSED_REPAIR_BLOBS) | set(PR3548_V16_LOCALLY_DISCRETE_BLOB) | set(PR3550_V118_DIRECT_IMPORT_BLOB) | set(PR3551_V119_CLASS_REDUCIBILITY_BLOB),
+        self.assertEqual(pinned_seen, set(PR2339_INTEGRATED_PROOF_BLOBS) | set(PR3522_FOCUSED_REPAIR_BLOBS) | set(PR3548_V16_LOCALLY_DISCRETE_BLOB) | set(PR3550_V118_DIRECT_IMPORT_BLOB) | set(PR3551_V119_CLASS_REDUCIBILITY_BLOB) | set(PR3552_V120_SEGAL_BLOB),
                          'every preexisting integrated proof exception is explicit and accounted for')
 
     def test_f55_path_functor_composition_has_actual_path_homs(self):
