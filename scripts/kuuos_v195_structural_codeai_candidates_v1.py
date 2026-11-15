@@ -91,9 +91,27 @@ def variants(source: str) -> dict[str, str]:
       simp_all [natTriangleMapComp, NatOneCell.comp_eq_add] <;> omega"""),
       "original-dsimp-projections": (False, BASIC_PREFIX + """    dsimp only [Bicategory.whiskerRight, Bicategory.whiskerLeft, Bicategory.associator]
 """ + ARITH + CASES),
+      # The preceding exact Lean experiment established that dsimp eliminates
+      # both whiskerings and exposes Iso.refl. Normalize the latter explicitly
+      # before attempting finite ordinal arithmetic.
+      "round6-dsimp-iso-simp-cases": (False, BASIC_PREFIX + """    dsimp only [Bicategory.whiskerRight, Bicategory.whiskerLeft, Bicategory.associator]
+    simp only [Iso.refl_hom, NatOneCell.comp_eq_add, NatOneCell.id_eq_zero,
+      Nat.add_zero, Nat.zero_add]
+""" + CASES),
+      "round6-dsimp-iso-simp-split": (False, BASIC_PREFIX + """    dsimp only [Bicategory.whiskerRight, Bicategory.whiskerLeft, Bicategory.associator]
+    simp only [Iso.refl_hom, NatOneCell.comp_eq_add, NatOneCell.id_eq_zero,
+      Nat.add_zero, Nat.zero_add, natTriangleMapComp]
+    split_ifs <;> omega"""),
+      "round6-dsimp-iso-change-cases": (False, BASIC_PREFIX + """    dsimp only [Bicategory.whiskerRight, Bicategory.whiskerLeft, Bicategory.associator]
+    simp only [Iso.refl_hom, NatOneCell.comp_eq_add, NatOneCell.id_eq_zero]
+""" + ARITH + CASES),
     }
     result = {}
     for name,(change_whiskers,assoc) in specs.items():
+        # Round-5 outcomes are immutable in CI #43657758138. Probe only
+        # newly derived round-6 variants; retain the earlier portfolio as data.
+        if not name.startswith("round6-"):
+            continue
         text = source.replace(ASSOC_BEFORE,assoc)
         if change_whiskers:
             text = text.replace(WHISKERS_BEFORE,WHISKERS_AFTER)
