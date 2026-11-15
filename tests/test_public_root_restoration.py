@@ -144,7 +144,10 @@ REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
     # Previous reviewed source blob: c51cbc33e9897252f6893f4c00c352fdd6369e00 (Git history).
     # v1.95: third CodeAI selected and isolated candidate; receipt b35e8a3d094e7dd77fdad5ca1a9b6fd5ab0a3099386cd91c0746f166cbfb3224.
     # Previous reviewed source blob: 55f0fd1aff12e2450003b0355d983013fd4ed3a3 (Git history).
-    "KUOS/DependentOriginationDoubleDeloopingNatNonthinDuskinWitnessV1_95.lean": "f7dcf6d9cddf3820b78c91375f0ec460874a7734",
+    # v1.95: exact CodeAI selected and isolated finite-concrete-rfl candidate.
+    # Source-bound MCP+direct Lean precommit receipt 0a98a2007dfcc4a74259802fe2d5aaf867e1e6dd879d032b1dc5af18b36bcd7c (parent b52b40db).
+    # Previous reviewed source Git blob f7dcf6d9cddf3820b78c91375f0ec460874a7734 (Git history).
+    "KUOS/DependentOriginationDoubleDeloopingNatNonthinDuskinWitnessV1_95.lean": "bbbbf480721aa6d0a834c7fd5ad7690d0daff04e",
     # Original V1_89 pinned source: f5d06299e825ef784a7df25386b062b80c702f12 (retained in Git history).
     "KUOS/DependentOriginationStandardArbitraryScalingWaypointV1_89.lean": "3b5de0a154436be6598a49861435dc57a80ea2f9",
     "KUOS/DependentOriginationStandardTypeAEndpointOppositeCellCertificateV1_77.lean": "e7d422b89b4a4fa5180790b0c5d49c51b7239786",
