@@ -192,12 +192,49 @@ def variants(source: str) -> dict[str,str]:
         if universe.count(occurrence)!=1:
             raise RuntimeError("presentation endpoint source drift: "+name)
         universe=universe.replace(occurrence,occurrence+".{0}")
-    # Research-only: expression annotations affect lexical signatures but are
-    # mathematically definitionally Nat (proven by `rfl` on exact Hom types).
-    # Full Lean+Lean MCP and independent CI remain mandatory before adoption.
+    # mapId_isIso is in pinned mathlib, but synthesis for sigma.mapId is
+    # not automatic. Rewrite via the *explicit* structural certificate.
+    rewritten=universe
+    for obj,label in (("a","Left"),("b","Right")):
+        old=f"""  have hmapId : sigma.mapId {obj} = (0 : Nat) :=
+    NatDoubleDelooping.isIso_twoCell_eq_zero _
+  rw [hmap₂, h{label}Unitor, hmapId] at h"""
+        new=f"""  have hmapId : sigma.mapId {obj} = (0 : Nat) := by
+    rw [StrictlyUnitaryLaxFunctor.mapId_eq_eqToHom]
+    exact NatDoubleDelooping.isIso_twoCell_eq_zero _
+  rw [hmap₂, h{label}Unitor, hmapId] at h"""
+        if rewritten.count(old)!=1:
+            raise RuntimeError("mapId source drift: "+obj)
+        rewritten=rewritten.replace(old,new)
+
+    add_form=rewritten
+    for obj,label in (("a","Left"),("b","Right")):
+        comp = "sigma.mapComp (𝟙 a) g" if obj=="a" else "sigma.mapComp f (𝟙 b)"
+        old=f"""  rw [hmap₂, h{label}Unitor, hmapId] at h
+  simpa using h.symm"""
+        new=f"""  rw [hmap₂, h{label}Unitor, hmapId] at h
+  change (0 : Nat) = Nat.add (Nat.add 0 0) ({comp}) at h
+  simpa only [Nat.zero_add] using h.symm"""
+        if add_form.count(old)!=1:
+            raise RuntimeError("unit normalization source drift: "+obj)
+        add_form=add_form.replace(old,new)
+
+    simp_form=rewritten
+    for obj,label in (("a","Left"),("b","Right")):
+        old=f"""  rw [hmap₂, h{label}Unitor, hmapId] at h
+  simpa using h.symm"""
+        new=f"""  rw [hmap₂, h{label}Unitor, hmapId] at h
+  simpa [CategoryStruct.comp, Bicategory.whiskerRight, Bicategory.whiskerLeft] using h.symm"""
+        if simp_form.count(old)!=1:
+            raise RuntimeError("simp unit normalization drift: "+obj)
+        simp_form=simp_form.replace(old,new)
+
+    # Research only. No signature-changing source is adopted before fixed Lean
+    # kernel + MCP and source-bound independent CI verify the exact candidate.
     return {
-        "round5-mapId-isIso-zero":mapid,
-        "round5-mapId-isIso-zero-universe0":universe,
+        "round6-explicit-mapId-eqToHom":rewritten,
+        "round6-explicit-mapId-Nat-add-goal":add_form,
+        "round6-explicit-mapId-simp-goal":simp_form,
     }
 
 
