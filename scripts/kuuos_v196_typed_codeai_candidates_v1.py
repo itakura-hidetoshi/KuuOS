@@ -102,7 +102,8 @@ def variants(source: str) -> dict[str,str]:
     )
     # Use the exact pinned Nat kernel API instead of omega on an abstract
     # Quiver Hom (which is *definitionally* Nat, but is not recognized by omega).
-    arith_before = "    change Nat.add alpha (inv alpha) = (0 : Nat) at hinv\\n    omega"
+    arith_before = """    change Nat.add alpha (inv alpha) = (0 : Nat) at hinv
+    omega"""
     arith_after = """    change Nat.add alpha (inv alpha) = (0 : Nat) at hinv
     exact (Nat.eq_zero_of_add_eq_zero hinv).1"""
     if typed_add.count(arith_before)!=1:
