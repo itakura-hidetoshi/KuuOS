@@ -20,6 +20,7 @@ ROOT = Path(__file__).resolve().parents[1]
 REPO = "itakura-hidetoshi/KuuOS"
 TARGET = "formal/KUOS/DependentOriginationDoubleDeloopingThinComparisonZeroV1_96.lean"
 SOURCE_BLOB = "0c2c9f3599692613ea0c81d61b73e2a2b8d2d102"
+PROMOTED_SOURCE_BLOB = "c931af7699061a67e73f52e12d4a233f98cb1a5c"
 PREFIX = """import KUOS.DependentOriginationDoubleDeloopingNatNonthinDuskinWitnessV1_95
 open CategoryTheory
 open CategoryTheory.Category
@@ -79,14 +80,15 @@ def main() -> int:
         raise RuntimeError("wrong target PR")
     head = event["pull_request"]["head"]["sha"]
     source = (ROOT/TARGET).read_bytes()
-    if git_blob(source) != SOURCE_BLOB:
+    current_blob = git_blob(source)
+    if current_blob not in (SOURCE_BLOB, PROMOTED_SOURCE_BLOB):
         raise RuntimeError("source blob drift")
     out = Path("/tmp/kuuos-v196-hom-universe-probes")
     out.mkdir(parents=True,exist_ok=False)
     receipt = {
         "schema": "kuuos-v196-source-bound-hom-probe-v1",
         "source_head": head,
-        "source_git_blob": SOURCE_BLOB,
+        "source_git_blob": current_blob,
         "source_sha256": sha256(source),
         "source_restored": None,
         "git_mutated": False,

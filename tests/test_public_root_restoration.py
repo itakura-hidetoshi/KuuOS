@@ -148,6 +148,38 @@ REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
     # Source-bound MCP+direct Lean precommit receipt 0a98a2007dfcc4a74259802fe2d5aaf867e1e6dd879d032b1dc5af18b36bcd7c (parent b52b40db).
     # Previous reviewed source Git blob f7dcf6d9cddf3820b78c91375f0ec460874a7734 (Git history).
     "KUOS/DependentOriginationDoubleDeloopingNatNonthinDuskinWitnessV1_95.lean": "bbbbf480721aa6d0a834c7fd5ad7690d0daff04e",
+    # v1.96 original source blob 0c2c9f3599692613ea0c81d61b73e2a2b8d2d102 remains in frozen legacy.
+    # Exact CodeAI round6 source verified by pinned Lean: run 43665265347,
+    # zero errors, olean generated. Exact-source independent CI still required;
+    # this enrollment is provenance/integrity, not proof authority.
+    "KUOS/DependentOriginationDoubleDeloopingThinComparisonZeroV1_96.lean": "c931af7699061a67e73f52e12d4a233f98cb1a5c",
+    # v1.97 original archived source remains frozen at cbbcb93978571ab45df9708e9da3ca2b52ac42f5.
+    # CodeAI round3 direct Lean run #43668035830: zero errors and olean; source
+    # blob selected exactly 2ee902a37f15d1c9d2068f053375482188a90ed4.
+    # Enrollment is exact-byte provenance ONLY, not independent CI authority.
+    "KUOS/DependentOriginationDoubleDeloopingTypeBTetrahedralZeroV1_97.lean": "2ee902a37f15d1c9d2068f053375482188a90ed4",
+    # v1.98 original blob f6b5a1bcbc2953a17c7378cd6bc5f5bb6f77fac5 remains frozen.
+    # CodeAI round2 direct Lean run #43669968278: zero errors, .olean emitted.
+    # This exact-byte enrollment is provenance, not proof or merge authority.
+    "KUOS/DependentOriginationDoubleDeloopingTypeBTerminalRLPV1_98.lean": "32da66bfda254ad9e608e0174443b4c45310579a",
+    # v1.99 former source blob 2519e63d60f9b4756204bcff3cd36fe94644d7a3
+    # remains in frozen legacy; CodeAI v1.99 direct Lean #43671463291
+    # had zero errors and .olean. This SHA enrollment is only source provenance.
+    "KUOS/DependentOriginationDoubleDeloopingHornCoherenceLowDimV1_99.lean": "dfbbfa7a1b2d82619ae9985a54a140ed0c13a3f1",
+    # v1.100 original blob 9f5e548a5cbd101f29f4a8c45871874c73355e82 stays frozen in legacy.
+    # CodeAI v1.100 round5 direct Lean run #43676394335: 0 errors, olean produced;
+    # exact candidate Git blob ca3b4d01207ecc01678bf630af21488f20584bca. Enrollment is provenance only.
+    "KUOS/DependentOriginationDoubleDeloopingNormalizedCocycleRealizationV1_100.lean": "ca3b4d01207ecc01678bf630af21488f20584bca",
+    # v1.101 original source blob dfc083198b2fdbb29adf64106785b5d7f98ab4af
+    # remains frozen in legacy. CodeAI round2 exact Lean CI #43678084721
+    # was 0-error with .olean on blob 14bdc82293c14a367d9d7572ffb7b41c85eccdfe.
+    # This enrollment records provenance, not independent proof authority.
+    "KUOS/DependentOriginationDoubleDeloopingTypeACocycleLiftingV1_101.lean": "14bdc82293c14a367d9d7572ffb7b41c85eccdfe",
+    # v1.102 source is frozen at original 7274ceba97bb4bf7b3aaffa9862952d79cf6f4c3.
+    # CodeAI round3 pinned Lean compiler run #43680786066:
+    # candidate 243be7591b65a5b91361dfdd48f80104dc455ee4, zero direct errors and olean.
+    # Enrollment records exact source byte provenance, not CI authority.
+    "KUOS/DependentOriginationDoubleDeloopingTypeALowDimensionalFillersV1_102.lean": "243be7591b65a5b91361dfdd48f80104dc455ee4",
     # Original V1_89 pinned source: f5d06299e825ef784a7df25386b062b80c702f12 (retained in Git history).
     "KUOS/DependentOriginationStandardArbitraryScalingWaypointV1_89.lean": "3b5de0a154436be6598a49861435dc57a80ea2f9",
     "KUOS/DependentOriginationStandardTypeAEndpointOppositeCellCertificateV1_77.lean": "e7d422b89b4a4fa5180790b0c5d49c51b7239786",

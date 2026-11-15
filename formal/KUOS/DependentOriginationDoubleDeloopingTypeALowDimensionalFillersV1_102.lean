@@ -19,6 +19,8 @@ open KUOS.DependentOriginationDoubleDeloopingHornCoherenceLowDimV1_99
 open KUOS.DependentOriginationDoubleDeloopingNormalizedCocycleRealizationV1_100
 open KUOS.DependentOriginationDoubleDeloopingTypeACocycleLiftingV1_101
 
+attribute [local ext] StrictlyUnitaryLaxFunctor
+
 /-!
 # Literal low-dimensional type-(A) fillers for `B²ℕ` v1.102
 
@@ -53,7 +55,8 @@ theorem natDuskin_mapId_eq_zero
     {n : Nat}
     (sigma : DuskinSimplex NatDoubleDelooping n)
     (a : DuskinOrdinal n) :
-    sigma.mapId a = 0 := by
+    sigma.mapId a = (0 : Nat) := by
+  rw [StrictlyUnitaryLaxFunctor.mapId_eq_eqToHom]
   exact NatDoubleDelooping.isIso_twoCell_eq_zero _
 
 /-- In `B²ℕ`, all non-proof data of a Duskin simplex other than `mapComp` are
@@ -67,13 +70,14 @@ theorem natDuskinSimplex_eq_of_mapComp_eq
         (f : a ⟶ b) (g : b ⟶ c),
         sigma.mapComp f g = tau.mapComp f g) :
     sigma = tau := by
-  attribute [local ext] StrictlyUnitaryLaxFunctor
   ext
   · exact Subsingleton.elim _ _
   all_goals
     rw [heq_iff_eq]
     ext
     first
+    | (change (_ : NatOneCell) = (_ : NatOneCell)
+       exact Subsingleton.elim _ _)
     | exact Subsingleton.elim _ _
     | exact hcomp _ _
     | rw [natDuskin_map₂_eq_zero sigma, natDuskin_map₂_eq_zero tau]
@@ -99,13 +103,17 @@ theorem natDuskinTwoSimplex_eq_of_comparison_eq
   by_cases habEq : a.as = b.as
   · have habObj : a = b := LocallyDiscrete.ext habEq
     subst b
-    have hf : f = 𝟙 a := Subsingleton.elim _ _
+    have hf : f = 𝟙 a := by
+      apply Discrete.ext
+      exact Subsingleton.elim _ _
     rw [hf, natDuskin_mapComp_id_left_eq_zero sigma,
       natDuskin_mapComp_id_left_eq_zero tau]
   · by_cases hbcEq : b.as = c.as
     · have hbcObj : b = c := LocallyDiscrete.ext hbcEq
       subst c
-      have hg : g = 𝟙 b := Subsingleton.elim _ _
+      have hg : g = 𝟙 b := by
+        apply Discrete.ext
+        exact Subsingleton.elim _ _
       rw [hg, natDuskin_mapComp_id_right_eq_zero sigma,
         natDuskin_mapComp_id_right_eq_zero tau]
     · have hab : a.as ≤ b.as := f.as.le
@@ -119,12 +127,15 @@ theorem natDuskinTwoSimplex_eq_of_comparison_eq
         lt_of_le_of_ne hbc (fun h => hbcEq (Fin.ext h))
       have ha0 : a.as = (0 : Fin 3) := by
         apply Fin.ext
+        change a.as.val = 0
         omega
       have hb1 : b.as = (1 : Fin 3) := by
         apply Fin.ext
+        change b.as.val = 1
         omega
       have hc2 : c.as = (2 : Fin 3) := by
         apply Fin.ext
+        change c.as.val = 2
         omega
       have haObj : a = LocallyDiscrete.mk (0 : Fin 3) :=
         LocallyDiscrete.ext ha0
@@ -135,8 +146,12 @@ theorem natDuskinTwoSimplex_eq_of_comparison_eq
       subst a
       subst b
       subst c
-      have hf : f = edge01 := Subsingleton.elim _ _
-      have hg : g = edge12 := Subsingleton.elim _ _
+      have hf : f = edge01 := by
+        apply Discrete.ext
+        exact Subsingleton.elim _ _
+      have hg : g = edge12 := by
+        apply Discrete.ext
+        exact Subsingleton.elim _ _
       simpa [duskinComparison, hf, hg] using hcomparison
 
 /-! ## The degree-two filler -/
@@ -203,7 +218,7 @@ def natThreeCocycleOfLabels
   tetrahedron := by
     intro a b c d hab hbc hcd
     fin_cases a <;> fin_cases b <;> fin_cases c <;> fin_cases d <;>
-      simp_all [NatTetrahedronEquation] <;> omega
+      simp_all [NatTetrahedronEquation]
 
 @[simp]
 theorem natThreeCocycleOfLabels_label012
@@ -242,8 +257,8 @@ condition at inner index `1`. -/
 theorem natThreeCocycle_typeA_i1_zero
     (a013 a023 a123 : Nat)
     (hcoh : NatTetrahedronEquation 0 a013 a023 a123) :
-    (natThreeCocycleOfLabels 0 a013 a023 a123 hcoh).
-      TypeADistinguishedZero (1 : Fin 4) := by
+    KUOS.DependentOriginationDoubleDeloopingTypeACocycleLiftingV1_101.NatNormalizedDuskinCocycle.TypeADistinguishedZero
+      (natThreeCocycleOfLabels 0 a013 a023 a123 hcoh) (1 : Fin 4) := by
   intro a b c hab hbc hbi ha hc
   have hb : b.val = 1 := by simpa using congrArg Fin.val hbi
   have ha0 : a.val = 0 := by omega
@@ -255,13 +270,18 @@ condition at inner index `2`. -/
 theorem natThreeCocycle_typeA_i2_zero
     (a012 a013 a023 : Nat)
     (hcoh : NatTetrahedronEquation a012 a013 a023 0) :
-    (natThreeCocycleOfLabels a012 a013 a023 0 hcoh).
-      TypeADistinguishedZero (2 : Fin 4) := by
+    KUOS.DependentOriginationDoubleDeloopingTypeACocycleLiftingV1_101.NatNormalizedDuskinCocycle.TypeADistinguishedZero
+      (natThreeCocycleOfLabels a012 a013 a023 0 hcoh) (2 : Fin 4) := by
   intro a b c hab hbc hbi ha hc
   have hb : b.val = 2 := by simpa using congrArg Fin.val hbi
   have ha1 : a.val = 1 := by omega
   have hc3 : c.val = 3 := by omega
-  simp [natThreeCocycleOfLabels, ha1, hb, hc3]
+  have ha_eq_one : a = (1 : Fin 4) := by
+    apply Fin.ext
+    change a.val = 1
+    exact ha1
+  subst a
+  simp [natThreeCocycleOfLabels, hb, hc3]
 
 /-! ## Concrete codimension-one faces of the two 3-horns -/
 
@@ -357,7 +377,7 @@ theorem natTypeAThreeI1Label012_eq_zero
       natDoubleDeloopingScaledDuskin) :
     duskinComparison
       (f.map.app (op ⦋2⦌)
-        (SSet.horn.face (1 : Fin 4) (3 : Fin 4) (by decide))) = 0 := by
+        (SSet.horn.face (1 : Fin 4) (3 : Fin 4) (by decide))) = (0 : Nat) := by
   apply
     (natDuskin_thin_iff_comparison_eq_zero
       (f.map.app (op ⦋2⦌)
@@ -367,7 +387,8 @@ theorem natTypeAThreeI1Label012_eq_zero
     (standardTypeASimplexScaling (1 : Fin 4)).thin
       (SSet.horn.face (1 : Fin 4) (3 : Fin 4) (by decide)).val
   rw [typeAThree_i1_face3_val]
-  exact Or.inr (by simp [IsStandardTypeADistinguishedTriangle])
+  exact Or.inr (by simp [IsStandardTypeADistinguishedTriangle,
+    SSet.stdSimplex.triangle])
 
 /-- The additive completion cocycle for `Λ[3,1]`. -/
 def natTypeAThreeI1CompletionCocycle
@@ -488,7 +509,7 @@ theorem natTypeAThreeI2Label123_eq_zero
       natDoubleDeloopingScaledDuskin) :
     duskinComparison
       (f.map.app (op ⦋2⦌)
-        (SSet.horn.face (2 : Fin 4) (0 : Fin 4) (by decide))) = 0 := by
+        (SSet.horn.face (2 : Fin 4) (0 : Fin 4) (by decide))) = (0 : Nat) := by
   apply
     (natDuskin_thin_iff_comparison_eq_zero
       (f.map.app (op ⦋2⦌)
@@ -498,7 +519,8 @@ theorem natTypeAThreeI2Label123_eq_zero
     (standardTypeASimplexScaling (2 : Fin 4)).thin
       (SSet.horn.face (2 : Fin 4) (0 : Fin 4) (by decide)).val
   rw [typeAThree_i2_face0_val]
-  exact Or.inr (by simp [IsStandardTypeADistinguishedTriangle])
+  exact Or.inr (by simp [IsStandardTypeADistinguishedTriangle,
+    SSet.stdSimplex.triangle])
 
 /-- The additive completion cocycle for `Λ[3,2]`. -/
 def natTypeAThreeI2CompletionCocycle
