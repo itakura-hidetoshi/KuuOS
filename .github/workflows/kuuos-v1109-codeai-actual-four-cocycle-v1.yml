@@ -1,0 +1,68 @@
+name: KuuOS v1.109 MemoryOS CodeAI normalized actual four-horn cocycle
+
+on:
+  pull_request:
+    paths:
+      - "scripts/kuuos_v1109_codeai_actual_four_cocycle_v1.py"
+      - ".github/workflows/kuuos-v1109-codeai-actual-four-cocycle-v1.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  v1109-codeai-memoryos-fixed-lean-mcp:
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.number == 3522 }}
+    runs-on: ubuntu-22.04
+    timeout-minutes: 90
+    env:
+      MATHLIB_NO_CACHE_ON_UPDATE: '1'
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Setup pinned Lean 4.30.0-rc2
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Restore pinned build cache read-only
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake/build
+          key: kuuos-pr-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-pr3522-${{ github.event.pull_request.head.sha }}
+          restore-keys: |
+            kuuos-pr-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-pr3522-
+      - name: Resolve fixed mathlib
+        run: lake exe cache get
+      - name: Strict imported v1.108 full dependency closure
+        run: |
+          set -euo pipefail
+          timeout 2400 lake -KleanArgs=-DwarningAsError=true -KleanArgs=-Dweak.sorryAsError=true build KUOS.DependentOriginationDoubleDeloopingTypeAFourAllTetrahedraV1_108
+      - name: Install fixed real Lean MCP transport
+        run: python3 -m pip install uv
+      - name: CodeAI three candidates via MemoryOS then pinned direct Lean then real MCP only green
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          python3 -m py_compile scripts/kuuos_v1109_codeai_actual_four_cocycle_v1.py
+          PYTHONPATH=. python3 scripts/kuuos_v1109_codeai_actual_four_cocycle_v1.py
+      - name: Preserve all red green logs and hypothesis-only memory feedback
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-v1109-codeai-actual-cocycle-${{ github.run_id }}
+          path: |
+            /tmp/kuuos-v1109-codeai-actual-cocycle/
+            /tmp/kuuos-v1109-real-mcp-actual-cocycle/
+            /tmp/kuuos-v1109-memoryos/
+          retention-days: 30
+          if-no-files-found: warn
