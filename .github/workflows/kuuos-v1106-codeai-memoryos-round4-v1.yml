@@ -6,6 +6,8 @@ on:
       - "scripts/kuuos_v1106_codeai_memoryos_routed_v1.py"
       - "runtime/kuuos_codeai_lean_failure_memoryos_v0_1.py"
       - "runtime/kuuos_codeai_lean_observation_intake_v0_1.py"
+      - "runtime/kuuos_codeai_lean_observation_intake_v0_2.py"
+      - "memoryos/external/github/2026/11/kuuos_codeai_lean_observations_round4_v1.json"
       - "memoryos/external/github/2026/11/kuuos_codeai_lean_observations_v1.json"
       - ".github/workflows/kuuos-v1106-codeai-memoryos-round4-v1.yml"
 
@@ -13,8 +15,46 @@ permissions:
   contents: read
 
 jobs:
-  v1106-codeai-memoryos-round4-direct-lean-mcp:
+  v1106_source_state:
+    name: Route CodeAI only when no v1.106 proof is promoted
     if: ${{ github.event_name == 'pull_request' && github.event.pull_request.number == 3522 }}
+    runs-on: ubuntu-22.04
+    timeout-minutes: 5
+    outputs:
+      needs_codegen: ${{ steps.source.outputs.needs_codegen }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - name: Verify known promoted proof state without inferring CI authority
+        id: source
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib,os
+          p=Path('formal/KUOS/DependentOriginationDoubleDeloopingTypeAFourHornLabelTableV1_106.lean')
+          if not p.exists():
+              mode='true'; status='ABSENT_CANDIDATES_ALLOWED'
+          else:
+              b=p.read_bytes()
+              blob=hashlib.sha1(b'blob '+str(len(b)).encode()+b'\0'+b).hexdigest()
+              known={
+                 '99ca499c470ba7b190623ed9e90e3f8d2dfb8058',
+                 '27cf21597fed1650c26cb64e31d63d469e01f4b5'
+              }
+              if blob not in known:
+                  raise RuntimeError('Unknown v1.106 proof source: candidate regeneration cannot overwrite '+blob)
+              mode='false'; status='PROMOTED_KNOWN_LOCAL_CANDIDATE_USE_INDEPENDENT_CI'
+          with open(os.environ['GITHUB_OUTPUT'],'a') as f:
+              print('needs_codegen='+mode,file=f)
+          print('KUUOS_V1106_MEMORYOS_SOURCE_ROUTING',status,mode)
+          PY
+
+  v1106-codeai-memoryos-round4-direct-lean-mcp:
+    needs: v1106_source_state
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.number == 3522 && needs.v1106_source_state.outputs.needs_codegen == 'true' }}
     runs-on: ubuntu-22.04
     timeout-minutes: 90
     env:
