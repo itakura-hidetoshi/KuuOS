@@ -1,0 +1,129 @@
+{
+  "profile": "memoryos_codeai_lean_observations_v0_1",
+  "repository": "itakura-hidetoshi/KuuOS",
+  "authority": "external_pointer_only",
+  "curation_note": "Entries describe observed pinned Lean/CodeAI run results only. Suspected structural causes remain hypotheses; no truth/CI authority from this memory. Direct-Lean SUCCESS cases are only local facts here; separate independent certification pointers are not converted into proof authority.",
+  "independent_certification_pointers": [
+    {
+      "scope": "v1.104 only",
+      "run_id": 43686554613,
+      "exact_source_blob": "6c4c3a2243796aa19d494c685b1b52796feeb2dd",
+      "certified_head": "e4d324f5c5b4ea75e32085c9dfb252a59f645224"
+    },
+    {
+      "scope": "v1.105 only",
+      "run_id": 43688610764,
+      "exact_source_blob": "d6a8a8e2136c1a5601fa01c02f5f478fdd827520",
+      "certified_head": "cfcf4a6e225e46f048af38fa848baeae886241f6"
+    }
+  ],
+  "observations": [
+    {
+      "source_head": "9794c9e2845ce55e0677c67c1944ae43d935be88",
+      "source_tree": "f00a635f80027c5b53bdb8e8955c6b97031d9ed9",
+      "imported_blob": "ff2e6a09e2c064a23207ee1323bc14182c86d7cd",
+      "variant": "round1-finite-simp-all",
+      "candidate_blob": "600a96ee0dbffea74d18c9a1a6f67ef89a7479ec",
+      "producer_run": 43685081997,
+      "outcome": "DIRECT_LEAN_FAILURE",
+      "errors": [
+        "formal/KUOS/DependentOriginationDoubleDeloopingTypeAFourDimensionalCocycleV1_104.lean:42:23: error(lean.invalidField): Invalid field `strictLabel`",
+        "formal/KUOS/DependentOriginationDoubleDeloopingTypeAFourDimensionalCocycleV1_104.lean:51:17: error: (deterministic) timeout at `whnf`, maximum number of heartbeats (200000) has been reached"
+      ]
+    },
+    {
+      "source_head": "321614de94a3b306c094b343200a08b6b1ae4cea",
+      "source_tree": "0be29aaf41eaeeeea96987f1d3783fa3fa7bc60f",
+      "imported_blob": "ff2e6a09e2c064a23207ee1323bc14182c86d7cd",
+      "variant": "round1-finite-simp-omega",
+      "candidate_blob": "b218bc7b644caa31a1d39c6a241459fa307b3d02",
+      "producer_run": 43685586082,
+      "outcome": "DIRECT_LEAN_FAILURE",
+      "errors": [
+        "formal/KUOS/DependentOriginationDoubleDeloopingTypeAFourDimensionalCocycleV1_104.lean:62:36: error: 'omega' tactic does nothing"
+      ]
+    },
+    {
+      "source_head": "321614de94a3b306c094b343200a08b6b1ae4cea",
+      "source_tree": "0be29aaf41eaeeeea96987f1d3783fa3fa7bc60f",
+      "imported_blob": "ff2e6a09e2c064a23207ee1323bc14182c86d7cd",
+      "variant": "round1-finite-simp-all",
+      "candidate_blob": "6c4c3a2243796aa19d494c685b1b52796feeb2dd",
+      "producer_run": 43685586082,
+      "outcome": "DIRECT_LEAN_SUCCESS",
+      "errors": []
+    },
+    {
+      "source_head": "8d9b2d607f9861c76547ca1022051fd4b88f2c60",
+      "source_tree": "3e9c3645d70129376fb3ca84135c7cf700ac5a61",
+      "imported_blob": "6c4c3a2243796aa19d494c685b1b52796feeb2dd",
+      "variant": "round1-simpa",
+      "candidate_blob": "592bff4754043c94929a2165a17e08f0bdf3da4f",
+      "producer_run": 43687349472,
+      "outcome": "DIRECT_LEAN_FAILURE",
+      "errors": [
+        "formal/KUOS/DependentOriginationDoubleDeloopingTypeAFourDimensionalFaceCoherenceV1_105.lean:54:23: error: Application type mismatch: The argument",
+        "formal/KUOS/DependentOriginationDoubleDeloopingTypeAFourDimensionalFaceCoherenceV1_105.lean:90:56: error: Expected type must not contain free variables"
+      ]
+    },
+    {
+      "source_head": "b115ebe47ca967dc1bab533b7fb93627e3ecfa05",
+      "source_tree": "252431804e0a3eed8a137f2c97ffb0735484aa7a",
+      "imported_blob": "6c4c3a2243796aa19d494c685b1b52796feeb2dd",
+      "variant": "round2-universe-visible-simpa",
+      "candidate_blob": "2f7a1352aea69b7e605544551ccb75f2c5e6ef8a",
+      "producer_run": 43687692238,
+      "outcome": "DIRECT_LEAN_FAILURE",
+      "errors": [
+        "formal/KUOS/DependentOriginationDoubleDeloopingTypeAFourDimensionalFaceCoherenceV1_105.lean:95:56: error: Expected type must not contain free variables"
+      ]
+    },
+    {
+      "source_head": "b28157aea549e833044da7f8fa7987157df874d8",
+      "source_tree": "979bf78dbd8d4f5fc46a51cbd0c2524f22a6da1b",
+      "imported_blob": "6c4c3a2243796aa19d494c685b1b52796feeb2dd",
+      "variant": "round3-four-index-refl",
+      "candidate_blob": "d6a8a8e2136c1a5601fa01c02f5f478fdd827520",
+      "producer_run": 43687986358,
+      "outcome": "DIRECT_LEAN_SUCCESS",
+      "errors": []
+    },
+    {
+      "source_head": "3e3b388c0c608c13e4d1d299e7fa63b35b986e32",
+      "source_tree": "69b7b75b35fa79005c75dc8fc6d3a44f813d51fe",
+      "imported_blob": "d6a8a8e2136c1a5601fa01c02f5f478fdd827520",
+      "variant": "round1-table-simp",
+      "candidate_blob": "dfd8ccde4b6ecbedd63b904726c168a44c12da66",
+      "producer_run": 43689015288,
+      "outcome": "DIRECT_LEAN_FAILURE",
+      "errors": [
+        "formal/KUOS/DependentOriginationDoubleDeloopingTypeAFourHornLabelTableV1_106.lean:31:86: error: Expected type must not contain free variables"
+      ]
+    },
+    {
+      "source_head": "94551b644c837ab12b4dd6b266d5a8aa66254162",
+      "source_tree": "d139f557af5746961cce8060e624d17a6113b4a5",
+      "imported_blob": "d6a8a8e2136c1a5601fa01c02f5f478fdd827520",
+      "variant": "round2-fin5-simp-omega",
+      "candidate_blob": "156d2059df3326f36b85cbe96c9ebd00136e2551",
+      "producer_run": 43689373291,
+      "outcome": "DIRECT_LEAN_FAILURE",
+      "errors": [
+        "formal/KUOS/DependentOriginationDoubleDeloopingTypeAFourHornLabelTableV1_106.lean:71:65: error: unsolved goals"
+      ]
+    },
+    {
+      "source_head": "aafeb59d31937fc87a7e946d704962da7ae12a6c",
+      "source_tree": "fe49b206e86ce03216c8bfb6b227811b08ac5866",
+      "imported_blob": "d6a8a8e2136c1a5601fa01c02f5f478fdd827520",
+      "variant": "round3-fin-lt-def-simp",
+      "candidate_blob": "600c17a48b6506f69631e2473e71f5bc8478c832",
+      "producer_run": 43690405377,
+      "outcome": "DIRECT_LEAN_FAILURE",
+      "errors": [
+        "formal/KUOS/DependentOriginationDoubleDeloopingTypeAFourHornLabelTableV1_106.lean:71:65: error: unsolved goals",
+        "formal/KUOS/DependentOriginationDoubleDeloopingTypeAFourHornLabelTableV1_106.lean:73:14: error: This simp argument is unused:"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+name: KuuOS MemoryOS source-bound CodeAI Lean failure/success ingestion
+
+on:
+  workflow_run:
+    workflows:
+      - "KuuOS v1.106 CodeAI MemoryOS learned candidate round4"
+    types: [completed]
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  memoryos-observe-completed-source-run-append-artifact-only:
+    if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'pull_request' }}
+    runs-on: ubuntu-22.04
+    timeout-minutes: 15
+    steps:
+      - name: Checkout producer source HEAD, not untrusted default branch
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Download exact producer candidate portfolio and MCP receipt
+        uses: actions/download-artifact@v4
+        with:
+          run-id: ${{ github.event.workflow_run.id }}
+          name: kuuos-v1106-codeai-memoryos-round4-${{ github.event.workflow_run.id }}
+          github-token: ${{ github.token }}
+          path: /tmp/kuuos-memoryos-producer
+      - name: Verify completed exact source run and append observations without Git mutation
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          PRODUCER_RUN: ${{ github.event.workflow_run.id }}
+        run: |
+          set -euo pipefail
+          PYTHONPATH=. python3 scripts/kuuos_codeai_lean_memoryos_sidecar_v1.py ingest \
+            --evidence-dir /tmp/kuuos-memoryos-producer \
+            --producer-run "$PRODUCER_RUN" \
+            --journal /tmp/kuuos-codeai-memoryos/observations.jsonl \
+            --output /tmp/kuuos-codeai-memoryos/ingestion_receipt.json
+          python3 - <<'PY'
+          from pathlib import Path
+          from runtime.kuuos_codeai_lean_failure_memoryos_v0_1 import read_journal
+          events=read_journal('/tmp/kuuos-codeai-memoryos/observations.jsonl')
+          assert events and all(
+            e['authority']=='external_pointer_only' and e['case']['independent_run'] is None
+            for e in events), 'MemoryOS cannot certify independent CI'
+          print('KUUOS_MEMORYOS_JOURNAL_INTEGRITY',len(events),'NO_PROOF_AUTHORITY')
+          PY
+      - name: Archive read-only append-only MemoryOS evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-codeai-lean-memoryos-ingest-${{ github.run_id }}
+          path: /tmp/kuuos-codeai-memoryos/
+          if-no-files-found: warn
+          retention-days: 90
