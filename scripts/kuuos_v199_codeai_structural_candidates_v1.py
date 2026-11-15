@@ -99,11 +99,33 @@ def variants(source: str) -> dict[str,str]:
         if strict.count(old) != 1:
             raise RuntimeError("v1.99 hdim source drift: "+m)
         strict=strict.replace(old,replacement)
+    # Round2 kernel diagnosis: (Λ[n,i] : SSet) invokes coercion to
+    # a simplicial set. Its .obj is a TYPE, not the set of simplices.
+    # The desired literal is (horn.{0} n i).obj. This preserves horn
+    # visibility while keeping Set.univ type-specific.
+    first="(Λ[n, i] : SSet.{0}).obj"
+    next="(Λ[m + 3, (0 : Fin (m + 4))] : SSet.{0}).obj"
+    if qualified.count(first)!=2 or qualified.count(next)!=2:
+        raise RuntimeError("v1.99 exact horn coercion occurrence drift")
+    def corrected(v: str) -> str:
+        if v.count(first)!=2 or v.count(next)!=2:
+            raise RuntimeError("v1.99 direct-subcomplex candidate anchor drift")
+        return (v.replace(first,"(SSet.horn.{0} n i).obj")
+                 .replace(next,
+                    "(SSet.horn.{0} (m + 3) (0 : Fin (m + 4))).obj"))
+    direct=corrected(qualified)
+    direct_inferred=corrected(typed)
+    direct_simp=corrected(simpa)
+    direct_dimension=corrected(strict)
     return {
         "round1-horn-sset-universe0":typed,
         "round1-horn-lemma-universe0":qualified,
         "round1-horn-lemma-simpa":simpa,
         "round1-horn-explicit-dimension":strict,
+        "round2-correct-subcomplex-horn0":direct,
+        "round2-correct-subcomplex-horn-infer":direct_inferred,
+        "round2-correct-subcomplex-horn-simpa":direct_simp,
+        "round2-correct-subcomplex-horn-dimension":direct_dimension,
     }
 
 
