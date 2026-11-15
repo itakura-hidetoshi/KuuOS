@@ -1,0 +1,58 @@
+name: KuuOS v1.96 exact pinned Hom universe kernel diagnosis
+
+on:
+  pull_request:
+    paths:
+      - "scripts/kuuos_v196_hom_universe_probes_v1.py"
+      - ".github/workflows/kuuos-v196-hom-universe-probes-v1.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  exact-lean-hom-probes:
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.number == 3522 }}
+    runs-on: ubuntu-22.04
+    timeout-minutes: 55
+    env:
+      MATHLIB_NO_CACHE_ON_UPDATE: '1'
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - uses: actions/cache/restore@v5
+        with:
+          path: .lake/build
+          key: kuuos-pr-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-pr3522-${{ github.event.pull_request.head.sha }}
+          restore-keys: |
+            kuuos-pr-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-pr3522-
+      - name: Restore exact pinned mathlib
+        run: lake exe cache get
+      - name: Compile source-bound v1.95 import closure
+        run: timeout 1800 lake build KUOS.DependentOriginationDoubleDeloopingNatNonthinDuskinWitnessV1_95
+      - name: Probe Hom type and elaborated numeral universes without source edits
+        run: |
+          set -euo pipefail
+          python3 -m py_compile scripts/kuuos_v196_hom_universe_probes_v1.py
+          PYTHONPATH=. python3 scripts/kuuos_v196_hom_universe_probes_v1.py
+      - name: Preserve full Lean goals and outputs, including negative probes
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-v196-Hom-kernel-probes-${{ github.run_id }}
+          path: /tmp/kuuos-v196-hom-universe-probes/
+          if-no-files-found: warn
+          retention-days: 21
