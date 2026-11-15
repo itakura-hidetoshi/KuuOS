@@ -280,6 +280,78 @@ def variants(source: str) -> dict[str,str]:
         "      Bicategory.associator, CategoryStruct.comp]\n"
         "    simpa using hcoc"
     )
+    # Round 4: the full fixed-kernel log still contains the identity
+    # 2-morphism 𝟙 NatOneCell.star and the inverse unitors. These are
+    # definitionally 0 in the original one-object/one-cell bicategory.
+    # Use the ALREADY PROVED imported NatOneCell.id_eq_zero theorem; never
+    # substitute a free assumption or an ad-hoc HAdd/OfNat instance.
+    identity_unitor=(
+        "    simpa [CategoryStruct.comp, NatOneCell.id_eq_zero,\n"
+        "      Bicategory.leftUnitor, Bicategory.rightUnitor] using hnorm.symm"
+    )
+    identity_assoc=(
+        "    simpa [CategoryStruct.comp, Bicategory.whiskerLeft,\n"
+        "      Bicategory.whiskerRight, Bicategory.associator,\n"
+        "      NatOneCell.id_eq_zero, Nat.add_zero, Nat.zero_add] using hcoc"
+    )
+    identity_assoc_min=(
+        "    simpa [CategoryStruct.comp, Bicategory.whiskerLeft,\n"
+        "      Bicategory.whiskerRight, Bicategory.associator,\n"
+        "      NatOneCell.id_eq_zero] using hcoc"
+    )
+    def mode_unit(side: str) -> str:
+        binder = "λ_" if side=="left" else "ρ_"
+        return (
+            "    have hunit : ("+binder+" NatOneCell.star).inv = (0 : Nat) := by\n"
+            "      rfl\n"
+            "    simpa [CategoryStruct.comp, hunit,\n"
+            "      NatOneCell.id_eq_zero, Nat.add_zero, Nat.zero_add] using hnorm.symm"
+        )
+    old_left=(
+        "  map₂_leftUnitor := by\n"
+        "    intro a b f\n"
+        "    have hnorm := C.left_normalized a.as b.as f.as.le\n"
+        +coherence_simp
+    )
+    old_right=(
+        "  map₂_rightUnitor := by\n"
+        "    intro a b f\n"
+        "    have hnorm := C.right_normalized a.as b.as f.as.le\n"
+        +coherence_simp
+    )
+    old_assoc=(
+        "  map₂_associator := by\n"
+        "    intro a b c d f g h\n"
+        "    have hcoc :=\n"
+        "      C.tetrahedron a.as b.as c.as d.as\n"
+        "        f.as.le g.as.le h.as.le\n"
+        +assoc_simp
+    )
+    best3=target(coherence_simp,assoc_simp,"round4 baseline")
+    def specialize(base_:str, unit_proof:str, assoc_proof:str, lab:str) -> str:
+        y=replace_once(base_,old_left,old_left.replace(coherence_simp,unit_proof),
+                       lab+" left unitor")
+        y=replace_once(y,old_right,old_right.replace(coherence_simp,unit_proof),
+                       lab+" right unitor")
+        return replace_once(y,old_assoc,old_assoc.replace(assoc_simp,assoc_proof),
+                            lab+" associator")
+    unit_simpall=(
+        "    simp_all [CategoryStruct.comp, Bicategory.leftUnitor,\n"
+        "      Bicategory.rightUnitor, NatOneCell.id_eq_zero]"
+    )
+    assoc_simpall_id=(
+        "    simp_all [CategoryStruct.comp, Bicategory.whiskerLeft,\n"
+        "      Bicategory.whiskerRight, Bicategory.associator,\n"
+        "      NatOneCell.id_eq_zero]"
+    )
+    def specialize_split(base_:str, assoc_proof:str, lab:str) -> str:
+        y=replace_once(base_,old_left,old_left.replace(
+          coherence_simp,mode_unit("left")),lab+" left unit zero")
+        y=replace_once(y,old_right,old_right.replace(
+          coherence_simp,mode_unit("right")),lab+" right unit zero")
+        return replace_once(y,old_assoc,old_assoc.replace(
+          assoc_simp,assoc_proof),lab+" assoc")
+
     return {
         "round1-typed-Nat-zero-Yoneda0": typed,
         "round1-discrete-ordinal-hom": discrete,
@@ -289,10 +361,14 @@ def variants(source: str) -> dict[str,str]:
         "round2-coherence-and-yoneda-simpa-only": replace_once(base,yoneda,y2,"Yoneda simp only"),
         "round2-coherence-and-yoneda-conv": replace_once(base,yoneda,y3,"Yoneda conv"),
         "round2-coherence-and-yoneda-change": replace_once(base,yoneda,y4,"Yoneda change"),
-        "round3-unitor-simp-associator-simp": target(coherence_simp,assoc_simp,"simp-simp"),
+        "round3-unitor-simp-associator-simp": best3,
         "round3-unitor-simp-associator-simpall": target(coherence_simp,assoc_simpall,"simp-simpall"),
         "round3-unitor-expand-associator-simp": target(coherence_expand,assoc_simp,"expand-simp"),
         "round3-unitor-Nat-associator-dsimp": target(coherence_Nat,assoc_dsimp,"Nat-dsimp"),
+        "round4-identity-simp": specialize(best3,identity_unitor,identity_assoc,"identity-simp"),
+        "round4-identity-min": specialize(best3,identity_unitor,identity_assoc_min,"identity-min"),
+        "round4-identity-simpall": specialize(best3,unit_simpall,assoc_simpall_id,"identity-simpall"),
+        "round4-explicit-unitor-zero": specialize_split(best3,identity_assoc,"explicit-zero"),
     }
 
 
