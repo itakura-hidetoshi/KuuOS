@@ -1,0 +1,46 @@
+{
+  "profile": "memoryos_codeai_lean_observations_v0_1",
+  "repository": "itakura-hidetoshi/KuuOS",
+  "authority": "external_pointer_only",
+  "curation_note": "Append-only v1.109 round1 source-bound direct Lean failures. Original full diagnostic blocks remain in immutable GitHub Actions artifact 14154485318 and producer run 43695666322. 'Unknown identifier' is an observed Lean diagnostic; a missing open is a source-based repair hypothesis until direct Lean/real MCP/independent CI. No independent proof is claimed.",
+  "independent_certification_pointers": [],
+  "observations": [
+    {
+      "source_head": "7ba9353454de01464e9d41d449a70626d326238e",
+      "source_tree": "c2a0e4d8115114366e818e8bd2f6e3ecbf1859a5",
+      "imported_blob": "6071b265507c1798c8a61ce87a0a828713c97c63",
+      "variant": "round1-rcases-five",
+      "candidate_blob": "ed506ebf5660314fe0c77bd4fd221e6ed9fd73e0",
+      "producer_run": 43695666322,
+      "outcome": "DIRECT_LEAN_FAILURE",
+      "errors": [
+        "formal/KUOS/DependentOriginationDoubleDeloopingTypeAFourActualCocycleV1_109.lean:49:2: error: Tactic `rfl` failed: The left-hand side",
+        "formal/KUOS/DependentOriginationDoubleDeloopingTypeAFourActualCocycleV1_109.lean:74:4: error: Function expected at"
+      ]
+    },
+    {
+      "source_head": "7ba9353454de01464e9d41d449a70626d326238e",
+      "source_tree": "c2a0e4d8115114366e818e8bd2f6e3ecbf1859a5",
+      "imported_blob": "6071b265507c1798c8a61ce87a0a828713c97c63",
+      "variant": "round1-let-five",
+      "candidate_blob": "ffadb0dc6ac7d27a279c61d7d81542f5d03d309f",
+      "producer_run": 43695666322,
+      "outcome": "DIRECT_LEAN_FAILURE",
+      "errors": [
+        "formal/KUOS/DependentOriginationDoubleDeloopingTypeAFourActualCocycleV1_109.lean:74:4: error: Function expected at"
+      ]
+    },
+    {
+      "source_head": "7ba9353454de01464e9d41d449a70626d326238e",
+      "source_tree": "c2a0e4d8115114366e818e8bd2f6e3ecbf1859a5",
+      "imported_blob": "6071b265507c1798c8a61ce87a0a828713c97c63",
+      "variant": "round1-projection-typed",
+      "candidate_blob": "676962c82cf0b6bc1f4c81ef5f75ce94fce9f90f",
+      "producer_run": 43695666322,
+      "outcome": "DIRECT_LEAN_FAILURE",
+      "errors": [
+        "formal/KUOS/DependentOriginationDoubleDeloopingTypeAFourActualCocycleV1_109.lean:76:4: error: Function expected at"
+      ]
+    }
+  ]
+}
