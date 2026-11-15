@@ -1,0 +1,51 @@
+{
+  "profile": "memoryos_codeai_lean_observations_v0_1",
+  "repository": "itakura-hidetoshi/KuuOS",
+  "authority": "external_pointer_only",
+  "curation_note": "Append-only exact-source v1.110 CodeAI round1 direct Lean failures, original full diagnostics retained in producer run 43697581207 artifact 14154524847. Hypotheses (v1.102 namespace missing, redundant change tactic) not certified by MemoryOS. No Lean/MCP/CI authority granted.",
+  "independent_certification_pointers": [],
+  "observations": [
+    {
+      "source_head": "1c80752c5c6802aefd7a7a6c663385ba4bdfbfd8",
+      "source_tree": "d2149a785b3bfe737c6db59d60165630961cda36",
+      "imported_blob": "e703d406b303a8dd51178ca26ee227473509e76d",
+      "variant": "round1-bycases-omega",
+      "candidate_blob": "e128b8a2de3ccf231c3181c416b9d4aad5bd127c",
+      "producer_run": 43697581207,
+      "outcome": "DIRECT_LEAN_FAILURE",
+      "errors": [
+        "formal/KUOS/DependentOriginationDoubleDeloopingTypeAFourHornRestrictionV1_110.lean:71:8: error(lean.unknownIdentifier): Unknown identifier `natDuskinSimplex_eq_of_mapComp_eq`",
+        "formal/KUOS/DependentOriginationDoubleDeloopingTypeAFourHornRestrictionV1_110.lean:72:8: error: No goals to be solved",
+        "formal/KUOS/DependentOriginationDoubleDeloopingTypeAFourHornRestrictionV1_110.lean:91:2: error: 'change (natTypeAFourHornCocycle i hi0 hi4 f).label a b c hab hbc = 0' tactic does nothing"
+      ]
+    },
+    {
+      "source_head": "1c80752c5c6802aefd7a7a6c663385ba4bdfbfd8",
+      "source_tree": "d2149a785b3bfe737c6db59d60165630961cda36",
+      "imported_blob": "e703d406b303a8dd51178ca26ee227473509e76d",
+      "variant": "round1-bycases-ltne",
+      "candidate_blob": "969f8f75161ca374f2d761f989e461a0ba02ba10",
+      "producer_run": 43697581207,
+      "outcome": "DIRECT_LEAN_FAILURE",
+      "errors": [
+        "formal/KUOS/DependentOriginationDoubleDeloopingTypeAFourHornRestrictionV1_110.lean:71:8: error(lean.unknownIdentifier): Unknown identifier `natDuskinSimplex_eq_of_mapComp_eq`",
+        "formal/KUOS/DependentOriginationDoubleDeloopingTypeAFourHornRestrictionV1_110.lean:72:8: error: No goals to be solved",
+        "formal/KUOS/DependentOriginationDoubleDeloopingTypeAFourHornRestrictionV1_110.lean:91:2: error: 'change (natTypeAFourHornCocycle i hi0 hi4 f).label a b c hab hbc = 0' tactic does nothing"
+      ]
+    },
+    {
+      "source_head": "1c80752c5c6802aefd7a7a6c663385ba4bdfbfd8",
+      "source_tree": "d2149a785b3bfe737c6db59d60165630961cda36",
+      "imported_blob": "e703d406b303a8dd51178ca26ee227473509e76d",
+      "variant": "round1-bycases-prop-equalities",
+      "candidate_blob": "61139f091e74dc22536ca3db58bc9dc4d3c1a23b",
+      "producer_run": 43697581207,
+      "outcome": "DIRECT_LEAN_FAILURE",
+      "errors": [
+        "formal/KUOS/DependentOriginationDoubleDeloopingTypeAFourHornRestrictionV1_110.lean:71:8: error(lean.unknownIdentifier): Unknown identifier `natDuskinSimplex_eq_of_mapComp_eq`",
+        "formal/KUOS/DependentOriginationDoubleDeloopingTypeAFourHornRestrictionV1_110.lean:72:8: error: No goals to be solved",
+        "formal/KUOS/DependentOriginationDoubleDeloopingTypeAFourHornRestrictionV1_110.lean:91:2: error: 'change (natTypeAFourHornCocycle i hi0 hi4 f).label a b c hab hbc = 0' tactic does nothing"
+      ]
+    }
+  ]
+}

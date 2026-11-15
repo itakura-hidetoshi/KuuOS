@@ -1,0 +1,84 @@
+name: KuuOS v1.110 round2 CodeAI MemoryOS exact horn restriction repairs
+
+on:
+  pull_request:
+    paths:
+      - "scripts/kuuos_v1110_codeai_horn_restriction_round2_v1.py"
+      - "memoryos/external/github/2026/11/kuuos_codeai_lean_observations_v1110_round1_v1.json"
+      - ".github/workflows/kuuos-v1110-codeai-horn-restriction-round2-v1.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  v1110-codeai-round2-direct-lean-real-mcp:
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.number == 3522 }}
+    runs-on: ubuntu-22.04
+    timeout-minutes: 90
+    env:
+      MATHLIB_NO_CACHE_ON_UPDATE: '1'
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Preserve exact failed observations without granting authority
+        run: |
+          set -euo pipefail
+          PYTHONPATH=. python3 - <<'PY'
+          from pathlib import Path
+          from runtime.kuuos_codeai_lean_observation_intake_v0_2 import read_observation_directory
+          from runtime.kuuos_codeai_lean_observation_intake_v0_1 import read_observation_seed
+          root=Path("memoryos/external/github/2026/11")
+          memory=read_observation_directory(root)
+          exact=read_observation_seed(root/"kuuos_codeai_lean_observations_v1110_round1_v1.json")
+          assert len(memory)>=28 and len(exact)==3
+          assert all(c["causal_status"]=="UNVERIFIED_HYPOTHESIS" and c["outcome"]=="DIRECT_LEAN_FAILURE" for c in exact)
+          assert len({c["id"] for c in memory})==len(memory)
+          print("KUUOS_V1110_MEMORYOS_EXACT_FAILURES",len(memory))
+          PY
+      - name: Setup exact Lean4.30.0-rc2
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Restore read-only pinned parent build overlay
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake/build
+          key: kuuos-pr-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-pr3522-${{ github.event.pull_request.head.sha }}
+          restore-keys: |
+            kuuos-pr-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-pr3522-
+      - name: Resolve pinned mathlib
+        run: lake exe cache get
+      - name: Strict imported source v1.109 dependency closure
+        run: |
+          set -euo pipefail
+          timeout 2400 lake -KleanArgs=-DwarningAsError=true -KleanArgs=-Dweak.sorryAsError=true build KUOS.DependentOriginationDoubleDeloopingTypeAFourActualCocycleV1_109
+      - name: Install pinned real Lean MCP transport
+        run: python3 -m pip install uv
+      - name: CodeAI round2 five candidates fixed direct Lean then real MCP only green
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          python3 -m py_compile scripts/kuuos_v1110_codeai_horn_restriction_round2_v1.py
+          PYTHONPATH=. python3 scripts/kuuos_v1110_codeai_horn_restriction_round2_v1.py
+      - name: Archive all source-bound CodeAI receipts, Lean failures and real MCP
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-v1110-codeai-horn-round2-${{ github.run_id }}
+          path: |
+            /tmp/kuuos-v1110-codeai-round2/
+            /tmp/kuuos-v1110-real-mcp-round2/
+            /tmp/kuuos-v1110-memoryos-round2/
+          if-no-files-found: warn
+          retention-days: 30
