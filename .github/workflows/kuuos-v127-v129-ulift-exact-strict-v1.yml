@@ -1,0 +1,174 @@
+name: KuuOS v1.27–v1.29 genuine ULift Duskin Strict Lean and 53 axioms
+on:
+  pull_request:
+    paths:
+      - 'formal/KUOS/DependentOriginationStrictlyUnitaryDuskinModelTransportV1_27.lean'
+      - 'formal/KUOS/DependentOriginationNormalizationChoiceInvariantV1_28.lean'
+      - 'formal/KUOS/DependentOriginationScaledDuskinUniverseLiftBridgeV1_29.lean'
+      - 'formal/KUOS/DependentOriginationScaledDuskinHornTransportV1_29.lean'
+      - 'tests/test_public_root_restoration.py'
+      - '.github/workflows/kuuos-v127-v129-ulift-exact-strict-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: kuuos-v127-v129-ulift-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+env:
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+
+jobs:
+  genuine-v129-ulift-source:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    steps:
+      - name: Checkout exact source/test-merge
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - name: Verify all ULift source blobs, preserved history and pinned toolchain
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib,json
+          files={
+              "formal/KUOS/DependentOriginationStrictlyUnitaryDuskinModelTransportV1_27.lean": ("36f9aef05ce8bc068856c28ccbbc2b7512b89112", 16),
+              "formal/KUOS/DependentOriginationNormalizationChoiceInvariantV1_28.lean": ("9078c15951561b85ecf5378e258adfc92789f823", 14),
+              "formal/KUOS/DependentOriginationScaledDuskinUniverseLiftBridgeV1_29.lean": ("78b7d2d63dc8137a6143b93579ffcec6c910b06f", 6),
+              "formal/KUOS/DependentOriginationScaledDuskinHornTransportV1_29.lean": ("3a1046a9a44cbb1ad466ef7a27a107122ea05aca", 17),
+          }
+          assert Path("lean-toolchain").read_text().strip()=="leanprover/lean4:v4.30.0-rc2"
+          mf=json.loads(Path("lake-manifest.json").read_text())
+          assert next(x for x in mf["packages"] if x["name"]=="mathlib")["rev"]=="5450b53e5ddc75d46418fabb605edbf36bd0beb6"
+          for path,(expected,_) in files.items():
+              raw=Path(path).read_bytes()
+              actual=hashlib.sha1(b"blob "+str(len(raw)).encode()+b"\0"+raw).hexdigest()
+              assert actual==expected,(path,actual,expected)
+              print("V127_V129_ULIFT_EXACT_SOURCE",path,actual)
+          src=Path("formal/KUOS/DependentOriginationScaledDuskinHornTransportV1_29.lean").read_text()
+          assert "abbrev normalizedDuskinSource" in src
+          assert "abbrev normalizedDuskinTarget" in src
+          assert "import KUOS.DependentOriginationScaledDuskinUniverseLiftBridgeV1_29" in src
+          assert "namespace KUOS.DependentOriginationScaledDuskinHornTransportV1_29.LiftedImage" in src
+          print("V127_V129_EXACT_TYPED_ULIFT_SOURCE_SUCCESS",flush=True)
+          PY
+      - name: Public-root restoration and archived theorem byte-preservation
+        run: |
+          set -euo pipefail
+          python3 -m unittest -v tests.test_public_root_restoration tests.test_kuu_foundation tests.test_formal_package_boundary
+          python3 scripts/check_public_proof_roots.py
+      - name: Setup pinned Lean and Lake
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Restore verified pinned Mathlib artifacts
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-${{ github.event.pull_request.base.sha || github.sha }}
+          restore-keys: |
+            kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-
+      - name: Fetch missing exact pinned mathlib only
+        run: |
+          set -euo pipefail
+          if [[ ! -d .lake/packages/mathlib ]]; then lake update; fi
+          if [[ ! -f .lake/packages/mathlib/.lake/build/lib/lean/Mathlib.olean ]]; then lake exe cache get; fi
+          git diff --exit-code -- lean-toolchain lake-manifest.json
+      - name: Build real v1.29 ULift source and all forward dependencies via Strict Lean
+        run: |
+          set -euo pipefail
+          bash scripts/build_lean4.sh --no-update --no-cache \
+            --target KUOS.DependentOriginationScaledDuskinHornTransportV1_29 \
+            2>&1 | tee kuuos-v127-v129-strict.log
+          echo "V127_V129_ULIFT_MODEL_STRICT_LEAN_SUCCESS"
+      - name: Machine-check typed witnesses and audit all 53 public constants
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          files={
+              "formal/KUOS/DependentOriginationStrictlyUnitaryDuskinModelTransportV1_27.lean": ("36f9aef05ce8bc068856c28ccbbc2b7512b89112", 16),
+              "formal/KUOS/DependentOriginationNormalizationChoiceInvariantV1_28.lean": ("9078c15951561b85ecf5378e258adfc92789f823", 14),
+              "formal/KUOS/DependentOriginationScaledDuskinUniverseLiftBridgeV1_29.lean": ("78b7d2d63dc8137a6143b93579ffcec6c910b06f", 6),
+              "formal/KUOS/DependentOriginationScaledDuskinHornTransportV1_29.lean": ("3a1046a9a44cbb1ad466ef7a27a107122ea05aca", 17),
+          }
+          names=[]
+          for path,(_,expected) in files.items():
+              scopes=[]
+              found=[]
+              for line_no,raw in enumerate(Path(path).read_text().splitlines(),1):
+                  line=raw.strip()
+                  ns=re.fullmatch(r"namespace\s+([^\s]+)",line)
+                  if ns:
+                      scopes.append(ns.group(1))
+                      continue
+                  end=re.fullmatch(r"end(?:\s+([^\s]+))?",line)
+                  if end:
+                      assert scopes and (end.group(1) is None or scopes[-1]==end.group(1)),(path,line_no,line)
+                      scopes.pop()
+                      continue
+                  line=re.sub(r"^@\[[^\]\n]+\]\s*","",line)
+                  if line.startswith("private "):continue
+                  m=re.match(r"(?:(?:noncomputable|protected)\s+)?(?:theorem|lemma|def|abbrev)\s+([^\s(:]+)",line)
+                  if m:
+                      assert scopes,(path,line_no,"UNSCOPED_DECLARATION")
+                      found.append(".".join(scopes)+"."+m.group(1))
+              assert not scopes,(path,"UNBALANCED_NAMESPACE")
+              assert len(found)==expected,(path,len(found),expected)
+              names.extend(found)
+          assert len(names)==53 and len(set(names))==53
+          check=[
+              "KUOS.DependentOriginationStrictlyUnitaryDuskinModelTransportV1_27.normalizedDuskinNerveMap",
+              "KUOS.DependentOriginationScaledDuskinUniverseLiftBridgeV1_29.uliftScaling",
+              "KUOS.DependentOriginationScaledDuskinHornTransportV1_29.normalizedDuskinSourceScaling",
+              "KUOS.DependentOriginationScaledDuskinHornTransportV1_29.normalizedDuskinScaledMap",
+              "KUOS.DependentOriginationScaledDuskinHornTransportV1_29.LiftedImage.liftedDuskinImageHornFibrancy",
+              "KUOS.DependentOriginationScaledDuskinHornTransportV1_29.LiftedImage.liftedDuskinFamilyMap_iff_image_admissible",
+          ]
+          assert all(x in names for x in check)
+          Path("formal/KUOS/V127V129LiftedExactAxiomScratch.lean").write_text(
+              "import KUOS.DependentOriginationScaledDuskinHornTransportV1_29\n\n"+
+              "\n".join("#check "+x for x in check)+"\n"+
+              "\n".join("#print axioms "+x for x in names)+"\n")
+          Path("kuuos-v127-v129-declarations.txt").write_text("\n".join(names)+"\n")
+          print("V127_V129_EXACT_AXIOM_REQUESTS",len(names),flush=True)
+          PY
+          lake env lean -DwarningAsError=true -Dweak.sorryAsError=true \
+            formal/KUOS/V127V129LiftedExactAxiomScratch.lean 2>&1 | tee kuuos-v127-v129-axioms.log
+          python3 - <<'PY'
+          import re
+          from pathlib import Path
+          log=Path("kuuos-v127-v129-axioms.log").read_text()
+          recs=re.findall(r"(?m)^'([^']+)' (?:depends on axioms:\s*\[([^]]*)\]|does not depend on any axioms)",log)
+          expected=set(Path("kuuos-v127-v129-declarations.txt").read_text().splitlines())
+          assert len(recs)==53 and {n for n,_ in recs}==expected,("V129_AXIOM_SET_MISMATCH",len(recs),expected-{n for n,_ in recs})
+          allowed={"propext","Classical.choice","Quot.sound"}
+          for name,ax in recs:
+              used={x.strip() for x in ax.split(",") if x.strip()}
+              assert used<=allowed,("UNEXPECTED_AXIOM",name,sorted(used-allowed))
+          print("V127_V129_53_PUBLIC_CONSTANTS_STANDARD_AXIOMS_ONLY",flush=True)
+          PY
+          git diff --exit-code -- lean-toolchain lake-manifest.json
+          echo "All current theorems are on the lifted carriers; no unlifted-global descent or PR merge is inferred."
+      - name: Upload exact-source ULift CI and axioms
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-v127-v129-ulift-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            kuuos-v127-v129-strict.log
+            kuuos-v127-v129-axioms.log
+            kuuos-v127-v129-declarations.txt
+          if-no-files-found: warn
+          retention-days: 21
