@@ -125,14 +125,14 @@ def variants(source: str) -> dict[str,str]:
     # identification of named Yoneda triangles with natFourLabel. Reuse the
     # already checked six face-comparison lemmas, with exact Eq.trans proofs.
     best = replace_once(base, old_goal, goal1, "conv Yoneda")
-    old_h = "    simpa [sigma] using h"
+    old_h = "    simpa [sigma] using h\n"
     if best.count(old_h) != 4:
         raise RuntimeError("v1.98 named source triangle scope drift")
     explicit = best
     for name in ("012","024","013","134"):
         explicit = explicit.replace(old_h,
             "    exact (natFour_map_triangle"+name+
-            "_comparison f.map).symm.trans h", 1)
+            "_comparison f.map).symm.trans h\n", 1)
     for name, ix in (("014", "1"), ("034", "2")):
         explicit = replace_once(explicit,
             "    simpa [sigma] using htarget."+ix,
@@ -147,7 +147,7 @@ def variants(source: str) -> dict[str,str]:
         rewritten = rewritten.replace(old_h,
             "    rw [natFour_map_triangle"+name+
             "_comparison] at h\n"
-            "    simpa [sigma] using h", 1)
+            "    simpa [sigma] using h\n", 1)
     for name, ix in (("014", "1"), ("034", "2")):
         rewritten = replace_once(rewritten,
             "    simpa [sigma] using htarget."+ix,
