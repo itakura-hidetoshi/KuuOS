@@ -1,0 +1,129 @@
+name: KuuOS v1.96 independent exact-source Strict Lean and axiom audit
+
+on:
+  pull_request:
+    paths:
+      - "formal/KUOS/DependentOriginationDoubleDeloopingThinComparisonZeroV1_96.lean"
+      - "tests/test_public_root_restoration.py"
+      - "scripts/kuuos_v196_typed_codeai_candidates_v1.py"
+      - ".github/workflows/kuuos-v196-exact-source-independent-strict-v1.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  v196-independent-exact-source-strict-lean:
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.number == 3522 }}
+    runs-on: ubuntu-22.04
+    timeout-minutes: 90
+    env:
+      MATHLIB_NO_CACHE_ON_UPDATE: '1'
+      EXACT_BLOB: 'c931af7699061a67e73f52e12d4a233f98cb1a5c'
+    steps:
+      - name: Checkout immutable PR head
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - name: Set up pinned Lean4
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Restore pinned PR Lean cache (not proof authority)
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake/build
+          key: kuuos-pr-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-pr3522-${{ github.event.pull_request.head.sha }}
+          restore-keys: |
+            kuuos-pr-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-pr3522-
+      - name: Check immutable promoted v1.96 blob and pinned environment
+        env:
+          SOURCE_HEAD: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/kuuos-v196-independent
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib, json, os
+          path = Path("formal/KUOS/DependentOriginationDoubleDeloopingThinComparisonZeroV1_96.lean")
+          data = path.read_bytes()
+          blob = hashlib.sha1(b"blob "+str(len(data)).encode()+b"\0"+data).hexdigest()
+          assert blob == os.environ["EXACT_BLOB"], (blob, os.environ["EXACT_BLOB"])
+          assert Path("lean-toolchain").read_text().strip()=="leanprover/lean4:v4.30.0-rc2"
+          manifest=json.loads(Path("lake-manifest.json").read_text())
+          pinned=[p for p in manifest["packages"] if p.get("name")=="mathlib"]
+          assert len(pinned)==1
+          assert pinned[0]["rev"]=="5450b53e5ddc75d46418fabb605edbf36bd0beb6"
+          assert "import KUOS.DependentOriginationDoubleDeloopingNatNonthinDuskinWitnessV1_95" in data.decode()
+          summary=dict(source_head=os.environ["SOURCE_HEAD"],v196_blob=blob,
+             lean="v4.30.0-rc2",mathlib=pinned[0]["rev"],proof_certified=False)
+          Path("/tmp/kuuos-v196-independent/source_receipt.json").write_text(
+             json.dumps(summary,indent=2)+"\n")
+          print("KUUOS_V196_INDEPENDENT_EXACT_SOURCE_OBSERVED",summary)
+          PY
+      - name: Resolve pinned mathlib
+        run: lake exe cache get
+      - name: Strictly build exact imported Lean closure and v1.96
+        run: |
+          set -euo pipefail
+          timeout 3000 lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.DependentOriginationDoubleDeloopingThinComparisonZeroV1_96 2>&1 | tee /tmp/kuuos-v196-independent/strict-build.log
+      - name: Independent Lean kernel axiom audit for all new theorems
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          names = [
+              "NatDoubleDelooping.twoCell_isIso_iff_eq_zero",
+              "NatDoubleDelooping.isIso_twoCell_eq_zero",
+              "natDuskin_map₂_eq_zero",
+              "natDuskin_mapComp_id_left_eq_zero",
+              "natDuskin_mapComp_id_right_eq_zero",
+              "natOneSimplex_mapComp_eq_zero",
+              "natDegeneracy_comparison_eq_zero",
+              "natDegenerate_comparison_eq_zero",
+              "natDuskin_thin_iff_comparison_eq_zero",
+              "natNoninvertibleTriangle_nondegenerate",
+              "natNoninvertibleTriangle_not_thin",
+              "terminal_not_reflects_of_standardRightCertificate",
+              "not_standardArbitraryScalingObstructionClosed_of_standardRightCertificate",
+              "not_canonicalKuuOS_le_standardABC_of_standardRightCertificate",
+          ]
+          prefix="KUOS.DependentOriginationDoubleDeloopingThinComparisonZeroV1_96."
+          contents=["import KUOS.DependentOriginationDoubleDeloopingThinComparisonZeroV1_96",""]
+          contents.extend("#print axioms "+prefix+x for x in names)
+          Path("/tmp/kuuos-v196-independent/AxiomAudit.lean").write_text(
+              "\n".join(contents)+"\n",encoding="utf-8")
+          PY
+          lake env lean -DwarningAsError=true -DsorryAsError=true /tmp/kuuos-v196-independent/AxiomAudit.lean 2>&1 | tee /tmp/kuuos-v196-independent/axioms.log
+          python3 - <<'PY'
+          from pathlib import Path
+          import re, json
+          log=Path("/tmp/kuuos-v196-independent/axioms.log").read_text()
+          if "sorryAx" in log or "error:" in log:
+              raise RuntimeError("unverified axiom/error in exact-source Lean audit")
+          allowed={"propext","Classical.choice","Quot.sound"}
+          seen=set()
+          for match in re.findall(r"depends on axioms: \[([^\]]*)\]",log):
+              axioms={part.strip() for part in match.split(",") if part.strip()}
+              seen|=axioms
+          if not seen.issubset(allowed):
+              raise RuntimeError("new nonstandard axiom dependency: "+repr(sorted(seen-allowed)))
+          out=dict(new_axioms=sorted(seen), sorryAx=False,
+              declared_theorem_count=14, independent_lean_kernel=True)
+          Path("/tmp/kuuos-v196-independent/axiom_receipt.json").write_text(
+              json.dumps(out,indent=2)+"\n")
+          print("KUUOS_V196_INDEPENDENT_AXIOM_AUDIT_SUCCESS",out)
+          PY
+      - name: Preserve independent results including failures
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-v196-independent-exact-source-${{ github.run_id }}
+          path: /tmp/kuuos-v196-independent/
+          if-no-files-found: warn
+          retention-days: 30
