@@ -229,5 +229,48 @@ class TacticLineLocatorRegressions(unittest.TestCase):
         self.assertIsNone(loop.choose_tactic_line(source, 0))
 
 
+class ForbiddenConstructLexerRegressions(unittest.TestCase):
+    """A prose occurrence never masks an executable forbidden construct."""
+
+    def test_nested_block_comments_are_not_executable_axioms(self):
+        sample = (
+            "/- No axiom. /- sorry is a word -/ no admit here -/\n"
+            "theorem answer : True := by\n  trivial\n"
+        )
+        self.assertEqual(loop.forbidden_code_constructs(sample), [])
+
+    def test_line_comments_and_strings_are_not_executable_sorry(self):
+        sample = (
+            'def note := "sorry and axiom"\n'
+            "theorem answer : True := by\n"
+            "  trivial -- unsafe native_decide\n"
+        )
+        self.assertEqual(loop.forbidden_code_constructs(sample), [])
+
+    def test_actual_sorry_axiom_and_unsafe_are_rejected(self):
+        for source, marker in (
+            ("theorem t : True := by\n  sorry\n", "sorry"),
+            ("axiom bad : True\n", "axiom"),
+            ("unsafe def bad : Nat := 0\n", "unsafe"),
+            ("theorem t : True := by\n  native_decide\n", "native_decide"),
+        ):
+            self.assertIn(marker, loop.forbidden_code_constructs(source))
+
+    def test_unterminated_lean_comment_cannot_certify(self):
+        with self.assertRaisesRegex(loop.Obstruction, "unterminated"):
+            loop.forbidden_code_constructs("/- unfinished axiom")
+
+    def test_v195_existing_comment_not_banned_but_new_sorry_is(self):
+        initial = (
+            "theorem t : True := by\n"
+            "  skip\n"
+            "/- No axiom is introduced by this theorem -/\n"
+        )
+        self.assertEqual(loop.forbidden_code_constructs(initial), [])
+        self.assertEqual(loop.forbidden_code_constructs(
+            initial.replace("  skip\n", "  sorry\n")
+        ), ["sorry"])
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)
