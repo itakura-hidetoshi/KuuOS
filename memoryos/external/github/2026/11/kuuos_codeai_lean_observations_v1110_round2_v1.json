@@ -1,0 +1,59 @@
+{
+  "profile": "memoryos_codeai_lean_observations_v0_1",
+  "repository": "itakura-hidetoshi/KuuOS",
+  "authority": "external_pointer_only",
+  "curation_note": "Additive v1.110 round2 direct Lean successes from exact source HEAD 2b98dd0; real Lean MCP only for selected green and independent CI are separate. These 5 success observations do NOT certify a theorem or prove a causal explanation. Immutable GitHub producer run 43700061299 and artifact 14156545930.",
+  "independent_certification_pointers": [],
+  "observations": [
+    {
+      "source_head": "2b98dd08d4c6c5f21d5f9deec9f90200f5521b4c",
+      "source_tree": "4baf16ad94d1a8131e22e2e756c13857d3e9dfa3",
+      "imported_blob": "e703d406b303a8dd51178ca26ee227473509e76d",
+      "variant": "round2-qualified-bycases-omega",
+      "candidate_blob": "f6ef5c336d7ce287c841353661935635ad9cc895",
+      "producer_run": 43700061299,
+      "outcome": "DIRECT_LEAN_SUCCESS",
+      "errors": []
+    },
+    {
+      "source_head": "2b98dd08d4c6c5f21d5f9deec9f90200f5521b4c",
+      "source_tree": "4baf16ad94d1a8131e22e2e756c13857d3e9dfa3",
+      "imported_blob": "e703d406b303a8dd51178ca26ee227473509e76d",
+      "variant": "round2-open-bycases-omega",
+      "candidate_blob": "c33ba55fe785502a6223d037a56993e8bc74ede6",
+      "producer_run": 43700061299,
+      "outcome": "DIRECT_LEAN_SUCCESS",
+      "errors": []
+    },
+    {
+      "source_head": "2b98dd08d4c6c5f21d5f9deec9f90200f5521b4c",
+      "source_tree": "4baf16ad94d1a8131e22e2e756c13857d3e9dfa3",
+      "imported_blob": "e703d406b303a8dd51178ca26ee227473509e76d",
+      "variant": "round2-open-bycases-ltne",
+      "candidate_blob": "946a52bbe28400fe13034b73968dc0a2149d68a1",
+      "producer_run": 43700061299,
+      "outcome": "DIRECT_LEAN_SUCCESS",
+      "errors": []
+    },
+    {
+      "source_head": "2b98dd08d4c6c5f21d5f9deec9f90200f5521b4c",
+      "source_tree": "4baf16ad94d1a8131e22e2e756c13857d3e9dfa3",
+      "imported_blob": "e703d406b303a8dd51178ca26ee227473509e76d",
+      "variant": "round2-qualified-prop-equalities",
+      "candidate_blob": "10e69eb0e2f84bb4a206d9a72f6cdb4535b56aba",
+      "producer_run": 43700061299,
+      "outcome": "DIRECT_LEAN_SUCCESS",
+      "errors": []
+    },
+    {
+      "source_head": "2b98dd08d4c6c5f21d5f9deec9f90200f5521b4c",
+      "source_tree": "4baf16ad94d1a8131e22e2e756c13857d3e9dfa3",
+      "imported_blob": "e703d406b303a8dd51178ca26ee227473509e76d",
+      "variant": "round2-open-bycases-prop-equalities",
+      "candidate_blob": "20cd544202ee57d3837ad8cc04527b0d69451996",
+      "producer_run": 43700061299,
+      "outcome": "DIRECT_LEAN_SUCCESS",
+      "errors": []
+    }
+  ]
+}
