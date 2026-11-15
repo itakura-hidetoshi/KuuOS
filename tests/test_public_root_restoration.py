@@ -148,6 +148,11 @@ REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
     # Source-bound MCP+direct Lean precommit receipt 0a98a2007dfcc4a74259802fe2d5aaf867e1e6dd879d032b1dc5af18b36bcd7c (parent b52b40db).
     # Previous reviewed source Git blob f7dcf6d9cddf3820b78c91375f0ec460874a7734 (Git history).
     "KUOS/DependentOriginationDoubleDeloopingNatNonthinDuskinWitnessV1_95.lean": "bbbbf480721aa6d0a834c7fd5ad7690d0daff04e",
+    # v1.96 original source blob 0c2c9f3599692613ea0c81d61b73e2a2b8d2d102 remains in frozen legacy.
+    # Exact CodeAI round6 source verified by pinned Lean: run 43665265347,
+    # zero errors, olean generated. Exact-source independent CI still required;
+    # this enrollment is provenance/integrity, not proof authority.
+    "KUOS/DependentOriginationDoubleDeloopingThinComparisonZeroV1_96.lean": "c931af7699061a67e73f52e12d4a233f98cb1a5c",
     # Original V1_89 pinned source: f5d06299e825ef784a7df25386b062b80c702f12 (retained in Git history).
     "KUOS/DependentOriginationStandardArbitraryScalingWaypointV1_89.lean": "3b5de0a154436be6598a49861435dc57a80ea2f9",
     "KUOS/DependentOriginationStandardTypeAEndpointOppositeCellCertificateV1_77.lean": "e7d422b89b4a4fa5180790b0c5d49c51b7239786",

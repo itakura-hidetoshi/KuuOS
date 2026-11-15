@@ -29,6 +29,7 @@ REPO = "itakura-hidetoshi/KuuOS"
 TARGET = "formal/KUOS/DependentOriginationDoubleDeloopingThinComparisonZeroV1_96.lean"
 MODULE = "KUOS.DependentOriginationDoubleDeloopingThinComparisonZeroV1_96"
 ORIGINAL_BLOB = "0c2c9f3599692613ea0c81d61b73e2a2b8d2d102"
+PROMOTED_BLOB = "c931af7699061a67e73f52e12d4a233f98cb1a5c"
 PREFIX = "open KUOS.DependentOriginationDoubleDeloopingNatNonthinDuskinWitnessV1_95\n"
 ZERO_INSTANCE = """local instance instNatOneCellHomOfNatZero (f g : NatOneCell) :
     OfNat (Quiver.Hom.{0} f g) 0 where
@@ -284,7 +285,7 @@ def source_observation(head: str,branch: str,tree: str,source:bytes) -> dict:
         "observed_paths":paths,
         "unavailable_paths":[],
         "declared_path_count":len(paths),
-        "baseline_check_digests":["v196-exact-blob:"+ORIGINAL_BLOB,"import-v195:"+git_blob((ROOT/paths[1]).read_bytes())],
+        "baseline_check_digests":["v196-exact-blob:"+git_blob(source),"import-v195:"+git_blob((ROOT/paths[1]).read_bytes())],
         "baseline_checks_complete":True,
         "code_owner_scope_digest":"repo-owner:"+REPO,
         "crosses_unowned_boundary":False,
@@ -319,6 +320,36 @@ def main() -> int:
     head,branch,tree=require_event()
     source_path=ROOT/TARGET
     original=source_path.read_bytes()
+    # Once the exact kernel-green candidate has been promoted to the parent,
+    # verify its immutable source blob with the same pinned Lean. Do not
+    # rerun the old candidate generator against a different source baseline.
+    if git_blob(original) == PROMOTED_BLOB:
+        record=source_observation(head,branch,tree,original)
+        output=Path("/tmp/kuuos-v196-codeai-type-probes")
+        output.mkdir(parents=True,exist_ok=False)
+        with tempfile.TemporaryDirectory(prefix="v196-promoted-lean-") as td:
+            done=subprocess.run([
+                "lake","env","lean","-DwarningAsError=true",
+                "-Dweak.sorryAsError=true","-o",td+"/promoted.olean",TARGET
+            ],cwd=ROOT,capture_output=True,text=True,check=False,timeout=300)
+            olean_exists=Path(td+"/promoted.olean").is_file()
+        log=done.stdout+"\n"+done.stderr
+        (output/"promoted-direct-lean.log").write_text(log,encoding="utf-8")
+        row={
+            "source_head":head, "source_tree":tree,
+            "original_blob":ORIGINAL_BLOB, "promoted_blob":PROMOTED_BLOB,
+            "observation_receipt":record[obs.RECEIPT_DIGEST_FIELD],
+            "status":"SUCCESS" if done.returncode==0 and olean_exists else "FAILURE",
+            "exit_code":done.returncode, "olean_exists":olean_exists,
+            "source_restored":source_path.read_bytes()==original,
+            "log_sha256":sha256(log.encode("utf-8")),
+            "independent_ci_certified":False,
+        }
+        (output/"portfolio_receipt.json").write_text(
+            json.dumps(row,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
+        print("KUUOS_V196_PROMOTED_EXACT_BLOB_DIRECT_LEAN "+
+              json.dumps(row,sort_keys=True))
+        return 0 if row["status"]=="SUCCESS" and row["source_restored"] else 2
     if git_blob(original)!=ORIGINAL_BLOB:
         raise RuntimeError("v1.96 source blob drift")
     record=source_observation(head,branch,tree,original)
