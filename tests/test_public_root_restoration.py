@@ -170,6 +170,11 @@ REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
     # CodeAI v1.100 round5 direct Lean run #43676394335: 0 errors, olean produced;
     # exact candidate Git blob ca3b4d01207ecc01678bf630af21488f20584bca. Enrollment is provenance only.
     "KUOS/DependentOriginationDoubleDeloopingNormalizedCocycleRealizationV1_100.lean": "ca3b4d01207ecc01678bf630af21488f20584bca",
+    # v1.101 original source blob dfc083198b2fdbb29adf64106785b5d7f98ab4af
+    # remains frozen in legacy. CodeAI round2 exact Lean CI #43678084721
+    # was 0-error with .olean on blob 14bdc82293c14a367d9d7572ffb7b41c85eccdfe.
+    # This enrollment records provenance, not independent proof authority.
+    "KUOS/DependentOriginationDoubleDeloopingTypeACocycleLiftingV1_101.lean": "14bdc82293c14a367d9d7572ffb7b41c85eccdfe",
     # Original V1_89 pinned source: f5d06299e825ef784a7df25386b062b80c702f12 (retained in Git history).
     "KUOS/DependentOriginationStandardArbitraryScalingWaypointV1_89.lean": "3b5de0a154436be6598a49861435dc57a80ea2f9",
     "KUOS/DependentOriginationStandardTypeAEndpointOppositeCellCertificateV1_77.lean": "e7d422b89b4a4fa5180790b0c5d49c51b7239786",
