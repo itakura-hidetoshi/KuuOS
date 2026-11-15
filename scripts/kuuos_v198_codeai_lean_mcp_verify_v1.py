@@ -156,7 +156,7 @@ def main() -> int:
         (OUT/"receipt.json").write_text(
             json.dumps(receipt, sort_keys=True, indent=2, ensure_ascii=False)+"\n"
         )
-        print("KUUOS_V197_CODEAI_LEAN_MCP_PRECOMMIT "+
+        print("KUUOS_V198_CODEAI_LEAN_MCP_PRECOMMIT "+
               json.dumps(receipt, sort_keys=True, ensure_ascii=False))
     return 0 if receipt["status"]=="MCP_AND_DIRECT_LEAN_LOCAL_GREEN" and receipt["source_restored"] else 2
 

@@ -158,6 +158,10 @@ REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
     # blob selected exactly 2ee902a37f15d1c9d2068f053375482188a90ed4.
     # Enrollment is exact-byte provenance ONLY, not independent CI authority.
     "KUOS/DependentOriginationDoubleDeloopingTypeBTetrahedralZeroV1_97.lean": "2ee902a37f15d1c9d2068f053375482188a90ed4",
+    # v1.98 original blob f6b5a1bcbc2953a17c7378cd6bc5f5bb6f77fac5 remains frozen.
+    # CodeAI round2 direct Lean run #43669968278: zero errors, .olean emitted.
+    # This exact-byte enrollment is provenance, not proof or merge authority.
+    "KUOS/DependentOriginationDoubleDeloopingTypeBTerminalRLPV1_98.lean": "32da66bfda254ad9e608e0174443b4c45310579a",
     # Original V1_89 pinned source: f5d06299e825ef784a7df25386b062b80c702f12 (retained in Git history).
     "KUOS/DependentOriginationStandardArbitraryScalingWaypointV1_89.lean": "3b5de0a154436be6598a49861435dc57a80ea2f9",
     "KUOS/DependentOriginationStandardTypeAEndpointOppositeCellCertificateV1_77.lean": "e7d422b89b4a4fa5180790b0c5d49c51b7239786",
