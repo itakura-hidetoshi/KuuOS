@@ -93,6 +93,15 @@ PR3554_V126_TYPED_TRANSPORT_BLOB = {
 }
 
 
+# Universe-safe v1.27-v1.29 typed repair: modified historical source blobs.
+# Their theorem statements are intentionally typed via ULift, not asserted text-identical.
+PR3555_V127_V129_ULIFT_REVIEWED_BLOBS = {
+    "KUOS/DependentOriginationStrictlyUnitaryDuskinModelTransportV1_27.lean": "36f9aef05ce8bc068856c28ccbbc2b7512b89112",
+    "KUOS/DependentOriginationNormalizationChoiceInvariantV1_28.lean": "9078c15951561b85ecf5378e258adfc92789f823",
+    "KUOS/DependentOriginationScaledDuskinHornTransportV1_29.lean": "3a1046a9a44cbb1ad466ef7a27a107122ea05aca",
+}
+
+
 def git_blob_sha(raw: bytes) -> str:
     """Reproduce the canonical git blob hash, including its type/length prefix."""
     header = b"blob " + str(len(raw)).encode("ascii") + b"\0"
@@ -274,7 +283,8 @@ class RestoredWiringTests(unittest.TestCase):
                              or PR3551_V119_CLASS_REDUCIBILITY_BLOB.get(rel.as_posix())
                              or PR3552_V120_SEGAL_BLOB.get(rel.as_posix())
                              or PR3553_V121_V125_BOUNDED_BLOBS.get(rel.as_posix())
-                             or PR3554_V126_TYPED_TRANSPORT_BLOB.get(rel.as_posix()))
+                             or PR3554_V126_TYPED_TRANSPORT_BLOB.get(rel.as_posix())
+                             or PR3555_V127_V129_ULIFT_REVIEWED_BLOBS.get(rel.as_posix()))
                 if fixed_sha is not None:
                     pinned_seen.add(rel.as_posix())
                     self.assertEqual(git_blob_sha(current), fixed_sha,
@@ -284,7 +294,7 @@ class RestoredWiringTests(unittest.TestCase):
                                      f'unreviewed theorem source change: {rel}')
         self.assertEqual(seen, set(LINT_ONLY_SOURCE_EDITS),
                          'reviewed lint edit targets must all exist in historical roots')
-        self.assertEqual(pinned_seen, set(PR2339_INTEGRATED_PROOF_BLOBS) | set(PR3522_FOCUSED_REPAIR_BLOBS) | set(PR3548_V16_LOCALLY_DISCRETE_BLOB) | set(PR3550_V118_DIRECT_IMPORT_BLOB) | set(PR3551_V119_CLASS_REDUCIBILITY_BLOB) | set(PR3552_V120_SEGAL_BLOB) | set(PR3553_V121_V125_BOUNDED_BLOBS) | set(PR3554_V126_TYPED_TRANSPORT_BLOB),
+        self.assertEqual(pinned_seen, set(PR2339_INTEGRATED_PROOF_BLOBS) | set(PR3522_FOCUSED_REPAIR_BLOBS) | set(PR3548_V16_LOCALLY_DISCRETE_BLOB) | set(PR3550_V118_DIRECT_IMPORT_BLOB) | set(PR3551_V119_CLASS_REDUCIBILITY_BLOB) | set(PR3552_V120_SEGAL_BLOB) | set(PR3553_V121_V125_BOUNDED_BLOBS) | set(PR3554_V126_TYPED_TRANSPORT_BLOB) | set(PR3555_V127_V129_ULIFT_REVIEWED_BLOBS),
                          'every preexisting integrated proof exception is explicit and accounted for')
 
     def test_f55_path_functor_composition_has_actual_path_homs(self):
@@ -303,6 +313,16 @@ class RestoredWiringTests(unittest.TestCase):
         self.assertIn('(g : Quiver.Path', typed)
         self.assertIn('nativeF55ThreeComp', typed)
         self.assertIn('.map_comp f g', typed)
+
+    def test_v129_new_universe_lift_bridge_exact_blob(self):
+        # New append-only source has no historical file to replace.
+        # Source integrity is evidence, not a kernel typecheck.
+        path = ROOT / 'formal/KUOS/DependentOriginationScaledDuskinUniverseLiftBridgeV1_29.lean'
+        self.assertEqual(
+            git_blob_sha(path.read_bytes()),
+            '78b7d2d63dc8137a6143b93579ffcec6c910b06f',
+            'v1.29 new ULift scaling bridge source changed without independent review'
+        )
 
     def test_lean_mathlib_pins_are_unchanged(self):
         for name in ('lean-toolchain', 'lake-manifest.json'):
