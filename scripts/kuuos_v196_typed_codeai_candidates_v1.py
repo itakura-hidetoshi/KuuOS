@@ -30,9 +30,14 @@ TARGET = "formal/KUOS/DependentOriginationDoubleDeloopingThinComparisonZeroV1_96
 MODULE = "KUOS.DependentOriginationDoubleDeloopingThinComparisonZeroV1_96"
 ORIGINAL_BLOB = "0c2c9f3599692613ea0c81d61b73e2a2b8d2d102"
 PREFIX = "open KUOS.DependentOriginationDoubleDeloopingNatNonthinDuskinWitnessV1_95\n"
-NOTATION = 'local infixr:10 " ⟶ " => Quiver.Hom.{0}\n'
-INSTANCE = """local instance (f g : NatOneCell) :
-    OfNat (Quiver.Hom.{0} f g) 0 := inferInstanceAs (OfNat Nat 0)
+ZERO_INSTANCE = """local instance instNatOneCellHomOfNatZero (f g : NatOneCell) :
+    OfNat (Quiver.Hom.{0} f g) 0 where
+  ofNat := (0 : Nat)
+"""
+HADD_INSTANCE = """local instance instNatOneCellHomHAdd (f g h : NatOneCell) :
+    HAdd (Quiver.Hom.{0} f g) (Quiver.Hom.{0} g h)
+      (Quiver.Hom.{0} f h) where
+  hAdd := Nat.add
 """
 EXPLICIT = "    change Nat.add alpha (inv alpha) = 0 at hinv"
 
@@ -60,17 +65,27 @@ def variants(source: str) -> dict[str,str]:
     rename = source.replace("hλ","hLeftUnitor").replace("hρ","hRightUnitor")
     if rename == source or "have hλ" in rename:
         raise RuntimeError("syntax rename source drift")
-    base = rename.replace(PREFIX,PREFIX+"\n"+NOTATION)
-    explicit = base.replace("    change alpha + inv alpha = 0 at hinv",EXPLICIT)
-    if explicit == base:
+    base = rename.replace(PREFIX,PREFIX+"\n"+ZERO_INSTANCE)
+    both = rename.replace(PREFIX,PREFIX+"\n"+ZERO_INSTANCE+HADD_INSTANCE)
+    explicit = both.replace("    change alpha + inv alpha = 0 at hinv",EXPLICIT)
+    if explicit == both:
         raise RuntimeError("v1.96 additive proof anchor drift")
-    # Same actual theorem statements. Only the local elaboration environment,
-    # proof tactic and unambiguous theorem-local auxiliary identifiers change.
+    subsingleton = both.replace(
+        "have hf : f = 𝟙 a := Subsingleton.elim _ _",
+        "have hf : f = 𝟙 a := by\n      apply Discrete.ext\n      exact Subsingleton.elim _ _",
+    ).replace(
+        "have hg : g = 𝟙 b := Subsingleton.elim _ _",
+        "have hg : g = 𝟙 b := by\n      apply Discrete.ext\n      exact Subsingleton.elim _ _",
+    )
+    if subsingleton == both:
+        raise RuntimeError("v1.96 source morphism proof drift")
+    # No theorem statement or assumptions are edited. The actual Lean kernel
+    # alone decides if local instances yield the intended hom type.
     return {
-        "fix-unitor-identifiers-only": rename,
-        "force-hom-universe0-and-unitor-identifiers": base,
-        "force-hom0-and-explicit-Nat-add": explicit,
-        "force-hom0-explicit-zero-instance": base.replace(PREFIX+"\n"+NOTATION,PREFIX+"\n"+NOTATION+INSTANCE),
+        "local-hom-zero-instance":base,
+        "local-hom-zero-and-hadd":both,
+        "local-hom-both-Nat-add":explicit,
+        "local-hom-both-discrete-source-proofs":subsingleton,
     }
 
 
@@ -250,8 +265,10 @@ def main() -> int:
                         outputText=str(ex.stdout or "")+"\n"+str(ex.stderr or "")
                     (output/(key+".log")).write_text(outputText)
                     row["log_sha256"]=sha256(outputText.encode())
-                    row["errors"]=[x[:480] for x in outputText.splitlines() if "error:" in x][:80]
-                    row["error_count"]=len([x for x in outputText.splitlines() if "error:" in x])
+                    error_lines=[x for x in outputText.splitlines()
+                        if re.search(r"(?<![A-Za-z])error(?::|\\()",x)]
+                    row["errors"]=[x[:480] for x in error_lines][:80]
+                    row["error_count"]=len(error_lines)
             finally:
                 source_path.write_bytes(original)
                 source_path.chmod(mode)
