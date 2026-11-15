@@ -134,7 +134,26 @@ def run(generator_name: str, history: Path, output: Path,
             # The earlier runner may return 0 merely for experiment completion.
             # Never promote that to successful proof or a successful MCP gate.
             mcp=json.loads((core.MCP_OUT/'receipt.json').read_text())
-            local_green=(mcp.get('source_head')==head and mcp.get('mcp_success') is True
+            # The MCP success receipt must refer to exactly the Lean candidate
+            # whose complete compiler log we just captured as direct-green.
+            # A green receipt for another blob (or missing identity) cannot
+            # descend to a successful verification of this source.
+            selected=mcp.get('selected')
+            by_variant={row['variant']:row for row in captured}
+            selected_case=by_variant.get(selected) if isinstance(selected,str) else None
+            direct_green={row['variant'] for row in captured
+                          if row['outcome']=='direct_success'}
+            mcp_green=mcp.get('direct_lean_green')
+            identities_agree=(
+                selected_case is not None
+                and selected_case['outcome']=='direct_success'
+                and mcp.get('selected_blob')==selected_case['candidate_blob']
+                and isinstance(mcp_green,list)
+                and set(mcp_green)==direct_green
+                and mcp.get('candidate_count')==len(captured)
+            )
+            local_green=(identities_agree and mcp.get('source_head')==head
+                         and mcp.get('mcp_success') is True
                          and mcp.get('mcp_errors')==0 and mcp.get('second_direct_exit')==0
                          and mcp.get('second_direct_success') is True
                          and mcp.get('source_restored') is True)

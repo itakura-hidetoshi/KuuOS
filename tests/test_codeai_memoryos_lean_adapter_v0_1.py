@@ -31,7 +31,15 @@ class AdapterTests(unittest.TestCase):
                 (core.OUT/(name+'.log')).write_text(log)
                 rows.append({'variant':name,'candidate_blob':m.git_blob(text.encode()),'exit_code':0 if green else 1,'olean_exists':green,'log_sha256':hashlib.sha256(log.encode()).hexdigest(),'status':'SUCCESS' if green else 'FAILURE'})
             (core.OUT/'portfolio.json').write_text(json.dumps({'source_head':'1'*40,'source_tree':'2'*40,'source_restored':True,'candidates':rows}))
-            (core.MCP_OUT/'receipt.json').write_text(json.dumps({'source_head':'1'*40,'mcp_success':green,'mcp_errors':0 if green else None,'second_direct_exit':0 if green else None,'second_direct_success':green,'source_restored':True}))
+            (core.MCP_OUT/'receipt.json').write_text(json.dumps({
+                'source_head':'1'*40,'candidate_count':1,
+                'direct_lean_green':['fixture'] if green else [],
+                'selected':'fixture' if green else None,
+                'selected_blob':m.git_blob(b'candidate') if green else None,
+                'mcp_success':green,'mcp_errors':0 if green else None,
+                'second_direct_exit':0 if green else None,
+                'second_direct_success':green,'source_restored':True
+            }))
             return 0
         core.main=raw_main;core.proposals=factory
         def gen_main():core.proposals=factory;return core.main()
