@@ -1,0 +1,99 @@
+name: KuuOS v1.108 independent exact-source missing-tetrahedron Lean axioms
+
+on:
+  pull_request:
+    paths:
+      - "formal/KUOS/DependentOriginationDoubleDeloopingTypeAFourAllTetrahedraV1_108.lean"
+      - "scripts/kuuos_v1108_four_stage_admission_v1.py"
+      - ".github/workflows/kuuos-v1108-independent-four-implies-five-v1.yml"
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  v1108-independent-exact-source-lean-axioms:
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.number == 3522 }}
+    runs-on: ubuntu-22.04
+    timeout-minutes: 90
+    env:
+      MATHLIB_NO_CACHE_ON_UPDATE: '1'
+    steps:
+      - name: Checkout immutable promoted source
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - name: Download exact CodeAI and real MCP evidence
+        uses: actions/download-artifact@v4
+        with:
+          name: kuuos-v1108-codeai-four-implies-five-43694200399
+          run-id: 43694200399
+          github-token: ${{ github.token }}
+          path: /tmp/kuuos-v1108-evidence
+      - name: Check exact proof blob, prior source, CodeAI, direct Lean and real MCP receipts
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          EVIDENCE_DIR: /tmp/kuuos-v1108-evidence
+          PROMOTED_HEAD: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+          python3 -m py_compile scripts/kuuos_v1108_four_stage_admission_v1.py
+          PYTHONPATH=. python3 scripts/kuuos_v1108_four_stage_admission_v1.py
+      - name: Setup pinned Lean 4.30.0-rc2
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Restore source pinned build cache read-only
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake/build
+          key: kuuos-pr-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-pr3522-${{ github.event.pull_request.head.sha }}
+          restore-keys: |
+            kuuos-pr-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-pr3522-
+      - name: Resolve pinned mathlib
+        run: lake exe cache get
+      - name: Independent strict imported Lean proof closure
+        run: |
+          set -euo pipefail
+          timeout 3000 lake -KleanArgs=-DwarningAsError=true -KleanArgs=-Dweak.sorryAsError=true build KUOS.DependentOriginationDoubleDeloopingTypeAFourAllTetrahedraV1_108 2>&1 | tee /tmp/kuuos-v1108-independent/build.log
+      - name: Independent kernel axiom audit for new actual 4-to-5 theorem
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          name='KUOS.DependentOriginationDoubleDeloopingTypeAFourAllTetrahedraV1_108.natFourHorn_all_five_tetrahedra'
+          data=['import KUOS.DependentOriginationDoubleDeloopingTypeAFourAllTetrahedraV1_108',
+                '#check '+name, '#print axioms '+name]
+          Path('/tmp/kuuos-v1108-independent/AxiomAudit.lean').write_text('\n'.join(data)+'\n')
+          PY
+          lake env lean -DwarningAsError=true -Dweak.sorryAsError=true /tmp/kuuos-v1108-independent/AxiomAudit.lean 2>&1 | tee /tmp/kuuos-v1108-independent/axioms.log
+          python3 - <<'PY'
+          import json,re
+          from pathlib import Path
+          log=Path('/tmp/kuuos-v1108-independent/axioms.log').read_text()
+          assert 'KUOS.DependentOriginationDoubleDeloopingTypeAFourAllTetrahedraV1_108.natFourHorn_all_five_tetrahedra' in log
+          assert not re.search(r'(?m)(warning:|error:|sorryAx)',log)
+          axioms=set()
+          for group in re.findall(r'depends on axioms:\s*\[([^\]]*)\]',log,re.S):
+              axioms.update(x.strip() for x in group.split(',') if x.strip())
+          assert axioms.issubset({'propext','Classical.choice','Quot.sound'}),sorted(axioms)
+          receipt={'new_theorems_audited':1,'axioms':sorted(axioms),
+                   'sorryAx':False,'warning':0,'error':0,
+                   'source_blob':'6071b265507c1798c8a61ce87a0a828713c97c63'}
+          Path('/tmp/kuuos-v1108-independent/axiom_receipt.json').write_text(json.dumps(receipt,indent=2)+'\n')
+          print('KUUOS_V1108_INDEPENDENT_AXIOM_AUDIT_GREEN',receipt)
+          PY
+      - name: Archive exact independent source and kernel evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-v1108-independent-${{ github.run_id }}
+          path: /tmp/kuuos-v1108-independent/
+          if-no-files-found: warn
+          retention-days: 30
