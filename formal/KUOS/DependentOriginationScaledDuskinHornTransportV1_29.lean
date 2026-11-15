@@ -1,4 +1,5 @@
 import KUOS.DependentOriginationNormalizationChoiceInvariantV1_28
+import KUOS.DependentOriginationScaledDuskinUniverseLiftBridgeV1_29
 
 namespace KUOS.DependentOriginationScaledDuskinHornTransportV1_29
 
@@ -8,9 +9,11 @@ open CategoryTheory.Bicategory
 open Simplicial
 open Opposite
 open scoped Bicategory
+open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
 open KUOS.DependentOriginationGlobalDuskinScaledNerveV1_21
 open KUOS.DependentOriginationGlobalDuskinScaledHornCoherenceV1_22
 open KUOS.DependentOriginationStrictlyUnitaryDuskinModelTransportV1_27
+open KUOS.DependentOriginationScaledDuskinUniverseLiftBridgeV1_29
 
 universe u₁ u₂ v₁ v₂ w₁ w₂
 
@@ -62,7 +65,9 @@ def mapScaledHornFiller
     ScaledHornFiller (mapScaledHornProblem hf P) where
   simplexMap := Q.simplexMap ≫ f
   extends_horn := by
-    rw [Category.assoc, ← Q.extends_horn]
+    change P.hornMap ≫ f = Λ[n, i].ι ≫ (Q.simplexMap ≫ f)
+    rw [Q.extends_horn]
+    simp only [Category.assoc]
   simplexMap_scaled := Q.simplexMap_scaled.comp hf
 
 /-- Nonempty source filler data therefore transports forward. -/
@@ -116,17 +121,40 @@ theorem admissibleFiller_forward
 
 /-! ## Global Duskin specialization -/
 
+/-! The model map is defined between the actual pairwise ULift carriers. -/
+abbrev normalizedDuskinSource
+    (B : Type u₁) [Bicategory.{w₁, v₁} B]
+    (C : Type u₂) [Bicategory.{w₂, v₂} C] :=
+  (SSet.uliftFunctor.{max (max w₂ v₂) u₂, max (max w₁ v₁) u₁}).obj
+    (duskinNerve B)
+
+abbrev normalizedDuskinTarget
+    (B : Type u₁) [Bicategory.{w₁, v₁} B]
+    (C : Type u₂) [Bicategory.{w₂, v₂} C] :=
+  (SSet.uliftFunctor.{max (max w₁ v₁) u₁, max (max w₂ v₂) u₂}).obj
+    (duskinNerve C)
+
+abbrev normalizedDuskinSourceScaling
+    (B : Type u₁) [Bicategory.{w₁, v₁} B]
+    (C : Type u₂) [Bicategory.{w₂, v₂} C] :
+    ScaledSimplicialSet (normalizedDuskinSource B C) :=
+  uliftScaling.{max (max w₁ v₁) u₁, max (max w₂ v₂) u₂} (duskinScaling B)
+
+abbrev normalizedDuskinTargetScaling
+    (B : Type u₁) [Bicategory.{w₁, v₁} B]
+    (C : Type u₂) [Bicategory.{w₂, v₂} C] :
+    ScaledSimplicialSet (normalizedDuskinTarget B C) :=
+  uliftScaling.{max (max w₂ v₂) u₂, max (max w₁ v₁) u₁} (duskinScaling C)
+
 /--
 The remaining datum needed to regard the normalized global Duskin map as a
 full scaled map.  Version 1.27 already proves the nondegenerate part.
 -/
-structure FullScaledDuskinMapCertificate
+abbrev FullScaledDuskinMapCertificate
     {B : Type u₁} [Bicategory.{w₁, v₁} B]
     {C : Type u₂} [Bicategory.{w₂, v₂} C]
-    (E : StrictlyUnitaryBicategoricalModelEquivalence B C) : Prop where
-  map_scaled :
-    IsScaledMap (duskinScaling B) (duskinScaling C)
-      (normalizedDuskinNerveMap E)
+    (E : StrictlyUnitaryBicategoricalModelEquivalence B C) : Prop :=
+  LiftedFullScaledDuskinMapCertificate E
 
 /-- Re-export the scaled map from the full certificate. -/
 def normalizedDuskinScaledMap
@@ -134,8 +162,8 @@ def normalizedDuskinScaledMap
     {C : Type u₂} [Bicategory.{w₂, v₂} C]
     {E : StrictlyUnitaryBicategoricalModelEquivalence B C}
     (H : FullScaledDuskinMapCertificate E) :
-    IsScaledMap (duskinScaling B) (duskinScaling C)
-      (normalizedDuskinNerveMap E) :=
+    IsScaledMap (normalizedDuskinSourceScaling B C)
+      (normalizedDuskinTargetScaling B C) (normalizedDuskinNerveMap E) :=
   H.map_scaled
 
 /-- The nondegenerate portion of full scaling preservation is already theorem-level. -/
@@ -146,9 +174,9 @@ theorem normalizedDuskin_nonDegenerateThin_preserved
     (σ : DuskinSimplex B 2)
     (hnd : ¬ IsDegenerateDuskinTwoSimplex σ)
     (hthin : (duskinScaling B).thin σ) :
-    (duskinScaling C).thin
-      ((normalizedDuskinNerveMap E).app (op ⦋2⦌) σ) := by
-  simpa using nondegenerateThin_transport_isThin E σ hnd hthin
+    (normalizedDuskinTargetScaling B C).thin
+      ((normalizedDuskinNerveMap E).app (op ⦋2⦌) (ULift.up σ)) := by
+  exact nondegenerateThin_preserved_lift E σ hnd hthin
 
 /-- A full scaled Duskin map transports every scaled horn problem forward. -/
 def transportGlobalDuskinHornProblem
@@ -158,9 +186,9 @@ def transportGlobalDuskinHornProblem
     (H : FullScaledDuskinMapCertificate E)
     {n : Nat} {i : Fin (n + 1)}
     (P : ScaledHornExtensionProblem
-      (duskinNerve B) (duskinScaling B) n i) :
+      (normalizedDuskinSource B C) (normalizedDuskinSourceScaling B C) n i) :
     ScaledHornExtensionProblem
-      (duskinNerve C) (duskinScaling C) n i :=
+      (normalizedDuskinTarget B C) (normalizedDuskinTargetScaling B C) n i :=
   mapScaledHornProblem H.map_scaled P
 
 /-- Every scaled filler of a source global Duskin horn transports to the target image horn. -/
@@ -171,7 +199,7 @@ def transportGlobalDuskinHornFiller
     (H : FullScaledDuskinMapCertificate E)
     {n : Nat} {i : Fin (n + 1)}
     {P : ScaledHornExtensionProblem
-      (duskinNerve B) (duskinScaling B) n i}
+      (normalizedDuskinSource B C) (normalizedDuskinSourceScaling B C) n i}
     (Q : ScaledHornFiller P) :
     ScaledHornFiller (transportGlobalDuskinHornProblem H P) :=
   mapScaledHornFiller H.map_scaled Q
@@ -197,3 +225,131 @@ statement at the scaled horn-presentation level.
 -/
 
 end KUOS.DependentOriginationScaledDuskinHornTransportV1_29
+
+
+namespace KUOS.DependentOriginationScaledDuskinHornTransportV1_29
+
+open CategoryTheory
+open CategoryTheory.Category
+open CategoryTheory.Bicategory
+open Simplicial
+open Opposite
+open scoped Bicategory
+open KUOS.DependentOriginationGlobalDuskinScaledHornCoherenceV1_22
+open KUOS.DependentOriginationStrictlyUnitaryDuskinModelTransportV1_27
+
+universe u₁ u₂ v₁ v₂ w₁ w₂
+
+/-!
+## Lifted-image horn family (typed, one-way result)
+
+The normalized Duskin morphism has a *lifted* domain and codomain.  Thus a
+source family in this theorem must live on the lifted source carrier.  Its image
+family contains exactly transported source horns.  This makes no assertion
+about all horns on the unlifted target nerve, nor does it identify the image
+family with an arbitrary global Duskin horn family.
+-/
+namespace LiftedImage
+
+/-- Exact image of admissible lifted source horns under a certified scaled map. -/
+def liftedDuskinImageHornFamily
+    {B : Type u₁} [Bicategory.{w₁, v₁} B]
+    {C : Type u₂} [Bicategory.{w₂, v₂} C]
+    {E : StrictlyUnitaryBicategoricalModelEquivalence B C}
+    (H : FullScaledDuskinMapCertificate E)
+    (HB : ScaledHornFamily (normalizedDuskinSource B C)
+      (normalizedDuskinSourceScaling B C)) :
+    ScaledHornFamily (normalizedDuskinTarget B C)
+      (normalizedDuskinTargetScaling B C) where
+  admissible := fun {n} {i} Q =>
+    ∃ P : ScaledHornExtensionProblem
+        (normalizedDuskinSource B C) (normalizedDuskinSourceScaling B C) n i,
+      HB.admissible P ∧ transportGlobalDuskinHornProblem H P = Q
+
+/-- This statement only supplies fillers for the transported image family. -/
+theorem liftedDuskinImageHornFibrancy
+    {B : Type u₁} [Bicategory.{w₁, v₁} B]
+    {C : Type u₂} [Bicategory.{w₂, v₂} C]
+    {E : StrictlyUnitaryBicategoricalModelEquivalence B C}
+    (H : FullScaledDuskinMapCertificate E)
+    (HB : ScaledHornFamily (normalizedDuskinSource B C)
+      (normalizedDuskinSourceScaling B C))
+    (hB : HasScaledHornFillers (normalizedDuskinSource B C)
+      (normalizedDuskinSourceScaling B C) HB) :
+    HasScaledHornFillers (normalizedDuskinTarget B C)
+      (normalizedDuskinTargetScaling B C)
+      (liftedDuskinImageHornFamily H HB) := by
+  refine ⟨?_⟩
+  intro n i Q hQ h0 hi
+  obtain ⟨P, hP, rfl⟩ := hQ
+  exact mapScaledHornFiller_nonempty H.map_scaled (hB.fill P hP h0 hi)
+
+#print axioms liftedDuskinImageHornFibrancy
+
+end LiftedImage
+
+end KUOS.DependentOriginationScaledDuskinHornTransportV1_29
+
+/-! ## Certified image-family compatibility at the genuine lifted boundary -/
+
+namespace KUOS.DependentOriginationScaledDuskinHornTransportV1_29.LiftedImage
+
+open CategoryTheory
+open KUOS.DependentOriginationGlobalDuskinScaledHornCoherenceV1_22
+open KUOS.DependentOriginationStrictlyUnitaryDuskinModelTransportV1_27
+
+universe aU bU aV bV aW bW
+
+/--
+The chosen image family contains every transported admissible lifted horn.
+This proves a *local* family-map witness, not equivalence with an arbitrary
+unlifted family; the E_B/E_C descent obligations remain independent.
+-/
+theorem liftedDuskinImageHornFamily_map
+    {B : Type aU} [Bicategory.{aW, aV} B]
+    {C : Type bU} [Bicategory.{bW, bV} C]
+    {E : StrictlyUnitaryBicategoricalModelEquivalence B C}
+    (H : FullScaledDuskinMapCertificate E)
+    (HB : ScaledHornFamily (normalizedDuskinSource B C)
+      (normalizedDuskinSourceScaling B C)) :
+    ScaledHornFamilyMap H.map_scaled HB
+      (liftedDuskinImageHornFamily H HB) := by
+  refine ⟨?_⟩
+  intro n i P hP
+  exact ⟨P, hP, rfl⟩
+
+#print axioms liftedDuskinImageHornFamily_map
+
+
+/--
+A map of admissible lifted horn families to an arbitrary lifted target
+family is *equivalent* to the target family containing the exact admissible
+image. No unlifted source/target family is identified with its ULift.
+-/
+theorem liftedDuskinFamilyMap_iff_image_admissible
+    {B : Type aU} [Bicategory.{aW, aV} B]
+    {C : Type bU} [Bicategory.{bW, bV} C]
+    {E : StrictlyUnitaryBicategoricalModelEquivalence B C}
+    (H : FullScaledDuskinMapCertificate E)
+    (HB : ScaledHornFamily (normalizedDuskinSource B C)
+      (normalizedDuskinSourceScaling B C))
+    (HC : ScaledHornFamily (normalizedDuskinTarget B C)
+      (normalizedDuskinTargetScaling B C)) :
+    ScaledHornFamilyMap H.map_scaled HB HC ↔
+      ∀ {n : Nat} {i : Fin (n + 1)}
+        (Q : ScaledHornExtensionProblem
+          (normalizedDuskinTarget B C) (normalizedDuskinTargetScaling B C) n i),
+        (liftedDuskinImageHornFamily H HB).admissible Q →
+          HC.admissible Q := by
+  constructor
+  · intro Hfam n i Q hQ
+    obtain ⟨P, hP, rfl⟩ := hQ
+    exact Hfam.admissible_preserved P hP
+  · intro hincl
+    refine ⟨?_⟩
+    intro n i P hP
+    exact hincl _ ⟨P, hP, rfl⟩
+
+#print axioms liftedDuskinFamilyMap_iff_image_admissible
+
+end KUOS.DependentOriginationScaledDuskinHornTransportV1_29.LiftedImage
