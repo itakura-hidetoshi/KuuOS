@@ -141,11 +141,26 @@ def variants(source: str) -> dict[str,str]:
         "    K.cocycle.toSimplexMap) = f.map\n"
         "  exact K.restrict"
     )
+    # Round 2: IsScaledMap is NOT declared by the opened v1.19/v1.21
+    # namespaces. Exact source is v1.22; import is transitive through v1.49.
+    # Adding the local open changes neither theorem assumptions nor imports.
+    # Distinguish the primary scoping error from downstream proof issues.
+    openV122="open KUOS.DependentOriginationGlobalDuskinScaledHornCoherenceV1_22\n"
+    def with_open(t: str) -> str:
+        return replace_once(t, PREFIX, PREFIX+openV122, "open pinned v1.22 IsScaledMap")
+    candidateScope=with_open(scope)
+    candidateRlp=with_open(withRlp)
+    candidateFacSimp=with_open(replace_once(withRlp,facOld,fac1,"fac simp only"))
+    candidateFacChange=with_open(replace_once(withRlp,facOld,fac2,"fac direct cocycle"))
     return {
         "round1-local-NatCocycle-namespace":scope,
         "round1-namespace-and-RLP-family":withRlp,
         "round1-namespace-RLP-fac-simpa":replace_once(withRlp,facOld,fac1,"fac simp only"),
         "round1-namespace-RLP-fac-change":replace_once(withRlp,facOld,fac2,"fac direct cocycle"),
+        "round2-open-IsScaledMap-local-scope":candidateScope,
+        "round2-open-IsScaledMap-RLP":candidateRlp,
+        "round2-open-IsScaledMap-fac-simpa":candidateFacSimp,
+        "round2-open-IsScaledMap-fac-change":candidateFacChange,
     }
 
 
