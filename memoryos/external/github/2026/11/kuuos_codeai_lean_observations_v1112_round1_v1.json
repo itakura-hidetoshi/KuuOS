@@ -1,0 +1,45 @@
+{
+  "profile": "memoryos_codeai_lean_observations_v0_1",
+  "repository": "itakura-hidetoshi/KuuOS",
+  "authority": "external_pointer_only",
+  "curation_note": "v1.112 actual fixed direct Lean: selected fin_cases proof succeeds, 2 Fin omega variants fail. Real Lean MCP success and second direct success are independently recorded in producer run #43712327972; this MemoryOS pointer never grants kernel or merge authority. Independent v1.112 source CI remains separate.",
+  "independent_certification_pointers": [],
+  "observations": [
+    {
+      "source_head": "df85701cdabb757d8831f50b1134a42222114980",
+      "source_tree": "36ba19bd49946ac9be43450987d2fd3abbac7d20",
+      "imported_blob": "35dc6ddf9bcd6ecd4f7141674e75055c306dbfe9",
+      "variant": "round1-fin-cases",
+      "candidate_blob": "9934de88791e6ffc4c085e14ca1736168d17c93b",
+      "producer_run": 43712327972,
+      "outcome": "DIRECT_LEAN_SUCCESS",
+      "errors": []
+    },
+    {
+      "source_head": "df85701cdabb757d8831f50b1134a42222114980",
+      "source_tree": "36ba19bd49946ac9be43450987d2fd3abbac7d20",
+      "imported_blob": "35dc6ddf9bcd6ecd4f7141674e75055c306dbfe9",
+      "variant": "round1-omega-fin-eq",
+      "candidate_blob": "b992a8b58bd93a91f96f5a64f2ca6269f784e040",
+      "producer_run": 43712327972,
+      "outcome": "DIRECT_LEAN_FAILURE",
+      "errors": [
+        "formal/KUOS/DependentOriginationDoubleDeloopingAllStandardTypeACompletionV1_112.lean:37:39: error: omega could not prove the goal:",
+        "formal/KUOS/DependentOriginationDoubleDeloopingAllStandardTypeACompletionV1_112.lean:45:43: error: omega could not prove the goal:"
+      ]
+    },
+    {
+      "source_head": "df85701cdabb757d8831f50b1134a42222114980",
+      "source_tree": "36ba19bd49946ac9be43450987d2fd3abbac7d20",
+      "imported_blob": "35dc6ddf9bcd6ecd4f7141674e75055c306dbfe9",
+      "variant": "round1-explicit-fin-ext",
+      "candidate_blob": "ec9894c77beae7ecaee719d2b3086809de736c45",
+      "producer_run": 43712327972,
+      "outcome": "DIRECT_LEAN_FAILURE",
+      "errors": [
+        "formal/KUOS/DependentOriginationDoubleDeloopingAllStandardTypeACompletionV1_112.lean:39:8: error: omega could not prove the goal:",
+        "formal/KUOS/DependentOriginationDoubleDeloopingAllStandardTypeACompletionV1_112.lean:54:12: error: omega could not prove the goal:"
+      ]
+    }
+  ]
+}
