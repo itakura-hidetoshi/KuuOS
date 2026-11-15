@@ -23,17 +23,31 @@ def evidence():
              "codeai_intent_repository_observation_receipt_digest")
     p = seal({"source_observation_receipt_digest": o["codeai_intent_repository_observation_receipt_digest"],
               "source_commit_sha": HEAD, "candidate_patch_digest": "c"*64,
-              "patch_artifact_digest": "d"*64, "codeai_disposition": "candidate_patch_supported",
+              "patch_artifact_digest": "d"*64, "candidate_id": "test-candidate",
+              "codeai_disposition": "candidate_patch_supported",
               "patch_candidate_only": True}, "codeai_candidate_patch_receipt_digest")
+    generated_selected = {
+        "candidate_id": "test-candidate", "source_commit_sha": HEAD,
+        "codeai_candidate_patch_digest": "f"*64, "patch_artifact_digest": "e"*64,
+        "changed_paths": [TARGET], "modified_paths": [TARGET],
+        "added_paths": [], "deleted_paths": [],
+    }
+    selected_receipt = seal({
+        "candidate_patch_digest": generated_selected["codeai_candidate_patch_digest"],
+        "patch_artifact_digest": generated_selected["patch_artifact_digest"],
+        "source_commit_sha": HEAD,
+        "source_observation_receipt_digest": o["codeai_intent_repository_observation_receipt_digest"],
+    }, "codeai_candidate_patch_receipt_digest")
     g = seal({"source_observation_receipt_digest": o["codeai_intent_repository_observation_receipt_digest"],
-              "generated_candidate_digests": [p["candidate_patch_digest"]]},
+              "generated_candidate_digests": [generated_selected["codeai_candidate_patch_digest"]],
+              "generated_patch_artifact_digests": [generated_selected["patch_artifact_digest"]]},
              "codeai_autonomous_unified_diff_candidates_receipt_digest")
     s = seal({"source_portfolio_receipt_digest": g["codeai_autonomous_unified_diff_candidates_receipt_digest"],
-              "selected_candidate_digest": p["candidate_patch_digest"],
-              "selected_patch_artifact_digest": p["patch_artifact_digest"], "candidate_selected": True},
+              "selected_candidate_digest": generated_selected["codeai_candidate_patch_digest"],
+              "selected_patch_artifact_digest": generated_selected["patch_artifact_digest"], "candidate_selected": True},
              "codeai_autonomous_candidate_selection_receipt_digest")
     a = seal({"source_selection_receipt_digest": s["codeai_autonomous_candidate_selection_receipt_digest"],
-              "source_candidate_receipt_digest": p["codeai_candidate_patch_receipt_digest"],
+              "source_candidate_receipt_digest": selected_receipt["codeai_candidate_patch_receipt_digest"],
               "source_commit_sha": HEAD, "repository_full_name": "itakura-hidetoshi/KuuOS",
               "changed_paths": [TARGET], "modified_paths": [TARGET], "added_paths": [], "deleted_paths": [],
               "isolated_patch_applied": True, "isolated_snapshot_materialized": True,
@@ -48,7 +62,10 @@ def evidence():
          "source_git_tree": TREE, "source_blob": git_blob(SOURCE),
          "candidate_blob": git_blob(CANDIDATE), "git_effect": False,
          "source_observation_receipt": o, "candidate_receipt": p,
-         "generated_candidate_receipt": g, "selection_receipt": s,
+         "generated_candidate_receipt": g,
+         "generated_selected_candidate_receipt": selected_receipt,
+         "generated_selected_patch_candidate": generated_selected,
+         "selection_receipt": s,
          "isolated_application_receipt": a}
     m = {"source_head": HEAD, "source_git_blob": git_blob(SOURCE),
          "codeai_candidate_git_blob": git_blob(CANDIDATE),
@@ -131,6 +148,19 @@ class PrecommitGateTests(unittest.TestCase):
         self.assertEqual(self.check(c, m).status, STATUS_BLOCKED)
         c, m = evidence()
         m["source_signature_unchanged"] = None
+        self.assertEqual(self.check(c, m).status, STATUS_BLOCKED)
+
+    def test_two_renderings_have_distinct_digests_but_share_isolated_result(self):
+        c, m = evidence()
+        self.assertNotEqual(
+            c["candidate_receipt"]["candidate_patch_digest"],
+            c["generated_selected_candidate_receipt"]["candidate_patch_digest"],
+        )
+        self.assertEqual(self.check(c, m).status, STATUS_READY)
+
+    def test_generated_selected_lineage_tampering_is_blocked(self):
+        c, m = evidence()
+        c["generated_selected_patch_candidate"]["candidate_id"] = "different"
         self.assertEqual(self.check(c, m).status, STATUS_BLOCKED)
 
     def test_NO_DATA_Git_effect_or_HEAD_mismatch(self):
