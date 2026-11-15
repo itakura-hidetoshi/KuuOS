@@ -1,0 +1,68 @@
+name: KuuOS v1.105 CodeAI actual four-horn face coherence direct Lean and real Lean MCP
+
+on:
+  pull_request:
+    paths:
+      - "scripts/kuuos_v1105_codeai_visible_face_v1.py"
+      - ".github/workflows/kuuos-v1105-codeai-visible-face-v1.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  v1105-codeai-direct-lean-real-mcp:
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.number == 3522 }}
+    runs-on: ubuntu-22.04
+    timeout-minutes: 90
+    env:
+      MATHLIB_NO_CACHE_ON_UPDATE: '1'
+    steps:
+      - name: Checkout immutable exact source HEAD
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Set up pinned Lean
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Restore pinned parent build cache read-only
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake/build
+          key: kuuos-pr-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-pr3522-${{ github.event.pull_request.head.sha }}
+          restore-keys: |
+            kuuos-pr-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-pr3522-
+      - name: Resolve pinned mathlib
+        run: lake exe cache get
+      - name: Build fixed v1.104 entire imported Lean closure
+        run: |
+          set -euo pipefail
+          timeout 1800 lake -KleanArgs=-DwarningAsError=true -KleanArgs=-Dweak.sorryAsError=true build KUOS.DependentOriginationDoubleDeloopingTypeAFourDimensionalCocycleV1_104
+      - name: Install actual Lean MCP transport
+        run: python3 -m pip install uv
+      - name: Generate CodeAI candidates, compile all by fixed Lean, then actual Lean MCP only if direct green
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          python3 -m py_compile scripts/kuuos_v1105_codeai_visible_face_v1.py
+          PYTHONPATH=. python3 scripts/kuuos_v1105_codeai_visible_face_v1.py
+      - name: Preserve every candidate's failed diagnostics and real MCP receipts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-v1105-visible-face-codeai-${{ github.run_id }}
+          path: |
+            /tmp/kuuos-v1105-codeai-probes/
+            /tmp/kuuos-v1105-real-mcp/
+          if-no-files-found: warn
+          retention-days: 30
