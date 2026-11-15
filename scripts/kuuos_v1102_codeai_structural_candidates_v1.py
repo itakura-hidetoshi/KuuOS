@@ -152,12 +152,82 @@ def variants(source: str) -> dict[str,str]:
         "        omega")
     if finarith==simplified:
         raise RuntimeError("finite ordinal arithmetic candidate unchanged")
+    # Round 2 uses the full exact pinned Lean log (CI #43679639281):
+    # 1. `attribute [local ext]` is a COMMAND and must precede its
+    #    documented declaration, never appear inside proof tactics or
+    #    immediately after a doc comment attached to a theorem.
+    # 2. On Fin 3, `Fin.ext` goals must normalize numeral values
+    #    to actual Nat literals before Presburger/omega; otherwise omega
+    #    treats Fin.ofNat as a fresh variable and admits countermodels.
+    # 3. The failed map-comp rewrite was being tried on a 1-cell map goal.
+    #    Explicitly force the NatOneCell type before subsingleton reasoning.
+    fixed=replace_once(simplified,
+        "attribute [local ext] StrictlyUnitaryLaxFunctor\n\n"
+        "theorem natDuskinSimplex_eq_of_mapComp_eq",
+        "theorem natDuskinSimplex_eq_of_mapComp_eq",
+        "remove attached-doc attribute")
+    fixed=replace_once(fixed,PREFIX,
+        PREFIX+"\nattribute [local ext] StrictlyUnitaryLaxFunctor\n",
+        "introduce top-level ext command before module docs")
+    finite=fixed
+    for old,new,label in (
+        ("        apply Fin.ext\n        omega",
+         "        apply Fin.ext\n        change a.as.val = 0\n        omega",
+         "Fin a is zero"),
+        ("        apply Fin.ext\n        omega",
+         "        apply Fin.ext\n        change b.as.val = 1\n        omega",
+         "Fin b is one"),
+        ("        apply Fin.ext\n        omega",
+         "        apply Fin.ext\n        change c.as.val = 2\n        omega",
+         "Fin c is two"),
+    ):
+        finite=replace_once(finite,old,new,label)
+    extmap=replace_once(finite,
+        "    first\n    | exact Subsingleton.elim _ _\n",
+        "    first\n"
+        "    | (change (_ : NatOneCell) = (_ : NatOneCell)\n"
+        "       exact Subsingleton.elim _ _)\n"
+        "    | exact Subsingleton.elim _ _\n",
+        "typed map 1-cell ext target")
+    # Unused omega follows simp_all on some normalized tetrahedron cases.
+    # Use a bounded try, never weaken the arithmetic hypothesis.
+    normalize=replace_once(extmap,
+        "simp_all [NatTetrahedronEquation] <;> omega",
+        "simp_all [NatTetrahedronEquation] <;> try omega",
+        "avoid unnecessary omega after simp_all")
+    if normalize.count(
+        "  exact Or.inr (by simp [IsStandardTypeADistinguishedTriangle,\n"
+        "    SSet.stdSimplex.triangle])")!=2:
+        raise RuntimeError("two distinguished type A triangle proofs moved")
+    concrete=normalize.replace(
+        "  exact Or.inr (by simp [IsStandardTypeADistinguishedTriangle,\n"
+        "    SSet.stdSimplex.triangle])",
+        "  exact Or.inr (by decide)")
+    simpall=replace_once(concrete,
+        "  simp [natThreeCocycleOfLabels, ha1, hb, hc3]",
+        "  simp_all [natThreeCocycleOfLabels]",
+        "type A i2 normalized 1-2-3 strict label")
+    # Alternative proof uses the explicit nonzero Fin witness rather than
+    # relying on simp_all's rewriting order.
+    nonzero=replace_once(concrete,
+        "  simp [natThreeCocycleOfLabels, ha1, hb, hc3]",
+        "  have ha_ne_zero : a ≠ (0 : Fin 4) := by\n"
+        "    intro h\n"
+        "    have hv : a.val = 0 := congrArg Fin.val h\n"
+        "    omega\n"
+        "  simp [natThreeCocycleOfLabels, ha_ne_zero, hb, hc3]",
+        "type A i2 finite element not zero")
     return {
       "round1-move-ext-attribute":base,
       "round1-typed-mapId":typed,
       "round1-discrete-homs-and-local-typeA":repaired,
       "round1-distinguished-triangle-simp":simplified,
       "round1-finarith-simp-omega":finarith,
+      "round2-attribute-before-doc":fixed,
+      "round2-explicit-Fin-numerals":finite,
+      "round2-explicit-one-cell-map":extmap,
+      "round2-concrete-triangle-simp-all":simpall,
+      "round2-concrete-triangle-finite-nonzero":nonzero,
     }
 
 
