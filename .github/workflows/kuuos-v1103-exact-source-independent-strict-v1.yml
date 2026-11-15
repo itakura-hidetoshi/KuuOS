@@ -1,0 +1,112 @@
+name: KuuOS v1.103 independent exact-source Strict Lean and axiom audit
+
+on:
+  pull_request:
+    paths:
+      - "formal/KUOS/DependentOriginationDoubleDeloopingTypeAHighDimensionalFillersV1_103.lean"
+      - ".github/workflows/kuuos-v1103-exact-source-independent-strict-v1.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  v1103-independent-exact-source-strict:
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.number == 3522 }}
+    runs-on: ubuntu-22.04
+    timeout-minutes: 90
+    env:
+      MATHLIB_NO_CACHE_ON_UPDATE: '1'
+      EXPECTED_BLOB: 'ff2e6a09e2c064a23207ee1323bc14182c86d7cd'
+    steps:
+      - name: Checkout exact immutable parent PR source
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - name: Setup exact pinned Lean
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Restore pinned PR build cache read-only
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake/build
+          key: kuuos-pr-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-pr3522-${{ github.event.pull_request.head.sha }}
+          restore-keys: |
+            kuuos-pr-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-pr3522-
+      - name: Source Git blob, import, trust and toolchain guards
+        env:
+          EXACT_HEAD: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/kuuos-v1103-independent
+          python3 - <<'PY'
+          import hashlib, json, os
+          from pathlib import Path
+          from scripts.kuuos_lean_mcp_repair_loop_v1 import forbidden_code_constructs
+          target=Path('formal/KUOS/DependentOriginationDoubleDeloopingTypeAHighDimensionalFillersV1_103.lean')
+          b=target.read_bytes()
+          blob=hashlib.sha1(b'blob '+str(len(b)).encode()+b'\0'+b).hexdigest()
+          assert blob==os.environ['EXPECTED_BLOB'],(blob,os.environ['EXPECTED_BLOB'])
+          assert Path('lean-toolchain').read_text().strip()=='leanprover/lean4:v4.30.0-rc2'
+          manifest=json.loads(Path('lake-manifest.json').read_text())
+          deps=[x for x in manifest['packages'] if x.get('name')=='mathlib']
+          assert len(deps)==1 and deps[0]['rev']=='5450b53e5ddc75d46418fabb605edbf36bd0beb6'
+          assert b.decode().startswith('import KUOS.DependentOriginationDoubleDeloopingTypeALowDimensionalFillersV1_102\n')
+          assert not forbidden_code_constructs(b.decode())
+          record={'source_head':os.environ['EXACT_HEAD'],'proof_blob':blob,
+                  'lean':'v4.30.0-rc2','mathlib':deps[0]['rev'],
+                  'independent_ci_certified':False}
+          Path('/tmp/kuuos-v1103-independent/source_receipt.json').write_text(json.dumps(record,indent=2)+'\n')
+          print('KUUOS_V1103_INDEPENDENT_SOURCE_VERIFIED',record)
+          PY
+      - name: Resolve exact pinned mathlib
+        run: lake exe cache get
+      - name: Strictly compile imported closure and v1.103 proof
+        run: |
+          set -euo pipefail
+          timeout 3000 lake -KleanArgs=-DwarningAsError=true -KleanArgs=-Dweak.sorryAsError=true build KUOS.DependentOriginationDoubleDeloopingTypeAHighDimensionalFillersV1_103 2>&1 | tee /tmp/kuuos-v1103-independent/build.log
+      - name: Independent kernel axiom audit for all 15 v1.103 declarations
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          names=["natTypeAHornTriangle","natTypeAHornLabel","natTypeAHornLabel_left_zero","natTypeAHornLabel_right_zero","natTypeAHornLabel_distinguished_zero","natTypeAHornMap_mapComp_eq_label","natOrderedTetrahedron","natTypeAHornTetrahedron","natTypeAHornLabel_tetrahedron_of_five_le","natTypeAHighCocycle","NatNormalizedDuskinCocycle.toSimplexMap_mapComp","natTypeAHighCocycle_restrict","natTypeAHighCocycle_distinguished_zero","natTypeAHigh_cocycle_completion","natDoubleDelooping_hasLiftingProperty_standardTypeA_of_five_le"]
+          prefix='KUOS.DependentOriginationDoubleDeloopingTypeAHighDimensionalFillersV1_103.'
+          lines=['import KUOS.DependentOriginationDoubleDeloopingTypeAHighDimensionalFillersV1_103','']
+          for name in names:
+              lines.append('#check '+prefix+name)
+              lines.append('#print axioms '+prefix+name)
+          Path('/tmp/kuuos-v1103-independent/AxiomAudit.lean').write_text('\n'.join(lines)+'\n')
+          PY
+          lake env lean -DwarningAsError=true -Dweak.sorryAsError=true /tmp/kuuos-v1103-independent/AxiomAudit.lean 2>&1 | tee /tmp/kuuos-v1103-independent/axioms.log
+          python3 - <<'PY'
+          import json, re
+          from pathlib import Path
+          s=Path('/tmp/kuuos-v1103-independent/axioms.log').read_text()
+          if 'error:' in s or 'sorryAx' in s:
+              raise RuntimeError('Kernel audit error or sorryAx in Lean log')
+          axioms=set()
+          matches=re.findall(r'depends on axioms:\s*\[([^\]]*)\]',s,re.S)
+          for match in matches:
+              axioms.update(part.strip() for part in match.split(',') if part.strip())
+          allowed={'propext','Classical.choice','Quot.sound'}
+          assert matches and axioms.issubset(allowed),('Nonstandard or missing axiom audit',sorted(axioms))
+          record={'audited_declarations':15,'axioms':sorted(axioms),'sorryAx':False,
+                  'independent_kernel_verified':True}
+          Path('/tmp/kuuos-v1103-independent/axiom_receipt.json').write_text(json.dumps(record,indent=2)+'\n')
+          print('KUUOS_V1103_INDEPENDENT_KERNEL_AXIOM_AUDIT_SUCCESS',record)
+          PY
+      - name: Preserve exact-source proof receipts and obstructions
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-v1103-independent-${{ github.run_id }}
+          path: /tmp/kuuos-v1103-independent/
+          if-no-files-found: warn
+          retention-days: 30
