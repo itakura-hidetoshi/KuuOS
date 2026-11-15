@@ -49,6 +49,8 @@ jobs:
           set -euo pipefail
           timeout 1800 lake build KUOS.DependentOriginationDoubleDeloopingTypeBTetrahedralZeroV1_97
       - name: Run CodeAI exact-source v1.98 portfolio and direct Lean on every candidate
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
           python3 -m py_compile scripts/kuuos_v198_codeai_structural_candidates_v1.py

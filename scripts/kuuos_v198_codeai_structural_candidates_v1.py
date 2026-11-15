@@ -41,7 +41,12 @@ def require_event() -> tuple[str,str]:
     source_head = pr["head"]["sha"]
     branch = pr["head"]["ref"]
     url = "https://api.github.com/repos/"+REPO+"/git/commits/"+source_head
-    req = urllib.request.Request(url, headers={"Accept":"application/vnd.github+json","User-Agent":"KuuOS-CodeAI-v198"})
+    headers={"Accept":"application/vnd.github+json","User-Agent":"KuuOS-CodeAI-v198"}
+    token=os.environ.get("GITHUB_TOKEN")
+    if not token:
+        raise RuntimeError("authenticated GitHub API token required for exact source/tree observation")
+    headers["Authorization"]="Bearer "+token
+    req = urllib.request.Request(url, headers=headers)
     with urllib.request.urlopen(req,timeout=30) as response:
         data = json.load(response)
     tree = data.get("tree",{}).get("sha")
