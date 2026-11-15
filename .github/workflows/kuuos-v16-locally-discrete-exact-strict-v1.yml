@@ -1,0 +1,136 @@
+name: KuuOS v1.6 locally discrete source-bound Strict Lean
+
+on:
+  pull_request:
+    paths:
+      - 'formal/KUOS/DependentOriginationBicategoricalCoherenceV1_6.lean'
+      - 'tests/test_public_root_restoration.py'
+      - '.github/workflows/kuuos-v16-locally-discrete-exact-strict-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: kuuos-v16-exact-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+env:
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+
+jobs:
+  v16-exact-lean:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 100
+    steps:
+      - name: Checkout exact source/test merge
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - name: Validate exact pin, correction blob and historical source
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import hashlib
+          import json
+          from pathlib import Path
+          file = Path("formal/KUOS/DependentOriginationBicategoricalCoherenceV1_6.lean")
+          raw = file.read_bytes()
+          actual = hashlib.sha1(b"blob " + str(len(raw)).encode() + b"\0" + raw).hexdigest()
+          assert actual == "c1d9cf1c6ed08b535ec5d0bb02bfca254bbb2ac0", actual
+          assert Path("lean-toolchain").read_text().strip() == "leanprover/lean4:v4.30.0-rc2"
+          manifest = json.loads(Path("lake-manifest.json").read_text())
+          assert next(x for x in manifest["packages"] if x["name"] == "mathlib")["rev"] == "5450b53e5ddc75d46418fabb605edbf36bd0beb6"
+          print("V16_PINNED_EXACT_SOURCE_SUCCESS")
+          PY
+          python3 -m unittest -v tests.test_public_root_restoration tests.test_kuu_foundation tests.test_formal_package_boundary
+          python3 scripts/check_public_proof_roots.py
+      - name: Setup pinned Lean
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Restore verified pinned Lake workspace
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-${{ github.event.pull_request.base.sha || github.sha }}
+          restore-keys: |
+            kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-
+      - name: Load exact pinned Mathlib if missing
+        run: |
+          set -euo pipefail
+          if [[ ! -d .lake/packages/mathlib ]]; then lake update; fi
+          if [[ ! -f .lake/packages/mathlib/.lake/build/lib/lean/Mathlib.olean ]]; then lake exe cache get; fi
+          git diff --exit-code -- lean-toolchain lake-manifest.json
+      - name: Build real v1.6 and v1.2-v1.5 forward closure under Strict Lean
+        run: |
+          set -euo pipefail
+          bash scripts/build_lean4.sh --no-update --no-cache \
+            --target KUOS.DependentOriginationBicategoricalCoherenceV1_6 \
+            2>&1 | tee kuuos-v16-strict.log
+          echo "V16_EXACT_STRICT_SOURCE_AND_IMPORT_CLOSURE_SUCCESS"
+      - name: Inspect actual 12 public theorem/definition axiom dependencies
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          decls = [
+              "KUOS.DependentOriginationBicategoricalCoherenceV1_6.BicategoricalTransportSystem.transport_eq_of_twoCell",
+              "KUOS.DependentOriginationBicategoricalCoherenceV1_6.BicategoricalTransportSystem.transport_associator",
+              "KUOS.DependentOriginationBicategoricalCoherenceV1_6.BicategoricalTransportSystem.transport_leftUnitor",
+              "KUOS.DependentOriginationBicategoricalCoherenceV1_6.BicategoricalTransportSystem.transport_rightUnitor",
+              "KUOS.DependentOriginationBicategoricalCoherenceV1_6.BicategoricalTransportSystem.horizontalComp",
+              "KUOS.DependentOriginationBicategoricalCoherenceV1_6.BicategoricalTransportSystem.horizontalComp_exchange",
+              "KUOS.DependentOriginationBicategoricalCoherenceV1_6.BicategoricalTransportSystem.source_pentagon",
+              "KUOS.DependentOriginationBicategoricalCoherenceV1_6.BicategoricalTransportSystem.source_triangle",
+              "KUOS.DependentOriginationBicategoricalCoherenceV1_6.BicategoricalTransportSystem.InvariantReadout.readout_eq_of_twoCell",
+              "KUOS.DependentOriginationBicategoricalCoherenceV1_6.BicategoricalTransportSystem.InvariantReadout.readout_associator",
+              "KUOS.DependentOriginationBicategoricalCoherenceV1_6.FunctorialTransportSystem.toLocallyDiscreteBicategorical",
+              "KUOS.DependentOriginationBicategoricalCoherenceV1_6.toLocallyDiscreteBicategorical_transport",
+          ]
+          assert len(decls) == 12 and len(set(decls)) == len(decls)
+          source = Path("formal/KUOS/DependentOriginationBicategoricalCoherenceV1_6.lean").read_text()
+          public = re.findall(r"(?m)^(?:@\[simp\]\s*)?(?:theorem|def)\s+([A-Za-z0-9_.]+)", source)
+          assert len(public) == 12, ("PUBLIC_DECL_COUNT_MISMATCH", len(public), public)
+          Path("formal/KUOS/V16ExactAxiomScratch.lean").write_text(
+              "import KUOS.DependentOriginationBicategoricalCoherenceV1_6\n\n" +
+              "\n".join("#print axioms " + n for n in decls) + "\n"
+          )
+          PY
+          lake env lean -DwarningAsError=true -Dweak.sorryAsError=true \
+            formal/KUOS/V16ExactAxiomScratch.lean \
+            2>&1 | tee kuuos-v16-axioms.log
+          python3 - <<'PY'
+          import re
+          from pathlib import Path
+          raw = Path("kuuos-v16-axioms.log").read_text()
+          records = re.findall(
+              r"(?m)^'([^']+)' (?:depends on axioms:\s*\[([^]]*)\]|does not depend on any axioms)",
+              raw,
+          )
+          assert len(records) == 12, ("AXIOM_RECORD_COUNT", len(records))
+          assert len({name for name, _ in records}) == 12
+          allowed = {"propext", "Classical.choice", "Quot.sound"}
+          for name, axioms in records:
+              used = {x.strip() for x in axioms.split(",") if x.strip()}
+              assert used <= allowed, ("UNSUPPORTED_AXIOMS", name, sorted(used - allowed))
+          print("V16_ALL_12_PUBLIC_DECLARATIONS_STANDARD_AXIOMS_ONLY")
+          PY
+          git diff --exit-code -- lean-toolchain lake-manifest.json
+          echo "Forward-closure certification is not a waiver of the global governance gate."
+      - name: Upload source-bound evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-v16-exact-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            kuuos-v16-strict.log
+            kuuos-v16-axioms.log
+          if-no-files-found: warn
+          retention-days: 21
