@@ -88,6 +88,71 @@ def require_semantics(body: Mapping, source: bytes) -> Observation:
     return Observation(body["success"], body["partial"], list(items), list(failures), digest(source))
 
 
+
+def forbidden_code_constructs(source: str) -> list[str]:
+    """Return trust-bypass markers in Lean CODE, not explanatory comments.
+
+    Nested /- ... -/ comments, -- line comments and quoted strings are masked
+    while preserving newlines. This rejects existing executable sorry/axioms,
+    even if unchanged, while allowing unchanged prose such as 'no new axiom'.
+    Unterminated comments or strings are not accepted as evidence.
+    """
+    masked = list(source)
+    n = len(source)
+    i = 0
+    block_depth = 0
+    quoted = False
+
+    def blank(at: int) -> None:
+        if source[at] != "\n":
+            masked[at] = " "
+
+    while i < n:
+        if block_depth:
+            if source.startswith("/-", i):
+                blank(i)
+                blank(i + 1)
+                block_depth += 1
+                i += 2
+            elif source.startswith("-/", i):
+                blank(i)
+                blank(i + 1)
+                block_depth -= 1
+                i += 2
+            else:
+                blank(i)
+                i += 1
+        elif quoted:
+            if ord(source[i]) == 92 and i + 1 < n:
+                blank(i)
+                blank(i + 1)
+                i += 2
+            elif source[i] == '"':
+                blank(i)
+                quoted = False
+                i += 1
+            else:
+                blank(i)
+                i += 1
+        elif source.startswith("--", i):
+            while i < n and source[i] != "\n":
+                blank(i)
+                i += 1
+        elif source.startswith("/-", i):
+            blank(i)
+            blank(i + 1)
+            block_depth = 1
+            i += 2
+        elif source[i] == '"':
+            blank(i)
+            quoted = True
+            i += 1
+        else:
+            i += 1
+    if block_depth or quoted:
+        raise Obstruction("unterminated Lean comment/string; proof trust scan refused")
+    return FORBIDDEN_NEW.findall("".join(masked))
+
 def declaration_outline(source: str) -> list[str]:
     return [line for line in source.splitlines() if TOP_LEVEL.match(line)]
 
@@ -120,8 +185,8 @@ def patch_source(source: str, patch: Mapping, *, max_changed_lines: int = 50) ->
         raise Obstruction("patch made no change")
     if declaration_outline(source) != declaration_outline(result):
         raise Obstruction("declaration/import anchors were modified")
-    old_forbidden = len(FORBIDDEN_NEW.findall(source))
-    new_forbidden = len(FORBIDDEN_NEW.findall(result))
+    old_forbidden = len(forbidden_code_constructs(source))
+    new_forbidden = len(forbidden_code_constructs(result))
     if new_forbidden > old_forbidden:
         raise Obstruction("new sorry, axiom, unsafe or trust-bypassing construct introduced")
     if not result.endswith("\n"):
@@ -344,8 +409,13 @@ def run_loop(*, root: pathlib.Path, rel_file: str, output_dir: pathlib.Path,
             if observation.success and not observation.errors:
                 gate = (direct_gate or direct_lean_gate)(root, rel_file, timeout=compile_timeout)
                 item["direct_lean"] = gate
-                forbidden_final = FORBIDDEN_NEW.findall(candidate_path.read_text())
+                candidate_text = candidate_path.read_text()
+                forbidden_final = forbidden_code_constructs(candidate_text)
                 item["forbidden_final_count"] = len(forbidden_final)
+                # Preserve visibility of harmless pre-existing comment words.
+                item["noncode_forbidden_word_count"] = (
+                    len(FORBIDDEN_NEW.findall(candidate_text)) - len(forbidden_final)
+                )
                 if gate.get("exit_code") == 0 and not forbidden_final:
                     validated = candidate_path.read_bytes()
                     record["candidate_sha256"] = digest(validated)

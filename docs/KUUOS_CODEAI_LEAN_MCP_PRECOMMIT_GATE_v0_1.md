@@ -41,3 +41,19 @@ Candidate Patch receipt, portfolio membership, selection and isolated
 application, and the exact resulting Lean Git blob and canonical snapshot
 digest. A failure to distinguish the two routes is a compatibility obstruction,
 not a reason to lower the requirement for independent Lean verification.
+
+## Comment-aware executable trust scan (structural repair)
+
+Exact v1.95 CodeAI round-8 was Lean MCP diagnostics-green and independently
+direct Lean exit=0, but bounded runner `run_loop` refused it because the
+*pre-existing documentation comment* says `axiom`. The actual source
+contains no executable axiom or sorry.
+
+The correction in `scripts/kuuos_lean_mcp_repair_loop_v1.py` masks Lean
+strings, line comments and **nested** block comments before counting
+forbidden tokens. Any executable pre-existing `sorry`, `axiom`, `unsafe`
+or new trust-bypass remains rejected, and unterminated comment/string
+syntax fails closed. Its candidate proof text is still scanned under
+the strict pinned Lean compiler and the full-source signature gate.
+This correction changes only monitoring semantics, not the theorem,
+import closure, candidate SHA, strict compiler gate or merge authority.

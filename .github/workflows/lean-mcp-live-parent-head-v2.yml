@@ -9,6 +9,8 @@ on:
       - 'runtime/kuuos_codeai_lean_mcp_precommit_gate_v0_1.py'
       - 'tests/test_kuuos_codeai_lean_mcp_precommit_gate_v0_1.py'
       - 'scripts/check_codeai_lean_mcp_precommit_gate_v0_1.py'
+      - 'scripts/kuuos_lean_mcp_repair_loop_v1.py'
+      - 'tests/test_kuuos_lean_mcp_repair_loop_v1.py'
       - 'docs/KUUOS_CODEAI_LEAN_MCP_PRECOMMIT_GATE_v0_1.md'
       - 'docs/KUUOS_LEAN_MCP_LIVE_PARENT_HEAD_v2.md'
   workflow_dispatch:
@@ -34,6 +36,7 @@ jobs:
           python3 -m py_compile runtime/kuuos_codeai_lean_mcp_precommit_gate_v0_1.py
           python3 -m py_compile scripts/check_codeai_lean_mcp_precommit_gate_v0_1.py
           PYTHONPATH=. python3 -m unittest -v tests.test_kuuos_codeai_lean_mcp_precommit_gate_v0_1
+          PYTHONPATH=. python3 -m unittest -v tests.test_kuuos_lean_mcp_repair_loop_v1
           PYTHONPATH=. python3 -m unittest discover -s tests \
             -p 'test_kuuos_lean_mcp_live_pr_v2.py' -v
 
