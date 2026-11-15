@@ -1,0 +1,70 @@
+name: KuuOS v1.108 CodeAI MemoryOS actual 4-face to 5-face proof candidates
+
+on:
+  pull_request:
+    paths:
+      - "scripts/kuuos_v1108_codeai_four_implies_five_v1.py"
+      - "memoryos/external/github/2026/11/kuuos_codeai_lean_observations_v1107_v1.json"
+      - ".github/workflows/kuuos-v1108-codeai-four-implies-five-v1.yml"
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  v1108-codeai-memoryos-direct-lean-mcp:
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.number == 3522 }}
+    runs-on: ubuntu-22.04
+    timeout-minutes: 90
+    env:
+      MATHLIB_NO_CACHE_ON_UPDATE: '1'
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Setup Lean 4.30.0-rc2
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Restore read-only source pin cache
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake/build
+          key: kuuos-pr-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-pr3522-${{ github.event.pull_request.head.sha }}
+          restore-keys: |
+            kuuos-pr-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-pr3522-
+      - name: Resolve pinned mathlib
+        run: lake exe cache get
+      - name: Strict imported v1.107 dependency closure
+        run: |
+          set -euo pipefail
+          timeout 2400 lake -KleanArgs=-DwarningAsError=true -KleanArgs=-Dweak.sorryAsError=true build KUOS.DependentOriginationDoubleDeloopingTypeAFourVisibleFaceTableV1_107
+      - name: Install pinned real Lean MCP
+        run: python3 -m pip install uv
+      - name: CodeAI proposals filtered by MemoryOS then all fixed direct Lean and green-only MCP
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          python3 -m py_compile scripts/kuuos_v1108_codeai_four_implies_five_v1.py
+          PYTHONPATH=. python3 scripts/kuuos_v1108_codeai_four_implies_five_v1.py
+      - name: Archive exact source receipts, MemoryOS hypotheses, red and green logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-v1108-codeai-four-implies-five-${{ github.run_id }}
+          path: |
+            /tmp/kuuos-v1108-memoryos/
+            /tmp/kuuos-v1108-codeai-four-imply-five/
+            /tmp/kuuos-v1108-real-mcp-four-imply-five/
+          if-no-files-found: warn
+          retention-days: 30

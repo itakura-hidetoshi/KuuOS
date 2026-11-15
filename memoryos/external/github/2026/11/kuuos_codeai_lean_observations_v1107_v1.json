@@ -1,0 +1,72 @@
+{
+  "profile": "memoryos_codeai_lean_observations_v0_1",
+  "repository": "itakura-hidetoshi/KuuOS",
+  "authority": "external_pointer_only",
+  "curation_note": "Append-only v1.107 actual-face CodeAI observations. Diagnostic text is observed, causes remain hypotheses. Independent CI pointer has no MemoryOS proof authority.",
+  "independent_certification_pointers": [
+    {
+      "scope": "v1.107 conditional actual visible 3-face to finite table equations",
+      "run_id": 43693479426,
+      "exact_source_blob": "37c3e75c5d74c74b8d125983c9cd257f9757995a",
+      "certified_head": "516adbb79fb5a5e6f393462d29964f0ddf69694f"
+    }
+  ],
+  "observations": [
+    {
+      "source_head": "b31ea108ea3889e4557876ffe96b2888ccf51c36",
+      "source_tree": "06e0db53d35e7c2fd2426acd99f9121f19ce5643",
+      "imported_blob": "99ca499c470ba7b190623ed9e90e3f8d2dfb8058",
+      "variant": "round1-exact",
+      "candidate_blob": "37c3e75c5d74c74b8d125983c9cd257f9757995a",
+      "producer_run": 43693040574,
+      "outcome": "DIRECT_LEAN_SUCCESS",
+      "errors": []
+    },
+    {
+      "source_head": "b31ea108ea3889e4557876ffe96b2888ccf51c36",
+      "source_tree": "06e0db53d35e7c2fd2426acd99f9121f19ce5643",
+      "imported_blob": "99ca499c470ba7b190623ed9e90e3f8d2dfb8058",
+      "variant": "round1-convert-rfl",
+      "candidate_blob": "751ce13834ac8c6113e8fa9c409789e9a1ae088d",
+      "producer_run": 43693040574,
+      "outcome": "DIRECT_LEAN_FAILURE",
+      "errors": [
+        "formal/KUOS/DependentOriginationDoubleDeloopingTypeAFourVisibleFaceTableV1_107.lean:33:44: error: 'rfl' tactic does nothing",
+        "formal/KUOS/DependentOriginationDoubleDeloopingTypeAFourVisibleFaceTableV1_107.lean:43:44: error: 'rfl' tactic does nothing",
+        "formal/KUOS/DependentOriginationDoubleDeloopingTypeAFourVisibleFaceTableV1_107.lean:53:44: error: 'rfl' tactic does nothing",
+        "formal/KUOS/DependentOriginationDoubleDeloopingTypeAFourVisibleFaceTableV1_107.lean:63:44: error: 'rfl' tactic does nothing",
+        "formal/KUOS/DependentOriginationDoubleDeloopingTypeAFourVisibleFaceTableV1_107.lean:73:44: error: 'rfl' tactic does nothing"
+      ]
+    },
+    {
+      "source_head": "b31ea108ea3889e4557876ffe96b2888ccf51c36",
+      "source_tree": "06e0db53d35e7c2fd2426acd99f9121f19ce5643",
+      "imported_blob": "99ca499c470ba7b190623ed9e90e3f8d2dfb8058",
+      "variant": "round1-simp",
+      "candidate_blob": "9c3fcf5284c9da8ea25c08ff62d2aa8e3ffa8c2f",
+      "producer_run": 43693040574,
+      "outcome": "DIRECT_LEAN_SUCCESS",
+      "errors": []
+    },
+    {
+      "source_head": "b31ea108ea3889e4557876ffe96b2888ccf51c36",
+      "source_tree": "06e0db53d35e7c2fd2426acd99f9121f19ce5643",
+      "imported_blob": "99ca499c470ba7b190623ed9e90e3f8d2dfb8058",
+      "variant": "round1-simp-only",
+      "candidate_blob": "339890a2950866433229bcc3be9a5c03abe1e78f",
+      "producer_run": 43693040574,
+      "outcome": "DIRECT_LEAN_SUCCESS",
+      "errors": []
+    },
+    {
+      "source_head": "b31ea108ea3889e4557876ffe96b2888ccf51c36",
+      "source_tree": "06e0db53d35e7c2fd2426acd99f9121f19ce5643",
+      "imported_blob": "99ca499c470ba7b190623ed9e90e3f8d2dfb8058",
+      "variant": "round1-delta",
+      "candidate_blob": "6f03030cea3a89d625b53c31ac9070fdbf1d3df3",
+      "producer_run": 43693040574,
+      "outcome": "DIRECT_LEAN_SUCCESS",
+      "errors": []
+    }
+  ]
+}
