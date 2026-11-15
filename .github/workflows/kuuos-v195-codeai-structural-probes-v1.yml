@@ -1,0 +1,76 @@
+name: KuuOS v1.95 CodeAI structural portfolio isolated Lean probes
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/kuuos_v195_structural_codeai_candidates_v1.py'
+      - '.github/workflows/kuuos-v195-codeai-structural-probes-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  codeai-lean-portfolio:
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.number == 3522 }}
+    runs-on: ubuntu-22.04
+    timeout-minutes: 80
+    env:
+      MATHLIB_NO_CACHE_ON_UPDATE: '1'
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Setup pinned Lean4 from committed lean-toolchain
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Restore pinned PR build overlay
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake/build
+          key: kuuos-pr-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-pr3522-${{ github.event.pull_request.head.sha }}
+          restore-keys: |
+            kuuos-pr-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-pr3522-
+      - name: Resolve strictly pinned mathlib
+        run: lake exe cache get
+      - name: Build exact import predecessor through v1.94
+        run: |
+          set -euo pipefail
+          timeout 1800 lake build KUOS.DependentOriginationAtomicTwoSimplexUniversalScalingObstructionV1_94
+      - name: Run CodeAI portfolio and compile every structural variant in isolation
+        env:
+          EXPECTED_HEAD: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+          PYTHONPATH=. python3 -m py_compile scripts/kuuos_v195_structural_codeai_candidates_v1.py
+          PYTHONPATH=. python3 - <<'PY'
+          import json,os
+          from pathlib import Path
+          from scripts.codeai_pr3522_live_v195_candidate_v0_1 import run_if_parent_pr
+          run_if_parent_pr()
+          data=json.loads(Path("artifacts/codeai-v195/pr3522-codeai-v195-candidate.json").read_text())
+          assert data["source_head"]==os.environ["EXPECTED_HEAD"]
+          assert data["source_blob"]=="f7dcf6d9cddf3820b78c91375f0ec460874a7734"
+          print("KUUOS_CODEAI_EXACT_SOURCE_OBSERVED",data["source_head"])
+          PY
+          PYTHONPATH=. python3 scripts/kuuos_v195_structural_codeai_candidates_v1.py
+      - name: Export source-bound CodeAI candidate and Lean compilation obstructions
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuu-v195-codeai-structural-candidate-probes-${{ github.run_id }}
+          path: |
+            /tmp/kuuos-v195-structural/
+            artifacts/codeai-v195/pr3522-codeai-v195-candidate.json
+          if-no-files-found: warn
+          retention-days: 21
