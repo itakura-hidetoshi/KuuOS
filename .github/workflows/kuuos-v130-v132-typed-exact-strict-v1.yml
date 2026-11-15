@@ -1,0 +1,151 @@
+name: KuuOS typed v1.30–v1.32 exact-source Strict Lean and axioms
+
+on:
+  pull_request:
+    paths:
+      - 'formal/KUOS/DependentOriginationScaledHornPresentationInvariantTypedRepairV1_30.lean'
+      - 'formal/KUOS/DependentOriginationModelEquivalenceScaledHornPresentationTypedRepairV1_31.lean'
+      - 'formal/KUOS/DependentOriginationCoherentNormalizedScaledModelEquivalenceTypedRepairV1_32.lean'
+      - '.github/workflows/kuuos-v130-v132-typed-exact-strict-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: kuuos-typed-v130-v132-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+env:
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+
+jobs:
+  exact-typed-lean:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 100
+    steps:
+      - name: Checkout exact PR test-merge source
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - name: Enforce pinned Lean, Mathlib and exact three source blobs
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import hashlib
+          import json
+          from pathlib import Path
+          blobs = {
+              "formal/KUOS/DependentOriginationScaledHornPresentationInvariantTypedRepairV1_30.lean": "9c87d47b90132c27fd26414402930dda0e5f4229",
+              "formal/KUOS/DependentOriginationModelEquivalenceScaledHornPresentationTypedRepairV1_31.lean": "a6c0617fe77bad786e87192f8f2f3a604d6a5d78",
+              "formal/KUOS/DependentOriginationCoherentNormalizedScaledModelEquivalenceTypedRepairV1_32.lean": "363e5d33437eaf2dc694c91b9644245e77981bdf",
+          }
+          assert Path("lean-toolchain").read_text().strip() == "leanprover/lean4:v4.30.0-rc2"
+          manifest = json.loads(Path("lake-manifest.json").read_text())
+          assert next(x for x in manifest["packages"] if x["name"] == "mathlib")["rev"] == "5450b53e5ddc75d46418fabb605edbf36bd0beb6"
+          for path, expected in blobs.items():
+              content = Path(path).read_bytes()
+              actual = hashlib.sha1(b"blob " + str(len(content)).encode() + b"\0" + content).hexdigest()
+              assert actual == expected, (path, actual, expected)
+              print("V130_V132_EXACT_SOURCE", path, actual, flush=True)
+          print("V130_V132_PINNED_SOURCE_SUCCESS", flush=True)
+          PY
+      - name: Set up pinned Lean and Lake
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Restore validated pinned Lake cache
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-${{ github.event.pull_request.base.sha || github.sha }}
+          restore-keys: |
+            kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-
+      - name: Resolve only missing pinned dependencies
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ ! -d .lake/packages/mathlib ]]; then lake update; fi
+          if [[ ! -f .lake/packages/mathlib/.lake/build/lib/lean/Mathlib.olean ]]; then lake exe cache get; fi
+          git diff --exit-code -- lean-toolchain lake-manifest.json
+      - name: Strict Lean full forward import closure for v1.30, v1.31, v1.32
+        shell: bash
+        run: |
+          set -euo pipefail
+          bash scripts/build_lean4.sh --no-update --no-cache \
+            --target KUOS.DependentOriginationCoherentNormalizedScaledModelEquivalenceTypedRepairV1_32 \
+            2>&1 | tee kuuos-v130-v132-strict-lean.log
+          echo "EXACT_V130_V132_STRICT_BUILD_SUCCESS"
+      - name: Audit all 14 public theorem and definition constants
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          names = [
+              "KUOS.DependentOriginationScaledHornPresentationInvariantTypedRepairV1_30.hasScaledHornFillers_forward",
+              "KUOS.DependentOriginationScaledHornPresentationInvariantTypedRepairV1_30.hasScaledHornFillers_backward",
+              "KUOS.DependentOriginationScaledHornPresentationInvariantTypedRepairV1_30.hasScaledHornFillers_iff",
+              "KUOS.DependentOriginationScaledHornPresentationInvariantTypedRepairV1_30.presentationIndependentScaledFibrancy",
+              "KUOS.DependentOriginationModelEquivalenceScaledHornPresentationTypedRepairV1_31.BidirectionalScaledDuskinModelEquivalence.toScaledHornPresentationEquivalence",
+              "KUOS.DependentOriginationModelEquivalenceScaledHornPresentationTypedRepairV1_31.BidirectionalScaledDuskinModelEquivalence.globalDuskinScaledFibrancy_iff",
+              "KUOS.DependentOriginationModelEquivalenceScaledHornPresentationTypedRepairV1_31.BidirectionalScaledDuskinModelEquivalence.presentationIndependentScaledFibrancyOfModelEquivalence",
+              "KUOS.DependentOriginationCoherentNormalizedScaledModelEquivalenceTypedRepairV1_32.NormalizedCoherentQuasiInverse.sourceRoundTripOneCellIso",
+              "KUOS.DependentOriginationCoherentNormalizedScaledModelEquivalenceTypedRepairV1_32.NormalizedCoherentQuasiInverse.targetRoundTripOneCellIso",
+              "KUOS.DependentOriginationCoherentNormalizedScaledModelEquivalenceTypedRepairV1_32.NormalizedCoherentQuasiInverse.sourceRoundTripTwoCellNaturality",
+              "KUOS.DependentOriginationCoherentNormalizedScaledModelEquivalenceTypedRepairV1_32.NormalizedCoherentQuasiInverse.targetRoundTripTwoCellNaturality",
+              "KUOS.DependentOriginationCoherentNormalizedScaledModelEquivalenceTypedRepairV1_32.CoherentNormalizedScaledModelEquivalence.toBidirectionalScaledDuskinModelEquivalence",
+              "KUOS.DependentOriginationCoherentNormalizedScaledModelEquivalenceTypedRepairV1_32.CoherentNormalizedScaledModelEquivalence.toScaledHornPresentationEquivalence",
+              "KUOS.DependentOriginationCoherentNormalizedScaledModelEquivalenceTypedRepairV1_32.CoherentNormalizedScaledModelEquivalence.globalDuskinScaledFibrancy_iff",
+          ]
+          assert len(names) == 14 and len(set(names)) == len(names)
+          srcs = [
+              Path("formal/KUOS/DependentOriginationScaledHornPresentationInvariantTypedRepairV1_30.lean"),
+              Path("formal/KUOS/DependentOriginationModelEquivalenceScaledHornPresentationTypedRepairV1_31.lean"),
+              Path("formal/KUOS/DependentOriginationCoherentNormalizedScaledModelEquivalenceTypedRepairV1_32.lean"),
+          ]
+          actual_public = sum(len(re.findall(r"^(?:theorem|def)\s+\w+", src.read_text(), re.M)) for src in srcs)
+          assert actual_public == len(names), ("PUBLIC_COUNT_MISMATCH", actual_public, len(names))
+          out = ["import KUOS.DependentOriginationCoherentNormalizedScaledModelEquivalenceTypedRepairV1_32", ""]
+          out.extend("#print axioms " + name for name in names)
+          Path("formal/KUOS/V130V132AxiomAuditScratch.lean").write_text("\n".join(out) + "\n")
+          print("AXIOM_AUDIT_REQUESTED", len(names), flush=True)
+          PY
+          lake env lean -DwarningAsError=true -Dweak.sorryAsError=true \
+            formal/KUOS/V130V132AxiomAuditScratch.lean \
+            2>&1 | tee kuuos-v130-v132-axioms.log
+          python3 - <<'PY'
+          import re
+          from pathlib import Path
+          raw = Path("kuuos-v130-v132-axioms.log").read_text()
+          records = re.findall(
+              r"(?m)^'([^']+)' (?:depends on axioms:\s*\[([^]]*)\]|does not depend on any axioms)",
+              raw,
+          )
+          assert len(records) == 14, ("AXIOM_RECORD_COUNT", len(records), 14)
+          assert len({name for name, _ in records}) == 14, "DUPLICATE_AXIOM_RECORD"
+          allowed = {"propext", "Classical.choice", "Quot.sound"}
+          for name, axioms in records:
+              used = {a.strip() for a in axioms.split(",") if a.strip()}
+              assert used <= allowed, ("UNSUPPORTED_AXIOM", name, sorted(used - allowed))
+          print("V130_V132_14_PUBLIC_DECLARATIONS_STANDARD_AXIOMS_ONLY")
+          PY
+          git diff --exit-code -- lean-toolchain lake-manifest.json
+          echo "Scoped proof checked; full PR Governance Gate remains independent and mandatory."
+      - name: Upload exact-head source logs and axioms
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-v130-v132-audit-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            kuuos-v130-v132-strict-lean.log
+            kuuos-v130-v132-axioms.log
+          if-no-files-found: warn
+          retention-days: 21
