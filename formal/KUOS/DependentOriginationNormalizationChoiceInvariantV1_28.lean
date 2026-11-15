@@ -212,16 +212,19 @@ theorem twoCellObservable_normalizationIndependent
 
 /-! ## Invertibility is an intrinsic normalization-independent predicate -/
 
-/-- The certified hom equivalence acts on 2-cells exactly by `forward.map₂`. -/
+/--
+After transporting both endpoints by the certified functor equality, the
+hom-equivalence acts on the same 2-cell as the native pseudofunctor. The
+untransported equality is not a well-typed statement across different objects.
+-/
 @[simp] theorem strictHomEquiv_functor_map
     {B : Type u₁} [Bicategory.{w₁, v₁} B]
     {C : Type u₂} [Bicategory.{w₂, v₂} C]
     (E : StrictlyUnitaryBicategoricalModelEquivalence B C)
     {X Y : B} {f g : X ⟶ Y}
     (α : f ⟶ g) :
-    (E.homEquiv X Y).functor.map α = E.forward.map₂ α := by
-  rw [E.homEquiv_functor X Y]
-  rfl
+    E.toModelEquivalence.homEquivMap₂ α = E.forward.map₂ α := by
+  exact E.toModelEquivalence.homEquiv_functor_map α
 
 /-- A strictly-unitary model equivalence preserves and reflects 2-cell invertibility. -/
 theorem transportedTwoCell_isIso_iff_source
@@ -231,7 +234,9 @@ theorem transportedTwoCell_isIso_iff_source
     {X Y : B} {f g : X ⟶ Y}
     (α : f ⟶ g) :
     IsIso (E.forward.map₂ α) ↔ IsIso α := by
-  rw [← strictHomEquiv_functor_map E α]
+  change IsIso
+    ((E.forward.toPseudofunctor.toPrelaxFunctor.mapFunctor X Y).map α) ↔ IsIso α
+  rw [← E.homEquiv_functor X Y]
   exact isIso_iff_of_reflects_iso α (E.homEquiv X Y).functor
 
 /-- Hence invertibility of the transported intrinsic 2-cell is independent of normalization choice. -/
