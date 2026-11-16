@@ -1,0 +1,90 @@
+name: KuuOS v1.121 terminal RLP CodeAI round2 pinned pushout and universe
+
+on:
+  pull_request:
+    types: [synchronize]
+    paths:
+      - "scripts/kuuos_v121_terminal_rlp_codeai_round2_v1.py"
+      - ".github/workflows/kuuos-v121-terminal-rlp-codeai-round2-v1.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  terminal-round2:
+    if: ${{ github.event.pull_request.head.sha == 'fc01f8f7cbf209fb0fa3b678d19a3c4fb7506218' && github.event_name == 'pull_request' && github.event.pull_request.number == 3562 && github.event.pull_request.draft == true && github.event.pull_request.head.ref == 'validation/kuuos-v121-induced-endpoint-on-certified-v120-20261116' && github.event.pull_request.base.sha == '7c64a89b81681f997483d0873887df2f700d1244' }}
+    runs-on: ubuntu-22.04
+    timeout-minutes: 90
+    env:
+      MATHLIB_NO_CACHE_ON_UPDATE: '1'
+    steps:
+      - name: Checkout exact source-bound terminal candidate HEAD
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify immutable failed candidates, theorem inventory, source and fixed pins
+        run: |
+          set -euo pipefail
+          python3 -m py_compile scripts/kuuos_v121_terminal_rlp_codeai_round2_v1.py
+          PYTHONPATH=. python3 - <<'PY'
+          import json,hashlib,os
+          from pathlib import Path
+          from scripts.kuuos_v121_terminal_rlp_codeai_round2_v1 import make_variants,SOURCE_BLOB,TARGET,HISTORY
+          from runtime.kuuos_codeai_lean_observation_intake_v0_1 import read_observation_seed
+          ev=json.loads(Path(os.environ["GITHUB_EVENT_PATH"]).read_text())
+          p=ev["pull_request"]
+          assert ev["number"]==3562 and p["draft"] is True
+          assert p["base"]["sha"]=="7c64a89b81681f997483d0873887df2f700d1244"
+          assert Path("lean-toolchain").read_text().strip()=="leanprover/lean4:v4.30.0-rc2"
+          manifest=json.loads(Path("lake-manifest.json").read_text())
+          assert [x.get("rev") for x in manifest["packages"] if x.get("name")=="mathlib"]==["5450b53e5ddc75d46418fabb605edbf36bd0beb6"]
+          source=Path(TARGET).read_bytes()
+          assert hashlib.sha1(b"blob "+str(len(source)).encode()+b"\0"+source).hexdigest()==SOURCE_BLOB
+          assert len(read_observation_seed(HISTORY))==2
+          assert len(make_variants(source.decode()))==3
+          print("KUUOS_TERMINAL_ROUND2_PREFLIGHT_GREEN")
+          PY
+      - name: Setup pinned Lean 4.30.0-rc2
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Restore prior pinned read-only build cache
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake/build
+          key: kuuos-pr-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-pr3522-${{ github.event.pull_request.head.sha }}
+          restore-keys: |
+            kuuos-pr-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-pr3522-
+      - name: Resolve fixed pinned mathlib
+        run: lake exe cache get
+      - name: Strict build independently certified Type-C cocycle dependency
+        run: |
+          set -euo pipefail
+          timeout 3200 lake -KleanArgs=-DwarningAsError=true -KleanArgs=-Dweak.sorryAsError=true build KUOS.DependentOriginationDoubleDeloopingTypeCOuterHornCocycleCompletionPinnedV1_121
+      - name: Install actual Lean MCP
+        run: python3 -m pip install uv
+      - name: Test three source-distinct terminal-RLP repairs with direct Lean and real MCP gate
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          PYTHONPATH=. python3 scripts/kuuos_v121_terminal_rlp_codeai_round2_v1.py
+      - name: Archive all exact direct Lean, candidate source, and real MCP receipts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-v121-terminal-codeai-round2-${{ github.run_id }}
+          path: |
+            /tmp/kuuos-v121-terminal-codeai-round2/
+            /tmp/kuuos-v121-terminal-mcp-round2/
+          if-no-files-found: warn
+          retention-days: 30

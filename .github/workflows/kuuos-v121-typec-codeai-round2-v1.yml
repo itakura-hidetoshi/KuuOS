@@ -1,0 +1,104 @@
+name: KuuOS v1.121 Type-C CodeAI equality transport repair round2
+
+on:
+  pull_request:
+    paths:
+      - "scripts/kuuos_v121_typec_codeai_round2_v1.py"
+      - ".github/workflows/kuuos-v121-typec-codeai-round2-v1.yml"
+      - "memoryos/external/github/2026/11/kuuos_codeai_lean_observations_v121_typec_round1_v1.json"
+
+permissions:
+  contents: read
+
+jobs:
+  typec-codeai-four-variants:
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.number == 3562 && github.event.pull_request.head.ref == 'validation/kuuos-v121-induced-endpoint-on-certified-v120-20261116' && github.event.pull_request.base.ref == 'validation/kuuos-v120-induced-admission-recovery-20261116' && github.event.pull_request.head.sha == 'cc3b8aca7eb53281f4a4a794b3ed4b947b26b261' }}
+    runs-on: ubuntu-22.04
+    timeout-minutes: 90
+    env:
+      MATHLIB_NO_CACHE_ON_UPDATE: '1'
+    steps:
+      - name: Checkout exact source-bound candidate HEAD
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify previous type-C failure source, pins, bridge, and CodeAI script
+        run: |
+          set -euo pipefail
+          python3 -m py_compile scripts/kuuos_v121_typec_codeai_round2_v1.py
+          PYTHONPATH=. python3 - <<'PY'
+          from pathlib import Path
+          import hashlib,json,os
+          ev=json.loads(Path(os.environ["GITHUB_EVENT_PATH"]).read_text())
+          p=ev["pull_request"]
+          assert ev["repository"]["full_name"]=="itakura-hidetoshi/KuuOS"
+          assert ev["number"]==3562 and p["draft"] is True
+          assert p["base"]["ref"]=="validation/kuuos-v120-induced-admission-recovery-20261116"
+          assert p["base"]["sha"]=="7c64a89b81681f997483d0873887df2f700d1244"
+          assert p["head"]["ref"]=="validation/kuuos-v121-induced-endpoint-on-certified-v120-20261116"
+          assert Path("lean-toolchain").read_text().strip()=="leanprover/lean4:v4.30.0-rc2"
+          manifest=json.loads(Path("lake-manifest.json").read_text())
+          assert [m.get("rev") for m in manifest["packages"] if m.get("name")=="mathlib"] == ["5450b53e5ddc75d46418fabb605edbf36bd0beb6"]
+          blobs={
+             "formal/KUOS/DependentOriginationDoubleDeloopingTypeAFaceValueBridgeV1_121.lean":"51c84705c4eaffe6f607fb87f0891662613cdb94",
+             "formal/KUOS/DependentOriginationDoubleDeloopingTypeCOuterHornCocycleCompletionPinnedV1_121.lean":"6b1142889bbebaad76a8c143a323c9c272e45076",
+             "formal/KUOS/DependentOriginationDoubleDeloopingTypeAAllDimensionsV1_112.lean":"c9977fe0144e922da23eddde1d6eba2ec2f51e65",
+          }
+          for path,sha in blobs.items():
+              raw=Path(path).read_bytes()
+              assert hashlib.sha1(b"blob "+str(len(raw)).encode()+b"\0"+raw).hexdigest()==sha,path
+          from scripts.kuuos_v121_typec_codeai_round2_v1 import make_variants
+          original=Path("formal/KUOS/DependentOriginationDoubleDeloopingTypeCOuterHornCocycleCompletionPinnedV1_121.lean").read_text()
+          variants=make_variants(original)
+          assert len(variants)==4
+          from runtime.kuuos_codeai_lean_observation_intake_v0_1 import read_observation_seed
+          records=read_observation_seed(Path("memoryos/external/github/2026/11/kuuos_codeai_lean_observations_v121_typec_round1_v1.json"))
+          assert len(records)==3
+          assert all(x["producer_run"]==43829329953 and x["source_head"]=="a9f7020dafb7d360dd72b1c18a71c3aa7259dc28" and x["outcome"]=="DIRECT_LEAN_FAILURE" for x in records)
+          print("KUUOS_V121_TYPEC_ROUND2_SOURCE_PIN_GREEN",len(blobs),list(variants))
+          PY
+      - name: Setup pinned Lean 4.30.0-rc2
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Restore pinned read-only Lake cache
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake/build
+          key: kuuos-pr-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-pr3522-${{ github.event.pull_request.head.sha }}
+          restore-keys: |
+            kuuos-pr-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-pr3522-
+      - name: Resolve fixed mathlib
+        run: lake exe cache get
+      - name: Build exact certified v1.112 and corrected v1.121 face bridge
+        run: |
+          set -euo pipefail
+          timeout 3200 lake -KleanArgs=-DwarningAsError=true -KleanArgs=-Dweak.sorryAsError=true build KUOS.DependentOriginationDoubleDeloopingTypeAFaceValueBridgeV1_121
+      - name: Install actual Lean MCP transport
+        run: python3 -m pip install uv
+      - name: CodeAI four isolated Type-C structural repair variants
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          PYTHONPATH=. python3 scripts/kuuos_v121_typec_codeai_round2_v1.py
+      - name: Archive all source-bound direct Lean and real MCP receipts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-v121-typec-codeai-round2-${{ github.run_id }}
+          path: |
+            /tmp/kuuos-v121-typec-codeai-round2/
+            /tmp/kuuos-v121-typec-real-mcp-round2/
+          if-no-files-found: warn
+          retention-days: 30

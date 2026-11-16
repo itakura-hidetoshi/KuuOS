@@ -1,0 +1,51 @@
+{
+  "profile": "memoryos_codeai_lean_observations_v0_1",
+  "repository": "itakura-hidetoshi/KuuOS",
+  "authority": "external_pointer_only",
+  "curation_note": "Append-only v1.120 CodeAI round3 exact producer #43793277322 source-bound observations: direct pinned Lean 3/4 green, selected congrArg candidate additionally actual real Lean MCP with zero diagnostics and second direct Lean SUCCESS (external receipt artifact #14193567209). The separate MemoryOS outcomes are deliberately direct Lean only and grant no independent proof authority. The simplifier mismatch observation is not a mathematical refutation.",
+  "independent_certification_pointers": [],
+  "observations": [
+    {
+      "source_head": "9c5eb74a3c1a4d7eeea19039aa04ad5a89ff7e58",
+      "source_tree": "67edb29b3f78fe5088307d71edde6a038f8bbb6d",
+      "imported_blob": "69196f47f1a925b76c2e8d0519a463e8c4762e69",
+      "variant": "round3-congrArg-transport",
+      "candidate_blob": "597f4ff8c082965f28c675365ce1564b1ad5f01a",
+      "producer_run": 43793277322,
+      "outcome": "DIRECT_LEAN_SUCCESS",
+      "errors": []
+    },
+    {
+      "source_head": "9c5eb74a3c1a4d7eeea19039aa04ad5a89ff7e58",
+      "source_tree": "67edb29b3f78fe5088307d71edde6a038f8bbb6d",
+      "imported_blob": "69196f47f1a925b76c2e8d0519a463e8c4762e69",
+      "variant": "round3-eq-substitution",
+      "candidate_blob": "9d1910b5b9ec56936b7c82a794a221914c6ce695",
+      "producer_run": 43793277322,
+      "outcome": "DIRECT_LEAN_SUCCESS",
+      "errors": []
+    },
+    {
+      "source_head": "9c5eb74a3c1a4d7eeea19039aa04ad5a89ff7e58",
+      "source_tree": "67edb29b3f78fe5088307d71edde6a038f8bbb6d",
+      "imported_blob": "69196f47f1a925b76c2e8d0519a463e8c4762e69",
+      "variant": "round3-simpa-transport",
+      "candidate_blob": "e97d6d4a2d3f1dec251a1666471882b6c00399a4",
+      "producer_run": 43793277322,
+      "outcome": "DIRECT_LEAN_FAILURE",
+      "errors": [
+        "formal/KUOS/DependentOriginationForwardEndpointInducedCompatibilityV1_120.lean:94:4: error: Type mismatch: After simplification, term hs has type IsScaledMap sDelta sX (endpointIntoAttachment n i 0 ≫ k.map), but is expected to have type IsScaledMap sDelta sX sigma"
+      ]
+    },
+    {
+      "source_head": "9c5eb74a3c1a4d7eeea19039aa04ad5a89ff7e58",
+      "source_tree": "67edb29b3f78fe5088307d71edde6a038f8bbb6d",
+      "imported_blob": "69196f47f1a925b76c2e8d0519a463e8c4762e69",
+      "variant": "round3-eqndrec-transport",
+      "candidate_blob": "ca3512857f05b82ec45d93f37727afe4f93afebe",
+      "producer_run": 43793277322,
+      "outcome": "DIRECT_LEAN_SUCCESS",
+      "errors": []
+    }
+  ]
+}

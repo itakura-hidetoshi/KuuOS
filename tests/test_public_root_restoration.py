@@ -180,6 +180,15 @@ REVIEWED_REFINEMENT_TRANSITIVITY_V1_2_BLOBS = {
     # candidate 243be7591b65a5b91361dfdd48f80104dc455ee4, zero direct errors and olean.
     # Enrollment records exact source byte provenance, not CI authority.
     "KUOS/DependentOriginationDoubleDeloopingTypeALowDimensionalFillersV1_102.lean": "243be7591b65a5b91361dfdd48f80104dc455ee4",
+    # v1.103 frozen legacy source remains at Git blob
+    # 04de7e72813e0e28c9d4e499b68876f081b3bdba (also canonical main).
+    # Exact historical repair: commit e5643f85affc3b7c7e7e21166e62ed5222f72513
+    # changes only proof/elaboration code (four diff hunks: congr tactic,
+    # qualified cocycle lemma, congrArg, binder name, qualified zero predicate).
+    # Existing theorem declarations/assumptions and archived bytes are retained.
+    # Pin the full reviewed current-source blob, not a loose pattern or waiver.
+    # This is source provenance ONLY, not standalone Lean/CI proof authority.
+    "KUOS/DependentOriginationDoubleDeloopingTypeAHighDimensionalFillersV1_103.lean": "ff2e6a09e2c064a23207ee1323bc14182c86d7cd",
     # Original V1_89 pinned source: f5d06299e825ef784a7df25386b062b80c702f12 (retained in Git history).
     "KUOS/DependentOriginationStandardArbitraryScalingWaypointV1_89.lean": "3b5de0a154436be6598a49861435dc57a80ea2f9",
     "KUOS/DependentOriginationStandardTypeAEndpointOppositeCellCertificateV1_77.lean": "e7d422b89b4a4fa5180790b0c5d49c51b7239786",

@@ -1,0 +1,48 @@
+{
+  "profile": "kuuos_research_dependency_obstruction_v1",
+  "repository": "itakura-hidetoshi/KuuOS",
+  "authority": "GitHub CI observation pointer only; no proof or merge authority",
+  "source": {
+    "pr": 3562,
+    "head": "3730fb63a7b63c927b985c616b176ab2d204ae32",
+    "source_tree": "731179af4949815659031dbfce7863c7a7980eff",
+    "base_head": "7c64a89b81681f997483d0873887df2f700d1244"
+  },
+  "ci": {
+    "run_id": 43800054066,
+    "job_id": 133077848936,
+    "workflow_conclusion": "failure",
+    "step": "Strict Lean build existing A/B/C and prism geometry (certified import closure)",
+    "step_conclusion": "failure"
+  },
+  "observed": {
+    "direct_error_count": 99,
+    "error_source": "formal/KUOS/DependentOriginationDoubleDeloopingTypeADimensionFourFamilyRLPV1_104.lean",
+    "first_direct_lines": [
+      64,
+      75,
+      168,
+      169,
+      170
+    ],
+    "categories": [
+      "application type mismatch",
+      "Expected type must not contain free variables",
+      "omega could not prove goal",
+      "unexpected token",
+      "declaration uses sorry due failed elaboration"
+    ],
+    "new_v121_proof_candidate_executed": false,
+    "producer_artifact_available": false
+  },
+  "interpretation": {
+    "status": "UNVERIFIED_HYPOTHESIS",
+    "reason": "Existing v1.104 body not compatible with exact pinned Lean4/mathlib, so v1.105 and v1.106 imports cannot elaborate. The four v1.104 face vertex lemmas used directly by v1.105 are isolated in a new proof bridge, and the v1.104 standard-A RLP call used by v1.106 is sourced from independently certified v1.112. No theorem is weakened. Verify each bridge and the full copied v1.105/v1.106 in a new exact-source direct Lean CI.",
+    "alternate_proof_paths": [
+      "formal/KUOS/DependentOriginationDoubleDeloopingTypeAFaceValueBridgeV1_121.lean",
+      "formal/KUOS/DependentOriginationDoubleDeloopingTypeCOuterHornCocycleCompletionPinnedV1_121.lean",
+      "formal/KUOS/DependentOriginationDoubleDeloopingTypeCTerminalRLPPinnedV1_121.lean"
+    ]
+  },
+  "provenance": "Append-only observation. Original main v1.104/105/106 unchanged. Source-bound alternative import closure is NOT certified until exact Lean/CI."
+}

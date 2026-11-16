@@ -1,0 +1,120 @@
+name: KuuOS v1.120 independent exact-source induced attachment admission
+
+on:
+  pull_request:
+    paths:
+      - "formal/KUOS/DependentOriginationForwardEndpointInducedCompatibilityV1_120.lean"
+      - "memoryos/external/github/2026/11/kuuos_codeai_lean_observations_v120_round3_v1.json"
+      - "scripts/kuuos_v120_four_stage_admission_v1.py"
+      - ".github/workflows/kuuos-v120-independent-induced-admission-v1.yml"
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  v120-independent-exact-source-lean:
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.number == 3560 && github.event.pull_request.head.ref == 'validation/kuuos-v120-induced-admission-recovery-20261116' && github.event.pull_request.base.ref == 'validation/kuuos-v118-forward-minimal-nonlifting-on-v112-20261116' }}
+    runs-on: ubuntu-22.04
+    timeout-minutes: 90
+    env:
+      MATHLIB_NO_CACHE_ON_UPDATE: '1'
+    steps:
+      - name: Checkout exact promoted v1.120 source HEAD
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - name: Download source-bound CodeAI and real Lean MCP experiment artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: kuuos-v120-codeai-round3-43793277322
+          run-id: 43793277322
+          github-token: ${{ github.token }}
+          path: /tmp/kuuos-v120-evidence
+      - name: Independently verify four-stage source admission, Git tree and source bytes
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          EVIDENCE_DIR: /tmp/kuuos-v120-evidence
+          PROMOTED_HEAD: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+          python3 -m py_compile scripts/kuuos_v120_four_stage_admission_v1.py
+          PYTHONPATH=. python3 scripts/kuuos_v120_four_stage_admission_v1.py
+      - name: Setup exact Lean v4.30.0-rc2
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Restore exact pinned build overlay read-only
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake/build
+          key: kuuos-pr-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-pr3522-${{ github.event.pull_request.head.sha }}
+          restore-keys: |
+            kuuos-pr-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-pr3522-
+      - name: Resolve fixed mathlib
+        run: lake exe cache get
+      - name: Independently strict-build exact promoted v1.120 dependency closure
+        run: |
+          set -euo pipefail
+          timeout 3200 lake -KleanArgs=-DwarningAsError=true -KleanArgs=-Dweak.sorryAsError=true build KUOS.DependentOriginationForwardEndpointInducedCompatibilityV1_120 2>&1 | tee /tmp/kuuos-v120-independent/build.log
+      - name: Independently audit four declarations and all axioms
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          ns="KUOS.DependentOriginationForwardEndpointInducedCompatibilityV1_120."
+          names=[
+            "minimalForward_factor_through_induced_iff_scaled",
+            "endpointZero_into_induced_scaled",
+            "projectedForward_factor_induced_iff_endpoint_scaled",
+            "natComparisonOne_minimal_forward_not_induced_admissible",
+          ]
+          lines=["import KUOS.DependentOriginationForwardEndpointInducedCompatibilityV1_120",""]
+          for name in names:
+              lines.extend(["#check "+ns+name,"#print axioms "+ns+name])
+          Path("/tmp/kuuos-v120-independent/AxiomAudit.lean").write_text("\n".join(lines)+"\n")
+          PY
+          lake env lean -DwarningAsError=true -Dweak.sorryAsError=true /tmp/kuuos-v120-independent/AxiomAudit.lean 2>&1 | tee /tmp/kuuos-v120-independent/axioms.log
+          python3 - <<'PY'
+          import json,re
+          from pathlib import Path
+          report=Path("/tmp/kuuos-v120-independent")
+          ns="KUOS.DependentOriginationForwardEndpointInducedCompatibilityV1_120."
+          names=[
+            "minimalForward_factor_through_induced_iff_scaled",
+            "endpointZero_into_induced_scaled",
+            "projectedForward_factor_induced_iff_endpoint_scaled",
+            "natComparisonOne_minimal_forward_not_induced_admissible",
+          ]
+          log=(report/"axioms.log").read_text()
+          assert not re.search(r"(?m)(warning:|error:|sorryAx)",log),"warning/error/sorryAx"
+          declared=re.findall(r"'([^']+)' depends on axioms:\s*\[([^\]]*)\]",log,re.S)
+          assert len(declared)==len(names),"NO_DATA: not all four Lean axioms printed"
+          assert {name for name,_ in declared}=={ns+name for name in names},"declaration identity mismatch"
+          for name in names:
+              assert ns+name in log,"missing #check: "+name
+          axioms=set()
+          for _,group in declared:
+              axioms.update(x.strip() for x in group.split(",") if x.strip())
+          assert axioms.issubset({"propext","Classical.choice","Quot.sound"}),sorted(axioms)
+          result={"verified_declarations":len(names),"axioms":sorted(axioms),
+                  "sorryAx":0,"warnings":0,"errors":0,
+                  "source_blob":"597f4ff8c082965f28c675365ce1564b1ad5f01a",
+                  "scope":"minimal-to-induced top-map factorization/admission; NOT induced endpoint RLP"}
+          (report/"axiom_receipt.json").write_text(json.dumps(result,sort_keys=True,indent=2)+"\n")
+          print("KUUOS_V120_INDEPENDENT_AXIOMS_GREEN",json.dumps(result,sort_keys=True))
+          PY
+      - name: Archive independent v1.120 Lean and proof receipts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-v120-independent-${{ github.run_id }}
+          path: /tmp/kuuos-v120-independent/
+          if-no-files-found: warn
+          retention-days: 30
