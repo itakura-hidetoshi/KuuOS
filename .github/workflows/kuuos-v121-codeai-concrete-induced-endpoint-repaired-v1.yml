@@ -12,7 +12,7 @@ permissions:
 
 jobs:
   v121-codeai-direct-lean-mcp:
-    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.ref == 'validation/kuuos-v121-induced-endpoint-on-certified-v120-20261116' && github.event.pull_request.base.ref == 'validation/kuuos-v120-induced-admission-recovery-20261116' }}
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.ref == 'validation/kuuos-v121-induced-endpoint-on-certified-v120-20261116' && github.event.pull_request.base.ref == 'validation/kuuos-v120-induced-admission-recovery-20261116' && github.event.pull_request.head.sha == 'f6c421d8877542de1fb524068ba8b3393e0a835c' }}
     runs-on: ubuntu-22.04
     timeout-minutes: 90
     env:
