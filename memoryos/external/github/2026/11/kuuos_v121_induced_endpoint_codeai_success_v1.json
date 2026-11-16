@@ -1,0 +1,51 @@
+{
+  "profile": "memoryos_codeai_lean_observations_v0_1",
+  "repository": "itakura-hidetoshi/KuuOS",
+  "authority": "external_pointer_only",
+  "curation_note": "v1.121 induced-scaled endpoint CodeAI producer #43863005594 on exactly certified terminal input; all 3 candidates direct Lean successful; membership-explicit actual Lean MCP and second direct Lean successful. This is producer evidence, NOT independent certification.",
+  "observations": [
+    {
+      "source_head": "10e190c73912f6fe868432d8cc9451a18701897b",
+      "source_tree": "a2aed93720afac62d0ecf3f56eac715147c21686",
+      "imported_blob": "24cc915ad7693a7083ccd19c2614cb5339778381",
+      "variant": "membership-explicit",
+      "candidate_blob": "1b0f52b0c5604373e046ed269fe4f4c0d2599d17",
+      "producer_run": 43863005594,
+      "outcome": "DIRECT_LEAN_SUCCESS",
+      "errors": []
+    },
+    {
+      "source_head": "10e190c73912f6fe868432d8cc9451a18701897b",
+      "source_tree": "a2aed93720afac62d0ecf3f56eac715147c21686",
+      "imported_blob": "24cc915ad7693a7083ccd19c2614cb5339778381",
+      "variant": "membership-apply",
+      "candidate_blob": "c654aea4a1c6a507b93458dcc98d1869ee90e44e",
+      "producer_run": 43863005594,
+      "outcome": "DIRECT_LEAN_SUCCESS",
+      "errors": []
+    },
+    {
+      "source_head": "10e190c73912f6fe868432d8cc9451a18701897b",
+      "source_tree": "a2aed93720afac62d0ecf3f56eac715147c21686",
+      "imported_blob": "24cc915ad7693a7083ccd19c2614cb5339778381",
+      "variant": "membership-cellular",
+      "candidate_blob": "e7f1f63659b70de0916816ec1623f54be27a782c",
+      "producer_run": 43863005594,
+      "outcome": "DIRECT_LEAN_SUCCESS",
+      "errors": []
+    }
+  ],
+  "evidence_details": {
+    "producer_run": 43863005594,
+    "job_id": 133284336905,
+    "artifact_id": 14223732638,
+    "artifact_sha256": "00fb834469e80dc9ff9bec28bc96eb5256663ff2ca93b849e55efc224a12e592",
+    "selected": "membership-explicit",
+    "selected_blob": "1b0f52b0c5604373e046ed269fe4f4c0d2599d17",
+    "sha256": "d52f22e04fdefeac3c619dbcfcd96c360b62713ad4ce57b6b80e29e0ee1dd3f4",
+    "mcp_green": true,
+    "second_direct_green": true,
+    "source_restored": true,
+    "independent_certified": false
+  }
+}

@@ -1,0 +1,144 @@
+{
+  "profile": "memoryos_codeai_lean_observations_v0_1",
+  "repository": "itakura-hidetoshi/KuuOS",
+  "authority": "external_pointer_only",
+  "observations": [
+    {
+      "source_head": "fc01f8f7cbf209fb0fa3b678d19a3c4fb7506218",
+      "source_tree": "857f09a9083517a9112b188b9e5711a7878349e3",
+      "imported_blob": "c81f3765791521e6e151b7f56a3b822cb81e8752",
+      "variant": "round2-native-pushout-desc",
+      "candidate_blob": "41fd61b1acd3e87cfec442858f221683ee35cf5f",
+      "producer_run": 43856111778,
+      "outcome": "DIRECT_LEAN_FAILURE",
+      "errors": [
+        "formal/KUOS/DependentOriginationDoubleDeloopingTypeCTerminalRLPPinnedV1_121.lean:147:13: error: Invalid simp theorem: Expected a proposition, but found",
+        "formal/KUOS/DependentOriginationDoubleDeloopingTypeCTerminalRLPPinnedV1_121.lean:147:6: error: Type mismatch: After simplification, term",
+        "formal/KUOS/DependentOriginationDoubleDeloopingTypeCTerminalRLPPinnedV1_121.lean:184:16: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern",
+        "formal/KUOS/DependentOriginationDoubleDeloopingTypeCTerminalRLPPinnedV1_121.lean:210:16: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern"
+      ]
+    },
+    {
+      "source_head": "fc01f8f7cbf209fb0fa3b678d19a3c4fb7506218",
+      "source_tree": "857f09a9083517a9112b188b9e5711a7878349e3",
+      "imported_blob": "c81f3765791521e6e151b7f56a3b822cb81e8752",
+      "variant": "round2-isPushout-desc-pushout-lemmas",
+      "candidate_blob": "59c9786bc8e74f893984366352683d30226421f8",
+      "producer_run": 43856111778,
+      "outcome": "DIRECT_LEAN_FAILURE",
+      "errors": [
+        "formal/KUOS/DependentOriginationDoubleDeloopingTypeCTerminalRLPPinnedV1_121.lean:100:2: error: Type mismatch",
+        "formal/KUOS/DependentOriginationDoubleDeloopingTypeCTerminalRLPPinnedV1_121.lean:110:2: error: Type mismatch",
+        "formal/KUOS/DependentOriginationDoubleDeloopingTypeCTerminalRLPPinnedV1_121.lean:147:13: error: Invalid simp theorem: Expected a proposition, but found",
+        "formal/KUOS/DependentOriginationDoubleDeloopingTypeCTerminalRLPPinnedV1_121.lean:147:6: error: Type mismatch: After simplification, term",
+        "formal/KUOS/DependentOriginationDoubleDeloopingTypeCTerminalRLPPinnedV1_121.lean:184:16: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern",
+        "formal/KUOS/DependentOriginationDoubleDeloopingTypeCTerminalRLPPinnedV1_121.lean:210:16: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern"
+      ]
+    },
+    {
+      "source_head": "fc01f8f7cbf209fb0fa3b678d19a3c4fb7506218",
+      "source_tree": "857f09a9083517a9112b188b9e5711a7878349e3",
+      "imported_blob": "c81f3765791521e6e151b7f56a3b822cb81e8752",
+      "variant": "round2-isPushout-fully-universe0",
+      "candidate_blob": "d72d1c3365f1e2240428e9b4e26e6b96cb2de5a3",
+      "producer_run": 43856111778,
+      "outcome": "DIRECT_LEAN_FAILURE",
+      "errors": [
+        "formal/KUOS/DependentOriginationDoubleDeloopingTypeCTerminalRLPPinnedV1_121.lean:147:13: error: Invalid simp theorem: Expected a proposition, but found",
+        "formal/KUOS/DependentOriginationDoubleDeloopingTypeCTerminalRLPPinnedV1_121.lean:147:6: error: Type mismatch: After simplification, term",
+        "formal/KUOS/DependentOriginationDoubleDeloopingTypeCTerminalRLPPinnedV1_121.lean:184:16: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern",
+        "formal/KUOS/DependentOriginationDoubleDeloopingTypeCTerminalRLPPinnedV1_121.lean:210:16: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern"
+      ]
+    }
+  ],
+  "curation_note": "Round2 three candidates all direct Lean FAILURE. No direct green, no real MCP invocation, no adoption or independent candidate certification. Round1 failure packets preserved.",
+  "evidence_details": {
+    "status": "BLOCKED_ALL_CANDIDATES_FAILED",
+    "round": 2,
+    "run_id": 43856111778,
+    "job_id": 133260667764,
+    "artifact_id": 14222461211,
+    "artifact_sha256": "74be796eecc788867d43cc5ca555850a0145323d87929a0340433d977d7db0ab",
+    "mcp_invoked": false,
+    "independent_candidate_certified": false,
+    "candidates": [
+      {
+        "candidate_blob": "41fd61b1acd3e87cfec442858f221683ee35cf5f",
+        "candidate_sha256": "cd324009f9ef5c9e10d2935dd3e2b8ea1dcc30c03e92723cb02dc82b58e2bb9e",
+        "error_count": 4,
+        "errors": [
+          "formal/KUOS/DependentOriginationDoubleDeloopingTypeCTerminalRLPPinnedV1_121.lean:147:13: error: Invalid simp theorem: Expected a proposition, but found",
+          "formal/KUOS/DependentOriginationDoubleDeloopingTypeCTerminalRLPPinnedV1_121.lean:147:6: error: Type mismatch: After simplification, term",
+          "formal/KUOS/DependentOriginationDoubleDeloopingTypeCTerminalRLPPinnedV1_121.lean:184:16: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern",
+          "formal/KUOS/DependentOriginationDoubleDeloopingTypeCTerminalRLPPinnedV1_121.lean:210:16: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern"
+        ],
+        "exit_code": 1,
+        "log_sha256": "7d3ba65c877bc714b3865922bb7bcc4a6fb5387f9763d1c11ee57f275458c9e1",
+        "olean_exists": false,
+        "status": "FAILURE",
+        "variant": "round2-native-pushout-desc",
+        "full_log": "formal/KUOS/DependentOriginationDoubleDeloopingTypeCTerminalRLPPinnedV1_121.lean:147:13: error: Invalid simp theorem: Expected a proposition, but found\n  (m : ℕ) → standardTypeCTargetCarrier m _⦋2⦌\nformal/KUOS/DependentOriginationDoubleDeloopingTypeCTerminalRLPPinnedV1_121.lean:147:6: error: Type mismatch: After simplification, term\n  ConcreteCategory.congr_hom (congr_app (target_inl_desc K) (op ⦋2⦌)) (standardTypeCTriangle01n m)\n has type\n  True\nbut is expected to have type\n  (ConcreteCategory.hom ((toTargetMap K).app (op ⦋2⦌))) (standardTypeCTargetDistinguishedTriangle m) =\n    (ConcreteCategory.hom (K.cocycle.toSimplexMap.app (op ⦋2⦌))) (standardTypeCTriangle01n m)\nformal/KUOS/DependentOriginationDoubleDeloopingTypeCTerminalRLPPinnedV1_121.lean:184:16: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern\n  pushout.inl (standardTypeCEdgeToHorn ?m) (standardTypeCEdgeCollapseToPoint ?m) ≫ standardTypeCCarrierMap ?m\nin the target expression\n  (natTypeCSourceHornInl m ≫ standardTypeCCarrierMap m) ≫ toTargetMap K =\n    (Λ[m + 3, 0].ι ≫ pushout.inl (standardTypeCEdgeToSimplex m) (standardTypeCEdgeCollapseToPoint m)) ≫ toTargetMap K\n\nm : ℕ\nf : standardTypeCSource m ⟶ natDoubleDeloopingScaledDuskin\nK : NatTypeCSourceCocycleCompletion m f\n⊢ (natTypeCSourceHornInl m ≫ standardTypeCCarrierMap m) ≫ toTargetMap K =\n    (Λ[m + 3, 0].ι ≫ pushout.inl (standardTypeCEdgeToSimplex m) (standardTypeCEdgeCollapseToPoint m)) ≫ toTargetMap K\nformal/KUOS/DependentOriginationDoubleDeloopingTypeCTerminalRLPPinnedV1_121.lean:210:16: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern\n  pushout.inr (standardTypeCEdgeToHorn ?m) (standardTypeCEdgeCollapseToPoint ?m) ≫ standardTypeCCarrierMap ?m\nin the target expression\n  (natTypeCSourcePointInr m ≫ standardTypeCCarrierMap m) ≫ toTargetMap K =\n    pushout.inr (standardTypeCEdgeToSimplex m) (standardTypeCEdgeCollapseToPoint m) ≫ toTargetMap K\n\nm : ℕ\nf : standardTypeCSource m ⟶ natDoubleDeloopingScaledDuskin\nK : NatTypeCSourceCocycleCompletion m f\n⊢ (natTypeCSourcePointInr m ≫ standardTypeCCarrierMap m) ≫ toTargetMap K =\n    pushout.inr (standardTypeCEdgeToSimplex m) (standardTypeCEdgeCollapseToPoint m) ≫ toTargetMap K\n\n",
+        "error_classification": [
+          "LEAN_INVALID_SIMP_THEOREM",
+          "LEAN_TYPE_MISMATCH",
+          "LEAN_REWRITE_PATTERN_ABSENT"
+        ],
+        "causal_status": "UNVERIFIED_HYPOTHESIS",
+        "repair_hypothesis": "Explicit pushout and universe-zero variants reduce observed diagnostics; remaining failures involve non-proposition simp input, congr_hom simplification to True, and alias-sensitive rewrite matching. These are hypotheses, not certified causal conclusions.",
+        "next_applicability": "Never replay this failed full-source blob. Require new evidence about the exact triangle equality and source inclusion aliases. Two bounded rounds exhausted."
+      },
+      {
+        "candidate_blob": "59c9786bc8e74f893984366352683d30226421f8",
+        "candidate_sha256": "6ecb636018342974191be0012e4b073b1c008aa6759eaec296415ca2d27c60ea",
+        "error_count": 6,
+        "errors": [
+          "formal/KUOS/DependentOriginationDoubleDeloopingTypeCTerminalRLPPinnedV1_121.lean:100:2: error: Type mismatch",
+          "formal/KUOS/DependentOriginationDoubleDeloopingTypeCTerminalRLPPinnedV1_121.lean:110:2: error: Type mismatch",
+          "formal/KUOS/DependentOriginationDoubleDeloopingTypeCTerminalRLPPinnedV1_121.lean:147:13: error: Invalid simp theorem: Expected a proposition, but found",
+          "formal/KUOS/DependentOriginationDoubleDeloopingTypeCTerminalRLPPinnedV1_121.lean:147:6: error: Type mismatch: After simplification, term",
+          "formal/KUOS/DependentOriginationDoubleDeloopingTypeCTerminalRLPPinnedV1_121.lean:184:16: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern",
+          "formal/KUOS/DependentOriginationDoubleDeloopingTypeCTerminalRLPPinnedV1_121.lean:210:16: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern"
+        ],
+        "exit_code": 1,
+        "log_sha256": "88abf72554fc1d41585e48cda781c74e6084cb2d2e32952838ed6ccc393dfcc3",
+        "olean_exists": false,
+        "status": "FAILURE",
+        "variant": "round2-isPushout-desc-pushout-lemmas",
+        "full_log": "formal/KUOS/DependentOriginationDoubleDeloopingTypeCTerminalRLPPinnedV1_121.lean:100:2: error: Type mismatch\n  pushout.inl_desc K.cocycle.toSimplexMap (natTypeCPointMap m f) (edge_compat K)\nhas type\n  pushout.inl (standardTypeCEdgeToSimplex m) (standardTypeCEdgeCollapseToPoint m) ≫\n      pushout.desc K.cocycle.toSimplexMap (natTypeCPointMap m f) ⋯ =\n    K.cocycle.toSimplexMap\nbut is expected to have type\n  pushout.inl (standardTypeCEdgeToSimplex m) (standardTypeCEdgeCollapseToPoint m) ≫ toTargetMap K =\n    K.cocycle.toSimplexMap\nformal/KUOS/DependentOriginationDoubleDeloopingTypeCTerminalRLPPinnedV1_121.lean:110:2: error: Type mismatch\n  pushout.inr_desc K.cocycle.toSimplexMap (natTypeCPointMap m f) (edge_compat K)\nhas type\n  pushout.inr (standardTypeCEdgeToSimplex m) (standardTypeCEdgeCollapseToPoint m) ≫\n      pushout.desc K.cocycle.toSimplexMap (natTypeCPointMap m f) ⋯ =\n    natTypeCPointMap m f\nbut is expected to have type\n  pushout.inr (standardTypeCEdgeToSimplex m) (standardTypeCEdgeCollapseToPoint m) ≫ toTargetMap K = natTypeCPointMap m f\nformal/KUOS/DependentOriginationDoubleDeloopingTypeCTerminalRLPPinnedV1_121.lean:147:13: error: Invalid simp theorem: Expected a proposition, but found\n  (m : ℕ) → standardTypeCTargetCarrier m _⦋2⦌\nformal/KUOS/DependentOriginationDoubleDeloopingTypeCTerminalRLPPinnedV1_121.lean:147:6: error: Type mismatch: After simplification, term\n  ConcreteCategory.congr_hom (congr_app (target_inl_desc K) (op ⦋2⦌)) (standardTypeCTriangle01n m)\n has type\n  True\nbut is expected to have type\n  (ConcreteCategory.hom ((toTargetMap K).app (op ⦋2⦌))) (standardTypeCTargetDistinguishedTriangle m) =\n    (ConcreteCategory.hom (K.cocycle.toSimplexMap.app (op ⦋2⦌))) (standardTypeCTriangle01n m)\nformal/KUOS/DependentOriginationDoubleDeloopingTypeCTerminalRLPPinnedV1_121.lean:184:16: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern\n  pushout.inl (standardTypeCEdgeToHorn ?m) (standardTypeCEdgeCollapseToPoint ?m) ≫ standardTypeCCarrierMap ?m\nin the target expression\n  (natTypeCSourceHornInl m ≫ standardTypeCCarrierMap m) ≫ toTargetMap K =\n    (Λ[m + 3, 0].ι ≫ pushout.inl (standardTypeCEdgeToSimplex m) (standardTypeCEdgeCollapseToPoint m)) ≫ toTargetMap K\n\nm : ℕ\nf : standardTypeCSource m ⟶ natDoubleDeloopingScaledDuskin\nK : NatTypeCSourceCocycleCompletion m f\n⊢ (natTypeCSourceHornInl m ≫ standardTypeCCarrierMap m) ≫ toTargetMap K =\n    (Λ[m + 3, 0].ι ≫ pushout.inl (standardTypeCEdgeToSimplex m) (standardTypeCEdgeCollapseToPoint m)) ≫ toTargetMap K\nformal/KUOS/DependentOriginationDoubleDeloopingTypeCTerminalRLPPinnedV1_121.lean:210:16: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern\n  pushout.inr (standardTypeCEdgeToHorn ?m) (standardTypeCEdgeCollapseToPoint ?m) ≫ standardTypeCCarrierMap ?m\nin the target expression\n  (natTypeCSourcePointInr m ≫ standardTypeCCarrierMap m) ≫ toTargetMap K =\n    pushout.inr (standardTypeCEdgeToSimplex m) (standardTypeCEdgeCollapseToPoint m) ≫ toTargetMap K\n\nm : ℕ\nf : standardTypeCSource m ⟶ natDoubleDeloopingScaledDuskin\nK : NatTypeCSourceCocycleCompletion m f\n⊢ (natTypeCSourcePointInr m ≫ standardTypeCCarrierMap m) ≫ toTargetMap K =\n    pushout.inr (standardTypeCEdgeToSimplex m) (standardTypeCEdgeCollapseToPoint m) ≫ toTargetMap K\n\n",
+        "error_classification": [
+          "LEAN_INVALID_SIMP_THEOREM",
+          "LEAN_TYPE_MISMATCH",
+          "LEAN_REWRITE_PATTERN_ABSENT"
+        ],
+        "causal_status": "UNVERIFIED_HYPOTHESIS",
+        "repair_hypothesis": "Explicit pushout and universe-zero variants reduce observed diagnostics; remaining failures involve non-proposition simp input, congr_hom simplification to True, and alias-sensitive rewrite matching. These are hypotheses, not certified causal conclusions.",
+        "next_applicability": "Never replay this failed full-source blob. Require new evidence about the exact triangle equality and source inclusion aliases. Two bounded rounds exhausted."
+      },
+      {
+        "candidate_blob": "d72d1c3365f1e2240428e9b4e26e6b96cb2de5a3",
+        "candidate_sha256": "51d04872bb01229c2be8e526128ae2ab1fcc5665bae8bf32016ab3fdba3c6be3",
+        "error_count": 4,
+        "errors": [
+          "formal/KUOS/DependentOriginationDoubleDeloopingTypeCTerminalRLPPinnedV1_121.lean:147:13: error: Invalid simp theorem: Expected a proposition, but found",
+          "formal/KUOS/DependentOriginationDoubleDeloopingTypeCTerminalRLPPinnedV1_121.lean:147:6: error: Type mismatch: After simplification, term",
+          "formal/KUOS/DependentOriginationDoubleDeloopingTypeCTerminalRLPPinnedV1_121.lean:184:16: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern",
+          "formal/KUOS/DependentOriginationDoubleDeloopingTypeCTerminalRLPPinnedV1_121.lean:210:16: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern"
+        ],
+        "exit_code": 1,
+        "log_sha256": "7d3ba65c877bc714b3865922bb7bcc4a6fb5387f9763d1c11ee57f275458c9e1",
+        "olean_exists": false,
+        "status": "FAILURE",
+        "variant": "round2-isPushout-fully-universe0",
+        "full_log": "formal/KUOS/DependentOriginationDoubleDeloopingTypeCTerminalRLPPinnedV1_121.lean:147:13: error: Invalid simp theorem: Expected a proposition, but found\n  (m : ℕ) → standardTypeCTargetCarrier m _⦋2⦌\nformal/KUOS/DependentOriginationDoubleDeloopingTypeCTerminalRLPPinnedV1_121.lean:147:6: error: Type mismatch: After simplification, term\n  ConcreteCategory.congr_hom (congr_app (target_inl_desc K) (op ⦋2⦌)) (standardTypeCTriangle01n m)\n has type\n  True\nbut is expected to have type\n  (ConcreteCategory.hom ((toTargetMap K).app (op ⦋2⦌))) (standardTypeCTargetDistinguishedTriangle m) =\n    (ConcreteCategory.hom (K.cocycle.toSimplexMap.app (op ⦋2⦌))) (standardTypeCTriangle01n m)\nformal/KUOS/DependentOriginationDoubleDeloopingTypeCTerminalRLPPinnedV1_121.lean:184:16: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern\n  pushout.inl (standardTypeCEdgeToHorn ?m) (standardTypeCEdgeCollapseToPoint ?m) ≫ standardTypeCCarrierMap ?m\nin the target expression\n  (natTypeCSourceHornInl m ≫ standardTypeCCarrierMap m) ≫ toTargetMap K =\n    (Λ[m + 3, 0].ι ≫ pushout.inl (standardTypeCEdgeToSimplex m) (standardTypeCEdgeCollapseToPoint m)) ≫ toTargetMap K\n\nm : ℕ\nf : standardTypeCSource m ⟶ natDoubleDeloopingScaledDuskin\nK : NatTypeCSourceCocycleCompletion m f\n⊢ (natTypeCSourceHornInl m ≫ standardTypeCCarrierMap m) ≫ toTargetMap K =\n    (Λ[m + 3, 0].ι ≫ pushout.inl (standardTypeCEdgeToSimplex m) (standardTypeCEdgeCollapseToPoint m)) ≫ toTargetMap K\nformal/KUOS/DependentOriginationDoubleDeloopingTypeCTerminalRLPPinnedV1_121.lean:210:16: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern\n  pushout.inr (standardTypeCEdgeToHorn ?m) (standardTypeCEdgeCollapseToPoint ?m) ≫ standardTypeCCarrierMap ?m\nin the target expression\n  (natTypeCSourcePointInr m ≫ standardTypeCCarrierMap m) ≫ toTargetMap K =\n    pushout.inr (standardTypeCEdgeToSimplex m) (standardTypeCEdgeCollapseToPoint m) ≫ toTargetMap K\n\nm : ℕ\nf : standardTypeCSource m ⟶ natDoubleDeloopingScaledDuskin\nK : NatTypeCSourceCocycleCompletion m f\n⊢ (natTypeCSourcePointInr m ≫ standardTypeCCarrierMap m) ≫ toTargetMap K =\n    pushout.inr (standardTypeCEdgeToSimplex m) (standardTypeCEdgeCollapseToPoint m) ≫ toTargetMap K\n\n",
+        "error_classification": [
+          "LEAN_INVALID_SIMP_THEOREM",
+          "LEAN_TYPE_MISMATCH",
+          "LEAN_REWRITE_PATTERN_ABSENT"
+        ],
+        "causal_status": "UNVERIFIED_HYPOTHESIS",
+        "repair_hypothesis": "Explicit pushout and universe-zero variants reduce observed diagnostics; remaining failures involve non-proposition simp input, congr_hom simplification to True, and alias-sensitive rewrite matching. These are hypotheses, not certified causal conclusions.",
+        "next_applicability": "Never replay this failed full-source blob. Require new evidence about the exact triangle equality and source inclusion aliases. Two bounded rounds exhausted."
+      }
+    ]
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "profile": "memoryos_codeai_lean_observations_v0_1",
+  "repository": "itakura-hidetoshi/KuuOS",
+  "authority": "external_pointer_only",
+  "curation_note": "Append-only 5 exact successful v1.111 CodeAI direct Lean observations from archived source-bound experiment #43701788641; real Lean MCP selected candidate and second direct SUCCESS are separately recorded there. Independent v1.111 CI authority remains absent until a dedicated exact-source run. These records are not an inference that the archived parent is mergeable.",
+  "independent_certification_pointers": [],
+  "observations": [
+    {
+      "source_head": "ed47e5869d9ced3277480fccc891a01fd59f4b46",
+      "source_tree": "039bc71645f5db5d5f4b074f504212b2c383eef8",
+      "imported_blob": "f6ef5c336d7ce287c841353661935635ad9cc895",
+      "variant": "round2-open-apply",
+      "candidate_blob": "35dc6ddf9bcd6ecd4f7141674e75055c306dbfe9",
+      "producer_run": 43701788641,
+      "outcome": "DIRECT_LEAN_SUCCESS",
+      "errors": []
+    },
+    {
+      "source_head": "ed47e5869d9ced3277480fccc891a01fd59f4b46",
+      "source_tree": "039bc71645f5db5d5f4b074f504212b2c383eef8",
+      "imported_blob": "f6ef5c336d7ce287c841353661935635ad9cc895",
+      "variant": "round2-qualified-exact-fun",
+      "candidate_blob": "26720e9bbc4ede8f63f0dc1d137360c44692f2b4",
+      "producer_run": 43701788641,
+      "outcome": "DIRECT_LEAN_SUCCESS",
+      "errors": []
+    },
+    {
+      "source_head": "ed47e5869d9ced3277480fccc891a01fd59f4b46",
+      "source_tree": "039bc71645f5db5d5f4b074f504212b2c383eef8",
+      "imported_blob": "f6ef5c336d7ce287c841353661935635ad9cc895",
+      "variant": "round2-open-exact-fun",
+      "candidate_blob": "e5e1cc981f11d9dafaafef56918b056811e828a3",
+      "producer_run": 43701788641,
+      "outcome": "DIRECT_LEAN_SUCCESS",
+      "errors": []
+    },
+    {
+      "source_head": "ed47e5869d9ced3277480fccc891a01fd59f4b46",
+      "source_tree": "039bc71645f5db5d5f4b074f504212b2c383eef8",
+      "imported_blob": "f6ef5c336d7ce287c841353661935635ad9cc895",
+      "variant": "round2-qualified-explicit",
+      "candidate_blob": "34cf1bd5464dfa295e6639434a974e0694d86504",
+      "producer_run": 43701788641,
+      "outcome": "DIRECT_LEAN_SUCCESS",
+      "errors": []
+    },
+    {
+      "source_head": "ed47e5869d9ced3277480fccc891a01fd59f4b46",
+      "source_tree": "039bc71645f5db5d5f4b074f504212b2c383eef8",
+      "imported_blob": "f6ef5c336d7ce287c841353661935635ad9cc895",
+      "variant": "round2-open-explicit",
+      "candidate_blob": "0611f9ef3bb4316e7f81f16d3c19f637d7b83a9c",
+      "producer_run": 43701788641,
+      "outcome": "DIRECT_LEAN_SUCCESS",
+      "errors": []
+    }
+  ]
+}

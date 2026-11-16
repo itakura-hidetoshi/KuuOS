@@ -1,0 +1,145 @@
+name: KuuOS v1.118 independent minimal forward-endpoint cylinder obstruction
+
+on:
+  pull_request:
+    paths:
+      - "formal/KUOS/DependentOriginationForwardEndpointProjectedCylinderCoreV1_118.lean"
+      - "formal/KUOS/DependentOriginationForwardEndpointDirectRLPObstructionV1_118.lean"
+      - ".github/workflows/kuuos-v118-forward-minimal-obstruction-independent-v1.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  minimal-forward-obstruction-exact-source-lean:
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.ref == 'validation/kuuos-v118-forward-minimal-nonlifting-on-v112-20261116' && github.event.pull_request.base.ref == 'research/kuuos-typeA-all-dimensions-v112-20261116' }}
+    runs-on: ubuntu-22.04
+    timeout-minutes: 90
+    env:
+      MATHLIB_NO_CACHE_ON_UPDATE: '1'
+    steps:
+      - name: Checkout exact PR head
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - name: Verify fixed v1.112 base and unchanged exact v1.118 geometric sources
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import hashlib,json,os,re
+          from pathlib import Path
+          root=Path.cwd()
+          evt=json.loads(Path(os.environ["GITHUB_EVENT_PATH"]).read_text())
+          pr=evt.get("pull_request") or {}
+          assert evt.get("repository",{}).get("full_name")=="itakura-hidetoshi/KuuOS"
+          assert pr.get("draft") is True
+          assert pr.get("head",{}).get("ref")=="validation/kuuos-v118-forward-minimal-nonlifting-on-v112-20261116"
+          assert pr.get("base",{}).get("ref")=="research/kuuos-typeA-all-dimensions-v112-20261116"
+          assert pr.get("base",{}).get("sha")=="f81f80c94194703d72a121d3350c7bf8f17e37fc"
+          assert (root/"lean-toolchain").read_text().strip()=="leanprover/lean4:v4.30.0-rc2"
+          data=json.loads((root/"lake-manifest.json").read_text())
+          assert [v.get("rev") for v in data["packages"] if v.get("name")=="mathlib"]==["5450b53e5ddc75d46418fabb605edbf36bd0beb6"]
+          blobs={
+            "formal/KUOS/DependentOriginationDoubleDeloopingTypeAAllDimensionsV1_112.lean":"c9977fe0144e922da23eddde1d6eba2ec2f51e65",
+            "formal/KUOS/DependentOriginationForwardEndpointProjectedCylinderCoreV1_118.lean":"ec6f62c290f5f6744c49eaa3c559cb0fa4587a14",
+            "formal/KUOS/DependentOriginationForwardEndpointDirectRLPObstructionV1_118.lean":"69196f47f1a925b76c2e8d0519a463e8c4762e69",
+          }
+          for p,expected in blobs.items():
+              raw=(root/p).read_bytes()
+              assert hashlib.sha1(b"blob "+str(len(raw)).encode()+b"\0"+raw).hexdigest()==expected,p
+              assert not re.search(r"(?m)^\s*(sorry|admit|axiom)\b",raw.decode()),p
+          assert (root/"formal/KUOS/DependentOriginationForwardEndpointDirectRLPObstructionV1_118.lean").read_text().startswith("import KUOS.DependentOriginationForwardEndpointProjectedCylinderCoreV1_118\n")
+          print("KUUOS_FORWARD_MINIMAL_EXACT_SOURCE_GREEN",blobs)
+          PY
+      - name: Setup exact Lean v4.30.0-rc2
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Restore pinned read-only Lake build
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake/build
+          key: kuuos-pr-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-pr3522-${{ github.event.pull_request.head.sha }}
+          restore-keys: |
+            kuuos-pr-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-pr3522-
+      - name: Resolve pinned mathlib
+        run: lake exe cache get
+      - name: Strict Lean genuine projected-cylinder and minimally scaled nonlifting proofs
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/kuuos-v118-independent
+          timeout 3200 lake -KleanArgs=-DwarningAsError=true -KleanArgs=-Dweak.sorryAsError=true build KUOS.DependentOriginationForwardEndpointProjectedCylinderCoreV1_118 KUOS.DependentOriginationForwardEndpointDirectRLPObstructionV1_118 2>&1 | tee /tmp/kuuos-v118-independent/build.log
+      - name: Independently audit all 12 geometric witness and obstruction declarations
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          ns="KUOS.DependentOriginationForwardEndpointDirectRLPObstructionV1_118."
+          names=[
+            "projectedForwardAttachmentMap",
+            "projectedForwardAttachmentMap_endpoint_zero",
+            "projectedCylinderExtension",
+            "projectedCylinderExtension_restrict",
+            "projectedForwardAttachment_extension_forces_scaled",
+            "projectedForwardAttachment_extendable_iff_scaled",
+            "projectedForwardAttachment_not_extendable",
+            "not_forwardEndpointRLP_of_unscaled_endpoint",
+            "natNoninvertibleTriangle_not_standardTypeAScaled",
+            "natNoninvertibleTriangleForwardAttachment",
+            "natDoubleDelooping_no_forward_endpoint_cylinder_extension",
+            "natDoubleDelooping_not_forward_endpoint_terminalRLP"
+          ]
+          lines=["import KUOS.DependentOriginationForwardEndpointDirectRLPObstructionV1_118",""]
+          for name in names:
+              lines.extend(["#check "+ns+name,"#print axioms "+ns+name])
+          Path("/tmp/kuuos-v118-independent/AxiomAudit.lean").write_text("\n".join(lines)+"\n")
+          PY
+          lake env lean -DwarningAsError=true -Dweak.sorryAsError=true /tmp/kuuos-v118-independent/AxiomAudit.lean 2>&1 | tee /tmp/kuuos-v118-independent/axioms.log
+          python3 - <<'PY'
+          import json,re
+          from pathlib import Path
+          root=Path("/tmp/kuuos-v118-independent")
+          names=[
+            "projectedForwardAttachmentMap",
+            "projectedForwardAttachmentMap_endpoint_zero",
+            "projectedCylinderExtension",
+            "projectedCylinderExtension_restrict",
+            "projectedForwardAttachment_extension_forces_scaled",
+            "projectedForwardAttachment_extendable_iff_scaled",
+            "projectedForwardAttachment_not_extendable",
+            "not_forwardEndpointRLP_of_unscaled_endpoint",
+            "natNoninvertibleTriangle_not_standardTypeAScaled",
+            "natNoninvertibleTriangleForwardAttachment",
+            "natDoubleDelooping_no_forward_endpoint_cylinder_extension",
+            "natDoubleDelooping_not_forward_endpoint_terminalRLP",
+          ]
+          s=(root/"axioms.log").read_text()
+          for name in names:
+              assert "KUOS.DependentOriginationForwardEndpointDirectRLPObstructionV1_118."+name in s,name
+          assert not re.search(r"(?m)(warning:|error:|sorryAx)",s),"warning/error/sorryAx"
+          groups=re.findall(r"depends on axioms:\s*\[([^\]]*)\]",s,re.S)
+          assert groups, "NO_DATA axioms"
+          axioms=set()
+          for group in groups:
+              axioms.update(x.strip() for x in group.split(",") if x.strip())
+          assert axioms.issubset({"propext","Classical.choice","Quot.sound"}),sorted(axioms)
+          receipt={"verified_declarations":len(names),"axioms":sorted(axioms),"sorryAx":0,"warnings":0,"errors":0,
+            "source_parent":"f81f80c94194703d72a121d3350c7bf8f17e37fc",
+            "scope":"minimal source forward-endpoint obstruction only, NOT induced-scaled type-A endpoint product"}
+          (root/"axiom_receipt.json").write_text(json.dumps(receipt,sort_keys=True,indent=2)+"\n")
+          print("KUUOS_FORWARD_MINIMAL_INDEPENDENT_AXIOMS_GREEN",json.dumps(receipt,sort_keys=True))
+          PY
+      - name: Archive source-bound Lean and independent axiom receipts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-v118-forward-minimal-independent-${{ github.run_id }}
+          path: /tmp/kuuos-v118-independent/
+          if-no-files-found: warn
+          retention-days: 30

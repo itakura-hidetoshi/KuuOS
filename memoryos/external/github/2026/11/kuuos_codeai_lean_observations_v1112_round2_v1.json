@@ -1,0 +1,52 @@
+{
+  "profile": "memoryos_codeai_lean_observations_v0_1",
+  "repository": "itakura-hidetoshi/KuuOS",
+  "authority": "external_pointer_only",
+  "curation_note": "Append-only four exact source-bound v1.112 round2 experimental observations from producer run #43759371015 (artifact #14179224960). Three fixed direct-Lean successes, one direct-Lean failure. The selected fin-cases-simp-all also passed real Lean MCP zero diagnostics and second fixed direct Lean in artifact receipt.json; no independent CI has yet certified v1.112. The two omega failures are observations, not proven causes. MemoryOS confers no Lean, CI, merge, or proof authority.",
+  "independent_certification_pointers": [],
+  "observations": [
+    {
+      "source_head": "a781fca41db15fb0d29c8a071ad67a253f36031d",
+      "source_tree": "52c9ff0ab3406a920a30e3448c2be2f4160b0cf6",
+      "imported_blob": "35dc6ddf9bcd6ecd4f7141674e75055c306dbfe9",
+      "variant": "round2-fin-cases-simp-all",
+      "candidate_blob": "c9977fe0144e922da23eddde1d6eba2ec2f51e65",
+      "producer_run": 43759371015,
+      "outcome": "DIRECT_LEAN_SUCCESS",
+      "errors": []
+    },
+    {
+      "source_head": "a781fca41db15fb0d29c8a071ad67a253f36031d",
+      "source_tree": "52c9ff0ab3406a920a30e3448c2be2f4160b0cf6",
+      "imported_blob": "35dc6ddf9bcd6ecd4f7141674e75055c306dbfe9",
+      "variant": "round2-fin-cases-nonempty",
+      "candidate_blob": "5eb045f086104ce3ec2baaa3f3f8e74522c705a5",
+      "producer_run": 43759371015,
+      "outcome": "DIRECT_LEAN_SUCCESS",
+      "errors": []
+    },
+    {
+      "source_head": "a781fca41db15fb0d29c8a071ad67a253f36031d",
+      "source_tree": "52c9ff0ab3406a920a30e3448c2be2f4160b0cf6",
+      "imported_blob": "35dc6ddf9bcd6ecd4f7141674e75055c306dbfe9",
+      "variant": "round2-fin-cases-low-simpa",
+      "candidate_blob": "9adc7b7ab3da29d9dbd689e32efcedb222b43461",
+      "producer_run": 43759371015,
+      "outcome": "DIRECT_LEAN_SUCCESS",
+      "errors": []
+    },
+    {
+      "source_head": "a781fca41db15fb0d29c8a071ad67a253f36031d",
+      "source_tree": "52c9ff0ab3406a920a30e3448c2be2f4160b0cf6",
+      "imported_blob": "35dc6ddf9bcd6ecd4f7141674e75055c306dbfe9",
+      "variant": "round2-explicit-bounds",
+      "candidate_blob": "e5dd59c28af9160ebafcc38c4d238664692ac97c",
+      "producer_run": 43759371015,
+      "outcome": "DIRECT_LEAN_FAILURE",
+      "errors": [
+        "formal/KUOS/DependentOriginationDoubleDeloopingTypeAAllDimensionsV1_112.lean:45:6: error: omega could not prove the goal:",
+        "formal/KUOS/DependentOriginationDoubleDeloopingTypeAAllDimensionsV1_112.lean:58:8: error: omega could not prove the goal:"
+      ]
+    }
+  ]
+}

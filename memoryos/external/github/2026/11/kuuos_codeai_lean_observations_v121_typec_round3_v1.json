@@ -1,0 +1,49 @@
+{
+  "profile": "memoryos_codeai_lean_observations_v0_1",
+  "repository": "itakura-hidetoshi/KuuOS",
+  "authority": "external_pointer_only",
+  "curation_note": "Original codeAI 4 candidates checked under pinned Lean, all direct SUCCESS; selected round3-eq-subst-drop-noop-simp actual real Lean MCP zero diagnostics plus second direct Lean success, source restored. Producer CI #43844286966 completed SUCCESS. This records only local producer provenance; independent exact-source CI and PR Governance still not certified.",
+  "independent_certification_pointers": [],
+  "observations": [
+    {
+      "source_head": "441bd735334c139fb8a448e196b4a393cba9e303",
+      "source_tree": "65ea2dbb044f5c94a4dc517cc2e230d84290014e",
+      "imported_blob": "51c84705c4eaffe6f607fb87f0891662613cdb94",
+      "variant": "round3-eq-subst-drop-noop-simp",
+      "candidate_blob": "90672c999cb7f76c448d8932875900ee871bf80f",
+      "producer_run": 43844286966,
+      "outcome": "DIRECT_LEAN_SUCCESS",
+      "errors": []
+    },
+    {
+      "source_head": "441bd735334c139fb8a448e196b4a393cba9e303",
+      "source_tree": "65ea2dbb044f5c94a4dc517cc2e230d84290014e",
+      "imported_blob": "51c84705c4eaffe6f607fb87f0891662613cdb94",
+      "variant": "round3-simpa-hx-drop-noop-simp",
+      "candidate_blob": "db76ebde1fd8c1761509224fc55579723b737c72",
+      "producer_run": 43844286966,
+      "outcome": "DIRECT_LEAN_SUCCESS",
+      "errors": []
+    },
+    {
+      "source_head": "441bd735334c139fb8a448e196b4a393cba9e303",
+      "source_tree": "65ea2dbb044f5c94a4dc517cc2e230d84290014e",
+      "imported_blob": "51c84705c4eaffe6f607fb87f0891662613cdb94",
+      "variant": "round3-simp-hx0-drop-noop-simp",
+      "candidate_blob": "7f280cfb9ed3ab77c64c4c1b760c0d2f422a4384",
+      "producer_run": 43844286966,
+      "outcome": "DIRECT_LEAN_SUCCESS",
+      "errors": []
+    },
+    {
+      "source_head": "441bd735334c139fb8a448e196b4a393cba9e303",
+      "source_tree": "65ea2dbb044f5c94a4dc517cc2e230d84290014e",
+      "imported_blob": "51c84705c4eaffe6f607fb87f0891662613cdb94",
+      "variant": "round3-simpa-using-drop-noop-simp",
+      "candidate_blob": "a8b5214999a5a7603f52ee40d19085dd4c7a2e2b",
+      "producer_run": 43844286966,
+      "outcome": "DIRECT_LEAN_SUCCESS",
+      "errors": []
+    }
+  ]
+}

@@ -1,0 +1,70 @@
+{
+  "profile": "kuuos_lean_independent_exact_source_receipt_v1",
+  "repository": "itakura-hidetoshi/KuuOS",
+  "authority": "external_pointer_only",
+  "source": "GitHub MCP exact jobs, logs and source/test-merge tree",
+  "observations": [
+    {
+      "stage": "type-C cocycle completion",
+      "source_head": "6b35f5b00dfa57e675f176b5c691cfd6836fdb9e",
+      "source_blob": "90672c999cb7f76c448d8932875900ee871bf80f",
+      "run_id": 43853756025,
+      "job_id": 133252669714,
+      "workflow_conclusion": "success",
+      "declarations": 39,
+      "axiom_audit": 39,
+      "sorryAx": 0,
+      "warnings": 0,
+      "errors": 0
+    },
+    {
+      "stage": "type-C actual terminal RLP",
+      "source_head": "a60846ccdf65becf08cd1492515cf6536521bf52",
+      "source_blob": "24cc915ad7693a7083ccd19c2614cb5339778381",
+      "run_id": 43862315102,
+      "job_id": 133281985750,
+      "workflow_conclusion": "success",
+      "declarations": 18,
+      "axiom_audit": 18,
+      "sorryAx": 0,
+      "warnings": 0,
+      "errors": 0
+    },
+    {
+      "stage": "concrete induced Type-A endpoint cylinder RLP",
+      "source_head": "0537028dc53591fa4eae0b21ca038846436183b3",
+      "source_tree": "836896f9bceda37e8a7dcd7d03dbc27f94ab93a9",
+      "test_merge_tree": "836896f9bceda37e8a7dcd7d03dbc27f94ab93a9",
+      "source_blob": "1b0f52b0c5604373e046ed269fe4f4c0d2599d17",
+      "source_sha256": "d52f22e04fdefeac3c619dbcfcd96c360b62713ad4ce57b6b80e29e0ee1dd3f4",
+      "producer_run_id": 43863005594,
+      "producer_head": "10e190c73912f6fe868432d8cc9451a18701897b",
+      "independent_run_id": 43863892818,
+      "job_id": 133287391338,
+      "workflow_conclusion": "success",
+      "declarations": 4,
+      "axiom_audit": 4,
+      "axioms": [
+        "Classical.choice",
+        "Quot.sound",
+        "propext"
+      ],
+      "sorryAx": 0,
+      "warnings": 0,
+      "errors": 0,
+      "claims": [
+        "induced endpoint RLP",
+        "scaled cylinder extension existence",
+        "selected lift",
+        "commuting equation"
+      ]
+    }
+  ],
+  "gates": {
+    "canonical_main_merged": false,
+    "pr_3562_merged": false,
+    "protected_1558_untouched": true
+  },
+  "timestamp_utc": "2026-11-16T12:10:52Z",
+  "note": "Independent certification applies to the exact cited source HEAD; do not transfer to newer HEAD without verification. Old producer at 43863892718 failed because target source exists, not due to theorem. It is source SHA-guarded."
+}
