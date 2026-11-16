@@ -8,6 +8,8 @@ open CategoryTheory.Category
 open Opposite
 open Simplicial
 open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
+open KUOS.DependentOriginationGlobalDuskinScaledNerveV1_21
+open KUOS.DependentOriginationGlobalDuskinScaledHornCoherenceV1_22
 open KUOS.DependentOriginationScaledHornAttachmentLiftingV1_40
 open KUOS.DependentOriginationScaledTerminalRLPV1_41
 open KUOS.DependentOriginationScaledAnodyneAttachmentFactorizationV1_48
@@ -50,7 +52,8 @@ theorem minimalForward_factor_through_induced_iff_scaled
   · intro hf
     refine ⟨⟨f.map, hf⟩, ?_⟩
     apply ScaledSSet.ScaledMap.ext
-    simp [minimalToInducedHornCylinderAttachment]
+    change (𝟙 (hornCylinderAttachment n i 0 : SSet.{u})) ≫ f.map = f.map
+    exact Category.id_comp f.map
 
 /-- The full endpoint-zero simplex is scaled into the induced attachment,
 unlike the minimal attachment where the stronger scaling is absent. -/
@@ -88,8 +91,7 @@ theorem projectedForward_factor_induced_iff_endpoint_scaled
     have heq : endpointIntoAttachment n i 0 ≫ k.map = sigma := by
       rw [hmap]
       exact projectedForwardAttachmentMap_endpoint_zero sX n i sigma
-    rw [heq] at hs
-    exact hs
+    exact (congrArg (IsScaledMap sDelta sX) heq).mp hs
   · intro hs
     refine ⟨inducedScaledHornCylinderAttachmentInclusion i 0 sDelta ≫
       projectedCylinderExtension sX n sDelta sigma hs, ?_⟩
