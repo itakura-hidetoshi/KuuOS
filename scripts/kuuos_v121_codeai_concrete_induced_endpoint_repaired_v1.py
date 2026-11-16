@@ -29,6 +29,9 @@ BASE_SHA="7c64a89b81681f997483d0873887df2f700d1244"
 BRANCH="validation/kuuos-v121-induced-endpoint-on-certified-v120-20261116"
 TARGET="formal/KUOS/DependentOriginationDoubleDeloopingInducedEndpointRLPV1_121.lean"
 DEPENDENCIES={
+    "formal/KUOS/DependentOriginationDoubleDeloopingTypeAFaceValueBridgeV1_121.lean":"aba1d6010ab557d9836c349743b63858e9362419",
+    "formal/KUOS/DependentOriginationDoubleDeloopingTypeCOuterHornCocycleCompletionPinnedV1_121.lean":"6b1142889bbebaad76a8c143a323c9c272e45076",
+    "formal/KUOS/DependentOriginationDoubleDeloopingTypeCTerminalRLPPinnedV1_121.lean":"c81f3765791521e6e151b7f56a3b822cb81e8752",
     "formal/KUOS/DependentOriginationDoubleDeloopingTypeCTerminalRLPStandardRightV1_106.lean":"6e06ac88c2b1cdadcb0d0f7496281892a3549c64",
     "formal/KUOS/DependentOriginationStandardTypeAEndpointOppositeCellCertificateV1_77.lean":"e7d422b89b4a4fa5180790b0c5d49c51b7239786",
     "formal/KUOS/DependentOriginationStandardABCLeibnizCellularComparisonV1_59.lean":"2b852bcd457831d25d50e8ed9dd3ac6a44f6f85e",
@@ -37,7 +40,7 @@ DEPENDENCIES={
 OUT=Path("/tmp/kuuos-v121-codeai-repaired")
 MCP=Path("/tmp/kuuos-v121-real-mcp-repaired")
 INTRO="""import KUOS.DependentOriginationStandardTypeAEndpointOppositeCellCertificateV1_77
-import KUOS.DependentOriginationDoubleDeloopingTypeCTerminalRLPStandardRightV1_106
+import KUOS.DependentOriginationDoubleDeloopingTypeCTerminalRLPPinnedV1_121
 
 namespace KUOS.DependentOriginationDoubleDeloopingInducedEndpointRLPV1_121
 
@@ -60,7 +63,7 @@ noncomputable section
 
 Pinned research source already proves:
 - genuine A/B/C terminal right orthogonality for the concrete B²ℕ
-  (v1.106, using actual type-C pushout cocycle witnesses);
+  (pinned v1.106 bridge using actual type-C pushout cocycle witnesses);
 - type-(A) endpoint prism cellularity/stability for the exact standard
   A/B/C presentation (v1.77).
 This file glues the *same morphism properties* to a concrete lifting
