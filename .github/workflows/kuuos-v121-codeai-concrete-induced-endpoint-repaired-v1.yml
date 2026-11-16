@@ -12,7 +12,7 @@ permissions:
 
 jobs:
   v121-codeai-direct-lean-mcp:
-    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.ref == 'validation/kuuos-pr3522-induced-endpoint-on-certified-v120-20261116' && github.event.pull_request.base.ref == 'validation/kuuos-v120-induced-admission-recovery-20261116' }}
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.ref == 'validation/kuuos-v121-induced-endpoint-on-certified-v120-20261116' && github.event.pull_request.base.ref == 'validation/kuuos-v120-induced-admission-recovery-20261116' }}
     runs-on: ubuntu-22.04
     timeout-minutes: 90
     env:
@@ -39,7 +39,7 @@ jobs:
           assert ev["repository"]["full_name"]=="itakura-hidetoshi/KuuOS"
           assert p["draft"] and p["base"]["ref"]=="validation/kuuos-v120-induced-admission-recovery-20261116"
           assert p["base"]["sha"]=="7c64a89b81681f997483d0873887df2f700d1244"
-          assert p["head"]["ref"]=="validation/kuuos-pr3522-induced-endpoint-on-certified-v120-20261116"
+          assert p["head"]["ref"]=="validation/kuuos-v121-induced-endpoint-on-certified-v120-20261116"
           assert Path("lean-toolchain").read_text().strip()=="leanprover/lean4:v4.30.0-rc2"
           manifest=json.loads(Path("lake-manifest.json").read_text())
           assert [m["rev"] for m in manifest["packages"] if m.get("name")=="mathlib"]==["5450b53e5ddc75d46418fabb605edbf36bd0beb6"]
