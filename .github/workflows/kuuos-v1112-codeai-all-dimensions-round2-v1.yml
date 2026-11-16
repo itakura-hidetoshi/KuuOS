@@ -12,7 +12,11 @@ permissions:
 
 jobs:
   v1112-round2-direct-lean-real-mcp:
-    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.ref == 'research/kuuos-typeA-all-dimensions-v112-20261116' && github.event.pull_request.base.ref == 'validation/kuuos-v1111-rlp-exact-source-20261115' }}
+    # Historical v1.112 round2 CodeAI selected source, not a proof CI: the original candidate source
+    # was attached to immutable producer HEAD a781fca41db15fb0d29c8a071ad67a253f36031d.
+    # The promoted v1.112 theorem is checked by independent exact-source Lean.
+    # Preserve historical failure/green receipts; never replay on successor HEADs.
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.ref == 'research/kuuos-typeA-all-dimensions-v112-20261116' && github.event.pull_request.base.ref == 'validation/kuuos-v1111-rlp-exact-source-20261115' && github.event.pull_request.number == 3557 && github.event.pull_request.head.sha == 'a781fca41db15fb0d29c8a071ad67a253f36031d' }}
     runs-on: ubuntu-22.04
     timeout-minutes: 90
     env:
