@@ -10,6 +10,7 @@ open KUOS.DependentOriginationDoubleDeloopingNatNonthinDuskinWitnessV1_95
 open KUOS.DependentOriginationDoubleDeloopingHornCoherenceLowDimV1_99
 open KUOS.DependentOriginationDoubleDeloopingNormalizedCocycleRealizationV1_100
 open KUOS.DependentOriginationDoubleDeloopingTypeAAllDimensionsV1_112
+open KUOS.DependentOriginationDoubleDeloopingTypeAHighDimensionalFillersV1_103
 
 /-!
 Exact four face-value equalities from the original v1.104 statements,
@@ -63,7 +64,7 @@ theorem natTypeAFour_face4_val
 /-- The full standard type-(A) horn terminal RLP is the previously
 independently certified v1.112 actual cocycle-completion result. -/
 theorem natDoubleDelooping_standardTypeA_rlp :
-    (standardTypeAScaledHornGenerators : MorphismProperty ScaledSSet).rlp
+    (KUOS.DependentOriginationStandardTypeAEndpointPushoutProductV1_50.standardTypeAScaledHornGenerators : MorphismProperty ScaledSSet).rlp
       (ScaledSSet.toPoint natDoubleDeloopingScaledDuskin) := by
   exact natDoubleDelooping_typeA_full_standard_rlp
 
