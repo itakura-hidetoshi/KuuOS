@@ -1,0 +1,88 @@
+name: KuuOS v1.120 CodeAI round2 direct Lean and real Lean MCP
+
+on:
+  pull_request:
+    paths:
+      - "scripts/kuuos_v120_codeai_induced_scaling_round2_v1.py"
+      - "memoryos/external/github/2026/11/kuuos_codeai_lean_observations_v120_round1_v1.json"
+      - ".github/workflows/kuuos-v120-codeai-induced-scaling-round2-v1.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  v120-codeai-round2-direct-lean-mcp:
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.number == 3559 && github.event.pull_request.head.ref == 'research/kuuos-v120-induced-scaling-compatibility-20261116' && github.event.pull_request.base.ref == 'validation/kuuos-v118-forward-minimal-nonlifting-on-v112-20261116' }}
+    runs-on: ubuntu-22.04
+    timeout-minutes: 90
+    env:
+      MATHLIB_NO_CACHE_ON_UPDATE: '1'
+    steps:
+      - name: Checkout exact CodeAI experiment HEAD
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Audit immutable failed original and repair script
+        run: |
+          set -euo pipefail
+          python3 -m py_compile scripts/kuuos_v120_codeai_induced_scaling_round2_v1.py
+          PYTHONPATH=. python3 - <<'PY'
+          from pathlib import Path
+          from runtime.kuuos_codeai_lean_observation_intake_v0_1 import read_observation_seed
+          from runtime.kuuos_codeai_lean_observation_intake_v0_2 import read_observation_directory
+          base=Path("memoryos/external/github/2026/11")
+          one=read_observation_seed(base/"kuuos_codeai_lean_observations_v120_round1_v1.json")
+          cases=read_observation_directory(base)
+          assert len(one)==1 and len(cases)>=49
+          r=one[0]
+          assert r["source_head"]=="5c3dc1dd9096e39bc8d30a6ca8e15a19a282a5fc"
+          assert r["source_tree"]=="211973bd6727dfefe63af3743a6e8f8fabb36db5"
+          assert r["imported_blob"]=="69196f47f1a925b76c2e8d0519a463e8c4762e69"
+          assert r["candidate_blob"]=="0c64c99920158fe7f9707002bd24208167a2de26"
+          assert r["outcome"]=="DIRECT_LEAN_FAILURE" and r["producer_run"]==43781807526
+          assert r["causal_status"]=="UNVERIFIED_HYPOTHESIS"
+          assert len(r["diagnostics"])==8
+          assert len({x["id"] for x in cases})==len(cases)
+          print("KUUOS_V120_FAILURE_MEMORYOS_PRESERVED",len(cases))
+          PY
+      - name: Setup pinned Lean4.30.0-rc2
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Restore fixed build overlay read-only
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake/build
+          key: kuuos-pr-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-pr3522-${{ github.event.pull_request.head.sha }}
+          restore-keys: |
+            kuuos-pr-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-pr3522-
+      - name: Resolve pinned mathlib
+        run: lake exe cache get
+      - name: Install real Lean MCP transport
+        run: python3 -m pip install uv
+      - name: CodeAI portfolio pinned direct Lean then green-only real Lean MCP
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          PYTHONPATH=. python3 scripts/kuuos_v120_codeai_induced_scaling_round2_v1.py
+      - name: Archive four CodeAI candidate logs and real MCP receipts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-v120-codeai-round2-${{ github.run_id }}
+          path: |
+            /tmp/kuuos-v120-codeai-round2/
+            /tmp/kuuos-v120-real-mcp-round2/
+          if-no-files-found: warn
+          retention-days: 30

@@ -1,0 +1,28 @@
+{
+  "profile": "memoryos_codeai_lean_observations_v0_1",
+  "repository": "itakura-hidetoshi/KuuOS",
+  "authority": "external_pointer_only",
+  "curation_note": "Append-only exact original v1.120 failure from pinned direct Lean CI #43781807526. Eight elaboration errors are observed, causes remain unverified; no source change, no proof authority.",
+  "independent_certification_pointers": [],
+  "observations": [
+    {
+      "source_head": "5c3dc1dd9096e39bc8d30a6ca8e15a19a282a5fc",
+      "source_tree": "211973bd6727dfefe63af3743a6e8f8fabb36db5",
+      "imported_blob": "69196f47f1a925b76c2e8d0519a463e8c4762e69",
+      "variant": "round1-original-induced-compatibility",
+      "candidate_blob": "0c64c99920158fe7f9707002bd24208167a2de26",
+      "producer_run": 43781807526,
+      "outcome": "DIRECT_LEAN_FAILURE",
+      "errors": [
+        "formal/KUOS/DependentOriginationForwardEndpointInducedCompatibilityV1_120.lean:42:6: Function expected at",
+        "formal/KUOS/DependentOriginationForwardEndpointInducedCompatibilityV1_120.lean:50:2: unsolved goals",
+        "formal/KUOS/DependentOriginationForwardEndpointInducedCompatibilityV1_120.lean:60:4: Function expected at",
+        "formal/KUOS/DependentOriginationForwardEndpointInducedCompatibilityV1_120.lean:62:9: Function expected at",
+        "formal/KUOS/DependentOriginationForwardEndpointInducedCompatibilityV1_120.lean:79:8: Function expected at",
+        "formal/KUOS/DependentOriginationForwardEndpointInducedCompatibilityV1_120.lean:85:14: Function expected at",
+        "formal/KUOS/DependentOriginationForwardEndpointInducedCompatibilityV1_120.lean:111:5: Unknown identifier `duskinScaling`",
+        "formal/KUOS/DependentOriginationForwardEndpointInducedCompatibilityV1_120.lean:113:27: Application type mismatch: The argument"
+      ]
+    }
+  ]
+}
