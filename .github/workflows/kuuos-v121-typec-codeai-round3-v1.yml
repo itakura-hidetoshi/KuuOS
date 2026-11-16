@@ -12,7 +12,7 @@ permissions:
 
 jobs:
   typec-codeai-four-variants:
-    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.number == 3562 && github.event.pull_request.head.ref == 'validation/kuuos-v121-induced-endpoint-on-certified-v120-20261116' && github.event.pull_request.base.ref == 'validation/kuuos-v120-induced-admission-recovery-20261116' }}
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.number == 3562 && github.event.pull_request.head.ref == 'validation/kuuos-v121-induced-endpoint-on-certified-v120-20261116' && github.event.pull_request.base.ref == 'validation/kuuos-v120-induced-admission-recovery-20261116' && github.event.pull_request.head.sha == '441bd735334c139fb8a448e196b4a393cba9e303' }}
     runs-on: ubuntu-22.04
     timeout-minutes: 90
     env:
