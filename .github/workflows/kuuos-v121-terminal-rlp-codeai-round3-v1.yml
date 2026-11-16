@@ -1,0 +1,97 @@
+name: KuuOS v1.121 terminal RLP CodeAI round3 component-and-alias repair
+on:
+  pull_request:
+    types: [synchronize]
+    paths:
+      - "scripts/kuuos_v121_terminal_rlp_codeai_round3_v1.py"
+      - ".github/workflows/kuuos-v121-terminal-rlp-codeai-round3-v1.yml"
+permissions:
+  contents: read
+jobs:
+  terminal-round3:
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.number == 3562 && github.event.pull_request.draft == true && github.event.pull_request.base.sha == '7c64a89b81681f997483d0873887df2f700d1244' && github.event.pull_request.head.ref == 'validation/kuuos-v121-induced-endpoint-on-certified-v120-20261116' }}
+    runs-on: ubuntu-22.04
+    timeout-minutes: 90
+    env:
+      MATHLIB_NO_CACHE_ON_UPDATE: '1'
+    steps:
+      - name: Checkout exact source-bound HEAD
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Preflight fixed pin, 3 recorded failures, and proof-only candidates
+        run: |
+          set -euo pipefail
+          python3 -m py_compile scripts/kuuos_v121_terminal_rlp_codeai_round3_v1.py
+          PYTHONPATH=. python3 - <<'PY'
+          import json,hashlib,os
+          from pathlib import Path
+          from scripts.kuuos_v121_terminal_rlp_codeai_round3_v1 import (
+            make_variants,HISTORY,TARGET,SOURCE_BLOB,PRODUCER,PRIOR_HEAD,PRIOR_TREE)
+          from runtime.kuuos_codeai_lean_observation_intake_v0_1 import read_observation_seed
+          e=json.loads(Path(os.environ["GITHUB_EVENT_PATH"]).read_text())
+          p=e["pull_request"]
+          assert e["repository"]["full_name"]=="itakura-hidetoshi/KuuOS"
+          assert e["number"]==3562 and p["draft"] is True
+          assert p["base"]["sha"]=="7c64a89b81681f997483d0873887df2f700d1244"
+          assert Path("lean-toolchain").read_text().strip()=="leanprover/lean4:v4.30.0-rc2"
+          man=json.loads(Path("lake-manifest.json").read_text())
+          assert [x.get("rev") for x in man["packages"] if x.get("name")=="mathlib"]==["5450b53e5ddc75d46418fabb605edbf36bd0beb6"]
+          raw=Path(TARGET).read_bytes()
+          assert hashlib.sha1(b"blob "+str(len(raw)).encode()+b"\0"+raw).hexdigest()==SOURCE_BLOB
+          obs=read_observation_seed(HISTORY)
+          assert len(obs)==3 and all(x["producer_run"]==PRODUCER and x["source_head"]==PRIOR_HEAD and x["outcome"]=="DIRECT_LEAN_FAILURE" for x in obs)
+          assert all(x["source_tree"]==PRIOR_TREE for x in json.loads(HISTORY.read_text())["observations"])
+          assert len(make_variants(raw.decode()))==3
+          print("KUUOS_TERMINAL_ROUND3_PIN_SOURCE_GREEN")
+          PY
+      - name: Setup pinned Lean v4.30.0-rc2
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Restore pinned Type-C dependency cache
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake/build
+          key: kuuos-v121-terminal-typec-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-90672c999cb7f76c448d8932875900ee871bf80f
+          restore-keys: |
+            kuuos-v121-typec-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-bridge-
+            kuuos-pr-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-pr3522-
+      - name: Resolve fixed pinned mathlib
+        run: lake exe cache get
+      - name: Strict build certified Type-C cocycle dependencies
+        run: |
+          set -euo pipefail
+          timeout 3200 lake -KleanArgs=-DwarningAsError=true -KleanArgs=-Dweak.sorryAsError=true build KUOS.DependentOriginationDoubleDeloopingTypeCOuterHornCocycleCompletionPinnedV1_121
+      - name: Save pinned Type-C dependency cache
+        uses: actions/cache/save@v5
+        with:
+          path: .lake/build
+          key: kuuos-v121-terminal-typec-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-90672c999cb7f76c448d8932875900ee871bf80f
+      - name: Install actual Lean MCP transport
+        run: python3 -m pip install uv
+      - name: CodeAI three source-distinct proof repairs then real Lean MCP
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          PYTHONPATH=. python3 scripts/kuuos_v121_terminal_rlp_codeai_round3_v1.py
+      - name: Archive all candidate sources logs and MCP receipts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-v121-terminal-codeai-round3-${{ github.run_id }}
+          path: |
+            /tmp/kuuos-v121-terminal-codeai-round3/
+            /tmp/kuuos-v121-terminal-mcp-round3/
+          if-no-files-found: warn
+          retention-days: 30
