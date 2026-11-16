@@ -1,0 +1,108 @@
+name: KuuOS v1.121 terminal RLP CodeAI bounded round one
+
+on:
+  pull_request:
+    types: [synchronize]
+    paths:
+      - "scripts/kuuos_v121_terminal_rlp_codeai_round1_v1.py"
+      - ".github/workflows/kuuos-v121-terminal-rlp-codeai-round1-v1.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  admit-exact-producer:
+    if: ${{ github.run_attempt == 1 && github.event_name == 'pull_request' && github.event.pull_request.number == 3562 && github.event.pull_request.draft == true && github.event.before == 'f6c421d8877542de1fb524068ba8b3393e0a835c' }}
+    runs-on: ubuntu-22.04
+    timeout-minutes: 5
+    outputs:
+      producer_sha: ${{ steps.admit.outputs.producer_sha }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - id: admit
+        name: Bind the single producer transition to its exact source SHA
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          PYTHONPATH=. python3 - <<'PY'
+          import os
+          from pathlib import Path
+          from scripts.kuuos_v121_terminal_rlp_codeai_round1_v1 import source_context
+          head,tree=source_context()
+          with Path(os.environ["GITHUB_OUTPUT"]).open("a") as f:
+              f.write("producer_sha="+head+"\n")
+          print("KUUOS_TERMINAL_EXACT_PRODUCER",head,tree)
+          PY
+
+  codeai-direct-then-real-mcp:
+    needs: admit-exact-producer
+    # Job-level exact SHA guard: only the admitted first successor of SOURCE_HEAD.
+    # Later PR cumulative path matches cannot start another candidate experiment.
+    if: ${{ needs.admit-exact-producer.outputs.producer_sha != '' && github.event.pull_request.head.sha == needs.admit-exact-producer.outputs.producer_sha }}
+    runs-on: ubuntu-22.04
+    timeout-minutes: 75
+    env:
+      MATHLIB_NO_CACHE_ON_UPDATE: '1'
+    steps:
+      - name: Checkout exact admitted producer; proof tree is the pinned source tree
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ needs.admit-exact-producer.outputs.producer_sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify unchanged source, dependencies, pins and branch lease
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          PYTHONPATH=. python3 - <<'PY'
+          from scripts.kuuos_v121_terminal_rlp_codeai_round1_v1 import source_context,base
+          print(source_context())
+          print(base.require_pins(base.ROOT))
+          PY
+      - name: Setup fixed Lean
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Restore fixed read-only cache
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake/build
+          key: kuuos-pr-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-pr3522-${{ github.event.pull_request.head.sha }}
+          restore-keys: |
+            kuuos-pr-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-
+      - name: Resolve pinned mathlib cache
+        run: lake exe cache get
+      - name: Build unchanged certified import closure
+        run: |
+          set -euo pipefail
+          timeout 3000 lake -KleanArgs=-DwarningAsError=true -KleanArgs=-Dweak.sorryAsError=true build KUOS.DependentOriginationDoubleDeloopingTypeCOuterHornCocycleCompletionPinnedV1_121
+      - name: Install actual Lean MCP transport
+        run: python3 -m pip install uv
+      - name: CodeAI novel candidates then direct Lean then real MCP only for green
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          PYTHONPATH=. python3 scripts/kuuos_v121_terminal_rlp_codeai_round1_v1.py
+      - name: Preserve every full candidate, log, MemoryOS packet and receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-v121-terminal-codeai-round1-${{ github.run_id }}
+          path: |
+            /tmp/kuuos-v121-terminal-codeai-round1/
+            /tmp/kuuos-v121-terminal-mcp-round1/
+          if-no-files-found: warn
+          retention-days: 30

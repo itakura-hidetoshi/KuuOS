@@ -1,0 +1,63 @@
+{
+  "profile": "memoryos_codeai_lean_observations_v0_1",
+  "repository": "itakura-hidetoshi/KuuOS",
+  "authority": "external_pointer_only",
+  "curation_note": "Round3 source-bound direct Lean failures: all three 4 diagnostics; no actual Lean MCP because no direct green. Source/producer #43859692693, exact HEAD 0aed99eb. Full sources and logs archived in artifact #14221863452. The proposed causal classification is hypothesis only.",
+  "observations": [
+    {
+      "source_head": "0aed99eb66f9530c8a85ccc4d9c0cdcba0b44d64",
+      "source_tree": "ef97e9481b320f583ea1f7c4e02f9fad490e56dc",
+      "imported_blob": "c81f3765791521e6e151b7f56a3b822cb81e8752",
+      "variant": "round3-native-component",
+      "candidate_blob": "90e0099c0df740a8dadd999c66b0023525b6a130",
+      "producer_run": 43859692693,
+      "outcome": "DIRECT_LEAN_FAILURE",
+      "errors": [
+        "formal/KUOS/DependentOriginationDoubleDeloopingTypeCTerminalRLPPinnedV1_121.lean:151:13: error: Invalid simp theorem",
+        "formal/KUOS/DependentOriginationDoubleDeloopingTypeCTerminalRLPPinnedV1_121.lean:151:6: error: Type mismatch: simplification becomes True",
+        "formal/KUOS/DependentOriginationDoubleDeloopingTypeCTerminalRLPPinnedV1_121.lean:186:16: error: rewrite pattern absent on horn leg",
+        "formal/KUOS/DependentOriginationDoubleDeloopingTypeCTerminalRLPPinnedV1_121.lean:213:16: error: rewrite pattern absent on point leg"
+      ]
+    },
+    {
+      "source_head": "0aed99eb66f9530c8a85ccc4d9c0cdcba0b44d64",
+      "source_tree": "ef97e9481b320f583ea1f7c4e02f9fad490e56dc",
+      "imported_blob": "c81f3765791521e6e151b7f56a3b822cb81e8752",
+      "variant": "round3-isPushout-component",
+      "candidate_blob": "9412659afc384aafae575a695bc757781566d768",
+      "producer_run": 43859692693,
+      "outcome": "DIRECT_LEAN_FAILURE",
+      "errors": [
+        "formal/KUOS/DependentOriginationDoubleDeloopingTypeCTerminalRLPPinnedV1_121.lean:151:13: error: Invalid simp theorem",
+        "formal/KUOS/DependentOriginationDoubleDeloopingTypeCTerminalRLPPinnedV1_121.lean:151:6: error: Type mismatch: simplification becomes True",
+        "formal/KUOS/DependentOriginationDoubleDeloopingTypeCTerminalRLPPinnedV1_121.lean:186:16: error: rewrite pattern absent on horn leg",
+        "formal/KUOS/DependentOriginationDoubleDeloopingTypeCTerminalRLPPinnedV1_121.lean:213:16: error: rewrite pattern absent on point leg"
+      ]
+    },
+    {
+      "source_head": "0aed99eb66f9530c8a85ccc4d9c0cdcba0b44d64",
+      "source_tree": "ef97e9481b320f583ea1f7c4e02f9fad490e56dc",
+      "imported_blob": "c81f3765791521e6e151b7f56a3b822cb81e8752",
+      "variant": "round3-isPushout-two-stage",
+      "candidate_blob": "c58b29aa7a97ba80aea5b550bb9161ebf46c44da",
+      "producer_run": 43859692693,
+      "outcome": "DIRECT_LEAN_FAILURE",
+      "errors": [
+        "formal/KUOS/DependentOriginationDoubleDeloopingTypeCTerminalRLPPinnedV1_121.lean:153:13: error: Invalid simp theorem",
+        "formal/KUOS/DependentOriginationDoubleDeloopingTypeCTerminalRLPPinnedV1_121.lean:153:6: error: Type mismatch: simplification becomes True",
+        "formal/KUOS/DependentOriginationDoubleDeloopingTypeCTerminalRLPPinnedV1_121.lean:188:16: error: rewrite pattern absent on horn leg",
+        "formal/KUOS/DependentOriginationDoubleDeloopingTypeCTerminalRLPPinnedV1_121.lean:215:16: error: rewrite pattern absent on point leg"
+      ]
+    }
+  ],
+  "evidence_details": {
+    "run_id": 43859692693,
+    "job_id": 133272948447,
+    "artifact_id": 14221863452,
+    "artifact_sha256": "a79a1d80536c9e47fdc97fc879807361ea7f5225fe94f33b229900e9c52db9f8",
+    "status": "BLOCKED_ALL_DIRECT_LEAN_FAILURE",
+    "mcp_invoked": false,
+    "independent_candidate_certified": false,
+    "causal_status": "UNVERIFIED_HYPOTHESIS"
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "profile": "memoryos_codeai_lean_observations_v0_1",
+  "repository": "itakura-hidetoshi/KuuOS",
+  "authority": "external_pointer_only",
+  "curation_note": "Producer success is source provenance, not independent certification. All three round4 variants were direct Lean green; only selected round4-native-direct passed actual Lean MCP and a second direct Lean. Exact byte-identical source promoted separately.",
+  "observations": [
+    {
+      "source_head": "d88bde99d95d5c79225f169b6d6599b53e15ebcc",
+      "source_tree": "7bd4c4917bae11c9a4c84ecbbfd8b0c829047d26",
+      "imported_blob": "c81f3765791521e6e151b7f56a3b822cb81e8752",
+      "variant": "round4-native-direct",
+      "candidate_blob": "24cc915ad7693a7083ccd19c2614cb5339778381",
+      "producer_run": 43860696324,
+      "outcome": "DIRECT_LEAN_SUCCESS",
+      "errors": []
+    },
+    {
+      "source_head": "d88bde99d95d5c79225f169b6d6599b53e15ebcc",
+      "source_tree": "7bd4c4917bae11c9a4c84ecbbfd8b0c829047d26",
+      "imported_blob": "c81f3765791521e6e151b7f56a3b822cb81e8752",
+      "variant": "round4-isPushout-plain-simp",
+      "candidate_blob": "f921c739048a23c96846d234f4beec758f67c4fb",
+      "producer_run": 43860696324,
+      "outcome": "DIRECT_LEAN_SUCCESS",
+      "errors": []
+    },
+    {
+      "source_head": "d88bde99d95d5c79225f169b6d6599b53e15ebcc",
+      "source_tree": "7bd4c4917bae11c9a4c84ecbbfd8b0c829047d26",
+      "imported_blob": "c81f3765791521e6e151b7f56a3b822cb81e8752",
+      "variant": "round4-isPushout-two-stage",
+      "candidate_blob": "968f0d91e78da2c6c6a26f506d492b7fbb543069",
+      "producer_run": 43860696324,
+      "outcome": "DIRECT_LEAN_SUCCESS",
+      "errors": []
+    }
+  ],
+  "evidence_details": {
+    "producer_run": 43860696324,
+    "job_id": 133276419014,
+    "artifact_id": 14223107260,
+    "selected": "round4-native-direct",
+    "selected_blob": "24cc915ad7693a7083ccd19c2614cb5339778381",
+    "sha256": "290a932194977ca52dcb4e8142bb5ea478ed6b1e422f777db0b786dcecb4965d",
+    "real_mcp_green": true,
+    "second_direct_green": true,
+    "independent_certified": false
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "profile": "memoryos_codeai_lean_observations_v0_1",
+  "repository": "itakura-hidetoshi/KuuOS",
+  "authority": "external_pointer_only",
+  "curation_note": "Append-only GitHub MCP observed source HEAD cc3b8aca7eb53281f4a4a794b3ed4b947b26b261, source tree eae5bb9356b6d5bf82a4f3d8daa765ddda397a47. Round2 CI #43840610460 job #133208007721 completed FAILURE, exact v1.112 plus face-bridge build SUCCESS. All four fixed-pinned direct Lean candidates failed on exactly one redundant `all_goals simp` tactic-does-nothing error. No direct-green, actual Lean MCP not run, no independent CI. Structural cause (earlier rw already closes branch) is a hypothesis pending revalidation in round3. Full direct logs in artifact #14214805955.",
+  "independent_certification_pointers": [],
+  "observations": [
+    {
+      "source_head": "cc3b8aca7eb53281f4a4a794b3ed4b947b26b261",
+      "source_tree": "eae5bb9356b6d5bf82a4f3d8daa765ddda397a47",
+      "imported_blob": "51c84705c4eaffe6f607fb87f0891662613cdb94",
+      "variant": "round2-eq-subst",
+      "candidate_blob": "e5c3c2a08f5a45aa1763593318466b8ba28cd075",
+      "producer_run": 43840610460,
+      "outcome": "DIRECT_LEAN_FAILURE",
+      "errors": [
+        "formal/KUOS/DependentOriginationDoubleDeloopingTypeCOuterHornCocycleCompletionPinnedV1_121.lean:595:8: error: 'all_goals simp' tactic does nothing"
+      ]
+    },
+    {
+      "source_head": "cc3b8aca7eb53281f4a4a794b3ed4b947b26b261",
+      "source_tree": "eae5bb9356b6d5bf82a4f3d8daa765ddda397a47",
+      "imported_blob": "51c84705c4eaffe6f607fb87f0891662613cdb94",
+      "variant": "round2-simpa-hx",
+      "candidate_blob": "52eb39da6371ec0253139b1fa35764c54b53f804",
+      "producer_run": 43840610460,
+      "outcome": "DIRECT_LEAN_FAILURE",
+      "errors": [
+        "formal/KUOS/DependentOriginationDoubleDeloopingTypeCOuterHornCocycleCompletionPinnedV1_121.lean:591:8: error: 'all_goals simp' tactic does nothing"
+      ]
+    },
+    {
+      "source_head": "cc3b8aca7eb53281f4a4a794b3ed4b947b26b261",
+      "source_tree": "eae5bb9356b6d5bf82a4f3d8daa765ddda397a47",
+      "imported_blob": "51c84705c4eaffe6f607fb87f0891662613cdb94",
+      "variant": "round2-simp-hx0",
+      "candidate_blob": "6e0da368c02a39dfe96616ef15f5a71d40480c39",
+      "producer_run": 43840610460,
+      "outcome": "DIRECT_LEAN_FAILURE",
+      "errors": [
+        "formal/KUOS/DependentOriginationDoubleDeloopingTypeCOuterHornCocycleCompletionPinnedV1_121.lean:592:8: error: 'all_goals simp' tactic does nothing"
+      ]
+    },
+    {
+      "source_head": "cc3b8aca7eb53281f4a4a794b3ed4b947b26b261",
+      "source_tree": "eae5bb9356b6d5bf82a4f3d8daa765ddda397a47",
+      "imported_blob": "51c84705c4eaffe6f607fb87f0891662613cdb94",
+      "variant": "round2-simpa-using",
+      "candidate_blob": "9f503b32a12daa3957b3abdc32e82d0446c3eb61",
+      "producer_run": 43840610460,
+      "outcome": "DIRECT_LEAN_FAILURE",
+      "errors": [
+        "formal/KUOS/DependentOriginationDoubleDeloopingTypeCOuterHornCocycleCompletionPinnedV1_121.lean:591:8: error: 'all_goals simp' tactic does nothing"
+      ]
+    }
+  ]
+}

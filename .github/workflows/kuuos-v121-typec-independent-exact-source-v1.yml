@@ -1,0 +1,178 @@
+name: KuuOS v1.121 independent exact-source Type-C cocycle and axioms
+
+on:
+  pull_request:
+    paths:
+      - "formal/KUOS/DependentOriginationDoubleDeloopingTypeCOuterHornCocycleCompletionPinnedV1_121.lean"
+      - "memoryos/external/github/2026/11/kuuos_codeai_lean_observations_v121_typec_round3_v1.json"
+      - ".github/workflows/kuuos-v121-typec-independent-exact-source-v1.yml"
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  independent-typec-exact-lean:
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.number == 3562 && github.event.pull_request.head.ref == 'validation/kuuos-v121-induced-endpoint-on-certified-v120-20261116' && github.event.pull_request.base.ref == 'validation/kuuos-v120-induced-admission-recovery-20261116' }}
+    runs-on: ubuntu-22.04
+    timeout-minutes: 90
+    env:
+      MATHLIB_NO_CACHE_ON_UPDATE: '1'
+    steps:
+      - name: Checkout promoted exact-source proof HEAD
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - name: Download selected actual CodeAI and real Lean MCP artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: kuuos-v121-typec-codeai-round3-43844286966
+          run-id: 43844286966
+          github-token: ${{ github.token }}
+          path: /tmp/kuuos-v121-independent-evidence
+      - name: Independent source/producer/blob/tree/pin admission
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          HEAD: ${{ github.event.pull_request.head.sha }}
+          EVIDENCE: /tmp/kuuos-v121-independent-evidence
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/kuuos-v121-independent
+          python3 - <<'PY'
+          import hashlib,json,os,re,urllib.request
+          from pathlib import Path
+          repo="itakura-hidetoshi/KuuOS"
+          source=Path("formal/KUOS/DependentOriginationDoubleDeloopingTypeCOuterHornCocycleCompletionPinnedV1_121.lean")
+          expected="90672c999cb7f76c448d8932875900ee871bf80f"
+          sha256="ef82431ac4bac81e56bad36831c1e738a58b6c9635717e31669f80f409db7df0"
+          def blob(raw):
+            return hashlib.sha1(b"blob "+str(len(raw)).encode()+b"\0"+raw).hexdigest()
+          raw=source.read_bytes()
+          assert blob(raw)==expected and hashlib.sha256(raw).hexdigest()==sha256
+          assert not re.search(r"\b(sorry|admit|axiom|unsafe|native_decide)\b",raw.decode())
+          assert Path("lean-toolchain").read_text().strip()=="leanprover/lean4:v4.30.0-rc2"
+          manifest=json.loads(Path("lake-manifest.json").read_text())
+          assert [p.get("rev") for p in manifest["packages"] if p.get("name")=="mathlib"]==["5450b53e5ddc75d46418fabb605edbf36bd0beb6"]
+          pins={
+            "formal/KUOS/DependentOriginationDoubleDeloopingTypeAAllDimensionsV1_112.lean":"c9977fe0144e922da23eddde1d6eba2ec2f51e65",
+            "formal/KUOS/DependentOriginationDoubleDeloopingTypeAFaceValueBridgeV1_121.lean":"51c84705c4eaffe6f607fb87f0891662613cdb94",
+          }
+          for path,expected_sha in pins.items():
+            assert blob(Path(path).read_bytes())==expected_sha,path
+          evidence=Path(os.environ["EVIDENCE"])
+          candidates=list(evidence.rglob("candidate.lean"))
+          assert len(candidates)==1 and candidates[0].read_bytes()==raw
+          receipts=list(evidence.rglob("receipt.json"))
+          portfolios=list(evidence.rglob("portfolio.json"))
+          assert len(receipts)==1 and len(portfolios)==1
+          r=json.loads(receipts[0].read_text())
+          p=json.loads(portfolios[0].read_text())
+          producer="441bd735334c139fb8a448e196b4a393cba9e303"
+          producer_tree="65ea2dbb044f5c94a4dc517cc2e230d84290014e"
+          assert p["source_head"]==producer and p["source_tree"]==producer_tree and p["candidate_count"]==4
+          assert p["source_restored"] is True and p["independent_ci_certified"] is False
+          assert len(p["candidates"])==4 and all(c["status"]=="SUCCESS" and c["exit_code"]==0 and c["error_count"]==0 and c["olean_exists"] is True for c in p["candidates"])
+          assert r["source_head"]==producer and r["selected"]=="round3-eq-subst-drop-noop-simp"
+          assert r["selected_blob"]==expected and r["mcp_success"] is True and r["mcp_errors"]==0
+          assert r["second_direct_success"] is True and r["second_direct_exit"]==0
+          assert r["source_restored"] is True and r["independent_ci_certified"] is False
+          def github(path):
+            request=urllib.request.Request("https://api.github.com/repos/"+repo+"/"+path,
+              headers={"Authorization":"Bearer "+os.environ["GITHUB_TOKEN"],
+                       "Accept":"application/vnd.github+json",
+                       "User-Agent":"KuuOS-TypeC-exact-independent"})
+            with urllib.request.urlopen(request,timeout=45) as response:
+              return json.load(response)
+          event=json.loads(Path(os.environ["GITHUB_EVENT_PATH"]).read_text())
+          pr=event["pull_request"]
+          head=os.environ["HEAD"]
+          assert event["number"]==3562 and pr["draft"] is True and pr["head"]["sha"]==head
+          assert pr["base"]["sha"]=="7c64a89b81681f997483d0873887df2f700d1244"
+          current=github("pulls/3562")
+          assert current["head"]["sha"]==head and current["draft"] is True and current["state"]=="open"
+          prod=github("actions/runs/43844286966")
+          assert prod["head_sha"]==producer and prod["status"]=="completed" and prod["conclusion"]=="success"
+          source_commit=github("git/commits/"+head)
+          source_tree=source_commit["tree"]["sha"]
+          merge_ref=github("git/ref/pull/3562/merge")
+          merge_commit=github("git/commits/"+merge_ref["object"]["sha"])
+          assert source_tree==merge_commit["tree"]["sha"]
+          report={"producer_run":43844286966,"producer_head":producer,
+                  "selected_blob":expected,"head":head,
+                  "source_tree":source_tree,"test_merge_tree":merge_commit["tree"]["sha"],
+                  "direct_lean_green":4,"real_mcp_green":True,
+                  "second_direct_green":True,"independent_certified":False}
+          Path("/tmp/kuuos-v121-independent/admission.json").write_text(json.dumps(report,indent=2,sort_keys=True)+"\n")
+          print("KUUOS_TYPEC_EXACT_PRODUCER_ADMISSION",json.dumps(report,sort_keys=True))
+          PY
+      - name: Setup pinned Lean 4.30.0-rc2
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Restore fixed Lean build cache read-only
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake/build
+          key: kuuos-pr-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-pr3522-${{ github.event.pull_request.head.sha }}
+          restore-keys: |
+            kuuos-pr-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-pr3522-
+      - name: Resolve exact pinned mathlib
+        run: lake exe cache get
+      - name: Independently strict-build exact Type-C cocycle source and imports
+        run: |
+          set -euo pipefail
+          timeout 3200 lake -KleanArgs=-DwarningAsError=true -KleanArgs=-Dweak.sorryAsError=true build KUOS.DependentOriginationDoubleDeloopingTypeCOuterHornCocycleCompletionPinnedV1_121 2>&1 | tee /tmp/kuuos-v121-independent/build.log
+      - name: Audit all 39 actual new declarations and exact kernel axioms
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import re
+          from pathlib import Path
+          source=Path("formal/KUOS/DependentOriginationDoubleDeloopingTypeCOuterHornCocycleCompletionPinnedV1_121.lean").read_text()
+          names=re.findall(r"(?m)^(?:noncomputable\s+)?(?:theorem|def|lemma|structure)\s+([A-Za-z0-9_']+)",source)
+          assert len(names)==39 and len(set(names))==39,names
+          namespace="KUOS.DependentOriginationDoubleDeloopingTypeCOuterHornCocycleCompletionV1_105."
+          lines=["import KUOS.DependentOriginationDoubleDeloopingTypeCOuterHornCocycleCompletionPinnedV1_121",""]
+          for name in names:
+            lines.extend(["#check "+namespace+name,"#print axioms "+namespace+name])
+          Path("/tmp/kuuos-v121-independent/AxiomAudit.lean").write_text("\n".join(lines)+"\n")
+          PY
+          lake env lean -DwarningAsError=true -Dweak.sorryAsError=true /tmp/kuuos-v121-independent/AxiomAudit.lean 2>&1 | tee /tmp/kuuos-v121-independent/axioms.log
+          python3 - <<'PY'
+          import json,re
+          from pathlib import Path
+          source=Path("formal/KUOS/DependentOriginationDoubleDeloopingTypeCOuterHornCocycleCompletionPinnedV1_121.lean").read_text()
+          names=re.findall(r"(?m)^(?:noncomputable\s+)?(?:theorem|def|lemma|structure)\s+([A-Za-z0-9_']+)",source)
+          prefix="KUOS.DependentOriginationDoubleDeloopingTypeCOuterHornCocycleCompletionV1_105."
+          log=Path("/tmp/kuuos-v121-independent/axioms.log").read_text()
+          assert not re.search(r"(?m)(warning:|error:|sorryAx)",log),"unexpected Lean error or sorry axiom"
+          uses=re.findall(r"'([^']+)' depends on axioms:\s*\[([^\]]*)\]",log,re.S)
+          free=re.findall(r"'([^']+)' does not depend on any axioms",log)
+          checked={n for n,_ in uses}|set(free)
+          expected={prefix+n for n in names}
+          assert checked==expected,{"missing":list(expected-checked),"unexpected":list(checked-expected)}
+          ax=set()
+          for _,lst in uses:
+            ax.update(x.strip() for x in lst.split(",") if x.strip())
+          assert ax.issubset({"propext","Classical.choice","Quot.sound"}),sorted(ax)
+          report={"declarations":39,"checked":len(checked),"used_axioms":sorted(ax),
+                  "sorryAx":0,"warnings":0,"errors":0,
+                  "source_blob":"90672c999cb7f76c448d8932875900ee871bf80f",
+                  "scope":"Concrete Type-C normalized cocycle completion only; not yet terminal RLP or induced endpoint"}
+          Path("/tmp/kuuos-v121-independent/axiom_receipt.json").write_text(json.dumps(report,sort_keys=True,indent=2)+"\n")
+          print("KUUOS_TYPEC_INDEPENDENT_AXIOMS_GREEN",json.dumps(report,sort_keys=True))
+          PY
+      - name: Archive exact-source independent receipts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-v121-typec-independent-${{ github.run_id }}
+          path: /tmp/kuuos-v121-independent/
+          if-no-files-found: warn
+          retention-days: 30
