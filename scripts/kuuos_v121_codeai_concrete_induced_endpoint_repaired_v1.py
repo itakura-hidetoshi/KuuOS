@@ -30,7 +30,7 @@ BRANCH="validation/kuuos-v121-induced-endpoint-on-certified-v120-20261116"
 TARGET="formal/KUOS/DependentOriginationDoubleDeloopingInducedEndpointRLPV1_121.lean"
 DEPENDENCIES={
     "formal/KUOS/DependentOriginationDoubleDeloopingTypeAFaceValueBridgeV1_121.lean":"51c84705c4eaffe6f607fb87f0891662613cdb94",
-    "formal/KUOS/DependentOriginationDoubleDeloopingTypeCOuterHornCocycleCompletionPinnedV1_121.lean":"6b1142889bbebaad76a8c143a323c9c272e45076",
+    "formal/KUOS/DependentOriginationDoubleDeloopingTypeCOuterHornCocycleCompletionPinnedV1_121.lean":"90672c999cb7f76c448d8932875900ee871bf80f",
     "formal/KUOS/DependentOriginationDoubleDeloopingTypeCTerminalRLPPinnedV1_121.lean":"c81f3765791521e6e151b7f56a3b822cb81e8752",
     "formal/KUOS/DependentOriginationDoubleDeloopingTypeCTerminalRLPStandardRightV1_106.lean":"6e06ac88c2b1cdadcb0d0f7496281892a3549c64",
     "formal/KUOS/DependentOriginationStandardTypeAEndpointOppositeCellCertificateV1_77.lean":"e7d422b89b4a4fa5180790b0c5d49c51b7239786",
