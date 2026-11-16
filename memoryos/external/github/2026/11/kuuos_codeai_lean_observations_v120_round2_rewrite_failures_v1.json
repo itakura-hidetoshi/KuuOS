@@ -1,0 +1,58 @@
+{
+  "profile": "memoryos_codeai_lean_observations_v0_1",
+  "repository": "itakura-hidetoshi/KuuOS",
+  "authority": "external_pointer_only",
+  "curation_note": "Append-only exact source-bound v1.120 CodeAI imported-closure direct Lean failures, run #43786351742, HEAD 921decee1562...; original v1.120 proof remained unchanged. Three candidates fail at rw [heq] at hs line 94; namespace-only variant also has unresolved identity composition. Error diagnostics are observations; transport through equality vs rewrite pattern matching is a hypothesis awaiting independent Lean verification. No MCP/proof/CI/merge authority.",
+  "independent_certification_pointers": [],
+  "observations": [
+    {
+      "source_head": "921decee1562b3317e3a57c360f4a828388c5cb6",
+      "source_tree": "515967f2b0a35dd8349e3fef3958e2ee06ef14f9",
+      "imported_blob": "69196f47f1a925b76c2e8d0519a463e8c4762e69",
+      "variant": "round2-explicit-id-comp",
+      "candidate_blob": "fbfd18d2710705a2b837d96bcd81353f4fe41ed8",
+      "producer_run": 43786351742,
+      "outcome": "DIRECT_LEAN_FAILURE",
+      "errors": [
+        "formal/KUOS/DependentOriginationForwardEndpointInducedCompatibilityV1_120.lean:94:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern"
+      ]
+    },
+    {
+      "source_head": "921decee1562b3317e3a57c360f4a828388c5cb6",
+      "source_tree": "515967f2b0a35dd8349e3fef3958e2ee06ef14f9",
+      "imported_blob": "69196f47f1a925b76c2e8d0519a463e8c4762e69",
+      "variant": "round2-explicit-id-simp",
+      "candidate_blob": "9156a111c3e4d706ecf773d0aa6d017688d3e8ac",
+      "producer_run": 43786351742,
+      "outcome": "DIRECT_LEAN_FAILURE",
+      "errors": [
+        "formal/KUOS/DependentOriginationForwardEndpointInducedCompatibilityV1_120.lean:94:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern"
+      ]
+    },
+    {
+      "source_head": "921decee1562b3317e3a57c360f4a828388c5cb6",
+      "source_tree": "515967f2b0a35dd8349e3fef3958e2ee06ef14f9",
+      "imported_blob": "69196f47f1a925b76c2e8d0519a463e8c4762e69",
+      "variant": "round2-explicit-id-simp-general",
+      "candidate_blob": "0b55da9c7f823d66ee7624e3aa1f65bbcb6c42b7",
+      "producer_run": 43786351742,
+      "outcome": "DIRECT_LEAN_FAILURE",
+      "errors": [
+        "formal/KUOS/DependentOriginationForwardEndpointInducedCompatibilityV1_120.lean:94:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern"
+      ]
+    },
+    {
+      "source_head": "921decee1562b3317e3a57c360f4a828388c5cb6",
+      "source_tree": "515967f2b0a35dd8349e3fef3958e2ee06ef14f9",
+      "imported_blob": "69196f47f1a925b76c2e8d0519a463e8c4762e69",
+      "variant": "round2-namespace-only",
+      "candidate_blob": "393010ee57511dfa856ba093b303ead33f7fb469",
+      "producer_run": 43786351742,
+      "outcome": "DIRECT_LEAN_FAILURE",
+      "errors": [
+        "formal/KUOS/DependentOriginationForwardEndpointInducedCompatibilityV1_120.lean:52:2: error: unsolved goals",
+        "formal/KUOS/DependentOriginationForwardEndpointInducedCompatibilityV1_120.lean:93:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern"
+      ]
+    }
+  ]
+}

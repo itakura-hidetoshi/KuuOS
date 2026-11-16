@@ -1,0 +1,82 @@
+name: KuuOS v1.120 CodeAI direct Lean induced-source admission candidates
+
+on:
+  pull_request:
+    paths:
+      - "formal/KUOS/DependentOriginationForwardEndpointInducedCompatibilityV1_120.lean"
+      - ".github/workflows/kuuos-v120-induced-forward-candidate-direct-lean-v1.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  v120-codeai-direct-lean:
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.ref == 'research/kuuos-v120-induced-scaling-compatibility-20261116' && github.event.pull_request.base.ref == 'validation/kuuos-v118-forward-minimal-nonlifting-on-v112-20261116' }}
+    runs-on: ubuntu-22.04
+    timeout-minutes: 90
+    env:
+      MATHLIB_NO_CACHE_ON_UPDATE: '1'
+    steps:
+      - name: Checkout exact candidate source HEAD
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - name: Source and dependency pins; no stale substitutions
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib,json,os,re
+          e=json.loads(Path(os.environ["GITHUB_EVENT_PATH"]).read_text())
+          p=e["pull_request"]
+          assert e["repository"]["full_name"]=="itakura-hidetoshi/KuuOS"
+          assert p["draft"] is True
+          assert p["base"]["ref"]=="validation/kuuos-v118-forward-minimal-nonlifting-on-v112-20261116"
+          assert p["base"]["sha"]=="9632826b459f07175cc607a78db11f2349fbfc1f"
+          assert p["head"]["ref"]=="research/kuuos-v120-induced-scaling-compatibility-20261116"
+          blobs={
+            "formal/KUOS/DependentOriginationForwardEndpointInducedCompatibilityV1_120.lean":"0c64c99920158fe7f9707002bd24208167a2de26",
+            "formal/KUOS/DependentOriginationForwardEndpointProjectedCylinderCoreV1_118.lean":"ec6f62c290f5f6744c49eaa3c559cb0fa4587a14",
+            "formal/KUOS/DependentOriginationForwardEndpointDirectRLPObstructionV1_118.lean":"69196f47f1a925b76c2e8d0519a463e8c4762e69",
+          }
+          for n,expected in blobs.items():
+              raw=Path(n).read_bytes()
+              assert hashlib.sha1(b"blob "+str(len(raw)).encode()+b"\0"+raw).hexdigest()==expected,n
+              assert not re.search(r"(?m)^\s*(sorry|axiom|admit)\b",raw.decode()),n
+          assert Path("lean-toolchain").read_text().strip()=="leanprover/lean4:v4.30.0-rc2"
+          m=json.loads(Path("lake-manifest.json").read_text())
+          assert [p.get("rev") for p in m["packages"] if p.get("name")=="mathlib"]==["5450b53e5ddc75d46418fabb605edbf36bd0beb6"]
+          print("KUUOS_V120_CODEAI_SOURCE_PIN_GREEN",blobs)
+          PY
+      - name: Setup pinned Lean
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Restore fixed read-only Lake overlay
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake/build
+          key: kuuos-pr-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-pr3522-${{ github.event.pull_request.head.sha }}
+          restore-keys: |
+            kuuos-pr-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-pr3522-
+      - name: Resolve fixed mathlib
+        run: lake exe cache get
+      - name: CodeAI candidate direct strict Lean
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/kuuos-v120-direct
+          timeout 3200 lake -KleanArgs=-DwarningAsError=true -KleanArgs=-Dweak.sorryAsError=true build KUOS.DependentOriginationForwardEndpointInducedCompatibilityV1_120 2>&1 | tee /tmp/kuuos-v120-direct/build.log
+      - name: Archive direct Lean diagnostics before independent certification
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-v120-codeai-direct-${{ github.run_id }}
+          path: /tmp/kuuos-v120-direct/
+          if-no-files-found: warn
+          retention-days: 30

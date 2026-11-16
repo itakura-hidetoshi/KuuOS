@@ -1,0 +1,106 @@
+name: KuuOS v1.121 CodeAI concrete induced Type-A endpoint cylinder RLP
+
+on:
+  pull_request:
+    types: [synchronize]
+    paths:
+      - "scripts/kuuos_v121_endpoint_codeai_on_certified_terminal_v1.py"
+      - ".github/workflows/kuuos-v121-endpoint-codeai-on-certified-terminal-v1.yml"
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  induced-endpoint-direct-mcp:
+    if: ${{ github.event.pull_request.head.sha == '10e190c73912f6fe868432d8cc9451a18701897b' && github.event_name == 'pull_request' && github.event.pull_request.number == 3562 && github.event.pull_request.draft == true && github.event.pull_request.head.ref == 'validation/kuuos-v121-induced-endpoint-on-certified-v120-20261116' && github.event.pull_request.base.sha == '7c64a89b81681f997483d0873887df2f700d1244' }}
+    runs-on: ubuntu-22.04
+    timeout-minutes: 90
+    env:
+      MATHLIB_NO_CACHE_ON_UPDATE: '1'
+    steps:
+      - name: Checkout exact source-bound candidate HEAD
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Exact source, previously certified terminal, fixed Lean/mathlib and all candidate statements
+        run: |
+          set -euo pipefail
+          python3 -m py_compile scripts/kuuos_v121_endpoint_codeai_on_certified_terminal_v1.py
+          PYTHONPATH=. python3 - <<'PY'
+          import json,hashlib,os
+          from pathlib import Path
+          from scripts.kuuos_v121_endpoint_codeai_on_certified_terminal_v1 import (
+              TARGET,ROOT,EXPECTED,TERMINAL_BLOB,CERT_RUN,CERT_HEAD,MEMORY)
+          from scripts.kuuos_v121_codeai_concrete_induced_endpoint_repaired_v1 import sources,blob
+          from runtime.kuuos_codeai_lean_observation_intake_v0_1 import read_observation_seed
+          e=json.loads(Path(os.environ["GITHUB_EVENT_PATH"]).read_text())
+          p=e["pull_request"]
+          assert e["repository"]["full_name"]=="itakura-hidetoshi/KuuOS"
+          assert e["number"]==3562 and p["draft"] is True and p["state"]=="open"
+          assert p["base"]["sha"]=="7c64a89b81681f997483d0873887df2f700d1244"
+          assert p["head"]["ref"]=="validation/kuuos-v121-induced-endpoint-on-certified-v120-20261116"
+          assert not (ROOT/TARGET).exists()
+          assert Path("lean-toolchain").read_text().strip()=="leanprover/lean4:v4.30.0-rc2"
+          manifest=json.loads(Path("lake-manifest.json").read_text())
+          assert [x.get("rev") for x in manifest["packages"] if x.get("name")=="mathlib"]==["5450b53e5ddc75d46418fabb605edbf36bd0beb6"]
+          for path,expected in EXPECTED.items():
+            assert blob((ROOT/path).read_bytes())==expected,path
+          r=read_observation_seed(MEMORY)
+          assert len(r)==3
+          assert any(x["variant"]=="round4-native-direct" and x["candidate_blob"]==TERMINAL_BLOB for x in r)
+          variants=sources()
+          assert len(variants)==3 and len({blob(s.encode()) for s in variants.values()})==3
+          assert all("natDoubleDelooping_typeA_inducedEndpoint_chosenLift_fac" in s for s in variants.values())
+          print("KUUOS_V121_ENDPOINT_EXACT_PIN_PREFLIGHT_GREEN",list(variants))
+          PY
+      - name: Setup pinned Lean4 v4.30.0-rc2
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Restore pinned Type-C terminal dependency cache
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake/build
+          key: kuuos-v121-terminal-source-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-24cc915ad7693a7083ccd19c2614cb5339778381
+          restore-keys: |
+            kuuos-v121-terminal-typec-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-90672c999cb7f76c448d8932875900ee871bf80f
+            kuuos-pr-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-pr3522-
+      - name: Resolve pinned mathlib
+        run: lake exe cache get
+      - name: Independently strict-build full terminal RLP and exact v1.77/v1.59 geometry closure
+        run: |
+          set -euo pipefail
+          timeout 3200 lake -KleanArgs=-DwarningAsError=true -KleanArgs=-Dweak.sorryAsError=true build KUOS.DependentOriginationStandardTypeAEndpointOppositeCellCertificateV1_77 KUOS.DependentOriginationDoubleDeloopingTypeCTerminalRLPPinnedV1_121
+      - name: Save pinned terminal dependency cache
+        uses: actions/cache/save@v5
+        with:
+          path: .lake/build
+          key: kuuos-v121-terminal-source-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-24cc915ad7693a7083ccd19c2614cb5339778381
+      - name: Install actual Lean MCP transport
+        run: python3 -m pip install uv
+      - name: CodeAI three exact-source induced Type-A endpoint RLP candidates; direct Lean, MCP, second direct
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          PYTHONPATH=. python3 scripts/kuuos_v121_endpoint_codeai_on_certified_terminal_v1.py
+      - name: Archive actual selected cylinder lift, all direct Lean errors, and real MCP receipts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-v121-endpoint-codeai-${{ github.run_id }}
+          path: |
+            /tmp/kuuos-v121-endpoint-codeai-on-certified-terminal-v1/
+            /tmp/kuuos-v121-endpoint-real-mcp-on-certified-terminal-v1/
+          if-no-files-found: warn
+          retention-days: 30

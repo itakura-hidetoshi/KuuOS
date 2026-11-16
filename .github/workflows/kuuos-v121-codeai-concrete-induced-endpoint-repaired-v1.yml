@@ -1,0 +1,101 @@
+name: KuuOS v1.121 CodeAI concrete induced endpoint RLP on v1.120 certified
+
+on:
+  pull_request:
+    paths:
+      - "scripts/kuuos_v121_codeai_concrete_induced_endpoint_repaired_v1.py"
+      - ".github/workflows/kuuos-v121-codeai-concrete-induced-endpoint-repaired-v1.yml"
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  v121-codeai-direct-lean-mcp:
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.ref == 'validation/kuuos-v121-induced-endpoint-on-certified-v120-20261116' && github.event.pull_request.base.ref == 'validation/kuuos-v120-induced-admission-recovery-20261116' && github.event.pull_request.head.sha == 'f6c421d8877542de1fb524068ba8b3393e0a835c' }}
+    runs-on: ubuntu-22.04
+    timeout-minutes: 90
+    env:
+      MATHLIB_NO_CACHE_ON_UPDATE: '1'
+    steps:
+      - name: Checkout exact certified v1.120 child
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - name: Setup Python and verify candidate generator integrity
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Fixed certified v1.120 source contracts
+        run: |
+          set -euo pipefail
+          python3 -m py_compile scripts/kuuos_v121_codeai_concrete_induced_endpoint_repaired_v1.py
+          PYTHONPATH=. python3 - <<'PY'
+          import json,hashlib,os
+          from pathlib import Path
+          ev=json.loads(Path(os.environ["GITHUB_EVENT_PATH"]).read_text())
+          p=ev["pull_request"]
+          assert ev["repository"]["full_name"]=="itakura-hidetoshi/KuuOS"
+          assert p["draft"] and p["base"]["ref"]=="validation/kuuos-v120-induced-admission-recovery-20261116"
+          assert p["base"]["sha"]=="7c64a89b81681f997483d0873887df2f700d1244"
+          assert p["head"]["ref"]=="validation/kuuos-v121-induced-endpoint-on-certified-v120-20261116"
+          assert Path("lean-toolchain").read_text().strip()=="leanprover/lean4:v4.30.0-rc2"
+          manifest=json.loads(Path("lake-manifest.json").read_text())
+          assert [m["rev"] for m in manifest["packages"] if m.get("name")=="mathlib"]==["5450b53e5ddc75d46418fabb605edbf36bd0beb6"]
+          assert not Path("formal/KUOS/DependentOriginationDoubleDeloopingInducedEndpointRLPV1_121.lean").exists()
+          checks={
+           "formal/KUOS/DependentOriginationDoubleDeloopingTypeAFaceValueBridgeV1_121.lean":"51c84705c4eaffe6f607fb87f0891662613cdb94",
+           "formal/KUOS/DependentOriginationDoubleDeloopingTypeCOuterHornCocycleCompletionPinnedV1_121.lean":"90672c999cb7f76c448d8932875900ee871bf80f",
+           "formal/KUOS/DependentOriginationDoubleDeloopingTypeCTerminalRLPPinnedV1_121.lean":"c81f3765791521e6e151b7f56a3b822cb81e8752",
+           "formal/KUOS/DependentOriginationDoubleDeloopingTypeCTerminalRLPStandardRightV1_106.lean":"6e06ac88c2b1cdadcb0d0f7496281892a3549c64",
+           "formal/KUOS/DependentOriginationStandardTypeAEndpointOppositeCellCertificateV1_77.lean":"e7d422b89b4a4fa5180790b0c5d49c51b7239786",
+           "formal/KUOS/DependentOriginationStandardABCLeibnizCellularComparisonV1_59.lean":"2b852bcd457831d25d50e8ed9dd3ac6a44f6f85e",
+           "formal/KUOS/DependentOriginationStandardTypeAEndpointPushoutProductV1_50.lean":"1f24c5e7b30d1392ccd16c8b7b3ed7387b7d72a9",
+          }
+          for path,sha in checks.items():
+              raw=Path(path).read_bytes()
+              actual=hashlib.sha1(b"blob "+str(len(raw)).encode()+b"\0"+raw).hexdigest()
+              assert actual==sha,(path,actual,sha)
+          print("KUUOS_V121_PINNED_SOURCE_AND_PIN_GREEN",len(checks))
+          PY
+      - name: Setup pinned Lean 4.30.0-rc2
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Restore pinned read-only Lake cache
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake/build
+          key: kuuos-pr-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-pr3522-${{ github.event.pull_request.head.sha }}
+          restore-keys: |
+            kuuos-pr-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-
+      - name: Resolve pinned mathlib
+        run: lake exe cache get
+      - name: Strict Lean build existing A/B/C and prism geometry (certified import closure)
+        run: |
+          set -euo pipefail
+          timeout 3000 lake -KleanArgs=-DwarningAsError=true -KleanArgs=-Dweak.sorryAsError=true build KUOS.DependentOriginationStandardTypeAEndpointOppositeCellCertificateV1_77 KUOS.DependentOriginationDoubleDeloopingTypeAFaceValueBridgeV1_121 KUOS.DependentOriginationDoubleDeloopingTypeCOuterHornCocycleCompletionPinnedV1_121 KUOS.DependentOriginationDoubleDeloopingTypeCTerminalRLPPinnedV1_121
+      - name: Install real Lean MCP transport
+        run: python3 -m pip install uv
+      - name: CodeAI generate three source-bound candidates then pinned direct Lean and real MCP for green
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          PYTHONPATH=. python3 scripts/kuuos_v121_codeai_concrete_induced_endpoint_repaired_v1.py
+      - name: Archive all original candidate diagnostics and actual Lean MCP receipts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-v121-codeai-repaired-${{ github.run_id }}
+          path: |
+            /tmp/kuuos-v121-codeai-repaired/
+            /tmp/kuuos-v121-real-mcp-repaired/
+          if-no-files-found: warn
+          retention-days: 30
