@@ -1,0 +1,57 @@
+{
+  "profile": "memoryos_codeai_lean_observations_v0_1",
+  "repository": "itakura-hidetoshi/KuuOS",
+  "authority": "external_pointer_only",
+  "curation_note": "Append-only correction packet for v1.120 run #43785574231 (previous incompatible packet at an earlier superseded HEAD had a 39-character typo and is quarantined by keeping that branch out of the active recovery lineage). Four actual tool failures reflect a missing imported KUOS .olean; mark candidate proof verdict NO_DATA. Preserve exact recorded hashes, no causal claim, no proof or merge authority.",
+  "independent_certification_pointers": [],
+  "observations": [
+    {
+      "source_head": "8122ab01549fb01105b8088803c5f9cb6d81736c",
+      "source_tree": "d24d52f1d3ecb9f232f1d9172a4bb4defb49a70d",
+      "imported_blob": "69196f47f1a925b76c2e8d0519a463e8c4762e69",
+      "variant": "round2-explicit-id-comp",
+      "candidate_blob": "fbfd18d2710705a2b837d96bcd81353f4fe41ed8",
+      "producer_run": 43785574231,
+      "outcome": "NO_DATA",
+      "errors": [
+        "formal/KUOS/DependentOriginationForwardEndpointInducedCompatibilityV1_120.lean:1:0: error: unknown module prefix 'KUOS'"
+      ]
+    },
+    {
+      "source_head": "8122ab01549fb01105b8088803c5f9cb6d81736c",
+      "source_tree": "d24d52f1d3ecb9f232f1d9172a4bb4defb49a70d",
+      "imported_blob": "69196f47f1a925b76c2e8d0519a463e8c4762e69",
+      "variant": "round2-explicit-id-simp",
+      "candidate_blob": "9156a111c3e4d706ecf773d0aa6d017688d3e8ac",
+      "producer_run": 43785574231,
+      "outcome": "NO_DATA",
+      "errors": [
+        "formal/KUOS/DependentOriginationForwardEndpointInducedCompatibilityV1_120.lean:1:0: error: unknown module prefix 'KUOS'"
+      ]
+    },
+    {
+      "source_head": "8122ab01549fb01105b8088803c5f9cb6d81736c",
+      "source_tree": "d24d52f1d3ecb9f232f1d9172a4bb4defb49a70d",
+      "imported_blob": "69196f47f1a925b76c2e8d0519a463e8c4762e69",
+      "variant": "round2-explicit-id-simp-general",
+      "candidate_blob": "0b55da9c7f823d66ee7624e3aa1f65bbcb6c42b7",
+      "producer_run": 43785574231,
+      "outcome": "NO_DATA",
+      "errors": [
+        "formal/KUOS/DependentOriginationForwardEndpointInducedCompatibilityV1_120.lean:1:0: error: unknown module prefix 'KUOS'"
+      ]
+    },
+    {
+      "source_head": "8122ab01549fb01105b8088803c5f9cb6d81736c",
+      "source_tree": "d24d52f1d3ecb9f232f1d9172a4bb4defb49a70d",
+      "imported_blob": "69196f47f1a925b76c2e8d0519a463e8c4762e69",
+      "variant": "round2-namespace-only",
+      "candidate_blob": "393010ee57511dfa856ba093b303ead33f7fb469",
+      "producer_run": 43785574231,
+      "outcome": "NO_DATA",
+      "errors": [
+        "formal/KUOS/DependentOriginationForwardEndpointInducedCompatibilityV1_120.lean:1:0: error: unknown module prefix 'KUOS'"
+      ]
+    }
+  ]
+}
