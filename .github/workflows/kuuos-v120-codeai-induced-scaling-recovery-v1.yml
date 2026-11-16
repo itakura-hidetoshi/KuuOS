@@ -13,7 +13,11 @@ permissions:
 
 jobs:
   v120-codeai-round2-direct-lean-mcp:
-    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.number == 3560 && github.event.pull_request.head.ref == 'validation/kuuos-v120-induced-admission-recovery-20261116' && github.event.pull_request.base.ref == 'validation/kuuos-v118-forward-minimal-nonlifting-on-v112-20261116' }}
+    # Historical round2 CodeAI candidate probe; its original v1.120 source is pinned to
+    # Git blob 0c64c99920158fe7f9707002bd24208167a2de26 at this exact producer HEAD.
+    # A promoted proof source is validated by independent Lean / Governance instead.
+    # Keep the failed/successful historical run immutable; do not re-run on a new HEAD.
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.number == 3560 && github.event.pull_request.head.ref == 'validation/kuuos-v120-induced-admission-recovery-20261116' && github.event.pull_request.base.ref == 'validation/kuuos-v118-forward-minimal-nonlifting-on-v112-20261116' && github.event.pull_request.head.sha == '921decee1562b3317e3a57c360f4a828388c5cb6' }}
     runs-on: ubuntu-22.04
     timeout-minutes: 90
     env:
