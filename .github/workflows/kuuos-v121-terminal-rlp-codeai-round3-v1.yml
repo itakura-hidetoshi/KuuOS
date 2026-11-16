@@ -9,7 +9,7 @@ permissions:
   contents: read
 jobs:
   terminal-round3:
-    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.number == 3562 && github.event.pull_request.draft == true && github.event.pull_request.base.sha == '7c64a89b81681f997483d0873887df2f700d1244' && github.event.pull_request.head.ref == 'validation/kuuos-v121-induced-endpoint-on-certified-v120-20261116' }}
+    if: ${{ github.event.pull_request.head.sha == '0aed99eb66f9530c8a85ccc4d9c0cdcba0b44d64' && github.event_name == 'pull_request' && github.event.pull_request.number == 3562 && github.event.pull_request.draft == true && github.event.pull_request.base.sha == '7c64a89b81681f997483d0873887df2f700d1244' && github.event.pull_request.head.ref == 'validation/kuuos-v121-induced-endpoint-on-certified-v120-20261116' }}
     runs-on: ubuntu-22.04
     timeout-minutes: 90
     env:
