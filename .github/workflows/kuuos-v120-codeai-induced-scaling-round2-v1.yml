@@ -5,6 +5,7 @@ on:
     paths:
       - "scripts/kuuos_v120_codeai_induced_scaling_round2_v1.py"
       - "memoryos/external/github/2026/11/kuuos_codeai_lean_observations_v120_round1_v1.json"
+      - "memoryos/external/github/2026/11/kuuos_codeai_lean_observations_v120_round2_import_setup_v1.json"
       - ".github/workflows/kuuos-v120-codeai-induced-scaling-round2-v1.yml"
 
 permissions:
@@ -47,6 +48,9 @@ jobs:
           assert r["outcome"]=="DIRECT_LEAN_FAILURE" and r["producer_run"]==43781807526
           assert r["causal_status"]=="UNVERIFIED_HYPOTHESIS"
           assert len(r["diagnostics"])==8
+          setup=read_observation_seed(base/"kuuos_codeai_lean_observations_v120_round2_import_setup_v1.json")
+          assert len(setup)==4 and all(x["outcome"]=="NO_DATA" and x["producer_run"]==43785574231 for x in setup)
+          assert len(cases)>=53
           assert len({x["id"] for x in cases})==len(cases)
           print("KUUOS_V120_FAILURE_MEMORYOS_PRESERVED",len(cases))
           PY
@@ -68,6 +72,10 @@ jobs:
             kuuos-pr-build-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-pr3522-
       - name: Resolve pinned mathlib
         run: lake exe cache get
+      - name: Strict Lean build exact v1.118 imported dependency closure
+        run: |
+          set -euo pipefail
+          timeout 3000 lake -KleanArgs=-DwarningAsError=true -KleanArgs=-Dweak.sorryAsError=true build KUOS.DependentOriginationForwardEndpointDirectRLPObstructionV1_118
       - name: Install real Lean MCP transport
         run: python3 -m pip install uv
       - name: CodeAI portfolio pinned direct Lean then green-only real Lean MCP

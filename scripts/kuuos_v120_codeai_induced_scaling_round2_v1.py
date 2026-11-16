@@ -132,6 +132,8 @@ def main():
     global ORIGINAL_SOURCE
     head,tree=current_event()
     require_pins(ROOT)
+    check((ROOT/".lake/build/lib/lean/KUOS/DependentOriginationForwardEndpointDirectRLPObstructionV1_118.olean").is_file(),
+          "NO_DATA: exact imported v1.118 closure not yet built")
     target=ROOT/TARGET
     ORIGINAL_SOURCE=target.read_bytes()
     check(blob(ORIGINAL_SOURCE)==ORIGINAL,"original source blob altered")
