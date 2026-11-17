@@ -36,6 +36,9 @@ EXPECTED = {
     'qualified-only': '8441ec7d9f696e50cf686315dae43459330629f4',
     'include-only': 'e2bdb237f0d9e6a019727d73aab438b9fb7db094',
     'qualified-and-include': 'f30f6065fa272873dbf7e1f2ad15a1237511f823',
+    'qualified-include-intro': '32af6b08ac20bf1cba1f2b6f4a54e4762c9d6a72',
+    'explicit-comparison': '72d318ccb09a307251d7f204b9c0120e78bc7e26',
+    'adjacent-projections': 'ae25d6249785070767722984d4010e8b58942c22',
 }
 
 
@@ -50,6 +53,20 @@ def candidates(baseline: str) -> dict[str, str]:
     included = baseline.replace(ANCHOR, ANCHOR + '\ninclude K\n', 1)
     both = qualified.replace(ANCHOR, ANCHOR + '\ninclude K\n', 1)
     result = {'qualified-only': qualified, 'include-only': included, 'qualified-and-include': both}
+    intro_old = '    intro g hHorn\n    intro X Y p hp'
+    assert both.count(intro_old) == 1
+    compact = both.replace(intro_old, '    intro g hHorn X Y p hp', 1)
+    explicit, adjacent = compact, compact
+    for name in ('inducedTypeAAttachments_le_externalGenerated', 'endpointPushoutProducts_le_externalGenerated'):
+        old = '  K.toStandardTypeAExternalGeneratedComparison\n    .' + name
+        assert compact.count(old) == 1
+        new = ('  KUOS.DependentOriginationStandardTypeAEndpointPushoutProductV1_50.'
+               'StandardTypeAExternalGeneratedComparison.' + name +
+               '\n    (toStandardTypeAExternalGeneratedComparison K)')
+        explicit = explicit.replace(old, new, 1)
+        adjacent = adjacent.replace(old, '  (toStandardTypeAExternalGeneratedComparison K).' + name, 1)
+    result.update({'qualified-include-intro': compact, 'explicit-comparison': explicit,
+                   'adjacent-projections': adjacent})
     pattern = r'^(?:def|theorem|lemma|structure|instance)\s+([^\s(:]+)'
     inventory = re.findall(pattern, baseline, re.M)
     assert inventory == [n.rsplit('.', 1)[-1] for n in NAMES]
