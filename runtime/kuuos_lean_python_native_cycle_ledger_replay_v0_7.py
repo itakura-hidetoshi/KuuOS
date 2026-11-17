@@ -239,7 +239,7 @@ def audit_native_cycle_ledger(root: Any, native_receipt: Any) -> NativeReplayAud
     # NOT itself an initial bind state for the v0.4 admission contract.
     if wa_activation is not None:
         result = audit_typed_path(
-            artifacts,
+            {name: artifacts[name] for name in EXPECTED_OS[:4]},
             receipts={"DecisionOSWa->PlanOS": wa_activation},
             start="DecisionOS", end="PlanOS",
         )
@@ -253,7 +253,8 @@ def audit_native_cycle_ledger(root: Any, native_receipt: Any) -> NativeReplayAud
         segments.append(("PlanOS->ActOS(initial)", result))
     if final_replay is not None:
         result = audit_typed_path(
-            artifacts, start="ActOS", end="LearnOS",
+            {name: artifacts[name] for name in EXPECTED_OS[4:]},
+            start="ActOS", end="LearnOS",
         )
         segments.append(("ActOS(final)->LearnOS", result))
 

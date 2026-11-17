@@ -162,3 +162,28 @@ SKIPPED status is not reported as Lean machine validation.
    from the content of the Lean statements.
 4. WORLD, MemoryOS, CodeAI and general arbitrary OS routing
    retain their own separate source/authority boundaries.
+
+## Correction from independently observed red CI — append-only repair note
+
+Exact-source Governance #44081319607 tested source
+376b92ff1d32fb5bde7315b2933999bcbfbb55cf.
+The original 70-test cumulative v0.5/v0.6/v0.7 registered suite ran:
+66 tests succeeded and four v0.7 positive assertions failed.
+The actual diagnostic was
+segment:DecisionOS->PlanOS:states:unknown_name and
+segment:ActOS(final)->LearnOS:states:unknown_name.
+
+The failure is an interface-scope error: the v0.6 auditor correctly rejects
+unrelated OS keys from a supplied state mapping, but the initial v0.7 caller
+passed all native_artifacts, including BeliefOSState, BeliefOSReceipt and
+nodes outside each selected subpath. Its *source* identity, ledger, receipt
+reconstruction, original validators and failure checks did not fail.
+Do not weaken the v0.6 unknown-name guard or relax any native validator.
+
+The repaired v0.7 passes only the exact original source dictionaries for
+the named segment (DecisionOS through PlanOS, or ActOS through LearnOS),
+with no values synthesized or changed. A new regression asserts that the
+unprojected original native inventory stays BLOCKED under v0.6 and the
+properly projected joined native fixture can pass under v0.7.
+The repair belongs to the same PR, not a new PR.
+No green result is claimed until independently rerun exact-head CI completes.

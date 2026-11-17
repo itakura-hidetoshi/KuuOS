@@ -60,6 +60,24 @@ class NativeCycleLedgerReplayTests(unittest.TestCase):
         if errors:
             raise AssertionError(("original_native_full_cycle_fixture_invalid", errors))
 
+    def test_full_native_artifact_inventory_must_be_projected_to_subpath(self):
+        # Root-cause regression for red exact-source Governance #44081319607.
+        # Native artifacts also contain BeliefOSState/BeliefOSReceipt and
+        # unrelated OS nodes; v0.6 deliberately rejects them as unknown.
+        # v0.7 may project exact existing nodes, never loosen v0.6's guard.
+        from runtime.kuuos_lean_python_os_path_composition_v0_6 import (
+            audit_typed_path,
+        )
+        raw = audit_typed_path(
+            self.receipt["native_artifacts"],
+            start="DecisionOS", end="PlanOS",
+        )
+        self.assertEqual(raw.status, "BLOCKED")
+        self.assertIn("states:unknown_name", raw.violations)
+        projected = audit_native_cycle_ledger(self.root, self.receipt)
+        self.assertEqual(projected.status, SUCCESS,
+                         (projected.issues, projected.missing))
+
     def test_real_eight_os_source_and_actual_act_ledger_are_joined(self):
         result = audit_native_cycle_ledger(self.root, self.receipt)
         self.assertEqual(result.status, SUCCESS, (result.issues, result.missing))
