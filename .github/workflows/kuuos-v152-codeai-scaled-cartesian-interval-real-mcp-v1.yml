@@ -12,7 +12,7 @@ permissions:
 env:
   MATHLIB_NO_CACHE_ON_UPDATE: '1'
   PYTHONPATH: .
-  V152_CHECKOUT_BLOB: '3a40765b6d3dcae92246685aae5f2f603a60de0f'
+  V152_CHECKOUT_BLOB: 'e12da806d1e8da9758c51b1c2139245b7f8e47b9'
   SOURCE_HEAD: ${{ github.event.pull_request.head.sha }}
 
 jobs:
@@ -66,7 +66,7 @@ jobs:
           out.mkdir(parents=True,exist_ok=True)
           def blob(b):
               return hashlib.sha1(b'blob '+str(len(b)).encode()+b'\0'+b).hexdigest()
-          assert blob(original)==os.environ['V152_CHECKOUT_BLOB']=='3a40765b6d3dcae92246685aae5f2f603a60de0f'
+          assert blob(original)==os.environ['V152_CHECKOUT_BLOB']=='e12da806d1e8da9758c51b1c2139245b7f8e47b9'
           baseline=(root/'legacy/v5.291/formal/KUOS/DependentOriginationScaledCartesianIntervalCylinderV1_52.lean').read_text()
           assert blob(baseline.encode())=='3a40765b6d3dcae92246685aae5f2f603a60de0f'
           patches=json.loads(r'''[{"old":"def cartesianProductScaling\n","new":"@[reducible] def cartesianProductScaling\n"},{"old":"  unfold scaledCartesianProduct scaledInterval scaledSimplex scaledSimplexCylinder\n  rw [cartesianProductScaling_interval_eq_simplexCylinderScaling sΔ sI]","new":"  unfold scaledCartesianProduct scaledInterval scaledSimplex scaledSimplexCylinder\n  change ScaledSSet.of ((Δ[n] : SSet.{u}) ⊗ (Δ[1] : SSet.{u}))\n      (cartesianProductScaling sΔ sI) =\n    ScaledSSet.of ((Δ[n] : SSet.{u}) ⊗ (Δ[1] : SSet.{u}))\n      (simplexCylinderScaling sΔ)\n  rw [cartesianProductScaling_interval_eq_simplexCylinderScaling sΔ sI]"},{"old":"  unfold standardTypeAEndpointPushoutProductSource\n  rw [cartesianProductScaling_interval_eq_simplexCylinderScaling\n    (standardTypeASimplexScaling g.i) sI]","new":"  unfold standardTypeAEndpointPushoutProductSource\n  change pullbackScaling\n      (simplexCylinderScaling (standardTypeASimplexScaling g.i))\n      ((SSet.horn g.n g.i).unionProd\n        (intervalEndpoint g.endpoint)).ι =\n    pullbackScaling\n      (cartesianProductScaling (standardTypeASimplexScaling g.i) sI)\n      ((SSet.horn g.n g.i).unionProd\n        (intervalEndpoint g.endpoint)).ι\n  rw [cartesianProductScaling_interval_eq_simplexCylinderScaling\n    (standardTypeASimplexScaling g.i) sI]"}]''')
