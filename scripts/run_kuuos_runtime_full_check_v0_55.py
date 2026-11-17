@@ -120,6 +120,18 @@ FRONTIER_STEPS_AFTER_V095: tuple[tuple[str, str], ...] = (
         "scripts/check_kuuos_lean_python_decision_plan_bindings_v0_3.py",
         "tests.test_kuuos_lean_python_decision_plan_handoff_v0_3",
     ),
+    (
+        "scripts/check_kuuos_lean_python_plan_act_bindings_v0_4.py",
+        "tests.test_kuuos_lean_python_plan_act_admission_v0_4",
+    ),
+    (
+        "scripts/check_kuuos_lean_python_plan_act_bindings_v0_4.py",
+        "tests.test_kuuos_lean_python_plan_act_checker_v0_4",
+    ),
+    (
+        "scripts/check_kuuos_lean_python_plan_act_bindings_v0_4.py",
+        "tests.test_kuuos_lean_python_plan_act_native_v0_4",
+    ),
 )
 
 
