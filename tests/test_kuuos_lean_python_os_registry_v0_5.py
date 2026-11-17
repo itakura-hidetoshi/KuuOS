@@ -207,5 +207,17 @@ from tests.test_kuuos_lean_python_checked_transition_sources_v0_10 import (
 )
 
 
+# v0.11 adds pre-host tests while retaining the complete existing suite.
+def load_tests(loader, tests, pattern):
+    from tests.test_kuuos_lean_python_pre_host_guard_v0_11 import PreHostGuardTests
+    from tests.test_kuuos_lean_python_pre_host_native_cycle_v0_11 import PreHostNativeCycleTests
+    from tests.test_kuuos_lean_python_pre_host_sources_v0_11 import PreHostSourceTests
+
+    tests.addTests(loader.loadTestsFromTestCase(PreHostGuardTests))
+    tests.addTests(loader.loadTestsFromTestCase(PreHostNativeCycleTests))
+    tests.addTests(loader.loadTestsFromTestCase(PreHostSourceTests))
+    return tests
+
+
 if __name__ == "__main__":
     unittest.main()
