@@ -205,7 +205,7 @@ jobs:
           assert r['status']=='LOCAL_LEAN_GREEN_CANDIDATE_ONLY' and r['source_restored'] and not r['independent_ci_success'] and not r['git_write_performed']
           assert r['rounds'][0]['direct_lean']['exit_code']==0 and r['rounds'][0]['semantic_success'] and not r['rounds'][0]['errors']
           dep=root/'formal/KUOS/DependentOriginationScaledSmallObjectArgumentV1_44.lean'
-          assert blob(dep.read_bytes())=='833c8e772b7f35a3b5bd36995703ed257bac20c7'
+          assert blob(dep.read_bytes())=='ea3d9c2edff775235af266d10b87316f65aeb60d'
           dest.write_bytes(source)
           print('KUUOS_V145_INDEPENDENT_EXACT_SOURCE_PIN_AND_MCP_RECEIPT_MATCH')
           PY
