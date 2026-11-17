@@ -132,6 +132,10 @@ FRONTIER_STEPS_AFTER_V095: tuple[tuple[str, str], ...] = (
         "scripts/check_kuuos_lean_python_plan_act_bindings_v0_4.py",
         "tests.test_kuuos_lean_python_plan_act_native_v0_4",
     ),
+    (
+        "scripts/check_kuuos_lean_python_os_registry_v0_5.py",
+        "tests.test_kuuos_lean_python_os_registry_v0_5",
+    ),
 )
 
 
