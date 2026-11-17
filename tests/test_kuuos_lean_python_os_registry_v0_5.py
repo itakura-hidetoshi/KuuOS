@@ -170,6 +170,13 @@ from tests.test_kuuos_lean_python_os_path_composition_v0_6 import (
     NativeCompositionTests,
 )
 
+# v0.7 genuine native full-cycle ledger replay and static source pins are
+# additive to v0.5/v0.6, with no weakening of the cumulative runner.
+from tests.test_kuuos_lean_python_native_cycle_ledger_replay_v0_7 import (
+    SourcePinTests,
+    NativeCycleLedgerReplayTests,
+)
+
 
 if __name__ == "__main__":
     unittest.main()
