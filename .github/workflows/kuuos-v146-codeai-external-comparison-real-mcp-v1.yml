@@ -12,7 +12,7 @@ permissions:
 env:
   MATHLIB_NO_CACHE_ON_UPDATE: '1'
   PYTHONPATH: .
-  V146_CHECKOUT_BLOB: 'ad237770db6a612e8ea3639259f4e87169889f55'
+  V146_CHECKOUT_BLOB: '0f60b58223bc854b3922996067f72b4ba90ae879'
   SOURCE_HEAD: ${{ github.event.pull_request.head.sha }}
 
 jobs:
@@ -66,8 +66,9 @@ jobs:
           out.mkdir(parents=True,exist_ok=True)
           def blob(b):
               return hashlib.sha1(b'blob '+str(len(b)).encode()+b'\0'+b).hexdigest()
-          assert blob(original)==os.environ['V146_CHECKOUT_BLOB']=='ad237770db6a612e8ea3639259f4e87169889f55'
-          baseline=original.decode()
+          assert blob(original)==os.environ['V146_CHECKOUT_BLOB']=='0f60b58223bc854b3922996067f72b4ba90ae879'
+          baseline=(root/'legacy/v5.291/formal/KUOS/DependentOriginationExternalScaledAnodyneGeneratorComparisonV1_46.lean').read_text()
+          assert blob(baseline.encode())=='ad237770db6a612e8ea3639259f4e87169889f55'
           patches=json.loads(r'''[{"old":"open CategoryTheory","new":"open CategoryTheory\nopen KUOS.DependentOriginationNativeInfinityTwoScaledV1_19\nopen KUOS.DependentOriginationGlobalDuskinScaledHornCoherenceV1_22"},{"old":"\n\n/-- The canonical generated class is contained in the external generated","new":"\n\ninclude K\n\n/-- The canonical generated class is contained in the external generated"},{"old":"  rw [← MorphismProperty.rlp_llp_rlp E]","new":"  rw [← MorphismProperty.rlp_llp_rlp E]\n  change (externalGeneratedScaledAnodyne E).rlp =\n    (canonicalGeneratedScaledFibration : MorphismProperty (ScaledSSet.{u}))"},{"old":"  rw [← K.externalGeneratedScaledFibration_eq_canonical]\n  rfl","new":"  change externalGeneratedScaledFibration E = canonicalGeneratedScaledFibration\n  exact K.externalGeneratedScaledFibration_eq_canonical"},{"old":"noncomputable def externalGeneratedScaledWeakFactorizationSystem :","new":"@[reducible] noncomputable def externalGeneratedScaledWeakFactorizationSystem :"}]''')
           def patched(text,indexes):
               s=text
