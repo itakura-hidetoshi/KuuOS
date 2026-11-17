@@ -12,7 +12,7 @@ permissions:
 env:
   MATHLIB_NO_CACHE_ON_UPDATE: '1'
   PYTHONPATH: .
-  V151_CHECKOUT_BLOB: 'e0944cad043e2d11c28ac444f767d60c30dca6c4'
+  V151_CHECKOUT_BLOB: 'ed074ccd29f3b1ece21d5d4a1b5b136cf8a3400a'
   SOURCE_HEAD: ${{ github.event.pull_request.head.sha }}
 
 jobs:
@@ -66,7 +66,7 @@ jobs:
           out.mkdir(parents=True,exist_ok=True)
           def blob(b):
               return hashlib.sha1(b'blob '+str(len(b)).encode()+b'\0'+b).hexdigest()
-          assert blob(original)==os.environ['V151_CHECKOUT_BLOB']=='e0944cad043e2d11c28ac444f767d60c30dca6c4'
+          assert blob(original)==os.environ['V151_CHECKOUT_BLOB']=='ed074ccd29f3b1ece21d5d4a1b5b136cf8a3400a'
           baseline=(root/'legacy/v5.291/formal/KUOS/DependentOriginationStandardTypeANativeLeibnizLiftingMateV1_51.lean').read_text()
           assert blob(baseline.encode())=='e0944cad043e2d11c28ac444f767d60c30dca6c4'
           patches=json.loads(r'''[{"name":"exact-native-lemmas","sha":"ed074ccd29f3b1ece21d5d4a1b5b136cf8a3400a","old":"  · simp [standardTypeAEndpointLeibnizSquare]\n  · simp [standardTypeAEndpointLeibnizSquare]","new":"  · exact (standardTypeAEndpointLeibnizSquare g).inl_ι\n  · exact (standardTypeAEndpointLeibnizSquare g).inr_ι"},{"name":"simp-native-lemmas","sha":"eb44fa1042d8434b99278fa0615f5302d5abddfa","old":"  · simp [standardTypeAEndpointLeibnizSquare]\n  · simp [standardTypeAEndpointLeibnizSquare]","new":"  · simpa only using (standardTypeAEndpointLeibnizSquare g).inl_ι\n  · simpa only using (standardTypeAEndpointLeibnizSquare g).inr_ι"},{"name":"rw-native-lemmas","sha":"176a5d5f77471fc3ec2e2c95888170cf3f191ad0","old":"  · simp [standardTypeAEndpointLeibnizSquare]\n  · simp [standardTypeAEndpointLeibnizSquare]","new":"  · simp only [Functor.PushoutObjObj.inl_ι]\n  · simp only [Functor.PushoutObjObj.inr_ι]"},{"name":"explicit-simpa-native","sha":"585595ede5f8f887f3eab87f2d60236c151ff525","old":"  · simp [standardTypeAEndpointLeibnizSquare]\n  · simp [standardTypeAEndpointLeibnizSquare]","new":"  · simpa only [standardTypeAEndpointLeibnizSquare] using\n      (Functor.PushoutObjObj.inl_ι (standardTypeAEndpointLeibnizSquare g))\n  · simpa only [standardTypeAEndpointLeibnizSquare] using\n      (Functor.PushoutObjObj.inr_ι (standardTypeAEndpointLeibnizSquare g))"}]''')

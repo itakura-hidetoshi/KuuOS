@@ -72,8 +72,8 @@ theorem standardTypeAEndpointLeibnizSquare_ι
       ((SSet.horn g.n g.i).unionProd
         (intervalEndpoint g.endpoint)).ι := by
   apply (standardTypeAEndpointLeibnizSquare g).isPushout.hom_ext
-  · simp [standardTypeAEndpointLeibnizSquare]
-  · simp [standardTypeAEndpointLeibnizSquare]
+  · exact (standardTypeAEndpointLeibnizSquare g).inl_ι
+  · exact (standardTypeAEndpointLeibnizSquare g).inr_ι
 
 /-- Hence the native Leibniz inclusion is the underlying map of the v1.50
 scaled endpoint pushout-product. -/
