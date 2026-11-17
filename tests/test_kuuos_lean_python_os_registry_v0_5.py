@@ -186,5 +186,13 @@ from tests.test_kuuos_lean_python_native_cycle_receipt_capture_v0_8 import (
 )
 
 
+# v0.9 child-process native fixture evidence is mandatory via this already
+# registered cumulative Python test module; prior v0.1–v0.8 tests retained.
+from tests.test_kuuos_lean_python_isolated_native_evidence_v0_9 import (
+    IsolatedNativeEvidenceTests,
+    EvidenceSourcePinTests,
+)
+
+
 if __name__ == "__main__":
     unittest.main()
