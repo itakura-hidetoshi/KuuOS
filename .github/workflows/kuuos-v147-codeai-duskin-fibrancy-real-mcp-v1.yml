@@ -12,7 +12,7 @@ permissions:
 env:
   MATHLIB_NO_CACHE_ON_UPDATE: '1'
   PYTHONPATH: .
-  V147_CHECKOUT_BLOB: '0e6c63d24fc076c6995994e6297bf0c534bcb075'
+  V147_CHECKOUT_BLOB: '01b0bf486e90615aae3b5abea6994a0985af5e07'
   SOURCE_HEAD: ${{ github.event.pull_request.head.sha }}
 
 jobs:
@@ -66,8 +66,8 @@ jobs:
           out.mkdir(parents=True,exist_ok=True)
           def blob(b):
               return hashlib.sha1(b'blob '+str(len(b)).encode()+b'\0'+b).hexdigest()
-          assert blob(original)==os.environ['V147_CHECKOUT_BLOB']=='0e6c63d24fc076c6995994e6297bf0c534bcb075'
-          baseline=original.decode('utf-8')
+          assert blob(original)==os.environ['V147_CHECKOUT_BLOB']=='01b0bf486e90615aae3b5abea6994a0985af5e07'
+          baseline=(root/'legacy/v5.291/formal/KUOS/DependentOriginationExternalScaledDuskinFibrancyV1_47.lean').read_text()
           assert blob(baseline.encode())=='0e6c63d24fc076c6995994e6297bf0c534bcb075'
           patches=json.loads(r'''[{"old":"open CategoryTheory","new":"open CategoryTheory\nopen KUOS.DependentOriginationNativeInfinityTwoScaledV1_19\nopen KUOS.DependentOriginationScaledTerminalRLPV1_41\nopen KUOS.DependentOriginationBiequivalencePresentationInvariantV1_26\nopen KUOS.DependentOriginationHomotopyClassScaledHornInvariantV1_37"},{"old":"    (B : Type u) [Bicategory.{w, v} B] : ScaledSSet :=","new":"    (B : Type u) [Bicategory.{w, v} B] : ScaledSSet.{max (max w v) u} :="},{"old":"  generators : MorphismProperty (ScaledSSet)","new":"  generators : MorphismProperty (ScaledSSet.{max (max w v) u})"},{"old":"      canonicalGeneratedScaledFibration :=","new":"      KUOS.DependentOriginationScaledAnodyneWFSUniversalityV1_43.canonicalGeneratedScaledFibration :="},{"old":"\n/-- Convert the two independent external fibrancy hypotheses","new":"\ninclude K\n\n/-- Convert the two independent external fibrancy hypotheses"}]''')
           def patched(text,indexes):
