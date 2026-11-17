@@ -19,6 +19,16 @@ PR3555_V17_OPERADIC_REVIEWED_BLOB = {
     "KUOS/DependentOriginationOperadicMultiConditionV1_7.lean": "92350cbc0ff050ddfc011b6841f0ef582b9ca5b4",
 }
 
+# Pinned exact current-source v1.8–v1.13 repairs; original legacy bytes remain frozen.
+# Source-blob review does not replace Lean kernel or independent CI validation.
+PR3555_V18_V113_REVIEWED_BLOBS = {
+    "KUOS/DependentOriginationHigherMulticategoryCoherenceV1_8.lean": "36ab51f8eefe18584c7c4e56e79cd8399aeaa961",
+    "KUOS/DependentOriginationCausalMonoidalProcessV1_10.lean": "51657eed7ef67efd71c80e6c6c33f4b1efd62c35",
+    "KUOS/DependentOriginationMarginalNoSignallingV1_11.lean": "f63ca5a22952520e6d2d7e551a4c2bb0a7bc24cf",
+    "KUOS/DependentOriginationJointCausalFactorizationV1_12.lean": "dd732790976af821c1c4c7b806cb099d7cc1e048",
+    "KUOS/DependentOriginationEnrichedContextV1_13.lean": "7daa0119c4c8eef35a861ba7b925bf6524fc84b3",
+}
+
 PR2339_INTEGRATED_PROOF_BLOBS = {
     "KUOS/DependentOriginationAbstractPresentationDescentV4_49.lean": "452b8485f401478bc11c642f463786efa3c1fc5e",
     "KUOS/DependentOriginationArbitraryFactorizationScalarV3_72.lean": "b433ca2ded5e50ed662e36a661cca63a3b97f436",
@@ -293,7 +303,8 @@ class RestoredWiringTests(unittest.TestCase):
                              or PR3553_V121_V125_BOUNDED_BLOBS.get(rel.as_posix())
                              or PR3554_V126_TYPED_TRANSPORT_BLOB.get(rel.as_posix())
                              or PR3555_V127_V129_ULIFT_REVIEWED_BLOBS.get(rel.as_posix())
-                             or PR3555_V17_OPERADIC_REVIEWED_BLOB.get(rel.as_posix()))
+                             or PR3555_V17_OPERADIC_REVIEWED_BLOB.get(rel.as_posix())
+                             or PR3555_V18_V113_REVIEWED_BLOBS.get(rel.as_posix()))
                 if fixed_sha is not None:
                     pinned_seen.add(rel.as_posix())
                     self.assertEqual(git_blob_sha(current), fixed_sha,
@@ -303,7 +314,7 @@ class RestoredWiringTests(unittest.TestCase):
                                      f'unreviewed theorem source change: {rel}')
         self.assertEqual(seen, set(LINT_ONLY_SOURCE_EDITS),
                          'reviewed lint edit targets must all exist in historical roots')
-        self.assertEqual(pinned_seen, set(PR2339_INTEGRATED_PROOF_BLOBS) | set(PR3522_FOCUSED_REPAIR_BLOBS) | set(PR3548_V16_LOCALLY_DISCRETE_BLOB) | set(PR3550_V118_DIRECT_IMPORT_BLOB) | set(PR3551_V119_CLASS_REDUCIBILITY_BLOB) | set(PR3552_V120_SEGAL_BLOB) | set(PR3553_V121_V125_BOUNDED_BLOBS) | set(PR3554_V126_TYPED_TRANSPORT_BLOB) | set(PR3555_V127_V129_ULIFT_REVIEWED_BLOBS) | set(PR3555_V17_OPERADIC_REVIEWED_BLOB),
+        self.assertEqual(pinned_seen, set(PR2339_INTEGRATED_PROOF_BLOBS) | set(PR3522_FOCUSED_REPAIR_BLOBS) | set(PR3548_V16_LOCALLY_DISCRETE_BLOB) | set(PR3550_V118_DIRECT_IMPORT_BLOB) | set(PR3551_V119_CLASS_REDUCIBILITY_BLOB) | set(PR3552_V120_SEGAL_BLOB) | set(PR3553_V121_V125_BOUNDED_BLOBS) | set(PR3554_V126_TYPED_TRANSPORT_BLOB) | set(PR3555_V127_V129_ULIFT_REVIEWED_BLOBS) | set(PR3555_V17_OPERADIC_REVIEWED_BLOB) | set(PR3555_V18_V113_REVIEWED_BLOBS),
                          'every preexisting integrated proof exception is explicit and accounted for')
 
     def test_f55_path_functor_composition_has_actual_path_homs(self):
