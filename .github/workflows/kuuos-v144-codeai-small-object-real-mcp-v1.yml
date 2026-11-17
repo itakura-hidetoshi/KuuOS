@@ -82,7 +82,7 @@ jobs:
                   baseline=baseline.replace(anchor,'\n'+name+'\n',1)
               assert baseline.count(change)==1
               baseline=baseline.replace(change,old,1)
-          assert blob(baseline.encode())=='0e81eb0c7fedfcd09c0f552d910da1c621606491
+          assert blob(baseline.encode())=='0e81eb0c7fedfcd09c0f552d910da1c621606491'
           for name in names:
               assert baseline.count('\n'+name+'\n')==1,('missing definition',name)
           assert baseline.count(old)==1
