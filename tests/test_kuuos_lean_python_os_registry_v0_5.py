@@ -177,6 +177,14 @@ from tests.test_kuuos_lean_python_native_cycle_ledger_replay_v0_7 import (
     NativeCycleLedgerReplayTests,
 )
 
+# v0.8 explicitly observes the original local fixture constructor returns;
+# the audit grants no external receipt authenticity or formal Lean refinement.
+# Registered here to preserve the exact v0.5 cumulative CI runner/checker.
+from tests.test_kuuos_lean_python_native_cycle_receipt_capture_v0_8 import (
+    NativeCaptureV08Tests,
+    CaptureSourceV08Tests,
+)
+
 
 if __name__ == "__main__":
     unittest.main()
