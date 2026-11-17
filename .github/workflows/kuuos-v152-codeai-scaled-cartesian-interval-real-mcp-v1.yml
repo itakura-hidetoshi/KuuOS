@@ -1,0 +1,251 @@
+name: KuuOS v1.52 CodeAI scaled cartesian interval cylinder direct Lean real MCP and independent audit
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/kuuos-v152-codeai-scaled-cartesian-interval-real-mcp-v1.yml'
+      - 'formal/KUOS/DependentOriginationScaledCartesianIntervalCylinderV1_52.lean'
+
+permissions:
+  contents: read
+
+env:
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+  PYTHONPATH: .
+  V152_CHECKOUT_BLOB: '3a40765b6d3dcae92246685aae5f2f603a60de0f'
+  SOURCE_HEAD: ${{ github.event.pull_request.head.sha }}
+
+jobs:
+  codeai-v152-direct-and-real-mcp:
+    if: github.event.pull_request.number == 3555 && github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-22.04
+    timeout-minutes: 80
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: kuuos-v142-pinned-attachment-mathlib-5450-v1
+      - name: Restore fixed mathlib and compile exact v1.51 dependency
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import hashlib,pathlib
+          from scripts.check_kuuos_lean_lsp_mcp_compatibility_v7_17 import require_pins
+          assert require_pins(pathlib.Path('.').resolve())['mathlib_sha']=='5450b53e5ddc75d46418fabb605edbf36bd0beb6'
+          b=pathlib.Path('formal/KUOS/DependentOriginationStandardTypeANativeLeibnizLiftingMateV1_51.lean').read_bytes()
+          assert hashlib.sha1(b'blob '+str(len(b)).encode()+b'\0'+b).hexdigest()=='ed074ccd29f3b1ece21d5d4a1b5b136cf8a3400a'
+          PY
+          lake exe cache get
+          lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.DependentOriginationStandardTypeANativeLeibnizLiftingMateV1_51
+      - name: CodeAI conditional external comparison candidates and pinned direct Lean
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import hashlib,json,os,pathlib,re,subprocess,tempfile
+          from scripts.kuuos_lean_mcp_repair_loop_v1 import digest,FORBIDDEN_NEW
+          root=pathlib.Path('.').resolve()
+          rel='formal/KUOS/DependentOriginationScaledCartesianIntervalCylinderV1_52.lean'
+          target=root/rel
+          original=target.read_bytes()
+          out=pathlib.Path('/tmp/kuuos-v152-codeai')
+          out.mkdir(parents=True,exist_ok=True)
+          def blob(b):
+              return hashlib.sha1(b'blob '+str(len(b)).encode()+b'\0'+b).hexdigest()
+          assert blob(original)==os.environ['V152_CHECKOUT_BLOB']=='3a40765b6d3dcae92246685aae5f2f603a60de0f'
+          baseline=(root/'legacy/v5.291/formal/KUOS/DependentOriginationScaledCartesianIntervalCylinderV1_52.lean').read_text()
+          assert blob(baseline.encode())=='3a40765b6d3dcae92246685aae5f2f603a60de0f'
+          patches=json.loads(r'''[{"old":"def cartesianProductScaling\n","new":"@[reducible] def cartesianProductScaling\n"},{"old":"  unfold scaledCartesianProduct scaledInterval scaledSimplex scaledSimplexCylinder\n  rw [cartesianProductScaling_interval_eq_simplexCylinderScaling sΔ sI]","new":"  unfold scaledCartesianProduct scaledInterval scaledSimplex scaledSimplexCylinder\n  change ScaledSSet.of ((Δ[n] : SSet.{u}) ⊗ (Δ[1] : SSet.{u}))\n      (cartesianProductScaling sΔ sI) =\n    ScaledSSet.of ((Δ[n] : SSet.{u}) ⊗ (Δ[1] : SSet.{u}))\n      (simplexCylinderScaling sΔ)\n  rw [cartesianProductScaling_interval_eq_simplexCylinderScaling sΔ sI]"},{"old":"  unfold standardTypeAEndpointPushoutProductSource\n  rw [cartesianProductScaling_interval_eq_simplexCylinderScaling\n    (standardTypeASimplexScaling g.i) sI]","new":"  unfold standardTypeAEndpointPushoutProductSource\n  change pullbackScaling\n      (simplexCylinderScaling (standardTypeASimplexScaling g.i))\n      ((SSet.horn g.n g.i).unionProd\n        (intervalEndpoint g.endpoint)).ι =\n    pullbackScaling\n      (cartesianProductScaling (standardTypeASimplexScaling g.i) sI)\n      ((SSet.horn g.n g.i).unionProd\n        (intervalEndpoint g.endpoint)).ι\n  rw [cartesianProductScaling_interval_eq_simplexCylinderScaling\n    (standardTypeASimplexScaling g.i) sI]"}]''')
+          variant_specs={"reducible-only":[0],"reducible-product-change":[0,1],"reducible-source-change":[0,2],"all-typed-changes":[0,1,2]}
+          allowed_hashes={"reducible-only":"19c07506db8c3ee0914f2b107b8146dfb17b5c4f","reducible-product-change":"d578e1218163f95c2d1753e3b2cfa2374885c81a","reducible-source-change":"afdf2e79205c4c67ae3fc70fc3dcd7ab2d85ac65","all-typed-changes":"e12da806d1e8da9758c51b1c2139245b7f8e47b9"}
+          variants={}
+          for name,indexes in variant_specs.items():
+              code=baseline
+              for idx in indexes:
+                  item=patches[idx]
+                  assert code.count(item['old'])==1,('ambiguous patch',name,idx)
+                  code=code.replace(item['old'],item['new'],1)
+              assert hashlib.sha1(b'blob '+str(len(code.encode())).encode()+b'\0'+code.encode()).hexdigest()==allowed_hashes[name],('candidate SHA mismatch',name)
+              variants[name]=code
+          def decls(s):
+              return re.findall(r'^(?:@\[[^\]]+\] )?(?:noncomputable )?(?:def|instance|theorem|lemma|structure|abbrev)\s+([A-Za-z_][A-Za-z0-9_]*)',s,re.M)
+          for name,s in variants.items():
+              assert not FORBIDDEN_NEW.search(s),('new axioms/sorry',name)
+              assert decls(s)==decls(baseline),('named theorem inventory altered',name)
+              assert 'cartesianProductScaling' in s and 'intervalScaling_allThin' in s and 'standardTypeAEndpointPushoutProductSource_scaling_eq_pullback_product' in s
+          rows=[]
+          try:
+              for name,s in [('baseline',baseline),*variants.items()]:
+                  target.write_text(s)
+                  with tempfile.TemporaryDirectory(prefix='kuuos-v152-direct-') as tmp:
+                      olean=pathlib.Path(tmp)/'candidate.olean'
+                      p=subprocess.run(['lake','env','lean','-DwarningAsError=true','-Dweak.sorryAsError=true','-o',str(olean),rel],cwd=root,capture_output=True,text=True,timeout=600)
+                      log=p.stdout+'\n'+p.stderr
+                      errors=[x for x in log.splitlines() if re.search(r'\berror(?:\([^)]*\))?:',x)]
+                      row={'candidate':name,'candidate_blob':blob(s.encode()),'candidate_sha256':digest(s),'exit_code':p.returncode,'olean_exists':olean.is_file(),'errors':errors,'success':p.returncode==0 and olean.is_file() and not errors and 'sorryAx' not in log}
+                      rows.append(row)
+                      (out/(name+'.log')).write_text(log)
+                      print('KUUOS_V152_CODEAI_DIRECT '+json.dumps(row,sort_keys=True))
+              assert not rows[0]['success'] and rows[0]['exit_code']!=0
+              assert 'must be marked with' in (out/'baseline.log').read_text()
+              selected=next((row for row in rows if row['candidate']!='baseline' and row['success']),None)
+              assert selected is not None, ('all CodeAI candidates failed',rows)
+              chosen=variants[selected['candidate']]
+              print('KUUOS_V152_CODEAI_SELECTED '+json.dumps(selected,sort_keys=True))
+              (out/'source.lean').write_text(chosen)
+              (out/'manifest.json').write_text(json.dumps({'source_head':os.environ['SOURCE_HEAD'],'checkout_blob':blob(original),'candidate_blob':selected['candidate_blob'],'candidate_sha256':selected['candidate_sha256'],'candidates':rows,'selected_candidate':selected['candidate'],'comparison_assumptions_preserved':True,'external_standard_family_not_instantiated':True,'source_restored':True,'git_write_performed':False,'independent_ci_success':False},indent=2)+'\n')
+          finally:
+              target.write_bytes(original)
+          assert target.read_bytes()==original
+          print('KUUOS_V152_CODEAI_NEGATIVE_CONTROL_DIRECT_LEAN_COMPLETE')
+          PY
+      - name: Install real Lean MCP prerequisites
+        run: |
+          python3 -m pip install --disable-pip-version-check uv
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ripgrep
+      - name: Successful candidate only through actual KuuOS Lean MCP loop and second direct check
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json,pathlib,subprocess
+          from scripts.kuuos_lean_mcp_repair_loop_v1 import digest,run_loop,mcp_tactic_provider
+          root=pathlib.Path('.').resolve()
+          rel='formal/KUOS/DependentOriginationScaledCartesianIntervalCylinderV1_52.lean'
+          target=root/rel
+          original=target.read_bytes()
+          out=pathlib.Path('/tmp/kuuos-v152-codeai')
+          source=(out/'source.lean').read_bytes()
+          try:
+              target.write_bytes(source)
+              p=subprocess.run(['lake','-KleanArgs=-DwarningAsError=true','-KleanArgs=-DsorryAsError=true','build','KUOS.DependentOriginationScaledCartesianIntervalCylinderV1_52'],cwd=root,capture_output=True,text=True,timeout=3600)
+              (out/'complete-build.log').write_text(p.stdout+'\n'+p.stderr)
+              print(p.stdout,p.stderr)
+              assert p.returncode==0
+              receipt=run_loop(root=root,rel_file=rel,output_dir=pathlib.Path('/tmp/kuuos-v152-live-mcp'),expected_sha256=digest(source),provider=mcp_tactic_provider,max_iterations=1)
+              assert receipt['status']=='LOCAL_LEAN_GREEN_CANDIDATE_ONLY'
+              assert receipt['source_restored'] and not receipt['independent_ci_success'] and not receipt['git_write_performed']
+              assert receipt['candidate_sha256']==digest(source)
+              assert receipt['rounds'][0]['semantic_success'] and not receipt['rounds'][0]['errors']
+              assert receipt['rounds'][0]['direct_lean']['exit_code']==0
+              (out/'mcp.json').write_text(json.dumps(receipt,indent=2)+'\n')
+          finally:
+              target.write_bytes(original)
+          assert target.read_bytes()==original
+          print('KUUOS_V152_CODEAI_DIRECT_THEN_REAL_MCP_SUCCESS_NOT_INDEPENDENT_CI')
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: kuuos-v152-codeai-candidate
+          path: /tmp/kuuos-v152-codeai
+          retention-days: 30
+          if-no-files-found: error
+
+  independent-v152-kernel-and-ten-axioms:
+    needs: codeai-v152-direct-and-real-mcp
+    runs-on: ubuntu-22.04
+    timeout-minutes: 80
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: kuuos-v142-pinned-attachment-mathlib-5450-v1
+      - uses: actions/download-artifact@v4
+        with:
+          name: kuuos-v152-codeai-candidate
+          path: /tmp/kuuos-v152-independent
+      - name: Independently bind source HEAD pins candidate bytes and real MCP receipt
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import hashlib,json,os,pathlib
+          from scripts.check_kuuos_lean_lsp_mcp_compatibility_v7_17 import require_pins
+          root=pathlib.Path('.').resolve()
+          assert require_pins(root)['mathlib_sha']=='5450b53e5ddc75d46418fabb605edbf36bd0beb6'
+          p=pathlib.Path('/tmp/kuuos-v152-independent')
+          m=json.loads((p/'manifest.json').read_text())
+          r=json.loads((p/'mcp.json').read_text())
+          source=(p/'source.lean').read_bytes()
+          dest=root/'formal/KUOS/DependentOriginationScaledCartesianIntervalCylinderV1_52.lean'
+          def blob(b):
+              return hashlib.sha1(b'blob '+str(len(b)).encode()+b'\0'+b).hexdigest()
+          assert m['source_head']==os.environ['SOURCE_HEAD']
+          assert blob(dest.read_bytes())==m['checkout_blob']==os.environ['V152_CHECKOUT_BLOB']
+          assert m['selected_candidate'] in {"reducible-only":"19c07506db8c3ee0914f2b107b8146dfb17b5c4f","reducible-product-change":"d578e1218163f95c2d1753e3b2cfa2374885c81a","reducible-source-change":"afdf2e79205c4c67ae3fc70fc3dcd7ab2d85ac65","all-typed-changes":"e12da806d1e8da9758c51b1c2139245b7f8e47b9"}
+          assert blob(source)==m['candidate_blob']=={"reducible-only":"19c07506db8c3ee0914f2b107b8146dfb17b5c4f","reducible-product-change":"d578e1218163f95c2d1753e3b2cfa2374885c81a","reducible-source-change":"afdf2e79205c4c67ae3fc70fc3dcd7ab2d85ac65","all-typed-changes":"e12da806d1e8da9758c51b1c2139245b7f8e47b9"}[m['selected_candidate']]
+          assert any(row['candidate']==m['selected_candidate'] and row['success'] for row in m['candidates'])
+          assert hashlib.sha256(source).hexdigest()==m['candidate_sha256']==r['candidate_sha256']
+          assert m['comparison_assumptions_preserved'] and m['external_standard_family_not_instantiated'] and m['source_restored'] and not m['git_write_performed'] and not m['independent_ci_success']
+          assert r['status']=='LOCAL_LEAN_GREEN_CANDIDATE_ONLY' and r['source_restored'] and not r['independent_ci_success'] and not r['git_write_performed']
+          assert r['rounds'][0]['direct_lean']['exit_code']==0 and r['rounds'][0]['semantic_success'] and not r['rounds'][0]['errors']
+          dep=root/'formal/KUOS/DependentOriginationStandardTypeANativeLeibnizLiftingMateV1_51.lean'
+          assert blob(dep.read_bytes())=='ed074ccd29f3b1ece21d5d4a1b5b136cf8a3400a'
+          dest.write_bytes(source)
+          print('KUUOS_V152_INDEPENDENT_EXACT_SOURCE_PIN_AND_MCP_RECEIPT_MATCH')
+          PY
+          lake exe cache get
+      - name: Independent full strict Lean v1.52 dependency closure
+        run: |
+          set -euo pipefail
+          lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.DependentOriginationScaledCartesianIntervalCylinderV1_52 2>&1 | tee /tmp/kuuos-v152-independent/build.log
+      - name: Ten conditional external Duskin fibrancy declarations independent standard axiom audit
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import pathlib,re,subprocess
+          ns='KUOS.DependentOriginationScaledCartesianIntervalCylinderV1_52'
+          names=["scaling_eq_of_thin_iff","cartesianProductScaling","scaledCartesianProduct","intervalScaling_allThin","intervalScaling_eq_maximal","scaledInterval","cartesianProductScaling_interval_eq_simplexCylinderScaling","scaledSimplex_product_interval_eq_cylinder","standardTypeAScaledSimplex_product_interval_eq_cylinder","standardTypeAEndpointPushoutProductSource_scaling_eq_pullback_product"]
+          audit=pathlib.Path('formal/KUOS/DependentOriginationV152IndependentAxiomAudit.lean')
+          audit.write_text('import '+ns+'\n'+'\n'.join('#print axioms '+ns+'.'+n for n in names)+'\n')
+          p=subprocess.run(['lake','env','lean','-DwarningAsError=true','-Dweak.sorryAsError=true',str(audit)],capture_output=True,text=True,timeout=600)
+          log=p.stdout+'\n'+p.stderr
+          print(log)
+          pathlib.Path('/tmp/kuuos-v152-independent/axioms.log').write_text(log)
+          assert p.returncode==0 and 'sorryAx' not in log and 'error:' not in log
+          rows=re.findall(r"'([^']+)'\s+(?:depends on axioms:\s*\[([^\]]*)\]|does not depend on any axioms)",log,re.S)
+          assert len(rows)==len(names) and {x[0] for x in rows}=={ns+'.'+n for n in names}
+          allowed={'propext','Classical.choice','Quot.sound'}
+          for _,ax in rows:
+              assert {x.strip() for x in ax.split(',') if x.strip()}<=allowed
+          src=pathlib.Path('formal/KUOS/DependentOriginationScaledCartesianIntervalCylinderV1_52.lean').read_text()
+          assert 'cartesianProductScaling' in src and 'intervalScaling_allThin' in src
+          assert 'scaledSimplex_product_interval_eq_cylinder' in src and 'standardTypeAEndpointPushoutProductSource_scaling_eq_pullback_product' in src
+          print('KUUOS_V152_TEN_DECLARATIONS_STANDARD_AXIOMS_COMPARISON_CONDITIONAL')
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: kuuos-v152-independent-proof-audit
+          path: /tmp/kuuos-v152-independent
+          retention-days: 30
+          if-no-files-found: error
