@@ -13,7 +13,7 @@ env:
 
 jobs:
   isolated-v139-pinned-lean-real-mcp:
-    if: github.event.pull_request.number == 3555
+    if: github.event.pull_request.number == 3555 && github.event.pull_request.head.sha == 'e72aded2b12b63b7effefa0d696e1e1f9a31222f'
     runs-on: ubuntu-22.04
     timeout-minutes: 90
     steps:
@@ -137,7 +137,7 @@ jobs:
           retention-days: 30
 
   independent-v139-kernel-six-axioms:
-    if: github.event.pull_request.number == 3555
+    if: github.event.pull_request.number == 3555 && github.event.pull_request.head.sha == 'e72aded2b12b63b7effefa0d696e1e1f9a31222f'
     needs: isolated-v139-pinned-lean-real-mcp
     runs-on: ubuntu-22.04
     timeout-minutes: 80
