@@ -3,7 +3,7 @@ name: KuuOS v1.47 CodeAI external Duskin fibrancy direct Lean real MCP and indep
 on:
   pull_request:
     paths:
-      - '.github/workflows/kuuos-v147-codeai-external-comparison-real-mcp-v1.yml'
+      - '.github/workflows/kuuos-v147-codeai-duskin-fibrancy-real-mcp-v1.yml'
       - 'formal/KUOS/DependentOriginationExternalScaledDuskinFibrancyV1_47.lean'
 
 permissions:
