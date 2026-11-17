@@ -32,3 +32,15 @@ The two test modules use isolated mock validators to check bridge **policy**, no
 ## Further research / kept obstruction
 
 Theorem-to-Python semantic refinement, full receipt/effect provenance soundness, and Decision→Wa→Plan connection remain unproved. Any future strengthening must preserve the original typed source, preconditions, pre/postconditions, counterevidence, source dependencies and proof root, rather than treating a named Lean theorem as a global Python theorem.
+
+
+## Tightening: original-kernel integration regression
+
+In addition to isolated failure/NO_DATA tests, the v0.2 test module now
+exercises the original repository fixture builders and validators, including
+\`source_act_state\`, \`build_initial_observe_state\`,
+\`source_observe_state\`, \`build_initial_verify_state\`,
+\`source_verify_state\` and \`build_initial_learn_state\`. It requires an
+actual PASS for each of the 3 typed source→target edges; this test is not
+mocked. Its result must be observed from a completed exact-HEAD CI job.
+No new rights to execute external effects are inferred from passing fixtures.
