@@ -22,6 +22,10 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha }}
           persist-credentials: false
+      - name: Setup Python 3.12 for tomllib-based historical root test
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
       - name: Verify exact reviewed source blob, legacy frozen root, imports and fixed pins
         run: |
           set -euo pipefail
