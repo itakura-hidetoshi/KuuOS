@@ -235,7 +235,9 @@ jobs:
           for _,ax in rows:
               assert {x.strip() for x in ax.split(',') if x.strip()}<=allowed
           src=pathlib.Path('formal/KUOS/DependentOriginationScaledAnodyneAttachmentFactorizationV1_48.lean').read_text()
-          assert 'GlobalDuskinExternalPresentation' in src and 'sourceExternalFibrant' in src and 'targetExternalFibrant' in src
+          assert 'CanonicalAttachmentFactorComparison' in src and 'FactorizedScaledAnodyneGeneratorComparison' in src
+          assert 'scalingEnrichments_le_externalGenerated' in src and 'inducedAttachments_le_externalGenerated' in src
+          assert 'scaledHornCylinderAttachmentInclusion_factorization' in src
           print('KUUOS_V148_TWENTY_DECLARATIONS_STANDARD_AXIOMS_COMPARISON_CONDITIONAL')
           PY
       - uses: actions/upload-artifact@v4
