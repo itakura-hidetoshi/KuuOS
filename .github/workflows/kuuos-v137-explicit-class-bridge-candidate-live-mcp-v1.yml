@@ -13,7 +13,7 @@ env:
 
 jobs:
   direct-lean-real-mcp-v137:
-    if: github.event.pull_request.number == 3555
+    if: github.event.pull_request.number == 3555 && github.event.pull_request.head.sha == '846f459e294ff305b55b08e0cde722e5850999c8'
     runs-on: ubuntu-22.04
     timeout-minutes: 90
     steps:
@@ -140,7 +140,7 @@ jobs:
           retention-days: 30
 
   independent-v137-pinned-lean-and-axioms:
-    if: github.event.pull_request.number == 3555
+    if: github.event.pull_request.number == 3555 && github.event.pull_request.head.sha == '846f459e294ff305b55b08e0cde722e5850999c8'
     needs: direct-lean-real-mcp-v137
     runs-on: ubuntu-22.04
     timeout-minutes: 80
