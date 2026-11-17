@@ -13,7 +13,7 @@ env:
 
 jobs:
   direct-pinned-lean-and-mcp:
-    if: github.event.pull_request.number == 3555
+    if: github.event.pull_request.number == 3555 && github.event.pull_request.head.sha == '66a14d10d58eab195fc2b2c9814fdb34a4942473'
     runs-on: ubuntu-22.04
     timeout-minutes: 90
     steps:
@@ -137,7 +137,7 @@ jobs:
           retention-days: 30
 
   independent-fresh-pinned-kernel-and-nine-axioms:
-    if: github.event.pull_request.number == 3555
+    if: github.event.pull_request.number == 3555 && github.event.pull_request.head.sha == '66a14d10d58eab195fc2b2c9814fdb34a4942473'
     needs: direct-pinned-lean-and-mcp
     runs-on: ubuntu-22.04
     timeout-minutes: 80
