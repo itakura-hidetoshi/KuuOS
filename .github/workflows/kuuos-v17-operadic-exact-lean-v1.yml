@@ -1,4 +1,4 @@
-name: KuuOS v1.7–v1.15 exact-source Lean and 94-declaration axiom audit
+name: KuuOS v1.7–v1.17 exact-source Lean and 103-declaration axiom audit
 on:
   pull_request:
     paths:
@@ -10,6 +10,7 @@ on:
       - 'formal/KUOS/DependentOriginationEnrichedContextV1_13.lean'
       - 'formal/KUOS/DependentOriginationStackDescentV1_14.lean'
       - 'formal/KUOS/DependentOriginationInfinityCoherenceV1_15.lean'
+      - 'formal/KUOS/DependentOriginationGlobularNerveComparisonV1_17.lean'
       - 'tests/test_public_root_restoration.py'
       - '.github/workflows/kuuos-v17-operadic-exact-lean-v1.yml'
 
@@ -83,7 +84,16 @@ jobs:
               assert gitblob(old)==legacy_sha,mod
               assert [s.removeprefix('import ') for s in source.decode().splitlines() if s.startswith('import ')]==imports,mod
               assert not re.search(r'(?m)^\s*(sorry|axiom|admit)\b',source.decode()),mod
-          print('V17_V115_EXACT_SOURCE_AND_IMPORTS_GREEN')
+          # v1.17 uses a Type-level IsEmpty certificate; the archived
+          # ill-typed negation is preserved and not silently renamed.
+          v117=Path('formal/KUOS/DependentOriginationGlobularNerveComparisonV1_17.lean').read_bytes()
+          frozen117=Path('legacy/v5.291/formal/KUOS/DependentOriginationGlobularNerveComparisonV1_17.lean').read_bytes()
+          assert gitblob(v117)=='714411f14ff3efe16dcc4b7c3a8973dd261b840e'
+          assert gitblob(frozen117)=='7e56c9943b23b2c0d7cd77694016c081cfd41b93'
+          assert [s.removeprefix('import ') for s in v117.decode().splitlines() if s.startswith('import ')]==[
+              'KUOS.DependentOriginationInfinityCoherenceV1_15','KUOS.DependentOriginationQuasicategoryNerveV1_16']
+          assert not re.search(r'(?m)^\s*(sorry|axiom|admit)\b',v117.decode())
+          print('V17_V117_EXACT_SOURCE_AND_IMPORTS_GREEN')
           PY
       - name: Check historical-proof root hash regression
         run: |
@@ -100,11 +110,11 @@ jobs:
           use-github-cache: false
       - name: Resolve pinned mathlib and restore read-only build overlay
         run: lake exe cache get
-      - name: Strict Lean dependency closure for corrected v1.7–v1.15
+      - name: Strict Lean dependency closure for corrected v1.7–v1.17
         run: |
           set -euo pipefail
-          timeout 3200 lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.DependentOriginationOperadicMultiConditionV1_7 KUOS.DependentOriginationHigherMulticategoryCoherenceV1_8 KUOS.DependentOriginationCausalMonoidalProcessV1_10 KUOS.DependentOriginationMarginalNoSignallingV1_11 KUOS.DependentOriginationJointCausalFactorizationV1_12 KUOS.DependentOriginationEnrichedContextV1_13 KUOS.DependentOriginationStackDescentV1_14 KUOS.DependentOriginationInfinityCoherenceV1_15 2>&1 | tee /tmp/kuuos-v17-lean.log
-      - name: Independent 94-declaration exact-source axiom audit
+          timeout 3200 lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.DependentOriginationOperadicMultiConditionV1_7 KUOS.DependentOriginationHigherMulticategoryCoherenceV1_8 KUOS.DependentOriginationCausalMonoidalProcessV1_10 KUOS.DependentOriginationMarginalNoSignallingV1_11 KUOS.DependentOriginationJointCausalFactorizationV1_12 KUOS.DependentOriginationEnrichedContextV1_13 KUOS.DependentOriginationStackDescentV1_14 KUOS.DependentOriginationInfinityCoherenceV1_15 KUOS.DependentOriginationGlobularNerveComparisonV1_17 2>&1 | tee /tmp/kuuos-v17-lean.log
+      - name: Independent 103-declaration exact-source axiom audit
         run: |
           set -euo pipefail
           python3 - <<'PY'
@@ -204,6 +214,15 @@ jobs:
             'KUOS.DependentOriginationInfinityCoherenceV1_15.InfinityCoherenceInterface.transport_eq_of_embedded_twoCell',
             'KUOS.DependentOriginationInfinityCoherenceV1_15.InfinityCoherenceInterface.raiseCell',
             'KUOS.DependentOriginationInfinityCoherenceV1_15.SimplicialCoherenceCandidate',
+            'KUOS.DependentOriginationGlobularNerveComparisonV1_17.LevelwiseNerveCompatible',
+            'KUOS.DependentOriginationGlobularNerveComparisonV1_17.LevelwiseNerveCompatible.atLevel',
+            'KUOS.DependentOriginationGlobularNerveComparisonV1_17.unitTower',
+            'KUOS.DependentOriginationGlobularNerveComparisonV1_17.twoStateSystem',
+            'KUOS.DependentOriginationGlobularNerveComparisonV1_17.twoStateContext',
+            'KUOS.DependentOriginationGlobularNerveComparisonV1_17.twoStateZeroSimplex',
+            'KUOS.DependentOriginationGlobularNerveComparisonV1_17.twoStateZeroSimplex_ne',
+            'KUOS.DependentOriginationGlobularNerveComparisonV1_17.unitTower_not_levelwise_compatible',
+            'KUOS.DependentOriginationGlobularNerveComparisonV1_17.no_universal_globular_nerve_comparison',
           ]
           Path('/tmp/kuuos-v17-axioms.lean').write_text(
               'import KUOS.DependentOriginationOperadicMultiConditionV1_7\n'
@@ -214,9 +233,10 @@ jobs:
               + 'import KUOS.DependentOriginationEnrichedContextV1_13\n'
               + 'import KUOS.DependentOriginationStackDescentV1_14\n'
               + 'import KUOS.DependentOriginationInfinityCoherenceV1_15\n'
+              + 'import KUOS.DependentOriginationGlobularNerveComparisonV1_17\n'
               + '\n'.join('#check '+x for x in names) + '\n'
               + '\n'.join('#print axioms '+x for x in names) + '\n')
-          print('V17_V115_AXIOM_AUDIT_REQUESTED',len(names))
+          print('V17_V117_AXIOM_AUDIT_REQUESTED',len(names))
           PY
           lake env lean -DwarningAsError=true -Dweak.sorryAsError=true /tmp/kuuos-v17-axioms.lean 2>&1 | tee /tmp/kuuos-v17-axioms.log
           python3 - <<'PY'
@@ -224,14 +244,14 @@ jobs:
           import re
           raw=Path('/tmp/kuuos-v17-axioms.log').read_text()
           records=re.findall(r"(?m)^'([^']+)' (?:depends on axioms:\s*\[([^]]*)\]|does not depend on any axioms)",raw)
-          assert len(records)==94,('AXIOM_COUNT',len(records))
-          assert len({n for n,_ in records})==94
+          assert len(records)==103,('AXIOM_COUNT',len(records))
+          assert len({n for n,_ in records})==103
           allowed={'propext','Classical.choice','Quot.sound'}
           for n,axioms in records:
               used={x.strip() for x in axioms.split(',') if x.strip()}
               assert used <= allowed,(n,sorted(used-allowed))
           assert not re.search(r'(?m)(warning:|error:|sorryAx)',raw)
-          print('V17_V115_94_PUBLIC_DECLARATIONS_STANDARD_AXIOMS_ONLY')
+          print('V17_V117_103_PUBLIC_DECLARATIONS_STANDARD_AXIOMS_ONLY')
           PY
       - name: Archive exact Lean and axiom receipts
         if: always()
