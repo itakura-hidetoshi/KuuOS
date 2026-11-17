@@ -1,10 +1,12 @@
-name: KuuOS legacy v1.31–v1.32 lifted-model strict Lean and 14-axiom audit
+name: KuuOS legacy v1.31–v1.34 lifted-model and homotopy strict Lean audits
 
 on:
   pull_request:
     paths:
       - 'formal/KUOS/DependentOriginationModelEquivalenceScaledHornPresentationV1_31.lean'
       - 'formal/KUOS/DependentOriginationCoherentNormalizedScaledModelEquivalenceV1_32.lean'
+      - 'formal/KUOS/DependentOriginationScaledHornHomotopyDescentV1_33.lean'
+      - 'formal/KUOS/DependentOriginationGlobalDuskinPrismHomotopyV1_34.lean'
       - 'tests/test_public_root_restoration.py'
       - '.github/workflows/kuuos-v131-v132-legacy-exact-typed-v1.yml'
 
@@ -35,7 +37,9 @@ jobs:
           def gitblob(raw): return hashlib.sha1(b'blob '+str(len(raw)).encode()+b'\0'+raw).hexdigest()
           pairs={
               'formal/KUOS/DependentOriginationModelEquivalenceScaledHornPresentationV1_31.lean': ('9039f3bb2a4d0d68bcc3e8abe212251dce512c55','043d16f86bed74c1e37424328fc70f0fa6e2ca77'),
-              'formal/KUOS/DependentOriginationCoherentNormalizedScaledModelEquivalenceV1_32.lean': ('6c5e2160f1f7de77c0c6872b96157f927aa7dc1a','dd20dedea5a9d64d9aac989c9dd807ec9afbea6e')
+              'formal/KUOS/DependentOriginationCoherentNormalizedScaledModelEquivalenceV1_32.lean': ('6c5e2160f1f7de77c0c6872b96157f927aa7dc1a','dd20dedea5a9d64d9aac989c9dd807ec9afbea6e'),
+              'formal/KUOS/DependentOriginationScaledHornHomotopyDescentV1_33.lean': ('e032a062a7dabfd21c5de40f67fe6b5609549a56','1b597bddf42581e836f5eb914db6425e2197ef1c'),
+              'formal/KUOS/DependentOriginationGlobalDuskinPrismHomotopyV1_34.lean': ('6e3f36b724715aacb56b12b7a0d226dc94bf2143','31a442eb309c1fd0d1185cff0e28c84bc7a5a671')
           }
           for path,(old,new) in pairs.items():
               current=Path(path).read_bytes()
@@ -48,6 +52,12 @@ jobs:
           assert 'targetBridge : ScaledHornPresentationEquivalence HC liftedTargetFamily' in src31
           assert 'sourceBridge : ScaledHornPresentationEquivalence HB liftedSourceFamily' in src32
           assert 'targetBridge : ScaledHornPresentationEquivalence HC liftedTargetFamily' in src32
+          src33=Path('formal/KUOS/DependentOriginationScaledHornHomotopyDescentV1_33.lean').read_text()
+          src34=Path('formal/KUOS/DependentOriginationGlobalDuskinPrismHomotopyV1_34.lean').read_text()
+          assert 'liftedSourceRectification' in src33 and 'liftedTargetRectification' in src33
+          assert 'sourceBridge : ScaledHornPresentationEquivalence HB liftedSourceFamily' in src34
+          assert 'targetBridge : ScaledHornPresentationEquivalence HC liftedTargetFamily' in src34
+          assert 'unliftedSourceRectification' in src34 and 'unliftedTargetRectification' in src34
           assert gitblob(Path('formal/KUOS/DependentOriginationScaledHornPresentationInvariantV1_30.lean').read_bytes())=='4f32b06a8c0e36cafc19dafae774c0077c7801bd'
           assert Path('lean-toolchain').read_text().strip()=='leanprover/lean4:v4.30.0-rc2'
           assert [p['rev'] for p in json.loads(Path('lake-manifest.json').read_text())['packages'] if p['name']=='mathlib']==['5450b53e5ddc75d46418fabb605edbf36bd0beb6']
@@ -71,7 +81,7 @@ jobs:
       - name: Strict-build actual legacy model-equivalence and normalization modules
         run: |
           set -euo pipefail
-          timeout 3200 lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.DependentOriginationModelEquivalenceScaledHornPresentationV1_31 KUOS.DependentOriginationCoherentNormalizedScaledModelEquivalenceV1_32 2>&1 | tee /tmp/kuuos-legacy-v131-v132-lean.log
+          timeout 3200 lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.DependentOriginationModelEquivalenceScaledHornPresentationV1_31 KUOS.DependentOriginationCoherentNormalizedScaledModelEquivalenceV1_32 KUOS.DependentOriginationScaledHornHomotopyDescentV1_33 KUOS.DependentOriginationGlobalDuskinPrismHomotopyV1_34 2>&1 | tee /tmp/kuuos-legacy-v131-v132-lean.log
       - name: Independently audit 14 declaration signatures and axioms
         run: |
           set -euo pipefail
@@ -115,6 +125,57 @@ jobs:
           assert not re.search(r'(?m)(error:|warning:|sorryAx)',raw)
           print('LEGACY_V131_V132_FOURTEEN_DECLARATIONS_STANDARD_AXIOMS_ONLY')
           PY
+      - name: Independently audit 21 v1.33–v1.34 homotopy and prism declarations
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          names=[
+              'KUOS.DependentOriginationScaledHornHomotopyDescentV1_33.HomotopyScaledHornFiller',
+              'KUOS.DependentOriginationScaledHornHomotopyDescentV1_33.ScaledHornHomotopyRectification',
+              'KUOS.DependentOriginationScaledHornHomotopyDescentV1_33.ScaledHornRoundTripBoundaryHomotopy',
+              'KUOS.DependentOriginationScaledHornHomotopyDescentV1_33.NormalizedQuasiInverseDuskinHomotopyRealization',
+              'KUOS.DependentOriginationScaledHornHomotopyDescentV1_33.sourceHomotopyFillerOfRoundTrip',
+              'KUOS.DependentOriginationScaledHornHomotopyDescentV1_33.targetHomotopyFillerOfRoundTrip',
+              'KUOS.DependentOriginationScaledHornHomotopyDescentV1_33.sourceRoundTripFiller_to_homotopyFiller',
+              'KUOS.DependentOriginationScaledHornHomotopyDescentV1_33.targetRoundTripFiller_to_homotopyFiller',
+              'KUOS.DependentOriginationScaledHornHomotopyDescentV1_33.scaledHornRoundTripDescent_of_homotopy_rectification',
+              'KUOS.DependentOriginationScaledHornHomotopyDescentV1_33.CoherentNormalizedScaledHomotopyModelEquivalence',
+              'KUOS.DependentOriginationScaledHornHomotopyDescentV1_33.CoherentNormalizedScaledHomotopyModelEquivalence.toCoherentNormalizedScaledModelEquivalence',
+              'KUOS.DependentOriginationScaledHornHomotopyDescentV1_33.CoherentNormalizedScaledHomotopyModelEquivalence.globalDuskinScaledFibrancy_iff',
+              'KUOS.DependentOriginationGlobalDuskinPrismHomotopyV1_34.precompSSetHomotopy',
+              'KUOS.DependentOriginationGlobalDuskinPrismHomotopyV1_34.GlobalDuskinRoundTripPrismRealization',
+              'KUOS.DependentOriginationGlobalDuskinPrismHomotopyV1_34.GlobalDuskinRoundTripPrismRealization.sourceHornHomotopy',
+              'KUOS.DependentOriginationGlobalDuskinPrismHomotopyV1_34.GlobalDuskinRoundTripPrismRealization.targetHornHomotopy',
+              'KUOS.DependentOriginationGlobalDuskinPrismHomotopyV1_34.GlobalDuskinRoundTripPrismRealization.toRoundTripBoundaryHomotopy',
+              'KUOS.DependentOriginationGlobalDuskinPrismHomotopyV1_34.GlobalDuskinRoundTripPrismRealization.toNormalizedQuasiInverseDuskinHomotopyRealization',
+              'KUOS.DependentOriginationGlobalDuskinPrismHomotopyV1_34.CoherentNormalizedScaledPrismModelEquivalence',
+              'KUOS.DependentOriginationGlobalDuskinPrismHomotopyV1_34.CoherentNormalizedScaledPrismModelEquivalence.toHomotopyModelEquivalence',
+              'KUOS.DependentOriginationGlobalDuskinPrismHomotopyV1_34.CoherentNormalizedScaledPrismModelEquivalence.globalDuskinScaledFibrancy_iff',
+          ]
+          assert len(names)==21 and len(set(names))==21
+          Path('/tmp/kuuos-v133-v134-axioms.lean').write_text(
+              'import KUOS.DependentOriginationScaledHornHomotopyDescentV1_33\n'
+              + 'import KUOS.DependentOriginationGlobalDuskinPrismHomotopyV1_34\n'
+              + '\n'.join('#check '+x for x in names) + '\n'
+              + '\n'.join('#print axioms '+x for x in names) + '\n')
+          print('V133_V134_AXIOM_AUDIT_REQUESTED',len(names))
+          PY
+          lake env lean -DwarningAsError=true -Dweak.sorryAsError=true /tmp/kuuos-v133-v134-axioms.lean 2>&1 | tee /tmp/kuuos-v133-v134-axioms.log
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          raw=Path('/tmp/kuuos-v133-v134-axioms.log').read_text()
+          recs=re.findall(r"(?m)^'([^']+)' (?:depends on axioms:\s*\[([^]]*)\]|does not depend on any axioms)",raw)
+          assert len(recs)==21,('AXIOM_COUNT',len(recs))
+          assert len({n for n,_ in recs})==21
+          allowed={'propext','Quot.sound','Classical.choice'}
+          for n,ax in recs:
+              used={x.strip() for x in ax.split(',') if x.strip()}
+              assert used<=allowed,(n,used-allowed)
+          assert not re.search(r'(?m)(error:|warning:|sorryAx)',raw)
+          print('V133_V134_TWENTYONE_DECLARATIONS_STANDARD_AXIOMS_ONLY')
+          PY
       - name: Archive exact Lean and axiom audits
         if: always()
         uses: actions/upload-artifact@v4
@@ -123,5 +184,6 @@ jobs:
           path: |
             /tmp/kuuos-legacy-v131-v132-lean.log
             /tmp/kuuos-v131-v132-axioms.log
+            /tmp/kuuos-v133-v134-axioms.log
           if-no-files-found: warn
           retention-days: 30

@@ -5,7 +5,9 @@ namespace KUOS.DependentOriginationGlobalDuskinPrismHomotopyV1_34
 open CategoryTheory
 open CategoryTheory.Category
 open Simplicial
+open KUOS.DependentOriginationBiequivalencePresentationInvariantV1_26
 open MonoidalCategory
+open CartesianMonoidalCategory
 open KUOS.DependentOriginationGlobalDuskinScaledNerveV1_21
 open KUOS.DependentOriginationGlobalDuskinScaledHornCoherenceV1_22
 open KUOS.DependentOriginationStrictlyUnitaryDuskinModelTransportV1_27
@@ -13,6 +15,7 @@ open KUOS.DependentOriginationNormalizationChoiceInvariantV1_28
 open KUOS.DependentOriginationScaledDuskinHornTransportV1_29
 open KUOS.DependentOriginationCoherentNormalizedScaledModelEquivalenceV1_32
 open KUOS.DependentOriginationScaledHornHomotopyDescentV1_33
+open KUOS.DependentOriginationScaledHornPresentationInvariantV1_30
 
 universe u u₁ u₂ v₁ v₂ w₁ w₂
 
@@ -55,9 +58,9 @@ noncomputable def precompSSetHomotopy
     (H : SSet.Homotopy f g)
     (k : W ⟶ X) :
     SSet.Homotopy (k ≫ f) (k ≫ g) where
-  h := k ▷ Δ[1] ≫ H.h
+  h := (SSet.RelativeMorphism.botEquiv.symm k).map ▷ Δ[1] ≫ H.h
   rel := by
-    rw [Category.assoc, ← comp_whiskerRight_assoc,
+    rw [← comp_whiskerRight_assoc,
       (SSet.RelativeMorphism.botEquiv.symm k).comm,
       comp_whiskerRight_assoc, H.rel, whiskerRight_fst_assoc]
     cat_disch
@@ -78,15 +81,15 @@ structure GlobalDuskinRoundTripPrismRealization
     {C : Type u₂} [Bicategory.{w₂, v₂} C]
     {F : StrictlyUnitaryBicategoricalModelEquivalence B C}
     {G : StrictlyUnitaryBicategoricalModelEquivalence C B}
-    (K : NormalizedCoherentQuasiInverse F G) : Prop where
+    (K : NormalizedCoherentQuasiInverse F G) where
   sourcePrism :
     SSet.Homotopy
       (normalizedDuskinNerveMap F ≫ normalizedDuskinNerveMap G)
-      (𝟙 (duskinNerve B))
+      (𝟙 (normalizedDuskinSource B C))
   targetPrism :
     SSet.Homotopy
       (normalizedDuskinNerveMap G ≫ normalizedDuskinNerveMap F)
-      (𝟙 (duskinNerve C))
+      (𝟙 (normalizedDuskinTarget B C))
 
 namespace GlobalDuskinRoundTripPrismRealization
 
@@ -96,13 +99,13 @@ variable
     {F : StrictlyUnitaryBicategoricalModelEquivalence B C}
     {G : StrictlyUnitaryBicategoricalModelEquivalence C B}
     {K : NormalizedCoherentQuasiInverse F G}
-    (R : GlobalDuskinRoundTripPrismRealization K)
 
 /-- Restrict the source global prism along one prescribed horn map. -/
 noncomputable def sourceHornHomotopy
+    (R : GlobalDuskinRoundTripPrismRealization K)
     {n : Nat} {i : Fin (n + 1)}
     (P : ScaledHornExtensionProblem
-      (duskinNerve B) (duskinScaling B) n i) :
+      (normalizedDuskinSource B C) (normalizedDuskinSourceScaling B C) n i) :
     SSet.Homotopy
       (P.hornMap ≫
         (normalizedDuskinNerveMap F ≫ normalizedDuskinNerveMap G))
@@ -111,9 +114,10 @@ noncomputable def sourceHornHomotopy
 
 /-- Restrict the target global prism along one prescribed horn map. -/
 noncomputable def targetHornHomotopy
+    (R : GlobalDuskinRoundTripPrismRealization K)
     {n : Nat} {i : Fin (n + 1)}
     (Q : ScaledHornExtensionProblem
-      (duskinNerve C) (duskinScaling C) n i) :
+      (normalizedDuskinTarget B C) (normalizedDuskinTargetScaling B C) n i) :
     SSet.Homotopy
       (Q.hornMap ≫
         (normalizedDuskinNerveMap G ≫ normalizedDuskinNerveMap F))
@@ -125,6 +129,7 @@ A global prism automatically supplies the per-horn boundary-homotopy
 certificate of v1.33.
 -/
 noncomputable def toRoundTripBoundaryHomotopy
+    (R : GlobalDuskinRoundTripPrismRealization K)
     (HF : FullScaledDuskinMapCertificate F)
     (HG : FullScaledDuskinMapCertificate G) :
     ScaledHornRoundTripBoundaryHomotopy F G HF HG where
@@ -142,6 +147,7 @@ Consequently a single global prism realizes the v1.33 normalized quasi-inverse
 homotopy certificate for every horn simultaneously.
 -/
 noncomputable def toNormalizedQuasiInverseDuskinHomotopyRealization
+    (R : GlobalDuskinRoundTripPrismRealization K)
     (HF : FullScaledDuskinMapCertificate F)
     (HG : FullScaledDuskinMapCertificate G) :
     NormalizedQuasiInverseDuskinHomotopyRealization K HF HG where
@@ -170,12 +176,25 @@ structure CoherentNormalizedScaledPrismModelEquivalence
       forwardNormalization.normal backwardNormalization.normal
   forwardScaled : FullScaledDuskinMapCertificate forwardNormalization.normal
   backwardScaled : FullScaledDuskinMapCertificate backwardNormalization.normal
-  forwardFamily : ScaledHornFamilyMap forwardScaled.map_scaled HB HC
-  backwardFamily : ScaledHornFamilyMap backwardScaled.map_scaled HC HB
+  liftedSourceFamily : ScaledHornFamily
+    (normalizedDuskinSource B C) (normalizedDuskinSourceScaling B C)
+  liftedTargetFamily : ScaledHornFamily
+    (normalizedDuskinTarget B C) (normalizedDuskinTargetScaling B C)
+  sourceBridge : ScaledHornPresentationEquivalence HB liftedSourceFamily
+  targetBridge : ScaledHornPresentationEquivalence HC liftedTargetFamily
+  forwardFamily : ScaledHornFamilyMap forwardScaled.map_scaled
+    liftedSourceFamily liftedTargetFamily
+  backwardFamily : ScaledHornFamilyMap backwardScaled.map_scaled
+    liftedTargetFamily liftedSourceFamily
   globalPrism : GlobalDuskinRoundTripPrismRealization quasiInverse
   sourceRectification :
-    ScaledHornHomotopyRectification (duskinNerve B) (duskinScaling B)
+    ScaledHornHomotopyRectification (normalizedDuskinSource B C) (normalizedDuskinSourceScaling B C)
   targetRectification :
+    ScaledHornHomotopyRectification (normalizedDuskinTarget B C) (normalizedDuskinTargetScaling B C)
+  /-- Preserve the original unlifted rectification requirements separately. -/
+  unliftedSourceRectification :
+    ScaledHornHomotopyRectification (duskinNerve B) (duskinScaling B)
+  unliftedTargetRectification :
     ScaledHornHomotopyRectification (duskinNerve C) (duskinScaling C)
 
 namespace CoherentNormalizedScaledPrismModelEquivalence
@@ -187,26 +206,33 @@ variable
     {G : BicategoricalModelEquivalence C B}
     {HB : GlobalDuskinScaledHornFamily B}
     {HC : GlobalDuskinScaledHornFamily C}
-    (K : CoherentNormalizedScaledPrismModelEquivalence E G HB HC)
 
 /-- Forget the global-prism presentation and recover the v1.33 package. -/
-noncomputable def toHomotopyModelEquivalence :
+noncomputable def toHomotopyModelEquivalence
+    (K : CoherentNormalizedScaledPrismModelEquivalence E G HB HC) :
     CoherentNormalizedScaledHomotopyModelEquivalence E G HB HC where
   forwardNormalization := K.forwardNormalization
   backwardNormalization := K.backwardNormalization
   quasiInverse := K.quasiInverse
   forwardScaled := K.forwardScaled
   backwardScaled := K.backwardScaled
+  liftedSourceFamily := K.liftedSourceFamily
+  liftedTargetFamily := K.liftedTargetFamily
+  sourceBridge := K.sourceBridge
+  targetBridge := K.targetBridge
   forwardFamily := K.forwardFamily
   backwardFamily := K.backwardFamily
   homotopyRealization :=
     K.globalPrism.toNormalizedQuasiInverseDuskinHomotopyRealization
       K.forwardScaled K.backwardScaled
-  sourceRectification := K.sourceRectification
-  targetRectification := K.targetRectification
+  sourceRectification := K.unliftedSourceRectification
+  targetRectification := K.unliftedTargetRectification
+  liftedSourceRectification := K.sourceRectification
+  liftedTargetRectification := K.targetRectification
 
 /-- Global scaled-Duskin fibrancy is invariant under the global-prism package. -/
-theorem globalDuskinScaledFibrancy_iff :
+theorem globalDuskinScaledFibrancy_iff
+    (K : CoherentNormalizedScaledPrismModelEquivalence E G HB HC) :
     HasScaledHornFillers (duskinNerve B) (duskinScaling B) HB ↔
       HasScaledHornFillers (duskinNerve C) (duskinScaling C) HC :=
   K.toHomotopyModelEquivalence.globalDuskinScaledFibrancy_iff
