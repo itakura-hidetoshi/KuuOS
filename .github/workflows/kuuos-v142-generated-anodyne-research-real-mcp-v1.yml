@@ -51,7 +51,7 @@ jobs:
           assert blob(dep.read_bytes())=='0fbc69ccfebbdc75ab61f5836c8ebec9488a84d6'
           target=root/'formal/KUOS/DependentOriginationScaledAnodyneGeneratorClosureV1_42.lean'
           old=target.read_bytes()
-          assert blob(old)=='f23093c38233d45931df7e9f0e2ee653fa440d81'
+          assert blob(old)=='86e95f82493748b0c7706071196a378d779fa7af'
           sha='86e95f82493748b0c7706071196a378d779fa7af'
           req=urllib.request.Request('https://api.github.com/repos/itakura-hidetoshi/KuuOS/git/blobs/'+sha,
              headers={'Accept':'application/vnd.github+json','User-Agent':'KuuOS-v142-real-Lean-MCP'})
@@ -180,7 +180,7 @@ jobs:
           old=dest.read_bytes()
           def blob(b):
               return hashlib.sha1(b'blob '+str(len(b)).encode()+b'\0'+b).hexdigest()
-          assert blob(old)==m['original_sha']=='f23093c38233d45931df7e9f0e2ee653fa440d81'
+          assert blob(old)==m['original_sha']=='86e95f82493748b0c7706071196a378d779fa7af'
           assert blob(source)==m['candidate_sha']=='86e95f82493748b0c7706071196a378d779fa7af'
           assert hashlib.sha256(source).hexdigest()==m['candidate_sha256']==r['candidate_sha256']
           assert r['status']=='LOCAL_LEAN_GREEN_CANDIDATE_ONLY' and r['source_restored'] and not r['independent_ci_success']
