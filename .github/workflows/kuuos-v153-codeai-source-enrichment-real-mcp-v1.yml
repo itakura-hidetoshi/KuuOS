@@ -5,6 +5,8 @@ on:
     paths:
       - '.github/workflows/kuuos-v153-codeai-source-enrichment-real-mcp-v1.yml'
       - 'scripts/ci_kuuos_v153_codeai.py'
+      - 'scripts/kuuos_lean_mcp_repair_loop_v1.py'
+      - 'tests/test_kuuos_lean_mcp_comment_guard_v1.py'
       - 'formal/KUOS/DependentOriginationStandardTypeAScaledPushoutSourceEnrichmentV1_53.lean'
 
 permissions:
@@ -29,6 +31,10 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - name: Regression test actual CodeAI guard while retaining all trust-bypass rejections
+        run: |
+          python3 tests/test_kuuos_lean_mcp_repair_loop_v1.py
+          python3 tests/test_kuuos_lean_mcp_comment_guard_v1.py
       - uses: leanprover/lean-action@v1
         with:
           auto-config: false
