@@ -151,3 +151,24 @@ These are explicit NO_DATA/authority obstructions, not claims of
 mathematical impossibility. The mapping of 空／縁起 to formal
 structures remains an interpretive/naming layer distinct from the
 actual Lean proof terms.
+
+
+## Independent CI repair history (append-only)
+
+The first exact-source Governance run
+[#44085455520](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/44085455520)
+for source 424c8aab1075aa2d66f05601a01cfb54f452a894
+failed the cumulative runtime job at v0.8 NativeCaptureV08Tests.setUpClass
+with ValueError: fresh_temporary_directory_path_required.
+The previously integrated suites and v0.8 static-source tests passed.
+
+Root cause: Path from pathlib is a factory whose concrete class is
+PosixPath on Linux or WindowsPath on Windows. The candidate wrongly
+used type(root) is Path, which rejects an ordinary legitimate Path.
+The repair changes this single type check to isinstance(root, Path),
+retaining the existing fresh-folder and no-overwrite guard.
+An explicit regression now checks the platform-specific Path instance
+and rejects a non-Path string. This corrects source-type interpretation,
+not a relaxation of source receipt, runtime, Lean or authority checks.
+No CI success can be inferred from a patch until the exact repaired
+HEAD passes the independent GitHub workflow again.

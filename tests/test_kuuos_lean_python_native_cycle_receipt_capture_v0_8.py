@@ -282,6 +282,16 @@ class NativeCaptureV08Tests(unittest.TestCase):
             self.assertEqual(result.status, BLOCKED)
             self.assertIn("capture_packet:version_or_mode_mismatch", result.violations)
 
+    def test_normal_path_factory_and_nonpath_inputs_are_distinguished(self):
+        # Root cause of initial red exact-source CI: on Linux Path(...)
+        # actually creates a PosixPath; identity check type(root) is Path
+        # wrongly rejects the legitimate platform-specific implementation.
+        self.assertIsInstance(self.root, Path)
+        self.assertIsNot(type(self.root), Path)
+        with TemporaryDirectory(prefix="kuuos-v08-type-") as folder:
+            with self.assertRaises(ValueError):
+                build_captured_native_test_fixture(folder)  # string != Path
+
     def test_builder_refuses_existing_fixture_dir_instead_of_overwriting(self):
         with self.assertRaises(ValueError):
             build_captured_native_test_fixture(self.root)

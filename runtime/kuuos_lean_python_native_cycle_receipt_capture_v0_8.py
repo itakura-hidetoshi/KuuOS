@@ -102,7 +102,7 @@ def build_captured_native_test_fixture(root: Path) -> tuple[dict[str, Any], dict
     The lock protects this module's callers; other users of native globals must
     not run concurrently with this in-process instrumentation.
     """
-    if type(root) is not Path or not root.is_dir():
+    if not isinstance(root, Path) or not root.is_dir():
         raise ValueError("fresh_temporary_directory_path_required")
     if any((root / name).exists() for name in (
         "belief", "decision", "plural", "wa", "plan", "act", "downstream"
