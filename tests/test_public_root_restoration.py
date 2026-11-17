@@ -164,6 +164,12 @@ PR3555_V141_TERMINAL_RLP_REVIEWED_BLOB = {
     "KUOS/DependentOriginationScaledTerminalRLPV1_41.lean": "0fbc69ccfebbdc75ab61f5836c8ebec9488a84d6",
 }
 
+# v1.42 canonical generated scaled-anodyne closure, independently certified.
+# This SHA checks source provenance only: no standard scaled-anodyne equality.
+PR3555_V142_GENERATED_ANODYNE_REVIEWED_BLOB = {
+    "KUOS/DependentOriginationScaledAnodyneGeneratorClosureV1_42.lean": "86e95f82493748b0c7706071196a378d779fa7af",
+}
+
 # PR #3522 extraction: exact reviewed source repairs (v1.2–v1.5 only).
 # These explicit blob values are integrity checks, not proof certification.
 PR3522_FOCUSED_REPAIR_BLOBS = {
@@ -426,7 +432,8 @@ class RestoredWiringTests(unittest.TestCase):
                              or PR3555_V138_STRICTIFICATION_REVIEWED_BLOB.get(rel.as_posix())
                              or PR3555_V139_CYLINDER_EXTENSION_REVIEWED_BLOB.get(rel.as_posix())
                              or PR3555_V140_PUSHOUT_ATTACHMENT_REVIEWED_BLOB.get(rel.as_posix())
-                             or PR3555_V141_TERMINAL_RLP_REVIEWED_BLOB.get(rel.as_posix()))
+                             or PR3555_V141_TERMINAL_RLP_REVIEWED_BLOB.get(rel.as_posix())
+                             or PR3555_V142_GENERATED_ANODYNE_REVIEWED_BLOB.get(rel.as_posix()))
                 if fixed_sha is not None:
                     pinned_seen.add(rel.as_posix())
                     self.assertEqual(git_blob_sha(current), fixed_sha,
@@ -436,7 +443,7 @@ class RestoredWiringTests(unittest.TestCase):
                                      f'unreviewed theorem source change: {rel}')
         self.assertEqual(seen, set(LINT_ONLY_SOURCE_EDITS),
                          'reviewed lint edit targets must all exist in historical roots')
-        self.assertEqual(pinned_seen, set(PR2339_INTEGRATED_PROOF_BLOBS) | set(PR3522_FOCUSED_REPAIR_BLOBS) | set(PR3548_V16_LOCALLY_DISCRETE_BLOB) | set(PR3550_V118_DIRECT_IMPORT_BLOB) | set(PR3551_V119_CLASS_REDUCIBILITY_BLOB) | set(PR3552_V120_SEGAL_BLOB) | set(PR3553_V121_V125_BOUNDED_BLOBS) | set(PR3554_V126_TYPED_TRANSPORT_BLOB) | set(PR3555_V127_V129_ULIFT_REVIEWED_BLOBS) | set(PR3555_V17_OPERADIC_REVIEWED_BLOB) | set(PR3555_V18_V113_REVIEWED_BLOBS) | set(PR3555_V114_V115_REVIEWED_BLOBS) | set(PR3555_V117_TYPED_NERVE_REVIEWED_BLOB) | set(PR3555_V125_CORESPINE_COMMENT_BLOB) | set(PR3555_V130_LEGACY_TYPED_REVIEWED_BLOB) | set(PR3555_V160_V161_UNIONPROD_REVIEWED_BLOBS) | set(PR3555_V131_V132_LEGACY_TYPED_BRIDGE_BLOBS) | set(PR3555_V133_V134_LIFTED_HOMOTOPY_REVIEWED_BLOBS) | set(PR3555_V135_STRONG_CYLINDER_REVIEWED_BLOB) | set(PR3555_V136_STRONG_UNCURRYING_REVIEWED_BLOB) | set(PR3555_V137_CLASS_BRIDGED_HOMOTOPY_REVIEWED_BLOB) | set(PR3555_V138_STRICTIFICATION_REVIEWED_BLOB) | set(PR3555_V139_CYLINDER_EXTENSION_REVIEWED_BLOB) | set(PR3555_V140_PUSHOUT_ATTACHMENT_REVIEWED_BLOB) | set(PR3555_V141_TERMINAL_RLP_REVIEWED_BLOB),
+        self.assertEqual(pinned_seen, set(PR2339_INTEGRATED_PROOF_BLOBS) | set(PR3522_FOCUSED_REPAIR_BLOBS) | set(PR3548_V16_LOCALLY_DISCRETE_BLOB) | set(PR3550_V118_DIRECT_IMPORT_BLOB) | set(PR3551_V119_CLASS_REDUCIBILITY_BLOB) | set(PR3552_V120_SEGAL_BLOB) | set(PR3553_V121_V125_BOUNDED_BLOBS) | set(PR3554_V126_TYPED_TRANSPORT_BLOB) | set(PR3555_V127_V129_ULIFT_REVIEWED_BLOBS) | set(PR3555_V17_OPERADIC_REVIEWED_BLOB) | set(PR3555_V18_V113_REVIEWED_BLOBS) | set(PR3555_V114_V115_REVIEWED_BLOBS) | set(PR3555_V117_TYPED_NERVE_REVIEWED_BLOB) | set(PR3555_V125_CORESPINE_COMMENT_BLOB) | set(PR3555_V130_LEGACY_TYPED_REVIEWED_BLOB) | set(PR3555_V160_V161_UNIONPROD_REVIEWED_BLOBS) | set(PR3555_V131_V132_LEGACY_TYPED_BRIDGE_BLOBS) | set(PR3555_V133_V134_LIFTED_HOMOTOPY_REVIEWED_BLOBS) | set(PR3555_V135_STRONG_CYLINDER_REVIEWED_BLOB) | set(PR3555_V136_STRONG_UNCURRYING_REVIEWED_BLOB) | set(PR3555_V137_CLASS_BRIDGED_HOMOTOPY_REVIEWED_BLOB) | set(PR3555_V138_STRICTIFICATION_REVIEWED_BLOB) | set(PR3555_V139_CYLINDER_EXTENSION_REVIEWED_BLOB) | set(PR3555_V140_PUSHOUT_ATTACHMENT_REVIEWED_BLOB) | set(PR3555_V141_TERMINAL_RLP_REVIEWED_BLOB) | set(PR3555_V142_GENERATED_ANODYNE_REVIEWED_BLOB),
                          'every preexisting integrated proof exception is explicit and accounted for')
 
     def test_f55_path_functor_composition_has_actual_path_homs(self):
