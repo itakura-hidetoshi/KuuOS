@@ -172,3 +172,28 @@ and rejects a non-Path string. This corrects source-type interpretation,
 not a relaxation of source receipt, runtime, Lean or authority checks.
 No CI success can be inferred from a patch until the exact repaired
 HEAD passes the independent GitHub workflow again.
+
+
+### Second observed red CI: test-harness descriptor binding
+
+Exact-source Governance
+[#44086199786](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/44086199786)
+for commit 262676ce0558adad6878ffad97fa17570cf13488 executed
+100 tests with only three identity-comparison assertion failures.
+The actual original native full-cycle return-capture builder,
+full receipt comparison, original ledger replay and negative checks
+executed successfully.
+
+The three failures were in the test-harness assertions checking
+restoration of original function objects. In Python, storing a
+function as an ordinary class attribute makes it a descriptor:
+access through self.orig_wa binds the current test instance,
+so identity is necessarily different from the original module
+function even after correct restoration.
+
+The fixture now saves the reference with staticmethod(original_func)
+for both Wa and Plan original constructors, so instance access
+preserves raw function identity. Existing three restoration assertions
+remain enabled: no skipping, no weakened equality, no change to
+original native builder or source rights. Re-run independent CI
+at the exact repaired source HEAD before integration.

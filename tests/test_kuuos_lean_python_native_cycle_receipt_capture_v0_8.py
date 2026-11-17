@@ -75,8 +75,10 @@ class NativeCaptureV08Tests(unittest.TestCase):
         cls.temp = TemporaryDirectory(prefix="kuuos-lean-python-captured-v08-")
         cls.addClassCleanup(cls.temp.cleanup)
         cls.root = Path(cls.temp.name)
-        cls.orig_wa = native.build_replan_wa_activation_receipt
-        cls.orig_plan = native.build_plan_phase_activation_receipt
+        # Functions saved as plain class attributes become bound methods
+        # when accessed through self; staticmethod preserves identity.
+        cls.orig_wa = staticmethod(native.build_replan_wa_activation_receipt)
+        cls.orig_plan = staticmethod(native.build_plan_phase_activation_receipt)
         cls.native_receipt, cls.capture = build_captured_native_test_fixture(cls.root)
         if validate_native_full_cycle_receipt(cls.native_receipt):
             raise AssertionError("original_native_source_validator_failed")
