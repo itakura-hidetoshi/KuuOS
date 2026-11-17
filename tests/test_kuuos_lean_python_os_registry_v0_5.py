@@ -163,5 +163,13 @@ class ProofRegistryTests(unittest.TestCase):
                                  binding.runtime_module)
 
 
+# v0.6 is loaded by the already-registered cumulative v0.5 suite.
+# Do not weaken or rewrite the previously pinned exact runner registry.
+from tests.test_kuuos_lean_python_os_path_composition_v0_6 import (
+    CompositionContractTests,
+    NativeCompositionTests,
+)
+
+
 if __name__ == "__main__":
     unittest.main()
