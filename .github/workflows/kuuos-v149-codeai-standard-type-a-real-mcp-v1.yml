@@ -12,7 +12,7 @@ permissions:
 env:
   MATHLIB_NO_CACHE_ON_UPDATE: '1'
   PYTHONPATH: .
-  V149_CHECKOUT_BLOB: 'a357b0ef3c2a4b43c49f6fb5bfe2892ff7a95064'
+  V149_CHECKOUT_BLOB: 'c3824bb243367beb7df55491e47b5d91b4ac9be9'
   SOURCE_HEAD: ${{ github.event.pull_request.head.sha }}
 
 jobs:
@@ -66,7 +66,7 @@ jobs:
           out.mkdir(parents=True,exist_ok=True)
           def blob(b):
               return hashlib.sha1(b'blob '+str(len(b)).encode()+b'\0'+b).hexdigest()
-          assert blob(original)==os.environ['V149_CHECKOUT_BLOB']=='a357b0ef3c2a4b43c49f6fb5bfe2892ff7a95064'
+          assert blob(original)==os.environ['V149_CHECKOUT_BLOB']=='c3824bb243367beb7df55491e47b5d91b4ac9be9'
           baseline=(root/'legacy/v5.291/formal/KUOS/DependentOriginationStandardTypeAScaledHornFamilyV1_49.lean').read_text()
           assert blob(baseline.encode())=='a357b0ef3c2a4b43c49f6fb5bfe2892ff7a95064'
           patches=json.loads(r'''[{"old":"def standardTypeASimplexScaling\n","new":"@[reducible] def standardTypeASimplexScaling\n"},{"old":"def standardTypeAHornScaling\n","new":"@[reducible] def standardTypeAHornScaling\n"}]''')
