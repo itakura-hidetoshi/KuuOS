@@ -56,6 +56,8 @@ EXPECTED = {
     'noncomputable-legs': 'faae3e971bade507ad5a16f95ca0f4ff88b7fbf3',
     'universe-bound': '4dc66325b61b9634d35c58aa980d3fb1b2a21cfb',
     'typed-identity': '0fb96395844b6d993962020f7f7a1a79b9f97b85',
+    'inferred-identity': 'e1101bc30b4e30a00a43a0ca6125cb1165c79227',
+    'exact-identity': '056ae90a88d016efc5fcc5d7a6f64933197de6c5',
 }
 
 
@@ -99,8 +101,11 @@ def candidates(baseline: str) -> dict[str, str]:
                          '@[reducible] noncomputable def ' + name + '\n')
     uni = replace_one(nc, OLD_EQ, NEW_EQ)
     full = replace_one(uni, OLD_MAP, NEW_MAP)
+    inferred = replace_one(uni, OLD_MAP, NEW_MAP.replace('SSet.{u}', 'SSet'))
+    exact_identity = replace_one(uni, OLD_MAP, '  exact Category.id_comp _')
     result = {'reducible': red, 'noncomputable-legs': nc,
-              'universe-bound': uni, 'typed-identity': full}
+              'universe-bound': uni, 'typed-identity': full,
+              'inferred-identity': inferred, 'exact-identity': exact_identity}
     pattern = r'^(?:@\[[^\]]+\]\s*)?(?:noncomputable\s+)?(?:def|theorem|lemma|structure|abbrev|instance)\s+([^\s(:]+)'
     original_inventory = re.findall(pattern, code_only(baseline), re.M)
     assert original_inventory == NAMES
@@ -173,6 +178,8 @@ def direct(root: pathlib.Path, out: pathlib.Path) -> None:
         assert receipt['rounds'][0]['semantic_success'] and not receipt['rounds'][0]['errors']
         assert receipt['rounds'][0]['direct_lean']['exit_code'] == 0
         (out / 'source.lean').write_bytes(source)
+        (out / 'public-root-test.py').write_bytes((root / 'tests/test_public_root_restoration.py').read_bytes())
+        (out / 'workflow.yml').write_bytes((root / '.github/workflows/kuuos-v153-codeai-source-enrichment-real-mcp-v1.yml').read_bytes())
         (out / 'mcp.json').write_text(json.dumps(receipt, ensure_ascii=False, indent=2))
         manifest = {'head': os.environ['SOURCE_HEAD'], 'checkout_blob': blob(original),
             'selected': selected, 'source_sha256': digest(source), 'source_restored': True,
