@@ -116,6 +116,10 @@ FRONTIER_STEPS_AFTER_V095: tuple[tuple[str, str], ...] = (
         "scripts/check_kuuos_lean_python_lineage_bindings_v0_2.py",
         "tests.test_kuuos_lean_python_lineage_handoff_v0_2",
     ),
+    (
+        "scripts/check_kuuos_lean_python_decision_plan_bindings_v0_3.py",
+        "tests.test_kuuos_lean_python_decision_plan_handoff_v0_3",
+    ),
 )
 
 
