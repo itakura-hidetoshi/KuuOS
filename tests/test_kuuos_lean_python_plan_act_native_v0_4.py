@@ -103,5 +103,13 @@ class NativePlanActTests(unittest.TestCase):
         self.assertFalse(result.runtime_checked)
 
 
+# v0.12 adds ordinary discovery for additive Lean/Python extension tests.
+def load_tests(loader, tests, pattern):
+    from tests.lean_python_extensions import load_extension_tests
+
+    tests.addTests(load_extension_tests(loader))
+    return tests
+
+
 if __name__ == '__main__':
     unittest.main()
