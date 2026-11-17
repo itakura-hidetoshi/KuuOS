@@ -1,0 +1,264 @@
+name: KuuOS v1.44 CodeAI small-object direct Lean real MCP and independent audit
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/kuuos-v144-codeai-reducibility-real-mcp-v1.yml'
+      - 'formal/KUOS/DependentOriginationScaledSmallObjectArgumentV1_44.lean'
+
+permissions:
+  contents: read
+
+env:
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+  PYTHONPATH: .
+  V144_CHECKOUT_BLOB: '0e81eb0c7fedfcd09c0f552d910da1c621606491'
+  SOURCE_HEAD: ${{ github.event.pull_request.head.sha }}
+
+jobs:
+  codeai-v144-direct-and-real-mcp:
+    if: github.event.pull_request.number == 3555 && github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-22.04
+    timeout-minutes: 80
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: kuuos-v142-pinned-attachment-mathlib-5450-v1
+      - name: Restore fixed mathlib and compile exact v1.43 dependency
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import hashlib,pathlib
+          from scripts.check_kuuos_lean_lsp_mcp_compatibility_v7_17 import require_pins
+          assert require_pins(pathlib.Path('.').resolve())['mathlib_sha']=='5450b53e5ddc75d46418fabb605edbf36bd0beb6'
+          b=pathlib.Path('formal/KUOS/DependentOriginationScaledAnodyneWFSUniversalityV1_43.lean').read_bytes()
+          assert hashlib.sha1(b'blob '+str(len(b)).encode()+b'\0'+b).hexdigest()=='833c8e772b7f35a3b5bd36995703ed257bac20c7'
+          PY
+          lake exe cache get
+          lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.DependentOriginationScaledAnodyneWFSUniversalityV1_43
+      - name: CodeAI full-source bounded candidates, negative controls and pinned direct Lean
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import hashlib,json,os,pathlib,re,subprocess,tempfile
+          from scripts.kuuos_lean_mcp_repair_loop_v1 import digest,FORBIDDEN_NEW
+          root=pathlib.Path('.').resolve()
+          rel='formal/KUOS/DependentOriginationScaledSmallObjectArgumentV1_44.lean'
+          target=root/rel
+          original=target.read_bytes()
+          out=pathlib.Path('/tmp/kuuos-v144-codeai')
+          out.mkdir(parents=True,exist_ok=True)
+          def blob(b):
+              return hashlib.sha1(b'blob '+str(len(b)).encode()+b'\0'+b).hexdigest()
+          expected='0e81eb0c7fedfcd09c0f552d910da1c621606491'
+          assert blob(original)==expected==os.environ['V144_CHECKOUT_BLOB']
+          baseline=original.decode()
+          names=['def toIsCardinalForSmallObjectArgument',
+                 'def toHasSmallObjectArgument',
+                 'noncomputable def canonicalGeneratedScaledFactorization_of_smallObject',
+                 'noncomputable def canonicalGeneratedScaledWeakFactorizationSystem_of_smallObject']
+          for name in names:
+              assert baseline.count('\n'+name+'\n')==1,('missing definition',name)
+          change='  change MorphismProperty.HasFactorization\n    ((scaledHornAttachmentGenerators : MorphismProperty (ScaledSSet.{u})).rlp.llp)\n    ((scaledHornAttachmentGenerators : MorphismProperty (ScaledSSet.{u})).rlp)\n  infer_instance\n\n/-- Consequently'
+          old='  infer_instance\n\n/-- Consequently'
+          assert baseline.count(old)==1
+          def with_attrs(attr):
+              s=baseline
+              for name in names:
+                  s=s.replace('\n'+name+'\n','\n@['+attr+'] '+name+'\n',1)
+              return s
+          variants={'attributes-only':with_attrs('reducible'),
+                    'explicit-class':with_attrs('reducible').replace(old,change,1),
+                    'implicit-class':with_attrs('implicit_reducible').replace(old,change,1)}
+          assert blob(variants['explicit-class'].encode())=='ea3d9c2edff775235af266d10b87316f65aeb60d'
+          for name,s in variants.items():
+              assert not FORBIDDEN_NEW.search(s),name
+              normalized=s
+              for attr in ('reducible','implicit_reducible'):
+                  normalized=normalized.replace('@['+attr+'] ','')
+              normalized=normalized.replace(change,old)
+              assert normalized==baseline,('changed theorem or assumptions',name)
+          rows=[]
+          try:
+              for name,s in [('baseline',baseline),*variants.items()]:
+                  target.write_text(s)
+                  with tempfile.TemporaryDirectory(prefix='kuuos-v144-direct-') as tmp:
+                      olean=pathlib.Path(tmp)/'candidate.olean'
+                      p=subprocess.run(['lake','env','lean','-DwarningAsError=true','-Dweak.sorryAsError=true','-o',str(olean),rel],cwd=root,capture_output=True,text=True,timeout=600)
+                      log=p.stdout+'\n'+p.stderr
+                      errors=[line for line in log.splitlines() if re.search(r'\berror(?:\([^)]*\))?:',line)]
+                      row={'candidate':name,'candidate_blob':blob(s.encode()),'candidate_sha256':digest(s),'exit_code':p.returncode,'olean_exists':olean.is_file(),'errors':errors,'success':p.returncode==0 and olean.is_file() and not errors and 'sorryAx' not in log}
+                      rows.append(row)
+                      (out/(name+'.log')).write_text(log)
+                      print('KUUOS_V144_CODEAI_DIRECT '+json.dumps(row,sort_keys=True))
+              assert rows[0]['exit_code']!=0 and not rows[0]['success']
+              assert (out/'baseline.log').read_text().count('of class type must be marked')==4
+              assert 'failed to synthesize instance of type class' in (out/'baseline.log').read_text()
+              selected=next(x for x in rows if x['candidate']=='explicit-class')
+              assert selected['success'],('selected candidate failed',selected['errors'])
+              (out/'source.lean').write_text(variants['explicit-class'])
+              (out/'manifest.json').write_text(json.dumps({'source_head':os.environ['SOURCE_HEAD'],'checkout_blob':blob(original),'candidate_blob':selected['candidate_blob'],'candidate_sha256':selected['candidate_sha256'],'candidates':rows,'small_object_premise_preserved':True,'source_restored':True,'git_write_performed':False,'independent_ci_success':False},indent=2)+'\n')
+          finally:
+              target.write_bytes(original)
+          assert target.read_bytes()==original
+          print('KUUOS_V144_CODEAI_NEGATIVE_CONTROLS_AND_DIRECT_LEAN_COMPLETE')
+          PY
+
+      - name: Install real Lean MCP prerequisites
+        run: |
+          python3 -m pip install --disable-pip-version-check uv
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ripgrep
+      - name: Successful candidate only through actual KuuOS Lean MCP loop and second direct check
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json,pathlib,subprocess
+          from scripts.kuuos_lean_mcp_repair_loop_v1 import digest,run_loop,mcp_tactic_provider
+          root=pathlib.Path('.').resolve()
+          rel='formal/KUOS/DependentOriginationScaledSmallObjectArgumentV1_44.lean'
+          target=root/rel
+          original=target.read_bytes()
+          out=pathlib.Path('/tmp/kuuos-v144-codeai')
+          source=(out/'source.lean').read_bytes()
+          try:
+              target.write_bytes(source)
+              p=subprocess.run(['lake','-KleanArgs=-DwarningAsError=true','-KleanArgs=-DsorryAsError=true','build','KUOS.DependentOriginationScaledSmallObjectArgumentV1_44'],cwd=root,capture_output=True,text=True,timeout=3600)
+              (out/'complete-build.log').write_text(p.stdout+'\n'+p.stderr)
+              print(p.stdout,p.stderr)
+              assert p.returncode==0
+              receipt=run_loop(root=root,rel_file=rel,output_dir=pathlib.Path('/tmp/kuuos-v144-live-mcp'),expected_sha256=digest(source),provider=mcp_tactic_provider,max_iterations=1)
+              assert receipt['status']=='LOCAL_LEAN_GREEN_CANDIDATE_ONLY'
+              assert receipt['source_restored'] and not receipt['independent_ci_success'] and not receipt['git_write_performed']
+              assert receipt['candidate_sha256']==digest(source)
+              assert receipt['rounds'][0]['semantic_success'] and not receipt['rounds'][0]['errors']
+              assert receipt['rounds'][0]['direct_lean']['exit_code']==0
+              (out/'mcp.json').write_text(json.dumps(receipt,indent=2)+'\n')
+          finally:
+              target.write_bytes(original)
+          assert target.read_bytes()==original
+          print('KUUOS_V144_CODEAI_DIRECT_THEN_REAL_MCP_SUCCESS_NOT_INDEPENDENT_CI')
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: kuuos-v144-codeai-candidate
+          path: /tmp/kuuos-v144-codeai
+          retention-days: 30
+          if-no-files-found: error
+
+  independent-v144-kernel-and-nine-axioms:
+    needs: codeai-v144-direct-and-real-mcp
+    runs-on: ubuntu-22.04
+    timeout-minutes: 80
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: kuuos-v142-pinned-attachment-mathlib-5450-v1
+      - uses: actions/download-artifact@v4
+        with:
+          name: kuuos-v144-codeai-candidate
+          path: /tmp/kuuos-v144-independent
+      - name: Independently bind source HEAD pins candidate bytes and real MCP receipt
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import hashlib,json,os,pathlib
+          from scripts.check_kuuos_lean_lsp_mcp_compatibility_v7_17 import require_pins
+          root=pathlib.Path('.').resolve()
+          assert require_pins(root)['mathlib_sha']=='5450b53e5ddc75d46418fabb605edbf36bd0beb6'
+          p=pathlib.Path('/tmp/kuuos-v144-independent')
+          m=json.loads((p/'manifest.json').read_text())
+          r=json.loads((p/'mcp.json').read_text())
+          source=(p/'source.lean').read_bytes()
+          dest=root/'formal/KUOS/DependentOriginationScaledSmallObjectArgumentV1_44.lean'
+          def blob(b):
+              return hashlib.sha1(b'blob '+str(len(b)).encode()+b'\0'+b).hexdigest()
+          assert m['source_head']==os.environ['SOURCE_HEAD']
+          assert blob(dest.read_bytes())==m['checkout_blob']==os.environ['V144_CHECKOUT_BLOB']
+          assert blob(source)==m['candidate_blob']=='ea3d9c2edff775235af266d10b87316f65aeb60d'
+          assert hashlib.sha256(source).hexdigest()==m['candidate_sha256']==r['candidate_sha256']
+          assert m['small_object_premise_preserved'] and m['source_restored'] and not m['git_write_performed'] and not m['independent_ci_success']
+          assert r['status']=='LOCAL_LEAN_GREEN_CANDIDATE_ONLY' and r['source_restored'] and not r['independent_ci_success'] and not r['git_write_performed']
+          assert r['rounds'][0]['direct_lean']['exit_code']==0 and r['rounds'][0]['semantic_success'] and not r['rounds'][0]['errors']
+          dep=root/'formal/KUOS/DependentOriginationScaledAnodyneWFSUniversalityV1_43.lean'
+          assert blob(dep.read_bytes())=='833c8e772b7f35a3b5bd36995703ed257bac20c7'
+          dest.write_bytes(source)
+          print('KUUOS_V144_INDEPENDENT_EXACT_SOURCE_PIN_AND_MCP_RECEIPT_MATCH')
+          PY
+          lake exe cache get
+      - name: Independent full strict Lean v1.44 dependency closure
+        run: |
+          set -euo pipefail
+          lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.DependentOriginationScaledSmallObjectArgumentV1_44 2>&1 | tee /tmp/kuuos-v144-independent/build.log
+      - name: Nine named declarations standard axiom audit with small-object premises retained
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import pathlib,re,subprocess
+          ns='KUOS.DependentOriginationScaledSmallObjectArgumentV1_44'
+          names=['scaledHornAttachmentGenerators_isSmall',
+                 'CanonicalScaledSmallObjectCardinalData.toIsCardinalForSmallObjectArgument',
+                 'CanonicalScaledSmallObjectCardinalData.toHasSmallObjectArgument',
+                 'canonicalGeneratedScaledFactorization_of_smallObject',
+                 'canonicalGeneratedScaledWeakFactorizationSystem_of_smallObject',
+                 'canonicalGeneratedScaledWFSCertificate_of_smallObject',
+                 'canonicalGeneratedScaledWFSCertificate_of_cardinalData',
+                 'canonicalGeneratedScaledAnodyne_eq_cellularClosure',
+                 'canonicalGeneratedScaledFibration_eq_generatorRLP']
+          audit=pathlib.Path('formal/KUOS/DependentOriginationV144IndependentAxiomAudit.lean')
+          audit.write_text('import '+ns+'\n'+'\n'.join('#print axioms '+ns+'.'+n for n in names)+'\n')
+          p=subprocess.run(['lake','env','lean','-DwarningAsError=true','-Dweak.sorryAsError=true',str(audit)],capture_output=True,text=True,timeout=600)
+          log=p.stdout+'\n'+p.stderr
+          print(log)
+          pathlib.Path('/tmp/kuuos-v144-independent/axioms.log').write_text(log)
+          assert p.returncode==0 and 'sorryAx' not in log and 'error:' not in log
+          rows=re.findall(r"'([^']+)'\s+(?:depends on axioms:\s*\[([^\]]*)\]|does not depend on any axioms)",log,re.S)
+          assert len(rows)==len(names) and {x[0] for x in rows}=={ns+'.'+n for n in names}
+          allowed={'propext','Classical.choice','Quot.sound'}
+          for _,ax in rows:
+              assert {x.strip() for x in ax.split(',') if x.strip()}<=allowed
+          src=pathlib.Path('formal/KUOS/DependentOriginationScaledSmallObjectArgumentV1_44.lean').read_text()
+          assert 'HasCanonicalScaledSmallObjectArgument' in src and 'CanonicalScaledSmallObjectCardinalData' in src
+          print('KUUOS_V144_NINE_DECLARATIONS_STANDARD_AXIOMS_CONDITIONS_RETAINED')
+          PY
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: kuuos-v144-independent-proof-audit
+          path: /tmp/kuuos-v144-independent
+          retention-days: 30
+          if-no-files-found: error
