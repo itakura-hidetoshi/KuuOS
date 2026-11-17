@@ -1,0 +1,207 @@
+#!/usr/bin/env python3
+"""Selected direct source pins for the pre-host guard v0.11.
+
+This static check imports no runtime code and never invokes a host. The pins
+cover the listed direct sources, not their transitive import closure, trusted
+registry code, Python's interpreter, external issuers, or formal refinement.
+Inspect a quiescent checkout. Original v0.10 source checks remain unchanged.
+Copyright Hidetoshi Itakura / 板倉英俊. Apache-2.0.
+"""
+from __future__ import annotations
+
+import ast
+import hashlib
+from pathlib import Path
+import stat
+
+ROOT = Path(__file__).resolve().parents[1]
+SOURCE_MAIN = "3da68503b6be1f6ef02d6100b730fa5ab9b92498"
+SOURCE_BLOBS = {
+    "runtime/kuuos_lean_python_contract_bridge_v0_1.py": "f6c3f570a996f9fc6c65f026b2fb001ae03c0097",
+    "runtime/kuuos_lean_python_os_path_composition_v0_6.py": "068158c2e4f90f5040f83504218e60752a5472ed",
+    "runtime/kuuos_lean_python_native_cycle_ledger_replay_v0_7.py": "e1d4cdc5dd698b7c1aad1f2fcc3a9499a0eced49",
+    "runtime/kuuos_lean_python_native_cycle_receipt_capture_v0_8.py": "219ace2ec190cd8bf91284d413914afa4c696aef",
+    "runtime/kuuos_lean_python_isolated_native_receipt_evidence_v0_9.py": "4cfda1477ba5beac6b469668228cd3dda789c31c",
+    "runtime/kuuos_qi_world_native_full_cycle_v1_3.py": "9830b98746fbe8cf550562a0719374471ed6e0e5",
+    "runtime/kuuos_decision_os_kernel_v0_1.py": "7fbe347c0ae22f7efea0cb0147f1e1934ee743d4",
+    "runtime/kuuos_decision_os_types_v0_1.py": "7a8432fad3eca3d04ac14e17cc4178833fd3c9aa",
+    "runtime/kuuos_decision_os_store_v0_1.py": "7ddcc08cc7f3d4a6e274ff0406805ef632457931",
+    "runtime/kuuos_plan_os_kernel_v0_1.py": "6942b32353b476fe8848d39c548d3cd2fe93ccff",
+    "runtime/kuuos_plan_os_types_v0_1.py": "fa3945092610c38d748342e0c7aba1c7cebf08dc",
+    "runtime/kuuos_plan_os_store_v0_1.py": "106a4adae2750bc543786c1ff36cd746a4d838d4",
+    "runtime/kuuos_act_os_kernel_v0_1.py": "db91d45cefd8982309f4a8d58e792f0df0c2c5d4",
+    "runtime/kuuos_act_os_types_v0_1.py": "6894f380cfbeee008610cf93d5357daac38e93cc",
+    "runtime/kuuos_act_os_store_v0_1.py": "24ebc89667c493498926e8d03bb21f952f448cce",
+    "runtime/kuuos_observe_os_kernel_v0_1.py": "670b205f975149cacc3d6a82c3f27edcded8c4ca",
+    "runtime/kuuos_observe_os_types_v0_1.py": "2bed5ca44ad3de69daa0ac0d2cc3c462ea30c0c9",
+    "runtime/kuuos_observe_os_store_v0_1.py": "7c6433b04fe83da4ac669a93d85f447591117897",
+    "runtime/kuuos_verify_os_kernel_v0_1.py": "81a415d4eac83d0e828dca2a9e23a0dcfaedf4f0",
+    "runtime/kuuos_verify_os_types_v0_1.py": "2889e0963f2171842e49ec477eec23e3a705eb6c",
+    "runtime/kuuos_verify_os_store_v0_1.py": "6f08033b55fdde4d36cf2cb491da48cc4c40d00d",
+    "runtime/kuuos_learn_os_kernel_v0_1.py": "8eeaf80af8522df2dc99a1df546b3145aafa2612",
+    "runtime/kuuos_learn_os_types_v0_1.py": "3e74b2e672064c435ff785e03ea85b8c6ab5f5eb",
+    "runtime/kuuos_learn_os_store_v0_1.py": "1a462212f9488c2b3dc2ca2ec96efcd7a20e0713",
+    "runtime/kuuos_decision_os_state_v0_1.py": "80ea719c2a77fb30cef488fe5f9f1f9ae597991a",
+    "runtime/kuuos_plan_os_state_v0_1.py": "20ebe52c2d8696281968fb4870f1904c976dac37",
+    "scripts/run_kuuos_runtime_full_check_v0_55.py": "e529fca18f44687c271c3c958890dfb3940bc62a",
+    "formal/KUOS/DecisionOS/RelationalDeliberationKernelV0_1.lean": "9891ab2aa20c8d2ea4df08abe3bf12d99aad6726",
+    "formal/KUOS/PlanOS/ReplanBoundSynthesisV0_1.lean": "0ff6a060bbe52bee4d4bcbe1ebbbd319689f5676",
+    "formal/KUOS/ActOS/AuthorityBoundInvocationV0_1.lean": "c08c8412d435553d9c2a20e309c7cdd4d649f360",
+    "formal/KUOS/ObserveOS/EffectGroundedObservationV0_1.lean": "0dccacb16696fc05a8c0f8d70bc09c34a50828f5",
+    "formal/KUOS/VerifyOS/EvidenceBoundVerificationV0_1.lean": "cb022ee1b0d43d5a67f38f879cc7e06f60092f9c",
+    "formal/KUOS/LearnOS/FutureOnlyEvidenceLearningV0_1.lean": "6dc7ba9d3bf1b4d12ca11e21560ab94d664e8097",
+    "runtime/kuuos_lean_python_checked_transition_v0_10.py": "5559bd9ca0e22ebc7809522e886188d9f61bc51b",
+    "runtime/kuuos_lean_python_guarded_native_cycle_v0_10.py": "870e1620a7f5eea0c7ce5125be71f0aeb45c27a1",
+    "scripts/check_kuuos_lean_python_checked_transition_sources_v0_10.py": "355c4c4080712cac468d0ccc3041a21c3a4165c7",
+    "runtime/kuuos_act_os_fixture_v0_1.py": "dbb1bc7426172f98d41ebc38186be16ef6199808",
+    "runtime/v01_act_os_authority_bound_invocation.py": "971949dd22fae9f029b153ec6ebe68ab4d91c9f8",
+    "runtime/kuuos_cooperative_host_adapter_v0_17.py": "189a3a88c26337feb74522331df99ed9501fec19",
+    "runtime/kuuos_cooperative_host_adapter_license_v0_17.py": "1701fc1a802ed1fa3c630e71f735ddbf3e343d33",
+    "runtime/kuuos_cooperative_host_adapter_types_v0_17.py": "cd8706c47f1fe63c2347e7faf9669e2eecfb01b9",
+    "runtime/kuuos_cooperative_execution_supervisor_types_v0_16.py": "0d5db8bd890d768466d768dd5d4a2a01badf978b",
+    "runtime/v017_host_adapter_fixtures.py": "0c2b20c5079783d1ff26c0a61a930d6e5c6d3405",
+    "runtime/kuuos_cooperative_host_adapter_idempotent_tick_v0_17.py": "d0b10d202c24d256aa893b5778fc844e71e3c8da",
+    "runtime/kuuos_cooperative_host_adapter_tick_v0_17.py": "ce97b8ba695c877fb8851dc2526892c994865f1c",
+    "runtime/kuuos_cooperative_host_adapter_projection_v0_17.py": "94ebae36cda5d0d4c4598a68fed0409e638b0288",
+    "runtime/kuuos_cooperative_execution_supervisor_job_v0_16.py": "84460b7cdde00044a58eef7f085ad56f7e6d7ed5",
+    "runtime/kuuos_resumable_execution_handoff_types_v0_15.py": "f83a58221d0fcd349faf90284b75c2a4a87527d3",
+    "runtime/kuuos_cooperative_execution_supervisor_step_precheck_v0_16.py": "2fb286c549790917aa29296dbbc7c41a69bb8fd1"
+}
+REQUIRED_PATHS = (
+    "runtime/kuuos_lean_python_pre_host_guard_v0_11.py",
+    "runtime/kuuos_lean_python_pre_host_native_cycle_v0_11.py",
+    "tests/test_kuuos_lean_python_pre_host_guard_v0_11.py",
+    "tests/test_kuuos_lean_python_pre_host_native_cycle_v0_11.py",
+    "scripts/check_kuuos_lean_python_pre_host_sources_v0_11.py",
+    "tests/test_kuuos_lean_python_pre_host_sources_v0_11.py",
+    "docs/KUUOS_LEAN_PYTHON_PRE_HOST_GUARD_v0_11.md",
+)
+REGISTERED_TEST_PATH = "tests/test_kuuos_lean_python_os_registry_v0_5.py"
+PRIOR_REGISTRATION_BLOB = "e9c88df079f8eed8dcd1852636ee1098f666ead4"
+# The one addition before the existing __main__ guard. Removing these exact
+# bytes must recover the complete original cumulative module, not just imports.
+REGISTRATION_BLOCK = '''# v0.11 adds pre-host tests while retaining the complete existing suite.
+def load_tests(loader, tests, pattern):
+    from tests.test_kuuos_lean_python_pre_host_guard_v0_11 import PreHostGuardTests
+    from tests.test_kuuos_lean_python_pre_host_native_cycle_v0_11 import PreHostNativeCycleTests
+    from tests.test_kuuos_lean_python_pre_host_sources_v0_11 import PreHostSourceTests
+
+    tests.addTests(loader.loadTestsFromTestCase(PreHostGuardTests))
+    tests.addTests(loader.loadTestsFromTestCase(PreHostNativeCycleTests))
+    tests.addTests(loader.loadTestsFromTestCase(PreHostSourceTests))
+    return tests
+
+
+'''
+
+
+def _git_blob(raw: bytes) -> str:
+    return hashlib.sha1(
+        b"blob " + str(len(raw)).encode("ascii") + b"\0" + raw
+    ).hexdigest()
+
+
+def _read_file(root: Path, relative: str) -> tuple[bytes | None, str | None]:
+    """Read a regular file after excluding symlinks in every path component."""
+    path = (root / relative).absolute()
+    try:
+        for parent in reversed(path.parents):
+            mode = parent.lstat().st_mode
+            if stat.S_ISLNK(mode):
+                return None, "symlink_not_allowed"
+            if not stat.S_ISDIR(mode):
+                return None, "not_regular_file"
+        mode = path.lstat().st_mode
+        if stat.S_ISLNK(mode):
+            return None, "symlink_not_allowed"
+        if not stat.S_ISREG(mode):
+            return None, "not_regular_file"
+        return path.read_bytes(), None
+    except FileNotFoundError:
+        return None, "missing"
+    except OSError:
+        return None, "unreadable"
+
+
+def _registration_issues(root: Path) -> list[str]:
+    raw, issue = _read_file(root, REGISTERED_TEST_PATH)
+    if issue:
+        return ["cumulative_test_module_" + issue]
+    issues: list[str] = []
+    block = REGISTRATION_BLOCK.encode("utf-8")
+    if raw.count(block) != 1:
+        issues.append("v011_registration_block_missing_or_nonunique")
+    elif _git_blob(raw.replace(block, b"", 1)) != PRIOR_REGISTRATION_BLOB:
+        issues.append("prior_registry_bytes_not_preserved")
+    try:
+        body = ast.parse(raw.decode("utf-8")).body
+    except (SyntaxError, UnicodeError, ValueError, RecursionError):
+        return issues + ["cumulative_test_registration_invalid"]
+
+    hooks = [
+        node for node in body
+        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef))
+        and node.name == "load_tests"
+    ]
+    expected_hook = ast.parse(REGISTRATION_BLOCK).body[0]
+    if (len(hooks) != 1
+            or ast.dump(hooks[0], include_attributes=False)
+            != ast.dump(expected_hook, include_attributes=False)):
+        issues.append("v011_load_tests_ast_invalid")
+    else:
+        main_condition = ast.parse(
+            'if __name__ == "__main__":\n    pass\n'
+        ).body[0].test
+        entries = [
+            node for node in body if isinstance(node, ast.If)
+            and ast.dump(node.test, include_attributes=False)
+            == ast.dump(main_condition, include_attributes=False)
+        ]
+        if len(entries) != 1:
+            issues.append("v011_main_entrypoint_not_preserved")
+        elif hooks[0].lineno > entries[0].lineno:
+            issues.append("v011_load_tests_after_main")
+    return issues
+
+
+def check_sources(root: Path = ROOT, check_registration: bool = True) -> tuple[str, ...]:
+    """Check named source bytes, required files, and the additive loader hook.
+
+    The prior 33 pins remain present. Full original registry bytes are retained
+    after the single expected v0.11 hook is removed; its AST must add all three
+    new classes to the incoming suite and return that same suite.
+    """
+    if not isinstance(root, Path):
+        return ("root:trusted_path_required",)
+    issues: list[str] = []
+    for relative, expected in SOURCE_BLOBS.items():
+        raw, issue = _read_file(root, relative)
+        if issue:
+            issues.append("source_" + issue + ":" + relative)
+        elif _git_blob(raw) != expected:
+            issues.append("source_byte_drift:" + relative)
+    for relative in REQUIRED_PATHS:
+        _, issue = _read_file(root, relative)
+        if issue:
+            issues.append("required_v011_file_" + issue + ":" + relative)
+    if check_registration:
+        issues.extend(_registration_issues(root))
+    return tuple(sorted(set(issues)))
+
+
+def main() -> int:
+    issues = check_sources()
+    for issue in issues:
+        print("BLOCKED:", issue)
+    if not issues:
+        print(
+            f"STATIC_MATCH: {len(SOURCE_BLOBS)} selected direct Git blobs, "
+            "v0.11 inventory and additive load_tests; original registry bytes "
+            "preserved; no host invocation, transitive-source authentication "
+            "or formal refinement"
+        )
+    return int(bool(issues))
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
