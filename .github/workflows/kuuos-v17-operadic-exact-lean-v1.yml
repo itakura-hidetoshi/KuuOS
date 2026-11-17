@@ -1,0 +1,123 @@
+name: KuuOS v1.7 operadic exact-source pinned Lean and axiom audit
+on:
+  pull_request:
+    paths:
+      - 'formal/KUOS/DependentOriginationOperadicMultiConditionV1_7.lean'
+      - 'tests/test_public_root_restoration.py'
+      - '.github/workflows/kuuos-v17-operadic-exact-lean-v1.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  v17-operadic-exact-source:
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.number == 3555 && github.event.pull_request.head.ref == 'fix/kuuos-v127-v129-ulift-20261115' && github.event.pull_request.base.ref == 'fix/kuuos-v126-explicit-hom-transport-20261115' }}
+    runs-on: ubuntu-22.04
+    timeout-minutes: 90
+    env:
+      MATHLIB_NO_CACHE_ON_UPDATE: '1'
+    steps:
+      - name: Checkout exact candidate PR HEAD
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - name: Verify exact reviewed source blob, legacy frozen root, imports and fixed pins
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import hashlib, json, re
+          from pathlib import Path
+          def gitblob(raw):
+              return hashlib.sha1(b'blob ' + str(len(raw)).encode() + b'\0' + raw).hexdigest()
+          src=Path('formal/KUOS/DependentOriginationOperadicMultiConditionV1_7.lean')
+          frozen=Path('legacy/v5.291/formal/KUOS/DependentOriginationOperadicMultiConditionV1_7.lean')
+          proof=src.read_bytes()
+          assert gitblob(proof)=='92350cbc0ff050ddfc011b6841f0ef582b9ca5b4'
+          assert gitblob(frozen.read_bytes())=='11ba3382541a353789e0569be99fc7be6451c957'
+          deps={
+            'formal/KUOS/DependentOriginationBicategoricalCoherenceV1_6.lean': 'c1d9cf1c6ed08b535ec5d0bb02bfca254bbb2ac0',
+            'formal/KUOS/DependentOriginationFunctorialTransportV0_1.lean': 'e087655fc1de39e5af3b9680524166e69759643d'
+          }
+          assert all(gitblob(Path(p).read_bytes())==h for p,h in deps.items())
+          assert [x for x in proof.decode().splitlines() if x.startswith('import ')] == [
+              'import KUOS.DependentOriginationBicategoricalCoherenceV1_6',
+              'import KUOS.DependentOriginationFunctorialTransportV0_1']
+          assert not re.search(r'(?m)^\s*(sorry|axiom|admit)\b',proof.decode())
+          assert Path('lean-toolchain').read_text().strip()=='leanprover/lean4:v4.30.0-rc2'
+          packages=json.loads(Path('lake-manifest.json').read_text())['packages']
+          assert [p['rev'] for p in packages if p['name']=='mathlib']==['5450b53e5ddc75d46418fabb605edbf36bd0beb6']
+          print('V17_EXACT_SOURCE_AND_IMPORTS_GREEN')
+          PY
+      - name: Check historical-proof root hash regression
+        run: |
+          set -euo pipefail
+          python3 -m unittest tests.test_public_root_restoration -v
+      - name: Setup exact Lean 4.30.0-rc2
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Resolve pinned mathlib and restore read-only build overlay
+        run: lake exe cache get
+      - name: Strict Lean dependency build for corrected operadic v1.7
+        run: |
+          set -euo pipefail
+          timeout 3200 lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.DependentOriginationOperadicMultiConditionV1_7 2>&1 | tee /tmp/kuuos-v17-lean.log
+      - name: Independent 15-declaration exact-source axiom audit
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          names=[
+            'KUOS.DependentOriginationOperadicMultiConditionV1_7.MultiConditionSignature',
+            'KUOS.DependentOriginationOperadicMultiConditionV1_7.MultiConditionAlgebra',
+            'KUOS.DependentOriginationOperadicMultiConditionV1_7.MultiConditionExpr',
+            'KUOS.DependentOriginationOperadicMultiConditionV1_7.MultiConditionExpr.eval',
+            'KUOS.DependentOriginationOperadicMultiConditionV1_7.MultiConditionExpr.eval_atom',
+            'KUOS.DependentOriginationOperadicMultiConditionV1_7.MultiConditionExpr.eval_compose',
+            'KUOS.DependentOriginationOperadicMultiConditionV1_7.OperadicDependentOriginationExtension',
+            'KUOS.DependentOriginationOperadicMultiConditionV1_7.OperadicDependentOriginationExtension.StateExpr',
+            'KUOS.DependentOriginationOperadicMultiConditionV1_7.OperadicDependentOriginationExtension.unaryExpr',
+            'KUOS.DependentOriginationOperadicMultiConditionV1_7.OperadicDependentOriginationExtension.eval_unaryExpr',
+            'KUOS.DependentOriginationOperadicMultiConditionV1_7.OperadicDependentOriginationExtension.unary_operation_nonempty',
+            'KUOS.DependentOriginationOperadicMultiConditionV1_7.HasGenuineMultiCondition',
+            'KUOS.DependentOriginationOperadicMultiConditionV1_7.SharedSemanticReadout',
+            'KUOS.DependentOriginationOperadicMultiConditionV1_7.AllAtomsAt',
+            'KUOS.DependentOriginationOperadicMultiConditionV1_7.eval_preserves_shared_semantics',
+          ]
+          Path('/tmp/kuuos-v17-axioms.lean').write_text(
+              'import KUOS.DependentOriginationOperadicMultiConditionV1_7\n'
+              + '\n'.join('#check '+x for x in names) + '\n'
+              + '\n'.join('#print axioms '+x for x in names) + '\n')
+          print('V17_AXIOM_AUDIT_REQUESTED',len(names))
+          PY
+          lake env lean -DwarningAsError=true -DsorryAsError=true /tmp/kuuos-v17-axioms.lean 2>&1 | tee /tmp/kuuos-v17-axioms.log
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          raw=Path('/tmp/kuuos-v17-axioms.log').read_text()
+          records=re.findall(r"(?m)^'([^']+)' (?:depends on axioms:\s*\[([^]]*)\]|does not depend on any axioms)",raw)
+          assert len(records)==15,('AXIOM_COUNT',len(records))
+          assert len({n for n,_ in records})==15
+          allowed={'propext','Classical.choice','Quot.sound'}
+          for n,axioms in records:
+              used={x.strip() for x in axioms.split(',') if x.strip()}
+              assert used <= allowed,(n,sorted(used-allowed))
+          assert not re.search(r'(?m)(warning:|error:|sorryAx)',raw)
+          print('V17_15_PUBLIC_DECLARATIONS_STANDARD_AXIOMS_ONLY')
+          PY
+      - name: Archive exact Lean and axiom receipts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-v17-operadic-exact-source-${{ github.run_id }}
+          path: |
+            /tmp/kuuos-v17-lean.log
+            /tmp/kuuos-v17-axioms.log
+          if-no-files-found: warn
+          retention-days: 30

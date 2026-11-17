@@ -11,6 +11,14 @@ ROOT = Path(__file__).resolve().parents[1]
 # NOT presumed equivalent to the frozen v5.291 source or merely cosmetic:
 # pin their full bytes so that ANY later edit requires explicit review.
 # This exception is a versioned provenance check, NOT Lean proof authority.
+# Version-bound v1.7 Lean 4 prerequisite: strict exact Git blob only.
+# The unchanged legacy/v5.291 snapshot remains the historical source.
+# This reviewed replacement is subject to independent Lean and axiom audit,
+# not authorization to weaken v1.7 statements or global Governance.
+PR3555_V17_OPERADIC_REVIEWED_BLOB = {
+    "KUOS/DependentOriginationOperadicMultiConditionV1_7.lean": "92350cbc0ff050ddfc011b6841f0ef582b9ca5b4",
+}
+
 PR2339_INTEGRATED_PROOF_BLOBS = {
     "KUOS/DependentOriginationAbstractPresentationDescentV4_49.lean": "452b8485f401478bc11c642f463786efa3c1fc5e",
     "KUOS/DependentOriginationArbitraryFactorizationScalarV3_72.lean": "b433ca2ded5e50ed662e36a661cca63a3b97f436",
@@ -284,7 +292,8 @@ class RestoredWiringTests(unittest.TestCase):
                              or PR3552_V120_SEGAL_BLOB.get(rel.as_posix())
                              or PR3553_V121_V125_BOUNDED_BLOBS.get(rel.as_posix())
                              or PR3554_V126_TYPED_TRANSPORT_BLOB.get(rel.as_posix())
-                             or PR3555_V127_V129_ULIFT_REVIEWED_BLOBS.get(rel.as_posix()))
+                             or PR3555_V127_V129_ULIFT_REVIEWED_BLOBS.get(rel.as_posix())
+                             or PR3555_V17_OPERADIC_REVIEWED_BLOB.get(rel.as_posix()))
                 if fixed_sha is not None:
                     pinned_seen.add(rel.as_posix())
                     self.assertEqual(git_blob_sha(current), fixed_sha,
@@ -294,7 +303,7 @@ class RestoredWiringTests(unittest.TestCase):
                                      f'unreviewed theorem source change: {rel}')
         self.assertEqual(seen, set(LINT_ONLY_SOURCE_EDITS),
                          'reviewed lint edit targets must all exist in historical roots')
-        self.assertEqual(pinned_seen, set(PR2339_INTEGRATED_PROOF_BLOBS) | set(PR3522_FOCUSED_REPAIR_BLOBS) | set(PR3548_V16_LOCALLY_DISCRETE_BLOB) | set(PR3550_V118_DIRECT_IMPORT_BLOB) | set(PR3551_V119_CLASS_REDUCIBILITY_BLOB) | set(PR3552_V120_SEGAL_BLOB) | set(PR3553_V121_V125_BOUNDED_BLOBS) | set(PR3554_V126_TYPED_TRANSPORT_BLOB) | set(PR3555_V127_V129_ULIFT_REVIEWED_BLOBS),
+        self.assertEqual(pinned_seen, set(PR2339_INTEGRATED_PROOF_BLOBS) | set(PR3522_FOCUSED_REPAIR_BLOBS) | set(PR3548_V16_LOCALLY_DISCRETE_BLOB) | set(PR3550_V118_DIRECT_IMPORT_BLOB) | set(PR3551_V119_CLASS_REDUCIBILITY_BLOB) | set(PR3552_V120_SEGAL_BLOB) | set(PR3553_V121_V125_BOUNDED_BLOBS) | set(PR3554_V126_TYPED_TRANSPORT_BLOB) | set(PR3555_V127_V129_ULIFT_REVIEWED_BLOBS) | set(PR3555_V17_OPERADIC_REVIEWED_BLOB),
                          'every preexisting integrated proof exception is explicit and accounted for')
 
     def test_f55_path_functor_composition_has_actual_path_homs(self):
