@@ -69,7 +69,7 @@ jobs:
           assert blob(original)==os.environ['V148_CHECKOUT_BLOB']=='85f49d91efb366158c98210d29d07b4009f4d71c'
           baseline=(root/'legacy/v5.291/formal/KUOS/DependentOriginationScaledAnodyneAttachmentFactorizationV1_48.lean').read_text()
           assert blob(baseline.encode())=='85f49d91efb366158c98210d29d07b4009f4d71c'
-          patches=json.loads(r'''[{"old":"open Simplicial\n","new":"open Simplicial\nopen KUOS.DependentOriginationNativeInfinityTwoScaledV1_19\n"},{"old":"/-- If both factors are externally generated-anodyne","new":"include K\n\n/-- If both factors are externally generated-anodyne"},{"old":"/-- Factor-level comparison data canonically produces","new":"include K\n\n/-- Factor-level comparison data canonically produces"},{"old":"open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19\n","new":"open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19\nopen KUOS.DependentOriginationGlobalDuskinScaledHornCoherenceV1_22\n"},{"old":"def pullbackScaling\n","new":"@[reducible] def pullbackScaling\n"},{"old":"def inducedHornCylinderAttachmentScaling\n","new":"@[reducible] def inducedHornCylinderAttachmentScaling\n"},{"old":"      externalGeneratedScaledAnodyne E := by\n  intro A B f hf","new":"      externalGeneratedScaledAnodyne E := by\n  letI : (externalGeneratedScaledAnodyne E).IsMultiplicative := by\n    dsimp [externalGeneratedScaledAnodyne]\n    infer_instance\n  intro A B f hf"}]''')
+          patches=json.loads(r'''[{"old":"open Simplicial\n","new":"open Simplicial\nopen KUOS.DependentOriginationNativeInfinityTwoScaledV1_19\n"},{"old":"/-- If both factors are externally generated-anodyne","new":"include K\n\n/-- If both factors are externally generated-anodyne"},{"old":"/-- Factor-level comparison data canonically produces","new":"include K\n\n/-- Factor-level comparison data canonically produces"},{"old":"open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19\n","new":"open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19\nopen KUOS.DependentOriginationGlobalDuskinScaledHornCoherenceV1_22\n"},{"old":"def pullbackScaling\n","new":"@[reducible] def pullbackScaling\n"},{"old":"def inducedHornCylinderAttachmentScaling\n","new":"@[reducible] def inducedHornCylinderAttachmentScaling\n"},{"old":"      externalGeneratedScaledAnodyne E := by\n  intro A B f hf","new":"      externalGeneratedScaledAnodyne E := by\n  letI : (externalGeneratedScaledAnodyne E).IsMultiplicative := by\n    dsimp [externalGeneratedScaledAnodyne]\n    infer_instance\n  intro A B f hf"},{"old":"  apply ScaledSSet.ScaledMap.ext\n  simp [minimalToInducedHornCylinderAttachment,\n    inducedScaledHornCylinderAttachmentInclusion,\n    scaledHornCylinderAttachmentInclusion]","new":"  apply ScaledSSet.ScaledMap.ext\n  change (𝟙 (hornCylinderAttachment n i ε : SSet.{u})) ≫\n      (hornCylinderAttachment n i ε).ι =\n        (hornCylinderAttachment n i ε).ι\n  exact Category.id_comp _"}]''')
           def patched(text,indexes):
               s=text
               for i in indexes:
@@ -81,7 +81,7 @@ jobs:
                     'with-class-reducibility':patched(baseline,[0,1,2,3,4,5]),
                     'research-exact':patched(baseline,list(range(len(patches))))}
           chosen=variants['research-exact']
-          assert blob(chosen.encode())=='7a979fd1e71d34fc1abf762c9dec9345081d24cc'
+          assert blob(chosen.encode())=='90f67bf0aefb6ecfe2dec7adfc8876ec2b39a31a'
           def decls(s):
               return re.findall(r'^(?:@\[[^\]]+\] )?(?:noncomputable )?(?:def|instance|theorem|lemma|structure|abbrev)\s+([A-Za-z_][A-Za-z0-9_]*)',s,re.M)
           for name,s in variants.items():
@@ -200,7 +200,7 @@ jobs:
               return hashlib.sha1(b'blob '+str(len(b)).encode()+b'\0'+b).hexdigest()
           assert m['source_head']==os.environ['SOURCE_HEAD']
           assert blob(dest.read_bytes())==m['checkout_blob']==os.environ['V148_CHECKOUT_BLOB']
-          assert blob(source)==m['candidate_blob']=='7a979fd1e71d34fc1abf762c9dec9345081d24cc'
+          assert blob(source)==m['candidate_blob']=='90f67bf0aefb6ecfe2dec7adfc8876ec2b39a31a'
           assert hashlib.sha256(source).hexdigest()==m['candidate_sha256']==r['candidate_sha256']
           assert m['comparison_assumptions_preserved'] and m['external_standard_family_not_instantiated'] and m['source_restored'] and not m['git_write_performed'] and not m['independent_ci_success']
           assert r['status']=='LOCAL_LEAN_GREEN_CANDIDATE_ONLY' and r['source_restored'] and not r['independent_ci_success'] and not r['git_write_performed']
