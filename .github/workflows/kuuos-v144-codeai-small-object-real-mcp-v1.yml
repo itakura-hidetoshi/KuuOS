@@ -3,7 +3,7 @@ name: KuuOS v1.44 CodeAI small-object direct Lean real MCP and independent audit
 on:
   pull_request:
     paths:
-      - '.github/workflows/kuuos-v144-codeai-reducibility-real-mcp-v1.yml'
+      - '.github/workflows/kuuos-v144-codeai-small-object-real-mcp-v1.yml'
       - 'formal/KUOS/DependentOriginationScaledSmallObjectArgumentV1_44.lean'
 
 permissions:
