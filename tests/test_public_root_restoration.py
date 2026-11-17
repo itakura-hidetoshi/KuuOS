@@ -117,6 +117,22 @@ PR3555_V135_STRONG_CYLINDER_REVIEWED_BLOB = {
     "KUOS/DependentOriginationStrongTransformationDuskinCylinderV1_35.lean": "03b35036177ebc1ef13a055073877a0c9a319976",
 }
 
+# Lean4 v1.36 typed strong cylinder exact research-GREEN source.
+# Source hash is integrity evidence, not automatic proof/merge authority.
+PR3555_V136_STRONG_UNCURRYING_REVIEWED_BLOB = {
+    "KUOS/DependentOriginationStrongTransformationCylinderUncurryingV1_36.lean": "bf67ce6b167ecf88e877e874e3e6533c6d45de7d",
+}
+
+# Additional v1.36 helper files do not occur in the frozen legacy tree.
+# They are checked separately so the historical exception set stays exact.
+PR3555_V136_STRONG_UNCURRYING_HELPER_BLOBS = {
+    "KUOS/DependentOriginationMixedWhiskerPastingV1_36.lean": "74cfd1997d8c5ec0233db5ab473bf381b2367583",
+    "KUOS/DependentOriginationMixedLeftUnitorPastingV1_36.lean": "e3d7a47a45c425040bac9f41675df049bc8ba228",
+    "KUOS/DependentOriginationMixedRightUnitorPastingV1_36.lean": "339054b357f4799ad17e29ad6849b595240b0185",
+    "KUOS/DependentOriginationPairwiseNormalLaxRoundTripBridgeV1_36.lean": "6a2fceb562a53d13429dc8f839d70a88547e7643",
+}
+
+
 # PR #3522 extraction: exact reviewed source repairs (v1.2–v1.5 only).
 # These explicit blob values are integrity checks, not proof certification.
 PR3522_FOCUSED_REPAIR_BLOBS = {
@@ -373,7 +389,8 @@ class RestoredWiringTests(unittest.TestCase):
                              or PR3555_V160_V161_UNIONPROD_REVIEWED_BLOBS.get(rel.as_posix())
                              or PR3555_V131_V132_LEGACY_TYPED_BRIDGE_BLOBS.get(rel.as_posix())
                              or PR3555_V133_V134_LIFTED_HOMOTOPY_REVIEWED_BLOBS.get(rel.as_posix())
-                             or PR3555_V135_STRONG_CYLINDER_REVIEWED_BLOB.get(rel.as_posix()))
+                             or PR3555_V135_STRONG_CYLINDER_REVIEWED_BLOB.get(rel.as_posix())
+                             or PR3555_V136_STRONG_UNCURRYING_REVIEWED_BLOB.get(rel.as_posix()))
                 if fixed_sha is not None:
                     pinned_seen.add(rel.as_posix())
                     self.assertEqual(git_blob_sha(current), fixed_sha,
@@ -383,7 +400,7 @@ class RestoredWiringTests(unittest.TestCase):
                                      f'unreviewed theorem source change: {rel}')
         self.assertEqual(seen, set(LINT_ONLY_SOURCE_EDITS),
                          'reviewed lint edit targets must all exist in historical roots')
-        self.assertEqual(pinned_seen, set(PR2339_INTEGRATED_PROOF_BLOBS) | set(PR3522_FOCUSED_REPAIR_BLOBS) | set(PR3548_V16_LOCALLY_DISCRETE_BLOB) | set(PR3550_V118_DIRECT_IMPORT_BLOB) | set(PR3551_V119_CLASS_REDUCIBILITY_BLOB) | set(PR3552_V120_SEGAL_BLOB) | set(PR3553_V121_V125_BOUNDED_BLOBS) | set(PR3554_V126_TYPED_TRANSPORT_BLOB) | set(PR3555_V127_V129_ULIFT_REVIEWED_BLOBS) | set(PR3555_V17_OPERADIC_REVIEWED_BLOB) | set(PR3555_V18_V113_REVIEWED_BLOBS) | set(PR3555_V114_V115_REVIEWED_BLOBS) | set(PR3555_V117_TYPED_NERVE_REVIEWED_BLOB) | set(PR3555_V125_CORESPINE_COMMENT_BLOB) | set(PR3555_V130_LEGACY_TYPED_REVIEWED_BLOB) | set(PR3555_V160_V161_UNIONPROD_REVIEWED_BLOBS) | set(PR3555_V131_V132_LEGACY_TYPED_BRIDGE_BLOBS) | set(PR3555_V133_V134_LIFTED_HOMOTOPY_REVIEWED_BLOBS) | set(PR3555_V135_STRONG_CYLINDER_REVIEWED_BLOB),
+        self.assertEqual(pinned_seen, set(PR2339_INTEGRATED_PROOF_BLOBS) | set(PR3522_FOCUSED_REPAIR_BLOBS) | set(PR3548_V16_LOCALLY_DISCRETE_BLOB) | set(PR3550_V118_DIRECT_IMPORT_BLOB) | set(PR3551_V119_CLASS_REDUCIBILITY_BLOB) | set(PR3552_V120_SEGAL_BLOB) | set(PR3553_V121_V125_BOUNDED_BLOBS) | set(PR3554_V126_TYPED_TRANSPORT_BLOB) | set(PR3555_V127_V129_ULIFT_REVIEWED_BLOBS) | set(PR3555_V17_OPERADIC_REVIEWED_BLOB) | set(PR3555_V18_V113_REVIEWED_BLOBS) | set(PR3555_V114_V115_REVIEWED_BLOBS) | set(PR3555_V117_TYPED_NERVE_REVIEWED_BLOB) | set(PR3555_V125_CORESPINE_COMMENT_BLOB) | set(PR3555_V130_LEGACY_TYPED_REVIEWED_BLOB) | set(PR3555_V160_V161_UNIONPROD_REVIEWED_BLOBS) | set(PR3555_V131_V132_LEGACY_TYPED_BRIDGE_BLOBS) | set(PR3555_V133_V134_LIFTED_HOMOTOPY_REVIEWED_BLOBS) | set(PR3555_V135_STRONG_CYLINDER_REVIEWED_BLOB) | set(PR3555_V136_STRONG_UNCURRYING_REVIEWED_BLOB),
                          'every preexisting integrated proof exception is explicit and accounted for')
 
     def test_f55_path_functor_composition_has_actual_path_homs(self):
@@ -402,6 +419,16 @@ class RestoredWiringTests(unittest.TestCase):
         self.assertIn('(g : Quiver.Path', typed)
         self.assertIn('nativeF55ThreeComp', typed)
         self.assertIn('.map_comp f g', typed)
+
+    def test_v136_typed_uncurrying_helper_exact_blobs(self):
+        # New helper roots have no frozen v5.291 counterpart.
+        # Keep all four exact research fingerprints as independent provenance.
+        for rel, expected in PR3555_V136_STRONG_UNCURRYING_HELPER_BLOBS.items():
+            with self.subTest(path=rel):
+                path = ROOT / "formal" / rel
+                self.assertTrue(path.is_file(), f"missing typed v1.36 helper: {rel}")
+                self.assertEqual(git_blob_sha(path.read_bytes()), expected,
+                                 f"reviewed v1.36 helper differs from exact source: {rel}")
 
     def test_v135_normal_lax_universe_bridge_exact_blob(self):
         # The new ULift module is independently reviewed, not a historical overwrite.
