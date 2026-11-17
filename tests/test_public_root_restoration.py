@@ -29,6 +29,12 @@ PR3555_V18_V113_REVIEWED_BLOBS = {
     "KUOS/DependentOriginationEnrichedContextV1_13.lean": "7daa0119c4c8eef35a861ba7b925bf6524fc84b3",
 }
 
+# Source-certified Lean4 v1.14–v1.15 boundary repairs; archive preserved.
+PR3555_V114_V115_REVIEWED_BLOBS = {
+    "KUOS/DependentOriginationStackDescentV1_14.lean": "d57177de97b58f77049cddf22fdfe53d16ea1c6b",
+    "KUOS/DependentOriginationInfinityCoherenceV1_15.lean": "db66456d5d497bcdcae089ce74e5046a4a1c5146",
+}
+
 PR2339_INTEGRATED_PROOF_BLOBS = {
     "KUOS/DependentOriginationAbstractPresentationDescentV4_49.lean": "452b8485f401478bc11c642f463786efa3c1fc5e",
     "KUOS/DependentOriginationArbitraryFactorizationScalarV3_72.lean": "b433ca2ded5e50ed662e36a661cca63a3b97f436",
@@ -304,7 +310,8 @@ class RestoredWiringTests(unittest.TestCase):
                              or PR3554_V126_TYPED_TRANSPORT_BLOB.get(rel.as_posix())
                              or PR3555_V127_V129_ULIFT_REVIEWED_BLOBS.get(rel.as_posix())
                              or PR3555_V17_OPERADIC_REVIEWED_BLOB.get(rel.as_posix())
-                             or PR3555_V18_V113_REVIEWED_BLOBS.get(rel.as_posix()))
+                             or PR3555_V18_V113_REVIEWED_BLOBS.get(rel.as_posix())
+                             or PR3555_V114_V115_REVIEWED_BLOBS.get(rel.as_posix()))
                 if fixed_sha is not None:
                     pinned_seen.add(rel.as_posix())
                     self.assertEqual(git_blob_sha(current), fixed_sha,
@@ -314,7 +321,7 @@ class RestoredWiringTests(unittest.TestCase):
                                      f'unreviewed theorem source change: {rel}')
         self.assertEqual(seen, set(LINT_ONLY_SOURCE_EDITS),
                          'reviewed lint edit targets must all exist in historical roots')
-        self.assertEqual(pinned_seen, set(PR2339_INTEGRATED_PROOF_BLOBS) | set(PR3522_FOCUSED_REPAIR_BLOBS) | set(PR3548_V16_LOCALLY_DISCRETE_BLOB) | set(PR3550_V118_DIRECT_IMPORT_BLOB) | set(PR3551_V119_CLASS_REDUCIBILITY_BLOB) | set(PR3552_V120_SEGAL_BLOB) | set(PR3553_V121_V125_BOUNDED_BLOBS) | set(PR3554_V126_TYPED_TRANSPORT_BLOB) | set(PR3555_V127_V129_ULIFT_REVIEWED_BLOBS) | set(PR3555_V17_OPERADIC_REVIEWED_BLOB) | set(PR3555_V18_V113_REVIEWED_BLOBS),
+        self.assertEqual(pinned_seen, set(PR2339_INTEGRATED_PROOF_BLOBS) | set(PR3522_FOCUSED_REPAIR_BLOBS) | set(PR3548_V16_LOCALLY_DISCRETE_BLOB) | set(PR3550_V118_DIRECT_IMPORT_BLOB) | set(PR3551_V119_CLASS_REDUCIBILITY_BLOB) | set(PR3552_V120_SEGAL_BLOB) | set(PR3553_V121_V125_BOUNDED_BLOBS) | set(PR3554_V126_TYPED_TRANSPORT_BLOB) | set(PR3555_V127_V129_ULIFT_REVIEWED_BLOBS) | set(PR3555_V17_OPERADIC_REVIEWED_BLOB) | set(PR3555_V18_V113_REVIEWED_BLOBS) | set(PR3555_V114_V115_REVIEWED_BLOBS),
                          'every preexisting integrated proof exception is explicit and accounted for')
 
     def test_f55_path_functor_composition_has_actual_path_homs(self):
