@@ -147,5 +147,42 @@ class LeanPythonLineageHandoffTests(TestCase):
         self.assertEqual(audit_handoff("DecisionOS", "PlanOS", {}, {}).status, NO_DATA)
 
 
+class RealKernelLineageTests(TestCase):
+    """Exercise genuine source constructors and validators, not mock validators."""
+
+    def test_real_act_observe_verify_learn_handoff(self):
+        from pathlib import Path
+        from tempfile import TemporaryDirectory
+        from runtime.kuuos_observe_os_fixture_v0_1 import source_act_state
+        from runtime.kuuos_verify_os_fixture_v0_1 import source_observe_state
+        from runtime.kuuos_learn_os_fixture_v0_1 import source_verify_state
+        from runtime.kuuos_observe_os_kernel_v0_1 import build_initial_observe_state
+        from runtime.kuuos_verify_os_kernel_v0_1 import build_initial_verify_state
+        from runtime.kuuos_learn_os_kernel_v0_1 import build_initial_learn_state
+
+        with TemporaryDirectory(prefix="kuuos-lean-python-real-") as folder:
+            root = Path(folder)
+            act = source_act_state(root / "edge-act")
+            observe = build_initial_observe_state(
+                observe_id="lean-python-real-observe", act_state=act, now_ms=100_000,
+            )
+            outcome = audit_handoff("ActOS", "ObserveOS", act, observe)
+            self.assertEqual(outcome.status, PASSED, outcome.issues)
+
+            observed = source_observe_state(root / "edge-observe", verdict="MATCHED")
+            verify = build_initial_verify_state(
+                verify_id="lean-python-real-verify", observe_state=observed, now_ms=110_000,
+            )
+            outcome = audit_handoff("ObserveOS", "VerifyOS", observed, verify)
+            self.assertEqual(outcome.status, PASSED, outcome.issues)
+
+            verified = source_verify_state(root / "edge-verify", verdict="PASSED")
+            learn = build_initial_learn_state(
+                learn_id="lean-python-real-learn", verify_state=verified, now_ms=200_000,
+            )
+            outcome = audit_handoff("VerifyOS", "LearnOS", verified, learn)
+            self.assertEqual(outcome.status, PASSED, outcome.issues)
+
+
 if __name__ == "__main__":
     main()
