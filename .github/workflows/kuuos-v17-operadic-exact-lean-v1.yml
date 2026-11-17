@@ -100,7 +100,7 @@ jobs:
               + '\n'.join('#print axioms '+x for x in names) + '\n')
           print('V17_AXIOM_AUDIT_REQUESTED',len(names))
           PY
-          lake env lean -DwarningAsError=true -DsorryAsError=true /tmp/kuuos-v17-axioms.lean 2>&1 | tee /tmp/kuuos-v17-axioms.log
+          lake env lean -DwarningAsError=true -Dweak.sorryAsError=true /tmp/kuuos-v17-axioms.lean 2>&1 | tee /tmp/kuuos-v17-axioms.log
           python3 - <<'PY'
           from pathlib import Path
           import re
