@@ -1,0 +1,109 @@
+name: KuuOS v1.57 CodeAI Type-B three-simplex collapse completion direct Lean real MCP and independent 40-axiom audit
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/kuuos-v157-codeai-typeb-collapse-real-mcp-v1.yml'
+      - 'scripts/ci_kuuos_v157_codeai.py'
+      - 'scripts/kuuos_lean_mcp_repair_loop_v1.py'
+      - 'formal/KUOS/DependentOriginationStandardTypeBThreeSimplexCompletionV1_57.lean'
+      - 'tests/test_public_root_restoration.py'
+
+permissions:
+  contents: read
+
+env:
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+  PYTHONPATH: .
+  SOURCE_HEAD: ${{ github.event.pull_request.head.sha }}
+  CHECKOUT_BLOB: '4f9ee3f63681d618a6047e077551c5c43eb69d8f'
+
+jobs:
+  codeai-v157-direct-and-real-mcp:
+    if: github.event.pull_request.number == 3555 && github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-22.04
+    timeout-minutes: 80
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Regression test CodeAI guard without weakening prohibited-code gate
+        run: |
+          python3 tests/test_kuuos_lean_mcp_repair_loop_v1.py
+          python3 tests/test_kuuos_lean_mcp_comment_guard_v1.py
+      - uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: kuuos-v142-pinned-attachment-mathlib-5450-v1
+      - name: Verify fixed pins and exact v1.56 dependency before any candidate
+        run: |
+          set -euo pipefail
+          python3 -c "import pathlib; from scripts.ci_kuuos_v157_codeai import pins; pins(pathlib.Path('.').resolve())"
+          lake exe cache get
+          lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.DependentOriginationStandardTypeBScalingPushoutV1_56
+      - name: Install real Lean MCP prerequisites
+        run: |
+          python3 -m pip install --disable-pip-version-check uv
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ripgrep
+      - name: Negative baseline, cause-separated CodeAI candidates, direct Lean, then real MCP
+        run: python3 scripts/ci_kuuos_v157_codeai.py direct /tmp/kuuos-v157-candidate
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: kuuos-v157-candidate
+          path: /tmp/kuuos-v157-candidate
+          retention-days: 30
+          if-no-files-found: error
+
+  independent-v157-kernel-and-40-axioms:
+    needs: codeai-v157-direct-and-real-mcp
+    runs-on: ubuntu-22.04
+    timeout-minutes: 80
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: kuuos-v142-pinned-attachment-mathlib-5450-v1
+      - uses: actions/download-artifact@v4
+        with:
+          name: kuuos-v157-candidate
+          path: /tmp/kuuos-v157-independent
+      - name: Restore fixed Mathlib dependencies
+        run: lake exe cache get
+      - name: Independently reconstruct selected source verify MCP build and all 40 axioms
+        run: python3 scripts/ci_kuuos_v157_codeai.py independent /tmp/kuuos-v157-independent
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: kuuos-v157-independent-proof-audit
+          path: /tmp/kuuos-v157-independent
+          retention-days: 30
+          if-no-files-found: error
