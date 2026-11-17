@@ -84,6 +84,14 @@ PR3555_V130_LEGACY_TYPED_REVIEWED_BLOB = {
     "KUOS/DependentOriginationScaledHornPresentationInvariantV1_30.lean": "4f32b06a8c0e36cafc19dafae774c0077c7801bd",
 }
 
+# Main-based exact preservation ledger: reviewed v1.60 and v1.61 geometry
+# corrections for the pinned Mathlib UnionProd API (research proof-port lineage).
+# Historical v5.291 theorem bytes remain frozen. This is NOT Lean certification.
+PR3555_V160_V161_UNIONPROD_REVIEWED_BLOBS = {
+    "KUOS/DependentOriginationStandardTypeAEndpointPrismPairingV1_60.lean": "3a039fc3eba760d2fb4bfbe62d8fac5ab3fa87b6",
+    "KUOS/DependentOriginationStandardTypeABoundaryPrismRelativeCellV1_61.lean": "932d03cd7d4c33a5ffcc5cce03467c6a3a7bf3a3",
+}
+
 # PR #3522 extraction: exact reviewed source repairs (v1.2–v1.5 only).
 # These explicit blob values are integrity checks, not proof certification.
 PR3522_FOCUSED_REPAIR_BLOBS = {
@@ -336,7 +344,8 @@ class RestoredWiringTests(unittest.TestCase):
                              or PR3555_V114_V115_REVIEWED_BLOBS.get(rel.as_posix())
                              or PR3555_V117_TYPED_NERVE_REVIEWED_BLOB.get(rel.as_posix())
                              or PR3555_V125_CORESPINE_COMMENT_BLOB.get(rel.as_posix())
-                             or PR3555_V130_LEGACY_TYPED_REVIEWED_BLOB.get(rel.as_posix()))
+                             or PR3555_V130_LEGACY_TYPED_REVIEWED_BLOB.get(rel.as_posix())
+                             or PR3555_V160_V161_UNIONPROD_REVIEWED_BLOBS.get(rel.as_posix()))
                 if fixed_sha is not None:
                     pinned_seen.add(rel.as_posix())
                     self.assertEqual(git_blob_sha(current), fixed_sha,
@@ -346,7 +355,7 @@ class RestoredWiringTests(unittest.TestCase):
                                      f'unreviewed theorem source change: {rel}')
         self.assertEqual(seen, set(LINT_ONLY_SOURCE_EDITS),
                          'reviewed lint edit targets must all exist in historical roots')
-        self.assertEqual(pinned_seen, set(PR2339_INTEGRATED_PROOF_BLOBS) | set(PR3522_FOCUSED_REPAIR_BLOBS) | set(PR3548_V16_LOCALLY_DISCRETE_BLOB) | set(PR3550_V118_DIRECT_IMPORT_BLOB) | set(PR3551_V119_CLASS_REDUCIBILITY_BLOB) | set(PR3552_V120_SEGAL_BLOB) | set(PR3553_V121_V125_BOUNDED_BLOBS) | set(PR3554_V126_TYPED_TRANSPORT_BLOB) | set(PR3555_V127_V129_ULIFT_REVIEWED_BLOBS) | set(PR3555_V17_OPERADIC_REVIEWED_BLOB) | set(PR3555_V18_V113_REVIEWED_BLOBS) | set(PR3555_V114_V115_REVIEWED_BLOBS) | set(PR3555_V117_TYPED_NERVE_REVIEWED_BLOB) | set(PR3555_V125_CORESPINE_COMMENT_BLOB) | set(PR3555_V130_LEGACY_TYPED_REVIEWED_BLOB),
+        self.assertEqual(pinned_seen, set(PR2339_INTEGRATED_PROOF_BLOBS) | set(PR3522_FOCUSED_REPAIR_BLOBS) | set(PR3548_V16_LOCALLY_DISCRETE_BLOB) | set(PR3550_V118_DIRECT_IMPORT_BLOB) | set(PR3551_V119_CLASS_REDUCIBILITY_BLOB) | set(PR3552_V120_SEGAL_BLOB) | set(PR3553_V121_V125_BOUNDED_BLOBS) | set(PR3554_V126_TYPED_TRANSPORT_BLOB) | set(PR3555_V127_V129_ULIFT_REVIEWED_BLOBS) | set(PR3555_V17_OPERADIC_REVIEWED_BLOB) | set(PR3555_V18_V113_REVIEWED_BLOBS) | set(PR3555_V114_V115_REVIEWED_BLOBS) | set(PR3555_V117_TYPED_NERVE_REVIEWED_BLOB) | set(PR3555_V125_CORESPINE_COMMENT_BLOB) | set(PR3555_V130_LEGACY_TYPED_REVIEWED_BLOB) | set(PR3555_V160_V161_UNIONPROD_REVIEWED_BLOBS),
                          'every preexisting integrated proof exception is explicit and accounted for')
 
     def test_f55_path_functor_composition_has_actual_path_homs(self):
@@ -365,6 +374,23 @@ class RestoredWiringTests(unittest.TestCase):
         self.assertIn('(g : Quiver.Path', typed)
         self.assertIn('nativeF55ThreeComp', typed)
         self.assertIn('.map_comp f g', typed)
+
+    def test_v161_unionprod_pinned_source_port_exact_blobs(self):
+        # Imported proof-port code, preserving its original Apache-2 attribution.
+        # Source integrity is independent of Lean kernel type-checking.
+        expected = {
+            "PinnedMathlibUnionProdProofPortV1_61.lean": "ba703c0dd48e4e437cb968e077611fb50e5a154e",
+            "PinnedMathlibUnionProdInnerPairingCoreV1_61.lean": "ece7c5a8291e6846d5c44c1e5e2f5d6ad546682d",
+            "PinnedMathlibUnionProdWeakRankV1_61.lean": "131542e0a23efa80287655656f1805b5523acabf",
+            "PinnedMathlibUnionProdOpSymmetryV1_61.lean": "6fa03ffd9b5e0bb084af47a303b275aaa27b7bda",
+            "PinnedMathlibUnionProdFullPairingV1_61.lean": "da3cc7de1761081f15830dd0aecf9f3d23067e90",
+        }
+        for filename, sha in expected.items():
+            with self.subTest(path=filename):
+                file = ROOT / "formal" / "KUOS" / filename
+                self.assertTrue(file.is_file(), f"missing pinned port: {filename}")
+                self.assertEqual(git_blob_sha(file.read_bytes()), sha,
+                                 f"pinned UnionProd proof port changed: {filename}")
 
     def test_v129_new_universe_lift_bridge_exact_blob(self):
         # New append-only source has no historical file to replace.
