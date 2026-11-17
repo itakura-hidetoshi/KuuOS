@@ -12,7 +12,7 @@ permissions:
 env:
   MATHLIB_NO_CACHE_ON_UPDATE: '1'
   PYTHONPATH: .
-  V150_CHECKOUT_BLOB: 'f864e902c0b5e1e260449230133c7ec40b515d46'
+  V150_CHECKOUT_BLOB: '48ae0b637350ee8bfb63926327a4285d05b79af5'
   SOURCE_HEAD: ${{ github.event.pull_request.head.sha }}
 
 jobs:
@@ -66,7 +66,7 @@ jobs:
           out.mkdir(parents=True,exist_ok=True)
           def blob(b):
               return hashlib.sha1(b'blob '+str(len(b)).encode()+b'\0'+b).hexdigest()
-          assert blob(original)==os.environ['V150_CHECKOUT_BLOB']=='f864e902c0b5e1e260449230133c7ec40b515d46'
+          assert blob(original)==os.environ['V150_CHECKOUT_BLOB']=='48ae0b637350ee8bfb63926327a4285d05b79af5'
           baseline=(root/'legacy/v5.291/formal/KUOS/DependentOriginationStandardTypeAEndpointPushoutProductV1_50.lean').read_text()
           assert blob(baseline.encode())=='f864e902c0b5e1e260449230133c7ec40b515d46'
           patches=json.loads(r'''[{"old":"L (standardTypeAScaledHornGeneratorHom g.toHornGenerator) →","new":"L (standardTypeAScaledHornGeneratorHom (KUOS.DependentOriginationStandardTypeAEndpointPushoutProductV1_50.StandardTypeAHornAttachmentGeneratorIndex.toHornGenerator g)) →"},{"old":"(standardTypeAScaledHornGeneratorHom g.toHornGenerator)","new":"(standardTypeAScaledHornGeneratorHom (KUOS.DependentOriginationStandardTypeAEndpointPushoutProductV1_50.StandardTypeAHornAttachmentGeneratorIndex.toHornGenerator g))"},{"old":"(standardTypeAScaledHornGenerator_mem g.toHornGenerator)","new":"(standardTypeAScaledHornGenerator_mem (KUOS.DependentOriginationStandardTypeAEndpointPushoutProductV1_50.StandardTypeAHornAttachmentGeneratorIndex.toHornGenerator g))"},{"old":"  (K : StandardTypeAExternalGeneratedComparison E)\n\n/-- Every standard type-(A) endpoint","new":"  (K : StandardTypeAExternalGeneratedComparison E)\n\ninclude K\n\n/-- Every standard type-(A) endpoint"}]''')
