@@ -12,7 +12,7 @@ permissions:
 env:
   MATHLIB_NO_CACHE_ON_UPDATE: '1'
   PYTHONPATH: .
-  V144_CHECKOUT_BLOB: '0e81eb0c7fedfcd09c0f552d910da1c621606491'
+  V144_CHECKOUT_BLOB: 'ea3d9c2edff775235af266d10b87316f65aeb60d'
   SOURCE_HEAD: ${{ github.event.pull_request.head.sha }}
 
 jobs:
@@ -66,17 +66,25 @@ jobs:
           out.mkdir(parents=True,exist_ok=True)
           def blob(b):
               return hashlib.sha1(b'blob '+str(len(b)).encode()+b'\0'+b).hexdigest()
-          expected='0e81eb0c7fedfcd09c0f552d910da1c621606491'
+          expected='ea3d9c2edff775235af266d10b87316f65aeb60d'
           assert blob(original)==expected==os.environ['V144_CHECKOUT_BLOB']
           baseline=original.decode()
           names=['def toIsCardinalForSmallObjectArgument',
                  'def toHasSmallObjectArgument',
                  'noncomputable def canonicalGeneratedScaledFactorization_of_smallObject',
                  'noncomputable def canonicalGeneratedScaledWeakFactorizationSystem_of_smallObject']
-          for name in names:
-              assert baseline.count('\n'+name+'\n')==1,('missing definition',name)
           change='  change MorphismProperty.HasFactorization\n    ((scaledHornAttachmentGenerators : MorphismProperty (ScaledSSet.{u})).rlp.llp)\n    ((scaledHornAttachmentGenerators : MorphismProperty (ScaledSSet.{u})).rlp)\n  infer_instance\n\n/-- Consequently'
           old='  infer_instance\n\n/-- Consequently'
+          if blob(original)=='ea3d9c2edff775235af266d10b87316f65aeb60d':
+              for name in names:
+                  anchor='\n@[reducible] '+name+'\n'
+                  assert baseline.count(anchor)==1
+                  baseline=baseline.replace(anchor,'\n'+name+'\n',1)
+              assert baseline.count(change)==1
+              baseline=baseline.replace(change,old,1)
+          assert blob(baseline.encode())=='0e81eb0c7fedfcd09c0f552d910da1c621606491
+          for name in names:
+              assert baseline.count('\n'+name+'\n')==1,('missing definition',name)
           assert baseline.count(old)==1
           def with_attrs(attr):
               s=baseline

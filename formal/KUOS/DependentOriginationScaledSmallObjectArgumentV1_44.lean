@@ -94,7 +94,7 @@ namespace CanonicalScaledSmallObjectCardinalData
 /-- The explicit cardinal data is exactly enough to construct Mathlib's
 `IsCardinalForSmallObjectArgument` certificate for the canonical generator
 class. -/
-def toIsCardinalForSmallObjectArgument
+@[reducible] def toIsCardinalForSmallObjectArgument
     {κ : Cardinal.{u}} [Fact κ.IsRegular] [OrderBot κ.ord.ToType]
     (K : CanonicalScaledSmallObjectCardinalData.{u} κ) :
     MorphismProperty.IsCardinalForSmallObjectArgument.{u}
@@ -110,7 +110,7 @@ def toIsCardinalForSmallObjectArgument
 
 /-- One suitable regular cardinal with the explicit data therefore gives the
 full Mathlib small-object-argument typeclass. -/
-def toHasSmallObjectArgument
+@[reducible] def toHasSmallObjectArgument
     {κ : Cardinal.{u}} [Fact κ.IsRegular] [OrderBot κ.ord.ToType]
     (K : CanonicalScaledSmallObjectCardinalData.{u} κ) :
     MorphismProperty.HasSmallObjectArgument.{u}
@@ -129,16 +129,19 @@ abbrev HasCanonicalScaledSmallObjectArgument : Prop :=
 
 /-- The Mathlib small-object argument supplies exactly the factorization datum
 left open in v1.43. -/
-noncomputable def canonicalGeneratedScaledFactorization_of_smallObject
+@[reducible] noncomputable def canonicalGeneratedScaledFactorization_of_smallObject
     (h : HasCanonicalScaledSmallObjectArgument.{u}) :
     CanonicalGeneratedScaledFactorization.{u} := by
   letI : MorphismProperty.HasSmallObjectArgument.{u}
       (scaledHornAttachmentGenerators : MorphismProperty (ScaledSSet.{u})) := h
+  change MorphismProperty.HasFactorization
+    ((scaledHornAttachmentGenerators : MorphismProperty (ScaledSSet.{u})).rlp.llp)
+    ((scaledHornAttachmentGenerators : MorphismProperty (ScaledSSet.{u})).rlp)
   infer_instance
 
 /-- Consequently the small-object theorem upgrades the canonical orthogonal
 pair to a native Mathlib weak factorization system. -/
-noncomputable def canonicalGeneratedScaledWeakFactorizationSystem_of_smallObject
+@[reducible] noncomputable def canonicalGeneratedScaledWeakFactorizationSystem_of_smallObject
     (h : HasCanonicalScaledSmallObjectArgument.{u}) :
     MorphismProperty.IsWeakFactorizationSystem
       (canonicalGeneratedScaledAnodyne : MorphismProperty (ScaledSSet.{u}))
