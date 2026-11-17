@@ -9,6 +9,7 @@ open MonoidalCategory
 open CartesianMonoidalCategory
 open Simplicial
 open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
+open KUOS.DependentOriginationBiequivalencePresentationInvariantV1_26
 open KUOS.DependentOriginationGlobalDuskinScaledHornCoherenceV1_22
 open KUOS.DependentOriginationHomotopyClassScaledHornInvariantV1_37
 open KUOS.DependentOriginationHomotopyClassStrictificationV1_38
@@ -76,17 +77,39 @@ noncomputable def endpointIntoAttachment
 theorem endpointIntoAttachment_ι_zero
     (n : Nat) (i : Fin (n + 1)) :
     endpointIntoAttachment n i 0 ≫ (hornCylinderAttachment n i 0).ι =
-      (ι₀ : (Δ[n] : SSet.{u}) ⟶ (Δ[n] : SSet.{u}) ⊗ Δ[1]) := by
-  ext m x
-  rfl
+      (SSet.ι₀ : (Δ[n] : SSet.{u}) ⟶ (Δ[n] : SSet.{u}) ⊗ Δ[1]) := by
+  calc
+    _ = endpointSection n 0 ≫
+        (SSet.Subcomplex.unionProd.ι₁ (SSet.horn n i) (intervalEndpoint 0) ≫
+          (hornCylinderAttachment n i 0).ι) := by
+          rfl
+    _ = endpointSection n 0 ≫
+        ((Δ[n] : SSet.{u}) ◁ (intervalEndpoint 0).ι) := by
+          exact congrArg (fun k => endpointSection n 0 ≫ k)
+            (SSet.Subcomplex.unionProd.ι₁_ι (SSet.horn n i) (intervalEndpoint 0))
+    _ = SSet.ι₀ := by
+      ext m x <;>
+        simp [endpointSection, intervalEndpoint,
+          SSet.Subcomplex.ofSimplex_ι, SSet.ι₀]
 
 @[simp, reassoc]
 theorem endpointIntoAttachment_ι_one
     (n : Nat) (i : Fin (n + 1)) :
     endpointIntoAttachment n i 1 ≫ (hornCylinderAttachment n i 1).ι =
-      (ι₁ : (Δ[n] : SSet.{u}) ⟶ (Δ[n] : SSet.{u}) ⊗ Δ[1]) := by
-  ext m x
-  rfl
+      (SSet.ι₁ : (Δ[n] : SSet.{u}) ⟶ (Δ[n] : SSet.{u}) ⊗ Δ[1]) := by
+  calc
+    _ = endpointSection n 1 ≫
+        (SSet.Subcomplex.unionProd.ι₁ (SSet.horn n i) (intervalEndpoint 1) ≫
+          (hornCylinderAttachment n i 1).ι) := by
+          rfl
+    _ = endpointSection n 1 ≫
+        ((Δ[n] : SSet.{u}) ◁ (intervalEndpoint 1).ι) := by
+          exact congrArg (fun k => endpointSection n 1 ≫ k)
+            (SSet.Subcomplex.unionProd.ι₁_ι (SSet.horn n i) (intervalEndpoint 1))
+    _ = SSet.ι₁ := by
+      ext m x <;>
+        simp [endpointSection, intervalEndpoint,
+          SSet.Subcomplex.ofSimplex_ι, SSet.ι₁]
 
 /-! ## Canonical pushout gluing of endpoint simplex and horn homotopy -/
 
@@ -120,7 +143,8 @@ theorem forwardAttachment_compatibility
   rcases z with ⟨x, t⟩
   have hH := ConcreteCategory.congr_hom (congr_app H.h₀ m) x
   have hQ := ConcreteCategory.congr_hom (congr_app Q.boundary_eq m) x
-  simpa [endpointTensorMap, intervalEndpoint] using hQ.symm.trans hH.symm
+  simpa [endpointTensorMap, intervalEndpoint,
+    SSet.Subcomplex.ofSimplex_ι, SSet.ι₀] using hQ.symm.trans hH.symm
 
 /-- Compatibility on `Λ[n,i] × {1}` for the backward attachment. -/
 theorem backwardAttachment_compatibility
@@ -138,7 +162,8 @@ theorem backwardAttachment_compatibility
   rcases z with ⟨x, t⟩
   have hH := ConcreteCategory.congr_hom (congr_app H.h₁ m) x
   have hQ := ConcreteCategory.congr_hom (congr_app Q.boundary_eq m) x
-  simpa [endpointTensorMap, intervalEndpoint] using hQ.symm.trans hH.symm
+  simpa [endpointTensorMap, intervalEndpoint,
+    SSet.Subcomplex.ofSimplex_ι, SSet.ι₁] using hQ.symm.trans hH.symm
 
 /-- The canonical forward attachment map obtained from the pushout. -/
 noncomputable def forwardAttachmentMap
@@ -180,8 +205,16 @@ theorem forwardAttachmentMap_on_endpoint
     (H : f.Homotopy g)
     (Q : ScaledHornBoundaryRealization sX sΔ f) :
     endpointIntoAttachment n i 0 ≫ forwardAttachmentMap H Q = Q.simplexMap := by
-  simp [endpointIntoAttachment, endpointSection, forwardAttachmentMap,
-    endpointTensorMap]
+  calc
+    _ = endpointSection n 0 ≫ endpointTensorMap 0 Q := by
+      simpa only [endpointIntoAttachment, forwardAttachmentMap,
+          Category.assoc] using
+        congrArg (fun k => endpointSection n 0 ≫ k)
+          ((SSet.Subcomplex.unionProd.isPushout
+            (SSet.horn n i) (intervalEndpoint 0)).inl_desc
+              (endpointTensorMap 0 Q) H.h (forwardAttachment_compatibility H Q))
+    _ = Q.simplexMap := by
+      simp [endpointSection, endpointTensorMap]
 
 @[simp, reassoc]
 theorem backwardAttachmentMap_on_endpoint
@@ -193,8 +226,16 @@ theorem backwardAttachmentMap_on_endpoint
     (H : f.Homotopy g)
     (Q : ScaledHornBoundaryRealization sX sΔ g) :
     endpointIntoAttachment n i 1 ≫ backwardAttachmentMap H Q = Q.simplexMap := by
-  simp [endpointIntoAttachment, endpointSection, backwardAttachmentMap,
-    endpointTensorMap]
+  calc
+    _ = endpointSection n 1 ≫ endpointTensorMap 1 Q := by
+      simpa only [endpointIntoAttachment, backwardAttachmentMap,
+          Category.assoc] using
+        congrArg (fun k => endpointSection n 1 ≫ k)
+          ((SSet.Subcomplex.unionProd.isPushout
+            (SSet.horn n i) (intervalEndpoint 1)).inl_desc
+              (endpointTensorMap 1 Q) H.h (backwardAttachment_compatibility H Q))
+    _ = Q.simplexMap := by
+      simp [endpointSection, endpointTensorMap]
 
 @[simp, reassoc]
 theorem forwardAttachmentMap_on_horn
@@ -238,7 +279,7 @@ structure ForwardScaledHornAttachmentLifting
       ∃ extension : (Δ[n] : SSet.{u}) ⊗ Δ[1] ⟶ X,
         (hornCylinderAttachment n i 0).ι ≫ extension =
             forwardAttachmentMap H Q ∧
-        IsScaledMap sΔ sX (ι₁ ≫ extension)
+        IsScaledMap sΔ sX (SSet.ι₁ ≫ extension)
 
 /-- Backward extension of the endpoint-1 attachment map, with scaled endpoint 0. -/
 structure BackwardScaledHornAttachmentLifting
@@ -253,18 +294,18 @@ structure BackwardScaledHornAttachmentLifting
       ∃ extension : (Δ[n] : SSet.{u}) ⊗ Δ[1] ⟶ X,
         (hornCylinderAttachment n i 1).ι ≫ extension =
             backwardAttachmentMap H Q ∧
-        IsScaledMap sΔ sX (ι₀ ≫ extension)
+        IsScaledMap sΔ sX (SSet.ι₀ ≫ extension)
 
 namespace ForwardScaledHornAttachmentLifting
 
 /-- Attachment lifting implies the forward cylinder-extension interface of
 v1.39. -/
-noncomputable def toCylinderExtension
+@[reducible] noncomputable def toCylinderExtension
     {X : SSet.{u}}
     {sX : ScaledSimplicialSet X}
     {n : Nat} {i : Fin (n + 1)}
     {sΔ : ScaledSimplicialSet (Δ[n] : SSet.{u})}
-    (R : ForwardScaledHornAttachmentLifting sX sΔ)
+    (R : ForwardScaledHornAttachmentLifting (i := i) sX sΔ)
     {f g : HornRelativeMap X n i}
     (H : f.Homotopy g)
     (Q : ScaledHornBoundaryRealization sX sΔ f) :
@@ -276,9 +317,12 @@ noncomputable def toCylinderExtension
       rw [← endpointIntoAttachment_ι_zero n i, Category.assoc, hE,
         forwardAttachmentMap_on_endpoint]
     on_horn := by
-      rw [← SSet.Subcomplex.unionProd.ι₂_ι
-        (SSet.horn n i) (intervalEndpoint 0), Category.assoc, hE,
-        forwardAttachmentMap_on_horn]
+      change
+        SSet.Subcomplex.unionProd.ι₂ (SSet.horn n i) (intervalEndpoint 0) ≫
+          ((hornCylinderAttachment n i 0).ι ≫ E) = H.h
+      exact (congrArg
+        (fun k => SSet.Subcomplex.unionProd.ι₂ (SSet.horn n i) (intervalEndpoint 0) ≫ k)
+          hE).trans (forwardAttachmentMap_on_horn H Q)
     endpoint_one_scaled := hScaled
   }⟩
 
@@ -288,12 +332,12 @@ namespace BackwardScaledHornAttachmentLifting
 
 /-- Attachment lifting implies the backward cylinder-extension interface of
 v1.39. -/
-noncomputable def toCylinderExtension
+@[reducible] noncomputable def toCylinderExtension
     {X : SSet.{u}}
     {sX : ScaledSimplicialSet X}
     {n : Nat} {i : Fin (n + 1)}
     {sΔ : ScaledSimplicialSet (Δ[n] : SSet.{u})}
-    (R : BackwardScaledHornAttachmentLifting sX sΔ)
+    (R : BackwardScaledHornAttachmentLifting (i := i) sX sΔ)
     {f g : HornRelativeMap X n i}
     (H : f.Homotopy g)
     (Q : ScaledHornBoundaryRealization sX sΔ g) :
@@ -305,9 +349,12 @@ noncomputable def toCylinderExtension
       rw [← endpointIntoAttachment_ι_one n i, Category.assoc, hE,
         backwardAttachmentMap_on_endpoint]
     on_horn := by
-      rw [← SSet.Subcomplex.unionProd.ι₂_ι
-        (SSet.horn n i) (intervalEndpoint 1), Category.assoc, hE,
-        backwardAttachmentMap_on_horn]
+      change
+        SSet.Subcomplex.unionProd.ι₂ (SSet.horn n i) (intervalEndpoint 1) ≫
+          ((hornCylinderAttachment n i 1).ι ≫ E) = H.h
+      exact (congrArg
+        (fun k => SSet.Subcomplex.unionProd.ι₂ (SSet.horn n i) (intervalEndpoint 1) ≫ k)
+          hE).trans (backwardAttachmentMap_on_horn H Q)
     endpoint_zero_scaled := hScaled
   }⟩
 
@@ -319,14 +366,14 @@ structure ScaledHornProblemAttachmentLifting
     (sX : ScaledSimplicialSet X)
     {n : Nat} {i : Fin (n + 1)}
     (P : ScaledHornExtensionProblem X sX n i) : Prop where
-  forward : ForwardScaledHornAttachmentLifting sX P.simplexScaling
-  backward : BackwardScaledHornAttachmentLifting sX P.simplexScaling
+  forward : ForwardScaledHornAttachmentLifting (i := i) sX P.simplexScaling
+  backward : BackwardScaledHornAttachmentLifting (i := i) sX P.simplexScaling
 
 namespace ScaledHornProblemAttachmentLifting
 
 /-- Canonical attachment lifting recovers the two-sided cylinder extension of
 v1.39. -/
-noncomputable def toCylinderExtension
+@[reducible] noncomputable def toCylinderExtension
     {X : SSet.{u}}
     {sX : ScaledSimplicialSet X}
     {n : Nat} {i : Fin (n + 1)}
@@ -341,7 +388,7 @@ noncomputable def toCylinderExtension
     exact R.backward.toCylinderExtension H Q
 
 /-- Therefore attachment lifting already strictifies homotopy-class fillers. -/
-noncomputable def toStrictification
+@[reducible] noncomputable def toStrictification
     {X : SSet.{u}}
     {sX : ScaledSimplicialSet X}
     {n : Nat} {i : Fin (n + 1)}
@@ -368,7 +415,7 @@ structure ScaledHornFamilyAttachmentLifting
 
 namespace ScaledHornFamilyAttachmentLifting
 
-noncomputable def toCylinderExtension
+@[reducible] noncomputable def toCylinderExtension
     {X : SSet.{u}}
     {sX : ScaledSimplicialSet X}
     {F : ScaledHornFamily X sX}
@@ -378,7 +425,7 @@ noncomputable def toCylinderExtension
     intro n i P hP
     exact (R.lifting P hP).toCylinderExtension
 
-noncomputable def toStrictification
+@[reducible] noncomputable def toStrictification
     {X : SSet.{u}}
     {sX : ScaledSimplicialSet X}
     {F : ScaledHornFamily X sX}
@@ -417,6 +464,8 @@ variable
     {HB : GlobalDuskinScaledHornFamily B}
     {HC : GlobalDuskinScaledHornFamily C}
     (K : CoherentNormalizedScaledAttachmentLiftableModelEquivalence E G HB HC)
+
+include K
 
 noncomputable def toCylinderExtendableModelEquivalence :
     CoherentNormalizedScaledCylinderExtendableModelEquivalence E G HB HC where
