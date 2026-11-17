@@ -36,15 +36,15 @@ class WaEvaluationNativeCycleTests(unittest.TestCase):
             module: getattr(import_module(module), symbol)
             for _, module, symbol in core.STORE_BINDINGS + mediated.STORE_BINDINGS
         }
-        cls.run = guarded.build_wa_evaluation_native_fixture(cls.root)
+        cls.observed_run = guarded.build_wa_evaluation_native_fixture(cls.root)
 
     def _report(self):
         inherited = mediated._make_child_report(
-            dict(self.run.state_guard_calls), self.run.pre_host_guard_calls, self.run.native_audit,
+            dict(self.observed_run.state_guard_calls), self.observed_run.pre_host_guard_calls, self.observed_run.native_audit,
         )
-        numeric_report = numeric._make_child_report(inherited, self.run.wa_numeric_guard_calls)
-        gate_report = prior._make_child_report(numeric_report, self.run.wa_gate_guard_calls)
-        return guarded._make_child_report(gate_report, self.run.wa_evaluation_guard_calls)
+        numeric_report = numeric._make_child_report(inherited, self.observed_run.wa_numeric_guard_calls)
+        gate_report = prior._make_child_report(numeric_report, self.observed_run.wa_gate_guard_calls)
+        return guarded._make_child_report(gate_report, self.observed_run.wa_evaluation_guard_calls)
 
     def _store_inputs(self):
         initial = json.loads((self.root / "wa/wa-v03-genesis.json").read_text())
@@ -53,7 +53,7 @@ class WaEvaluationNativeCycleTests(unittest.TestCase):
         return initial, [item["event"] for item in commits]
 
     def test_real_child_all_eight_routes_and_equal_guard_counts(self):
-        run = self.run
+        run = self.observed_run
         self.assertEqual(run.status, guarded.SUCCESS)
         self.assertEqual(run.native_audit.status, GOOD)
         self.assertEqual(tuple(dict(run.state_guard_calls)), mediated.GUARDED_OS)
@@ -154,25 +154,25 @@ class WaEvaluationNativeCycleTests(unittest.TestCase):
             self.assertEqual(before, (store.ledger_path.read_bytes(), store.snapshot_path.read_bytes()))
 
     def test_report_rejects_wrong_count_and_scope_forgery(self):
-        actual = self.run.wa_evaluation_guard_calls
+        actual = self.observed_run.wa_evaluation_guard_calls
         for value in (None, True, False, 0, -1, str(actual), float(actual), actual + 1):
             report = self._report()
             report["wa_evaluation_guard_calls"] = value
             with self.subTest(value=value), self.assertRaises(ValueError):
-                guarded._checked_report(report, self.run.native_audit)
+                guarded._checked_report(report, self.observed_run.native_audit)
         for field, value in (("wa_native_float_derivation_checked", False),
                              ("lean_python_refinement_proved", True),
                              ("numeric_values_modified", True)):
             report = self._report()
             report[field] = value
             with self.subTest(field=field), self.assertRaises(ValueError):
-                guarded._checked_report(report, self.run.native_audit)
+                guarded._checked_report(report, self.observed_run.native_audit)
 
     def test_report_exactly_preserves_prior_gate_report(self):
         report = self._report()
         self.assertEqual(set(report), guarded.REPORT_KEYS)
-        self.assertEqual(guarded._checked_report(report, self.run.native_audit)[-1],
-                         self.run.wa_evaluation_guard_calls)
+        self.assertEqual(guarded._checked_report(report, self.observed_run.native_audit)[-1],
+                         self.observed_run.wa_evaluation_guard_calls)
         self.assertEqual(report["gate_report"]["version"], prior.VERSION)
 
     def test_scope_flags_remain_unverified_and_frozen(self):
@@ -182,9 +182,9 @@ class WaEvaluationNativeCycleTests(unittest.TestCase):
                     "host_rollback_guaranteed", "state_commit_atomic_with_host",
                     "execution_authority_granted", "truth_authority_granted",
                     "git_merge_authority_granted"):
-            self.assertIs(getattr(self.run, key), False)
+            self.assertIs(getattr(self.observed_run, key), False)
         with self.assertRaises(FrozenInstanceError):
-            self.run.truth_authority_granted = True
+            self.observed_run.truth_authority_granted = True
 
 
 if __name__ == "__main__":
