@@ -12,7 +12,7 @@ permissions:
 env:
   MATHLIB_NO_CACHE_ON_UPDATE: '1'
   PYTHONPATH: .
-  V143_CHECKOUT_BLOB: '00c7f8143af9dbefc8253b2aedcd86b64613b120'
+  V143_CHECKOUT_BLOB: '833c8e772b7f35a3b5bd36995703ed257bac20c7'
   SOURCE_HEAD: ${{ github.event.pull_request.head.sha }}
 
 jobs:
