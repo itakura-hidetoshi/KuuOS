@@ -1,0 +1,238 @@
+name: KuuOS v1.38 exact research source direct Lean and real MCP
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/kuuos-v138-research-source-real-mcp-v1.yml'
+
+permissions:
+  contents: read
+
+env:
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+
+jobs:
+  isolated-v138-pinned-lean-real-mcp:
+    if: github.event.pull_request.number == 3555
+    runs-on: ubuntu-22.04
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - uses: actions/cache@v5
+        with:
+          path: .lake
+          key: kuuos-v138-research-pinned-mathlib-5450-v1
+      - name: Restore exact pinned Mathlib cache
+        run: lake exe cache get
+      - name: Isolated v1.38 research exact Git blob and preserved strictification boundaries
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import base64,hashlib,json,pathlib,urllib.request
+          from scripts.check_kuuos_lean_lsp_mcp_compatibility_v7_17 import require_pins
+          root=pathlib.Path('.').resolve()
+          pins=require_pins(root)
+          assert pins['mathlib_sha']=='5450b53e5ddc75d46418fabb605edbf36bd0beb6'
+          def blob(raw):
+              return hashlib.sha1(b'blob '+str(len(raw)).encode()+b'\0'+raw).hexdigest()
+          dep=root/'formal/KUOS/DependentOriginationHomotopyClassScaledHornInvariantV1_37.lean'
+          assert blob(dep.read_bytes())=='af1bedd2bcaeac026d3554e359536d925f17cc93'
+          target=root/'formal/KUOS/DependentOriginationHomotopyClassStrictificationV1_38.lean'
+          original=target.read_bytes()
+          assert blob(original)=='372285335f8c6342d8e7d908dd7ad3173c664d8e'
+          sha='08399f0feca20eb8664b2673797a4c785d2588b0'
+          request=urllib.request.Request('https://api.github.com/repos/itakura-hidetoshi/KuuOS/git/blobs/'+sha,
+              headers={'Accept':'application/vnd.github+json','User-Agent':'KuuOS-v138-source-exact-MCP'})
+          with urllib.request.urlopen(request,timeout=90) as response:
+              obj=json.load(response)
+          assert obj.get('encoding')=='base64'
+          candidate=base64.b64decode(obj['content'])
+          assert blob(candidate)==sha
+          text=candidate.decode()
+          for phrase in ['structure UniversalScaledHornHomotopyClassStrictification',
+              'structure ScaledHornFamilyHomotopyClassStrictification',
+              '@[reducible] noncomputable def homotopyClassFibrancyOfStrict',
+              '@[reducible] def strictFibrancyOfHomotopyClass',
+              'include K','theorem globalDuskinStrictFibrancy_iff :',
+              'HasScaledHornFillers (duskinNerve B) (duskinScaling B) HB ↔',
+              'HasScaledHornFillers (duskinNerve C) (duskinScaling C) HC := by',
+              'sourceStrictification','targetStrictification']:
+              assert phrase in text,'missing strictification statement/condition: '+phrase
+          assert not any(x in candidate for x in (b'\nsorry\n',b'\nadmit\n',b'\naxiom '))
+          artifact=pathlib.Path('/tmp/kuuos-v138-research-mcp')
+          artifact.mkdir(parents=True,exist_ok=True)
+          (artifact/'source.lean').write_bytes(candidate)
+          (artifact/'original.lean').write_bytes(original)
+          (artifact/'manifest.json').write_text(json.dumps({
+              'research_head':'ef215a76b638acadacbe628309f158ce8d7cbdb0',
+              'research_blob':sha,'old_blob':blob(original),
+              'candidate_sha256':hashlib.sha256(candidate).hexdigest(),
+              'source_unmodified_on_github':True,
+              'strictification_witnesses_preserved':True,
+              'no_automatic_fibrancy_claim':True},indent=2))
+          target.write_bytes(candidate)
+          print('KUUOS_V138_TYPED_STRICTIFICATION_CANDIDATE_STAGED_ISOLATED')
+          PY
+      - name: Direct pinned Lean v1.38 and dependency closure
+        run: |
+          set -euo pipefail
+          timeout --signal=TERM --kill-after=30s 70m lake \
+            -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true \
+            build KUOS.DependentOriginationHomotopyClassStrictificationV1_38 \
+            2>&1 | tee /tmp/kuuos-v138-research-mcp/direct-lean.log
+      - name: Install real Lean MCP requirements
+        run: |
+          python3 -m pip install --disable-pip-version-check uv
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ripgrep
+      - name: Real Lean MCP source diagnostics and direct Lean confirmation
+        run: |
+          set -euo pipefail
+          export PYTHONPATH=.
+          SHA="$(python3 - <<'PY'
+          import hashlib,pathlib
+          p=pathlib.Path('formal/KUOS/DependentOriginationHomotopyClassStrictificationV1_38.lean')
+          print(hashlib.sha256(p.read_bytes()).hexdigest())
+          PY
+          )"
+          python3 scripts/kuuos_lean_mcp_repair_loop_v1.py \
+            --project-root . \
+            --file formal/KUOS/DependentOriginationHomotopyClassStrictificationV1_38.lean \
+            --source-sha256 "$SHA" \
+            --output-dir /tmp/kuuos-v138-real-mcp \
+            --provider mcp-tactic --max-iterations 1
+          python3 - <<'PY'
+          import json,pathlib,hashlib,shutil
+          a=pathlib.Path('/tmp/kuuos-v138-real-mcp/receipt.json')
+          r=json.loads(a.read_text())
+          source=pathlib.Path('formal/KUOS/DependentOriginationHomotopyClassStrictificationV1_38.lean')
+          assert r['status']=='LOCAL_LEAN_GREEN_CANDIDATE_ONLY'
+          assert r['source_restored'] and not r['independent_ci_success'] and not r['git_write_performed']
+          assert r['rounds'][0]['semantic_success'] and not r['rounds'][0]['errors']
+          assert r['rounds'][0]['direct_lean']['exit_code']==0
+          assert r['candidate_sha256']==hashlib.sha256(source.read_bytes()).hexdigest()
+          shutil.copy2(a,'/tmp/kuuos-v138-research-mcp/mcp.json')
+          print('KUUOS_V138_REAL_MCP_AND_PINNED_DIRECT_LEAN_SUCCESS')
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: kuuos-v138-exact-research-real-mcp
+          path: /tmp/kuuos-v138-research-mcp
+          if-no-files-found: warn
+          retention-days: 30
+
+  independent-v138-kernel-and-six-axioms:
+    if: github.event.pull_request.number == 3555
+    needs: isolated-v138-pinned-lean-real-mcp
+    runs-on: ubuntu-22.04
+    timeout-minutes: 80
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - uses: actions/cache@v5
+        with:
+          path: .lake
+          key: kuuos-v138-research-pinned-mathlib-5450-v1
+      - name: Get pinned Mathlib cache
+        run: lake exe cache get
+      - uses: actions/download-artifact@v4
+        with:
+          name: kuuos-v138-exact-research-real-mcp
+          path: /tmp/kuuos-v138-independent
+      - name: Independent source SHA and actual MCP correspondence
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import hashlib,json,pathlib
+          from scripts.check_kuuos_lean_lsp_mcp_compatibility_v7_17 import require_pins
+          root=pathlib.Path('.').resolve()
+          assert require_pins(root)['mathlib_sha']=='5450b53e5ddc75d46418fabb605edbf36bd0beb6'
+          folder=pathlib.Path('/tmp/kuuos-v138-independent')
+          m=json.loads((folder/'manifest.json').read_text())
+          r=json.loads((folder/'mcp.json').read_text())
+          b=(folder/'source.lean').read_bytes()
+          origin=root/'formal/KUOS/DependentOriginationHomotopyClassStrictificationV1_38.lean'
+          existing=origin.read_bytes()
+          def blob(data):
+              return hashlib.sha1(b'blob '+str(len(data)).encode()+b'\0'+data).hexdigest()
+          assert blob(existing)==m['old_blob']=='372285335f8c6342d8e7d908dd7ad3173c664d8e'
+          assert blob(b)==m['research_blob']=='08399f0feca20eb8664b2673797a4c785d2588b0'
+          assert hashlib.sha256(b).hexdigest()==m['candidate_sha256']==r['candidate_sha256']
+          assert r['status']=='LOCAL_LEAN_GREEN_CANDIDATE_ONLY' and r['source_restored'] and not r['independent_ci_success']
+          assert r['rounds'][0]['direct_lean']['exit_code']==0 and not r['rounds'][0]['errors']
+          origin.write_bytes(b)
+          print('KUUOS_V138_INDEPENDENT_SOURCE_MCP_RECEIPT_MATCH')
+          PY
+      - name: Fresh independent Lean v1.38 pinned import closure
+        run: |
+          set -euo pipefail
+          timeout --signal=TERM --kill-after=30s 65m lake \
+            -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true \
+            build KUOS.DependentOriginationHomotopyClassStrictificationV1_38
+      - name: Independent six strictification declaration axiom audit
+        run: |
+          set -euo pipefail
+          cat > formal/KUOS/DependentOriginationV138CandidateAxiomAudit.lean <<'LEAN'
+          import KUOS.DependentOriginationHomotopyClassStrictificationV1_38
+          open KUOS.DependentOriginationHomotopyClassStrictificationV1_38
+          #print axioms UniversalScaledHornHomotopyClassStrictification.toFamily
+          #print axioms UniversalScaledHornHomotopyClassStrictification.toHomotopyRectification
+          #print axioms homotopyClassFibrancyOfStrict
+          #print axioms strictFibrancyOfHomotopyClass
+          #print axioms strictFibrancy_iff_homotopyClassFibrancy
+          #print axioms CoherentNormalizedScaledStrictifiableModelEquivalence.globalDuskinStrictFibrancy_iff
+          LEAN
+          lake env lean formal/KUOS/DependentOriginationV138CandidateAxiomAudit.lean \
+            | tee /tmp/kuuos-v138-candidate-six-axioms.log
+          python3 - <<'PY'
+          import pathlib,re
+          s=pathlib.Path('/tmp/kuuos-v138-candidate-six-axioms.log').read_text()
+          names=['UniversalScaledHornHomotopyClassStrictification.toFamily',
+            'UniversalScaledHornHomotopyClassStrictification.toHomotopyRectification',
+            'homotopyClassFibrancyOfStrict','strictFibrancyOfHomotopyClass',
+            'strictFibrancy_iff_homotopyClassFibrancy',
+            'CoherentNormalizedScaledStrictifiableModelEquivalence.globalDuskinStrictFibrancy_iff']
+          prefix='KUOS.DependentOriginationHomotopyClassStrictificationV1_38.'
+          for n in names:
+              assert ("'"+prefix+n+"'") in s,'missing exact declaration '+n
+          groups=re.findall(r'depends on axioms:\s*\[([^\]]*)\]',s,re.S)
+          assert len(groups)==6,len(groups)
+          standard={'propext','Classical.choice','Quot.sound'}
+          for group in groups:
+              assert {x.strip() for x in group.split(',') if x.strip()}<=standard
+          assert 'sorryAx' not in s and 'error:' not in s
+          print('KUUOS_V138_SIX_PUBLIC_DECLARATIONS_STANDARD_AXIOMS')
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: kuuos-v138-independent-six-axioms
+          path: /tmp/kuuos-v138-candidate-six-axioms.log
+          if-no-files-found: warn
+          retention-days: 30
