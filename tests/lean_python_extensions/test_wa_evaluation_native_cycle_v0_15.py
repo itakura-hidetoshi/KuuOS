@@ -31,7 +31,7 @@ class WaEvaluationNativeCycleTests(unittest.TestCase):
         cls.temp = TemporaryDirectory(prefix="kuuos-v015-native-")
         cls.addClassCleanup(cls.temp.cleanup)
         cls.root = Path(cls.temp.name)
-        cls.original = prior.checked_apply_wa_gate_event
+        cls.original = staticmethod(prior.checked_apply_wa_gate_event)
         cls.store_originals = {
             module: getattr(import_module(module), symbol)
             for _, module, symbol in core.STORE_BINDINGS + mediated.STORE_BINDINGS
