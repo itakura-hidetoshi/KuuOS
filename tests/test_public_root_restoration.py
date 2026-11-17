@@ -76,6 +76,14 @@ PR3555_V125_CORESPINE_COMMENT_BLOB = {
     "KUOS/DependentOriginationCoreSpineV1_25.lean": "1ecc2afc53b3395cde11746f8488abfe80c497ca",
 }
 
+# Historical v1.30 was ill-typed against SSet-valued, scaled (n,i) horn API.
+# Exact reviewed proof preserves forward/backward admissibility and filler
+# equivalence fields, with explicitly typed SSet and scaling universes.
+# This source-blob provenance guard is NOT a Lean certification receipt.
+PR3555_V130_LEGACY_TYPED_REVIEWED_BLOB = {
+    "KUOS/DependentOriginationScaledHornPresentationInvariantV1_30.lean": "4f32b06a8c0e36cafc19dafae774c0077c7801bd",
+}
+
 # PR #3522 extraction: exact reviewed source repairs (v1.2–v1.5 only).
 # These explicit blob values are integrity checks, not proof certification.
 PR3522_FOCUSED_REPAIR_BLOBS = {
@@ -327,7 +335,8 @@ class RestoredWiringTests(unittest.TestCase):
                              or PR3555_V18_V113_REVIEWED_BLOBS.get(rel.as_posix())
                              or PR3555_V114_V115_REVIEWED_BLOBS.get(rel.as_posix())
                              or PR3555_V117_TYPED_NERVE_REVIEWED_BLOB.get(rel.as_posix())
-                             or PR3555_V125_CORESPINE_COMMENT_BLOB.get(rel.as_posix()))
+                             or PR3555_V125_CORESPINE_COMMENT_BLOB.get(rel.as_posix())
+                             or PR3555_V130_LEGACY_TYPED_REVIEWED_BLOB.get(rel.as_posix()))
                 if fixed_sha is not None:
                     pinned_seen.add(rel.as_posix())
                     self.assertEqual(git_blob_sha(current), fixed_sha,
@@ -337,7 +346,7 @@ class RestoredWiringTests(unittest.TestCase):
                                      f'unreviewed theorem source change: {rel}')
         self.assertEqual(seen, set(LINT_ONLY_SOURCE_EDITS),
                          'reviewed lint edit targets must all exist in historical roots')
-        self.assertEqual(pinned_seen, set(PR2339_INTEGRATED_PROOF_BLOBS) | set(PR3522_FOCUSED_REPAIR_BLOBS) | set(PR3548_V16_LOCALLY_DISCRETE_BLOB) | set(PR3550_V118_DIRECT_IMPORT_BLOB) | set(PR3551_V119_CLASS_REDUCIBILITY_BLOB) | set(PR3552_V120_SEGAL_BLOB) | set(PR3553_V121_V125_BOUNDED_BLOBS) | set(PR3554_V126_TYPED_TRANSPORT_BLOB) | set(PR3555_V127_V129_ULIFT_REVIEWED_BLOBS) | set(PR3555_V17_OPERADIC_REVIEWED_BLOB) | set(PR3555_V18_V113_REVIEWED_BLOBS) | set(PR3555_V114_V115_REVIEWED_BLOBS) | set(PR3555_V117_TYPED_NERVE_REVIEWED_BLOB) | set(PR3555_V125_CORESPINE_COMMENT_BLOB),
+        self.assertEqual(pinned_seen, set(PR2339_INTEGRATED_PROOF_BLOBS) | set(PR3522_FOCUSED_REPAIR_BLOBS) | set(PR3548_V16_LOCALLY_DISCRETE_BLOB) | set(PR3550_V118_DIRECT_IMPORT_BLOB) | set(PR3551_V119_CLASS_REDUCIBILITY_BLOB) | set(PR3552_V120_SEGAL_BLOB) | set(PR3553_V121_V125_BOUNDED_BLOBS) | set(PR3554_V126_TYPED_TRANSPORT_BLOB) | set(PR3555_V127_V129_ULIFT_REVIEWED_BLOBS) | set(PR3555_V17_OPERADIC_REVIEWED_BLOB) | set(PR3555_V18_V113_REVIEWED_BLOBS) | set(PR3555_V114_V115_REVIEWED_BLOBS) | set(PR3555_V117_TYPED_NERVE_REVIEWED_BLOB) | set(PR3555_V125_CORESPINE_COMMENT_BLOB) | set(PR3555_V130_LEGACY_TYPED_REVIEWED_BLOB),
                          'every preexisting integrated proof exception is explicit and accounted for')
 
     def test_f55_path_functor_composition_has_actual_path_homs(self):
