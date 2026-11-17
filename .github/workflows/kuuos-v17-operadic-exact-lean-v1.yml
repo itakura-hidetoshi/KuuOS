@@ -113,7 +113,7 @@ jobs:
       - name: Strict Lean dependency closure for corrected v1.7–v1.17
         run: |
           set -euo pipefail
-          timeout 3200 lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.DependentOriginationOperadicMultiConditionV1_7 KUOS.DependentOriginationHigherMulticategoryCoherenceV1_8 KUOS.DependentOriginationCausalMonoidalProcessV1_10 KUOS.DependentOriginationMarginalNoSignallingV1_11 KUOS.DependentOriginationJointCausalFactorizationV1_12 KUOS.DependentOriginationEnrichedContextV1_13 KUOS.DependentOriginationStackDescentV1_14 KUOS.DependentOriginationInfinityCoherenceV1_15 KUOS.DependentOriginationGlobularNerveComparisonV1_17 2>&1 | tee /tmp/kuuos-v17-lean.log
+          timeout 3200 lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.DependentOriginationOperadicMultiConditionV1_7 KUOS.DependentOriginationHigherMulticategoryCoherenceV1_8 KUOS.DependentOriginationCausalMonoidalProcessV1_10 KUOS.DependentOriginationMarginalNoSignallingV1_11 KUOS.DependentOriginationJointCausalFactorizationV1_12 KUOS.DependentOriginationEnrichedContextV1_13 KUOS.DependentOriginationStackDescentV1_14 KUOS.DependentOriginationInfinityCoherenceV1_15 KUOS.DependentOriginationGlobularNerveComparisonV1_17 KUOS.DependentOriginationCoreSpineV1_25 2>&1 | tee /tmp/kuuos-v17-lean.log
       - name: Independent 103-declaration exact-source axiom audit
         run: |
           set -euo pipefail
