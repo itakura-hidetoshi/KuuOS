@@ -92,6 +92,16 @@ PR3555_V160_V161_UNIONPROD_REVIEWED_BLOBS = {
     "KUOS/DependentOriginationStandardTypeABoundaryPrismRelativeCellV1_61.lean": "932d03cd7d4c33a5ffcc5cce03467c6a3a7bf3a3",
 }
 
+# The old model-equivalence and coherent normalization v1.31/v1.32 proofs used
+# unlifted B/C horn families with lifted source/target maps. Repair carries
+# explicit sourceBridge/targetBridge and requires all admissibility, coherent
+# round-trip and filler-reflection evidence. Legacy snapshots remain frozen.
+# The exact blobs are history protection, not Lean certification.
+PR3555_V131_V132_LEGACY_TYPED_BRIDGE_BLOBS = {
+    "KUOS/DependentOriginationModelEquivalenceScaledHornPresentationV1_31.lean": "043d16f86bed74c1e37424328fc70f0fa6e2ca77",
+    "KUOS/DependentOriginationCoherentNormalizedScaledModelEquivalenceV1_32.lean": "dd20dedea5a9d64d9aac989c9dd807ec9afbea6e",
+}
+
 # PR #3522 extraction: exact reviewed source repairs (v1.2–v1.5 only).
 # These explicit blob values are integrity checks, not proof certification.
 PR3522_FOCUSED_REPAIR_BLOBS = {
@@ -345,7 +355,8 @@ class RestoredWiringTests(unittest.TestCase):
                              or PR3555_V117_TYPED_NERVE_REVIEWED_BLOB.get(rel.as_posix())
                              or PR3555_V125_CORESPINE_COMMENT_BLOB.get(rel.as_posix())
                              or PR3555_V130_LEGACY_TYPED_REVIEWED_BLOB.get(rel.as_posix())
-                             or PR3555_V160_V161_UNIONPROD_REVIEWED_BLOBS.get(rel.as_posix()))
+                             or PR3555_V160_V161_UNIONPROD_REVIEWED_BLOBS.get(rel.as_posix())
+                             or PR3555_V131_V132_LEGACY_TYPED_BRIDGE_BLOBS.get(rel.as_posix()))
                 if fixed_sha is not None:
                     pinned_seen.add(rel.as_posix())
                     self.assertEqual(git_blob_sha(current), fixed_sha,
@@ -355,7 +366,7 @@ class RestoredWiringTests(unittest.TestCase):
                                      f'unreviewed theorem source change: {rel}')
         self.assertEqual(seen, set(LINT_ONLY_SOURCE_EDITS),
                          'reviewed lint edit targets must all exist in historical roots')
-        self.assertEqual(pinned_seen, set(PR2339_INTEGRATED_PROOF_BLOBS) | set(PR3522_FOCUSED_REPAIR_BLOBS) | set(PR3548_V16_LOCALLY_DISCRETE_BLOB) | set(PR3550_V118_DIRECT_IMPORT_BLOB) | set(PR3551_V119_CLASS_REDUCIBILITY_BLOB) | set(PR3552_V120_SEGAL_BLOB) | set(PR3553_V121_V125_BOUNDED_BLOBS) | set(PR3554_V126_TYPED_TRANSPORT_BLOB) | set(PR3555_V127_V129_ULIFT_REVIEWED_BLOBS) | set(PR3555_V17_OPERADIC_REVIEWED_BLOB) | set(PR3555_V18_V113_REVIEWED_BLOBS) | set(PR3555_V114_V115_REVIEWED_BLOBS) | set(PR3555_V117_TYPED_NERVE_REVIEWED_BLOB) | set(PR3555_V125_CORESPINE_COMMENT_BLOB) | set(PR3555_V130_LEGACY_TYPED_REVIEWED_BLOB) | set(PR3555_V160_V161_UNIONPROD_REVIEWED_BLOBS),
+        self.assertEqual(pinned_seen, set(PR2339_INTEGRATED_PROOF_BLOBS) | set(PR3522_FOCUSED_REPAIR_BLOBS) | set(PR3548_V16_LOCALLY_DISCRETE_BLOB) | set(PR3550_V118_DIRECT_IMPORT_BLOB) | set(PR3551_V119_CLASS_REDUCIBILITY_BLOB) | set(PR3552_V120_SEGAL_BLOB) | set(PR3553_V121_V125_BOUNDED_BLOBS) | set(PR3554_V126_TYPED_TRANSPORT_BLOB) | set(PR3555_V127_V129_ULIFT_REVIEWED_BLOBS) | set(PR3555_V17_OPERADIC_REVIEWED_BLOB) | set(PR3555_V18_V113_REVIEWED_BLOBS) | set(PR3555_V114_V115_REVIEWED_BLOBS) | set(PR3555_V117_TYPED_NERVE_REVIEWED_BLOB) | set(PR3555_V125_CORESPINE_COMMENT_BLOB) | set(PR3555_V130_LEGACY_TYPED_REVIEWED_BLOB) | set(PR3555_V160_V161_UNIONPROD_REVIEWED_BLOBS) | set(PR3555_V131_V132_LEGACY_TYPED_BRIDGE_BLOBS),
                          'every preexisting integrated proof exception is explicit and accounted for')
 
     def test_f55_path_functor_composition_has_actual_path_homs(self):
