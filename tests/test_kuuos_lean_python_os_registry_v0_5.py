@@ -194,5 +194,18 @@ from tests.test_kuuos_lean_python_isolated_native_evidence_v0_9 import (
 )
 
 
+# v0.10 checks original core transitions before local store commits, in
+# a separate fixture child. Previous classes and runner order stay intact.
+from tests.test_kuuos_lean_python_checked_transition_v0_10 import (
+    CheckedTransitionTests,
+)
+from tests.test_kuuos_lean_python_guarded_native_cycle_v0_10 import (
+    GuardedNativeCycleTests,
+)
+from tests.test_kuuos_lean_python_checked_transition_sources_v0_10 import (
+    CheckedTransitionSourceTests,
+)
+
+
 if __name__ == "__main__":
     unittest.main()
