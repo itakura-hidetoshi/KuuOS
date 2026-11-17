@@ -13,7 +13,7 @@ env:
 
 jobs:
   candidate-a-direct-lean-and-real-mcp:
-    if: github.event.pull_request.number == 3555
+    if: github.event.pull_request.number == 3555 && github.event.pull_request.head.sha == '27719f26f926475b478e2ef153b8280bbc0068e8'
     runs-on: ubuntu-22.04
     timeout-minutes: 85
     steps:

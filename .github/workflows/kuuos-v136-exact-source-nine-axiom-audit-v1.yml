@@ -91,7 +91,9 @@ jobs:
             'targetRoundTrip_pairwise_map','ambientNormalLaxCylinderHomotopy',
             'sourceRoundTrip_pairwise_prism','targetRoundTrip_pairwise_prism']
           for n in names:
-              assert ("'"+n+"'") in s, 'missing axiom receipt: '+n
+              expected_module = ('KUOS.DependentOriginationStrongTransformationCylinderUncurryingV1_36.'
+                  if n in names[:9] else 'KUOS.DependentOriginationPairwiseNormalLaxRoundTripBridgeV1_36.')
+              assert ("'"+expected_module+n+"'") in s, 'missing exact axiom receipt: '+n
           assert 'sorryAx' not in s and 'error:' not in s
           groups=re.findall(r'depends on axioms:\s*\[([^\]]*)\]',s,re.S)
           standard={'propext','Classical.choice','Quot.sound'}
