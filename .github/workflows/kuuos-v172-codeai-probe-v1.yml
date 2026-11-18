@@ -9,6 +9,7 @@ on:
       - 'scripts/kuuos_v172_cause_separated_hunks_v2.json'
       - 'scripts/kuuos_v172_cause_separated_hunks_v3.json'
       - 'scripts/kuuos_v172_cause_separated_hunks_v4.json'
+      - 'scripts/kuuos_v172_cause_separated_hunks_v5.json'
       - 'formal/KUOS/DependentOriginationStandardTypeABoundaryPrismRankwiseABCellularityV1_72.lean'
 
 permissions:
