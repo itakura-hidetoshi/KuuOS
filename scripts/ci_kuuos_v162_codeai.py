@@ -16,7 +16,7 @@ import tempfile
 NS = 'KUOS.DependentOriginationStandardTypeABoundaryPrismScaledCellsV1_62'
 REL = 'formal/' + NS.replace('.', '/') + '.lean'
 BASE = 'c3ad3eff708d86a5a5e944c5745c821b6dbf8ec4'
-CANDIDATE = '09c295b65d56730d1ebe8d40898b8cf7e53cf6ee'
+CANDIDATE = 'f90bbb80115cea04267c4a76b995a512d7239aa9'
 CORE_BLOB = '01ec93c4c3f3f6f77946fa0869fd895e15f2674f'
 WORKFLOW = '.github/workflows/kuuos-v162-codeai-boundary-prism-scaled-cells-real-mcp-v1.yml'
 DEPENDENCIES = {
@@ -62,6 +62,8 @@ def candidates(baseline: str) -> dict[str, str]:
 
     def fix_noncomputable(s: str) -> str:
         for name in (
+            'standardTypeABoundaryPrismCellScaling',
+            'standardTypeABoundaryPrismCellHornScaling',
             'standardTypeABoundaryPrismScaledCellSource',
             'standardTypeABoundaryPrismScaledCellTarget',
             'standardTypeABoundaryPrismScaledCellHom',
@@ -158,7 +160,7 @@ def direct(root: pathlib.Path, out: pathlib.Path) -> None:
         assert not rows[0]['success'] and rows[0]['exit_code'] != 0
         selected = next((r for r in rows if r['candidate'] == 'complete-v162'
             and r['success']), None)
-        assert selected is not None, 'complete v1.59 candidate not yet Lean certified'
+        assert selected is not None, 'complete v1.62 candidate not yet Lean certified'
         source = variants['complete-v162'].encode()
         target.write_bytes(source)
         strict_build(root, out)
