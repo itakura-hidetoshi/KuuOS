@@ -21,6 +21,9 @@ CANDIDATES = {
     "api-open-pushout": "06623431bc5d29fef4fe35e9e2410fc999eae680",
     "api-iso": "a4cf793204006d6b35dafe4c84b4916964567731",
     "api-iso-transport": "8ec3779ccfab820166914fadf3bdd8cc4f939f2e",
+    "universe-raw-pushout": "87c7cfddeeae12e56b80213fffd35a87fe406b33",
+    "universe-generic-dim-iso": "a313c70660c73088230db20a4d66bafa3005f5d9",
+    "universe-typed-transport": "3a900a024bf5e2818cd8516f5b6746b19c0b4577",
 }
 SCOPE_AT = "open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19\n"
 SCOPE_ADD = "\n".join([
@@ -75,6 +78,28 @@ def variants(original: str) -> dict[str, str]:
     assert manifest["public_declarations_preserved"] == 26
     base_lines = scope.split("\n")
     for item in manifest["variants"]:
+        assert item["name"] not in variants
+        assert item["expected_blob"] == CANDIDATES[item["name"]]
+        cursor = 0
+        result_lines = []
+        for h in item["patches"]:
+            start, old, new = h["start"], h["old"], h["new"]
+            assert cursor <= start <= len(base_lines)
+            assert base_lines[start:start + len(old)] == old
+            result_lines.extend(base_lines[cursor:start])
+            result_lines.extend(new)
+            cursor = start + len(old)
+        result_lines.extend(base_lines[cursor:])
+        variants[item["name"]] = "\n".join(result_lines)
+    # Second cause-separated version: explicit universe sharing, typed pushout witnesses,
+    # and a generic dimension-equality isomorphism. No historical-source mutation.
+    manifest_v2 = json.loads(
+        pathlib.Path("scripts/kuuos_v172_cause_separated_hunks_v2.json").read_text(encoding="utf-8"))
+    assert manifest_v2["schema"] == "kuuos_v172_cause_separated_hunks_v2"
+    assert manifest_v2["base_scope_blob"] == CANDIDATES["namespace-scope-only"]
+    assert manifest_v2["historical_unchanged"] is True
+    assert manifest_v2["public_declarations_preserved"] == 26
+    for item in manifest_v2["variants"]:
         assert item["name"] not in variants
         assert item["expected_blob"] == CANDIDATES[item["name"]]
         cursor = 0
