@@ -16,7 +16,7 @@ import tempfile
 NS = 'KUOS.DependentOriginationStandardTypeABoundaryPrismDimensionDichotomyV1_63'
 REL = 'formal/' + NS.replace('.', '/') + '.lean'
 BASE = 'cdf63af6d96baa33bb0fe9db97936bfdfccfaef5'
-CANDIDATE = '4f6bb37ad8b49a75ede0ecfb83ca0032dd2064b0'
+CANDIDATE = 'e9e164f1e71c726de1b5fb7a33a2eb57f98fb6b9'
 CORE_BLOB = '01ec93c4c3f3f6f77946fa0869fd895e15f2674f'
 WORKFLOW = '.github/workflows/kuuos-v163-codeai-prism-dimension-dichotomy-real-mcp-v1.yml'
 DEPENDENCIES = {
@@ -94,11 +94,35 @@ def candidates(baseline: str) -> dict[str, str]:
             '      have hbad : i.val < 0 := hn\n'
             '      exact False.elim (Nat.not_lt_zero _ hbad)')
 
+    def upper_dimension(s: str) -> str:
+        s = replacement(s,
+            'theorem standardTypeABoundaryPrism_cell_target_dim_le_generator_succ\n'
+            '    (g : StandardTypeAHornAttachmentGeneratorIndex)\n'
+            '    (j : ℕ)\n'
+            '    (c : (standardTypeABoundaryPrismRankFunction g).Cell j) :',
+            'theorem standardTypeABoundaryPrism_cell_target_dim_le_generator_succ\n'
+            '    (g : StandardTypeAHornAttachmentGeneratorIndex)\n'
+            '    (j : ℕ)\n'
+            '    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j) :')
+        s = replacement(s,
+            '  let P := standardTypeABoundaryPrismPairing g',
+            '  let P := standardTypeABoundaryPrismPairing.{u} g')
+        return replacement(s,
+            '  simpa [z] using\n'
+            '    (SSet.dim_le_of_nonDegenerate z (g.n + 1))',
+            '  simpa [z] using\n'
+            '    (SSet.dim_le_of_nonDegenerate\n'
+            '      ((Δ[g.n] : SSet.{u}) ⊗ (Δ[1] : SSet.{u}))\n'
+            '      z (g.n + 1))')
+
+    prior = finite_and_tensor(pairing(card(baseline)))
     variants = {
         'cardinality-only': card(baseline),
         'pinned-pairing-only': pairing(baseline),
         'finite-and-tensor-only': finite_and_tensor(baseline),
-        'complete-v163': finite_and_tensor(pairing(card(baseline))),
+        'prior-complete-missing-upper-dimension': prior,
+        'upper-dimension-only': upper_dimension(baseline),
+        'complete-v163': upper_dimension(prior),
     }
     for name, source in variants.items():
         assert inventory(source) == NAMES, ('declaration names changed', name)
