@@ -18,6 +18,9 @@ BASE = "152c9b0bd44c22cd67059e25ed00784741d66488"
 CANDIDATES = {
     "namespace-scope-only": "caa44f613bc9398470120ec05936580bad9dad37",
     "namespace-plus-finite-two-step": "123d2a5087f4a47bba187e38e55c856cb3485911",
+    "api-open-pushout": "06623431bc5d29fef4fe35e9e2410fc999eae680",
+    "api-iso": "a4cf793204006d6b35dafe4c84b4916964567731",
+    "api-iso-transport": "8ec3779ccfab820166914fadf3bdd8cc4f939f2e",
 }
 SCOPE_AT = "open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19\n"
 SCOPE_ADD = "\n".join([
@@ -63,9 +66,32 @@ def variants(original: str) -> dict[str, str]:
         "namespace-scope-only": scope,
         "namespace-plus-finite-two-step": two_step,
     }
+    # The extra hypotheses are exact, read-only, version-bound CodeAI hunks.
+    manifest = json.loads(
+        pathlib.Path("scripts/kuuos_v172_cause_separated_hunks_v1.json").read_text(encoding="utf-8"))
+    assert manifest["schema"] == "kuuos_v172_cause_separated_hunks_v1"
+    assert manifest["base_scope_blob"] == CANDIDATES["namespace-scope-only"]
+    assert manifest["historical_unchanged"] is True
+    assert manifest["public_declarations_preserved"] == 26
+    base_lines = scope.split("\n")
+    for item in manifest["variants"]:
+        assert item["name"] not in variants
+        assert item["expected_blob"] == CANDIDATES[item["name"]]
+        cursor = 0
+        result_lines = []
+        for h in item["patches"]:
+            start, old, new = h["start"], h["old"], h["new"]
+            assert cursor <= start <= len(base_lines)
+            assert base_lines[start:start + len(old)] == old
+            result_lines.extend(base_lines[cursor:start])
+            result_lines.extend(new)
+            cursor = start + len(old)
+        result_lines.extend(base_lines[cursor:])
+        variants[item["name"]] = "\n".join(result_lines)
+    assert set(variants) == set(CANDIDATES)
     for name, source in variants.items():
         assert prior.blob(source.encode()) == CANDIDATES[name], name
-        assert prior.inventory(source) == names
+        assert prior.inventory(source) == names, ("public declarations changed", name)
     return variants
 
 
