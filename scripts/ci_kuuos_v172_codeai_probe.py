@@ -29,6 +29,8 @@ CANDIDATES = {
     "typed-B-universe": "ac2af21be6c0d583cc517c0fb83779f0974c14e9",
     "typed-B-universe-Fin3": "98f55e41855c6454fbe654d3c141d522f77e8d52",
     "typed-B-universe-transport-Fin3": "1b78b05a05b1a8ebd9a8b1e70e0761c77050b256",
+    "typed-B-Fin3-generic-arrow-iso": "f7b41c802ff8f541a7ae85058f4b78d63ebc60e6",
+    "typed-B-Fin3-generic-arrow-and-transport": "f65e3ae5a3ff24fe6333657a5f803f5385a14bb1",
 }
 SCOPE_AT = "open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19\n"
 SCOPE_ADD = "\n".join([
@@ -127,6 +129,28 @@ def variants(original: str) -> dict[str, str]:
     assert manifest_v3["historical_unchanged"] is True
     assert manifest_v3["public_declarations_preserved"] == 26
     for item in manifest_v3["variants"]:
+        assert item["name"] not in variants
+        assert item["expected_blob"] == CANDIDATES[item["name"]]
+        cursor = 0
+        result_lines = []
+        for h in item["patches"]:
+            start, old, new = h["start"], h["old"], h["new"]
+            assert cursor <= start <= len(base_lines)
+            assert base_lines[start:start + len(old)] == old
+            result_lines.extend(base_lines[cursor:start])
+            result_lines.extend(new)
+            cursor = start + len(old)
+        result_lines.extend(base_lines[cursor:])
+        variants[item["name"]] = "\n".join(result_lines)
+    # Fourth causal variant: eliminate equality on the dimension first, then
+    # compare literal underlying simplicial maps of the transported arrows.
+    manifest_v4 = json.loads(
+        pathlib.Path("scripts/kuuos_v172_cause_separated_hunks_v4.json").read_text(encoding="utf-8"))
+    assert manifest_v4["schema"] == "kuuos_v172_cause_separated_hunks_v4"
+    assert manifest_v4["base_scope_blob"] == CANDIDATES["namespace-scope-only"]
+    assert manifest_v4["historical_unchanged"] is True
+    assert manifest_v4["public_declarations_preserved"] == 26
+    for item in manifest_v4["variants"]:
         assert item["name"] not in variants
         assert item["expected_blob"] == CANDIDATES[item["name"]]
         cursor = 0

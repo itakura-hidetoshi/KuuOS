@@ -1,0 +1,1185 @@
+{
+  "schema": "kuuos_v172_cause_separated_hunks_v4",
+  "base_scope_blob": "caa44f613bc9398470120ec05936580bad9dad37",
+  "historical_unchanged": true,
+  "public_declarations_preserved": 26,
+  "variants": [
+    {
+      "name": "typed-B-Fin3-generic-arrow-iso",
+      "expected_blob": "f7b41c802ff8f541a7ae85058f4b78d63ebc60e6",
+      "patches": [
+        {
+          "start": 12,
+          "old": [],
+          "new": [
+            "open KUOS.DependentOriginationStandardTypeAEndpointPushoutProductV1_50"
+          ]
+        },
+        {
+          "start": 78,
+          "old": [
+            "def standardABCRawCellularStep : MorphismProperty (ScaledSSet.{u}) :="
+          ],
+          "new": [
+            "@[reducible] def standardABCRawCellularStep : MorphismProperty (ScaledSSet.{u}) :="
+          ]
+        },
+        {
+          "start": 84,
+          "old": [
+            "def standardABCStrongCellularClosure : MorphismProperty (ScaledSSet.{u}) :="
+          ],
+          "new": [
+            "@[reducible] def standardABCStrongCellularClosure : MorphismProperty (ScaledSSet.{u}) :="
+          ]
+        },
+        {
+          "start": 105,
+          "old": [
+            "    (c : (standardTypeABoundaryPrismRankFunction g).Cell j) :"
+          ],
+          "new": [
+            "    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j) :"
+          ]
+        },
+        {
+          "start": 119,
+          "old": [
+            "  rw [← standardTypeABoundaryPrismCellA_lowerMap_eq_generator g j c] at hgen"
+          ],
+          "new": [
+            "  have hgen' :",
+            "      (MorphismProperty.coproducts.{u}",
+            "        (standardScaledAnodyneGeneratorsABC :",
+            "          MorphismProperty (ScaledSSet.{u})))",
+            "        (scalingEnrichmentPushoutLowerMap c.horn.ι",
+            "          (standardTypeAHornInclusion_scaled c.index)) := by",
+            "    simpa only [standardTypeABoundaryPrismCellA_lowerMap_eq_generator g j c] using hgen"
+          ]
+        },
+        {
+          "start": 121,
+          "old": [],
+          "new": [
+            "    (MorphismProperty.coproducts.{u}",
+            "      (standardScaledAnodyneGeneratorsABC :",
+            "        MorphismProperty (ScaledSSet.{u})))"
+          ]
+        },
+        {
+          "start": 123,
+          "old": [
+            "    hgen"
+          ],
+          "new": [
+            "    hgen'"
+          ]
+        },
+        {
+          "start": 130,
+          "old": [
+            "    standardABCRawCellularStep standardTypeBCollapse12CompletionHom := by"
+          ],
+          "new": [
+            "    standardABCRawCellularStep standardTypeBCollapse12CompletionHom.{u} := by"
+          ]
+        },
+        {
+          "start": 134,
+          "old": [
+            "          MorphismProperty (ScaledSSet.{u}))) standardTypeBGeneratorHom :="
+          ],
+          "new": [
+            "          MorphismProperty (ScaledSSet.{u}))) standardTypeBGeneratorHom.{u} :="
+          ]
+        },
+        {
+          "start": 138,
+          "old": [
+            "      standardTypeBGenerator_mem_ABC"
+          ],
+          "new": [
+            "      standardTypeBGenerator_mem_ABC.{u}"
+          ]
+        },
+        {
+          "start": 140,
+          "old": [
+            "    standardTypeBCollapse12Completion_isPushout hB"
+          ],
+          "new": [
+            "    (MorphismProperty.coproducts.{u}",
+            "      (standardScaledAnodyneGeneratorsABC :",
+            "        MorphismProperty (ScaledSSet.{u})))",
+            "    standardTypeBCollapse12Completion_isPushout.{u} hB"
+          ]
+        },
+        {
+          "start": 145,
+          "old": [
+            "    standardABCRawCellularStep standardTypeBCollapse23CompletionHom := by"
+          ],
+          "new": [
+            "    standardABCRawCellularStep standardTypeBCollapse23CompletionHom.{u} := by"
+          ]
+        },
+        {
+          "start": 149,
+          "old": [
+            "          MorphismProperty (ScaledSSet.{u}))) standardTypeBGeneratorHom :="
+          ],
+          "new": [
+            "          MorphismProperty (ScaledSSet.{u}))) standardTypeBGeneratorHom.{u} :="
+          ]
+        },
+        {
+          "start": 153,
+          "old": [
+            "      standardTypeBGenerator_mem_ABC"
+          ],
+          "new": [
+            "      standardTypeBGenerator_mem_ABC.{u}"
+          ]
+        },
+        {
+          "start": 155,
+          "old": [
+            "    standardTypeBCollapse23Completion_isPushout hB"
+          ],
+          "new": [
+            "    (MorphismProperty.coproducts.{u}",
+            "      (standardScaledAnodyneGeneratorsABC :",
+            "        MorphismProperty (ScaledSSet.{u})))",
+            "    standardTypeBCollapse23Completion_isPushout.{u} hB"
+          ]
+        },
+        {
+          "start": 167,
+          "old": [
+            "    ScaledSSet.of X s ≅ ScaledSSet.of X t where",
+            "  hom :=",
+            "    { map := 𝟙 X",
+            "      scaled := by",
+            "        intro z hz",
+            "        simpa only [h] using hz }",
+            "  inv :=",
+            "    { map := 𝟙 X",
+            "      scaled := by",
+            "        intro z hz",
+            "        simpa only [h] using hz }",
+            "  hom_inv_id := by",
+            "    apply ScaledSSet.ScaledMap.ext",
+            "    simp",
+            "  inv_hom_id := by",
+            "    apply ScaledSSet.ScaledMap.ext",
+            "    simp"
+          ],
+          "new": [
+            "    ScaledSSet.of X s ≅ ScaledSSet.of X t := by",
+            "  cases h",
+            "  exact Iso.refl _"
+          ]
+        },
+        {
+          "start": 191,
+          "old": [],
+          "new": [
+            "  cases h"
+          ]
+        },
+        {
+          "start": 199,
+          "old": [],
+          "new": [
+            "  cases h"
+          ]
+        },
+        {
+          "start": 203,
+          "old": [],
+          "new": [
+            "private noncomputable def scalingIsoOfDimensionEq",
+            "    {n : ℕ} (h : n = 3)",
+            "    (s : ScaledSimplicialSet (Δ[n] : SSet.{u})) :",
+            "    ScaledSSet.of (Δ[n] : SSet.{u}) s ≅",
+            "      ScaledSSet.of (Δ[3] : SSet.{u})",
+            "        (Eq.mp",
+            "          (congrArg (fun d : ℕ => ScaledSimplicialSet (Δ[d] : SSet.{u})) h) s) := by",
+            "  cases h",
+            "  exact Iso.refl _",
+            ""
+          ]
+        },
+        {
+          "start": 206,
+          "old": [
+            "    (c : (standardTypeABoundaryPrismRankFunction g).Cell j)"
+          ],
+          "new": [
+            "    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)"
+          ]
+        },
+        {
+          "start": 212,
+          "old": [
+            "  subst_vars",
+            "  exact Iso.refl _"
+          ],
+          "new": [
+            "  exact scalingIsoOfDimensionEq h3 s"
+          ]
+        },
+        {
+          "start": 220,
+          "old": [
+            "    (c : (standardTypeABoundaryPrismRankFunction g).Cell j)"
+          ],
+          "new": [
+            "    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)"
+          ]
+        },
+        {
+          "start": 236,
+          "old": [
+            "    (c : (standardTypeABoundaryPrismRankFunction g).Cell j)"
+          ],
+          "new": [
+            "    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)"
+          ]
+        },
+        {
+          "start": 250,
+          "old": [],
+          "new": [
+            "/-! ## Typed invariance under dimension and scaling equalities -/",
+            "",
+            "private noncomputable def scaledIdentityArrowIsoOfDimensionEq",
+            "    {n : ℕ} (hn : n = 3)",
+            "    (s t : ScaledSimplicialSet (Δ[n] : SSet.{u}))",
+            "    (s3 t3 : ScaledSimplicialSet (Δ[3] : SSet.{u}))",
+            "    (hs : Eq.mp",
+            "      (congrArg (fun d : ℕ => ScaledSimplicialSet (Δ[d] : SSet.{u})) hn) s = s3)",
+            "    (ht : Eq.mp",
+            "      (congrArg (fun d : ℕ => ScaledSimplicialSet (Δ[d] : SSet.{u})) hn) t = t3)",
+            "    (f : ScaledSSet.of (Δ[n] : SSet.{u}) s ⟶ ScaledSSet.of (Δ[n] : SSet.{u}) t)",
+            "    (f3 : ScaledSSet.of (Δ[3] : SSet.{u}) s3 ⟶ ScaledSSet.of (Δ[3] : SSet.{u}) t3)",
+            "    (hf : f.map = 𝟙 (Δ[n] : SSet.{u}))",
+            "    (hf3 : f3.map = 𝟙 (Δ[3] : SSet.{u})) :",
+            "    Arrow.mk f ≅ Arrow.mk f3 := by",
+            "  cases hn",
+            "  change s = s3 at hs",
+            "  change t = t3 at ht",
+            "  cases hs",
+            "  cases ht",
+            "  have hmap : f.map = f3.map := hf.trans hf3.symm",
+            "  have heq : f = f3 := by",
+            "    apply ScaledSSet.ScaledMap.ext",
+            "    exact hmap",
+            "  exact eqToIso (congrArg Arrow.mk heq)",
+            "",
+            "private noncomputable def scaledArrowIsoOfTargetScalingEq",
+            "    {A : ScaledSSet.{u}} {X : SSet.{u}}",
+            "    (s t : ScaledSimplicialSet X)",
+            "    (h : s = t)",
+            "    (f : A ⟶ ScaledSSet.of X s)",
+            "    (g : A ⟶ ScaledSSet.of X t)",
+            "    (hmap : f.map = g.map) :",
+            "    Arrow.mk f ≅ Arrow.mk g := by",
+            "  cases h",
+            "  have heq : f = g := by",
+            "    apply ScaledSSet.ScaledMap.ext",
+            "    exact hmap",
+            "  exact eqToIso (congrArg Arrow.mk heq)",
+            ""
+          ]
+        },
+        {
+          "start": 256,
+          "old": [
+            "    (c : (standardTypeABoundaryPrismRankFunction g).Cell j)"
+          ],
+          "new": [
+            "    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)"
+          ]
+        },
+        {
+          "start": 268,
+          "old": [
+            "    (c : (standardTypeABoundaryPrismRankFunction g).Cell j)"
+          ],
+          "new": [
+            "    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)"
+          ]
+        },
+        {
+          "start": 281,
+          "old": [
+            "    (c : (standardTypeABoundaryPrismRankFunction g).Cell j)"
+          ],
+          "new": [
+            "    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)"
+          ]
+        },
+        {
+          "start": 284,
+          "old": [
+            "      Arrow.mk standardTypeBCollapse12CompletionHom := by",
+            "  refine Arrow.isoMk",
+            "    (standardTypeABoundaryPrismCellQ12SourceIso g j c h)",
+            "    (standardTypeABoundaryPrismCellQ12TargetIso g j c h) ?_",
+            "  subst_vars",
+            "  apply ScaledSSet.ScaledMap.ext",
+            "  simp [standardTypeABoundaryPrismCellQ12SourceIso,",
+            "    standardTypeABoundaryPrismCellQ12TargetIso,",
+            "    standardTypeABoundaryPrismCellScalingIsoToThree,",
+            "    standardTypeABoundaryPrismCellCompletionHom,",
+            "    standardTypeBCollapse12CompletionHom,",
+            "    standardTypeBPushoutEnrichment,",
+            "    scalingEnrichmentPushoutTargetEnrichment,",
+            "    scalingEqualityIso]"
+          ],
+          "new": [
+            "      Arrow.mk standardTypeBCollapse12CompletionHom.{u} := by",
+            "  exact scaledIdentityArrowIsoOfDimensionEq",
+            "    h.target_three",
+            "    (standardTypeABoundaryPrismCellAPushoutScaling g j c)",
+            "    (standardTypeABoundaryPrismCellScaling g j c)",
+            "    standardTypeBCollapse12BaseScaling",
+            "    standardTypeBCollapse12CompletedScaling",
+            "    h.A_base h.completed_target",
+            "    (standardTypeABoundaryPrismCellCompletionHom g j c)",
+            "    standardTypeBCollapse12CompletionHom.{u}",
+            "    (by rfl) (by rfl)"
+          ]
+        },
+        {
+          "start": 303,
+          "old": [
+            "    (c : (standardTypeABoundaryPrismRankFunction g).Cell j)"
+          ],
+          "new": [
+            "    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)"
+          ]
+        },
+        {
+          "start": 315,
+          "old": [
+            "    (c : (standardTypeABoundaryPrismRankFunction g).Cell j)"
+          ],
+          "new": [
+            "    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)"
+          ]
+        },
+        {
+          "start": 328,
+          "old": [
+            "    (c : (standardTypeABoundaryPrismRankFunction g).Cell j)"
+          ],
+          "new": [
+            "    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)"
+          ]
+        },
+        {
+          "start": 331,
+          "old": [
+            "      Arrow.mk standardTypeBCollapse23CompletionHom := by",
+            "  refine Arrow.isoMk",
+            "    (standardTypeABoundaryPrismCellQ23SourceIso g j c h)",
+            "    (standardTypeABoundaryPrismCellQ23TargetIso g j c h) ?_",
+            "  subst_vars",
+            "  apply ScaledSSet.ScaledMap.ext",
+            "  simp [standardTypeABoundaryPrismCellQ23SourceIso,",
+            "    standardTypeABoundaryPrismCellQ23TargetIso,",
+            "    standardTypeABoundaryPrismCellScalingIsoToThree,",
+            "    standardTypeABoundaryPrismCellCompletionHom,",
+            "    standardTypeBCollapse23CompletionHom,",
+            "    standardTypeBPushoutEnrichment,",
+            "    scalingEnrichmentPushoutTargetEnrichment,",
+            "    scalingEqualityIso]"
+          ],
+          "new": [
+            "      Arrow.mk standardTypeBCollapse23CompletionHom.{u} := by",
+            "  exact scaledIdentityArrowIsoOfDimensionEq",
+            "    h.target_three",
+            "    (standardTypeABoundaryPrismCellAPushoutScaling g j c)",
+            "    (standardTypeABoundaryPrismCellScaling g j c)",
+            "    standardTypeBCollapse23BaseScaling",
+            "    standardTypeBCollapse23CompletedScaling",
+            "    h.A_base h.completed_target",
+            "    (standardTypeABoundaryPrismCellCompletionHom g j c)",
+            "    standardTypeBCollapse23CompletionHom.{u}",
+            "    (by rfl) (by rfl)"
+          ]
+        },
+        {
+          "start": 350,
+          "old": [
+            "    (c : (standardTypeABoundaryPrismRankFunction g).Cell j)"
+          ],
+          "new": [
+            "    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)"
+          ]
+        },
+        {
+          "start": 363,
+          "old": [
+            "    (c : (standardTypeABoundaryPrismRankFunction g).Cell j)"
+          ],
+          "new": [
+            "    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)"
+          ]
+        },
+        {
+          "start": 380,
+          "old": [
+            "    (c : (standardTypeABoundaryPrismRankFunction g).Cell j)"
+          ],
+          "new": [
+            "    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)"
+          ]
+        },
+        {
+          "start": 385,
+          "old": [
+            "  refine Arrow.isoMk (Iso.refl _)",
+            "    (scalingEqualityIso _ _ h) ?_",
+            "  apply ScaledSSet.ScaledMap.ext",
+            "  simp [standardTypeABoundaryPrismCellAPushoutHom_map,",
+            "    standardTypeABoundaryPrismScaledCellHom_map,",
+            "    scalingEqualityIso]"
+          ],
+          "new": [
+            "  exact scaledArrowIsoOfTargetScalingEq",
+            "    (standardTypeABoundaryPrismCellAPushoutScaling g j c)",
+            "    (standardTypeABoundaryPrismCellScaling g j c) h",
+            "    (standardTypeABoundaryPrismCellAPushoutHom g j c)",
+            "    (standardTypeABoundaryPrismScaledCellHom g j c) (by",
+            "      change c.horn.ι =",
+            "        (standardTypeABoundaryPrismRankFunction.{u} g).basicCell j c",
+            "      exact (standardTypeABoundaryPrism_basicCell_eq_typeA_underlying g j c).symm)"
+          ]
+        },
+        {
+          "start": 398,
+          "old": [
+            "    (c : (standardTypeABoundaryPrismRankFunction g).Cell j) :"
+          ],
+          "new": [
+            "    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j) :"
+          ]
+        },
+        {
+          "start": 409,
+          "old": [
+            "  · exact",
+            "      ((standardABCStrongCellularClosure : MorphismProperty (ScaledSSet.{u})).arrow_mk_iso_iff",
+            "        (standardTypeABoundaryPrismCellPureAArrowIso g j c hpure)).1 hA"
+          ],
+          "new": [
+            "  · have hExactRaw :",
+            "        standardABCRawCellularStep",
+            "          (standardTypeABoundaryPrismScaledCellHom g j c) :=",
+            "      ((standardABCRawCellularStep : MorphismProperty (ScaledSSet.{u})).arrow_mk_iso_iff",
+            "        (standardTypeABoundaryPrismCellPureAArrowIso g j c hpure)).1 hAraw",
+            "    exact MorphismProperty.le_transfiniteCompositions _ _ hExactRaw"
+          ]
+        },
+        {
+          "start": 415,
+          "old": [
+            "    have hB :"
+          ],
+          "new": [
+            "    have hcomp :"
+          ]
+        },
+        {
+          "start": 417,
+          "old": [
+            "          (standardTypeABoundaryPrismCellCompletionHom g j c) :=",
+            "      MorphismProperty.le_transfiniteCompositions",
+            "        (standardABCRawCellularStep : MorphismProperty (ScaledSSet.{u})) _ hBraw",
+            "    have hcomp :=",
+            "      (standardABCStrongCellularClosure : MorphismProperty (ScaledSSet.{u})).comp_mem",
+            "        (standardTypeABoundaryPrismCellAPushoutHom g j c)",
+            "        (standardTypeABoundaryPrismCellCompletionHom g j c) hA hB"
+          ],
+          "new": [
+            "          (standardTypeABoundaryPrismCellAPushoutHom g j c ≫",
+            "            standardTypeABoundaryPrismCellCompletionHom g j c) := by",
+            "      change",
+            "        MorphismProperty.transfiniteCompositions.{u}",
+            "          (standardABCRawCellularStep : MorphismProperty (ScaledSSet.{u}))",
+            "          (standardTypeABoundaryPrismCellAPushoutHom g j c ≫",
+            "            standardTypeABoundaryPrismCellCompletionHom g j c)",
+            "      exact",
+            "        (MorphismProperty.transfiniteCompositionsOfShape_le_transfiniteCompositions _ _)",
+            "          (MorphismProperty.TransfiniteCompositionOfShape.ofOrderIso",
+            "            (.ofComp _ _ hAraw hBraw)",
+            "            (orderIsoShrink.{u} (Fin 3)).symm).mem"
+          ]
+        },
+        {
+          "start": 429,
+          "old": [
+            "    have hB :"
+          ],
+          "new": [
+            "    have hcomp :"
+          ]
+        },
+        {
+          "start": 431,
+          "old": [
+            "          (standardTypeABoundaryPrismCellCompletionHom g j c) :=",
+            "      MorphismProperty.le_transfiniteCompositions",
+            "        (standardABCRawCellularStep : MorphismProperty (ScaledSSet.{u})) _ hBraw",
+            "    have hcomp :=",
+            "      (standardABCStrongCellularClosure : MorphismProperty (ScaledSSet.{u})).comp_mem",
+            "        (standardTypeABoundaryPrismCellAPushoutHom g j c)",
+            "        (standardTypeABoundaryPrismCellCompletionHom g j c) hA hB"
+          ],
+          "new": [
+            "          (standardTypeABoundaryPrismCellAPushoutHom g j c ≫",
+            "            standardTypeABoundaryPrismCellCompletionHom g j c) := by",
+            "      change",
+            "        MorphismProperty.transfiniteCompositions.{u}",
+            "          (standardABCRawCellularStep : MorphismProperty (ScaledSSet.{u}))",
+            "          (standardTypeABoundaryPrismCellAPushoutHom g j c ≫",
+            "            standardTypeABoundaryPrismCellCompletionHom g j c)",
+            "      exact",
+            "        (MorphismProperty.transfiniteCompositionsOfShape_le_transfiniteCompositions _ _)",
+            "          (MorphismProperty.TransfiniteCompositionOfShape.ofOrderIso",
+            "            (.ofComp _ _ hAraw hBraw)",
+            "            (orderIsoShrink.{u} (Fin 3)).symm).mem"
+          ]
+        },
+        {
+          "start": 446,
+          "old": [
+            "    (c : (standardTypeABoundaryPrismRankFunction g).Cell j) :"
+          ],
+          "new": [
+            "    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j) :"
+          ]
+        },
+        {
+          "start": 457,
+          "old": [
+            "  Σ j : ℕ, (standardTypeABoundaryPrismRankFunction g).Cell j"
+          ],
+          "new": [
+            "  Σ j : ℕ, (standardTypeABoundaryPrismRankFunction.{u} g).Cell j"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "typed-B-Fin3-generic-arrow-and-transport",
+      "expected_blob": "f65e3ae5a3ff24fe6333657a5f803f5385a14bb1",
+      "patches": [
+        {
+          "start": 12,
+          "old": [],
+          "new": [
+            "open KUOS.DependentOriginationStandardTypeAEndpointPushoutProductV1_50"
+          ]
+        },
+        {
+          "start": 78,
+          "old": [
+            "def standardABCRawCellularStep : MorphismProperty (ScaledSSet.{u}) :="
+          ],
+          "new": [
+            "@[reducible] def standardABCRawCellularStep : MorphismProperty (ScaledSSet.{u}) :="
+          ]
+        },
+        {
+          "start": 84,
+          "old": [
+            "def standardABCStrongCellularClosure : MorphismProperty (ScaledSSet.{u}) :="
+          ],
+          "new": [
+            "@[reducible] def standardABCStrongCellularClosure : MorphismProperty (ScaledSSet.{u}) :="
+          ]
+        },
+        {
+          "start": 105,
+          "old": [
+            "    (c : (standardTypeABoundaryPrismRankFunction g).Cell j) :"
+          ],
+          "new": [
+            "    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j) :"
+          ]
+        },
+        {
+          "start": 119,
+          "old": [
+            "  rw [← standardTypeABoundaryPrismCellA_lowerMap_eq_generator g j c] at hgen"
+          ],
+          "new": [
+            "  have hgen' :",
+            "      (MorphismProperty.coproducts.{u}",
+            "        (standardScaledAnodyneGeneratorsABC :",
+            "          MorphismProperty (ScaledSSet.{u})))",
+            "        (scalingEnrichmentPushoutLowerMap c.horn.ι",
+            "          (standardTypeAHornInclusion_scaled c.index)) := by",
+            "    simpa only [standardTypeABoundaryPrismCellA_lowerMap_eq_generator g j c] using hgen"
+          ]
+        },
+        {
+          "start": 121,
+          "old": [],
+          "new": [
+            "    (MorphismProperty.coproducts.{u}",
+            "      (standardScaledAnodyneGeneratorsABC :",
+            "        MorphismProperty (ScaledSSet.{u})))"
+          ]
+        },
+        {
+          "start": 123,
+          "old": [
+            "    hgen"
+          ],
+          "new": [
+            "    hgen'"
+          ]
+        },
+        {
+          "start": 130,
+          "old": [
+            "    standardABCRawCellularStep standardTypeBCollapse12CompletionHom := by"
+          ],
+          "new": [
+            "    standardABCRawCellularStep standardTypeBCollapse12CompletionHom.{u} := by"
+          ]
+        },
+        {
+          "start": 134,
+          "old": [
+            "          MorphismProperty (ScaledSSet.{u}))) standardTypeBGeneratorHom :="
+          ],
+          "new": [
+            "          MorphismProperty (ScaledSSet.{u}))) standardTypeBGeneratorHom.{u} :="
+          ]
+        },
+        {
+          "start": 138,
+          "old": [
+            "      standardTypeBGenerator_mem_ABC"
+          ],
+          "new": [
+            "      standardTypeBGenerator_mem_ABC.{u}"
+          ]
+        },
+        {
+          "start": 140,
+          "old": [
+            "    standardTypeBCollapse12Completion_isPushout hB"
+          ],
+          "new": [
+            "    (MorphismProperty.coproducts.{u}",
+            "      (standardScaledAnodyneGeneratorsABC :",
+            "        MorphismProperty (ScaledSSet.{u})))",
+            "    standardTypeBCollapse12Completion_isPushout.{u} hB"
+          ]
+        },
+        {
+          "start": 145,
+          "old": [
+            "    standardABCRawCellularStep standardTypeBCollapse23CompletionHom := by"
+          ],
+          "new": [
+            "    standardABCRawCellularStep standardTypeBCollapse23CompletionHom.{u} := by"
+          ]
+        },
+        {
+          "start": 149,
+          "old": [
+            "          MorphismProperty (ScaledSSet.{u}))) standardTypeBGeneratorHom :="
+          ],
+          "new": [
+            "          MorphismProperty (ScaledSSet.{u}))) standardTypeBGeneratorHom.{u} :="
+          ]
+        },
+        {
+          "start": 153,
+          "old": [
+            "      standardTypeBGenerator_mem_ABC"
+          ],
+          "new": [
+            "      standardTypeBGenerator_mem_ABC.{u}"
+          ]
+        },
+        {
+          "start": 155,
+          "old": [
+            "    standardTypeBCollapse23Completion_isPushout hB"
+          ],
+          "new": [
+            "    (MorphismProperty.coproducts.{u}",
+            "      (standardScaledAnodyneGeneratorsABC :",
+            "        MorphismProperty (ScaledSSet.{u})))",
+            "    standardTypeBCollapse23Completion_isPushout.{u} hB"
+          ]
+        },
+        {
+          "start": 167,
+          "old": [
+            "    ScaledSSet.of X s ≅ ScaledSSet.of X t where",
+            "  hom :=",
+            "    { map := 𝟙 X",
+            "      scaled := by",
+            "        intro z hz",
+            "        simpa only [h] using hz }",
+            "  inv :=",
+            "    { map := 𝟙 X",
+            "      scaled := by",
+            "        intro z hz",
+            "        simpa only [h] using hz }",
+            "  hom_inv_id := by",
+            "    apply ScaledSSet.ScaledMap.ext",
+            "    simp",
+            "  inv_hom_id := by",
+            "    apply ScaledSSet.ScaledMap.ext",
+            "    simp"
+          ],
+          "new": [
+            "    ScaledSSet.of X s ≅ ScaledSSet.of X t := by",
+            "  cases h",
+            "  exact Iso.refl _"
+          ]
+        },
+        {
+          "start": 191,
+          "old": [],
+          "new": [
+            "  cases h"
+          ]
+        },
+        {
+          "start": 199,
+          "old": [],
+          "new": [
+            "  cases h"
+          ]
+        },
+        {
+          "start": 203,
+          "old": [],
+          "new": [
+            "private noncomputable def scalingIsoOfDimensionEq",
+            "    {n : ℕ} (h : n = 3)",
+            "    (s : ScaledSimplicialSet (Δ[n] : SSet.{u})) :",
+            "    ScaledSSet.of (Δ[n] : SSet.{u}) s ≅",
+            "      ScaledSSet.of (Δ[3] : SSet.{u})",
+            "        (Eq.mp",
+            "          (congrArg (fun d : ℕ => ScaledSimplicialSet (Δ[d] : SSet.{u})) h) s) := by",
+            "  cases h",
+            "  exact Iso.refl _",
+            ""
+          ]
+        },
+        {
+          "start": 206,
+          "old": [
+            "    (c : (standardTypeABoundaryPrismRankFunction g).Cell j)"
+          ],
+          "new": [
+            "    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)"
+          ]
+        },
+        {
+          "start": 212,
+          "old": [
+            "  subst_vars"
+          ],
+          "new": [
+            "  exact scalingIsoOfDimensionEq h3 s",
+            "",
+            "private noncomputable def scaledCompletionTransportOfDimensionEq",
+            "    {n : ℕ} (hn : n = 3)",
+            "    (s t : ScaledSimplicialSet (Δ[n] : SSet.{u}))",
+            "    (f : ScaledSSet.of (Δ[n] : SSet.{u}) s ⟶",
+            "      ScaledSSet.of (Δ[n] : SSet.{u}) t) :",
+            "    ScaledSSet.of (Δ[3] : SSet.{u})",
+            "        (Eq.mp (congrArg",
+            "          (fun d : ℕ => ScaledSimplicialSet (Δ[d] : SSet.{u})) hn) s) ⟶",
+            "      ScaledSSet.of (Δ[3] : SSet.{u})",
+            "        (Eq.mp (congrArg",
+            "          (fun d : ℕ => ScaledSimplicialSet (Δ[d] : SSet.{u})) hn) t) := by",
+            "  cases hn",
+            "  exact f",
+            "",
+            "private noncomputable def scaledCompletionTransportArrowIsoOfDimensionEq",
+            "    {n : ℕ} (hn : n = 3)",
+            "    (s t : ScaledSimplicialSet (Δ[n] : SSet.{u}))",
+            "    (f : ScaledSSet.of (Δ[n] : SSet.{u}) s ⟶",
+            "      ScaledSSet.of (Δ[n] : SSet.{u}) t) :",
+            "    Arrow.mk f ≅",
+            "      Arrow.mk (scaledCompletionTransportOfDimensionEq hn s t f) := by",
+            "  cases hn"
+          ]
+        },
+        {
+          "start": 220,
+          "old": [
+            "    (c : (standardTypeABoundaryPrismRankFunction g).Cell j)"
+          ],
+          "new": [
+            "    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)"
+          ]
+        },
+        {
+          "start": 228,
+          "old": [
+            "  subst_vars",
+            "  exact standardTypeABoundaryPrismCellCompletionHom g j c"
+          ],
+          "new": [
+            "  exact scaledCompletionTransportOfDimensionEq h3",
+            "    (standardTypeABoundaryPrismCellAPushoutScaling g j c)",
+            "    (standardTypeABoundaryPrismCellScaling g j c)",
+            "    (standardTypeABoundaryPrismCellCompletionHom g j c)"
+          ]
+        },
+        {
+          "start": 236,
+          "old": [
+            "    (c : (standardTypeABoundaryPrismRankFunction g).Cell j)"
+          ],
+          "new": [
+            "    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)"
+          ]
+        },
+        {
+          "start": 250,
+          "old": [
+            "/-! ## Exceptional completion arrows are fixed q12/q23 up to arrow isomorphism -/"
+          ],
+          "new": [
+            "/-! ## Typed invariance under dimension and scaling equalities -/",
+            "",
+            "private noncomputable def scaledIdentityArrowIsoOfDimensionEq",
+            "    {n : ℕ} (hn : n = 3)",
+            "    (s t : ScaledSimplicialSet (Δ[n] : SSet.{u}))",
+            "    (s3 t3 : ScaledSimplicialSet (Δ[3] : SSet.{u}))",
+            "    (hs : Eq.mp",
+            "      (congrArg (fun d : ℕ => ScaledSimplicialSet (Δ[d] : SSet.{u})) hn) s = s3)",
+            "    (ht : Eq.mp",
+            "      (congrArg (fun d : ℕ => ScaledSimplicialSet (Δ[d] : SSet.{u})) hn) t = t3)",
+            "    (f : ScaledSSet.of (Δ[n] : SSet.{u}) s ⟶ ScaledSSet.of (Δ[n] : SSet.{u}) t)",
+            "    (f3 : ScaledSSet.of (Δ[3] : SSet.{u}) s3 ⟶ ScaledSSet.of (Δ[3] : SSet.{u}) t3)",
+            "    (hf : f.map = 𝟙 (Δ[n] : SSet.{u}))",
+            "    (hf3 : f3.map = 𝟙 (Δ[3] : SSet.{u})) :",
+            "    Arrow.mk f ≅ Arrow.mk f3 := by",
+            "  cases hn",
+            "  change s = s3 at hs",
+            "  change t = t3 at ht",
+            "  cases hs",
+            "  cases ht",
+            "  have hmap : f.map = f3.map := hf.trans hf3.symm",
+            "  have heq : f = f3 := by",
+            "    apply ScaledSSet.ScaledMap.ext",
+            "    exact hmap",
+            "  exact eqToIso (congrArg Arrow.mk heq)",
+            "",
+            "private noncomputable def scaledArrowIsoOfTargetScalingEq",
+            "    {A : ScaledSSet.{u}} {X : SSet.{u}}",
+            "    (s t : ScaledSimplicialSet X)",
+            "    (h : s = t)",
+            "    (f : A ⟶ ScaledSSet.of X s)",
+            "    (g : A ⟶ ScaledSSet.of X t)",
+            "    (hmap : f.map = g.map) :",
+            "    Arrow.mk f ≅ Arrow.mk g := by",
+            "  cases h",
+            "  have heq : f = g := by",
+            "  exact scaledCompletionTransportArrowIsoOfDimensionEq h3",
+            "    (standardTypeABoundaryPrismCellAPushoutScaling g j c)",
+            "    (standardTypeABoundaryPrismCellScaling g j c)",
+            "    (standardTypeABoundaryPrismCellCompletionHom g j c)"
+          ]
+        },
+        {
+          "start": 256,
+          "old": [
+            "    (c : (standardTypeABoundaryPrismRankFunction g).Cell j)"
+          ],
+          "new": [
+            "    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)"
+          ]
+        },
+        {
+          "start": 268,
+          "old": [
+            "    (c : (standardTypeABoundaryPrismRankFunction g).Cell j)"
+          ],
+          "new": [
+            "    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)"
+          ]
+        },
+        {
+          "start": 281,
+          "old": [
+            "    (c : (standardTypeABoundaryPrismRankFunction g).Cell j)"
+          ],
+          "new": [
+            "    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)"
+          ]
+        },
+        {
+          "start": 284,
+          "old": [
+            "      Arrow.mk standardTypeBCollapse12CompletionHom := by",
+            "  refine Arrow.isoMk",
+            "    (standardTypeABoundaryPrismCellQ12SourceIso g j c h)",
+            "    (standardTypeABoundaryPrismCellQ12TargetIso g j c h) ?_",
+            "  subst_vars",
+            "  apply ScaledSSet.ScaledMap.ext",
+            "  simp [standardTypeABoundaryPrismCellQ12SourceIso,",
+            "    standardTypeABoundaryPrismCellQ12TargetIso,",
+            "    standardTypeABoundaryPrismCellScalingIsoToThree,",
+            "    standardTypeABoundaryPrismCellCompletionHom,",
+            "    standardTypeBCollapse12CompletionHom,",
+            "    standardTypeBPushoutEnrichment,",
+            "    scalingEnrichmentPushoutTargetEnrichment,",
+            "    scalingEqualityIso]"
+          ],
+          "new": [
+            "      Arrow.mk standardTypeBCollapse12CompletionHom.{u} := by",
+            "  exact scaledIdentityArrowIsoOfDimensionEq",
+            "    h.target_three",
+            "    (standardTypeABoundaryPrismCellAPushoutScaling g j c)",
+            "    (standardTypeABoundaryPrismCellScaling g j c)",
+            "    standardTypeBCollapse12BaseScaling",
+            "    standardTypeBCollapse12CompletedScaling",
+            "    h.A_base h.completed_target",
+            "    (standardTypeABoundaryPrismCellCompletionHom g j c)",
+            "    standardTypeBCollapse12CompletionHom.{u}",
+            "    (by rfl) (by rfl)"
+          ]
+        },
+        {
+          "start": 303,
+          "old": [
+            "    (c : (standardTypeABoundaryPrismRankFunction g).Cell j)"
+          ],
+          "new": [
+            "    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)"
+          ]
+        },
+        {
+          "start": 315,
+          "old": [
+            "    (c : (standardTypeABoundaryPrismRankFunction g).Cell j)"
+          ],
+          "new": [
+            "    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)"
+          ]
+        },
+        {
+          "start": 328,
+          "old": [
+            "    (c : (standardTypeABoundaryPrismRankFunction g).Cell j)"
+          ],
+          "new": [
+            "    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)"
+          ]
+        },
+        {
+          "start": 331,
+          "old": [
+            "      Arrow.mk standardTypeBCollapse23CompletionHom := by",
+            "  refine Arrow.isoMk",
+            "    (standardTypeABoundaryPrismCellQ23SourceIso g j c h)",
+            "    (standardTypeABoundaryPrismCellQ23TargetIso g j c h) ?_",
+            "  subst_vars",
+            "  apply ScaledSSet.ScaledMap.ext",
+            "  simp [standardTypeABoundaryPrismCellQ23SourceIso,",
+            "    standardTypeABoundaryPrismCellQ23TargetIso,",
+            "    standardTypeABoundaryPrismCellScalingIsoToThree,",
+            "    standardTypeABoundaryPrismCellCompletionHom,",
+            "    standardTypeBCollapse23CompletionHom,",
+            "    standardTypeBPushoutEnrichment,",
+            "    scalingEnrichmentPushoutTargetEnrichment,",
+            "    scalingEqualityIso]"
+          ],
+          "new": [
+            "      Arrow.mk standardTypeBCollapse23CompletionHom.{u} := by",
+            "  exact scaledIdentityArrowIsoOfDimensionEq",
+            "    h.target_three",
+            "    (standardTypeABoundaryPrismCellAPushoutScaling g j c)",
+            "    (standardTypeABoundaryPrismCellScaling g j c)",
+            "    standardTypeBCollapse23BaseScaling",
+            "    standardTypeBCollapse23CompletedScaling",
+            "    h.A_base h.completed_target",
+            "    (standardTypeABoundaryPrismCellCompletionHom g j c)",
+            "    standardTypeBCollapse23CompletionHom.{u}",
+            "    (by rfl) (by rfl)"
+          ]
+        },
+        {
+          "start": 350,
+          "old": [
+            "    (c : (standardTypeABoundaryPrismRankFunction g).Cell j)"
+          ],
+          "new": [
+            "    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)"
+          ]
+        },
+        {
+          "start": 363,
+          "old": [
+            "    (c : (standardTypeABoundaryPrismRankFunction g).Cell j)"
+          ],
+          "new": [
+            "    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)"
+          ]
+        },
+        {
+          "start": 380,
+          "old": [
+            "    (c : (standardTypeABoundaryPrismRankFunction g).Cell j)"
+          ],
+          "new": [
+            "    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)"
+          ]
+        },
+        {
+          "start": 385,
+          "old": [
+            "  refine Arrow.isoMk (Iso.refl _)",
+            "    (scalingEqualityIso _ _ h) ?_",
+            "  apply ScaledSSet.ScaledMap.ext",
+            "  simp [standardTypeABoundaryPrismCellAPushoutHom_map,",
+            "    standardTypeABoundaryPrismScaledCellHom_map,",
+            "    scalingEqualityIso]"
+          ],
+          "new": [
+            "  exact scaledArrowIsoOfTargetScalingEq",
+            "    (standardTypeABoundaryPrismCellAPushoutScaling g j c)",
+            "    (standardTypeABoundaryPrismCellScaling g j c) h",
+            "    (standardTypeABoundaryPrismCellAPushoutHom g j c)",
+            "    (standardTypeABoundaryPrismScaledCellHom g j c) (by",
+            "      change c.horn.ι =",
+            "        (standardTypeABoundaryPrismRankFunction.{u} g).basicCell j c",
+            "      exact (standardTypeABoundaryPrism_basicCell_eq_typeA_underlying g j c).symm)"
+          ]
+        },
+        {
+          "start": 398,
+          "old": [
+            "    (c : (standardTypeABoundaryPrismRankFunction g).Cell j) :"
+          ],
+          "new": [
+            "    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j) :"
+          ]
+        },
+        {
+          "start": 409,
+          "old": [
+            "  · exact",
+            "      ((standardABCStrongCellularClosure : MorphismProperty (ScaledSSet.{u})).arrow_mk_iso_iff",
+            "        (standardTypeABoundaryPrismCellPureAArrowIso g j c hpure)).1 hA"
+          ],
+          "new": [
+            "  · have hExactRaw :",
+            "        standardABCRawCellularStep",
+            "          (standardTypeABoundaryPrismScaledCellHom g j c) :=",
+            "      ((standardABCRawCellularStep : MorphismProperty (ScaledSSet.{u})).arrow_mk_iso_iff",
+            "        (standardTypeABoundaryPrismCellPureAArrowIso g j c hpure)).1 hAraw",
+            "    exact MorphismProperty.le_transfiniteCompositions _ _ hExactRaw"
+          ]
+        },
+        {
+          "start": 415,
+          "old": [
+            "    have hB :"
+          ],
+          "new": [
+            "    have hcomp :"
+          ]
+        },
+        {
+          "start": 417,
+          "old": [
+            "          (standardTypeABoundaryPrismCellCompletionHom g j c) :=",
+            "      MorphismProperty.le_transfiniteCompositions",
+            "        (standardABCRawCellularStep : MorphismProperty (ScaledSSet.{u})) _ hBraw",
+            "    have hcomp :=",
+            "      (standardABCStrongCellularClosure : MorphismProperty (ScaledSSet.{u})).comp_mem",
+            "        (standardTypeABoundaryPrismCellAPushoutHom g j c)",
+            "        (standardTypeABoundaryPrismCellCompletionHom g j c) hA hB"
+          ],
+          "new": [
+            "          (standardTypeABoundaryPrismCellAPushoutHom g j c ≫",
+            "            standardTypeABoundaryPrismCellCompletionHom g j c) := by",
+            "      change",
+            "        MorphismProperty.transfiniteCompositions.{u}",
+            "          (standardABCRawCellularStep : MorphismProperty (ScaledSSet.{u}))",
+            "          (standardTypeABoundaryPrismCellAPushoutHom g j c ≫",
+            "            standardTypeABoundaryPrismCellCompletionHom g j c)",
+            "      exact",
+            "        (MorphismProperty.transfiniteCompositionsOfShape_le_transfiniteCompositions _ _)",
+            "          (MorphismProperty.TransfiniteCompositionOfShape.ofOrderIso",
+            "            (.ofComp _ _ hAraw hBraw)",
+            "            (orderIsoShrink.{u} (Fin 3)).symm).mem"
+          ]
+        },
+        {
+          "start": 429,
+          "old": [
+            "    have hB :"
+          ],
+          "new": [
+            "    have hcomp :"
+          ]
+        },
+        {
+          "start": 431,
+          "old": [
+            "          (standardTypeABoundaryPrismCellCompletionHom g j c) :=",
+            "      MorphismProperty.le_transfiniteCompositions",
+            "        (standardABCRawCellularStep : MorphismProperty (ScaledSSet.{u})) _ hBraw",
+            "    have hcomp :=",
+            "      (standardABCStrongCellularClosure : MorphismProperty (ScaledSSet.{u})).comp_mem",
+            "        (standardTypeABoundaryPrismCellAPushoutHom g j c)",
+            "        (standardTypeABoundaryPrismCellCompletionHom g j c) hA hB"
+          ],
+          "new": [
+            "          (standardTypeABoundaryPrismCellAPushoutHom g j c ≫",
+            "            standardTypeABoundaryPrismCellCompletionHom g j c) := by",
+            "      change",
+            "        MorphismProperty.transfiniteCompositions.{u}",
+            "          (standardABCRawCellularStep : MorphismProperty (ScaledSSet.{u}))",
+            "          (standardTypeABoundaryPrismCellAPushoutHom g j c ≫",
+            "            standardTypeABoundaryPrismCellCompletionHom g j c)",
+            "      exact",
+            "        (MorphismProperty.transfiniteCompositionsOfShape_le_transfiniteCompositions _ _)",
+            "          (MorphismProperty.TransfiniteCompositionOfShape.ofOrderIso",
+            "            (.ofComp _ _ hAraw hBraw)",
+            "            (orderIsoShrink.{u} (Fin 3)).symm).mem"
+          ]
+        },
+        {
+          "start": 446,
+          "old": [
+            "    (c : (standardTypeABoundaryPrismRankFunction g).Cell j) :"
+          ],
+          "new": [
+            "    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j) :"
+          ]
+        },
+        {
+          "start": 457,
+          "old": [
+            "  Σ j : ℕ, (standardTypeABoundaryPrismRankFunction g).Cell j"
+          ],
+          "new": [
+            "  Σ j : ℕ, (standardTypeABoundaryPrismRankFunction.{u} g).Cell j"
+          ]
+        }
+      ]
+    }
+  ]
+}
