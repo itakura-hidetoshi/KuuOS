@@ -1,0 +1,75 @@
+{
+  "schema": "kuuos_v167_version_bound_hunks_v1",
+  "baseline_blob": "d847eeb1df4f5316e0c732c8157f64b6aef0512e",
+  "research_candidate_blob": "b75410426cadb22421191a4a4be4641f787b6669",
+  "public_declarations": 11,
+  "preserve_historical_source": true,
+  "source_relative_path": "formal/KUOS/DependentOriginationStandardTypeABoundaryPrismN2MaximalFrontierV1_67.lean",
+  "hunks": [
+    {
+      "start": 56,
+      "old": [],
+      "new": [
+        "/-- The fixed Lean/mathlib standard-simplex degeneracy evaluation, stated",
+        "locally rather than relying on an unavailable named `σ_apply` lemma. -/",
+        "private lemma stdSimplex_sigma_apply",
+        "    {n d : ℕ}",
+        "    (x : (Δ[n] : SSet.{u}).obj (op ⦋d⦌))",
+        "    (i : Fin (d + 1)) (j : Fin (d + 2)) :",
+        "    ((Δ[n] : SSet.{u}).σ i x) j = x (i.predAbove j) := rfl",
+        "",
+        ""
+      ]
+    },
+    {
+      "start": 67,
+      "old": [
+        "    simp [SSet.stdSimplex.σ_apply, SSet.stdSimplex.δ_apply, h12]"
+      ],
+      "new": [
+        "    simp [stdSimplex_sigma_apply, SSet.stdSimplex.δ_apply,",
+        "      Fin.predAbove, Fin.succAbove, h12]"
+      ]
+    },
+    {
+      "start": 87,
+      "old": [
+        "  apply scaling_eq_of_le_antisymm"
+      ],
+      "new": [
+        "  apply KUOS.DependentOriginationStandardTypeAScaledPushoutSourceEnrichmentV1_53.scaling_eq_of_le_antisymm"
+      ]
+    },
+    {
+      "start": 151,
+      "old": [
+        "  apply scaling_eq_of_le_antisymm"
+      ],
+      "new": [
+        "  apply KUOS.DependentOriginationStandardTypeAScaledPushoutSourceEnrichmentV1_53.scaling_eq_of_le_antisymm"
+      ]
+    },
+    {
+      "start": 170,
+      "old": [
+        "    (c : (standardTypeABoundaryPrismRankFunction g).Cell j)"
+      ],
+      "new": [
+        "    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)"
+      ]
+    },
+    {
+      "start": 181,
+      "old": [
+        "  rw [hmax]",
+        "  exact ScaledSimplicialSet.maximal_thin _ t"
+      ],
+      "new": [
+        "  -- Instance arguments to `thin` are implicit: rewrite through their",
+        "  -- explicit Prop-valued projection rather than a hidden synthesized instance.",
+        "  have hthin := congrArg (fun sc => sc.thin t) hmax",
+        "  exact hthin.mpr (ScaledSimplicialSet.maximal_thin _ t)"
+      ]
+    }
+  ]
+}
