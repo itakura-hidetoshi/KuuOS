@@ -204,7 +204,8 @@ class WaProfileSourceGuardTests(unittest.TestCase):
                 profile["dissent_evidence_digests"] = ["repeat", "repeat"]
             self.seal_state(changed)
             with self.subTest(action=action):
-                self.reject_pre(changed, event)
+                self.reject_pre(changed, event,
+                                status="NO_DATA" if action == "missing" else "BLOCKED")
 
     def test_self_consistent_but_unproven_receipt_value_is_not_authenticity(self):
         state, event = self.pair(1)

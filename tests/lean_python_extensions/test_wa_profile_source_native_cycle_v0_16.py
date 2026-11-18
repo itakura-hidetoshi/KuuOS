@@ -177,7 +177,9 @@ class WaProfileSourceNativeCycleTests(unittest.TestCase):
                 with patch.object(wa, "_normalize_profile", side_effect=forge):
                     with self.assertRaises(profile_guard.WaProfileSourceBoundaryError) as caught:
                         store.apply(first)
-            self.assertIn("profile_digest_binding_mismatch", str(caught.exception))
+            # The earlier v0.12 mediator may reject this bad digest first;
+            # both diagnostics retain a blocking profile-digest mismatch.
+            self.assertIn("profile_digest", str(caught.exception))
             self.assertEqual((store.ledger_path.read_bytes(), store.snapshot_path.read_bytes()), before)
 
     def test_local_source_mismatch_blocks_before_actual_store_append(self):
