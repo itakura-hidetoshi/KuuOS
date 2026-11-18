@@ -70,7 +70,7 @@ theorem list_abs_sum_le_sum_abs (errors : List ℚ) :
   | nil => simp
   | cons x xs ih =>
     simpa only [List.sum_cons, List.map_cons] using
-      (abs_add_le x xs.sum).trans (add_le_add_left ih |x|)
+      (abs_add_le x xs.sum).trans (add_le_add (le_refl |x|) ih)
 
 /-- Difference of the two finite sums is exactly the sum of signed
     product errors: no rounding model for the final sum is used. -/
