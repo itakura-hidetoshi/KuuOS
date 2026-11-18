@@ -16,7 +16,7 @@ env:
   MATHLIB_NO_CACHE_ON_UPDATE: '1'
   PYTHONPATH: .
   SOURCE_HEAD: ${{ github.event.pull_request.head.sha }}
-  CHECKOUT_BLOB: 'cdf63af6d96baa33bb0fe9db97936bfdfccfaef5'
+  CHECKOUT_BLOB: 'e9e164f1e71c726de1b5fb7a33a2eb57f98fb6b9'
 
 jobs:
   codeai-v163-direct-and-real-mcp:
@@ -47,7 +47,7 @@ jobs:
         with:
           path: .lake
           key: kuuos-v142-pinned-attachment-mathlib-5450-v1
-      - name: Verify fixed pins and exact v1.61 dependency before any candidate
+      - name: Verify fixed pins and exact v1.62 dependency before any candidate
         run: |
           set -euo pipefail
           python3 -c "import pathlib; from scripts.ci_kuuos_v163_codeai import pins; pins(pathlib.Path('.').resolve())"
