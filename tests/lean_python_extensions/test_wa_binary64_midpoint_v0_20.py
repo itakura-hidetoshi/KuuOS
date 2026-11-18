@@ -29,7 +29,7 @@ class WaBinary64MidpointTests(unittest.TestCase):
         cls.temp = TemporaryDirectory(prefix="kuuos-v020-native-wa-")
         cls.addClassCleanup(cls.temp.cleanup)
         cls.root = Path(cls.temp.name)
-        cls.run = native.build_belief_receipt_native_fixture(cls.root)
+        cls.native_run = native.build_belief_receipt_native_fixture(cls.root)
         cls.final_wa = WaDecisionStore(cls.root / "wa").recover(require_snapshot_match=True)
         cls.plural = PluralDecisionStore(cls.root / "plural").recover(require_snapshot_match=True)
         cls.decision = DecisionStore(cls.root / "decision").recover(require_snapshot_match=True)
