@@ -17,6 +17,7 @@ REL = 'formal/' + NS.replace('.', '/') + '.lean'
 WORKFLOW = '.github/workflows/kuuos-v171-codeai-scaled-rank-filtration-real-mcp-v1.yml'
 BASE = '65440d0b87bc7fde247977774022c65a73eef8e2'
 RESEARCH_EXACT = '1162f161439cf01947142b4188cb5fe80d71746c'
+LINT_CANDIDATE = 'f7d1e61cefa8e448fb3a8eb6c825a66e9c88db65'
 PATCH_PATH = 'scripts/kuuos_v171_codeai_version_bound_hunks_v1.json'
 PATCH_BLOB = 'c35682cf2deb2330924e634b1c831d09008d6cee'
 DEPENDENCIES = {
@@ -84,6 +85,13 @@ def candidates(baseline: str) -> dict[str, str]:
     }
     out = {name: apply_hunks(selected) for name, selected in groups.items()}
     assert prior.blob(out["research-exact-all-8-hunks"].encode()) == RESEARCH_EXACT
+    lint_original = "  simpa only [Category.comp_id]"
+    lint_corrected = "  simp only [Category.comp_id]"
+    research_source = out["research-exact-all-8-hunks"]
+    assert research_source.count(lint_original) == 1
+    cleaned_source = research_source.replace(lint_original, lint_corrected)
+    assert prior.blob(cleaned_source.encode()) == LINT_CANDIDATE
+    out["lint-compliant-8-hunks"] = cleaned_source
     priv = re.findall(r"^(?:@\[[^\]]+\]\s*)?private\s+(?:def|lemma|theorem)\s+([^\s(:]+)", out["research-exact-all-8-hunks"], re.M)
     assert priv == ["standardTypeABoundaryPrism_cell_mapToSucc_app"]
     for name, source in out.items():
@@ -141,8 +149,8 @@ def direct(root: pathlib.Path, out: pathlib.Path) -> None:
                 print('KUUOS_V171_DIRECT ' + json.dumps(row), flush=True)
         assert not records[0]['success'], 'the broken baseline unexpectedly passed'
         chosen = next((row for row in records[1:] if row['success']
-            and row['candidate'] == 'research-exact-all-8-hunks'), None)
-        assert chosen is not None, 'The two-lint-corrected v1.71 candidate did not pass direct pinned Lean'
+            and row['candidate'] == 'lint-compliant-8-hunks'), None)
+        assert chosen is not None, 'The one-lint-corrected v1.71 candidate did not pass direct pinned Lean'
         source = variants[chosen['candidate']].encode()
         target.write_bytes(source)
         strict_build(root, out)
@@ -186,10 +194,10 @@ def independent(root: pathlib.Path, out: pathlib.Path) -> None:
     assert manifest['checkout_blob'] == os.environ['CHECKOUT_BLOB'] == prior.blob(original)
     assert original in {baseline.encode(), *(s.encode() for s in variants.values())}
     assert manifest['dependencies'] == DEPENDENCIES and manifest['baseline_blob'] == BASE
-    assert chosen['candidate'] == 'research-exact-all-8-hunks' and chosen['success'] and chosen['exit_code'] == 0
+    assert chosen['candidate'] == 'lint-compliant-8-hunks' and chosen['success'] and chosen['exit_code'] == 0
     assert not chosen['errors']
     assert source == variants[chosen['candidate']].encode()
-    assert prior.blob(source) == RESEARCH_EXACT
+    assert prior.blob(source) == LINT_CANDIDATE
     assert prior.blob(source) == chosen['blob']
     assert hashlib.sha256(source).hexdigest() == chosen['source_sha256'] == manifest['source_sha256']
     assert manifest['source_restored'] and not manifest['git_write_performed']
