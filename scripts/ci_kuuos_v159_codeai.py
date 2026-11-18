@@ -162,9 +162,11 @@ def direct(root: pathlib.Path, out: pathlib.Path) -> None:
     pins(root)
     target = root / REL
     original = target.read_bytes()
-    assert blob(original) == os.environ['CHECKOUT_BLOB'] == BASE
+    assert blob(original) == os.environ['CHECKOUT_BLOB']
+    assert blob(original) in {BASE, CANDIDATE}
     baseline = (root / 'legacy/v5.291' / REL).read_text(encoding='utf-8')
     variants = candidates(baseline)
+    assert original == (variants['complete-v159'].encode() if blob(original) == CANDIDATE else baseline.encode())
     rows = []
     manifest = None
     try:
@@ -229,7 +231,9 @@ def independent(root: pathlib.Path, out: pathlib.Path) -> None:
     target = root / REL
     original = target.read_bytes()
     assert manifest['head'] == os.environ['SOURCE_HEAD']
-    assert blob(original) == manifest['checkout_blob'] == os.environ['CHECKOUT_BLOB'] == BASE
+    assert blob(original) == manifest['checkout_blob'] == os.environ['CHECKOUT_BLOB']
+    assert blob(original) in {BASE, CANDIDATE}
+    assert original == (variants['complete-v159'].encode() if blob(original) == CANDIDATE else (root / 'legacy/v5.291' / REL).read_bytes())
     assert manifest['dependencies'] == DEPENDENCIES and manifest['baseline_blob'] == BASE
     assert manifest['selected']['candidate'] == 'complete-v159'
     assert source == variants['complete-v159'].encode()
