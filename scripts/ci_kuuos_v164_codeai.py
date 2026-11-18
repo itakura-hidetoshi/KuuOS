@@ -16,7 +16,8 @@ import tempfile
 NS = 'KUOS.DependentOriginationStandardTypeABoundaryPrismStaircaseNormalFormV1_64'
 REL = 'formal/' + NS.replace('.', '/') + '.lean'
 BASE = '07eaf7346dc70715c929e94a4f5ef35e51a05862'
-CANDIDATE = '06ce96f29ccbba614ec88982429207605a114c15'
+CANDIDATE = '9feee00d150a91150c1c2b3320000829fde4b9d8'
+FIRST_COMPLETE_BLOB = '06ce96f29ccbba614ec88982429207605a114c15'
 CORE_BLOB = '01ec93c4c3f3f6f77946fa0869fd895e15f2674f'
 WORKFLOW = '.github/workflows/kuuos-v164-codeai-staircase-transport-real-mcp-v1.yml'
 DEPENDENCIES = {
@@ -77,12 +78,16 @@ def candidates(baseline: str) -> dict[str, str]:
         'simp-transport': replacement(baseline, old, simp),
         'explicit-eq-rec': replacement(baseline, old, eqrec),
         'complete-v164': replacement(baseline, old, rw),
+        'lint-compliant-v164': replacement(replacement(baseline, old, rw),
+            '∃ hn2 : g.n = 2,', '∃ _hn2 : g.n = 2,'),
     }
     for name, source in variants.items():
         assert inventory(source) == NAMES, ('declaration names changed', name)
     assert blob(variants['simp-transport'].encode()) == '4e525c981cdced77e08bc24e01d4e1c460b6c633'
     assert blob(variants['explicit-eq-rec'].encode()) == '98930b4d31862ff0fc1cf099d270d0a4907607f0'
-    assert blob(variants['complete-v164'].encode()) == CANDIDATE
+    assert blob(variants['complete-v164'].encode()) == FIRST_COMPLETE_BLOB
+    assert variants['lint-compliant-v164'].replace('∃ _hn2 : g.n = 2,', '∃ hn2 : g.n = 2,') == variants['complete-v164']
+    assert blob(variants['lint-compliant-v164'].encode()) == CANDIDATE
     return variants
 
 
@@ -133,7 +138,7 @@ def direct(root: pathlib.Path, out: pathlib.Path) -> None:
     assert blob(original) in {BASE, CANDIDATE}
     baseline = (root / 'legacy/v5.291' / REL).read_text(encoding='utf-8')
     variants = candidates(baseline)
-    assert original == (variants['complete-v164'].encode() if blob(original) == CANDIDATE else baseline.encode())
+    assert original == (variants['lint-compliant-v164'].encode() if blob(original) == CANDIDATE else baseline.encode())
     rows = []
     manifest = None
     try:
@@ -160,10 +165,10 @@ def direct(root: pathlib.Path, out: pathlib.Path) -> None:
                     encoding='utf-8')
                 print('KUUOS_V164_DIRECT ' + json.dumps(row), flush=True)
         assert not rows[0]['success'] and rows[0]['exit_code'] != 0
-        selected = next((r for r in rows if r['candidate'] == 'complete-v164'
+        selected = next((r for r in rows if r['candidate'] == 'lint-compliant-v164'
             and r['success']), None)
-        assert selected is not None, 'complete v1.62 candidate not yet Lean certified'
-        source = variants['complete-v164'].encode()
+        assert selected is not None, 'lint-compliant v1.64 candidate not yet Lean certified'
+        source = variants['lint-compliant-v164'].encode()
         target.write_bytes(source)
         strict_build(root, out)
         receipt = run_loop(root=root, rel_file=REL, output_dir=out / 'real-mcp',
@@ -200,10 +205,10 @@ def independent(root: pathlib.Path, out: pathlib.Path) -> None:
     assert manifest['head'] == os.environ['SOURCE_HEAD']
     assert blob(original) == manifest['checkout_blob'] == os.environ['CHECKOUT_BLOB']
     assert blob(original) in {BASE, CANDIDATE}
-    assert original == (variants['complete-v164'].encode() if blob(original) == CANDIDATE else (root / 'legacy/v5.291' / REL).read_bytes())
+    assert original == (variants['lint-compliant-v164'].encode() if blob(original) == CANDIDATE else (root / 'legacy/v5.291' / REL).read_bytes())
     assert manifest['dependencies'] == DEPENDENCIES and manifest['baseline_blob'] == BASE
-    assert manifest['selected']['candidate'] == 'complete-v164'
-    assert source == variants['complete-v164'].encode()
+    assert manifest['selected']['candidate'] == 'lint-compliant-v164'
+    assert source == variants['lint-compliant-v164'].encode()
     assert blob(source) == manifest['selected']['blob'] == CANDIDATE
     assert hashlib.sha256(source).hexdigest() == manifest['source_sha256']
     assert manifest['selected']['success'] and manifest['selected']['exit_code'] == 0
