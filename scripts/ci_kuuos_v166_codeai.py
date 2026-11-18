@@ -17,6 +17,7 @@ REL = 'formal/' + NS.replace('.', '/') + '.lean'
 WORKFLOW = '.github/workflows/kuuos-v166-codeai-cell-a-compatibility-real-mcp-v1.yml'
 BASE = '3f8e6e2057e0676f7526172eb6211e638ab2262a'
 RESEARCH_EXACT = '47d80e325f26db1b17c6c3809feb8dd654e56f5d'
+LINT_CANDIDATE = '689d0135a4a85d25afae2dbc209a02db0cbd30d8'
 PATCH_PATH = 'scripts/kuuos_v166_codeai_version_bound_hunks_v1.json'
 PATCH_BLOB = 'c83aae72737e9fe9a3aaa7f1609909612b5f6fd6'
 DEPENDENCIES = {
@@ -86,6 +87,14 @@ def candidates(baseline: str) -> dict[str, str]:
     }
     out = {name: apply_hunks(selected) for name, selected in groups.items()}
     assert prior.blob(out['research-exact-all-14-hunks'].encode()) == RESEARCH_EXACT
+    # Exact Lean 4 strict-lint diagnostic on research source: a terminal
+    # simpa is redundant. Preserve the entire theorem and all hypotheses.
+    old_lint = '    simpa only [hpair, SSet.Subcomplex.PairingCore.equivI_apply_coe]'
+    new_lint = '    simp only [hpair, SSet.Subcomplex.PairingCore.equivI_apply_coe]'
+    assert out['research-exact-all-14-hunks'].count(old_lint) == 1
+    repaired = out['research-exact-all-14-hunks'].replace(old_lint, new_lint)
+    assert prior.blob(repaired.encode()) == LINT_CANDIDATE
+    out['lint-compliant-14-hunks'] = repaired
     for name, source in out.items():
         assert prior.inventory(source) == NAMES, ('public declaration inventory altered', name)
     return out
@@ -141,8 +150,8 @@ def direct(root: pathlib.Path, out: pathlib.Path) -> None:
                 print('KUUOS_V166_DIRECT ' + json.dumps(row), flush=True)
         assert not records[0]['success'], 'the broken baseline unexpectedly passed'
         chosen = next((row for row in records[1:] if row['success']
-            and row['candidate'] == 'research-exact-all-14-hunks'), None)
-        assert chosen is not None, 'The complete v1.66 candidate did not pass direct pinned Lean'
+            and row['candidate'] == 'lint-compliant-14-hunks'), None)
+        assert chosen is not None, 'The lint-compliant v1.66 candidate did not pass direct pinned Lean'
         source = variants[chosen['candidate']].encode()
         target.write_bytes(source)
         strict_build(root, out)
@@ -186,10 +195,10 @@ def independent(root: pathlib.Path, out: pathlib.Path) -> None:
     assert manifest['checkout_blob'] == os.environ['CHECKOUT_BLOB'] == prior.blob(original)
     assert original in {baseline.encode(), *(s.encode() for s in variants.values())}
     assert manifest['dependencies'] == DEPENDENCIES and manifest['baseline_blob'] == BASE
-    assert chosen['candidate'] in variants and chosen['success'] and chosen['exit_code'] == 0
+    assert chosen['candidate'] == 'lint-compliant-14-hunks' and chosen['success'] and chosen['exit_code'] == 0
     assert not chosen['errors']
     assert source == variants[chosen['candidate']].encode()
-    assert prior.blob(source) == RESEARCH_EXACT
+    assert prior.blob(source) == LINT_CANDIDATE
     assert prior.blob(source) == chosen['blob']
     assert hashlib.sha256(source).hexdigest() == chosen['source_sha256'] == manifest['source_sha256']
     assert manifest['source_restored'] and not manifest['git_write_performed']
