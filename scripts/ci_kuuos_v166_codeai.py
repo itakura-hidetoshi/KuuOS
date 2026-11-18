@@ -27,7 +27,7 @@ DEPENDENCIES = {
     'formal/KUOS/DependentOriginationStandardTypeABoundaryPrismDimensionDichotomyV1_63.lean':
         'e9e164f1e71c726de1b5fb7a33a2eb57f98fb6b9',
     'formal/KUOS/DependentOriginationGlobalDuskinScaledHornCoherenceV1_22.lean':
-        'e560cd98ae0ca54d137347bc5b0043fe34a66fa7',
+        'e560cd98ae0ca54d177347bc5b0043fe34a66fa7',
     'formal/KUOS/PinnedMathlibUnionProdProofPortV1_61.lean':
         'ba703c0dd48e4e437cb968e077611fb50e5a154e',
 }
