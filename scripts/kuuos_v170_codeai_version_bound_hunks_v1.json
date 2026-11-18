@@ -1,0 +1,641 @@
+{
+  "schema": "kuuos_v170_version_bound_hunks_v1",
+  "baseline_blob": "c3e82af1701ba020c274fe7904c78bcdb618a342",
+  "research_candidate_blob": "0ff7ff8615e00d26a10b5f86580c1aa98d09a81d",
+  "public_declarations": 24,
+  "allow_private_lemmas": true,
+  "preserve_historical_source": true,
+  "source_relative_path": "formal/KUOS/DependentOriginationStandardTypeABoundaryPrismCellwiseABClassificationV1_70.lean",
+  "hunks": [
+    {
+      "start": 11,
+      "old": [],
+      "new": [
+        "open KUOS.DependentOriginationStandardTypeAScaledPushoutSourceEnrichmentV1_53"
+      ]
+    },
+    {
+      "start": 28,
+      "old": [],
+      "new": [
+        "/-- Fixed-Lean standard-simplex degeneracy evaluation, proved by reduction. -/",
+        "private lemma stdSimplex_sigma_apply {n d : ℕ}",
+        "    (x : (Δ[n] : SSet.{u}).obj (op ⦋d⦌))",
+        "    (i : Fin (d + 1)) (j : Fin (d + 2)) :",
+        "    ((Δ[n] : SSet.{u}).σ i x) j = x (i.predAbove j) := rfl",
+        ""
+      ]
+    },
+    {
+      "start": 57,
+      "old": [],
+      "new": [
+        "",
+        "/-! ## Typed bridge from the pinned pairing core to the paired simplex -/",
+        "",
+        "/-- The underlying paired type-(I) simplex is the original core simplex.",
+        "This is a dependent equality before any face evaluation is taken. -/",
+        "private theorem interiorPairing_pairedSimplex",
+        "    {m : ℕ} (k : Fin (m + 1))",
+        "    (s : SSet.prodStdSimplex.pairingCore.Type₁.{u} k 1) :",
+        "    (((SSet.prodStdSimplex.pairingCore.{u} k 1).pairing.p",
+        "      ((SSet.prodStdSimplex.pairingCore.{u} k 1).equivII s)).val.cast",
+        "      ((SSet.prodStdSimplex.pairingCore.{u} k 1).pairing.isUniquelyCodimOneFace",
+        "        ((SSet.prodStdSimplex.pairingCore.{u} k 1).equivII s)).dim_eq).simplex =",
+        "      (s.x.cast s.hd).simplex := by",
+        "  let P := SSet.prodStdSimplex.pairingCore.{u} k 1",
+        "  have hpair : P.pairing.p (P.equivII s) = P.equivI s :=",
+        "    P.pairing_p_equivII s",
+        "  have htypeOne :",
+        "      (P.pairing.p (P.equivII s)).val = P.type₁ s := by",
+        "    simpa only [hpair, SSet.Subcomplex.PairingCore.equivI_apply_coe]",
+        "  have hpairedN :",
+        "      (P.pairing.p (P.equivII s)).val.cast",
+        "          (P.pairing.isUniquelyCodimOneFace (P.equivII s)).dim_eq =",
+        "        P.type₁ s := by",
+        "    exact ((P.pairing.p (P.equivII s)).val.cast_eq_self _).trans htypeOne",
+        "  have hsimplex :",
+        "      ((P.pairing.p (P.equivII s)).val.cast",
+        "          (P.pairing.isUniquelyCodimOneFace (P.equivII s)).dim_eq).simplex =",
+        "        P.simplex s := by",
+        "    apply (SSet.S.ext_iff _ _).mp",
+        "    simpa only [SSet.Subcomplex.PairingCore.type₁] using",
+        "      congrArg (fun (x : _) => x.toS) hpairedN",
+        "  exact hsimplex",
+        "",
+        "/-- The unique attached face index is the core's actual index. -/",
+        "private theorem interiorPairing_pairedIndex",
+        "    {m : ℕ} (k : Fin (m + 1))",
+        "    (s : SSet.prodStdSimplex.pairingCore.Type₁.{u} k 1) :",
+        "    (((SSet.prodStdSimplex.pairingCore.{u} k 1).pairing.isUniquelyCodimOneFace",
+        "        ((SSet.prodStdSimplex.pairingCore.{u} k 1).equivII s)).index rfl) =",
+        "      s.index.castSucc := by",
+        "  let P := SSet.prodStdSimplex.pairingCore.{u} k 1",
+        "  have hsimplex := interiorPairing_pairedSimplex k s",
+        "  have hindexCore :",
+        "      ((P.pairing.isUniquelyCodimOneFace (P.equivII s)).index rfl) =",
+        "        P.index s := by",
+        "    symm",
+        "    apply",
+        "      ((P.pairing.isUniquelyCodimOneFace (P.equivII s)).δ_eq_iff",
+        "        rfl (P.index s)).mp",
+        "    rw [hsimplex]",
+        "    calc",
+        "      _ = (P.type₂ s).simplex := rfl",
+        "      _ = ((P.equivII s).val.cast rfl).simplex := by",
+        "        have hfaceN :",
+        "            P.type₂ s = ((P.equivII s).val.cast rfl) := by",
+        "          simp only [SSet.Subcomplex.N.cast_eq_self,",
+        "            SSet.Subcomplex.PairingCore.equivII_apply_coe]",
+        "        apply (SSet.S.ext_iff _ _).mp",
+        "        exact congrArg (fun (x : _) => x.toS) hfaceN",
+        "  exact hindexCore.trans (by rfl)",
+        ""
+      ]
+    },
+    {
+      "start": 63,
+      "old": [
+        "    (z : (SSet.prodStdSimplex.pairing.{u} k.castSucc 1).II) :"
+      ],
+      "new": [
+        "    (z : (SSet.prodStdSimplex.pairingCore.{u} k 1).pairing.II) :"
+      ]
+    },
+    {
+      "start": 65,
+      "old": [
+        "      (((SSet.prodStdSimplex.pairing.{u} k.castSucc 1).p z).val.cast",
+        "        ((SSet.prodStdSimplex.pairing.{u} k.castSucc 1)",
+        "          .isUniquelyCodimOneFace z).dim_eq).simplex.1 := by",
+        "  rw [SSet.prodStdSimplex.pairing_castSucc] at z ⊢",
+        "  obtain ⟨s, rfl⟩ :=",
+        "    (SSet.prodStdSimplex.pairingCore.{u} k 1).equivII.surjective z",
+        "  simpa [SSet.prodStdSimplex.pairingCore] using",
+        "    unionProdPairingCore_typeOne_fst_surjective k s"
+      ],
+      "new": [
+        "      (((SSet.prodStdSimplex.pairingCore.{u} k 1).pairing.p z).val.cast",
+        "        ((SSet.prodStdSimplex.pairingCore.{u} k 1).pairing.isUniquelyCodimOneFace z).dim_eq).simplex.1 := by",
+        "  let P := SSet.prodStdSimplex.pairingCore.{u} k 1",
+        "  obtain ⟨s, rfl⟩ := P.equivII.surjective z",
+        "  rw [interiorPairing_pairedSimplex k s]",
+        "  exact unionProdPairingCore_typeOne_fst_surjective k s"
+      ]
+    },
+    {
+      "start": 80,
+      "old": [
+        "    (z : (SSet.prodStdSimplex.pairing.{u} k.castSucc 1).II) :"
+      ],
+      "new": [
+        "    (z : (SSet.prodStdSimplex.pairingCore.{u} k 1).pairing.II) :"
+      ]
+    },
+    {
+      "start": 83,
+      "old": [
+        "          ((SSet.prodStdSimplex.pairing.{u} k.castSucc 1)",
+        "            .isUniquelyCodimOneFace z).index rfl ∧",
+        "        (((SSet.prodStdSimplex.pairing.{u} k.castSucc 1).p z).val.cast",
+        "          ((SSet.prodStdSimplex.pairing.{u} k.castSucc 1)",
+        "            .isUniquelyCodimOneFace z).dim_eq).simplex.1 l.castSucc ="
+      ],
+      "new": [
+        "          ((SSet.prodStdSimplex.pairingCore.{u} k 1).pairing.isUniquelyCodimOneFace z).index rfl ∧",
+        "        (((SSet.prodStdSimplex.pairingCore.{u} k 1).pairing.p z).val.cast",
+        "          ((SSet.prodStdSimplex.pairingCore.{u} k 1).pairing.isUniquelyCodimOneFace z).dim_eq).simplex.1 l.castSucc ="
+      ]
+    },
+    {
+      "start": 89,
+      "old": [
+        "        (((SSet.prodStdSimplex.pairing.{u} k.castSucc 1).p z).val.cast",
+        "          ((SSet.prodStdSimplex.pairing.{u} k.castSucc 1)",
+        "            .isUniquelyCodimOneFace z).dim_eq).simplex.1 l.succ ="
+      ],
+      "new": [
+        "        (((SSet.prodStdSimplex.pairingCore.{u} k 1).pairing.p z).val.cast",
+        "          ((SSet.prodStdSimplex.pairingCore.{u} k 1).pairing.isUniquelyCodimOneFace z).dim_eq).simplex.1 l.succ ="
+      ]
+    },
+    {
+      "start": 93,
+      "old": [
+        "  rw [SSet.prodStdSimplex.pairing_castSucc] at z ⊢",
+        "  obtain ⟨s, rfl⟩ :=",
+        "    (SSet.prodStdSimplex.pairingCore.{u} k 1).equivII.surjective z",
+        "  refine ⟨s.index, ?_, ?_, ?_⟩",
+        "  · simp [SSet.prodStdSimplex.pairingCore]",
+        "  · simpa [SSet.prodStdSimplex.pairingCore] using",
+        "      s.isIndex.simplex_fst_castSucc",
+        "  · simpa [SSet.prodStdSimplex.pairingCore] using",
+        "      s.isIndex.simplex_fst_succ"
+      ],
+      "new": [
+        "  let P := SSet.prodStdSimplex.pairingCore.{u} k 1",
+        "  obtain ⟨s, rfl⟩ := P.equivII.surjective z",
+        "  refine ⟨s.index, (interiorPairing_pairedIndex k s).symm, ?_, ?_⟩",
+        "  · rw [interiorPairing_pairedSimplex k s]",
+        "    exact s.isIndex.simplex_fst_castSucc",
+        "  · rw [interiorPairing_pairedSimplex k s]",
+        "    exact s.isIndex.simplex_fst_succ"
+      ]
+    },
+    {
+      "start": 108,
+      "old": [
+        "    (c : (standardTypeABoundaryPrismRankFunction g).Cell j) :"
+      ],
+      "new": [
+        "    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j) :"
+      ]
+    },
+    {
+      "start": 114,
+      "old": [
+        "      have hi : i = 0 := Subsingleton.elim _ _",
+        "      subst i",
+        "      simp at h0"
+      ],
+      "new": [
+        "      have hbad : i.val < 0 := hn",
+        "      exact False.elim (Nat.not_lt_zero _ hbad)"
+      ]
+    },
+    {
+      "start": 128,
+      "old": [
+        "    (c : (standardTypeABoundaryPrismRankFunction g).Cell j) :"
+      ],
+      "new": [
+        "    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j) :"
+      ]
+    },
+    {
+      "start": 142,
+      "old": [
+        "      have hi : i = 0 := Subsingleton.elim _ _",
+        "      subst i",
+        "      simp at h0"
+      ],
+      "new": [
+        "      have hbad : i.val < 0 := hn",
+        "      exact False.elim (Nat.not_lt_zero _ hbad)"
+      ]
+    },
+    {
+      "start": 158,
+      "old": [
+        "    (c : (standardTypeABoundaryPrismRankFunction g).Cell j) :"
+      ],
+      "new": [
+        "    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j) :"
+      ]
+    },
+    {
+      "start": 167,
+      "old": [
+        "    (c : (standardTypeABoundaryPrismRankFunction g).Cell j) :"
+      ],
+      "new": [
+        "    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j) :"
+      ]
+    },
+    {
+      "start": 178,
+      "old": [
+        "    (c : (standardTypeABoundaryPrismRankFunction g).Cell j)"
+      ],
+      "new": [
+        "    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)"
+      ]
+    },
+    {
+      "start": 190,
+      "old": [
+        "    (c : (standardTypeABoundaryPrismRankFunction g).Cell j)"
+      ],
+      "new": [
+        "    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)"
+      ]
+    },
+    {
+      "start": 209,
+      "old": [
+        "    (c : (standardTypeABoundaryPrismRankFunction g).Cell j)"
+      ],
+      "new": [
+        "    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)"
+      ]
+    },
+    {
+      "start": 218,
+      "old": [
+        "    (c : (standardTypeABoundaryPrismRankFunction g).Cell j)"
+      ],
+      "new": [
+        "    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)"
+      ]
+    },
+    {
+      "start": 226,
+      "old": [
+        "  have happ := SimplexCategory.congr_toOrderHom_apply hid l.castSucc",
+        "  rw [hl] at hfst"
+      ],
+      "new": [
+        "  have happ :",
+        "      Fin.cast (congrArg (fun n : ℕ => n + 1) heq.symm)",
+        "        ((standardTypeABoundaryPrismCellPairedNondegenerate g j c).1.1 l.castSucc) =",
+        "          l.castSucc := by",
+        "    simpa [standardTypeABoundaryPrismCellEqualFirstCoordinateEndomorphism,",
+        "      standardTypeABoundaryPrismCellFirstCoordinateOrdinal] using",
+        "      (SimplexCategory.congr_toOrderHom_apply hid l.castSucc)",
+        "  -- The previous source index is absent from `happ`; rewrite the actual",
+        "  -- first-coordinate evaluation first, then transport via the typed index equality."
+      ]
+    },
+    {
+      "start": 229,
+      "old": [
+        "  apply Fin.ext",
+        "  simpa [standardTypeABoundaryPrismCellEqualFirstCoordinateEndomorphism,",
+        "    standardTypeABoundaryPrismCellFirstCoordinateOrdinal,",
+        "    standardTypeABoundaryPrismEqualGeneratorIndex] using happ.symm"
+      ],
+      "new": [
+        "  simpa [standardTypeABoundaryPrismEqualGeneratorIndex, hl] using happ.symm"
+      ]
+    },
+    {
+      "start": 239,
+      "old": [
+        "    (c : (standardTypeABoundaryPrismRankFunction g).Cell j)"
+      ],
+      "new": [
+        "    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)"
+      ]
+    },
+    {
+      "start": 243,
+      "old": [
+        "    ((standardTypeABoundaryPrismCellFirstCoordinateMap g j c)",
+        "      .app (op ⦋2⦌) t) a =",
+        "      Fin.cast (by omega) (t a) := by"
+      ],
+      "new": [
+        "    ((standardTypeABoundaryPrismCellFirstCoordinateMap g j c).app (op ⦋2⦌) t) a =",
+        "      Fin.cast (congrArg (fun n : ℕ => n + 1) heq) (t a) := by"
+      ]
+    },
+    {
+      "start": 256,
+      "old": [],
+      "new": [
+        "  apply Fin.ext"
+      ]
+    },
+    {
+      "start": 257,
+      "old": [
+        "    standardTypeABoundaryPrismCellFirstCoordinateMap] using hpoint"
+      ],
+      "new": [
+        "    standardTypeABoundaryPrismCellFirstCoordinateMap] using",
+        "      (congrArg Fin.val hpoint)"
+      ]
+    },
+    {
+      "start": 264,
+      "old": [
+        "    (c : (standardTypeABoundaryPrismRankFunction g).Cell j)"
+      ],
+      "new": [
+        "    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)"
+      ]
+    },
+    {
+      "start": 272,
+      "old": [
+        "        ((standardTypeABoundaryPrismCellFirstCoordinateMap g j c)",
+        "          .app (op ⦋2⦌) t) at ht"
+      ],
+      "new": [
+        "        ((standardTypeABoundaryPrismCellFirstCoordinateMap g j c).app (op ⦋2⦌) t) at ht"
+      ]
+    },
+    {
+      "start": 277,
+      "old": [
+        "    · left",
+        "      rcases hmin with ⟨x, hx⟩ | ⟨x, hx⟩",
+        "      · left",
+        "        refine ⟨(Δ[c.dim + 1] : SSet.{u}).δ (0 : Fin 3) t, ?_⟩",
+        "        apply SSet.stdSimplex.ext",
+        "        intro a",
+        "        fin_cases a <;>",
+        "          simp [SSet.stdSimplex.σ_apply, SSet.stdSimplex.δ_apply]",
+        "      · right",
+        "        refine ⟨(Δ[c.dim + 1] : SSet.{u}).δ (2 : Fin 3) t, ?_⟩",
+        "        apply SSet.stdSimplex.ext",
+        "        intro a",
+        "        fin_cases a <;>",
+        "          simp [SSet.stdSimplex.σ_apply, SSet.stdSimplex.δ_apply]"
+      ],
+      "new": [
+        "    · rcases hmin with ⟨x, hx⟩ | ⟨x, hx⟩",
+        "      · have himg :",
+        "            ((standardTypeABoundaryPrismCellFirstCoordinateMap g j c).app (op ⦋2⦌) t) 0 =",
+        "              ((standardTypeABoundaryPrismCellFirstCoordinateMap g j c).app (op ⦋2⦌) t) 1 := by",
+        "          rw [← hx]",
+        "          simp [stdSimplex_sigma_apply]",
+        "        rw [standardTypeABoundaryPrismCellFirstCoordinateMap_apply_of_equal",
+        "          g j c heq t 0, standardTypeABoundaryPrismCellFirstCoordinateMap_apply_of_equal",
+        "          g j c heq t 1] at himg",
+        "        have h01 : t 0 = t 1 := by",
+        "          apply Fin.ext",
+        "          simpa only [Fin.val_cast] using congrArg Fin.val himg",
+        "        exact Or.inl (minimalScaling_stdSimplex_thin_of_zero_eq_one t h01)",
+        "      · have himg :",
+        "            ((standardTypeABoundaryPrismCellFirstCoordinateMap g j c).app (op ⦋2⦌) t) 1 =",
+        "              ((standardTypeABoundaryPrismCellFirstCoordinateMap g j c).app (op ⦋2⦌) t) 2 := by",
+        "          rw [← hx]",
+        "          -- In pinned Lean, both last vertices have identical Fin.predAbove images.",
+        "          simp [stdSimplex_sigma_apply, Fin.predAbove, Fin.succAbove]",
+        "        rw [standardTypeABoundaryPrismCellFirstCoordinateMap_apply_of_equal",
+        "          g j c heq t 1, standardTypeABoundaryPrismCellFirstCoordinateMap_apply_of_equal",
+        "          g j c heq t 2] at himg",
+        "        have h12 : t 1 = t 2 := by",
+        "          apply Fin.ext",
+        "          simpa only [Fin.val_cast] using congrArg Fin.val himg",
+        "        exact Or.inl (minimalScaling_stdSimplex_thin_of_one_eq_two t h12)"
+      ]
+    },
+    {
+      "start": 295,
+      "old": [
+        "        simpa [standardTypeABoundaryPrismEqualGeneratorIndex] using h"
+      ],
+      "new": [
+        "        rw [standardTypeABoundaryPrismCellFirstCoordinateMap_apply_of_equal",
+        "          g j c heq t 1] at h",
+        "        simpa [Fin.val_cast, standardTypeABoundaryPrismEqualGeneratorIndex] using",
+        "          congrArg Fin.val h"
+      ]
+    },
+    {
+      "start": 298,
+      "old": [
+        "          (((standardTypeABoundaryPrismCellFirstCoordinateMap g j c)",
+        "            .app (op ⦋2⦌) t) 0).val + 1 = g.i.val at h"
+      ],
+      "new": [
+        "          (((standardTypeABoundaryPrismCellFirstCoordinateMap g j c).app (op ⦋2⦌) t) 0).val + 1 = g.i.val at h"
+      ]
+    },
+    {
+      "start": 306,
+      "old": [
+        "            (((standardTypeABoundaryPrismCellFirstCoordinateMap g j c)",
+        "              .app (op ⦋2⦌) t) 2).val at h"
+      ],
+      "new": [
+        "            (((standardTypeABoundaryPrismCellFirstCoordinateMap g j c).app (op ⦋2⦌) t) 2).val at h"
+      ]
+    },
+    {
+      "start": 317,
+      "old": [
+        "    (c : (standardTypeABoundaryPrismRankFunction g).Cell j)"
+      ],
+      "new": [
+        "    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)"
+      ]
+    },
+    {
+      "start": 331,
+      "old": [
+        "def standardTypeABoundaryPrismCellHornSaturatedAScaling"
+      ],
+      "new": [
+        "@[reducible] def standardTypeABoundaryPrismCellHornSaturatedAScaling"
+      ]
+    },
+    {
+      "start": 334,
+      "old": [
+        "    (c : (standardTypeABoundaryPrismRankFunction g).Cell j) :"
+      ],
+      "new": [
+        "    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j) :"
+      ]
+    },
+    {
+      "start": 351,
+      "old": [
+        "    (c : (standardTypeABoundaryPrismRankFunction g).Cell j)"
+      ],
+      "new": [
+        "    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)"
+      ]
+    },
+    {
+      "start": 380,
+      "old": [
+        "noncomputable def standardTypeABoundaryPrismTransportScalingToThree"
+      ],
+      "new": [
+        "@[reducible] noncomputable def standardTypeABoundaryPrismTransportScalingToThree"
+      ]
+    },
+    {
+      "start": 383,
+      "old": [
+        "    (c : (standardTypeABoundaryPrismRankFunction g).Cell j)"
+      ],
+      "new": [
+        "    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)"
+      ]
+    },
+    {
+      "start": 391,
+      "old": [],
+      "new": [
+        "/-- Equality transport preserves the maximal scaling, proved at a free",
+        "dimension index before specializing it to a dependent rank cell. -/",
+        "private theorem transportMaximalScaledSimplicialSet",
+        "    {n : ℕ} (h : n = 3) :",
+        "    Eq.mp",
+        "      (congrArg (fun d : ℕ => ScaledSimplicialSet (Δ[d] : SSet.{u})) h)",
+        "      (ScaledSimplicialSet.maximal (Δ[n] : SSet.{u})) =",
+        "        ScaledSimplicialSet.maximal (Δ[3] : SSet.{u}) := by",
+        "  cases h",
+        "  rfl",
+        ""
+      ]
+    },
+    {
+      "start": 395,
+      "old": [
+        "    (c : (standardTypeABoundaryPrismRankFunction g).Cell j)"
+      ],
+      "new": [
+        "    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)"
+      ]
+    },
+    {
+      "start": 400,
+      "old": [
+        "  subst_vars"
+      ],
+      "new": [
+        "  exact transportMaximalScaledSimplicialSet h3",
+        "",
+        "/-- Dimension-free horn saturation.  This moves the equality elimination",
+        "from a dependent rank cell to a genuinely independent simplex dimension. -/",
+        "@[reducible] private def hornSaturatedSimplexScaling (n : ℕ) (i : Fin (n + 1)) :",
+        "    ScaledSimplicialSet (Δ[n] : SSet.{u}) where",
+        "  thin := fun t =>",
+        "    (standardTypeASimplexScaling i).thin t ∨",
+        "      t ∈ (SSet.horn.{u} n i).obj (op ⦋2⦌)",
+        "  thin_sigma_zero := by",
+        "    intro x",
+        "    exact Or.inl ((standardTypeASimplexScaling i).thin_sigma_zero x)",
+        "  thin_sigma_one := by",
+        "    intro x",
+        "    exact Or.inl ((standardTypeASimplexScaling i).thin_sigma_one x)",
+        "",
+        "/-- Transport free dimension and free horn index without eliminating c.s. -/",
+        "private theorem transportHornSaturatedSimplexScaling",
+        "    {n : ℕ} (h3 : n = 3) (i : Fin (n + 1)) :",
+        "    Eq.mp",
+        "        (congrArg (fun d : ℕ => ScaledSimplicialSet (Δ[d] : SSet.{u})) h3)",
+        "        (hornSaturatedSimplexScaling n i) =",
+        "      standardTypeAThreeHornSaturatedScaling (Fin.cast (by omega) i) := by",
+        "  cases h3"
+      ]
+    },
+    {
+      "start": 408,
+      "old": [
+        "    (c : (standardTypeABoundaryPrismRankFunction g).Cell j)"
+      ],
+      "new": [
+        "    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)"
+      ]
+    },
+    {
+      "start": 414,
+      "old": [
+        "  subst_vars",
+        "  simp [standardTypeABoundaryPrismTransportScalingToThree,",
+        "    standardTypeABoundaryPrismCellHornSaturatedAScaling,",
+        "    standardTypeAThreeHornSaturatedScaling,",
+        "    standardTypeABoundaryPrismCellIndex3]"
+      ],
+      "new": [
+        "  change",
+        "    Eq.mp",
+        "        (congrArg (fun d : ℕ => ScaledSimplicialSet (Δ[d] : SSet.{u})) h3)",
+        "        (hornSaturatedSimplexScaling (c.dim + 1) c.index) =",
+        "      standardTypeAThreeHornSaturatedScaling (Fin.cast (by omega) c.index)",
+        "  exact transportHornSaturatedSimplexScaling h3 c.index"
+      ]
+    },
+    {
+      "start": 425,
+      "old": [
+        "    (c : (standardTypeABoundaryPrismRankFunction g).Cell j)"
+      ],
+      "new": [
+        "    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)"
+      ]
+    },
+    {
+      "start": 443,
+      "old": [
+        "    (c : (standardTypeABoundaryPrismRankFunction g).Cell j) : Prop where"
+      ],
+      "new": [
+        "    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j) : Prop where"
+      ]
+    },
+    {
+      "start": 461,
+      "old": [
+        "    (c : (standardTypeABoundaryPrismRankFunction g).Cell j) : Prop where"
+      ],
+      "new": [
+        "    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j) : Prop where"
+      ]
+    },
+    {
+      "start": 479,
+      "old": [
+        "    (c : (standardTypeABoundaryPrismRankFunction g).Cell j)"
+      ],
+      "new": [
+        "    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)"
+      ]
+    },
+    {
+      "start": 505,
+      "old": [
+        "    (c : (standardTypeABoundaryPrismRankFunction g).Cell j)"
+      ],
+      "new": [
+        "    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)"
+      ]
+    },
+    {
+      "start": 534,
+      "old": [
+        "    (c : (standardTypeABoundaryPrismRankFunction g).Cell j) :"
+      ],
+      "new": [
+        "    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j) :"
+      ]
+    }
+  ]
+}
