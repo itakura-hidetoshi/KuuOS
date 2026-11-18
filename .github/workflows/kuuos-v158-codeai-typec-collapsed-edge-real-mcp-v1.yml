@@ -16,7 +16,7 @@ env:
   MATHLIB_NO_CACHE_ON_UPDATE: '1'
   PYTHONPATH: .
   SOURCE_HEAD: ${{ github.event.pull_request.head.sha }}
-  CHECKOUT_BLOB: 'bf3215c269144bfe075816e35b04ae26c616d7ed'
+  CHECKOUT_BLOB: 'd9cb40f0093ec3ef4998ab9420b7d17251337a72'
 
 jobs:
   codeai-v158-direct-and-real-mcp:

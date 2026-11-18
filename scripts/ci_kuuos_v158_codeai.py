@@ -120,9 +120,13 @@ def direct(root: pathlib.Path, out: pathlib.Path) -> None:
     target = root / REL
     original = target.read_bytes()
     assert blob(original) == os.environ['CHECKOUT_BLOB']
-    assert blob(original) in {BASE, REFERENCE_BLOB}
     baseline = (root / 'legacy/v5.291' / REL).read_text(encoding='utf-8')
     variants = candidates(baseline)
+    assert blob(original) in {BASE, REFERENCE_BLOB, REVIEWED_LINT_BLOB}
+    if blob(original) == REVIEWED_LINT_BLOB:
+        assert original == variants['lint-compliant-typec'].encode()
+        assert hashlib.sha256(original).hexdigest() == (
+            '0af65831654189bc5644b7b203728681be1f63766fc65b7f5d9cf4b6ed806c82')
     rows = []
     manifest = None
     try:
