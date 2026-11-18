@@ -1,0 +1,56 @@
+name: KuuOS v1.72 CodeAI candidate probe direct pinned Lean ONLY (not certification)
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/kuuos-v172-codeai-probe-v1.yml'
+      - 'scripts/ci_kuuos_v172_codeai_probe.py'
+      - 'formal/KUOS/DependentOriginationStandardTypeABoundaryPrismRankwiseABCellularityV1_72.lean'
+
+permissions:
+  contents: read
+
+env:
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+  PYTHONPATH: .
+  SOURCE_HEAD: ${{ github.event.pull_request.head.sha }}
+
+jobs:
+  codeai-v172-probe-not-proof:
+    if: github.event.pull_request.number == 3555 && github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-22.04
+    timeout-minutes: 80
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: kuuos-v142-pinned-attachment-mathlib-5450-v1
+      - name: Restore pinned Lean dependencies and independently adopted v1.71
+        run: |
+          set -euo pipefail
+          lake exe cache get
+          lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.DependentOriginationStandardTypeABoundaryPrismScaledRankFiltrationV1_71
+      - name: Run version-bound hypotheses without source adoption
+        run: python3 scripts/ci_kuuos_v172_codeai_probe.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: kuuos-v172-codeai-probe-not-proof
+          path: /tmp/kuuos-v172-codeai-probe
+          if-no-files-found: error
+          retention-days: 30
