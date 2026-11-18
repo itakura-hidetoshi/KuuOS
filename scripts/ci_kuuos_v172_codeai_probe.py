@@ -24,6 +24,11 @@ CANDIDATES = {
     "universe-raw-pushout": "87c7cfddeeae12e56b80213fffd35a87fe406b33",
     "universe-generic-dim-iso": "a313c70660c73088230db20a4d66bafa3005f5d9",
     "universe-typed-transport": "3a900a024bf5e2818cd8516f5b6746b19c0b4577",
+    "universe-generic-dim-iso-Fin3": "68bb175e09a2835e98fa1282442942c1a6be847d",
+    "universe-typed-transport-Fin3": "8ebca523b58f548252c845cf0fd8de9bfe6a7c07",
+    "typed-B-universe": "ac2af21be6c0d583cc517c0fb83779f0974c14e9",
+    "typed-B-universe-Fin3": "98f55e41855c6454fbe654d3c141d522f77e8d52",
+    "typed-B-universe-transport-Fin3": "1b78b05a05b1a8ebd9a8b1e70e0761c77050b256",
 }
 SCOPE_AT = "open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19\n"
 SCOPE_ADD = "\n".join([
@@ -100,6 +105,28 @@ def variants(original: str) -> dict[str, str]:
     assert manifest_v2["historical_unchanged"] is True
     assert manifest_v2["public_declarations_preserved"] == 26
     for item in manifest_v2["variants"]:
+        assert item["name"] not in variants
+        assert item["expected_blob"] == CANDIDATES[item["name"]]
+        cursor = 0
+        result_lines = []
+        for h in item["patches"]:
+            start, old, new = h["start"], h["old"], h["new"]
+            assert cursor <= start <= len(base_lines)
+            assert base_lines[start:start + len(old)] == old
+            result_lines.extend(base_lines[cursor:start])
+            result_lines.extend(new)
+            cursor = start + len(old)
+        result_lines.extend(base_lines[cursor:])
+        variants[item["name"]] = "\n".join(result_lines)
+    # Third version-bound research: explicit type-(B) universe parameters and Fin 3
+    # raw A/B composition. Each variant remains ephemeral, even when Lean succeeds.
+    manifest_v3 = json.loads(
+        pathlib.Path("scripts/kuuos_v172_cause_separated_hunks_v3.json").read_text(encoding="utf-8"))
+    assert manifest_v3["schema"] == "kuuos_v172_cause_separated_hunks_v3"
+    assert manifest_v3["base_scope_blob"] == CANDIDATES["namespace-scope-only"]
+    assert manifest_v3["historical_unchanged"] is True
+    assert manifest_v3["public_declarations_preserved"] == 26
+    for item in manifest_v3["variants"]:
         assert item["name"] not in variants
         assert item["expected_blob"] == CANDIDATES[item["name"]]
         cursor = 0

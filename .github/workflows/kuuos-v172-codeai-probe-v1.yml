@@ -7,6 +7,7 @@ on:
       - 'scripts/ci_kuuos_v172_codeai_probe.py'
       - 'scripts/kuuos_v172_cause_separated_hunks_v1.json'
       - 'scripts/kuuos_v172_cause_separated_hunks_v2.json'
+      - 'scripts/kuuos_v172_cause_separated_hunks_v3.json'
       - 'formal/KUOS/DependentOriginationStandardTypeABoundaryPrismRankwiseABCellularityV1_72.lean'
 
 permissions:
