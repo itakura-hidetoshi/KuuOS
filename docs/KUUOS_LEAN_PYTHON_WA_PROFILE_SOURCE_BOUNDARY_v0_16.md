@@ -25,7 +25,10 @@ The pure new entrypoint is:
 
 It validates the supplied local Plural witness, 19 Wa projection fields and
 normalized profile schema/digest before and after one **unchanged** v0.15
-adapter call. All input objects are copied as finite builtin JSON.
+adapter call. The existing v0.12 mediator already recalculates
+wa_profile_digest; v0.16 is an additional independent schema/hash
+cross-check, not the first detection of stale profile hashes.
+All input objects are copied as finite builtin JSON.
 The native result, source fields, scores, digests and existing history are
 never repaired, overwritten or resealed by the new guard.
 
@@ -62,8 +65,10 @@ fields and no extra keys:
     indra_network_receipt_digest, wa_profile_digest
 
 The profile hash must match the exact canonical JSON of these fields
-excluding \`wa_profile_digest\`. Stored profile option IDs and option
-digests are bound to the reconstructed Plural option map. Receipt strings,
+excluding \`wa_profile_digest\`. The v0.12 mediator already checks the
+profile hash and membership in the local Wa option map. v0.16 adds an
+exact eleven-field inventory and compares the Wa map to a distinct
+recovered committed Plural store witness. Receipt strings,
 exact Boolean flags, list syntax and duplicate evidence digests are
 checked, with no semantic interpretation of those opaque references.
 The original v0.13 finite-interval and v0.15 recomputed-score checks

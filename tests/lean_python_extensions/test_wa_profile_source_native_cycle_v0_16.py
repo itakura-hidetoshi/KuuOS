@@ -168,8 +168,9 @@ class WaProfileSourceNativeCycleTests(unittest.TestCase):
             store.initialize(genesis)
             before = (store.ledger_path.read_bytes(), store.snapshot_path.read_bytes())
             with patch.object(wa, "_normalize_profile", side_effect=forge):
-                old = previous_adapter.checked_apply_wa_evaluation_event(genesis, first)
-            self.assertEqual(old["status"], "APPLIED")
+                # Existing v0.12 mediator already prevents this stale hash.
+                with self.assertRaises(previous_adapter.WaEvaluationBoundaryError):
+                    previous_adapter.checked_apply_wa_evaluation_event(genesis, first)
             with patch.object(wa_store, "apply_wa_event",
                               side_effect=lambda state, event:
                               profile_guard.checked_apply_wa_profile_source_event(state, event, source)):
@@ -211,11 +212,12 @@ class WaProfileSourceNativeCycleTests(unittest.TestCase):
             before = (store.ledger_path.read_bytes(), store.snapshot_path.read_bytes())
             counts = {"DecisionOSWa": 0}
             with guarded._guard_profile_source_boundary(root, counts, [""]):
-                with patch.object(wa_store, "apply_wa_event", wraps=prior.checked_apply_wa_evaluation_event):
-                    # This direct wrapper exercises the missing-witness boundary
-                    # through the local child binding, not a caller-supplied hash.
+                with patch.object(wa_store, "apply_wa_event",
+                                  side_effect=lambda state, event:
+                                  prior.checked_apply_wa_evaluation_event(state, event)):
+                    # The actual store must refuse the event before append.
                     with self.assertRaises(profile_guard.WaProfileSourceBoundaryError):
-                        prior.checked_apply_wa_evaluation_event(genesis, events[0])
+                        store.apply(events[0])
             self.assertEqual(counts["DecisionOSWa"], 0)
             self.assertEqual((store.ledger_path.read_bytes(), store.snapshot_path.read_bytes()), before)
 

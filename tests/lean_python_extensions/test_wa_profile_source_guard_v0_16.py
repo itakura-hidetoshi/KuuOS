@@ -173,7 +173,10 @@ class WaProfileSourceGuardTests(unittest.TestCase):
         state["profiles"][0]["dialogue_receipt_digest"] = types.sha("opaque-changed")
         self.seal_state(state)
         fresh = self.event(state, "evaluate", event["payload"])
-        self.assertEqual(prior.checked_apply_wa_evaluation_event(state, fresh)["status"], "APPLIED")
+        # The earlier v0.12 mediator already checks the profile digest.
+        # v0.16 also rejects it before any v0.15 evaluation call.
+        with self.assertRaises(prior.WaEvaluationBoundaryError):
+            prior.checked_apply_wa_evaluation_event(state, fresh)
         self.assertIn("profile_digest", str(self.reject_pre(state, fresh)))
 
     def test_stale_profile_digest_on_native_result_is_rejected_before_commit(self):
@@ -182,8 +185,8 @@ class WaProfileSourceGuardTests(unittest.TestCase):
         result = deepcopy(original)
         result["state"]["profiles"][0]["dialogue_receipt_digest"] = types.sha("tampered-after-native")
         self.seal_result(result)
-        with patch.object(native, "apply_wa_event", return_value=result):
-            self.assertEqual(prior.checked_apply_wa_evaluation_event(before, event), result)
+        # The earlier v0.12 mediator also rejects this malformed poststate.
+        # Here the substituted prior result tests the independent new check.
         self.assertIn("profile_digest", str(self.reject_post(before, event, result)))
 
     def test_full_profile_schema_rejects_missing_and_extra_receipts(self):
