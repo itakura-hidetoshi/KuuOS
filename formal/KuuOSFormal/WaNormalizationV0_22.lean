@@ -95,7 +95,6 @@ theorem rational_normalization_shift_bound {n : ℕ} (w x : Fin n → ℚ)
         rationalNormalized w x * (rationalWeightTotal w - 1) := by
     unfold rationalNormalized
     field_simp [ne_of_gt hTotal]
-    ring
   calc
     |rationalWeighted w x - rationalNormalized w x| =
       |rationalNormalized w x| * |rationalWeightTotal w - 1| := by
