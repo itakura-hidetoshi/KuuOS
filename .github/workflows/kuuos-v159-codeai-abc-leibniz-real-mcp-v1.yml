@@ -16,7 +16,7 @@ env:
   MATHLIB_NO_CACHE_ON_UPDATE: '1'
   PYTHONPATH: .
   SOURCE_HEAD: ${{ github.event.pull_request.head.sha }}
-  CHECKOUT_BLOB: '09d101a6d6ee5c4c0b7ff8dea625c45dd918d427'
+  CHECKOUT_BLOB: '9388efc5b44873409133e30fbe7b30fbabdf6b52'
 
 jobs:
   codeai-v159-direct-and-real-mcp:
@@ -68,7 +68,7 @@ jobs:
           retention-days: 30
           if-no-files-found: error
 
-  independent-v159-kernel-and-50-axioms:
+  independent-v159-kernel-and-26-axioms:
     needs: codeai-v159-direct-and-real-mcp
     runs-on: ubuntu-22.04
     timeout-minutes: 80
