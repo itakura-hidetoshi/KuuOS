@@ -102,6 +102,13 @@ theorem rational_product_matches_original_waLower
     ((qRel * (1 - qAlert) : ℚ) : ℝ) = waLower relational alert := by
   simp [waLower, hRel, hAlert]
 
+-- Kernel axiom observations are printed by the pinned Lean compiler.
+#print axioms rationalIdeal_cast
+#print axioms certified_rational_error_is_real_error
+#print axioms two_stage_score_error_bound
+#print axioms binary64_addition_is_not_exact_rational_addition
+#print axioms rational_product_matches_original_waLower
+
 end WaRationalBridgeV0_19
 end DecisionOS
 end KUOS
