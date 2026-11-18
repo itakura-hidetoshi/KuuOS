@@ -16,6 +16,7 @@ NS = 'KUOS.DependentOriginationStandardTypeCCollapsedEdgeV1_58'
 REL = 'formal/' + NS.replace('.', '/') + '.lean'
 BASE = 'bf3215c269144bfe075816e35b04ae26c616d7ed'
 REFERENCE_BLOB = '05c257663da028e4cca7907c9d5b7e7221468ac8'
+REVIEWED_LINT_BLOB = 'd9cb40f0093ec3ef4998ab9420b7d17251337a72'
 DEP = 'formal/KUOS/DependentOriginationStandardTypeBThreeSimplexCompletionV1_57.lean'
 DEP_BLOB = '735fc7afffc7806bf6eac41c6c8fdc60a6cea95a'
 CORE_BLOB = '01ec93c4c3f3f6f77946fa0869fd895e15f2674f'
@@ -70,6 +71,13 @@ def candidates(baseline: str) -> dict[str, str]:
         assert inventory(candidate) == NAMES, ('declaration inventory changed', name)
         result[name] = candidate
     assert blob(result['complete-typec-reference'].encode()) == REFERENCE_BLOB
+    old = 'norm_num [Fin.val_last, Nat.mod_eq_of_lt hlt] at hv <;> omega'
+    new = 'norm_num [Fin.val_last, Nat.mod_eq_of_lt hlt] at hv; omega'
+    assert result['complete-typec-reference'].count(old) == 1
+    repaired = result['complete-typec-reference'].replace(old, new, 1)
+    assert inventory(repaired) == NAMES
+    assert blob(repaired.encode()) == REVIEWED_LINT_BLOB
+    result['lint-compliant-typec'] = repaired
     return result
 
 def pins(root: pathlib.Path) -> None:
@@ -142,7 +150,7 @@ def direct(root: pathlib.Path, out: pathlib.Path) -> None:
                 print('KUUOS_V158_DIRECT ' + json.dumps(row, ensure_ascii=False), flush=True)
         assert not rows[0]['success'] and rows[0]['exit_code'] != 0
         selected = next((row for row in rows if row['candidate'] ==
-            'complete-typec-reference' and row['success']), None)
+            'lint-compliant-typec' and row['success']), None)
         assert selected is not None, 'no complete directly verified candidate'
         source = variants[selected['candidate']].encode()
         target.write_bytes(source)
@@ -186,9 +194,9 @@ def independent(root: pathlib.Path, out: pathlib.Path) -> None:
     assert m['head'] == os.environ['SOURCE_HEAD']
     assert blob(original) == m['checkout_blob'] == os.environ['CHECKOUT_BLOB']
     assert m['dependencies'] == DEPENDENCIES and m['baseline_blob'] == BASE
-    assert selected['candidate'] == 'complete-typec-reference'
+    assert selected['candidate'] == 'lint-compliant-typec'
     assert source == variants[selected['candidate']].encode()
-    assert blob(source) == selected['blob'] == REFERENCE_BLOB
+    assert blob(source) == selected['blob'] == REVIEWED_LINT_BLOB
     assert hashlib.sha256(source).hexdigest() == m['source_sha256']
     assert selected['success'] and selected['exit_code'] == 0 and not selected['errors']
     assert m['source_restored'] and not m['git_write_performed'] and not m['independent_ci_success']
