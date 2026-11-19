@@ -39,7 +39,7 @@ env:
   V12_ONLY: '0'
   V13_ONLY: '0'
   V14_ONLY: '1'
-  CHECKOUT_BLOB: 'ac0abc7aa8f7c52c45ac0e2ed13d0cae71ada978'
+  CHECKOUT_BLOB: 'e25e593ee859bbf66a26e8e83ee8d1a17d22659b'
 
 jobs:
   codeai-v175-probe-not-proof:

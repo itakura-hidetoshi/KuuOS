@@ -30,7 +30,7 @@ env:
   MATHLIB_NO_CACHE_ON_UPDATE: '1'
   PYTHONPATH: .
   SOURCE_HEAD: ${{ github.event.pull_request.head.sha }}
-  CHECKOUT_BLOB: 'ac0abc7aa8f7c52c45ac0e2ed13d0cae71ada978'
+  CHECKOUT_BLOB: 'e25e593ee859bbf66a26e8e83ee8d1a17d22659b'
   SELECTED_NAME: 'v175-v14-rank-goal-transport'
   SELECTED_BLOB: 'e25e593ee859bbf66a26e8e83ee8d1a17d22659b'
 

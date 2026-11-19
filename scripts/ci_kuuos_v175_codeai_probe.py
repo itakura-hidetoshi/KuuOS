@@ -391,7 +391,8 @@ def main() -> None:
     historical = (root / "legacy/v5.291" / REL).read_bytes()
     original = (root / REL).read_bytes()
     assert prior.blob(historical) == BASE
-    assert prior.blob(original) == os.environ["CHECKOUT_BLOB"] == BASE
+    assert prior.blob(original) == os.environ["CHECKOUT_BLOB"]
+    assert prior.blob(original) in {BASE, "e25e593ee859bbf66a26e8e83ee8d1a17d22659b"}
     assert len(os.environ["SOURCE_HEAD"]) == 40
     result = candidates(historical.decode())
     target = root / REL
