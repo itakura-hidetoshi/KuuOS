@@ -125,7 +125,7 @@ def candidates(source: str) -> dict[str, str]:
                 assert candidate.count(patch["old"]) == patch["count"] == 1
                 candidate = candidate.replace(patch["old"], patch["new"], 1)
             else:
-                pattern = r"\\b" + re.escape(patch["old"]) + r"\\b(?!\\.\\{)"
+                pattern = r"\b" + re.escape(patch["old"]) + r"\b(?!\.\{)"
                 candidate, n = re.subn(pattern, patch["new"], candidate)
                 assert n == patch["count"], (item["name"], patch["old"], n)
         assert prior.blob(candidate.encode()) == item["expected_blob"]
