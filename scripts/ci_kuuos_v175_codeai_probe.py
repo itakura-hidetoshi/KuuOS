@@ -131,11 +131,33 @@ def candidates(source: str) -> dict[str, str]:
         assert prior.blob(candidate.encode()) == item["expected_blob"]
         result[item["name"]] = candidate
     assert set(result) == set(EXPECTED)
+    # v4: additive and strictly source-bound root-cause comparisons.
+    v4 = json.loads(pathlib.Path(
+        "scripts/kuuos_v175_codeai_structural_hunks_v4.json"
+    ).read_text(encoding="utf-8"))
+    assert v4["schema"] == "kuuos_v175_codeai_structural_hunks_v4"
+    assert v4["source_base"] == EXPECTED["open-v149-inductive-where"]
+    assert v4["original_blob"] == BASE
+    assert v4["historical_unchanged"] is True
+    assert v4["public_declarations_preserved"] == 31
+    assert len(v4["variants"]) == 4
+    expected = dict(EXPECTED)
+    for variant in v4["variants"]:
+        assert variant["name"] not in result
+        candidate = result[variant["base"]]
+        for patch in variant["patches"]:
+            old, new = patch["old"], patch["new"]
+            assert patch["count"] >= 1
+            assert candidate.count(old) == patch["count"], (variant["name"], patch["name"])
+            candidate = candidate.replace(old, new)
+        assert prior.blob(candidate.encode()) == variant["expected_blob"]
+        result[variant["name"]] = candidate
+        expected[variant["name"]] = variant["expected_blob"]
     names = prior.inventory(source)
     assert len(names) == len(set(names)) == 31
     assert "inductive StandardTypeABoundaryPrismRankBCell" in source
     for name, candidate in result.items():
-        assert prior.blob(candidate.encode()) == EXPECTED[name], name
+        assert prior.blob(candidate.encode()) == expected[name], name
         assert prior.inventory(candidate) == names, name
         assert "inductive StandardTypeABoundaryPrismRankBCell" in candidate
         assert not FORBIDDEN_NEW.findall(mask_lean_comments(candidate)), name
@@ -158,6 +180,8 @@ def main() -> None:
     records = []
     try:
         for name, source in result.items():
+            if os.environ.get("V4_ONLY", "0") == "1" and not name.startswith("v175-v4-"):
+                continue
             target.write_text(source, encoding="utf-8")
             with tempfile.TemporaryDirectory(prefix="kuuos-v175-probe-") as directory:
                 olean = pathlib.Path(directory) / "candidate.olean"
