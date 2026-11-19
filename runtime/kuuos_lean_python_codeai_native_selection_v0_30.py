@@ -25,6 +25,7 @@ from runtime.kuuos_lean_python_codeai_obligations_v0_27 import (
 )
 from runtime.kuuos_lean_python_contract_bridge_v0_1 import (
     codeai_selection_boundary_check,
+    PASSED as ORIGINAL_PASSED,
 )
 from runtime.kuuos_codeai_evidence_weighted_selection_abstention_v0_1 import (
     build_codeai_evidence_weighted_selection_abstention as native_select,
@@ -146,7 +147,7 @@ def audit_native_codeai_selection(
         if native.decision != decision or native.receipt != receipt:
             raise ValueError("CodeAI:actual_original_selector_replay_mismatch")
         original_boundary = codeai_selection_boundary_check(receipt)
-        if original_boundary.status != "PASS":
+        if original_boundary.status != ORIGINAL_PASSED:
             raise ValueError("CodeAI:original_receipt_authority_boundary_failed")
         for key, required in EXPECTED_NON_AUTHORITY.items():
             if type(decision.get(key)) is not bool or decision[key] is not required:
