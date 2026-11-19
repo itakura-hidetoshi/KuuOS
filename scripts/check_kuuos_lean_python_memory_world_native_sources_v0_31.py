@@ -16,7 +16,7 @@ from pathlib import Path
 from scripts import check_kuuos_lean_python_codeai_native_selection_sources_v0_30 as prior
 
 ROOT = Path(__file__).resolve().parents[1]
-SOURCE_PARENT = "6efdff6a1675fc561615623a1541a5a875cd487c"
+SOURCE_PARENT = "6a7e44869d4f367cf3ffb41f75e495355d898424"
 
 PINNED = {
     "runtime/kuuos_memoryos_qi_world_blocker_integration_v0_35.py":
