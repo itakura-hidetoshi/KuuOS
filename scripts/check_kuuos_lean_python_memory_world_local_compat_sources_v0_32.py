@@ -12,7 +12,7 @@ from pathlib import Path
 from scripts import check_kuuos_lean_python_memory_world_native_sources_v0_31 as prior
 
 ROOT = Path(__file__).resolve().parents[1]
-SOURCE_STAGE_PARENT = "5c072a1a914b2e1c7a0083866af87398b56e879a"
+SOURCE_STAGE_PARENT = "e005206372b5a0a0d2e70d05c7342d8048d938e7"
 PINNED = {
     "runtime/kuuos_lean_python_memory_world_native_v0_31.py":
         "21a4511f7a00272eb43726360b33b24f270cf772",
