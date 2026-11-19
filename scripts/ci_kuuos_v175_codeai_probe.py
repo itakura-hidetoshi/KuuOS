@@ -32,7 +32,11 @@ EXPECTED = {
     "inductive-where-only": "e4bd12d79ecbc2f519a177329dcf98437aeebb2e",
     "v175-v2-first-typed-pattern": "5171aa38dc1f9c779ad836d332125eb76e3fd4fa",
     "v175-v2-cofan-descent": "bb4e5d6e2aa4e7ba89b05fa385a039a5e821eb2a",
-    "v175-v2-bmap-desc": "217ca069b5a1a6e7310c2ca0f32bcc452c92cd09"
+    "v175-v2-bmap-desc": "217ca069b5a1a6e7310c2ca0f32bcc452c92cd09",
+    "v175-v3-typed-source-target": "206162efc208d705a2f074a249a086d70bc2ce7d",
+    "v175-v3-typed-first-square": "74681fd75168c505d252da799598462d12e9cd7b",
+    "v175-v3-cofan-universe": "b5d360052904bd982290874c007cd928dcea0dfb",
+    "v175-v3-bmap-universe": "423f0246d9635433645dcb54f0cf8c3fb19d6ede"
 }
 OLD_FUNCTION = "(standardTypeABoundaryPrismRankFunction g)"
 NEW_FUNCTION = "(standardTypeABoundaryPrismRankFunction.{u} g)"
@@ -99,6 +103,31 @@ def candidates(source: str) -> dict[str, str]:
             old, newer = hunk["old"], hunk["new"]
             assert candidate.count(old) == 1, ("stale v1.75", item["name"], hunk["name"])
             candidate = candidate.replace(old, newer, 1)
+        assert prior.blob(candidate.encode()) == item["expected_blob"]
+        result[item["name"]] = candidate
+    # v3: isolate universe inference for source/target type B copies.
+    # Use complete historical source-derived v2 candidates as exact bases.
+    universe_manifest = json.loads(pathlib.Path(
+        "scripts/kuuos_v175_codeai_universe_hunks_v3.json"
+    ).read_text(encoding="utf-8"))
+    assert universe_manifest["schema"] == "kuuos_v175_codeai_universe_hunks_v3"
+    assert universe_manifest["baseline_blob"] == BASE
+    assert universe_manifest["historical_unchanged"] is True
+    assert universe_manifest["public_declarations_preserved"] == 31
+    assert len(universe_manifest["variants"]) == 4
+    for base_name, base_blob in universe_manifest["source_blobs"].items():
+        assert prior.blob(result[base_name].encode()) == base_blob
+    for item in universe_manifest["variants"]:
+        assert item["name"] not in result
+        candidate = result[item["base"]]
+        for patch in item["patches"]:
+            if patch["mode"] == "literal":
+                assert candidate.count(patch["old"]) == patch["count"] == 1
+                candidate = candidate.replace(patch["old"], patch["new"], 1)
+            else:
+                pattern = r"\\b" + re.escape(patch["old"]) + r"\\b(?!\\.\\{)"
+                candidate, n = re.subn(pattern, patch["new"], candidate)
+                assert n == patch["count"], (item["name"], patch["old"], n)
         assert prior.blob(candidate.encode()) == item["expected_blob"]
         result[item["name"]] = candidate
     assert set(result) == set(EXPECTED)
