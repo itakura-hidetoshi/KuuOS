@@ -66,15 +66,15 @@ def candidates(source: str) -> dict[str, str]:
     # Independent structural causes: missing v1.49 namespace and Lean4
     # inductive constructor syntax. Preserve all original 31 declarations.
     five = replace_once(four,
-        "open KUOS.DependentOriginationScaledTerminalRLPV1_41\\n",
-        "open KUOS.DependentOriginationScaledTerminalRLPV1_41\\n"
-        "open KUOS.DependentOriginationStandardTypeAScaledHornFamilyV1_49\\n")
+        "open KUOS.DependentOriginationScaledTerminalRLPV1_41\n",
+        "open KUOS.DependentOriginationScaledTerminalRLPV1_41\n"
+        "open KUOS.DependentOriginationStandardTypeAScaledHornFamilyV1_49\n")
     six = replace_once(five,
-        "    (j : ℕ) : Type u\\n  | q12\\n",
-        "    (j : ℕ) : Type u where\\n  | q12\\n")
+        "    (j : ℕ) : Type u\n  | q12\n",
+        "    (j : ℕ) : Type u where\n  | q12\n")
     seven = replace_once(four,
-        "    (j : ℕ) : Type u\\n  | q12\\n",
-        "    (j : ℕ) : Type u where\\n  | q12\\n")
+        "    (j : ℕ) : Type u\n  | q12\n",
+        "    (j : ℕ) : Type u where\n  | q12\n")
     result["open-v149"] = five
     result["open-v149-inductive-where"] = six
     result["inductive-where-only"] = seven
