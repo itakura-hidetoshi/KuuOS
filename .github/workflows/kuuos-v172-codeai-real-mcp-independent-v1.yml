@@ -18,7 +18,7 @@ env:
   MATHLIB_NO_CACHE_ON_UPDATE: '1'
   PYTHONPATH: .
   SOURCE_HEAD: ${{ github.event.pull_request.head.sha }}
-  CHECKOUT_BLOB: '152c9b0bd44c22cd67059e25ed00784741d66488'
+  CHECKOUT_BLOB: '79fd2591bf03e8b2dd2a49848a009699235eaef0'
   SELECTED_NAME: 'fin3-generic-dimension-transport'
   SELECTED_BLOB: '79fd2591bf03e8b2dd2a49848a009699235eaef0'
 

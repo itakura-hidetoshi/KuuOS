@@ -201,11 +201,18 @@ def main() -> None:
     assert prior.blob((root / "formal/KUOS/DependentOriginationStandardTypeABoundaryPrismScaledRankFiltrationV1_71.lean").read_bytes()) == "f7d1e61cefa8e448fb3a8eb6c825a66e9c88db65"
     assert prior.blob((root / "formal/KUOS/DependentOriginationStandardABCLeibnizCellularComparisonV1_59.lean").read_bytes()) == "9388efc5b44873409133e30fbe7b30fbabdf6b52"
     original = (root / REL).read_bytes()
-    assert prior.blob(original) == BASE
+    historical = (root / "legacy/v5.291" / REL).read_bytes()
+    assert prior.blob(historical) == BASE
+    candidates = variants(historical.decode("utf-8"))
+    accepted = candidates["fin3-generic-dimension-transport"].encode()
+    assert prior.blob(accepted) == "79fd2591bf03e8b2dd2a49848a009699235eaef0"
+    # Source may be the exact historical baseline or the independently adopted
+    # byte-identical certified candidate, never any third unreviewed source.
+    assert original in (historical, accepted)
     target = root / REL
     out = pathlib.Path("/tmp/kuuos-v172-codeai-probe")
     out.mkdir(parents=True, exist_ok=True)
-    source_map = {"negative-baseline": original.decode("utf-8"), **variants(original.decode("utf-8"))}
+    source_map = {"negative-baseline": historical.decode("utf-8"), **candidates}
     results = []
     try:
         for name, source in source_map.items():
@@ -227,7 +234,7 @@ def main() -> None:
                     "direct_lean_success": clean, "returncode": p.returncode,
                     "error_count": len(error_lines), "first_errors": error_lines[:30],
                     "real_mcp_certified": False, "independent_axiom_certified": False,
-                    "adopted": False,
+                    "adopted": original == accepted and source.encode() == accepted,
                 }
                 results.append(result)
                 (out / "results.json").write_text(json.dumps(results, ensure_ascii=False, indent=2))
