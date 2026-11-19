@@ -218,6 +218,13 @@ class NativeDecisionStoreOriginTests(unittest.TestCase):
         bad = deepcopy(self.states["BeliefOSReceipt"])
         bad["non_authority"]["execution_authority_granted"] = 0
         bad["belief_gerbe_receipt_digest"] = receipt_digest(bad)
+        genesis = DecisionStore(self.root / "decision")._read_json(
+            self.root / "decision" / _DECISION_FILES[0],
+        )
+        # Isolate strict type checking from the separate re-sealed
+        # source digest mismatch, so the regression detects False == 0.
+        issues = subject._belief_receipt_local_conditions(bad, genesis)
+        self.assertIn("BeliefOSReceipt:non_authority_boundary_invalid", issues)
         self.assertEqual(self.audit(belief_receipt=bad).status, subject.BLOCKED)
 
     def test_deleted_belief_time_cannot_be_resealed_as_original_source(self):
