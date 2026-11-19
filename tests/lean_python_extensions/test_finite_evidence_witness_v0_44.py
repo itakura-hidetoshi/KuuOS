@@ -70,9 +70,9 @@ class FiniteEvidenceWitnessTests(unittest.TestCase):
         self.assertEqual(record.original_python_two_stage_cases_checked, 27)
         self.assertEqual(record.status, subject.SCOPED_TABLE_MATCH)
 
-    def test_all_sixteen_invalid_python_tokens_fail_closed(self):
+    def test_all_forty_eight_invalid_python_token_pairs_fail_closed(self):
         record = subject.audit_finite_status_table()
-        self.assertEqual(record.original_python_invalid_tokens_checked, 16)
+        self.assertEqual(record.original_python_invalid_tokens_checked, 48)
         self.assertEqual(record.status, subject.SCOPED_TABLE_MATCH)
 
     def test_independent_truth_table_not_reusing_original_join(self):
@@ -82,6 +82,7 @@ class FiniteEvidenceWitnessTests(unittest.TestCase):
             (subject.LOCALLY_CHECKED, subject.LOCALLY_CHECKED,
              subject.LOCALLY_CHECKED),
             ("PASS", subject.LOCALLY_CHECKED, subject.BLOCKED),
+            ("PASS", subject.NO_DATA, subject.BLOCKED),
         ]
         for left, right, expected in cases:
             self.assertEqual(
