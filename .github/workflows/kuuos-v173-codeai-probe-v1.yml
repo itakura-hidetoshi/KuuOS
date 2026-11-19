@@ -5,6 +5,7 @@ on:
     paths:
       - '.github/workflows/kuuos-v173-codeai-probe-v1.yml'
       - 'scripts/ci_kuuos_v173_codeai_probe.py'
+      - 'scripts/kuuos_v173_codeai_cause_separated_hunks_v1.json'
       - 'formal/KUOS/DependentOriginationStandardTypeABoundaryPrismRankwiseScaledPushoutV1_73.lean'
       - 'formal/KUOS/DependentOriginationStandardTypeABoundaryPrismRankwiseABCellularityV1_72.lean'
 

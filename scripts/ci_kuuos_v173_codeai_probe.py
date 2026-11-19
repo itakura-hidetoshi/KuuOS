@@ -31,7 +31,31 @@ def candidates(historical: str) -> dict[str, str]:
     names = prior.inventory(historical)
     assert len(names) == 21 and len(set(names)) == 21
     assert prior.inventory(locked) == names
-    return {"original-baseline": historical, "rank-function-universe-locked": locked}
+    variants = {"original-baseline": historical, "rank-function-universe-locked": locked}
+    manifest = json.loads(
+        pathlib.Path("scripts/kuuos_v173_codeai_cause_separated_hunks_v1.json").read_text(encoding="utf-8"))
+    assert manifest["schema"] == "kuuos_v173_codeai_cause_separated_hunks_v1"
+    assert manifest["base_universe_blob"] == UNIVERSE_LOCK
+    assert manifest["public_declarations_preserved"] == 21
+    assert manifest["source_unmodified"] is True
+    base_lines = locked.split("\n")
+    for item in manifest["variants"]:
+        assert item["name"] not in variants
+        cursor = 0
+        result_lines = []
+        for h in item["patches"]:
+            start, old, new = h["start"], h["old"], h["new"]
+            assert cursor <= start <= len(base_lines)
+            assert base_lines[start:start + len(old)] == old
+            result_lines.extend(base_lines[cursor:start])
+            result_lines.extend(new)
+            cursor = start + len(old)
+        result_lines.extend(base_lines[cursor:])
+        candidate = "\n".join(result_lines)
+        assert prior.blob(candidate.encode()) == item["expected_blob"]
+        assert prior.inventory(candidate) == names
+        variants[item["name"]] = candidate
+    return variants
 
 def main() -> None:
     root = pathlib.Path.cwd()
