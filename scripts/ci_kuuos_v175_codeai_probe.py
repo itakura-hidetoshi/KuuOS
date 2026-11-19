@@ -304,6 +304,29 @@ def candidates(source: str) -> dict[str, str]:
         assert prior.blob(candidate.encode()) == variant["expected_blob"]
         result[variant["name"]] = candidate
         expected[variant["name"]] = variant["expected_blob"]
+    # v12: proven free-dimension map equality, new source-target gluing,
+    # and v1.73 certified reverse-scaling decomposition (hypothesis until Lean check).
+    v12 = json.loads(pathlib.Path(
+        "scripts/kuuos_v175_codeai_glued_bridge_rank_hunks_v12.json"
+    ).read_text(encoding="utf-8"))
+    assert v12["schema"] == "kuuos_v175_codeai_glued_bridge_rank_hunks_v12"
+    assert v12["original_blob"] == BASE
+    assert v12["historical_unchanged"] is True
+    assert v12["public_declarations_preserved"] == 31
+    assert len(v12["variants"]) == 8
+    for name, sha in v12["base_blobs"].items():
+        assert prior.blob(result[name].encode()) == sha
+    for variant in v12["variants"]:
+        assert variant["name"] not in result
+        candidate = result[variant["base"]]
+        for patch in variant["patches"]:
+            assert patch["mode"] == "literal"
+            assert patch["count"] >= 1
+            assert candidate.count(patch["old"]) == patch["count"], (variant["name"], patch["name"])
+            candidate = candidate.replace(patch["old"], patch["new"])
+        assert prior.blob(candidate.encode()) == variant["expected_blob"]
+        result[variant["name"]] = candidate
+        expected[variant["name"]] = variant["expected_blob"]
     names = prior.inventory(source)
     assert len(names) == len(set(names)) == 31
     assert "inductive StandardTypeABoundaryPrismRankBCell" in source
@@ -331,6 +354,8 @@ def main() -> None:
     records = []
     try:
         for name, source in result.items():
+            if os.environ.get("V12_ONLY", "0") == "1" and not name.startswith("v175-v12-"):
+                continue
             if os.environ.get("V11_ONLY", "0") == "1" and not name.startswith("v175-v11-"):
                 continue
             if os.environ.get("V10_ONLY", "0") == "1" and not name.startswith("v175-v10-"):
