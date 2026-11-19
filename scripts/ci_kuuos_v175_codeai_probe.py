@@ -153,6 +153,30 @@ def candidates(source: str) -> dict[str, str]:
         assert prior.blob(candidate.encode()) == variant["expected_blob"]
         result[variant["name"]] = candidate
         expected[variant["name"]] = variant["expected_blob"]
+    # v5: independent parser and type-universe causes, derived from verified v4 blobs.
+    v5 = json.loads(pathlib.Path(
+        "scripts/kuuos_v175_codeai_typed_universe_hunks_v5.json"
+    ).read_text(encoding="utf-8"))
+    assert v5["schema"] == "kuuos_v175_codeai_typed_universe_hunks_v5"
+    assert v5["original_blob"] == BASE
+    assert v5["historical_unchanged"] is True
+    assert v5["public_declarations_preserved"] == 31
+    assert len(v5["variants"]) == 5
+    for variant in v5["variants"]:
+        assert variant["name"] not in result
+        candidate = result[variant["base"]]
+        for patch in variant["patches"]:
+            old, new = patch["old"], patch["new"]
+            if patch["mode"] == "literal":
+                assert candidate.count(old) == patch["count"]
+                candidate = candidate.replace(old, new)
+            else:
+                pattern = r"\b" + re.escape(old) + r"\b(?!\.\{)"
+                candidate, count = re.subn(pattern, new, candidate)
+                assert count == patch["count"], (variant["name"], patch["name"], count)
+        assert prior.blob(candidate.encode()) == variant["expected_blob"]
+        result[variant["name"]] = candidate
+        expected[variant["name"]] = variant["expected_blob"]
     names = prior.inventory(source)
     assert len(names) == len(set(names)) == 31
     assert "inductive StandardTypeABoundaryPrismRankBCell" in source
@@ -180,6 +204,8 @@ def main() -> None:
     records = []
     try:
         for name, source in result.items():
+            if os.environ.get("V5_ONLY", "0") == "1" and not name.startswith("v175-v5-"):
+                continue
             if os.environ.get("V4_ONLY", "0") == "1" and not name.startswith("v175-v4-"):
                 continue
             target.write_text(source, encoding="utf-8")

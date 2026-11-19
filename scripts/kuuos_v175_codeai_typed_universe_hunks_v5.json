@@ -1,0 +1,548 @@
+{
+  "schema": "kuuos_v175_codeai_typed_universe_hunks_v5",
+  "head_before": "1ab901a5697ccfd95a7cd7ad9b35851e51803b3a",
+  "original_blob": "ac0abc7aa8f7c52c45ac0e2ed13d0cae71ada978",
+  "historical_unchanged": true,
+  "public_declarations_preserved": 31,
+  "variants": [
+    {
+      "name": "v175-v5-root-typed",
+      "base": "v175-v4-rank-square",
+      "patches": [
+        {
+          "name": "parser_BCell_cell_pattern",
+          "mode": "literal",
+          "old": "def StandardTypeABoundaryPrismRankBCell.cell\n    {g : StandardTypeAHornAttachmentGeneratorIndex}\n    {j : ℕ} :\n    StandardTypeABoundaryPrismRankBCell g j →\n      (standardTypeABoundaryPrismRankFunction.{u} g).Cell j\n  | .q12 c _ => c\n  | .q23 c _ => c",
+          "new": "def StandardTypeABoundaryPrismRankBCell.cell\n    {g : StandardTypeAHornAttachmentGeneratorIndex}\n    {j : ℕ}\n    (b : StandardTypeABoundaryPrismRankBCell g j) :\n    (standardTypeABoundaryPrismRankFunction.{u} g).Cell j := by\n  cases b with\n  | q12 c _ => exact c\n  | q23 c _ => exact c",
+          "count": 1
+        },
+        {
+          "name": "universe_standardTypeBSource",
+          "mode": "regex",
+          "old": "standardTypeBSource",
+          "new": "standardTypeBSource.{u}",
+          "count": 5
+        },
+        {
+          "name": "universe_standardTypeBTarget",
+          "mode": "regex",
+          "old": "standardTypeBTarget",
+          "new": "standardTypeBTarget.{u}",
+          "count": 5
+        },
+        {
+          "name": "universe_standardTypeBSourceScaling",
+          "mode": "regex",
+          "old": "standardTypeBSourceScaling",
+          "new": "standardTypeBSourceScaling.{u}",
+          "count": 1
+        },
+        {
+          "name": "universe_standardTypeBTargetScaling",
+          "mode": "regex",
+          "old": "standardTypeBTargetScaling",
+          "new": "standardTypeBTargetScaling.{u}",
+          "count": 6
+        },
+        {
+          "name": "universe_standardTypeBGeneratorHom",
+          "mode": "regex",
+          "old": "standardTypeBGeneratorHom",
+          "new": "standardTypeBGeneratorHom.{u}",
+          "count": 2
+        },
+        {
+          "name": "universe_standardTypeBSourceScaling_le_target",
+          "mode": "regex",
+          "old": "standardTypeBSourceScaling_le_target",
+          "new": "standardTypeBSourceScaling_le_target.{u}",
+          "count": 1
+        },
+        {
+          "name": "universe_standardTypeBCollapse12",
+          "mode": "regex",
+          "old": "standardTypeBCollapse12",
+          "new": "standardTypeBCollapse12.{u}",
+          "count": 4
+        },
+        {
+          "name": "universe_standardTypeBCollapse23",
+          "mode": "regex",
+          "old": "standardTypeBCollapse23",
+          "new": "standardTypeBCollapse23.{u}",
+          "count": 4
+        },
+        {
+          "name": "universe_standardTypeBCollapse12BaseScaling",
+          "mode": "regex",
+          "old": "standardTypeBCollapse12BaseScaling",
+          "new": "standardTypeBCollapse12BaseScaling.{u}",
+          "count": 2
+        },
+        {
+          "name": "universe_standardTypeBCollapse23BaseScaling",
+          "mode": "regex",
+          "old": "standardTypeBCollapse23BaseScaling",
+          "new": "standardTypeBCollapse23BaseScaling.{u}",
+          "count": 2
+        },
+        {
+          "name": "universe_standardTypeBCollapse12_scaled",
+          "mode": "regex",
+          "old": "standardTypeBCollapse12_scaled",
+          "new": "standardTypeBCollapse12_scaled.{u}",
+          "count": 1
+        },
+        {
+          "name": "universe_standardTypeBCollapse23_scaled",
+          "mode": "regex",
+          "old": "standardTypeBCollapse23_scaled",
+          "new": "standardTypeBCollapse23_scaled.{u}",
+          "count": 1
+        }
+      ],
+      "expected_blob": "bb714aab19c6cb86b6aa77ab91ffa01b539f40a9"
+    },
+    {
+      "name": "v175-v5-root-typed-scaling",
+      "base": "v175-v4-rank-square",
+      "patches": [
+        {
+          "name": "parser_BCell_cell_pattern",
+          "mode": "literal",
+          "old": "def StandardTypeABoundaryPrismRankBCell.cell\n    {g : StandardTypeAHornAttachmentGeneratorIndex}\n    {j : ℕ} :\n    StandardTypeABoundaryPrismRankBCell g j →\n      (standardTypeABoundaryPrismRankFunction.{u} g).Cell j\n  | .q12 c _ => c\n  | .q23 c _ => c",
+          "new": "def StandardTypeABoundaryPrismRankBCell.cell\n    {g : StandardTypeAHornAttachmentGeneratorIndex}\n    {j : ℕ}\n    (b : StandardTypeABoundaryPrismRankBCell g j) :\n    (standardTypeABoundaryPrismRankFunction.{u} g).Cell j := by\n  cases b with\n  | q12 c _ => exact c\n  | q23 c _ => exact c",
+          "count": 1
+        },
+        {
+          "name": "universe_standardTypeBSource",
+          "mode": "regex",
+          "old": "standardTypeBSource",
+          "new": "standardTypeBSource.{u}",
+          "count": 5
+        },
+        {
+          "name": "universe_standardTypeBTarget",
+          "mode": "regex",
+          "old": "standardTypeBTarget",
+          "new": "standardTypeBTarget.{u}",
+          "count": 5
+        },
+        {
+          "name": "universe_standardTypeBSourceScaling",
+          "mode": "regex",
+          "old": "standardTypeBSourceScaling",
+          "new": "standardTypeBSourceScaling.{u}",
+          "count": 1
+        },
+        {
+          "name": "universe_standardTypeBTargetScaling",
+          "mode": "regex",
+          "old": "standardTypeBTargetScaling",
+          "new": "standardTypeBTargetScaling.{u}",
+          "count": 6
+        },
+        {
+          "name": "universe_standardTypeBGeneratorHom",
+          "mode": "regex",
+          "old": "standardTypeBGeneratorHom",
+          "new": "standardTypeBGeneratorHom.{u}",
+          "count": 2
+        },
+        {
+          "name": "universe_standardTypeBSourceScaling_le_target",
+          "mode": "regex",
+          "old": "standardTypeBSourceScaling_le_target",
+          "new": "standardTypeBSourceScaling_le_target.{u}",
+          "count": 1
+        },
+        {
+          "name": "universe_standardTypeBCollapse12",
+          "mode": "regex",
+          "old": "standardTypeBCollapse12",
+          "new": "standardTypeBCollapse12.{u}",
+          "count": 4
+        },
+        {
+          "name": "universe_standardTypeBCollapse23",
+          "mode": "regex",
+          "old": "standardTypeBCollapse23",
+          "new": "standardTypeBCollapse23.{u}",
+          "count": 4
+        },
+        {
+          "name": "universe_standardTypeBCollapse12BaseScaling",
+          "mode": "regex",
+          "old": "standardTypeBCollapse12BaseScaling",
+          "new": "standardTypeBCollapse12BaseScaling.{u}",
+          "count": 2
+        },
+        {
+          "name": "universe_standardTypeBCollapse23BaseScaling",
+          "mode": "regex",
+          "old": "standardTypeBCollapse23BaseScaling",
+          "new": "standardTypeBCollapse23BaseScaling.{u}",
+          "count": 2
+        },
+        {
+          "name": "universe_standardTypeBCollapse12_scaled",
+          "mode": "regex",
+          "old": "standardTypeBCollapse12_scaled",
+          "new": "standardTypeBCollapse12_scaled.{u}",
+          "count": 1
+        },
+        {
+          "name": "universe_standardTypeBCollapse23_scaled",
+          "mode": "regex",
+          "old": "standardTypeBCollapse23_scaled",
+          "new": "standardTypeBCollapse23_scaled.{u}",
+          "count": 1
+        },
+        {
+          "name": "scaling_lemma_fullnamespace",
+          "mode": "literal",
+          "old": "  apply scaling_eq_of_le_antisymm",
+          "new": "  apply KUOS.DependentOriginationStandardTypeAScaledPushoutSourceEnrichmentV1_53.scaling_eq_of_le_antisymm",
+          "count": 1
+        },
+        {
+          "name": "simp_not_simpa_at",
+          "mode": "literal",
+          "old": "    · simpa at hxt\n      subst t",
+          "new": "    · simp at hxt\n      subst t",
+          "count": 1
+        },
+        {
+          "name": "deprecated_functor_all",
+          "mode": "literal",
+          "old": "CategoryTheory.FunctorToTypes.map_id_apply",
+          "new": "CategoryTheory.Functor.map_id_apply",
+          "count": 5
+        }
+      ],
+      "expected_blob": "02c15cda4e23763302648b0ffbd06340229e85b3"
+    },
+    {
+      "name": "v175-v5-cofan-typed",
+      "base": "v175-v4-square-coproduct",
+      "patches": [
+        {
+          "name": "parser_BCell_cell_pattern",
+          "mode": "literal",
+          "old": "def StandardTypeABoundaryPrismRankBCell.cell\n    {g : StandardTypeAHornAttachmentGeneratorIndex}\n    {j : ℕ} :\n    StandardTypeABoundaryPrismRankBCell g j →\n      (standardTypeABoundaryPrismRankFunction.{u} g).Cell j\n  | .q12 c _ => c\n  | .q23 c _ => c",
+          "new": "def StandardTypeABoundaryPrismRankBCell.cell\n    {g : StandardTypeAHornAttachmentGeneratorIndex}\n    {j : ℕ}\n    (b : StandardTypeABoundaryPrismRankBCell g j) :\n    (standardTypeABoundaryPrismRankFunction.{u} g).Cell j := by\n  cases b with\n  | q12 c _ => exact c\n  | q23 c _ => exact c",
+          "count": 1
+        },
+        {
+          "name": "universe_standardTypeBSource",
+          "mode": "regex",
+          "old": "standardTypeBSource",
+          "new": "standardTypeBSource.{u}",
+          "count": 5
+        },
+        {
+          "name": "universe_standardTypeBTarget",
+          "mode": "regex",
+          "old": "standardTypeBTarget",
+          "new": "standardTypeBTarget.{u}",
+          "count": 5
+        },
+        {
+          "name": "universe_standardTypeBSourceScaling",
+          "mode": "regex",
+          "old": "standardTypeBSourceScaling",
+          "new": "standardTypeBSourceScaling.{u}",
+          "count": 1
+        },
+        {
+          "name": "universe_standardTypeBTargetScaling",
+          "mode": "regex",
+          "old": "standardTypeBTargetScaling",
+          "new": "standardTypeBTargetScaling.{u}",
+          "count": 6
+        },
+        {
+          "name": "universe_standardTypeBGeneratorHom",
+          "mode": "regex",
+          "old": "standardTypeBGeneratorHom",
+          "new": "standardTypeBGeneratorHom.{u}",
+          "count": 2
+        },
+        {
+          "name": "universe_standardTypeBSourceScaling_le_target",
+          "mode": "regex",
+          "old": "standardTypeBSourceScaling_le_target",
+          "new": "standardTypeBSourceScaling_le_target.{u}",
+          "count": 1
+        },
+        {
+          "name": "universe_standardTypeBCollapse12",
+          "mode": "regex",
+          "old": "standardTypeBCollapse12",
+          "new": "standardTypeBCollapse12.{u}",
+          "count": 4
+        },
+        {
+          "name": "universe_standardTypeBCollapse23",
+          "mode": "regex",
+          "old": "standardTypeBCollapse23",
+          "new": "standardTypeBCollapse23.{u}",
+          "count": 4
+        },
+        {
+          "name": "universe_standardTypeBCollapse12BaseScaling",
+          "mode": "regex",
+          "old": "standardTypeBCollapse12BaseScaling",
+          "new": "standardTypeBCollapse12BaseScaling.{u}",
+          "count": 2
+        },
+        {
+          "name": "universe_standardTypeBCollapse23BaseScaling",
+          "mode": "regex",
+          "old": "standardTypeBCollapse23BaseScaling",
+          "new": "standardTypeBCollapse23BaseScaling.{u}",
+          "count": 2
+        },
+        {
+          "name": "universe_standardTypeBCollapse12_scaled",
+          "mode": "regex",
+          "old": "standardTypeBCollapse12_scaled",
+          "new": "standardTypeBCollapse12_scaled.{u}",
+          "count": 1
+        },
+        {
+          "name": "universe_standardTypeBCollapse23_scaled",
+          "mode": "regex",
+          "old": "standardTypeBCollapse23_scaled",
+          "new": "standardTypeBCollapse23_scaled.{u}",
+          "count": 1
+        }
+      ],
+      "expected_blob": "ec6176fbfd0530153e65294d0012ee3325780d01"
+    },
+    {
+      "name": "v175-v5-cofan-typed-fin3",
+      "base": "v175-v4-scaling-fin3",
+      "patches": [
+        {
+          "name": "parser_BCell_cell_pattern",
+          "mode": "literal",
+          "old": "def StandardTypeABoundaryPrismRankBCell.cell\n    {g : StandardTypeAHornAttachmentGeneratorIndex}\n    {j : ℕ} :\n    StandardTypeABoundaryPrismRankBCell g j →\n      (standardTypeABoundaryPrismRankFunction.{u} g).Cell j\n  | .q12 c _ => c\n  | .q23 c _ => c",
+          "new": "def StandardTypeABoundaryPrismRankBCell.cell\n    {g : StandardTypeAHornAttachmentGeneratorIndex}\n    {j : ℕ}\n    (b : StandardTypeABoundaryPrismRankBCell g j) :\n    (standardTypeABoundaryPrismRankFunction.{u} g).Cell j := by\n  cases b with\n  | q12 c _ => exact c\n  | q23 c _ => exact c",
+          "count": 1
+        },
+        {
+          "name": "universe_standardTypeBSource",
+          "mode": "regex",
+          "old": "standardTypeBSource",
+          "new": "standardTypeBSource.{u}",
+          "count": 5
+        },
+        {
+          "name": "universe_standardTypeBTarget",
+          "mode": "regex",
+          "old": "standardTypeBTarget",
+          "new": "standardTypeBTarget.{u}",
+          "count": 5
+        },
+        {
+          "name": "universe_standardTypeBSourceScaling",
+          "mode": "regex",
+          "old": "standardTypeBSourceScaling",
+          "new": "standardTypeBSourceScaling.{u}",
+          "count": 1
+        },
+        {
+          "name": "universe_standardTypeBTargetScaling",
+          "mode": "regex",
+          "old": "standardTypeBTargetScaling",
+          "new": "standardTypeBTargetScaling.{u}",
+          "count": 6
+        },
+        {
+          "name": "universe_standardTypeBGeneratorHom",
+          "mode": "regex",
+          "old": "standardTypeBGeneratorHom",
+          "new": "standardTypeBGeneratorHom.{u}",
+          "count": 2
+        },
+        {
+          "name": "universe_standardTypeBSourceScaling_le_target",
+          "mode": "regex",
+          "old": "standardTypeBSourceScaling_le_target",
+          "new": "standardTypeBSourceScaling_le_target.{u}",
+          "count": 1
+        },
+        {
+          "name": "universe_standardTypeBCollapse12",
+          "mode": "regex",
+          "old": "standardTypeBCollapse12",
+          "new": "standardTypeBCollapse12.{u}",
+          "count": 4
+        },
+        {
+          "name": "universe_standardTypeBCollapse23",
+          "mode": "regex",
+          "old": "standardTypeBCollapse23",
+          "new": "standardTypeBCollapse23.{u}",
+          "count": 4
+        },
+        {
+          "name": "universe_standardTypeBCollapse12BaseScaling",
+          "mode": "regex",
+          "old": "standardTypeBCollapse12BaseScaling",
+          "new": "standardTypeBCollapse12BaseScaling.{u}",
+          "count": 2
+        },
+        {
+          "name": "universe_standardTypeBCollapse23BaseScaling",
+          "mode": "regex",
+          "old": "standardTypeBCollapse23BaseScaling",
+          "new": "standardTypeBCollapse23BaseScaling.{u}",
+          "count": 2
+        },
+        {
+          "name": "universe_standardTypeBCollapse12_scaled",
+          "mode": "regex",
+          "old": "standardTypeBCollapse12_scaled",
+          "new": "standardTypeBCollapse12_scaled.{u}",
+          "count": 1
+        },
+        {
+          "name": "universe_standardTypeBCollapse23_scaled",
+          "mode": "regex",
+          "old": "standardTypeBCollapse23_scaled",
+          "new": "standardTypeBCollapse23_scaled.{u}",
+          "count": 1
+        },
+        {
+          "name": "simp_not_simpa_at",
+          "mode": "literal",
+          "old": "    · simpa at hxt\n      subst t",
+          "new": "    · simp at hxt\n      subst t",
+          "count": 1
+        }
+      ],
+      "expected_blob": "8efdeda1057aa702705afc00dd71720cd08e8025"
+    },
+    {
+      "name": "v175-v5-cofan-typed-dimcases",
+      "base": "v175-v4-scaling-fin3",
+      "patches": [
+        {
+          "name": "parser_BCell_cell_pattern",
+          "mode": "literal",
+          "old": "def StandardTypeABoundaryPrismRankBCell.cell\n    {g : StandardTypeAHornAttachmentGeneratorIndex}\n    {j : ℕ} :\n    StandardTypeABoundaryPrismRankBCell g j →\n      (standardTypeABoundaryPrismRankFunction.{u} g).Cell j\n  | .q12 c _ => c\n  | .q23 c _ => c",
+          "new": "def StandardTypeABoundaryPrismRankBCell.cell\n    {g : StandardTypeAHornAttachmentGeneratorIndex}\n    {j : ℕ}\n    (b : StandardTypeABoundaryPrismRankBCell g j) :\n    (standardTypeABoundaryPrismRankFunction.{u} g).Cell j := by\n  cases b with\n  | q12 c _ => exact c\n  | q23 c _ => exact c",
+          "count": 1
+        },
+        {
+          "name": "universe_standardTypeBSource",
+          "mode": "regex",
+          "old": "standardTypeBSource",
+          "new": "standardTypeBSource.{u}",
+          "count": 5
+        },
+        {
+          "name": "universe_standardTypeBTarget",
+          "mode": "regex",
+          "old": "standardTypeBTarget",
+          "new": "standardTypeBTarget.{u}",
+          "count": 5
+        },
+        {
+          "name": "universe_standardTypeBSourceScaling",
+          "mode": "regex",
+          "old": "standardTypeBSourceScaling",
+          "new": "standardTypeBSourceScaling.{u}",
+          "count": 1
+        },
+        {
+          "name": "universe_standardTypeBTargetScaling",
+          "mode": "regex",
+          "old": "standardTypeBTargetScaling",
+          "new": "standardTypeBTargetScaling.{u}",
+          "count": 6
+        },
+        {
+          "name": "universe_standardTypeBGeneratorHom",
+          "mode": "regex",
+          "old": "standardTypeBGeneratorHom",
+          "new": "standardTypeBGeneratorHom.{u}",
+          "count": 2
+        },
+        {
+          "name": "universe_standardTypeBSourceScaling_le_target",
+          "mode": "regex",
+          "old": "standardTypeBSourceScaling_le_target",
+          "new": "standardTypeBSourceScaling_le_target.{u}",
+          "count": 1
+        },
+        {
+          "name": "universe_standardTypeBCollapse12",
+          "mode": "regex",
+          "old": "standardTypeBCollapse12",
+          "new": "standardTypeBCollapse12.{u}",
+          "count": 4
+        },
+        {
+          "name": "universe_standardTypeBCollapse23",
+          "mode": "regex",
+          "old": "standardTypeBCollapse23",
+          "new": "standardTypeBCollapse23.{u}",
+          "count": 4
+        },
+        {
+          "name": "universe_standardTypeBCollapse12BaseScaling",
+          "mode": "regex",
+          "old": "standardTypeBCollapse12BaseScaling",
+          "new": "standardTypeBCollapse12BaseScaling.{u}",
+          "count": 2
+        },
+        {
+          "name": "universe_standardTypeBCollapse23BaseScaling",
+          "mode": "regex",
+          "old": "standardTypeBCollapse23BaseScaling",
+          "new": "standardTypeBCollapse23BaseScaling.{u}",
+          "count": 2
+        },
+        {
+          "name": "universe_standardTypeBCollapse12_scaled",
+          "mode": "regex",
+          "old": "standardTypeBCollapse12_scaled",
+          "new": "standardTypeBCollapse12_scaled.{u}",
+          "count": 1
+        },
+        {
+          "name": "universe_standardTypeBCollapse23_scaled",
+          "mode": "regex",
+          "old": "standardTypeBCollapse23_scaled",
+          "new": "standardTypeBCollapse23_scaled.{u}",
+          "count": 1
+        },
+        {
+          "name": "simp_not_simpa_at",
+          "mode": "literal",
+          "old": "    · simpa at hxt\n      subst t",
+          "new": "    · simp at hxt\n      subst t",
+          "count": 1
+        },
+        {
+          "name": "q12_dim_case",
+          "mode": "literal",
+          "old": "  | q12 c h =>\n      subst_vars\n      simp [standardTypeABoundaryPrismRankBCellSourceToAPhase",
+          "new": "  | q12 c h =>\n      cases h.target_three\n      subst_vars\n      simp [standardTypeABoundaryPrismRankBCellSourceToAPhase",
+          "count": 1
+        },
+        {
+          "name": "q23_dim_case",
+          "mode": "literal",
+          "old": "  | q23 c h =>\n      subst_vars\n      simp [standardTypeABoundaryPrismRankBCellSourceToAPhase",
+          "new": "  | q23 c h =>\n      cases h.target_three\n      subst_vars\n      simp [standardTypeABoundaryPrismRankBCellSourceToAPhase",
+          "count": 1
+        }
+      ],
+      "expected_blob": "6732cfbd791e55ccab26fa7812f144d8687c7bb8"
+    }
+  ]
+}
