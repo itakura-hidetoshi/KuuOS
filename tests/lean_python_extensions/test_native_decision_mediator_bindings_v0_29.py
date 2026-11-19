@@ -33,6 +33,7 @@ from runtime.kuuos_lean_python_wa_native_binding_v0_29 import (
 )
 from runtime.kuuos_lean_python_belief_gerbe_native_binding_v0_29 import (
     audit_native_belief_gerbe_source,
+    audit_native_gerbe_v03_theorem_conditions,
 )
 
 
@@ -69,6 +70,26 @@ class NativeDecisionMediatorBindingsTests(unittest.TestCase):
         self.assertTrue(audit.original_state_validated)
         self.assertTrue(any("BeliefGerbeV03" in issue for issue in audit.issues))
         self.assertFalse(audit.source_bound_python_conditions_checked)
+
+    def test_original_belief_v03_gerbe_lean_conditions_pass_locally(self):
+        local = audit_native_gerbe_v03_theorem_conditions(
+            self.states["BeliefOSState"], self.states["BeliefOSReceipt"],
+            self.states["DecisionOS"])
+        self.assertEqual(local.status, PASS, local.issues)
+        self.assertEqual(local.checked_witnesses, 7)
+        self.assertTrue(local.original_state_validated)
+        self.assertTrue(local.source_bound_python_conditions_checked)
+        self.assertFalse(local.formal_lean_python_refinement_proved)
+        self.assertIn("BeliefOSReceipt.path_search_used",
+                      local.source_field_paths)
+
+    def test_v03_gerbe_local_proof_fields_cannot_be_forged(self):
+        forged = deepcopy(self.states["BeliefOSReceipt"])
+        forged["path_search_used"] = True
+        local = audit_native_gerbe_v03_theorem_conditions(
+            self.states["BeliefOSState"], forged,
+            self.states["DecisionOS"])
+        self.assertEqual(local.status, BLOCKED)
 
     def test_real_decision_selected_gate_and_commit_event_are_checked(self):
         audit = self.binding()
