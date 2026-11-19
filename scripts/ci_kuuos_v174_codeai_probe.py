@@ -89,7 +89,12 @@ def candidates(historical: str) -> dict[str, str]:
         combined.extend(base_lines[at:])
         result[item["name"]] = "\n".join(combined)
         assert prior.blob(result[item["name"]].encode()) == item["expected_blob"]
-    assert set(result) == set(EXPECTED)
+    # Only the first manifest has been applied at this point. The full
+    # EXPECTED set also contains the second manifest's six later variants.
+    assert set(result) == {
+        "baseline", "universe-locked", "universe-reducible",
+        "universe-reducible-pushouts-mk",
+    } | {item["name"] for item in manifest["variants"]}
     # Second cause-separated CodeAI group: exact fixed Sigma.ι_desc factors,
     # rank-A pushout universe, explicit raw class and scaled target transport.
     manifest_v2 = json.loads(
