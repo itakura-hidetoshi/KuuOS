@@ -34,7 +34,9 @@ SOURCE_BLOBS = {
     "formal/KUOS/DecisionOS/RelationalDeliberationKernelV0_1.lean": "9891ab2aa20c8d2ea4df08abe3bf12d99aad6726",
     "formal/KUOS/DecisionOS/PluralHarmonyAppealKernelV0_2.lean": "4b6588305193fb8d41e1fef9c66433a8b5ea67e5",
     "formal/KUOS/DecisionOS/WaRelationalHarmonyV0_3.lean": "c278f21eb3459bef28df8f99c42e5f6cccedc22e",
-    "formal/KUOS/BeliefOS/RelationalConditionalKernelV0_1.lean": "92b7bc167bbb68d574a8a19bcbe1754e40b65660"
+    "formal/KUOS/BeliefOS/RelationalConditionalKernelV0_1.lean": "92b7bc167bbb68d574a8a19bcbe1754e40b65660",
+    "formal/KUOS/BeliefOS/ContextGerbeCoherenceV0_3.lean": "b4023e192f78ac10495c851ba68d63ee9fb22048",
+    "runtime/kuuos_belief_os_gerbe_coherence_v0_3.py": "566d2f1b923093c4c1ca12f98506841062a8e6a2"
 }
 NEW_PATHS = (
     "runtime/kuuos_lean_python_decision_mediator_source_v0_29.py",
@@ -76,6 +78,14 @@ THEOREMS = {
          "endorsedWa_preserves_minority", "endorsedWa_considers_dissent"),
     "formal/KUOS/BeliefOS/RelationalConditionalKernelV0_1.lean":
         ("beliefActivation_requires_replan",),
+    "formal/KUOS/BeliefOS/ContextGerbeCoherenceV0_3.lean":
+        ("gerbeBelief_preserves_locality",
+         "gerbeBelief_preserves_plurality",
+         "gerbeBelief_preserves_two_truths",
+         "gerbeBelief_is_non_reified",
+         "gerbeBelief_does_not_search_paths",
+         "gerbeBelief_does_not_select_global_winner",
+         "gerbeBelief_does_not_globally_trivialize"),
 }
 
 
@@ -147,10 +157,10 @@ def main() -> int:
     for problem in problems:
         print("BLOCKED:", problem)
     if not problems:
-        print("STATIC_MATCH: 16 predecessor blobs, original theorem names,"
+        print("STATIC_MATCH: 18 predecessor blobs, original theorem names,"
               " 4 native decision/mediator source entrypoints and test inventory")
         print("NOT_LEAN_PROOF: original v0.1-v0.3 Lean untouched")
-        print("NO_DATA: Belief gerbe v0.3 is NOT a constructed v0.1 Lean proof witness")
+        print("Belief v0.3 local theorem DATA checked; v0.3→v0.1 proof type NO_DATA")
     return int(bool(problems))
 
 
