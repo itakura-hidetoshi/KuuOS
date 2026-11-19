@@ -152,7 +152,7 @@ def _belief_receipt_local_conditions(belief: dict, genesis: dict) -> tuple[str, 
         failures.append("BeliefOSReceipt:candidate_route_required")
     if belief.get("planning_support_license") is not True:
         failures.append("BeliefOSReceipt:planning_support_not_observed")
-    if belief.get("non_authority") != BELIEF_NON_AUTHORITY:
+    if not _same(belief.get("non_authority"), BELIEF_NON_AUTHORITY):
         failures.append("BeliefOSReceipt:non_authority_boundary_invalid")
     if belief.get("future_only") is not True or belief.get("memory_overwrite") is not False:
         failures.append("BeliefOSReceipt:future_only_or_overwrite_boundary_invalid")
