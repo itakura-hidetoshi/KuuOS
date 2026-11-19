@@ -1,0 +1,102 @@
+{
+  "schema": "kuuos_v174_codeai_cause_separated_hunks_v3",
+  "base_candidate_blob": "80d9d139fad2faf7b9000542317ada775b07dce1",
+  "historical_unchanged": true,
+  "public_declarations_preserved": 26,
+  "variants": [
+    {
+      "name": "v174-v3-raw-universe-exact",
+      "expected_blob": "db34c44b30cbd6c5bd4aa113e320643aba21577c",
+      "patches": [
+        {
+          "start": 465,
+          "old": [
+            "    standardABCRawCellularStep",
+            "      (standardTypeABoundaryPrismRankStageToAPhase g j) := by",
+            "  change",
+            "    (MorphismProperty.coproducts.{u}",
+            "      (standardScaledAnodyneGeneratorsABC :",
+            "        MorphismProperty (ScaledSSet.{u}))).pushouts",
+            "      (standardTypeABoundaryPrismRankStageToAPhase.{u} g j)"
+          ],
+          "new": [
+            "    standardABCRawCellularStep.{u}",
+            "      (standardTypeABoundaryPrismRankStageToAPhase.{u} g j) := by"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "v174-v3-raw-universe-change",
+      "expected_blob": "5f4a27c7dd9c9403aca5d87b06331c439e6fef4a",
+      "patches": [
+        {
+          "start": 465,
+          "old": [
+            "    standardABCRawCellularStep",
+            "      (standardTypeABoundaryPrismRankStageToAPhase g j) := by",
+            "  change",
+            "    (MorphismProperty.coproducts.{u}",
+            "      (standardScaledAnodyneGeneratorsABC :",
+            "        MorphismProperty (ScaledSSet.{u}))).pushouts",
+            "      (standardTypeABoundaryPrismRankStageToAPhase.{u} g j)"
+          ],
+          "new": [
+            "    standardABCRawCellularStep.{u}",
+            "      (standardTypeABoundaryPrismRankStageToAPhase.{u} g j) := by",
+            "  change",
+            "    (MorphismProperty.coproducts.{u}",
+            "      (standardScaledAnodyneGeneratorsABC :",
+            "        MorphismProperty (ScaledSSet.{u}))).pushouts",
+            "      (standardTypeABoundaryPrismRankStageToAPhase.{u} g j)"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "v174-v3-raw-typed-exact",
+      "expected_blob": "14fb180475377cb0d6603138037de1dbc22e9e0a",
+      "patches": [
+        {
+          "start": 465,
+          "old": [
+            "    standardABCRawCellularStep",
+            "      (standardTypeABoundaryPrismRankStageToAPhase g j) := by",
+            "  change",
+            "    (MorphismProperty.coproducts.{u}",
+            "      (standardScaledAnodyneGeneratorsABC :",
+            "        MorphismProperty (ScaledSSet.{u}))).pushouts",
+            "      (standardTypeABoundaryPrismRankStageToAPhase.{u} g j)"
+          ],
+          "new": [
+            "    (standardABCRawCellularStep.{u} : MorphismProperty (ScaledSSet.{u}))",
+            "      (standardTypeABoundaryPrismRankStageToAPhase.{u} g j) := by"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "v174-v3-raw-universe-dsimp",
+      "expected_blob": "5386789aee221d8e1d4602c1dced9406207d6af5",
+      "patches": [
+        {
+          "start": 465,
+          "old": [
+            "    standardABCRawCellularStep",
+            "      (standardTypeABoundaryPrismRankStageToAPhase g j) := by",
+            "  change",
+            "    (MorphismProperty.coproducts.{u}",
+            "      (standardScaledAnodyneGeneratorsABC :",
+            "        MorphismProperty (ScaledSSet.{u}))).pushouts",
+            "      (standardTypeABoundaryPrismRankStageToAPhase.{u} g j)"
+          ],
+          "new": [
+            "    standardABCRawCellularStep.{u}",
+            "      (standardTypeABoundaryPrismRankStageToAPhase.{u} g j) := by",
+            "  dsimp only [standardABCRawCellularStep]"
+          ]
+        }
+      ]
+    }
+  ]
+}

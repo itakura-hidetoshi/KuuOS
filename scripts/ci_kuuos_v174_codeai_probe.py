@@ -35,6 +35,10 @@ EXPECTED = {
     "v174-fac-raw-bmap": "90423ddb6094cec1536c3e6eb630fd531506f3ba",
     "v174-fac-raw-bmap-bound": "4b5f9fd06df6237ad001f978e5ff90ac69f9b0fc",
     "v174-fac-raw-bmap-bound-explicit": "80d9d139fad2faf7b9000542317ada775b07dce1",
+    "v174-v3-raw-universe-exact": "db34c44b30cbd6c5bd4aa113e320643aba21577c",
+    "v174-v3-raw-universe-change": "5f4a27c7dd9c9403aca5d87b06331c439e6fef4a",
+    "v174-v3-raw-typed-exact": "14fb180475377cb0d6603138037de1dbc22e9e0a",
+    "v174-v3-raw-universe-dsimp": "5386789aee221d8e1d4602c1dced9406207d6af5",
 }
 OLD = "(standardTypeABoundaryPrismRankFunction g)"
 NEW = "(standardTypeABoundaryPrismRankFunction.{u} g)"
@@ -117,6 +121,37 @@ def candidates(historical: str) -> dict[str, str]:
             combined.extend(added)
             at = start + len(removed)
         combined.extend(base_v2_lines[at:])
+        result[item["name"]] = "\n".join(combined)
+        assert prior.blob(result[item["name"]].encode()) == item["expected_blob"]
+    # The v2 group is complete; only the final v3 group remains unconstructed.
+    assert set(result) == set(EXPECTED) - {
+        "v174-v3-raw-universe-exact",
+        "v174-v3-raw-universe-change",
+        "v174-v3-raw-typed-exact",
+        "v174-v3-raw-universe-dsimp",
+    }
+    # Third cause-separated group: explicit universe normalization of the
+    # reducible raw-cellular morphism property, only after the v2 near-green source.
+    manifest_v3 = json.loads(
+        pathlib.Path("scripts/kuuos_v174_codeai_cause_separated_hunks_v3.json").read_text(encoding="utf-8"))
+    assert manifest_v3["schema"] == "kuuos_v174_codeai_cause_separated_hunks_v3"
+    assert manifest_v3["base_candidate_blob"] == EXPECTED["v174-fac-raw-bmap-bound-explicit"]
+    assert manifest_v3["public_declarations_preserved"] == 26
+    assert manifest_v3["historical_unchanged"] is True
+    assert len(manifest_v3["variants"]) == 4
+    base_v3_lines = result["v174-fac-raw-bmap-bound-explicit"].split("\n")
+    for item in manifest_v3["variants"]:
+        assert item["name"] not in result
+        at = 0
+        combined = []
+        for h in item["patches"]:
+            start, removed, added = h["start"], h["old"], h["new"]
+            assert at <= start <= len(base_v3_lines)
+            assert base_v3_lines[start:start + len(removed)] == removed
+            combined.extend(base_v3_lines[at:start])
+            combined.extend(added)
+            at = start + len(removed)
+        combined.extend(base_v3_lines[at:])
         result[item["name"]] = "\n".join(combined)
         assert prior.blob(result[item["name"]].encode()) == item["expected_blob"]
     assert set(result) == set(EXPECTED)
