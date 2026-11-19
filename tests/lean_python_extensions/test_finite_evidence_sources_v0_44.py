@@ -35,12 +35,12 @@ class FiniteEvidenceSourceTests(unittest.TestCase):
             self.assertIn("v044_original_source_changed:" + path,
                           checker.check_sources(checker.ROOT))
 
-    def test_formal_v044_proof_has_four_model_definitions_and_nine_theorems(self):
+    def test_formal_v044_proof_has_four_model_definitions_and_ten_theorems(self):
         raw, issue = checker._read(checker.ROOT, checker.NEW[0])
         self.assertIsNone(issue)
         lines = tuple(line.strip() for line in raw.decode("utf-8").splitlines())
         self.assertEqual(len(checker.LEAN_DEFINITIONS), 4)
-        self.assertEqual(len(checker.LEAN_DECLARATIONS), 9)
+        self.assertEqual(len(checker.LEAN_DECLARATIONS), 10)
         for name in checker.LEAN_DEFINITIONS + checker.LEAN_DECLARATIONS:
             self.assertTrue(any(
                 line == name or line.startswith(name + " ")
