@@ -16,7 +16,7 @@ from runtime.kuuos_lean_python_os_path_composition_v0_6 import (
 )
 
 VERSION = "kuuos_lean_python_memory_world_native_v0_31"
-SOURCE_PARENT = "6efdff6a1675fc561615623a1541a5a875cd487c"
+SOURCE_PARENT = "6a7e44869d4f367cf3ffb41f75e495355d898424"
 PASS = "SOURCE_BOUND_LOCAL_CHECKED"
 NO_DATA = "NO_DATA"
 BLOCKED = "BLOCKED"
