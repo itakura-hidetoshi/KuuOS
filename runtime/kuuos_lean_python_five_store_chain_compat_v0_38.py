@@ -16,6 +16,10 @@ from pathlib import Path
 from typing import Any
 
 from runtime.kuuos_plan_os_store_v0_1 import PlanStore, PlanStoreError
+from runtime.kuuos_act_os_store_v0_1 import ActStore, ActStoreError
+from runtime.kuuos_observe_os_store_v0_1 import ObserveStore, ObserveStoreError
+from runtime.kuuos_verify_os_store_v0_1 import VerifyStore, VerifyStoreError
+from runtime.kuuos_learn_os_store_v0_1 import LearnStore, LearnStoreError
 from runtime.kuuos_lean_python_act_observe_store_compat_v0_35 import (
     _native_store, _packet, _store_files,
 )
@@ -62,6 +66,10 @@ _STORE_FILES = {
 _EXPECTED_EDGE_STATUSES = (
     PLAN_ACT_PASS, ACT_OBSERVE_PASS, OBSERVE_VERIFY_PASS, VERIFY_LEARN_PASS,
 )
+_STORE_TYPES = {
+    "PlanOS": PlanStore, "ActOS": ActStore, "ObserveOS": ObserveStore,
+    "VerifyOS": VerifyStore, "LearnOS": LearnStore,
+}
 
 
 @dataclass(frozen=True)
@@ -69,6 +77,7 @@ class FiveStoreChainAudit:
     status: str
     issues: tuple[str, ...] = ()
     edge_statuses: tuple[tuple[str, str], ...] = ()
+    staged_typed_edge_statuses: tuple[tuple[str, str], ...] = ()
     persisted_store_commit_counts: tuple[tuple[str, int], ...] = ()
     final_native_state_digests: tuple[tuple[str, str], ...] = ()
     checked_original_store_paths: tuple[str, ...] = ()
@@ -137,9 +146,28 @@ def audit_native_five_store_chain_compatibility(
         plan_genesis, plan_final, plan_commits = _native_store(
             roots["PlanOS"], PlanStore, _STORE_FILES["PlanOS"]
         )
+        genesis_states = {"PlanOS": plan_genesis}
+        history = {"PlanOS": plan_commits}
+        # Intermediate nodes have two DISTINCT real versions: receiver
+        # genesis on the incoming edge and committed final on the outgoing.
+        # Never pretend the four edges share one instantaneous state.
+        for name in NODES[1:]:
+            start, finish, commits = _native_store(
+                roots[name], _STORE_TYPES[name], _STORE_FILES[name]
+            )
+            genesis_states[name] = start
+            history[name] = commits
+            if not _same(finish, snapshots[name]):
+                return _hold(BLOCKED, "five_store_chain:" + name
+                             + ":not_original_final")
+            if finish.get("current_phase") != "commit":
+                return _hold(NO_DATA, "five_store_chain:" + name
+                             + ":final_commit_missing")
     except FileNotFoundError:
         return _hold(NO_DATA, "five_store_chain:original_store_missing")
-    except (TypeError, ValueError, OSError, RecursionError, PlanStoreError) as exc:
+    except (TypeError, ValueError, OSError, RecursionError,
+            PlanStoreError, ActStoreError, ObserveStoreError,
+            VerifyStoreError, LearnStoreError) as exc:
         return _hold(BLOCKED, "five_store_chain:original_store_invalid:"
                      + type(exc).__name__)
 
@@ -170,9 +198,18 @@ def audit_native_five_store_chain_compatibility(
             roots["VerifyOS"], roots["LearnOS"]
         ),
     )
-    path = audit_typed_path(
-        snapshots, receipts={"PlanOS->ActOS": activation},
-        start="PlanOS", end="LearnOS",
+    # Original v0.6 typed path audit uses ONE state per node. Supplying
+    # five FINAL states would be wrong: an incoming edge requires its
+    # receiver GENESIS, and that is generally not its outgoing FINAL.
+    # Check each real final->genesis edge separately; certified local
+    # persisted adapters above verify each receiver genesis->final replay.
+    staged_audits = tuple(
+        audit_typed_path(
+            {a: snapshots[a], b: genesis_states[b]},
+            receipts={"PlanOS->ActOS": activation} if a == "PlanOS" else {},
+            start=a, end=b,
+        )
+        for a, b in zip(NODES, NODES[1:])
     )
     failures: list[str] = []
     absent: list[str] = []
@@ -185,13 +222,16 @@ def audit_native_five_store_chain_compatibility(
         elif audit.status != expected:
             absent.append("edge:" + edge + ":unconfirmed:" + audit.status)
             absent.extend("edge:" + edge + ":" + issue for issue in audit.issues)
-    if path.status == BLOCKED:
-        failures.extend("typed_path:" + x for x in path.violations)
-        if not path.violations:
-            failures.append("typed_path:blocked")
-    elif path.status != TYPED_PATH_PASS:
-        absent.append("typed_path:unconfirmed:" + path.status)
-        absent.extend("typed_path:" + x for x in path.missing)
+    for edge, stage in zip(EDGES, staged_audits):
+        if stage.status == BLOCKED:
+            failures.extend("staged_edge:" + edge + ":" + x
+                            for x in stage.violations)
+            if not stage.violations:
+                failures.append("staged_edge:" + edge + ":blocked")
+        elif stage.status != TYPED_PATH_PASS:
+            absent.append("staged_edge:" + edge + ":unconfirmed:" + stage.status)
+            absent.extend("staged_edge:" + edge + ":" + x
+                          for x in stage.missing)
 
     if edge_audits[0].missing_lean_witnesses != NUMERIC_AND_ISSUER_OBSTRUCTIONS:
         absent.append("PlanOS->ActOS:numeric_issuer_obstruction_scope_changed")
@@ -221,22 +261,24 @@ def audit_native_five_store_chain_compatibility(
     status = BLOCKED if failures else NO_DATA if absent else SCOPED_COMPATIBLE
     paths = tuple(name + "." + path_name
                   for name in NODES for path_name in _STORE_FILES[name])
-    counts = (("PlanOS", len(plan_commits)),
-              ("ActOS", edge_audits[0].ledger_commit_count),
-              ("ObserveOS", edge_audits[1].observe_commit_count),
-              ("VerifyOS", edge_audits[2].verify_commit_count),
-              ("LearnOS", edge_audits[3].learn_commit_count))
+    counts = tuple((name, len(history[name])) for name in NODES)
     return FiveStoreChainAudit(
         status=status,
         issues=tuple(dict.fromkeys(failures + absent)),
         edge_statuses=tuple((edge, audit.status)
                             for edge, audit in zip(EDGES, edge_audits)),
+        staged_typed_edge_statuses=tuple(
+            (edge, audit.status) for edge, audit in zip(EDGES, staged_audits)
+        ),
         persisted_store_commit_counts=counts,
         final_native_state_digests=tuple(
             (name, _fingerprint(snapshots[name])) for name in NODES
         ),
         checked_original_store_paths=paths,
-        path_audit_status=path.status,
+        path_audit_status=("FOUR_STAGED_TYPED_EDGE_CHECKS"
+                           if all(x.status == TYPED_PATH_PASS
+                                  for x in staged_audits)
+                           else "STAGED_EDGE_CHECKS_INCOMPLETE"),
         five_stores_individually_replayed=(status == SCOPED_COMPATIBLE),
         four_original_typed_edges_checked=(status == SCOPED_COMPATIBLE),
         full_native_path_local_conditions_checked=(status == SCOPED_COMPATIBLE),
