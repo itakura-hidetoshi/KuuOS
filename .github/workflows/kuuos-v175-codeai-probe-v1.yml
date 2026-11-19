@@ -9,6 +9,7 @@ on:
       - 'scripts/kuuos_v175_codeai_universe_hunks_v3.json'
       - 'scripts/kuuos_v175_codeai_structural_hunks_v4.json'
       - 'scripts/kuuos_v175_codeai_typed_universe_hunks_v5.json'
+      - 'scripts/kuuos_v175_codeai_signature_level_hunks_v6.json'
       - 'formal/KUOS/DependentOriginationStandardTypeABoundaryPrismRankwiseSimultaneousBPhaseV1_75.lean'
       - 'formal/KUOS/DependentOriginationStandardTypeABoundaryPrismRankwiseSimultaneousAPhaseV1_74.lean'
 
@@ -20,7 +21,8 @@ env:
   PYTHONPATH: .
   SOURCE_HEAD: ${{ github.event.pull_request.head.sha }}
   V4_ONLY: '0'
-  V5_ONLY: '1'
+  V5_ONLY: '0'
+  V6_ONLY: '1'
   CHECKOUT_BLOB: 'ac0abc7aa8f7c52c45ac0e2ed13d0cae71ada978'
 
 jobs:
@@ -53,12 +55,12 @@ jobs:
           set -euo pipefail
           lake exe cache get
           lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.DependentOriginationStandardTypeABoundaryPrismRankwiseSimultaneousAPhaseV1_74
-      - name: Compare five v1.75 typed-universe CodeAI cases, restore untouched original
+      - name: Compare four v1.75 interface-level CodeAI cases, restore untouched original
         run: python3 scripts/ci_kuuos_v175_codeai_probe.py
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: kuuos-v175-codeai-typed-probe-not-proof
+          name: kuuos-v175-codeai-interface-probe-not-proof
           path: /tmp/kuuos-v175-codeai-probe
           retention-days: 30
           if-no-files-found: error

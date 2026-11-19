@@ -177,6 +177,25 @@ def candidates(source: str) -> dict[str, str]:
         assert prior.blob(candidate.encode()) == variant["expected_blob"]
         result[variant["name"]] = candidate
         expected[variant["name"]] = variant["expected_blob"]
+    # v6: strictly source-derived interface-level universe probes.
+    v6 = json.loads(pathlib.Path(
+        "scripts/kuuos_v175_codeai_signature_level_hunks_v6.json"
+    ).read_text(encoding="utf-8"))
+    assert v6["schema"] == "kuuos_v175_codeai_signature_level_hunks_v6"
+    assert v6["original_blob"] == BASE
+    assert v6["historical_unchanged"] is True
+    assert v6["public_declarations_preserved"] == 31
+    assert len(v6["variants"]) == 4
+    for variant in v6["variants"]:
+        assert variant["name"] not in result
+        candidate = result[variant["base"]]
+        for patch in variant["patches"]:
+            assert patch["mode"] == "literal"
+            assert candidate.count(patch["old"]) == patch["count"]
+            candidate = candidate.replace(patch["old"], patch["new"])
+        assert prior.blob(candidate.encode()) == variant["expected_blob"]
+        result[variant["name"]] = candidate
+        expected[variant["name"]] = variant["expected_blob"]
     names = prior.inventory(source)
     assert len(names) == len(set(names)) == 31
     assert "inductive StandardTypeABoundaryPrismRankBCell" in source
@@ -204,6 +223,8 @@ def main() -> None:
     records = []
     try:
         for name, source in result.items():
+            if os.environ.get("V6_ONLY", "0") == "1" and not name.startswith("v175-v6-"):
+                continue
             if os.environ.get("V5_ONLY", "0") == "1" and not name.startswith("v175-v5-"):
                 continue
             if os.environ.get("V4_ONLY", "0") == "1" and not name.startswith("v175-v4-"):
