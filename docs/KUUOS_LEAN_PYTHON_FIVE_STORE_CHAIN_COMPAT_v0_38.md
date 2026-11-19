@@ -46,12 +46,17 @@ context. No direct shortcut past them is asserted.
    check the original source→receiver genesis and final native
    evidence/debt state. Every intermediate native state is the
    same exact supplied object on its incoming and outgoing edge.
-5. The original `audit_typed_path(..., start="PlanOS", end="LearnOS")`
-   separately checks all four registered typed edges, the
-   Plan→Act receipt, global **contextual equality** of lineage
-   and mission contract fields in this bounded path, and
-   nonregression of observed local timestamps. This is runtime
-   compatibility, **not** formal descent or a global snapshot.
+5. The existing `audit_typed_path` checks **four distinct staged
+   final→genesis edges**, not a false five-node simultaneous snapshot.
+   For each `A→B`, the source is the original committed `A` final
+   state, while the receiver is the original `B` genesis state.
+   The intermediate `B` genesis→final transformation is validated
+   independently by the original persisted replay and v0.34–v0.37
+   source auditors. Every staged typed edge checks its original
+   identity, receipt (Plan→Act), contextual lineage/mission fields,
+   and local timestamps. The final states also retain shared
+   context fields across the five nodes. This is **not** formal
+   descent, nor a globally simultaneous snapshot.
 6. All fifteen persisted genesis, ledger and snapshot files are
    checked before and after the read-only audit. This detects a
    locally observed change but does **not** establish an atomic
