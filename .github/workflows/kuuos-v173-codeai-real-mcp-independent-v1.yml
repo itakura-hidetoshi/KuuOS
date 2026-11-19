@@ -18,7 +18,7 @@ env:
   MATHLIB_NO_CACHE_ON_UPDATE: '1'
   PYTHONPATH: .
   SOURCE_HEAD: ${{ github.event.pull_request.head.sha }}
-  CHECKOUT_BLOB: '29c6caed55abb5ed3ae35d5ed5f457d1ce1731aa'
+  CHECKOUT_BLOB: '08a532c2793a382a5a59f4aee887d5843704c2fd'
   SELECTED_NAME: 'iso-typed-change-exact'
   SELECTED_BLOB: '08a532c2793a382a5a59f4aee887d5843704c2fd'
 

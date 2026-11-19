@@ -234,7 +234,10 @@ def main() -> None:
     historical = (root / "legacy/v5.291" / REL).read_bytes()
     assert prior.blob(historical) == BASE
     results = candidates(historical.decode("utf-8"))
-    assert current in (historical, results["rank-function-universe-locked"].encode())
+    accepted = results["iso-typed-change-exact"].encode()
+    assert prior.blob(accepted) == "08a532c2793a382a5a59f4aee887d5843704c2fd"
+    # Exact accepted source, or original immutable history. No third source.
+    assert current in (historical, accepted)
     assert os.environ["CHECKOUT_BLOB"] == prior.blob(current)
     assert len(os.environ["SOURCE_HEAD"]) == 40
     out = pathlib.Path("/tmp/kuuos-v173-codeai-probe")
