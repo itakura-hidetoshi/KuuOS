@@ -69,7 +69,13 @@ class NativeDecisionMediatorBindingsTests(unittest.TestCase):
         self.assertEqual(audit.status, NO_DATA)
         self.assertTrue(audit.original_state_validated)
         self.assertTrue(any("BeliefGerbeV03" in issue for issue in audit.issues))
-        self.assertFalse(audit.source_bound_python_conditions_checked)
+        # The original v0.3 gerbe Lean-boundary fields ARE checked locally.
+        # Only the v0.3 → v0.1 typed refinement remains NO_DATA.
+        self.assertTrue(audit.source_bound_python_conditions_checked)
+        self.assertEqual(audit.checked_witnesses, 7)
+        self.assertFalse(audit.formal_lean_python_refinement_proved)
+        self.assertFalse(audit.lean_proof_term_constructed)
+        self.assertFalse(audit.execution_authority_granted)
 
     def test_original_belief_v03_gerbe_lean_conditions_pass_locally(self):
         local = audit_native_gerbe_v03_theorem_conditions(
