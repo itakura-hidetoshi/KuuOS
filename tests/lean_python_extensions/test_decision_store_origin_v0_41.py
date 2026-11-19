@@ -214,11 +214,13 @@ class NativeDecisionStoreOriginTests(unittest.TestCase):
         bad["belief_gerbe_receipt_digest"] = receipt_digest(bad)
         self.assertEqual(self.audit(belief_receipt=bad).status, subject.BLOCKED)
 
-    def test_belief_time_is_observed_not_fabricated(self):
+    def test_deleted_belief_time_cannot_be_resealed_as_original_source(self):
         bad = deepcopy(self.states["BeliefOSReceipt"])
         bad.pop("created_at_ms")
         bad["belief_gerbe_receipt_digest"] = receipt_digest(bad)
-        self.assertEqual(self.audit(belief_receipt=bad).status, subject.NO_DATA)
+        # A re-sealed replacement is contradictory to the original
+        # Decision source binding, not merely an absent timestamp.
+        self.assertEqual(self.audit(belief_receipt=bad).status, subject.BLOCKED)
 
     def test_plain_json_and_root_types_are_required(self):
         class HostilePath:
