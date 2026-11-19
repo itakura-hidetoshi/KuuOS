@@ -23,7 +23,10 @@ def encodeStatus : EvidenceStatus → String
 
 /-- Independent finite string-level operational model; invalid tokens block. -/
 def pythonJoinModel (a b : String) : String :=
-  if a == "BLOCKED" || b == "BLOCKED" then "BLOCKED"
+  if (a != "NO_DATA" && a != "BLOCKED" && a != "LOCALLY_CHECKED") ||
+      (b != "NO_DATA" && b != "BLOCKED" && b != "LOCALLY_CHECKED") then
+    "BLOCKED"
+  else if a == "BLOCKED" || b == "BLOCKED" then "BLOCKED"
   else if a == "NO_DATA" || b == "NO_DATA" then "NO_DATA"
   else if a == "LOCALLY_CHECKED" && b == "LOCALLY_CHECKED" then
     "LOCALLY_CHECKED"
@@ -122,6 +125,11 @@ theorem pythonJoinModel_assoc_on_encoded
 /-- An unsupported raw Python status must never be silently treated as pass. -/
 theorem invalidPythonStatus_blocks :
     pythonJoinModel "PASS" "LOCALLY_CHECKED" = "BLOCKED" := by
+  decide
+
+/-- Invalid raw labels block even if paired with otherwise missing evidence. -/
+theorem invalidPythonStatus_with_noData_blocks :
+    pythonJoinModel "PASS" "NO_DATA" = "BLOCKED" := by
   decide
 
 /-- A missing observation is not promoted by the other stage's success. -/
