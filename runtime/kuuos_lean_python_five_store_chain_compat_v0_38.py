@@ -207,6 +207,7 @@ def audit_native_five_store_chain_compatibility(
 
     # A cross-store read is never claimed to be atomic. This only checks
     # individually observed source bytes remained identical during audit.
+    after: dict[str, dict[str, bytes]] | None = None
     try:
         after = {name: _store_files(roots[name], _STORE_FILES[name])
                  for name in NODES}
@@ -239,7 +240,7 @@ def audit_native_five_store_chain_compatibility(
         five_stores_individually_replayed=(status == SCOPED_COMPATIBLE),
         four_original_typed_edges_checked=(status == SCOPED_COMPATIBLE),
         full_native_path_local_conditions_checked=(status == SCOPED_COMPATIBLE),
-        store_bytes_stable_during_audit=(before == after),
+        store_bytes_stable_during_audit=(after is not None and before == after),
     )
 
 
