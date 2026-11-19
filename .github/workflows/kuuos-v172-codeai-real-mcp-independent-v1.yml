@@ -1,0 +1,113 @@
+name: KuuOS v1.72 CodeAI rankwise A/B direct Lean real MCP and independent 26-axiom audit
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/kuuos-v172-codeai-real-mcp-independent-v1.yml'
+      - 'scripts/ci_kuuos_v172_codeai.py'
+      - 'scripts/ci_kuuos_v172_codeai_probe.py'
+      - 'scripts/kuuos_v172_cause_separated_hunks_v5.json'
+      - 'formal/KUOS/DependentOriginationStandardTypeABoundaryPrismRankwiseABCellularityV1_72.lean'
+      - 'formal/KUOS/DependentOriginationStandardTypeABoundaryPrismScaledRankFiltrationV1_71.lean'
+      - 'tests/test_public_root_restoration.py'
+
+permissions:
+  contents: read
+
+env:
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+  PYTHONPATH: .
+  SOURCE_HEAD: ${{ github.event.pull_request.head.sha }}
+  CHECKOUT_BLOB: '152c9b0bd44c22cd67059e25ed00784741d66488'
+  SELECTED_NAME: 'fin3-generic-dimension-transport'
+  SELECTED_BLOB: '79fd2591bf03e8b2dd2a49848a009699235eaef0'
+
+jobs:
+  codeai-v172-direct-and-real-mcp:
+    if: github.event.pull_request.number == 3555 && github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-22.04
+    timeout-minutes: 80
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Preserve CodeAI forbidden-code and MCP repair-loop contracts
+        run: |
+          python3 tests/test_kuuos_lean_mcp_repair_loop_v1.py
+          python3 tests/test_kuuos_lean_mcp_comment_guard_v1.py
+      - uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: kuuos-v142-pinned-attachment-mathlib-5450-v1
+      - name: Verify fixed toolchain and independently certified v1.71 dependency
+        run: |
+          set -euo pipefail
+          python3 -c "import pathlib; from scripts.ci_kuuos_v172_codeai import version_bound_source; version_bound_source(pathlib.Path('.').resolve())"
+          lake exe cache get
+          lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.DependentOriginationStandardTypeABoundaryPrismScaledRankFiltrationV1_71
+      - name: Install actual Lean MCP prerequisites
+        run: |
+          python3 -m pip install --disable-pip-version-check uv
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ripgrep
+      - name: Direct pinned Lean and actual MCP on exact selected v1.72 candidate
+        run: python3 scripts/ci_kuuos_v172_codeai.py direct /tmp/kuuos-v172-candidate
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: kuuos-v172-real-mcp-candidate
+          path: /tmp/kuuos-v172-candidate
+          retention-days: 30
+          if-no-files-found: error
+
+  independent-v172-kernel-and-26-axioms:
+    needs: codeai-v172-direct-and-real-mcp
+    runs-on: ubuntu-22.04
+    timeout-minutes: 80
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: kuuos-v142-pinned-attachment-mathlib-5450-v1
+      - uses: actions/download-artifact@v4
+        with:
+          name: kuuos-v172-real-mcp-candidate
+          path: /tmp/kuuos-v172-independent
+      - name: Restore exact pinned mathlib dependencies
+        run: lake exe cache get
+      - name: Independently reconstruct, strict-build and audit all 26 public declarations
+        run: python3 scripts/ci_kuuos_v172_codeai.py independent /tmp/kuuos-v172-independent
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: kuuos-v172-independent-26-axioms
+          path: /tmp/kuuos-v172-independent
+          retention-days: 30
+          if-no-files-found: error
