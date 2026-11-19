@@ -1,0 +1,281 @@
+{
+  "schema": "kuuos_v174_codeai_cause_separated_hunks_v1",
+  "base_candidate_blob": "5aa5103cc5b499edc69660367b63f19f58faba7d",
+  "historical_unchanged": true,
+  "public_declarations_preserved": 26,
+  "variants": [
+    {
+      "name": "scope-W-ScalingLE",
+      "expected_blob": "e9ab4b2e3a880db110ee42342c33d33c554ed142",
+      "patches": [
+        {
+          "start": 23,
+          "old": [],
+          "new": [
+            "open KUOS.DependentOriginationStandardTypeAScaledPushoutSourceEnrichmentV1_53"
+          ]
+        },
+        {
+          "start": 321,
+          "old": [],
+          "new": [
+            "    (W := (standardScaledAnodyneGeneratorsABC :",
+            "      MorphismProperty (ScaledSSet.{u})))"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "scope-W-typed-cell",
+      "expected_blob": "24feed54afc35c96042e31103fa136453debd3be",
+      "patches": [
+        {
+          "start": 23,
+          "old": [],
+          "new": [
+            "open KUOS.DependentOriginationStandardTypeAScaledPushoutSourceEnrichmentV1_53"
+          ]
+        },
+        {
+          "start": 321,
+          "old": [],
+          "new": [
+            "    (W := (standardScaledAnodyneGeneratorsABC :",
+            "      MorphismProperty (ScaledSSet.{u})))"
+          ]
+        },
+        {
+          "start": 366,
+          "old": [],
+          "new": [
+            "      change (standardTypeABoundaryPrismRankStageScaling g j).thin",
+            "        (((c.ιSigmaHorn ≫ (standardTypeABoundaryPrismRankFunction.{u} g).t j).app",
+            "          (op ⦋2⦌)) x)"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "scope-W-Sigma-thinness",
+      "expected_blob": "a24355da496b7997ec6f76a9ae6e17cf1d7a87c3",
+      "patches": [
+        {
+          "start": 23,
+          "old": [],
+          "new": [
+            "open KUOS.DependentOriginationStandardTypeAScaledPushoutSourceEnrichmentV1_53"
+          ]
+        },
+        {
+          "start": 214,
+          "old": [
+            "          simpa only [Sigma.ι_desc] using hs }"
+          ],
+          "new": [
+            "          change s.pt.scaling.thin",
+            "            (((c.ιSigmaHorn ≫ Sigma.desc",
+            "              (fun d : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j =>",
+            "                (s.ι.app ⟨d⟩).map)).app (op ⦋2⦌)) x)",
+            "          rw [Sigma.ι_desc]",
+            "          exact hs }"
+          ]
+        },
+        {
+          "start": 256,
+          "old": [
+            "          simpa only [Sigma.ι_desc] using hs }"
+          ],
+          "new": [
+            "          change s.pt.scaling.thin",
+            "            (((c.ιSigmaStdSimplex ≫ Sigma.desc",
+            "              (fun d : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j =>",
+            "                (s.ι.app ⟨d⟩).map)).app (op ⦋2⦌)) x)",
+            "          rw [Sigma.ι_desc]",
+            "          exact hs }"
+          ]
+        },
+        {
+          "start": 321,
+          "old": [],
+          "new": [
+            "    (W := (standardScaledAnodyneGeneratorsABC :",
+            "      MorphismProperty (ScaledSSet.{u})))"
+          ]
+        },
+        {
+          "start": 366,
+          "old": [],
+          "new": [
+            "      change (standardTypeABoundaryPrismRankStageScaling g j).thin",
+            "        (((c.ιSigmaHorn ≫ (standardTypeABoundaryPrismRankFunction.{u} g).t j).app",
+            "          (op ⦋2⦌)) x)"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "scope-W-Sigma-uniqueness",
+      "expected_blob": "b3c19bb2c882995e2f433653c4e1f978ac63ddb4",
+      "patches": [
+        {
+          "start": 23,
+          "old": [],
+          "new": [
+            "open KUOS.DependentOriginationStandardTypeAScaledPushoutSourceEnrichmentV1_53"
+          ]
+        },
+        {
+          "start": 214,
+          "old": [
+            "          simpa only [Sigma.ι_desc] using hs }"
+          ],
+          "new": [
+            "          change s.pt.scaling.thin",
+            "            (((c.ιSigmaHorn ≫ Sigma.desc",
+            "              (fun d : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j =>",
+            "                (s.ι.app ⟨d⟩).map)).app (op ⦋2⦌)) x)",
+            "          rw [Sigma.ι_desc]",
+            "          exact hs }"
+          ]
+        },
+        {
+          "start": 225,
+          "old": [
+            "    simpa [standardTypeABoundaryPrismRankAHornCofan,",
+            "      standardTypeABoundaryPrismRankAHornSigmaInclusion] using hc"
+          ],
+          "new": [
+            "    change c.ιSigmaHorn ≫ m.map =",
+            "      c.ιSigmaHorn ≫ Sigma.desc",
+            "        (fun d : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j =>",
+            "          (s.ι.app ⟨d⟩).map)",
+            "    rw [Sigma.ι_desc]",
+            "    exact hc"
+          ]
+        },
+        {
+          "start": 256,
+          "old": [
+            "          simpa only [Sigma.ι_desc] using hs }"
+          ],
+          "new": [
+            "          change s.pt.scaling.thin",
+            "            (((c.ιSigmaStdSimplex ≫ Sigma.desc",
+            "              (fun d : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j =>",
+            "                (s.ι.app ⟨d⟩).map)).app (op ⦋2⦌)) x)",
+            "          rw [Sigma.ι_desc]",
+            "          exact hs }"
+          ]
+        },
+        {
+          "start": 267,
+          "old": [
+            "    simpa [standardTypeABoundaryPrismRankASimplexCofan,",
+            "      standardTypeABoundaryPrismRankASimplexSigmaInclusion] using hc"
+          ],
+          "new": [
+            "    change c.ιSigmaStdSimplex ≫ m.map =",
+            "      c.ιSigmaStdSimplex ≫ Sigma.desc",
+            "        (fun d : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j =>",
+            "          (s.ι.app ⟨d⟩).map)",
+            "    rw [Sigma.ι_desc]",
+            "    exact hc"
+          ]
+        },
+        {
+          "start": 321,
+          "old": [],
+          "new": [
+            "    (W := (standardScaledAnodyneGeneratorsABC :",
+            "      MorphismProperty (ScaledSSet.{u})))"
+          ]
+        },
+        {
+          "start": 366,
+          "old": [],
+          "new": [
+            "      change (standardTypeABoundaryPrismRankStageScaling g j).thin",
+            "        (((c.ιSigmaHorn ≫ (standardTypeABoundaryPrismRankFunction.{u} g).t j).app",
+            "          (op ⦋2⦌)) x)"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "scope-W-Sigma-fac-simp",
+      "expected_blob": "ce320a75630fb918bbcf353d17bb7e910fe7bc34",
+      "patches": [
+        {
+          "start": 23,
+          "old": [],
+          "new": [
+            "open KUOS.DependentOriginationStandardTypeAScaledPushoutSourceEnrichmentV1_53"
+          ]
+        },
+        {
+          "start": 214,
+          "old": [
+            "          simpa only [Sigma.ι_desc] using hs }"
+          ],
+          "new": [
+            "          change s.pt.scaling.thin",
+            "            (((c.ιSigmaHorn ≫ Sigma.desc",
+            "              (fun d : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j =>",
+            "                (s.ι.app ⟨d⟩).map)).app (op ⦋2⦌)) x)",
+            "          rw [Sigma.ι_desc]",
+            "          exact hs }"
+          ]
+        },
+        {
+          "start": 219,
+          "old": [
+            "      standardTypeABoundaryPrismRankAHornSigmaInclusion]"
+          ],
+          "new": [
+            "      standardTypeABoundaryPrismRankAHornSigmaInclusion, Sigma.ι_desc]"
+          ]
+        },
+        {
+          "start": 256,
+          "old": [
+            "          simpa only [Sigma.ι_desc] using hs }"
+          ],
+          "new": [
+            "          change s.pt.scaling.thin",
+            "            (((c.ιSigmaStdSimplex ≫ Sigma.desc",
+            "              (fun d : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j =>",
+            "                (s.ι.app ⟨d⟩).map)).app (op ⦋2⦌)) x)",
+            "          rw [Sigma.ι_desc]",
+            "          exact hs }"
+          ]
+        },
+        {
+          "start": 261,
+          "old": [
+            "      standardTypeABoundaryPrismRankASimplexSigmaInclusion]"
+          ],
+          "new": [
+            "      standardTypeABoundaryPrismRankASimplexSigmaInclusion, Sigma.ι_desc]"
+          ]
+        },
+        {
+          "start": 321,
+          "old": [],
+          "new": [
+            "    (W := (standardScaledAnodyneGeneratorsABC :",
+            "      MorphismProperty (ScaledSSet.{u})))"
+          ]
+        },
+        {
+          "start": 366,
+          "old": [],
+          "new": [
+            "      change (standardTypeABoundaryPrismRankStageScaling g j).thin",
+            "        (((c.ιSigmaHorn ≫ (standardTypeABoundaryPrismRankFunction.{u} g).t j).app",
+            "          (op ⦋2⦌)) x)"
+          ]
+        }
+      ]
+    }
+  ]
+}

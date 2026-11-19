@@ -24,6 +24,11 @@ EXPECTED = {
     "universe-locked": "61392920daadfe6b5b3ade423f654e20e3a65c77",
     "universe-reducible": "9ddee58c9bbe1cc1a7a824513b954b0de02ae73d",
     "universe-reducible-pushouts-mk": "5aa5103cc5b499edc69660367b63f19f58faba7d",
+    "scope-W-ScalingLE": "e9ab4b2e3a880db110ee42342c33d33c554ed142",
+    "scope-W-typed-cell": "24feed54afc35c96042e31103fa136453debd3be",
+    "scope-W-Sigma-thinness": "a24355da496b7997ec6f76a9ae6e17cf1d7a87c3",
+    "scope-W-Sigma-uniqueness": "b3c19bb2c882995e2f433653c4e1f978ac63ddb4",
+    "scope-W-Sigma-fac-simp": "ce320a75630fb918bbcf353d17bb7e910fe7bc34",
 }
 OLD = "(standardTypeABoundaryPrismRankFunction g)"
 NEW = "(standardTypeABoundaryPrismRankFunction.{u} g)"
@@ -56,6 +61,29 @@ def candidates(historical: str) -> dict[str, str]:
         "baseline": historical, "universe-locked": one,
         "universe-reducible": two, "universe-reducible-pushouts-mk": three,
     }
+    manifest = json.loads(
+        pathlib.Path("scripts/kuuos_v174_codeai_cause_separated_hunks_v1.json").read_text(encoding="utf-8"))
+    assert manifest["schema"] == "kuuos_v174_codeai_cause_separated_hunks_v1"
+    assert manifest["base_candidate_blob"] == EXPECTED["universe-reducible-pushouts-mk"]
+    assert manifest["public_declarations_preserved"] == 26
+    assert manifest["historical_unchanged"] is True
+    assert len(manifest["variants"]) == 5
+    base_lines = three.split("\n")
+    for item in manifest["variants"]:
+        assert item["name"] not in result
+        at = 0
+        combined = []
+        for h in item["patches"]:
+            start, removed, added = h["start"], h["old"], h["new"]
+            assert at <= start <= len(base_lines)
+            assert base_lines[start:start + len(removed)] == removed
+            combined.extend(base_lines[at:start])
+            combined.extend(added)
+            at = start + len(removed)
+        combined.extend(base_lines[at:])
+        result[item["name"]] = "\n".join(combined)
+        assert prior.blob(result[item["name"]].encode()) == item["expected_blob"]
+    assert set(result) == set(EXPECTED)
     names = prior.inventory(historical)
     assert len(names) == 26 and len(set(names)) == 26
     for name, text in result.items():
