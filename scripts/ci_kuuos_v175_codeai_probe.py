@@ -239,6 +239,28 @@ def candidates(source: str) -> dict[str, str]:
         assert prior.blob(candidate.encode()) == variant["expected_blob"], variant["name"]
         result[variant["name"]] = candidate
         expected[variant["name"]] = variant["expected_blob"]
+    # v9: exact universe levels of theorem statements, not copied implicit ones.
+    v9 = json.loads(pathlib.Path(
+        "scripts/kuuos_v175_codeai_source_universe_hunks_v9.json"
+    ).read_text(encoding="utf-8"))
+    assert v9["schema"] == "kuuos_v175_codeai_source_universe_hunks_v9"
+    assert v9["original_blob"] == BASE
+    assert v9["historical_unchanged"] is True
+    assert v9["public_declarations_preserved"] == 31
+    assert len(v9["variants"]) == 5
+    assert prior.blob(result["v175-v8-sigma-congrArg"].encode()) == v9["source_base_v8_sigma"]
+    assert prior.blob(result["v175-v7-combined"].encode()) == v9["source_base_v7"]
+    for variant in v9["variants"]:
+        assert variant["name"] not in result
+        candidate = result[variant["base"]]
+        for patch in variant["patches"]:
+            assert patch["mode"] == "literal"
+            assert patch["count"] >= 1
+            assert candidate.count(patch["old"]) == patch["count"], (variant["name"], patch["name"])
+            candidate = candidate.replace(patch["old"], patch["new"])
+        assert prior.blob(candidate.encode()) == variant["expected_blob"], variant["name"]
+        result[variant["name"]] = candidate
+        expected[variant["name"]] = variant["expected_blob"]
     names = prior.inventory(source)
     assert len(names) == len(set(names)) == 31
     assert "inductive StandardTypeABoundaryPrismRankBCell" in source
@@ -266,6 +288,8 @@ def main() -> None:
     records = []
     try:
         for name, source in result.items():
+            if os.environ.get("V9_ONLY", "0") == "1" and not name.startswith("v175-v9-"):
+                continue
             if os.environ.get("V8_ONLY", "0") == "1" and not name.startswith("v175-v8-"):
                 continue
             if os.environ.get("V7_ONLY", "0") == "1" and not name.startswith("v175-v7-"):

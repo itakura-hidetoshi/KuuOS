@@ -1,0 +1,101 @@
+{
+  "schema": "kuuos_v175_codeai_source_universe_hunks_v9",
+  "original_blob": "ac0abc7aa8f7c52c45ac0e2ed13d0cae71ada978",
+  "source_base_v8_sigma": "3ce91751ce3aa4406ecced28edabed49ec7ec0df",
+  "source_base_v7": "2436c5891989a6840a9a6fdddc0d5a96dee9dcda",
+  "historical_unchanged": true,
+  "public_declarations_preserved": 31,
+  "variants": [
+    {
+      "name": "v175-v9-sigma-u",
+      "base": "v175-v8-sigma-congrArg",
+      "patches": [
+        {
+          "name": "BSourceTargetSigma_map_eq_exact-universe",
+          "mode": "literal",
+          "old": "    (standardTypeABoundaryPrismRankBSourceSigmaToAPhase g j).map =\n      (standardTypeABoundaryPrismRankBTargetSigmaToSucc g j).map := by",
+          "new": "    (standardTypeABoundaryPrismRankBSourceSigmaToAPhase.{u} g j).map =\n      (standardTypeABoundaryPrismRankBTargetSigmaToSucc.{u} g j).map := by",
+          "count": 1
+        }
+      ],
+      "expected_blob": "796956dbb2622c3d232d1574798e59cf43606ed9"
+    },
+    {
+      "name": "v175-v9-scaling-u",
+      "base": "v175-v7-combined",
+      "patches": [
+        {
+          "name": "BGeneratedPushoutScaling_eq_succ_exact-universe",
+          "mode": "literal",
+          "old": "    generatedPushoutScaling\n        (standardTypeABoundaryPrismRankAPhaseScaling g j)\n        (standardTypeABoundaryPrismRankBTargetSigmaScaling g j)\n        (𝟙 _)\n        (standardTypeABoundaryPrismRankBTargetSigmaToSucc g j).map =\n      standardTypeABoundaryPrismRankStageScaling g (j + 1) := by",
+          "new": "    generatedPushoutScaling\n        (standardTypeABoundaryPrismRankAPhaseScaling.{u} g j)\n        (standardTypeABoundaryPrismRankBTargetSigmaScaling.{u} g j)\n        (𝟙 _)\n        (standardTypeABoundaryPrismRankBTargetSigmaToSucc.{u} g j).map =\n      standardTypeABoundaryPrismRankStageScaling.{u} g (j + 1) := by",
+          "count": 1
+        }
+      ],
+      "expected_blob": "d558876dd421d200b367142ab640c4bf86bb041b"
+    },
+    {
+      "name": "v175-v9-pushout-u",
+      "base": "v175-v7-combined",
+      "patches": [
+        {
+          "name": "IsPushout_exact_level_argument",
+          "mode": "literal",
+          "old": "  have h := generatedPushout_isPushout\n    (standardTypeABoundaryPrismRankBSourceSigmaToAPhase g j)\n    (standardTypeABoundaryPrismRankBSigmaGeneratorHom g j)\n    (𝟙 _)\n    (standardTypeABoundaryPrismRankBTargetSigmaToSucc g j).map\n    (standardTypeABoundaryPrism_rankB_underlying_isPushout g j)",
+          "new": "  have h := generatedPushout_isPushout\n    (standardTypeABoundaryPrismRankBSourceSigmaToAPhase.{u} g j)\n    (standardTypeABoundaryPrismRankBSigmaGeneratorHom.{u} g j)\n    (𝟙 _)\n    (standardTypeABoundaryPrismRankBTargetSigmaToSucc.{u} g j).map\n    (standardTypeABoundaryPrism_rankB_underlying_isPushout.{u} g j)",
+          "count": 1
+        }
+      ],
+      "expected_blob": "7fe6b118c28699d0d5c328c2ffcc3ed4bf406d4e"
+    },
+    {
+      "name": "v175-v9-all-u",
+      "base": "v175-v8-sigma-congrArg",
+      "patches": [
+        {
+          "name": "BSourceTargetSigma_map_eq_exact-universe",
+          "mode": "literal",
+          "old": "    (standardTypeABoundaryPrismRankBSourceSigmaToAPhase g j).map =\n      (standardTypeABoundaryPrismRankBTargetSigmaToSucc g j).map := by",
+          "new": "    (standardTypeABoundaryPrismRankBSourceSigmaToAPhase.{u} g j).map =\n      (standardTypeABoundaryPrismRankBTargetSigmaToSucc.{u} g j).map := by",
+          "count": 1
+        },
+        {
+          "name": "BGeneratedPushoutScaling_eq_succ_exact-universe",
+          "mode": "literal",
+          "old": "    generatedPushoutScaling\n        (standardTypeABoundaryPrismRankAPhaseScaling g j)\n        (standardTypeABoundaryPrismRankBTargetSigmaScaling g j)\n        (𝟙 _)\n        (standardTypeABoundaryPrismRankBTargetSigmaToSucc g j).map =\n      standardTypeABoundaryPrismRankStageScaling g (j + 1) := by",
+          "new": "    generatedPushoutScaling\n        (standardTypeABoundaryPrismRankAPhaseScaling.{u} g j)\n        (standardTypeABoundaryPrismRankBTargetSigmaScaling.{u} g j)\n        (𝟙 _)\n        (standardTypeABoundaryPrismRankBTargetSigmaToSucc.{u} g j).map =\n      standardTypeABoundaryPrismRankStageScaling.{u} g (j + 1) := by",
+          "count": 1
+        },
+        {
+          "name": "IsPushout_exact_level_argument",
+          "mode": "literal",
+          "old": "  have h := generatedPushout_isPushout\n    (standardTypeABoundaryPrismRankBSourceSigmaToAPhase g j)\n    (standardTypeABoundaryPrismRankBSigmaGeneratorHom g j)\n    (𝟙 _)\n    (standardTypeABoundaryPrismRankBTargetSigmaToSucc g j).map\n    (standardTypeABoundaryPrism_rankB_underlying_isPushout g j)",
+          "new": "  have h := generatedPushout_isPushout\n    (standardTypeABoundaryPrismRankBSourceSigmaToAPhase.{u} g j)\n    (standardTypeABoundaryPrismRankBSigmaGeneratorHom.{u} g j)\n    (𝟙 _)\n    (standardTypeABoundaryPrismRankBTargetSigmaToSucc.{u} g j).map\n    (standardTypeABoundaryPrism_rankB_underlying_isPushout.{u} g j)",
+          "count": 1
+        }
+      ],
+      "expected_blob": "11e2a10a7de6d292b00cb6c79a530429aadc4682"
+    },
+    {
+      "name": "v175-v9-dim-explicit",
+      "base": "v175-v8-sigma-congrArg",
+      "patches": [
+        {
+          "name": "BSourceTargetSigma_map_eq_exact-universe",
+          "mode": "literal",
+          "old": "    (standardTypeABoundaryPrismRankBSourceSigmaToAPhase g j).map =\n      (standardTypeABoundaryPrismRankBTargetSigmaToSucc g j).map := by",
+          "new": "    (standardTypeABoundaryPrismRankBSourceSigmaToAPhase.{u} g j).map =\n      (standardTypeABoundaryPrismRankBTargetSigmaToSucc.{u} g j).map := by",
+          "count": 1
+        },
+        {
+          "name": "q12_q23_dimension_equality_explicit",
+          "mode": "literal",
+          "old": "      subst_vars\n      simp [standardTypeABoundaryPrismRankBCellSourceToAPhase,",
+          "new": "      have h3 : c.dim + 1 = 3 := h.target_three\n      have hdim : c.dim = 2 := by omega\n      subst_vars\n      simp [hdim, standardTypeABoundaryPrismTransportScalingToThree,\n        standardTypeABoundaryPrismRankBCellSourceToAPhase,",
+          "count": 2
+        }
+      ],
+      "expected_blob": "ead85e4d892233df354cf8162256ca166e7d7886"
+    }
+  ]
+}
