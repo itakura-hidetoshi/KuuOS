@@ -8,13 +8,12 @@ Goal: carry actual previously proved Lean conditions into each OS's
 original Python runtime, retaining local conditions and genuine
 compatibility obstructions.
 
-This stage is **staged only** on the exact v0.31 source HEAD
-`5c072a1a914b2e1c7a0083866af87398b56e879a`.
-v0.31 PR #3592 must first pass exact-head independent Runtime,
-full paginated terminal Governance and be merged into canonical main.
-Only then should this branch be reconciled to the resulting canonical
-main through append-only GitHub MCP commit ancestry, without force
-rewriting, before any separate v0.32 PR is opened.
+This stage is based on canonical main `e005206372b5a0a0d2e70d05c7342d8048d938e7`,
+after v0.31 PR #3592 passed exact-head independent Runtime and the full
+95-job terminal Governance (94 SUCCESS, 1 intentional skip) and was
+MERGED. Its independently validated source HEAD was `5c072a1a914b2e1c7a0083866af87398b56e879a`.
+The v0.32 staging branch is reconciled through append-only GitHub
+MCP commit ancestry, without force rewriting.
 Lean v4.30.0-rc2 and mathlib
 `5450b53e5ddc75d46418fabb605edbf36bd0beb6` remain pinned.
 Append-only / tighten-only / overwrite-forbidden / same-root.
@@ -115,7 +114,7 @@ No Lean source was changed; Strict Lean skipped is not a new theorem
 certification. Do not interpret the source checks as constructive
 Lean proof terms or general interpreter semantic equivalence.
 
-**No new v0.32 PR while v0.31 remains unmerged or uncertified**.
-After v0.31 merge, append-only ancestry reconciliation, then
-independent v0.32 Runtime/Governance terminal SUCCESS, before any
-v0.32 formal main adoption. Failures are repaired in that same PR.
+**v0.32 PR release gate:** append-only ancestry reconciliation
+is completed. Keep Draft and no main merge until the exact HEAD
+passes independent v0.32 Runtime/Governance terminal SUCCESS and
+Git-tree/source-receipt matching. Repair failures in that same PR.
