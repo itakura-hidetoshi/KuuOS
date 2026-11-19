@@ -11,6 +11,7 @@ on:
       - 'scripts/kuuos_v173_codeai_cause_separated_hunks_v4.json'
       - 'scripts/kuuos_v173_codeai_cause_separated_hunks_v5.json'
       - 'scripts/kuuos_v173_codeai_cause_separated_hunks_v6.json'
+      - 'scripts/kuuos_v173_codeai_cause_separated_hunks_v7.json'
       - 'formal/KUOS/DependentOriginationStandardTypeABoundaryPrismRankwiseScaledPushoutV1_73.lean'
       - 'formal/KUOS/DependentOriginationStandardTypeABoundaryPrismRankwiseABCellularityV1_72.lean'
 
