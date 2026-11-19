@@ -18,6 +18,7 @@ import unittest
 from runtime.kuuos_belief_os_types_v0_1 import sha
 from runtime.kuuos_plan_os_kernel_v0_1 import build_plan_phase_activation_receipt
 from runtime.kuuos_plan_os_store_v0_1 import PlanStore
+from runtime.kuuos_act_os_store_v0_1 import ActStore
 from runtime.kuuos_qi_world_native_full_cycle_v1_3 import (
     build_native_full_cycle_receipt, validate_native_full_cycle_receipt,
 )
@@ -75,7 +76,11 @@ class FiveOriginalStoreChainCompatTests(unittest.TestCase):
         self.assertTrue(result.full_native_path_local_conditions_checked)
         self.assertTrue(result.store_bytes_stable_during_audit)
         self.assertEqual(len(result.edge_statuses), len(EDGES))
-        self.assertEqual(result.path_audit_status, "SCOPED_PATH_CHECKED")
+        self.assertEqual(result.path_audit_status,
+                         "FOUR_STAGED_TYPED_EDGE_CHECKS")
+        self.assertEqual(len(result.staged_typed_edge_statuses), 4)
+        self.assertTrue(all(status == "SCOPED_PATH_CHECKED"
+                            for _, status in result.staged_typed_edge_statuses))
         self.assertEqual(result.numeric_and_issuer_obstructions,
                          NUMERIC_AND_ISSUER_OBSTRUCTIONS)
         self.assertEqual(len(result.checked_original_store_paths), 15)
@@ -83,6 +88,19 @@ class FiveOriginalStoreChainCompatTests(unittest.TestCase):
         self.assertEqual(len(result.persisted_store_commit_counts), 5)
         self.assertTrue(all(count > 0
                             for _, count in result.persisted_store_commit_counts))
+
+    def test_incoming_genesis_and_outgoing_final_are_not_collapsed(self):
+        # A valid ActOS receiver-genesis is NOT the committed ActOS
+        # outgoing source. Treating them as one node is temporal gluing.
+        genesis = ActStore(self.roots["ActOS"])._read_json(
+            self.roots["ActOS"] / "act-genesis.json"
+        )
+        self.assertNotEqual(genesis["act_state_digest"],
+                            self.states["ActOS"]["act_state_digest"])
+        result = self.audit()
+        self.assertEqual(result.status, SCOPED_COMPATIBLE, result.issues)
+        self.assertEqual(result.path_audit_status,
+                         "FOUR_STAGED_TYPED_EDGE_CHECKS")
 
     def test_all_original_edges_retained(self):
         self.assertEqual(
