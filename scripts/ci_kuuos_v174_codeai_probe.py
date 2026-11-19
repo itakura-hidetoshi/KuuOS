@@ -29,6 +29,12 @@ EXPECTED = {
     "scope-W-Sigma-thinness": "a24355da496b7997ec6f76a9ae6e17cf1d7a87c3",
     "scope-W-Sigma-uniqueness": "b3c19bb2c882995e2f433653c4e1f978ac63ddb4",
     "scope-W-Sigma-fac-simp": "ce320a75630fb918bbcf353d17bb7e910fe7bc34",
+    "v174-fac-only": "96ae1274393bca816c6c5936c81dcdbca8c76ff6",
+    "v174-fac-pushout-universe": "8e6d5c6bd1d026c245995c789ec4233fecfd9b14",
+    "v174-fac-pushout-raw-class": "93106a7bbdc0cbceb38477f33b736f4be9d37983",
+    "v174-fac-raw-bmap": "90423ddb6094cec1536c3e6eb630fd531506f3ba",
+    "v174-fac-raw-bmap-bound": "4b5f9fd06df6237ad001f978e5ff90ac69f9b0fc",
+    "v174-fac-raw-bmap-bound-explicit": "80d9d139fad2faf7b9000542317ada775b07dce1",
 }
 OLD = "(standardTypeABoundaryPrismRankFunction g)"
 NEW = "(standardTypeABoundaryPrismRankFunction.{u} g)"
@@ -81,6 +87,31 @@ def candidates(historical: str) -> dict[str, str]:
             combined.extend(added)
             at = start + len(removed)
         combined.extend(base_lines[at:])
+        result[item["name"]] = "\n".join(combined)
+        assert prior.blob(result[item["name"]].encode()) == item["expected_blob"]
+    assert set(result) == set(EXPECTED)
+    # Second cause-separated CodeAI group: exact fixed Sigma.ι_desc factors,
+    # rank-A pushout universe, explicit raw class and scaled target transport.
+    manifest_v2 = json.loads(
+        pathlib.Path("scripts/kuuos_v174_codeai_cause_separated_hunks_v2.json").read_text(encoding="utf-8"))
+    assert manifest_v2["schema"] == "kuuos_v174_codeai_cause_separated_hunks_v2"
+    assert manifest_v2["base_candidate_blob"] == EXPECTED["scope-W-Sigma-uniqueness"]
+    assert manifest_v2["public_declarations_preserved"] == 26
+    assert manifest_v2["historical_unchanged"] is True
+    assert len(manifest_v2["variants"]) == 6
+    base_v2_lines = result["scope-W-Sigma-uniqueness"].split("\n")
+    for item in manifest_v2["variants"]:
+        assert item["name"] not in result
+        at = 0
+        combined = []
+        for h in item["patches"]:
+            start, removed, added = h["start"], h["old"], h["new"]
+            assert at <= start <= len(base_v2_lines)
+            assert base_v2_lines[start:start + len(removed)] == removed
+            combined.extend(base_v2_lines[at:start])
+            combined.extend(added)
+            at = start + len(removed)
+        combined.extend(base_v2_lines[at:])
         result[item["name"]] = "\n".join(combined)
         assert prior.blob(result[item["name"]].encode()) == item["expected_blob"]
     assert set(result) == set(EXPECTED)

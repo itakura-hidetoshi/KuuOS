@@ -6,6 +6,7 @@ on:
       - '.github/workflows/kuuos-v174-codeai-probe-v1.yml'
       - 'scripts/ci_kuuos_v174_codeai_probe.py'
       - 'scripts/kuuos_v174_codeai_cause_separated_hunks_v1.json'
+      - 'scripts/kuuos_v174_codeai_cause_separated_hunks_v2.json'
       - 'formal/KUOS/DependentOriginationStandardTypeABoundaryPrismRankwiseSimultaneousAPhaseV1_74.lean'
       - 'formal/KUOS/DependentOriginationStandardTypeABoundaryPrismRankwiseScaledPushoutV1_73.lean'
 
