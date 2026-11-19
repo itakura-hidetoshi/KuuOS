@@ -17,6 +17,7 @@ on:
       - 'scripts/kuuos_v175_codeai_dimension_bridge_hunks_v11.json'
       - 'scripts/kuuos_v175_codeai_glued_bridge_rank_hunks_v12.json'
       - 'scripts/kuuos_v175_codeai_rank_descent_hunks_v13.json'
+      - 'scripts/kuuos_v175_codeai_rank_predicate_hunks_v14.json'
       - 'formal/KUOS/DependentOriginationStandardTypeABoundaryPrismRankwiseSimultaneousBPhaseV1_75.lean'
       - 'formal/KUOS/DependentOriginationStandardTypeABoundaryPrismRankwiseSimultaneousAPhaseV1_74.lean'
 
@@ -36,7 +37,8 @@ env:
   V10_ONLY: '0'
   V11_ONLY: '0'
   V12_ONLY: '0'
-  V13_ONLY: '1'
+  V13_ONLY: '0'
+  V14_ONLY: '1'
   CHECKOUT_BLOB: 'ac0abc7aa8f7c52c45ac0e2ed13d0cae71ada978'
 
 jobs:
@@ -69,12 +71,12 @@ jobs:
           set -euo pipefail
           lake exe cache get
           lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.DependentOriginationStandardTypeABoundaryPrismRankwiseSimultaneousAPhaseV1_74
-      - name: Compare three v1.75 rank descent CodeAI cases, restore untouched original
+      - name: Compare two rank predicate candidates and two diagnostic controls, restore original
         run: python3 scripts/ci_kuuos_v175_codeai_probe.py
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: kuuos-v175-codeai-rank-descent-probe-not-proof
+          name: kuuos-v175-codeai-rank-predicate-probe-not-proof
           path: /tmp/kuuos-v175-codeai-probe
           retention-days: 30
           if-no-files-found: error

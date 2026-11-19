@@ -350,6 +350,29 @@ def candidates(source: str) -> dict[str, str]:
         assert prior.blob(candidate.encode()) == variant["expected_blob"]
         result[variant["name"]] = candidate
         expected[variant["name"]] = variant["expected_blob"]
+    # v14: isolate goal normalization from predicate equality transport.
+    # Pretty-printed equality is not rewriting compatibility or proof authority.
+    v14 = json.loads(pathlib.Path(
+        "scripts/kuuos_v175_codeai_rank_predicate_hunks_v14.json"
+    ).read_text(encoding="utf-8"))
+    assert v14["schema"] == "kuuos_v175_codeai_rank_predicate_hunks_v14"
+    assert v14["original_blob"] == BASE
+    assert v14["historical_unchanged"] is True
+    assert v14["public_declarations_preserved"] == 31
+    assert len(v14["variants"]) == 2
+    for name, sha in v14["base_blobs"].items():
+        assert prior.blob(result[name].encode()) == sha
+    for variant in v14["variants"]:
+        assert variant["name"] not in result
+        candidate = result[variant["base"]]
+        for patch in variant["patches"]:
+            assert patch["mode"] == "literal"
+            assert patch["count"] >= 1
+            assert candidate.count(patch["old"]) == patch["count"], (variant["name"], patch["name"])
+            candidate = candidate.replace(patch["old"], patch["new"])
+        assert prior.blob(candidate.encode()) == variant["expected_blob"]
+        result[variant["name"]] = candidate
+        expected[variant["name"]] = variant["expected_blob"]
     names = prior.inventory(source)
     assert len(names) == len(set(names)) == 31
     assert "inductive StandardTypeABoundaryPrismRankBCell" in source
@@ -377,6 +400,10 @@ def main() -> None:
     records = []
     try:
         for name, source in result.items():
+            if os.environ.get("V14_ONLY", "0") == "1" and not (
+                name.startswith("v175-v14-") or name in {
+                    "v175-v13-range-gluing", "v175-v13-v173-gluing"}):
+                continue
             if os.environ.get("V13_ONLY", "0") == "1" and not name.startswith("v175-v13-"):
                 continue
             if os.environ.get("V12_ONLY", "0") == "1" and not name.startswith("v175-v12-"):
@@ -402,6 +429,7 @@ def main() -> None:
                 olean = pathlib.Path(directory) / "candidate.olean"
                 cmd = [
                     "lake", "env", "lean", "-DwarningAsError=true",
+                    "-Dpp.universes=true", "-Dpp.explicit=true", "-Dpp.coercions.types=true",
                     "-Dweak.sorryAsError=true", "-o", str(olean), REL,
                 ]
                 p = subprocess.run(cmd, cwd=root, capture_output=True, text=True, timeout=1800)
