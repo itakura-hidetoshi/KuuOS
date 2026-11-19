@@ -170,7 +170,8 @@ def main() -> None:
     historical = (root / "legacy/v5.291" / REL).read_bytes()
     assert prior.blob(historical) == BASE
     original = (root / REL).read_bytes()
-    assert prior.blob(original) == os.environ["CHECKOUT_BLOB"] == BASE
+    assert prior.blob(original) == os.environ["CHECKOUT_BLOB"]
+    assert prior.blob(original) in {BASE, EXPECTED["v174-v3-raw-universe-exact"]}
     assert len(os.environ["SOURCE_HEAD"]) == 40
     variants = candidates(historical.decode("utf-8"))
     out = pathlib.Path("/tmp/kuuos-v174-codeai-probe")

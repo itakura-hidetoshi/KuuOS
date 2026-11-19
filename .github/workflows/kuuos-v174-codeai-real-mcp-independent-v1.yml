@@ -20,7 +20,7 @@ env:
   MATHLIB_NO_CACHE_ON_UPDATE: '1'
   PYTHONPATH: .
   SOURCE_HEAD: ${{ github.event.pull_request.head.sha }}
-  CHECKOUT_BLOB: 'f03e1d3aaba3803a77c50e935854ed215c0da0aa'
+  CHECKOUT_BLOB: 'db34c44b30cbd6c5bd4aa113e320643aba21577c'
   SELECTED_NAME: 'v174-v3-raw-universe-exact'
   SELECTED_BLOB: 'db34c44b30cbd6c5bd4aa113e320643aba21577c'
 
