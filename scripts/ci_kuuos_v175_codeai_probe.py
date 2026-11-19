@@ -98,7 +98,7 @@ def main() -> None:
                 p = subprocess.run(cmd, cwd=root, capture_output=True, text=True, timeout=1800)
                 log = p.stdout + "\n" + p.stderr
                 (out / (name + ".log")).write_text(log)
-                errors = re.findall(r"(?m)^.*\\berror(?:\\([^)]*\\))?:.*$", log)
+                errors = re.findall(r"(?m)^.*\berror(?:\([^)]*\))?:.*$", log)
                 entry = {
                     "name": name,
                     "blob": prior.blob(source.encode()),
