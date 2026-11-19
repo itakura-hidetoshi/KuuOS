@@ -43,7 +43,7 @@ def version_bound_source(root: pathlib.Path) -> tuple[bytes, bytes, list[str]]:
     candidates = probe.candidates(historical.decode("utf-8"))
     assert SELECTED_NAME in candidates and len(candidates) == 19
     names = prior.inventory(historical.decode("utf-8"))
-    assert len(names) == 26 and len(set(names)) == 21
+    assert len(names) == 26 and len(set(names)) == 26
     source = candidates[SELECTED_NAME].encode()
     assert prior.blob(source) == SELECTED_BLOB
     assert hashlib.sha256(source).hexdigest() == SELECTED_SHA256
