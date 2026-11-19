@@ -1,0 +1,55 @@
+name: KuuOS v1.76 CodeAI exact pinned raw transfinite candidate comparison (not proof)
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/kuuos-v176-codeai-probe-v1.yml'
+      - 'scripts/ci_kuuos_v176_codeai_probe.py'
+      - 'scripts/kuuos_v176_codeai_namespace_probe_v1.json'
+      - 'formal/KUOS/DependentOriginationStandardTypeABoundaryPrismRawTransfiniteV1_76.lean'
+permissions:
+  contents: read
+env:
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+  PYTHONPATH: .
+  SOURCE_HEAD: ${{ github.event.pull_request.head.sha }}
+  SOURCE_BLOB: 'c7fd4eb959d05a2eeb430ea39a12d04ed4030ee9'
+jobs:
+  v176-codeai-direct-lean-not-certification:
+    if: github.event.pull_request.number == 3555 && github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-22.04
+    timeout-minutes: 80
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: kuuos-v142-pinned-attachment-mathlib-5450-v1
+      - name: Strict build of exact v1.75 source, pinned toolchain
+        run: |
+          set -euo pipefail
+          python3 -c "import pathlib; from scripts.ci_kuuos_v164_codeai import pins; pins(pathlib.Path('.').resolve())"
+          lake exe cache get
+          lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.DependentOriginationStandardTypeABoundaryPrismRankwiseSimultaneousBPhaseV1_75
+      - name: CodeAI compare all v1.76 candidates without adoption
+        run: python3 scripts/ci_kuuos_v176_codeai_probe.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: kuuos-v176-codeai-namespace-probe-not-proof
+          path: /tmp/kuuos-v176-codeai-probe
+          retention-days: 30
+          if-no-files-found: warn
