@@ -80,6 +80,8 @@ def _independent_string_model(left: Any, right: Any) -> str:
     """
     if type(left) is not str or type(right) is not str:
         return BLOCKED
+    if left not in STATUSES or right not in STATUSES:
+        return BLOCKED
     if left == BLOCKED or right == BLOCKED:
         return BLOCKED
     if left == NO_DATA or right == NO_DATA:
@@ -120,22 +122,23 @@ def _audit_actual_python_table() -> tuple[tuple[str, ...], int, int, int]:
                 failures.append("triple:incorrect:" + first + ":" + second
                                 + ":" + third)
 
-    # One independently checked left/right pair per malformed token. The
-    # Lean proof models only Strings; other Python data is a Python-only
-    # fail-closed input test, not a new Lean theorem.
+    # Check all three partner statuses, including NO_DATA: invalid raw
+    # strings cannot be hidden behind a missing-evidence shortcut.
+    # The Lean theorems model Strings; other Python types are Python-only
+    # fail-closed checks and are not alleged to be Lean terms.
     for token in ("PASS", "CHECKED", "", "blocked", None, False, 0, 1.0):
-        for left, right in ((token, LOCALLY_CHECKED),
-                            (LOCALLY_CHECKED, token)):
-            invalid_count += 1
-            try:
-                result = original.combine_evidence(left, right)
-            except Exception as exc:
-                failures.append("invalid:runtime_exception:"
-                                + type(exc).__name__)
-            else:
-                if type(result) is not str or result != BLOCKED:
-                    failures.append("invalid:unexpected_acceptance:"
-                                    + type(token).__name__)
+        for partner in STATUSES:
+            for left, right in ((token, partner), (partner, token)):
+                invalid_count += 1
+                try:
+                    result = original.combine_evidence(left, right)
+                except Exception as exc:
+                    failures.append("invalid:runtime_exception:"
+                                    + type(exc).__name__)
+                else:
+                    if type(result) is not str or result != BLOCKED:
+                        failures.append("invalid:unexpected_acceptance:"
+                                        + type(token).__name__)
     return tuple(dict.fromkeys(failures)), pair_count, triple_count, invalid_count
 
 
