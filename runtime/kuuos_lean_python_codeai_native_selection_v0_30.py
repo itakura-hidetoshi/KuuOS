@@ -40,7 +40,7 @@ from runtime.kuuos_codeai_candidate_static_admissibility_preflight_schema_v0_1 i
 )
 
 VERSION = "kuuos_lean_python_native_codeai_selection_v0_30"
-SOURCE_MAIN = "52691b7a98a289dc154950dfef097bef7ecb4fb4"
+SOURCE_MAIN = "7a7c6412858710c344a6bd26613e687cbe6fa9aa"
 PASS = "SOURCE_BOUND_LOCAL_CHECKED"
 NO_DATA = "NO_DATA"
 BLOCKED = "BLOCKED"
