@@ -14,8 +14,20 @@ from scripts import check_kuuos_lean_python_native_decision_mediator_sources_v0_
 
 class NativeDecisionMediatorSourceTests(unittest.TestCase):
     def test_all_original_lean_and_python_sources_are_pinned(self):
-        self.assertEqual(len(check.SOURCE_BLOBS), 16)
+        self.assertEqual(len(check.SOURCE_BLOBS), 18)
         self.assertEqual(check.check_sources(check.ROOT), ())
+
+    def test_v03_gerbe_original_lean_theorems_and_python_source_are_pinned(self):
+        self.assertIn(
+            "formal/KUOS/BeliefOS/ContextGerbeCoherenceV0_3.lean",
+            check.THEOREMS)
+        self.assertEqual(
+            len(check.THEOREMS[
+                "formal/KUOS/BeliefOS/ContextGerbeCoherenceV0_3.lean"]),
+            7)
+        self.assertIn(
+            "runtime/kuuos_belief_os_gerbe_coherence_v0_3.py",
+            check.SOURCE_BLOBS)
 
     def test_all_predecessor_source_digests_still_match_exact_git_blobs(self):
         for path, pin in check.SOURCE_BLOBS.items():
