@@ -103,6 +103,17 @@ def check_sources(root: Path = ROOT) -> tuple[str, ...]:
                     and x.name == "audit_memory_world_compatibility"
                     for x in body):
                 errors.append("v032_local_compatibility_entrypoint_missing")
+            # unittest.TestLoader discovers TestCase classes exposed as
+            # module members, even if imported only as fixture helpers.
+            # Two extension modules importing the same fixture class
+            # reproduce the exact same test IDs: fail before Runtime.
+            if path == NEW[2] and any(
+                    isinstance(node, ast.ImportFrom)
+                    and (node.module or "").startswith("tests.test_")
+                    and any(alias.name.endswith(("Test", "Tests"))
+                            for alias in node.names)
+                    for node in body):
+                errors.append("v032_direct_fixture_testcase_import_forbidden")
     if set(inventory(root)) != set(CLASSES):
         errors.append("v032_test_classes_missing")
     return tuple(sorted(set(errors)))
