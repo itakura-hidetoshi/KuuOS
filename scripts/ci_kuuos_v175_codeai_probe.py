@@ -218,6 +218,27 @@ def candidates(source: str) -> dict[str, str]:
         assert prior.blob(candidate.encode()) == variant["expected_blob"], variant["name"]
         result[variant["name"]] = candidate
         expected[variant["name"]] = variant["expected_blob"]
+    # v8: source-checked equality transport through coproduct, rank coverage and pushout.
+    v8 = json.loads(pathlib.Path(
+        "scripts/kuuos_v175_codeai_gluing_hunks_v8.json"
+    ).read_text(encoding="utf-8"))
+    assert v8["schema"] == "kuuos_v175_codeai_gluing_hunks_v8"
+    assert v8["original_blob"] == BASE
+    assert v8["historical_unchanged"] is True
+    assert v8["public_declarations_preserved"] == 31
+    assert len(v8["variants"]) == 5
+    assert prior.blob(result["v175-v7-combined"].encode()) == v8["baseline_blob"]
+    for variant in v8["variants"]:
+        assert variant["name"] not in result
+        candidate = result[variant["base"]]
+        for patch in variant["patches"]:
+            assert patch["mode"] == "literal"
+            assert patch["count"] >= 1
+            assert candidate.count(patch["old"]) == patch["count"], (variant["name"], patch["name"])
+            candidate = candidate.replace(patch["old"], patch["new"])
+        assert prior.blob(candidate.encode()) == variant["expected_blob"], variant["name"]
+        result[variant["name"]] = candidate
+        expected[variant["name"]] = variant["expected_blob"]
     names = prior.inventory(source)
     assert len(names) == len(set(names)) == 31
     assert "inductive StandardTypeABoundaryPrismRankBCell" in source
@@ -245,6 +266,8 @@ def main() -> None:
     records = []
     try:
         for name, source in result.items():
+            if os.environ.get("V8_ONLY", "0") == "1" and not name.startswith("v175-v8-"):
+                continue
             if os.environ.get("V7_ONLY", "0") == "1" and not name.startswith("v175-v7-"):
                 continue
             if os.environ.get("V6_ONLY", "0") == "1" and not name.startswith("v175-v6-"):
