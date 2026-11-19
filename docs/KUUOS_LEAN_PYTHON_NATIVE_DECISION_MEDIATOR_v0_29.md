@@ -16,7 +16,7 @@ native Python data in the corresponding KuuOS OS. Not an arbitrary
 new Wa-numerical proof, and not replacement of original Lean definitions,
 runtime state machines, stored evidence, receipts, hosts or CI.
 
-This stage adds nine files only, and source-pins sixteen original Lean/
+This stage adds nine files only, and source-pins eighteen original Lean/
 Python blobs alongside inherited v0.27/v0.28 exact-source checks.
 The source and target tree for the PR must match; the final exact HEAD
 needs independent Python Runtime and all terminal Governance jobs to
@@ -26,7 +26,7 @@ succeed. Strict Lean is not invoked for Python-only edits.
 
 | OS | New Python file | Original source and selected theorem-data conditions |
 |---|---|---|
-| BeliefOS | `kuuos_lean_python_belief_gerbe_native_binding_v0_29.py` | actual v0.3 gerbe state, last stored receipt and downstream Decision source digest; **NO_DATA** for equivalence with v0.1 `FutureOnlyBeliefCommit` |
+| BeliefOS | `kuuos_lean_python_belief_gerbe_native_binding_v0_29.py` | actual v0.3 gerbe state, last receipt and Decision source identity; seven v0.3 `GerbeBeliefBoundary` conditions locally checked, with **NO_DATA** for v0.1 `FutureOnlyBeliefCommit` correspondence |
 | DecisionOS | `kuuos_lean_python_decision_native_binding_v0_29.py` | original v0.1 selected admitted option, all `ConstraintGate.admissible` values, external evidence existence, original commit-event payload, and linked gerbe receipt |
 | DecisionOSPlural | `kuuos_lean_python_plural_native_binding_v0_29.py` | native typed Decision→Plural handoff; original selected consensus aggregate, exact support/opposition/worst-case bounds, exclusion of validated veto, and no truth authority |
 | DecisionOSWa | `kuuos_lean_python_wa_native_binding_v0_29.py` | original typed Plural→Wa handoff, selected endorsement, false-harmony/minority/dissent fields, original source option identity and exact observed Wa/weakest floors |
@@ -100,12 +100,23 @@ conditions. No score, weight, option, or history is rewritten.
 
 ### BeliefOS — retain the actual type obstruction
 
-The original v0.3 Belief gerbe context-coherence state has its own
-source-provenance, receipt history, and lineage, but is NOT the same
-type as v0.1 Lean `BeliefOS.FutureOnlyBeliefCommit`. An exact
-local state/receipt/Decision source check therefore returns
-`NO_DATA` for this v0.1 theorem projection rather than PASS.
-The result records which original fields matched.
+The original `formal/KUOS/BeliefOS/ContextGerbeCoherenceV0_3.lean`
+also contains **seven genuine GerbeBeliefBoundary theorems**:
+locality, plurality, two truths, non-reification, no path search,
+no global winner, and no global trivialization. The *original*
+v0.3 gerbe receipt contains the corresponding data booleans.
+`audit_native_gerbe_v03_theorem_conditions` validates them against
+the original gerbe state/receipt/Decision source and returns
+`SOURCE_BOUND_LOCAL_CHECKED` **only for v0.3 data obligations**.
+It also checks the original surface-holonomy history identity.
+
+However, v0.3 is NOT the same type as v0.1 Lean
+`BeliefOS.FutureOnlyBeliefCommit`. The combined
+`audit_native_belief_gerbe_source` therefore still returns
+`NO_DATA` for v0.3→v0.1 refinement, while recording the
+seven independently checked local v0.3 conditions.
+Neither returned value constructs the dependent Lean proof fields.
+The difference is preserved, not hidden by fluent prose.
 
 This is a **legitimate unresolved proof/modeling obligation**, not
 a failure of source integrity, a Lean impossibility theorem, or a
