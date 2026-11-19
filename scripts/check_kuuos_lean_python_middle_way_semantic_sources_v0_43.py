@@ -154,7 +154,7 @@ def check_sources(root: Path = ROOT) -> tuple[str, ...]:
         else:
             lines = tuple(line.strip() for line in text.splitlines())
             for name in LEAN_DECLARATIONS:
-                if not any(line.startswith(name + " ") or
+                if not any(line == name or line.startswith(name + " ") or
                            line.startswith(name + ":")
                            for line in lines):
                     problems.append("v043_lean_declaration_missing:" + name)
