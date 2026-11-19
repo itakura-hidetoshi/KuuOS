@@ -46,6 +46,7 @@ LEAN_DECLARATIONS = (
     "theorem combineEvidence_assoc",
     "theorem pythonJoinModel_assoc_on_encoded",
     "theorem invalidPythonStatus_blocks",
+    "theorem invalidPythonStatus_with_noData_blocks",
     "theorem unknownPythonStatus_is_not_success",
     "theorem finiteCheckedWitness_grants_no_execution",
 )
