@@ -91,7 +91,7 @@ def _constant(module: ast.Module, name: str):
 
 def check_sources(root: Path = ROOT) -> tuple[str, ...]:
     """Read-only and fail closed. Do not execute imported source modules."""
-    if type(root) is not Path:
+    if not isinstance(root, Path):
         return ("root:trusted_path_required",)
     errors: list[str] = []
     if set(PROOF_SOURCES) != set(MODULES) or len(MODULES) != 12:
