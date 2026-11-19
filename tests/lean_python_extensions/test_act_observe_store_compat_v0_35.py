@@ -83,6 +83,25 @@ class NativeActObserveStoreCompatTests(unittest.TestCase):
         self.assertEqual(audit_native_act_observe_store_compatibility(
             [], self.observe, self.act_root, self.obs_root).status, BLOCKED)
 
+    def test_original_native_concrete_pathlib_roots_are_supported(self):
+        # pathlib.Path() on POSIX creates PosixPath, not type(Path).
+        self.assertIsInstance(self.act_root, Path)
+        self.assertIsInstance(self.obs_root, Path)
+        self.assertEqual(self.audit().status, SCOPED_COMPATIBLE)
+
+    def test_original_native_builtin_string_roots_are_supported(self):
+        self.assertEqual(
+            self.audit(act_root=str(self.act_root),
+                       obs_root=str(self.obs_root)).status,
+            SCOPED_COMPATIBLE,
+        )
+
+    def test_untrusted_custom_store_root_is_blocked(self):
+        class CustomPath:
+            def __fspath__(self):
+                raise AssertionError("no untrusted path conversion allowed")
+        self.assertEqual(self.audit(obs_root=CustomPath()).status, BLOCKED)
+
     def test_act_store_root_and_observe_store_root_must_differ(self):
         self.assertEqual(self.audit(obs_root=self.act_root).status, BLOCKED)
 
