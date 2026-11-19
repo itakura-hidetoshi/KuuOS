@@ -29,7 +29,10 @@ EXPECTED = {
     "scaled-pushout-universe": "f73c98a18e055140f75aeea012b168d0f37df2cb",
     "open-v149": "d6b6db23842aafd4a54aae1f3f43a1f3a40a00b5",
     "open-v149-inductive-where": "9eaf7fe74615bbd58ca4484c584b239656aba5f5",
-    "inductive-where-only": "e4bd12d79ecbc2f519a177329dcf98437aeebb2e"
+    "inductive-where-only": "e4bd12d79ecbc2f519a177329dcf98437aeebb2e",
+    "v175-v2-first-typed-pattern": "5171aa38dc1f9c779ad836d332125eb76e3fd4fa",
+    "v175-v2-cofan-descent": "bb4e5d6e2aa4e7ba89b05fa385a039a5e821eb2a",
+    "v175-v2-bmap-desc": "217ca069b5a1a6e7310c2ca0f32bcc452c92cd09"
 }
 OLD_FUNCTION = "(standardTypeABoundaryPrismRankFunction g)"
 NEW_FUNCTION = "(standardTypeABoundaryPrismRankFunction.{u} g)"
@@ -78,6 +81,26 @@ def candidates(source: str) -> dict[str, str]:
     result["open-v149"] = five
     result["open-v149-inductive-where"] = six
     result["inductive-where-only"] = seven
+    # Second cause-separated group: reproduce new candidates from the
+    # exact earlier near-green source; no original-source modification.
+    manifest = json.loads(pathlib.Path(
+        "scripts/kuuos_v175_codeai_cause_separated_hunks_v2.json"
+    ).read_text(encoding="utf-8"))
+    assert manifest["schema"] == "kuuos_v175_codeai_cause_separated_hunks_v2"
+    assert manifest["base_candidate_blob"] == EXPECTED["open-v149-inductive-where"]
+    assert manifest["original_blob"] == BASE
+    assert manifest["historical_unchanged"] is True
+    assert manifest["public_declarations_preserved"] == 31
+    assert len(manifest["variants"]) == 3
+    for item in manifest["variants"]:
+        assert item["name"] not in result
+        candidate = result["open-v149-inductive-where"]
+        for hunk in item["patches"]:
+            old, newer = hunk["old"], hunk["new"]
+            assert candidate.count(old) == 1, ("stale v1.75", item["name"], hunk["name"])
+            candidate = candidate.replace(old, newer, 1)
+        assert prior.blob(candidate.encode()) == item["expected_blob"]
+        result[item["name"]] = candidate
     assert set(result) == set(EXPECTED)
     names = prior.inventory(source)
     assert len(names) == len(set(names)) == 31

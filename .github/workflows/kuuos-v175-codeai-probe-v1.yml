@@ -5,6 +5,7 @@ on:
     paths:
       - '.github/workflows/kuuos-v175-codeai-probe-v1.yml'
       - 'scripts/ci_kuuos_v175_codeai_probe.py'
+      - 'scripts/kuuos_v175_codeai_cause_separated_hunks_v2.json'
       - 'formal/KUOS/DependentOriginationStandardTypeABoundaryPrismRankwiseSimultaneousBPhaseV1_75.lean'
       - 'formal/KUOS/DependentOriginationStandardTypeABoundaryPrismRankwiseSimultaneousAPhaseV1_74.lean'
 
@@ -47,7 +48,7 @@ jobs:
           set -euo pipefail
           lake exe cache get
           lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.DependentOriginationStandardTypeABoundaryPrismRankwiseSimultaneousAPhaseV1_74
-      - name: Compare five v1.75 full-source CodeAI cases, restore untouched original
+      - name: Compare eleven v1.75 full-source CodeAI cases, restore untouched original
         run: python3 scripts/ci_kuuos_v175_codeai_probe.py
       - uses: actions/upload-artifact@v4
         if: always()

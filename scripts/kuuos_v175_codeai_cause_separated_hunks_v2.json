@@ -1,0 +1,127 @@
+{
+  "schema": "kuuos_v175_codeai_cause_separated_hunks_v2",
+  "base_candidate_blob": "9eaf7fe74615bbd58ca4484c584b239656aba5f5",
+  "original_blob": "ac0abc7aa8f7c52c45ac0e2ed13d0cae71ada978",
+  "public_declarations_preserved": 31,
+  "historical_unchanged": true,
+  "variants": [
+    {
+      "name": "v175-v2-first-typed-pattern",
+      "patches": [
+        {
+          "name": "open-scaling-namespace",
+          "old": "open KUOS.DependentOriginationStandardTypeAScaledHornFamilyV1_49\n",
+          "new": "open KUOS.DependentOriginationStandardTypeAScaledHornFamilyV1_49\nopen KUOS.DependentOriginationStandardTypeAScaledPushoutSourceEnrichmentV1_53\n"
+        },
+        {
+          "name": "first-then-simp",
+          "old": "              (Nat.le_succ j))) := by simp [Category.assoc]",
+          "new": "              (Nat.le_succ j))) := by simp"
+        },
+        {
+          "name": "rank-square-morphism-path",
+          "old": "          rw [(standardTypeABoundaryPrismRankFunction.{u} g).w j]",
+          "new": "          simpa only [Category.assoc] using\n            congrArg (fun f => c.ιSigmaHorn ≫ f)\n              ((standardTypeABoundaryPrismRankFunction.{u} g).w j).symm"
+        },
+        {
+          "name": "bcell-valid-function-clauses",
+          "old": "    StandardTypeABoundaryPrismRankBCell g j →\n      (standardTypeABoundaryPrismRankFunction.{u} g).Cell j\n  | .q12 c _ => c\n  | .q23 c _ => c",
+          "new": "    StandardTypeABoundaryPrismRankBCell g j →\n      (standardTypeABoundaryPrismRankFunction.{u} g).Cell j :=\n  fun b => match b with\n    | .q12 c _ => c\n    | .q23 c _ => c"
+        }
+      ],
+      "expected_blob": "5171aa38dc1f9c779ad836d332125eb76e3fd4fa"
+    },
+    {
+      "name": "v175-v2-cofan-descent",
+      "patches": [
+        {
+          "name": "open-scaling-namespace",
+          "old": "open KUOS.DependentOriginationStandardTypeAScaledHornFamilyV1_49\n",
+          "new": "open KUOS.DependentOriginationStandardTypeAScaledHornFamilyV1_49\nopen KUOS.DependentOriginationStandardTypeAScaledPushoutSourceEnrichmentV1_53\n"
+        },
+        {
+          "name": "first-then-simp",
+          "old": "              (Nat.le_succ j))) := by simp [Category.assoc]",
+          "new": "              (Nat.le_succ j))) := by simp"
+        },
+        {
+          "name": "rank-square-morphism-path",
+          "old": "          rw [(standardTypeABoundaryPrismRankFunction.{u} g).w j]",
+          "new": "          simpa only [Category.assoc] using\n            congrArg (fun f => c.ιSigmaHorn ≫ f)\n              ((standardTypeABoundaryPrismRankFunction.{u} g).w j).symm"
+        },
+        {
+          "name": "bcell-valid-function-clauses",
+          "old": "    StandardTypeABoundaryPrismRankBCell g j →\n      (standardTypeABoundaryPrismRankFunction.{u} g).Cell j\n  | .q12 c _ => c\n  | .q23 c _ => c",
+          "new": "    StandardTypeABoundaryPrismRankBCell g j →\n      (standardTypeABoundaryPrismRankFunction.{u} g).Cell j :=\n  fun b => match b with\n    | .q12 c _ => c\n    | .q23 c _ => c"
+        },
+        {
+          "name": "cofan-source-three-properties",
+          "old": "noncomputable def standardTypeABoundaryPrismRankBSourceCofanIsColimit\n    (g : StandardTypeAHornAttachmentGeneratorIndex)\n    (j : ℕ) :\n    IsColimit (standardTypeABoundaryPrismRankBSourceCofan g j) where\n  desc s :=\n    { map := Sigma.desc\n        (fun b : StandardTypeABoundaryPrismRankBCell g j => (s.ι.app ⟨b⟩).map)\n      scaled := by\n        intro t ht\n        rcases ht with hmin | ⟨b, x, hx, rfl⟩\n        · exact\n            (minimalScaling_map s.pt.scaling\n              (Sigma.desc\n                (fun b : StandardTypeABoundaryPrismRankBCell g j =>\n                  (s.ι.app ⟨b⟩).map))) t hmin\n        · have hs := (s.ι.app ⟨b⟩).scaled x hx\n          simpa only [Sigma.ι_desc] using hs }\n  fac s b := by\n    rcases b with ⟨b⟩\n    apply ScaledSSet.ScaledMap.ext\n    simp [standardTypeABoundaryPrismRankBSourceCofan,\n      standardTypeABoundaryPrismRankBSourceSigmaInclusion]\n  uniq s m hm := by\n    apply ScaledSSet.ScaledMap.ext\n    apply Sigma.hom_ext\n    intro b\n    have hb := congrArg ScaledSSet.ScaledMap.map (hm ⟨b⟩)\n    simpa [standardTypeABoundaryPrismRankBSourceCofan,\n      standardTypeABoundaryPrismRankBSourceSigmaInclusion] using hb\n",
+          "new": "noncomputable def standardTypeABoundaryPrismRankBSourceCofanIsColimit\n    (g : StandardTypeAHornAttachmentGeneratorIndex)\n    (j : ℕ) :\n    IsColimit (standardTypeABoundaryPrismRankBSourceCofan g j) where\n  desc s :=\n    { map := Sigma.desc\n        (fun b : StandardTypeABoundaryPrismRankBCell g j => (s.ι.app ⟨b⟩).map)\n      scaled := by\n        intro t ht\n        rcases ht with hmin | ⟨b, x, hx, rfl⟩\n        · exact\n            (minimalScaling_map s.pt.scaling\n              (Sigma.desc\n                (fun b : StandardTypeABoundaryPrismRankBCell g j =>\n                  (s.ι.app ⟨b⟩).map))) t hmin\n        · have hs := (s.ι.app ⟨b⟩).scaled x hx\n          change s.pt.scaling.thin\n            ((((Sigma.ι (fun _ : StandardTypeABoundaryPrismRankBCell g j => (Δ[4] : SSet.{u})) b) ≫ Sigma.desc (fun d : StandardTypeABoundaryPrismRankBCell g j => (s.ι.app ⟨d⟩).map)).app (op ⦋2⦌)) x)\n          rw [Sigma.ι_desc]\n          exact hs }\n  fac s b := by\n    rcases b with ⟨b⟩\n    apply ScaledSSet.ScaledMap.ext\n    change (Sigma.ι (fun _ : StandardTypeABoundaryPrismRankBCell g j => (Δ[4] : SSet.{u})) b) ≫ Sigma.desc (fun d : StandardTypeABoundaryPrismRankBCell g j => (s.ι.app ⟨d⟩).map) = (s.ι.app ⟨b⟩).map\n    exact Sigma.ι_desc _ b\n  uniq s m hm := by\n    apply ScaledSSet.ScaledMap.ext\n    apply Sigma.hom_ext\n    intro b\n    have hb := congrArg ScaledSSet.ScaledMap.map (hm ⟨b⟩)\n    change (Sigma.ι (fun _ : StandardTypeABoundaryPrismRankBCell g j => (Δ[4] : SSet.{u})) b) ≫ m.map =\n      (Sigma.ι (fun _ : StandardTypeABoundaryPrismRankBCell g j => (Δ[4] : SSet.{u})) b) ≫ Sigma.desc (fun d : StandardTypeABoundaryPrismRankBCell g j => (s.ι.app ⟨d⟩).map)\n    rw [Sigma.ι_desc]\n    exact hb\n"
+        },
+        {
+          "name": "cofan-target-three-properties",
+          "old": "noncomputable def standardTypeABoundaryPrismRankBTargetCofanIsColimit\n    (g : StandardTypeAHornAttachmentGeneratorIndex)\n    (j : ℕ) :\n    IsColimit (standardTypeABoundaryPrismRankBTargetCofan g j) where\n  desc s :=\n    { map := Sigma.desc\n        (fun b : StandardTypeABoundaryPrismRankBCell g j => (s.ι.app ⟨b⟩).map)\n      scaled := by\n        intro t ht\n        rcases ht with hmin | ⟨b, x, hx, rfl⟩\n        · exact\n            (minimalScaling_map s.pt.scaling\n              (Sigma.desc\n                (fun b : StandardTypeABoundaryPrismRankBCell g j =>\n                  (s.ι.app ⟨b⟩).map))) t hmin\n        · have hs := (s.ι.app ⟨b⟩).scaled x hx\n          simpa only [Sigma.ι_desc] using hs }\n  fac s b := by\n    rcases b with ⟨b⟩\n    apply ScaledSSet.ScaledMap.ext\n    simp [standardTypeABoundaryPrismRankBTargetCofan,\n      standardTypeABoundaryPrismRankBTargetSigmaInclusion]\n  uniq s m hm := by\n    apply ScaledSSet.ScaledMap.ext\n    apply Sigma.hom_ext\n    intro b\n    have hb := congrArg ScaledSSet.ScaledMap.map (hm ⟨b⟩)\n    simpa [standardTypeABoundaryPrismRankBTargetCofan,\n      standardTypeABoundaryPrismRankBTargetSigmaInclusion] using hb\n",
+          "new": "noncomputable def standardTypeABoundaryPrismRankBTargetCofanIsColimit\n    (g : StandardTypeAHornAttachmentGeneratorIndex)\n    (j : ℕ) :\n    IsColimit (standardTypeABoundaryPrismRankBTargetCofan g j) where\n  desc s :=\n    { map := Sigma.desc\n        (fun b : StandardTypeABoundaryPrismRankBCell g j => (s.ι.app ⟨b⟩).map)\n      scaled := by\n        intro t ht\n        rcases ht with hmin | ⟨b, x, hx, rfl⟩\n        · exact\n            (minimalScaling_map s.pt.scaling\n              (Sigma.desc\n                (fun b : StandardTypeABoundaryPrismRankBCell g j =>\n                  (s.ι.app ⟨b⟩).map))) t hmin\n        · have hs := (s.ι.app ⟨b⟩).scaled x hx\n          change s.pt.scaling.thin\n            ((((Sigma.ι (fun _ : StandardTypeABoundaryPrismRankBCell g j => (Δ[4] : SSet.{u})) b) ≫ Sigma.desc (fun d : StandardTypeABoundaryPrismRankBCell g j => (s.ι.app ⟨d⟩).map)).app (op ⦋2⦌)) x)\n          rw [Sigma.ι_desc]\n          exact hs }\n  fac s b := by\n    rcases b with ⟨b⟩\n    apply ScaledSSet.ScaledMap.ext\n    change (Sigma.ι (fun _ : StandardTypeABoundaryPrismRankBCell g j => (Δ[4] : SSet.{u})) b) ≫ Sigma.desc (fun d : StandardTypeABoundaryPrismRankBCell g j => (s.ι.app ⟨d⟩).map) = (s.ι.app ⟨b⟩).map\n    exact Sigma.ι_desc _ b\n  uniq s m hm := by\n    apply ScaledSSet.ScaledMap.ext\n    apply Sigma.hom_ext\n    intro b\n    have hb := congrArg ScaledSSet.ScaledMap.map (hm ⟨b⟩)\n    change (Sigma.ι (fun _ : StandardTypeABoundaryPrismRankBCell g j => (Δ[4] : SSet.{u})) b) ≫ m.map =\n      (Sigma.ι (fun _ : StandardTypeABoundaryPrismRankBCell g j => (Δ[4] : SSet.{u})) b) ≫ Sigma.desc (fun d : StandardTypeABoundaryPrismRankBCell g j => (s.ι.app ⟨d⟩).map)\n    rw [Sigma.ι_desc]\n    exact hb\n"
+        }
+      ],
+      "expected_blob": "bb4e5d6e2aa4e7ba89b05fa385a039a5e821eb2a"
+    },
+    {
+      "name": "v175-v2-bmap-desc",
+      "patches": [
+        {
+          "name": "open-scaling-namespace",
+          "old": "open KUOS.DependentOriginationStandardTypeAScaledHornFamilyV1_49\n",
+          "new": "open KUOS.DependentOriginationStandardTypeAScaledHornFamilyV1_49\nopen KUOS.DependentOriginationStandardTypeAScaledPushoutSourceEnrichmentV1_53\n"
+        },
+        {
+          "name": "first-then-simp",
+          "old": "              (Nat.le_succ j))) := by simp [Category.assoc]",
+          "new": "              (Nat.le_succ j))) := by simp"
+        },
+        {
+          "name": "rank-square-morphism-path",
+          "old": "          rw [(standardTypeABoundaryPrismRankFunction.{u} g).w j]",
+          "new": "          simpa only [Category.assoc] using\n            congrArg (fun f => c.ιSigmaHorn ≫ f)\n              ((standardTypeABoundaryPrismRankFunction.{u} g).w j).symm"
+        },
+        {
+          "name": "bcell-valid-function-clauses",
+          "old": "    StandardTypeABoundaryPrismRankBCell g j →\n      (standardTypeABoundaryPrismRankFunction.{u} g).Cell j\n  | .q12 c _ => c\n  | .q23 c _ => c",
+          "new": "    StandardTypeABoundaryPrismRankBCell g j →\n      (standardTypeABoundaryPrismRankFunction.{u} g).Cell j :=\n  fun b => match b with\n    | .q12 c _ => c\n    | .q23 c _ => c"
+        },
+        {
+          "name": "cofan-source-three-properties",
+          "old": "noncomputable def standardTypeABoundaryPrismRankBSourceCofanIsColimit\n    (g : StandardTypeAHornAttachmentGeneratorIndex)\n    (j : ℕ) :\n    IsColimit (standardTypeABoundaryPrismRankBSourceCofan g j) where\n  desc s :=\n    { map := Sigma.desc\n        (fun b : StandardTypeABoundaryPrismRankBCell g j => (s.ι.app ⟨b⟩).map)\n      scaled := by\n        intro t ht\n        rcases ht with hmin | ⟨b, x, hx, rfl⟩\n        · exact\n            (minimalScaling_map s.pt.scaling\n              (Sigma.desc\n                (fun b : StandardTypeABoundaryPrismRankBCell g j =>\n                  (s.ι.app ⟨b⟩).map))) t hmin\n        · have hs := (s.ι.app ⟨b⟩).scaled x hx\n          simpa only [Sigma.ι_desc] using hs }\n  fac s b := by\n    rcases b with ⟨b⟩\n    apply ScaledSSet.ScaledMap.ext\n    simp [standardTypeABoundaryPrismRankBSourceCofan,\n      standardTypeABoundaryPrismRankBSourceSigmaInclusion]\n  uniq s m hm := by\n    apply ScaledSSet.ScaledMap.ext\n    apply Sigma.hom_ext\n    intro b\n    have hb := congrArg ScaledSSet.ScaledMap.map (hm ⟨b⟩)\n    simpa [standardTypeABoundaryPrismRankBSourceCofan,\n      standardTypeABoundaryPrismRankBSourceSigmaInclusion] using hb\n",
+          "new": "noncomputable def standardTypeABoundaryPrismRankBSourceCofanIsColimit\n    (g : StandardTypeAHornAttachmentGeneratorIndex)\n    (j : ℕ) :\n    IsColimit (standardTypeABoundaryPrismRankBSourceCofan g j) where\n  desc s :=\n    { map := Sigma.desc\n        (fun b : StandardTypeABoundaryPrismRankBCell g j => (s.ι.app ⟨b⟩).map)\n      scaled := by\n        intro t ht\n        rcases ht with hmin | ⟨b, x, hx, rfl⟩\n        · exact\n            (minimalScaling_map s.pt.scaling\n              (Sigma.desc\n                (fun b : StandardTypeABoundaryPrismRankBCell g j =>\n                  (s.ι.app ⟨b⟩).map))) t hmin\n        · have hs := (s.ι.app ⟨b⟩).scaled x hx\n          change s.pt.scaling.thin\n            ((((Sigma.ι (fun _ : StandardTypeABoundaryPrismRankBCell g j => (Δ[4] : SSet.{u})) b) ≫ Sigma.desc (fun d : StandardTypeABoundaryPrismRankBCell g j => (s.ι.app ⟨d⟩).map)).app (op ⦋2⦌)) x)\n          rw [Sigma.ι_desc]\n          exact hs }\n  fac s b := by\n    rcases b with ⟨b⟩\n    apply ScaledSSet.ScaledMap.ext\n    change (Sigma.ι (fun _ : StandardTypeABoundaryPrismRankBCell g j => (Δ[4] : SSet.{u})) b) ≫ Sigma.desc (fun d : StandardTypeABoundaryPrismRankBCell g j => (s.ι.app ⟨d⟩).map) = (s.ι.app ⟨b⟩).map\n    exact Sigma.ι_desc _ b\n  uniq s m hm := by\n    apply ScaledSSet.ScaledMap.ext\n    apply Sigma.hom_ext\n    intro b\n    have hb := congrArg ScaledSSet.ScaledMap.map (hm ⟨b⟩)\n    change (Sigma.ι (fun _ : StandardTypeABoundaryPrismRankBCell g j => (Δ[4] : SSet.{u})) b) ≫ m.map =\n      (Sigma.ι (fun _ : StandardTypeABoundaryPrismRankBCell g j => (Δ[4] : SSet.{u})) b) ≫ Sigma.desc (fun d : StandardTypeABoundaryPrismRankBCell g j => (s.ι.app ⟨d⟩).map)\n    rw [Sigma.ι_desc]\n    exact hb\n"
+        },
+        {
+          "name": "cofan-target-three-properties",
+          "old": "noncomputable def standardTypeABoundaryPrismRankBTargetCofanIsColimit\n    (g : StandardTypeAHornAttachmentGeneratorIndex)\n    (j : ℕ) :\n    IsColimit (standardTypeABoundaryPrismRankBTargetCofan g j) where\n  desc s :=\n    { map := Sigma.desc\n        (fun b : StandardTypeABoundaryPrismRankBCell g j => (s.ι.app ⟨b⟩).map)\n      scaled := by\n        intro t ht\n        rcases ht with hmin | ⟨b, x, hx, rfl⟩\n        · exact\n            (minimalScaling_map s.pt.scaling\n              (Sigma.desc\n                (fun b : StandardTypeABoundaryPrismRankBCell g j =>\n                  (s.ι.app ⟨b⟩).map))) t hmin\n        · have hs := (s.ι.app ⟨b⟩).scaled x hx\n          simpa only [Sigma.ι_desc] using hs }\n  fac s b := by\n    rcases b with ⟨b⟩\n    apply ScaledSSet.ScaledMap.ext\n    simp [standardTypeABoundaryPrismRankBTargetCofan,\n      standardTypeABoundaryPrismRankBTargetSigmaInclusion]\n  uniq s m hm := by\n    apply ScaledSSet.ScaledMap.ext\n    apply Sigma.hom_ext\n    intro b\n    have hb := congrArg ScaledSSet.ScaledMap.map (hm ⟨b⟩)\n    simpa [standardTypeABoundaryPrismRankBTargetCofan,\n      standardTypeABoundaryPrismRankBTargetSigmaInclusion] using hb\n",
+          "new": "noncomputable def standardTypeABoundaryPrismRankBTargetCofanIsColimit\n    (g : StandardTypeAHornAttachmentGeneratorIndex)\n    (j : ℕ) :\n    IsColimit (standardTypeABoundaryPrismRankBTargetCofan g j) where\n  desc s :=\n    { map := Sigma.desc\n        (fun b : StandardTypeABoundaryPrismRankBCell g j => (s.ι.app ⟨b⟩).map)\n      scaled := by\n        intro t ht\n        rcases ht with hmin | ⟨b, x, hx, rfl⟩\n        · exact\n            (minimalScaling_map s.pt.scaling\n              (Sigma.desc\n                (fun b : StandardTypeABoundaryPrismRankBCell g j =>\n                  (s.ι.app ⟨b⟩).map))) t hmin\n        · have hs := (s.ι.app ⟨b⟩).scaled x hx\n          change s.pt.scaling.thin\n            ((((Sigma.ι (fun _ : StandardTypeABoundaryPrismRankBCell g j => (Δ[4] : SSet.{u})) b) ≫ Sigma.desc (fun d : StandardTypeABoundaryPrismRankBCell g j => (s.ι.app ⟨d⟩).map)).app (op ⦋2⦌)) x)\n          rw [Sigma.ι_desc]\n          exact hs }\n  fac s b := by\n    rcases b with ⟨b⟩\n    apply ScaledSSet.ScaledMap.ext\n    change (Sigma.ι (fun _ : StandardTypeABoundaryPrismRankBCell g j => (Δ[4] : SSet.{u})) b) ≫ Sigma.desc (fun d : StandardTypeABoundaryPrismRankBCell g j => (s.ι.app ⟨d⟩).map) = (s.ι.app ⟨b⟩).map\n    exact Sigma.ι_desc _ b\n  uniq s m hm := by\n    apply ScaledSSet.ScaledMap.ext\n    apply Sigma.hom_ext\n    intro b\n    have hb := congrArg ScaledSSet.ScaledMap.map (hm ⟨b⟩)\n    change (Sigma.ι (fun _ : StandardTypeABoundaryPrismRankBCell g j => (Δ[4] : SSet.{u})) b) ≫ m.map =\n      (Sigma.ι (fun _ : StandardTypeABoundaryPrismRankBCell g j => (Δ[4] : SSet.{u})) b) ≫ Sigma.desc (fun d : StandardTypeABoundaryPrismRankBCell g j => (s.ι.app ⟨d⟩).map)\n    rw [Sigma.ι_desc]\n    exact hb\n"
+        },
+        {
+          "name": "BSource-desc-scaled",
+          "old": "    · have hs := (standardTypeABoundaryPrismRankBCellSourceToAPhase g j b).scaled x hx\n      simpa only [Sigma.ι_desc] using hs",
+          "new": "    · have hs := (standardTypeABoundaryPrismRankBCellSourceToAPhase g j b).scaled x hx\n      change (standardTypeABoundaryPrismRankAPhaseScaling g j).thin\n        ((((Sigma.ι (fun _ : StandardTypeABoundaryPrismRankBCell g j => (Δ[4] : SSet.{u})) b) ≫ Sigma.desc (fun d : StandardTypeABoundaryPrismRankBCell g j => (standardTypeABoundaryPrismRankBCellSourceToAPhase g j d).map)).app (op ⦋2⦌)) x)\n      rw [Sigma.ι_desc]\n      exact hs"
+        },
+        {
+          "name": "BTarget-desc-scaled",
+          "old": "    · have hs := (standardTypeABoundaryPrismRankBCellTargetToSucc g j b).scaled x hx\n      simpa only [Sigma.ι_desc] using hs",
+          "new": "    · have hs := (standardTypeABoundaryPrismRankBCellTargetToSucc g j b).scaled x hx\n      change (standardTypeABoundaryPrismRankStageScaling g (j + 1)).thin\n        ((((Sigma.ι (fun _ : StandardTypeABoundaryPrismRankBCell g j => (Δ[4] : SSet.{u})) b) ≫ Sigma.desc (fun d : StandardTypeABoundaryPrismRankBCell g j => (standardTypeABoundaryPrismRankBCellTargetToSucc g j d).map)).app (op ⦋2⦌)) x)\n      rw [Sigma.ι_desc]\n      exact hs"
+        },
+        {
+          "name": "BSourceTarget-maps",
+          "old": "  simpa [standardTypeABoundaryPrismRankBSourceSigmaToAPhase,\n    standardTypeABoundaryPrismRankBTargetSigmaToSucc] using\n    standardTypeABoundaryPrismRankBCell_source_target_map_eq g j b",
+          "new": "  change (Sigma.ι (fun _ : StandardTypeABoundaryPrismRankBCell g j => (Δ[4] : SSet.{u})) b) ≫ Sigma.desc (fun d : StandardTypeABoundaryPrismRankBCell g j => (standardTypeABoundaryPrismRankBCellSourceToAPhase g j d).map) =\n    (Sigma.ι (fun _ : StandardTypeABoundaryPrismRankBCell g j => (Δ[4] : SSet.{u})) b) ≫ Sigma.desc (fun d : StandardTypeABoundaryPrismRankBCell g j => (standardTypeABoundaryPrismRankBCellTargetToSucc g j d).map)\n  rw [Sigma.ι_desc, Sigma.ι_desc]\n  exact standardTypeABoundaryPrismRankBCell_source_target_map_eq g j b"
+        },
+        {
+          "name": "mk-universe",
+          "old": "  refine MorphismProperty.colimitsOfShape.mk'\n    (Discrete.functor",
+          "new": "  refine MorphismProperty.colimitsOfShape.mk'.{u, u+1, u, u}\n    (Discrete.functor"
+        }
+      ],
+      "expected_blob": "217ca069b5a1a6e7310c2ca0f32bcc452c92cd09"
+    }
+  ]
+}
