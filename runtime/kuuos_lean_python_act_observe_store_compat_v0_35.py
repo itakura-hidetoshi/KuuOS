@@ -140,7 +140,10 @@ def audit_native_act_observe_store_compatibility(
     try:
         act = _packet(act_state, "ActOS")
         observe = _packet(observe_state, "ObserveOS")
-        if not all(type(v) is str or type(v) is Path
+        # pathlib.Path is a factory on POSIX/Windows; the concrete class
+        # is PosixPath/WindowsPath. Strict `type(v) is Path` rejects
+        # genuine native store roots. Keep text paths exactly built-in str.
+        if not all(type(v) is str or isinstance(v, Path)
                    for v in (original_act_store_root, original_observe_store_root)):
             return _hold(BLOCKED, "trusted_store_paths_required")
         act_root = Path(original_act_store_root)
