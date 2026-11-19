@@ -24,12 +24,11 @@ from runtime.kuuos_lean_python_memory_world_local_compat_v0_32 import (
     audit_memory_world_compatibility,
     SCOPED_STORE, SCOPED_COMMIT, NO_DATA, BLOCKED,
 )
-from tests.test_authorized_atomic_world_commit_v0_34 import (
-    AuthorizedAtomicWorldCommitV034Test,
-)
-from tests.test_memoryos_qi_world_blocker_integration_v0_35 import (
-    MemoryOSQiWorldBlockerIntegrationV035Tests,
-)
+# Keep fixture TestCase classes behind *module* aliases: unittest's
+# extension discovery treats directly imported TestCase classes as tests
+# in every importing module, producing duplicate_extension_test_id.
+from tests import test_authorized_atomic_world_commit_v0_34 as world_fixture_module
+from tests import test_memoryos_qi_world_blocker_integration_v0_35 as memory_fixture_module
 
 
 class NativeMemoryWorldLocalCompatibilityTests(unittest.TestCase):
@@ -38,7 +37,7 @@ class NativeMemoryWorldLocalCompatibilityTests(unittest.TestCase):
         cls.tmp = TemporaryDirectory(prefix="kuuos-memory-world-v032-")
         cls.addClassCleanup(cls.tmp.cleanup)
         cls.root = Path(cls.tmp.name)
-        cls.world_fixture = AuthorizedAtomicWorldCommitV034Test(
+        cls.world_fixture = world_fixture_module.AuthorizedAtomicWorldCommitV034Test(
             "test_atomic_commit_updates_pointer_and_appends_immutable_receipt")
         cls.disposition = cls.world_fixture.disposition_chain()
         cls.authorization = cls.world_fixture.authorization(cls.disposition)
@@ -49,7 +48,7 @@ class NativeMemoryWorldLocalCompatibilityTests(unittest.TestCase):
             cls.path, cls.disposition, cls.authorization, cls.request)
         if cls.result.status != "COMMITTED":
             raise AssertionError("native_world_v034_not_committed")
-        cls.memory_fixture = MemoryOSQiWorldBlockerIntegrationV035Tests(
+        cls.memory_fixture = memory_fixture_module.MemoryOSQiWorldBlockerIntegrationV035Tests(
             "test_genesis_snapshot_preserves_three_contexts_without_authority")
         # The real native WORLD validator is used. Only upstream
         # episode and blocker providers are patched, hence no external
