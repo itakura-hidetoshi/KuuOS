@@ -58,6 +58,25 @@ class NativeMemoryWorldCompatibilitySourceTests(unittest.TestCase):
             self.assertIn("v032_local_compatibility_entrypoint_missing",
                           checker.check_sources(checker.ROOT))
 
+    def test_direct_fixture_testcase_import_is_staticaly_forbidden(self):
+        # Regression for PR CI #44467037785 duplicate_extension_test_id:
+        # imported unittest.TestCase fixture classes are rediscovered.
+        path = checker.NEW[2]
+        original = checker._read
+
+        def imported_fixture(root: Path, selected: str):
+            if selected == path:
+                return (
+                    b"from tests.test_authorized_atomic_world_commit_v0_34 "
+                    b"import AuthorizedAtomicWorldCommitV034Test\\n",
+                    None,
+                )
+            return original(root, selected)
+
+        with patch.object(checker, "_read", side_effect=imported_fixture):
+            failures = checker.check_sources(checker.ROOT)
+        self.assertIn("v032_direct_fixture_testcase_import_forbidden", failures)
+
     def test_full_two_class_regression_inventory(self):
         x = checker.inventory(checker.ROOT)
         self.assertEqual(set(x), set(checker.CLASSES))
