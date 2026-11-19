@@ -1,0 +1,93 @@
+{
+  "schema": "kuuos_v175_codeai_cast_pushout_hunks_v10",
+  "baseline_blob": "796956dbb2622c3d232d1574798e59cf43606ed9",
+  "original_blob": "ac0abc7aa8f7c52c45ac0e2ed13d0cae71ada978",
+  "historical_unchanged": true,
+  "public_declarations_preserved": 31,
+  "variants": [
+    {
+      "name": "v175-v10-q-rfl",
+      "patches": [
+        {
+          "name": "q_rfl",
+          "mode": "literal",
+          "old": "  cases b with\n  | q12 c h =>\n      subst_vars\n      simp [standardTypeABoundaryPrismRankBCellSourceToAPhase,\n        standardTypeABoundaryPrismRankBCellTargetToSucc,\n        standardTypeABoundaryPrismCellQ12SourceIso,\n        standardTypeABoundaryPrismCellQ12TargetIso,\n        standardTypeABoundaryPrismCellScalingIsoToThree,\n        scalingEqualityIso,\n        scalingEnrichmentPushoutLowerMap,\n        scalingEnrichmentPushoutUpperMap,\n        standardTypeABoundaryPrismCellAPushoutTargetToAPhase,\n        standardTypeABoundaryPrismScaledCellTargetToRankSucc]\n  | q23 c h =>\n      subst_vars\n      simp [standardTypeABoundaryPrismRankBCellSourceToAPhase,\n        standardTypeABoundaryPrismRankBCellTargetToSucc,\n        standardTypeABoundaryPrismCellQ23SourceIso,\n        standardTypeABoundaryPrismCellQ23TargetIso,\n        standardTypeABoundaryPrismCellScalingIsoToThree,\n        scalingEqualityIso,\n        scalingEnrichmentPushoutLowerMap,\n        scalingEnrichmentPushoutUpperMap,\n        standardTypeABoundaryPrismCellAPushoutTargetToAPhase,\n        standardTypeABoundaryPrismScaledCellTargetToRankSucc]",
+          "new": "  cases b with\n  | q12 c h => rfl\n  | q23 c h => rfl",
+          "count": 1
+        }
+      ],
+      "base": "v175-v9-sigma-u",
+      "expected_blob": "0e35a214adb2b2c216f17b98799ea2efbaecd521"
+    },
+    {
+      "name": "v175-v10-q-simp-iso",
+      "patches": [
+        {
+          "name": "q_simp_iso",
+          "mode": "literal",
+          "old": "  cases b with\n  | q12 c h =>\n      subst_vars\n      simp [standardTypeABoundaryPrismRankBCellSourceToAPhase,\n        standardTypeABoundaryPrismRankBCellTargetToSucc,\n        standardTypeABoundaryPrismCellQ12SourceIso,\n        standardTypeABoundaryPrismCellQ12TargetIso,\n        standardTypeABoundaryPrismCellScalingIsoToThree,\n        scalingEqualityIso,\n        scalingEnrichmentPushoutLowerMap,\n        scalingEnrichmentPushoutUpperMap,\n        standardTypeABoundaryPrismCellAPushoutTargetToAPhase,\n        standardTypeABoundaryPrismScaledCellTargetToRankSucc]\n  | q23 c h =>\n      subst_vars\n      simp [standardTypeABoundaryPrismRankBCellSourceToAPhase,\n        standardTypeABoundaryPrismRankBCellTargetToSucc,\n        standardTypeABoundaryPrismCellQ23SourceIso,\n        standardTypeABoundaryPrismCellQ23TargetIso,\n        standardTypeABoundaryPrismCellScalingIsoToThree,\n        scalingEqualityIso,\n        scalingEnrichmentPushoutLowerMap,\n        scalingEnrichmentPushoutUpperMap,\n        standardTypeABoundaryPrismCellAPushoutTargetToAPhase,\n        standardTypeABoundaryPrismScaledCellTargetToRankSucc]",
+          "new": "  cases b with\n  | q12 c h =>\n      simp only [standardTypeABoundaryPrismRankBCellSourceToAPhase,\n        standardTypeABoundaryPrismRankBCellTargetToSucc,\n        ScaledSSet.ScaledMap.comp_map, Category.assoc,\n        standardTypeABoundaryPrismCellQ12SourceIso,\n        standardTypeABoundaryPrismCellQ12TargetIso,\n        Iso.trans_inv, scalingEqualityIso_inv_map,\n        Category.comp_id, Category.id_comp]\n  | q23 c h =>\n      simp only [standardTypeABoundaryPrismRankBCellSourceToAPhase,\n        standardTypeABoundaryPrismRankBCellTargetToSucc,\n        ScaledSSet.ScaledMap.comp_map, Category.assoc,\n        standardTypeABoundaryPrismCellQ23SourceIso,\n        standardTypeABoundaryPrismCellQ23TargetIso,\n        Iso.trans_inv, scalingEqualityIso_inv_map,\n        Category.comp_id, Category.id_comp]",
+          "count": 1
+        }
+      ],
+      "base": "v175-v9-sigma-u",
+      "expected_blob": "9acdb8333e575a5ea90284bdf315c43c55d5016f"
+    },
+    {
+      "name": "v175-v10-q-simp-iso-rfl",
+      "patches": [
+        {
+          "name": "q_simp_iso_rfl",
+          "mode": "literal",
+          "old": "  cases b with\n  | q12 c h =>\n      subst_vars\n      simp [standardTypeABoundaryPrismRankBCellSourceToAPhase,\n        standardTypeABoundaryPrismRankBCellTargetToSucc,\n        standardTypeABoundaryPrismCellQ12SourceIso,\n        standardTypeABoundaryPrismCellQ12TargetIso,\n        standardTypeABoundaryPrismCellScalingIsoToThree,\n        scalingEqualityIso,\n        scalingEnrichmentPushoutLowerMap,\n        scalingEnrichmentPushoutUpperMap,\n        standardTypeABoundaryPrismCellAPushoutTargetToAPhase,\n        standardTypeABoundaryPrismScaledCellTargetToRankSucc]\n  | q23 c h =>\n      subst_vars\n      simp [standardTypeABoundaryPrismRankBCellSourceToAPhase,\n        standardTypeABoundaryPrismRankBCellTargetToSucc,\n        standardTypeABoundaryPrismCellQ23SourceIso,\n        standardTypeABoundaryPrismCellQ23TargetIso,\n        standardTypeABoundaryPrismCellScalingIsoToThree,\n        scalingEqualityIso,\n        scalingEnrichmentPushoutLowerMap,\n        scalingEnrichmentPushoutUpperMap,\n        standardTypeABoundaryPrismCellAPushoutTargetToAPhase,\n        standardTypeABoundaryPrismScaledCellTargetToRankSucc]",
+          "new": "  cases b with\n  | q12 c h =>\n      simp only [standardTypeABoundaryPrismRankBCellSourceToAPhase,\n        standardTypeABoundaryPrismRankBCellTargetToSucc,\n        Category.assoc, Iso.trans_inv, scalingEqualityIso_inv_map,\n        Category.comp_id, Category.id_comp,\n        standardTypeABoundaryPrismCellQ12SourceIso,\n        standardTypeABoundaryPrismCellQ12TargetIso]\n      rfl\n  | q23 c h =>\n      simp only [standardTypeABoundaryPrismRankBCellSourceToAPhase,\n        standardTypeABoundaryPrismRankBCellTargetToSucc,\n        Category.assoc, Iso.trans_inv, scalingEqualityIso_inv_map,\n        Category.comp_id, Category.id_comp,\n        standardTypeABoundaryPrismCellQ23SourceIso,\n        standardTypeABoundaryPrismCellQ23TargetIso]\n      rfl",
+          "count": 1
+        }
+      ],
+      "base": "v175-v9-sigma-u",
+      "expected_blob": "8253d1406080e13a36b68f18cedc4f79a99f4bf2"
+    },
+    {
+      "name": "v175-v10-pushout-iso",
+      "patches": [
+        {
+          "name": "pushout_iso",
+          "mode": "literal",
+          "old": "  have h := generatedPushout_isPushout\n    (standardTypeABoundaryPrismRankBSourceSigmaToAPhase g j)\n    (standardTypeABoundaryPrismRankBSigmaGeneratorHom g j)\n    (𝟙 _)\n    (standardTypeABoundaryPrismRankBTargetSigmaToSucc g j).map\n    (standardTypeABoundaryPrism_rankB_underlying_isPushout g j)\n  simpa [generatedPushoutInl, generatedPushoutInr, generatedPushoutTarget,\n    standardTypeABoundaryPrismRankAPhaseToSucc,\n    standardTypeABoundaryPrismRankBGeneratedPushoutScaling_eq_succ g j] using h",
+          "new": "  have h := generatedPushout_isPushout\n    (standardTypeABoundaryPrismRankBSourceSigmaToAPhase g j)\n    (standardTypeABoundaryPrismRankBSigmaGeneratorHom g j)\n    (𝟙 _)\n    (standardTypeABoundaryPrismRankBTargetSigmaToSucc g j).map\n    (standardTypeABoundaryPrism_rankB_underlying_isPushout g j)\n  let e :\n      generatedPushoutTarget\n        (standardTypeABoundaryPrismRankAPhaseScaling g j)\n        (standardTypeABoundaryPrismRankBTargetSigmaScaling g j)\n        (𝟙 _)\n        (standardTypeABoundaryPrismRankBTargetSigmaToSucc g j).map ≅\n          standardTypeABoundaryPrismRankStage g (j + 1) :=\n    scalingEqualityIso _ _\n      (standardTypeABoundaryPrismRankBGeneratedPushoutScaling_eq_succ g j)\n  refine h.of_iso (Iso.refl _) (Iso.refl _) (Iso.refl _) e ?_ ?_ ?_ ?_\n  · rfl\n  · rfl\n  · apply ScaledSSet.ScaledMap.ext\n    have hemap : e.hom.map = 𝟙 _ := by\n      exact scalingEqualityIso_hom_map _ _ _\n    change (𝟙 (standardTypeABoundaryPrismRankAPhase g j).carrier) ≫ e.hom.map =\n      (𝟙 (standardTypeABoundaryPrismRankAPhase g j).carrier) ≫\n        (standardTypeABoundaryPrismRankAPhaseToSucc g j).map\n    simp only [hemap, Category.comp_id, Category.id_comp,\n      standardTypeABoundaryPrismRankAPhaseToSucc_map]\n  · apply ScaledSSet.ScaledMap.ext\n    have hemap : e.hom.map = 𝟙 _ := by\n      exact scalingEqualityIso_hom_map _ _ _\n    change (standardTypeABoundaryPrismRankBTargetSigmaToSucc g j).map ≫ e.hom.map =\n      (𝟙 (standardTypeABoundaryPrismRankBTargetSigma g j).carrier) ≫\n        (standardTypeABoundaryPrismRankBTargetSigmaToSucc g j).map\n    simpa only [hemap] using\n      ((Category.comp_id (standardTypeABoundaryPrismRankBTargetSigmaToSucc g j).map).trans\n        (Category.id_comp (standardTypeABoundaryPrismRankBTargetSigmaToSucc g j).map).symm)",
+          "count": 1
+        }
+      ],
+      "base": "v175-v9-sigma-u",
+      "expected_blob": "654f05cea1f47420e96f01616f49506973ef677b"
+    },
+    {
+      "name": "v175-v10-hmem-successor",
+      "patches": [
+        {
+          "name": "hmem_order_successor",
+          "mode": "literal",
+          "old": "    have hmem :\n        t ∈\n          Set.range\n              ((SSet.Subcomplex.homOfLE\n                ((standardTypeABoundaryPrismRankFunction.{u} g).filtration_monotone\n                  (Order.le_succ j))).app (op ⦋2⦌)) ⊔\n            Set.range\n              (((standardTypeABoundaryPrismRankFunction.{u} g).b j).app\n                (op ⦋2⦌)) := by\n      rw [(standardTypeABoundaryPrismRankFunction.{u} g).range_homOfLE_app_union_range_b_app\n        j (op ⦋2⦌)]\n      exact Set.mem_univ t",
+          "new": "    have hj : Order.succ j = j + 1 := by rfl\n    have hmem :\n        t ∈\n          Set.range\n              ((SSet.Subcomplex.homOfLE\n                ((standardTypeABoundaryPrismRankFunction.{u} g).filtration_monotone\n                  (Order.le_succ j))).app (op ⦋2⦌)) ⊔\n            Set.range\n              (((standardTypeABoundaryPrismRankFunction.{u} g).b j).app\n                (op ⦋2⦌)) := by\n      rw [(standardTypeABoundaryPrismRankFunction.{u} g).range_homOfLE_app_union_range_b_app\n        j (op ⦋2⦌)]\n      simpa only [hj] using (Set.mem_univ t)",
+          "count": 1
+        }
+      ],
+      "base": "v175-v9-sigma-u",
+      "expected_blob": "4ea4170759474b461df71bc3a428066f209fb264"
+    },
+    {
+      "name": "v175-v10-hmem-univ",
+      "patches": [
+        {
+          "name": "hmem_univ",
+          "mode": "literal",
+          "old": "    have hmem :\n        t ∈\n          Set.range\n              ((SSet.Subcomplex.homOfLE\n                ((standardTypeABoundaryPrismRankFunction.{u} g).filtration_monotone\n                  (Order.le_succ j))).app (op ⦋2⦌)) ⊔\n            Set.range\n              (((standardTypeABoundaryPrismRankFunction.{u} g).b j).app\n                (op ⦋2⦌)) := by\n      rw [(standardTypeABoundaryPrismRankFunction.{u} g).range_homOfLE_app_union_range_b_app\n        j (op ⦋2⦌)]\n      exact Set.mem_univ t",
+          "new": "    have hmem : t ∈ (Set.univ : Set\n        (((standardTypeABoundaryPrismRankFunction.{u} g).filtration (j+1) : SSet.{u}).obj (op ⦋2⦌))) :=\n      Set.mem_univ t\n    rw [← (standardTypeABoundaryPrismRankFunction.{u} g).range_homOfLE_app_union_range_b_app\n      j (op ⦋2⦌)] at hmem",
+          "count": 1
+        }
+      ],
+      "base": "v175-v9-sigma-u",
+      "expected_blob": "04c820e6f10dbc822bd1c764b1092e1b683c1c66"
+    }
+  ]
+}
