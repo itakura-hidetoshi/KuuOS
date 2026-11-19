@@ -214,6 +214,12 @@ class NativeDecisionStoreOriginTests(unittest.TestCase):
         bad["belief_gerbe_receipt_digest"] = receipt_digest(bad)
         self.assertEqual(self.audit(belief_receipt=bad).status, subject.BLOCKED)
 
+    def test_belief_boolean_flags_cannot_be_replaced_by_integer_zero(self):
+        bad = deepcopy(self.states["BeliefOSReceipt"])
+        bad["non_authority"]["execution_authority_granted"] = 0
+        bad["belief_gerbe_receipt_digest"] = receipt_digest(bad)
+        self.assertEqual(self.audit(belief_receipt=bad).status, subject.BLOCKED)
+
     def test_deleted_belief_time_cannot_be_resealed_as_original_source(self):
         bad = deepcopy(self.states["BeliefOSReceipt"])
         bad.pop("created_at_ms")
