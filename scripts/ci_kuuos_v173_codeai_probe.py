@@ -79,6 +79,30 @@ def candidates(historical: str) -> dict[str, str]:
         assert prior.blob(candidate.encode()) == item["expected_blob"]
         assert prior.inventory(candidate) == names
         variants[item["name"]] = candidate
+    # Third CodeAI generation: alternatives for final rank pushout transport.
+    # Both produce exact, public-signature-preserving disposable Lean variants.
+    manifest_v3 = json.loads(
+        pathlib.Path("scripts/kuuos_v173_codeai_cause_separated_hunks_v3.json").read_text(encoding="utf-8"))
+    assert manifest_v3["schema"] == "kuuos_v173_codeai_cause_separated_hunks_v3"
+    assert manifest_v3["base_universe_blob"] == UNIVERSE_LOCK
+    assert manifest_v3["public_declarations_preserved"] == 21
+    assert manifest_v3["source_unmodified"] is True
+    for item in manifest_v3["variants"]:
+        assert item["name"] not in variants
+        cursor = 0
+        result_lines = []
+        for h in item["patches"]:
+            start, old, new = h["start"], h["old"], h["new"]
+            assert cursor <= start <= len(base_lines)
+            assert base_lines[start:start + len(old)] == old
+            result_lines.extend(base_lines[cursor:start])
+            result_lines.extend(new)
+            cursor = start + len(old)
+        result_lines.extend(base_lines[cursor:])
+        candidate = "\n".join(result_lines)
+        assert prior.blob(candidate.encode()) == item["expected_blob"]
+        assert prior.inventory(candidate) == names
+        variants[item["name"]] = candidate
     return variants
 
 def main() -> None:
