@@ -6,9 +6,10 @@ Copyright Hidetoshi Itakura / 板倉英俊. Apache-2.0.
 
 This branch is deliberately **staged without a new PR** while v0.29
 Belief→Decision→Plural→Wa is awaiting its independent terminal CI and
-main integration. The current source parent is the v0.29 repair HEAD
-`52691b7a98a289dc154950dfef097bef7ecb4fb4`, not a
-prematurely inferred main SHA.
+main integration. The canonical v0.29 merged main SHA is
+`7a7c6412858710c344a6bd26613e687cbe6fa9aa`.
+Its previously certified source SHA was
+`52691b7a98a289dc154950dfef097bef7ecb4fb4`.
 
 Lean: v4.30.0-rc2; mathlib:
 `5450b53e5ddc75d46418fabb605edbf36bd0beb6`.
