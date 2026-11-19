@@ -8,12 +8,11 @@ The aim is to translate existing KuuOS Lean theorem *data conditions*
 into **the actual Python OS implementations**, using their original
 state, store and receipts, not synthetic witness dictionaries.
 
-Research parent: staged v0.30 CodeAI source SHA
-`6efdff6a1675fc561615623a1541a5a875cd487c` on
-`feat/lean-python-native-codeai-selection-v0-30`.
-Do not create a v0.31 PR or assert formal adoption until v0.30 has
-terminal independent Governance SUCCESS, been merged to canonical main,
-and this staging branch has been reconnected to that exact main.
+Canonical parent: v0.30 CodeAI merged main HEAD
+`6a7e44869d4f367cf3ffb41f75e495355d898424` after PR #3591 independent terminal Governance SUCCESS
+(94 jobs: 93 successful, 1 intentional skip). Its certified source
+HEAD was `6efdff6a1675fc561615623a1541a5a875cd487c`. This v0.31 source branch
+is additively reconciled with that exact canonical main.
 Lean v4.30.0-rc2, mathlib
 `5450b53e5ddc75d46418fabb605edbf36bd0beb6`.
 Append-only / tighten-only / overwrite-forbidden / same-root.
@@ -137,12 +136,11 @@ No original Lean source is changed; Strict Lean should skip in
 Python-only PR validation. Do not claim a new Lean theorem is
 proved merely because the corresponding Python test passes.
 
-**NO PR / NO MERGE until staging ancestry is reconciled to the
-independently certified merged v0.30 main.** Then require exact
-submitted-head Python cumulative Runtime, exact Git source/test-merge
-tree match, all paginated Governance jobs and terminal workflow
-completed/SUCCESS. Keep any failing stage in the SAME PR, no excess
-red PR proliferation.
+**PR release gate:** exact submitted-head Python cumulative
+Runtime, exact Git source/test-merge tree match, all paginated
+Governance jobs and terminal workflow completed/SUCCESS are required.
+Keep Draft and no merge until those independent receipts exist. Fix any
+failure in the SAME PR, not a proliferation of red PRs.
 
 All source-bound statements preserve distinction between:
 local original Python validation; Lean theorem consequences only
