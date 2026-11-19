@@ -26,7 +26,10 @@ EXPECTED = {
     "explicit-universe": "e2604f4d4f215b1006b32fbdea826a216ef6289b",
     "class-reducible": "5754d9899f42f342c8bc1a35362b3952f31997a8",
     "raw-cellular-typed": "69f5fe2b78510ef3b7d36fbb7b0c210202a02e62",
-    "scaled-pushout-universe": "f73c98a18e055140f75aeea012b168d0f37df2cb"
+    "scaled-pushout-universe": "f73c98a18e055140f75aeea012b168d0f37df2cb",
+    "open-v149": "d6b6db23842aafd4a54aae1f3f43a1f3a40a00b5",
+    "open-v149-inductive-where": "9eaf7fe74615bbd58ca4484c584b239656aba5f5",
+    "inductive-where-only": "e4bd12d79ecbc2f519a177329dcf98437aeebb2e"
 }
 OLD_FUNCTION = "(standardTypeABoundaryPrismRankFunction g)"
 NEW_FUNCTION = "(standardTypeABoundaryPrismRankFunction.{u} g)"
@@ -60,6 +63,21 @@ def candidates(source: str) -> dict[str, str]:
         "raw-cellular-typed": three,
         "scaled-pushout-universe": four,
     }
+    # Independent structural causes: missing v1.49 namespace and Lean4
+    # inductive constructor syntax. Preserve all original 31 declarations.
+    five = replace_once(four,
+        "open KUOS.DependentOriginationScaledTerminalRLPV1_41\\n",
+        "open KUOS.DependentOriginationScaledTerminalRLPV1_41\\n"
+        "open KUOS.DependentOriginationStandardTypeAScaledHornFamilyV1_49\\n")
+    six = replace_once(five,
+        "    (j : ℕ) : Type u\\n  | q12\\n",
+        "    (j : ℕ) : Type u where\\n  | q12\\n")
+    seven = replace_once(four,
+        "    (j : ℕ) : Type u\\n  | q12\\n",
+        "    (j : ℕ) : Type u where\\n  | q12\\n")
+    result["open-v149"] = five
+    result["open-v149-inductive-where"] = six
+    result["inductive-where-only"] = seven
     assert set(result) == set(EXPECTED)
     names = prior.inventory(source)
     assert len(names) == len(set(names)) == 31
