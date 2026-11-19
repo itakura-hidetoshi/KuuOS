@@ -196,6 +196,28 @@ def candidates(source: str) -> dict[str, str]:
         assert prior.blob(candidate.encode()) == variant["expected_blob"]
         result[variant["name"]] = candidate
         expected[variant["name"]] = variant["expected_blob"]
+    # v7: source-bound independent repairs for category equality, Sigma.desc,
+    # range surjectivity, and dependent q12/q23 transports.
+    v7 = json.loads(pathlib.Path(
+        "scripts/kuuos_v175_codeai_dep_transport_hunks_v7.json"
+    ).read_text(encoding="utf-8"))
+    assert v7["schema"] == "kuuos_v175_codeai_dep_transport_hunks_v7"
+    assert v7["original_blob"] == BASE
+    assert v7["historical_unchanged"] is True
+    assert v7["public_declarations_preserved"] == 31
+    assert len(v7["variants"]) == 5
+    assert prior.blob(result["v175-v6-cofan-closure-levels"].encode()) == v7["baseline_blob"]
+    for variant in v7["variants"]:
+        assert variant["name"] not in result
+        candidate = result[variant["base"]]
+        for patch in variant["patches"]:
+            assert patch["mode"] == "literal"
+            assert patch["count"] >= 1
+            assert candidate.count(patch["old"]) == patch["count"], (variant["name"], patch["name"])
+            candidate = candidate.replace(patch["old"], patch["new"])
+        assert prior.blob(candidate.encode()) == variant["expected_blob"], variant["name"]
+        result[variant["name"]] = candidate
+        expected[variant["name"]] = variant["expected_blob"]
     names = prior.inventory(source)
     assert len(names) == len(set(names)) == 31
     assert "inductive StandardTypeABoundaryPrismRankBCell" in source
@@ -223,6 +245,8 @@ def main() -> None:
     records = []
     try:
         for name, source in result.items():
+            if os.environ.get("V7_ONLY", "0") == "1" and not name.startswith("v175-v7-"):
+                continue
             if os.environ.get("V6_ONLY", "0") == "1" and not name.startswith("v175-v6-"):
                 continue
             if os.environ.get("V5_ONLY", "0") == "1" and not name.startswith("v175-v5-"):

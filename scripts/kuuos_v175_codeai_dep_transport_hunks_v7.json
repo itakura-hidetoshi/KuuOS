@@ -1,0 +1,205 @@
+{
+  "schema": "kuuos_v175_codeai_dep_transport_hunks_v7",
+  "baseline_blob": "26b7bec49cedaed5cb95e89487e9b85cf46ee923",
+  "original_blob": "ac0abc7aa8f7c52c45ac0e2ed13d0cae71ada978",
+  "historical_unchanged": true,
+  "public_declarations_preserved": 31,
+  "variants": [
+    {
+      "name": "v175-v7-local",
+      "base": "v175-v6-cofan-closure-levels",
+      "patches": [
+        {
+          "name": "standard-B-naturality-square",
+          "mode": "literal",
+          "old": "    simp [standardTypeABoundaryPrismRankBSourceCofan,\n      standardTypeABoundaryPrismRankBTargetCofan,\n      standardTypeABoundaryPrismRankBSourceSigmaInclusion,\n      standardTypeABoundaryPrismRankBTargetSigmaInclusion,\n      standardTypeABoundaryPrismRankBSigmaGeneratorHom,\n      standardTypeABoundaryPrismRankBGeneratorNatTrans,\n      standardTypeBGeneratorHom.{u}]",
+          "new": "    change\n      (Sigma.ι (fun _ : StandardTypeABoundaryPrismRankBCell g j =>\n        (Δ[4] : SSet.{u})) b) ≫ 𝟙 _ =\n        𝟙 _ ≫ (Sigma.ι (fun _ : StandardTypeABoundaryPrismRankBCell g j =>\n          (Δ[4] : SSet.{u})) b)\n    simp",
+          "count": 1
+        },
+        {
+          "name": "range-lemma-rewrite-v173",
+          "mode": "literal",
+          "old": "      rw [\n        (standardTypeABoundaryPrismRankFunction.{u} g).\n          range_homOfLE_app_union_range_b_app j (op ⦋2⦌)]",
+          "new": "      rw [(standardTypeABoundaryPrismRankFunction.{u} g).range_homOfLE_app_union_range_b_app\n        j (op ⦋2⦌)]",
+          "count": 1
+        },
+        {
+          "name": "expand-pushout-before-scale-rewrite",
+          "mode": "literal",
+          "old": "  rw [standardTypeABoundaryPrismRankBGeneratedPushoutScaling_eq_succ g j] at h\n  simpa [generatedPushoutInl, generatedPushoutInr, generatedPushoutTarget,\n    standardTypeABoundaryPrismRankAPhaseToSucc] using h",
+          "new": "  simpa [generatedPushoutInl, generatedPushoutInr, generatedPushoutTarget,\n    standardTypeABoundaryPrismRankAPhaseToSucc,\n    standardTypeABoundaryPrismRankBGeneratedPushoutScaling_eq_succ g j] using h",
+          "count": 1
+        }
+      ],
+      "expected_blob": "768e02f543392cf1b227ca5f61afa8bb8607df2c"
+    },
+    {
+      "name": "v175-v7-pointwise",
+      "base": "v175-v6-cofan-closure-levels",
+      "patches": [
+        {
+          "name": "source-to-ap-type-u",
+          "mode": "literal",
+          "old": "standardTypeABoundaryPrismRankBCellSourceToAPhase g j ",
+          "new": "standardTypeABoundaryPrismRankBCellSourceToAPhase.{u} g j ",
+          "count": 6
+        },
+        {
+          "name": "target-to-succ-type-u",
+          "mode": "literal",
+          "old": "standardTypeABoundaryPrismRankBCellTargetToSucc g j ",
+          "new": "standardTypeABoundaryPrismRankBCellTargetToSucc.{u} g j ",
+          "count": 9
+        }
+      ],
+      "expected_blob": "f325ba0023f3992a89b241051bedc0dd456f77aa"
+    },
+    {
+      "name": "v175-v7-combined",
+      "base": "v175-v6-cofan-closure-levels",
+      "patches": [
+        {
+          "name": "standard-B-naturality-square",
+          "mode": "literal",
+          "old": "    simp [standardTypeABoundaryPrismRankBSourceCofan,\n      standardTypeABoundaryPrismRankBTargetCofan,\n      standardTypeABoundaryPrismRankBSourceSigmaInclusion,\n      standardTypeABoundaryPrismRankBTargetSigmaInclusion,\n      standardTypeABoundaryPrismRankBSigmaGeneratorHom,\n      standardTypeABoundaryPrismRankBGeneratorNatTrans,\n      standardTypeBGeneratorHom.{u}]",
+          "new": "    change\n      (Sigma.ι (fun _ : StandardTypeABoundaryPrismRankBCell g j =>\n        (Δ[4] : SSet.{u})) b) ≫ 𝟙 _ =\n        𝟙 _ ≫ (Sigma.ι (fun _ : StandardTypeABoundaryPrismRankBCell g j =>\n          (Δ[4] : SSet.{u})) b)\n    simp",
+          "count": 1
+        },
+        {
+          "name": "range-lemma-rewrite-v173",
+          "mode": "literal",
+          "old": "      rw [\n        (standardTypeABoundaryPrismRankFunction.{u} g).\n          range_homOfLE_app_union_range_b_app j (op ⦋2⦌)]",
+          "new": "      rw [(standardTypeABoundaryPrismRankFunction.{u} g).range_homOfLE_app_union_range_b_app\n        j (op ⦋2⦌)]",
+          "count": 1
+        },
+        {
+          "name": "expand-pushout-before-scale-rewrite",
+          "mode": "literal",
+          "old": "  rw [standardTypeABoundaryPrismRankBGeneratedPushoutScaling_eq_succ g j] at h\n  simpa [generatedPushoutInl, generatedPushoutInr, generatedPushoutTarget,\n    standardTypeABoundaryPrismRankAPhaseToSucc] using h",
+          "new": "  simpa [generatedPushoutInl, generatedPushoutInr, generatedPushoutTarget,\n    standardTypeABoundaryPrismRankAPhaseToSucc,\n    standardTypeABoundaryPrismRankBGeneratedPushoutScaling_eq_succ g j] using h",
+          "count": 1
+        },
+        {
+          "name": "source-to-ap-type-u",
+          "mode": "literal",
+          "old": "standardTypeABoundaryPrismRankBCellSourceToAPhase g j ",
+          "new": "standardTypeABoundaryPrismRankBCellSourceToAPhase.{u} g j ",
+          "count": 6
+        },
+        {
+          "name": "target-to-succ-type-u",
+          "mode": "literal",
+          "old": "standardTypeABoundaryPrismRankBCellTargetToSucc g j ",
+          "new": "standardTypeABoundaryPrismRankBCellTargetToSucc.{u} g j ",
+          "count": 9
+        }
+      ],
+      "expected_blob": "2436c5891989a6840a9a6fdddc0d5a96dee9dcda"
+    },
+    {
+      "name": "v175-v7-dimension-two",
+      "base": "v175-v6-cofan-closure-levels",
+      "patches": [
+        {
+          "name": "standard-B-naturality-square",
+          "mode": "literal",
+          "old": "    simp [standardTypeABoundaryPrismRankBSourceCofan,\n      standardTypeABoundaryPrismRankBTargetCofan,\n      standardTypeABoundaryPrismRankBSourceSigmaInclusion,\n      standardTypeABoundaryPrismRankBTargetSigmaInclusion,\n      standardTypeABoundaryPrismRankBSigmaGeneratorHom,\n      standardTypeABoundaryPrismRankBGeneratorNatTrans,\n      standardTypeBGeneratorHom.{u}]",
+          "new": "    change\n      (Sigma.ι (fun _ : StandardTypeABoundaryPrismRankBCell g j =>\n        (Δ[4] : SSet.{u})) b) ≫ 𝟙 _ =\n        𝟙 _ ≫ (Sigma.ι (fun _ : StandardTypeABoundaryPrismRankBCell g j =>\n          (Δ[4] : SSet.{u})) b)\n    simp",
+          "count": 1
+        },
+        {
+          "name": "range-lemma-rewrite-v173",
+          "mode": "literal",
+          "old": "      rw [\n        (standardTypeABoundaryPrismRankFunction.{u} g).\n          range_homOfLE_app_union_range_b_app j (op ⦋2⦌)]",
+          "new": "      rw [(standardTypeABoundaryPrismRankFunction.{u} g).range_homOfLE_app_union_range_b_app\n        j (op ⦋2⦌)]",
+          "count": 1
+        },
+        {
+          "name": "expand-pushout-before-scale-rewrite",
+          "mode": "literal",
+          "old": "  rw [standardTypeABoundaryPrismRankBGeneratedPushoutScaling_eq_succ g j] at h\n  simpa [generatedPushoutInl, generatedPushoutInr, generatedPushoutTarget,\n    standardTypeABoundaryPrismRankAPhaseToSucc] using h",
+          "new": "  simpa [generatedPushoutInl, generatedPushoutInr, generatedPushoutTarget,\n    standardTypeABoundaryPrismRankAPhaseToSucc,\n    standardTypeABoundaryPrismRankBGeneratedPushoutScaling_eq_succ g j] using h",
+          "count": 1
+        },
+        {
+          "name": "source-to-ap-type-u",
+          "mode": "literal",
+          "old": "standardTypeABoundaryPrismRankBCellSourceToAPhase g j ",
+          "new": "standardTypeABoundaryPrismRankBCellSourceToAPhase.{u} g j ",
+          "count": 6
+        },
+        {
+          "name": "target-to-succ-type-u",
+          "mode": "literal",
+          "old": "standardTypeABoundaryPrismRankBCellTargetToSucc g j ",
+          "new": "standardTypeABoundaryPrismRankBCellTargetToSucc.{u} g j ",
+          "count": 9
+        },
+        {
+          "name": "q12-q23-dep-transport-dim-two",
+          "mode": "literal",
+          "old": "      subst_vars\n      simp [standardTypeABoundaryPrismRankBCellSourceToAPhase,",
+          "new": "      have hdim : c.dim = 2 := by omega\n      subst_vars\n      simp [hdim, standardTypeABoundaryPrismRankBCellSourceToAPhase,",
+          "count": 2
+        }
+      ],
+      "expected_blob": "1dd23dbb57a1271ed636daba6e619fd600488dff"
+    },
+    {
+      "name": "v175-v7-dimension-two-thin",
+      "base": "v175-v6-cofan-closure-levels",
+      "patches": [
+        {
+          "name": "standard-B-naturality-square",
+          "mode": "literal",
+          "old": "    simp [standardTypeABoundaryPrismRankBSourceCofan,\n      standardTypeABoundaryPrismRankBTargetCofan,\n      standardTypeABoundaryPrismRankBSourceSigmaInclusion,\n      standardTypeABoundaryPrismRankBTargetSigmaInclusion,\n      standardTypeABoundaryPrismRankBSigmaGeneratorHom,\n      standardTypeABoundaryPrismRankBGeneratorNatTrans,\n      standardTypeBGeneratorHom.{u}]",
+          "new": "    change\n      (Sigma.ι (fun _ : StandardTypeABoundaryPrismRankBCell g j =>\n        (Δ[4] : SSet.{u})) b) ≫ 𝟙 _ =\n        𝟙 _ ≫ (Sigma.ι (fun _ : StandardTypeABoundaryPrismRankBCell g j =>\n          (Δ[4] : SSet.{u})) b)\n    simp",
+          "count": 1
+        },
+        {
+          "name": "range-lemma-rewrite-v173",
+          "mode": "literal",
+          "old": "      rw [\n        (standardTypeABoundaryPrismRankFunction.{u} g).\n          range_homOfLE_app_union_range_b_app j (op ⦋2⦌)]",
+          "new": "      rw [(standardTypeABoundaryPrismRankFunction.{u} g).range_homOfLE_app_union_range_b_app\n        j (op ⦋2⦌)]",
+          "count": 1
+        },
+        {
+          "name": "expand-pushout-before-scale-rewrite",
+          "mode": "literal",
+          "old": "  rw [standardTypeABoundaryPrismRankBGeneratedPushoutScaling_eq_succ g j] at h\n  simpa [generatedPushoutInl, generatedPushoutInr, generatedPushoutTarget,\n    standardTypeABoundaryPrismRankAPhaseToSucc] using h",
+          "new": "  simpa [generatedPushoutInl, generatedPushoutInr, generatedPushoutTarget,\n    standardTypeABoundaryPrismRankAPhaseToSucc,\n    standardTypeABoundaryPrismRankBGeneratedPushoutScaling_eq_succ g j] using h",
+          "count": 1
+        },
+        {
+          "name": "source-to-ap-type-u",
+          "mode": "literal",
+          "old": "standardTypeABoundaryPrismRankBCellSourceToAPhase g j ",
+          "new": "standardTypeABoundaryPrismRankBCellSourceToAPhase.{u} g j ",
+          "count": 6
+        },
+        {
+          "name": "target-to-succ-type-u",
+          "mode": "literal",
+          "old": "standardTypeABoundaryPrismRankBCellTargetToSucc g j ",
+          "new": "standardTypeABoundaryPrismRankBCellTargetToSucc.{u} g j ",
+          "count": 9
+        },
+        {
+          "name": "q12-q23-dep-transport-dim-two",
+          "mode": "literal",
+          "old": "      subst_vars\n      simp [standardTypeABoundaryPrismRankBCellSourceToAPhase,",
+          "new": "      have hdim : c.dim = 2 := by omega\n      subst_vars\n      simp [hdim, standardTypeABoundaryPrismRankBCellSourceToAPhase,",
+          "count": 2
+        },
+        {
+          "name": "q12-q23-thin-dim-two",
+          "mode": "literal",
+          "old": "        subst_vars\n        simpa [standardTypeABoundaryPrismCellQ",
+          "new": "        have hdim : c.dim = 2 := by omega\n        subst_vars\n        simpa [hdim, standardTypeABoundaryPrismCellQ",
+          "count": 2
+        }
+      ],
+      "expected_blob": "d2fd3c918689f598a18b3c49815febf54efa2abe"
+    }
+  ]
+}
