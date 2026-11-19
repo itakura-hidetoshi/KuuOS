@@ -38,6 +38,16 @@ PR2339_INTEGRATED_PROOF_BLOBS = {
 }
 
 
+# PR #3522 extraction: exact reviewed source repairs (v1.2–v1.5 only).
+# These explicit blob values are integrity checks, not proof certification.
+PR3522_FOCUSED_REPAIR_BLOBS = {
+    "KUOS/DependentOriginationRefinementTransitivityV1_2.lean": "5247d279787292ee350d9c676ff76094ba4abc57",
+    "KUOS/DependentOriginationDirectedCofinalSemanticsV1_3.lean": "7e448c6f56a3fca1a6fd4be18ec44ec0cefc05e3",
+    "KUOS/DependentOriginationFilteredCofinalCategoryV1_4.lean": "45e6fd51b4881849819fc5513f3d9fa9f5e34dc4",
+    "KUOS/DependentOriginationTwoCellCoherenceV1_5.lean": "42ad51fc7780c63e46ff9387a02d68b93bb27aab",
+}
+
+
 def git_blob_sha(raw: bytes) -> str:
     """Reproduce the canonical git blob hash, including its type/length prefix."""
     header = b"blob " + str(len(raw)).encode("ascii") + b"\0"
@@ -212,7 +222,8 @@ class RestoredWiringTests(unittest.TestCase):
                                      f'unique archived lint edit required: {rel}')
                     expected = expected.replace(old_fragment, new_fragment, 1)
                 current = (ROOT / 'formal' / rel).read_bytes()
-                fixed_sha = PR2339_INTEGRATED_PROOF_BLOBS.get(rel.as_posix())
+                fixed_sha = (PR2339_INTEGRATED_PROOF_BLOBS.get(rel.as_posix())
+                             or PR3522_FOCUSED_REPAIR_BLOBS.get(rel.as_posix()))
                 if fixed_sha is not None:
                     pinned_seen.add(rel.as_posix())
                     self.assertEqual(git_blob_sha(current), fixed_sha,
@@ -222,7 +233,7 @@ class RestoredWiringTests(unittest.TestCase):
                                      f'unreviewed theorem source change: {rel}')
         self.assertEqual(seen, set(LINT_ONLY_SOURCE_EDITS),
                          'reviewed lint edit targets must all exist in historical roots')
-        self.assertEqual(pinned_seen, set(PR2339_INTEGRATED_PROOF_BLOBS),
+        self.assertEqual(pinned_seen, set(PR2339_INTEGRATED_PROOF_BLOBS) | set(PR3522_FOCUSED_REPAIR_BLOBS),
                          'every preexisting integrated proof exception is explicit and accounted for')
 
     def test_f55_path_functor_composition_has_actual_path_homs(self):
