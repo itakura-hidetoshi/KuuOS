@@ -31,7 +31,7 @@ from runtime.kuuos_authorized_atomic_world_commit_entry_v0_34 import (
 )
 
 VERSION = "kuuos_lean_python_memory_world_local_compat_v0_32"
-PARENT_SOURCE = "5c072a1a914b2e1c7a0083866af87398b56e879a"
+PARENT_SOURCE = "e005206372b5a0a0d2e70d05c7342d8048d938e7"
 SCOPED_STORE = "SCOPED_MEMORY_WORLD_STORE_COMPATIBLE"
 SCOPED_COMMIT = "SCOPED_MEMORY_WORLD_COMMIT_COMPATIBLE"
 
