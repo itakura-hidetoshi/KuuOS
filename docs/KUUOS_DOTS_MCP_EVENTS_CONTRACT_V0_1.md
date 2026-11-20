@@ -1697,3 +1697,53 @@ job/step/Lean axiom audit. Preserve
 `BLOCKED_MCP_EVENT_SUBSCRIPTION` until those separate
 receipts are observed. No merge/deployment/write authority follows
 from this read-only cross-system reconciliation.
+
+## Real GitHub OIDC CI-gate wake-up to synthetic HTTPS receiver (2026-11-21)
+
+This is a **later independent cross-system re-observation** of a previously
+queued validation run. It supplements, and does not overwrite, the earlier
+time-scoped observation in the seven-receipt reconciliation.
+
+- The exact-source GitHub Actions
+  [#44836227181](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/44836227181)
+  on `37eed415a20e8aaaabd220043779881345e451bb`
+  became **completed/SUCCESS**. Four jobs separately returned SUCCESS:
+  Python validation, actual PostgreSQL 16, actual PostgreSQL 18, and
+  `Authenticate actual completed validation gates to isolated staging`.
+  This authenticates the exact source and CI job results, not Lean/axiom
+  certification or Dots receipt.
+- An independent read-only query of the isolated Neon staging
+  `br-proud-queen-ayak8zsl` then found a **new, eighth**
+  immutable GitHub OIDC source receipt for run `44836227181`,
+  attempt 1, exact SHA `37eed415a20e8aaaabd220043779881345e451bb`,
+  received `2026-11-20T23:27:19.202Z`.
+- Crucially, a **separate** PostgreSQL event-outbox query showed
+  `name=kuuos.github.ci_gates_observed`,
+  `source_run_id=44836227181`, `state=delivered`,
+  `attempts=1` and `last_http_status=200`.
+  Thus real GitHub-issued OIDC source identity was admitted, matched
+  the then-active synthetic subscription, and the actual staging sender
+  recorded an HTTP 200 acknowledgment to that subscription's
+  external HTTPS receiver. This is not merely a mocked packet.
+- The matching subscription had `principal=kuuos-owner` (staging
+  synthetic owner), `name=kuuos.github.ci_gates_observed`,
+  callback host `sb-7k3jflx6mq8o.vercel.run`, and finite expiry
+  `2026-11-21T00:20:59.452Z`. This is a **sandbox callback,
+  not a ChatGPT/Dots callback**. No callback signing key,
+  complete callback URL, OAuth bearer or credential is recorded.
+- The other outbox entry is the earlier synthetic
+  `kuuos.github.ci_completed` event, also delivered; keep
+  the two event sources and receipts distinct. A 200 outbox status
+  alone does not prove the receiving Dot executed an independent audit.
+- The current source of truth for genuine terminal CI status is
+  GitHub's exact run/job/step API, not a sender-supplied event verdict.
+  Canonical main and existing KuuOS production were not changed;
+  no new PR was created.
+
+This demonstrates an actual authenticated
+**GitHub Actions OIDC → public staging ingress → PostgreSQL exact-ID outbox
+→ synthetic HTTPS subscriber 200** transport. It **does not**
+demonstrate an installed custom KuuOS plugin, the user's OAuth consent,
+a Dots `events/subscribe` call, a Dots webhook callback or
+post-wake-up GitHub MCP Lean-proof audit. Retain
+`BLOCKED_MCP_EVENT_SUBSCRIPTION` for Dots.
