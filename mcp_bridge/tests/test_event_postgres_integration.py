@@ -20,7 +20,7 @@ from kuuos_mcp_bridge.event_subscriptions import (
     PostgresSubscriptionStore, SubscriptionManager, ROTATION_WINDOW_SECONDS,
 )
 from kuuos_mcp_bridge.github_event_contract import (
-    CI_EVENT, MGAP_REPO, compile_ci_completed,
+    CI_EVENT, MGAP_REPO, EventContractError, compile_ci_completed,
 )
 
 DSN = os.environ.get("KUUOS_MCP_TEST_POSTGRES_DSN")
@@ -44,9 +44,9 @@ def stores():
     return PostgresSubscriptionStore(DSN, KEY), PostgresOutboxStore(DSN)
 
 
-def _manager(store):
+def _manager(store, *, owner="owner-fixture"):
     return SubscriptionManager(
-        store, authorize=lambda p, n, a: p == "owner-fixture",
+        store, authorize=lambda p, n, a: p == owner,
         verify_callback=lambda url, secret, identity: True,
         now=lambda: NOW,
     )
@@ -153,14 +153,18 @@ def test_real_postgres_two_workers_claim_only_one_pending_event(stores):
 
 def test_real_postgres_revoked_subscription_unsubscribe_is_owner_bound(stores):
     subs, _ = stores
-    manager = _manager(subs)
-    receipt = manager.subscribe("owner-fixture", _params())
+    # Use an isolated subscriber: previous tests intentionally rotated
+    # owner-fixture's key and must not silently reset that live rotation.
+    owner = "owner-revocation-fixture"
+    manager = _manager(subs, owner=owner)
+    receipt = manager.subscribe(owner, _params())
     args = {
         "name": CI_EVENT,
         "arguments": {"repository": MGAP_REPO, "workflow_name": "PR Lean Fast Check"},
         "delivery": {"mode": "webhook", "url": "https://receiver.example.org/ci-postgres"},
     }
-    manager.unsubscribe("different-owner", args)
+    with pytest.raises(EventContractError, match="event_scope_not_authorized"):
+        manager.unsubscribe("different-owner", args)
     assert subs.get(receipt["id"]) is not None
-    manager.unsubscribe("owner-fixture", args)
+    manager.unsubscribe(owner, args)
     assert subs.get(receipt["id"]) is None
