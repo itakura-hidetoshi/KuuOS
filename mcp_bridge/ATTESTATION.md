@@ -177,3 +177,115 @@ observed. Any fake or locally mounted callback is test evidence only.
 
 Persist `BLOCKED_MCP_EVENT_SUBSCRIPTION` until actual connected
 subscription/callback delivery and independent Dot audit are observed.
+
+
+## Reproducible protected Preview POST and canonical v0.49 reconciliation (2026-11-21)
+
+This append-only audit distinguishes independent **external HTTP evidence**,
+Python/PG CI, GitHub canonical history, and authority for real ChatGPT events.
+The isolated infrastructure checks below do not authorize a Dot subscription.
+
+### Real protected HTTP transport negative tests
+
+- Observed exact Preview deployment:
+  `dpl_8xqpXAqCCFvLzruAc41FY45wScvS`,
+  source `a8b960b869d28ce39dbff5a7a8588998412b9bbb`,
+  with Vercel `READY` and protected application OAuth/events enabled.
+- An ephemeral one-vCPU Vercel Sandbox
+  `sbx_Sl36nn1LeQmVtDEvxC6CAyFwyAbJ` was created with a network
+  allowlist for **only** this preview host, no persistence, and bounded
+  runtime. A temporary, Vercel-scoped share cookie was used to reach the
+  application through the platform's Preview protection; its token and
+  any staging credential were not printed or committed.
+- An actual external HTTP GET `/healthz` returned **200 JSON**.
+- An actual HTTP **POST** `/api/mcp`, JSON-RPC `initialize`, with no
+  OAuth bearer returned **401 JSON**, including
+  `WWW-Authenticate: Bearer`. This certifies reachability of the
+  application's OAuth rejection boundary, **not** authenticated MCP
+  initialization or event discovery by ChatGPT.
+- Actual HTTP **POST** to `/api/github`, using a deliberately invalid
+  HMAC-SHA256 header, returned **401 JSON**. This certifies
+  fail-closed signature rejection through the deployed route,
+  **not** a valid signed GitHub event.
+- The share-link root GET returned 404 (no application root route),
+  and the subsequent authenticated Preview-layer health and POST
+  requests succeeded or rejected at the application boundary as
+  specified. Do not misrepresent the benign root 404 as a transport
+  failure.
+- Independent Neon staging SQL after the probe showed zero OAuth
+  records, event subscriptions, outbox records and saved state rows;
+  no synthetic subscription or valid GitHub delivery was written.
+- The Sandbox session was explicitly stopped. No running background
+  monitor or task is implied.
+
+### Repeatable least-authority audit
+
+- `mcp_bridge/preview_http_probe.py` is a standard-library-only
+  probe that reads a temporary Vercel share URL solely from
+  `KUUOS_MCP_PREVIEW_SHARE_URL`; it **never echoes or saves** it.
+  It accepts only the exact known project Preview hostname pattern
+  and rejects cross-origin redirects, userinfo, extra URL arguments,
+  non-HTTPS, or invalid share query strings.
+- It checks health, protected-resource OAuth discovery, authorization
+  metadata issuer + `S256`, anonymous MCP initialize `401 Bearer`,
+  and invalid GitHub signature `401 unauthorized_event`.
+  Its output explicitly marks OAuth user authorization, subscription,
+  genuine GitHub event, Dot callback and independent GitHub re-check
+  as **false**. The probe never creates an OAuth client or sends an
+  authorized GitHub event.
+- The companion `tests/test_preview_http_probe.py` uses isolated
+  simulated HTTP responses to test URL restrictions, negative
+  security conditions and the no-authority receipt. It cannot
+  replace the real Sandbox observations above.
+- Independent exact-head Python/PG run
+  https://github.com/itakura-hidetoshi/KuuOS/actions/runs/44825344783
+  was `completed/SUCCESS` at
+  `3c5c1484e7dde2aa02a959c2c58bdbf3c4d725a9`,
+  with three SUCCESS jobs: Python **243 passed, 12 skipped,
+  1 inherited warning**; disposable PostgreSQL **16.16 12/12**
+  and **18.7 12/12**.
+
+### Canonical v0.49 synchronization (do not reuse old CI)
+
+- GitHub canonical `main` independently advanced from
+  `c9f3987b15adb0bfd818027090efd7ae85203ee4` to
+  `005b9ef0471428289b1fb9545f4ac212270df138`,
+  adding six Lean→Python v0.49 files. Its six change paths are
+  disjoint from the MCP feature changes; no overwrite or theorem
+  replacement was required.
+- Existing MCP feature branch reconciliation commit
+  `e924295c4feb6f73f8701bf815ec73beb4c07cd6`
+  has first parent `3c5c1484e7dde2aa02a959c2c58bdbf3c4d725a9`,
+  second parent canonical main `005b9ef...`, and the combined
+  exact file tree. Main was **not** modified.
+- Previous code CI `#44825344783` belongs **only** to the
+  preceding HEAD. Run and inspect new completed Python/PG CI
+  with exact reconciled HEAD after this append-only source note,
+  before claiming v0.49-integrated certification.
+
+### Real event connectivity still not established
+
+The current Vercel Preview remains protected by platform SSO;
+its temporary share link is not a stable public MCP address for the
+ChatGPT plugin. ChatGPT's supported path is to connect the server
+through **Plugins → Add custom MCP server** with an authorized
+public HTTPS endpoint, or an approved **Secure MCP Tunnel**. A
+user/workspace connection and actual OAuth consent are external
+explicit actions, not inferred from Vercel project ownership.
+
+GitHub's webhook administration/secrets API was not accessible
+through the available GitHub MCP fetch tool. Treat the source
+sender configuration as **unverified**, not proven absent. An
+MCP source can only publish user-requested events after a genuine
+authenticated ChatGPT `events/subscribe`, callback verification,
+matching source event, signed delivery and the Dot's exact independent
+GitHub MCP re-observation.
+
+Do not create a pseudo-subscriber, publish fake CI success,
+remove deployment protection or promote Preview to Production to
+paper over this external authority gate.
+
+`PREVIEW_REAL_HTTP_POST_AUTH_BOUNDARY_CERTIFIED` /
+`INVALID_GITHUB_HMAC_401_CERTIFIED` /
+`V0_49_RECONCILED_SOURCE_NEEDS_FRESH_CI` /
+`BLOCKED_MCP_EVENT_SUBSCRIPTION`.
