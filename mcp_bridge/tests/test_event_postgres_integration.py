@@ -168,3 +168,68 @@ def test_real_postgres_revoked_subscription_unsubscribe_is_owner_bound(stores):
     assert subs.get(receipt["id"]) is not None
     manager.unsubscribe(owner, args)
     assert subs.get(receipt["id"]) is None
+
+
+def test_real_postgres_migrates_legacy_subscription_without_losing_old_secret(stores):
+    """Test additive migrations against an actual pre-rotation table schema."""
+    from cryptography.hazmat.primitives.ciphers.aead import AESGCM
+    from psycopg.types.json import Jsonb
+    from kuuos_mcp_bridge.event_subscriptions import _identity
+
+    # Use a separate synthetic table so neither the existing test subscription
+    # nor any user state is touched. The service database is itself ephemeral.
+    class LegacyStore(PostgresSubscriptionStore):
+        _TABLE = "kuuos_mcp_event_subscriptions_legacy_ci"
+
+    owner = "owner-legacy-fixture"
+    arguments = {"repository": MGAP_REPO, "workflow_name": "PR Lean Fast Check"}
+    callback = "https://receiver.example.org/ci-postgres"
+    sub_id = _identity(owner, CI_EVENT, arguments, callback)
+    key = base64.b64decode(KEY, validate=True)
+    nonce = b"l" * 12  # Synthetic test-only nonce, not a production pattern.
+    old_ciphertext = nonce + AESGCM(key).encrypt(
+        nonce, ONE.encode("utf-8"), sub_id.encode("ascii")
+    )
+    with psycopg.connect(DSN) as conn:
+        conn.execute("""
+            CREATE TABLE IF NOT EXISTS kuuos_mcp_event_subscriptions_legacy_ci (
+                id TEXT PRIMARY KEY,
+                principal TEXT NOT NULL,
+                name TEXT NOT NULL,
+                arguments JSONB NOT NULL,
+                callback_url TEXT NOT NULL,
+                secret_blob BYTEA NOT NULL,
+                expires_at TIMESTAMPTZ NOT NULL,
+                verified_at TIMESTAMPTZ NOT NULL
+            )
+        """)
+        conn.execute("""
+            INSERT INTO kuuos_mcp_event_subscriptions_legacy_ci
+              (id, principal, name, arguments, callback_url, secret_blob, expires_at, verified_at)
+            VALUES (%s,%s,%s,%s,%s,%s,%s,%s)
+            ON CONFLICT (id) DO NOTHING
+        """, (
+            sub_id, owner, CI_EVENT, Jsonb(arguments), callback, old_ciphertext,
+            NOW + timedelta(days=1), NOW,
+        ))
+
+    upgraded = LegacyStore(DSN, KEY)
+    restored = upgraded.get(sub_id)
+    assert restored is not None
+    assert restored.secret == ONE
+    assert restored.previous_secret is None
+    assert restored.previous_secret_until is None
+
+    manager = _manager(upgraded, owner=owner)
+    assert manager.subscribe(owner, _params(ONE))["id"] == sub_id
+    assert manager.subscribe(owner, _params(TWO))["id"] == sub_id
+    active = upgraded.get(sub_id)
+    assert active.secret == TWO
+    assert active.previous_secret == ONE
+    with psycopg.connect(DSN) as conn:
+        row = conn.execute("""
+            SELECT secret_blob, previous_secret_blob, previous_secret_until
+            FROM kuuos_mcp_event_subscriptions_legacy_ci WHERE id = %s
+        """, (sub_id,)).fetchone()
+    assert row is not None and row[1] is not None and row[2] is not None
+    assert ONE.encode() not in bytes(row[1])
