@@ -97,3 +97,18 @@ def test_sdk_distribution_matches_packaged_events_pin():
     assert version("mcp") == sdk
     assert f'"mcp=={sdk}"' in (root / "pyproject.toml").read_text()
     assert f"mcp=={sdk}" in (root / "requirements.txt").read_text().splitlines()
+
+
+def test_runtime_pyproject_provisions_postgres_driver_without_extra():
+    """Vercel builds from pyproject.toml; PostgreSQL is not optional there."""
+    import tomllib
+    from pathlib import Path
+    from importlib.metadata import version
+
+    root = Path(__file__).resolve().parents[1]
+    document = tomllib.loads((root / "pyproject.toml").read_text())
+    dependencies = document["project"]["dependencies"]
+    declared = "psycopg[binary]>=3.2,<4"
+    assert declared in dependencies
+    assert declared in (root / "requirements.txt").read_text().splitlines()
+    assert version("psycopg").startswith("3.")
