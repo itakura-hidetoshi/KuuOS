@@ -205,3 +205,65 @@ def test_pair_issuance_rejects_noncanonical_resource_before_persistence() -> Non
             )
         )
     assert exc.value.error == "invalid_target"
+
+
+def test_pinned_mcp_public_client_revocation_requires_client_secret_form_field():
+    """Source-backed v2.3.0 protocol parser quirk; NOT authentication authority.
+
+    The public client has no client secret. The installed MCP SDK parser
+    treats nullable client_secret without a default as a required form field.
+    Sending an empty string is a client-side compatibility workaround;
+    it is not a credential and must not weaken server client authentication.
+    """
+    from importlib.metadata import version
+
+    from mcp.server.auth.handlers.revoke import RevocationRequest
+    from pydantic import ValidationError
+
+    assert version("mcp") == "2.3.0"
+    client = {
+        "token": "synthetic-token-not-valid-on-any-server",
+        "client_id": "synthetic-public-client",
+        "token_type_hint": "access_token",
+    }
+    with pytest.raises(ValidationError) as missing:
+        RevocationRequest.model_validate(client)
+    assert any(
+        error["loc"] == ("client_secret",)
+        for error in missing.value.errors()
+    )
+
+    parsed = RevocationRequest.model_validate({
+        **client, "client_secret": "",
+    })
+    assert parsed.client_id == client["client_id"]
+    assert parsed.client_secret == ""
+
+
+def test_embedded_provider_revokes_access_and_refresh_pair_together() -> None:
+    """Provider revocation closes a pair under a synthetic in-memory fixture."""
+    from mcp.server.auth.provider import AccessToken
+
+    provider = _provider()
+    deleted: list[str] = []
+    record = {"pair_id": "synthetic-pair-never-in-a-database"}
+
+    def synthetic_get(kind: str, item_key: str):
+        if kind == "access" and item_key == provider._token_key(
+            "synthetic-never-issued-access"
+        ):
+            return record
+        return None
+
+    provider._get = synthetic_get
+    provider._delete_pair = deleted.append
+    credential = AccessToken(
+        token="synthetic-never-issued-access",
+        client_id="synthetic-public-client",
+        scopes=["kuuos:read"],
+        expires_at=4_000_000_000,
+        resource=RESOURCE,
+        subject="kuuos-owner",
+    )
+    asyncio.run(provider.revoke_token(credential))
+    assert deleted == ["synthetic-pair-never-in-a-database"]
