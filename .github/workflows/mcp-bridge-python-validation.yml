@@ -29,3 +29,36 @@ jobs:
       - name: Run focused MCP bridge tests
         working-directory: mcp_bridge
         run: python -m pytest
+
+  postgres-integration:
+    name: Validate actual PostgreSQL subscription and outbox transactions
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: kuuos_events_ci
+          POSTGRES_USER: kuuos_ci
+          POSTGRES_PASSWORD: disposable-test-only
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U kuuos_ci -d kuuos_events_ci"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install MCP bridge with PostgreSQL test dependencies
+        run: python -m pip install -e "./mcp_bridge[test,postgres]"
+      - name: Exercise real PostgreSQL encrypted subscriptions and delivery leases
+        working-directory: mcp_bridge
+        env:
+          # Ephemeral service container credentials; never a production DSN.
+          KUUOS_MCP_TEST_POSTGRES_DSN: postgresql://kuuos_ci:disposable-test-only@127.0.0.1:5432/kuuos_events_ci
+        run: python -m pytest -v tests/test_event_postgres_integration.py

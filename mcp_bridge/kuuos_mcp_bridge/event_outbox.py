@@ -263,6 +263,14 @@ class PostgresOutboxStore:
         "id, subscription_id, event_id, name, packet, state, attempts, "
         "available_at, lease_token, lease_until, last_http_status"
     )
+    # UPDATE...FROM candidate has a second 'id' column. RETURNING must
+    # refer to the target alias explicitly; the unqualified SELECT list
+    # above is valid only when no candidate table is in scope.
+    _RETURNING = (
+        "work.id, work.subscription_id, work.event_id, work.name, "
+        "work.packet, work.state, work.attempts, work.available_at, "
+        "work.lease_token, work.lease_until, work.last_http_status"
+    )
 
     def enqueue(self, subscription: Subscription, event: Mapping[str, Any],
                 now: datetime) -> OutboxRecord:
@@ -307,7 +315,7 @@ class PostgresOutboxStore:
                 f"SET state='leased', attempts=work.attempts+1, "
                 f"lease_token=%s, lease_until=%s "
                 f"FROM candidate WHERE work.id=candidate.id "
-                f"RETURNING {self._SELECT}",
+                f"RETURNING {self._RETURNING}",
                 (now, now, MAX_CLAIM_ATTEMPTS, token, lease_until),
             ).fetchone()
         return self._restore(row) if row is not None else None
