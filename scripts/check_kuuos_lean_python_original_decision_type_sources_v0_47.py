@@ -105,7 +105,7 @@ def _original_fields(source: str) -> tuple[str, ...]:
         source, "structure BoundedPlanSynthesisRequestHandoffReceipt where",
         "structure BoundedPlanSynthesisRequestHandoffValid",
     )
-    return tuple(re.findall(r"^  ([a-zA-Z_]\\w*) : (?:Bool|Prop)$", body, re.M))
+    return tuple(re.findall(r"^  ([a-zA-Z_]\w*) : (?:Bool|Prop)$", body, re.M))
 
 
 def _original_validity_fields(source: str) -> tuple[str, ...]:
@@ -114,7 +114,7 @@ def _original_validity_fields(source: str) -> tuple[str, ...]:
         "(r : BoundedPlanSynthesisRequestHandoffReceipt) : Prop where",
         "theorem handoff_preserves_selected_candidate_and_decision_ownership",
     )
-    return tuple(re.findall(r"^  ([a-zA-Z_]\\w*)\\s*:", body, re.M))
+    return tuple(re.findall(r"^  ([a-zA-Z_]\w*)\s*:", body, re.M))
 
 
 def _mapped_fields(source: str) -> tuple[str, ...]:
@@ -122,7 +122,7 @@ def _mapped_fields(source: str) -> tuple[str, ...]:
         source, "structure SourceMappedDecisionHandoffReceipt where",
         "structure SourceMappedDecisionHandoffValid",
     )
-    return tuple(re.findall(r"^  ([a-zA-Z_]\\w*) : (?:Bool|Prop)$", body, re.M))
+    return tuple(re.findall(r"^  ([a-zA-Z_]\w*) : (?:Bool|Prop)$", body, re.M))
 
 
 def _mapped_validity_fields(source: str) -> tuple[str, ...]:
@@ -131,7 +131,7 @@ def _mapped_validity_fields(source: str) -> tuple[str, ...]:
         "(r : SourceMappedDecisionHandoffReceipt) : Prop where",
         "/-- Source-mapped DecisionOS keeps its five",
     )
-    return tuple(re.findall(r"^  ([a-zA-Z_]\\w*)\\s*:", body, re.M))
+    return tuple(re.findall(r"^  ([a-zA-Z_]\w*)\s*:", body, re.M))
 
 
 def check_sources(root: Path = ROOT) -> tuple[str, ...]:
