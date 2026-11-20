@@ -226,6 +226,10 @@ async def healthz(_: Request) -> JSONResponse:
             "write_ready": WRITE_ENABLED
             and isinstance(store, PostgresStateStore)
             and oauth is not None,
+            # Non-secret server-side feature inventory only. These fields do
+            # not attest a Dots subscription, callback, or GitHub CI evidence.
+            "mcp_events_adapter_loaded": event_subscription_manager is not None,
+            "github_event_ingress_loaded": event_outbox is not None,
             "canonical_sha": os.environ.get("KUUOS_MCP_CANONICAL_SHA")
             or state.get("canonical_sha"),
         }
