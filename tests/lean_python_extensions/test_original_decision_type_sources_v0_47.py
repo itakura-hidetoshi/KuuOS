@@ -49,6 +49,57 @@ class OriginalDecisionTypeSourceTests(unittest.TestCase):
             self.assertEqual(lake.count('"' + module + '"'), 1, module)
         self.assertNotIn('"KuuOS.*"', lake)
 
+    def test_historical_temperature_source_exactly_one_proof_fix(self):
+        baseline, error = checker._read(
+            checker.ROOT, checker.LEGACY_TEMPERATURE_SOURCE,
+        )
+        self.assertIsNone(error)
+        active, error = checker._read(
+            checker.ROOT, checker.ACTIVE_TEMPERATURE_SOURCE,
+        )
+        self.assertIsNone(error)
+        self.assertEqual(checker._blob(baseline),
+                         checker.ORIGINAL_TEMPERATURE_BLOB)
+        self.assertEqual(checker._blob(active),
+                         checker.ACTIVE_TEMPERATURE_BLOB)
+        self.assertEqual(baseline.count(checker.TEMPERATURE_OLD_PROOF), 1)
+        self.assertEqual(
+            active,
+            baseline.replace(
+                checker.TEMPERATURE_OLD_PROOF,
+                checker.TEMPERATURE_NEW_PROOF, 1,
+            ),
+        )
+
+    def test_historical_temperature_proof_mutation_fails_closed(self):
+        source_read = checker._read
+        def mutated_active(root, path):
+            raw, error = source_read(root, path)
+            if path == checker.ACTIVE_TEMPERATURE_SOURCE and not error:
+                raw = raw.replace(
+                    b"exact add_nonneg (abs_nonneg step) ih",
+                    b"exact ih",
+                )
+            return raw, error
+        with patch.object(checker, "_read", side_effect=mutated_active):
+            self.assertIn(
+                "v047_historical_temperature_proof_uncontrolled_change",
+                checker.check_sources(checker.ROOT),
+            )
+
+    def test_historical_temperature_legacy_snapshot_cannot_be_rewritten(self):
+        source_read = checker._read
+        def mutated_snapshot(root, path):
+            raw, error = source_read(root, path)
+            if path == checker.LEGACY_TEMPERATURE_SOURCE and not error:
+                raw += b"\\n"
+            return raw, error
+        with patch.object(checker, "_read", side_effect=mutated_snapshot):
+            self.assertIn(
+                "v047_historical_temperature_proof_uncontrolled_change",
+                checker.check_sources(checker.ROOT),
+            )
+
     def test_existing_107_root_registration_is_byte_preserved(self):
         raw, error = checker._read(checker.ROOT, "lakefile.toml")
         self.assertIsNone(error)
