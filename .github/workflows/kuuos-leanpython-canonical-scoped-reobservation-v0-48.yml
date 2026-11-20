@@ -1,0 +1,109 @@
+name: KuuOS LeanPython Canonical Scoped Reobservation v0.48
+
+# Additive scoped validation; it does NOT replace full KuuOSFormal.
+# PR runs compile the exact canonical base main SHA, never the PR merge HEAD.
+# Post-merge main pushes independently compile both original typed boundaries.
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/kuuos-leanpython-canonical-scoped-reobservation-v0-48.yml"
+      - "formal/KUOS/Architecture/LeanPythonOriginalVerifyPlanCertificateSeamV0_48.lean"
+      - "scripts/check_kuuos_lean_python_original_verify_plan_cert_seam_sources_v0_48.py"
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/kuuos-leanpython-canonical-scoped-reobservation-v0-48.yml"
+      - "formal/KUOS/Architecture/LeanPythonOriginalDecisionTypeBridgeV0_47.lean"
+      - "formal/KUOS/Architecture/LeanPythonOriginalVerifyPlanCertificateSeamV0_48.lean"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: kuuos-leanpython-scoped-${{ github.event_name }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+env:
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+  EXACT_SOURCE_SHA: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.sha || github.sha }}
+
+jobs:
+  canonical-original-type-seam:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 95
+    steps:
+      - name: Check out exact canonical source commit
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+          ref: ${{ env.EXACT_SOURCE_SHA }}
+      - name: Verify fixed Lean and mathlib inputs without rewriting them
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          toolchain = Path("lean-toolchain").read_text().strip()
+          assert toolchain == "leanprover/lean4:v4.30.0-rc2", toolchain
+          manifest = json.loads(Path("lake-manifest.json").read_text())
+          mathlibs = [p for p in manifest["packages"] if p["name"] == "mathlib"]
+          assert len(mathlibs) == 1 and mathlibs[0]["rev"] == (
+              "5450b53e5ddc75d46418fabb605edbf36bd0beb6"
+          ), "mathlib pin mismatch"
+          print("Pinned Lean/mathlib valid; checkout is the event-bound exact commit")
+          PY
+      - name: Set up pinned Lean and Lake
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Restore main-validated Lake workspace (read only)
+        id: pinned-cache
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-scoped-${{ env.EXACT_SOURCE_SHA }}
+          restore-keys: |
+            kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-
+      - name: Restore pinned Lake dependencies on cold cache
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ ! -d .lake/packages/mathlib ]]; then
+            lake update
+          fi
+          if [[ ! -f .lake/packages/mathlib/.lake/build/lib/lean/Mathlib.olean ]]; then
+            lake exe cache get
+          fi
+      - name: Strictly compile actual original v0.47 main certificate
+        shell: bash
+        run: |
+          set -euo pipefail
+          printf 'EXACT_SOURCE_SHA=%s\nEVENT=%s\n' "$EXACT_SOURCE_SHA" "$GITHUB_EVENT_NAME" | tee kuuos-leanpython-scoped-v048.log
+          lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true \
+            build KUOS.Architecture.LeanPythonOriginalDecisionTypeBridgeV0_47 \
+            2>&1 | tee -a kuuos-leanpython-scoped-v048.log
+      - name: Strictly compile actual original v0.48 after main integration
+        if: github.event_name == 'push'
+        shell: bash
+        run: |
+          set -euo pipefail
+          lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true \
+            build KUOS.Architecture.LeanPythonOriginalVerifyPlanCertificateSeamV0_48 \
+            2>&1 | tee -a kuuos-leanpython-scoped-v048.log
+      - name: Upload scoped validation evidence for this exact checkout
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-leanpython-scoped-v048-${{ github.run_id }}-${{ github.run_attempt }}
+          path: kuuos-leanpython-scoped-v048.log
+          if-no-files-found: warn
+          retention-days: 14
