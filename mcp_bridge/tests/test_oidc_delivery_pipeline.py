@@ -170,7 +170,7 @@ def test_distinct_oidc_ci_attempts_have_distinct_wakeups():
     assert len(poster.calls) == 2
 
 def test_unsubscribe_prevents_real_gate_reenqueue_and_cancels_inflight_delivery():
-    """An expired relationship is not re-established by a later true source."""
+    """A revoked subscription cannot requeue or receive later CI signals."""
     manager, outbox = setup_manager()
     first, pending = stage_verified_oidc_ci_gates(source(44836227181), manager, outbox)
     assert first["data"]["fresh_mcp_reobservation_required"] is True
@@ -190,7 +190,7 @@ def test_unsubscribe_prevents_real_gate_reenqueue_and_cancels_inflight_delivery(
     )
     assert removed == {}
 
-    # The next genuine OIDC CI gate uses its own verified run identity.
+    # A different modeled verified source uses its own run identity.
     # With no authenticated subscriber, there is no second outbox row.
     later = replace(
         source(44836227182),
