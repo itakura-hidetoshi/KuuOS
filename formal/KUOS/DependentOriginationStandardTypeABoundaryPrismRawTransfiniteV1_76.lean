@@ -883,6 +883,107 @@ theorem above and
 `StandardABCTypeAEndpointLeibnizCellularCertificate`.
 -/
 
+
+/-!
+## v1.76 typed transport equality strengthening
+
+The HEq bridge is not silently promoted to untransported Eq.
+These four statements record exactly which source/target object equalities
+are needed to compare the raw even/odd arrows in a single hom type.
+-/
+
+private theorem kuuos_transport_eq_of_heq
+    {C : Type u} [Category C]
+    {A B A' B' : C} {f : A ⟶ B} {g : A' ⟶ B'}
+    (ha : A = A') (hb : B = B') (hfg : HEq f g) :
+    eqToHom ha.symm ≫ f ≫ eqToHom hb = g := by
+  cases ha
+  cases hb
+  simpa using eq_of_heq hfg
+
+private theorem kuuos_transport_eq_of_heq_one
+    {C : Type u} [Category C]
+    {A A' B : C} {f : A ⟶ B} {g : A' ⟶ B}
+    (ha : A = A') (hfg : HEq f g) :
+    eqToHom ha.symm ≫ f = g := by
+  cases ha
+  simpa using eq_of_heq hfg
+
+private theorem standardTypeABoundaryPrismAlternatingEvenSuccObj_eq
+    (g : StandardTypeAHornAttachmentGeneratorIndex)
+    (j : ℕ) :
+    standardTypeABoundaryPrismAlternatingObj g (Nat.bit false j + 1) =
+      standardTypeABoundaryPrismRankAPhase g j := by
+  have hi : Nat.bit false j + 1 = Nat.bit true j := by
+    simp [Nat.bit_val]
+  simpa only [hi] using
+    (standardTypeABoundaryPrismAlternatingObj_bit_true g j)
+
+private theorem standardTypeABoundaryPrismAlternatingOddSuccObj_eq
+    (g : StandardTypeAHornAttachmentGeneratorIndex)
+    (j : ℕ) :
+    standardTypeABoundaryPrismAlternatingObj g (Nat.bit true j + 1) =
+      standardTypeABoundaryPrismRankStage g (j + 1) := by
+  have hi : Nat.bit true j + 1 = Nat.bit false (j + 1) := by
+    simp [Nat.bit_val]
+    omega
+  simpa only [hi] using
+    (standardTypeABoundaryPrismAlternatingObj_bit_false g (j + 1))
+
+/-- The raw A successor is an ordinary equality AFTER explicitly transporting
+both source and target object types. No untransported Eq is asserted. -/
+theorem standardTypeABoundaryPrismAlternatingStep_even_transport_eq
+    (g : StandardTypeAHornAttachmentGeneratorIndex) (j : ℕ) :
+    (eqToHom (standardTypeABoundaryPrismAlternatingObj_bit_false g j).symm) ≫
+      standardTypeABoundaryPrismAlternatingStep g (Nat.bit false j) ≫
+      eqToHom (standardTypeABoundaryPrismAlternatingEvenSuccObj_eq g j) =
+        standardTypeABoundaryPrismRankStageToAPhase g j := by
+  exact kuuos_transport_eq_of_heq
+    (standardTypeABoundaryPrismAlternatingObj_bit_false g j)
+    (standardTypeABoundaryPrismAlternatingEvenSuccObj_eq g j)
+    (standardTypeABoundaryPrismAlternatingStep_bit_false g j)
+
+/-- The raw B successor is an ordinary equality after the requisite
+object transports; the raw A/B factorization is not collapsed. -/
+theorem standardTypeABoundaryPrismAlternatingStep_odd_transport_eq
+    (g : StandardTypeAHornAttachmentGeneratorIndex) (j : ℕ) :
+    (eqToHom (standardTypeABoundaryPrismAlternatingObj_bit_true g j).symm) ≫
+      standardTypeABoundaryPrismAlternatingStep g (Nat.bit true j) ≫
+      eqToHom (standardTypeABoundaryPrismAlternatingOddSuccObj_eq g j) =
+        standardTypeABoundaryPrismRankAPhaseToSucc g j := by
+  exact kuuos_transport_eq_of_heq
+    (standardTypeABoundaryPrismAlternatingObj_bit_true g j)
+    (standardTypeABoundaryPrismAlternatingOddSuccObj_eq g j)
+    (standardTypeABoundaryPrismAlternatingStep_bit_true g j)
+
+/-- The even cylinder leg matches the rankwise leg as an ordinary hom
+equality only after transporting its source. -/
+theorem standardTypeABoundaryPrismAlternatingToCylinder_even_transport_eq
+    (g : StandardTypeAHornAttachmentGeneratorIndex) (j : ℕ) :
+    (eqToHom (standardTypeABoundaryPrismAlternatingObj_bit_false g j).symm) ≫
+      standardTypeABoundaryPrismAlternatingToCylinder g (Nat.bit false j) =
+        standardTypeABoundaryPrismRankStageToCylinder g j := by
+  exact kuuos_transport_eq_of_heq_one
+    (standardTypeABoundaryPrismAlternatingObj_bit_false g j)
+    (standardTypeABoundaryPrismAlternatingToCylinder_bit_false g j)
+
+/-- The odd cylinder leg is the B-step followed by the next rankwise leg,
+with its source transport made explicit. -/
+theorem standardTypeABoundaryPrismAlternatingToCylinder_odd_transport_eq
+    (g : StandardTypeAHornAttachmentGeneratorIndex) (j : ℕ) :
+    (eqToHom (standardTypeABoundaryPrismAlternatingObj_bit_true g j).symm) ≫
+      standardTypeABoundaryPrismAlternatingToCylinder g (Nat.bit true j) =
+        standardTypeABoundaryPrismRankAPhaseToSucc g j ≫
+          standardTypeABoundaryPrismRankStageToCylinder g (j + 1) := by
+  exact kuuos_transport_eq_of_heq_one
+    (standardTypeABoundaryPrismAlternatingObj_bit_true g j)
+    (standardTypeABoundaryPrismAlternatingToCylinder_bit_true g j)
+
+#print axioms standardTypeABoundaryPrismAlternatingStep_even_transport_eq
+#print axioms standardTypeABoundaryPrismAlternatingStep_odd_transport_eq
+#print axioms standardTypeABoundaryPrismAlternatingToCylinder_even_transport_eq
+#print axioms standardTypeABoundaryPrismAlternatingToCylinder_odd_transport_eq
+
 end
 
 end KUOS.DependentOriginationStandardTypeABoundaryPrismRawTransfiniteV1_76
