@@ -242,6 +242,27 @@ if _env_bool("KUUOS_MCP_EVENTS_ENABLED"):
     event_subscription_manager = configure_mcp_events(mcp, oauth, store)
 
 
+# Trusted GitHub ingress is separately opt-in, requires an authenticated
+# MCP Events subscription manager and a durable PostgreSQL outbox.
+# The inline post switch is off unless explicitly enabled after review.
+event_outbox = None
+if _env_bool("KUUOS_MCP_GITHUB_INGRESS_ENABLED"):
+    if event_subscription_manager is None or not isinstance(store, PostgresStateStore):
+        raise RuntimeError("GitHub event ingress requires configured MCP Events and PostgreSQL")
+    ingress_secret = os.environ.get("KUUOS_MCP_GITHUB_INGRESS_SECRET", "")
+    if len(ingress_secret.encode("utf-8")) < 32:
+        raise RuntimeError("GitHub event ingress requires a protected signing secret")
+    from .event_outbox import PostgresOutboxStore
+    from .github_event_route import install_github_event_route
+
+    event_outbox = PostgresOutboxStore(store.database_url)
+    install_github_event_route(
+        mcp, event_subscription_manager, event_outbox,
+        ingress_secret=ingress_secret,
+        deliver_inline=_env_bool("KUUOS_MCP_GITHUB_INGRESS_INLINE_DELIVERY"),
+    )
+
+
 application = mcp.streamable_http_app(
     streamable_http_path="/mcp",
     json_response=True,
