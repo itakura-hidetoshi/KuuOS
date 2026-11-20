@@ -535,3 +535,82 @@ the authorized client; separated staging auth/database; ChatGPT
 plugin OAuth connection; real subscription and signed challenge;
 actual matching and excluded deliveries; Dot wake-up followed by
 independent exact GitHub run/job/Lean-step re-observation.
+
+
+## Vercel single-entrypoint signed ingress and final preview attestation (2026-11-21 JST)
+
+This entry is additive. No new PR was opened; the canonical main,
+production deployment, credentials, and Neon production data were not changed.
+
+### Actual packaged ASGI entrypoint routing (source/CI certified)
+
+- The Vercel Python project uses the single `pyproject.toml` entrypoint
+  `api.mcp:app`. Merely shipping an auxiliary `api/github.py` file
+  did not by itself prove that requests to `/api/github` reached the
+  canonical signed event route.
+- `mcp_bridge/api/mcp.py` now explicitly normalizes
+  `/api/github` and `/api/github/` to `/github/events`, within the
+  existing ASGI process. This is routing only: the event route still
+  demands the exact raw-body GitHub HMAC, repository/workflow
+  allowlist, and feature-gated PostgreSQL/OAuth configuration.
+- A new actual-entrypoint ASGI regression combines a Streamable HTTP
+  MCP initialize request, an accepted signed GitHub CI event, an
+  idempotent source replay, and rejection of an invalid signature.
+  It does not impersonate a real GitHub webhook or Dots callback.
+- Exact code HEAD:
+  `48f495a4abad1cb8eb7ed8ada945f3606e362283`.
+- Independent Python/PG workflow:
+  https://github.com/itakura-hidetoshi/KuuOS/actions/runs/44811245700
+  completed / SUCCESS, three successful jobs:
+  Python **195 passed, 8 skipped, 1 warning**;
+  PostgreSQL 16.16 **8/8 passed**;
+  PostgreSQL 18.7 **8/8 passed**.
+
+### Verified latest deployment source
+
+- Latest safe nonproduction Vercel preview:
+  `dpl_8gHBBXzsDu7m1pHAyD4b17r7WKQh`,
+  URL https://kuuos-chat-work-i5tbu135s-itakurahidetoshi-9224.vercel.app
+  with `target=null` (not promoted to production), state READY,
+  Python 3.12 `pyproject.toml` build success.
+- The prior preview `dpl_FpSXLThDx6VGsDWacg7SCwjYuZL6` had
+  independently verified **20/20** file SHA-1 content matches
+  against earlier fixed source HEAD
+  `3b63a2aa73939f7a34be4f3c6fd95dec79c939f5`.
+- GitHub comparison from that earlier HEAD to the latest code HEAD
+  showed only `mcp_bridge/api/mcp.py`,
+  `mcp_bridge/tests/test_event_asgi_transport.py`, and this
+  documentary file changed. Only `api/mcp.py` belongs to the 20-file
+  deployment source inventory.
+- The latest Vercel deployment's file inventory has **19 unchanged
+  source content SHA-1 UIDs**, and the changed `api/mcp.py`
+  Vercel UID `0ae2fdba57afcc31fb0ff0e279326faf2d7deabd` exactly
+  equals the newly fetched GitHub file's raw content SHA-1.
+  Together with the established 20/20 predecessor match and exact
+  GitHub diff, this certifies **20/20 source file identities for the
+  latest preview**, subject to the stated SHA-1 hash semantics.
+- Neither this source attestation nor the Vercel READY status implies
+  a functioning OAuth-backed, event-enabled MCP HTTP service.
+
+### Remaining separate obstructions
+
+- Project `kuuos-chat-work-mcp` still had no configured Vercel
+  environment variable keys at read-only observation. Existing Neon
+  `neondb` read-only connectivity is available, but Neon Auth is
+  not enabled for the existing default branch and event subscription
+  tables were not observed.
+- The protected preview has not completed an authorized live HTTP
+  `initialize`/events discovery; no real ChatGPT custom plugin
+  connection, OAuth-backed `events/subscribe` call, signed verification
+  challenge, verified callback, GitHub source event intake, or Dot
+  exact-run/Lean-step re-observation occurred.
+- A green isolated ASGI test is not proof of a production network path.
+  Before any activation, use least-privilege Vercel and Neon
+  configuration, verify deployed OAuth/resource audience, subscription
+  storage, protected signed sender, actual callback, and consumer
+  authorization. Never weaken deployment protection as a workaround.
+
+State:
+`PREVIEW_SOURCE_20_OF_20_CERTIFIED` /
+`PYTHON_195_PG16_18_CI_CERTIFIED` /
+`BLOCKED_MCP_EVENT_SUBSCRIPTION`.
