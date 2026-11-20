@@ -1,0 +1,106 @@
+name: KuuOS MCP Authentic OIDC Source
+
+on:
+  push:
+    branches:
+      - feat/kuuos-dots-mcp-ci-event-contract-v0-1-20261120
+    paths:
+      - .github/workflows/kuuos-mcp-github-oidc-source.yml
+      - mcp_bridge/kuuos_mcp_bridge/github_oidc_source.py
+      - mcp_bridge/kuuos_mcp_bridge/server.py
+      - mcp_bridge/api/mcp.py
+
+# This listener is narrow by design. No repository content or Git mutation
+# capability, and no shared GitHub/Vercel webhook secret is required.
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  send-signed-source:
+    name: Request authentic GitHub OIDC token and deliver to isolated staging
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - name: Send OIDC-bound push identity to KuuOS isolated staging
+        env:
+          OIDC_AUDIENCE: api://kuuos/KuuOS/mcp-source-oidc-v1
+          OIDC_STAGING_URL: https://kuuos-mcp-oidc-staging.vercel.app/api/github-oidc
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          import os
+          import urllib.error
+          import urllib.parse
+          import urllib.request
+
+          repo = "itakura-hidetoshi/KuuOS"
+          ref = "refs/heads/feat/kuuos-dots-mcp-ci-event-contract-v0-1-20261120"
+          if os.environ.get("GITHUB_REPOSITORY") != repo or os.environ.get("GITHUB_REF") != ref:
+              raise SystemExit("source_scope_mismatch")
+          request_url = os.environ.get("ACTIONS_ID_TOKEN_REQUEST_URL", "")
+          request_token = os.environ.get("ACTIONS_ID_TOKEN_REQUEST_TOKEN", "")
+          if not request_url.startswith("https://") or not request_token:
+              raise SystemExit("github_oidc_request_context_missing")
+          delimiter = "&" if "?" in request_url else "?"
+          oidc_url = request_url + delimiter + urllib.parse.urlencode({
+              "audience": os.environ["OIDC_AUDIENCE"],
+          })
+          oidc = urllib.request.Request(
+              oidc_url, headers={"Authorization": "bearer " + request_token},
+          )
+          try:
+              with urllib.request.urlopen(oidc, timeout=20) as response:
+                  bearer = json.loads(response.read(22000)).get("value")
+          except Exception:
+              raise SystemExit("github_oidc_issue_failed")
+          if not isinstance(bearer, str) or not 100 < len(bearer) < 16384:
+              raise SystemExit("github_oidc_signed_token_missing")
+          event = {
+              "kind": "push_observed",
+              "repository": repo,
+              "ref": ref,
+              "head_sha": os.environ["GITHUB_SHA"],
+              "run_id": int(os.environ["GITHUB_RUN_ID"]),
+              "run_attempt": int(os.environ["GITHUB_RUN_ATTEMPT"]),
+          }
+          if len(event["head_sha"]) != 40:
+              raise SystemExit("github_source_sha_invalid")
+          body = json.dumps(event, sort_keys=True, separators=(",", ":")).encode()
+          req = urllib.request.Request(
+              os.environ["OIDC_STAGING_URL"], data=body, method="POST",
+              headers={"Authorization": "Bearer " + bearer,
+                       "Content-Type": "application/json",
+                       "Accept": "application/json"},
+          )
+          try:
+              with urllib.request.urlopen(req, timeout=30) as response:
+                  status = response.status
+                  receipt = json.loads(response.read(4096))
+          except urllib.error.HTTPError as exc:
+              # Never print body, token, provider headers or credentials.
+              raise SystemExit("source_issuer_http_rejected:" + str(exc.code))
+          except Exception:
+              raise SystemExit("source_delivery_transport_unavailable")
+          if not (
+              status == 202 and receipt.get("accepted") is True
+              and receipt.get("github_oidc_signature_verified") is True
+              and receipt.get("run_id") == event["run_id"]
+              and receipt.get("head_sha") == event["head_sha"]
+              and receipt.get("signal_is_success_evidence") is False
+              and receipt.get("dots_callback_received") is False
+              and receipt.get("merge_authority_granted") is False
+          ):
+              raise SystemExit("github_source_receipt_not_certified")
+          print(json.dumps({
+              "source": repo, "ref": ref,
+              "run_id": event["run_id"], "head_sha": event["head_sha"],
+              "signed_oidc_accepted": True,
+              "staging_receipt_id": receipt.get("receipt_id"),
+              "new_source_receipt": receipt.get("new_source_receipt"),
+              "ci_success_evidence": False,
+              "dots_delivery_evidence": False,
+          }, sort_keys=True))
+          PY
