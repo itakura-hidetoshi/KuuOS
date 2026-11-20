@@ -481,3 +481,76 @@ def test_public_client_token_revocation_http_route_with_explicit_empty_secret(
     assert asyncio.run(
         provider.load_refresh_token(registered, issued.refresh_token)
     ) is None
+
+
+def test_real_postgres_github_oidc_source_append_only(stores, monkeypatch):
+    """Actually persist only verified identity metadata in disposable CI PG16/18."""
+    from dataclasses import replace
+    from kuuos_mcp_bridge.github_oidc_source import (
+        GitHubOIDCSourceError, PostgresOIDCSourceReceiptStore, VerifiedSource,
+        REPO, WORKFLOW_REF, FEATURE_REF,
+    )
+
+    monkeypatch.delenv("KUUOS_MCP_SCHEMA_MODE", raising=False)
+    source_store = PostgresOIDCSourceReceiptStore(DSN)
+    observed = VerifiedSource(
+        identity="oidc_" + "1" * 64,
+        repository=REPO, workflow_ref=WORKFLOW_REF, ref=FEATURE_REF,
+        head_sha="a" * 40, run_id=990000124, run_attempt=1,
+        jti_hash="b" * 64,
+    )
+    assert source_store.append(observed) is True
+    assert source_store.append(observed) is False
+    # Identity rotates each OIDC token; one source run remains unique.
+    assert source_store.append(replace(observed, jti_hash="c" * 64)) is False
+    with pytest.raises(GitHubOIDCSourceError, match="existing_receipt_conflict"):
+        source_store.append(replace(observed, head_sha="f" * 40))
+    with psycopg.connect(DSN) as connection:
+        count = connection.execute(
+            "SELECT count(*)::int FROM kuuos_mcp_github_oidc_source_v1 "
+            "WHERE run_id=990000124"
+        ).fetchone()[0]
+    assert count == 1
+
+
+def test_real_postgres_oidc_receipt_preprovisioned_and_no_ddl_role(stores, monkeypatch):
+    """Actual read/write-only role may append one signed-source receipt,
+    but cannot run SQL schema migrations or overwrite existing evidence."""
+    from kuuos_mcp_bridge.github_oidc_source import (
+        PostgresOIDCSourceReceiptStore, VerifiedSource,
+        REPO, WORKFLOW_REF, FEATURE_REF,
+    )
+    import secrets as local_secrets
+    from psycopg import sql
+
+    monkeypatch.delenv("KUUOS_MCP_SCHEMA_MODE", raising=False)
+    PostgresOIDCSourceReceiptStore(DSN)
+    role = "kuuos_oidc_ci_" + local_secrets.token_hex(4)
+    password = local_secrets.token_urlsafe(32)
+    with psycopg.connect(DSN) as conn:
+        conn.execute(sql.SQL("CREATE ROLE {} LOGIN PASSWORD {}").format(
+            sql.Identifier(role), sql.Literal(password)
+        ))
+        conn.execute(sql.SQL("GRANT USAGE ON SCHEMA public TO {}").format(
+            sql.Identifier(role)
+        ))
+        conn.execute(sql.SQL(
+            "GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE "
+            "public.kuuos_mcp_github_oidc_source_v1 TO {}"
+        ).format(sql.Identifier(role)))
+    dsn = psycopg.conninfo.make_conninfo(DSN, user=role, password=password)
+    with psycopg.connect(dsn) as conn:
+        can_ddl = conn.execute(
+            "SELECT has_schema_privilege(current_user, 'public', 'CREATE')"
+        ).fetchone()[0]
+    assert can_ddl is False
+    monkeypatch.setenv("KUUOS_MCP_SCHEMA_MODE", "preprovisioned")
+    read_write = PostgresOIDCSourceReceiptStore(dsn)
+    source = VerifiedSource(
+        identity="oidc_" + "2" * 64, repository=REPO,
+        workflow_ref=WORKFLOW_REF, ref=FEATURE_REF,
+        head_sha="c" * 40, run_id=990000125, run_attempt=1,
+        jti_hash="d" * 64,
+    )
+    assert read_write.append(source)
+    assert not read_write.append(source)
