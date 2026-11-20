@@ -139,3 +139,32 @@ def test_no_matching_subscription_emits_no_outbox_writes():
     packet, ids = stage_verified_oidc_ci_gates(source(), manager, outbox)
     assert packet["name"] == CI_GATES_EVENT
     assert ids == [] and outbox.records == {}
+
+
+def test_distinct_oidc_ci_attempts_have_distinct_wakeups():
+    """Run attempt is part of the event identity; no cross-attempt replay."""
+    manager, outbox = setup_manager()
+    first = source(run_id=44900000001)
+    second = replace(
+        first, run_attempt=2, identity="oidc_" + "e" * 64,
+        jti_hash="d" * 64,
+    )
+    packet1, ids1 = stage_verified_oidc_ci_gates(first, manager, outbox)
+    packet2, ids2 = stage_verified_oidc_ci_gates(second, manager, outbox)
+    assert packet1["eventId"] != packet2["eventId"]
+    assert len(ids1) == len(ids2) == 1
+    assert ids1[0] != ids2[0]
+    poster = Poster()
+    assert deliver_one(manager, outbox, poster=poster, outbox_id=ids2[0])[
+        "state"
+    ] == "delivered"
+    assert outbox.records[ids1[0]].state == "pending"
+    assert deliver_one(manager, outbox, poster=poster, outbox_id=ids1[0])[
+        "state"
+    ] == "delivered"
+    assert len(poster.calls) == 2
+    assert stage_verified_oidc_ci_gates(second, manager, outbox)[1] == ids2
+    assert deliver_one(manager, outbox, poster=poster, outbox_id=ids2[0])[
+        "state"
+    ] == "no_due_events"
+    assert len(poster.calls) == 2
