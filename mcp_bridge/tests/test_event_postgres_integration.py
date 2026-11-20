@@ -442,6 +442,7 @@ def test_public_client_token_revocation_http_route_with_explicit_empty_secret(
     provider = EmbeddedPostgresOAuthProvider(
         DSN, issuer=issuer, resource_url=resource,
         owner_secret="synthetic-only-credential-not-real-user",
+        owner_subject="synthetic-ci",
     )
     client_id = "synthetic-ci-" + secrets.token_hex(10)
     registered = OAuthClientInformationFull(
