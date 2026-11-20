@@ -4,6 +4,7 @@ on:
     paths:
       - '.github/workflows/kuuos-v176-codeai-probe-v1.yml'
       - 'scripts/ci_kuuos_v176_codeai_probe.py'
+      - 'scripts/ci_kuuos_v176_exact_source_audit_v1.py'
       - 'scripts/kuuos_v176_codeai_namespace_probe_v1.json'
       - 'scripts/kuuos_v176_codeai_monotonicity_universe_v2.json'
       - 'scripts/kuuos_v176_codeai_bit_recursion_v3.json'
@@ -53,5 +54,52 @@ jobs:
         with:
           name: kuuos-v176-codeai-bit-recursion-probe-not-proof
           path: /tmp/kuuos-v176-codeai-probe
+          retention-days: 30
+          if-no-files-found: warn
+
+  adopted-v176-exact-source-kernel-and-41-axioms:
+    if: github.event.pull_request.number == 3555 && github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-22.04
+    timeout-minutes: 90
+    steps:
+      - name: Checkout exact PR HEAD
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Set up exact pinned Lean toolchain without unrequested builds
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Restore pinned Mathlib/Lake dependencies
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: kuuos-v142-pinned-attachment-mathlib-5450-v1
+      - name: Restore mathlib cache when missing
+        run: |
+          set -euo pipefail
+          python3 -c 'from scripts.ci_kuuos_v176_exact_source_audit_v1 import verify_inputs; verify_inputs()'
+          lake exe cache get
+      - name: Strict exact adopted v1.76 Lean module and 41 declaration independent axiom audit
+        run: |
+          set -euo pipefail
+          python3 scripts/ci_kuuos_v176_exact_source_audit_v1.py \
+            --out /tmp/kuuos-v176-adopted-exact-source-41-axioms \
+            --timeout-seconds 4800
+      - name: Preserve exact-head source and axiom receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-v176-adopted-exact-source-41-axioms
+          path: /tmp/kuuos-v176-adopted-exact-source-41-axioms
           retention-days: 30
           if-no-files-found: warn
