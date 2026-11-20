@@ -147,3 +147,37 @@ recorded, to 2026-10-30 UTC). Any future expiration remains a **real failed
 precondition**, not a reason to bypass the check. Renewal requires another
 independent, successful run and a newly reviewed exact provenance binding;
 previous receipts remain separate historical records.
+
+## CodeAI独立再観測（2026-11-20 JST）— 新版3、旧版2を保持
+
+2026-10-16のrun `38878097337` とartifact `12039184115` は有効期限が過ぎ、
+GitHub Actionsからの再取得はできなくなった。旧
+`ci/codeai_external_evidence_reobserved_20261016.json` は改変せず、
+当時の受領書を後続の新runで置き換えたことにはしない。
+
+既存PR #3608の正式なCodeAI Bounded Official Harness Executionから、新しい
+**独立・完了済み**のrun `44739105282` （attempt 1、成功）を取得した。
+提出元HEADは `9cc37f52d04d2137225a2a51cff781099cee249d`。
+GitHub artifact `14629743535`
+（`codeai-bounded-official-external-v0-1-44739105282-1`）について、
+GitHub metadata `expired=false`、期限 `2026-12-04T12:57:58Z` を確認した。
+GitHub MCP経由で独立取得したZIPのSHA256も
+`cd1bf0907d7510f954622a1a553e294613300005e605013efd501809002398b1`
+と一致した。
+
+ZIP内の固定予測・観測seal・report/test-output/process-log digestを個別に再観測し、
+その集計は FAIL_TO_PASS=0成功/1失敗、PASS_TO_PASS=21成功/0失敗、
+patch_applied=true、evaluation_completed=true、resolved=false であった。
+これは **measured_unresolved** であり、課題解決・実行権限・学習許可を意味しない。
+Gold本文・テスト名・生ログはコミットしない。
+
+新しい来歴は
+`ci/codeai_external_evidence_reobserved_20261120.json` に追記保存する。
+取り込みコードは旧edition `20261016` / rev-002を変更せず、
+新edition `20261120` / rev-003を明示して別受領書にする。
+証拠の欠如・期限切れ・破損・Digest不一致・異なるsource HEADは引き続き拒否する。
+現行の継続性は `2026-12-04T12:57:58Z` 以前に限られ、
+以後は新たな独立実行と追加の来歴認証が必要となる。
+
+この改修は外部CodeAI実行証拠の復旧であり、v0.47 Lean 35-field Equiv/Iff、
+Python全般の意味論的一致、ホスト実行許可を新たに証明するものではない。

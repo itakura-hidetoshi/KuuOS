@@ -43,7 +43,7 @@ structure DistributionUpdateCertificateValid
   execution_permission_false : c.executionPermission = false
 
 /-- Positive-temperature WORLD-conditioned Gibbs factor. -/
-def worldConditionedGibbsFactor
+noncomputable def worldConditionedGibbsFactor
     (beta action temperature : ℝ) : ℝ :=
   Real.exp (-beta * action / temperature)
 

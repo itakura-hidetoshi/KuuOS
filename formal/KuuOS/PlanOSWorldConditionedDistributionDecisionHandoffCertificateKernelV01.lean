@@ -46,7 +46,7 @@ theorem lead_margin_nonnegative
   linarith
 
 /-- Reciprocal concentration used as finite effective support. -/
-def effectiveSupport (concentration : ℝ) : ℝ :=
+noncomputable def effectiveSupport (concentration : ℝ) : ℝ :=
   1 / concentration
 
 theorem effective_support_positive
