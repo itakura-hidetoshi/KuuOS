@@ -23,7 +23,7 @@ structure WorldConditionedMetricCertificate where
   executionPermission : Bool
 
 /-- Diagonal Qi-conditioned PlanOS transition action. -/
-def planQuadraticForm {n : ℕ}
+noncomputable def planQuadraticForm {n : ℕ}
     (planWeights delta : Fin n → ℝ) : ℝ :=
   (1 / 2 : ℝ) * ∑ i, planWeights i * (delta i) ^ 2
 
@@ -35,7 +35,7 @@ def projectedWorldDelta {n m : ℕ}
   ∑ i, jacobian a i * delta i
 
 /-- Pullback quadratic form deltaᵀ Jᵀ G_W J delta. -/
-def worldPullbackQuadraticForm {n m : ℕ}
+noncomputable def worldPullbackQuadraticForm {n m : ℕ}
     (worldWeights : Fin m → ℝ)
     (jacobian : Fin m → Fin n → ℝ)
     (delta : Fin n → ℝ) : ℝ :=
@@ -43,7 +43,7 @@ def worldPullbackQuadraticForm {n m : ℕ}
     worldWeights a * (projectedWorldDelta jacobian delta a) ^ 2
 
 /-- Qi-plan geometry plus a nonnegative WORLD pullback contribution. -/
-def combinedTransitionAction {n m : ℕ}
+noncomputable def combinedTransitionAction {n m : ℕ}
     (planWeights : Fin n → ℝ)
     (worldWeights : Fin m → ℝ)
     (jacobian : Fin m → Fin n → ℝ)

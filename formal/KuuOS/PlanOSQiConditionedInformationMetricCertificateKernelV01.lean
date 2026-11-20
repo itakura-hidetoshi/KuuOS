@@ -18,7 +18,7 @@ structure MetricCertificate where
   executionPermission : Bool
 
 /-- A diagonal finite-dimensional transition action. -/
-def diagonalQuadraticForm {n : ℕ}
+noncomputable def diagonalQuadraticForm {n : ℕ}
     (weights delta : Fin n → ℝ) : ℝ :=
   (1 / 2 : ℝ) * ∑ i, weights i * (delta i) ^ 2
 
