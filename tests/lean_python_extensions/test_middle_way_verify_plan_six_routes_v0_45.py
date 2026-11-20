@@ -92,6 +92,9 @@ def build_native_case(kind: str) -> dict:
     }
     plan_args["intake_bundle_digest"] = (
         native_plan.compute_planos_middle_way_intake_bundle_digest(
+            source_verifyos_certificate_digest=certificate[
+                "verifyos_middle_way_conditional_continuity_certificate_digest"
+            ],
             **{name: value for name, value in plan_args.items()
                if name != "source_verifyos_certificate"}
         )
@@ -129,6 +132,26 @@ class OriginalVerifyPlanSixRoutesTests(unittest.TestCase):
         self.assertEqual(result.route_results, subject.ROUTES)
         self.assertEqual(len(result.original_certificate_digest_pairs), 6)
         self.assertTrue(result.source_handoff_receipt_digest)
+
+    def test_bundle_digest_uses_actual_verifyos_certificate_digest(self):
+        for kind, _, _, _ in subject.ROUTES:
+            with self.subTest(kind=kind):
+                plan_args = self.cases[kind]["plan"]
+                certificate = plan_args["source_verifyos_certificate"]
+                source_digest = certificate[
+                    "verifyos_middle_way_conditional_continuity_certificate_digest"
+                ]
+                self.assertEqual(
+                    plan_args["intake_bundle_digest"],
+                    native_plan.compute_planos_middle_way_intake_bundle_digest(
+                        source_verifyos_certificate_digest=source_digest,
+                        **{name: value for name, value in plan_args.items()
+                           if name not in (
+                               "source_verifyos_certificate",
+                               "intake_bundle_digest",
+                           )}
+                    ),
+                )
 
     def test_six_routes_preserve_separate_conditional_statuses(self):
         report = self.audit()
