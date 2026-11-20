@@ -159,3 +159,53 @@ and do not infer remote plugin discovery from unit tests.
   one excluded event observed by Dots「くー」.
 - Independent GitHub MCP run/job/Lean-step re-observation by the awakened
   Dot. Until then: `BLOCKED_MCP_EVENT_SUBSCRIPTION`.
+
+## Additive hardening evidence, 2026-11-20
+
+This section is append-only, refining earlier incomplete implementation status.
+Every CI claim below belongs to its exact source HEAD, not to a later revision.
+
+### Tested feature-gated implementation
+
+- Signed GitHub workflow-run and canonical PR-change intake, including exact
+  raw-body HMAC verification on an opt-in auxiliary ASGI route.
+- MCP events/list, events/subscribe, and events/unsubscribe over real
+  Streamable HTTP JSON-RPC in isolated test fixtures.
+- OAuth principal/repository-bound finite subscriptions; PostgreSQL encrypted
+  secrets and a bounded, leased, at-least-once delivery outbox.
+- TLS hostname validation, DNS/IP pinning, restricted URLs, no redirects,
+  signed callback verification, expiry, access revocation and bounded retries.
+- Ten-minute old/new Standard Webhooks dual-key rotation window, with additive
+  PostgreSQL migration columns and encrypted prior-secret storage.
+- Required JSON-RPC error -32015 (CallbackEndpointError, challenge_failed)
+  instead of generic SDK exception after failed callback verification.
+- Explicit fail-closed activation bound to tested MCP Python SDK 2.3.0.
+  OAuth resource-server audience validation is explicitly enabled.
+
+### Independent GitHub Actions Python scope
+
+- HEAD 197fc7551467b496df7bcf3ea20dbbf71ca61ef4: CI #44739934587 SUCCESS,
+  isolated ASGI event discovery and subscription lifecycle.
+- HEAD deab48fed0b85bb7615fe83a934eefe4e4ea670f: CI #44745034526 SUCCESS.
+- HEAD f9fffe6a0841ece79df7a0eb97110246bd12cf8d: CI #44745153473 SUCCESS.
+- HEAD ddc407ffc41ad69fd3c0bb680d171dd8391f3215: CI #44745554433 SUCCESS.
+- HEAD d0e085d0101a53bed2862a3b4153935f118072c8: CI #44745956994
+  completed SUCCESS, 185 Python tests passed; 1 inherited Pydantic/SDK warning.
+- The warning remains visible. None of these runs is a Strict Lean proof audit.
+
+### Obstructions still retained
+
+Production project kuuos-chat-work-mcp has not been provisioned with the
+necessary authenticated OAuth, PostgreSQL, signing and encryption configuration.
+There is no observed live GitHub sender-to-MCP event, registered connected Dot
+plugin, live events/subscribe, verified real callback, real Dot wake-up or
+subsequent exact-HEAD GitHub MCP CI audit. PostgreSQL multi-worker tests remain
+unperformed against a live database. Dots delivery is not assumed from a fake
+ASGI callback or a green Python CI. No new PR was created, and canonical main
+and protected PR #1558 have not been altered by this test branch.
+
+This work remains BLOCKED_MCP_EVENT_SUBSCRIPTION for actual service activation.
+Signing-key rotation support is candidate code until independently exercised
+with a real callback. A CI green state does not grant Git merge/deploy authority.
+
+Authoritative profile: https://developers.openai.com/plugins/build/mcp-events
