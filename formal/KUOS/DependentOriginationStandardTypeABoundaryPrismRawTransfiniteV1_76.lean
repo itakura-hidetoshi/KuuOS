@@ -1025,6 +1025,134 @@ theorem standardTypeABoundaryPrismAlternatingRawPair_toCylinder
 #print axioms standardTypeABoundaryPrismAlternatingRawPair_transport_eq
 #print axioms standardTypeABoundaryPrismAlternatingRawPair_toCylinder
 
+
+/-- The two-step map of the actual flattened ofSequence functor is
+exactly the composite of its two one-step raw A/B arrows. -/
+theorem standardTypeABoundaryPrismAlternatingFunctor_twoStep
+    (g : StandardTypeAHornAttachmentGeneratorIndex)
+    (n : ℕ) :
+    (standardTypeABoundaryPrismAlternatingFunctor g).map
+      (homOfLE (show n ≤ n + 2 by omega)) =
+    standardTypeABoundaryPrismAlternatingStep g n ≫
+      standardTypeABoundaryPrismAlternatingStep g (n + 1) := by
+  have h :
+      (homOfLE (show n ≤ n + 2 by omega) : n ⟶ n + 2) =
+        (homOfLE (show n ≤ n + 1 by omega) : n ⟶ n + 1) ≫
+          (homOfLE (show n + 1 ≤ n + 2 by omega) : n + 1 ⟶ n + 2) :=
+    Subsingleton.elim _ _
+  rw [h, Functor.map_comp]
+  simp only [standardTypeABoundaryPrismAlternatingFunctor,
+    Functor.ofSequence_map_homOfLE_succ]
+  rfl
+
+#print axioms standardTypeABoundaryPrismAlternatingFunctor_twoStep
+
+
+private theorem kuuos_twoStep_morphism_transport
+  {C : Type*} [Category C] (F : ℕ ⥤ C)
+  {n k : ℕ} (h : k = n + 2)
+  {X Y Z : C}
+  (h0 : F.obj n = X) (h1 : F.obj (n + 1) = Y)
+  (h2 : F.obj (n + 2) = Z) (h3 : F.obj k = Z)
+  (f : F.obj n ⟶ F.obj (n + 1))
+  (g : F.obj (n + 1) ⟶ F.obj (n + 2))
+  (mapEq : F.map (homOfLE (show n ≤ n + 2 by omega)) = f ≫ g)
+  (p : n ≤ k) :
+  eqToHom h0.symm ≫ F.map (homOfLE p) ≫ eqToHom h3 =
+    (eqToHom h0.symm ≫ f ≫ eqToHom h1) ≫
+      (eqToHom h1.symm ≫ g ≫ eqToHom h2) := by
+  cases h
+  have heq : h3 = h2 := Subsingleton.elim _ _
+  rw [heq, mapEq]
+  simp [Category.assoc]
+
+/-- The actual two-step map of the flattened functor, rather than merely a
+separately described raw pair, is the original j-to-(j+1) rank inclusion
+after explicit source and target object transports. -/
+theorem standardTypeABoundaryPrismAlternatingFunctor_rankStep_transport_eq
+    (g : StandardTypeAHornAttachmentGeneratorIndex) (j : ℕ) :
+    (eqToHom (standardTypeABoundaryPrismAlternatingObj_bit_false g j).symm) ≫
+      (standardTypeABoundaryPrismAlternatingFunctor g).map
+        (homOfLE (show Nat.bit false j ≤ Nat.bit false (j + 1) by
+          simp [Nat.bit_val])) ≫
+      eqToHom (standardTypeABoundaryPrismAlternatingObj_bit_false g (j + 1)) =
+        standardTypeABoundaryPrismRankStageHom g (Nat.le_succ j) := by
+  let F := standardTypeABoundaryPrismAlternatingFunctor g
+  let n := Nat.bit false j
+  let k := Nat.bit false (j + 1)
+  have hi : k = n + 2 := by
+    simp [k, n, Nat.bit_val]
+    omega
+  have hn : n + 1 = Nat.bit true j := by
+    simp [n, Nat.bit_val]
+  have hp : n ≤ k := by
+    simp [k, n, Nat.bit_val]
+  have h0 : F.obj n = standardTypeABoundaryPrismRankStage g j :=
+    standardTypeABoundaryPrismAlternatingObj_bit_false g j
+  have h1 : F.obj (n + 1) = standardTypeABoundaryPrismRankAPhase g j :=
+    standardTypeABoundaryPrismAlternatingEvenSuccObj_eq g j
+  have hend : F.obj k = standardTypeABoundaryPrismRankStage g (j + 1) :=
+    standardTypeABoundaryPrismAlternatingObj_bit_false g (j + 1)
+  have h2 : F.obj (n + 2) = standardTypeABoundaryPrismRankStage g (j + 1) := by
+    simpa only [hi] using hend
+  have hpair : F.map (homOfLE (show n ≤ n + 2 by omega)) =
+      standardTypeABoundaryPrismAlternatingStep g n ≫
+      standardTypeABoundaryPrismAlternatingStep g (n + 1) :=
+    standardTypeABoundaryPrismAlternatingFunctor_twoStep g n
+  have hfirst :
+      eqToHom h0.symm ≫ standardTypeABoundaryPrismAlternatingStep g n ≫
+        eqToHom h1 =
+      standardTypeABoundaryPrismRankStageToAPhase g j :=
+    standardTypeABoundaryPrismAlternatingStep_even_transport_eq g j
+  have hsecondHEq :
+      HEq (standardTypeABoundaryPrismAlternatingStep g (n + 1))
+        (standardTypeABoundaryPrismRankAPhaseToSucc g j) := by
+    simpa only [hn] using
+      (standardTypeABoundaryPrismAlternatingStep_bit_true g j)
+  have hsecond :
+      eqToHom h1.symm ≫ standardTypeABoundaryPrismAlternatingStep g (n + 1) ≫
+        eqToHom h2 = standardTypeABoundaryPrismRankAPhaseToSucc g j :=
+    kuuos_transport_eq_of_heq h1 h2 hsecondHEq
+  have htwo :
+      eqToHom h0.symm ≫ F.map (homOfLE hp) ≫ eqToHom hend =
+        (eqToHom h0.symm ≫ standardTypeABoundaryPrismAlternatingStep g n ≫
+          eqToHom h1) ≫
+        (eqToHom h1.symm ≫ standardTypeABoundaryPrismAlternatingStep g (n + 1) ≫
+          eqToHom h2) :=
+    kuuos_twoStep_morphism_transport F hi h0 h1 h2 hend
+      (standardTypeABoundaryPrismAlternatingStep g n)
+      (standardTypeABoundaryPrismAlternatingStep g (n + 1)) hpair hp
+  calc
+    _ = (eqToHom h0.symm ≫ standardTypeABoundaryPrismAlternatingStep g n ≫
+          eqToHom h1) ≫
+        (eqToHom h1.symm ≫ standardTypeABoundaryPrismAlternatingStep g (n + 1) ≫
+          eqToHom h2) := htwo
+    _ = standardTypeABoundaryPrismRankStageToAPhase g j ≫
+          standardTypeABoundaryPrismRankAPhaseToSucc g j := by
+            rw [hfirst, hsecond]
+    _ = standardTypeABoundaryPrismRankStageHom g (Nat.le_succ j) :=
+      standardTypeABoundaryPrismRankStep_factor_A_residual g j
+
+#print axioms standardTypeABoundaryPrismAlternatingFunctor_rankStep_transport_eq
+
+
+/-- The actual two-step map of the alternating functor commutes with
+the maps from consecutive rank stages into the full scaled cylinder.
+The statement explicitly retains source/target transports. -/
+theorem standardTypeABoundaryPrismAlternatingFunctor_rankStep_toCylinder
+    (g : StandardTypeAHornAttachmentGeneratorIndex) (j : ℕ) :
+    (((eqToHom (standardTypeABoundaryPrismAlternatingObj_bit_false g j).symm) ≫
+        (standardTypeABoundaryPrismAlternatingFunctor g).map
+          (homOfLE (show Nat.bit false j ≤ Nat.bit false (j + 1) by
+            simp [Nat.bit_val])) ≫
+        eqToHom (standardTypeABoundaryPrismAlternatingObj_bit_false g (j + 1))) ≫
+      standardTypeABoundaryPrismRankStageToCylinder g (j + 1)) =
+      standardTypeABoundaryPrismRankStageToCylinder g j := by
+  rw [standardTypeABoundaryPrismAlternatingFunctor_rankStep_transport_eq]
+  exact standardTypeABoundaryPrismRankStageHom_toCylinder g (Nat.le_succ j)
+
+#print axioms standardTypeABoundaryPrismAlternatingFunctor_rankStep_toCylinder
+
 end
 
 end KUOS.DependentOriginationStandardTypeABoundaryPrismRawTransfiniteV1_76
