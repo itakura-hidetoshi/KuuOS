@@ -231,6 +231,7 @@ async def healthz(_: Request) -> JSONResponse:
             "mcp_events_adapter_loaded": event_subscription_manager is not None,
             "github_event_ingress_loaded": event_outbox is not None,
             "github_oidc_source_loaded": _env_bool("KUUOS_MCP_GITHUB_OIDC_ENABLED"),
+            "github_oidc_delivery_loaded": oidc_delivery_loaded,
             # No URL or secret is returned; system variables are optional.
             "vercel_system_url_present": bool(os.environ.get("VERCEL_URL")),
             "vercel_deployment_environment": os.environ.get("VERCEL_ENV")
@@ -276,10 +277,25 @@ if _env_bool("KUUOS_MCP_GITHUB_INGRESS_ENABLED"):
 # GitHub Actions OIDC is a separate source identity attestation gate.
 # A real signed push receipt is NOT a completed CI result or Dots delivery.
 github_oidc_source_loaded = False
+oidc_delivery_loaded = False
+if _env_bool("KUUOS_MCP_GITHUB_OIDC_DELIVERY_ENABLED") and not _env_bool("KUUOS_MCP_GITHUB_OIDC_ENABLED"):
+    raise RuntimeError("OIDC delivery cannot be enabled without verified OIDC receiver")
 if _env_bool("KUUOS_MCP_GITHUB_OIDC_ENABLED"):
     from .github_oidc_source import install_oidc_source_route
 
-    install_oidc_source_route(mcp, store)
+    oidc_delivery_loaded = _env_bool("KUUOS_MCP_GITHUB_OIDC_DELIVERY_ENABLED")
+    if oidc_delivery_loaded:
+        if event_subscription_manager is None:
+            raise RuntimeError("OIDC delivery requires authenticated MCP Events")
+        from .event_outbox import PostgresOutboxStore
+
+        oidc_outbox = PostgresOutboxStore(store.database_url)
+    else:
+        oidc_outbox = None
+    install_oidc_source_route(
+        mcp, store, manager=event_subscription_manager if oidc_delivery_loaded else None,
+        outbox=oidc_outbox, deliver_inline=oidc_delivery_loaded,
+    )
     github_oidc_source_loaded = True
 
 

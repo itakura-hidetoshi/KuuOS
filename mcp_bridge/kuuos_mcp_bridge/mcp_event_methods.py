@@ -53,8 +53,9 @@ def _catalog_for_principal(
     catalog = event_catalog()
     admitted: list[dict[str, Any]] = []
     for item in catalog["events"]:
+        offered = item["inputSchema"]["properties"]["repository"]["enum"]
         permitted = [
-            repo for repo in (KUUOS_REPO, MGAP_REPO)
+            repo for repo in offered
             if manager.authorize(principal, item["name"], {"repository": repo})
         ]
         if permitted:

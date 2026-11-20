@@ -5,7 +5,8 @@ import json
 
 import pytest
 from kuuos_mcp_bridge.github_event_contract import (
-    CI_EVENT, PR_EVENT, KUUOS_REPO, MGAP_REPO, EventContractError,
+    CI_EVENT, PR_EVENT, CI_GATES_EVENT, CI_GATES_WORKFLOW,
+    KUUOS_REPO, MGAP_REPO, EventContractError,
     compile_ci_completed, compile_pr_head_updated, decode_signing_secret,
     event_catalog, matches_filters, standard_webhook_signature,
     validate_delivery_url, validate_filters,
@@ -133,7 +134,9 @@ def test_ci_source_filter_cannot_match_other_repo():
 
 def test_event_catalog_strict_and_no_merging_claim():
     catalog = event_catalog()
-    assert [e["name"] for e in catalog["events"]] == [CI_EVENT, PR_EVENT]
+    assert [e["name"] for e in catalog["events"]] == [
+        CI_EVENT, CI_GATES_EVENT, PR_EVENT
+    ]
     assert all(e["delivery"] == ["webhook"] for e in catalog["events"])
     assert all(e["inputSchema"]["required"] == ["repository"] for e in catalog["events"])
     assert all(e["inputSchema"]["additionalProperties"] is False for e in catalog["events"])
@@ -162,3 +165,24 @@ def test_signing_secret_and_signature():
 def test_payload_json_serialization():
     assert json.loads(json.dumps(compile_ci_completed(ci_signal())))
     assert json.loads(json.dumps(event_catalog()))
+
+
+def test_ci_gate_source_event_is_separate_from_terminal_ci_completion():
+    catalog = event_catalog()
+    gated = next(v for v in catalog["events"] if v["name"] == CI_GATES_EVENT)
+    assert gated["inputSchema"]["properties"]["repository"]["enum"] == [KUUOS_REPO]
+    assert gated["inputSchema"]["properties"]["workflow_name"]["enum"] == [
+        CI_GATES_WORKFLOW
+    ]
+    assert gated["payloadSchema"]["properties"]["ci_terminal_conclusion_verified"]["const"] is False
+    assert validate_filters(CI_GATES_EVENT, {
+        "repository": KUUOS_REPO, "workflow_name": CI_GATES_WORKFLOW
+    })["workflow_name"] == CI_GATES_WORKFLOW
+    with pytest.raises(EventContractError, match="repository_not_allowlisted"):
+        validate_filters(CI_GATES_EVENT, {"repository": MGAP_REPO})
+    with pytest.raises(EventContractError, match="workflow_not_allowlisted"):
+        validate_filters(CI_GATES_EVENT, {
+            "repository": KUUOS_REPO, "workflow_name": "Lean Formal Validation"
+        })
+    with pytest.raises(EventContractError, match="pr_filter"):
+        validate_filters(CI_GATES_EVENT, {"repository": KUUOS_REPO, "pr_number": 1})

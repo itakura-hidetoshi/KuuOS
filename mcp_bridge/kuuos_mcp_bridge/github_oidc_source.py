@@ -19,6 +19,13 @@ from starlette.requests import Request
 from starlette.responses import JSONResponse
 
 from .db_schema_mode import schema_is_preprovisioned, verify_preprovisioned_schema
+from .event_delivery import PinnedHTTPSPoster
+from .event_outbox import OutboxStore
+from .event_pipeline import deliver_one
+from .event_subscriptions import SubscriptionManager
+from .github_event_contract import (
+    CI_GATES_EVENT, CI_GATES_WORKFLOW, EventContractError, _wakeup,
+)
 from .state_store import PostgresStateStore
 
 ISSUER = "https://token.actions.githubusercontent.com"
@@ -32,7 +39,7 @@ FEATURE_REF = "refs/heads/" + FEATURE_BRANCH
 WORKFLOW_FILE = ".github/workflows/kuuos-mcp-github-oidc-source.yml"
 WORKFLOW_REF = REPO + "/" + WORKFLOW_FILE + "@" + FEATURE_REF
 WORKFLOW_NAME = "KuuOS MCP Authentic OIDC Source"
-CI_WORKFLOW_NAME = "KuuOS MCP Bridge Python Validation"
+CI_WORKFLOW_NAME = CI_GATES_WORKFLOW
 CI_WORKFLOW_REF = (
     REPO + "/.github/workflows/mcp-bridge-python-validation.yml@" + FEATURE_REF
 )
@@ -168,6 +175,62 @@ def verify_oidc_push(
     )
 
 
+MAX_OIDC_INLINE_DELIVERIES = 4
+
+
+def compile_verified_oidc_ci_gates(source: VerifiedSource) -> dict[str, Any]:
+    """Genuine signed source identity -> a non-authoritative wake-up packet.
+
+    The sender's validation jobs have settled; the workflow's terminal
+    conclusion, the truth of its results and Lean axioms are NOT certified.
+    """
+    if not isinstance(source, VerifiedSource) or (
+        source.kind != "ci_jobs_observed"
+        or source.repository != REPO
+        or source.workflow_ref != CI_WORKFLOW_REF
+        or source.ref != FEATURE_REF
+        or not _SHA.fullmatch(source.head_sha)
+        or type(source.run_id) is not int or source.run_id <= 0
+        or type(source.run_attempt) is not int or source.run_attempt <= 0
+    ):
+        raise GitHubOIDCSourceError("github_oidc_ci_gates_source_not_allowed")
+    return _wakeup(
+        CI_GATES_EVENT,
+        {"repository": source.repository,
+         "workflow_ref": source.workflow_ref,
+         "head_sha": source.head_sha,
+         "run_id": source.run_id,
+         "run_attempt": source.run_attempt},
+        {
+            "repository": source.repository, "workflow_name": CI_GATES_WORKFLOW,
+            "head_sha": source.head_sha, "run_id": source.run_id,
+            "run_attempt": source.run_attempt,
+            "github_event_kind": source.kind,
+            "github_oidc_signature_verified": True,
+            "github_oidc_source_receipt_id": source.identity,
+            "ci_terminal_conclusion_verified": False,
+            "signal_is_success_evidence": False,
+            "fresh_mcp_reobservation_required": True,
+            "merge_authority_granted": False,
+            "write_authority_granted": False,
+        },
+    )
+
+
+def stage_verified_oidc_ci_gates(
+    source: VerifiedSource, manager: SubscriptionManager, outbox: OutboxStore,
+) -> tuple[dict[str, Any], list[str]]:
+    """Stage once per eligible subscription; DB outbox is retry-idempotent."""
+    event = compile_verified_oidc_ci_gates(source)
+    now = datetime.now(timezone.utc)
+    recipients = manager.recipients(event)
+    outbox_ids = [
+        outbox.enqueue(subscription, event, now).id
+        for subscription in recipients
+    ]
+    return event, outbox_ids
+
+
 class PostgresOIDCSourceReceiptStore:
     """Append-only, unique-by-source-run provenance, not a CI truth ledger."""
 
@@ -248,8 +311,17 @@ class PostgresOIDCSourceReceiptStore:
             return False
 
 
-def install_oidc_source_route(mcp: Any, store: PostgresStateStore) -> None:
-    """Optional path, independent of the GitHub Webhook HMAC secret."""
+def install_oidc_source_route(
+    mcp: Any, store: PostgresStateStore,
+    *, manager: SubscriptionManager | None = None,
+    outbox: OutboxStore | None = None,
+    deliver_inline: bool = False,
+) -> None:
+    """Optional genuine OIDC source with separately gated wake-up delivery."""
+    if (manager is None) != (outbox is None):
+        raise RuntimeError("OIDC subscription/outbox activation mismatch")
+    if deliver_inline and (manager is None or outbox is None):
+        raise RuntimeError("OIDC inline delivery requires authenticated events")
     if not isinstance(store, PostgresStateStore):
         raise RuntimeError("github_oidc_postgres_backend_required")
     if os.environ.get("KUUOS_MCP_GITHUB_OIDC_AUDIENCE") != AUDIENCE:
@@ -273,9 +345,45 @@ def install_oidc_source_route(mcp: Any, store: PostgresStateStore) -> None:
             return JSONResponse({"error": "github_oidc_unauthorized"}, status_code=401)
         except Exception:
             return JSONResponse({"error": "github_oidc_unavailable"}, status_code=503)
+        # A cryptographically verified source may wake existing authenticated
+        # subscribers, but only for ci_jobs_observed; a bare push is receipt-only.
+        # Never invent subscribers or promote job-gate observations to CI truth.
+        ids: list[str] = []
+        if source.kind == "ci_jobs_observed" and manager is not None and outbox is not None:
+            try:
+                _, ids = await __import__("asyncio").to_thread(
+                    stage_verified_oidc_ci_gates, source, manager, outbox,
+                )
+            except (GitHubOIDCSourceError, EventContractError):
+                return JSONResponse({"error": "github_oidc_scope_not_authorized"}, status_code=401)
+            except Exception:
+                return JSONResponse({"error": "github_oidc_outbox_unavailable"}, status_code=503)
+        attempts: list[str] = []
+        if deliver_inline and ids and manager is not None and outbox is not None:
+            poster = PinnedHTTPSPoster()
+            for outbox_id in ids[:MAX_OIDC_INLINE_DELIVERIES]:
+                try:
+                    result = await __import__("asyncio").to_thread(
+                        deliver_one, manager, outbox,
+                        poster=poster, outbox_id=outbox_id,
+                    )
+                    attempts.append(str(result["state"]))
+                except Exception:
+                    attempts.append("delivery_unverified")
+        if not ids:
+            delivery_state = "no_matching_subscriber"
+        elif not attempts:
+            delivery_state = "pending_or_unattempted"
+        elif len(ids) == len(attempts) and all(x == "delivered" for x in attempts):
+            delivery_state = "delivered"
+        else:
+            delivery_state = "partial_or_unverified"
         return JSONResponse({
             "accepted": True,
             "github_oidc_signature_verified": True,
+            "enqueued": len(ids),
+            "inline_attempted": len(attempts),
+            "delivery_state": delivery_state,
             "receipt_id": source.identity,
             "new_source_receipt": inserted,
             "repository": source.repository,

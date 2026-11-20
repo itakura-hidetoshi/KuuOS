@@ -23,7 +23,9 @@ MGAP_REPO = "itakura-hidetoshi/4d-mass-gap"
 REPOSITORIES = (KUUOS_REPO, MGAP_REPO)
 CI_EVENT = "kuuos.github.ci_completed"
 PR_EVENT = "kuuos.github.pr_head_updated"
-EVENTS = (CI_EVENT, PR_EVENT)
+CI_GATES_EVENT = "kuuos.github.ci_gates_observed"
+CI_GATES_WORKFLOW = "KuuOS MCP Bridge Python Validation"
+EVENTS = (CI_EVENT, PR_EVENT, CI_GATES_EVENT)
 MGAP_WORKFLOW = "PR Lean Fast Check"
 KUUOS_WORKFLOWS = (
     "KuuOS Runtime Full Check",
@@ -169,20 +171,24 @@ def validate_filters(event_name: str, arguments: Mapping[str, Any]) -> dict[str,
         raise EventContractError("event_or_arguments_invalid")
     if event_name == PR_EVENT and "workflow_name" in arguments:
         raise EventContractError("pr_event_disallows_workflow_filter")
-    if event_name == CI_EVENT and "pr_number" in arguments:
+    if event_name in (CI_EVENT, CI_GATES_EVENT) and "pr_number" in arguments:
         raise EventContractError("ci_event_disallows_pr_filter")
-    allowed_fields = ({"repository", "workflow_name"} if event_name == CI_EVENT
+    allowed_fields = ({"repository", "workflow_name"}
+                      if event_name in (CI_EVENT, CI_GATES_EVENT)
                       else {"repository", "pr_number"})
     if set(arguments) - allowed_fields:
         raise EventContractError("unknown_filter")
     repo = _repository(arguments.get("repository"))
+    if event_name == CI_GATES_EVENT and repo != KUUOS_REPO:
+        raise EventContractError("ci_gates_repository_not_allowlisted")
     filters: dict[str, Any] = {"repository": repo}
     if "pr_number" in arguments:
         filters["pr_number"] = _positive_int(arguments["pr_number"], "pr_number")
     if "workflow_name" in arguments:
-        if event_name != CI_EVENT:
+        if event_name not in (CI_EVENT, CI_GATES_EVENT):
             raise EventContractError("pr_event_disallows_workflow_filter")
-        allowed = (MGAP_WORKFLOW,) if repo == MGAP_REPO else KUUOS_WORKFLOWS
+        allowed = ((CI_GATES_WORKFLOW,) if event_name == CI_GATES_EVENT else
+                   (MGAP_WORKFLOW,) if repo == MGAP_REPO else KUUOS_WORKFLOWS)
         if arguments["workflow_name"] not in allowed:
             raise EventContractError("workflow_not_allowlisted")
         filters["workflow_name"] = arguments["workflow_name"]
@@ -220,6 +226,9 @@ def event_catalog() -> dict[str, Any]:
     ci_filters = json.loads(json.dumps(base_filters))
     del ci_filters["properties"]["pr_number"]
     ci_filters["properties"]["workflow_name"] = {"type": "string"}
+    ci_gate_filters = json.loads(json.dumps(ci_filters))
+    ci_gate_filters["properties"]["repository"]["enum"] = [KUUOS_REPO]
+    ci_gate_filters["properties"]["workflow_name"]["enum"] = [CI_GATES_WORKFLOW]
     data_properties = {
         "repository": {"type": "string"},
         "head_sha": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
@@ -246,6 +255,35 @@ def event_catalog() -> dict[str, Any]:
                     "required": ["repository", "head_sha", "run_id", "run_attempt",
                                  "workflow_name", "conclusion",
                                  "fresh_mcp_reobservation_required", "signal_is_success_evidence"],
+                },
+            },
+            {
+                "name": CI_GATES_EVENT,
+                "description": (
+                    "A verified GitHub Actions OIDC identity was received after "
+                    "Python/PG job gates settled. This is NOT a terminal CI "
+                    "verdict. Independently re-fetch the exact run, attempt, "
+                    "jobs, Lean steps and sources before any conclusion."
+                ),
+                "delivery": ["webhook"],
+                "inputSchema": ci_gate_filters,
+                "payloadSchema": {
+                    "type": "object",
+                    "properties": {**data_properties,
+                        "run_id": {"type": "integer"},
+                        "run_attempt": {"type": "integer"},
+                        "workflow_name": {"type": "string", "const": CI_GATES_WORKFLOW},
+                        "github_oidc_signature_verified": {"const": True},
+                        "github_event_kind": {"const": "ci_jobs_observed"},
+                        "ci_terminal_conclusion_verified": {"const": False},
+                    },
+                    "required": ["repository", "head_sha", "run_id",
+                                 "run_attempt", "workflow_name",
+                                 "github_oidc_signature_verified",
+                                 "github_event_kind",
+                                 "ci_terminal_conclusion_verified",
+                                 "fresh_mcp_reobservation_required",
+                                 "signal_is_success_evidence"],
                 },
             },
             {
