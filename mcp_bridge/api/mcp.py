@@ -21,6 +21,10 @@ async def app(scope: dict[str, Any], receive: Any, send: Any) -> None:
             scope = dict(scope)
             scope["path"] = "/github/events"
             scope["raw_path"] = b"/github/events"
+        elif path in {"/api/github-oidc", "/api/github-oidc/"}:
+            scope = dict(scope)
+            scope["path"] = "/github/oidc"
+            scope["raw_path"] = b"/github/oidc"
     await _application(scope, receive, send)
 
 

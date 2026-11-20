@@ -230,6 +230,7 @@ async def healthz(_: Request) -> JSONResponse:
             # not attest a Dots subscription, callback, or GitHub CI evidence.
             "mcp_events_adapter_loaded": event_subscription_manager is not None,
             "github_event_ingress_loaded": event_outbox is not None,
+            "github_oidc_source_loaded": _env_bool("KUUOS_MCP_GITHUB_OIDC_ENABLED"),
             # No URL or secret is returned; system variables are optional.
             "vercel_system_url_present": bool(os.environ.get("VERCEL_URL")),
             "vercel_deployment_environment": os.environ.get("VERCEL_ENV")
@@ -270,6 +271,16 @@ if _env_bool("KUUOS_MCP_GITHUB_INGRESS_ENABLED"):
         ingress_secret=ingress_secret,
         deliver_inline=_env_bool("KUUOS_MCP_GITHUB_INGRESS_INLINE_DELIVERY"),
     )
+
+
+# GitHub Actions OIDC is a separate source identity attestation gate.
+# A real signed push receipt is NOT a completed CI result or Dots delivery.
+github_oidc_source_loaded = False
+if _env_bool("KUUOS_MCP_GITHUB_OIDC_ENABLED"):
+    from .github_oidc_source import install_oidc_source_route
+
+    install_oidc_source_route(mcp, store)
+    github_oidc_source_loaded = True
 
 
 application = mcp.streamable_http_app(
