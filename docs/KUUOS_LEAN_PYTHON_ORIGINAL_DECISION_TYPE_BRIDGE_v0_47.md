@@ -9,8 +9,9 @@ Copyright Hidetoshi Itakura / 板倉英俊. Apache-2.0.
 - Parent main HEAD: `410037a3bd8af5d78defb83e72b65f8b319caf3f` (v0.46統合)
 - Lean: v4.30.0-rc2、mathlib: `5450b53e5ddc75d46418fabb605edbf36bd0beb6`
 - 規律: append-only / tighten-only / overwrite-forbidden / same-root
-- 変更はlakefile.tomlの **globsへの10個の列挙追加のみ**、新規Lean形式ファイル1件、静的検査1件、テスト1件、文書1件。
-- 107既存公開roots、全旧Lean定理、旧OS Pythonカーネル、既存テスト、既存CI workflow、保護PR #1558は変更しない。
+- 変更はlakefile.tomlの **globsへの10個の列挙追加のみ**、新規Lean形式ファイル1件、静的検査1件、テスト1件、文書1件、後述の旧PlanOS証明**1箇所のみの修復**。
+- 107既存公開roots、原本DecisionOS定理、旧OS Pythonカーネル、既存テスト、既存CI workflow、保護PR #1558は変更しない。
+- **例外として原本のimport閉包で初めて露見した旧PlanOS証明1箇所のみを修正。** 定理文・仮定・他の証明は一切変更せず、既存`legacy/v5.291`の全97行と旧Git blobを保存し、原本からの正確な1差分を監査する。
 
 ## 元の障害と閉包の検証
 
@@ -37,6 +38,31 @@ v0.47では原本のimportを弱めず、現行の同じ`[[lean_lib]]`
 **この一覧の網羅性自体はまだ独立Leanで認証しなければならない**。
 Lakeの追加行を除く元の全内容が親mainのGit blobと一致することを、
 独立静的チェッカーで検査する。
+
+## 再観測した固定Leanエラーの局所修復
+
+最初のStrict Lean CI #44689581550では、
+`formal/KuuOS/PlanOSTemperatureTrajectoryStabilityCertificateKernelV01.lean:26:23`
+に`unsolved goals`が発生。
+
+帰納法の`cons`場合：
+`ih : 0 ≤ totalVariation steps`
+から `0 ≤ |step| + totalVariation steps` を
+`simp [totalVariation, abs_nonneg, ih]`だけでは解決できない。
+このLean記法上の不成立は「定理が不成立」という意味ではない。
+
+現役原本のこの部分だけを、
+`simp only [totalVariation]` と
+`exact add_nonneg (abs_nonneg step) ih` に修復した。
+
+変更前の**完全な97行の歴史的Lean原本**は
+`legacy/v5.291/formal/KuuOS/PlanOSTemperatureTrajectoryStabilityCertificateKernelV01.lean`
+にGit blob `46d8a67594af17e6aa63f13600f90b9ab34c8ff8` として既存保存済み。
+現役修復後blobは`a3d7e25d585da29e17eaef8f8c11d972948dbb40`。
+両者を比較し、**同一の定理命題を持ち、ちょうど1箇所の証明だけが変化**したことを
+v0.47静的監査・改変検出テストで検証する。
+これはすでに通過した原本型同値性の証明ではない。
+修復後の全依存閉包を実Leanと公理監査で再認証する必要がある。
 
 ## 形式目標: 原本型への双方向接続
 
