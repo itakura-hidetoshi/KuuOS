@@ -614,3 +614,137 @@ State:
 `PREVIEW_SOURCE_20_OF_20_CERTIFIED` /
 `PYTHON_195_PG16_18_CI_CERTIFIED` /
 `BLOCKED_MCP_EVENT_SUBSCRIPTION`.
+
+
+## Least-privilege real Neon staging and protected Vercel HTTP attestation (2026-11-21 JST)
+
+This section is append-only and records the verified scope and its boundaries.
+It does not retroactively certify prior HEADs or an unobserved Dots callback.
+
+### Exact canonical and source/CI evidence
+
+- Canonical repository `itakura-hidetoshi/KuuOS`, branch `main`:
+  `a32f6e42733015c82a5cde7a465ecacb429675aa` at final independent
+  GitHub MCP reobservation. No main mutation or PR creation in this work.
+- Feature branch `feat/kuuos-dots-mcp-ci-event-contract-v0-1-20261120`.
+  Exact latest independently CI-certified Python code HEAD:
+  `976d29ec7a8887d506bff8c45d597022ba4bbc60`.
+- CI [#44819929671](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/44819929671):
+  completed/SUCCESS, all three jobs SUCCESS. Python **203 passed,
+  11 skipped, one inherited warning**. Disposable PostgreSQL **16.16:
+  11/11**, **18.7: 11/11**. The preceding independently certified
+  HEAD `f3021214749e3abae0fb1a404d1b3a5f467fe2bc` had
+  [#44818431068](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/44818431068):
+  completed/SUCCESS, Python 203 passed, 10 skipped, and PG16/18
+  10/10 each.
+- Only Python MCP runtime, isolated tests and these appended documents
+  were changed. No Lean theorem, imports, pinned toolchain, mathlib,
+  public proof root or mathematical certification were altered.
+
+### Source-level least-privilege schema boundary
+
+- The existing stores `PostgresStateStore`,
+  `PostgresSubscriptionStore`, and `PostgresOutboxStore`, and
+  `EmbeddedPostgresOAuthProvider`, normally run additive DDL at
+  initialization. A genuine Neon `read_write` role restricted
+  to the project tables cannot run that DDL: independent errors were
+  `permission denied for schema public` and `must be owner of table`.
+  These errors were retained rather than broadening application rights.
+- New `db_schema_mode.py` permits exactly `migrate` (unchanged
+  default) and `preprovisioned` (opt-in). The latter checks required
+  PostgreSQL column types, nullability, indexes, primary/unique/check
+  constraints, and SELECT/INSERT/UPDATE/DELETE grants using
+  **SELECT-only catalog queries**. Missing fields, weakened replay
+  constraints, unknown mode, wrong namespace or revoked DML fail
+  closed. Application startup performs no schema DDL in this mode.
+- Real disposable PostgreSQL 16/18 integration tests create DML-only,
+  non-owner roles and verify each preprovisioned store can initialize.
+  The event store test exercises an encrypted subscription add/read
+  and authorized unsubscribe. The OAuth test verifies the embedded
+  provider's table initialization under the same no-DDL authority
+  boundary. These tests do not sign a real user into ChatGPT.
+
+### Existing Neon project: isolated real staging evidence
+
+- Neon project `rough-meadow-33652646`
+  (`kuuos-chat-work-mcp`, PostgreSQL 18.7).
+- Unchanged default production branch `br-summer-lake-ayfwkun3`:
+  a fresh **read-only SQL** audit found **zero** of the four MCP
+  service tables; it was not migrated or granted access.
+- Isolated branch
+  `kuuos-mcp-events-staging-20261121`
+  (ID `br-proud-queen-ayak8zsl`, parent `br-summer-lake-ayfwkun3`,
+  `default=false`, ready) created with 0.25 CU min/max;
+  a custom suspend timeout was rejected by the Neon account, and
+  no unsupported timeout value was forced.
+- Exact additive source schemas were created and catalog-verified
+  **on staging only**: `kuuos_mcp_state`,
+  `kuuos_mcp_event_subscriptions_v1`,
+  `kuuos_mcp_event_outbox_v1`, and `kuuos_mcp_oauth`;
+  required indexes and constraints present, and no real subscriptions
+  or OAuth client sessions were inserted.
+- Staging-only login `kuuos_events_preview_rw` was created with
+  scoped `read_write` to `neondb.public`. Independent SQL proved
+  SELECT/INSERT/UPDATE/DELETE access to the four tables, with
+  `CREATE` on schema `public` absent. Attempts to run schema DDL
+  under this role correctly returned SQLSTATE 42501. Role credentials
+  were not placed in source, CI logs or the research ledger.
+
+### Existing Vercel project: protected preview, source and live DB
+
+- Existing Vercel project `prj_iBLTjldWRWTAQ9hQzjlY5n4MkPg2`,
+  `kuuos-chat-work-mcp`. Two keys were configured for **Preview only**:
+  `KUUOS_MCP_DATABASE_URL` as a protected sensitive environment
+  variable pointing to the isolated staging branch's DML role,
+  and `KUUOS_MCP_SCHEMA_MODE=preprovisioned`. No Production
+  environment variables or original production deployment were changed.
+  Never print or copy the connection string into GitHub.
+- Exact candidate preview
+  `dpl_DV2widqsffmPgMKCmPnNRVFyCwxd`,
+  URL https://kuuos-chat-work-d5hnb19gl-itakurahidetoshi-9224.vercel.app
+  was READY, `target=null` (not production), with Vercel Python 3.12.
+  Its Git source metadata identifies the exact CI-certified code HEAD
+  above. 21 runtime source-file identities matched the previously
+  certified 21-file preview plus the one changed embedded OAuth file's
+  GitHub raw SHA-1, independently compared with Vercel's file UID:
+  **21/21 source matches**.
+- An authenticated, Vercel-protected actual GET `/healthz` returned
+  HTTP **200** / JSON:
+  `ok=true`, `backend=PostgresStateStore`, `version=0`,
+  `mode=read-only`, `write_ready=false`,
+  `oauth_enabled=false`, `mcp_events_adapter_loaded=false`,
+  `github_event_ingress_loaded=false`, `canonical_sha=null`.
+  The server's health handler calls the PostgreSQL state read, so this
+  is positive observed **Vercel runtime→Neon staging query** evidence,
+  not merely Vercel READY or a fake HTTP client. A temporary
+  deployment-scoped protected-view share link was used for the GET;
+  no permanent removal of deployment protection is inferred.
+- Neither a protected GET nor raw build success establishes
+  MCP JSON-RPC initialize/subscribe over authenticated POST.
+  No real GitHub signed ingress, callback challenge, ChatGPT
+  subscription, Dots delivery, or post-event exact GitHub MCP audit
+  has been observed.
+
+### Explicit remaining activation conditions
+
+1. Provision a reviewed staging OAuth issuer and owner/account sign-in
+   with actual accepted credentials (either well-scoped embedded OAuth
+   secrets and login or verified external OIDC/JWKS). Never synthesize
+   an OAuth principal or treat a staging test identity as a user grant.
+2. Configure the event subject/repository allowlists, a distinct
+   32-byte AES-GCM key, signed GitHub ingress key, and monitored
+   callback/retry policy. Do not reuse the database password for
+   another cryptographic purpose or grant DDL privileges to the app role.
+3. Independently exercise an OAuth-protected MCP initialize,
+   `events/list`, `events/subscribe` signed challenge,
+   matching and excluded GitHub events, unsubscribe and revocation.
+4. Explicitly connect the custom KuuOS MCP plugin to the user's
+   ChatGPT account and Dot「くー」; observe a real Dot callback and
+   the Dot's independent GitHub MCP exact-source/run/job/Lean-step audit.
+   No automated periodic poll or scheduled task is claimed as equivalent.
+
+Certification: `PREVIEW_POSTGRESQL_STAGING_HTTP_200` /
+`PREVIEW_SOURCE_21_OF_21` /
+`PYTHON_203_PG16_18_11_OF_11_CI_CERTIFIED`.
+
+Live Dots status remains `BLOCKED_MCP_EVENT_SUBSCRIPTION`.
