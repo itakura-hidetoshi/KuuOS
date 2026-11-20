@@ -396,3 +396,23 @@ def test_real_postgres_preprovisioned_oauth_with_narrow_dml_role(
         assert limited.execute(
             "SELECT count(*) FROM public.kuuos_mcp_oauth"
         ).fetchone()[0] >= 0
+
+
+def test_real_postgres_preprovisioned_constraint_definition_requires_exact(
+    stores, monkeypatch,
+):
+    """The same UNIQUE name cannot silently swap event and subscription keys."""
+    from kuuos_mcp_bridge.db_schema_mode import verify_preprovisioned_schema
+
+    monkeypatch.setenv("KUUOS_MCP_SCHEMA_MODE", "preprovisioned")
+    with psycopg.connect(DSN) as conn:
+        with pytest.raises(RuntimeError, match="constraint_definition_invalid"):
+            verify_preprovisioned_schema(
+                conn,
+                table="kuuos_mcp_event_outbox_v1",
+                columns={"id": ("text", True)},
+                constraint_definitions={
+                    "kuuos_mcp_event_outbox_v1_subscription_id_event_id_key":
+                        "UNIQUE (event_id, subscription_id)",
+                },
+            )

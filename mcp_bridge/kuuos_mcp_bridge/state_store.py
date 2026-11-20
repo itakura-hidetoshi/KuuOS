@@ -237,6 +237,9 @@ class PostgresStateStore:
                         "payload": ("jsonb", True),
                     },
                     constraints={"kuuos_mcp_state_pkey": "p"},
+                    constraint_definitions={
+                        "kuuos_mcp_state_pkey": "PRIMARY KEY (state_key)",
+                    },
                 )
                 return
             conn.execute(

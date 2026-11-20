@@ -305,6 +305,9 @@ class PostgresSubscriptionStore:
                     },
                     indexes=("kuuos_mcp_events_active_v1",),
                     constraints={"kuuos_mcp_event_subscriptions_v1_pkey": "p"},
+                    constraint_definitions={
+                        "kuuos_mcp_event_subscriptions_v1_pkey": "PRIMARY KEY (id)",
+                    },
                 )
                 return
             conn.execute(f"""

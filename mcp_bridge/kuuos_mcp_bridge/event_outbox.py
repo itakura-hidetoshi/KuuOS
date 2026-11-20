@@ -280,6 +280,18 @@ class PostgresOutboxStore:
                         "kuuos_mcp_event_outbox_v1_attempts_check": "c",
                         "kuuos_mcp_event_outbox_v1_state_check": "c",
                     },
+                    constraint_definitions={
+                        "kuuos_mcp_event_outbox_v1_pkey": "PRIMARY KEY (id)",
+                        "kuuos_mcp_event_outbox_v1_subscription_id_event_id_key":
+                            "UNIQUE (subscription_id, event_id)",
+                        "kuuos_mcp_event_outbox_v1_attempts_check":
+                            "CHECK ((attempts >= 0))",
+                        "kuuos_mcp_event_outbox_v1_state_check":
+                            "CHECK ((state = ANY (ARRAY['pending'::text, "
+                            "'leased'::text, 'delivered'::text, "
+                            "'permanent_failure'::text, 'retry_exhausted'::text, "
+                            "'cancelled'::text])))",
+                    },
                 )
                 return
             conn.execute(f"""

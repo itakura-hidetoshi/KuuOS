@@ -27,6 +27,7 @@ def verify_preprovisioned_schema(
     columns: Mapping[str, tuple[str, bool]],
     indexes: tuple[str, ...] = (),
     constraints: Mapping[str, str] | None = None,
+    constraint_definitions: Mapping[str, str] | None = None,
 ) -> None:
     """Fail closed against absent/mistyped or weakened real PostgreSQL tables.
 
@@ -66,13 +67,31 @@ def verify_preprovisioned_schema(
             raise RuntimeError("preprovisioned_schema_indexes_missing")
 
         cursor.execute(
-            "SELECT conname, contype FROM pg_constraint "
-            "WHERE conrelid = to_regclass(%s)", (qualified,)
+            "SELECT conname, contype, pg_get_constraintdef(oid) "
+            "FROM pg_constraint WHERE conrelid = to_regclass(%s)", (qualified,)
         )
-        actual_constraints = dict(cursor.fetchall())
+        actual_constraints = {
+            name: (kind, definition)
+            for name, kind, definition in cursor.fetchall()
+        }
         for name, expected_type in (constraints or {}).items():
-            if actual_constraints.get(name) != expected_type:
+            current = actual_constraints.get(name)
+            if current is None or current[0] != expected_type:
                 raise RuntimeError("preprovisioned_schema_constraint_invalid:" + name)
+
+        # Constraint names and kinds alone are insufficient; an attacker or
+        # accidental migration could retain the name but weaken UNIQUE/CHECK.
+        # Compare catalog-normalized definitions under pinned PostgreSQL
+        # major versions; any unrecognized representation fails closed.
+        def normal(definition: str) -> str:
+            return "".join(definition.split()).replace("::text", "")
+
+        for name, expected in (constraint_definitions or {}).items():
+            current = actual_constraints.get(name)
+            if current is None or normal(current[1]) != normal(expected):
+                raise RuntimeError(
+                    "preprovisioned_schema_constraint_definition_invalid:" + name
+                )
 
         privileges = ("SELECT", "INSERT", "UPDATE", "DELETE")
         cursor.execute(

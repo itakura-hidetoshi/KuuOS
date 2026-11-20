@@ -101,6 +101,9 @@ class EmbeddedPostgresOAuthProvider(
                     },
                     indexes=("kuuos_mcp_oauth_expiry_idx",),
                     constraints={"kuuos_mcp_oauth_pkey": "p"},
+                    constraint_definitions={
+                        "kuuos_mcp_oauth_pkey": "PRIMARY KEY (kind, item_key)",
+                    },
                 )
                 return
             conn.execute(
