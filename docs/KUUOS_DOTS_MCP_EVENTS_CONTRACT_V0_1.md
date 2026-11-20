@@ -1,12 +1,12 @@
 # KuuOS → Dots MCP Events: typed GitHub wake-up contract v0.1
 
-Status: **candidate / offline-tested / NOT SUBSCRIBED / NOT DEPLOYED**.
+Status: **feature-gated candidate / SDK Python CI verified through earlier HEADs; live GitHub ingress NOT WIRED / NOT SUBSCRIBED / NOT DEPLOYED**.
 
 ## Source and epistemic boundaries
 
-This additive Python module is a source-side contract for a future MCP Events adapter.
-It is not the active OpenAI plugin, an `events/list` implementation, a subscription
-registry, an event sender, or permission to modify a repository. Its test result
+This additive Python package implements an opt-in MCP Events adapter and source-side event contract.
+It is not the active OpenAI plugin, nor does it automatically register a trusted
+GitHub ingress route, persistent outbox or deliver to Dots. Its test result
 is not an independent Lean certification. It does not modify KuuOS main, protected
 PR #1558, the existing `mcp_bridge` production server, or the Yang–Mills proof.
 
@@ -31,11 +31,11 @@ head SHA and repository.
 
 ```
 GitHub workflow_run.completed / pull_request.synchronize
-  → authenticated, replay-protected ingress [NOT IMPLEMENTED]
-  → source-side normalized, identity-bound candidate wake-up [v0.1 TESTED]
-  → MCP Events events/list, events/subscribe, events/unsubscribe [NOT IMPLEMENTED]
-  → callback verification and persistent subscription [NOT IMPLEMENTED]
-  → signed Standard Webhooks delivery [signature helper TESTED; transport NOT IMPLEMENTED]
+  → signature-checked GitHub envelope compiler [IMPLEMENTED; ingress ROUTE NOT WIRED]
+  → source-side normalized, identity-bound candidate wake-up [TESTED]
+  → MCP Events events/list, events/subscribe, events/unsubscribe [OPT-IN HANDLERS TESTED; NOT DEPLOYED]
+  → callback verification and encrypted PostgreSQL subscriptions [MODULES TESTED; LIVE DB NOT CONNECTED]
+  → Standard Webhooks HTTPS delivery [SAFE POSTER TESTED WITH FAKES; DURABLE OUTBOX MISSING]
   → Dots「くー」wake-up [NOT CONNECTED]
   → exact GitHub MCP re-observation (HEAD/run/job/Lean step/logs/axioms)
   → CodeAI isolated candidate analysis → independent CI
@@ -119,3 +119,43 @@ No external GitHub event, remote subscription, OAuth, callback challenge,
 PostgreSQL write, deployed MCP method, or Dot receipt is exercised by this test.
 
 Source documentation: https://developers.openai.com/plugins/build/mcp-events
+
+## Opt-in MCP server integration candidate
+
+The same existing `mcp_bridge/kuuos_mcp_bridge/server.py` now recognizes
+`KUUOS_MCP_EVENTS_ENABLED=true` and refuses activation unless OAuth, the
+PostgreSQL state backend, exact OAuth subject and repository allowlists and
+a base64-encoded 32-byte AES-GCM encryption key are configured:
+
+- `KUUOS_MCP_EVENTS_ALLOWED_SUBJECTS` (comma-separated, no wildcard);
+- `KUUOS_MCP_EVENTS_ALLOWED_REPOS` (subset of the two canonical repositories);
+- `KUUOS_MCP_EVENTS_ENCRYPTION_KEY` (hosting platform secret; **never commit**).
+
+Source modules:
+`github_event_contract.py`, `event_subscriptions.py`,
+`event_delivery.py`, `mcp_event_methods.py`,
+`event_bootstrap.py`, and `github_event_ingress.py`.
+Each has an isolated `mcp_bridge/tests/test_*.py` regression surface.
+
+Source-side ingress checks HMAC-SHA256 on the exact raw GitHub event body,
+accepts only allowlisted completed workflows or canonical PR head changes,
+and produces a non-authoritative typed event. **It does not install a
+public inbound route or perform actual notification delivery.**
+
+The current MCP Python SDK v2 requires an explicitly tested middleware
+compatibility shim to expose the `events` capability; upstream issues
+document its version-sensitive serialization. Keep that shim version-bound
+and do not infer remote plugin discovery from unit tests.
+
+### Outstanding blockers
+
+- A trusted, authenticated source-event ingress route and a durable
+  idempotent delivery outbox with bounded retry/claim semantics.
+- Real PostgreSQL migrations and multi-worker storage tests, dynamic
+  connected-user authorization and token revocation tests.
+- An exact SDK Streamable HTTP handshake with live `events` discovery,
+  authenticated subscription/unsubscription and signed challenge.
+- Authenticated GitHub delivery to the ingress, and one matching and
+  one excluded event observed by Dots「くー」.
+- Independent GitHub MCP run/job/Lean-step re-observation by the awakened
+  Dot. Until then: `BLOCKED_MCP_EVENT_SUBSCRIPTION`.
