@@ -416,3 +416,68 @@ def test_real_postgres_preprovisioned_constraint_definition_requires_exact(
                         "UNIQUE (event_id, subscription_id)",
                 },
             )
+
+
+def test_public_client_token_revocation_http_route_with_explicit_empty_secret(
+    stores, monkeypatch,
+):
+    """Actual SDK /revoke route on disposable PG16/18; never a real account.
+
+    A public client has no secret; pinned MCP 2.3.0 requires the *empty*
+    client_secret form field to be present. Authentication still uses the
+    registered client_id; both access and refresh credentials must be revoked.
+    """
+    import asyncio
+    import secrets
+    from mcp.server.auth.routes import create_auth_routes
+    from mcp.server.auth.settings import ClientRegistrationOptions, RevocationOptions
+    from mcp.shared.auth import OAuthClientInformationFull
+    from pydantic import AnyHttpUrl
+    from starlette.applications import Starlette
+    from starlette.testclient import TestClient
+    from kuuos_mcp_bridge.embedded_oauth import EmbeddedPostgresOAuthProvider
+
+    issuer = "https://synthetic-only-oauth.example.org"
+    resource = issuer + "/api/mcp"
+    provider = EmbeddedPostgresOAuthProvider(
+        DSN, issuer=issuer, resource_url=resource,
+        owner_secret="synthetic-only-credential-not-real-user",
+    )
+    client_id = "synthetic-ci-" + secrets.token_hex(10)
+    registered = OAuthClientInformationFull(
+        client_id=client_id,
+        redirect_uris=["https://synthetic-only-client.example.org/callback"],
+        token_endpoint_auth_method="none",
+        grant_types=["authorization_code", "refresh_token"],
+        response_types=["code"],
+    )
+    asyncio.run(provider.register_client(registered))
+    issued = asyncio.run(provider._issue_pair(
+        client_id=client_id, scopes=["kuuos:read"],
+        resource=resource, subject="synthetic-ci",
+    ))
+    assert issued.refresh_token is not None
+    assert asyncio.run(provider.load_access_token(issued.access_token)) is not None
+    assert asyncio.run(
+        provider.load_refresh_token(registered, issued.refresh_token)
+    ) is not None
+
+    app = Starlette(routes=create_auth_routes(
+        provider=provider,
+        issuer_url=AnyHttpUrl(issuer),
+        client_registration_options=ClientRegistrationOptions(enabled=True),
+        revocation_options=RevocationOptions(enabled=True),
+    ))
+    with TestClient(app) as http:
+        response = http.post("/revoke", data={
+            "token": issued.access_token,
+            "client_id": client_id,
+            "client_secret": "",
+            "token_type_hint": "access_token",
+        })
+        assert response.status_code == 200, response.text
+
+    assert asyncio.run(provider.load_access_token(issued.access_token)) is None
+    assert asyncio.run(
+        provider.load_refresh_token(registered, issued.refresh_token)
+    ) is None
