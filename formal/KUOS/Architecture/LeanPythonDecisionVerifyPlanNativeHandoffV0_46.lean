@@ -1,86 +1,168 @@
 import Mathlib
-import KUOS.DecisionOS.BoundedPlanSynthesisRequestHandoffV0_8
 import KUOS.Architecture.LeanPythonVerifyPlanSixRoutesV0_45
 
 /-!
-# DecisionOS → VerifyOS → PlanOS: conditional native-handoff witness v0.46
+# v0.46 DecisionOS source-mapped conditional three-stage witness
 
-The original DecisionOS handoff validity certificate and the existing v0.45
-finite six-route model are combined only under an explicitly supplied
-whole-receipt seam. This file proves no Python evaluation theorem and does
-not manufacture a proof of external source authenticity or host permission.
+The original 2026-11-20 DecisionOS v0.8 Lean source is pinned byte-for-byte
+by a separate read-only checker. Importing the original type currently fails
+in its historical import closure at KuuOS.PlanOSV102, a Lake-unregistered
+legacy root. We DO NOT hide that obstruction or claim definitional equality.
 
-Original DecisionOS / VerifyOS / PlanOS kernel definitions are not changed.
+The following receipt AND validity structures repeat every field and every
+validity premise of the original v0.8 public source within this independent
+module. This is a separately proved source-mapped model, NOT an imported
+proof of original-type equality or CPython semantic equivalence.
+
+The original Python DecisionOS/VerifyOS/PlanOS builders are exercised in a
+separate read-only runtime gate; no authority flows from this Lean model.
 -/
 
 namespace KUOS.Architecture.LeanPythonDecisionVerifyPlanNativeHandoffV0_46
 
-open KUOS.DecisionOS
 open KUOS.VerifyOS.MiddleWayConditionalContinuityVerificationV0_4
 open KUOS.PlanOS.MiddleWayBoundedSynthesisIntakeV1_03
 open KUOS.Architecture.LeanPythonMiddleWaySemanticBridgeV0_43
 open KUOS.Architecture.LeanPythonVerifyPlanSixRoutesV0_45
 
-/-- The exact original DecisionOS certificate conditions required before a
-    downstream read-only intake route can be considered. -/
-def originalDecisionAuthorityBoundary
-    (r : BoundedPlanSynthesisRequestHandoffReceipt) : Prop :=
+/-- Field-for-field source-mapped model of the exact pinned original
+    DecisionOS v0.8 BoundedPlanSynthesisRequestHandoffReceipt. -/
+structure SourceMappedDecisionHandoffReceipt where
+  selectedCandidateNotSubstituted : Prop
+  selectionRemainsDecisionOSOwned : Prop
+  candidateEvidenceLineagePreserved : Prop
+  retainedAlternativesVisibleToSynthesis : Prop
+  retainedNonadmissibleCandidatesVisible : Prop
+  nonselectionReasonsPreserved : Prop
+  dissentVisibilityPreserved : Prop
+  minorityVisibilityPreserved : Prop
+  requiredReviewFieldPreserved : Prop
+  planningHorizonBounded : Prop
+  planStepCountBounded : Prop
+  branchingFactorBounded : Prop
+  revisionCyclesBounded : Prop
+  reversibleActionsRequired : Prop
+  irreversibleStepRequiresCheckpoint : Prop
+  stopConditionsPresent : Prop
+  forbiddenEffectsFixed : Prop
+  persistentWorldStateUnchanged : Prop
+  worldModelPredictionNotTruth : Prop
+  worldMutationNotGranted : Prop
+  historyReadOnly : Prop
+  qiGrantsNoAuthority : Prop
+  planSynthesisRequestIssued : Bool
+  planosSynthesisScopeBounded : Bool
+  planosReceivesRequestNotSelectionAuthority : Bool
+  selectionAuthorityTransferredToPlanOS : Bool
+  executionAuthorityGrantedToPlanOS : Bool
+  planosPlanReceiptRequired : Bool
+  planSynthesisResultNotAcceptedWithoutReceipt : Bool
+  planSynthesisPerformed : Bool
+  concretePlanIssued : Bool
+  planReceiptIssued : Bool
+  futureOnly : Bool
+  activeNow : Bool
+  executionPermission : Bool
+
+/-- Original v0.8 validity hypotheses are retained field-for-field;
+    no validity premise is dropped to make the source-mapped proof pass. -/
+structure SourceMappedDecisionHandoffValid
+    (r : SourceMappedDecisionHandoffReceipt) : Prop where
+  selected_candidate_not_substituted : r.selectedCandidateNotSubstituted
+  selection_remains_decision_os_owned : r.selectionRemainsDecisionOSOwned
+  candidate_evidence_lineage_preserved : r.candidateEvidenceLineagePreserved
+  retained_alternatives_visible : r.retainedAlternativesVisibleToSynthesis
+  retained_nonadmissible_visible : r.retainedNonadmissibleCandidatesVisible
+  nonselection_reasons_preserved : r.nonselectionReasonsPreserved
+  dissent_visibility_preserved : r.dissentVisibilityPreserved
+  minority_visibility_preserved : r.minorityVisibilityPreserved
+  required_review_field_preserved : r.requiredReviewFieldPreserved
+  planning_horizon_bounded : r.planningHorizonBounded
+  plan_step_count_bounded : r.planStepCountBounded
+  branching_factor_bounded : r.branchingFactorBounded
+  revision_cycles_bounded : r.revisionCyclesBounded
+  reversible_actions_required : r.reversibleActionsRequired
+  irreversible_step_requires_checkpoint : r.irreversibleStepRequiresCheckpoint
+  stop_conditions_present : r.stopConditionsPresent
+  forbidden_effects_fixed : r.forbiddenEffectsFixed
+  persistent_world_state_unchanged : r.persistentWorldStateUnchanged
+  world_model_prediction_not_truth : r.worldModelPredictionNotTruth
+  world_mutation_not_granted : r.worldMutationNotGranted
+  history_read_only : r.historyReadOnly
+  qi_grants_no_authority : r.qiGrantsNoAuthority
+  plan_synthesis_request_issued : r.planSynthesisRequestIssued = true
+  planos_synthesis_scope_bounded : r.planosSynthesisScopeBounded = true
+  planos_receives_request_not_selection_authority :
+    r.planosReceivesRequestNotSelectionAuthority = true
+  selection_authority_not_transferred_to_plan_os :
+    r.selectionAuthorityTransferredToPlanOS = false
+  execution_authority_not_granted_to_plan_os :
+    r.executionAuthorityGrantedToPlanOS = false
+  planos_plan_receipt_required : r.planosPlanReceiptRequired = true
+  synthesis_result_requires_receipt :
+    r.planSynthesisResultNotAcceptedWithoutReceipt = true
+  plan_synthesis_not_performed : r.planSynthesisPerformed = false
+  concrete_plan_not_issued : r.concretePlanIssued = false
+  plan_receipt_not_issued : r.planReceiptIssued = false
+  future_only : r.futureOnly = true
+  active_now_false : r.activeNow = false
+  execution_permission_false : r.executionPermission = false
+
+/-- Source-mapped DecisionOS keeps its five hard authority boundaries. -/
+def sourceMappedDecisionAuthorityBoundary
+    (r : SourceMappedDecisionHandoffReceipt) : Prop :=
   r.planSynthesisRequestIssued = true ∧
   r.selectionAuthorityTransferredToPlanOS = false ∧
   r.executionAuthorityGrantedToPlanOS = false ∧
   r.planSynthesisPerformed = false ∧
   r.executionPermission = false
 
-/-- These conditions follow from the original DecisionOS validity witness;
-    the structure itself is not automatically inhabited by Python output. -/
-theorem originalDecisionAuthorityBoundary_of_valid
-    (r : BoundedPlanSynthesisRequestHandoffReceipt)
-    (h : BoundedPlanSynthesisRequestHandoffValid r) :
-    originalDecisionAuthorityBoundary r := by
-  obtain ⟨hRequest, _, _, hSelection, hExecution⟩ :=
-    planos_receives_bounded_request_without_selection_or_execution_authority r h
-  exact ⟨hRequest, hSelection, hExecution,
-    h.plan_synthesis_not_performed, h.execution_permission_false⟩
+theorem sourceMappedDecisionAuthorityBoundary_of_valid
+    (r : SourceMappedDecisionHandoffReceipt)
+    (h : SourceMappedDecisionHandoffValid r) :
+    sourceMappedDecisionAuthorityBoundary r := by
+  exact ⟨h.plan_synthesis_request_issued,
+    h.selection_authority_not_transferred_to_plan_os,
+    h.execution_authority_not_granted_to_plan_os,
+    h.plan_synthesis_not_performed,
+    h.execution_permission_false⟩
 
-/-- Whole typed packet identity is a prerequisite of the seam. Equality of
-    a digest alone is not substituted for this witness. -/
+/-- This is WHOLE packet identity over a supplied type, not just a hash. -/
 structure WholeReceiptSeam (Receipt : Type)
     (decisionOutput verifySource : Receipt) : Prop where
   exactPacket : decisionOutput = verifySource
 
-/-- Three-stage *conditional* witness: original DecisionOS valid handoff,
-    exact whole-packet seam, and the proved v0.45 VerifyOS/PlanOS route model.
-    This does not prove that a CPython execution satisfies the premises. -/
+/-- Constructed only when exact packet identity and the entire original
+    source-mapped validity premise are explicitly supplied. -/
 theorem decisionVerifyPlanConditionalWitness
     {Receipt : Type}
-    (r : BoundedPlanSynthesisRequestHandoffReceipt)
+    (r : SourceMappedDecisionHandoffReceipt)
     (decisionOutput verifySource : Receipt)
-    (hDecision : BoundedPlanSynthesisRequestHandoffValid r)
+    (hDecision : SourceMappedDecisionHandoffValid r)
     (hSeam : WholeReceiptSeam Receipt decisionOutput verifySource)
     (context : ContextKey) (transition : TransitionKind) :
-    originalDecisionAuthorityBoundary r ∧
+    sourceMappedDecisionAuthorityBoundary r ∧
     decisionOutput = verifySource ∧
     intakeRouteSimulation.targetRelation
       (dispositionForStatus (statusForTransition transition),
         admittedForStatus (statusForTransition transition))
       (encodeIntake (dispositionForStatus (statusForTransition transition)),
         admittedForStatus (statusForTransition transition)) := by
-  exact ⟨originalDecisionAuthorityBoundary_of_valid r hDecision,
+  exact ⟨sourceMappedDecisionAuthorityBoundary_of_valid r hDecision,
     hSeam.exactPacket, sixRouteConditionalTwoStageWitness context transition⟩
 
-/-- Even a bounded intake is admitted only in the retain route of this
-    finite model; this statement does not license plan synthesis. -/
+/-- Exactly one bounded intake route in the finite conditional model. -/
 theorem decisionHandoff_onlyRetainIsBoundedIntake
     (transition : TransitionKind) :
     admittedForStatus (statusForTransition transition) = true ↔
       transition = .retain :=
   onlyRetainRouteAdmitted transition
 
-/-- The original DecisionOS certificate and the local route both retain
-    independent non-execution boundaries. -/
+/-- Local consistency never turns either original-source-mapped Decision
+    validity or v0.45 VerifyOS/PlanOS routing into host execution authority. -/
 theorem decisionAndRouteCannotLicenseExecution
-    (r : BoundedPlanSynthesisRequestHandoffReceipt)
-    (hDecision : BoundedPlanSynthesisRequestHandoffValid r)
+    (r : SourceMappedDecisionHandoffReceipt)
+    (hDecision : SourceMappedDecisionHandoffValid r)
     (transition : TransitionKind) :
     r.executionPermission = false ∧
     ¬ CanExecute {
