@@ -261,3 +261,16 @@ theorem originalHandoffNeverLicensesHostExecution
     transition
 
 end KUOS.Architecture.LeanPythonOriginalDecisionTypeBridgeV0_47
+
+/-!
+# v0.47 exact-head kernel axiom audit (non-mutating elaboration commands)
+Every new declaration above is examined independently; output is scoped to
+this source HEAD and is not a certificate of Python execution semantics.
+-/
+#print axioms KUOS.Architecture.LeanPythonOriginalDecisionTypeBridgeV0_47.originalToMapped
+#print axioms KUOS.Architecture.LeanPythonOriginalDecisionTypeBridgeV0_47.mappedToOriginal
+#print axioms KUOS.Architecture.LeanPythonOriginalDecisionTypeBridgeV0_47.originalReceiptEquiv
+#print axioms KUOS.Architecture.LeanPythonOriginalDecisionTypeBridgeV0_47.originalValid_iff_mappedValid
+#print axioms KUOS.Architecture.LeanPythonOriginalDecisionTypeBridgeV0_47.originalDecisionBoundaries
+#print axioms KUOS.Architecture.LeanPythonOriginalDecisionTypeBridgeV0_47.originalDecisionSixRouteConditionalWitness
+#print axioms KUOS.Architecture.LeanPythonOriginalDecisionTypeBridgeV0_47.originalHandoffNeverLicensesHostExecution
