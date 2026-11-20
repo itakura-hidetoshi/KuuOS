@@ -371,3 +371,92 @@ any earlier HEAD, the live Neon data, or a Dots event receipt.
 Status: `POSTGRESQL_16_18_CI_CERTIFIED_IN_SCOPE` /
 `BLOCKED_MCP_EVENT_SUBSCRIPTION`. Earlier failures and noncertified
 boundaries are retained; this entry is additive, not overwriting them.
+
+
+## Main v0.47 reconciliation, exact-source CI and Neon connectivity (2026-11-20)
+
+This entry adds independent evidence to the earlier receipts without claiming
+a production deployment or Dot callback. Earlier CI results apply only to
+their own exact HEADs.
+
+### Canonical reconciliation with no overwritten paths
+
+- GitHub main HEAD during this re-entry:
+  `a32f6e42733015c82a5cde7a465ecacb429675aa` (v0.47 merged).
+- The previous feature branch HEAD was
+  `1c59193564844dc5fdb5756568ea41628fdd7c41`.
+  From their common base `410037a3bd8af5d78defb83e72b65f8b319caf3f`,
+  main modified 16 paths and the feature branch modified/added 28
+  distinct paths, with no path intersection.
+- Two-parent non-force integration commit:
+  `02af37eb547cebd8306d7e863e8560e0a545842f`.
+  Parent 1 is the feature HEAD; parent 2 is the main HEAD. The new tree
+  combines the unaltered source blobs from both histories.
+- The feature branch is now ahead of this main, not behind; main was
+  not modified by this operation.
+
+### Server attestation and dependency pin
+
+- `server.py` adds two non-secret runtime indicators under `/healthz`:
+  `mcp_events_adapter_loaded` and `github_event_ingress_loaded`.
+  They report whether feature-gated handlers were loaded in this server
+  process, **not** that ChatGPT subscribed or that any callback was
+  received.
+- `tests/test_event_health_receipt.py` checks both off/on readings and
+  ensures that verified Dot callback or GitHub CI evidence is never
+  fabricated as part of the health reply.
+- The deployed SDK version requirement in `pyproject.toml` and
+  `requirements.txt` is fixed to `mcp==2.3.0`, matching
+  `event_bootstrap.MCP_EVENTS_SDK_PIN`. A new regression test checks
+  both manifests and the installed distribution.
+- Exact code HEAD:
+  `f949a96d79fb030315c2ae032aad613b853cf977`.
+- Independent GitHub Actions:
+  https://github.com/itakura-hidetoshi/KuuOS/actions/runs/44755769201
+  — completed / SUCCESS on that HEAD; all three jobs completed SUCCESS.
+  Python: **193 passed, 8 skipped, 1 warning**.
+  Disposable PostgreSQL **16.16: 8/8** and **18.7: 8/8**.
+- This CI is Python/runtime and database-integration certification,
+  not an independent Lean proof or an attestation of running Vercel.
+
+### Existing Neon database: read-only live connectivity confirmed
+
+- Existing Neon project `rough-meadow-33652646`, branch
+  `br-summer-lake-ayfwkun3`, database `neondb`.
+- A read-only SQL SELECT through the Neon connector succeeded and
+  returned PostgreSQL `18.7 (84da7d8)`. An
+  `information_schema.tables` count for the two expected MCP Events
+  tables was **zero**.
+- A subsequent independent branch read reported `current_state=ready`
+  (previously `archived`). Thus storage archive alone is no longer
+  a connectivity obstruction; this observation does **not** mean the
+  schema was initialized or the service can receive events.
+- No schema migrations, production event tables, role changes or data
+  writes were performed. No connection-string secrets were copied.
+
+### Vercel and Dots remain separate activation gates
+
+- Existing Vercel project `prj_iBLTjldWRWTAQ9hQzjlY5n4MkPg2` has
+  no verified event-capable deployment. At fresh observation it still
+  had three historical deployments (one production and two previews);
+  the new event source was **not deployed**.
+- The account's Vercel Git deployment context listed no linked
+  Git projects. A candidate file-based preview submission could not
+  finish source collection in the available connector operation;
+  **no Vercel deployment creation action completed**.
+- Prior inventory of the project reported zero configured environment
+  keys. The read-only live Neon SQL success must not be promoted to
+  a configured Vercel database connection.
+- No ChatGPT custom KuuOS MCP plugin connection, OAuth-backed
+  `events/subscribe`, signed challenge, real matching/excluded
+  callback, or Dot-triggered GitHub MCP exact-run/Lean-step audit
+  was observed. Never substitute a scheduled poller or CI-green label
+  for an actual event receipt.
+
+Current exact implementation scope:
+`MCP_PYTHON_193_PASS_PG16_18_CI_CERTIFIED`.
+Production/Dot state:
+`BLOCKED_MCP_EVENT_SUBSCRIPTION`.
+
+No main merge, production deployment, new PR, credential disclosure,
+or claim of end-to-end wake-up was made in this continuation.
