@@ -100,6 +100,61 @@ class OriginalDecisionTypeSourceTests(unittest.TestCase):
                 checker.check_sources(checker.ROOT),
             )
 
+    def test_all_four_real_definitions_have_exact_archival_byte_deltas(self):
+        self.assertEqual(len(checker.REVIEWED_NONCOMPUTABLE_SOURCES), 4)
+        self.assertEqual(sum(len(x["definitions"]) for x in
+                             checker.REVIEWED_NONCOMPUTABLE_SOURCES.values()), 6)
+        for suffix, record in checker.REVIEWED_NONCOMPUTABLE_SOURCES.items():
+            with self.subTest(suffix=suffix):
+                baseline, error = checker._read(
+                    checker.ROOT, "legacy/v5.291/formal/" + suffix)
+                self.assertIsNone(error)
+                active, error = checker._read(checker.ROOT, "formal/" + suffix)
+                self.assertIsNone(error)
+                self.assertEqual(checker._blob(baseline), record["old_blob"])
+                self.assertEqual(checker._blob(active), record["new_blob"])
+                expected = baseline
+                for name in record["definitions"]:
+                    token = ("def " + name).encode("utf-8")
+                    self.assertEqual(expected.count(token), 1)
+                    expected = expected.replace(
+                        token, ("noncomputable def " + name).encode("utf-8"), 1)
+                self.assertEqual(active, expected)
+
+    def test_each_new_real_keyword_is_required_fail_closed(self):
+        source_read = checker._read
+        for suffix, record in checker.REVIEWED_NONCOMPUTABLE_SOURCES.items():
+            with self.subTest(suffix=suffix):
+                missing_name = record["definitions"][0]
+                def corrupted(root, path):
+                    raw, error = source_read(root, path)
+                    if path == "formal/" + suffix and not error:
+                        raw = raw.replace(
+                            ("noncomputable def " + missing_name).encode(),
+                            ("def " + missing_name).encode(), 1,
+                        )
+                    return raw, error
+                with patch.object(checker, "_read", side_effect=corrupted):
+                    self.assertIn(
+                        "v047_real_noncomputable_delta_mismatch:" + suffix,
+                        checker.check_sources(checker.ROOT),
+                    )
+
+    def test_each_original_real_snapshot_remains_immutable(self):
+        source_read = checker._read
+        for suffix in checker.REVIEWED_NONCOMPUTABLE_SOURCES:
+            with self.subTest(suffix=suffix):
+                def corrupted(root, path):
+                    raw, error = source_read(root, path)
+                    if path == "legacy/v5.291/formal/" + suffix and not error:
+                        raw += b"\n-- unauthorized historical rewrite"
+                    return raw, error
+                with patch.object(checker, "_read", side_effect=corrupted):
+                    self.assertIn(
+                        "v047_real_noncomputable_delta_mismatch:" + suffix,
+                        checker.check_sources(checker.ROOT),
+                    )
+
     def test_existing_107_root_registration_is_byte_preserved(self):
         raw, error = checker._read(checker.ROOT, "lakefile.toml")
         self.assertIsNone(error)
