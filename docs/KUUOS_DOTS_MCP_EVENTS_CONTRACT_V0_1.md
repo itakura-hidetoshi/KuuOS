@@ -942,3 +942,95 @@ State: `PREVIEW_OAUTH_METADATA_HTTP_200` /
 `PREVIEW_EVENTS_AND_SIGNED_INGRESS_LOADED` /
 `SOURCE_PYTHON_220_PG16_18_12_OF_12_CERTIFIED` /
 `BLOCKED_MCP_EVENT_SUBSCRIPTION`.
+
+
+## v0.49 exact-head HTTP transport audit, live negative POST and plugin obstruction (2026-11-21)
+
+This is an append-only, exact-source evidence entry. An HTTP rejection
+proves a **boundary was enforced**, not that a ChatGPT user was authorized.
+
+### Canonical / feature HEAD and fresh CI
+
+- Canonical KuuOS `main` HEAD:
+  `005b9ef0471428289b1fb9545f4ac212270df138` (v0.49).
+- Feature reconciliation commit:
+  `e924295c4feb6f73f8701bf815ec73beb4c07cd6`, retaining
+  first parent `3c5c1484e7dde2aa02a959c2c58bdbf3c4d725a9`
+  and second parent `005b9ef0471428289b1fb9545f4ac212270df138`.
+  The six newly merged main paths were disjoint from 39 feature paths.
+- Source and append-only `mcp_bridge/ATTESTATION.md` HEAD:
+  `f1dccf5e1904ee3664ac30c137b9b3c437ce950a`.
+- **Independent exact-source CI**:
+  https://github.com/itakura-hidetoshi/KuuOS/actions/runs/44825860586
+  `completed/SUCCESS`, three `SUCCESS` jobs.
+  Python **243 passed, 12 skipped, one inherited warning**.
+  Disposable PostgreSQL **16.16 12/12** and **18.7 12/12**.
+  No Strict Lean proof or independent theorem axiom audit is claimed.
+
+### Real protected Vercel HTTP POST verified without user credentials
+
+- Preview deployment
+  `dpl_8xqpXAqCCFvLzruAc41FY45wScvS`,
+  source `a8b960b869d28ce39dbff5a7a8588998412b9bbb`,
+  Vercel `READY`, `target=null` (non-production).
+  The HTTP probe was against this exact deployed runtime, not a
+  simulated in-memory TestClient or the later v0.49 Git commit.
+- An ephemeral, nonpersistent, single-vCPU Vercel Sandbox
+  `sbx_Sl36nn1LeQmVtDEvxC6CAyFwyAbJ` with egress restricted to
+  this one Vercel deployment host acquired a scoped Vercel temporary
+  share cookie. The share URL remained private and was never recorded
+  in the source, logs, audit receipt or user-visible output. The
+  sandbox was stopped after the test.
+- Real HTTPS GET `/healthz`: `200` JSON
+  (backend from `PostgresStateStore`).
+- Real HTTPS POST `/api/mcp` carrying an `initialize`
+  JSON-RPC request **without** an OAuth bearer:
+  `401` JSON, `WWW-Authenticate: Bearer`.
+  The POST reached the MCP authentication boundary, but no verified
+  bearer token was provided and no authenticated MCP result exists.
+- Real HTTPS POST `/api/github` with a deliberately invalid
+  HMAC-SHA256 signature: `401` JSON. This is true deployment
+  network evidence of the signature check; **not** a valid GitHub
+  transport event.
+- Independent post-probe Neon staging SQL:
+  OAuth records **0**, subscriptions **0**, outbox records **0**,
+  state rows **0**. No authentic webhook event was accepted and
+  no subscription was created by these negative-only probes.
+
+### Reproducibility and authority boundaries
+
+- Existing feature branch gained a standard-library operator script
+  `mcp_bridge/preview_http_probe.py`, with an allowlisted Preview
+  hostname, strict same-origin redirect handling and an ephemeral
+  share URL accepted **only** through the environment.
+  It checks protected health, OAuth metadata and PKCE S256, negative
+  bearer challenge and invalid GitHub HMAC rejection.
+- New `mcp_bridge/tests/test_preview_http_probe.py` covers the
+  allowlist, cross-origin rejection, negative cases and receipt
+  non-promotion. Offline synthetic responses are marked as such.
+- The script returns no connection secrets or bearer tokens, and
+  explicitly reports real user authorization, active subscription,
+  true GitHub event, Dots callback and post-event GitHub MCP audit as
+  `false`. Any output or CI success is **not** a delivery receipt.
+- The current protected Vercel Preview uses a temporary share cookie
+  for an external test client; this is **not** a stable public MCP URL
+  suitable as the ChatGPT plugin connection. The supported connection
+  is a user/authorized-workspace configured custom plugin with an
+  accessible HTTPS server or Secure MCP Tunnel. The available Chat
+  connection tools cannot create that user's custom plugin or
+  provide their OAuth login consent.
+- GitHub webhook/secrets administration was not readable or writable
+  via the available GitHub MCP fetch interface. The GitHub sender
+  setup remains **NO_DATA**, rather than assuming absent or configured.
+  There is no evidence of a real `events/subscribe` by Dots「くー」
+  and no real callback delivery.
+
+**Limited certification**:
+`REAL_PREVIEW_HTTP_POST_401_BEARER` /
+`INVALID_GITHUB_SIGNATURE_401` /
+`V0_49_PYTHON_243_PG16_18_12_OF_12_SUCCESS`.
+
+**External obstruction**:
+`BLOCKED_MCP_EVENT_SUBSCRIPTION`.
+No canonical main merge, production deploy, production DB mutation
+or new PR was performed in this stage.
