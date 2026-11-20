@@ -4,6 +4,7 @@ import asyncio
 import base64
 import json
 import os
+import re
 import urllib.parse
 import urllib.request
 from dataclasses import dataclass
@@ -218,13 +219,39 @@ def _required_env(name: str) -> str:
     return value
 
 
+def _deployment_bound_oauth_urls(
+    issuer: str, resource_url: str,
+) -> tuple[str, str]:
+    """Opt-in, fail-closed OAuth binding to this specific Vercel Preview.
+
+    No Host header is used. An untrusted forwarded host must never choose
+    the OAuth issuer or resource audience. Production remains explicit.
+    """
+    marker = "vercel-preview"
+    if issuer != marker and resource_url != marker:
+        return issuer, resource_url
+    if issuer != marker or resource_url != marker:
+        raise RuntimeError("Vercel preview OAuth issuer/resource must both be selected")
+    if os.environ.get("VERCEL") != "1" or os.environ.get("VERCEL_ENV") != "preview":
+        raise RuntimeError("Vercel preview OAuth requires VERCEL=1 and VERCEL_ENV=preview")
+    hostname = os.environ.get("VERCEL_URL", "")
+    if re.fullmatch(r"[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\\.vercel\\.app", hostname) is None:
+        raise RuntimeError("Vercel preview OAuth deployment hostname invalid")
+    if hostname == os.environ.get("VERCEL_PROJECT_PRODUCTION_URL", ""):
+        raise RuntimeError("Vercel preview OAuth cannot use the production domain")
+    origin = "https://" + hostname
+    return origin, origin + "/api/mcp"
+
+
 def build_oauth_config() -> OAuthConfig | None:
     enabled = os.environ.get("KUUOS_MCP_OAUTH_ENABLED", "").strip().lower()
     if enabled not in {"1", "true", "yes", "on"}:
         return None
 
-    issuer = _required_env("KUUOS_MCP_OAUTH_ISSUER")
-    resource_url = _required_env("KUUOS_MCP_OAUTH_RESOURCE_URL")
+    issuer, resource_url = _deployment_bound_oauth_urls(
+        _required_env("KUUOS_MCP_OAUTH_ISSUER"),
+        _required_env("KUUOS_MCP_OAUTH_RESOURCE_URL"),
+    )
     token_mode = os.environ.get(
         "KUUOS_MCP_OAUTH_TOKEN_MODE", "introspection"
     ).strip().lower()

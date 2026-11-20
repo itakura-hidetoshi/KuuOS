@@ -165,3 +165,67 @@ def test_build_oauth_config_rejects_unknown_token_mode(monkeypatch) -> None:
 
     with pytest.raises(RuntimeError, match="TOKEN_MODE"):
         build_oauth_config()
+
+def test_deployment_bound_preview_urls(monkeypatch) -> None:
+    monkeypatch.setenv("VERCEL", "1")
+    monkeypatch.setenv("VERCEL_ENV", "preview")
+    monkeypatch.setenv(
+        "VERCEL_URL",
+        "kuuos-chat-work-preview-test-itakurahidetoshi-9224.vercel.app",
+    )
+    monkeypatch.setenv(
+        "VERCEL_PROJECT_PRODUCTION_URL", "kuuos-chat-work-mcp.vercel.app"
+    )
+    origin, resource = oauth_module._deployment_bound_oauth_urls(
+        "vercel-preview", "vercel-preview"
+    )
+    assert origin == "https://kuuos-chat-work-preview-test-itakurahidetoshi-9224.vercel.app"
+    assert resource == origin + "/api/mcp"
+
+
+@pytest.mark.parametrize("url", [
+    "", "example.com", "evil.vercel.app/path",
+    "https://my-app.vercel.app", "my-app.vercel.app:443",
+    "my-app.vercel.app.evil.com", "my_app.vercel.app",
+    "my-app..vercel.app", "my-app.vercel.app@evil.com",
+])
+def test_deployment_bound_rejects_invalid_hostname(monkeypatch, url) -> None:
+    monkeypatch.setenv("VERCEL", "1")
+    monkeypatch.setenv("VERCEL_ENV", "preview")
+    monkeypatch.setenv("VERCEL_URL", url)
+    with pytest.raises(RuntimeError, match="hostname invalid"):
+        oauth_module._deployment_bound_oauth_urls("vercel-preview", "vercel-preview")
+
+
+@pytest.mark.parametrize("vercel,environment", [
+    ("", "preview"), ("1", "production"), ("1", "development"),
+    ("false", "preview"),
+])
+def test_deployment_bound_refuses_nonpreview(monkeypatch, vercel, environment):
+    monkeypatch.setenv("VERCEL", vercel)
+    monkeypatch.setenv("VERCEL_ENV", environment)
+    monkeypatch.setenv("VERCEL_URL", "kuuos-preview.vercel.app")
+    with pytest.raises(RuntimeError, match="requires VERCEL=1"):
+        oauth_module._deployment_bound_oauth_urls("vercel-preview", "vercel-preview")
+
+
+def test_deployment_bound_rejects_mixed_issuer_and_resource(monkeypatch):
+    with pytest.raises(RuntimeError, match="both be selected"):
+        oauth_module._deployment_bound_oauth_urls(
+            "vercel-preview", "https://other.example/mcp"
+        )
+
+
+def test_deployment_bound_rejects_same_production_domain(monkeypatch):
+    monkeypatch.setenv("VERCEL", "1")
+    monkeypatch.setenv("VERCEL_ENV", "preview")
+    monkeypatch.setenv("VERCEL_URL", "kuuos-prod.vercel.app")
+    monkeypatch.setenv("VERCEL_PROJECT_PRODUCTION_URL", "kuuos-prod.vercel.app")
+    with pytest.raises(RuntimeError, match="cannot use the production domain"):
+        oauth_module._deployment_bound_oauth_urls("vercel-preview", "vercel-preview")
+
+
+def test_deployment_bound_explicit_urls_remain_unchanged():
+    assert oauth_module._deployment_bound_oauth_urls(
+        "https://auth.example", "https://service.example/api/mcp"
+    ) == ("https://auth.example", "https://service.example/api/mcp")

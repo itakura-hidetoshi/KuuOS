@@ -230,6 +230,11 @@ async def healthz(_: Request) -> JSONResponse:
             # not attest a Dots subscription, callback, or GitHub CI evidence.
             "mcp_events_adapter_loaded": event_subscription_manager is not None,
             "github_event_ingress_loaded": event_outbox is not None,
+            # No URL or secret is returned; system variables are optional.
+            "vercel_system_url_present": bool(os.environ.get("VERCEL_URL")),
+            "vercel_deployment_environment": os.environ.get("VERCEL_ENV")
+            if os.environ.get("VERCEL_ENV") in {"preview", "production", "development"}
+            else None,
             "canonical_sha": os.environ.get("KUUOS_MCP_CANONICAL_SHA")
             or state.get("canonical_sha"),
         }
