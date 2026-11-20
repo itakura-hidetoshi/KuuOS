@@ -255,3 +255,48 @@ No new PR, canonical main mutation, protected PR mutation, production credential
 retrieval, automatic deployment, or periodic polling was performed.
 
 SQL reference: https://www.postgresql.org/docs/current/sql-update.html
+
+## Exact-ID inline event delivery certification (2026-11-20)
+
+Earlier candidate code claimed a globally due outbox event after a new GitHub
+signal, which could incorrectly spend the wake-up on an unrelated older
+pending event. The sender did not guarantee that the just-arrived CI run would
+receive an immediate callback. This was a structural risk observed in the
+source, not a claim that a production delivery had failed.
+
+The new flow uses the outbox ID returned by staging the exact signed GitHub
+event. In-memory and PostgreSQL stores now implement specific-ID leasing with
+a bounded lease, CAS token and SKIP LOCKED for competing workers. A completed
+or still-leased ID is not redelivered on a source replay. An unrelated backlog
+event is neither silently substituted nor certified as the newly received
+event.
+
+When inline delivery is explicitly enabled, the HTTP ingress attempts up to
+four newly staged subscription-specific IDs in one invocation. It reports
+inline_attempted, remaining_not_attempted and a non-authoritative delivery
+state. Beyond the cap, persisted records remain pending; a separate authorized
+event-triggered retry/worker is still necessary to guarantee their delivery.
+When inline delivery is disabled, a successful enqueue is not a delivery
+receipt, and no periodic poller is enabled by this change.
+
+Exact-head independently observed:
+
+- Source HEAD: 515c4eb8c9f3f62aea2a7a935b51bc3feb26cbd4
+- GitHub Actions run: 44749573255
+- Workflow: KuuOS MCP Bridge Python Validation
+- Status: completed / SUCCESS
+- Python job: 190 passed, 8 PostgreSQL-scoped skipped, 1 warning
+- Ephemeral PostgreSQL 16 job: 8 passed
+- Changed files: only Python bridge runtime and tests; no Lean root, import,
+  theorem, source signatures, pinned toolchain or mathlib edits
+- Test scope: exact-ID priority over backlog, duplicate suppression,
+  bounded fanout, exhausted/stale lease safety and competing PostgreSQL
+  claimants for the exact same ID
+
+Outstanding independent activation conditions remain: real MCP Events plugin
+connection in ChatGPT, production OAuth/PostgreSQL/encryption-key provision,
+a signed source event ingress and observed Dot subscription/callback receipt,
+plus GitHub MCP exact-HEAD/run/job/Lean-step re-observation after that receipt.
+
+Status: PYTHON_CI_CERTIFIED_IN_SCOPE / BLOCKED_MCP_EVENT_SUBSCRIPTION.
+No production deployment, new PR, main write, or merge was performed.
