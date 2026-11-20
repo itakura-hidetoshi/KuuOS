@@ -1034,3 +1034,112 @@ proves a **boundary was enforced**, not that a ChatGPT user was authorized.
 `BLOCKED_MCP_EVENT_SUBSCRIPTION`.
 No canonical main merge, production deploy, production DB mutation
 or new PR was performed in this stage.
+
+
+## Live synthetic OAuth→MCP Events listing and pinned SDK revocation obstruction (2026-11-21)
+
+This is an append-only record of staging-only tests. The OAuth principal
+below was a deliberately generated **synthetic test owner**, not a
+consenting ChatGPT user, Dots identity, or source of GitHub authority.
+
+### Actual Vercel Preview / Neon OAuth transport success
+
+- Existing Vercel project `prj_iBLTjldWRWTAQ9hQzjlY5n4MkPg2`.
+  Preview deployment `dpl_4e9RywUVWnkDAtaZfkfJygydzyVR`,
+  https://kuuos-chat-work-cpqnoihhs-itakurahidetoshi-9224.vercel.app,
+  was READY with `target=null` and deployed code SHA
+  `a8b960b869d28ce39dbff5a7a8588998412b9bbb`.
+  This deployed runtime is **not** falsely identified as the later
+  Python CI source HEAD.
+- An isolated Vercel Sandbox
+  `sbx_1vDD6HpdYZJTgPDzDu8Kl1uh6SQ8` used the current protected
+  Preview share cookie and an ephemeral, Preview-only owner test
+  secret. Network egress was allowlisted to this **one** Preview
+  hostname. Neither URL secret, access token, refresh token, PKCE
+  verifier, authorization code nor credentials were printed or
+  written to GitHub. The Sandbox was **stopped** after observation.
+- The genuine network exchange completed:
+  dynamic OAuth public-client registration **201**;
+  authorization request with exact `resource` and PKCE `S256`
+  **302** to the server login;
+  synthetic owner fixture login **302** to the registered callback;
+  authorization code exchange **200** issuing an access token;
+  authenticated JSON-RPC `initialize` over real HTTPS POST **200**;
+  authenticated JSON-RPC `events/list` **200**, advertising exactly:
+  `kuuos.github.ci_completed` and
+  `kuuos.github.pr_head_updated`.
+  The authenticated handshake returned the normal
+  `tools`/`resources`/`prompts` capabilities plus `events`.
+- The synthetic client deliberately did **not** call
+  `events/subscribe`, create any callback, or claim a real GitHub
+  event. A separate real protected `/healthz` GET and OAuth
+  discovery query confirmed OAuth/Events/GitHub ingress were loaded
+  and the issuer/resource were bound to the same fixed Preview.
+- Independent Neon branch `br-proud-queen-ayak8zsl` (not the
+  default branch) retained **one** synthetic OAuth access record,
+  **one** public client registration and **one** refresh record.
+  No event subscription or delivery outbox records existed.
+  DB-reported access expiry was `2026-11-20T23:16:28Z` and refresh
+  expiry was `2026-12-20T22:16:28Z`; **expiry metadata is not
+  evidence of revocation or a sweep of expired records**.
+
+### HTTP revocation failure and source-backed diagnosis
+
+- During the true staging OAuth flow, public client `POST /revoke`
+  without `client_secret` returned **HTTP 400**
+  `invalid_request`. This was not reported as a success or silently
+  cleared from the audit.
+- Upstream MCP Python SDK issue
+  https://github.com/modelcontextprotocol/python-sdk/issues/3508
+  describes `client_secret: str | None` without a default, which
+  Pydantic 2 treats as **required even for public clients**. This
+  is consistent with the observed request/response, though the
+  pinned parser must be independently tested to claim that exact
+  code-level cause.
+- Existing bridge `mcp==2.3.0` remained pinned to preserve the
+  explicitly version-bound MCP Events capability shim. No
+  uncontrolled SDK upgrade or production monkeypatch was applied.
+- Exact-source Python/PG CI
+  https://github.com/itakura-hidetoshi/KuuOS/actions/runs/44828011770
+  (`323f7e5020ccd9b11d8bccf598922d306404d89d`)
+  completed/SUCCESS: Python **245 passed / 12 skipped / 1 warning**;
+  PG16.16 and PG18.7 **12/12** each. Added regressions show the
+  public-client parser requires explicit empty `client_secret`,
+  while the embedded provider invalidates the associated access/
+  refresh token pair.
+- A further independent CI
+  https://github.com/itakura-hidetoshi/KuuOS/actions/runs/44828362764
+  at exact HEAD `943eb7e89829b7884ad40d9c5bd5f115d7260d7d`
+  completed/SUCCESS: Python **245 passed / 13 skipped / 1 warning**,
+  disposable PG16.16 and PG18.7 **13/13** each.
+  Its additional test executes the actual SDK `/revoke` HTTP route
+  on a disposable PostgreSQL database with an explicitly empty
+  `client_secret`, and verifies access/refresh pair invalidation.
+- A subsequent external retry of the synthetic revocation
+  handshake was blocked by the execution environment, hence
+  **no real Preview token revocation is certified**. Do not claim
+  the remaining staging test credentials were revoked; their raw
+  values were not saved for reuse.
+
+### External authority boundary
+
+The observed true authenticated `events/list` is a real
+**staging synthetic principal**, not the actual user's OAuth consent.
+The protected Vercel Preview is not established as a stable public
+ChatGPT custom MCP plugin connection. No actual connected plugin,
+Dots「くー」 `events/subscribe`, callback verification, GitHub
+real signed push, event callback receipt or Dot-initiated independent
+GitHub MCP exact-HEAD/run/attempt/job/Lean-step validation exists
+in this evidence. GitHub webhook administration still has
+`NO_DATA` because the available GitHub MCP connector cannot read
+its secrets or webhook settings.
+
+The correct operational distinction is:
+
+`REAL_SYNTHETIC_OAUTH_PKCE_MCP_EVENTS_LIST_CERTIFIED` /
+`DISPOSABLE_PG16_18_HTTP_REVOKE_13_OF_13_CI_SUCCESS` /
+`REAL_PREVIEW_TOKEN_REVOKE_UNCERTIFIED` /
+`DOT_SUBSCRIPTION_AND_CALLBACK_NOT_OBSERVED`.
+
+Production deployment, Production environment variables,
+canonical GitHub main, and Neon default branch were not changed.
