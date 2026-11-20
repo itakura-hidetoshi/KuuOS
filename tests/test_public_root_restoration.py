@@ -162,6 +162,33 @@ PR3608_REVIEWED_HISTORIC_PROOF_REPAIR = {
     },
 }
 
+# PR #3608: precise Lean code-generation declarations in the historic
+# original DecisionOS dependency closure. This is NOT a proof rewrite,
+# not a lax global exception, and NOT an edit to archived historical bytes.
+# Each single keyword prefix is independently justified and SHA-pinned.
+PR3608_REVIEWED_REAL_NONCOMPUTABLE_DECLARATIONS = {
+    "KuuOS/PlanOSQiConditionedInformationMetricCertificateKernelV01.lean": {
+        "old_blob": "a4b0c3007e0f7dcca83e6152214d3271c7b1eb1f",
+        "new_blob": "3ceb64ce85ca8890dc19d601e0913fa3cda739b0",
+        "definitions": ["diagonalQuadraticForm"],
+    },
+    "KuuOS/PlanOSWorldConditionedPathProjectionPullbackMetricKernelV01.lean": {
+        "old_blob": "94ce4db594d3a7af326bfcc21c976d23ac9a9f39",
+        "new_blob": "7539b99b0a5e582785bff3bb372a697f4b4a2783",
+        "definitions": ["planQuadraticForm","worldPullbackQuadraticForm","combinedTransitionAction"],
+    },
+    "KuuOS/PlanOSWorldConditionedObjectiveDistributionUpdateKernelV01.lean": {
+        "old_blob": "57320de236789c8829cd3ada789f35fb221f7d4c",
+        "new_blob": "9ee548bcf025dfce350f76c2cc85a250cf6988f0",
+        "definitions": ["worldConditionedGibbsFactor"],
+    },
+    "KuuOS/PlanOSWorldConditionedDistributionDecisionHandoffCertificateKernelV01.lean": {
+        "old_blob": "b88865eff8083f69942a85f7efa7f49541311d27",
+        "new_blob": "cc5119a74ae03fc3609931ebc92745a62b46389f",
+        "definitions": ["effectiveSupport"],
+    },
+}
+
 class PublicRootRestorationTests(unittest.TestCase):
     def test_every_previous_public_root_remains_published(self):
         old = tomllib.loads((ROOT / 'legacy/v5.291/lakefile.toml').read_text())
@@ -219,6 +246,7 @@ class RestoredWiringTests(unittest.TestCase):
         seen = set()
         pinned_seen = set()
         reviewed_proof_seen = set()
+        reviewed_real_seen = set()
         for old in archived:
             rel = old.relative_to(before)
             if rel.as_posix() == 'KuuOSFormal.lean':
@@ -243,7 +271,26 @@ class RestoredWiringTests(unittest.TestCase):
                                      f'v0.47 proof replacement not unique: {rel}')
                     expected = expected.replace(
                         repair["old_proof"], repair["new_proof"], 1)
+                # Only mark real divisions and classical real functions as
+                # noncomputable; no theorem types, terms or source modules
+                # outside the exact reviewed declaration list may change.
+                noncomp = PR3608_REVIEWED_REAL_NONCOMPUTABLE_DECLARATIONS.get(
+                    rel.as_posix())
+                if noncomp is not None:
+                    reviewed_real_seen.add(rel.as_posix())
+                    self.assertEqual(git_blob_sha(old.read_bytes()),
+                                     noncomp["old_blob"],
+                                     f'v0.47 archived real declaration drift: {rel}')
+                    for name in noncomp["definitions"]:
+                        old_token = ("def " + name).encode("utf-8")
+                        new_token = ("noncomputable def " + name).encode("utf-8")
+                        self.assertEqual(expected.count(old_token), 1,
+                                         f'v0.47 ununique real declaration: {rel} {name}')
+                        expected = expected.replace(old_token, new_token, 1)
                 current = (ROOT / 'formal' / rel).read_bytes()
+                if noncomp is not None:
+                    self.assertEqual(git_blob_sha(current), noncomp["new_blob"],
+                                     f'v0.47 reviewed real declaration blob drift: {rel}')
                 if repair is not None:
                     self.assertEqual(git_blob_sha(current), repair["new_blob"],
                                      f'v0.47 reviewed proof blob drift: {rel}')
@@ -262,6 +309,9 @@ class RestoredWiringTests(unittest.TestCase):
         self.assertEqual(reviewed_proof_seen,
                          set(PR3608_REVIEWED_HISTORIC_PROOF_REPAIR),
                          'all v0.47 proof repairs require unique archival matching')
+        self.assertEqual(reviewed_real_seen,
+                         set(PR3608_REVIEWED_REAL_NONCOMPUTABLE_DECLARATIONS),
+                         'all v0.47 real decl modifiers must be exactly reviewed')
 
     def test_f55_path_functor_composition_has_actual_path_homs(self):
         # Regression for PR #2428: Paths V is a type synonym of V.
