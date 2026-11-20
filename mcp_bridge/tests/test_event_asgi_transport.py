@@ -146,3 +146,62 @@ def test_initialize_advertises_events_through_actual_mcp_http_transport():
         packet = reply.json()
         assert packet["result"]["capabilities"]["events"] == {}
         assert "tools" in packet["result"]["capabilities"]
+
+
+def _rpc(client: TestClient, method: str, params: dict, request_id: int) -> dict:
+    response = client.post(
+        "/mcp",
+        headers={
+            "accept": "application/json, text/event-stream",
+            "content-type": "application/json",
+            "mcp-protocol-version": "2025-11-25",
+        },
+        json={
+            "jsonrpc": "2.0",
+            "id": request_id,
+            "method": method,
+            "params": params,
+        },
+    )
+    assert response.status_code == 200, response.text
+    packet = response.json()
+    assert "error" not in packet, packet
+    return packet["result"]
+
+
+def test_events_list_over_actual_mcp_jsonrpc_transport():
+    app, _ = _fixture()
+    with TestClient(app) as client:
+        catalog = _rpc(client, "events/list", {}, 10)
+        names = [item["name"] for item in catalog["events"]]
+        assert "kuuos.github.ci_completed" in names
+        assert "kuuos.github.pr_head_updated" in names
+        ci = next(item for item in catalog["events"]
+                  if item["name"] == "kuuos.github.ci_completed")
+        assert ci["inputSchema"]["properties"]["repository"]["enum"] == [MGAP_REPO]
+
+
+def test_events_subscribe_and_unsubscribe_over_actual_mcp_jsonrpc():
+    app, _ = _fixture()
+    with TestClient(app) as client:
+        arguments = {
+            "repository": MGAP_REPO,
+            "workflow_name": "PR Lean Fast Check",
+        }
+        callback = "https://new-receiver.example.org/mcp"
+        secret = "whsec_" + base64.b64encode(b"w" * 32).decode("ascii")
+        req = {
+            "name": CI_EVENT, "arguments": arguments,
+            "delivery": {"mode": "webhook", "url": callback, "secret": secret},
+            "cursor": None,
+        }
+        first = _rpc(client, "events/subscribe", req, 11)
+        second = _rpc(client, "events/subscribe", req, 12)
+        assert first["id"].startswith("sub_")
+        assert first == second
+        assert secret not in json.dumps(first)
+        done = _rpc(client, "events/unsubscribe", {
+            "name": CI_EVENT, "arguments": arguments,
+            "delivery": {"mode": "webhook", "url": callback},
+        }, 13)
+        assert done == {}
