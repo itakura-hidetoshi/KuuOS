@@ -267,3 +267,42 @@ def test_embedded_provider_revokes_access_and_refresh_pair_together() -> None:
     )
     asyncio.run(provider.revoke_token(credential))
     assert deleted == ["synthetic-pair-never-in-a-database"]
+
+def test_old_owner_credentials_fail_closed_after_subject_rotation() -> None:
+    """Retained synthetic grants cannot authorize a replacement owner."""
+    provider = _provider()
+    records: dict[tuple[str, str], dict[str, object]] = {}
+
+    def put(kind: str, key: str, payload: dict[str, object], *,
+            expires_at: float | None = None) -> None:
+        del expires_at
+        records[(kind, key)] = payload
+
+    provider._put = put
+    provider._get = lambda kind, key: records.get((kind, key))
+    provider._pop = lambda kind, key: records.pop((kind, key), None)
+    pair = asyncio.run(provider._issue_pair(
+        client_id="client-a", scopes=["kuuos:read"],
+        resource=RESOURCE, subject="kuuos-owner",
+    ))
+    assert pair.refresh_token is not None
+    client = SimpleNamespace(client_id="client-a")
+    refresh = asyncio.run(provider.load_refresh_token(client, pair.refresh_token))
+    assert refresh is not None
+    assert asyncio.run(provider.load_access_token(pair.access_token)) is not None
+
+    # Operator changes the owner subject when replacing the synthetic
+    # staging owner secret; no destructive database mutation is needed.
+    provider.owner_subject = "kuuos-human-owner-v1"
+    assert asyncio.run(provider.load_access_token(pair.access_token)) is None
+    assert asyncio.run(provider.load_refresh_token(client, pair.refresh_token)) is None
+    with pytest.raises(TokenError) as invalid_refresh:
+        asyncio.run(provider.exchange_refresh_token(client, refresh, ["kuuos:read"]))
+    assert invalid_refresh.value.error == "invalid_grant"
+    with pytest.raises(TokenError) as invalid_code:
+        asyncio.run(provider._issue_pair(
+            client_id="client-a", scopes=["kuuos:read"],
+            resource=RESOURCE, subject="kuuos-owner",
+        ))
+    assert invalid_code.value.error == "invalid_grant"
+

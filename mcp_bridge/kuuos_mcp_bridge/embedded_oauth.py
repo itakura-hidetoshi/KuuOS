@@ -389,6 +389,13 @@ class EmbeddedPostgresOAuthProvider(
         subject: str | None,
     ) -> OAuthToken:
         resource = self._require_token_resource(resource)
+        # A pre-rotation code or refresh token may not mint credentials
+        # for an owner subject no longer permitted by this deployment.
+        if subject != self.owner_subject:
+            raise TokenError(
+                error="invalid_grant",
+                error_description="OAuth owner subject is no longer authorized",
+            )
         now = int(time.time())
         pair_id = secrets.token_urlsafe(24)
         access_value = f"kuuos_at_{secrets.token_urlsafe(32)}"
@@ -448,7 +455,7 @@ class EmbeddedPostgresOAuthProvider(
         access = AccessToken.model_validate(
             self._restore_secret(payload, "token", token)
         )
-        if access.resource != self.resource_url:
+        if access.resource != self.resource_url or access.subject != self.owner_subject:
             return None
         if access.expires_at is not None and access.expires_at <= time.time():
             return None
@@ -470,7 +477,7 @@ class EmbeddedPostgresOAuthProvider(
         refresh = RefreshToken.model_validate(
             self._restore_secret(payload, "token", refresh_token)
         )
-        if refresh.client_id != client.client_id:
+        if refresh.client_id != client.client_id or refresh.subject != self.owner_subject:
             return None
         return refresh
 
@@ -508,6 +515,11 @@ class EmbeddedPostgresOAuthProvider(
             raise TokenError(
                 error="invalid_grant",
                 error_description="refresh token client mismatch",
+            )
+        if stored.subject != self.owner_subject:
+            raise TokenError(
+                error="invalid_grant",
+                error_description="OAuth owner subject is no longer authorized",
             )
         requested = scopes or stored.scopes
         if not set(requested).issubset(stored.scopes):

@@ -149,6 +149,9 @@ def test_build_oauth_config_embedded_wires_provider_without_external_verifier(
     assert captured["resource_url"] == "https://resource.example/mcp"
     assert config.auth_settings.client_registration_options is not None
     assert config.auth_settings.client_registration_options.enabled
+    assert config.auth_settings.client_registration_options.valid_scopes == [
+        "kuuos:read", "kuuos:write", "offline_access",
+    ]
     assert config.auth_settings.client_registration_options.default_scopes == [
         "kuuos:read",
         "kuuos:write",

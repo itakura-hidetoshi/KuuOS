@@ -317,7 +317,9 @@ def build_oauth_config() -> OAuthConfig | None:
             default_scopes.append(write_scope)
         client_registration_options = ClientRegistrationOptions(
             enabled=True,
-            valid_scopes=[read_scope, write_scope],
+            # Refresh is implemented; expose offline access as an opt-in
+            # OAuth scope without granting new read/write permissions.
+            valid_scopes=list(dict.fromkeys([read_scope, write_scope, "offline_access"])),
             default_scopes=default_scopes,
         )
         revocation_options = RevocationOptions(enabled=True)
