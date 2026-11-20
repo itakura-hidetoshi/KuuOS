@@ -79,6 +79,37 @@ class VerifyPlanSixRoutesSourceTests(unittest.TestCase):
         for name in checker.LEAN_IMPORTS:
             self.assertIn(name, lines)
 
+    def test_lean_proof_hole_scan_preserves_identifiers_and_noncode(self):
+        source = '''
+import Mathlib
+def admittedForStatus : Bool := true
+def no_admit_suffix := admittedForStatus
+def proof_name_admit_example := true
+def literal := "axiom sorry admit -- /-"
+def escaped := "string with \"sorry\" inside"
+-- axiom bogus : True
+/- outer sorry /- nested admit -/ axiom -/
+def «sorry» := true
+def «admit» := true
+'''
+        self.assertFalse(checker._contains_unproved_lean(source))
+
+    def test_lean_proof_hole_scan_detects_actual_tokens(self):
+        for name, source in (
+            ("axiom", "axiom unproved : True"),
+            ("sorry", "theorem unproved : True := by\n  exact sorry"),
+            ("admit", "theorem unproved : True := by\n  admit"),
+            ("inline", "theorem unproved : True := by\n  first | assumption | sorry"),
+        ):
+            with self.subTest(name=name):
+                self.assertTrue(checker._contains_unproved_lean(source))
+
+    def test_lean_lexical_scan_rejects_unterminated_regions(self):
+        for source in ('/- unterminated', 'def x := "unterminated',
+                       'def «unfinished'):
+            with self.subTest(source=source), self.assertRaises(ValueError):
+                checker._contains_unproved_lean(source)
+
     def test_no_missing_new_file_is_treated_as_complete_source(self):
         absent = "formal/KUOS/Architecture/FakeSixRoute.lean"
         with patch.object(checker, "NEW", checker.NEW + (absent,)):
