@@ -7,6 +7,7 @@ Nothing is subscribed or delivered merely because the module exists.
 from __future__ import annotations
 
 import os
+from importlib.metadata import PackageNotFoundError, version as installed_package_version
 from typing import Any
 
 from .event_delivery import verify_callback_challenge
@@ -14,6 +15,11 @@ from .event_subscriptions import PostgresSubscriptionStore, SubscriptionManager
 from .github_event_contract import REPOSITORIES
 from .mcp_event_methods import install_mcp_event_methods
 from .state_store import PostgresStateStore
+
+
+# Version bound to the independently tested MCP Python SDK in CI #44745153473.
+# The low-level handler/capability middleware is not a stable SDK public API.
+MCP_EVENTS_SDK_PIN = "2.3.0"
 
 
 def _csv(name: str) -> tuple[str, ...]:
@@ -49,6 +55,15 @@ def configure_mcp_events(mcp: Any, oauth: Any, store: Any) -> SubscriptionManage
     database_url = getattr(store, "database_url", "")
     if not isinstance(database_url, str) or not database_url:
         raise RuntimeError("MCP Events require configured PostgreSQL DSN")
+    try:
+        observed_sdk = installed_package_version("mcp")
+    except PackageNotFoundError as exc:
+        raise RuntimeError("MCP Events SDK distribution missing") from exc
+    if observed_sdk != MCP_EVENTS_SDK_PIN:
+        raise RuntimeError(
+            f"MCP Events version-bound adapter requires mcp=={MCP_EVENTS_SDK_PIN}; "
+            f"observed {observed_sdk}"
+        )
 
     def authorize(principal: str, name: str, arguments: Any) -> bool:
         return (

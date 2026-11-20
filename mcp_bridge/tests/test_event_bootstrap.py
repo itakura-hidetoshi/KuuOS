@@ -76,3 +76,12 @@ def test_validated_config_passes_typed_manager_to_handler_installer(monkeypatch)
     assert manager.authorize("owner-1", CI_EVENT, {"repository": MGAP_REPO})
     assert not manager.authorize("intruder", CI_EVENT, {"repository": MGAP_REPO})
     assert not manager.authorize("owner-1", CI_EVENT, {"repository": "example/other"})
+
+
+def test_rejects_unverified_sdk_version_before_activating_events(monkeypatch):
+    configure_allowed(monkeypatch)
+    monkeypatch.setattr(
+        event_bootstrap, "installed_package_version", lambda name: "2.99.0"
+    )
+    with pytest.raises(RuntimeError, match="version-bound adapter requires mcp==2.3.0"):
+        event_bootstrap.configure_mcp_events(None, object(), fake_state_backend())

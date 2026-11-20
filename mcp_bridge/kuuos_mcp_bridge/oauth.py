@@ -306,6 +306,9 @@ def build_oauth_config() -> OAuthConfig | None:
             issuer_url=AnyHttpUrl(issuer),
             resource_server_url=AnyHttpUrl(resource_url),
             required_scopes=[read_scope],
+            # Reject bearer tokens issued for a different MCP resource.
+            # This tightens the SDK v2.3 warning without weakening any scope.
+            validate_token_resource=True,
             client_registration_options=client_registration_options,
             revocation_options=revocation_options,
         ),

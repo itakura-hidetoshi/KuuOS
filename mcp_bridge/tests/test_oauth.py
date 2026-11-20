@@ -84,6 +84,7 @@ def test_build_oauth_config_supports_explicit_jwks_mode(monkeypatch) -> None:
     assert config.token_mode == "jwks"
     assert config.read_scope == "kuuos:read"
     assert config.write_scope == "kuuos:write"
+    assert config.auth_settings.validate_token_resource is True
 
 
 def test_build_oauth_config_embedded_requires_postgres(monkeypatch) -> None:
@@ -142,6 +143,7 @@ def test_build_oauth_config_embedded_wires_provider_without_external_verifier(
     assert config.token_verifier is None
     assert config.embedded_provider is not None
     assert config.token_mode == "embedded"
+    assert config.auth_settings.validate_token_resource is True
     assert captured["database_url"] == "postgresql://db.example/kuuos"
     assert captured["issuer"] == "https://issuer.example"
     assert captured["resource_url"] == "https://resource.example/mcp"
