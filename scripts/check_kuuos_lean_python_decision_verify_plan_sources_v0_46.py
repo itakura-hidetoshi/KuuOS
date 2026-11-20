@@ -60,12 +60,13 @@ TEST_CLASSES = {
 }
 LEAN_IMPORTS = (
     "import Mathlib",
-    "import KUOS.DecisionOS.BoundedPlanSynthesisRequestHandoffV0_8",
     "import KUOS.Architecture.LeanPythonVerifyPlanSixRoutesV0_45",
 )
 LEAN_DECLARATIONS = (
-    "def originalDecisionAuthorityBoundary",
-    "theorem originalDecisionAuthorityBoundary_of_valid",
+    "structure SourceMappedDecisionHandoffReceipt",
+    "structure SourceMappedDecisionHandoffValid",
+    "def sourceMappedDecisionAuthorityBoundary",
+    "theorem sourceMappedDecisionAuthorityBoundary_of_valid",
     "structure WholeReceiptSeam",
     "theorem decisionVerifyPlanConditionalWitness",
     "theorem decisionHandoff_onlyRetainIsBoundedIntake",
