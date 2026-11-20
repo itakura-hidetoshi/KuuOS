@@ -18,6 +18,24 @@ from scripts import (
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE_PARENT = "410037a3bd8af5d78defb83e72b65f8b319caf3f"
 ORIGINAL_LAKE_BLOB = "b347dc9615089258d2bd9e265c4919810a7468e3"
+LEGACY_TEMPERATURE_SOURCE = (
+    "legacy/v5.291/formal/KuuOS/"
+    "PlanOSTemperatureTrajectoryStabilityCertificateKernelV01.lean"
+)
+ACTIVE_TEMPERATURE_SOURCE = (
+    "formal/KuuOS/PlanOSTemperatureTrajectoryStabilityCertificateKernelV01.lean"
+)
+ORIGINAL_TEMPERATURE_BLOB = "46d8a67594af17e6aa63f13600f90b9ab34c8ff8"
+ACTIVE_TEMPERATURE_BLOB = "a3d7e25d585da29e17eaef8f8c11d972948dbb40"
+TEMPERATURE_OLD_PROOF = (
+    b"  | cons step steps ih =>\n"
+    b"      simp [totalVariation, abs_nonneg, ih]"
+)
+TEMPERATURE_NEW_PROOF = (
+    b"  | cons step steps ih =>\n"
+    b"      simp only [totalVariation]\n"
+    b"      exact add_nonneg (abs_nonneg step) ih"
+)
 NEW = (
     "formal/KUOS/Architecture/LeanPythonOriginalDecisionTypeBridgeV0_47.lean",
     "scripts/check_kuuos_lean_python_original_decision_type_sources_v0_47.py",
@@ -146,6 +164,19 @@ def check_sources(root: Path = ROOT) -> tuple[str, ...]:
         elif _blob(raw) != sha:
             issues.append("v047_original_source_changed:" + path)
 
+    # Existing active historical source is repaired by one proof-term change.
+    # Preserve byte-for-byte legacy snapshot; require exact single substitution.
+    archive_raw, archive_problem = _read(root, LEGACY_TEMPERATURE_SOURCE)
+    active_raw, active_problem = _read(root, ACTIVE_TEMPERATURE_SOURCE)
+    if archive_problem or active_problem:
+        issues.append("v047_historical_temperature_source_missing")
+    elif (_blob(archive_raw) != ORIGINAL_TEMPERATURE_BLOB
+          or archive_raw.count(TEMPERATURE_OLD_PROOF) != 1
+          or _blob(active_raw) != ACTIVE_TEMPERATURE_BLOB
+          or active_raw != archive_raw.replace(
+              TEMPERATURE_OLD_PROOF, TEMPERATURE_NEW_PROOF, 1)):
+        issues.append("v047_historical_temperature_proof_uncontrolled_change")
+
     raw_lake, lake_problem = _read(root, "lakefile.toml")
     if lake_problem:
         issues.append("v047_lakefile_missing")
@@ -240,6 +271,7 @@ def main() -> int:
         print("BLOCKED:", issue)
     if not issues:
         print("STATIC_MATCH: exactly 10 nonpublished legacy module registrations")
+        print("STATIC_MATCH: preserved historic temperature proof snapshot, exact repair")
         print("STATIC_MATCH: entire original 35-field and 35-premise receipt model")
         print("NOT_PROOF: only Strict Lean can certify original type equivalence")
     return int(bool(issues))
