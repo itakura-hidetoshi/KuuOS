@@ -460,3 +460,78 @@ Production/Dot state:
 
 No main merge, production deployment, new PR, credential disclosure,
 or claim of end-to-end wake-up was made in this continuation.
+
+
+## Vercel preview source artifact and runtime-dependency verification (2026-11-21 JST)
+
+This append-only receipt supersedes neither the earlier failed preview nor its
+corrected-build evidence. No claim below is a Dots callback receipt.
+
+### Exact source and independent Python/PostgreSQL CI
+
+- Candidate source HEAD:
+  `3b63a2aa73939f7a34be4f3c6fd95dec79c939f5`.
+- Exact GitHub Actions run:
+  https://github.com/itakura-hidetoshi/KuuOS/actions/runs/44810353350
+  completed / SUCCESS; all three jobs completed successfully.
+- Python tests: **194 passed, 8 skipped, one inherited warning**.
+  Disposable PostgreSQL 16.16: **8/8 passed**.
+  Disposable PostgreSQL 18.7: **8/8 passed**.
+- Vercel Python build selected `pyproject.toml` dependencies (not
+  automatically the `requirements.txt` fallback). The Postgres driver
+  `psycopg[binary]>=3.2,<4` was promoted to the normal project runtime
+  dependency without weakening the independent OAuth and Events gates.
+  The additional regression test verifies both dependency manifests.
+
+### Exact existing-project Vercel preview delivery
+
+- Project: `kuuos-chat-work-mcp`,
+  ID `prj_iBLTjldWRWTAQ9hQzjlY5n4MkPg2`.
+- First file-based preview attempt `dpl_GsQfY2Jsfs4Sd4MC6ighTxgJ2gfA`:
+  build ERROR with `PYTHON_ENTRYPOINT_NOT_FOUND` because the initial
+  18-file request omitted `pyproject.toml`. Its failure remains recorded.
+- Corrected 19-file preview
+  `dpl_ADTR78tkRjTGvDGAZRhbWSAn98Mr`: READY and Python entrypoint
+  resolved; it preceded the base runtime Postgres dependency correction.
+- Final **preview**, not production:
+  `dpl_FpSXLThDx6VGsDWacg7SCwjYuZL6`.
+  URL: https://kuuos-chat-work-1gtrf0opm-itakurahidetoshi-9224.vercel.app
+  Vercel status: READY; `target=null` (non-production preview),
+  Python 3.12, 20 submitted runtime source files, entrypoint
+  `api.mcp:app`. It was built from source HEAD above.
+- File-by-file provenance: for the 20 source files under `mcp_bridge/`
+  (2 ASGI API files, 16 `kuuos_mcp_bridge` Python modules,
+  `pyproject.toml`, and `requirements.txt`), Vercel deployment
+  file `uid` equals the SHA-1 digest of the exact source file bytes
+  re-fetched from the GitHub fixed commit. **20 of 20 matched**.
+  This is a source-artifact hash match, not an executable runtime test.
+  The Vercel file-content retrieval can return a truncated base64
+  prefix for large source files; SHA-1 UID comparisons used the full
+  GitHub source and were checked against the Vercel file inventory,
+  rather than falsely treating the truncated base64 as a byte mismatch.
+- The Vercel project has protection enabled for previews; unauthenticated
+  requests cannot serve as trusted MCP handshake tests. No verified
+  `/healthz` HTTP response, OAuth token, live `events/list`,
+  `events/subscribe`, or callback event was observed.
+
+### Operational boundary retained
+
+The existing Neon Postgres project `rough-meadow-33652646` default
+branch was previously confirmed `ready` by read-only SQL.
+The MCP Events tables were not yet provisioned there. The existing
+Vercel project reported zero configured environment variable keys,
+so no durable OAuth/PostgreSQL subscription was activated. The
+custom ChatGPT KuuOS MCP plugin and Dot subscription have not been
+connected. The GitHub-signed production event sender remains
+unverified. No production DB write, secrets read-back, Vercel
+production promotion, GitHub main merge, or new PR was performed.
+
+Result: `PREVIEW_SOURCE_SHA1_20_OF_20_VERIFIED` and
+`PYTHON_194_PG16_18_CI_SUCCESS`, while end-to-end status remains
+`BLOCKED_MCP_EVENT_SUBSCRIPTION`.
+
+Conditions remaining: protected preview HTTP/MCP handshake under
+the authorized client; separated staging auth/database; ChatGPT
+plugin OAuth connection; real subscription and signed challenge;
+actual matching and excluded deliveries; Dot wake-up followed by
+independent exact GitHub run/job/Lean-step re-observation.
