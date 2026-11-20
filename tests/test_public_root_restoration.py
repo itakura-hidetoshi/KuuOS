@@ -151,12 +151,12 @@ PR3608_REVIEWED_HISTORIC_PROOF_REPAIR = {
         "old_blob": "46d8a67594af17e6aa63f13600f90b9ab34c8ff8",
         "new_blob": "a3d7e25d585da29e17eaef8f8c11d972948dbb40",
         "old_proof": (
-            b"  | cons step steps ih =>\\n"
+            b"  | cons step steps ih =>\n"
             b"      simp [totalVariation, abs_nonneg, ih]"
         ),
         "new_proof": (
-            b"  | cons step steps ih =>\\n"
-            b"      simp only [totalVariation]\\n"
+            b"  | cons step steps ih =>\n"
+            b"      simp only [totalVariation]\n"
             b"      exact add_nonneg (abs_nonneg step) ih"
         ),
     },
