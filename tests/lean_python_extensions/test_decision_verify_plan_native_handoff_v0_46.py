@@ -69,6 +69,9 @@ def _all_nested_digests(packet: dict, key: str) -> list[str]:
 
 
 def build_original_verify_plan_case(kind: str, decision_receipt: dict) -> dict:
+    # Independent fixture cases must not alias one mutable source packet.
+    # A local corruption of one route must not silently corrupt other routes.
+    decision_receipt = deepcopy(decision_receipt)
     spec = verify_fixture._spec(decision_receipt, kind)
     # Retain the exact DecisionOS source evidence, never replace it with the
     # earlier synthetic VerifyOS test-source strings.
@@ -189,6 +192,14 @@ class NativeDecisionVerifyPlanSixRouteTests(unittest.TestCase):
         self.assertTrue(result.full_decision_verify_packet_seams_checked)
         self.assertTrue(result.original_verify_plan_certificate_seams_checked)
         self.assertEqual(result.route_results, prior.ROUTES)
+
+    def test_six_original_source_packets_have_independent_object_identity(self):
+        first = self.route_cases["retain"]["verify"]["source_handoff_receipt"]
+        for kind in prior.KIND_TO_STATUS:
+            packet = self.route_cases[kind]["verify"]["source_handoff_receipt"]
+            self.assertEqual(packet, first)
+            if kind != "retain":
+                self.assertIsNot(packet, first)
 
     def test_actual_decision_receipt_is_unchanged_and_shared_whole_packet(self):
         outcome = decision.build_decisionos_bounded_plan_synthesis_request_handoff_receipt(
