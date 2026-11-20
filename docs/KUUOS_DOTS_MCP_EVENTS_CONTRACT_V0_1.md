@@ -300,3 +300,74 @@ plus GitHub MCP exact-HEAD/run/job/Lean-step re-observation after that receipt.
 
 Status: PYTHON_CI_CERTIFIED_IN_SCOPE / BLOCKED_MCP_EVENT_SUBSCRIPTION.
 No production deployment, new PR, main write, or merge was performed.
+
+## Production-compatibility and deployment-provenance audit (append-only, 2026-11-20)
+
+This is a new, narrowly scoped observation. It does not retroactively certify
+any earlier HEAD, the live Neon data, or a Dots event receipt.
+
+### PostgreSQL major-version compatibility: independently certified
+
+- Candidate workflow-only commit:
+  `8bb127a964f768141ddcc55dcd4209615cb8bf27`.
+- GitHub Actions run:
+  https://github.com/itakura-hidetoshi/KuuOS/actions/runs/44752493303
+- Exact run/head identity: push on
+  `feat/kuuos-dots-mcp-ci-event-contract-v0-1-20261120`; completed/SUCCESS.
+- Three completed successful jobs: Python bridge (190 passed, 8 skipped,
+  1 inherited warning); disposable PostgreSQL 16.16 (8 passed); disposable
+  PostgreSQL 18.7 (8 passed).
+- The change to `.github/workflows/mcp-bridge-python-validation.yml`
+  retains the existing PostgreSQL 16 integration and adds a PostgreSQL 18
+  matrix leg, with no Lean files or pinned mathlib touched.
+- This certifies only tests against disposable CI service databases. It
+  does **not** prove integration with the existing Neon production database.
+
+### Existing production resources: independently re-observed, not activated
+
+- GitHub canonical `main` at this audit:
+  `410037a3bd8af5d78defb83e72b65f8b319caf3f`. Feature HEAD is
+  not a main merge.
+- Vercel project `kuuos-chat-work-mcp` exists, project
+  `prj_iBLTjldWRWTAQ9hQzjlY5n4MkPg2`. Environment inventory returned
+  zero configured keys and zero hidden production keys; OAuth, database
+  and MCP Events runtime activation therefore cannot be certified.
+- Existing production deployment
+  `dpl_EcXiLn5WFnGna12Yi8oAzedmaLLH` reports READY, but its deployment
+  file inventory has only the older seven-file Python package.
+  Independently inspected deployed `src/kuuos_mcp_bridge/server.py` lacks
+  `KUUOS_MCP_EVENTS_ENABLED`, the new event-method installation and GitHub
+  event route. READY is only deployment-platform state, **not** evidence that
+  this event-enabled candidate code is in production.
+- Neon project `rough-meadow-33652646`, also named
+  `kuuos-chat-work-mcp`, reports PostgreSQL major version 18. Its default
+  `main` branch `br-summer-lake-ayfwkun3` remains `archived`. An
+  existing endpoint is present and idle. No compute was started, branch
+  revived, secret read, schema changed or production transaction attempted.
+- Vercel integration-configuration enumeration returned 403 forbidden.
+  That establishes an **inspection/permission obstruction**, not proof
+  that every possible integration is absent. Project connector listing
+  returned 404. Neither result certifies a configured Neon↔Vercel binding.
+
+### Remaining separate authority and delivery gates
+
+1. Confirm the intended production authorization boundary, reconnect or
+   provision a suitable Neon database securely and configure Vercel
+   environment-specific secrets without exposing any credential in GitHub
+   records. Do not use disposable CI credentials.
+2. Establish a reviewed, exact-source deploy of the event-capable bridge
+   to the existing Vercel project, without treating the old READY deployment
+   as equivalent source. Keep the backend disabled unless its OAuth,
+   repository, signing, encryption, durable outbox and ingress checks pass.
+3. In ChatGPT, explicitly connect the custom KuuOS MCP plugin to the correct
+   authenticated account; observe `initialize`/events discovery and a real
+   `events/subscribe` and signed callback challenge.
+4. Observe an authentic matching event, an excluded event, the actual
+   callback receipt by Dots「くー」, and the Dot's independent GitHub MCP
+   exact-HEAD/run/job/step re-observation; test unsubscribe and revocation.
+5. No merge, production deployment, unarchiving, polling substitution or
+   unverified Dots-receipt claim is authorized by this CI.
+
+Status: `POSTGRESQL_16_18_CI_CERTIFIED_IN_SCOPE` /
+`BLOCKED_MCP_EVENT_SUBSCRIPTION`. Earlier failures and noncertified
+boundaries are retained; this entry is additive, not overwriting them.
