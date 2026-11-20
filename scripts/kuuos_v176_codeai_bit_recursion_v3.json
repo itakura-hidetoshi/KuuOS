@@ -1,0 +1,60 @@
+{
+  "schema": "kuuos_v176_codeai_bit_recursion_v3",
+  "source_blob": "c7fd4eb959d05a2eeb430ea39a12d04ed4030ee9",
+  "baseline_blob": "81603b8544aca89cbe576a5af920b3ed50c7d1f6",
+  "lexical_validity_only": true,
+  "all_candidates_uncertified": true,
+  "variants": [
+    {
+      "name": "bit-step",
+      "patches": [
+        {
+          "name": "use-native-bitCasesOn-step",
+          "old": "noncomputable def standardTypeABoundaryPrismAlternatingStep\n    (g : StandardTypeAHornAttachmentGeneratorIndex)\n    (n : ℕ) :\n    standardTypeABoundaryPrismAlternatingObj g n ⟶\n      standardTypeABoundaryPrismAlternatingObj g (n + 1) := by\n  cases h : Nat.bodd n with\n  | false =>\n      simpa [standardTypeABoundaryPrismAlternatingObj,\n        Nat.bodd_succ, Nat.div2_succ, h] using\n        standardTypeABoundaryPrismRankStageToAPhase g (Nat.div2 n)\n  | true =>\n      simpa [standardTypeABoundaryPrismAlternatingObj,\n        Nat.bodd_succ, Nat.div2_succ, h] using\n        standardTypeABoundaryPrismRankAPhaseToSucc g (Nat.div2 n)\n",
+          "new": "noncomputable def standardTypeABoundaryPrismAlternatingStep\n    (g : StandardTypeAHornAttachmentGeneratorIndex)\n    (n : ℕ) :\n    standardTypeABoundaryPrismAlternatingObj g n ⟶\n      standardTypeABoundaryPrismAlternatingObj g (n + 1) := by\n  refine Nat.bitCasesOn n ?_\n  intro b j\n  cases b with\n  | false =>\n      have hsucc : Nat.bit false j + 1 = Nat.bit true j := by\n        simp [Nat.bit_val]\n      simpa only [hsucc, standardTypeABoundaryPrismAlternatingObj,\n        Nat.bodd_bit, Nat.div2_bit] using\n          (standardTypeABoundaryPrismRankStageToAPhase.{u} g j)\n  | true =>\n      have hsucc : Nat.bit true j + 1 = Nat.bit false (j + 1) := by\n        simp [Nat.bit_val]\n        omega\n      simpa only [hsucc, standardTypeABoundaryPrismAlternatingObj,\n        Nat.bodd_bit, Nat.div2_bit] using\n          (standardTypeABoundaryPrismRankAPhaseToSucc.{u} g j)\n",
+          "count": 1
+        }
+      ],
+      "base": "v176-v2-monotone-cylinder-u-thin",
+      "expected_blob": "f312bb25d2eb254b79260483af3cbe5e499ef566"
+    },
+    {
+      "name": "bit-step-with-simp-lemmas",
+      "patches": [
+        {
+          "name": "use-native-bitCasesOn-step",
+          "old": "noncomputable def standardTypeABoundaryPrismAlternatingStep\n    (g : StandardTypeAHornAttachmentGeneratorIndex)\n    (n : ℕ) :\n    standardTypeABoundaryPrismAlternatingObj g n ⟶\n      standardTypeABoundaryPrismAlternatingObj g (n + 1) := by\n  cases h : Nat.bodd n with\n  | false =>\n      simpa [standardTypeABoundaryPrismAlternatingObj,\n        Nat.bodd_succ, Nat.div2_succ, h] using\n        standardTypeABoundaryPrismRankStageToAPhase g (Nat.div2 n)\n  | true =>\n      simpa [standardTypeABoundaryPrismAlternatingObj,\n        Nat.bodd_succ, Nat.div2_succ, h] using\n        standardTypeABoundaryPrismRankAPhaseToSucc g (Nat.div2 n)\n",
+          "new": "noncomputable def standardTypeABoundaryPrismAlternatingStep\n    (g : StandardTypeAHornAttachmentGeneratorIndex)\n    (n : ℕ) :\n    standardTypeABoundaryPrismAlternatingObj g n ⟶\n      standardTypeABoundaryPrismAlternatingObj g (n + 1) := by\n  refine Nat.bitCasesOn n ?_\n  intro b j\n  cases b with\n  | false =>\n      have hsucc : Nat.bit false j + 1 = Nat.bit true j := by\n        simp [Nat.bit_val]\n      simpa only [hsucc, standardTypeABoundaryPrismAlternatingObj,\n        Nat.bodd_bit, Nat.div2_bit] using\n          (standardTypeABoundaryPrismRankStageToAPhase.{u} g j)\n  | true =>\n      have hsucc : Nat.bit true j + 1 = Nat.bit false (j + 1) := by\n        simp [Nat.bit_val]\n        omega\n      simpa only [hsucc, standardTypeABoundaryPrismAlternatingObj,\n        Nat.bodd_bit, Nat.div2_bit] using\n          (standardTypeABoundaryPrismRankAPhaseToSucc.{u} g j)\n",
+          "count": 1
+        },
+        {
+          "name": "bit-step-lemma-simp",
+          "old": "  simp [standardTypeABoundaryPrismAlternatingStep,\n    standardTypeABoundaryPrismAlternatingObj,\n    Nat.bodd_succ, Nat.div2_succ]",
+          "new": "  simp [standardTypeABoundaryPrismAlternatingStep, Nat.bitCasesOn_bit]",
+          "count": 2
+        }
+      ],
+      "base": "v176-v2-monotone-cylinder-u-thin",
+      "expected_blob": "da93d23af38e060f6121617129d828d94e2351ae"
+    },
+    {
+      "name": "bit-step-rfl-lemmas",
+      "patches": [
+        {
+          "name": "use-native-bitCasesOn-step",
+          "old": "noncomputable def standardTypeABoundaryPrismAlternatingStep\n    (g : StandardTypeAHornAttachmentGeneratorIndex)\n    (n : ℕ) :\n    standardTypeABoundaryPrismAlternatingObj g n ⟶\n      standardTypeABoundaryPrismAlternatingObj g (n + 1) := by\n  cases h : Nat.bodd n with\n  | false =>\n      simpa [standardTypeABoundaryPrismAlternatingObj,\n        Nat.bodd_succ, Nat.div2_succ, h] using\n        standardTypeABoundaryPrismRankStageToAPhase g (Nat.div2 n)\n  | true =>\n      simpa [standardTypeABoundaryPrismAlternatingObj,\n        Nat.bodd_succ, Nat.div2_succ, h] using\n        standardTypeABoundaryPrismRankAPhaseToSucc g (Nat.div2 n)\n",
+          "new": "noncomputable def standardTypeABoundaryPrismAlternatingStep\n    (g : StandardTypeAHornAttachmentGeneratorIndex)\n    (n : ℕ) :\n    standardTypeABoundaryPrismAlternatingObj g n ⟶\n      standardTypeABoundaryPrismAlternatingObj g (n + 1) := by\n  refine Nat.bitCasesOn n ?_\n  intro b j\n  cases b with\n  | false =>\n      have hsucc : Nat.bit false j + 1 = Nat.bit true j := by\n        simp [Nat.bit_val]\n      simpa only [hsucc, standardTypeABoundaryPrismAlternatingObj,\n        Nat.bodd_bit, Nat.div2_bit] using\n          (standardTypeABoundaryPrismRankStageToAPhase.{u} g j)\n  | true =>\n      have hsucc : Nat.bit true j + 1 = Nat.bit false (j + 1) := by\n        simp [Nat.bit_val]\n        omega\n      simpa only [hsucc, standardTypeABoundaryPrismAlternatingObj,\n        Nat.bodd_bit, Nat.div2_bit] using\n          (standardTypeABoundaryPrismRankAPhaseToSucc.{u} g j)\n",
+          "count": 1
+        },
+        {
+          "name": "bit-step-lemma-rfl",
+          "old": "  simp [standardTypeABoundaryPrismAlternatingStep,\n    standardTypeABoundaryPrismAlternatingObj,\n    Nat.bodd_succ, Nat.div2_succ]",
+          "new": "  simp only [standardTypeABoundaryPrismAlternatingStep, Nat.bitCasesOn_bit]\n  rfl",
+          "count": 2
+        }
+      ],
+      "base": "v176-v2-monotone-cylinder-u-thin",
+      "expected_blob": "6bc2b31ccc842af8253763f9e2c6d0888f2f9167"
+    }
+  ]
+}

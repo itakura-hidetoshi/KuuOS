@@ -6,6 +6,7 @@ on:
       - 'scripts/ci_kuuos_v176_codeai_probe.py'
       - 'scripts/kuuos_v176_codeai_namespace_probe_v1.json'
       - 'scripts/kuuos_v176_codeai_monotonicity_universe_v2.json'
+      - 'scripts/kuuos_v176_codeai_bit_recursion_v3.json'
       - 'formal/KUOS/DependentOriginationStandardTypeABoundaryPrismRawTransfiniteV1_76.lean'
 permissions:
   contents: read
@@ -45,12 +46,12 @@ jobs:
           python3 -c "import pathlib; from scripts.ci_kuuos_v164_codeai import pins; pins(pathlib.Path('.').resolve())"
           lake exe cache get
           lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.DependentOriginationStandardTypeABoundaryPrismRankwiseSimultaneousBPhaseV1_75
-      - name: CodeAI compare four v1.76 monotonicity and universe candidates, restore original
+      - name: CodeAI compare three v1.76 native bit-recursion candidates, restore original
         run: python3 scripts/ci_kuuos_v176_codeai_probe.py
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: kuuos-v176-codeai-monotonicity-probe-not-proof
+          name: kuuos-v176-codeai-bit-recursion-probe-not-proof
           path: /tmp/kuuos-v176-codeai-probe
           retention-days: 30
           if-no-files-found: warn

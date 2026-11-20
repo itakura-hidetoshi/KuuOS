@@ -53,12 +53,26 @@ def main():
     assert v2["required_dependency_blob"] == m["required_dependency_blob"]
     assert v2["legacy_unchanged"] is True
     assert len(v2["variants"]) == 4
+    seed2 = {}
+    for variant in v2["variants"]:
+        candidate = seed[variant["base"]]
+        for patch in variant["patches"]:
+            assert candidate.count(patch["old"]) == patch["count"]
+            candidate = candidate.replace(patch["old"], patch["new"])
+        assert prior.blob(candidate.encode()) == variant["expected_blob"]
+        seed2[variant["name"]] = candidate
+    v3 = json.loads((root / "scripts/kuuos_v176_codeai_bit_recursion_v3.json").read_text(encoding="utf-8"))
+    assert v3["schema"] == "kuuos_v176_codeai_bit_recursion_v3"
+    assert v3["source_blob"] == m["source_blob"]
+    assert v3["all_candidates_uncertified"] is True
+    assert len(v3["variants"]) == 3
+    assert prior.blob(seed2["v176-v2-monotone-cylinder-u-thin"].encode()) == v3["baseline_blob"]
     records = []
     OUT.mkdir(parents=True, exist_ok=True)
     try:
-        for variant in v2["variants"]:
+        for variant in v3["variants"]:
             name = variant["name"]
-            candidate = seed[variant["base"]]
+            candidate = seed2[variant["base"]]
             for p in variant["patches"]:
                 assert candidate.count(p["old"]) == p["count"], (name, p["name"])
                 candidate = candidate.replace(p["old"], p["new"])
