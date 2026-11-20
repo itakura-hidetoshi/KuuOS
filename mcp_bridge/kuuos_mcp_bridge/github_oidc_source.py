@@ -32,6 +32,10 @@ FEATURE_REF = "refs/heads/" + FEATURE_BRANCH
 WORKFLOW_FILE = ".github/workflows/kuuos-mcp-github-oidc-source.yml"
 WORKFLOW_REF = REPO + "/" + WORKFLOW_FILE + "@" + FEATURE_REF
 WORKFLOW_NAME = "KuuOS MCP Authentic OIDC Source"
+CI_WORKFLOW_NAME = "KuuOS MCP Bridge Python Validation"
+CI_WORKFLOW_REF = (
+    REPO + "/.github/workflows/mcp-bridge-python-validation.yml@" + FEATURE_REF
+)
 _SHA = re.compile(r"^[0-9a-f]{40}$")
 _MAX_TOKEN = 16384
 _MAX_BODY = 4096
@@ -51,6 +55,7 @@ class VerifiedSource:
     run_id: int
     run_attempt: int
     jti_hash: str
+    kind: str = "push_observed"
 
 
 def _number(value: Any) -> int:
@@ -83,6 +88,16 @@ def verify_oidc_push(
         "kind", "repository", "ref", "head_sha", "run_id", "run_attempt",
     }:
         raise GitHubOIDCSourceError("github_oidc_body_shape_invalid")
+    kind = submitted.get("kind")
+    if kind == "push_observed":
+        workflow_ref, workflow_name = WORKFLOW_REF, WORKFLOW_NAME
+    elif kind == "ci_jobs_observed":
+        # This is a real *post-gates* source signal, not a terminal
+        # conclusion or independent CI proof. The receiver/ChatGPT must
+        # re-fetch the specific GitHub job and step statuses itself.
+        workflow_ref, workflow_name = CI_WORKFLOW_REF, CI_WORKFLOW_NAME
+    else:
+        raise GitHubOIDCSourceError("github_oidc_kind_not_allowlisted")
     try:
         import jwt
         header = jwt.get_unverified_header(id_token)
@@ -115,8 +130,8 @@ def verify_oidc_push(
         "repository_id": REPOSITORY_ID,
         "repository_owner_id": OWNER_ID,
         "ref": FEATURE_REF,
-        "workflow_ref": WORKFLOW_REF,
-        "workflow": WORKFLOW_NAME,
+        "workflow_ref": workflow_ref,
+        "workflow": workflow_name,
         "event_name": "push",
         "sub": "repo:" + REPO + ":ref:" + FEATURE_REF,
     }
@@ -128,7 +143,7 @@ def verify_oidc_push(
     run_id = _number(claims["run_id"])
     attempt = _number(claims["run_attempt"])
     if (
-        submitted.get("kind") != "push_observed"
+        submitted.get("kind") != kind
         or submitted.get("repository") != REPO
         or submitted.get("ref") != FEATURE_REF
         or submitted.get("head_sha") != sha
@@ -142,13 +157,14 @@ def verify_oidc_push(
     if not isinstance(jti, str) or not 8 <= len(jti) <= 512:
         raise GitHubOIDCSourceError("github_oidc_jti_invalid")
     identity = hashlib.sha256(
-        json.dumps([REPO, WORKFLOW_REF, run_id, attempt],
+        json.dumps([REPO, workflow_ref, run_id, attempt],
                    separators=(",", ":")).encode("utf-8")
     ).hexdigest()
     return VerifiedSource(
-        identity="oidc_" + identity, repository=REPO, workflow_ref=WORKFLOW_REF,
+        identity="oidc_" + identity, repository=REPO, workflow_ref=workflow_ref,
         ref=FEATURE_REF, head_sha=sha, run_id=run_id, run_attempt=attempt,
         jti_hash=hashlib.sha256(jti.encode("utf-8")).hexdigest(),
+        kind=kind,
     )
 
 
@@ -267,7 +283,7 @@ def install_oidc_source_route(mcp: Any, store: PostgresStateStore) -> None:
             "head_sha": source.head_sha,
             "run_id": source.run_id,
             "run_attempt": source.run_attempt,
-            "github_event_kind": "push_observed",
+            "github_event_kind": source.kind,
             "signal_is_success_evidence": False,
             "fresh_mcp_reobservation_required": True,
             "dots_callback_received": False,

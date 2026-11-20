@@ -112,3 +112,36 @@ def test_extra_or_missing_body_fields_and_invalid_run_numbers_rejected(signed):
     claims["run_id"] = "1234567"
     with pytest.raises(GitHubOIDCSourceError):
         verify_oidc_push(mint(claims), body, signing_key_resolver=resolver)
+
+
+def test_actual_ci_gate_workflow_oidc_identity_is_tightly_pinned(signed):
+    """CI gate-source identity is genuine but still not a CI verdict."""
+    from kuuos_mcp_bridge.github_oidc_source import (
+        CI_WORKFLOW_NAME, CI_WORKFLOW_REF,
+    )
+    mint, claims, body, resolver = signed
+    claims["workflow"] = CI_WORKFLOW_NAME
+    claims["workflow_ref"] = CI_WORKFLOW_REF
+    body["kind"] = "ci_jobs_observed"
+    result = verify_oidc_push(
+        mint(claims), body, signing_key_resolver=resolver
+    )
+    assert result.kind == "ci_jobs_observed"
+    assert result.workflow_ref == CI_WORKFLOW_REF
+    assert result.identity.startswith("oidc_")
+    # The name does not imply that a GH result has been certified.
+
+
+def test_ci_gate_source_cannot_impersonate_push_workflow(signed):
+    from kuuos_mcp_bridge.github_oidc_source import (
+        CI_WORKFLOW_NAME, CI_WORKFLOW_REF,
+    )
+    mint, claims, body, resolver = signed
+    body["kind"] = "ci_jobs_observed"
+    with pytest.raises(GitHubOIDCSourceError, match="source_not_allowlisted"):
+        verify_oidc_push(mint(claims), body, signing_key_resolver=resolver)
+    claims["workflow_ref"] = CI_WORKFLOW_REF
+    claims["workflow"] = CI_WORKFLOW_NAME
+    body["kind"] = "push_observed"
+    with pytest.raises(GitHubOIDCSourceError, match="source_not_allowlisted"):
+        verify_oidc_push(mint(claims), body, signing_key_resolver=resolver)
