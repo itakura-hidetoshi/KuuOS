@@ -85,3 +85,15 @@ def test_rejects_unverified_sdk_version_before_activating_events(monkeypatch):
     )
     with pytest.raises(RuntimeError, match="version-bound adapter requires mcp==2.3.0"):
         event_bootstrap.configure_mcp_events(None, object(), fake_state_backend())
+
+def test_sdk_distribution_matches_packaged_events_pin():
+    """The installed SDK and deploy manifests must be version-aligned."""
+    from importlib.metadata import version
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[1]
+    sdk = event_bootstrap.MCP_EVENTS_SDK_PIN
+    assert sdk == "2.3.0"
+    assert version("mcp") == sdk
+    assert f'"mcp=={sdk}"' in (root / "pyproject.toml").read_text()
+    assert f"mcp=={sdk}" in (root / "requirements.txt").read_text().splitlines()

@@ -9,7 +9,7 @@ version = "0.6.0"
 description = "Canonical continuation-state bridge shared by Chat and Work over MCP"
 requires-python = ">=3.10"
 dependencies = [
-  "mcp>=2,<3",
+  "mcp==2.3.0",
   "PyJWT[crypto]>=2.10,<3",
 ]
 
