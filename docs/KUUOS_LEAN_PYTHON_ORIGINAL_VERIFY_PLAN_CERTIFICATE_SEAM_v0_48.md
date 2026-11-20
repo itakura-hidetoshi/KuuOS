@@ -58,3 +58,11 @@ Preference ⇏ Descent ⇏ Authority.
 
 Only source-derived, independently certified claims may be promoted. New
 research PR remains Draft/unmerged until the *actual* candidate is green.
+
+## 追加静的認証の独立実行
+
+v0.48で新設した原本ソース固定チェッカーを、Python Runtimeの実際の
+unittest suiteから明示的に呼び出す。Git blob一致・原本imports・
+全宣言の存在と公理監査命令数に加え、原本Leanの改変と
+新Lean宣言の欠落を模擬した負例がfail-closedとなることを検査する。
+チェッカーの静的検査はLeanの形式的証明を代用しない。
