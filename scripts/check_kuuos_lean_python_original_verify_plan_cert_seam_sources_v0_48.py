@@ -56,7 +56,7 @@ def blob(raw: bytes) -> str:
 
 
 def check(root: Path = ROOT) -> tuple[str, ...]:
-    if type(root) is not Path or root != ROOT:
+    if type(root) is not type(ROOT) or root != ROOT:
         return ("trusted_root_required",)
     problems: list[str] = []
     for path, expected in PINNED.items():
