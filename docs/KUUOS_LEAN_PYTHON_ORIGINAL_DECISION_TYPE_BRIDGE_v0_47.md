@@ -9,7 +9,7 @@ Copyright Hidetoshi Itakura / 板倉英俊. Apache-2.0.
 - Parent main HEAD: `410037a3bd8af5d78defb83e72b65f8b319caf3f` (v0.46統合)
 - Lean: v4.30.0-rc2、mathlib: `5450b53e5ddc75d46418fabb605edbf36bd0beb6`
 - 規律: append-only / tighten-only / overwrite-forbidden / same-root
-- 変更はlakefile.tomlの **globsへの10個の列挙追加のみ**、新規Lean形式ファイル1件、静的検査1件、テスト1件、文書1件、後述の旧PlanOS証明**1箇所のみの修復**。
+- 変更はlakefile.tomlの **globsへの10個の列挙追加のみ**、新規Lean形式ファイル1件、静的検査1件、テスト1件、文書1件、後述の旧PlanOS証明**1箇所のみの修復**と、歴史的Proof Root保全テストへの厳密なv0.47専用登録。
 - 107既存公開roots、原本DecisionOS定理、旧OS Pythonカーネル、既存テスト、既存CI workflow、保護PR #1558は変更しない。
 - **例外として原本のimport閉包で初めて露見した旧PlanOS証明1箇所のみを修正。** 定理文・仮定・他の証明は一切変更せず、既存`legacy/v5.291`の全97行と旧Git blobを保存し、原本からの正確な1差分を監査する。
 
@@ -61,6 +61,14 @@ Lakeの追加行を除く元の全内容が親mainのGit blobと一致するこ�
 現役修復後blobは`a3d7e25d585da29e17eaef8f8c11d972948dbb40`。
 両者を比較し、**同一の定理命題を持ち、ちょうど1箇所の証明だけが変化**したことを
 v0.47静的監査・改変検出テストで検証する。
+また、既存の`tests/test_public_root_restoration.py`が歴史的Leanソースの
+未審査改変を正しく拒否したため、旧23件のPR #2339承認履歴や
+`LINT_ONLY_SOURCE_EDITS`には混入せず、
+`PR3608_REVIEWED_HISTORIC_PROOF_REPAIR`として独立登録した。
+同テストでは旧blob・新blob・正確な一箇所差分・登録集合の一致を
+全て確認し、他の歴史的原本への保護を弱めない。
+上記の新しいproof root保全テスト自体も必ず再実行する。
+
 これはすでに通過した原本型同値性の証明ではない。
 修復後の全依存閉包を実Leanと公理監査で再認証する必要がある。
 
