@@ -1420,3 +1420,198 @@ Certification limited to:
 
 Persistent obstruction:
 `BLOCKED_DOTS_REAL_SUBSCRIPTION_AND_AUTHENTIC_GITHUB_SENDER`.
+
+
+## Genuine GitHub Actions OIDC sender → stable Vercel staging → Neon source receipts (2026-11-21 JST)
+
+This section is an independently observed transition beyond prior synthetic
+Webhook tests: **GitHub Actions actually issued short-lived, RSA-signed
+OIDC tokens and delivered claims matching the repository, job, branch,
+run and exact HEAD to an HTTPS receiver.** The receiver verified the
+GitHub signature and persisted immutable source receipts in Neon.
+These are sender identity and job-gate *observation* receipts, **not**
+CI theorem verification or Dot delivery authority.
+
+### Exact source and independent CI
+
+- Canonical KuuOS `main` observed HEAD
+  `5b0770a3c32c23f5fc6dd69b5f2dcbf09bee7656` (unmodified by this work).
+- Existing feature branch
+  `feat/kuuos-dots-mcp-ci-event-contract-v0-1-20261120`, exact CI-certified source HEAD
+  `eff91784d46e97aeeea3c0b51fbf23901352aa78`.
+- Exact integrated CI
+  [#44833605981](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/44833605981)
+  `completed/SUCCESS` at that HEAD, four completed SUCCESS jobs:
+  Python **262 passed, 15 skipped, 2 warnings**;
+  disposable PostgreSQL **16.16 15/15**;
+  disposable PostgreSQL **18.7 15/15**;
+  and **Authenticate actual completed validation gates to isolated staging**
+  SUCCESS. The last job runs only after the preceding Python and
+  matrix PostgreSQL jobs settle, and does not claim that its own
+  workflow was terminal before it completed.
+- Preceding source verifier exact code
+  `290f5f5fd0822e1ad255b8b2949328cb86f6bf8e`
+  independently certified by
+  [#44832091576](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/44832091576):
+  `completed/SUCCESS`, three jobs successful;
+  Python 260 passed, 13 skipped, 2 warnings;
+  disposable PG16/PG18 13/13 each.
+- The append-only PostgreSQL source receipt tests were added
+  subsequently and passed on source HEAD
+  `c140d8e4af01af495d3ee55c8f14f65b657ca4ac`
+  with
+  [#44832885085](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/44832885085):
+  Python 260 passed, 15 skipped, two warnings, PG16/18 15/15.
+
+### Staged public HTTPS service independent of original production
+
+- New **dedicated isolated staging Vercel project**
+  `kuuos-mcp-oidc-staging`, project ID
+  `prj_kPvFkBzOV0deLPxncLOmSO8ViO5O`,
+  stable public HTTPS origin
+  https://kuuos-mcp-oidc-staging.vercel.app .
+  Its accessible MCP endpoint is
+  `https://kuuos-mcp-oidc-staging.vercel.app/api/mcp`,
+  and independent GitHub OIDC receiver
+  `https://kuuos-mcp-oidc-staging.vercel.app/api/github-oidc`.
+- To attach a stable production alias **within this isolated staging
+  project only**, Vercel deployment target is `production` on
+  `kuuos-mcp-oidc-staging`. Do **not** conflate this with
+  promotion of the pre-existing `kuuos-chat-work-mcp`
+  production project, which was untouched.
+- Staging runtime deployment
+  `dpl_DQ9nioAF9ZMHv25aeAuFJTHfVNS3`,
+  READY with exact deployed source
+  `2a364b45102247c83ba6f383ff40e8870725d4d9`
+  and the stable alias assigned to that deployment.
+  The separate later GitHub CI workflow commit does not
+  modify this deployed Python runtime source.
+- The new isolated project's environment is its own production
+  target. It has 14 separate environment variables: a
+  least-privilege DML-only URL to the same **Neon staging branch**
+  `br-proud-queen-ayak8zsl`, strict
+  `KUUOS_MCP_SCHEMA_MODE=preprovisioned`,
+  `KUUOS_MCP_GITHUB_OIDC_ENABLED=true`, exact OIDC
+  audience `api://kuuos/KuuOS/mcp-source-oidc-v1`,
+  embedded OAuth (required for MCP methods), encrypted
+  subscription storage, and `KUUOS_MCP_WRITE_ENABLED=false`.
+  The synthetic OAuth owner secret and AES key were created
+  privately as Vercel sensitive configuration, not copied
+  into GitHub or the evidence workbench. **No actual user
+  OAuth login/consent is asserted.**
+- Public `/healthz` returned real HTTPS 200 with
+  `backend=PostgresStateStore`, `mode=read-only`,
+  `oauth_enabled=true`, `mcp_events_adapter_loaded=true`,
+  `github_oidc_source_loaded=true`,
+  `github_event_ingress_loaded=false`,
+  and `write_ready=false`.
+  The HMAC GitHub Webhook listener is intentionally disabled
+  on this isolated public project; it admits only the strictly
+  scoped GitHub-issued OIDC route. The existing protected
+  original Vercel project and its Preview configuration were
+  not altered.
+
+### True GitHub Actions ID token admission
+
+- `mcp_bridge/kuuos_mcp_bridge/github_oidc_source.py`
+  verifies a JWT signed by GitHub's exact JWKS endpoint
+  `https://token.actions.githubusercontent.com/.well-known/jwks`
+  with **RS256 only**, exact issuer
+  `https://token.actions.githubusercontent.com`,
+  fixed audience, exact repository string and **numeric repository
+  ID 1235298309 / owner ID 216274897**, exact branch ref,
+  exact allowlisted `workflow_ref`/workflow name, matching
+  event name, SHA, run ID, run attempt and payload.
+  The JWT URL, audience and signing key cannot be overridden
+  by an untrusted caller. Bad/missing identity fails closed.
+- GitHub source workflow
+  `.github/workflows/kuuos-mcp-github-oidc-source.yml`
+  has only `contents: read` and `id-token: write`,
+  and no shared GitHub/Vercel HMAC secret. GitHub supplies
+  its own short-lived OIDC bearer through
+  `ACTIONS_ID_TOKEN_REQUEST_URL` and
+  `ACTIONS_ID_TOKEN_REQUEST_TOKEN`. Tokens are never
+  printed, committed or persisted in Neon.
+- **Genuine source workflow #44832696689**:
+  https://github.com/itakura-hidetoshi/KuuOS/actions/runs/44832696689
+  completed/SUCCESS on actual pushed HEAD
+  `b6cffd4be56f199e9156991be1607f71e0fa8236`,
+  returned HTTP **202** with
+  `signed_oidc_accepted=true`, persisted first receipt
+  `oidc_673209c6327a874c469f0ab1454f51b82efd955d398f1cc9055ec0819dbcd5ed`.
+- **Second genuine source workflow #44833354567**:
+  completed/SUCCESS, pushed HEAD
+  `2a364b45102247c83ba6f383ff40e8870725d4d9`,
+  independently persisted receipt
+  `oidc_794ac16277a3aa2d981424f2fd606756787d678b156190847cd45f8d8011f5ac`.
+- To prove actual CI-gate signaling, the existing
+  `.github/workflows/mcp-bridge-python-validation.yml`
+  was extended with a **separate notification job** gated by
+  `needs: [validate, postgres-integration]`, limited to
+  this feature branch. That job requests its *own* OIDC
+  token and sends `kind=ci_jobs_observed`. Source OIDC
+  validation requires the different, exact pinned
+  CI workflow name and workflow_ref; a push-probe workflow
+  token cannot impersonate the CI gate sender.
+- **Actual CI-gate notification #44833605981**:
+  the Python and PG16/18 job groups completed SUCCESS,
+  followed by the real `notify-github-oidc` job
+  SUCCESS. The Vercel OIDC validator accepted the exact
+  run ID `44833605981` and SHA
+  `eff91784d46e97aeeea3c0b51fbf23901352aa78`;
+  the original GitHub Actions job reported
+  `validate_job_result=success`,
+  `postgres_matrix_result=success`,
+  and `is_terminal_workflow_conclusion=false`.
+  The persistent source receipt is
+  `oidc_4d3a098ee027578211051c4ba03966a8073656bc809a408047cd935089fc5351`.
+- Independent read-only Neon SQL found **exactly three**
+  genuine GitHub-originated OIDC receipts with matching
+  repository, workflow_ref, SHA, run ID and timestamps:
+  two actual push source observations and one actual
+  post-CI-gates source observation. The database enforces
+  immutable one-receipt-per-source-run uniqueness; restricted
+  application role cannot run DDL.
+- The sender identity is **real** and cryptographically checked,
+  but notification contents still do **not** certify the entire
+  underlying CI run; they carry
+  `signal_is_success_evidence=false` and
+  `fresh_mcp_reobservation_required=true`.
+  GitHub run/job/step state must be independently re-read
+  before any future Dot concludes certification or merge.
+
+### Last remaining connected-Dot boundary
+
+- This proves a new genuine outbound **GitHub Actions →
+  dedicated public Vercel HTTPS → Neon** path. The prior
+  first-principles blocker of sharing a GitHub webhook HMAC
+  secret is resolved for the allowlisted OIDC workflow sender.
+- **No ChatGPT-installed KuuOS custom MCP plugin, real user OAuth
+  consent, Dots「くー」 `events/subscribe`, Dots callback,
+  or Dot-triggered independent Lean/CI proof audit has been
+  observed.** The dedicated service has OAuth, but its
+  login credential is currently a synthetic staging secret;
+  it does not establish the account owner's identity.
+  Custom MCP connection must be authorized within
+  the user's ChatGPT workspace and OAuth login.
+- To turn an authentic CI observation into a Dots delivery,
+  the true user-connected plugin must subscribe with a
+  verified callback. The OIDC source receipt currently
+  **records the real signal**, but does not create a Dot
+  subscriber or claim the source signal was sent to Dots.
+  Current OIDC sender targets the feature branch;
+  expanding to the canonical main and broader KuuOS / 4d-mass-gap
+  CI workflows still needs explicit reviewed trust-policy scope.
+- Original GitHub main, existing Vercel production project
+  and the Neon default branch have not been mutated.
+  Read-only SQL confirmed **zero** KuuOS MCP service tables
+  on the Neon default branch.
+
+Certification:
+`GITHUB_AUTHENTIC_OIDC_PUSH_SOURCE_RECEIVED_2` /
+`GITHUB_AUTHENTIC_CI_GATES_SOURCE_RECEIVED_1` /
+`NEON_APPEND_ONLY_SOURCE_RECEIPTS_3` /
+`CI_262_PG16_18_15_SUCCESS`.
+
+Obstruction:
+`CHATGPT_DOTS_REAL_SUBSCRIPTION_UNOBSERVED`.
