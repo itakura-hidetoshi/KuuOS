@@ -12,7 +12,7 @@ import hashlib
 import hmac
 import json
 import secrets
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from typing import Any, Callable, Mapping, Protocol
 
@@ -27,6 +27,7 @@ from .github_event_contract import (
 DEFAULT_TTL_MS = 7 * 24 * 60 * 60 * 1000
 MAX_TTL_MS = 30 * 24 * 60 * 60 * 1000
 MIN_TTL_MS = 60 * 60 * 1000
+ROTATION_WINDOW_SECONDS = 600  # A bounded 10-minute two-signature transition.
 
 
 @dataclass(frozen=True)
@@ -36,9 +37,11 @@ class Subscription:
     name: str
     arguments: dict[str, Any]
     callback_url: str
-    secret: str
+    secret: str = field(repr=False)
     expires_at: datetime
     verified_at: datetime
+    previous_secret: str | None = field(default=None, repr=False)
+    previous_secret_until: datetime | None = None
 
     def public_receipt(self) -> dict[str, Any]:
         return {
@@ -178,6 +181,36 @@ class SubscriptionManager:
         # New/rotated keys require a new signed challenge before persistence.
         if not already_verified and not self.verify_callback(url, key, subscription_id):
             raise EventContractError("callback_verification_failed")
+        rotated = (
+            existing is not None
+            and existing.expires_at > now
+            and not hmac.compare_digest(existing.secret, key)
+        )
+        # A second rapid key change could invalidate a still-live prior
+        # ChatGPT signing key. Require the current transition to expire first.
+        if (
+            rotated and existing is not None
+            and existing.previous_secret is not None
+            and existing.previous_secret_until is not None
+            and existing.previous_secret_until > now
+        ):
+            raise EventContractError("overlapping_key_rotation_not_supported")
+        if rotated and existing is not None:
+            previous_secret = existing.secret
+            previous_until = min(
+                existing.expires_at, now + timedelta(seconds=ROTATION_WINDOW_SECONDS)
+            )
+        elif (
+            already_verified and existing is not None
+            and existing.previous_secret is not None
+            and existing.previous_secret_until is not None
+            and existing.previous_secret_until > now
+        ):
+            previous_secret = existing.previous_secret
+            previous_until = existing.previous_secret_until
+        else:
+            previous_secret = None
+            previous_until = None
         record = Subscription(
             id=subscription_id,
             principal=subject,
@@ -187,6 +220,8 @@ class SubscriptionManager:
             secret=key,
             expires_at=expires_at,
             verified_at=existing.verified_at if already_verified else now,
+            previous_secret=previous_secret,
+            previous_secret_until=previous_until,
         )
         self.store.upsert(record)
         return record.public_receipt()
@@ -261,9 +296,21 @@ class PostgresSubscriptionStore:
                     callback_url TEXT NOT NULL,
                     secret_blob BYTEA NOT NULL,
                     expires_at TIMESTAMPTZ NOT NULL,
-                    verified_at TIMESTAMPTZ NOT NULL
+                    verified_at TIMESTAMPTZ NOT NULL,
+                    previous_secret_blob BYTEA,
+                    previous_secret_until TIMESTAMPTZ
                 )
             """)
+            # Additive only: an existing subscription table from v0.1 may
+            # predate the dual-signature fields.
+            conn.execute(
+                f"ALTER TABLE {self._TABLE} ADD COLUMN IF NOT EXISTS "
+                f"previous_secret_blob BYTEA"
+            )
+            conn.execute(
+                f"ALTER TABLE {self._TABLE} ADD COLUMN IF NOT EXISTS "
+                f"previous_secret_until TIMESTAMPTZ"
+            )
             conn.execute(f"""
                 CREATE INDEX IF NOT EXISTS kuuos_mcp_events_active_v1
                 ON {self._TABLE} (name, expires_at)
@@ -273,6 +320,30 @@ class PostgresSubscriptionStore:
         nonce = secrets.token_bytes(12)
         data = item.secret.encode("utf-8")
         return nonce + self._aes.encrypt(nonce, data, item.id.encode("ascii"))
+
+    def _seal_previous(self, item: Subscription) -> bytes | None:
+        if item.previous_secret is None:
+            if item.previous_secret_until is not None:
+                raise EventContractError("rotation_expiry_without_previous_key")
+            return None
+        if item.previous_secret_until is None:
+            raise EventContractError("previous_key_expiry_missing")
+        nonce = secrets.token_bytes(12)
+        associated = (item.id + ":previous").encode("ascii")
+        return nonce + self._aes.encrypt(
+            nonce, item.previous_secret.encode("utf-8"), associated
+        )
+
+    def _unseal_previous(self, identity: str, blob: bytes) -> str:
+        if len(blob) < 29:
+            raise EventContractError("encrypted_previous_secret_invalid")
+        try:
+            associated = (identity + ":previous").encode("ascii")
+            return self._aes.decrypt(
+                blob[:12], blob[12:], associated
+            ).decode("utf-8")
+        except Exception as exc:
+            raise EventContractError("encrypted_previous_secret_invalid") from exc
 
     def _unseal(self, identity: str, blob: bytes) -> str:
         if len(blob) < 29:
@@ -284,11 +355,17 @@ class PostgresSubscriptionStore:
             raise EventContractError("encrypted_secret_invalid") from exc
 
     def _restore(self, row: tuple[Any, ...]) -> Subscription:
-        identity, principal, name, arguments, url, secret_blob, expires, verified = row
+        (identity, principal, name, arguments, url, secret_blob, expires,
+         verified, previous_blob, previous_until) = row
+        if (previous_blob is None) != (previous_until is None):
+            raise EventContractError("previous_key_storage_inconsistent")
         result = Subscription(
             id=identity, principal=principal, name=name, arguments=dict(arguments),
             callback_url=url, secret=self._unseal(identity, bytes(secret_blob)),
             expires_at=expires, verified_at=verified,
+            previous_secret=self._unseal_previous(identity, bytes(previous_blob))
+                if previous_blob is not None else None,
+            previous_secret_until=previous_until,
         )
         if result.id != _identity(result.principal, result.name, result.arguments, result.callback_url):
             raise EventContractError("subscription_identity_mismatch")
@@ -298,7 +375,8 @@ class PostgresSubscriptionStore:
         with self._connect() as conn:
             row = conn.execute(
                 f"SELECT id, principal, name, arguments, callback_url, secret_blob, "
-                f"expires_at, verified_at FROM {self._TABLE} WHERE id = %s",
+                f"expires_at, verified_at, previous_secret_blob, previous_secret_until " 
+                f"FROM {self._TABLE} WHERE id = %s",
                 (subscription_id,),
             ).fetchone()
         return self._restore(row) if row is not None else None
@@ -309,19 +387,24 @@ class PostgresSubscriptionStore:
         ):
             raise EventContractError("subscription_identity_mismatch")
         blob = self._seal(subscription)
+        previous_blob = self._seal_previous(subscription)
         with self._connect() as conn:
             from psycopg.types.json import Jsonb
             conn.execute(
                 f"INSERT INTO {self._TABLE} (id, principal, name, arguments, "
-                f"callback_url, secret_blob, expires_at, verified_at) "
-                f"VALUES (%s,%s,%s,%s,%s,%s,%s,%s) "
+                f"callback_url, secret_blob, expires_at, verified_at, "
+                f"previous_secret_blob, previous_secret_until) "
+                f"VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s) "
                 f"ON CONFLICT (id) DO UPDATE SET "
                 f"secret_blob=EXCLUDED.secret_blob, expires_at=EXCLUDED.expires_at, "
-                f"verified_at=EXCLUDED.verified_at",
+                f"verified_at=EXCLUDED.verified_at, "
+                f"previous_secret_blob=EXCLUDED.previous_secret_blob, "
+                f"previous_secret_until=EXCLUDED.previous_secret_until",
                 (
                     subscription.id, subscription.principal, subscription.name,
                     Jsonb(subscription.arguments), subscription.callback_url,
                     blob, subscription.expires_at, subscription.verified_at,
+                    previous_blob, subscription.previous_secret_until,
                 ),
             )
 
@@ -336,7 +419,8 @@ class PostgresSubscriptionStore:
         with self._connect() as conn:
             rows = conn.execute(
                 f"SELECT id, principal, name, arguments, callback_url, secret_blob, "
-                f"expires_at, verified_at FROM {self._TABLE} "
+                f"expires_at, verified_at, previous_secret_blob, previous_secret_until "
+                f"FROM {self._TABLE} "
                 f"WHERE name = %s AND expires_at > %s ORDER BY id LIMIT 512",
                 (name, now),
             ).fetchall()

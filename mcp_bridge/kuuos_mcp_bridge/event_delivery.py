@@ -15,6 +15,7 @@ import socket
 import ssl
 import time
 from dataclasses import dataclass
+from datetime import datetime, timezone
 from typing import Any, Callable, Mapping
 from urllib.parse import urlsplit
 
@@ -174,15 +175,25 @@ class PinnedHTTPSPoster:
 
 
 def _webhook_headers(
-    event_id: str, timestamp: int, body: bytes, secret: str, subscription_id: str
+    event_id: str, timestamp: int, body: bytes, secret: str, subscription_id: str,
+    *, previous_secret: str | None = None,
+    previous_secret_until: datetime | None = None,
 ) -> dict[str, str]:
     if len(body) > MAX_BODY_BYTES:
         raise EventDeliveryError("callback_body_over_limit")
+    signature = standard_webhook_signature(event_id, timestamp, body, secret)
+    if previous_secret is not None and previous_secret_until is not None:
+        if previous_secret_until.tzinfo is None:
+            raise EventDeliveryError("previous_key_expiry_without_timezone")
+        if datetime.fromtimestamp(timestamp, timezone.utc) < previous_secret_until:
+            signature += " " + standard_webhook_signature(
+                event_id, timestamp, body, previous_secret
+            )
     return {
         "Content-Type": "application/json",
         "webhook-id": event_id,
         "webhook-timestamp": str(timestamp),
-        "webhook-signature": standard_webhook_signature(event_id, timestamp, body, secret),
+        "webhook-signature": signature,
         "X-MCP-Subscription-Id": subscription_id,
     }
 
@@ -266,8 +277,11 @@ def deliver_event(
     event_id = str(event["eventId"])
     last_status: int | None = None
     for attempt in range(1, max_attempts + 1):
+        timestamp = now_seconds()
         headers = _webhook_headers(
-            event_id, now_seconds(), body, subscription.secret, subscription.id
+            event_id, timestamp, body, subscription.secret, subscription.id,
+            previous_secret=subscription.previous_secret,
+            previous_secret_until=subscription.previous_secret_until,
         )
         try:
             result = client.post(subscription.callback_url, body, headers)
