@@ -83,8 +83,8 @@ class NativeDecisionVerifyPlanSourceTests(unittest.TestCase):
         self.assertIsNone(problem)
         source = raw.decode("utf-8")
         lines = tuple(x.strip() for x in source.splitlines())
-        self.assertEqual(len(checker.LEAN_IMPORTS), 3)
-        self.assertEqual(len(checker.LEAN_DECLARATIONS), 6)
+        self.assertEqual(len(checker.LEAN_IMPORTS), 2)
+        self.assertEqual(len(checker.LEAN_DECLARATIONS), 8)
         for name in checker.LEAN_IMPORTS:
             self.assertIn(name, lines)
         for name in checker.LEAN_DECLARATIONS:
