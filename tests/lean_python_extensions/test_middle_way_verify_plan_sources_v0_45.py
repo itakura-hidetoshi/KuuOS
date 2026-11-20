@@ -80,7 +80,7 @@ class VerifyPlanSixRoutesSourceTests(unittest.TestCase):
             self.assertIn(name, lines)
 
     def test_lean_proof_hole_scan_preserves_identifiers_and_noncode(self):
-        source = '''
+        source = r'''
 import Mathlib
 def admittedForStatus : Bool := true
 def no_admit_suffix := admittedForStatus
