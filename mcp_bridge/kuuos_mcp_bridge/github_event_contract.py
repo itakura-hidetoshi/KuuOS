@@ -317,7 +317,9 @@ def decode_signing_secret(value: str) -> bytes:
 
 def standard_webhook_signature(event_id: str, timestamp: int, body: bytes, signing_secret: str) -> str:
     """Build the Standard Webhooks signature; no network requests are made."""
-    if not isinstance(event_id, str) or not event_id.startswith("evt_"):
+    # Application events and signed one-use verification challenges have
+    # distinct protocol IDs. Restrict both without conflating them.
+    if not isinstance(event_id, str) or not event_id.startswith(("evt_", "msg_verification_")):
         raise EventContractError("event_id_invalid")
     if type(timestamp) is not int or timestamp < 0 or not isinstance(body, bytes):
         raise EventContractError("webhook_input_invalid")
