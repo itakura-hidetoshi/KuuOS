@@ -344,3 +344,55 @@ def test_preprovisioned_schema_missing_required_column_fails_closed(
                     "missing_column": ("bytea", False),
                 },
             )
+
+
+def test_real_postgres_preprovisioned_oauth_with_narrow_dml_role(
+    stores, monkeypatch,
+):
+    """Embedded OAuth must start with a DML-only role and verified schema.
+
+    Credentials and tokens used here exist only in the disposable CI database.
+    """
+    import secrets as crypto_secrets
+    from psycopg import sql
+    from kuuos_mcp_bridge.embedded_oauth import EmbeddedPostgresOAuthProvider
+
+    issuer = "https://oauth-ci-only.example.org"
+    resource = "https://oauth-ci-only.example.org/api/mcp"
+    owner_secret = "ci-fixture-secret-not-used-outside-disposable-tests"
+
+    # The disposable CI database owner performs the additive migration first.
+    EmbeddedPostgresOAuthProvider(
+        DSN, issuer=issuer, resource_url=resource, owner_secret=owner_secret
+    )
+    role = "kuuos_mcp_ci_" + crypto_secrets.token_hex(5)
+    password = crypto_secrets.token_urlsafe(32)
+    with psycopg.connect(DSN) as admin:
+        admin.execute(sql.SQL("CREATE ROLE {} LOGIN PASSWORD {}").format(
+            sql.Identifier(role), sql.Literal(password)
+        ))
+        admin.execute(sql.SQL("GRANT USAGE ON SCHEMA public TO {}").format(
+            sql.Identifier(role)
+        ))
+        admin.execute(sql.SQL(
+            "GRANT SELECT, INSERT, UPDATE, DELETE "
+            "ON TABLE public.kuuos_mcp_oauth TO {}"
+        ).format(sql.Identifier(role)))
+
+    dsn = psycopg.conninfo.make_conninfo(DSN, user=role, password=password)
+    with psycopg.connect(dsn) as limited:
+        assert limited.execute(
+            "SELECT has_schema_privilege(current_user,'public','CREATE')"
+        ).fetchone() == (False,)
+
+    monkeypatch.setenv("KUUOS_MCP_SCHEMA_MODE", "preprovisioned")
+    provider = EmbeddedPostgresOAuthProvider(
+        dsn, issuer=issuer, resource_url=resource,
+        owner_secret=owner_secret, owner_subject="ci-owner",
+    )
+    assert provider.owner_subject == "ci-owner"
+    assert provider.resource_url == resource
+    with psycopg.connect(dsn) as limited:
+        assert limited.execute(
+            "SELECT count(*) FROM public.kuuos_mcp_oauth"
+        ).fetchone()[0] >= 0

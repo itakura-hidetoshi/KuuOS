@@ -8,6 +8,8 @@ import time
 import urllib.parse
 from typing import Any
 
+from .db_schema_mode import schema_is_preprovisioned, verify_preprovisioned_schema
+
 from mcp.server.auth.provider import (
     AccessToken,
     AuthorizationCode,
@@ -88,6 +90,19 @@ class EmbeddedPostgresOAuthProvider(
 
     def _ensure_schema(self) -> None:
         with self._connect() as conn:
+            if schema_is_preprovisioned():
+                verify_preprovisioned_schema(
+                    conn, table=self._TABLE,
+                    columns={
+                        "kind": ("text", True),
+                        "item_key": ("text", True),
+                        "payload": ("jsonb", True),
+                        "expires_at": ("double precision", False),
+                    },
+                    indexes=("kuuos_mcp_oauth_expiry_idx",),
+                    constraints={"kuuos_mcp_oauth_pkey": "p"},
+                )
+                return
             conn.execute(
                 f"""
                 CREATE TABLE IF NOT EXISTS {self._TABLE} (
