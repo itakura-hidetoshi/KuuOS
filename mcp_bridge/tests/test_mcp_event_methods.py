@@ -13,7 +13,7 @@ from kuuos_mcp_bridge.event_subscriptions import (
     MemorySubscriptionStore, SubscriptionManager,
 )
 from kuuos_mcp_bridge.github_event_contract import (
-    CI_EVENT, PR_EVENT, KUUOS_REPO, MGAP_REPO, EventContractError,
+    CI_EVENT, PR_EVENT, CI_GATES_EVENT, KUUOS_REPO, MGAP_REPO, EventContractError,
 )
 from kuuos_mcp_bridge.mcp_event_methods import (
     EventsListParams, EventsSubscribeParams, EventsUnsubscribeParams,
@@ -66,7 +66,7 @@ def test_catalog_scopes_repository_to_authorized_owner_only():
     admitted = lambda p, n, a: a.get("repository") == KUUOS_REPO
     server, manager, _ = fixtures(authorized=admitted)
     data = asyncio.run(handler(server, "events/list")(None, EventsListParams()))
-    assert len(data["events"]) == 2
+    assert len(data["events"]) == 3
     for item in data["events"]:
         assert item["inputSchema"]["properties"]["repository"]["enum"] == [KUUOS_REPO]
 
@@ -160,7 +160,7 @@ def test_capability_does_not_claim_success_or_authority():
     server, manager, _ = fixtures()
     assert len(server.middleware) >= 1
     listed = _catalog_for_principal("owner-1", manager)
-    assert [e["name"] for e in listed["events"]] == [CI_EVENT, PR_EVENT]
+    assert [e["name"] for e in listed["events"]] == [CI_EVENT, CI_GATES_EVENT, PR_EVENT]
     assert all("Subscribe" not in e["description"] for e in listed["events"])
 
 
@@ -171,3 +171,15 @@ def test_capability_refuses_non_mapping_handshake():
         asyncio.run(_advertise_events_capability(
             SimpleNamespace(method="initialize"), bad
         ))
+
+
+def test_oidc_ci_gates_not_advertised_for_mgap_only_principal():
+    server, manager, _ = fixtures(
+        authorized=lambda p, n, a: a.get("repository") == MGAP_REPO
+    )
+    catalog = asyncio.run(handler(server, "events/list")(None, EventsListParams()))
+    assert [e["name"] for e in catalog["events"]] == [CI_EVENT, PR_EVENT]
+    assert all(
+        e["inputSchema"]["properties"]["repository"]["enum"] == [MGAP_REPO]
+        for e in catalog["events"]
+    )
