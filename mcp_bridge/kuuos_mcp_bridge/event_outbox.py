@@ -14,6 +14,7 @@ from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from typing import Any, Mapping, Protocol
 
+from .db_schema_mode import schema_is_preprovisioned, verify_preprovisioned_schema
 from .event_delivery import _packet
 from .event_subscriptions import Subscription
 from .github_event_contract import EventContractError, matches_filters
@@ -256,6 +257,31 @@ class PostgresOutboxStore:
 
     def _ensure_schema(self) -> None:
         with self._connect() as conn:
+            if schema_is_preprovisioned():
+                verify_preprovisioned_schema(
+                    conn, table=self._TABLE,
+                    columns={
+                        "id": ("text", True),
+                        "subscription_id": ("text", True),
+                        "event_id": ("text", True),
+                        "name": ("text", True),
+                        "packet": ("jsonb", True),
+                        "state": ("text", True),
+                        "attempts": ("integer", True),
+                        "available_at": ("timestamp with time zone", True),
+                        "lease_token": ("text", False),
+                        "lease_until": ("timestamp with time zone", False),
+                        "last_http_status": ("integer", False),
+                    },
+                    indexes=("kuuos_mcp_outbox_due_v1",),
+                    constraints={
+                        "kuuos_mcp_event_outbox_v1_pkey": "p",
+                        "kuuos_mcp_event_outbox_v1_subscription_id_event_id_key": "u",
+                        "kuuos_mcp_event_outbox_v1_attempts_check": "c",
+                        "kuuos_mcp_event_outbox_v1_state_check": "c",
+                    },
+                )
+                return
             conn.execute(f"""
                 CREATE TABLE IF NOT EXISTS {self._TABLE} (
                     id TEXT PRIMARY KEY,

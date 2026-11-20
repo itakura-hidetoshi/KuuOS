@@ -10,6 +10,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Iterator, Mapping, Protocol
 
+from .db_schema_mode import schema_is_preprovisioned, verify_preprovisioned_schema
+
 try:
     import fcntl
 except ImportError:  # pragma: no cover - non-POSIX local development
@@ -226,6 +228,17 @@ class PostgresStateStore:
 
     def _ensure_schema(self) -> None:
         with self._connect() as conn:
+            if schema_is_preprovisioned():
+                verify_preprovisioned_schema(
+                    conn, table=self._TABLE,
+                    columns={
+                        "state_key": ("text", True),
+                        "version": ("bigint", True),
+                        "payload": ("jsonb", True),
+                    },
+                    constraints={"kuuos_mcp_state_pkey": "p"},
+                )
+                return
             conn.execute(
                 f"""
                 CREATE TABLE IF NOT EXISTS {self._TABLE} (

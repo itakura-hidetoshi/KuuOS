@@ -16,6 +16,7 @@ from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from typing import Any, Callable, Mapping, Protocol
 
+from .db_schema_mode import schema_is_preprovisioned, verify_preprovisioned_schema
 from .github_event_contract import (
     EventContractError,
     decode_signing_secret,
@@ -287,6 +288,25 @@ class PostgresSubscriptionStore:
 
     def _ensure_schema(self) -> None:
         with self._connect() as conn:
+            if schema_is_preprovisioned():
+                verify_preprovisioned_schema(
+                    conn, table=self._TABLE,
+                    columns={
+                        "id": ("text", True),
+                        "principal": ("text", True),
+                        "name": ("text", True),
+                        "arguments": ("jsonb", True),
+                        "callback_url": ("text", True),
+                        "secret_blob": ("bytea", True),
+                        "expires_at": ("timestamp with time zone", True),
+                        "verified_at": ("timestamp with time zone", True),
+                        "previous_secret_blob": ("bytea", False),
+                        "previous_secret_until": ("timestamp with time zone", False),
+                    },
+                    indexes=("kuuos_mcp_events_active_v1",),
+                    constraints={"kuuos_mcp_event_subscriptions_v1_pkey": "p"},
+                )
+                return
             conn.execute(f"""
                 CREATE TABLE IF NOT EXISTS {self._TABLE} (
                     id TEXT PRIMARY KEY,
