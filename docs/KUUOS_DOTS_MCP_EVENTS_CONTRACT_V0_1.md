@@ -1615,3 +1615,85 @@ Certification:
 
 Obstruction:
 `CHATGPT_DOTS_REAL_SUBSCRIPTION_UNOBSERVED`.
+
+## Independent GitHub Actions / Neon OIDC receipt reconciliation (2026-11-21)
+
+Scope: read-only independent GitHub MCP, Vercel MCP and Neon MCP
+observation, with **no ChatGPT/Dots event-subscription claim**. This
+documentation append changes neither certified Python source, original
+Vercel production, canonical main nor the protected PR.
+
+### Seven actual OIDC source receipts vs independently re-read GitHub runs
+
+Neon project `rough-meadow-33652646`, isolated branch
+`br-proud-queen-ayak8zsl`, reported exactly **7** append-only
+`kuuos_mcp_github_oidc_source_v1` records. A read-only query obtained
+each repository, workflow_ref, ref, head SHA, run ID, attempt and
+timestamp, without reading access tokens, private signing material or
+JTI hashes. All 7 were independently compared with the exact GitHub
+Actions run endpoint using the GitHub MCP connector. Every row matched
+`itakura-hidetoshi/KuuOS`, the feature branch,
+`run_attempt=1`, and its exact 40-character head SHA.
+
+| Exact GitHub run | Kind | GitHub conclusion |
+| --- | --- | --- |
+| [#44835215398](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/44835215398) | MCP Python/PG validation | completed / SUCCESS |
+| [#44835109525](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/44835109525) | MCP Python/PG validation | completed / SUCCESS |
+| [#44834866136](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/44834866136) | MCP Python/PG validation | completed / **FAILURE** |
+| [#44834866165](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/44834866165) | authentic GitHub OIDC source | completed / SUCCESS |
+| [#44833605981](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/44833605981) | MCP Python/PG validation | completed / SUCCESS |
+| [#44833354567](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/44833354567) | authentic GitHub OIDC source | completed / SUCCESS |
+| [#44832696689](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/44832696689) | authentic GitHub OIDC source | completed / SUCCESS |
+
+**A received cryptographically verified source identity is not a CI success
+proof.** The failed CI #44834866136 remains a genuine admitted source
+receipt and must not be deleted, filtered or promoted to SUCCESS.
+The successful OIDC-source workflow for the same SHA is a distinct run.
+
+### Live staging runtime and subscriber authority check
+
+An actual Vercel MCP GET to
+`https://kuuos-mcp-oidc-staging.vercel.app/healthz`
+returned HTTP 200 with `backend=PostgresStateStore`,
+`oauth_enabled=true`, `mcp_events_adapter_loaded=true`,
+`github_oidc_source_loaded=true`,
+`github_oidc_delivery_loaded=true` and `write_ready=false`.
+This demonstrates a current *staging* runtime and database health read,
+not a user OAuth grant, signed event callback or Dot activation.
+
+Staging Neon had **one** event-subscription row at this observation.
+Its event is `kuuos.github.ci_gates_observed`; its principal is
+`kuuos-owner`, a synthetic staging identity, and the callback host
+is a temporary `vercel.run` sandbox, **not** the ChatGPT/Dots callback.
+The verification timestamp was
+`2026-11-20T23:20:59.452Z` and its finite expiry was
+`2026-11-21T00:20:59.452Z`; this record must not be mistaken
+for a durable user-owned subscription. No callback URL token or secret
+was copied into this report.
+
+The same database held **one** terminal outbox record,
+`kuuos.github.ci_completed`, `state=delivered`,
+`attempts=1`, `last_http_status=200`. Its distinct event name
+is from earlier synthetic ingress testing; it does **not**
+establish delivery of the newer authentic OIDC
+`kuuos.github.ci_gates_observed` event to Dots.
+
+At the initial source check the feature branch HEAD was
+`37eed415a20e8aaaabd220043779881345e451bb`,
+whose own validation run
+[#44836227181](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/44836227181)
+was still `queued`. The earlier exact source
+`7ef4dfb4096007fd5e9bd2761e96b1fe21861458`
+had independently passed
+[#44835215398](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/44835215398).
+No green conclusion or source/deployment equivalence is inferred
+for the later source while its own run is pending.
+
+The genuine OIDC event intake is an important independent boundary:
+it is not a connected ChatGPT custom KuuOS MCP plugin, real end-user
+OAuth consent, an authenticated Dots `events/subscribe` call,
+a Dots callback receipt, or a Dot-triggered exact GitHub MCP
+job/step/Lean axiom audit. Preserve
+`BLOCKED_MCP_EVENT_SUBSCRIPTION` until those separate
+receipts are observed. No merge/deployment/write authority follows
+from this read-only cross-system reconciliation.
