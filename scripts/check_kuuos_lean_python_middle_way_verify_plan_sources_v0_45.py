@@ -11,6 +11,7 @@ Copyright Hidetoshi Itakura / 板倉英俊. Apache-2.0.
 from __future__ import annotations
 
 import ast
+import re
 from pathlib import Path
 
 from scripts import check_kuuos_lean_python_finite_evidence_sources_v0_44 as prior
@@ -92,6 +93,77 @@ def _trusted_root(root: Path) -> bool:
     return prior._trusted_root(root)
 
 
+
+def _lean_code_without_comments_or_strings(source: str) -> str:
+    """Mask Lean comments and string literals, preserving executable tokens.
+
+    Handles nested Lean block comments, line comments and escaped strings.
+    This is a conservative source lint, not a Lean parser or proof checker.
+    """
+    out: list[str] = []
+    block_depth = 0
+    in_string = False
+    in_quoted_ident = False
+    i = 0
+    while i < len(source):
+        char = source[i]
+        if block_depth:
+            if source.startswith("/-", i):
+                block_depth += 1
+                out.extend("  ")
+                i += 2
+            elif source.startswith("-/", i):
+                block_depth -= 1
+                out.extend("  ")
+                i += 2
+            else:
+                out.append("\n" if char == "\n" else " ")
+                i += 1
+        elif in_string:
+            if char == "\\" and i + 1 < len(source):
+                out.append(" ")
+                out.append("\n" if source[i + 1] == "\n" else " ")
+                i += 2
+            else:
+                if char == '"':
+                    in_string = False
+                out.append("\n" if char == "\n" else " ")
+                i += 1
+        elif in_quoted_ident:
+            if char == "»":
+                in_quoted_ident = False
+            out.append("\n" if char == "\n" else " ")
+            i += 1
+        elif source.startswith("--", i):
+            while i < len(source) and source[i] != "\n":
+                out.append(" ")
+                i += 1
+        elif source.startswith("/-", i):
+            block_depth = 1
+            out.extend("  ")
+            i += 2
+        elif char == '"':
+            in_string = True
+            out.append(" ")
+            i += 1
+        elif char == "«":
+            in_quoted_ident = True
+            out.append(" ")
+            i += 1
+        else:
+            out.append(char)
+            i += 1
+    if block_depth or in_string or in_quoted_ident:
+        raise ValueError("unterminated_lean_comment_string_or_quoted_identifier")
+    return "".join(out)
+
+
+def _contains_unproved_lean(source: str) -> bool:
+    """Match forbidden *whole* Lean tokens, never identifier prefixes."""
+    code = _lean_code_without_comments_or_strings(source)
+    return re.search(r"(?<![\w'])(?:axiom|sorry|admit)(?![\w'])", code) is not None
+
+
 def test_inventory(root: Path = ROOT) -> dict[str, tuple[str, ...]]:
     if not _trusted_root(root):
         return {}
@@ -158,9 +230,13 @@ def check_sources(root: Path = ROOT) -> tuple[str, ...]:
             for name in LEAN_IMPORTS:
                 if name not in lines:
                     issues.append("v045_lean_import_missing:" + name)
-            if any(line.startswith(("axiom ", "sorry", "admit"))
-                   for line in lines):
-                issues.append("v045_unproved_lean_source")
+            try:
+                has_unproved = _contains_unproved_lean(raw.decode("utf-8"))
+            except ValueError:
+                issues.append("v045_lean_lexical_scan_incomplete")
+            else:
+                if has_unproved:
+                    issues.append("v045_unproved_lean_source")
     if set(test_inventory(root)) != set(TEST_CLASSES):
         issues.append("v045_test_inventory_incomplete")
     return tuple(sorted(set(issues)))
