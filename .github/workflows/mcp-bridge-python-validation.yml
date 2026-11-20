@@ -66,3 +66,106 @@ jobs:
           # Ephemeral service container credentials; never a production DSN.
           KUUOS_MCP_TEST_POSTGRES_DSN: postgresql://kuuos_ci:disposable-test-only@127.0.0.1:5432/kuuos_events_ci
         run: python -m pytest -v tests/test_event_postgres_integration.py
+
+  notify-github-oidc:
+    name: Authenticate actual completed validation gates to isolated staging
+    needs: [validate, postgres-integration]
+    if: ${{ always() && github.event_name == 'push' && github.ref == 'refs/heads/feat/kuuos-dots-mcp-ci-event-contract-v0-1-20261120' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Issue real GitHub OIDC identity after three validation jobs settle
+        shell: bash
+        env:
+          OIDC_STAGING_URL: https://kuuos-mcp-oidc-staging.vercel.app/api/github-oidc
+          OIDC_AUDIENCE: api://kuuos/KuuOS/mcp-source-oidc-v1
+          VALIDATE_JOB_RESULT: ${{ needs.validate.result }}
+          POSTGRES_MATRIX_RESULT: ${{ needs.postgres-integration.result }}
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          import os
+          import urllib.error
+          import urllib.parse
+          import urllib.request
+
+          if (os.environ.get("GITHUB_REPOSITORY")
+                  != "itakura-hidetoshi/KuuOS"):
+              raise SystemExit("repository_unrecognized")
+          if (os.environ.get("GITHUB_REF")
+                  != "refs/heads/feat/kuuos-dots-mcp-ci-event-contract-v0-1-20261120"):
+              raise SystemExit("source_branch_not_admitted")
+          request_url = os.environ.get("ACTIONS_ID_TOKEN_REQUEST_URL", "")
+          request_token = os.environ.get("ACTIONS_ID_TOKEN_REQUEST_TOKEN", "")
+          if not request_url.startswith("https://") or not request_token:
+              raise SystemExit("github_oidc_unavailable")
+          separator = "&" if "?" in request_url else "?"
+          url = request_url + separator + urllib.parse.urlencode({
+              "audience": os.environ["OIDC_AUDIENCE"],
+          })
+          request = urllib.request.Request(
+              url, headers={"Authorization": "bearer " + request_token},
+          )
+          try:
+              with urllib.request.urlopen(request, timeout=20) as response:
+                  jwt_token = json.loads(response.read(22000)).get("value")
+          except Exception:
+              raise SystemExit("github_oidc_issue_failed")
+          if not isinstance(jwt_token, str) or not 100 < len(jwt_token) < 16384:
+              raise SystemExit("github_oidc_signed_identity_invalid")
+          signal = {
+              "kind": "ci_jobs_observed",
+              "repository": "itakura-hidetoshi/KuuOS",
+              "ref": os.environ["GITHUB_REF"],
+              "head_sha": os.environ["GITHUB_SHA"],
+              "run_id": int(os.environ["GITHUB_RUN_ID"]),
+              "run_attempt": int(os.environ["GITHUB_RUN_ATTEMPT"]),
+          }
+          req = urllib.request.Request(
+              os.environ["OIDC_STAGING_URL"],
+              data=json.dumps(signal, sort_keys=True, separators=(",", ":")).encode(),
+              method="POST",
+              headers={
+                  "Authorization": "Bearer " + jwt_token,
+                  "Content-Type": "application/json",
+                  "Accept": "application/json",
+              },
+          )
+          try:
+              with urllib.request.urlopen(req, timeout=30) as response:
+                  code = response.status
+                  receipt = json.loads(response.read(5000))
+          except urllib.error.HTTPError as exc:
+              raise SystemExit("oidc_ci_gates_source_http_rejected:" + str(exc.code))
+          except Exception:
+              raise SystemExit("oidc_ci_gates_transport_unavailable")
+          if not (
+              code == 202 and receipt.get("accepted") is True
+              and receipt.get("github_oidc_signature_verified") is True
+              and receipt.get("github_event_kind") == "ci_jobs_observed"
+              and receipt.get("run_id") == signal["run_id"]
+              and receipt.get("head_sha") == signal["head_sha"]
+              and receipt.get("signal_is_success_evidence") is False
+              and receipt.get("dots_callback_received") is False
+              and receipt.get("merge_authority_granted") is False
+          ):
+              raise SystemExit("oidc_ci_gates_receipt_mismatch")
+          # These are GitHub's real job results, not certified by
+          # this receipt. The consumer must independently re-fetch.
+          print(json.dumps({
+              "source": "real-github-actions-validation-gates",
+              "run_id": signal["run_id"],
+              "head_sha": signal["head_sha"],
+              "validate_job_result": os.environ["VALIDATE_JOB_RESULT"],
+              "postgres_matrix_result": os.environ["POSTGRES_MATRIX_RESULT"],
+              "oidc_signed_source": True,
+              "staging_receipt_id": receipt.get("receipt_id"),
+              "is_terminal_workflow_conclusion": False,
+              "independent_github_mcp_reobservation_required": True,
+              "dots_delivery_received": False,
+          }, sort_keys=True))
+          PY
