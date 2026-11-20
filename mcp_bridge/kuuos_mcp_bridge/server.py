@@ -232,6 +232,16 @@ async def healthz(_: Request) -> JSONResponse:
     )
 
 
+# Event methods are opt-in. Production stays unchanged without all of:
+# OAuth, PostgreSQL, subject/repository allowlists, and an encryption key.
+# An enabled subscription API is not an event source or Dots delivery receipt.
+event_subscription_manager = None
+if _env_bool("KUUOS_MCP_EVENTS_ENABLED"):
+    from .event_bootstrap import configure_mcp_events
+
+    event_subscription_manager = configure_mcp_events(mcp, oauth, store)
+
+
 application = mcp.streamable_http_app(
     streamable_http_path="/mcp",
     json_response=True,
