@@ -66,9 +66,11 @@ def validate_live_binding(binding: dict[str, Any]) -> None:
         raise SystemExit("predecessor prediction changed: new authorization required")
 
 
-def build_reobserved_fixture(binding: dict[str, Any]) -> dict[str, Any]:
-    """New sealed ingestion receipt; leave original v0.1 reference fixture unchanged."""
+def build_reobserved_fixture(binding: dict[str, Any], *, receipt_edition: str = "20261016") -> dict[str, Any]:
+    """One edition-scoped sealed receipt; historic reobservations remain unchanged."""
     validate_live_binding(binding)
+    if receipt_edition not in ("20261016", "20261120"):
+        raise SystemExit("unregistered external-evidence reobservation edition")
     fixture = build_fixture()
     updates = {
         "predecessor_workflow_run_id": binding["predecessor_workflow_run_id"],
@@ -83,10 +85,12 @@ def build_reobserved_fixture(binding: dict[str, Any]) -> dict[str, Any]:
         value = {k: v for k, v in fixture[component].items() if k != digest_key}
         value.update(updates)
         if component == "request":
-            value["request_id"] = "external-result-ingestion-request-reobserved-20261016"
-            value["request_revision"] = "external-result-ingestion-rev-002"
+            value["request_id"] = "external-result-ingestion-request-reobserved-" + receipt_edition
+            value["request_revision"] = ("external-result-ingestion-rev-002"
+                                         if receipt_edition == "20261016"
+                                         else "external-result-ingestion-rev-003")
         if component == "plan":
-            value["ingestion_id"] = "kuuos-external-result-ingestion-reobserved-20261016"
+            value["ingestion_id"] = "kuuos-external-result-ingestion-reobserved-" + receipt_edition
         if component == "result_evidence":
             value["report_digest"] = binding["report_digest"]
         if component == "process_evidence":
@@ -218,6 +222,7 @@ def main() -> None:
     parser.add_argument("--artifact-root", type=Path)
     parser.add_argument("--artifact-metadata", type=Path)
     parser.add_argument("--live-binding", type=Path)
+    parser.add_argument("--receipt-edition", choices=("20261016", "20261120"), default="20261016")
     parser.add_argument("--workflow-metadata", type=Path)
     parser.add_argument("--receipt-output", type=Path)
     args = parser.parse_args()
@@ -241,7 +246,7 @@ def main() -> None:
         raise SystemExit("reference ingestion not admitted")
     if args.live_binding:
         binding = load_json(args.live_binding)
-        fresh = build_reobserved_fixture(binding)
+        fresh = build_reobserved_fixture(binding, receipt_edition=args.receipt_edition)
         verified = verify_artifact(args.artifact_root, args.artifact_metadata,
                                    live_binding=binding, workflow_metadata=args.workflow_metadata)
         result = {**verified, **project_fixture(fresh),
@@ -254,7 +259,7 @@ def main() -> None:
             args.receipt_output.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n")
         print(json.dumps(result, sort_keys=True))
     else:
-        if args.receipt_output or args.workflow_metadata:
+        if args.receipt_output or args.workflow_metadata or args.receipt_edition != "20261016":
             raise SystemExit("live receipt options require an explicit live binding")
         if args.artifact_root:
             print(json.dumps(verify_artifact(args.artifact_root, args.artifact_metadata), sort_keys=True))

@@ -1,0 +1,14 @@
+{
+  "schema_version": "kuuos.external-evidence.reobservation.v1",
+  "predecessor_workflow_run_id": 44739105282,
+  "predecessor_workflow_run_attempt": 1,
+  "predecessor_workflow_head_sha": "9cc37f52d04d2137225a2a51cff781099cee249d",
+  "predecessor_artifact_id": 14629743535,
+  "predecessor_artifact_name": "codeai-bounded-official-external-v0-1-44739105282-1",
+  "predecessor_artifact_digest": "cd1bf0907d7510f954622a1a553e294613300005e605013efd501809002398b1",
+  "external_observation_digest": "22268a13a116013cf36c6f9cfde52166bd1d99a4f7f415a8653a505d13874a74",
+  "prediction_digest": "9a2aeff25ca565214ecbae781f20df4c23eea20db72b135702aa56d5de238050",
+  "report_digest": "35493c1b427e375b3352d51e19a007d3602f23d6a45563ed14857dffb4f5c52f",
+  "test_output_digest": "7a68d49a7c6e1d3099c380d7167ab4abc5f3c1f8888bb2d29dac691cc1b8aa34",
+  "instance_log_digest": "0dacc87578385e3b1c492363b704de848f0d040af9f4fe4f9781847c5660335b"
+}

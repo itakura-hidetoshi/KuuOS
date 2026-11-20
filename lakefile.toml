@@ -233,6 +233,18 @@ globs = [
   "KuuOSRepositoryObjectMaterializationReceiptV0_95",
   "KuuOSGitHubMCPServerBridgeV0_1",
   "Kuu.*",
+  # v0.47: exact build registration only for original DecisionOS v0.8
+  # dependency closure; no new published roots or wildcard expansion.
+  "KuuOS.PlanOSV098",
+  "KuuOS.PlanOSV099",
+  "KuuOS.PlanOSV100",
+  "KuuOS.PlanOSV101",
+  "KuuOS.PlanOSV102",
+  "KuuOS.PlanOSTemperatureTrajectoryStabilityCertificateKernelV01",
+  "KuuOS.PlanOSQiConditionedInformationMetricCertificateKernelV01",
+  "KuuOS.PlanOSWorldConditionedPathProjectionPullbackMetricKernelV01",
+  "KuuOS.PlanOSWorldConditionedObjectiveDistributionUpdateKernelV01",
+  "KuuOS.PlanOSWorldConditionedDistributionDecisionHandoffCertificateKernelV01",
   "KuuOSStrict",
   "KuuOSQiWuxingCyclicGroupPathsV3_1",
   "KuuOSQiWuxingPathObservationCongruenceV3_2",
