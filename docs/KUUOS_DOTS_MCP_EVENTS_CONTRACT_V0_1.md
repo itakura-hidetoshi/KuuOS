@@ -209,3 +209,49 @@ Signing-key rotation support is candidate code until independently exercised
 with a real callback. A CI green state does not grant Git merge/deploy authority.
 
 Authoritative profile: https://developers.openai.com/plugins/build/mcp-events
+
+## PostgreSQL integration evidence (append-only, 2026-11-20)
+
+This section refines the earlier observation that PostgreSQL behavior was
+previously only tested with isolated mocks. It does not certify Dots operation.
+
+The initial PostgreSQL outbox SQL contained an unqualified id in an UPDATE
+FROM candidate RETURNING expression, even though both target and candidate
+expose id. The fixed code uses a target-qualified work.id and the rest of
+the explicit target work.* column list, without weakening row-lock semantics.
+
+The KuuOS MCP Bridge Python Validation workflow now runs a second job using
+a disposable PostgreSQL 16 service container. Credentials, storage and the
+database name kuuos_events_ci are test-only and not user production resources.
+
+Exact-head outcomes:
+
+- HEAD b352b13e33b636cd53632d2343cfce67bb9ea8b9, run #44747371895:
+  completed FAILURE. Normal Python suite succeeded, four of five actual
+  PostgreSQL checks passed. One test incorrectly reused a previously rotated
+  signing key and assumed unauthorized unsubscribe would silently succeed.
+  This was a test isolation/expectation error, not permission to weaken
+  overlapping rotation or ownership checks.
+- HEAD e27a0d57f0bfa0fa1690fe7bede0ef9c8619ac44, run #44747680695:
+  completed SUCCESS; 185 Python passed, five integration tests skipped in the
+  normal job; and five of five real PostgreSQL tests passed in the separate job.
+- HEAD 4a11a1bba3d8280fd8a04f80cd1aaa1cbb83567f, run #44748114671:
+  completed SUCCESS; 185 Python passed, six integrations skipped without DSN;
+  six of six actual PostgreSQL tests passed. The extra test migrates a legacy
+  encrypted subscription table without erasing old data and then tests key
+  rotation, additive columns and encrypted previous-secret storage.
+
+Actual PostgreSQL-tested scope: encrypted subscriptions, exact owner revoke,
+outbox replay identity, transactional lease, expiry reclaim, competing workers,
+and pre-rotation schema migration. No live production PostgreSQL or actual Dot
+callback was accessed. The red first-run receipt stays historical.
+
+Not completed: Production OAuth/PostgreSQL configuration, connected custom
+ChatGPT MCP Events plugin, GitHub webhook to opted-in ingress, real callback
+challenge, real Dot wake-up, and exact-run/job/Lean-step GitHub MCP observation
+triggered by that wake-up. Status remains BLOCKED_MCP_EVENT_SUBSCRIPTION.
+
+No new PR, canonical main mutation, protected PR mutation, production credential
+retrieval, automatic deployment, or periodic polling was performed.
+
+SQL reference: https://www.postgresql.org/docs/current/sql-update.html
