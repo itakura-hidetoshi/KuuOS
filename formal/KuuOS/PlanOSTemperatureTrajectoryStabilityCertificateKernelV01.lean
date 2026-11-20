@@ -24,7 +24,8 @@ theorem temperature_total_variation_is_nonnegative (steps : List ℝ) :
   induction steps with
   | nil => simp [totalVariation]
   | cons step steps ih =>
-      simp [totalVariation, abs_nonneg, ih]
+      simp only [totalVariation]
+      exact add_nonneg (abs_nonneg step) ih
 
 theorem bounded_steps_bound_total_variation
     (steps : List ℝ)
