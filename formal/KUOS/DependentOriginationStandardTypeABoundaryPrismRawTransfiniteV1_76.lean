@@ -984,6 +984,47 @@ theorem standardTypeABoundaryPrismAlternatingToCylinder_odd_transport_eq
 #print axioms standardTypeABoundaryPrismAlternatingToCylinder_even_transport_eq
 #print axioms standardTypeABoundaryPrismAlternatingToCylinder_odd_transport_eq
 
+
+/-!
+## Certified gluing of the two transported raw successors
+
+This composition uses A_j as the exact intermediate source/target.  It
+checks the local A/B interface, rather than identifying HEq with Eq.
+-/
+
+/-- Two consecutive raw alternating successors, transported to
+R_j -> A_j -> R_(j+1), reproduce the original rank successor exactly. -/
+theorem standardTypeABoundaryPrismAlternatingRawPair_transport_eq
+    (g : StandardTypeAHornAttachmentGeneratorIndex) (j : ℕ) :
+    ((eqToHom (standardTypeABoundaryPrismAlternatingObj_bit_false g j).symm) ≫
+        standardTypeABoundaryPrismAlternatingStep g (Nat.bit false j) ≫
+        eqToHom (standardTypeABoundaryPrismAlternatingEvenSuccObj_eq g j)) ≫
+      ((eqToHom (standardTypeABoundaryPrismAlternatingObj_bit_true g j).symm) ≫
+        standardTypeABoundaryPrismAlternatingStep g (Nat.bit true j) ≫
+        eqToHom (standardTypeABoundaryPrismAlternatingOddSuccObj_eq g j)) =
+      standardTypeABoundaryPrismRankStageHom g (Nat.le_succ j) := by
+  rw [standardTypeABoundaryPrismAlternatingStep_even_transport_eq,
+    standardTypeABoundaryPrismAlternatingStep_odd_transport_eq,
+    standardTypeABoundaryPrismRankStep_factor_A_residual]
+
+/-- The same two raw stages glue compatibly to the common scaled cylinder.
+This equality does not infer a global endpoint RLP from local factorization. -/
+theorem standardTypeABoundaryPrismAlternatingRawPair_toCylinder
+    (g : StandardTypeAHornAttachmentGeneratorIndex) (j : ℕ) :
+    (((eqToHom (standardTypeABoundaryPrismAlternatingObj_bit_false g j).symm) ≫
+          standardTypeABoundaryPrismAlternatingStep g (Nat.bit false j) ≫
+          eqToHom (standardTypeABoundaryPrismAlternatingEvenSuccObj_eq g j)) ≫
+        ((eqToHom (standardTypeABoundaryPrismAlternatingObj_bit_true g j).symm) ≫
+          standardTypeABoundaryPrismAlternatingStep g (Nat.bit true j) ≫
+          eqToHom (standardTypeABoundaryPrismAlternatingOddSuccObj_eq g j))) ≫
+      standardTypeABoundaryPrismRankStageToCylinder g (j + 1) =
+        standardTypeABoundaryPrismRankStageToCylinder g j := by
+  rw [standardTypeABoundaryPrismAlternatingRawPair_transport_eq]
+  exact standardTypeABoundaryPrismRankStageHom_toCylinder g (Nat.le_succ j)
+
+#print axioms standardTypeABoundaryPrismAlternatingRawPair_transport_eq
+#print axioms standardTypeABoundaryPrismAlternatingRawPair_toCylinder
+
 end
 
 end KUOS.DependentOriginationStandardTypeABoundaryPrismRawTransfiniteV1_76
