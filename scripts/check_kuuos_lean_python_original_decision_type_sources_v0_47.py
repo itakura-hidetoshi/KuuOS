@@ -36,6 +36,32 @@ TEMPERATURE_NEW_PROOF = (
     b"      simp only [totalVariation]\n"
     b"      exact add_nonneg (abs_nonneg step) ih"
 )
+# Byte-certified annotation-only changes for newly buildable historical
+# Real definitions. The original theorem statements and exact archival
+# snapshots cannot be rewritten. This is not a Lean/CPython runtime proof.
+REVIEWED_NONCOMPUTABLE_SOURCES = {
+    "KuuOS/PlanOSQiConditionedInformationMetricCertificateKernelV01.lean": {
+        "old_blob": "a4b0c3007e0f7dcca83e6152214d3271c7b1eb1f",
+        "new_blob": "3ceb64ce85ca8890dc19d601e0913fa3cda739b0",
+        "definitions": ["diagonalQuadraticForm"],
+    },
+    "KuuOS/PlanOSWorldConditionedPathProjectionPullbackMetricKernelV01.lean": {
+        "old_blob": "94ce4db594d3a7af326bfcc21c976d23ac9a9f39",
+        "new_blob": "7539b99b0a5e582785bff3bb372a697f4b4a2783",
+        "definitions": ["planQuadraticForm","worldPullbackQuadraticForm","combinedTransitionAction"],
+    },
+    "KuuOS/PlanOSWorldConditionedObjectiveDistributionUpdateKernelV01.lean": {
+        "old_blob": "57320de236789c8829cd3ada789f35fb221f7d4c",
+        "new_blob": "9ee548bcf025dfce350f76c2cc85a250cf6988f0",
+        "definitions": ["worldConditionedGibbsFactor"],
+    },
+    "KuuOS/PlanOSWorldConditionedDistributionDecisionHandoffCertificateKernelV01.lean": {
+        "old_blob": "b88865eff8083f69942a85f7efa7f49541311d27",
+        "new_blob": "cc5119a74ae03fc3609931ebc92745a62b46389f",
+        "definitions": ["effectiveSupport"],
+    },
+}
+
 NEW = (
     "formal/KUOS/Architecture/LeanPythonOriginalDecisionTypeBridgeV0_47.lean",
     "scripts/check_kuuos_lean_python_original_decision_type_sources_v0_47.py",
@@ -177,6 +203,25 @@ def check_sources(root: Path = ROOT) -> tuple[str, ...]:
               TEMPERATURE_OLD_PROOF, TEMPERATURE_NEW_PROOF, 1)):
         issues.append("v047_historical_temperature_proof_uncontrolled_change")
 
+    for suffix, record in REVIEWED_NONCOMPUTABLE_SOURCES.items():
+        archive, archive_error = _read(root, "legacy/v5.291/formal/" + suffix)
+        active, active_error = _read(root, "formal/" + suffix)
+        if archive_error or active_error:
+            issues.append("v047_real_noncomputable_source_missing:" + suffix)
+            continue
+        expected = archive
+        for name in record["definitions"]:
+            source = ("def " + name).encode("utf-8")
+            replacement = ("noncomputable def " + name).encode("utf-8")
+            if expected.count(source) != 1:
+                issues.append("v047_real_declaration_not_unique:" + suffix + ":" + name)
+                break
+            expected = expected.replace(source, replacement, 1)
+        if (_blob(archive) != record["old_blob"]
+                or _blob(active) != record["new_blob"]
+                or active != expected):
+            issues.append("v047_real_noncomputable_delta_mismatch:" + suffix)
+
     raw_lake, lake_problem = _read(root, "lakefile.toml")
     if lake_problem:
         issues.append("v047_lakefile_missing")
@@ -272,6 +317,7 @@ def main() -> int:
     if not issues:
         print("STATIC_MATCH: exactly 10 nonpublished legacy module registrations")
         print("STATIC_MATCH: preserved historic temperature proof snapshot, exact repair")
+        print("STATIC_MATCH: four archived real-number modules with exact noncomputable declaration deltas")
         print("STATIC_MATCH: entire original 35-field and 35-premise receipt model")
         print("NOT_PROOF: only Strict Lean can certify original type equivalence")
     return int(bool(issues))
