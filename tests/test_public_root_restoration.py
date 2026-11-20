@@ -142,6 +142,26 @@ LINT_ONLY_SOURCE_EDITS = {
     ),
 }
 
+# PR #3608: a reviewed proof-term repair in one newly importable historical
+# PlanOS module. This is NOT a lint-only edit and was NOT present at PR #2339.
+# Preserve the old v5.291 source verbatim; require both exact git blobs and
+# the only permitted single proof transformation. No theorem signatures change.
+PR3608_REVIEWED_HISTORIC_PROOF_REPAIR = {
+    "KuuOS/PlanOSTemperatureTrajectoryStabilityCertificateKernelV01.lean": {
+        "old_blob": "46d8a67594af17e6aa63f13600f90b9ab34c8ff8",
+        "new_blob": "a3d7e25d585da29e17eaef8f8c11d972948dbb40",
+        "old_proof": (
+            b"  | cons step steps ih =>\\n"
+            b"      simp [totalVariation, abs_nonneg, ih]"
+        ),
+        "new_proof": (
+            b"  | cons step steps ih =>\\n"
+            b"      simp only [totalVariation]\\n"
+            b"      exact add_nonneg (abs_nonneg step) ih"
+        ),
+    },
+}
+
 class PublicRootRestorationTests(unittest.TestCase):
     def test_every_previous_public_root_remains_published(self):
         old = tomllib.loads((ROOT / 'legacy/v5.291/lakefile.toml').read_text())
@@ -198,6 +218,7 @@ class RestoredWiringTests(unittest.TestCase):
         self.assertTrue(archived, 'historical proof snapshot empty')
         seen = set()
         pinned_seen = set()
+        reviewed_proof_seen = set()
         for old in archived:
             rel = old.relative_to(before)
             if rel.as_posix() == 'KuuOSFormal.lean':
@@ -211,7 +232,21 @@ class RestoredWiringTests(unittest.TestCase):
                     self.assertEqual(expected.count(old_fragment), 1,
                                      f'unique archived lint edit required: {rel}')
                     expected = expected.replace(old_fragment, new_fragment, 1)
+                # A separately reviewed and SHA-pinned theorem-proof repair.
+                # Do not relabel this as an earlier lint-only correction.
+                repair = PR3608_REVIEWED_HISTORIC_PROOF_REPAIR.get(rel.as_posix())
+                if repair is not None:
+                    reviewed_proof_seen.add(rel.as_posix())
+                    self.assertEqual(git_blob_sha(old.read_bytes()), repair["old_blob"],
+                                     f'v0.47 archived source drift: {rel}')
+                    self.assertEqual(expected.count(repair["old_proof"]), 1,
+                                     f'v0.47 proof replacement not unique: {rel}')
+                    expected = expected.replace(
+                        repair["old_proof"], repair["new_proof"], 1)
                 current = (ROOT / 'formal' / rel).read_bytes()
+                if repair is not None:
+                    self.assertEqual(git_blob_sha(current), repair["new_blob"],
+                                     f'v0.47 reviewed proof blob drift: {rel}')
                 fixed_sha = PR2339_INTEGRATED_PROOF_BLOBS.get(rel.as_posix())
                 if fixed_sha is not None:
                     pinned_seen.add(rel.as_posix())
@@ -224,6 +259,9 @@ class RestoredWiringTests(unittest.TestCase):
                          'reviewed lint edit targets must all exist in historical roots')
         self.assertEqual(pinned_seen, set(PR2339_INTEGRATED_PROOF_BLOBS),
                          'every preexisting integrated proof exception is explicit and accounted for')
+        self.assertEqual(reviewed_proof_seen,
+                         set(PR3608_REVIEWED_HISTORIC_PROOF_REPAIR),
+                         'all v0.47 proof repairs require unique archival matching')
 
     def test_f55_path_functor_composition_has_actual_path_homs(self):
         # Regression for PR #2428: Paths V is a type synonym of V.
