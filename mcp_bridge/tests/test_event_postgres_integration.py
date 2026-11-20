@@ -262,3 +262,85 @@ def test_real_postgres_specific_claim_competing_workers_only_one_wins(stores):
     assert len(claimed) == 1
     assert claimed[0].id == row.id
     outbox.settle(row.id, claimed[0].lease_token, 200, NOW)
+
+
+def test_preprovisioned_schema_with_real_postgres_narrow_dml_role(
+    stores, monkeypatch,
+):
+    """A non-owner DML-only CI role starts all three preprovisioned stores.
+
+    Test credentials and test database are disposable per GitHub Actions job.
+    We never connect to an external, user, production, or Neon database.
+    """
+    import secrets as crypto_secrets
+    from psycopg import sql
+    from kuuos_mcp_bridge.state_store import PostgresStateStore
+
+    # Migration authority stays with the disposable CI database owner.
+    PostgresStateStore(DSN)
+    role = "kuuos_mcp_ci_" + crypto_secrets.token_hex(5)
+    password = crypto_secrets.token_urlsafe(32)
+    with psycopg.connect(DSN) as admin:
+        admin.execute(sql.SQL("CREATE ROLE {} LOGIN PASSWORD {}").format(
+            sql.Identifier(role), sql.Literal(password)
+        ))
+        admin.execute(sql.SQL("GRANT USAGE ON SCHEMA public TO {}").format(
+            sql.Identifier(role)
+        ))
+        admin.execute(sql.SQL(
+            "GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE "
+            "public.kuuos_mcp_state, "
+            "public.kuuos_mcp_event_subscriptions_v1, "
+            "public.kuuos_mcp_event_outbox_v1 TO {}"
+        ).format(sql.Identifier(role)))
+
+    dsn = psycopg.conninfo.make_conninfo(DSN, user=role, password=password)
+    with psycopg.connect(dsn) as limited:
+        grants = limited.execute(
+            "SELECT current_user, has_schema_privilege(current_user,"
+            "'public','CREATE')"
+        ).fetchone()
+        assert grants == (role, False)
+        with pytest.raises(psycopg.errors.InsufficientPrivilege):
+            limited.execute(
+                "CREATE TABLE IF NOT EXISTS kuuos_mcp_no_ddl_permitted "
+                "(id INTEGER)"
+            )
+        limited.rollback()
+
+    monkeypatch.setenv("KUUOS_MCP_SCHEMA_MODE", "preprovisioned")
+    state = PostgresStateStore(dsn)
+    assert state.read()["version"] >= 0
+    subscriptions = PostgresSubscriptionStore(dsn, KEY)
+    outbox = PostgresOutboxStore(dsn)
+    assert outbox is not None
+    principal = "preview-" + role
+    manager = _manager(subscriptions, owner=principal)
+    receipt = manager.subscribe(principal, _params())
+    assert receipt["id"].startswith("sub_")
+    assert subscriptions.get(receipt["id"]).principal == principal
+    assert manager.unsubscribe(principal, {
+        "name": CI_EVENT,
+        "arguments": {"repository": MGAP_REPO, "workflow_name": "PR Lean Fast Check"},
+        "delivery": {
+            "mode": "webhook", "url": "https://receiver.example.org/ci-postgres"
+        },
+    }) == {}
+    assert subscriptions.get(receipt["id"]) is None
+
+
+def test_preprovisioned_schema_missing_required_column_fails_closed(
+    stores, monkeypatch,
+):
+    from kuuos_mcp_bridge.db_schema_mode import verify_preprovisioned_schema
+
+    monkeypatch.setenv("KUUOS_MCP_SCHEMA_MODE", "preprovisioned")
+    with psycopg.connect(DSN) as conn:
+        with pytest.raises(RuntimeError, match="columns_invalid"):
+            verify_preprovisioned_schema(
+                conn, table="kuuos_mcp_event_subscriptions_v1",
+                columns={
+                    "id": ("text", True),
+                    "missing_column": ("bytea", False),
+                },
+            )
