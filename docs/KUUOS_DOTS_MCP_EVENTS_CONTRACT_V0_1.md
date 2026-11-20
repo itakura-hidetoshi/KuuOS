@@ -1143,3 +1143,137 @@ The correct operational distinction is:
 
 Production deployment, Production environment variables,
 canonical GitHub main, and Neon default branch were not changed.
+
+
+## Real signed challenge over external HTTPS with synthetic MCP subscription (2026-11-21 JST)
+
+This appendix preserves the exact **staging-only** provenance of an actual
+signed callback challenge. It certifies real network plumbing, **not**
+the existence of a ChatGPT/Dots subscription, a genuine GitHub sender,
+or Lean/CI truth from the event payload.
+
+### Starting conditions and source scope
+
+- Canonical `main` at independent GitHub MCP reobservation:
+  `005b9ef0471428289b1fb9545f4ac212270df138`. No main merge, new PR, production Vercel
+  release or Neon default branch change occurred.
+- Existing feature branch
+  `feat/kuuos-dots-mcp-ci-event-contract-v0-1-20261120`.
+  Last independent Python/PG CI-certified code-and-test HEAD before
+  this documentation append:
+  `943eb7e89829b7884ad40d9c5bd5f115d7260d7d`,
+  [CI #44828362764](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/44828362764):
+  `completed/SUCCESS`, Python **245 passed / 13 skipped / 1 warning**,
+  PostgreSQL 16.16 **13/13**, PostgreSQL 18.7 **13/13**.
+- The actual Preview application runtime was deployed from earlier
+  source HEAD `a8b960b869d28ce39dbff5a7a8588998412b9bbb`;
+  later repository tests and notes are not falsely represented as
+  that deployment's source.
+- Existing Vercel project
+  `prj_iBLTjldWRWTAQ9hQzjlY5n4MkPg2`. Exact tested Preview
+  `dpl_J7Hsag13ZnsXx2uoQzGP6V9zZkxZ`, READY,
+  `target=null`, URL:
+  https://kuuos-chat-work-ffzh9r825-itakurahidetoshi-9224.vercel.app
+- Embedded staging OAuth owner secret was rotated only in the
+  Preview-sensitive environment slot. The same fresh test credential
+  was placed in an ephemeral Vercel Sandbox file with mode 0600.
+  No OAuth secret or bearer token was written to GitHub,
+  the workbench, transcript receipts or external logs.
+
+### Real external HTTPS callback verification — independent sandbox
+
+- Created a non-persistent, single-vCPU Vercel Sandbox
+  `kuuos-mcp-events-callback-20261121-c`,
+  session `sbx_DwtRSYEqxVN8M4bCRvXA1d20K6Ej`,
+  with a short-lived HTTPS receiver exposed at
+  `https://sb-3r0zv1g25qqg.vercel.run/callback`.
+  Outbound sandbox network permission was restricted to **only**
+  the specific Preview application origin. The receiver accepted
+  `POST /callback` only after validating
+  `webhook-id`, timestamp freshness, the one-use
+  `type=verification` challenge, and the standard
+  `webhook-signature` HMAC-SHA256 using its own isolated
+  `whsec_` test key. The key was stored only in the
+  ephemeral sandbox (0600), not in the repository.
+- An initial attempt returned local socket connection refused
+  before OAuth initialization. This was a sandbox receiver
+  process-lifetime obstruction, **not** an MCP subscription
+  rejection. The process was restarted, a local HTTP GET
+  `127.0.0.1:8765/health` returned 200, and the outbound
+  allowlist was updated from the prior Preview hostname to the
+  new exact Preview hostname before retrying.
+- The **retry** used actual HTTPS between the sandbox and the
+  protected Vercel Preview, with the deployment-scoped
+  short-lived Vercel share cookie (not a public MCP URL).
+  The network results were:
+  - Synthetic OAuth public-client registration: **201**.
+  - OAuth authorization and synthetic owner login: **302/302**.
+  - Exact `resource` + PKCE `S256` token exchange: **200**.
+  - Authenticated MCP `initialize`: **200**, `events`
+    capability advertised.
+  - Authenticated MCP `events/list`: **200**, including
+    `kuuos.github.ci_completed`.
+  - Authenticated `events/subscribe`: **200**, actual
+    `sub_` receipt for a synthetic filter targeting the
+    allowlisted `itakura-hidetoshi/KuuOS` repository.
+  - Vercel's callback verifier opened a real outbound
+    HTTPS connection to the sandbox's public receiver,
+    sent a signed `type=verification` challenge and
+    received the exact echoed challenge. The sandbox
+    reported **one** signature-verified challenge.
+  - Authenticated `events/unsubscribe`: **200**, successful.
+  - `POST /revoke` including the explicitly empty
+    `client_secret` required by the pinned MCP SDK
+    public-client parser: **200**.
+  - A subsequent MCP request using the **revoked** new access
+    token returned **401**.
+- This is a **synthetic subscriber test**. The receiver is
+  a temporary sandbox, **not** a ChatGPT callback URL, and
+  the event was a verification control message, **not** an
+  authentic GitHub completed-CI signal. The application did
+  not send a fake completed-CI event into Dots.
+- The sandbox was explicitly stopped, with `persistent=false`.
+  No daemon, active external callback receiver, or real user
+  monitor was left running by this test.
+
+### Independent post-test Neon observation
+
+- Isolated PostgreSQL 18.7 staging branch
+  `br-proud-queen-ayak8zsl` was queried under
+  the DML-only role after unsubscribe and revoke.
+- **0** event subscriptions and **0** outbox records;
+  the synthetic test subscription was not left active.
+- **1** access and **1** refresh record remain from
+  **earlier synthetic OAuth testing**, not from the
+  newly revoked test. **2** synthetic OAuth client
+  registrations now exist. These historic records have
+  not been treated as revoked or deleted. There was
+  no destructive SQL cleanup.
+- Original/default Neon branch `br-summer-lake-ayfwkun3`
+  still had **0** of the four MCP application tables
+  on independent read-only query.
+
+### Remaining outer authentication and event-source obstruction
+
+A genuine ChatGPT/Dots「くー」subscription is **not** present.
+Official custom MCP server connections are workspace/plan
+controlled and require an accessible supported MCP endpoint
+or an approved Secure MCP Tunnel and the user's own
+OAuth consent. The protected Preview share link and
+synthetic owner login are **not** substitutes for those
+authorizations. GitHub source-side genuine signed event
+configuration remains `NO_DATA` under current GitHub MCP
+admin tool limitations.
+
+The next true end-to-end gate remains: actual user-connected
+MCP plugin → Dots `events/subscribe` and signed challenge
+→ authentic matching GitHub source delivery → Dots callback
+receipt → independent GitHub MCP re-observation of exact
+repo/HEAD/run/attempt/job/Lean step. Until those receipts
+arrive, do not claim background real-time monitoring.
+
+State:
+`SYNTHETIC_SIGNED_CALLBACK_HTTPS_CERTIFIED` /
+`SYNTHETIC_SUBSCRIBE_UNSUBSCRIBE_REVOKE_CERTIFIED` /
+`DOT_REAL_SUBSCRIPTION_UNOBSERVED` /
+`GITHUB_AUTHENTIC_SOURCE_UNOBSERVED`.
