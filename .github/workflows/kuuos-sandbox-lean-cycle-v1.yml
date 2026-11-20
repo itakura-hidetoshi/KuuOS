@@ -1,0 +1,40 @@
+name: KuuOS Sandbox direct Lean loop v1 — offline contract only
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/kuuos_sandbox_lean_cycle_v1.py'
+      - 'scripts/kuuos_sandbox_prepare_v1.sh'
+      - 'tests/test_kuuos_sandbox_lean_cycle_v1.py'
+      - 'docs/KUUOS_SANDBOX_LEAN_CYCLE_v1.md'
+      - 'ci/check_registry.d/kuuos_sandbox_lean_cycle_v1.json'
+      - '.github/workflows/kuuos-sandbox-lean-cycle-v1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  offline-contract:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validate local-only runner and bootstrap syntax
+        run: |
+          set -euo pipefail
+          python3 -m py_compile scripts/kuuos_sandbox_lean_cycle_v1.py
+          python3 -m py_compile tests/test_kuuos_sandbox_lean_cycle_v1.py
+          bash -n scripts/kuuos_sandbox_prepare_v1.sh
+      - name: Run offline append-only, pin, source and audit gate regressions
+        run: |
+          set -euo pipefail
+          python3 -m unittest discover -s tests -p 'test_kuuos_sandbox_lean_cycle_v1.py' -v
+      - name: State the certification boundary
+        run: |
+          echo 'Only stdlib Python contract tested. No Lean proof certification here.'
+          echo 'No GitHub write, no workflow dispatch, no automatic PR merge.'
+          echo 'A local green receipt never substitutes for independently verified Lean CI.'
