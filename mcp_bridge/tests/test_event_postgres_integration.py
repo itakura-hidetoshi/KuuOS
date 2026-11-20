@@ -554,3 +554,81 @@ def test_real_postgres_oidc_receipt_preprovisioned_and_no_ddl_role(stores, monke
     )
     assert read_write.append(source)
     assert not read_write.append(source)
+
+
+def test_real_postgres_verified_oidc_gates_delivery_outbox_idempotence(stores):
+    """Check an OIDC-authenticated source's durable route on real PG16/18.
+
+    JWT cryptographic admission is tested independently. This exercises
+    the resulting typed identity, encrypted subscription, durable event
+    packet, source-run replay and exact outbox lease on disposable PG.
+    It is NOT Dots and does not certify an actual CI conclusion.
+    """
+    from kuuos_mcp_bridge.github_oidc_source import (
+        VerifiedSource, CI_WORKFLOW_REF, FEATURE_REF,
+        stage_verified_oidc_ci_gates,
+    )
+    from kuuos_mcp_bridge.github_event_contract import (
+        CI_GATES_EVENT, CI_GATES_WORKFLOW, KUUOS_REPO,
+    )
+    from kuuos_mcp_bridge.event_pipeline import deliver_one
+    from kuuos_mcp_bridge.event_delivery import PostResult
+
+    subs, outbox = stores
+    owner = "oidc-ci-gates-disposable-owner"
+    manager = SubscriptionManager(
+        subs,
+        authorize=lambda principal, name, args: (
+            principal == owner and name == CI_GATES_EVENT
+            and args.get("repository") == KUUOS_REPO
+        ),
+        verify_callback=lambda *args: True,
+        now=lambda: NOW,
+    )
+    arguments = {"repository": KUUOS_REPO, "workflow_name": CI_GATES_WORKFLOW}
+    callback = "https://synthetic-oidc-pg-receiver.example.org/callback"
+    receipt = manager.subscribe(owner, {
+        "name": CI_GATES_EVENT,
+        "arguments": arguments,
+        "delivery": {"mode": "webhook", "url": callback, "secret": ONE},
+    })
+    source = VerifiedSource(
+        identity="oidc_" + "f"*64, repository=KUUOS_REPO,
+        workflow_ref=CI_WORKFLOW_REF, ref=FEATURE_REF,
+        head_sha="c"*40, run_id=998102321, run_attempt=1,
+        jti_hash="d"*64, kind="ci_jobs_observed",
+    )
+    event, ids = stage_verified_oidc_ci_gates(source, manager, outbox)
+    _, repeated = stage_verified_oidc_ci_gates(source, manager, outbox)
+    assert len(ids) == 1 and ids == repeated
+    assert event["data"]["ci_terminal_conclusion_verified"] is False
+    assert event["data"]["signal_is_success_evidence"] is False
+    assert event["data"]["fresh_mcp_reobservation_required"] is True
+
+    class SyntheticPoster:
+        def __init__(self):
+            self.calls = []
+        def post(self, url, body, headers):
+            self.calls.append((url, body, headers))
+            return PostResult(200, b'{"accepted":true}')
+
+    poster = SyntheticPoster()
+    moment = datetime.now(timezone.utc)
+    result = deliver_one(manager, outbox, poster=poster,
+                         now=moment, outbox_id=ids[0])
+    assert result["state"] == "delivered"
+    assert len(poster.calls) == 1
+    assert deliver_one(manager, outbox, poster=poster,
+                       now=moment, outbox_id=ids[0])["state"] == "no_due_events"
+    assert len(poster.calls) == 1
+    with psycopg.connect(DSN) as conn:
+        row = conn.execute(
+            "SELECT state, attempts, last_http_status "
+            "FROM kuuos_mcp_event_outbox_v1 WHERE id=%s", (ids[0],)
+        ).fetchone()
+    assert row == ("delivered", 1, 200)
+    manager.unsubscribe(owner, {
+        "name": CI_GATES_EVENT, "arguments": arguments,
+        "delivery": {"mode": "webhook", "url": callback},
+    })
+    assert subs.get(receipt["id"]) is None
