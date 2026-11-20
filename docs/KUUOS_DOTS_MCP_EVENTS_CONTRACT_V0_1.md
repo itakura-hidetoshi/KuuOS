@@ -1809,3 +1809,77 @@ State:
 `SYNTHETIC_SUBSCRIPTION_REMOVED_AND_TOKEN_REVOKED` /
 `RECEIVER_INDEPENDENT_EVENT_COUNTER_NO_DATA` /
 `BLOCKED_DOTS_REAL_USER_SUBSCRIPTION`.
+
+## Connected-user plugin boundary and post-unsubscribe regression (2026-11-21)
+
+This is a forward-only readiness observation. It does not claim that the
+user's ChatGPT account, a Dot, or a custom plugin has been authenticated.
+
+### Live deployment and current subscription state
+
+- Public **isolated staging**, not original KuuOS production:
+  `https://kuuos-mcp-oidc-staging.vercel.app/api/mcp`.
+  Its /healthz returned HTTP 200 and showed
+  `backend=PostgresStateStore`, `oauth_enabled=true`,
+  `mcp_events_adapter_loaded=true`, `github_oidc_source_loaded=true`,
+  `github_oidc_delivery_loaded=true`, and `write_ready=false`.
+  Production target applies **only within this dedicated staging Vercel
+  project**, not to the original production service.
+- Independent OAuth protected-resource metadata HTTP 200:
+  resource points to this exact HTTPS `/api/mcp` and the only advertised
+  scope is `kuuos:read`. OAuth authorization-server metadata HTTP 200
+  advertised the same stable issuer, authorization-code flow and PKCE S256.
+  **Metadata success is not end-user consent.**
+- Independent read-only Neon query of `br-proud-queen-ayak8zsl`
+  showed **8** genuinely signed GitHub OIDC source receipts,
+  **0** active stored subscriptions (the synthetic subscription was
+  deliberately removed), and **2** historical outbox rows.
+  The two outbox events are distinct: an earlier synthetic
+  `kuuos.github.ci_completed` and a later authentic-source
+  `kuuos.github.ci_gates_observed`. Both are sender-side delivery
+  receipts, not verified Dots executions.
+- Plugin directory discovery for the exact `KuuOS` name returned no
+  currently discoverable custom plugin for this Chat session.
+  This is **not** evidence that a plugin cannot exist in another
+  workspace or be created with authorized workspace controls.
+
+### User-owned registration / authority
+
+OpenAI's current custom MCP connector instructions require an eligible
+ChatGPT workspace and web-based creation. The user/workspace must
+initiate connection and complete its OAuth consent; the repository,
+GitHub MCP, Vercel deployment or a synthesized owner secret cannot
+perform this account-bound action in its place.
+
+Official references:
+- https://help.openai.com/en/articles/12584461-connecting-custom-mcp-servers-in-chatgpt
+- https://developers.openai.com/plugins/build/mcp-events
+
+The implementation-ready connection target is the exact stable HTTPS
+endpoint above. The **current embedded owner credential is a synthetic
+staging secret** and must not be treated as evidence of the real
+account owner. A real identity/consent mechanism and an approved
+custom MCP registration remain separate external gates.
+After connection, the exact checks are user-authorized
+`initialize`→`events/list`→`events/subscribe` signed challenge,
+one matching genuine event, one nonmatching event, Dots-specific
+callback receipt, independent exact GitHub MCP run/job/Lean-step
+re-observation, then unsubscribe/revocation. Without those, retain
+`BLOCKED_MCP_EVENT_SUBSCRIPTION`.
+
+### Additional fail-closed regression in the existing feature branch
+
+Python `mcp_bridge/tests/test_oidc_delivery_pipeline.py` gained
+`test_unsubscribe_prevents_real_gate_reenqueue_and_cancels_inflight_delivery`,
+which constructs two *modeled* verified OIDC source packets with
+different run identities, unregisters the synthetic subscriber,
+checks that the second packet cannot enqueue an event, and checks
+that the earlier queued event cannot send after revocation.
+This is a unit regression, **not** a live GitHub or Dots callback.
+Code source HEAD `206e09a0abd0c5d4289438657a15b6798b7558ab`;
+independent GitHub Actions run
+[#44838225375](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/44838225375)
+was **queued** at the source read; its success is not presumed.
+
+No change to canonical main, pinned Lean mathlib, existing production,
+real-user credentials or protected PR #1558 was made by this doc.
