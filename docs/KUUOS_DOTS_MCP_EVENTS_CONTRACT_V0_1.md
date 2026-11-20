@@ -748,3 +748,97 @@ Certification: `PREVIEW_POSTGRESQL_STAGING_HTTP_200` /
 `PYTHON_203_PG16_18_11_OF_11_CI_CERTIFIED`.
 
 Live Dots status remains `BLOCKED_MCP_EVENT_SUBSCRIPTION`.
+
+
+## Independent canonical v0.48 reconciliation and full Python/PG revalidation (2026-11-21)
+
+All entries below are exact-source observations. A green Python CI or a
+protected Vercel health response does not authorize a GitHub merge, enable
+production events, or prove a real Dots callback.
+
+### Source and certification lineage
+
+- Canonical `main` at reobservation:
+  `c9f3987b15adb0bfd818027090efd7ae85203ee4`
+  (independent Lean→Python v0.48 integration). No main mutation here.
+- Previous feature HEAD:
+  `fb33bb6f9ef95699e9c771f24f408cd33a114ebf`
+  with independent source-scoped
+  [CI #44820742255](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/44820742255)
+  completed/SUCCESS, Python 203 passed, 12 skipped, warning 1; isolated
+  PostgreSQL 16.16/18.7 both 12/12.
+- From the prior common main HEAD
+  `a32f6e42733015c82a5cde7a465ecacb429675aa`,
+  v0.48 main modified six files and this MCP feature modified 37
+  **disjoint** paths (intersection zero). The existing feature branch
+  received a two-parent, no-force exact-source integration commit
+  `38e879c993ea381b6c1c0a0ee3ab85924b888b35`
+  (parent 1 former feature HEAD, parent 2 canonical v0.48 main).
+  Existing source blobs, Lean theorem statements, imports and pinned
+  mathlib remained unchanged by the reconciliation.
+- The existing `mcp_bridge/ATTESTATION.md` received an append-only
+  evidence note, triggering the Python validation workflow without
+  requiring an unrelated full Strict Lean run for a documentation-only
+  amendment.
+- **Fresh independent exact-head CI**:
+  https://github.com/itakura-hidetoshi/KuuOS/actions/runs/44821680848
+  on HEAD `2ba239848ce8d69c4c857ef1c3bdbd5a36cc3e58`,
+  `completed/SUCCESS`, three completed SUCCESS jobs:
+  Python **203 passed, 12 skipped, 1 warning**;
+  disposable PostgreSQL **16.16 12/12**;
+  disposable PostgreSQL **18.7 12/12**.
+  This is an exact integrated-source Python/PG CI receipt,
+  not a fresh Strict Lean proof or production Dots delivery.
+
+### Live deployment and database provenance (separate source scope)
+
+- Vercel project `prj_iBLTjldWRWTAQ9hQzjlY5n4MkPg2`
+  retained its original production deployment. Latest independently
+  observed *preview* for MCP runtime source HEAD `fb33bb6f...`:
+  `dpl_Ga9soGhAUrUJR5jvY6rTizvDKP2a`,
+  https://kuuos-chat-work-1dnu3se10-itakurahidetoshi-9224.vercel.app,
+  READY, non-production `target=null`. 21/21 runtime source file
+  SHA-1 identities were checked against the exact source HEAD.
+  The v0.48 reconciliation added **only** distinct non-MCP paths;
+  it does not change this existing preview's deployed source or SHA.
+  Do not assert that preview's deployment metadata equals the later
+  reconciliation commit.
+- Protected live Vercel GET `/healthz` was HTTP **200**,
+  `backend=PostgresStateStore`, `version=0`, read-only.
+  This authenticates a real **Vercel preview→Neon staging state read**.
+  The returned `oauth_enabled=false`, `mcp_events_adapter_loaded=false`,
+  `github_event_ingress_loaded=false` correctly retain the disabled
+  activation state.
+- Only the Vercel **Preview** environment has
+  `KUUOS_MCP_DATABASE_URL` (sensitive) and
+  `KUUOS_MCP_SCHEMA_MODE=preprovisioned`.
+  Production environment variables were not modified.
+  Neon project `rough-meadow-33652646` default branch
+  `br-summer-lake-ayfwkun3` remained unchanged, with zero MCP
+  application tables on independent read-only query. Separate staging
+  `br-proud-queen-ayak8zsl` contained four source-matched tables
+  and the DML-only role `kuuos_events_preview_rw` with no DDL.
+- The new strict schema checker requires actual definitions of
+  primary keys, composite `UNIQUE(subscription_id,event_id)`,
+  attempts and allowed-state CHECK constraints. Fail-closed
+  regression tests succeeded on disposable PG16 and PG18.
+
+### Remaining external obstruction: not certified as impossible
+
+The connected ChatGPT custom KuuOS MCP plugin / OAuth principal,
+`events/list`, signed `events/subscribe` challenge, authentic
+GitHub sender, receiving Dot「くー」 callback, and triggered
+GitHub MCP exact repository/head/run/attempt/job/Lean-step audit
+have **not** been independently observed. A package build, locally
+simulated callback, or hourly poll cannot replace those receipts.
+
+Next permitted progression: configure a verified scoped staging OAuth
+issuer and cryptographic keys through protected environment secrets,
+then perform true authenticated MCP HTTP POST and real subscription
+lifecycle under the connected user's consent. Keep the feature
+disabled on production and do not invent principals or tokens.
+
+`CANONICAL_V0_48_RECONCILED` /
+`INTEGRATED_MCP_PYTHON_203_PG16_18_12_OF_12_CERTIFIED` /
+`PREVIEW_NEON_HTTP_200` /
+`BLOCKED_MCP_EVENT_SUBSCRIPTION`.
