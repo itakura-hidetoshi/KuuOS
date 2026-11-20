@@ -38,12 +38,27 @@ def main():
     assert len(os.environ["SOURCE_HEAD"]) == 40
     names = prior.inventory(original.decode("utf-8"))
     assert len(names) >= 10 and len(names) == len(set(names)), names
+    # Reconstruct all original source-bounded candidates before comparing v2.
+    seed = {}
+    for entry in m["variants"]:
+        candidate = historic.decode("utf-8")
+        for patch in entry["patches"]:
+            assert candidate.count(patch["old"]) == patch["count"]
+            candidate = candidate.replace(patch["old"], patch["new"])
+        assert prior.blob(candidate.encode()) == entry["expected_blob"]
+        seed[entry["name"]] = candidate
+    v2 = json.loads((root / "scripts/kuuos_v176_codeai_monotonicity_universe_v2.json").read_text(encoding="utf-8"))
+    assert v2["schema"] == "kuuos_v176_codeai_monotonicity_universe_v2"
+    assert v2["original_blob"] == m["source_blob"]
+    assert v2["required_dependency_blob"] == m["required_dependency_blob"]
+    assert v2["legacy_unchanged"] is True
+    assert len(v2["variants"]) == 4
     records = []
     OUT.mkdir(parents=True, exist_ok=True)
     try:
-        for variant in m["variants"]:
+        for variant in v2["variants"]:
             name = variant["name"]
-            candidate = historic.decode("utf-8")
+            candidate = seed[variant["base"]]
             for p in variant["patches"]:
                 assert candidate.count(p["old"]) == p["count"], (name, p["name"])
                 candidate = candidate.replace(p["old"], p["new"])
