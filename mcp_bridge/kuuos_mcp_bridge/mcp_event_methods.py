@@ -13,6 +13,7 @@ import asyncio
 from copy import deepcopy
 from typing import Any, Callable
 
+from mcp import MCPError
 from mcp.server import MCPServer
 from mcp.server.context import CallNext, HandlerResult
 from mcp.types import RequestParams
@@ -144,7 +145,18 @@ def install_mcp_event_methods(
         }
         if "ttl_ms" in params.model_fields_set:
             payload["ttlMs"] = params.ttl_ms
-        return await asyncio.to_thread(manager.subscribe, principal, payload)
+        try:
+            return await asyncio.to_thread(manager.subscribe, principal, payload)
+        except EventContractError as exc:
+            if str(exc) == "callback_verification_failed":
+                # The MCP Events profile requires a protocol error (-32015),
+                # not a successful result or a generic SDK exception.
+                raise MCPError(
+                    code=-32015,
+                    message="CallbackEndpointError",
+                    data={"reason": "challenge_failed"},
+                ) from None
+            raise
 
     async def unsubscribe(ctx: Any, params: EventsUnsubscribeParams) -> dict[str, Any]:
         principal = principal_provider(ctx)
