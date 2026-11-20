@@ -52,7 +52,7 @@ DECLARATIONS = (
 
 
 def blob(raw: bytes) -> str:
-    return hashlib.sha1(b"blob " + str(len(raw)).encode() + b"\\x00" + raw).hexdigest()
+    return hashlib.sha1(b"blob " + str(len(raw)).encode() + b"\x00" + raw).hexdigest()
 
 
 def check(root: Path = ROOT) -> tuple[str, ...]:
@@ -75,7 +75,7 @@ def check(root: Path = ROOT) -> tuple[str, ...]:
         for name in DECLARATIONS:
             if not any(x == name or x.startswith(name + " ") for x in lines):
                 problems.append("missing_declaration:" + name)
-        code = re.sub(r"/-![\\s\\S]*?-/", "", lean)
+        code = re.sub(r"/-![\s\S]*?-/", "", lean)
         if re.search(r"(?<![A-Za-z0-9_])(?:sorry|admit|axiom)(?![A-Za-z0-9_])", code):
             problems.append("unproved_lean_token")
         if lean.count("#print axioms ") != len(DECLARATIONS) - 1:
@@ -93,6 +93,6 @@ def check(root: Path = ROOT) -> tuple[str, ...]:
 if __name__ == "__main__":
     issues = check()
     if issues:
-        raise SystemExit("\\n".join(issues))
+        raise SystemExit("\n".join(issues))
     print("STATIC_OK: original typed source pins and additive v0.48 files")
     print("NOT_PROOF: run exact-head pinned Strict Lean and runtime tests independently")
