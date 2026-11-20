@@ -7,6 +7,7 @@ on:
       - 'scripts/kuuos_sandbox_prepare_v1.sh'
       - 'tests/test_kuuos_sandbox_lean_cycle_v1.py'
       - 'docs/KUUOS_SANDBOX_LEAN_CYCLE_v1.md'
+      - 'ci/check_registry.d/kuuos_sandbox_lean_cycle_v1.json'
       - '.github/workflows/kuuos-sandbox-lean-cycle-v1.yml'
   workflow_dispatch:
 

@@ -19,6 +19,10 @@
 - \`scripts/kuuos_sandbox_lean_cycle_v1.py\`：候補を受信して直接Lean・
   完全公理監査を反復し、append-only記録を残す。本体はAPIキー不要、GitHub書込不可。
 - \`tests/test_kuuos_sandbox_lean_cycle_v1.py\`：オフライン回帰試験。
+- `ci/check_registry.d/kuuos_sandbox_lean_cycle_v1.json`：将来の変更パスを
+  既存Governanceへ限定的に登録する。Python/Shell/文書だけの変更で
+  Strict Lean全体ビルドを選択しない一方、レジストリ自体の変更は
+  引き続きfull auditとする。
 - \`.github/workflows/kuuos-sandbox-lean-cycle-v1.yml\`：軽量Python契約試験のみ。
 
 ## 1. 初期観測と隔離

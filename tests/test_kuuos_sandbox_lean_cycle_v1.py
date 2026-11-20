@@ -200,5 +200,40 @@ class Contracts(unittest.TestCase):
                 mod.run(args)
 
 
+class ScopedGovernanceRouting(unittest.TestCase):
+    """Future non-Lean changes are focused; registry changes still get full audit."""
+
+    def test_sandbox_paths_use_focused_nonlean_checks(self):
+        from scripts.select_impacted_checks import load_registry, select
+        registry = load_registry(ROOT / "ci/check_registry.yaml")
+        expected = [
+            "scripts/kuuos_sandbox_lean_cycle_v1.py",
+            "scripts/kuuos_sandbox_prepare_v1.sh",
+            "tests/test_kuuos_sandbox_lean_cycle_v1.py",
+            "docs/KUUOS_SANDBOX_LEAN_CYCLE_v1.md",
+            ".github/workflows/kuuos-sandbox-lean-cycle-v1.yml",
+        ]
+        for paths in [expected, *([p] for p in expected)]:
+            with self.subTest(paths=paths):
+                result = select(registry, paths, None)
+                self.assertFalse(result["full_audit_required"])
+                self.assertFalse(result["lean_required"])
+                self.assertEqual(result["unknown_paths"], [])
+                self.assertEqual(result["unmapped_paths"], [])
+                ids = {item["id"] for item in result["selected_checks"]}
+                self.assertIn("kuuos-sandbox-lean-local-cycle", ids)
+                self.assertIn("workflow-integrity", ids)
+
+    def test_registry_control_change_remains_full_governance(self):
+        from scripts.select_impacted_checks import load_registry, select
+        registry = load_registry(ROOT / "ci/check_registry.yaml")
+        path = "ci/check_registry.d/kuuos_sandbox_lean_cycle_v1.json"
+        result = select(registry, [path], None)
+        self.assertTrue(result["full_audit_required"])
+        self.assertTrue(result["lean_required"])
+        self.assertIn(path, result["full_audit_trigger_paths"])
+        self.assertIn("lean-formal", {c["id"] for c in result["selected_checks"]})
+
+
 if __name__ == "__main__":
     unittest.main()
