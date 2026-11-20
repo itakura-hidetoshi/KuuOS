@@ -1747,3 +1747,65 @@ demonstrate an installed custom KuuOS plugin, the user's OAuth consent,
 a Dots `events/subscribe` call, a Dots webhook callback or
 post-wake-up GitHub MCP Lean-proof audit. Retain
 `BLOCKED_MCP_EVENT_SUBSCRIPTION` for Dots.
+
+
+## External OIDC delivery cleanup and final receiver-observation boundary (2026-11-21 JST)
+
+This note is later than the real OIDC CI-gate wake-up receipt immediately above.
+Do not overwrite earlier queued or synthetic-source observations.
+
+- True GitHub run
+  [#44836227181](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/44836227181)
+  was independently re-read as `completed/SUCCESS` with all four
+  jobs SUCCESS and the exact SHA
+  `37eed415a20e8aaaabd220043779881345e451bb`.
+  Actual Python result: **270 passed, 16 skipped, 2 warnings**.
+  Disposable PostgreSQL 16.16 and 18.7: **16/16** each.
+  These tests do not assert Lean theorem axioms.
+- Staging Neon `br-proud-queen-ayak8zsl` source OIDC receipt:
+  run `44836227181`, attempt 1, same GitHub SHA,
+  `received_at=2026-11-20T23:27:19.202Z`,
+  `oidc_00270ea715c1122757278ff878dafb30d9db942230cc610485de4a1ae0139cc1`.
+  Independent SQL on the event outbox saw
+  `kuuos.github.ci_gates_observed` with
+  `state=delivered`, `attempts=1`,
+  `last_http_status=200`, same run and SHA, and
+  `signal_is_success_evidence=false`.
+  This is a genuine GitHub identity and an HTTP response receipt,
+  **not** a Dots audit or terminal CI conclusion inferred from the event.
+- The temporary external `vercel.run` receiver had earlier
+  returned a signed challenge response, but by final independent
+  read its Python server had ended, and a local GET returned
+  `URLError`. Its **separate in-memory per-event count could not
+  be recovered**, so the receiver-side independently persisted
+  acknowledgment remains `NO_DATA`. The sender's durable HTTP 200
+  receipt must not be relabeled as that missing acknowledgment.
+- Cleanup of the synthetic subscriber was performed using its
+  separate ephemeral OAuth bearer. Real HTTPS
+  `events/unsubscribe` **200**, `POST /revoke` **200**,
+  and subsequent use of that access token against MCP **401**.
+  Independent post-cleanup staging SQL confirmed:
+  **0** remaining `ci_gates_observed` subscriptions,
+  **1 delivered** and **0 pending** matching outbox rows,
+  **1** genuine OIDC receipt for the run. The outbox record
+  remains as legitimate append-only test provenance.
+- The nonpersistent Vercel Sandbox
+  `sbx_IhsJJTbnlC8PoRoEGJMQZaKtV0W2`
+  was explicitly `stopped`, not left as an unbounded callback daemon.
+  The original Neon default branch
+  `br-summer-lake-ayfwkun3` still has **zero**
+  KuuOS MCP service tables.
+- The stable isolated MCP staging URL remains
+  `https://kuuos-mcp-oidc-staging.vercel.app/api/mcp`.
+  It still uses **synthetic staging OAuth identity**;
+  **no** actual connected ChatGPT KuuOS plugin, user OAuth
+  consent, Dots「くー」 `events/subscribe`, Dots webhook
+  receipt or Dots-triggered independent GitHub MCP source/job/Lean
+  audit is established. The only authentic GitHub-to-HTTPS
+  result here is for the synthetic staging subscriber.
+
+State:
+`AUTHENTIC_GITHUB_OIDC_TO_OUTBOX_HTTP_200_CERTIFIED` /
+`SYNTHETIC_SUBSCRIPTION_REMOVED_AND_TOKEN_REVOKED` /
+`RECEIVER_INDEPENDENT_EVENT_COUNTER_NO_DATA` /
+`BLOCKED_DOTS_REAL_USER_SUBSCRIPTION`.
