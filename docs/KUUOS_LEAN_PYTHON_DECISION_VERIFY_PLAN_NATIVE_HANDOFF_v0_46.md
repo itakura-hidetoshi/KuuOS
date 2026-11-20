@@ -31,28 +31,44 @@ DecisionOSに与えるv0.7 selection justificationは、テスト専用の元
 の入力構築関数が生成する。実世界のDecisionOS発行者の真正性や、
 v0.7証明書の全来歴を意味するものではない。
 
-## Leanの形式的範囲
+## Leanの形式的範囲と確認されたimport obstruction
 
 新規:
 `formal/KUOS/Architecture/LeanPythonDecisionVerifyPlanNativeHandoffV0_46.lean`
 
-オリジナルの
+最初の候補は原本
+`KUOS.DecisionOS.BoundedPlanSynthesisRequestHandoffV0_8`
+を直接importしましたが、独立CI #44685828821 で、その依存先
+`WorldConditionedDistributionHandoffIntakeValidationV0_5.lean` が
+`import KuuOS.PlanOSV102` を要求し、現行の`lakefile.toml`の
+公開・ビルド可能roots/globsにその歴史的`KuuOS.*`系がないため、
+`unknown module prefix 'KuuOS'`で停止することが判明しました。
 
-- `KUOS.DecisionOS.BoundedPlanSynthesisRequestHandoffV0_8`
-- `KUOS.Architecture.LeanPythonVerifyPlanSixRoutesV0_45`
+**原本のLeanファイル、lakefile、既存Mathlib設定は書き換えない。**
+この不整合を隠して「元Lean型をimportして証明済み」とは述べない。
 
-をimportして、以下を構成する。
+そこでv0.46のLean認証対象を、原本v0.8のreceipt構造の
+**全35フィールド**と、原本Validity構造の全前提を
+新名前空間にそのまま写した **別個のsource-mapped形式モデル**とする。
+原本の全バイトはGit blobピンで固定する。ただしこの形式モデルと
+未ビルドの元Lean型との**定義的一致は未証明**として障害を保持する。
+前提を減らした近道ではなく、完全な原本条件の再形式化である。
 
-1. `originalDecisionAuthorityBoundary` — DecisionOSが限定付きリクエストのみを渡し、選択権限・実行権限・合成実施を渡さない条件。
-2. `originalDecisionAuthorityBoundary_of_valid` — 原本の`BoundedPlanSynthesisRequestHandoffValid`があるとき上記条件を証明。
-3. `WholeReceiptSeam` — **型付きの原本証明書全体の同一性を明示的前提とする**。digest一致だけでは構成できない。
-4. `decisionVerifyPlanConditionalWitness` — 有効な原本DecisionOS条件、証明書全体の接続証明、v0.45の2段具体モデルを条件付きに組み合わせる。
-5. `decisionHandoff_onlyRetainIsBoundedIntake` — 6経路モデルではretainのみ限定受理。
-6. `decisionAndRouteCannotLicenseExecution` — DecisionOSの非実行条件とv0.45の非実行定理を並行して保持。
+v0.45の認証済み有限6経路モデルをimportし、以下の8宣言を構成する。
 
-LeanのWholeReceiptSeamが実行時のPython dictに対して構成されたことを
-Leanが証明したわけではない。Python検査でその条件の実際の成否を
-**別に再観測**する。証明したのは条件を仮定した形式上の輸送と権限境界である。
+1. `SourceMappedDecisionHandoffReceipt` — 原本receiptの全フィールドの独立写像。
+2. `SourceMappedDecisionHandoffValid` — 原本Validityの全前提の独立写像。
+3. `sourceMappedDecisionAuthorityBoundary` — 合成受理と選択・実行権限の分離条件。
+4. `sourceMappedDecisionAuthorityBoundary_of_valid` — 全前提から境界を再証明。
+5. `WholeReceiptSeam` — 型付きの証明書全体の一致を明示的に要求。
+6. `decisionVerifyPlanConditionalWitness` — 上記のsource-mapped前提、証明書全体の接続、v0.45の二段モデルを条件付きに結合。
+7. `decisionHandoff_onlyRetainIsBoundedIntake` — retainのみ限定受理。
+8. `decisionAndRouteCannotLicenseExecution` — 元の非実行条件の写像とv0.45の非実行定理を保持。
+
+Lean側では原本v0.8型のimport成功・元型との形式的同型・
+Python dictとの対応を認証していない。
+Python側で**元の3つの実カーネル自体**を動かし、
+全パケットの同一性を検査する事実とは分離する。
 
 ## Python読み取り専用監査
 
@@ -92,6 +108,9 @@ Leanが証明したわけではない。Python検査でその条件の実際の�
 
 - Lean定理からCPython全体への普遍的意味論的refinement: 未証明。
 - 形式`WholeReceiptSeam`とnative JSON検査の一般的同値性: 未証明。
+- 原本DecisionOS v0.8 Lean型の現行Lake依存閉包でのimportと、
+  今回のsource-mapped型との形式的同一性: 未証明（import obstruction）。
+  固定`KuuOS.*` root登録の互換性検査が必要。
 - v0.7源の外部発行者認証、原本選択行為の真正性: 未確認。
 - 複数ストアの原子的スナップショットと大域降下: 未証明。
 - 6経路を結び付ける因果時計: 未構成。
