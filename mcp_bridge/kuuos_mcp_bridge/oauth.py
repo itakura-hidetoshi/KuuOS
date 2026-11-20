@@ -235,7 +235,7 @@ def _deployment_bound_oauth_urls(
     if os.environ.get("VERCEL") != "1" or os.environ.get("VERCEL_ENV") != "preview":
         raise RuntimeError("Vercel preview OAuth requires VERCEL=1 and VERCEL_ENV=preview")
     hostname = os.environ.get("VERCEL_URL", "")
-    if re.fullmatch(r"[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\\.vercel\\.app", hostname) is None:
+    if re.fullmatch(r"[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.vercel\.app", hostname) is None:
         raise RuntimeError("Vercel preview OAuth deployment hostname invalid")
     if hostname == os.environ.get("VERCEL_PROJECT_PRODUCTION_URL", ""):
         raise RuntimeError("Vercel preview OAuth cannot use the production domain")
