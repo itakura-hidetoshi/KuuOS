@@ -205,3 +205,50 @@ def test_events_subscribe_and_unsubscribe_over_actual_mcp_jsonrpc():
             "delivery": {"mode": "webhook", "url": callback},
         }, 13)
         assert done == {}
+
+
+def test_vercel_entrypoint_normalizes_mcp_and_signed_github_routes(monkeypatch):
+    """Exercise the *deployed* api.mcp:app wrapper, not only inner ASGI routes."""
+    from api import mcp as vercel_api
+
+    inner, outbox = _fixture()
+    monkeypatch.setattr(vercel_api, "_application", inner)
+    raw = _envelope()
+    with TestClient(vercel_api.app) as client:
+        handshake = client.post(
+            "/api/mcp",
+            headers={
+                "accept": "application/json, text/event-stream",
+                "content-type": "application/json",
+                "mcp-protocol-version": "2025-11-25",
+            },
+            json={
+                "jsonrpc": "2.0", "id": 1, "method": "initialize",
+                "params": {
+                    "protocolVersion": "2025-11-25",
+                    "capabilities": {},
+                    "clientInfo": {"name": "vercel-entrypoint-test", "version": "0.1"},
+                },
+            },
+        )
+        assert handshake.status_code == 200, handshake.text
+        assert handshake.json()["result"]["capabilities"]["events"] == {}
+
+        accepted = client.post(
+            "/api/github", content=raw, headers=_headers(raw, valid=True)
+        )
+        assert accepted.status_code == 202, accepted.text
+        assert accepted.json()["enqueued"] == 1
+        assert len(outbox.records) == 1
+
+        replay = client.post(
+            "/api/github/", content=raw, headers=_headers(raw, valid=True)
+        )
+        assert replay.status_code == 202, replay.text
+        assert len(outbox.records) == 1
+
+        rejected = client.post(
+            "/api/github", content=raw, headers=_headers(raw, valid=False)
+        )
+        assert rejected.status_code == 401, rejected.text
+        assert len(outbox.records) == 1
