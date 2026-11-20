@@ -1883,3 +1883,106 @@ was **queued** at the source read; its success is not presumed.
 
 No change to canonical main, pinned Lean mathlib, existing production,
 real-user credentials or protected PR #1558 was made by this doc.
+
+## User-owned ChatGPT custom MCP OAuth activation runbook (2026-11-21)
+
+This section prepares **real-user connection**, not a claimed login or
+subscription. This is an append-only operations record on the existing
+feature branch. Canonical KuuOS main, original Vercel production,
+Neon default branch and protected PR are unchanged.
+
+### Source and exact CI boundary
+
+- Security hardening code `bd727479e31bcbbd25be4387af94374f1a4db7dc`
+  adds owner-subject checks to stored access tokens, refresh tokens
+  and token-pair issuance. It also advertises optional
+  `offline_access` for the existing rotating refresh-token flow;
+  the default `kuuos:read` and write gate were not loosened.
+- CI [#44838983428](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/44838983428)
+  discovered a failing PostgreSQL 18 integration fixture. Source showed
+  the fixture issued `subject=synthetic-ci` against the provider's
+  default `owner_subject=kuuos-owner`. The **new fail-closed rule
+  correctly rejected that mismatch**. The resulting frozen SDK
+  `TokenError` also produced a secondary Python `FrozenInstanceError`
+  in exception unwinding; the subject mismatch is the primary cause.
+- Corrected test-only exact source
+  `cb00a56866b098e5f37769f0ae9cf33cea237f85` explicitly configures
+  `owner_subject=synthetic-ci` for that synthetic PostgreSQL revocation
+  test. No exception handler or security condition was removed.
+  Independent [CI #44839247350](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/44839247350)
+  was **queued** on initial inspection. Do not deploy as certified
+  until all exact-head Python and PostgreSQL 16/18 jobs complete SUCCESS.
+
+### Secure credential and application ownership boundary
+
+OpenAI custom MCP registration is an **account/workspace action on ChatGPT web**,
+not an operation granted by KuuOS GitHub MCP or this isolated staging server.
+Its availability depends on the ChatGPT plan and permissions; MCP Events
+is tested in Work or with dots after the plugin is connected.
+
+Registration inputs after deployment:
+- Name: `KuuOS MCP Events`
+- Public HTTPS MCP endpoint:
+  `https://kuuos-mcp-oidc-staging.vercel.app/api/mcp`
+- Authentication: OAuth against the exact HTTPS issuer
+  `https://kuuos-mcp-oidc-staging.vercel.app/`.
+- First test only `kuuos:read` and optional `offline_access`;
+  keep `KUUOS_MCP_WRITE_ENABLED=false`.
+
+The current embedded login is **single-owner secret authentication**,
+not OpenAI or GitHub identity federation. The synthetic staging owner
+secret is not known to or consented by the actual account holder.
+The account holder must independently set a fresh, password-manager-
+generated secret in the existing Vercel
+`kuuos-mcp-oidc-staging` project > Settings > Environment Variables >
+`KUUOS_MCP_EMBEDDED_AUTH_SECRET` (Production target **of that
+isolated staging project only**). Use Vercel's **Secret** type and do
+not send or paste the value into this chat, GitHub or logs.
+
+A new secret **alone does not invalidate** tokens issued to the old
+synthetic subject. At the same activation the operator must set
+`KUUOS_MCP_EMBEDDED_AUTH_SUBJECT` and
+`KUUOS_MCP_EVENTS_ALLOWED_SUBJECTS` to the **same new, bounded
+account-specific principal** in the isolated project, after reviewing
+the eligible connected user. This must be coordinated with a new
+deployment of exact-source certified code that enforces the
+new subject checks. Existing synthetic token rows remain as retained
+historical evidence, but are refused by the new deployed provider.
+Never use the synthetic owner secret for real consent.
+
+Vercel environment edits only apply to new deployments. Redeploy the
+approved, exact CI-certified Git source to the stable isolated staging
+project, confirm its source SHA, GET /healthz and OAuth metadata,
+and verify `offline_access` discovery. No automatic writes to the
+original `kuuos-chat-work-mcp` production.
+
+### Separate end-to-end user and Dot acceptance
+
+1. In the eligible ChatGPT **web** workspace: Plugins > + >
+   Add custom MCP server. Enter the name, HTTPS endpoint and OAuth mode;
+   review risk warning, and create the plugin.
+2. Complete **real-user** authorization in the browser on the exact
+   staging OAuth issuer, using the owner secret they themselves chose
+   in Vercel; approve the ChatGPT application. Never supply credentials
+   to an assistant.
+3. Confirm tool discovery and an authenticated read-only state read;
+   inspect the new principal/client in the staging database using
+   *non-secret metadata only*. A newly registered client alone is not
+   a verified Dots subscription.
+4. In a Work chat or Dot, subscribe to the exact authorized GitHub
+   CI event. Verify a signed `events/subscribe` callback challenge,
+   real GitHub OIDC source admission, matching delivery and receiver-side
+   Dot acknowledgment; check a nonmatching exclusion and unsubscribe.
+5. Have the awakened Dot independently read exact GitHub
+   repo/head/run/attempt/job/Lean step before upgrading any CI result
+   to proof certification. No merge/write authority is inherited
+   from notifications.
+
+Until steps 2–5 have external receipts:
+`BLOCKED_MCP_EVENT_SUBSCRIPTION` /
+`REAL_USER_OAUTH_CONSENT_NOT_OBSERVED`.
+
+Official references:
+- https://help.openai.com/en/articles/12584461-connecting-custom-mcp-servers-in-chatgpt
+- https://developers.openai.com/plugins/build/mcp-events
+- https://vercel.com/docs/environment-variables/managing-environment-variables
