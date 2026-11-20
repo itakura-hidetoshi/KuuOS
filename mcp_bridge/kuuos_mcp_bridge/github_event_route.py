@@ -20,6 +20,11 @@ from .event_pipeline import deliver_one, stage_signed_event
 from .event_subscriptions import SubscriptionManager
 from .github_event_ingress import GitHubIngressError, MAX_GITHUB_EVENT_BODY
 
+# A bounded inline budget prevents an unbounded HTTP callback fanout.
+# More subscribers retain durable pending records; real-time delivery of
+# those excess recipients is NOT implied by the 202 accepted response.
+MAX_INLINE_DELIVERIES = 4
+
 
 async def _bounded_body(request: Request) -> bytes:
     declared = request.headers.get("content-length")
@@ -80,21 +85,42 @@ async def receive_signed_github_event(
     except Exception:
         # An unavailable database or ACL service must fail closed.
         return JSONResponse({"error": "ingress_unavailable"}, status_code=503)
-    delivered: dict[str, Any] | None = None
+    reports: list[dict[str, str]] = []
     if deliver_inline and staged["outbox_ids"]:
         sender = poster if poster is not None else PinnedHTTPSPoster()
-        try:
-            delivered = await asyncio.to_thread(
-                deliver_one, manager, outbox, poster=sender, now=moment,
-            )
-        except Exception:
-            # Do not convert unknown egress failure into claim of delivery.
-            delivered = {"state": "delivery_unverified"}
+        for outbox_id in staged["outbox_ids"][:MAX_INLINE_DELIVERIES]:
+            try:
+                delivered = await asyncio.to_thread(
+                    deliver_one, manager, outbox, poster=sender,
+                    now=moment, outbox_id=outbox_id,
+                )
+                reports.append({
+                    "outbox_id": outbox_id,
+                    "state": delivered["state"],
+                })
+            except Exception:
+                # Do not promote an uncertain egress result into success.
+                reports.append({
+                    "outbox_id": outbox_id,
+                    "state": "delivery_unverified",
+                })
+    pending = len(staged["outbox_ids"]) - len(reports)
+    if reports:
+        if all(item["state"] == "delivered" for item in reports) and not pending:
+            status = "delivered"
+        elif len(reports) == 1 and not pending:
+            status = reports[0]["state"]
+        else:
+            status = "partial_or_unverified"
+    else:
+        status = "not_attempted"
     return JSONResponse({
         "accepted": True,
         "enqueued": len(staged["outbox_ids"]),
         "event_id": staged["event_id"],
-        "delivery_state": delivered["state"] if delivered else "not_attempted",
+        "delivery_state": status,
+        "inline_attempted": len(reports),
+        "remaining_not_attempted": pending,
         "event_is_success_evidence": False,
         "fresh_mcp_reobservation_required": True,
         "merge_authority_granted": False,

@@ -46,10 +46,16 @@ def stage_signed_event(
 def deliver_one(
     manager: SubscriptionManager, outbox: OutboxStore,
     *, poster: Any, now: datetime | None = None,
+    outbox_id: str | None = None,
 ) -> dict[str, Any]:
-    """Caller invokes only on a trusted event; never as an unbounded poller."""
+    """Claim a specific newly received event when provided.
+
+    Without an exact ID, this retains the prior bounded recovery behavior.
+    No arbitrary backlog event can consume a new event's inline wake-up.
+    """
     moment = now if now is not None else _now()
-    lease = outbox.claim(moment, 30)
+    lease = (outbox.claim_specific(outbox_id, moment, 30)
+             if outbox_id is not None else outbox.claim(moment, 30))
     if lease is None:
         return {"state": "no_due_events", "signal_is_success_evidence": False}
     token = lease.lease_token

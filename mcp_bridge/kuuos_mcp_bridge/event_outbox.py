@@ -130,6 +130,8 @@ class OutboxStore(Protocol):
     def enqueue(self, subscription: Subscription, event: Mapping[str, Any],
                 now: datetime) -> OutboxRecord: ...
     def claim(self, now: datetime, lease_seconds: int) -> OutboxRecord | None: ...
+    def claim_specific(self, outbox_id: str, now: datetime,
+                       lease_seconds: int = DEFAULT_LEASE_SECONDS) -> OutboxRecord | None: ...
     def settle(self, outbox_id: str, lease_token: str, status: int | None,
                now: datetime) -> OutboxRecord: ...
     def cancel(self, outbox_id: str, lease_token: str) -> OutboxRecord: ...
@@ -174,6 +176,39 @@ class MemoryOutboxStore:
             self.records[key] = updated
             return updated
         return None
+
+
+    def claim_specific(
+        self, outbox_id: str, now: datetime,
+        lease_seconds: int = DEFAULT_LEASE_SECONDS,
+    ) -> OutboxRecord | None:
+        """Target the exact new event, not a hash-ordered unrelated backlog."""
+        from dataclasses import replace
+        now = _stamp(now)
+        lease_seconds = _valid_lease(lease_seconds)
+        item = self.records.get(outbox_id)
+        if item is None:
+            return None
+        due = (
+            (item.state == "pending" and item.available_at <= now)
+            or (item.state == "leased" and item.lease_until is not None
+                and item.lease_until <= now)
+        )
+        if not due:
+            return None
+        if item.attempts >= MAX_CLAIM_ATTEMPTS:
+            self.records[outbox_id] = replace(
+                item, state="retry_exhausted", lease_token=None,
+                lease_until=None,
+            )
+            return None
+        updated = replace(
+            item, state="leased", attempts=item.attempts + 1,
+            lease_token=secrets.token_hex(24),
+            lease_until=now + timedelta(seconds=lease_seconds),
+        )
+        self.records[outbox_id] = updated
+        return updated
 
     def settle(self, outbox_id: str, lease_token: str, status: int | None,
                now: datetime) -> OutboxRecord:
@@ -317,6 +352,46 @@ class PostgresOutboxStore:
                 f"FROM candidate WHERE work.id=candidate.id "
                 f"RETURNING {self._RETURNING}",
                 (now, now, MAX_CLAIM_ATTEMPTS, token, lease_until),
+            ).fetchone()
+        return self._restore(row) if row is not None else None
+
+
+    def claim_specific(
+        self, outbox_id: str, now: datetime,
+        lease_seconds: int = DEFAULT_LEASE_SECONDS,
+    ) -> OutboxRecord | None:
+        """CAS claim one known pending event; concurrent workers use SKIP LOCKED.
+
+        The caller may not claim an unrelated event when an explicitly
+        requested event is already delivered, leased, or not yet due.
+        """
+        if not isinstance(outbox_id, str) or not outbox_id.startswith("out_"):
+            raise EventContractError("outbox_identity_invalid")
+        now = _stamp(now)
+        lease_seconds = _valid_lease(lease_seconds)
+        token = secrets.token_hex(24)
+        lease_until = now + timedelta(seconds=lease_seconds)
+        with self._connect() as conn:
+            conn.execute(
+                f"UPDATE {self._TABLE} SET state='retry_exhausted', "
+                f"lease_token=NULL, lease_until=NULL "
+                f"WHERE id=%s AND state='leased' AND lease_until <= %s "
+                f"AND attempts >= %s",
+                (outbox_id, now, MAX_CLAIM_ATTEMPTS),
+            )
+            row = conn.execute(
+                f"WITH candidate AS ("
+                f"SELECT id FROM {self._TABLE} "
+                f"WHERE id=%s AND attempts < %s AND "
+                f"((state='pending' AND available_at <= %s) OR "
+                f"(state='leased' AND lease_until <= %s)) "
+                f"FOR UPDATE SKIP LOCKED LIMIT 1) "
+                f"UPDATE {self._TABLE} AS work "
+                f"SET state='leased', attempts=work.attempts+1, "
+                f"lease_token=%s, lease_until=%s "
+                f"FROM candidate WHERE work.id=candidate.id "
+                f"RETURNING {self._RETURNING}",
+                (outbox_id, MAX_CLAIM_ATTEMPTS, now, now, token, lease_until),
             ).fetchone()
         return self._restore(row) if row is not None else None
 

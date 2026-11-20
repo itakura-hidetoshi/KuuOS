@@ -139,3 +139,69 @@ def test_no_configured_secret_rejects_even_correct_signature():
     ))
     assert reply.status_code == 503
     assert not outbox.records
+
+
+def test_inline_delivers_new_event_not_unrelated_older_backlog():
+    manager, outbox = subscription_manager(), MemoryOutboxStore()
+    # First signed event is queued, not delivered. A newly received event
+    # must not spend its wake-up on the older hash-ordered pending record.
+    old = make_request()
+    first = call(old, manager, outbox)
+    assert first.status_code == 202
+    old_id = next(iter(outbox.records))
+    incoming = {
+        "action": "completed",
+        "repository": {"full_name": MGAP_REPO},
+        "workflow_run": {
+            "name": "PR Lean Fast Check", "id": 44737078838, "run_attempt": 1,
+            "status": "completed", "conclusion": "success",
+            "head_sha": "c" * 40, "event": "pull_request",
+        },
+    }
+    p = RecordingPoster()
+    second = call(make_request(
+        body=json.dumps(incoming, sort_keys=True).encode()
+    ), manager, outbox, deliver_inline=True, poster=p)
+    assert second.status_code == 202
+    details = json.loads(second.body)
+    assert details["inline_attempted"] == 1
+    assert details["delivery_state"] == "delivered"
+    assert details["remaining_not_attempted"] == 0
+    assert len(p.calls) == 1
+    assert json.loads(p.calls[0][1])["data"]["run_id"] == 44737078838
+    assert outbox.records[old_id].state == "pending"
+    # Source replay of the same event must not send a second callback.
+    replay = call(make_request(
+        body=json.dumps(incoming, sort_keys=True).encode()
+    ), manager, outbox, deliver_inline=True, poster=p)
+    assert json.loads(replay.body)["delivery_state"] == "no_due_events"
+    assert len(p.calls) == 1
+
+
+def test_inline_all_matching_recipients_are_bounded_and_not_misreported():
+    from kuuos_mcp_bridge.github_event_route import MAX_INLINE_DELIVERIES
+    manager, outbox = subscription_manager(), MemoryOutboxStore()
+    # Add four further separately owned subscribers for the same event.
+    for i in range(4):
+        manager.subscribe(f"owner-extra-{i}", {
+            "name": CI_EVENT,
+            "arguments": {
+                "repository": MGAP_REPO,
+                "workflow_name": "PR Lean Fast Check",
+            },
+            "delivery": {
+                "mode": "webhook",
+                "url": f"https://receiver-extra-{i}.example.org/cb",
+                "secret": "whsec_" + base64.b64encode(b"t" * 32).decode(),
+            },
+        })
+    p = RecordingPoster()
+    response = call(make_request(), manager, outbox, deliver_inline=True, poster=p)
+    assert response.status_code == 202
+    body = json.loads(response.body)
+    assert body["enqueued"] == 5
+    assert body["inline_attempted"] == MAX_INLINE_DELIVERIES
+    assert body["remaining_not_attempted"] == 1
+    assert body["delivery_state"] == "partial_or_unverified"
+    assert len(p.calls) == MAX_INLINE_DELIVERIES
+    assert sum(v.state == "pending" for v in outbox.records.values()) == 1

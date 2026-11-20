@@ -233,3 +233,32 @@ def test_real_postgres_migrates_legacy_subscription_without_losing_old_secret(st
         """, (sub_id,)).fetchone()
     assert row is not None and row[1] is not None and row[2] is not None
     assert ONE.encode() not in bytes(row[1])
+
+
+def test_real_postgres_specific_claim_prioritizes_fresh_event_and_prevents_replay(stores):
+    subs, outbox = stores
+    sub = subs.active(CI_EVENT, NOW)[0]
+    old = outbox.enqueue(sub, _event(980101), NOW)
+    fresh = outbox.enqueue(sub, _event(980102), NOW)
+    claim = outbox.claim_specific(fresh.id, NOW)
+    assert claim is not None and claim.id == fresh.id
+    assert outbox.claim_specific(fresh.id, NOW) is None
+    assert outbox.claim_specific(old.id, NOW) is not None
+    done = outbox.settle(claim.id, claim.lease_token, 202, NOW)
+    assert done.state == "delivered"
+    assert outbox.claim_specific(fresh.id, NOW + timedelta(minutes=2)) is None
+
+
+def test_real_postgres_specific_claim_competing_workers_only_one_wins(stores):
+    subs, outbox = stores
+    sub = subs.active(CI_EVENT, NOW)[0]
+    row = outbox.enqueue(sub, _event(980103), NOW)
+    second = PostgresOutboxStore(DSN)
+    with ThreadPoolExecutor(max_workers=2) as pool:
+        a = pool.submit(outbox.claim_specific, row.id, NOW)
+        b = pool.submit(second.claim_specific, row.id, NOW)
+        result = [a.result(), b.result()]
+    claimed = [c for c in result if c is not None]
+    assert len(claimed) == 1
+    assert claimed[0].id == row.id
+    outbox.settle(row.id, claimed[0].lease_token, 200, NOW)

@@ -112,3 +112,26 @@ def test_tampered_signature_has_no_outbox_side_effects():
     with pytest.raises(Exception):
         stage_signed_event(mgr, outbox, **bad, now=NOW)
     assert outbox.records == {}
+
+
+def test_specific_new_event_delivered_without_claiming_older_backlog():
+    mgr, outbox, _ = setup()
+    first = stage_signed_event(mgr, outbox, **signed_event(), now=NOW)
+    older_id = first["outbox_ids"][0]
+    newest = signed_event()
+    raw = json.loads(newest["raw_body"])
+    raw["workflow_run"]["id"] = 43
+    newest["raw_body"] = json.dumps(raw, sort_keys=True).encode()
+    newest["github_signature"] = "sha256=" + hmac.new(
+        SECRET.encode(), newest["raw_body"], hashlib.sha256
+    ).hexdigest()
+    second = stage_signed_event(mgr, outbox, **newest, now=NOW)
+    fresh_id = second["outbox_ids"][0]
+    assert older_id != fresh_id
+    p = Poster()
+    result = deliver_one(mgr, outbox, poster=p, now=NOW, outbox_id=fresh_id)
+    assert result["state"] == "delivered"
+    assert json.loads(p.calls[0][1])["data"]["run_id"] == 43
+    assert outbox.records[older_id].state == "pending"
+    assert deliver_one(mgr, outbox, poster=p, now=NOW, outbox_id=fresh_id)["state"] == "no_due_events"
+    assert len(p.calls) == 1

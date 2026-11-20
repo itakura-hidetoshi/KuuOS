@@ -174,3 +174,30 @@ def test_sql_candidate_is_transactional_and_has_no_secrets():
 def test_postgres_constructor_rejects_missing_dsn():
     with pytest.raises(ValueError, match="outbox_postgres_dsn_required"):
         PostgresOutboxStore("")
+
+
+def test_specific_claim_skips_unrelated_pending_backlog():
+    store = MemoryOutboxStore()
+    sub = fixture_sub()
+    old = store.enqueue(sub, fixture_event(987501), NOW)
+    fresh = store.enqueue(sub, fixture_event(987502), NOW)
+    claimed = store.claim_specific(fresh.id, NOW)
+    assert claimed is not None and claimed.id == fresh.id
+    assert store.records[old.id].state == "pending"
+    assert store.claim_specific(fresh.id, NOW) is None
+    stored = store.settle(fresh.id, claimed.lease_token, 200, NOW)
+    assert stored.state == "delivered"
+    assert store.claim_specific(fresh.id, NOW + timedelta(hours=1)) is None
+    assert store.claim_specific("out_" + "0" * 64, NOW) is None
+
+
+def test_specific_claim_reclaims_expired_lease_and_rejects_old_token():
+    store = MemoryOutboxStore()
+    row = store.enqueue(fixture_sub(), fixture_event(987503), NOW)
+    first = store.claim_specific(row.id, NOW)
+    assert first is not None
+    assert store.claim_specific(row.id, NOW + timedelta(seconds=29)) is None
+    second = store.claim_specific(row.id, NOW + timedelta(seconds=31))
+    assert second is not None and second.lease_token != first.lease_token
+    with pytest.raises(EventContractError, match="outbox_lease_mismatch"):
+        store.settle(row.id, first.lease_token, 200, NOW + timedelta(seconds=32))
