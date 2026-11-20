@@ -842,3 +842,103 @@ disabled on production and do not invent principals or tokens.
 `INTEGRATED_MCP_PYTHON_203_PG16_18_12_OF_12_CERTIFIED` /
 `PREVIEW_NEON_HTTP_200` /
 `BLOCKED_MCP_EVENT_SUBSCRIPTION`.
+
+
+## Deployment-bound OAuth and live staging MCP Events/ingress receipt (2026-11-21)
+
+This section refines earlier obstructions with independently observed
+Preview-only data. It does not certify Dots receipt or permission to merge.
+
+### Source/CI, with explicit nonauthority
+
+- Canonical `main` at source observation:
+  `c9f3987b15adb0bfd818027090efd7ae85203ee4`. Only the existing branch
+  `feat/kuuos-dots-mcp-ci-event-contract-v0-1-20261120` was modified.
+- Exact feature source HEAD: `a8b960b869d28ce39dbff5a7a8588998412b9bbb`.
+- Independent GitHub Actions
+  [#44822866520](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/44822866520):
+  completed / SUCCESS at this exact source HEAD. All 3 jobs passed.
+  Python **220 passed, 12 PostgreSQL-scoped skipped, 1 SDK warning**;
+  disposable PostgreSQL 16.16 **12/12** and 18.7 **12/12**.
+- Source hardening: `KUUOS_MCP_OAUTH_ISSUER=vercel-preview` and
+  `KUUOS_MCP_OAUTH_RESOURCE_URL=vercel-preview` must be paired;
+  Vercel Preview platform system variables supply a specific deployment
+  hostname. Unknown/mismatched host, non-preview Vercel environment and
+  production hostname fail closed. The untrusted request Host header
+  cannot choose the issuer. Existing explicitly configured production
+  OAuth URLs remain unchanged.
+- New non-secret `/healthz` fields report only whether Vercel system
+  URL was provided and which deployment environment is active. They
+  are not credentials, connected-principal identity or event receipts.
+
+### Real protected Preview HTTPS and metadata observations
+
+- Existing Vercel project `prj_iBLTjldWRWTAQ9hQzjlY5n4MkPg2`;
+  latest staging preview deployment
+  `dpl_8xqpXAqCCFvLzruAc41FY45wScvS` is READY, target `null`
+  (non-production), with source HEAD above and 21/21 runtime source-file
+  UIDs unchanged from the previously verified same source.
+- Deployment URL:
+  https://kuuos-chat-work-ksyrxn8mm-itakurahidetoshi-9224.vercel.app
+- Protected real HTTPS GET `/healthz`: **200**, JSON
+  `ok=true`, `backend=PostgresStateStore`,
+  `oauth_enabled=true`, `oauth_mode=embedded`,
+  `mcp_events_adapter_loaded=true`,
+  `github_event_ingress_loaded=true`,
+  `write_ready=false`, `vercel_deployment_environment=preview`.
+  This is a real Vercel→isolated Neon staging database state read.
+- `/.well-known/oauth-protected-resource/api/mcp`:
+  real HTTPS **200**, `resource=https://[same deployment]/api/mcp`,
+  with `authorization_servers` resolving to that same deployment
+  origin. `/.well-known/oauth-authorization-server`: **200**,
+  correct issuer/authorize/token/registration URLs on that origin,
+  PKCE `code_challenge_methods_supported=["S256"]`.
+- GitHub ingress: actual protected HTTP **GET** to `/api/github`
+  and `/github/events` returned **405 Method Not Allowed** as
+  the registered route is POST-only. This establishes route existence
+  and method restriction; it does **not** prove a valid signed
+  GitHub POST or external callback delivery.
+- Built-in OAuth, encrypted MCP Events subscriptions, and bounded
+  exact-outbox-ID inline delivery were enabled only for Preview
+  using a distinct, cryptographically generated staging owner
+  credential, AES-GCM key and GitHub ingress HMAC secret stored
+  as protected Vercel environment secrets. No secret bytes were
+  written to GitHub, workbench, output or log. The application
+  owner subject `kuuos-owner` is a configured internal candidate,
+  **not** independently observed as a logged-in ChatGPT account.
+- The Vercel Preview environment has 14 scoped variables. All
+  verified configuration changes target only Preview; Production
+  deployment and the default Neon database branch are unchanged.
+  The isolated Neon branch `br-proud-queen-ayak8zsl` keeps four
+  preprovisioned tables and a restricted DML-only application role.
+- Independent staging PostgreSQL query after activation returned:
+  OAuth records **0**, MCP event subscriptions **0**, outbox
+  records **0**, shared state rows **0**.
+
+### Remaining external obstruction and actual acceptance criteria
+
+- The current Vercel Preview has deployment protection; a working
+  authorized protected GET via the Vercel connector is **not**
+  evidence that ChatGPT's plugin transport can complete an authenticated
+  MCP Streamable HTTP POST against this URL.
+- No ChatGPT custom KuuOS plugin connection, end-user OAuth login,
+  authenticated `events/list`/`events/subscribe`,
+  signed callback challenge, GitHub real signed POST, Dot callback
+  acknowledgment or Dot-triggered exact-HEAD/run/attempt/job/Lean
+  proof re-observation has been independently received.
+- Source-side GitHub signing configuration remains absent; a secret
+  existing only on the Vercel server does not configure the GitHub
+  source sender. Do not claim that a GET 405 proves source delivery.
+- Next external actions require a stable, accessible OAuth-protected
+  MCP endpoint and explicit user plugin connection, as well as a
+  verified signed GitHub source sender. Do not substitute a scheduled
+  poll or synthetic webhook for an actual Dots MCP Events receipt.
+- Treat the staging-generated OAuth owner credential as an isolated
+  test secret, not a permanent user-known login. The end user must
+  authenticate/consent through a securely configured identity flow
+  before any subscription authority is claimed.
+
+State: `PREVIEW_OAUTH_METADATA_HTTP_200` /
+`PREVIEW_EVENTS_AND_SIGNED_INGRESS_LOADED` /
+`SOURCE_PYTHON_220_PG16_18_12_OF_12_CERTIFIED` /
+`BLOCKED_MCP_EVENT_SUBSCRIPTION`.
