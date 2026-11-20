@@ -1277,3 +1277,146 @@ State:
 `SYNTHETIC_SUBSCRIBE_UNSUBSCRIBE_REVOKE_CERTIFIED` /
 `DOT_REAL_SUBSCRIPTION_UNOBSERVED` /
 `GITHUB_AUTHENTIC_SOURCE_UNOBSERVED`.
+
+
+## Actual staging synthetic signed source → outbox → HTTPS delivery and replay controls (2026-11-21)
+
+This is a strictly append-only record of staging **synthetic** external
+transport evidence. The genuine GitHub event origin, user's ChatGPT
+custom-plugin connection and Dots callback remain separate obstructions.
+An accepted synthetic signal is **never** proof of the claimed CI result.
+
+### Independent source and runtime context
+
+- Canonical `main` at independent GitHub MCP observation:
+  `005b9ef0471428289b1fb9545f4ac212270df138`, unchanged by this test.
+- Existing feature branch `feat/kuuos-dots-mcp-ci-event-contract-v0-1-20261120`, documentation starting HEAD
+  `364ec0837dfe490baa257a79f779ca96f7f91f7c`; the previously independently green CI
+  https://github.com/itakura-hidetoshi/KuuOS/actions/runs/44828362764
+  is **completed/SUCCESS** at code/test HEAD
+  `943eb7e89829b7884ad40d9c5bd5f115d7260d7d`, Python **245 passed, 13 skipped, warning 1**,
+  disposable PostgreSQL 16.16 and 18.7 each **13/13**.
+  This network test did not produce new Lean theorem certificates.
+- Real Vercel **Preview** application:
+  `dpl_DAozdncjzpsCv1W1YpZDPDsmZiRM`, READY,
+  `target=null` (not production),
+  `https://kuuos-chat-work-bmb9yye3g-itakurahidetoshi-9224.vercel.app`.
+  Deployed source HEAD **`a8b960b869d28ce39dbff5a7a8588998412b9bbb`**,
+  not the later doc/code HEAD. Its runtime inventory was 21 exact
+  source files reused from the previously source-certified Preview.
+- The existing Neon project `rough-meadow-33652646` staging branch
+  `br-proud-queen-ayak8zsl` (PostgreSQL 18.7) was used with the
+  DML-only role `kuuos_events_preview_rw`. The default Neon branch
+  `br-summer-lake-ayfwkun3` was not modified.
+- For this test only, two **distinct** 128-character
+  cryptographically generated secrets for the synthetic OAuth owner
+  and GitHub HMAC source were rotated in Vercel's
+  **Preview-only sensitive environment variables**.
+  The exact same synthetic inputs were supplied privately to an
+  ephemeral sandbox. No token, share key, signing secret or
+  callback `whsec_` key was copied into the repository,
+  workbench, transcript or result receipt.
+- A nonpersistent, one-vCPU Vercel Sandbox
+  `kuuos-events-signed-delivery-20261121-d`, session
+  `sbx_2odIEyjdX4CkZg96Id5TpXIOEFDZ`,
+  exposed its temporary HTTPS callback at
+  `https://sb-6gunhh4z5b4z.vercel.run/callback`. Egress
+  from the sandbox was restricted to the exact application
+  Preview hostname. Its own signing key was generated and stored
+  only in an ephemeral private file; callbacks were rejected
+  unless signed using the Standard Webhooks HMAC-SHA256
+  of exact event ID, timestamp and payload bytes.
+
+### Successful actual external HTTPS exchange
+
+The real Preview server, rather than a simulated ASGI TestClient,
+returned the following to a synthetic, specifically permitted
+OAuth principal and source-event test:
+
+1. Protected Preview health GET **200**, with OAuth, MCP Events
+   and separately gated GitHub ingress all loaded.
+2. OAuth public client registration **201**, authorization/login
+   redirects **302/302**, PKCE authorization-code token exchange
+   **200**, authenticated MCP `initialize` **200**, and
+   `events/list` **200** showing two approved event names.
+3. `events/subscribe` **200**, with a `sub_` receipt
+   filtering the allowlisted `itakura-hidetoshi/KuuOS`
+   repository and workflow `KuuOS Runtime Full Check`.
+   Exactly one signed verification challenge was received,
+   verified and echoed over real Sandbox HTTPS before
+   the subscription was persisted.
+4. A deliberately **synthetic** `workflow_run` notification,
+   signed by the test-only Vercel-preview HMAC key, with
+   `conclusion=failure`, a synthetic run ID and artificial
+   40-character SHA, reached `POST /api/github`.
+   HTTP **202**, `accepted=true`, `enqueued=1`,
+   `inline_attempted=1`, `delivery_state=delivered`.
+   The isolated HTTPS receiver independently verified
+   the Standard Webhooks signature and saw **exactly one**
+   event delivery. The callback also checked the
+   `signal_is_success_evidence=false`,
+   `fresh_mcp_reobservation_required=true` and
+   `merge_authority_granted=false` boundaries.
+   This was **NOT** a real GitHub webhook or an assertion
+   that any corresponding CI run exists.
+5. Replaying the exact same synthetic signed input and delivery
+   ID returned HTTP **202** with
+   `delivery_state=no_due_events`, while the independent
+   receiver's count remained **one**. No duplicate
+   external event was delivered.
+6. A separately signed but **nonmatching** synthetic workflow
+   (`Lean Formal Validation`) returned HTTP **202**,
+   `enqueued=0`, with zero new callback deliveries.
+   The allowlisted source workflow did not bypass the
+   subscriber's narrower workflow filter.
+7. Authenticated `events/unsubscribe` **200**;
+   synthetic access-token `POST /revoke` **200** using
+   the pinned public-client `client_secret=""` compatibility
+   form; post-revocation `events/list` HTTP **401**.
+   The synthetic test did not create a Dots subscription.
+
+### Independent real PostgreSQL post-test receipt and cleanup
+
+- Isolated Neon staging SQL after the HTTPS test found
+  **zero** subscriptions; **one** outbox row, with
+  `state=delivered`, and **zero** rows pending.
+  Thus a real transactional outbox delivery existed and its
+  terminal state was confirmed independently of the
+  callback's self-report. The delivered row is an
+  intentionally retained synthetic test artifact.
+- Previous synthetic OAuth tests left **one access** and
+  **one refresh** record; a total of **three** synthetic
+  client registrations remain. The test's newly issued
+  access token was revoked. Remaining earlier credentials
+  were **not** claimed revoked or deleted.
+- The default/production Neon branch still contained **zero**
+  KuuOS MCP service tables on read-only SQL reinspection.
+- The sandbox session was explicitly **stopped** with
+  `persistent=false` and no live callback receiver was
+  left running.
+
+### Obstructions and authority
+
+The test source and callback are synthetic, not GitHub/Dots.
+No actual GitHub repository webhook sender was configured
+or independently observed by the available GitHub MCP
+administration tools. No user-owned ChatGPT custom MCP
+plugin, approved stable external MCP URL, actual OAuth
+consent, authentic Dots `events/subscribe`, or Dots
+callback and exact GitHub MCP source/run/attempt/job/Lean
+step re-observation has been observed.
+
+Do not upgrade
+`SYNTHETIC_SIGNED_SOURCE_HTTPS_DELIVERY_CERTIFIED`
+to
+`AUTHENTIC_GITHUB_TO_DOTS_CERTIFIED`.
+
+Certification limited to:
+`STAGING_SYNTHETIC_EVENTS_E2E_DELIVERED_ONCE`,
+`STAGING_REPLAY_DEDUPED`,
+`STAGING_WORKFLOW_FILTER_EXCLUSION`,
+`STAGING_SUBSCRIPTION_UNSUBSCRIBED`,
+`STAGING_OAUTH_TOKEN_REVOKED`.
+
+Persistent obstruction:
+`BLOCKED_DOTS_REAL_SUBSCRIPTION_AND_AUTHENTIC_GITHUB_SENDER`.
