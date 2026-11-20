@@ -31,13 +31,17 @@ jobs:
         run: python -m pytest
 
   postgres-integration:
-    name: Validate actual PostgreSQL subscription and outbox transactions
+    name: Validate actual PostgreSQL ${{ matrix.pg }} subscription and outbox transactions
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        pg: ["16", "18"]
     permissions:
       contents: read
     services:
       postgres:
-        image: postgres:16-alpine
+        image: postgres:${{ matrix.pg }}-alpine
         env:
           POSTGRES_DB: kuuos_events_ci
           POSTGRES_USER: kuuos_ci
