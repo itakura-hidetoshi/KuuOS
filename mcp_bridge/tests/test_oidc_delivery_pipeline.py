@@ -168,3 +168,43 @@ def test_distinct_oidc_ci_attempts_have_distinct_wakeups():
         "state"
     ] == "no_due_events"
     assert len(poster.calls) == 2
+
+def test_unsubscribe_prevents_real_gate_reenqueue_and_cancels_inflight_delivery():
+    """An expired relationship is not re-established by a later true source."""
+    manager, outbox = setup_manager()
+    first, pending = stage_verified_oidc_ci_gates(source(44836227181), manager, outbox)
+    assert first["data"]["fresh_mcp_reobservation_required"] is True
+    assert len(pending) == 1
+    assert len(outbox.records) == 1
+
+    removed = manager.unsubscribe(
+        "synthetic-owner",
+        {
+            "name": CI_GATES_EVENT,
+            "arguments": {
+                "repository": KUUOS_REPO,
+                "workflow_name": CI_GATES_WORKFLOW,
+            },
+            "delivery": {"mode": "webhook", "url": DEST},
+        },
+    )
+    assert removed == {}
+
+    # The next genuine OIDC CI gate uses its own verified run identity.
+    # With no authenticated subscriber, there is no second outbox row.
+    later = replace(
+        source(44836227182),
+        identity="oidc_" + "1" * 64,
+    )
+    second, due = stage_verified_oidc_ci_gates(later, manager, outbox)
+    assert second["eventId"] != first["eventId"]
+    assert due == []
+    assert len(outbox.records) == 1
+
+    # Previously queued, not yet sent: the same unsubscribe must also
+    # suppress that late callback, even if an old row is still durable.
+    poster = Poster()
+    result = deliver_one(manager, outbox, poster=poster, outbox_id=pending[0])
+    assert result["state"] == "recipient_revoked"
+    assert poster.calls == []
+
