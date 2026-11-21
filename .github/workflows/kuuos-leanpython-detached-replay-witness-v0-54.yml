@@ -141,7 +141,7 @@ jobs:
           pattern = re.compile(
               r"'" + re.escape(module) +
               r"([A-Za-z0-9_]+)' (?:does not depend on any axioms|"
-              r"depends on axioms: \\[([^\\]]*)\\])",
+              r"depends on axioms: \[([^\]]*)\])",
               re.MULTILINE,
           )
           reports = pattern.findall(log)
