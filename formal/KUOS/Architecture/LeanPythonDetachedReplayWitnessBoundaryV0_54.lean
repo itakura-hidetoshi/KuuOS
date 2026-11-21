@@ -42,9 +42,9 @@ def callerCheckpointMatches (w : DetachedReplayWitness)
   w.announcedHead = checkpoint
 
 theorem replayRoot_append (step : String → LocalReplayTicket → String)
-    (genesis : String) (prefix suffix : List LocalReplayTicket) :
-    replayRoot step genesis (prefix ++ suffix) =
-      replayRoot step (replayRoot step genesis prefix) suffix := by
+    (genesis : String) (initial rest : List LocalReplayTicket) :
+    replayRoot step genesis (initial ++ rest) =
+      replayRoot step (replayRoot step genesis initial) rest := by
   simp [replayRoot, List.foldl_append]
 
 theorem supplied_checkpoint_agrees_with_replay
@@ -64,11 +64,11 @@ theorem checkpoint_mismatch_remains_obstruction
 
 theorem prefix_extension_replays
     (step : String → LocalReplayTicket → String)
-    (genesis : String) (prefix suffix : List LocalReplayTicket)
+    (genesis : String) (initial rest : List LocalReplayTicket)
     (announced : String)
     (h : selfConsistent step genesis
-      ⟨prefix ++ suffix, announced⟩) :
-    replayRoot step (replayRoot step genesis prefix) suffix = announced := by
+      ⟨initial ++ rest, announced⟩) :
+    replayRoot step (replayRoot step genesis initial) rest = announced := by
   simpa [selfConsistent, replayRoot_append] using h
 
 /-- Explicitly retain the v0.53 finite local inclusion theorem. -/
