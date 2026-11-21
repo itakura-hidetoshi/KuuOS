@@ -26,7 +26,7 @@ PARENTS = {"DependentOriginationGeneratedPresentationQuotientInvariantV1_81":"8b
 QUALIFIED = ["standardTypeAEndpointMinimalToGenerated","standardTypeAEndpointMinimalToGenerated_map","standardTypeAEndpointMinimalToGenerated_epi","standardTypeAEndpointMinimalToGenerated_comp_scaledLeibniz","llp_mem_of_epi_precomp","standardTypeAEndpointScaledLeibniz_mem_canonicalGenerated","standardTypeAScaledLeibnizPushoutProductGenerators_le_canonicalGenerated","canonicalTypeAEndpointLeibnizStabilityUnconditional","canonicalTypeAEndpointLeibnizLiftingUnconditional","canonicalKuuOSPresentation_endpointGeneratorsGenerated_unconditional","canonicalKuuOSPresentation_endpointStable_unconditional","canonicalKuuOSPresentation_endpointLifting_unconditional"]
 BARE = ["standardTypeAEndpointMinimalToGenerated","standardTypeAEndpointMinimalToGenerated_map","standardTypeAEndpointMinimalToGenerated_epi","standardTypeAEndpointMinimalToGenerated_comp_scaledLeibniz","llp_mem_of_epi_precomp","standardTypeAEndpointScaledLeibniz_mem_canonicalGenerated","standardTypeAScaledLeibnizPushoutProductGenerators_le_canonicalGenerated","canonicalTypeAEndpointLeibnizStabilityUnconditional","canonicalTypeAEndpointLeibnizLiftingUnconditional","canonicalKuuOSPresentation_endpointGeneratorsGenerated_unconditional","canonicalKuuOSPresentation_endpointStable_unconditional","canonicalKuuOSPresentation_endpointLifting_unconditional"]
 PATCHES = [["open KUOS.DependentOriginationGeneratedPresentationEndpointInvariantV1_80.\n  GeneratedScaledAnodynePresentationEquivalence","open KUOS.DependentOriginationGeneratedPresentationEndpointInvariantV1_80.GeneratedScaledAnodynePresentationEquivalence"],["theorem canonicalKuuOSPresentation_endpointGeneratorsGenerated_unconditional :\n    typeAEndpointGeneratorsGenerated canonicalKuuOSPresentation := by","theorem canonicalKuuOSPresentation_endpointGeneratorsGenerated_unconditional :\n    typeAEndpointGeneratorsGenerated.{u} canonicalKuuOSPresentation.{u} := by"],["theorem canonicalKuuOSPresentation_endpointStable_unconditional :\n    typeAEndpointStable canonicalKuuOSPresentation := by","theorem canonicalKuuOSPresentation_endpointStable_unconditional :\n    typeAEndpointStable.{u} canonicalKuuOSPresentation.{u} := by"],["theorem canonicalKuuOSPresentation_endpointLifting_unconditional :\n    typeAEndpointLifting canonicalKuuOSPresentation := by","theorem canonicalKuuOSPresentation_endpointLifting_unconditional :\n    typeAEndpointLifting.{u} canonicalKuuOSPresentation.{u} := by"]]
-DECL = re.compile(r"(?m)^(?:@\\[[^\\]]+\\]\\s*)?(?:(?:private|noncomputable|protected|partial|unsafe)\\s+)*(?:theorem|def|lemma|structure|instance|abbrev)\\s+([^\\s(:]+)")
+DECL = re.compile(r"(?m)^(?:@\[[^\]]+\]\s*)?(?:(?:private|noncomputable|protected|partial|unsafe)\s+)*(?:theorem|def|lemma|structure|instance|abbrev)\s+([^\s(:]+)")
 
 def execute(out: Path) -> dict:
     verify_inputs()
@@ -50,7 +50,7 @@ def execute(out: Path) -> dict:
     if actual != expected:
         raise AuditFailure("V182_CODEAI_UNREVIEWED_EDIT")
     masked = mask_lean_comments(actual)
-    if re.search(r"(?m)^\\s*(?:sorry|admit|axiom)\\b", masked):
+    if re.search(r"(?m)^\s*(?:sorry|admit|axiom)\b", masked):
         raise AuditFailure("V182_TRUST_BYPASS")
     declarations = DECL.findall(masked)
     if declarations != BARE or len(QUALIFIED) != 12 or len(set(QUALIFIED)) != 12:
@@ -76,10 +76,10 @@ def execute(out: Path) -> dict:
     for name in QUALIFIED:
         full=MODULE+"."+name
         m=re.search(r"'" + re.escape(full) +
-            r"'\\s+depends on axioms:\\s*\\[([^\\]]*)\\]",log,re.S)
+            r"'\s+depends on axioms:\s*\[([^\]]*)\]",log,re.S)
         if m: reports[name]=sorted(x.strip() for x in m.group(1).split(",") if x.strip())
         elif re.search(r"'" + re.escape(full) +
-                      r"'\\s+does not depend on any axioms",log):
+                      r"'\s+does not depend on any axioms",log):
             reports[name]=[]
         else: raise AuditFailure("V182_AX_NO_DATA "+full)
     axioms=set(a for v in reports.values() for a in v)
