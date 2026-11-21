@@ -10,6 +10,8 @@ on:
       - 'formal/KUOS/DependentOriginationStandardTypeAEndpointOppositeCellCodeAICandidateV1_77.lean'
       - 'scripts/ci_kuuos_v177_codeai_exact_source_v1.py'
       - 'scripts/ci_kuuos_v177_adopted_exact_source_v1.py'
+      - 'scripts/ci_kuuos_v178_codeai_exact_source_v1.py'
+      - 'formal/KUOS/DependentOriginationStandardABCPostEndpointCodeAICandidateV1_78.lean'
       - 'formal/KUOS/DependentOriginationStandardTypeAEndpointOppositeCellCertificateV1_77.lean'
       - 'scripts/kuuos_v176_codeai_namespace_probe_v1.json'
       - 'scripts/kuuos_v176_codeai_monotonicity_universe_v2.json'
@@ -227,5 +229,45 @@ jobs:
         with:
           name: kuuos-v177-adopted-exact-source-47-axioms
           path: /tmp/kuuos-v177-adopted-exact-source-47-axioms
+          retention-days: 30
+          if-no-files-found: warn
+
+  v178-codeai-research-exact-lean-11-axioms:
+    if: github.event.pull_request.number == 3555 && github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-22.04
+    timeout-minutes: 90
+    steps:
+      - name: Checkout exact PR HEAD
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: kuuos-v142-pinned-attachment-mathlib-5450-v1
+      - name: Compile exact v1.78 research candidate and audit all 11 declarations
+        run: |
+          set -euo pipefail
+          python3 -c 'from scripts.ci_kuuos_v176_exact_source_audit_v1 import verify_inputs; verify_inputs()'
+          lake exe cache get
+          python3 scripts/ci_kuuos_v178_codeai_exact_source_v1.py --out /tmp/kuuos-v178-codeai-exact-candidate
+      - name: Preserve v1.78 source and proof audit receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-v178-codeai-exact-candidate-not-adopted
+          path: /tmp/kuuos-v178-codeai-exact-candidate
           retention-days: 30
           if-no-files-found: warn
