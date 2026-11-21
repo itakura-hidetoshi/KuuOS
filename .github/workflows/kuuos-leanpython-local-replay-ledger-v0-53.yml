@@ -1,0 +1,107 @@
+name: KuuOS LeanPython Local Replay Ledger Scoped v0.53
+
+# Additive read-only source validation. The runtime ledger is NOT executed
+# by this Lean proof job. Does not replace canonical full KuuOSFormal.
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/kuuos-leanpython-local-replay-ledger-v0-53.yml"
+      - "formal/KUOS/Architecture/LeanPythonLocalReplayLedgerBoundaryV0_53.lean"
+      - "scripts/check_kuuos_lean_python_local_replay_sources_v0_53.py"
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/kuuos-leanpython-local-replay-ledger-v0-53.yml"
+      - "formal/KUOS/Architecture/LeanPythonLocalReplayLedgerBoundaryV0_53.lean"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: kuuos-leanpython-v053-local-replay-${{ github.event_name }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+env:
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+  EXACT_CANONICAL_SHA: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.sha || github.sha }}
+
+jobs:
+  canonical-local-replay-boundary:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 95
+    steps:
+      - name: Check out exact canonical source commit
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ env.EXACT_CANONICAL_SHA }}
+          persist-credentials: false
+      - name: Check exact Lean and mathlib pins without modifying them
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          assert Path("lean-toolchain").read_text().strip() == "leanprover/lean4:v4.30.0-rc2"
+          m = json.loads(Path("lake-manifest.json").read_text())
+          items = [p for p in m["packages"] if p["name"] == "mathlib"]
+          assert len(items) == 1 and items[0]["rev"] == (
+              "5450b53e5ddc75d46418fabb605edbf36bd0beb6"
+          )
+          print("Pinned canonical Lean/mathlib checked; not sqlite or issuer proof")
+          PY
+      - name: Set up pinned Lean and Lake
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Restore shared immutable-source Lake workspace
+        uses: actions/cache/restore@v5
+        with:
+          path: .lake
+          key: kuuos-v053-scoped-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-${{ env.EXACT_CANONICAL_SHA }}
+          restore-keys: |
+            kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-
+      - name: Restore exact pinned dependencies on cache miss
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ ! -d .lake/packages/mathlib ]]; then
+            lake update
+          fi
+          if [[ ! -f .lake/packages/mathlib/.lake/build/lib/lean/Mathlib.olean ]]; then
+            lake exe cache get
+          fi
+      - name: Strictly compile actual canonical main v0.52 MAC boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+          printf 'EXACT_CANONICAL_SHA=%s\nEVENT=%s\n' "$EXACT_CANONICAL_SHA" "$GITHUB_EVENT_NAME" | tee kuuos-v053-scoped.log
+          lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true \
+            build KUOS.Architecture.LeanPythonLocallyMacBoundPlanClaimsV0_52 \
+            2>&1 | tee -a kuuos-v053-scoped.log
+          git diff --exit-code -- lake-manifest.json lean-toolchain
+      - name: Strictly compile new integrated v0.53 theorem on main push
+        if: github.event_name == 'push'
+        shell: bash
+        run: |
+          set -euo pipefail
+          lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true \
+            build KUOS.Architecture.LeanPythonLocalReplayLedgerBoundaryV0_53 \
+            2>&1 | tee -a kuuos-v053-scoped.log
+          git diff --exit-code -- lake-manifest.json lean-toolchain
+      - name: Upload bounded source-specific Lean evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-v053-scoped-${{ github.run_id }}-${{ github.run_attempt }}
+          path: kuuos-v053-scoped.log
+          if-no-files-found: warn
+          retention-days: 14
